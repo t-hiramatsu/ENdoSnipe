@@ -42,7 +42,7 @@ public class JavelinConfig extends JavelinConfigBase
 
     private static int connectPort__;
 
-    private static String databaseName__;
+    private static String agentName__;
 
     private static long alarmCpuThreashold__;
 
@@ -323,7 +323,7 @@ public class JavelinConfig extends JavelinConfigBase
         acceptPortRangeMax__ = super.getAcceptPortRangeMax();
         connectHost__ = super.getConnectHost();
         connectPort__ = super.getConnectPort();
-        databaseName__ = super.getDatabaseName();
+        agentName__ = super.getAgentName();
         alarmCpuThreashold__ = super.getAlarmCpuThreashold();
         alarmListeners__ = super.getAlarmListeners();
         alarmMinimumInterval__ = super.getAlarmMinimumInterval();
@@ -506,14 +506,14 @@ public class JavelinConfig extends JavelinConfigBase
      * {@inheritDoc}
      */
     @Override
-    public String getDatabaseName()
+    public String getAgentName()
     {
-        return databaseName__;
+        return agentName__;
     }
 
-    public void setDatabaseName(final String databaseName)
+    public void setAgentName(final String agentName)
     {
-        databaseName__ = databaseName;
+        agentName__ = agentName;
     }
 
     /**

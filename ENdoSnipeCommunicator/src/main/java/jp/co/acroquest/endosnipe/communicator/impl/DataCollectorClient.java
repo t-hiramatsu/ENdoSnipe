@@ -79,7 +79,7 @@ public class DataCollectorClient implements Runnable, TelegramSender
     private int dbNo_ = 0;
     
     /** DB名 */
-    private String dbName_ = null;
+    private String agentName_ = null;
 
     /** 電文処理クラスのリスト */
     private final List<TelegramListener> telegramListenerList_ = new ArrayList<TelegramListener>();
@@ -453,9 +453,9 @@ public class DataCollectorClient implements Runnable, TelegramSender
      * DB名を取得する。
      * @return DB名
      */
-    public String getDbName()
+    public String getAgentName()
     {
-        return this.dbName_;
+        return this.agentName_;
     }
 
     /**
@@ -499,8 +499,8 @@ public class DataCollectorClient implements Runnable, TelegramSender
      * 
      * @param dbName DB名
      */
-    public void setDbName(String dbName)
+    public void setAgentName(String dbName)
     {
-        this.dbName_ = dbName;
+        this.agentName_ = dbName;
     }
 }

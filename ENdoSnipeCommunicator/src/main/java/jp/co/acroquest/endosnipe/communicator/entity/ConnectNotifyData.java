@@ -48,7 +48,7 @@ public class ConnectNotifyData
     private int kind_ = -1;
 
     /** DB–¼ */
-    private String dbName_;
+    private String agentName_;
 
     /** Ú‘±–Ú“I */
     private int purpose_ = 0;
@@ -75,18 +75,18 @@ public class ConnectNotifyData
      * DB–¼‚ğæ“¾‚µ‚Ü‚·B
      * @return DB–¼
      */
-    public String getDbName()
+    public String getAgentName()
     {
-        return dbName_;
+        return agentName_;
     }
 
     /**
      * DB–¼‚ğİ’è‚µ‚Ü‚·B
-     * @param dbName DB–¼
+     * @param agentName DB–¼
      */
-    public void setDbName(String dbName)
+    public void setAgentName(String agentName)
     {
-        dbName_ = dbName;
+        agentName_ = agentName;
     }
 
     /**

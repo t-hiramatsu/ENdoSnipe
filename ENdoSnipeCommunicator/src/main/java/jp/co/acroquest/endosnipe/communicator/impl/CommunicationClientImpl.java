@@ -509,12 +509,14 @@ public class CommunicationClientImpl implements CommunicationClient, Runnable
             connectNotify.setPurpose(this.connectNotify_.getPurpose());
             
             // DB名称を生成
-            String dbName = this.connectNotify_.getDbName();
+            String agentName = this.connectNotify_.getAgentName();
             InetAddress localAddress = this.socketChannel_.socket().getLocalAddress();
             String ipAddr = localAddress.getHostAddress();
             String localhostName = localAddress.getHostName();
-            String realDbName = createDbName(dbName, localhostName, ipAddr);
-            connectNotify.setDbName(realDbName);
+            
+            
+            String realAgentName = createAgentName(agentName, localhostName, ipAddr);
+            connectNotify.setAgentName(realAgentName);
             sendTelegram(ConnectNotifyAccessor.createTelegram(connectNotify));
         }
 
@@ -669,18 +671,18 @@ public class CommunicationClientImpl implements CommunicationClient, Runnable
 
     
     /**
-     * DB名称を生成する。
+     * Agent名称を生成する。
      * "%H"文字列をホスト名に、
      * "%I"文字列をIPアドレスに置換した結果を返す。
      * 
-     * @param dbName 接続情報に格納されていたDB名
+     * @param agentName 接続情報に格納されていたDB名
      * @param hostName ホスト名
      * @param ipAddr IPアドレス
      * @return 返還後のDB名称
      */
-    private static String createDbName(String dbName, String hostName, String ipAddr)
+    private static String createAgentName(String agentName, String hostName, String ipAddr)
     {
-        if (dbName == null)
+        if (agentName == null)
         {
             return "unknown";
         }
@@ -695,9 +697,8 @@ public class CommunicationClientImpl implements CommunicationClient, Runnable
             ipAddr = "";
         }
         
-        String realDbName = dbName;
-        realDbName = realDbName.replaceAll("%H", hostName);
-        realDbName = realDbName.replaceAll("%I", ipAddr);
+        String realDbName = agentName;
+        realDbName = realDbName.replaceAll("%H", hostName == null? ipAddr: hostName);
 
         return realDbName;
     }

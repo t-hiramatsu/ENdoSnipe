@@ -371,6 +371,13 @@ public class JavelinTransformer implements ClassFileTransformer
         // オプションファイルから、オプション設定を読み込む。
         JavelinConfig config = new JavelinConfig(absoluteJarDirectory);
         SystemLogger.initSystemLog(config);
+        
+        // JavlinConfigのagentNameを更新
+        String agentName = config.getClusterName();
+        agentName = addSlashes(agentName);
+        agentName += "%H";
+        agentName += addSlashes(config.getAgentName());
+        config.setAgentName(agentName);
 
         this.transformConfig_ = new JavelinTransformConfig();
 
@@ -386,6 +393,19 @@ public class JavelinTransformer implements ClassFileTransformer
             includeStream.close();
             excludeStream.close();
         }
+    }
+    
+    private static String addSlashes(String str)
+    {
+    	if (!str.startsWith("/"))
+    	{
+    		str = "/" + str;
+    	}
+    	if (!str.endsWith("/"))
+    	{
+    		str = str + "/";
+    	}
+    	return str;
     }
 
     /**
@@ -610,7 +630,7 @@ public class JavelinTransformer implements ClassFileTransformer
         int acceptPortRangeMax = config.getAcceptPortRangeMax();
         String connectHost = config.getConnectHost();
         int connectPort = config.getConnectPort();
-        String databaseName = config.getDatabaseName();
+        String databaseName = config.getAgentName();
         int stringLimitLength = config.getStringLimitLength();
         String systemLog = config.getSystemLog();
         int logJvnMax = config.getLogJvnMax();

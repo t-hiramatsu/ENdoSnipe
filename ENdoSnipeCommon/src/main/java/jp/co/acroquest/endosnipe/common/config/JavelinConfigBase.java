@@ -145,7 +145,7 @@ public class JavelinConfigBase
     public static final String CONNECTPORT_KEY = JAVELIN_PREFIX + "connectPort";
 
     /** DataCollectorのデータベース名 */
-    public static final String DATABASENAME_KEY = JAVELIN_PREFIX + "databaseName";
+    public static final String AGENTNAME_KEY = JAVELIN_PREFIX + "agentName";
 
     /** 属性、戻り値情報の文字列長 */
     public static final String STRINGLIMITLENGTH_KEY = JAVELIN_PREFIX + "stringLimitLength";
@@ -401,7 +401,7 @@ public class JavelinConfigBase
     public static final int DEFAULT_CONNECTPORT = 19000;
 
     /** DataCollectorのデータベース名のデフォルト値 */
-    public static final String DEFAULT_DATABASENAME = "endosnipedb";
+    public static final String DEFAULT_AGENTNAME = "endosnipedb";
 
     /** Javelinシステムログの出力先パスのデフォルト値 */
     public static final String DEFAULT_SYSTEMLOG = "../traces";
@@ -1661,9 +1661,9 @@ public class JavelinConfigBase
      *
      * @return データベース名
      */
-    public String getDatabaseName()
+    public String getAgentName()
     {
-        return CONFIGUTIL.getString(DATABASENAME_KEY, DEFAULT_DATABASENAME);
+        return CONFIGUTIL.getString(AGENTNAME_KEY, DEFAULT_AGENTNAME);
     }
 
     /**

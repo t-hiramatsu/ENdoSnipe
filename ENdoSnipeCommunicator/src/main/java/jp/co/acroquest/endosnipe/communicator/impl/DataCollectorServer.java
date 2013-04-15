@@ -440,7 +440,7 @@ public class DataCollectorServer implements CommunicationServer, Runnable
                 switch (notifyData.getKind())
                 {
                 case ConnectNotifyData.KIND_JAVELIN:
-                    removeJavelinSequenceNo(notifyData.getDbName(), client.getDbNo());
+                    removeJavelinSequenceNo(notifyData.getAgentName(), client.getDbNo());
                     break;
 
                 default:
@@ -459,6 +459,17 @@ public class DataCollectorServer implements CommunicationServer, Runnable
                 ConnectNotifyData notifyData = client.getConnectNotifyData();
                 switch (notifyData.getKind())
                 {
+                case ConnectNotifyData.KIND_JAVELIN:
+                	String agentName = notifyData.getAgentName();
+                	int no = getJavelinSequenceNo(agentName);
+                	if (agentName.endsWith("/"))
+                	{
+                		agentName = agentName.substring(0, agentName.length() - 1);
+                	}
+                	agentName = agentName + "_" + createNumberString(no);
+                	client.setAgentName(agentName);
+                	client.setDbNo(no);
+                	break;
                 case ConnectNotifyData.KIND_CONTROLLER:
                     switch (notifyData.getPurpose())
                     {
@@ -634,11 +645,25 @@ public class DataCollectorServer implements CommunicationServer, Runnable
 
         // DB名称に%Nが含まれる場合は、連番を入れる。
         // 含まれていなければ連番を入れず、DBを分けない。
-        dbName = connectNotifyData.getDbName();
+        dbName = connectNotifyData.getAgentName();
         if (dbName.contains("%N"))
         {
             dbName = dbName.replaceAll("%N", String.valueOf(dbNo));
         }
         return dbName;
+    }
+    
+    private static String createNumberString(int number)
+    {
+    	String numStr = String.valueOf(number);
+    	if (number < 10)
+    	{
+    		numStr = "0" + numStr;
+    	}
+    	if (number < 100)
+    	{
+    		numStr = "0" + numStr;
+    	}
+    	return numStr;
     }
 }

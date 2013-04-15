@@ -235,7 +235,7 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
      *
      * @return 電文から作成した{@link ResourceData}オブジェクト
      */
-    public static ResourceData createResourceData(final Telegram telegram, String dbName)
+    public static ResourceData createResourceData(final Telegram telegram, String dbName, String agentName)
     {
         if (checkTelegramKind(telegram) == false || checkResponseKind(telegram) == false)
         {
@@ -283,7 +283,7 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
                     logger.debug("ResourceNotifyAccessor.createResourceData: " +
                                  "call addMeasurementData([" + bodyCnt + "]:" + itemName + ")");
                 }
-                bodyCnt = addMeasurementData(resourceData, bodies, bodyCnt, dbName);
+                bodyCnt = addMeasurementData(resourceData, bodies, bodyCnt, dbName, agentName);
             }
             else
             {
@@ -309,7 +309,7 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
      * @return 次の電文位置
      */
     private static int addMeasurementData(ResourceData resourceData, Body[] bodies, int cnt,
-            String dbName)
+            String dbName, String agentName)
     {
         Logger logger = Logger.getLogger(ResourceNotifyAccessor.class);
 
@@ -318,7 +318,7 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
         // 計測値情報を追加
         Body measurementBody = bodies[cnt];
         String measurementObjName = measurementBody.getStrObjName();
-        String measuremnetItemName = measurementBody.getStrItemName();
+        String measuremnetItemName = agentName + measurementBody.getStrItemName();
 
         if (measuremnetItemName != null && measuremnetItemName.indexOf(JMX_ITEMNAME_SEARCHKEY) >= 0)
         {
@@ -550,7 +550,6 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
         //  - 付与する接頭辞はフォーマットを定義できる
 
         String prefix = getPrefixStr();
-        String clusterPrefix = getClusterPrefixStr();
 
         for (Body body : objBodies)
         {
@@ -558,8 +557,7 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
             boolean needPrefix = isPrefixNeeded(itemName);
             if (needPrefix == true)
             {
-                String currentPrefix = appendPrefix(clusterPrefix, prefix);
-                String concreteItemName = appendPrefix(currentPrefix, itemName);
+                String concreteItemName = appendPrefix(prefix, itemName);
                 
                 // 接頭辞と項目名の間にスラッシュが入らないケースを回避する
                 body.setStrItemName(concreteItemName);
@@ -567,8 +565,7 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
             else
             {
                 // 接頭辞と項目名の間にスラッシュが入らないケースを回避する
-                String concreteItemName = appendPrefix(clusterPrefix, itemName);
-                body.setStrItemName(concreteItemName);
+                body.setStrItemName(itemName);
             }
         }
 

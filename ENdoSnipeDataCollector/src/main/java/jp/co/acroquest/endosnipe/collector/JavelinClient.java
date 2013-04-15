@@ -360,7 +360,8 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
                                + this.clientId_);
         this.client_.init(this.javelinHost_, this.javelinPort_);
 
-        initializeCommon(queue, behaviorMode, hostName);
+        String agentName = connectNotify.getAgentName();
+        initializeCommon(queue, behaviorMode, hostName, agentName);
 
         // サーバへ接続する(接続に成功するまでリトライを続ける)
         this.client_.connect(connectNotify);
@@ -375,7 +376,7 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
      * @param hostName ホスト名
      */
     private synchronized void initializeCommon(final JavelinDataQueue queue,
-            final BehaviorMode behaviorMode, final String hostName)
+            final BehaviorMode behaviorMode, final String hostName, final String agentName)
     {
         setTelegramSenders();
 
@@ -390,7 +391,8 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
                                                                                            hostName);
         final SystemResourceListener SYSTEM_RESOURCE_LISTENER =
                                                                 createSystemResourceListener(queue,
-                                                                                             hostName);
+                                                                                             hostName, 
+                                                                                             agentName);
 
         if (queue != null)
         {
@@ -544,7 +546,7 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
      * @return 作成したSystemResourceListener
      */
     private SystemResourceListener createSystemResourceListener(final JavelinDataQueue queue,
-            final String hostName)
+            final String hostName, final String agentName)
     {
         SystemResourceListener notifyListener = null;
         if (queue != null)
@@ -553,6 +555,7 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
             notifyListener.setDatabaseName(this.databaseName_);
             notifyListener.setHostName(hostName);
             notifyListener.setPort(this.javelinPort_);
+            notifyListener.setAgentName(agentName);
         }
         return notifyListener;
     }

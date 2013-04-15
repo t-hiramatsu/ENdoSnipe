@@ -334,6 +334,7 @@ public class JavelinServer implements TelegramSender
         String ipAddress = client.getIpAddr();
         int port = client.getPort();
         String clientId = client.getClientId();
+        String agentName = client.getAgentName();
 
         List<TelegramNotifyListener> listenerList = notifyListenerMap_.get(dbName);
         AllNotifyListener allNotifyListener = new AllNotifyListener();
@@ -348,7 +349,8 @@ public class JavelinServer implements TelegramSender
                                                         createSystemResourceListener(dbName,
                                                                                      hostName,
                                                                                      ipAddress,
-                                                                                     port, clientId);
+                                                                                     port, clientId, 
+                                                                                     agentName);
 
         if (queue_ != null)
         {
@@ -529,7 +531,7 @@ public class JavelinServer implements TelegramSender
      * @return çÏê¨ÇµÇΩSystemResourceListener
      */
     private SystemResourceListener createSystemResourceListener(final String dbName,
-            final String hostName, final String ipAddress, final int port, final String clientId)
+            final String hostName, final String ipAddress, final int port, final String clientId, final String agentName)
     {
         SystemResourceListener notifyListener = null;
         if (queue_ != null)
@@ -540,6 +542,7 @@ public class JavelinServer implements TelegramSender
             notifyListener.setIpAddress(ipAddress);
             notifyListener.setPort(port);
             notifyListener.setClientId(clientId);
+            notifyListener.setAgentName(agentName);
         }
         return notifyListener;
     }
