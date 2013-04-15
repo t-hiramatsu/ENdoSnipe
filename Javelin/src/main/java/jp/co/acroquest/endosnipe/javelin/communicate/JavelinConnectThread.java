@@ -80,7 +80,7 @@ public class JavelinConnectThread extends CommunicationClientImpl implements Ala
         
         ConnectNotifyData connectNotify = new ConnectNotifyData();
         connectNotify.setKind(ConnectNotifyData.KIND_JAVELIN);
-        connectNotify.setDbName(config__.getDatabaseName());
+        connectNotify.setAgentName(config__.getAgentName());
 
         super.connect(connectNotify);
     }

@@ -78,8 +78,12 @@ public class SystemResourceListener extends AbstractTelegramListener implements 
 
     /** 受信データ格納用キュー */
     private final JavelinDataQueue       queue_;
+    
+    private String                       agentName_;
 
-    /**
+    
+
+	/**
      * {@link SystemResourceListener} を構築します。<br />
      * @param queue キュー
      */
@@ -96,7 +100,8 @@ public class SystemResourceListener extends AbstractTelegramListener implements 
     {
         ResourceData resourceData =
                                     ResourceNotifyAccessor.createResourceData(telegram,
-                                                                              this.databaseName_);
+                                                                              this.databaseName_, 
+                                                                              agentName_);
         resourceData.hostName = this.hostName_;
         resourceData.ipAddress = this.ipAddress_;
         resourceData.portNum = this.port_;
@@ -132,6 +137,12 @@ public class SystemResourceListener extends AbstractTelegramListener implements 
     {
         return TelegramConstants.BYTE_TELEGRAM_KIND_RESOURCENOTIFY;
     }
+    
+    public String getAgentName() 
+    {
+		return agentName_;
+	}
+
 
     /**
      * データベース名をセットします。<br />
@@ -191,4 +202,10 @@ public class SystemResourceListener extends AbstractTelegramListener implements 
         javelinData.setClientId(this.clientId_);
         javelinData.setTelegramId(telegramId);
     }
+    
+
+	public void setAgentName(String agentName) 
+	{
+		this.agentName_ = agentName;
+	}
 }

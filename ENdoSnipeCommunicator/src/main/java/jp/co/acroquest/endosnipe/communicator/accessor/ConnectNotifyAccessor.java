@@ -86,7 +86,7 @@ public class ConnectNotifyAccessor
         {
             return null;
         }
-        if (data.getDbName() == null || data.getDbName().length() == 0)
+        if (data.getAgentName() == null || data.getAgentName().length() == 0)
         {
             return null;
         }
@@ -201,7 +201,7 @@ public class ConnectNotifyAccessor
         }
         else if (itemName.equals(TelegramConstants.ITEMNAME_CONNECTNOTIFY_DBNAME))
         {
-            toData.setDbName((String)objItemValueArr[0]);
+            toData.setAgentName((String)objItemValueArr[0]);
         }
         else if (itemName.equals(TelegramConstants.ITEMNAME_CONNECTNOTIFY_PURPOSE))
         {
@@ -281,7 +281,7 @@ public class ConnectNotifyAccessor
         bodyDbName.setStrItemName(TelegramConstants.ITEMNAME_CONNECTNOTIFY_DBNAME);
         bodyDbName.setIntLoopCount(1);
         bodyDbName.setByteItemMode(ItemType.ITEMTYPE_STRING);
-        bodyDbName.setObjItemValueArr(new Object[]{data.getDbName()});
+        bodyDbName.setObjItemValueArr(new Object[]{data.getAgentName()});
         bodyList.add(bodyDbName);
 
         Body bodypurpose = new ResponseBody();
