@@ -10,8 +10,8 @@
     <property name="src.test" location="src/test/java" />
     <property name="resources" location="src/main/resources" />
     <property name="resources.test" location="src/test/resources" />
-    <property name="classes" location="classes" />
-    <property name="classes.test" location="classes-test" />
+    <property name="classes" location="classes_build" />
+    <property name="classes.test" location="classes-test_build" />
     <property name="dist" location="dist" />
     <property name="report" location="junit-report" />
     <property name="plugin-temp" location="plugin-temp" />

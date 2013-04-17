@@ -7,8 +7,8 @@
     <property name="src.test.dir" location="src/test/java" />
     <property name="resources.dir" location="src/main/resources" />
     <property name="resources.test.dir" location="src/test/resources" />
-    <property name="classes.dir" location="classes" />
-    <property name="classes.test.dir" location="classes-test" />
+    <property name="classes.dir" location="classes_build" />
+    <property name="classes.test.dir" location="classes-test_build" />
     <property name="lib.dir" value="lib" />
     <property name="dist.dir" location="dist" />
     <property name="temp.dir" value="temp" />

@@ -12,8 +12,8 @@
     <property name="src.servlet-api.dir" location="src/main/servlet-api" />
     <property name="resources.dir" location="src/main/resources" />
     <property name="resources.test.dir" location="src/test/resources" />
-    <property name="classes.dir" location="classes" />
-    <property name="classes.test.dir" location="classes-test" />
+    <property name="classes.dir" location="classes_build" />
+    <property name="classes.test.dir" location="classes-test_build" />
     <property name="classes.servlet-api.dir" location="classes-servlet-api" />
     <property name="lib.dir" value="lib" />
     <property name="lib-compile.dir" location="${lib.dir}/compile" />

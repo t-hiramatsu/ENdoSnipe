@@ -12,8 +12,8 @@
     <property name="resources.test" location="src/test/resources" />
     <property name="lib.dir" location="lib" />
     <property name="lib-dependency.dir" value="${lib.dir}/dependency" />
-    <property name="classes" location="classes" />
-    <property name="classes.test" location="classes-test" />
+    <property name="classes" location="classes_build" />
+    <property name="classes.test" location="classes-test_build" />
     <property name="dist" location="dist" />
     <property name="plugin-temp" location="plugin-temp" />
     <property name="report" location="junit-report" />
