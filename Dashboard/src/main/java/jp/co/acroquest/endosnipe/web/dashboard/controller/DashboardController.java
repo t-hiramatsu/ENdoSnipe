@@ -56,7 +56,7 @@ public class DashboardController
     /**
      * Simply selects the home view to render by returning its name.
      */
-    @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public String initialize(final Locale locale, final Model model,
             final HttpServletRequest request)
     {
