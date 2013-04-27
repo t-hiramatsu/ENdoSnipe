@@ -23,6 +23,11 @@
 	File pluginsDirectory = new File(pluginsDirectoryPath);
 	String[] pluginNames = pluginsDirectory.list();
 	
+	// プラグインがない場合、インクルード処理を行わず終了する。
+	if (pluginNames == null) {
+		return;
+	}
+	
 	/*
 	 * 各プラグインディレクトリ直下にあるconfig.txtファイルからインポートするjsファイル/cssファイルを取得し、
 	 * jsファイル/cssファイルそれぞれに対してインポートタグを生成する。

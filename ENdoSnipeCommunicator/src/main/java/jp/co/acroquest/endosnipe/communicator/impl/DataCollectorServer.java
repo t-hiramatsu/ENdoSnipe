@@ -40,6 +40,7 @@ import java.util.Set;
 import jp.co.acroquest.endosnipe.communicator.CommunicationServer;
 import jp.co.acroquest.endosnipe.communicator.CommunicatorListener;
 import jp.co.acroquest.endosnipe.communicator.TelegramListener;
+import jp.co.acroquest.endosnipe.communicator.accessor.ConnectNotifyAccessor;
 import jp.co.acroquest.endosnipe.communicator.entity.ConnectNotifyData;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.impl.DataCollectorClient.DataCollectorClientListener;
@@ -460,16 +461,12 @@ public class DataCollectorServer implements CommunicationServer, Runnable
                 switch (notifyData.getKind())
                 {
                 case ConnectNotifyData.KIND_JAVELIN:
-                	String agentName = notifyData.getAgentName();
-                	int no = getJavelinSequenceNo(agentName);
-                	if (agentName.endsWith("/"))
-                	{
-                		agentName = agentName.substring(0, agentName.length() - 1);
-                	}
-                	agentName = agentName + "_" + createNumberString(no);
-                	client.setAgentName(agentName);
-                	client.setDbNo(no);
-                	break;
+                    String agentName = notifyData.getAgentName();
+                    int no = getJavelinSequenceNo(agentName);
+                    agentName = ConnectNotifyAccessor.createAgentName(agentName, no);
+                    client.setAgentName(agentName);
+                    client.setDbNo(no);
+                    break;
                 case ConnectNotifyData.KIND_CONTROLLER:
                     switch (notifyData.getPurpose())
                     {
@@ -652,18 +649,5 @@ public class DataCollectorServer implements CommunicationServer, Runnable
         }
         return dbName;
     }
-    
-    private static String createNumberString(int number)
-    {
-    	String numStr = String.valueOf(number);
-    	if (number < 10)
-    	{
-    		numStr = "0" + numStr;
-    	}
-    	if (number < 100)
-    	{
-    		numStr = "0" + numStr;
-    	}
-    	return numStr;
-    }
+
 }

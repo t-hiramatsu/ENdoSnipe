@@ -31,7 +31,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -52,12 +51,12 @@ public class AgentNotifyProcessor implements EventProcessor, EventConstants
 {
     /** ロガー */
     private static final ENdoSnipeLogger LOGGER =
-                                                  ENdoSnipeLogger.getLogger(AgentNotifyProcessor.class);
+            ENdoSnipeLogger.getLogger(AgentNotifyProcessor.class);
 
     /**
      * {@inheritDoc}
      */
-    public void process(HttpServletRequest request, HttpServletResponse response)
+    public void process(final HttpServletRequest request, final HttpServletResponse response)
     {
         Map<Integer, String> databaseInfoMap = JavelinNotifyListener.getDatabaseNameMap();
         List<Map<String, String>> resultList = new ArrayList<Map<String, String>>();

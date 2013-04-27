@@ -217,7 +217,6 @@ public class ConnectNotifyAccessor
      */
     private static String getFromDatabaseNameObject(Body body)
     {
-        Set<String> databaseList = new HashSet<String>();
         String itemName = body.getStrItemName();
         String databaseName = null;
         if (itemName == null)
@@ -374,4 +373,32 @@ public class ConnectNotifyAccessor
         return false;
     }
 
+    /**
+     * データベース名とシーケンス番号からエージェント名を生成する。
+     * @param databaseName データベース名
+     * @param sequenceNo シーケンス番号
+     * 
+     * @return エージェント名（データベース名 + "_" + シーケンス番号)
+     */
+    public static String createAgentName(String databaseName, int sequenceNo)
+    {
+        String agentName = databaseName;
+        if (databaseName.endsWith("/"))
+        {
+            agentName = agentName.substring(0, databaseName.length() - 1);
+        }
+        agentName = agentName + "_" + createNumberString(sequenceNo);
+        return agentName;
+    }
+
+    /**
+     * エージェント名を生成するために、シーケンス番号を３桁の０埋めに変換する。
+     * @param number シーケンス番号
+     * @return 変換したシーケンス番号
+     */
+    private static String createNumberString(int number)
+    {
+        String numStr = String.format("%1$03d", number);
+        return numStr;
+    }
 }

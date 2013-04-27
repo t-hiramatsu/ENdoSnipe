@@ -32,6 +32,7 @@ import java.util.Map;
 
 import jp.co.acroquest.endosnipe.common.entity.ResourceData;
 import jp.co.acroquest.endosnipe.communicator.TelegramListener;
+import jp.co.acroquest.endosnipe.communicator.accessor.ConnectNotifyAccessor;
 import jp.co.acroquest.endosnipe.communicator.accessor.ResourceNotifyAccessor;
 import jp.co.acroquest.endosnipe.communicator.entity.Header;
 import jp.co.acroquest.endosnipe.communicator.entity.MeasurementConstants;
@@ -79,8 +80,8 @@ public class CollectorListener implements TelegramListener
     /** メッセージ送信用オブジェクトです。 */
     private final MessageSender messageSender_;
 
-    /** エージェントID */
-    private final int agentId_;
+    /** エージェント名 */
+    private final String agentName;
 
     /**
      * コンストラクタです。
@@ -91,8 +92,8 @@ public class CollectorListener implements TelegramListener
             final String databaseName)
     {
         this.messageSender_ = messageSender;
-        this.agentId_ = agentId;
         this.databaseName_ = databaseName;
+        this.agentName = ConnectNotifyAccessor.createAgentName(databaseName, agentId);
     }
 
     /**
@@ -108,7 +109,7 @@ public class CollectorListener implements TelegramListener
         {
             ResourceData resourceData =
                     ResourceNotifyAccessor.createResourceData(telegram, this.databaseName_,
-                                                              String.valueOf(this.agentId_));
+                                                              this.agentName);
 
             EventManager eventManager = EventManager.getInstance();
             WgpDataManager dataManager = eventManager.getWgpDataManager();
