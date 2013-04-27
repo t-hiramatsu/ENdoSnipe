@@ -30,9 +30,6 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/slf4j-api-1.6.4.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jackson-core-asl-1.9.7.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jackson-mapper-asl-1.9.7.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/endosnipe-common-5.0.2.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/endosnipe-communicator-5.0.2.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/endosnipe-dataaccessor-5.0.2.jar" sourcepath="/ENdoSnipeDataAccessor"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/arrowvision_pro.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/arrowvision.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/aspectjlib-1.6.2.jar"/>
@@ -52,5 +49,8 @@
 	<classpathentry kind="var" path="TOMCAT_HOME/lib/jsp-api.jar"/>
 	<classpathentry kind="var" path="TOMCAT_HOME/lib/el-api.jar"/>
 	<classpathentry kind="var" path="TOMCAT_HOME/lib/annotations-api.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/endosnipe-common-5.0.3.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/endosnipe-communicator-5.0.3.jar" sourcepath="/ENdoSnipeDataAccessor"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/endosnipe-dataaccessor-5.0.3.jar"/>
 	<classpathentry kind="output" path="WebContent/WEB-INF/classes"/>
 </classpath>

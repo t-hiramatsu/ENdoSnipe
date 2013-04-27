@@ -107,8 +107,8 @@ public class CollectorListener implements TelegramListener
                 && header.getByteRequestKind() == TelegramConstants.BYTE_REQUEST_KIND_RESPONSE)
         {
             ResourceData resourceData =
-                                        ResourceNotifyAccessor.createResourceData(telegram,
-                                                                                  this.databaseName_);
+                    ResourceNotifyAccessor.createResourceData(telegram, this.databaseName_,
+                                                              String.valueOf(this.agentId_));
 
             EventManager eventManager = EventManager.getInstance();
             WgpDataManager dataManager = eventManager.getWgpDataManager();

@@ -145,7 +145,7 @@ public class DashBoardServlet extends HttpServlet implements CometProcessor
                 ConnectNotifyData connectNotify = new ConnectNotifyData();
                 connectNotify.setKind(ConnectNotifyData.KIND_CONTROLLER);
                 connectNotify.setPurpose(ConnectNotifyData.PURPOSE_GET_RESOURCE);
-                connectNotify.setDbName(setting.databaseName);
+                connectNotify.setAgentName(setting.databaseName);
 
                 client.connect(connectNotify);
                 clientList.add(client);
@@ -163,7 +163,7 @@ public class DashBoardServlet extends HttpServlet implements CometProcessor
             ConnectNotifyData connectNotify = new ConnectNotifyData();
             connectNotify.setKind(ConnectNotifyData.KIND_CONTROLLER);
             connectNotify.setPurpose(ConnectNotifyData.PURPOSE_GET_DATABASE);
-            connectNotify.setDbName("noDatabase");
+            connectNotify.setAgentName("noDatabase");
             client.addTelegramListener(new JavelinNotifyListener(messageSender_));
 
             client.connect(connectNotify);

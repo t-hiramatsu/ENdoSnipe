@@ -136,7 +136,7 @@ public class JavelinNotifyListener implements TelegramListener
                 ConnectNotifyData connectNotify = new ConnectNotifyData();
                 connectNotify.setKind(ConnectNotifyData.KIND_CONTROLLER);
                 connectNotify.setPurpose(ConnectNotifyData.PURPOSE_GET_RESOURCE);
-                connectNotify.setDbName(databaseName);
+                connectNotify.setAgentName(databaseName);
 
                 client.connect(connectNotify);
                 clientList.add(client);
