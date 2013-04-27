@@ -49,8 +49,8 @@
 	<classpathentry kind="var" path="TOMCAT_HOME/lib/jsp-api.jar"/>
 	<classpathentry kind="var" path="TOMCAT_HOME/lib/el-api.jar"/>
 	<classpathentry kind="var" path="TOMCAT_HOME/lib/annotations-api.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/endosnipe-common-5.0.3.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/endosnipe-communicator-5.0.3.jar" sourcepath="/ENdoSnipeDataAccessor"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/endosnipe-dataaccessor-5.0.3.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ENdoSnipeCommon"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ENdoSnipeCommunicator"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ENdoSnipeDataAccessor"/>
 	<classpathentry kind="output" path="WebContent/WEB-INF/classes"/>
 </classpath>
