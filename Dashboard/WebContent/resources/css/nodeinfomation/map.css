@@ -4,4 +4,9 @@
 
 .map_menu_icon:hover {
 	cursor: pointer;
+	background: #2e7db2;
+}
+
+.map_menu_icon-active {
+	background: #2e7db2;
 }
