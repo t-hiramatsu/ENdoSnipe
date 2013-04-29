@@ -405,20 +405,20 @@ ENS.treeView = wgp.TreeView
 									var icon = "";
 									
 									if (signalDefinition.signalValue == 1) {
-										icon = ENS.tree.SIGNAL_ICON;
+										icon = ENS.tree.SIGNAL_ICON_3;
 									} else if (signalDefinition.signalValue == 2) {
-										icon = ENS.tree.SIGNAL_ICON;
+										icon = ENS.tree.SIGNAL_ICON_4;
 									} else if (signalDefinition.signalValue == 3) {
-										icon = ENS.tree.SIGNAL_ICON;
+										icon = ENS.tree.SIGNAL_ICON_5;
 									} else {
-										icon = ENS.tree.SIGNAL_ICON;
+										icon = ENS.tree.SIGNAL_ICON_0;
 									}
 									
 									var addOption = {
 										id : newTreeId,
 										data : showName,
 										parentTreeId : parentTreeId,
-										icon : ENS.tree.SIGNAL_ICON
+										icon : icon
 									};
 
 									removeOptionList.push(removeOption);

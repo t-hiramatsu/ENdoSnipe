@@ -137,4 +137,9 @@ ENS.tree.contextOption = [ {
 	},
 	children : []
 } ];
-ENS.tree.SIGNAL_ICON = "signal_1";
+ENS.tree.SIGNAL_ICON_0 = "signal_0";
+ENS.tree.SIGNAL_ICON_1 = "signal_1";
+ENS.tree.SIGNAL_ICON_2 = "signal_2";
+ENS.tree.SIGNAL_ICON_3 = "signal_3";
+ENS.tree.SIGNAL_ICON_4 = "signal_4";
+ENS.tree.SIGNAL_ICON_5 = "signal_5";
