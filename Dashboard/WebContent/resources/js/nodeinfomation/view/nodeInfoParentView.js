@@ -44,8 +44,6 @@ ENS.NodeInfoParentView = wgp.AbstractView.extend({
 		this.maxId = 0;
 		this.viewList = {};
 
-		// add title area
-		ENS.Utility.makeLogo(this.$el.attr("id"), "Multiple Graph View");
 		// dual slider area (add div and css, and make slider)
 		$("#" + this.$el.attr("id")).append(
 				'<div id="' + id.dualSliderArea + '"></div>');
@@ -70,9 +68,11 @@ ENS.NodeInfoParentView = wgp.AbstractView.extend({
 				instance.updateDisplaySpan(from, to);
 				// グラフの表示データを更新する
 				instance.updateGraphData(key, from, to);
-				
 			}
 		});
+		
+		$("#" + this.$el.attr("id")).append(
+				'<div class="clearFloat"></div>');
 	},
 	render : function() {
 		console.log('call render');
@@ -133,6 +133,7 @@ ENS.NodeInfoParentView = wgp.AbstractView.extend({
 		$.extend(true, viewAttribute, {
 			id : newDivAreaId
 		});
+		// 動的に生成するオブジェクトを切り替える必要があるため、やむを得ずeval()を使う
 		var view = eval("new " + viewClassName
 				+ "(viewAttribute, treeSettings)");
 		

@@ -84,6 +84,18 @@ CREATE TABLE ARCHIVED_VALUE(
 );
 
 /**********************************/
+/* テーブル名: シグナル定義テーブル */
+/**********************************/
+CREATE TABLE SIGNAL_DEFINITION(
+  SIGNAL_ID serial NOT NULL,
+  SIGNAL_NAME VARCHAR NOT NULL UNIQUE,
+  MATCHING_PATTERN VARCHAR NOT NULL,
+  LEVEL INT NOT NULL,
+  PATTERN_VALUE VARCHAR NOT NULL,
+  ESCALATION_PERIOD DOUBLE PRECISION
+)
+
+/**********************************/
 /* テーブル名: マップテーブル */
 /**********************************/
 CREATE TABLE public.map_info(

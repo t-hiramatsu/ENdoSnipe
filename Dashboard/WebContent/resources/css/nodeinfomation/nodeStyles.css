@@ -90,9 +90,8 @@
 	color: #FFFFFF;
 	font-family: Verdana;
 	background: #666666; /* Old browsers */
-	background: -moz-linear-gradient(-45deg, #666666 0%,
-		#333333 50%, #333333 51%,
-		#666666 100% );
+	background: -moz-linear-gradient(-45deg, #666666 0%, #333333 50%, #333333 51%,
+		#666666 100%);
 	background: -webkit-gradient(linear, left top, right bottom, color-stop(0%, #666666),
 		color-stop(24%, #333333), color-stop(50%, #222222),
 		color-stop(79%, #333333), color-stop(100%, #666666) );
@@ -105,7 +104,7 @@
 		#333333 79%, #666666 100%); /* IE10+ */
 	background: linear-gradient(135deg, #666666 0%, #333333 24%, #222222 50%, #333333
 		79%, #666666 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient(      startColorstr='#666666',
+	filter: progid:DXImageTransform.Microsoft.gradient(       startColorstr='#666666',
 		endColorstr='#87bcea', GradientType=1 );
 	word-wrap: break-word;
 	/* IE6-9 fallback on horizontal gradient */
@@ -113,6 +112,103 @@
 
 /* dygraph legend */
 .ensLabel {
-    background-color: #000000;
-    margin-top: 5px;
+	background-color: #000000;
+	margin-top: 5px;
+}
+
+/* tab style */
+.ui-tabs .ui-tabs-panel {
+	padding: 0 0;
+}
+
+.ui-tabs .ui-tabs-nav li {
+	height : 30px;
+}
+
+.ui-tabs .ui-tabs-nav li a {
+	padding: 0.1em 1em;
+}
+
+/* jqGrid style */
+.ui-jqgrid tr.jqgrow td {
+     white-space: normal;
+}
+
+/* signal dialog style */
+#signalPatternArea {
+	margin-top: 10px;
+}
+
+#signalPatternItem {
+	float: left;
+}
+
+#signalPatternValue {
+	margin-left: 241px;
+}
+
+#signalName {
+	width : 100%;
+}
+
+#matchingPattern {
+	width : 100%;
+}
+
+#signalPatternValueArea {
+	margin-top: 10px;
+}
+
+#signalPatternValueValue .dialogPatternValue div {
+	float : left;
+}
+
+#signalPatternValueValue .dialogPatternValue input {
+	margin-left : 20px;
+	width : 100px;
+}
+
+#signalPatternValue_1 {
+	float: left;
+}
+
+#signalPatternValue_2 {
+	margin-top : 10px;
+	margin-left: 160px;
+}
+
+#signalPatternValue_3 {
+	float: left;
+	margin-top: 10px;
+}
+
+#signalPatternValue_4 {
+	margin-top : 10px;
+	margin-left: 160px;
+}
+
+#signalPatternValue_5 {
+	margin-top : 10px;
+}
+
+#signalEscalationPeriodArea {
+	margin-top : 10px;
+}
+#signalEscalationPeriodItem {
+	float : left;
+}
+#signalEscalationPeriodValue {
+	float : left;
+}
+#escalationPeriod {
+	margin-left: 35px;	
+	width: 100px;
+}
+#signalEscalationPeriodUnit {
+	margin-left: 289px;
+}
+
+/** signal tree settings */
+.jstree-default a .signal_1 {
+	background-position: -56px -54px;;
 }

@@ -5,11 +5,11 @@
 <head>
 <%@ include file="../include/ext/javaScriptInclude.jsp"%>
 <%@ include file="../include/DashboardInclude.jsp"%>
+<%@ include file="./SignalDialog.jsp"%>
 <title>ENdoSnipe Dashboard</title>
 </head>
 <body id="main" oncontextmenu="return false;" onload="self.focus();">
-	<div id="persArea"></div>
-	<input id="treeData" type="hidden" value='${treeData}' />
+	
 	<script type="text/javascript">
 		var viewArea1 = {};
 		var viewArea2 = {};
@@ -51,6 +51,7 @@
 		});
 		// ツリー連携を追加。
 		treeView.setClickEvent("contents_area");
+		treeView.addContextMenu(ENS.tree.contextOption);
 		appView.addView(treeView, wgp.constants.TREE.DATA_ID);
 		websocketClient = new wgp.WebSocketClient(appView, "notifyEvent");
 		websocketClient.initialize();

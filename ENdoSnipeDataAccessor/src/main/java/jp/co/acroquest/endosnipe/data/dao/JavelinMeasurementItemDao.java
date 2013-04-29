@@ -64,9 +64,8 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
         {
             conn = getConnection(database);
             pstmt =
-                conn.prepareStatement("insert into " + JAVELIN_MEASUREMENT_ITEM +
-                                      " (MEASUREMENT_ITEM_NAME, LAST_INSERTED)" +
-                                      " values (?,?)");
+                conn.prepareStatement("insert into " + JAVELIN_MEASUREMENT_ITEM
+                    + " (MEASUREMENT_ITEM_NAME, LAST_INSERTED)" + " values (?,?)");
             PreparedStatement delegated = getDelegatingStatement(pstmt);
             // CHECKSTYLE:OFF
             String measurementItemName = item.itemName;
@@ -92,7 +91,7 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
      * @throws SQLException SQL 実行時に例外が発生した場合
      */
     public static JavelinMeasurementItem selectById(final String database,
-            final int measurementItemId)
+        final int measurementItemId)
         throws SQLException
     {
         Connection conn = null;
@@ -103,7 +102,7 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
         {
             conn = getConnection(database, true);
             String sql =
-                    "select * from " + JAVELIN_MEASUREMENT_ITEM + " where MEASUREMENT_ITEM_ID = ?";
+                "select * from " + JAVELIN_MEASUREMENT_ITEM + " where MEASUREMENT_ITEM_ID = ?";
             pstmt = conn.prepareStatement(sql);
             PreparedStatement delegated = getDelegatingStatement(pstmt);
             delegated.setInt(1, measurementItemId);
@@ -137,7 +136,7 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
      * @throws SQLException SQL 実行時に例外が発生した場合
      */
     public static int selectMeasurementItemIdFromItemName(final String database,
-                                                          final String itemName)
+        final String itemName)
         throws SQLException
     {
         Connection conn = null;
@@ -147,11 +146,11 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
         try
         {
             conn = getConnection(database, true);
-            pstmt = conn.prepareStatement("select MEASUREMENT_ITEM_ID from "
-                                          + JAVELIN_MEASUREMENT_ITEM
-                                          + " where MEASUREMENT_ITEM_NAME = ?");
+            pstmt =
+                conn.prepareStatement("select MEASUREMENT_ITEM_ID from " + JAVELIN_MEASUREMENT_ITEM
+                    + " where MEASUREMENT_ITEM_NAME = ?");
             PreparedStatement delegated = getDelegatingStatement(pstmt);
-            String measurementItemID = itemName; 
+            String measurementItemID = itemName;
             delegated.setString(1, measurementItemID);
             rs = delegated.executeQuery();
             if (rs.next() == true)
@@ -186,8 +185,8 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
         {
             conn = getConnection(database, true);
             stmt = conn.createStatement();
-            String sql = "select * from " + JAVELIN_MEASUREMENT_ITEM +
-                         " order by MEASUREMENT_ITEM_NAME";
+            String sql =
+                "select * from " + JAVELIN_MEASUREMENT_ITEM + " order by MEASUREMENT_ITEM_NAME";
             rs = stmt.executeQuery(sql);
             while (rs.next() == true)
             {
@@ -228,8 +227,8 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
         {
             conn = getConnection(database, true);
             stmt = conn.createStatement();
-            String sql = "select * from " + JAVELIN_MEASUREMENT_ITEM +
-                         " order by MEASUREMENT_ITEM_NAME";
+            String sql =
+                "select * from " + JAVELIN_MEASUREMENT_ITEM + " order by MEASUREMENT_ITEM_NAME";
             rs = stmt.executeQuery(sql);
             int count = 0;
             while (rs.next() == true)
@@ -266,7 +265,7 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
      * @throws SQLException SQL 実行時に例外が発生した場合
      */
     public static List<JavelinMeasurementItem> selectByMeasurementType(final String database,
-                                                                       long measurementType)
+        long measurementType)
         throws SQLException
     {
         List<JavelinMeasurementItem> result = new ArrayList<JavelinMeasurementItem>();
@@ -276,11 +275,11 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
         try
         {
             conn = getConnection(database, true);
-            String sql = "select * from " + JAVELIN_MEASUREMENT_ITEM
-                         + " where MEASUREMENT_ITEM_ID=?";
+            String sql =
+                "select * from " + JAVELIN_MEASUREMENT_ITEM + " where MEASUREMENT_ITEM_ID=?";
             pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, measurementType);
-            
+
             rs = pstmt.executeQuery();
             while (rs.next() == true)
             {
@@ -293,7 +292,7 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
                 result.add(item);
             }
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             System.out.println(e.toString());
         }
@@ -305,7 +304,7 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
         }
         return result;
     }
-    
+
     /**
      * 指定された MEASUREMENT_ITEM_ID のレコードを削除します。
      *
@@ -314,7 +313,7 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
      * @throws SQLException SQL 実行時に例外が発生した場合
      */
     public static void deleteByMeasurementItemId(final String database,
-                                                 final String measurementItemName)
+        final String measurementItemName)
         throws SQLException
     {
         Connection conn = null;
@@ -387,6 +386,41 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
      * 計測データが挿入された時刻を反映します。
      *
      * @param database データベース名
+     * @param beforeItemName
+     *            更新前のmeasurement_item_name
+     * @param afterItemName
+     *            更新前のmeasurement_item_name
+     * @throws SQLException SQL 実行時に例外が発生した場合
+     */
+    public static void updateMeasurementItemName(final String database,
+        final String beforeItemName, final String afterItemName)
+        throws SQLException
+    {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        try
+        {
+            conn = getConnection(database, true);
+            String sql =
+                "update " + JAVELIN_MEASUREMENT_ITEM + " set MEASUREMENT_ITEM_NAME = ?"
+                    + " where MEASUREMENT_ITEM_NAME = ?";
+            pstmt = conn.prepareStatement(sql);
+            PreparedStatement delegated = getDelegatingStatement(pstmt);
+            delegated.setString(1, afterItemName);
+            delegated.setString(2, beforeItemName);
+            delegated.execute();
+        }
+        finally
+        {
+            SQLUtil.closeStatement(pstmt);
+            SQLUtil.closeConnection(conn);
+        }
+    }
+
+    /**
+     * 計測データが挿入された時刻を反映します。
+     *
+     * @param database データベース名
      * @param map 系列ITEMと最終挿入時刻のマップ
      * @throws SQLException SQL 実行時に例外が発生した場合
      */
@@ -399,8 +433,8 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
         {
             conn = getConnection(database, true);
             String sql =
-                "update " + JAVELIN_MEASUREMENT_ITEM + " set LAST_INSERTED = ?" +
-                		" where MEASUREMENT_ITEM_NAME = ?";
+                "update " + JAVELIN_MEASUREMENT_ITEM + " set LAST_INSERTED = ?"
+                    + " where MEASUREMENT_ITEM_NAME = ?";
             pstmt = conn.prepareStatement(sql);
             PreparedStatement delegated = getDelegatingStatement(pstmt);
             for (Map.Entry<String, Timestamp> entry : map.entrySet())
@@ -443,7 +477,7 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
         int count = count(database, JAVELIN_MEASUREMENT_ITEM, "MEASUREMENT_ITEM_NAME");
         return count;
     }
-    
+
     /**
      * measurement_valueテーブルで使用されていないレコードを、<br />
      * このテーブルから削除します。<br />
@@ -460,10 +494,10 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
         try
         {
             conn = getConnection(database, true);
-            String sql = "delete from " + JAVELIN_MEASUREMENT_ITEM + " items " +
-                    "where not exists( select vals.measurement_item_id from " +
-                    MEASUREMENT_VALUE + " vals " +
-                    "where items.measurement_item_id = vals.measurement_item_id)";
+            String sql =
+                "delete from " + JAVELIN_MEASUREMENT_ITEM + " items "
+                    + "where not exists( select vals.measurement_item_id from " + MEASUREMENT_VALUE
+                    + " vals " + "where items.measurement_item_id = vals.measurement_item_id)";
             pstmt = conn.prepareStatement(sql);
             pstmt.execute();
         }
