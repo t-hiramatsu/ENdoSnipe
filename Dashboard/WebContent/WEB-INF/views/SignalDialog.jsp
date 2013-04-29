@@ -12,6 +12,11 @@
 	<div id="persArea"></div>
 	<input id="treeData" type="hidden" value='${treeData}' />
 	<div id="signalDialog" title="Signal Definition" style="display:none">
+		<div id="signalNameArea" class="dialogContentArea" style="display:none">
+			<div id="signalIdValue" class="dialogValue">
+				<input type="text" id="signalId" class="signalValue" value="" />
+			</div>
+		</div>
 		<div id="signalNameArea" class="dialogContentArea">
 			<div id="signalNameItem" class="dialogItem">Signal Name : </div>
 			<div id="signalNameValue" class="dialogValue">

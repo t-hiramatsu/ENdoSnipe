@@ -14,6 +14,7 @@ import jp.co.acroquest.endosnipe.web.dashboard.manager.DatabaseManager;
 
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,7 +46,8 @@ public class SignalService {
 			Throwable cause = pe.getCause();
 			if (cause instanceof SQLException) {
 				SQLException sqlEx = (SQLException) cause;
-				LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx, sqlEx.getMessage());
+				LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx,
+						sqlEx.getMessage());
 				return new ArrayList<SignalDefinitionDto>();
 			}
 		}
@@ -72,12 +74,8 @@ public class SignalService {
 		try {
 			signalInfoDao.insert(signalInfo);
 			signalId = signalInfoDao.selectSequenceNum(signalInfo);
-		} catch (PersistenceException pe) {
-			Throwable cause = pe.getCause();
-			if (cause instanceof SQLException) {
-				SQLException sqlEx = (SQLException) cause;
-				LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx, sqlEx.getMessage());
-			}
+		} catch (DuplicateKeyException dkEx) {
+			LOGGER.log(LogMessageCodes.SQL_EXCEPTION, dkEx, dkEx.getMessage());
 		}
 
 		return signalId;
@@ -88,25 +86,37 @@ public class SignalService {
 	 * 
 	 * @param シグナル定義
 	 */
-	public void updateSignalInfo(final SignalInfo signalInfo) {
+	public boolean updateSignalInfo(final SignalInfo signalInfo) {
+		boolean isSuccess = false;
 		try {
 			SignalInfo beforeSignalInfo = signalInfoDao
 					.selectById(signalInfo.signalId);
+			if (beforeSignalInfo == null || signalInfo == null) {
+				return isSuccess;
+			}
+
 			signalInfoDao.update(signalInfo);
 
 			String beforeItemName = beforeSignalInfo.signalName;
 			String afterItemName = signalInfo.signalName;
 
 			this.updateMeasurementItemName(beforeItemName, afterItemName);
+
+			isSuccess = true;
 		} catch (PersistenceException pEx) {
 			Throwable cause = pEx.getCause();
 			if (cause instanceof SQLException) {
 				SQLException sqlEx = (SQLException) cause;
-				LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx, sqlEx.getMessage());
+				LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx,
+						sqlEx.getMessage());
+			} else {
+				LOGGER.log(LogMessageCodes.SQL_EXCEPTION, pEx, pEx.getMessage());
 			}
 		} catch (SQLException sqlEx) {
 			LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx, sqlEx.getMessage());
 		}
+
+		return isSuccess;
 	}
 
 	/**
@@ -118,12 +128,18 @@ public class SignalService {
 	public void deleteSignalInfo(final SignalInfo signalInfo) {
 		try {
 			signalInfoDao.delete(signalInfo);
-		} catch (PersistenceException pe) {
-			Throwable cause = pe.getCause();
+			this.deleteMeasurementItem(signalInfo.signalName);
+		} catch (PersistenceException pEx) {
+			Throwable cause = pEx.getCause();
 			if (cause instanceof SQLException) {
 				SQLException sqlEx = (SQLException) cause;
-				LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx, sqlEx.getMessage());
+				LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx,
+						sqlEx.getMessage());
+			} else {
+				LOGGER.log(LogMessageCodes.SQL_EXCEPTION, pEx, pEx.getMessage());
 			}
+		} catch (SQLException sqlEx) {
+			LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx, sqlEx.getMessage());
 		}
 	}
 
@@ -170,12 +186,12 @@ public class SignalService {
 	}
 
 	/**
-	 * javelin_measurement_itemテーブルのmeasurement_item_nameを更新する。
+	 * javelin_measurement_itemテーブルのMEASUREMENT_ITEM_NAMEを更新する。
 	 * 
 	 * @param beforeItemName
-	 *            更新前のmeasurement_item_name
+	 *            更新前のMEASUREMENT_ITEM_NAME
 	 * @param afterItemName
-	 *            更新前のmeasurement_item_name
+	 *            更新前のMEASUREMENT_ITEM_NAME
 	 * @throws SQLException
 	 *             SQL 実行時に例外が発生した場合
 	 */
@@ -187,4 +203,20 @@ public class SignalService {
 		JavelinMeasurementItemDao.updateMeasurementItemName(dbName,
 				beforeItemName, afterItemName);
 	}
+
+	/**
+	 * javelin_measurement_itemテーブルの指定したMEASUREMENT_ITEM_NAMEのレコードを削除する。
+	 * 
+	 * @param itemName
+	 *            削除するレコードの MEASUREMENT_ITEM_NAME
+	 * @throws SQLException
+	 *             SQL 実行時に例外が発生した場合
+	 */
+	private void deleteMeasurementItem(String itemName) throws SQLException {
+		DatabaseManager dbMmanager = DatabaseManager.getInstance();
+		String dbName = dbMmanager.getDataBaseName(1);
+
+		JavelinMeasurementItemDao.deleteByMeasurementItemId(dbName, itemName);
+	}
+
 }

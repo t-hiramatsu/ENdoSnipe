@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jp.co.acroquest.endosnipe.web.dashboard.dto.SignalDefinitionDto;
-import jp.co.acroquest.endosnipe.web.dashboard.dto.TreeOptionDto;
 import jp.co.acroquest.endosnipe.web.dashboard.entity.SignalInfo;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.ResourceSender;
 import jp.co.acroquest.endosnipe.web.dashboard.service.SignalService;
@@ -68,7 +67,7 @@ public class SignalController {
 	@ResponseBody
 	public List<SignalDefinitionDto> getAllDefinition() {
 		List<SignalDefinitionDto> signalDefinitionDtos = new ArrayList<SignalDefinitionDto>();
-		
+
 		signalDefinitionDtos = signalService.getAllSignal();
 
 		return signalDefinitionDtos;
@@ -113,10 +112,8 @@ public class SignalController {
 		SignalInfo signalInfo = this.signalService
 				.convertSignalInfo(signalDefinitionDto);
 
-		// DBにp登録されている定義を更新する
+		// DBに登録されている定義を更新する
 		this.signalService.updateSignalInfo(signalInfo);
-
-		System.out.println("閾値判定の定義を編集しました。");
 
 		return signalDefinitionDto;
 	}
@@ -129,13 +126,18 @@ public class SignalController {
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	@ResponseBody
-	public TreeOptionDto delete(
-			@RequestParam(value = "treeOption") final String treeOption) {
-		TreeOptionDto treeOptionDto = JSON.decode(treeOption,
-				TreeOptionDto.class);
+	public SignalDefinitionDto delete(
+			@RequestParam(value = "data") final String data) {
+		SignalDefinitionDto signalDefinitionDto = JSON.decode(data,
+				SignalDefinitionDto.class);
+
+		SignalInfo signalInfo = this.signalService
+				.convertSignalInfo(signalDefinitionDto);
+		
+		this.signalService.deleteSignalInfo(signalInfo);
 
 		System.out.println("閾値判定のシグナルを削除しました。");
 
-		return treeOptionDto;
+		return signalDefinitionDto;
 	}
 }
