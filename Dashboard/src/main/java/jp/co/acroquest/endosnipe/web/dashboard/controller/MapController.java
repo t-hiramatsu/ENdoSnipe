@@ -44,80 +44,93 @@ import org.wgp.manager.WgpDataManager;
 
 @Controller
 @RequestMapping("/map")
-public class MapController {
+public class MapController
+{
 
-	@Autowired
-	protected WgpDataManager wgpDataManager;
+    @Autowired
+    protected WgpDataManager wgpDataManager;
 
-	@Autowired
-	protected ResourceSender resourceSender;
-	/** マップを表すID */
-	private static final String MAP_DATA_ID = "map";
+    @Autowired
+    protected ResourceSender resourceSender;
 
-	@Autowired
-	protected MapService mapService;
+    /** マップを表すID */
+    private static final String MAP_DATA_ID = "map";
 
-	/**
-	 * Get Map List.
-	 * @return
-	 */
-	@RequestMapping(value = "/mapList", method = RequestMethod.GET)
-	public String initializeMapList() {
-		// TODO ServletContextから取得できないため、初期化時に設定する。
-		EventManager eventManager = EventManager.getInstance();
-		eventManager.setWgpDataManager(wgpDataManager);
-		eventManager.setResourceSender(resourceSender);
-		return "MapList";
-	}
+    @Autowired
+    protected MapService mapService;
 
-	/**
-	 * Get All map Data for Tree.
-	 */
-	@RequestMapping(value = "/getAll", method = RequestMethod.POST)
-	@ResponseBody
-	public Map<String, List<Map<String, String>>> getAll() {
-		Map<String, List<Map<String, String>>> resultMap = new HashMap<String, List<Map<String, String>>>();
-		List<Map<String, String>> resultList = this.mapService.getAllMap();
-		resultMap.put(MAP_DATA_ID, resultList);
-		return resultMap;
-	}
+    /**
+     * Get Map List.
+     * @return
+     */
+    @RequestMapping(value = "/mapList", method = RequestMethod.GET)
+    public String initializeMapList()
+    {
+        // TODO ServletContextから取得できないため、初期化時に設定する。
+        EventManager eventManager = EventManager.getInstance();
+        eventManager.setWgpDataManager(wgpDataManager);
+        eventManager.setResourceSender(resourceSender);
+        return "MapList";
+    }
 
-	/**
-	 * Insert Map.
-	 */
-	@RequestMapping(value = "/insert", method = RequestMethod.POST)
-	public void insert(
-			@RequestParam(value = "data") final String data,
-			@RequestParam(value = "name") final String name) {
-		MapInfo mapInfo = new MapInfo();
-		mapInfo.data = data;
-		mapInfo.name = name;
-		this.mapService.insert(mapInfo);
-	}
+    /**
+     * Get All map Data for Tree.
+     */
+    @RequestMapping(value = "/getAll", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, List<Map<String, String>>> getAll()
+    {
+        Map<String, List<Map<String, String>>> resultMap =
+                new HashMap<String, List<Map<String, String>>>();
+        List<Map<String, String>> resultList = this.mapService.getAllMap();
+        resultMap.put(MAP_DATA_ID, resultList);
+        return resultMap;
+    }
 
-	/**
-	 * Update Map.
-	 */
-	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public void update(
-			@RequestParam(value = "mapId") final String mapId,
-			@RequestParam(value = "data") final String data,
-			@RequestParam(value = "name") final String name) {
-		MapInfo mapInfo = new MapInfo();
-		mapInfo.mapId = Long.valueOf(mapId);
-		mapInfo.data = data;
-		mapInfo.name = name;
-		this.mapService.update(mapInfo);
-	}
+    /**
+     * Insert Map.
+     */
+    @RequestMapping(value = "/insert", method = RequestMethod.POST)
+    public void insert(@RequestParam(value = "data") final String data,
+            @RequestParam(value = "name") final String name)
+    {
+        MapInfo mapInfo = new MapInfo();
+        mapInfo.data = data;
+        mapInfo.name = name;
+        this.mapService.insert(mapInfo);
+    }
 
-	/**
-	 * Get Map.
-	 */
-	@RequestMapping(value = "/getById", method = RequestMethod.POST)
-	@ResponseBody
-	public Map<String, String> getById(
-			@RequestParam(value = "mapId") final String mapId){
-		Map<String, String> responseMap = this.mapService.getById(Long.valueOf(mapId));
-		return responseMap;
-	}
+    /**
+     * Update Map.
+     */
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public void update(@RequestParam(value = "mapId") final String mapId,
+            @RequestParam(value = "data") final String data,
+            @RequestParam(value = "name") final String name)
+    {
+        MapInfo mapInfo = new MapInfo();
+        mapInfo.mapId = Long.valueOf(mapId);
+        mapInfo.data = data;
+        mapInfo.name = name;
+        this.mapService.update(mapInfo);
+    }
+
+    /**
+     * Get Map.
+     */
+    @RequestMapping(value = "/getById", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, String> getById(@RequestParam(value = "mapId") final String mapId)
+    {
+        Map<String, String> responseMap = this.mapService.getById(Long.valueOf(mapId));
+        return responseMap;
+    }
+
+    /**
+     * Dekete Map.
+     * @param mapId 
+     */
+    public void delete(@RequestParam(value = "mapId") final String mapId)
+    {
+    }
 }

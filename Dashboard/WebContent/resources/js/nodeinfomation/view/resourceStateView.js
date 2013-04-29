@@ -28,7 +28,7 @@ ENS.ResourceStateElementView = wgp.MapElementView.extend({
 		};
 
 		// 状態を表す画像を描画する。
-		this.element = new image(elementProperty, this._paper);
+		this.object = new image(elementProperty, this._paper);
 	},
 	change : function(model) {
 
@@ -41,10 +41,10 @@ ENS.ResourceStateElementView = wgp.MapElementView.extend({
 		};
 
 		// 再度設定する。
-		this.element.setProperty(elementProperty);
+		this.object.setProperty(elementProperty);
 	},
 	remove : function(model){
-		this.element.remove();
+		this.object.remove();
 		this.destroy();
 	}
 });

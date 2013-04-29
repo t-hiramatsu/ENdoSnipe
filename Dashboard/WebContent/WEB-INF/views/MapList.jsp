@@ -111,11 +111,7 @@
 			src : '<%=request.getContextPath()%>/resources/images/map/createIcon.png',
 			alt : 'save',
 			onclick : (function(event){
-				if(resourceMapListView.childView){
-					resourceMapListView.childView.onCreate();
-				}else{
-					console.log("please select a map");
-				}
+				resourceMapListView.onCreate();
 			})
 		});
 
@@ -136,13 +132,30 @@
 			})
 		});
 
+		var linkMapMenuModel = new ENS.mapMenuModel({
+			width : 25,
+			height : 25,
+			styleClass : 'map_menu_icon',
+			src : '<%=request.getContextPath()%>/resources/images/map/createLinkIcon.png',
+			alt : 'createLink',
+			onclick : (function(event){
+				if(resourceMapListView.childView){
+					var selectedId = $("#" + resourceMapListView.id).find(".jstree-clicked")[0].id;
+					var treeModel = resourceMapListView.collection.where({id : selectedId})[0];
+					resourceMapListView.childView.setClickAddEvent("ENS.ResourceLinkElementView");
+					$("[alt='createLink']").addClass("map_menu_icon-active");
+				}else{
+					console.log("please select a map");
+				}
+			})
+		});
+
 		var menuView = new ENS.mapMenuView({
 				id : "persArea_drop_1_0",
-				collection : [createMapMenuModel, saveMapMenuModel]
+				collection : [createMapMenuModel, saveMapMenuModel, linkMapMenuModel]
 			},
 			{}
 		);
-
 	</script>
 </body>
 </html>
