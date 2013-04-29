@@ -27,9 +27,9 @@ package jp.co.acroquest.endosnipe.web.dashboard.dao;
 
 import java.util.List;
 
-import org.apache.ibatis.exceptions.PersistenceException;
-
 import jp.co.acroquest.endosnipe.web.dashboard.entity.SignalInfo;
+
+import org.apache.ibatis.exceptions.PersistenceException;
 
 /**
  * {@link SignalInfo} のための DAO のインターフェースです。
@@ -37,71 +37,61 @@ import jp.co.acroquest.endosnipe.web.dashboard.entity.SignalInfo;
  * @author miyasaka
  * 
  */
-public interface SignalInfoDao {
+public interface SignalInfoDao
+{
 
-	/**
-	 * 指定されたデータベースのシグナル定義を全て取得します。<br />
-	 * 
-	 * シグナル定義が登録されていない場合は空のリストを返します。<br />
-	 * 
-	 * @param database
-	 *            データベース名
-	 * @return シグナル定義のリスト
-	 */
-	public List<SignalInfo> selectAll();
+    /**
+     * 指定されたデータベースのシグナル定義を全て取得します。<br />
+     * 
+     * シグナル定義が登録されていない場合は空のリストを返します。<br />
+     * 
+     * @return シグナル定義のリスト
+     */
+    public List<SignalInfo> selectAll();
 
-	/**
-	 * シグナル定義情報を取得する。
-	 * 
-	 * @param signalId
-	 *            シグナルID
-	 * @return シグナル定義
-	 */
-	public SignalInfo selectById(int signalId);
+    /**
+     * シグナル定義情報を取得する。
+     * 
+     * @param signalId
+     *            シグナルID
+     * @return シグナル定義
+     */
+    public SignalInfo selectById(int signalId);
 
-	/**
-	 * {@link SignalInfo} オブジェクトを挿入します。<br />
-	 * 
-	 * @param database
-	 *            挿入先データベース名
-	 * @param signalInfo
-	 *            対象オジェクト
-	 * @return 自動採番されたシグナルID
-	 */
-	public void insert(final SignalInfo signalInfo) throws PersistenceException;
+    /**
+     * {@link SignalInfo} オブジェクトを挿入します。<br />
+     * 
+     * @param signalInfo
+     *            対象オジェクト
+     */
+    public void insert(final SignalInfo signalInfo)
+        throws PersistenceException;
 
-	/**
-	 * シグナル定義を更新する。
-	 * 
-	 * @param database
-	 *            データベース名
-	 * @param signalInfo
-	 *            シグナル定義
-	 */
-	public void update(final SignalInfo signalInfo);
+    /**
+     * シグナル定義を更新する。
+     * 
+     * @param signalInfo
+     *            シグナル定義
+     */
+    public void update(final SignalInfo signalInfo);
 
-	/**
-	 * 指定されたシグナル情報をDBから削除する。
-	 * 
-	 * @param database
-	 *            DB
-	 * @param signalInfo
-	 *            シグナル情報
-	 */
-	public void delete(final SignalInfo signalInfo);
+    /**
+     * 指定されたシグナル情報をDBから削除する。
+     * 
+     * @param signalInfo
+     *            シグナル情報
+     */
+    public void delete(final SignalInfo signalInfo);
 
-	/**
-	 * すべてのレコードを削除します。<br />
-	 * 
-	 * @param database
-	 *            データベース名
-	 */
-	public void deleteAll();
+    /**
+     * すべてのレコードを削除します。<br />
+     */
+    public void deleteAll();
 
-	/**
-	 * 直前のシーケンス情報を取得する。<br />
-	 * 
-	 * @return 直前のシーケンス番号
-	 */
-	public int selectSequenceNum(final SignalInfo signalInfo);
+    /**
+     * 直前のシーケンス情報を取得する。<br />
+     * 
+     * @return 直前のシーケンス番号
+     */
+    public int selectSequenceNum(final SignalInfo signalInfo);
 }

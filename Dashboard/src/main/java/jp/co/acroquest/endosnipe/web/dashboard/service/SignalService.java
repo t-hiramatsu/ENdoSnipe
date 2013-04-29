@@ -2,7 +2,9 @@ package jp.co.acroquest.endosnipe.web.dashboard.service;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
 import jp.co.acroquest.endosnipe.data.dao.JavelinMeasurementItemDao;
@@ -25,198 +27,241 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  */
 @Service
-public class SignalService {
-	/** ロガー。 */
-	private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
-			.getLogger(MapService.class);
+public class SignalService
+{
+    /** ロガー。 */
+    private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(MapService.class);
 
-	@Autowired
-	protected SignalInfoDao signalInfoDao;
+    @Autowired
+    protected SignalInfoDao signalInfoDao;
 
-	/**
-	 * すべてのシグナルデータを返す。
-	 * 
-	 * @return シグナルデータ一覧
-	 */
-	public List<SignalDefinitionDto> getAllSignal() {
-		List<SignalInfo> signalList = null;
-		try {
-			signalList = signalInfoDao.selectAll();
-		} catch (PersistenceException pe) {
-			Throwable cause = pe.getCause();
-			if (cause instanceof SQLException) {
-				SQLException sqlEx = (SQLException) cause;
-				LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx,
-						sqlEx.getMessage());
-				return new ArrayList<SignalDefinitionDto>();
-			}
-		}
+    /**
+     * すべてのシグナルデータを返す。
+     * 
+     * @return シグナルデータ一覧
+     */
+    public List<SignalDefinitionDto> getAllSignal()
+    {
+        List<SignalInfo> signalList = null;
+        try
+        {
+            signalList = signalInfoDao.selectAll();
+        }
+        catch (PersistenceException pEx)
+        {
+            Throwable cause = pEx.getCause();
+            if (cause instanceof SQLException)
+            {
+                SQLException sqlEx = (SQLException)cause;
+                LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx, sqlEx.getMessage());
+            }
+            LOGGER.log(LogMessageCodes.SQL_EXCEPTION, pEx, pEx.getMessage());
 
-		List<SignalDefinitionDto> definitionDtoList = new ArrayList<SignalDefinitionDto>();
+            return new ArrayList<SignalDefinitionDto>();
+        }
 
-		for (SignalInfo signalInfo : signalList) {
-			SignalDefinitionDto signalDto = this.convertSignalDto(signalInfo);
-			definitionDtoList.add(signalDto);
-		}
+        // TODO signalMapがモックなので、DataCollectorに問い合わせて取得するように変更する
+        Map<Integer, Integer> signalMap = new HashMap<Integer, Integer>();
+        for (SignalInfo signalInfo : signalList)
+        {
+            SignalDefinitionDto signalDto = this.convertSignalDto(signalInfo);
+            int signalId = signalDto.getSignalId();
+            signalMap.put(signalId, 1 + (int)(Math.random() * 3));
+        }
 
-		return definitionDtoList;
-	}
+        List<SignalDefinitionDto> definitionDtoList = new ArrayList<SignalDefinitionDto>();
 
-	/**
-	 * シグナル定義をDBに登録する。
-	 * 
-	 * @param signalInfo
-	 *            シグナル定義
-	 */
-	@Transactional
-	public int insertSignalInfo(SignalInfo signalInfo) {
-		int signalId = 0;
-		try {
-			signalInfoDao.insert(signalInfo);
-			signalId = signalInfoDao.selectSequenceNum(signalInfo);
-		} catch (DuplicateKeyException dkEx) {
-			LOGGER.log(LogMessageCodes.SQL_EXCEPTION, dkEx, dkEx.getMessage());
-		}
+        for (SignalInfo signalInfo : signalList)
+        {
+            SignalDefinitionDto signalDto = this.convertSignalDto(signalInfo);
+            int signalId = signalDto.getSignalId();
+            Integer signalValue = signalMap.get(signalId);
+            signalDto.setSignalValue(signalValue);
+            definitionDtoList.add(signalDto);
+        }
 
-		return signalId;
-	}
+        return definitionDtoList;
+    }
 
-	/**
-	 * シグナル定義を更新する。
-	 * 
-	 * @param シグナル定義
-	 */
-	public boolean updateSignalInfo(final SignalInfo signalInfo) {
-		boolean isSuccess = false;
-		try {
-			SignalInfo beforeSignalInfo = signalInfoDao
-					.selectById(signalInfo.signalId);
-			if (beforeSignalInfo == null || signalInfo == null) {
-				return isSuccess;
-			}
+    /**
+     * シグナル定義をDBに登録する。
+     * 
+     * @param signalInfo
+     *            シグナル定義
+     */
+    @Transactional
+    public int insertSignalInfo(final SignalInfo signalInfo)
+    {
+        int signalId = 0;
+        try
+        {
+            signalInfoDao.insert(signalInfo);
+            signalId = signalInfoDao.selectSequenceNum(signalInfo);
+        }
+        catch (DuplicateKeyException dkEx)
+        {
+            LOGGER.log(LogMessageCodes.SQL_EXCEPTION, dkEx, dkEx.getMessage());
+        }
 
-			signalInfoDao.update(signalInfo);
+        return signalId;
+    }
 
-			String beforeItemName = beforeSignalInfo.signalName;
-			String afterItemName = signalInfo.signalName;
+    /**
+     * シグナル定義を更新する。
+     * 
+     * @param signalInfo シグナル定義
+     */
+    public boolean updateSignalInfo(final SignalInfo signalInfo)
+    {
+        boolean isSuccess = false;
+        try
+        {
+            SignalInfo beforeSignalInfo = signalInfoDao.selectById(signalInfo.signalId);
+            if (beforeSignalInfo == null || signalInfo == null)
+            {
+                return isSuccess;
+            }
 
-			this.updateMeasurementItemName(beforeItemName, afterItemName);
+            signalInfoDao.update(signalInfo);
 
-			isSuccess = true;
-		} catch (PersistenceException pEx) {
-			Throwable cause = pEx.getCause();
-			if (cause instanceof SQLException) {
-				SQLException sqlEx = (SQLException) cause;
-				LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx,
-						sqlEx.getMessage());
-			} else {
-				LOGGER.log(LogMessageCodes.SQL_EXCEPTION, pEx, pEx.getMessage());
-			}
-		} catch (SQLException sqlEx) {
-			LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx, sqlEx.getMessage());
-		}
+            String beforeItemName = beforeSignalInfo.signalName;
+            String afterItemName = signalInfo.signalName;
 
-		return isSuccess;
-	}
+            this.updateMeasurementItemName(beforeItemName, afterItemName);
 
-	/**
-	 * シグナル定義をDBから削除する。
-	 * 
-	 * @param signalInfo
-	 *            シグナル定義
-	 */
-	public void deleteSignalInfo(final SignalInfo signalInfo) {
-		try {
-			signalInfoDao.delete(signalInfo);
-			this.deleteMeasurementItem(signalInfo.signalName);
-		} catch (PersistenceException pEx) {
-			Throwable cause = pEx.getCause();
-			if (cause instanceof SQLException) {
-				SQLException sqlEx = (SQLException) cause;
-				LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx,
-						sqlEx.getMessage());
-			} else {
-				LOGGER.log(LogMessageCodes.SQL_EXCEPTION, pEx, pEx.getMessage());
-			}
-		} catch (SQLException sqlEx) {
-			LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx, sqlEx.getMessage());
-		}
-	}
+            isSuccess = true;
+        }
+        catch (PersistenceException pEx)
+        {
+            Throwable cause = pEx.getCause();
+            if (cause instanceof SQLException)
+            {
+                SQLException sqlEx = (SQLException)cause;
+                LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx, sqlEx.getMessage());
+            }
+            else
+            {
+                LOGGER.log(LogMessageCodes.SQL_EXCEPTION, pEx, pEx.getMessage());
+            }
+        }
+        catch (SQLException sqlEx)
+        {
+            LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx, sqlEx.getMessage());
+        }
 
-	/**
-	 * SignalDefinitionDtoオブジェクトをSignalInfoオブジェクトに変換する。
-	 * 
-	 * @param definitionDto
-	 *            SignalDefinitionDtoオブジェクト
-	 * 
-	 * @return SignalInfoオブジェクト
-	 */
-	public SignalInfo convertSignalInfo(SignalDefinitionDto definitionDto) {
-		SignalInfo signalInfo = new SignalInfo();
+        return isSuccess;
+    }
 
-		signalInfo.signalId = definitionDto.getSignalId();
-		signalInfo.signalName = definitionDto.getSignalName();
-		signalInfo.matchingPattern = definitionDto.getMatchingPattern();
-		signalInfo.level = definitionDto.getLevel();
-		signalInfo.patternValue = definitionDto.getPatternValue();
-		signalInfo.escalationPeriod = definitionDto.getEscalationPeriod();
+    /**
+     * シグナル定義をDBから削除する。
+     * 
+     * @param signalInfo
+     *            シグナル定義
+     */
+    public void deleteSignalInfo(final SignalInfo signalInfo)
+    {
+        try
+        {
+            signalInfoDao.delete(signalInfo);
+            this.deleteMeasurementItem(signalInfo.signalName);
+        }
+        catch (PersistenceException pEx)
+        {
+            Throwable cause = pEx.getCause();
+            if (cause instanceof SQLException)
+            {
+                SQLException sqlEx = (SQLException)cause;
+                LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx, sqlEx.getMessage());
+            }
+            else
+            {
+                LOGGER.log(LogMessageCodes.SQL_EXCEPTION, pEx, pEx.getMessage());
+            }
+        }
+        catch (SQLException sqlEx)
+        {
+            LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx, sqlEx.getMessage());
+        }
+    }
 
-		return signalInfo;
-	}
+    /**
+     * SignalDefinitionDtoオブジェクトをSignalInfoオブジェクトに変換する。
+     * 
+     * @param definitionDto
+     *            SignalDefinitionDtoオブジェクト
+     * 
+     * @return SignalInfoオブジェクト
+     */
+    public SignalInfo convertSignalInfo(final SignalDefinitionDto definitionDto)
+    {
+        SignalInfo signalInfo = new SignalInfo();
 
-	/**
-	 * SignalInfoオブジェクトをSignalDefinitionDtoオブジェクトに変換する。
-	 * 
-	 * @param signalInfo
-	 *            SignalInfoオブジェクト
-	 * @return SignalDefinitionDtoオブジェクト
-	 */
-	private SignalDefinitionDto convertSignalDto(SignalInfo signalInfo) {
+        signalInfo.signalId = definitionDto.getSignalId();
+        signalInfo.signalName = definitionDto.getSignalName();
+        signalInfo.matchingPattern = definitionDto.getMatchingPattern();
+        signalInfo.level = definitionDto.getLevel();
+        signalInfo.patternValue = definitionDto.getPatternValue();
+        signalInfo.escalationPeriod = definitionDto.getEscalationPeriod();
 
-		SignalDefinitionDto definitionDto = new SignalDefinitionDto();
+        return signalInfo;
+    }
 
-		definitionDto.setSignalId(signalInfo.signalId);
-		definitionDto.setSignalName(signalInfo.signalName);
-		definitionDto.setMatchingPattern(signalInfo.matchingPattern);
-		definitionDto.setLevel(signalInfo.level);
-		definitionDto.setPatternValue(signalInfo.patternValue);
-		definitionDto.setEscalationPeriod(signalInfo.escalationPeriod);
+    /**
+     * SignalInfoオブジェクトをSignalDefinitionDtoオブジェクトに変換する。
+     * 
+     * @param signalInfo
+     *            SignalInfoオブジェクト
+     * @return SignalDefinitionDtoオブジェクト
+     */
+    private SignalDefinitionDto convertSignalDto(final SignalInfo signalInfo)
+    {
 
-		return definitionDto;
-	}
+        SignalDefinitionDto definitionDto = new SignalDefinitionDto();
 
-	/**
-	 * javelin_measurement_itemテーブルのMEASUREMENT_ITEM_NAMEを更新する。
-	 * 
-	 * @param beforeItemName
-	 *            更新前のMEASUREMENT_ITEM_NAME
-	 * @param afterItemName
-	 *            更新前のMEASUREMENT_ITEM_NAME
-	 * @throws SQLException
-	 *             SQL 実行時に例外が発生した場合
-	 */
-	private void updateMeasurementItemName(String beforeItemName,
-			String afterItemName) throws SQLException {
-		DatabaseManager dbMmanager = DatabaseManager.getInstance();
-		String dbName = dbMmanager.getDataBaseName(1);
+        definitionDto.setSignalId(signalInfo.signalId);
+        definitionDto.setSignalName(signalInfo.signalName);
+        definitionDto.setMatchingPattern(signalInfo.matchingPattern);
+        definitionDto.setLevel(signalInfo.level);
+        definitionDto.setPatternValue(signalInfo.patternValue);
+        definitionDto.setEscalationPeriod(signalInfo.escalationPeriod);
 
-		JavelinMeasurementItemDao.updateMeasurementItemName(dbName,
-				beforeItemName, afterItemName);
-	}
+        return definitionDto;
+    }
 
-	/**
-	 * javelin_measurement_itemテーブルの指定したMEASUREMENT_ITEM_NAMEのレコードを削除する。
-	 * 
-	 * @param itemName
-	 *            削除するレコードの MEASUREMENT_ITEM_NAME
-	 * @throws SQLException
-	 *             SQL 実行時に例外が発生した場合
-	 */
-	private void deleteMeasurementItem(String itemName) throws SQLException {
-		DatabaseManager dbMmanager = DatabaseManager.getInstance();
-		String dbName = dbMmanager.getDataBaseName(1);
+    /**
+     * javelin_measurement_itemテーブルのMEASUREMENT_ITEM_NAMEを更新する。
+     * 
+     * @param beforeItemName
+     *            更新前のMEASUREMENT_ITEM_NAME
+     * @param afterItemName
+     *            更新前のMEASUREMENT_ITEM_NAME
+     * @throws SQLException
+     *             SQL 実行時に例外が発生した場合
+     */
+    private void updateMeasurementItemName(final String beforeItemName, final String afterItemName)
+        throws SQLException
+    {
+        DatabaseManager dbMmanager = DatabaseManager.getInstance();
+        String dbName = dbMmanager.getDataBaseName(1);
 
-		JavelinMeasurementItemDao.deleteByMeasurementItemId(dbName, itemName);
-	}
+        JavelinMeasurementItemDao.updateMeasurementItemName(dbName, beforeItemName, afterItemName);
+    }
+
+    /**
+     * javelin_measurement_itemテーブルの指定したMEASUREMENT_ITEM_NAMEのレコードを削除する。
+     * 
+     * @param itemName
+     *            削除するレコードの MEASUREMENT_ITEM_NAME
+     * @throws SQLException
+     *             SQL 実行時に例外が発生した場合
+     */
+    private void deleteMeasurementItem(final String itemName)
+        throws SQLException
+    {
+        DatabaseManager dbMmanager = DatabaseManager.getInstance();
+        String dbName = dbMmanager.getDataBaseName(1);
+
+        JavelinMeasurementItemDao.deleteByMeasurementItemId(dbName, itemName);
+    }
 
 }
