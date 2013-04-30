@@ -51,30 +51,9 @@ ENS.SignalDialogView = wgp.AbstractView.extend({
 			modal : true,
 			width : 350
 		});
-
-		var instance = this;
-		$("#signalPatternValue select").change(function() {
-			instance.judgeSignalPattern();
-		});
-
-		instance.judgeSignalPattern();
 	},
 	render : function() {
 		$("#" + this.id).dialog("open");
-	},
-	/**
-	 * Signal Patternで選択されているLevelによって、 入力項目の個数を変更する。
-	 */
-	judgeSignalPattern : function() {
-		var selectValue = $("#signalPatternValue select").val();
-
-		if (selectValue == 3) {
-			$("#signalPatternValue_4").css("display", "none");
-			$("#signalPatternValue_5").css("display", "none");
-		} else if (selectValue == 5) {
-			$("#signalPatternValue_4").css("display", "block");
-			$("#signalPatternValue_5").css("display", "block");
-		}
 	},
 	callbackAddSignal : function() {
 		console.log("callback_add");

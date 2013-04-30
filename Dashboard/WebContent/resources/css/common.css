@@ -113,7 +113,7 @@ body {
 /* グラフの背景色とラベルのタイトルのフォントカラーを設定する */
 .graphbox {
 	background-color : #FFFFFF;
-    color: #000000;
+    color: #666666;
 }
 
 .dygraph-label.dygraph-title {

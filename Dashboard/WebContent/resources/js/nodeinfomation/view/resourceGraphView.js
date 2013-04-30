@@ -103,7 +103,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 				background : "none repeat scroll 0 0 #000000"
 			}
 		};
-		
+
 		this.attributes = undefined;
 		var attributes = this.getAttributes(ENS.ResourceGraphAttribute);
 
@@ -119,7 +119,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 					+ "......";
 			isShort = true;
 		}
-		
+
 		var element = document.getElementById(graphId);
 		this.entity = new Dygraph(element, data, optionSettings);
 		this.entity.resize(this.width, this.graphHeight);
@@ -130,20 +130,20 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 			titleHeight : 22
 		});
 		
-		$("#" + graphId).mouseover(function(event){
+		$("#" + graphId).mouseover(function(event) {
 			if (!isShort) {
 				return;
 			}
-			var target  = event.target;
+			var target = event.target;
 			if ($(target).hasClass("dygraph-title")) {
 				$(target).text(tmpTitle);
 			}
 		});
-		$("#" + graphId).mouseout(function(event){
+		$("#" + graphId).mouseout(function(event) {
 			if (!isShort) {
 				return;
 			}
-			var target  = event.target;
+			var target = event.target;
 			if ($(target).hasClass("dygraph-title")) {
 				$(target).text(optionSettings.title);
 			}
@@ -189,8 +189,6 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 
 		var tmpAppView = new ENS.AppView();
 		tmpAppView.syncData([ this.graphId ]);
-		
-		
 	},
 	onComplete : function(syncType) {
 		if (syncType == wgp.constants.syncType.SEARCH) {
@@ -244,10 +242,10 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 		}
 		return [ date, value ];
 	},
-	change : function(){
-		//TODO 実装内容検討
+	change : function() {
+		// TODO 実装内容検討
 	},
-	remove : function(){
+	remove : function() {
 		this.destroy();
 		$("#" + this.$el.attr("id")).remove();
 	}

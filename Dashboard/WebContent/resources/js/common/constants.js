@@ -109,7 +109,7 @@ ENS.tree.SIGNAL_SELECT_ALL_URL = wgp.common.getContextPath()
 ENS.tree.contextOption = [ {
 	menu_id : ENS.tree.ADD_SIGNAL_TYPE,
 	menu_name : "Add Signal",
-	executeClass : "ENS.SignalDialogView",
+	executeClass : "ENS.SignalDefinitionDialogView",
 	showParam : "^(?!.*singalNode-).+$",
 	executeOption : {
 		dialogId : "signalDialog",
@@ -119,7 +119,7 @@ ENS.tree.contextOption = [ {
 }, {
 	menu_id : ENS.tree.EDIT_SIGNAL_TYPE,
 	menu_name : "Edit Signal",
-	executeClass : "ENS.SignalDialogView",
+	executeClass : "ENS.SignalDefinitionDialogView",
 	showParam : ENS.tree.SIGNAL_PREFIX_ID,
 	executeOption : {
 		dialogId : "signalDialog",

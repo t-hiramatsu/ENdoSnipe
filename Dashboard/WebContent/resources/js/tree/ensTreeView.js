@@ -168,16 +168,6 @@ ENS.treeView = wgp.TreeView
 						menuId, settingOptions);
 			},
 			pushOkFunction : function(event, option) {
-
-				// レベルを入力するテキストボックスに数値が入力されているか確認し、
-				// 数値以外のものが入力されている場合はOK処理を実行しない。
-				// for (var num = 1; num <= 5; num++) {
-				// var inputValue = $("input#patternValue_" + num).val();
-				// if (!inputValue.match(/^([1-9]\d*|0)(\.\d+)?$/)) {
-				// return;
-				// }
-				// }
-
 				// add tree data for signal
 				var treeId = option.treeId;
 				var signalName = $("#signalName").val();
@@ -405,7 +395,8 @@ ENS.treeView = wgp.TreeView
 									};
 
 									// シグナルアイコンを取得する
-									var icon = instance.getIcon(signalDefinition);
+									var icon = instance
+											.getIcon(signalDefinition);
 
 									var addOption = {
 										id : newTreeId,
@@ -455,7 +446,7 @@ ENS.treeView = wgp.TreeView
 
 				// クライアント側にデータを保持する
 				ENS.tree.signalDefinitionList[signalTreeId] = signalDefinition;
-				
+
 				// シグナルアイコンを取得する
 				var icon = this.getIcon(signalDefinition);
 
@@ -507,7 +498,7 @@ ENS.treeView = wgp.TreeView
 
 				// シグナルアイコンを取得する
 				var icon = this.getIcon(signalDefinition);
-				
+
 				// 削除するノードのオプション
 				var deleteTreeOption = {
 					id : oldSignalId,
@@ -594,11 +585,11 @@ ENS.treeView = wgp.TreeView
 				var icon = "";
 				var level = signalDefinition.level;
 				var signalValue = signalDefinition.signalValue;
-				
+
 				if (signalValue === undefined) {
 					return ENS.tree.SIGNAL_ICON_0;
 				}
-				
+
 				if (level == 3) {
 					if (signalValue == 1) {
 						icon = ENS.tree.SIGNAL_ICON_3;
@@ -626,7 +617,7 @@ ENS.treeView = wgp.TreeView
 				} else {
 					icon = ENS.tree.SIGNAL_ICON_0;
 				}
-				
+
 				return icon;
 			}
 		});
