@@ -51,6 +51,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 			realTag.height(this.height);
 		}
 
+		var graphId = "#" + this.$el.attr("id");
 		$("#" + this.$el.attr("id")).attr("class", "graphbox");
 		$("#" + this.$el.attr("id")).css({
 			margin : "10px",
@@ -97,12 +98,12 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 			title : this.title,
 			xlabel : this.labelX,
 			ylabel : this.labelY,
-			axisLabelColor : "#FFFFFF",
+			axisLabelColor : "#000000",
 			labelsDivStyles : {
 				background : "none repeat scroll 0 0 #000000"
 			}
 		};
-
+		
 		this.attributes = undefined;
 		var attributes = this.getAttributes(ENS.ResourceGraphAttribute);
 
@@ -128,6 +129,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 			axisLabelFontSize : 10,
 			titleHeight : 22
 		});
+		
 		$("#" + graphId).mouseover(function(event){
 			if (!isShort) {
 				return;
@@ -187,6 +189,8 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 
 		var tmpAppView = new ENS.AppView();
 		tmpAppView.syncData([ this.graphId ]);
+		
+		
 	},
 	onComplete : function(syncType) {
 		if (syncType == wgp.constants.syncType.SEARCH) {

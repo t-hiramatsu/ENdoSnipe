@@ -1,7 +1,7 @@
 @CHARSET "UTF-8";
 /* 共通定義個所 */
 body {
-	background: no-repeat 0 0,-moz-linear-gradient(left top, #000000, #222222);
+	background: no-repeat 0 0,-moz-linear-gradient(left top, #EEEEEE, #222222);
 	/*background-repeat : */
 }
 
@@ -108,4 +108,15 @@ body {
 /* ページTopから描画領域までの隙間 */
 .perspective_drop_Area_all {
     top: 35px;
+}
+
+/* グラフの背景色とラベルのタイトルのフォントカラーを設定する */
+.graphbox {
+	background-color : #FFFFFF;
+    color: #000000;
+}
+
+.dygraph-label.dygraph-title {
+	width: 250px;
+	margin-left: -56px;
 }
