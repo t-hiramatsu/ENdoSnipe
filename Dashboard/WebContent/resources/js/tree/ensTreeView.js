@@ -145,8 +145,10 @@ ENS.treeView = wgp.TreeView
 						// 開くViewのクラス
 						var executeClass = targetOption.get("executeClass");
 						if (executeClass) {
-
-							if (id == ENS.tree.EDIT_SIGNAL_TYPE) {
+							if (id == ENS.tree.ADD_SIGNAL_TYPE) {
+								// Matching Patternにデフォルトのツリー階層を入力する
+								$("#matchingPattern").val(executeOption.treeId);
+							} else if (id == ENS.tree.EDIT_SIGNAL_TYPE) {
 								var signalDefinition = ENS.tree.signalDefinitionList[executeOption.treeId];
 								instance.inputSignalDialog_(signalDefinition);
 							}
@@ -401,19 +403,10 @@ ENS.treeView = wgp.TreeView
 										treeId : signalName,
 										measurementUnit : ""
 									};
-									
-									var icon = "";
-									
-									if (signalDefinition.signalValue == 1) {
-										icon = ENS.tree.SIGNAL_ICON_3;
-									} else if (signalDefinition.signalValue == 2) {
-										icon = ENS.tree.SIGNAL_ICON_4;
-									} else if (signalDefinition.signalValue == 3) {
-										icon = ENS.tree.SIGNAL_ICON_5;
-									} else {
-										icon = ENS.tree.SIGNAL_ICON_0;
-									}
-									
+
+									// シグナルアイコンを取得する
+									var icon = instance.getIcon(signalDefinition);
+
 									var addOption = {
 										id : newTreeId,
 										data : showName,
@@ -423,18 +416,19 @@ ENS.treeView = wgp.TreeView
 
 									removeOptionList.push(removeOption);
 									addOptionList.push(addOption);
+									ENS.tree.signalDefinitionList[newTreeId] = signalDefinition;
 								});
 
 				this.collection.add(addOptionList);
 				this.collection.remove(removeOptionList);
 			},
-			callbackAddSignal_ : function(data) {
-				var signalId = data.signalId;
+			callbackAddSignal_ : function(signalDefinition) {
+				var signalId = signalDefinition.signalId;
 				if (signalId === 0) {
 					alert("This signalName is already exist."
 							+ "\nPlease change signal name and try again.");
 				}
-				var signalName = data.signalName;
+				var signalName = signalDefinition.signalName;
 
 				var nameSplitList = signalName.split("/");
 				var nameSplitListLength = nameSplitList.length;
@@ -460,13 +454,16 @@ ENS.treeView = wgp.TreeView
 				}
 
 				// クライアント側にデータを保持する
-				ENS.tree.signalDefinitionList[signalTreeId] = data;
+				ENS.tree.signalDefinitionList[signalTreeId] = signalDefinition;
+				
+				// シグナルアイコンを取得する
+				var icon = this.getIcon(signalDefinition);
 
 				var treeOption = {
 					id : signalTreeId,
 					data : showName,
 					parentTreeId : targetTreeId,
-					icon : ENS.tree.SIGNAL_ICON
+					icon : icon
 				};
 				this.collection.add([ treeOption ]);
 			},
@@ -508,23 +505,25 @@ ENS.treeView = wgp.TreeView
 				// クライアント側にデータを保持する
 				ENS.tree.signalDefinitionList[signalTreeId] = signalDefinition;
 
+				// シグナルアイコンを取得する
+				var icon = this.getIcon(signalDefinition);
+				
+				// 削除するノードのオプション
+				var deleteTreeOption = {
+					id : oldSignalId,
+					data : deleteShowName,
+					parentTreeId : targetTreeId
+				};
+				this.collection.remove([ deleteTreeOption ]);
+
 				// 追加するノードのオプション
 				var treeOption = {
 					id : signalTreeId,
 					data : showName,
 					parentTreeId : targetTreeId,
-					icon : ENS.tree.SIGNAL_ICON
+					icon : icon
 				};
 				this.collection.add([ treeOption ]);
-
-				// 削除するノードのオプション
-				var deleteTreeOption = {
-					id : oldSignalId,
-					data : deleteShowName,
-					parentTreeId : targetTreeId,
-					icon : ENS.tree.SIGNAL_ICON
-				};
-				this.collection.remove([ deleteTreeOption ]);
 			},
 			callbackDeleteSignal_ : function(data) {
 				var signalName = data.signalName;
@@ -590,5 +589,44 @@ ENS.treeView = wgp.TreeView
 				$("#matchingPattern").val(signalDefinition.matchingPattern);
 				$("#signalPatternValue select").val(signalDefinition.level);
 				$("#escalationPeriod").val(signalDefinition.escalationPeriod);
+			},
+			getIcon : function(signalDefinition) {
+				var icon = "";
+				var level = signalDefinition.level;
+				var signalValue = signalDefinition.signalValue;
+				
+				if (signalValue === undefined) {
+					return ENS.tree.SIGNAL_ICON_0;
+				}
+				
+				if (level == 3) {
+					if (signalValue == 1) {
+						icon = ENS.tree.SIGNAL_ICON_3;
+					} else if (signalValue == 2) {
+						icon = ENS.tree.SIGNAL_ICON_4;
+					} else if (signalValue == 3) {
+						icon = ENS.tree.SIGNAL_ICON_5;
+					} else {
+						icon = ENS.tree.SIGNAL_ICON_0;
+					}
+				} else if (level == 5) {
+					if (signalValue == 1) {
+						icon = ENS.tree.SIGNAL_ICON_1;
+					} else if (signalValue == 2) {
+						icon = ENS.tree.SIGNAL_ICON_2;
+					} else if (signalValue == 3) {
+						icon = ENS.tree.SIGNAL_ICON_3;
+					} else if (signalValue == 4) {
+						icon = ENS.tree.SIGNAL_ICON_4;
+					} else if (signalValue == 5) {
+						icon = ENS.tree.SIGNAL_ICON_5;
+					} else {
+						icon = ENS.tree.SIGNAL_ICON_0;
+					}
+				} else {
+					icon = ENS.tree.SIGNAL_ICON_0;
+				}
+				
+				return icon;
 			}
 		});

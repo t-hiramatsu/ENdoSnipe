@@ -91,10 +91,9 @@ public class SignalController
         SignalInfo signalInfo = this.signalService.convertSignalInfo(signalDefinitionDto);
 
         // DBに追加する
-        int signalId = this.signalService.insertSignalInfo(signalInfo);
-        signalDefinitionDto.setSignalId(signalId);
+        SignalDefinitionDto addedDefinitionDto = this.signalService.insertSignalInfo(signalInfo);
 
-        return signalDefinitionDto;
+        return addedDefinitionDto;
     }
 
     /**
@@ -115,10 +114,10 @@ public class SignalController
         SignalInfo signalInfo = this.signalService.convertSignalInfo(signalDefinitionDto);
 
         // DBに登録されている定義を更新する
-        this.signalService.updateSignalInfo(signalInfo);
+        SignalDefinitionDto updatedDefinitionDto = this.signalService.updateSignalInfo(signalInfo);
 
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("signalDefinition", signalDefinitionDto);
+        map.put("signalDefinition", updatedDefinitionDto);
         map.put("oldSignalId", oldSignalId);
 
         return map;

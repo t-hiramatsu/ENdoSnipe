@@ -22,9 +22,6 @@ ENS.SignalDialogView = wgp.AbstractView.extend({
 		var cName = "cancelFunctionName";
 		var cObj = "cancelObject";
 		
-		// Matching Patternにデフォルトのツリー階層を入力する
-		$("#matchingPattern").val(treeId);
-		
 		$("#" + option.dialogId).dialog({
 			buttons : [ {
 				text : "OK",

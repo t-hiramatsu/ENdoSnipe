@@ -66,7 +66,8 @@ public class SignalService
         {
             SignalDefinitionDto signalDto = this.convertSignalDto(signalInfo);
             int signalId = signalDto.getSignalId();
-            signalMap.put(signalId, 1 + (int)(Math.random() * 3));
+
+            signalMap.put(signalId, 1 + (int)(Math.random() * signalInfo.level));
         }
 
         List<SignalDefinitionDto> definitionDtoList = new ArrayList<SignalDefinitionDto>();
@@ -88,9 +89,10 @@ public class SignalService
      * 
      * @param signalInfo
      *            シグナル定義
+     * @return シグナル定義のDTOオブジェクト
      */
     @Transactional
-    public int insertSignalInfo(final SignalInfo signalInfo)
+    public SignalDefinitionDto insertSignalInfo(final SignalInfo signalInfo)
     {
         int signalId = 0;
         try
@@ -101,9 +103,16 @@ public class SignalService
         catch (DuplicateKeyException dkEx)
         {
             LOGGER.log(LogMessageCodes.SQL_EXCEPTION, dkEx, dkEx.getMessage());
+            return new SignalDefinitionDto();
         }
 
-        return signalId;
+        SignalDefinitionDto signalDefinitionDto = this.convertSignalDto(signalInfo);
+        signalDefinitionDto.setSignalId(signalId);
+
+        // TODO signalValueがモックなので、DataCollectorに問い合わせて取得するように変更する
+        signalDefinitionDto.setSignalValue(1 + (int)(Math.random() * signalInfo.level));
+
+        return signalDefinitionDto;
     }
 
     /**
@@ -111,15 +120,14 @@ public class SignalService
      * 
      * @param signalInfo シグナル定義
      */
-    public boolean updateSignalInfo(final SignalInfo signalInfo)
+    public SignalDefinitionDto updateSignalInfo(final SignalInfo signalInfo)
     {
-        boolean isSuccess = false;
         try
         {
             SignalInfo beforeSignalInfo = signalInfoDao.selectById(signalInfo.signalId);
             if (beforeSignalInfo == null || signalInfo == null)
             {
-                return isSuccess;
+                return new SignalDefinitionDto();
             }
 
             signalInfoDao.update(signalInfo);
@@ -128,8 +136,6 @@ public class SignalService
             String afterItemName = signalInfo.signalName;
 
             this.updateMeasurementItemName(beforeItemName, afterItemName);
-
-            isSuccess = true;
         }
         catch (PersistenceException pEx)
         {
@@ -143,13 +149,21 @@ public class SignalService
             {
                 LOGGER.log(LogMessageCodes.SQL_EXCEPTION, pEx, pEx.getMessage());
             }
+
+            return new SignalDefinitionDto();
         }
         catch (SQLException sqlEx)
         {
             LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx, sqlEx.getMessage());
+            return new SignalDefinitionDto();
         }
 
-        return isSuccess;
+        SignalDefinitionDto signalDefinitionDto = this.convertSignalDto(signalInfo);
+
+        // TODO signalValueがモックなので、DataCollectorに問い合わせて取得するように変更する
+        signalDefinitionDto.setSignalValue(1 + (int)(Math.random() * signalInfo.level));
+
+        return signalDefinitionDto;
     }
 
     /**
