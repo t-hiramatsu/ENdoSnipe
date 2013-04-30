@@ -105,6 +105,8 @@ ENS.tree.SIGNAL_EDIT_URL = wgp.common.getContextPath() + "/signal/edit";
 ENS.tree.SIGNAL_DELETE_URL = wgp.common.getContextPath() + "/signal/delete";
 ENS.tree.SIGNAL_SELECT_ALL_URL = wgp.common.getContextPath()
 		+ "/signal/getAllDefinition";
+ENS.tree.SIGNAL_NAME = "signalName";
+ENS.tree.SIGNAL_VALUE = "signalValue";
 
 ENS.tree.contextOption = [ {
 	menu_id : ENS.tree.ADD_SIGNAL_TYPE,

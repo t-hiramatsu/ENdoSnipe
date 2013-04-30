@@ -168,6 +168,11 @@ ENS.treeView = wgp.TreeView
 						menuId, settingOptions);
 			},
 			pushOkFunction : function(event, option) {
+				// リアルタイム通信を止める
+				var idList = _.keys(ENS.tree.signalDefinitionList);
+				var appView = new ENS.AppView();
+				appView.stopSyncData(idList);
+
 				// add tree data for signal
 				var treeId = option.treeId;
 				var signalName = $("#signalName").val();
@@ -207,6 +212,70 @@ ENS.treeView = wgp.TreeView
 			},
 			pushCancelFunction : function(event, option) {
 				var a = null;
+			},
+			onComplete : function(type) {
+				if (type == wgp.constants.syncType.SEARCH) {
+					this.renderAll();
+				} else {
+					this.updateSignal_();
+				}
+			},
+			updateSignal_ : function() {
+				var instance = this;
+				var removeOptionList = [];
+				var addOptionList = [];
+				_
+						.each(
+								this.collection.models,
+								function(model, id) {
+									var signalName = model
+											.get(ENS.tree.SIGNAL_NAME);
+									var signalValue = model
+											.get(ENS.tree.SIGNAL_VALUE);
+
+									var signalNameSplitList = signalName
+											.split("/");
+									var signalNameSplitListLength = signalNameSplitList.length;
+
+									// 新しいID
+									var treeId = "";
+									// 親ノードのパス
+									var parentTreeId = "";
+									for ( var index = 1; index < signalNameSplitListLength; index++) {
+										var nameSplit = signalNameSplitList[index];
+
+										if (index == signalNameSplitListLength - 1) {
+											treeId += ENS.tree.SIGNAL_PREFIX_ID;
+										} else {
+											parentTreeId += "/";
+											parentTreeId += nameSplit;
+
+											treeId += "/";
+										}
+										treeId += nameSplit;
+									}
+
+									var showName = signalNameSplitList[signalNameSplitListLength - 1];
+									var removeOption = {
+										id : treeId
+									};
+
+									// シグナルアイコンを取得する
+									var icon = instance.getIcon(model);
+
+									var addOption = {
+										id : treeId,
+										data : showName,
+										parentTreeId : parentTreeId,
+										icon : icon
+									};
+
+									removeOptionList.push(removeOption);
+									addOptionList.push(addOption);
+								});
+				this.collection.remove(removeOptionList);
+				this.collection.add(addOptionList);
+
 			},
 			createSendAddData_ : function(signalFullName) {
 				// シグナル定義を作成する
@@ -319,6 +388,11 @@ ENS.treeView = wgp.TreeView
 				return optionList[0];
 			},
 			deleteSignal_ : function(executeOption) {
+				// リアルタイム通信を止める
+				var idList = _.keys(ENS.tree.signalDefinitionList);
+				var appView = new ENS.AppView();
+				appView.stopSyncData(idList);
+
 				// 削除するノードのデータ
 				var deleteSignalDefinition = ENS.tree.signalDefinitionList[executeOption.treeId];
 
@@ -410,8 +484,13 @@ ENS.treeView = wgp.TreeView
 									ENS.tree.signalDefinitionList[newTreeId] = signalDefinition;
 								});
 
-				this.collection.add(addOptionList);
 				this.collection.remove(removeOptionList);
+				this.collection.add(addOptionList);
+
+				// 各シグナルに対してリアルタイム更新を行う
+				var idList = _.keys(ENS.tree.signalDefinitionList);
+				var appView = new ENS.AppView();
+				appView.syncData(idList);
 			},
 			callbackAddSignal_ : function(signalDefinition) {
 				var signalId = signalDefinition.signalId;
@@ -457,6 +536,11 @@ ENS.treeView = wgp.TreeView
 					icon : icon
 				};
 				this.collection.add([ treeOption ]);
+
+				// 新しいシグナルに対してリアルタイム更新を行う
+				var idList = _.keys(ENS.tree.signalDefinitionList);
+				var appView = new ENS.AppView();
+				appView.syncData(idList);
 			},
 			callbackEditSignal_ : function(data) {
 				var signalDefinition = data.signalDefinition;
@@ -515,6 +599,11 @@ ENS.treeView = wgp.TreeView
 					icon : icon
 				};
 				this.collection.add([ treeOption ]);
+
+				// 新しいシグナルに対してリアルタイム更新を行う
+				var idList = _.keys(ENS.tree.signalDefinitionList);
+				var appView = new ENS.AppView();
+				appView.syncData(idList);
 			},
 			callbackDeleteSignal_ : function(data) {
 				var signalName = data.signalName;
@@ -545,6 +634,11 @@ ENS.treeView = wgp.TreeView
 					icon : ENS.tree.SIGNAL_ICON
 				};
 				this.collection.remove([ deleteTreeOption ]);
+
+				// 新しいシグナルに対してリアルタイム更新を行う
+				var idList = _.keys(ENS.tree.signalDefinitionList);
+				var appView = new ENS.AppView();
+				appView.syncData(idList);
 			},
 			/**
 			 * シグナルダイアログをクリアする。
