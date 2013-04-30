@@ -826,11 +826,8 @@ public class StatsJavelinRecorder
             component.addInvocation(invocation);
         }
 
-        if (isResponse)
-        {
-            invocation.setResponseGraphOutput(TripleState.ON);
-            RootInvocationManager.addRootInvocation(invocation);
-        }
+        invocation.setResponseGraphOutput(TripleState.ON);
+        RootInvocationManager.addRootInvocation(invocation);
         return invocation;
     }
 
