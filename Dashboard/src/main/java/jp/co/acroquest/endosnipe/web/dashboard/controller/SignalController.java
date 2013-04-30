@@ -26,7 +26,9 @@
 package jp.co.acroquest.endosnipe.web.dashboard.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import jp.co.acroquest.endosnipe.web.dashboard.dto.SignalDefinitionDto;
 import jp.co.acroquest.endosnipe.web.dashboard.entity.SignalInfo;
@@ -44,100 +46,103 @@ import org.wgp.manager.WgpDataManager;
 
 @Controller
 @RequestMapping("/signal")
-public class SignalController {
-	/** Wgpのデータを管理するクラス。 */
-	@Autowired
-	protected WgpDataManager wgpDataManager;
+public class SignalController
+{
+    /** Wgpのデータを管理するクラス。 */
+    @Autowired
+    protected WgpDataManager wgpDataManager;
 
-	/** リソースを送信するクラスのオブジェクト。 */
-	@Autowired
-	protected ResourceSender resourceSender;
+    /** リソースを送信するクラスのオブジェクト。 */
+    @Autowired
+    protected ResourceSender resourceSender;
 
-	/** シグナル定義のサービスクラスのオブジェクト。 */
-	@Autowired
-	protected SignalService signalService;
+    /** シグナル定義のサービスクラスのオブジェクト。 */
+    @Autowired
+    protected SignalService signalService;
 
-	/**
-	 * 閾値判定の定義を新規に追加する。
-	 * 
-	 * @param data
-	 *            閾値判定の定義のJSONデータ
-	 */
-	@RequestMapping(value = "/getAllDefinition", method = RequestMethod.POST)
-	@ResponseBody
-	public List<SignalDefinitionDto> getAllDefinition() {
-		List<SignalDefinitionDto> signalDefinitionDtos = new ArrayList<SignalDefinitionDto>();
+    /**
+     * 閾値判定の定義をすべて取得する。
+     */
+    @RequestMapping(value = "/getAllDefinition", method = RequestMethod.POST)
+    @ResponseBody
+    public List<SignalDefinitionDto> getAllDefinition()
+    {
+        List<SignalDefinitionDto> signalDefinitionDtos = new ArrayList<SignalDefinitionDto>();
 
-		signalDefinitionDtos = signalService.getAllSignal();
+        signalDefinitionDtos = signalService.getAllSignal();
 
-		return signalDefinitionDtos;
-	}
+        return signalDefinitionDtos;
+    }
 
-	/**
-	 * 閾値判定の定義を新規に追加する。
-	 * 
-	 * @param data
-	 *            閾値判定の定義のJSONデータ
-	 */
-	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	@ResponseBody
-	public SignalDefinitionDto add(
-			@RequestParam(value = "data") final String data) {
-		SignalDefinitionDto signalDefinitionDto = JSON.decode(data,
-				SignalDefinitionDto.class);
+    /**
+     * 閾値判定の定義を新規に追加する。
+     * 
+     * @param signalDefinition
+     *            閾値判定の定義のJSONデータ
+     */
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @ResponseBody
+    public SignalDefinitionDto add(
+            @RequestParam(value = "signalDefinition") final String signalDefinition)
+    {
+        SignalDefinitionDto signalDefinitionDto =
+                JSON.decode(signalDefinition, SignalDefinitionDto.class);
 
-		SignalInfo signalInfo = this.signalService
-				.convertSignalInfo(signalDefinitionDto);
+        SignalInfo signalInfo = this.signalService.convertSignalInfo(signalDefinitionDto);
 
-		// DBに追加する
-		int signalId = this.signalService.insertSignalInfo(signalInfo);
-		signalDefinitionDto.setSignalId(signalId);
+        // DBに追加する
+        SignalDefinitionDto addedDefinitionDto = this.signalService.insertSignalInfo(signalInfo);
 
-		return signalDefinitionDto;
-	}
+        return addedDefinitionDto;
+    }
 
-	/**
-	 * 閾値判定の定義を編集する。
-	 * 
-	 * @param data
-	 *            閾値判定の定義のJSONデータ
-	 */
-	@RequestMapping(value = "/edit", method = RequestMethod.POST)
-	@ResponseBody
-	public SignalDefinitionDto edit(
-			@RequestParam(value = "data") final String data) {
-		SignalDefinitionDto signalDefinitionDto = JSON.decode(data,
-				SignalDefinitionDto.class);
+    /**
+     * 閾値判定の定義を編集する。
+     * 
+     * @param signalDefinition
+     *            閾値判定の定義のJSONデータ
+     */
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> edit(
+            @RequestParam(value = "signalDefinition") final String signalDefinition,
+            @RequestParam(value = "oldSignalId") final String oldSignalId)
+    {
+        SignalDefinitionDto signalDefinitionDto =
+                JSON.decode(signalDefinition, SignalDefinitionDto.class);
 
-		SignalInfo signalInfo = this.signalService
-				.convertSignalInfo(signalDefinitionDto);
+        SignalInfo signalInfo = this.signalService.convertSignalInfo(signalDefinitionDto);
 
-		// DBに登録されている定義を更新する
-		this.signalService.updateSignalInfo(signalInfo);
+        // DBに登録されている定義を更新する
+        SignalDefinitionDto updatedDefinitionDto = this.signalService.updateSignalInfo(signalInfo);
 
-		return signalDefinitionDto;
-	}
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("signalDefinition", updatedDefinitionDto);
+        map.put("oldSignalId", oldSignalId);
 
-	/**
-	 * 閾値判定のシグナルを削除する。
-	 * 
-	 * @param treeId
-	 *            ツリーのパス
-	 */
-	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	@ResponseBody
-	public SignalDefinitionDto delete(
-			@RequestParam(value = "data") final String data) {
-		SignalDefinitionDto signalDefinitionDto = JSON.decode(data,
-				SignalDefinitionDto.class);
+        return map;
+    }
 
-		SignalInfo signalInfo = this.signalService
-				.convertSignalInfo(signalDefinitionDto);
-		
-		this.signalService.deleteSignalInfo(signalInfo);
+    /**
+     * 閾値判定のシグナルを削除する。
+     * 
+     * @param signalDefinition
+     *            閾値判定の定義のJSONデータ
+     */
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    @ResponseBody
+    public SignalDefinitionDto delete(
+            @RequestParam(value = "signalDefinition") final String signalDefinition)
+    {
+        SignalDefinitionDto signalDefinitionDto =
+                JSON.decode(signalDefinition, SignalDefinitionDto.class);
 
-		System.out.println("閾値判定のシグナルを削除しました。");
+        SignalInfo signalInfo = this.signalService.convertSignalInfo(signalDefinitionDto);
 
-		return signalDefinitionDto;
-	}
+        this.signalService.deleteSignalInfo(signalInfo);
+
+        System.out.println("閾値判定のシグナルを削除しました。");
+
+        return signalDefinitionDto;
+    }
 }

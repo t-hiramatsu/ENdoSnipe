@@ -209,6 +209,26 @@
 }
 
 /** signal tree settings */
+.jstree-default a .signal_0 {
+	background-position: -18.3px -90.5px;;
+}
+
 .jstree-default a .signal_1 {
-	background-position: -56px -54px;;
+	background-position: -1.8px -107.5px;
+}
+
+.jstree-default a .signal_2 {
+	background-position: -1.5px -90.2px;
+}
+
+.jstree-default a .signal_3 {
+	background-position: -36.1px -73.3px;
+}
+
+.jstree-default a .signal_4 {
+	background-position: -2px -73.3px;
+}
+
+.jstree-default a .signal_5 {
+	background-position: -18.5px -73.3px;
 }

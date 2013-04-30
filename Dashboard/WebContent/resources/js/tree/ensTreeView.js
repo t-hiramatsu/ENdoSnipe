@@ -73,6 +73,19 @@ ENS.treeView = wgp.TreeView
 							treeModel);
 				}
 			},
+			renderAll : function() {
+				// View jsTree
+				var settings = this.treeOption;
+				settings = $.extend(true, settings, {
+					json_data : {
+						data : this.createJSONData()
+					}
+				});
+				$("#" + this.$el.attr("id")).jstree(settings);
+
+				// シグナル定義を全取得する
+				this.getAllSignal_();
+			},
 			createTreeData : function(treeModel) {
 				var returnData = wgp.TreeView.prototype.createTreeData.call(
 						this, treeModel);
@@ -86,19 +99,6 @@ ENS.treeView = wgp.TreeView
 				return returnData;
 			},
 			addContextMenu : function(contextOption) {
-
-				// シグナル定義を取得する
-				// Ajax通信用の設定
-				var settings = {
-					url : ENS.tree.SIGNAL_SELECT_ALL_URL
-				};
-
-				// 非同期通信でデータを送信する
-				var ajaxHandler = new wgp.AjaxHandler();
-				settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] = this;
-				settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = "callbackGetAllSignal";
-				ajaxHandler.requestServerAsync(settings);
-
 				// contextOptionの中身
 				// "menu_id" : 表示するコンテキストメニュータグのID名,
 				// "menu_name" : 表示するメニュー名
@@ -145,8 +145,10 @@ ENS.treeView = wgp.TreeView
 						// 開くViewのクラス
 						var executeClass = targetOption.get("executeClass");
 						if (executeClass) {
-
-							if (id == ENS.tree.EDIT_SIGNAL_TYPE) {
+							if (id == ENS.tree.ADD_SIGNAL_TYPE) {
+								// Matching Patternにデフォルトのツリー階層を入力する
+								$("#matchingPattern").val(executeOption.treeId);
+							} else if (id == ENS.tree.EDIT_SIGNAL_TYPE) {
 								var signalDefinition = ENS.tree.signalDefinitionList[executeOption.treeId];
 								instance.inputSignalDialog_(signalDefinition);
 							}
@@ -166,59 +168,32 @@ ENS.treeView = wgp.TreeView
 						menuId, settingOptions);
 			},
 			pushOkFunction : function(event, option) {
-
-				// レベルを入力するテキストボックスに数値が入力されているか確認し、
-				// 数値以外のものが入力されている場合はOK処理を実行しない。
-				// for (var num = 1; num <= 5; num++) {
-				// var inputValue = $("input#patternValue_" + num).val();
-				// if (!inputValue.match(/^([1-9]\d*|0)(\.\d+)?$/)) {
-				// return;
-				// }
-				// }
-
 				// add tree data for signal
 				var treeId = option.treeId;
 				var signalName = $("#signalName").val();
 				var signalFullName = treeId + "/" + signalName;
 
-				var level = $("#signalPatternValue select").val();
-				// 各レベルの閾値をカンマ区切りの文字列としてサーバに送る
-				var patternValue = "";
-				for ( var num = 1; num <= level; num++) {
-					patternValue += $("#patternValue_" + num).val();
-					if (num != level) {
-						patternValue += ",";
-					}
-				}
-
-				// 入力定義を取得する
-				var signalDefinition = {
-					signalId : $("#signalId").val(),
-					signalName : signalFullName,
-					matchingPattern : $("#matchingPattern").val(),
-					level : level,
-					patternValue : patternValue,
-					escalationPeriod : $("#escalationPeriod").val()
-				};
-
 				// Ajax通信のコールバック関数名
 				var callbackFunction = "";
 				// Ajax通信の送信先URL
 				var url = "";
+				// サーバに送信するデータ
+				var sendData;
 				// Ajax通信のコールバック関数と送信先URLをシグナルタイプによって決める
 				if (option.signalType == ENS.tree.ADD_SIGNAL_TYPE) {
+					sendData = this.createSendAddData_(signalFullName);
 					callbackFunction = "callbackAddSignal_";
 					url = ENS.tree.SIGNAL_ADD_URL;
 				} else if (option.signalType == ENS.tree.EDIT_SIGNAL_TYPE) {
+					sendData = this.createSendEditData_(signalFullName,
+							signalName);
 					callbackFunction = "callbackEditSignal_";
 					url = ENS.tree.SIGNAL_EDIT_URL;
 				}
 
 				// Ajax通信用の設定
 				var settings = {
-					data : {
-						data : JSON.stringify(signalDefinition)
-					},
+					data : sendData,
 					url : url
 				};
 
@@ -232,6 +207,80 @@ ENS.treeView = wgp.TreeView
 			},
 			pushCancelFunction : function(event, option) {
 				var a = null;
+			},
+			createSendAddData_ : function(signalFullName) {
+				// シグナル定義を作成する
+				var signalDefinition = {
+					signalId : $("#signalId").val(),
+					signalName : signalFullName,
+					matchingPattern : $("#matchingPattern").val(),
+					level : $("#signalPatternValue select").val(),
+					patternValue : this.createPatternValue_(),
+					escalationPeriod : $("#escalationPeriod").val()
+				};
+
+				var sendData = {
+					signalDefinition : JSON.stringify(signalDefinition)
+				};
+
+				return sendData;
+			},
+			createSendEditData_ : function(signalFullName, signalNodeName) {
+				// 親ノードのパス
+				var targetTreeId = "";
+				// 編集前のノードID（削除対象）
+				var deleteNodeId = "";
+
+				var nameSplitList = signalFullName.split("/");
+				var nameSplitListLength = nameSplitList.length;
+				// 親ノードへのパスと、新規ノードのパスを作成する
+				for ( var index = 1; index < nameSplitListLength; index++) {
+					// 編集前のノードはパスする
+					if (index == nameSplitListLength - 2) {
+						deleteNodeId = nameSplitList[index];
+						continue;
+					}
+					var nameSplit = nameSplitList[index];
+
+					if (index != nameSplitListLength - 1) {
+						targetTreeId += "/";
+						targetTreeId += nameSplit;
+					}
+				}
+				// 編集前のノードID（削除対象）
+				var deleteTreeId = targetTreeId + "/" + deleteNodeId;
+				// 編集後のノードID（更新対象）
+				var updateTreeId = targetTreeId + "/" + signalNodeName;
+
+				// シグナル定義を作成する
+				var signalDefinition = {
+					signalId : $("#signalId").val(),
+					signalName : updateTreeId,
+					matchingPattern : $("#matchingPattern").val(),
+					level : $("#signalPatternValue select").val(),
+					patternValue : this.createPatternValue_(),
+					escalationPeriod : $("#escalationPeriod").val()
+				};
+
+				var sendData = {
+					signalDefinition : JSON.stringify(signalDefinition),
+					oldSignalId : deleteTreeId
+				};
+
+				return sendData;
+			},
+			createPatternValue_ : function() {
+				var level = $("#signalPatternValue select").val();
+				// 各レベルの閾値をカンマ区切りの文字列としてサーバに送る
+				var patternValue = "";
+				for ( var num = 1; num <= level; num++) {
+					patternValue += $("#patternValue_" + num).val();
+					if (num != level) {
+						patternValue += ",";
+					}
+				}
+
+				return patternValue;
 			},
 			checkShowContext_ : function(id) {
 				$.each(this.contextCollection.models, function(index, value) {
@@ -280,7 +329,8 @@ ENS.treeView = wgp.TreeView
 				// Ajax通信用の設定
 				var settings = {
 					data : {
-						data : JSON.stringify(deleteSignalDefinition)
+						signalDefinition : JSON
+								.stringify(deleteSignalDefinition)
 					},
 					url : url
 				};
@@ -291,16 +341,85 @@ ENS.treeView = wgp.TreeView
 				settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = callbackFunction;
 				ajaxHandler.requestServerAsync(settings);
 			},
-			callbackGetAllSignal : function(dataList) {
-				var signalData = dataList;
+			getAllSignal_ : function() {
+				// シグナル定義を取得する
+				// Ajax通信用の設定
+				var settings = {
+					url : ENS.tree.SIGNAL_SELECT_ALL_URL
+				};
+
+				// 非同期通信でデータを送信する
+				var ajaxHandler = new wgp.AjaxHandler();
+				settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] = this;
+				settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = "callbackGetAllSignal_";
+				ajaxHandler.requestServerAsync(settings);
 			},
-			callbackAddSignal_ : function(data) {
-				var signalId = data.signalId;
+			callbackGetAllSignal_ : function(signalDefinitionList) {
+				var instance = this;
+				var removeOptionList = [];
+				var addOptionList = [];
+				_
+						.each(
+								signalDefinitionList,
+								function(signalDefinition, signalIndex) {
+									var signalName = signalDefinition.signalName;
+									var signalNameSplitList = signalName
+											.split("/");
+									var signalNameSplitListLength = signalNameSplitList.length;
+
+									// 新しいID
+									var newTreeId = "";
+									// 親ノードのパス
+									var parentTreeId = "";
+									for ( var index = 1; index < signalNameSplitListLength; index++) {
+										var nameSplit = signalNameSplitList[index];
+
+										if (index == signalNameSplitListLength - 1) {
+											newTreeId += ENS.tree.SIGNAL_PREFIX_ID;
+										} else {
+											parentTreeId += "/";
+											parentTreeId += nameSplit;
+
+											newTreeId += "/";
+										}
+										newTreeId += nameSplit;
+									}
+
+									var showName = signalNameSplitList[signalNameSplitListLength - 1];
+									var removeOption = {
+										id : signalName,
+										data : showName,
+										parentTreeId : parentTreeId,
+										treeId : signalName,
+										measurementUnit : ""
+									};
+
+									// シグナルアイコンを取得する
+									var icon = instance
+											.getIcon(signalDefinition);
+
+									var addOption = {
+										id : newTreeId,
+										data : showName,
+										parentTreeId : parentTreeId,
+										icon : icon
+									};
+
+									removeOptionList.push(removeOption);
+									addOptionList.push(addOption);
+									ENS.tree.signalDefinitionList[newTreeId] = signalDefinition;
+								});
+
+				this.collection.add(addOptionList);
+				this.collection.remove(removeOptionList);
+			},
+			callbackAddSignal_ : function(signalDefinition) {
+				var signalId = signalDefinition.signalId;
 				if (signalId === 0) {
 					alert("This signalName is already exist."
 							+ "\nPlease change signal name and try again.");
 				}
-				var signalName = data.signalName;
+				var signalName = signalDefinition.signalName;
 
 				var nameSplitList = signalName.split("/");
 				var nameSplitListLength = nameSplitList.length;
@@ -326,18 +445,22 @@ ENS.treeView = wgp.TreeView
 				}
 
 				// クライアント側にデータを保持する
-				ENS.tree.signalDefinitionList[signalTreeId] = data;
+				ENS.tree.signalDefinitionList[signalTreeId] = signalDefinition;
+
+				// シグナルアイコンを取得する
+				var icon = this.getIcon(signalDefinition);
 
 				var treeOption = {
 					id : signalTreeId,
 					data : showName,
 					parentTreeId : targetTreeId,
-					icon : ENS.tree.SIGNAL_ICON
+					icon : icon
 				};
 				this.collection.add([ treeOption ]);
 			},
 			callbackEditSignal_ : function(data) {
-				var signalName = data.signalName;
+				var signalDefinition = data.signalDefinition;
+				var signalName = signalDefinition.signalName;
 
 				var nameSplitList = signalName.split("/");
 				var nameSplitListLength = nameSplitList.length;
@@ -347,16 +470,8 @@ ENS.treeView = wgp.TreeView
 				var targetTreeId = "";
 				// 新規ノードのパス
 				var signalTreeId = "";
-				// 編集前のノードID（削除対象）
-				var deleteNodeId = "";
 				// 親ノードへのパスと、新規ノードのパスを作成する
 				for ( var index = 1; index < nameSplitListLength; index++) {
-					// 編集前のノードはパスする
-					if (index == nameSplitListLength - 2) {
-						deleteNodeId = nameSplitList[index];
-						continue;
-					}
-
 					var nameSplit = nameSplitList[index];
 
 					if (index == nameSplitListLength - 1) {
@@ -370,21 +485,25 @@ ENS.treeView = wgp.TreeView
 					signalTreeId += nameSplit;
 				}
 				// 編集前のノードID（削除対象）
-				var deleteTreeId = targetTreeId + "/" + deleteNodeId;
+				var oldSignalId = data.oldSignalId;
+				var oldSignalIdSplitList = oldSignalId.split("/");
 
+				var deleteNodeId = oldSignalIdSplitList[oldSignalIdSplitList.length - 1];
 				var prefixStrLength = ENS.tree.SIGNAL_PREFIX_ID.length;
 				// 編集前の表示名（削除対象）
 				var deleteShowName = deleteNodeId.slice(prefixStrLength - 1);
 
 				// クライアント側にデータを保持する
-				ENS.tree.signalDefinitionList[signalTreeId] = data;
+				ENS.tree.signalDefinitionList[signalTreeId] = signalDefinition;
+
+				// シグナルアイコンを取得する
+				var icon = this.getIcon(signalDefinition);
 
 				// 削除するノードのオプション
 				var deleteTreeOption = {
-					id : deleteTreeId,
+					id : oldSignalId,
 					data : deleteShowName,
-					parentTreeId : targetTreeId,
-					icon : ENS.tree.SIGNAL_ICON
+					parentTreeId : targetTreeId
 				};
 				this.collection.remove([ deleteTreeOption ]);
 
@@ -393,7 +512,7 @@ ENS.treeView = wgp.TreeView
 					id : signalTreeId,
 					data : showName,
 					parentTreeId : targetTreeId,
-					icon : ENS.tree.SIGNAL_ICON
+					icon : icon
 				};
 				this.collection.add([ treeOption ]);
 			},
@@ -461,5 +580,44 @@ ENS.treeView = wgp.TreeView
 				$("#matchingPattern").val(signalDefinition.matchingPattern);
 				$("#signalPatternValue select").val(signalDefinition.level);
 				$("#escalationPeriod").val(signalDefinition.escalationPeriod);
+			},
+			getIcon : function(signalDefinition) {
+				var icon = "";
+				var level = signalDefinition.level;
+				var signalValue = signalDefinition.signalValue;
+
+				if (signalValue === undefined) {
+					return ENS.tree.SIGNAL_ICON_0;
+				}
+
+				if (level == 3) {
+					if (signalValue == 1) {
+						icon = ENS.tree.SIGNAL_ICON_3;
+					} else if (signalValue == 2) {
+						icon = ENS.tree.SIGNAL_ICON_4;
+					} else if (signalValue == 3) {
+						icon = ENS.tree.SIGNAL_ICON_5;
+					} else {
+						icon = ENS.tree.SIGNAL_ICON_0;
+					}
+				} else if (level == 5) {
+					if (signalValue == 1) {
+						icon = ENS.tree.SIGNAL_ICON_1;
+					} else if (signalValue == 2) {
+						icon = ENS.tree.SIGNAL_ICON_2;
+					} else if (signalValue == 3) {
+						icon = ENS.tree.SIGNAL_ICON_3;
+					} else if (signalValue == 4) {
+						icon = ENS.tree.SIGNAL_ICON_4;
+					} else if (signalValue == 5) {
+						icon = ENS.tree.SIGNAL_ICON_5;
+					} else {
+						icon = ENS.tree.SIGNAL_ICON_0;
+					}
+				} else {
+					icon = ENS.tree.SIGNAL_ICON_0;
+				}
+
+				return icon;
 			}
 		});
