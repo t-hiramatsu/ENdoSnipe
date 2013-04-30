@@ -30,9 +30,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 import jp.co.acroquest.endosnipe.common.entity.ItemType;
+import jp.co.acroquest.endosnipe.common.jmx.JMXManager;
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
+import jp.co.acroquest.endosnipe.javelin.resource.jmx.MBeanCollectorInitializer;
 import jp.co.acroquest.endosnipe.javelin.resource.proc.LinuxCpuArrayGetter;
 import jp.co.acroquest.endosnipe.javelin.resource.proc.LinuxCpuIoWaitGetter;
 import jp.co.acroquest.endosnipe.javelin.resource.proc.LinuxCpuSystemGetter;
@@ -247,6 +250,21 @@ public class ResourceCollector implements TelegramConstants
             resourceMap.put(ITEMNAME_FILEINPUTSIZEOFSYSTEM, new LinuxSystemFileInputGetter(procParser));
             resourceMap.put(ITEMNAME_FILEOUTPUTSIZEOFSYSTEM, new LinuxSystemFileOutputGetter(procParser));
         }
+
+        // JMXのリソースデータを取得するかどうか
+        JavelinConfig config = new JavelinConfig();
+        if (config.getCollectJmxResources())
+        {
+            try
+            {
+                MBeanCollectorInitializer.init(multiResourceMap);
+            }
+            catch(Exception e)
+            {
+                SystemLogger.getInstance().warn(e);
+            }
+            JMXManager.getInstance().initCompleted();
+        }        
 
         multiResourceMap.put(ITEMNAME_NODECOUNT, new CallTreeNodeCountGetter());
         multiResourceMap.put(ITEMNAME_EVENT_COUNT, new EventCountGetter());

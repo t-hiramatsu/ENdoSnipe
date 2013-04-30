@@ -38,7 +38,6 @@ import jp.co.acroquest.endosnipe.communicator.TelegramListener;
 import jp.co.acroquest.endosnipe.communicator.accessor.ResourceNotifyAccessor;
 import jp.co.acroquest.endosnipe.communicator.entity.Body;
 import jp.co.acroquest.endosnipe.communicator.entity.Header;
-import jp.co.acroquest.endosnipe.communicator.entity.ResourceItemConverter;
 import jp.co.acroquest.endosnipe.communicator.entity.ResponseBody;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
@@ -247,12 +246,6 @@ public class SystemResourceTelegramListener implements TelegramListener, Telegra
             final List<Body> responseBodyList, final String objectName, final String itemName,
             final ItemType itemType)
     {
-        if (itemType == ItemType.ITEMTYPE_JMX)
-        {
-            addToBodyJMXList(entries, responseBodyList, objectName, itemName);
-            return;
-        }
-
         String[] values = new String[entries.size()];
         String[] names = new String[entries.size()];
 
@@ -279,31 +272,5 @@ public class SystemResourceTelegramListener implements TelegramListener, Telegra
             nameBody.setObjItemValueArr(new Object[] { names[index] });
             responseBodyList.add(nameBody);
         }
-    }
-
-    private void addToBodyJMXList(final List<ResourceItem> entries,
-                                  final List<Body> responseBodyList,
-                                  final String objectName,
-                                  final String itemName)
-    {
-        String[] jsonStr = new String[1];
-        try
-        {
-            jsonStr[0] = ResourceItemConverter.getInstance().encodeToJSON(entries);
-        }
-        catch (Exception e)
-        {
-            SystemLogger.getInstance().warn(e);
-            return;
-        }
-
-        // 計測値をJSONにエンコードした文字列を追加する
-        ResponseBody valueBody = new ResponseBody();
-        valueBody.setStrObjName(objectName);
-        valueBody.setStrItemName(itemName);
-        valueBody.setIntLoopCount(1);
-        valueBody.setByteItemMode(ItemType.ITEMTYPE_JMX);
-        valueBody.setObjItemValueArr(jsonStr);
-        responseBodyList.add(valueBody);
     }
 }
