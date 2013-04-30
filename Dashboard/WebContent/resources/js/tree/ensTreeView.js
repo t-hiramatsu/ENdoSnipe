@@ -217,64 +217,77 @@ ENS.treeView = wgp.TreeView
 				if (type == wgp.constants.syncType.SEARCH) {
 					this.renderAll();
 				} else {
-					this.updateSignal_();
+					this.updateSignal_(this.collection.models);
 				}
 			},
-			updateSignal_ : function() {
+			updateSignal_ : function(signalDefinitionList) {
 				var instance = this;
 				var removeOptionList = [];
 				var addOptionList = [];
+				var tmpList = [];
 				_
 						.each(
-								this.collection.models,
-								function(model, id) {
-									var signalName = model
-											.get(ENS.tree.SIGNAL_NAME);
-									var signalValue = model
-											.get(ENS.tree.SIGNAL_VALUE);
-
+								signalDefinitionList,
+								function(signalDefinition, signalIndex) {
+									var signalName = signalDefinition.signalName;
 									var signalNameSplitList = signalName
 											.split("/");
 									var signalNameSplitListLength = signalNameSplitList.length;
 
 									// 新しいID
-									var treeId = "";
+									var newTreeId = "";
 									// 親ノードのパス
 									var parentTreeId = "";
 									for ( var index = 1; index < signalNameSplitListLength; index++) {
 										var nameSplit = signalNameSplitList[index];
 
 										if (index == signalNameSplitListLength - 1) {
-											treeId += ENS.tree.SIGNAL_PREFIX_ID;
+											newTreeId += ENS.tree.SIGNAL_PREFIX_ID;
 										} else {
 											parentTreeId += "/";
 											parentTreeId += nameSplit;
 
-											treeId += "/";
+											newTreeId += "/";
 										}
-										treeId += nameSplit;
+										newTreeId += nameSplit;
 									}
 
 									var showName = signalNameSplitList[signalNameSplitListLength - 1];
 									var removeOption = {
-										id : treeId
+										id : signalName
 									};
+									removeOptionList.push(removeOption);
 
 									// シグナルアイコンを取得する
-									var icon = instance.getIcon(model);
+									var icon = instance
+											.getIcon(signalDefinition);
 
 									var addOption = {
-										id : treeId,
+										id : newTreeId,
 										data : showName,
 										parentTreeId : parentTreeId,
 										icon : icon
 									};
-
-									removeOptionList.push(removeOption);
 									addOptionList.push(addOption);
+									
+									// 更新時に、ツリー階層に他のノードがなく、ツリーが閉じてしまう現象をなくすために、
+									// 一時的なノードを作成する
+									var tmpTreeOption = {
+										id : parentTreeId + "/tmp",
+										data : "",
+										parentTreeId : parentTreeId
+									};
+									tmpList.push(tmpTreeOption);
+
+									ENS.tree.signalDefinitionList[newTreeId] = signalDefinition;
 								});
+
+				// 更新時に、ツリー階層に他のノードがなく、ツリーが閉じてしまう現象をなくすために
+				// 最初に一時的なノードを追加している
+				this.collection.add(tmpList);
 				this.collection.remove(removeOptionList);
 				this.collection.add(addOptionList);
+				this.collection.remove(tmpList);
 
 			},
 			createSendAddData_ : function(signalFullName) {
@@ -429,63 +442,8 @@ ENS.treeView = wgp.TreeView
 				ajaxHandler.requestServerAsync(settings);
 			},
 			callbackGetAllSignal_ : function(signalDefinitionList) {
-				var instance = this;
-				var removeOptionList = [];
-				var addOptionList = [];
-				_
-						.each(
-								signalDefinitionList,
-								function(signalDefinition, signalIndex) {
-									var signalName = signalDefinition.signalName;
-									var signalNameSplitList = signalName
-											.split("/");
-									var signalNameSplitListLength = signalNameSplitList.length;
-
-									// 新しいID
-									var newTreeId = "";
-									// 親ノードのパス
-									var parentTreeId = "";
-									for ( var index = 1; index < signalNameSplitListLength; index++) {
-										var nameSplit = signalNameSplitList[index];
-
-										if (index == signalNameSplitListLength - 1) {
-											newTreeId += ENS.tree.SIGNAL_PREFIX_ID;
-										} else {
-											parentTreeId += "/";
-											parentTreeId += nameSplit;
-
-											newTreeId += "/";
-										}
-										newTreeId += nameSplit;
-									}
-
-									var showName = signalNameSplitList[signalNameSplitListLength - 1];
-									var removeOption = {
-										id : signalName,
-										data : showName,
-										parentTreeId : parentTreeId,
-										treeId : signalName,
-										measurementUnit : ""
-									};
-
-									// シグナルアイコンを取得する
-									var icon = instance
-											.getIcon(signalDefinition);
-
-									var addOption = {
-										id : newTreeId,
-										data : showName,
-										parentTreeId : parentTreeId,
-										icon : icon
-									};
-
-									removeOptionList.push(removeOption);
-									addOptionList.push(addOption);
-									ENS.tree.signalDefinitionList[newTreeId] = signalDefinition;
-								});
-
-				this.collection.remove(removeOptionList);
-				this.collection.add(addOptionList);
+				// ツリーのシグナルを更新する
+				this.updateSignal_(signalDefinitionList);
 
 				// 各シグナルに対してリアルタイム更新を行う
 				var idList = _.keys(ENS.tree.signalDefinitionList);
@@ -570,12 +528,6 @@ ENS.treeView = wgp.TreeView
 				}
 				// 編集前のノードID（削除対象）
 				var oldSignalId = data.oldSignalId;
-				var oldSignalIdSplitList = oldSignalId.split("/");
-
-				var deleteNodeId = oldSignalIdSplitList[oldSignalIdSplitList.length - 1];
-				var prefixStrLength = ENS.tree.SIGNAL_PREFIX_ID.length;
-				// 編集前の表示名（削除対象）
-				var deleteShowName = deleteNodeId.slice(prefixStrLength - 1);
 
 				// クライアント側にデータを保持する
 				ENS.tree.signalDefinitionList[signalTreeId] = signalDefinition;
@@ -583,11 +535,18 @@ ENS.treeView = wgp.TreeView
 				// シグナルアイコンを取得する
 				var icon = this.getIcon(signalDefinition);
 
+				// 更新時に、ツリー階層に他のノードがなく、ツリーが閉じてしまう現象をなくすために、
+				// 一時的なノードを作成する
+				var tmpTreeOption = {
+					id : targetTreeId + "/tmp",
+					data : "",
+					parentTreeId : targetTreeId
+				};
+				this.collection.add([ tmpTreeOption ]);
+				
 				// 削除するノードのオプション
 				var deleteTreeOption = {
-					id : oldSignalId,
-					data : deleteShowName,
-					parentTreeId : targetTreeId
+					id : oldSignalId
 				};
 				this.collection.remove([ deleteTreeOption ]);
 
@@ -599,6 +558,9 @@ ENS.treeView = wgp.TreeView
 					icon : icon
 				};
 				this.collection.add([ treeOption ]);
+					
+				// 一時的なノードを削除する
+				this.collection.remove([ tmpTreeOption ]);
 
 				// 新しいシグナルに対してリアルタイム更新を行う
 				var idList = _.keys(ENS.tree.signalDefinitionList);
