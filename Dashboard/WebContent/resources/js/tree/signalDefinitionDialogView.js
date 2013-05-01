@@ -1,4 +1,4 @@
-ENS.SignalDefinitionDialogView = ENS.SignalDialogView.extend({
+ENS.SignalDefinitionDialogView = ENS.DialogView.extend({
 	initialize : function(option) {
 		var ins = this;
 		this.op_ = option;

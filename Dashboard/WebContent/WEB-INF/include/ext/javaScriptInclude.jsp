@@ -45,6 +45,7 @@
 	libraryPathList.add("jeegoocontext");
 	libraryPathList.add("jquery.event.drag-2.2");
 	libraryPathList.add("jsTree");
+	libraryPathList.add("datetimepicker");
 	libraryPathList.add("Raphael");
 	libraryPathList.add("wgp");
 	String libraryJsDirectoryPath = config.getServletContext()

@@ -129,37 +129,12 @@ ENS.treeView = wgp.TreeView
 						if (targetOption == null) {
 							return;
 						}
+						var dialogId = targetOption.get("executeOption").dialogId;
 
-						var executeOption = targetOption.get("executeOption");
-						executeOption.treeId = $(tmpClickTarget).attr("id");
-						executeOption.displayName = $(tmpClickTarget).text();
-
-						// 削除が選択された場合はそのノードを削除する
-						if (id == ENS.tree.DELETE_SIGNAL_TYPE) {
-							if (confirm("Are you sure you want to delete it?")) {
-								instance.deleteSignal_(executeOption);
-							}
-							return;
-						}
-
-						// 開くViewのクラス
-						var executeClass = targetOption.get("executeClass");
-						if (executeClass) {
-							if (id == ENS.tree.ADD_SIGNAL_TYPE) {
-								// Matching Patternにデフォルトのツリー階層を入力する
-								$("#matchingPattern").val(executeOption.treeId);
-							} else if (id == ENS.tree.EDIT_SIGNAL_TYPE) {
-								var signalDefinition = ENS.tree.signalDefinitionList[executeOption.treeId];
-								instance.inputSignalDialog_(signalDefinition);
-							}
-
-							// set execute class and function, if push ok
-							// button.
-							executeOption.okObject = instance;
-							executeOption.okFunctionName = "pushOkFunction";
-							executeOption.cancelObject = instance;
-							executeOption.cancelFunctionName = "pushCancelFunction";
-							eval("new " + executeClass + "(executeOption)");
+						if (dialogId == ENS.tree.SIGNAL_DIALOG) {
+							instance.signalOnSelect_(event, target, menuId, tmpClickTarget);
+						} else if (dialogId == ENS.tree.REPORT_DIALOG) {
+							instance.reportOnSelect_(event, target, menuId, tmpClickTarget);
 						}
 					}
 				};
@@ -168,6 +143,104 @@ ENS.treeView = wgp.TreeView
 						menuId, settingOptions);
 			},
 			pushOkFunction : function(event, option) {
+				var dialogId = option.dialogId;
+
+				if (dialogId == ENS.tree.SIGNAL_DIALOG) {
+					this.signalPushOkFunction_(event, option);
+				} else if (dialogId == ENS.tree.REPORT_DIALOG) {
+					this.reportPushOkFunction_(event, option);
+				}
+
+			},
+			pushCancelFunction : function(event, option) {
+				var a = null;
+			},
+			onComplete : function(type) {
+				if (type == wgp.constants.syncType.SEARCH) {
+					this.renderAll();
+				} else {
+					this.updateSignal_(this.collection.models);
+				}
+			},
+			signalOnSelect_ : function(event, target, menuId, tmpClickTarget) {
+				var clickTarget = event.target;
+				var id = $(clickTarget).attr("id");
+				var targetOption = this.getContextOption_(id);
+				
+				var executeOption = targetOption.get("executeOption");
+				executeOption.treeId = $(tmpClickTarget).attr("id");
+				executeOption.displayName = $(tmpClickTarget).text();
+
+				// 削除が選択された場合はそのノードを削除する
+				if (id == ENS.tree.DELETE_SIGNAL_TYPE) {
+					if (confirm("Are you sure you want to delete it?")) {
+						this.deleteSignal_(executeOption);
+					}
+					return;
+				}
+
+				// 開くViewのクラス
+				var executeClass = targetOption.get("executeClass");
+				if (executeClass) {
+					if (id == ENS.tree.ADD_SIGNAL_TYPE) {
+						// Matching Patternにデフォルトのツリー階層を入力する
+						$("#matchingPattern").val(executeOption.treeId);
+					} else if (id == ENS.tree.EDIT_SIGNAL_TYPE) {
+						var signalDefinition = ENS.tree.signalDefinitionList[executeOption.treeId];
+						this.inputSignalDialog_(signalDefinition);
+					}
+
+					// set execute class and function, if push ok
+					// button.
+					executeOption.okObject = this;
+					executeOption.okFunctionName = "pushOkFunction";
+					executeOption.cancelObject = this;
+					executeOption.cancelFunctionName = "pushCancelFunction";
+					eval("new " + executeClass + "(executeOption)");
+				}
+			},
+			reportOnSelect_ : function(event, target, menuId, tmpClickTarget) {
+				var clickTarget = event.target;
+				var id = $(clickTarget).attr("id");
+				var targetOption = this.getContextOption_(id);
+				if (targetOption == null) {
+					return;
+				}
+
+				var executeOption = targetOption.get("executeOption");
+				executeOption.treeId = $(tmpClickTarget).attr("id");
+				executeOption.displayName = $(tmpClickTarget).text();
+
+				// 削除が選択された場合はそのノードを削除する
+				if (id == ENS.tree.DELETE_SIGNAL_TYPE) {
+					if (confirm("Are you sure you want to delete it?")) {
+						this.deleteSignal_(executeOption);
+					}
+					return;
+				}
+
+				// 開くViewのクラス
+				var executeClass = targetOption.get("executeClass");
+				if (executeClass) {
+					if (id == ENS.tree.ADD_SIGNAL_TYPE) {
+						// Matching Patternにデフォルトのツリー階層を入力する
+						$("#matchingPattern").val(executeOption.treeId);
+					} else if (id == ENS.tree.EDIT_SIGNAL_TYPE) {
+						var signalDefinition = ENS.tree.signalDefinitionList[executeOption.treeId];
+						this.inputSignalDialog_(signalDefinition);
+					}
+
+					// set execute class and function, if push ok
+					// button.
+					executeOption.okObject = this;
+					executeOption.okFunctionName = "pushOkFunction";
+					executeOption.cancelObject = this;
+					executeOption.cancelFunctionName = "pushCancelFunction";
+					eval("new " + executeClass + "(executeOption)");
+				}
+			},
+			/** 閾値判定の定義を入力した後に実行するメソッド。 */
+			signalPushOkFunction_ : function(event, option) {
 				// リアルタイム通信を止める
 				var idList = _.keys(ENS.tree.signalDefinitionList);
 				var appView = new ENS.AppView();
@@ -210,15 +283,9 @@ ENS.treeView = wgp.TreeView
 
 				this.clearSignalDialog_();
 			},
-			pushCancelFunction : function(event, option) {
-				var a = null;
-			},
-			onComplete : function(type) {
-				if (type == wgp.constants.syncType.SEARCH) {
-					this.renderAll();
-				} else {
-					this.updateSignal_(this.collection.models);
-				}
+			/** レポート出力の定義を入力した後に実行するメソッド。 */
+			reportPushOkFunction_ : function(event, option) {
+
 			},
 			updateSignal_ : function(signalDefinitionList) {
 				var instance = this;
@@ -269,7 +336,7 @@ ENS.treeView = wgp.TreeView
 										icon : icon
 									};
 									addOptionList.push(addOption);
-									
+
 									// 更新時に、ツリー階層に他のノードがなく、ツリーが閉じてしまう現象をなくすために、
 									// 一時的なノードを作成する
 									var tmpTreeOption = {
@@ -455,6 +522,7 @@ ENS.treeView = wgp.TreeView
 				if (signalId === 0) {
 					alert("This signalName is already exist."
 							+ "\nPlease change signal name and try again.");
+					return;
 				}
 				var signalName = signalDefinition.signalName;
 
@@ -543,7 +611,7 @@ ENS.treeView = wgp.TreeView
 					parentTreeId : targetTreeId
 				};
 				this.collection.add([ tmpTreeOption ]);
-				
+
 				// 削除するノードのオプション
 				var deleteTreeOption = {
 					id : oldSignalId
@@ -558,7 +626,7 @@ ENS.treeView = wgp.TreeView
 					icon : icon
 				};
 				this.collection.add([ treeOption ]);
-					
+
 				// 一時的なノードを削除する
 				this.collection.remove([ tmpTreeOption ]);
 

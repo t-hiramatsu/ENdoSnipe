@@ -1,4 +1,4 @@
-ENS.SignalDialogView = wgp.AbstractView.extend({
+ENS.DialogView = wgp.AbstractView.extend({
 	/**
 	 * @param option
 	 *            option is following key value set dialogId : display diaolog's
