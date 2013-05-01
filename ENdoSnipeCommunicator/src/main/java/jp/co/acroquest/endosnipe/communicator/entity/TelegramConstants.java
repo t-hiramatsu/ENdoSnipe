@@ -685,6 +685,9 @@ public interface TelegramConstants
 
     /** €–Ú–¼(Hadoop:JobTracker) */
     String ITEMNAME_HADOOP_JOBTRACKER = "/hadoop/JobTracker";
+    
+    /** €–Ú–¼(Infinispan:mapreduce) */
+    String ITEMNAME_INFINISPAN_MAPREDUCE = "/infinispan/MapReduce";
 
     /** €–Ú–¼(Hadoop:DataNode) */
     String ITEMNAME_HADOOP_DATANODE = "/hadoop/DataNode";
