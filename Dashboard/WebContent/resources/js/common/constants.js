@@ -34,13 +34,18 @@ ENS.DATE_FORMAT_DETAIL = 'yyyy/MM/dd HH:mm:ss.fff';
 ENS.DATE_FORMAT_DAY = 'yyyy/MM/dd';
 ENS.DATE_FORMAT_HOUR = 'yyyy/MM/dd HH:mm';
 
+ENS.URL = {};
+ENS.URL.TERM_PERFDOCTOR_DATA_URL = wgp.constants.URL.TERM_DATA_URL
+		+ "/getPerfDoctor";
+ENS.URL.PERFDOCTOR_POSTFIX_ID = "/performanceDoctor";
+
 ENS.common = {};
 ENS.common.dualslider = {};
-ENS.common.dualslider.scaleUnitStrings = 'hours';// for many hours
+ENS.common.dualslider.scaleUnitStrings = 'hours';//for many hours
 ENS.common.dualslider.scaleUnitString = 'hour';// for one hour
 ENS.common.dualslider.scaleUnit = 60 * 60 * 1000; // millisecond
-ENS.common.dualslider.groupString = 'day';// for one day
-ENS.common.dualslider.groupStrings = 'days';// for many days
+ENS.common.dualslider.groupString = 'day';//for one day
+ENS.common.dualslider.groupStrings = 'days';//for many days
 ENS.common.dualslider.groupUnitNum = 24;
 ENS.common.dualslider.groupMaxNum = 10;
 ENS.common.dualslider.groupDefaultNum = 3;
@@ -48,11 +53,11 @@ ENS.common.dualslider.idFrom = 'dualSliderFromValue';
 ENS.common.dualslider.idTo = 'dualSliderToValue';
 
 ENS.singleslider = {};
-ENS.singleslider.scaleUnitString = 'hour';// for one hour
-ENS.singleslider.scaleUnitStrings = 'hours';// for many hours
+ENS.singleslider.scaleUnitString = 'hour';//for one hour
+ENS.singleslider.scaleUnitStrings = 'hours';//for many hours
 ENS.singleslider.scaleUnit = 60 * 60 * 1000; // millisecond
-ENS.singleslider.groupString = 'day';// for one day
-ENS.singleslider.groupStrings = 'days';// for many day
+ENS.singleslider.groupString = 'day';//for one day
+ENS.singleslider.groupStrings = 'days';//for many day
 ENS.singleslider.groupUnitNum = 24;
 ENS.singleslider.groupMaxNum = 10;
 ENS.singleslider.groupDefaultNum = 3;
@@ -62,6 +67,7 @@ ENS.nodeinfo = {};
 ENS.nodeinfo.parent = {};
 ENS.nodeinfo.parent.css = {};
 ENS.nodeinfo.viewList = [];
+
 
 ENS.nodeinfo.parent.css.informationArea = {
 	fontSize : "14px",
@@ -96,50 +102,23 @@ ENS.nodeinfo.GRAPH_HEIGHT_MARGIN = 2;
 ENS.nodeinfo.GRAPH_TITLE_LENGTH = 30;
 
 ENS.tree = {};
-ENS.tree.ADD_SIGNAL_TYPE = "addSignal";
-ENS.tree.EDIT_SIGNAL_TYPE = "editSignal";
-ENS.tree.DELETE_SIGNAL_TYPE = "deleteSignal";
-ENS.tree.SIGNAL_PREFIX_ID = "/singalNode-";
-ENS.tree.SIGNAL_ADD_URL = wgp.common.getContextPath() + "/signal/add";
-ENS.tree.SIGNAL_EDIT_URL = wgp.common.getContextPath() + "/signal/edit";
-ENS.tree.SIGNAL_DELETE_URL = wgp.common.getContextPath() + "/signal/delete";
-ENS.tree.SIGNAL_SELECT_ALL_URL = wgp.common.getContextPath()
-		+ "/signal/getAllDefinition";
-
-ENS.tree.contextOption = [ {
-	menu_id : ENS.tree.ADD_SIGNAL_TYPE,
+ENS.tree.contextOption = [{
+	menu_id : "addSingnal",
 	menu_name : "Add Signal",
-	executeClass : "ENS.SignalDefinitionDialogView",
+	executeClass : "ENS.AddSingnalDialogView",
 	showParam : "^(?!.*singalNode-).+$",
 	executeOption : {
-		dialogId : "signalDialog",
-		signalType : ENS.tree.ADD_SIGNAL_TYPE
+		dialogId : "addSignalDialog"
 	},
 	children : []
 }, {
-	menu_id : ENS.tree.EDIT_SIGNAL_TYPE,
+	menu_id : "editSingnal",
 	menu_name : "Edit Signal",
-	executeClass : "ENS.SignalDefinitionDialogView",
-	showParam : ENS.tree.SIGNAL_PREFIX_ID,
+	executeClass : "ENS.AddSingnalDialogView",
+	showParam : "/singalNode-",
 	executeOption : {
-		dialogId : "signalDialog",
-		signalType : ENS.tree.EDIT_SIGNAL_TYPE
+		dialogId : "addSignalDialog"
 	},
 	children : []
-}, {
-	menu_id : ENS.tree.DELETE_SIGNAL_TYPE,
-	menu_name : "Delete Signal",
-	executeClass : "",
-	showParam : ENS.tree.SIGNAL_PREFIX_ID,
-	executeOption : {
-		dialogId : "signalDialog",
-		signalType : ENS.tree.DELETE_SIGNAL_TYPE
-	},
-	children : []
-} ];
-ENS.tree.SIGNAL_ICON_0 = "signal_0";
-ENS.tree.SIGNAL_ICON_1 = "signal_1";
-ENS.tree.SIGNAL_ICON_2 = "signal_2";
-ENS.tree.SIGNAL_ICON_3 = "signal_3";
-ENS.tree.SIGNAL_ICON_4 = "signal_4";
-ENS.tree.SIGNAL_ICON_5 = "signal_5";
+}];
+ENS.tree.SIGNAL_ICON = "signal_1";

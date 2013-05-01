@@ -36,7 +36,29 @@ ENS.nodeInfoParentView = {
 ENS.nodeInfoField = {
 	viewClassName : "wgp.MultiAreaView",
 	rootView : appView,
+	tabTitle : "Graph",
 	collection : [ ENS.nodeInfoParentView ]
+};
+
+ENS.nodePerfDoctorParentElem = {
+	viewClassName : "ENS.perfDoctorView",
+	viewAttribute : {
+		term : 1800,
+		maxLineNum : 20
+	}
+};
+
+ENS.nodePerfDoctorParentView = {
+	viewClassName : "wgp.MultiAreaView",
+	rootView : appView,
+	tabTitle : "Performance Doctor",
+	collection : [ ENS.nodePerfDoctorParentElem ]
+};
+
+ENS.nodeTabView = {
+	viewClassName : "wgp.TabView",
+	rootView : appView,
+	collection : [ENS.nodeInfoField, ENS.nodePerfDoctorParentView]
 };
 
 ENS.ResourceMapField = {
@@ -49,6 +71,6 @@ if (!wgp.constants.VIEW_SETTINGS) {
 	wgp.constants.VIEW_SETTINGS = {};
 }
 wgp.constants.VIEW_SETTINGS = $.extend(wgp.constants.VIEW_SETTINGS, {
-	"default" : ENS.nodeInfoField,
+	"default" : ENS.nodeTabView,
 	"ENS.ResourceMapView" : ENS.ResourceMapField
 });
