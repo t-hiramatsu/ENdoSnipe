@@ -47,7 +47,7 @@ public class ConnectNotifyData
     /** 接続種別 */
     private int kind_ = -1;
 
-    /** DB名 */
+    /** エージェント名 */
     private String agentName_;
 
     /** 接続目的 */
@@ -72,7 +72,7 @@ public class ConnectNotifyData
     }
 
     /**
-     * DB名を取得します。
+     * エージェント名を取得します。
      * @return DB名
      */
     public String getAgentName()
@@ -81,8 +81,8 @@ public class ConnectNotifyData
     }
 
     /**
-     * DB名を設定します。
-     * @param agentName DB名
+     * エージェント名を設定します。
+     * @param agentName エージェント名
      */
     public void setAgentName(String agentName)
     {
