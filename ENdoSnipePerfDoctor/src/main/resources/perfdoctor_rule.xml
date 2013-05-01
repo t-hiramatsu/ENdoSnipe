@@ -400,6 +400,7 @@
 			<property name="threshold">200</property>
 		</ruleLevel>
 	</rule>
+	<!--
 	<rule enabled="TRUE"
 		className="jp.co.acroquest.endosnipe.perfdoctor.rule.sql.oracle.tkprof.TkprofNonRecursiveValueRule"
 		id="DBA.PROF.ORA_NR_TOTAL_ELAPSED">
@@ -476,6 +477,7 @@
 			<property name="threshold">1000</property>
 		</ruleLevel>
 	</rule>
+	  -->
 	<rule enabled="TRUE"
 		className="jp.co.acroquest.endosnipe.perfdoctor.rule.code.EventCommonRule"
 		id="SQL.PLAN.FULL_SCAN">
@@ -483,6 +485,7 @@
 			<property name="eventName">FullScan</property>
 		</ruleLevel>
 	</rule>
+	<!--
 	<rule enabled="TRUE"
 		className="jp.co.acroquest.endosnipe.perfdoctor.rule.sql.FullScanRule"
 		id="SQL.PLAN.FULL_SCAN">
@@ -548,6 +551,7 @@
 			<property name="threshold">20</property>
 		</ruleLevel>
 	</rule>
+	  -->
 	<rule enabled="TRUE"
 		className="jp.co.acroquest.endosnipe.perfdoctor.rule.code.InitDupulicationRule"
 		id="LIB.SPRING.INIT_DUPLICATION">

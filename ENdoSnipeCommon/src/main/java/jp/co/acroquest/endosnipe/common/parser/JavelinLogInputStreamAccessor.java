@@ -25,27 +25,30 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.common.parser;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
 import jp.co.acroquest.endosnipe.common.parser.JavelinLogAccessor;
 
 /**
- * Javelin ログをファイルから取得するクラス。<br />
+ * Javelin ログをJavelinLogから取得するクラス。<br />
  *
- * @author y-sakamoto
+ * @author eriguchi
  */
-public class JavelinLogFileAccessor extends JavelinLogAccessor
+public class JavelinLogInputStreamAccessor extends JavelinLogAccessor
 {
+    private InputStream javelinLog_;
+    
     /**
-     * ファイルから Javelin ログを取得するオブジェクトを生成します。
+     * JavelinLogから Javelin ログを取得するオブジェクトを生成します。
      *
-     * @param fileName ファイル名
+     * @param fileName ファイル名。
+     * @param javelinLog JavelinLog
      */
-    public JavelinLogFileAccessor(final String fileName)
+    public JavelinLogInputStreamAccessor(final String fileName, final InputStream javelinLog)
     {
         setFileName(fileName);
+        this.javelinLog_ = javelinLog;
     }
 
     /**
@@ -55,7 +58,7 @@ public class JavelinLogFileAccessor extends JavelinLogAccessor
     public InputStream getInputStream()
         throws IOException
     {
-        return new FileInputStream(getFileName());
+        return this.javelinLog_;
     }
 
 }
