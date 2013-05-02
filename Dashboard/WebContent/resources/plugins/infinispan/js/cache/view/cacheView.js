@@ -124,36 +124,50 @@ infinispan.CacheView = wgp.AbstractView
 
 				var data = {};
 
-				_.each(collectionModels, function(model, index) {
-					var timeString = model.get("measurementTime");
-					var time = parseInt(timeString, 10);
+				_
+						.each(
+								collectionModels,
+								function(model, index) {
+									var timeString = model
+											.get("measurementTime");
+									var time = parseInt(timeString, 10);
 
-					if (time == lastTime) {
-						var parsedModel = instance._parseModel(model);
+									if (time == lastTime) {
+										var itemNamePath = model
+												.get("measurementItemName");
+										var itemNamePathSplit = itemNamePath
+												.split("/");
+										var itemName = itemNamePathSplit[itemNamePathSplit.length - 1];
 
-						var agentName = parsedModel.agentName;
+										if (itemName == "numberOfEntries") {
 
-						var dataList = data[agentName];
+											var parsedModel = instance
+													._parseModel(model);
 
-						if (dataList === undefined) {
-							dataList = [];
-						}
+											var agentName = parsedModel.agentName;
 
-						dataList.push(parsedModel);
+											var dataList = data[agentName];
 
-						dataList.sort(function(a, b) {
-							var x = a.tableName;
-							var y = b.tableName;
-							if (x > y)
-								return 1;
-							if (x < y)
-								return -1;
-							return 0;
-						});
+											if (dataList === undefined) {
+												dataList = [];
+											}
 
-						data[agentName] = dataList;
-					}
-				});
+											dataList.push(parsedModel);
+
+											dataList.sort(function(a, b) {
+												var x = a.tableName;
+												var y = b.tableName;
+												if (x > y)
+													return 1;
+												if (x < y)
+													return -1;
+												return 0;
+											});
+
+											data[agentName] = dataList;
+										}
+									}
+								});
 
 				// set Last Update Time.
 				this.lastMeasurementTime_ = lastTime;
@@ -189,7 +203,7 @@ infinispan.CacheView = wgp.AbstractView
 
 				var parentTreePath = pathList[0];
 				var parentPathList = parentTreePath.split("/");
-				var agentName = parentPathList[parentPathList.length - 2];
+				var agentName = parentPathList[parentPathList.length - 3];
 
 				var childTreePath = pathList[1];
 				var childPathList = childTreePath.split("/");
@@ -341,11 +355,10 @@ infinispan.CacheView = wgp.AbstractView
 
 						this.graphRect.push(this.paper.rect(startX,
 								this.startYAxis - height - sumHeight,
-								unitNodeWidth, height).attr(
-								{
-									fill : tableColor[tableName],
-									title : agentName + " : " + cacheValue
-								}));
+								unitNodeWidth, height).attr({
+							fill : tableColor[tableName],
+							title : tableName + " : " + cacheValue
+						}));
 
 						sumHeight += height;
 						sumCacheNum += cacheValue;

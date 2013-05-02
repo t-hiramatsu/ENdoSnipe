@@ -143,14 +143,7 @@ ENS.treeView = wgp.TreeView
 						menuId, settingOptions);
 			},
 			pushOkFunction : function(event, option) {
-				var dialogId = option.dialogId;
-
-				if (dialogId == ENS.tree.SIGNAL_DIALOG) {
-					this.signalPushOkFunction_(event, option);
-				} else if (dialogId == ENS.tree.REPORT_DIALOG) {
-					this.reportPushOkFunction_(event, option);
-				}
-
+				
 			},
 			pushCancelFunction : function(event, option) {
 				var a = null;
@@ -193,7 +186,7 @@ ENS.treeView = wgp.TreeView
 					// set execute class and function, if push ok
 					// button.
 					executeOption.okObject = this;
-					executeOption.okFunctionName = "pushOkFunction";
+					executeOption.okFunctionName = "signalPushOkFunction";
 					executeOption.cancelObject = this;
 					executeOption.cancelFunctionName = "pushCancelFunction";
 					eval("new " + executeClass + "(executeOption)");
@@ -222,25 +215,22 @@ ENS.treeView = wgp.TreeView
 				// 開くViewのクラス
 				var executeClass = targetOption.get("executeClass");
 				if (executeClass) {
-					if (id == ENS.tree.ADD_SIGNAL_TYPE) {
-						// Matching Patternにデフォルトのツリー階層を入力する
-						$("#matchingPattern").val(executeOption.treeId);
-					} else if (id == ENS.tree.EDIT_SIGNAL_TYPE) {
-						var signalDefinition = ENS.tree.signalDefinitionList[executeOption.treeId];
-						this.inputSignalDialog_(signalDefinition);
+					if (id == ENS.tree.OUTPUT_REPORT_TYPE) {
+						// Target Measurement Nameにツリー階層を入力する
+						$("#targetName").val(executeOption.treeId);
 					}
 
 					// set execute class and function, if push ok
 					// button.
 					executeOption.okObject = this;
-					executeOption.okFunctionName = "pushOkFunction";
+					executeOption.okFunctionName = "reportPushOkFunction";
 					executeOption.cancelObject = this;
 					executeOption.cancelFunctionName = "pushCancelFunction";
 					eval("new " + executeClass + "(executeOption)");
 				}
 			},
 			/** 閾値判定の定義を入力した後に実行するメソッド。 */
-			signalPushOkFunction_ : function(event, option) {
+			signalPushOkFunction : function(event, option) {
 				// リアルタイム通信を止める
 				var idList = _.keys(ENS.tree.signalDefinitionList);
 				var appView = new ENS.AppView();
@@ -284,7 +274,7 @@ ENS.treeView = wgp.TreeView
 				this.clearSignalDialog_();
 			},
 			/** レポート出力の定義を入力した後に実行するメソッド。 */
-			reportPushOkFunction_ : function(event, option) {
+			reportPushOkFunction : function(event, option) {
 
 			},
 			updateSignal_ : function(signalDefinitionList) {
