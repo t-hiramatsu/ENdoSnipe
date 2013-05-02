@@ -144,6 +144,7 @@ ENS.treeView = wgp.TreeView
 			},
 			pushOkFunction : function(event, option) {
 				
+			}
 			},
 			pushCancelFunction : function(event, option) {
 				var a = null;
@@ -235,7 +236,7 @@ ENS.treeView = wgp.TreeView
 				var idList = _.keys(ENS.tree.signalDefinitionList);
 				var appView = new ENS.AppView();
 				appView.stopSyncData(idList);
-
+				
 				// add tree data for signal
 				var treeId = option.treeId;
 				var signalName = $("#signalName").val();
@@ -462,7 +463,7 @@ ENS.treeView = wgp.TreeView
 				var idList = _.keys(ENS.tree.signalDefinitionList);
 				var appView = new ENS.AppView();
 				appView.stopSyncData(idList);
-
+				
 				// 削除するノードのデータ
 				var deleteSignalDefinition = ENS.tree.signalDefinitionList[executeOption.treeId];
 
@@ -592,7 +593,7 @@ ENS.treeView = wgp.TreeView
 
 				// シグナルアイコンを取得する
 				var icon = this.getIcon(signalDefinition);
-
+				
 				// 更新時に、ツリー階層に他のノードがなく、ツリーが閉じてしまう現象をなくすために、
 				// 一時的なノードを作成する
 				var tmpTreeOption = {

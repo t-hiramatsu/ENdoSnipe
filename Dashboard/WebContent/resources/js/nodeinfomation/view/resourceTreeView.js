@@ -29,7 +29,7 @@ ENS.ResourceTreeView = wgp.TreeView.extend({
 				helper : "clone",
 				handle : "A",
 				start  : function(event, ui){
-					var selectResource = ui.helper.find("A.jstree-hovered").parent("li");
+					var selectResource = ui.helper.find("A.jstree-clicked").parent("li");
 					selectResource.addClass("dragTarget");
 
 					var selectTop = selectResource.offset()["top"];

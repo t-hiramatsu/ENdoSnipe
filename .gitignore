@@ -167,6 +167,10 @@ pip-log.txt
 *.class
 
 classes/
+test-classes/
+classes_build/
+classes-test_build/
+classes-servlet-api_build/
 
 
 #############

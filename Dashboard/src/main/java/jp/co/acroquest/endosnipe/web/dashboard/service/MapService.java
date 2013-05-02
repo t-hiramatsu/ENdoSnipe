@@ -40,94 +40,112 @@ import jp.co.acroquest.endosnipe.web.dashboard.manager.DatabaseManager;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MapService {
-	/** ロガー */
-	private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
-			.getLogger(MapService.class);
+public class MapService
+{
+    /** ロガー */
+    private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(MapService.class);
 
-	/**
-	 * 全てのマップデータを返す。
-	 * 
-	 * @return マップデータ
-	 */
-	public List<Map<String, String>> getAllMap() {
-		DatabaseManager dbMmanager = DatabaseManager.getInstance();
-		String dbName = dbMmanager.getDataBaseName(1);
-		List<MapInfo> mapList = null;
-		try {
-			mapList = MapInfoDao.selectAll(dbName);
-		} catch (SQLException ex) {
-			LOGGER.log(LogMessageCodes.SQL_EXCEPTION);
-			return new ArrayList<Map<String, String>>();
-		}
+    /**
+     * 全てのマップデータを返す。
+     * 
+     * @return マップデータ
+     */
+    public List<Map<String, String>> getAllMap()
+    {
+        DatabaseManager dbMmanager = DatabaseManager.getInstance();
+        String dbName = dbMmanager.getDataBaseName(1);
+        List<MapInfo> mapList = null;
+        try
+        {
+            mapList = MapInfoDao.selectAll(dbName);
+        }
+        catch (SQLException ex)
+        {
+            LOGGER.log(LogMessageCodes.SQL_EXCEPTION);
+            return new ArrayList<Map<String, String>>();
+        }
 
-		List<Map<String, String>> resultList = new ArrayList<Map<String, String>>();
-		for (MapInfo mapInfo : mapList) {
-			Map<String,String> dataMap = this.converDataMap(mapInfo);
-			resultList.add(dataMap);
-		}
-		return resultList;
-	}
+        List<Map<String, String>> resultList = new ArrayList<Map<String, String>>();
+        for (MapInfo mapInfo : mapList)
+        {
+            Map<String, String> dataMap = this.converDataMap(mapInfo);
+            resultList.add(dataMap);
+        }
+        return resultList;
+    }
 
-	/**
-	 * マップを登録する。
-	 * 
-	 * 
-	 */
-	public void insert(final MapInfo mapInfo) {
-		DatabaseManager dbMmanager = DatabaseManager.getInstance();
-		String dbName = dbMmanager.getDataBaseName(1);
-		try {
-			MapInfoDao.insert(dbName, mapInfo);
-		} catch (SQLException ex) {
-			LOGGER.log(LogMessageCodes.SQL_EXCEPTION);
-		}
-	}
+    /**
+     * マップを登録する。
+     * 
+     * 
+     */
+    public void insert(final MapInfo mapInfo)
+    {
+        DatabaseManager dbMmanager = DatabaseManager.getInstance();
+        String dbName = dbMmanager.getDataBaseName(1);
+        try
+        {
+            MapInfoDao.insert(dbName, mapInfo);
+        }
+        catch (SQLException ex)
+        {
+            LOGGER.log(LogMessageCodes.SQL_EXCEPTION);
+        }
+    }
 
-	/**
-	 * マップを更新する。
-	 * 
-	 * @param
-	 */
-	public void update(final MapInfo mapInfo) {
-		DatabaseManager dbMmanager = DatabaseManager.getInstance();
-		String dbName = dbMmanager.getDataBaseName(1);
-		try {
-			MapInfoDao.update(dbName, mapInfo);
-		} catch (SQLException ex) {
-			LOGGER.log(LogMessageCodes.SQL_EXCEPTION);
-		}
-	}
+    /**
+     * マップを更新する。
+     * 
+     * @param
+     */
+    public void update(final MapInfo mapInfo)
+    {
+        DatabaseManager dbMmanager = DatabaseManager.getInstance();
+        String dbName = dbMmanager.getDataBaseName(1);
+        try
+        {
+            MapInfoDao.update(dbName, mapInfo);
+        }
+        catch (SQLException ex)
+        {
+            LOGGER.log(LogMessageCodes.SQL_EXCEPTION);
+        }
+    }
 
-	/**
-	 * マップを取得する。
-	 * @param mapId
-	 * @return
-	 */
-	public Map<String, String> getById(long mapId){
-		DatabaseManager dbMmanager = DatabaseManager.getInstance();
-		String dbName = dbMmanager.getDataBaseName(1);
-		try {
-			MapInfo mapInfo = MapInfoDao.selectById(dbName, mapId);
-			return this.converDataMap(mapInfo);
-		} catch (SQLException ex) {
-			LOGGER.log(LogMessageCodes.SQL_EXCEPTION);
-			return null;
-		}
-	}
+    /**
+     * マップを取得する。
+     * @param mapId
+     * @return
+     */
+    public Map<String, String> getById(final long mapId)
+    {
+        DatabaseManager dbMmanager = DatabaseManager.getInstance();
+        String dbName = dbMmanager.getDataBaseName(1);
+        try
+        {
+            MapInfo mapInfo = MapInfoDao.selectById(dbName, mapId);
+            return this.converDataMap(mapInfo);
+        }
+        catch (SQLException ex)
+        {
+            LOGGER.log(LogMessageCodes.SQL_EXCEPTION);
+            return null;
+        }
+    }
 
-	/**
-	 * マップ情報をMap形式に変換する。
-	 * @param mapInfo
-	 * @return
-	 */
-	private Map<String, String> converDataMap(MapInfo mapInfo){
-		Map<String, String> dataMap = new HashMap<String, String>();
-		dataMap.put("id", String.valueOf(mapInfo.mapId));
-		dataMap.put("parentTreeId", "");
-		dataMap.put("data", mapInfo.name);
-		dataMap.put("treeId", String.valueOf(mapInfo.mapId));
-		dataMap.put("mapData", mapInfo.data);
-		return dataMap;
-	}
+    /**
+     * マップ情報をMap形式に変換する。
+     * @param mapInfo
+     * @return
+     */
+    private Map<String, String> converDataMap(final MapInfo mapInfo)
+    {
+        Map<String, String> dataMap = new HashMap<String, String>();
+        dataMap.put("id", String.valueOf(mapInfo.mapId));
+        dataMap.put("parentTreeId", "");
+        dataMap.put("data", mapInfo.name);
+        dataMap.put("treeId", String.valueOf(mapInfo.mapId));
+        dataMap.put("mapData", mapInfo.data);
+        return dataMap;
+    }
 }

@@ -48,8 +48,8 @@ wgp.MapView = wgp.AbstractView.extend({
 		this.render();
 	},
 	render : function() {
-		this.paper = new Raphael(document.getElementById(this.$el.attr("id")),
-				this.width, this.height);
+		this.paper = Raphael(0, 0, this.width, this.height);
+		$(this.paper.canvas).appendTo("#" + this.$el.attr("id"));
 	},
 	onAdd : function(mapElement) {
 		var id = mapElement.id;

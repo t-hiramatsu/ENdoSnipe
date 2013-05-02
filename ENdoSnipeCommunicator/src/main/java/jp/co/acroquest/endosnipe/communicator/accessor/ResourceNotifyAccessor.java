@@ -34,18 +34,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
-import jp.co.acroquest.endosnipe.common.entity.DisplayType;
 import jp.co.acroquest.endosnipe.common.entity.ItemType;
 import jp.co.acroquest.endosnipe.common.entity.MeasurementData;
 import jp.co.acroquest.endosnipe.common.entity.MeasurementDetail;
 import jp.co.acroquest.endosnipe.common.entity.ResourceData;
-import jp.co.acroquest.endosnipe.common.entity.ResourceItem;
-import jp.co.acroquest.endosnipe.common.jmx.JMXManager;
 import jp.co.acroquest.endosnipe.communicator.entity.Body;
 import jp.co.acroquest.endosnipe.communicator.entity.Header;
 import jp.co.acroquest.endosnipe.communicator.entity.MeasurementConstants;
 import jp.co.acroquest.endosnipe.communicator.entity.RequestBody;
-import jp.co.acroquest.endosnipe.communicator.entity.ResourceItemConverter;
 import jp.co.acroquest.endosnipe.communicator.entity.ResponseBody;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
@@ -72,9 +68,6 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
 
     /** 表示名変換マップ */
     private static Map<String, String> convMap__              = new HashMap<String, String>(0);
-
-    /** 汎用JMX項目であるかどうかを項目名称から判定するための検索キー。 */
-    private static final String        JMX_ITEMNAME_SEARCHKEY = "/jmx/";
 
     /** 置換変数を特定するための正規表現文字列。 */
     private static final Pattern       VAR_PATTERN            =
@@ -129,16 +122,8 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
         responseBodyList.add(timeBody);
 
         Map<String, MeasurementData> measurementDataMap = resourceData.getMeasurementMap();
-        List<MeasurementData> pending = new ArrayList<MeasurementData>(0);
         for (MeasurementData measurementData : measurementDataMap.values())
         {
-            // JMX計測値は保留
-            if (measurementData.itemName.indexOf(JMX_ITEMNAME_SEARCHKEY) >= 0)
-            {
-                pending.add(measurementData.clone());
-                continue;
-            }
-
             String itemName = measurementData.itemName;
             byte itemType = measurementData.valueType;
 
@@ -191,13 +176,6 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
                                                                  ItemType.ITEMTYPE_STRING);
                 responseBodyList.add(nameBody);
             }
-        }
-
-        // 保留していたJMX計測値のBodyを作成
-        if (pending.size() > 0)
-        {
-            ResponseBody jmxBody = makeJMXResponseBody(pending);
-            responseBodyList.add(jmxBody);
         }
 
         Telegram responseTelegram = makeResponseTelegram(responseBodyList);
@@ -319,34 +297,6 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
         Body measurementBody = bodies[cnt];
         String measurementObjName = measurementBody.getStrObjName();
         String measuremnetItemName = agentName + measurementBody.getStrItemName();
-
-        if (measuremnetItemName != null && measuremnetItemName.indexOf(JMX_ITEMNAME_SEARCHKEY) >= 0)
-        {
-            List<ResourceItem> jmxList;
-            Object item = measurementBody.getObjItemValueArr()[0];
-
-            try
-            {
-                // アイテムがJMX計測値リストの場合
-                if (item instanceof ArrayList<?>)
-                {
-                    jmxList = (List<ResourceItem>)item;
-                    addJMXMeasurementData(resourceData, jmxList, dbName);
-                }
-                // アイテムがJSON型の文字列の場合
-                else if (item instanceof String)
-                {
-                    jmxList = ResourceItemConverter.getInstance().decodeFromJSON((String)item);
-                    addJMXMeasurementData(resourceData, jmxList, dbName);
-                }
-            }
-            catch (Exception e)
-            {
-                logger.warn(e);
-            }
-
-            return cnt + SINGLE_RESOURCE;
-        }
 
         if (OBJECTNAME_RESOURCE.equals(measurementObjName))
         {
@@ -709,101 +659,6 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
         return timeBody;
     }
 
-    /**
-     * JMX項目名に対応した計測値種別IDを取得します。<br />
-     * 対応したIDが無い場合、新たにIDを作成します。
-     *
-     * @param dbName データベース名
-     * @param objectName オブジェクト名
-     * @param objDispName オブジェクト表示名
-     *
-     * @return 計測値種別ID (処理失敗時は-1)
-     */
-    private static long getJMXMeasurementType(final String dbName, final String objectName,
-            final String objDispName)
-    {
-        long type = -1L;
-
-        Map<String, Long> mMap = JMXManager.getInstance().getMeasurmentTypeMap(dbName);
-        // DB名に対応するマップが取得できなかった場合
-        if (mMap == null)
-        {
-            mMap = new HashMap<String, Long>(1);
-            JMXManager.getInstance().setMeasurementTypeMap(dbName, mMap);
-        }
-        if (mMap.containsKey(objectName))
-        {
-            type = mMap.get(objectName);
-        }
-        else
-        {
-            type = JMXManager.getInstance().addMeasurementType(dbName, objectName, objDispName);
-        }
-
-        return type;
-    }
-
-    /**
-     * {@link ResourceData}オブジェクトにJMX計測情報を追加します。<br />
-     *
-     * @param resourceData {@link ResourceData}オブジェクト
-     * @param jmxList JMX計測値のリスト
-     * @param dbName データベース名
-     */
-    private static void addJMXMeasurementData(ResourceData resourceData,
-            List<ResourceItem> jmxList, final String dbName)
-    {
-        //
-        // オブジェクト名毎にアイテムを分類
-        //
-
-        // オブジェクト名と計測値のマップ
-        HashMap<String, ArrayList<MeasurementDetail>> detailMap =
-                new HashMap<String, ArrayList<MeasurementDetail>>(1);
-        // オブジェクト名とオブジェクト表示名のマップ
-        HashMap<String, String> dispNameMap = new HashMap<String, String>(1);
-
-        for (ResourceItem item : jmxList)
-        {
-            ArrayList<MeasurementDetail> detailList = detailMap.get(item.getObjectName());
-            if (detailList == null)
-            {
-                detailList = new ArrayList<MeasurementDetail>(1);
-                dispNameMap.put(item.getObjectName(), item.getObjectDisplayNeme());
-            }
-            MeasurementDetail detail = new MeasurementDetail();
-            detail.value = item.getValue();
-            detail.displayName = item.getDisplayName();
-            detail.valueId = (long)(ItemType.getItemTypeNumber(item.getItemType()));
-            detail.displayType = (int)(DisplayType.getDisplayTypeNumber(item.getDisplayType()));
-            detailList.add(detail);
-            detailMap.put(item.getObjectName(), detailList);
-        }
-
-        //
-        // オブジェクト名ごとにMeasurementDataを作成し、ResourceDataへ追加
-        //
-
-        for (String objName : detailMap.keySet())
-        {
-            MeasurementData data = new MeasurementData();
-            Integer resource =
-                    Integer.valueOf((int)getJMXMeasurementType(dbName, objName,
-                                                               dispNameMap.get(objName)));
-
-            data.measurementType = resource;
-            data.itemName = objName;
-            data.displayName = dispNameMap.get(objName);
-            data.valueType = ItemType.getItemTypeNumber(ItemType.ITEMTYPE_JMX);
-
-            List<MeasurementDetail> detailList = detailMap.get(objName);
-            for (MeasurementDetail detail : detailList)
-            {
-                data.addMeasurementDetail(detail);
-            }
-            resourceData.addMeasurementData(data);
-        }
-    }
 
     /**
      * 表示名変換マップを設定します。
@@ -815,60 +670,4 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
         convMap__ = convMap;
     }
 
-    private static ResponseBody makeJMXResponseBody(List<MeasurementData> dataList)
-    {
-        // パラメータの要素数が０ならnullでリターン
-        if (dataList.size() == 0)
-        {
-            return null;
-        }
-
-        String jsonStr;
-        ArrayList<ResourceItem> itemList = new ArrayList<ResourceItem>(dataList.size());
-
-        try
-        {
-            for (MeasurementData data : dataList)
-            {
-                String objDispName = convMap__.get(data.displayName);
-                if (null == objDispName)
-                {
-                    objDispName = data.displayName;
-                }
-                for (MeasurementDetail detail : data.getMeasurementDetailMap().values())
-                {
-                    String attrDispName = convMap__.get(detail.displayName);
-                    if (null == attrDispName)
-                    {
-                        attrDispName = detail.displayName;
-                    }
-                    ResourceItem item = new ResourceItem();
-                    item.setDisplayName(attrDispName);
-                    item.setItemType(ItemType.getItemType((byte)(detail.valueId)));
-                    item.setDisplayType(DisplayType.getDisplayType((byte)(detail.displayType)));
-                    item.setObjectName(data.itemName);
-                    item.setObjectDisplayNeme(objDispName);
-                    item.setValue(String.valueOf(detail.value));
-                    itemList.add(item);
-                }
-            }
-            jsonStr = ResourceItemConverter.getInstance().encodeToJSON(itemList);
-        }
-        catch (Exception e)
-        {
-            return null;
-        }
-
-        ResponseBody resBody = new ResponseBody();
-        resBody.setStrObjName(OBJECTNAME_RESOURCE);
-        resBody.setStrItemName(ITEMNAME_JMX);
-        resBody.setIntLoopCount(1);
-        resBody.setByteItemMode(ItemType.ITEMTYPE_JMX);
-
-        ArrayList<Object> objArray = new ArrayList<Object>(1);
-        objArray.add(jsonStr);
-        resBody.setObjItemValueArr(objArray.toArray());
-
-        return resBody;
-    }
 }

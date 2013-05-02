@@ -55,6 +55,9 @@
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/tree/reportDialogView.js">	
 </script>
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/resources/js/tree/signalDefinitionDialogView.js">	
+</script>
 
 <%-- nodeInfo graph --%>
 <script type="text/javascript"

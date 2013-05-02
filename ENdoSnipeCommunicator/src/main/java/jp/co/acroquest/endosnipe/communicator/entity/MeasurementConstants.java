@@ -292,7 +292,10 @@ public interface MeasurementConstants
     
     /** 計測値種別(HMaster) */
     int TYPE_HBASE_HMASTER = 87;
-    
+
     /** 計測値種別(HRegionServer) */
     int TYPE_HBASE_HREGIONSERVER = 88;
+    
+    /** 計測値種別(MapReduce) */
+    int TYPE_INFINISPAN_MAPREDUCE = 89;
 }

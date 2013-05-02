@@ -93,12 +93,12 @@ CREATE TABLE SIGNAL_DEFINITION(
   LEVEL INT NOT NULL,
   PATTERN_VALUE VARCHAR NOT NULL,
   ESCALATION_PERIOD DOUBLE PRECISION
-)
+);
 
 /**********************************/
 /* テーブル名: マップテーブル */
 /**********************************/
-CREATE TABLE public.map_info(
+CREATE TABLE MAP_INFO(
  MAP_ID SERIAL NOT NULL,
  NAME VARCHAR(64),
  DATA text,
