@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,6 +12,22 @@
 <body id="main" oncontextmenu="return false;" onload="self.focus();">
 	<div id="persArea"></div>
 	<input id="treeData" type="hidden" value='${treeData}' />
+	<form:form modelAttribute="mapListForm">
+		<!-- マップモード(運用or編集) -->
+		<form:hidden path="mapMode" />
+
+		<!-- ResourceTreeViewの展開状態 -->
+		<form:hidden path="treeViewOpenNodeData" />
+
+		<!-- 表示しているツリー名 -->
+		<form:hidden path="displayTreeArea" />
+
+		<!-- 選択しているResourceTreeViewのID -->
+		<form:hidden path="selectedTreeId" />
+
+		<!-- 選択しているResourceMapListViewのID -->
+		<form:hidden path="selectedMapListId" />
+	</form:form>
 	<script type="text/javascript">
 		var viewArea1 = {
 			width : 300,
@@ -64,10 +81,16 @@
 		});
 
 		appView.addView(resourceTreeView, wgp.constants.TREE.DATA_ID);
-		websocketClient = new wgp.WebSocketClient(appView, "notifyEvent");
-		websocketClient.initialize();
 		appView.getTermData([ wgp.constants.TREE.DATA_ID ], new Date(),
 				new Date());
+
+		var websocketClient = null;
+		websocketClient = new wgp.WebSocketClient(appView, "notifyEvent");
+		websocketClient.initialize();
+
+		if(mapMode == ENS.map.mode.EDIT){
+			appView.stopSyncData([wgp.constants.TREE.DATA_ID]);
+		}
 		
 		var resourceMapListView = new ENS.ResourceMapListView({
 			id : "list_area",
@@ -76,86 +99,132 @@
 			+ "/resources/css/jsTree/style.css"
 		});
 
-//		var rootTreeModel = new wgp.TreeModel({
-//			id : "mapRoot",
-//			treeId : "mapRoot",
-//			data : "root",
-//			parentTreeId : "",
-//		});
+		var mapMode = "";
+		if($("#mapMode").val() == ENS.map.mode.EDIT){
+			mapMode = ENS.map.mode.EDIT;
+		}else{
+			mapMode = ENS.map.mode.OPERATE;
+		}
 
-//		var groupTreeModel1 = new wgp.TreeModel({
-//			id : "mapGroup1",
-//			treeId : "mapGroup1",
-//			data : "group1",
-//			parentTreeId : "mapRoot"
-//		});
+		var menuModelArray = [];
 
-//		var groupTreeModel2 = new wgp.TreeModel({
-//			id : "mapGroup2",
-//			treeId : "mapGroup2",
-//			data : "group2",
-//			parentTreeId : "mapRoot"
-//		});
+		var changeModeMenuModel;
+		if(mapMode == ENS.map.mode.OPERATE){
+			changeModeMenuModel = new ENS.mapMenuModel({
+				width : 25,
+				height : 25,
+				styleClass : 'map_menu_icon',
+				src : '<%=request.getContextPath()%>/resources/images/map/operateModeIcon.png',
+				alt : 'Operate mode',
+				onclick : (function(event){
+					$("#mapMode").val(ENS.map.mode.EDIT);
+					$("#mapListForm").attr("action", "<%=request.getContextPath()%>/map/mapList");
+					saveDisplayState();
+					$("#mapListForm").submit();
+				})
+			});
 
-//		resourceMapListView.collection = new TreeModelList();
-//		resourceMapListView.registerCollectionEvent();
-//		resourceMapListView.collection.add(rootTreeModel);
-//		resourceMapListView.collection.add(groupTreeModel1);
-//		resourceMapListView.collection.add(groupTreeModel2);
-		
-		// Create Menu View
-		var createMapMenuModel = new ENS.mapMenuModel({
-			width : 25,
-			height : 25,
-			styleClass : 'map_menu_icon',
-			src : '<%=request.getContextPath()%>/resources/images/map/createIcon.png',
-			alt : 'save',
-			onclick : (function(event){
-				resourceMapListView.onCreate();
-			})
-		});
+		}else if(mapMode == ENS.map.mode.EDIT){
+			changeModeMenuModel = new ENS.mapMenuModel({
+				width : 25,
+				height : 25,
+				styleClass : 'map_menu_icon',
+				src : '<%=request.getContextPath()%>/resources/images/map/editModeIcon.png',
+				alt : 'Edit mode',
+				onclick : (function(event){
+					$("#mapMode").val(ENS.map.mode.OPERATE);
+					$("#mapListForm").attr("action", "<%=request.getContextPath()%>/map/mapList");
+					saveDisplayState();
+					$("#mapListForm").submit();
+				})
+			});			
+		}
+		menuModelArray.push(changeModeMenuModel);
 
-		var saveMapMenuModel = new ENS.mapMenuModel({
-			width : 25,
-			height : 25,
-			styleClass : 'map_menu_icon',
-			src : '<%=request.getContextPath()%>/resources/images/map/saveIcon.png',
-			alt : 'save',
-			onclick : (function(event){
-				if(resourceMapListView.childView){
-					var selectedId = $("#" + resourceMapListView.id).find(".jstree-clicked")[0].id;
-					var treeModel = resourceMapListView.collection.where({id : selectedId})[0];
-					resourceMapListView.childView.onSave(treeModel);
-				}else{
-					console.log("please select a map");
-				}
-			})
-		});
+		// 編集モード用のメニューアイコンの設定を行う。
+		if(mapMode == ENS.map.mode.EDIT){
 
-		var linkMapMenuModel = new ENS.mapMenuModel({
-			width : 25,
-			height : 25,
-			styleClass : 'map_menu_icon',
-			src : '<%=request.getContextPath()%>/resources/images/map/createLinkIcon.png',
-			alt : 'createLink',
-			onclick : (function(event){
-				if(resourceMapListView.childView){
-					var selectedId = $("#" + resourceMapListView.id).find(".jstree-clicked")[0].id;
-					var treeModel = resourceMapListView.collection.where({id : selectedId})[0];
-					resourceMapListView.childView.setClickAddEvent("ENS.ResourceLinkElementView");
-					$("[alt='createLink']").addClass("map_menu_icon-active");
-				}else{
-					console.log("please select a map");
-				}
-			})
-		});
+			var createMapMenuModel = new ENS.mapMenuModel({
+				width : 25,
+				height : 25,
+				styleClass : 'map_menu_icon',
+				src : '<%=request.getContextPath()%>/resources/images/map/createIcon.png',
+				alt : 'Create New Map',
+				onclick : (function(event){
+					resourceMapListView.onCreate();
+				})
+			});
+			menuModelArray.push(createMapMenuModel);
+			
+			var saveMapMenuModel = new ENS.mapMenuModel({
+				width : 25,
+				height : 25,
+				styleClass : 'map_menu_icon',
+				src : '<%=request.getContextPath()%>/resources/images/map/saveIcon.png',
+				alt : 'save',
+				onclick : (function(event){
+					if(resourceMapListView.childView){
+						var selectedId = $("#" + resourceMapListView.id).find(".jstree-clicked")[0].id;
+						var treeModel = resourceMapListView.collection.where({id : selectedId})[0];
+						resourceMapListView.childView.onSave(treeModel);
+					}else{
+						console.log("please select a map");
+					}
+				})
+			});
+			menuModelArray.push(saveMapMenuModel);
 
+			var linkMapMenuModel = new ENS.mapMenuModel({
+				width : 25,
+				height : 25,
+				styleClass : 'map_menu_icon',
+				src : '<%=request.getContextPath()%>/resources/images/map/createLinkIcon.png',
+				alt : 'createLink',
+				onclick : (function(event){
+					if(resourceMapListView.childView){
+						var selectedId = $("#" + resourceMapListView.id).find(".jstree-clicked")[0].id;
+						var treeModel = resourceMapListView.collection.where({id : selectedId})[0];
+						resourceMapListView.childView.setClickAddEvent("ENS.ResourceLinkElementView");
+						$("[alt='createLink']").addClass("map_menu_icon-active");
+					}else{
+						console.log("please select a map");
+					}
+				})
+			});
+			menuModelArray.push(linkMapMenuModel);
+		}
+
+		// メニューアイコンを生成する。
 		var menuView = new ENS.mapMenuView({
 				id : "persArea_drop_1_0",
-				collection : [createMapMenuModel, saveMapMenuModel, linkMapMenuModel]
+				collection : menuModelArray
 			},
 			{}
 		);
+
+	/**
+	 * 画面遷移を行う際に、画面の状態を引き継ぐ。
+	 */
+	function saveDisplayState(){
+		var treeIdAttribute = "id";
+		var treeViewOpenNodeData = resourceTreeView.getOpenNodes(treeIdAttribute);
+
+		var treeAreaTabMenu = $("#persArea_drop_0_0").find(".tab_menu.ui-state-active");
+		var displayTreeArea = treeAreaTabMenu.children("a").attr("href");
+
+		var selectedTreeId = resourceTreeView.getSelectedNodeId(treeIdAttribute);
+		var selectedMapListId = resourceMapListView.getSelectedNodeId(treeIdAttribute);
+
+		$("#treeViewOpenNodeData").val(JSON.stringify(treeViewOpenNodeData));
+		$("#displayTreeArea").val(displayTreeArea);
+		$("#selectedTreeId").val(selectedTreeId);
+		$("#selectedMapListId").val(selectedMapListId);
+	}
+
+	// リソース一覧又はマップ一覧タブの選択状態があれば選択する。
+	var displayTreeArea = $("#displayTreeArea").val();
+	$("#persArea_drop_0_0").find(".tab_menu").find("[href='"+ displayTreeArea +"']").click();
+	
 	</script>
 </body>
 </html>

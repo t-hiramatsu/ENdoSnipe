@@ -13,7 +13,8 @@ ENS.ResourceMapListView = wgp.TreeView.extend({
 		var ajaxHandler = new wgp.AjaxHandler();
 		this.ajaxHandler = ajaxHandler;
 
-		var contextMenuId = "ResourceMapListMenu";
+		// コンテキストメニュー用のID
+		var contextMenuId = this.cid + "_contextMenu";
 		this.contextMenuId = contextMenuId;
 
 		// ツリーの初期化
@@ -27,8 +28,6 @@ ENS.ResourceMapListView = wgp.TreeView.extend({
 		// マップ一覧の要素がクリックされた際に紐付くマップを表示する。
 		var instance = this;
 		$("#" + this.$el.attr("id")).mousedown(function(event) {
-			$("#" + instance.$el.attr("id") + " A").removeClass("jstree-clicked");
-
 			// 左クリック時のみ処理
 			if(event.button != 0){
 				return;
@@ -39,14 +38,19 @@ ENS.ResourceMapListView = wgp.TreeView.extend({
 				var treeId = $(target).attr("id");
 				var treeModel = instance.collection.get(treeId);
 				instance.clickModel(treeModel);
-				$(target).addClass("jstree-clicked");
 			}
 		});
 
 		// ツリー構築後の処理をバインド
 		$("#" + this.$el.attr("id")).bind("loaded.jstree", function(){
-			instance.createContextMenuTag();
-			instance.relateContextMenu();
+
+			// マップモードを取得する。
+			var mapMode = $("#mapMode").val();
+			if(ENS.map.mode.EDIT == mapMode){
+				instance.setEditFunction();
+			}
+
+			instance.restoreDisplayState();
 		});
 
 		// ツリー情報をサーバから読み込む
@@ -61,14 +65,22 @@ ENS.ResourceMapListView = wgp.TreeView.extend({
 		$("#" + this.targetId).children().remove();
 
 		var treeSettings = treeModel.attributes;
-		this.childView = new ENS.ResourceMapView({
+		var resourceMapView = new ENS.ResourceMapView({
 			id : this.targetId,
 			mapId : treeModel.get("id")
 		});
+
+		this.childView = resourceMapView;
+		resourceTreeView.childView = resourceMapView;
 	},
 	onLoad : function() {
-		var instance = this;
 
+		
+		// ツリーを消去する。
+		$("#" + this.$el.attr("id")).children().remove();
+
+		var instance = this;
+		
 		var setting = {
 			data : {},
 			url : wgp.common.getContextPath() + "/map/getAll"
@@ -129,27 +141,32 @@ ENS.ResourceMapListView = wgp.TreeView.extend({
 
 		createMapDialog.dialog("open");
 	},
-	onRemove : function() {
+	onRemove : function(treeModel) {
 		var instance = this;
 		var removeMapDialog = $("<div title='Remove this Map'></div>");
 		removeMapDialog.append("<p>That you to remove this map Sure?</p>");
-
 		removeMapDialog.dialog({
 			autoOpen: false,
 			height: 300,
-			width: 300,
+			width: 350,
 			modal: true,
 			buttons : {
 				"YES" : function(){
 					var setting = {
 						data : {
-							name : mapNameText.val(),
-							data : "{}"
+							mapId : treeModel.id
 						},
-						url : wgp.common.getContextPath() + "/map/insert"
+						url : wgp.common.getContextPath() + "/map/removeById"
 					}
 					instance.ajaxHandler.requestServerSync(setting);
 					removeMapDialog.dialog("close");
+
+					// マップの表示内容を全て消去する。
+					instance.targetId.children().remove();
+
+					// ビューの関連付けを削除する。
+					instance.childView = null;
+					resoureceTreeView.childView = null;
 
 					// マップ一覧を再描画する。
 					instance.onLoad();
@@ -162,6 +179,12 @@ ENS.ResourceMapListView = wgp.TreeView.extend({
 				removeMapDialog.remove();
 			}
 		});
+
+		removeMapDialog.dialog("open");
+	},
+	setEditFunction : function(){
+		this.createContextMenuTag();
+		this.relateContextMenu();
 	},
 	createContextMenuTag : function(){
 
@@ -175,20 +198,62 @@ ENS.ResourceMapListView = wgp.TreeView.extend({
 	},
 	relateContextMenu : function(){
 		var instance = this;
+		var clickTarget = null;
 		var option = {
+			target_id : "#" + this.$el.attr("id"),
 			onShow: function(event, target){
+				var tagName = event.target.tagName;
+				if(tagName != "A"){
+					return false;
+				}else{
+					clickTarget = event.target;
+					return true;
+				}
 			},
 			onSelect : function(event, target){
-				var treeId = $(target).attr("id");
+				var treeId = $(clickTarget).attr("id");
 				var treeModel = instance.collection.get(treeId);
 
 				if(event.currentTarget.id == "Remove"){
+					instance.onRemove(treeModel);
 				}
 			}
 		};
 
-		var targetTag = $("#" + this.$el.attr("id") + " A");
+		var targetTag = $("#" + this.$el.attr("id"));
 		var menuId = this.contextMenuId;
 		contextMenuCreator.createContextMenuSelector(targetTag, menuId, option);
+	},
+	// 画面に保持している状態を復元する。
+	restoreDisplayState : function(){
+		var selectedMapListId = $("#selectedMapListId").val();
+		if(selectedMapListId.length > 0){
+			this.selectNode(selectedMapListId, "id");
+
+			// 選択したツリーを基にマップを表示する。
+			var treeModel = this.collection.get(selectedMapListId);
+			this.clickModel(treeModel);
+		}
+	},
+	// 選択中のツリーのノードを取得する。
+	getSelectedNode : function(){
+		var selectedNode = $("#" + this.$el.attr("id")).jstree("get_selected");
+		return selectedNode
+	},
+	// 選択中のツリーのノードIDを取得する。
+	getSelectedNodeId : function(idAttribute){
+		var selectedNode = this.getSelectedNode();
+		if(selectedNode.length > 0){
+			return selectedNode.children("a").attr(idAttribute);
+		}else{
+			return "";
+		}
+	},
+	// ツリーのノードを選択する。
+	selectNode : function(treeId, idAttribute){
+		var selectTreeNode = this.getTreeNode(treeId, idAttribute);
+		if(selectTreeNode.length > 0){
+			selectTreeNode.click();
+		}
 	}
 });

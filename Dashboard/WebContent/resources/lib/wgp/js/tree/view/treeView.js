@@ -78,6 +78,7 @@ wgp.TreeView = wgp.AbstractView
 			renderAll : function() {
 				// View jsTree
 				var settings = this.treeOption;
+				settings["json_data"] = null;
 				settings = $.extend(true, settings, {
 					json_data : {
 						data : this.createJSONData()

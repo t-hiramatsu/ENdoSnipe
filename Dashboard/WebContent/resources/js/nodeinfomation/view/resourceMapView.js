@@ -10,7 +10,7 @@ ENS.ResourceMapView = wgp.MapView.extend({
 		var ajaxHandler = new wgp.AjaxHandler();
 		this.ajaxHandler = ajaxHandler;
 
-		var contextMenuId = "ResourceMapMenu";
+		var contextMenuId = this.cid + "_contextMenu";
 		this.contextMenuId = contextMenuId;
 		
 		this.mapId = argument["mapId"];
@@ -18,58 +18,6 @@ ENS.ResourceMapView = wgp.MapView.extend({
 		// 継承元の初期化メソッド実行
 		this.__proto__.__proto__.initialize.apply(this, [argument]);
 
-		// グラフリソースリンクがドロップされた際にグラフを描画する。
-		var instance = this;
-		$("#" + this.$el.attr("id")).droppable({
-			accept: function(element){
-				if(element.find("A").length > 0){
-					return true;
-				}else{
-					return false;
-				}
-			},
-			tolerance : "fit",
-			drop : function(event, ui){
-
-				// ドロップ時の位置を特定しておく。
-				var perspectiveModel =
-					perspectiveView.findPerspectiveFromId(instance.$el.attr("id"));
-				var drop_area_id = perspectiveModel.get("drop_area_id");
-				var dropAreaOffset = $("#" + drop_area_id).offset();
-
-				var resourceId = ui.helper.find("A").attr("id");
-				var treeModel = resourceTreeView.collection.get(resourceId);
-
-				var resourceModel = new wgp.MapElement();
-				resourceModel.set({
-					objectId : resourceId,
-					objectName : "ENS.ResourceGraphElementView",
-					pointX : event.clientX,
-					pointY : event.clientY,
-					width : 300,
-					height : 300,
-					zIndex : 1
-				});
-				instance.collection.add(resourceModel);
-
-				// TODO シグナルは別の方法で表示する。
-//				var stateModel = new ENS.resourceStateElementModel();
-//				stateModel.set({
-//					objectId : resourceId + "_State",
-//					objectName : "ENS.ResourceStateElementView",
-//					pointX : event.clientX - 190,
-//					pointY : event.clientY - 140,
-//					width : 50,
-//					height : 50,
-//					zIndex : 1,
-//					stateId : "normal",
-//					linkId : "group1"
-//				});
-//				instance.collection.add(stateModel);
-			}
-		
-		});
-		
 		// 本クラスのrenderメソッド実行
 		this.renderExtend();
 	},
@@ -90,17 +38,18 @@ ENS.ResourceMapView = wgp.MapView.extend({
 		var objectName = model.get("objectName");
 
 		// リソースグラフの場合はグラフを描画する。
+		var newView;
 		if("ENS.ResourceGraphElementView" == objectName){
-			var graphView = this._addGraphDivision(model);
-			this.viewCollection[model.id] = graphView;
+			newView = this._addGraphDivision(model);
+			this.viewCollection[model.id] = newView;
 
 		}else if("ENS.ResourceStateElementView" == objectName){
-			var stateView = this._addStateElement(model);
-			this.viewCollection[model.id] = stateView;
+			newView = this._addStateElement(model);
+			this.viewCollection[model.id] = newView;
 
 		}else if("ENS.ResourceLinkElementView" == objectName){
-			var linkView = this._addLinkElement(model);
-			this.viewCollection[model.id] = linkView;
+			newView = this._addLinkElement(model);
+			this.viewCollection[model.id] = newView;
 
 		}else{
 
@@ -108,8 +57,19 @@ ENS.ResourceMapView = wgp.MapView.extend({
 			this.__proto__.__proto__.onAdd(this, [model]);
 		}
 
-		// コンテキストメニューとの関連付けを行う。
-		this.relateContextMenu(model);
+		// 編集モードの場合に各種イベントを設定する。
+		var mapMode = $("#mapMode").val();
+		if(mapMode == ENS.map.mode.EDIT){
+
+			// ビューの編集イベントを設定する。
+			if(newView){
+				newView.setEditFunction();
+			}
+
+			// コンテキストメニューとの関連付け
+			this.relateContextMenu(model);
+		}
+
 	},
 	_addGraphDivision : function(model) {
 		var graphId = model.get("objectId");
@@ -189,56 +149,6 @@ ENS.ResourceMapView = wgp.MapView.extend({
 			new ENS.ResourceLinkElementView(argument);
 		return view;
 	},
-//	onCreate : function(){
-//		var instance = this;
-//		console.log("click create");
-//
-//		var createMapDialog = $("<div title='Create new Map'></div>");
-//		createMapDialog.append("<p> Please enter new Map name</p>");
-//
-//		var mapNameLabel = $("<label for='mapName'>Map Name</label>");
-//		var mapNameText = 
-//			$("<input type='text' name='mapName' id='mapName' class='text ui-widget-content ui-corner-all'>");
-//		createMapDialog.append(mapNameLabel);
-//		createMapDialog.append(mapNameText);
-//
-//		createMapDialog.dialog({
-//			autoOpen: false,
-//			height: 300,
-//			width: 350,
-//			modal: true,
-//			buttons : {
-//				"OK" : function(){
-//
-//					if(mapNameText.val().length == 0){
-//						alert("Map Name is require");
-//						return;
-//					}
-//					
-//					var setting = {
-//						data : {
-//							name : mapNameText.val(),
-//							data : "{}"
-//						},
-//						url : wgp.common.getContextPath() + "/map/insert"
-//					}
-//					instance.ajaxHandler.requestServerSync(setting);
-//					createMapDialog.dialog("close");
-//
-//					// マップ一覧を再描画する。
-//					resourceMapListView.onLoad();
-//				},
-//				"CANCEL" : function(){
-//					createMapDialog.dialog("close");
-//				}
-//			},
-//			close : function(event){
-//				createMapDialog.remove();
-//			}
-//		});
-//
-//		createMapDialog.dialog("open");
-//	},
 	onSave : function(treeModel){
 		console.log("click save");
 		var resourceArray = [];
