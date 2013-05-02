@@ -144,10 +144,9 @@ ENS.treeView = wgp.TreeView
 			},
 			pushOkFunction : function(event, option) {
 				
-			}
 			},
 			pushCancelFunction : function(event, option) {
-				var a = null;
+				
 			},
 			onComplete : function(type) {
 				if (type == wgp.constants.syncType.SEARCH) {

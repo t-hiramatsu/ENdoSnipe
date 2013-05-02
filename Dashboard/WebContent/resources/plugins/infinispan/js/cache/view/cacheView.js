@@ -20,12 +20,15 @@ infinispan.CacheView = wgp.AbstractView
 				this.cachePath = option.cachePath;
 				this.treeSetting = argument.treeSettings;
 
+				this.graphOrderList = [];
+
 				var clusterName = this.treeSetting.treeId.split("/")[1];
 				infinispan.cache.treeSettingId = "/" + clusterName + "/%"
 						+ this.cachePath;
 
 				this.lastTimeCacheNum = {};
 				this.graphRect = [];
+				this.graphRect["yDivision"] = [];
 
 				var realTag = $("#" + this.$el.attr("id"));
 				if (this.width == null) {
@@ -93,7 +96,7 @@ infinispan.CacheView = wgp.AbstractView
 				} else {
 					this.data = this._getData();
 
-					var maxCacheNum = this._createMap();
+					var maxCacheNum = this._createMap(true);
 					this._drawYDivision(maxCacheNum);
 				}
 			},
@@ -103,12 +106,32 @@ infinispan.CacheView = wgp.AbstractView
 					appView
 							.syncData([ (infinispan.cache.treeSettingId + "%") ]);
 				}
+				this._removeGraphRect();
 
 				this.data = this._getData();
 
-				var maxCacheNum = this._createMap();
+				var maxCacheNum = this._createMap(false);
 
 				this._drawYDivision(maxCacheNum);
+			},
+			_removeGraphRect : function() {
+				var instance = this;
+				var graphRectKeys = _.keys(this.graphRect);
+				_.each(graphRectKeys, function(rectKey, i) {
+					if (rectKey != "yDivision") {
+						var agentRect = instance.graphRect[rectKey];
+						var agentRectLength = agentRect.length;
+						for (var index = 0; index < agentRectLength; index++) {
+							agentRect[index].remove();
+						}
+					} else {
+						var yDivision = instance.graphRect[rectKey];
+						var yDivisionLength = yDivision.length;
+						for (var yIndex = 0; yIndex < yDivisionLength; yIndex++) {
+							yDivision[yIndex].remove();
+						}
+					}
+				});
 			},
 			_getData : function() {
 
@@ -118,9 +141,7 @@ infinispan.CacheView = wgp.AbstractView
 
 				collectionModels.sort();
 
-				var lastTime = this._getLastTime(collectionModels);
-				var lastUpdateTime = this._getLastUpdateTime(collectionModels,
-						lastTime);
+				var lastTimeList = this._getLastTime(collectionModels);
 
 				var data = {};
 
@@ -132,7 +153,12 @@ infinispan.CacheView = wgp.AbstractView
 											.get("measurementTime");
 									var time = parseInt(timeString, 10);
 
-									if (time == lastTime) {
+									var parsedModel = instance
+											._parseModel(model);
+
+									var agentName = parsedModel.agentName;
+
+									if (time == lastTimeList[agentName]) {
 										var itemNamePath = model
 												.get("measurementItemName");
 										var itemNamePathSplit = itemNamePath
@@ -140,11 +166,6 @@ infinispan.CacheView = wgp.AbstractView
 										var itemName = itemNamePathSplit[itemNamePathSplit.length - 1];
 
 										if (itemName == "numberOfEntries") {
-
-											var parsedModel = instance
-													._parseModel(model);
-
-											var agentName = parsedModel.agentName;
 
 											var dataList = data[agentName];
 
@@ -168,9 +189,6 @@ infinispan.CacheView = wgp.AbstractView
 										}
 									}
 								});
-
-				// set Last Update Time.
-				this.lastMeasurementTime_ = lastTime;
 
 				var agentNameArray = [];
 				for ( var agentName in data) {
@@ -222,34 +240,29 @@ infinispan.CacheView = wgp.AbstractView
 				};
 			},
 			_getLastTime : function(collectionModels) {
-				var lastTime = 0;
+				var instance = this;
+				var lastTimeList = [];
 
 				_.each(collectionModels, function(model, id) {
 					var measurementTime = model
 							.get(infinispan.ID.MEASUREMENT_TIME);
+
+					var parsedModel = instance._parseModel(model);
+
+					var agentName = parsedModel.agentName;
+
+					if (!lastTimeList[agentName]) {
+						lastTimeList[agentName] = 0;
+					}
 					var tmpTime = parseInt(measurementTime, 10);
-					if (lastTime < tmpTime) {
-						lastTime = tmpTime;
+					if (lastTimeList[agentName] < tmpTime) {
+						lastTimeList[agentName] = tmpTime;
 					}
 				});
 
-				return lastTime;
+				return lastTimeList;
 			},
-			_getLastUpdateTime : function(collectionModels, lastTime) {
-				var lastupdateTime = 0;
-
-				_.each(collectionModels, function(model, id) {
-					var measurementTime = model
-							.get(infinispan.ID.MEASUREMENT_TIME);
-					var tmpTime = parseInt(measurementTime, 10);
-					if ((lastupdateTime < tmpTime) && (lastTime != tmpTime)) {
-						lastupdateTime = tmpTime;
-					}
-				});
-
-				return lastupdateTime;
-			},
-			_createMap : function() {
+			_createMap : function(isRealTime) {
 
 				var serverNum = 0;
 				var data = this.data;
@@ -260,6 +273,21 @@ infinispan.CacheView = wgp.AbstractView
 				var colorList = this.colorList;
 				var agentName = "";
 				var tableName = "";
+
+				// Count serverNum
+				var agentList;
+				if (isRealTime) {
+					agentList = _.keys(this.graphRect);
+				} else {
+					agentList = _.keys(data);
+				}
+				var instance = this;
+				_.each(agentList, function(agentName, index) {
+					if (agentName != "yDivision") {
+						instance.graphOrderList[agentName] = serverNum;
+						serverNum++;
+					}
+				});
 
 				for (agentName in data) {
 					var cacheList = data[agentName];
@@ -282,8 +310,6 @@ infinispan.CacheView = wgp.AbstractView
 					if (maxCacheNum < cacheNum) {
 						maxCacheNum = cacheNum;
 					}
-
-					serverNum++;
 				}
 
 				// グラフの倍率
@@ -302,23 +328,39 @@ infinispan.CacheView = wgp.AbstractView
 				var unitNodeWidth = unitAreaWidth * 0.3;
 				var unitLastNodeWidth = unitAreaWidth * 0.1;
 
-				var count = 0;
-
 				var isRemove = false;
-				var graphRectLength = this.graphRect.length;
 
-				for ( var graphRectIndex = 0; graphRectIndex < graphRectLength; graphRectIndex++) {
-					this.graphRect[graphRectIndex].remove();
-					isRemove = true;
-				}
 				if (isRemove) {
-					this.graphRect = [];
+
+					agentRect = [];
 				}
 
 				for (agentName in this.data) {
+					if (!this.graphRect[agentName]) {
+						this.graphRect[agentName] = [];
+					}
+					var agentRect = this.graphRect[agentName];
+					var agentRectLength = agentRect.length;
 
-					var textStartX = unitAreaWidth * count + unitAreaWidth / 2
-							+ this.startXAxis;
+					for ( var agentRectIndex = 0; agentRectIndex < agentRectLength; agentRectIndex++) {
+						agentRect[agentRectIndex].remove();
+						isRemove = true;
+					}
+
+					// y軸の目盛を削除する
+					var yDivisionList = this.graphRect["yDivision"];
+					var yCivisionLength = yDivisionList.length;
+					for (var yDivisionIndex = 0; yDivisionIndex < yCivisionLength; yDivisionIndex++) {
+						yDivisionList[yDivisionIndex].remove();
+					}
+					
+					if (!this.graphRect["yDivision"]) {
+						this.graphRect["yDivision"].remove();
+					}
+
+					var graphOrder = this.graphOrderList[agentName];
+					var textStartX = unitAreaWidth * graphOrder + unitAreaWidth
+							/ 2 + this.startXAxis;
 					var startX = textStartX - unitNodeWidth / 2;
 
 					var tableList = this.data[agentName];
@@ -333,7 +375,7 @@ infinispan.CacheView = wgp.AbstractView
 					if (lastCacheNum) {
 						var lastHeight = lastCacheNum * magnification;
 
-						this.graphRect.push(this.paper.rect(
+						agentRect.push(this.paper.rect(
 								startX - unitLastNodeWidth,
 								this.startYAxis - lastHeight,
 								unitNodeWidth + unitLastNodeWidth * 2,
@@ -353,7 +395,7 @@ infinispan.CacheView = wgp.AbstractView
 
 						var height = cacheValue * magnification;
 
-						this.graphRect.push(this.paper.rect(startX,
+						agentRect.push(this.paper.rect(startX,
 								this.startYAxis - height - sumHeight,
 								unitNodeWidth, height).attr({
 							fill : tableColor[tableName],
@@ -364,8 +406,8 @@ infinispan.CacheView = wgp.AbstractView
 						sumCacheNum += cacheValue;
 					}
 
-					this.graphRect.push(this.paper.text(textStartX,
-							this.textStartY, agentName).attr({
+					agentRect.push(this.paper.text(textStartX, this.textStartY,
+							agentName).attr({
 						"font-size" : 11,
 						stroke : "#FFFFFF",
 						"text-anchor" : "start"
@@ -373,7 +415,8 @@ infinispan.CacheView = wgp.AbstractView
 
 					this.lastTimeCacheNum[agentName] = sumCacheNum;
 
-					count++;
+					this.graphRect[agentName] = agentRect;
+
 				}
 
 				return maxCacheNum;
@@ -402,15 +445,15 @@ infinispan.CacheView = wgp.AbstractView
 
 					var yUnitHeight = this.startYAxis - sumHeight;
 
-					this.graphRect.push(this.paper.path(
+					this.graphRect["yDivision"].push(this.paper.path(
 							[ [ "M", this.startXAxis, yUnitHeight ],
 									[ "l", this.yDivisionChartSize, 0 ] ])
 							.attr({
 								stroke : "#FFFFFF"
 							}));
 
-					this.graphRect.push(this.paper.text(this.textStartX,
-							yUnitHeight, cacheNum + "").attr({
+					this.graphRect["yDivision"].push(this.paper.text(
+							this.textStartX, yUnitHeight, cacheNum + "").attr({
 						"font-size" : 12,
 						stroke : "#FFFFFF",
 						"text-anchor" : "end"

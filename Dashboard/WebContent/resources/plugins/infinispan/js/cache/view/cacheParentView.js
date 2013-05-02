@@ -38,8 +38,9 @@ infinispan.CacheParentView = wgp.AbstractView
 					rootView : this,
 					treeSettings : treeSettings
 				});
-				$(this.viewId).append(
-						'<div class="clearFloat"></div><br /><br />');
+				$(this.viewId)
+						.append(
+								'<div class="clearFloat"></div><br /><br /><br /><br />');
 			},
 			render : function() {
 			},
