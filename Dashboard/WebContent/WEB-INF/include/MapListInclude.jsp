@@ -34,12 +34,17 @@
 	src="<%=request.getContextPath()%>/resources/js/common/endoSnipeUtility.js">
 </script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/common/ensAppView.js">	
+	src="<%=request.getContextPath()%>/resources/js/common/ensAppView.js">
 </script>
 
-<%-- resource tree --%>
+<%-- tree --%>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/nodeinfomation/view/resourceTreeView.js">	
+	src="<%=request.getContextPath()%>/resources/js/tree/ensTreeView.js">
+</script>
+
+<%-- tree --%>
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/resources/js/tree/resourceTreeView.js">
 </script>
 
 <%-- resource map --%>
@@ -48,16 +53,16 @@
 	type="text/css" media="all">
 
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/nodeinfomation/view/resourceMapView.js">	
+	src="<%=request.getContextPath()%>/resources/js/nodeinfomation/view/resourceMapView.js">
 </script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/nodeinfomation/view/resourceMapListView.js">	
+	src="<%=request.getContextPath()%>/resources/js/nodeinfomation/view/resourceMapListView.js">
 </script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/nodeinfomation/view/resourceMapMenuView.js">	
+	src="<%=request.getContextPath()%>/resources/js/nodeinfomation/view/resourceMapMenuView.js">
 </script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/nodeinfomation/view/resourceStateView.js">	
+	src="<%=request.getContextPath()%>/resources/js/nodeinfomation/view/resourceStateView.js">
 </script>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/nodeinfomation/view/resourceLinkView.js">
@@ -71,5 +76,5 @@
 	src="<%=request.getContextPath()%>/resources/js/nodeinfomation/view/resourceGraphView.js">
 </script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/nodeinfomation/model/resourceGraphModel.js">	
+	src="<%=request.getContextPath()%>/resources/js/nodeinfomation/model/resourceGraphModel.js">
 </script>

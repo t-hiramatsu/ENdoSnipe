@@ -7,10 +7,11 @@ ENS.resourceStateElementModel = wgp.MapElement.extend({
 
 // 状態ID毎の画像のURL定義
 ENS.resourceStateURL = {
-	"ced"    : "/resources/images/state/node_d_ced.png",
-	"error"  : "/resources/images/state/node_error.png",
-	"normal" : "/resources/images/state/node_normal.png",
-	"warn"   : "/resources/images/state/node_warn.png"
+	"signal_1" : "/resources/images/state/node_d_ced.png",
+	"signal_2" : "/resources/images/state/node_d_ced.png",
+	"signal_3" : "/resources/images/state/node_normal.png",
+	"signal_4" : "/resources/images/state/node_warn.png",
+	"signal_5" : "/resources/images/state/node_error.png"
 };
 
 ENS.ResourceStateElementView = wgp.MapElementView.extend({
@@ -52,6 +53,6 @@ ENS.ResourceStateElementView = wgp.MapElementView.extend({
 				option);
 	},
 	setEditFunction : function(){
-		
+
 	}
 });

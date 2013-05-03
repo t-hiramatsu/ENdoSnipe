@@ -3,6 +3,11 @@ ENS.tree.signalDefinitionList = [];
 
 ENS.treeView = wgp.TreeView
 		.extend({
+			/**
+			 * ツリー要素をクリックした際の、別ペインとの
+			 * 連携処理を行う。
+			 * targetId {String} 別ペインのID
+			 */
 			setClickEvent : function(targetId) {
 				var instance = this;
 				this.treeCollection = {};
@@ -21,6 +26,10 @@ ENS.treeView = wgp.TreeView
 					}
 				});
 			},
+			/**
+			 * クリックされたツリー要素のモデルに応じて処理を行う。
+			 * treeModel {Backbone.Model}
+			 */
 			clickModel : function(treeModel) {
 				if (this.childView) {
 					var tmpAppView = new wgp.AppView();
@@ -143,10 +152,10 @@ ENS.treeView = wgp.TreeView
 						menuId, settingOptions);
 			},
 			pushOkFunction : function(event, option) {
-				
+
 			},
 			pushCancelFunction : function(event, option) {
-				
+
 			},
 			onComplete : function(type) {
 				if (type == wgp.constants.syncType.SEARCH) {
@@ -159,7 +168,7 @@ ENS.treeView = wgp.TreeView
 				var clickTarget = event.target;
 				var id = $(clickTarget).attr("id");
 				var targetOption = this.getContextOption_(id);
-				
+
 				var executeOption = targetOption.get("executeOption");
 				executeOption.treeId = $(tmpClickTarget).attr("id");
 				executeOption.displayName = $(tmpClickTarget).text();
@@ -235,7 +244,7 @@ ENS.treeView = wgp.TreeView
 				var idList = _.keys(ENS.tree.signalDefinitionList);
 				var appView = new ENS.AppView();
 				appView.stopSyncData(idList);
-				
+
 				// add tree data for signal
 				var treeId = option.treeId;
 				var signalName = $("#signalName").val();
@@ -462,7 +471,7 @@ ENS.treeView = wgp.TreeView
 				var idList = _.keys(ENS.tree.signalDefinitionList);
 				var appView = new ENS.AppView();
 				appView.stopSyncData(idList);
-				
+
 				// 削除するノードのデータ
 				var deleteSignalDefinition = ENS.tree.signalDefinitionList[executeOption.treeId];
 
@@ -592,7 +601,7 @@ ENS.treeView = wgp.TreeView
 
 				// シグナルアイコンを取得する
 				var icon = this.getIcon(signalDefinition);
-				
+
 				// 更新時に、ツリー階層に他のノードがなく、ツリーが閉じてしまう現象をなくすために、
 				// 一時的なノードを作成する
 				var tmpTreeOption = {
@@ -733,5 +742,22 @@ ENS.treeView = wgp.TreeView
 				}
 
 				return icon;
+			},
+			/**
+			 * ツリーの表示状態を復元する。
+			 * selectTreeId {String} 選択しているツリーのID
+			 * openNodes {String[]} 展開しているツリーのID配列
+			 */
+			restoreDisplayState : function(selectTreeId, openNodes){
+
+				// ツリーの展開状態を復元する。
+				if(openNodes && openNodes.length > 0){
+					this.openNodes(openNodes, "id");
+				}
+
+				// ツリーの選択状態を復元する。
+				if(selectTreeId){
+					this.selectNode(selectTreeId, "id");
+				}
 			}
 		});

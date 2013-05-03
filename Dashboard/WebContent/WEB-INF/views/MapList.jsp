@@ -3,13 +3,16 @@
 <!DOCTYPE html>
 <html>
 <head>
+<%@ include file="../include/ext/javaScriptInclude.jsp"%>
+<%@ include file="../include/MapListInclude.jsp"%>
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/resources/css/common.css"
 	type="text/css" media="all">
-<%@ include file="../include/ext/javaScriptInclude.jsp"%>
-<%@ include file="../include/MapListInclude.jsp"%>
 </head>
 <body id="main" oncontextmenu="return false;" onload="self.focus();">
+	<div id="headerLogo">
+		<img src="<%=request.getContextPath()%>/resources/images/ENdoSnipe_logo.png" />
+	</div>
 	<div id="persArea"></div>
 	<input id="treeData" type="hidden" value='${treeData}' />
 	<form:form modelAttribute="mapListForm">
@@ -49,7 +52,7 @@
 		};
 
 		var table = [ [ new wgp.PerspectiveModel(viewArea1),
-				new wgp.PerspectiveModel(viewArea2) ], 
+				new wgp.PerspectiveModel(viewArea2) ],
 				[new wgp.PerspectiveModel(viewArea3)]];
 		var perspectiveView = new wgp.PerspectiveView({
 			id : "persArea",
@@ -57,21 +60,32 @@
 			minimum : false,
 			close : false
 		});
-		
+
 		// TODO WGPを改修し、barを非表示にする。
 		$('#persArea_bar_1_0').hide();
-		
+
 		perspectiveView.dropView("persArea_drop_0_0", "tree_area", "GraphTree");
 		perspectiveView.dropView("persArea_drop_0_0", "list_area", "MapList");
 		perspectiveView.dropView("persArea_drop_0_1", "contents_area", "MapView");
 
 		var appView = new ENS.AppView();
 		</script>
-		
+
 		<script src="<%=request.getContextPath()%>/resources/js/common/user.js"
 	type="text/javaScript"></script>
-		
+
 	<script type="text/javascript">
+
+		// マップモードの取得。
+		var mapMode = "";
+		if($("#mapMode").val() == ENS.map.mode.OPERATE){
+			mapMode = ENS.map.mode.OPERATE;
+		}else{
+			mapMode = ENS.map.mode.EDIT;
+			$("#mapMode").attr("value", ENS.map.mode.EDIT);
+		}
+
+		// リソースツリーの生成
 		var resourceTreeView = new ENS.ResourceTreeView({
 			id : "tree_area",
 			targetId : "contents_area",
@@ -79,6 +93,11 @@
 			themeUrl : wgp.common.getContextPath()
 			+ "/resources/css/jsTree/style.css"
 		});
+
+		// 編集モードの場合は編集イベントを設定
+		if(mapMode == ENS.map.mode.EDIT){
+			resourceTreeView.setEditFunction();
+		}
 
 		appView.addView(resourceTreeView, wgp.constants.TREE.DATA_ID);
 		appView.getTermData([ wgp.constants.TREE.DATA_ID ], new Date(),
@@ -88,10 +107,41 @@
 		websocketClient = new wgp.WebSocketClient(appView, "notifyEvent");
 		websocketClient.initialize();
 
+		$("#tree_area")
+		.click(
+				function() {
+					if ($("[id$='mapreduce/task']") != undefined) {
+
+						var elem = $("[id$='mapreduce/task']");
+
+						$("#tree_area").jstree("delete_node",
+								elem);
+					}
+				});
+
 		if(mapMode == ENS.map.mode.EDIT){
 			appView.stopSyncData([wgp.constants.TREE.DATA_ID]);
 		}
-		
+
+		// リソースツリーの展開状態・選択状態の復元用データを取得
+		var resourceTreeOpenNodes = null;
+		var resourceTreeOpenNodesStr = $("#treeViewOpenNodeData").val();
+		if(resourceTreeOpenNodesStr > 0){
+			resourceTreeOpenNodes = JSON.parse(resourceTreeOpenNodesStr);
+		}
+		var resourceTreeSelect = null;
+		var resourceTreeSelectStr = $("#selectedTreeId").val();
+		if(resourceTreeSelectStr.length > 0){
+			resourceTreeSelect = resourceTreeSelectStr;
+		}
+
+//		// リソースツリー構築時の処理をバインド
+//		$("#" + resourceTreeView.$el.attr("id")).bind("loaded.jstree", function(){
+//			// 表示状態復元処理を設定
+//			resourceTreeView.restoreDisplayState(resourceTreeSelect, resourceTreeOpenNodes);
+//		});
+
+		// マップ一覧ツリーの生成
 		var resourceMapListView = new ENS.ResourceMapListView({
 			id : "list_area",
 			targetId : "contents_area",
@@ -99,11 +149,21 @@
 			+ "/resources/css/jsTree/style.css"
 		});
 
-		var mapMode = "";
-		if($("#mapMode").val() == ENS.map.mode.EDIT){
-			mapMode = ENS.map.mode.EDIT;
-		}else{
-			mapMode = ENS.map.mode.OPERATE;
+		// マップ一覧ツリーの選択状態の復元用データを取得
+		var resourceMapListSelect = null;
+		var resourceMapListSelectStr = $("#selectedMapListId").val();
+		if(resourceMapListSelectStr.length > 0){
+			resourceMapListSelect = resourceMapLIstSelectStr;
+		}
+
+		// マップ一覧ツリー構築後の処理をバインド
+		$("#" + resourceMapListView.$el.attr("id")).bind("loaded.jstree", function(){
+			resourceMapListView.restoreDisplayState(resourceMapListSelect, null);
+		});
+
+		// マップ一覧の編集イベントを設定
+		if(ENS.map.mode.EDIT == mapMode){
+			resourceMapListView.setEditFunction();
 		}
 
 		var menuModelArray = [];
@@ -137,7 +197,7 @@
 					saveDisplayState();
 					$("#mapListForm").submit();
 				})
-			});			
+			});
 		}
 		menuModelArray.push(changeModeMenuModel);
 
@@ -155,7 +215,7 @@
 				})
 			});
 			menuModelArray.push(createMapMenuModel);
-			
+
 			var saveMapMenuModel = new ENS.mapMenuModel({
 				width : 25,
 				height : 25,
@@ -224,7 +284,8 @@
 	// リソース一覧又はマップ一覧タブの選択状態があれば選択する。
 	var displayTreeArea = $("#displayTreeArea").val();
 	$("#persArea_drop_0_0").find(".tab_menu").find("[href='"+ displayTreeArea +"']").click();
-	
+
 	</script>
+	<input type="hidden" id="context" value="<%=request.getContextPath()%>" />
 </body>
 </html>
