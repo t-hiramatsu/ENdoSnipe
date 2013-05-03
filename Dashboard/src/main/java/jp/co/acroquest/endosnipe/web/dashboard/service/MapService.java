@@ -26,17 +26,21 @@
 package jp.co.acroquest.endosnipe.web.dashboard.service;
 
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
-import jp.co.acroquest.endosnipe.data.dao.MapInfoDao;
-import jp.co.acroquest.endosnipe.data.entity.MapInfo;
 import jp.co.acroquest.endosnipe.web.dashboard.constants.LogMessageCodes;
-import jp.co.acroquest.endosnipe.web.dashboard.manager.DatabaseManager;
+import jp.co.acroquest.endosnipe.web.dashboard.dao.MapInfoDao;
+import jp.co.acroquest.endosnipe.web.dashboard.entity.MapInfo;
 
+import org.apache.ibatis.exceptions.PersistenceException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -45,6 +49,9 @@ public class MapService
     /** ロガー */
     private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(MapService.class);
 
+    @Autowired
+    protected MapInfoDao mapInfoDao;
+
     /**
      * 全てのマップデータを返す。
      * 
@@ -52,15 +59,19 @@ public class MapService
      */
     public List<Map<String, String>> getAllMap()
     {
-        DatabaseManager dbMmanager = DatabaseManager.getInstance();
-        String dbName = dbMmanager.getDataBaseName(1);
         List<MapInfo> mapList = null;
         try
         {
-            mapList = MapInfoDao.selectAll(dbName);
+            mapList = mapInfoDao.selectAll();
         }
-        catch (SQLException ex)
+        catch (PersistenceException pe)
         {
+            Throwable cause = pe.getCause();
+            if (cause instanceof SQLException)
+            {
+                SQLException sqlEx = (SQLException)cause;
+                LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx, sqlEx.getMessage());
+            }
             LOGGER.log(LogMessageCodes.SQL_EXCEPTION);
             return new ArrayList<Map<String, String>>();
         }
@@ -68,7 +79,7 @@ public class MapService
         List<Map<String, String>> resultList = new ArrayList<Map<String, String>>();
         for (MapInfo mapInfo : mapList)
         {
-            Map<String, String> dataMap = this.converDataMap(mapInfo);
+            Map<String, String> dataMap = this.convertDataMap(mapInfo);
             resultList.add(dataMap);
         }
         return resultList;
@@ -76,60 +87,106 @@ public class MapService
 
     /**
      * マップを登録する。
-     * 
-     * 
+     * @param mapInfo 登録するマップ情報
      */
-    public void insert(final MapInfo mapInfo)
+    public long insert(final MapInfo mapInfo)
     {
-        DatabaseManager dbMmanager = DatabaseManager.getInstance();
-        String dbName = dbMmanager.getDataBaseName(1);
+        // 最終更新日時を設定
+        mapInfo.lastUpdate = new Timestamp(Calendar.getInstance().getTimeInMillis());
         try
         {
-            MapInfoDao.insert(dbName, mapInfo);
+            int count = mapInfoDao.insert(mapInfo);
+            if (count > 0)
+            {
+                return mapInfoDao.selectSequenceNum();
+            }
         }
-        catch (SQLException ex)
+        catch (DuplicateKeyException dkEx)
         {
-            LOGGER.log(LogMessageCodes.SQL_EXCEPTION);
+            LOGGER.log(LogMessageCodes.SQL_EXCEPTION, dkEx, dkEx.getMessage());
         }
+        return 0;
     }
 
     /**
      * マップを更新する。
      * 
-     * @param
+     * @param mapInfo マップ情報
      */
     public void update(final MapInfo mapInfo)
     {
-        DatabaseManager dbMmanager = DatabaseManager.getInstance();
-        String dbName = dbMmanager.getDataBaseName(1);
+        // 最終更新日時を設定
+        mapInfo.lastUpdate = new Timestamp(Calendar.getInstance().getTimeInMillis());
         try
         {
-            MapInfoDao.update(dbName, mapInfo);
+            mapInfoDao.update(mapInfo);
         }
-        catch (SQLException ex)
+        catch (PersistenceException pEx)
         {
-            LOGGER.log(LogMessageCodes.SQL_EXCEPTION);
+            Throwable cause = pEx.getCause();
+            if (cause instanceof SQLException)
+            {
+                SQLException sqlEx = (SQLException)cause;
+                LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx, sqlEx.getMessage());
+            }
+            else
+            {
+                LOGGER.log(LogMessageCodes.SQL_EXCEPTION, pEx, pEx.getMessage());
+            }
         }
     }
 
     /**
      * マップを取得する。
-     * @param mapId
-     * @return
+     * @param mapId Target mapId
+     * @return Map
      */
     public Map<String, String> getById(final long mapId)
     {
-        DatabaseManager dbMmanager = DatabaseManager.getInstance();
-        String dbName = dbMmanager.getDataBaseName(1);
         try
         {
-            MapInfo mapInfo = MapInfoDao.selectById(dbName, mapId);
-            return this.converDataMap(mapInfo);
+            MapInfo mapInfo = mapInfoDao.selectById(mapId);
+            return this.convertDataMap(mapInfo);
         }
-        catch (SQLException ex)
+        catch (PersistenceException pEx)
         {
-            LOGGER.log(LogMessageCodes.SQL_EXCEPTION);
-            return null;
+            Throwable cause = pEx.getCause();
+            if (cause instanceof SQLException)
+            {
+                SQLException sqlEx = (SQLException)cause;
+                LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx, sqlEx.getMessage());
+            }
+            else
+            {
+                LOGGER.log(LogMessageCodes.SQL_EXCEPTION, pEx, pEx.getMessage());
+            }
+            throw pEx;
+        }
+    }
+
+    /**
+     * マップを削除する。
+     * @param mapId マップID
+     */
+    public int removeMapById(final long mapId)
+    {
+        try
+        {
+            return mapInfoDao.deleteById(mapId);
+        }
+        catch (PersistenceException pEx)
+        {
+            Throwable cause = pEx.getCause();
+            if (cause instanceof SQLException)
+            {
+                SQLException sqlEx = (SQLException)cause;
+                LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx, sqlEx.getMessage());
+            }
+            else
+            {
+                LOGGER.log(LogMessageCodes.SQL_EXCEPTION, pEx, pEx.getMessage());
+            }
+            return 0;
         }
     }
 
@@ -138,7 +195,7 @@ public class MapService
      * @param mapInfo
      * @return
      */
-    private Map<String, String> converDataMap(final MapInfo mapInfo)
+    private Map<String, String> convertDataMap(final MapInfo mapInfo)
     {
         Map<String, String> dataMap = new HashMap<String, String>();
         dataMap.put("id", String.valueOf(mapInfo.mapId));

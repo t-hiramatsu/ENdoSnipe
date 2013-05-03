@@ -29,13 +29,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import jp.co.acroquest.endosnipe.data.entity.MapInfo;
+import javax.servlet.http.HttpServletRequest;
+
+import jp.co.acroquest.endosnipe.web.dashboard.entity.MapInfo;
+import jp.co.acroquest.endosnipe.web.dashboard.form.MapListForm;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.EventManager;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.ResourceSender;
 import jp.co.acroquest.endosnipe.web.dashboard.service.MapService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -56,6 +60,12 @@ public class MapController
     /** マップを表すID */
     private static final String MAP_DATA_ID = "map";
 
+    /** 運用モード */
+    private static final String OPERATE_MODE = "Operate";
+
+    /** 編集モード */
+    private static final String EDIT_MODE = "Edit";
+
     @Autowired
     protected MapService mapService;
 
@@ -63,13 +73,20 @@ public class MapController
      * Get Map List.
      * @return
      */
-    @RequestMapping(value = "/mapList", method = RequestMethod.GET)
-    public String initializeMapList()
+    @RequestMapping(value = "/mapList")
+    public String initializeMapList(final HttpServletRequest request,
+            @ModelAttribute("mapListForm") final MapListForm mapListForm)
     {
-        // TODO ServletContextから取得できないため、初期化時に設定する。
         EventManager eventManager = EventManager.getInstance();
         eventManager.setWgpDataManager(wgpDataManager);
         eventManager.setResourceSender(resourceSender);
+
+        // マップモードが設定されていない場合は運用モードを設定する。
+        String mapMode = mapListForm.getMapMode();
+        if (mapMode == null || mapMode.length() == 0)
+        {
+            mapListForm.setMapMode(OPERATE_MODE);
+        }
         return "MapList";
     }
 
@@ -127,10 +144,13 @@ public class MapController
     }
 
     /**
-     * Dekete Map.
-     * @param mapId 
+     * Remove Map
+     * @param mapId Target remove mapId
      */
-    public void delete(@RequestParam(value = "mapId") final String mapId)
+    @RequestMapping(value = "/removeById", method = RequestMethod.POST)
+    @ResponseBody
+    public void removeById(@RequestParam(value = "mapId") final String mapId)
     {
+        this.mapService.removeMapById(Long.valueOf(mapId));
     }
 }

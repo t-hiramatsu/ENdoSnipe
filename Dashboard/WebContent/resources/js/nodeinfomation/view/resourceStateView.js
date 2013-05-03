@@ -46,5 +46,12 @@ ENS.ResourceStateElementView = wgp.MapElementView.extend({
 	remove : function(model){
 		this.object.remove();
 		this.destroy();
+	},
+	relateContextMenu : function(menuId, option) {
+		contextMenuCreator.createContextMenu(this.$el.attr("id"), menuId,
+				option);
+	},
+	setEditFunction : function(){
+		
 	}
 });

@@ -51,7 +51,6 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 			realTag.height(this.height);
 		}
 
-		var graphId = "#" + this.$el.attr("id");
 		$("#" + this.$el.attr("id")).attr("class", "graphbox");
 		$("#" + this.$el.attr("id")).css({
 			margin : "10px",
@@ -66,6 +65,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 		};
 		this.viewType = wgp.constants.VIEW_TYPE.VIEW;
 		this.collection = new ENS.ResourceGraphCollection();
+		this.cid = argument["cid"];
 		this.parentId = argument["parentId"];
 		this.term = argument.term;
 		this.noTermData = argument.noTermData;
@@ -98,7 +98,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 			title : this.title,
 			xlabel : this.labelX,
 			ylabel : this.labelY,
-			axisLabelColor : "#000000",
+			axisLabelColor : "#FFFFFF",
 			labelsDivStyles : {
 				background : "none repeat scroll 0 0 #000000"
 			}
@@ -129,7 +129,6 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 			axisLabelFontSize : 10,
 			titleHeight : 22
 		});
-		
 		$("#" + graphId).mouseover(function(event) {
 			if (!isShort) {
 				return;
@@ -148,6 +147,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 				$(target).text(optionSettings.title);
 			}
 		});
+
 	},
 	onAdd : function(graphModel) {
 
@@ -248,5 +248,56 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 	remove : function() {
 		this.destroy();
 		$("#" + this.$el.attr("id")).remove();
+	},
+	resize : function(changeWidth, changeHeight) {
+
+		this.width = this.width + changeWidth;
+		this.height = this.height + changeHeight;
+
+		this.graphHeight = this.height - ENS.nodeinfo.GRAPH_HEIGHT_MARGIN;
+		this.entity.resize(this.width, this.graphHeight);
+	},
+	relateContextMenu : function(menuId, option) {
+		contextMenuCreator.createContextMenu(this.$el.attr("id"), menuId,
+				option);
+	},
+	setEditFunction : function() {
+
+		var divArea = $("#" + this.$el.attr("id"));
+		var instance = this;
+		divArea.draggable({
+			stop : function(e, ui){
+				var offset = $(e.target).offset();
+				instance.model.set("pointX", offset["left"], {silent:true});
+				instance.model.set("pointY", offset["top"], {silent:true});
+			}
+		});
+
+		var beforeWidth = 0;
+		var beforeHeight = 0;
+		divArea.resizable({
+			start : function(e, ui){
+				var offset = $(e.target).offset();
+				beforeWidth = $(e.target).width();
+				beforeHeight = $(e.target).height();
+			},
+			resize : function(e, ui){
+				$(e.target).offset({
+					top : instance.model.get("pointY"),
+					left : instance.model.get("pointX")
+				});
+			},
+			stop : function(e, ui){
+				var afterWidth = $(e.target).width();
+				var afterHeight = $(e.target).height();
+
+				var changeWidth = afterWidth - beforeWidth;
+				var changeHeight = afterHeight - beforeHeight;
+
+				instance.resize(changeWidth, changeHeight);
+				instance.model.set("width", afterWidth, {silent:true});
+				instance.model.set("height", afterHeight, {silent:true});
+			}
+		});
 	}
 });
