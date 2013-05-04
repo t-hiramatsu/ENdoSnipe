@@ -34,6 +34,11 @@ ENS.DATE_FORMAT_DETAIL = 'yyyy/MM/dd HH:mm:ss.fff';
 ENS.DATE_FORMAT_DAY = 'yyyy/MM/dd';
 ENS.DATE_FORMAT_HOUR = 'yyyy/MM/dd HH:mm';
 
+ENS.URL = {};
+ENS.URL.TERM_PERFDOCTOR_DATA_URL = wgp.constants.URL.TERM_DATA_URL
++ "/getPerfDoctor";
+ENS.URL.PERFDOCTOR_POSTFIX_ID = "/performanceDoctor";
+
 ENS.common = {};
 ENS.common.dualslider = {};
 ENS.common.dualslider.scaleUnitStrings = 'hours';// for many hours
@@ -159,6 +164,11 @@ ENS.tree.SIGNAL_ICON_2 = "signal_2";
 ENS.tree.SIGNAL_ICON_3 = "signal_3";
 ENS.tree.SIGNAL_ICON_4 = "signal_4";
 ENS.tree.SIGNAL_ICON_5 = "signal_5";
+
+ENS.tree.type = {};
+ENS.tree.type.GROUP = "group";
+ENS.tree.type.TARGET = "target";
+ENS.tree.type.SIGNAL = "signal";
 
 ENS.map = {};
 ENS.map.mode = {};

@@ -43,7 +43,7 @@ ENS.ResourceMapView = wgp.MapView.extend({
 			newView = this._addGraphDivision(model);
 			this.viewCollection[model.id] = newView;
 
-		}else if("ENS.ResourceStateElementView" == objectName){
+		}else if("ENS.SignalElementView" == objectName){
 			newView = this._addStateElement(model);
 			this.viewCollection[model.id] = newView;
 
@@ -68,6 +68,11 @@ ENS.ResourceMapView = wgp.MapView.extend({
 
 			// コンテキストメニューとの関連付け
 			this.relateContextMenu(model);
+
+		}else{
+
+			// 運用時のイベントを設定する。
+			newView.setOperateFunction();
 		}
 
 	},
@@ -136,7 +141,7 @@ ENS.ResourceMapView = wgp.MapView.extend({
 		};
 
 		var view =
-			new ENS.ResourceStateElementView(argument);
+			new ENS.SignalElementView(argument);
 		return view;
 	},
 	_addLinkElement : function(model){

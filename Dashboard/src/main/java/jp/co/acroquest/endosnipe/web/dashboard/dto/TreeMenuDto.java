@@ -1,20 +1,20 @@
 /*******************************************************************************
  * ENdoSnipe 5.0 - (https://github.com/endosnipe)
- * 
+ *
  * The MIT License (MIT)
- * 
+ *
  * Copyright (c) 2012 Acroquest Technology Co.,Ltd.
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -32,12 +32,28 @@ public class TreeMenuDto
 
     /** ツリーID */
     private String treeId;
-    
+
     /** 親ツリーID */
     private String parentTreeId;
 
     /** ID */
     private String id;
+
+    /** タイプ */
+    private String type;
+
+    /** アイコン */
+    private String icon;
+
+    public String getIcon()
+    {
+        return icon;
+    }
+
+    public void setIcon(final String icon)
+    {
+        this.icon = icon;
+    }
 
     public String getData()
     {
@@ -49,12 +65,14 @@ public class TreeMenuDto
         this.data = data;
     }
 
-    public String getTreeId(){
-    	return treeId;
+    public String getTreeId()
+    {
+        return treeId;
     }
 
-    public void setTreeId(final String treeId){
-    	this.treeId = treeId;
+    public void setTreeId(final String treeId)
+    {
+        this.treeId = treeId;
     }
 
     public String getParentTreeId()
@@ -87,13 +105,24 @@ public class TreeMenuDto
         this.measurementUnit = measurementUnit;
     }
 
+    public String getType()
+    {
+        return type;
+    }
+
+    public void setType(final String type)
+    {
+        this.type = type;
+    }
+
     /** 計測単位 */
     private String measurementUnit;
 
     @Override
     public String toString()
     {
-        return "TreeMenuDto [data=" + data + ", parentId=" + parentTreeId + ", id=" + id
+        return "TreeMenuDto [data=" + data + ", treeId=" + treeId + ", parentTreeId="
+                + parentTreeId + ", id=" + id + ", type=" + type + ", icon=" + icon
                 + ", measurementUnit=" + measurementUnit + "]";
     }
 
@@ -103,9 +132,12 @@ public class TreeMenuDto
         final int prime = 31;
         int result = 1;
         result = prime * result + ((data == null) ? 0 : data.hashCode());
+        result = prime * result + ((icon == null) ? 0 : icon.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((measurementUnit == null) ? 0 : measurementUnit.hashCode());
         result = prime * result + ((parentTreeId == null) ? 0 : parentTreeId.hashCode());
+        result = prime * result + ((treeId == null) ? 0 : treeId.hashCode());
+        result = prime * result + ((type == null) ? 0 : type.hashCode());
         return result;
     }
 
@@ -133,6 +165,17 @@ public class TreeMenuDto
             }
         }
         else if (!data.equals(other.data))
+        {
+            return false;
+        }
+        if (icon == null)
+        {
+            if (other.icon != null)
+            {
+                return false;
+            }
+        }
+        else if (!icon.equals(other.icon))
         {
             return false;
         }
@@ -166,6 +209,28 @@ public class TreeMenuDto
             }
         }
         else if (!parentTreeId.equals(other.parentTreeId))
+        {
+            return false;
+        }
+        if (treeId == null)
+        {
+            if (other.treeId != null)
+            {
+                return false;
+            }
+        }
+        else if (!treeId.equals(other.treeId))
+        {
+            return false;
+        }
+        if (type == null)
+        {
+            if (other.type != null)
+            {
+                return false;
+            }
+        }
+        else if (!type.equals(other.type))
         {
             return false;
         }

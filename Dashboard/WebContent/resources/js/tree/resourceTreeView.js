@@ -45,20 +45,18 @@ ENS.ResourceTreeView = ENS.treeView
 						var treeId = clickTarget.attr("id");
 
 						var treeModel = instance.collection.get(treeId);
-						var treeIcon = treeModel.get("icon");
+						var treeType = treeModel.get("type");
 
 						// シグナルかグラフかによって表示するメニューを変更する。
 						// シグナルの場合
-						if (treeIcon != undefined && treeIcon.startsWith("signal_")) {
+						if (ENS.tree.type.SIGNAL == treeType) {
 							$("#" + instance.contextMenuId + " #addGraph")
 									.hide();
 							$("#" + instance.contextMenuId + " addSignal")
 									.show();
 
 							// グラフの場合
-						} else if (instance.collection.where({
-							parentTreeId : treeId
-						}).length == 0) {
+						} else if (ENS.tree.type.TARGET == treeType) {
 							$("#" + instance.contextMenuId + " #addGraph")
 									.show();
 							$("#" + instance.contextMenuId + " #addSignal")
@@ -102,17 +100,19 @@ ENS.ResourceTreeView = ENS.treeView
 
 							var treeModel = instance.collection.get(treeId);
 							var treeIcon = treeModel.get("icon");
+							var treeText = treeModel.get("data");
 
 							resourceModel.set({
 								objectId : treeId,
-								objectName : "ENS.ResourceStateElementView",
+								objectName : "ENS.SignalElementView",
 								pointX : 50,
 								pointY : 50,
 								width : 50,
 								height : 50,
 								stateId : "normal",
 								linkId : "test",
-								stateId : treeIcon
+								stateId : treeIcon,
+								text :treeText
 							});
 						}
 
@@ -128,21 +128,27 @@ ENS.ResourceTreeView = ENS.treeView
 
 			},
 			/**
-			 * ツリー要素の内容が変更された場合に、
-			 * 変更内容を連携対象のペインに伝搬する。
+			 * ツリー要素の基となるコレクションが変更された場合に、
+			 * 別ペインへ状態変更を伝搬する。
 			 */
 			onChange : function(treeModel){
+
+				// 継承元のonChangeメソッド実行
 				ENS.treeView.prototype.onChange.apply(this, [treeModel]);
 
-				if(!this.childView){
-					return;
-				}
+				var treeType = treeModel.get("type");
+				if(this.childView){
+					var childView = this.childView;
 
-				var id = treeModel.id;
+					var mapElementView = childView.viewCollection[treeModel.id];
 
-				var treeIcon = treeModel.get("icon");
-				if(treeIcon != undefined && treeIcon.startsWith("signal_")){
+					// 伝搬対象のビューがマップに存在しなければ処理終了
+					if(!mapElementView){
+						return;
+					}
 
+					// モデルのチェンジイベントを発行する。
+					mapElementView.model.trigger("change", mapElementView.model);
 				}
 			}
 		});

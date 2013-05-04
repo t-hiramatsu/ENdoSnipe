@@ -1,20 +1,20 @@
 /*******************************************************************************
  * ENdoSnipe 5.0 - (https://github.com/endosnipe)
- * 
+ *
  * The MIT License (MIT)
- * 
+ *
  * Copyright (c) 2012 Acroquest Technology Co.,Ltd.
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -37,15 +37,17 @@ import java.util.Map.Entry;
 import jp.co.acroquest.endosnipe.data.dao.JavelinLogDao;
 import jp.co.acroquest.endosnipe.data.entity.JavelinLog;
 import jp.co.acroquest.endosnipe.perfdoctor.WarningUnit;
-import jp.co.acroquest.endosnipe.perfdoctor.WarningUnitUtil;
+import jp.co.acroquest.endosnipe.web.dashboard.constants.TreeMenuConstants;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.MeasurementValueDto;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.PerfDoctorTableDto;
-import jp.co.acroquest.endosnipe.web.dashboard.dto.TreeMenuDto;
+import jp.co.acroquest.endosnipe.web.dashboard.dto.SignalDefinitionDto;
+import jp.co.acroquest.endosnipe.web.dashboard.dto.SignalTreeMenuDto;
 import jp.co.acroquest.endosnipe.web.dashboard.form.PerfDoctorTermDataForm;
 import jp.co.acroquest.endosnipe.web.dashboard.form.TermDataForm;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.DatabaseManager;
 import jp.co.acroquest.endosnipe.web.dashboard.service.JvnFileEntryJudge;
 import jp.co.acroquest.endosnipe.web.dashboard.service.MeasurementValueService;
+import jp.co.acroquest.endosnipe.web.dashboard.service.SignalService;
 import jp.co.acroquest.endosnipe.web.dashboard.service.TreeMenuService;
 import net.arnx.jsonic.JSON;
 
@@ -59,114 +61,181 @@ import org.wgp.util.DataConvertUtil;
 
 @Controller
 @RequestMapping("/termData")
-public class TermDataController {
-	/** PerformanceDoctorページのID。 */
-	private static final String PERFDOCTOR_POSTFIX_ID = "/performanceDoctor";
+public class TermDataController
+{
+    /** PerformanceDoctorページのID。 */
+    private static final String PERFDOCTOR_POSTFIX_ID = "/performanceDoctor";
 
-	private static final String TREE_DATA_ID = "tree";
+    private static final String TREE_DATA_ID = "tree";
 
-	@Autowired
-	protected TreeMenuService treeMenuService;
+    /** シグナルのツリーメニューのプレフィックスID */
+    private static final String TREE_MENU_SIGNAL_PREFIX_ID = "/signalNode-";
 
-	@Autowired
-	protected MeasurementValueService measurementValueService;
+    @Autowired
+    protected TreeMenuService treeMenuService;
 
-	@RequestMapping(value = "/get", method = RequestMethod.POST)
-	@ResponseBody
-	public Map<String, List<Map<String, String>>> getTermData(
-			@RequestParam(value = "data") String data) {
+    @Autowired
+    protected MeasurementValueService measurementValueService;
 
-		Map<String, List<Map<String, String>>> responceDataList = new HashMap<String, List<Map<String, String>>>();
-		TermDataForm termDataForm = JSON.decode(data, TermDataForm.class);
-		List<String> graphDataList = new ArrayList<String>();
-		List<String> dataGroupIdList = termDataForm.getDataGroupIdList();
-		if (dataGroupIdList == null) {
-			// if no dataGroupId, return empty map.
-			return new HashMap<String, List<Map<String, String>>>();
-		}
-		for (String dataId : dataGroupIdList) {
-			if (TREE_DATA_ID.equals(dataId)) {
-				List<TreeMenuDto> treeMenuDtoList = treeMenuService
-						.initialize();
-				responceDataList.put(TREE_DATA_ID,
-						createTreeMenuData(treeMenuDtoList));
-			} else {
-				graphDataList.add(dataId);
-			}
-		}
-		if (graphDataList.size() != 0) {
-			long startTime = Long.valueOf(termDataForm.getStartTime());
-			long endTime = Long.valueOf(termDataForm.getEndTime());
-			Date startDate = new Date(startTime);
-			Date endDate = new Date(endTime);
-			Map<String, List<MeasurementValueDto>> measurementValueMap = measurementValueService
-					.getMeasurementValueList(startDate, endDate, graphDataList);
-			for (Entry<String, List<MeasurementValueDto>> measurementValueEntry : measurementValueMap
-					.entrySet()) {
-				String dataGroupId = measurementValueEntry.getKey();
-				List<Map<String, String>> measurementValueList = createTreeMenuData(measurementValueEntry
-						.getValue());
-				responceDataList.put(dataGroupId, measurementValueList);
-			}
-		}
-		return responceDataList;
-	}
+    @Autowired
+    protected SignalService signalService;
 
-	/**
-	 * PerformanceDoctorで表示するための期間データを返す。
-	 * 
-	 * @param data
-	 *            取得する期間データの定義
-	 * @return PerformanceDoctorにおける期間データ
-	 */
-	@RequestMapping(value = "/getPerfDoctor", method = RequestMethod.POST)
-	@ResponseBody
-	public Map<String, List<PerfDoctorTableDto>> getTermPerfDoctorData(
-			@RequestParam(value = "data") String data) {
-		Map<String, List<PerfDoctorTableDto>> responceDataList = new HashMap<String, List<PerfDoctorTableDto>>();
-		DatabaseManager dbManager = DatabaseManager.getInstance();
-		String dbName = dbManager.getDataBaseName(1);
+    @RequestMapping(value = "/get", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, List<Map<String, String>>> getTermData(
+            @RequestParam(value = "data") final String data)
+    {
 
-		PerfDoctorTermDataForm termDataForm = JSON.decode(data,
-				PerfDoctorTermDataForm.class);
-		List<String> dataGroupIdList = termDataForm.getDataGroupIdList();
+        Map<String, List<Map<String, String>>> responceDataList =
+                new HashMap<String, List<Map<String, String>>>();
+        TermDataForm termDataForm = JSON.decode(data, TermDataForm.class);
+        List<String> graphDataList = new ArrayList<String>();
+        List<String> dataGroupIdList = termDataForm.getDataGroupIdList();
+        if (dataGroupIdList == null)
+        {
+            // if no dataGroupId, return empty map.
+            return new HashMap<String, List<Map<String, String>>>();
+        }
+        for (String dataId : dataGroupIdList)
+        {
+            if (TREE_DATA_ID.equals(dataId))
+            {
+                // 計測対象の項目を全て取得してツリー要素に変換
+                List<Map<String, String>> treeMenuDtoList =
+                        createTreeMenuData(treeMenuService.initialize());
 
-		for (String dataGroupId : dataGroupIdList) {
-			List<JavelinLog> list = new ArrayList<JavelinLog>();
+                // シグナル定義を全て取得
+                List<SignalDefinitionDto> signalList = signalService.getAllSignal();
 
-			try {
-				list = JavelinLogDao.selectByTermAndName(dbName, null, null,
-						dataGroupId, true);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			JvnFileEntryJudge judge = new JvnFileEntryJudge();
-			List<WarningUnit> warnings = judge.judge(list, true, true);
-			List<PerfDoctorTableDto> dtoList = new ArrayList<PerfDoctorTableDto>();
-			for (WarningUnit warning : warnings) {
-				PerfDoctorTableDto dto = new PerfDoctorTableDto();
-				dto.setDate(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
-						.format(new Date(warning.getStartTime())));
-				dto.setDescription(warning.getDescription());
-				dto.setLevel(warning.getLevel());
-				dto.setClassName(warning.getClassName());
-				dto.setMethodName(warning.getMethodName());
-				dto.setDetail(warning.getLogFileName());
-				dtoList.add(dto);
-			}
+                // 計測対象のツリーにシグナル定義を追加
+                treeMenuDtoList.addAll(convertSignalDefinition(signalList));
 
-			list.clear();
-			responceDataList.put(dataGroupId + PERFDOCTOR_POSTFIX_ID, dtoList);
-		}
-		return responceDataList;
-	}
+                responceDataList.put(TREE_DATA_ID, treeMenuDtoList);
+            }
+            else
+            {
+                graphDataList.add(dataId);
+            }
+        }
+        if (graphDataList.size() != 0)
+        {
+            long startTime = Long.valueOf(termDataForm.getStartTime());
+            long endTime = Long.valueOf(termDataForm.getEndTime());
+            Date startDate = new Date(startTime);
+            Date endDate = new Date(endTime);
+            Map<String, List<MeasurementValueDto>> measurementValueMap =
+                    measurementValueService.getMeasurementValueList(startDate, endDate,
+                                                                    graphDataList);
+            for (Entry<String, List<MeasurementValueDto>> measurementValueEntry : measurementValueMap.entrySet())
+            {
+                String dataGroupId = measurementValueEntry.getKey();
+                List<Map<String, String>> measurementValueList =
+                        createTreeMenuData(measurementValueEntry.getValue());
+                responceDataList.put(dataGroupId, measurementValueList);
+            }
+        }
+        return responceDataList;
+    }
 
-	private List<Map<String, String>> createTreeMenuData(List treeMenuDtoList) {
-		List<Map<String, String>> bufferDtoList = new ArrayList<Map<String, String>>();
-		for (Object treeMenuData : treeMenuDtoList) {
-			bufferDtoList.add(DataConvertUtil.getPropertyList(treeMenuData));
-		}
-		return bufferDtoList;
-	}
+    /**
+     * PerformanceDoctorで表示するための期間データを返す。
+     *
+     * @param data
+     *            取得する期間データの定義
+     * @return PerformanceDoctorにおける期間データ
+     */
+    @RequestMapping(value = "/getPerfDoctor", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, List<PerfDoctorTableDto>> getTermPerfDoctorData(
+            @RequestParam(value = "data") final String data)
+    {
+        Map<String, List<PerfDoctorTableDto>> responceDataList =
+                new HashMap<String, List<PerfDoctorTableDto>>();
+        DatabaseManager dbManager = DatabaseManager.getInstance();
+        String dbName = dbManager.getDataBaseName(1);
 
+        PerfDoctorTermDataForm termDataForm = JSON.decode(data, PerfDoctorTermDataForm.class);
+        List<String> dataGroupIdList = termDataForm.getDataGroupIdList();
+
+        for (String dataGroupId : dataGroupIdList)
+        {
+            List<JavelinLog> list = new ArrayList<JavelinLog>();
+
+            try
+            {
+                list = JavelinLogDao.selectByTermAndName(dbName, null, null, dataGroupId, true);
+            }
+            catch (SQLException e)
+            {
+                e.printStackTrace();
+            }
+            JvnFileEntryJudge judge = new JvnFileEntryJudge();
+            List<WarningUnit> warnings = judge.judge(list, true, true);
+            List<PerfDoctorTableDto> dtoList = new ArrayList<PerfDoctorTableDto>();
+            for (WarningUnit warning : warnings)
+            {
+                PerfDoctorTableDto dto = new PerfDoctorTableDto();
+                dto.setDate(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date(
+                                                                                        warning.getStartTime())));
+                dto.setDescription(warning.getDescription());
+                dto.setLevel(warning.getLevel());
+                dto.setClassName(warning.getClassName());
+                dto.setMethodName(warning.getMethodName());
+                dto.setDetail(warning.getLogFileName());
+                dtoList.add(dto);
+            }
+
+            list.clear();
+            responceDataList.put(dataGroupId + PERFDOCTOR_POSTFIX_ID, dtoList);
+        }
+        return responceDataList;
+    }
+
+    private List<Map<String, String>> createTreeMenuData(final List treeMenuDtoList)
+    {
+        List<Map<String, String>> bufferDtoList = new ArrayList<Map<String, String>>();
+        for (Object treeMenuData : treeMenuDtoList)
+        {
+            bufferDtoList.add(DataConvertUtil.getPropertyList(treeMenuData));
+        }
+        return bufferDtoList;
+    }
+
+    /**
+     * シグナル定義をツリーメニューの情報に変換する。
+     * @param signalList シグナル定義のリスト
+     * @return ツリーメニューのリスト
+     */
+    private List<Map<String, String>> convertSignalDefinition(
+            final List<SignalDefinitionDto> signalList)
+    {
+        List<SignalTreeMenuDto> signalTreeList = new ArrayList<SignalTreeMenuDto>();
+
+        for (SignalDefinitionDto signal : signalList)
+        {
+            SignalTreeMenuDto treeMenu = new SignalTreeMenuDto();
+
+            // シグナルの表示名称を生成する。
+            // (シグナル名からマッチングパターンを除外した値)
+            String signalDisplayName =
+                    signal.getSignalName().replaceFirst(signal.getMatchingPattern() + "/", "");
+
+            // シグナルのツリーメニュー上でのIDを生成する。
+            // (マッチングパターン + プレフィックス + シグナルの表示名称)
+            String signalId =
+                    signal.getMatchingPattern() + TREE_MENU_SIGNAL_PREFIX_ID + signalDisplayName;
+
+            treeMenu.setId(signalId);
+            treeMenu.setTreeId(signalId);
+            treeMenu.setParentTreeId(signal.getMatchingPattern());
+            treeMenu.setData(signalDisplayName);
+            treeMenu.setSignalValue(signal.getSignalValue());
+            treeMenu.setType(TreeMenuConstants.TREE_MENU_TYPE_SIGNAL);
+            treeMenu.setIcon("signal_" + signal.getSignalValue());
+
+            signalTreeList.add(treeMenu);
+        }
+
+        return createTreeMenuData(signalTreeList);
+    }
 }

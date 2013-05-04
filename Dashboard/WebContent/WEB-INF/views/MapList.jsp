@@ -135,11 +135,11 @@
 			resourceTreeSelect = resourceTreeSelectStr;
 		}
 
-//		// リソースツリー構築時の処理をバインド
-//		$("#" + resourceTreeView.$el.attr("id")).bind("loaded.jstree", function(){
-//			// 表示状態復元処理を設定
-//			resourceTreeView.restoreDisplayState(resourceTreeSelect, resourceTreeOpenNodes);
-//		});
+		// リソースツリー構築時の処理をバインド
+		$("#" + resourceTreeView.$el.attr("id")).bind("loaded.jstree", function(){
+			// 表示状態復元処理を設定
+			resourceTreeView.restoreDisplayState(resourceTreeSelect, resourceTreeOpenNodes);
+		});
 
 		// マップ一覧ツリーの生成
 		var resourceMapListView = new ENS.ResourceMapListView({
@@ -153,7 +153,7 @@
 		var resourceMapListSelect = null;
 		var resourceMapListSelectStr = $("#selectedMapListId").val();
 		if(resourceMapListSelectStr.length > 0){
-			resourceMapListSelect = resourceMapLIstSelectStr;
+			resourceMapListSelect = resourceMapListSelectStr;
 		}
 
 		// マップ一覧ツリー構築後の処理をバインド

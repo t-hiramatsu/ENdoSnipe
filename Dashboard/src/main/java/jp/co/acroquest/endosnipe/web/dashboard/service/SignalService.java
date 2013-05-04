@@ -22,9 +22,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * シグナル定義のサービスクラス。
- * 
+ *
  * @author miyasaka
- * 
+ *
  */
 @Service
 public class SignalService
@@ -37,7 +37,7 @@ public class SignalService
 
     /**
      * すべてのシグナルデータを返す。
-     * 
+     *
      * @return シグナルデータ一覧
      */
     public List<SignalDefinitionDto> getAllSignal()
@@ -86,7 +86,7 @@ public class SignalService
 
     /**
      * シグナル定義をDBに登録する。
-     * 
+     *
      * @param signalInfo
      *            シグナル定義
      * @return シグナル定義のDTOオブジェクト
@@ -117,7 +117,7 @@ public class SignalService
 
     /**
      * シグナル定義を更新する。
-     * 
+     *
      * @param signalInfo シグナル定義
      */
     public SignalDefinitionDto updateSignalInfo(final SignalInfo signalInfo)
@@ -168,7 +168,7 @@ public class SignalService
 
     /**
      * シグナル定義をDBから削除する。
-     * 
+     *
      * @param signalInfo
      *            シグナル定義
      */
@@ -200,10 +200,10 @@ public class SignalService
 
     /**
      * SignalDefinitionDtoオブジェクトをSignalInfoオブジェクトに変換する。
-     * 
+     *
      * @param definitionDto
      *            SignalDefinitionDtoオブジェクト
-     * 
+     *
      * @return SignalInfoオブジェクト
      */
     public SignalInfo convertSignalInfo(final SignalDefinitionDto definitionDto)
@@ -222,7 +222,7 @@ public class SignalService
 
     /**
      * SignalInfoオブジェクトをSignalDefinitionDtoオブジェクトに変換する。
-     * 
+     *
      * @param signalInfo
      *            SignalInfoオブジェクト
      * @return SignalDefinitionDtoオブジェクト
@@ -244,7 +244,7 @@ public class SignalService
 
     /**
      * javelin_measurement_itemテーブルのMEASUREMENT_ITEM_NAMEを更新する。
-     * 
+     *
      * @param beforeItemName
      *            更新前のMEASUREMENT_ITEM_NAME
      * @param afterItemName
@@ -263,7 +263,7 @@ public class SignalService
 
     /**
      * javelin_measurement_itemテーブルの指定したMEASUREMENT_ITEM_NAMEのレコードを削除する。
-     * 
+     *
      * @param itemName
      *            削除するレコードの MEASUREMENT_ITEM_NAME
      * @throws SQLException

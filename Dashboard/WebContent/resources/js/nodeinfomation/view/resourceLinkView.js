@@ -1,8 +1,8 @@
 ENS.ResourceLinkElementModel = wgp.MapElement.extend({
-	defaults:{
+	defaults : {
 		text : null,
 		fontSize : 8,
-		test: "initText",
+		test : "initText",
 		textAnchor : "start",
 		linkUrl : "",
 		linkType : "basicURL"
@@ -11,7 +11,7 @@ ENS.ResourceLinkElementModel = wgp.MapElement.extend({
 
 ENS.ResourceLinkElementView = wgp.MapElementView.extend({
 	// 本クラスはテキストエリアを描画する。
-	render : function(model){
+	render : function(model) {
 
 		this.model = model;
 		var text = model.get("text");
@@ -27,20 +27,15 @@ ENS.ResourceLinkElementView = wgp.MapElementView.extend({
 		this.object.node.setAttribute("objectid", model.get("objectId"));
 		this.object.node.setAttribute("cid", model.cid);
 
-		// 運用時のイベントを設定
-		this.setOperationFunction();
-		
-		// 編集時のイベントを設定
-		this.setEditFunction();
 		return this;
 	},
-	createPositionArray : function(model){
+	createPositionArray : function(model) {
 
 		// ポジションのリスト
 		var positionArray = [];
 		// 左上ポジション
-		var firstPosition = this.createPosition(model.get("pointX"),
-				model.get("pointY"));
+		var firstPosition = this.createPosition(model.get("pointX"), model
+				.get("pointY"));
 		positionArray.push(firstPosition);
 		// 右上ポジション
 		var secondPosition = this.createPosition(model.get("width"), 0);
@@ -54,56 +49,64 @@ ENS.ResourceLinkElementView = wgp.MapElementView.extend({
 
 		return positionArray;
 	},
-	adjustPosition : function(model){
+	adjustPosition : function(model) {
 		var fontSize = model.get("fontSize");
 		var textAnchor = model.get("textAnchor");
-		//TODO 揃えに応じたポジション設定
+		// TODO 揃えに応じたポジション設定
 	},
-	setOperationFunction : function(){
+	/**
+	 * 運用時のイベントを設定する。
+	 */
+	setOperateFunction : function() {
 
 		var instance = this;
 		this.object.dblclick(
-			// ダブルクリック時の画面遷移処理
-			function(event){
+		// ダブルクリック時の画面遷移処理
+		function(event) {
 
-				var linkUrl = instance.model.get("linkUrl");
-				var linkType = instance.model.get("linkType");
+			var linkUrl = instance.model.get("linkUrl");
+			var linkType = instance.model.get("linkType");
 
-				// マップリンクの場合はリンク先が存在する場合に遷移を行う。
-				if(linkType == "mapLinkURL"){
-					var targetLink = $("#" + resourceMapListView.$el.attr("id"))
-						.find("A#" + linkUrl);
+			// マップリンクの場合はリンク先が存在する場合に遷移を行う。
+			if (linkType == "mapLinkURL") {
+				var targetMapLink = resourceMapListView.collection.get(linkUrl);
 
-					// ツリー要素をクリックしてイベントを発生させる。
-					if(targetLink.length > 0){
-						$(targetLink[0]).mousedown();
-					}
+				// ツリー要素をクリックしてイベントを発生させる。
+				if (targetMapLink) {
+					resourceMapListView.clickModel(targetMapLink);
 				}
 			}
-		);
+		});
 	},
-	setEditFunction : function(){
+	/**
+	 * 編集時のイベントを設定する。
+	 */
+	setEditFunction : function() {
 
 		var instance = this;
 		this.object.drag(
-			// マウスムーヴ時の処理
-			function(dx, dy, x, y, e){
-				this.attr({
-					x : this.data("x") + dx,
-					y : this.data("y") + dy
-				});
-			},
-			// ドラッグ開始時の処理
-			function(x, y, e){
-				this.data( "x", this.attr("x") );
-				this.data( "y", this.attr("y") );
-			},
-			// ドラッグ終了時の処理
-			function( e ){				
-				instance.model.set("pointX", this.attr("x"), {silent:true});
-				instance.model.set("pointY", this.attr("y"), {silent:true});
-			}
-			
+		// マウスムーヴ時の処理
+		function(dx, dy, x, y, e) {
+			this.attr({
+				x : this.data("x") + dx,
+				y : this.data("y") + dy
+			});
+		},
+		// ドラッグ開始時の処理
+		function(x, y, e) {
+			this.data("x", instance.model.get("pointX"));
+			this.data("y", instance.model.get("pointY"));
+		},
+		// ドラッグ終了時の処理
+		function(e) {
+			instance.model.set("pointX", this.attr("x"), {
+				silent : true
+			});
+			instance.model.set("pointY", this.attr("y"), {
+				silent : true
+			});
+		}
+
 		);
 	}
 });

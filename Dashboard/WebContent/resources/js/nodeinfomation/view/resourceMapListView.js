@@ -158,7 +158,7 @@ ENS.ResourceMapListView = wgp.TreeView
 							removeMapDialog.dialog("close");
 
 							// マップの表示内容を全て消去する。
-							instance.targetId.children().remove();
+							$("#" + instance.targetId).children().remove();
 
 							// ビューの関連付けを削除する。
 							instance.childView = null;
@@ -237,6 +237,12 @@ ENS.ResourceMapListView = wgp.TreeView
 				// ツリーの選択状態を復元する。
 				if (selectTreeId) {
 					this.selectNode(selectTreeId, "id");
+				}
+
+				// マップを表示する。
+				var treeModel = this.collection.get(selectTreeId);
+				if(treeModel){
+					this.clickModel(treeModel);
 				}
 			}
 		});

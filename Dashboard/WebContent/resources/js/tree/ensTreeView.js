@@ -92,8 +92,8 @@ ENS.treeView = wgp.TreeView
 				});
 				$("#" + this.$el.attr("id")).jstree(settings);
 
-				// シグナル定義を全取得する
-				this.getAllSignal_();
+//				// シグナル定義を全取得する
+//				this.getAllSignal_();
 			},
 			createTreeData : function(treeModel) {
 				var returnData = wgp.TreeView.prototype.createTreeData.call(
@@ -758,6 +758,32 @@ ENS.treeView = wgp.TreeView
 				// ツリーの選択状態を復元する。
 				if(selectTreeId){
 					this.selectNode(selectTreeId, "id");
+				}
+			},
+			/**
+			 * ツリー要素の基となるコレクションが変更された場合に、
+			 * 変更内容をツリーに反映する。
+			 */
+			onChange : function(treeModel){
+				var treeId = treeModel.id;
+				var treeType = treeModel.get("type");
+
+				// シグナルの場合は状態を変更する。
+				if(ENS.tree.type.SIGNAL == treeType){
+					var treeIcon = treeModel.get("icon");
+					var treeTag = this.getTreeNode(treeId, "id");
+					var iconTag = treeTag.find("ins");
+
+					// 状態を一度クリアする。
+					iconTag.removeClass(ENS.tree.SIGNAL_ICON_0);
+					iconTag.removeClass(ENS.tree.SIGNAL_ICON_1);
+					iconTag.removeClass(ENS.tree.SIGNAL_ICON_2);
+					iconTag.removeClass(ENS.tree.SIGNAL_ICON_3);
+					iconTag.removeClass(ENS.tree.SIGNAL_ICON_4);
+					iconTag.removeClass(ENS.tree.SIGNAL_ICON_5);
+
+					// 状態を再度設定する。
+					iconTag.addClass(treeIcon);
 				}
 			}
 		});

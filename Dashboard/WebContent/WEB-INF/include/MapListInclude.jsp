@@ -62,7 +62,7 @@
 	src="<%=request.getContextPath()%>/resources/js/nodeinfomation/view/resourceMapMenuView.js">
 </script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/nodeinfomation/view/resourceStateView.js">
+	src="<%=request.getContextPath()%>/resources/js/nodeinfomation/view/signalView.js">
 </script>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/nodeinfomation/view/resourceLinkView.js">
