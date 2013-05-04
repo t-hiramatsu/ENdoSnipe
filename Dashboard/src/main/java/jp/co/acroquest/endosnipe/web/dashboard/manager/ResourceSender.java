@@ -58,7 +58,7 @@ public class ResourceSender
 {
     @Autowired
     /** WgpDataManager */
-    private WgpDataManager wgpDataManager;
+    private WgpDataManager wgpDataManager_;
 
     /**
      * コンストラクタです。
@@ -68,6 +68,10 @@ public class ResourceSender
         // Do Nothing.
     }
 
+    /**
+     * リソース情報をクライアントに送信する。
+     * @param resourceData リソース情報
+     */
     public void send(final ResourceData resourceData)
     {
         MessageInboundManager inboundManager = MessageInboundManager.getInstance();
@@ -75,7 +79,7 @@ public class ResourceSender
 
         for (WgpMessageInbound inbound : inboundList)
         {
-            sendWgpData(resourceData, this.wgpDataManager, inbound);
+            sendWgpData(resourceData, this.wgpDataManager_, inbound);
         }
     }
 
@@ -91,7 +95,7 @@ public class ResourceSender
 
         for (WgpMessageInbound inbound : inboundList)
         {
-            sendWgpData(signalTreeMenuDtoList, this.wgpDataManager, inbound);
+            sendWgpData(signalTreeMenuDtoList, this.wgpDataManager_, inbound);
         }
     }
 

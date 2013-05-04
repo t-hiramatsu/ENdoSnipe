@@ -923,68 +923,6 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             Telegram alarmTelegram = CollectorTelegramUtil.createAlarmTelegram(alarmEntryList);
             this.clientRepository_.sendTelegramToClient(clientId, alarmTelegram);
         }
-        //
-        //            // アラーム通知処理
-        //            if (alarmEntry.isSendAlarm())
-        //            {
-        //                alarmEntryList.add(alarmEntry);
-        //                // 情報取得要求を送信する
-        //                String clientId = currentResourceData.clientId;
-        //                if (clientId == null || clientId.equals(""))
-        //                {
-        //                    clientId =
-        //                               JavelinClient.createClientId(currentResourceData.ipAddress,
-        //                                                            currentResourceData.portNum);
-        //                }
-        //                TelegramSender sender = this.clientRepository_.getTelegramSender(clientId);
-        //                if (sender != null)
-        //                {
-        //                    boolean send = false;
-        //                    if (alarmEntry.getAlarmLevel() == ALARM_LEVEL_ERROR)
-        //                    {
-        //                        // エラーレベルになったため、情報取得を行いメールを送信する
-        //                        send =
-        //                               this.collectManager_.sendRequest(conf.getAlarmID(), alarmEntry,
-        //                                                                sender);
-        //                    }
-        //                    if (send == false)
-        //                    {
-        //                        if (alarmEntry.getAlarmType() == AlarmEntry.ALARM_TYPE_RISING)
-        //                        {
-        //                            this.collectManager_.sendRiseMail(conf.getAlarmID(), alarmEntry, sender);
-        //                        }
-        //                        else if (alarmEntry.getAlarmType() == AlarmEntry.ALARM_TYPE_FALLING)
-        //                        {
-        //                            this.collectManager_.sendRestorationMail(conf.getAlarmID(), alarmEntry,
-        //                                                                     sender);
-        //                        }
-        //                    }
-        //                }
-        //                else
-        //                {
-        //                    LOGGER.log(LogMessageCodes.CANNOT_GET_JAVELIN_COMMUNICATION_CLIENT, clientId);
-        //                }
-        //
-        //                // アラーム通知が必要な場合、各通知先に対して通知する
-        //                // もともとの機能であるメール送信は行わない
-        //                for (NotificationSenderWrapper notificationSender : this.senderList_)
-        //                {
-        //                    notificationSender.sendNotification(alarmEntry);
-        //                }
-        //            }
-        //        }
-        //
-        //        // 閾値超過アラームをクライアントに通知する。
-        //        if (alarmEntryList != null && alarmEntryList.size() != 0)
-        //        {
-        //            // 情報取得要求を送信する
-        //            String clientId =
-        //                              JavelinClient.createClientId(currentResourceData.ipAddress,
-        //                                                           currentResourceData.portNum);
-        //
-        //            Telegram alarmTelegram = CollectorTelegramUtil.createAlarmTelegram(alarmEntryList);
-        //            this.clientRepository_.sendTelegramToClient(clientId, alarmTelegram);
-        //        }
     }
 
     /**
@@ -1257,28 +1195,6 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         }
         long prevMeasurementValue = Long.valueOf(measurementDetail.value).longValue();
         return prevMeasurementValue;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void collectStarted(final long sequenceId, final String mailTemplateName)
-    {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void collectCompleted(final long sequenceId, final String mailTemplateName,
-            final String collectorTypeName)
-    {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void collectAllCompleted(final long sequenceId, final String mailTemplateName)
-    {
     }
 
 }
