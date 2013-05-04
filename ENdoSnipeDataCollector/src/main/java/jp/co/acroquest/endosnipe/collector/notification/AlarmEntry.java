@@ -41,9 +41,6 @@ public class AlarmEntry
     /** ƒAƒ‰[ƒ€–¼ */
     private String alarmID_;
 
-    /** ‘ÎÛ‚ÌŒn—ñ–¼ */
-    private String itemID_;
-
     /** è‡’l */
     private Double risingThreshold_;
 
@@ -98,24 +95,6 @@ public class AlarmEntry
     public void setAlarmID(final String alarmID)
     {
         this.alarmID_ = alarmID;
-    }
-
-    /**
-     * ‘ÎÛ‚ÌŒn—ñ–¼‚ğæ“¾‚·‚éB
-     * @return ‘ÎÛ‚ÌŒn—ñ–¼
-     */
-    public String getItemID()
-    {
-        return this.itemID_;
-    }
-
-    /**
-     * ‘ÎÛ‚ÌŒn—ñ–¼‚ğİ’è‚·‚éB
-     * @param itemID ‘ÎÛ‚ÌŒn—ñ–¼
-     */
-    public void setItemID(final String itemID)
-    {
-        this.itemID_ = itemID;
     }
 
     /**

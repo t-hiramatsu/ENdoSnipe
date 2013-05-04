@@ -32,7 +32,6 @@ import jp.co.acroquest.endosnipe.collector.processor.AlarmType;
 import jp.co.acroquest.endosnipe.common.entity.ItemType;
 import jp.co.acroquest.endosnipe.communicator.entity.Body;
 import jp.co.acroquest.endosnipe.communicator.entity.Header;
-import jp.co.acroquest.endosnipe.communicator.entity.ResourceItemNameMap;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 
@@ -43,6 +42,14 @@ import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
  */
 public class CollectorTelegramUtil
 {
+    /**
+     * インスタンス化を防止するprivateコンストラクタです。
+     */
+    private CollectorTelegramUtil()
+    {
+        // Do Nothing.
+    }
+
     /**
      * 閾値超過アラーム通知電文を作成します。
      * @param alarmEntryList {@link AlarmEntry}のリストオブジェクト
@@ -56,13 +63,14 @@ public class CollectorTelegramUtil
     /**
      * 閾値超過アラーム通知電文を作成します。
      * @param alarmEntryList {@link AlarmEntry}のリストオブジェクト
+     * @param requestKind リクエストの種類
      * @return 閾値超過アラーム通知電文
      */
     public static Telegram createAlarmTelegram(final List<AlarmEntry> alarmEntryList,
             final byte requestKind)
     {
         Header responseHeader = new Header();
-        responseHeader.setByteTelegramKind(TelegramConstants.BYTE_TELEGRAM_RESOURCE_ALARM);
+        responseHeader.setByteTelegramKind(TelegramConstants.BYTE_TELEGRAM_SIGNAL_STATE_CHANGE);
         responseHeader.setByteRequestKind(requestKind);
 
         Telegram responseTelegram = new Telegram();
@@ -74,10 +82,10 @@ public class CollectorTelegramUtil
         Body measurementTypeBody = new Body();
 
         measurementTypeBody.setStrObjName(TelegramConstants.OBJECTNAME_RESOURCEALARM);
-        measurementTypeBody.setStrItemName(TelegramConstants.ITEMNAME_MEASUREMENT_TYPE);
-        measurementTypeBody.setByteItemMode(ItemType.ITEMTYPE_INT);
+        measurementTypeBody.setStrItemName(TelegramConstants.ITEMNAME_ALARM_ID);
+        measurementTypeBody.setByteItemMode(ItemType.ITEMTYPE_STRING);
         measurementTypeBody.setIntLoopCount(alarmEntrySize);
-        Integer[] measurementTypeItems = new Integer[alarmEntrySize];
+        String[] measurementTypeItems = new String[alarmEntrySize];
 
         // アラームのレベル
         Body alarmLevelBody = new Body();
@@ -93,7 +101,7 @@ public class CollectorTelegramUtil
 
         alarmTypeBody.setStrObjName(TelegramConstants.OBJECTNAME_RESOURCEALARM);
         alarmTypeBody.setStrItemName(TelegramConstants.ITEMNAME_ALARM_TYPE);
-        alarmTypeBody.setByteItemMode(ItemType.ITEMTYPE_INT);
+        alarmTypeBody.setByteItemMode(ItemType.ITEMTYPE_STRING);
         alarmTypeBody.setIntLoopCount(alarmEntrySize);
         String[] alarmTypeItems = new String[alarmEntrySize];
 
@@ -101,9 +109,8 @@ public class CollectorTelegramUtil
         for (int cnt = 0; cnt < alarmEntrySize; cnt++)
         {
             AlarmEntry alarmEntry = alarmEntryList.get(cnt);
-            String itemId = alarmEntry.getItemID();
-            Integer itemType = ResourceItemNameMap.getResourceType(itemId);
-            measurementTypeItems[cnt] = itemType;
+            String itemId = alarmEntry.getAlarmID();
+            measurementTypeItems[cnt] = itemId;
 
             int alarmLevel = alarmEntry.getAlarmLevel();
             alarmLevelItems[cnt] = Integer.valueOf(alarmLevel);

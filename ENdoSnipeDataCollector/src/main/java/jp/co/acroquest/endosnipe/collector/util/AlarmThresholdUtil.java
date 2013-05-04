@@ -25,17 +25,24 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.collector.util;
 
+import jp.co.acroquest.endosnipe.collector.ENdoSnipeDataCollectorPluginProvider;
+import jp.co.acroquest.endosnipe.collector.LogMessageCodes;
 import jp.co.acroquest.endosnipe.common.entity.MeasurementData;
 import jp.co.acroquest.endosnipe.common.entity.MeasurementDetail;
 import jp.co.acroquest.endosnipe.common.entity.ResourceData;
+import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
 
 /**
  * システムリソースの閾値判定用ユーティリティクラス
  * @author fujii
  *
  */
-public class AlarmThresholdUtil
+public class AlarmThresholdUtil implements LogMessageCodes
 {
+    private static final ENdoSnipeLogger LOGGER =
+                                                  ENdoSnipeLogger.getLogger(AlarmThresholdUtil.class,
+                                                                            ENdoSnipeDataCollectorPluginProvider.INSTANCE);
+
     private AlarmThresholdUtil()
     {
         //do nothing
@@ -58,7 +65,7 @@ public class AlarmThresholdUtil
             return null;
         }
 
-        // CPU時間（単一のデータ系列）のときは、空文字をキーに、一つの値のみが入っている
+        // 単一のデータ系列のときは、空文字をキーに、一つの値のみが入っている
         MeasurementDetail measurementDetail = measurementData.getMeasurementDetailMap().get("");
 
         if (measurementDetail == null)
@@ -74,10 +81,9 @@ public class AlarmThresholdUtil
         }
         catch (NumberFormatException ex)
         {
-            // Do Nothing.
+            LOGGER.log(SYSTEM_UNKNOW_ERROR, ex.getMessage(), ex);
         }
 
         return number;
     }
-
 }

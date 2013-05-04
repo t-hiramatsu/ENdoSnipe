@@ -149,7 +149,7 @@ public class ResourceStateListener extends AbstractTelegramListener
     @Override
     protected byte getByteTelegramKind()
     {
-        return TelegramConstants.BYTE_TELEGRAM_RESOURCE_ALARM;
+        return TelegramConstants.BYTE_TELEGRAM_SIGNAL_STATE_CHANGE;
     }
 
 }

@@ -3,7 +3,7 @@
  * 
  * The MIT License (MIT)
  * 
- * Copyright (c) 2012 Acroquest Technology Co.,Ltd.
+ * Copyright (c) 2013 Acroquest Technology Co.,Ltd.
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,60 +25,49 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.web.dashboard.listener.collector;
 
-import java.util.Map;
-import java.util.Map.Entry;
+import java.util.ArrayList;
+import java.util.List;
 
 import jp.co.acroquest.endosnipe.communicator.AbstractTelegramListener;
 import jp.co.acroquest.endosnipe.communicator.entity.Body;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
-import jp.co.acroquest.endosnipe.web.dashboard.config.ResourceAlarmSetting;
-import jp.co.acroquest.endosnipe.web.dashboard.constants.EventConstants;
-import jp.co.acroquest.endosnipe.web.dashboard.entity.ResourceAlarmEntity;
+import jp.co.acroquest.endosnipe.web.dashboard.dto.SignalTreeMenuDto;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.EventManager;
-import jp.co.acroquest.endosnipe.web.dashboard.manager.MessageSender;
-import net.arnx.jsonic.JSON;
+import jp.co.acroquest.endosnipe.web.dashboard.manager.ResourceSender;
+
+import org.wgp.manager.WgpDataManager;
 
 /**
- * 閾値超過アラームをクライアントに通知するリスナクラスです。
+ * DataCollectorからシグナル状態通知電文
  * @author fujii
  *
  */
-public class ResourceAlarmListener extends AbstractTelegramListener
+public class SignalStateChangeListener extends AbstractTelegramListener
 {
-
-    /** メッセージ送信用オブジェクトです。 */
-    private MessageSender messageSender_;
-
-    /** エージェントID */
-    private int           agentId_;
-
     /**
-     * 
      * コンストラクタです。
-     * @param messageSender {@link MessageSender}オブジェクト
-     * @param agentId エージェントID
      */
-    public ResourceAlarmListener(MessageSender messageSender, int agentId)
+    public SignalStateChangeListener()
     {
-        this.messageSender_ = messageSender;
-        this.agentId_ = agentId;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected Telegram doReceiveTelegram(Telegram telegram)
+    protected Telegram doReceiveTelegram(final Telegram telegram)
     {
-        ResourceAlarmEntity alarmEntity = new ResourceAlarmEntity();
-        alarmEntity.event_id = EventConstants.EVENT_NOTIFY_RESOURCE_ALARM;
-        alarmEntity.agent_id = this.agentId_;
+        List<SignalTreeMenuDto> signalTreeMenuDtoList = new ArrayList<SignalTreeMenuDto>();
 
         Body[] resourceAlarmBodys = telegram.getObjBody();
 
         // DataCollectorから送信された電文から、
         // Dashboardのクライアントに通知するためのイベントを作成する。
+        String[] treeIds = null;
+        int[] levels = null;
+        // String[] alarmTypes = null;
+
         for (Body body : resourceAlarmBodys)
         {
             String objectNameInTelegram = body.getStrObjName();
@@ -90,47 +79,66 @@ public class ResourceAlarmListener extends AbstractTelegramListener
             int loopCount = body.getIntLoopCount();
             Object[] measurementItemValues = body.getObjItemValueArr();
             // 計測IDの項目に対する処理
-            if (TelegramConstants.ITEMNAME_MEASUREMENT_TYPE.equals(itemNameInTelegram))
+            if (TelegramConstants.ITEMNAME_ALARM_ID.equals(itemNameInTelegram))
             {
-                alarmEntity.measurement_types =
-                                                getValuesInTelegramObject(loopCount,
-                                                                          measurementItemValues);
+                treeIds = getStringValues(loopCount, measurementItemValues);
             }
             // アラームレベルの項目に対する処理
             else if (TelegramConstants.ITEMNAME_ALARM_LEVEL.equals(itemNameInTelegram))
             {
-                alarmEntity.alarm_levels =
-                                           getValuesInTelegramObject(loopCount,
-                                                                     measurementItemValues);
+                levels = getIntValues(loopCount, measurementItemValues);
             }
             // アラーム種類の項目に対する処理
-            else if (TelegramConstants.ITEMNAME_ALARM_TYPE.equals(itemNameInTelegram))
-            {
-                alarmEntity.alarm_types =
-                                          getValuesInTelegramObject(loopCount,
-                                                                    measurementItemValues);
-            }
+            //else if (TelegramConstants.ITEMNAME_ALARM_TYPE.equals(itemNameInTelegram))
+            //{
+            //　アラームの種別（現状は使用しない）
+            // alarmTypes = getStringValues(loopCount, measurementItemValues);
+            //}
         }
 
-        // クライアントに対する通知処理
-        String message = JSON.encode(alarmEntity);
-        EventManager manager = EventManager.getInstance();
-        Map<String, ResourceAlarmSetting> clientSettings = manager.getResourceAlarmSettings();
-        for (Entry<String, ResourceAlarmSetting> clientEntry : clientSettings.entrySet())
+        for (int cnt = 0; cnt < treeIds.length; cnt++)
         {
-            ResourceAlarmSetting alarmSetting = clientEntry.getValue();
-            boolean containAgent = alarmSetting.containAgent(this.agentId_);
-            if (containAgent)
-            {
-                String clientId = clientEntry.getKey();
-                this.messageSender_.send(clientId, message);
-            }
+            SignalTreeMenuDto signalTreeMenu = new SignalTreeMenuDto();
+            signalTreeMenu.setId(treeIds[cnt]);
+            signalTreeMenu.setTreeId(treeIds[cnt]);
+            signalTreeMenu.setType("signal");
+            int signalValue = levels[cnt];
+            signalTreeMenu.setSignalValue(Integer.valueOf(signalValue));
+            signalTreeMenu.setIcon("signal_" + signalValue);
+
+            signalTreeMenuDtoList.add(signalTreeMenu);
         }
+
+        // シグナルの状態更新を通知する。
+        EventManager eventManager = EventManager.getInstance();
+        WgpDataManager dataManager = eventManager.getWgpDataManager();
+        ResourceSender resourceSender = eventManager.getResourceSender();
+        if (dataManager == null || resourceSender == null)
+        {
+            return null;
+        }
+
+        resourceSender.send(signalTreeMenuDtoList);
 
         return null;
     }
 
-    private int[] getValuesInTelegramObject(int loopCount, Object[] telegramValuesOfobject)
+    private String[] getStringValues(final int loopCount, final Object[] telegramValuesOfobject)
+    {
+        String[] telegramValues = new String[loopCount];
+        for (int cnt = 0; cnt < telegramValuesOfobject.length; cnt++)
+        {
+            if (cnt >= loopCount)
+            {
+                break;
+            }
+            String alarmType = (String)telegramValuesOfobject[cnt];
+            telegramValues[cnt] = alarmType;
+        }
+        return telegramValues;
+    }
+
+    private int[] getIntValues(final int loopCount, final Object[] telegramValuesOfobject)
     {
         int[] telegramValues = new int[loopCount];
         for (int cnt = 0; cnt < telegramValuesOfobject.length; cnt++)
@@ -139,8 +147,8 @@ public class ResourceAlarmListener extends AbstractTelegramListener
             {
                 break;
             }
-            Integer alarmType = (Integer)telegramValuesOfobject[cnt];
-            telegramValues[cnt] = alarmType.intValue();
+            Integer value = (Integer)telegramValuesOfobject[cnt];
+            telegramValues[cnt] = value.intValue();
         }
         return telegramValues;
     }
@@ -160,7 +168,7 @@ public class ResourceAlarmListener extends AbstractTelegramListener
     @Override
     protected byte getByteTelegramKind()
     {
-        return TelegramConstants.BYTE_TELEGRAM_RESOURCE_ALARM;
+        return TelegramConstants.BYTE_TELEGRAM_SIGNAL_STATE_CHANGE;
     }
 
 }

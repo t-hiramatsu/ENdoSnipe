@@ -79,6 +79,9 @@ public interface LogMessageCodes extends CommonLogMessageCodes
 
     String ERROR_OCCURED_ON_STARTING = "EEDC0021";
 
+    /** システムで予期しないエラーが発生した場合 */
+    String SYSTEM_UNKNOW_ERROR = "EEDC0023";
+
     // -------------------------------------------------------------------------
     // 電文受信メッセージコード (01xx)
     // -------------------------------------------------------------------------
@@ -88,7 +91,7 @@ public interface LogMessageCodes extends CommonLogMessageCodes
     /** リソース通知応答電文受信 */
     String RESOURCE_NOTIFY_RECEIVED = "DEDC0102";
 
-    /** シグナル状態通知応答電文受信 */
+    /** シグナル状態取得要求電文受信 */
     String SIGNAL_STATE_NOTIFY_RECEIVED = "DEDC0103";
 
     // -------------------------------------------------------------------------
