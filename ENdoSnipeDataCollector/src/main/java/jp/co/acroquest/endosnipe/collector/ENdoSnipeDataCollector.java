@@ -25,12 +25,14 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.collector;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
+import java.util.concurrent.ConcurrentHashMap;
 
 import jp.co.acroquest.endosnipe.collector.config.AgentSetting;
 import jp.co.acroquest.endosnipe.collector.config.DataCollectorConfig;
@@ -47,9 +49,12 @@ import jp.co.acroquest.endosnipe.communicator.accessor.ResourceNotifyAccessor;
 import jp.co.acroquest.endosnipe.communicator.accessor.SystemResourceGetter;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.impl.DataCollectorClient;
+import jp.co.acroquest.endosnipe.data.dao.SignalDefinitionDao;
 import jp.co.acroquest.endosnipe.data.db.ConnectionManager;
 import jp.co.acroquest.endosnipe.data.db.DBManager;
 import jp.co.acroquest.endosnipe.data.db.DatabaseType;
+import jp.co.acroquest.endosnipe.data.dto.SignalDefinitionDto;
+import jp.co.acroquest.endosnipe.data.entity.SignalDefinition;
 
 /**
  * ENdoSnipe DataCollector のメインクラスです。<br />
@@ -58,61 +63,55 @@ import jp.co.acroquest.endosnipe.data.db.DatabaseType;
  */
 public class ENdoSnipeDataCollector implements CommunicationClientRepository, LogMessageCodes
 {
-    private static final ENdoSnipeLogger                    LOGGER                      =
-                                                                                          ENdoSnipeLogger.getLogger(ENdoSnipeDataCollector.class,
-                                                                                                                    ENdoSnipeDataCollectorPluginProvider.INSTANCE);
+    private static final ENdoSnipeLogger LOGGER =
+                                                  ENdoSnipeLogger.getLogger(ENdoSnipeDataCollector.class,
+                                                                            ENdoSnipeDataCollectorPluginProvider.INSTANCE);
 
     /** JavelinDataLogger のスレッド名称 */
-    private static final String                             LOGGER_THREAD_NAME          =
-                                                                                          "JavelinDataLoggerThread";
+    private static final String LOGGER_THREAD_NAME = "JavelinDataLoggerThread";
 
     /** ローテート用スレッドの名称 */
-    private static final String                             ROTATE_THREAD_NAME          =
-                                                                                          "JavelinDataCollectorRotateThread";
+    private static final String ROTATE_THREAD_NAME = "JavelinDataCollectorRotateThread";
 
-    private static final String                             RESOURCE_GETTER_THREAD_NAME =
-                                                                                          "ResourceGetterThread";
+    private static final String RESOURCE_GETTER_THREAD_NAME = "ResourceGetterThread";
 
-    private DataCollectorConfig                             config_;
+    private DataCollectorConfig config_;
 
     /** ローテート用設定リスト */
-    private final List<RotateConfig>                        rotateConfigList_           =
-                                                                                          new ArrayList<RotateConfig>();
+    private final List<RotateConfig> rotateConfigList_ = new ArrayList<RotateConfig>();
 
     /** デフォルトのローテート設定 */
-    private RotateConfig                                    defaultRotateConfig_;
+    private RotateConfig defaultRotateConfig_;
 
     /** ログローテートタスク */
-    private LogRotator                                      logRotator_;
+    private LogRotator logRotator_;
 
     /** ログローテート用スレッド */
-    private Thread                                          rotateThread_;
+    private Thread rotateThread_;
 
-    private volatile Thread                                 javelinDataLoggerThread_;
+    private volatile Thread javelinDataLoggerThread_;
 
-    private JavelinDataLogger                               javelinDataLogger_;
+    private JavelinDataLogger javelinDataLogger_;
 
     /** DB名をキーにした、クライアントに通知するためのリスナのリスト */
     private final Map<String, List<TelegramNotifyListener>> telegramNotifyListenersMap_ =
                                                                                           new HashMap<String, List<TelegramNotifyListener>>();
 
-    private final List<JavelinClient>                       clientList_                 =
-                                                                                          new ArrayList<JavelinClient>();
+    private final List<JavelinClient> clientList_ = new ArrayList<JavelinClient>();
 
-    private volatile boolean                                isRunning_;
+    private volatile boolean isRunning_;
 
     /** リソースを取得するスレッド */
-    private Timer                                           timer_;
+    private Timer timer_;
 
     /** リソースを取得するタイマータスク */
-    private SystemResourceGetter                            resourceGetterTask_;
+    private SystemResourceGetter resourceGetterTask_;
 
     /** サービスモードかどうか */
-    private BehaviorMode                                    behaviorMode_               =
-                                                                                          BehaviorMode.SERVICE_MODE;
+    private BehaviorMode behaviorMode_ = BehaviorMode.SERVICE_MODE;
 
     /** Javelinからの接続を待ち受けるサーバインスタンス */
-    private JavelinServer                                   server_;
+    private JavelinServer server_;
 
     /**
      * {@link ENdoSnipeDataCollector} の設定を行います。<br />
@@ -176,6 +175,8 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
         javelinConfig.setItemNamePrefix("");
         javelinConfig.setClusterName("");
 
+        Map<Long, SignalDefinitionDto> signalDefinitionMap = null;
+
         this.behaviorMode_ = behaviorMode;
         if (config_ != null)
         {
@@ -198,6 +199,8 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
             {
                 LOGGER.log(DATABASE_PARAMETER, databaseHost, databasePort, databaseUserName);
             }
+
+            signalDefinitionMap = createSignalDefinition(databaseName);
         }
 
         // JavelinDataLogger の開始
@@ -205,7 +208,7 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
         {
             javelinDataLogger_.stop();
         }
-        javelinDataLogger_ = new JavelinDataLogger(config_, this);
+        javelinDataLogger_ = new JavelinDataLogger(config_, this, signalDefinitionMap);
         javelinDataLogger_.init(this.rotateConfigList_);
         if (defaultRotateConfig_ != null)
         {
@@ -234,6 +237,32 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
         }
         isRunning_ = true;
         LOGGER.log(ENDOSNIPE_DATA_COLLECTOR_STARTED);
+    }
+
+    /**
+     * 閾値判定定義情報のマップを作成する。
+     * @param databaseName データベース名
+     * @return 閾値判定定義情報のマップ
+     */
+    private Map<Long, SignalDefinitionDto> createSignalDefinition(final String databaseName)
+    {
+        Map<Long, SignalDefinitionDto> signalDefinitionMap =
+                                                             new ConcurrentHashMap<Long, SignalDefinitionDto>();
+        try
+        {
+            List<SignalDefinition> signalDefinitionList =
+                                                          SignalDefinitionDao.selectAll(databaseName);
+            for (SignalDefinition signalDefinition : signalDefinitionList)
+            {
+                SignalDefinitionDto signalDefinitionDto = new SignalDefinitionDto(signalDefinition);
+                signalDefinitionMap.put(signalDefinition.signalId, signalDefinitionDto);
+            }
+        }
+        catch (SQLException ex)
+        {
+            LOGGER.log(FAIL_READ_SIGNAL_DEFINITION, ex, ex.getMessage());
+        }
+        return signalDefinitionMap;
     }
 
     /**

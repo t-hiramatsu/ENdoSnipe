@@ -71,7 +71,7 @@ public interface TelegramConstants
     /** 電文種別(クラス削除) */
     byte BYTE_TELEGRAM_KIND_REMOVE_CLASS = 12;
 
-    /** 電文種別(閾値超過アラーム通知) */
+    /** 電文種別(閾値超過アラーム/復旧アラーム通知) */
     byte BYTE_TELEGRAM_RESOURCE_ALARM = 13;
 
     /** 電文種別(接続通知) */
@@ -85,6 +85,9 @@ public interface TelegramConstants
 
     /** 電文種別(DB名減少通知) */
     byte BYTE_TELEGRAM_KIND_DEL_DATABASE_NAME = 17;
+
+    /** 電文種別(シグナル状態取得) */
+    byte BYTE_TELEGRAM_KIND_SIGNAL_STATE = 21;
 
     /** 最後の電文以外 */
     byte HALFWAY_TELEGRAM = 0;
