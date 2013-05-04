@@ -47,6 +47,7 @@ import jp.co.acroquest.endosnipe.communicator.TelegramSender;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.impl.CommunicationClientImpl;
 import jp.co.acroquest.endosnipe.data.dao.MeasurementInfoDao;
+import jp.co.acroquest.endosnipe.data.dto.SignalDefinitionDto;
 import jp.co.acroquest.endosnipe.data.entity.MeasurementInfo;
 import jp.co.acroquest.endosnipe.util.ResourceDataDaoUtil;
 import jp.co.dgic.testing.common.virtualmock.MockObjectManager;
@@ -415,8 +416,10 @@ public class JavelinDataLoggerTest extends DJUnitTestCase
         File file = ResourceUtil.getResourceAsFile(getClass(), "dataCollector.conf");
         DataCollectorConfig config = ConfigurationReader.load(file.getAbsolutePath());
         JavelinDataLogger javelinDataLogger =
-                                              new JavelinDataLogger(config,
-                                                                    new ClientRepositoryMock());
+                                              new JavelinDataLogger(
+                                                                    config,
+                                                                    new ClientRepositoryMock(),
+                                                                    new HashMap<Long, SignalDefinitionDto>());
         RotateConfig rotateConfig = new RotateConfig();
         rotateConfig.setDatabase(dataBase);
         javelinDataLogger.addRotateConfig(rotateConfig);

@@ -50,7 +50,7 @@ public class ResourceStateAllProcessor implements EventProcessor
     {
         // 電文の作成
         Header header = new Header();
-        header.setByteTelegramKind(TelegramConstants.BYTE_TELEGRAM_RESOURCE_ALARM);
+        header.setByteTelegramKind(TelegramConstants.BYTE_TELEGRAM_SIGNAL_STATE_CHANGE);
         header.setByteRequestKind(TelegramConstants.BYTE_REQUEST_KIND_REQUEST);
         Telegram telegram = new Telegram();
         telegram.setObjHeader(header);

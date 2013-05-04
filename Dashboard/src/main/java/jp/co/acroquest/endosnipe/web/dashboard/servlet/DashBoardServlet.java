@@ -46,8 +46,7 @@ import jp.co.acroquest.endosnipe.web.dashboard.constants.LogMessageCodes;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.CometEventWrapper;
 import jp.co.acroquest.endosnipe.web.dashboard.listener.collector.AlarmNotifyListener;
 import jp.co.acroquest.endosnipe.web.dashboard.listener.collector.CollectorListener;
-import jp.co.acroquest.endosnipe.web.dashboard.listener.collector.ResourceAlarmListener;
-import jp.co.acroquest.endosnipe.web.dashboard.listener.collector.ResourceStateListener;
+import jp.co.acroquest.endosnipe.web.dashboard.listener.collector.SignalStateChangeListener;
 import jp.co.acroquest.endosnipe.web.dashboard.listener.javelin.JavelinNotifyListener;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.ConnectionClient;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.DatabaseManager;
@@ -64,24 +63,24 @@ import org.apache.catalina.comet.CometProcessor;
 public class DashBoardServlet extends HttpServlet implements CometProcessor
 {
 
-    private static final int             SLEEP_TIME         = 5000;
+    private static final int SLEEP_TIME = 5000;
 
-    private static final int             CONNECTION_TIMEOUT = 60 * 1000 * 30;
+    private static final int CONNECTION_TIMEOUT = 60 * 1000 * 30;
 
     /** シリアルID */
-    private static final long            serialVersionUID   = 3003980920335995413L;
+    private static final long serialVersionUID = 3003980920335995413L;
 
     /** ロガー */
-    private static final ENdoSnipeLogger LOGGER             =
-                                                              ENdoSnipeLogger.getLogger(DashBoardServlet.class);
+    private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(DashBoardServlet.class);
 
     /** メッセージ送信用オブジェクト */
-    public transient MessageSender       messageSender_     = null;
+    public transient MessageSender messageSender_ = null;
 
     /**
      * 初期処理を行います。
      * @throws ServletException サーブレット上で例外が発生した場合
      */
+    @Override
     public void init()
         throws ServletException
     {
@@ -89,8 +88,8 @@ public class DashBoardServlet extends HttpServlet implements CometProcessor
 
         messageSender_ = new MessageSender();
         Thread messageSenderThread =
-                                     new Thread(messageSender_, "MessageSender["
-                                             + getServletContext().getContextPath() + "]");
+                new Thread(messageSender_, "MessageSender[" + getServletContext().getContextPath()
+                        + "]");
         messageSenderThread.setDaemon(true);
         messageSenderThread.start();
 
@@ -132,15 +131,14 @@ public class DashBoardServlet extends HttpServlet implements CometProcessor
                 String clientId = createClientId(javelinHost, javelinPort);
 
                 CommunicationClient client =
-                                             CommunicationFactory.getCommunicationClient("DataCollector-ClientThread-"
-                                                     + clientId);
+                        CommunicationFactory.getCommunicationClient("DataCollector-ClientThread-"
+                                + clientId);
 
                 client.init(javelinHost, javelinPort);
                 client.addTelegramListener(new CollectorListener(messageSender_, agentId,
                                                                  setting.databaseName));
                 client.addTelegramListener(new AlarmNotifyListener(messageSender_, agentId));
-                client.addTelegramListener(new ResourceAlarmListener(messageSender_, agentId));
-                client.addTelegramListener(new ResourceStateListener(messageSender_, agentId));
+                client.addTelegramListener(new SignalStateChangeListener());
 
                 ConnectNotifyData connectNotify = new ConnectNotifyData();
                 connectNotify.setKind(ConnectNotifyData.KIND_CONTROLLER);
@@ -157,7 +155,7 @@ public class DashBoardServlet extends HttpServlet implements CometProcessor
             List<CommunicationClient> clientList = connectionClient.getClientList();
 
             CommunicationClient client =
-                                         CommunicationFactory.getCommunicationClient("DataCollector-JavelinNotify-Thread");
+                    CommunicationFactory.getCommunicationClient("DataCollector-JavelinNotify-Thread");
             client.init(dbConfig.getServerModeAgentSetting().acceptHost,
                         dbConfig.getServerModeAgentSetting().acceptPort);
             ConnectNotifyData connectNotify = new ConnectNotifyData();
@@ -174,6 +172,7 @@ public class DashBoardServlet extends HttpServlet implements CometProcessor
     /**
      * 終了処理を行います。
      */
+    @Override
     public void destroy()
     {
         this.messageSender_.destroy();
@@ -188,7 +187,7 @@ public class DashBoardServlet extends HttpServlet implements CometProcessor
      * @throws IOException 入出力例外が発生した場合
      * @throws ServletException サーブレット上で例外が発生した場合
      */
-    public void event(CometEvent event)
+    public void event(final CometEvent event)
         throws IOException,
             ServletException
     {
@@ -235,7 +234,7 @@ public class DashBoardServlet extends HttpServlet implements CometProcessor
                     {
                         // IE対応 画面遷移時にサーバに残っている設定情報を削除する。
                         CometEventWrapper setCometEvent =
-                                                          this.messageSender_.getCometEvent(clientId);
+                                this.messageSender_.getCometEvent(clientId);
                         this.messageSender_.removeCometEvent(clientId, false);
                         if (setCometEvent != null)
                         {
