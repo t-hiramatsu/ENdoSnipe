@@ -57,6 +57,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.wgp.manager.WgpDataManager;
 import org.wgp.util.DataConvertUtil;
 
 @Controller
@@ -68,8 +69,8 @@ public class TermDataController
 
     private static final String TREE_DATA_ID = "tree";
 
-    /** シグナルのツリーメニューのプレフィックスID */
-    private static final String TREE_MENU_SIGNAL_PREFIX_ID = "/signalNode-";
+    /** シグナルのツリーメニューのサフィックスID */
+    private static final String TREE_MENU_SIGNAL_SUFEIX_ID = "-signalNode";
 
     @Autowired
     protected TreeMenuService treeMenuService;
@@ -79,6 +80,9 @@ public class TermDataController
 
     @Autowired
     protected SignalService signalService;
+
+    @Autowired
+    private WgpDataManager wgpDataManager;
 
     @RequestMapping(value = "/get", method = RequestMethod.POST)
     @ResponseBody
@@ -215,19 +219,20 @@ public class TermDataController
         {
             SignalTreeMenuDto treeMenu = new SignalTreeMenuDto();
 
-            // シグナルの表示名称を生成する。
-            // (シグナル名からマッチングパターンを除外した値)
-            String signalDisplayName =
-                    signal.getSignalName().replaceFirst(signal.getMatchingPattern() + "/", "");
+            String signalName = signal.getSignalName();
 
-            // シグナルのツリーメニュー上でのIDを生成する。
-            // (マッチングパターン + プレフィックス + シグナルの表示名称)
-            String signalId =
-                    signal.getMatchingPattern() + TREE_MENU_SIGNAL_PREFIX_ID + signalDisplayName;
+            // シグナル名から親階層のツリーID名を取得する。
+            // ※一番右のスラッシュ区切りまでを親階層とする。
+            int terminateParentTreeIndex = signalName.lastIndexOf("/");
+            String parentTreeId = signalName.substring(0, terminateParentTreeIndex);
 
-            treeMenu.setId(signalId);
-            treeMenu.setTreeId(signalId);
-            treeMenu.setParentTreeId(signal.getMatchingPattern());
+            // シグナル表示名を取得する。
+            // ※一番右のスラッシュ区切り以降を表示名とする。
+            String signalDisplayName = signalName.substring(terminateParentTreeIndex + 1);
+
+            treeMenu.setId(signalName);
+            treeMenu.setTreeId(signalName);
+            treeMenu.setParentTreeId(parentTreeId);
             treeMenu.setData(signalDisplayName);
             treeMenu.setSignalValue(signal.getSignalValue());
             treeMenu.setType(TreeMenuConstants.TREE_MENU_TYPE_SIGNAL);
@@ -238,4 +243,5 @@ public class TermDataController
 
         return createTreeMenuData(signalTreeList);
     }
+
 }
