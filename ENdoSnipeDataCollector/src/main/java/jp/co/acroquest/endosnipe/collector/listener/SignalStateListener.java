@@ -26,11 +26,18 @@
 package jp.co.acroquest.endosnipe.collector.listener;
 
 import jp.co.acroquest.endosnipe.collector.ENdoSnipeDataCollectorPluginProvider;
+import jp.co.acroquest.endosnipe.collector.JavelinDataLogger;
 import jp.co.acroquest.endosnipe.collector.LogMessageCodes;
-import jp.co.acroquest.endosnipe.collector.data.JavelinData;
+import jp.co.acroquest.endosnipe.collector.manager.SignalStateManager;
+import jp.co.acroquest.endosnipe.collector.processor.AlarmData;
+import jp.co.acroquest.endosnipe.collector.processor.AlarmType;
+import jp.co.acroquest.endosnipe.collector.util.CollectorTelegramUtil;
+import jp.co.acroquest.endosnipe.common.entity.ItemType;
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
 import jp.co.acroquest.endosnipe.communicator.AbstractTelegramListener;
 import jp.co.acroquest.endosnipe.communicator.TelegramListener;
+import jp.co.acroquest.endosnipe.communicator.entity.Body;
+import jp.co.acroquest.endosnipe.communicator.entity.Header;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 
@@ -46,16 +53,6 @@ public class SignalStateListener extends AbstractTelegramListener implements Tel
                                                   ENdoSnipeLogger.getLogger(SignalStateListener.class,
                                                                             ENdoSnipeDataCollectorPluginProvider.INSTANCE);
 
-    private String databaseName_ = "";
-
-    private String hostName_ = null;
-
-    private String ipAddress_ = "";
-
-    private int port_ = -1;
-
-    private String clientId_ = null;
-
     /**
      * {@inheritDoc}
      */
@@ -67,7 +64,136 @@ public class SignalStateListener extends AbstractTelegramListener implements Tel
             LOGGER.log(SIGNAL_STATE_NOTIFY_RECEIVED);
         }
 
-        return null;
+        // 閾値定義情報の名称一覧を取得する。
+        String[] signalNames = getSignalNames(telegram);
+
+        Telegram responseTelegram = createResponseTelegram(signalNames);
+
+        return responseTelegram;
+    }
+
+    /**
+     * 閾値定義情報の名称一覧を取得する。
+     * @param telegram 閾値定義情報電文一覧
+     * @return 閾値定義情報の名称一覧
+     */
+    private String[] getSignalNames(final Telegram telegram)
+    {
+        Body[] bodys = telegram.getObjBody();
+        String[] signalNames = null;
+
+        Body body = bodys[0];
+        String objectNameInTelegram = body.getStrObjName();
+        String itemNameInTelegram = body.getStrItemName();
+        if (TelegramConstants.OBJECTNAME_RESOURCEALARM.equals(objectNameInTelegram) == false)
+        {
+            return null;
+        }
+        if (TelegramConstants.ITEMNAME_ALARM_ID.equals(itemNameInTelegram) == false)
+        {
+            return null;
+        }
+        Object[] measurementItemValues = body.getObjItemValueArr();
+        int loopCount = body.getIntLoopCount();
+        signalNames = getStringValues(loopCount, measurementItemValues);
+
+        return signalNames;
+    }
+
+    /**
+     * 電文から文字列配列を取得する。
+     * @param loopCount ループ回数
+     * @param telegramValuesOfobject 詳細
+     * @return 電文から取得した文字列配列
+     */
+    private String[] getStringValues(final int loopCount, final Object[] telegramValuesOfobject)
+    {
+        String[] telegramValues = new String[loopCount];
+        for (int cnt = 0; cnt < telegramValuesOfobject.length; cnt++)
+        {
+            if (cnt >= loopCount)
+            {
+                break;
+            }
+            String signalName = (String)telegramValuesOfobject[cnt];
+            telegramValues[cnt] = signalName;
+        }
+        return telegramValues;
+    }
+
+    /**
+     * シグナル状態更新電文を生成する。
+     * @param signalNames シグナル名称一覧
+     * @return シグナル状態更新電文
+     */
+    private Telegram createResponseTelegram(final String[] signalNames)
+    {
+        Header responseHeader = new Header();
+        responseHeader.setByteTelegramKind(TelegramConstants.BYTE_TELEGRAM_SIGNAL_STATE_CHANGE);
+        responseHeader.setByteRequestKind(TelegramConstants.BYTE_REQUEST_KIND_NOTIFY);
+
+        Telegram responseTelegram = new Telegram();
+
+        Body[] responseBodys = new Body[CollectorTelegramUtil.RESPONSEALARM_BODY_SIZE];
+        int signalCount = signalNames.length;
+
+        // 計測ID
+        Body signalNamesBody = new Body();
+
+        signalNamesBody.setStrObjName(TelegramConstants.OBJECTNAME_RESOURCEALARM);
+        signalNamesBody.setStrItemName(TelegramConstants.ITEMNAME_ALARM_ID);
+        signalNamesBody.setByteItemMode(ItemType.ITEMTYPE_STRING);
+        signalNamesBody.setIntLoopCount(signalCount);
+
+        // アラームのレベル
+        Body signalStateBody = new Body();
+
+        signalStateBody.setStrObjName(TelegramConstants.OBJECTNAME_RESOURCEALARM);
+        signalStateBody.setStrItemName(TelegramConstants.ITEMNAME_ALARM_LEVEL);
+        signalStateBody.setByteItemMode(ItemType.ITEMTYPE_INT);
+        signalStateBody.setIntLoopCount(signalCount);
+        Integer[] signalState = new Integer[signalCount];
+
+        // アラームの種類
+        Body alarmTypeBody = new Body();
+
+        alarmTypeBody.setStrObjName(TelegramConstants.OBJECTNAME_RESOURCEALARM);
+        alarmTypeBody.setStrItemName(TelegramConstants.ITEMNAME_ALARM_TYPE);
+        alarmTypeBody.setByteItemMode(ItemType.ITEMTYPE_STRING);
+        alarmTypeBody.setIntLoopCount(signalCount);
+        String[] alarmTypeItems = new String[signalCount];
+
+        // 計測ID、アラーム種類のBodyにAlarmEntryの結果を格納する。
+        SignalStateManager manager = SignalStateManager.getInstance();
+        for (int cnt = 0; cnt < signalCount; cnt++)
+        {
+            String signalName = signalNames[cnt];
+
+            AlarmData alarmData = manager.getAlarmData(signalName);
+            if (alarmData == null)
+            {
+                signalState[cnt] = JavelinDataLogger.NORMAL_ALARM_LEVEL;
+            }
+            else
+            {
+                signalState[cnt] = alarmData.getAlarmLevel();
+            }
+
+            alarmTypeItems[cnt] = String.valueOf(AlarmType.NONE);
+        }
+        signalNamesBody.setObjItemValueArr(signalNames);
+        signalStateBody.setObjItemValueArr(signalState);
+        alarmTypeBody.setObjItemValueArr(alarmTypeItems);
+
+        responseTelegram.setObjHeader(responseHeader);
+
+        responseBodys[0] = signalNamesBody;
+        responseBodys[1] = signalStateBody;
+        responseBodys[2] = alarmTypeBody;
+
+        responseTelegram.setObjBody(responseBodys);
+
+        return responseTelegram;
     }
 
     /**
@@ -88,51 +214,4 @@ public class SignalStateListener extends AbstractTelegramListener implements Tel
         return TelegramConstants.BYTE_TELEGRAM_KIND_SIGNAL_STATE;
     }
 
-    /**
-     * {@link JavelinData} 用のデータベース名を設定します。<br />
-     *
-     * @param databaseName データベース名
-     */
-    public void setDatabaseName(final String databaseName)
-    {
-        this.databaseName_ = databaseName;
-    }
-
-    /**
-     * {@link JavelinData} 用の接続先ホスト名を設定します。<br />
-     * @param hostName 接続先ホスト名
-     */
-    public void setHostName(final String hostName)
-    {
-        this.hostName_ = hostName;
-    }
-
-    /**
-     * {@link JavelinData} 用の接続先 IP アドレスを設定します。<br />
-     * 
-     * @param ipAddress 接続先 IP アドレス
-     */
-    public void setIpAddress(final String ipAddress)
-    {
-        this.ipAddress_ = ipAddress;
-    }
-
-    /**
-     * {@link JavelinData} 用の接続先ポート番号を設定します。<br />
-     * 
-     * @param port 接続先ポート番号
-     */
-    public void setPort(final int port)
-    {
-        this.port_ = port;
-    }
-
-    /**
-     * {@link JavelinData} 用のクライアントIDを設定します。
-     * @param clientId クライアントID
-     */
-    public void setClientId(final String clientId)
-    {
-        clientId_ = clientId;
-    }
 }

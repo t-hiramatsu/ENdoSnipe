@@ -2,16 +2,21 @@ package jp.co.acroquest.endosnipe.web.dashboard.service;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import jp.co.acroquest.endosnipe.common.entity.ItemType;
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
+import jp.co.acroquest.endosnipe.communicator.CommunicationClient;
+import jp.co.acroquest.endosnipe.communicator.entity.Body;
+import jp.co.acroquest.endosnipe.communicator.entity.Header;
+import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
+import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.data.dao.JavelinMeasurementItemDao;
 import jp.co.acroquest.endosnipe.web.dashboard.constants.LogMessageCodes;
 import jp.co.acroquest.endosnipe.web.dashboard.dao.SignalInfoDao;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.SignalDefinitionDto;
 import jp.co.acroquest.endosnipe.web.dashboard.entity.SignalInfo;
+import jp.co.acroquest.endosnipe.web.dashboard.manager.ConnectionClient;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.DatabaseManager;
 
 import org.apache.ibatis.exceptions.PersistenceException;
@@ -31,6 +36,8 @@ public class SignalService
 {
     /** ロガー。 */
     private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(MapService.class);
+
+    private static final int DEFAULT_SIGNAL_STATE = 0;
 
     @Autowired
     protected SignalInfoDao signalInfoDao;
@@ -60,28 +67,72 @@ public class SignalService
             return new ArrayList<SignalDefinitionDto>();
         }
 
-        // TODO signalMapがモックなので、DataCollectorに問い合わせて取得するように変更する
-        Map<Integer, Integer> signalMap = new HashMap<Integer, Integer>();
-        for (SignalInfo signalInfo : signalList)
-        {
-            SignalDefinitionDto signalDto = this.convertSignalDto(signalInfo);
-            int signalId = signalDto.getSignalId();
-
-            signalMap.put(signalId, 1 + (int)(Math.random() * signalInfo.level));
-        }
-
         List<SignalDefinitionDto> definitionDtoList = new ArrayList<SignalDefinitionDto>();
 
         for (SignalInfo signalInfo : signalList)
         {
             SignalDefinitionDto signalDto = this.convertSignalDto(signalInfo);
-            int signalId = signalDto.getSignalId();
-            Integer signalValue = signalMap.get(signalId);
-            signalDto.setSignalValue(signalValue);
+            // 初期状態はデフォルト値(0)を状態値とする。
+            signalDto.setSignalValue(DEFAULT_SIGNAL_STATE);
             definitionDtoList.add(signalDto);
         }
 
+        sendGetAllStateRequest(signalList);
         return definitionDtoList;
+    }
+
+    /**
+     * シグナルの全状態を取得するリクエストを生成する。
+     * @param signalList シグナル定義情報一覧
+     */
+    private void sendGetAllStateRequest(final List<SignalInfo> signalList)
+    {
+        ConnectionClient connectionClient = ConnectionClient.getInstance();
+        List<CommunicationClient> clientList = connectionClient.getClientList();
+        for (CommunicationClient communicationClient : clientList)
+        {
+            Telegram telegram = createAllStateTelegram(signalList);
+            communicationClient.sendTelegram(telegram);
+        }
+
+    }
+
+    /**
+     * 全閾値情報を取得する電文を作成する。
+     * @param signalList シグナル定義情報のリスト
+     * @return
+     */
+    private Telegram createAllStateTelegram(final List<SignalInfo> signalList)
+    {
+        Telegram telegram = new Telegram();
+
+        Header requestHeader = new Header();
+        requestHeader.setByteTelegramKind(TelegramConstants.BYTE_TELEGRAM_KIND_SIGNAL_STATE);
+        requestHeader.setByteRequestKind(TelegramConstants.BYTE_REQUEST_KIND_REQUEST);
+
+        int dtoCount = signalList.size();
+
+        // 閾値判定定義情報
+        Body signalBody = new Body();
+
+        signalBody.setStrObjName(TelegramConstants.OBJECTNAME_RESOURCEALARM);
+        signalBody.setStrItemName(TelegramConstants.ITEMNAME_ALARM_ID);
+        signalBody.setByteItemMode(ItemType.ITEMTYPE_STRING);
+        signalBody.setIntLoopCount(dtoCount);
+        String[] signalNames = new String[dtoCount];
+        for (int cnt = 0; cnt < dtoCount; cnt++)
+        {
+            SignalInfo signalInfo = signalList.get(cnt);
+            signalNames[cnt] = signalInfo.signalName;
+        }
+        signalBody.setObjItemValueArr(signalNames);
+
+        Body[] requestBodys = {signalBody};
+
+        telegram.setObjHeader(requestHeader);
+        telegram.setObjBody(requestBodys);
+
+        return telegram;
     }
 
     /**
@@ -109,8 +160,8 @@ public class SignalService
         SignalDefinitionDto signalDefinitionDto = this.convertSignalDto(signalInfo);
         signalDefinitionDto.setSignalId(signalId);
 
-        // TODO signalValueがモックなので、DataCollectorに問い合わせて取得するように変更する
-        signalDefinitionDto.setSignalValue(1 + (int)(Math.random() * signalInfo.level));
+        // 初期値は正常を表す0とする。
+        signalDefinitionDto.setSignalValue(0);
 
         return signalDefinitionDto;
     }
@@ -119,13 +170,14 @@ public class SignalService
      * シグナル定義を更新する。
      *
      * @param signalInfo シグナル定義
+     * @return {@link SignalDefinitionDto}オブジェクト
      */
     public SignalDefinitionDto updateSignalInfo(final SignalInfo signalInfo)
     {
         try
         {
             SignalInfo beforeSignalInfo = signalInfoDao.selectById(signalInfo.signalId);
-            if (beforeSignalInfo == null || signalInfo == null)
+            if (beforeSignalInfo == null)
             {
                 return new SignalDefinitionDto();
             }

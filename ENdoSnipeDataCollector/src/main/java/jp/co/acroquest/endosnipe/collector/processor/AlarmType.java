@@ -35,5 +35,7 @@ public enum AlarmType
     /** •œ‹Œ */
     RECOVER,
     /** áŠQ */
-    FAILURE
+    FAILURE,
+    /** ‚È‚µiæ“¾‰“šj */
+    NONE
 }

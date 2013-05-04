@@ -42,6 +42,9 @@ import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
  */
 public class CollectorTelegramUtil
 {
+    /**  閾値超過アラームの電文本体のサイズ */
+    public static final int RESPONSEALARM_BODY_SIZE = 3;
+
     /**
      * インスタンス化を防止するprivateコンストラクタです。
      */
@@ -133,8 +136,5 @@ public class CollectorTelegramUtil
 
         return responseTelegram;
     }
-
-    /**  閾値超過アラームの電文本体のサイズ */
-    public static final int RESPONSEALARM_BODY_SIZE = 3;
 
 }
