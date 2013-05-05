@@ -1,20 +1,20 @@
 /*******************************************************************************
  * WGP 1.0B - Web Graphical Platform (https://sourceforge.net/projects/wgp/)
- * 
+ *
  * The MIT License (MIT)
- * 
+ *
  * Copyright (c) 2012 Acroquest Technology Co.,Ltd.
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -149,5 +149,51 @@ wgp.TreeView = wgp.AbstractView
 				var selector = "[" + idAttribute + "=" + "'" + treeId + "'"
 						+ "]";
 				return $("#" + this.$el.attr("id")).find(selector);
+			},
+			// 展開状態のノードのIDを全て取得する。
+			getOpenNodes : function(idAttribute){
+				var openNodeData = [];
+				var openNodeList = $("#" + this.$el.attr("id")).find("li.jstree-open");
+				_.each(openNodeList, function(openNode, index){
+					var openNodeAnchor = $(openNode).children("a");
+					openNodeData.push( openNodeAnchor.attr(idAttribute) );
+				});
+
+				return openNodeData;
+			},
+			// IDを基にツリーを展開する。
+			openNode : function(treeId, idAttribute){
+				var treeNode = this.getTreeNode(treeId, idAttribute);
+				if(treeNode.length > 0){
+					$("#" + this.$el.attr("id")).jstree("open_node", treeNode.parent());
+				}
+			},
+			// IDを基にツリーを展開する。(複数)
+			openNodes : function(treeIdArray, idAttribute){
+				var instance = this;
+				_.each(treeIdArray, function(treeId, index){
+					instance.openNode(treeId, idAttribute);
+				});
+			},
+			// 選択中のツリーのノードを取得する。
+			getSelectedNode : function(){
+				var selectedNode = $("#" + this.$el.attr("id")).jstree("get_selected");
+				return selectedNode
+			},
+			// 選択中のツリーのノードIDを取得する。
+			getSelectedNodeId : function(idAttribute){
+				var selectedNode = this.getSelectedNode();
+				if(selectedNode.length > 0){
+					return selectedNode.children("a").attr(idAttribute);
+				}else{
+					return "";
+				}
+			},
+			// ツリーのノードを選択する。
+			selectNode : function(treeId, idAttribute){
+				var selectTreeNode = this.getTreeNode(treeId, idAttribute);
+				if(selectTreeNode.length > 0){
+					selectTreeNode.click();
+				}
 			}
 		});

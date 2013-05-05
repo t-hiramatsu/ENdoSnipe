@@ -35,6 +35,7 @@ import jp.co.acroquest.endosnipe.collector.data.JavelinConnectionData;
 import jp.co.acroquest.endosnipe.collector.listener.AllNotifyListener;
 import jp.co.acroquest.endosnipe.collector.listener.CommonResponseListener;
 import jp.co.acroquest.endosnipe.collector.listener.JvnFileNotifyListener;
+import jp.co.acroquest.endosnipe.collector.listener.SignalStateListener;
 import jp.co.acroquest.endosnipe.collector.listener.SystemResourceListener;
 import jp.co.acroquest.endosnipe.collector.listener.TelegramNotifyListener;
 import jp.co.acroquest.endosnipe.collector.transfer.JavelinTransferServerThread;
@@ -61,31 +62,31 @@ import jp.co.acroquest.endosnipe.data.service.HostInfoManager;
  */
 public class JavelinClient implements CommunicatorListener, LogMessageCodes
 {
-    private static final ENdoSnipeLogger      LOGGER          =
-                                                                ENdoSnipeLogger.getLogger(JavelinClient.class,
-                                                                                          ENdoSnipeDataCollectorPluginProvider.INSTANCE);
+    private static final ENdoSnipeLogger LOGGER =
+                                                  ENdoSnipeLogger.getLogger(JavelinClient.class,
+                                                                            ENdoSnipeDataCollectorPluginProvider.INSTANCE);
 
-    private String                            databaseName_;
+    private String databaseName_;
 
     /** Javelin が動作しているホスト名または IP アドレス */
-    private String                            javelinHost_;
+    private String javelinHost_;
 
     /** Javelin への接続ポート番号 */
-    private int                               javelinPort_;
+    private int javelinPort_;
 
     /** BottleneckEye 待ち受けポート番号 */
-    private int                               acceptPort_;
+    private int acceptPort_;
 
-    private CommunicationClient               client_;
+    private CommunicationClient client_;
 
-    private List<TelegramNotifyListener>      telegramNotifyListenerList_;
+    private List<TelegramNotifyListener> telegramNotifyListenerList_;
 
-    private String                            clientId_;
+    private String clientId_;
 
     private final JavelinTransferServerThread transferThread_ = new JavelinTransferServerThread();
 
     /** データを蓄積するためのキュー */
-    private JavelinDataQueue                  queue_;
+    private JavelinDataQueue queue_;
 
     /**
      * コンストラクタ。
@@ -391,13 +392,15 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
                                                                                            hostName);
         final SystemResourceListener SYSTEM_RESOURCE_LISTENER =
                                                                 createSystemResourceListener(queue,
-                                                                                             hostName, 
+                                                                                             hostName,
                                                                                              agentName);
 
+        final SignalStateListener SIGNAL_STATE_LISTENER = new SignalStateListener();
         if (queue != null)
         {
             receiver.addTelegramListener(JVN_FILE_NOTIFY_LISTENER);
             receiver.addTelegramListener(SYSTEM_RESOURCE_LISTENER);
+            receiver.addTelegramListener(SIGNAL_STATE_LISTENER);
             addResponseTelegramListener(TelegramConstants.BYTE_TELEGRAM_KIND_GET_DUMP);
             addResponseTelegramListener(TelegramConstants.BYTE_TELEGRAM_KIND_UPDATE_PROPERTY);
         }

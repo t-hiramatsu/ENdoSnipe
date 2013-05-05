@@ -12,9 +12,9 @@ ENS.ResourceMapView = wgp.MapView.extend({
 
 		var contextMenuId = this.cid + "_contextMenu";
 		this.contextMenuId = contextMenuId;
-		
+
 		this.mapId = argument["mapId"];
-		
+
 		// 継承元の初期化メソッド実行
 		this.__proto__.__proto__.initialize.apply(this, [argument]);
 
@@ -43,7 +43,7 @@ ENS.ResourceMapView = wgp.MapView.extend({
 			newView = this._addGraphDivision(model);
 			this.viewCollection[model.id] = newView;
 
-		}else if("ENS.ResourceStateElementView" == objectName){
+		}else if("ENS.SignalElementView" == objectName){
 			newView = this._addStateElement(model);
 			this.viewCollection[model.id] = newView;
 
@@ -68,6 +68,11 @@ ENS.ResourceMapView = wgp.MapView.extend({
 
 			// コンテキストメニューとの関連付け
 			this.relateContextMenu(model);
+
+		}else{
+
+			// 運用時のイベントを設定する。
+			newView.setOperateFunction();
 		}
 
 	},
@@ -136,7 +141,7 @@ ENS.ResourceMapView = wgp.MapView.extend({
 		};
 
 		var view =
-			new ENS.ResourceStateElementView(argument);
+			new ENS.SignalElementView(argument);
 		return view;
 	},
 	_addLinkElement : function(model){
@@ -150,7 +155,6 @@ ENS.ResourceMapView = wgp.MapView.extend({
 		return view;
 	},
 	onSave : function(treeModel){
-		console.log("click save");
 		var resourceArray = [];
 		_.each(this.collection.models, function(model, index){
 			resourceArray.push(model.toJSON());
@@ -174,7 +178,7 @@ ENS.ResourceMapView = wgp.MapView.extend({
 
 		// コレクションをリセット
 		this.collection.reset();
-		
+
 		// マップ情報を画面に表示する。
 		var mapId = this.mapId;
 
@@ -218,7 +222,7 @@ ENS.ResourceMapView = wgp.MapView.extend({
 			createLinkDialog.append("<p> Please enter new Link name</p>");
 
 			var linkNameLabel = $("<label for='linkName'>Link Name：</label>");
-			var linkNameText = 
+			var linkNameText =
 				$("<input type='text' name='linkName' id='linkName' class='text ui-widget-content ui-corner-all'>");
 
 			var linkUrlLabel = $("<label for='linkUrl' style='margin-top: 10px;'>Target Map：</label>");

@@ -3,7 +3,7 @@
  * 
  * The MIT License (MIT)
  * 
- * Copyright (c) 2012 Acroquest Technology Co.,Ltd.
+ * Copyright (c) 2013 Acroquest Technology Co.,Ltd.
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,27 +23,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package jp.co.acroquest.endosnipe.web.dashboard.entity;
+package jp.co.acroquest.endosnipe.collector.processor;
 
 /**
- * é–¾å€¤è¶…éã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
- * 
+ * Œx‚Ìí•Ê‚ğ•\‚·EnumƒNƒ‰ƒX
  * @author fujii
+ *
  */
-public class ResourceAlarmEntity
+public enum AlarmType
 {
-    /** ã‚¤ãƒ™ãƒ³ãƒˆID */
-    public long event_id;
-
-    /** ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆID */
-    public int agent_id;
-
-    /** ã‚¢ãƒ©ãƒ¼ãƒ ã®ãƒ¬ãƒ™ãƒ« */
-    public int[] alarm_levels;
-
-    /** ã‚¢ãƒ©ãƒ¼ãƒ ã®ç¨®é¡ */
-    public int[] alarm_types;
-
-    /** è¨ˆæ¸¬ID */
-    public int[] measurement_types;
+    /** •œ‹Œ */
+    RECOVER,
+    /** áŠQ */
+    FAILURE,
+    /** ‚È‚µiæ“¾‰“šj */
+    NONE
 }

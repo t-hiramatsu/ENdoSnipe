@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -46,7 +47,13 @@ import jp.co.acroquest.endosnipe.collector.data.JavelinData;
 import jp.co.acroquest.endosnipe.collector.data.JavelinLogData;
 import jp.co.acroquest.endosnipe.collector.data.JavelinMeasurementData;
 import jp.co.acroquest.endosnipe.collector.log.JavelinLogUtil;
+import jp.co.acroquest.endosnipe.collector.manager.SignalStateManager;
+import jp.co.acroquest.endosnipe.collector.notification.AlarmEntry;
+import jp.co.acroquest.endosnipe.collector.processor.AlarmData;
+import jp.co.acroquest.endosnipe.collector.processor.AlarmProcessor;
+import jp.co.acroquest.endosnipe.collector.processor.AlarmThresholdProcessor;
 import jp.co.acroquest.endosnipe.collector.request.CommunicationClientRepository;
+import jp.co.acroquest.endosnipe.collector.util.CollectorTelegramUtil;
 import jp.co.acroquest.endosnipe.common.Constants;
 import jp.co.acroquest.endosnipe.common.entity.MeasurementData;
 import jp.co.acroquest.endosnipe.common.entity.MeasurementDetail;
@@ -62,6 +69,7 @@ import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.data.dao.JavelinLogDao;
 import jp.co.acroquest.endosnipe.data.dao.JavelinMeasurementItemDao;
 import jp.co.acroquest.endosnipe.data.db.DBManager;
+import jp.co.acroquest.endosnipe.data.dto.SignalDefinitionDto;
 import jp.co.acroquest.endosnipe.data.entity.JavelinLog;
 import jp.co.acroquest.endosnipe.data.entity.JavelinMeasurementItem;
 import jp.co.acroquest.endosnipe.data.util.AccumulatedValuesDefinition;
@@ -81,107 +89,90 @@ import jp.co.acroquest.endosnipe.util.RotateCallback;
 public class JavelinDataLogger implements Runnable, LogMessageCodes
 {
 
-    private static final String                 JVN_LOG_ENCODING              = "UTF-8";
+    private static final String JVN_LOG_ENCODING = "UTF-8";
 
-    private static final String                 KEYWORD_SEQUENCE_ID           = "sequenceId";
+    private static final ENdoSnipeLogger LOGGER =
+                                                  ENdoSnipeLogger.getLogger(JavelinDataLogger.class,
+                                                                            ENdoSnipeDataCollectorPluginProvider.INSTANCE);
 
-    private static final String                 KEYWORD_COLLECTOR_TYPE_NAME   = "collectorTypeName";
-
-    private static final String                 KEYWORD_EVENT_NAME            = "eventName";
-
-    private static final ENdoSnipeLogger        LOGGER                        =
-                                                                                ENdoSnipeLogger.getLogger(JavelinDataLogger.class,
-                                                                                                          ENdoSnipeDataCollectorPluginProvider.INSTANCE);
-
-    /** メール/SMTPトラップ の通知レベル「正常」を表す */
-    public static final int                     ALARM_LEVEL_NORMAL            = 0;
-
-    /** メール/SMTPトラップ の通知レベル「WARN」を表す */
-    public static final int                     ALARM_LEVEL_WARN              = 1;
-
-    /** メール/SMTPトラップ の通知レベル「ERROR」を表す */
-    public static final int                     ALARM_LEVEL_ERROR             = 2;
-
-    /** トラップ の通知レベルの和名を表す */
-    public static final String[]                ALARM_LEVEL_NAME              = {"NORMAL", "WARN",
-            "ERROR"                                                           };
-
-    /** アラーム送信用キューのサイズ */
-    private static final int                    ALARM_QUEUE_SIZE              = 100;
-
-    private final JavelinDataQueue              queue_                        =
-                                                                                new JavelinDataQueue();
+    private final JavelinDataQueue queue_ = new JavelinDataQueue();
 
     /** 設定 */
-    private final DataCollectorConfig           config_;
+    private final DataCollectorConfig config_;
 
     /** データベース名をキーに持つ、ローテート設定を保持するマップ */
-    private final Map<String, RotateConfig>     rotateConfigMap_;
+    private final Map<String, RotateConfig> rotateConfigMap_;
 
     /** デフォルトのローテーと設定 */
-    private RotateConfig                        defaultRotateConfig_;
+    private RotateConfig defaultRotateConfig_;
 
     private final CommunicationClientRepository clientRepository_;
 
-    private volatile boolean                    isRunnning_;
+    private volatile boolean isRunnning_;
 
     /** 前回の計測値 */
-    private final Map<String, ResourceData>     prevResourceDataMap_          =
-                                                                                new HashMap<String, ResourceData>();
+    private final Map<String, ResourceData> prevResourceDataMap_ =
+                                                                   new HashMap<String, ResourceData>();
 
     /** 前回の計測値(積算を差分に直したもの) */
-    private final Map<String, ResourceData>     prevConvertedResourceDataMap_ =
-                                                                                new HashMap<String, ResourceData>();
+    private final Map<String, ResourceData> prevConvertedResourceDataMap_ =
+                                                                            new HashMap<String, ResourceData>();
 
     /** データベース名をキーにした、前回データを挿入したテーブルインデックスを保持するマップ */
-    private static Map<String, Integer>         prevTableIndexMap__           =
-                                                                                new ConcurrentHashMap<String, Integer>();
+    private static Map<String, Integer> prevTableIndexMap__ =
+                                                              new ConcurrentHashMap<String, Integer>();
 
     /**
      * Javelinから接続されたときのイベント。
      * 接続データを受け取った時にセットされ、接続前の、全てが0のデータを書き込む際に用いられる。
      * 書き込まれた後、このフィールドはnullに戻される。
      */
-    private JavelinConnectionData               connectionData_               = null;
+    private JavelinConnectionData connectionData_ = null;
+
+    private Map<Long, SignalDefinitionDto> signalDefinitionMap_ = null;
+
+    /** 閾値判定処理を行う定義を保持したマップ */
+    private final Map<String, AlarmProcessor> processorMap_ =
+                                                              new ConcurrentHashMap<String, AlarmProcessor>();
+
+    /** 閾値レベル（正常） */
+    public static final int NORMAL_ALARM_LEVEL = 0;
 
     /** JAVELIN_LOG テーブルを truncate するコールバックメソッド */
-    private final RotateCallback                javelinRotateCallback_        =
-                                                                                new RotateCallback() {
-                                                                                    /**
-                                                                                     * {@inheritDoc}
-                                                                                     */
-                                                                                    public String getTableType()
-                                                                                    {
-                                                                                        return "JAVELIN_LOG";
-                                                                                    }
+    private final RotateCallback javelinRotateCallback_ = new RotateCallback() {
+        /**
+         * {@inheritDoc}
+         */
+        public String getTableType()
+        {
+            return "JAVELIN_LOG";
+        }
 
-                                                                                    /**
-                                                                                     * {@inheritDoc}
-                                                                                     */
-                                                                                    public void truncate(
-                                                                                            final String database,
-                                                                                            final int tableIndex,
-                                                                                            final int year)
-                                                                                        throws SQLException
-                                                                                    {
-                                                                                        JavelinLogDao.truncate(database,
-                                                                                                               tableIndex,
-                                                                                                               year);
-                                                                                    }
-                                                                                };
+        /**
+         * {@inheritDoc}
+         */
+        public void truncate(final String database, final int tableIndex, final int year)
+            throws SQLException
+        {
+            JavelinLogDao.truncate(database, tableIndex, year);
+        }
+    };
 
     /**
      * 初期化を行います。
      *
      * @param config {@link DataCollectorConfig} オブジェクト
      * @param clientRepository {@link CommunicationClientRepository} オブジェクト
+     * @param signalDefinitionMap 閾値判定定義情報のマップ
      */
     public JavelinDataLogger(final DataCollectorConfig config,
-            final CommunicationClientRepository clientRepository)
+            final CommunicationClientRepository clientRepository,
+            final Map<Long, SignalDefinitionDto> signalDefinitionMap)
     {
         this.rotateConfigMap_ = new HashMap<String, RotateConfig>();
         this.config_ = config;
         this.clientRepository_ = clientRepository;
+        this.signalDefinitionMap_ = signalDefinitionMap;
     }
 
     /**
@@ -476,6 +467,9 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             this.convertJmxRatioData(database, convertedResourceData);
 
             insertMeasurementData(database, convertedResourceData, rotatePeriod, rotatePeriodUnit);
+
+            alarmThresholdExceedance(database, convertedResourceData,
+                                     this.prevConvertedResourceDataMap_.get(prevDataKey));
 
             if (isConnectionData == false)
             {
@@ -864,6 +858,96 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
     }
 
     /**
+     * 閾値の超過、復旧でアラームを出します。
+     * @param database DB名
+     * @param currentResourceData 取得したリソース値（積算値は差分値に変換済みとする）
+     * @param prevResourceData 前回取得したリソース値（積算値は差分値に変換済みとする）
+     */
+    private void alarmThresholdExceedance(final String database,
+            final ResourceData currentResourceData, final ResourceData prevResourceData)
+    {
+        SignalStateManager signalStateManager = SignalStateManager.getInstance();
+        List<AlarmEntry> alarmEntryList = new ArrayList<AlarmEntry>();
+        for (Entry<Long, SignalDefinitionDto> signalDefinitionEntry : this.signalDefinitionMap_.entrySet())
+        {
+            SignalDefinitionDto signalDefinition = signalDefinitionEntry.getValue();
+            String itemName = signalDefinition.getMatchingPattern();
+
+            //現在のアラーム通知状況を取得
+            AlarmData currentAlarmData = signalStateManager.getAlarmData(itemName);
+            if (currentAlarmData == null)
+            {
+                currentAlarmData = new AlarmData();
+                signalStateManager.addAlarmData(itemName, currentAlarmData);
+            }
+            AlarmProcessor processor = getAlarmProcessor(signalDefinition);
+
+            if (processor == null)
+            {
+                continue;
+            }
+            AlarmEntry alarmEntry =
+                                    processor.calculateAlarmLevel(currentResourceData,
+                                                                  prevResourceData,
+                                                                  signalDefinition,
+                                                                  currentAlarmData);
+
+            if (alarmEntry == null)
+            {
+                continue;
+            }
+            // DataCollectorが参照する情報をセットする
+            alarmEntry.setIpAddress(currentResourceData.ipAddress);
+            alarmEntry.setPort(currentResourceData.portNum);
+            alarmEntry.setDatabaseName(database);
+
+            signalStateManager.addAlarmData(itemName, currentAlarmData);
+
+            // アラーム通知処理
+            if (alarmEntry.isSendAlarm())
+            {
+                alarmEntryList.add(alarmEntry);
+            }
+        }
+
+        // 閾値超過アラームをクライアントに通知する。
+        if (alarmEntryList != null && alarmEntryList.size() != 0)
+        {
+            String clientId = currentResourceData.clientId;
+            if (clientId == null || clientId.equals(""))
+            {
+                clientId =
+                           JavelinClient.createClientId(currentResourceData.ipAddress,
+                                                        currentResourceData.portNum);
+            }
+            Telegram alarmTelegram = CollectorTelegramUtil.createAlarmTelegram(alarmEntryList);
+            this.clientRepository_.sendTelegramToClient(clientId, alarmTelegram);
+        }
+    }
+
+    /**
+     * 閾値判定処理を行うオブジェクトを取得する。
+     * @param signalDefinitionDto 閾値判定定義情報
+     * @return 閾値判定処理を行うオブジェクト
+     */
+    private AlarmProcessor getAlarmProcessor(final SignalDefinitionDto signalDefinitionDto)
+    {
+        // 現在は、閾値超過のアラーム判定しかないが、判定ロジックを追加するために、
+        // 引数にはSignalDefinitionDtoを設定する。
+
+        String key = "default";
+        AlarmProcessor processor = this.processorMap_.get(key);
+
+        if (processor == null)
+        {
+            processor = new AlarmThresholdProcessor();
+            this.processorMap_.put(key, processor);
+        }
+
+        return processor;
+    }
+
+    /**
      * JVNログデータを保存します。<br />
      *
      * @param database データベース名
@@ -1111,28 +1195,6 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         }
         long prevMeasurementValue = Long.valueOf(measurementDetail.value).longValue();
         return prevMeasurementValue;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void collectStarted(final long sequenceId, final String mailTemplateName)
-    {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void collectCompleted(final long sequenceId, final String mailTemplateName,
-            final String collectorTypeName)
-    {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void collectAllCompleted(final long sequenceId, final String mailTemplateName)
-    {
     }
 
 }

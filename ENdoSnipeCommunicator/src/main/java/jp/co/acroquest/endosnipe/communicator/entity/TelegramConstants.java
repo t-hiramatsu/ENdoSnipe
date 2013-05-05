@@ -71,8 +71,8 @@ public interface TelegramConstants
     /** 電文種別(クラス削除) */
     byte BYTE_TELEGRAM_KIND_REMOVE_CLASS = 12;
 
-    /** 電文種別(閾値超過アラーム通知) */
-    byte BYTE_TELEGRAM_RESOURCE_ALARM = 13;
+    /** 電文種別(閾値超過アラーム/復旧アラーム通知) */
+    byte BYTE_TELEGRAM_SIGNAL_STATE_CHANGE = 13;
 
     /** 電文種別(接続通知) */
     byte BYTE_TELEGRAM_KIND_CONNECT_NOTIFY = 14;
@@ -85,6 +85,9 @@ public interface TelegramConstants
 
     /** 電文種別(DB名減少通知) */
     byte BYTE_TELEGRAM_KIND_DEL_DATABASE_NAME = 17;
+
+    /** 電文種別(シグナル状態取得) */
+    byte BYTE_TELEGRAM_KIND_SIGNAL_STATE = 21;
 
     /** 最後の電文以外 */
     byte HALFWAY_TELEGRAM = 0;
@@ -703,6 +706,9 @@ public interface TelegramConstants
 
     /** 項目名（計測ID） */
     String ITEMNAME_MEASUREMENT_TYPE = "measurementType";
+
+    /** 項目名（アラームの種類） */
+    String ITEMNAME_ALARM_ID = "alarmId";
 
     /** 項目名（アラームの種類） */
     String ITEMNAME_ALARM_TYPE = "alarmType";

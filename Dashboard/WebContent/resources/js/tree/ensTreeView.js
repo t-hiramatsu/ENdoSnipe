@@ -3,6 +3,11 @@ ENS.tree.signalDefinitionList = [];
 
 ENS.treeView = wgp.TreeView
 		.extend({
+			/**
+			 * ツリー要素をクリックした際の、別ペインとの
+			 * 連携処理を行う。
+			 * targetId {String} 別ペインのID
+			 */
 			setClickEvent : function(targetId) {
 				var instance = this;
 				this.treeCollection = {};
@@ -21,6 +26,10 @@ ENS.treeView = wgp.TreeView
 					}
 				});
 			},
+			/**
+			 * クリックされたツリー要素のモデルに応じて処理を行う。
+			 * treeModel {Backbone.Model}
+			 */
 			clickModel : function(treeModel) {
 				if (this.childView) {
 					var tmpAppView = new wgp.AppView();
@@ -83,8 +92,8 @@ ENS.treeView = wgp.TreeView
 				});
 				$("#" + this.$el.attr("id")).jstree(settings);
 
-				// シグナル定義を全取得する
-				this.getAllSignal_();
+//				// シグナル定義を全取得する
+//				this.getAllSignal_();
 			},
 			createTreeData : function(treeModel) {
 				var returnData = wgp.TreeView.prototype.createTreeData.call(
@@ -143,23 +152,21 @@ ENS.treeView = wgp.TreeView
 						menuId, settingOptions);
 			},
 			pushOkFunction : function(event, option) {
-				
+
 			},
 			pushCancelFunction : function(event, option) {
-				
+
 			},
 			onComplete : function(type) {
 				if (type == wgp.constants.syncType.SEARCH) {
 					this.renderAll();
-				} else {
-					this.updateSignal_(this.collection.models);
 				}
 			},
 			signalOnSelect_ : function(event, target, menuId, tmpClickTarget) {
 				var clickTarget = event.target;
 				var id = $(clickTarget).attr("id");
 				var targetOption = this.getContextOption_(id);
-				
+
 				var executeOption = targetOption.get("executeOption");
 				executeOption.treeId = $(tmpClickTarget).attr("id");
 				executeOption.displayName = $(tmpClickTarget).text();
@@ -235,7 +242,7 @@ ENS.treeView = wgp.TreeView
 				var idList = _.keys(ENS.tree.signalDefinitionList);
 				var appView = new ENS.AppView();
 				appView.stopSyncData(idList);
-				
+
 				// add tree data for signal
 				var treeId = option.treeId;
 				var signalName = $("#signalName").val();
@@ -275,76 +282,6 @@ ENS.treeView = wgp.TreeView
 			},
 			/** レポート出力の定義を入力した後に実行するメソッド。 */
 			reportPushOkFunction : function(event, option) {
-
-			},
-			updateSignal_ : function(signalDefinitionList) {
-				var instance = this;
-				var removeOptionList = [];
-				var addOptionList = [];
-				var tmpList = [];
-				_
-						.each(
-								signalDefinitionList,
-								function(signalDefinition, signalIndex) {
-									var signalName = signalDefinition.signalName;
-									var signalNameSplitList = signalName
-											.split("/");
-									var signalNameSplitListLength = signalNameSplitList.length;
-
-									// 新しいID
-									var newTreeId = "";
-									// 親ノードのパス
-									var parentTreeId = "";
-									for ( var index = 1; index < signalNameSplitListLength; index++) {
-										var nameSplit = signalNameSplitList[index];
-
-										if (index == signalNameSplitListLength - 1) {
-											newTreeId += ENS.tree.SIGNAL_PREFIX_ID;
-										} else {
-											parentTreeId += "/";
-											parentTreeId += nameSplit;
-
-											newTreeId += "/";
-										}
-										newTreeId += nameSplit;
-									}
-
-									var showName = signalNameSplitList[signalNameSplitListLength - 1];
-									var removeOption = {
-										id : signalName
-									};
-									removeOptionList.push(removeOption);
-
-									// シグナルアイコンを取得する
-									var icon = instance
-											.getIcon(signalDefinition);
-
-									var addOption = {
-										id : newTreeId,
-										data : showName,
-										parentTreeId : parentTreeId,
-										icon : icon
-									};
-									addOptionList.push(addOption);
-
-									// 更新時に、ツリー階層に他のノードがなく、ツリーが閉じてしまう現象をなくすために、
-									// 一時的なノードを作成する
-									var tmpTreeOption = {
-										id : parentTreeId + "/tmp",
-										data : "",
-										parentTreeId : parentTreeId
-									};
-									tmpList.push(tmpTreeOption);
-
-									ENS.tree.signalDefinitionList[newTreeId] = signalDefinition;
-								});
-
-				// 更新時に、ツリー階層に他のノードがなく、ツリーが閉じてしまう現象をなくすために
-				// 最初に一時的なノードを追加している
-				this.collection.add(tmpList);
-				this.collection.remove(removeOptionList);
-				this.collection.add(addOptionList);
-				this.collection.remove(tmpList);
 
 			},
 			createSendAddData_ : function(signalFullName) {
@@ -462,7 +399,7 @@ ENS.treeView = wgp.TreeView
 				var idList = _.keys(ENS.tree.signalDefinitionList);
 				var appView = new ENS.AppView();
 				appView.stopSyncData(idList);
-				
+
 				// 削除するノードのデータ
 				var deleteSignalDefinition = ENS.tree.signalDefinitionList[executeOption.treeId];
 
@@ -592,7 +529,7 @@ ENS.treeView = wgp.TreeView
 
 				// シグナルアイコンを取得する
 				var icon = this.getIcon(signalDefinition);
-				
+
 				// 更新時に、ツリー階層に他のノードがなく、ツリーが閉じてしまう現象をなくすために、
 				// 一時的なノードを作成する
 				var tmpTreeOption = {
@@ -733,5 +670,48 @@ ENS.treeView = wgp.TreeView
 				}
 
 				return icon;
+			},
+			/**
+			 * ツリーの表示状態を復元する。
+			 * selectTreeId {String} 選択しているツリーのID
+			 * openNodes {String[]} 展開しているツリーのID配列
+			 */
+			restoreDisplayState : function(selectTreeId, openNodes){
+
+				// ツリーの展開状態を復元する。
+				if(openNodes && openNodes.length > 0){
+					this.openNodes(openNodes, "id");
+				}
+
+				// ツリーの選択状態を復元する。
+				if(selectTreeId){
+					this.selectNode(selectTreeId, "id");
+				}
+			},
+			/**
+			 * ツリー要素の基となるコレクションが変更された場合に、
+			 * 変更内容をツリーに反映する。
+			 */
+			onChange : function(treeModel){
+				var treeId = treeModel.id;
+				var treeType = treeModel.get("type");
+
+				// シグナルの場合は状態を変更する。
+				if(ENS.tree.type.SIGNAL == treeType){
+					var treeIcon = treeModel.get("icon");
+					var treeTag = this.getTreeNode(treeId, "id");
+					var iconTag = treeTag.find("ins");
+
+					// 状態を一度クリアする。
+					iconTag.removeClass(ENS.tree.SIGNAL_ICON_0);
+					iconTag.removeClass(ENS.tree.SIGNAL_ICON_1);
+					iconTag.removeClass(ENS.tree.SIGNAL_ICON_2);
+					iconTag.removeClass(ENS.tree.SIGNAL_ICON_3);
+					iconTag.removeClass(ENS.tree.SIGNAL_ICON_4);
+					iconTag.removeClass(ENS.tree.SIGNAL_ICON_5);
+
+					// 状態を再度設定する。
+					iconTag.addClass(treeIcon);
+				}
 			}
 		});

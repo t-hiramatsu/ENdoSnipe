@@ -1,20 +1,20 @@
 /*******************************************************************************
  * ENdoSnipe 5.0 - (https://github.com/endosnipe)
- * 
+ *
  * The MIT License (MIT)
- * 
+ *
  * Copyright (c) 2012 Acroquest Technology Co.,Ltd.
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -33,6 +33,11 @@ ENS.ID.MEASUREMENT_ITEM_NAME = "measurementItemName";
 ENS.DATE_FORMAT_DETAIL = 'yyyy/MM/dd HH:mm:ss.fff';
 ENS.DATE_FORMAT_DAY = 'yyyy/MM/dd';
 ENS.DATE_FORMAT_HOUR = 'yyyy/MM/dd HH:mm';
+
+ENS.URL = {};
+ENS.URL.TERM_PERFDOCTOR_DATA_URL = wgp.constants.URL.TERM_DATA_URL
++ "/getPerfDoctor";
+ENS.URL.PERFDOCTOR_POSTFIX_ID = "/performanceDoctor";
 
 ENS.common = {};
 ENS.common.dualslider = {};
@@ -159,3 +164,13 @@ ENS.tree.SIGNAL_ICON_2 = "signal_2";
 ENS.tree.SIGNAL_ICON_3 = "signal_3";
 ENS.tree.SIGNAL_ICON_4 = "signal_4";
 ENS.tree.SIGNAL_ICON_5 = "signal_5";
+
+ENS.tree.type = {};
+ENS.tree.type.GROUP = "group";
+ENS.tree.type.TARGET = "target";
+ENS.tree.type.SIGNAL = "signal";
+
+ENS.map = {};
+ENS.map.mode = {};
+ENS.map.mode.OPERATE = "OPERATE";
+ENS.map.mode.EDIT = "EDIT";

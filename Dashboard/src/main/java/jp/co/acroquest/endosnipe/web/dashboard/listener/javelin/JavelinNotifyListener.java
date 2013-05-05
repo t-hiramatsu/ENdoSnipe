@@ -40,8 +40,7 @@ import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.web.dashboard.config.DataBaseConfig;
 import jp.co.acroquest.endosnipe.web.dashboard.listener.collector.CollectorListener;
-import jp.co.acroquest.endosnipe.web.dashboard.listener.collector.ResourceAlarmListener;
-import jp.co.acroquest.endosnipe.web.dashboard.listener.collector.ResourceStateListener;
+import jp.co.acroquest.endosnipe.web.dashboard.listener.collector.SignalStateChangeListener;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.ConnectionClient;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.DatabaseManager;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.MessageSender;
@@ -56,14 +55,14 @@ public class JavelinNotifyListener implements TelegramListener
 {
 
     /** メッセージ送信用オブジェクトです。 */
-    private MessageSender               messageSender_;
+    private final MessageSender messageSender_;
 
     /** DB名(1つの場合のみ対応) TODO 複数対応 */
     private static String dataBaseName_;
 
     /** 接続しているDB名のリスト */
     private static Map<Integer, String> databaseNameMap_ = new HashMap<Integer, String>();
-    
+
     /** エージェントID */
     private static int currentAgentID__;
 
@@ -72,7 +71,7 @@ public class JavelinNotifyListener implements TelegramListener
      * @param messageSender {@link MessageSender}オブジェクト
      * @param agentId エージェントID
      */
-    public JavelinNotifyListener(MessageSender messageSender)
+    public JavelinNotifyListener(final MessageSender messageSender)
     {
         this.messageSender_ = messageSender;
     }
@@ -82,7 +81,7 @@ public class JavelinNotifyListener implements TelegramListener
      * @param telegram Javelin増減通知電文
      * @return 応答電文(nullを返す。)
      */
-    public Telegram receiveTelegram(Telegram telegram)
+    public Telegram receiveTelegram(final Telegram telegram)
     {
         Header header = telegram.getObjHeader();
         if ((header.getByteTelegramKind() == TelegramConstants.BYTE_TELEGRAM_KIND_ADD_DATABASE_NAME || header.getByteTelegramKind() == TelegramConstants.BYTE_TELEGRAM_KIND_DEL_DATABASE_NAME)
@@ -102,7 +101,8 @@ public class JavelinNotifyListener implements TelegramListener
      * @param databaseNameList DataCollectorから取得したDB名リスト
      * @param telegramKind Javelin増減通知電文
      */
-    private void modifyCollectorClientThread(Set<String> databaseNameList, byte telegramKind)
+    private void modifyCollectorClientThread(final Set<String> databaseNameList,
+            final byte telegramKind)
     {
         DatabaseManager manager = DatabaseManager.getInstance();
         DataBaseConfig dbConfig = manager.getDataBaseConfig();
@@ -125,13 +125,12 @@ public class JavelinNotifyListener implements TelegramListener
                 String clientId = DashBoardServlet.createClientId(javelinHost, javelinPort);
 
                 CommunicationClient client =
-                                             CommunicationFactory.getCommunicationClient("DataCollector-ClientThread-"
-                                                     + clientId);
+                        CommunicationFactory.getCommunicationClient("DataCollector-ClientThread-"
+                                + clientId);
                 client.init(javelinHost, javelinPort);
                 client.addTelegramListener(new CollectorListener(messageSender_, agentId,
                                                                  databaseName));
-                client.addTelegramListener(new ResourceAlarmListener(messageSender_, agentId));
-                client.addTelegramListener(new ResourceStateListener(messageSender_, agentId));
+                client.addTelegramListener(new SignalStateChangeListener());
 
                 ConnectNotifyData connectNotify = new ConnectNotifyData();
                 connectNotify.setKind(ConnectNotifyData.KIND_CONTROLLER);
@@ -164,7 +163,7 @@ public class JavelinNotifyListener implements TelegramListener
         return databaseNameMap_;
     }
 
-    public static String getDatabaseName(int agentId)
+    public static String getDatabaseName(final int agentId)
     {
         return dataBaseName_;
     }
