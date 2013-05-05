@@ -4,9 +4,7 @@ ENS.tree.signalDefinitionList = [];
 ENS.treeView = wgp.TreeView
 		.extend({
 			/**
-			 * ツリー要素をクリックした際の、別ペインとの
-			 * 連携処理を行う。
-			 * targetId {String} 別ペインのID
+			 * ツリー要素をクリックした際の、別ペインとの 連携処理を行う。 targetId {String} 別ペインのID
 			 */
 			setClickEvent : function(targetId) {
 				var instance = this;
@@ -27,8 +25,7 @@ ENS.treeView = wgp.TreeView
 				});
 			},
 			/**
-			 * クリックされたツリー要素のモデルに応じて処理を行う。
-			 * treeModel {Backbone.Model}
+			 * クリックされたツリー要素のモデルに応じて処理を行う。 treeModel {Backbone.Model}
 			 */
 			clickModel : function(treeModel) {
 				if (this.childView) {
@@ -92,8 +89,8 @@ ENS.treeView = wgp.TreeView
 				});
 				$("#" + this.$el.attr("id")).jstree(settings);
 
-//				// シグナル定義を全取得する
-//				this.getAllSignal_();
+				// // シグナル定義を全取得する
+				// this.getAllSignal_();
 			},
 			createTreeData : function(treeModel) {
 				var returnData = wgp.TreeView.prototype.createTreeData.call(
@@ -141,9 +138,11 @@ ENS.treeView = wgp.TreeView
 						var dialogId = targetOption.get("executeOption").dialogId;
 
 						if (dialogId == ENS.tree.SIGNAL_DIALOG) {
-							instance.signalOnSelect_(event, target, menuId, tmpClickTarget);
+							instance.signalOnSelect_(event, target, menuId,
+									tmpClickTarget);
 						} else if (dialogId == ENS.tree.REPORT_DIALOG) {
-							instance.reportOnSelect_(event, target, menuId, tmpClickTarget);
+							instance.reportOnSelect_(event, target, menuId,
+									tmpClickTarget);
 						}
 					}
 				};
@@ -282,7 +281,32 @@ ENS.treeView = wgp.TreeView
 			},
 			/** レポート出力の定義を入力した後に実行するメソッド。 */
 			reportPushOkFunction : function(event, option) {
+				// Ajax通信のコールバック関数名
+				var callbackFunction = "";
+				// Ajax通信の送信先URL
+				var url = "";
+				// サーバに送信するデータ
+				var sendData;
+				// Ajax通信のコールバック関数と送信先URLをシグナルタイプによって決める
+				if (option.signalType == ENS.tree.OUTPUT_REPORT_TYPE) {
+					sendData = this.createSendAddReportData_(option);
+					callbackFunction = "callbackAddReport_";
+					url = ENS.tree.REPORT_ADD_URL;
+				}
 
+				// Ajax通信用の設定
+				var settings = {
+					data : sendData,
+					url : url
+				};
+
+				// 非同期通信でデータを送信する
+				var ajaxHandler = new wgp.AjaxHandler();
+				settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] = this;
+				settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = callbackFunction;
+				ajaxHandler.requestServerAsync(settings);
+
+				this.clearReportDialog_();
 			},
 			createSendAddData_ : function(signalFullName) {
 				// シグナル定義を作成する
@@ -297,6 +321,26 @@ ENS.treeView = wgp.TreeView
 
 				var sendData = {
 					signalDefinition : JSON.stringify(signalDefinition)
+				};
+
+				return sendData;
+			},
+			createSendAddReportData_ : function(option) {
+				var treeId = option.treeId;
+				var reportName = $("#reportName").val();
+				var reportFullName = treeId + "/" + reportName;
+
+				// レポート出力定義を作成する
+				var reportDefinition = {
+					reportId : $("#reportId").val(),
+					reportName : reportFullName,
+					targetMeasurementName : $("#targetName").val(),
+					reportTermFrom : $("#jquery-ui-datepicker-from").val(),
+					reportTermTo : $("#jquery-ui-datepicker-to").val()
+				};
+
+				var sendData = {
+					reportDefinition : JSON.stringify(reportDefinition)
 				};
 
 				return sendData;
@@ -447,7 +491,7 @@ ENS.treeView = wgp.TreeView
 			callbackAddSignal_ : function(signalDefinition) {
 				var signalId = signalDefinition.signalId;
 				if (signalId === 0) {
-					alert("This signalName is already exist."
+					alert("This signalName already exists."
 							+ "\nPlease change signal name and try again.");
 					return;
 				}
@@ -597,6 +641,43 @@ ENS.treeView = wgp.TreeView
 				var appView = new ENS.AppView();
 				appView.syncData(idList);
 			},
+			callbackAddReport_ : function(reportDefinition) {
+				var reportId = reportDefinition.reportId;
+
+				var reportName = reportDefinition.reportName;
+
+				var nameSplitList = reportName.split("/");
+				var nameSplitListLength = nameSplitList.length;
+
+				var showName = nameSplitList[nameSplitListLength - 1];
+				// 親ノードのパス
+				var targetTreeId = "";
+				// 新規ノードのパス
+				var reportTreeId = "";
+				// 親ノードへのパスと、新規ノードのパスを作成する
+				for ( var index = 1; index < nameSplitListLength; index++) {
+					var nameSplit = nameSplitList[index];
+
+					if (index == nameSplitListLength - 1) {
+						reportTreeId += ENS.tree.SIGNAL_PREFIX_ID;
+					} else {
+						targetTreeId += "/";
+						targetTreeId += nameSplit;
+
+						reportTreeId += "/";
+					}
+					reportTreeId += nameSplit;
+				}
+				
+				
+				var treeOption = {
+					id : reportTreeId,
+					data : showName,
+					parentTreeId : targetTreeId//,
+//					icon : icon
+				};
+				this.collection.add([ treeOption ]);
+			},
 			/**
 			 * シグナルダイアログをクリアする。
 			 */
@@ -611,6 +692,16 @@ ENS.treeView = wgp.TreeView
 				$("#patternValue_4").val("");
 				$("#patternValue_5").val("");
 				$("#escalationPeriod").val("");
+			},
+			/**
+			 * レポートダイアログをクリアする。
+			 */
+			clearReportDialog_ : function() {
+				$("#reportId").val("");
+				$("#reportName").val("new Report");
+				$("#targetName").val("");
+				$("#jquery-ui-datepicker-from").val("");
+				$("#jquery-ui-datepicker-to").val("");
 			},
 			inputSignalDialog_ : function(signalDefinition) {
 				var treeIdList = signalDefinition.signalName.split("/");
@@ -672,32 +763,30 @@ ENS.treeView = wgp.TreeView
 				return icon;
 			},
 			/**
-			 * ツリーの表示状態を復元する。
-			 * selectTreeId {String} 選択しているツリーのID
-			 * openNodes {String[]} 展開しているツリーのID配列
+			 * ツリーの表示状態を復元する。 selectTreeId {String} 選択しているツリーのID openNodes
+			 * {String[]} 展開しているツリーのID配列
 			 */
-			restoreDisplayState : function(selectTreeId, openNodes){
+			restoreDisplayState : function(selectTreeId, openNodes) {
 
 				// ツリーの展開状態を復元する。
-				if(openNodes && openNodes.length > 0){
+				if (openNodes && openNodes.length > 0) {
 					this.openNodes(openNodes, "id");
 				}
 
 				// ツリーの選択状態を復元する。
-				if(selectTreeId){
+				if (selectTreeId) {
 					this.selectNode(selectTreeId, "id");
 				}
 			},
 			/**
-			 * ツリー要素の基となるコレクションが変更された場合に、
-			 * 変更内容をツリーに反映する。
+			 * ツリー要素の基となるコレクションが変更された場合に、 変更内容をツリーに反映する。
 			 */
-			onChange : function(treeModel){
+			onChange : function(treeModel) {
 				var treeId = treeModel.id;
 				var treeType = treeModel.get("type");
 
 				// シグナルの場合は状態を変更する。
-				if(ENS.tree.type.SIGNAL == treeType){
+				if (ENS.tree.type.SIGNAL == treeType) {
 					var treeIcon = treeModel.get("icon");
 					var treeTag = this.getTreeNode(treeId, "id");
 					var iconTag = treeTag.find("ins");

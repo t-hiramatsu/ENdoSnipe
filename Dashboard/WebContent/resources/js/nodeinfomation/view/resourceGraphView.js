@@ -98,7 +98,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 			title : this.title,
 			xlabel : this.labelX,
 			ylabel : this.labelY,
-			axisLabelColor : "#FFFFFF",
+			axisLabelColor : "#000000",
 			labelsDivStyles : {
 				background : "none repeat scroll 0 0 #000000"
 			}
