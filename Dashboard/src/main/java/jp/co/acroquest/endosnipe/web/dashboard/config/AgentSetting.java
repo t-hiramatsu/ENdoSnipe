@@ -32,28 +32,39 @@ package jp.co.acroquest.endosnipe.web.dashboard.config;
 public class AgentSetting
 {
     /** 接続先ポート番号のデフォルト値 */
-    private static final int    DEF_PORT                              = 18000;
+    private static final int DEF_PORT = 18000;
+
+    /** 接続先ポート番号のデフォルト値とBottleneckEye からの接続待ち受けポート番号のデフォルト値の差分 */
+    private static final int DIFFERENCE_PORT_NUM = 10000;
 
     /** BottleneckEye からの接続待ち受けポート番号のデフォルト値 */
-    private static final int    DEF_ACCEPT_PORT                       = DEF_PORT + 10000;
+    private static final int DEF_ACCEPT_PORT = DEF_PORT + DIFFERENCE_PORT_NUM;
 
     /** エージェント ID */
-    public int                  agentId;
+    public int agentId_;
 
     /** データベース名 */
-    public String               databaseName;
+    public String databaseName_;
 
     /** 接続先ホスト名 */
-    public String               hostName;
+    public String hostName_;
 
     /** 接続先ポート番号 */
-    public int                  port                                  = DEF_PORT;
+    public int port_ = DEF_PORT;
 
     /** BottleneckEye からの接続待ち受けホスト名 */
-    public String               acceptHost;
+    public String acceptHost_;
 
     /** BottleneckEye からの接続待ち受けポート番号 */
-    public int                  acceptPort                            = DEF_ACCEPT_PORT;
+    public int acceptPort_ = DEF_ACCEPT_PORT;
+
+    /**
+     * デフォルトコンストラクタ。
+     */
+    public AgentSetting()
+    {
+
+    }
 
     /**
      * {@inheritDoc}
@@ -61,7 +72,7 @@ public class AgentSetting
     @Override
     public String toString()
     {
-        return "Host:" + hostName + " Port:" + port;
+        return "Host:" + hostName_ + " Port:" + port_;
     }
 
 }

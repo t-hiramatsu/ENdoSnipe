@@ -83,63 +83,71 @@ import jp.co.acroquest.endosnipe.web.dashboard.exception.InitializeException;
  */
 public class ConfigurationReader
 {
-    private static final ENdoSnipeLogger logger_                      =
-                                                                        ENdoSnipeLogger.getLogger(ConfigurationReader.class);
+    /** ENdoSnipeロガー */
+    private static final ENdoSnipeLogger LOGGER =
+            ENdoSnipeLogger.getLogger(ConfigurationReader.class);
 
     /** DataCollectorConfig */
-    private static DataBaseConfig        config__                     = null;
+    private static DataBaseConfig config__ = null;
 
     /** 接続モードを表す接頭辞 */
-    private static final String          CONNECTION_MODE              = "connection.mode";
+    private static final String CONNECTION_MODE = "connection.mode";
 
     /** ホスト名(serverモード)を表す接頭辞 */
-    private static final String          SERVER_MODE_ACCEPT_HOST      = "accept.host";
+    private static final String SERVER_MODE_ACCEPT_HOST = "accept.host";
 
     /** ポート番号(serverモード)を表す接頭辞 */
-    private static final String          SERVER_MODE_ACCEPT_PORT      = "accept.port";
+    private static final String SERVER_MODE_ACCEPT_PORT = "accept.port";
 
     /** ホスト名を表す接頭辞 */
-    private static final String          AGENT_HOST                   = "javelin.host.";
+    private static final String AGENT_HOST = "javelin.host.";
 
     /** ポート番号を表す接頭辞 */
-    private static final String          AGENT_PORT                   = "javelin.port.";
+    private static final String AGENT_PORT = "javelin.port.";
 
     /** ポート番号を表す接頭辞 */
-    private static final String          CLIENT_MODE_ACCEPT_HOST      = "datacollector.accepthost.";
+    private static final String CLIENT_MODE_ACCEPT_HOST = "datacollector.accepthost.";
 
     /** ポート番号を表す接頭辞 */
-    private static final String          CLIENT_MODE_ACCEPT_PORT      = "datacollector.acceptport.";
+    private static final String CLIENT_MODE_ACCEPT_PORT = "datacollector.acceptport.";
 
     /** データベース名(serverモード) */
-    private static final String          DATABASE_NAME                = "database.name";
+    private static final String DATABASE_NAME = "database.name";
 
     /** データベース名を表す接頭辞 */
-    private static final String          DATABASE_NAME_PREFIX         = "database.name.";
+    private static final String DATABASE_NAME_PREFIX = "database.name.";
 
     /** データベースの種類を表す接頭辞 */
-    private static final String          DATABASE_TYPE                = "database.type";
+    private static final String DATABASE_TYPE = "database.type";
 
     /** データベースディレクトリを表す接頭辞 */
-    private static final String          DATABASE_DIR                 = "database.dir";
+    private static final String DATABASE_DIR = "database.dir";
 
     /** データベースのホストアドレスを表す接頭辞 */
-    private static final String          DATABASE_HOST                = "database.host";
+    private static final String DATABASE_HOST = "database.host";
 
     /** データベースのポート番号を表す接頭辞 */
-    private static final String          DATABASE_PORT                = "database.port";
+    private static final String DATABASE_PORT = "database.port";
 
     /** データベースのログインユーザ名を表す接頭辞 */
-    private static final String          DATABASE_USERNAME            = "database.username";
+    private static final String DATABASE_USERNAME = "database.username";
 
     /** データベースのログインパスワードを表す接頭辞 */
-    private static final String          DATABASE_PASSWORD            = "database.password";
+    private static final String DATABASE_PASSWORD = "database.password";
 
     /** データベース名で使用できる文字を、正規表現で表したもの */
-    private static final String          DATABASE_NAME_USABLE_PATTERN =
-                                                                        "[A-Za-z0-9#$%@=\\+\\-_~\\.]*";
+    private static final String DATABASE_NAME_USABLE_PATTERN = "[A-Za-z0-9#$%@=\\+\\-_~\\.]*";
 
     /** パラメータ定義ファイルのパス */
-    private static String                configFilePath__;
+    private static String configFilePath__;
+
+    /**
+     * デフォルトコンストラクタ。
+     */
+    private ConfigurationReader()
+    {
+
+    }
 
     /**
      * ストリームから設定ファイルを読み込み、{@link DataBaseConfig} を構築します。<br />
@@ -183,7 +191,7 @@ public class ConfigurationReader
                 {
                     setting = new AgentSetting();
                     settings.put(agentId, setting);
-                    setting.agentId = agentId;
+                    setting.agentId_ = agentId;
                 }
 
                 setValue(setting, key, props.getProperty(key));
@@ -194,9 +202,9 @@ public class ConfigurationReader
         // 
         for (AgentSetting setting : settings.values())
         {
-            if (setting.hostName != null && setting.hostName != "")
+            if (setting.hostName_ != null && !"".equals(setting.hostName_))
             {
-                if (agentSequece == setting.agentId)
+                if (agentSequece == setting.agentId_)
                 {
                     config.addAgentSetting(setting);
                     agentSequece++;
@@ -254,33 +262,33 @@ public class ConfigurationReader
     {
         if (key.startsWith(AGENT_HOST))
         {
-            setting.hostName = value;
+            setting.hostName_ = value;
         }
         else if (key.startsWith(AGENT_PORT))
         {
             try
             {
-                setting.port = Integer.parseInt(value);
+                setting.port_ = Integer.parseInt(value);
             }
             catch (NumberFormatException ex)
             {
-                logger_.log(LogMessageCodes.FAIL_TO_READ_PARAMETER, configFilePath__, key);
+                LOGGER.log(LogMessageCodes.FAIL_TO_READ_PARAMETER, configFilePath__, key);
                 throw new InitializeException(ex);
             }
         }
         else if (key.startsWith(CLIENT_MODE_ACCEPT_HOST))
         {
-            setting.acceptHost = value;
+            setting.acceptHost_ = value;
         }
         else if (key.startsWith(CLIENT_MODE_ACCEPT_PORT))
         {
             try
             {
-                setting.acceptPort = Integer.parseInt(value);
+                setting.acceptPort_ = Integer.parseInt(value);
             }
             catch (NumberFormatException ex)
             {
-                logger_.log(LogMessageCodes.FAIL_TO_READ_PARAMETER, configFilePath__, key);
+                LOGGER.log(LogMessageCodes.FAIL_TO_READ_PARAMETER, configFilePath__, key);
                 throw new InitializeException(ex);
             }
         }
@@ -288,11 +296,11 @@ public class ConfigurationReader
         {
             if (isValidDBName(value))
             {
-                setting.databaseName = value;
+                setting.databaseName_ = value;
             }
             else
             {
-                logger_.log(LogMessageCodes.FAIL_TO_READ_PARAMETER, configFilePath__, key);
+                LOGGER.log(LogMessageCodes.FAIL_TO_READ_PARAMETER, configFilePath__, key);
                 throw new InitializeException("Invalid Unit.");
             }
         }
@@ -349,11 +357,11 @@ public class ConfigurationReader
         }
         else if (SERVER_MODE_ACCEPT_HOST.equals(key))
         {
-            config.getServerModeAgentSetting().acceptHost = value;
+            config.getServerModeAgentSetting().acceptHost_ = value;
         }
         else if (SERVER_MODE_ACCEPT_PORT.equals(key))
         {
-            config.getServerModeAgentSetting().acceptPort = Integer.parseInt(value);
+            config.getServerModeAgentSetting().acceptPort_ = Integer.parseInt(value);
         }
     }
 
@@ -361,7 +369,7 @@ public class ConfigurationReader
      * 各エージェントのIDを取得します。<br />
      * 
      * @param key キー
-     * @return　エージェントのID
+     * @return エージェントのID
      * @throws InitializeException パラメータの初期化に失敗した場合
      */
     private static int getAgentId(final String key)
@@ -380,7 +388,7 @@ public class ConfigurationReader
         }
         catch (NumberFormatException ex)
         {
-            // Do Nothing.
+            ex.printStackTrace();
         }
         return hostNum;
     }

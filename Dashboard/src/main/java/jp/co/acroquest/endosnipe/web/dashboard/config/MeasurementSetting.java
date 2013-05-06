@@ -23,7 +23,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
- package jp.co.acroquest.endosnipe.web.dashboard.config;
+package jp.co.acroquest.endosnipe.web.dashboard.config;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,12 +40,19 @@ import java.util.TreeMap;
 public class MeasurementSetting
 {
     /** グラフごとの計測項目 */
-    private Map<Integer, Map<Integer, Map<Integer, String>>> graphMap_      =
-                                                                              new HashMap<Integer, Map<Integer, Map<Integer, String>>>();
+    private Map<Integer, Map<Integer, Map<Integer, String>>> graphMap_ =
+            new HashMap<Integer, Map<Integer, Map<Integer, String>>>();
 
     /** 自動通知を行うかどうかを保存するMap */
-    private Map<Integer, Boolean>                            autoNotifyMap_ =
-                                                                              new HashMap<Integer, Boolean>();
+    private final Map<Integer, Boolean> autoNotifyMap_ = new HashMap<Integer, Boolean>();
+
+    /**
+     * コンストラクタ。
+     */
+    public MeasurementSetting()
+    {
+
+    }
 
     /**
      * エージェント毎の計測項目情報を取得します。
@@ -61,7 +68,7 @@ public class MeasurementSetting
      * @param graphId グラフID
      * @return グラフ毎の計測項目
      */
-    public Map<Integer, Map<Integer, String>> getAgentMap(Integer graphId)
+    public Map<Integer, Map<Integer, String>> getAgentMap(final Integer graphId)
     {
         return this.graphMap_.get(graphId);
     }
@@ -72,8 +79,8 @@ public class MeasurementSetting
      * @param agentId 通知要求エージェントID
      * @param measurementTypes 通知要求計測IDのリスト
      */
-    public void addMeasurementType(Integer graphId, Integer agentId,
-            List<Integer> measurementTypes, String itemName)
+    public void addMeasurementType(final Integer graphId, final Integer agentId,
+            final List<Integer> measurementTypes, final String itemName)
     {
         // グラフの情報が存在しない場合
         if (this.graphMap_ == null)
@@ -109,7 +116,8 @@ public class MeasurementSetting
      * @param agentId 通知要求エージェントID
      * @param measurementType 通知要求計測ID
      */
-    public void addMeasurementType(Integer graphId, Integer agentId, Integer measurementType, String itemName)
+    public void addMeasurementType(final Integer graphId, final Integer agentId,
+            final Integer measurementType, final String itemName)
     {
         List<Integer> measurementTypeList = new ArrayList<Integer>();
         measurementTypeList.add(measurementType);
@@ -120,7 +128,7 @@ public class MeasurementSetting
      *  通知先グラフIDを削除します。
      * @param graphId 通知先グラフID
      */
-    public void removeGraphId(Integer graphId)
+    public void removeGraphId(final Integer graphId)
     {
         // 通知要求エージェントが存在しない場合
         if (this.graphMap_ != null)
@@ -135,7 +143,7 @@ public class MeasurementSetting
      * @param graphId グラフID
      * @param autoNotify 自動設定を行うかどうか
      */
-    public void setAutoNotify(Integer graphId, boolean autoNotify)
+    public void setAutoNotify(final Integer graphId, final boolean autoNotify)
     {
         this.autoNotifyMap_.put(graphId, autoNotify);
     }
@@ -145,7 +153,7 @@ public class MeasurementSetting
      * @param graphId グラフID
      * @return 自動設定を行う場合、<code>true</code>
      */
-    public boolean isAutoNotify(Integer graphId)
+    public boolean isAutoNotify(final Integer graphId)
     {
         return this.autoNotifyMap_.get(graphId).booleanValue();
     }

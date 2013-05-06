@@ -72,8 +72,8 @@ public class AgentInformationProcessor implements EventProcessor
         for (int cnt = 0; cnt < agentSettingList.size(); cnt++)
         {
             AgentSetting agentSetting = agentSettingList.get(cnt);
-            agentIds[cnt] = agentSetting.agentId;
-            agentNames[cnt] = agentSetting.databaseName;
+            agentIds[cnt] = agentSetting.agentId_;
+            agentNames[cnt] = agentSetting.databaseName_;
         }
 
         AgentInformationEntity agentEntity = new AgentInformationEntity();

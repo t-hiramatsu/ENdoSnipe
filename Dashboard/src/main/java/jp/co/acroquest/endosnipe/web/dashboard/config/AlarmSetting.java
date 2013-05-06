@@ -36,13 +36,21 @@ import java.util.Set;
 public class AlarmSetting
 {
     /** 通知したかどうか */
-    private boolean      notify_;
+    private boolean notify_;
 
     /** エージェントIDを保存するSet */
-    private Set<Integer> agentSet_ = new HashSet<Integer>();
+    private final Set<Integer> agentSet_ = new HashSet<Integer>();
 
     /** 通知要求レベル */
-    private int          alarmLevel_;
+    private int alarmLevel_;
+
+    /**
+     * デフォルトコンストラクタ。
+     */
+    public AlarmSetting()
+    {
+
+    }
 
     /**
      * アラーム通知を行うかどうかを返します。
@@ -57,7 +65,7 @@ public class AlarmSetting
      * アラーム通知を行うかどうかを返します。
      * @param notify アラーム通知を行う場合、<code>true</code>
      */
-    public void setNotify(boolean notify)
+    public void setNotify(final boolean notify)
     {
         this.notify_ = notify;
     }
@@ -75,7 +83,7 @@ public class AlarmSetting
      * アラーム通知対象のエージェントを設定します。
      * @param agent アラーム通知対象のエージェント
      */
-    public void addAgent(Integer agent)
+    public void addAgent(final Integer agent)
     {
         this.agentSet_.add(agent);
     }
@@ -85,7 +93,7 @@ public class AlarmSetting
      * @param agentId エージェントID
      * @return 指定したエージェントIDを含む場合、<code>true</code>
      */
-    public boolean containAgent(Integer agentId)
+    public boolean containAgent(final Integer agentId)
     {
         return this.agentSet_.contains(agentId);
     }
@@ -103,7 +111,7 @@ public class AlarmSetting
      * 通知要求レベルを設定します。
      * @param alarmLevel 通知要求レベル(INFO/WARN/ERROR)
      */
-    public void setAlarmLevel(int alarmLevel)
+    public void setAlarmLevel(final int alarmLevel)
     {
         this.alarmLevel_ = alarmLevel;
     }

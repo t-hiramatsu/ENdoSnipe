@@ -69,7 +69,7 @@ public class JavelinNotifyListener implements TelegramListener
     /**
      * コンストラクタです。
      * @param messageSender {@link MessageSender}オブジェクト
-     * @param agentId エージェントID
+     * @param agentId_ エージェントID
      */
     public JavelinNotifyListener(final MessageSender messageSender)
     {
@@ -118,8 +118,8 @@ public class JavelinNotifyListener implements TelegramListener
                     continue;
                 }
                 // DataCollectorに接続する。
-                String javelinHost = dbConfig.getServerModeAgentSetting().acceptHost;
-                int javelinPort = dbConfig.getServerModeAgentSetting().acceptPort;
+                String javelinHost = dbConfig.getServerModeAgentSetting().acceptHost_;
+                int javelinPort = dbConfig.getServerModeAgentSetting().acceptPort_;
 
                 int agentId = generateAgentId();
                 String clientId = DashBoardServlet.createClientId(javelinHost, javelinPort);

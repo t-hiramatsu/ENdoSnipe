@@ -41,233 +41,217 @@ import jp.co.acroquest.endosnipe.data.db.DatabaseType;
 public class DataBaseConfig
 {
     /** Javelinログを分割するかどうか */
-    private boolean                               isLogSplit_                   = DEF_IS_LOG_SPLIT;
+    private boolean isLogSplit_ = DEF_IS_LOG_SPLIT;
 
     /** Javelinログを分割保存する場合の１レコードあたりの最大サイズ */
-    private int                                   logSplitSize_                 =
-                                                                                  DEF_LOG_SPLIT_SIZE;
+    private int logSplitSize_ = DEF_LOG_SPLIT_SIZE;
 
     /** Javelinログを分割する場合の閾値 */
-    private int                                   logSplitThreshold_            =
-                                                                                  DEF_LOG_SPLIT_THRESHOLD;
+    private int logSplitThreshold_ = DEF_LOG_SPLIT_THRESHOLD;
 
     /** Javelinログ最大蓄積件数のキー */
-    public static final String                    JAVELIN_LOG_MAX_KEY           =
-                                                                                  "javelin.log.max.record";
+    public static final String JAVELIN_LOG_MAX_KEY = "javelin.log.max.record";
 
     /** Javelinログ最大蓄積件数のデフォルト値 */
-    public static final int                       DEF_JAVELIN_LOG_MAX           = 260000;
+    public static final int DEF_JAVELIN_LOG_MAX = 260000;
 
     /** Javelinログ最大蓄積件数の最小値 */
-    public static final int                       MIN_JAVELIN_LOG_MAX           = 1;
+    public static final int MIN_JAVELIN_LOG_MAX = 1;
 
     /** 計測データ最大蓄積件数のキー */
-    public static final String                    MEASUREMENT_LOG_MAX_KEY       =
-                                                                                  "measurement.log.max.record";
+    public static final String MEASUREMENT_LOG_MAX_KEY = "measurement.log.max.record";
 
     /** 計測データ最大蓄積件数のデフォルト値 */
-    public static final int                       DEF_MEASUREMENT_LOG_MAX       = 870000;
+    public static final int DEF_MEASUREMENT_LOG_MAX = 870000;
 
     /** 計測データ最大蓄積件数の最小値 */
-    public static final int                       MIN_MEASUREMENT_LOG_MAX       = 1;
+    public static final int MIN_MEASUREMENT_LOG_MAX = 1;
 
     /** データベースの種類 */
-    private DatabaseType                          databaseType_                 = DEF_DATABASE_TYPE;
+    private DatabaseType databaseType_ = DEF_DATABASE_TYPE;
 
     /** データベースディレクトリ */
-    private String                                baseDir_                      = DEF_DATABASE_DIR;
+    private String baseDir_ = DEF_DATABASE_DIR;
 
     /** データベースのホストアドレス */
-    private String                                databaseHost_                 = DEF_DATABASE_HOST;
+    private String databaseHost_ = DEF_DATABASE_HOST;
 
     /** データベースのポート番号 */
-    private String                                databasePort_                 = DEF_DATABASE_PORT;
-    
+    private String databasePort_ = DEF_DATABASE_PORT;
+
     /** データベース名。 */
-    private String                                databaseName_                 = DEF_DATABASE_NAME;
+    private String databaseName_ = DEF_DATABASE_NAME;
 
     /** データベースログインユーザ名 */
-    private String                                databaseUserName_             = DEF_DATABASE_USER;
+    private String databaseUserName_ = DEF_DATABASE_USER;
 
     /** データベースログインパスワード */
-    private String                                databasePassword_             =
-                                                                                  DEF_DATABASE_PASSWORD;
+    private String databasePassword_ = DEF_DATABASE_PASSWORD;
 
     /** リソースモニタリングの設定ファイル名 */
-    private String                                resourceMonitoringConf_       =
-                                                                                  DEF_RESOURCE_MONITORING_CONF;
+    private String resourceMonitoringConf_ = DEF_RESOURCE_MONITORING_CONF;
 
     /** 接続モード */
-    private String                                connectionMode_               = DEF_CONNECTION_MODE;
-    
-    /** サーバモードの設定 */
-    private AgentSetting                          serverModeAgentSetting_       =
-                                                                                  new AgentSetting();
+    private String connectionMode_ = DEF_CONNECTION_MODE;
 
-    private final List<AgentSetting>              agentSttingList_              =
-                                                                                  new ArrayList<AgentSetting>();
+    /** サーバモードの設定 */
+    private AgentSetting serverModeAgentSetting_ = new AgentSetting();
+
+    /** エージェントの設定リスト */
+    private final List<AgentSetting> agentSettingList_ = new ArrayList<AgentSetting>();
 
     /** データベースの種類のデフォルト値 */
-    private static final DatabaseType             DEF_DATABASE_TYPE             = DatabaseType.H2;
+    private static final DatabaseType DEF_DATABASE_TYPE = DatabaseType.H2;
 
     /** データベース保存先ベースディレクトリのデフォルト値 */
-    private static final String                   DEF_DATABASE_DIR              = "../data";
+    private static final String DEF_DATABASE_DIR = "../data";
 
     /** データベースのホストアドレスのデフォルト値 */
-    private static final String                   DEF_DATABASE_HOST             = "localhost";
+    private static final String DEF_DATABASE_HOST = "localhost";
 
     /** データベースのポート番号のデフォルト値 */
-    private static final String                   DEF_DATABASE_PORT             = "5432";
-    
+    private static final String DEF_DATABASE_PORT = "5432";
+
     /** データベース名。 */
-    private static final String                   DEF_DATABASE_NAME             = null;
+    private static final String DEF_DATABASE_NAME = null;
 
     /** データベースログインユーザ名のデフォルト値 */
-    private static final String                   DEF_DATABASE_USER             = "";
+    private static final String DEF_DATABASE_USER = "";
 
     /** データベースログインパスワードのデフォルト値 */
-    private static final String                   DEF_DATABASE_PASSWORD         = "";
+    private static final String DEF_DATABASE_PASSWORD = "";
 
     /** Javelinログ分割保存を行うかどうかのデフォルト値 */
-    private static final boolean                  DEF_IS_LOG_SPLIT              = false;
+    private static final boolean DEF_IS_LOG_SPLIT = false;
 
     /** Javelinログを分割保存する場合の1レコード辺りの最大サイズのデフォルト値 */
-    private static final int                      DEF_LOG_SPLIT_SIZE            = 300;
+    private static final int DEF_LOG_SPLIT_SIZE = 300;
 
     /** Javelinログを分割保存する場合の閾値のデフォルト値 */
-    private static final int                      DEF_LOG_SPLIT_THRESHOLD       = 1024;
+    private static final int DEF_LOG_SPLIT_THRESHOLD = 1024;
 
     /** サーバのリソース間隔（共通） */
-    private long                                  resourceInterval_             =
-                                                                                  DEF_RESOURCE_INTERVAL;
+    private long resourceInterval_ = DEF_RESOURCE_INTERVAL;
 
     /** リソース取得間隔のデフォルト値(ミリ秒) */
-    private static final int                      DEF_RESOURCE_INTERVAL         = 5000;
+    private static final int DEF_RESOURCE_INTERVAL = 5000;
 
     /** リソースモニタリングの設定ファイル名のデフォルト値 */
-    private static final String                   DEF_RESOURCE_MONITORING_CONF  =
-                                                                                  "../conf/resource_monitoring.conf";
+    private static final String DEF_RESOURCE_MONITORING_CONF = "../conf/resource_monitoring.conf";
 
     /** 接続モードのデフォルト値 */
-    private static final String                   DEF_CONNECTION_MODE           = "client";
-
-    /** datacollector(server mode)のホスト名のデフォルト値 */
-    private static final String                   DEF_SERVER_MODE_ACCEPT_HOST   = "localhost";
-
-    /** datacollector(server mode)のポート名のデフォルト値 */
-    private static final String                   DEF_SERVER_MODE_ACCEPT_PORT   = "19000";
+    private static final String DEF_CONNECTION_MODE = "client";
 
     //--------------------
     // SMTP settings(default)
     //--------------------
     /** メール通知を送信するかどうかのデフォルト値。 */
-    private static final boolean                  DEF_SEND_MAIL                 = true;
+    private static final boolean DEF_SEND_MAIL = true;
 
     /** メールサーバのデフォルト値。 */
-    private static final String                   DEF_SMTP_SERVER               =
-                                                                                  "mail.example.com";
+    private static final String DEF_SMTP_SERVER = "mail.example.com";
 
     /** メールのエンコーディング設定デフォルト値。 */
-    private static final String                   DEF_SMTP_ENCODING             = "iso-2022-jp";
+    private static final String DEF_SMTP_ENCODING = "iso-2022-jp";
 
     /** 送信元メールアドレス設定デフォルト値。 */
-    private static final String                   DEF_SMTP_FROM                 =
-                                                                                  "endosnipe@example.com";
+    private static final String DEF_SMTP_FROM = "endosnipe@example.com";
 
     /** 送信先メールアドレス設定デフォルト値。 */
-    private static final String                   DEF_SMTP_TO                   =
-                                                                                  "endosnipe@example.com";
+    private static final String DEF_SMTP_TO = "endosnipe@example.com";
 
     /** メールSubjectのデフォルト値。 */
-    private static final String                   DEF_SMTP_SUBJECT              =
-                                                                                  "[javelin] ${eventName} is ocurred.";
+    private static final String DEF_SMTP_SUBJECT = "[javelin] ${eventName} is ocurred.";
 
     /** メールテンプレート(jvnアラーム用)のデフォルト値。 */
-    private static final String                   DEF_SMTP_TEMPLATE_JVN         =
-                                                                                  "mai_template_jvn.txt";
+    private static final String DEF_SMTP_TEMPLATE_JVN = "mai_template_jvn.txt";
 
     /** メールテンプレート(計測値アラーム用)のデフォルト値。 */
-    private static final String                   DEF_SMTP_TEMPLATE_MEASUREMENT =
-                                                                                  "mai_template_measurement.txt";
+    private static final String DEF_SMTP_TEMPLATE_MEASUREMENT = "mai_template_measurement.txt";
 
     //--------------------
     // SMTP settings
     //--------------------
     /** メール通知を送信するかどうか */
-    private boolean                               sendMail_                     = DEF_SEND_MAIL;
+    private boolean sendMail_ = DEF_SEND_MAIL;
 
     /** メールサーバ */
-    private String                                smtpServer_                   = DEF_SMTP_SERVER;
+    private String smtpServer_ = DEF_SMTP_SERVER;
 
     /** メールのエンコーディング */
-    private String                                smtpEncoding_                 = DEF_SMTP_ENCODING;
+    private String smtpEncoding_ = DEF_SMTP_ENCODING;
 
     /** 送信元メールアドレス */
-    private String                                smtpFrom_                     = DEF_SMTP_FROM;
+    private String smtpFrom_ = DEF_SMTP_FROM;
 
     /** 送信先メールアドレス */
-    private String                                smtpTo_                       = DEF_SMTP_TO;
+    private String smtpTo_ = DEF_SMTP_TO;
 
     /** メールSubject */
-    private String                                smtpSubject_                  = DEF_SMTP_SUBJECT;
+    private String smtpSubject_ = DEF_SMTP_SUBJECT;
 
     /** メールテンプレート(jvnアラーム用) */
-    private String                                smtpTemplateJvn_              =
-                                                                                  DEF_SMTP_TEMPLATE_JVN;
+    private String smtpTemplateJvn_ = DEF_SMTP_TEMPLATE_JVN;
 
     /** メールテンプレート(計測値アラーム用) */
-    private String                                smtpTemplateMeasurement_      =
-                                                                                  DEF_SMTP_TEMPLATE_MEASUREMENT;
+    private String smtpTemplateMeasurement_ = DEF_SMTP_TEMPLATE_MEASUREMENT;
 
     /** メールテンプレート（キー：設定項目名、値：テンプレートファイル名） */
-    private final Map<String, MailTemplateEntity> smtpTemplateMap_              =
-                                                                                  new HashMap<String, MailTemplateEntity>();
+    private final Map<String, MailTemplateEntity> smtpTemplateMap_ =
+            new HashMap<String, MailTemplateEntity>();
 
     //--------------------
     // SNMP settings(default)
     //--------------------
     /** SNMPTrapを送信するかどうかのデフォルト値true(=送信する) */
-    private static final boolean                  DEF_SEND_TRAP                 = true;
+    private static final boolean DEF_SEND_TRAP = true;
 
     /** マネージャリストのデフォルト値localhost */
-    private static final String                   DEF_MANAGERS                  = "localhost";
+    private static final String DEF_MANAGERS = "localhost";
 
     /** SNMP Trapポート番号のデフォルト値162 */
-    private static final int                      DEF_TRAP_PORT                 = 162;
+    private static final int DEF_TRAP_PORT = 162;
 
     /** Trapコミュニティ名のデフォルト値public */
-    private static final String                   DEF_TRAP_COMMUNITY            = "public";
+    private static final String DEF_TRAP_COMMUNITY = "public";
 
     /** SNMP Version: v1 */
-    public static final String                    VERSION_V1                    = "v1";
+    public static final String VERSION_V1 = "v1";
 
     /** SNMP Version: v2c */
-    public static final String                    VERSION_V2C                   = "v2c";
+    public static final String VERSION_V2C = "v2c";
 
     /** SNMP Version: v3 */
-    public static final String                    VERSION_V3                    = "v3";
+    public static final String VERSION_V3 = "v3";
 
     /** SNMP Versionのデフォルト値v2c */
-    private static final String                   DEF_VERSION                   = VERSION_V2C;
+    private static final String DEF_VERSION = VERSION_V2C;
 
     //--------------------
     // SNMP settings
     //--------------------
     /** SNMPTrapを送信するかどうか。true:送信する、false:送信しない */
-    private boolean                               sendTrap_                     = DEF_SEND_TRAP;
+    private boolean sendTrap_ = DEF_SEND_TRAP;
 
     /** マネージャリスト */
-    private String                                managers_                     = DEF_MANAGERS;
+    private String managers_ = DEF_MANAGERS;
 
     /** SNMP Trapポート番号 */
-    private int                                   trapPort_                     = DEF_TRAP_PORT;
+    private int trapPort_ = DEF_TRAP_PORT;
 
     /** SNMP Version */
-    private String                                version_                      = DEF_VERSION;
+    private String version_ = DEF_VERSION;
 
     /** Trapコミュニティ名 */
-    private String                                trapCommunity_                =
-                                                                                  DEF_TRAP_COMMUNITY;
+    private String trapCommunity_ = DEF_TRAP_COMMUNITY;
+
+    /**
+     * コンストラクタ。
+     */
+    public DataBaseConfig()
+    {
+
+    }
 
     /**
      * データベースの種類を返します。<br />
@@ -352,24 +336,24 @@ public class DataBaseConfig
     /**
      * データベース名を取得します。
      * 
-	 * @return データベース名。
-	 */
-	public String getDatabaseName()
-	{
-		return databaseName_;
-	}
+     * @return データベース名。
+     */
+    public String getDatabaseName()
+    {
+        return databaseName_;
+    }
 
-	/**
-	 * データベース名を設定します。
-	 * 
-	 * @param databaseName データベース名。
-	 */
-	public void setDatabaseName(String databaseName)
-	{
-		this.databaseName_ = databaseName;
-	}
+    /**
+     * データベース名を設定します。
+     * 
+     * @param databaseName データベース名。
+     */
+    public void setDatabaseName(final String databaseName)
+    {
+        this.databaseName_ = databaseName;
+    }
 
-	/**
+    /**
      * データベースログインユーザ名を返します。<br />
      *
      * @return ユーザ名
@@ -436,7 +420,7 @@ public class DataBaseConfig
      */
     public void addAgentSetting(final AgentSetting agentSetting)
     {
-        agentSttingList_.add(agentSetting);
+        agentSettingList_.add(agentSetting);
     }
 
     /**
@@ -446,7 +430,7 @@ public class DataBaseConfig
      */
     public List<AgentSetting> getAgentSettingList()
     {
-        return Collections.unmodifiableList(agentSttingList_);
+        return Collections.unmodifiableList(agentSettingList_);
     }
 
     /**
@@ -822,7 +806,7 @@ public class DataBaseConfig
     /**
      * @param connectionMode セットする connectionMode
      */
-    public void setConnectionMode(String connectionMode)
+    public void setConnectionMode(final String connectionMode)
     {
         connectionMode_ = connectionMode;
     }
@@ -838,9 +822,8 @@ public class DataBaseConfig
     /**
      * @param serverModeAgentSetting セットする serverModeAgentSetting
      */
-    public void setServerModeAgentSetting(AgentSetting serverModeAgentSetting)
+    public void setServerModeAgentSetting(final AgentSetting serverModeAgentSetting)
     {
         serverModeAgentSetting_ = serverModeAgentSetting;
     }
-
 }

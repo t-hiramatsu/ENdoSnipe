@@ -130,7 +130,7 @@ public final class DatabaseManager
                 return null;
             }
             AgentSetting setting = agentSettings.get(agentId - 1);
-            return setting.databaseName;
+            return setting.databaseName_;
         }
     }
 
