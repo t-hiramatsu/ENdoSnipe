@@ -12,7 +12,6 @@
  */
 package jp.co.acroquest.endosnipe.web.dashboard.dto;
 
-
 /**
  * レポート出力定義のDtoクラス。
  * 
@@ -35,6 +34,14 @@ public class ReportDefinitionDto
 
     /** 期間の終わりの日時。 */
     private String reportTermTo_;
+
+    /**
+     * コンストラクタ。
+     */
+    public ReportDefinitionDto()
+    {
+
+    }
 
     /**
      * レポート出力定義のIDを取得する。

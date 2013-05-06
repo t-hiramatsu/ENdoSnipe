@@ -60,6 +60,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.wgp.manager.WgpDataManager;
 import org.wgp.util.DataConvertUtil;
 
+/**
+ * 期間データを取り扱うコントローラークラス。
+ * 
+ * @author miyasaka
+ *
+ */
 @Controller
 @RequestMapping("/termData")
 public class TermDataController
@@ -67,23 +73,42 @@ public class TermDataController
     /** PerformanceDoctorページのID。 */
     private static final String PERFDOCTOR_POSTFIX_ID = "/performanceDoctor";
 
+    /** ツリーデータのID。 */
     private static final String TREE_DATA_ID = "tree";
 
     /** シグナルのツリーメニューのサフィックスID */
     private static final String TREE_MENU_SIGNAL_SUFEIX_ID = "-signalNode";
 
+    /** ツリーメニューに関する操作を行うクラスのオブジェクト。 */
     @Autowired
-    protected TreeMenuService treeMenuService;
+    protected TreeMenuService treeMenuService_;
 
+    /** MeasurementValueの取得用のインタフェースを提供するクラスのオブジェクト。 */
     @Autowired
-    protected MeasurementValueService measurementValueService;
+    protected MeasurementValueService measurementValueService_;
 
+    /** シグナル定義のサービスクラスのオブジェクト。 */
     @Autowired
-    protected SignalService signalService;
+    protected SignalService signalService_;
 
+    /** WGPのデータを扱うクラスのオブジェクト。 */
     @Autowired
-    private WgpDataManager wgpDataManager;
+    private WgpDataManager wgpDataManager_;
 
+    /**
+     * コンストラクタ。
+     */
+    public TermDataController()
+    {
+
+    }
+
+    /**
+     * 機関データを取得する。
+     * 
+     * @param data 取得する期間データに関する情報
+     * @return 期間データ
+     */
     @RequestMapping(value = "/get", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, List<Map<String, String>>> getTermData(
@@ -106,10 +131,10 @@ public class TermDataController
             {
                 // 計測対象の項目を全て取得してツリー要素に変換
                 List<Map<String, String>> treeMenuDtoList =
-                        createTreeMenuData(treeMenuService.initialize());
+                        createTreeMenuData(treeMenuService_.initialize());
 
                 // シグナル定義を全て取得
-                List<SignalDefinitionDto> signalList = signalService.getAllSignal();
+                List<SignalDefinitionDto> signalList = signalService_.getAllSignal();
 
                 // 計測対象のツリーにシグナル定義を追加
                 treeMenuDtoList.addAll(convertSignalDefinition(signalList));
@@ -128,8 +153,8 @@ public class TermDataController
             Date startDate = new Date(startTime);
             Date endDate = new Date(endTime);
             Map<String, List<MeasurementValueDto>> measurementValueMap =
-                    measurementValueService.getMeasurementValueList(startDate, endDate,
-                                                                    graphDataList);
+                    measurementValueService_.getMeasurementValueList(startDate, endDate,
+                                                                     graphDataList);
             for (Entry<String, List<MeasurementValueDto>> measurementValueEntry : measurementValueMap.entrySet())
             {
                 String dataGroupId = measurementValueEntry.getKey();
@@ -195,7 +220,13 @@ public class TermDataController
         return responceDataList;
     }
 
-    private List<Map<String, String>> createTreeMenuData(final List treeMenuDtoList)
+    /**
+     * ツリーメニューのデータを作成する。
+     * 
+     * @param treeMenuDtoList ツリーメニューのDtoのリスト
+     * @return ツリーメニューのデータ
+     */
+    private List<Map<String, String>> createTreeMenuData(final List<?> treeMenuDtoList)
     {
         List<Map<String, String>> bufferDtoList = new ArrayList<Map<String, String>>();
         for (Object treeMenuData : treeMenuDtoList)

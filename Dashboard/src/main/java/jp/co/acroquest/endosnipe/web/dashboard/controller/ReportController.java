@@ -50,6 +50,7 @@ public class ReportController
      * 
      * @param reportDefinition
      *            レポート出力定義のJSONデータ
+     * @return 追加したレポート出力の定義
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody

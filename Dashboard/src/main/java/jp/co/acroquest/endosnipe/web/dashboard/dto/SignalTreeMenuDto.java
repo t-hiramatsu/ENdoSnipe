@@ -9,23 +9,41 @@ package jp.co.acroquest.endosnipe.web.dashboard.dto;
 public class SignalTreeMenuDto extends TreeMenuDto
 {
 
-    /** 閾値の判定結果の値 */
-    private Integer signalValue;
+    /** 閾値の判定結果の値。 */
+    private Integer signalValue_;
 
-    public Integer getSignalValue()
+    /**
+     * コンストラクタ。
+     */
+    public SignalTreeMenuDto()
     {
-        return signalValue;
+
     }
 
+    /**
+     * 閾値の判定結果の値を取得する。
+     * 
+     * @return 閾値の判定結果の値
+     */
+    public Integer getSignalValue()
+    {
+        return signalValue_;
+    }
+
+    /**
+     * 閾値の判定結果の値を設定する。
+     * 
+     * @param signalValue 閾値の判定結果の値
+     */
     public void setSignalValue(final Integer signalValue)
     {
-        this.signalValue = signalValue;
+        this.signalValue_ = signalValue;
     }
 
     @Override
     public String toString()
     {
-        return "SignalTreeMenuDto [signalValue=" + signalValue + ", getSignalValue()="
+        return "SignalTreeMenuDto [signalValue=" + signalValue_ + ", getSignalValue()="
                 + getSignalValue() + ", getData()=" + getData() + ", getTreeId()=" + getTreeId()
                 + ", getParentTreeId()=" + getParentTreeId() + ", getId()=" + getId()
                 + ", getMeasurementUnit()=" + getMeasurementUnit() + ", getType()=" + getType()
@@ -38,7 +56,7 @@ public class SignalTreeMenuDto extends TreeMenuDto
     {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + ((signalValue == null) ? 0 : signalValue.hashCode());
+        result = prime * result + ((signalValue_ == null) ? 0 : signalValue_.hashCode());
         return result;
     }
 
@@ -58,14 +76,14 @@ public class SignalTreeMenuDto extends TreeMenuDto
             return false;
         }
         SignalTreeMenuDto other = (SignalTreeMenuDto)obj;
-        if (signalValue == null)
+        if (signalValue_ == null)
         {
-            if (other.signalValue != null)
+            if (other.signalValue_ != null)
             {
                 return false;
             }
         }
-        else if (!signalValue.equals(other.signalValue))
+        else if (!signalValue_.equals(other.signalValue_))
         {
             return false;
         }

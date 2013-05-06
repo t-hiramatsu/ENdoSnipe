@@ -29,8 +29,8 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletResponse;
 
-import jp.co.acroquest.endosnipe.web.dashboard.constants.LogMessageCodes;
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
+import jp.co.acroquest.endosnipe.web.dashboard.constants.LogMessageCodes;
 
 import org.apache.catalina.comet.CometEvent;
 import org.apache.catalina.comet.CometEvent.EventType;
@@ -44,18 +44,20 @@ public class CometEventWrapper
 {
     /** ロガー */
     private static final ENdoSnipeLogger LOGGER =
-                                                  ENdoSnipeLogger.getLogger(CometEventWrapper.class);
+            ENdoSnipeLogger.getLogger(CometEventWrapper.class);
 
-    private HttpServletResponse response_;
+    /** HTTPサーブレットリクエスト。 */
+    private final HttpServletResponse response_;
 
-    private CometEvent event_;
+    /** コメットイベント。 */
+    private final CometEvent event_;
 
     /**
      * コンストラクタです。
      * @param event {@link CometEvent}オブジェクト
      * @param response {@link HttpServletResponse}オブジェクト
      */
-    public CometEventWrapper(CometEvent event, HttpServletResponse response)
+    public CometEventWrapper(final CometEvent event, final HttpServletResponse response)
     {
         this.event_ = event;
         this.response_ = response;

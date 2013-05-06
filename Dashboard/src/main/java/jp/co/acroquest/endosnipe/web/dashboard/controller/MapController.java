@@ -46,16 +46,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.wgp.manager.WgpDataManager;
 
+/**
+ * マップ機能のコントローラークラス。
+ * 
+ * @author miyasaka
+ *
+ */
 @Controller
 @RequestMapping("/map")
 public class MapController
 {
-
+    /** WGPのデータを扱うクラスのオブジェクト。 */
     @Autowired
-    protected WgpDataManager wgpDataManager;
+    protected WgpDataManager wgpDataManager_;
 
+    /** リソース送信クラスのオブジェクト。 */
     @Autowired
-    protected ResourceSender resourceSender;
+    protected ResourceSender resourceSender_;
 
     /** マップを表すID */
     private static final String MAP_DATA_ID = "map";
@@ -63,29 +70,32 @@ public class MapController
     /** 運用モード */
     private static final String OPERATE_MODE = "Operate";
 
-    /** 編集モード */
-    private static final String EDIT_MODE = "Edit";
-
-    /** POST通信結果クライアント返却用キー文字列 */
-    private static final String POST_RESULT_KEY = "result";
-
-    /** POST通信結果クライアント返却用:成功 */
-    private static final String POST_RESULT_SUCCESS = "success";
-
+    /** マップ機能のサービスクラス。 */
     @Autowired
-    protected MapService mapService;
+    protected MapService mapService_;
+
+    /**
+     * コンストラクタ。
+     */
+    public MapController()
+    {
+
+    }
 
     /**
      * Get Map List.
-     * @return
+     * 
+     * @param request HTTPサーブレットリクエスト
+     * @param mapListForm マップ情報
+     * @return 表示するjspファイルの名前
      */
     @RequestMapping(value = "/mapList")
     public String initializeMapList(final HttpServletRequest request,
             @ModelAttribute("mapListForm") final MapListForm mapListForm)
     {
         EventManager eventManager = EventManager.getInstance();
-        eventManager.setWgpDataManager(wgpDataManager);
-        eventManager.setResourceSender(resourceSender);
+        eventManager.setWgpDataManager(wgpDataManager_);
+        eventManager.setResourceSender(resourceSender_);
 
         // マップモードが設定されていない場合は運用モードを設定する。
         String mapMode = mapListForm.getMapMode();
@@ -98,6 +108,8 @@ public class MapController
 
     /**
      * Get All map Data for Tree.
+     * 
+     * @return 全てのマップ情報
      */
     @RequestMapping(value = "/getAll", method = RequestMethod.POST)
     @ResponseBody
@@ -105,13 +117,16 @@ public class MapController
     {
         Map<String, List<Map<String, String>>> resultMap =
                 new HashMap<String, List<Map<String, String>>>();
-        List<Map<String, String>> resultList = this.mapService.getAllMap();
+        List<Map<String, String>> resultList = this.mapService_.getAllMap();
         resultMap.put(MAP_DATA_ID, resultList);
         return resultMap;
     }
 
     /**
      * Insert Map.
+     * 
+     * @param data 登録するマップのデータ
+     * @param name 登録するマップ名
      */
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     public void insert(@RequestParam(value = "data") final String data,
@@ -120,11 +135,15 @@ public class MapController
         MapInfo mapInfo = new MapInfo();
         mapInfo.data = data;
         mapInfo.name = name;
-        this.mapService.insert(mapInfo);
+        this.mapService_.insert(mapInfo);
     }
 
     /**
      * Update Map.
+     * 
+     * @param mapId 更新するマップのID
+     * @param data 更新するマップのデータ
+     * @param name 更新するマップ名
      */
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public void update(@RequestParam(value = "mapId") final String mapId,
@@ -135,17 +154,20 @@ public class MapController
         mapInfo.mapId = Long.valueOf(mapId);
         mapInfo.data = data;
         mapInfo.name = name;
-        this.mapService.update(mapInfo);
+        this.mapService_.update(mapInfo);
     }
 
     /**
      * Get Map.
+     * 
+     * @param mapId 取得するマップのID
+     * @return マップの情報
      */
     @RequestMapping(value = "/getById", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, String> getById(@RequestParam(value = "mapId") final String mapId)
     {
-        Map<String, String> responseMap = this.mapService.getById(Long.valueOf(mapId));
+        Map<String, String> responseMap = this.mapService_.getById(Long.valueOf(mapId));
         return responseMap;
     }
 
@@ -157,7 +179,7 @@ public class MapController
     @ResponseBody
     public void removeById(@RequestParam(value = "mapId") final String mapId)
     {
-        this.mapService.removeMapById(Long.valueOf(mapId));
+        this.mapService_.removeMapById(Long.valueOf(mapId));
     }
 
 }

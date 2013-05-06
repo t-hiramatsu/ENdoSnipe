@@ -78,6 +78,7 @@ public class MeasurementSetting
      * @param graphId 通知先グラフID
      * @param agentId 通知要求エージェントID
      * @param measurementTypes 通知要求計測IDのリスト
+     * @param itemName アイテム名
      */
     public void addMeasurementType(final Integer graphId, final Integer agentId,
             final List<Integer> measurementTypes, final String itemName)
@@ -115,6 +116,7 @@ public class MeasurementSetting
      * @param graphId 通知先グラフID
      * @param agentId 通知要求エージェントID
      * @param measurementType 通知要求計測ID
+     * @param itemName アイテム名
      */
     public void addMeasurementType(final Integer graphId, final Integer agentId,
             final Integer measurementType, final String itemName)

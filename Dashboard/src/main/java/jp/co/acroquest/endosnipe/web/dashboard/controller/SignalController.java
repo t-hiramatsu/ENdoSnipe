@@ -44,24 +44,40 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.wgp.manager.WgpDataManager;
 
+/**
+ * 閾値判定機能のコントローラークラス。
+ * 
+ * @author miyasaka
+ *
+ */
 @Controller
 @RequestMapping("/signal")
 public class SignalController
 {
     /** Wgpのデータを管理するクラス。 */
     @Autowired
-    protected WgpDataManager wgpDataManager;
+    protected WgpDataManager wgpDataManager_;
 
     /** リソースを送信するクラスのオブジェクト。 */
     @Autowired
-    protected ResourceSender resourceSender;
+    protected ResourceSender resourceSender_;
 
     /** シグナル定義のサービスクラスのオブジェクト。 */
     @Autowired
-    protected SignalService signalService;
+    protected SignalService signalService_;
+
+    /**
+     * コンストラクタ。
+     */
+    public SignalController()
+    {
+
+    }
 
     /**
      * 閾値判定の定義をすべて取得する。
+     * 
+     * @return 全ての閾値判定の定義
      */
     @RequestMapping(value = "/getAllDefinition", method = RequestMethod.POST)
     @ResponseBody
@@ -69,7 +85,7 @@ public class SignalController
     {
         List<SignalDefinitionDto> signalDefinitionDtos = new ArrayList<SignalDefinitionDto>();
 
-        signalDefinitionDtos = signalService.getAllSignal();
+        signalDefinitionDtos = signalService_.getAllSignal();
 
         return signalDefinitionDtos;
     }
@@ -79,6 +95,7 @@ public class SignalController
      * 
      * @param signalDefinition
      *            閾値判定の定義のJSONデータ
+     * @return 追加した閾値判定の定義
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
@@ -88,10 +105,10 @@ public class SignalController
         SignalDefinitionDto signalDefinitionDto =
                 JSON.decode(signalDefinition, SignalDefinitionDto.class);
 
-        SignalInfo signalInfo = this.signalService.convertSignalInfo(signalDefinitionDto);
+        SignalInfo signalInfo = this.signalService_.convertSignalInfo(signalDefinitionDto);
 
         // DBに追加する
-        SignalDefinitionDto addedDefinitionDto = this.signalService.insertSignalInfo(signalInfo);
+        SignalDefinitionDto addedDefinitionDto = this.signalService_.insertSignalInfo(signalInfo);
 
         return addedDefinitionDto;
     }
@@ -101,6 +118,8 @@ public class SignalController
      * 
      * @param signalDefinition
      *            閾値判定の定義のJSONデータ
+     * @param oldSignalId 編集前のID
+     * @return 編集後の閾値判定の定義
      */
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     @ResponseBody
@@ -111,10 +130,10 @@ public class SignalController
         SignalDefinitionDto signalDefinitionDto =
                 JSON.decode(signalDefinition, SignalDefinitionDto.class);
 
-        SignalInfo signalInfo = this.signalService.convertSignalInfo(signalDefinitionDto);
+        SignalInfo signalInfo = this.signalService_.convertSignalInfo(signalDefinitionDto);
 
         // DBに登録されている定義を更新する
-        SignalDefinitionDto updatedDefinitionDto = this.signalService.updateSignalInfo(signalInfo);
+        SignalDefinitionDto updatedDefinitionDto = this.signalService_.updateSignalInfo(signalInfo);
 
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("signalDefinition", updatedDefinitionDto);
@@ -128,6 +147,7 @@ public class SignalController
      * 
      * @param signalDefinition
      *            閾値判定の定義のJSONデータ
+     * @return 削除した閾値判定の定義
      */
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
@@ -137,9 +157,9 @@ public class SignalController
         SignalDefinitionDto signalDefinitionDto =
                 JSON.decode(signalDefinition, SignalDefinitionDto.class);
 
-        SignalInfo signalInfo = this.signalService.convertSignalInfo(signalDefinitionDto);
+        SignalInfo signalInfo = this.signalService_.convertSignalInfo(signalDefinitionDto);
 
-        this.signalService.deleteSignalInfo(signalInfo);
+        this.signalService_.deleteSignalInfo(signalInfo);
 
         System.out.println("閾値判定のシグナルを削除しました。");
 

@@ -36,7 +36,15 @@ import java.util.Set;
 public class ResourceAlarmSetting
 {
     /** エージェントIDを保存するSet */
-    private Set<Integer> agentSet_ = new HashSet<Integer>();
+    private final Set<Integer> agentSet_ = new HashSet<Integer>();
+
+    /**
+     * コンストラクタ。
+     */
+    public ResourceAlarmSetting()
+    {
+
+    }
 
     /**
      * 閾値超過アラーム通知対象のエージェントのSetを返します。
@@ -51,7 +59,7 @@ public class ResourceAlarmSetting
      * 閾値超過アラーム通知対象のエージェントを設定します。
      * @param agent アラーム通知対象のエージェント
      */
-    public void addAgent(Integer agent)
+    public void addAgent(final Integer agent)
     {
         this.agentSet_.add(agent);
     }
@@ -61,7 +69,7 @@ public class ResourceAlarmSetting
      * @param agentId エージェントID
      * @return 指定したエージェントIDを含む場合、<code>true</code>
      */
-    public boolean containAgent(Integer agentId)
+    public boolean containAgent(final Integer agentId)
     {
         return this.agentSet_.contains(agentId);
     }

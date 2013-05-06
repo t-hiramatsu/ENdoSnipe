@@ -71,6 +71,14 @@ public class AlarmNotifyEntity
     public String rule_id;
 
     /**
+     * コンストラクタ。
+     */
+    public AlarmNotifyEntity()
+    {
+
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override

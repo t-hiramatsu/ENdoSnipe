@@ -16,8 +16,12 @@ import java.util.List;
 
 import jp.co.acroquest.endosnipe.web.dashboard.entity.MapInfo;
 
-import org.apache.ibatis.exceptions.PersistenceException;
-
+/**
+ * {@link MapInfo} のための DAO のインターフェースです。
+ * 
+ * @author miyasaka
+ *
+ */
 public interface MapInfoDao
 {
 
@@ -28,47 +32,45 @@ public interface MapInfoDao
      * 
      * @return マップ情報のリスト
      */
-    public List<MapInfo> selectAll();
+    List<MapInfo> selectAll();
 
     /**
      * マップ情報を取得する。
      * @param mapId マップID
      * @return マップ情報
      */
-    public MapInfo selectById(final long mapId);
+    MapInfo selectById(final long mapId);
 
     /**
      * マップ情報を新規登録する。<br />
      * @param mapInfo マップ情報
      * @return 登録件数
-     * @throws PersistenceException 実行例外
      */
-    public int insert(final MapInfo mapInfo)
-        throws PersistenceException;
+    int insert(final MapInfo mapInfo);
 
     /**
      * マップ情報を更新する。
      * @param mapInfo マップ情報
      * @return 更新件数
      */
-    public int update(final MapInfo mapInfo);
+    int update(final MapInfo mapInfo);
 
     /**
      * マップ情報を削除する。
      * @param mapId マップID
      * @return 削除件数
      */
-    public int deleteById(final long mapId);
+    int deleteById(final long mapId);
 
     /**
      * すべてのマップ情報を削除する。<br />
      * @return 削除件数
      */
-    public int deleteAll();
+    int deleteAll();
 
     /**
      * 直前のシーケンス情報を取得する。<br />
      * @return 直前のシーケンス番号
      */
-    public long selectSequenceNum();
+    long selectSequenceNum();
 }

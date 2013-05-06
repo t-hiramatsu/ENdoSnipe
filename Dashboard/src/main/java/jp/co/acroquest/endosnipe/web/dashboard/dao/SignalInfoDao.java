@@ -29,8 +29,6 @@ import java.util.List;
 
 import jp.co.acroquest.endosnipe.web.dashboard.entity.SignalInfo;
 
-import org.apache.ibatis.exceptions.PersistenceException;
-
 /**
  * {@link SignalInfo} のための DAO のインターフェースです。
  * 
@@ -47,7 +45,7 @@ public interface SignalInfoDao
      * 
      * @return シグナル定義のリスト
      */
-    public List<SignalInfo> selectAll();
+    List<SignalInfo> selectAll();
 
     /**
      * シグナル定義情報を取得する。
@@ -56,7 +54,7 @@ public interface SignalInfoDao
      *            シグナルID
      * @return シグナル定義
      */
-    public SignalInfo selectById(int signalId);
+    SignalInfo selectById(int signalId);
 
     /**
      * {@link SignalInfo} オブジェクトを挿入します。<br />
@@ -64,8 +62,7 @@ public interface SignalInfoDao
      * @param signalInfo
      *            対象オジェクト
      */
-    public void insert(final SignalInfo signalInfo)
-        throws PersistenceException;
+    void insert(final SignalInfo signalInfo);
 
     /**
      * シグナル定義を更新する。
@@ -73,7 +70,7 @@ public interface SignalInfoDao
      * @param signalInfo
      *            シグナル定義
      */
-    public void update(final SignalInfo signalInfo);
+    void update(final SignalInfo signalInfo);
 
     /**
      * 指定されたシグナル情報をDBから削除する。
@@ -81,17 +78,19 @@ public interface SignalInfoDao
      * @param signalInfo
      *            シグナル情報
      */
-    public void delete(final SignalInfo signalInfo);
+    void delete(final SignalInfo signalInfo);
 
     /**
      * すべてのレコードを削除します。<br />
      */
-    public void deleteAll();
+    void deleteAll();
 
     /**
      * 直前のシーケンス情報を取得する。<br />
      * 
+     * @param signalInfo
+     *            シグナル情報
      * @return 直前のシーケンス番号
      */
-    public int selectSequenceNum(final SignalInfo signalInfo);
+    int selectSequenceNum(final SignalInfo signalInfo);
 }
