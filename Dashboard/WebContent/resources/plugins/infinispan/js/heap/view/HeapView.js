@@ -297,7 +297,7 @@ infinispan.HeapView = wgp.AbstractView
 									var pathList = measurementItemName
 											.split("/");
 
-									var agentName = pathList[3];
+									var agentName = pathList[2] + "/" + pathList[3];
 									var valueType = pathList[pathList.length - 1];
 
 									var measurementValue = model

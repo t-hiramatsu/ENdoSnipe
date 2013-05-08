@@ -221,7 +221,7 @@ infinispan.CacheView = wgp.AbstractView
 
 				var parentTreePath = pathList[0];
 				var parentPathList = parentTreePath.split("/");
-				var agentName = parentPathList[parentPathList.length - 3];
+				var agentName = parentPathList[parentPathList.length - 4] + "/" + parentPathList[parentPathList.length - 3];
 
 				var childTreePath = pathList[1];
 				var childPathList = childTreePath.split("/");
