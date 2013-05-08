@@ -31,44 +31,44 @@ package jp.co.acroquest.endosnipe.common.entity;
  * <br />
  * <table border="1" cellspacing="0">
  * <tr>
- *  <th>データ型</th>
- *  <th>数値</th>
+ * <th>データ型</th>
+ * <th>数値</th>
  * </tr>
  * <tr>
- *  <td>不明</td>
- *  <td>-1</td>
+ * <td>不明</td>
+ * <td>-1</td>
  * </tr>
  * <tr>
- *  <td>byte</td>
- *  <td>0</td>
+ * <td>byte</td>
+ * <td>0</td>
  * </tr>
  * <tr>
- *  <td>short</td>
- *  <td>1</td>
+ * <td>short</td>
+ * <td>1</td>
  * </tr>
  * <tr>
- *  <td>int</td>
- *  <td>2</td>
+ * <td>int</td>
+ * <td>2</td>
  * </tr>
  * <tr>
- *  <td>long</td>
- *  <td>3</td>
- * </tr> 
- * <tr>
- *  <td>float</td>
- *  <td>4</td>
+ * <td>long</td>
+ * <td>3</td>
  * </tr>
  * <tr>
- *  <td>double</td>
- *  <td>5</td>
+ * <td>float</td>
+ * <td>4</td>
  * </tr>
  * <tr>
- *  <td>String</td>
- *  <td>6</td>
+ * <td>double</td>
+ * <td>5</td>
  * </tr>
  * <tr>
- *  <td>JSON</td>
- *  <td>7</td>
+ * <td>String</td>
+ * <td>6</td>
+ * </tr>
+ * <tr>
+ * <td>JSON</td>
+ * <td>7</td>
  * </tr>
  * </table>
  * 
@@ -76,91 +76,100 @@ package jp.co.acroquest.endosnipe.common.entity;
  */
 public enum ItemType
 {
-    /** 不明 */
-    ITEMTYPE_UNKNOWN, // -1
-    /** byte型 */
-    ITEMTYPE_BYTE, // 0
-    /** short型 */
-    ITEMTYPE_SHORT, // 1
-    /** int型 */
-    ITEMTYPE_INT, // 2
-    /** long型 */
-    ITEMTYPE_LONG, // 3
-    /** float型 */
-    ITEMTYPE_FLOAT, // 4
-    /** double型 */
-    ITEMTYPE_DOUBLE, // 5
-    /** String型 */
-    ITEMTYPE_STRING, // 6
-    /** JSON型 */
-    ITEMTYPE_JMX; // 7
+	/** 不明 */
+	ITEMTYPE_UNKNOWN, // -1
+	/** byte型 */
+	ITEMTYPE_BYTE, // 0
+	/** short型 */
+	ITEMTYPE_SHORT, // 1
+	/** int型 */
+	ITEMTYPE_INT, // 2
+	/** long型 */
+	ITEMTYPE_LONG, // 3
+	/** float型 */
+	ITEMTYPE_FLOAT, // 4
+	/** double型 */
+	ITEMTYPE_DOUBLE, // 5
+	/** String型 */
+	ITEMTYPE_STRING, // 6
+	/** JSON型 */
+	ITEMTYPE_JMX; // 7
 
-    /**
-     * 数値からデータ型を返す。
-     * 
-     * @param n 数値
-     * @return データ型
-     */
-    public static ItemType getItemType(final byte n)
-        throws IllegalArgumentException
-    {
-        switch (n)
-        {
-        case -1:
-            return ITEMTYPE_UNKNOWN;
-        case 0:
-            return ITEMTYPE_BYTE;
-        case 1:
-            return ITEMTYPE_SHORT;
-        case 2:
-            return ITEMTYPE_INT;
-        case 3:
-            return ITEMTYPE_LONG;
-        case 4:
-            return ITEMTYPE_FLOAT;
-        case 5:
-            return ITEMTYPE_DOUBLE;
-        case 6:
-            return ITEMTYPE_STRING;
-        case 7:
-            return ITEMTYPE_JMX;
-        default:
-            throw new IllegalArgumentException();
-        }
-    }
+	private static final byte BYTE_UNKNOWN = -1;
+	private static final byte BYTE_BYTE = 0;
+	private static final byte BYTE_SHORT = 1;
+	private static final byte BYTE_INT = 2;
+	private static final byte BYTE_LONG = 3;
+	private static final byte BYTE_FLOAT = 4;
+	private static final byte BYTE_DOUBLE = 5;
+	private static final byte BYTE_STRING = 6;
+	private static final byte BYTE_JMX = 7;
 
-    /**
-     * データ型に応じた数値を取得します。
-     * 
-     * @param type データ型
-     * @return 数値
-     * @throws IllegalArgumentException IllegalArgumentException
-     */
-    public static byte getItemTypeNumber(final ItemType type)
-        throws IllegalArgumentException
-    {
-        switch (type)
-        {
-        case ITEMTYPE_UNKNOWN:
-            return -1;
-        case ITEMTYPE_BYTE:
-            return 0;
-        case ITEMTYPE_SHORT:
-            return 1;
-        case ITEMTYPE_INT:
-            return 2;
-        case ITEMTYPE_LONG:
-            return 3;
-        case ITEMTYPE_FLOAT:
-            return 4;
-        case ITEMTYPE_DOUBLE:
-            return 5;
-        case ITEMTYPE_STRING:
-            return 6;
-        case ITEMTYPE_JMX:
-            return 7;
-        default:
-            throw new IllegalArgumentException();
-        }
-    }
+	/**
+	 * 数値からデータ型を返す。
+	 * 
+	 * @param n
+	 *            数値
+	 * @return データ型
+	 */
+	public static ItemType getItemType(final byte n)
+	{
+		switch (n)
+		{
+		case BYTE_UNKNOWN:
+			return ITEMTYPE_UNKNOWN;
+		case BYTE_BYTE:
+			return ITEMTYPE_BYTE;
+		case BYTE_SHORT:
+			return ITEMTYPE_SHORT;
+		case BYTE_INT:
+			return ITEMTYPE_INT;
+		case BYTE_LONG:
+			return ITEMTYPE_LONG;
+		case BYTE_FLOAT:
+			return ITEMTYPE_FLOAT;
+		case BYTE_DOUBLE:
+			return ITEMTYPE_DOUBLE;
+		case BYTE_STRING:
+			return ITEMTYPE_STRING;
+		case BYTE_JMX:
+			return ITEMTYPE_JMX;
+		default:
+			throw new IllegalArgumentException();
+		}
+	}
+
+	/**
+	 * データ型に応じた数値を取得します。
+	 * 
+	 * @param type
+	 *            データ型
+	 * @return 数値
+	 */
+	public static byte getItemTypeNumber(final ItemType type)
+	{
+		switch (type)
+		{
+		case ITEMTYPE_UNKNOWN:
+			return BYTE_UNKNOWN;
+		case ITEMTYPE_BYTE:
+			return BYTE_BYTE;
+		case ITEMTYPE_SHORT:
+			return BYTE_SHORT;
+		case ITEMTYPE_INT:
+			return BYTE_INT;
+		case ITEMTYPE_LONG:
+			return BYTE_LONG;
+		case ITEMTYPE_FLOAT:
+			return BYTE_FLOAT;
+		case ITEMTYPE_DOUBLE:
+			return BYTE_DOUBLE;
+		case ITEMTYPE_STRING:
+			return BYTE_STRING;
+		case ITEMTYPE_JMX:
+			return BYTE_JMX;
+		default:
+			throw new IllegalArgumentException();
+		}
+	}
 }

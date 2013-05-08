@@ -161,14 +161,6 @@ public class OneSqlExecTimeRule extends AbstractDbAccessRule
             return this.sql_;
         }
 
-        /**
-         * スレッド名を返す。
-         * @return スレッド名
-         */
-        public String getThreadName()
-        {
-            return this.threadName_;
-        }
 
         @Override
         public int hashCode()

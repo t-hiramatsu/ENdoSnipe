@@ -62,7 +62,7 @@ public class JavelinConfigUtil
     private static JavelinConfigUtil instance__ = new JavelinConfigUtil();
 
     /** Javelin実行Jarファイルの存在ディレクトリ */
-    private static String absoluteJarDirectory_;
+    private static String absoluteJarDirectory__;
 
     /** PropertyFileのパス */
     private String propertyFilePath_;
@@ -246,12 +246,17 @@ public class JavelinConfigUtil
      */
     private String getLevel(final String key, final String defaultValue, final String[] levelArray)
     {
-        String value = this.properties_.getProperty(key);
-        if (value == null)
+
+    	String value = null;
+        synchronized (this)
         {
-            value = defaultValue.toUpperCase();
-            this.properties_.put(key, value);
-            return value;
+        	value = this.properties_.getProperty(key);
+	        if (value == null)
+	        {
+	            value = defaultValue.toUpperCase();
+	            this.properties_.put(key, value);
+	            return value;
+	        }
         }
         value = value.toUpperCase();
         for (int num = 0; num < levelArray.length; num++)
@@ -262,7 +267,10 @@ public class JavelinConfigUtil
             }
         }
         System.out.println(key + "に不正な値が入力されました。デフォルト値(" + defaultValue.toUpperCase() + ")を使用します。");
-        this.properties_.put(key, defaultValue.toUpperCase());
+        synchronized (this)
+        {
+        	this.properties_.put(key, defaultValue.toUpperCase());
+        }
         return defaultValue;
     }
 
@@ -276,14 +284,15 @@ public class JavelinConfigUtil
      */
     public String getString(final String key, final String defaultValue)
     {
+    	String value = null;
         synchronized (this)
         {
             if (this.properties_ == null)
             {
                 load();
             }
+            value = this.properties_.getProperty(key);
         }
-        String value = this.properties_.getProperty(key);
         if (value == null)
         {
             value = defaultValue;
@@ -451,8 +460,8 @@ public class JavelinConfigUtil
             {
                 load();
             }
+            this.properties_.setProperty(key, value);
         }
-        this.properties_.setProperty(key, value);
     }
 
     /**
@@ -511,14 +520,16 @@ public class JavelinConfigUtil
      */
     public boolean isKeyExist(final String key)
     {
+    	boolean ret = false;
         synchronized (this)
         {
             if (this.properties_ == null)
             {
                 load();
             }
+            ret = this.properties_.containsKey(key);
         }
-        return this.properties_.containsKey(key);
+        return ret;
     }
 
     /**
@@ -558,7 +569,7 @@ public class JavelinConfigUtil
      */
     public String getAbsoluteJarDirectory()
     {
-        return this.absoluteJarDirectory_;
+        return this.absoluteJarDirectory__;
     }
 
     /**
@@ -568,7 +579,7 @@ public class JavelinConfigUtil
      */
     public void setAbsoluteJarDirectory(final String absoluteJarDirectory)
     {
-        this.absoluteJarDirectory_ = absoluteJarDirectory;
+        this.absoluteJarDirectory__ = absoluteJarDirectory;
     }
 
     /**
@@ -629,7 +640,7 @@ public class JavelinConfigUtil
         {
             return relativePath;
         }
-        File targetPath = new File(absoluteJarDirectory_, relativePath);
+        File targetPath = new File(absoluteJarDirectory__, relativePath);
 
         String canonicalPath;
         try

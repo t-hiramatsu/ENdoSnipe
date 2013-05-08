@@ -71,7 +71,7 @@ public class DBPreferenceUtil
 
     /** DB のフォルダのパスのデフォルト値 */
     public static final String PREF_DB_DIR_DEFAULT  =
-                                                        ".metadata/.plugins/jp.co.acroquest.endosnipe.data/db";
+               ".metadata/.plugins/jp.co.acroquest.endosnipe.data/db";
 
     /** 接続先DBのホストのデフォルト値 */
     public static final String PREF_DB_HOST_DEFAULT = "localhost";

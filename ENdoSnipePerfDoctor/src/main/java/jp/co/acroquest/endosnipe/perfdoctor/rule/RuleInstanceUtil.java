@@ -168,7 +168,7 @@ public class RuleInstanceUtil
         PerformanceRule rule;
         try
         {
-            Class clazz = Class.forName(className);
+            Class<?> clazz = Class.forName(className);
             // PerformanceRuleのインスタンスでなければ、ClassCastExceptionと同様の処理を行う。
             if (PerformanceRule.class.isAssignableFrom(clazz) == false)
             {
@@ -207,10 +207,9 @@ public class RuleInstanceUtil
     protected static void setValue(final Object obj, final String fieldName, final String value)
         throws RuleCreateException
     {
-        Class clazz = obj.getClass();
+        Class<? extends Object> clazz = obj.getClass();
         Object[] args = new Object[]{clazz.getCanonicalName(), fieldName, value};
 
-        // TODO: クラスキャッシュ、フィールドキャッシュの検討
         try
         {
             Field field = clazz.getField(fieldName);

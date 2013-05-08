@@ -34,34 +34,35 @@ import org.eclipse.osgi.util.NLS;
  */
 public class Messages extends NLS
 {
-    private static final String BUNDLE_NAME = "jp.co.acroquest.endosnipe.common.messages"; //$NON-NLS-1$
+	private static final String BUNDLE_NAME
+		= "jp.co.acroquest.endosnipe.common.messages"; //$NON-NLS-1$
 
-    /** Preference ページで設定するログレベルの項目ラベル */
-    public static String ENDOSNIPECOMMON_LOGLEVEL;
+	/** Preference ページで設定するログレベルの項目ラベル */
+	public static String endoSnipeCommonLogLevel__;
 
-    /** Preference ページで設定するログレベルの項目値（デバッグ） */
-    public static String ENDOSNIPECOMMON_LOGLEVEL_DEBUG;
+	/** Preference ページで設定するログレベルの項目値（デバッグ） */
+	public static String endoSnipeCommonLogLevelDebug__;
 
-    /** Preference ページで設定するログレベルの項目値（エラー） */
-    public static String ENDOSNIPECOMMON_LOGLEVEL_ERROR;
+	/** Preference ページで設定するログレベルの項目値（エラー） */
+	public static String endoSnipeCommonLogLevelError__;
 
-    /** Preference ページで設定するログレベルの項目値（情報） */
-    public static String ENDOSNIPECOMMON_LOGLEVEL_INFO;
+	/** Preference ページで設定するログレベルの項目値（情報） */
+	public static String endoSnipeCommonLogLevelInfo__;
 
-    /** Preference ページで設定するログレベルの項目値（警告） */
-    public static String ENDOSNIPECOMMON_LOGLEVEL_WARNING;
+	/** Preference ページで設定するログレベルの項目値（警告） */
+	public static String endoSnipeCommonLogLevelWarning__;
 
-    /** メモリ不足でコピーできないときに表示するメッセージ */
-    public static String ENDOSNIPECOMMON_TOO_FEW_MEMORY_TO_COPY;
+	/** メモリ不足でコピーできないときに表示するメッセージ */
+	public static String endoSnipeCommonTooFewMemoryToCopy__;
 
-    static
-    {
-        // initialize resource bundle
-        NLS.initializeMessages(BUNDLE_NAME, Messages.class);
-    }
+	static
+	{
+		// initialize resource bundle
+		NLS.initializeMessages(BUNDLE_NAME, Messages.class);
+	}
 
-    private Messages()
-    {
-        // Do nothing.
-    }
+	private Messages()
+	{
+		// Do nothing.
+	}
 }

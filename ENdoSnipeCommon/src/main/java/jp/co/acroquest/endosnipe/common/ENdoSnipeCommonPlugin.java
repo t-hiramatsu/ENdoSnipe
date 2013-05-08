@@ -35,44 +35,49 @@ import org.osgi.framework.BundleContext;
  */
 public class ENdoSnipeCommonPlugin extends AbstractUIPlugin
 {
-    private static ENdoSnipeCommonPlugin plugin__;
+	private static ENdoSnipeCommonPlugin plugin__ = new ENdoSnipeCommonPlugin();
 
-    /**
-     * {@link ENdoSnipeCommonPlugin} を構築します<br /> 
-     */
-    public ENdoSnipeCommonPlugin()
-    {
-        super();
-        this.plugin__ = this;
-    }
+	/**
+	 * {@link ENdoSnipeCommonPlugin} を構築します<br />
+	 */
+	public ENdoSnipeCommonPlugin()
+	{
+		super();
+	}
 
-    /* (non-Javadoc)
-     * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
-     */
-    @Override
-    public void start(final BundleContext context)
-        throws Exception
-    {
-        super.start(context);
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext
+	 * )
+	 */
+	@Override
+	public void start(final BundleContext context) throws Exception
+	{
+		super.start(context);
+	}
 
-    /* (non-Javadoc)
-     * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
-     */
-    @Override
-    public void stop(final BundleContext context)
-        throws Exception
-    {
-        super.stop(context);
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext
+	 * )
+	 */
+	@Override
+	public void stop(final BundleContext context) throws Exception
+	{
+		super.stop(context);
+	}
 
-    /**
-     * {@link ENdoSnipeCommonPlugin} のインスタンスを返します。<br />
-     * 
-     * @return {@link ENdoSnipeCommonPlugin} のインスタンス
-     */
-    public static ENdoSnipeCommonPlugin getDefault()
-    {
-        return plugin__;
-    }
+	/**
+	 * {@link ENdoSnipeCommonPlugin} のインスタンスを返します。<br />
+	 * 
+	 * @return {@link ENdoSnipeCommonPlugin} のインスタンス
+	 */
+	public static ENdoSnipeCommonPlugin getDefault()
+	{
+		return plugin__;
+	}
 }

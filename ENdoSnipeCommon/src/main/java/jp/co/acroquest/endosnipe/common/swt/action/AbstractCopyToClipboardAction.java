@@ -149,7 +149,7 @@ public abstract class AbstractCopyToClipboardAction extends Action implements Co
         logger__.log(TOO_LARGE_COPY_TO_CLIPBOARD, ex);
         MessageBox messageBox = new MessageBox(this.shell_, SWT.OK);
         messageBox.setText(getDialogTitle());
-        messageBox.setMessage(Messages.ENDOSNIPECOMMON_TOO_FEW_MEMORY_TO_COPY);
+        messageBox.setMessage(Messages.endoSnipeCommonTooFewMemoryToCopy__);
         messageBox.open();
     }
 

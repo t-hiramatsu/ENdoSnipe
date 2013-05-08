@@ -27,80 +27,89 @@ package jp.co.acroquest.endosnipe.common.entity;
 
 /**
  * 計測データを格納するためのエンティティです。
+ * 
  * @author fujii
  */
-public class MeasurementDetail
+public class MeasurementDetail implements Cloneable
 {
-    /** 計測値 */
-    public String value;
+	/** 計測値 */
+	public String value;
 
-    /** 系列の表示名 */
-    public String displayName;
+	/** 系列の表示名 */
+	public String displayName;
 
-    /** 計測値が系列名を持つ場合（コレクション数など）の系列 ID 。 */
-    public int    itemId;
+	/** 計測値が系列名を持つ場合（コレクション数など）の系列 ID 。 */
+	public int itemId;
 
-    /** 計測値系列名称。 */
-    public String itemName;
+	/** 計測値系列名称。 */
+	public String itemName;
 
-    /** 計測値の表示型 */
-    public int    displayType;
+	/** 計測値の表示型 */
+	public int displayType;
 
-    /**
-     * 計測 No.。<br/>
-     * 同時に計測された計測値群を紐づけるための ID 。<br/>
-     * 同時に計測された計測値は MESUREMENT_ID が同じ値となります。
-     */
-    public long   itemNum;
+	/**
+	 * 計測 No.。<br/>
+	 * 同時に計測された計測値群を紐づけるための ID 。<br/>
+	 * 同時に計測された計測値は MESUREMENT_ID が同じ値となります。
+	 */
+	public long itemNum;
 
-    /**
-     * 計測値種別。<br/>
-     * 計測値の種別を表す値。<br/>
-     * 計測値の表示名称については MESUREMENT_INFO テーブルを参照します。
-     */
-    public int    type;
+	/**
+	 * 計測値種別。<br/>
+	 * 計測値の種別を表す値。<br/>
+	 * 計測値の表示名称については MESUREMENT_INFO テーブルを参照します。
+	 */
+	public int type;
 
-    /** 計測値系列名称。 */
-    public String typeItemName;
+	/** 計測値系列名称。 */
+	public String typeItemName;
 
-    /**
-     * 計測値 ID 。<br/>
-     * 計測値を一意に識別する ID 。
-     */
-    public long   valueId;
+	/**
+	 * 計測値 ID 。<br/>
+	 * 計測値を一意に識別する ID 。
+	 */
+	public long valueId;
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String toString()
-    {
-        StringBuilder builder = new StringBuilder();
-        builder.append("DisplayName=");
-        builder.append(this.displayName);
-        builder.append(",Value=");
-        builder.append(this.value);
-        return builder.toString();
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString()
+	{
+		StringBuilder builder = new StringBuilder();
+		builder.append("DisplayName=");
+		builder.append(this.displayName);
+		builder.append(",Value=");
+		builder.append(this.value);
+		return builder.toString();
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public MeasurementDetail clone()
-    {
-        MeasurementDetail cloneObj = new MeasurementDetail();
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public MeasurementDetail clone()
+	{
+		MeasurementDetail cloneObj = null;
+		try
+		{
+			cloneObj = (MeasurementDetail) super.clone();
+		}
+		catch (CloneNotSupportedException e)
+		{
+			cloneObj = new MeasurementDetail();
+		}
 
-        cloneObj.displayName = this.displayName;
-        cloneObj.itemId = this.itemId;
-        cloneObj.itemName = this.itemName;
-        cloneObj.itemNum = this.itemNum;
-        cloneObj.type = this.type;
-        cloneObj.typeItemName = this.typeItemName;
-        cloneObj.value = this.value;
-        cloneObj.valueId = this.valueId;
-        cloneObj.displayType = this.displayType;
+		cloneObj.displayName = this.displayName;
+		cloneObj.itemId = this.itemId;
+		cloneObj.itemName = this.itemName;
+		cloneObj.itemNum = this.itemNum;
+		cloneObj.type = this.type;
+		cloneObj.typeItemName = this.typeItemName;
+		cloneObj.value = this.value;
+		cloneObj.valueId = this.valueId;
+		cloneObj.displayType = this.displayType;
 
-        return cloneObj;
-    }
+		return cloneObj;
+	}
 }

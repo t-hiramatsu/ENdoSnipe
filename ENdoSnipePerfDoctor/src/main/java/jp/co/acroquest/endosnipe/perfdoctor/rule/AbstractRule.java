@@ -87,7 +87,6 @@ public abstract class AbstractRule implements PerformanceRule
             return new ArrayList<WarningUnit>(0);
         }
 
-        // TODO: durationThresholdによるチェック(暫定実装)
         List<JavelinLogElement> targetList = new ArrayList<JavelinLogElement>();
         for (JavelinLogElement javelinLogElement : javelinLogElementList)
         {
@@ -341,7 +340,8 @@ public abstract class AbstractRule implements PerformanceRule
      * @param element メッセージに関連したJavelinLogElement
      * @param throwable 出力するThrowable
      */
-    protected void log(final String message, final JavelinLogElement element,
+    @SuppressWarnings("deprecation")
+	protected void log(final String message, final JavelinLogElement element,
             final Throwable throwable)
     {
         String text = "";

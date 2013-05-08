@@ -66,7 +66,6 @@ public enum DisplayType
      * @return データ型
      */
     public static DisplayType getDisplayType(final byte n)
-        throws IllegalArgumentException
     {
         switch (n)
         {
@@ -86,10 +85,8 @@ public enum DisplayType
      *
      * @param type データ型
      * @return 数値
-     * @throws IllegalArgumentException IllegalArgumentException
      */
     public static byte getDisplayTypeNumber(final DisplayType type)
-        throws IllegalArgumentException
     {
         switch (type)
         {

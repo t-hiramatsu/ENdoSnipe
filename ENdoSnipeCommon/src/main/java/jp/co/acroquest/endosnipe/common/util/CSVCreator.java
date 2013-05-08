@@ -63,7 +63,7 @@ public class CSVCreator
             String element = list[cnt];
             if (element == null)
             {
-                if (getNullTreatment() == CSVCreator.NULL_TO_EMPTY_STRING())
+                if (getNullTreatment() == CSVCreator.nullToEmptyString())
                 {
                     element = "";
                 }
@@ -75,7 +75,7 @@ public class CSVCreator
             // 空文字列では無い場合、ダブルクォーテーションで囲む。
             if (element.length() > 0)
             {
-                if (getQuotation() == CSVCreator.DOUBLE_QUOTATION())
+                if (getQuotation() == CSVCreator.doubleQuotation())
                 {
                     element = insertDoubleQuote(element);
                 }
@@ -233,6 +233,10 @@ public class CSVCreator
         return quotation_;
     }
 
+    /**
+     * NullTreatmentを設定する
+     * @param newNullTreatment NullTreatment
+     */
     public void setNullTreatment(final int newNullTreatment)
     {
         nullTreatment_ = newNullTreatment;
@@ -240,28 +244,31 @@ public class CSVCreator
 
     /**
      * デフォルト値は NULL_POINTER_EXCEPTION 。
+     * @return NullTreatment
      */
     public int getNullTreatment()
     {
         return nullTreatment_;
     }
 
-    private int quotation_ = CSVCreator.DOUBLE_QUOTATION();
+    private int quotation_ = CSVCreator.doubleQuotation();
 
-    private int nullTreatment_ = CSVCreator.NULL_POINTER_EXCEPTION();
+    private int nullTreatment_ = CSVCreator.nullPointerException();
 
     /**
      * nullに遭遇した場合、NullPointerExceptionを投げる指示。
+     * @return nullに遭遇した場合、NullPointerExceptionを投げる指示
      */
-    public static final int NULL_POINTER_EXCEPTION()
+    public static final int nullPointerException()
     {
         return 1 << CSVCreator.NULL_TREATMENT_GROUP;
     }
 
     /**
      * nullに遭遇した場合、""として扱う指示。
+     * @return nullに遭遇した場合、""として扱う指示
      */
-    public static final int NULL_TO_EMPTY_STRING()
+    public static final int nullToEmptyString()
     {
         return 2 << CSVCreator.NULL_TREATMENT_GROUP;
     }
@@ -273,16 +280,18 @@ public class CSVCreator
 
     /**
      * クォーテーションを付加しない指示。
+     * @return クォーテーションを付加しない指示
      */
-    public static final int NO_QUOTATION()
+    public static final int quotation()
     {
         return 1 << CSVCreator.QUOTATION_GROUP;
     }
 
     /**
      * ダブルクォーテーション"\""を付加する指示。
+     * @return ダブルクォーテーション"\""
      */
-    public static final int DOUBLE_QUOTATION()
+    public static final int doubleQuotation()
     {
         return 2 << CSVCreator.QUOTATION_GROUP;
     }

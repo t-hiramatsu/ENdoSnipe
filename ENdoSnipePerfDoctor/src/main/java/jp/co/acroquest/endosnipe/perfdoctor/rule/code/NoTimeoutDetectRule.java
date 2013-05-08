@@ -53,7 +53,8 @@ public class NoTimeoutDetectRule extends SingleElementRule implements JavelinCon
     /**
      * {@inheritDoc}
      */
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     protected void doJudgeElement(final JavelinLogElement element)
     {
         // ¯•Êq‚ª"Event"‚Å‚È‚¢ê‡‚ÍAˆ—‚µ‚È‚¢B

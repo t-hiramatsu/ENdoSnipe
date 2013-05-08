@@ -27,47 +27,73 @@ package jp.co.acroquest.endosnipe.perfdoctor.rule;
 
 /**
  * シリアライズ化されたルールを格納するクラス。<br />
- *
+ * 
  * @author sakamoto
  */
 public class SerializedRules
 {
 
-    /** ruleSetConfigMap_の内容を一時的に保存しておく配列 */
-    private final byte[] ruleSetConfigMapData_;
+	/** ruleSetConfigMap_の内容を一時的に保存しておく配列 */
+	private final byte[] ruleSetConfigMapData_;
 
-    /** ruleSetMap_の内容を一時的に保存しておく配列。 */
-    private final byte[] ruleSetMapData_;
+	/** ruleSetMap_の内容を一時的に保存しておく配列。 */
+	private final byte[] ruleSetMapData_;
 
-    /**
-     * シリアライズ化されたルールを格納するオブジェクトを生成します。<br />
-     *
-     * @param ruleSetConfigMapData ruleSetConfigMap をシリアライズ化したデータ
-     * @param ruleSetMapData ruleSetMap をシリアライズ化したデータ
-     */
-    public SerializedRules(final byte[] ruleSetConfigMapData, final byte[] ruleSetMapData)
-    {
-        this.ruleSetConfigMapData_ = ruleSetConfigMapData;
-        this.ruleSetMapData_ = ruleSetMapData;
-    }
+	/**
+	 * シリアライズ化されたルールを格納するオブジェクトを生成します。<br />
+	 * 
+	 * @param ruleSetConfigMapData
+	 *            ruleSetConfigMap をシリアライズ化したデータ
+	 * @param ruleSetMapData
+	 *            ruleSetMap をシリアライズ化したデータ
+	 */
+	public SerializedRules(final byte[] ruleSetConfigMapData,
+			final byte[] ruleSetMapData)
+	{
+		if (ruleSetConfigMapData == null)
+		{
+			this.ruleSetConfigMapData_ = null;
+		}
+		else
+		{
+			this.ruleSetConfigMapData_ = (byte[]) ruleSetConfigMapData.clone();
+		}
 
-    /**
-     * ruleSetConfigMap をシリアライズ化したデータを返します。<br />
-     *
-     * @return ruleSetConfigMap をシリアライズ化したデータ
-     */
-    public byte[] getRuleSetConfigMapData()
-    {
-        return this.ruleSetConfigMapData_;
-    }
+		if (ruleSetMapData == null)
+		{
+			this.ruleSetMapData_ = null;
+		}
+		else
+		{
+			this.ruleSetMapData_ = (byte[]) ruleSetMapData.clone();
+		}
+	}
 
-    /**
-     * ruleSetMap をシリアライズ化したデータを返します。<br />
-     *
-     * @return ruleSetMap をシリアライズ化したデータ
-     */
-    public byte[] getRuleMapData()
-    {
-        return this.ruleSetMapData_;
-    }
+	/**
+	 * ruleSetConfigMap をシリアライズ化したデータを返します。<br />
+	 * 
+	 * @return ruleSetConfigMap をシリアライズ化したデータ
+	 */
+	public byte[] getRuleSetConfigMapData()
+	{
+		if (ruleSetConfigMapData_ == null)
+		{
+			return null;
+		}
+		return (byte[]) ruleSetConfigMapData_.clone();
+	}
+
+	/**
+	 * ruleSetMap をシリアライズ化したデータを返します。<br />
+	 * 
+	 * @return ruleSetMap をシリアライズ化したデータ
+	 */
+	public byte[] getRuleMapData()
+	{
+		if (ruleSetMapData_ == null)
+		{
+			return null;
+		}
+		return (byte[]) ruleSetMapData_.clone();
+	}
 }

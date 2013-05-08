@@ -2892,7 +2892,8 @@ public class JavelinConfigBase
      */
     public int getAutoExcludeThresholdCount()
     {
-        return CONFIGUTIL.getInteger(AUTO_EXCLUDE_THRESHOLD_COUNT, DEF_AUTO_EXCLUDE_THRESHOLD_COUNT);
+        return CONFIGUTIL.getInteger(AUTO_EXCLUDE_THRESHOLD_COUNT,
+        		DEF_AUTO_EXCLUDE_THRESHOLD_COUNT);
     }
 
     /**
@@ -3025,21 +3026,37 @@ public class JavelinConfigBase
         return CONFIGUTIL.getInteger(ACCEPTPORT_RANGEMAX, DEF_ACCEPTPORT_RANGEMAX);
     }
 
+    /**
+     * AcceptDelayを返す
+     * @return AcceptDelay
+     */
     public long getAcceptDelay()
     {
         return CONFIGUTIL.getLong(ACCEPT_DELAY_KEY, DEFAULT_ACCEPT_DELAY);
     }
 
+    /**
+     * CpuTimeUnitを返す
+     * @return CpuTimeUnit
+     */
     public int getCpuTimeUnit()
     {
         return CONFIGUTIL.getInteger(CPU_TIME_UNIT_KEY, DEF_CPU_TIME_UNIT);
     }
 
+    /**
+     * CallTreeAllを返す
+     * @return CallTreeAll
+     */
     public boolean isCallTreeAll()
     {
         return CONFIGUTIL.getBoolean(CALL_TREE_ALL_KEY, DEF_CALL_TREE_ALL);
     }
 
+    /**
+     * CallTreeEnabledを返す
+     * @return CallTreeEnabled
+     */
     public boolean isCallTreeEnabled()
     {
         return CONFIGUTIL.getBoolean(CALL_TREE_ENABLE_KEY, DEF_CALL_TREE_ENABLE);
@@ -3074,7 +3091,7 @@ public class JavelinConfigBase
 
     /**
      * InvocationFullEventを送信するかどうかを設定する。
-     * @param collectSystemResources InvocationFullEventを送信するかどうか
+     * @param sendInvocationFullEvent InvocationFullEventを送信するかどうか
      */
     public void setSendInvocationFullEvent(final boolean sendInvocationFullEvent)
     {

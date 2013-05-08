@@ -25,6 +25,11 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.util;
 
+/**
+ * “ü—ÍŒ‹‰Ê
+ * 
+ * @author sakamoto
+ */
 public class InsertResult
 {
     private int insertCount_;
@@ -33,31 +38,56 @@ public class InsertResult
 
     private int cacheOverflowCount_;
 
+    /**
+     * InsertCount‚ğ•Ô‚·
+     * @return InsertCount
+     */
     public int getInsertCount()
     {
         return insertCount_;
     }
 
+    /**
+     * InsertCount‚ğİ’è‚·‚é
+     * @param insertCount InsertCount
+     */
     public void setInsertCount(int insertCount)
     {
         insertCount_ = insertCount;
     }
 
+    /**
+     * CacheMissCount‚ğ•Ô‚·
+     * @return CacheMissCount
+     */
     public int getCacheMissCount()
     {
         return cacheMissCount_;
     }
 
+    /**
+     * CacheMissCount‚ğİ’è‚·‚é
+     * @param cacheMissCount CacheMissCount
+     */
     public void setCacheMissCount(int cacheMissCount)
     {
         cacheMissCount_ = cacheMissCount;
     }
 
+    /**
+     * CacheOverflowCount‚ğ•Ô‚·
+     * @return CacheOverflowCount
+     */
     public int getCacheOverflowCount()
     {
         return cacheOverflowCount_;
     }
 
+    /**
+     * CacheOverflowCount‚ğİ’è‚·‚é
+     * 
+     * @param cacheOverflowCount CacheOverflowCount
+     */
     public void setCacheOverflowCount(int cacheOverflowCount)
     {
         cacheOverflowCount_ = cacheOverflowCount;

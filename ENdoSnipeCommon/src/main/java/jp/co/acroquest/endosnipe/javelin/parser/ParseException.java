@@ -32,6 +32,11 @@ public class ParseException extends Exception
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8183151646189200070L;
+
+	/**
      * 
      */
     public ParseException()
@@ -40,7 +45,7 @@ public class ParseException extends Exception
     }
 
     /**
-     * @param message
+     * @param message メッセージ
      */
     public ParseException(final String message)
     {
@@ -48,7 +53,7 @@ public class ParseException extends Exception
     }
 
     /**
-     * @param cause
+     * @param cause 原因
      */
     public ParseException(final Throwable cause)
     {
@@ -56,8 +61,8 @@ public class ParseException extends Exception
     }
 
     /**
-     * @param message
-     * @param cause
+     * @param message メッセージ
+     * @param cause 原因
      */
     public ParseException(final String message, final Throwable cause)
     {

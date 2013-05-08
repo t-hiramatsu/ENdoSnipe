@@ -58,7 +58,7 @@ import jp.co.acroquest.endosnipe.data.entity.MeasurementValue;
 public class ResourceDataDaoUtil
 {
     /** ロガー */
-    private static final ENdoSnipeLogger logger__ =
+    private static final ENdoSnipeLogger LOGGER =
         ENdoSnipeLogger.getLogger(ResourceDataDaoUtil.class,
                                   ENdoSnipeDataAccessorPluginProvider.INSTANCE);
 
@@ -93,7 +93,7 @@ public class ResourceDataDaoUtil
     private static final int DEF_ITEMID_CACHE_SIZE = 50000;
 
     /** MEASUREMENT_VALUE テーブルを truncate するコールバックメソッド */
-    private static final RotateCallback measurementRotateCallback__ = new RotateCallback() {
+    private static final RotateCallback MEASUREMENT_ROTATE_CALLBACK = new RotateCallback() {
         /**
          * {@inheritDoc}
          */
@@ -223,6 +223,7 @@ public class ResourceDataDaoUtil
      * @param resourceData 登録するデータ
      * @param rotatePeriod ローテート期間
      * @param rotatePeriodUnit ローテート期間の単位（ Calendar クラスの DAY または MONTH の値）
+     * @param insertUnit insertUnit
      * @throws SQLException SQL 実行時に例外が発生した場合
      */
     public static void insert(final String database, final ResourceData resourceData,
@@ -251,6 +252,9 @@ public class ResourceDataDaoUtil
      * @param resourceData 登録するデータ
      * @param rotatePeriod ローテート期間
      * @param rotatePeriodUnit ローテート期間の単位（ Calendar クラスの DAY または MONTH の値）
+     * @param batchUnit batchUnit
+     * @param itemIdCacheSize itemIdCacheSize
+     * @return インサート結果
      * @throws SQLException SQL 実行時に例外が発生した場合
      */
     public static InsertResult insert(final String database, final ResourceData resourceData,
@@ -265,26 +269,8 @@ public class ResourceDataDaoUtil
         if (DBManager.isDefaultDb() == false)
         {
             // H2以外のデータベースの場合は、パーティショニング処理を行う
-            Integer tableIndex =
-                    getTableIndexToInsert(baseMeasurementValue.measurementTime);
-            Integer prevTableIndex = prevTableIndexMap__.get(database);
-            if (tableIndex.equals(prevTableIndex) == false)
-            {
-                Timestamp[] range = MeasurementValueDao.getTerm(database);
-                if (range.length == 2
-                        && (range[1] == null || range[1].before(baseMeasurementValue.measurementTime)))
-                {
-                    // 前回の挿入データと今回の挿入データで挿入先テーブルが異なる場合に、ローテート処理を行う
-                    // ただし、すでにDBに入っているデータのうち、最新のデータよりも古いデータが入ってきた場合はローテート処理しない
-                    boolean truncateCurrent = (prevTableIndex != null);
-                    rotateTable(database, tableIndex, baseMeasurementValue.measurementTime,
-                                rotatePeriod, rotatePeriodUnit, truncateCurrent,
-                                measurementRotateCallback__);
-                    prevTableIndexMap__.put(database, tableIndex);
-                }
-                deleteOldMeasurementItems(database, baseMeasurementValue.measurementTime, rotatePeriod,
-                                          rotatePeriodUnit, batchUnit);
-            }
+            partitioning(database, rotatePeriod, rotatePeriodUnit, batchUnit,
+					baseMeasurementValue);
         }
         Map<String, Integer> itemMap = measurementItemIdMap__.get(database);
         if (itemMap == null)
@@ -293,7 +279,6 @@ public class ResourceDataDaoUtil
             measurementItemIdMap__.put(database, itemMap);
         }
         
-
         String prevTableName = null;
         
         Map<String, Timestamp> updateTargetMap = new HashMap<String, Timestamp>();
@@ -350,9 +335,7 @@ public class ResourceDataDaoUtil
                 int overflowCount =
                     addItemIdToCache(itemMap, itemMapKey, measurementValue, itemIdCacheSize);
                 result.setCacheOverflowCount(result.getCacheOverflowCount() + overflowCount);
-
                 measurementValue.value = detail.value;
-
                 String tableName =
                     MeasurementValueDao.getTableNameToInsert(measurementValue.measurementTime);
                 if ((prevTableName != null && prevTableName.endsWith(tableName) == false)
@@ -369,14 +352,15 @@ public class ResourceDataDaoUtil
                 // 前回JAVELIN_MEASUREMENT_ITEMテーブルのLAST_INSERTEDフィールド更新から
                 // 一定期間が経過した場合に、LAST_INSERTEDフィールドを更新する対象に含める。
                 Timestamp beforeTime = updatedMap.get(measurementValue.measurementItemId);
-                updatedMap.put(measurementValue.measurementItemId, measurementValue.measurementTime);
+                updatedMap.put(
+                		measurementValue.measurementItemId,
+                		measurementValue.measurementTime);
                 if (beforeTime == null
                     || measurementValue.measurementTime.getTime() > beforeTime.getTime()
                         + ITEM_UPDATE_INTERVAL)
                 {
                     updateTargetMap.put(measurementItemName, measurementValue.measurementTime);
                 }
-
                 prevTableName = tableName;
              }
         }
@@ -394,9 +378,37 @@ public class ResourceDataDaoUtil
         {
             JavelinMeasurementItemDao.updateLastInserted(database, updateTargetMap);
         }
-        
         return result;
     }
+
+	private static void partitioning(final String database,
+			final int rotatePeriod, final int rotatePeriodUnit,
+			final int batchUnit, MeasurementValue baseMeasurementValue)
+			throws SQLException
+	{
+		Integer tableIndex =
+		        getTableIndexToInsert(baseMeasurementValue.measurementTime);
+		Integer prevTableIndex = prevTableIndexMap__.get(database);
+		if (tableIndex.equals(prevTableIndex) == false)
+		{
+		    Timestamp[] range = MeasurementValueDao.getTerm(database);
+		    if (range.length == 2
+		            && (range[1] == null
+		            		|| range[1].before(baseMeasurementValue.measurementTime)))
+		    {
+		        // 前回の挿入データと今回の挿入データで挿入先テーブルが異なる場合に、ローテート処理を行う
+		        // ただし、すでにDBに入っているデータのうち、最新のデータよりも古いデータが入ってきた場合はローテート処理しない
+		        boolean truncateCurrent = (prevTableIndex != null);
+		        rotateTable(database, tableIndex, baseMeasurementValue.measurementTime,
+		                    rotatePeriod, rotatePeriodUnit, truncateCurrent,
+		                    MEASUREMENT_ROTATE_CALLBACK);
+		        prevTableIndexMap__.put(database, tableIndex);
+		    }
+		    deleteOldMeasurementItems(database,
+		    		baseMeasurementValue.measurementTime, rotatePeriod,
+		                              rotatePeriodUnit, batchUnit);
+		}
+	}
 
     private static LinkedHashMap<String, Integer> loadMeasurementItemIdMap(String database,
         int itemIdCacheSize)
@@ -516,9 +528,9 @@ public class ResourceDataDaoUtil
             }
         }
 
-        if (logger__.isInfoEnabled())
+        if (LOGGER.isInfoEnabled())
         {
-            logger__.log(LogMessageCodes.ROTATE_TABLE_PERFORMED, database,
+            LOGGER.log(LogMessageCodes.ROTATE_TABLE_PERFORMED, database,
                          rotateCallback.getTableType());
         }
     }
@@ -602,9 +614,9 @@ public class ResourceDataDaoUtil
         }
 
         
-        if (logger__.isInfoEnabled())
+        if (LOGGER.isInfoEnabled())
         {
-            logger__.log(LogMessageCodes.NO_NEEDED_SERIES_REMOVED, database,
+            LOGGER.log(LogMessageCodes.NO_NEEDED_SERIES_REMOVED, database,
                          Integer.valueOf(removedItems));
         }
     }
@@ -681,7 +693,7 @@ public class ResourceDataDaoUtil
             }
             catch (SQLException ex)
             {
-                logger__.log(LogMessageCodes.DB_ACCESS_ERROR, database, ex.getMessage());
+                LOGGER.log(LogMessageCodes.DB_ACCESS_ERROR, database, ex.getMessage());
             }
         }
         return updatedMap;

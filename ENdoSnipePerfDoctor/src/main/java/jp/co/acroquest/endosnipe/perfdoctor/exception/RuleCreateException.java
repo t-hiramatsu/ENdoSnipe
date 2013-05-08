@@ -58,7 +58,14 @@ public class RuleCreateException extends Exception
     public RuleCreateException(final String messageId, final Object[] args, final String[] messages)
     {
         super(Messages.getMessage(messageId, args));
-        this.messages_ = messages;
+        if (messages == null)
+        {
+        	this.messages_ = null;
+        }
+        else 
+        {
+        	this.messages_ = (String[]) messages.clone();
+        }
     }
 
     /**
@@ -67,6 +74,13 @@ public class RuleCreateException extends Exception
      */
     public String[] getMessages()
     {
-        return this.messages_;
+    	if (this.messages_ == null)
+    	{
+    		return null;
+    	}
+    	else 
+    	{
+    		return (String[]) this.messages_.clone();
+    	}
     }
 }

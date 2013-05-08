@@ -28,9 +28,15 @@ package jp.co.acroquest.endosnipe.javelin.parser;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+/**
+ * メッセージクラス
+ * @author hayakawa
+ *
+ */
 public class Messages
 {
-    private static final String BUNDLE_NAME = "jp.co.acroquest.endosnipe.javelin.parser.messages"; //$NON-NLS-1$
+    private static final String BUNDLE_NAME
+    	= "jp.co.acroquest.endosnipe.javelin.parser.messages"; //$NON-NLS-1$
 
     private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
 
@@ -38,6 +44,11 @@ public class Messages
     {
     }
 
+    /**
+     * プロパティバンドルからメッセージを取得する
+     * @param key キー
+     * @return キーに対応するメッセージ
+     */
     public static String getString(final String key)
     {
         try

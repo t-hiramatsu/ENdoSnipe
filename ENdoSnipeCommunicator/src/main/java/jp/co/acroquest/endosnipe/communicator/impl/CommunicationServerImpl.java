@@ -180,7 +180,8 @@ public class CommunicationServerImpl implements Runnable, CommunicationServer, T
     /**
      * {@inheritDoc}
      */
-    public void start(int port)
+    @SuppressWarnings("deprecation")
+	public void start(int port)
     {
         if (this.objServerSocket_ != null)
         {
@@ -225,7 +226,8 @@ public class CommunicationServerImpl implements Runnable, CommunicationServer, T
     /**
      * {@inheritDoc}
      */
-    public void stop()
+    @SuppressWarnings("deprecation")
+	public void stop()
     {
         this.isRunning_ = false;
         
@@ -341,7 +343,8 @@ public class CommunicationServerImpl implements Runnable, CommunicationServer, T
     /**
      * 通信用スレッドを実行する。
      */
-    public void run()
+    @SuppressWarnings("deprecation")
+	public void run()
     {
         try
         {
@@ -439,7 +442,8 @@ public class CommunicationServerImpl implements Runnable, CommunicationServer, T
         }
     }
 
-    private void accept(final ThreadGroup group) throws SocketException
+    @SuppressWarnings("deprecation")
+	private void accept(final ThreadGroup group) throws SocketException
     {
         Socket clientSocket = null;
         
@@ -536,7 +540,8 @@ public class CommunicationServerImpl implements Runnable, CommunicationServer, T
     /**
      * ポートが既に開かれている場合に待機する。
      */
-    private void sleep()
+    @SuppressWarnings("deprecation")
+	private void sleep()
     {
         int interval = this.bindInterval_;
 

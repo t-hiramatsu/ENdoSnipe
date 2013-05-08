@@ -246,7 +246,8 @@ public class TelegramReader implements Runnable
      * @return 受信したデータ
      * @throws IOException 入出力例外が発生した場合
      */
-    public byte[] readTelegramBytes()
+    @SuppressWarnings("deprecation")
+	public byte[] readTelegramBytes()
         throws IOException
     {
         this.channel_.socket().setSoTimeout(SO_TIMEOUT);

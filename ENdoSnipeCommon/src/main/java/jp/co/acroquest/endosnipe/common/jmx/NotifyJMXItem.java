@@ -41,5 +41,5 @@ public interface NotifyJMXItem
      * 
      * @return Œv‘ª’lŽí•ÊID
      */
-    public long addItem(final String dbName, final String itemName, final String dispName);
+    long addItem(final String dbName, final String itemName, final String dispName);
 }

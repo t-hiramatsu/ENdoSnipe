@@ -35,7 +35,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jp.co.acroquest.endosnipe.common.util.SQLUtil;
-import jp.co.acroquest.endosnipe.data.entity.ArchivedValue;
 import jp.co.acroquest.endosnipe.data.entity.MapInfo;
 
 /**
@@ -46,6 +45,10 @@ import jp.co.acroquest.endosnipe.data.entity.MapInfo;
 public class MapInfoDao extends AbstractDao
 {
     private static final String MAP_INFO_TABLE = "MAP_INFO";
+    
+    private static final int SQL_DATA = 1;
+    private static final int SQL_LAST_UPDATE = 2;
+    private static final int SQL_MAP_ID = 3;
 
     /**
      * レコードを挿入します。<br />
@@ -175,10 +178,10 @@ public class MapInfoDao extends AbstractDao
             String sql =
                 "update " + MAP_INFO_TABLE + " set data = ? , last_update = ? where MAP_ID = ?";
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, mapInfo.data);
+            pstmt.setString(SQL_DATA, mapInfo.data);
             Timestamp current = new Timestamp(System.currentTimeMillis());
-            pstmt.setTimestamp(2, current);
-            pstmt.setLong(3, mapInfo.mapId);
+            pstmt.setTimestamp(SQL_LAST_UPDATE, current);
+            pstmt.setLong(SQL_MAP_ID, mapInfo.mapId);
             rs = pstmt.executeQuery();
         }
         finally

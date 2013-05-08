@@ -54,342 +54,356 @@ import org.eclipse.jface.preference.IPreferenceStore;
 
 /**
  * DataAccessor の設定を扱うユーティリティクラス。<br />
- *
+ * 
  * @author sakamoto
  */
 public class DataAccessorConfigUtil implements LogMessageCodes
 {
-    /** ロガー */
-    private static final ENdoSnipeLogger               LOGGER               =
-                                                                                ENdoSnipeLogger.getLogger(
-                                                                                                          DataAccessorConfigUtil.class,
-                                                                                                          ENdoSnipeDataAccessorPluginProvider.INSTANCE);
+	/** ロガー */
+	private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(
+			DataAccessorConfigUtil.class,
+			ENdoSnipeDataAccessorPluginProvider.INSTANCE);
 
-    /** DB 種別を取得するためのキー */
-    private static final String                        PREF_DB_KIND_KEY     =
-                                                                                "database.dbname";
+	/** DB 種別を取得するためのキー */
+	private static final String PREF_DB_KIND_KEY = "database.dbname";
 
-    /** DB のフォルダのパスを取得するためのキー */
-    private static final String                        PREF_DB_DIR_KEY      = "database.dir";
+	/** DB のフォルダのパスを取得するためのキー */
+	private static final String PREF_DB_DIR_KEY = "database.dir";
 
-    /** 接続先DBのホストを取得するためのキー */
-    private static final String                        PREF_DB_HOST_KEY     = "database.host";
+	/** 接続先DBのホストを取得するためのキー */
+	private static final String PREF_DB_HOST_KEY = "database.host";
 
-    /** 接続先DBのポート番号を取得するためのキー */
-    private static final String                        PREF_DB_PORT_KEY     = "database.port";
+	/** 接続先DBのポート番号を取得するためのキー */
+	private static final String PREF_DB_PORT_KEY = "database.port";
 
-    /** 接続先DBのユーザ名を取得するためのキー */
-    private static final String                        PREF_DB_USER_KEY     = "database.user";
+	/** 接続先DBのユーザ名を取得するためのキー */
+	private static final String PREF_DB_USER_KEY = "database.user";
 
-    /** 接続先DBのパスワードを取得するためのキー */
-    private static final String                        PREF_DB_PASS_KEY     = "database.password";
+	/** 接続先DBのパスワードを取得するためのキー */
+	private static final String PREF_DB_PASS_KEY = "database.password";
 
-    /** DB 種別のデフォルト値 */
-    public static final String                         PREF_DB_KIND_DEFAULT = "H2";
+	/** DB 種別のデフォルト値 */
+	public static final String PREF_DB_KIND_DEFAULT = "H2";
 
-    /** DB のフォルダのパスのデフォルト値 */
-    public static final String                         PREF_DB_DIR_DEFAULT  =
-                                                                                ".metadata/.plugins/jp.co.acroquest.endosnipe.data/db";
+	/** DB のフォルダのパスのデフォルト値 */
+	public static final String PREF_DB_DIR_DEFAULT
+		= ".metadata/.plugins/jp.co.acroquest.endosnipe.data/db";
 
-    /** 接続先DBのホストのデフォルト値 */
-    public static final String                         PREF_DB_HOST_DEFAULT = "localhost";
+	/** 接続先DBのホストのデフォルト値 */
+	public static final String PREF_DB_HOST_DEFAULT = "localhost";
 
-    /** 接続先DBのポート番号のデフォルト値 */
-    public static final String                         PREF_DB_PORT_DEFAULT = "5432";
+	/** 接続先DBのポート番号のデフォルト値 */
+	public static final String PREF_DB_PORT_DEFAULT = "5432";
 
-    /** 接続先DBのユーザ名のデフォルト値 */
-    public static final String                         PREF_DB_USER_DEFAULT = "endosnipe";
+	/** 接続先DBのユーザ名のデフォルト値 */
+	public static final String PREF_DB_USER_DEFAULT = "endosnipe";
 
-    /** 接続先DBのパスワードのデフォルト値 */
-    public static final String                         PREF_DB_PASS_DEFAULT = "endosnipe";
+	/** 接続先DBのパスワードのデフォルト値 */
+	public static final String PREF_DB_PASS_DEFAULT = "endosnipe";
 
-    /** PostgreSQLデータベースのドライバクラス名称 */
-    public static final String                         POSTGRES_DRIVER      =
-                                                                                "org.postgresql.Driver";
+	/** PostgreSQLデータベースのドライバクラス名称 */
+	public static final String POSTGRES_DRIVER = "org.postgresql.Driver";
 
-    /** BaseDirectory
-     *  */
-    private static Set<BaseDirectoryChangableListener> changableListeners__ =
-                                                                                new HashSet<BaseDirectoryChangableListener>();
+	/**
+	 * BaseDirectory
+	 * */
+	private static Set<BaseDirectoryChangableListener>
+		changableListeners__ = new HashSet<BaseDirectoryChangableListener>();
 
-    static
-    {
-        setDefaultPreference();
-    }
+	static
+	{
+		setDefaultPreference();
+	}
 
-    /**
-     * コンストラクタを隠蔽します。<br />
-     */
-    private DataAccessorConfigUtil()
-    {
-        // Do nothing.
-    }
+	/**
+	 * コンストラクタを隠蔽します。<br />
+	 */
+	private DataAccessorConfigUtil()
+	{
+		// Do nothing.
+	}
 
-    /**
-     * DataAccessorPlugin で指定されたデータベースの基準ディレクトリを返します。<br />
-     *
-     * @return データベースの基準ディレクトリ
-     */
-    public static String getDatabaseDirectory()
-    {
-        IPreferenceStore store = ENdoSnipeDataAccessorPlugin.getDefault().getPreferenceStore();
-        String dbdir = store.getString(PREF_DB_DIR_KEY);
-        return dbdir;
-    }
+	/**
+	 * DataAccessorPlugin で指定されたデータベースの基準ディレクトリを返します。<br />
+	 * 
+	 * @return データベースの基準ディレクトリ
+	 */
+	public static String getDatabaseDirectory()
+	{
+		IPreferenceStore store = ENdoSnipeDataAccessorPlugin.getDefault()
+				.getPreferenceStore();
+		String dbdir = store.getString(PREF_DB_DIR_KEY);
+		return dbdir;
+	}
 
-    /**
-     * データベースの基準ディレクトリをプリファレンスストアにセットします。<br />
-     *
-     * @param directory データベースの基準ディレクトリ
-     */
-    public static void setDatabaseDirectory(final String directory)
-    {
-        IPreferenceStore store = ENdoSnipeDataAccessorPlugin.getDefault().getPreferenceStore();
-        store.setValue(PREF_DB_DIR_KEY, directory);
-    }
+	/**
+	 * データベースの基準ディレクトリをプリファレンスストアにセットします。<br />
+	 * 
+	 * @param directory
+	 *            データベースの基準ディレクトリ
+	 */
+	public static void setDatabaseDirectory(final String directory)
+	{
+		IPreferenceStore store = ENdoSnipeDataAccessorPlugin.getDefault()
+				.getPreferenceStore();
+		store.setValue(PREF_DB_DIR_KEY, directory);
+	}
 
-    /**
-     * デフォルトのデータベースの基準ディレクトリを返します。<br />
-     *
-     * @return データベースの基準ディレクトリ
-     */
-    public static String getDefaultDatabaseDirectory()
-    {
-        IPreferenceStore store = ENdoSnipeDataAccessorPlugin.getDefault().getPreferenceStore();
-        String dbdir = store.getDefaultString(PREF_DB_DIR_KEY);
-        return dbdir;
-    }
+	/**
+	 * デフォルトのデータベースの基準ディレクトリを返します。<br />
+	 * 
+	 * @return データベースの基準ディレクトリ
+	 */
+	public static String getDefaultDatabaseDirectory()
+	{
+		IPreferenceStore store = ENdoSnipeDataAccessorPlugin.getDefault()
+				.getPreferenceStore();
+		String dbdir = store.getDefaultString(PREF_DB_DIR_KEY);
+		return dbdir;
+	}
 
-    /**
-     * デフォルトの設定をプリファレンスストアにセットします
-     */
-    public static void setDefaultPreference()
-    {
-        IWorkspace workspace = ResourcesPlugin.getWorkspace();
-        IPath workspacePath = workspace.getRoot().getLocation();
-        File file = workspacePath.toFile();
-        file = new File(file.getAbsolutePath(), PREF_DB_DIR_DEFAULT);
-        IPreferenceStore store = ENdoSnipeDataAccessorPlugin.getDefault().getPreferenceStore();
-        store.setDefault(PREF_DB_DIR_KEY, file.toString());
-        store.setDefault(PREF_DB_KIND_KEY, PREF_DB_KIND_DEFAULT);
-        store.setDefault(PREF_DB_HOST_KEY, PREF_DB_HOST_DEFAULT);
-        store.setDefault(PREF_DB_PORT_KEY, PREF_DB_PORT_DEFAULT);
-        store.setDefault(PREF_DB_USER_KEY, PREF_DB_USER_DEFAULT);
-        store.setDefault(PREF_DB_PASS_KEY, PREF_DB_PASS_DEFAULT);
-    }
+	/**
+	 * デフォルトの設定をプリファレンスストアにセットします
+	 */
+	public static void setDefaultPreference()
+	{
+		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		IPath workspacePath = workspace.getRoot().getLocation();
+		File file = workspacePath.toFile();
+		file = new File(file.getAbsolutePath(), PREF_DB_DIR_DEFAULT);
+		IPreferenceStore store = ENdoSnipeDataAccessorPlugin.getDefault()
+				.getPreferenceStore();
+		store.setDefault(PREF_DB_DIR_KEY, file.toString());
+		store.setDefault(PREF_DB_KIND_KEY, PREF_DB_KIND_DEFAULT);
+		store.setDefault(PREF_DB_HOST_KEY, PREF_DB_HOST_DEFAULT);
+		store.setDefault(PREF_DB_PORT_KEY, PREF_DB_PORT_DEFAULT);
+		store.setDefault(PREF_DB_USER_KEY, PREF_DB_USER_DEFAULT);
+		store.setDefault(PREF_DB_PASS_KEY, PREF_DB_PASS_DEFAULT);
+	}
 
-    /**
-     * 基準ディレクトリ配下にあるデータベースの一覧を返します。<br />
-     *
-     * @return データベース一覧
-     */
-    public static List<DatabaseItem> getDatabaseList()
-    {
-        if (DBManager.isDefaultDb() == true)
-        {
-            String baseDirectory = DBManager.getDbDir();
-            return getH2DatabaseList(baseDirectory);
-        }
-        return getPostgresDatabaseList();
-    }
+	/**
+	 * 基準ディレクトリ配下にあるデータベースの一覧を返します。<br />
+	 * 
+	 * @return データベース一覧
+	 */
+	public static List<DatabaseItem> getDatabaseList()
+	{
+		if (DBManager.isDefaultDb() == true)
+		{
+			String baseDirectory = DBManager.getDbDir();
+			return getH2DatabaseList(baseDirectory);
+		}
+		return getPostgresDatabaseList();
+	}
 
-    /**
-     * 指定されたディレクトリ直下にあるH2データベースの一覧を返します。<br />
-     *
-     * @param baseDirectory ディレクトリ
-     * @return データベース一覧
-     */
-    public static List<DatabaseItem> getH2DatabaseList(final String baseDirectory)
-    {
-        List<DatabaseItem> databaseList = new ArrayList<DatabaseItem>();
+	/**
+	 * 指定されたディレクトリ直下にあるH2データベースの一覧を返します。<br />
+	 * 
+	 * @param baseDirectory
+	 *            ディレクトリ
+	 * @return データベース一覧
+	 */
+	public static List<DatabaseItem> getH2DatabaseList(
+			final String baseDirectory)
+	{
+		List<DatabaseItem> databaseList = new ArrayList<DatabaseItem>();
 
-        // baseDirectory直下にあるディレクトリが、DBの候補
-        File baseFolder = new File(baseDirectory);
-        File[] directoryArray = null;
-        if (baseFolder.isDirectory())
-        {
-            directoryArray = baseFolder.listFiles();
-        }
-        if (directoryArray == null)
-        {
-            return databaseList;
-        }
+		// baseDirectory直下にあるディレクトリが、DBの候補
+		File baseFolder = new File(baseDirectory);
+		File[] directoryArray = null;
+		if (baseFolder.isDirectory())
+		{
+			directoryArray = baseFolder.listFiles();
+		}
+		if (directoryArray == null)
+		{
+			return databaseList;
+		}
 
-        // データベースが存在しない場合、データベースを作成しないモードにする
-        ConnectionManager connectionManager = ConnectionManager.getInstance();
-        String prevDbDir = DBManager.getDbDir();
-        connectionManager.setBaseDir(baseDirectory);
+		// データベースが存在しない場合、データベースを作成しないモードにする
+		ConnectionManager connectionManager = ConnectionManager.getInstance();
+		String prevDbDir = DBManager.getDbDir();
+		connectionManager.setBaseDir(baseDirectory);
 
-        for (File folderItem : directoryArray)
-        {
-            if (folderItem.isDirectory())
-            {
-                String folderName = folderItem.getName();
-                try
-                {
-                    DatabaseItem databaseItem = DatabaseItem.createDatabaseItem(folderName);
-                    if (databaseItem != null)
-                    {
-                        // 正しいデータベース（＝ホスト情報が存在する）のときのみリストに追加する
-                        databaseList.add(databaseItem);
-                    }
-                }
-                catch (SQLException ex)
-                {
-                    LOGGER.log(DB_ACCESS_ERROR, ex, ex.getMessage());
-                }
-            }
-        }
+		for (File folderItem : directoryArray)
+		{
+			if (folderItem.isDirectory())
+			{
+				String folderName = folderItem.getName();
+				try
+				{
+					DatabaseItem databaseItem = DatabaseItem
+							.createDatabaseItem(folderName);
+					if (databaseItem != null)
+					{
+						// 正しいデータベース（＝ホスト情報が存在する）のときのみリストに追加する
+						databaseList.add(databaseItem);
+					}
+				}
+				catch (SQLException ex)
+				{
+					LOGGER.log(DB_ACCESS_ERROR, ex, ex.getMessage());
+				}
+			}
+		}
 
-        // 元の設定・モードに戻す
-        connectionManager.setBaseDir(prevDbDir);
+		// 元の設定・モードに戻す
+		connectionManager.setBaseDir(prevDbDir);
 
-        return databaseList;
-    }
+		return databaseList;
+	}
 
-    /**
-     * 指定された接続先に存在するPostgreSQLデータベースの一覧を返します。<br />
-     * @return データベース一覧
-     */
-    public static List<DatabaseItem> getPostgresDatabaseList()
-    {
-        List<DatabaseItem> resultList = new ArrayList<DatabaseItem>();
-        List<String> databaseNameList = getPostgresDatabaseNameList();
+	/**
+	 * 指定された接続先に存在するPostgreSQLデータベースの一覧を返します。<br />
+	 * 
+	 * @return データベース一覧
+	 */
+	public static List<DatabaseItem> getPostgresDatabaseList()
+	{
+		List<DatabaseItem> resultList = new ArrayList<DatabaseItem>();
+		List<String> databaseNameList = getPostgresDatabaseNameList();
 
-        //各データベースに対するDataSourceを取得
-        for (String databaseName : databaseNameList)
-        {
-            Connection connection = null;
-            try
-            {
-                connection =
-                    ConnectionManager.getInstance().getConnection(databaseName, true, false);
-                
-                // 初期化されていない場合は無視する。
-                if (DBInitializer.isInitialized(connection) == false)
-                {
-                    continue;
-                }
-            }
-            catch (SQLException ex)
-            {
-                continue;
-            }
-            finally
-            {
-               if (connection != null)
-               {
-                   SQLUtil.closeConnection(connection);
-               }
-            }
-            
-            try
-            {
-                DatabaseItem target = DatabaseItem.createDatabaseItem(databaseName);
-                if (target != null)
-                {
-                    resultList.add(target);
-                }
-            }
-            catch (SQLException ex)
-            {
-                continue;
-            }
-        }
-        return resultList;
-    }
+		// 各データベースに対するDataSourceを取得
+		for (String databaseName : databaseNameList)
+		{
+			Connection connection = null;
+			try
+			{
+				connection = ConnectionManager.getInstance().getConnection(
+						databaseName, true, false);
 
-    /**
-     * PostgreSQLのデータベース一覧を取得する。<br />
-     * 
-     * @return データベース一覧
-     */
-    private static List<String> getPostgresDatabaseNameList()
-    {
-        List<String> databaseNameList = new ArrayList<String>();
-        try
-        {
-            Class.forName(POSTGRES_DRIVER);
-        }
-        catch (ClassNotFoundException ex)
-        {
-            return databaseNameList;
-        }
-        String baseUri = createDatabaseURI(DBManager.getHostName(), DBManager.getPort());
-        Connection connection = null;
-        Statement state = null;
-        ResultSet rs = null;
+				// 初期化されていない場合は無視する。
+				if (DBInitializer.isInitialized(connection) == false)
+				{
+					continue;
+				}
+			}
+			catch (SQLException ex)
+			{
+				continue;
+			}
+			finally
+			{
+				if (connection != null)
+				{
+					SQLUtil.closeConnection(connection);
+				}
+			}
 
-        //pg_databaseテーブルは名称しか使用しないため、Dao等は使用せず、直でアクセスし、１レコード目を取得する
-        try
-        {
-            connection =
-                DriverManager.getConnection(baseUri, DBManager.getUserName(),
-                                            DBManager.getPassword());
-            state = connection.createStatement();
-            rs = state.executeQuery("SELECT * FROM pg_database where datistemplate = false;");
-            while (rs.next() == true)
-            {
-                String databaseName = rs.getString(1);
-                databaseNameList.add(databaseName);
-            }
-        }
-        catch (SQLException sqlex)
-        {
-            return databaseNameList;
-        }
-        finally
-        {
-            SQLUtil.closeResultSet(rs);
-            SQLUtil.closeStatement(state);
-            SQLUtil.closeConnection(connection);
-        }
-        return databaseNameList;
-    }
+			try
+			{
+				DatabaseItem target = DatabaseItem
+						.createDatabaseItem(databaseName);
+				if (target != null)
+				{
+					resultList.add(target);
+				}
+			}
+			catch (SQLException ex)
+			{
+				continue;
+			}
+		}
+		return resultList;
+	}
 
-    /**
-     * データベースの基準ディレクトリの変更を許可するかどうかを通知するリスナを追加します。<br />
-     *
-     * @param listener リスナ
-     */
-    public static void addBaseDirectoryChangableListener(
-        final BaseDirectoryChangableListener listener)
-    {
-        changableListeners__.add(listener);
-    }
+	/**
+	 * PostgreSQLのデータベース一覧を取得する。<br />
+	 * 
+	 * @return データベース一覧
+	 */
+	private static List<String> getPostgresDatabaseNameList()
+	{
+		List<String> databaseNameList = new ArrayList<String>();
+		try
+		{
+			Class.forName(POSTGRES_DRIVER);
+		}
+		catch (ClassNotFoundException ex)
+		{
+			return databaseNameList;
+		}
+		String baseUri = createDatabaseURI(DBManager.getHostName(), DBManager
+				.getPort());
+		Connection connection = null;
+		Statement state = null;
+		ResultSet rs = null;
 
-    /**
-     * 基準ディレクトリの変更を許可するかどうかを返します。<br />
-     *
-     * @return 基準ディレクトリの変更を許可する場合は <code>true</code> 、
-     *         変更を許可しない場合は <code>false</code>
-     */
-    public static boolean isBaseDirectoryChangeAllowed()
-    {
-        boolean ret = true;
-        for (BaseDirectoryChangableListener listener : changableListeners__)
-        {
-            if (!listener.isChangeBaseDirectoryAllowed())
-            {
-                // 1 つでも変更を許可しないリスナがあれば、変更を許可しない
-                ret = false;
-                break;
-            }
-        }
-        return ret;
-    }
+		// pg_databaseテーブルは名称しか使用しないため、Dao等は使用せず、直でアクセスし、１レコード目を取得する
+		try
+		{
+			connection = DriverManager.getConnection(baseUri, DBManager
+					.getUserName(), DBManager.getPassword());
+			state = connection.createStatement();
+			rs = state
+					.executeQuery(
+					"SELECT * FROM pg_database where datistemplate = false;");
+			while (rs.next() == true)
+			{
+				String databaseName = rs.getString(1);
+				databaseNameList.add(databaseName);
+			}
+		}
+		catch (SQLException sqlex)
+		{
+			return databaseNameList;
+		}
+		finally
+		{
+			SQLUtil.closeResultSet(rs);
+			SQLUtil.closeStatement(state);
+			SQLUtil.closeConnection(connection);
+		}
+		return databaseNameList;
+	}
 
-    /**
-     * PostgreSQLデータベース用の接続文字列を作成
-     * @param host ホスト
-     * @param port ポート
-     * @return 接続文字列
-     */
-    public static String createDatabaseURI(final String host, final String port)
-    {
-        String base = "jdbc:postgresql://";
-        String uri = base + host + ":" + port + "/";
-        return uri;
-    }
+	/**
+	 * データベースの基準ディレクトリの変更を許可するかどうかを通知するリスナを追加します。<br />
+	 * 
+	 * @param listener
+	 *            リスナ
+	 */
+	public static void addBaseDirectoryChangableListener(
+			final BaseDirectoryChangableListener listener)
+	{
+		changableListeners__.add(listener);
+	}
+
+	/**
+	 * 基準ディレクトリの変更を許可するかどうかを返します。<br />
+	 * 
+	 * @return 基準ディレクトリの変更を許可する場合は <code>true</code> 、 変更を許可しない場合は
+	 *         <code>false</code>
+	 */
+	public static boolean isBaseDirectoryChangeAllowed()
+	{
+		boolean ret = true;
+		for (BaseDirectoryChangableListener listener : changableListeners__)
+		{
+			if (!listener.isChangeBaseDirectoryAllowed())
+			{
+				// 1 つでも変更を許可しないリスナがあれば、変更を許可しない
+				ret = false;
+				break;
+			}
+		}
+		return ret;
+	}
+
+	/**
+	 * PostgreSQLデータベース用の接続文字列を作成
+	 * 
+	 * @param host
+	 *            ホスト
+	 * @param port
+	 *            ポート
+	 * @return 接続文字列
+	 */
+	public static String createDatabaseURI(final String host, final String port)
+	{
+		String base = "jdbc:postgresql://";
+		String uri = base + host + ":" + port + "/";
+		return uri;
+	}
 
 }

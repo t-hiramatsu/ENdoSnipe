@@ -113,6 +113,7 @@ public class DBSettingDialog extends TitleAreaDialog
     /**
      * コンストラクタです。
      * @param parentShell 親Shell
+     * @param parentPage 親ページ
      */
     public DBSettingDialog(Shell parentShell, DataAccessorPreferencePage parentPage)
     {

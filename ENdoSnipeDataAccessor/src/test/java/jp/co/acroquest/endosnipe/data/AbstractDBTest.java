@@ -30,11 +30,12 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import jp.co.dgic.testing.framework.DJUnitTestCase;
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
 import jp.co.acroquest.endosnipe.common.util.IOUtil;
 import jp.co.acroquest.endosnipe.common.util.SQLUtil;
 import jp.co.acroquest.endosnipe.data.db.ConnectionManager;
+import jp.co.acroquest.endosnipe.data.db.DBManager;
+import jp.co.dgic.testing.framework.DJUnitTestCase;
 
 import org.apache.commons.io.FileUtils;
 
@@ -88,6 +89,8 @@ public abstract class AbstractDBTest extends DJUnitTestCase
 
     protected void initConnection()
     {
+        DBManager.updateSettings(false, "", "localhost", "5432", "endosnipedb", "postgres", "postgres");
+        
         ConnectionManager connectionManager = ConnectionManager.getInstance();
         File tempDir = new File(BASE_DIR);
         if (tempDir.exists() == false)

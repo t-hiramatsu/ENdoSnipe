@@ -15,9 +15,25 @@ public class ClassifierUtil
     public static final String UNIT_ID = "testWarningId";
 
     /** ÉãÅ[ÉãÇÃID */
-    public static String ID = "testRuleId";
+    private static String id = "testRuleId";
 
-    /** åxçêÇÃê‡ñæ */
+    /**
+	 * @return the iD
+	 */
+	public static String getID()
+	{
+		return id;
+	}
+
+	/**
+	 * @param iD the iD to set
+	 */
+	public static void setID(String iD)
+	{
+		id = iD;
+	}
+
+	/** åxçêÇÃê‡ñæ */
     public static final String DESCRIPTION = "This is a testWarningUtnit";
 
     /** ÉNÉâÉXñº */
@@ -82,7 +98,7 @@ public class ClassifierUtil
      */
     public static WarningUnit createDefaultWarningUnit(Object[] args)
     {
-        return WarningUnitGetter.createWarningUnit(UNIT_ID, ID, DESCRIPTION, CLASS_NAME,
+        return WarningUnitGetter.createWarningUnit(UNIT_ID, id, DESCRIPTION, CLASS_NAME,
                                                    METHOD_NAME, LEVEL, LOG_FILENAME,
                                                    LOG_FILELINENUMBER, STARTTIME, ENDTIME, args);
     }
@@ -94,7 +110,7 @@ public class ClassifierUtil
      */
     public static WarningUnit createDefaultEventWarningUnit(String stackTrace, Object[] args)
     {
-        return WarningUnitGetter.createWarningUnit(UNIT_ID, ID, DESCRIPTION, CLASS_NAME,
+        return WarningUnitGetter.createWarningUnit(UNIT_ID, id, DESCRIPTION, CLASS_NAME,
                                                    METHOD_NAME, LEVEL, LOG_FILENAME,
                                                    LOG_FILELINENUMBER, STARTTIME, ENDTIME, true,
                                                    stackTrace, args);

@@ -92,7 +92,8 @@ public class XmlRuleDefAccessor implements RuleDefAccessor
      * @throws RuleNotFoundException ファイルが見つからない場合
      * @throws RuleCreateException 読み込みに失敗した場合
      */
-    public RuleSetDef findRuleSet(final String fileName)
+    @SuppressWarnings("deprecation")
+	public RuleSetDef findRuleSet(final String fileName)
         throws RuleNotFoundException,
             RuleCreateException
     {
@@ -140,7 +141,8 @@ public class XmlRuleDefAccessor implements RuleDefAccessor
      * @param fileName ファイル名
      * @return URL
      */
-    protected URL createURL(final String fileName)
+    @SuppressWarnings("deprecation")
+	protected URL createURL(final String fileName)
     {
         File file = new File(fileName);
 
@@ -170,7 +172,8 @@ public class XmlRuleDefAccessor implements RuleDefAccessor
      * @param ruleSetDef ルールセット定義(RuleSetDef)
      * @param fileName 書き込むファイルの名前
      */
-    public void updateRuleSet(final RuleSetDef ruleSetDef, final String fileName)
+    @SuppressWarnings("deprecation")
+	public void updateRuleSet(final RuleSetDef ruleSetDef, final String fileName)
     {
         File file = new File(fileName);
         FileOutputStream fileOutputStream = null;

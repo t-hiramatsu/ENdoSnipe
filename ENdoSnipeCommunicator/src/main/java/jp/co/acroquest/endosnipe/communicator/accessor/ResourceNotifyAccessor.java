@@ -210,10 +210,12 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
      *
      * @param telegram リソース通知電文
      * @param dbName データベース名
+     * @param agentName 引数名
      *
      * @return 電文から作成した{@link ResourceData}オブジェクト
      */
-    public static ResourceData createResourceData(final Telegram telegram, String dbName, String agentName)
+    public static ResourceData createResourceData(
+    		final Telegram telegram, String dbName, String agentName)
     {
         if (checkTelegramKind(telegram) == false || checkResponseKind(telegram) == false)
         {
@@ -537,28 +539,6 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
         return concreteItemName;
     }
 
-    /**
-     * Javelinを適用したプロセスが属するクラスタ接頭辞を取得する。<br/>
-     * 先頭が半角スラッシュで始まっていない場合は自動的に付与する。
-     * 
-     * @return Javelinを適用したプロセスが属するクラスタ接頭辞。
-     */
-    private static String getClusterPrefixStr()
-    {
-        String clusterName = CONFIG.getClusterName();
-        
-        String prefix;
-        if (clusterName.length() > 0 && clusterName.startsWith("/") == false)
-        {
-            prefix = "/" + clusterName;
-        }
-        else
-        {
-            prefix = clusterName;
-        }
-        
-        return prefix;
-    }
 
     /**
      * 接頭辞を付与する必要があるかどうか判定する。<br/>
