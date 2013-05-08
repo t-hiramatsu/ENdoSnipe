@@ -35,16 +35,24 @@ import java.util.List;
 public class TermMeasurementDetailData
 {
     /** 計測項目ID */
-    public long         measurement_id = -1;
+    public long measurementId_ = -1;
 
     /** 項目名 */
-    public String      item_name;
+    public String itemName_;
 
     /** 計測項目タイプ */
-    public int          measurement_type;
+    public int measurementType_;
 
     /** 計測項目値(Stringに変換して使うこと) */
-    public List<String> measurement_values;
+    public List<String> measurementValues_;
+
+    /**
+     * コンストラクタ
+     */
+    public TermMeasurementDetailData()
+    {
+
+    }
 
     /**
      * {@inheritDoc}
@@ -52,8 +60,8 @@ public class TermMeasurementDetailData
     @Override
     public String toString()
     {
-        return "TermMeasurementDetailData [id=" + measurement_id + ", item_name=" + this.item_name
-                + ", type=" + measurement_type + ", values=" + measurement_values.toString() + "]";
+        return "TermMeasurementDetailData [id=" + measurementId_ + ", item_name=" + this.itemName_
+                + ", type=" + measurementType_ + ", values=" + measurementValues_.toString() + "]";
     }
 
 }

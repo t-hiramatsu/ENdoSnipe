@@ -33,11 +33,18 @@ package jp.co.acroquest.endosnipe.web.dashboard.entity;
 public class ResourceStateAllEntity
 {
     /** イベントID */
-    public long     event_id;
+    public long eventId_;
 
     /** エージェントID一覧 */
-    public int[]    agent_ids;
+    public int[] agentIds_;
 
     /** アラームレベル一覧 */
-    public int[] alarm_levels;
+    public int[] alarmLevels_;
+
+    /**
+     * コンストラクタ
+     */
+    public ResourceStateAllEntity()
+    {
+    }
 }

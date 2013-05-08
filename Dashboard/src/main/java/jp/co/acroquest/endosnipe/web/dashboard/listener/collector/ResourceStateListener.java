@@ -72,12 +72,12 @@ public class ResourceStateListener extends AbstractTelegramListener
     protected Telegram doReceiveTelegram(Telegram telegram)
     {
         ResourceStateAllEntity alarmEntity = new ResourceStateAllEntity();
-        alarmEntity.event_id = EventConstants.EVENT_RESOURCE_STATE_ALL_RESPONSE;
+        alarmEntity.eventId_ = EventConstants.EVENT_RESOURCE_STATE_ALL_RESPONSE;
 
         // agent_ids に1つのエージェントのidだけを入れる
         int[] agentIds = new int[1];
         agentIds[0] = this.agentId_;
-        alarmEntity.agent_ids = agentIds;
+        alarmEntity.agentIds_ = agentIds;
 
         Body[] resourceAlarmBodies = telegram.getObjBody();
 
@@ -112,7 +112,7 @@ public class ResourceStateListener extends AbstractTelegramListener
                         alarmLevels[0] = alarmLevel.intValue();
                     }
                 }
-                alarmEntity.alarm_levels = alarmLevels;
+                alarmEntity.alarmLevels_ = alarmLevels;
             }
         }
 

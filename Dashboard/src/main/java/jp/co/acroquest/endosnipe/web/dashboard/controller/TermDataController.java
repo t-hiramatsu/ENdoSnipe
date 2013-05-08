@@ -57,7 +57,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.wgp.manager.WgpDataManager;
 import org.wgp.util.DataConvertUtil;
 
 /**
@@ -76,9 +75,6 @@ public class TermDataController
     /** ツリーデータのID。 */
     private static final String TREE_DATA_ID = "tree";
 
-    /** シグナルのツリーメニューのサフィックスID */
-    private static final String TREE_MENU_SIGNAL_SUFEIX_ID = "-signalNode";
-
     /** ツリーメニューに関する操作を行うクラスのオブジェクト。 */
     @Autowired
     protected TreeMenuService treeMenuService_;
@@ -90,10 +86,6 @@ public class TermDataController
     /** シグナル定義のサービスクラスのオブジェクト。 */
     @Autowired
     protected SignalService signalService_;
-
-    /** WGPのデータを扱うクラスのオブジェクト。 */
-    @Autowired
-    private WgpDataManager wgpDataManager_;
 
     /**
      * コンストラクタ。

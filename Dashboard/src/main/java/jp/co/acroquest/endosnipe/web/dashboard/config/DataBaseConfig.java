@@ -250,12 +250,10 @@ public class DataBaseConfig
      */
     public DataBaseConfig()
     {
-
     }
 
     /**
      * データベースの種類を返します。<br />
-     *
      * @return データベースの種類
      */
     public DatabaseType getDatabaseType()
@@ -265,7 +263,6 @@ public class DataBaseConfig
 
     /**
      * データベースの種類を設定します。<br />
-     *
      * @param type データベースの種類
      */
     public void setDatabaseType(final DatabaseType type)
@@ -275,7 +272,6 @@ public class DataBaseConfig
 
     /**
      * データベースディレクトリを返します。<br />
-     * 
      * @return データベースディレクトリ
      */
     public String getBaseDir()
@@ -285,7 +281,6 @@ public class DataBaseConfig
 
     /**
      * データベースディレクトリを設定します。<br />
-     * 
      * @param baseDir データベースディレクトリ
      */
     public void setBaseDir(final String baseDir)
@@ -295,7 +290,6 @@ public class DataBaseConfig
 
     /**
      * データベースのホストアドレスを返します。<br />
-     *
      * @return ホストアドレスまたはホスト名
      */
     public String getDatabaseHost()
@@ -305,7 +299,6 @@ public class DataBaseConfig
 
     /**
      * データベースのホストアドレスを設定します。<br />
-     *
      * @param host ホストアドレス（ホスト名でも可）
      */
     public void setDatabaseHost(final String host)
@@ -315,7 +308,6 @@ public class DataBaseConfig
 
     /**
      * データベースのポート番号を返します。<br />
-     *
      * @return ポート番号
      */
     public String getDatabasePort()
@@ -325,7 +317,6 @@ public class DataBaseConfig
 
     /**
      * データベースのポート番号を設定します。<br />
-     *
      * @param port ポート番号
      */
     public void setDatabasePort(final String port)
@@ -335,7 +326,6 @@ public class DataBaseConfig
 
     /**
      * データベース名を取得します。
-     * 
      * @return データベース名。
      */
     public String getDatabaseName()
@@ -345,7 +335,6 @@ public class DataBaseConfig
 
     /**
      * データベース名を設定します。
-     * 
      * @param databaseName データベース名。
      */
     public void setDatabaseName(final String databaseName)
@@ -355,7 +344,6 @@ public class DataBaseConfig
 
     /**
      * データベースログインユーザ名を返します。<br />
-     *
      * @return ユーザ名
      */
     public String getDatabaseUserName()
@@ -365,7 +353,6 @@ public class DataBaseConfig
 
     /**
      * データベースログインユーザ名を設定します。<br />
-     *
      * @param user ユーザ名
      */
     public void setDatabaseUserName(final String user)
@@ -375,7 +362,6 @@ public class DataBaseConfig
 
     /**
      * データベースログインパスワードを返します。<br />
-     *
      * @return パスワード
      */
     public String getDatabasePassword()
@@ -385,7 +371,6 @@ public class DataBaseConfig
 
     /**
      * データベースログインパスワードを設定します。<br />
-     *
      * @param password パスワード
      */
     public void setDatabasePassword(final String password)
@@ -395,7 +380,6 @@ public class DataBaseConfig
 
     /**
      * リソース取得間隔を設定します。<br />
-     *
      * @param interval リソース取得間隔
      */
     public void setResourceInterval(final long interval)
@@ -405,7 +389,6 @@ public class DataBaseConfig
 
     /**
      * リソース取得間隔を返します。<br />
-     *
      * @return Interval リソース取得間隔
      */
     public long getResourceInterval()
@@ -415,7 +398,6 @@ public class DataBaseConfig
 
     /**
      * {@link AgentSetting} を追加します。<br />
-     * 
      * @param agentSetting {@link AgentSetting} オブジェクト
      */
     public void addAgentSetting(final AgentSetting agentSetting)
@@ -425,7 +407,6 @@ public class DataBaseConfig
 
     /**
      * {@link AgentSetting} のリストを返します。<br />
-     * 
      * @return {@link AgentSetting} のリスト
      */
     public List<AgentSetting> getAgentSettingList()
@@ -435,7 +416,6 @@ public class DataBaseConfig
 
     /**
      * Javelinログを分割するかどうか。<br />
-     * 
      * @return Javelinログを分割する場合、<code>true</code>
      */
     public boolean isLogSplit()
@@ -445,7 +425,6 @@ public class DataBaseConfig
 
     /**
      * Javelinログを分割するかどうかを設定します。<br />
-     * 
      * @param isLogSplit Javelinログを分割する場合、<code>true</code>
      */
     public void setLogSplit(final boolean isLogSplit)
@@ -455,7 +434,6 @@ public class DataBaseConfig
 
     /**
      * Javelinログを分割保存する場合の1レコード当たりの最大サイズを返します。<br />
-     * 
      * @return Javelinログを分割保存する場合の1レコード当たりの最大サイズ
      */
     public int getLogSplitSize()
@@ -465,7 +443,6 @@ public class DataBaseConfig
 
     /**
      * Javelinログを分割保存する場合の1レコード当たりの最大サイズを設定します。<br />
-     * 
      * @param logSplitSize Javelinログを分割保存する場合の1レコード当たりの最大サイズ
      */
     public void setLogSplitSize(final int logSplitSize)
@@ -475,7 +452,6 @@ public class DataBaseConfig
 
     /**
      * Javelinログを分割保存する場合の閾値を返します。<br />
-     * 
      * @return Javelinログを分割保存する場合の閾値
      */
     public int getLogSplitThreshold()
@@ -485,7 +461,6 @@ public class DataBaseConfig
 
     /**
      * Javelinログを分割保存する場合の閾値を設定します。<br />
-     * 
      * @param logSplitThreshold Javelinログを分割保存する場合の閾値
      */
     public void setLogSplitThreshold(final int logSplitThreshold)
@@ -511,7 +486,6 @@ public class DataBaseConfig
 
     /**
      * メール通知を送信するかどうかを取得する。
-     * 
      * @return メール通知を送信するかどうかの設定
      */
     public boolean isSendMail()
@@ -521,7 +495,6 @@ public class DataBaseConfig
 
     /**
      *　メール通知を送信するかどうかを設定する。
-     * 
      * @param sendMail メール通知を送信するかどうかの設定
      */
     public void setSendMail(final boolean sendMail)
@@ -531,7 +504,6 @@ public class DataBaseConfig
 
     /**
      * メールのエンコーディングを取得する。
-     * 
      * @return メールのエンコーディングの設定
      */
     public String getSmtpEncoding()
@@ -541,7 +513,6 @@ public class DataBaseConfig
 
     /**
      *　メールのエンコーディングを設定する。
-     * 
      * @param smtpEncoding メールのエンコーディングの設定
      */
     public void setSmtpEncoding(final String smtpEncoding)
@@ -551,7 +522,6 @@ public class DataBaseConfig
 
     /**
      * メールサーバを取得する。
-     * 
      * @return メールサーバの設定
      */
     public String getSmtpServer()
@@ -561,7 +531,6 @@ public class DataBaseConfig
 
     /**
      *　メールサーバを設定する。
-     * 
      * @param smtpServer メールサーバの設定
      */
     public void setSmtpServer(final String smtpServer)
@@ -571,7 +540,6 @@ public class DataBaseConfig
 
     /**
      * 送信元メールアドレスを取得する。
-     * 
      * @return 送信元メールアドレスの設定
      */
     public String getSmtpFrom()
@@ -581,7 +549,6 @@ public class DataBaseConfig
 
     /**
      *　送信元メールアドレスを設定する。
-     * 
      * @param smtpFrom 送信元メールアドレスの設定
      */
     public void setSmtpFrom(final String smtpFrom)
@@ -591,7 +558,6 @@ public class DataBaseConfig
 
     /**
      * 送信先メールアドレスを取得する。
-     * 
      * @return 送信先メールアドレスの設定
      */
     public String getSmtpTo()
@@ -601,7 +567,6 @@ public class DataBaseConfig
 
     /**
      *　送信先メールアドレスを設定する。
-     * 
      * @param smtpTo 送信先メールアドレスの設定
      */
     public void setSmtpTo(final String smtpTo)
@@ -611,7 +576,6 @@ public class DataBaseConfig
 
     /**
      * メールテンプレート(jvnアラーム用)を取得する。
-     * 
      * @return メールテンプレート(jvnアラーム用)の設定
      */
     public String getSmtpTemplateJvn()
@@ -621,7 +585,6 @@ public class DataBaseConfig
 
     /**
      *　メールテンプレート(jvnアラーム用)を設定する。
-     * 
      * @param smtpTemplateJvn メールテンプレート(jvnアラーム用)の設定
      */
     public void setSmtpTemplateJvn(final String smtpTemplateJvn)
@@ -631,7 +594,6 @@ public class DataBaseConfig
 
     /**
      * メールテンプレート(計測値アラーム用)を取得する。
-     * 
      * @return メールテンプレート(計測値アラーム用)の設定
      */
     public String getSmtpTemplateMeasurement()
@@ -641,7 +603,6 @@ public class DataBaseConfig
 
     /**
      *　メールテンプレート(計測値アラーム用)を設定する。
-     * 
      * @param smtpTemplateMeasurement メールテンプレート(計測値アラーム用)の設定
      */
     public void setSmtpTemplateMeasurement(final String smtpTemplateMeasurement)
@@ -651,7 +612,6 @@ public class DataBaseConfig
 
     /**
      * メールテンプレートファイル名を取得する。
-     *
      * @param name テンプレート名
      * @return テンプレートファイル名
      */
@@ -677,7 +637,6 @@ public class DataBaseConfig
 
     /**
      * メールSubjectを取得する。
-     * 
      * @return メールSubjectの設定
      */
     public String getSmtpSubject()
@@ -687,7 +646,6 @@ public class DataBaseConfig
 
     /**
      *　メールSubjectを設定する。
-     * 
      * @param smtpSubject メールSubjectの設定
      */
     public void setSmtpSubject(final String smtpSubject)
@@ -697,7 +655,6 @@ public class DataBaseConfig
 
     /**
      * SNMPTrapを送信するかどうかを取得する。
-     * 
      * @return SNMPTrapを送信するかどうか
      */
     public boolean isSendTrap()
@@ -707,7 +664,6 @@ public class DataBaseConfig
 
     /**
      *　SNMPTrapを送信するかどうかを設定する。
-     * 
      * @param sendTrap SNMPTrapを送信するかどうか
      */
     public void setSendTrap(final boolean sendTrap)
@@ -717,7 +673,6 @@ public class DataBaseConfig
 
     /**
      * マネージャリストを取得する。
-     * 
      * @return マネージャリスト
      */
     public String getManagers()
@@ -727,7 +682,6 @@ public class DataBaseConfig
 
     /**
      *　マネージャリストを設定する。
-     * 
      * @param managers マネージャリスト
      */
     public void setManagers(final String managers)
@@ -737,7 +691,6 @@ public class DataBaseConfig
 
     /**
      * SNMP Trapポート番号を取得する。
-     * 
      * @return SNMP Trapポート番号
      */
     public int getTrapPort()
@@ -757,7 +710,6 @@ public class DataBaseConfig
 
     /**
      * Trapコミュニティ名を取得する。
-     * 
      * @return Trapコミュニティ名
      */
     public String getTrapCommunity()
@@ -767,7 +719,6 @@ public class DataBaseConfig
 
     /**
      *　Trapコミュニティ名を設定する。
-     * 
      * @param trapCommunity Trapコミュニティ名
      */
     public void setTrapCommunity(final String trapCommunity)
@@ -777,7 +728,6 @@ public class DataBaseConfig
 
     /**
      * SNMP Versionを取得する。
-     * 
      * @return SNMP Version
      */
     public String getVersion()

@@ -35,19 +35,27 @@ import java.util.Arrays;
 public class MeasurementEntity
 {
     /** イベントID */
-    public long  event_id;
+    public long eventId_;
 
     /** グラフID */
-    public int   graph_id;
+    public int graphId_;
 
     /** サーバID */
-    public int[] server_ids;
+    public int[] serverIds_;
 
     /** 計測値の値 */
-    public int[] measurement_types;
+    public int[] measurementTypes_;
 
     /** 通知間隔 */
-    public long  interval;
+    public long interval_;
+
+    /**
+     * コンストラクタ
+     */
+    public MeasurementEntity()
+    {
+
+    }
 
     /**
      * {@inheritDoc}
@@ -55,10 +63,9 @@ public class MeasurementEntity
     @Override
     public String toString()
     {
-        return "MeasurementEntity [event_id=" + event_id + ", graph_id="
-                + graph_id + ", server_ids=" + Arrays.toString(server_ids)
-                + ", measurement_types=" + Arrays.toString(measurement_types)
-                + ", interval=" + interval + "]";
+        return "MeasurementEntity [event_id=" + eventId_ + ", graph_id=" + graphId_
+                + ", server_ids=" + Arrays.toString(serverIds_) + ", measurement_types="
+                + Arrays.toString(measurementTypes_) + ", interval=" + interval_ + "]";
     }
 
 }

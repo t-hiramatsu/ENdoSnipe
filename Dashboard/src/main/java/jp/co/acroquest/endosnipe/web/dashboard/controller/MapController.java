@@ -133,8 +133,8 @@ public class MapController
             @RequestParam(value = "name") final String name)
     {
         MapInfo mapInfo = new MapInfo();
-        mapInfo.data = data;
-        mapInfo.name = name;
+        mapInfo.data_ = data;
+        mapInfo.name_ = name;
         this.mapService_.insert(mapInfo);
     }
 
@@ -151,9 +151,9 @@ public class MapController
             @RequestParam(value = "name") final String name)
     {
         MapInfo mapInfo = new MapInfo();
-        mapInfo.mapId = Long.valueOf(mapId);
-        mapInfo.data = data;
-        mapInfo.name = name;
+        mapInfo.mapId_ = Long.valueOf(mapId);
+        mapInfo.data_ = data;
+        mapInfo.name_ = name;
         this.mapService_.update(mapInfo);
     }
 

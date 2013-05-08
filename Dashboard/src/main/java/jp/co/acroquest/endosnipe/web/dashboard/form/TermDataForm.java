@@ -33,39 +33,80 @@ import java.util.List;
  */
 public class TermDataForm
 {
-    private String startTime;
-    
-    private String endTime;
-    
-    private List<String> dataGroupIdList;
+    /**
+     * 開始時間
+     */
+    private String startTime_;
 
+    /**
+     * 終了時間
+     */
+    private String endTime_;
+
+    /**
+     * データグループIDのリスト
+     */
+    private List<String> dataGroupIdList_;
+
+    /**
+     * コンストラクタ。
+     */
+    public TermDataForm()
+    {
+
+    }
+
+    /**
+     * 開始時間を取得する。
+     * @return 開始時間
+     */
     public String getStartTime()
     {
-        return startTime;
+        return startTime_;
     }
 
-    public void setStartTime(String startTime)
+    /**
+     * 開始時間を設定する。
+     * @param startTime 開始時間
+     */
+    public void setStartTime(final String startTime)
     {
-        this.startTime = startTime;
+        this.startTime_ = startTime;
     }
 
+    /**
+     * 終了時間を取得する。
+     * @return 終了時間
+     */
     public String getEndTime()
     {
-        return endTime;
+        return endTime_;
     }
 
-    public void setEndTime(String endTime)
+    /**
+     * 終了時間を設定する。
+     * @param endTime 終了時間
+     */
+    public void setEndTime(final String endTime)
     {
-        this.endTime = endTime;
+        this.endTime_ = endTime;
     }
 
+    /**
+     * データグループIDのリストを取得する。
+     * @return データグループIDのリスト
+     */
     public List<String> getDataGroupIdList()
     {
-        return dataGroupIdList;
+        return dataGroupIdList_;
     }
 
-    public void setDataGroupIdList(List<String> dataGroupIdList)
+    /**
+     * データグループIDのリストを設定する。
+     * @param dataGroupIdList データグループIDのリスト
+     */
+    public void setDataGroupIdList(final List<String> dataGroupIdList)
     {
-        this.dataGroupIdList = dataGroupIdList;
+        this.dataGroupIdList_ = dataGroupIdList;
     }
 }

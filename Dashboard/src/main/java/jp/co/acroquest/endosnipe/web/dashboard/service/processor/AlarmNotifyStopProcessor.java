@@ -42,12 +42,20 @@ public class AlarmNotifyStopProcessor implements EventProcessor
 {
     /** ロガー */
     private static final ENdoSnipeLogger LOGGER =
-                                                  ENdoSnipeLogger.getLogger(AlarmNotifyStopProcessor.class);
+            ENdoSnipeLogger.getLogger(AlarmNotifyStopProcessor.class);
+
+    /**
+     * コンストラクタ
+     */
+    public AlarmNotifyStopProcessor()
+    {
+
+    }
 
     /**
      * {@inheritDoc}
      */
-    public void process(HttpServletRequest request, HttpServletResponse response)
+    public void process(final HttpServletRequest request, final HttpServletResponse response)
     {
         String clientId = request.getParameter(EventConstants.CLIENT_ID);
 

@@ -56,7 +56,15 @@ public class JvnFileEntryJudge
 {
     /** ロガー */
     private static final ENdoSnipeLogger LOGGER =
-                                                  ENdoSnipeLogger.getLogger(JvnFileEntryJudge.class);
+            ENdoSnipeLogger.getLogger(JvnFileEntryJudge.class);
+
+    /**
+     * コンストラクタ
+     */
+    public JvnFileEntryJudge()
+    {
+
+    }
 
     /**
      * 指定された JvnFileEntry を PerformanceDoctor で解析し、
@@ -67,8 +75,8 @@ public class JvnFileEntryJudge
      * @param summarySameRule 同一ルールで絞り込むかどうか
      * @return 解析結果の WarningUnit のリスト
      */
-    public List<WarningUnit> judge(JvnFileEntry[] entries, boolean eliminateSameCause,
-            boolean summarySameRule)
+    public List<WarningUnit> judge(final JvnFileEntry[] entries, final boolean eliminateSameCause,
+            final boolean summarySameRule)
     {
 
         List<JavelinLogElement> javelinLogElementList = new ArrayList<JavelinLogElement>();
@@ -76,8 +84,7 @@ public class JvnFileEntryJudge
         createJvnLogElementList(entries, javelinLogElementList);
 
         List<WarningUnit> warningUnitList =
-                                            judgeJvnLogElement(eliminateSameCause, summarySameRule,
-                                                               javelinLogElementList);
+                judgeJvnLogElement(eliminateSameCause, summarySameRule, javelinLogElementList);
 
         return warningUnitList;
     }
@@ -91,8 +98,8 @@ public class JvnFileEntryJudge
      * @param summarySameRule 同一ルールで絞り込むかどうか
      * @return 解析結果の WarningUnit のリスト
      */
-    public List<WarningUnit> judge(List<JavelinLog> jvnLogList, boolean eliminateSameCause,
-            boolean summarySameRule)
+    public List<WarningUnit> judge(final List<JavelinLog> jvnLogList,
+            final boolean eliminateSameCause, final boolean summarySameRule)
     {
 
         List<JavelinLogElement> javelinLogElementList = new ArrayList<JavelinLogElement>();
@@ -100,8 +107,7 @@ public class JvnFileEntryJudge
         createJvnLogElementList(jvnLogList, javelinLogElementList);
 
         List<WarningUnit> warningUnitList =
-                                            judgeJvnLogElement(eliminateSameCause, summarySameRule,
-                                                               javelinLogElementList);
+                judgeJvnLogElement(eliminateSameCause, summarySameRule, javelinLogElementList);
         return warningUnitList;
     }
 
@@ -110,8 +116,8 @@ public class JvnFileEntryJudge
      * @param entries {@link JvnFileEntry}の配列
      * @param javelinLogElementList {@link JavelinLogElement}のリスト
      */
-    private void createJvnLogElementList(JvnFileEntry[] entries,
-            List<JavelinLogElement> javelinLogElementList)
+    private void createJvnLogElementList(final JvnFileEntry[] entries,
+            final List<JavelinLogElement> javelinLogElementList)
     {
         for (JvnFileEntry entry : entries)
         {
@@ -129,25 +135,22 @@ public class JvnFileEntryJudge
             }
 
             JavelinLogInputStreamAccessor javelinLogMemoryAccessor =
-                                                                     new JavelinLogInputStreamAccessor(
-                                                                                                       entry.fileName,
-                                                                                                       javelinLogStream);
+                    new JavelinLogInputStreamAccessor(entry.fileName, javelinLogStream);
 
             parseJvnLogStream(javelinLogElementList, javelinLogStream, javelinLogMemoryAccessor);
         }
     }
 
     /**
-     * JvnFileEntryからJavelinLogElementのリストを生成します。
-     * @param entries {@link JvnFileEntry}の配列
+     * jvnLogListからJavelinLogElementのリストを生成します。
+     * @param jvnLogList {@link JavelinLog}の配列
      * @param javelinLogElementList {@link JavelinLogElement}のリスト
      */
-    private void createJvnLogElementList(List<JavelinLog> jvnLogList,
-            List<JavelinLogElement> javelinLogElementList)
+    private void createJvnLogElementList(final List<JavelinLog> jvnLogList,
+            final List<JavelinLogElement> javelinLogElementList)
     {
         for (JavelinLog jvnLog : jvnLogList)
         {
-
             InputStream javelinLogStream = jvnLog.javelinLog;
             if (javelinLogStream == null)
             {
@@ -155,9 +158,7 @@ public class JvnFileEntryJudge
             }
 
             JavelinLogInputStreamAccessor javelinLogMemoryAccessor =
-                                                                     new JavelinLogInputStreamAccessor(
-                                                                                                       jvnLog.logFileName,
-                                                                                                       javelinLogStream);
+                    new JavelinLogInputStreamAccessor(jvnLog.logFileName, javelinLogStream);
 
             parseJvnLogStream(javelinLogElementList, javelinLogStream, javelinLogMemoryAccessor);
         }
@@ -170,8 +171,8 @@ public class JvnFileEntryJudge
      * @param javelinLogElementList {@link JavelinLogElement}のリスト
      * @return 解析結果の WarningUnit のリスト
      */
-    private List<WarningUnit> judgeJvnLogElement(boolean eliminateSameCause,
-            boolean sumamrySameRule, List<JavelinLogElement> javelinLogElementList)
+    private List<WarningUnit> judgeJvnLogElement(final boolean eliminateSameCause,
+            final boolean summarySameRule, final List<JavelinLogElement> javelinLogElementList)
     {
         JavelinParser.initDetailInfo(javelinLogElementList);
         // 得られた JvelinLogElement を PerformanceDoctor で解析し、結果を保持します。
@@ -191,7 +192,7 @@ public class JvnFileEntryJudge
             return new ArrayList<WarningUnit>();
         }
         List<WarningUnit> warningUnitList = perfDoctor.judgeJavelinLog(javelinLogElementList);
-        warningUnitList = this.doFilter(warningUnitList, eliminateSameCause, sumamrySameRule);
+        warningUnitList = this.doFilter(warningUnitList, eliminateSameCause, summarySameRule);
         return warningUnitList;
     }
 
@@ -201,8 +202,9 @@ public class JvnFileEntryJudge
      * @param javelinLogStream Javelinログのストリーム
      * @param javelinLogMemoryAccessor {@link JavelinLogInputStreamAccessor}オブジェクト
      */
-    private void parseJvnLogStream(List<JavelinLogElement> javelinLogElementList,
-            InputStream javelinLogStream, JavelinLogInputStreamAccessor javelinLogMemoryAccessor)
+    private void parseJvnLogStream(final List<JavelinLogElement> javelinLogElementList,
+            final InputStream javelinLogStream,
+            final JavelinLogInputStreamAccessor javelinLogMemoryAccessor)
     {
         JavelinParser javelinParser = new JavelinParser(javelinLogMemoryAccessor);
 
@@ -222,7 +224,7 @@ public class JvnFileEntryJudge
         catch (IOException ex)
         {
             LOGGER.log(LogMessageCodes.IO_ERROR, ex);
-		}
+        }
         finally
         {
             if (javelinLogStream != null)
@@ -243,7 +245,6 @@ public class JvnFileEntryJudge
      * リストにフィルターをかける。
      * 
      * @param resultList 測定結果のリスト
-     * @param cond データの出力条件
      * @param eliminateSameCause 同要因フィルタを設定するかどうか
      * @param summarySameRule 同種警告フィルタを設定するかどうか
      * @return フィルターをかけた後の、測定結果のリスト

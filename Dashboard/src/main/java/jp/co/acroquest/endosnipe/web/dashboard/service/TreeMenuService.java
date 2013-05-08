@@ -59,8 +59,16 @@ public class TreeMenuService
     private static final String UNIT_SEPARATOR = ":";
 
     /**
+     * コンストラクタ
+     */
+    public TreeMenuService()
+    {
+
+    }
+
+    /**
      * 初期化を行う。
-     * @return　初期描画時のツリーメニュー
+     * @return 初期描画時のツリーメニュー
      */
     public List<TreeMenuDto> initialize()
     {
@@ -78,6 +86,7 @@ public class TreeMenuService
         {
 
         }
+
         if (javelinMeasurementItemList == null)
         {
             return treeMenuDtoList;
@@ -92,6 +101,11 @@ public class TreeMenuService
         return treeMenuDtoList;
     }
 
+    /**
+     * ツリーのデータを追加します。
+     * @param treeMenuDtoMap ツリーメニュー情報のMap
+     * @param itemName 項目名
+     */
     private void addTreeData(final Map<String, TreeMenuDto> treeMenuDtoMap, final String itemName)
     {
         String[] itemList = TREE_SEPARATE_PATTERN.split(itemName);
@@ -102,7 +116,6 @@ public class TreeMenuService
         String currentId = TREE_SEPARATOR;
         for (int cnt = 1; cnt < itemList.length; cnt++)
         {
-
             // ツリーの階層が最下層である場合はターゲット
             // そうではない場合はグループ
             String treeMenuType = "";
@@ -120,6 +133,13 @@ public class TreeMenuService
         }
     }
 
+    /**
+     * ツリーメニューを追加します。
+     * @param treeMenuDtoMap ツリーメニューのMap
+     * @param parentId 親ノードのID
+     * @param itemName 項目名
+     * @param treeMenuType ツリーメニューのタイプ
+     */
     private void addTree(final Map<String, TreeMenuDto> treeMenuDtoMap, final String parentId,
             final String itemName, final String treeMenuType)
     {
@@ -144,7 +164,6 @@ public class TreeMenuService
         menuDto.setParentTreeId(parentId.substring(0, parentId.length() - 1));
         menuDto.setType(treeMenuType);
         treeMenuDtoMap.put(currentId, menuDto);
-
     }
 
 }

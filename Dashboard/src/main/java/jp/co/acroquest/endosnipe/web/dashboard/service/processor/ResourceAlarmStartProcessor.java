@@ -46,12 +46,20 @@ public class ResourceAlarmStartProcessor implements EventProcessor
 {
     /** ロガー */
     private static final ENdoSnipeLogger LOGGER =
-                                                  ENdoSnipeLogger.getLogger(ResourceAlarmStartProcessor.class);
+            ENdoSnipeLogger.getLogger(ResourceAlarmStartProcessor.class);
+
+    /**
+     * コンストラクタ
+     */
+    public ResourceAlarmStartProcessor()
+    {
+
+    }
 
     /**
      * {@inheritDoc}
      */
-    public void process(HttpServletRequest request, HttpServletResponse response)
+    public void process(final HttpServletRequest request, final HttpServletResponse response)
     {
         String agentIds = request.getParameter(EventConstants.AGENT_IDS);
         String clientId = request.getParameter(EventConstants.CLIENT_ID);
@@ -73,7 +81,7 @@ public class ResourceAlarmStartProcessor implements EventProcessor
             LOGGER.log(LogMessageCodes.UNKNOWN_AGENT_ID, agentIds);
             return;
         }
-        
+
         EventManager manager = EventManager.getInstance();
         // 計測項目を追加します。
         for (Integer agentId : agentIdList)

@@ -44,9 +44,17 @@ import jp.co.acroquest.endosnipe.web.dashboard.manager.ConnectionClient;
 public class ResourceStateAllProcessor implements EventProcessor
 {
     /**
+     * コンストラクタ
+     */
+    public ResourceStateAllProcessor()
+    {
+
+    }
+
+    /**
      * {@inheritDoc}
      */
-    public void process(HttpServletRequest request, HttpServletResponse response)
+    public void process(final HttpServletRequest request, final HttpServletResponse response)
     {
         // 電文の作成
         Header header = new Header();
@@ -57,15 +65,19 @@ public class ResourceStateAllProcessor implements EventProcessor
 
         // 電文のDataCollector への送信
         sendTelegram(telegram);
-        
+
     }
 
+    /**
+     * 電文をDataCollectorに送信する
+     * @param telegram 電文
+     */
     private void sendTelegram(final Telegram telegram)
     {
         // コミュニケーションクライアントのリストを取得
         ConnectionClient connectionClient = ConnectionClient.getInstance();
-        List<CommunicationClient> clientList = connectionClient.getClientList(); 
-        
+        List<CommunicationClient> clientList = connectionClient.getClientList();
+
         // リソース取得要求を送る
         for (CommunicationClient client : clientList)
         {

@@ -36,11 +36,11 @@ import java.util.concurrent.ArrayBlockingQueue;
 
 import javax.servlet.http.HttpServletResponse;
 
+import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
 import jp.co.acroquest.endosnipe.web.dashboard.constants.LogMessageCodes;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.CometEventWrapper;
 import jp.co.acroquest.endosnipe.web.dashboard.entity.MessageEntity;
 import jp.co.acroquest.endosnipe.web.dashboard.util.ResponseUtil;
-import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
 
 import org.apache.catalina.comet.CometEvent;
 import org.apache.catalina.comet.CometEvent.EventType;
@@ -69,10 +69,18 @@ public class MessageSender implements Runnable
 
     /** 送信メッセージ */
     protected Map<String, Queue<MessageEntity>> messages_ =
-                                                            new HashMap<String, Queue<MessageEntity>>();
+            new HashMap<String, Queue<MessageEntity>>();
 
     /** 通信用レスポンスオブジェクト */
     protected Map<String, CometEventWrapper> eventMap_ = new HashMap<String, CometEventWrapper>();
+
+    /**
+     * コンストラクタ
+     */
+    public MessageSender()
+    {
+
+    }
 
     /**
      * 通信を終了する。
@@ -87,7 +95,7 @@ public class MessageSender implements Runnable
      * @param clientId クライアントID
      * @param message メッセージ
      */
-    public void send(String clientId, String message)
+    public void send(final String clientId, final String message)
     {
         synchronized (this.messages_)
         {
@@ -208,7 +216,7 @@ public class MessageSender implements Runnable
      * クライアントにメッセージを送信します。
      * @param pendingMessagesMap クライアントに送信するメッセージを格納しているMapオブジェクト
      */
-    private void sendMessage(Map<String, String> pendingMessagesMap)
+    private void sendMessage(final Map<String, String> pendingMessagesMap)
     {
         Set<Entry<String, CometEventWrapper>> eventSet = this.eventMap_.entrySet();
 
@@ -284,7 +292,7 @@ public class MessageSender implements Runnable
      * @param event {@link CometEvent}オブジェクト
      * @throws IOException @link {@link CometEvent}オブジェクトのクローズに失敗した場合
      */
-    public void addCometEvent(String clientId, CometEvent event)
+    public void addCometEvent(final String clientId, final CometEvent event)
         throws IOException
     {
         synchronized (this.eventMap_)
@@ -322,7 +330,7 @@ public class MessageSender implements Runnable
      * @param clientId クライアントID
      * @return {@link CometEvent}オブジェクト
      */
-    public CometEventWrapper getCometEvent(String clientId)
+    public CometEventWrapper getCometEvent(final String clientId)
     {
         synchronized (this.eventMap_)
         {
@@ -335,7 +343,7 @@ public class MessageSender implements Runnable
      * @param response {@link HttpServletResponse}オブジェクト
      * @param delSetting 保存した設定情報削除するかどうか。
      */
-    public void removeCometEvent(HttpServletResponse response, boolean delSetting)
+    public void removeCometEvent(final HttpServletResponse response, final boolean delSetting)
     {
         String clientId = null;
         synchronized (this.eventMap_)
@@ -380,7 +388,7 @@ public class MessageSender implements Runnable
      * @param delSetting 保存した設定情報削除するかどうか。<code>true</codeのときに、設定情報を削除する。
      * @throws IOException CometEvent削除時に例外が発生した場合
      */
-    public void removeCometEvent(String clientId, boolean delSetting)
+    public void removeCometEvent(final String clientId, final boolean delSetting)
         throws IOException
     {
         synchronized (this.eventMap_)
@@ -405,7 +413,7 @@ public class MessageSender implements Runnable
      * @param clientId クライアントID
      * @param delSetting 保存した設定情報削除するかどうか。<code>true</codeのときに、設定情報を削除する。
      */
-    private void deleteSettings(String clientId, boolean delSetting)
+    private void deleteSettings(final String clientId, final boolean delSetting)
     {
         if (delSetting == true)
         {

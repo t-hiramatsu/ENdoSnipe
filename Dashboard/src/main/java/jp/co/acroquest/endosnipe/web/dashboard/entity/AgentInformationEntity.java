@@ -33,13 +33,13 @@ package jp.co.acroquest.endosnipe.web.dashboard.entity;
 public class AgentInformationEntity
 {
     /** イベントID */
-    public long event_id;
+    public long eventId_;
 
     /** エージェントID一覧 */
-    public int[] agent_ids;
+    public int[] agentIds_;
 
     /** エージェント名一覧 */
-    public String[] agent_names;
+    public String[] agentNames_;
 
     /**
      * コンストラクタ。

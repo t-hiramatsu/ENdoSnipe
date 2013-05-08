@@ -123,6 +123,12 @@ public class SignalStateChangeListener extends AbstractTelegramListener
         return null;
     }
 
+    /**
+     * 電文をString型にして返します。
+     * @param loopCount ループ回数
+     * @param telegramValuesOfobject 電文の値オブジェクト
+     * @return String型の電文の値配列
+     */
     private String[] getStringValues(final int loopCount, final Object[] telegramValuesOfobject)
     {
         String[] telegramValues = new String[loopCount];
@@ -138,6 +144,12 @@ public class SignalStateChangeListener extends AbstractTelegramListener
         return telegramValues;
     }
 
+    /**
+     * 電文の配列をInteger型にして返します。
+     * @param loopCount ループ回数
+     * @param telegramValuesOfobject 電文の値オブジェクト
+     * @return Integer型の電文の値配列
+     */
     private int[] getIntValues(final int loopCount, final Object[] telegramValuesOfobject)
     {
         int[] telegramValues = new int[loopCount];

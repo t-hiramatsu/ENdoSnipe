@@ -62,9 +62,10 @@ import org.apache.catalina.comet.CometProcessor;
  */
 public class DashBoardServlet extends HttpServlet implements CometProcessor
 {
-
+    /** 停止時間   */
     private static final int SLEEP_TIME = 5000;
 
+    /** 接続タイムアウトの時間 */
     private static final int CONNECTION_TIMEOUT = 60 * 1000 * 30;
 
     /** シリアルID */
@@ -75,6 +76,14 @@ public class DashBoardServlet extends HttpServlet implements CometProcessor
 
     /** メッセージ送信用オブジェクト */
     public transient MessageSender messageSender_ = null;
+
+    /**
+     * コンストラクタ
+     */
+    public DashBoardServlet()
+    {
+
+    }
 
     /**
      * 初期処理を行います。

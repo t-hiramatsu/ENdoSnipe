@@ -54,9 +54,12 @@ public class SignalTreeMenuDto extends TreeMenuDto
     @Override
     public int hashCode()
     {
-        final int prime = 31;
+        final int PRIME = 31;
         int result = super.hashCode();
-        result = prime * result + ((signalValue_ == null) ? 0 : signalValue_.hashCode());
+        if (signalValue_ != null)
+        {
+            result = PRIME * result + super.hashCode();
+        }
         return result;
     }
 

@@ -45,22 +45,25 @@ public final class EventManager
     /** シングルトンインスタンス */
     private static EventManager instance__ = new EventManager();
 
+    /**
+     * クライアントのMap
+     */
     private final Map<String, MeasurementSetting> clientMap_ =
-                                                               new ConcurrentHashMap<String, MeasurementSetting>();
+            new ConcurrentHashMap<String, MeasurementSetting>();
 
     /** アラーム通知を行うクライアント設定 */
     private final Map<String, AlarmSetting> alarmClientMap_ =
-                                                              new ConcurrentHashMap<String, AlarmSetting>();
+            new ConcurrentHashMap<String, AlarmSetting>();
 
     /** 閾値超過アラーム通知を行うクライアント設定 */
     private final Map<String, ResourceAlarmSetting> resourceAlarmMap_ =
-                                                                        new ConcurrentHashMap<String, ResourceAlarmSetting>();
+            new ConcurrentHashMap<String, ResourceAlarmSetting>();
 
     /** WGPDataManager */
-    private WgpDataManager wgpDataManager;
+    private WgpDataManager wgpDataManager_;
 
     /** ResourceSender */
-    private ResourceSender resourceSender;
+    private ResourceSender resourceSender_;
 
     /**
      * インスタンス化を阻止するプライベートコンストラクタです。
@@ -211,24 +214,40 @@ public final class EventManager
         }
     }
 
+    /**
+     * WGPDataManagerを設定します。
+     * @param wgpDataManager WGPDataManager
+     */
     public void setWgpDataManager(final WgpDataManager wgpDataManager)
     {
-        this.wgpDataManager = wgpDataManager;
+        this.wgpDataManager_ = wgpDataManager;
     }
 
+    /**
+     * WGPDataManagerを取得します。
+     * @return WGPDataManager
+     */
     public WgpDataManager getWgpDataManager()
     {
-        return this.wgpDataManager;
+        return this.wgpDataManager_;
     }
 
+    /**
+     * resourceSenderを設定します。
+     * @param resourceSender resourceSender
+     */
     public void setResourceSender(final ResourceSender resourceSender)
     {
-        this.resourceSender = resourceSender;
+        this.resourceSender_ = resourceSender;
     }
 
+    /**
+     * resourceSenderを取得します。
+     * @return resourceSender
+     */
     public ResourceSender getResourceSender()
     {
-        return this.resourceSender;
+        return this.resourceSender_;
     }
 
 }

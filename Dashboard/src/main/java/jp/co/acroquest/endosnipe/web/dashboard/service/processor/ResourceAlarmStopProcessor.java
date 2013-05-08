@@ -42,12 +42,20 @@ public class ResourceAlarmStopProcessor implements EventProcessor
 {
     /** ロガー */
     private static final ENdoSnipeLogger LOGGER =
-                                                  ENdoSnipeLogger.getLogger(ResourceAlarmStopProcessor.class);
+            ENdoSnipeLogger.getLogger(ResourceAlarmStopProcessor.class);
+
+    /**
+     * コンストラクタ
+     */
+    public ResourceAlarmStopProcessor()
+    {
+
+    }
 
     /**
      * {@inheritDoc}
      */
-    public void process(HttpServletRequest request, HttpServletResponse response)
+    public void process(final HttpServletRequest request, final HttpServletResponse response)
     {
         String clientId = request.getParameter(EventConstants.CLIENT_ID);
 

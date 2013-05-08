@@ -62,11 +62,19 @@ public class TermAlarmNotifyProcessor implements EventProcessor
             ENdoSnipeLogger.getLogger(TermAlarmNotifyProcessor.class);
 
     /**
+     * コンストラクタ
+     */
+    public TermAlarmNotifyProcessor()
+    {
+
+    }
+
+    /**
      * 指定した期間Jvnファイルを取得し、計測情報として変換する処理をします。
      * @param request {@link HttpServletRequest}オブジェクト
      * @param response {@link HttpServletResponse}オブジェクト
      */
-    public void process(HttpServletRequest request, HttpServletResponse response)
+    public void process(final HttpServletRequest request, final HttpServletResponse response)
     {
         String clientId = request.getParameter(EventConstants.CLIENT_ID);
         String agentIds = request.getParameter(EventConstants.AGENT_IDS);
@@ -121,8 +129,7 @@ public class TermAlarmNotifyProcessor implements EventProcessor
                     continue;
                 }
                 List<JavelinLog> jvnLogList =
-                                              JavelinLogDao.selectByTermWithLog(dbName, startTime,
-                                                                                endTime);
+                        JavelinLogDao.selectByTermWithLog(dbName, startTime, endTime);
 
                 warningUnitList.addAll(judge.judge(jvnLogList, true, true));
                 createAlarmEntity(warningUnitList, alarmLevel, agentId.intValue(), entityList);
@@ -152,8 +159,8 @@ public class TermAlarmNotifyProcessor implements EventProcessor
      * @param agentId エージェントID
      * @param entityList {@link AlarmNotifyEntity}のリスト
      */
-    private void createAlarmEntity(List<WarningUnit> warningUnitList, int alarmLevel, int agentId,
-            List<AlarmNotifyEntity> entityList)
+    private void createAlarmEntity(final List<WarningUnit> warningUnitList, final int alarmLevel,
+            final int agentId, final List<AlarmNotifyEntity> entityList)
     {
         for (WarningUnit unit : warningUnitList)
         {
@@ -166,8 +173,7 @@ public class TermAlarmNotifyProcessor implements EventProcessor
             int eventId = EventConstants.EVENT_TERM_NOTIFY_ALARM_RESPONSE;
 
             AlarmNotifyEntity alarmNotifyEntity =
-                                                  DaoUtil.createAlarmEntity(agentId, unit, level,
-                                                                            eventId);
+                    DaoUtil.createAlarmEntity(agentId, unit, level, eventId);
             entityList.add(alarmNotifyEntity);
         }
     }

@@ -47,12 +47,20 @@ public class AlarmNotifyStartProcessor implements EventProcessor
 {
     /** ロガー */
     private static final ENdoSnipeLogger LOGGER =
-                                                  ENdoSnipeLogger.getLogger(AlarmNotifyStartProcessor.class);
+            ENdoSnipeLogger.getLogger(AlarmNotifyStartProcessor.class);
+
+    /**
+     * コンストラクタ
+     */
+    public AlarmNotifyStartProcessor()
+    {
+
+    }
 
     /**
      * {@inheritDoc}
      */
-    public void process(HttpServletRequest request, HttpServletResponse response)
+    public void process(final HttpServletRequest request, final HttpServletResponse response)
     {
         String agentIds = request.getParameter(EventConstants.AGENT_IDS);
         String clientId = request.getParameter(EventConstants.CLIENT_ID);

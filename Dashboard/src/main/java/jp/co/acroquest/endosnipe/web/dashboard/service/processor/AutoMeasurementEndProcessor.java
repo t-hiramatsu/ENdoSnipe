@@ -43,14 +43,22 @@ public class AutoMeasurementEndProcessor implements EventProcessor
 {
     /** ロガー */
     private static final ENdoSnipeLogger LOGGER =
-                                                  ENdoSnipeLogger.getLogger(AutoMeasurementEndProcessor.class);
+            ENdoSnipeLogger.getLogger(AutoMeasurementEndProcessor.class);
+
+    /**
+     * コンストラクタ
+     */
+    public AutoMeasurementEndProcessor()
+    {
+
+    }
 
     /**
      * 計測項目自動通知終了要求を処理します。
      * @param request {@link HttpServletRequest}オブジェクト
      * @param response {@link HttpServletResponse}オブジェクト
      */
-    public void process(HttpServletRequest request, HttpServletResponse response)
+    public void process(final HttpServletRequest request, final HttpServletResponse response)
     {
         String clientId = request.getParameter(EventConstants.CLIENT_ID);
 

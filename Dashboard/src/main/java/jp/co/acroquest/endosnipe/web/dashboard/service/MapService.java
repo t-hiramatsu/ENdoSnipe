@@ -43,14 +43,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
+/**
+ * Map用サービスクラス。
+ * 
+ * @author fujii
+ */
 @Service
 public class MapService
 {
     /** ロガー */
     private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(MapService.class);
 
+    /**
+     * マップ情報Dao
+     */
     @Autowired
-    protected MapInfoDao mapInfoDao;
+    protected MapInfoDao mapInfoDao_;
+
+    /**
+     * コンストラクタ
+     */
+    public MapService()
+    {
+
+    }
 
     /**
      * 全てのマップデータを返す。
@@ -62,7 +78,7 @@ public class MapService
         List<MapInfo> mapList = null;
         try
         {
-            mapList = mapInfoDao.selectAll();
+            mapList = mapInfoDao_.selectAll();
         }
         catch (PersistenceException pe)
         {
@@ -88,17 +104,18 @@ public class MapService
     /**
      * マップを登録する。
      * @param mapInfo 登録するマップ情報
+     * @return 例外が発生しないとき0
      */
     public long insert(final MapInfo mapInfo)
     {
         // 最終更新日時を設定
-        mapInfo.lastUpdate = new Timestamp(Calendar.getInstance().getTimeInMillis());
+        mapInfo.lastUpdate_ = new Timestamp(Calendar.getInstance().getTimeInMillis());
         try
         {
-            int count = mapInfoDao.insert(mapInfo);
+            int count = mapInfoDao_.insert(mapInfo);
             if (count > 0)
             {
-                return mapInfoDao.selectSequenceNum();
+                return mapInfoDao_.selectSequenceNum();
             }
         }
         catch (DuplicateKeyException dkEx)
@@ -116,10 +133,10 @@ public class MapService
     public void update(final MapInfo mapInfo)
     {
         // 最終更新日時を設定
-        mapInfo.lastUpdate = new Timestamp(Calendar.getInstance().getTimeInMillis());
+        mapInfo.lastUpdate_ = new Timestamp(Calendar.getInstance().getTimeInMillis());
         try
         {
-            mapInfoDao.update(mapInfo);
+            mapInfoDao_.update(mapInfo);
         }
         catch (PersistenceException pEx)
         {
@@ -145,7 +162,7 @@ public class MapService
     {
         try
         {
-            MapInfo mapInfo = mapInfoDao.selectById(mapId);
+            MapInfo mapInfo = mapInfoDao_.selectById(mapId);
             return this.convertDataMap(mapInfo);
         }
         catch (PersistenceException pEx)
@@ -167,12 +184,13 @@ public class MapService
     /**
      * マップを削除する。
      * @param mapId マップID
+     * @return 例外が発生しないとき0
      */
     public int removeMapById(final long mapId)
     {
         try
         {
-            return mapInfoDao.deleteById(mapId);
+            return mapInfoDao_.deleteById(mapId);
         }
         catch (PersistenceException pEx)
         {
@@ -192,17 +210,17 @@ public class MapService
 
     /**
      * マップ情報をMap形式に変換する。
-     * @param mapInfo
-     * @return
+     * @param mapInfo マップ情報
+     * @return Map形式のマップ情報
      */
     private Map<String, String> convertDataMap(final MapInfo mapInfo)
     {
         Map<String, String> dataMap = new HashMap<String, String>();
-        dataMap.put("id", String.valueOf(mapInfo.mapId));
+        dataMap.put("id", String.valueOf(mapInfo.mapId_));
         dataMap.put("parentTreeId", "");
-        dataMap.put("data", mapInfo.name);
-        dataMap.put("treeId", String.valueOf(mapInfo.mapId));
-        dataMap.put("mapData", mapInfo.data);
+        dataMap.put("data", mapInfo.name_);
+        dataMap.put("treeId", String.valueOf(mapInfo.mapId_));
+        dataMap.put("mapData", mapInfo.data_);
         return dataMap;
     }
 }

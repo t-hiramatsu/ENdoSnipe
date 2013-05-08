@@ -38,17 +38,25 @@ import net.arnx.jsonic.JSONHint;
 public class TermMeasurementEntity
 {
     /** イベントID */
-    public long                      event_id;
+    public long eventid_;
 
     /** グラフID */
-    public long                      graph_id;
+    public long graphId_;
 
     /** 計測時刻のリスト */
-    @JSONHint(format="yyyy/MM/dd HH:mm:ss")
-    public List<Date>                timestamps;
+    @JSONHint(format = "yyyy/MM/dd HH:mm:ss")
+    public List<Date> timestamps_;
 
     /** エージェント毎の計測データ */
-    public List<TermMeasurementData> measurement_data;
+    public List<TermMeasurementData> measurementData_;
+
+    /**
+     * コンストラクタ
+     */
+    public TermMeasurementEntity()
+    {
+
+    }
 
     /**
      * {@inheritDoc}
@@ -56,8 +64,8 @@ public class TermMeasurementEntity
     @Override
     public String toString()
     {
-        return "TermMeasurementEntity [event_id=" + event_id + ", graph_id="
-                + graph_id + ", timestamps=" + timestamps.toString()
-                + ", measurement_data=" + measurement_data.toString() + "]";
+        return "TermMeasurementEntity [event_id=" + eventid_ + ", graph_id=" + graphId_
+                + ", timestamps=" + timestamps_.toString() + ", measurement_data="
+                + measurementData_.toString() + "]";
     }
 }

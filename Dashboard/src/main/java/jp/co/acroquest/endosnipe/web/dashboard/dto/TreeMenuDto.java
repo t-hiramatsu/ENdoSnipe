@@ -214,15 +214,44 @@ public class TreeMenuDto
     @Override
     public int hashCode()
     {
-        final int prime = 31;
+        final int PRIME = 31;
         int result = 1;
-        result = prime * result + ((data_ == null) ? 0 : data_.hashCode());
-        result = prime * result + ((icon_ == null) ? 0 : icon_.hashCode());
-        result = prime * result + ((id_ == null) ? 0 : id_.hashCode());
-        result = prime * result + ((measurementUnit_ == null) ? 0 : measurementUnit_.hashCode());
-        result = prime * result + ((parentTreeId_ == null) ? 0 : parentTreeId_.hashCode());
-        result = prime * result + ((treeId_ == null) ? 0 : treeId_.hashCode());
-        result = prime * result + ((type_ == null) ? 0 : type_.hashCode());
+
+        if (data_ != null)
+        {
+            result = PRIME * result + data_.hashCode();
+        }
+
+        if (icon_ != null)
+        {
+            result = PRIME * result + icon_.hashCode();
+        }
+
+        if (id_ != null)
+        {
+            result = PRIME * result + id_.hashCode();
+        }
+
+        if (measurementUnit_ != null)
+        {
+            result = PRIME * result + measurementUnit_.hashCode();
+        }
+
+        if (parentTreeId_ != null)
+        {
+            result = PRIME * result + parentTreeId_.hashCode();
+        }
+
+        if (treeId_ != null)
+        {
+            result = PRIME * result + treeId_.hashCode();
+        }
+
+        if (type_ != null)
+        {
+            result = PRIME * result + type_.hashCode();
+        }
+
         return result;
     }
 

@@ -58,10 +58,10 @@ public class JavelinNotifyListener implements TelegramListener
     private final MessageSender messageSender_;
 
     /** DB名(1つの場合のみ対応) TODO 複数対応 */
-    private static String dataBaseName_;
+    private static String databaseName__;
 
     /** 接続しているDB名のリスト */
-    private static Map<Integer, String> databaseNameMap_ = new HashMap<Integer, String>();
+    private static Map<Integer, String> databaseNameMap__ = new HashMap<Integer, String>();
 
     /** エージェントID */
     private static int currentAgentID__;
@@ -69,7 +69,6 @@ public class JavelinNotifyListener implements TelegramListener
     /**
      * コンストラクタです。
      * @param messageSender {@link MessageSender}オブジェクト
-     * @param agentId_ エージェントID
      */
     public JavelinNotifyListener(final MessageSender messageSender)
     {
@@ -113,7 +112,7 @@ public class JavelinNotifyListener implements TelegramListener
             List<CommunicationClient> clientList = connectionClient.getClientList();
             for (String databaseName : databaseNameList)
             {
-                if (dataBaseName_ != null)
+                if (databaseName__ != null)
                 {
                     continue;
                 }
@@ -140,7 +139,7 @@ public class JavelinNotifyListener implements TelegramListener
                 client.connect(connectNotify);
                 clientList.add(client);
 
-                dataBaseName_ = databaseName;
+                databaseName__ = databaseName;
             }
         }
     }
@@ -160,11 +159,15 @@ public class JavelinNotifyListener implements TelegramListener
      */
     public static Map<Integer, String> getDatabaseNameMap()
     {
-        return databaseNameMap_;
+        return databaseNameMap__;
     }
 
-    public static String getDatabaseName(final int agentId)
+    /**
+     * DB名を取得します。
+     * @return DB名
+     */
+    public static String getDatabaseName()
     {
-        return dataBaseName_;
+        return databaseName__;
     }
 }
