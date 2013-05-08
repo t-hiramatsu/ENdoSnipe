@@ -250,7 +250,7 @@ public interface Constants
 	/** 項目名（FD/ハンドル数） */
 	// String ITEMNAME_SYSTEM_HANDLE_TOTAL_NUMBER =
 	// "/system.handle.total.number";
-	String ITEMNAME_SYSTEM_HANDLE_TOTAL_NUMBER = "/system/file/hundle/number";
+	String ITEMNAME_SYSTEM_HANDLE_TOTAL_NUMBER = "/system/file/handle/number";
 
 	// -----------------------------------------------------
 	// プロセス項目: CPU(基礎値)
@@ -387,7 +387,7 @@ public interface Constants
 	/** 項目名（FD/ハンドル数） */
 	// String ITEMNAME_PROCESS_HANDLE_TOTAL_NUMBER =
 	// "/process.handle.total.number";
-	String ITEMNAME_PROCESS_HANDLE_TOTAL_NUMBER = "/process/file/hundle/number";
+	String ITEMNAME_PROCESS_HANDLE_TOTAL_NUMBER = "/process/file/handle/number";
 
 	/** 項目名（リソース値での、スレッド数） */
 	// String ITEMNAME_JAVAPROCESS_THREAD_TOTAL_COUNT =
