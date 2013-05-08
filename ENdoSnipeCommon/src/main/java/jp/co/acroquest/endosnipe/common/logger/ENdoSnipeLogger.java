@@ -494,7 +494,7 @@ public abstract class ENdoSnipeLogger
     /**
      * 
      * @param messageType メッセージタイプ
-     * @return 
+     * @return EnabledFor
      */
     protected abstract boolean isEnabledFor(final char messageType);
 

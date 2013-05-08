@@ -40,311 +40,339 @@ import jp.co.acroquest.endosnipe.common.parser.JavelinLogColumnNum;
  */
 public class JavelinLogElement
 {
-    private String logFileName_;
+	private String logFileName_;
 
-    private int startLogLine_;
+	private int startLogLine_;
 
-    private int endLogLine_;
+	private int endLogLine_;
 
-    /** JavelinのIPアドレス。このデータはDataCollectorのみが使用する。 */
-    private String ipAddress_;
+	/** JavelinのIPアドレス。このデータはDataCollectorのみが使用する。 */
+	private String ipAddress_;
 
-    /** Javelinのポート番号。このデータはDataCollectorのみが使用する。 */
-    private int port_;
+	/** Javelinのポート番号。このデータはDataCollectorのみが使用する。 */
+	private int port_;
 
-    /** Javelinのポート番号。このデータはDataCollectorのみが使用する。 */
-    private String databaseName_;
+	/** Javelinのポート番号。このデータはDataCollectorのみが使用する。 */
+	private String databaseName_;
 
-    /** アラーム閾値 */
-    private long alarmThreshold_;
+	/** アラーム閾値 */
+	private long alarmThreshold_;
 
-    /** アラームCPU閾値 */
-    private long cpuAlarmThreshold_;
+	/** アラームCPU閾値 */
+	private long cpuAlarmThreshold_;
 
-    private List<String> baseInfoList_;
+	private List<String> baseInfoList_;
 
-    private Map<String, String> detailInfoMap_;
+	private Map<String, String> detailInfoMap_;
 
-    private String[] args_;
+	private String[] args_;
 
-    /**
-     * JavalinLogElementの初期化
-     */
-    public JavelinLogElement()
-    {
-        this.detailInfoMap_ = new HashMap<String, String>();
-    }
+	/**
+	 * JavalinLogElementの初期化
+	 */
+	public JavelinLogElement()
+	{
+		this.detailInfoMap_ = new HashMap<String, String>();
+	}
 
-    /**
-     * 格納している基本情報を返す。
-     * 
-     * @return 基本情報のリスト
-     */
-    public List<String> getBaseInfo()
-    {
-        return this.baseInfoList_;
-    }
+	/**
+	 * 格納している基本情報を返す。
+	 * 
+	 * @return 基本情報のリスト
+	 */
+	public List<String> getBaseInfo()
+	{
+		return this.baseInfoList_;
+	}
 
-    /**
-     * 格納している要素の識別子を返す
-     * 
-     * @return 識別子
-     */
-    public String getLogIDType()
-    {
-        if (this.baseInfoList_ == null)
-        {
-            return null;
-        }
+	/**
+	 * 格納している要素の識別子を返す
+	 * 
+	 * @return 識別子
+	 */
+	public String getLogIDType()
+	{
+		if (this.baseInfoList_ == null)
+		{
+			return null;
+		}
 
-        return this.baseInfoList_.get(JavelinLogColumnNum.ID);
-    }
+		return this.baseInfoList_.get(JavelinLogColumnNum.ID);
+	}
 
-    /**
-     * 格納している詳細情報から、 引数で指定したタグの種類に対応するログ文字列を返す。
-     * 
-     * @param tagType
-     *            詳細情報の種類
-     * @return 詳細情報
-     */
-    public String getDetailInfo(final String tagType)
-    {
-        return this.detailInfoMap_.get(tagType);
-    }
+	/**
+	 * 格納している詳細情報から、 引数で指定したタグの種類に対応するログ文字列を返す。
+	 * 
+	 * @param tagType
+	 *            詳細情報の種類
+	 * @return 詳細情報
+	 */
+	public String getDetailInfo(final String tagType)
+	{
+		return this.detailInfoMap_.get(tagType);
+	}
 
-    /**
-     * CSVで分割した基本情報をセットする。
-     * 
-     * @param baseInfoList
-     *            基本情報
-     */
-    public void setBaseInfo(final List<String> baseInfoList)
-    {
-        this.baseInfoList_ = baseInfoList;
-    }
+	/**
+	 * CSVで分割した基本情報をセットする。
+	 * 
+	 * @param baseInfoList
+	 *            基本情報
+	 */
+	public void setBaseInfo(final List<String> baseInfoList)
+	{
+		this.baseInfoList_ = baseInfoList;
+	}
 
-    /**
-     * 詳細情報のタグの種類と対応するログ文字列をセットする
-     * 
-     * @param tagType
-     *            詳細情報のタグの種類
-     * @param data
-     *            詳細情報の内容
-     */
-    public void setDetailInfo(final String tagType, final String data)
-    {
-        this.detailInfoMap_.put(tagType, data);
-    }
+	/**
+	 * 詳細情報のタグの種類と対応するログ文字列をセットする
+	 * 
+	 * @param tagType
+	 *            詳細情報のタグの種類
+	 * @param data
+	 *            詳細情報の内容
+	 */
+	public void setDetailInfo(final String tagType, final String data)
+	{
+		this.detailInfoMap_.put(tagType, data);
+	}
 
-    /**
-     * 詳細情報のマップをセットします。<br />
-     * 
-     * @param detailMap
-     *            詳細情報のマップ
-     */
-    public void setDetailInfo(final Map<String, String> detailMap)
-    {
-        this.detailInfoMap_ = detailMap;
-    }
+	/**
+	 * 詳細情報のマップをセットします。<br />
+	 * 
+	 * @param detailMap
+	 *            詳細情報のマップ
+	 */
+	public void setDetailInfo(final Map<String, String> detailMap)
+	{
+		this.detailInfoMap_ = detailMap;
+	}
 
-    /**
-     * 詳細情報のマップを返します。<br />
-     * 
-     * @return 詳細情報のマップ
-     */
-    public Map<String, String> getDetailMap()
-    {
-        return this.detailInfoMap_;
-    }
+	/**
+	 * 詳細情報のマップを返します。<br />
+	 * 
+	 * @return 詳細情報のマップ
+	 */
+	public Map<String, String> getDetailMap()
+	{
+		return this.detailInfoMap_;
+	}
 
-    /**
-     * このログの終了行を返します。<br />
-     * 
-     * @return 終了行
-     */
-    public int getEndLogLine()
-    {
-        return this.endLogLine_;
-    }
+	/**
+	 * このログの終了行を返します。<br />
+	 * 
+	 * @return 終了行
+	 */
+	public int getEndLogLine()
+	{
+		return this.endLogLine_;
+	}
 
-    /**
-     * このログの終了行をセットします。<br />
-     * 
-     * @param endLogLine
-     *            終了行
-     */
-    public void setEndLogLine(final int endLogLine)
-    {
-        this.endLogLine_ = endLogLine;
-    }
+	/**
+	 * このログの終了行をセットします。<br />
+	 * 
+	 * @param endLogLine
+	 *            終了行
+	 */
+	public void setEndLogLine(final int endLogLine)
+	{
+		this.endLogLine_ = endLogLine;
+	}
 
-    /**
-     * このログを出力したJavelinのIPアドレスを返します。<br />
-     * 
-     * @return IPアドレス
-     */
-    public String getIpAddress()
-    {
-        return ipAddress_;
-    }
+	/**
+	 * このログを出力したJavelinのIPアドレスを返します。<br />
+	 * 
+	 * @return IPアドレス
+	 */
+	public String getIpAddress()
+	{
+		return ipAddress_;
+	}
 
-    /**
-     * このログを出力したJavelinのIPアドレスをセットします。<br />
-     * 
-     * @param ipAddress IPアドレス
-     */
-    public void setIpAddress(final String ipAddress)
-    {
-        ipAddress_ = ipAddress;
-    }
+	/**
+	 * このログを出力したJavelinのIPアドレスをセットします。<br />
+	 * 
+	 * @param ipAddress
+	 *            IPアドレス
+	 */
+	public void setIpAddress(final String ipAddress)
+	{
+		ipAddress_ = ipAddress;
+	}
 
-    /**
-     * このログを出力したJavelinのポート番号を返します。<br />
-     * 
-     * @return port ポート番号
-     */
-    public int getPort()
-    {
-        return port_;
-    }
+	/**
+	 * このログを出力したJavelinのポート番号を返します。<br />
+	 * 
+	 * @return port ポート番号
+	 */
+	public int getPort()
+	{
+		return port_;
+	}
 
-    /**
-     * このログを出力したJavelinのポート番号をセットします。<br />
-     * 
-     * @param port ポート番号
-     */
-    public void setPort(final int port)
-    {
-        port_ = port;
-    }
+	/**
+	 * このログを出力したJavelinのポート番号をセットします。<br />
+	 * 
+	 * @param port
+	 *            ポート番号
+	 */
+	public void setPort(final int port)
+	{
+		port_ = port;
+	}
 
-    /**
-     * このログが保存されているDBの名前を返します。<br />
-     * 
-     * @return databaseName DB名
-     */
-    public String getDatabaseName()
-    {
-        return databaseName_;
-    }
+	/**
+	 * このログが保存されているDBの名前を返します。<br />
+	 * 
+	 * @return databaseName DB名
+	 */
+	public String getDatabaseName()
+	{
+		return databaseName_;
+	}
 
-    /**
-     * このログが保存されているDBの名前をセットします。<br />
-     * 
-     * @param databaseName DB名
-     */
-    public void setDatabaseName(final String databaseName)
-    {
-        databaseName_ = databaseName;
-    }
+	/**
+	 * このログが保存されているDBの名前をセットします。<br />
+	 * 
+	 * @param databaseName
+	 *            DB名
+	 */
+	public void setDatabaseName(final String databaseName)
+	{
+		databaseName_ = databaseName;
+	}
 
-    /**
-     * このログの開始行を返します。<br />
-     * 
-     * @return 開始行
-     */
-    public int getStartLogLine()
-    {
-        return this.startLogLine_;
-    }
+	/**
+	 * このログの開始行を返します。<br />
+	 * 
+	 * @return 開始行
+	 */
+	public int getStartLogLine()
+	{
+		return this.startLogLine_;
+	}
 
-    /**
-     * このログの開始行をセットします。<br />
-     * 
-     * @param startLogLine
-     *            開始行
-     */
-    public void setStartLogLine(final int startLogLine)
-    {
-        this.startLogLine_ = startLogLine;
-    }
+	/**
+	 * このログの開始行をセットします。<br />
+	 * 
+	 * @param startLogLine
+	 *            開始行
+	 */
+	public void setStartLogLine(final int startLogLine)
+	{
+		this.startLogLine_ = startLogLine;
+	}
 
-    /**
-     * ログファイル名を返します。<br />
-     * 
-     * @return ログファイル名
-     */
-    public String getLogFileName()
-    {
-        return this.logFileName_;
-    }
+	/**
+	 * ログファイル名を返します。<br />
+	 * 
+	 * @return ログファイル名
+	 */
+	public String getLogFileName()
+	{
+		return this.logFileName_;
+	}
 
-    /**
-     * ログファイル名をセットします。
-     * 
-     * @param logFileName
-     *            ログファイル名
-     */
-    public void setLogFileName(final String logFileName)
-    {
-        this.logFileName_ = logFileName;
-    }
+	/**
+	 * ログファイル名をセットします。
+	 * 
+	 * @param logFileName
+	 *            ログファイル名
+	 */
+	public void setLogFileName(final String logFileName)
+	{
+		this.logFileName_ = logFileName;
+	}
 
-    /**
-     * スレッド名称を取得します。
-     * 
-     * @return スレッド名称
-     */
-    public String getThreadName()
-    {
-        String ret;
+	/**
+	 * スレッド名称を取得します。
+	 * 
+	 * @return スレッド名称
+	 */
+	public String getThreadName()
+	{
+		String ret;
 
-        // ログの種類を取得する。
-        String id = this.baseInfoList_.get(JavelinLogColumnNum.ID);
+		// ログの種類を取得する。
+		String id = this.baseInfoList_.get(JavelinLogColumnNum.ID);
 
-        // ログの種類に応じて、基本情報部からスレッド名称を取得し、返す。
-        if (JavelinConstants.MSG_CALL.equals(id))
-        {
-            ret = this.baseInfoList_.get(JavelinLogColumnNum.CALL_THREADID);
-        }
-        else if (JavelinConstants.MSG_RETURN.equals(id))
-        {
-            ret = this.baseInfoList_.get(JavelinLogColumnNum.RETURN_THREADID);
-        }
-        else if (JavelinConstants.MSG_CATCH.equals(id))
-        {
-            ret = this.baseInfoList_.get(JavelinLogColumnNum.CATCH_THREADID);
-        }
-        else if (JavelinConstants.MSG_THROW.equals(id))
-        {
-            ret = this.baseInfoList_.get(JavelinLogColumnNum.THROW_THREADID);
-        }
-        else
-        {
-            ret = this.baseInfoList_.get(JavelinLogColumnNum.READ_WRITE_THREADID);
-        }
+		// ログの種類に応じて、基本情報部からスレッド名称を取得し、返す。
+		if (JavelinConstants.MSG_CALL.equals(id))
+		{
+			ret = this.baseInfoList_.get(JavelinLogColumnNum.CALL_THREADID);
+		}
+		else if (JavelinConstants.MSG_RETURN.equals(id))
+		{
+			ret = this.baseInfoList_.get(JavelinLogColumnNum.RETURN_THREADID);
+		}
+		else if (JavelinConstants.MSG_CATCH.equals(id))
+		{
+			ret = this.baseInfoList_.get(JavelinLogColumnNum.CATCH_THREADID);
+		}
+		else if (JavelinConstants.MSG_THROW.equals(id))
+		{
+			ret = this.baseInfoList_.get(JavelinLogColumnNum.THROW_THREADID);
+		}
+		else
+		{
+			ret = this.baseInfoList_
+					.get(JavelinLogColumnNum.READ_WRITE_THREADID);
+		}
 
-        return ret;
-    }
+		return ret;
+	}
 
-    public String[] getArgs()
-    {
-        return args_;
-    }
+	/**
+	 * 配列を返す
+	 * @return 配列
+	 */
+	public String[] getArgs()
+	{
+		return args_;
+	}
 
-    public void setArgs(final String[] args)
-    {
-        args_ = args;
-    }
+	/**
+	 * 配列を設定する
+	 * @param args 配列
+	 */
+	public void setArgs(final String[] args)
+	{
+		args_ = args;
+	}
 
-    public long getAlarmThreshold()
-    {
-        return alarmThreshold_;
-    }
+	/**
+	 * AlarmThresholdを返す
+	 * @return AlarmThreshold
+	 */
+	public long getAlarmThreshold()
+	{
+		return alarmThreshold_;
+	}
 
-    public void setAlarmThreshold(final long alarmThreshold)
-    {
-        alarmThreshold_ = alarmThreshold;
-    }
+	/**
+	 * AlarmThresholdを設定する
+	 * @param alarmThreshold AlarmThreshold
+	 */
+	public void setAlarmThreshold(final long alarmThreshold)
+	{
+		alarmThreshold_ = alarmThreshold;
+	}
 
-    public long getCpuAlarmThreshold()
-    {
-        return cpuAlarmThreshold_;
-    }
+	/**
+	 * CpuAlarmThresholdを返す
+	 * @return CpuAlarmThreshold
+	 */
+	public long getCpuAlarmThreshold()
+	{
+		return cpuAlarmThreshold_;
+	}
 
-    public void setCpuAlarmThreshold(final long cpuAlarmThreshold)
-    {
-        cpuAlarmThreshold_ = cpuAlarmThreshold;
-    }
+	/**
+	 * CpuAlarmThresholdを設定する
+	 * @param cpuAlarmThreshold CpuAlarmThreshold
+	 */
+	public void setCpuAlarmThreshold(final long cpuAlarmThreshold)
+	{
+		cpuAlarmThreshold_ = cpuAlarmThreshold;
+	}
 
 }

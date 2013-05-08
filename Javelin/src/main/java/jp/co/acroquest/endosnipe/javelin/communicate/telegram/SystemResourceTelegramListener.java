@@ -114,15 +114,12 @@ public class SystemResourceTelegramListener implements TelegramListener, Telegra
             responseBodyList.add(timeBody);
 
             // ProcParser の load処理
-            Body[] objBodies = telegram.getObjBody();
-            if (objBodies.length > 0)
-            {
-                this.resourceCollector_.load();
-            } 
+            this.resourceCollector_.load();
             
             // 設定更新要求があれば反映する。
             ConfigUpdater.executeScheduledRequest();
             
+            Body[] objBodies = telegram.getObjBody();
             for (Body body : objBodies)
             {
                 String objectName = body.getStrObjName();

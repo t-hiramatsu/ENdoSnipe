@@ -34,7 +34,6 @@ import jp.co.acroquest.endosnipe.common.parser.JavelinLogConstants;
 import jp.co.acroquest.endosnipe.javelin.JavelinLogUtil;
 import jp.co.acroquest.endosnipe.javelin.parser.JavelinLogElement;
 import jp.co.acroquest.endosnipe.javelin.parser.JavelinParser;
-import jp.co.acroquest.endosnipe.perfdoctor.Messages;
 import jp.co.acroquest.endosnipe.perfdoctor.rule.SingleElementRule;
 
 /**
@@ -53,12 +52,7 @@ public class MethodPureCpuUsageRule extends SingleElementRule implements Javelin
 
     /** CPU時間の閾値(単位:msec) */
     public long                 threshold          = DEFAULT_THRESHOLD;
-
-    /** 解析情報を取得できない場合のログメッセージ */
-    private static final String MESSAGE_NO_JMXINFO =
-                                                     Messages.getMessage("endosnipe.perfdoctor.rule.code.MethodPureCpuUsageRule.InfoNotGet",
-                                                                         EXTRAPARAM_PURECPUTIME);
-
+    
     /**
      * {@inheritDoc}
      */

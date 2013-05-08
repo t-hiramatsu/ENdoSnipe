@@ -3,7 +3,7 @@
  * 
  * The MIT License (MIT)
  * 
- * Copyright (c) 2012 Acroquest Technology Co.,Ltd.
+ * Copyright (c) 2013 Acroquest Technology Co.,Ltd.
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,46 +23,47 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package jp.co.acroquest.endosnipe.common;
-
-import org.eclipse.osgi.util.NLS;
+package jp.co.acroquest.endosnipe.data.entity;
 
 /**
- * メッセージ外部化のためのクラスです。<br />
+ * シグナル定義テーブルに対するエンティティクラスです。<br />
  * 
- * @author y-komori
+ * @author miyasaka
+ *
  */
-public class Messages extends NLS
+public class SignalDefinition
 {
-	private static final String BUNDLE_NAME
-		= "jp.co.acroquest.endosnipe.common.messages"; //$NON-NLS-1$
+    /** シグナル定義テーブルのID */
+    public long   signalId;
 
-	/** Preference ページで設定するログレベルの項目ラベル */
-	public static String endoSnipeCommonLogLevel__;
+    /** シグナル名 */
+    public String signalName;
 
-	/** Preference ページで設定するログレベルの項目値（デバッグ） */
-	public static String endoSnipeCommonLogLevelDebug__;
+    /** マッチングパターン */
+    public String matchingPattern;
 
-	/** Preference ページで設定するログレベルの項目値（エラー） */
-	public static String endoSnipeCommonLogLevelError__;
+    /** 設定できる閾値の上限レベル */
+    public int    level;
 
-	/** Preference ページで設定するログレベルの項目値（情報） */
-	public static String endoSnipeCommonLogLevelInfo__;
+    /** レベルごとの閾値(カンマ区切り) */
+    public String patternValue;
 
-	/** Preference ページで設定するログレベルの項目値（警告） */
-	public static String endoSnipeCommonLogLevelWarning__;
+    /** エスカレーション期間。 */
+    public double escalationPeriod;
 
-	/** メモリ不足でコピーできないときに表示するメッセージ */
-	public static String endoSnipeCommonTooFewMemoryToCopy__;
+    /**
+     * {@link SignalDefinition} オブジェクトを生成します。<br />
+     */
+    public SignalDefinition()
+    {
+        this.signalId = -1;
+    }
 
-	static
-	{
-		// initialize resource bundle
-		NLS.initializeMessages(BUNDLE_NAME, Messages.class);
-	}
-
-	private Messages()
-	{
-		// Do nothing.
-	}
+    @Override
+    public String toString()
+    {
+        return "SignalInfo [signalId=" + signalId + ", signalName=" + signalName
+            + ", matchingPattern=" + matchingPattern + ", level=" + level + ", patternValue=" + patternValue
+            + ", escalationPeriod=" + escalationPeriod + "]";
+    }
 }

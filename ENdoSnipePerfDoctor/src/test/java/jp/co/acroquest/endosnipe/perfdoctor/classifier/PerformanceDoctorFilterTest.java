@@ -173,7 +173,7 @@ public class PerformanceDoctorFilterTest extends TestCase
         WarningUnit unit4 = ClassifierUtil.createDefaultWarningUnit(new Integer[]{5, 25});
         WarningUnit unit5 = ClassifierUtil.createDefaultWarningUnit(new Integer[]{5, 30});
 
-        ClassifierUtil.ID = "testRuleId2";
+        ClassifierUtil.setID("testRuleId2");
         WarningUnit unit6 = ClassifierUtil.createDefaultWarningUnit(new Integer[]{5, 10});
         WarningUnit unit7 = ClassifierUtil.createDefaultWarningUnit(new Integer[]{5, 15});
         WarningUnit unit8 = ClassifierUtil.createDefaultWarningUnit(new Integer[]{5, 20});
@@ -216,14 +216,14 @@ public class PerformanceDoctorFilterTest extends TestCase
         PerformanceDoctorFilter filter = createFilter();
         List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
 
-        ClassifierUtil.ID = "testRuleId";
+        ClassifierUtil.setID("testRuleId");
         WarningUnit unit1 = ClassifierUtil.createDefaultWarningUnit(new Integer[]{5, 10});
         WarningUnit unit2 = ClassifierUtil.createDefaultWarningUnit(new Integer[]{5, 15});
         WarningUnit unit3 = ClassifierUtil.createDefaultWarningUnit(new Integer[]{5, 20});
         WarningUnit unit4 = ClassifierUtil.createDefaultWarningUnit(new Integer[]{5, 25});
         WarningUnit unit5 = ClassifierUtil.createDefaultWarningUnit(new Integer[]{5, 30});
 
-        ClassifierUtil.ID = "testRuleId2";
+        ClassifierUtil.setID("testRuleId2");
         WarningUnit unit6 = ClassifierUtil.createDefaultWarningUnit(new Integer[]{5, 10});
         WarningUnit unit7 = ClassifierUtil.createDefaultWarningUnit(new Integer[]{5, 15});
         WarningUnit unit8 = ClassifierUtil.createDefaultWarningUnit(new Integer[]{5, 20});
@@ -299,7 +299,7 @@ public class PerformanceDoctorFilterTest extends TestCase
         PerformanceDoctorFilter filter = createFilter();
         List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
 
-        ClassifierUtil.ID = "testRuleId";
+        ClassifierUtil.setID("testRuleId");
         WarningUnit unit1 = ClassifierUtil.createDefaultWarningUnit(new Integer[]{5, 10});
         WarningUnit unit2 = ClassifierUtil.createDefaultWarningUnit(new Integer[]{5, 15});
         WarningUnit unit3 = ClassifierUtil.createDefaultWarningUnit(new Integer[]{5, 20});
@@ -321,7 +321,7 @@ public class PerformanceDoctorFilterTest extends TestCase
         WarningUnit unit19 = ClassifierUtil.createDefaultWarningUnit(new Integer[]{5, 100});
         WarningUnit unit20 = ClassifierUtil.createDefaultWarningUnit(new Integer[]{5, 105});
 
-        ClassifierUtil.ID = "testRuleId2";
+        ClassifierUtil.setID("testRuleId2");
         WarningUnit unit21 = ClassifierUtil.createDefaultWarningUnit(new Integer[]{5, 10});
         WarningUnit unit22 = ClassifierUtil.createDefaultWarningUnit(new Integer[]{5, 15});
         WarningUnit unit23 = ClassifierUtil.createDefaultWarningUnit(new Integer[]{5, 20});
@@ -382,7 +382,7 @@ public class PerformanceDoctorFilterTest extends TestCase
         PerformanceDoctorFilter filter = createFilter();
         List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
 
-        ClassifierUtil.ID = "testRuleId";
+        ClassifierUtil.setID("testRuleId");
         WarningUnit unit1 = ClassifierUtil.createDefaultWarningUnit(new Integer[]{5, 10});
         WarningUnit unit2 = ClassifierUtil.createDefaultWarningUnit(new Integer[]{5, 15});
         WarningUnit unit3 = ClassifierUtil.createDefaultWarningUnit(new Integer[]{5, 20});
@@ -404,7 +404,7 @@ public class PerformanceDoctorFilterTest extends TestCase
         WarningUnit unit19 = ClassifierUtil.createDefaultWarningUnit(new Integer[]{5, 100});
         WarningUnit unit20 = ClassifierUtil.createDefaultWarningUnit(new Integer[]{5, 105});
 
-        ClassifierUtil.ID = "testRuleId2";
+        ClassifierUtil.setID("testRuleId2");
         WarningUnit unit21 = ClassifierUtil.createDefaultWarningUnit(new Integer[]{5, 10});
         WarningUnit unit22 = ClassifierUtil.createDefaultWarningUnit(new Integer[]{5, 15});
         WarningUnit unit23 = ClassifierUtil.createDefaultWarningUnit(new Integer[]{5, 20});
@@ -732,7 +732,7 @@ public class PerformanceDoctorFilterTest extends TestCase
 
         String stackTrace = "test";
 
-        ClassifierUtil.ID = "testRuleId";
+        ClassifierUtil.setID("testRuleId");
         WarningUnit unit1 =
                 ClassifierUtil.createDefaultEventWarningUnit(stackTrace, new Integer[]{5, 10});
         WarningUnit unit2 =

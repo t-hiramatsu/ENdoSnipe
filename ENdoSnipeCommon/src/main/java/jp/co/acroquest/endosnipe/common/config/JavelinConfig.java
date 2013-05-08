@@ -309,6 +309,9 @@ public class JavelinConfig extends JavelinConfigBase
         init();
     }
 
+    /**
+     * 初期化
+     */
     private void init()
     {
         if (isInitialized__ == true)
@@ -455,6 +458,10 @@ public class JavelinConfig extends JavelinConfigBase
         return acceptPort__;
     }
 
+    /**
+     * アクセスポートを設定する。
+     * @param acceptPort アクセスポート
+     */
     public void setAcceptPort(final int acceptPort)
     {
         acceptPort__ = acceptPort;
@@ -469,6 +476,10 @@ public class JavelinConfig extends JavelinConfigBase
         return acceptPortRangeMax__;
     }
 
+    /**
+     * アクセスポート範囲最大値を設定する。
+     * @param acceptPortRangeMax アクセスポート範囲最大値
+     */
     public void setAcceptPortRangeMax(final int acceptPortRangeMax)
     {
         acceptPortRangeMax__ = acceptPortRangeMax;
@@ -483,6 +494,10 @@ public class JavelinConfig extends JavelinConfigBase
         return connectHost__;
     }
 
+    /**
+     * 接続ホストを設定する。
+     * @param connectHost 接続ホスト
+     */
     public void setConnectHost(final String connectHost)
     {
         connectHost__ = connectHost;
@@ -497,6 +512,10 @@ public class JavelinConfig extends JavelinConfigBase
         return connectPort__;
     }
 
+    /**
+     * 接続ポートを設定する。
+     * @param connectPort 接続ポート
+     */
     public void setConnectPort(final int connectPort)
     {
         connectPort__ = connectPort;
@@ -511,6 +530,10 @@ public class JavelinConfig extends JavelinConfigBase
         return agentName__;
     }
 
+    /**
+     * エージェント名を設定する。
+     * @param agentName エージェント名
+     */
     public void setAgentName(final String agentName)
     {
         agentName__ = agentName;
@@ -615,6 +638,10 @@ public class JavelinConfig extends JavelinConfigBase
         return autoExcludeThresholdCount__;
     }
 
+    /**
+     * AutoExcludeThresholdCountを設定する。
+     * @param autoExcludeThresholdCount AutoExcludeThresholdCount
+     */
     public void setAutoExcludeThresholdCount(final int autoExcludeThresholdCount)
     {
         autoExcludeThresholdCount__ = autoExcludeThresholdCount;
@@ -629,6 +656,10 @@ public class JavelinConfig extends JavelinConfigBase
         return autoExcludeThresholdTime__;
     }
 
+    /**
+     * AutoExcludeThresholdTimeを設定する。
+     * @param autoExcludeThresholdTime AutoExcludeThresholdTime
+     */
     public void setAutoExcludeThresholdTime(final int autoExcludeThresholdTime)
     {
         autoExcludeThresholdTime__ = autoExcludeThresholdTime;
@@ -697,6 +728,10 @@ public class JavelinConfig extends JavelinConfigBase
         return bytecodeControlCountMax__;
     }
 
+    /**
+     * BytecodeControlCountMaxを設定する。
+     * @param bytecodeControlCountMax BytecodeControlCountMax
+     */
     public void setBytecodeControlCountMax(final int bytecodeControlCountMax)
     {
         bytecodeControlCountMax__ = bytecodeControlCountMax;
@@ -711,6 +746,10 @@ public class JavelinConfig extends JavelinConfigBase
         return byteCodeExcludePolicy__;
     }
 
+    /**
+     * ByteCodeExcludePolicyを設定する。
+     * @param byteCodeExcludePolicy ByteCodeExcludePolicy
+     */
     public void setByteCodeExcludePolicy(final int byteCodeExcludePolicy)
     {
         byteCodeExcludePolicy__ = byteCodeExcludePolicy;
@@ -725,6 +764,10 @@ public class JavelinConfig extends JavelinConfigBase
         return bytecodeLengthMax__;
     }
 
+    /**
+     * BytecodeLengthMaxを設定する。
+     * @param bytecodeLengthMax BytecodeLengthMax
+     */
     public void setBytecodeLengthMax(final int bytecodeLengthMax)
     {
         bytecodeLengthMax__ = bytecodeLengthMax;
@@ -754,6 +797,10 @@ public class JavelinConfig extends JavelinConfigBase
         return callTreeAll__;
     }
 
+    /**
+     * CallTreeAllを設定する。
+     * @param callTreeAll CallTreeAll
+     */
     public void setCallTreeAll(final boolean callTreeAll)
     {
         callTreeAll__ = callTreeAll;
@@ -765,6 +812,10 @@ public class JavelinConfig extends JavelinConfigBase
         return isCallTreeEnabled__;
     }
 
+    /**
+     * CallTreeEnabledを設定する。
+     * @param isCallTreeEnabled CallTreeEnabled
+     */
     public void setCallTreeEnabled(final boolean isCallTreeEnabled)
     {
         isCallTreeEnabled__ = isCallTreeEnabled;
@@ -851,6 +902,10 @@ public class JavelinConfig extends JavelinConfigBase
         return collectionInterval__;
     }
 
+    /**
+     * CollectionIntervalを設定する
+     * @param collectionInterval CollectionInterval
+     */
     public void setCollectionInterval(final int collectionInterval)
     {
         collectionInterval__ = collectionInterval;
@@ -865,6 +920,10 @@ public class JavelinConfig extends JavelinConfigBase
         return collectionLeakDetectDepth__;
     }
 
+    /**
+     * CollectionLeakDetectDepthを設定する。
+     * @param collectionLeakDetectDepth CollectionLeakDetectDepth
+     */
     public void setCollectionLeakDetectDepth(final int collectionLeakDetectDepth)
     {
         collectionLeakDetectDepth__ = collectionLeakDetectDepth;
@@ -897,6 +956,10 @@ public class JavelinConfig extends JavelinConfigBase
         return collectionTraceMax__;
     }
 
+    /**
+     * CollectionTraceMaxを設定する。
+     * @param collectionTraceMax CollectionTraceMax
+     */
     public void setCollectionTraceMax(final int collectionTraceMax)
     {
         collectionTraceMax__ = collectionTraceMax;
@@ -911,6 +974,10 @@ public class JavelinConfig extends JavelinConfigBase
         return detach__;
     }
 
+    /**
+     * Detachを設定する。
+     * @param detach
+     */
     public void setDetach(final boolean detach)
     {
         detach__ = detach;
@@ -943,6 +1010,10 @@ public class JavelinConfig extends JavelinConfigBase
         return eventInterval__;
     }
 
+    /**
+     * EventIntervalを設定する。
+     * @param eventInterval EventInterval
+     */
     public void setEventInterval(final long eventInterval)
     {
         eventInterval__ = eventInterval;
@@ -975,6 +1046,10 @@ public class JavelinConfig extends JavelinConfigBase
         return exclude__;
     }
 
+    /**
+     * Excludeを設定する。
+     * @param exclude Exclude
+     */
     public void setExclude(final String exclude)
     {
         exclude__ = exclude;
@@ -989,6 +1064,10 @@ public class JavelinConfig extends JavelinConfigBase
         return fullGCList__;
     }
 
+    /**
+     * FullGCListを設定する。
+     * @param fullGCList FullGCList
+     */
     public void setFullGCList(final String fullGCList)
     {
         fullGCList__ = fullGCList;
@@ -1021,6 +1100,10 @@ public class JavelinConfig extends JavelinConfigBase
         return heapDumpDir__;
     }
 
+    /**
+     * HeapDumpDirを設定する。
+     * @param heapDumpDir HeapDumpDir
+     */
     public void setHeapDumpDir(final String heapDumpDir)
     {
         heapDumpDir__ = heapDumpDir;
@@ -1035,6 +1118,10 @@ public class JavelinConfig extends JavelinConfigBase
         return include__;
     }
 
+    /**
+     * Includeを設定する。
+     * @param include
+     */
     public void setInclude(final String include)
     {
         include__ = include;
@@ -1049,6 +1136,10 @@ public class JavelinConfig extends JavelinConfigBase
         return inheritanceDepth__;
     }
 
+    /**
+     * InheritanceDepthを設定する。
+     * @param inheritanceDepth InheritanceDepth
+     */
     public void setInheritanceDepth(final int inheritanceDepth)
     {
         inheritanceDepth__ = inheritanceDepth;
@@ -1171,6 +1262,10 @@ public class JavelinConfig extends JavelinConfigBase
         return licensePath__;
     }
 
+    /**
+     * LicensePathを設定する。
+     * @param licensePath LicensePath
+     */
     public void setLicensePath(final String licensePath)
     {
         licensePath__ = licensePath;
@@ -1239,6 +1334,10 @@ public class JavelinConfig extends JavelinConfigBase
         return logJvnMax__;
     }
 
+    /**
+     * LogJvnMaxを設定する。
+     * @param logJvnMax LogJvnMax
+     */
     public void setLogJvnMax(final int logJvnMax)
     {
         logJvnMax__ = logJvnMax;
@@ -1253,6 +1352,10 @@ public class JavelinConfig extends JavelinConfigBase
         return logZipMax__;
     }
 
+    /**
+     * LogZipMaxを設定する。
+     * @param logZipMax LogZipMax
+     */
     public void setLogZipMax(final int logZipMax)
     {
         logZipMax__ = logZipMax;
@@ -1285,6 +1388,10 @@ public class JavelinConfig extends JavelinConfigBase
         return recordStrategy__;
     }
 
+    /**
+     * RecordStrategyを設定する。
+     * @param recordStrategy RecordStrategy
+     */
     public void setRecordStrategy(final String recordStrategy)
     {
         recordStrategy__ = recordStrategy;
@@ -1335,6 +1442,10 @@ public class JavelinConfig extends JavelinConfigBase
         return serializeFile__;
     }
 
+    /**
+     * SerializeFileを設定する。
+     * @param serializeFile SerializeFile
+     */
     public void setSerializeFile(final String serializeFile)
     {
         serializeFile__ = serializeFile;
@@ -1403,6 +1514,10 @@ public class JavelinConfig extends JavelinConfigBase
         return systemLogLevel__;
     }
 
+    /**
+     * SystemLogLevelを設定する。
+     * @param systemLogLevel SystemLogLevel
+     */
     public void setSystemLogLevel(final String systemLogLevel)
     {
         systemLogLevel__ = systemLogLevel;
@@ -1417,6 +1532,10 @@ public class JavelinConfig extends JavelinConfigBase
         return systemLogNumMax__;
     }
 
+    /**
+     * SystemLogNumMaxを設定する。
+     * @param systemLogNumMax SystemLogNumMax
+     */
     public void setSystemLogNumMax(final int systemLogNumMax)
     {
         systemLogNumMax__ = systemLogNumMax;
@@ -1431,6 +1550,10 @@ public class JavelinConfig extends JavelinConfigBase
         return systemLogSizeMax__;
     }
 
+    /**
+     * SystemLogSizeMaxを設定する。
+     * @param systemLogSizeMax SystemLogSizeMax
+     */
     public void setSystemLogSizeMax(final int systemLogSizeMax)
     {
         systemLogSizeMax__ = systemLogSizeMax;
@@ -1481,6 +1604,10 @@ public class JavelinConfig extends JavelinConfigBase
         return telegramListeners__;
     }
 
+    /**
+     * TelegramListenersを設定する。
+     * @param telegramListeners TelegramListeners
+     */
     public void setTelegramListeners(final String telegramListeners)
     {
         telegramListeners__ = telegramListeners;
@@ -1639,6 +1766,10 @@ public class JavelinConfig extends JavelinConfigBase
         return traceDepth__;
     }
 
+    /**
+     * TraceDepthを設定する。
+     * @param traceDepth TraceDepth
+     */
     public void setTraceDepth(final int traceDepth)
     {
         traceDepth__ = traceDepth;
@@ -1653,6 +1784,10 @@ public class JavelinConfig extends JavelinConfigBase
         return isAcceptPortIsRange__;
     }
 
+    /**
+     * AcceptPortIsRangeを設定する。
+     * @param isAcceptPortIsRange AcceptPortIsRange
+     */
     public void setAcceptPortIsRange(final boolean isAcceptPortIsRange)
     {
         isAcceptPortIsRange__ = isAcceptPortIsRange;
@@ -1703,6 +1838,10 @@ public class JavelinConfig extends JavelinConfigBase
         return isClassNameSimplify__;
     }
 
+    /**
+     * ClassNameSimplifyを設定する。
+     * @param isClassNameSimplify
+     */
     public void setClassNameSimplify(final boolean isClassNameSimplify)
     {
         isClassNameSimplify__ = isClassNameSimplify;
@@ -2059,6 +2198,10 @@ public class JavelinConfig extends JavelinConfigBase
         return isLogZipMax__;
     }
 
+    /**
+     * LogZipMaxを設定する。
+     * @param isLogZipMax
+     */
     public void setLogZipMax(final boolean isLogZipMax)
     {
         isLogZipMax__ = isLogZipMax;
@@ -2127,6 +2270,10 @@ public class JavelinConfig extends JavelinConfigBase
         return isRecordStrategy__;
     }
 
+    /**
+     * RecordStrategyを設定する。
+     * @param isRecordStrategy RecordStrategy
+     */
     public void setRecordStrategy(final boolean isRecordStrategy)
     {
         isRecordStrategy__ = isRecordStrategy;
@@ -2195,6 +2342,10 @@ public class JavelinConfig extends JavelinConfigBase
         return isThreadContentionMonitor__;
     }
 
+    /**
+     * ThreadContentionMonitorを設定する。
+     * @param isThreadContentionMonitor ThreadContentionMonitor
+     */
     public void setThreadContentionMonitor(final boolean isThreadContentionMonitor)
     {
         isThreadContentionMonitor__ = isThreadContentionMonitor;
@@ -2209,6 +2360,10 @@ public class JavelinConfig extends JavelinConfigBase
         return isThreadDump__;
     }
 
+    /**
+     * ThreadDumpを設定する。
+     * @param isThreadDump ThreadDump
+     */
     public void setThreadDump(final boolean isThreadDump)
     {
         isThreadDump__ = isThreadDump;
@@ -2450,6 +2605,10 @@ public class JavelinConfig extends JavelinConfigBase
         return cpuTimeUnit__;
     }
 
+    /**
+     * CpuTimeUnitを設定する。
+     * @param cpuTimeUnit CpuTimeUnit
+     */
     public void setCpuTimeUnit(final int cpuTimeUnit)
     {
         cpuTimeUnit__ = cpuTimeUnit;
@@ -2714,6 +2873,10 @@ public class JavelinConfig extends JavelinConfigBase
         return invocationNameLimitLength__;
     }
 
+    /**
+     * InvocationNameLimitLengthを設定する。
+     * @param invocationNameLimitLength InvocationNameLimitLength
+     */
     public void setInvocationNameLimitLength(final int invocationNameLimitLength)
     {
         invocationNameLimitLength__ = invocationNameLimitLength;

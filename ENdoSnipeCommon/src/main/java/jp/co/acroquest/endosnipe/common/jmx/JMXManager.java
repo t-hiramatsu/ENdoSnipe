@@ -85,7 +85,7 @@ public class JMXManager
      */
     public void waitInitialize()
     {
-        if (!initFlag_)
+        while (!initFlag_)
         {
             try
             {
@@ -110,7 +110,7 @@ public class JMXManager
 
     /**
      * JMX項目と計測値種別のマップを取得します。
-     * 
+     * @param dbName DB名
      * @return JMX項目と計測値種別のマップ
      */
     public Map<String, Long> getMeasurmentTypeMap(final String dbName)

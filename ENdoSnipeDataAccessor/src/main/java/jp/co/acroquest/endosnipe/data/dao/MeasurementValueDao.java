@@ -53,10 +53,12 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
 {
     /** 時刻でソートするSQL */
     private static final String WITH_NAME_ACCESS_SQL_TIME_ORDER =
-            "SELECT mv.measurement_value_id measurement_value_id, mv.measurement_num measurement_num," +
+            "SELECT mv.measurement_value_id measurement_value_id," +
+            " mv.measurement_num measurement_num," +
             " mv.measurement_time measurement_time, mv.measurement_type measurement_type," +
             " mv.measurement_item_id measurement_item_id, mv.value resultvalue," +
-            " mi.item_name measurement_type_name, mi.display_name measurement_display_name," +
+            " mi.item_name measurement_type_name," +
+            " mi.display_name measurement_display_name," +
             " ji.item_name measurement_item_name" +
             " FROM measurement_value mv, measurement_info mi," +
             " javelin_measurement_item ji" +
@@ -81,7 +83,8 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
 
     /** 項目名でソートするSQL */
     private static final String WITH_NAME_ACCESS_SQL =
-            "SELECT mv.measurement_value_id measurement_value_id, mv.measurement_num measurement_num," +
+            "SELECT mv.measurement_value_id measurement_value_id," +
+            " mv.measurement_num measurement_num," +
             " mv.measurement_time measurement_time, mv.measurement_type measurement_type," +
             " mv.measurement_item_id measurement_item_id, mv.value resultvalue," +
             " mi.item_name measurement_type_name, mi.display_name measurement_display_name," +
@@ -100,7 +103,8 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
             " WHERE mi.item_name = ? AND mv.measurement_type = mi.measurement_type" +
             " AND mv.measurement_item_id = ji.measurement_item_id" +
             " AND ( mv.measurement_time BETWEEN ? AND ? )" +
-            " GROUP BY mv.measurement_type, mv.measurement_item_id, mi.item_name, mi.display_name, ji.item_name ORDER BY ji.item_name";
+            " GROUP BY mv.measurement_type, mv.measurement_item_id," +
+            " mi.item_name, mi.display_name, ji.item_name ORDER BY ji.item_name";
 
     private static final String WITH_NAME_MIN_VALUE_ACCESS_SQL =
             "SELECT 0 measurement_value_id, 0 measurement_num, '1970-01-01' measurement_time," +
@@ -111,7 +115,8 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
             " WHERE mi.item_name = ? AND mv.measurement_type = mi.measurement_type" +
             " AND mv.measurement_item_id = ji.measurement_item_id" +
             " AND ( mv.measurement_time BETWEEN ? AND ? )" +
-            " GROUP BY mv.measurement_type, mv.measurement_item_id, mi.item_name, mi.display_name," +
+            " GROUP BY mv.measurement_type, mv.measurement_item_id," +
+            " mi.item_name, mi.display_name," +
             " ji.item_name ORDER BY ji.item_name";
 
     private static final String WITH_NAME_SUM_VALUE_ACCESS_SQL =
@@ -140,7 +145,8 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
      * 系列名も指定する
      */
     private static final String WITH_ITEM_NAME_ACCESS_SQL_TIME_ORDER =
-            "SELECT mv.measurement_value_id measurement_value_id, mv.measurement_num measurement_num," +
+            "SELECT mv.measurement_value_id measurement_value_id," +
+            " mv.measurement_num measurement_num," +
             " mv.measurement_time measurement_time, mv.measurement_type measurement_type," +
             " mv.measurement_item_id measurement_item_id, mv.value resultvalue," +
             " mi.item_name measurement_type_name, mi.display_name measurement_display_name," +
@@ -154,9 +160,9 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
     private static final String GET_TERM_SQL_PARTIOTION = createGetTermSql();
 
     /** 蓄積期間を取得する SQL */
-    private static final String GET_TERM_SQL                              =
-                                                                                  "select min(MEASUREMENT_TIME) MIN_TIME, max(MEASUREMENT_TIME) MAX_TIME from " +
-                                                                                          MEASUREMENT_VALUE;
+    private static final String GET_TERM_SQL =
+    	"select min(MEASUREMENT_TIME) MIN_TIME, max(MEASUREMENT_TIME) MAX_TIME from " +
+        MEASUREMENT_VALUE;
 
     /**
      * データを挿入するテーブルの名前を返します。
@@ -560,11 +566,11 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
         throws SQLException
     {
         return MeasurementValueDao.selectByTermAndMeasurementTypeWithNameBase(
-                                                                              database,
-                                                                              start,
-                                                                              end,
-                                                                              typeName,
-                                                                              MeasurementValueDao.WITH_NAME_ACCESS_SQL);
+                           database,
+                           start,
+                           end,
+                           typeName,
+                           MeasurementValueDao.WITH_NAME_ACCESS_SQL);
     }
     
     /**
@@ -582,9 +588,9 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
         throws SQLException
     {
         return MeasurementValueDao.selectByMeasurementTypeWithNameBase(
-                                                                              database,
-                                                                              typeName,
-                                                                              MeasurementValueDao.WITH_NAME_ITEM_NAME);
+                 database,
+                 typeName,
+                 MeasurementValueDao.WITH_NAME_ITEM_NAME);
     }
 
     /**
@@ -605,11 +611,11 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
         throws SQLException
     {
         return MeasurementValueDao.selectByTermAndMeasurementTypeWithNameBase(
-                                                                              database,
-                                                                              start,
-                                                                              end,
-                                                                              typeName,
-                                                                              MeasurementValueDao.WITH_NAME_ACCESS_SQL_TIME_ORDER);
+                      database,
+                      start,
+                      end,
+                      typeName,
+                      MeasurementValueDao.WITH_NAME_ACCESS_SQL_TIME_ORDER);
     }
 
     /**
@@ -631,12 +637,12 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
         throws SQLException
     {
         return MeasurementValueDao.selectByTermAndMeasurementTypeWithItemNameBase(
-                                                                              database,
-                                                                              start,
-                                                                              end,
-                                                                              typeName,
-                                                                              itemName,
-                                                                              MeasurementValueDao.WITH_ITEM_NAME_ACCESS_SQL_TIME_ORDER );
+                  database,
+                  start,
+                  end,
+                  typeName,
+                  itemName,
+                  MeasurementValueDao.WITH_ITEM_NAME_ACCESS_SQL_TIME_ORDER );
     }
 
     /**
@@ -657,11 +663,11 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
         throws SQLException
     {
         return MeasurementValueDao.selectByTermAndMeasurementTypeWithNameBase(
-                                                                              database,
-                                                                              start,
-                                                                              end,
-                                                                              typeName,
-                                                                              MeasurementValueDao.WITH_NAME_MAX_VALUE_ACCESS_SQL);
+                  database,
+                  start,
+                  end,
+                  typeName,
+                  MeasurementValueDao.WITH_NAME_MAX_VALUE_ACCESS_SQL);
     }
 
     /**
@@ -685,8 +691,8 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
                                                                               database,
                                                                               start,
                                                                               end,
-                                                                              typeName,
-                                                                              MeasurementValueDao.WITH_NAME_MIN_VALUE_ACCESS_SQL);
+              typeName,
+              MeasurementValueDao.WITH_NAME_MIN_VALUE_ACCESS_SQL);
     }
 
     /**
@@ -708,11 +714,11 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
         throws SQLException
     {
         return MeasurementValueDao.selectByTermAndMeasurementTypeWithNameBase(
-                                                                              database,
-                                                                              start,
-                                                                              end,
-                                                                              typeName,
-                                                                              MeasurementValueDao.WITH_NAME_SUM_VALUE_ACCESS_SQL);
+              database,
+              start,
+              end,
+              typeName,
+              MeasurementValueDao.WITH_NAME_SUM_VALUE_ACCESS_SQL);
     }
 
     /**
@@ -734,11 +740,11 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
         throws SQLException
     {
         return MeasurementValueDao.selectByTermAndMeasurementTypeWithNameBase(
-                                                                              database,
-                                                                              start,
-                                                                              end,
-                                                                              typeName,
-                                                                              MeasurementValueDao.WITH_NAME_SUM_VALUE_ACCESS_SQL_TIME_ORDER);
+              database,
+              start,
+              end,
+              typeName,
+              MeasurementValueDao.WITH_NAME_SUM_VALUE_ACCESS_SQL_TIME_ORDER);
 
     }
 
@@ -900,7 +906,8 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
      * @param rs データが含まれている{@link ResultSet} インスタンス
      * @throws SQLException SQL 実行結果取得時に例外が発生した場合
      */
-    private static List<MeasurementValueDto> getMeasurementValueDtosFromResultSet(final ResultSet rs)
+    private static List<MeasurementValueDto>
+    	getMeasurementValueDtosFromResultSet(final ResultSet rs)
         throws SQLException
     {
         List<MeasurementValueDto> result = new ArrayList<MeasurementValueDto>();
@@ -1060,7 +1067,8 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
         {
             sql.append(unionSql);
             String tableName = ResourceDataDaoUtil.getTableName(MEASUREMENT_VALUE, index);
-            sql.append("select min(MEASUREMENT_TIME) MIN_TIME, max(MEASUREMENT_TIME) MAX_TIME from ");
+            sql.append("select min(MEASUREMENT_TIME)" +
+            		" MIN_TIME, max(MEASUREMENT_TIME) MAX_TIME from ");
             sql.append(tableName);
             unionSql = " union all ";
         }
@@ -1076,6 +1084,7 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
      * @param database データベース名
      * @param tableName テーブル名
      * @param updateValueList 挿入する値
+     * @return 挿入レコード
      * @throws SQLException SQL 実行時に例外が発生した場合
      */
     public static int insertBatch(String database, String tableName,

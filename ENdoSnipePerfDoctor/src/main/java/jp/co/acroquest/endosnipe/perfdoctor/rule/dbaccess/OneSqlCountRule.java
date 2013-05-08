@@ -156,15 +156,6 @@ public class OneSqlCountRule extends AbstractDbAccessRule
             return this.sql_;
         }
 
-        /**
-         * ログファイル名を返す。
-         * @return ログファイル名
-         */
-        public String getLogFileName()
-        {
-            return this.logFileName_;
-        }
-
         @Override
         public int hashCode()
         {

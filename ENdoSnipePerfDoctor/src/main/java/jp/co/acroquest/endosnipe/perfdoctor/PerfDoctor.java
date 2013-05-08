@@ -111,7 +111,8 @@ public class PerfDoctor
      * @param elementList ログファイルの内容
      * @return 警告となった結果の要素のリスト
      */
-    public List<WarningUnit> judgeJavelinLog(final List<JavelinLogElement> elementList)
+    @SuppressWarnings("deprecation")
+	public List<WarningUnit> judgeJavelinLog(final List<JavelinLogElement> elementList)
     {
         List<WarningUnit> result = new ArrayList<WarningUnit>();
 
@@ -158,7 +159,8 @@ public class PerfDoctor
      * @param javelinParser Javelin ログパーサ
      * @return 変換したリスト
      */
-    private List<JavelinLogElement> parseJavelinLogFileInternal(final JavelinParser javelinParser)
+    @SuppressWarnings("deprecation")
+	private List<JavelinLogElement> parseJavelinLogFileInternal(final JavelinParser javelinParser)
     {
         List<JavelinLogElement> elementList = null;
         try

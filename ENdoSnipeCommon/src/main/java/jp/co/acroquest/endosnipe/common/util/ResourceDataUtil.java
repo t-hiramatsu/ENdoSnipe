@@ -77,7 +77,8 @@ public class ResourceDataUtil
         dstData.ipAddress = srcData.ipAddress;
         dstData.portNum = srcData.portNum;
 
-        for (Map.Entry<String, MeasurementData> measurementMapEntry : srcData.getMeasurementMap().entrySet())
+        for (Map.Entry<String, MeasurementData> measurementMapEntry
+        		: srcData.getMeasurementMap().entrySet())
         {
             MeasurementData srcMeasurementData = measurementMapEntry.getValue();
             MeasurementData dstMeasurementData = new MeasurementData();
@@ -86,7 +87,8 @@ public class ResourceDataUtil
             dstMeasurementData.measurementTime = new Timestamp(measurementTime);
             dstMeasurementData.valueType = ItemType.getItemTypeNumber(ItemType.ITEMTYPE_STRING);
 
-            for (Map.Entry<String, MeasurementDetail> measurementDetailMapEntry : srcMeasurementData.getMeasurementDetailMap().entrySet())
+            for (Map.Entry<String, MeasurementDetail> measurementDetailMapEntry
+            		: srcMeasurementData.getMeasurementDetailMap().entrySet())
             {
                 MeasurementDetail srcMeasurementDetail = measurementDetailMapEntry.getValue();
                 MeasurementDetail dstMeasurementDetail = new MeasurementDetail();
@@ -139,7 +141,8 @@ public class ResourceDataUtil
         additionalData.ipAddress = currData.ipAddress;
         additionalData.portNum = currData.portNum;
 
-        for (Map.Entry<String, MeasurementData> measurementMapEntry : currData.getMeasurementMap().entrySet())
+        for (Map.Entry<String, MeasurementData> measurementMapEntry
+        		: currData.getMeasurementMap().entrySet())
         {
             MeasurementData currMeasurementData = measurementMapEntry.getValue();
             MeasurementData prevMeasurementData =
@@ -156,11 +159,13 @@ public class ResourceDataUtil
             additionalMeasurementData.valueType =
                     ItemType.getItemTypeNumber(ItemType.ITEMTYPE_STRING);
 
-            for (Map.Entry<String, MeasurementDetail> measurementDetailMapEntry : currMeasurementData.getMeasurementDetailMap().entrySet())
+            for (Map.Entry<String, MeasurementDetail> measurementDetailMapEntry
+            		: currMeasurementData.getMeasurementDetailMap().entrySet())
             {
                 MeasurementDetail currMeasurementDetail = measurementDetailMapEntry.getValue();
                 MeasurementDetail prevMeasurementDetail =
-                        prevMeasurementData.getMeasurementDetailMap().get(measurementDetailMapEntry.getKey());
+                        prevMeasurementData.getMeasurementDetailMap().get(
+                        		measurementDetailMapEntry.getKey());
 
                 if (prevMeasurementDetail == null)
                 {

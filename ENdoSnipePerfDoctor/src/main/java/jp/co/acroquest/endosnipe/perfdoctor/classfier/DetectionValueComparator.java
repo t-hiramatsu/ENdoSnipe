@@ -25,6 +25,7 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.perfdoctor.classfier;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
 import jp.co.acroquest.endosnipe.perfdoctor.WarningUnit;
@@ -34,9 +35,14 @@ import jp.co.acroquest.endosnipe.perfdoctor.WarningUnit;
  * @author fujii
  *
  */
-public class DetectionValueComparator implements Comparator<WarningUnit>
+public class DetectionValueComparator implements Comparator<WarningUnit>, Serializable
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7561669197988892669L;
+
+	/**
      * compareメソッドの実装。
      * @param unit1 比較対象のWarningUnit
      * @param unit2 比較対象のWarningUnit

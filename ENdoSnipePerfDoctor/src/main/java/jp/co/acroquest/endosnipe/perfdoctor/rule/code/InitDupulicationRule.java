@@ -91,7 +91,8 @@ public class InitDupulicationRule extends SingleElementRule implements JavelinCo
     /**
      * {@inheritDoc}
      */
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     protected void doJudgeElement(final JavelinLogElement element)
     {
         // ¯•Êq‚ª"Event"‚Å‚È‚¢ê‡‚ÍAˆ—‚µ‚È‚¢B

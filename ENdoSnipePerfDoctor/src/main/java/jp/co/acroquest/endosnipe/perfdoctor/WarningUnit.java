@@ -231,7 +231,14 @@ public class WarningUnit
      */
     public Object[] getArgs()
     {
-        return this.args_;
+    	if (args_ == null)
+    	{
+    		return null;
+    	}
+    	else
+    	{
+    		return this.args_.clone();
+    	}
     }
 
     /**

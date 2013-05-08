@@ -74,8 +74,6 @@ public class JavelinClientConnection
 
     private final BlockingQueue<byte[]> queue_;
 
-    private boolean discard_;
-
     /**
      * 送信用キュー、ソケット、入出力ストリームを構築します。<br />
      * 
@@ -86,7 +84,6 @@ public class JavelinClientConnection
     public JavelinClientConnection(final Socket objSocket, boolean discard)
         throws IOException
     {
-        this.discard_ = discard;
         this.queue_ = new ArrayBlockingQueue<byte[]>(SEND_QUEUE_SIZE);
         this.clientSocket_ = objSocket;
         this.lastDiscard_ = 0;

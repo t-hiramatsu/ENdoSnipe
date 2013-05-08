@@ -95,7 +95,8 @@ public class GCCountRule extends SingleElementRule
      * @param key 取得キー
      * @return 対応する値
      */
-    protected int getIntValue(final Map<String, String> jmxInfoMap, final String key)
+    @SuppressWarnings("deprecation")
+	protected int getIntValue(final Map<String, String> jmxInfoMap, final String key)
     {
         String valueStr = jmxInfoMap.get(key);
 
@@ -122,7 +123,8 @@ public class GCCountRule extends SingleElementRule
      * @param key 取得キー
      * @return 対応する値
      */
-    protected double getDoubleValue(final Map<String, String> jmxInfoMap, final String key)
+    @SuppressWarnings("deprecation")
+	protected double getDoubleValue(final Map<String, String> jmxInfoMap, final String key)
     {
         String valueStr = jmxInfoMap.get(key);
 

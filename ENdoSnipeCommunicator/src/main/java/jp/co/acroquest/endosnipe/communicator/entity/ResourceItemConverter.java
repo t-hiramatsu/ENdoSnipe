@@ -38,85 +38,95 @@ import net.arnx.jsonic.JSONException;
  */
 public class ResourceItemConverter
 {
-    /**
-     * ResourceItemのリストをJSONでエンコード／デコードするための内部クラス
-     * 
-     * @author y_asazuma
-     */
-    private class ListOfResourceItem
-    {
-        private List<ResourceItem> list_;
+	/**
+	 * ResourceItemのリストをJSONでエンコード／デコードするための内部クラス
+	 * 
+	 * @author y_asazuma
+	 */
+	private class ListOfResourceItem
+	{
+		private List<ResourceItem> list_;
 
-        public List<ResourceItem> getList()
-        {
-            return list_;
-        }
+		public List<ResourceItem> getList()
+		{
+			return list_;
+		}
 
-        public void setList(List<ResourceItem> list)
-        {
-            list_ = list;
-        }
-    }
+		public void setList(List<ResourceItem> list)
+		{
+			list_ = list;
+		}
+	}
 
-    private static ResourceItemConverter instance_ = new ResourceItemConverter();
+	private static ResourceItemConverter instance__
+		= new ResourceItemConverter();
 
-    public static ResourceItemConverter getInstance()
-    {
-        return instance_;
-    }
+	/**
+	 * インスタンスを返す
+	 * @return インスタンス
+	 */
+	public static ResourceItemConverter getInstance()
+	{
+		return instance__;
+	}
 
-    /**
-     * 計測値のリストをJSON形式にエンコードします。
-     * 
-     * @param itemList 計測値リスト
-     * @return JSON形式の計測値リスト
-     * 
-     * @throws Exception 変換エラー時の例外
-     */
-    public String encodeToJSON(List<ResourceItem> itemList)
-        throws Exception
-    {
-        if (itemList.size() <= 0)
-            return null;
+	/**
+	 * 計測値のリストをJSON形式にエンコードします。
+	 * 
+	 * @param itemList
+	 *            計測値リスト
+	 * @return JSON形式の計測値リスト
+	 * 
+	 * @throws Exception
+	 *             変換エラー時の例外
+	 */
+	public String encodeToJSON(List<ResourceItem> itemList) throws Exception
+	{
+		if (itemList.size() <= 0)
+		{
+			return null;
+		}
+		String jsonStr;
+		try
+		{
+			ListOfResourceItem item = new ListOfResourceItem();
+			item.setList(itemList);
+			jsonStr = JSON.encode(item);
+		}
+		catch (JSONException je)
+		{
+			throw (Exception) je;
+		}
 
-        String jsonStr;
-        try
-        {
-            ListOfResourceItem item = new ListOfResourceItem();
-            item.setList(itemList);
-            jsonStr = JSON.encode(item);
-        }
-        catch (JSONException je)
-        {
-            throw (Exception)je;
-        }
+		return jsonStr;
+	}
 
-        return jsonStr;
-    }
+	/**
+	 * JSON形式の計測値のリストをデコードします。
+	 * 
+	 * @param jsonStr
+	 *            JSON形式の計測値リスト
+	 * @return 計測値リスト
+	 * 
+	 * @throws Exception
+	 *             変換エラー時の例外
+	 */
+	public List<ResourceItem> decodeFromJSON(String jsonStr) throws Exception
+	{
+		if (jsonStr == null || jsonStr.equals(""))
+		{
+			return null;
+		}
+		ListOfResourceItem item;
+		try
+		{
+			item = JSON.decode(jsonStr, ListOfResourceItem.class);
+		}
+		catch (JSONException je)
+		{
+			throw (Exception) je;
+		}
 
-    /**
-     * JSON形式の計測値のリストをデコードします。
-     * @param jsonStr JSON形式の計測値リスト
-     * @return 計測値リスト
-     * 
-     * @throws Exception 変換エラー時の例外
-     */
-    public List<ResourceItem> decodeFromJSON(String jsonStr)
-        throws Exception
-    {
-        if (jsonStr == null || jsonStr.equals(""))
-            return null;
-
-        ListOfResourceItem item;
-        try
-        {
-            item = JSON.decode(jsonStr, ListOfResourceItem.class);
-        }
-        catch (JSONException je)
-        {
-            throw (Exception)je;
-        }
-
-        return item.getList();
-    }
+		return item.getList();
+	}
 }

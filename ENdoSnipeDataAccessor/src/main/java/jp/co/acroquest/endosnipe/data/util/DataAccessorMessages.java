@@ -31,44 +31,51 @@ import java.util.ResourceBundle;
 
 /**
  * DataAccessorメッセージ取得クラス。
+ * 
  * @author fujii
- *
+ * 
  */
 public class DataAccessorMessages
 {
-    /** メッセージプロパティファイルの名称 */
-    private static final String BUNDLE_NAME = "jp.co.acroquest.endosnipe.data.util.DataAccessorMessages";
+	/** メッセージプロパティファイルの名称 */
+	private static final String BUNDLE_NAME
+	= "jp.co.acroquest.endosnipe.data.util.DataAccessorMessages";
 
-    /**
-     * デフォルトコンストラクタ
-     */
-    private DataAccessorMessages()
-    {
-        //何もしない
-    }
+	/**
+	 * デフォルトコンストラクタ
+	 */
+	private DataAccessorMessages()
+	{
+		// 何もしない
+	}
 
-    /**
-     * リソースバンドルよりメッセージを取得する。
-     * @param messageId メッセージID
-     * @param args メッセージの引数
-     * @return メッセージ
-     */
-    public static String getMessage(final String messageId, final Object... args)
-    {
-        String message = null;
-        try
-        {
-            message = ResourceBundle.getBundle(BUNDLE_NAME).getString(messageId);
-            message = MessageFormat.format(message, args);
+	/**
+	 * リソースバンドルよりメッセージを取得する。
+	 * 
+	 * @param messageId
+	 *            メッセージID
+	 * @param args
+	 *            メッセージの引数
+	 * @return メッセージ
+	 */
+	public static String getMessage(final String messageId,
+			final Object... args)
+	{
+		String message = null;
+		try
+		{
+			message = ResourceBundle.getBundle(BUNDLE_NAME)
+					.getString(messageId);
+			message = MessageFormat.format(message, args);
 
-        }
-        // CHECKSTYLE:OFF
-        catch (MissingResourceException mre)
-        {
-            // Do Nothing.
-        }
-        // CHECKSTYLE:ON
+		}
+		// CHECKSTYLE:OFF
+		catch (MissingResourceException mre)
+		{
+			// Do Nothing.
+		}
+		// CHECKSTYLE:ON
 
-        return message;
-    }
+		return message;
+	}
 }

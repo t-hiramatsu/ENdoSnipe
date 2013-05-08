@@ -474,8 +474,10 @@ public class DataCollectorServer implements CommunicationServer, Runnable
                         client.setTelegramListener(controlClientTelegramListener_);
                         break;
                     case ConnectNotifyData.PURPOSE_GET_DATABASE:
+                    default :
                         // 処理なし
                         break;
+                    
                     }
 
                     break;
@@ -590,64 +592,6 @@ public class DataCollectorServer implements CommunicationServer, Runnable
         String clientId = seqClientId_.toString();
         seqClientId_ = seqClientId_.add(BigInteger.valueOf(1));
         return clientId;
-    }
-
-    /**
-     * DB名称を生成する。
-     * "%H"文字列をホスト名に、
-     * "%I"文字列をIPアドレスに置換した結果を返す。
-     * 
-     * @param dbName 接続情報に格納されていたDB名
-     * @param hostName ホスト名
-     * @param ipAddr IPアドレス
-     * @return 返還後のDB名称
-     */
-    private static String createDbNameBase(String dbName, String hostName, String ipAddr)
-    {
-        if (dbName == null)
-        {
-            return "unknown";
-        }
-
-        if (hostName == null)
-        {
-            hostName = "";
-        }
-
-        if (ipAddr == null)
-        {
-            ipAddr = "";
-        }
-
-        String realDbName = dbName;
-        realDbName = realDbName.replaceAll("%H", hostName);
-        realDbName = realDbName.replaceAll("%I", ipAddr);
-
-        return realDbName;
-    }
-
-    /**
-     * DB名を生成する。
-     * 
-     * @param connectNotifyData 接続通知
-     * @return　番号を付与したDB名
-     */
-    private String createDbName(ConnectNotifyData connectNotifyData, int dbNo)
-    {
-        String dbName = null;
-        if (connectNotifyData == null)
-        {
-            return null;
-        }
-
-        // DB名称に%Nが含まれる場合は、連番を入れる。
-        // 含まれていなければ連番を入れず、DBを分けない。
-        dbName = connectNotifyData.getAgentName();
-        if (dbName.contains("%N"))
-        {
-            dbName = dbName.replaceAll("%N", String.valueOf(dbNo));
-        }
-        return dbName;
     }
 
 }

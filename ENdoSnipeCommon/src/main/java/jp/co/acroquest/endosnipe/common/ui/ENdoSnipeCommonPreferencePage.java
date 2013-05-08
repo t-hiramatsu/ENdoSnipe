@@ -45,10 +45,10 @@ public class ENdoSnipeCommonPreferencePage extends FieldEditorPreferencePage imp
         IWorkbenchPreferencePage, Constants
 {
     private static final String[][] LOG_LEVELS =
-            {{Messages.ENDOSNIPECOMMON_LOGLEVEL_DEBUG, Integer.toString(IStatus.OK)},
-                    {Messages.ENDOSNIPECOMMON_LOGLEVEL_INFO, Integer.toString(IStatus.INFO)},
-                    {Messages.ENDOSNIPECOMMON_LOGLEVEL_WARNING, Integer.toString(IStatus.WARNING)},
-                    {Messages.ENDOSNIPECOMMON_LOGLEVEL_ERROR, Integer.toString(IStatus.ERROR)}};
+            {{Messages.endoSnipeCommonLogLevelDebug__, Integer.toString(IStatus.OK)},
+                    {Messages.endoSnipeCommonLogLevelInfo__, Integer.toString(IStatus.INFO)},
+                    {Messages.endoSnipeCommonLogLevelWarning__, Integer.toString(IStatus.WARNING)},
+                    {Messages.endoSnipeCommonLogLevelError__, Integer.toString(IStatus.ERROR)}};
 
     /**
      * {@link ENdoSnipePreferencePage} Çç\ízÇµÇ‹Ç∑ÅB<br />
@@ -67,7 +67,7 @@ public class ENdoSnipeCommonPreferencePage extends FieldEditorPreferencePage imp
     {
         Composite parent = getFieldEditorParent();
 
-        addField(new ComboFieldEditor(PREF_LOG_LEVEL, Messages.ENDOSNIPECOMMON_LOGLEVEL,
+        addField(new ComboFieldEditor(PREF_LOG_LEVEL, Messages.endoSnipeCommonLogLevel__,
                                       LOG_LEVELS, parent));
     }
 

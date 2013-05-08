@@ -39,7 +39,8 @@ public class ENdoSnipeDataAccessorPluginProvider extends AbstractPluginProvider
     public static final PluginProvider INSTANCE = new ENdoSnipeDataAccessorPluginProvider();
 
     // Eclipse ライブラリを参照させないため、敢えて文字列にしています
-    private static final String CLASS_NAME = "jp.co.acroquest.endosnipe.data.ENdoSnipeDataAccessorPlugin";
+    private static final String CLASS_NAME
+    = "jp.co.acroquest.endosnipe.data.ENdoSnipeDataAccessorPlugin";
 
     /**
      * {@inheritDoc}

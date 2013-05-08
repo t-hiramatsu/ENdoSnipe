@@ -31,67 +31,75 @@ import java.util.Date;
 
 /**
  * 一般的な形式の日付文字列とlong型の時刻値を相互変換するユーティリティ。
+ * 
  * @author hayakawa
  */
 public class NormalDateFormatter
 {
-    static final private String DATA_FORMAT_PATTERN = "yyyy/MM/dd HH:mm:ss.SSS";
+	private static final String DATA_FORMAT_PATTERN = "yyyy/MM/dd HH:mm:ss.SSS";
 
-    static private SimpleDateFormat formatter_ = new SimpleDateFormat(DATA_FORMAT_PATTERN);
+	private static SimpleDateFormat formatter__ = new SimpleDateFormat(
+			DATA_FORMAT_PATTERN);
 
-    static private SimpleDateFormat syncFormatter_ = new SimpleDateFormat(DATA_FORMAT_PATTERN);
+	private static SimpleDateFormat syncFormatter__ = new SimpleDateFormat(
+			DATA_FORMAT_PATTERN);
 
-    static private Date tmpDateObject_ = new Date();
+	private static Date tmpDateObject__ = new Date();
 
-    static private Date syncTmpDateObject_ = new Date();
+	private static Date syncTmpDateObject__ = new Date();
 
-    /**
-     * long値で渡された時刻の値を、"yyyy/MM/dd HH:mm:ss.SSS"
-     * という形式の文字列に変換する。
-     * 同期化していないため、複数スレッドからのアクセスに対する
-     * 呼び出しがあった場合は、結果を保証しない。
-     * 
-     * @param time 時刻
-     * @return フォーマットした時刻の文字列
-     */
-    static public String format(final long time)
-    {
-        tmpDateObject_.setTime(time);
-        return formatter_.format(tmpDateObject_);
-    }
+	/**
+	 * コンストラクタを隠す
+	 */
+	private NormalDateFormatter()
+	{
 
-    /**
-     * long値で渡された時刻の値を、"yyyy/MM/dd HH:mm:ss.SSS"
-     * という形式の文字列に変換する。
-     * 同期化しているため、複数スレッドからのアクセスに対応可能である。
-     * ただし、ロック取得によるパフォーマンスの劣化に留意すること。
-     * 
-     * @param time 時刻
-     * @return フォーマットした時刻の文字列
-     */
-    static synchronized public String formatSync(final long time)
-    {
-        syncTmpDateObject_.setTime(time);
-        return syncFormatter_.format(syncTmpDateObject_);
-    }
+	}
 
-    /**
-     * 文字列を日付に変換する。
-     * 
-     * @param dateString
-     * @return 変換結果。
-     * @throws ParseException
-     */
-    public static Date parse(final String dateString)
-        throws ParseException
-    {
-        if (dateString == null)
-        {
-            throw new ParseException("NullPointerException", 0);
-        }
+	/**
+	 * long値で渡された時刻の値を、"yyyy/MM/dd HH:mm:ss.SSS" という形式の文字列に変換する。
+	 * 同期化していないため、複数スレッドからのアクセスに対する 呼び出しがあった場合は、結果を保証しない。
+	 * 
+	 * @param time
+	 *            時刻
+	 * @return フォーマットした時刻の文字列
+	 */
+	public static String format(final long time)
+	{
+		tmpDateObject__.setTime(time);
+		return formatter__.format(tmpDateObject__);
+	}
 
-        Date date = formatter_.parse(dateString);
-        return date;
-    }
+	/**
+	 * long値で渡された時刻の値を、"yyyy/MM/dd HH:mm:ss.SSS" という形式の文字列に変換する。
+	 * 同期化しているため、複数スレッドからのアクセスに対応可能である。 ただし、ロック取得によるパフォーマンスの劣化に留意すること。
+	 * 
+	 * @param time
+	 *            時刻
+	 * @return フォーマットした時刻の文字列
+	 */
+	public static synchronized String formatSync(final long time)
+	{
+		syncTmpDateObject__.setTime(time);
+		return syncFormatter__.format(syncTmpDateObject__);
+	}
+
+	/**
+	 * 文字列を日付に変換する。
+	 * 
+	 * @param dateString 日付文字列
+	 * @return 変換結果。
+	 * @throws ParseException 解析例外
+	 */
+	public static Date parse(final String dateString) throws ParseException
+	{
+		if (dateString == null)
+		{
+			throw new ParseException("NullPointerException", 0);
+		}
+
+		Date date = formatter__.parse(dateString);
+		return date;
+	}
 
 }
