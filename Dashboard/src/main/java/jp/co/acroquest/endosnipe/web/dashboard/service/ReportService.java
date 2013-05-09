@@ -36,9 +36,18 @@ public class ReportService
     /**
      * レポート出力の定義をDBに登録する。
      * 
-     * @param reportDefinitionDto レポート出力の定義を
+     * @param reportDefinitionDto レポート出力の定義
      */
     public void insertReportDefinition(final ReportDefinitionDto reportDefinitionDto)
+    {
+
+    }
+
+    /**
+     * 
+     * @param reportDefinitionDto レポート出力の定義
+     */
+    public void createReport(final ReportDefinitionDto reportDefinitionDto)
     {
 
     }

@@ -59,8 +59,6 @@
         <!-- 依存ライブラリをコピー -->
         <copy file="${endosnipe-common.jar}"          todir="${lib-dependency.dir}" failonerror="yes" />
         <copy file="${endosnipe-reporter.jar}"        todir="${lib-dependency.dir}" failonerror="yes" />
-        <copy file="${endosnipe-arrowvision.jar}"     todir="${lib-dependency.dir}" failonerror="yes" />
-        <copy file="${endosnipe-arrowvision_pro.jar}" todir="${lib-dependency.dir}" failonerror="yes" />
         <copy file="${endosnipe-dataaccessor.jar}"    todir="${lib-dependency.dir}" failonerror="yes" />
         <copy file="${endosnipe-datacollector.jar}"   todir="${lib-dependency.dir}" failonerror="yes" />
 

@@ -62,6 +62,8 @@ public class ReportController
 
         this.reportService_.insertReportDefinition(reportDefinitionDto);
 
+        this.reportService_.createReport(reportDefinitionDto);
+
         reportDefinitionDto.setReportId(1);
 
         return reportDefinitionDto;
