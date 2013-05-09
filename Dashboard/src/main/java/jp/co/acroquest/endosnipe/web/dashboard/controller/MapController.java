@@ -58,11 +58,11 @@ public class MapController
 {
     /** WGPのデータを扱うクラスのオブジェクト。 */
     @Autowired
-    protected WgpDataManager wgpDataManager_;
+    protected WgpDataManager wgpDataManager;
 
     /** リソース送信クラスのオブジェクト。 */
     @Autowired
-    protected ResourceSender resourceSender_;
+    protected ResourceSender resourceSender;
 
     /** マップを表すID */
     private static final String MAP_DATA_ID = "map";
@@ -94,8 +94,8 @@ public class MapController
             @ModelAttribute("mapListForm") final MapListForm mapListForm)
     {
         EventManager eventManager = EventManager.getInstance();
-        eventManager.setWgpDataManager(wgpDataManager_);
-        eventManager.setResourceSender(resourceSender_);
+        eventManager.setWgpDataManager(wgpDataManager);
+        eventManager.setResourceSender(resourceSender);
 
         // マップモードが設定されていない場合は運用モードを設定する。
         String mapMode = mapListForm.getMapMode();
@@ -133,8 +133,8 @@ public class MapController
             @RequestParam(value = "name") final String name)
     {
         MapInfo mapInfo = new MapInfo();
-        mapInfo.data_ = data;
-        mapInfo.name_ = name;
+        mapInfo.data = data;
+        mapInfo.name = name;
         this.mapService_.insert(mapInfo);
     }
 
@@ -151,9 +151,9 @@ public class MapController
             @RequestParam(value = "name") final String name)
     {
         MapInfo mapInfo = new MapInfo();
-        mapInfo.mapId_ = Long.valueOf(mapId);
-        mapInfo.data_ = data;
-        mapInfo.name_ = name;
+        mapInfo.mapId = Long.valueOf(mapId);
+        mapInfo.data = data;
+        mapInfo.name = name;
         this.mapService_.update(mapInfo);
     }
 

@@ -35,7 +35,7 @@ public class ReportController
 {
     /** シグナル定義のサービスクラスのオブジェクト。 */
     @Autowired
-    protected ReportService reportService_;
+    protected ReportService reportService;
 
     /**
      * デフォルトコンストラクタ。
@@ -60,9 +60,9 @@ public class ReportController
         ReportDefinitionDto reportDefinitionDto =
                 JSON.decode(reportDefinition, ReportDefinitionDto.class);
 
-        this.reportService_.insertReportDefinition(reportDefinitionDto);
+        this.reportService.insertReportDefinition(reportDefinitionDto);
 
-        this.reportService_.createReport(reportDefinitionDto);
+        this.reportService.createReport(reportDefinitionDto);
 
         reportDefinitionDto.setReportId(1);
 

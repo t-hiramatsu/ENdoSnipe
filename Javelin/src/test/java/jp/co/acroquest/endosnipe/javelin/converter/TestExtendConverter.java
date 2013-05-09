@@ -27,7 +27,7 @@ package jp.co.acroquest.endosnipe.javelin.converter;
 
 import java.util.List;
 
-import jp.co.acroquest.endosnipe.javassist.CtBehavior;
+import jp.co.smg.endosnipe.javassist.CtBehavior;
 
 /**
  * AbstractConverterのメソッドを試験するためのコンバータ。

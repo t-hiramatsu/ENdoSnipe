@@ -46,7 +46,7 @@ public class SignalService
      * シグナル情報Dao
      */
     @Autowired
-    protected SignalInfoDao              signalInfoDao_;
+    protected SignalInfoDao              signalInfoDao;
 
     /**
      * コンストラクタ
@@ -66,7 +66,7 @@ public class SignalService
         List<SignalInfo> signalList = null;
         try
         {
-            signalList = signalInfoDao_.selectAll();
+            signalList = signalInfoDao.selectAll();
         }
         catch (PersistenceException pEx)
         {
@@ -142,7 +142,7 @@ public class SignalService
         for (int cnt = 0; cnt < dtoCount; cnt++)
         {
             SignalInfo signalInfo = signalList.get(cnt);
-            signalNames[cnt] = signalInfo.signalName_;
+            signalNames[cnt] = signalInfo.signalName;
         }
         signalBody.setObjItemValueArr(signalNames);
 
@@ -167,8 +167,8 @@ public class SignalService
         int signalId = 0;
         try
         {
-            signalInfoDao_.insert(signalInfo);
-            signalId = signalInfoDao_.selectSequenceNum(signalInfo);
+            signalInfoDao.insert(signalInfo);
+            signalId = signalInfoDao.selectSequenceNum(signalInfo);
         }
         catch (DuplicateKeyException dkEx)
         {
@@ -196,16 +196,16 @@ public class SignalService
     {
         try
         {
-            SignalInfo beforeSignalInfo = signalInfoDao_.selectById(signalInfo.signalId_);
+            SignalInfo beforeSignalInfo = signalInfoDao.selectById(signalInfo.signalId);
             if (beforeSignalInfo == null)
             {
                 return new SignalDefinitionDto();
             }
 
-            signalInfoDao_.update(signalInfo);
+            signalInfoDao.update(signalInfo);
 
-            String beforeItemName = beforeSignalInfo.signalName_;
-            String afterItemName = signalInfo.signalName_;
+            String beforeItemName = beforeSignalInfo.signalName;
+            String afterItemName = signalInfo.signalName;
 
             this.updateMeasurementItemName(beforeItemName, afterItemName);
         }
@@ -234,7 +234,7 @@ public class SignalService
         SignalDefinitionDto signalDefinitionDto = this.convertSignalDto(signalInfo);
 
         // TODO signalValueがモックなので、DataCollectorに問い合わせて取得するように変更する
-        signalDefinitionDto.setSignalValue(1 + (int) (Math.random() * signalInfo.level_));
+        signalDefinitionDto.setSignalValue(1 + (int) (Math.random() * signalInfo.level));
 
         return signalDefinitionDto;
     }
@@ -249,8 +249,8 @@ public class SignalService
     {
         try
         {
-            signalInfoDao_.delete(signalInfo);
-            this.deleteMeasurementItem(signalInfo.signalName_);
+            signalInfoDao.delete(signalInfo);
+            this.deleteMeasurementItem(signalInfo.signalName);
         }
         catch (PersistenceException pEx)
         {
@@ -284,12 +284,12 @@ public class SignalService
     {
         SignalInfo signalInfo = new SignalInfo();
 
-        signalInfo.signalId_ = definitionDto.getSignalId();
-        signalInfo.signalName_ = definitionDto.getSignalName();
-        signalInfo.matchingPattern_ = definitionDto.getMatchingPattern();
-        signalInfo.level_ = definitionDto.getLevel();
-        signalInfo.patternValue_ = definitionDto.getPatternValue();
-        signalInfo.escalationPeriod_ = definitionDto.getEscalationPeriod();
+        signalInfo.signalId = definitionDto.getSignalId();
+        signalInfo.signalName = definitionDto.getSignalName();
+        signalInfo.matchingPattern = definitionDto.getMatchingPattern();
+        signalInfo.level = definitionDto.getLevel();
+        signalInfo.patternValue = definitionDto.getPatternValue();
+        signalInfo.escalationPeriod = definitionDto.getEscalationPeriod();
 
         return signalInfo;
     }
@@ -306,12 +306,12 @@ public class SignalService
 
         SignalDefinitionDto definitionDto = new SignalDefinitionDto();
 
-        definitionDto.setSignalId(signalInfo.signalId_);
-        definitionDto.setSignalName(signalInfo.signalName_);
-        definitionDto.setMatchingPattern(signalInfo.matchingPattern_);
-        definitionDto.setLevel(signalInfo.level_);
-        definitionDto.setPatternValue(signalInfo.patternValue_);
-        definitionDto.setEscalationPeriod(signalInfo.escalationPeriod_);
+        definitionDto.setSignalId(signalInfo.signalId);
+        definitionDto.setSignalName(signalInfo.signalName);
+        definitionDto.setMatchingPattern(signalInfo.matchingPattern);
+        definitionDto.setLevel(signalInfo.level);
+        definitionDto.setPatternValue(signalInfo.patternValue);
+        definitionDto.setEscalationPeriod(signalInfo.escalationPeriod);
 
         return definitionDto;
     }

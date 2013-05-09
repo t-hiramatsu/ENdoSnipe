@@ -173,7 +173,7 @@ public class JavelinTransformer implements ClassFileTransformer
                 || className.startsWith("javassist.")
                 || className.startsWith("org.seasar.javelin")
                 || className.startsWith("jp.co.acroquest.endosnipe.javelin")
-                || className.startsWith("jp.co.acroquest.endosnipe.javassist"))
+                || className.startsWith("jp.co.smg.endosnipe.javassist"))
         {
             return false;
         }

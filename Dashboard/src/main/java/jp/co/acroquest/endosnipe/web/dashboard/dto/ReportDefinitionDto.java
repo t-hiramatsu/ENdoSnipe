@@ -12,6 +12,8 @@
  */
 package jp.co.acroquest.endosnipe.web.dashboard.dto;
 
+import java.util.Calendar;
+
 /**
  * レポート出力定義のDtoクラス。
  * 
@@ -30,10 +32,10 @@ public class ReportDefinitionDto
     private String targetMeasurementName_;
 
     /** 期間の始まりの日時。 */
-    private String reportTermFrom_;
+    private Calendar reportTermFrom_;
 
     /** 期間の終わりの日時。 */
-    private String reportTermTo_;
+    private Calendar reportTermTo_;
 
     /**
      * コンストラクタ。
@@ -108,7 +110,7 @@ public class ReportDefinitionDto
      * 
      * @return 期間の始まりの日時
      */
-    public String getReportTermFrom()
+    public Calendar getReportTermFrom()
     {
         return reportTermFrom_;
     }
@@ -118,7 +120,7 @@ public class ReportDefinitionDto
      * 
      * @param reportTermFrom 期間の始まりの日時
      */
-    public void setReportTermFrom(final String reportTermFrom)
+    public void setReportTermFrom(final Calendar reportTermFrom)
     {
         reportTermFrom_ = reportTermFrom;
     }
@@ -128,7 +130,7 @@ public class ReportDefinitionDto
      * 
      * @return 期間の終わりの日時
      */
-    public String getReportTermTo()
+    public Calendar getReportTermTo()
     {
         return reportTermTo_;
     }
@@ -138,7 +140,7 @@ public class ReportDefinitionDto
      * 
      * @param reportTermTo 期間の終わりの日時
      */
-    public void setReportTermTo(final String reportTermTo)
+    public void setReportTermTo(final Calendar reportTermTo)
     {
         reportTermTo_ = reportTermTo;
     }

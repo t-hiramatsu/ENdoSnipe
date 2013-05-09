@@ -56,15 +56,15 @@ public class SignalController
 {
     /** Wgpのデータを管理するクラス。 */
     @Autowired
-    protected WgpDataManager wgpDataManager_;
+    protected WgpDataManager wgpDataManager;
 
     /** リソースを送信するクラスのオブジェクト。 */
     @Autowired
-    protected ResourceSender resourceSender_;
+    protected ResourceSender resourceSender;
 
     /** シグナル定義のサービスクラスのオブジェクト。 */
     @Autowired
-    protected SignalService signalService_;
+    protected SignalService signalService;
 
     /**
      * コンストラクタ。
@@ -85,7 +85,7 @@ public class SignalController
     {
         List<SignalDefinitionDto> signalDefinitionDtos = new ArrayList<SignalDefinitionDto>();
 
-        signalDefinitionDtos = signalService_.getAllSignal();
+        signalDefinitionDtos = signalService.getAllSignal();
 
         return signalDefinitionDtos;
     }
@@ -105,10 +105,10 @@ public class SignalController
         SignalDefinitionDto signalDefinitionDto =
                 JSON.decode(signalDefinition, SignalDefinitionDto.class);
 
-        SignalInfo signalInfo = this.signalService_.convertSignalInfo(signalDefinitionDto);
+        SignalInfo signalInfo = this.signalService.convertSignalInfo(signalDefinitionDto);
 
         // DBに追加する
-        SignalDefinitionDto addedDefinitionDto = this.signalService_.insertSignalInfo(signalInfo);
+        SignalDefinitionDto addedDefinitionDto = this.signalService.insertSignalInfo(signalInfo);
 
         return addedDefinitionDto;
     }
@@ -130,10 +130,10 @@ public class SignalController
         SignalDefinitionDto signalDefinitionDto =
                 JSON.decode(signalDefinition, SignalDefinitionDto.class);
 
-        SignalInfo signalInfo = this.signalService_.convertSignalInfo(signalDefinitionDto);
+        SignalInfo signalInfo = this.signalService.convertSignalInfo(signalDefinitionDto);
 
         // DBに登録されている定義を更新する
-        SignalDefinitionDto updatedDefinitionDto = this.signalService_.updateSignalInfo(signalInfo);
+        SignalDefinitionDto updatedDefinitionDto = this.signalService.updateSignalInfo(signalInfo);
 
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("signalDefinition", updatedDefinitionDto);
@@ -157,9 +157,9 @@ public class SignalController
         SignalDefinitionDto signalDefinitionDto =
                 JSON.decode(signalDefinition, SignalDefinitionDto.class);
 
-        SignalInfo signalInfo = this.signalService_.convertSignalInfo(signalDefinitionDto);
+        SignalInfo signalInfo = this.signalService.convertSignalInfo(signalDefinitionDto);
 
-        this.signalService_.deleteSignalInfo(signalInfo);
+        this.signalService.deleteSignalInfo(signalInfo);
 
         System.out.println("閾値判定のシグナルを削除しました。");
 

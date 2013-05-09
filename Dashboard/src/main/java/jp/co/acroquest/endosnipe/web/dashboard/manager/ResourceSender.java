@@ -58,7 +58,7 @@ public class ResourceSender
 {
     /** WgpDataManager */
     @Autowired
-    private WgpDataManager wgpDataManager_;
+    private WgpDataManager wgpDataManager;
 
     /**
      * コンストラクタです。
@@ -79,7 +79,7 @@ public class ResourceSender
 
         for (WgpMessageInbound inbound : inboundList)
         {
-            sendWgpData(resourceData, this.wgpDataManager_, inbound);
+            sendWgpData(resourceData, this.wgpDataManager, inbound);
         }
     }
 
@@ -95,7 +95,7 @@ public class ResourceSender
 
         for (WgpMessageInbound inbound : inboundList)
         {
-            sendWgpData(signalTreeMenuDtoList, this.wgpDataManager_, inbound);
+            sendWgpData(signalTreeMenuDtoList, this.wgpDataManager, inbound);
         }
     }
 

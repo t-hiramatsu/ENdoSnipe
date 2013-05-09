@@ -25,8 +25,8 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.javelin.common;
 
-import jp.co.acroquest.endosnipe.javassist.ClassPool;
-import jp.co.acroquest.endosnipe.javassist.CtClass;
+import jp.co.smg.endosnipe.javassist.ClassPool;
+import jp.co.smg.endosnipe.javassist.CtClass;
 import jp.co.acroquest.endosnipe.javelin.testutil.PrivateAccessor;
 import jp.co.acroquest.endosnipe.javelin.util.concurrent.ConcurrentHashMap;
 import jp.co.acroquest.endosnipe.common.config.JavelinConfig;

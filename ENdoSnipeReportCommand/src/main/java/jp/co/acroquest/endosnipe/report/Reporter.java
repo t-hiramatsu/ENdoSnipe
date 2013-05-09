@@ -46,11 +46,18 @@ import org.apache.tools.ant.taskdefs.Zip;
  * 
  * @author iida
  */
-public class ReporterMain {
+public class Reporter {
 
 	/** 開始／終了時刻を指定する文字列形式。 */
 	private static final String TIME_FORMAT = "yyyyMMdd_HHmmss";
-
+	
+	/**
+	 * コンストラクタ。
+	 */
+	public Reporter() {
+		
+	}
+	
 	/**
 	 * レポート作成を行います。<br/>
 	 * 

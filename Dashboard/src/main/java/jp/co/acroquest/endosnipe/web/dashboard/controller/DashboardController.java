@@ -51,15 +51,15 @@ public class DashboardController
 {
     /** ツリーメニューに関する操作を行うクラスのオブジェクト。 */
     @Autowired
-    protected TreeMenuService treeMenuService_;
+    protected TreeMenuService treeMenuService;
 
     /** WGPのデータを扱うクラスのオブジェクト。 */
     @Autowired
-    protected WgpDataManager wgpDataManager_;
+    protected WgpDataManager wgpDataManager;
 
     /** リソース送信クラスのオブジェクト。 */
     @Autowired
-    protected ResourceSender resourceSender_;
+    protected ResourceSender resourceSender;
 
     /**
      * コンストラクタ。
@@ -83,8 +83,8 @@ public class DashboardController
     {
         // TODO ServletContextから取得できないため、初期化時に設定する。
         EventManager eventManager = EventManager.getInstance();
-        eventManager.setWgpDataManager(wgpDataManager_);
-        eventManager.setResourceSender(resourceSender_);
+        eventManager.setWgpDataManager(wgpDataManager);
+        eventManager.setResourceSender(resourceSender);
         return "Dashboard";
     }
 }

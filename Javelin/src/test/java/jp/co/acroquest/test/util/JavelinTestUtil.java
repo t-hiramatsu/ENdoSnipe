@@ -54,8 +54,8 @@ import jp.co.acroquest.endosnipe.javelin.resource.ResourceGetter;
 import jp.co.acroquest.endosnipe.javelin.resource.proc.ProcParser;
 import jp.co.acroquest.endosnipe.javelin.testutil.PrivateAccessor;
 import jp.co.dgic.testing.common.virtualmock.MockObjectManager;
-import jp.co.acroquest.endosnipe.javassist.ClassPool;
-import jp.co.acroquest.endosnipe.javassist.CtClass;
+import jp.co.smg.endosnipe.javassist.ClassPool;
+import jp.co.smg.endosnipe.javassist.CtClass;
 import junit.framework.Assert;
 
 /**

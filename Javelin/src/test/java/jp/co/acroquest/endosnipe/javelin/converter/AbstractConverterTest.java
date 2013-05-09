@@ -28,9 +28,9 @@ package jp.co.acroquest.endosnipe.javelin.converter;
 import java.lang.reflect.Field;
 import java.util.List;
 
-import jp.co.acroquest.endosnipe.javassist.ClassPool;
-import jp.co.acroquest.endosnipe.javassist.CtBehavior;
-import jp.co.acroquest.endosnipe.javassist.CtClass;
+import jp.co.smg.endosnipe.javassist.ClassPool;
+import jp.co.smg.endosnipe.javassist.CtBehavior;
+import jp.co.smg.endosnipe.javassist.CtClass;
 import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 import junit.framework.TestCase;

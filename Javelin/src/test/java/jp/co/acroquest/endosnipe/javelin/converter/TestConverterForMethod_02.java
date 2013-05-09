@@ -28,8 +28,8 @@ package jp.co.acroquest.endosnipe.javelin.converter;
 import java.io.IOException;
 import java.util.List;
 
-import jp.co.acroquest.endosnipe.javassist.CannotCompileException;
-import jp.co.acroquest.endosnipe.javassist.CtBehavior;
+import jp.co.smg.endosnipe.javassist.CannotCompileException;
+import jp.co.smg.endosnipe.javassist.CtBehavior;
 
 public class TestConverterForMethod_02 extends AbstractConverter
 {

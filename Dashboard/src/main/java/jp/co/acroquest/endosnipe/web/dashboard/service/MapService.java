@@ -58,7 +58,7 @@ public class MapService
      * マップ情報Dao
      */
     @Autowired
-    protected MapInfoDao mapInfoDao_;
+    protected MapInfoDao mapInfoDao;
 
     /**
      * コンストラクタ
@@ -78,7 +78,7 @@ public class MapService
         List<MapInfo> mapList = null;
         try
         {
-            mapList = mapInfoDao_.selectAll();
+            mapList = mapInfoDao.selectAll();
         }
         catch (PersistenceException pe)
         {
@@ -109,13 +109,13 @@ public class MapService
     public long insert(final MapInfo mapInfo)
     {
         // 最終更新日時を設定
-        mapInfo.lastUpdate_ = new Timestamp(Calendar.getInstance().getTimeInMillis());
+        mapInfo.lastUpdate = new Timestamp(Calendar.getInstance().getTimeInMillis());
         try
         {
-            int count = mapInfoDao_.insert(mapInfo);
+            int count = mapInfoDao.insert(mapInfo);
             if (count > 0)
             {
-                return mapInfoDao_.selectSequenceNum();
+                return mapInfoDao.selectSequenceNum();
             }
         }
         catch (DuplicateKeyException dkEx)
@@ -133,10 +133,10 @@ public class MapService
     public void update(final MapInfo mapInfo)
     {
         // 最終更新日時を設定
-        mapInfo.lastUpdate_ = new Timestamp(Calendar.getInstance().getTimeInMillis());
+        mapInfo.lastUpdate = new Timestamp(Calendar.getInstance().getTimeInMillis());
         try
         {
-            mapInfoDao_.update(mapInfo);
+            mapInfoDao.update(mapInfo);
         }
         catch (PersistenceException pEx)
         {
@@ -162,7 +162,7 @@ public class MapService
     {
         try
         {
-            MapInfo mapInfo = mapInfoDao_.selectById(mapId);
+            MapInfo mapInfo = mapInfoDao.selectById(mapId);
             return this.convertDataMap(mapInfo);
         }
         catch (PersistenceException pEx)
@@ -190,7 +190,7 @@ public class MapService
     {
         try
         {
-            return mapInfoDao_.deleteById(mapId);
+            return mapInfoDao.deleteById(mapId);
         }
         catch (PersistenceException pEx)
         {
@@ -216,11 +216,11 @@ public class MapService
     private Map<String, String> convertDataMap(final MapInfo mapInfo)
     {
         Map<String, String> dataMap = new HashMap<String, String>();
-        dataMap.put("id", String.valueOf(mapInfo.mapId_));
+        dataMap.put("id", String.valueOf(mapInfo.mapId));
         dataMap.put("parentTreeId", "");
-        dataMap.put("data", mapInfo.name_);
-        dataMap.put("treeId", String.valueOf(mapInfo.mapId_));
-        dataMap.put("mapData", mapInfo.data_);
+        dataMap.put("data", mapInfo.name);
+        dataMap.put("treeId", String.valueOf(mapInfo.mapId));
+        dataMap.put("mapData", mapInfo.data);
         return dataMap;
     }
 }

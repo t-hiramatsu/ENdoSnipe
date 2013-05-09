@@ -77,15 +77,15 @@ public class TermDataController
 
     /** ツリーメニューに関する操作を行うクラスのオブジェクト。 */
     @Autowired
-    protected TreeMenuService treeMenuService_;
+    protected TreeMenuService treeMenuService;
 
     /** MeasurementValueの取得用のインタフェースを提供するクラスのオブジェクト。 */
     @Autowired
-    protected MeasurementValueService measurementValueService_;
+    protected MeasurementValueService measurementValueService;
 
     /** シグナル定義のサービスクラスのオブジェクト。 */
     @Autowired
-    protected SignalService signalService_;
+    protected SignalService signalService;
 
     /**
      * コンストラクタ。
@@ -123,10 +123,10 @@ public class TermDataController
             {
                 // 計測対象の項目を全て取得してツリー要素に変換
                 List<Map<String, String>> treeMenuDtoList =
-                        createTreeMenuData(treeMenuService_.initialize());
+                        createTreeMenuData(treeMenuService.initialize());
 
                 // シグナル定義を全て取得
-                List<SignalDefinitionDto> signalList = signalService_.getAllSignal();
+                List<SignalDefinitionDto> signalList = signalService.getAllSignal();
 
                 // 計測対象のツリーにシグナル定義を追加
                 treeMenuDtoList.addAll(convertSignalDefinition(signalList));
@@ -145,7 +145,7 @@ public class TermDataController
             Date startDate = new Date(startTime);
             Date endDate = new Date(endTime);
             Map<String, List<MeasurementValueDto>> measurementValueMap =
-                    measurementValueService_.getMeasurementValueList(startDate, endDate,
+                    measurementValueService.getMeasurementValueList(startDate, endDate,
                                                                      graphDataList);
             for (Entry<String, List<MeasurementValueDto>> measurementValueEntry : measurementValueMap.entrySet())
             {

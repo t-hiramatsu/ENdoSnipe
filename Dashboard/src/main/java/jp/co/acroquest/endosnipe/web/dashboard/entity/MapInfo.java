@@ -37,29 +37,29 @@ public class MapInfo
     /**
      * マップID
      */
-    public long mapId_;
+    public long mapId;
 
     /**
      * マップ名
      */
-    public String name_;
+    public String name;
 
     /**
      * データ
      */
-    public String data_;
+    public String data;
 
     /**
      * 最終更新日時
      */
-    public Timestamp lastUpdate_;
+    public Timestamp lastUpdate;
 
     /**
      * {@link MapInfo}　マップ情報<br />
      */
     public MapInfo()
     {
-        this.mapId_ = -1L;
+        this.mapId = -1L;
     }
 
     /**
@@ -68,7 +68,7 @@ public class MapInfo
     @Override
     public String toString()
     {
-        return String.format("MapID:%d Name:%s Data:%s LastUpadate%s", mapId_, name_, data_,
-                             lastUpdate_);
+        return String.format("MapID:%d Name:%s Data:%s LastUpadate%s", mapId, name, data,
+                             lastUpdate);
     }
 }

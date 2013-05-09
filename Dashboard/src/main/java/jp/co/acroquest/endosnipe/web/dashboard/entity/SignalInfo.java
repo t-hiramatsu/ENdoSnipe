@@ -34,37 +34,37 @@ package jp.co.acroquest.endosnipe.web.dashboard.entity;
 public class SignalInfo
 {
     /** シグナル定義テーブルのID。 */
-    public int signalId_;
+    public int signalId;
 
     /** シグナル名。 */
-    public String signalName_;
+    public String signalName;
 
     /** マッチングパターン。 */
-    public String matchingPattern_;
+    public String matchingPattern;
 
     /** 設定できる閾値の上限レベル。 */
-    public int level_;
+    public int level;
 
     /** 各レベルの閾値。 */
-    public String patternValue_;
+    public String patternValue;
 
     /** エスカレーション期間。 */
-    public double escalationPeriod_;
+    public double escalationPeriod;
 
     /**
      * {@link SignalInfo} オブジェクトを生成します。<br />
      */
     public SignalInfo()
     {
-        this.signalId_ = -1;
+        this.signalId = -1;
     }
 
     @Override
     public String toString()
     {
         return String.format("SignalID%d SignalName:%s MatchingPattern:%s Level:%d "
-                                     + "PatternValue:%s escalationPeriod:%f", signalId_,
-                             signalName_, matchingPattern_,
-                             level_, patternValue_, escalationPeriod_);
+                                     + "PatternValue:%s escalationPeriod:%f", signalId,
+                             signalName, matchingPattern,
+                             level, patternValue, escalationPeriod);
     }
 }
