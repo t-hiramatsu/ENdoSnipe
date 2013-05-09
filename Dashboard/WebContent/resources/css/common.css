@@ -142,3 +142,9 @@ option {
 	background: no-repeat 0 0,
 		-moz-linear-gradient(left top, #999999, #222222);
 }
+
+/** ツールチップのオプション */
+.tooltip {
+	color: #333333;
+	background-color: #FFFFFF;
+}

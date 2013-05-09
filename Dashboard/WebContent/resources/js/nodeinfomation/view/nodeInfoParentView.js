@@ -1,20 +1,20 @@
 /*******************************************************************************
  * ENdoSnipe 5.0 - (https://github.com/endosnipe)
- * 
+ *
  * The MIT License (MIT)
- * 
+ *
  * Copyright (c) 2012 Acroquest Technology Co.,Ltd.
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -26,7 +26,7 @@
 ENS.NodeInfoParentView = wgp.AbstractView.extend({
 	initialize : function(argument, treeSettings) {
 		ENS.nodeinfo.viewList = [];
-		
+
 		this.viewtype = wgp.constants.VIEW_TYPE.VIEW;
 		this.graphIds = [];
 		this.treeSettings = treeSettings;
@@ -57,9 +57,15 @@ ENS.NodeInfoParentView = wgp.AbstractView.extend({
 		});
 		var instance = this;
 		_.each(this.graphIds, function(graphName) {
-			instance._addGraphDivision(graphName);
+
+			// ツリー要素を取得し、タイプが「target(グラフ)」であればグラフ表示を行う。
+			var treeModel = treeView.collection.get(graphName);
+			if(ENS.tree.type.TARGET == treeModel.get("type")){
+				instance._addGraphDivision(graphName);
+			}
+
 		});
-		
+
 		this.dualSliderView.setScaleMovedEvent(function(from, to) {
 			var viewList = ENS.nodeinfo.viewList;
 			for (var key in viewList) {
@@ -70,7 +76,7 @@ ENS.NodeInfoParentView = wgp.AbstractView.extend({
 				instance.updateGraphData(key, from, to);
 			}
 		});
-		
+
 		$("#" + this.$el.attr("id")).append(
 				'<div class="clearFloat"></div>');
 	},
@@ -136,7 +142,7 @@ ENS.NodeInfoParentView = wgp.AbstractView.extend({
 		// 動的に生成するオブジェクトを切り替える必要があるため、やむを得ずeval()を使う
 		var view = eval("new " + viewClassName
 				+ "(viewAttribute, treeSettings)");
-		
+
 		var registerId = view.getRegisterId();
 		ENS.nodeinfo.viewList[registerId] = view;
 	},

@@ -20,7 +20,7 @@ ENS.mapMenuView = wgp.AbstractView.extend({
 		this.collection = new ENS.mapMenuModelList();
 		this.divId = this.$el.attr("id");
 		this.registerCollectionEvent();
-		
+
 		var instance = this;
 		var collection = argument["collection"];
 		_.each(collection, function(element, index) {
@@ -39,7 +39,7 @@ ENS.mapMenuView = wgp.AbstractView.extend({
 		var alt = element.get("alt");
 		var styleClass = element.get("styleClass");
 		var onclick = element.get("onclick");
-		
+
 		// create Image Tag
 		if (src != null) {
 			var imgTag = $("<img></img>");
