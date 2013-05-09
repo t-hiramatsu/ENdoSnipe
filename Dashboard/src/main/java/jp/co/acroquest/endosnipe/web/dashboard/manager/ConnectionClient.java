@@ -30,7 +30,6 @@ import java.util.List;
 
 import jp.co.acroquest.endosnipe.communicator.CommunicationClient;
 
-
 /**
  * DataCollector と通信するコミュニケーションクライアントのリストを保持するクラス
  * @author ochiai
@@ -38,16 +37,24 @@ import jp.co.acroquest.endosnipe.communicator.CommunicationClient;
  */
 public final class ConnectionClient
 {
-    /** ConnectionClientのインスタンス */
+    /**
+     *  ConnectionClientのインスタンス 
+     */
     private static ConnectionClient singleton__ = new ConnectionClient();
-    
-    private List<CommunicationClient> clientList_ = new ArrayList<CommunicationClient>();
-    
+
+    /**
+     * クライアントのリスト
+     */
+    private final List<CommunicationClient> clientList_ = new ArrayList<CommunicationClient>();
+
+    /**
+     * コンストラクタ
+     */
     private ConnectionClient()
     {
         // singleton
     }
-    
+
     /**
      * ConnectionClientのインスタンスを返す
      * @return ConnectionClientのインスタンス
@@ -56,7 +63,7 @@ public final class ConnectionClient
     {
         return singleton__;
     }
-    
+
     /**
      * コミュニケーションクライアントのリストを返す
      * @return コミュニケーションクライアントのリスト

@@ -43,14 +43,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
+/**
+ * Map用サービスクラス。
+ * 
+ * @author fujii
+ */
 @Service
 public class MapService
 {
     /** ロガー */
     private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(MapService.class);
 
+    /**
+     * マップ情報Dao
+     */
     @Autowired
     protected MapInfoDao mapInfoDao;
+
+    /**
+     * コンストラクタ
+     */
+    public MapService()
+    {
+
+    }
 
     /**
      * 全てのマップデータを返す。
@@ -88,6 +104,7 @@ public class MapService
     /**
      * マップを登録する。
      * @param mapInfo 登録するマップ情報
+     * @return 例外が発生しないとき0
      */
     public long insert(final MapInfo mapInfo)
     {
@@ -167,6 +184,7 @@ public class MapService
     /**
      * マップを削除する。
      * @param mapId マップID
+     * @return 例外が発生しないとき0
      */
     public int removeMapById(final long mapId)
     {
@@ -192,8 +210,8 @@ public class MapService
 
     /**
      * マップ情報をMap形式に変換する。
-     * @param mapInfo
-     * @return
+     * @param mapInfo マップ情報
+     * @return Map形式のマップ情報
      */
     private Map<String, String> convertDataMap(final MapInfo mapInfo)
     {

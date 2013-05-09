@@ -42,12 +42,20 @@ public class AlarmEntityComparator implements Comparator<AlarmNotifyEntity>, Ser
     private static final long serialVersionUID = 2683239014865567L;
 
     /**
+     * コンストラクタ。
+     */
+    public AlarmEntityComparator()
+    {
+
+    }
+
+    /**
      * {@inheritDoc}
      */
-    public int compare(AlarmNotifyEntity entity1, AlarmNotifyEntity entity2)
+    public int compare(final AlarmNotifyEntity entity1, final AlarmNotifyEntity entity2)
     {
-        Date date1 = entity1.timestamp;
-        Date date2 = entity2.timestamp;
+        Date date1 = entity1.timestamp_;
+        Date date2 = entity2.timestamp_;
         if (date1.getTime() > date2.getTime())
         {
             return 1;

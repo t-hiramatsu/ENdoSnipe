@@ -9,25 +9,33 @@ package jp.co.acroquest.endosnipe.web.dashboard.dto;
 public class SignalDefinitionDto
 {
     /** シグナル定義テーブルのID。 */
-    private int signalId;
+    private int signalId_;
 
     /** シグナル名。 */
-    private String signalName;
+    private String signalName_;
 
     /** マッチングパターン。 */
-    private String matchingPattern;
+    private String matchingPattern_;
 
     /** 設定できる閾値の上限レベル。 */
-    private int level;
+    private int level_;
 
     /** 各レベルの閾値。 */
-    private String patternValue;
+    private String patternValue_;
 
     /** エスカレーション期間。 */
-    private double escalationPeriod;
+    private double escalationPeriod_;
 
     /** 閾値判定の結果。 */
-    private Integer signalValue;
+    private Integer signalValue_;
+
+    /**
+     * コンストラクタ。
+     */
+    public SignalDefinitionDto()
+    {
+
+    }
 
     /**
      * シグナル名を取得する。
@@ -36,7 +44,7 @@ public class SignalDefinitionDto
      */
     public String getSignalName()
     {
-        return signalName;
+        return signalName_;
     }
 
     /**
@@ -46,7 +54,7 @@ public class SignalDefinitionDto
      */
     public int getSignalId()
     {
-        return signalId;
+        return signalId_;
     }
 
     /**
@@ -57,7 +65,7 @@ public class SignalDefinitionDto
      */
     public void setSignalId(final int signalId)
     {
-        this.signalId = signalId;
+        this.signalId_ = signalId;
     }
 
     /**
@@ -68,7 +76,7 @@ public class SignalDefinitionDto
      */
     public void setSignalName(final String signalName)
     {
-        this.signalName = signalName;
+        this.signalName_ = signalName;
     }
 
     /**
@@ -78,7 +86,7 @@ public class SignalDefinitionDto
      */
     public String getMatchingPattern()
     {
-        return matchingPattern;
+        return matchingPattern_;
     }
 
     /**
@@ -89,7 +97,7 @@ public class SignalDefinitionDto
      */
     public void setMatchingPattern(final String matchingPattern)
     {
-        this.matchingPattern = matchingPattern;
+        this.matchingPattern_ = matchingPattern;
     }
 
     /**
@@ -99,7 +107,7 @@ public class SignalDefinitionDto
      */
     public int getLevel()
     {
-        return level;
+        return level_;
     }
 
     /**
@@ -110,7 +118,7 @@ public class SignalDefinitionDto
      */
     public void setLevel(final int level)
     {
-        this.level = level;
+        this.level_ = level;
     }
 
     /**
@@ -120,7 +128,7 @@ public class SignalDefinitionDto
      */
     public String getPatternValue()
     {
-        return patternValue;
+        return patternValue_;
     }
 
     /**
@@ -131,7 +139,7 @@ public class SignalDefinitionDto
      */
     public void setPatternValue(final String patternValue)
     {
-        this.patternValue = patternValue;
+        this.patternValue_ = patternValue;
     }
 
     /**
@@ -141,7 +149,7 @@ public class SignalDefinitionDto
      */
     public double getEscalationPeriod()
     {
-        return escalationPeriod;
+        return escalationPeriod_;
     }
 
     /**
@@ -152,7 +160,7 @@ public class SignalDefinitionDto
      */
     public void setEscalationPeriod(final double escalationPeriod)
     {
-        this.escalationPeriod = escalationPeriod;
+        this.escalationPeriod_ = escalationPeriod;
     }
 
     /**
@@ -162,7 +170,7 @@ public class SignalDefinitionDto
      */
     public Integer getSignalValue()
     {
-        return signalValue;
+        return signalValue_;
     }
 
     /**
@@ -172,6 +180,6 @@ public class SignalDefinitionDto
      */
     public void setSignalValue(final Integer signalValue)
     {
-        this.signalValue = signalValue;
+        this.signalValue_ = signalValue;
     }
 }

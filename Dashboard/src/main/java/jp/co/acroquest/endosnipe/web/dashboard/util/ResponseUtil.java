@@ -60,8 +60,8 @@ public class ResponseUtil
      * @param pendingMessagesMap 送るべきメッセージ群
      * @param clientId クライアントId
      */
-    public static void sendMessageToClient(HttpServletResponse response,
-            Map<String, String> pendingMessagesMap, String clientId)
+    public static void sendMessageToClient(final HttpServletResponse response,
+            final Map<String, String> pendingMessagesMap, final String clientId)
     {
         PrintWriter writer = null;
         try
@@ -95,8 +95,14 @@ public class ResponseUtil
         }
     }
 
-    public static void sendMessageOfJSONCode(HttpServletResponse response, Object entity,
-            String clientId)
+    /**
+     * JSON形式のメッセージを送信する
+     * @param response レスポンス
+     * @param entity エンティティ
+     * @param clientId クライアントID
+     */
+    public static void sendMessageOfJSONCode(final HttpServletResponse response,
+            final Object entity, final String clientId)
     {
         PrintWriter writer = null;
         try

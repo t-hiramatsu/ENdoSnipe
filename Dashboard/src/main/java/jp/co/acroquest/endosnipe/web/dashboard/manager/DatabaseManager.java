@@ -26,12 +26,9 @@
 package jp.co.acroquest.endosnipe.web.dashboard.manager;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import jp.co.acroquest.endosnipe.web.dashboard.config.AgentSetting;
 import jp.co.acroquest.endosnipe.web.dashboard.config.DataBaseConfig;
-import jp.co.acroquest.endosnipe.web.dashboard.listener.javelin.JavelinNotifyListener;
 
 /**
  * DBを管理するクラス
@@ -44,10 +41,10 @@ public final class DatabaseManager
     private static DatabaseManager instance__ = new DatabaseManager();
 
     /** データベース名 */
-    private String                 dbName_;
+    private String dbName_;
 
     /** データベースの設定オブジェクト */
-    private DataBaseConfig         dbConfig_;
+    private DataBaseConfig dbConfig_;
 
     /**
      * インスタンス化を阻止するプライベートコンストラクタ。
@@ -79,7 +76,7 @@ public final class DatabaseManager
      * データベース名を設定する。
      * @param dbName データベース名
      */
-    public void setDBName(String dbName)
+    public void setDBName(final String dbName)
     {
         this.dbName_ = dbName;
     }
@@ -88,7 +85,7 @@ public final class DatabaseManager
      * DataBaseの設定オブジェクトを保持します。
      * @param dbConfig DataBaseの設定オブジェクト
      */
-    public void setDataBaseConfig(DataBaseConfig dbConfig)
+    public void setDataBaseConfig(final DataBaseConfig dbConfig)
     {
         this.dbConfig_ = dbConfig;
     }
@@ -107,7 +104,7 @@ public final class DatabaseManager
      * @param agentId エージェントID
      * @return 指定したエージェントIDに対応するデータベース名
      */
-    public String getDataBaseName(int agentId)
+    public String getDataBaseName(final int agentId)
     {
         if (this.dbConfig_ == null)
         {
@@ -116,7 +113,7 @@ public final class DatabaseManager
 
         if ("server".equals(dbConfig_.getConnectionMode()))
         {
-        	// serverモードの時はcollector.propertiesに定義した値を使用する        	
+            // serverモードの時はcollector.propertiesに定義した値を使用する        	
             return dbConfig_.getDatabaseName();
             //return JavelinNotifyListener.getDatabaseName(agentId);
         }
@@ -130,7 +127,7 @@ public final class DatabaseManager
                 return null;
             }
             AgentSetting setting = agentSettings.get(agentId - 1);
-            return setting.databaseName;
+            return setting.databaseName_;
         }
     }
 

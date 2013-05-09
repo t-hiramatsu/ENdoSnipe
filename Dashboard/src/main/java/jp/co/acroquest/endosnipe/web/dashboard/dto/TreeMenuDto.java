@@ -25,119 +25,233 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.web.dashboard.dto;
 
+/**
+ * ツリーメニューのDTOクラス。
+ * 
+ * @author miyasaka
+ *
+ */
 public class TreeMenuDto
 {
     /** 表示名 */
-    private String data;
+    private String data_;
 
     /** ツリーID */
-    private String treeId;
+    private String treeId_;
 
     /** 親ツリーID */
-    private String parentTreeId;
+    private String parentTreeId_;
 
     /** ID */
-    private String id;
+    private String id_;
 
     /** タイプ */
-    private String type;
+    private String type_;
 
     /** アイコン */
-    private String icon;
-
-    public String getIcon()
-    {
-        return icon;
-    }
-
-    public void setIcon(final String icon)
-    {
-        this.icon = icon;
-    }
-
-    public String getData()
-    {
-        return data;
-    }
-
-    public void setData(final String data)
-    {
-        this.data = data;
-    }
-
-    public String getTreeId()
-    {
-        return treeId;
-    }
-
-    public void setTreeId(final String treeId)
-    {
-        this.treeId = treeId;
-    }
-
-    public String getParentTreeId()
-    {
-        return parentTreeId;
-    }
-
-    public void setParentTreeId(final String parentTreeId)
-    {
-        this.parentTreeId = parentTreeId;
-    }
-
-    public String getId()
-    {
-        return id;
-    }
-
-    public void setId(final String id)
-    {
-        this.id = id;
-    }
-
-    public String getMeasurementUnit()
-    {
-        return measurementUnit;
-    }
-
-    public void setMeasurementUnit(final String measurementUnit)
-    {
-        this.measurementUnit = measurementUnit;
-    }
-
-    public String getType()
-    {
-        return type;
-    }
-
-    public void setType(final String type)
-    {
-        this.type = type;
-    }
+    private String icon_;
 
     /** 計測単位 */
-    private String measurementUnit;
+    private String measurementUnit_;
+
+    /**
+     * コンストラクタ。
+     */
+    public TreeMenuDto()
+    {
+
+    }
+
+    /**
+     * アイコンを取得する。
+     * 
+     * @return アイコン
+     */
+    public String getIcon()
+    {
+        return icon_;
+    }
+
+    /**
+     * アイコンを設定する。
+     * 
+     * @param icon アイコン
+     */
+    public void setIcon(final String icon)
+    {
+        this.icon_ = icon;
+    }
+
+    /**
+     * 表示名を取得する。
+     * 
+     * @return 表示名
+     */
+    public String getData()
+    {
+        return data_;
+    }
+
+    /**
+     * 表示名を設定する。
+     * 
+     * @param data 表示名
+     */
+    public void setData(final String data)
+    {
+        this.data_ = data;
+    }
+
+    /**
+     * ツリーIDを取得する。
+     * 
+     * @return ツリーID
+     */
+    public String getTreeId()
+    {
+        return treeId_;
+    }
+
+    /**
+     * ツリーIDを設定する。
+     * 
+     * @param treeId ツリーID
+     */
+    public void setTreeId(final String treeId)
+    {
+        this.treeId_ = treeId;
+    }
+
+    /**
+     * 親ツリーIDを取得する。
+     * 
+     * @return 親ツリーID
+     */
+    public String getParentTreeId()
+    {
+        return parentTreeId_;
+    }
+
+    /**
+     * 親ツリーIDを設定する。
+     * 
+     * @param parentTreeId 親ツリーID
+     */
+    public void setParentTreeId(final String parentTreeId)
+    {
+        this.parentTreeId_ = parentTreeId;
+    }
+
+    /**
+     * IDを取得する。
+     * 
+     * @return ID
+     */
+    public String getId()
+    {
+        return id_;
+    }
+
+    /**
+     * IDを設定する。
+     *
+     * @param id ID
+     * 
+     */
+    public void setId(final String id)
+    {
+        this.id_ = id;
+    }
+
+    /**
+     * 計測単位を取得する。
+     * 
+     * @return 計測単位
+     */
+    public String getMeasurementUnit()
+    {
+        return measurementUnit_;
+    }
+
+    /**
+     * 計測単位を設定する。
+     * 
+     * @param measurementUnit 計測単位
+     */
+    public void setMeasurementUnit(final String measurementUnit)
+    {
+        this.measurementUnit_ = measurementUnit;
+    }
+
+    /**
+     * タイプを取得する。
+     * 
+     * @return タイプ
+     */
+    public String getType()
+    {
+        return type_;
+    }
+
+    /**
+     * タイプを設定する。
+     * 
+     * @param type タイプ
+     */
+    public void setType(final String type)
+    {
+        this.type_ = type;
+    }
 
     @Override
     public String toString()
     {
-        return "TreeMenuDto [data=" + data + ", treeId=" + treeId + ", parentTreeId="
-                + parentTreeId + ", id=" + id + ", type=" + type + ", icon=" + icon
-                + ", measurementUnit=" + measurementUnit + "]";
+        return "TreeMenuDto [data=" + data_ + ", treeId=" + treeId_ + ", parentTreeId="
+                + parentTreeId_ + ", id=" + id_ + ", type=" + type_ + ", icon=" + icon_
+                + ", measurementUnit=" + measurementUnit_ + "]";
     }
 
     @Override
     public int hashCode()
     {
-        final int prime = 31;
+        final int PRIME = 31;
         int result = 1;
-        result = prime * result + ((data == null) ? 0 : data.hashCode());
-        result = prime * result + ((icon == null) ? 0 : icon.hashCode());
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((measurementUnit == null) ? 0 : measurementUnit.hashCode());
-        result = prime * result + ((parentTreeId == null) ? 0 : parentTreeId.hashCode());
-        result = prime * result + ((treeId == null) ? 0 : treeId.hashCode());
-        result = prime * result + ((type == null) ? 0 : type.hashCode());
+
+        if (data_ != null)
+        {
+            result = PRIME * result + data_.hashCode();
+        }
+
+        if (icon_ != null)
+        {
+            result = PRIME * result + icon_.hashCode();
+        }
+
+        if (id_ != null)
+        {
+            result = PRIME * result + id_.hashCode();
+        }
+
+        if (measurementUnit_ != null)
+        {
+            result = PRIME * result + measurementUnit_.hashCode();
+        }
+
+        if (parentTreeId_ != null)
+        {
+            result = PRIME * result + parentTreeId_.hashCode();
+        }
+
+        if (treeId_ != null)
+        {
+            result = PRIME * result + treeId_.hashCode();
+        }
+
+        if (type_ != null)
+        {
+            result = PRIME * result + type_.hashCode();
+        }
+
         return result;
     }
 
@@ -157,80 +271,80 @@ public class TreeMenuDto
             return false;
         }
         TreeMenuDto other = (TreeMenuDto)obj;
-        if (data == null)
+        if (data_ == null)
         {
-            if (other.data != null)
+            if (other.data_ != null)
             {
                 return false;
             }
         }
-        else if (!data.equals(other.data))
+        else if (!data_.equals(other.data_))
         {
             return false;
         }
-        if (icon == null)
+        if (icon_ == null)
         {
-            if (other.icon != null)
+            if (other.icon_ != null)
             {
                 return false;
             }
         }
-        else if (!icon.equals(other.icon))
+        else if (!icon_.equals(other.icon_))
         {
             return false;
         }
-        if (id == null)
+        if (id_ == null)
         {
-            if (other.id != null)
+            if (other.id_ != null)
             {
                 return false;
             }
         }
-        else if (!id.equals(other.id))
+        else if (!id_.equals(other.id_))
         {
             return false;
         }
-        if (measurementUnit == null)
+        if (measurementUnit_ == null)
         {
-            if (other.measurementUnit != null)
+            if (other.measurementUnit_ != null)
             {
                 return false;
             }
         }
-        else if (!measurementUnit.equals(other.measurementUnit))
+        else if (!measurementUnit_.equals(other.measurementUnit_))
         {
             return false;
         }
-        if (parentTreeId == null)
+        if (parentTreeId_ == null)
         {
-            if (other.parentTreeId != null)
+            if (other.parentTreeId_ != null)
             {
                 return false;
             }
         }
-        else if (!parentTreeId.equals(other.parentTreeId))
+        else if (!parentTreeId_.equals(other.parentTreeId_))
         {
             return false;
         }
-        if (treeId == null)
+        if (treeId_ == null)
         {
-            if (other.treeId != null)
+            if (other.treeId_ != null)
             {
                 return false;
             }
         }
-        else if (!treeId.equals(other.treeId))
+        else if (!treeId_.equals(other.treeId_))
         {
             return false;
         }
-        if (type == null)
+        if (type_ == null)
         {
-            if (other.type != null)
+            if (other.type_ != null)
             {
                 return false;
             }
         }
-        else if (!type.equals(other.type))
+        else if (!type_.equals(other.type_))
         {
             return false;
         }

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fileset-config file-format-version="1.2.0" simple-config="false">
+    <local-check-config name="acroquest_Checkstyle_for_Test_Setting" location=".config/.acroquest_Checkstyle_for_Test_Setting.xml" type="project" description="">
+        <additional-data name="protect-config-file" value="false"/>
+    </local-check-config>
+    <local-check-config name="acroquest_Checkstyle_Setting" location=".config/.acroquest_Checkstyle_Setting.xml" type="project" description="">
+        <additional-data name="protect-config-file" value="false"/>
+    </local-check-config>
+    <fileset name="acroquest_Checkstyle_Setting" enabled="true" check-config-name="acroquest_Checkstyle_Setting" local="true">
+        <file-match-pattern match-pattern="src\\main\\java\\jp\\co\\acroquest\\.+\.java$" include-pattern="true"/>
+    </fileset>
+    <fileset name="acroquest_Checkstyle_for_Test_Setting" enabled="true" check-config-name="acroquest_Checkstyle_for_Test_Setting" local="true">
+        <file-match-pattern match-pattern="src\\test\\java\\jp\\co\\acroquest\\.+\.java$" include-pattern="true"/>
+    </fileset>
+</fileset-config>

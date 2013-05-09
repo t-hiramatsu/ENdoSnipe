@@ -62,9 +62,10 @@ import org.apache.catalina.comet.CometProcessor;
  */
 public class DashBoardServlet extends HttpServlet implements CometProcessor
 {
-
+    /** 停止時間   */
     private static final int SLEEP_TIME = 5000;
 
+    /** 接続タイムアウトの時間 */
     private static final int CONNECTION_TIMEOUT = 60 * 1000 * 30;
 
     /** シリアルID */
@@ -75,6 +76,14 @@ public class DashBoardServlet extends HttpServlet implements CometProcessor
 
     /** メッセージ送信用オブジェクト */
     public transient MessageSender messageSender_ = null;
+
+    /**
+     * コンストラクタ
+     */
+    public DashBoardServlet()
+    {
+
+    }
 
     /**
      * 初期処理を行います。
@@ -125,8 +134,8 @@ public class DashBoardServlet extends HttpServlet implements CometProcessor
                 AgentSetting setting = agentSettings.get(cnt);
                 // DataCollectorに接続する。
                 // TODO 複数エージェント対応・エラーチェック
-                String javelinHost = setting.acceptHost;
-                int javelinPort = setting.acceptPort;
+                String javelinHost = setting.acceptHost_;
+                int javelinPort = setting.acceptPort_;
                 int agentId = cnt + 1;
                 String clientId = createClientId(javelinHost, javelinPort);
 
@@ -136,14 +145,14 @@ public class DashBoardServlet extends HttpServlet implements CometProcessor
 
                 client.init(javelinHost, javelinPort);
                 client.addTelegramListener(new CollectorListener(messageSender_, agentId,
-                                                                 setting.databaseName));
+                                                                 setting.databaseName_));
                 client.addTelegramListener(new AlarmNotifyListener(messageSender_, agentId));
                 client.addTelegramListener(new SignalStateChangeListener());
 
                 ConnectNotifyData connectNotify = new ConnectNotifyData();
                 connectNotify.setKind(ConnectNotifyData.KIND_CONTROLLER);
                 connectNotify.setPurpose(ConnectNotifyData.PURPOSE_GET_RESOURCE);
-                connectNotify.setAgentName(setting.databaseName);
+                connectNotify.setAgentName(setting.databaseName_);
 
                 client.connect(connectNotify);
                 clientList.add(client);
@@ -156,8 +165,8 @@ public class DashBoardServlet extends HttpServlet implements CometProcessor
 
             CommunicationClient client =
                     CommunicationFactory.getCommunicationClient("DataCollector-JavelinNotify-Thread");
-            client.init(dbConfig.getServerModeAgentSetting().acceptHost,
-                        dbConfig.getServerModeAgentSetting().acceptPort);
+            client.init(dbConfig.getServerModeAgentSetting().acceptHost_,
+                        dbConfig.getServerModeAgentSetting().acceptPort_);
             ConnectNotifyData connectNotify = new ConnectNotifyData();
             connectNotify.setKind(ConnectNotifyData.KIND_CONTROLLER);
             connectNotify.setPurpose(ConnectNotifyData.PURPOSE_GET_DATABASE);

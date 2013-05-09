@@ -31,38 +31,40 @@ package jp.co.acroquest.endosnipe.web.dashboard.entity;
  * @author miyasaka
  * 
  */
-public class SignalInfo {
-	/** シグナル定義テーブルのID。 */
-	public int signalId;
+public class SignalInfo
+{
+    /** シグナル定義テーブルのID。 */
+    public int signalId;
 
-	/** シグナル名。 */
-	public String signalName;
+    /** シグナル名。 */
+    public String signalName;
 
-	/** マッチングパターン。 */
-	public String matchingPattern;
+    /** マッチングパターン。 */
+    public String matchingPattern;
 
-	/** 設定できる閾値の上限レベル。 */
-	public int level;
+    /** 設定できる閾値の上限レベル。 */
+    public int level;
 
-	/** 各レベルの閾値。 */
-	public String patternValue;
+    /** 各レベルの閾値。 */
+    public String patternValue;
 
-	/** エスカレーション期間。 */
-	public double escalationPeriod;
+    /** エスカレーション期間。 */
+    public double escalationPeriod;
 
-	/**
-	 * {@link SignalInfo} オブジェクトを生成します。<br />
-	 */
-	public SignalInfo() {
-		this.signalId = -1;
-	}
+    /**
+     * {@link SignalInfo} オブジェクトを生成します。<br />
+     */
+    public SignalInfo()
+    {
+        this.signalId = -1;
+    }
 
-	@Override
-	public String toString() {
-		return String.format(
-				"SignalID%d SignalName:%s MatchingPattern:%s Level:%d "
-						+ "PatternValue:%s escalationPeriod:%f", signalId,
-				signalName, matchingPattern, level, patternValue,
-				escalationPeriod);
-	}
+    @Override
+    public String toString()
+    {
+        return String.format("SignalID%d SignalName:%s MatchingPattern:%s Level:%d "
+                                     + "PatternValue:%s escalationPeriod:%f", signalId,
+                             signalName, matchingPattern,
+                             level, patternValue, escalationPeriod);
+    }
 }

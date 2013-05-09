@@ -35,7 +35,7 @@ public class ReportController
 {
     /** シグナル定義のサービスクラスのオブジェクト。 */
     @Autowired
-    protected ReportService reportService_;
+    protected ReportService reportService;
 
     /**
      * デフォルトコンストラクタ。
@@ -50,6 +50,7 @@ public class ReportController
      * 
      * @param reportDefinition
      *            レポート出力定義のJSONデータ
+     * @return 追加したレポート出力の定義
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
@@ -59,7 +60,9 @@ public class ReportController
         ReportDefinitionDto reportDefinitionDto =
                 JSON.decode(reportDefinition, ReportDefinitionDto.class);
 
-        this.reportService_.insertReportDefinition(reportDefinitionDto);
+        this.reportService.insertReportDefinition(reportDefinitionDto);
+
+        this.reportService.createReport(reportDefinitionDto);
 
         reportDefinitionDto.setReportId(1);
 

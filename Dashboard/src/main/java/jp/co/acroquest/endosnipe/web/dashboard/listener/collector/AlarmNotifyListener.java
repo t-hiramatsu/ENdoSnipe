@@ -35,6 +35,7 @@ import jp.co.acroquest.endosnipe.communicator.accessor.JvnFileNotifyAccessor;
 import jp.co.acroquest.endosnipe.communicator.accessor.JvnFileNotifyAccessor.JvnFileEntry;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
+import jp.co.acroquest.endosnipe.perfdoctor.WarningUnit;
 import jp.co.acroquest.endosnipe.web.dashboard.config.AlarmSetting;
 import jp.co.acroquest.endosnipe.web.dashboard.constants.EventConstants;
 import jp.co.acroquest.endosnipe.web.dashboard.entity.AlarmNotifyEntity;
@@ -43,7 +44,6 @@ import jp.co.acroquest.endosnipe.web.dashboard.manager.MessageSender;
 import jp.co.acroquest.endosnipe.web.dashboard.service.JvnFileEntryJudge;
 import jp.co.acroquest.endosnipe.web.dashboard.util.DaoUtil;
 import jp.co.acroquest.endosnipe.web.dashboard.util.EventUtil;
-import jp.co.acroquest.endosnipe.perfdoctor.WarningUnit;
 import net.arnx.jsonic.JSON;
 
 /**
@@ -54,17 +54,17 @@ import net.arnx.jsonic.JSON;
 public class AlarmNotifyListener extends AbstractTelegramListener
 {
     /** メッセージ送信用オブジェクトです。 */
-    private MessageSender messageSender_;
+    private final MessageSender messageSender_;
 
     /** エージェントID */
-    private int agentId_;
+    private final int agentId_;
 
     /**
      * コンストラクタです。
      * @param messageSender {@link MessageSender}オブジェクト
      * @param agentId エージェントID
      */
-    public AlarmNotifyListener(MessageSender messageSender, int agentId)
+    public AlarmNotifyListener(final MessageSender messageSender, final int agentId)
     {
         this.messageSender_ = messageSender;
         this.agentId_ = agentId;
@@ -74,7 +74,7 @@ public class AlarmNotifyListener extends AbstractTelegramListener
      * {@inheritDoc}
      */
     @Override
-    protected Telegram doReceiveTelegram(Telegram telegram)
+    protected Telegram doReceiveTelegram(final Telegram telegram)
     {
 
         JvnFileEntryJudge judge = new JvnFileEntryJudge();
@@ -88,9 +88,8 @@ public class AlarmNotifyListener extends AbstractTelegramListener
         {
             String level = unit.getLevel();
             int eventId = EventConstants.EVENT_NOTIFY_ALARM_ITEM;
-            AlarmNotifyEntity alarmNotifyEntity =
-                                                  DaoUtil.createAlarmEntity(this.agentId_, unit,
-                                                                            level, eventId);
+            DaoUtil.createAlarmEntity(this.agentId_, unit,
+                    level, eventId);
 
         }
 
@@ -142,7 +141,7 @@ public class AlarmNotifyListener extends AbstractTelegramListener
      * @param message メッセージ
      * @param clientId クライアントID
      */
-    private void sendMessage(String message, String clientId)
+    private void sendMessage(final String message, final String clientId)
     {
         if (message != null && message.equals("") == false)
         {

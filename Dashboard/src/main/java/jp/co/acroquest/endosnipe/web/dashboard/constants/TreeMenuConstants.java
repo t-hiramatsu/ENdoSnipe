@@ -19,13 +19,12 @@ package jp.co.acroquest.endosnipe.web.dashboard.constants;
  */
 public interface TreeMenuConstants
 {
-
     /** ツリーメニューのタイプ:グループ(複数の計測対象のグループ) */
-    public static final String TREE_MENU_TYPE_GROUP = "group";
+    String TREE_MENU_TYPE_GROUP = "group";
 
     /** ツリーメニューのタイプ:ターゲット(計測対象となるターゲット) */
-    public static final String TREE_MENU_TYPE_TARGET = "target";
+    String TREE_MENU_TYPE_TARGET = "target";
 
     /** ツリーメニューのタイプ:シグナル */
-    public static final String TREE_MENU_TYPE_SIGNAL = "signal";
+    String TREE_MENU_TYPE_SIGNAL = "signal";
 }

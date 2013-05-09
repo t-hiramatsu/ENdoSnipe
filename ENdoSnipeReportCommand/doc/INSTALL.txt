@@ -1,0 +1,102 @@
+
+     ■ ENdoSnipe ReportCommand インストール手順書 ■
+
+                                                   Acroquest Technology株式会社
+
+１．はじめに
+
+     本書は、ENdoSnipe ReportCommand の利用手順について説明します。
+     ENdoSnipe ReportCommand を使用することで、データベースに蓄積された
+     計測値を、 BottleneckEyeを使用せずにレポート出力することができます。
+     これにより、Eclipse をインストールできないマシンにおいても、
+     レポートファイルの出力ができるようになります。
+
+
+２．動作条件
+
+     ENdoSnipe ReportCommandは、PostgreSQL専用です。
+     計測値を蓄積するデータベースにH2を利用している場合は、レポートファイルを
+     出力することはできません。
+
+
+３．インストール手順
+
+  (1) endosnipe-report-command-x.y.z.zip (x.y.z はバージョン) を展開してくださ
+      い。
+  (2) 展開してできた bin、lib フォルダをDataCollectorフォルダに移動します。
+      (上書きの確認が表示されたら、すべて『はい』を選択してください。)
+
+
+４．コマンド使用方法
+
+　▼Windows環境の場合▼
+
+  (1) ReportCommand を使用する場合は、DataCollector/bin フォルダにある
+      ReporterMain.bat と ShowDBList.bat を使用してください。
+
+  ・ReporterMain.bat <-i IndexNo>|<-d DBName> <StartTime> <EndTime> <reportPath> [full]
+
+      レポートを出力するコマンドです。レポートは、指定した<reportPath>に
+      インデックス番号またはデータベース名でフォルダが作成され、
+      その中に <開始日時>-<終了日時>.zip という名称で出力されます。
+      使用するオプションは以下の通りです。
+
+        <-i IndexNo> collector.propertiesで定義されたデータベースの
+                     インデックス番号で使用するデータベースを指定します。
+
+        <-d DBName>  使用するデータベース名を直接指定します。
+
+        <StartTime>  レポートを出力する期間の開始日時を指定します。
+
+        <EndTime>    レポートを出力する期間の終了日時を指定します。
+
+        <reportPath> レポートの出力先を指定します。
+
+        full         詳細なレポートを出力する場合に指定します。
+
+        ※<StartTime>と<EndTime>は、yyyyMMdd_HHmmss形式で指定します。
+
+
+  ・ShowDBList.bat
+
+      現在使用できるデータベース名とインデックス番号、および各データベースに
+      蓄積されているデータ収集期間を表示します。
+      このコマンドにはオプションはありません。
+
+
+　▼Linux環境の場合▼
+
+  (1) ReportCommand を使用する場合は、DataCollector/bin フォルダにある
+      ReporterMain.sh と ShowDBList.sh を使用してください。
+
+  ・ReporterMain.sh <-i IndexNo>|<-d DBName> <StartTime> <EndTime> <reportPath> [full]
+
+      レポートを出力するコマンドです。レポートは、指定した<reportPath>に
+      インデックス番号またはデータベース名でフォルダが作成され、
+      その中に <開始日時>-<終了日時>.zip という名称で出力されます。
+      使用するオプションは以下の通りです。
+
+        <-i IndexNo> collector.propertiesで定義されたデータベースの
+                     インデックス番号で使用するデータベースを指定します。
+
+        <-d DBName>  使用するデータベース名を直接指定します。
+
+        <StartTime>  レポートを出力する期間の開始日時を指定します。
+
+        <EndTime>    レポートを出力する期間の終了日時を指定します。
+
+        <reportPath> レポートの出力先を指定します。
+
+        full         詳細なレポートを出力する場合に指定します。
+
+        ※<StartTime>と<EndTime>は、yyyyMMdd_HHmmss形式で指定します。
+
+
+  ・ShowDBList.sh
+
+      現在使用できるデータベース名とインデックス番号、および各データベースに
+      蓄積されているデータ収集期間を表示します。
+      このコマンドにはオプションはありません。
+
+
+                                                                        以上

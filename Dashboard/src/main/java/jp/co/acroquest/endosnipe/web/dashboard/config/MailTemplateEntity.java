@@ -33,8 +33,16 @@ package jp.co.acroquest.endosnipe.web.dashboard.config;
 public class MailTemplateEntity
 {
     /** 件名テンプレート。 */
-    public String subject;
+    public String subject_;
 
     /** 本文テンプレート。 */
-    public String body;
+    public String body_;
+
+    /**
+     * コンストラクタ。
+     */
+    public MailTemplateEntity()
+    {
+
+    }
 }

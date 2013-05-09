@@ -53,64 +53,70 @@ import jp.co.acroquest.endosnipe.web.dashboard.util.ResponseUtil;
 public class GetReportListRequestProcessor implements EventProcessor
 {
     /** ロガー */
-    private static final ENdoSnipeLogger LOGGER                                      =
-                                                                                       ENdoSnipeLogger.getLogger(GetReportListRequestProcessor.class);
+    private static final ENdoSnipeLogger LOGGER =
+            ENdoSnipeLogger.getLogger(GetReportListRequestProcessor.class);
 
     /** レポート出力先(このプロセッサが読み込む)ディレクトリ。 */
-    private String                       reportDir_                                  =
-                                                                                       DEFAULT_REPORT_DIR;
+    private String reportDir_ = DEFAULT_REPORT_DIR;
 
     /** レポート出力先ディレクトリのデフォルト値。 */
-    private static final String          DEFAULT_REPORT_DIR                          =
-                                                                                       "C:/SMGWorks/VM/ENdoSnipe/report";
+    private static final String DEFAULT_REPORT_DIR = "C:/SMGWorks/VM/ENdoSnipe/report";
 
     /** レポート出力ファイルの測定開始日を示す文字列の一文字目の位置 */
-    private static final int             FIRST_CHARACTER_POSITION_OF_START_DATE      = 0;
+    private static final int FIRST_CHARACTER_POSITION_OF_START_DATE = 0;
 
     /** レポート出力ファイルの測定終了日を示す文字列の一文字目の位置 */
-    private static final int             FIRST_CHARACTER_POSITION_OF_END_DATE        = 16;
+    private static final int FIRST_CHARACTER_POSITION_OF_END_DATE = 16;
 
     /** レポート出力ファイルの日付を示す文字列の内、年を示す部分の一文字目の位置 */
-    private static final int             FIRST_CHARACTER_POSITION_OF_YEAR_IN_DATE    = 0;
+    private static final int FIRST_CHARACTER_POSITION_OF_YEAR_IN_DATE = 0;
 
     /** レポート出力ファイルの日付を示す文字列の内、年を示す部分の最後の文字位置 */
-    private static final int             LAST_CHARACTER_POSITION_OF_YEAR_IN_DATE     = 4;
+    private static final int LAST_CHARACTER_POSITION_OF_YEAR_IN_DATE = 4;
 
     /** レポート出力ファイルの日付を示す文字列の内、月を示す部分の一文字目の位置 */
-    private static final int             FIRST_CHARACTER_POSITION_OF_MONTH_IN_DATE   = 4;
+    private static final int FIRST_CHARACTER_POSITION_OF_MONTH_IN_DATE = 4;
 
     /** レポート出力ファイルの日付を示す文字列の内、月を示す部分の最後の文字位置 */
-    private static final int             LAST_CHARACTER_POSITION_OF_MONTH_IN_DATE    = 6;
+    private static final int LAST_CHARACTER_POSITION_OF_MONTH_IN_DATE = 6;
 
     /** レポート出力ファイルの日付を示す文字列の内、日を示す部分の一文字目の位置 */
-    private static final int             FIRST_CHARACTER_POSITION_OF_DAY_IN_DATE     = 6;
+    private static final int FIRST_CHARACTER_POSITION_OF_DAY_IN_DATE = 6;
 
     /** レポート出力ファイルの日付を示す文字列の内、日を示す部分の最後の文字位置 */
-    private static final int             LAST_CHARACTER_POSITION_OF_DAY_IN_DATE      = 8;
+    private static final int LAST_CHARACTER_POSITION_OF_DAY_IN_DATE = 8;
 
     /** レポート出力ファイルの日付を示す文字列の内、日を示す部分の一文字目の位置 */
-    private static final int             FIRST_CHARACTER_POSITION_OF_HOUR_IN_DATE    = 9;
+    private static final int FIRST_CHARACTER_POSITION_OF_HOUR_IN_DATE = 9;
 
     /** レポート出力ファイルの日付を示す文字列の内、日を示す部分の最後の文字位置 */
-    private static final int             LAST_CHARACTER_POSITION_OF_HOUR_IN_DATE     = 11;
+    private static final int LAST_CHARACTER_POSITION_OF_HOUR_IN_DATE = 11;
 
     /** レポート出力ファイルの日付を示す文字列の内、日を示す部分の一文字目の位置 */
-    private static final int             FIRST_CHARACTER_POSITION_OF_MINITES_IN_DATE = 11;
+    private static final int FIRST_CHARACTER_POSITION_OF_MINITES_IN_DATE = 11;
 
     /** レポート出力ファイルの日付を示す文字列の内、日を示す部分の最後の文字位置 */
-    private static final int             LAST_CHARACTER_POSITION_OF_MINITES_IN_DATE  = 13;
+    private static final int LAST_CHARACTER_POSITION_OF_MINITES_IN_DATE = 13;
 
     /** レポート出力ファイルの日付を示す文字列の内、日を示す部分の一文字目の位置 */
-    private static final int             FIRST_CHARACTER_POSITION_OF_SECOND_IN_DATE  = 13;
+    private static final int FIRST_CHARACTER_POSITION_OF_SECOND_IN_DATE = 13;
 
     /** レポート出力ファイルの日付を示す文字列の内、日を示す部分の最後の文字位置 */
-    private static final int             LAST_CHARACTER_POSITION_OF_SECOND_IN_DATE   = 15;
+    private static final int LAST_CHARACTER_POSITION_OF_SECOND_IN_DATE = 15;
 
     /** レポート出力ファイルの日付パターンを示す文字列 */
-    private static final String          REPORT_FILE_DATE_PATTERN                    = "yyyyMMdd";
+    private static final String REPORT_FILE_DATE_PATTERN = "yyyyMMdd";
 
     /** 一日をミリ秒で見積もった場合の値。 */
-    private static final long            DURATION_FOR_ONEDAY_OF_MILLISECOND          = 86400000;
+    private static final long DURATION_FOR_ONEDAY_OF_MILLISECOND = 86400000;
+
+    /**
+     * コンストラクタ
+     */
+    public GetReportListRequestProcessor()
+    {
+
+    }
 
     /**
      * HttpRequestを処理する。
@@ -118,7 +124,7 @@ public class GetReportListRequestProcessor implements EventProcessor
      * @param request  HTTPリクエスト。
      * @param response HTTPレスポンス
      */
-    public void process(HttpServletRequest request, HttpServletResponse response)
+    public void process(final HttpServletRequest request, final HttpServletResponse response)
     {
         String clientId = request.getParameter(EventConstants.CLIENT_ID);
         if (clientId == null)
@@ -129,8 +135,8 @@ public class GetReportListRequestProcessor implements EventProcessor
 
         // レポートのzipファイルがある一覧を取得する
 
-        String agent_id = request.getParameter("agent_id");
-        if (agent_id == null)
+        String agentId = request.getParameter("agent_id");
+        if (agentId == null)
         {
             LOGGER.log(LogMessageCodes.UNKNOWN_REPORT_AGENT_ID);
             return;
@@ -143,7 +149,7 @@ public class GetReportListRequestProcessor implements EventProcessor
             reportsDir = DEFAULT_REPORT_DIR;
         }
 
-        File reportDir = new File(reportsDir + File.separator + agent_id + File.separator);
+        File reportDir = new File(reportsDir + File.separator + agentId + File.separator);
         File[] fileList = reportDir.listFiles();
 
         if (fileList == null)
@@ -162,8 +168,9 @@ public class GetReportListRequestProcessor implements EventProcessor
         else
         {
             // ファイル名(＝レポート開始時刻)の降順でソートする
-            Arrays.sort(fileList, new Comparator<File>() {
-                public int compare(File data1, File data2)
+            Arrays.sort(fileList, new Comparator<File>()
+            {
+                public int compare(final File data1, final File data2)
                 {
                     String name1 = data1.getName();
                     String name2 = data2.getName();
@@ -196,13 +203,15 @@ public class GetReportListRequestProcessor implements EventProcessor
                         durations.add(duration);
                         if (LOGGER.isDebugEnabled())
                         {
-                            LOGGER.log(LogMessageCodes.REPORT_FILE_DURATION, fileName, durations.get(index));
+                            LOGGER.log(LogMessageCodes.REPORT_FILE_DURATION, fileName,
+                                       durations.get(index));
                         }
                     }
                     catch (NumberFormatException ex)
                     {
                         // ファイル名を解析できなかったレポートは無視する
-                        LOGGER.log(LogMessageCodes.UNSUPPORTED_REPORT_FILE_DURATION_FORMAT, fileName);                        
+                        LOGGER.log(LogMessageCodes.UNSUPPORTED_REPORT_FILE_DURATION_FORMAT,
+                                   fileName);
                         continue;
                     }
                     fileNames.add(fileName);
@@ -220,11 +229,11 @@ public class GetReportListRequestProcessor implements EventProcessor
             }
 
             ReportListEntity entity = new ReportListEntity();
-            entity.event_id = EventConstants.EVENT_REPORT_LIST_RESPONSE;
-            entity.file_name = fileNames;
-            entity.start_date = startDates;
-            entity.end_date = endDates;
-            entity.duration = durations;
+            entity.eventId_ = EventConstants.EVENT_REPORT_LIST_RESPONSE;
+            entity.fileName_ = fileNames;
+            entity.startDate_ = startDates;
+            entity.endDate_ = endDates;
+            entity.duration_ = durations;
 
             ResponseUtil.sendMessageOfJSONCode(response, entity, clientId);
         }
@@ -235,7 +244,7 @@ public class GetReportListRequestProcessor implements EventProcessor
      * 
      * @param dir レポート出力先ディレクトリ。
      */
-    public void setReportDir(String dir)
+    public void setReportDir(final String dir)
     {
         this.reportDir_ = dir;
     }
@@ -258,25 +267,23 @@ public class GetReportListRequestProcessor implements EventProcessor
      * @param fileName レポートファイル名。
      * @return 期間。
      */
-    private int calcDuration(String fileName)
+    private int calcDuration(final String fileName)
     {
         String startDateString =
-                                 fileName.substring(FIRST_CHARACTER_POSITION_OF_YEAR_IN_DATE,
-                                                    LAST_CHARACTER_POSITION_OF_DAY_IN_DATE);
+                fileName.substring(FIRST_CHARACTER_POSITION_OF_YEAR_IN_DATE,
+                                   LAST_CHARACTER_POSITION_OF_DAY_IN_DATE);
         int startTime =
-                        Integer.valueOf(fileName.substring(
-                                                           FIRST_CHARACTER_POSITION_OF_HOUR_IN_DATE,
-                                                           LAST_CHARACTER_POSITION_OF_SECOND_IN_DATE));
+                Integer.valueOf(fileName.substring(FIRST_CHARACTER_POSITION_OF_HOUR_IN_DATE,
+                                                   LAST_CHARACTER_POSITION_OF_SECOND_IN_DATE));
         String endDateString =
-                               fileName.substring(FIRST_CHARACTER_POSITION_OF_END_DATE,
-                                                  FIRST_CHARACTER_POSITION_OF_END_DATE
-                                                          + LAST_CHARACTER_POSITION_OF_DAY_IN_DATE);
+                fileName.substring(FIRST_CHARACTER_POSITION_OF_END_DATE,
+                                   FIRST_CHARACTER_POSITION_OF_END_DATE
+                                           + LAST_CHARACTER_POSITION_OF_DAY_IN_DATE);
         int endTime =
-                      Integer.valueOf(fileName.substring(
-                                                         FIRST_CHARACTER_POSITION_OF_END_DATE
-                                                                 + FIRST_CHARACTER_POSITION_OF_HOUR_IN_DATE,
-                                                         FIRST_CHARACTER_POSITION_OF_END_DATE
-                                                                 + LAST_CHARACTER_POSITION_OF_SECOND_IN_DATE));
+                Integer.valueOf(fileName.substring(FIRST_CHARACTER_POSITION_OF_END_DATE
+                                                           + FIRST_CHARACTER_POSITION_OF_HOUR_IN_DATE,
+                                                   FIRST_CHARACTER_POSITION_OF_END_DATE
+                                                           + LAST_CHARACTER_POSITION_OF_SECOND_IN_DATE));
 
         //Date型に変換してから期間を計算する。
         SimpleDateFormat format = new SimpleDateFormat(REPORT_FILE_DATE_PATTERN);
@@ -312,7 +319,7 @@ public class GetReportListRequestProcessor implements EventProcessor
      * @param startpos 開始位置。
      * @return 日付文字列。
      */
-    private String getDateStr(String fileName, int startpos)
+    private String getDateStr(final String fileName, final int startpos)
     {
         String str = fileName.substring(startpos);
 
@@ -342,15 +349,15 @@ public class GetReportListRequestProcessor implements EventProcessor
      * ファイル形式がレポートファイル形式と等しければtrueを返す。
      * 
      * @param fileName 取得したいファイル名
-     * @return
+     * @return ファイル形式がレポートファイル形式と等しければtrue/等しくなければfalse
      */
-    private boolean isFileFormat(String fileName)
+    private boolean isFileFormat(final String fileName)
     {
         //正規表現で比較する。
         String patternString = "[0-9]{8}_[0-9]{6}-[0-9]{8}_[0-9]{6}.zip$";
         Pattern pattern = Pattern.compile(patternString);
         Matcher matcher = pattern.matcher(fileName);
-        return matcher.matches();
 
+        return matcher.matches();
     }
 }

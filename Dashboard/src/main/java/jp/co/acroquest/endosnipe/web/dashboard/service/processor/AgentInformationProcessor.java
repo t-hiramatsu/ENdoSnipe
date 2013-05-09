@@ -48,13 +48,21 @@ public class AgentInformationProcessor implements EventProcessor
 {
     /** ロガー */
     private static final ENdoSnipeLogger LOGGER =
-                                                  ENdoSnipeLogger.getLogger(AgentInformationProcessor.class);
+            ENdoSnipeLogger.getLogger(AgentInformationProcessor.class);
+
+    /**
+     * コンストラクタ
+     */
+    public AgentInformationProcessor()
+    {
+
+    }
 
     /**
      * サーバ側で監視対象となっているagentのid一覧を取得する。
      * {@inheritDoc}
      */
-    public void process(HttpServletRequest request, HttpServletResponse response)
+    public void process(final HttpServletRequest request, final HttpServletResponse response)
     {
         String clientId = request.getParameter(EventConstants.CLIENT_ID);
         if (clientId == null)
@@ -72,14 +80,14 @@ public class AgentInformationProcessor implements EventProcessor
         for (int cnt = 0; cnt < agentSettingList.size(); cnt++)
         {
             AgentSetting agentSetting = agentSettingList.get(cnt);
-            agentIds[cnt] = agentSetting.agentId;
-            agentNames[cnt] = agentSetting.databaseName;
+            agentIds[cnt] = agentSetting.agentId_;
+            agentNames[cnt] = agentSetting.databaseName_;
         }
 
         AgentInformationEntity agentEntity = new AgentInformationEntity();
-        agentEntity.event_id = EventConstants.EVENT_AGENT_LIST_RESPONSE;
-        agentEntity.agent_ids = agentIds;
-        agentEntity.agent_names = agentNames;
+        agentEntity.eventId_ = EventConstants.EVENT_AGENT_LIST_RESPONSE;
+        agentEntity.agentIds_ = agentIds;
+        agentEntity.agentNames_ = agentNames;
 
         ResponseUtil.sendMessageOfJSONCode(response, agentEntity, clientId);
     }

@@ -44,6 +44,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.wgp.manager.WgpDataManager;
 
+/**
+ * 閾値判定機能のコントローラークラス。
+ * 
+ * @author miyasaka
+ *
+ */
 @Controller
 @RequestMapping("/signal")
 public class SignalController
@@ -61,7 +67,17 @@ public class SignalController
     protected SignalService signalService;
 
     /**
+     * コンストラクタ。
+     */
+    public SignalController()
+    {
+
+    }
+
+    /**
      * 閾値判定の定義をすべて取得する。
+     * 
+     * @return 全ての閾値判定の定義
      */
     @RequestMapping(value = "/getAllDefinition", method = RequestMethod.POST)
     @ResponseBody
@@ -79,6 +95,7 @@ public class SignalController
      *
      * @param signalDefinition
      *            閾値判定の定義のJSONデータ
+     * @return 追加した閾値判定の定義
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
@@ -114,6 +131,8 @@ public class SignalController
      *
      * @param signalDefinition
      *            閾値判定の定義のJSONデータ
+     * @param oldSignalId 編集前のID
+     * @return 編集後の閾値判定の定義
      */
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     @ResponseBody

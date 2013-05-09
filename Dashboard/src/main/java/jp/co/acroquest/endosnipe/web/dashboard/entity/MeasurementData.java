@@ -33,10 +33,18 @@ package jp.co.acroquest.endosnipe.web.dashboard.entity;
 public class MeasurementData
 {
     /** タイムスタンプ */
-    public long                  timestamp;
+    public long timestamp_;
 
     /** 計測項目詳細 */
-    public MeasurementDetailData measurement_item;
+    public MeasurementDetailData measurementItem_;
+
+    /**
+     * コンストラクタ
+     */
+    public MeasurementData()
+    {
+
+    }
 
     /**
      * {@inheritDoc}
@@ -44,9 +52,8 @@ public class MeasurementData
     @Override
     public String toString()
     {
-        return "MeasurementData [measurement_item="
-                + measurement_item.toString() + ", timestamp=" + timestamp
-                + "]";
+        return "MeasurementData [measurement_item=" + measurementItem_.toString() + ", timestamp="
+                + timestamp_ + "]";
     }
 
 }

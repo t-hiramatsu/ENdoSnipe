@@ -54,6 +54,14 @@ public class AgentNotifyProcessor implements EventProcessor, EventConstants
             ENdoSnipeLogger.getLogger(AgentNotifyProcessor.class);
 
     /**
+     * コンストラクタ
+     */
+    public AgentNotifyProcessor()
+    {
+
+    }
+
+    /**
      * {@inheritDoc}
      */
     public void process(final HttpServletRequest request, final HttpServletResponse response)

@@ -33,16 +33,24 @@ package jp.co.acroquest.endosnipe.web.dashboard.entity;
 public class MeasurementDetailData
 {
     /** 計測項目ID */
-    public long   measurement_id;
+    public long measurementId_;
 
     /** 計測項目タイプ */
-    public int    measurement_type;
+    public int measurementType_;
 
     /** 項目名 */
-    public String item_name;
-    
+    public String itemName_;
+
     /** 計測項目値(Stringに変換して使うこと) */
-    public String measurement_value;
+    public String measurementValue_;
+
+    /**
+     * コンストラクタ
+     */
+    public MeasurementDetailData()
+    {
+
+    }
 
     /**
      * {@inheritDoc}
@@ -50,10 +58,9 @@ public class MeasurementDetailData
     @Override
     public String toString()
     {
-        return "MeasurementData [measurement_id=" + measurement_id
-                + ", measurement_type=" + measurement_type
-                + ", itemName=" + item_name
-                + ", measurement_value=" + measurement_value + "]";
+        return "MeasurementData [measurement_id=" + measurementId_ + ", measurement_type="
+                + measurementType_ + ", itemName=" + itemName_ + ", measurement_value="
+                + measurementValue_ + "]";
     }
 
 }

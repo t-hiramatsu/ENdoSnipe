@@ -8,89 +8,106 @@ import java.util.List;
  * @author hiramatsu
  *
  */
-public class PerfDoctorTermDataForm {
-	/**　開始時刻。　*/
-	private String startTime;
+public class PerfDoctorTermDataForm
+{
+    /**　開始時刻。　*/
+    private String startTime_;
 
-	/** 終了時刻。 */
-	private String endTime;
+    /** 終了時刻。 */
+    private String endTime_;
 
-	/**　データのIDのリスト。　*/
-	private List<String> dataGroupIdList;
+    /**　データのIDのリスト。　*/
+    private List<String> dataGroupIdList_;
 
-	/**　最大描画行数。　*/
-	private int maxLineNum;
-	
-	/**
-	 * 開始時刻を取得する。
-	 * 
-	 * @return 開始時刻
-	 */
-	public String getStartTime() {
-		return startTime;
-	}
+    /**　最大描画行数。　*/
+    private int maxLineNum_;
 
-	/**
-	 * 開始時刻を設定する。
-	 * 
-	 * @param startTime 設定する開始時刻
-	 */
-	public void setStartTime(String startTime) {
-		this.startTime = startTime;
-	}
+    /**
+     * コンストラクタ。
+     */
+    public PerfDoctorTermDataForm()
+    {
 
-	/**
-	 * 終了時刻を取得する。
-	 * 
-	 * @return 終了時刻
-	 */
-	public String getEndTime() {
-		return endTime;
-	}
+    }
 
-	/**
-	 * 終了時刻を設定する。
-	 * 
-	 * @param endTime 設定する終了時刻
-	 */
-	public void setEndTime(String endTime) {
-		this.endTime = endTime;
-	}
+    /**
+     * 開始時刻を取得する。
+     * 
+     * @return 開始時刻
+     */
+    public String getStartTime()
+    {
+        return startTime_;
+    }
 
-	/**
-	 * データのIDのリストを取得する。
-	 * 
-	 * @return データのIDのリスト
-	 */
-	public List<String> getDataGroupIdList() {
-		return dataGroupIdList;
-	}
+    /**
+     * 開始時刻を設定する。
+     * 
+     * @param startTime 設定する開始時刻
+     */
+    public void setStartTime(final String startTime)
+    {
+        this.startTime_ = startTime;
+    }
 
-	/**
-	 * データのIDのリストを設定する。
-	 * 
-	 * @param dataGroupIdList 設定するデータのIDのリスト
-	 */
-	public void setDataGroupIdList(List<String> dataGroupIdList) {
-		this.dataGroupIdList = dataGroupIdList;
-	}
+    /**
+     * 終了時刻を取得する。
+     * 
+     * @return 終了時刻
+     */
+    public String getEndTime()
+    {
+        return endTime_;
+    }
 
-	/**
-	 * 最大描画行数を取得する。
-	 * 
-	 * @return 最大描画行数
-	 */
-	public int getMaxLineNum() {
-		return maxLineNum;
-	}
+    /**
+     * 終了時刻を設定する。
+     * 
+     * @param endTime 設定する終了時刻
+     */
+    public void setEndTime(final String endTime)
+    {
+        this.endTime_ = endTime;
+    }
 
-	/**
-	 * 最大描画行数を設定する。
-	 * 
-	 * @param maxLineNum 設定する最大描画行数
-	 */
-	public void setMaxLineNum(int maxLineNum) {
-		this.maxLineNum = maxLineNum;
-	}
+    /**
+     * データのIDのリストを取得する。
+     * 
+     * @return データのIDのリスト
+     */
+    public List<String> getDataGroupIdList()
+    {
+        return dataGroupIdList_;
+    }
+
+    /**
+     * データのIDのリストを設定する。
+     * 
+     * @param dataGroupIdList 設定するデータのIDのリスト
+     */
+    public void setDataGroupIdList(final List<String> dataGroupIdList)
+    {
+        this.dataGroupIdList_ = dataGroupIdList;
+    }
+
+    /**
+     * 最大描画行数を取得する。
+     * 
+     * @return 最大描画行数
+     */
+    public int getMaxLineNum()
+    {
+        return maxLineNum_;
+    }
+
+    /**
+     * 最大描画行数を設定する。
+     * 
+     * @param maxLineNum 設定する最大描画行数
+     */
+    public void setMaxLineNum(final int maxLineNum)
+    {
+        this.maxLineNum_ = maxLineNum;
+    }
 
 }

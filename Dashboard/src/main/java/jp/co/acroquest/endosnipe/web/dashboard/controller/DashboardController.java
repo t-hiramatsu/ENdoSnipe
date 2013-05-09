@@ -40,21 +40,42 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.wgp.manager.WgpDataManager;
 
+/**
+ * Dashboard用のコントローラークラスです。
+ * 
+ * @author miyasaka
+ *
+ */
 @Controller
 public class DashboardController
 {
-
+    /** ツリーメニューに関する操作を行うクラスのオブジェクト。 */
     @Autowired
     protected TreeMenuService treeMenuService;
 
+    /** WGPのデータを扱うクラスのオブジェクト。 */
     @Autowired
     protected WgpDataManager wgpDataManager;
 
+    /** リソース送信クラスのオブジェクト。 */
     @Autowired
     protected ResourceSender resourceSender;
 
     /**
+     * コンストラクタ。
+     */
+    public DashboardController()
+    {
+
+    }
+
+    /**
      * Simply selects the home view to render by returning its name.
+     * 
+     * @param locale local情報
+     * @param model モデル
+     * @param request HTTPサーブレットリクエスト
+     * @return 表示するjspファイルの名前
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String initialize(final Locale locale, final Model model,

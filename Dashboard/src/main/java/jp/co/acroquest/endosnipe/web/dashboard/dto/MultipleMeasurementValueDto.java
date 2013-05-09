@@ -34,39 +34,84 @@ import java.util.Map;
  * @author nakagawa
  *
  */
-public class MultipleMeasurementValueDto {
+public class MultipleMeasurementValueDto
+{
 
-	/** 検索文字列 */
-	private String searchCondition;
-	
+    /** 検索文字列 */
+    private String searchCondition_;
+
     /** 計測時刻。 */
-    private long   measurementTime;	
-	
+    private long measurementTime_;
+
     /** 複数系列の測定結果 */
-    private Map<String, String> measurementValue = new HashMap<String, String>();
+    private Map<String, String> measurementValue_ = new HashMap<String, String>();
 
-	public String getSearchCondition() {
-		return searchCondition;
-	}
+    /**
+     * コンストラクタ。
+     */
+    public MultipleMeasurementValueDto()
+    {
 
-	public void setSearchCondition(String searchCondition) {
-		this.searchCondition = searchCondition;
-	}
+    }
 
-	public long getMeasurementTime() {
-		return measurementTime;
-	}
+    /**
+     * 検索文字列を取得する。
+     * 
+     * @return 検索文字列
+     */
+    public String getSearchCondition()
+    {
+        return searchCondition_;
+    }
 
-	public void setMeasurementTime(long measurementTime) {
-		this.measurementTime = measurementTime;
-	}
+    /**
+     * 検索文字列を設定する。
+     * 
+     * @param searchCondition 検索文字列
+     */
+    public void setSearchCondition(final String searchCondition)
+    {
+        this.searchCondition_ = searchCondition;
+    }
 
-	public Map<String, String> getMeasurementValue() {
-		return measurementValue;
-	}
+    /**
+     * 計測時刻を取得する。
+     * 
+     * @return 計測時刻
+     */
+    public long getMeasurementTime()
+    {
+        return measurementTime_;
+    }
 
-	public void setMeasurementValue(Map<String, String> measurementValue) {
-		this.measurementValue = measurementValue;
-	}
-    
+    /**
+     * 計測時刻を設定する。
+     * 
+     * @param measurementTime 計測時刻
+     */
+    public void setMeasurementTime(final long measurementTime)
+    {
+        this.measurementTime_ = measurementTime;
+    }
+
+    /**
+     * 複数系列の測定結果を取得する。
+     * 
+     * @return 複数系列の測定結果
+     */
+    public Map<String, String> getMeasurementValue()
+    {
+        return measurementValue_;
+    }
+
+    /**
+     * 複数系列の測定結果を設定する。
+     * 
+     * @param measurementValue 複数系列の測定結果
+     */
+    public void setMeasurementValue(final Map<String, String> measurementValue)
+    {
+        this.measurementValue_ = measurementValue;
+    }
+
 }

@@ -46,13 +46,11 @@ import jp.co.acroquest.endosnipe.common.Constants;
 import jp.co.acroquest.endosnipe.common.jmx.JMXManager;
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
 import jp.co.acroquest.endosnipe.common.util.ResourceDataUtil;
-import jp.co.acroquest.endosnipe.communicator.entity.MeasurementConstants;
 import jp.co.acroquest.endosnipe.data.dao.MeasurementValueDao;
 import jp.co.acroquest.endosnipe.data.dto.MeasurementValueDto;
 import jp.co.acroquest.endosnipe.web.dashboard.config.MeasurementSetting;
 import jp.co.acroquest.endosnipe.web.dashboard.constants.EventConstants;
 import jp.co.acroquest.endosnipe.web.dashboard.constants.LogMessageCodes;
-import jp.co.acroquest.endosnipe.web.dashboard.entity.MeasurementItemKey;
 import jp.co.acroquest.endosnipe.web.dashboard.entity.TermMeasurementData;
 import jp.co.acroquest.endosnipe.web.dashboard.entity.TermMeasurementDetailData;
 import jp.co.acroquest.endosnipe.web.dashboard.entity.TermMeasurementEntity;
@@ -70,38 +68,32 @@ import jp.co.acroquest.endosnipe.web.dashboard.util.ResponseUtil;
 public class TermMeasurementDataProcessor implements EventProcessor
 {
     /** ロガー */
-    private static final ENdoSnipeLogger      LOGGER          =
-                                                                ENdoSnipeLogger.getLogger(TermMeasurementDataProcessor.class);
+    private static final ENdoSnipeLogger LOGGER =
+            ENdoSnipeLogger.getLogger(TermMeasurementDataProcessor.class);
 
     /** 同時刻のデータを処理するためのサマリ時間 */
-    private static final int                  SUMMARY_TIME    = 1000;
+    private static final int SUMMARY_TIME = 1000;
 
     /** SQLレスポンスを取り除く関数群 */
-    public static final Set<String>           EXCLUSION_SQL_TYPES;
+    public static final Set<String> EXCLUSION_SQL_TYPES;
 
     /** SQLレスポンスのみ取り出す関数群 */
-    public static final Set<String>           ONLY_SQL_TYPES;
+    public static final Set<String> ONLY_SQL_TYPES;
 
     /** SQLレスポンスのみ取り出す関数群 */
     public static final Map<String, String> MEASUREMENT_TYPE_RELATION;
 
     /** 測定値の表示名 */
-    public static final Map<String, String>  MEASUREMENT_TYPE_DISPLAY_NAME;
+    public static final Map<String, String> MEASUREMENT_TYPE_DISPLAY_NAME;
 
     /** 測定値の項目ID */
-    public static final Map<String, String>  MEASUREMENT_TYPE_ITEM_NAME;
+    public static final Map<String, String> MEASUREMENT_TYPE_ITEM_NAME;
 
     /** SQLレスポンスかどうかを判断する文字列 */
-    public static final String                SQL_TYPE_STRING = "jdbc";
+    public static final String SQL_TYPE_STRING = "jdbc";
 
     /** グラフの系列に値がない場合に設定する空文字 */
-    private static final String               EMPTY_VALUE     = "";
-
-    /** SQLを除く項目名かどうかを判定する文字列。 */
-    private static final String ITEMNAME_FRAGMENT_EXCL_SQL = "/nosql/";
-
-    /** SQLのみにする項目名かどうかを判定する文字列。 */
-    private static final String ITEMNAME_FRAGMENT_ONLY_SQL = "/sql/";
+    private static final String EMPTY_VALUE = "";
 
     /** 汎用JMX項目かどうかを判定する文字列。 */
     private static final CharSequence ITEMNAME_FRAGMENT_JMX = "/jmx/";
@@ -132,11 +124,11 @@ public class TermMeasurementDataProcessor implements EventProcessor
                                       Constants.ITEMNAME_SYSTEM_MEMORY_PHYSICAL_MAX);
         //測定項目名称
         MEASUREMENT_TYPE_DISPLAY_NAME = new HashMap<String, String>();
-        
+
         // * MeasurementConstants.TYPE_PROC_RES_TOTAL_COUNT_EXCLUSION_SQL
         MEASUREMENT_TYPE_DISPLAY_NAME.put(Constants.ITEMNAME_PROCESS_RESPONSE_TOTAL_COUNT_EXCL_SQL,
                                           "レスポンス回数(sqlを除く)");
-        
+
         // * MeasurementConstants.TYPE_PROC_RES_TOTAL_COUNT_ONLY_SQL
         MEASUREMENT_TYPE_DISPLAY_NAME.put(Constants.ITEMNAME_PROCESS_RESPONSE_TOTAL_COUNT_ONLY_SQL,
                                           "レスポンス回数(sqlのみ)");
@@ -164,11 +156,19 @@ public class TermMeasurementDataProcessor implements EventProcessor
     }
 
     /**
+     * コンストラクタ
+     */
+    public TermMeasurementDataProcessor()
+    {
+
+    }
+
+    /**
      * 指定した期間の計測情報を要求を処理します。
      * @param request {@link HttpServletRequest}オブジェクト
      * @param response {@link HttpServletResponse}オブジェクト
      */
-    public void process(HttpServletRequest request, HttpServletResponse response)
+    public void process(final HttpServletRequest request, final HttpServletResponse response)
     {
         String graphIdStr = request.getParameter(EventConstants.GRAPH_ID);
         String spanStr = request.getParameter(EventConstants.SPAN);
@@ -234,9 +234,9 @@ public class TermMeasurementDataProcessor implements EventProcessor
         }
 
         TermMeasurementEntity entity = new TermMeasurementEntity();
-        entity.event_id = EventConstants.EVENT_NOTIFY_TERM_MEASUREMENT_RESPONSE;
-        entity.graph_id = graphId;
-        entity.measurement_data = new ArrayList<TermMeasurementData>();
+        entity.eventid_ = EventConstants.EVENT_NOTIFY_TERM_MEASUREMENT_RESPONSE;
+        entity.graphId_ = graphId;
+        entity.measurementData_ = new ArrayList<TermMeasurementData>();
 
         Map<Long, Integer> timestampMap = new LinkedHashMap<Long, Integer>();
 
@@ -257,8 +257,8 @@ public class TermMeasurementDataProcessor implements EventProcessor
                 return;
             }
             TermMeasurementData measurementData = new TermMeasurementData();
-            measurementData.agent_id = agentId;
-            measurementData.measurement_items = new ArrayList<TermMeasurementDetailData>();
+            measurementData.agentId_ = agentId;
+            measurementData.measurementItems_ = new ArrayList<TermMeasurementDetailData>();
 
             Set<Integer> measurementTypeSet = agentEntry.getValue().keySet();
             List<MeasurementValueDto> allValueList = new ArrayList<MeasurementValueDto>();
@@ -266,12 +266,8 @@ public class TermMeasurementDataProcessor implements EventProcessor
             for (Integer measurementType : measurementTypeSet)
             {
                 List<MeasurementValueDto> measurementValueList =
-                                                                 getMeasurementValueList(
-                                                                                         dbName,
-                                                                                         startTime,
-                                                                                         endTime,
-                                                                                         measurementType,
-                                                                                         itemName);
+                        getMeasurementValueList(dbName, startTime, endTime, measurementType,
+                                                itemName);
                 allValueList.addAll(measurementValueList);
                 addTimeStamp(measurementValueList, timestampList);
             }
@@ -280,11 +276,11 @@ public class TermMeasurementDataProcessor implements EventProcessor
             setTimeStamp(timestampMap, timestampList);
 
             setDetailData(measurementData, allValueList, timestampMap);
-            entity.measurement_data.add(measurementData);
+            entity.measurementData_.add(measurementData);
         }
 
         List<Date> timeStampList = getTimeStampList(timestampMap);
-        entity.timestamps = timeStampList;
+        entity.timestamps_ = timeStampList;
 
         ResponseUtil.sendMessageOfJSONCode(response, entity, clientId);
     }
@@ -299,8 +295,9 @@ public class TermMeasurementDataProcessor implements EventProcessor
      * @param measurementItemName 項目名
      * @return 測定結果を格納したList
      */
-    private List<MeasurementValueDto> getMeasurementValueList(String dbName, Timestamp startTime,
-            Timestamp endTime, Integer measurementType, String measurementItemName)
+    private List<MeasurementValueDto> getMeasurementValueList(final String dbName,
+            final Timestamp startTime, final Timestamp endTime, final Integer measurementType,
+            String measurementItemName)
     {
         try
         {
@@ -309,26 +306,22 @@ public class TermMeasurementDataProcessor implements EventProcessor
             String trueMeasurementItemName = measurementItemName;
             if (tmpMesurementItemName != null)
             {
-                measurementItemName= tmpMesurementItemName;
+                measurementItemName = tmpMesurementItemName;
             }
 
             List<MeasurementValueDto> measurementValueList = null;
             if (measurementItemName.contains(ITEMNAME_FRAGMENT_JMX))
             {
                 measurementValueList =
-                                       MeasurementValueDao.selectByTermAndMeasurementItemName(
-                                                                                          dbName,
-                                                                                          startTime,
-                                                                                          endTime,
-                                                                                          measurementItemName);
+                        MeasurementValueDao.selectByTermAndMeasurementItemName(dbName, startTime,
+                                                                               endTime,
+                                                                               measurementItemName);
             }
             else
             {
                 measurementValueList =
-                                       MeasurementValueDao.selectByTermAndJMXItemName(dbName,
-                                                                                      startTime,
-                                                                                      endTime,
-                                                                                      measurementItemName);
+                        MeasurementValueDao.selectByTermAndJMXItemName(dbName, startTime, endTime,
+                                                                       measurementItemName);
             }
 
             //measurementTypeを元に戻す。
@@ -339,17 +332,16 @@ public class TermMeasurementDataProcessor implements EventProcessor
                 {
                     //物理メモリ空き容量取得
                     sysPhysicMemFreeDtoList =
-                                              MeasurementValueDao.selectByTermAndMeasurementItemName(
-                                                                                                 dbName,
-                                                                                                 startTime,
-                                                                                                 endTime,
-                                                                                                 Constants.ITEMNAME_SYSTEM_MEMORY_PHYSICAL_FREE);
+                            MeasurementValueDao.selectByTermAndMeasurementItemName(dbName,
+                                                                                   startTime,
+                                                                                   endTime,
+                                                                                   Constants.ITEMNAME_SYSTEM_MEMORY_PHYSICAL_FREE);
                 }
                 //空きメモリ使用量から物理メモリ使用量を計算する。
                 measurementValueList =
-                                       EventUtil.confirmMeasurementValueList(trueMeasurementItemName,
-                                                                             measurementValueList,
-                                                                             sysPhysicMemFreeDtoList);
+                        EventUtil.confirmMeasurementValueList(trueMeasurementItemName,
+                                                              measurementValueList,
+                                                              sysPhysicMemFreeDtoList);
             }
             return measurementValueList;
         }
@@ -361,12 +353,11 @@ public class TermMeasurementDataProcessor implements EventProcessor
     }
 
     /**
-     * マップをリストに変換
-     *
-     * @param timeStampMap
-     * @return
+     * タイムスタンプをマップ形式からリスト形式に変換する。
+     * @param timeStampMap タイムスタンプのMap
+     * @return タイムスタンプのList
      */
-    private List<Date> getTimeStampList(Map<Long, Integer> timeStampMap)
+    private List<Date> getTimeStampList(final Map<Long, Integer> timeStampMap)
     {
         List<Date> timeStampList = new ArrayList<Date>();
         Set<Long> tmpTime = timeStampMap.keySet();
@@ -384,7 +375,8 @@ public class TermMeasurementDataProcessor implements EventProcessor
      * @param graphId グラフID
      * @return 期間データを格納したMap
      */
-    private Map<Integer, Map<Integer, String>> getRegistGraphMap(String clientId, Integer graphId)
+    private Map<Integer, Map<Integer, String>> getRegistGraphMap(final String clientId,
+            final Integer graphId)
     {
         // 期間データ取得時には自動計測通知を終了する。
         EventManager manager = EventManager.getInstance();
@@ -405,14 +397,15 @@ public class TermMeasurementDataProcessor implements EventProcessor
     }
 
     /**
-     * グラフIDと測定対象IDから、データを取得すべき測定対象IDを格納したMapを作成する。
+     * グラフIDと測定対象のタイプと項目名から、データを取得すべき測定対象IDを格納したMapを作成する。
      *
      * @param graphId グラフのID
-     * @param measurementTypes 測定対象ID
-     * @return　測定対象IDを格納したMap
+     * @param measurementTypes 測定対象のタイプ
+     * @param itemName 項目名
+     * @return 測定対象IDを格納したMap
      */
-    private Map<Integer, Map<Integer, String>> createGraphMap(Integer graphId,
-            String measurementTypes, String itemName)
+    private Map<Integer, Map<Integer, String>> createGraphMap(final Integer graphId,
+            final String measurementTypes, final String itemName)
     {
         List<Integer> measurementList = RequestUtil.getMeasurementTypeList(measurementTypes);
         Map<Integer, Map<Integer, String>> graphMap = new HashMap<Integer, Map<Integer, String>>();
@@ -427,12 +420,11 @@ public class TermMeasurementDataProcessor implements EventProcessor
 
     /**
      * 各系列の最新時刻を設定します。
-     * @param measurementValueList
-     * @param timeStampMap 各系列の時刻を保存したマップ
-     * @param itemIdSet 計測項目詳細IDのセット
+     * @param measurementValueList 計測値のリスト
+     * @param timeStampList 各系列の時刻を保存したリスト
      */
-    private void addTimeStamp(List<MeasurementValueDto> measurementValueList,
-            List<Long> timeStampList)
+    private void addTimeStamp(final List<MeasurementValueDto> measurementValueList,
+            final List<Long> timeStampList)
     {
         // 複数計測項目がある場合には、最も新しい時刻を設定する。
         for (int cnt = 0; cnt < measurementValueList.size(); cnt++)
@@ -444,11 +436,10 @@ public class TermMeasurementDataProcessor implements EventProcessor
 
     /**
      * 各系列の最新時刻を設定します。
-     * @param measurementValueList
      * @param timeStampMap 各系列の時刻を保存したマップ
-     * @param itemIdSet 計測項目詳細IDのセット
+     * @param timestampList 時刻のリスト
      */
-    private void setTimeStamp(Map<Long, Integer> timeStampMap, List<Long> timestampList)
+    private void setTimeStamp(final Map<Long, Integer> timeStampMap, final List<Long> timestampList)
     {
         // 複数計測項目がある場合には、最も新しい時刻を設定する。
         for (Long timestamp : timestampList)
@@ -469,12 +460,13 @@ public class TermMeasurementDataProcessor implements EventProcessor
      * @param measurementValueList {@link MeasurementValueDto}のリストオブジェクト
      * @param timestampMap 時刻のマップ
      */
-    private void setDetailData(TermMeasurementData measurementData,
-            List<MeasurementValueDto> measurementValueList, Map<Long, Integer> timestampMap)
+    private void setDetailData(final TermMeasurementData measurementData,
+            final List<MeasurementValueDto> measurementValueList,
+            final Map<Long, Integer> timestampMap)
     {
         Map<String, TermMeasurementDetailData> measurementDetailMap =
-            new HashMap<String, TermMeasurementDetailData>();
-        
+                new HashMap<String, TermMeasurementDetailData>();
+
         for (MeasurementValueDto measurementValue : measurementValueList)
         {
             int measurementId = measurementValue.measurementItemId;
@@ -486,89 +478,91 @@ public class TermMeasurementDataProcessor implements EventProcessor
             }
 
             // SQLを取り除くかどうかを判断し取捨選択する。
-            if (EXCLUSION_SQL_TYPES.contains(measurementItemName))
+            if (EXCLUSION_SQL_TYPES.contains(measurementItemName)
+                    && (measurementItemName.indexOf(SQL_TYPE_STRING) >= 0))
             {
-                if (measurementItemName.indexOf(SQL_TYPE_STRING) >= 0)
-                {
-                    continue;
-                }
+                continue;
             }
 
-            if (ONLY_SQL_TYPES.contains(measurementItemName))
+            if (ONLY_SQL_TYPES.contains(measurementItemName)
+                    && (measurementItemName.indexOf(SQL_TYPE_STRING) == -1))
             {
-                if (measurementItemName.indexOf(SQL_TYPE_STRING) == -1)
-                {
-                    continue;
-                }
+                continue;
             }
 
             // 値を取得
             TermMeasurementDetailData detailData = measurementDetailMap.get(measurementItemName);
             if (detailData == null)
             {
-
                 detailData = new TermMeasurementDetailData();
-                detailData.measurement_id = measurementId;
-                detailData.measurement_values = new ArrayList<String>();
-                detailData.item_name = measurementItemName;
+                detailData.measurementId_ = measurementId;
+                detailData.measurementValues_ = new ArrayList<String>();
+                detailData.itemName_ = measurementItemName;
 
-                measurementData.measurement_items.add(detailData);
+                measurementData.measurementItems_.add(detailData);
                 measurementDetailMap.put(measurementItemName, detailData);
             }
             String addValue = null;
 
             if (Constants.ITEMNAME_SYSTEM_CPU_TOTAL_USAGE.equals(measurementValue.measurementItemName)
-                || Constants.ITEMNAME_SYSTEM_CPU_SYSTEM_USAGE.equals(measurementValue.measurementItemName)
-                || Constants.ITEMNAME_PROCESS_CPU_TOTAL_USAGE.equals(measurementValue.measurementItemName)
-                || Constants.ITEMNAME_PROCESS_CPU_SYSTEM_USAGE.equals(measurementValue.measurementItemName))
+                    || Constants.ITEMNAME_SYSTEM_CPU_SYSTEM_USAGE.equals(measurementValue.measurementItemName)
+                    || Constants.ITEMNAME_PROCESS_CPU_TOTAL_USAGE.equals(measurementValue.measurementItemName)
+                    || Constants.ITEMNAME_PROCESS_CPU_SYSTEM_USAGE.equals(measurementValue.measurementItemName))
             {
                 addValue =
-                           String.valueOf(Double.valueOf(measurementValue.value).doubleValue()
-                                   / ResourceDataUtil.PERCENTAGE_DATA_MAGNIFICATION);
+                        String.valueOf(Double.valueOf(measurementValue.value).doubleValue()
+                                / ResourceDataUtil.PERCENTAGE_DATA_MAGNIFICATION);
             }
             // jmxにおける処理。
-            else if (measurementItemName.contains(ITEMNAME_FRAGMENT_JMX)) 
+            else if (measurementItemName.contains(ITEMNAME_FRAGMENT_JMX))
             {
                 // HitRatioを検出する。
                 boolean isRatio = false;
-                for (String ratioName : JMXManager.JMX_RATIO_ITEMNAME_ARRAY) {
-                    if (measurementItemName == null) {
+                for (String ratioName : JMXManager.JMX_RATIO_ITEMNAME_ARRAY)
+                {
+                    if (measurementItemName == null)
+                    {
                         break;
                     }
-                    if (!measurementItemName.contains(ratioName)) {
+
+                    if (!measurementItemName.contains(ratioName))
+                    {
                         continue;
                     }
                     isRatio = true;
                     break;
                 }
-                
-                if (isRatio) {
+
+                if (isRatio)
+                {
                     addValue =
-                        String.valueOf(Double.valueOf(measurementValue.value).doubleValue()
-                                / ResourceDataUtil.PERCENTAGE_DATA_MAGNIFICATION);
-                } else {
+                            String.valueOf(Double.valueOf(measurementValue.value).doubleValue()
+                                    / ResourceDataUtil.PERCENTAGE_DATA_MAGNIFICATION);
+                }
+                else
+                {
                     addValue = String.valueOf(measurementValue.value);
-                }   
+                }
             }
             else
             {
                 addValue = String.valueOf(measurementValue.value);
             }
             int addPosition = timestampMap.get(measuementTime.getTime() / SUMMARY_TIME);
-            int startPosition = detailData.measurement_values.size();
+            int startPosition = detailData.measurementValues_.size();
             for (int position = startPosition; position < addPosition; position++)
             {
-                detailData.measurement_values.add(EMPTY_VALUE);
+                detailData.measurementValues_.add(EMPTY_VALUE);
             }
-            detailData.measurement_values.add(addValue);
+            detailData.measurementValues_.add(addValue);
         }
 
         // リストのサイズを合わせる。
         int maxValueSize = 0;
-        List<TermMeasurementDetailData> detailDataList = measurementData.measurement_items;
+        List<TermMeasurementDetailData> detailDataList = measurementData.measurementItems_;
         for (TermMeasurementDetailData detailData : detailDataList)
         {
-            int valueSize = detailData.measurement_values.size();
+            int valueSize = detailData.measurementValues_.size();
             if (maxValueSize < valueSize)
             {
                 maxValueSize = valueSize;
@@ -578,10 +572,10 @@ public class TermMeasurementDataProcessor implements EventProcessor
         // 空文字を設定し、すべてのリストのサイズを合わせる。
         for (TermMeasurementDetailData detailData : detailDataList)
         {
-            int valueSize = detailData.measurement_values.size();
+            int valueSize = detailData.measurementValues_.size();
             for (int cnt = valueSize; cnt < maxValueSize; cnt++)
             {
-                detailData.measurement_values.add(EMPTY_VALUE);
+                detailData.measurementValues_.add(EMPTY_VALUE);
             }
         }
 

@@ -128,6 +128,52 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
     }
 
     /**
+     * 指定されたItemName配下の計測項目名の一覧を取得します。<br />
+     *
+     * @param database データベース名
+     * @param measurementItemName 計測項目名
+     * @return 計測項目名の一覧
+     * @throws SQLException SQL 実行時に例外が発生した場合
+     */
+    public static List<String> selectItemNameListByParentItemName(final String database,
+        final String measurementItemName)
+        throws SQLException
+    {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        List<String> itemNameList = new ArrayList<String>();
+
+        try
+        {
+            conn = getConnection(database, true);
+            String sql =
+                "select MEASUREMENT_ITEM_NAME from " + JAVELIN_MEASUREMENT_ITEM
+                    + " where MEASUREMENT_ITEM_NAME LIKE ?";
+            pstmt = conn.prepareStatement(sql);
+            PreparedStatement preparedStatement = getDelegatingStatement(pstmt);
+            String tempStr = measurementItemName + "%";
+            preparedStatement.setString(1, tempStr);
+            rs = preparedStatement.executeQuery();
+
+            while (rs.next())
+            {
+                // CHECKSTYLE:OFF
+                itemNameList.add(rs.getString(1));
+                // CHECKSTYLE:ON
+            }
+        }
+        finally
+        {
+            SQLUtil.closeResultSet(rs);
+            SQLUtil.closeStatement(pstmt);
+            SQLUtil.closeConnection(conn);
+        }
+
+        return itemNameList;
+    }
+
+    /**
      * 指定された計測値種別と項目名称のレコードの　ID を返します。<br />
      *
      * @param database データベース名

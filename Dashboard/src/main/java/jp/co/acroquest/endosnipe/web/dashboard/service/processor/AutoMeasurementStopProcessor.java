@@ -42,14 +42,23 @@ import jp.co.acroquest.endosnipe.web.dashboard.manager.EventManager;
 public class AutoMeasurementStopProcessor implements EventProcessor
 {
     /** ロガー */
-    private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(AutoMeasurementStopProcessor.class);
+    private static final ENdoSnipeLogger LOGGER =
+            ENdoSnipeLogger.getLogger(AutoMeasurementStopProcessor.class);
+
+    /**
+     * コンストラクタ
+     */
+    public AutoMeasurementStopProcessor()
+    {
+
+    }
 
     /**
      * 計測項目自動通知終了要求を処理します。
      * @param request {@link HttpServletRequest}オブジェクト
      * @param response {@link HttpServletResponse}オブジェクト
      */
-    public void process(HttpServletRequest request, HttpServletResponse response)
+    public void process(final HttpServletRequest request, final HttpServletResponse response)
     {
         String graphIdStr = request.getParameter(EventConstants.GRAPH_ID);
         String clientId = request.getParameter(EventConstants.CLIENT_ID);

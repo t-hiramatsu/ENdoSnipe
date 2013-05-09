@@ -50,19 +50,26 @@ public class MeasurementValueService
 {
     /** ロガー */
     private static final ENdoSnipeLogger LOGGER =
-        ENdoSnipeLogger.getLogger(MeasurementValueService.class);
+            ENdoSnipeLogger.getLogger(MeasurementValueService.class);
+
+    /**
+     * コンストラクタ
+     */
+    public MeasurementValueService()
+    {
+
+    }
 
     /**
      * 条件を指定してMeasurementValueのリストを取得する。
      * 
      * @param starttime  範囲開始時刻
      * @param endtime    範囲終了時刻
-     * @param itemNameList 
+     * @param measItemNameList 項目名のリスト
      * @return MeasurementValueのリスト。
      */
-    public Map<String, List<MeasurementValueDto>> getMeasurementValueList(Date starttime,
-                                                                          Date endtime,
-                                                                          List<String> measItemNameList)
+    public Map<String, List<MeasurementValueDto>> getMeasurementValueList(final Date starttime,
+            final Date endtime, final List<String> measItemNameList)
     {
         // TODO データベース名が固定
         // →以下のコードは、collector.propertiesからデータベース名を取得するもの(clientモード想定)
@@ -70,21 +77,20 @@ public class MeasurementValueService
         //   通知されているものを使用する。
         DatabaseManager dbMmanager = DatabaseManager.getInstance();
         String dbName = dbMmanager.getDataBaseName(1);
-        
+
         Map<String, List<MeasurementValueDto>> valueMap =
-            new HashMap<String, List<MeasurementValueDto>>();
-        
+                new HashMap<String, List<MeasurementValueDto>>();
+
         for (String itemName : measItemNameList)
         {
             List<MeasurementValueDto> valueList = new ArrayList<MeasurementValueDto>();
             valueMap.put(itemName, valueList);
-            
+
             try
             {
                 List<jp.co.acroquest.endosnipe.data.dto.MeasurementValueDto> queryResultList =
-                    MeasurementValueDao.selectByTermAndMeasurementItemName(dbName,
-                                                                           starttime, endtime,
-                                                                           itemName);
+                        MeasurementValueDao.selectByTermAndMeasurementItemName(dbName, starttime,
+                                                                               endtime, itemName);
                 exchangeToDashboardDto(queryResultList, valueList);
             }
             catch (SQLException ex)
@@ -92,7 +98,7 @@ public class MeasurementValueService
                 LOGGER.log(LogMessageCodes.SQL_EXCEPTION);
             }
         }
-        
+
         return valueMap;
     }
 
@@ -103,14 +109,14 @@ public class MeasurementValueService
      * @param queryResultList DBから取得した計測値のリスト。
      */
     private void exchangeToDashboardDto(
-            List<jp.co.acroquest.endosnipe.data.dto.MeasurementValueDto> queryResultList,
-            List<MeasurementValueDto> dashboardDtoList)
+            final List<jp.co.acroquest.endosnipe.data.dto.MeasurementValueDto> queryResultList,
+            final List<MeasurementValueDto> dashboardDtoList)
     {
         if (dashboardDtoList == null || queryResultList == null)
         {
             return;
         }
-        
+
         for (jp.co.acroquest.endosnipe.data.dto.MeasurementValueDto queryDto : queryResultList)
         {
             MeasurementValueDto dashboardDto = new MeasurementValueDto();

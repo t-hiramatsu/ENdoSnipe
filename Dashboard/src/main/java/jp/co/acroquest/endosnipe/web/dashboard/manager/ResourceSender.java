@@ -56,8 +56,8 @@ import org.wgp.servlet.WgpMessageInbound;
 @Scope("singleton")
 public class ResourceSender
 {
-    @Autowired
     /** WgpDataManager */
+    @Autowired
     private WgpDataManager wgpDataManager;
 
     /**

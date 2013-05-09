@@ -35,16 +35,24 @@ import java.util.Arrays;
 public class MeasurementNotifyEntity
 {
     /** イベントID */
-    public long              event_id;
+    public long eventId_;
 
     /** グラフID */
-    public int               graph_id;
+    public int graphId_;
 
     /** サーバID */
-    public int[]             server_ids;
+    public int[] serverIds_;
 
     /** 計測値の値 */
-    public MeasurementData[] measurement_data;
+    public MeasurementData[] measurementData_;
+
+    /**
+     * コンストラクタ
+     */
+    public MeasurementNotifyEntity()
+    {
+
+    }
 
     /**
      * 計測項目一覧を出力する処理。
@@ -53,10 +61,9 @@ public class MeasurementNotifyEntity
     @Override
     public String toString()
     {
-        return "MeasurementNotifyEntity [event_id=" + event_id + ", graph_id="
-                + graph_id + ", measurement_data="
-                + Arrays.toString(measurement_data) + ", server_ids="
-                + Arrays.toString(server_ids) + "]";
+        return "MeasurementNotifyEntity [event_id=" + eventId_ + ", graph_id=" + graphId_
+                + ", measurement_data=" + Arrays.toString(measurementData_) + ", server_ids="
+                + Arrays.toString(serverIds_) + "]";
     }
 
 }

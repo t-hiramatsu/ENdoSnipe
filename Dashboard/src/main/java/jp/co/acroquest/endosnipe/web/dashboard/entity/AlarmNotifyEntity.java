@@ -37,38 +37,46 @@ import net.arnx.jsonic.JSONHint;
 public class AlarmNotifyEntity
 {
     /** イベントID */
-    public long event_id;
+    public long eventId_;
 
     /** 通知要求エージェントID */
-    public int agent_id;
+    public int agentId_;
 
     /** 発生時刻 */
     @JSONHint(format = "yyyy/MM/dd HH:mm:ss.SSS")
-    public Date timestamp;
+    public Date timestamp_;
 
     /** 発生個所：クラス */
-    public String class_name;
+    public String className_;
 
     /** 発生個所：メソッド */
-    public String method_name;
+    public String methodName_;
 
     /** アラームレベル */
-    public String level;
+    public String level_;
 
     /** アラーム内容詳細 */
-    public String description;
+    public String description_;
 
     /** jvnファイル名 */
-    public String file_name;
+    public String fileName_;
 
     /** jvnファイル内の開始行 */
-    public int log_file_line_number;
+    public int logFileLineNumber_;
 
     /** jvnファイル内の対応するEventInfo文字列 */
-    public String javelin_log;
+    public String javelinLog_;
 
     /** アラームのルールID */
-    public String rule_id;
+    public String ruleId_;
+
+    /**
+     * コンストラクタ。
+     */
+    public AlarmNotifyEntity()
+    {
+
+    }
 
     /**
      * {@inheritDoc}
@@ -76,10 +84,10 @@ public class AlarmNotifyEntity
     @Override
     public String toString()
     {
-        return "AlarmNotifyEntity [event_id=" + event_id + ", agent_id=" + agent_id
-                + ", timestamp=" + timestamp + ", class_name=" + class_name + ", method_name="
-                + method_name + ", level=" + level + ", description=" + description
-                + ", file_name=" + file_name + ", log_file_line_number=" + log_file_line_number
-                + ", rule_id=" + rule_id + "]";
+        return "AlarmNotifyEntity [event_id=" + eventId_ + ", agent_id=" + agentId_
+                + ", timestamp=" + timestamp_ + ", class_name=" + className_ + ", method_name="
+                + methodName_ + ", level=" + level_ + ", description=" + description_
+                + ", file_name=" + fileName_ + ", log_file_line_number=" + logFileLineNumber_
+                + ", rule_id=" + ruleId_ + "]";
     }
 }

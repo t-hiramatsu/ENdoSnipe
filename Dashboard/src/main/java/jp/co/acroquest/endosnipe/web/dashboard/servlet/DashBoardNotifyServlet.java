@@ -71,18 +71,28 @@ import jp.co.acroquest.endosnipe.web.dashboard.service.processor.TermMeasurement
 public class DashBoardNotifyServlet extends HttpServlet
 {
     /** シリアルID */
-    private static final long            serialVersionUID = -6688090852275089760L;
+    private static final long serialVersionUID = -6688090852275089760L;
 
     /** ロガー */
-    private static final ENdoSnipeLogger LOGGER           =
-                                                            ENdoSnipeLogger.getLogger(DashBoardNotifyServlet.class);
+    private static final ENdoSnipeLogger LOGGER =
+            ENdoSnipeLogger.getLogger(DashBoardNotifyServlet.class);
 
     /** イベント処理クラスのMap */
-    private Map<Integer, EventProcessor> processorMap_    = new HashMap<Integer, EventProcessor>();
+    private final Map<Integer, EventProcessor> processorMap_ =
+            new HashMap<Integer, EventProcessor>();
+
+    /**
+     * コンストラクタ
+     */
+    public DashBoardNotifyServlet()
+    {
+
+    }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public void init()
         throws ServletException
     {
@@ -133,7 +143,7 @@ public class DashBoardNotifyServlet extends HttpServlet
 
         DatabaseManager manager = DatabaseManager.getInstance();
         manager.setDataBaseConfig(dbConfig);
-        
+
         // コールバック関数を作成するために、初期化メソッドを呼び出す。
         MeasurementInfoDao.initialize();
     }
@@ -142,7 +152,7 @@ public class DashBoardNotifyServlet extends HttpServlet
      * データベースの初期設定を行う。
      * @param config {@link DataBaseConfig}オブジェクト
      */
-    private void setDatabase(DataBaseConfig config)
+    private void setDatabase(final DataBaseConfig config)
     {
 
         String host = config.getDatabaseHost();
@@ -156,7 +166,7 @@ public class DashBoardNotifyServlet extends HttpServlet
         String password = config.getDatabasePassword();
 
         String dbDir = config.getBaseDir();
-        
+
         DatabaseType dbType = config.getDatabaseType();
 
         boolean useDefaultDb = true;
@@ -171,7 +181,8 @@ public class DashBoardNotifyServlet extends HttpServlet
     /**
      * {@inheritDoc}
      */
-    public void doGet(HttpServletRequest request, HttpServletResponse response)
+    @Override
+    public void doGet(final HttpServletRequest request, final HttpServletResponse response)
     {
         doRequest(request, response);
     }
@@ -179,7 +190,8 @@ public class DashBoardNotifyServlet extends HttpServlet
     /**
      * {@inheritDoc}
      */
-    public void doPost(HttpServletRequest request, HttpServletResponse response)
+    @Override
+    public void doPost(final HttpServletRequest request, final HttpServletResponse response)
     {
         doRequest(request, response);
     }
@@ -189,7 +201,7 @@ public class DashBoardNotifyServlet extends HttpServlet
      * @param request {@link HttpServletRequest}オブジェクト
      * @param response {@link HttpServletResponse}オブジェクト
      */
-    public void doRequest(HttpServletRequest request, HttpServletResponse response)
+    public void doRequest(final HttpServletRequest request, final HttpServletResponse response)
     {
         String eventId = request.getParameter(EventConstants.EVENT_ID);
         if (eventId == null)
@@ -225,7 +237,7 @@ public class DashBoardNotifyServlet extends HttpServlet
      * @param filePath ファイルパス
      * @return {@link DataBaseConfig}オブジェクト
      */
-    private DataBaseConfig loadConfig(String filePath)
+    private DataBaseConfig loadConfig(final String filePath)
     {
         DataBaseConfig config = null;
         try
@@ -242,7 +254,7 @@ public class DashBoardNotifyServlet extends HttpServlet
             LOGGER.log(LogMessageCodes.CANNOT_FIND_PROPERTY, filePath);
             return null;
         }
-            if ("client".equals(config.getConnectionMode()))
+        if ("client".equals(config.getConnectionMode()))
         {
             List<AgentSetting> agentList = config.getAgentSettingList();
             if (agentList == null || agentList.size() == 0)
@@ -251,7 +263,7 @@ public class DashBoardNotifyServlet extends HttpServlet
                 return null;
             }
         }
-            
+
         return config;
     }
 }

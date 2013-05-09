@@ -35,17 +35,25 @@ import java.util.List;
 public class ReportListEntity
 {
     /** イベントID */
-    public long      event_id;
+    public long eventId_;
 
     /** ファイル名 */
-    public List<String>  file_name;
+    public List<String> fileName_;
 
     /** 開始日時 */
-    public List<String>  start_date;
+    public List<String> startDate_;
 
     /** 終了日時 */
-    public List<String>  end_date;
+    public List<String> endDate_;
 
     /** 期間 */
-    public List<Integer> duration;
+    public List<Integer> duration_;
+
+    /**
+     * コンストラクタ
+     */
+    public ReportListEntity()
+    {
+
+    }
 }

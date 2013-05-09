@@ -35,10 +35,18 @@ import java.util.List;
 public class TermMeasurementData
 {
     /** 通知要求エージェントID */
-    public int                             agent_id;
+    public int agentId_;
 
     /** 計測項目詳細 */
-    public List<TermMeasurementDetailData> measurement_items;
+    public List<TermMeasurementDetailData> measurementItems_;
+
+    /**
+     * コンストラクタ
+     */
+    public TermMeasurementData()
+    {
+
+    }
 
     /**
      * {@inheritDoc}
@@ -46,8 +54,7 @@ public class TermMeasurementData
     @Override
     public String toString()
     {
-        return "TermMeasurementData [agent_id=" + agent_id
-                + ", measurement_items=" + measurement_items.toString() + "]";
+        return "TermMeasurementData [agent_id=" + agentId_ + ", measurement_items="
+                + measurementItems_.toString() + "]";
     }
-
 }

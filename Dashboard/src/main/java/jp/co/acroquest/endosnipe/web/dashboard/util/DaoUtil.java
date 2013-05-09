@@ -77,7 +77,7 @@ public class DaoUtil
      * @param logFileName JVNファイル名
      * @return JavelinLogオブジェクト
      */
-    public static JavelinLog getJavelinLog(String agentId, String logFileName)
+    public static JavelinLog getJavelinLog(final String agentId, final String logFileName)
     {
         // パラメータチェック
         if (agentId == null)
@@ -120,8 +120,8 @@ public class DaoUtil
      * @param logFileLineNumber ログファイルの行数
      * @return JavelinLog(文字列)
      */
-    public static String getJavelinLogString(String agentId, String logFileName,
-            int logFileLineNumber)
+    public static String getJavelinLogString(final String agentId, final String logFileName,
+            final int logFileLineNumber)
     {
         JavelinLog javelinLog = getJavelinLog(agentId, logFileName);
 
@@ -180,7 +180,7 @@ public class DaoUtil
      * @param before Java文字列
      * @return HTMLに変換した文字列
      */
-    public static String convertReturnString(String before)
+    public static String convertReturnString(final String before)
     {
         String after = before.replace("<", "&lt;");
         after = after.replace(">", "&gt;");
@@ -194,8 +194,8 @@ public class DaoUtil
      * @param ruleId PerformanceDoctorの警告ID
      * @return 変換されたAlarmNotifyEntity
      */
-    public static AlarmNotifyEntity convertJavelinLogToAlarmNotifyEntity(JavelinLog javelinLog,
-            int logFileLineNumber, String ruleId)
+    public static AlarmNotifyEntity convertJavelinLogToAlarmNotifyEntity(
+            final JavelinLog javelinLog, final int logFileLineNumber, final String ruleId)
     {
         JvnFileEntryJudge judge = new JvnFileEntryJudge();
         List<AlarmNotifyEntity> entityList = new ArrayList<AlarmNotifyEntity>();
@@ -208,7 +208,7 @@ public class DaoUtil
         createAlarmEntity(warningUnitList, ALARM_LEVEL, AGENT_ID, entityList, javelinLog.javelinLog);
         for (AlarmNotifyEntity entry : entityList)
         {
-            if (logFileLineNumber == entry.log_file_line_number && entry.rule_id.equals(ruleId))
+            if (logFileLineNumber == entry.logFileLineNumber_ && entry.ruleId_.equals(ruleId))
             {
                 return entry;
             }
@@ -224,8 +224,9 @@ public class DaoUtil
      * @param entityList {@link AlarmNotifyEntity}のリスト
      * @param javelinLog JavelinLog本体。ここから必要な部分を切りだす
      */
-    private static void createAlarmEntity(List<WarningUnit> warningUnitList, int alarmLevel,
-            int agentId, List<AlarmNotifyEntity> entityList, InputStream javelinLog)
+    private static void createAlarmEntity(final List<WarningUnit> warningUnitList,
+            final int alarmLevel, final int agentId, final List<AlarmNotifyEntity> entityList,
+            final InputStream javelinLog)
     {
         for (WarningUnit unit : warningUnitList)
         {
@@ -246,23 +247,24 @@ public class DaoUtil
      * {@link AlarmNotifyEntity}オブジェクトを作成します。
      * @param agentId エージェントID
      * @param unit {@link WarningUnit}オブジェクト
+     * @param level レベル
      * @param eventId イベントID
      * @return {@link AlarmNotifyEntity}オブジェクト
      */
-    public static AlarmNotifyEntity createAlarmEntity(int agentId, WarningUnit unit, String level,
-            int eventId)
+    public static AlarmNotifyEntity createAlarmEntity(final int agentId, final WarningUnit unit,
+            final String level, final int eventId)
     {
         AlarmNotifyEntity alarmNotifyEntity = new AlarmNotifyEntity();
-        alarmNotifyEntity.event_id = eventId;
-        alarmNotifyEntity.agent_id = agentId;
-        alarmNotifyEntity.timestamp = new Date(unit.getStartTime());
-        alarmNotifyEntity.level = level;
-        alarmNotifyEntity.class_name = unit.getClassName();
-        alarmNotifyEntity.method_name = unit.getMethodName();
-        alarmNotifyEntity.description = unit.getDescription();
-        alarmNotifyEntity.file_name = unit.getLogFileName();
-        alarmNotifyEntity.log_file_line_number = unit.getLogFileLineNumber();
-        alarmNotifyEntity.rule_id = unit.getId();
+        alarmNotifyEntity.eventId_ = eventId;
+        alarmNotifyEntity.agentId_ = agentId;
+        alarmNotifyEntity.timestamp_ = new Date(unit.getStartTime());
+        alarmNotifyEntity.level_ = level;
+        alarmNotifyEntity.className_ = unit.getClassName();
+        alarmNotifyEntity.methodName_ = unit.getMethodName();
+        alarmNotifyEntity.description_ = unit.getDescription();
+        alarmNotifyEntity.fileName_ = unit.getLogFileName();
+        alarmNotifyEntity.logFileLineNumber_ = unit.getLogFileLineNumber();
+        alarmNotifyEntity.ruleId_ = unit.getId();
         return alarmNotifyEntity;
     }
 }

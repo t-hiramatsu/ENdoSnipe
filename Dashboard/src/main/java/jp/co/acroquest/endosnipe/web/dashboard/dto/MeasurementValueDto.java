@@ -33,31 +33,39 @@ package jp.co.acroquest.endosnipe.web.dashboard.dto;
 public class MeasurementValueDto
 {
     /** 計測項目ID。 */
-    private int    measurementItemId;
-    
+    private int measurementItemId_;
+
     /** 計測項目名。 */
-    private String measurementItemName;
-    
+    private String measurementItemName_;
+
     /** 計測時刻。 */
-    private long   measurementTime;
-    
+    private long measurementTime_;
+
     /** 計測項目値。 */
-    private String measurementValue;
+    private String measurementValue_;
+
+    /**
+     * コンストラクタ。
+     */
+    public MeasurementValueDto()
+    {
+
+    }
 
     /**
      * @return the measurementItemId
      */
     public int getMeasurementItemId()
     {
-        return this.measurementItemId;
+        return this.measurementItemId_;
     }
 
     /**
      * @param measurementItemId the measurementItemId to set
      */
-    public void setMeasurementItemId(int measurementItemId)
+    public void setMeasurementItemId(final int measurementItemId)
     {
-        this.measurementItemId = measurementItemId;
+        this.measurementItemId_ = measurementItemId;
     }
 
     /**
@@ -65,15 +73,15 @@ public class MeasurementValueDto
      */
     public String getMeasurementItemName()
     {
-        return this.measurementItemName;
+        return this.measurementItemName_;
     }
 
     /**
      * @param measurementItemName the measurementItemName to set
      */
-    public void setMeasurementItemName(String measurementItemName)
+    public void setMeasurementItemName(final String measurementItemName)
     {
-        this.measurementItemName = measurementItemName;
+        this.measurementItemName_ = measurementItemName;
     }
 
     /**
@@ -81,15 +89,15 @@ public class MeasurementValueDto
      */
     public long getMeasurementTime()
     {
-        return this.measurementTime;
+        return this.measurementTime_;
     }
 
     /**
      * @param measurementTime the measurementTime to set
      */
-    public void setMeasurementTime(long measurementTime)
+    public void setMeasurementTime(final long measurementTime)
     {
-        this.measurementTime = measurementTime;
+        this.measurementTime_ = measurementTime;
     }
 
     /**
@@ -97,14 +105,14 @@ public class MeasurementValueDto
      */
     public String getMeasurementValue()
     {
-        return this.measurementValue;
+        return this.measurementValue_;
     }
 
     /**
      * @param measurementValue the measurementValue to set
      */
-    public void setMeasurementValue(String measurementValue)
+    public void setMeasurementValue(final String measurementValue)
     {
-        this.measurementValue = measurementValue;
+        this.measurementValue_ = measurementValue;
     }
 }

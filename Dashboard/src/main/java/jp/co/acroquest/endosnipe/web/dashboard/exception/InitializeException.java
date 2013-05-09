@@ -32,6 +32,7 @@ package jp.co.acroquest.endosnipe.web.dashboard.exception;
  */
 public class InitializeException extends Exception
 {
+    /** シリアライズ番号。 */
     private static final long serialVersionUID = -1114506435525447808L;
 
     /**
@@ -42,8 +43,8 @@ public class InitializeException extends Exception
      */
     public InitializeException(final String messageCode, final Object... args)
     {
-    	//TODO this(MessageFormatter.getMessage(messageCode, args));
-    	this("");
+        //TODO this(MessageFormatter.getMessage(messageCode, args));
+        this("");
     }
 
     /**

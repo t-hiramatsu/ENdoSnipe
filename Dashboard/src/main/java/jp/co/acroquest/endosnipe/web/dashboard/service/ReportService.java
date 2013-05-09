@@ -12,7 +12,11 @@
  */
 package jp.co.acroquest.endosnipe.web.dashboard.service;
 
+import java.util.Calendar;
+
+import jp.co.acroquest.endosnipe.report.Reporter;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.ReportDefinitionDto;
+import jp.co.acroquest.endosnipe.web.dashboard.manager.DatabaseManager;
 
 import org.springframework.stereotype.Service;
 
@@ -36,10 +40,28 @@ public class ReportService
     /**
      * レポート出力の定義をDBに登録する。
      * 
-     * @param reportDefinitionDto レポート出力の定義を
+     * @param reportDefinitionDto レポート出力の定義
      */
     public void insertReportDefinition(final ReportDefinitionDto reportDefinitionDto)
     {
 
+    }
+
+    /**
+     * 
+     * @param reportDefinitionDto レポート出力の定義
+     */
+    public void createReport(final ReportDefinitionDto reportDefinitionDto)
+    {
+        Reporter reporter = new Reporter();
+
+        DatabaseManager dbMmanager = DatabaseManager.getInstance();
+        String dbName = dbMmanager.getDataBaseName(1);
+        Calendar fmTime = reportDefinitionDto.getReportTermFrom();
+        Calendar toTime = reportDefinitionDto.getReportTermTo();
+        String reportPath = "result";
+        String targetItemName = reportDefinitionDto.getTargetMeasurementName();
+
+        reporter.createReport(dbName, fmTime, toTime, reportPath, targetItemName);
     }
 }

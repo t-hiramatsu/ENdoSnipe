@@ -57,9 +57,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.wgp.manager.WgpDataManager;
 import org.wgp.util.DataConvertUtil;
 
+/**
+ * 期間データを取り扱うコントローラークラス。
+ * 
+ * @author miyasaka
+ *
+ */
 @Controller
 @RequestMapping("/termData")
 public class TermDataController
@@ -67,23 +72,35 @@ public class TermDataController
     /** PerformanceDoctorページのID。 */
     private static final String PERFDOCTOR_POSTFIX_ID = "/performanceDoctor";
 
+    /** ツリーデータのID。 */
     private static final String TREE_DATA_ID = "tree";
 
-    /** シグナルのツリーメニューのサフィックスID */
-    private static final String TREE_MENU_SIGNAL_SUFEIX_ID = "-signalNode";
-
+    /** ツリーメニューに関する操作を行うクラスのオブジェクト。 */
     @Autowired
     protected TreeMenuService treeMenuService;
 
+    /** MeasurementValueの取得用のインタフェースを提供するクラスのオブジェクト。 */
     @Autowired
     protected MeasurementValueService measurementValueService;
 
+    /** シグナル定義のサービスクラスのオブジェクト。 */
     @Autowired
     protected SignalService signalService;
 
-    @Autowired
-    private WgpDataManager wgpDataManager;
+    /**
+     * コンストラクタ。
+     */
+    public TermDataController()
+    {
 
+    }
+
+    /**
+     * 機関データを取得する。
+     * 
+     * @param data 取得する期間データに関する情報
+     * @return 期間データ
+     */
     @RequestMapping(value = "/get", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, List<Map<String, String>>> getTermData(
@@ -129,7 +146,7 @@ public class TermDataController
             Date endDate = new Date(endTime);
             Map<String, List<MeasurementValueDto>> measurementValueMap =
                     measurementValueService.getMeasurementValueList(startDate, endDate,
-                                                                    graphDataList);
+                                                                     graphDataList);
             for (Entry<String, List<MeasurementValueDto>> measurementValueEntry : measurementValueMap.entrySet())
             {
                 String dataGroupId = measurementValueEntry.getKey();
@@ -195,7 +212,13 @@ public class TermDataController
         return responceDataList;
     }
 
-    private List<Map<String, String>> createTreeMenuData(final List treeMenuDtoList)
+    /**
+     * ツリーメニューのデータを作成する。
+     * 
+     * @param treeMenuDtoList ツリーメニューのDtoのリスト
+     * @return ツリーメニューのデータ
+     */
+    private List<Map<String, String>> createTreeMenuData(final List<?> treeMenuDtoList)
     {
         List<Map<String, String>> bufferDtoList = new ArrayList<Map<String, String>>();
         for (Object treeMenuData : treeMenuDtoList)
