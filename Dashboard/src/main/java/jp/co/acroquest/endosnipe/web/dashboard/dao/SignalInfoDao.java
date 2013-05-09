@@ -1,20 +1,20 @@
 /*******************************************************************************
  * ENdoSnipe 5.0 - (https://github.com/endosnipe)
- * 
+ *
  * The MIT License (MIT)
- * 
+ *
  * Copyright (c) 2012 Acroquest Technology Co.,Ltd.
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -33,25 +33,25 @@ import org.apache.ibatis.exceptions.PersistenceException;
 
 /**
  * {@link SignalInfo} のための DAO のインターフェースです。
- * 
+ *
  * @author miyasaka
- * 
+ *
  */
 public interface SignalInfoDao
 {
 
     /**
      * 指定されたデータベースのシグナル定義を全て取得します。<br />
-     * 
+     *
      * シグナル定義が登録されていない場合は空のリストを返します。<br />
-     * 
+     *
      * @return シグナル定義のリスト
      */
     public List<SignalInfo> selectAll();
 
     /**
      * シグナル定義情報を取得する。
-     * 
+     *
      * @param signalId
      *            シグナルID
      * @return シグナル定義
@@ -59,8 +59,15 @@ public interface SignalInfoDao
     public SignalInfo selectById(int signalId);
 
     /**
+     * シグナル定義情報を取得する。
+     * @param signalName シグナル名
+     * @return シグナル定義
+     */
+    public SignalInfo selectByName(String signalName);
+
+    /**
      * {@link SignalInfo} オブジェクトを挿入します。<br />
-     * 
+     *
      * @param signalInfo
      *            対象オジェクト
      */
@@ -69,19 +76,19 @@ public interface SignalInfoDao
 
     /**
      * シグナル定義を更新する。
-     * 
+     *
      * @param signalInfo
      *            シグナル定義
      */
     public void update(final SignalInfo signalInfo);
 
     /**
-     * 指定されたシグナル情報をDBから削除する。
-     * 
-     * @param signalInfo
-     *            シグナル情報
+     * 指定されたシグナル名に該当するシグナル情報をDBから削除する。
+     *
+     * @param signalName
+     *            シグナル名
      */
-    public void delete(final SignalInfo signalInfo);
+    public void delete(final String signalName);
 
     /**
      * すべてのレコードを削除します。<br />
@@ -90,7 +97,7 @@ public interface SignalInfoDao
 
     /**
      * 直前のシーケンス情報を取得する。<br />
-     * 
+     *
      * @return 直前のシーケンス番号
      */
     public int selectSequenceNum(final SignalInfo signalInfo);

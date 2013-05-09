@@ -52,7 +52,7 @@ ENS.ResourceTreeView = ENS.treeView
 						if (ENS.tree.type.SIGNAL == treeType) {
 							$("#" + instance.contextMenuId + " #addGraph")
 									.hide();
-							$("#" + instance.contextMenuId + " addSignal")
+							$("#" + instance.contextMenuId + " #addSignal")
 									.show();
 
 							// グラフの場合

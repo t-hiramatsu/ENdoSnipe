@@ -1,20 +1,20 @@
 /*******************************************************************************
  * ENdoSnipe 5.0 - (https://github.com/endosnipe)
- * 
+ *
  * The MIT License (MIT)
- * 
+ *
  * Copyright (c) 2012 Acroquest Technology Co.,Ltd.
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -76,7 +76,7 @@ public class SignalController
 
     /**
      * 閾値判定の定義を新規に追加する。
-     * 
+     *
      * @param signalDefinition
      *            閾値判定の定義のJSONデータ
      */
@@ -97,8 +97,21 @@ public class SignalController
     }
 
     /**
+     * 閾値判定の定義を取得する。
+     * @param signalName 閾値判定の定義を一意に取得するためのシグナル名
+     * @return 閾値判定の定義
+     */
+    @RequestMapping(value = "/getDefinition", method = RequestMethod.POST)
+    @ResponseBody
+    public SignalDefinitionDto get(@RequestParam(value = "signalName") final String signalName)
+    {
+        SignalDefinitionDto signalDefinition = this.signalService.getSignalInfo(signalName);
+        return signalDefinition;
+    }
+
+    /**
      * 閾値判定の定義を編集する。
-     * 
+     *
      * @param signalDefinition
      *            閾値判定の定義のJSONデータ
      */
@@ -125,24 +138,14 @@ public class SignalController
 
     /**
      * 閾値判定のシグナルを削除する。
-     * 
-     * @param signalDefinition
-     *            閾値判定の定義のJSONデータ
+     *
+     * @param signalName
+     *            閾値判定のシグナル名
      */
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
-    public SignalDefinitionDto delete(
-            @RequestParam(value = "signalDefinition") final String signalDefinition)
+    public void delete(@RequestParam(value = "signalName") final String signalName)
     {
-        SignalDefinitionDto signalDefinitionDto =
-                JSON.decode(signalDefinition, SignalDefinitionDto.class);
-
-        SignalInfo signalInfo = this.signalService.convertSignalInfo(signalDefinitionDto);
-
-        this.signalService.deleteSignalInfo(signalInfo);
-
-        System.out.println("閾値判定のシグナルを削除しました。");
-
-        return signalDefinitionDto;
+        this.signalService.deleteSignalInfo(signalName);
     }
 }

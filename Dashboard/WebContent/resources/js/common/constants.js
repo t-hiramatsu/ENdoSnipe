@@ -108,6 +108,7 @@ ENS.tree.OUTPUT_REPORT_TYPE = "outputReport";
 ENS.tree.DELETE_REPORT_TYPE = "deleteReport";
 ENS.tree.SIGNAL_PREFIX_ID = "/singalNode-";
 ENS.tree.SIGNAL_ADD_URL = wgp.common.getContextPath() + "/signal/add";
+ENS.tree.SIGNAL_GET_URL = wgp.common.getContextPath() + "/signal/getDefinition";
 ENS.tree.SIGNAL_EDIT_URL = wgp.common.getContextPath() + "/signal/edit";
 ENS.tree.SIGNAL_DELETE_URL = wgp.common.getContextPath() + "/signal/delete";
 ENS.tree.SIGNAL_SELECT_ALL_URL = wgp.common.getContextPath()
@@ -118,11 +119,16 @@ ENS.tree.SIGNAL_VALUE = "signalValue";
 ENS.tree.SIGNAL_DIALOG = "signalDialog";
 ENS.tree.REPORT_DIALOG = "reportDialog";
 
+ENS.tree.type = {};
+ENS.tree.type.GROUP = "group";
+ENS.tree.type.TARGET = "target";
+ENS.tree.type.SIGNAL = "signal";
+
 ENS.tree.contextOption = [ {
 	menu_id : ENS.tree.ADD_SIGNAL_TYPE,
 	menu_name : "Add Signal",
 	executeClass : "ENS.SignalDefinitionDialogView",
-	showParam : "^(?!.*singalNode-).+$",
+	showTreeTypes : [ENS.tree.type.GROUP, ENS.tree.type.TARGET],
 	executeOption : {
 		dialogId : ENS.tree.SIGNAL_DIALOG,
 		signalType : ENS.tree.ADD_SIGNAL_TYPE
@@ -132,7 +138,7 @@ ENS.tree.contextOption = [ {
 	menu_id : ENS.tree.EDIT_SIGNAL_TYPE,
 	menu_name : "Edit Signal",
 	executeClass : "ENS.SignalDefinitionDialogView",
-	showParam : ENS.tree.SIGNAL_PREFIX_ID,
+	showTreeTypes : [ENS.tree.type.SIGNAL],
 	executeOption : {
 		dialogId : ENS.tree.SIGNAL_DIALOG,
 		signalType : ENS.tree.EDIT_SIGNAL_TYPE
@@ -142,7 +148,7 @@ ENS.tree.contextOption = [ {
 	menu_id : ENS.tree.DELETE_SIGNAL_TYPE,
 	menu_name : "Delete Signal",
 	executeClass : "",
-	showParam : ENS.tree.SIGNAL_PREFIX_ID,
+	showTreeTypes : [ENS.tree.type.SIGNAL],
 	executeOption : {
 		dialogId : ENS.tree.SIGNAL_DIALOG,
 		signalType : ENS.tree.DELETE_SIGNAL_TYPE
@@ -152,7 +158,7 @@ ENS.tree.contextOption = [ {
 	menu_id : ENS.tree.OUTPUT_REPORT_TYPE,
 	menu_name : "Output Report",
 	executeClass : "ENS.ReportDialogView",
-	showParam : "^(?!.*singalNode-).+$",
+	showTreeTypes : [ENS.tree.type.GROUP, ENS.tree.type.TARGET],
 	executeOption : {
 		dialogId : ENS.tree.REPORT_DIALOG,
 		signalType : ENS.tree.OUTPUT_REPORT_TYPE

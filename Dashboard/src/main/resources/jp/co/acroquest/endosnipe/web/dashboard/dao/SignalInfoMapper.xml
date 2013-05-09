@@ -25,6 +25,13 @@
 		= #{signalId}
 	</select>
 
+	<select id="selectByName" resultMap="SignalInfoMap">
+		SELECT * FROM
+		SIGNAL_DEFINITION
+		where SIGNAL_NAME
+		= #{signalName}
+	</select>
+
 	<insert id="insert"
 		parameterType="jp.co.acroquest.endosnipe.web.dashboard.entity.SignalInfo">
 		insert into SIGNAL_DEFINITION
@@ -46,11 +53,10 @@
 		= #{signalId}
 	</update>
 
-	<delete id="delete"
-		parameterType="jp.co.acroquest.endosnipe.web.dashboard.entity.SignalInfo">
+	<delete id="delete">
 		delete from SIGNAL_DEFINITION
-		where SIGNAL_ID =
-		#{signalId}
+		where SIGNAL_NAME =
+		#{signalName}
 	</delete>
 
 	<delete id="deleteAll"

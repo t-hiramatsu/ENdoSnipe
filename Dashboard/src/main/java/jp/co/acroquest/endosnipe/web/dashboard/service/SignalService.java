@@ -127,7 +127,7 @@ public class SignalService
         }
         signalBody.setObjItemValueArr(signalNames);
 
-        Body[] requestBodys = {signalBody};
+        Body[] requestBodys = { signalBody };
 
         telegram.setObjHeader(requestHeader);
         telegram.setObjBody(requestBodys);
@@ -164,6 +164,18 @@ public class SignalService
         signalDefinitionDto.setSignalValue(0);
 
         return signalDefinitionDto;
+    }
+
+    /**
+     * シグナル定義をDBから取得する。
+     * @param signalName シグナル名
+     * @return シグナル定義のDTOオブジェクト
+     */
+    public SignalDefinitionDto getSignalInfo(final String signalName)
+    {
+        SignalInfo signalInfo = signalInfoDao.selectByName(signalName);
+        SignalDefinitionDto defitionDto = this.convertSignalDto(signalInfo);
+        return defitionDto;
     }
 
     /**
@@ -219,17 +231,17 @@ public class SignalService
     }
 
     /**
-     * シグナル定義をDBから削除する。
+     * シグナル名に該当するシグナル定義をDBから削除する。
      *
-     * @param signalInfo
-     *            シグナル定義
+     * @param signalName
+     *            シグナル名
      */
-    public void deleteSignalInfo(final SignalInfo signalInfo)
+    public void deleteSignalInfo(final String signalName)
     {
         try
         {
-            signalInfoDao.delete(signalInfo);
-            this.deleteMeasurementItem(signalInfo.signalName);
+            signalInfoDao.delete(signalName);
+            this.deleteMeasurementItem(signalName);
         }
         catch (PersistenceException pEx)
         {
