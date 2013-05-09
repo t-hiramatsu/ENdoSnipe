@@ -21,6 +21,7 @@
 			<div id="signalNameItem" class="dialogItem">Signal Name : </div>
 			<div id="signalNameValue" class="dialogValue">
 				<input type="text" id="signalName" class="signalValue" value="new Signal" />
+				<input type="hidden" id="beforeSignalName" class="signalValue" value="" />
 			</div>
 		</div>
 		<div id="signalMatchingPatternArea" class="dialogContentArea">

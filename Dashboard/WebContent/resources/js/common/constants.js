@@ -128,7 +128,7 @@ ENS.tree.contextOption = [ {
 	menu_id : ENS.tree.ADD_SIGNAL_TYPE,
 	menu_name : "Add Signal",
 	executeClass : "ENS.SignalDefinitionDialogView",
-	showTreeTypes : [ENS.tree.type.GROUP, ENS.tree.type.TARGET],
+	showTreeTypes : [ENS.tree.type.GROUP],
 	executeOption : {
 		dialogId : ENS.tree.SIGNAL_DIALOG,
 		signalType : ENS.tree.ADD_SIGNAL_TYPE

@@ -175,7 +175,7 @@
 				height : 25,
 				styleClass : 'map_menu_icon',
 				src : '<%=request.getContextPath()%>/resources/images/map/operateModeIcon.png',
-				alt : 'Operate mode',
+				alt : 'This is the current operation mode. Please click if you want to edit the map.',
 				onclick : (function(event){
 					$("#mapMode").val(ENS.map.mode.EDIT);
 					$("#mapListForm").attr("action", "<%=request.getContextPath()%>/map/mapList");
@@ -190,7 +190,7 @@
 				height : 25,
 				styleClass : 'map_menu_icon',
 				src : '<%=request.getContextPath()%>/resources/images/map/editModeIcon.png',
-				alt : 'Edit mode',
+				alt : 'This is the current edit mode. Please click to go back to the operation mode.',
 				onclick : (function(event){
 					$("#mapMode").val(ENS.map.mode.OPERATE);
 					$("#mapListForm").attr("action", "<%=request.getContextPath()%>/map/mapList");
@@ -209,7 +209,7 @@
 				height : 25,
 				styleClass : 'map_menu_icon',
 				src : '<%=request.getContextPath()%>/resources/images/map/createIcon.png',
-				alt : 'Create New Map',
+				alt : 'Please click if you want to create a new map.',
 				onclick : (function(event){
 					resourceMapListView.onCreate();
 				})
@@ -221,7 +221,7 @@
 				height : 25,
 				styleClass : 'map_menu_icon',
 				src : '<%=request.getContextPath()%>/resources/images/map/saveIcon.png',
-				alt : 'save',
+				alt : 'Please click if you want to save the map.',
 				onclick : (function(event){
 					if(resourceMapListView.childView){
 						var selectedId = $("#" + resourceMapListView.id).find(".jstree-clicked")[0].id;
@@ -239,7 +239,7 @@
 				height : 25,
 				styleClass : 'map_menu_icon',
 				src : '<%=request.getContextPath()%>/resources/images/map/createLinkIcon.png',
-				alt : 'createLink',
+				alt : 'Please click if you want to add map link.',
 				onclick : (function(event){
 					if(resourceMapListView.childView){
 						var selectedId = $("#" + resourceMapListView.id).find(".jstree-clicked")[0].id;
@@ -261,6 +261,15 @@
 			},
 			{}
 		);
+
+		// メニューアイコンにツールチップを付ける。
+		$(".map_menu_icon").tooltip({
+			content : function(){
+				return $(this).attr("alt");
+			},
+			items : "[alt]",
+			tooltipClass : "tooltip"
+		});
 
 	/**
 	 * 画面遷移を行う際に、画面の状態を引き継ぐ。

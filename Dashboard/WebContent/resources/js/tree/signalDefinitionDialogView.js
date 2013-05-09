@@ -10,12 +10,12 @@ ENS.SignalDefinitionDialogView = ENS.DialogView.extend({
 		var okObj = "okObject";
 		var cName = "cancelFunctionName";
 		var cObj = "cancelObject";
-		
+
 		$("#" + option.dialogId).dialog({
 			buttons : [ {
 				text : "OK",
 				click : function(event) {
-					
+
 					// シグナル名が空の時はアラートを表示し、再入力を求める。
 					var signalName = $("#signalName").val();
 					if (signalName === "") {
@@ -25,14 +25,14 @@ ENS.SignalDefinitionDialogView = ENS.DialogView.extend({
 						alert("Don't use '/'or'\\' in 'Signal Name'.");
 						return;
 					}
-					
+
 					// マッチングパターンが空の時はアラーとを表示し、再入力を求める。
 					var matchingPattern = $("#matchingPattern").val();
 					if (matchingPattern === "") {
 						alert("Please input 'Matching Pattern'.");
 						return;
 					}
-					
+
 					var level = $("#signalPatternValue select").val() - 0;
 					// レベルを入力するテキストボックスに数値が入力されているか確認し、
 					// 数値以外のものが入力されている場合はアラートを表示し、再入力を求める。
@@ -44,7 +44,7 @@ ENS.SignalDefinitionDialogView = ENS.DialogView.extend({
 							alert("Don't use non-number in 'Signal Levels'.");
 							return;
 						}
-						
+
 						if (inputValue === "") {
 							emptyNum++;
 						}
@@ -53,7 +53,7 @@ ENS.SignalDefinitionDialogView = ENS.DialogView.extend({
 						alert("Please input 'Signal Levels'.");
 						return;
 					}
-					
+
 					// エスカレーションピリオドに数値が入力されていない場合にアラートを表示し、再入力を求める。
 					var inputedPeriod = $("#escalationPeriod").val();
 					if (!inputedPeriod.match(/^([1-9]\d*|0|^$)(\.\d+)?$/)) {
@@ -63,7 +63,7 @@ ENS.SignalDefinitionDialogView = ENS.DialogView.extend({
 						alert("Please input 'Escalation Period'.");
 						return;
 					}
-					
+
 					$("#" + option.dialogId).dialog("close");
 					if (!ins.op_[okObj]) {
 						return;

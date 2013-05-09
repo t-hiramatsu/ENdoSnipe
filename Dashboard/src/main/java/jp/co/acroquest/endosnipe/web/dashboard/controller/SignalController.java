@@ -118,8 +118,7 @@ public class SignalController
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> edit(
-            @RequestParam(value = "signalDefinition") final String signalDefinition,
-            @RequestParam(value = "oldSignalId") final String oldSignalId)
+            @RequestParam(value = "signalDefinition") final String signalDefinition)
     {
         SignalDefinitionDto signalDefinitionDto =
                 JSON.decode(signalDefinition, SignalDefinitionDto.class);
@@ -131,7 +130,6 @@ public class SignalController
 
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("signalDefinition", updatedDefinitionDto);
-        map.put("oldSignalId", oldSignalId);
 
         return map;
     }
@@ -144,8 +142,12 @@ public class SignalController
      */
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
-    public void delete(@RequestParam(value = "signalName") final String signalName)
+    public Map<String, Object> delete(@RequestParam(value = "signalName") final String signalName)
     {
         this.signalService.deleteSignalInfo(signalName);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("signalName", signalName);
+
+        return map;
     }
 }
