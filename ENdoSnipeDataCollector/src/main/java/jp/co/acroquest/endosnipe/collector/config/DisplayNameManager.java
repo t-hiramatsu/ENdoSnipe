@@ -40,19 +40,19 @@ import jp.co.acroquest.endosnipe.common.util.PathUtil;
 public class DisplayNameManager
 {
     /** singletonインスタンス */
-    private static DisplayNameManager     manager__ = new DisplayNameManager();
+    private static DisplayNameManager manager__ = new DisplayNameManager();
 
     /** 言語変換用マップ */
     private final HashMap<String, String> convMap_;
 
     /** プロパティファイルのプレフィクス */
-    private final String                  PREFIX    = "../conf/displayname_";
+    private final String PREFIX = "../conf/displayname_";
 
     /** プロパティファイルの拡張子 */
-    private final String                  EXTENSION = ".properties";
+    private final String EXTENSION = ".properties";
 
     /** コメント文字 */
-    private final String                  COMMENT   = "#";
+    private final String COMMENT = "#";
 
     /**
      * インスタンス化を防ぐprivateコンストラクタ
@@ -83,8 +83,7 @@ public class DisplayNameManager
     {
         // ログ出力用インスタンス
         final ENdoSnipeLogger logger =
-                                       ENdoSnipeLogger.getLogger(
-                                                                 Bootstrap.class,
+                                       ENdoSnipeLogger.getLogger(Bootstrap.class,
                                                                  ENdoSnipeDataCollectorPluginProvider.INSTANCE);
 
         if (lang == null || "".equals(lang))

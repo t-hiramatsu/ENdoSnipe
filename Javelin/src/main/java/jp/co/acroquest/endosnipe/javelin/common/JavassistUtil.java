@@ -28,10 +28,10 @@ package jp.co.acroquest.endosnipe.javelin.common;
 import java.util.List;
 import java.util.Map;
 
-import jp.co.smg.endosnipe.javassist.ClassPool;
-import jp.co.smg.endosnipe.javassist.CtClass;
-import jp.co.smg.endosnipe.javassist.NotFoundException;
-import jp.co.smg.endosnipe.javassist.bytecode.ClassFile;
+import jp.co.acroquest.endosnipe.javassist.ClassPool;
+import jp.co.acroquest.endosnipe.javassist.CtClass;
+import jp.co.acroquest.endosnipe.javassist.NotFoundException;
+import jp.co.acroquest.endosnipe.javassist.bytecode.ClassFile;
 import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 import jp.co.acroquest.endosnipe.javelin.conf.JavelinMessages;

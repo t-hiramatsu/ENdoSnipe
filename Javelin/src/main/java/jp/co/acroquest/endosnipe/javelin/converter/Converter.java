@@ -27,8 +27,8 @@ package jp.co.acroquest.endosnipe.javelin.converter;
 
 import java.util.List;
 
-import jp.co.smg.endosnipe.javassist.ClassPool;
-import jp.co.smg.endosnipe.javassist.CtClass;
+import jp.co.acroquest.endosnipe.javassist.ClassPool;
+import jp.co.acroquest.endosnipe.javassist.CtClass;
 import jp.co.acroquest.endosnipe.javelin.conf.ExcludeConversionConfig;
 import jp.co.acroquest.endosnipe.javelin.conf.IncludeConversionConfig;
 

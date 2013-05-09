@@ -31,11 +31,11 @@ import java.util.List;
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 import jp.co.acroquest.endosnipe.javelin.converter.AbstractConverter;
 import jp.co.acroquest.endosnipe.javelin.converter.servlet.monitor.HttpServletMonitor;
-import jp.co.smg.endosnipe.javassist.CannotCompileException;
-import jp.co.smg.endosnipe.javassist.ClassPool;
-import jp.co.smg.endosnipe.javassist.CtBehavior;
-import jp.co.smg.endosnipe.javassist.CtClass;
-import jp.co.smg.endosnipe.javassist.NotFoundException;
+import jp.co.acroquest.endosnipe.javassist.CannotCompileException;
+import jp.co.acroquest.endosnipe.javassist.ClassPool;
+import jp.co.acroquest.endosnipe.javassist.CtBehavior;
+import jp.co.acroquest.endosnipe.javassist.CtClass;
+import jp.co.acroquest.endosnipe.javassist.NotFoundException;
 
 /**
  * ServletJavelin

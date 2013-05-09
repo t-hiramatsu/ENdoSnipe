@@ -30,11 +30,11 @@ import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
 import java.security.ProtectionDomain;
 
-import jp.co.smg.endosnipe.javassist.CannotCompileException;
-import jp.co.smg.endosnipe.javassist.ClassPool;
-import jp.co.smg.endosnipe.javassist.CtClass;
-import jp.co.smg.endosnipe.javassist.CtMethod;
-import jp.co.smg.endosnipe.javassist.NotFoundException;
+import jp.co.acroquest.endosnipe.javassist.CannotCompileException;
+import jp.co.acroquest.endosnipe.javassist.ClassPool;
+import jp.co.acroquest.endosnipe.javassist.CtClass;
+import jp.co.acroquest.endosnipe.javassist.CtMethod;
+import jp.co.acroquest.endosnipe.javassist.NotFoundException;
 
 public class TestTransformer implements ClassFileTransformer
 {

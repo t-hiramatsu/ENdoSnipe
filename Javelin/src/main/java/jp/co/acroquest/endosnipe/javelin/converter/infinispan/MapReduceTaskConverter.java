@@ -9,16 +9,16 @@ import jp.co.acroquest.endosnipe.javelin.converter.AbstractConverter;
 import jp.co.acroquest.endosnipe.javelin.converter.infinispan.monitor.MapReduceTaskAccessor;
 import jp.co.acroquest.endosnipe.javelin.converter.infinispan.monitor.MapReduceTaskMonitor;
 import jp.co.acroquest.endosnipe.javelin.resource.ResourceCollector;
-import jp.co.smg.endosnipe.javassist.CannotCompileException;
-import jp.co.smg.endosnipe.javassist.ClassPool;
-import jp.co.smg.endosnipe.javassist.CtBehavior;
-import jp.co.smg.endosnipe.javassist.CtClass;
-import jp.co.smg.endosnipe.javassist.CtField;
-import jp.co.smg.endosnipe.javassist.CtMethod;
-import jp.co.smg.endosnipe.javassist.CtNewMethod;
-import jp.co.smg.endosnipe.javassist.NotFoundException;
-import jp.co.smg.endosnipe.javassist.expr.ExprEditor;
-import jp.co.smg.endosnipe.javassist.expr.MethodCall;
+import jp.co.acroquest.endosnipe.javassist.CannotCompileException;
+import jp.co.acroquest.endosnipe.javassist.ClassPool;
+import jp.co.acroquest.endosnipe.javassist.CtBehavior;
+import jp.co.acroquest.endosnipe.javassist.CtClass;
+import jp.co.acroquest.endosnipe.javassist.CtField;
+import jp.co.acroquest.endosnipe.javassist.CtMethod;
+import jp.co.acroquest.endosnipe.javassist.CtNewMethod;
+import jp.co.acroquest.endosnipe.javassist.NotFoundException;
+import jp.co.acroquest.endosnipe.javassist.expr.ExprEditor;
+import jp.co.acroquest.endosnipe.javassist.expr.MethodCall;
 
 /**
  * mapreduceのジョブ、タスク情報を取得するためのコードを埋め込む

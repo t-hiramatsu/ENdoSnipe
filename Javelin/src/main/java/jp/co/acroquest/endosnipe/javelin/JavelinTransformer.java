@@ -57,9 +57,9 @@ import jp.co.acroquest.endosnipe.javelin.converter.Converter;
 import jp.co.acroquest.endosnipe.javelin.util.HashSet;
 import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
 import jp.co.acroquest.endosnipe.javelin.util.WeakHashMap;
-import jp.co.smg.endosnipe.javassist.ClassPool;
-import jp.co.smg.endosnipe.javassist.CtClass;
-import jp.co.smg.endosnipe.javassist.LoaderClassPath;
+import jp.co.acroquest.endosnipe.javassist.ClassPool;
+import jp.co.acroquest.endosnipe.javassist.CtClass;
+import jp.co.acroquest.endosnipe.javassist.LoaderClassPath;
 
 /**
  * Java Instrumentation APIにより、javaagentとしてクラスの変換を行うクラスです。<br />
@@ -173,7 +173,7 @@ public class JavelinTransformer implements ClassFileTransformer
                 || className.startsWith("javassist.")
                 || className.startsWith("org.seasar.javelin")
                 || className.startsWith("jp.co.acroquest.endosnipe.javelin")
-                || className.startsWith("jp.co.smg.endosnipe.javassist"))
+                || className.startsWith("jp.co.acroquest.endosnipe.javassist"))
         {
             return false;
         }
