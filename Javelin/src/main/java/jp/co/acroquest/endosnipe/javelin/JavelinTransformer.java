@@ -57,9 +57,9 @@ import jp.co.acroquest.endosnipe.javelin.converter.Converter;
 import jp.co.acroquest.endosnipe.javelin.util.HashSet;
 import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
 import jp.co.acroquest.endosnipe.javelin.util.WeakHashMap;
-import jp.co.acroquest.endosnipe.javassist.ClassPool;
-import jp.co.acroquest.endosnipe.javassist.CtClass;
-import jp.co.acroquest.endosnipe.javassist.LoaderClassPath;
+import jp.co.smg.endosnipe.javassist.ClassPool;
+import jp.co.smg.endosnipe.javassist.CtClass;
+import jp.co.smg.endosnipe.javassist.LoaderClassPath;
 
 /**
  * Java Instrumentation APIにより、javaagentとしてクラスの変換を行うクラスです。<br />

@@ -33,14 +33,14 @@ import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 import jp.co.acroquest.endosnipe.javelin.StatsJavelinRecorder;
 import jp.co.acroquest.endosnipe.javelin.converter.AbstractConverter;
 import jp.co.acroquest.endosnipe.javelin.converter.util.ConvertedMethodCounter;
-import jp.co.acroquest.endosnipe.javassist.CannotCompileException;
-import jp.co.acroquest.endosnipe.javassist.CtBehavior;
-import jp.co.acroquest.endosnipe.javassist.CtClass;
-import jp.co.acroquest.endosnipe.javassist.NotFoundException;
-import jp.co.acroquest.endosnipe.javassist.bytecode.BadBytecode;
-import jp.co.acroquest.endosnipe.javassist.bytecode.CodeAttribute;
-import jp.co.acroquest.endosnipe.javassist.bytecode.CodeIterator;
-import jp.co.acroquest.endosnipe.javassist.bytecode.Opcode;
+import jp.co.smg.endosnipe.javassist.CannotCompileException;
+import jp.co.smg.endosnipe.javassist.CtBehavior;
+import jp.co.smg.endosnipe.javassist.CtClass;
+import jp.co.smg.endosnipe.javassist.NotFoundException;
+import jp.co.smg.endosnipe.javassist.bytecode.BadBytecode;
+import jp.co.smg.endosnipe.javassist.bytecode.CodeAttribute;
+import jp.co.smg.endosnipe.javassist.bytecode.CodeIterator;
+import jp.co.smg.endosnipe.javassist.bytecode.Opcode;
 
 /**
  * Javelin用コンバータ

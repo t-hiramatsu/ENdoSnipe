@@ -33,95 +33,104 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 
 /**
- * レポート出力処理を実行するタスクオブジェクト
- * 進捗率の通知を伴う。
+ * レポート出力処理を実行するタスクオブジェクト 進捗率の通知を伴う。
  * 
  * @author M.Yoshida
  */
-public class ReportPublishTask extends Job
-{
-    /** 検索条件 */
-    private ReportSearchCondition        searchCondition_;
+public class ReportPublishTask extends Job {
+	/** 検索条件 */
+	private ReportSearchCondition searchCondition_;
 
-    /** レポート種別 */
-    private ReportType[]                 publishTypes_;
+	/** レポート種別 */
+	private ReportType[] publishTypes_;
 
-    /** 終了時にコールバックする */
-    private Runnable callback_;
+	/** 終了時にコールバックする */
+	private Runnable callback_;
 
-    /** ロガー */
-    private static final ENdoSnipeLogger LOGGER =
-                                                  ENdoSnipeLogger.getLogger(
-                                                                            ReportPublishTask.class,
-                                                                            ReporterPluginProvider.INSTANCE);
+	/** ロガー */
+	private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(
+			ReportPublishTask.class, ReporterPluginProvider.INSTANCE);
 
-    /**
-     * コンストラクタ
-     * 
-     * @param cond        検索条件
-     * @param publishType レポート種別
-     * @param callback コールバック
-     */
-    public ReportPublishTask(ReportSearchCondition cond, ReportType[] publishType, Runnable callback)
-    {
-        super("ENdoSnipeReportPublish");
-        List<ReportType> additionalTypes = new ArrayList<ReportType>();
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param cond
+	 *            検索条件
+	 * @param publishType
+	 *            レポート種別
+	 * @param callback
+	 *            コールバック
+	 */
+	public ReportPublishTask(ReportSearchCondition cond,
+			ReportType[] publishType, Runnable callback) {
+		super("ENdoSnipeReportPublish");
+		List<ReportType> additionalTypes = new ArrayList<ReportType>();
 
-        for (ReportType type : publishType)
-        {
-            additionalTypes.add(type);
-        }
+		for (ReportType type : publishType) {
+			additionalTypes.add(type);
+		}
 
-        searchCondition_ = cond;
-        publishTypes_ = (ReportType[])additionalTypes.toArray(new ReportType[0]);
-        callback_ = callback;
-    }
+		searchCondition_ = cond;
+		publishTypes_ = (ReportType[]) additionalTypes
+				.toArray(new ReportType[0]);
+		callback_ = callback;
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public IStatus run(IProgressMonitor monitor)
-    {
-        ProgressController progressCtrl = new ProgressController(monitor, publishTypes_.length);
-        searchCondition_.setProgressController(progressCtrl);
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public IStatus run(IProgressMonitor monitor) {
+		return Status.OK_STATUS;
+	}
+	
+	/**
+	 * 第二引数の全ての子要素に対してレポート出力を実行する。
+	 * 
+	 * @param monitor IProgressMonitorクラスのオブジェクト
+	 * @param targetItemName レポート出力対象の親の項目名
+	 * @return 実行完了時の状態
+	 */
+	public IStatus run(IProgressMonitor monitor, String targetItemName) {
+		ProgressController progressCtrl = new ProgressController(monitor,
+				publishTypes_.length);
+		searchCondition_.setProgressController(progressCtrl);
+		searchCondition_
+				.setTargetItemName(targetItemName);
 
-        ReportPublishDispatcher dispatcher = ReportPublishDispatcher.getInstance();
+		ReportPublishDispatcher dispatcher = ReportPublishDispatcher
+				.getInstance();
 
-        progressCtrl.beginTask();
-        
-        SummaryReportProcessor.setOutputFileTypeList(publishTypes_);
+		progressCtrl.beginTask();
 
-        for (ReportType type : publishTypes_)
-        {
-            ReportProcessReturnContainer retCont;
-            progressCtrl.startProcessor(type);
-            retCont = dispatcher.dispatch(type, searchCondition_);
+		SummaryReportProcessor.setOutputFileTypeList(publishTypes_);
 
-            if (retCont.getHappendedError() != null)
-            {
-                if (retCont.getHappendedError() instanceof InterruptedException)
-                {
-                    return Status.CANCEL_STATUS;
-                }
+		for (ReportType type : publishTypes_) {
+			ReportProcessReturnContainer retCont;
+			progressCtrl.startProcessor(type);
+			retCont = dispatcher.dispatch(type, searchCondition_);
 
-                LOGGER.log(LogIdConstants.REPORT_PUBLISH_STOPPED_WARN, retCont.getHappendedError(),
-                           ReporterConfigAccessor.getReportName(type));
-                continue;
-            }
-            if (monitor.isCanceled())
-            {
-                return Status.CANCEL_STATUS;
-            }
-        }
+			if (retCont.getHappendedError() != null) {
+				if (retCont.getHappendedError() instanceof InterruptedException) {
+					return Status.CANCEL_STATUS;
+				}
 
-        if (this.callback_ != null)
-        {
-            this.callback_.run();
-        }
-        
-        progressCtrl.endTask();
+				LOGGER.log(LogIdConstants.REPORT_PUBLISH_STOPPED_WARN,
+						retCont.getHappendedError(),
+						ReporterConfigAccessor.getReportName(type));
+				continue;
+			}
+			if (monitor.isCanceled()) {
+				return Status.CANCEL_STATUS;
+			}
+		}
 
-        return Status.OK_STATUS;
-    }
+		if (this.callback_ != null) {
+			this.callback_.run();
+		}
+
+		progressCtrl.endTask();
+
+		return Status.OK_STATUS;
+	}
 }
