@@ -477,6 +477,8 @@ public class JavelinServer implements TelegramSender
             }
         });
 
+        controlClient.addTelegramListener(new SignalStateListener());
+
         // Javelin->DataCollector->BottleneckEye
         javelinClient.addTelegramListener(new TelegramListener() {
             public Telegram receiveTelegram(final Telegram telegram)
