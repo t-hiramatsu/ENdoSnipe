@@ -138,9 +138,6 @@ public class ConfigurationReader
     /** データベース名で使用できる文字を、正規表現で表したもの */
     private static final String DATABASE_NAME_USABLE_PATTERN = "[A-Za-z0-9#$%@=\\+\\-_~\\.]*";
 
-    /** エージェントのキーを表す接頭辞 */
-    private static final String PREFIX_AGENT_KEY = AGENT_HOST;
-
     /** パラメータ定義ファイルのパス */
     private static String configFilePath__;
 
@@ -378,12 +375,6 @@ public class ConfigurationReader
     private static int getAgentId(final String key)
         throws InitializeException
     {
-        // エージェントを表すキーでない場合は、-1を返し、処理を終了する。
-        if (key.indexOf(PREFIX_AGENT_KEY) < 0)
-        {
-            return -1;
-        }
-
         int pos = key.lastIndexOf(".");
         if (pos < 0)
         {
