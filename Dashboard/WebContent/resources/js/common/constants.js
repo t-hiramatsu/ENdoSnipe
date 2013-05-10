@@ -118,6 +118,7 @@ ENS.tree.SIGNAL_NAME = "signalName";
 ENS.tree.SIGNAL_VALUE = "signalValue";
 ENS.tree.SIGNAL_DIALOG = "signalDialog";
 ENS.tree.REPORT_DIALOG = "reportDialog";
+ENS.tree.REPORT_PREFIX_ID = "/reportNode-";
 
 ENS.tree.type = {};
 ENS.tree.type.GROUP = "group";

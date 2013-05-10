@@ -29,6 +29,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class ReportService
 {
+    /** レポートの出力先ディレクトリ名。 */
+    private static final String REPORT_PATH = "report";
+
     /**
      * デフォルトコンストラクタ。
      */
@@ -59,9 +62,8 @@ public class ReportService
         String dbName = dbMmanager.getDataBaseName(1);
         Calendar fmTime = reportDefinitionDto.getReportTermFrom();
         Calendar toTime = reportDefinitionDto.getReportTermTo();
-        String reportPath = "result";
         String targetItemName = reportDefinitionDto.getTargetMeasurementName();
 
-        reporter.createReport(dbName, fmTime, toTime, reportPath, targetItemName);
+        reporter.createReport(dbName, fmTime, toTime, REPORT_PATH, targetItemName);
     }
 }

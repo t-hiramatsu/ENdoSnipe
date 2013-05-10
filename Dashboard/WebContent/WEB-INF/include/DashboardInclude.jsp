@@ -76,3 +76,8 @@
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/nodeinfomation/view/perfDoctorView.js">	
 </script>
+
+<%-- Report view --%>
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/resources/js/nodeinfomation/view/reportView.js">	
+</script>

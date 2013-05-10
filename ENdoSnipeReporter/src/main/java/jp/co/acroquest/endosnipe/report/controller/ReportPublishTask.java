@@ -91,7 +91,7 @@ public class ReportPublishTask extends Job {
 	 * @param targetItemName レポート出力対象の親の項目名
 	 * @return 実行完了時の状態
 	 */
-	public IStatus run(IProgressMonitor monitor, String targetItemName) {
+	public IStatus createReport(IProgressMonitor monitor, String targetItemName) {
 		ProgressController progressCtrl = new ProgressController(monitor,
 				publishTypes_.length);
 		searchCondition_.setProgressController(progressCtrl);

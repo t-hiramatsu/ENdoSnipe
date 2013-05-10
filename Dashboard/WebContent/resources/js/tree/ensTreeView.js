@@ -573,7 +573,7 @@ ENS.treeView = wgp.TreeView
 					var nameSplit = nameSplitList[index];
 
 					if (index == nameSplitListLength - 1) {
-						reportTreeId += ENS.tree.SIGNAL_PREFIX_ID;
+						reportTreeId += ENS.tree.REPORT_PREFIX_ID;
 					} else {
 						targetTreeId += "/";
 						targetTreeId += nameSplit;
