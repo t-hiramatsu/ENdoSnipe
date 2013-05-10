@@ -131,211 +131,179 @@ import jp.co.acroquest.endosnipe.data.db.DatabaseType;
  */
 public class ConfigurationReader
 {
-    private static final ENdoSnipeLogger logger_                               =
-                                                                                 ENdoSnipeLogger.getLogger(ConfigurationReader.class,
-                                                                                                           ENdoSnipeDataCollectorPluginProvider.INSTANCE);
+    private static final ENdoSnipeLogger logger_ =
+                                                   ENdoSnipeLogger.getLogger(ConfigurationReader.class,
+                                                                             ENdoSnipeDataCollectorPluginProvider.INSTANCE);
 
     /** DataCollectorConfig */
-    private static DataCollectorConfig   config__                              = null;
+    private static DataCollectorConfig config__ = null;
 
     /** 改行文字。 */
-    private static final String          LS                                    =
-                                                                                 System.getProperty("line.separator");
+    private static final String LS = System.getProperty("line.separator");
 
     /** ホスト名を表す接頭辞 */
-    private static final String          SERVER_HOST                           = "server.host.";
+    private static final String SERVER_HOST = "server.host.";
 
     /** ポート番号を表す接頭辞 */
-    private static final String          SERVER_PORT                           = "server.port.";
+    private static final String SERVER_PORT = "server.port.";
 
     /** ホスト名を表す接頭辞 */
-    private static final String          AGENT_HOST                            = "javelin.host.";
+    private static final String AGENT_HOST = "javelin.host.";
 
     /** ポート番号を表す接頭辞 */
-    private static final String          AGENT_PORT                            = "javelin.port.";
+    private static final String AGENT_PORT = "javelin.port.";
 
     /** ポート番号を表す接頭辞 */
-    private static final String          ACCEPT_PORT                           =
-                                                                                 "datacollector.acceptport.";
+    private static final String ACCEPT_PORT = "datacollector.acceptport.";
 
     /** データベース名を表す接頭辞 */
-    private static final String          DATABASE_NAME                         = "database.name";
+    private static final String DATABASE_NAME = "database.name";
 
     /** データベースの種類を表す接頭辞 */
-    private static final String          DATABASE_TYPE                         = "database.type";
+    private static final String DATABASE_TYPE = "database.type";
 
     /** データベースディレクトリを表す接頭辞 */
-    private static final String          DATABASE_DIR                          = "database.dir";
+    private static final String DATABASE_DIR = "database.dir";
 
     /** データベースのホストアドレスを表す接頭辞 */
-    private static final String          DATABASE_HOST                         = "database.host";
+    private static final String DATABASE_HOST = "database.host";
 
     /** データベースのポート番号を表す接頭辞 */
-    private static final String          DATABASE_PORT                         = "database.port";
+    private static final String DATABASE_PORT = "database.port";
 
     /** データベースのログインユーザ名を表す接頭辞 */
-    private static final String          DATABASE_USERNAME                     =
-                                                                                 "database.username";
+    private static final String DATABASE_USERNAME = "database.username";
 
     /** データベースのログインパスワードを表す接頭辞 */
-    private static final String          DATABASE_PASSWORD                     =
-                                                                                 "database.password";
+    private static final String DATABASE_PASSWORD = "database.password";
 
     /** リソース取得間隔を表す接頭辞 */
-    private static final String          RESOURCE_INTERVAL                     =
-                                                                                 "resource.get.interval";
+    private static final String RESOURCE_INTERVAL = "resource.get.interval";
 
     /** リソースモニタリングの設定ファイル名を表す接頭辞 */
-    private static final String          RESOURCE_MONITORING                   =
-                                                                                 "resource.config.filename";
+    private static final String RESOURCE_MONITORING = "resource.config.filename";
 
     /** レポート出力先ディレクトリ */
-    private static final String          REPORT_OUTPUT_DIR                     =
-                                                                                 "report.output.dir";
+    private static final String REPORT_OUTPUT_DIR = "report.output.dir";
 
     /** 接続モード */
-    private static final String          CONNECTION_MODE                       = "connection.mode";
+    private static final String CONNECTION_MODE = "connection.mode";
 
     /** 待ち受けホスト */
-    private static final String          SERVER_ACCEPT_HOST                    = "accept.host";
+    private static final String SERVER_ACCEPT_HOST = "accept.host";
 
     /** 待ち受けポート */
-    private static final String          SERVER_ACCEPT_PORT                    = "accept.port";
+    private static final String SERVER_ACCEPT_PORT = "accept.port";
 
     /** Javelinログの最大蓄積期間 (共通設定) */
-    private static final String          COMMON_JVN_LOG_STORAGE_PERIOD         =
-                                                                                 "javelin.log.storage.period";
+    private static final String COMMON_JVN_LOG_STORAGE_PERIOD = "javelin.log.storage.period";
 
     /** 計測データの最大蓄積期間を表す接頭辞 (共通設定) */
-    private static final String          COMMON_MEASUREMENT_LOG_STORAGE_PERIOD =
-                                                                                 "measurement.log.storage.period";
+    private static final String COMMON_MEASUREMENT_LOG_STORAGE_PERIOD =
+                                                                        "measurement.log.storage.period";
 
     /** Javelinログの最大蓄積期間を表す接頭辞 */
-    private static final String          JVN_LOG_STRAGE_PERIOD                 =
-                                                                                 "javelin.log.storage.period.";
+    private static final String JVN_LOG_STRAGE_PERIOD = "javelin.log.storage.period.";
 
     /** 計測データの最大蓄積期間を表す接頭辞 */
-    private static final String          MEASUREMENT_LOG_STRAGE_PERIOD         =
-                                                                                 "measurement.log.storage.period.";
+    private static final String MEASUREMENT_LOG_STRAGE_PERIOD = "measurement.log.storage.period.";
 
     /** Javelinログを分割保存するかどうかを表す接頭辞 */
-    private static final String          LOG_SPLIT                             =
-                                                                                 "javelin.log.split";
+    private static final String LOG_SPLIT = "javelin.log.split";
 
     /** Javelinログを分割保存する場合の1レコード辺りの最大サイズを表す接頭辞 */
-    private static final String          LOG_SPLIT_SIZE                        =
-                                                                                 "javelin.log.split.size";
+    private static final String LOG_SPLIT_SIZE = "javelin.log.split.size";
 
     /** Javelinログを分割保存する場合の閾値を表す接頭辞 */
-    private static final String          LOG_SPLIT_THRESHOLD                   =
-                                                                                 "javelin.log.split.threshold";
+    private static final String LOG_SPLIT_THRESHOLD = "javelin.log.split.threshold";
 
     /** データベース名で使用できる文字を、正規表現で表したもの */
-    private static final String          DATABASE_NAME_USABLE_PATTERN          =
-                                                                                 "[A-Za-z0-9#$%@=\\+\\-_~\\.]*";
+    private static final String DATABASE_NAME_USABLE_PATTERN = "[A-Za-z0-9#$%@=\\+\\-_~\\.]*";
+
+    /** エージェントのキーを表す接頭辞 */
+    private static final String PREFIX_AGENT_KEY = AGENT_HOST;
 
     /** パラメータ定義ファイルのパス */
-    private static String                configFilePath_;
+    private static String configFilePath_;
 
     /** jvnログのローテート期間の最大値（月） */
-    private static final int             LOG_ROTATE_MAX_PERIOD_MONTH           = 24;
+    private static final int LOG_ROTATE_MAX_PERIOD_MONTH = 24;
 
     /** jvnログのローテート期間の最大値（日） */
-    private static final int             LOG_ROTATE_MAX_PERIOD_DAY             = 365;
+    private static final int LOG_ROTATE_MAX_PERIOD_DAY = 365;
 
     /** jvnログのローテート期間の最大値（時間） */
-    private static final int             LOG_ROTATE_MAX_PERIOD_HOUR            =
-                                                                                 LOG_ROTATE_MAX_PERIOD_DAY * 24;
+    private static final int LOG_ROTATE_MAX_PERIOD_HOUR = LOG_ROTATE_MAX_PERIOD_DAY * 24;
 
     //--------------------
     // SMTP settings
     //--------------------
     /** SMTPメール通知機能関連設定項目の接頭辞。 */
-    private static final String          SMTP_PREFIX                           = "collector.smtp.";
+    private static final String SMTP_PREFIX = "collector.smtp.";
 
     /** メール通知を送信するかどうかを指定する設定項目名。 */
-    private static final String          SEND_MAIL                             = SMTP_PREFIX
-                                                                                       + "sendMail";
+    private static final String SEND_MAIL = SMTP_PREFIX + "sendMail";
 
     /** メールサーバを指定する設定項目名。 */
-    private static final String          SMTP_SERVER                           = SMTP_PREFIX
-                                                                                       + "server";
+    private static final String SMTP_SERVER = SMTP_PREFIX + "server";
 
     /** メールのエンコーディングを指定する設定項目名。 */
-    private static final String          SMTP_ENCODING                         = SMTP_PREFIX
-                                                                                       + "encoding";
+    private static final String SMTP_ENCODING = SMTP_PREFIX + "encoding";
 
     /** 送信元メールアドレスを指定する設定項目名。 */
-    private static final String          SMTP_FROM                             = SMTP_PREFIX
-                                                                                       + "from";
+    private static final String SMTP_FROM = SMTP_PREFIX + "from";
 
     /** 送信先メールアドレスを指定する設定項目名。 */
-    private static final String          SMTP_TO                               = SMTP_PREFIX + "to";
+    private static final String SMTP_TO = SMTP_PREFIX + "to";
 
     /** メールのSubjectを指定する設定項目名。 */
-    private static final String          SMTP_SUBJECT                          = SMTP_PREFIX
-                                                                                       + "subject";
+    private static final String SMTP_SUBJECT = SMTP_PREFIX + "subject";
 
     /** メールテンプレートを指定する設定項目の接頭辞。 */
-    public static final String           SMTP_TEMPLATE_PREFIX                  =
-                                                                                 SMTP_PREFIX
-                                                                                         + "template.";
+    public static final String SMTP_TEMPLATE_PREFIX = SMTP_PREFIX + "template.";
 
     /** メールの件名テンプレートを指定する設定項目の接尾辞。 */
-    private static final String          SMTP_TEMPLATE_SUBJECT_SUFFIX          = ".subject";
+    private static final String SMTP_TEMPLATE_SUBJECT_SUFFIX = ".subject";
 
     /** メールの本文テンプレートを指定する設定項目の接尾辞。 */
-    private static final String          SMTP_TEMPLATE_BODY_SUFFIX             = ".body";
+    private static final String SMTP_TEMPLATE_BODY_SUFFIX = ".body";
 
     /** メールテンプレート(jvnアラーム用)を指定する設定項目名。 */
-    private static final String          SMTP_TEMPLATE_JVN                     =
-                                                                                 SMTP_TEMPLATE_PREFIX
-                                                                                         + "jvn";
+    private static final String SMTP_TEMPLATE_JVN = SMTP_TEMPLATE_PREFIX + "jvn";
 
     /** メールテンプレート(計測値アラーム用)を指定する設定項目名。 */
-    private static final String          SMTP_TEMPLATE_MEASUREMENT             =
-                                                                                 SMTP_TEMPLATE_PREFIX
-                                                                                         + "measurement";
+    private static final String SMTP_TEMPLATE_MEASUREMENT = SMTP_TEMPLATE_PREFIX + "measurement";
 
-    public static final String           SMTP_TEMPLATE_COLLECT_COMPLETED       =
-                                                                                 SMTP_TEMPLATE_PREFIX
-                                                                                         + "collectCompleted";
+    public static final String SMTP_TEMPLATE_COLLECT_COMPLETED = SMTP_TEMPLATE_PREFIX
+            + "collectCompleted";
 
     //--------------------
     // SNMP settings
     //--------------------
     /** SNMP系パラメータの接頭辞 */
-    public static final String           SNMP_PREFIX                           = "collector.snmp.";
+    public static final String SNMP_PREFIX = "collector.snmp.";
 
     /** SNMPTrapを送信するかどうかの設定項目名 */
-    public static final String           SEND_TRAP                             = SNMP_PREFIX
-                                                                                       + "sendTrap";
+    public static final String SEND_TRAP = SNMP_PREFIX + "sendTrap";
 
     /** マネージャリストの設定項目名 */
-    public static final String           MANAGERS                              = SNMP_PREFIX
-                                                                                       + "managers";
+    public static final String MANAGERS = SNMP_PREFIX + "managers";
 
     /** SNMP Trapポート番号の設定項目名 */
-    public static final String           TRAP_PORT                             = SNMP_PREFIX
-                                                                                       + "trapPort";
+    public static final String TRAP_PORT = SNMP_PREFIX + "trapPort";
 
     /** SNMP Versionの設定項目名 */
-    public static final String           VERSION                               = SNMP_PREFIX
-                                                                                       + "version";
+    public static final String VERSION = SNMP_PREFIX + "version";
 
     /** Trapコミュニティ名の設定項目名 */
-    public static final String           TRAP_COMMUNITY                        =
-                                                                                 SNMP_PREFIX
-                                                                                         + "trapCommunity";
+    public static final String TRAP_COMMUNITY = SNMP_PREFIX + "trapCommunity";
 
     /** 使用言語の設定項目 */
-    public static final String           LANGUAGE                              = "language";
+    public static final String LANGUAGE = "language";
 
-    public static final String           BATCH_SIZE                            =
-                                                                                 "insert.batch.size";
+    public static final String BATCH_SIZE = "insert.batch.size";
 
-    public static final String           ITEMID_CACHE_SIZE                     =
-                                                                                 "itemid.cache.size";
+    public static final String ITEMID_CACHE_SIZE = "itemid.cache.size";
 
     /**
      * ストリームから設定ファイルを読み込み、{@link DataCollectorConfig} を構築します。<br />
@@ -888,6 +856,12 @@ public class ConfigurationReader
     private static int getAgentId(final String key)
         throws InitializeException
     {
+        // エージェントを表すキーでない場合は、-1を返し、処理を終了する。
+        if (key.indexOf(PREFIX_AGENT_KEY) < 0)
+        {
+            return -1;
+        }
+
         int pos = key.lastIndexOf(".");
         if (pos < 0)
         {
