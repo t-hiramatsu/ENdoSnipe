@@ -468,6 +468,19 @@ ENS.treeView = wgp.TreeView
 				settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = "callbackGetAllSignal_";
 				ajaxHandler.requestServerAsync(settings);
 			},
+			getAllReport_ : function() {
+				// レポート出力定義を取得する
+				// Ajax通信用の設定
+				var settings = {
+					url : ENS.tree.REPORT_SELECT_ALL_URL
+				};
+
+				// 非同期通信でデータを送信する
+				var ajaxHandler = new wgp.AjaxHandler();
+				settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] = this;
+				settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = "callbackGetAllReport_";
+				ajaxHandler.requestServerAsync(settings);
+			},
 			callbackGetAllSignal_ : function(signalDefinitionList) {
 				// ツリーのシグナルを更新する
 				this.updateSignal_(signalDefinitionList);
@@ -475,6 +488,14 @@ ENS.treeView = wgp.TreeView
 				// 各シグナルに対してリアルタイム更新を行う
 				var idList = _.keys(ENS.tree.signalDefinitionList);
 				appView.syncData(idList);
+			},
+			callbackGetAllReport_ : function(reportDefinitionList) {
+				var instance = this;
+				var addOptionList = [];
+				
+				_.each(reportDefinitionList, function(reportDefinition, reportIndex) {
+					
+				});
 			},
 			/**
 			 * シグナル追加処理操作成功後に、画面に結果を反映する。

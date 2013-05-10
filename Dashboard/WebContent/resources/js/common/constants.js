@@ -1,20 +1,20 @@
 /*******************************************************************************
  * ENdoSnipe 5.0 - (https://github.com/endosnipe)
- *
+ * 
  * The MIT License (MIT)
- *
+ * 
  * Copyright (c) 2012 Acroquest Technology Co.,Ltd.
- *
+ * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * 
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -36,7 +36,7 @@ ENS.DATE_FORMAT_HOUR = 'yyyy/MM/dd HH:mm';
 
 ENS.URL = {};
 ENS.URL.TERM_PERFDOCTOR_DATA_URL = wgp.constants.URL.TERM_DATA_URL
-+ "/getPerfDoctor";
+		+ "/getPerfDoctor";
 ENS.URL.PERFDOCTOR_POSTFIX_ID = "/performanceDoctor";
 
 ENS.common = {};
@@ -119,6 +119,8 @@ ENS.tree.SIGNAL_VALUE = "signalValue";
 ENS.tree.SIGNAL_DIALOG = "signalDialog";
 ENS.tree.REPORT_DIALOG = "reportDialog";
 ENS.tree.REPORT_PREFIX_ID = "/reportNode-";
+ENS.tree.REPORT_SELECT_ALL_URL = wgp.common.getContextPath()
+		+ "/report/getAllDefinition";
 
 ENS.tree.type = {};
 ENS.tree.type.GROUP = "group";
@@ -129,7 +131,7 @@ ENS.tree.contextOption = [ {
 	menu_id : ENS.tree.ADD_SIGNAL_TYPE,
 	menu_name : "Add Signal",
 	executeClass : "ENS.SignalDefinitionDialogView",
-	showTreeTypes : [ENS.tree.type.GROUP],
+	showTreeTypes : [ ENS.tree.type.GROUP ],
 	executeOption : {
 		dialogId : ENS.tree.SIGNAL_DIALOG,
 		signalType : ENS.tree.ADD_SIGNAL_TYPE
@@ -139,7 +141,7 @@ ENS.tree.contextOption = [ {
 	menu_id : ENS.tree.EDIT_SIGNAL_TYPE,
 	menu_name : "Edit Signal",
 	executeClass : "ENS.SignalDefinitionDialogView",
-	showTreeTypes : [ENS.tree.type.SIGNAL],
+	showTreeTypes : [ ENS.tree.type.SIGNAL ],
 	executeOption : {
 		dialogId : ENS.tree.SIGNAL_DIALOG,
 		signalType : ENS.tree.EDIT_SIGNAL_TYPE
@@ -149,7 +151,7 @@ ENS.tree.contextOption = [ {
 	menu_id : ENS.tree.DELETE_SIGNAL_TYPE,
 	menu_name : "Delete Signal",
 	executeClass : "",
-	showTreeTypes : [ENS.tree.type.SIGNAL],
+	showTreeTypes : [ ENS.tree.type.SIGNAL ],
 	executeOption : {
 		dialogId : ENS.tree.SIGNAL_DIALOG,
 		signalType : ENS.tree.DELETE_SIGNAL_TYPE
@@ -159,7 +161,7 @@ ENS.tree.contextOption = [ {
 	menu_id : ENS.tree.OUTPUT_REPORT_TYPE,
 	menu_name : "Output Report",
 	executeClass : "ENS.ReportDialogView",
-	showTreeTypes : [ENS.tree.type.GROUP, ENS.tree.type.TARGET],
+	showTreeTypes : [ ENS.tree.type.GROUP, ENS.tree.type.TARGET ],
 	executeOption : {
 		dialogId : ENS.tree.REPORT_DIALOG,
 		signalType : ENS.tree.OUTPUT_REPORT_TYPE

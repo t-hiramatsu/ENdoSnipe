@@ -12,7 +12,11 @@
  */
 package jp.co.acroquest.endosnipe.web.dashboard.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jp.co.acroquest.endosnipe.web.dashboard.dto.ReportDefinitionDto;
+import jp.co.acroquest.endosnipe.web.dashboard.entity.ReportDefinition;
 import jp.co.acroquest.endosnipe.web.dashboard.service.ReportService;
 import net.arnx.jsonic.JSON;
 
@@ -46,6 +50,22 @@ public class ReportController
     }
 
     /**
+     * レポート出力の定義をすべて取得する。
+     * 
+     * @return 全てのレポート出力の定義
+     */
+    @RequestMapping(value = "/getAllDefinition", method = RequestMethod.POST)
+    @ResponseBody
+    public List<ReportDefinitionDto> getAllDefinition()
+    {
+        List<ReportDefinitionDto> reportDefinitionDtos = new ArrayList<ReportDefinitionDto>();
+
+        reportDefinitionDtos = this.reportService.getAllReport();
+
+        return reportDefinitionDtos;
+    }
+
+    /**
      * レポート出力の定義を新規に追加する。
      * 
      * @param reportDefinition
@@ -60,12 +80,16 @@ public class ReportController
         ReportDefinitionDto reportDefinitionDto =
                 JSON.decode(reportDefinition, ReportDefinitionDto.class);
 
-        this.reportService.insertReportDefinition(reportDefinitionDto);
+        ReportDefinition definition =
+                this.reportService.convertReportDefinition(reportDefinitionDto);
 
+        // レポート定義をDBに登録する
+        ReportDefinitionDto addedDefinitionDto =
+                this.reportService.insertReportDefinition(definition);
+
+        // レポートを生成する
         this.reportService.createReport(reportDefinitionDto);
 
-        reportDefinitionDto.setReportId(1);
-
-        return reportDefinitionDto;
+        return addedDefinitionDto;
     }
 }

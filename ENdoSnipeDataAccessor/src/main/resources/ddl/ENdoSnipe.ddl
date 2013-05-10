@@ -105,6 +105,17 @@ CREATE TABLE MAP_INFO(
  LAST_UPDATE TIMESTAMP NOT NULL
 );
 
+/**********************************/
+/* テーブル名: レポート定義テーブル */
+/**********************************/
+CREATE TABLE REPORT_DEFINITION(
+  REPORT_ID SERIAL NOT NULL,
+  REPORT_NAME character varying NOT NULL UNIQUE,
+  TARGET_MEASUREMENT_NAME character varying NOT NULL,
+  FM_TIME character varying NOT NULL,
+  TO_TIME character varying NOT NULL
+);
+
 
 ALTER TABLE JAVELIN_LOG ADD PRIMARY KEY (LOG_ID);
 CREATE INDEX IDX_JAVELIN_LOG_START_TIME ON JAVELIN_LOG (START_TIME);
