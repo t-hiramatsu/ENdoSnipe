@@ -9,10 +9,9 @@
 	href="<%=request.getContextPath()%>/resources/css/common.css"
 	type="text/css" media="all">
 </head>
+<%@ include file="./Header.jsp"%>
+<title>ENdoSnipe Map</title>
 <body id="main" oncontextmenu="return false;" onload="self.focus();">
-	<div id="headerLogo">
-		<img src="<%=request.getContextPath()%>/resources/images/ENdoSnipe_logo.png" />
-	</div>
 	<div id="persArea"></div>
 	<input id="treeData" type="hidden" value='${treeData}' />
 	<form:form modelAttribute="mapListForm">
@@ -34,13 +33,13 @@
 	<script type="text/javascript">
 		var viewArea1 = {
 			width : 300,
-			height : 600,
+			height : 800,
 			rowspan : 2,
 			colspan : 1
 		};
 		var viewArea2 = {
 			width : 900,
-			height : 550,
+			height : 750,
 			rowspan : 1,
 			colspan : 1
 		};

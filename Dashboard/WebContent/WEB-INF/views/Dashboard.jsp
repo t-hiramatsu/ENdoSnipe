@@ -5,12 +5,13 @@
 <head>
 <%@ include file="../include/ext/javaScriptInclude.jsp"%>
 <%@ include file="../include/DashboardInclude.jsp"%>
+<%@ include file="./Header.jsp"%>
 <%@ include file="./SignalDialog.jsp"%>
 <%@ include file="./ReportDialog.jsp"%>
 <title>ENdoSnipe Dashboard</title>
 </head>
 <body id="main" oncontextmenu="return false;" onload="self.focus();">
-	
+
 	<script type="text/javascript">
 		var viewArea1 = {};
 		var viewArea2 = {};
@@ -38,7 +39,7 @@
 
 		var appView = new ENS.AppView();
 	</script>
-	
+
 	<%@ include file="../include/pluginsInclude.jsp"%>
 	<script src="<%=request.getContextPath()%>/resources/js/common/user.js"
 		type="text/javaScript"></script>
