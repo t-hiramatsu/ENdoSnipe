@@ -121,6 +121,8 @@ ENS.tree.REPORT_DIALOG = "reportDialog";
 ENS.tree.REPORT_PREFIX_ID = "/reportNode-";
 ENS.tree.REPORT_SELECT_ALL_URL = wgp.common.getContextPath()
 		+ "/report/getAllDefinition";
+ENS.tree.REPORT_SELECT_BY_REPORT_NAME_URL = wgp.common.getContextPath()
+		+ "/report/getDefinitionByReportName";
 
 ENS.tree.type = {};
 ENS.tree.type.GROUP = "group";
@@ -184,3 +186,6 @@ ENS.map = {};
 ENS.map.mode = {};
 ENS.map.mode.OPERATE = "OPERATE";
 ENS.map.mode.EDIT = "EDIT";
+
+ENS.report = {};
+ENS.report.DOWNLOAD_URL = wgp.common.getContextPath() + "/report/download";

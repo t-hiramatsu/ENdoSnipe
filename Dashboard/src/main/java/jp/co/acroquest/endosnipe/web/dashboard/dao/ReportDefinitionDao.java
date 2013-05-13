@@ -43,16 +43,16 @@ public interface ReportDefinitionDao
     ReportDefinition selectById(int reportId);
 
     /**
-     * レポート定義情報を取得する。
+     * レポート定義情報をレポート名をキーにして取得する。
      * @param reportName レポート名
-     * @return レポート定義
+     * @return レポート定義の配列
      */
-    ReportDefinition selectByName(String reportName);
+    List<ReportDefinition> selectByName(String reportName);
 
     /**
-     * レポート定義情報のリストを取得する。
+     * レポート定義情報の配列をレポート対象名をキーにして取得する。
      * @param targetMeasurementName レポート出力の対象の計測対象名
-     * @return レポート定義のリスト
+     * @return レポート定義の配列
      */
     List<ReportDefinition> selectByTargetName(String targetMeasurementName);
 

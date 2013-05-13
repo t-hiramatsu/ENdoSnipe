@@ -26,10 +26,22 @@
 ENS.Utility = {};
 ENS.Utility.makeLogo = function(id, title) {
 	var idName = 'logo';
-	$("#" + id).append('<div id="' + idName + '" class="contentHeader" ></div>');
-	$('#' + idName).append(
-			'<h1>' + title + '</h1>');	
-	$('#' + idName)
-			.append(
-					'<div class="logo"></div>');
+	$("#" + id)
+			.append('<div id="' + idName + '" class="contentHeader" ></div>');
+	$('#' + idName).append('<h1>' + title + '</h1>');
+	$('#' + idName).append('<div class="logo"></div>');
+};
+
+ENS.Utility.makeAnchor = function(cellValue, options, rowObject) {
+	var selectValueList = options.colModel.editoptions;
+	var val = rowObject.value;
+	var rowId = options.rowId;
+	var onclick = selectValueList.onclick;
+	var linkName = selectValueList.linkName;
+	return '<a href="javascript:void(0)" onclick="' + onclick + '(\'' + rowId
+			+ '\');">' + linkName + '</a>';
+	// var str = "<a href=\"/Dashboard/ReportServlet?agent_id='" + rowId +
+	// "'&file_name='/20130512_133200-20130514_133200.zip\">" + linkName +
+	// "</a>";
+	// return str;
 };

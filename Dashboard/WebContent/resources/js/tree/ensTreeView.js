@@ -97,6 +97,8 @@ ENS.treeView = wgp.TreeView
 
 				// // シグナル定義を全取得する
 				// this.getAllSignal_();
+				
+				this.getAllReport_();
 			},
 			createTreeData : function(treeModel) {
 				var returnData = wgp.TreeView.prototype.createTreeData.call(
@@ -493,9 +495,14 @@ ENS.treeView = wgp.TreeView
 				var instance = this;
 				var addOptionList = [];
 				
+				// 追加するツリーノードのオプションを作成する
 				_.each(reportDefinitionList, function(reportDefinition, reportIndex) {
-					
+					var treeOption = instance.createTreeOption_(reportDefinition);
+					addOptionList.push(treeOption);
 				});
+				
+				// ツリーノードに追加する
+				this.collection.add(addOptionList);
 			},
 			/**
 			 * シグナル追加処理操作成功後に、画面に結果を反映する。
@@ -577,6 +584,11 @@ ENS.treeView = wgp.TreeView
 
 			},
 			callbackAddReport_ : function(reportDefinition) {
+				var treeOption = this.createTreeOption_(reportDefinition);
+				
+				this.collection.add([ treeOption ]);
+			},
+			createTreeOption_ : function(reportDefinition) {
 				var reportId = reportDefinition.reportId;
 
 				var reportName = reportDefinition.reportName;
@@ -609,7 +621,8 @@ ENS.treeView = wgp.TreeView
 					data : showName,
 					parentTreeId : targetTreeId
 				};
-				this.collection.add([ treeOption ]);
+				
+				return treeOption;
 			},
 			/**
 			 * シグナルダイアログをクリアする。

@@ -15,6 +15,8 @@ package jp.co.acroquest.endosnipe.web.dashboard.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import jp.co.acroquest.endosnipe.web.dashboard.dto.ReportDefinitionDto;
 import jp.co.acroquest.endosnipe.web.dashboard.entity.ReportDefinition;
 import jp.co.acroquest.endosnipe.web.dashboard.service.ReportService;
@@ -66,6 +68,21 @@ public class ReportController
     }
 
     /**
+     * 指定したレポート対象名をキーに、レポート定義の一覧を取得する。
+     * @param reportName 閾値判定の定義を一意に取得するためのシグナル名
+     * @return 閾値判定の定義
+     */
+    @RequestMapping(value = "/getDefinitionByReportName", method = RequestMethod.POST)
+    @ResponseBody
+    public List<ReportDefinitionDto> getByTarget(
+            @RequestParam(value = "reportName") final String reportName)
+    {
+        List<ReportDefinitionDto> reportDefinitionDtos =
+                this.reportService.getReportByReportName(reportName);
+        return reportDefinitionDtos;
+    }
+
+    /**
      * レポート出力の定義を新規に追加する。
      * 
      * @param reportDefinition
@@ -91,5 +108,20 @@ public class ReportController
         this.reportService.createReport(reportDefinitionDto);
 
         return addedDefinitionDto;
+    }
+
+    /**
+     * レポートをダウンロードする。
+     * 
+     * @param res {@link HttpServletResponse}オブジェクト
+     * @param reportId レポートID
+     */
+    @RequestMapping(value = "/download", method = RequestMethod.POST)
+    @ResponseBody
+    public void downloadReport(final HttpServletResponse res,
+            @RequestParam(value = "reportId") final String reportId)
+    {
+        String fileName = "20130512_102400-20130513_102400.zip";
+        this.reportService.doRequest(res, fileName);
     }
 }

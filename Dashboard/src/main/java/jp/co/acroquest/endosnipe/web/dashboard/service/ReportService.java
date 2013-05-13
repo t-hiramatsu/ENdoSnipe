@@ -12,6 +12,9 @@
  */
 package jp.co.acroquest.endosnipe.web.dashboard.service;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -19,6 +22,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
 import jp.co.acroquest.endosnipe.report.Reporter;
@@ -54,6 +59,12 @@ public class ReportService
 
     /** 日付のフォーマット。 */
     private static final String DATE_FORMAT = "yyyy-mm-dd hh:MM:ss";
+
+    /** バッファのサイズ */
+    private static final int BUFFER_SIZE = 1024;
+
+    /** ファイルのセパレータ */
+    private static final String FOLDER_SEPARATOR = File.separator;
 
     /**
      * デフォルトコンストラクタ。
@@ -97,6 +108,29 @@ public class ReportService
         }
 
         return definitionDtoList;
+    }
+
+    /**
+     * 指定したレポート名をキーに、レポート定義の一覧を取得する。
+     * 
+     * @param reportName レポート名
+     * @return レポート定義の一覧
+     */
+    public List<ReportDefinitionDto> getReportByReportName(final String reportName)
+    {
+        List<ReportDefinitionDto> reportDefinitionDtos = new ArrayList<ReportDefinitionDto>();
+        List<ReportDefinition> definitionDtos = reportDefinitionDao.selectByName(reportName);
+
+        int definitionDtosLength = definitionDtos.size();
+
+        for (int index = 0; index < definitionDtosLength; index++)
+        {
+            ReportDefinition definition = definitionDtos.get(index);
+            ReportDefinitionDto definitionDto = this.convertReportDifinitionDto(definition);
+            reportDefinitionDtos.add(definitionDto);
+        }
+
+        return reportDefinitionDtos;
     }
 
     /**
@@ -205,5 +239,109 @@ public class ReportService
         definitionDto.setReportTermTo(toTime);
 
         return definitionDto;
+    }
+
+    /**
+     * クライアントからのレポート出力ダウンロードを受信するためのサーブレットです。
+     * 
+     * @param response {@link HttpServletResponse}オブジェクト
+     * @param fileName ファイル名
+     */
+    public void doRequest(final HttpServletResponse response, final String fileName)
+    {
+        if (fileName == null)
+        {
+            LOGGER.log(LogMessageCodes.UNKNOWN_REPORT_FILE_NAME);
+            return;
+        }
+
+        //パストラバーサルチェック
+        boolean isCorrectFileName = regexFileName(fileName);
+        if (isCorrectFileName)
+        {
+            String currentDir = new File(".").getAbsolutePath();
+            DatabaseManager dbMmanager = DatabaseManager.getInstance();
+            String dbName = dbMmanager.getDataBaseName(1);
+
+            String reportFileName =
+                    currentDir + FOLDER_SEPARATOR + REPORT_PATH + FOLDER_SEPARATOR + dbName
+                            + FOLDER_SEPARATOR + fileName;
+
+            response.setHeader("Content-Disposition", "attachment; filename=" + reportFileName);
+
+            // 内容を出力
+            PrintWriter httpWriter = null;
+            try
+            {
+                httpWriter = response.getWriter();
+            }
+            catch (IOException ex)
+            {
+                // Do Nothing.
+            }
+            finally
+            {
+                if (httpWriter != null)
+                {
+                    httpWriter.close();
+                }
+            }
+        }
+        else
+        {
+            //ファイルにアクセスできない旨を表示する。
+            response.setContentType("text/html;charset=Shift_JIS");
+
+            PrintWriter httpWriter = null;
+            try
+            {
+                httpWriter = response.getWriter();
+                httpWriter.println("<HTML><HEAD><TITLE>ENdoSnipeダッシュボード</TITLE></HEAD>");
+                httpWriter.println("<BODY>");
+                httpWriter.println("<p>ファイルにアクセスできません。</p>");
+                httpWriter.println("</BODY><HTML>");
+            }
+            catch (IOException ex)
+            {
+                // Do Nothing.
+            }
+            finally
+            {
+                if (httpWriter != null)
+                {
+                    httpWriter.close();
+                }
+            }
+        }
+    }
+
+    /**
+     * パストラバーサル用の文字列変換処理。
+     * 
+     * @param beforeFileName 変換前の文字列
+     * @return 正規表現を用いて列変換した文字列
+     */
+    private boolean regexFileName(final String beforeFileName)
+    {
+        String tmpFileName = beforeFileName.replace("\\", "/");
+        tmpFileName = tmpFileName.replace("/../", "/");
+        tmpFileName = tmpFileName.replace("/./", "/");
+        String afterFileName = tmpFileName.replace("//", "/");
+        if (beforeFileName.equals(afterFileName))
+        {
+            //../が存在している場合と、上記置換により文字列が変化した場合はfalseとする。
+            if (afterFileName.indexOf("../") == -1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
     }
 }

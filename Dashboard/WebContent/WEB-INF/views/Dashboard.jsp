@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,7 +10,7 @@
 <title>ENdoSnipe Dashboard</title>
 </head>
 <body id="main" oncontextmenu="return false;" onload="self.focus();">
-	
+
 	<script type="text/javascript">
 		var viewArea1 = {};
 		var viewArea2 = {};
@@ -38,7 +38,7 @@
 
 		var appView = new ENS.AppView();
 	</script>
-	
+
 	<%@ include file="../include/pluginsInclude.jsp"%>
 	<script src="<%=request.getContextPath()%>/resources/js/common/user.js"
 		type="text/javaScript"></script>
@@ -48,7 +48,7 @@
 			id : "tree_area",
 			targetId : "contents_area",
 			themeUrl : wgp.common.getContextPath()
-			+ "/resources/css/jsTree/style.css"
+					+ "/resources/css/jsTree/style.css"
 		});
 		// ツリー連携を追加。
 		treeView.setClickEvent("contents_area");
@@ -59,19 +59,22 @@
 		appView.getTermData([ wgp.constants.TREE.DATA_ID ], new Date(),
 				new Date());
 
-		$("#tree_area")
-				.click(
-						function() {
-							if ($("[id$='mapreduce/task']") != undefined) {
+		$("#tree_area").click(function() {
+			if ($("[id$='mapreduce/task']") != undefined) {
 
-								var elem = $("[id$='mapreduce/task']");
+				var elem = $("[id$='mapreduce/task']");
 
-								$("#tree_area").jstree("delete_node",
-										elem);
-							}
-						});
+				$("#tree_area").jstree("delete_node", elem);
+			}
+		});
 	</script>
 	<input type="hidden" id="context" value="<%=request.getContextPath()%>" />
+
+	<form method="post" id="reportDownload" action="<%=request.getContextPath()%>/report/download">
+		<input type="hidden" id="reportId" name="reportId" value="" />
+		<div hidden=true><input type="submit" name="btn" id="btn" value="submit"></div>
+	</form>
+
 </body>
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/resources/css/common.css"
