@@ -255,93 +255,33 @@ public class ReportService
             return;
         }
 
-        //パストラバーサルチェック
-        boolean isCorrectFileName = regexFileName(fileName);
-        if (isCorrectFileName)
+        String currentDir = new File(".").getAbsolutePath();
+        DatabaseManager dbMmanager = DatabaseManager.getInstance();
+        String dbName = dbMmanager.getDataBaseName(1);
+
+        String reportFileName =
+                currentDir + FOLDER_SEPARATOR + REPORT_PATH + FOLDER_SEPARATOR + dbName
+                        + FOLDER_SEPARATOR + fileName;
+
+        response.setHeader("Content-Disposition", "attachment; filename=" + reportFileName);
+
+        // 内容を出力
+        PrintWriter httpWriter = null;
+        try
         {
-            String currentDir = new File(".").getAbsolutePath();
-            DatabaseManager dbMmanager = DatabaseManager.getInstance();
-            String dbName = dbMmanager.getDataBaseName(1);
-
-            String reportFileName =
-                    currentDir + FOLDER_SEPARATOR + REPORT_PATH + FOLDER_SEPARATOR + dbName
-                            + FOLDER_SEPARATOR + fileName;
-
-            response.setHeader("Content-Disposition", "attachment; filename=" + reportFileName);
-
-            // 内容を出力
-            PrintWriter httpWriter = null;
-            try
+            httpWriter = response.getWriter();
+        }
+        catch (IOException ex)
+        {
+            // Do Nothing.
+        }
+        finally
+        {
+            if (httpWriter != null)
             {
-                httpWriter = response.getWriter();
-            }
-            catch (IOException ex)
-            {
-                // Do Nothing.
-            }
-            finally
-            {
-                if (httpWriter != null)
-                {
-                    httpWriter.close();
-                }
+                httpWriter.close();
             }
         }
-        else
-        {
-            //ファイルにアクセスできない旨を表示する。
-            response.setContentType("text/html;charset=Shift_JIS");
 
-            PrintWriter httpWriter = null;
-            try
-            {
-                httpWriter = response.getWriter();
-                httpWriter.println("<HTML><HEAD><TITLE>ENdoSnipeダッシュボード</TITLE></HEAD>");
-                httpWriter.println("<BODY>");
-                httpWriter.println("<p>ファイルにアクセスできません。</p>");
-                httpWriter.println("</BODY><HTML>");
-            }
-            catch (IOException ex)
-            {
-                // Do Nothing.
-            }
-            finally
-            {
-                if (httpWriter != null)
-                {
-                    httpWriter.close();
-                }
-            }
-        }
-    }
-
-    /**
-     * パストラバーサル用の文字列変換処理。
-     * 
-     * @param beforeFileName 変換前の文字列
-     * @return 正規表現を用いて列変換した文字列
-     */
-    private boolean regexFileName(final String beforeFileName)
-    {
-        String tmpFileName = beforeFileName.replace("\\", "/");
-        tmpFileName = tmpFileName.replace("/../", "/");
-        tmpFileName = tmpFileName.replace("/./", "/");
-        String afterFileName = tmpFileName.replace("//", "/");
-        if (beforeFileName.equals(afterFileName))
-        {
-            //../が存在している場合と、上記置換により文字列が変化した場合はfalseとする。
-            if (afterFileName.indexOf("../") == -1)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
     }
 }
