@@ -65,19 +65,20 @@ ENS.reportView = wgp.AbstractView
 			createTabelColModel : function() {
 				this.tableColModel = [ {
 					name : "reportId",
-					width : 30
+					width : 0,
+					hidden : true
 				}, {
 					name : "reportName",
-					width : 260
+					width : 290
 				}, {
 					name : "targetMeasurementName",
-					width : 260
+					width : 290
 				}, {
 					name : "reportTermFrom",
-					width : 115
+					width : 100
 				}, {
 					name : "reportTermTo",
-					width : 115
+					width : 100
 				}, {
 					name : "download",
 					width : 60,
@@ -172,12 +173,10 @@ ENS.report.download = function(id) {
 		"file_name" : "20130512_133200-20130514_133200.zip"
 	};
 	
-	$("input#reportId").val(id);
-	$('#btn').click();/*function() {
-		$("#reportId").val(id);
-		var formElem = $("form#reportDownload")[0];
-		formElem.submit();
-    });*/
+	var rowData = $("#reportTable").getRowData(id);
+	var reportId = rowData.reportId;
+	$("input#reportId").val(reportId);
+	$('#btn').click();
 };
 
 ENS.report.callbackDownload = function() {

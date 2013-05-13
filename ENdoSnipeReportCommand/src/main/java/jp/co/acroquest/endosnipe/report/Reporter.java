@@ -49,7 +49,7 @@ import org.apache.tools.ant.taskdefs.Zip;
 public class Reporter {
 
 	/** 開始／終了時刻を指定する文字列形式。 */
-	private static final String TIME_FORMAT = "yyyyMMdd_HHmmss";
+	public static final String TIME_FORMAT = "yyyyMMdd_HHmmss";
 	
 	/**
 	 * コンストラクタ。
@@ -66,9 +66,10 @@ public class Reporter {
 	 * @param toTime 終了時刻
 	 * @param reportPath 出力先ディレクトリ
 	 * @param targetItemName レポート出力対象の親の項目名
+	 * @param reportName レポート名
 	 */
 	public void createReport(String dbName, Calendar fmTime, Calendar toTime,
-			String reportPath, String targetItemName) {
+			String reportPath, String targetItemName, String reportName) {
 
 		// 開始時刻が終了時刻より未来を指していた場合はエラー
 		if (fmTime.compareTo(toTime) > 0) {
@@ -135,7 +136,7 @@ public class Reporter {
 		SimpleDateFormat format = new SimpleDateFormat(TIME_FORMAT);
 		String start = format.format(fmTime.getTime());
 		String end = format.format(toTime.getTime());
-		String leafDirectoryName = start + "-" + end;
+		String leafDirectoryName = reportName + "_" + start + "-" + end;
 
 		String outputFilePath = reportPath + File.separator + dbName
 				+ File.separator + leafDirectoryName;

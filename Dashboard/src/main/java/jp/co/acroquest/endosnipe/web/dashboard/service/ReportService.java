@@ -12,9 +12,11 @@
  */
 package jp.co.acroquest.endosnipe.web.dashboard.service;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.OutputStream;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -134,6 +136,20 @@ public class ReportService
     }
 
     /**
+     * 指定したレポートIDをキーに、レポート定義を取得する。
+     * 
+     * @param reportId レポートID
+     * @return レポート定義
+     */
+    public ReportDefinitionDto getReportByReportId(final int reportId)
+    {
+        ReportDefinition reportDefinition = reportDefinitionDao.selectById(reportId);
+        ReportDefinitionDto reportDefinitionDto = this.convertReportDifinitionDto(reportDefinition);
+
+        return reportDefinitionDto;
+    }
+
+    /**
      * レポート出力の定義をDBに登録する。
      * 
      * @param reportDefinition レポート出力の定義
@@ -172,8 +188,12 @@ public class ReportService
         Calendar fmTime = reportDefinitionDto.getReportTermFrom();
         Calendar toTime = reportDefinitionDto.getReportTermTo();
         String targetItemName = reportDefinitionDto.getTargetMeasurementName();
+        String reportNamePath = reportDefinitionDto.getReportName();
+        String[] reportNameSplitList = reportNamePath.split("/");
+        int reportNameSplitLength = reportNameSplitList.length;
+        String reportName = reportNameSplitList[reportNameSplitLength - 1];
 
-        reporter.createReport(dbName, fmTime, toTime, REPORT_PATH, targetItemName);
+        reporter.createReport(dbName, fmTime, toTime, REPORT_PATH, targetItemName, reportName);
     }
 
     /**
@@ -259,29 +279,76 @@ public class ReportService
         DatabaseManager dbMmanager = DatabaseManager.getInstance();
         String dbName = dbMmanager.getDataBaseName(1);
 
-        String reportFileName =
+        String filePath =
                 currentDir + FOLDER_SEPARATOR + REPORT_PATH + FOLDER_SEPARATOR + dbName
                         + FOLDER_SEPARATOR + fileName;
 
-        response.setHeader("Content-Disposition", "attachment; filename=" + reportFileName);
+        OutputStream outputStream = null;
 
-        // 内容を出力
-        PrintWriter httpWriter = null;
         try
         {
-            httpWriter = response.getWriter();
+            FileInputStream fileInputStream = new FileInputStream(filePath);
+            BufferedInputStream buffInputStream = new BufferedInputStream(fileInputStream);
+
+            String nonSpaceFileName = fileName.replaceAll("[ 　]", "");
+
+            response.setHeader("Content-Disposition", "attachment; filename=" + nonSpaceFileName);
+
+            outputStream = response.getOutputStream();
+
+            int len = 0;
+            byte[] buffer = new byte[BUFFER_SIZE];
+            while ((len = fileInputStream.read(buffer, 0, buffer.length)) != -1)
+            {
+                outputStream.write(buffer, 0, len);
+            }
+
+            buffInputStream.close();
         }
-        catch (IOException ex)
+        catch (IOException e)
         {
-            // Do Nothing.
+            printOutNotFound(response);
         }
         finally
         {
-            if (httpWriter != null)
+
+            if (outputStream != null)
             {
-                httpWriter.close();
+                try
+                {
+                    outputStream.close();
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+                finally
+                {
+                    outputStream = null;
+                }
             }
         }
 
     }
+
+    /**
+     * ファイルが存在しないことをクライアント側に表示する。
+     * 
+     * @param responce {@link HttpServletResponse}オブジェクト
+     */
+    private void printOutNotFound(final HttpServletResponse responce)
+    {
+        try
+        {
+            OutputStream toClient = responce.getOutputStream();
+            responce.setContentType("text/html;charset=utf-8");
+            toClient.write("File not found".getBytes());
+            toClient.close();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
 }

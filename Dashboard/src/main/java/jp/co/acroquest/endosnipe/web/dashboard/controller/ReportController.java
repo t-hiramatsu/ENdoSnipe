@@ -12,11 +12,14 @@
  */
 package jp.co.acroquest.endosnipe.web.dashboard.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import jp.co.acroquest.endosnipe.report.Reporter;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.ReportDefinitionDto;
 import jp.co.acroquest.endosnipe.web.dashboard.entity.ReportDefinition;
 import jp.co.acroquest.endosnipe.web.dashboard.service.ReportService;
@@ -119,9 +122,25 @@ public class ReportController
     @RequestMapping(value = "/download", method = RequestMethod.POST)
     @ResponseBody
     public void downloadReport(final HttpServletResponse res,
-            @RequestParam(value = "reportId") final String reportId)
+            @RequestParam(value = "reportId") final int reportId)
     {
-        String fileName = "20130512_102400-20130513_102400.zip";
+        ReportDefinitionDto reportDefinitionDto = this.reportService.getReportByReportId(reportId);
+
+        String reportNamePath = reportDefinitionDto.getReportName();
+        String[] reportNameSplitList = reportNamePath.split("/");
+        int reportNameSplitLength = reportNameSplitList.length;
+        String reportName = reportNameSplitList[reportNameSplitLength - 1];
+
+        Calendar fmTime = reportDefinitionDto.getReportTermFrom();
+        Calendar toTime = reportDefinitionDto.getReportTermTo();
+
+        SimpleDateFormat format = new SimpleDateFormat(Reporter.TIME_FORMAT);
+        String start = format.format(fmTime.getTime());
+        String end = format.format(toTime.getTime());
+
+        // ダウンロードするZIPファイル名を作成する
+        String fileName = reportName + "_" + start + "-" + end + ".zip";
+
         this.reportService.doRequest(res, fileName);
     }
 }

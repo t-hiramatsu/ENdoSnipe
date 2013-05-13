@@ -110,7 +110,7 @@ CREATE TABLE MAP_INFO(
 /**********************************/
 CREATE TABLE REPORT_DEFINITION(
   REPORT_ID SERIAL NOT NULL,
-  REPORT_NAME character varying NOT NULL UNIQUE,
+  REPORT_NAME character varying NOT NULL,
   TARGET_MEASUREMENT_NAME character varying NOT NULL,
   FM_TIME character varying NOT NULL,
   TO_TIME character varying NOT NULL
