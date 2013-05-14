@@ -131,7 +131,6 @@ public class SignalController
      *
      * @param signalDefinition
      *            閾値判定の定義のJSONデータ
-     * @param oldSignalId 編集前のID
      * @return 編集後の閾値判定の定義
      */
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
