@@ -3,3 +3,7 @@
 *.xml diff
 *.txt diff
 *.css diff
+*.js diff
+*.MF diff
+*.ddl diff
+*.properties diff
