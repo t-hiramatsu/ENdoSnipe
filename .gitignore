@@ -178,3 +178,13 @@ classes-servlet-api_build/
 #############
 
 !*jsp.java
+
+Dashboard/work/
+ENdoSnipeDataAccessor/jvn_logs/
+ENdoSnipeDataAccessor/log/
+ENdoSnipeDataCollector/logs/DataCollector.log
+Javelin/lib/dependency/djunit.jar
+Javelin/lib/dependency/endosnipe-common-5.0.3.jar
+Javelin/lib/dependency/endosnipe-communicator-5.0.3.jar
+Javelin/lib/dependency/endosnipe-dataaccessor-5.0.3.jar
+traces/
