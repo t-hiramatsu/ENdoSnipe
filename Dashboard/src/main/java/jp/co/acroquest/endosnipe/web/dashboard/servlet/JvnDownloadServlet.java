@@ -41,21 +41,21 @@ import jp.co.acroquest.endosnipe.web.dashboard.constants.LogMessageCodes;
 import jp.co.acroquest.endosnipe.web.dashboard.util.DaoUtil;
 
 /**
- * jvnƒtƒ@ƒCƒ‹o—Í—p‚ÌƒT[ƒuƒŒƒbƒg‚Å‚·B
+ * jvnãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›ç”¨ã®ã‚µãƒ¼ãƒ–ãƒ¬ãƒƒãƒˆã§ã™ã€‚
  * @author tsukano
  *
  */
 public class JvnDownloadServlet extends HttpServlet
 {
 
-    /** ƒƒK[ */
+    /** ãƒ­ã‚¬ãƒ¼ */
     private static final ENdoSnipeLogger LOGGER           =
                                                             ENdoSnipeLogger.getLogger(JvnDownloadServlet.class);
 
-    /** ƒoƒbƒtƒ@‚ÌƒTƒCƒY */
+    /** ãƒãƒƒãƒ•ã‚¡ã®ã‚µã‚¤ã‚º */
     private static final int             BUFFER_SIZE      = 1024;
 
-    /** ƒVƒŠƒAƒ‹ID */
+    /** ã‚·ãƒªã‚¢ãƒ«ID */
     private static final long            serialVersionUID = 2070325848334763894L;
 
     /**
@@ -84,26 +84,26 @@ public class JvnDownloadServlet extends HttpServlet
     }
 
     /**
-     * ƒNƒ‰ƒCƒAƒ“ƒg‚©‚ç‚Ìjvnƒtƒ@ƒCƒ‹o—Íƒ_ƒEƒ“ƒ[ƒh‚ğóM‚·‚é‚½‚ß‚ÌƒT[ƒuƒŒƒbƒg‚Å‚·B
-     * @param request {@link HttpServletRequest}ƒIƒuƒWƒFƒNƒg
-     * @param response {@link HttpServletResponse}ƒIƒuƒWƒFƒNƒg
+     * ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‹ã‚‰ã®jvnãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰ã‚’å—ä¿¡ã™ã‚‹ãŸã‚ã®ã‚µãƒ¼ãƒ–ãƒ¬ãƒƒãƒˆã§ã™ã€‚
+     * @param request {@link HttpServletRequest}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param response {@link HttpServletResponse}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     public void doRequest(HttpServletRequest request, HttpServletResponse response)
     {
-        // ƒpƒ‰ƒ[ƒ^æ“¾
+        // ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿å–å¾—
         String agentId = request.getParameter(EventConstants.AGENT_ID);
         String logFileName = request.getParameter(EventConstants.LOG_FILE_NAME);
 
         try
         {
-            // JavalinƒƒO‚ğæ“¾‚·‚é
+            // Javalinãƒ­ã‚°ã‚’å–å¾—ã™ã‚‹
             JavelinLog jvnLog = DaoUtil.getJavelinLog(agentId, logFileName);
             if (jvnLog == null)
             {
                 LOGGER.log(LogMessageCodes.FAIL_GET_JVNLOG);
                 return;
             }
-            // JavalinƒƒO‚ğƒNƒ‰ƒCƒAƒ“ƒg‚É•Ô‚·
+            // Javalinãƒ­ã‚°ã‚’ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã«è¿”ã™
             printOutFile(request, response, logFileName, jvnLog.javelinLog);
         }
         catch (IOException ex)
@@ -119,7 +119,7 @@ public class JvnDownloadServlet extends HttpServlet
         OutputStream os = res.getOutputStream();
         try
         {
-            //ƒŒƒXƒ|ƒ“ƒXİ’è  
+            //ãƒ¬ã‚¹ãƒãƒ³ã‚¹è¨­å®š  
             res.setContentType("application/octet-stream");
             res.setHeader("Content-Disposition", "filename=\"" + logFileName + "\"");
 
@@ -161,7 +161,7 @@ public class JvnDownloadServlet extends HttpServlet
     }
 
     /**
-     * ƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡
+     * ãƒ•ã‚¡ã‚¤ãƒ«ãŒè¦‹ã¤ã‹ã‚‰ãªã„å ´åˆ
      * @param res {@link HttpServletResponse}
      */
     private void printOutNotFound(HttpServletResponse res)
