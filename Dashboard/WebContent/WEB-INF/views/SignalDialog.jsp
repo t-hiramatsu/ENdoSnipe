@@ -6,9 +6,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 </head>
 <body>
-	<div id="headerLogo">
-		<img src="<%=request.getContextPath()%>/resources/images/ENdoSnipe_logo.png" />
-	</div>
 	<div id="persArea"></div>
 	<input id="treeData" type="hidden" value='${treeData}' />
 	<div id="signalDialog" title="Signal Definition" style="display:none">

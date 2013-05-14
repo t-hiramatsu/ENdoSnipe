@@ -40,8 +40,4 @@ ENS.Utility.makeAnchor = function(cellValue, options, rowObject) {
 	var linkName = selectValueList.linkName;
 	return '<a href="javascript:void(0)" onclick="' + onclick + '(\'' + rowId
 			+ '\');">' + linkName + '</a>';
-	// var str = "<a href=\"/Dashboard/ReportServlet?agent_id='" + rowId +
-	// "'&file_name='/20130512_133200-20130514_133200.zip\">" + linkName +
-	// "</a>";
-	// return str;
 };

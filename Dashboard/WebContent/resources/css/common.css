@@ -115,7 +115,7 @@ body {
 
 /* ページTopから描画領域までの隙間 */
 .perspective_drop_Area_all {
-	top: 35px;
+	top: 50px;
 }
 
 /* グラフの背景色とラベルのタイトルのフォントカラーを設定する */
@@ -147,4 +147,14 @@ option {
 .tooltip {
 	color: #333333;
 	background-color: #FFFFFF;
+}
+
+.headerTable {
+	margin-left:auto;
+	margin-right:auto;
+	text-align:center;
+}
+
+.headerTable .ui-widget {
+	font-size: 0.8em;
 }
