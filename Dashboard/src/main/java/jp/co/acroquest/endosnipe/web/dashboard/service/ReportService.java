@@ -328,7 +328,6 @@ public class ReportService
                 }
             }
         }
-
     }
 
     /**

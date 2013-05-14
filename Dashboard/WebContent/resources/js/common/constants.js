@@ -176,6 +176,7 @@ ENS.tree.SIGNAL_ICON_2 = "signal_2";
 ENS.tree.SIGNAL_ICON_3 = "signal_3";
 ENS.tree.SIGNAL_ICON_4 = "signal_4";
 ENS.tree.SIGNAL_ICON_5 = "signal_5";
+ENS.tree.REPORT_ICON = "report";
 
 ENS.tree.type = {};
 ENS.tree.type.GROUP = "group";

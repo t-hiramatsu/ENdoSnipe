@@ -100,15 +100,15 @@ public class ReportController
         ReportDefinitionDto reportDefinitionDto =
                 JSON.decode(reportDefinition, ReportDefinitionDto.class);
 
+        // レポートを生成する
+        this.reportService.createReport(reportDefinitionDto);
+
         ReportDefinition definition =
                 this.reportService.convertReportDefinition(reportDefinitionDto);
 
         // レポート定義をDBに登録する
         ReportDefinitionDto addedDefinitionDto =
                 this.reportService.insertReportDefinition(definition);
-
-        // レポートを生成する
-        this.reportService.createReport(reportDefinitionDto);
 
         return addedDefinitionDto;
     }

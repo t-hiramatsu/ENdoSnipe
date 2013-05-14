@@ -1,6 +1,6 @@
 ENS.reportView = wgp.AbstractView
 		.extend({
-			tableColNames : [ "No", "レポート名", "レポート対象", "開始日", "終了日", "DL" ],
+			tableColNames : [ "Id", "Report Name", "Report Target", "Start Time", "Finish Time", "Download" ],
 			initialize : function(argument, treeSettings) {
 				var appView = new ENS.AppView();
 				this.treeSettings = treeSettings;
@@ -19,7 +19,8 @@ ENS.reportView = wgp.AbstractView
 			render : function() {
 				$("#" + this.id).append('<div id="reportDiv"></div>');
 				$("#reportDiv").css({
-					"margin-left" : 5
+					"margin-top" : 20,
+					"margin-left" : 15
 				});
 				$("#reportDiv").append('<table id="reportTable"></table>');
 				$("#reportDiv").append('<div id="reportPager"></table>');
@@ -69,23 +70,23 @@ ENS.reportView = wgp.AbstractView
 					hidden : true
 				}, {
 					name : "reportName",
-					width : 290
+					width : 200
 				}, {
 					name : "targetMeasurementName",
-					width : 290
+					width : 380
 				}, {
 					name : "reportTermFrom",
-					width : 100
+					width : 90
 				}, {
 					name : "reportTermTo",
-					width : 100
+					width : 90
 				}, {
 					name : "download",
-					width : 60,
+					width : 80,
 					formatter : ENS.Utility.makeAnchor,
 					editoptions : {
 						"onclick" : "ENS.report.download",
-						"linkName" : "DL"
+						"linkName" : "Download"
 					}
 				} ];
 			},
@@ -121,6 +122,14 @@ ENS.reportView = wgp.AbstractView
 				var tableViewData = [];
 				var instance = this;
 				_.each(reportList, function(report, index) {
+					// レポート名についている余計なパスを除外する
+					var reportPath = report.reportName;
+					var reportPathSplitList = reportPath.split("/");
+					var reportPathLength = reportPathSplitList.length;
+					var reportName = reportPathSplitList[reportPathLength - 1];
+					report.reportName = reportName;
+					
+					// 開始日と終了日のフォーマットを変更する
 					var fmTimeDate = new Date(report.reportTermFrom);
 					var toTimeDate = new Date(report.reportTermTo);
 
