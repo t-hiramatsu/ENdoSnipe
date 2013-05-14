@@ -188,6 +188,6 @@ ENS.report.download = function(id) {
 	$('#btn').click();
 };
 
-ENS.report.callbackDownload = function() {
-
+ENS.report.callbackDownload = function(response) {
+	alert(response);
 };

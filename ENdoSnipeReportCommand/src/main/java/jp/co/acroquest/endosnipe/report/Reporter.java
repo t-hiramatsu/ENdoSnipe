@@ -170,7 +170,7 @@ public class Reporter {
 
 			MockIProgressMonitor mockIProgressMonitor = new MockIProgressMonitor();
 			
-			// runメソッドを直接呼び出す
+			// レポートを出力する
 			reportTask.createReport(mockIProgressMonitor, targetItemName);
 		} catch (Exception e) {
 			System.err.println("レポート生成中にエラーが発生しました。");
