@@ -35,6 +35,9 @@ public class PerfDoctorTableDto
     /** 詳細。 */
     private String detail_;
 
+    /** ログファイル名。 */
+	private String logFileName;
+
     /**
      * 日付を取得する。
      * 
@@ -154,4 +157,24 @@ public class PerfDoctorTableDto
     {
         this.detail_ = detail;
     }
+
+    /**
+     * ログファイル名を取得する。
+     * 
+     * @return 詳細
+     */
+	public String getLogFileName()
+	{
+		return logFileName;
+	}
+
+    /**
+     * ログファイル名を設定する。
+     * 
+     * @param detail ログファイル名
+     */
+	public void setLogFileName(String logFileName)
+	{
+		this.logFileName = logFileName;
+	}
 }

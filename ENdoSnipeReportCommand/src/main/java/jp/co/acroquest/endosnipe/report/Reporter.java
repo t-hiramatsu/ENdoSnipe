@@ -1,8 +1,8 @@
 /*
- * Copyright (c) 2004-2011 SMG Co., Ltd. All Rights Reserved.
+ * Copyright (c) 2004-2013 Acroquest Technology Co., Ltd. All Rights Reserved.
  * Please read the associated COPYRIGHTS file for more details.
  *
- * THE  SOFTWARE IS  PROVIDED BY  SMG Co., Ltd., WITHOUT  WARRANTY  OF
+ * THE  SOFTWARE IS  PROVIDED BY  Acroquest Technology Co., Ltd., WITHOUT  WARRANTY  OF
  * ANY KIND,  EXPRESS  OR IMPLIED,  INCLUDING BUT  NOT LIMITED  TO THE
  * WARRANTIES OF  MERCHANTABILITY,  FITNESS FOR A  PARTICULAR  PURPOSE
  * AND NONINFRINGEMENT.
@@ -49,7 +49,7 @@ import org.apache.tools.ant.taskdefs.Zip;
 public class Reporter {
 
 	/** 開始／終了時刻を指定する文字列形式。 */
-	private static final String TIME_FORMAT = "yyyyMMdd_HHmmss";
+	public static final String TIME_FORMAT = "yyyyMMdd_HHmmss";
 	
 	/**
 	 * コンストラクタ。
@@ -66,14 +66,15 @@ public class Reporter {
 	 * @param toTime 終了時刻
 	 * @param reportPath 出力先ディレクトリ
 	 * @param targetItemName レポート出力対象の親の項目名
+	 * @param reportName レポート名
 	 */
 	public void createReport(String dbName, Calendar fmTime, Calendar toTime,
-			String reportPath, String targetItemName) {
+			String reportPath, String targetItemName, String reportName) {
 
 		// 開始時刻が終了時刻より未来を指していた場合はエラー
 		if (fmTime.compareTo(toTime) > 0) {
 			System.err.println("開始時刻が終了時刻より未来を指しています。");
-			System.exit(1);
+			return;
 		}
 
 		// ログ出力インスタンスを生成する
@@ -91,11 +92,11 @@ public class Reporter {
 			config = ConfigLoader.loadConfig();
 		} catch (InitializeException ie) {
 			System.err.println(ie);
-			System.exit(1);
+			return;
 		}
 
 		if (config == null) {
-			System.exit(1);
+			return;
 		}
 
 		// DBがH2の場合は終了
@@ -103,7 +104,7 @@ public class Reporter {
 		if (type != DatabaseType.POSTGRES) {
 			System.err
 					.println("このプログラムはPostgreSQL専用です。collector.propertiesを修正してください。");
-			System.exit(1);
+			return;
 		}
 
 		// DBの諸設定を取得
@@ -135,7 +136,7 @@ public class Reporter {
 		SimpleDateFormat format = new SimpleDateFormat(TIME_FORMAT);
 		String start = format.format(fmTime.getTime());
 		String end = format.format(toTime.getTime());
-		String leafDirectoryName = start + "-" + end;
+		String leafDirectoryName = reportName + "_" + start + "-" + end;
 
 		String outputFilePath = reportPath + File.separator + dbName
 				+ File.separator + leafDirectoryName;
@@ -167,11 +168,13 @@ public class Reporter {
 					searchCondition, outputReportTypes, callback);
 			reportTask.setUser(true);
 
+			MockIProgressMonitor mockIProgressMonitor = new MockIProgressMonitor();
+			
 			// runメソッドを直接呼び出す
-			reportTask.run(new MockIProgressMonitor(), targetItemName);
+			reportTask.createReport(mockIProgressMonitor, targetItemName);
 		} catch (Exception e) {
 			System.err.println("レポート生成中にエラーが発生しました。");
-			System.exit(1);
+			return;
 		}
 
 		System.err.println("レポートの生成が終了しました。");

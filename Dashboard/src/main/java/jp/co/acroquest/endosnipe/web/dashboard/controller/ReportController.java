@@ -12,7 +12,16 @@
  */
 package jp.co.acroquest.endosnipe.web.dashboard.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
+
+import jp.co.acroquest.endosnipe.report.Reporter;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.ReportDefinitionDto;
+import jp.co.acroquest.endosnipe.web.dashboard.entity.ReportDefinition;
 import jp.co.acroquest.endosnipe.web.dashboard.service.ReportService;
 import net.arnx.jsonic.JSON;
 
@@ -46,6 +55,37 @@ public class ReportController
     }
 
     /**
+     * レポート出力の定義をすべて取得する。
+     * 
+     * @return 全てのレポート出力の定義
+     */
+    @RequestMapping(value = "/getAllDefinition", method = RequestMethod.POST)
+    @ResponseBody
+    public List<ReportDefinitionDto> getAllDefinition()
+    {
+        List<ReportDefinitionDto> reportDefinitionDtos = new ArrayList<ReportDefinitionDto>();
+
+        reportDefinitionDtos = this.reportService.getAllReport();
+
+        return reportDefinitionDtos;
+    }
+
+    /**
+     * 指定したレポート対象名をキーに、レポート定義の一覧を取得する。
+     * @param reportName 閾値判定の定義を一意に取得するためのシグナル名
+     * @return 閾値判定の定義
+     */
+    @RequestMapping(value = "/getDefinitionByReportName", method = RequestMethod.POST)
+    @ResponseBody
+    public List<ReportDefinitionDto> getByTarget(
+            @RequestParam(value = "reportName") final String reportName)
+    {
+        List<ReportDefinitionDto> reportDefinitionDtos =
+                this.reportService.getReportByReportName(reportName);
+        return reportDefinitionDtos;
+    }
+
+    /**
      * レポート出力の定義を新規に追加する。
      * 
      * @param reportDefinition
@@ -60,12 +100,47 @@ public class ReportController
         ReportDefinitionDto reportDefinitionDto =
                 JSON.decode(reportDefinition, ReportDefinitionDto.class);
 
-        this.reportService.insertReportDefinition(reportDefinitionDto);
-
+        // レポートを生成する
         this.reportService.createReport(reportDefinitionDto);
 
-        reportDefinitionDto.setReportId(1);
+        ReportDefinition definition =
+                this.reportService.convertReportDefinition(reportDefinitionDto);
 
-        return reportDefinitionDto;
+        // レポート定義をDBに登録する
+        ReportDefinitionDto addedDefinitionDto =
+                this.reportService.insertReportDefinition(definition);
+
+        return addedDefinitionDto;
+    }
+
+    /**
+     * レポートをダウンロードする。
+     * 
+     * @param res {@link HttpServletResponse}オブジェクト
+     * @param reportId レポートID
+     */
+    @RequestMapping(value = "/download", method = RequestMethod.POST)
+    @ResponseBody
+    public void downloadReport(final HttpServletResponse res,
+            @RequestParam(value = "reportId") final int reportId)
+    {
+        ReportDefinitionDto reportDefinitionDto = this.reportService.getReportByReportId(reportId);
+
+        String reportNamePath = reportDefinitionDto.getReportName();
+        String[] reportNameSplitList = reportNamePath.split("/");
+        int reportNameSplitLength = reportNameSplitList.length;
+        String reportName = reportNameSplitList[reportNameSplitLength - 1];
+
+        Calendar fmTime = reportDefinitionDto.getReportTermFrom();
+        Calendar toTime = reportDefinitionDto.getReportTermTo();
+
+        SimpleDateFormat format = new SimpleDateFormat(Reporter.TIME_FORMAT);
+        String start = format.format(fmTime.getTime());
+        String end = format.format(toTime.getTime());
+
+        // ダウンロードするZIPファイル名を作成する
+        String fileName = reportName + "_" + start + "-" + end + ".zip";
+
+        this.reportService.doRequest(res, fileName);
     }
 }

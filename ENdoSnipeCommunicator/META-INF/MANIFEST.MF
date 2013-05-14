@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %plugin.name
 Bundle-SymbolicName: jp.co.acroquest.endosnipe.communicator
-Bundle-Version: 5.0.0.012
+Bundle-Version: 5.0.3.013
 Bundle-Activator: jp.co.acroquest.endosnipe.communicator.ENdoSnipeCommunicatorPlugin
 Bundle-Vendor: %author
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

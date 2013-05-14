@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<project name="ENdoSnipeReporter" default="release" basedir=".">
+<project name="ENdoSnipeReporter" default="debug" basedir=".">
     <import file="../ENdoSnipe/build_common.xml" />
 
     <!-- このビルド用のグローバルプロパティを設定する -->
@@ -174,9 +174,6 @@
 
 	<!-- デバッグ用ビルド(難読化なし) -->
 	<target name="debug" depends="pluginDist" />
-	
-	<!-- リリース用ビルド(難読化あり) -->
-	<target name="release" depends="obfuscate_mode, pluginDist" />
 	
 	<target name="clean" description="クリーンアップ">
         <!-- ${classes}と${dist}のjarを削除する -->

@@ -73,6 +73,18 @@
 						});
 	</script>
 	<input type="hidden" id="context" value="<%=request.getContextPath()%>" />
+
+	<!-- レポートダウンロード用のフォーム -->
+	<form method="post" id="reportDownload" action="<%=request.getContextPath()%>/report/download">
+		<input type="hidden" id="reportId" name="reportId" value="" />
+		<div hidden=true><input type="submit" name="btn" id="btn" value="submit"></div>
+	</form>
+	
+	<!-- Javelinlogダウンロード用のフォーム -->
+	<form method="post" id="jvnLogDownload" action="<%=request.getContextPath()%>/performanceDoctor/download">
+		<input type="hidden" id="fileName" name="fileName" value="" />
+		<div hidden=true><input type="submit" name="jvnLogBtn" id="jvnLogBtn" value="submit"></div>
+	</form>
 </body>
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/resources/css/common.css"

@@ -61,6 +61,20 @@ ENS.nodeTabView = {
 	collection : [ENS.nodeInfoField, ENS.nodePerfDoctorParentView]
 };
 
+ENS.reportParentElem = {
+	viewClassName : "ENS.reportView",
+	viewAttribute : {
+		term : 1800,
+		maxLineNum : 20
+	}
+};
+
+ENS.reportParentView = {
+	viewClassName : "wgp.MultiAreaView",
+	rootView : appView,
+	collection : [ ENS.reportParentElem ]
+};
+
 ENS.ResourceMapField = {
 	viewClassName : "ENS.ResourceMapView",
 	rootView : appView,
@@ -71,6 +85,7 @@ if (!wgp.constants.VIEW_SETTINGS) {
 	wgp.constants.VIEW_SETTINGS = {};
 }
 wgp.constants.VIEW_SETTINGS = $.extend(wgp.constants.VIEW_SETTINGS, {
+	"reportNode-" : ENS.reportParentView,
 	"default" : ENS.nodeTabView,
 	"ENS.ResourceMapView" : ENS.ResourceMapField
 });

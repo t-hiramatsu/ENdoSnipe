@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="jp.co.acroquest.endosnipe.web.dashboard.dao.ReportDefinitionDao">
+	<resultMap id="ReportDefinitionMap"
+		type="jp.co.acroquest.endosnipe.web.dashboard.entity.ReportDefinition">
+		<id property="reportId_" column="REPORT_ID" />
+		<result property="reportName_" column="REPORT_NAME" />
+		<result property="targetMeasurementName_" column="TARGET_MEASUREMENT_NAME" />
+		<result property="fmTime_" column="FM_TIME" />
+		<result property="toTime_" column="TO_TIME" />
+	</resultMap>
+
+	<select id="selectAll" resultMap="ReportDefinitionMap">
+		SELECT * FROM REPORT_DEFINITION
+	</select>
+
+	<select id="selectById" resultMap="ReportDefinitionMap">
+		SELECT * FROM
+		REPORT_DEFINITION
+		where REPORT_ID
+		= #{reportId_}
+	</select>
+
+	<select id="selectByName" resultMap="ReportDefinitionMap">
+		SELECT * FROM
+		REPORT_DEFINITION
+		where REPORT_NAME
+		= #{reportName_}
+	</select>
+	
+	<select id="selectByTargetName" resultMap="ReportDefinitionMap">
+		SELECT * FROM
+		REPORT_DEFINITION
+		where TARGET_MEASUREMENT_NAME
+		= #{targetMeasurementName_}
+	</select>
+
+	<insert id="insert"
+		parameterType="jp.co.acroquest.endosnipe.web.dashboard.entity.ReportDefinition">
+		insert into REPORT_DEFINITION
+		(REPORT_NAME,TARGET_MEASUREMENT_NAME,FM_TIME,TO_TIME)
+		values
+		(#{reportName_},#{targetMeasurementName_},#{fmTime_},#{toTime_})
+	</insert>
+
+	<update id="update"
+		parameterType="jp.co.acroquest.endosnipe.web.dashboard.entity.ReportDefinition">
+		update REPORT_DEFINITION set
+		REPORT_NAME =
+		#{reportName_},
+		TARGET_MEASUREMENT_NAME = #{targetMeasurementName_},
+		FM_TIME = #{fmTime_},
+		TO_TIME = #{toTime_},
+		where REPORT_ID
+		= #{reportId_}
+	</update>
+
+	<delete id="delete">
+		delete from REPORT_DEFINITION
+		where REPORT_ID
+		= #{reportName_}
+	</delete>
+
+	<delete id="deleteAll"
+		parameterType="jp.co.acroquest.endosnipe.web.dashboard.entity.ReportDefinition">
+		delete from REPORT_DEFINITION
+	</delete>
+
+	<select id="selectSequenceNum" resultType="int">
+		SELECT REPORT_ID FROM
+		REPORT_DEFINITION
+		where REPORT_NAME
+		= #{reportName_}
+	</select>
+</mapper>
