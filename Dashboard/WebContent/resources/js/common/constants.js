@@ -35,8 +35,7 @@ ENS.DATE_FORMAT_DAY = 'yyyy/MM/dd';
 ENS.DATE_FORMAT_HOUR = 'yyyy/MM/dd HH:mm';
 
 ENS.URL = {};
-ENS.URL.TERM_PERFDOCTOR_DATA_URL = wgp.constants.URL.TERM_DATA_URL
-		+ "/getPerfDoctor";
+ENS.URL.TERM_PERFDOCTOR_DATA_URL = "/performanceDoctor/getPerfDoctor";
 ENS.URL.PERFDOCTOR_POSTFIX_ID = "/performanceDoctor";
 
 ENS.common = {};
@@ -190,3 +189,5 @@ ENS.map.mode.EDIT = "EDIT";
 
 ENS.report = {};
 ENS.report.DOWNLOAD_URL = wgp.common.getContextPath() + "/report/download";
+
+ENS.perfDoctor = {};
