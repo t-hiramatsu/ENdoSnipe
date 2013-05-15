@@ -194,5 +194,10 @@ public class JavelinLog
      * ログ出力しているスレッドのオブジェクト ID 。<br />
      */
     public int threadObjectId;
+    
+    /**
+     * 計測項目の名前。<br />
+     */
+    public String measurementItemName;
 
 }
