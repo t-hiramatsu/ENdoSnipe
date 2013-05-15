@@ -77,7 +77,8 @@ public class JvnLogDownloadTelegramListener implements TelegramListener, Telegra
                                                                                         BYTE_REQUEST_KIND_RESPONSE,
                                                                                         jvnFileNames,
                                                                                         null,
-                                                                                        telegramId);
+                                                                                        telegramId,
+                                                                                        null);
                             }
                             catch (IllegalArgumentException ex)
                             {
