@@ -12,6 +12,7 @@
  */
 package jp.co.acroquest.endosnipe.web.dashboard.controller;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -118,11 +119,14 @@ public class ReportController
      * 
      * @param res {@link HttpServletResponse}オブジェクト
      * @param reportId レポートID
+     * @return ファイル名
+     * @throws IOException ファイルへの入出力エラー
      */
     @RequestMapping(value = "/download", method = RequestMethod.POST)
     @ResponseBody
-    public void downloadReport(final HttpServletResponse res,
+    public String downloadReport(final HttpServletResponse res,
             @RequestParam(value = "reportId") final int reportId)
+        throws IOException
     {
         ReportDefinitionDto reportDefinitionDto = this.reportService.getReportByReportId(reportId);
 
@@ -142,5 +146,7 @@ public class ReportController
         String fileName = reportName + "_" + start + "-" + end + ".zip";
 
         this.reportService.doRequest(res, fileName);
+
+        return fileName;
     }
 }

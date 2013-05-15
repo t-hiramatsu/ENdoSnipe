@@ -69,9 +69,9 @@ public class ResponseTimeReporter
     public void outputReport(String templateFilePath, String outputFilePath,
             ResponseTimeRecord[] records, Date startDate, Date endDate)
     {
-        // ①読み込むテンプレートファイルのパス(拡張子含)
-        // ②出力先のファイルパス(拡張子はExporterによって自動的に付与されるため、不要。)
-        // ③ファイルフォーマット(ConvertConfigurationの配列)
+        // ?読み込むテンプレートファイルのパス(拡張子含)
+        // ?出力先のファイルパス(拡張子はExporterによって自動的に付与されるため、不要。)
+        // ?ファイルフォーマット(ConvertConfigurationの配列)
         // を指定し、ReportBookインスタンスを生成する。
         ReportBook outputBook =
                                 new ReportBook(templateFilePath, outputFilePath,
@@ -138,10 +138,10 @@ public class ResponseTimeReporter
 
         //表示用文字列を成型する
         StringBuilder builder = new StringBuilder();
+        builder.append("Result of data acquisition from ");
         builder.append(startDateString);
-        builder.append(" から ");
+        builder.append(" to ");
         builder.append(endDateString);
-        builder.append(" までのデータ取得結果です");
 
         String returnValue = builder.toString();
 

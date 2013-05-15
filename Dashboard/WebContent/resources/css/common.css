@@ -126,7 +126,7 @@ body {
 
 /** セレクトボックスのオプション */
 option {
-	background: #000000;
+	background: #FFFFFF;
 }
 
 /** datepickerのセレクトボックスのオプション */
@@ -150,11 +150,22 @@ option {
 }
 
 .headerTable {
-	margin-left:auto;
 	margin-right:auto;
 	text-align:center;
 }
 
 .headerTable .ui-widget {
 	font-size: 0.8em;
+}
+
+.dialogPatternValue {
+	margin-top: 5px;
+}
+
+.levelLabel {
+	width: 100px
+}
+
+div#contents_area_content {
+	min-height: 98.8%;
 }

@@ -168,29 +168,6 @@
 	width : 100px;
 }
 
-#signalPatternValue_1 {
-	float: left;
-}
-
-#signalPatternValue_2 {
-	margin-top : 10px;
-	margin-left: 160px;
-}
-
-#signalPatternValue_3 {
-	float: left;
-	margin-top: 10px;
-}
-
-#signalPatternValue_4 {
-	margin-top : 10px;
-	margin-left: 160px;
-}
-
-#signalPatternValue_5 {
-	margin-top : 10px;
-}
-
 #signalEscalationPeriodArea {
 	margin-top : 10px;
 }
@@ -210,29 +187,29 @@
 
 /** signal tree settings */
 .jstree-default a .signal_0 {
-	background-position: -18.3px -90.5px;;
+	background-position: -36.7px -90px;
 }
 
 .jstree-default a .signal_1 {
-	background-position: -2.2px -107.5px;
+	background-position: -20px -90px;
 }
 
 .jstree-default a .signal_2 {
-	background-position: -2.2px -90.8px;
+	background-position: -3px -90px;
 }
 
 .jstree-default a .signal_3 {
-	background-position: -36.1px -73.3px;
+	background-position: -36.8px -73.5px;
 }
 
 .jstree-default a .signal_4 {
-	background-position: -2px -73.3px;
+	background-position: -2.8px -73px;
 }
 
 .jstree-default a .signal_5 {
-	background-position: -18.5px -73.3px;
+	background-position: -20px -73px;
 }
 
 .jstree-default a .report {
-	background-position: -73px -55px;
+	background-position: -76px -56px;
 }

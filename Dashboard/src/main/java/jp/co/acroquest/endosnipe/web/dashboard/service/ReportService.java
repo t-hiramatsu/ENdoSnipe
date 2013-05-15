@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -60,7 +61,7 @@ public class ReportService
     protected ReportDefinitionDao reportDefinitionDao;
 
     /** 日付のフォーマット。 */
-    private static final String DATE_FORMAT = "yyyy-mm-dd hh:MM:ss";
+    private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
     /** バッファのサイズ */
     private static final int BUFFER_SIZE = 1024;
@@ -250,9 +251,7 @@ public class ReportService
         }
         catch (ParseException ex)
         {
-            // TODO Logに出力する様にする
-            ex.printStackTrace();
-            System.out.println("日付のフォーマットが不正です。");
+            LOGGER.log(LogMessageCodes.UNSUPPORTED_REPORT_FILE_DURATION_FORMAT);
         }
 
         definitionDto.setReportTermFrom(fmTime);
@@ -271,7 +270,9 @@ public class ReportService
     {
         if (fileName == null)
         {
-            LOGGER.log(LogMessageCodes.UNKNOWN_REPORT_FILE_NAME);
+            LOGGER.log(LogMessageCodes.UNEXPECTED_ERROR);
+            String message = "filename is null.";
+            handleException(response, message);
             return;
         }
 
@@ -305,9 +306,10 @@ public class ReportService
 
             buffInputStream.close();
         }
-        catch (IOException e)
+        catch (IOException ioEx)
         {
-            printOutNotFound(response);
+            LOGGER.log(LogMessageCodes.UNKNOWN_REPORT_FILE_NAME);
+            handleException(response, ioEx.getMessage());
         }
         finally
         {
@@ -318,9 +320,10 @@ public class ReportService
                 {
                     outputStream.close();
                 }
-                catch (IOException e)
+                catch (IOException ioEx)
                 {
-                    e.printStackTrace();
+                    LOGGER.log(LogMessageCodes.UNEXPECTED_ERROR);
+                    handleException(response, ioEx.getMessage());
                 }
                 finally
                 {
@@ -334,19 +337,26 @@ public class ReportService
      * ファイルが存在しないことをクライアント側に表示する。
      * 
      * @param responce {@link HttpServletResponse}オブジェクト
+     * @param message エラーメッセージ
      */
-    private void printOutNotFound(final HttpServletResponse responce)
+    private void handleException(final HttpServletResponse responce, final String message)
     {
         try
         {
-            OutputStream toClient = responce.getOutputStream();
-            responce.setContentType("text/html;charset=utf-8");
-            toClient.write("File not found".getBytes());
-            toClient.close();
+            // ContentTypeを指定
+            responce.setContentType("text/csv;charset=UTF-8");
+            String fileName = new String("error.txt".getBytes("UTF-8"), "ISO-8859-1");
+            // Headerを設定
+            responce.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+            // 内容を出力
+            PrintWriter writer = responce.getWriter();
+            writer.write(message);
+            writer.close();
+
         }
-        catch (IOException e)
+        catch (IOException ioEx)
         {
-            e.printStackTrace();
+            LOGGER.log(LogMessageCodes.UNEXPECTED_ERROR);
         }
     }
 
