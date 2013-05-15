@@ -32,14 +32,14 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.co.acroquest.endosnipe.arrowvision.data.JavelinLogInputStreamAccessor;
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
+import jp.co.acroquest.endosnipe.common.parser.JavelinLogInputStreamAccessor;
 import jp.co.acroquest.endosnipe.communicator.accessor.JvnFileNotifyAccessor.JvnFileEntry;
 import jp.co.acroquest.endosnipe.data.entity.JavelinLog;
 import jp.co.acroquest.endosnipe.javelin.parser.JavelinLogElement;
 import jp.co.acroquest.endosnipe.javelin.parser.JavelinParser;
 import jp.co.acroquest.endosnipe.javelin.parser.ParseException;
-import jp.co.acroquest.endosnipe.perfdoctor.PerfDoctorIgnoreMonitor;
+import jp.co.acroquest.endosnipe.perfdoctor.PerfDoctor;
 import jp.co.acroquest.endosnipe.perfdoctor.WarningUnit;
 import jp.co.acroquest.endosnipe.perfdoctor.classfier.PerformanceDoctorFilter;
 import jp.co.acroquest.endosnipe.perfdoctor.classfier.UnifiedFilter;
@@ -176,7 +176,7 @@ public class JvnFileEntryJudge
     {
         JavelinParser.initDetailInfo(javelinLogElementList);
         // 得られた JvelinLogElement を PerformanceDoctor で解析し、結果を保持します。
-        PerfDoctorIgnoreMonitor perfDoctor = new PerfDoctorIgnoreMonitor();
+        PerfDoctor perfDoctor = new PerfDoctor();
         try
         {
             perfDoctor.init();
