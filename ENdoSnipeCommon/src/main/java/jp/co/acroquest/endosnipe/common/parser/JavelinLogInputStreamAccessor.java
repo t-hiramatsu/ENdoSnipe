@@ -28,6 +28,8 @@ package jp.co.acroquest.endosnipe.common.parser;
 import java.io.IOException;
 import java.io.InputStream;
 
+import jp.co.acroquest.endosnipe.common.parser.JavelinLogAccessor;
+
 /**
  * Javelin ログをJavelinLogから取得するクラス。<br />
  *

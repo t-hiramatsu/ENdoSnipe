@@ -59,13 +59,13 @@ class JavelinLoggerThread extends Thread
     private static final String EXTENTION_ZIP = ".zip";
 
     /** jvnファイル名のフォーマット(日付フォーマット(ミリ(sec)まで表示) */
-    private static final String JVN_FILE_FORMAT =
-            "javelin_{0,date,yyyy_MM_dd_HHmmss_SSS}_{1,number,00000}" + EXTENTION_JVN;
+    private static final String JVN_FILE_FORMAT = "javelin_{0,date,yyyy_MM_dd_HHmmss_SSS}_{1,number,00000}"
+            + EXTENTION_JVN;
 
     /** zipファイル名のフォーマット(日付フォーマット(ミリ(sec)まで表示) */
-    private static final String ZIP_FILE_FORMAT =
-            "{0}" + File.separator + "javelin_{1,date,yyyy_MM_dd_HHmmss_SSS}_{2,number,00000}"
-                    + EXTENTION_ZIP;
+    private static final String ZIP_FILE_FORMAT = "{0}" + File.separator
+            + "javelin_{1,date,yyyy_MM_dd_HHmmss_SSS}_{2,number,00000}"
+            + EXTENTION_ZIP;
 
     private final JavelinConfig javelinConfig_;
 
@@ -73,9 +73,11 @@ class JavelinLoggerThread extends Thread
 
     /**
      * Javelinの設定値とキューをセットします。<br />
-     *
-     * @param javelinConfig {@link JavelinConfig}オブジェクト
-     * @param queue キュー
+     * 
+     * @param javelinConfig
+     *            {@link JavelinConfig}オブジェクト
+     * @param queue
+     *            キュー
      */
     public JavelinLoggerThread(final JavelinConfig javelinConfig,
             final BlockingQueue<JavelinLogTask> queue)
@@ -111,8 +113,8 @@ class JavelinLoggerThread extends Thread
             if (mkdirs == false)
             {
                 SystemLogger.getInstance().warn(
-                                                "mkdir failed: dir name "
-                                                        + javelinFileDirFile.getAbsolutePath());
+                        "mkdir failed: dir name "
+                                + javelinFileDirFile.getAbsolutePath());
             }
         }
 
@@ -137,12 +139,15 @@ class JavelinLoggerThread extends Thread
                     nextDeleteSequenceNumber__ += jvnFileMax;
                     if (isZipFileMax)
                     {
-                        zipAndDeleteLogFiles(jvnFileMax, javelinFileDir, EXTENTION_JVN);
-                        IOUtil.removeFiles(zipFileMax, javelinFileDir, EXTENTION_ZIP);
+                        zipAndDeleteLogFiles(jvnFileMax, javelinFileDir,
+                                EXTENTION_JVN);
+                        IOUtil.removeFiles(zipFileMax, javelinFileDir,
+                                EXTENTION_ZIP);
                     }
                     else
                     {
-                        IOUtil.removeFiles(jvnFileMax, javelinFileDir, EXTENTION_JVN);
+                        IOUtil.removeFiles(jvnFileMax, javelinFileDir,
+                                EXTENTION_JVN);
                     }
                 }
 
@@ -150,24 +155,25 @@ class JavelinLoggerThread extends Thread
 
                 String jvnFileDir = this.javelinConfig_.getJavelinFileDir();
                 String jvnFileName = task.getJvnFileName();
-                String jvnFileFullPath = jvnFileDir + File.separator + jvnFileName;
+                String jvnFileFullPath = jvnFileDir + File.separator
+                        + jvnFileName;
 
                 JavelinLogCallback callback = task.getJavelinLogCallback();
                 long telegramId = task.getTelegramId();
+                String itemName = task.getItemName();
 
                 // 再帰的にwriterに書き込みを行う。
-                JavelinFileGenerator.generateJavelinFileImpl(stringBuilder, task.getTree(),
-                                                             task.getNode(), task.getEndNode(),
-                                                             callback, jvnFileName,
-                                                             jvnFileFullPath, telegramId);
+                JavelinFileGenerator.generateJavelinFileImpl(stringBuilder,
+                        task.getTree(), task.getNode(), task.getEndNode(),
+                        callback, jvnFileName, jvnFileFullPath, telegramId,
+                        itemName);
 
                 // 出力すべきメッセージがあればバッファフラッシュ
-                if (stringBuilder.length() > 0)
+                if (stringBuilder.length() > 0) 
                 {
-                    JavelinFileGenerator.flushBuffer(stringBuilder, jvnFileName,
-                                                     jvnFileFullPath,
-                                                     callback, this.javelinConfig_,
-                                                     telegramId);
+                    JavelinFileGenerator.flushBuffer(stringBuilder,
+                            jvnFileName, jvnFileFullPath, callback,
+                            this.javelinConfig_, telegramId, itemName);
                 }
             }
             catch (Throwable ex)
@@ -179,35 +185,37 @@ class JavelinLoggerThread extends Thread
 
     /**
      * Javelinログファイル名を生成します。<br />
-     *
-     * @param date 日付
+     * 
+     * @param date
+     *            日付
      * @return jvnファイル名
      */
     public static String createJvnFileName(final Date date)
     {
         String fileName;
-        fileName = MessageFormat.format(JVN_FILE_FORMAT, date, (sequenceNumber__++));
+        fileName = MessageFormat.format(JVN_FILE_FORMAT, date,
+                (sequenceNumber__++));
 
         return fileName;
     }
 
     /**
      * ファイル名を生成します。<br />
-     *
+     * 
      * @return ファイル名
      */
     private String createZipFileName(final Date date)
     {
         String fileName;
-        fileName =
-                MessageFormat.format(ZIP_FILE_FORMAT, this.javelinConfig_.getJavelinFileDir(),
-                                     date, (zipSequenceNumber__++));
+        fileName = MessageFormat.format(ZIP_FILE_FORMAT,
+                this.javelinConfig_.getJavelinFileDir(), date,
+                (zipSequenceNumber__++));
 
         return fileName;
     }
 
-    private void zipAndDeleteLogFiles(final int maxFileCount, final String dirName,
-            final String extention)
+    private void zipAndDeleteLogFiles(final int maxFileCount,
+            final String dirName, final String extention)
     {
         File[] files = IOUtil.listFile(dirName, extention);
 
@@ -228,20 +236,22 @@ class JavelinLoggerThread extends Thread
             {
                 File file = files[index];
                 IOUtil.zipFile(zStream, file);
-                SystemLogger.getInstance().debug(
-                                                 "zip file name = " + file.getName() + " to "
-                                                         + fileName);
+                SystemLogger.getInstance()
+                        .debug("zip file name = " + file.getName() + " to "
+                                + fileName);
 
                 boolean success = file.delete();
                 if (success == false)
                 {
-                    SystemLogger.getInstance().warn("Remove failed. file name = " + file.getName());
+                    SystemLogger.getInstance().warn(
+                            "Remove failed. file name = " + file.getName());
                 }
                 else
                 {
                     if (SystemLogger.getInstance().isDebugEnabled())
                     {
-                        SystemLogger.getInstance().debug("Remove file name = " + file.getName());
+                        SystemLogger.getInstance().debug(
+                                "Remove file name = " + file.getName());
                     }
                 }
             }

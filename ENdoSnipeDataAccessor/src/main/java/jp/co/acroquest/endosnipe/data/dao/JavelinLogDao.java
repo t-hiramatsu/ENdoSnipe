@@ -54,49 +54,44 @@ import jp.co.acroquest.endosnipe.util.ResourceDataDaoUtil;
  * 
  * @author y-komori
  */
-public class JavelinLogDao extends AbstractDao implements LogMessageCodes,
-		TableNames
+public class JavelinLogDao extends AbstractDao implements LogMessageCodes, TableNames
 {
-	private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(
-			JavelinLogDao.class, ENdoSnipeDataAccessorPluginProvider.INSTANCE);
+	private static final ENdoSnipeLogger LOGGER					 =
+																		ENdoSnipeLogger.getLogger(JavelinLogDao.class,
+																								  ENdoSnipeDataAccessorPluginProvider.INSTANCE);
 
 	/** ZIP 圧縮用ストリームのバッファサイズ */
-	private static final int BUF_SIZE = 8192;
+	private static final int			 BUF_SIZE				   = 8192;
 
 	/** 蓄積期間を取得する SQL */
-	private static final String GET_LOG_TERM_SQL_PARTITION = createGetLogTermSql();
+	private static final String		  GET_LOG_TERM_SQL_PARTITION = createGetLogTermSql();
 
 	/** 蓄積期間を取得する SQL */
-	private static final String GET_LOG_TERM_SQL
-	= "select min(START_TIME) START_TIME, max(END_TIME) END_TIME from "
-			+ JAVELIN_LOG;
+	private static final String		  GET_LOG_TERM_SQL		   =
+																		"select min(START_TIME) START_TIME, max(END_TIME) END_TIME from "
+																			+ JAVELIN_LOG;
 
 	/**
 	 * データを挿入するテーブルの名前を返します。
-	 * 
-	 * @param date
-	 *            挿入するデータの日付
+	 *
+	 * @param date 挿入するデータの日付
 	 * @return テーブル名
 	 */
 	public static String getTableNameToInsert(final Date date)
 	{
-		String tableName = ResourceDataDaoUtil.getTableNameToInsert(date,
-				JAVELIN_LOG);
+		String tableName = ResourceDataDaoUtil.getTableNameToInsert(date, JAVELIN_LOG);
 		return tableName;
 	}
 
 	/**
 	 * {@link JavelinLog} オブジェクトを挿入します。<br />
-	 * 
-	 * @param database
-	 *            挿入先データベース名
-	 * @param javelinLog
-	 *            対象オブジェクト
-	 * @throws SQLException
-	 *             SQL 実行時に例外が発生した場合
+	 *
+	 * @param database 挿入先データベース名
+	 * @param javelinLog 対象オブジェクト
+	 * @throws SQLException SQL 実行時に例外が発生した場合
 	 */
 	public static void insert(final String database, final JavelinLog javelinLog)
-			throws SQLException
+		throws SQLException
 	{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -105,25 +100,22 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes,
 		try
 		{
 			conn = getConnection(database);
-			String sql = "insert into " + tableName + " (" + "SESSION_ID, "
-					+ "SEQUENCE_ID, " + "JAVELIN_LOG, " + "LOG_FILE_NAME, "
-					+ "START_TIME, END_TIME, " + "SESSION_DESC, "
-					+ "LOG_TYPE, " + "CALLEE_NAME, " + "CALLEE_SIGNATURE, "
-					+ "CALLEE_CLASS, " + "CALLEE_FIELD_TYPE, "
-					+ "CALLEE_OBJECTID, " + "CALLER_NAME, "
-					+ "CALLER_SIGNATURE, " + "CALLER_CLASS, "
-					+ "CALLER_OBJECTID, " + "EVENT_LEVEL, " + "ELAPSED_TIME, "
-					+ "MODIFIER, " + "THREAD_NAME, " + "THREAD_CLASS, "
-					+ "THREAD_OBJECTID" + ") values ("
-					+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
-					+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			String sql =
+				"insert into " + tableName + " (" + "SESSION_ID, " + "SEQUENCE_ID, "
+					+ "JAVELIN_LOG, " + "LOG_FILE_NAME, " + "START_TIME, END_TIME, "
+					+ "SESSION_DESC, " + "LOG_TYPE, " + "CALLEE_NAME, " + "CALLEE_SIGNATURE, "
+					+ "CALLEE_CLASS, " + "CALLEE_FIELD_TYPE, " + "CALLEE_OBJECTID, "
+					+ "CALLER_NAME, " + "CALLER_SIGNATURE, " + "CALLER_CLASS, "
+					+ "CALLER_OBJECTID, " + "EVENT_LEVEL, " + "ELAPSED_TIME, " + "MODIFIER, "
+					+ "THREAD_NAME, " + "THREAD_CLASS, " + "THREAD_OBJECTID, "
+					+ "MEASUREMENT_ITEM_NAME" + ") values (" + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
+					+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
 			PreparedStatement delegated = getDelegatingStatement(pstmt);
 			// CHECKSTYLE:OFF
 			delegated.setLong(1, javelinLog.sessionId);
 			delegated.setInt(2, javelinLog.sequenceId);
-			ByteArrayOutputStream baos = zip(javelinLog.javelinLog,
-					javelinLog.logFileName);
+			ByteArrayOutputStream baos = zip(javelinLog.javelinLog, javelinLog.logFileName);
 			delegated.setBytes(3, baos.toByteArray());
 			delegated.setString(4, javelinLog.logFileName);
 			delegated.setTimestamp(5, javelinLog.startTime);
@@ -145,6 +137,7 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes,
 			delegated.setString(21, javelinLog.threadName);
 			delegated.setString(22, javelinLog.threadClass);
 			delegated.setInt(23, javelinLog.threadObjectId);
+			delegated.setString(24, javelinLog.measurementItemName);
 			// CHECKSTYLE:ON
 
 			pstmt.execute();
@@ -170,19 +163,16 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes,
 	 * Javelin ログ ID を指定してレコードを取得します。<br />
 	 * JAVELIN_LOG テーブルに対して検索を行い、見つかったレコードを 1 件返します。<br />
 	 * 
-	 * {@link JavelinLog#javelinLog} は取得しません。 別途、
-	 * {@link JavelinLogDao#selectJavelinLogByLogId(String, long)} を使用してください。
-	 * 
-	 * @param database
-	 *            データベース名
-	 * @param logId
-	 *            ログ ID
+	 * {@link JavelinLog#javelinLog} は取得しません。
+	 * 別途、 {@link JavelinLogDao#selectJavelinLogByLogId(String, long)} を使用してください。
+	 *
+	 * @param database データベース名
+	 * @param logId ログ ID
 	 * @return レコード。取得できない場合は <code>null</code>
-	 * @throws SQLException
-	 *             SQL 実行時に例外が発生した場合
+	 * @throws SQLException SQL 実行時に例外が発生した場合
 	 */
-	public static JavelinLog selectByLogId(final String database,
-			final long logId) throws SQLException
+	public static JavelinLog selectByLogId(final String database, final long logId)
+		throws SQLException
 	{
 		JavelinLog javelinLog = null;
 		Connection conn = null;
@@ -192,16 +182,14 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes,
 
 		try
 		{
-			String sql = "select LOG_ID, SESSION_ID, SEQUENCE_ID," +
-					" JAVELIN_LOG, LOG_FILE_NAME, "
+			String sql =
+				"select LOG_ID, SESSION_ID, SEQUENCE_ID, JAVELIN_LOG, LOG_FILE_NAME, "
 					+ "START_TIME, END_TIME, SESSION_DESC, LOG_TYPE, "
 					+ "CALLEE_NAME, CALLEE_SIGNATURE, CALLEE_CLASS, "
 					+ "CALLEE_FIELD_TYPE, CALLEE_OBJECTID, CALLER_NAME, "
 					+ "CALLER_SIGNATURE, CALLER_CLASS, CALLER_OBJECTID, "
 					+ "EVENT_LEVEL, ELAPSED_TIME, MODIFIER, THREAD_NAME, "
-					+ "THREAD_CLASS, THREAD_OBJECTID from "
-					+ JAVELIN_LOG
-					+ " where LOG_ID = ?";
+					+ "THREAD_CLASS, THREAD_OBJECTID from " + JAVELIN_LOG + " where LOG_ID = ?";
 			pstmt = conn.prepareStatement(sql);
 			PreparedStatement delegated = getDelegatingStatement(pstmt);
 			delegated.setLong(1, logId);
@@ -228,17 +216,15 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes,
 	 * JAVELIN_LOG テーブルに対して検索を行い、見つかったレコードをすべて返します。<br />
 	 * 
 	 * {@link JavelinLog#javelinLog} を取得します。
-	 * 
-	 * @param database
-	 *            データベース名
-	 * @param fileName
-	 *            ログファイル名
+	 *
+	 * @param database データベース名
+	 * @param fileName ログファイル名
 	 * @return レコード。取得できない場合は <code>null</code>
-	 * @throws SQLException
-	 *             SQL 実行時に例外が発生した場合
+	 * @throws SQLException SQL 実行時に例外が発生した場合
 	 */
-	public static JavelinLog selectByLogFileNameWithBinary(
-			final String database, final String fileName) throws SQLException
+	public static JavelinLog selectByLogFileNameWithBinary(final String database,
+		final String fileName)
+		throws SQLException
 	{
 		return selectByLogFileName(database, fileName, true);
 	}
@@ -247,19 +233,16 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes,
 	 * Javelin ログファイル名を指定してレコードを取得します。<br />
 	 * JAVELIN_LOG テーブルに対して検索を行い、見つかったレコードをすべて返します。<br />
 	 * 
-	 * {@link JavelinLog#javelinLog} は取得しません。 別途、
-	 * {@link JavelinLogDao#selectJavelinLogByLogId(String, long)} を使用してください。
-	 * 
-	 * @param database
-	 *            データベース名
-	 * @param fileName
-	 *            ログファイル名
+	 * {@link JavelinLog#javelinLog} は取得しません。
+	 * 別途、 {@link JavelinLogDao#selectJavelinLogByLogId(String, long)} を使用してください。
+	 *
+	 * @param database データベース名
+	 * @param fileName ログファイル名
 	 * @return レコード。取得できない場合は <code>null</code>
-	 * @throws SQLException
-	 *             SQL 実行時に例外が発生した場合
+	 * @throws SQLException SQL 実行時に例外が発生した場合
 	 */
-	public static JavelinLog selectByLogFileName(final String database,
-			final String fileName) throws SQLException
+	public static JavelinLog selectByLogFileName(final String database, final String fileName)
+		throws SQLException
 	{
 		return selectByLogFileName(database, fileName, false);
 	}
@@ -268,21 +251,18 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes,
 	 * Javelin ログファイル名を指定してレコードを取得します。<br />
 	 * JAVELIN_LOG テーブルに対して検索を行い、見つかったレコードをすべて返します。<br />
 	 * 
-	 * {@link JavelinLog#javelinLog} は取得しません。 別途、
-	 * {@link JavelinLogDao#selectJavelinLogByLogId(String, long)} を使用してください。
-	 * 
-	 * @param database
-	 *            データベース名
-	 * @param fileName
-	 *            ログファイル名
-	 * @param outputLog
-	 *            trueの場合は{@link JavelinLog#javelinLog}を取得する。falseの場合は取得しない。
+	 * {@link JavelinLog#javelinLog} は取得しません。
+	 * 別途、 {@link JavelinLogDao#selectJavelinLogByLogId(String, long)} を使用してください。
+	 *
+	 * @param database データベース名
+	 * @param fileName ログファイル名
+	 * @param outputLog trueの場合は{@link JavelinLog#javelinLog}を取得する。falseの場合は取得しない。
 	 * @return レコード。取得できない場合は <code>null</code>
-	 * @throws SQLException
-	 *             SQL 実行時に例外が発生した場合
+	 * @throws SQLException SQL 実行時に例外が発生した場合
 	 */
-	private static JavelinLog selectByLogFileName(final String database,
-			final String fileName, final boolean outputLog) throws SQLException
+	private static JavelinLog selectByLogFileName(final String database, final String fileName,
+		final boolean outputLog)
+		throws SQLException
 	{
 		JavelinLog javelinLog = null;
 		Connection conn = null;
@@ -292,15 +272,14 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes,
 
 		try
 		{
-			String sql = "select LOG_ID, SESSION_ID, SEQUENCE_ID," +
-					" JAVELIN_LOG, LOG_FILE_NAME, "
+			String sql =
+				"select LOG_ID, SESSION_ID, SEQUENCE_ID, JAVELIN_LOG, LOG_FILE_NAME, "
 					+ "START_TIME, END_TIME, SESSION_DESC, LOG_TYPE, "
 					+ "CALLEE_NAME, CALLEE_SIGNATURE, CALLEE_CLASS, "
 					+ "CALLEE_FIELD_TYPE, CALLEE_OBJECTID, CALLER_NAME, "
 					+ "CALLER_SIGNATURE, CALLER_CLASS, CALLER_OBJECTID, "
 					+ "EVENT_LEVEL, ELAPSED_TIME, MODIFIER, THREAD_NAME, "
-					+ "THREAD_CLASS, THREAD_OBJECTID from "
-					+ JAVELIN_LOG
+					+ "THREAD_CLASS, THREAD_OBJECTID from " + JAVELIN_LOG
 					+ " where LOG_FILE_NAME = ?";
 			pstmt = conn.prepareStatement(sql);
 			PreparedStatement delegated = getDelegatingStatement(pstmt);
@@ -327,22 +306,19 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes,
 	 * 期間を指定して全ホストのレコードを取得します。<br />
 	 * 開始時刻、終了時刻がnull の場合は、指定が行われていないものとし、<br />
 	 * 全データを取得します。
+	 *
+	 * {@link JavelinLog#javelinLog} は取得しません。
+	 * 別途、 {@link JavelinLogDao#selectJavelinLogByLogId(String, long)} を使用してください。
 	 * 
-	 * {@link JavelinLog#javelinLog} は取得しません。 別途、
-	 * {@link JavelinLogDao#selectJavelinLogByLogId(String, long)} を使用してください。
-	 * 
-	 * @param database
-	 *            データベース名
-	 * @param start
-	 *            開始時刻
-	 * @param end
-	 *            終了時刻
+	 * @param database データベース名
+	 * @param start 開始時刻
+	 * @param end 終了時刻
 	 * @return {@link JavelinLog} のリスト
-	 * @throws SQLException
-	 *             SQL 実行時に例外が発生した場合
+	 * @throws SQLException SQL 実行時に例外が発生した場合
 	 */
-	public static List<JavelinLog> selectByTerm(final String database,
-			final Timestamp start, final Timestamp end) throws SQLException
+	public static List<JavelinLog> selectByTerm(final String database, final Timestamp start,
+		final Timestamp end)
+		throws SQLException
 	{
 		return selectByTerm(database, start, end, false);
 	}
@@ -351,22 +327,19 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes,
 	 * 期間を指定して全ホストのレコードを取得します。<br />
 	 * 開始時刻、終了時刻がnull の場合は、指定が行われていないものとし、<br />
 	 * 全データを取得します。
-	 * 
+	 *
 	 * このメソッドは{@link JavelinLog#javelinLog} を取得します。
 	 * オブジェクトサイズが大きくなる場合があるので、注意してください。
 	 * 
-	 * @param database
-	 *            データベース名
-	 * @param start
-	 *            開始時刻
-	 * @param end
-	 *            終了時刻
+	 * @param database データベース名
+	 * @param start 開始時刻
+	 * @param end 終了時刻
 	 * @return {@link JavelinLog} のリスト
-	 * @throws SQLException
-	 *             SQL 実行時に例外が発生した場合
+	 * @throws SQLException SQL 実行時に例外が発生した場合
 	 */
 	public static List<JavelinLog> selectByTermWithLog(final String database,
-			final Timestamp start, final Timestamp end) throws SQLException
+		final Timestamp start, final Timestamp end)
+		throws SQLException
 	{
 		return selectByTerm(database, start, end, true);
 	}
@@ -375,25 +348,20 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes,
 	 * 期間を指定して全ホストのレコードを取得します。<br />
 	 * 開始時刻、終了時刻がnull の場合は、指定が行われていないものとし、<br />
 	 * 全データを取得します。
+	 *
+	 * {@link JavelinLog#javelinLog} は取得しません。
+	 * 別途、 {@link JavelinLogDao#selectJavelinLogByLogId(String, long)} を使用してください。
 	 * 
-	 * {@link JavelinLog#javelinLog} は取得しません。 別途、
-	 * {@link JavelinLogDao#selectJavelinLogByLogId(String, long)} を使用してください。
-	 * 
-	 * @param database
-	 *            データベース名
-	 * @param start
-	 *            開始時刻
-	 * @param end
-	 *            終了時刻
-	 * @param outputLog
-	 *            Javelinログを出力する場合<code>true</code>
+	 * @param database データベース名
+	 * @param start 開始時刻
+	 * @param end 終了時刻
+	 * @param outputLog Javelinログを出力する場合<code>true</code>
 	 * @return {@link JavelinLog} のリスト
-	 * @throws SQLException
-	 *             SQL 実行時に例外が発生した場合
+	 * @throws SQLException SQL 実行時に例外が発生した場合
 	 */
-	public static List<JavelinLog> selectByTerm(final String database,
-			final Timestamp start, final Timestamp end, final boolean outputLog)
-			throws SQLException
+	public static List<JavelinLog> selectByTerm(final String database, final Timestamp start,
+		final Timestamp end, final boolean outputLog)
+		throws SQLException
 	{
 		List<JavelinLog> result = new ArrayList<JavelinLog>();
 		Connection conn = null;
@@ -430,16 +398,13 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes,
 	/**
 	 * 時刻の指定に応じたSELECT文のSQLを作成します。<br />
 	 * 
-	 * @param tableName
-	 *            テーブル名
-	 * @param start
-	 *            開始時刻
-	 * @param end
-	 *            終了時刻
+	 * @param tableName テーブル名
+	 * @param start 開始時刻
+	 * @param end 終了時刻
 	 * @return
 	 */
-	private static String createSelectSqlByTerm(final String tableName,
-			final Timestamp start, final Timestamp end)
+	private static String createSelectSqlByTerm(final String tableName, final Timestamp start,
+		final Timestamp end)
 	{
 		String sql = "select * from " + tableName;
 		if (start != null && end != null)
@@ -461,15 +426,13 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes,
 	/**
 	 * 時刻の指定に応じたSELECT文のSQLを作成します。<br />
 	 * 
-	 * @param delegated
-	 *            PreparedStatement
-	 * @param start
-	 *            開始時刻
-	 * @param end
-	 *            終了時刻
+	 * @param delegated PreparedStatement
+	 * @param start 開始時刻
+	 * @param end 終了時刻
 	 */
 	private static void setTimestampByTerm(final PreparedStatement delegated,
-			final Timestamp start, final Timestamp end) throws SQLException
+		final Timestamp start, final Timestamp end)
+		throws SQLException
 	{
 		if (start != null && end != null)
 		{
@@ -493,23 +456,17 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes,
 	 * アイテム名がnull の場合は、指定が行われていないものとし、<br />
 	 * 全データを取得します。
 	 * 
-	 * @param database
-	 *            データベース名
-	 * @param start
-	 *            開始時刻
-	 * @param end
-	 *            終了時刻
-	 * @param name
-	 *            アイテム名
-	 * @param outputLog
-	 *            Javelinログを出力する場合<code>true</code>
+	 * @param database データベース名
+	 * @param start 開始時刻
+	 * @param end 終了時刻
+	 * @param name アイテム名
+	 * @param outputLog Javelinログを出力する場合<code>true</code>
 	 * @return {@link JavelinLog} のリスト
-	 * @throws SQLException
-	 *             SQL 実行時に例外が発生した場合
+	 * @throws SQLException SQL 実行時に例外が発生した場合
 	 */
 	public static List<JavelinLog> selectByTermAndName(final String database,
-			final Timestamp start, final Timestamp end, final String name,
-			final boolean outputLog) throws SQLException
+		final Timestamp start, final Timestamp end, final String name, final boolean outputLog)
+		throws SQLException
 	{
 		List<JavelinLog> result = new ArrayList<JavelinLog>();
 		Connection conn = null;
@@ -519,8 +476,7 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes,
 		{
 
 			conn = getConnection(database, true);
-			String sql = createSelectSqlByTermAndName(JAVELIN_LOG, start, end,
-					name);
+			String sql = createSelectSqlByTermAndName(JAVELIN_LOG, start, end, name);
 			pstmt = conn.prepareStatement(sql);
 			PreparedStatement delegated = getDelegatingStatement(pstmt);
 			setTimestampByTerm(delegated, start, end);
@@ -547,18 +503,14 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes,
 	/**
 	 * 時刻、アイテム名の指定に応じたSELECT文のSQLを作成します。<br />
 	 * 
-	 * @param tableName
-	 *            テーブル名
-	 * @param start
-	 *            開始時刻
-	 * @param end
-	 *            終了時刻
-	 * @param name
-	 *            アイテム名
+	 * @param tableName テーブル名
+	 * @param start 開始時刻
+	 * @param end 終了時刻
+	 * @param name アイテム名
 	 * @return
 	 */
 	private static String createSelectSqlByTermAndName(final String tableName,
-			final Timestamp start, final Timestamp end, final String name)
+		final Timestamp start, final Timestamp end, final String name)
 	{
 		String sql = "select * from " + tableName;
 		if (start != null && end != null)
@@ -575,7 +527,8 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes,
 		}
 		if (name != null)
 		{
-			sql += ((start == null && end == null) ? " where " : " and ")
+			sql +=
+				((start == null && end == null) ? " where " : " and ")
 					+ "MEASUREMENT_ITEM_NAME like '" + name + "%'";
 		}
 		sql += " order by START_TIME desc";
@@ -585,14 +538,12 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes,
 	/**
 	 * すべてのレコードを取得します。<br />
 	 * 
-	 * @param database
-	 *            データベース名
+	 * @param database データベース名
 	 * @return {@link JavelinLog} のリスト
-	 * @throws SQLException
-	 *             SQL 実行時に例外が発生した場合
+	 * @throws SQLException SQL 実行時に例外が発生した場合
 	 */
 	public static List<JavelinLog> selectAll(final String database)
-			throws SQLException
+		throws SQLException
 	{
 		List<JavelinLog> result = new ArrayList<JavelinLog>();
 		Connection conn = null;
@@ -603,8 +554,7 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes,
 			conn = getConnection(database, true);
 
 			stmt = conn.createStatement();
-			rs = stmt.executeQuery("select * from " + JAVELIN_LOG
-					+ " order by START_TIME desc");
+			rs = stmt.executeQuery("select * from " + JAVELIN_LOG + " order by START_TIME desc");
 
 			// 結果をリストに１つずつ格納する
 			while (rs.next())
@@ -628,15 +578,12 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes,
 	 * １レコードを Javelin ログエンティティに格納します。<br />
 	 * ただし、JavelinLog フィールドは取得しません。<br />
 	 * 
-	 * @param log
-	 *            格納先 Javelin ログエンティティ
-	 * @param rs
-	 *            {@link ResultSet} オブジェクト
-	 * @throws SQLException
-	 *             SQL 実行結果取得時に例外が発生した場合
+	 * @param log 格納先 Javelin ログエンティティ
+	 * @param rs {@link ResultSet} オブジェクト
+	 * @throws SQLException SQL 実行結果取得時に例外が発生した場合
 	 */
-	private static void setJavelinLogFromResultSet(final JavelinLog log,
-			final ResultSet rs) throws SQLException
+	private static void setJavelinLogFromResultSet(final JavelinLog log, final ResultSet rs)
+		throws SQLException
 	{
 		setJavelinLogFromResultSet(log, rs, false);
 	}
@@ -645,15 +592,13 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes,
 	 * １レコードを Javelin ログエンティティに格納します。<br />
 	 * ただし、JavelinLog フィールドは取得しません。<br />
 	 * 
-	 * @param log
-	 *            格納先 Javelin ログエンティティ
-	 * @param rs
-	 *            {@link ResultSet} オブジェクト
-	 * @throws SQLException
-	 *             SQL 実行結果取得時に例外が発生した場合
+	 * @param log 格納先 Javelin ログエンティティ
+	 * @param rs {@link ResultSet} オブジェクト
+	 * @throws SQLException SQL 実行結果取得時に例外が発生した場合
 	 */
-	private static void setJavelinLogFromResultSet(final JavelinLog log,
-			final ResultSet rs, final boolean outputLog) throws SQLException
+	private static void setJavelinLogFromResultSet(final JavelinLog log, final ResultSet rs,
+		final boolean outputLog)
+		throws SQLException
 	{ // CHECKSTYLE:OFF
 		log.logId = rs.getLong(1);
 		log.sessionId = rs.getLong(2);
@@ -695,15 +640,13 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes,
 
 	/**
 	 * テーブルに記録されているログの期間を返します。<br />
-	 * 
-	 * @param database
-	 *            データベース名
+	 *
+	 * @param database データベース名
 	 * @return 開始日時、終了日時の配列、取得に失敗した場合は空の配列
-	 * @throws SQLException
-	 *             SQL 実行時に例外が発生した場合
+	 * @throws SQLException SQL 実行時に例外が発生した場合
 	 */
 	public static Timestamp[] getLogTerm(final String database)
-			throws SQLException
+		throws SQLException
 	{
 		Connection conn = null;
 		Timestamp[] result = new Timestamp[0];
@@ -732,7 +675,6 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes,
 
 	/**
 	 * 期間を取得するSQLを取得する。
-	 * 
 	 * @return　期間を取得するSQL
 	 */
 	private static String getLogTermSql()
@@ -749,19 +691,16 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes,
 
 	/**
 	 * ログ ID を指定して Javelin ログを取得します。
-	 * 
-	 * @param database
-	 *            データベース名
-	 * @param logId
-	 *            ログ ID
+	 *
+	 * @param database データベース名
+	 * @param logId ログ ID
 	 * @return Javelin ログ
-	 * @throws SQLException
-	 *             SQL 実行時に例外が発生した場合
-	 * @throws IOException
-	 *             入出力エラーが発生した場合
+	 * @throws SQLException SQL 実行時に例外が発生した場合
+	 * @throws IOException 入出力エラーが発生した場合
 	 */
-	public static InputStream selectJavelinLogByLogId(final String database,
-			final long logId) throws SQLException, IOException
+	public static InputStream selectJavelinLogByLogId(final String database, final long logId)
+		throws SQLException,
+			IOException
 	{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -770,8 +709,7 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes,
 		try
 		{
 			conn = getConnection(database, true);
-			String sql = "select JAVELIN_LOG from " + JAVELIN_LOG
-					+ " where LOG_ID = ?";
+			String sql = "select JAVELIN_LOG from " + JAVELIN_LOG + " where LOG_ID = ?";
 			pstmt = conn.prepareStatement(sql);
 			PreparedStatement delegated = getDelegatingStatement(pstmt);
 			delegated.setLong(1, logId);
@@ -795,17 +733,15 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes,
 	}
 
 	/**
-	 * 時刻を指定して、それより古いレコードを削除します。 削除期限時刻のキーとしては、セッション終了時刻を基準とします。
+	 * 時刻を指定して、それより古いレコードを削除します。
+	 * 削除期限時刻のキーとしては、セッション終了時刻を基準とします。
 	 * 
-	 * @param database
-	 *            データベース名
-	 * @param deleteLimit
-	 *            削除期限時刻
-	 * @throws SQLException
-	 *             SQL 実行時に例外が発生した場合
+	 * @param database データベース名
+	 * @param deleteLimit 削除期限時刻
+	 * @throws SQLException SQL 実行時に例外が発生した場合
 	 */
-	public static void deleteOldRecordByTime(final String database,
-			final Timestamp deleteLimit) throws SQLException
+	public static void deleteOldRecordByTime(final String database, final Timestamp deleteLimit)
+		throws SQLException
 	{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -827,31 +763,26 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes,
 
 	/**
 	 * すべてのレコードを削除します。<br />
-	 * 
-	 * @param database
-	 *            データベース名
-	 * @throws SQLException
-	 *             SQL 実行時に例外が発生した場合
+	 *
+	 * @param database データベース名
+	 * @throws SQLException SQL 実行時に例外が発生した場合
 	 */
-	public static void deleteAll(final String database) throws SQLException
+	public static void deleteAll(final String database)
+		throws SQLException
 	{
 		deleteAll(database, JAVELIN_LOG);
 	}
 
 	/**
 	 * 指定したインデックスのテーブルを truncate します。
-	 * 
-	 * @param database
-	 *            データベース名
-	 * @param tableIndex
-	 *            テーブルインデックス
-	 * @param year
-	 *            次にこのテーブルに入れるデータの年
-	 * @throws SQLException
-	 *             SQL 実行時に例外が発生した場合
+	 *
+	 * @param database データベース名
+	 * @param tableIndex テーブルインデックス
+	 * @param year 次にこのテーブルに入れるデータの年
+	 * @throws SQLException SQL 実行時に例外が発生した場合
 	 */
-	public static void truncate(final String database, final int tableIndex,
-			final int year) throws SQLException
+	public static void truncate(final String database, final int tableIndex, final int year)
+		throws SQLException
 	{
 		String tableName = String.format("%s_%02d", JAVELIN_LOG, tableIndex);
 		truncate(database, tableName);
@@ -861,20 +792,19 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes,
 	/**
 	 * レコードの数を返します。<br />
 	 * 
-	 * @param database
-	 *            データベース名
+	 * @param database データベース名
 	 * @return レコードの数
-	 * @throws SQLException
-	 *             SQL 実行時に例外が発生した場合
+	 * @throws SQLException SQL 実行時に例外が発生した場合
 	 */
-	public static int count(final String database) throws SQLException
+	public static int count(final String database)
+		throws SQLException
 	{
 		int count = count(database, JAVELIN_LOG, "LOG_ID");
 		return count;
 	}
 
-	private static ByteArrayOutputStream zip(final InputStream is,
-			final String path) throws IOException
+	private static ByteArrayOutputStream zip(final InputStream is, final String path)
+		throws IOException
 	{
 		ByteArrayOutputStream out = new ByteArrayOutputStream(BUF_SIZE);
 		ZipUtil.createZip(out, is, path);
@@ -883,23 +813,18 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes,
 
 	/**
 	 * 蓄積期間を取得する SQL を生成します。
-	 * 
+	 *
 	 * @return SQL
 	 */
 	private static String createGetLogTermSql()
 	{
 		String unionSql = "";
-		StringBuilder sql = new StringBuilder(
-				"select min(START_TIME), max(END_TIME) from (");
+		StringBuilder sql = new StringBuilder("select min(START_TIME), max(END_TIME) from (");
 		for (int index = 1; index <= ResourceDataDaoUtil.PARTITION_TABLE_COUNT; index++)
 		{
 			sql.append(unionSql);
-			String tableName = ResourceDataDaoUtil.getTableName(JAVELIN_LOG,
-					index);
-			sql
-					.append(
-						"select min(START_TIME) START_TIME," +
-						" max(END_TIME) END_TIME from ");
+			String tableName = ResourceDataDaoUtil.getTableName(JAVELIN_LOG, index);
+			sql.append("select min(START_TIME) START_TIME, max(END_TIME) END_TIME from ");
 			sql.append(tableName);
 			unionSql = " union all ";
 		}

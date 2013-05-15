@@ -25,7 +25,8 @@ CREATE TABLE JAVELIN_LOG(
   MODIFIER VARCHAR,
   THREAD_NAME VARCHAR,
   THREAD_CLASS VARCHAR,
-  THREAD_OBJECTID INT
+  THREAD_OBJECTID INT,
+  MEASUREMENT_ITEM_NAME VARCHAR
 );
 
 /**********************************/
@@ -103,17 +104,6 @@ CREATE TABLE MAP_INFO(
  NAME VARCHAR(64),
  DATA text,
  LAST_UPDATE TIMESTAMP NOT NULL
-);
-
-/**********************************/
-/* テーブル名: レポート定義テーブル */
-/**********************************/
-CREATE TABLE REPORT_DEFINITION(
-  REPORT_ID SERIAL NOT NULL,
-  REPORT_NAME character varying NOT NULL,
-  TARGET_MEASUREMENT_NAME character varying NOT NULL,
-  FM_TIME character varying NOT NULL,
-  TO_TIME character varying NOT NULL
 );
 
 

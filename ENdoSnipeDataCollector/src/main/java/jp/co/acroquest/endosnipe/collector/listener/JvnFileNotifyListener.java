@@ -61,8 +61,10 @@ public class JvnFileNotifyListener extends AbstractTelegramListener implements T
     private String                       databaseName_ = "";
 
     private String                       hostName_     = null;
+    
+    private String                       agentName_    = null;
 
-    private String                       ipAddress_    = "";
+	private String                       ipAddress_    = "";
 
     private int                          port_         = -1;
 
@@ -108,6 +110,7 @@ public class JvnFileNotifyListener extends AbstractTelegramListener implements T
         for (JvnFileEntry entry : entries)
         {
             JavelinLogData logData = createJavelinLogDataByString(entry);
+            logData.setAgentName(agentName_ + entry.itemName);
             if (logData != null)
             {
                 setProperties(logData, telegram.getObjHeader().getId());
@@ -172,6 +175,15 @@ public class JvnFileNotifyListener extends AbstractTelegramListener implements T
     {
         this.hostName_ = hostName;
     }
+    
+
+    public String getAgentName() {
+		return agentName_;
+	}
+
+	public void setAgentName(String agentName) {
+		this.agentName_ = agentName;
+	}
 
     /**
      * {@link JavelinData} 用の接続先 IP アドレスを設定します。<br />

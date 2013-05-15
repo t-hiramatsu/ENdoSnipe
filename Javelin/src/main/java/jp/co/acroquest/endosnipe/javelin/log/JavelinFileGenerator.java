@@ -118,8 +118,11 @@ public class JavelinFileGenerator implements JavelinConstants
 
         Date date = new Date();
         String jvnFileName = JavelinLoggerThread.createJvnFileName(date);
+        
+        // 仮のitemName
+        String itemName = "/javelin/process";
         JavelinLogTask task = new JavelinLogTask(date, jvnFileName, tree, node, callback, endNode,
-                                                 telegramId);
+                                                 telegramId, itemName);
 
         // キューにタスクを追加する。
         boolean result = queue__.offer(task);
@@ -163,19 +166,20 @@ public class JavelinFileGenerator implements JavelinConstants
      * @param callback JavelinCallback。
      * @param jvnFileFullPath jvnファイルのフルパス。
      * @param jvnFileName jvnファイル名。
-     * @param telegramId 電文 ID
+     * @param telegramId 電文 ID。
+     * @param itemName アイテム名。
      * @return 引き続きノードを出力する場合は <code>true</code> 、ノード出力を終了する場合は <code>false</code>
      */
     public static boolean generateJavelinFileImpl(final StringBuilder jvnLogBuilder,
             final CallTree tree, final CallTreeNode node, final CallTreeNode endNode,
             JavelinLogCallback callback, String jvnFileName, String jvnFileFullPath,
-            final long telegramId)
+            final long telegramId, final String itemName)
     {
         JavelinConfig config = new JavelinConfig();
         if (jvnLogBuilder.length() > config.getJvnDownloadMax())
         {
             flushBuffer(jvnLogBuilder, jvnFileName, jvnFileFullPath, callback,
-                    config, telegramId);
+                    config, telegramId, itemName);
         }
 
         if (node == null)
@@ -204,7 +208,7 @@ public class JavelinFileGenerator implements JavelinConstants
             CallTreeNode child = children.get(index);
             continuePrint =
                     generateJavelinFileImpl(jvnLogBuilder, tree, child, endNode, callback,
-                                            jvnFileName, jvnFileFullPath, telegramId);
+                                            jvnFileName, jvnFileFullPath, telegramId, itemName);
             if (continuePrint == false || child == endNode)
             {
                 continuePrint = false;
@@ -303,9 +307,10 @@ public class JavelinFileGenerator implements JavelinConstants
      * @param callback Callbackオブジェクト。
      * @param telegramId 電文 ID
      * @param config 設定。
+     * @param itemName アイテム名。
      */
     static void flushBuffer(StringBuilder builder, String jvnFileName, String jvnFileFullPath,
-            JavelinLogCallback callback, JavelinConfig config, long telegramId)
+            JavelinLogCallback callback, JavelinConfig config, long telegramId, String itemName)
     {
 
         try
@@ -321,7 +326,7 @@ public class JavelinFileGenerator implements JavelinConstants
 
             if (jvnFileName != null && callback != null)
             {
-                callback.execute(jvnFileName, content, telegramId);
+                callback.execute(jvnFileName, content, telegramId, itemName);
             }
         }
         catch (Exception ex)

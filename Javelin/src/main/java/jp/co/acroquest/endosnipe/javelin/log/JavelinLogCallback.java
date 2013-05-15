@@ -40,5 +40,5 @@ public interface JavelinLogCallback
      * @param javelinLogContent JavelinÉçÉOÇÃì‡óe
      * @param telegramId ìdï∂ ID
      */
-    void execute(String jvnLogFileName, String javelinLogContent, long telegramId);
+    void execute(String jvnLogFileName, String javelinLogContent, long telegramId, String itemName);
 }

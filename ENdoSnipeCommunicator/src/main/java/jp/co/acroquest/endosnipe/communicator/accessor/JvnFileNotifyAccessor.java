@@ -63,6 +63,7 @@ public class JvnFileNotifyAccessor implements TelegramConstants
         Body[] bodies = telegram.getObjBody();
         List<Object> jvnFileNames = new ArrayList<Object>(bodies.length);
         List<Object> jvnFileContents = new ArrayList<Object>(bodies.length);
+        List<Object> jvnFileItemNames = new ArrayList<Object>(bodies.length);
         long alarmThreshold = -1;
         long cpuAlarmThreshold = -1;
 
@@ -98,6 +99,15 @@ public class JvnFileNotifyAccessor implements TelegramConstants
                         jvnFileContents.add(objItem);
                     }
                 }
+                // アイテム名の配列だった場合
+                else if (TelegramConstants.ITEMNAME_JVN_ITEM_NAME.equals(itemName) == true)
+                {
+                	jvnFileItemNames.clear();
+                	for (Object objItem : objItemValueArr)
+                	{
+                		jvnFileItemNames.add(objItem);
+                	}
+                }
                 // アラーム閾値の場合
                 if (TelegramConstants.ITEMNAME_ALARM_THRESHOLD.equals(itemName) == true)
                 {
@@ -130,6 +140,7 @@ public class JvnFileNotifyAccessor implements TelegramConstants
             entries[i] = new JvnFileEntry();
             entries[i].fileName = (String)jvnFileNames.get(i);
             entries[i].contents = (String)jvnFileContents.get(i);
+            entries[i].itemName = (String)jvnFileItemNames.get(i);
             entries[i].alarmThreshold = alarmThreshold;
             entries[i].cpuAlarmThreshold = cpuAlarmThreshold;
         }
@@ -154,6 +165,9 @@ public class JvnFileNotifyAccessor implements TelegramConstants
 
         /** ファイル内容 */
         public String contents;
+        
+        /** アイテム名 */
+        public String itemName;
 
         /** アラーム閾値 */
         public long alarmThreshold;
