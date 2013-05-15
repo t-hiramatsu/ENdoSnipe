@@ -530,8 +530,7 @@ public interface TelegramConstants
 	/** 項目名（リソース値での、クラスヒストグラムから取得したオブジェクトのサイズ） */
 	// String ITEMNAME_JAVAPROCESS_COLLECTION_HISTOGRAM_SIZE =
 	// "/javaprocess.collection.histogram.size";
-	String ITEMNAME_JAVAPROCESS_COLLECTION_HISTOGRAM_SIZE
-		= "/process/histogram/object/size:bytes";
+	String ITEMNAME_JAVAPROCESS_COLLECTION_HISTOGRAM_SIZE = "/process/histogram/object/size:bytes";
 
 	/** 項目名（リソース値での、クラスヒストグラムから取得したオブジェクトの数） */
 	// String ITEMNAME_JAVAPROCESS_COLLECTION_HISTOGRAM_COUNT =
@@ -599,8 +598,7 @@ public interface TelegramConstants
 	/** 項目名(Java 仮想マシンに現在ロードされているクラスの数) */
 	// String ITEMNAME_JAVAPROCESS_CLASSLOADER_CLASS_CURRENT =
 	// "/javaprocess.classloader.class.current";
-	String ITEMNAME_JAVAPROCESS_CLASSLOADER_CLASS_CURRENT
-		= "/process/classloader/class/current";
+	String ITEMNAME_JAVAPROCESS_CLASSLOADER_CLASS_CURRENT = "/process/classloader/class/current";
 
 	/** 項目名（リソース値での、トータルのガベージコレクションの時間） */
 	// String ITEMNAME_JAVAPROCESS_GC_TIME_TOTAL = "/javaprocess.gc.time.total";
@@ -686,6 +684,9 @@ public interface TelegramConstants
 	/** 項目名（JVNファイル JVNファイル内容） */
 	// String ITEMNAME_JVN_FILE_CONTENT = "/jvnFileContent";
 	String ITEMNAME_JVN_FILE_CONTENT = "/javelin/jvnfile/contents";
+
+	/** 項目名（アイテム名） */
+	String ITEMNAME_JVN_ITEM_NAME = "/javelin/jvnfile/itemname";
 
 	// -----------------------------------------------------
 	// その他

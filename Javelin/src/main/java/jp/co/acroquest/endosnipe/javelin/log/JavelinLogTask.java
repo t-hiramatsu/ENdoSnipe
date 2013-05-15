@@ -34,38 +34,49 @@ import jp.co.acroquest.endosnipe.javelin.CallTreeNode;
  * Javelinログのタスクです。<br />
  * 
  * @author eriguchi
- *
+ * 
  */
 class JavelinLogTask
 {
-    private final Date date_;
+    private final Date               date_;
 
-    private final CallTree tree_;
+    private final CallTree           tree_;
 
-    private final CallTreeNode node_;
+    private final CallTreeNode       node_;
 
-    private final String jvnFileName_;
+    private final String             jvnFileName_;
 
     private final JavelinLogCallback jvelinLogCallback_;
 
-    private final CallTreeNode endNode_;
+    private final CallTreeNode       endNode_;
 
-    private final long telegramId_;
+    private final long               telegramId_;
+
+    private final String             itemName_;
 
     /**
      * コンストラクタです。引数で指定したパラメータを設定します。<br />
      * 
-     * @param date 日時
-     * @param jvnFileName Javelinファイル名
-     * @param tree CallTree
-     * @param node CallTreeNode
-     * @param jvelinLogCallback コールバックオブジェクト
-     * @param telegramId 電文 ID
-     * @param endNode 最終ノード
+     * @param date
+     *            日時
+     * @param jvnFileName
+     *            Javelinファイル名
+     * @param tree
+     *            CallTree
+     * @param node
+     *            CallTreeNode
+     * @param jvelinLogCallback
+     *            コールバックオブジェクト
+     * @param telegramId
+     *            電文 ID
+     * @param endNode
+     *            最終ノード
+     * @param itemName
+     *            アイテム名
      */
     public JavelinLogTask(final Date date, final String jvnFileName, final CallTree tree,
             final CallTreeNode node, final JavelinLogCallback jvelinLogCallback,
-            final CallTreeNode endNode, final long telegramId)
+            final CallTreeNode endNode, final long telegramId, final String itemName)
     {
         this.date_ = date;
         this.jvnFileName_ = jvnFileName;
@@ -74,6 +85,7 @@ class JavelinLogTask
         this.jvelinLogCallback_ = jvelinLogCallback;
         this.endNode_ = endNode;
         this.telegramId_ = telegramId;
+        this.itemName_ = itemName;
     }
 
     /**
@@ -138,11 +150,21 @@ class JavelinLogTask
 
     /**
      * 電文 ID を取得します。<br />
-     *
+     * 
      * @return 電文 ID
      */
     public long getTelegramId()
     {
         return this.telegramId_;
+    }
+
+    /**
+     * アイテム名を取得します。<br />
+     * 
+     * @return アイテム名
+     */
+    public String getItemName()
+    {
+        return this.itemName_;
     }
 }
