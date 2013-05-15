@@ -150,7 +150,6 @@ option {
 }
 
 .headerTable {
-	margin-left:auto;
 	margin-right:auto;
 	text-align:center;
 }
@@ -165,4 +164,8 @@ option {
 
 .levelLabel {
 	width: 100px
+}
+
+div#contents_area_content {
+	min-height: 98.8%;
 }
