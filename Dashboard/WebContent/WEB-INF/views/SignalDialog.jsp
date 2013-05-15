@@ -40,26 +40,20 @@
 			<div id="signalPatternValueItem" class="dialogItem">Threshold Value of each signal levels : </div>
 			<div id="signalPatternValueValue" class="dialogValue">
 				<div id="signalPatternValue_1" class="dialogPatternValue">
-					<div>1 : </div>
+					<div class="levelLabel">INFO : </div>
 					<input type="text" id="patternValue_1" class="signalValue" value="" pattern="^([1-9]\d*|0)(\.\d+)?$" />
 				</div>
 				<div id="signalPatternValue_2" class="dialogPatternValue">
-					<br />
-					<div>2 : </div>
+					<div class="levelLabel">WARNING : </div>
 					<input type="text" id="patternValue_2" class="signalValue" value="" pattern="^([1-9]\d*|0)(\.\d+)?$" />
 				</div>
 				<div id="signalPatternValue_3" class="dialogPatternValue">
-					<div>3 : </div>
+					<div class="levelLabel">ERROR : </div>
 					<input type="text" id="patternValue_3" class="signalValue" value="" pattern="^([1-9]\d*|0)(\.\d+)?$" />
 				</div>
 				<div id="signalPatternValue_4" class="dialogPatternValue">
-					<br />
-					<div>4 : </div>
+					<div class="levelLabel">CRITICAL : </div>
 					<input type="text" id="patternValue_4" class="signalValue" value="" pattern="^([1-9]\d*|0)(\.\d+)?$" />
-				</div>
-				<div id="signalPatternValue_5" class="dialogPatternValue">
-					<div>5 : </div>
-					<input type="text" id="patternValue_5" class="signalValue" value="" pattern="^([1-9]\d*|0)(\.\d+)?$" />
 				</div>
 			</div>
 		</div>

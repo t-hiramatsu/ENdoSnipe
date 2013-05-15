@@ -339,13 +339,21 @@ ENS.treeView = wgp.TreeView
 			},
 			createPatternValue_ : function() {
 				var level = $("#signalPatternValue select").val();
+
 				// 各レベルの閾値をカンマ区切りの文字列としてサーバに送る
 				var patternValue = "";
-				for ( var num = 1; num <= level; num++) {
-					patternValue += $("#patternValue_" + num).val();
-					if (num != level) {
-						patternValue += ",";
-					}
+				if (level == 3) {
+					patternValue += $("#patternValue_2").val();
+					patternValue += ",";
+					patternValue += $("#patternValue_4").val();
+				} else if (level == 5) {
+					patternValue += $("#patternValue_1").val();
+					patternValue += ",";
+					patternValue += $("#patternValue_2").val();
+					patternValue += ",";
+					patternValue += $("#patternValue_3").val();
+					patternValue += ",";
+					patternValue += $("#patternValue_4").val();
 				}
 
 				return patternValue;
@@ -594,9 +602,10 @@ ENS.treeView = wgp.TreeView
 
 			},
 			callbackAddReport_ : function(reportDefinition) {
-//				var treeOption = this.createReportTreeOption_(reportDefinition);
-//
-//				this.collection.add([ treeOption ]);
+				// var treeOption =
+				// this.createReportTreeOption_(reportDefinition);
+				//
+				// this.collection.add([ treeOption ]);
 			},
 			createReportTreeOption_ : function(reportDefinition) {
 				var reportId = reportDefinition.reportId;
@@ -675,11 +684,18 @@ ENS.treeView = wgp.TreeView
 				var patternValueSplit = signalDefinition.patternValue
 						.split(",");
 
+				var level = signalDefinition.level;
+
 				// レベル別の閾値を入力する
-				_.each(patternValueSplit, function(data, index) {
-					var patternValue = patternValueSplit[index];
-					$("#patternValue_" + (index + 1)).val(patternValue);
-				});
+				if (level == 3) {
+					$("#patternValue_2").val(patternValueSplit[0]);
+					$("#patternValue_4").val(patternValueSplit[1]);
+				} else if (level == 5) {
+					_.each(patternValueSplit, function(data, index) {
+						var patternValue = patternValueSplit[index];
+						$("#patternValue_" + (index + 1)).val(patternValue);
+					});
+				}
 
 				// 各入力項目を入力する
 				$("#signalId").val(signalDefinition.signalId);
@@ -692,7 +708,7 @@ ENS.treeView = wgp.TreeView
 				$("#beforeSignalName").val(signalDefinition.signalName);
 
 				$("#matchingPattern").val(signalDefinition.matchingPattern);
-				$("#signalPatternValue select").val(signalDefinition.level);
+				$("#signalPatternValue select").val(level);
 				$("#escalationPeriod").val(signalDefinition.escalationPeriod);
 			},
 			getIcon : function(signalDefinition) {
@@ -706,9 +722,9 @@ ENS.treeView = wgp.TreeView
 
 				if (level == 3) {
 					if (signalValue == 1) {
-						icon = ENS.tree.SIGNAL_ICON_3;
+						icon = ENS.tree.SIGNAL_ICON_2;
 					} else if (signalValue == 2) {
-						icon = ENS.tree.SIGNAL_ICON_4;
+						icon = ENS.tree.SIGNAL_ICON_3;
 					} else if (signalValue == 3) {
 						icon = ENS.tree.SIGNAL_ICON_5;
 					} else {
