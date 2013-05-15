@@ -41,6 +41,8 @@ public class JavelinLogData extends AbstractJavelinData
     private File   file_;
 
     private String contents_;
+    
+    private String agentName_;
 
     /** アラーム閾値 */
     private long   alarmThreshold_;
@@ -48,6 +50,7 @@ public class JavelinLogData extends AbstractJavelinData
     /** アラームCPU閾値 */
     private long   cpuAlarmThreshold_;
 
+    
     /**
      * ログ内容を渡して {@link JavelinLogData} を構築します。<br />
      * 
@@ -174,4 +177,13 @@ public class JavelinLogData extends AbstractJavelinData
         }
         return builder.toString();
     }
+
+	public String getAgentName() {
+		return agentName_;
+	}
+
+	public void setAgentName(String agentName) {
+		this.agentName_ = agentName;
+	}
+
 }

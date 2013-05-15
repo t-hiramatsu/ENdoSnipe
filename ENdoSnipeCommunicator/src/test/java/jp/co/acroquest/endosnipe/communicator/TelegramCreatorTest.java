@@ -160,7 +160,7 @@ public class TelegramCreatorTest extends DJUnitTestCase
         // é¿é{
         Telegram telegram =
                 TelegramCreator.createJvnLogDownloadTelegram(requestKind, jvnFileNames,
-                                                             jvnFileContents, 0);
+                                                             jvnFileContents, 0, null);
 
         // åüèÿ
         TelegramAssertionUtil.assertJvnLogDownloadTelegram(BYTE_REQUEST_KIND_RESPONSE,
@@ -189,7 +189,7 @@ public class TelegramCreatorTest extends DJUnitTestCase
         // é¿é{
         Telegram telegram =
                 TelegramCreator.createJvnLogDownloadTelegram(requestKind, jvnFileNames,
-                                                             jvnFileContents, 0);
+                                                             jvnFileContents, 0, null);
 
         // åüèÿ
         TelegramAssertionUtil.assertJvnLogDownloadTelegram(BYTE_REQUEST_KIND_RESPONSE,
@@ -218,7 +218,7 @@ public class TelegramCreatorTest extends DJUnitTestCase
         // é¿é{
         Telegram telegram =
                 TelegramCreator.createJvnLogDownloadTelegram(requestKind, jvnFileNames,
-                                                             jvnFileContents, 0);
+                                                             jvnFileContents, 0, null);
 
         // åüèÿ
         TelegramAssertionUtil.assertJvnLogDownloadTelegram(BYTE_REQUEST_KIND_RESPONSE,
@@ -247,7 +247,7 @@ public class TelegramCreatorTest extends DJUnitTestCase
         // é¿é{
         Telegram telegram =
                 TelegramCreator.createJvnLogDownloadTelegram(requestKind, jvnFileNames,
-                                                             jvnFileContents, 0);
+                                                             jvnFileContents, 0, null);
 
         // åüèÿ
         TelegramAssertionUtil.assertJvnLogDownloadTelegram(BYTE_REQUEST_KIND_RESPONSE,
@@ -278,7 +278,7 @@ public class TelegramCreatorTest extends DJUnitTestCase
         // é¿é{
         Telegram telegram =
                 TelegramCreator.createJvnLogDownloadTelegram(requestKind, jvnFileNames,
-                                                             jvnFileContents, 0);
+                                                             jvnFileContents, 0, null);
 
         // åüèÿ
         TelegramAssertionUtil.assertJvnLogDownloadTelegram(BYTE_REQUEST_KIND_RESPONSE,
@@ -307,7 +307,7 @@ public class TelegramCreatorTest extends DJUnitTestCase
         // é¿é{
         Telegram telegram =
                 TelegramCreator.createJvnLogDownloadTelegram(requestKind, jvnFileNames,
-                                                             jvnFileContents, 0);
+                                                             jvnFileContents, 0, null);
 
         // åüèÿ
         TelegramAssertionUtil.assertJvnLogDownloadTelegram(BYTE_REQUEST_KIND_RESPONSE,
@@ -341,7 +341,7 @@ public class TelegramCreatorTest extends DJUnitTestCase
         // é¿é{
         Telegram telegram =
                 TelegramCreator.createJvnLogDownloadTelegram(requestKind, jvnFileNames,
-                                                             jvnFileContents, 0);
+                                                             jvnFileContents, 0, null);
 
         // åüèÿ
         TelegramAssertionUtil.assertJvnLogDownloadTelegram(BYTE_REQUEST_KIND_RESPONSE,
@@ -370,7 +370,7 @@ public class TelegramCreatorTest extends DJUnitTestCase
         // é¿é{
         Telegram telegram =
                 TelegramCreator.createJvnLogDownloadTelegram(requestKind, jvnFileNames,
-                                                             jvnFileContents, 0);
+                                                             jvnFileContents, 0, null);
 
         // åüèÿ
         TelegramAssertionUtil.assertJvnLogDownloadTelegram(BYTE_REQUEST_KIND_NOTIFY,
@@ -399,7 +399,7 @@ public class TelegramCreatorTest extends DJUnitTestCase
         // é¿é{
         Telegram telegram =
                 TelegramCreator.createJvnLogDownloadTelegram(requestKind, jvnFileNames,
-                                                             jvnFileContents, 0);
+                                                             jvnFileContents, 0, null);
 
         // åüèÿ
         TelegramAssertionUtil.assertJvnLogDownloadTelegram(BYTE_REQUEST_KIND_NOTIFY,
@@ -423,7 +423,7 @@ public class TelegramCreatorTest extends DJUnitTestCase
         try
         {
             TelegramCreator.createJvnLogDownloadTelegram(requestKind, jvnFileNames,
-                                                             jvnFileContents, 0);
+                                                             jvnFileContents, 0, null);
             assertTrue(false);
         }
         catch (IllegalArgumentException ex)
