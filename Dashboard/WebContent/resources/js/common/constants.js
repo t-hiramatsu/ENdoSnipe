@@ -178,11 +178,6 @@ ENS.tree.SIGNAL_ICON_4 = "signal_4";
 ENS.tree.SIGNAL_ICON_5 = "signal_5";
 ENS.tree.REPORT_ICON = "report";
 
-ENS.tree.type = {};
-ENS.tree.type.GROUP = "group";
-ENS.tree.type.TARGET = "target";
-ENS.tree.type.SIGNAL = "signal";
-
 ENS.map = {};
 ENS.map.mode = {};
 ENS.map.mode.OPERATE = "OPERATE";
