@@ -17,7 +17,7 @@ jQuery(function($){
         dayNamesShort: ['日','月','火','水','木','金','土'],
         dayNamesMin: ['日','月','火','水','木','金','土'],
         dayStatus: 'DD', dateStatus: 'D, M d',
-        dateFormat: 'yyyy-mm-dd HH:MM:00', firstDay: 0,
+        dateFormat: 'yyyy-mm-dd HH:MM', firstDay: 0,
         initStatus: '',
 		yearRange:'-80:+10',
         isRTL: false

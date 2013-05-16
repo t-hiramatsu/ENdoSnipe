@@ -869,7 +869,7 @@
             if (inst.currentHour != undefined) {
                 $("#DP_jQuery_Hour_" + dpuuid).val(inst.currentHour);
                 $("#DP_jQuery_Minute_" + dpuuid).val(inst.currentMinute);
-                $("#DP_jQuery_Second_" + dpuuid).val(inst.currentSecond);
+//                $("#DP_jQuery_Second_" + dpuuid).val(inst.currentSecond);
                 $("#DP_jQuery_AMPM_" + dpuuid).val(inst.currentAMPM);
 
                 var Hour = inst.currentHour;
@@ -879,7 +879,7 @@
                 if (show24HourClock) {
                     $.datetimepicker.DrawHours($("#DP_jQuery_clock_" + dpuuid)[0], Hour);
                     $.datetimepicker.DrawMinutes($("#DP_jQuery_clock_" + dpuuid)[0], inst.currentMinute);
-                    $.datetimepicker.DrawSeconds($("#DP_jQuery_clock_" + dpuuid)[0], inst.currentSecond);
+//                    $.datetimepicker.DrawSeconds($("#DP_jQuery_clock_" + dpuuid)[0], inst.currentSecond);
                 }
             }
 
@@ -919,11 +919,11 @@
                 });
                 
                 /* Second drop down changed change the clock */
-                $("#DP_jQuery_Second_" + dpuuid).change(function(e) {
-                    var objID = this.id.split("_");
-                    var ID = objID[objID.length - 1];
-                    $.datetimepicker.DrawSeconds($("#DP_jQuery_clock_" + ID)[0], $("#DP_jQuery_Second_" + dpuuid).val());
-                });
+//                $("#DP_jQuery_Second_" + dpuuid).change(function(e) {
+//                    var objID = this.id.split("_");
+//                    var ID = objID[objID.length - 1];
+//                    $.datetimepicker.DrawSeconds($("#DP_jQuery_clock_" + ID)[0], $("#DP_jQuery_Second_" + dpuuid).val());
+//                });
 
                 /* Display area hilights */
                 $("#DP_jQuery_clock_" + dpuuid).mousemove(function(e) {
@@ -977,10 +977,10 @@
                     var y = Math.abs(yOriginal);
 
                     var Distance = Math.sqrt((x * x) + (y * y))
-                    var InSecondRange = false;
-                    if (Distance > 127 && Distance < 196) {
-                        InSecondRange = true;
-                    }
+//                    var InSecondRange = false;
+//                    if (Distance > 127 && Distance < 196) {
+//                        InSecondRange = true;
+//                    }
                     
                     var InMinuteRange = false;
                     if (Distance > 127 && Distance < 196) {
@@ -994,7 +994,7 @@
 
                     var v;
                     var Minute;
-                    var Second;
+//                    var Second;
                     k = y / Distance;
 
                     /* Calculate the Math.Sin of the click position with the hour/minute position */
@@ -1312,9 +1312,9 @@
 
                         }
                     }
-                    if (InSecondRange) {
-                        $.datetimepicker.DrawSecond(this, Second);
-                    }
+//                    if (InSecondRange) {
+//                        $.datetimepicker.DrawSecond(this, Second);
+//                    }
                     
                     if (InMinuteRange) {
                         $.datetimepicker.DrawMinutes(this, Minute);
@@ -1558,7 +1558,7 @@
                 inst.drawYear = inst.selectedYear = inst.currentYear;
                 inst.selectedHour = inst.currentHour;
                 inst.selectedMinute = inst.currentMinute;
-                inst.selectedSecond = inst.currentSecond;
+//                inst.selectedSecond = inst.currentSecond;
                 inst.selectedAMPM = inst.currentAMPM;
             }
             else {
@@ -1587,7 +1587,7 @@
 */
                 inst.selectedHour = date.getHours();
                 inst.selectedMinute = date.getMinutes();
-                inst.selectedSecond = date.getSecond();
+//                inst.selectedSecond = date.getSecond();
             }
             this._notifyChange(inst);
             this._adjustDate(target);
@@ -1626,7 +1626,7 @@
             inst.selectedYear = inst.currentYear = year;
             inst.selectedHour = inst.currentHour = $("#DP_jQuery_Hour_" + dpuuid).val()
             inst.selectedMinute = inst.currentMinute = $("#DP_jQuery_Minute_" + dpuuid).val();
-            inst.selectedSecond = inst.currentSecond = $("#DP_jQuery_Second_" + dpuuid).val();
+//            inst.selectedSecond = inst.currentSecond = $("#DP_jQuery_Second_" + dpuuid).val();
             inst.selectedAMPM = inst.currentAMPM = $("#DP_jQuery_AMPM_" + dpuuid).val();
             this._selectDate(id, this._formatDate(inst,
 			inst.currentDay, inst.currentMonth, inst.currentYear));
@@ -1830,7 +1830,7 @@
 */
 
             inst.currentMinute = date.getMinutes();
-            inst.currentSecond = date.getSeconds();
+//            inst.currentSecond = date.getSeconds();
 
             //inst.currentYear = (dates ? date.getFullYear() : 0);
             inst.currentYear = (dates ? $.datetimepicker._DetermineYear(date.getYear()) : 0);
@@ -2152,26 +2152,26 @@
                 MinuteHTML += '</select>';
                 html += MinuteHTML;
                 
-                // Second Drop Down
-                var SecondHTML;
-                SecondHTML = '';
-                SecondHTML += '&nbsp;: <select id="DP_jQuery_Second_' + dpuuid + '">';
-
-                for (i = 0; i < 60; i++) {
-
-                    SecondHTML += '<option ';
-                    if (inst.currentSecond == i) {
-                        SecondHTML += ' selected ';
-                    }
-                    SecondHTML += 'value="' + i + '"';
-                    SecondHTML += '>';
-                    if (i < 10) {
-                        SecondHTML += '0';
-                    }
-                    SecondHTML += i + '</option>';
-                }
-                SecondHTML += '</select>';
-                html += SecondHTML;
+//                // Second Drop Down
+//                var SecondHTML;
+//                SecondHTML = '';
+//                SecondHTML += '&nbsp;: <select id="DP_jQuery_Second_' + dpuuid + '">';
+//
+//                for (i = 0; i < 60; i++) {
+//
+//                    SecondHTML += '<option ';
+//                    if (inst.currentSecond == i) {
+//                        SecondHTML += ' selected ';
+//                    }
+//                    SecondHTML += 'value="' + i + '"';
+//                    SecondHTML += '>';
+//                    if (i < 10) {
+//                        SecondHTML += '0';
+//                    }
+//                    SecondHTML += i + '</option>';
+//                }
+//                SecondHTML += '</select>';
+//                html += SecondHTML;
 //                
                 html += '&nbsp;';
                 html += '<button type="button" class="ui-datepicker-current ui-state-default ui-priority-secondary ui-corner-all"';
@@ -2191,10 +2191,10 @@
             if (show24HourClock) {
                 html += '</div>';
                 html += '<div class="ui-datetimepicker-clock" id="DP_jQuery_clock_' + dpuuid + '" >';
-                html += '    <div id="DP_jQuery_Second_' + dpuuid + '" class="ui-datetimepicker-clock-second-hand"></div>';
+//                html += '    <div id="DP_jQuery_Second_' + dpuuid + '" class="ui-datetimepicker-clock-second-hand"></div>';
                 html += '    <div id="DP_jQuery_Minute_' + dpuuid + '" class="ui-datetimepicker-clock-minute-hand"></div>';
                 html += '    <div id="DP_jQuery_Hour_' + dpuuid + '" class="ui-datetimepicker-clock-hour-hand"></div>';
-                html += '    <div id="DP_jQuery_Second_Overlay_' + dpuuid + '" class="ui-datetimepicker-clock-second-overlay" style="display:none"></div>';
+//                html += '    <div id="DP_jQuery_Second_Overlay_' + dpuuid + '" class="ui-datetimepicker-clock-second-overlay" style="display:none"></div>';
                 html += '    <div id="DP_jQuery_Minute_Overlay_' + dpuuid + '" class="ui-datetimepicker-clock-minute-overlay" style="display:none"></div>';
                 html += '    <div id="DP_jQuery_Hour_Overlay_' + dpuuid + '" class="ui-datetimepicker-clock-hour-overlay" style="display:none"></div>';
                 html += '</div>';
@@ -2386,7 +2386,7 @@
                 inst.currentHour = inst.selectedHour;
 //                inst.currentAMPM = inst.selectedAMPM;
                 inst.currentMinute = inst.selectedMinute;
-                inst.currentSecond = inst.selectedSecond;
+//                inst.currentSecond = inst.selectedSecond;
             }
 
             var Hour = inst.currentHour;
@@ -2398,11 +2398,12 @@
             var MinuteString = inst.currentMinute;
             if (MinuteString.length == 1)
                 MinuteString = "0" + MinuteString;
-            var SecondString = inst.currentSecond;
-            if (SecondString.length == 1)
-                SecondString = "0" + SecondString;
+//            var SecondString = inst.currentSecond;
+//            if (SecondString.length == 1)
+//                SecondString = "0" + SecondString;
 //            var DateString = '' + inst.currentMonth + '/' + inst.selectedDay + '/' + inst.selectedYear + ' ' + Hour + ':' + MinuteString + ' ' + inst.currentAMPM;
-            var DateString = '' + inst.currentMonth + '/' + inst.selectedDay + '/' + inst.selectedYear + ' ' + Hour + ':' + MinuteString + ':' + SecondString;
+//            var DateString = '' + inst.currentMonth + '/' + inst.selectedDay + '/' + inst.selectedYear + ' ' + Hour + ':' + MinuteString + ':' + SecondString;
+            var DateString = '' + inst.currentMonth + '/' + inst.selectedDay + '/' + inst.selectedYear + ' ' + Hour + ':' + MinuteString;
             var date = new Date(DateString);
             return this.formatDate(this._get(inst, 'dateFormat'), date, this._getFormatConfig(inst));
         }
@@ -2506,7 +2507,7 @@ var RegexDateFormat = function() {
 			y = date[_ + "FullYear"](),
 			H = date[_ + "Hours"](),
 			M = date[_ + "Minutes"](),
-			s = date[_ + "Seconds"](),
+//			s = date[_ + "Seconds"](),
 			L = date[_ + "Milliseconds"](),
 			o = utc ? 0 : date.getTimezoneOffset(),
 			flags = {
@@ -2526,8 +2527,8 @@ var RegexDateFormat = function() {
 			    HH: pad(H),
 			    M: M,
 			    MM: pad(M),
-			    s: s,
-			    ss: pad(s),
+//			    s: s,
+//			    ss: pad(s),
 			    l: pad(L, 3),
 			    L: pad(L > 99 ? Math.round(L / 10) : L),
 			    t: H < 12 ? "a" : "p",
