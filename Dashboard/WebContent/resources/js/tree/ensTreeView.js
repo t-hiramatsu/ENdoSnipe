@@ -107,8 +107,14 @@ ENS.treeView = wgp.TreeView
 				if (titleData.title.indexOf("&#47;") >= 0) {
 					titleData.title = titleData.title.split("&#47;").join("/");
 				}
+				
+				var type = treeModel.get("type");
 				if (treeModel.get("icon")) {
 					returnData.data.icon = treeModel.get("icon");
+				} else if (type == ENS.tree.type.GROUP) {
+					returnData.data.icon = "center";
+				} else if (type == ENS.tree.type.TARGET) {
+					returnData.data.icon = "leaf";
 				}
 				return returnData;
 			},
@@ -138,7 +144,7 @@ ENS.treeView = wgp.TreeView
 							return false;
 						}
 						var treeId = $(clickTarget).attr("id");
-						var treeModel = instance.collection.get(treeId)
+						var treeModel = instance.collection.get(treeId);
 
 						// 各コンテキストメニューの表示可否設定を行う。
 						instance.checkShowContext_(treeModel);
