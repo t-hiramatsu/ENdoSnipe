@@ -38,8 +38,8 @@ ENS.DualSliderView = wgp.AbstractView
 				this.groupUnitNum = ENS.common.dualslider.groupUnitNum;
 				this.groupMaxNum = ENS.common.dualslider.groupMaxNum;
 				this.groupNum = ENS.common.dualslider.groupDefaultNum;
-				this.idFrom = ENS.common.dualslider.idFrom;
-				this.idTo = ENS.common.dualslider.idTo;
+				this.idFrom = this.$el.attr('id') + "_" + ENS.common.dualslider.idFrom;
+				this.idTo = this.$el.attr('id') + "_" + ENS.common.dualslider.idTo;
 				this.viewId = '#' + this.$el.attr('id');
 				this.fromScale = this.groupUnitNum * this.groupNum - 1;
 				this.toScale = this.groupUnitNum * this.groupNum;
@@ -71,7 +71,7 @@ ENS.DualSliderView = wgp.AbstractView
 						this.groupString, this.groupStrings);
 				$(this.viewId).append(groupHtmlString + '<hr class="clearFloat">');
 				this._setGroupCss();
-				this._selectSelector('groupArea', this.groupNum - 1);
+				this._selectSelector(this.$el.attr('id') + '_groupArea', this.groupNum - 1);
 
 				// group selector event
 				this._setGroupSelectorMovedEvent();
@@ -92,7 +92,7 @@ ENS.DualSliderView = wgp.AbstractView
 					scaleNum, groupString, groupStrings, groupNum) {
 				var time; // to check 1 or not
 				var htmlStr = '';
-				htmlStr += '<form id="scaleArea">\n';
+				htmlStr += '<form id="' + this.$el.attr('id') + '_scaleArea">\n';
 				htmlStr += '<fieldset>\n';
 				htmlStr += '  <select id="' + this.idFrom + '">\n';
 
@@ -144,7 +144,7 @@ ENS.DualSliderView = wgp.AbstractView
 			},
 			_setScaleCss : function() {
 				// adjust slider visual
-				$(this.viewId + ' form#scaleArea').css({
+				$(this.viewId + ' form' + this.viewId + '_scaleArea').css({
 					width : '600px',
 					float : 'left'
 				});
@@ -175,7 +175,7 @@ ENS.DualSliderView = wgp.AbstractView
 			},
 			_getGroupHtml : function(groupMaxNum, groupString, groupStrings) {
 				var htmlStr = '';
-				htmlStr += '<form id="groupArea">\n';
+				htmlStr += '<form id="' + this.$el.attr('id') + '_groupArea">\n';
 				htmlStr += '  <select>\n';
 				for ( var groupNum = 1; groupNum <= groupMaxNum; groupNum++) {
 					// for one day ago
@@ -198,7 +198,7 @@ ENS.DualSliderView = wgp.AbstractView
 				return htmlStr;
 			},
 			_setGroupCss : function() {
-				$(this.viewId + ' form#groupArea').css({
+				$(this.viewId + ' form' + this.viewId + '_groupArea').css({
 					width : '100px',
 					margin : '60px 0px 0px 10px',
 					float : 'left',
@@ -216,11 +216,11 @@ ENS.DualSliderView = wgp.AbstractView
 			},
 			_setGroupSelectorMovedEvent : function() {
 				var instance = this;
-				$(this.viewId + ' #groupArea select')
+				$(this.viewId + ' ' + this.viewId + '_groupArea select')
 						.change(
 								function() {
 									// delete old scale
-									$('form#scaleArea').remove();
+									$('form' + instance.viewId + '_scaleArea').remove();
 
 									// get new html of scale
 									var oldGroupNum = instance.groupNum;
