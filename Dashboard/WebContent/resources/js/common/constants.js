@@ -127,6 +127,7 @@ ENS.tree.type = {};
 ENS.tree.type.GROUP = "group";
 ENS.tree.type.TARGET = "target";
 ENS.tree.type.SIGNAL = "signal";
+ENS.tree.type.REPORT = "report";
 
 ENS.tree.contextOption = [ {
 	menu_id : ENS.tree.ADD_SIGNAL_TYPE,

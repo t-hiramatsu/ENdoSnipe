@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %plugin.name
 Bundle-SymbolicName: jp.co.acroquest.endosnipe.data;singleton:=true
-Bundle-Version: 5.0.3.013
+Bundle-Version: 5.0.3.015
 Bundle-Activator: jp.co.acroquest.endosnipe.data.ENdoSnipeDataAccessorPlugin
 Bundle-Vendor: %author
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

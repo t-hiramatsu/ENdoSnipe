@@ -639,7 +639,8 @@ ENS.treeView = wgp.TreeView
 					id : reportTreeId,
 					data : showName,
 					parentTreeId : targetTreeId,
-					icon : ENS.tree.REPORT_ICON
+					icon : ENS.tree.REPORT_ICON,
+					type : ENS.tree.type.REPORT
 				};
 
 				return treeOption;
