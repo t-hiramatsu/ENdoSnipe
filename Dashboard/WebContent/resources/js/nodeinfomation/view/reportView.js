@@ -1,6 +1,7 @@
 ENS.reportView = wgp.AbstractView
 		.extend({
-			tableColNames : [ "Id", "Report Name", "Report Target", "Start Time", "Finish Time", "Download" ],
+			tableColNames : [ "Id", "Report Name", "Report Target",
+					"Start Time", "Finish Time", "Download" ],
 			initialize : function(argument, treeSettings) {
 				var appView = new ENS.AppView();
 				this.treeSettings = treeSettings;
@@ -26,18 +27,21 @@ ENS.reportView = wgp.AbstractView
 				$("#reportDiv").append('<div id="reportPager"></table>');
 				var height = "auto";
 
-				$("#reportTable").jqGrid({
-					datatype : "local",
-					data : "",
-					colModel : this.tableColModel,
-					colNames : this.tableColNames,
-					caption : "Diagnosis of " + this.treeSettings.id,
-					pager : "reportPager",
-					rowList : [ 10, 50, 500 ],
-					pgbuttons : false,
-					pginput : false,
-					height : height
-				});
+				$("#reportTable").jqGrid(
+						{
+							datatype : "local",
+							data : "",
+							colModel : this.tableColModel,
+							colNames : this.tableColNames,
+							caption : "Diagnosis of "
+									+ this.treeSettings.parentTreeId + "/"
+									+ this.treeSettings.data,
+							pager : "reportPager",
+							rowList : [ 10, 50, 500 ],
+							pgbuttons : false,
+							pginput : false,
+							height : height
+						});
 				$("#reportTable").filterToolbar({
 					defaultSearch : 'cn'
 				});
@@ -70,7 +74,7 @@ ENS.reportView = wgp.AbstractView
 					hidden : true
 				}, {
 					name : "reportName",
-					width : 200
+					width : 180
 				}, {
 					name : "targetMeasurementName",
 					width : 380
@@ -128,7 +132,7 @@ ENS.reportView = wgp.AbstractView
 					var reportPathLength = reportPathSplitList.length;
 					var reportName = reportPathSplitList[reportPathLength - 1];
 					report.reportName = reportName;
-					
+
 					// 開始日と終了日のフォーマットを変更する
 					var fmTimeDate = new Date(report.reportTermFrom);
 					var toTimeDate = new Date(report.reportTermTo);
@@ -181,7 +185,7 @@ ENS.report.download = function(id) {
 	var event = {
 		"file_name" : "20130512_133200-20130514_133200.zip"
 	};
-	
+
 	var rowData = $("#reportTable").getRowData(id);
 	var reportId = rowData.reportId;
 	$("input#reportId").val(reportId);
