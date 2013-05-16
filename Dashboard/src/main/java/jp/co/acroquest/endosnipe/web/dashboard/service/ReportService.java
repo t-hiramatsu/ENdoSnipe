@@ -28,8 +28,10 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import jp.co.acroquest.endosnipe.collector.config.DataCollectorConfig;
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
 import jp.co.acroquest.endosnipe.report.Reporter;
+import jp.co.acroquest.endosnipe.web.dashboard.config.DataBaseConfig;
 import jp.co.acroquest.endosnipe.web.dashboard.constants.LogMessageCodes;
 import jp.co.acroquest.endosnipe.web.dashboard.dao.ReportDefinitionDao;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.ReportDefinitionDto;
@@ -185,7 +187,6 @@ public class ReportService
         Reporter reporter = new Reporter();
 
         DatabaseManager dbMmanager = DatabaseManager.getInstance();
-        String dbName = dbMmanager.getDataBaseName(1);
         Calendar fmTime = reportDefinitionDto.getReportTermFrom();
         Calendar toTime = reportDefinitionDto.getReportTermTo();
         String targetItemName = reportDefinitionDto.getTargetMeasurementName();
@@ -194,7 +195,11 @@ public class ReportService
         int reportNameSplitLength = reportNameSplitList.length;
         String reportName = reportNameSplitList[reportNameSplitLength - 1];
 
-        reporter.createReport(dbName, fmTime, toTime, REPORT_PATH, targetItemName, reportName);
+        DataBaseConfig dataBaseConfig = dbMmanager.getDataBaseConfig();
+        DataCollectorConfig dataCollecterConfig = this.convertDataCollectorConfig(dataBaseConfig);
+
+        reporter.createReport(dataCollecterConfig, fmTime, toTime, REPORT_PATH, targetItemName,
+                              reportName);
     }
 
     /**
@@ -360,4 +365,22 @@ public class ReportService
         }
     }
 
+    /**
+     * DataBaseConfigオブジェクトをDataCollectorConfigオブジェクトに変換する。
+     * 
+     * @param dataBaseConfig DataBaseConfigオブジェクト
+     * @return DataCollectorConfigオブジェクト
+     */
+    private DataCollectorConfig convertDataCollectorConfig(final DataBaseConfig dataBaseConfig)
+    {
+        DataCollectorConfig dataCollectorConfig = new DataCollectorConfig();
+        dataCollectorConfig.setDatabaseHost(dataBaseConfig.getDatabaseHost());
+        dataCollectorConfig.setDatabaseName(dataBaseConfig.getDatabaseName());
+        dataCollectorConfig.setDatabasePassword(dataBaseConfig.getDatabasePassword());
+        dataCollectorConfig.setDatabasePort(dataBaseConfig.getDatabasePort());
+        dataCollectorConfig.setDatabaseType(dataBaseConfig.getDatabaseType());
+        dataCollectorConfig.setDatabaseUserName(dataBaseConfig.getDatabaseUserName());
+
+        return dataCollectorConfig;
+    }
 }

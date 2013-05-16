@@ -61,14 +61,14 @@ public class Reporter {
 	/**
 	 * レポート作成を行います。<br/>
 	 * 
-	 * @param dbName DB名
+	 * @param config DataCollectorの設定/定数を保持するオブジェクト
 	 * @param fmTime 開始時刻
 	 * @param toTime 終了時刻
 	 * @param reportPath 出力先ディレクトリ
 	 * @param targetItemName レポート出力対象の親の項目名
 	 * @param reportName レポート名
 	 */
-	public void createReport(String dbName, Calendar fmTime, Calendar toTime,
+	public void createReport(DataCollectorConfig config, Calendar fmTime, Calendar toTime,
 			String reportPath, String targetItemName, String reportName) {
 
 		// 開始時刻が終了時刻より未来を指していた場合はエラー
@@ -80,38 +80,16 @@ public class Reporter {
 		// ログ出力インスタンスを生成する
 		System.err.println("ENdoSnipeReportCommandを開始します。");
 
-		// データベース接続設定
-		String dbHost = null;
-		String dbPort = null;
-		String dbUser = null;
-		String dbPass = null;
-
-		// collector.properties から各種設定値を読み込む
-		DataCollectorConfig config = null;
-		try {
-			config = ConfigLoader.loadConfig();
-		} catch (InitializeException ie) {
-			System.err.println(ie);
-			return;
-		}
-
 		if (config == null) {
 			return;
 		}
 
-		// DBがH2の場合は終了
-		DatabaseType type = config.getDatabaseType();
-		if (type != DatabaseType.POSTGRES) {
-			System.err
-					.println("このプログラムはPostgreSQL専用です。collector.propertiesを修正してください。");
-			return;
-		}
-
 		// DBの諸設定を取得
-		dbHost = config.getDatabaseHost();
-		dbPort = config.getDatabasePort();
-		dbUser = config.getDatabaseUserName();
-		dbPass = config.getDatabasePassword();
+		String dbName = config.getDatabaseName();
+		String dbHost = config.getDatabaseHost();
+		String dbPort = config.getDatabasePort();
+		String dbUser = config.getDatabaseUserName();
+		String dbPass = config.getDatabasePassword();
 
 		// レポート作成に使用するDBを指定する
 		DBManager.updateSettings(false, "", dbHost, dbPort, dbName, dbUser,
