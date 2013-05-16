@@ -1,20 +1,20 @@
 /*******************************************************************************
  * ENdoSnipe 5.0 - (https://github.com/endosnipe)
- *
+ * 
  * The MIT License (MIT)
- *
+ * 
  * Copyright (c) 2012 Acroquest Technology Co.,Ltd.
- *
+ * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * 
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -47,28 +47,59 @@ ENS.NodeInfoParentView = wgp.AbstractView.extend({
 		// dual slider area (add div and css, and make slider)
 		$("#" + this.$el.attr("id")).append(
 				'<div id="' + id.dualSliderArea + '"></div>');
-		$('#' + id.dualSliderArea).css(
-				ENS.nodeinfo.parent.css.dualSliderArea);
-		$('#' + id.dualSliderArea).css(
-				ENS.nodeinfo.parent.css.dualSliderArea);
+		$('#' + id.dualSliderArea).css(ENS.nodeinfo.parent.css.dualSliderArea);
+		$('#' + id.dualSliderArea).css(ENS.nodeinfo.parent.css.dualSliderArea);
 		this.dualSliderView = new ENS.DualSliderView({
 			id : id.dualSliderArea,
 			rootView : this
 		});
+
 		var instance = this;
+		/*
+		 * シグナルノードやレポートノードの上の階層にあるグラフノードを格納する配列
+		 * 複数のシグナルノードやレポートノードがグラフノードの下にある際に、 同じグラフをいくつも表示してしまうことを防止するために使う。
+		 */
+		var parentGraphNameList = [];
+
 		_.each(this.graphIds, function(graphName) {
 
 			// ツリー要素を取得し、タイプが「target(グラフ)」であればグラフ表示を行う。
-			var treeModel = treeView.collection.get(graphName);
-			if(ENS.tree.type.TARGET == treeModel.get("type")){
+			var treeModel = this.treeView.collection.get(graphName);
+			var type = treeModel.get("type");
+			// ノードのタイプがTARGETであった場合はグラフを表示し、
+			// SIGNALであった場合は、その一つ上のノードがTARGETであった場合はそのノードをグラフ表示する
+			if (ENS.tree.type.TARGET == type) {
 				instance._addGraphDivision(graphName);
-			}
+			} else if (ENS.tree.type.SIGNAL == type
+					|| ENS.tree.type.REPORT == type) {
+				var newGraphName = "";
+				var graphNameSplitList = graphName.split("/");
+				var splitLength = graphNameSplitList.length;
+				// 最後の配列（シグナルノード）を除いて結合する
+				for ( var index = 1; index < splitLength - 1; index++) {
+					newGraphName += "/";
+					newGraphName += graphNameSplitList[index];
+				}
+				
+				// すでに存在するグラフの場合は追加表示しない
+				if (parentGraphNameList.indexOf(newGraphName) >= 0) {
+					return;
+				}
 
+				var newTreeModel = this.treeView.collection.get(newGraphName);
+
+				var newType = newTreeModel.get("type");
+				// ノードのタイプがTARGETであった場合はグラフを表示する
+				if (ENS.tree.type.TARGET == newType) {
+					instance._addGraphDivision(newGraphName);
+					parentGraphNameList.push(newGraphName);
+				}
+			}
 		});
 
 		this.dualSliderView.setScaleMovedEvent(function(from, to) {
 			var viewList = ENS.nodeinfo.viewList;
-			for (var key in viewList) {
+			for ( var key in viewList) {
 				var instance = viewList[key];
 				// グラフの表示期間の幅を更新する
 				instance.updateDisplaySpan(from, to);
@@ -77,8 +108,7 @@ ENS.NodeInfoParentView = wgp.AbstractView.extend({
 			}
 		});
 
-		$("#" + this.$el.attr("id")).append(
-				'<div class="clearFloat"></div>');
+		$("#" + this.$el.attr("id")).append('<div class="clearFloat"></div>');
 	},
 	render : function() {
 		console.log('call render');
@@ -218,7 +248,7 @@ ENS.NodeInfoParentView = wgp.AbstractView.extend({
 	destroy : function() {
 		var viewList = ENS.nodeinfo.viewList;
 		var appView = ENS.AppView();
-		for (var key in viewList) {
+		for ( var key in viewList) {
 			var instance = viewList[key];
 			appView.removeView(instance);
 		}
