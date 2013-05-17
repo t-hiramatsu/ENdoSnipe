@@ -666,10 +666,7 @@ ENS.treeView = wgp.TreeView
 				});
 			},
 			callbackAddReport_ : function(reportDefinition) {
-				// var treeOption =
-				// this.createReportTreeOption_(reportDefinition);
-				//
-				// this.collection.add([ treeOption ]);
+				//　TODO レポート一覧テーブルが表示されているときはリロードする
 			},
 			createReportTreeOption_ : function(reportDefinition) {
 				var reportId = reportDefinition.reportId;

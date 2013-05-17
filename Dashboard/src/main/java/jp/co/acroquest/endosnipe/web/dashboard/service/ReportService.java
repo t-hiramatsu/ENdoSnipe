@@ -160,11 +160,9 @@ public class ReportService
      */
     public ReportDefinitionDto insertReportDefinition(final ReportDefinition reportDefinition)
     {
-        int reportId = 0;
         try
         {
             reportDefinitionDao.insert(reportDefinition);
-            reportId = reportDefinitionDao.selectSequenceNum(reportDefinition);
         }
         catch (DuplicateKeyException dkEx)
         {
@@ -173,7 +171,6 @@ public class ReportService
         }
 
         ReportDefinitionDto reportDefinitionDto = this.convertReportDifinitionDto(reportDefinition);
-        reportDefinitionDto.setReportId(reportId);
 
         return reportDefinitionDto;
     }
