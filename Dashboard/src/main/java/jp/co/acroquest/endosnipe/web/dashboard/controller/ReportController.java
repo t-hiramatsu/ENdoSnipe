@@ -16,7 +16,9 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -129,6 +131,83 @@ public class ReportController
         throws IOException
     {
         ReportDefinitionDto reportDefinitionDto = this.reportService.getReportByReportId(reportId);
+        // ファイル名を取得する
+        String fileName = createFileNameByDefinitionDto(reportDefinitionDto);
+
+        this.reportService.doRequest(res, fileName);
+        return fileName;
+    }
+
+    /**
+     * レポート名をキーにノードごと削除する。
+     *
+     * @param reportName
+     *            レポート名
+     * @return 削除したレポート情報
+     */
+    @RequestMapping(value = "/deleteByName", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> deleteByName(
+            @RequestParam(value = "reportName") final String reportName)
+    {
+        List<ReportDefinitionDto> definitionDtoList =
+                this.reportService.getReportByReportName(reportName);
+
+        int definitionDtosLength = definitionDtoList.size();
+
+        for (int index = 0; index < definitionDtosLength; index++)
+        {
+            ReportDefinitionDto definitionDto = definitionDtoList.get(index);
+            String fileName = this.createFileNameByDefinitionDto(definitionDto);
+            // ファイルを削除する
+            this.reportService.deleteReportFile(fileName);
+        }
+
+        this.reportService.deleteReportDefinitionByName(reportName);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("reportName", reportName);
+
+        return map;
+    }
+
+    /**
+     * レポートIDをキーにレポート単体を削除する。
+     *
+     * @param reportId
+     *            レポートID
+     * @return 削除したレポート情報
+     */
+    @RequestMapping(value = "/deleteById", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> deleteById(@RequestParam(value = "reportId") final int reportId)
+    {
+        ReportDefinitionDto reportDefinitionDto = this.reportService.getReportByReportId(reportId);
+        // ファイル名を取得する
+        String fileName = createFileNameByDefinitionDto(reportDefinitionDto);
+        // ファイルを削除する
+        boolean isDeleteSuccess = this.reportService.deleteReportFile(fileName);
+
+        Map<String, Object> map = new HashMap<String, Object>();
+
+        if (isDeleteSuccess)
+        {
+            this.reportService.deleteReportDefinitionById(reportId);
+        }
+
+        map.put("reportId", reportId);
+        map.put("isSuccess", isDeleteSuccess);
+
+        return map;
+    }
+
+    /**
+     * レポートIDからファイル名を作成する。
+     * 
+     * @param reportId レポートID
+     * @return ファイル名
+     */
+    private String createFileNameByDefinitionDto(final ReportDefinitionDto reportDefinitionDto)
+    {
 
         String reportNamePath = reportDefinitionDto.getReportName();
         String[] reportNameSplitList = reportNamePath.split("/");
@@ -144,8 +223,6 @@ public class ReportController
 
         // ダウンロードするZIPファイル名を作成する
         String fileName = reportName + "_" + start + "-" + end + ".zip";
-
-        this.reportService.doRequest(res, fileName);
 
         return fileName;
     }

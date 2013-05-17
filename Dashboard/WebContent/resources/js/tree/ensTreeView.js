@@ -107,7 +107,7 @@ ENS.treeView = wgp.TreeView
 				if (titleData.title.indexOf("&#47;") >= 0) {
 					titleData.title = titleData.title.split("&#47;").join("/");
 				}
-				
+
 				var type = treeModel.get("type");
 				if (treeModel.get("icon")) {
 					returnData.data.icon = treeModel.get("icon");
@@ -236,9 +236,9 @@ ENS.treeView = wgp.TreeView
 				executeOption.displayName = $(tmpClickTarget).text();
 
 				// 削除が選択された場合はそのノードを削除する
-				if (id == ENS.tree.DELETE_SIGNAL_TYPE) {
+				if (id == ENS.tree.DELETE_REPORT_TYPE) {
 					if (confirm("Are you sure you want to delete it?")) {
-						this.deleteSignal_(executeOption);
+						this.deleteReport_(executeOption);
 					}
 					return;
 				}
@@ -478,6 +478,38 @@ ENS.treeView = wgp.TreeView
 				settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = callbackFunction;
 				ajaxHandler.requestServerAsync(settings);
 			},
+			deleteReport_ : function(executeOption) {
+				// Ajax通信の送信先URL
+				var callbackFunction = "callbackDeleteReport_";
+				var url = ENS.tree.REPORT_DELETE_BY_NAME_URL;
+
+				// ツリー
+				var treeId = executeOption.treeId;
+				var treeIdSplitList = treeId.split("/");
+				var splitLength = treeIdSplitList.length;
+
+				var reportName = "/";
+				for ( var index = 1; index < splitLength - 1; index++) {
+					reportName += treeIdSplitList[index];
+					reportName += "/";
+				}
+				var treeModel = this.collection.get(treeId);
+				reportName += treeModel.get("data");
+
+				// Ajax通信用の設定
+				var settings = {
+					data : {
+						reportName : reportName
+					},
+					url : url
+				};
+
+				// 非同期通信でシグナル削除依頼電文を送信する。
+				var ajaxHandler = new wgp.AjaxHandler();
+				settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] = this;
+				settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = callbackFunction;
+				ajaxHandler.requestServerAsync(settings);
+			},
 			getAllSignal_ : function() {
 				// シグナル定義を取得する
 				// Ajax通信用の設定
@@ -606,6 +638,32 @@ ENS.treeView = wgp.TreeView
 					id : signalName
 				});
 
+			},
+			// レポート削除処理応答受信後にツリーからシグナルを削除する。
+			callbackDeleteReport_ : function(data) {
+				var reportName = data.reportName;
+				if (reportName === undefined || reportName === null) {
+					alert("Failed to delete report.");
+					return;
+				}
+
+				var reportNameSplitList = reportName.split("/");
+				var splitLength = reportNameSplitList.length;
+
+				var treeId = "";
+				// レポート名からツリーIDを作成する
+				for ( var index = 1; index < splitLength; index++) {
+					if (index == splitLength - 1) {
+						treeId += ENS.tree.REPORT_PREFIX_ID;
+					} else {
+						treeId += "/";
+					}
+					treeId += reportNameSplitList[index];
+				}
+
+				this.collection.remove({
+					id : treeId
+				});
 			},
 			callbackAddReport_ : function(reportDefinition) {
 				// var treeOption =
