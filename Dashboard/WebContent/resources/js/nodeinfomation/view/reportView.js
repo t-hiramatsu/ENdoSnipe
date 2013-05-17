@@ -33,7 +33,7 @@ ENS.reportView = wgp.AbstractView
 							data : "",
 							colModel : this.tableColModel,
 							colNames : this.tableColNames,
-							caption : "Diagnosis of "
+							caption : "Report List of "
 									+ this.treeSettings.parentTreeId + "/"
 									+ this.treeSettings.data,
 							pager : "reportPager",
