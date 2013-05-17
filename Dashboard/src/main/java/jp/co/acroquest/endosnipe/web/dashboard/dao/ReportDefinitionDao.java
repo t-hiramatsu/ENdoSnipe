@@ -78,7 +78,14 @@ public interface ReportDefinitionDao
      * @param reportName
      *            レポート名
      */
-    void delete(final String reportName);
+    void deleteByName(final String reportName);
+
+    /**
+     * 指定されたレポートIDに該当するレポート情報をDBから削除する。
+     * 
+     * @param reportId レポートID
+     */
+    void deleteById(final int reportId);
 
     /**
      * すべてのレコードを削除します。<br />

@@ -59,10 +59,16 @@
 		= #{reportId_}
 	</update>
 
-	<delete id="delete">
+	<delete id="deleteByName">
+		delete from REPORT_DEFINITION
+		where REPORT_NAME
+		= #{reportName_}
+	</delete>
+	
+	<delete id="deleteById">
 		delete from REPORT_DEFINITION
 		where REPORT_ID
-		= #{reportName_}
+		= #{reportId_}
 	</delete>
 
 	<delete id="deleteAll"

@@ -46,7 +46,6 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-jdbc-3.0.7.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-tx-3.0.7.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/postgresql-9.1-901.jdbc3.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/endosnipe-report-command.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/ant.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/endosnipe-datacollector-5.0.3.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/ant-launcher.jar"/>
@@ -80,7 +79,6 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/org.eclipse.equinox.registry_3.4.0.v20080516-0950.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/runtime_registry_compatibility.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/org.eclipse.core.jobs_3.4.100.v20090429-1800.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/endosnipe-reporter.jar"/>
 	<classpathentry kind="var" path="TOMCAT_HOME/lib/servlet-api.jar"/>
 	<classpathentry kind="var" path="TOMCAT_HOME/lib/jasper.jar"/>
 	<classpathentry kind="var" path="TOMCAT_HOME/lib/jsp-api.jar"/>
@@ -89,5 +87,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ENdoSnipeCommon"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ENdoSnipeCommunicator"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ENdoSnipeDataAccessor"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ENdoSnipeReportCommand"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ENdoSnipeReporter"/>
 	<classpathentry kind="output" path="WebContent/WEB-INF/classes"/>
 </classpath>

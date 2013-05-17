@@ -122,6 +122,8 @@ ENS.tree.REPORT_SELECT_ALL_URL = wgp.common.getContextPath()
 		+ "/report/getAllDefinition";
 ENS.tree.REPORT_SELECT_BY_REPORT_NAME_URL = wgp.common.getContextPath()
 		+ "/report/getDefinitionByReportName";
+ENS.tree.REPORT_DELETE_BY_NAME_URL = wgp.common.getContextPath() + "/report/deleteByName";
+ENS.tree.REPORT_DELETE_BY_ID_URL = wgp.common.getContextPath() + "/report/deleteById";
 
 ENS.tree.type = {};
 ENS.tree.type.GROUP = "group";
@@ -167,6 +169,16 @@ ENS.tree.contextOption = [ {
 	executeOption : {
 		dialogId : ENS.tree.REPORT_DIALOG,
 		signalType : ENS.tree.OUTPUT_REPORT_TYPE
+	},
+	children : []
+}, {
+	menu_id : ENS.tree.DELETE_REPORT_TYPE,
+	menu_name : "Delete Report",
+	executeClass : "",
+	showTreeTypes : [ ENS.tree.type.REPORT ],
+	executeOption : {
+		dialogId : ENS.tree.REPORT_DIALOG,
+		signalType : ENS.tree.DELETE_REPORT_TYPE
 	},
 	children : []
 } ];

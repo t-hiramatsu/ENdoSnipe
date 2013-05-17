@@ -160,11 +160,9 @@ public class ReportService
      */
     public ReportDefinitionDto insertReportDefinition(final ReportDefinition reportDefinition)
     {
-        int reportId = 0;
         try
         {
             reportDefinitionDao.insert(reportDefinition);
-            reportId = reportDefinitionDao.selectSequenceNum(reportDefinition);
         }
         catch (DuplicateKeyException dkEx)
         {
@@ -173,12 +171,12 @@ public class ReportService
         }
 
         ReportDefinitionDto reportDefinitionDto = this.convertReportDifinitionDto(reportDefinition);
-        reportDefinitionDto.setReportId(reportId);
 
         return reportDefinitionDto;
     }
 
     /**
+     * レポートを作成する。
      * 
      * @param reportDefinitionDto レポート出力の定義
      */
@@ -275,19 +273,13 @@ public class ReportService
     {
         if (fileName == null)
         {
-            LOGGER.log(LogMessageCodes.UNEXPECTED_ERROR);
+            LOGGER.log(LogMessageCodes.UNKNOWN_FILE_NAME);
             String message = "filename is null.";
             handleException(response, message);
             return;
         }
 
-        String currentDir = new File(".").getAbsolutePath();
-        DatabaseManager dbMmanager = DatabaseManager.getInstance();
-        String dbName = dbMmanager.getDataBaseName(1);
-
-        String filePath =
-                currentDir + FOLDER_SEPARATOR + REPORT_PATH + FOLDER_SEPARATOR + dbName
-                        + FOLDER_SEPARATOR + fileName;
+        String filePath = this.getFilePath(fileName);
 
         OutputStream outputStream = null;
 
@@ -339,6 +331,95 @@ public class ReportService
     }
 
     /**
+     * レポートファイルを削除する。
+     * 
+     * @param fileName ファイル名
+     * @return ファイル削除に成功した場合はtrue
+     */
+    public boolean deleteReportFile(final String fileName)
+    {
+        if (fileName == null)
+        {
+            LOGGER.log(LogMessageCodes.UNKNOWN_FILE_NAME);
+            return false;
+        }
+
+        // ファイル削除に成功した場合にtrueになるフラグ
+        boolean isDeleteSuccess = false;
+
+        String filePath = this.getFilePath(fileName);
+
+        File file = new File(filePath);
+
+        if (file.exists())
+        {
+            // ファイルを削除する
+            isDeleteSuccess = file.delete();
+        }
+        else
+        {
+            LOGGER.log(LogMessageCodes.UNKNOWN_FILE_NAME);
+            return false;
+        }
+
+        return isDeleteSuccess;
+    }
+
+    /**
+     * レポート名に該当するレポート定義を削除する。
+     * 
+     * @param reportName レポート名
+     */
+    public void deleteReportDefinitionByName(final String reportName)
+    {
+        try
+        {
+            // レポート名に該当するレポート定義を削除する
+            reportDefinitionDao.deleteByName(reportName);
+        }
+        catch (PersistenceException pEx)
+        {
+            Throwable cause = pEx.getCause();
+            if (cause instanceof SQLException)
+            {
+                SQLException sqlEx = (SQLException)cause;
+                LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx, sqlEx.getMessage());
+            }
+            else
+            {
+                LOGGER.log(LogMessageCodes.SQL_EXCEPTION, pEx, pEx.getMessage());
+            }
+        }
+    }
+
+    /**
+     * レポートIDに該当するレポート定義を削除する。
+     * 
+     * @param reportId レポートID
+     */
+    public void deleteReportDefinitionById(final int reportId)
+    {
+        try
+        {
+            // レポートIDに該当するレポート定義を削除する
+            reportDefinitionDao.deleteById(reportId);
+        }
+        catch (PersistenceException pEx)
+        {
+            Throwable cause = pEx.getCause();
+            if (cause instanceof SQLException)
+            {
+                SQLException sqlEx = (SQLException)cause;
+                LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx, sqlEx.getMessage());
+            }
+            else
+            {
+                LOGGER.log(LogMessageCodes.SQL_EXCEPTION, pEx, pEx.getMessage());
+            }
+        }
+    }
+
+    /**
      * ファイルが存在しないことをクライアント側に表示する。
      * 
      * @param responce {@link HttpServletResponse}オブジェクト
@@ -382,5 +463,24 @@ public class ReportService
         dataCollectorConfig.setDatabaseUserName(dataBaseConfig.getDatabaseUserName());
 
         return dataCollectorConfig;
+    }
+
+    /**
+     * ファイルの絶対パスを取得する。
+     * 
+     * @param fileName ファイル名
+     * @return ファイルの絶対パス
+     */
+    private String getFilePath(final String fileName)
+    {
+        String currentDir = new File(".").getAbsolutePath();
+        DatabaseManager dbMmanager = DatabaseManager.getInstance();
+        String dbName = dbMmanager.getDataBaseName(1);
+
+        String filePath =
+                currentDir + FOLDER_SEPARATOR + REPORT_PATH + FOLDER_SEPARATOR + dbName
+                        + FOLDER_SEPARATOR + fileName;
+
+        return filePath;
     }
 }
