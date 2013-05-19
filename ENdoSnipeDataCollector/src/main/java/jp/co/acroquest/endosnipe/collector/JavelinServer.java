@@ -343,7 +343,8 @@ public class JavelinServer implements TelegramSender
         JvnFileNotifyListener jvnFileNotifyListener =
                                                       createJvnFileNotifyListener(dbName, hostName,
                                                                                   ipAddress, port,
-                                                                                  clientId);
+                                                                                  clientId,
+                                                                                  agentName);
         SystemResourceListener systemResourceListener =
                                                         createSystemResourceListener(dbName,
                                                                                      hostName,
@@ -510,7 +511,8 @@ public class JavelinServer implements TelegramSender
      * @return çÏê¨ÇµÇΩJvnFileNotifyListener
      */
     private JvnFileNotifyListener createJvnFileNotifyListener(final String dbName,
-            final String hostName, final String ipAddress, final int port, final String clientId)
+            final String hostName, final String ipAddress, final int port, final String clientId,
+            final String agentName)
     {
         JvnFileNotifyListener notifyListener = null;
         if (queue_ != null)
@@ -521,6 +523,7 @@ public class JavelinServer implements TelegramSender
             notifyListener.setIpAddress(ipAddress);
             notifyListener.setPort(port);
             notifyListener.setClientId(clientId);
+            notifyListener.setAgentName(agentName);
         }
         return notifyListener;
     }
