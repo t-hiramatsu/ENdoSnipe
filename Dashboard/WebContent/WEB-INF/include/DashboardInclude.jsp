@@ -44,9 +44,6 @@
 
 <%-- resource tree --%>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/nodeinfomation/view/resourceTreeView.js">	
-</script>
-<script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/tree/dialogView.js">	
 </script>
 <script type="text/javascript"
@@ -71,6 +68,9 @@
 </script>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/tree/ensTreeView.js">	
+</script>
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/resources/js/tree/resourceTreeView.js">	
 </script>
 <%-- Performance Doctor --%>
 <script type="text/javascript"
