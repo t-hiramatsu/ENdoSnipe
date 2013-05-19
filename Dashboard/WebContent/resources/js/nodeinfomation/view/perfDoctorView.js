@@ -1,5 +1,5 @@
 ENS.perfDoctorView = wgp.AbstractView.extend({
-	tableColNames : [ "時刻", "概要", "重要度", "クラス", "メソッド", "ダウンロード", "ログファイル" ],
+	tableColNames : [ "Time", "Description", "Level", "Class Name", "Method Name", "Download", "Logfile" ],
 	initialize : function(argument, treeSettings) {
 
 		this.tableColModel = this.createTableColModel();
@@ -93,24 +93,24 @@ ENS.perfDoctorView = wgp.AbstractView.extend({
 			width : 95
 		}, {
 			name : "description",
-			width : 290
+			width : 320
 		}, {
 			name : "level",
 			width : 65
 		}, {
 			name : "className",
-			width : 150
+			width : 130
 		}, {
 			name : "methodName",
-			width : 100
+			width : 130
 		}, {
 			name : "detail",
 //			width : 140,
-			width : 65,
+			width : 80,
 			formatter : ENS.Utility.makeAnchor,
 			editoptions : {
 				"onclick" : "ENS.perfDoctor.download",
-				"linkName" : "DL"
+				"linkName" : "Download"
 			}
 		}, {
 			name : "logFileName",
