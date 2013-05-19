@@ -109,8 +109,7 @@ CREATE TABLE MAP_INFO(
 /**********************************/
 /* テーブル名: レポート定義テーブル */
 /**********************************/
-CREATE TABLE REPORT_DEFINITION
-(
+CREATE TABLE REPORT_DEFINITION(
   REPORT_ID SERIAL NOT NULL,
   REPORT_NAME VARCHAR NOT NULL,
   TARGET_MEASUREMENT_NAME VARCHAR NOT NULL,
