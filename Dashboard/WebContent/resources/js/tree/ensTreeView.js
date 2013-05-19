@@ -726,7 +726,7 @@ ENS.treeView = wgp.TreeView
 			 */
 			clearReportDialog_ : function() {
 				$("#reportId").val("");
-				$("#reportName").val("new Report");
+				$("#reportName").val("new report");
 				$("#targetName").val("");
 				$("#jquery-ui-datepicker-from").val("");
 				$("#jquery-ui-datepicker-to").val("");
