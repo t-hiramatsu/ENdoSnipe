@@ -1014,6 +1014,8 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
 
         javelinLog.javelinLog = createContentInputStream(javelinLogData);
 
+        javelinLog.measurementItemName = javelinLogData.getAgentName();
+
         BufferedReader reader =
                                 StreamUtil.getBufferedReader(createContentInputStream(javelinLogData));
         try

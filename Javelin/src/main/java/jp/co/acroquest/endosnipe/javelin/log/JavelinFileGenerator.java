@@ -120,7 +120,7 @@ public class JavelinFileGenerator implements JavelinConstants
         String jvnFileName = JavelinLoggerThread.createJvnFileName(date);
         
         // ‰¼‚ÌitemName
-        String itemName = "/javelin/process";
+        String itemName = "";
         JavelinLogTask task = new JavelinLogTask(date, jvnFileName, tree, node, callback, endNode,
                                                  telegramId, itemName);
 
