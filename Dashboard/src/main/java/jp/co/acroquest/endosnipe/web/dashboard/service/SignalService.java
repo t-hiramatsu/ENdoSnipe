@@ -35,18 +35,18 @@ import org.springframework.transaction.annotation.Transactional;
 public class SignalService
 {
     /** ロガー。 */
-    private static final ENdoSnipeLogger LOGGER               = ENdoSnipeLogger.getLogger(MapService.class);
+    private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(MapService.class);
 
     /**
      * デフォルトのシグナル状態
      */
-    private static final int             DEFAULT_SIGNAL_STATE = 0;
+    private static final int DEFAULT_SIGNAL_STATE = 0;
 
     /**
      * シグナル情報Dao
      */
     @Autowired
-    protected SignalInfoDao              signalInfoDao;
+    protected SignalInfoDao signalInfoDao;
 
     /**
      * コンストラクタ
@@ -73,9 +73,8 @@ public class SignalService
             Throwable cause = pEx.getCause();
             if (cause instanceof SQLException)
             {
-                SQLException sqlEx = (SQLException) cause;
-                LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx,
-                        sqlEx.getMessage());
+                SQLException sqlEx = (SQLException)cause;
+                LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx, sqlEx.getMessage());
             }
             LOGGER.log(LogMessageCodes.SQL_EXCEPTION, pEx, pEx.getMessage());
 
@@ -109,6 +108,23 @@ public class SignalService
         for (CommunicationClient communicationClient : clientList)
         {
             Telegram telegram = createAllStateTelegram(signalList);
+            communicationClient.sendTelegram(telegram);
+        }
+
+    }
+
+    /**
+     * 閾値判定定義情報を更新するリクエストを生成する。
+     * 
+     * @param signalDefinitionDto 閾値判定定義情報
+     */
+    private void addSignalDefinitionRequest(final SignalDefinitionDto signalDefinitionDto)
+    {
+        ConnectionClient connectionClient = ConnectionClient.getInstance();
+        List<CommunicationClient> clientList = connectionClient.getClientList();
+        for (CommunicationClient communicationClient : clientList)
+        {
+            Telegram telegram = createAddSignalDefinition(signalDefinitionDto);
             communicationClient.sendTelegram(telegram);
         }
 
@@ -155,6 +171,49 @@ public class SignalService
     }
 
     /**
+     * 閾値判定定義を取得する電文を作成する。
+     * 
+     * @param signalDefinitionDto シグナル定義情報のリスト
+     * @return 全閾値情報を取得する電文
+     */
+    private Telegram createAddSignalDefinition(final SignalDefinitionDto signalDefinitionDto)
+    {
+        Telegram telegram = new Telegram();
+
+        Header requestHeader = new Header();
+        requestHeader.setByteTelegramKind(TelegramConstants.BYTE_TELEGRAM_KIND_SIGNAL_DEFINITION);
+        requestHeader.setByteRequestKind(TelegramConstants.BYTE_REQUEST_KIND_NOTIFY);
+
+        // 閾値判定定義情報
+        Body signalBody = new Body();
+
+        signalBody.setStrObjName(TelegramConstants.OBJECTNAME_SIGNAL_CHANGE);
+        signalBody.setStrItemName(TelegramConstants.ITEMNAME_SIGNAL_ADD);
+        signalBody.setByteItemMode(ItemType.ITEMTYPE_STRING);
+
+        int signalId = signalDefinitionDto.getSignalId();
+        String signalName = signalDefinitionDto.getSignalName();
+        String matchingPattern = signalDefinitionDto.getMatchingPattern();
+        int level = signalDefinitionDto.getLevel();
+        double escalationPeriod = signalDefinitionDto.getEscalationPeriod();
+        String patternValue = signalDefinitionDto.getPatternValue();
+
+        int dtoCount = 6;
+        signalBody.setIntLoopCount(dtoCount);
+        String[] signalDefObj =
+                { String.valueOf(signalId), signalName, matchingPattern, String.valueOf(level),
+                        String.valueOf(escalationPeriod), patternValue };
+        signalBody.setObjItemValueArr(signalDefObj);
+
+        Body[] requestBodys = { signalBody };
+
+        telegram.setObjHeader(requestHeader);
+        telegram.setObjBody(requestBodys);
+
+        return telegram;
+    }
+
+    /**
      * シグナル定義をDBに登録する。
      * 
      * @param signalInfo
@@ -181,6 +240,8 @@ public class SignalService
 
         // 初期値は正常を表す0とする。
         signalDefinitionDto.setSignalValue(0);
+
+        addSignalDefinitionRequest(signalDefinitionDto);
 
         return signalDefinitionDto;
     }
@@ -226,9 +287,8 @@ public class SignalService
             Throwable cause = pEx.getCause();
             if (cause instanceof SQLException)
             {
-                SQLException sqlEx = (SQLException) cause;
-                LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx,
-                        sqlEx.getMessage());
+                SQLException sqlEx = (SQLException)cause;
+                LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx, sqlEx.getMessage());
             }
             else
             {
@@ -245,8 +305,7 @@ public class SignalService
 
         SignalDefinitionDto signalDefinitionDto = this.convertSignalDto(signalInfo);
 
-        // TODO signalValueがモックなので、DataCollectorに問い合わせて取得するように変更する
-        signalDefinitionDto.setSignalValue(1 + (int) (Math.random() * signalInfo.level));
+        signalDefinitionDto.setSignalValue(0);
 
         return signalDefinitionDto;
     }
@@ -269,9 +328,8 @@ public class SignalService
             Throwable cause = pEx.getCause();
             if (cause instanceof SQLException)
             {
-                SQLException sqlEx = (SQLException) cause;
-                LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx,
-                        sqlEx.getMessage());
+                SQLException sqlEx = (SQLException)cause;
+                LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx, sqlEx.getMessage());
             }
             else
             {
@@ -338,15 +396,14 @@ public class SignalService
      * @throws SQLException
      *             SQL 実行時に例外が発生した場合
      */
-    private void updateMeasurementItemName(final String beforeItemName,
-            final String afterItemName) throws SQLException
-            {
+    private void updateMeasurementItemName(final String beforeItemName, final String afterItemName)
+        throws SQLException
+    {
         DatabaseManager dbMmanager = DatabaseManager.getInstance();
         String dbName = dbMmanager.getDataBaseName(1);
 
-        JavelinMeasurementItemDao.updateMeasurementItemName(dbName,
-                beforeItemName, afterItemName);
-            }
+        JavelinMeasurementItemDao.updateMeasurementItemName(dbName, beforeItemName, afterItemName);
+    }
 
     /**
      * javelin_measurement_itemテーブルの指定したMEASUREMENT_ITEM_NAMEのレコードを削除する。
@@ -357,12 +414,12 @@ public class SignalService
      *             SQL 実行時に例外が発生した場合
      */
     private void deleteMeasurementItem(final String itemName)
-            throws SQLException
-            {
+        throws SQLException
+    {
         DatabaseManager dbMmanager = DatabaseManager.getInstance();
         String dbName = dbMmanager.getDataBaseName(1);
 
         JavelinMeasurementItemDao.deleteByMeasurementItemId(dbName, itemName);
-            }
+    }
 
 }

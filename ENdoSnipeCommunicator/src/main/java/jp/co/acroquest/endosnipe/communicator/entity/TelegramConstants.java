@@ -86,8 +86,11 @@ public interface TelegramConstants
 	/** 電文種別(DB名減少通知) */
 	byte BYTE_TELEGRAM_KIND_DEL_DATABASE_NAME = 17;
 
-	/** 電文種別(シグナル状態取得) */
-	byte BYTE_TELEGRAM_KIND_SIGNAL_STATE = 21;
+    /** 電文種別(シグナル状態取得) */
+    byte BYTE_TELEGRAM_KIND_SIGNAL_STATE = 21;
+
+    /** 電文種別(シグナル定義更新) */
+    byte BYTE_TELEGRAM_KIND_SIGNAL_DEFINITION = 22;
 
 	/** 最後の電文以外 */
 	byte HALFWAY_TELEGRAM = 0;
@@ -125,8 +128,11 @@ public interface TelegramConstants
 	/** オブジェクト名(ダンプ取得) */
 	String OBJECTNAME_DUMP = "dump";
 
-	/** オブジェクト名(計測アラーム) */
-	String OBJECTNAME_RESOURCEALARM = "resourceAlarm";
+    /** オブジェクト名(計測アラーム) */
+    String OBJECTNAME_RESOURCEALARM = "resourceAlarm";
+
+    /** オブジェクト名(シグナル定義変更) */
+    String OBJECTNAME_SIGNAL_CHANGE = "signalDefinitionChange";
 
 	/** オブジェクト名（接続情報通知での接続情報） */
 	String OBJECTNAME_CONNECTINFO = "connectInformation";
@@ -763,6 +769,15 @@ public interface TelegramConstants
 
 	/** 項目名（アラームのレベル） */
 	String ITEMNAME_ALARM_LEVEL = "alarmLevel";
+	
+    /** 項目名(シグナル定義追加) */
+    String ITEMNAME_SIGNAL_ADD = "signalAdd";
+
+    /** 項目名(シグナル定義追加) */
+    String ITEMNAME_SIGNAL_CHANGE= "signalChange";
+
+    /** 項目名(シグナル定義削除) */
+    String ITEMNAME_SIGNAL_REVEMO = "signalRemove";
 
 	/** int ⇔ byte[] 変換時に対応するバイト数 */
 	int INT_BYTE_SWITCH_LENGTH = 4;

@@ -129,8 +129,6 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
      */
     private JavelinConnectionData connectionData_ = null;
 
-    private Map<Long, SignalDefinitionDto> signalDefinitionMap_ = null;
-
     /** 閾値判定処理を行う定義を保持したマップ */
     private final Map<String, AlarmProcessor> processorMap_ =
                                                               new ConcurrentHashMap<String, AlarmProcessor>();
@@ -172,7 +170,8 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         this.rotateConfigMap_ = new HashMap<String, RotateConfig>();
         this.config_ = config;
         this.clientRepository_ = clientRepository;
-        this.signalDefinitionMap_ = signalDefinitionMap;
+        SignalStateManager signalStateManager = SignalStateManager.getInstance();
+        signalStateManager.setSignalDeifinitionMap(signalDefinitionMap);
     }
 
     /**
@@ -868,7 +867,11 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
     {
         SignalStateManager signalStateManager = SignalStateManager.getInstance();
         List<AlarmEntry> alarmEntryList = new ArrayList<AlarmEntry>();
-        for (Entry<Long, SignalDefinitionDto> signalDefinitionEntry : this.signalDefinitionMap_.entrySet())
+
+        Map<Long, SignalDefinitionDto> signalDefinitionMap =
+                                                             signalStateManager.getSignalDeifinitionMap();
+
+        for (Entry<Long, SignalDefinitionDto> signalDefinitionEntry : signalDefinitionMap.entrySet())
         {
             SignalDefinitionDto signalDefinition = signalDefinitionEntry.getValue();
             String itemName = signalDefinition.getMatchingPattern();

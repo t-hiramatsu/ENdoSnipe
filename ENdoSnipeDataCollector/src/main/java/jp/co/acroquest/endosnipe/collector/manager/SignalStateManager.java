@@ -29,6 +29,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import jp.co.acroquest.endosnipe.collector.processor.AlarmData;
+import jp.co.acroquest.endosnipe.data.dto.SignalDefinitionDto;
 
 /**
  * シグナルの状態を保持するクラス
@@ -42,6 +43,9 @@ public class SignalStateManager
 
     /** アラームを出すかどうか判定するために保持し続けるデータ */
     private final Map<String, AlarmData> alarmDataMap_ = new ConcurrentHashMap<String, AlarmData>();
+
+    /** シグナル定義を保持するマップ */
+    private Map<Long, SignalDefinitionDto> signalDefinitionMap_ = null;
 
     /**
      * インスタンス化を阻止するprivateコンストラクタです。
@@ -78,6 +82,56 @@ public class SignalStateManager
     public void addAlarmData(final String signalId, final AlarmData alarmData)
     {
         this.alarmDataMap_.put(signalId, alarmData);
+    }
+
+    /**
+     * シグナル定義情報のマップを返却する。
+     * @return シグナル定義情報のマップ
+     */
+    public Map<Long, SignalDefinitionDto> getSignalDeifinitionMap()
+    {
+        return this.signalDefinitionMap_;
+    }
+
+    /**
+     * シグナル定義情報のマップを設定する。
+     * @param signalDefinitionMap シグナル定義情報のマップ
+     */
+    public void setSignalDeifinitionMap(final Map<Long, SignalDefinitionDto> signalDefinitionMap)
+    {
+        this.signalDefinitionMap_ = signalDefinitionMap;
+    }
+
+    /**
+     * シグナル定義情報を追加する。
+     * @param signalId シグナルID
+     * @param signalDefinitionDto シグナル定義情報
+     * 
+     */
+    public void addSignalDefinition(final Long signalId,
+            final SignalDefinitionDto signalDefinitionDto)
+    {
+        if (this.signalDefinitionMap_ == null)
+        {
+            this.signalDefinitionMap_ = new ConcurrentHashMap<Long, SignalDefinitionDto>();
+        }
+        this.signalDefinitionMap_.put(signalId, signalDefinitionDto);
+    }
+
+    /**
+     * シグナル定義情報を削除する。
+     * @param signalId シグナルID
+     * 
+     * @return 削除したシグナル定義情報
+     * 
+     */
+    public SignalDefinitionDto removeSignalDefinition(final Long signalId)
+    {
+        if (this.signalDefinitionMap_ == null)
+        {
+            return null;
+        }
+        return this.signalDefinitionMap_.remove(signalId);
     }
 
 }

@@ -35,6 +35,7 @@ import jp.co.acroquest.endosnipe.collector.data.JavelinConnectionData;
 import jp.co.acroquest.endosnipe.collector.listener.AllNotifyListener;
 import jp.co.acroquest.endosnipe.collector.listener.CommonResponseListener;
 import jp.co.acroquest.endosnipe.collector.listener.JvnFileNotifyListener;
+import jp.co.acroquest.endosnipe.collector.listener.SignalChangeListener;
 import jp.co.acroquest.endosnipe.collector.listener.SignalStateListener;
 import jp.co.acroquest.endosnipe.collector.listener.SystemResourceListener;
 import jp.co.acroquest.endosnipe.collector.listener.TelegramNotifyListener;
@@ -396,11 +397,13 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
                                                                                              agentName);
 
         final SignalStateListener SIGNAL_STATE_LISTENER = new SignalStateListener();
+        final SignalChangeListener SIGNAL_CHANGE_LISTENER = new SignalChangeListener();
         if (queue != null)
         {
             receiver.addTelegramListener(JVN_FILE_NOTIFY_LISTENER);
             receiver.addTelegramListener(SYSTEM_RESOURCE_LISTENER);
             receiver.addTelegramListener(SIGNAL_STATE_LISTENER);
+            receiver.addTelegramListener(SIGNAL_CHANGE_LISTENER);
             addResponseTelegramListener(TelegramConstants.BYTE_TELEGRAM_KIND_GET_DUMP);
             addResponseTelegramListener(TelegramConstants.BYTE_TELEGRAM_KIND_UPDATE_PROPERTY);
         }
