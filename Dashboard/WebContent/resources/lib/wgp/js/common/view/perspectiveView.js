@@ -1,20 +1,20 @@
 /*******************************************************************************
  * WGP 1.0B - Web Graphical Platform (https://sourceforge.net/projects/wgp/)
- * 
+ *
  * The MIT License (MIT)
- * 
+ *
  * Copyright (c) 2012 Acroquest Technology Co.,Ltd.
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -57,6 +57,20 @@ wgp.PerspectiveView = Backbone.View
 				this.tableInitial(this.collection);
 				this.prepareTable();
 				this.setPerspectiveEvent();
+
+				// ウィンドウリサイズ時のイベントを設定
+				var instance = this;
+				$(window).resize(function(event){
+
+					// パースペクティブに対するリサイズの場合は処理を行わない。
+					console.log($(event.target));
+					if($(event.target).hasClass(wgp.styleClassConstants.PERSPECTIVE_DROP_AREA)){
+						return false;
+					}else{
+						instance.prepareTable();
+					}
+				});
+
 			},
 			createTableTags : function(parentDivId, table) {
 				// 指定された親divタグを基に各領域識別用の情報を設定する。
@@ -190,8 +204,8 @@ wgp.PerspectiveView = Backbone.View
 						var tableIndex_y = 0;
 						var tableIndex_x = 0;
 
-						for ( tableIndex_y = 0; tableIndex_y < table.length;) {
-							for ( tableIndex_x = 0; tableIndex_x < table[tableIndex_y].length;) {
+						for (tableIndex_y = 0; tableIndex_y < table.length;) {
+							for (tableIndex_x = 0; tableIndex_x < table[tableIndex_y].length;) {
 								if (table[tableIndex_y][tableIndex_x] === undefined) {
 									findFlag = true;
 								}
@@ -212,9 +226,12 @@ wgp.PerspectiveView = Backbone.View
 
 						var rowspanIndex;
 						var colspanIndex;
-						for ( rowspanIndex = 0; rowspanIndex < tableModel.get("rowspan"); rowspanIndex++) {
-							for ( colspanIndex = 0; colspanIndex < tableModel.get("colspan"); colspanIndex++) {
-								table[tableIndex_y + rowspanIndex][tableIndex_x + colspanIndex] = tableModel;
+						for (rowspanIndex = 0; rowspanIndex < tableModel
+								.get("rowspan"); rowspanIndex++) {
+							for (colspanIndex = 0; colspanIndex < tableModel
+									.get("colspan"); colspanIndex++) {
+								table[tableIndex_y + rowspanIndex][tableIndex_x
+										+ colspanIndex] = tableModel;
 							}
 						}
 
@@ -360,30 +377,25 @@ wgp.PerspectiveView = Backbone.View
 				// 生成したパースペクティブテーブルを2次元配列としてコレクションに格納しなおす。
 				this.collection = table;
 
-				this.max_width = 0;
-				this.max_height = 0;
+				// パースペクティブ全体の幅、高さを取得する。
+				var all_width = this.getAllWidth();
+				var all_height = this.getAllHeight();
 
-				// パースペクティブの最大幅を取得する。
+				// 全体の高さを基に、各モデルに割合を設定する。
 				alreadySetting = {};
-				for (index_x = 0; index_x < this.collection[0].length; index_x++) {
-					indexTableModel = this.collection[0][index_x];
+				for (index_y = 0; index_y < table.length; index_y++) {
+					for (index_x = 0; index_x < table[index_y].length; index_x++) {
 
-					if (alreadySetting[indexTableModel.get("drop_area_id")] !== true) {
-						this.max_width = this.max_width
-								+ indexTableModel.get("width");
-						alreadySetting[indexTableModel.get("drop_area_id")] = true;
-					}
-				}
+						var targetTableModel = table[index_y][index_x];
+						if (alreadySetting[targetTableModel.get("drop_area_id")] === true) {
+							continue;
+						}
 
-				// パースペクティブの最大高さを取得する。
-				alreadySetting = {};
-				for (index_y = 0; index_y < this.collection.length; index_y++) {
-					indexTableModel = this.collection[index_y][0];
+						var ratioWidth = targetTableModel.get("width") / all_width;
+						var ratioHeight = targetTableModel.get("height") / all_height;
 
-					if (alreadySetting[indexTableModel.get("drop_area_id")] !== true) {
-						this.max_height = this.max_height
-								+ indexTableModel.get("height");
-						alreadySetting[indexTableModel.get("drop_area_id")] = true;
+						targetTableModel.set("ratioWidth", ratioWidth);
+						targetTableModel.set("ratioHeight", ratioHeight);
 					}
 				}
 
@@ -407,8 +419,12 @@ wgp.PerspectiveView = Backbone.View
 						alreadySetting[targetTableModel.get("drop_area_id")] = true;
 
 						var utilBarId = targetTableModel.get("util_bar_id");
-						var utilBarView = new wgp.UtilBarView({id: utilBarId});
-						targetTableModel.set({utilBarView: utilBarView});
+						var utilBarView = new wgp.UtilBarView({
+							id : utilBarId
+						});
+						targetTableModel.set({
+							utilBarView : utilBarView
+						});
 					}
 				}
 			},
@@ -422,11 +438,14 @@ wgp.PerspectiveView = Backbone.View
 				var zIndex = 10;
 				var zIndex_margin = 10;
 
-				// パースペクティブエリア全体を囲むクラスのtop,leftを取得する。
+				// パースペクティブの各モデルをウィンドウサイズに同期させる
+				this.syncWindowSize();
+
+				// パースペクティブエリア全体を囲むクラスの幅、高さを設定する。
 				var dropAreaAllDiv = $("."
 						+ wgp.styleClassConstants.PERSPECTIVE_DROP_AREA_ALL);
-				dropAreaAllDiv.width(this.max_width + 10);
-				dropAreaAllDiv.height(this.max_height + 10);
+				dropAreaAllDiv.width(this.getAllWidth() + 10);
+				dropAreaAllDiv.height(this.getAllHeight() + 10);
 
 				for ( var index_y = 0; index_y < max_index_y; index_y++) {
 
@@ -529,6 +548,41 @@ wgp.PerspectiveView = Backbone.View
 					}
 				}
 			},
+			/**
+			 * 現在のウィンドウサイズに各モデルを同期する。
+			 */
+			syncWindowSize : function() {
+				var table = this.collection;
+				var alreadySetting = {};
+
+				// 全体を囲むクラスの位置を取得する。
+				var dropAreaAllDiv = $("."
+						+ wgp.styleClassConstants.PERSPECTIVE_DROP_AREA_ALL);
+				var dropAreaAllPosition = dropAreaAllDiv.position();
+				var dropAreaAllTop = dropAreaAllPosition.top;
+				var dropAreaAllLeft = dropAreaAllPosition.left;
+
+				var availableHeight = window.innerHeight - dropAreaAllTop - 30;
+				var availableWidth = window.innerWidth - dropAreaAllLeft - 30;
+
+				var alreadySetting = {};
+				for (index_y = 0; index_y < table.length; index_y++) {
+					for (index_x = 0; index_x < table[index_y].length; index_x++) {
+
+						var targetTableModel = table[index_y][index_x];
+						if (alreadySetting[targetTableModel.get("drop_area_id")] === true) {
+							continue;
+						}
+
+						var ratioHeight = targetTableModel.get("ratioHeight");
+						var ratioWidth = targetTableModel.get("ratioWidth");
+
+						targetTableModel.set("height", Math.floor(availableHeight) * ratioHeight);
+						targetTableModel.set("width", Math.floor(availableWidth) * ratioWidth);
+					}
+				}
+
+			},
 			resetViewPosition : function(targetTableModel) {
 				var margin = 10;
 
@@ -543,7 +597,7 @@ wgp.PerspectiveView = Backbone.View
 
 					// ビュー領域を取得する。
 					var viewDivIdArray = targetTableModel.get("view_div_id");
-					$.each(viewDivIdArray, function(index, view_div_id){
+					$.each(viewDivIdArray, function(index, view_div_id) {
 						var viewAreaDiv = $("#" + view_div_id);
 
 						// ビュー領域の位置及び大きさを再設定する。
@@ -553,13 +607,16 @@ wgp.PerspectiveView = Backbone.View
 						viewAreaDiv.zIndex(dropAreaDiv.zIndex() + 1);
 						viewAreaDiv.css("overflow", "auto");
 
-						$.each(viewAreaDiv.children(), function(index, viewItem) {
+						$
+								.each(viewAreaDiv.children(),
+										function(index, viewItem) {
 
-							if (viewItem.resizeFunction) {
-								viewItem.resizeFunction(viewAreaDiv.width(),
-										viewAreaDiv.height());
-							}
-						});
+											if (viewItem.resizeFunction) {
+												viewItem.resizeFunction(
+														viewAreaDiv.width(),
+														viewAreaDiv.height());
+											}
+										});
 					});
 				}
 			},
@@ -605,13 +662,14 @@ wgp.PerspectiveView = Backbone.View
 			},
 			/**
 			 * パースペクティブ領域にビューがドロップされた際の処理を行う。
-			 * 
+			 *
 			 * @param droppableTargetId
 			 *            ドロップ領域
 			 * @param draggableTargetId
 			 *            ドロップされたビュー
 			 */
-			dropEventFunction : function(droppableTargetId, draggableTargetId, viewName) {
+			dropEventFunction : function(droppableTargetId, draggableTargetId,
+					viewName) {
 
 				// ドロップ領域より該当するパースペクティブ情報を取得する。
 				var targetTableModel = this
@@ -643,7 +701,8 @@ wgp.PerspectiveView = Backbone.View
 								|| targetTableModel.get("util_bar_id") == argument_id
 								|| targetTableModel.get("minimize_restore_id") == argument_id
 								|| targetTableModel.get("hide_id") == argument_id
-								|| _.contains(targetTableModel.get("view_div_id"), argument_id) ) {
+								|| _.contains(targetTableModel
+										.get("view_div_id"), argument_id)) {
 							return targetTableModel;
 						}
 					}
@@ -651,7 +710,7 @@ wgp.PerspectiveView = Backbone.View
 			},
 			/**
 			 * 引数にて渡されたパースペクティブ領域にイベントを設定する。
-			 * 
+			 *
 			 * @param tableModel
 			 */
 			setEventFunction : function(tableModel) {
@@ -699,7 +758,8 @@ wgp.PerspectiveView = Backbone.View
 												.findPerspectiveFromId(droppableTargetId);
 
 										// ビューの関連付けを削除する。
-										targetTableModel.removeView(draggableTargetId);
+										targetTableModel
+												.removeView(draggableTargetId);
 									}
 								});
 
@@ -801,12 +861,18 @@ wgp.PerspectiveView = Backbone.View
 					var indexDiv = $("#" + indexTableModel.drop_area_id);
 					indexDiv.width(indexDiv.width() - changeLeft);
 					indexDiv.height(indexDiv.height() + changeTop);
+
+					// リサイズ後の変化内容をモデルに反映する。
+					indexTableModel.syncView();
 				});
 
 				// 上方向に隣接するパースペクティブ領域に対するリサイズ処理
 				$.each(up_view_array, function(index, indexTableModel) {
 					var indexDiv = $("#" + indexTableModel.drop_area_id);
 					indexDiv.height(indexDiv.height() + changeTop);
+
+					// リサイズ後の変化内容をモデルに反映する。
+					indexTableModel.syncView();
 				});
 
 				// 右上方向に隣接するパースペクティブ領域に対するリサイズ処理
@@ -817,6 +883,9 @@ wgp.PerspectiveView = Backbone.View
 					indexDiv.css("left", indexPosition["left"] + changeWidth);
 					indexDiv.width(indexDiv.width() - changeWidth);
 					indexDiv.height(indexDiv.height() + changeTop);
+
+					// リサイズ後の変化内容をモデルに反映する。
+					indexTableModel.syncView();
 				});
 
 				// 左方向に隣接するパースペクティブ領域に対するリサイズ処理
@@ -837,6 +906,9 @@ wgp.PerspectiveView = Backbone.View
 									if (targetTableModel.last_index_y == indexTableModel.last_index_y) {
 										indexDiv.height(afterTop + afterHeight);
 									}
+
+									// リサイズ後の変化内容をモデルに反映する。
+									indexTableModel.syncView();
 								});
 
 				// 右方向に隣接するパースペクティブ領域に対するリサイズ処理
@@ -863,6 +935,9 @@ wgp.PerspectiveView = Backbone.View
 										indexDiv.height(indexDiv.height()
 												+ changeHeight);
 									}
+
+									// リサイズ後の変化内容をモデルに反映する。
+									indexTableModel.syncView();
 								});
 
 				// 左下方向に隣接するパースペクティブ領域に対するリサイズ処理
@@ -875,6 +950,9 @@ wgp.PerspectiveView = Backbone.View
 							indexDiv.css("top", indexPosition["top"]
 									+ changeHeight);
 							indexDiv.width(indexDiv.width() + changeLeft);
+
+							// リサイズ後の変化内容をモデルに反映する。
+							indexTableModel.syncView();
 						});
 
 				// 下方向に隣接するパースペクティブ領域に対するリサイズ処理
@@ -887,6 +965,10 @@ wgp.PerspectiveView = Backbone.View
 							indexDiv.css("top", indexPosition["top"]
 									+ changeHeight);
 							indexDiv.height(indexDiv.height() - changeHeight);
+							indexDiv.width(indexDiv.width() + changeWidth);
+
+							// リサイズ後の変化内容をモデルに反映する。
+							indexTableModel.syncView();
 						});
 
 				// 右下方向に隣接するパースペクティブ領域に対するリサイズ処理
@@ -901,24 +983,33 @@ wgp.PerspectiveView = Backbone.View
 							indexDiv.css("left", indexPosition["left"]
 									+ changeWidth);
 							indexDiv.width(indexDiv.width() - changeWidth);
+
+							// リサイズ後の変化内容をモデルに反映する。
+							indexTableModel.syncView();
 						});
 
 				// 関連付くビューを再配置する。
-//				alreadyProcessed = {};
 				for ( var index_y = 0; index_y < perspectiveTable.length; index_y++) {
 					for ( var index_x = 0; index_x < perspectiveTable[index_y].length; index_x++) {
 
 						var indexTableModel = perspectiveTable[index_y][index_x];
-
-//						// 処理済みの場合は除く
-//						if (alreadyProcessed[indexTableModel.get("view_div_id")] === true) {
-//							continue;
-//						}
-//						alreadyProcessed[indexTableModel.get("view_div_id")] = true;
-
 						this.resetViewPosition(indexTableModel);
 					}
 				}
+
+				// リサイズ後の変化内容をモデルに反映する。
+				targetTableModel.syncView();
+
+				// パースペクティブ全体の幅、高さを再計算する。
+				this.all_width = this.getAllWidth();
+				this.all_height = this.getAllHeight();
+
+				// パースペクティブエリア全体を囲むクラスのtop,leftを取得する。
+				var dropAreaAllDiv = $("."
+						+ wgp.styleClassConstants.PERSPECTIVE_DROP_AREA_ALL);
+				dropAreaAllDiv.width(this.all_width + 10);
+				dropAreaAllDiv.height(this.all_height + 10);
+
 			},
 			minRestoreEventFunction : function(targetId) {
 
@@ -1192,8 +1283,10 @@ wgp.PerspectiveView = Backbone.View
 							&& !findFlag; index++) {
 
 						// 自身と同じ開始行、終了行か確認
-						if (tagetTableModel.get("first_index_y") == right_view_array[index].get("first_index_y")
-								&& tagetTableModel.get("last_index_y") == right_view_array[index].get("last_index_y")) {
+						if (tagetTableModel.get("first_index_y") == right_view_array[index]
+								.get("first_index_y")
+								&& tagetTableModel.get("last_index_y") == right_view_array[index]
+										.get("last_index_y")) {
 							returnObject["width"] = minimizeWidth;
 							returnObject["left"] = targetLeft;
 							findFlag = true;
@@ -1204,8 +1297,10 @@ wgp.PerspectiveView = Backbone.View
 					for (index = 0; index < left_view_array.length && !findFlag; index++) {
 
 						// 自身と同じ開始行、終了行か確認
-						if (tagetTableModel.get("first_index_y") == left_view_array[index].get("first_index_y")
-								&& tagetTableModel.get("last_index_y") == left_view_array[index].get("last_index_y")) {
+						if (tagetTableModel.get("first_index_y") == left_view_array[index]
+								.get("first_index_y")
+								&& tagetTableModel.get("last_index_y") == left_view_array[index]
+										.get("last_index_y")) {
 							returnObject["width"] = minimizeWidth;
 							returnObject["left"] = targetLeft + targetWidth;
 							findFlag = true;
@@ -1236,18 +1331,57 @@ wgp.PerspectiveView = Backbone.View
 						}
 
 						if (indexViewModel.isRerationView()) {
-							var viewDivIdArray = indexViewModel.get("view_div_id");
-							$.each(viewDivIdArray, function(index, view_div_id){
-								var viewAreaDiv = $("#" + view_div_id);
+							var viewDivIdArray = indexViewModel
+									.get("view_div_id");
+							$.each(viewDivIdArray,
+									function(index, view_div_id) {
+										var viewAreaDiv = $("#" + view_div_id);
 
-								if (viewAreaDiv.zIndex() > maxZIndex) {
-									maxZIndex = viewAreaDiv.zIndex();
-								}
-							})
+										if (viewAreaDiv.zIndex() > maxZIndex) {
+											maxZIndex = viewAreaDiv.zIndex();
+										}
+									})
 						}
 					}
 				}
 
 				return maxZIndex;
-			}
+			},
+			/**
+			 * パースペクティブ全体の幅を計算して返却する。
+			 */
+			getAllWidth : function() {
+
+				var all_width = 0;
+				var alreadySetting = {};
+
+				for ( var index_x = 0; index_x < this.collection[0].length; index_x++) {
+					var indexTableModel = this.collection[0][index_x];
+
+					if (alreadySetting[indexTableModel.get("drop_area_id")] !== true) {
+						all_width = all_width + indexTableModel.get("width");
+						alreadySetting[indexTableModel.get("drop_area_id")] = true;
+					}
+				}
+
+				return all_width;
+			},
+			/**
+			 * パースペクティブ全体の高さを計算して返却する。
+			 */
+			getAllHeight : function() {
+
+				var all_height = 0;
+				var alreadySetting = {};
+				for ( var index_y = 0; index_y < this.collection.length; index_y++) {
+					indexTableModel = this.collection[index_y][0];
+
+					if (alreadySetting[indexTableModel.get("drop_area_id")] !== true) {
+						all_height = all_height + indexTableModel.get("height");
+						alreadySetting[indexTableModel.get("drop_area_id")] = true;
+					}
+				}
+
+				return all_height;
+			},
 		});

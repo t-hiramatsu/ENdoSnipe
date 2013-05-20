@@ -1,20 +1,20 @@
 /*******************************************************************************
  * WGP 1.0B - Web Graphical Platform (https://sourceforge.net/projects/wgp/)
- * 
+ *
  * The MIT License (MIT)
- * 
+ *
  * Copyright (c) 2012 Acroquest Technology Co.,Ltd.
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -77,8 +77,17 @@ wgp.PerspectiveModel = Backbone.Model.extend({
 		right_view_array : [],
 
 		// ユーティリティバーモデル
-		utilBarView : null
+		utilBarView : null,
+
+		// 全体の幅から見た割合
+		ratioWidth : 0,
+
+		// 全体の高さから見た割合
+		ratioHeight : 0
 	},
+	/**
+	 * 自身に紐づくビューが存在するかどうかを返却する。
+	 */
 	isRerationView : function() {
 		if (this.get("view_div_id") && this.get("view_div_id").length > 0) {
 			return true;
@@ -86,6 +95,9 @@ wgp.PerspectiveModel = Backbone.Model.extend({
 			return false;
 		}
 	},
+	/**
+	 * 自身に紐づくビューを追加する。
+	 */
 	addView : function(view_div_id, viewName){
 
 		// ビューが一つも関連付いていない場合は、ulタグを新規作成する。
@@ -115,6 +127,9 @@ wgp.PerspectiveModel = Backbone.Model.extend({
 		var utilBarView = this.get("utilBarView");
 		utilBarView.addTab(tabModel);
 	},
+	/**
+	 * 自身に紐づくビューを削除する。
+	 */
 	removeView : function(remove_view_div_id){
 		var viewDivIdArray = this.get("view_div_id");
 		$.each(viewDivIdArray, function(index, view_div_id){
@@ -127,6 +142,9 @@ wgp.PerspectiveModel = Backbone.Model.extend({
 		var targetViewDiv = $("#" + view_div_id);
 		targetViewDiv.resizable({"disable" : false});
 	},
+	/**
+	 * 指定したビューが自身に含まれるか判定して返却する。
+	 */
 	isContainsView : function(view_div_id){
 		if(!this.isRerationView()){
 			return false;
@@ -138,5 +156,18 @@ wgp.PerspectiveModel = Backbone.Model.extend({
 		}else{
 			return true;
 		}
+	},
+	/**
+	 * 画面表示と同期する。
+	 */
+	syncView : function(){
+
+		// 幅、高さを最新の状態に更新する。
+		var dropAreaView = $("#" + this.get("drop_area_id"));
+		var width = dropAreaView.width();
+		var height = dropAreaView.height();
+
+		this.set("width", width);
+		this.set("height", height);
 	}
 });
