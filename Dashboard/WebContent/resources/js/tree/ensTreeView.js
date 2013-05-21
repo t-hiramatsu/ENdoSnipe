@@ -622,7 +622,8 @@ ENS.treeView = wgp.TreeView
 					data : signalDisplayName,
 					parentTreeId : parentTreeId,
 					icon : icon,
-					type : ENS.tree.type.SIGNAL
+					type : ENS.tree.type.SIGNAL,
+					treeId : signalName
 				};
 
 				// ツリーに編集後の情報を設定する。
