@@ -24,7 +24,7 @@
 		<div id="signalMatchingPatternArea" class="dialogContentArea">
 			<div id="signalMatchingPatternItem" class="dialogItem">Matching Pattern : </div>
 			<div id="signalMatchingPatternValue" class="dialogValue">
-				<input type="text" id="matchingPattern" class="signalValue" value="" />
+				<input type="text" id="matchingPattern" class="signalValue" value="" readonly="readonly" />
 			</div>
 		</div>
 		<div id="signalPatternArea" class="dialogContentArea">
@@ -61,9 +61,9 @@
 		<div id="signalEscalationPeriodArea" class="dialogContentArea">
 			<div id="signalEscalationPeriodItem" class="dialogItem">Escalation Period : </div>
 			<div id="signalEscalationPeriodValue" class="dialogValue">
-				<input type="text" id="escalationPeriod" class="signalValue" value="" />
+				<input type="text" id="escalationPeriod" class="signalValue" value="15" />
 			</div>
-			<div id="signalEscalationPeriodUnit">ms</div>
+			<div id="signalEscalationPeriodUnit">s</div>
 		</div>
 	</div>
 </body>

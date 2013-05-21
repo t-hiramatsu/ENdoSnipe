@@ -135,7 +135,7 @@ ENS.tree.contextOption = [ {
 	menu_id : ENS.tree.ADD_SIGNAL_TYPE,
 	menu_name : "Add Signal",
 	executeClass : "ENS.SignalDefinitionDialogView",
-	showTreeTypes : [ ENS.tree.type.GROUP, ENS.tree.type.TARGET ],
+	showTreeTypes : [ ENS.tree.type.TARGET ],
 	executeOption : {
 		dialogId : ENS.tree.SIGNAL_DIALOG,
 		signalType : ENS.tree.ADD_SIGNAL_TYPE
@@ -189,6 +189,10 @@ ENS.tree.SIGNAL_ICON_3 = "signal_3";
 ENS.tree.SIGNAL_ICON_4 = "signal_4";
 ENS.tree.SIGNAL_ICON_5 = "signal_5";
 ENS.tree.REPORT_ICON = "report";
+
+ENS.tree.DEFAULT_SIGNAL_NAME = "new Signal";
+ENS.tree.DEFAULT_SIGNAL_PATTERN = "3";
+ENS.tree.DEFAULT_ESCALATION_PERIOD = "15";
 
 ENS.map = {};
 ENS.map.mode = {};

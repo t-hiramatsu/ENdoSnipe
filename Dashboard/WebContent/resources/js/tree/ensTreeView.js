@@ -306,6 +306,8 @@ ENS.treeView = wgp.TreeView
 			 * シグナル新規追加時の送信データを生成する。
 			 */
 			createSendAddSignalData_ : function(signalName) {
+				// 入力された秒をミリ秒に変換する
+				var escalationPeriod = $("#escalationPeriod").val() * 1000;
 				// シグナル定義を作成する
 				var signalDefinition = {
 					signalId : $("#signalId").val(),
@@ -313,7 +315,7 @@ ENS.treeView = wgp.TreeView
 					matchingPattern : $("#matchingPattern").val(),
 					level : $("#signalPatternValue select").val(),
 					patternValue : this.createPatternValue_(),
-					escalationPeriod : $("#escalationPeriod").val()
+					escalationPeriod : escalationPeriod
 				};
 
 				var sendData = {
@@ -326,7 +328,8 @@ ENS.treeView = wgp.TreeView
 			 * シグナル編集時の送信データを生成する。
 			 */
 			createSendEditSignalData_ : function(signalName) {
-
+				// 入力された秒をミリ秒に変換する
+				var escalationPeriod = $("#escalationPeriod").val() * 1000;
 				// シグナル定義を作成する
 				var signalDefinition = {
 					signalId : $("#signalId").val(),
@@ -334,7 +337,7 @@ ENS.treeView = wgp.TreeView
 					matchingPattern : $("#matchingPattern").val(),
 					level : $("#signalPatternValue select").val(),
 					patternValue : this.createPatternValue_(),
-					escalationPeriod : $("#escalationPeriod").val()
+					escalationPeriod : escalationPeriod
 				};
 
 				var sendData = {
@@ -666,7 +669,7 @@ ENS.treeView = wgp.TreeView
 				});
 			},
 			callbackAddReport_ : function(reportDefinition) {
-				//　TODO レポート一覧テーブルが表示されているときはリロードする
+				// TODO レポート一覧テーブルが表示されているときはリロードする
 			},
 			createReportTreeOption_ : function(reportDefinition) {
 				var reportId = reportDefinition.reportId;
@@ -711,15 +714,16 @@ ENS.treeView = wgp.TreeView
 			 */
 			clearSignalDialog_ : function() {
 				$("#signalId").val("");
-				$("#signalName").val("new Signal");
+				$("#signalName").val(ENS.tree.DEFAULT_SIGNAL_NAME);
 				$("#matchingPattern").val("");
-				$("#signalPatternValue select").val("3");
+				$("#signalPatternValue select").val(
+						ENS.tree.DEFAULT_SIGNAL_PATTERN);
 				$("#patternValue_1").val("");
 				$("#patternValue_2").val("");
 				$("#patternValue_3").val("");
 				$("#patternValue_4").val("");
 				$("#patternValue_5").val("");
-				$("#escalationPeriod").val("");
+				$("#escalationPeriod").val(ENS.tree.DEFAULT_ESCALATION_PERIOD);
 			},
 			/**
 			 * レポートダイアログをクリアする。
@@ -771,7 +775,9 @@ ENS.treeView = wgp.TreeView
 
 				$("#matchingPattern").val(signalDefinition.matchingPattern);
 				$("#signalPatternValue select").val(level);
-				$("#escalationPeriod").val(signalDefinition.escalationPeriod);
+				
+				var escalationPeriod = 
+				$("#escalationPeriod").val((signalDefinition.escalationPeriod - 0) / 1000);
 			},
 			getIcon : function(signalDefinition) {
 				var icon = "";
