@@ -174,7 +174,7 @@ infinispan.HeapView = wgp.AbstractView
 				
 				// making area to set raphael
 				$(elem).append(
-								"<div id='heap_data' style='width:625px;height:630px; float:right'></div>");
+								"<div id='heap_data' style='width:625px;height:630px; float:left'></div>");
 				
 				$(elem).append(
 				"<div class='clearFloat'></div>");
