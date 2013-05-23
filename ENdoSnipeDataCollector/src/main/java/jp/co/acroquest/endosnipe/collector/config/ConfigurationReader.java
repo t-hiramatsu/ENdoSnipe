@@ -164,6 +164,9 @@ public class ConfigurationReader
     /** データベース名を表す接頭辞 */
     private static final String DATABASE_NAME = "database.name";
 
+    /** データベース名を表す接頭辞(エージェント毎) */
+    private static final String DATABASE_NAME_PREFIX = "database.name.";
+
     /** データベースの種類を表す接頭辞 */
     private static final String DATABASE_TYPE = "database.type";
 
@@ -318,6 +321,8 @@ public class ConfigurationReader
         AGENT_PREFIXES.add(ACCEPT_PORT);
         AGENT_PREFIXES.add(JVN_LOG_STRAGE_PERIOD);
         AGENT_PREFIXES.add(MEASUREMENT_LOG_STRAGE_PERIOD);
+        AGENT_PREFIXES.add(DATABASE_NAME_PREFIX);
+
     }
 
     /**
