@@ -55,6 +55,7 @@ import jp.co.acroquest.endosnipe.collector.processor.AlarmThresholdProcessor;
 import jp.co.acroquest.endosnipe.collector.request.CommunicationClientRepository;
 import jp.co.acroquest.endosnipe.collector.util.CollectorTelegramUtil;
 import jp.co.acroquest.endosnipe.common.Constants;
+import jp.co.acroquest.endosnipe.common.entity.ItemType;
 import jp.co.acroquest.endosnipe.common.entity.MeasurementData;
 import jp.co.acroquest.endosnipe.common.entity.MeasurementDetail;
 import jp.co.acroquest.endosnipe.common.entity.ResourceData;
@@ -64,6 +65,8 @@ import jp.co.acroquest.endosnipe.common.parser.JavelinLogAccessor;
 import jp.co.acroquest.endosnipe.common.util.ResourceDataUtil;
 import jp.co.acroquest.endosnipe.common.util.StreamUtil;
 import jp.co.acroquest.endosnipe.communicator.accessor.ResourceNotifyAccessor;
+import jp.co.acroquest.endosnipe.communicator.entity.Body;
+import jp.co.acroquest.endosnipe.communicator.entity.Header;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.data.dao.JavelinLogDao;
@@ -94,6 +97,8 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
     private static final ENdoSnipeLogger LOGGER =
                                                   ENdoSnipeLogger.getLogger(JavelinDataLogger.class,
                                                                             ENdoSnipeDataCollectorPluginProvider.INSTANCE);
+
+    private static final int TREE_TELEGRAM_DTO_COUNT = 3;
 
     private final JavelinDataQueue queue_ = new JavelinDataQueue();
 
@@ -510,6 +515,54 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             LOGGER.log("IEDC0022", database, elapsedTime, result.getInsertCount(), cacheHitCount,
                        result.getCacheOverflowCount());
         }
+
+        // TODO 実際の値を取得して代入すること
+        int measurementItemId = 0;
+        String measurementItemName = "";
+        String lastInserted = "";
+
+        Telegram telegram =
+                            createAddTreeNodeTelegram(measurementItemId, measurementItemName,
+                                                      lastInserted);
+        // TODO 作成したTelegramをDashboardにSendする処理を書くこと
+    }
+
+    /**
+     * ツリーノード追加の電文を作成する。
+     * 
+     * @return
+     */
+    private Telegram createAddTreeNodeTelegram(final int measurementItemId,
+            final String measurementItemName, final String lastInserted)
+    {
+        Telegram telegram = new Telegram();
+
+        Header requestHeader = new Header();
+        requestHeader.setByteTelegramKind(TelegramConstants.BYTE_TELEGRAM_KIND_TREE_DEFINITION);
+        requestHeader.setByteRequestKind(TelegramConstants.BYTE_REQUEST_KIND_NOTIFY);
+
+        // 追加されたツリーノード情報
+        Body treeBody = new Body();
+
+        treeBody.setStrObjName(TelegramConstants.OBJECTNAME_TREE_CHANGE);
+        treeBody.setStrItemName(TelegramConstants.ITEMNAME_TREE_ADD);
+        treeBody.setByteItemMode(ItemType.ITEMTYPE_STRING);
+
+        // データ数をセットする
+        treeBody.setIntLoopCount(TREE_TELEGRAM_DTO_COUNT);
+
+        String[] treeDefObj =
+                              {String.valueOf(measurementItemId), measurementItemName, lastInserted};
+
+        // Valueをセットする
+        treeBody.setObjItemValueArr(treeDefObj);
+
+        Body[] requestBodys = {treeBody};
+
+        telegram.setObjHeader(requestHeader);
+        telegram.setObjBody(requestBodys);
+
+        return telegram;
     }
 
     /**

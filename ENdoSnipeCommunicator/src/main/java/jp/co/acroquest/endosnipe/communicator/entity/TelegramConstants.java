@@ -91,6 +91,9 @@ public interface TelegramConstants
 
     /** 電文種別(シグナル定義更新) */
     byte BYTE_TELEGRAM_KIND_SIGNAL_DEFINITION = 22;
+    
+    /** 電文種別(ツリー定義更新) */
+    byte BYTE_TELEGRAM_KIND_TREE_DEFINITION = 23;
 
 	/** 最後の電文以外 */
 	byte HALFWAY_TELEGRAM = 0;
@@ -133,6 +136,9 @@ public interface TelegramConstants
 
     /** オブジェクト名(シグナル定義変更) */
     String OBJECTNAME_SIGNAL_CHANGE = "signalDefinitionChange";
+    
+    /** オブジェクト名(ツリー定義変更) */
+    String OBJECTNAME_TREE_CHANGE = "treeDefinitionChange";
 
 	/** オブジェクト名（接続情報通知での接続情報） */
 	String OBJECTNAME_CONNECTINFO = "connectInformation";
@@ -778,6 +784,30 @@ public interface TelegramConstants
 
     /** 項目名(シグナル定義削除) */
     String ITEMNAME_SIGNAL_REVEMO = "signalRemove";
+    
+    /** 項目名(ツリー定義追加) */
+    String ITEMNAME_TREE_ADD = "treeAdd";
+    
+    /** 項目名（ツリー表示名） */
+    String ITEMNAME_TREE_DATA = "data";
+    
+    /** 項目名（ツリーID） */
+    String ITEMNAME_TREE_TREEID = "treeId";
+    
+    /** 項目名（親ツリーID） */
+    String ITEMNAME_TREE_PARENTTREEID = "parentTreeId";
+    
+    /** 項目名（ID） */
+    String ITEMNAME_TREE_ID = "id";
+    
+    /** 項目名（ツリーのタイプ） */
+    String ITEMNAME_TREE_TYPE = "type";
+  
+    /** 項目名（アイコン） */
+    String ITEMNAME_TREE_ICON = "icon";
+    
+    /** 項目名（計測単位） */
+    String ITEMNAME_TREE_MEASUREMENTUNIT = "measurementUnit";
 
 	/** int ⇔ byte[] 変換時に対応するバイト数 */
 	int INT_BYTE_SWITCH_LENGTH = 4;
