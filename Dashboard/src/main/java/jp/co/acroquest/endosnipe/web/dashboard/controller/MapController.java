@@ -68,7 +68,7 @@ public class MapController
     private static final String MAP_DATA_ID = "map";
 
     /** 運用モード */
-    private static final String OPERATE_MODE = "Operate";
+    private static final String OPERATE_MODE = "OPERATE";
 
     /** マップ機能のサービスクラス。 */
     @Autowired

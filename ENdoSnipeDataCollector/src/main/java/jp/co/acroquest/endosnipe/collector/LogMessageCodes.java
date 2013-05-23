@@ -157,6 +157,9 @@ public interface LogMessageCodes extends CommonLogMessageCodes
     /** パラメータの解析に失敗(デフォルト値を使用) */
     String FAIL_READ_PARAMETER_USE_DEFAULT = "WEDC0407";
 
+    /** エージェントIDの取得に失敗 */
+    String FAIL_GET_AGENT_ID = "WEDC0408";
+
     /** イベント通知クラスの初期化に失敗 */
     String FAIL_CREATE_EVENT_SENDER = "WEDC0411";
 

@@ -32,7 +32,9 @@ import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 import java.util.TreeMap;
+import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -111,6 +113,13 @@ public class ConfigurationReader
     /** ポート番号を表す接頭辞 */
     private static final String CLIENT_MODE_ACCEPT_PORT = "datacollector.acceptport.";
 
+    /** ログの保持期間を表す接頭辞 */
+    private static final String LOG_STORAGE_PERIOD_PREFIX = "javelin.log.storage.period.";
+
+    /** 計測データの保持期間を表す接頭辞 */
+    private static final String MEASUREMENT_STORAGE_PERIOD_PREFIX =
+            "measurement.log.storage.period.";
+
     /** データベース名(serverモード) */
     private static final String DATABASE_NAME = "database.name";
 
@@ -138,8 +147,21 @@ public class ConfigurationReader
     /** データベース名で使用できる文字を、正規表現で表したもの */
     private static final String DATABASE_NAME_USABLE_PATTERN = "[A-Za-z0-9#$%@=\\+\\-_~\\.]*";
 
+    /** エージェント定義の設定を表すprefix */
+    private static final Set<String> AGENT_PREFIXES = new CopyOnWriteArraySet<String>();
+
     /** パラメータ定義ファイルのパス */
     private static String configFilePath__;
+
+    static
+    {
+        AGENT_PREFIXES.add(AGENT_HOST);
+        AGENT_PREFIXES.add(AGENT_PORT);
+        AGENT_PREFIXES.add(CLIENT_MODE_ACCEPT_HOST);
+        AGENT_PREFIXES.add(CLIENT_MODE_ACCEPT_PORT);
+        AGENT_PREFIXES.add(LOG_STORAGE_PERIOD_PREFIX);
+        AGENT_PREFIXES.add(MEASUREMENT_STORAGE_PERIOD_PREFIX);
+    }
 
     /**
      * デフォルトコンストラクタ。
@@ -380,6 +402,13 @@ public class ConfigurationReader
         {
             return -1;
         }
+        // エージェントごとに設定するキー以外の場合は、-1を返し、処理を終了する。
+        String keyPrefix = key.substring(0, pos + 1);
+        if (!AGENT_PREFIXES.contains(keyPrefix))
+        {
+            return -1;
+        }
+
         String hostNumStr = key.substring(pos + 1);
         int hostNum = -1;
         try
@@ -388,7 +417,7 @@ public class ConfigurationReader
         }
         catch (NumberFormatException ex)
         {
-            ex.printStackTrace();
+            LOGGER.log(LogMessageCodes.FAIL_GET_AGENT_ID, key);
         }
         return hostNum;
     }
