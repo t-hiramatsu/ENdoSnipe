@@ -99,6 +99,15 @@ ENS.treeView = wgp.TreeView
 				// this.getAllSignal_();
 
 				this.getAllReport_();
+
+				$("#" + this.$el.attr("id")).bind(
+						"open_node.jstree close_node.jstree", function(e) {
+							if (e.type == "open_node") {
+							
+							} else if (e.type == "close_node") {
+
+							}
+						});
 			},
 			createTreeData : function(treeModel) {
 				var returnData = wgp.TreeView.prototype.createTreeData.call(
@@ -776,9 +785,9 @@ ENS.treeView = wgp.TreeView
 
 				$("#matchingPattern").val(signalDefinition.matchingPattern);
 				$("#signalPatternValue select").val(level);
-				
-				var escalationPeriod = 
-				$("#escalationPeriod").val((signalDefinition.escalationPeriod - 0) / 1000);
+
+				var escalationPeriod = $("#escalationPeriod").val(
+						(signalDefinition.escalationPeriod - 0) / 1000);
 			},
 			getIcon : function(signalDefinition) {
 				var icon = "";
