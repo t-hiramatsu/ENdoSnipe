@@ -103,7 +103,7 @@ ENS.treeView = wgp.TreeView
 				$("#" + this.$el.attr("id")).bind(
 						"open_node.jstree close_node.jstree", function(e) {
 							if (e.type == "open_node") {
-							
+
 							} else if (e.type == "close_node") {
 
 							}
@@ -744,6 +744,9 @@ ENS.treeView = wgp.TreeView
 				$("#targetName").val("");
 				$("#jquery-ui-datepicker-from").val("");
 				$("#jquery-ui-datepicker-to").val("");
+
+				$("#jquery-ui-datepicker-from, #jquery-ui-datepicker-to")
+						.datetimepicker('destroy');
 			},
 			inputSignalDialog_ : function(treeModel) {
 				// Ajax通信用の送信先URL
