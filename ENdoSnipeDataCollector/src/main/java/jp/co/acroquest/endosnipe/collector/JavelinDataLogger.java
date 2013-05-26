@@ -141,6 +141,9 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
     /** 閾値レベル（正常） */
     public static final int NORMAL_ALARM_LEVEL = 0;
 
+    /** 閾値レベル（監視停止中） */
+    public static final int STOP_ALARM_LEVEL = -1;
+
     /** JAVELIN_LOG テーブルを truncate するコールバックメソッド */
     private final RotateCallback javelinRotateCallback_ = new RotateCallback() {
         /**
