@@ -38,9 +38,9 @@ public class SignalService
     private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(MapService.class);
 
     /**
-     * デフォルトのシグナル状態
+     * デフォルトのシグナル状態(監視停止中)
      */
-    private static final int DEFAULT_SIGNAL_STATE = 0;
+    private static final int DEFAULT_SIGNAL_STATE = -1;
 
     /**
      * シグナル情報Dao
@@ -86,7 +86,7 @@ public class SignalService
         for (SignalInfo signalInfo : signalList)
         {
             SignalDefinitionDto signalDto = this.convertSignalDto(signalInfo);
-            // 初期状態はデフォルト値(0)を状態値とする。
+            // 初期状態にはデフォルト値を設定とする。
             signalDto.setSignalValue(DEFAULT_SIGNAL_STATE);
             definitionDtoList.add(signalDto);
         }
@@ -238,8 +238,8 @@ public class SignalService
         SignalDefinitionDto signalDefinitionDto = this.convertSignalDto(signalInfo);
         signalDefinitionDto.setSignalId(signalId);
 
-        // 初期値は正常を表す0とする。
-        signalDefinitionDto.setSignalValue(0);
+        // 初期状態にはデフォルト値を設定とする。
+        signalDefinitionDto.setSignalValue(DEFAULT_SIGNAL_STATE);
 
         addSignalDefinitionRequest(signalDefinitionDto);
 

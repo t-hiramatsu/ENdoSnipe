@@ -183,6 +183,7 @@ ENS.tree.contextOption = [ {
 	},
 	children : []
 } ];
+ENS.tree.SIGNAL_ICON_STOP = "signal_-1";
 ENS.tree.SIGNAL_ICON_0 = "signal_0";
 ENS.tree.SIGNAL_ICON_1 = "signal_1";
 ENS.tree.SIGNAL_ICON_2 = "signal_2";

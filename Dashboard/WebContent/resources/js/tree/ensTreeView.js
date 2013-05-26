@@ -574,7 +574,15 @@ ENS.treeView = wgp.TreeView
 			/**
 			 * シグナル追加処理操作成功後に、画面に結果を反映する。
 			 */
-			callbackAddSignal_ : function(signalDefinition) {
+			callbackAddSignal_ : function(responseDto) {
+				var result = responseDto.result;
+
+				if (result === "fail") {
+					var message = responseDto.message;
+					alert(message);
+					return;
+				}
+				var signalDefinition = responseDto.data;
 				var signalId = signalDefinition.signalId;
 				if (signalId === 0) {
 					alert("This signalName already exists."
@@ -800,33 +808,27 @@ ENS.treeView = wgp.TreeView
 				if (signalValue === undefined) {
 					return ENS.tree.SIGNAL_ICON_0;
 				}
-
+				var signalLevel = 0;
 				if (level == 3) {
-					if (signalValue == 1) {
-						icon = ENS.tree.SIGNAL_ICON_2;
-					} else if (signalValue == 2) {
-						icon = ENS.tree.SIGNAL_ICON_3;
-					} else if (signalValue == 3) {
-						icon = ENS.tree.SIGNAL_ICON_5;
-					} else {
+					signalLevel = parseInt(signalValue, 10);
+					if (signalLevel == 0) {
 						icon = ENS.tree.SIGNAL_ICON_0;
+					} else if (0 < signalLevel && signalLevel <= 3) {
+						icon = "signal_" + (2 * signalLevel - 1);
+					} else {
+						icon = ENS.tree.SIGNAL_ICON_STOP;
 					}
 				} else if (level == 5) {
-					if (signalValue == 1) {
-						icon = ENS.tree.SIGNAL_ICON_1;
-					} else if (signalValue == 2) {
-						icon = ENS.tree.SIGNAL_ICON_2;
-					} else if (signalValue == 3) {
-						icon = ENS.tree.SIGNAL_ICON_3;
-					} else if (signalValue == 4) {
-						icon = ENS.tree.SIGNAL_ICON_4;
-					} else if (signalValue == 5) {
-						icon = ENS.tree.SIGNAL_ICON_5;
-					} else {
+					signalLevel = parseInt(signalValue, 10);
+					if (signalLevel == 0) {
 						icon = ENS.tree.SIGNAL_ICON_0;
+					} else if (0 < signalLevel && signalLevel <= 5) {
+						icon = "signal_" + signalLevel;
+					} else {
+						icon = ENS.tree.SIGNAL_ICON_STOP;
 					}
 				} else {
-					icon = ENS.tree.SIGNAL_ICON_0;
+					icon = ENS.tree.SIGNAL_ICON_STOP;
 				}
 
 				return icon;
