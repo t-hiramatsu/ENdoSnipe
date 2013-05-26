@@ -132,7 +132,7 @@ public class AlarmThresholdProcessor implements AlarmProcessor
             {
                 addStartExceedanceTime(alarmData, tmpLevel);
             }
-            entry = alarmData.getExceedanceAlarmEntry(alarmData, currentLevel, signalDefinition);
+            entry = alarmData.getExceedanceAlarmEntry(currentLevel, signalDefinition);
         }
         if (entry != null)
         {
