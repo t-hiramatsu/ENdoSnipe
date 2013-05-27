@@ -124,6 +124,7 @@ ENS.tree.REPORT_SELECT_BY_REPORT_NAME_URL = wgp.common.getContextPath()
 		+ "/report/getDefinitionByReportName";
 ENS.tree.REPORT_DELETE_BY_NAME_URL = wgp.common.getContextPath() + "/report/deleteByName";
 ENS.tree.REPORT_DELETE_BY_ID_URL = wgp.common.getContextPath() + "/report/deleteById";
+ENS.tree.GET_DIRECT_CHILDLEN_NODE = wgp.common.getContextPath() + "/tree/getDirectlChildNode";
 
 ENS.tree.type = {};
 ENS.tree.type.GROUP = "group";
@@ -182,6 +183,7 @@ ENS.tree.contextOption = [ {
 	},
 	children : []
 } ];
+ENS.tree.SIGNAL_ICON_STOP = "signal_-1";
 ENS.tree.SIGNAL_ICON_0 = "signal_0";
 ENS.tree.SIGNAL_ICON_1 = "signal_1";
 ENS.tree.SIGNAL_ICON_2 = "signal_2";

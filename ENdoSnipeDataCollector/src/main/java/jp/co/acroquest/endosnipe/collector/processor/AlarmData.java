@@ -25,7 +25,9 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.collector.processor;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -179,35 +181,41 @@ public class AlarmData
 
     /**
      * 閾値超過アラームの中でもっとも閾値レベルが高い閾値のアラームを取得する。
-     * @param alarmData 現在の閾値情報
      * @param level 閾値レベル
      * @param signalDefinition 閾値判定条件
      * @return 閾値超過アラームの中でもっとも閾値レベルが高い閾値のアラーム
      */
-    public AlarmEntry getExceedanceAlarmEntry(final AlarmData alarmData, final int level,
+    public AlarmEntry getExceedanceAlarmEntry(final int level,
             final SignalDefinitionDto signalDefinition)
     {
         double escalationPeriod = signalDefinition.getEscalationPeriod();
         long currentTime = System.currentTimeMillis();
         AlarmEntry alarmEntry = null;
-        // 
+        List<Integer> removeList = new ArrayList<Integer>();
+
         for (Entry<Integer, Long> exceedanceTimeEntry : this.startExceedanceTimeMap_.entrySet())
         {
             Integer targetLevel = exceedanceTimeEntry.getKey();
             Long value = exceedanceTimeEntry.getValue();
 
             // 指定した閾値レベルよりも高い閾値レベルの中で、障害発生時刻が設定されているものが対象。
-            if (targetLevel.intValue() > level && (value + escalationPeriod) > currentTime)
+            if (targetLevel.intValue() > level && (value + escalationPeriod) < currentTime)
             {
                 alarmEntry = new AlarmEntry();
                 alarmEntry.setAlarmType(AlarmType.FAILURE);
                 alarmEntry.setAlarmInterval(escalationPeriod);
                 alarmEntry.setAlarmLevel(targetLevel);
                 alarmEntry.setSendAlarm(true);
-                // TODO AlarmDataを最新化する処理を追加。
-                alarmData.setAlarmLevel(level);
+                setAlarmLevel(targetLevel.intValue());
+                removeList.add(targetLevel);
             }
         }
+        // 判定に使用した障害レベルをキーから削除する。
+        for (Integer removeLevel : removeList)
+        {
+            this.startExceedanceTimeMap_.remove(removeLevel);
+        }
+
         return alarmEntry;
     }
 
