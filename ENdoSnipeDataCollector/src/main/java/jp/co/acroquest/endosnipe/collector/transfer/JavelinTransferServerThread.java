@@ -34,13 +34,28 @@ import jp.co.acroquest.endosnipe.communicator.TelegramListener;
 import jp.co.acroquest.endosnipe.communicator.impl.CommunicationServerImpl;
 import jp.co.acroquest.endosnipe.communicator.impl.JavelinClientThread;
 
+/**
+ * JavelinTransferServerThreadクラス
+ * @author acroquest
+ *
+ */
 public class JavelinTransferServerThread extends CommunicationServerImpl
 {
+    /** スレッド開始までの待ち時間 10000ミリ秒 */
+    private static final int WAIT_FOR_THRESHOLD_START = 100000;
+
+    /** ポートオープンの試行間隔 10000秒 */
+    private static final int BIND_INTERVAL = 10000;
+
+    /** 電文リスナーのリスト */
     List<TelegramListener> listenerList_ = new ArrayList<TelegramListener>();
 
+    /**
+     * コンストラクタ
+     */
     public JavelinTransferServerThread()
     {
-        super(false, 0, 10 * 1000, 10000, new String[]{});
+        super(false, 0, WAIT_FOR_THRESHOLD_START, BIND_INTERVAL, new String[]{});
     }
 
     @Override

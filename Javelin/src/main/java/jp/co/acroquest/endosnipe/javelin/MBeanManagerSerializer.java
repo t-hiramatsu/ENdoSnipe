@@ -81,7 +81,7 @@ public class MBeanManagerSerializer
 
     /**
      * デシリアライズを行います。<br />
-     *
+     * @param serializeFile シリアライズファイル
      * @return デシアライズしたコンポーネントのマップ
      */
     public static Map<String, Component> deserializeFile(String serializeFile)
@@ -97,7 +97,8 @@ public class MBeanManagerSerializer
         catch (Exception e)
         {
             SystemLogger.getInstance().warn("Failed to deserializing MBeanManager. "
-                                            + "Start without it. Deserializing source:" + serializeFile, e);
+                                                    + "Start without it. Deserializing source:"
+                                                    + serializeFile, e);
         }
         finally
         {
@@ -139,12 +140,17 @@ public class MBeanManagerSerializer
             }
             catch (Exception e)
             {
-                SystemLogger.getInstance().warn("Failed to serializing MBeanManager. Serializing dest.:"
-                                                + serializeFile,e);
+                SystemLogger.getInstance().warn("Failed to serializing MBeanManager."
+                                                        + "Serializing dest.:" + serializeFile, e);
             }
         }
     }
 
+    /**
+     * Mapへのキャストを行う。
+     * @param object 対象オブジェクト
+     * @return Mapにキャストしたオブジェクト
+     */
     @SuppressWarnings("unchecked")
     private static Map<String, Component> castToMap(final Object object)
     {

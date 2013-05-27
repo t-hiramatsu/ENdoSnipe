@@ -46,9 +46,8 @@ public class MeasureLogRotateTask implements LogRotateTask
 {
     /** ロガー。 */
     private static final ENdoSnipeLogger LOGGER =
-                                                  ENdoSnipeLogger.getLogger(
-                                                                            MeasureLogRotateTask.class,
-                                                                            ENdoSnipeDataCollectorPluginProvider.INSTANCE);
+                          ENdoSnipeLogger.getLogger(MeasureLogRotateTask.class,
+                                                    ENdoSnipeDataCollectorPluginProvider.INSTANCE);
 
     /** ローテート用設定 */
     private final RotateConfig           config_;
@@ -74,10 +73,8 @@ public class MeasureLogRotateTask implements LogRotateTask
             return;
         }
 
-        Calendar deleteTimeCalender =
-                                      RotateUtil.getBeforeDate(
-                                                               this.config_.getMeasureUnitByCalendar(),
-                                                               period);
+        Calendar deleteTimeCalender = 
+                RotateUtil.getBeforeDate(this.config_.getMeasureUnitByCalendar(), period);
 
         Timestamp deleteLimit = new Timestamp(deleteTimeCalender.getTimeInMillis());
 

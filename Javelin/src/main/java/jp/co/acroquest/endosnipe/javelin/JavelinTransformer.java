@@ -70,15 +70,15 @@ import jp.co.smg.endosnipe.javassist.LoaderClassPath;
 public class JavelinTransformer implements ClassFileTransformer
 {
     /** Javelin用スレッドが処理を開始するまでの待ち時間。 */
-    public static final int WAIT_FOR_THREAD_START = 1000 * 10;
-    
+    public static final int                    WAIT_FOR_THREAD_START = 1000 * 10;
+
     /** クラスロード時に読まれるクラス */
-    private static JavelinTransformer transformer__;
+    private static JavelinTransformer          transformer__;
 
     /** クラスpoolを登録するMap */
     private static Map<ClassLoader, ClassPool> loaderPoolMap__;
 
-    private static ConverterPool converterPool__ = new ConverterPool();
+    private static ConverterPool               converterPool__       = new ConverterPool();
 
     static
     {
@@ -86,19 +86,19 @@ public class JavelinTransformer implements ClassFileTransformer
     }
 
     /** ロード済みのクラスの集合 */
-    private static Set<String> loadedClassSet__ = new HashSet<String>();
+    private static Set<String>                 loadedClassSet__      = new HashSet<String>();
 
     /** Javelinの設定値を読み込むクラス */
-    private JavelinTransformConfig transformConfig_;
+    private JavelinTransformConfig             transformConfig_;
 
     /** システムプロパティ表示の先頭 */
-    private static final String SYS_PROP_HEAD = "\n>>>> System Properties\n";
+    private static final String                SYS_PROP_HEAD         = "\n>>>> System Properties\n";
 
     /** システムプロパティ表示の末尾 */
-    private static final String SYS_PROP_END = "<<<<\n";
+    private static final String                SYS_PROP_END          = "<<<<\n";
 
     /** StringBuilderのデフォルトサイズ */
-    private static final int DEF_BUILDER_SIZE = 1024;
+    private static final int                   DEF_BUILDER_SIZE      = 1024;
 
     /**
      * ログ出力処理を埋め込みます。<br />
@@ -115,7 +115,7 @@ public class JavelinTransformer implements ClassFileTransformer
             final byte[] classfileBuffer)
     {
         className = className.replaceAll("/", "\\.");
-        
+
         if (!isTargetClassName(className))
         {
             return null;
@@ -131,7 +131,6 @@ public class JavelinTransformer implements ClassFileTransformer
         {
             return null;
         }
-
         
         SystemLogger logger = SystemLogger.getInstance();
         if (logger.isDebugEnabled())
@@ -158,7 +157,6 @@ public class JavelinTransformer implements ClassFileTransformer
         return transformedBytes;
     }
 
-
     /**
      * クラス名から変換対象であるか、判定する。
      * Java APIのクラスおよびjavassist、Javelinのクラスであれば、falseを返す。
@@ -177,10 +175,8 @@ public class JavelinTransformer implements ClassFileTransformer
         {
             return false;
         }
-        else
-        {
-            return true;
-        }
+        
+        return true;
     }
 
     /**
@@ -192,7 +188,8 @@ public class JavelinTransformer implements ClassFileTransformer
      * @return 変換後のバイトコード
      * @throws Exception 変換中にエラーが発生した場合
      */
-    private byte[] transformClass(final ClassLoader loader, final String className, final byte[] classfileBuffer)
+    private byte[] transformClass(final ClassLoader loader, final String className,
+            final byte[] classfileBuffer)
         throws Exception
     {
         byte[] transformedBytes = null;
@@ -206,15 +203,16 @@ public class JavelinTransformer implements ClassFileTransformer
         ctClass.stopPruning(true);
 
         transformedBytes = transformClass(loader, pool, className, ctClass);
-        
+
         return transformedBytes;
     }
 
-    private byte[] transformClass(final ClassLoader loader, ClassPool pool, final String className, CtClass ctClass)
+    private byte[] transformClass(final ClassLoader loader, ClassPool pool, final String className,
+            CtClass ctClass)
         throws Exception
     {
         byte[] transformedBytes = null;
-        
+
         try
         {
             // 対象リストにマッチすれば、処理を行う。
@@ -232,7 +230,7 @@ public class JavelinTransformer implements ClassFileTransformer
 
             // 対象リストにマッチしない場合は、処理を行わない
             List<ExcludeConversionConfig> exludeConfigList =
-                    this.transformConfig_.matchesToExclude(className);
+                                             this.transformConfig_.matchesToExclude(className);
 
             Set<String> appliedConverterSet = new HashSet<String>();
 
@@ -242,7 +240,7 @@ public class JavelinTransformer implements ClassFileTransformer
                 for (String converterName : includeConfig.getConverterNameList())
                 {
                     List<String> converterClassNames =
-                            this.transformConfig_.getConverterClassNames(converterName);
+                                       this.transformConfig_.getConverterClassNames(converterName);
                     for (String converterClassName : converterClassNames)
                     {
                         if (appliedConverterSet.contains(converterClassName))
@@ -254,8 +252,9 @@ public class JavelinTransformer implements ClassFileTransformer
                         }
 
                         transformedBytes =
-                                applyConverter(className, transformedBytes, pool, ctClass,
-                                               includeConfig, exludeConfigList, converterClassName);
+                                           applyConverter(className, transformedBytes, pool,
+                                                          ctClass, includeConfig, exludeConfigList,
+                                                          converterClassName);
                         appliedConverterSet.add(converterClassName);
                     }
                 }
@@ -271,10 +270,10 @@ public class JavelinTransformer implements ClassFileTransformer
             }
             JavassistUtil.clearDetachClass();
         }
-        
+
         return transformedBytes;
     }
-    
+
     private static ClassPool getClassPool(final ClassLoader loader)
     {
         ClassPool pool = null;
@@ -346,8 +345,8 @@ public class JavelinTransformer implements ClassFileTransformer
             ctClass.stopPruning(true);
 
             classfileBuffer =
-                    converter.convert(className, classfileBuffer, pool, ctClass, includeConfig,
-                                      excludeConfigList);
+                              converter.convert(className, classfileBuffer, pool, ctClass,
+                                                includeConfig, excludeConfigList);
 
         }
         finally
@@ -371,7 +370,7 @@ public class JavelinTransformer implements ClassFileTransformer
         // オプションファイルから、オプション設定を読み込む。
         JavelinConfig config = new JavelinConfig(absoluteJarDirectory);
         SystemLogger.initSystemLog(config);
-        
+
         // JavlinConfigのagentNameを更新
         String agentName = config.getClusterName();
         agentName = addSlashes(agentName);
@@ -394,18 +393,18 @@ public class JavelinTransformer implements ClassFileTransformer
             excludeStream.close();
         }
     }
-    
+
     private static String addSlashes(String str)
     {
-    	if (!str.startsWith("/"))
-    	{
-    		str = "/" + str;
-    	}
-    	if (!str.endsWith("/"))
-    	{
-    		str = str + "/";
-    	}
-    	return str;
+        if (!str.startsWith("/"))
+        {
+            str = "/" + str;
+        }
+        if (!str.endsWith("/"))
+        {
+            str = str + "/";
+        }
+        return str;
     }
 
     /**
@@ -417,7 +416,7 @@ public class JavelinTransformer implements ClassFileTransformer
     public static void agentmain(final String args, final Instrumentation instrumentation)
     {
         ENdoSnipeLogger.setSystemLoggerMode(true);
-        
+
         if (loadedClassSet__.size() == 0)
         {
             premain(args, instrumentation);
@@ -519,18 +518,18 @@ public class JavelinTransformer implements ClassFileTransformer
             try
             {
                 ClassPool pool = getClassPool(element.getClassLoader());
-                
+
                 String className = element.getName();
                 if (!isTargetClassName(className))
                 {
                     continue;
                 }
-                
+
                 if (loadedClassSet__.contains(className))
                 {
                     continue;
                 }
-                
+
                 if (element.isArray() || element.isInterface() || element.isAnnotation()
                         || element.isEnum() || element.isPrimitive())
                 {
@@ -539,7 +538,7 @@ public class JavelinTransformer implements ClassFileTransformer
 
                 CtClass ctClass = pool.get(className);
                 ctClass.defrost();
-                
+
                 byte[] newBytecode =
                                      transformer__.transformClass(element.getClassLoader(), pool,
                                                                   className, ctClass);
@@ -755,8 +754,8 @@ public class JavelinTransformer implements ClassFileTransformer
         System.out.println("\tjavelin.acceptPort.rangeMax          : " + acceptPortRangeMax);
         System.out.println("\tjavelin.connectHost                  : " + connectHost);
         System.out.println("\tjavelin.connectPort                  : " + connectPort);
-        System.out.println("\tjavelin.databaseName                 : " + databaseName);        
-        System.out.println("\tjavelin.call.tree.enable             : " + config.isCallTreeEnabled());
+        System.out.println("\tjavelin.databaseName                 : " + databaseName);
+        System.out.println("\tjavelin.call.tree.enable             : "+config.isCallTreeEnabled());
         System.out.println("\tjavelin.call.tree.max                : " + callTreeMax);
         System.out.println("\tjavelin.record.invocation.num.max    : " + recInvocationMax);
         System.out.println("\tjavelin.record.jmx                   : " + recordJMX);
@@ -841,6 +840,7 @@ public class JavelinTransformer implements ClassFileTransformer
         catch (UnsupportedEncodingException ex)
         {
             // 何もしない。
+            SystemLogger.getInstance().warn(ex);
         }
 
         int startIndex = resourceJarPath.indexOf("/");

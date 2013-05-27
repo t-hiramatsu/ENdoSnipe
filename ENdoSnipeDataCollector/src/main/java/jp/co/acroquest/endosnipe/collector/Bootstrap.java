@@ -60,9 +60,10 @@ public class Bootstrap implements LogMessageCodes
 {
     private static Bootstrap            main__                 = null;
 
-    public static final ENdoSnipeLogger logger_                =
-                                                                 ENdoSnipeLogger.getLogger(Bootstrap.class,
-                                                                                           ENdoSnipeDataCollectorPluginProvider.INSTANCE);
+    /** ロガー */
+    public static final ENdoSnipeLogger LOGGER                =
+            ENdoSnipeLogger.getLogger(Bootstrap.class,
+                                      ENdoSnipeDataCollectorPluginProvider.INSTANCE);
 
     // 設定ファイルを指定するためのプロパティ名
     private static final String         COLLECTOR_PROP_NAME    = "collector.property";
@@ -107,12 +108,12 @@ public class Bootstrap implements LogMessageCodes
             }
             catch (InitializeException ex)
             {
-                logger_.log(ERROR_OCCURED_ON_STARTING, ex);
+                LOGGER.log(ERROR_OCCURED_ON_STARTING, ex);
                 System.exit(STATUS_ERROR);
             }
             catch (Exception ex)
             {
-                logger_.log(ERROR_OCCURED_ON_STARTING, ex);
+                LOGGER.log(ERROR_OCCURED_ON_STARTING, ex);
                 System.exit(STATUS_ERROR);
             }
         }
@@ -138,7 +139,7 @@ public class Bootstrap implements LogMessageCodes
 
         initContextClassLoader();
 
-        logger_.log(DATA_COLLECTOR_SERVICE_STARTING);
+        LOGGER.log(DATA_COLLECTOR_SERVICE_STARTING);
         // シャットダウンフックの登録
         Runtime.getRuntime().addShutdownHook(new ShutdownHook());
 
@@ -159,7 +160,7 @@ public class Bootstrap implements LogMessageCodes
                 this.collector_.connectAll();
             }
 
-            logger_.log(DATA_COLLECTOR_SERVICE_STARTED);
+            LOGGER.log(DATA_COLLECTOR_SERVICE_STARTED);
             this.starting_ = false;
 
             // 終了するまでスレッドをブロックする
@@ -167,7 +168,7 @@ public class Bootstrap implements LogMessageCodes
         }
         catch (Throwable ex)
         {
-            logger_.log(EXCEPTION_OCCURED_WITH_RESASON, ex, ex.getMessage());
+            LOGGER.log(EXCEPTION_OCCURED_WITH_RESASON, ex, ex.getMessage());
             this.starting_ = false;
 
             stop();
@@ -189,13 +190,13 @@ public class Bootstrap implements LogMessageCodes
             }
             this.stopping_ = true;
 
-            logger_.log(DATA_COLLECTOR_SERVICE_STOPPING);
+            LOGGER.log(DATA_COLLECTOR_SERVICE_STOPPING);
 
             this.collector_.stop();
             ConnectionManager.getInstance().closeAll();
             this.collector_ = null;
 
-            logger_.log(DATA_COLLECTOR_SERVICE_STOPPED);
+            LOGGER.log(DATA_COLLECTOR_SERVICE_STOPPED);
             this.stopping_ = false;
         }
     }
@@ -203,6 +204,7 @@ public class Bootstrap implements LogMessageCodes
     /**
      * Linux 版 Commons-daemon から呼び出される初期化メソッドです。<br />
      * 削除しないでください。<br />
+     * @param args 引数
      */
     public void init(final String[] args)
     {
@@ -289,7 +291,7 @@ public class Bootstrap implements LogMessageCodes
     private static void printUsage()
     {
         System.err.println("Usage: java -D" + COLLECTOR_PROP_NAME
-                + "=PROPFILENAME -jar endosnipe-datacollector.jar {start|stop}");
+                           + "=PROPFILENAME -jar endosnipe-datacollector.jar {start|stop}");
     }
 
     /**

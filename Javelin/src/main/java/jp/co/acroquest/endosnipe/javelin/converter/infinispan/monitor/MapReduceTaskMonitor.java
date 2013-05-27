@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 import jp.co.acroquest.endosnipe.javelin.util.ArrayList;
@@ -207,8 +209,10 @@ public class MapReduceTaskMonitor
         TaskInfo taskInfoOrg = taskInfoMap__.remove(accessor.getJobId());
         DecimalFormat df = new DecimalFormat("00000000");
         int index = 0;
-        for (String address : map.keySet())
+        Set<Entry<String, Boolean>> entrySet = map.entrySet();
+        for (Entry<?, ?> entry : entrySet)
         {
+            String address = (String)entry.getKey();
             TaskInfo taskInfo = new TaskInfo();
             taskInfo.setStartTime(taskInfoOrg.getStartTime());
             taskInfo.setFinishTime(finishTime);

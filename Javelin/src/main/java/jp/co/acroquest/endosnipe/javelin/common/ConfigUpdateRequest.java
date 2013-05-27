@@ -26,14 +26,28 @@
 package jp.co.acroquest.endosnipe.javelin.common;
 
 
+/**
+ * ConfigUpdateRequestクラス
+ * @author acroquest
+ *
+ */
 public class ConfigUpdateRequest
 {
+    /** キー */
     private String key_;
 
+    /** 値 */
     private String value_;
 
+    /** 更新日時 */
     private long   updateTime_;
 
+    /**
+     * コンストラクタ
+     * @param key キー
+     * @param value 値
+     * @param updateTime 更新日時
+     */
     public ConfigUpdateRequest(String key, String value, long updateTime)
     {
         this.key_ = key;
@@ -41,31 +55,55 @@ public class ConfigUpdateRequest
         this.updateTime_ = updateTime;
     }
 
+    /**
+     * キーを取得します。
+     * @return キー
+     */
     public String getKey()
     {
         return key_;
     }
 
+    /**
+     * キーを設定します。
+     * @param key キー
+     */
     public void setKey(String key)
     {
         key_ = key;
     }
 
+    /**
+     * 値を取得します。
+     * @return 値
+     */
     public String getValue()
     {
         return value_;
     }
 
+    /**
+     * 値を設定します。
+     * @param value 値
+     */
     public void setValue(String value)
     {
         value_ = value;
     }
 
+    /**
+     * 更新日時を取得します。
+     * @return 更新日時
+     */
     public long getUpdateTime()
     {
         return updateTime_;
     }
 
+    /**
+     * 更新日時を設定します。
+     * @param updateTime 更新日時
+     */
     public void setUpdateTime(long updateTime)
     {
         updateTime_ = updateTime;

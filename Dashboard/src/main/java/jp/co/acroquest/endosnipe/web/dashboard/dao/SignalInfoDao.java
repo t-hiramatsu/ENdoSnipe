@@ -61,7 +61,7 @@ public interface SignalInfoDao
      * @param signalName シグナル名
      * @return シグナル定義
      */
-    public SignalInfo selectByName(String signalName);
+    SignalInfo selectByName(String signalName);
 
     /**
      * {@link SignalInfo} オブジェクトを挿入します。<br />
@@ -85,7 +85,7 @@ public interface SignalInfoDao
      * @param signalName
      *            シグナル名
      */
-    public void delete(final String signalName);
+    void delete(final String signalName);
 
     /**
      * すべてのレコードを削除します。<br />

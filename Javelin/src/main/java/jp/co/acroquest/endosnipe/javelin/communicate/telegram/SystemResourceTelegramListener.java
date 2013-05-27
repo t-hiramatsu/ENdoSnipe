@@ -157,9 +157,8 @@ public class SystemResourceTelegramListener implements TelegramListener, Telegra
     {
         List<ResourceItem> entries = null;
         // ResourceGroupGetter‚©‚çî•ñ‚ğæ“¾‚·‚é
-        List<ResourceGroupGetter> resourceGroupGetterList =
-                                                            this.resourceCollector_.getResourceGroupGetterList();
-        for (ResourceGroupGetter group : resourceGroupGetterList)
+        List<ResourceGroupGetter> rggList = this.resourceCollector_.getResourceGroupGetterList();
+        for (ResourceGroupGetter group : rggList)
         {
             for (Map.Entry<String, MultiResourceGetter> entry : group.getResourceGroup().entrySet())
             {

@@ -50,7 +50,7 @@ import org.seasar.framework.util.AssertionUtil;
  * 本クラスを利用してログ出力を行うには、以下のようにしてください。
  * 
  * <h2>ENdoSnipeLogger インスタンスの取得方法</h2>
- * <p> 
+ * <p>
  * 以下のように定数として用意してください。引数の {@link Class} オブジェクトは
  * ロガーを使用するクラスの {@link Class} オブジェクトで、log4j のカテゴリと
  * して使用します。
@@ -98,25 +98,25 @@ import org.seasar.framework.util.AssertionUtil;
  * <li>
  *   メッセージを記述する。<br />
  *   <p>以下の形式でメッセージリソースファイルにメッセージ定義を追加します。</p>
- *   
+ * 
  *   <i>メッセージコード</i>=<i>メッセージ</i>
- *   
+ * 
  *   <p>メッセージコードは以下の規則で決定します。</p>
- *   
+ * 
  *   <i>ログレベル</i><i>サブシステム ID</i><i>エラー番号</i>
- *   
+ * 
  *   <p>
  *   最初の 1 文字はログレベルで、(F,E,W,I,D,T) のいずれかです。<br />
  *   次のの 3 文字はサブシステム ID を指定します。<br />
  *   最後の 4 桁の数字はサブシステム内で一意なエラー番号を表します。<br />
  *   </p>
- *   
+ * 
  *   (例) <code>IEDC0001=ENdoSnipe DataCollector を開始します.</code>
- *   
+ * 
  *   <p>
  *   メッセージに引数を指定する場合、{0}、{1}・・・のようにプレースホルダを指定できます。<br />
  *   </p>
- *   
+ * 
  *   (例) <code>IEDC0008=Javelin に接続しました.(接続先: {0}:{1})</code>
  * </li>
  * </ol>
@@ -492,9 +492,9 @@ public abstract class ENdoSnipeLogger
     }
 
     /**
-     * 
+     * 指定されたメッセージタイプが利用可能かどうか判定する
      * @param messageType メッセージタイプ
-     * @return EnabledFor
+     * @return 指定されたメッセージタイプが利用可能なときtrue/そうでないときfalse
      */
     protected abstract boolean isEnabledFor(final char messageType);
 

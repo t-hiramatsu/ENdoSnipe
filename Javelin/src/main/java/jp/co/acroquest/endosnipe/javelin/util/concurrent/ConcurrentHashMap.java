@@ -41,110 +41,215 @@ import java.util.concurrent.locks.ReentrantLock;
 import jp.co.acroquest.endosnipe.javelin.util.AbstractMap;
 import jp.co.acroquest.endosnipe.javelin.util.ArrayList;
 
+/**
+ * ConcurrentHashMapクラス
+ * @author acroquest
+ *
+ * @param <K> キー
+ * @param <V> 値
+ */
 public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V>,
         Serializable
 {
+    /** シリアルバージョンID */
+    private static final long              serialVersionUID          = 7986208325563360065L;
 
-    /**  */
-    private static final long serialVersionUID = 7986208325563360065L;
+    /** デフォルトの初期容量 */
+    private static final int               DEFAULT_INITIAL_CAPACITY  = 16;
 
-    static int DEFAULT_INITIAL_CAPACITY = 16;
+    private static final int               INITIAL_CAPACITY          = 11;
 
-    static final int MAXIMUM_CAPACITY = 1 << 30;
+    /** 容量のシフト数 */
+    private static final int               CAPACITY_SHIFT            = 30;
 
-    static final float DEFAULT_LOAD_FACTOR = 0.75f;
+    /** 最大容量 */
+    private static final int               MAXIMUM_CAPACITY          = 1 << CAPACITY_SHIFT;
 
-    static final int DEFAULT_SEGMENTS = 16;
+    /** デフォルトの負荷係数 */
+    private static final float             DEFAULT_LOAD_FACTOR       = 0.75f;
 
-    static final int MAX_SEGMENTS = 1 << 16;
+    /** デフォルトのセグメント数 */
+    private static final int               DEFAULT_SEGMENTS          = 16;
 
-    static final int RETRIES_BEFORE_LOCK = 2;
+    /** セグメントのシフト数 */
+    private static final int               DEFAULT_SEGMENTS_SHIFT    = 16;
 
-    final int segmentMask;
+    /** セグメントのシフト数 */
+    private static final int               SEGMENTS_SHIFT            = 32;
 
-    final int segmentShift;
+    /** セグメントの最大数 */
+    private static final int               MAX_SEGMENTS              = 1 << DEFAULT_SEGMENTS_SHIFT;
 
-    final Segment[] segments;
+    /** ロックまでのリトライ回数 */
+    private static final int               RETRIES_BEFORE_LOCK       = 2;
 
-    transient Set<K> keySet;
+    private static final int               HASH_LEFT_SHIFT_FOUR      = 4;
 
-    transient Set<Map.Entry<K, V>> entrySet;
+    private static final int               HASH_LEFT_SHIFT_NINE      = 9;
 
-    transient Collection<V> values;
+    private static final int               HASH_RIGHT_SHIFT_FOURTEEN = 14;
 
+    private static final int               HASH_RIGHT_SHIFT_TEN      = 10;
+
+    /** セグメントマスク */
+    private final int                      segmentMask_;
+
+    /** セグメントシフト数 */
+    private final int                      segmentShift_;
+
+    /** セグメント */
+    private final Segment<K, V>[]                segments_;
+
+    /** キーセット */
+    private transient Set<K>               keySet_;
+
+    /** エントリーセット */
+    private transient Set<Map.Entry<K, V>> entrySet_;
+
+    /** 値 */
+    private transient Collection<V>        values_;
+
+    /**
+     * ハッシュコードを取得する。
+     * @param x ハッシュコードを取得するオブジェクト
+     * @return 生成したハッシュコード
+     */
     static int hash(Object x)
     {
         int h = x.hashCode();
-        h += ~(h << 9);
-        h ^= (h >>> 14);
-        h += (h << 4);
-        h ^= (h >>> 10);
+        h += ~(h << HASH_LEFT_SHIFT_NINE);
+        h ^= (h >>> HASH_RIGHT_SHIFT_FOURTEEN);
+        h += (h << HASH_LEFT_SHIFT_FOUR);
+        h ^= (h >>> HASH_RIGHT_SHIFT_TEN);
         return h;
     }
 
+    /**
+     * 指定したハッシュコードを持つセグメントを取得する。
+     * @param hash ハッシュコード
+     * @return 指定したハッシュコードを持つセグメント
+     */
     final Segment<K, V> segmentFor(int hash)
     {
-        return (Segment<K, V>)segments[(hash >>> segmentShift) & segmentMask];
+        return (Segment<K, V>)segments_[(hash >>> segmentShift_) & segmentMask_];
     }
 
+    /**
+     * HashEntryクラス
+     * @author acroquest
+     *
+     * @param <K> キー
+     * @param <V> 値
+     */
     static final class HashEntry<K, V>
     {
-        final K key;
+        /**
+         * キー
+         */
+        final K               key_;
 
-        final int hash;
+        /**
+         * ハッシュコード
+         */
+        final int             hash_;
 
-        volatile V value;
+        /**
+         * 値
+         */
+        volatile V            value_;
 
-        final HashEntry<K, V> next;
+        /**
+         * 次のエントリ
+         */
+        final HashEntry<K, V> next_;
 
+        /**
+         * コンストラクタ
+         * @param key キー
+         * @param hash ハッシュ
+         * @param next 次のエントリ
+         * @param value 値
+         */
         HashEntry(K key, int hash, HashEntry<K, V> next, V value)
         {
-            this.key = key;
-            this.hash = hash;
-            this.next = next;
-            this.value = value;
+            this.key_ = key;
+            this.hash_ = hash;
+            this.next_ = next;
+            this.value_ = value;
         }
     }
 
+    /**
+     * Segmentクラス
+     * @author acroquest
+     *
+     * @param <K> キー
+     * @param <V> 値
+     */
     static final class Segment<K, V> extends ReentrantLock implements Serializable
     {
 
-        private static final long serialVersionUID = 2249069246763182397L;
+        private static final long      serialVersionUID = 2249069246763182397L;
 
-        transient volatile int count;
+        /** カウント */
+        transient volatile int         count_;
 
-        transient int modCount;
+        /** 修正回数 */
+        transient int                  modCount_ = 0;
 
-        transient int threshold;
+        /** しきい値 */
+        transient int                  threshold_;
 
-        transient volatile HashEntry[] table;
+        /** テーブル */
+        transient volatile HashEntry<K, V>[] table_;
 
-        final float loadFactor;
+        /** テーブルの負荷係数 */
+        final float                    loadFactor_;
 
+        /**
+         * コンストラクタ
+         * @param initialCapacity 初期容量
+         * @param lf セグメントの負荷係数
+         */
+        @SuppressWarnings("unchecked")
         Segment(int initialCapacity, float lf)
         {
-            loadFactor = lf;
+            loadFactor_ = lf;
             setTable(new HashEntry[initialCapacity]);
         }
 
-        void setTable(HashEntry[] newTable)
+        /**
+         * テーブルを設定します。
+         * @param newTable テーブル
+         */
+        void setTable(HashEntry<K, V>[] newTable)
         {
-            threshold = (int)(newTable.length * loadFactor);
-            table = newTable;
+            threshold_ = (int)(newTable.length * loadFactor_);
+            table_ = newTable;
         }
 
+        /**
+         * 最初のエントリを取得します。
+         * @param hash ハッシュコード
+         * @return 最初のエントリ
+         */
         HashEntry<K, V> getFirst(int hash)
         {
-            HashEntry[] tab = table;
+            HashEntry<K, V>[] tab = table_;
             return (HashEntry<K, V>)tab[hash & (tab.length - 1)];
         }
 
-        V readValueUnderLock(HashEntry<K, V> e)
+        /**
+         * ロックしてエントリから値を読み取る
+         * @param entry 値を読み取るエントリ
+         * @return 読み取った値
+         */
+        V readValueUnderLock(HashEntry<K, V> entry)
         {
             lock();
             try
             {
-                return e.value;
+                return entry.value_;
             }
             finally
             {
@@ -152,76 +257,111 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
             }
         }
 
+        /**
+         * 指定したキーを持つ要素から値を取得します。
+         * @param key キー
+         * @param hash ハッシュコード
+         * @return 指定したキーを持つ要素の値
+         */
         V get(Object key, int hash)
         {
-            if (count != 0)
+            if (count_ != 0)
             {
                 HashEntry<K, V> e = getFirst(hash);
                 while (e != null)
                 {
-                    if (e.hash == hash && key.equals(e.key))
+                    if (e.hash_ == hash && key.equals(e.key_))
                     {
-                        V v = e.value;
+                        V v = e.value_;
                         if (v != null)
+                        {
                             return v;
+                        }
                         return readValueUnderLock(e);
                     }
-                    e = e.next;
+                    e = e.next_;
                 }
             }
             return null;
         }
 
+        /**
+         * 指定したキーをエントリが持つか判定します。
+         * @param key キー
+         * @param hash ハッシュコード
+         * @return 指定したキーをエントリが持つときtrue/そうでないときfalse
+         */
         boolean containsKey(Object key, int hash)
         {
-            if (count != 0)
+            if (count_ != 0)
             {
                 HashEntry<K, V> e = getFirst(hash);
                 while (e != null)
                 {
-                    if (e.hash == hash && key.equals(e.key))
+                    if (e.hash_ == hash && key.equals(e.key_))
+                    {
                         return true;
-                    e = e.next;
+                    }
+                    e = e.next_;
                 }
             }
             return false;
         }
 
+        /**
+         * 指定した値をエントリが持つか判定します。
+         * @param value 値
+         * @return 指定した値をエントリが持つときtrue/そうでないときfalse
+         */
         boolean containsValue(Object value)
         {
-            if (count != 0)
+            if (count_ != 0)
             {
-                HashEntry[] tab = table;
+                HashEntry<K, V>[] tab = table_;
                 int len = tab.length;
                 for (int i = 0; i < len; i++)
                 {
-                    for (HashEntry<K, V> e = (HashEntry<K, V>)tab[i]; e != null; e = e.next)
+                    for (HashEntry<K, V> e = (HashEntry<K, V>)tab[i]; e != null; e = e.next_)
                     {
-                        V v = e.value;
+                        V v = e.value_;
                         if (v == null)
+                        {
                             v = readValueUnderLock(e);
+                        }
                         if (value.equals(v))
+                        {
                             return true;
+                        }
                     }
                 }
             }
             return false;
         }
 
+        /**
+         * 指定した値を持つ要素の値を置き換えます。
+         * @param key キー
+         * @param hash ハッシュコード
+         * @param oldValue 古い値
+         * @param newValue 新しい値
+         * @return 値を置き換えた時true/そうでないときfalse
+         */
         boolean replace(K key, int hash, V oldValue, V newValue)
         {
             lock();
             try
             {
-                HashEntry<K, V> e = getFirst(hash);
-                while (e != null && (e.hash != hash || !key.equals(e.key)))
-                    e = e.next;
+                HashEntry<K, V> entry = getFirst(hash);
+                while (entry != null && (entry.hash_ != hash || !key.equals(entry.key_)))
+                {
+                    entry = entry.next_;
+                }
 
                 boolean replaced = false;
-                if (e != null && oldValue.equals(e.value))
+                if (entry != null && oldValue.equals(entry.value_))
                 {
                     replaced = true;
-                    e.value = newValue;
+                    entry.value_ = newValue;
                 }
                 return replaced;
             }
@@ -231,20 +371,29 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
             }
         }
 
+        /**
+         * 指定した値を持つ要素の値を置き換えます。
+         * @param key キー
+         * @param hash ハッシュコード
+         * @param newValue 新しい値
+         * @return 置き換える前の値
+         */
         V replace(K key, int hash, V newValue)
         {
             lock();
             try
             {
                 HashEntry<K, V> e = getFirst(hash);
-                while (e != null && (e.hash != hash || !key.equals(e.key)))
-                    e = e.next;
+                while (e != null && (e.hash_ != hash || !key.equals(e.key_)))
+                {
+                    e = e.next_;
+                }
 
                 V oldValue = null;
                 if (e != null)
                 {
-                    oldValue = e.value;
-                    e.value = newValue;
+                    oldValue = e.value_;
+                    e.value_ = newValue;
                 }
                 return oldValue;
             }
@@ -254,34 +403,49 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
             }
         }
 
+        /**
+         * 指定したキーを持つエントリを設定する。
+         * @param key キー
+         * @param hash ハッシュコード
+         * @param value 値
+         * @param onlyIfAbsent 要素が存在した場合に置き換えるかのフラグ
+         * @return 設定する前の値
+         */
         V put(K key, int hash, V value, boolean onlyIfAbsent)
         {
             lock();
             try
             {
-                int c = count;
-                if (c++ > threshold)
+                int c = count_;
+                if (c++ > threshold_)
+                {
                     rehash();
-                HashEntry[] tab = table;
+                }
+                HashEntry<K, V>[] tab = table_;
                 int index = hash & (tab.length - 1);
                 HashEntry<K, V> first = (HashEntry<K, V>)tab[index];
-                HashEntry<K, V> e = first;
-                while (e != null && (e.hash != hash || !key.equals(e.key)))
-                    e = e.next;
+                HashEntry<K, V> entry = first;
+
+                while (entry != null && (entry.hash_ != hash || !key.equals(entry.key_)))
+                {
+                    entry = entry.next_;
+                }
 
                 V oldValue;
-                if (e != null)
+                if (entry != null)
                 {
-                    oldValue = e.value;
+                    oldValue = entry.value_;
                     if (!onlyIfAbsent)
-                        e.value = value;
+                    {
+                        entry.value_ = value;
+                    }
                 }
                 else
                 {
                     oldValue = null;
-                    ++modCount;
+                    ++modCount_;
                     tab[index] = new HashEntry<K, V>(key, hash, first, value);
-                    count = c;
+                    count_ = c;
                 }
                 return oldValue;
             }
@@ -291,37 +455,43 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
             }
         }
 
+        /**
+         * テーブルを新規作成する。
+         */
+        @SuppressWarnings("unchecked")
         void rehash()
         {
-            HashEntry[] oldTable = table;
+            HashEntry<K, V>[] oldTable = table_;
             int oldCapacity = oldTable.length;
             if (oldCapacity >= MAXIMUM_CAPACITY)
+            {
                 return;
+            }
 
-            HashEntry[] newTable = new HashEntry[oldCapacity << 1];
-            threshold = (int)(newTable.length * loadFactor);
+            HashEntry<K, V>[] newTable = new HashEntry[oldCapacity << 1];
+            threshold_ = (int)(newTable.length * loadFactor_);
             int sizeMask = newTable.length - 1;
             for (int i = 0; i < oldCapacity; i++)
             {
+                HashEntry<K, V> entry = (HashEntry<K, V>)oldTable[i];
 
-                HashEntry<K, V> e = (HashEntry<K, V>)oldTable[i];
-
-                if (e != null)
+                if (entry != null)
                 {
-                    HashEntry<K, V> next = e.next;
-                    int idx = e.hash & sizeMask;
+                    HashEntry<K, V> next = entry.next_;
+                    int idx = entry.hash_ & sizeMask;
 
                     if (next == null)
-                        newTable[idx] = e;
-
+                    {
+                        newTable[idx] = entry;
+                    }
                     else
                     {
 
-                        HashEntry<K, V> lastRun = e;
+                        HashEntry<K, V> lastRun = entry;
                         int lastIdx = idx;
-                        for (HashEntry<K, V> last = next; last != null; last = last.next)
+                        for (HashEntry<K, V> last = next; last != null; last = last.next_)
                         {
-                            int k = last.hash & sizeMask;
+                            int k = last.hash_ & sizeMask;
                             if (k != lastIdx)
                             {
                                 lastIdx = k;
@@ -330,45 +500,56 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
                         }
                         newTable[lastIdx] = lastRun;
 
-                        for (HashEntry<K, V> p = e; p != lastRun; p = p.next)
+                        for (HashEntry<K, V> p = entry; p != lastRun; p = p.next_)
                         {
-                            int k = p.hash & sizeMask;
+                            int k = p.hash_ & sizeMask;
                             HashEntry<K, V> n = (HashEntry<K, V>)newTable[k];
-                            newTable[k] = new HashEntry<K, V>(p.key, p.hash, n, p.value);
+                            newTable[k] = new HashEntry<K, V>(p.key_, p.hash_, n, p.value_);
                         }
                     }
                 }
             }
-            table = newTable;
+            table_ = newTable;
         }
 
+        /**
+         * 指定したキーを持つエントリを削除する
+         * @param key キー
+         * @param hash ハッシュコード
+         * @param value 値
+         * @return 削除したエントリ
+         */
         V remove(Object key, int hash, Object value)
         {
             lock();
             try
             {
-                int c = count - 1;
-                HashEntry[] tab = table;
+                int c = count_ - 1;
+                HashEntry<K, V>[] tab = table_;
                 int index = hash & (tab.length - 1);
                 HashEntry<K, V> first = (HashEntry<K, V>)tab[index];
-                HashEntry<K, V> e = first;
-                while (e != null && (e.hash != hash || !key.equals(e.key)))
-                    e = e.next;
+                HashEntry<K, V> entry = first;
+                while (entry != null && (entry.hash_ != hash || !key.equals(entry.key_)))
+                {
+                    entry = entry.next_;
+                }
 
                 V oldValue = null;
-                if (e != null)
+                if (entry != null)
                 {
-                    V v = e.value;
+                    V v = entry.value_;
                     if (value == null || value.equals(v))
                     {
                         oldValue = v;
 
-                        ++modCount;
-                        HashEntry<K, V> newFirst = e.next;
-                        for (HashEntry<K, V> p = first; p != e; p = p.next)
-                            newFirst = new HashEntry<K, V>(p.key, p.hash, newFirst, p.value);
+                        ++modCount_;
+                        HashEntry<K, V> newFirst = entry.next_;
+                        for (HashEntry<K, V> p = first; p != entry; p = p.next_)
+                        {
+                            newFirst = new HashEntry<K, V>(p.key_, p.hash_, newFirst, p.value_);
+                        }
                         tab[index] = newFirst;
-                        count = c;
+                        count_ = c;
                     }
                 }
                 return oldValue;
@@ -379,18 +560,23 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
             }
         }
 
+        /**
+         * テーブルをクリアする。
+         */
         void clear()
         {
-            if (count != 0)
+            if (count_ != 0)
             {
                 lock();
                 try
                 {
-                    HashEntry[] tab = table;
+                    HashEntry<K, V>[] tab = table_;
                     for (int i = 0; i < tab.length; i++)
+                    {
                         tab[i] = null;
-                    ++modCount;
-                    count = 0;
+                    }
+                    ++modCount_;
+                    count_ = 0;
                 }
                 finally
                 {
@@ -400,13 +586,24 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
         }
     }
 
+    /**
+     * コンストラクタ
+     * @param initialCapacity ハッシュマップの初期容量
+     * @param loadFactor ハッシュマップの負荷係数
+     * @param concurrencyLevel 並行処理レベル
+     */
+    @SuppressWarnings("unchecked")
     public ConcurrentHashMap(int initialCapacity, float loadFactor, int concurrencyLevel)
     {
         if (!(loadFactor > 0) || initialCapacity < 0 || concurrencyLevel <= 0)
+        {
             throw new IllegalArgumentException();
+        }
 
         if (concurrencyLevel > MAX_SEGMENTS)
+        {
             concurrencyLevel = MAX_SEGMENTS;
+        }
 
         int sshift = 0;
         int ssize = 1;
@@ -415,88 +612,121 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
             ++sshift;
             ssize <<= 1;
         }
-        segmentShift = 32 - sshift;
-        segmentMask = ssize - 1;
-        this.segments = new Segment[ssize];
+        segmentShift_ = SEGMENTS_SHIFT - sshift;
+        segmentMask_ = ssize - 1;
+        this.segments_ = new Segment[ssize];
 
         if (initialCapacity > MAXIMUM_CAPACITY)
+        {
             initialCapacity = MAXIMUM_CAPACITY;
+        }
         int c = initialCapacity / ssize;
         if (c * ssize < initialCapacity)
+        {
             ++c;
+        }
         int cap = 1;
         while (cap < c)
+        {
             cap <<= 1;
+        }
 
-        for (int i = 0; i < this.segments.length; ++i)
-            this.segments[i] = new Segment<K, V>(cap, loadFactor);
+        for (int i = 0; i < this.segments_.length; ++i)
+        {
+            this.segments_[i] = new Segment<K, V>(cap, loadFactor);
+        }
     }
 
+    /**
+     * コンストラクタ
+     * @param initialCapacity ハッシュマップの初期容量
+     */
     public ConcurrentHashMap(int initialCapacity)
     {
         this(initialCapacity, DEFAULT_LOAD_FACTOR, DEFAULT_SEGMENTS);
     }
 
+    /**
+     * コンストラクタ
+     */
     public ConcurrentHashMap()
     {
         this(DEFAULT_INITIAL_CAPACITY, DEFAULT_LOAD_FACTOR, DEFAULT_SEGMENTS);
     }
 
+    /**
+     * コンストラクタ
+     * @param t Map
+     */
     public ConcurrentHashMap(Map<? extends K, ? extends V> t)
     {
-        this(Math.max((int)(t.size() / DEFAULT_LOAD_FACTOR) + 1, 11), DEFAULT_LOAD_FACTOR,
-                DEFAULT_SEGMENTS);
+        this(Math.max((int)(t.size() / DEFAULT_LOAD_FACTOR) + 1, INITIAL_CAPACITY),
+                DEFAULT_LOAD_FACTOR, DEFAULT_SEGMENTS);
         putAll(t);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean isEmpty()
     {
-        final Segment[] segments = this.segments;
+        final Segment<K, V>[] SEGMENTS = this.segments_;
 
-        int[] mc = new int[segments.length];
+        int[] mc = new int[SEGMENTS.length];
         int mcsum = 0;
-        for (int i = 0; i < segments.length; ++i)
+        for (int i = 0; i < SEGMENTS.length; ++i)
         {
-            if (segments[i].count != 0)
+            if (SEGMENTS[i].count_ != 0)
+            {
                 return false;
+            }
             else
-                mcsum += mc[i] = segments[i].modCount;
+            {
+                mcsum += SEGMENTS[i].modCount_;
+                mc[i] = SEGMENTS[i].modCount_;
+            }
         }
 
         if (mcsum != 0)
         {
-            for (int i = 0; i < segments.length; ++i)
+            for (int i = 0; i < SEGMENTS.length; ++i)
             {
-                if (segments[i].count != 0 || mc[i] != segments[i].modCount)
+                if (SEGMENTS[i].count_ != 0 || mc[i] != SEGMENTS[i].modCount_)
+                {
                     return false;
+                }
             }
         }
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public int size()
     {
-        final Segment[] segments = this.segments;
+        final Segment<K, V>[] SEGMENTS = this.segments_;
         long sum = 0;
         long check = 0;
-        int[] mc = new int[segments.length];
+        int[] mc = new int[SEGMENTS.length];
 
         for (int k = 0; k < RETRIES_BEFORE_LOCK; ++k)
         {
             check = 0;
             sum = 0;
             int mcsum = 0;
-            for (int i = 0; i < segments.length; ++i)
+            for (int i = 0; i < SEGMENTS.length; ++i)
             {
-                sum += segments[i].count;
-                mcsum += mc[i] = segments[i].modCount;
+                sum += SEGMENTS[i].count_;
+                mcsum += SEGMENTS[i].modCount_;
+                mc[i] = SEGMENTS[i].modCount_;
             }
             if (mcsum != 0)
             {
-                for (int i = 0; i < segments.length; ++i)
+                for (int i = 0; i < SEGMENTS.length; ++i)
                 {
-                    check += segments[i].count;
-                    if (mc[i] != segments[i].modCount)
+                    check += SEGMENTS[i].count_;
+                    if (mc[i] != SEGMENTS[i].modCount_)
                     {
                         check = -1;
                         break;
@@ -504,62 +734,85 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
                 }
             }
             if (check == sum)
+            {
                 break;
+            }
         }
         if (check != sum)
         {
             sum = 0;
-            for (int i = 0; i < segments.length; ++i)
-                segments[i].lock();
-            for (int i = 0; i < segments.length; ++i)
-                sum += segments[i].count;
-            for (int i = 0; i < segments.length; ++i)
-                segments[i].unlock();
+            for (int i = 0; i < SEGMENTS.length; ++i)
+            {
+                SEGMENTS[i].lock();
+            }
+            for (int i = 0; i < SEGMENTS.length; ++i)
+            {
+                sum += SEGMENTS[i].count_;
+            }
+            for (int i = 0; i < SEGMENTS.length; ++i)
+            {
+                SEGMENTS[i].unlock();
+            }
         }
         if (sum > Integer.MAX_VALUE)
+        {
             return Integer.MAX_VALUE;
+        }
         else
+        {
             return (int)sum;
+        }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public V get(Object key)
     {
         int hash = hash(key);
         return segmentFor(hash).get(key, hash);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean containsKey(Object key)
     {
         int hash = hash(key);
         return segmentFor(hash).containsKey(key, hash);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean containsValue(Object value)
     {
         if (value == null)
+        {
             throw new NullPointerException();
+        }
 
-        final Segment[] segments = this.segments;
-        int[] mc = new int[segments.length];
+        final Segment<K, V>[] SEGMENTS = this.segments_;
+        int[] mc = new int[SEGMENTS.length];
 
         for (int k = 0; k < RETRIES_BEFORE_LOCK; ++k)
         {
-            int sum = 0;
             int mcsum = 0;
-            for (int i = 0; i < segments.length; ++i)
+            for (int i = 0; i < SEGMENTS.length; ++i)
             {
-                int c = segments[i].count;
-                mcsum += mc[i] = segments[i].modCount;
-                if (segments[i].containsValue(value))
+                mcsum += SEGMENTS[i].modCount_;
+                mc[i] = SEGMENTS[i].modCount_;
+                if (SEGMENTS[i].containsValue(value))
+                {
                     return true;
+                }
             }
             boolean cleanSweep = true;
             if (mcsum != 0)
             {
-                for (int i = 0; i < segments.length; ++i)
+                for (int i = 0; i < SEGMENTS.length; ++i)
                 {
-                    int c = segments[i].count;
-                    if (mc[i] != segments[i].modCount)
+                    if (mc[i] != SEGMENTS[i].modCount_)
                     {
                         cleanSweep = false;
                         break;
@@ -567,17 +820,21 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
                 }
             }
             if (cleanSweep)
+            {
                 return false;
+            }
         }
 
-        for (int i = 0; i < segments.length; ++i)
-            segments[i].lock();
+        for (int i = 0; i < SEGMENTS.length; ++i)
+        {
+            SEGMENTS[i].lock();
+        }
         boolean found = false;
         try
         {
-            for (int i = 0; i < segments.length; ++i)
+            for (int i = 0; i < SEGMENTS.length; ++i)
             {
-                if (segments[i].containsValue(value))
+                if (SEGMENTS[i].containsValue(value))
                 {
                     found = true;
                     break;
@@ -586,151 +843,259 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
         }
         finally
         {
-            for (int i = 0; i < segments.length; ++i)
-                segments[i].unlock();
+            for (int i = 0; i < SEGMENTS.length; ++i)
+            {
+                SEGMENTS[i].unlock();
+            }
         }
         return found;
     }
 
+    /**
+     * 指定した値をセグメントが持つか判定する
+     * @param value 値
+     * @return 指定した値をセグメントが持つときtrue/そうでないときfalse
+     */
     public boolean contains(Object value)
     {
         return containsValue(value);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public V put(K key, V value)
     {
         if (value == null)
+        {
             throw new NullPointerException();
+        }
         int hash = hash(key);
         return segmentFor(hash).put(key, hash, value, false);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public V putIfAbsent(K key, V value)
     {
         if (value == null)
+        {
             throw new NullPointerException();
+        }
         int hash = hash(key);
         return segmentFor(hash).put(key, hash, value, true);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void putAll(Map<? extends K, ? extends V> t)
     {
-        for (Iterator<? extends Map.Entry<? extends K, ? extends V>> it =
-                (Iterator<? extends Map.Entry<? extends K, ? extends V>>)t.entrySet().iterator(); it.hasNext();)
+        Iterator<? extends Map.Entry<? extends K, ? extends V>> itetator = t.entrySet().iterator();
+        for (Iterator<? extends Map.Entry<? extends K, ? extends V>> it = itetator; it.hasNext();)
         {
             Entry<? extends K, ? extends V> e = it.next();
             put(e.getKey(), e.getValue());
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public V remove(Object key)
     {
         int hash = hash(key);
         return segmentFor(hash).remove(key, hash, null);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean remove(Object key, Object value)
     {
         int hash = hash(key);
         return segmentFor(hash).remove(key, hash, value) != null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean replace(K key, V oldValue, V newValue)
     {
         if (oldValue == null || newValue == null)
+        {
             throw new NullPointerException();
+        }
         int hash = hash(key);
         return segmentFor(hash).replace(key, hash, oldValue, newValue);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public V replace(K key, V value)
     {
         if (value == null)
+        {
             throw new NullPointerException();
+        }
         int hash = hash(key);
         return segmentFor(hash).replace(key, hash, value);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void clear()
     {
-        for (int i = 0; i < segments.length; ++i)
-            segments[i].clear();
+        for (int i = 0; i < segments_.length; ++i)
+        {
+            segments_[i].clear();
+        }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public Set<K> keySet()
     {
-        Set<K> ks = keySet;
-        return (ks != null) ? ks : (keySet = new KeySet());
+        Set<K> ks = keySet_;
+
+        if (ks != null)
+        {
+            return ks;
+        }
+        
+        keySet_ = new KeySet();
+
+        return keySet_;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public Collection<V> values()
     {
-        Collection<V> vs = values;
-        return (vs != null) ? vs : (values = new Values());
+        Collection<V> vs = values_;
+        
+        if(vs != null)
+        {
+            return vs;
+        }
+        
+        values_ = new Values();
+        return values_;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public Set<Map.Entry<K, V>> entrySet()
     {
-        Set<Map.Entry<K, V>> es = entrySet;
-        return (es != null) ? es : (entrySet = (Set<Map.Entry<K, V>>)(Set)new EntrySet());
+        Set<Map.Entry<K, V>> es = entrySet_;
+        
+        if(es != null)
+        {
+            return es;
+        }
+        
+        entrySet_ = (Set<Map.Entry<K, V>>)new EntrySet();
+        
+        return entrySet_;
     }
 
+    /**
+     * 新規にキーを取得します。
+     * @return 新規のキー 
+     */
     public Enumeration<K> keys()
     {
         return new KeyIterator();
     }
 
+    /**
+     * 新規の要素を取得します。
+     * @return 新規の要素
+     */
     public Enumeration<V> elements()
     {
         return new ValueIterator();
     }
 
+    /**
+     * HashIterator抽象クラス
+     * @author acroquest
+     *
+     */
     abstract class HashIterator
     {
-        int nextSegmentIndex;
+        /** 次のセグメントのインデックス */
+        int             nextSegmentIndex_;
 
-        int nextTableIndex;
+        /** 次のテーブルのインデックス */
+        int             nextTableIndex_;
 
-        HashEntry[] currentTable;
+        /** 現在のテーブル */
+        HashEntry<K, V>[]     currentTable_;
 
-        HashEntry<K, V> nextEntry;
+        /** 次のエントリ */
+        HashEntry<K, V> nextEntry_;
 
-        HashEntry<K, V> lastReturned;
+        /** 最後に返したエントリ */
+        HashEntry<K, V> lastReturned_;
 
+        /**
+         * コンストラクタ
+         */
         HashIterator()
         {
-            nextSegmentIndex = segments.length - 1;
-            nextTableIndex = -1;
+            nextSegmentIndex_ = segments_.length - 1;
+            nextTableIndex_ = -1;
             advance();
         }
 
+        /**
+         * 次の要素を持つか判定する。
+         * @return 次の要素を持つときtrue/そうでないときfalse
+         */
         public boolean hasMoreElements()
         {
             return hasNext();
         }
 
+        /**
+         * 次の要素に進みます。
+         */
         final void advance()
         {
-            if (nextEntry != null && (nextEntry = nextEntry.next) != null)
-                return;
-
-            while (nextTableIndex >= 0)
+            if (nextEntry_ != null && (nextEntry_.next_) != null)
             {
-                if ((nextEntry = (HashEntry<K, V>)currentTable[nextTableIndex--]) != null)
-                    return;
+                nextEntry_ = nextEntry_.next_;
+                return;
             }
 
-            while (nextSegmentIndex >= 0)
+            while (nextTableIndex_ >= 0)
             {
-                Segment<K, V> seg = (Segment<K, V>)segments[nextSegmentIndex--];
-                if (seg.count != 0)
+                nextEntry_ = (HashEntry<K, V>)currentTable_[nextTableIndex_--];
+                if (nextEntry_ != null)
                 {
-                    currentTable = seg.table;
-                    for (int j = currentTable.length - 1; j >= 0; --j)
+                    return;
+                }
+            }
+
+            while (nextSegmentIndex_ >= 0)
+            {
+                Segment<K, V> seg = (Segment<K, V>)segments_[nextSegmentIndex_--];
+                if (seg.count_ != 0)
+                {
+                    currentTable_ = seg.table_;
+                    for (int j = currentTable_.length - 1; j >= 0; --j)
                     {
-                        if ((nextEntry = (HashEntry<K, V>)currentTable[j]) != null)
+                        nextEntry_ = (HashEntry<K, V>)currentTable_[j];
+                        if (nextEntry_ != null)
                         {
-                            nextTableIndex = j - 1;
+                            nextTableIndex_ = j - 1;
                             return;
                         }
                     }
@@ -738,116 +1103,202 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
             }
         }
 
+        /**
+         * 次の要素を持つか判定する。
+         * @return 次の要素を持つときtrue/そうでないときfalse
+         */
         public boolean hasNext()
         {
-            return nextEntry != null;
+            return nextEntry_ != null;
         }
 
+        /**
+         * 次の要素を取得する。
+         * @return 次の要素
+         */
         HashEntry<K, V> nextEntry()
         {
-            if (nextEntry == null)
+            if (nextEntry_ == null)
+            {
                 throw new NoSuchElementException();
-            lastReturned = nextEntry;
+            }
+            lastReturned_ = nextEntry_;
             advance();
-            return lastReturned;
+            return lastReturned_;
         }
 
+        /**
+         * 最後に返したエントリを削除する。
+         */
         public void remove()
         {
-            if (lastReturned == null)
+            if (lastReturned_ == null)
+            {
                 throw new IllegalStateException();
-            ConcurrentHashMap.this.remove(lastReturned.key);
-            lastReturned = null;
+            }
+            ConcurrentHashMap.this.remove(lastReturned_.key_);
+            lastReturned_ = null;
         }
     }
 
+    /**
+     * KeyIteratorクラス
+     * @author acroquest
+     *
+     */
     final class KeyIterator extends HashIterator implements Iterator<K>, Enumeration<K>
     {
+        /**
+         * {@inheritDoc}
+         */
         public K next()
         {
-            return super.nextEntry().key;
+            return super.nextEntry().key_;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         public K nextElement()
         {
-            return super.nextEntry().key;
+            return super.nextEntry().key_;
         }
     }
 
+    /**
+     * 値のイテレータクラス
+     * @author acroquest
+     *
+     */
     final class ValueIterator extends HashIterator implements Iterator<V>, Enumeration<V>
     {
+        /**
+         * {@inheritDoc}
+         */
         public V next()
         {
-            return super.nextEntry().value;
+            return super.nextEntry().value_;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         public V nextElement()
         {
-            return super.nextEntry().value;
+            return super.nextEntry().value_;
         }
     }
 
+    /**
+     * エントリのイテレータクラス
+     * @author acroquest
+     *
+     */
     final class EntryIterator extends HashIterator implements Map.Entry<K, V>,
             Iterator<Entry<K, V>>
     {
+        /**
+         * {@inheritDoc}
+         */
         public Map.Entry<K, V> next()
         {
             nextEntry();
             return this;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         public K getKey()
         {
-            if (lastReturned == null)
+            if (lastReturned_ == null)
+            {
                 throw new IllegalStateException("Entry was removed");
-            return lastReturned.key;
+            }
+            return lastReturned_.key_;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         public V getValue()
         {
-            if (lastReturned == null)
+            if (lastReturned_ == null)
+            {
                 throw new IllegalStateException("Entry was removed");
-            return ConcurrentHashMap.this.get(lastReturned.key);
+            }
+            return ConcurrentHashMap.this.get(lastReturned_.key_);
         }
 
+        /**
+         * {@inheritDoc}
+         */
         public V setValue(V value)
         {
-            if (lastReturned == null)
+            if (lastReturned_ == null)
+            {
                 throw new IllegalStateException("Entry was removed");
-            return ConcurrentHashMap.this.put(lastReturned.key, value);
+            }
+            return ConcurrentHashMap.this.put(lastReturned_.key_, value);
         }
 
+        /**
+         * {@inheritDoc}
+         */
+        @SuppressWarnings("unchecked")
         public boolean equals(Object o)
         {
 
-            if (lastReturned == null)
+            if (lastReturned_ == null)
+            {
                 return super.equals(o);
+            }
             if (!(o instanceof Map.Entry))
+            {
                 return false;
-            Map.Entry e = (Map.Entry)o;
+            }
+            Map.Entry<K, V> e = (Map.Entry<K, V>)o;
             return eq(getKey(), e.getKey()) && eq(getValue(), e.getValue());
         }
 
+        /**
+         * {@inheritDoc}
+         */
         public int hashCode()
         {
 
-            if (lastReturned == null)
+            if (lastReturned_ == null)
+            {
                 return super.hashCode();
+            }
 
             Object k = getKey();
             Object v = getValue();
             return ((k == null) ? 0 : k.hashCode()) ^ ((v == null) ? 0 : v.hashCode());
         }
 
+        /**
+         * {@inheritDoc}
+         */
         public String toString()
         {
 
-            if (lastReturned == null)
+            if (lastReturned_ == null)
+            {
                 return super.toString();
+            }
             else
+            {
                 return getKey() + "=" + getValue();
+            }
         }
 
+        /**
+         * 指定したオブジェクトが等しいか判定数r
+         * @param o1 比較元
+         * @param o2 比較先
+         * @return 指定したオブジェクトが等しいときtrue/そうでないときfalse
+         */
         boolean eq(Object o1, Object o2)
         {
             return (o1 == null ? o2 == null : o1.equals(o2));
@@ -855,195 +1306,342 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
     }
 
+    /**
+     * KeySetクラス
+     * @author acroquest
+     *
+     */
     final class KeySet extends AbstractSet<K>
     {
+        /**
+         * {@inheritDoc}
+         */
         public Iterator<K> iterator()
         {
             return new KeyIterator();
         }
 
+        /**
+         * {@inheritDoc}
+         */
         public int size()
         {
             return ConcurrentHashMap.this.size();
         }
 
+        /**
+         * {@inheritDoc}
+         */
         public boolean contains(Object o)
         {
             return ConcurrentHashMap.this.containsKey(o);
         }
 
+        /**
+         * {@inheritDoc}
+         */
         public boolean remove(Object o)
         {
             return ConcurrentHashMap.this.remove(o) != null;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         public void clear()
         {
             ConcurrentHashMap.this.clear();
         }
 
+        /**
+         * {@inheritDoc}
+         */
         public Object[] toArray()
         {
             Collection<K> c = new ArrayList<K>();
             for (Iterator<K> i = iterator(); i.hasNext();)
+            {
                 c.add(i.next());
+            }
             return c.toArray();
         }
 
+        /**
+         * {@inheritDoc}
+         */
         public <T> T[] toArray(T[] a)
         {
             Collection<K> c = new ArrayList<K>();
             for (Iterator<K> i = iterator(); i.hasNext();)
+            {
                 c.add(i.next());
+            }
             return c.toArray(a);
         }
     }
 
+    /**
+     * Valuesクラス
+     * @author acroquest
+     *
+     */
     final class Values extends AbstractCollection<V>
     {
+        /**
+         * {@inheritDoc}
+         */
         public Iterator<V> iterator()
         {
             return new ValueIterator();
         }
 
+        /**
+         * {@inheritDoc}
+         */
         public int size()
         {
             return ConcurrentHashMap.this.size();
         }
 
+        /**
+         * {@inheritDoc}
+         */
         public boolean contains(Object o)
         {
             return ConcurrentHashMap.this.containsValue(o);
         }
 
+        /**
+         * {@inheritDoc}
+         */
         public void clear()
         {
             ConcurrentHashMap.this.clear();
         }
 
+        /**
+         * {@inheritDoc}
+         */
         public Object[] toArray()
         {
             Collection<V> c = new ArrayList<V>();
             for (Iterator<V> i = iterator(); i.hasNext();)
+            {
                 c.add(i.next());
+            }
             return c.toArray();
         }
 
+        /**
+         * {@inheritDoc}
+         */
         public <T> T[] toArray(T[] a)
         {
             Collection<V> c = new ArrayList<V>();
             for (Iterator<V> i = iterator(); i.hasNext();)
+            {
                 c.add(i.next());
+            }
             return c.toArray(a);
         }
     }
 
+    /**
+     * EntrySetクラス
+     * @author acroquest
+     *
+     */
     final class EntrySet extends AbstractSet<Map.Entry<K, V>>
     {
+        /**
+         * {@inheritDoc}
+         */
         public Iterator<Map.Entry<K, V>> iterator()
         {
             return new EntryIterator();
         }
 
+        /**
+         * {@inheritDoc}
+         */
+        @SuppressWarnings("unchecked")
         public boolean contains(Object o)
         {
             if (!(o instanceof Map.Entry))
+            {
                 return false;
+            }
             Map.Entry<K, V> e = (Map.Entry<K, V>)o;
             V v = ConcurrentHashMap.this.get(e.getKey());
             return v != null && v.equals(e.getValue());
         }
 
+        /**
+         * {@inheritDoc}
+         */
+        @SuppressWarnings("unchecked")
         public boolean remove(Object o)
         {
             if (!(o instanceof Map.Entry))
+            {
                 return false;
+            }
             Map.Entry<K, V> e = (Map.Entry<K, V>)o;
             return ConcurrentHashMap.this.remove(e.getKey(), e.getValue());
         }
 
+        /**
+         * {@inheritDoc}
+         */
         public int size()
         {
             return ConcurrentHashMap.this.size();
         }
 
+        /**
+         * {@inheritDoc}
+         */
         public void clear()
         {
             ConcurrentHashMap.this.clear();
         }
 
+        /**
+         * {@inheritDoc}
+         */
         public Object[] toArray()
         {
 
             Collection<Map.Entry<K, V>> c = new ArrayList<Map.Entry<K, V>>(size());
             for (Iterator<Map.Entry<K, V>> i = iterator(); i.hasNext();)
+            {
                 c.add(new SimpleEntry<K, V>(i.next()));
+            }
             return c.toArray();
         }
 
+        /**
+         * {@inheritDoc}
+         */
         public <T> T[] toArray(T[] a)
         {
             Collection<Map.Entry<K, V>> c = new ArrayList<Map.Entry<K, V>>(size());
             for (Iterator<Map.Entry<K, V>> i = iterator(); i.hasNext();)
+            {
                 c.add(new SimpleEntry<K, V>(i.next()));
+            }
             return c.toArray(a);
         }
 
     }
 
+    /**
+     * SimpleEntryクラス
+     * @author acroquest
+     *
+     * @param <K> キー
+     * @param <V> 値
+     */
     static final class SimpleEntry<K, V> implements Entry<K, V>
     {
-        K key;
+        /** キー */
+        K key_;
 
-        V value;
+        /** 値 */
+        V value_;
 
+        /**
+         * コンストラクタ
+         * @param key キー
+         * @param value 値
+         */
         public SimpleEntry(K key, V value)
         {
-            this.key = key;
-            this.value = value;
+            this.key_ = key;
+            this.value_ = value;
         }
 
+        /**
+         * コンストラクタ
+         * @param e エントリ
+         */
         public SimpleEntry(Entry<K, V> e)
         {
-            this.key = e.getKey();
-            this.value = e.getValue();
+            this.key_ = e.getKey();
+            this.value_ = e.getValue();
         }
 
+        /**
+         * キーを取得します。
+         * @return キー
+         */
         public K getKey()
         {
-            return key;
+            return key_;
         }
 
+        /**
+         * 値を取得します。
+         * @return 値
+         */
         public V getValue()
         {
-            return value;
+            return value_;
         }
 
+        /**
+         * 値を設定します。
+         * @param value 値
+         * @return 設定する前の値
+         */
         public V setValue(V value)
         {
-            V oldValue = this.value;
-            this.value = value;
+            V oldValue = this.value_;
+            this.value_ = value;
             return oldValue;
         }
 
+        /**
+         * このインスタンスと指定したオブジェクトのキーと値が等しいか判定します。
+         * @param o 比較対象
+         * @return 等しいときtrue/そうでなときfalse
+         */
+        @SuppressWarnings("unchecked")
         public boolean equals(Object o)
         {
             if (!(o instanceof Map.Entry))
+            {
                 return false;
-            Map.Entry e = (Map.Entry)o;
-            return eq(key, e.getKey()) && eq(value, e.getValue());
+            }
+            Map.Entry<K, V> e = (Map.Entry<K, V>)o;
+            return eq(key_, e.getKey()) && eq(value_, e.getValue());
         }
 
+        /**
+         * ハッシュコードを生成します。
+         * @return ハッシュコード
+         */
         public int hashCode()
         {
-            return ((key == null) ? 0 : key.hashCode()) ^ ((value == null) ? 0 : value.hashCode());
+            return ((key_ == null) ? 0 : key_.hashCode())
+                    ^ ((value_ == null) ? 0 : value_.hashCode());
         }
 
+        /**
+         * キーと値を文字列にして取得します。
+         * @return キーと値の文字列
+         */
         public String toString()
         {
-            return key + "=" + value;
+            return key_ + "=" + value_;
         }
 
+        /**
+         * 指定したオブジェクトが等しいか判定します。
+         * @param o1 比較対象
+         * @param o2 比較対象
+         * @return 指定したオブジェクトが等しいときtrue/そうでないときfalse
+         */
         static boolean eq(Object o1, Object o2)
         {
             return (o1 == null ? o2 == null : o1.equals(o2));
@@ -1055,19 +1653,19 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
     {
         s.defaultWriteObject();
 
-        for (int k = 0; k < segments.length; ++k)
+        for (int k = 0; k < segments_.length; ++k)
         {
-            Segment<K, V> seg = (Segment<K, V>)segments[k];
+            Segment<K, V> seg = (Segment<K, V>)segments_[k];
             seg.lock();
             try
             {
-                HashEntry[] tab = seg.table;
+                HashEntry<K, V>[] tab = seg.table_;
                 for (int i = 0; i < tab.length; ++i)
                 {
-                    for (HashEntry<K, V> e = (HashEntry<K, V>)tab[i]; e != null; e = e.next)
+                    for (HashEntry<K, V> e = (HashEntry<K, V>)tab[i]; e != null; e = e.next_)
                     {
-                        s.writeObject(e.key);
-                        s.writeObject(e.value);
+                        s.writeObject(e.key_);
+                        s.writeObject(e.value_);
                     }
                 }
             }
@@ -1080,15 +1678,16 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
         s.writeObject(null);
     }
 
+    @SuppressWarnings("unchecked")
     private void readObject(java.io.ObjectInputStream s)
         throws IOException,
             ClassNotFoundException
     {
         s.defaultReadObject();
 
-        for (int i = 0; i < segments.length; ++i)
+        for (int i = 0; i < segments_.length; ++i)
         {
-            segments[i].setTable(new HashEntry[1]);
+            segments_[i].setTable(new HashEntry[1]);
         }
 
         for (;;)
@@ -1096,7 +1695,9 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
             K key = (K)s.readObject();
             V value = (V)s.readObject();
             if (key == null)
+            {
                 break;
+            }
             put(key, value);
         }
     }

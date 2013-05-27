@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jp.co.acroquest.endosnipe.collector.config.RotateConfig;
+import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 
 /**
  * ログローテート用スレッド
@@ -46,6 +47,9 @@ public class LogRotator implements Runnable
     /** 起動しているか */
     private volatile boolean   isRunning_;
 
+    /**
+     * ログローテートを行います。
+     */
     public void run()
     {
         init();
@@ -100,6 +104,7 @@ public class LogRotator implements Runnable
         catch (InterruptedException ex)
         {
             // Do Nothing.
+            SystemLogger.getInstance().warn(ex);
         }
     }
 

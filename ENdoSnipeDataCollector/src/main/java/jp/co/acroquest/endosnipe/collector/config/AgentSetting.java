@@ -37,8 +37,11 @@ public class AgentSetting
     /** 接続先ポート番号のデフォルト値 */
     public static final int        DEF_PORT                              = 18000;
 
+    /** BottleneckEye からの接続待ち受けポート番号用に加える数 */
+    private static final int       DEF_ACCEPT_PORT_ADD_NUMBER            = 10000;
+
     /** BottleneckEye からの接続待ち受けポート番号のデフォルト値 */
-    public static final int        DEF_ACCEPT_PORT                       = DEF_PORT + 10000;
+    public static final int        DEF_ACCEPT_PORT = DEF_PORT + DEF_ACCEPT_PORT_ADD_NUMBER;
 
     /** Javelinログの最大蓄積期間のデフォルト値 */
     public static final String     DEF_JVN_LOG_STRAGE_PERIOD             = "7d";
@@ -46,11 +49,14 @@ public class AgentSetting
     /** 計測データの最大蓄積期間のデフォルト値 */
     public static final String     DEF_MEASUREMENT_JVN_LOG_STRAGE_PERIOD = "7d";
 
-    public static final String     NONE                                  = "NONE";
+    /** NONEを示す文字列 */
+    public static final String     NONE = "NONE";
 
-    public static final int        DEF_PERIOD                            = 7;
+    /** デフォルトの期間の数 */
+    public static final int        DEF_PERIOD = 7;
 
-    public static final PeriodUnit DEF_PERIOD_UNIT                       = PeriodUnit.DAY;
+    /** デフォルトの期間の単位 */
+    public static final PeriodUnit DEF_PERIOD_UNIT  = PeriodUnit.DAY;
 
     /** 1日の時間数 */
     public static final int        HOURS_PER_DAY                         = 24;
@@ -72,11 +78,11 @@ public class AgentSetting
 
     /** Javelinログの最大蓄積期間 */
     public String                   jvnLogStragePeriod                    =
-                                                                            DEF_JVN_LOG_STRAGE_PERIOD;
+            DEF_JVN_LOG_STRAGE_PERIOD;
 
     /** 計測データの最大蓄積件数 */
     public String                   measureStragePeriod                   =
-                                                                            DEF_MEASUREMENT_JVN_LOG_STRAGE_PERIOD;
+            DEF_MEASUREMENT_JVN_LOG_STRAGE_PERIOD;
 
     /** Javelinログの蓄積期間(単位) */
     private PeriodUnit              jvnLogStragePeriodUnit_;
@@ -113,15 +119,15 @@ public class AgentSetting
             return DEF_PERIOD;
         }
         String storagePriodStr =
-                                 this.jvnLogStragePeriod.substring(
-                                                                   0,
-                                                                   this.jvnLogStragePeriod.length() - 1);
+                this.jvnLogStragePeriod.substring(
+                                                  0,
+                                                  this.jvnLogStragePeriod.length() - 1);
         int storagePeriod = DEF_PERIOD;
         try
         {
             storagePeriod = Integer.parseInt(storagePriodStr);
             String storagePriodUnitStr =
-                                         this.jvnLogStragePeriod.substring(this.jvnLogStragePeriod.length() - 1);
+                    this.jvnLogStragePeriod.substring(this.jvnLogStragePeriod.length() - 1);
             if ("d".equals(storagePriodUnitStr))
             {
                 this.jvnLogStragePeriodUnit_ = PeriodUnit.DAY;
@@ -178,15 +184,15 @@ public class AgentSetting
             return DEF_PERIOD;
         }
         String storagePriodStr =
-                                 this.measureStragePeriod.substring(
-                                                                    0,
-                                                                    this.measureStragePeriod.length() - 1);
+                this.measureStragePeriod.substring(
+                                                   0,
+                                                   this.measureStragePeriod.length() - 1);
         int storagePeriod = DEF_PERIOD;
         try
         {
             storagePeriod = Integer.parseInt(storagePriodStr);
             String storagePriodUnitStr =
-                                         this.measureStragePeriod.substring(this.measureStragePeriod.length() - 1);
+                    this.measureStragePeriod.substring(this.measureStragePeriod.length() - 1);
             if ("d".equals(storagePriodUnitStr))
             {
                 this.measureStragePeriodUnit_ = PeriodUnit.DAY;

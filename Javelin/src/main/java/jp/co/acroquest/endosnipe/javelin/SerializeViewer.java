@@ -43,10 +43,20 @@ import jp.co.acroquest.endosnipe.javelin.bean.Invocation;
  */
 public class SerializeViewer
 {
-    private static Map<String, Component> BeanMap_;
+    /** BeanのMap */
+    private static Map<String, Component> beanMap__;
 
+    /** ミリを表す数字 */
     private static final long MILLIS = 1000 * 1000;
 
+    /**
+     * コンストラクタ
+     */
+    private SerializeViewer()
+    {
+        
+    }
+    
     /**
      * シリアライズされたファイルの中身を別ファイルに書き出すことで、Viewする。
      * @param args シリアライズされたファイル
@@ -77,7 +87,7 @@ public class SerializeViewer
         //引数に指定されたdatファイルをデシリアライズする。
         try
         {
-            BeanMap_ = MBeanManagerSerializer.deserializeFile(args[0]);
+            beanMap__ = MBeanManagerSerializer.deserializeFile(args[0]);
         }
         catch (Exception ex)
         {
@@ -96,20 +106,18 @@ public class SerializeViewer
         BufferedWriter bw = new BufferedWriter(fw);
         try
         {
-            String titles =
-                    new String("レスポンス," + "計測対象," + "クラス名," + "メソッド名," + "TAT閾値," + "CPU閾値,"
-                            + "呼び出し回数,"                    
-                            +"合計処理時間(積算),"+"平均処理時間(積算),"+"最大処理時間(積算)," +
-                            "最小処理時間(積算),"+"合計CPU時間(積算),"+" 平均CPU時間(積算),"+
-                            "最大CPU時間(積算),"+" 最小CPU時間(積算),"+"合計USER時間(積算),"+"平均USER時間(積算),"
-                            +"最大USER時間(積算),"+"最小USER時間(積算),"
-                            +"合計処理時間," + "平均処理時間," + "最大処理時間," + "最小処理時間,"
+            String titles = "レスポンス," + "計測対象," + "クラス名," + "メソッド名," + "TAT閾値,"+"CPU閾値,"
+                            + "呼び出し回数," +"合計処理時間(積算),"+"平均処理時間(積算),"+"最大処理時間(積算)," 
+                            + "最小処理時間(積算),"+"合計CPU時間(積算),"+" 平均CPU時間(積算),"
+                            + "最大CPU時間(積算),"+" 最小CPU時間(積算),"+"合計USER時間(積算),"+"平均USER時間(積算),"
+                            + "最大USER時間(積算),"+"最小USER時間(積算),"
+                            + "合計処理時間," + "平均処理時間," + "最大処理時間," + "最小処理時間,"
                             + "合計CPU時間," + "平均CPU時間," + "最大CPU時間," + "最小CPU時間," + "合計USER時間,"
-                            + "平均USER時間," + "最大USER時間," + "最小USER時間," + "例外発生回数\n");
+                            + "平均USER時間," + "最大USER時間," + "最小USER時間," + "例外発生回数\n";
             bw.write(titles);
 
             //デシリアライズされたファイルに保存されている全Componentに対して、処理を行う。
-            for (Component component : BeanMap_.values())
+            for (Component component : beanMap__.values())
             {
                 //１つのcomponent中に存在する全Invocationに対して、処理を行う。
                 for (Invocation invocation : component.getAllInvocation())
@@ -158,25 +166,25 @@ public class SerializeViewer
         sb.append("\"" + invocation.getMethodName() + "\"" + ",");
 
         //アラーム発生判定のTATの閾値の値が-1のときは、「未指定」と出力する。それ以外は、閾値の値を出力する。
-        long TATThreshold = invocation.getAlarmThreshold();
-        if (TATThreshold == -1)
+        long tatThreshold = invocation.getAlarmThreshold();
+        if (tatThreshold == -1)
         {
             sb.append("未指定,");
         }
         else
         {
-            sb.append(TATThreshold + ",");
+            sb.append(tatThreshold + ",");
         }
 
         //警告を発生させるCPU時間の閾値の値が-1のときは、「未指定」と出力する。それ以外は、閾値の値を出力する。
-        long CPUThreshold = invocation.getAlarmCpuThreshold();
-        if (CPUThreshold == -1)
+        long cpuThreshold = invocation.getAlarmCpuThreshold();
+        if (cpuThreshold == -1)
         {
             sb.append("未指定,");
         }
         else
         {
-            sb.append(CPUThreshold + ",");
+            sb.append(cpuThreshold + ",");
         }
         sb.append(invocation.getCount() + ",");
         
@@ -192,18 +200,21 @@ public class SerializeViewer
         }
         else
         {
-            accumulatedAverage = decimalFormat.format((double)invocation.getAccumulatedTotal()/invocation.getCount());
+            double processTimeAve = (double)invocation.getAccumulatedTotal()/invocation.getCount();
+            accumulatedAverage = decimalFormat.format(processTimeAve);
         }
         sb.append(accumulatedAverage+ ",");
         sb.append(invocation.getAccumulatedMaximum()+ ",");
         sb.append(invocation.getAccumulatedMinimum()+ ",");
         sb.append(invocation.getAccumulatedCpuTotal()/MILLIS+ ",");
-        String accumulatedCpuAverage = decimalFormat.format((double)invocation.getAccumulatedCpuAverage()/MILLIS);
+        double cpuTimeAverage = (double)invocation.getAccumulatedCpuAverage()/MILLIS;
+        String accumulatedCpuAverage = decimalFormat.format(cpuTimeAverage);
         sb.append(accumulatedCpuAverage+ ",");
         sb.append(invocation.getAccumulatedCpuMaximum()/MILLIS+ ",");
         sb.append(invocation.getAccumulatedCpuMinimum()/MILLIS+ ",");
         sb.append(invocation.getAccumulatedUserTotal()/MILLIS+ ",");
-        String accumulatedUserAverage = decimalFormat.format((double)invocation.getAccumulatedUserAverage()/MILLIS);
+        double userTimeAverage = (double)invocation.getAccumulatedUserAverage()/MILLIS;
+        String accumulatedUserAverage = decimalFormat.format(userTimeAverage);
         sb.append(accumulatedUserAverage + ",");
         sb.append(invocation.getAccumulatedUserMaximum()/MILLIS+ ",");
         sb.append(invocation.getAccumulatedUserMinimum()/MILLIS+ ",");

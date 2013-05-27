@@ -38,9 +38,6 @@ public class ConcurrentAccessEvent extends AbstractStackTraceCheckEvent
     /** equals実行時に比較に用いる。 */
     private static final int EQUALS_LENGTH = 100;
 
-    /** 比較のためのスタックトレース。 */
-    private String stackTraceToCompare_;
-
     /**
      * コンストラクタ。
      */

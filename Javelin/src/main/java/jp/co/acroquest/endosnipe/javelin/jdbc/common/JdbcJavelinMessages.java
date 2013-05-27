@@ -29,6 +29,8 @@ import java.text.MessageFormat;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
+
 /**
  * Javelinのメッセージ取得クラス。
  * @author tooru
@@ -63,6 +65,7 @@ public final class JdbcJavelinMessages
         catch (MissingResourceException mre)
         {
             // 無視する。
+            SystemLogger.getInstance().warn(mre);
         }
         return message;
     }

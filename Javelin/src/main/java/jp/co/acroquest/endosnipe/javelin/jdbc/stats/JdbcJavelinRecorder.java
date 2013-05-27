@@ -96,8 +96,8 @@ public class JdbcJavelinRecorder
 
     /** 実行計画取得に失敗した場合のメッセージ。 */
     public static final String       EXPLAIN_PLAN_FAILED   =
-                                                             JdbcJavelinMessages.getMessage("javelin.jdbc.stats."
-                                                                     + "JdbcJavelinRecorder.FailExplainPlanMessage");
+                                             JdbcJavelinMessages.getMessage("javelin.jdbc.stats."
+                                                 + "JdbcJavelinRecorder.FailExplainPlanMessage");
 
     /** 設定値保持Bean */
     private static JdbcJavelinConfig config__;
@@ -628,7 +628,7 @@ public class JdbcJavelinRecorder
             AbstractExecutePlanChecker<?> executeChecker = processor.getExecutePlanChecker();
             if (executeChecker != null)
             {
-                String executePlan = executeChecker.parseExecutePlan(newArgs);
+                String exePlan = executeChecker.parseExecutePlan(newArgs);
                 
                 // フルスキャンの判定中は、CollectionのトレースをOFFにする。
                 Boolean prevTracing = CollectionMonitor.isTracing();
@@ -636,8 +636,7 @@ public class JdbcJavelinRecorder
                 Set<String> fullScanTableNameSet;
                 try
                 {
-                    fullScanTableNameSet =
-                                           executeChecker.getFullScanTableNameSet(executePlan, null);
+                    fullScanTableNameSet = executeChecker.getFullScanTableNameSet(exePlan, null);
                 }
                 finally
                 {
@@ -1308,13 +1307,13 @@ public class JdbcJavelinRecorder
         }
 
         // 実行計画取得用PreparedStatementを作成中であれば、後処理は行わない
-        if (jdbcJvnStatus.getNowCalling_() != null)
+        if (jdbcJvnStatus.getNowCalling() != null)
         {
             return;
         }
 
         // ２重呼び出しを禁止する
-        jdbcJvnStatus.setNowCalling_(connection);
+        jdbcJvnStatus.setNowCalling(connection);
 
         try
         {
@@ -1338,7 +1337,7 @@ public class JdbcJavelinRecorder
         }
         finally
         {
-            jdbcJvnStatus.setNowCalling_(null);
+            jdbcJvnStatus.setNowCalling(null);
         }
     }
 

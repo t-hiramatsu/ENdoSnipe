@@ -70,8 +70,7 @@ public class JdbcJvnStatus
     private CallTreeRecorder callTreeRecorder_;
 
     /**
-     * 実行計画取得中に、それ用のStatementを登録するフィールド。
-     * 実行計画取得中でなければnullを設定しておきます。
+     * 現在呼び出し中のConnection
      */
     private Connection nowCalling_;
 
@@ -199,87 +198,152 @@ public class JdbcJvnStatus
         this.setExecPlanSql(strSql);
     }
 
+    /**
+     * SQLが保存されていないフラグを設定します。
+     * @param noSql SQLが保存されていないフラグ
+     */
     public void setNoSql(Boolean noSql)
     {
         this.noSqlArgsMap_.put(this.callDepth_, noSql);
     }
 
+    /**
+     * Preprocessした深さを保存します。
+     */
     public void savePreprocessDepth()
     {
         this.preprocessedDepthSet_.add(this.callDepth_);
     }
 
+    /**
+     * SQLが保存されていないか判定します。
+     * @return 保存されていないときtrue/そうでないときfalse
+     */
     public Boolean isNoSql()
     {
         return this.noSqlArgsMap_.get(this.callDepth_);
     }
 
+    /**
+     * メソッド呼び出しの深さをひとつ減らします。
+     */
     public void decrementDepth()
     {
         this.depth_--;
     }
 
+    /**
+     * Preprocessした深さをクリアします。
+     */
     public void clearPreprocessedDepthSet()
     {
         this.preprocessedDepthSet_.clear();
     }
 
+    /**
+     * 実行計画中のStatementを取得します。
+     * @return 実行計画中のStatement
+     */
     public Statement getNowExpalaining()
     {
         return nowExpalaining_;
     }
-
+    
+    /**
+     * 実行計画中のStatementを設定します。
+     * @param nowExpalaining 実行計画中のStatement
+     */
     public void setNowExpalaining(Statement nowExpalaining)
     {
         nowExpalaining_ = nowExpalaining;
     }
 
+    /**
+     * メソッド呼び出しの深さを取得します。
+     * @return メソッド呼び出しの深さ
+     */
     public int getDepth()
     {
         return depth_;
     }
 
+    /**
+     * メソッド呼び出しの深さを設定します。
+     * @param depth メソッド呼び出しの深さ
+     */
     public void setDepth(int depth)
     {
         depth_ = depth;
     }
 
+    /**
+     * メソッド呼び出しの深さの最大値を取得します。
+     * @return メソッド呼び出しの深さの最大値
+     */
     public int getDepthMax()
     {
         return depthMax_;
     }
 
+    /**
+     * メソッド呼び出しの深さの最大値を設定します。
+     * @param depthMax メソッド呼び出しの深さの最大値
+     */
     public void setDepthMax(int depthMax)
     {
         depthMax_ = depthMax;
     }
 
+    /**
+     * JdbcJavelinRecorderの呼び出しの深さを取得します。
+     * @return JdbcJavelinRecorderの呼び出しの深さ
+     */
     public int getCallDepth()
     {
         return callDepth_;
     }
 
+    /**
+     * JdbcJavelinRecorderの呼び出しの深さを設定します。
+     * @param callDepth JdbcJavelinRecorderの呼び出しの深さ
+     */
     public void setCallDepth(int callDepth)
     {
         callDepth_ = callDepth;
     }
 
+    /**
+     * SQLの一時保存先を取得します。
+     * @return SQLの一時保存先
+     */
     public String[] getExecPlanSql()
     {
-        return execPlanSql_;
+        return execPlanSql_.clone();
     }
 
+    /**
+     * SQLの一時保存先を設定します。
+     * @param execPlanSql SQLの一時保存先
+     */
     public void setExecPlanSql(String[] execPlanSql)
     {
-        execPlanSql_ = execPlanSql;
+        execPlanSql_ = execPlanSql.clone();
     }
 
-    public Connection getNowCalling_()
+    /**
+     * 現在呼び出し中のConnectionを取得します。
+     * @return 現在呼び出し中のConnection
+     */
+    public Connection getNowCalling()
     {
         return nowCalling_;
     }
 
-    public void setNowCalling_(Connection nowCalling)
+    /**
+     * 現在呼び出し中のConnectionを設定します。
+     * @param nowCalling 現在呼び出し中のConnection
+     */
+    public void setNowCalling(Connection nowCalling)
     {
         this.nowCalling_ = nowCalling;
     }

@@ -34,8 +34,6 @@ public interface LogRotateTask
 {
     /**
      * ログローテートを行う
-     * 
-     * @param config ローテート用設定
      */
     void rotate();
 }

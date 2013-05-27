@@ -210,12 +210,12 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
      *
      * @param telegram リソース通知電文
      * @param dbName データベース名
-     * @param agentName 引数名
+     * @param agentName エージェント名
      *
      * @return 電文から作成した{@link ResourceData}オブジェクト
      */
-    public static ResourceData createResourceData(
-    		final Telegram telegram, String dbName, String agentName)
+    public static ResourceData createResourceData(final Telegram telegram, 
+            String dbName, String agentName)
     {
         if (checkTelegramKind(telegram) == false || checkResponseKind(telegram) == false)
         {
@@ -538,7 +538,6 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
         String concreteItemName = builder.append(itemName).toString();
         return concreteItemName;
     }
-
 
     /**
      * 接頭辞を付与する必要があるかどうか判定する。<br/>

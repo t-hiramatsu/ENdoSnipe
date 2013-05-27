@@ -54,10 +54,9 @@ import org.seasar.framework.util.StringUtil;
 public class ConnectionManager implements LogMessageCodes
 {
     /** ロガー */
-    private static final ENdoSnipeLogger   LOGGER =
-                                                      ENdoSnipeLogger.getLogger(
-                                                                                ConnectionManager.class,
-                                                                                ENdoSnipeDataAccessorPluginProvider.INSTANCE);
+    private static final ENdoSnipeLogger   LOGGER = ENdoSnipeLogger.getLogger(
+                                                ConnectionManager.class,
+                                                ENdoSnipeDataAccessorPluginProvider.INSTANCE);
 
     /** ConnectionManagerインスタンス保持用変数 */
     private static ConnectionManager       instance__;
@@ -96,7 +95,7 @@ public class ConnectionManager implements LogMessageCodes
      * 
      * @return インスタンス
      */
-    public static ConnectionManager getInstance()
+    public static synchronized ConnectionManager getInstance()
     {
         if (instance__ == null)
         {

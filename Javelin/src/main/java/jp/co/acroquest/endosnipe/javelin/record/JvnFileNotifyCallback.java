@@ -44,6 +44,7 @@ public class JvnFileNotifyCallback implements JavelinLogCallback
      * @param jvnFileName JVNログファイル名
      * @param jvnLogContent JVNログファイルの内容
      * @param telegramId 電文 ID
+     * @param itemName 項目名
      */
     public void execute(final String jvnFileName, final String jvnLogContent,
             final long telegramId, final String itemName)
@@ -61,7 +62,9 @@ public class JvnFileNotifyCallback implements JavelinLogCallback
         {
             telegram = TelegramCreator.createJvnFileNotifyTelegram(jvnFileName,
                     jvnLogContent, telegramId, itemName);
-        } catch (IllegalArgumentException ex) {
+        } 
+        catch (IllegalArgumentException ex) 
+        {
             SystemLogger logger = SystemLogger.getInstance();
             logger.warn(ex);
         }

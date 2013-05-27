@@ -30,6 +30,10 @@ import java.util.Comparator;
 
 import jp.co.acroquest.endosnipe.javelin.bean.InvocationMBean;
 
+/**
+ * 最大比較用コンパレータ
+ * @author acroquest
+ */
 public class MaximumComparator implements Comparator<InvocationMBean>, Serializable
 {
     private static final long serialVersionUID = 1255690461628306016L;

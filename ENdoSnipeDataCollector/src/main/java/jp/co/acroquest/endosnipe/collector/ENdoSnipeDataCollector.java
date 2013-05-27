@@ -44,6 +44,7 @@ import jp.co.acroquest.endosnipe.collector.request.CommunicationClientRepository
 import jp.co.acroquest.endosnipe.collector.rotate.LogRotator;
 import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
+import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 import jp.co.acroquest.endosnipe.communicator.TelegramSender;
 import jp.co.acroquest.endosnipe.communicator.accessor.ResourceNotifyAccessor;
 import jp.co.acroquest.endosnipe.communicator.accessor.SystemResourceGetter;
@@ -64,8 +65,8 @@ import jp.co.acroquest.endosnipe.data.entity.SignalDefinition;
 public class ENdoSnipeDataCollector implements CommunicationClientRepository, LogMessageCodes
 {
     private static final ENdoSnipeLogger LOGGER =
-                                                  ENdoSnipeLogger.getLogger(ENdoSnipeDataCollector.class,
-                                                                            ENdoSnipeDataCollectorPluginProvider.INSTANCE);
+            ENdoSnipeLogger.getLogger(ENdoSnipeDataCollector.class,
+                                      ENdoSnipeDataCollectorPluginProvider.INSTANCE);
 
     /** JavelinDataLogger のスレッド名称 */
     private static final String LOGGER_THREAD_NAME = "JavelinDataLoggerThread";
@@ -74,6 +75,9 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
     private static final String ROTATE_THREAD_NAME = "JavelinDataCollectorRotateThread";
 
     private static final String RESOURCE_GETTER_THREAD_NAME = "ResourceGetterThread";
+
+    /** ミリを表す単位 */
+    private static final int MILLI_UNIT = 1000;
 
     private DataCollectorConfig config_;
 
@@ -95,7 +99,7 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
 
     /** DB名をキーにした、クライアントに通知するためのリスナのリスト */
     private final Map<String, List<TelegramNotifyListener>> telegramNotifyListenersMap_ =
-                                                                                          new HashMap<String, List<TelegramNotifyListener>>();
+            new HashMap<String, List<TelegramNotifyListener>>();
 
     private final List<JavelinClient> clientList_ = new ArrayList<JavelinClient>();
 
@@ -133,7 +137,7 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
             final TelegramNotifyListener notifyListener)
     {
         List<TelegramNotifyListener> telegramNotifyListeners =
-                                                               this.telegramNotifyListenersMap_.get(dbName);
+                this.telegramNotifyListenersMap_.get(dbName);
         if (telegramNotifyListeners == null)
         {
             telegramNotifyListeners = new ArrayList<TelegramNotifyListener>();
@@ -215,8 +219,8 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
             javelinDataLogger_.setDefaultRotateConfig(defaultRotateConfig_);
         }
         javelinDataLoggerThread_ =
-                                   new Thread(javelinDataLogger_, LOGGER_THREAD_NAME + "_"
-                                           + Integer.toHexString(System.identityHashCode(this)));
+                new Thread(javelinDataLogger_, LOGGER_THREAD_NAME + "_"
+                        + Integer.toHexString(System.identityHashCode(this)));
 
         if (behaviorMode == BehaviorMode.SERVICE_MODE)
         {
@@ -241,17 +245,17 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
 
     /**
      * 閾値判定定義情報のマップを作成する。
-     * @param databaseName データベース名
+     * @param databaseName データベース名 
      * @return 閾値判定定義情報のマップ
      */
     private Map<Long, SignalDefinitionDto> createSignalDefinition(final String databaseName)
     {
         Map<Long, SignalDefinitionDto> signalDefinitionMap =
-                                                             new ConcurrentHashMap<Long, SignalDefinitionDto>();
+                new ConcurrentHashMap<Long, SignalDefinitionDto>();
         try
         {
             List<SignalDefinition> signalDefinitionList =
-                                                          SignalDefinitionDao.selectAll(databaseName);
+                    SignalDefinitionDao.selectAll(databaseName);
             for (SignalDefinition signalDefinition : signalDefinitionList)
             {
                 SignalDefinitionDto signalDefinitionDto = new SignalDefinitionDto(signalDefinition);
@@ -279,6 +283,7 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
             catch (InterruptedException ex)
             {
                 // Do nothing.
+                SystemLogger.getInstance().warn(ex);
             }
         }
     }
@@ -308,7 +313,7 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
         this.resourceGetterTask_.setMinimumInterval(interval / 2);
         Date currentDate = new Date();
         long currentTime = currentDate.getTime();
-        Date firstDate = new Date(currentTime - (currentTime % 1000) + interval);
+        Date firstDate = new Date(currentTime - (currentTime % MILLI_UNIT) + interval);
         this.timer_.scheduleAtFixedRate(this.resourceGetterTask_, firstDate, interval);
     }
 
@@ -341,8 +346,8 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
         this.logRotator_.setConfig(this.rotateConfigList_);
 
         this.rotateThread_ =
-                             new Thread(this.logRotator_, ROTATE_THREAD_NAME + "_"
-                                     + Integer.toHexString(System.identityHashCode(this)));
+                new Thread(this.logRotator_, ROTATE_THREAD_NAME + "_"
+                        + Integer.toHexString(System.identityHashCode(this)));
         if (daemon == true)
         {
             this.rotateThread_.setDaemon(true);
@@ -418,6 +423,7 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
      * {@link #init(DataCollectorConfig) init()} メソッドで渡された
      * {@link DataCollectorConfig} オブジェクトに従って、接続を行います。<br />
      * 本メソッドは {@link #startPluginMode()} メソッドを呼んだあとに実行してください。<br />
+     * @throws InitializeException 初期化例外
      */
     public void connectAll()
         throws InitializeException
@@ -443,8 +449,8 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
             RotateConfig rotateConfig = createRotateConfig(agentSetting);
             addRotateConfig(rotateConfig);
             String clientId =
-                              connect(databaseName, agentSetting.hostName, agentSetting.port,
-                                      agentSetting.acceptPort);
+                    connect(databaseName, agentSetting.hostName, agentSetting.port,
+                            agentSetting.acceptPort);
             if (clientId == null)
             {
                 LOGGER.log(DATABASE_ALREADY_USED, databaseName, agentSetting.hostName,
@@ -461,16 +467,16 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
      * すでに同じデータベースを参照して接続しているものが存在した場合は、
      * 接続せずに <code>null</code> を返します。<br />
      *
-     * @param databaseName データベース名
+     * @param dbName データベース名
      * @param javelinHost 接続先 Javelin のホスト名または IP アドレス
      * @param javelinPort 接続先 Javelin のポート番号
      * @param acceptPort BottleneckEye からの接続待ち受けポート番号
      * @return クライアント ID
      */
-    public synchronized String connect(final String databaseName, final String javelinHost,
+    public synchronized String connect(final String dbName, final String javelinHost,
             final int javelinPort, final int acceptPort)
     {
-        DBManager.setDbName(databaseName);
+        DBManager.setDbName(dbName);
 
         checkRunning();
 
@@ -478,13 +484,13 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
 
         // すでに同じデータベースを参照して接続しているものが存在した場合は、接続しない
         DataBaseManager manager = DataBaseManager.getInstance();
-        String hostInfo = manager.getHostInfo(databaseName);
+        String hostInfo = manager.getHostInfo(dbName);
         if (hostInfo != null)
         {
             return null;
         }
 
-        manager.addDbInfo(databaseName, clientId);
+        manager.addDbInfo(dbName, clientId);
 
         JavelinClient javelinClient = findJavelinClient(clientId);
         JavelinDataQueue queue = this.javelinDataLogger_.getQueue();
@@ -492,8 +498,8 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
         {
             // 既にクライアントが存在しない場合は新たに生成する
             javelinClient = new JavelinClient();
-            javelinClient.init(databaseName, javelinHost, javelinPort, acceptPort);
-            javelinClient.setTelegramNotifyListener(this.telegramNotifyListenersMap_.get(databaseName));
+            javelinClient.init(dbName, javelinHost, javelinPort, acceptPort);
+            javelinClient.setTelegramNotifyListener(this.telegramNotifyListenersMap_.get(dbName));
             javelinClient.connect(queue, this.behaviorMode_, null);
             this.clientList_.add(javelinClient);
             this.resourceGetterTask_.addTelegramSenderList(javelinClient.getTelegramSender());

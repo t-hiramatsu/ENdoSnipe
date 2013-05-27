@@ -34,8 +34,7 @@ import java.util.Set;
  * 
  * @author fujii
  */
-public class ResourceItemNameMap implements MeasurementConstants,
-		TelegramConstants
+public class ResourceItemNameMap implements MeasurementConstants, TelegramConstants
 {
 	/** 項目名に対応する計測値種別を保存しているマップ */
 	private static final Map<String, Integer> RESOURCE_MAP = new HashMap<String, Integer>();
@@ -44,13 +43,10 @@ public class ResourceItemNameMap implements MeasurementConstants,
 		RESOURCE_MAP.put(ITEMNAME_TIME, TYPE_TIME);
 		RESOURCE_MAP.put(ITEMNAME_ACQUIREDTIME, TYPE_ACQUIREDTIME);
 		RESOURCE_MAP.put(ITEMNAME_PROCESS_CPU_TOTAL_TIME, TYPE_CPUTIME);
-		RESOURCE_MAP.put(ITEMNAME_PROCESS_CPU_IOWAIT_TIME,
-				TYPE_PROC_CPU_IOWAIT_TIME);
-		RESOURCE_MAP.put(ITEMNAME_SYSTEM_CPU_IOWAIT_TIME,
-				TYPE_SYS_CPU_IOWAIT_TIME);
+		RESOURCE_MAP.put(ITEMNAME_PROCESS_CPU_IOWAIT_TIME, TYPE_PROC_CPU_IOWAIT_TIME);
+		RESOURCE_MAP.put(ITEMNAME_SYSTEM_CPU_IOWAIT_TIME, TYPE_SYS_CPU_IOWAIT_TIME);
 		RESOURCE_MAP.put(ITEMNAME_JAVAUPTIME, TYPE_JAVAUPTIME);
-		RESOURCE_MAP.put(ITEMNAME_SYSTEM_CPU_PROCESSOR_COUNT,
-				TYPE_PROCESSORCOUNT);
+		RESOURCE_MAP.put(ITEMNAME_SYSTEM_CPU_PROCESSOR_COUNT, TYPE_PROCESSORCOUNT);
 		RESOURCE_MAP.put(ITEMNAME_JAVAPROCESS_MEMORY_HEAP_COMMIT,
 				TYPE_HEAPMEMORY_COMMITTED);
 		RESOURCE_MAP.put(ITEMNAME_JAVAPROCESS_MEMORY_HEAP_USED,
@@ -187,44 +183,43 @@ public class ResourceItemNameMap implements MeasurementConstants,
 				TYPE_INFINISPAN_MAPREDUCE);
 	}
 
-	/**
-	 * 項目名から計測値種別を取得します。<br/>
-	 * 項目名が完全一致しない場合は、後方一致で検索します。
-	 * 
-	 * @param itemName
-	 *            項目名。
-	 * @return 計測値種別。検索に一致しないか、引数がnullの場合はnullを返す。
-	 */
-	public static Integer getResourceType(String itemName)
-	{
-		if (itemName == null)
-		{
-			return null;
-		}
-		Integer type = RESOURCE_MAP.get(itemName);
-		// 項目名に接頭辞が付いている場合の対応: 見つからなければ末尾一致で線形検索する
-		if (type == null)
-		{
-			Set<Map.Entry<String, Integer>> entrySet = RESOURCE_MAP.entrySet();
-			for (Map.Entry<String, Integer> entry : entrySet)
-			{
-				String key = entry.getKey();
-				if (itemName.endsWith(key) == true)
-				{
-					type = entry.getValue();
-					break;
-				}
-			}
-		}
+    /**
+     * 項目名から計測値種別を取得します。<br/>
+     * 項目名が完全一致しない場合は、後方一致で検索します。
+     * 
+     * @param itemName 項目名。
+     * @return 計測値種別。検索に一致しないか、引数がnullの場合はnullを返す。
+     */
+    public static Integer getResourceType(String itemName)
+    {
+        if (itemName == null)
+        {
+            return null;
+        }
+        Integer type = RESOURCE_MAP.get(itemName);
+        // 項目名に接頭辞が付いている場合の対応: 見つからなければ末尾一致で線形検索する
+        if (type == null)
+        {
+            Set<Map.Entry<String, Integer>> entrySet = RESOURCE_MAP.entrySet();
+            for (Map.Entry<String, Integer> entry : entrySet)
+            {
+                String key = entry.getKey();
+                if (itemName.endsWith(key) == true)
+                {
+                    type = entry.getValue();
+                    break;
+                }
+            }
+        }
+        
+        return type;
+    }
 
-		return type;
-	}
-
-	/**
-	 * デフォルトコンストラクタです。<br />
-	 */
-	private ResourceItemNameMap()
-	{
-		// Do Nothing.
-	}
+    /**
+     * デフォルトコンストラクタです。<br />
+     */
+    private ResourceItemNameMap()
+    {
+        // Do Nothing.
+    }
 }

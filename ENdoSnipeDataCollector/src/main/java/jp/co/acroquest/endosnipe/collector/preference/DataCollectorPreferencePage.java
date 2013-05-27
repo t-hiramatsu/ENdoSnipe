@@ -87,8 +87,8 @@ public class DataCollectorPreferencePage extends PreferencePage implements IWork
         mainComposite.setLayoutData(new GridData(GridData.FILL_BOTH));
 
         this.labelMaxJavelinlogRecords_ = new Label(mainComposite, SWT.NONE);
-        this.labelMaxJavelinlogRecords_.setText(DataCollectorMessages.getMessage("collector.javelin.log.max.record")
-                + ":");
+        this.labelMaxJavelinlogRecords_.setText(
+               DataCollectorMessages.getMessage("collector.javelin.log.max.record") + ":");
         this.labelMaxJavelinlogRecords_.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
         this.textMaxJavelinlogRecords_ = new Text(mainComposite, SWT.BORDER);
@@ -97,8 +97,8 @@ public class DataCollectorPreferencePage extends PreferencePage implements IWork
         this.textMaxJavelinlogRecords_.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
         this.labelMaxMeasurementlogRecords_ = new Label(mainComposite, SWT.NONE);
-        this.labelMaxMeasurementlogRecords_.setText(DataCollectorMessages.getMessage("collector.measurement.log.max.record")
-                + ":");
+        this.labelMaxMeasurementlogRecords_.setText(
+                DataCollectorMessages.getMessage("collector.measurement.log.max.record") + ":");
         this.labelMaxMeasurementlogRecords_.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
         this.textMaxMeasurementlogRecords_ = new Text(mainComposite, SWT.BORDER);
@@ -122,7 +122,8 @@ public class DataCollectorPreferencePage extends PreferencePage implements IWork
 
         int defaultMaxMeasurementlogRecords =
                 store.getDefaultInt(DataCollectorConfig.MEASUREMENT_LOG_MAX_KEY);
-        this.textMaxMeasurementlogRecords_.setText(Integer.toString(defaultMaxMeasurementlogRecords));
+        this.textMaxMeasurementlogRecords_.setText(
+                Integer.toString(defaultMaxMeasurementlogRecords));
     }
 
     /**
@@ -145,7 +146,8 @@ public class DataCollectorPreferencePage extends PreferencePage implements IWork
                        Integer.MAX_VALUE) == false)
         {
 
-            showInputErrorDialog(DataCollectorMessages.getMessage("collector.javelin.log.max.record"));
+            showInputErrorDialog(
+                     DataCollectorMessages.getMessage("collector.javelin.log.max.record"));
             return false;
         }
 
@@ -153,7 +155,8 @@ public class DataCollectorPreferencePage extends PreferencePage implements IWork
                        DataCollectorConfig.MIN_MEASUREMENT_LOG_MAX, Integer.MAX_VALUE) == false)
         {
 
-            showInputErrorDialog(DataCollectorMessages.getMessage("collector.measurement.log.max.record"));
+            showInputErrorDialog(
+                     DataCollectorMessages.getMessage("collector.measurement.log.max.record"));
             return false;
         }
 
@@ -183,9 +186,9 @@ public class DataCollectorPreferencePage extends PreferencePage implements IWork
             shell = new Shell();
         }
         MessageDialog.openError(
-                                shell,
-                                DataCollectorMessages.getMessage("collector.preference.inputErrorWindow"),
-                                errorMessage);
+                        shell,
+                        DataCollectorMessages.getMessage("collector.preference.inputErrorWindow"),
+                        errorMessage);
     }
 
     /**

@@ -50,7 +50,7 @@ public class JvnDownloadServlet extends HttpServlet
 
     /** ロガー */
     private static final ENdoSnipeLogger LOGGER           =
-                                                            ENdoSnipeLogger.getLogger(JvnDownloadServlet.class);
+            ENdoSnipeLogger.getLogger(JvnDownloadServlet.class);
 
     /** バッファのサイズ */
     private static final int             BUFFER_SIZE      = 1024;
@@ -61,16 +61,18 @@ public class JvnDownloadServlet extends HttpServlet
     /**
      * {@inheritDoc}
      */
+    @Override
     public void init()
-        throws ServletException
-    {
+            throws ServletException
+            {
         // Do Nothing.
-    }
+            }
 
     /**
      * {@inheritDoc}
      */
-    public void doGet(HttpServletRequest request, HttpServletResponse response)
+    @Override
+    public void doGet(final HttpServletRequest request, final HttpServletResponse response)
     {
         doRequest(request, response);
     }
@@ -78,7 +80,8 @@ public class JvnDownloadServlet extends HttpServlet
     /**
      * {@inheritDoc}
      */
-    public void doPost(HttpServletRequest request, HttpServletResponse response)
+    @Override
+    public void doPost(final HttpServletRequest request, final HttpServletResponse response)
     {
         doRequest(request, response);
     }
@@ -88,7 +91,7 @@ public class JvnDownloadServlet extends HttpServlet
      * @param request {@link HttpServletRequest}オブジェクト
      * @param response {@link HttpServletResponse}オブジェクト
      */
-    public void doRequest(HttpServletRequest request, HttpServletResponse response)
+    public void doRequest(final HttpServletRequest request, final HttpServletResponse response)
     {
         // パラメータ取得
         String agentId = request.getParameter(EventConstants.AGENT_ID);
@@ -112,14 +115,14 @@ public class JvnDownloadServlet extends HttpServlet
         }
     }
 
-    private void printOutFile(HttpServletRequest req, HttpServletResponse res, String logFileName,
+    private void printOutFile(final HttpServletRequest req, final HttpServletResponse res, final String logFileName,
             InputStream is)
-        throws IOException
-    {
+                    throws IOException
+                    {
         OutputStream os = res.getOutputStream();
         try
         {
-            //レスポンス設定  
+            //レスポンス設定
             res.setContentType("application/octet-stream");
             res.setHeader("Content-Disposition", "filename=\"" + logFileName + "\"");
 
@@ -158,13 +161,13 @@ public class JvnDownloadServlet extends HttpServlet
                 }
             }
         }
-    }
+                    }
 
     /**
      * ファイルが見つからない場合
      * @param res {@link HttpServletResponse}
      */
-    private void printOutNotFound(HttpServletResponse res)
+    private void printOutNotFound(final HttpServletResponse res)
     {
         OutputStream toClient = null;
         try

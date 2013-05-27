@@ -124,8 +124,7 @@ public class InstanceMonitor
 
     /**
      * インスタンス数のMapを取得する。
-     * 
-     * @return　インスタンス数のMap
+     * @return インスタンス数のMap
      */
     public static Map<String, AtomicInteger> getInstanceNumMap()
     {
@@ -134,8 +133,7 @@ public class InstanceMonitor
 
     /**
      * インスタンス数のListを取得する。
-     * 
-     * @return　インスタンス数のMap
+     * @return インスタンス数のMap
      */
     public static List<ClassHistogramEntry> getHistogramList()
     {

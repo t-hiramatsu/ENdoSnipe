@@ -35,6 +35,12 @@ import java.util.Collection;
  */
 public class CSVCreator
 {
+    /** クォーテーション */
+    private int quotation_ = CSVCreator.getDoubleQuotation();
+
+    /** nullの扱い */
+    private int nullTreatment_ = CSVCreator.getNullPointerException();
+
     /**
      * {@link CSVCreator} を構築します。<br />
      */
@@ -49,9 +55,6 @@ public class CSVCreator
      *
      * @param list String型の配列
      * @return 変換されたCSV形式の文字列
-     * @throws NullPointerException
-     * @see #setNullTreatment()
-     * @see #setQuotation()
      */
     public String createCSVString(final String[] list)
     {
@@ -63,7 +66,7 @@ public class CSVCreator
             String element = list[cnt];
             if (element == null)
             {
-                if (getNullTreatment() == CSVCreator.nullToEmptyString())
+                if (getNullTreatment() == CSVCreator.getNullToEmptyString())
                 {
                     element = "";
                 }
@@ -75,7 +78,7 @@ public class CSVCreator
             // 空文字列では無い場合、ダブルクォーテーションで囲む。
             if (element.length() > 0)
             {
-                if (getQuotation() == CSVCreator.doubleQuotation())
+                if (getQuotation() == CSVCreator.getDoubleQuotation())
                 {
                     element = insertDoubleQuote(element);
                 }
@@ -234,8 +237,8 @@ public class CSVCreator
     }
 
     /**
-     * NullTreatmentを設定する
-     * @param newNullTreatment NullTreatment
+     * nullの扱いを設定する。
+     * @param newNullTreatment nullの扱い
      */
     public void setNullTreatment(final int newNullTreatment)
     {
@@ -243,23 +246,19 @@ public class CSVCreator
     }
 
     /**
-     * デフォルト値は NULL_POINTER_EXCEPTION 。
-     * @return NullTreatment
+     * デフォルト値は NULL_POINTER_EXCEPTION
+     * @return nullの扱い
      */
     public int getNullTreatment()
     {
         return nullTreatment_;
     }
 
-    private int quotation_ = CSVCreator.doubleQuotation();
-
-    private int nullTreatment_ = CSVCreator.nullPointerException();
-
     /**
      * nullに遭遇した場合、NullPointerExceptionを投げる指示。
      * @return nullに遭遇した場合、NullPointerExceptionを投げる指示
      */
-    public static final int nullPointerException()
+    public static final int getNullPointerException()
     {
         return 1 << CSVCreator.NULL_TREATMENT_GROUP;
     }
@@ -268,7 +267,7 @@ public class CSVCreator
      * nullに遭遇した場合、""として扱う指示。
      * @return nullに遭遇した場合、""として扱う指示
      */
-    public static final int nullToEmptyString()
+    public static final int getNullToEmptyString()
     {
         return 2 << CSVCreator.NULL_TREATMENT_GROUP;
     }
@@ -282,16 +281,16 @@ public class CSVCreator
      * クォーテーションを付加しない指示。
      * @return クォーテーションを付加しない指示
      */
-    public static final int quotation()
+    public static final int getNoQuotation()
     {
         return 1 << CSVCreator.QUOTATION_GROUP;
     }
 
     /**
      * ダブルクォーテーション"\""を付加する指示。
-     * @return ダブルクォーテーション"\""
+     * @return ダブルクォーテーション"\""を付加する指示。
      */
-    public static final int doubleQuotation()
+    public static final int getDoubleQuotation()
     {
         return 2 << CSVCreator.QUOTATION_GROUP;
     }

@@ -117,7 +117,8 @@ public class JavelinEventCounter implements JavelinConstants
     {
         clearOldEvents();
 
-        Map<String, FastInteger> eventCountMapCopy = new HashMap<String, FastInteger>(this.eventCountMap_);
+        Map<String, FastInteger> eventCountMapCopy = 
+                new HashMap<String, FastInteger>(this.eventCountMap_);
         addZeroCount(eventCountMapCopy);
         this.prevEventCountMap_ = this.eventCountMap_;
         this.eventCountMap_ = new HashMap<String, FastInteger>();

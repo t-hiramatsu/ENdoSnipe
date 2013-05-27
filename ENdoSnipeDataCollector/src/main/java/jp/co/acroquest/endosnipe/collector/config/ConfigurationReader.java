@@ -133,9 +133,9 @@ import jp.co.acroquest.endosnipe.data.db.DatabaseType;
  */
 public class ConfigurationReader
 {
-    private static final ENdoSnipeLogger logger_ =
-                                                   ENdoSnipeLogger.getLogger(ConfigurationReader.class,
-                                                                             ENdoSnipeDataCollectorPluginProvider.INSTANCE);
+    private static final ENdoSnipeLogger LOGGER =
+                           ENdoSnipeLogger.getLogger(ConfigurationReader.class,
+                                                     ENdoSnipeDataCollectorPluginProvider.INSTANCE);
 
     /** DataCollectorConfig */
     private static DataCollectorConfig config__ = null;
@@ -143,16 +143,16 @@ public class ConfigurationReader
     /** 改行文字。 */
     private static final String LS = System.getProperty("line.separator");
 
-    /** ホスト名を表す接頭辞 */
+    /** サーバホスト名を表す接頭辞 */
     private static final String SERVER_HOST = "server.host.";
 
-    /** ポート番号を表す接頭辞 */
+    /** サーバのポート番号を表す接頭辞 */
     private static final String SERVER_PORT = "server.port.";
 
-    /** ホスト名を表す接頭辞 */
+    /** エージェントホスト名を表す接頭辞 */
     private static final String AGENT_HOST = "javelin.host.";
 
-    /** ポート番号を表す接頭辞 */
+    /** エージェントのポート番号を表す接頭辞 */
     private static final String AGENT_PORT = "javelin.port.";
 
     /** ホストを表す接頭辞 */
@@ -208,7 +208,7 @@ public class ConfigurationReader
 
     /** 計測データの最大蓄積期間を表す接頭辞 (共通設定) */
     private static final String COMMON_MEASUREMENT_LOG_STORAGE_PERIOD =
-                                                                        "measurement.log.storage.period";
+                                                                "measurement.log.storage.period";
 
     /** Javelinログの最大蓄積期間を表す接頭辞 */
     private static final String JVN_LOG_STRAGE_PERIOD = "javelin.log.storage.period.";
@@ -229,7 +229,7 @@ public class ConfigurationReader
     private static final String DATABASE_NAME_USABLE_PATTERN = "[A-Za-z0-9#$%@=\\+\\-_~\\.]*";
 
     /** パラメータ定義ファイルのパス */
-    private static String configFilePath_;
+    private static String configFilePath__;
 
     /** jvnログのローテート期間の最大値（月） */
     private static final int LOG_ROTATE_MAX_PERIOD_MONTH = 24;
@@ -279,6 +279,7 @@ public class ConfigurationReader
     /** メールテンプレート(計測値アラーム用)を指定する設定項目名。 */
     private static final String SMTP_TEMPLATE_MEASUREMENT = SMTP_TEMPLATE_PREFIX + "measurement";
 
+    /** メールテンプレート(正常完了用)を指定する設定項目名。 */
     public static final String SMTP_TEMPLATE_COLLECT_COMPLETED = SMTP_TEMPLATE_PREFIX
             + "collectCompleted";
 
@@ -306,13 +307,23 @@ public class ConfigurationReader
     /** 使用言語の設定項目 */
     public static final String LANGUAGE = "language";
 
+    /** バッチサイズを示す文字列 */
     public static final String BATCH_SIZE = "insert.batch.size";
 
+    /** 項目IDのキャッシュサイズを示す文字列 */
     public static final String ITEMID_CACHE_SIZE = "itemid.cache.size";
 
     /** エージェント定義の設定を表すprefix */
     private static final Set<String> AGENT_PREFIXES = new CopyOnWriteArraySet<String>();
 
+    /**
+     * コンストラクタ
+     */
+    private ConfigurationReader()
+    {
+        
+    }
+    
     static
     {
         AGENT_PREFIXES.add(AGENT_HOST);
@@ -412,7 +423,7 @@ public class ConfigurationReader
         }
 
         File file = new File(path);
-        configFilePath_ = file.getCanonicalPath();
+        configFilePath__ = file.getCanonicalPath();
         FileInputStream is = new FileInputStream(file);
         try
         {
@@ -448,7 +459,7 @@ public class ConfigurationReader
             }
             catch (NumberFormatException ex)
             {
-                logger_.log(LogMessageCodes.FAIL_READ_PARAMETER_USE_DEFAULT, configFilePath_, key,
+                LOGGER.log(LogMessageCodes.FAIL_READ_PARAMETER_USE_DEFAULT, configFilePath__, key,
                             AgentSetting.DEF_PORT);
             }
         }
@@ -460,7 +471,7 @@ public class ConfigurationReader
             }
             catch (NumberFormatException ex)
             {
-                logger_.log(LogMessageCodes.FAIL_READ_PARAMETER_USE_DEFAULT, configFilePath_, key,
+                LOGGER.log(LogMessageCodes.FAIL_READ_PARAMETER_USE_DEFAULT, configFilePath__, key,
                             AgentSetting.DEF_ACCEPT_PORT);
             }
         }
@@ -473,7 +484,7 @@ public class ConfigurationReader
             }
             else
             {
-                logger_.log(LogMessageCodes.FAIL_TO_READ_PARAMETER, configFilePath_, key);
+                LOGGER.log(LogMessageCodes.FAIL_TO_READ_PARAMETER, configFilePath__, key);
                 throw new InitializeException("Invalid Unit.");
             }
         }
@@ -488,7 +499,7 @@ public class ConfigurationReader
                 String defaultValue =
                                       AgentSetting.DEF_PERIOD
                                               + AgentSetting.DEF_PERIOD_UNIT.toString();
-                logger_.log(LogMessageCodes.FAIL_READ_PARAMETER_USE_DEFAULT, configFilePath_, key,
+                LOGGER.log(LogMessageCodes.FAIL_READ_PARAMETER_USE_DEFAULT, configFilePath__, key,
                             defaultValue);
             }
         }
@@ -503,7 +514,7 @@ public class ConfigurationReader
                 String defaultValue =
                                       AgentSetting.DEF_PERIOD
                                               + AgentSetting.DEF_PERIOD_UNIT.toString();
-                logger_.log(LogMessageCodes.FAIL_READ_PARAMETER_USE_DEFAULT, configFilePath_, key,
+                LOGGER.log(LogMessageCodes.FAIL_READ_PARAMETER_USE_DEFAULT, configFilePath__, key,
                             defaultValue);
             }
         }
@@ -587,7 +598,7 @@ public class ConfigurationReader
             if (databaseType == null)
             {
                 databaseType = DatabaseType.H2;
-                logger_.log(LogMessageCodes.FAIL_READ_PARAMETER_USE_DEFAULT, configFilePath_, key,
+                LOGGER.log(LogMessageCodes.FAIL_READ_PARAMETER_USE_DEFAULT, configFilePath__, key,
                             databaseType.toString());
             }
             config.setDatabaseType(databaseType);
@@ -613,7 +624,7 @@ public class ConfigurationReader
             }
             else
             {
-                logger_.log(LogMessageCodes.FAIL_TO_READ_PARAMETER, configFilePath_, key);
+                LOGGER.log(LogMessageCodes.FAIL_TO_READ_PARAMETER, configFilePath__, key);
                 throw new InitializeException("Invalid Unit.");
             }
         }
@@ -637,7 +648,7 @@ public class ConfigurationReader
             }
             catch (NumberFormatException ex)
             {
-                logger_.log(LogMessageCodes.FAIL_READ_PARAMETER_USE_DEFAULT, configFilePath_, key,
+                LOGGER.log(LogMessageCodes.FAIL_READ_PARAMETER_USE_DEFAULT, configFilePath__, key,
                             DataCollectorConfig.DEF_RESOURCE_INTERVAL);
             }
         }
@@ -661,7 +672,7 @@ public class ConfigurationReader
             }
             catch (NumberFormatException ex)
             {
-                logger_.log(LogMessageCodes.FAIL_TO_READ_PARAMETER, configFilePath_, key);
+                LOGGER.log(LogMessageCodes.FAIL_TO_READ_PARAMETER, configFilePath__, key);
                 throw new InitializeException(ex);
             }
         }
@@ -685,7 +696,7 @@ public class ConfigurationReader
             }
             catch (NumberFormatException ex)
             {
-                logger_.log(LogMessageCodes.FAIL_READ_PARAMETER_USE_DEFAULT, configFilePath_, key,
+                LOGGER.log(LogMessageCodes.FAIL_READ_PARAMETER_USE_DEFAULT, configFilePath__, key,
                             DataCollectorConfig.DEF_LOG_SPLIT_SIZE);
             }
         }
@@ -697,7 +708,7 @@ public class ConfigurationReader
             }
             catch (NumberFormatException ex)
             {
-                logger_.log(LogMessageCodes.FAIL_READ_PARAMETER_USE_DEFAULT, configFilePath_, key,
+                LOGGER.log(LogMessageCodes.FAIL_READ_PARAMETER_USE_DEFAULT, configFilePath__, key,
                             DataCollectorConfig.DEF_LOG_SPLIT_THRESHOLD);
             }
         }
@@ -714,7 +725,7 @@ public class ConfigurationReader
             }
             else
             {
-                logger_.log(LogMessageCodes.FAIL_READ_PARAMETER_USE_DEFAULT, configFilePath_, key,
+                LOGGER.log(LogMessageCodes.FAIL_READ_PARAMETER_USE_DEFAULT, configFilePath__, key,
                             DataCollectorConfig.DEF_SEND_MAIL);
             }
         }
@@ -752,8 +763,8 @@ public class ConfigurationReader
             if (key.endsWith(SMTP_TEMPLATE_SUBJECT_SUFFIX))
             {
                 // 件名
-                String name =
-                              key.substring(0, key.length() - SMTP_TEMPLATE_SUBJECT_SUFFIX.length());
+                String name = key.substring(0, key.length() - 
+                              SMTP_TEMPLATE_SUBJECT_SUFFIX.length());
                 MailTemplateEntity entity = getMailTemplateEntity(config, name);
                 entity.subject = value;
             }
@@ -768,7 +779,7 @@ public class ConfigurationReader
                 }
                 catch (IOException ex)
                 {
-                    logger_.log(LogMessageCodes.FAIL_READ_MAIL_TEMPLATE, value);
+                    LOGGER.log(LogMessageCodes.FAIL_READ_MAIL_TEMPLATE, value);
                 }
             }
         }
@@ -785,7 +796,7 @@ public class ConfigurationReader
             }
             else
             {
-                logger_.log(LogMessageCodes.FAIL_READ_PARAMETER_USE_DEFAULT, configFilePath_, key,
+                LOGGER.log(LogMessageCodes.FAIL_READ_PARAMETER_USE_DEFAULT, configFilePath__, key,
                             DataCollectorConfig.DEF_SEND_TRAP);
             }
         }
@@ -801,7 +812,7 @@ public class ConfigurationReader
             }
             catch (NumberFormatException ex)
             {
-                logger_.log(LogMessageCodes.FAIL_READ_PARAMETER_USE_DEFAULT, configFilePath_, key,
+                LOGGER.log(LogMessageCodes.FAIL_READ_PARAMETER_USE_DEFAULT, configFilePath__, key,
                             DataCollectorConfig.DEF_TRAP_PORT);
             }
         }
@@ -825,7 +836,7 @@ public class ConfigurationReader
             }
             catch (NumberFormatException ex)
             {
-                logger_.log(LogMessageCodes.FAIL_READ_PARAMETER_USE_DEFAULT, configFilePath_, key,
+                LOGGER.log(LogMessageCodes.FAIL_READ_PARAMETER_USE_DEFAULT, configFilePath__, key,
                             DataCollectorConfig.DEF_BATCH_SIZE);
             }
 
@@ -838,7 +849,7 @@ public class ConfigurationReader
             }
             catch (NumberFormatException ex)
             {
-                logger_.log(LogMessageCodes.FAIL_READ_PARAMETER_USE_DEFAULT, configFilePath_, key,
+                LOGGER.log(LogMessageCodes.FAIL_READ_PARAMETER_USE_DEFAULT, configFilePath__, key,
                             DataCollectorConfig.DEF_CACHE_SIZE);
             }
 
@@ -896,7 +907,7 @@ public class ConfigurationReader
         }
         catch (NumberFormatException ex)
         {
-            logger_.log(LogMessageCodes.FAIL_GET_AGENT_ID, key);
+            LOGGER.log(LogMessageCodes.FAIL_GET_AGENT_ID, key);
         }
         return hostNum;
     }
@@ -908,7 +919,7 @@ public class ConfigurationReader
      */
     public static String getAbsoluteFilePath()
     {
-        return configFilePath_;
+        return configFilePath__;
     }
 
     /**

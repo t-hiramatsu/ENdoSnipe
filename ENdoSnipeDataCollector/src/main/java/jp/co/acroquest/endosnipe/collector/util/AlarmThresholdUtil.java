@@ -40,8 +40,8 @@ import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
 public class AlarmThresholdUtil implements LogMessageCodes
 {
     private static final ENdoSnipeLogger LOGGER =
-                                                  ENdoSnipeLogger.getLogger(AlarmThresholdUtil.class,
-                                                                            ENdoSnipeDataCollectorPluginProvider.INSTANCE);
+                          ENdoSnipeLogger.getLogger(AlarmThresholdUtil.class,
+                                                    ENdoSnipeDataCollectorPluginProvider.INSTANCE);
 
     private AlarmThresholdUtil()
     {

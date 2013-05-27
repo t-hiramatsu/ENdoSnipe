@@ -37,22 +37,27 @@ import jp.co.acroquest.endosnipe.collector.ENdoSnipeDataCollectorPluginProvider;
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
 import jp.co.acroquest.endosnipe.common.util.PathUtil;
 
+/**
+ * 画面表示名を管理するクラス。
+ * @author acroquest
+ *
+ */
 public class DisplayNameManager
 {
     /** singletonインスタンス */
-    private static DisplayNameManager     manager__ = new DisplayNameManager();
+    private static DisplayNameManager manager__ = new DisplayNameManager();
 
     /** 言語変換用マップ */
     private final HashMap<String, String> convMap_;
 
     /** プロパティファイルのプレフィクス */
-    private final String                  PREFIX    = "../conf/displayname_";
+    private static final String PREFIX = "../conf/displayname_";
 
     /** プロパティファイルの拡張子 */
-    private final String                  EXTENSION = ".properties";
+    private static final String EXTENSION = ".properties";
 
     /** コメント文字 */
-    private final String                  COMMENT   = "#";
+    private static final String COMMENT = "#";
 
     /**
      * インスタンス化を防ぐprivateコンストラクタ
@@ -82,14 +87,13 @@ public class DisplayNameManager
     public void init(final String lang)
     {
         // ログ出力用インスタンス
-        final ENdoSnipeLogger logger =
-                                       ENdoSnipeLogger.getLogger(
-                                                                 Bootstrap.class,
-                                                                 ENdoSnipeDataCollectorPluginProvider.INSTANCE);
+        final ENdoSnipeLogger LOGGER =
+                   ENdoSnipeLogger.getLogger(Bootstrap.class,
+                                             ENdoSnipeDataCollectorPluginProvider.INSTANCE);
 
         if (lang == null || "".equals(lang))
         {
-            logger.error("表示言語が設定されていません。");
+            LOGGER.error("表示言語が設定されていません。");
             return;
         }
 
@@ -98,12 +102,12 @@ public class DisplayNameManager
         File file = new File(filename);
         if (!file.exists())
         {
-            logger.error("表示名設定ファイルが存在しません。");
+            LOGGER.error("表示名設定ファイルが存在しません。");
             return;
         }
         else
         {
-            logger.info("表示名設定ファイル " + filename + " を読み込みます。");
+            LOGGER.info("表示名設定ファイル " + filename + " を読み込みます。");
         }
 
         // プロパティファイルの読み込み
@@ -111,7 +115,8 @@ public class DisplayNameManager
         try
         {
             in =
-                 new BufferedReader(new InputStreamReader(new FileInputStream(file), "Windows-31J"));
+                 new BufferedReader(
+                        new InputStreamReader( new FileInputStream(file), "Windows-31J"));
 
             String line = "";
             // １行ずつ読み込み解析
@@ -130,7 +135,7 @@ public class DisplayNameManager
                     continue;
                 }
 
-                logger.info("項目名[" + elements[0] + "] : 表示名[" + elements[1] + "]");
+                LOGGER.info("項目名[" + elements[0] + "] : 表示名[" + elements[1] + "]");
                 this.convMap_.put(elements[0], elements[1]);
             }
 
@@ -138,7 +143,7 @@ public class DisplayNameManager
         }
         catch (IOException e)
         {
-            logger.error("表示名設定ファイルの読み込みに失敗しました。");
+            LOGGER.error("表示名設定ファイルの読み込みに失敗しました。");
         }
 
         return;

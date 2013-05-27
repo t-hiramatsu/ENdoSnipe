@@ -30,6 +30,11 @@ import java.util.Comparator;
 
 import jp.co.acroquest.endosnipe.javelin.bean.InvocationMBean;
 
+/**
+ * Throwableなコンパレータクラス
+ *
+ * @author acroquest
+ */
 public class ThrowableComparator implements Comparator<InvocationMBean>, Serializable
 {
     private static final long serialVersionUID = 2243227887834030002L;

@@ -36,10 +36,16 @@ import java.io.File;
  */
 public class JavelinLogData extends AbstractJavelinData
 {
+    /** デフォルトのStringBuilderのサイズ */
+    private static final int DEFAULT_STRING_BUILDER_SIZE = 64;
+
+    /** ログファイル名 */
     private String logFileName_;
 
+    /** ファイル */
     private File   file_;
 
+    /** 内容 */
     private String contents_;
     
     private String agentName_;
@@ -50,7 +56,6 @@ public class JavelinLogData extends AbstractJavelinData
     /** アラームCPU閾値 */
     private long   cpuAlarmThreshold_;
 
-    
     /**
      * ログ内容を渡して {@link JavelinLogData} を構築します。<br />
      * 
@@ -139,21 +144,37 @@ public class JavelinLogData extends AbstractJavelinData
         logFileName_ = logFileName;
     }
 
+    /**
+     * アラーム閾値を取得します。
+     * @return アラーム閾値
+     */
     public long getAlarmThreshold()
     {
         return alarmThreshold_;
     }
 
+    /**
+     * アラーム閾値を設定します。
+     * @param alarmThreshold アラーム閾値
+     */
     public void setAlarmThreshold(final long alarmThreshold)
     {
         alarmThreshold_ = alarmThreshold;
     }
 
+    /**
+     * アラームCPU閾値を取得します。
+     * @return アラームCPU閾値
+     */
     public long getCpuAlarmThreshold()
     {
         return cpuAlarmThreshold_;
     }
 
+    /**
+     * アラームCPU閾値を設定します。
+     * @param cpuAlarmThreshold アラームCPU閾値
+     */
     public void setCpuAlarmThreshold(final long cpuAlarmThreshold)
     {
         cpuAlarmThreshold_ = cpuAlarmThreshold;
@@ -165,7 +186,7 @@ public class JavelinLogData extends AbstractJavelinData
     @Override
     protected String getAdditionalString()
     {
-        StringBuilder builder = new StringBuilder(64);
+        StringBuilder builder = new StringBuilder(DEFAULT_STRING_BUILDER_SIZE);
         if (logFileName_ != null)
         {
             builder.append(logFileName_);
@@ -178,11 +199,21 @@ public class JavelinLogData extends AbstractJavelinData
         return builder.toString();
     }
 
-	public String getAgentName() {
+    /**
+     * エージェント名を取得します。
+     * @return エージェント名 
+     */
+	public String getAgentName() 
+	{
 		return agentName_;
 	}
 
-	public void setAgentName(String agentName) {
+	/**
+	 * エージェント名を設定します。
+	 * @param agentName エージェント名
+	 */
+	public void setAgentName(String agentName) 
+	{
 		this.agentName_ = agentName;
 	}
 

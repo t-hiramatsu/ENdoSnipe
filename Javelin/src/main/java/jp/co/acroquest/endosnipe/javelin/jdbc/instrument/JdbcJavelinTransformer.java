@@ -54,9 +54,12 @@ import jp.co.smg.endosnipe.javassist.NotFoundException;
 
 /**
  * Java Instrumentation APIにより、javaagentとしてクラスの変換を行う.
+ *
+ * @author acroquest
  */
 public class JdbcJavelinTransformer implements ClassFileTransformer
 {
+    /** 不可のpoolのMap */
     private static Map<ClassLoader, ClassPool> loaderPoolMap__ =
             new HashMap<ClassLoader, ClassPool>();
 
@@ -70,15 +73,17 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
 
     /** 実行計画取得用コード. */
     private static final String STMTFORPLAN_GETTER_METHOD_DEF =
-            "public jp.co.acroquest.endosnipe.javelin.jdbc.instrument.PreparedStatementPair[] getStmtForPlan() " 
+            "public jp.co.acroquest.endosnipe.javelin."
+            + "jdbc.instrument.PreparedStatementPair[] getStmtForPlan() " 
             + "{return this." 
-            + STMTFORPLAN_FIELD_NAME +";}";
+            + STMTFORPLAN_FIELD_NAME + "; }";
     
     /** 実行計画設定用コード. */
     private static final String STMTFORPLAN_SETTER_METHOD_DEF =
-            "public void setStmtForPlan(jp.co.acroquest.endosnipe.javelin.jdbc.instrument.PreparedStatementPair[] stmts) " 
+              "public void setStmtForPlan("
+            + "jp.co.acroquest.endosnipe.javelin.jdbc.instrument.PreparedStatementPair[] stmts) " 
             + "{this." 
-            + STMTFORPLAN_FIELD_NAME +" = stmts;}";
+            + STMTFORPLAN_FIELD_NAME + " = stmts;}";
 
     /** 実行計画取得用PreparedStatementパラメタ設定終了フラグフィールド名. */
     protected static final String FLAGFORPLANSTMT_FIELD_NAME = "flagForPlanStmt_";
@@ -91,6 +96,7 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
     private static final String SQL_GETTER_METHOD_DEF =
             "public java.util.List getJdbcJavelinSql() " + "{return this.jdbcJavelinSql_;}";
 
+    /** SQL取得用コード */
     private static final String SQL_GETTER_INTERFACE_DEF =
             "public java.util.List getJdbcJavelinSql();";
 
@@ -101,6 +107,7 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
     private static final String SQL_FIELD_DEF =
             "public java.util.List " + SQL_FIELD_NAME + " = new java.util.ArrayList();";
 
+    /** バインド変数取得用コード */
     private static final String BINDVAL_GETTER_INTERFACE_DEF =
             "public java.util.List getJdbcJavelinBindVal();";
 
@@ -120,13 +127,18 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
     private static final String BINDVAL_INDEX_GETTER_METHOD_DEF =
             "public int getJdbcJavelinBindIndex()" + "{return this.jdbcJavelinBindValIndex_;}";
 
+    /** バインド変数index名 */
     public static final String BINDVAL_IDX_FIELD_NAME = "jdbcJavelinBindValIndex_";
 
+    /** バインド変数index定義 */
     private static final String BINDVAL_IDX_FIELD_DEF = "public int jdbcJavelinBindValIndex_ = 0;";
 
     /** メソッドのパラメタの型を取り除くための正規表現 */
     private static final Pattern PARAM_TYPE_PATTERN = Pattern.compile("[A-Za-z\\.]+[\\[\\]]* ()");
 
+    /** substring開始位置 */
+    private static final int SUBSTRING_BEGIN_INDEX = 5;
+    
     /**
      * コンストラクタ.
      */
@@ -256,6 +268,7 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
             catch (Exception ex)
             {
                 // 何もしない
+                SystemLogger.getInstance().warn(ex);
             }
             if (ctClass == null)
             {
@@ -290,7 +303,7 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
             {
                 try
                 {
-                    pool.appendClassPath(value.substring(5));
+                    pool.appendClassPath(value.substring(SUBSTRING_BEGIN_INDEX));
                 }
                 catch (NotFoundException ex)
                 {
@@ -350,9 +363,10 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
         }
 
         // BCI対象Statementに対する、変換を行う
-        boolean inheritedPreparedStatement =
-                                             JavassistUtil.isInherited(ctClass,
-                                                                              pool, "java.sql.PreparedStatement");
+        boolean inheritedPreparedStatement = 
+                JavassistUtil.isInherited(ctClass,
+                                          pool,
+                                          "java.sql.PreparedStatement");
         if (inheritedPreparedStatement)
         {
             // バインド変数出力のため追加
@@ -376,19 +390,14 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
             CtBehavior behaviour = behaviors[index];
             // メソッドの定義がない場合、あるいはpublicでない
             // (->インターフェースに定義されていない)場合は実行しない。
-            final int modifier = behaviour.getModifiers();
-            if (Modifier.isAbstract(modifier) || !Modifier.isPublic(modifier))
+            final int MODIFER = behaviour.getModifiers();
+            if (Modifier.isAbstract(MODIFER) || !Modifier.isPublic(MODIFER))
             {
                 continue;
             }
             JdbcJavelinConverter.convertStatement(pool, ctClass, behaviour, inheritedStatement,
                                                   inheritedPreparedStatement);
             
-        }
-
-        if (ctClass == null)
-        {
-            return null;
         }
 
         try
@@ -447,8 +456,8 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
 
                     String tagKey = "javelin.jdbc.instrument.JdbcJavelinConverter.JDBCJavelinTag";
                     String jdbcJavelinTag = JdbcJavelinMessages.getMessage(tagKey);
-                    String messageKey =
-                            "javelin.jdbc.instrument.JdbcJavelinTransformer.AddJdbcJavelinSqlMessage";
+                    String messageKey = "javelin.jdbc.instrument.JdbcJavelinTransformer."
+                                      + "AddJdbcJavelinSqlMessage";
                     String message = JdbcJavelinMessages.getMessage(messageKey, className);
                     SystemLogger.getInstance().info(jdbcJavelinTag + message);
                 }
@@ -514,8 +523,8 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
 
                     String tagKey = "javelin.jdbc.instrument.JdbcJavelinConverter.JDBCJavelinTag";
                     String jdbcJavelinTag = JdbcJavelinMessages.getMessage(tagKey);
-                    String messageKey =
-                            "javelin.jdbc.instrument.JdbcJavelinTransformer.AddJdbcJavelinSqlMessage";
+                    String messageKey = "javelin.jdbc.instrument.JdbcJavelinTransformer."
+                                      + "AddJdbcJavelinSqlMessage";
                     String message = JdbcJavelinMessages.getMessage(messageKey, className);
                     SystemLogger.getInstance().info(jdbcJavelinTag + message);
                 }
@@ -563,8 +572,8 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
 
                     String tagKey = "javelin.jdbc.instrument.JdbcJavelinConverter.JDBCJavelinTag";
                     String jdbcJavelinTag = JdbcJavelinMessages.getMessage(tagKey);
-                    String messageKey =
-                            "javelin.jdbc.instrument.JdbcJavelinTransformer.AddJdbcJavelinBindValMessage";
+                    String messageKey = "javelin.jdbc.instrument.JdbcJavelinTransformer."
+                                      + "AddJdbcJavelinBindValMessage";
                     String message = JdbcJavelinMessages.getMessage(messageKey, className);
                     SystemLogger.getInstance().info(jdbcJavelinTag + message);
                 }
@@ -593,10 +602,12 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
                 catch (NotFoundException ex)
                 {
                     // 取得用のメソッドを作成する。
-                    CtMethod getterMethod = CtMethod.make(STMTFORPLAN_GETTER_METHOD_DEF, ctClassStatement);
+                    CtMethod getterMethod = CtMethod.make(STMTFORPLAN_GETTER_METHOD_DEF, 
+                                                          ctClassStatement);
                     ctClassStatement.addMethod(getterMethod);
 
-                    CtMethod setterMethod = CtMethod.make(STMTFORPLAN_SETTER_METHOD_DEF, ctClassStatement);
+                    CtMethod setterMethod = CtMethod.make(STMTFORPLAN_SETTER_METHOD_DEF, 
+                                                          ctClassStatement);
                     ctClassStatement.addMethod(setterMethod);
                 }
                 
@@ -617,7 +628,8 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
                     new String[]{"setString(int parameterIndex, java.lang.String x)",
                             "setObject(int parameterIndex, java.lang.Object x)",
                             "setObject(int parameterIndex, java.lang.Object x, int targetSqlType)",
-                            "setObject(int parameterIndex, java.lang.Object x, int targetSqlType, int scale)"};
+                            "setObject(int parameterIndex, java.lang.Object x, int targetSqlType, "
+                           + "int scale)"};
             String[] setMethodB =
                     new String[]{"setBigDecimal(int parameterIndex, java.math.BigDecimal x)",
                             "setDate(int parameterIndex, java.sql.Date x)",
@@ -625,7 +637,8 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
                             "setTime(int parameterIndex, java.sql.Time x)",
                             "setTime(int parameterIndex, java.sql.Time x, java.util.Calendar cal)",
                             "setTimestamp(int parameterIndex, java.sql.Timestamp x)",
-                            "setTimestamp(int parameterIndex, java.sql.Timestamp x, java.util.Calendar cal)"};
+                            "setTimestamp(int parameterIndex, java.sql.Timestamp x, "
+                           + "java.util.Calendar cal)"};
             String[] setMethodC =
                     new String[]{"setBoolean(int parameterIndex, boolean x)",
                             "setShort(int parameterIndex, short x)",
@@ -648,10 +661,13 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
             String[] setMethodG =
                     new String[]{
                             "setAsciiStream(int parameterIndex, java.io.InputStream x, int length)",
-                            "setBinaryStream(int parameterIndex, java.io.InputStream x, int length)",
-                            "setUnicodeStream(int parameterIndex, java.io.InputStream x, int length)",};
+                            "setBinaryStream("
+                            + "int parameterIndex, java.io.InputStream x, int length)", 
+                            "setUnicodeStream("
+                            + "int parameterIndex, java.io.InputStream x, int length)", };
             String[] setMethodH =
-                    new String[]{"setCharacterStream(int parameterIndex, java.io.Reader reader, int length)",};
+                    new String[]{"setCharacterStream("
+                                + "int parameterIndex, java.io.Reader reader, int length)", };
 
             // setメソッドにsuperを呼び出すコードを埋め込む
             addSetMethodLoop(pool, className, setMethodA);
@@ -689,12 +705,12 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
         {
             ClassPool classPool = ctClassStatement.getClassPool();
             CtClass jvnStatementClass =
-                                        classPool.get(JdbcJavelinStatement.class.getCanonicalName());
+                                     classPool.get(JdbcJavelinStatement.class.getCanonicalName());
             boolean hasInterface =
                                    JdbcJavelinConverter.hasInterface(ctClassStatement,
                                                                      jvnStatementClass);
             
-            if(hasInterface == false)
+            if (hasInterface == false)
             {
                 ctClassStatement.addInterface(jvnStatementClass);
             }
@@ -735,7 +751,7 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
             String tagKey = "javelin.jdbc.instrument.JdbcJavelinConverter.JDBCJavelinTag";
             String jdbcJavelinTag = JdbcJavelinMessages.getMessage(tagKey);
             String messageKey =
-                    "javelin.jdbc.instrument.JdbcJavelinTransformer.AddJdbcJavelinSqlToInterfaceMessage";
+              "javelin.jdbc.instrument.JdbcJavelinTransformer.AddJdbcJavelinSqlToInterfaceMessage";
             String message = JdbcJavelinMessages.getMessage(messageKey);
             SystemLogger.getInstance().info(jdbcJavelinTag + message);
         }
@@ -772,7 +788,8 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
             String tagKey = "javelin.jdbc.instrument.JdbcJavelinConverter.JDBCJavelinTag";
             String jdbcJavelinTag = JdbcJavelinMessages.getMessage(tagKey);
             String messageKey =
-                    "javelin.jdbc.instrument.JdbcJavelinTransformer.AddJdbcJavelinBindValToInterfaceMessage";
+                    "javelin.jdbc.instrument.JdbcJavelinTransformer."
+                  + "AddJdbcJavelinBindValToInterfaceMessage";
             String message = JdbcJavelinMessages.getMessage(messageKey);
             SystemLogger.getInstance().info(jdbcJavelinTag + message);
         }
@@ -1019,7 +1036,8 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
             // Mehtodを作る
             StringBuffer methodDef = new StringBuffer();
             methodDef.append("public java.sql.ResultSet executeQuery(java.lang.String sql)"
-                    + " throws java.sql.SQLException {\n" + "    return super.executeQuery(sql);\n");
+                    + " throws java.sql.SQLException {\n" 
+                    + "    return super.executeQuery(sql);\n");
             methodDef.append("}\n");
 
             CtMethod ctSetMethod = CtMethod.make(methodDef.toString(), ctClassStatement);
@@ -1029,9 +1047,9 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
 
             String tagKey = "javelin.jdbc.instrument.JdbcJavelinConverter.JDBCJavelinTag";
             String jdbcJavelinTag = JdbcJavelinMessages.getMessage(tagKey);
-            String MessageKey =
+            String messageKey =
                     "javelin.jdbc.instrument.JdbcJavelinTransformer.AddSomeMethodMessage";
-            String message = JdbcJavelinMessages.getMessage(MessageKey, className, "executeQuery");
+            String message = JdbcJavelinMessages.getMessage(messageKey, className, "executeQuery");
             SystemLogger.getInstance().info(jdbcJavelinTag + message);
         }
     }
