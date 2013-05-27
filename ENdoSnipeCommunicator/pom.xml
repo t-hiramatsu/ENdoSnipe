@@ -24,22 +24,12 @@
 			<url>http://maven.seasar.org/maven2</url>
 		</repository>
 		<repository>
-			<id>iota</id>
-			<name>Acroquest Repository</name>
-			<url>http://iota:8080/artifactory/repo1</url>
-		</repository>
-		<repository>
 			<id>arcana</id>
 			<name>Acroquest Repository</name>
 			<url>http://arcana.proma-c.com/mvnrepository</url>
 		</repository>
 	</repositories>
 	<pluginRepositories>
-		<pluginRepository>
-			<id>iota</id>
-			<name>Acroquest Repository</name>
-			<url>http://iota:8080/artifactory/repo1</url>
-		</pluginRepository>
 		<pluginRepository>
 			<id>arcana</id>
 			<name>Acroquest Repository</name>
