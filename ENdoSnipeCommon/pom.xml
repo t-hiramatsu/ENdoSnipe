@@ -351,8 +351,8 @@
 				<version>2.4</version>
 				<configuration>
 					<encoding>${src.encoding}</encoding>
+					<configLocation>${basedir}/.config/.Checkstyle_Setting.xml</configLocation>
 					<!--
-					<configLocation>${basedir}/checkstyle.xml</configLocation>
 					<includes>**/*.java</includes>
 					<excludes>**/stub/**/*.java, **/Test*.java</excludes>
 					-->
