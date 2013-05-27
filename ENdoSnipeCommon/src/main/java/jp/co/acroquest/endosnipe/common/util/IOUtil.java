@@ -106,8 +106,9 @@ public class IOUtil
         char[] buffer = new char[BUFFER_SIZE];
         long count = 0;
         int n = 0;
-        while (count < maxBytes && (-1 != (n = input.read(buffer))))
+        while (count < maxBytes && (-1 != input.read(buffer)))
         {
+        	n = input.read(buffer);
             if (count + n > maxBytes)
             {
                 n = (int)(maxBytes - count);
@@ -233,21 +234,25 @@ public class IOUtil
      * @param maxFileCount 最大ファイル数
      * @param dirPath ディレクトリのパス
      * @param extention 拡張子
+     * @return 削除に成功した場合true
      */
-    public static void removeFiles(final int maxFileCount, final String dirPath,
+    public static boolean removeFiles(final int maxFileCount, final String dirPath,
             final String extention)
     {
         File[] files = listFile(dirPath, extention);
 
+        boolean success = false;
         if (files == null)
         {
-            return;
+            return success;
         }
 
         for (int index = files.length; index > maxFileCount; index--)
         {
-            files[files.length - index].delete();
+            success = files[files.length - index].delete();
         }
+
+        return success;
     }
 
     /**
@@ -292,7 +297,12 @@ public class IOUtil
         File tmpFile = new File(tmpPath);
         if (tmpFile.exists() == false)
         {
-            tmpFile.mkdirs();
+            boolean success = tmpFile.mkdirs();
+
+            if(!success)
+            {
+                return null;
+            }
         }
         return tmpFile;
     }

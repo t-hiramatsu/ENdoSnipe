@@ -27,8 +27,16 @@ package jp.co.acroquest.endosnipe.javelin.bean;
 
 import jp.co.acroquest.endosnipe.javelin.MBeanManager;
 
+/**
+ * ContainerƒNƒ‰ƒX
+ * @author acroquest
+ *
+ */
 public class Container implements ContainerMBean
 {
+    /**
+     * {@inheritDoc}
+     */
     public synchronized void reset()
     {
         Component[] components = MBeanManager.getAllComponents();

@@ -35,8 +35,24 @@ import jp.co.acroquest.endosnipe.javelin.comparator.MaximumComparator;
 import jp.co.acroquest.endosnipe.javelin.comparator.MinimumComparator;
 import jp.co.acroquest.endosnipe.javelin.comparator.ThrowableComparator;
 
+/**
+ * 統計処理用MBean。<br>
+ * S2JmxJavelinで蓄積した情報に対して統計処理を行った結果を返す。<br>
+ * 現状、以下の情報を取得することが可能。
+ * <ol>
+ * <li>平均値でソートしたメソッドコール情報。</li>
+ * <li>最大値でソートしたメソッドコール情報。</li>
+ * <li>最小値でソートしたメソッドコール情報。</li>
+ * <li>例外の発生回数でソートしたメソッドコール情報。</li>
+ * </ol>
+ * 
+ * @author acroquest
+ */
 public class Statistics implements StatisticsMBean
 {
+    /**
+     * {@inheritDoc}
+     */
     public synchronized List<InvocationMBean> getInvocationListOrderByAverage()
     {
         List<InvocationMBean> list = createInvocationList();
@@ -45,6 +61,9 @@ public class Statistics implements StatisticsMBean
         return list;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public synchronized List<InvocationMBean> getInvocationListOrderByMaximum()
     {
         List<InvocationMBean> list = createInvocationList();
@@ -53,6 +72,9 @@ public class Statistics implements StatisticsMBean
         return list;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public synchronized List<InvocationMBean> getInvocationListOrderByMinimum()
     {
         List<InvocationMBean> list = createInvocationList();
@@ -61,6 +83,9 @@ public class Statistics implements StatisticsMBean
         return list;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public synchronized List<InvocationMBean> getInvocationListOrderByThrowableCount()
     {
         List<InvocationMBean> list = createInvocationList();

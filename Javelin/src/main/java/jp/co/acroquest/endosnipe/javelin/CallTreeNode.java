@@ -267,7 +267,7 @@ public class CallTreeNode
      */
     public StackTraceElement[] getStacktrace()
     {
-        return this.stacktrace_;
+        return this.stacktrace_.clone();
     }
 
     /**
@@ -276,7 +276,7 @@ public class CallTreeNode
      */
     public void setStacktrace(final StackTraceElement[] stacktrace)
     {
-        this.stacktrace_ = stacktrace;
+        this.stacktrace_ = stacktrace.clone();
     }
 
     /**
@@ -397,7 +397,7 @@ public class CallTreeNode
      */
     public String[] getArgs()
     {
-        return this.args_;
+        return this.args_.clone();
     }
 
     /**
@@ -406,7 +406,7 @@ public class CallTreeNode
      */
     public void setArgs(final String[] args)
     {
-        this.args_ = args;
+        this.args_ = args.clone();
     }
 
     /**
@@ -706,51 +706,91 @@ public class CallTreeNode
         javelinTime_ = javelinTime;
     }
 
+    /**
+     * 子ノードで消費された処理時間を取得します。
+     * @return 子ノードで消費された処理時間
+     */
     public long getChildrenTime()
     {
         return childrenTime_;
     }
 
+    /**
+     * 子ノードで消費されたCPU時間を取得します。
+     * @return 子ノードで消費されたCPU時間
+     */
     public long getChildrenCpuTime()
     {
         return childrenCpuTime_;
     }
 
+    /**
+     * 子ノードで消費されたユーザ時間を取得します。
+     * @return 子ノードで消費されたユーザ時間
+     */
     public long getChildrenUserTime()
     {
         return childrenUserTime_;
     }
 
+    /**
+     * 子ノードで消費された処理時間を追加します。
+     * @param childrenTime 子ノードで消費された処理時間
+     */
     public void addChildrenTime(long childrenTime)
     {
         childrenTime_ += childrenTime;
     }
 
+    /**
+     * 子ノードで消費されたCPU時間を追加します。
+     * @param childrenCpuTime 子ノードで消費されたCPU時間
+     */
     public void addChildrenCpuTime(long childrenCpuTime)
     {
         childrenCpuTime_ += childrenCpuTime;
     }
 
+    /**
+     * 子ノードで消費されたユーザ時間を追加します。
+     * @param childrenUserTime 子ノードで消費されたユーザ時間
+     */
     public void addChildrenUserTime(long childrenUserTime)
     {
         childrenUserTime_ += childrenUserTime;
     }
 
+    /**
+     * Invocationに記録したかどうかのフラグを取得します。
+     * @return Invocationに記録したときtrue/そうでないときfalse
+     */
     public boolean isRecoreded()
     {
         return isRecoreded_;
     }
 
+    /**
+     * Invocationに記録したかどうかのフラグを設定します。
+     * @param isRecoreded Invocationに記録したかどうかのフラグ
+     */
     public void setRecoreded(boolean isRecoreded)
     {
         isRecoreded_ = isRecoreded;
     }
 
+    /**
+     * ストールメソッドとして検出されたかどうかを示すフラグを取得します。
+     * @return ストールメソッドとして検出されたときtrue/そうでないときfalse
+     */
     public boolean isStalled()
     {
         return isStalled_;
     }
 
+    /**
+     * ストールメソッドとして検出されたかどうかを示すフラグを設定します。
+     * @param isStalled ストールメソッドとして検出されたかどうかを示すフラグ
+     */
     public void setStalled(boolean isStalled)
     {
         isStalled_ = isStalled;

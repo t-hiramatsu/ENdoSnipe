@@ -53,8 +53,6 @@ public class MapInfoDao extends AbstractDao
     /**
      * レコードを挿入します。<br />
      *
-     * {@link ArchivedValue#measurementValueId} は使用されません。
-     *
      * @param database データベース名
      * @param mapInfo 挿入する値
      * @throws SQLException SQL 実行時に例外が発生した場合
@@ -89,7 +87,7 @@ public class MapInfoDao extends AbstractDao
      * すべてのレコードを取得します。<br />
      *
      * @param database データベース名
-     * @return {@link ArchivedValue} オブジェクトのリスト
+     * @return レコードのリスト
      * @throws SQLException SQL 実行時に例外が発生した場合
      */
     public static List<MapInfo> selectAll(final String database)

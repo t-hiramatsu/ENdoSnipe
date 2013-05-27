@@ -46,8 +46,17 @@ import jp.co.acroquest.endosnipe.javelin.util.LinkedHashMap;
  */
 public class TurnAroundTimeGroupGetter implements ResourceGroupGetter, TelegramConstants
 {
+    /** JavelinのConfig */
     private JavelinConfig config_ = new JavelinConfig();
 
+    /**
+     * コンストラクタ
+     */
+    public TurnAroundTimeGroupGetter()
+    {
+        
+    }
+    
     /**
      * {@inheritDoc}
      */

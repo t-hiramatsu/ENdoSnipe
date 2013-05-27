@@ -31,6 +31,7 @@ package jp.co.acroquest.endosnipe.javelin;
  */
 public class VMStatus
 {
+    /** 空のステータス */
     public static final VMStatus EMPTY_STATUS = new VMStatus();
     
     /** CPU時間 */

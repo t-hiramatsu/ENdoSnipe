@@ -37,46 +37,67 @@ public interface LogMessageCodes extends CommonLogMessageCodes
     // -------------------------------------------------------------------------
     // 基本動作メッセージコード (00xx)
     // -------------------------------------------------------------------------
+    /** データコレクタ起動中 */
     String ENDOSNIPE_DATA_COLLECTOR_STARTING = "IEDC0001";
 
+    /** データコレクタ起動完了 */
     String ENDOSNIPE_DATA_COLLECTOR_STARTED = "IEDC0002";
 
+    /** データコレクタ終了中 */
     String ENDOSNIPE_DATA_COLLECTOR_STOPPING = "IEDC0003";
 
+    /** データコレクタ終了 */
     String ENDOSNIPE_DATA_COLLECTOR_STOPPED = "IEDC0004";
 
+    /** データロガー起動 */
     String JAVELIN_DATA_LOGGER_STARTED = "IEDC0005";
 
+    /** データロガー終了中 */
     String JAVELIN_DATA_LOGGER_STOPPING = "IEDC0006";
 
+    /** データロガー終了 */
     String JAVELIN_DATA_LOGGER_STOPPED = "IEDC0007";
 
+    /** 接続 */
     String JAVELIN_CONNECTED = "IEDC0008";
 
+    /** 切断 */
     String JAVELIN_DISCONNECTED = "IEDC0009";
 
+    /** 既に接続されている */
     String JAVELIN_ALREADY_CONNECTED = "WEDC0010";
 
+    /** ディレクトリの作成に失敗 */
     String MAKING_DIR_FAILED = "EEDC0011";
 
+    /** 一時ファイルの書き込みに失敗 */
     String WRITING_TEMPFILE_FAILED = "EEDC0012";
 
+    /** DBの基本ディレクトリ */
     String DATABASE_BASE_DIR = "IEDC0013";
 
+    /** DBのパラメータ */
     String DATABASE_PARAMETER = "IEDC0014";
 
+    /** 入出力例外発生 */
     String IO_EXCEPTION_OCCURED = "EEDC0015";
 
+    /** データコレクタサービス起動中 */
     String DATA_COLLECTOR_SERVICE_STARTING = "IEDC0016";
 
+    /** データコレクタサービス起動 */
     String DATA_COLLECTOR_SERVICE_STARTED = "IEDC0017";
 
+    /** データコレクタサービス終了中 */
     String DATA_COLLECTOR_SERVICE_STOPPING = "IEDC0018";
 
+    /** データコレクタサービス終了 */
     String DATA_COLLECTOR_SERVICE_STOPPED = "IEDC0019";
 
+    /** データコレクタサービスが既に起動している */
     String DATA_COLLECTOR_ALREADY_STARTING = "EEDC0020";
 
+    /** 起動中にエラーが発生 */
     String ERROR_OCCURED_ON_STARTING = "EEDC0021";
 
     /** システムで予期しないエラーが発生した場合 */

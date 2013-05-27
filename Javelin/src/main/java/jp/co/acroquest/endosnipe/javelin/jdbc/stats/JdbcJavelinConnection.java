@@ -25,10 +25,34 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.javelin.jdbc.stats;
 
+/**
+ * JdbcJavelinConnectionインターフェース
+ * @author acroquest
+ *
+ */
 public interface JdbcJavelinConnection
 {
+    /**
+     * JDBCのURLを取得します。
+     * @return JDBCのURL
+     */
     String getJdbcUrl();
+    
+    /**
+     * JDBCのURLを設定します。
+     * @param jdbcUrl JDBCのURL
+     */
     void setJdbcUrl(String jdbcUrl);
+    
+    /**
+     * Javelinのプロセッサを取得します。
+     * @return Javelinのプロセッサ
+     */
     DBProcessor getJdbcJavelinProcessor();
+    
+    /**
+     * Javelinのプロセッサを設定します。
+     * @param dbProcessor Javelinのプロセッサ
+     */
     void setJdbcJavelinProcessor(DBProcessor dbProcessor);
 }

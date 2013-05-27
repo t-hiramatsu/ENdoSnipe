@@ -48,11 +48,11 @@ import jp.co.acroquest.endosnipe.perfdoctor.rule.SingleElementRule;
 public class MethodPureCpuUsageRule extends SingleElementRule implements JavelinLogConstants
 {
     /** 警告と判断するCPU時間のデフォルト値。 */
-    private static final int    DEFAULT_THRESHOLD  = 3000;
+    private static final int DEFAULT_THRESHOLD = 3000;
 
     /** CPU時間の閾値(単位:msec) */
-    public long                 threshold          = DEFAULT_THRESHOLD;
-    
+    public long              threshold         = DEFAULT_THRESHOLD;
+
     /**
      * {@inheritDoc}
      */

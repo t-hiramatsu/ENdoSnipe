@@ -35,27 +35,47 @@ import jp.co.acroquest.endosnipe.javelin.RootInvocationManager;
 import jp.co.acroquest.endosnipe.javelin.util.LinkedList;
 import jp.co.acroquest.endosnipe.javelin.util.concurrent.ConcurrentHashMap;
 
+/**
+ * Componentクラス
+ * @author acroquest
+ *
+ */
 public class Component implements ComponentMBean, Serializable
 {
-    private static final long serialVersionUID = 934662584633636762L;
+    /** シリアルバージョンID */
+    private static final long             serialVersionUID = 934662584633636762L;
 
-    private final String className_;
+    /** クラス名 */
+    private final String                  className_;
 
-    private final Map<String, Invocation> invocationMap_ =
-            new ConcurrentHashMap<String, Invocation>();
+    /** invocationMap */
+    private final Map<String, Invocation> invocationMap_   =
+                                                     new ConcurrentHashMap<String, Invocation>();
 
-    private final List<String> methodNameList_ = Collections.synchronizedList(new LinkedList<String>());
+    /** メソッド名のリスト */
+    private final List<String>            methodNameList_  =
+                                             Collections.synchronizedList(new LinkedList<String>());
 
+    /**
+     * コンストラクタ
+     * @param className クラス名
+     */
     public Component(final String className)
     {
         className_ = className;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public String getClassName()
     {
         return className_;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public Invocation[] getAllInvocation()
     {
         int size = invocationMap_.values().size();
@@ -63,6 +83,10 @@ public class Component implements ComponentMBean, Serializable
         return invocations;
     }
 
+    /**
+     * invovationを追加します
+     * @param invocation 追加するinvocation
+     */
     public synchronized void addInvocation(final Invocation invocation)
     {
         String methodName = invocation.getMethodName();
@@ -87,7 +111,8 @@ public class Component implements ComponentMBean, Serializable
             {
                 String deleteCandidateKey = methodIterator.next();
                 Invocation deleteCandidateInvocation = this.invocationMap_.get(deleteCandidateKey);
-                if (deleteCandidateInvocation != null && deleteCandidateInvocation.getTotal() <= averageDuration)
+                if (deleteCandidateInvocation != null
+                        && deleteCandidateInvocation.getTotal() <= averageDuration)
                 {
                     methodIterator.remove();
                     removedInvoction = this.invocationMap_.remove(deleteCandidateKey);
@@ -101,16 +126,28 @@ public class Component implements ComponentMBean, Serializable
         return removedInvoction;
     }
 
+    /**
+     * invocationを取得します。 
+     * @param methodName メソッド名
+     * @return invocation
+     */
     public Invocation getInvocation(final String methodName)
     {
         return invocationMap_.get(methodName);
     }
 
+    /**
+     * invocationのMapのサイズを取得する。
+     * @return invocationのMapのサイズ
+     */
     public int getRecordedInvocationNum()
     {
         return invocationMap_.size();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void reset()
     {
         for (Invocation invocation : invocationMap_.values())

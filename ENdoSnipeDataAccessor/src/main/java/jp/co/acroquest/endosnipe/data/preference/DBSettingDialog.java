@@ -77,6 +77,14 @@ public class DBSettingDialog extends TitleAreaDialog
     /** DB設定ダイアログ名称用メッセージキー */
     private static final String          DIALOG_KEY    = "data.accessor.dbSettingDialog.dialogName";
 
+    private static final int DRIVER_PATH_DATA_WIDTH_HINT = 200;
+    private static final int DRIVER_PATH_DATA_HEIGHT_HINT = 15;
+    private static final int LABEL_GRID_DATA_WIDTH_HINT = 120;
+    private static final int LABEL_GRID_DATA_HEIGHT_HINT = 20;
+    
+    /** GridLayoutのデフォルトの行列数 */
+    private static final int GRID_LAYOUT_DEFAULT_ROWS = 3;
+    
     /** ボタンクリック等の操作が行われたときの処理を行うコントローラ */
     private final OpenDbDialogController controller_;
 
@@ -132,8 +140,8 @@ public class DBSettingDialog extends TitleAreaDialog
         Composite composite = (Composite)super.createDialogArea(parent);
 
         GridData labelGridData = new GridData();
-        labelGridData.widthHint = 120;
-        labelGridData.heightHint = 20;
+        labelGridData.widthHint = LABEL_GRID_DATA_WIDTH_HINT;
+        labelGridData.heightHint = LABEL_GRID_DATA_HEIGHT_HINT;
 
         createDbRadioContents(composite, labelGridData);
         createDBDirComposite(composite, labelGridData);
@@ -154,7 +162,7 @@ public class DBSettingDialog extends TitleAreaDialog
     private void createDbRadioContents(Composite composite, GridData labelGridData)
     {
         Composite dbContents = new Composite(composite, SWT.NULL);
-        dbContents.setLayout(new GridLayout(3, false));
+        dbContents.setLayout(new GridLayout(GRID_LAYOUT_DEFAULT_ROWS, false));
         Label dbLabel = new Label(dbContents, SWT.LEFT);
         dbLabel.setText(DataAccessorMessages.getMessage(DBLABEL_KEY));
         dbLabel.setLayoutData(labelGridData);
@@ -194,15 +202,15 @@ public class DBSettingDialog extends TitleAreaDialog
     private void createDBDirComposite(Composite composite, GridData labelGridData)
     {
         Composite dbdirComposite = new Composite(composite, SWT.NULL);
-        dbdirComposite.setLayout(new GridLayout(3, false));
+        dbdirComposite.setLayout(new GridLayout(GRID_LAYOUT_DEFAULT_ROWS, false));
 
         Label url = new Label(dbdirComposite, SWT.LEFT);
         url.setText(DataAccessorMessages.getMessage(DIRLABEL_KEY));
         url.setLayoutData(labelGridData);
 
         GridData driverPathData = new GridData();
-        driverPathData.widthHint = 200;
-        driverPathData.heightHint = 15;
+        driverPathData.widthHint = DRIVER_PATH_DATA_WIDTH_HINT;
+        driverPathData.heightHint = DRIVER_PATH_DATA_HEIGHT_HINT;
 
         this.baseDirText_ = new Text(dbdirComposite, SWT.BORDER);
         this.baseDirText_.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -232,8 +240,8 @@ public class DBSettingDialog extends TitleAreaDialog
         url.setLayoutData(labelGridData);
 
         GridData driverPathData = new GridData();
-        driverPathData.widthHint = 200;
-        driverPathData.heightHint = 15;
+        driverPathData.widthHint = DRIVER_PATH_DATA_WIDTH_HINT;
+        driverPathData.heightHint = DRIVER_PATH_DATA_HEIGHT_HINT;
 
         this.hostText_ = new Text(urlComposite, SWT.SINGLE | SWT.BORDER);
         this.hostText_.setLayoutData(driverPathData);
@@ -254,8 +262,8 @@ public class DBSettingDialog extends TitleAreaDialog
         url.setLayoutData(labelGridData);
 
         GridData driverPathData = new GridData();
-        driverPathData.widthHint = 200;
-        driverPathData.heightHint = 15;
+        driverPathData.widthHint = DRIVER_PATH_DATA_WIDTH_HINT;
+        driverPathData.heightHint = DRIVER_PATH_DATA_HEIGHT_HINT;
 
         this.portText_ = new Text(urlComposite, SWT.SINGLE | SWT.BORDER);
         this.portText_.setLayoutData(driverPathData);
@@ -276,8 +284,8 @@ public class DBSettingDialog extends TitleAreaDialog
         url.setLayoutData(labelGridData);
 
         GridData driverPathData = new GridData();
-        driverPathData.widthHint = 200;
-        driverPathData.heightHint = 15;
+        driverPathData.widthHint = DRIVER_PATH_DATA_WIDTH_HINT;
+        driverPathData.heightHint = DRIVER_PATH_DATA_HEIGHT_HINT;
 
         this.userNameText_ = new Text(urlComposite, SWT.SINGLE | SWT.BORDER);
         this.userNameText_.setLayoutData(driverPathData);
@@ -298,8 +306,8 @@ public class DBSettingDialog extends TitleAreaDialog
         url.setLayoutData(labelGridData);
 
         GridData driverPathData = new GridData();
-        driverPathData.widthHint = 200;
-        driverPathData.heightHint = 15;
+        driverPathData.widthHint = DRIVER_PATH_DATA_WIDTH_HINT;
+        driverPathData.heightHint = DRIVER_PATH_DATA_HEIGHT_HINT;
 
         this.passwordText_ = new Text(urlComposite, SWT.PASSWORD | SWT.BORDER);
         this.passwordText_.setLayoutData(driverPathData);

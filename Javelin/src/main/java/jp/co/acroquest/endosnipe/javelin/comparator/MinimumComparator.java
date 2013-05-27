@@ -30,6 +30,10 @@ import java.util.Comparator;
 
 import jp.co.acroquest.endosnipe.javelin.bean.InvocationMBean;
 
+/**
+ * 最小比較用コンパレータ
+ * @author acroquest
+ */
 public class MinimumComparator implements Comparator<InvocationMBean>, Serializable
 {
     private static final long serialVersionUID = 4440894441141274763L;

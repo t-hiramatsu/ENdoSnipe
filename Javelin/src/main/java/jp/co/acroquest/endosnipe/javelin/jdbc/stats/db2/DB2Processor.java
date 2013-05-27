@@ -51,6 +51,18 @@ public class DB2Processor extends AbstractProcessor
     
     /** Javelinログ中の区切り文字（カンマ）を表す */
     public static final String COMMA = ",";
+    
+    /** 配列の最初のindex */
+    private static final int COLUMN_INDEX_FIRST = 1;
+
+    /** 配列の2番目のindex */
+    private static final int COLUMN_INDEX_SECOND = 2;
+
+    /** 配列の3番目のindex */
+    private static final int COLUMN_INDEX_THIRD = 3;
+
+    /** 配列の4番目のindex */
+    private static final int COLUMN_INDEX_FOURTH = 4;
 
     /**
      * {@inheritDoc}
@@ -83,7 +95,17 @@ public class DB2Processor extends AbstractProcessor
         
         //EXPLAIN表からフルスキャン、インデックススキャンの情報を取得
         String operatorType =
-            "SELECT ope.OPERATOR_ID, ope.OPERATOR_TYPE, stm.OBJECT_NAME, ope.TOTAL_COST from EXPLAIN_OPERATOR ope LEFT JOIN EXPLAIN_STREAM stm ON ope.EXPLAIN_REQUESTER = stm.EXPLAIN_REQUESTER and ope.EXPLAIN_TIME = stm.EXPLAIN_TIME and ope.SOURCE_NAME = stm.SOURCE_NAME and ope.SOURCE_SCHEMA = stm.SOURCE_SCHEMA and ope.SOURCE_VERSION = stm.SOURCE_VERSION and ope.EXPLAIN_LEVEL = stm.EXPLAIN_LEVEL and ope.STMTNO = stm.STMTNO and ope.SECTNO = stm.SECTNO and ope.OPERATOR_ID = stm.TARGET_ID ORDER BY ope.OPERATOR_ID";
+            "SELECT ope.OPERATOR_ID, ope.OPERATOR_TYPE, stm.OBJECT_NAME, ope.TOTAL_COST "+
+            "from EXPLAIN_OPERATOR ope LEFT JOIN EXPLAIN_STREAM stm "+
+            "ON ope.EXPLAIN_REQUESTER = stm.EXPLAIN_REQUESTER and "+
+            "ope.EXPLAIN_TIME = stm.EXPLAIN_TIME and "+
+            "ope.SOURCE_NAME = stm.SOURCE_NAME and "+
+            "ope.SOURCE_SCHEMA = stm.SOURCE_SCHEMA and "+
+            "ope.SOURCE_VERSION = stm.SOURCE_VERSION and "+
+            "ope.EXPLAIN_LEVEL = stm.EXPLAIN_LEVEL and "+
+            "ope.STMTNO = stm.STMTNO and "+
+            "ope.SECTNO = stm.SECTNO and "+
+            "ope.OPERATOR_ID = stm.TARGET_ID ORDER BY ope.OPERATOR_ID";
         
         //EXPLAIN表から Optimized Statement を取得
         String selectOptimizedStatement =
@@ -151,13 +173,13 @@ public class DB2Processor extends AbstractProcessor
                     // レコード取得処理を高速化するため、ResultSetへのアクセスは
                     // カラム名ではなくインデックスを用いて行う
                     StringBuilder planTableOutputBuilder = new StringBuilder();
-                    planTableOutputBuilder.append(resultSet.getString(1));
+                    planTableOutputBuilder.append(resultSet.getString(COLUMN_INDEX_FIRST));
                     planTableOutputBuilder.append(COMMA);
-                    planTableOutputBuilder.append(resultSet.getString(2));
+                    planTableOutputBuilder.append(resultSet.getString(COLUMN_INDEX_SECOND));
                     planTableOutputBuilder.append(COMMA);
-                    planTableOutputBuilder.append(resultSet.getString(3));
+                    planTableOutputBuilder.append(resultSet.getString(COLUMN_INDEX_THIRD));
                     planTableOutputBuilder.append(COMMA);
-                    planTableOutputBuilder.append(resultSet.getString(4));
+                    planTableOutputBuilder.append(resultSet.getString(COLUMN_INDEX_FOURTH));
                     // 結合
                     execPlanText.append(planTableOutputBuilder.toString());
                     execPlanText.append(NEW_LINE);

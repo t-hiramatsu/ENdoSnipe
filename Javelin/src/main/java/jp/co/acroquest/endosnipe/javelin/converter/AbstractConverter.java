@@ -83,7 +83,7 @@ public abstract class AbstractConverter implements Converter
             final IncludeConversionConfig includeConfig,
             final List<ExcludeConversionConfig> excludeConfigList)
     {
-        this.classfileBuffer_ = classfileBuffer;
+        this.classfileBuffer_ = classfileBuffer.clone();
         this.className_ = className;
         this.includeConfig_ = includeConfig;
         this.excludeConfigList_ = excludeConfigList;
@@ -112,9 +112,9 @@ public abstract class AbstractConverter implements Converter
     {
         if (this.newClassfileBuffer_ != null)
         {
-            return this.newClassfileBuffer_;
+            return this.newClassfileBuffer_.clone();
         }
-        return this.classfileBuffer_;
+        return this.classfileBuffer_.clone();
     }
 
     /**
@@ -219,7 +219,7 @@ public abstract class AbstractConverter implements Converter
      */
     public byte[] getClassfileBuffer()
     {
-        return this.classfileBuffer_;
+        return this.classfileBuffer_.clone();
     }
 
     /**
@@ -228,7 +228,7 @@ public abstract class AbstractConverter implements Converter
      */
     public byte[] getNewClassfileBuffer()
     {
-        return this.newClassfileBuffer_;
+        return this.newClassfileBuffer_.clone();
     }
 
     /**
@@ -237,7 +237,7 @@ public abstract class AbstractConverter implements Converter
      */
     public void setNewClassfileBuffer(final byte[] newClassfileBuffer)
     {
-        this.newClassfileBuffer_ = newClassfileBuffer;
+        this.newClassfileBuffer_ = newClassfileBuffer.clone();
     }
 
     /**

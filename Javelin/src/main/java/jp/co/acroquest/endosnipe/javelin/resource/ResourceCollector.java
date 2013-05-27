@@ -118,14 +118,13 @@ public class ResourceCollector implements TelegramConstants
     private ResourceCollector()
     {
         Map<String, ResourceGetter> resourceMap = new HashMap<String, ResourceGetter>();
-        Map<String, MultiResourceGetter> multiResourceMap =
-                                                            new HashMap<String, MultiResourceGetter>();
+        Map<String, MultiResourceGetter> mResourceMap = new HashMap<String, MultiResourceGetter>();
 
         try
         {
             this.procParser_ = createProcParser();
             SystemLogger.getInstance().info("ProcParser not found. Default parser selected.");
-            setResouceGetters(resourceMap, multiResourceMap, this.procParser_);
+            setResouceGetters(resourceMap, mResourceMap, this.procParser_);
         }
         catch (Throwable th)
         {
@@ -136,7 +135,7 @@ public class ResourceCollector implements TelegramConstants
         this.resourceGroupGetterList_.add(new TurnAroundTimeGroupGetter());
 
         this.resourceGetterMap_ = resourceMap;
-        this.multiResourceGetterMap_ = multiResourceMap;
+        this.multiResourceGetterMap_ = mResourceMap;
 
     }
 
@@ -196,13 +195,15 @@ public class ResourceCollector implements TelegramConstants
         resourceMap.put(ITEMNAME_SYSTEM_CPU_PROCESSOR_COUNT, new ProcessorCountGetter());
         resourceMap.put(ITEMNAME_PROCESS_MEMORY_VIRTUALMACHINE_MAX,
                         new VirtualMachineCapacityGetter());
-        resourceMap.put(ITEMNAME_PROCESS_MEMORY_VIRTUALMACHINE_FREE, new VirtualMachineFreeGetter());
+        VirtualMachineFreeGetter virturalMachineFreeGetter = new VirtualMachineFreeGetter();
+        resourceMap.put(ITEMNAME_PROCESS_MEMORY_VIRTUALMACHINE_FREE, virturalMachineFreeGetter);
 
         resourceMap.put(ITEMNAME_JAVAPROCESS_MEMORY_HEAP_COMMIT, new HeapMemoryCommittedGetter());
         resourceMap.put(ITEMNAME_JAVAPROCESS_MEMORY_HEAP_USED, new HeapMemoryUsedGetter());
         resourceMap.put(ITEMNAME_JAVAPROCESS_MEMORY_HEAP_MAX, new HeapMemoryMaxGetter());
         resourceMap.put(ITEMNAME_JAVAPROCESS_MEMORY_NONHEAP_MAX, new NonHeapMemoryMaxGetter());
-        resourceMap.put(ITEMNAME_JAVAPROCESS_MEMORY_NONHEAP_COMMIT, new NonHeapMemoryCommittedGetter());
+        NonHeapMemoryCommittedGetter nonHeapMemoryCommitted = new NonHeapMemoryCommittedGetter();
+        resourceMap.put(ITEMNAME_JAVAPROCESS_MEMORY_NONHEAP_COMMIT, nonHeapMemoryCommitted);
         resourceMap.put(ITEMNAME_JAVAPROCESS_MEMORY_NONHEAP_USED, new NonHeapMemoryUsedGetter());
         resourceMap.put(ITEMNAME_JAVAPROCESS_GC_FINALIZEQUEUE_COUNT, new FinalizationCountGetter());
 
@@ -212,8 +213,10 @@ public class ResourceCollector implements TelegramConstants
         resourceMap.put(ITEMNAME_CONVERTEDMETHOD, new ConvertedMethodCountGetter());
         resourceMap.put(ITEMNAME_EXCLUDEDMETHOD, new ExcludedMethodCountGetter());
 
-        resourceMap.put(ITEMNAME_JAVAPROCESS_CLASSLOADER_CLASS_TOTAL, new LoadedClassTotalCountGetter());
-        resourceMap.put(ITEMNAME_JAVAPROCESS_CLASSLOADER_CLASS_CURRENT, new LoadedClassCountGetter());
+        LoadedClassTotalCountGetter loadedClassTotalCountGetter = new LoadedClassTotalCountGetter();
+        resourceMap.put(ITEMNAME_JAVAPROCESS_CLASSLOADER_CLASS_TOTAL, loadedClassTotalCountGetter);
+        LoadedClassCountGetter loadedClassCountGetter = new LoadedClassCountGetter();
+        resourceMap.put(ITEMNAME_JAVAPROCESS_CLASSLOADER_CLASS_CURRENT, loadedClassCountGetter);
         resourceMap.put(ITEMNAME_CALLEDMETHODCOUNT, new CalledMethodCountGetter());
 
         if (procParser != null)
@@ -231,7 +234,8 @@ public class ResourceCollector implements TelegramConstants
             resourceMap.put(ITEMNAME_SYSTEM_MEMORY_PAGEIN_COUNT, new LinuxPageInGetter(procParser));
             resourceMap.put(ITEMNAME_SYSTEM_MEMORY_PAGEOUT_COUNT,
                             new LinuxPageOutGetter(procParser));
-            resourceMap.put(ITEMNAME_PROCESS_CPU_SYSTEM_TIME, new LinuxCpuTimeSysGetter(procParser));
+            LinuxCpuTimeSysGetter linuxCpuTimeSysGetter = new LinuxCpuTimeSysGetter(procParser);
+            resourceMap.put(ITEMNAME_PROCESS_CPU_SYSTEM_TIME, linuxCpuTimeSysGetter);
             resourceMap.put(ITEMNAME_PROCESS_CPU_IOWAIT_TIME,
                             new LinuxCpuTimeIoWaitGetter(procParser));
             resourceMap.put(ITEMNAME_PROCESS_CPU_TOTAL_TIME,
@@ -242,13 +246,18 @@ public class ResourceCollector implements TelegramConstants
                             new LinuxNumThreadsGetter(procParser));
             resourceMap.put(ITEMNAME_PROCESS_MEMORY_MAJORFAULT_COUNT,
                             new LinuxMajfltGetter(procParser));
-            resourceMap.put(ITEMNAME_PROCESS_HANDLE_TOTAL_NUMBER, new ProcFdCountGetter(procParser));
+            ProcFdCountGetter procFdCountGetter = new ProcFdCountGetter(procParser);
+            resourceMap.put(ITEMNAME_PROCESS_HANDLE_TOTAL_NUMBER, procFdCountGetter);
             resourceMap.put(ITEMNAME_SYSTEM_HANDLE_TOTAL_NUMBER, new SysFdCountGetter(procParser));
 
-            resourceMap.put(ITEMNAME_FILEINPUTSIZEOFPROCESS, new LinuxProcFileInputGetter(procParser));
-            resourceMap.put(ITEMNAME_FILEOUTPUTSIZEOFPROCESS, new LinuxProcFileOutputGetter(procParser));
-            resourceMap.put(ITEMNAME_FILEINPUTSIZEOFSYSTEM, new LinuxSystemFileInputGetter(procParser));
-            resourceMap.put(ITEMNAME_FILEOUTPUTSIZEOFSYSTEM, new LinuxSystemFileOutputGetter(procParser));
+            LinuxProcFileInputGetter pInputGetter = new LinuxProcFileInputGetter(procParser);
+            resourceMap.put(ITEMNAME_FILEINPUTSIZEOFPROCESS, pInputGetter);
+            LinuxProcFileOutputGetter pOutputGetter = new LinuxProcFileOutputGetter(procParser);
+            resourceMap.put(ITEMNAME_FILEOUTPUTSIZEOFPROCESS, pOutputGetter);
+            LinuxSystemFileInputGetter sInputGetter = new LinuxSystemFileInputGetter(procParser);
+            resourceMap.put(ITEMNAME_FILEINPUTSIZEOFSYSTEM, sInputGetter);
+            LinuxSystemFileOutputGetter sOutputGetter = new LinuxSystemFileOutputGetter(procParser);
+            resourceMap.put(ITEMNAME_FILEOUTPUTSIZEOFSYSTEM, sOutputGetter);
         }
 
         // JMXのリソースデータを取得するかどうか
@@ -271,6 +280,11 @@ public class ResourceCollector implements TelegramConstants
 
     }
     
+    /**
+     * 複数のリソースを追加します。
+     * @param itemName 項目名
+     * @param multiResourceGetter マルチリソースゲッター
+     */
     public void addMultiResource(String itemName, MultiResourceGetter multiResourceGetter)
     {
         synchronized(this.multiResourceGetterMap_)
@@ -279,6 +293,11 @@ public class ResourceCollector implements TelegramConstants
         }
     }
 
+    /**
+     * 単体のリソースを追加します。
+     * @param itemName 項目名
+     * @param resourceGetter リソースゲッター
+     */
     public void addSingleResource(String itemName, ResourceGetter resourceGetter)
     {
         synchronized(this.resourceGetterMap_)

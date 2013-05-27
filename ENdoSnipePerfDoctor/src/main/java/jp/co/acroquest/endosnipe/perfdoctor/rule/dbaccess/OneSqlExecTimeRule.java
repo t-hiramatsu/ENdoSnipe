@@ -143,8 +143,8 @@ public class OneSqlExecTimeRule extends AbstractDbAccessRule
 
         /**
          * コンストラクタ。
-         * @param threadName
-         * @param sql
+         * @param threadName スレッド名
+         * @param sql SQL
          */
         public SqlEntry(final String threadName, final String sql)
         {
@@ -161,7 +161,9 @@ public class OneSqlExecTimeRule extends AbstractDbAccessRule
             return this.sql_;
         }
 
-
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public int hashCode()
         {
@@ -174,6 +176,9 @@ public class OneSqlExecTimeRule extends AbstractDbAccessRule
             return result;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public boolean equals(final Object obj)
         {

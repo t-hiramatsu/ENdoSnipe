@@ -31,78 +31,75 @@ import java.util.Map;
 
 /**
  * 各グラフの計測データを格納するためのエンティティです。
- * 
  * @author fujii
- * 
+ *
  */
 public class MeasurementData implements Cloneable
 {
-	/** measurementDetailMap_における、単数系列のデータのキー。 */
-	public static final String SINGLE_DETAIL_KEY = "";
+    /** measurementDetailMap_における、単数系列のデータのキー。 */
+    public static final String SINGLE_DETAIL_KEY = "";
 
-	/**
-	 * 計測値種別を表す ID 。<br />
-	 * 
-	 * JAVELIN_MESUREMENT テーブルの MESUREMENT_TYPE カラムに利用される値。
-	 */
-	public int measurementType;
+    /**
+     * 計測値種別を表す ID 。<br />
+     *
+     * JAVELIN_MESUREMENT テーブルの MESUREMENT_TYPE カラムに利用される値。
+     */
+    public int measurementType;
 
-	/** リソース通知電文の項目名 */
-	public String itemName;
+    /** リソース通知電文の項目名 */
+    public String itemName;
 
-	/** オブジェクトの表示名 */
-	public String displayName;
+    /** オブジェクトの表示名 */
+    public String displayName;
 
-	/** 計測時刻。 */
-	public Timestamp measurementTime;
+    /** 計測時刻。 */
+    public Timestamp measurementTime;
 
-	/** 計測データのマップ(系列名、系列情報) */
-	private final Map<String, MeasurementDetail> measurementDetailMap_
-		= new LinkedHashMap<String, MeasurementDetail>();
+    /** 計測データのマップ(系列名、系列情報) */
+    private final Map<String, MeasurementDetail> measurementDetailMap_ =
+            new LinkedHashMap<String, MeasurementDetail>();
 
-	/** 計測値の型 */
-	public byte valueType;
+    /** 計測値の型 */
+    public byte valueType;
 
-	/**
-	 * {@link MeasurementDetail}オブジェクトを保存しているマップを取得します。<br />
-	 * 
-	 * @return {@link MeasurementDetail}オブジェクトを保存しているマップ
-	 */
-	public Map<String, MeasurementDetail> getMeasurementDetailMap()
-	{
-		return this.measurementDetailMap_;
-	}
+    /**
+     * {@link MeasurementDetail}オブジェクトを保存しているマップを取得します。<br />
+     * 
+     * @return {@link MeasurementDetail}オブジェクトを保存しているマップ
+     */
+    public Map<String, MeasurementDetail> getMeasurementDetailMap()
+    {
+        return this.measurementDetailMap_;
+    }
 
-	/**
-	 * 計測値を保存するエンティティを保存します。<br />
-	 * 
-	 * @param measurementDetail
-	 *            {@link MeasurementDetail}オブジェクト
-	 */
-	public void addMeasurementDetail(final MeasurementDetail measurementDetail)
-	{
-		this.measurementDetailMap_.put(measurementDetail.displayName,
-				measurementDetail);
-	}
+    /**
+     * 計測値を保存するエンティティを保存します。<br />
+     * 
+     * @param measurementDetail {@link MeasurementDetail}オブジェクト
+     */
+    public void addMeasurementDetail(final MeasurementDetail measurementDetail)
+    {
+        this.measurementDetailMap_.put(measurementDetail.displayName, measurementDetail);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String toString()
-	{
-		StringBuilder builder = new StringBuilder();
-		builder.append("(MeasurementType=");
-		builder.append(this.measurementType);
-		builder.append(",ItemName=");
-		builder.append(this.itemName);
-		builder.append(",ValueType=");
-		builder.append(this.valueType);
-		builder.append(",MeasurementDetailMap=");
-		builder.append(this.measurementDetailMap_.toString());
-		builder.append(")");
-		return builder.toString();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString()
+    {
+        StringBuilder builder = new StringBuilder();
+        builder.append("(MeasurementType=");
+        builder.append(this.measurementType);
+        builder.append(",ItemName=");
+        builder.append(this.itemName);
+        builder.append(",ValueType=");
+        builder.append(this.valueType);
+        builder.append(",MeasurementDetailMap=");
+        builder.append(this.measurementDetailMap_.toString());
+        builder.append(")");
+        return builder.toString();
+    }
 
 	/**
 	 * {@inheritDoc}
@@ -125,11 +122,11 @@ public class MeasurementData implements Cloneable
 		cloneObj.valueType = this.valueType;
 		cloneObj.displayName = this.displayName;
 
-		for (MeasurementDetail detail : this.measurementDetailMap_.values())
-		{
-			cloneObj.addMeasurementDetail(detail.clone());
-		}
+        for (MeasurementDetail detail : this.measurementDetailMap_.values())
+        {
+            cloneObj.addMeasurementDetail(detail.clone());
+        }
 
-		return cloneObj;
-	}
+        return cloneObj;
+    }
 }

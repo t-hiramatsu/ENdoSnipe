@@ -28,7 +28,6 @@ package jp.co.acroquest.endosnipe.web.dashboard.controller;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +39,6 @@ import jp.co.acroquest.endosnipe.data.dao.JavelinLogDao;
 import jp.co.acroquest.endosnipe.data.entity.JavelinLog;
 import jp.co.acroquest.endosnipe.perfdoctor.WarningUnit;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.PerfDoctorTableDto;
-import jp.co.acroquest.endosnipe.web.dashboard.dto.ReportDefinitionDto;
 import jp.co.acroquest.endosnipe.web.dashboard.form.PerfDoctorTermDataForm;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.DatabaseManager;
 import jp.co.acroquest.endosnipe.web.dashboard.service.JvnFileEntryJudge;
@@ -58,6 +56,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.wgp.manager.WgpDataManager;
 
+/**
+ * PerformanceDoctorControllerクラス
+ * @author acroquest
+ *
+ */
 @Controller
 @RequestMapping("/performanceDoctor")
 public class PerformanceDoctorController
@@ -68,21 +71,33 @@ public class PerformanceDoctorController
     /** シグナルのツリーメニューのサフィックスID */
     private static final String TREE_MENU_SIGNAL_SUFEIX_ID = "-signalNode";
 
+    /** ツリーメニュー用サービス */
     @Autowired
     protected TreeMenuService treeMenuService;
 
+    /** 計測値用サービス */
     @Autowired
     protected MeasurementValueService measurementValueService;
 
+    /** シグナル用サービス */
     @Autowired
     protected SignalService signalService;
 
+    /** WGPデータ用サービス */
     @Autowired
     private WgpDataManager wgpDataManager;
-    
+
+    /** Performance Doctor用サービス */
     @Autowired
     protected PerformanceDoctorService perfDoctorService;
 
+    /**
+     * コンストラクタ
+     */
+    public PerformanceDoctorController()
+    {
+
+    }
 
     /**
      * PerformanceDoctorで表示するための期間データを返す。
@@ -94,8 +109,8 @@ public class PerformanceDoctorController
     @RequestMapping(value = "/getPerfDoctor", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, List<PerfDoctorTableDto>> getTermPerfDoctorData(
-            @RequestParam(value = "data") final String data)
-    {
+                                                                       @RequestParam(value = "data") final String data)
+                                                                       {
         Map<String, List<PerfDoctorTableDto>> responceDataList =
                 new HashMap<String, List<PerfDoctorTableDto>>();
         DatabaseManager dbManager = DatabaseManager.getInstance();
@@ -154,5 +169,4 @@ public class PerformanceDoctorController
         this.perfDoctorService.doRequest(res, fileName);
     }
 
-    
 }

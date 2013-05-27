@@ -26,7 +26,6 @@
 package jp.co.acroquest.endosnipe.javelin.bean;
 
 import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
-import jp.co.acroquest.endosnipe.javelin.StatsJavelinRecorder;
 
 /**
  * 計測対象から除外するクラス、メソッドを監視するクラスです。<br />
@@ -59,6 +58,7 @@ public class ExcludeMonitor
     /**
      * 引数で与えられたクラス名、メソッド名が自動で計測対象から除外されているか判定します。<br />
      * 
+     * @param invocation {@link Invocation}オブジェクト
      * @return 自動処理により計測対象から除外されている場合、<code>true</code>
      */
     public static boolean isExcludePreffered(final Invocation invocation)
@@ -122,6 +122,7 @@ public class ExcludeMonitor
     /**
      * 引数で与えられたクラス名、メソッド名が自動的に収集した計測対象であるかを判定します。<br />
      * 
+     * @param invocation {@link Invocation}オブジェクト
      * @return ログ出力から除外されている場合、<code>true</code>
      */
     public static boolean isTargetPreferred(final Invocation invocation)
@@ -136,6 +137,7 @@ public class ExcludeMonitor
 
     /**
      * 引数で与えられたクラス名、メソッド名を自動的に収集した計測対象リストに追加します。<br />
+     * @param invocation {@link Invocation}オブジェクト
      */
     public static void addTargetPreferred(final Invocation invocation)
     {
@@ -149,6 +151,7 @@ public class ExcludeMonitor
 
     /**
      * 引数で与えられたクラス名、メソッド名を自動的に収集した計測対象から除外します。<br />
+     * @param invocation {@link Invocation}オブジェクト
      */
     public static void removeTargetPreferred(final Invocation invocation)
     {
@@ -163,6 +166,7 @@ public class ExcludeMonitor
     /**
      * 引数で与えられたクラス名、メソッド名が計測対象から除外するかどうかを判定します。<br />
      * 
+     * @param invocation {@link Invocation}オブジェクト
      * @return ログ出力から除外されている場合、<code>true</code>
      */
     public static boolean isExclude(final Invocation invocation)
@@ -177,6 +181,7 @@ public class ExcludeMonitor
 
     /**
      * 引数で与えられたクラス名、メソッド名を計測対象除外リストに追加します。<br />
+     * @param invocation {@link Invocation}オブジェクト
      */
     public static void addExclude(final Invocation invocation)
     {
@@ -190,6 +195,7 @@ public class ExcludeMonitor
 
     /**
      * 引数で与えられたクラス名、メソッド名を計測対象除外リストから除外します。<br />
+     * @param invocation {@link Invocation}オブジェクト
      */
     public static void removeExclude(final Invocation invocation)
     {
@@ -220,6 +226,7 @@ public class ExcludeMonitor
 
     /**
      * 引数で与えられたクラス名、メソッド名を計測対象リストに追加します。<br />
+     * @param invocation {@link Invocation}オブジェクト
      */
     public static void addTarget(final Invocation invocation)
     {
@@ -233,6 +240,7 @@ public class ExcludeMonitor
 
     /**
      * 引数で与えられたクラス名、メソッド名を計測対象から除外します。<br />
+     * @param invocation {@link Invocation}オブジェクト
      */
     public static void removeTarget(final Invocation invocation)
     {
@@ -249,6 +257,7 @@ public class ExcludeMonitor
      *
      * 計測対象と指定されている、または
      *
+     * @param invocation {@link Invocation}オブジェクト
      * @return 計測対象の場合は <code>true</code> 、計測対象でない場合は <code>false</code>
      */
     public static boolean isMeasurementTarget(final Invocation invocation)

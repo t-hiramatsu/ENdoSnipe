@@ -25,11 +25,27 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.javelin.bean;
 
+/**
+ * ComponentMBeanクラス
+ * @author acroquest
+ *
+ */
 public interface ComponentMBean
 {
+    /**
+     * ClassNameを取得します。
+     * @return ClassName
+     */
     String getClassName();
 
+    /**
+     * 全てのinvocationを取得します。
+     * @return invocationの配列
+     */
     Invocation[] getAllInvocation();
 
+    /**
+     * リセットします。
+     */
     void reset();
 }

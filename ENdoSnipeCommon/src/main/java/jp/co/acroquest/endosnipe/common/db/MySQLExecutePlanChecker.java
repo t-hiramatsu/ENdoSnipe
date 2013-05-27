@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 import jp.co.acroquest.endosnipe.common.util.CSVTokenizer;
 
 /**
@@ -157,6 +158,7 @@ public class MySQLExecutePlanChecker extends AbstractExecutePlanChecker<MySQLExp
         catch (IOException ioe)
         {
             // •¶Žš—ñ‚©‚ç‚Ì“Ç‚Ýž‚Ý‚Ì‚½‚ßA”­¶‚µ‚È‚¢B
+            SystemLogger.getInstance().warn(ioe);
         }
 
         return list;

@@ -26,18 +26,16 @@
 package jp.co.acroquest.endosnipe.javelin.parser;
 
 /**
+ * ParseExceptionクラス
  * @author hayakawa
  */
 public class ParseException extends Exception
 {
+    /** シリアルバージョンID */
+    private static final long serialVersionUID = 1L;
 
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = -8183151646189200070L;
-
-	/**
-     * 
+     * コンストラクタ
      */
     public ParseException()
     {
@@ -45,6 +43,7 @@ public class ParseException extends Exception
     }
 
     /**
+     * コンストラクタ
      * @param message メッセージ
      */
     public ParseException(final String message)
@@ -53,7 +52,8 @@ public class ParseException extends Exception
     }
 
     /**
-     * @param cause 原因
+     * コンストラクタ
+     * @param cause 例外の原因
      */
     public ParseException(final Throwable cause)
     {
@@ -61,8 +61,9 @@ public class ParseException extends Exception
     }
 
     /**
+     * コンストラクタ
      * @param message メッセージ
-     * @param cause 原因
+     * @param cause 例外の原因
      */
     public ParseException(final String message, final Throwable cause)
     {

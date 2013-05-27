@@ -64,8 +64,8 @@ import jp.co.acroquest.endosnipe.data.service.HostInfoManager;
 public class JavelinClient implements CommunicatorListener, LogMessageCodes
 {
     private static final ENdoSnipeLogger LOGGER =
-                                                  ENdoSnipeLogger.getLogger(JavelinClient.class,
-                                                                            ENdoSnipeDataCollectorPluginProvider.INSTANCE);
+                      ENdoSnipeLogger.getLogger(JavelinClient.class,
+                                                ENdoSnipeDataCollectorPluginProvider.INSTANCE);
 
     private String databaseName_;
 
@@ -185,8 +185,7 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
             Date currentDate = new Date();
             long currentTime = currentDate.getTime();
             JavelinConnectionData disconnectionData =
-                                                      new JavelinConnectionData(
-                                                                                JavelinConnectionData.TYPE_DISCONNECTION);
+                              new JavelinConnectionData(JavelinConnectionData.TYPE_DISCONNECTION);
             disconnectionData.measurementTime = currentTime;
             disconnectionData.setDatabaseName(JavelinClient.this.databaseName_);
             if (this.queue_ != null)
@@ -389,12 +388,9 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
         receiver.addTelegramListener(allNotifyListener);
 
         final JvnFileNotifyListener JVN_FILE_NOTIFY_LISTENER =
-                                                               createJvnFileNotifyListener(queue,
-                                                                                           hostName);
+                                        createJvnFileNotifyListener(queue, hostName);
         final SystemResourceListener SYSTEM_RESOURCE_LISTENER =
-                                                                createSystemResourceListener(queue,
-                                                                                             hostName,
-                                                                                             agentName);
+                                        createSystemResourceListener(queue, hostName, agentName);
 
         final SignalStateListener SIGNAL_STATE_LISTENER = new SignalStateListener();
         final SignalChangeListener SIGNAL_CHANGE_LISTENER = new SignalChangeListener();
@@ -477,7 +473,8 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
                                                      null);
                 }
 
-                for (TelegramNotifyListener telegramNotifyListener : JavelinClient.this.telegramNotifyListenerList_)
+                for (TelegramNotifyListener telegramNotifyListener : 
+                                JavelinClient.this.telegramNotifyListenerList_)
                 {
                     telegramNotifyListener.clientConnected(hostName, ipAddress, port);
                 }
@@ -486,8 +483,8 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
                 Date currentDate = new Date();
                 long currentTime = currentDate.getTime();
                 JavelinConnectionData connectionData =
-                                                       new JavelinConnectionData(
-                                                                                 JavelinConnectionData.TYPE_CONNECTION);
+                               new JavelinConnectionData(JavelinConnectionData.TYPE_CONNECTION);
+                
                 connectionData.measurementTime = currentTime;
                 connectionData.setDatabaseName(JavelinClient.this.databaseName_);
                 if (queue != null)
@@ -504,8 +501,7 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
                     Date currentDate = new Date();
                     long currentTime = currentDate.getTime();
                     JavelinConnectionData disconnectionData =
-                                                              new JavelinConnectionData(
-                                                                                        JavelinConnectionData.TYPE_DISCONNECTION);
+                              new JavelinConnectionData(JavelinConnectionData.TYPE_DISCONNECTION);
                     disconnectionData.measurementTime = currentTime;
                     disconnectionData.setDatabaseName(JavelinClient.this.databaseName_);
                     if (queue != null)
@@ -514,7 +510,8 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
                     }
                 }
 
-                for (TelegramNotifyListener telegramNotifyListener : JavelinClient.this.telegramNotifyListenerList_)
+                for (TelegramNotifyListener telegramNotifyListener : 
+                                            JavelinClient.this.telegramNotifyListenerList_)
                 {
                     telegramNotifyListener.clientDisconnected(forceDisconnected);
                 }

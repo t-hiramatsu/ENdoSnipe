@@ -29,6 +29,7 @@ import java.sql.Statement;
 import java.util.Iterator;
 import java.util.List;
 
+import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 import jp.co.acroquest.endosnipe.javelin.jdbc.stats.JdbcJavelinRecorder;
 import jp.co.acroquest.endosnipe.javelin.jdbc.stats.JdbcJavelinStatement;
 import jp.co.acroquest.endosnipe.javelin.util.ArrayList;
@@ -237,6 +238,7 @@ public class SqlUtil
             catch (IndexOutOfBoundsException ex)
             {
                 // ƒoƒCƒ“ƒh•Ï”‚Í“o˜^‚³‚ê‚Ä‚¢‚È‚¢
+                SystemLogger.getInstance().warn(ex);
             }
         }
 

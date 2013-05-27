@@ -43,11 +43,27 @@ import java.util.List;
  */
 public interface StatisticsMBean
 {
+    /**
+     * 平均値でソートしたメソッドコール情報を返します。
+     * @return 平均値でソートしたメソッドコール情報
+     */
     List<InvocationMBean> getInvocationListOrderByAverage();
 
+    /**
+     * 最大値でソートしたメソッドコール情報を返します。
+     * @return 最大値でソートしたメソッドコール情報
+     */
     List<InvocationMBean> getInvocationListOrderByMaximum();
 
+    /**
+     * 最小値でソートしたメソッドコール情報を返します。
+     * @return 最小値でソートしたメソッドコール情報
+     */
     List<InvocationMBean> getInvocationListOrderByMinimum();
 
+    /**
+     * 例外の発生回数でソートしたメソッドコール情報を返します。
+     * @return 例外の発生回数でソートしたメソッドコール情報
+     */
     List<InvocationMBean> getInvocationListOrderByThrowableCount();
 }

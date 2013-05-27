@@ -33,6 +33,11 @@ import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 import jp.co.acroquest.endosnipe.javelin.util.ArrayList;
 
+/**
+ * ClassHistogramMonitorクラス
+ * @author acroquest
+ *
+ */
 public abstract class ClassHistogramMonitor
 {
 
@@ -45,6 +50,9 @@ public abstract class ClassHistogramMonitor
     /** 設定 */
     private JavelinConfig             javelinConfig_;
 
+    /**
+     * コンストラクタ
+     */
     public ClassHistogramMonitor()
     {
         histgramList_ = new ArrayList<ClassHistogramEntry>();
@@ -167,7 +175,7 @@ public abstract class ClassHistogramMonitor
      * ヒストグラムの文字列を読み込むReaderを生成する。
      * 
      * @param classHistoGC ヒストグラム取得時にGCするかどうか
-     * @return　ヒストグラムの文字列を読み込むReader。
+     * @return ヒストグラムの文字列を読み込むReader。
      * @throws IOException ヒストグラム取得時にIOエラーが発生
      */
     public abstract BufferedReader newReader(boolean classHistoGC)

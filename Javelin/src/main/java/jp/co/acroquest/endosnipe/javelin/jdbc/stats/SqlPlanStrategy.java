@@ -139,18 +139,28 @@ public class SqlPlanStrategy implements RecordStrategy
         return false;
     }
 
+    /**
+     * 実行計画を設定する。
+     * @param node ノード
+     * @param execPlan 実行計画
+     */
     public void setExecPlan(CallTreeNode node, String[] execPlan)
     {
         node.getInvocation().putOptValue(JDBC_PLAN_KEY, execPlan);
     }
 
+    /**
+     * 実行計画を取得する。
+     * @param node ノード
+     * @return 実行計画
+     */
     public String[] getExecPlan(CallTreeNode node)
     {
         return (String[])node.getInvocation().getOptValue(JDBC_PLAN_KEY);
     }
 
     /**
-     * @see {@link #judgeGenerateJaveinFile(CallTreeNode)}
+     * {@inheritDoc}
      */
     public boolean judgeSendExceedThresholdAlarm(CallTreeNode node)
     {

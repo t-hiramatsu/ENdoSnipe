@@ -14,7 +14,6 @@ package jp.co.acroquest.endosnipe.web.dashboard.controller;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -66,9 +65,7 @@ public class ReportController
     @ResponseBody
     public List<ReportDefinitionDto> getAllDefinition()
     {
-        List<ReportDefinitionDto> reportDefinitionDtos = new ArrayList<ReportDefinitionDto>();
-
-        reportDefinitionDtos = this.reportService.getAllReport();
+        List<ReportDefinitionDto> reportDefinitionDtos = this.reportService.getAllReport();
 
         return reportDefinitionDtos;
     }
@@ -203,7 +200,7 @@ public class ReportController
     /**
      * レポートIDからファイル名を作成する。
      * 
-     * @param reportId レポートID
+     * @param reportDefinitionDto レポート定義Dto
      * @return ファイル名
      */
     private String createFileNameByDefinitionDto(final ReportDefinitionDto reportDefinitionDto)

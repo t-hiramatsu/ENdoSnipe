@@ -37,50 +37,62 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
 
+/**
+ * ツリーマップクラス
+ *
+ * @author acroquest
+ *
+ * @param <K> キー
+ * @param <V> 値
+ */
 public class TreeMap<K, V> extends AbstractMap<K, V> implements SortedMap<K, V>, Cloneable,
         java.io.Serializable
 {
+    /** シリアルバージョンID */
+    private static final long                       serialVersionUID = -5489490343290508150L;
 
-    /**  */
-    private static final long serialVersionUID = -5489490343290508150L;
+    private Comparator<? super K>                   comparator_      = null;
 
-    private Comparator<? super K> comparator = null;
+    private transient Entry<K, V>                   root_            = null;
 
-    private transient Entry<K, V> root = null;
+    private transient int                           size_            = 0;
 
-    private transient int size = 0;
+    private transient int                           modCount_        = 0;
 
-    private transient int modCount = 0;
+    private transient volatile Set<Map.Entry<K, V>> entrySet_        = null;
 
-    private void incrementSize()
-    {
-        modCount++;
-        size++;
-    }
-
-    private void decrementSize()
-    {
-        modCount++;
-        size--;
-    }
-
+    /**
+     * コンストラクタ
+     */
     public TreeMap()
     {
     }
 
+    /**
+     * コンストラクタ
+     * @param c コンパレータ
+     */
     public TreeMap(Comparator<? super K> c)
     {
-        this.comparator = c;
+        this.comparator_ = c;
     }
 
+    /**
+     * コンストラクタ
+     * @param m マップ
+     */
     public TreeMap(Map<? extends K, ? extends V> m)
     {
         putAll(m);
     }
 
+    /**
+     * コンストラクタ
+     * @param m ソート済みマップ
+     */
     public TreeMap(SortedMap<K, ? extends V> m)
     {
-        comparator = m.comparator();
+        comparator_ = m.comparator();
         try
         {
             buildFromSorted(m.size(), m.entrySet().iterator(), null, null);
@@ -93,71 +105,112 @@ public class TreeMap<K, V> extends AbstractMap<K, V> implements SortedMap<K, V>,
         }
     }
 
-    public int size()
+    private void incrementSize()
     {
-        return size;
+        modCount_++;
+        size_++;
     }
 
+    private void decrementSize()
+    {
+        modCount_++;
+        size_--;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public int size()
+    {
+        return size_;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public boolean containsKey(Object key)
     {
         return getEntry(key) != null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean containsValue(Object value)
     {
-        return (root == null ? false : (value == null ? valueSearchNull(root)
-                : valueSearchNonNull(root, value)));
+        return (root_ == null ? false : (value == null ? valueSearchNull(root_)
+                : valueSearchNonNull(root_, value)));
     }
 
-    private boolean valueSearchNull(Entry n)
+    private boolean valueSearchNull(Entry<K, V> n)
     {
-        if (n.value == null)
+        if (n.value_ == null)
+        {
             return true;
+        }
 
-        return (n.left != null && valueSearchNull(n.left))
-                || (n.right != null && valueSearchNull(n.right));
+        return (n.left_ != null && valueSearchNull(n.left_))
+                || (n.right_ != null && valueSearchNull(n.right_));
     }
 
-    private boolean valueSearchNonNull(Entry n, Object value)
+    private boolean valueSearchNonNull(Entry<K, V> n, Object value)
     {
 
-        if (value.equals(n.value))
+        if (value.equals(n.value_))
+        {
             return true;
+        }
 
-        return (n.left != null && valueSearchNonNull(n.left, value))
-                || (n.right != null && valueSearchNonNull(n.right, value));
+        return (n.left_ != null && valueSearchNonNull(n.left_, value))
+                || (n.right_ != null && valueSearchNonNull(n.right_, value));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public V get(Object key)
     {
         Entry<K, V> p = getEntry(key);
-        return (p == null ? null : p.value);
+        return (p == null ? null : p.value_);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public Comparator<? super K> comparator()
     {
-        return comparator;
+        return comparator_;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public K firstKey()
     {
         return key(firstEntry());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public K lastKey()
     {
         return key(lastEntry());
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @SuppressWarnings("unchecked")
     public void putAll(Map<? extends K, ? extends V> map)
     {
         int mapSize = map.size();
-        if (size == 0 && mapSize != 0 && map instanceof SortedMap)
+        if (size_ == 0 && mapSize != 0 && map instanceof SortedMap)
         {
-            Comparator c = ((SortedMap)map).comparator();
-            if (c == comparator || (c != null && c.equals(comparator)))
+            Comparator<?> c = ((SortedMap<K, V>)map).comparator();
+            if (c == comparator_ || (c != null && c.equals(comparator_)))
             {
-                ++modCount;
+                ++modCount_;
                 try
                 {
                     buildFromSorted(mapSize, map.entrySet().iterator(), null, null);
@@ -174,57 +227,70 @@ public class TreeMap<K, V> extends AbstractMap<K, V> implements SortedMap<K, V>,
         super.putAll(map);
     }
 
+    @SuppressWarnings("unchecked")
     private Entry<K, V> getEntry(Object key)
     {
-        Entry<K, V> p = root;
+        Entry<K, V> p = root_;
         K k = (K)key;
         while (p != null)
         {
-            int cmp = compare(k, p.key);
+            int cmp = compare(k, p.key_);
             if (cmp == 0)
+            {
                 return p;
+            }
             else if (cmp < 0)
-                p = p.left;
+            {
+                p = p.left_;
+            }
             else
-                p = p.right;
+            {
+                p = p.right_;
+            }
         }
         return null;
     }
 
     private Entry<K, V> getCeilEntry(K key)
     {
-        Entry<K, V> p = root;
+        Entry<K, V> p = root_;
         if (p == null)
+        {
             return null;
+        }
 
         while (true)
         {
-            int cmp = compare(key, p.key);
+            int cmp = compare(key, p.key_);
             if (cmp == 0)
             {
                 return p;
             }
             else if (cmp < 0)
             {
-                if (p.left != null)
-                    p = p.left;
-                else
-                    return p;
-            }
-            else
-            {
-                if (p.right != null)
+                if (p.left_ != null)
                 {
-                    p = p.right;
+                    p = p.left_;
                 }
                 else
                 {
-                    Entry<K, V> parent = p.parent;
+                    return p;
+                }
+            }
+            else
+            {
+                if (p.right_ != null)
+                {
+                    p = p.right_;
+                }
+                else
+                {
+                    Entry<K, V> parent = p.parent_;
                     Entry<K, V> ch = p;
-                    while (parent != null && ch == parent.right)
+                    while (parent != null && ch == parent.right_)
                     {
                         ch = parent;
-                        parent = parent.parent;
+                        parent = parent.parent_;
                     }
                     return parent;
                 }
@@ -234,34 +300,40 @@ public class TreeMap<K, V> extends AbstractMap<K, V> implements SortedMap<K, V>,
 
     private Entry<K, V> getPrecedingEntry(K key)
     {
-        Entry<K, V> p = root;
+        Entry<K, V> p = root_;
         if (p == null)
+        {
             return null;
+        }
 
         while (true)
         {
-            int cmp = compare(key, p.key);
+            int cmp = compare(key, p.key_);
             if (cmp > 0)
             {
-                if (p.right != null)
-                    p = p.right;
-                else
-                    return p;
-            }
-            else
-            {
-                if (p.left != null)
+                if (p.right_ != null)
                 {
-                    p = p.left;
+                    p = p.right_;
                 }
                 else
                 {
-                    Entry<K, V> parent = p.parent;
+                    return p;
+                }
+            }
+            else
+            {
+                if (p.left_ != null)
+                {
+                    p = p.left_;
+                }
+                else
+                {
+                    Entry<K, V> parent = p.parent_;
                     Entry<K, V> ch = p;
-                    while (parent != null && ch == parent.left)
+                    while (parent != null && ch == parent.left_)
                     {
                         ch = parent;
-                        parent = parent.parent;
+                        parent = parent.parent_;
                     }
                     return parent;
                 }
@@ -272,77 +344,94 @@ public class TreeMap<K, V> extends AbstractMap<K, V> implements SortedMap<K, V>,
     private static <K> K key(Entry<K, ?> e)
     {
         if (e == null)
+        {
             throw new NoSuchElementException();
-        return e.key;
+        }
+        return e.key_;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public V put(K key, V value)
     {
-        Entry<K, V> t = root;
+        Entry<K, V> t = root_;
 
         if (t == null)
         {
             incrementSize();
-            root = new Entry<K, V>(key, value, null);
+            root_ = new Entry<K, V>(key, value, null);
             return null;
         }
 
         while (true)
         {
-            int cmp = compare(key, t.key);
+            int cmp = compare(key, t.key_);
             if (cmp == 0)
             {
                 return t.setValue(value);
             }
             else if (cmp < 0)
             {
-                if (t.left != null)
+                if (t.left_ != null)
                 {
-                    t = t.left;
+                    t = t.left_;
                 }
                 else
                 {
                     incrementSize();
-                    t.left = new Entry<K, V>(key, value, t);
-                    fixAfterInsertion(t.left);
+                    t.left_ = new Entry<K, V>(key, value, t);
+                    fixAfterInsertion(t.left_);
                     return null;
                 }
             }
             else
             {
-                if (t.right != null)
+                if (t.right_ != null)
                 {
-                    t = t.right;
+                    t = t.right_;
                 }
                 else
                 {
                     incrementSize();
-                    t.right = new Entry<K, V>(key, value, t);
-                    fixAfterInsertion(t.right);
+                    t.right_ = new Entry<K, V>(key, value, t);
+                    fixAfterInsertion(t.right_);
                     return null;
                 }
             }
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public V remove(Object key)
     {
         Entry<K, V> p = getEntry(key);
         if (p == null)
+        {
             return null;
+        }
 
-        V oldValue = p.value;
+        V oldValue = p.value_;
         deleteEntry(p);
         return oldValue;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void clear()
     {
-        modCount++;
-        size = 0;
-        root = null;
+        modCount_++;
+        size_ = 0;
+        root_ = null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @SuppressWarnings("unchecked")
     public Object clone()
     {
         TreeMap<K, V> clone = null;
@@ -355,14 +444,14 @@ public class TreeMap<K, V> extends AbstractMap<K, V> implements SortedMap<K, V>,
             throw new InternalError();
         }
 
-        clone.root = null;
-        clone.size = 0;
-        clone.modCount = 0;
-        clone.entrySet = null;
+        clone.root_ = null;
+        clone.size_ = 0;
+        clone.modCount_ = 0;
+        clone.entrySet_ = null;
 
         try
         {
-            clone.buildFromSorted(size, entrySet().iterator(), null, null);
+            clone.buildFromSorted(size_, entrySet().iterator(), null, null);
         }
         catch (java.io.IOException cannotHappen)
         {
@@ -374,13 +463,14 @@ public class TreeMap<K, V> extends AbstractMap<K, V> implements SortedMap<K, V>,
         return clone;
     }
 
-    private transient volatile Set<Map.Entry<K, V>> entrySet = null;
-
+    /**
+     * {@inheritDoc}
+     */
     public Set<K> keySet()
     {
-        if (keySet == null)
+        if (keySet_ == null)
         {
-            keySet = new AbstractSet<K>() {
+            keySet_ = new AbstractSet<K>() {
                 public Iterator<K> iterator()
                 {
                     return new KeyIterator();
@@ -398,9 +488,9 @@ public class TreeMap<K, V> extends AbstractMap<K, V> implements SortedMap<K, V>,
 
                 public boolean remove(Object o)
                 {
-                    int oldSize = size;
+                    int oldSize = size_;
                     TreeMap.this.remove(o);
-                    return size != oldSize;
+                    return size_ != oldSize;
                 }
 
                 public void clear()
@@ -409,14 +499,17 @@ public class TreeMap<K, V> extends AbstractMap<K, V> implements SortedMap<K, V>,
                 }
             };
         }
-        return keySet;
+        return keySet_;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public Collection<V> values()
     {
-        if (values == null)
+        if (values_ == null)
         {
-            values = new AbstractCollection<V>() {
+            values_ = new AbstractCollection<V>() {
                 public Iterator<V> iterator()
                 {
                     return new ValueIterator();
@@ -430,8 +523,12 @@ public class TreeMap<K, V> extends AbstractMap<K, V> implements SortedMap<K, V>,
                 public boolean contains(Object o)
                 {
                     for (Entry<K, V> e = firstEntry(); e != null; e = successor(e))
+                    {
                         if (valEquals(e.getValue(), o))
+                        {
                             return true;
+                        }
+                    }
                     return false;
                 }
 
@@ -454,33 +551,42 @@ public class TreeMap<K, V> extends AbstractMap<K, V> implements SortedMap<K, V>,
                 }
             };
         }
-        return values;
+        return values_;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public Set<Map.Entry<K, V>> entrySet()
     {
-        if (entrySet == null)
+        if (entrySet_ == null)
         {
-            entrySet = new AbstractSet<Map.Entry<K, V>>() {
+            entrySet_ = new AbstractSet<Map.Entry<K, V>>() {
                 public Iterator<Map.Entry<K, V>> iterator()
                 {
                     return new EntryIterator();
                 }
 
+                @SuppressWarnings("unchecked")
                 public boolean contains(Object o)
                 {
                     if (!(o instanceof Map.Entry))
+                    {
                         return false;
+                    }
                     Map.Entry<K, V> entry = (Map.Entry<K, V>)o;
                     V value = entry.getValue();
                     Entry<K, V> p = getEntry(entry.getKey());
                     return p != null && valEquals(p.getValue(), value);
                 }
 
+                @SuppressWarnings("unchecked")
                 public boolean remove(Object o)
                 {
                     if (!(o instanceof Map.Entry))
+                    {
                         return false;
+                    }
                     Map.Entry<K, V> entry = (Map.Entry<K, V>)o;
                     V value = entry.getValue();
                     Entry<K, V> p = getEntry(entry.getKey());
@@ -503,38 +609,59 @@ public class TreeMap<K, V> extends AbstractMap<K, V> implements SortedMap<K, V>,
                 }
             };
         }
-        return entrySet;
+        return entrySet_;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public SortedMap<K, V> subMap(K fromKey, K toKey)
     {
         return new SubMap(fromKey, toKey);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public SortedMap<K, V> headMap(K toKey)
     {
         return new SubMap(toKey, true);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public SortedMap<K, V> tailMap(K fromKey)
     {
         return new SubMap(fromKey, false);
     }
 
+    /**
+     * サブのマップクラス
+     * @author acroquest
+     */
     private class SubMap extends AbstractMap<K, V> implements SortedMap<K, V>, java.io.Serializable
     {
-        private static final long serialVersionUID = -6520786458950516097L;
+        private static final long              serialVersionUID = -6520786458950516097L;
 
-        private boolean fromStart = false, toEnd = false;
+        private boolean                        fromStart_       = false;
 
-        private K fromKey, toKey;
+        private boolean                        toEnd_           = false;
 
-        SubMap(K fromKey, K toKey)
+        private K                              fromKey_;
+
+        private K                              toKey_;
+
+        private transient Set<Map.Entry<K, V>> subMapEntrySet_  = new EntrySetView();
+
+        public SubMap(K fromKey, K toKey)
         {
             if (compare(fromKey, toKey) > 0)
+            {
                 throw new IllegalArgumentException("fromKey > toKey");
-            this.fromKey = fromKey;
-            this.toKey = toKey;
+            }
+            this.fromKey_ = fromKey;
+            this.toKey_ = toKey;
         }
 
         SubMap(K key, boolean headMap)
@@ -543,96 +670,126 @@ public class TreeMap<K, V> extends AbstractMap<K, V> implements SortedMap<K, V>,
 
             if (headMap)
             {
-                fromStart = true;
-                toKey = key;
+                fromStart_ = true;
+                toKey_ = key;
             }
             else
             {
-                toEnd = true;
-                fromKey = key;
+                toEnd_ = true;
+                fromKey_ = key;
             }
         }
 
         SubMap(boolean fromStart, K fromKey, boolean toEnd, K toKey)
         {
-            this.fromStart = fromStart;
-            this.fromKey = fromKey;
-            this.toEnd = toEnd;
-            this.toKey = toKey;
+            this.fromStart_ = fromStart;
+            this.fromKey_ = fromKey;
+            this.toEnd_ = toEnd;
+            this.toKey_ = toKey;
         }
 
         public boolean isEmpty()
         {
-            return entrySet.isEmpty();
+            return subMapEntrySet_.isEmpty();
         }
 
+        @SuppressWarnings("unchecked")
         public boolean containsKey(Object key)
         {
             return inRange((K)key) && TreeMap.this.containsKey(key);
         }
 
+        /**
+         * {@inheritDoc}
+         */
+        @SuppressWarnings("unchecked")
         public V get(Object key)
         {
             if (!inRange((K)key))
+            {
                 return null;
+            }
             return TreeMap.this.get(key);
         }
 
+        /**
+         * {@inheritDoc}
+         */
         public V put(K key, V value)
         {
             if (!inRange(key))
+            {
                 throw new IllegalArgumentException("key out of range");
+            }
             return TreeMap.this.put(key, value);
         }
 
+        /**
+         * {@inheritDoc}
+         */
         public Comparator<? super K> comparator()
         {
-            return comparator;
+            return comparator_;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         public K firstKey()
         {
-            TreeMap.Entry<K, V> e = fromStart ? firstEntry() : getCeilEntry(fromKey);
+            TreeMap.Entry<K, V> e = fromStart_ ? firstEntry() : getCeilEntry(fromKey_);
             K first = key(e);
-            if (!toEnd && compare(first, toKey) >= 0)
+            if (!toEnd_ && compare(first, toKey_) >= 0)
+            {
                 throw (new NoSuchElementException());
+            }
             return first;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         public K lastKey()
         {
-            TreeMap.Entry<K, V> e = toEnd ? lastEntry() : getPrecedingEntry(toKey);
+            TreeMap.Entry<K, V> e = toEnd_ ? lastEntry() : getPrecedingEntry(toKey_);
             K last = key(e);
-            if (!fromStart && compare(last, fromKey) < 0)
+            if (!fromStart_ && compare(last, fromKey_) < 0)
+            {
                 throw (new NoSuchElementException());
+            }
             return last;
         }
 
-        private transient Set<Map.Entry<K, V>> entrySet = new EntrySetView();
-
         public Set<Map.Entry<K, V>> entrySet()
         {
-            return entrySet;
+            return subMapEntrySet_;
         }
 
+        /**
+         * エントリセットのViewクラス
+         * @author 
+         *
+         */
         private class EntrySetView extends AbstractSet<Map.Entry<K, V>>
         {
-            private transient int size = -1, sizeModCount;
+            private transient int entrySetViewSize_ = -1;
+
+            private transient int sizeModCount_;
 
             public int size()
             {
-                if (size == -1 || sizeModCount != TreeMap.this.modCount)
+                if (entrySetViewSize_ == -1 || sizeModCount_ != TreeMap.this.modCount_)
                 {
-                    size = 0;
-                    sizeModCount = TreeMap.this.modCount;
-                    Iterator i = iterator();
+                    entrySetViewSize_ = 0;
+                    sizeModCount_ = TreeMap.this.modCount_;
+                    Iterator<?> i = iterator();
                     while (i.hasNext())
                     {
-                        size++;
+                        entrySetViewSize_++;
                         i.next();
                     }
                 }
-                return size;
+                return entrySetViewSize_;
             }
 
             public boolean isEmpty()
@@ -640,26 +797,36 @@ public class TreeMap<K, V> extends AbstractMap<K, V> implements SortedMap<K, V>,
                 return !iterator().hasNext();
             }
 
+            @SuppressWarnings("unchecked")
             public boolean contains(Object o)
             {
                 if (!(o instanceof Map.Entry))
+                {
                     return false;
+                }
                 Map.Entry<K, V> entry = (Map.Entry<K, V>)o;
                 K key = entry.getKey();
                 if (!inRange(key))
+                {
                     return false;
-                TreeMap.Entry node = getEntry(key);
+                }
+                TreeMap.Entry<K, V> node = getEntry(key);
                 return node != null && valEquals(node.getValue(), entry.getValue());
             }
 
+            @SuppressWarnings("unchecked")
             public boolean remove(Object o)
             {
                 if (!(o instanceof Map.Entry))
+                {
                     return false;
+                }
                 Map.Entry<K, V> entry = (Map.Entry<K, V>)o;
                 K key = entry.getKey();
                 if (!inRange(key))
+                {
                     return false;
+                }
                 TreeMap.Entry<K, V> node = getEntry(key);
                 if (node != null && valEquals(node.getValue(), entry.getValue()))
                 {
@@ -671,93 +838,125 @@ public class TreeMap<K, V> extends AbstractMap<K, V> implements SortedMap<K, V>,
 
             public Iterator<Map.Entry<K, V>> iterator()
             {
-                return new SubMapEntryIterator((fromStart ? firstEntry() : getCeilEntry(fromKey)),
-                                               (toEnd ? null : getCeilEntry(toKey)));
+                return new SubMapEntryIterator(
+                                               (fromStart_ ? firstEntry() : getCeilEntry(fromKey_)),
+                                               (toEnd_ ? null : getCeilEntry(toKey_)));
             }
         }
 
         public SortedMap<K, V> subMap(K fromKey, K toKey)
         {
             if (!inRange2(fromKey))
+            {
                 throw new IllegalArgumentException("fromKey out of range");
+            }
             if (!inRange2(toKey))
+            {
                 throw new IllegalArgumentException("toKey out of range");
+            }
             return new SubMap(fromKey, toKey);
         }
 
         public SortedMap<K, V> headMap(K toKey)
         {
             if (!inRange2(toKey))
+            {
                 throw new IllegalArgumentException("toKey out of range");
-            return new SubMap(fromStart, fromKey, false, toKey);
+            }
+            return new SubMap(fromStart_, fromKey_, false, toKey);
         }
 
         public SortedMap<K, V> tailMap(K fromKey)
         {
             if (!inRange2(fromKey))
+            {
                 throw new IllegalArgumentException("fromKey out of range");
-            return new SubMap(false, fromKey, toEnd, toKey);
+            }
+            return new SubMap(false, fromKey, toEnd_, toKey_);
         }
 
         private boolean inRange(K key)
         {
-            return (fromStart || compare(key, fromKey) >= 0) && (toEnd || compare(key, toKey) < 0);
+            return (fromStart_ || compare(key, fromKey_) >= 0)
+                    && (toEnd_ || compare(key, toKey_) < 0);
         }
 
         private boolean inRange2(K key)
         {
-            return (fromStart || compare(key, fromKey) >= 0) && (toEnd || compare(key, toKey) <= 0);
+            return (fromStart_ || compare(key, fromKey_) >= 0)
+                    && (toEnd_ || compare(key, toKey_) <= 0);
         }
     }
 
+    /**
+     * エントリのイテレータクラス
+     * @author
+     *
+     * @param <T>
+     */
     private abstract class PrivateEntryIterator<T> implements Iterator<T>
     {
-        private int expectedModCount = TreeMap.this.modCount;
+        private int         expectedModCount_ = TreeMap.this.modCount_;
 
-        private Entry<K, V> lastReturned = null;
+        private Entry<K, V> lastReturned_     = null;
 
-        Entry<K, V> next;
+        Entry<K, V>         next_;
 
         PrivateEntryIterator()
         {
-            next = firstEntry();
+            next_ = firstEntry();
         }
 
         PrivateEntryIterator(Entry<K, V> first)
         {
-            next = first;
+            next_ = first;
         }
 
         public boolean hasNext()
         {
-            return next != null;
+            return next_ != null;
         }
 
         final Entry<K, V> nextEntry()
         {
-            if (next == null)
+            if (next_ == null)
+            {
                 throw new NoSuchElementException();
-            if (modCount != expectedModCount)
+            }
+            if (modCount_ != expectedModCount_)
+            {
                 throw new ConcurrentModificationException();
-            lastReturned = next;
-            next = successor(next);
-            return lastReturned;
+            }
+            lastReturned_ = next_;
+            next_ = successor(next_);
+            return lastReturned_;
         }
 
         public void remove()
         {
-            if (lastReturned == null)
+            if (lastReturned_ == null)
+            {
                 throw new IllegalStateException();
-            if (modCount != expectedModCount)
+            }
+            if (modCount_ != expectedModCount_)
+            {
                 throw new ConcurrentModificationException();
-            if (lastReturned.left != null && lastReturned.right != null)
-                next = lastReturned;
-            deleteEntry(lastReturned);
-            expectedModCount++;
-            lastReturned = null;
+            }
+            if (lastReturned_.left_ != null && lastReturned_.right_ != null)
+            {
+                next_ = lastReturned_;
+            }
+            deleteEntry(lastReturned_);
+            expectedModCount_++;
+            lastReturned_ = null;
         }
     }
 
+    /**
+     * エントリのイテレータクラス
+     * @author
+     *
+     */
     private class EntryIterator extends PrivateEntryIterator<Map.Entry<K, V>>
     {
         public Map.Entry<K, V> next()
@@ -766,49 +965,67 @@ public class TreeMap<K, V> extends AbstractMap<K, V> implements SortedMap<K, V>,
         }
     }
 
+    /**
+     * キーのイテレータクラス
+     * @author
+     *
+     */
     private class KeyIterator extends PrivateEntryIterator<K>
     {
         public K next()
         {
-            return nextEntry().key;
+            return nextEntry().key_;
         }
     }
 
+    /**
+     * 値のイテレータクラス
+     * @author
+     *
+     */
     private class ValueIterator extends PrivateEntryIterator<V>
     {
         public V next()
         {
-            return nextEntry().value;
+            return nextEntry().value_;
         }
     }
 
+    /**
+     * サブマップのエントリのイテレータクラス
+     * @author
+     *
+     */
     private class SubMapEntryIterator extends PrivateEntryIterator<Map.Entry<K, V>>
     {
-        private final K firstExcludedKey;
+        private final K firstExcludedKey_;
 
         SubMapEntryIterator(Entry<K, V> first, Entry<K, V> firstExcluded)
         {
             super(first);
-            firstExcludedKey = (firstExcluded == null ? null : firstExcluded.key);
+            firstExcludedKey_ = (firstExcluded == null ? null : firstExcluded.key_);
         }
 
         public boolean hasNext()
         {
-            return next != null && next.key != firstExcludedKey;
+            return next_ != null && next_.key_ != firstExcludedKey_;
         }
 
         public Map.Entry<K, V> next()
         {
-            if (next == null || next.key == firstExcludedKey)
+            if (next_ == null || next_.key_ == firstExcludedKey_)
+            {
                 throw new NoSuchElementException();
+            }
             return nextEntry();
         }
     }
 
+    @SuppressWarnings("unchecked")
     private int compare(K k1, K k2)
     {
-        return (comparator == null ? ((Comparable<K>)k1).compareTo(k2) : comparator.compare((K)k1,
-                                                                                            (K)k2));
+        return (comparator_ == null ? ((Comparable<K>)k1).compareTo(k2)
+                : comparator_.compare((K)k1, (K)k2));
     }
 
     private static boolean valEquals(Object o1, Object o2)
@@ -816,107 +1033,157 @@ public class TreeMap<K, V> extends AbstractMap<K, V> implements SortedMap<K, V>,
         return (o1 == null ? o2 == null : o1.equals(o2));
     }
 
-    private static final boolean RED = false;
+    private static final boolean RED   = false;
 
     private static final boolean BLACK = true;
 
+    /**
+     * エントリクラス
+     * @author
+     *
+     */
     static class Entry<K, V> implements Map.Entry<K, V>
     {
-        K key;
+        /** キー */
+        K           key_;
 
-        V value;
+        /** 値 */
+        V           value_;
 
-        Entry<K, V> left = null;
+        /** 前のエントリ */
+        Entry<K, V> left_  = null;
 
-        Entry<K, V> right = null;
+        /** 後のエントリ */
+        Entry<K, V> right_ = null;
 
-        Entry<K, V> parent;
+        /** 親のエントリ */
+        Entry<K, V> parent_;
 
-        boolean color = BLACK;
+        /** 色 */
+        boolean     color_ = BLACK;
 
-        Entry(K key, V value, Entry<K, V> parent)
+        /**
+         * コンストラクタ
+         * @param key キー
+         * @param value 値
+         * @param parent 親のエントリ
+         */
+        public Entry(K key, V value, Entry<K, V> parent)
         {
-            this.key = key;
-            this.value = value;
-            this.parent = parent;
+            this.key_ = key;
+            this.value_ = value;
+            this.parent_ = parent;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         public K getKey()
         {
-            return key;
+            return key_;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         public V getValue()
         {
-            return value;
+            return value_;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         public V setValue(V value)
         {
-            V oldValue = this.value;
-            this.value = value;
+            V oldValue = this.value_;
+            this.value_ = value;
             return oldValue;
         }
 
+        /**
+         * {@inheritDoc}
+         */
+        @SuppressWarnings("unchecked")
         public boolean equals(Object o)
         {
             if (!(o instanceof Map.Entry))
+            {
                 return false;
-            Map.Entry e = (Map.Entry)o;
+            }
+            Map.Entry<K, V> e = (Map.Entry<K, V>)o;
 
-            return valEquals(key, e.getKey()) && valEquals(value, e.getValue());
+            return valEquals(key_, e.getKey()) && valEquals(value_, e.getValue());
         }
 
+        /**
+         * {@inheritDoc}
+         */
         public int hashCode()
         {
-            int keyHash = (key == null ? 0 : key.hashCode());
-            int valueHash = (value == null ? 0 : value.hashCode());
+            int keyHash = (key_ == null ? 0 : key_.hashCode());
+            int valueHash = (value_ == null ? 0 : value_.hashCode());
             return keyHash ^ valueHash;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         public String toString()
         {
-            return key + "=" + value;
+            return key_ + "=" + value_;
         }
     }
 
     private Entry<K, V> firstEntry()
     {
-        Entry<K, V> p = root;
+        Entry<K, V> p = root_;
         if (p != null)
-            while (p.left != null)
-                p = p.left;
+        {
+            while (p.left_ != null)
+            {
+                p = p.left_;
+            }
+        }
         return p;
     }
 
     private Entry<K, V> lastEntry()
     {
-        Entry<K, V> p = root;
+        Entry<K, V> p = root_;
         if (p != null)
-            while (p.right != null)
-                p = p.right;
+        {
+            while (p.right_ != null)
+            {
+                p = p.right_;
+            }
+        }
         return p;
     }
 
     private Entry<K, V> successor(Entry<K, V> t)
     {
         if (t == null)
-            return null;
-        else if (t.right != null)
         {
-            Entry<K, V> p = t.right;
-            while (p.left != null)
-                p = p.left;
+            return null;
+        }
+        else if (t.right_ != null)
+        {
+            Entry<K, V> p = t.right_;
+            while (p.left_ != null)
+            {
+                p = p.left_;
+            }
             return p;
         }
         else
         {
-            Entry<K, V> p = t.parent;
+            Entry<K, V> p = t.parent_;
             Entry<K, V> ch = t;
-            while (p != null && ch == p.right)
+            while (p != null && ch == p.right_)
             {
                 ch = p;
-                p = p.parent;
+                p = p.parent_;
             }
             return p;
         }
@@ -924,69 +1191,87 @@ public class TreeMap<K, V> extends AbstractMap<K, V> implements SortedMap<K, V>,
 
     private static <K, V> boolean colorOf(Entry<K, V> p)
     {
-        return (p == null ? BLACK : p.color);
+        return (p == null ? BLACK : p.color_);
     }
 
     private static <K, V> Entry<K, V> parentOf(Entry<K, V> p)
     {
-        return (p == null ? null : p.parent);
+        return (p == null ? null : p.parent_);
     }
 
     private static <K, V> void setColor(Entry<K, V> p, boolean c)
     {
         if (p != null)
-            p.color = c;
+        {
+            p.color_ = c;
+        }
     }
 
     private static <K, V> Entry<K, V> leftOf(Entry<K, V> p)
     {
-        return (p == null) ? null : p.left;
+        return (p == null) ? null : p.left_;
     }
 
     private static <K, V> Entry<K, V> rightOf(Entry<K, V> p)
     {
-        return (p == null) ? null : p.right;
+        return (p == null) ? null : p.right_;
     }
 
     private void rotateLeft(Entry<K, V> p)
     {
-        Entry<K, V> r = p.right;
-        p.right = r.left;
-        if (r.left != null)
-            r.left.parent = p;
-        r.parent = p.parent;
-        if (p.parent == null)
-            root = r;
-        else if (p.parent.left == p)
-            p.parent.left = r;
+        Entry<K, V> r = p.right_;
+        p.right_ = r.left_;
+        if (r.left_ != null)
+        {
+            r.left_.parent_ = p;
+        }
+        r.parent_ = p.parent_;
+        if (p.parent_ == null)
+        {
+            root_ = r;
+        }
+        else if (p.parent_.left_ == p)
+        {
+            p.parent_.left_ = r;
+        }
         else
-            p.parent.right = r;
-        r.left = p;
-        p.parent = r;
+        {
+            p.parent_.right_ = r;
+        }
+        r.left_ = p;
+        p.parent_ = r;
     }
 
     private void rotateRight(Entry<K, V> p)
     {
-        Entry<K, V> l = p.left;
-        p.left = l.right;
-        if (l.right != null)
-            l.right.parent = p;
-        l.parent = p.parent;
-        if (p.parent == null)
-            root = l;
-        else if (p.parent.right == p)
-            p.parent.right = l;
+        Entry<K, V> l = p.left_;
+        p.left_ = l.right_;
+        if (l.right_ != null)
+        {
+            l.right_.parent_ = p;
+        }
+        l.parent_ = p.parent_;
+        if (p.parent_ == null)
+        {
+            root_ = l;
+        }
+        else if (p.parent_.right_ == p)
+        {
+            p.parent_.right_ = l;
+        }
         else
-            p.parent.left = l;
-        l.right = p;
-        p.parent = l;
+        {
+            p.parent_.left_ = l;
+        }
+        l.right_ = p;
+        p.parent_ = l;
     }
 
     private void fixAfterInsertion(Entry<K, V> x)
     {
-        x.color = RED;
+        x.color_ = RED;
 
-        while (x != null && x != root && x.parent.color == RED)
+        while (x != null && x != root_ && x.parent_.color_ == RED)
         {
             if (parentOf(x) == leftOf(parentOf(parentOf(x))))
             {
@@ -1008,7 +1293,9 @@ public class TreeMap<K, V> extends AbstractMap<K, V> implements SortedMap<K, V>,
                     setColor(parentOf(x), BLACK);
                     setColor(parentOf(parentOf(x)), RED);
                     if (parentOf(parentOf(x)) != null)
+                    {
                         rotateRight(parentOf(parentOf(x)));
+                    }
                 }
             }
             else
@@ -1031,66 +1318,84 @@ public class TreeMap<K, V> extends AbstractMap<K, V> implements SortedMap<K, V>,
                     setColor(parentOf(x), BLACK);
                     setColor(parentOf(parentOf(x)), RED);
                     if (parentOf(parentOf(x)) != null)
+                    {
                         rotateLeft(parentOf(parentOf(x)));
+                    }
                 }
             }
         }
-        root.color = BLACK;
+        root_.color_ = BLACK;
     }
 
     private void deleteEntry(Entry<K, V> p)
     {
         decrementSize();
 
-        if (p.left != null && p.right != null)
+        if (p.left_ != null && p.right_ != null)
         {
             Entry<K, V> s = successor(p);
-            p.key = s.key;
-            p.value = s.value;
+            p.key_ = s.key_;
+            p.value_ = s.value_;
             p = s;
         }
 
-        Entry<K, V> replacement = (p.left != null ? p.left : p.right);
+        Entry<K, V> replacement = (p.left_ != null ? p.left_ : p.right_);
 
         if (replacement != null)
         {
 
-            replacement.parent = p.parent;
-            if (p.parent == null)
-                root = replacement;
-            else if (p == p.parent.left)
-                p.parent.left = replacement;
+            replacement.parent_ = p.parent_;
+            if (p.parent_ == null)
+            {
+                root_ = replacement;
+            }
+            else if (p == p.parent_.left_)
+            {
+                p.parent_.left_ = replacement;
+            }
             else
-                p.parent.right = replacement;
+            {
+                p.parent_.right_ = replacement;
+            }
 
-            p.left = p.right = p.parent = null;
+            p.left_ = null;
+            p.right_ = null;
+            p.parent_ = null;
 
-            if (p.color == BLACK)
+            if (p.color_ == BLACK)
+            {
                 fixAfterDeletion(replacement);
+            }
         }
-        else if (p.parent == null)
+        else if (p.parent_ == null)
         {
-            root = null;
+            root_ = null;
         }
         else
         {
-            if (p.color == BLACK)
-                fixAfterDeletion(p);
-
-            if (p.parent != null)
+            if (p.color_ == BLACK)
             {
-                if (p == p.parent.left)
-                    p.parent.left = null;
-                else if (p == p.parent.right)
-                    p.parent.right = null;
-                p.parent = null;
+                fixAfterDeletion(p);
+            }
+
+            if (p.parent_ != null)
+            {
+                if (p == p.parent_.left_)
+                {
+                    p.parent_.left_ = null;
+                }
+                else if (p == p.parent_.right_)
+                {
+                    p.parent_.right_ = null;
+                }
+                p.parent_ = null;
             }
         }
     }
 
     private void fixAfterDeletion(Entry<K, V> x)
     {
-        while (x != root && colorOf(x) == BLACK)
+        while (x != root_ && colorOf(x) == BLACK)
         {
             if (x == leftOf(parentOf(x)))
             {
@@ -1122,7 +1427,7 @@ public class TreeMap<K, V> extends AbstractMap<K, V> implements SortedMap<K, V>,
                     setColor(parentOf(x), BLACK);
                     setColor(rightOf(sib), BLACK);
                     rotateLeft(parentOf(x));
-                    x = root;
+                    x = root_;
                 }
             }
             else
@@ -1155,7 +1460,7 @@ public class TreeMap<K, V> extends AbstractMap<K, V> implements SortedMap<K, V>,
                     setColor(parentOf(x), BLACK);
                     setColor(leftOf(sib), BLACK);
                     rotateRight(parentOf(x));
-                    x = root;
+                    x = root_;
                 }
             }
         }
@@ -1163,6 +1468,14 @@ public class TreeMap<K, V> extends AbstractMap<K, V> implements SortedMap<K, V>,
         setColor(x, BLACK);
     }
 
+    /**
+     * ツリーセットを読込みます。
+     * @param size サイズ
+     * @param s 入出力ストリーム
+     * @param defaultVal デフォルト値
+     * @throws java.io.IOException 入出力例外
+     * @throws ClassNotFoundException 該当クラスがないときの例外
+     */
     void readTreeSet(int size, java.io.ObjectInputStream s, V defaultVal)
         throws java.io.IOException,
             ClassNotFoundException
@@ -1170,6 +1483,11 @@ public class TreeMap<K, V> extends AbstractMap<K, V> implements SortedMap<K, V>,
         buildFromSorted(size, null, s, defaultVal);
     }
 
+    /**
+     * セットをツリーリストに追加します。
+     * @param set セット
+     * @param defaultVal デフォルト値
+     */
     void addAllForTreeSet(SortedSet<Map.Entry<K, V>> set, V defaultVal)
     {
         try
@@ -1184,28 +1502,34 @@ public class TreeMap<K, V> extends AbstractMap<K, V> implements SortedMap<K, V>,
         }
     }
 
-    private void buildFromSorted(int size, Iterator it, java.io.ObjectInputStream str, V defaultVal)
+    private void buildFromSorted(int size, Iterator<?> it, java.io.ObjectInputStream str,
+            V defaultVal)
         throws java.io.IOException,
             ClassNotFoundException
     {
-        this.size = size;
-        root = buildFromSorted(0, 0, size - 1, computeRedLevel(size), it, str, defaultVal);
+        this.size_ = size;
+        root_ = buildFromSorted(0, 0, size - 1, computeRedLevel(size), it, str, defaultVal);
     }
 
-    private final Entry<K, V> buildFromSorted(int level, int lo, int hi, int redLevel, Iterator it,
+    @SuppressWarnings("unchecked")
+    private Entry<K, V> buildFromSorted(int level, int lo, int hi, int redLevel, Iterator<?> it,
             java.io.ObjectInputStream str, V defaultVal)
         throws java.io.IOException,
             ClassNotFoundException
     {
 
         if (hi < lo)
+        {
             return null;
+        }
 
         int mid = (lo + hi) / 2;
 
         Entry<K, V> left = null;
         if (lo < mid)
+        {
             left = buildFromSorted(level + 1, lo, mid - 1, redLevel, it, str, defaultVal);
+        }
 
         K key;
         V value;
@@ -1232,20 +1556,23 @@ public class TreeMap<K, V> extends AbstractMap<K, V> implements SortedMap<K, V>,
         Entry<K, V> middle = new Entry<K, V>(key, value, null);
 
         if (level == redLevel)
-            middle.color = RED;
+        {
+            middle.color_ = RED;
+        }
 
         if (left != null)
         {
-            middle.left = left;
-            left.parent = middle;
+            middle.left_ = left;
+            left.parent_ = middle;
         }
 
         if (mid < hi)
         {
             Entry<K, V> right =
-                    buildFromSorted(level + 1, mid + 1, hi, redLevel, it, str, defaultVal);
-            middle.right = right;
-            right.parent = middle;
+                                buildFromSorted(level + 1, mid + 1, hi, redLevel, it, str,
+                                                defaultVal);
+            middle.right_ = right;
+            right.parent_ = middle;
         }
 
         return middle;
@@ -1255,7 +1582,9 @@ public class TreeMap<K, V> extends AbstractMap<K, V> implements SortedMap<K, V>,
     {
         int level = 0;
         for (int m = sz - 1; m >= 0; m = m / 2 - 1)
+        {
             level++;
+        }
         return level;
     }
 
@@ -1264,7 +1593,7 @@ public class TreeMap<K, V> extends AbstractMap<K, V> implements SortedMap<K, V>,
     {
         s.defaultWriteObject();
 
-        s.writeInt(size);
+        s.writeInt(size_);
 
         for (Iterator<Map.Entry<K, V>> i = entrySet().iterator(); i.hasNext();)
         {

@@ -35,6 +35,7 @@ import jp.co.acroquest.endosnipe.common.logger.PluginProvider;
  */
 public class ENdoSnipeDataCollectorPluginProvider extends AbstractPluginProvider
 {
+    /** インスタンス */
     public static final PluginProvider INSTANCE = new ENdoSnipeDataCollectorPluginProvider();
 
     // Eclipse ライブラリを参照させないため、敢えて文字列にしています

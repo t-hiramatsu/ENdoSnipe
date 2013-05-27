@@ -27,6 +27,8 @@ package jp.co.acroquest.endosnipe.common.util;
 
 import java.sql.Timestamp;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import jp.co.acroquest.endosnipe.common.Constants;
 import jp.co.acroquest.endosnipe.common.entity.ItemType;
@@ -77,8 +79,10 @@ public class ResourceDataUtil
         dstData.ipAddress = srcData.ipAddress;
         dstData.portNum = srcData.portNum;
 
-        for (Map.Entry<String, MeasurementData> measurementMapEntry
-        		: srcData.getMeasurementMap().entrySet())
+        Set<Entry<String, MeasurementData>> measurementMapEntrySet =
+                srcData.getMeasurementMap().entrySet();
+
+        for (Map.Entry<String, MeasurementData> measurementMapEntry : measurementMapEntrySet)
         {
             MeasurementData srcMeasurementData = measurementMapEntry.getValue();
             MeasurementData dstMeasurementData = new MeasurementData();
@@ -87,8 +91,10 @@ public class ResourceDataUtil
             dstMeasurementData.measurementTime = new Timestamp(measurementTime);
             dstMeasurementData.valueType = ItemType.getItemTypeNumber(ItemType.ITEMTYPE_STRING);
 
-            for (Map.Entry<String, MeasurementDetail> measurementDetailMapEntry
-            		: srcMeasurementData.getMeasurementDetailMap().entrySet())
+            Set<Entry<String, MeasurementDetail>> detailMapEntrySet =
+                    srcMeasurementData.getMeasurementDetailMap().entrySet();
+
+            for (Map.Entry<String, MeasurementDetail> measurementDetailMapEntry : detailMapEntrySet)
             {
                 MeasurementDetail srcMeasurementDetail = measurementDetailMapEntry.getValue();
                 MeasurementDetail dstMeasurementDetail = new MeasurementDetail();
@@ -141,8 +147,10 @@ public class ResourceDataUtil
         additionalData.ipAddress = currData.ipAddress;
         additionalData.portNum = currData.portNum;
 
-        for (Map.Entry<String, MeasurementData> measurementMapEntry
-        		: currData.getMeasurementMap().entrySet())
+        Set<Entry<String, MeasurementData>> measurementMapEntrySet =
+                currData.getMeasurementMap().entrySet();
+
+        for (Map.Entry<String, MeasurementData> measurementMapEntry : measurementMapEntrySet)
         {
             MeasurementData currMeasurementData = measurementMapEntry.getValue();
             MeasurementData prevMeasurementData =
@@ -159,13 +167,15 @@ public class ResourceDataUtil
             additionalMeasurementData.valueType =
                     ItemType.getItemTypeNumber(ItemType.ITEMTYPE_STRING);
 
-            for (Map.Entry<String, MeasurementDetail> measurementDetailMapEntry
-            		: currMeasurementData.getMeasurementDetailMap().entrySet())
+            Set<Entry<String, MeasurementDetail>> detailMapEntry =
+                    currMeasurementData.getMeasurementDetailMap().entrySet();
+
+            for (Map.Entry<String, MeasurementDetail> measurementDetailMapEntry : detailMapEntry)
             {
                 MeasurementDetail currMeasurementDetail = measurementDetailMapEntry.getValue();
+                String key = measurementDetailMapEntry.getKey();
                 MeasurementDetail prevMeasurementDetail =
-                        prevMeasurementData.getMeasurementDetailMap().get(
-                        		measurementDetailMapEntry.getKey());
+                        prevMeasurementData.getMeasurementDetailMap().get(key);
 
                 if (prevMeasurementDetail == null)
                 {
@@ -204,7 +214,7 @@ public class ResourceDataUtil
         {
             cpuUsage =
                     (double)cpuTime / (measurementInterval * NANO_TO_MILI * processorCount)
-                            * PERCENT_CONST;
+                    * PERCENT_CONST;
             // パフォーマンスカウンタの仕様上、CPU使用率が100％を超えることがあるため、
             // 最大100％に丸める。（#2006）
             cpuUsage = Math.min(cpuUsage, MAX_CPU_RATE);

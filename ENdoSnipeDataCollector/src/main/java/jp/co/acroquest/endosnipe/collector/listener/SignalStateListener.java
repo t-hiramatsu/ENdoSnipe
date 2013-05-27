@@ -50,8 +50,8 @@ public class SignalStateListener extends AbstractTelegramListener implements Tel
         LogMessageCodes
 {
     private static final ENdoSnipeLogger LOGGER =
-                                                  ENdoSnipeLogger.getLogger(SignalStateListener.class,
-                                                                            ENdoSnipeDataCollectorPluginProvider.INSTANCE);
+                      ENdoSnipeLogger.getLogger(SignalStateListener.class,
+                                                ENdoSnipeDataCollectorPluginProvider.INSTANCE);
 
     /**
      * {@inheritDoc}

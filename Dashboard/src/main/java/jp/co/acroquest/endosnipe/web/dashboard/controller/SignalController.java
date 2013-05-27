@@ -157,6 +157,7 @@ public class SignalController
      *
      * @param signalName
      *            閾値判定のシグナル名
+     * @return シグナルを削除したマップ           
      */
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
