@@ -303,6 +303,44 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
     }
 
     /**
+     * 項目名をすべて取得します。<br />
+     * 
+     * @param database データベース名
+     * @return {@link JavelinMeasurementItem} のリスト
+     * @throws SQLException SQL 実行時に例外が発生した場合
+     */
+    public static List<String> selectAllItemName(final String database)
+        throws SQLException
+    {
+        List<String> result = new ArrayList<String>();
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        try
+        {
+            conn = getConnection(database, true);
+            stmt = conn.createStatement();
+            String sql =
+                "select MEASUREMENT_ITEM_NAME from " + JAVELIN_MEASUREMENT_ITEM
+                    + " order by MEASUREMENT_ITEM_NAME";
+            rs = stmt.executeQuery(sql);
+            while (rs.next() == true)
+            {
+                // CHECKSTYLE:OFF
+                result.add(rs.getString(1));
+                // CHECKSTYLE:ON
+            }
+        }
+        finally
+        {
+            SQLUtil.closeResultSet(rs);
+            SQLUtil.closeStatement(stmt);
+            SQLUtil.closeConnection(conn);
+        }
+        return result;
+    }
+
+    /**
      * 指定した項目名のレコードを全て取得します。<br />
      * 
      * @param database データベース名

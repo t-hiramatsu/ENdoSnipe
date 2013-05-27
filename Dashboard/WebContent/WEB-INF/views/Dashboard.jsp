@@ -45,32 +45,7 @@
 		type="text/javaScript"></script>
 
 	<script>
-		var treeView = new ENS.treeView({
-			id : "tree_area",
-			targetId : "contents_area",
-			themeUrl : wgp.common.getContextPath()
-			+ "/resources/css/jsTree/style.css"
-		});
-		// ツリー連携を追加。
-		treeView.setClickEvent("contents_area");
-		treeView.addContextMenu(ENS.tree.contextOption);
-		appView.addView(treeView, wgp.constants.TREE.DATA_ID);
-		websocketClient = new wgp.WebSocketClient(appView, "notifyEvent");
-		websocketClient.initialize();
-		appView.getTermData([ wgp.constants.TREE.DATA_ID ], new Date(),
-				new Date());
-
-		$("#tree_area")
-				.click(
-						function() {
-							if ($("[id$='mapreduce/task']") != undefined) {
-
-								var elem = $("[id$='mapreduce/task']");
-
-								$("#tree_area").jstree("delete_node",
-										elem);
-							}
-						});
+		var treeView = new ENS.treeManager();
 	</script>
 	<input type="hidden" id="context" value="<%=request.getContextPath()%>" />
 

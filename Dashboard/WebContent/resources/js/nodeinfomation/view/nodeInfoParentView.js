@@ -64,7 +64,7 @@ ENS.NodeInfoParentView = wgp.AbstractView.extend({
 		_.each(this.graphIds, function(graphName) {
 
 			// ツリー要素を取得し、タイプが「target(グラフ)」であればグラフ表示を行う。
-			var treeModel = this.treeView.collection.get(graphName);
+			var treeModel = this.treeView.getENSTreeModel(graphName);
 			var type = treeModel.get("type");
 			// ノードのタイプがTARGETであった場合はグラフを表示し、
 			// SIGNALであった場合は、その一つ上のノードがTARGETであった場合はそのノードをグラフ表示する

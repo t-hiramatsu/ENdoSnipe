@@ -14,6 +14,7 @@ package jp.co.acroquest.endosnipe.web.dashboard.controller;
 
 import java.util.List;
 
+import jp.co.acroquest.endosnipe.web.dashboard.dto.TreeMenuDto;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.ResourceSender;
 import jp.co.acroquest.endosnipe.web.dashboard.service.TreeMenuService;
 
@@ -64,11 +65,25 @@ public class TreeMenuController
      */
     @RequestMapping(value = "/getDirectlChildNode", method = RequestMethod.POST)
     @ResponseBody
-    public List<String> getDirectlChildNodes(
+    public List<TreeMenuDto> getDirectlChildNodes(
             @RequestParam(value = "parentTreeId") final String parentTreeId)
     {
-        List<String> menuDtos = this.treeMenuService.getDirectChildNodes(parentTreeId);
+        List<TreeMenuDto> childNodeList = this.treeMenuService.getDirectChildNodes(parentTreeId);
 
-        return menuDtos;
+        return childNodeList;
+    }
+
+    /**
+     * 階層が一番上のノードの一覧を取得する。
+     *
+     * @return 階層が一番上のノードの一覧
+     */
+    @RequestMapping(value = "/getTopNodes", method = RequestMethod.POST)
+    @ResponseBody
+    public List<TreeMenuDto> getTopNodes()
+    {
+        List<TreeMenuDto> topNodeList = this.treeMenuService.getTopNodes();
+
+        return topNodeList;
     }
 }

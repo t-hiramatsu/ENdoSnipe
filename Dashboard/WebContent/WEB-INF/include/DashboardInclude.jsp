@@ -67,6 +67,9 @@
 	src="<%=request.getContextPath()%>/resources/js/nodeinfomation/model/resourceGraphModel.js">	
 </script>
 <script type="text/javascript"
+	src="<%=request.getContextPath()%>/resources/js/tree/ensTreeManager.js">	
+</script>
+<script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/tree/ensTreeView.js">	
 </script>
 <script type="text/javascript"
