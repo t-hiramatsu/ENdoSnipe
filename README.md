@@ -21,7 +21,7 @@ ENdoSnipeが提供する機能、導入事例については[ENdoSnipeの製品版のHP](http://www.en
 
 以下のビルド手順を実施することでENdoSnipeをGitHub上で公開されているソースからビルドすることができます。
 
-[buid_readme.txt](https://github.com/endosnipe/endosnipe/blob/master/buid_readme.txt)
+[buid_readme.txt](https://github.com/endosnipe/endosnipe/blob/master/build_readme.txt)
 
 ## ライセンス
 
