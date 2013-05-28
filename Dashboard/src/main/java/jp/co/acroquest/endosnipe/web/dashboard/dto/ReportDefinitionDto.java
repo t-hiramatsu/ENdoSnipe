@@ -48,7 +48,7 @@ public class ReportDefinitionDto
     /**
      * レポート出力定義のIDを取得する。
      *
-     * @return レポート出力定義のIDq
+     * @return レポート出力定義のID
      */
     public int getReportId()
     {
