@@ -172,7 +172,7 @@ public class SignalStateListener extends AbstractTelegramListener implements Tel
             AlarmData alarmData = manager.getAlarmData(signalName);
             if (alarmData == null)
             {
-                signalState[cnt] = JavelinDataLogger.NORMAL_ALARM_LEVEL;
+                signalState[cnt] = JavelinDataLogger.STOP_ALARM_LEVEL;
             }
             else
             {

@@ -30,6 +30,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jp.co.acroquest.endosnipe.web.dashboard.constants.ResponseConstants;
+import jp.co.acroquest.endosnipe.web.dashboard.dto.ResponseDto;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.SignalDefinitionDto;
 import jp.co.acroquest.endosnipe.web.dashboard.entity.SignalInfo;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.ResourceSender;
@@ -99,9 +101,9 @@ public class SignalController
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
-    public SignalDefinitionDto add(
-            @RequestParam(value = "signalDefinition") final String signalDefinition)
+    public ResponseDto add(@RequestParam(value = "signalDefinition") final String signalDefinition)
     {
+        ResponseDto responseDto = new ResponseDto();
         SignalDefinitionDto signalDefinitionDto =
                 JSON.decode(signalDefinition, SignalDefinitionDto.class);
 
@@ -110,7 +112,9 @@ public class SignalController
         // DBに追加する
         SignalDefinitionDto addedDefinitionDto = this.signalService.insertSignalInfo(signalInfo);
 
-        return addedDefinitionDto;
+        responseDto.setData(addedDefinitionDto);
+        responseDto.setResult(ResponseConstants.RESULT_SUCCESS);
+        return responseDto;
     }
 
     /**

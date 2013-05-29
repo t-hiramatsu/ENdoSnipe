@@ -6,12 +6,12 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 </head>
 <body>
-	<table class="headerTable">
+	<table class="headerTable" width="100%">
 		<tr>
-			<td>
+			<td style="float:left;">
 				<img src="<%=request.getContextPath()%>/resources/images/ENdoSnipe_logo.png" />
 			</td>
-			<td width="90%">
+			<td style="float:right;">
 				<a href="<%=request.getContextPath()%>/">Dashboard</a>
 				<a href="<%=request.getContextPath()%>/map/mapList">Map</a>
 			</td>

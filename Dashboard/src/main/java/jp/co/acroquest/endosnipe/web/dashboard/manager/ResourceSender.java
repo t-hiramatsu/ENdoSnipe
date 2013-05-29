@@ -224,16 +224,9 @@ public class ResourceSender
     private void sendWgpSignalData(final List<SignalTreeMenuDto> signalTreeMenuDtoList,
             final WgpDataManager dataManager, final WgpMessageInbound inbound)
     {
-        Set<String> listeners = inbound.getListeners();
-
         for (SignalTreeMenuDto signalTreeMenuDto : signalTreeMenuDtoList)
         {
             String signalId = signalTreeMenuDto.getId();
-            String observateGroupId = searchObservateGroupId(listeners, signalId);
-            if (observateGroupId == null)
-            {
-                continue;
-            }
             dataManager.updateData("tree", signalId, signalTreeMenuDto);
         }
     }

@@ -39,11 +39,6 @@
             <property name="severity" value="ignore"/>
             <property name="tokens" value="METHOD_DEF, CTOR_DEF"/>
         </module>
-        <module name="GenericIllegalRegexp">
-            <property name="severity" value="ignore"/>
-            <property name="format" value="\s+$"/>
-            <property name="message" value="Line has trailing spaces."/>
-        </module>
         <module name="HiddenField"/>
         <module name="HideUtilityClassConstructor"/>
         <module name="IllegalImport"/>

@@ -32,8 +32,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
 import jp.co.acroquest.endosnipe.data.dao.JavelinMeasurementItemDao;
 import jp.co.acroquest.endosnipe.data.entity.JavelinMeasurementItem;
+import jp.co.acroquest.endosnipe.web.dashboard.constants.LogMessageCodes;
 import jp.co.acroquest.endosnipe.web.dashboard.constants.TreeMenuConstants;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.TreeMenuDto;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.DatabaseManager;
@@ -41,6 +43,7 @@ import jp.co.acroquest.endosnipe.web.dashboard.manager.DatabaseManager;
 import org.springframework.stereotype.Service;
 
 /**
+ * 
  * ツリーメニューに関する操作を行うクラスです。
  *
  * @author fujii
@@ -49,6 +52,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class TreeMenuService
 {
+    /** ロガー。 */
+    private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(MapService.class);
+
     /** ツリー階層の区切り文字 */
     private static final String TREE_SEPARATOR = "/";
 
@@ -164,6 +170,50 @@ public class TreeMenuService
         menuDto.setParentTreeId(parentId.substring(0, parentId.length() - 1));
         menuDto.setType(treeMenuType);
         treeMenuDtoMap.put(currentId, menuDto);
+    }
+
+    /**
+     * 指定された親ノードの直下にある子要素のパスの一覧を取得する。
+     * 
+     * @param parentTreeId 親ノードのID
+     * @return 子要素のリスト
+     */
+    public List<String> getDirectChildNodes(final String parentTreeId)
+    {
+        List<String> directChildPathList = new ArrayList<String>();
+
+        DatabaseManager dbMmanager = DatabaseManager.getInstance();
+        // TODO エージェントIDは0固定
+        String dbName = dbMmanager.getDataBaseName(1);
+        try
+        {
+            List<String> itemNameList =
+                    JavelinMeasurementItemDao.selectItemNameListByParentItemName(dbName,
+                                                                                 parentTreeId);
+
+            int parentPathLength = parentTreeId.split("/").length;
+
+            int itemNameListLength = itemNameList.size();
+            for (int index = 0; index < itemNameListLength; index++)
+            {
+                String itemName = itemNameList.get(index);
+                String[] itemNameSplits = itemName.split("/");
+
+                StringBuilder stringBuilder = new StringBuilder();
+                for (int splitIndex = 1; splitIndex <= parentPathLength; splitIndex++)
+                {
+                    stringBuilder.append("/");
+                    stringBuilder.append(itemNameSplits[splitIndex]);
+                }
+
+                directChildPathList.add(stringBuilder.toString());
+            }
+        }
+        catch (SQLException sqlEx)
+        {
+            LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx, sqlEx.getMessage());
+        }
+        return directChildPathList;
     }
 
 }
