@@ -203,7 +203,7 @@ public class ReportController
     /**
      * レポートIDからファイル名を作成する。
      * 
-     * @param reportId レポートID
+     * @param reportDefinitionDto レポート出力定義
      * @return ファイル名
      */
     private String createFileNameByDefinitionDto(final ReportDefinitionDto reportDefinitionDto)

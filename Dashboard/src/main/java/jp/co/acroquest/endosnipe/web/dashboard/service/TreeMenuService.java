@@ -64,6 +64,18 @@ public class TreeMenuService
     /** 単位の区切り文字 */
     private static final String UNIT_SEPARATOR = ":";
 
+    /** タイプ：グループ。 */
+    private static final String GROUP_TYPE = "group";
+
+    /** タイプ：ターゲット。 */
+    private static final String TARGET_TYPE = "target";
+
+    /** アイコン：グループ。 */
+    private static final String GROUP_ICON = "center";
+
+    /** アイコン：ターゲット。 */
+    private static final String TARGET_ICON = "leaf";
+
     /**
      * コンストラクタ
      */
@@ -88,9 +100,9 @@ public class TreeMenuService
         {
             javelinMeasurementItemList = JavelinMeasurementItemDao.selectAll(dbName);
         }
-        catch (SQLException ex)
+        catch (SQLException sqlEx)
         {
-
+            LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx, sqlEx.getMessage());
         }
 
         if (javelinMeasurementItemList == null)
@@ -178,9 +190,9 @@ public class TreeMenuService
      * @param parentTreeId 親ノードのID
      * @return 子要素のリスト
      */
-    public List<String> getDirectChildNodes(final String parentTreeId)
+    public List<TreeMenuDto> getDirectChildNodes(final String parentTreeId)
     {
-        List<String> directChildPathList = new ArrayList<String>();
+        List<TreeMenuDto> directChildPathList = new ArrayList<TreeMenuDto>();
 
         DatabaseManager dbMmanager = DatabaseManager.getInstance();
         // TODO エージェントIDは0固定
@@ -193,20 +205,44 @@ public class TreeMenuService
 
             int parentPathLength = parentTreeId.split("/").length;
 
+            List<String> childNodeList = new ArrayList<String>();
             int itemNameListLength = itemNameList.size();
             for (int index = 0; index < itemNameListLength; index++)
             {
                 String itemName = itemNameList.get(index);
                 String[] itemNameSplits = itemName.split("/");
 
-                StringBuilder stringBuilder = new StringBuilder();
-                for (int splitIndex = 1; splitIndex <= parentPathLength; splitIndex++)
+                String childNodeName = itemNameSplits[parentPathLength];
+                boolean isContain = childNodeList.contains(childNodeName);
+                if (!isContain)
                 {
+                    childNodeList.add(childNodeName);
+                    StringBuilder stringBuilder = new StringBuilder();
+                    stringBuilder.append(parentTreeId);
                     stringBuilder.append("/");
-                    stringBuilder.append(itemNameSplits[splitIndex]);
-                }
+                    stringBuilder.append(childNodeName);
 
-                directChildPathList.add(stringBuilder.toString());
+                    TreeMenuDto treeMenuDto = new TreeMenuDto();
+
+                    if (itemNameSplits.length > parentPathLength + 1)
+                    {
+                        treeMenuDto.setType(GROUP_TYPE);
+                        treeMenuDto.setIcon(GROUP_ICON);
+                    }
+                    else
+                    {
+                        treeMenuDto.setType(TARGET_TYPE);
+                        treeMenuDto.setIcon(TARGET_ICON);
+                    }
+                    String treeId = stringBuilder.toString();
+
+                    treeMenuDto.setId(treeId);
+                    treeMenuDto.setTreeId(treeId);
+                    treeMenuDto.setData(childNodeName);
+                    treeMenuDto.setParentTreeId(parentTreeId);
+
+                    directChildPathList.add(treeMenuDto);
+                }
             }
         }
         catch (SQLException sqlEx)
@@ -216,4 +252,56 @@ public class TreeMenuService
         return directChildPathList;
     }
 
+    /**
+     * 一番階層が上のノードの一覧を取得する。
+     * 
+     * @return 一番階層が上のノードの一覧
+     */
+    public List<TreeMenuDto> getTopNodes()
+    {
+        DatabaseManager dbMmanager = DatabaseManager.getInstance();
+        // TODO エージェントIDは0固定
+        String dbName = dbMmanager.getDataBaseName(1);
+
+        List<TreeMenuDto> topNodeList = new ArrayList<TreeMenuDto>();
+        List<String> topNodeNameList = new ArrayList<String>();
+        try
+        {
+            // 一番階層が上のノードの一覧を取得する
+            List<String> itemNameList = JavelinMeasurementItemDao.selectAllItemName(dbName);
+
+            int itemNameListLength = itemNameList.size();
+
+            for (int index = 0; index < itemNameListLength; index++)
+            {
+
+                String itemName = itemNameList.get(index);
+                String nodeName = itemName.split(TREE_SEPARATOR)[1];
+                String topNodeName = TREE_SEPARATOR + itemName.split(TREE_SEPARATOR)[1];
+
+                boolean isContaiin = topNodeNameList.contains(topNodeName);
+                if (!isContaiin)
+                {
+                    topNodeNameList.add(topNodeName);
+                    TreeMenuDto treeMenuDto = new TreeMenuDto();
+
+                    treeMenuDto.setType(GROUP_TYPE);
+                    treeMenuDto.setIcon(GROUP_ICON);
+                    String treeId = topNodeName;
+
+                    treeMenuDto.setId(treeId);
+                    treeMenuDto.setTreeId(treeId);
+                    treeMenuDto.setData(nodeName);
+                    treeMenuDto.setParentTreeId(TREE_SEPARATOR);
+                    topNodeList.add(treeMenuDto);
+                }
+            }
+        }
+        catch (SQLException sqlEx)
+        {
+            LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx, sqlEx.getMessage());
+        }
+
+        return topNodeList;
+    }
 }

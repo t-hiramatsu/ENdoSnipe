@@ -100,6 +100,8 @@ ENS.nodeinfo.GRAPH_HEIGHT_MARGIN = 2;
 ENS.nodeinfo.GRAPH_TITLE_LENGTH = 30;
 
 ENS.tree = {};
+ENS.tree.CLICK_LEFT = 1;
+ENS.tree.CLICK_RIGHT = 3;
 ENS.tree.ADD_SIGNAL_TYPE = "addSignal";
 ENS.tree.EDIT_SIGNAL_TYPE = "editSignal";
 ENS.tree.DELETE_SIGNAL_TYPE = "deleteSignal";
@@ -124,7 +126,8 @@ ENS.tree.REPORT_SELECT_BY_REPORT_NAME_URL = wgp.common.getContextPath()
 		+ "/report/getDefinitionByReportName";
 ENS.tree.REPORT_DELETE_BY_NAME_URL = wgp.common.getContextPath() + "/report/deleteByName";
 ENS.tree.REPORT_DELETE_BY_ID_URL = wgp.common.getContextPath() + "/report/deleteById";
-ENS.tree.GET_DIRECT_CHILDLEN_NODE = wgp.common.getContextPath() + "/tree/getDirectlChildNode";
+ENS.tree.GET_DIRECT_CHILDLEN_NODE = wgp.common.getContextPath() + "/tree/getDirectlChildNodes";
+ENS.tree.GET_TOP_NODES = wgp.common.getContextPath() + "/tree/getTopNodes";
 
 ENS.tree.type = {};
 ENS.tree.type.GROUP = "group";
