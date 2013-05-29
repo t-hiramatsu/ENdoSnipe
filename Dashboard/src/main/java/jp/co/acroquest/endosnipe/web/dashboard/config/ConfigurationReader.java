@@ -403,6 +403,7 @@ public class ConfigurationReader
         {
             return -1;
         }
+
         // エージェントごとに設定するキー以外の場合は、-1を返し、処理を終了する。
         String keyPrefix = key.substring(0, pos + 1);
         if (!AGENT_PREFIXES.contains(keyPrefix))
