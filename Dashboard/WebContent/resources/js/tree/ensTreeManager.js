@@ -53,19 +53,28 @@ ENS.treeManager = wgp.AbstractView
 						$("#tree_area").jstree("delete_node", elem);
 					}
 				});
-
-				var instance = this;
-				$("#" + this.ensTreeView.$el.attr("id"))
-						.bind(
-								"open_node.jstree close_node.jstree",
-								function(e) {
-									if (e.type == "open_node") {
-										var parentNodeId = "/default";
-										instance.getDirectChildNode(parentNodeId);
-									} else if (e.type == "close_node") {
-										
-									}
-								});
+//
+//				this.getTopNodes();
+//
+//				var instance = this;
+//
+//				$("#" + this.ensTreeView.$el.attr("id")).mousedown(
+//						function(event) {
+//							/** 右クリック押下時には処理を行わない。 */
+//							if (event.which == ENS.tree.CLICK_RIGHT) {
+//								return;
+//							}
+//							/* クリックされたaタグを取得する。 */
+//							var clickTarget = event.target;
+//							var parentTag = $(clickTarget).parent();
+//							if ($(parentTag).hasClass("jstree-leaf")) {
+//								return true;
+//							}
+//							setTimeout(function() {
+//								instance.handleExpandCollapseTag(clickTarget);
+//							}, 0);
+//							return true;
+//						});
 			},
 			render : function() {
 				console.log('call render');
@@ -84,6 +93,24 @@ ENS.treeManager = wgp.AbstractView
 			},
 			destroy : function() {
 
+			},
+			handleExpandCollapseTag : function(clickTarget) {
+				/* Managerかどうか判定する。 */
+				var tagName = clickTarget.tagName;
+				if (tagName != "INS") {
+					return;
+				}
+				var treeTag = $(clickTarget).siblings("a");
+				/* 展開か格納かを判定する。 */
+				var parentTag = $(clickTarget).parent();
+				if ($(parentTag).hasClass("jstree-open")) {
+					/* 格納 */
+					// groupMapCommon.collapseTreeArea(treeTag);
+				} else {
+					/* 展開 */
+					var parentNodeId = treeTag[0].getAttribute("id");
+					this.getDirectChildNode(parentNodeId);
+				}
 			},
 			/**
 			 * TreeViewのモデルを取得する。
@@ -105,11 +132,8 @@ ENS.treeManager = wgp.AbstractView
 				ajaxHandler.requestServerAsync(settings);
 			},
 			callbackGetTopNodes : function(topNodes) {
-//				_.each(topNodes, function(topNode, index) {
-//					
-//				});
-//				this.ensTreeView.collection.add();
-//				this.ensTreeView.renderAll();
+				this.ensTreeView.collection.add(topNodes);
+				this.ensTreeView.renderAll();
 			},
 			/**
 			 * 直下の子要素を取得する。

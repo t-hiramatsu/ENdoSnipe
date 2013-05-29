@@ -86,7 +86,7 @@ ENS.NodeInfoParentView = wgp.AbstractView.extend({
 					return;
 				}
 
-				var newTreeModel = this.treeView.collection.get(newGraphName);
+				var newTreeModel = this.treeView.ensTreeView.collection.get(newGraphName);
 
 				var newType = newTreeModel.get("type");
 				// ノードのタイプがTARGETであった場合はグラフを表示する

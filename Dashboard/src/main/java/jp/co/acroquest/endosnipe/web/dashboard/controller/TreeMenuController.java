@@ -63,7 +63,7 @@ public class TreeMenuController
      *            親ノードのID
      * @return 指定された親ノードの直下にある子要素のパスの一覧
      */
-    @RequestMapping(value = "/getDirectlChildNode", method = RequestMethod.POST)
+    @RequestMapping(value = "/getDirectlChildNodes", method = RequestMethod.POST)
     @ResponseBody
     public List<TreeMenuDto> getDirectlChildNodes(
             @RequestParam(value = "parentTreeId") final String parentTreeId)
