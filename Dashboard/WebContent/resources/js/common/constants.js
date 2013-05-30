@@ -128,6 +128,8 @@ ENS.tree.REPORT_DELETE_BY_NAME_URL = wgp.common.getContextPath() + "/report/dele
 ENS.tree.REPORT_DELETE_BY_ID_URL = wgp.common.getContextPath() + "/report/deleteById";
 ENS.tree.GET_DIRECT_CHILDLEN_NODE = wgp.common.getContextPath() + "/tree/getDirectlChildNodes";
 ENS.tree.GET_TOP_NODES = wgp.common.getContextPath() + "/tree/getTopNodes";
+ENS.tree.GET_CHILD_TARGET_NODES = wgp.common.getContextPath() + "/tree/getChildTargetNodes";
+ENS.tree.GET_ALL_CHILD_NODES = wgp.common.getContextPath() + "/tree/getAllChildNodes";
 
 ENS.tree.type = {};
 ENS.tree.type.GROUP = "group";

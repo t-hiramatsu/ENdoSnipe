@@ -77,15 +77,33 @@ ENS.treeView = wgp.TreeView
 						targetTag = this.getTreeNode(parentTreeId, idAttribute);
 					}
 
+					var instance = this;
+					var treeData = this.createTreeData(treeModel);
+
 					$("#" + this.$el.attr("id")).jstree("create_node",
-							$(targetTag), "last",
-							this.createTreeData(treeModel));
+							$(targetTag), "last", treeData).bind(
+							"create_node.jstree",
+							function(event, data) {
+								var childModel = data.args[2].data[0];
+								var icon = childModel.icon;
+
+								if (icon == "center") {
+									var id = childModel.attr.Id;
+									var elem = document.getElementById(id);
+									var parentLiTag = $(elem).parent("li");
+									if (parentLiTag) {
+										parentLiTag.attr("class",
+												"jstree-last jstree-closed");
+									}
+								}
+							});
 				} else {
 					wgp.TreeView.prototype.render.call(this, renderType,
 							treeModel);
 				}
 			},
 			renderAll : function() {
+				var instance = this;
 				// View jsTree
 				var settings = this.treeOption;
 				settings = $.extend(true, settings, {
@@ -93,13 +111,31 @@ ENS.treeView = wgp.TreeView
 						data : this.createJSONData()
 					}
 				});
-				$("#" + this.$el.attr("id")).jstree(settings);
 
-				// // シグナル定義を全取得する
-				// this.getAllSignal_();
+				$("#" + this.$el.attr("id")).jstree(settings).bind(
+						"loaded.jstree", function(event, data) {
+							instance.setOpenCloseIcon();
+						});
 
 				this.getAllReport_();
-				
+
+			},
+			/**
+			 * ツリーを開け閉めするためのアイコンを設定する。
+			 */
+			setOpenCloseIcon : function() {
+				_.each(this.collection.models, function(model, index) {
+					var type = model.attributes.type;
+					if (type == ENS.tree.type.GROUP) {
+						var id = model.attributes.id;
+						var elem = document.getElementById(id);
+						var parentLiTag = $(elem).parent("li");
+						if (parentLiTag) {
+							parentLiTag.attr("class",
+									"jstree-last jstree-closed");
+						}
+					}
+				});
 			},
 			createTreeData : function(treeModel) {
 				var returnData = wgp.TreeView.prototype.createTreeData.call(

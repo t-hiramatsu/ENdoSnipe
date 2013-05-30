@@ -86,4 +86,36 @@ public class TreeMenuController
 
         return topNodeList;
     }
+
+    /**
+     * 指定された親ノードの子要素のターゲットのパスを全て取得する。
+     * 
+     * @param parentTreeId 親ノードのID
+     * @return 子要素のターゲットのパスのリスト
+     */
+    @RequestMapping(value = "/getChildTargetNodes", method = RequestMethod.POST)
+    @ResponseBody
+    public List<String> getChildTargetNodes(
+            @RequestParam(value = "parentTreeId") final String parentTreeId)
+    {
+        List<String> childNodes = this.treeMenuService.getChildTargetNodes(parentTreeId);
+
+        return childNodes;
+    }
+
+    /**
+     * 指定された親ノードの子要素のパスを全て取得する。
+     * 
+     * @param parentTreeId 親ノードのID
+     * @return 子要素のパスのリスト
+     */
+    @RequestMapping(value = "/getAllChildNodes", method = RequestMethod.POST)
+    @ResponseBody
+    public List<String> getAllChildNodes(
+            @RequestParam(value = "parentTreeId") final String parentTreeId)
+    {
+        List<String> childNodes = this.treeMenuService.getAllChildNodes(parentTreeId);
+
+        return childNodes;
+    }
 }

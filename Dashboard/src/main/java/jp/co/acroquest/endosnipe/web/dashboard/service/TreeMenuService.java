@@ -91,7 +91,6 @@ public class TreeMenuService
     public List<TreeMenuDto> initialize()
     {
         DatabaseManager dbMmanager = DatabaseManager.getInstance();
-        // TODO エージェントIDは0固定
         String dbName = dbMmanager.getDataBaseName(1);
         List<JavelinMeasurementItem> javelinMeasurementItemList = null;
         List<TreeMenuDto> treeMenuDtoList = new ArrayList<TreeMenuDto>();
@@ -195,7 +194,6 @@ public class TreeMenuService
         List<TreeMenuDto> directChildPathList = new ArrayList<TreeMenuDto>();
 
         DatabaseManager dbMmanager = DatabaseManager.getInstance();
-        // TODO エージェントIDは0固定
         String dbName = dbMmanager.getDataBaseName(1);
         try
         {
@@ -260,7 +258,6 @@ public class TreeMenuService
     public List<TreeMenuDto> getTopNodes()
     {
         DatabaseManager dbMmanager = DatabaseManager.getInstance();
-        // TODO エージェントIDは0固定
         String dbName = dbMmanager.getDataBaseName(1);
 
         List<TreeMenuDto> topNodeList = new ArrayList<TreeMenuDto>();
@@ -292,7 +289,7 @@ public class TreeMenuService
                     treeMenuDto.setId(treeId);
                     treeMenuDto.setTreeId(treeId);
                     treeMenuDto.setData(nodeName);
-                    treeMenuDto.setParentTreeId(TREE_SEPARATOR);
+                    treeMenuDto.setParentTreeId("");
                     topNodeList.add(treeMenuDto);
                 }
             }
@@ -303,5 +300,80 @@ public class TreeMenuService
         }
 
         return topNodeList;
+    }
+
+    /**
+     * 指定された親ノードの子要素のターゲットのパスを全て取得する。
+     * 
+     * @param parentTreeId 親ノードのID
+     * @return 子要素のターゲットのパスのリスト
+     */
+    public List<String> getChildTargetNodes(final String parentTreeId)
+    {
+        DatabaseManager dbMmanager = DatabaseManager.getInstance();
+        String dbName = dbMmanager.getDataBaseName(1);
+
+        List<String> childNodes = null;
+        try
+        {
+            childNodes =
+                    JavelinMeasurementItemDao.selectItemNameListByParentItemName(dbName,
+                                                                                 parentTreeId);
+        }
+        catch (SQLException sqlEx)
+        {
+            LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx, sqlEx.getMessage());
+        }
+
+        return childNodes;
+    }
+
+    /**
+     * 指定された親ノードの子要素のパスを全て取得する。
+     * 
+     * @param parentTreeId 親ノードのID
+     * @return 子要素のパスのリスト
+     */
+    public List<String> getAllChildNodes(final String parentTreeId)
+    {
+        DatabaseManager dbMmanager = DatabaseManager.getInstance();
+        String dbName = dbMmanager.getDataBaseName(1);
+
+        List<String> childNodes = null;
+        try
+        {
+            childNodes =
+                    JavelinMeasurementItemDao.selectItemNameListByParentItemName(dbName,
+                                                                                 parentTreeId);
+
+            // 親パスの階層の深さ
+            int parentSplitLength = parentTreeId.split(TREE_SEPARATOR).length;
+
+            int childNodesLength = childNodes.size();
+            for (int childIndex = 0; childIndex < childNodesLength; childIndex++)
+            {
+                String childNode = childNodes.get(childIndex);
+                String[] childNodeSplits = childNode.split(TREE_SEPARATOR);
+                // 子パスの階層の深さ
+                int childSplitsLength = childNodeSplits.length;
+
+                for (int index = childSplitsLength; index > parentSplitLength; index--)
+                {
+                    StringBuilder pathBuilder = new StringBuilder();
+                    for (int pathIndex = 1; pathIndex < index; pathIndex++)
+                    {
+                        pathBuilder.append(TREE_SEPARATOR);
+                        pathBuilder.append(childNodeSplits[pathIndex]);
+                    }
+                    childNodes.add(pathBuilder.toString());
+                }
+            }
+        }
+        catch (SQLException sqlEx)
+        {
+            LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx, sqlEx.getMessage());
+        }
+
+        return childNodes;
     }
 }

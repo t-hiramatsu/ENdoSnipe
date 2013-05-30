@@ -167,5 +167,5 @@ option {
 }
 
 div#contents_area_content {
-	min-height: 98.8%;
+	border-style: none;
 }
