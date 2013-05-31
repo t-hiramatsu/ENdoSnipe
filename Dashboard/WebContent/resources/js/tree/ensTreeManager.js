@@ -139,12 +139,8 @@ ENS.treeManager = wgp.AbstractView
 				ajaxHandler.requestServerAsync(settings);
 			},
 			callbackGetTopNodes : function(topNodes) {
-				// renderのADDを実行する権限を与える
-				ENS.tree.isAddFirst = true;
 				this.ensTreeView.collection.add(topNodes);
 				this.ensTreeView.renderAll();
-				// renderのADDを実行する権限を無くす
-				ENS.tree.isAddFirst = false;
 			},
 			/**
 			 * 直下の子要素を取得する。
@@ -177,11 +173,7 @@ ENS.treeManager = wgp.AbstractView
 			 *            追加する子ノードの配列
 			 */
 			callbackGetDirectChildNode : function(childNodes) {
-				// renderのADDを実行する権限を与える
-				ENS.tree.isAddFirst = true;
 				this.ensTreeView.collection.add(childNodes);
-				// renderのADDを実行する権限を無くす
-				ENS.tree.isAddFirst = false;
 			},
 			/**
 			 * 直下の子要素を削除する。

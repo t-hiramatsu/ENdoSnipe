@@ -1,6 +1,6 @@
 // シグナルダイアログの設定項目を格納しておくためのリスト
 ENS.tree.signalDefinitionList = [];
-ENS.tree.isAddFirst = false;
+ENS.tree.doRender = true;
 
 ENS.treeView = wgp.TreeView
 		.extend({
@@ -70,7 +70,11 @@ ENS.treeView = wgp.TreeView
 						+ "(viewSettings, treeSettings)");
 			},
 			render : function(renderType, treeModel) {
-				if (renderType == wgp.constants.RENDER_TYPE.ADD && ENS.tree.isAddFirst === true) {
+				// renderを行わない場合はreturnする
+				if (ENS.tree.doRender === false) {
+					return;
+				}
+				if (renderType == wgp.constants.RENDER_TYPE.ADD) {
 					var parentTreeId = treeModel.get("parentTreeId");
 					var idAttribute = treeModel.idAttribute;
 					var targetTag;
@@ -125,7 +129,7 @@ ENS.treeView = wgp.TreeView
 						});
 
 				this.getAllReport_();
-
+				this.getAllSignal_();
 			},
 			/**
 			 * ツリーを開け閉めするためのアイコンを設定する。
@@ -600,12 +604,20 @@ ENS.treeView = wgp.TreeView
 				ajaxHandler.requestServerAsync(settings);
 			},
 			callbackGetAllSignal_ : function(signalDefinitionList) {
-				// ツリーのシグナルを更新する
-				this.updateSignal_(signalDefinitionList);
+				var instance = this;
+				var addOptionList = [];
+				_.each(signalDefinitionList, function(signalDefinition, index) {
+					var treeOption = instance
+							.createSignalTreeOption_(signalDefinition);
+					addOptionList.push(treeOption);
+				});
 
-				// 各シグナルに対してリアルタイム更新を行う
-				var idList = _.keys(ENS.tree.signalDefinitionList);
-				appView.syncData(idList);
+				// renderのADDを実行する権限を無くす
+				ENS.tree.doRender = false;
+				// ツリーノードに追加する
+				this.collection.add(addOptionList);
+				// renderのADDを実行する権限を与える
+				ENS.tree.doRender = true;
 			},
 			callbackGetAllReport_ : function(reportDefinitionList) {
 				var instance = this;
@@ -619,8 +631,12 @@ ENS.treeView = wgp.TreeView
 					addOptionList.push(treeOption);
 				});
 
+				// renderのADDを実行する権限を無くす
+				ENS.tree.doRender = false;
 				// ツリーノードに追加する
 				this.collection.add(addOptionList);
+				// renderのADDを実行する権限を与える
+				ENS.tree.doRender = true;
 			},
 			/**
 			 * シグナル追加処理操作成功後に、画面に結果を反映する。
@@ -739,6 +755,42 @@ ENS.treeView = wgp.TreeView
 			},
 			callbackAddReport_ : function(reportDefinition) {
 				// TODO レポート一覧テーブルが表示されているときはリロードする
+			},
+			createSignalTreeOption_ : function(signalDefinition) {
+				var signalName = signalDefinition.signalName;
+
+				var nameSplitList = signalName.split("/");
+				var nameSplitListLength = nameSplitList.length;
+
+				var showName = nameSplitList[nameSplitListLength - 1];
+				// 親ノードのパス
+				var targetTreeId = "";
+				// 新規ノードのパス
+				var reportTreeId = "";
+				// 親ノードへのパスと、新規ノードのパスを作成する
+				for ( var index = 1; index < nameSplitListLength; index++) {
+					var nameSplit = nameSplitList[index];
+
+					if (index == nameSplitListLength - 1) {
+						reportTreeId += ENS.tree.REPORT_PREFIX_ID;
+					} else {
+						targetTreeId += "/";
+						targetTreeId += nameSplit;
+
+						reportTreeId += "/";
+					}
+					reportTreeId += nameSplit;
+				}
+				
+				var treeOption = {
+					id : signalName,
+					data : showName,
+					parentTreeId : targetTreeId,
+					icon : ENS.tree.SIGNAL_ICON_0,
+					type : ENS.tree.type.SIGNAL
+				};
+
+				return treeOption;
 			},
 			createReportTreeOption_ : function(reportDefinition) {
 				var reportId = reportDefinition.reportId;
