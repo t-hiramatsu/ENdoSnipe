@@ -3,15 +3,15 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<name>ENdoSnipeReportCommand Project</name>
-	<groupId>ENdoSnipeReportCommand</groupId>
-	<artifactId>ENdoSnipeReportCommand</artifactId>
+	<name>Javelin Project</name>
+	<groupId>Javelin</groupId>
+	<artifactId>Javelin</artifactId>
 	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
 	<!-- プロジェクトプロパティ -->
 	<properties>
-		<jdk.version>1.6</jdk.version>
+		<jdk.version>1.5</jdk.version>
 		<src.encoding>shift_jis</src.encoding>
 		<site.encoding>windows-31j</site.encoding>
 	</properties>
@@ -52,84 +52,193 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>ant</groupId>
-			<artifactId>ant</artifactId>
+			<groupId>aopalliance</groupId>
+			<artifactId>aopalliance</artifactId>
 			<version>1.0</version>
 			<scope>system</scope>
 			<systemPath>
-				${basedir}/lib/ant.jar
+				${basedir}/lib/aopalliance-1.0.jar
 			</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>org.eclipse.core.jobs_3.4.100</groupId>
-			<artifactId>org.eclipse.core.jobs_3.4.100</artifactId>
+			<groupId>javassist</groupId>
+			<artifactId>javassist</artifactId>
 			<version>1.0</version>
 			<scope>system</scope>
 			<systemPath>
-				${basedir}/lib/org.eclipse.core.jobs_3.4.100.v20090429-1800.jar
+				${basedir}/lib/javassist.jar
 			</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>ant-launcher</groupId>
-			<artifactId>ant-launcher</artifactId>
+			<groupId>djunit</groupId>
+			<artifactId>djunit</artifactId>
 			<version>1.0</version>
 			<scope>system</scope>
 			<systemPath>
-				${basedir}/lib/ant-launcher.jar
+				${basedir}/lib/tool/djunit.jar
 			</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>commons-logging</groupId>
-			<artifactId>commons-logging</artifactId>
+			<groupId>classes12</groupId>
+			<artifactId>classes12</artifactId>
 			<version>1.0</version>
 			<scope>system</scope>
 			<systemPath>
-				${basedir}/lib/commons-logging-1.1.1.jar
+				${basedir}/lib/tool/classes12.jar
 			</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>org.eclipse.equinox.common_3.3.0</groupId>
-			<artifactId>org.eclipse.equinox.common_3.3.0</artifactId>
+			<groupId>hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
 			<version>1.0</version>
 			<scope>system</scope>
 			<systemPath>
-				${basedir}/lib/org.eclipse.equinox.common_3.3.0.v20070426.jar
+				${basedir}/lib/tool/hsqldb.jar
 			</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>endosnipe-common</groupId>
-			<artifactId>endosnipe-common</artifactId>
+			<groupId>mock_test</groupId>
+			<artifactId>mock_test</artifactId>
 			<version>1.0</version>
 			<scope>system</scope>
 			<systemPath>
-				${basedir}/lib/dependency/endosnipe-common-5.0.3.jar
+				${basedir}/lib/tool/mock_test.jar
 			</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>endosnipe-communicator</groupId>
-			<artifactId>endosnipe-communicator</artifactId>
+			<groupId>mock</groupId>
+			<artifactId>mock</artifactId>
 			<version>1.0</version>
 			<scope>system</scope>
 			<systemPath>
-				${basedir}/lib/dependency/endosnipe-communicator-5.0.3.jar
+				${basedir}/lib/tool/mock.jar
 			</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>endosnipe-dataaccessor</groupId>
-			<artifactId>endosnipe-dataaccessor</artifactId>
+			<groupId>mysql-connector-java-5.0</groupId>
+			<artifactId>mysql-connector-java-5.0</artifactId>
 			<version>1.0</version>
 			<scope>system</scope>
 			<systemPath>
-				${basedir}/lib/dependency/endosnipe-dataaccessor-5.0.3.jar
+				${basedir}/lib/tool/mysql-connector-java-5.0.4-bin.jar
 			</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>endosnipe-reporter</groupId>
-			<artifactId>endosnipe-reporter</artifactId>
+			<groupId>postgresql-8.1-405</groupId>
+			<artifactId>postgresql-8.1-405</artifactId>
 			<version>1.0</version>
 			<scope>system</scope>
 			<systemPath>
-				${basedir}/lib/dependency/endosnipe-reporter.jar
+				${basedir}/lib/tool/postgresql-8.1-405.jdbc3.jar
+			</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>sqljdbc</groupId>
+			<artifactId>sqljdbc</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>
+				${basedir}/lib/tool/sqljdbc.jar
+			</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>commons-pool</groupId>
+			<artifactId>commons-pool</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>
+				${basedir}/lib/tool/commons-pool-1.4.jar
+			</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>jboss-ejb3x</groupId>
+			<artifactId>jboss-ejb3x</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>
+				${basedir}/lib/tool/jboss-ejb3x.jar
+			</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>jboss-j2ee</groupId>
+			<artifactId>jboss-j2ee</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>
+				${basedir}/lib/tool/jboss-j2ee.jar
+			</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>insanelib</groupId>
+			<artifactId>insanelib</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>
+				${basedir}/lib/insanelib.jar
+			</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>servlet</groupId>
+			<artifactId>servlet</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>
+				${basedir}/lib/opt/servlet.jar
+			</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>h2</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>
+				${basedir}/lib/tool/h2-1.1.109.jar
+			</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>
+				${basedir}/lib/tool/log4j-1.2.15.jar
+			</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>javassist-3.4</groupId>
+			<artifactId>javassist-3.4</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>
+				${basedir}/lib/tool/javassist-3.4.ga.jar
+			</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>jsonic</groupId>
+			<artifactId>jsonic</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>
+				${basedir}/lib/dependency/jsonic-1.2.9.jar
+			</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<!-- ★パスが環境依存のためエラーの原因となります。 -->
+			<systemPath>
+				C:/AcroWorks/Tools/eclipse/plugins/org.junit_3.8.2.v3_8_2_v20100427-1100/junit.jar
+			</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>
+				${basedir}/lib/tool/junit-3.8.1.jar
 			</systemPath>
 		</dependency>
 	</dependencies>
