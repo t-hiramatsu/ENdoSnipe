@@ -139,8 +139,12 @@ ENS.treeManager = wgp.AbstractView
 				ajaxHandler.requestServerAsync(settings);
 			},
 			callbackGetTopNodes : function(topNodes) {
+				// renderのADDを実行する権限を与える
+				ENS.tree.isAddFirst = true;
 				this.ensTreeView.collection.add(topNodes);
 				this.ensTreeView.renderAll();
+				// renderのADDを実行する権限を無くす
+				ENS.tree.isAddFirst = false;
 			},
 			/**
 			 * 直下の子要素を取得する。
@@ -173,7 +177,11 @@ ENS.treeManager = wgp.AbstractView
 			 *            追加する子ノードの配列
 			 */
 			callbackGetDirectChildNode : function(childNodes) {
+				// renderのADDを実行する権限を与える
+				ENS.tree.isAddFirst = true;
 				this.ensTreeView.collection.add(childNodes);
+				// renderのADDを実行する権限を無くす
+				ENS.tree.isAddFirst = false;
 			},
 			/**
 			 * 直下の子要素を削除する。
@@ -206,25 +214,26 @@ ENS.treeManager = wgp.AbstractView
 				settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = "callbackGetAllChildNodes";
 				ajaxHandler.requestServerAsync(settings);
 			},
-			callbackGetAllChildNodes : function(childNodes) {
-//				var instance = this;
-//
-//				var removeOptionList = [];
-//				_.each(childNodes, function(childId) {
-//					var option = {
-//						id : childId
-//					};
-//					removeOptionList.push(option);
-//				});
-//				
-//				this.ensTreeView.collection.remove(removeOptionList);
-//				
-//				var id = "/default/127.0.0.1";
-//				var elem = document.getElementById(id);
-//				var parentLiTag = $(elem).parent("li");
-//				if (parentLiTag) {
-//					parentLiTag.attr("class",
-//							"jstree-last jstree-closed");
-//				}
+			callbackGetAllChildNodes : function(data) {
+				var childNodes = data.childNodes;
+				var parentNodeId = data.parentNodeId;
+				var instance = this;
+
+				var removeOptionList = [];
+				_.each(childNodes, function(childId) {
+					var option = {
+						id : childId
+					};
+					removeOptionList.push(option);
+				});
+				
+				this.ensTreeView.collection.remove(removeOptionList);
+				
+				var elem = document.getElementById(parentNodeId);
+				var parentLiTag = $(elem).parent("li");
+				if (parentLiTag) {
+					parentLiTag.attr("class",
+							"jstree-last jstree-open");
+				}
 			}
 		});

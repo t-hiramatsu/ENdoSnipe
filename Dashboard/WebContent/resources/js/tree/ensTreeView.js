@@ -1,5 +1,6 @@
 // シグナルダイアログの設定項目を格納しておくためのリスト
 ENS.tree.signalDefinitionList = [];
+ENS.tree.isAddFirst = false;
 
 ENS.treeView = wgp.TreeView
 		.extend({
@@ -69,7 +70,7 @@ ENS.treeView = wgp.TreeView
 						+ "(viewSettings, treeSettings)");
 			},
 			render : function(renderType, treeModel) {
-				if (renderType == wgp.constants.RENDER_TYPE.ADD) {
+				if (renderType == wgp.constants.RENDER_TYPE.ADD && ENS.tree.isAddFirst === true) {
 					var parentTreeId = treeModel.get("parentTreeId");
 					var idAttribute = treeModel.idAttribute;
 					var targetTag;
@@ -87,14 +88,20 @@ ENS.treeView = wgp.TreeView
 								var childModel = data.args[2].data[0];
 								var icon = childModel.icon;
 
+								var id = childModel.attr.Id;
+								var elem = document.getElementById(id);
+
 								if (icon == "center") {
-									var id = childModel.attr.Id;
-									var elem = document.getElementById(id);
 									var parentLiTag = $(elem).parent("li");
 									if (parentLiTag) {
 										parentLiTag.attr("class",
 												"jstree-last jstree-closed");
 									}
+								}
+
+								if (icon == "center" || icon == "leaf") {
+									// シグナルやレポートアイコンなど、その他ノードをコレクションから検索し追加する
+									instance.addOtherNodes(id);
 								}
 							});
 				} else {
@@ -154,6 +161,22 @@ ENS.treeView = wgp.TreeView
 					returnData.data.icon = "leaf";
 				}
 				return returnData;
+			},
+			addOtherNodes : function(childNodeId) {
+				var otherNodes = this.collection.where({
+					parentTreeId : childNodeId
+				});
+
+				var idAttribute = "id";
+				var targetTag = this.getTreeNode(childNodeId, idAttribute);
+
+				var instance = this;
+				_.each(otherNodes, function(otherNode, index) {
+					var treeData = instance.createTreeData(otherNode);
+					$("#" + instance.$el.attr("id")).jstree("create_node",
+							$(targetTag), "last", treeData);
+				});
+
 			},
 			/**
 			 * ツリーにコンテキストメニューの表示設定を行う。

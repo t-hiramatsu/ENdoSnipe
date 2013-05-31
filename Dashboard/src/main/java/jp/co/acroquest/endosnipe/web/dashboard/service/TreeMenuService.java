@@ -210,36 +210,40 @@ public class TreeMenuService
                 String itemName = itemNameList.get(index);
                 String[] itemNameSplits = itemName.split("/");
 
-                String childNodeName = itemNameSplits[parentPathLength];
-                boolean isContain = childNodeList.contains(childNodeName);
-                if (!isContain)
+                // 子要素がある場合に子要素を取得する
+                if (itemNameSplits.length > parentPathLength)
                 {
-                    childNodeList.add(childNodeName);
-                    StringBuilder stringBuilder = new StringBuilder();
-                    stringBuilder.append(parentTreeId);
-                    stringBuilder.append("/");
-                    stringBuilder.append(childNodeName);
-
-                    TreeMenuDto treeMenuDto = new TreeMenuDto();
-
-                    if (itemNameSplits.length > parentPathLength + 1)
+                    String childNodeName = itemNameSplits[parentPathLength];
+                    boolean isContain = childNodeList.contains(childNodeName);
+                    if (!isContain)
                     {
-                        treeMenuDto.setType(GROUP_TYPE);
-                        treeMenuDto.setIcon(GROUP_ICON);
-                    }
-                    else
-                    {
-                        treeMenuDto.setType(TARGET_TYPE);
-                        treeMenuDto.setIcon(TARGET_ICON);
-                    }
-                    String treeId = stringBuilder.toString();
+                        childNodeList.add(childNodeName);
+                        StringBuilder stringBuilder = new StringBuilder();
+                        stringBuilder.append(parentTreeId);
+                        stringBuilder.append("/");
+                        stringBuilder.append(childNodeName);
 
-                    treeMenuDto.setId(treeId);
-                    treeMenuDto.setTreeId(treeId);
-                    treeMenuDto.setData(childNodeName);
-                    treeMenuDto.setParentTreeId(parentTreeId);
+                        TreeMenuDto treeMenuDto = new TreeMenuDto();
 
-                    directChildPathList.add(treeMenuDto);
+                        if (itemNameSplits.length > parentPathLength + 1)
+                        {
+                            treeMenuDto.setType(GROUP_TYPE);
+                            treeMenuDto.setIcon(GROUP_ICON);
+                        }
+                        else
+                        {
+                            treeMenuDto.setType(TARGET_TYPE);
+                            treeMenuDto.setIcon(TARGET_ICON);
+                        }
+                        String treeId = stringBuilder.toString();
+
+                        treeMenuDto.setId(treeId);
+                        treeMenuDto.setTreeId(treeId);
+                        treeMenuDto.setData(childNodeName);
+                        treeMenuDto.setParentTreeId(parentTreeId);
+
+                        directChildPathList.add(treeMenuDto);
+                    }
                 }
             }
         }
@@ -339,10 +343,10 @@ public class TreeMenuService
         DatabaseManager dbMmanager = DatabaseManager.getInstance();
         String dbName = dbMmanager.getDataBaseName(1);
 
-        List<String> childNodes = null;
+        List<String> childAllNodes = new ArrayList<String>();
         try
         {
-            childNodes =
+            List<String> childNodes =
                     JavelinMeasurementItemDao.selectItemNameListByParentItemName(dbName,
                                                                                  parentTreeId);
 
@@ -365,7 +369,7 @@ public class TreeMenuService
                         pathBuilder.append(TREE_SEPARATOR);
                         pathBuilder.append(childNodeSplits[pathIndex]);
                     }
-                    childNodes.add(pathBuilder.toString());
+                    childAllNodes.add(pathBuilder.toString());
                 }
             }
         }
@@ -374,6 +378,6 @@ public class TreeMenuService
             LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx, sqlEx.getMessage());
         }
 
-        return childNodes;
+        return childAllNodes;
     }
 }

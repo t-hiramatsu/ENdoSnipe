@@ -12,7 +12,9 @@
  */
 package jp.co.acroquest.endosnipe.web.dashboard.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import jp.co.acroquest.endosnipe.web.dashboard.dto.TreeMenuDto;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.ResourceSender;
@@ -36,6 +38,10 @@ import org.wgp.manager.WgpDataManager;
 @RequestMapping("/tree")
 public class TreeMenuController
 {
+    private static final String KEY_OF_CHILD_NODE = "childNodes";
+
+    private static final String KEY_OF_PARENT_NODE_ID = "parentNodeId";
+
     /** Wgpのデータを管理するクラス。 */
     @Autowired
     protected WgpDataManager wgpDataManager_;
@@ -111,11 +117,15 @@ public class TreeMenuController
      */
     @RequestMapping(value = "/getAllChildNodes", method = RequestMethod.POST)
     @ResponseBody
-    public List<String> getAllChildNodes(
+    public Map<String, Object> getAllChildNodes(
             @RequestParam(value = "parentTreeId") final String parentTreeId)
     {
         List<String> childNodes = this.treeMenuService.getAllChildNodes(parentTreeId);
 
-        return childNodes;
+        Map<String, Object> returnMap = new HashMap<String, Object>();
+        returnMap.put(KEY_OF_CHILD_NODE, childNodes);
+        returnMap.put(KEY_OF_PARENT_NODE_ID, parentTreeId);
+
+        return returnMap;
     }
 }
