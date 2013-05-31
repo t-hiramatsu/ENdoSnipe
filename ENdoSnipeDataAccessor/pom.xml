@@ -259,6 +259,14 @@
 			</systemPath>
 		</dependency>
 		<dependency>
+			<groupId>s2-framework-2.4.34</groupId>
+			<artifactId>s2-framework-2.4.34</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>
+				${basedir}/lib/dependency/s2-framework-2.4.34.jar
+			</systemPath>
+		</dependency>		<dependency>
 			<groupId>ENdoSnipeCommon-1.0.0</groupId>
 			<artifactId>ENdoSnipeCommon-1.0.0</artifactId>
 			<version>1.0.0</version>
