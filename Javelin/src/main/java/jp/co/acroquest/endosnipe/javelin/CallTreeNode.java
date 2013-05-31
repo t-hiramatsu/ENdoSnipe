@@ -66,7 +66,7 @@ public class CallTreeNode
     private long                startTime_;
 
     /** 終了時刻 */
-    private long                endTime_  = -1;
+    private long                endTime_     = -1;
 
     /** 累積時間 */
     private long                accumulatedTime_;
@@ -96,7 +96,7 @@ public class CallTreeNode
     private CallTreeNode        parent_;
 
     /** CallTreeNodeの子ノード */
-    private List<CallTreeNode>  children_ = new ArrayList<CallTreeNode>();
+    private List<CallTreeNode>  children_    = new ArrayList<CallTreeNode>();
 
     /** フィールドアクセス */
     private boolean             isFieldAccess_;
@@ -114,13 +114,13 @@ public class CallTreeNode
     private long                childrenUserTime_;
 
     /** １つのノードに記録するイベントの最大数 */
-    private static final int    MAX_EVENT = 100;
+    private static final int    MAX_EVENT    = 100;
 
     /** Invocationに記録したかどうかを示すフラグ。 */
-    private boolean             isRecoreded_= false;
+    private boolean             isRecoreded_ = false;
 
     /** ストールメソッドとして検出されたかどうかを示すフラグ */
-    private boolean isStalled_ = false;
+    private boolean             isStalled_   = false;
 
     /**
      * 深さを取得する。
@@ -267,7 +267,7 @@ public class CallTreeNode
      */
     public StackTraceElement[] getStacktrace()
     {
-        return this.stacktrace_.clone();
+        return this.stacktrace_;
     }
 
     /**
@@ -276,7 +276,7 @@ public class CallTreeNode
      */
     public void setStacktrace(final StackTraceElement[] stacktrace)
     {
-        this.stacktrace_ = stacktrace.clone();
+        this.stacktrace_ = stacktrace;
     }
 
     /**
@@ -397,7 +397,7 @@ public class CallTreeNode
      */
     public String[] getArgs()
     {
-        return this.args_.clone();
+        return this.args_;
     }
 
     /**
@@ -406,7 +406,7 @@ public class CallTreeNode
      */
     public void setArgs(final String[] args)
     {
-        this.args_ = args.clone();
+        this.args_ = args;
     }
 
     /**

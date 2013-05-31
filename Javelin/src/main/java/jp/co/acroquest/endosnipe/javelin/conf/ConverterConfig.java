@@ -92,7 +92,7 @@ public class ConverterConfig
      */
     public String[] getConverterNames()
     {
-        return this.converterNames_.clone();
+        return this.converterNames_;
     }
 
     /**
@@ -101,6 +101,6 @@ public class ConverterConfig
      */
     public void setConverterNames(final String[] converterNames)
     {
-        this.converterNames_ = converterNames.clone();
+        this.converterNames_ = converterNames;
     }
 }

@@ -529,6 +529,9 @@ public class ImproveWeakHashMap<K, V> extends AbstractMap<K, V> implements Map<K
      */
     public void clear()
     {
+        while (queue_.poll() != null)
+            ;
+        
         modCount_++;
         Entry<K, V>[] tab = table_;
         for (int i = 0; i < tab.length; ++i)
@@ -536,6 +539,9 @@ public class ImproveWeakHashMap<K, V> extends AbstractMap<K, V> implements Map<K
             tab[i] = null;
         }
         size_ = 0;
+        
+        while (queue_.poll() != null)
+            ;
     }
 
     /**

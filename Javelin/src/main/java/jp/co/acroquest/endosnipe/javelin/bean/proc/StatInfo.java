@@ -116,7 +116,7 @@ public class StatInfo
      */
     public long[] getCpuArray()
     {
-        return cpuArray_.clone(); 
+        return cpuArray_;
     }
 
     /**
@@ -125,7 +125,7 @@ public class StatInfo
      */
     public void setCpuArray(long[] cpuArray)
     {
-        cpuArray_ = cpuArray.clone();
+        cpuArray_ = cpuArray;
     }
 
     /**

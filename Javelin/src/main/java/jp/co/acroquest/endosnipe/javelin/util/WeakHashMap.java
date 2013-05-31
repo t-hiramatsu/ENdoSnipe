@@ -538,13 +538,20 @@ public class WeakHashMap<K, V> extends AbstractMap<K, V> implements Map<K, V>
      */
     public void clear()
     {
+
+        while (queue_.poll() != null)
+            ;
+
         modCount_++;
-        Entry<K, V>[] tab = table_;
+        Entry[] tab = table_;
         for (int i = 0; i < tab.length; ++i)
         {
             tab[i] = null;
         }
         size_ = 0;
+
+        while (queue_.poll() != null)
+            ;
     }
 
     /**

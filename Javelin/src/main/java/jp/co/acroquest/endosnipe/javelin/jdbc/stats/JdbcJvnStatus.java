@@ -318,7 +318,7 @@ public class JdbcJvnStatus
      */
     public String[] getExecPlanSql()
     {
-        return execPlanSql_.clone();
+        return execPlanSql_;
     }
 
     /**
@@ -327,7 +327,7 @@ public class JdbcJvnStatus
      */
     public void setExecPlanSql(String[] execPlanSql)
     {
-        execPlanSql_ = execPlanSql.clone();
+        execPlanSql_ = execPlanSql;
     }
 
     /**

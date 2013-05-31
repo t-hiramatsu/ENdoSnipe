@@ -72,7 +72,7 @@ public class HashMap<K, V> extends AbstractMap<K, V> implements Map<K, V>, Clone
     static final int                       CAPACITY_SHIFT_VALUE          = 30;
 
     /** ハッシュマップの最大容量 */
-    static final int                       MAXIMUM_CAPACITY =  1 << CAPACITY_SHIFT_VALUE;
+    static final int                       MAXIMUM_CAPACITY = 1 << CAPACITY_SHIFT_VALUE;
 
     /** デフォルトのハッシュマップの負荷係数 */
     static final float                     DEFAULT_LOAD_FACTOR           = 0.75f;
@@ -368,17 +368,17 @@ public class HashMap<K, V> extends AbstractMap<K, V> implements Map<K, V>, Clone
         }
         int hash = hash(key.hashCode());
         int i = indexFor(hash, table_.length);
-        for (Entry<K, V> entry = table_[i]; entry != null; entry = entry.next_)
+        for (Entry<K, V> e = table_[i]; e != null; e = e.next_)
         {
-            Object k = entry.key_;
-            if (entry.hash_ == hash && (k == key || key.equals(k)))
+            Object k;
+            if (e.hash_ == hash && ((k = e.key_) == key || key.equals(k)))
             {
-                V oldValue = entry.value_;
-                entry.value_ = value;
+                V oldValue = e.value_;
+                e.value_ = value;
+                e.recordAccess(this);
                 return oldValue;
             }
         }
-
         modCount_++;
         addEntry(hash, key, value, i);
         return null;
@@ -817,6 +817,11 @@ public class HashMap<K, V> extends AbstractMap<K, V> implements Map<K, V>, Clone
         {
             return getKey() + "=" + getValue();
         }
+        
+        void recordAccess(HashMap<K, V> m)        
+        {
+            
+        }
     }
 
     /**
@@ -872,6 +877,11 @@ public class HashMap<K, V> extends AbstractMap<K, V> implements Map<K, V>, Clone
             Entry<K, V>[] t = table_;
             int i = t.length;
             Entry<K, V> n = null;
+            if (size_ != 0)
+            { // advance to first entry
+                while (i > 0 && (n = t[--i]) == null)
+                    ;
+            }
             next_ = n;
             index_ = i;
         }
