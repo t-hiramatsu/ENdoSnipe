@@ -41,8 +41,9 @@ ENS.treeManager = wgp.AbstractView
 				var websocketClient = new wgp.WebSocketClient(appView,
 						"notifyEvent");
 				websocketClient.initialize();
-				appView.getTermData([ wgp.constants.TREE.DATA_ID ], new Date(),
-						new Date());
+				// appView.getTermData([ wgp.constants.TREE.DATA_ID ], new
+				// Date(),
+				// new Date());
 
 				// クリックイベント作成
 				$("#tree_area").click(function() {
@@ -53,28 +54,28 @@ ENS.treeManager = wgp.AbstractView
 						$("#tree_area").jstree("delete_node", elem);
 					}
 				});
-//
-//				this.getTopNodes();
-//
-//				var instance = this;
-//
-//				$("#" + this.ensTreeView.$el.attr("id")).mousedown(
-//						function(event) {
-//							/** 右クリック押下時には処理を行わない。 */
-//							if (event.which == ENS.tree.CLICK_RIGHT) {
-//								return;
-//							}
-//							/* クリックされたaタグを取得する。 */
-//							var clickTarget = event.target;
-//							var parentTag = $(clickTarget).parent();
-//							if ($(parentTag).hasClass("jstree-leaf")) {
-//								return true;
-//							}
-//							setTimeout(function() {
-//								instance.handleExpandCollapseTag(clickTarget);
-//							}, 0);
-//							return true;
-//						});
+
+				this.getTopNodes();
+
+				var instance = this;
+
+				$("#" + this.ensTreeView.$el.attr("id")).mousedown(
+						function(event) {
+							/** 右クリック押下時には処理を行わない。 */
+							if (event.which == ENS.tree.CLICK_RIGHT) {
+								return;
+							}
+							/* クリックされたaタグを取得する。 */
+							var clickTarget = event.target;
+							var parentTag = $(clickTarget).parent();
+							if ($(parentTag).hasClass("jstree-leaf")) {
+								return true;
+							}
+							setTimeout(function() {
+								instance.handleExpandCollapseTag(clickTarget);
+							}, 0);
+							return true;
+						});
 			},
 			render : function() {
 				console.log('call render');
@@ -103,13 +104,19 @@ ENS.treeManager = wgp.AbstractView
 				var treeTag = $(clickTarget).siblings("a");
 				/* 展開か格納かを判定する。 */
 				var parentTag = $(clickTarget).parent();
+				var treeTagModel = treeTag[0];
 				if ($(parentTag).hasClass("jstree-open")) {
 					/* 格納 */
-					// groupMapCommon.collapseTreeArea(treeTag);
+					if (treeTagModel !== undefined) {
+						var parentNodeId = treeTagModel.getAttribute("id");
+						this.removeChildNodes(parentNodeId);
+					}
 				} else {
 					/* 展開 */
-					var parentNodeId = treeTag[0].getAttribute("id");
-					this.getDirectChildNode(parentNodeId);
+					if (treeTagModel !== undefined) {
+						var parentNodeId = treeTagModel.getAttribute("id");
+						this.getDirectChildNode(parentNodeId);
+					}
 				}
 			},
 			/**
@@ -166,7 +173,7 @@ ENS.treeManager = wgp.AbstractView
 			 *            追加する子ノードの配列
 			 */
 			callbackGetDirectChildNode : function(childNodes) {
-				var a = "";
+				this.ensTreeView.collection.add(childNodes);
 			},
 			/**
 			 * 直下の子要素を削除する。
@@ -174,7 +181,51 @@ ENS.treeManager = wgp.AbstractView
 			 * @param parentNodeId
 			 *            親ノードのID
 			 */
-			removeChildNode : function(parentNodeId) {
-				this.ensTreeView.collection.add();
+			removeChildNodes : function(parentNodeId) {
+				this.getAllChildNodes(parentNodeId);
+			},
+			/**
+			 * 指定されたIDの子要素のIDを全て取得する要求電文を送信する。<br>
+			 * この要求電文のコールバック関数の中で、collectionから子要素のデータを削除する。
+			 */
+			getAllChildNodes : function(parentId) {
+				var sendData = {
+					parentTreeId : parentId
+				};
+				var url = ENS.tree.GET_ALL_CHILD_NODES;
+
+				// Ajax通信用の設定
+				var settings = {
+					data : sendData,
+					url : url
+				};
+
+				// 非同期通信でデータを送信する
+				var ajaxHandler = new wgp.AjaxHandler();
+				settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] = this;
+				settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = "callbackGetAllChildNodes";
+				ajaxHandler.requestServerAsync(settings);
+			},
+			callbackGetAllChildNodes : function(data) {
+				var childNodes = data.childNodes;
+				var parentNodeId = data.parentNodeId;
+				var instance = this;
+
+				var removeOptionList = [];
+				_.each(childNodes, function(childId) {
+					var option = {
+						id : childId
+					};
+					removeOptionList.push(option);
+				});
+				
+				this.ensTreeView.collection.remove(removeOptionList);
+				
+				var elem = document.getElementById(parentNodeId);
+				var parentLiTag = $(elem).parent("li");
+				if (parentLiTag) {
+					parentLiTag.attr("class",
+							"jstree-last jstree-open");
+				}
 			}
 		});

@@ -1,5 +1,6 @@
 // シグナルダイアログの設定項目を格納しておくためのリスト
 ENS.tree.signalDefinitionList = [];
+ENS.tree.doRender = true;
 
 ENS.treeView = wgp.TreeView
 		.extend({
@@ -69,6 +70,10 @@ ENS.treeView = wgp.TreeView
 						+ "(viewSettings, treeSettings)");
 			},
 			render : function(renderType, treeModel) {
+				// renderを行わない場合はreturnする
+				if (ENS.tree.doRender === false) {
+					return;
+				}
 				if (renderType == wgp.constants.RENDER_TYPE.ADD) {
 					var parentTreeId = treeModel.get("parentTreeId");
 					var idAttribute = treeModel.idAttribute;
@@ -77,15 +82,39 @@ ENS.treeView = wgp.TreeView
 						targetTag = this.getTreeNode(parentTreeId, idAttribute);
 					}
 
+					var instance = this;
+					var treeData = this.createTreeData(treeModel);
+
 					$("#" + this.$el.attr("id")).jstree("create_node",
-							$(targetTag), "last",
-							this.createTreeData(treeModel));
+							$(targetTag), "last", treeData).bind(
+							"create_node.jstree",
+							function(event, data) {
+								var childModel = data.args[2].data[0];
+								var icon = childModel.icon;
+
+								var id = childModel.attr.Id;
+								var elem = document.getElementById(id);
+
+								if (icon == "center") {
+									var parentLiTag = $(elem).parent("li");
+									if (parentLiTag) {
+										parentLiTag.attr("class",
+												"jstree-last jstree-closed");
+									}
+								}
+
+								if (icon == "center" || icon == "leaf") {
+									// シグナルやレポートアイコンなど、その他ノードをコレクションから検索し追加する
+									instance.addOtherNodes(id);
+								}
+							});
 				} else {
 					wgp.TreeView.prototype.render.call(this, renderType,
 							treeModel);
 				}
 			},
 			renderAll : function() {
+				var instance = this;
 				// View jsTree
 				var settings = this.treeOption;
 				settings = $.extend(true, settings, {
@@ -93,13 +122,31 @@ ENS.treeView = wgp.TreeView
 						data : this.createJSONData()
 					}
 				});
-				$("#" + this.$el.attr("id")).jstree(settings);
 
-				// // シグナル定義を全取得する
-				// this.getAllSignal_();
+				$("#" + this.$el.attr("id")).jstree(settings).bind(
+						"loaded.jstree", function(event, data) {
+							instance.setOpenCloseIcon();
+						});
 
 				this.getAllReport_();
-				
+				this.getAllSignal_();
+			},
+			/**
+			 * ツリーを開け閉めするためのアイコンを設定する。
+			 */
+			setOpenCloseIcon : function() {
+				_.each(this.collection.models, function(model, index) {
+					var type = model.attributes.type;
+					if (type == ENS.tree.type.GROUP) {
+						var id = model.attributes.id;
+						var elem = document.getElementById(id);
+						var parentLiTag = $(elem).parent("li");
+						if (parentLiTag) {
+							parentLiTag.attr("class",
+									"jstree-last jstree-closed");
+						}
+					}
+				});
 			},
 			createTreeData : function(treeModel) {
 				var returnData = wgp.TreeView.prototype.createTreeData.call(
@@ -118,6 +165,22 @@ ENS.treeView = wgp.TreeView
 					returnData.data.icon = "leaf";
 				}
 				return returnData;
+			},
+			addOtherNodes : function(childNodeId) {
+				var otherNodes = this.collection.where({
+					parentTreeId : childNodeId
+				});
+
+				var idAttribute = "id";
+				var targetTag = this.getTreeNode(childNodeId, idAttribute);
+
+				var instance = this;
+				_.each(otherNodes, function(otherNode, index) {
+					var treeData = instance.createTreeData(otherNode);
+					$("#" + instance.$el.attr("id")).jstree("create_node",
+							$(targetTag), "last", treeData);
+				});
+
 			},
 			/**
 			 * ツリーにコンテキストメニューの表示設定を行う。
@@ -541,12 +604,20 @@ ENS.treeView = wgp.TreeView
 				ajaxHandler.requestServerAsync(settings);
 			},
 			callbackGetAllSignal_ : function(signalDefinitionList) {
-				// ツリーのシグナルを更新する
-				this.updateSignal_(signalDefinitionList);
+				var instance = this;
+				var addOptionList = [];
+				_.each(signalDefinitionList, function(signalDefinition, index) {
+					var treeOption = instance
+							.createSignalTreeOption_(signalDefinition);
+					addOptionList.push(treeOption);
+				});
 
-				// 各シグナルに対してリアルタイム更新を行う
-				var idList = _.keys(ENS.tree.signalDefinitionList);
-				appView.syncData(idList);
+				// renderのADDを実行する権限を無くす
+				ENS.tree.doRender = false;
+				// ツリーノードに追加する
+				this.collection.add(addOptionList);
+				// renderのADDを実行する権限を与える
+				ENS.tree.doRender = true;
 			},
 			callbackGetAllReport_ : function(reportDefinitionList) {
 				var instance = this;
@@ -560,8 +631,12 @@ ENS.treeView = wgp.TreeView
 					addOptionList.push(treeOption);
 				});
 
+				// renderのADDを実行する権限を無くす
+				ENS.tree.doRender = false;
 				// ツリーノードに追加する
 				this.collection.add(addOptionList);
+				// renderのADDを実行する権限を与える
+				ENS.tree.doRender = true;
 			},
 			/**
 			 * シグナル追加処理操作成功後に、画面に結果を反映する。
@@ -680,6 +755,42 @@ ENS.treeView = wgp.TreeView
 			},
 			callbackAddReport_ : function(reportDefinition) {
 				// TODO レポート一覧テーブルが表示されているときはリロードする
+			},
+			createSignalTreeOption_ : function(signalDefinition) {
+				var signalName = signalDefinition.signalName;
+
+				var nameSplitList = signalName.split("/");
+				var nameSplitListLength = nameSplitList.length;
+
+				var showName = nameSplitList[nameSplitListLength - 1];
+				// 親ノードのパス
+				var targetTreeId = "";
+				// 新規ノードのパス
+				var reportTreeId = "";
+				// 親ノードへのパスと、新規ノードのパスを作成する
+				for ( var index = 1; index < nameSplitListLength; index++) {
+					var nameSplit = nameSplitList[index];
+
+					if (index == nameSplitListLength - 1) {
+						reportTreeId += ENS.tree.REPORT_PREFIX_ID;
+					} else {
+						targetTreeId += "/";
+						targetTreeId += nameSplit;
+
+						reportTreeId += "/";
+					}
+					reportTreeId += nameSplit;
+				}
+				
+				var treeOption = {
+					id : signalName,
+					data : showName,
+					parentTreeId : targetTreeId,
+					icon : ENS.tree.SIGNAL_ICON_0,
+					type : ENS.tree.type.SIGNAL
+				};
+
+				return treeOption;
 			},
 			createReportTreeOption_ : function(reportDefinition) {
 				var reportId = reportDefinition.reportId;

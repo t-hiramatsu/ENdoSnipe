@@ -12,7 +12,9 @@
  */
 package jp.co.acroquest.endosnipe.web.dashboard.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import jp.co.acroquest.endosnipe.web.dashboard.dto.TreeMenuDto;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.ResourceSender;
@@ -36,6 +38,10 @@ import org.wgp.manager.WgpDataManager;
 @RequestMapping("/tree")
 public class TreeMenuController
 {
+    private static final String KEY_OF_CHILD_NODE = "childNodes";
+
+    private static final String KEY_OF_PARENT_NODE_ID = "parentNodeId";
+
     /** Wgpのデータを管理するクラス。 */
     @Autowired
     protected WgpDataManager wgpDataManager_;
@@ -85,5 +91,41 @@ public class TreeMenuController
         List<TreeMenuDto> topNodeList = this.treeMenuService.getTopNodes();
 
         return topNodeList;
+    }
+
+    /**
+     * 指定された親ノードの子要素のターゲットのパスを全て取得する。
+     * 
+     * @param parentTreeId 親ノードのID
+     * @return 子要素のターゲットのパスのリスト
+     */
+    @RequestMapping(value = "/getChildTargetNodes", method = RequestMethod.POST)
+    @ResponseBody
+    public List<String> getChildTargetNodes(
+            @RequestParam(value = "parentTreeId") final String parentTreeId)
+    {
+        List<String> childNodes = this.treeMenuService.getChildTargetNodes(parentTreeId);
+
+        return childNodes;
+    }
+
+    /**
+     * 指定された親ノードの子要素のパスを全て取得する。
+     * 
+     * @param parentTreeId 親ノードのID
+     * @return 子要素のパスのリスト
+     */
+    @RequestMapping(value = "/getAllChildNodes", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> getAllChildNodes(
+            @RequestParam(value = "parentTreeId") final String parentTreeId)
+    {
+        List<String> childNodes = this.treeMenuService.getAllChildNodes(parentTreeId);
+
+        Map<String, Object> returnMap = new HashMap<String, Object>();
+        returnMap.put(KEY_OF_CHILD_NODE, childNodes);
+        returnMap.put(KEY_OF_PARENT_NODE_ID, parentTreeId);
+
+        return returnMap;
     }
 }
