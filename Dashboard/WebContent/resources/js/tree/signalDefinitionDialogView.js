@@ -12,6 +12,13 @@ ENS.SignalDefinitionDialogView = ENS.DialogView
 				var cName = "cancelFunctionName";
 				var cObj = "cancelObject";
 
+				// シグナル追加時のみシグナル名の変更を許可する。
+				if(this.signalType == ENS.tree.ADD_SIGNAL_TYPE){
+					$("#signalName").prop("disabled", false);
+				}else{
+					$("#signalName").prop("disabled", true);
+				}
+
 				$("#" + option.dialogId)
 						.dialog(
 								{
