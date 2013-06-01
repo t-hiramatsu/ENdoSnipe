@@ -26,9 +26,14 @@
 package jp.co.acroquest.endosnipe.javelin.converter;
 
 import java.io.IOException;
-import jp.co.acroquest.endosnipe.javelin.util.ArrayList;
 import java.util.List;
 
+import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
+import jp.co.acroquest.endosnipe.javelin.conf.ExcludeConversionConfig;
+import jp.co.acroquest.endosnipe.javelin.conf.IncludeConversionConfig;
+import jp.co.acroquest.endosnipe.javelin.conf.JavelinMessages;
+import jp.co.acroquest.endosnipe.javelin.converter.util.ConverterUtil;
+import jp.co.acroquest.endosnipe.javelin.util.ArrayList;
 import jp.co.smg.endosnipe.javassist.CannotCompileException;
 import jp.co.smg.endosnipe.javassist.ClassPool;
 import jp.co.smg.endosnipe.javassist.CtBehavior;
@@ -37,11 +42,6 @@ import jp.co.smg.endosnipe.javassist.CtConstructor;
 import jp.co.smg.endosnipe.javassist.CtMember;
 import jp.co.smg.endosnipe.javassist.Modifier;
 import jp.co.smg.endosnipe.javassist.NotFoundException;
-import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
-import jp.co.acroquest.endosnipe.javelin.conf.ExcludeConversionConfig;
-import jp.co.acroquest.endosnipe.javelin.conf.IncludeConversionConfig;
-import jp.co.acroquest.endosnipe.javelin.conf.JavelinMessages;
-import jp.co.acroquest.endosnipe.javelin.converter.util.ConverterUtil;
 
 /**
  * コンバータの抽象クラス
@@ -52,28 +52,28 @@ import jp.co.acroquest.endosnipe.javelin.converter.util.ConverterUtil;
 public abstract class AbstractConverter implements Converter
 {
     /** コンストラクタ用のメソッド識別子 */
-    private static final String CONSTRUCTOR_IDENTIFIER = "<CONSTRUCTOR>";
+    private static final String           CONSTRUCTOR_IDENTIFIER = "<CONSTRUCTOR>";
 
     /** クラスファイルのバッファ */
-    private byte[] classfileBuffer_;
+    private byte[]                        classfileBuffer_;
 
     /** コード埋め込み後のクラスファイルのバッファ */
-    private byte[] newClassfileBuffer_;
+    private byte[]                        newClassfileBuffer_;
 
     /** クラス名 */
-    private String className_;
+    private String                        className_;
 
     /** Includeの設定 */
-    private IncludeConversionConfig includeConfig_;
+    private IncludeConversionConfig       includeConfig_;
 
     /** Excludeの設定リスト */
     private List<ExcludeConversionConfig> excludeConfigList_;
 
     /** CtClass */
-    private CtClass ctClass_;
+    private CtClass                       ctClass_;
 
     /** ClassPool */
-    private ClassPool pool_;
+    private ClassPool                     pool_;
 
     /**
      * {@inheritDoc}
@@ -83,7 +83,15 @@ public abstract class AbstractConverter implements Converter
             final IncludeConversionConfig includeConfig,
             final List<ExcludeConversionConfig> excludeConfigList)
     {
-        this.classfileBuffer_ = classfileBuffer;
+        if (classfileBuffer != null)
+        {
+            this.classfileBuffer_ = classfileBuffer.clone();
+        }
+        else
+        {
+            this.classfileBuffer_ = null;
+        }
+
         this.className_ = className;
         this.includeConfig_ = includeConfig;
         this.excludeConfigList_ = excludeConfigList;
@@ -112,9 +120,10 @@ public abstract class AbstractConverter implements Converter
     {
         if (this.newClassfileBuffer_ != null)
         {
-            return this.newClassfileBuffer_;
+            return this.newClassfileBuffer_.clone();
         }
-        return this.classfileBuffer_;
+
+        return null;
     }
 
     /**
@@ -152,8 +161,7 @@ public abstract class AbstractConverter implements Converter
             String methodName = ctBehavior.getName();
 
             //コンストラクタの場合、パターンが<Constructor>の場合も追加で判定を行う
-            boolean isConstructor =
-                                    ctBehavior instanceof CtConstructor;
+            boolean isConstructor = ctBehavior instanceof CtConstructor;
             boolean isConstInclude = false;
             boolean isConstExclude = false;
 
@@ -164,8 +172,7 @@ public abstract class AbstractConverter implements Converter
                 CtConstructor constructor = (CtConstructor)ctBehavior;
                 if (constructor.isClassInitializer() == false)
                 {
-                    isConstInclude =
-                                     CONSTRUCTOR_IDENTIFIER.matches(methodNamePattern);
+                    isConstInclude = CONSTRUCTOR_IDENTIFIER.matches(methodNamePattern);
                     isConstExclude = isExcludeTarget(CONSTRUCTOR_IDENTIFIER);
                 }
             }
@@ -219,7 +226,12 @@ public abstract class AbstractConverter implements Converter
      */
     public byte[] getClassfileBuffer()
     {
-        return this.classfileBuffer_;
+        if (this.classfileBuffer_ != null)
+        {
+            return this.classfileBuffer_.clone();
+        }
+
+        return null;
     }
 
     /**
@@ -228,7 +240,12 @@ public abstract class AbstractConverter implements Converter
      */
     public byte[] getNewClassfileBuffer()
     {
-        return this.newClassfileBuffer_;
+        if (this.newClassfileBuffer_ != null)
+        {
+            return this.newClassfileBuffer_.clone();
+        }
+
+        return null;
     }
 
     /**
@@ -237,7 +254,10 @@ public abstract class AbstractConverter implements Converter
      */
     public void setNewClassfileBuffer(final byte[] newClassfileBuffer)
     {
-        this.newClassfileBuffer_ = newClassfileBuffer;
+        if(newClassfileBuffer != null)
+        {
+            this.newClassfileBuffer_ = newClassfileBuffer.clone();
+        }
     }
 
     /**
@@ -327,7 +347,7 @@ public abstract class AbstractConverter implements Converter
         {
             messageBuilder.append(message);
         }
-        
+
         SystemLogger.getInstance().info(messageBuilder.toString());
     }
 }

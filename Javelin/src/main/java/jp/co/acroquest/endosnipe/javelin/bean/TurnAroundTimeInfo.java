@@ -60,21 +60,21 @@ public class TurnAroundTimeInfo
     /**
      * Turn Around Time情報を設定する。
      * 
-     * @param turnAroundTime Turn Around Time(平均値)
-     * @param turnAroundTimeMax Turn Around Time(最大値)
-     * @param turnAroundTimeMin Turn Around Time(最小値)
+     * @param tat Turn Around Time(平均値)
+     * @param tatMax Turn Around Time(最大値)
+     * @param tatMin Turn Around Time(最小値)
      * @param callCount 呼び出し回数
      * @param throwableCountMap 例外発生回数
      * @param httpStatusCountMap httpステータスエラー発生回数
      * @param methodStallCount ストール検出回数
      */
-    public TurnAroundTimeInfo(final long turnAroundTime, final long turnAroundTimeMax,
-            final long turnAroundTimeMin, final int callCount, final Map<String, Integer> throwableCountMap,
+    public TurnAroundTimeInfo(final long tat, final long tatMax,
+            final long tatMin, final int callCount, final Map<String, Integer> throwableCountMap,
             final Map<String, Integer> httpStatusCountMap, final int methodStallCount)
     {
-        this.turnAroundTime_ = turnAroundTime;
-        this.turnAroundTimeMax_ = turnAroundTimeMax;
-        this.turnAroundTimeMin_ = turnAroundTimeMin;
+        this.turnAroundTime_ = tat;
+        this.turnAroundTimeMax_ = tatMax;
+        this.turnAroundTimeMin_ = tatMin;
         this.callCount_ = callCount;
         this.throwableCountMap_ = throwableCountMap;
         this.httpStatusCountMap_ = httpStatusCountMap;

@@ -73,8 +73,6 @@ import org.aopalliance.intercept.MethodInvocation;
  */
 public class StatsJavelinInterceptor implements MethodInterceptor
 {
-    private static final long serialVersionUID = 6661781313519708185L;
-
     private final JavelinConfig config_ = new JavelinConfig();
 
     /** 設定値を標準出力に出力したらtrue */

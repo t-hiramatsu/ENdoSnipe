@@ -37,8 +37,10 @@ import jp.co.acroquest.endosnipe.common.entity.MeasurementData;
  */
 public class JavelinConnectionData extends AbstractJavelinData
 {
+    /** 接続のタイプ */
     public static final boolean TYPE_CONNECTION    = true;
 
+    /** 切断のタイプ */
     public static final boolean TYPE_DISCONNECTION = false;
 
     /** このデータが接続のイベントを表すかどうか。 */
@@ -49,9 +51,6 @@ public class JavelinConnectionData extends AbstractJavelinData
 
     /** ホスト名 */
     public String               hostName;
-
-    //    /** IPアドレス */
-    //    public String               ipAddress;
 
     /** ポート番号 */
     public int                  portNum;
@@ -67,13 +66,22 @@ public class JavelinConnectionData extends AbstractJavelinData
     }
 
     /** グラフの計測データを格納するマップ(計測値種別、グラフの計測データ) */
-    private final Map<Integer, MeasurementData> measurementMap_ = new LinkedHashMap<Integer, MeasurementData>();
+    private final Map<Integer, MeasurementData> measurementMap_ 
+                    = new LinkedHashMap<Integer, MeasurementData>();
 
+    /**
+     * 計測データを追加します。 
+     * @param mData 計測データ
+     */
     public void addMeasurementData(final MeasurementData mData)
     {
         measurementMap_.put(mData.measurementType, mData);
     }
 
+    /**
+     * 計測データを格納するマップを取得します。
+     * @return 計測データを格納するマップ
+     */
     public Map<Integer, MeasurementData> getMeasuermentMap()
     {
         return this.measurementMap_;

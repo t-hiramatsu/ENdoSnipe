@@ -90,14 +90,14 @@ public class SystemLogger
     private final ThreadPoolExecutor executor_ =
             new ThreadPoolExecutor(1, 1, 1, TimeUnit.MILLISECONDS,
                                    new ArrayBlockingQueue<Runnable>(1000), new ThreadFactory() {
-                                       public Thread newThread(final Runnable runnable)
-                                       {
-                                           Thread thread =
-                                                   new Thread(runnable, "Javelin-SystemLogger");
-                                           thread.setDaemon(true);
-                                           return thread;
-                                       }
-                                   }, new ThreadPoolExecutor.CallerRunsPolicy());
+                public Thread newThread(final Runnable runnable)
+                {
+                    Thread thread =
+                            new Thread(runnable, "Javelin-SystemLogger");
+                    thread.setDaemon(true);
+                    return thread;
+                }
+            }, new ThreadPoolExecutor.CallerRunsPolicy());
 
     private SystemLogger()
     {
@@ -227,8 +227,8 @@ public class SystemLogger
                     // 出力できなかった場合は標準エラーに出力する。。
                     String errMessage =
                             "Javelin実行エラー出力ファイルへの書き込みが行えなかったため、標準エラー出力を使用します。" + NEW_LINE
-                                    + "(javelin.error.log=" + logPath + File.separator
-                                    + logFileName_ + ")";
+                            + "(javelin.error.log=" + logPath + File.separator
+                            + logFileName_ + ")";
                     System.err.println(errMessage);
                     ex.printStackTrace();
                     System.err.println(formattedMessage);
@@ -256,7 +256,15 @@ public class SystemLogger
                     if (logFile.length() > systemLogSizeMax_)
                     {
                         logFileName_ = createLogFileName();
-                        IOUtil.removeFiles(systemLogNumMax_ - 1, logPath, EXTENTION);
+                        boolean success = IOUtil.removeFiles(
+                                         systemLogNumMax_-1, logPath, EXTENTION);
+                        
+                        if(!success)
+                        {
+                            getInstance().warn(
+                               "Failed to delete files under the direcotry. Directory:" + logPath_);
+                        }
+                        
                         writeCount_ = 0;
                     }
                 }
@@ -510,7 +518,13 @@ public class SystemLogger
         this.systemLogLevel_ = toLogLevel(config.getSystemLogLevel());
 
         // 起動時にログファイルが多数ある場合は削除する。
-        IOUtil.removeFiles(this.systemLogNumMax_ - 1, this.logPath_, EXTENTION);
+        boolean success = IOUtil.removeFiles(this.systemLogNumMax_ - 1, this.logPath_, EXTENTION);
+
+        if(!success)
+        {
+            getInstance().warn(
+                   "Failed to delete files under the direcotry. Directory:" + this.logPath_);
+        }
     }
 
     /**

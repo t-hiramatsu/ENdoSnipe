@@ -76,7 +76,6 @@ public class OracleExecutePlanChecker extends AbstractExecutePlanChecker<Map<Str
 
             if (line.contains("|"))
             {
-                // String[] columns = StringUtils.split(line, "\\|");
                 String[] columns = line.split("\\|");
                 for (String column : columns)
                 {
@@ -105,7 +104,6 @@ public class OracleExecutePlanChecker extends AbstractExecutePlanChecker<Map<Str
             {
                 // ヘッダ文字列に対応するMapを作成し、リストに追加する
                 Map<String, String> map = new HashMap<String, String>();
-                // String[] columns = StringUtils.split(dataLine, "\\|");
                 String[] columns = dataLine.split("\\|");
                 // TODO StringUtils#splitを使用していた処理を、String#splitに変更した。
                 // 本来の意図通りとなっているかどうかを確認する必要有り。

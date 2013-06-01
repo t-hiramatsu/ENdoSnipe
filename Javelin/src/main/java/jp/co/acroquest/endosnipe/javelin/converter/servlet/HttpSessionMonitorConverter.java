@@ -101,6 +101,9 @@ public class HttpSessionMonitorConverter extends AbstractConverter
 
     }
 
+    /**
+     * セッションにDumpEventを送信します。
+     */
     public static void sendSessionDumpEvent()
     {
         CommonEvent event =

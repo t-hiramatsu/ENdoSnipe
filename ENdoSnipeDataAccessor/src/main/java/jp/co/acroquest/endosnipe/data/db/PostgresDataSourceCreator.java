@@ -53,10 +53,9 @@ import org.apache.commons.pool.ObjectPool;
  */
 public class PostgresDataSourceCreator extends AbstractDataSourceCreator implements LogMessageCodes
 {
-    private static final ENdoSnipeLogger LOGGER =
-                                                    ENdoSnipeLogger.getLogger(
-                                                                              PostgresDataSourceCreator.class,
-                                                                              ENdoSnipeDataAccessorPluginProvider.INSTANCE);
+    private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(
+                                                      PostgresDataSourceCreator.class,
+                                                      ENdoSnipeDataAccessorPluginProvider.INSTANCE);
 
     /** PostgreSQLデータベースのドライバクラス名称 */
     private static final String           POSTGRES_DRIVER = "org.postgresql.Driver";
@@ -176,14 +175,18 @@ public class PostgresDataSourceCreator extends AbstractDataSourceCreator impleme
                                                 DBManager.getPassword() );
 
             state = conn.createStatement();
-            res = state.executeQuery("SELECT datname FROM pg_database WHERE datistemplate = false;");
+            res = state.executeQuery(
+                         "SELECT datname FROM pg_database WHERE datistemplate = false;");
 
             // 問い合わせ結果確認
             while (res.next())
             {
                 String datname = res.getString(1);
                 // DB名は大文字・小文字を区別せずに判定する
-                if (datname.equalsIgnoreCase(dbName)) return true;
+                if (datname.equalsIgnoreCase(dbName))
+                {
+                    return true;
+                }
             }
         }
         catch(SQLException e)

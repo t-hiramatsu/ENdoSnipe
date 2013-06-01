@@ -60,14 +60,13 @@ public class MBeanValueGetter
     private static MBeanServer server__ = ManagementFactory.getPlatformMBeanServer();
 
     /** JMXのObjectNameオブジェクト */
-    private final ObjectName objectName_;
+    private final ObjectName   objectName_;
 
     /** JMXのattributeに指定する文字列 */
-    private final String attribute_;
+    private final String       attribute_;
 
     /** オブジェクト名のリスト */
     private List<ObjectName>   objectNameList_;
-
 
     /** 前回実行時のMBean数 */
     private Integer            lastMBeanCount_;
@@ -112,7 +111,8 @@ public class MBeanValueGetter
             // 該当するオブジェクト名ごとに属性値を取得する。
             for (ObjectName objectName : this.objectNameList_)
             {
-                if(this.attribute_.equals("*")) {
+                if (this.attribute_.equals("*"))
+                {
                     try
                     {
                         server__.getMBeanInfo(objectName).getAttributes();
@@ -255,4 +255,5 @@ public class MBeanValueGetter
         retValue.setDisplayType(DisplayType.DISPLAYTYPE_NORMAL);
 
         return retValue;
-    }}
+    }
+}

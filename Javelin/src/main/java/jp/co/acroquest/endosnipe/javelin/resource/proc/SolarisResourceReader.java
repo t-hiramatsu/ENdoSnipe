@@ -209,6 +209,10 @@ public class SolarisResourceReader
         return result;
     }
     
+    /**
+     * リフレッシュします。
+     * @return 成功時true/異常時false
+     */
     public boolean refresh()
     {
         boolean result = collectQueryData();

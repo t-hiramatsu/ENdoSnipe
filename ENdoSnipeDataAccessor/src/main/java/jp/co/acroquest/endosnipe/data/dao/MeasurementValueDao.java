@@ -1079,8 +1079,6 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
     /**
      * レコードを挿入します。<br />
      *
-     * {@link MeasurementValue#measurementValueId} は使用されません。
-     *
      * @param database データベース名
      * @param tableName テーブル名
      * @param updateValueList 挿入する値

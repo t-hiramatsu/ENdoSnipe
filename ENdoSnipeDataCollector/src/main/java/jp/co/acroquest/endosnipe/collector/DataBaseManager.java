@@ -37,7 +37,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class DataBaseManager
 {
     /** {@link DataBaseManager}のシングルトンインスタンス */
-    private static final DataBaseManager manager__ = new DataBaseManager();
+    private static final DataBaseManager MANAGER = new DataBaseManager();
 
     /** DBのパスと接続先を保存したマップ */
     private final Map<String, String> dbMap_ = new ConcurrentHashMap<String, String>();
@@ -57,7 +57,7 @@ public class DataBaseManager
      */
     public static DataBaseManager getInstance()
     {
-        return manager__;
+        return MANAGER;
     }
 
     /**

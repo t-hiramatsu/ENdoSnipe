@@ -143,18 +143,23 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
     /**
      * メソッド名にダブルクォーテーションがある場合は、それを2つのダブルクォーテーションに置き換え、
      * 改行がある場合は改行を削除して出力する。
-     *
-     * @param invocation
-     * @return
+     *　@param invocation invocation
+     * @return 修正されたメソッド名
      */
     protected static String getValidMethodName(Invocation invocation)
     {
         String validMethodName = invocation.getMethodName();
         Matcher matcher = DOUBLE_QUOTATION_PATTERN.matcher(validMethodName);
         validMethodName = matcher.replaceAll("\"\"");
+        
         return validMethodName.replaceAll("[\r\n]", " ");
     }
 
+    /**
+     * レベルの文字列を作成する。
+     * @param event イベント
+     * @return レベルの文字列
+     */
     protected static String createLevelStr(final CommonEvent event)
     {
         String levelStr;
@@ -194,8 +199,8 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
         boolean isReturnDetail = config.isReturnDetail();
 
         StringBuffer jvnBuffer = new StringBuffer();
-
         Invocation callee = node.getInvocation();
+
         Invocation caller;
         if (parent == null)
         {
@@ -354,6 +359,11 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
         return jvnBuffer.toString();
     }
 
+    /**
+     * stacktraceを追加する。
+     * @param jvnBuffer バッファ
+     * @param stacktrace stacktrace
+     */
     protected static void addStackTrace(final StringBuffer jvnBuffer,
             final StackTraceElement[] stacktrace)
     {
@@ -364,6 +374,11 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
         jvnBuffer.append(NEW_LINE);
     }
 
+    /**
+     * stacktraceに例外を追加する。
+     * @param jvnBuffer バッファ
+     * @param throwable 例外
+     */
     protected static void addThrowable(final StringBuffer jvnBuffer, final Throwable throwable)
     {
         jvnBuffer.append(JAVELIN_STACKTRACE_START);
@@ -376,6 +391,13 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
         jvnBuffer.append(NEW_LINE);
     }
 
+    /**
+     * stacktraceに返り値を追加する。
+     * @param jvnBuffer バッファ
+     * @param returnValue 返り値
+     * @param stringLimitLength 文字列の最大長さ
+     * @param isReturnDetail 
+     */
     protected static void addReturn(final StringBuffer jvnBuffer, final String returnValue,
             final boolean isReturnDetail, final int stringLimitLength)
     {
@@ -387,6 +409,12 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
         jvnBuffer.append(NEW_LINE);
     }
 
+    /**
+     * stacktraceに引数を追加する。
+     * @param jvnBuffer バッファ
+     * @param stringLimitLength 文字列の最大長さ
+     * @param args 引数
+     */
     protected static void addArgs(final StringBuffer jvnBuffer, final int stringLimitLength,
             final String[] args)
     {
@@ -413,6 +441,13 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
         jvnBuffer.append(JAVELIN_ARGS_END);
         jvnBuffer.append(NEW_LINE);
     }
+    
+    /**
+     * stacktraceにVM状態の差分を追加します。
+     * @param jvnBuffer バッファ
+     * @param startStatus 開始状態
+     * @param endStatus 終了状態
+     */
     protected static void addVMStatusDiff(final StringBuffer jvnBuffer, final VMStatus startStatus,
             final VMStatus endStatus)
     {
@@ -445,6 +480,12 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
                               - startStatus.getCollectionTime()));
     }
 
+    /**
+     * stacktraceにパラメータを追加します。
+     * @param jvnBuffer バッファ
+     * @param paramName パラメータ名
+     * @param paramValue パラメータの値
+     */
     protected static void addParamDelta(final StringBuffer jvnBuffer, final String paramName,
             final String paramValue)
     {
@@ -458,6 +499,12 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
         jvnBuffer.append(NEW_LINE);
     }
 
+    /**
+     * stacktraceにパラメータを追加します。
+     * @param jvnBuffer バッファ
+     * @param paramName パラメータ名
+     * @param paramValue パラメータの値
+     */
     protected static void addParam(final StringBuffer jvnBuffer, final String paramName,
             final String paramValue)
     {
@@ -467,6 +514,12 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
         jvnBuffer.append(NEW_LINE);
     }
 
+    /**
+     * stacktraceにパラメータを追加します。
+     * @param jvnBuffer バッファ
+     * @param paramName パラメータ名
+     * @param paramValue パラメータの値
+     */
     protected static void addParam(final StringBuffer jvnBuffer, final String paramName,
             final long paramValue)
     {
@@ -476,6 +529,11 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
         jvnBuffer.append(NEW_LINE);
     }
 
+    /**
+     * stacktraceに要素を追加します。
+     * @param element 要素
+     * @param jvnBuffer バッファ
+     */
     protected static void addToJvnBuffer(final String element, final StringBuffer jvnBuffer)
     {
         jvnBuffer.append(",\"");

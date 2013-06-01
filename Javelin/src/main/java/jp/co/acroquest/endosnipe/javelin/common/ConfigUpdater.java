@@ -38,6 +38,7 @@ import jp.co.acroquest.endosnipe.javelin.RootInvocationManager;
 import jp.co.acroquest.endosnipe.javelin.event.JavelinEventCounter;
 import jp.co.acroquest.endosnipe.javelin.jdbc.common.JdbcJavelinConfig;
 import jp.co.acroquest.endosnipe.javelin.util.LinkedHashMap;
+
 /**
  * リモート設定機能から現在の設定値を更新するアダプタ
  * 
@@ -49,10 +50,12 @@ public class ConfigUpdater
     private static final Set<String> LOGLEVELS = new HashSet<String>();
 
     /** イベントレベルとして許容する文字列 */
-    private static final Set<String> EVENTLEVELS = new HashSet<String>();
+    private static final Set<String>                EVENTLEVELS      = new HashSet<String>();
 
-    private static Map<String, ConfigUpdateRequest> updateLatorMap__ = new HashMap<String, ConfigUpdateRequest>(); 
-    
+    /** 更新後のMap */
+    private static Map<String, ConfigUpdateRequest> updateLaterMap__ =
+                                                       new HashMap<String, ConfigUpdateRequest>();
+
     static
     {
         LOGLEVELS.add("FATAL");
@@ -95,8 +98,8 @@ public class ConfigUpdater
         properties.put(JavelinConfig.ALARM_EXCEPTION_KEY, 
                        String.valueOf(config.isAlarmException()));
         // HTTPステータスエラーを通知するかのフラグ
-        properties.put(JavelinConfig.HTTP_STATUS_ERROR_KEY, 
-                       String.valueOf(config.isHttpStatusError()));        
+        properties.put(JavelinConfig.HTTP_STATUS_ERROR_KEY,
+                       String.valueOf(config.isHttpStatusError()));
         // 引数をファイルに出力するかのフラグ
         properties.put(JavelinConfig.LOG_ARGS_KEY, String.valueOf(config.isLogArgs()));
         // 引数詳細を出力するかのフラグ
@@ -104,7 +107,7 @@ public class ConfigUpdater
         // 引数詳細出力時の深度
         properties.put(JavelinConfig.ARGS_DETAIL_DEPTH_KEY,
                        String.valueOf(config.getArgsDetailDepth()));
-        
+
         // 返り値をファイルに出力するかのフラグ
         properties.put(JavelinConfig.LOG_RETURN_KEY, String.valueOf(config.isLogReturn()));
         // 返り値詳細を出力するかのフラグ
@@ -112,14 +115,16 @@ public class ConfigUpdater
         // 返り値詳細出力時の深度
         properties.put(JavelinConfig.RETURN_DETAIL_DEPTH_KEY,
                        String.valueOf(config.getReturnDetailDepth()));
-        
+
         // スタックトレースをファイルに出力するかのフラグ
         properties.put(JavelinConfig.LOG_STACKTRACE_KEY, String.valueOf(config.isLogStacktrace()));
-        
+
         // HTTPセッションをファイルに出力するかのフラグ
-        properties.put(JavelinConfig.LOG_HTTP_SESSION_KEY, String.valueOf(config.isLogHttpSession()));
+        properties.put(JavelinConfig.LOG_HTTP_SESSION_KEY,
+                       String.valueOf(config.isLogHttpSession()));
         // HTTPセッション詳細を出力するかのフラグ
-        properties.put(JavelinConfig.HTTP_SESSION_DETAIL_KEY, String.valueOf(config.isHttpSessionDetail()));
+        properties.put(JavelinConfig.HTTP_SESSION_DETAIL_KEY,
+                       String.valueOf(config.isHttpSessionDetail()));
         // HTTPセッション詳細出力時の深度
         properties.put(JavelinConfig.HTTP_SESSION_DETAIL_DEPTH_KEY,
                        String.valueOf(config.getHttpSessionDetailDepth()));
@@ -131,7 +136,7 @@ public class ConfigUpdater
                        String.valueOf(config.isLogMBeanInfoRoot()));
         // イベントレベル
         properties.put(JavelinConfig.EVENT_LEVEL_KEY, config.getEventLevel());
-        
+
         // スレッドモデル定義
         properties.put(JavelinConfig.THREADMODEL_KEY, String.valueOf(config.getThreadModel()));
         // Collectionのメモリリーク検出を行うかどうか
@@ -186,14 +191,6 @@ public class ConfigUpdater
         // スレッド監視の際に出力するスタックトレースの深さ
         properties.put(JavelinConfig.THREAD_MONITOR_DEPTH,
                        String.valueOf(config.getThreadMonitorDepth()));
-        // スレッド監視の際にブロック回数異常を検知する閾値。
-        // 現状はイベントが発生しないため、設定できないようにしておく（チケット#729参照）
-        //        properties.put(JavelinConfig.THREAD_BLOCK_THRESHOLD,
-        //                       String.valueOf(config.getBlockThreshold()));
-        // スレッド監視の際にブロック回数閾値を超えた際に取得するスレッド情報の数
-        // 現状はイベントが発生しないため、設定できないようにしておく（チケット#730参照）
-        //        properties.put(JavelinConfig.THREAD_BLOCK_THREADINFO_NUM,
-        //                       String.valueOf(config.getBlockThreadInfoNum()));
         // ブロック継続イベントを出力する際のブロック回数の閾値
         properties.put(JavelinConfig.THREAD_BLOCK_THRESHOLD,
                        String.valueOf(config.getBlockThreshold()));
@@ -215,10 +212,9 @@ public class ConfigUpdater
         // フルGC検出のGC時間の閾値
         properties.put(JavelinConfig.FULLGC_THREASHOLD, 
                        String.valueOf(config.getFullGCThreshold()));
-        
         // Java6以降でデッドロック監視を行うかどうか
-        properties.put(JavelinConfig.THREAD_DEADLOCK_MONITOR, String.valueOf(config.isDeadLockMonitor()));
-        
+        properties.put(JavelinConfig.THREAD_DEADLOCK_MONITOR,
+                       String.valueOf(config.isDeadLockMonitor()));
         // アラーム送信間隔の最小値
         properties.put(JavelinConfig.ALARM_MINIMUM_INTERVAL_KEY,
                        String.valueOf(config.getAlarmMinimumInterval()));
@@ -239,29 +235,26 @@ public class ConfigUpdater
         properties.put(JavelinConfig.TIMEOUT_MONITOR, String.valueOf(config.isTimeoutMonitor()));
         // Log4jのスタックトレースを行うログレベルの閾値
         properties.put(JavelinConfig.LOG4J_PRINTSTACK_LEVEL, config.getLog4jPrintStackLevel());
-        
         // CallTreeサイズの最大値。
-        properties.put(JavelinConfig.CALL_TREE_ENABLE_KEY, String.valueOf(config.isCallTreeEnabled()));
-        
+        properties.put(JavelinConfig.CALL_TREE_ENABLE_KEY,
+                       String.valueOf(config.isCallTreeEnabled()));
         // CallTreeサイズの最大値。
         properties.put(JavelinConfig.CALL_TREE_MAX_KEY, String.valueOf(config.getCallTreeMax()));
-
         // Jvnログファイルを出力するかどうか。
         properties.put(JavelinConfig.LOG_JVN_FILE, String.valueOf(config.isLogJvnFile()));
-        
         // システムのリソースデータを取得するかどうか。
-        properties.put(JavelinConfig.COLLECT_SYSTEM_RESOURCES, String.valueOf(config.getCollectSystemResources()));
-        
+        properties.put(JavelinConfig.COLLECT_SYSTEM_RESOURCES,
+                       String.valueOf(config.getCollectSystemResources()));
         // InvocationFullEventを送信するかどうか。
-        properties.put(JavelinConfig.SEND_INVOCATION_FULL_EVENT, String.valueOf(config.getSendInvocationFullEvent()));
+        properties.put(JavelinConfig.SEND_INVOCATION_FULL_EVENT,
+                       String.valueOf(config.getSendInvocationFullEvent()));
 
         /** JdbcJavelinConfigから取得可能な設定を取得する */
         JdbcJavelinConfig jdbcConfig = new JdbcJavelinConfig();
-        
+
         // JDBCJavelinを有効にするかどうか
         properties.put(JdbcJavelinConfig.JDBC_JAVELIN_ENABLED_KEY,
                        String.valueOf(jdbcConfig.isJdbcJavelinEnabled()));
-
         // 実行計画取得フラグ
         properties.put(JdbcJavelinConfig.RECORDEXECPLAN_KEY,
                        String.valueOf(jdbcConfig.isRecordExecPlan()));
@@ -281,8 +274,7 @@ public class ConfigUpdater
         properties.put(JdbcJavelinConfig.SQLCOUNT_MONITOR_KEY,
                        String.valueOf(jdbcConfig.isSqlcountMonitor()));
         // 同一トランザクション内の同一SQL呼び出し回数超過の閾値
-        properties.put(JdbcJavelinConfig.SQLCOUNT_KEY,
-                       String.valueOf(jdbcConfig.getSqlcount()));
+        properties.put(JdbcJavelinConfig.SQLCOUNT_KEY, String.valueOf(jdbcConfig.getSqlcount()));
         // Oracleに対するSQLトレースの出力指示フラグ
         properties.put(JdbcJavelinConfig.ORACLE_ALLOW_SQL_TRACE_KEY,
                        String.valueOf(jdbcConfig.isAllowSqlTraceForOracle()));
@@ -296,7 +288,6 @@ public class ConfigUpdater
         properties.put(JdbcJavelinConfig.RECORD_STACKTRACE_THREADHOLD_KEY,
                        String.valueOf(jdbcConfig.getRecordStackTraceThreshold()));
 
-        
         return properties;
     }
 
@@ -354,7 +345,7 @@ public class ConfigUpdater
         JavelinConfig javelinConfig = new JavelinConfig();
         javelinConfig.setHttpStatusError(isHttpStatusError);
     }
-    
+
     /**
      * 引数をファイルに出力するかのフラグを更新する
      * 
@@ -475,7 +466,7 @@ public class ConfigUpdater
         JavelinConfig javelinConfig = new JavelinConfig();
         javelinConfig.setHttpSessionDetailDepth(httpSessionDetailDepth);
     }
-    
+
     /**
      * スレッドモデル定義を更新する
      * 
@@ -497,7 +488,7 @@ public class ConfigUpdater
         JdbcJavelinConfig jdbcJavelinConfig = new JdbcJavelinConfig();
         jdbcJavelinConfig.setJdbcJavelinEnabled(isJdbcEnabled);
     }
-    
+
     /**
      * 実行計画取得フラグを更新する
      * 
@@ -629,7 +620,7 @@ public class ConfigUpdater
         JdbcJavelinConfig config = new JdbcJavelinConfig();
         config.setJdbcJavelinEnabled(isJdbcJavelinEnabled);
     }
-    
+
     /**
      * Collectionのメモリリーク検出を行うかどうかを更新します。<br />
      * 
@@ -1092,7 +1083,7 @@ public class ConfigUpdater
         JavelinConfig config = new JavelinConfig();
         config.setEventLevel(eventLevelToUpper);
     }
-    
+
     /**
      * システムのリソースデータを取得するかどうかの設定を更新します。<br />
      * 
@@ -1125,9 +1116,9 @@ public class ConfigUpdater
     public static void updateLater(final String key, final String value, long delay)
     {
         long updateTime = System.currentTimeMillis() + delay;
-        synchronized (updateLatorMap__)
+        synchronized (updateLaterMap__)
         {
-            updateLatorMap__.put(key, new ConfigUpdateRequest(key, value, updateTime));
+            updateLaterMap__.put(key, new ConfigUpdateRequest(key, value, updateTime));
         }
     }
 
@@ -1424,17 +1415,17 @@ public class ConfigUpdater
         }
         JavelinConfigUtil.getInstance().update();
     }
-    
+
     /**
      * 更新時刻を超えている更新要求を実行する。
      */
     public static void executeScheduledRequest()
     {
         List<String> removeList = new ArrayList<String>();
-        synchronized (updateLatorMap__)
+        synchronized (updateLaterMap__)
         {
             long currentTime = System.currentTimeMillis();
-            for (ConfigUpdateRequest entry : updateLatorMap__.values())
+            for (ConfigUpdateRequest entry : updateLaterMap__.values())
             {
                 if (entry.getUpdateTime() < currentTime)
                 {
@@ -1445,7 +1436,7 @@ public class ConfigUpdater
             
             for (String key : removeList)
             {
-                updateLatorMap__.remove(key);
+                updateLaterMap__.remove(key);
             }
         }
         

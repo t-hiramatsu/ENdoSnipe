@@ -28,8 +28,21 @@ package jp.co.acroquest.endosnipe.javelin.event;
 import jp.co.acroquest.endosnipe.common.event.EventConstants;
 import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
 
+/**
+ * HttpStatusEventクラス
+ * @author acroquest
+ *
+ */
 public class HttpStatusEvent extends AbstractNameAndParamCheckEvent
 {
+    /**
+     * コンストラクタ
+     * @param contextPath コンテキストパス
+     * @param servletPath サーブレットパス
+     * @param status ステータス
+     * @param throwable 例外
+     * @param stackTraceDepth stacktraceの深さ
+     */
     public HttpStatusEvent(String contextPath, String servletPath, int status,
             Throwable throwable, int stackTraceDepth)
     {

@@ -103,6 +103,10 @@ public class S2MaxAccumulatedTimeUpdateRecordStrategy implements RecordStrategy
         return null;
     }
 
+    /**
+     * 更新回数を無視する閾値を取得する。
+     * @return 更新回数を無視する閾値
+     */
     public int getIgnoreUpdateCount()
     {
         return ignoreUpdateCount_;

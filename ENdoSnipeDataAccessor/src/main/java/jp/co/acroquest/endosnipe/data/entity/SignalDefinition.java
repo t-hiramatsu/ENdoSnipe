@@ -59,11 +59,15 @@ public class SignalDefinition
         this.signalId = -1;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString()
     {
         return "SignalInfo [signalId=" + signalId + ", signalName=" + signalName
-            + ", matchingPattern=" + matchingPattern + ", level=" + level + ", patternValue=" + patternValue
+            + ", matchingPattern=" + matchingPattern
+            + ", level=" + level + ", patternValue=" + patternValue
             + ", escalationPeriod=" + escalationPeriod + "]";
     }
 }

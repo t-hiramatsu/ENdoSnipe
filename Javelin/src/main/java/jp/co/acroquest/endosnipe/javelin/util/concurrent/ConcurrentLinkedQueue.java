@@ -34,87 +34,123 @@ import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 
 import jp.co.acroquest.endosnipe.javelin.util.ArrayList;
 
+/**
+ * ConcurrentLinkedQueueクラス
+ * @author acroquest
+ *
+ * @param <E> 要素
+ */
 public class ConcurrentLinkedQueue<E> extends AbstractQueue<E> implements Queue<E>,
         java.io.Serializable
 {
-
-    /**  */
+    /** シリアルバージョンID */
     private static final long serialVersionUID = -3429890063062468928L;
 
+    private transient volatile Node<E> head_ = new Node<E>(null, null);
+
+    private transient volatile Node<E> tail_ = head_;
+
+    private static final AtomicReferenceFieldUpdater<ConcurrentLinkedQueue, Node> TAIL_UPDATER =
+            AtomicReferenceFieldUpdater.newUpdater(ConcurrentLinkedQueue.class, Node.class, "tail");
+
+    private static final AtomicReferenceFieldUpdater<ConcurrentLinkedQueue, Node> HEAD_UPDATER =
+            AtomicReferenceFieldUpdater.newUpdater(ConcurrentLinkedQueue.class, Node.class, "head");
+
+
+    /**
+     * Nodeクラス
+     * @author acroquest
+     *
+     * @param <E> 要素
+     */
     private static class Node<E>
     {
-        private volatile E item;
+        /** 要素 */
+        private volatile E item_;
 
-        private volatile Node<E> next;
+        /** 次の要素 */
+        private volatile Node<E> next_;
 
-        private static final AtomicReferenceFieldUpdater<Node, Node> nextUpdater =
+        /** 次のノードのUpdater */
+        private static final AtomicReferenceFieldUpdater<Node, Node> NEXT_UPDATER =
                 AtomicReferenceFieldUpdater.newUpdater(Node.class, Node.class, "next");
 
-        private static final AtomicReferenceFieldUpdater<Node, Object> itemUpdater =
+        /** 要素のUpdater */
+        private static final AtomicReferenceFieldUpdater<Node, Object> ITEM_UPDATER =
                 AtomicReferenceFieldUpdater.newUpdater(Node.class, Object.class, "item");
 
-        Node(E x)
+        /**
+         * コンストラクタ
+         * @param element 要素
+         * @param next 次の要素
+         */
+        public Node(E element, Node<E> next)
         {
-            item = x;
+            item_ = element;
+            next_ = next;
         }
 
-        Node(E x, Node<E> n)
+        /**
+         * 要素を取得します。
+         * @return 要素
+         */
+        public E getItem()
         {
-            item = x;
-            next = n;
+            return item_;
         }
 
-        E getItem()
+
+        /**
+         * 指定された要素を比較して設定します。
+         * @param cmp 比較用要素
+         * @param val 設定する値
+         * @return 処理が成功した時true
+         */
+        boolean compareAndSetItem(E cmp, E val)
         {
-            return item;
+            return ITEM_UPDATER.compareAndSet(this, cmp, val);
         }
 
-        boolean casItem(E cmp, E val)
-        {
-            return itemUpdater.compareAndSet(this, cmp, val);
-        }
-
+        /**
+         * 要素を設定します。
+         * @param val 要素
+         */
         void setItem(E val)
         {
-            itemUpdater.set(this, val);
+            ITEM_UPDATER.set(this, val);
         }
 
+        /**
+         * 次のノードを取得します。
+         * @return 次のノード
+         */
         Node<E> getNext()
         {
-            return next;
+            return next_;
         }
 
-        boolean casNext(Node<E> cmp, Node<E> val)
+        /**
+         * 次のノードを比較し、設定します。
+         * @param cmp 比較用要素
+         * @param val 設定する値
+         * @return 処理が成功した時true
+         */
+        boolean compareAndSetNext(Node<E> cmp, Node<E> val)
         {
-            return nextUpdater.compareAndSet(this, cmp, val);
-        }
-
-        void setNext(Node<E> val)
-        {
-            nextUpdater.set(this, val);
+            return NEXT_UPDATER.compareAndSet(this, cmp, val);
         }
 
     }
 
-    private static final AtomicReferenceFieldUpdater<ConcurrentLinkedQueue, Node> tailUpdater =
-            AtomicReferenceFieldUpdater.newUpdater(ConcurrentLinkedQueue.class, Node.class, "tail");
-
-    private static final AtomicReferenceFieldUpdater<ConcurrentLinkedQueue, Node> headUpdater =
-            AtomicReferenceFieldUpdater.newUpdater(ConcurrentLinkedQueue.class, Node.class, "head");
-
     private boolean casTail(Node<E> cmp, Node<E> val)
     {
-        return tailUpdater.compareAndSet(this, cmp, val);
+        return TAIL_UPDATER.compareAndSet(this, cmp, val);
     }
 
     private boolean casHead(Node<E> cmp, Node<E> val)
     {
-        return headUpdater.compareAndSet(this, cmp, val);
+        return HEAD_UPDATER.compareAndSet(this, cmp, val);
     }
-
-    private transient volatile Node<E> head = new Node<E>(null, null);
-
-    private transient volatile Node<E> tail = head;
 
     /**
      * Creates a <tt>ConcurrentLinkedQueue</tt> that is initially empty.
@@ -128,13 +164,14 @@ public class ConcurrentLinkedQueue<E> extends AbstractQueue<E> implements Queue<
      * initially containing the elements of the given collection,
      * added in traversal order of the collection's iterator.
      * @param c the collection of elements to initially contain
-     * @throws NullPointerException if <tt>c</tt> or any element within it
      * is <tt>null</tt>
      */
     public ConcurrentLinkedQueue(Collection<? extends E> c)
     {
         for (Iterator<? extends E> it = c.iterator(); it.hasNext();)
+        {
             add(it.next());
+        }
     }
 
     /**
@@ -143,7 +180,6 @@ public class ConcurrentLinkedQueue<E> extends AbstractQueue<E> implements Queue<
      * @return <tt>true</tt> (as per the general contract of
      * <tt>Collection.add</tt>).
      *
-     * @throws NullPointerException if the specified element is <tt>null</tt>
      */
     public boolean add(E o)
     {
@@ -156,50 +192,58 @@ public class ConcurrentLinkedQueue<E> extends AbstractQueue<E> implements Queue<
      * @param o the element to add.
      * @return <tt>true</tt> (as per the general contract of
      * <tt>Queue.offer</tt>).
-     * @throws NullPointerException if the specified element is <tt>null</tt>
      */
     public boolean offer(E o)
     {
         if (o == null)
+        {
             throw new NullPointerException();
+        }
         Node<E> n = new Node<E>(o, null);
         for (;;)
         {
-            Node<E> t = tail;
-            Node<E> s = t.getNext();
-            if (t == tail)
+            Node<E> tail = tail_;
+            Node<E> s = tail.getNext();
+            if (tail == tail_)
             {
                 if (s == null)
                 {
-                    if (t.casNext(s, n))
+                    if (tail.compareAndSetNext(null, n))
                     {
-                        casTail(t, n);
+                        casTail(tail, n);
                         return true;
                     }
                 }
                 else
                 {
-                    casTail(t, s);
+                    casTail(tail, s);
                 }
             }
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public E poll()
     {
         for (;;)
         {
-            Node<E> h = head;
-            Node<E> t = tail;
+            Node<E> h = head_;
+            Node<E> t = tail_;
             Node<E> first = h.getNext();
-            if (h == head)
+            if (h == head_)
             {
                 if (h == t)
                 {
                     if (first == null)
+                    {
                         return null;
+                    }
                     else
+                    {
                         casTail(t, first);
+                    }
                 }
                 else if (casHead(h, first))
                 {
@@ -215,30 +259,40 @@ public class ConcurrentLinkedQueue<E> extends AbstractQueue<E> implements Queue<
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public E peek()
     {
         for (;;)
         {
-            Node<E> h = head;
-            Node<E> t = tail;
+            Node<E> h = head_;
+            Node<E> t = tail_;
             Node<E> first = h.getNext();
-            if (h == head)
+            if (h == head_)
             {
                 if (h == t)
                 {
                     if (first == null)
+                    {
                         return null;
+                    }
                     else
+                    {
                         casTail(t, first);
+                    }
                 }
                 else
                 {
                     E item = first.getItem();
                     if (item != null)
+                    {
                         return item;
+                    }
                     else
-
+                    {
                         casHead(h, first);
+                    }
                 }
             }
         }
@@ -249,35 +303,47 @@ public class ConcurrentLinkedQueue<E> extends AbstractQueue<E> implements Queue<
      * another variant of poll/peek; here returning out the first
      * node, not element (so we cannot collapse with peek() without
      * introducing race.)
+     * 
+     * @return the first actual (non-header) node on list
      */
     Node<E> first()
     {
         for (;;)
         {
-            Node<E> h = head;
-            Node<E> t = tail;
+            Node<E> h = head_;
+            Node<E> t = tail_;
             Node<E> first = h.getNext();
-            if (h == head)
+            if (h == head_)
             {
                 if (h == t)
                 {
                     if (first == null)
+                    {
                         return null;
+                    }
                     else
+                    {
                         casTail(t, first);
+                    }
                 }
                 else
                 {
                     if (first.getItem() != null)
+                    {
                         return first;
+                    }
                     else
-
+                    {
                         casHead(h, first);
+                    }
                 }
             }
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean isEmpty()
     {
         return first() == null;
@@ -304,38 +370,57 @@ public class ConcurrentLinkedQueue<E> extends AbstractQueue<E> implements Queue<
             {
 
                 if (++count == Integer.MAX_VALUE)
+                {
                     break;
+                }
             }
         }
         return count;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean contains(Object o)
     {
         if (o == null)
+        {
             return false;
+        }
         for (Node<E> p = first(); p != null; p = p.getNext())
         {
             E item = p.getItem();
             if (item != null && o.equals(item))
+            {
                 return true;
+            }
         }
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean remove(Object o)
     {
         if (o == null)
+        {
             return false;
+        }
         for (Node<E> p = first(); p != null; p = p.getNext())
         {
             E item = p.getItem();
-            if (item != null && o.equals(item) && p.casItem(item, null))
+            if (item != null && o.equals(item) && p.compareAndSetItem(item, null))
+            {
                 return true;
+            }
         }
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public Object[] toArray()
     {
 
@@ -344,11 +429,17 @@ public class ConcurrentLinkedQueue<E> extends AbstractQueue<E> implements Queue<
         {
             E item = p.getItem();
             if (item != null)
+            {
                 al.add(item);
+            }
         }
         return al.toArray();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @SuppressWarnings("unchecked")
     public <T> T[] toArray(T[] a)
     {
 
@@ -358,12 +449,16 @@ public class ConcurrentLinkedQueue<E> extends AbstractQueue<E> implements Queue<
         {
             E item = p.getItem();
             if (item != null)
+            {
                 a[k++] = (T)item;
+            }
         }
         if (p == null)
         {
             if (k < a.length)
+            {
                 a[k] = null;
+            }
             return a;
         }
 
@@ -372,24 +467,35 @@ public class ConcurrentLinkedQueue<E> extends AbstractQueue<E> implements Queue<
         {
             E item = q.getItem();
             if (item != null)
+            {
                 al.add(item);
+            }
         }
         return (T[])al.toArray(a);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public Iterator<E> iterator()
     {
         return new Itr();
     }
 
+    /**
+     * イテレータクラス
+     * @author acroquest
+     *
+     */
     private class Itr implements Iterator<E>
     {
+        /** 次のノード */
+        private Node<E> nextNode_;
 
-        private Node<E> nextNode;
+        /** 次の要素 */
+        private E nextItem_;
 
-        private E nextItem;
-
-        private Node<E> lastRet;
+        private Node<E> lastReturn_;
 
         Itr()
         {
@@ -398,51 +504,56 @@ public class ConcurrentLinkedQueue<E> extends AbstractQueue<E> implements Queue<
 
         private E advance()
         {
-            lastRet = nextNode;
-            E x = nextItem;
+            lastReturn_ = nextNode_;
+            E x = nextItem_;
 
-            Node<E> p = (nextNode == null) ? first() : nextNode.getNext();
+            Node<E> p = (nextNode_ == null) ? first() : nextNode_.getNext();
             for (;;)
             {
                 if (p == null)
                 {
-                    nextNode = null;
-                    nextItem = null;
+                    nextNode_ = null;
+                    nextItem_ = null;
                     return x;
                 }
                 E item = p.getItem();
                 if (item != null)
                 {
-                    nextNode = p;
-                    nextItem = item;
+                    nextNode_ = p;
+                    nextItem_ = item;
                     return x;
                 }
                 else
-
+                {
                     p = p.getNext();
+                }
             }
         }
 
         public boolean hasNext()
         {
-            return nextNode != null;
+            return nextNode_ != null;
         }
 
         public E next()
         {
-            if (nextNode == null)
+            if (nextNode_ == null)
+            {
                 throw new NoSuchElementException();
+            }
             return advance();
         }
 
         public void remove()
         {
-            Node<E> l = lastRet;
+            Node<E> l = lastReturn_;
             if (l == null)
+            {
                 throw new IllegalStateException();
+            }
 
             l.setItem(null);
-            lastRet = null;
+            lastReturn_ = null;
         }
     }
 
@@ -456,26 +567,33 @@ public class ConcurrentLinkedQueue<E> extends AbstractQueue<E> implements Queue<
         {
             Object item = p.getItem();
             if (item != null)
+            {
                 s.writeObject(item);
+            }
         }
 
         s.writeObject(null);
     }
 
+    @SuppressWarnings("unchecked")
     private void readObject(java.io.ObjectInputStream s)
         throws java.io.IOException,
             ClassNotFoundException
     {
         s.defaultReadObject();
-        head = new Node<E>(null, null);
-        tail = head;
+        head_ = new Node<E>(null, null);
+        tail_ = head_;
         for (;;)
         {
             E item = (E)s.readObject();
             if (item == null)
+            {
                 break;
+            }
             else
+            {
                 offer(item);
+            }
         }
     }
 

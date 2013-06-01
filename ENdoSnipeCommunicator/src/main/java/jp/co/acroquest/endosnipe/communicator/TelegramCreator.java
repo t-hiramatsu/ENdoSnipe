@@ -83,14 +83,19 @@ public final class TelegramCreator implements TelegramConstants
 	 *			Javelinログ
 	 * @param telegramId
 	 *			電文 ID
+	 * @param itemName
+	 *          項目名
 	 * @return ログ通知電文
 	 */
 	public static Telegram createJvnFileNotifyTelegram(final String jvnFileName,
 			final String javelinLogContent, final long telegramId, final String itemName)
 	{
-		Telegram telegram =
-				createJvnLogDownloadTelegram(BYTE_REQUEST_KIND_NOTIFY, new Object[]{jvnFileName},
-											 new Object[]{javelinLogContent}, telegramId, itemName);
+		Telegram telegram =	createJvnLogDownloadTelegram(
+		                             BYTE_REQUEST_KIND_NOTIFY, 
+		                             new Object[]{jvnFileName},
+		                             new Object[]{javelinLogContent}, 
+									 telegramId, 
+									 itemName);
 
 		return telegram;
 	}
@@ -122,11 +127,13 @@ public final class TelegramCreator implements TelegramConstants
 	 *			Javelinログファイルの内容
 	 * @param telegramId
 	 *			電文 ID
+	 * @param itemName
+	 *          項目名
 	 * @return JVNログ電文
 	 */
 	public static Telegram createJvnLogDownloadTelegram(final byte requestKind,
-			final Object[] jvnFileNames, Object[] jvnFileContents, final long telegramId,
-			String itemName)
+			final Object[] jvnFileNames, Object[] jvnFileContents, 
+			final long telegramId, String itemName)
 	{
 		final JavelinConfig JAVELINCONFIG = new JavelinConfig();
 
@@ -138,8 +145,11 @@ public final class TelegramCreator implements TelegramConstants
 
 		// 電文本体を作る
 		ResponseBody jvnFileNameBody =
-				TelegramUtil.createResponseBody(OBJECTNAME_JVN_FILE, ITEMNAME_JVN_FILE_NAME,
-												ItemType.ITEMTYPE_STRING, jvnFileNames);
+				TelegramUtil.createResponseBody(
+	                                OBJECTNAME_JVN_FILE, 
+	                                ITEMNAME_JVN_FILE_NAME,
+									ItemType.ITEMTYPE_STRING, 
+									jvnFileNames);
 
 		if (jvnFileContents == null)
 		{
@@ -162,14 +172,17 @@ public final class TelegramCreator implements TelegramConstants
 				}
 				String jvnFileName = (String)objJvnFileName;
 				String jvnFileContent =
-						IOUtil.readFileToString(JAVELINCONFIG.getJavelinFileDir() + File.separator
-								+ jvnFileName, JAVELINCONFIG.getJvnDownloadMax());
+						IOUtil.readFileToString(
+		                          JAVELINCONFIG.getJavelinFileDir()
+		                        + File.separator + jvnFileName, 
+		                        JAVELINCONFIG.getJvnDownloadMax());
 				jvnFileContents[index] = jvnFileContent;
 			}
 		}
 		ResponseBody jvnFileContentBody =
-				TelegramUtil.createResponseBody(OBJECTNAME_JVN_FILE, ITEMNAME_JVN_FILE_CONTENT,
-												ItemType.ITEMTYPE_STRING, jvnFileContents);
+				TelegramUtil.createResponseBody(
+                                OBJECTNAME_JVN_FILE, ITEMNAME_JVN_FILE_CONTENT, 
+                                ItemType.ITEMTYPE_STRING, jvnFileContents);
 
 		Object[] itemNames = new Object[jvnFileNames.length];
 		for (int i = 0; i < itemNames.length; i++)
@@ -177,18 +190,24 @@ public final class TelegramCreator implements TelegramConstants
 			itemNames[i] = itemName;
 		}
 		ResponseBody jvnItemNameBody =
-				TelegramUtil.createResponseBody(OBJECTNAME_JVN_FILE, ITEMNAME_JVN_ITEM_NAME,
-												ItemType.ITEMTYPE_STRING, itemNames);
+				TelegramUtil.createResponseBody(
+                                OBJECTNAME_JVN_FILE, ITEMNAME_JVN_ITEM_NAME, 
+                                ItemType.ITEMTYPE_STRING, itemNames);
 
 		// 閾値設定を電文に追加する。
 		ResponseBody thresholdBody =
-				TelegramUtil.createResponseBody(OBJECTNAME_JVN_FILE, ITEMNAME_ALARM_THRESHOLD,
-												ItemType.ITEMTYPE_LONG,
-												new Long[]{javelinConfig__.getAlarmThreshold()});
+				TelegramUtil.createResponseBody(
+                                OBJECTNAME_JVN_FILE, 
+                                ITEMNAME_ALARM_THRESHOLD, 
+                                ItemType.ITEMTYPE_LONG, 
+                                new Long[]{javelinConfig__.getAlarmThreshold()});
+		
 		ResponseBody cpuThresholdBody =
-				TelegramUtil.createResponseBody(OBJECTNAME_JVN_FILE, ITEMNAME_ALARM_CPU_THRESHOLD,
-												ItemType.ITEMTYPE_LONG,
-												new Long[]{javelinConfig__.getAlarmCpuThreashold()});
+				TelegramUtil.createResponseBody(
+                                OBJECTNAME_JVN_FILE, 
+                                ITEMNAME_ALARM_CPU_THRESHOLD, 
+                                ItemType.ITEMTYPE_LONG, 
+                                new Long[]{javelinConfig__.getAlarmCpuThreashold()});
 
 		// 電文オブジェクトを設定する
 		Telegram objTelegram = new Telegram();
@@ -220,8 +239,11 @@ public final class TelegramCreator implements TelegramConstants
 
 		// 電文本体を作る
 		ResponseBody body =
-				TelegramUtil.createResponseBody("jvnFile", "jvnFileName", ItemType.ITEMTYPE_STRING,
-												jvnFileNames);
+				TelegramUtil.createResponseBody(
+                                        "jvnFile", 
+                                        "jvnFileName", 
+                                        ItemType.ITEMTYPE_STRING,
+                    					jvnFileNames);
 
 		// 電文オブジェクトを設定する
 		Telegram objTelegram = new Telegram();
@@ -304,7 +326,8 @@ public final class TelegramCreator implements TelegramConstants
 					body.setStrItemName(ITEMNAME_TRANSACTION_GRAPH);
 					body.setIntLoopCount(1);
 					itemValueArr = new String[1];
-					itemValueArr[0] = invocation.isTransactionGraphOutput().toString();
+					itemValueArr[0] 
+					        = invocation.isTransactionGraphOutput().toString();
 					body.setObjItemValueArr(itemValueArr);
 					bodies.add(body);
 				}
@@ -388,7 +411,8 @@ public final class TelegramCreator implements TelegramConstants
 		 * @param alarmCpuThreshold
 		 *			CPUアラーム閾値（ <code>null</code> なら設定しない）
 		 */
-		public UpdateInvocationParam(String className, String methodName, Boolean transactionGraph,
+		public UpdateInvocationParam(String className, String methodName, 
+		        Boolean transactionGraph,
 				Boolean target, Long alarmThreshold, Long alarmCpuThreshold)
 		{
 			this.className_ = className;
@@ -496,9 +520,10 @@ public final class TelegramCreator implements TelegramConstants
 			final List<String> jvnFileNames)
 	{
 		Telegram telegram =
-				TelegramUtil.createSingleTelegram(BYTE_TELEGRAM_KIND_JVN_FILE, requestKind,
-												  OBJECTNAME_JVN_FILE, ITEMNAME_JVN_FILE_NAME,
-												  ItemType.ITEMTYPE_STRING, jvnFileNames);
+				TelegramUtil.createSingleTelegram(
+	                                  BYTE_TELEGRAM_KIND_JVN_FILE, requestKind,
+	                                  OBJECTNAME_JVN_FILE, ITEMNAME_JVN_FILE_NAME, 
+	                                  ItemType.ITEMTYPE_STRING, jvnFileNames);
 
 		return telegram;
 	}
@@ -514,7 +539,8 @@ public final class TelegramCreator implements TelegramConstants
 		objHeader.setId(TelegramUtil.generateTelegramId());
 		objHeader.setByteTelegramKind(BYTE_TELEGRAM_KIND_GET_DUMP);
 		objHeader.setByteRequestKind(BYTE_REQUEST_KIND_REQUEST);
-		Body[] bodies = TelegramUtil.createEmptyRequestBody(OBJECTNAME_DUMP, ITEMNAME_THREADDUMP);
+		Body[] bodies = 
+		        TelegramUtil.createEmptyRequestBody(OBJECTNAME_DUMP, ITEMNAME_THREADDUMP);
 
 		Telegram requestTelegram = new Telegram();
 		requestTelegram.setObjHeader(objHeader);
@@ -534,7 +560,8 @@ public final class TelegramCreator implements TelegramConstants
 		objHeader.setId(TelegramUtil.generateTelegramId());
 		objHeader.setByteTelegramKind(BYTE_TELEGRAM_KIND_GET_DUMP);
 		objHeader.setByteRequestKind(BYTE_REQUEST_KIND_REQUEST);
-		Body[] bodies = TelegramUtil.createEmptyRequestBody(OBJECTNAME_DUMP, ITEMNAME_HEAPDUMP);
+		Body[] bodies = 
+		        TelegramUtil.createEmptyRequestBody(OBJECTNAME_DUMP, ITEMNAME_HEAPDUMP);
 
 		Telegram objOutputTelegram = new Telegram();
 		objOutputTelegram.setObjHeader(objHeader);
@@ -555,7 +582,8 @@ public final class TelegramCreator implements TelegramConstants
 		objHeader.setId(telegramId);
 		objHeader.setByteTelegramKind(BYTE_TELEGRAM_KIND_GET_DUMP);
 		objHeader.setByteRequestKind(BYTE_REQUEST_KIND_RESPONSE);
-		Body[] bodies = TelegramUtil.createEmptyRequestBody(OBJECTNAME_DUMP, ITEMNAME_HEAPDUMP);
+		Body[] bodies = 
+		        TelegramUtil.createEmptyRequestBody(OBJECTNAME_DUMP, ITEMNAME_HEAPDUMP);
 
 		Telegram objOutputTelegram = new Telegram();
 		objOutputTelegram.setObjHeader(objHeader);
@@ -574,8 +602,9 @@ public final class TelegramCreator implements TelegramConstants
 		objHeader.setId(TelegramUtil.generateTelegramId());
 		objHeader.setByteTelegramKind(BYTE_TELEGRAM_KIND_GET_DUMP);
 		objHeader.setByteRequestKind(BYTE_REQUEST_KIND_REQUEST);
-		Body[] bodies =
-				TelegramUtil.createEmptyRequestBody(OBJECTNAME_DUMP, ITEMNAME_CLASSHISTOGRAM);
+		Body[] bodies = 
+		        TelegramUtil.createEmptyRequestBody(
+                                    OBJECTNAME_DUMP, ITEMNAME_CLASSHISTOGRAM);
 
 		Telegram objOutputTelegram = new Telegram();
 		objOutputTelegram.setObjHeader(objHeader);
@@ -597,7 +626,8 @@ public final class TelegramCreator implements TelegramConstants
 		objHeader.setByteTelegramKind(BYTE_TELEGRAM_KIND_GET_DUMP);
 		objHeader.setByteRequestKind(BYTE_REQUEST_KIND_RESPONSE);
 		Body[] bodies =
-				TelegramUtil.createEmptyRequestBody(OBJECTNAME_DUMP, ITEMNAME_CLASSHISTOGRAM);
+				TelegramUtil.createEmptyRequestBody(
+                                    OBJECTNAME_DUMP, ITEMNAME_CLASSHISTOGRAM);
 
 		Telegram objOutputTelegram = new Telegram();
 		objOutputTelegram.setObjHeader(objHeader);

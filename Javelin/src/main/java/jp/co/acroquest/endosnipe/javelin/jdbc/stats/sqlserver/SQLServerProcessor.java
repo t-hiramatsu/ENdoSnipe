@@ -58,6 +58,10 @@ public class SQLServerProcessor extends AbstractProcessor
 
     /** SQL Server で実行計画取得を終了するための設定コマンド */
     private static final String SHOWPLAN_OFF = "SET " + SQLSERVER_SHOWPLAN + " OFF;";
+    
+    /** メッセージ取得用のキー */
+    private static final String KEY = "javelin.jdbc.stats.sqlserver." 
+                                    + "SQLServerProcessor.NoSuchFieldExceptionMessage";
 
     /**
      * {@inheritDoc}
@@ -135,8 +139,7 @@ public class SQLServerProcessor extends AbstractProcessor
                 }
                 catch (NoSuchFieldException e)
                 {
-                    String key =
-                            "javelin.jdbc.stats.sqlserver.SQLServerProcessor.NoSuchFieldExceptionMessage";
+                    String key = KEY;
                     String message = JdbcJavelinMessages.getMessage(key);
                     SystemLogger.getInstance().warn(message, e);
                 }

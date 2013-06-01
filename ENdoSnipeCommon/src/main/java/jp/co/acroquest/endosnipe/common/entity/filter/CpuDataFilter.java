@@ -41,15 +41,15 @@ import jp.co.acroquest.endosnipe.common.entity.series.GraphResourceEntry;
  */
 public class CpuDataFilter // extends GraphDataFilter
 {
-    private static final double TEN_THOUSAND = 10000.0;
+    private static final double UPTIME_CAL = 10000.0;
+    
+    private static final long VALUE_NOT_SET = -1;
 
-	private static final long   VALUE_NOT_SET = -1;
+    private static final double MAX_CPU_RATE = 100.0;
 
-    private static final double MAX_CPU_RATE  = 100.0;
+    private long prevCpuTime_ = VALUE_NOT_SET;
 
-    private long                prevCpuTime_  = VALUE_NOT_SET;
-
-    private long                prevUpTime_   = VALUE_NOT_SET;
+    private long prevUpTime_ = VALUE_NOT_SET;
 
     /**
      * CPU 使用率を扱うフィルタを生成します。<br />
@@ -67,8 +67,7 @@ public class CpuDataFilter // extends GraphDataFilter
      */
     public GraphResource filter(final List<MeasurementData> valuesMap)
     {
-        if (valuesMap == null ||
-            valuesMap.size() == 0)
+        if (valuesMap == null || valuesMap.size() == 0)
         {
             return null;
         }
@@ -79,8 +78,7 @@ public class CpuDataFilter // extends GraphDataFilter
 
         GraphResource graphResource = new GraphResource("");
         int index = 0;
-        if (this.prevCpuTime_ == VALUE_NOT_SET ||
-            this.prevUpTime_ == VALUE_NOT_SET)
+        if (this.prevCpuTime_ == VALUE_NOT_SET || this.prevUpTime_ == VALUE_NOT_SET)
         {
             detailMap = valuesMap.get(index).getMeasurementDetailMap();
 
@@ -105,8 +103,9 @@ public class CpuDataFilter // extends GraphDataFilter
             {
                 long processorCount = Long.valueOf(processorCountObject.value).longValue();
                 long time = valuesMap.get(index).measurementTime.getTime();
-                double cpuUsage = (nowCpuTime - this.prevCpuTime_) /
-                                  ((nowUpTime - this.prevUpTime_) * TEN_THOUSAND * processorCount);
+                double cpuUsage =
+                        (nowCpuTime - this.prevCpuTime_)
+                        / ((nowUpTime - this.prevUpTime_) * UPTIME_CAL * processorCount);
                 GraphResourceEntry entry = new GraphResourceEntry(time, Double.valueOf(cpuUsage));
                 graphResource.addGraphResourceEntry(null, entry);
                 this.prevUpTime_ = nowUpTime;

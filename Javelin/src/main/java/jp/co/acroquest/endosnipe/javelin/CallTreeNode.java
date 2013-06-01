@@ -66,7 +66,7 @@ public class CallTreeNode
     private long                startTime_;
 
     /** 終了時刻 */
-    private long                endTime_  = -1;
+    private long                endTime_     = -1;
 
     /** 累積時間 */
     private long                accumulatedTime_;
@@ -96,7 +96,7 @@ public class CallTreeNode
     private CallTreeNode        parent_;
 
     /** CallTreeNodeの子ノード */
-    private List<CallTreeNode>  children_ = new ArrayList<CallTreeNode>();
+    private List<CallTreeNode>  children_    = new ArrayList<CallTreeNode>();
 
     /** フィールドアクセス */
     private boolean             isFieldAccess_;
@@ -114,13 +114,13 @@ public class CallTreeNode
     private long                childrenUserTime_;
 
     /** １つのノードに記録するイベントの最大数 */
-    private static final int    MAX_EVENT = 100;
+    private static final int    MAX_EVENT    = 100;
 
     /** Invocationに記録したかどうかを示すフラグ。 */
-    private boolean             isRecoreded_= false;
+    private boolean             isRecoreded_ = false;
 
     /** ストールメソッドとして検出されたかどうかを示すフラグ */
-    private boolean isStalled_ = false;
+    private boolean             isStalled_   = false;
 
     /**
      * 深さを取得する。
@@ -706,51 +706,91 @@ public class CallTreeNode
         javelinTime_ = javelinTime;
     }
 
+    /**
+     * 子ノードで消費された処理時間を取得します。
+     * @return 子ノードで消費された処理時間
+     */
     public long getChildrenTime()
     {
         return childrenTime_;
     }
 
+    /**
+     * 子ノードで消費されたCPU時間を取得します。
+     * @return 子ノードで消費されたCPU時間
+     */
     public long getChildrenCpuTime()
     {
         return childrenCpuTime_;
     }
 
+    /**
+     * 子ノードで消費されたユーザ時間を取得します。
+     * @return 子ノードで消費されたユーザ時間
+     */
     public long getChildrenUserTime()
     {
         return childrenUserTime_;
     }
 
+    /**
+     * 子ノードで消費された処理時間を追加します。
+     * @param childrenTime 子ノードで消費された処理時間
+     */
     public void addChildrenTime(long childrenTime)
     {
         childrenTime_ += childrenTime;
     }
 
+    /**
+     * 子ノードで消費されたCPU時間を追加します。
+     * @param childrenCpuTime 子ノードで消費されたCPU時間
+     */
     public void addChildrenCpuTime(long childrenCpuTime)
     {
         childrenCpuTime_ += childrenCpuTime;
     }
 
+    /**
+     * 子ノードで消費されたユーザ時間を追加します。
+     * @param childrenUserTime 子ノードで消費されたユーザ時間
+     */
     public void addChildrenUserTime(long childrenUserTime)
     {
         childrenUserTime_ += childrenUserTime;
     }
 
+    /**
+     * Invocationに記録したかどうかのフラグを取得します。
+     * @return Invocationに記録したときtrue/そうでないときfalse
+     */
     public boolean isRecoreded()
     {
         return isRecoreded_;
     }
 
+    /**
+     * Invocationに記録したかどうかのフラグを設定します。
+     * @param isRecoreded Invocationに記録したかどうかのフラグ
+     */
     public void setRecoreded(boolean isRecoreded)
     {
         isRecoreded_ = isRecoreded;
     }
 
+    /**
+     * ストールメソッドとして検出されたかどうかを示すフラグを取得します。
+     * @return ストールメソッドとして検出されたときtrue/そうでないときfalse
+     */
     public boolean isStalled()
     {
         return isStalled_;
     }
 
+    /**
+     * ストールメソッドとして検出されたかどうかを示すフラグを設定します。
+     * @param isStalled ストールメソッドとして検出されたかどうかを示すフラグ
+     */
     public void setStalled(boolean isStalled)
     {
         isStalled_ = isStalled;

@@ -38,7 +38,6 @@ public interface AlarmListener
      * しきい値超過のアラームを通知する際に使用する。
      * 
      * @param node しきい値超過した呼び出しの情報。
-     * @param telegramId 電文 ID
      */
     void sendExceedThresholdAlarm(CallTreeNode node);
 

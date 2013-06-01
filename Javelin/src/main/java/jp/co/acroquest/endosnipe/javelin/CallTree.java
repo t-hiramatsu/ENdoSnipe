@@ -46,6 +46,9 @@ import jp.co.acroquest.endosnipe.javelin.util.TreeMap;
  */
 public class CallTree
 {
+    /** デフォルトのコールバックリストのサイズ */
+    private static final int DEFAULT_CALLBACK_LIST_SIZE = 5;
+    
     /** CallTreeノード */
     private CallTreeNode rootNode_;
 
@@ -91,10 +94,10 @@ public class CallTree
      * javelin.leak.collection.monitorのコピーフィールド
      * (トランザクション中の変更を防止する。)
      */
-    private boolean isCollectionMonitorEnabled_ = config_.isCollectionMonitor();
+    private boolean isCollectionMonitorEnabled_ = CONFIG.isCollectionMonitor();
     
     /** javelin.concurrent.monitorのコピーフィールド */
-    private boolean isConcurrentMonitorEnabled_ = config_.isConcurrentAccessMonitored();
+    private boolean isConcurrentMonitorEnabled_ = CONFIG.isConcurrentAccessMonitored();
     
     /** javelin.call.tree.enabledのコピーフィールド */
     private boolean isCallTreeEnabled_ = false;
@@ -109,10 +112,10 @@ public class CallTree
     private static final int MAX_EVENT = 100;
     
     /** ノード数の集計方法を判定するための設定参照用。  */
-    private static final JavelinConfig config_ = new JavelinConfig();
+    private static final JavelinConfig CONFIG = new JavelinConfig();
 
     /** ノード数の集計方法を判定するための設定参照用。  */
-    private static final JdbcJavelinConfig jdbcConfig_ = new JdbcJavelinConfig();    
+    private static final JdbcJavelinConfig JDBC_CONFIG = new JdbcJavelinConfig();    
     /**
      * StatsJavelinRecorderで閾値判定を行う際に、CallTreeNode固有の判定を行うクラス。
      * (key, RecordStrategy)のマップとして複数持つことができる。
@@ -135,7 +138,7 @@ public class CallTree
     public CallTree()
     {
         this.threadID_ = StatsUtil.createThreadIDText();
-        this.callbackList_ = new ArrayList<Callback>(5);
+        this.callbackList_ = new ArrayList<Callback>(DEFAULT_CALLBACK_LIST_SIZE);
         this.flagMap_ = new HashMap<String, Object>();
         this.loggingValueMap_ = new TreeMap<String, Object>();
         this.eventList_ = new ArrayList<CallTreeNode>();
@@ -194,8 +197,8 @@ public class CallTree
         this.normalStrategyMap_.clear();
         
         this.isConfigCopied_ = false;
-        this.isCollectionMonitorEnabled_  = config_.isCollectionMonitor();
-        this.isConcurrentMonitorEnabled_  = config_.isConcurrentAccessMonitored();
+        this.isCollectionMonitorEnabled_  = CONFIG.isCollectionMonitor();
+        this.isConcurrentMonitorEnabled_  = CONFIG.isConcurrentAccessMonitored();
      }
     
     /**
@@ -238,11 +241,11 @@ public class CallTree
             return;
         }
         this.isConfigCopied_ = true;
-        this.isCollectionMonitorEnabled_  = config_.isCollectionMonitor();
-        this.isConcurrentMonitorEnabled_  = config_.isConcurrentAccessMonitored();
-        this.isCallTreeEnabled_           = config_.isCallTreeEnabled();
-        this.isJdbcEnabled_               = jdbcConfig_.isJdbcJavelinEnabled();
-        this.isRecordDuplJdbcCallEnabled_ = jdbcConfig_.isRecordDuplJdbcCall();
+        this.isCollectionMonitorEnabled_  = CONFIG.isCollectionMonitor();
+        this.isConcurrentMonitorEnabled_  = CONFIG.isConcurrentAccessMonitored();
+        this.isCallTreeEnabled_           = CONFIG.isCallTreeEnabled();
+        this.isJdbcEnabled_               = JDBC_CONFIG.isJdbcJavelinEnabled();
+        this.isRecordDuplJdbcCallEnabled_ = JDBC_CONFIG.isRecordDuplJdbcCall();
     }
 
     /**

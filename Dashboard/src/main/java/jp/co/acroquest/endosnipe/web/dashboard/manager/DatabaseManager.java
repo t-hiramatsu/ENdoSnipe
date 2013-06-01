@@ -113,9 +113,8 @@ public final class DatabaseManager
 
         if ("server".equals(dbConfig_.getConnectionMode()))
         {
-            // serverモードの時はcollector.propertiesに定義した値を使用する        	
+            // serverモードの時はcollector.propertiesに定義した値を使用する
             return dbConfig_.getDatabaseName();
-            //return JavelinNotifyListener.getDatabaseName(agentId);
         }
         else
         {

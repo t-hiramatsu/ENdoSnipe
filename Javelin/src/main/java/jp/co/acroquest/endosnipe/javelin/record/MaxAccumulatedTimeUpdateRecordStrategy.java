@@ -39,6 +39,9 @@ import jp.co.acroquest.endosnipe.javelin.log.JavelinLogCallback;
 public class MaxAccumulatedTimeUpdateRecordStrategy extends
         S2MaxAccumulatedTimeUpdateRecordStrategy
 {
+    /** メガを表す数字 */
+    private static final int MEGA = 1000000;
+    
     /**
      * アラームを発生させるかどうかを判定します。<br />
      * 
@@ -58,7 +61,7 @@ public class MaxAccumulatedTimeUpdateRecordStrategy extends
                 result = true;
             }
             
-            long cpuTime = node.getCpuTime() / 1000000;
+            long cpuTime = node.getCpuTime() / MEGA;
             if (cpuTime > invocation.getAlarmCpuThreshold())
             {
                 invocation.setAlarmCpuThreshold(cpuTime);

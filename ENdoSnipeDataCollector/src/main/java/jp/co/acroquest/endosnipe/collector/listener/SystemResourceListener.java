@@ -39,8 +39,6 @@ import jp.co.acroquest.endosnipe.communicator.accessor.ResourceNotifyAccessor;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 
-import org.seasar.framework.log.Logger;
-
 /**
  * リソース通知応答電文受信用のリスナクラスです。<br />
  * 受信したリソース情報をデータベース格納用のキューへ追加します。<br />
@@ -53,10 +51,10 @@ public class SystemResourceListener extends AbstractTelegramListener implements 
         LogMessageCodes, CommonLogMessageCodes
 {
     /** ロガー */
-    private static final ENdoSnipeLogger logger__;
+    private static final ENdoSnipeLogger LOGGER;
     static
     {
-        logger__ =
+        LOGGER =
                    ENdoSnipeLogger.getLogger(SystemResourceListener.class,
                                              ENdoSnipeDataCollectorPluginProvider.INSTANCE);
     }
@@ -79,6 +77,7 @@ public class SystemResourceListener extends AbstractTelegramListener implements 
     /** 受信データ格納用キュー */
     private final JavelinDataQueue       queue_;
     
+    /** エージェント名 */
     private String                       agentName_;
 
     
@@ -107,9 +106,9 @@ public class SystemResourceListener extends AbstractTelegramListener implements 
         resourceData.portNum = this.port_;
         resourceData.clientId = this.clientId_;
 
-        if (logger__.isDebugEnabled() == true)
+        if (LOGGER.isDebugEnabled() == true)
         {
-            logger__.log(RESOURCE_NOTIFY_RECEIVED, resourceData.hostName, resourceData.ipAddress,
+            LOGGER.log(RESOURCE_NOTIFY_RECEIVED, resourceData.hostName, resourceData.ipAddress,
                          resourceData.portNum);
         }
 
@@ -138,6 +137,10 @@ public class SystemResourceListener extends AbstractTelegramListener implements 
         return TelegramConstants.BYTE_TELEGRAM_KIND_RESOURCENOTIFY;
     }
     
+    /**
+     * エージェント名を取得します。
+     * @return エージェント名
+     */
     public String getAgentName() 
     {
 		return agentName_;
@@ -203,7 +206,10 @@ public class SystemResourceListener extends AbstractTelegramListener implements 
         javelinData.setTelegramId(telegramId);
     }
     
-
+    /**
+     * エージェント名を設定します。
+     * @param agentName エージェント名
+     */
 	public void setAgentName(String agentName) 
 	{
 		this.agentName_ = agentName;

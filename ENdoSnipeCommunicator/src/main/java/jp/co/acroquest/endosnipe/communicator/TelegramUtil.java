@@ -52,8 +52,9 @@ import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
  */
 public final class TelegramUtil implements TelegramConstants
 {
-	private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(
-			TelegramUtil.class, ENdoSnipeCommunicatorPluginProvider.INSTANCE);
+	private static final ENdoSnipeLogger LOGGER = 
+			ENdoSnipeLogger.getLogger(TelegramUtil.class, 
+			                          ENdoSnipeCommunicatorPluginProvider.INSTANCE);
 
 	/** ëóêMìdï∂ÇÃç≈ëÂí∑ */
 	public static final int TELEGRAM_LENGTH_MAX = 10 * 1024 * 1024;
@@ -88,8 +89,7 @@ public final class TelegramUtil implements TelegramConstants
 	private static final long TELEGRAM_ID_START = 1;
 
 	/** ìdï∂ ID */
-	private static final AtomicLong TELEGRAM_ID = new AtomicLong(
-			TELEGRAM_ID_START);
+	private static final AtomicLong TELEGRAM_ID = new AtomicLong(TELEGRAM_ID_START);
 
 	private TelegramUtil()
 	{

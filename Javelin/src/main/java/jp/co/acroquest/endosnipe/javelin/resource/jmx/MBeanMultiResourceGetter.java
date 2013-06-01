@@ -62,7 +62,9 @@ public class MBeanMultiResourceGetter implements MultiResourceGetter
         for (MBeanValueGetter getter : this.getterList_)
         {
             if (resourceItemList == null)
+            {
                 resourceItemList = new ArrayList<ResourceItem>(this.getterList_.size());
+            }
 
             List<ResourceItem> itemList = getter.getValue();
             if (itemList != null && itemList.size() != 0)
