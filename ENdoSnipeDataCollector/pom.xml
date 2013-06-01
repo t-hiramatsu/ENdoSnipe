@@ -3,15 +3,15 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<name>ENdoSnipeReportCommand Project</name>
-	<groupId>ENdoSnipeReportCommand</groupId>
-	<artifactId>ENdoSnipeReportCommand</artifactId>
+	<name>ENdoSnipeDataCollector Project</name>
+	<groupId>ENdoSnipeDataCollector</groupId>
+	<artifactId>ENdoSnipeDataCollector</artifactId>
 	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
 	<!-- プロジェクトプロパティ -->
 	<properties>
-		<jdk.version>1.6</jdk.version>
+		<jdk.version>1.5</jdk.version>
 		<src.encoding>shift_jis</src.encoding>
 		<site.encoding>windows-31j</site.encoding>
 	</properties>
@@ -52,84 +52,209 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>ant</groupId>
-			<artifactId>ant</artifactId>
+			<groupId>org.eclipse.core.runtime_3.8.0</groupId>
+			<artifactId>org.eclipse.core.runtime_3.8.0</artifactId>
 			<version>1.0</version>
 			<scope>system</scope>
+			<!-- ★パスが環境依存のためエラーの原因となります。 -->
 			<systemPath>
-				${basedir}/lib/ant.jar
+				C:/AcroWorks/Tools/eclipse/plugins/org.eclipse.core.runtime_3.8.0.v20120521-2346.jar
 			</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>org.eclipse.core.jobs_3.4.100</groupId>
-			<artifactId>org.eclipse.core.jobs_3.4.100</artifactId>
+			<groupId>org.eclipse.osgi_3.8.0</groupId>
+			<artifactId>org.eclipse.osgi_3.8.0</artifactId>
 			<version>1.0</version>
 			<scope>system</scope>
+			<!-- ★パスが環境依存のためエラーの原因となります。 -->
 			<systemPath>
-				${basedir}/lib/org.eclipse.core.jobs_3.4.100.v20090429-1800.jar
+				C:/AcroWorks/Tools/eclipse/plugins/org.eclipse.osgi_3.8.0.v20120529-1548.jar
 			</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>ant-launcher</groupId>
-			<artifactId>ant-launcher</artifactId>
+			<groupId>org.eclipse.equinox.common_3.6.100</groupId>
+			<artifactId>org.eclipse.equinox.common_3.6.100</artifactId>
 			<version>1.0</version>
 			<scope>system</scope>
+			<!-- ★パスが環境依存のためエラーの原因となります。 -->
 			<systemPath>
-				${basedir}/lib/ant-launcher.jar
+				C:/AcroWorks/Tools/eclipse/plugins/org.eclipse.equinox.common_3.6.100.v20120522-1841.jar
 			</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>commons-logging</groupId>
-			<artifactId>commons-logging</artifactId>
+			<groupId>org.eclipse.core.jobs_3.5.200</groupId>
+			<artifactId>org.eclipse.core.jobs_3.5.200</artifactId>
 			<version>1.0</version>
 			<scope>system</scope>
+			<!-- ★パスが環境依存のためエラーの原因となります。 -->
 			<systemPath>
-				${basedir}/lib/commons-logging-1.1.1.jar
+				C:/AcroWorks/Tools/eclipse/plugins/org.eclipse.core.jobs_3.5.200.v20120521-2346.jar
 			</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>org.eclipse.equinox.common_3.3.0</groupId>
-			<artifactId>org.eclipse.equinox.common_3.3.0</artifactId>
+			<groupId>runtime_registry_compatibility</groupId>
+			<artifactId>runtime_registry_compatibility</artifactId>
 			<version>1.0</version>
 			<scope>system</scope>
+			<!-- ★パスが環境依存のためエラーの原因となります。 -->
 			<systemPath>
-				${basedir}/lib/org.eclipse.equinox.common_3.3.0.v20070426.jar
+				C:/AcroWorks/Tools/eclipse/plugins/org.eclipse.core.runtime.compatibility.registry_3.5.100.v20120521-2346/runtime_registry_compatibility.jar
 			</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>endosnipe-common</groupId>
-			<artifactId>endosnipe-common</artifactId>
+			<groupId>org.eclipse.equinox.registry_3.5.200</groupId>
+			<artifactId>org.eclipse.equinox.registry_3.5.200</artifactId>
 			<version>1.0</version>
 			<scope>system</scope>
+			<!-- ★パスが環境依存のためエラーの原因となります。 -->
 			<systemPath>
-				${basedir}/lib/dependency/endosnipe-common-5.0.3.jar
+				C:/AcroWorks/Tools/eclipse/plugins/org.eclipse.equinox.registry_3.5.200.v20120522-1841.jar
 			</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>endosnipe-communicator</groupId>
-			<artifactId>endosnipe-communicator</artifactId>
+			<groupId>org.eclipse.equinox.preferences_3.5.0</groupId>
+			<artifactId>org.eclipse.equinox.preferences_3.5.0</artifactId>
 			<version>1.0</version>
 			<scope>system</scope>
+			<!-- ★パスが環境依存のためエラーの原因となります。 -->
 			<systemPath>
-				${basedir}/lib/dependency/endosnipe-communicator-5.0.3.jar
+				C:/AcroWorks/Tools/eclipse/plugins/org.eclipse.equinox.preferences_3.5.0.v20120522-1841.jar
 			</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>endosnipe-dataaccessor</groupId>
-			<artifactId>endosnipe-dataaccessor</artifactId>
+			<groupId>org.eclipse.core.contenttype_3.4.200</groupId>
+			<artifactId>org.eclipse.core.contenttype_3.4.200</artifactId>
 			<version>1.0</version>
 			<scope>system</scope>
+			<!-- ★パスが環境依存のためエラーの原因となります。 -->
 			<systemPath>
-				${basedir}/lib/dependency/endosnipe-dataaccessor-5.0.3.jar
+				C:/AcroWorks/Tools/eclipse/plugins/org.eclipse.core.contenttype_3.4.200.v20120523-2004.jar
 			</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>endosnipe-reporter</groupId>
-			<artifactId>endosnipe-reporter</artifactId>
+			<groupId>org.eclipse.equinox.app_1.3.100</groupId>
+			<artifactId>org.eclipse.equinox.app_1.3.100</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<!-- ★パスが環境依存のためエラーの原因となります。 -->
+			<systemPath>
+				C:/AcroWorks/Tools/eclipse/plugins/org.eclipse.equinox.app_1.3.100.v20120522-1841.jar
+			</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.ui_3.103.0</groupId>
+			<artifactId>org.eclipse.ui_3.103.0</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<!-- ★パスが環境依存のためエラーの原因となります。 -->
+			<systemPath>
+				C:/AcroWorks/Tools/eclipse/plugins/org.eclipse.ui_3.103.0.v20120521-2329.jar
+			</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.swt_3.100.0</groupId>
+			<artifactId>org.eclipse.swt_3.100.0</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<!-- ★パスが環境依存のためエラーの原因となります。 -->
+			<systemPath>
+				C:/AcroWorks/Tools/eclipse/plugins/org.eclipse.swt_3.100.0.v4233d.jar
+			</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.swt.win32.win32.x86_3.100.0</groupId>
+			<artifactId>org.eclipse.swt.win32.win32.x86_3.100.0</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<!-- ★パスが環境依存のためエラーの原因となります。 -->
+			<systemPath>
+				C:/AcroWorks/Tools/eclipse/plugins/org.eclipse.swt.win32.win32.x86_3.100.0.v4233d.jar
+			</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jface_3.8.0</groupId>
+			<artifactId>org.eclipse.jface_3.8.0</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<!-- ★パスが環境依存のためエラーの原因となります。 -->
+			<systemPath>
+				C:/AcroWorks/Tools/eclipse/plugins/org.eclipse.jface_3.8.0.v20120521-2329.jar
+			</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.core.commands_3.6.1</groupId>
+			<artifactId>org.eclipse.core.commands_3.6.1</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<!-- ★パスが環境依存のためエラーの原因となります。 -->
+			<systemPath>
+				C:/AcroWorks/Tools/eclipse/plugins/org.eclipse.core.commands_3.6.1.v20120521-2329.jar
+			</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.ui.workbench_3.103.0</groupId>
+			<artifactId>org.eclipse.ui.workbench_3.103.0</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<!-- ★パスが環境依存のためエラーの原因となります。 -->
+			<systemPath>
+				C:/AcroWorks/Tools/eclipse/plugins/org.eclipse.ui.workbench_3.103.0.v20120530-1824.jar
+			</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.e4.ui.workbench3_0.12.0</groupId>
+			<artifactId>org.eclipse.e4.ui.workbench3_0.12.0</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<!-- ★パスが環境依存のためエラーの原因となります。 -->
+			<systemPath>
+				C:/AcroWorks/Tools/eclipse/plugins/org.eclipse.e4.ui.workbench3_0.12.0.v20120521-2329.jar
+			</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<!-- ★パスが環境依存のためエラーの原因となります。 -->
+			<systemPath>
+				C:/AcroWorks/Tools/eclipse/plugins/org.junit_3.8.2.v3_8_2_v20100427-1100/junit.jar
+			</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>SNMP4J</groupId>
+			<artifactId>SNMP4J</artifactId>
 			<version>1.0</version>
 			<scope>system</scope>
 			<systemPath>
-				${basedir}/lib/dependency/endosnipe-reporter.jar
+				${basedir}/lib/opt/SNMP4J.jar
+			</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>activation</groupId>
+			<artifactId>activation</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>
+				${basedir}/lib/opt/activation.jar
+			</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>
+				${basedir}/lib/opt/mail.jar
+			</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>djunit</groupId>
+			<artifactId>djunit</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>
+				${basedir}/lib/djunit.jar
 			</systemPath>
 		</dependency>
 	</dependencies>
