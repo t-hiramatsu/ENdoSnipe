@@ -34,6 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class SignalService
 {
+
     /** ロガー。 */
     private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(MapService.class);
 
@@ -41,6 +42,9 @@ public class SignalService
      * デフォルトのシグナル状態(監視停止中)
      */
     private static final int DEFAULT_SIGNAL_STATE = -1;
+
+    /** シグナルのオブジェトに設定する引数の数 */
+    private static final int SIGNAL_ARGUMENT_COUNT = 6;
 
     /**
      * シグナル情報Dao
@@ -198,7 +202,7 @@ public class SignalService
         double escalationPeriod = signalDefinitionDto.getEscalationPeriod();
         String patternValue = signalDefinitionDto.getPatternValue();
 
-        int dtoCount = 6;
+        int dtoCount = SIGNAL_ARGUMENT_COUNT;
         signalBody.setIntLoopCount(dtoCount);
         String[] signalDefObj =
                 { String.valueOf(signalId), signalName, matchingPattern, String.valueOf(level),
@@ -422,4 +426,42 @@ public class SignalService
         JavelinMeasurementItemDao.deleteByMeasurementItemId(dbName, itemName);
     }
 
+    /**
+     * 同一のシグナル名を持つ閾値判定定義情報がDBに存在するかどうか。
+     * @param signalName シグナル名
+     * @return 同一シグナル名を保持する閾値判定定義情報が存在する場合にtrueを返し、存在しない場合にfalseを返す。
+     */
+    public boolean hasSameSignalName(final String signalName)
+    {
+        SignalInfo signalInfo = this.signalInfoDao.selectByName(signalName);
+        if (signalInfo == null)
+        {
+            // 同一シグナル名を持つ閾値判定定義情報が存在しない場合
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 同一のシグナル名を持つ閾値判定定義情報がDBに存在するかどうか。<br />
+     * ただし、同一のシグナルIDを保持する場合は、更新対象がDBに定義された閾値判定定義情報と同一とみなし、falseを返す。
+     * @param signalId シグナルID
+     * @param signalName シグナル名
+     * @return 同一シグナル名を保持する閾値判定定義情報が存在する場合にtrueを返し、存在しない場合にfalseを返す。
+     */
+    public boolean hasSameSignalName(final int signalId, final String signalName)
+    {
+        SignalInfo signalInfo = this.signalInfoDao.selectByName(signalName);
+        if (signalInfo == null)
+        {
+            // 同一シグナル名を持つ閾値判定定義情報が存在しない場合
+            return false;
+        }
+        else if (signalInfo.signalId == signalId)
+        {
+            // シグナル名が一致する閾値判定定義情報が更新対象自身の場合
+            return false;
+        }
+        return true;
+    }
 }

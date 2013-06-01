@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jp.co.acroquest.endosnipe.common.util.MessageUtil;
 import jp.co.acroquest.endosnipe.web.dashboard.constants.ResponseConstants;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.ResponseDto;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.SignalDefinitionDto;
@@ -107,6 +108,16 @@ public class SignalController
         SignalDefinitionDto signalDefinitionDto =
                 JSON.decode(signalDefinition, SignalDefinitionDto.class);
 
+        String signalName = signalDefinitionDto.getSignalName();
+        boolean hasSameSignalName = this.signalService.hasSameSignalName(signalName);
+        if (hasSameSignalName)
+        {
+            String errorMessage = MessageUtil.getMessage("WEWD0131", signalName);
+            responseDto.setResult(ResponseConstants.RESULT_FAIL);
+            responseDto.setMessage(errorMessage);
+            return responseDto;
+        }
+
         SignalInfo signalInfo = this.signalService.convertSignalInfo(signalDefinitionDto);
 
         // DBに追加する
@@ -139,12 +150,22 @@ public class SignalController
      */
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> edit(
-            @RequestParam(value = "signalDefinition") final String signalDefinition)
+    public ResponseDto edit(@RequestParam(value = "signalDefinition") final String signalDefinition)
     {
+        ResponseDto responseDto = new ResponseDto();
         SignalDefinitionDto signalDefinitionDto =
                 JSON.decode(signalDefinition, SignalDefinitionDto.class);
 
+        int signalId = signalDefinitionDto.getSignalId();
+        String signalName = signalDefinitionDto.getSignalName();
+        boolean hasSameSignalName = this.signalService.hasSameSignalName(signalId, signalName);
+        if (hasSameSignalName)
+        {
+            String errorMessage = MessageUtil.getMessage("WEWD0131", signalName);
+            responseDto.setResult(ResponseConstants.RESULT_FAIL);
+            responseDto.setMessage(errorMessage);
+            return responseDto;
+        }
         SignalInfo signalInfo = this.signalService.convertSignalInfo(signalDefinitionDto);
 
         // DBに登録されている定義を更新する
@@ -153,7 +174,7 @@ public class SignalController
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("signalDefinition", updatedDefinitionDto);
 
-        return map;
+        return responseDto;
     }
 
     /**

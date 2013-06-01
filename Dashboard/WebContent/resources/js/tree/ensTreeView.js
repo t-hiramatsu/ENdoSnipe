@@ -686,9 +686,15 @@ ENS.treeView = wgp.TreeView
 			/**
 			 * シグナル編集操作成功時に、画面に結果を反映する。
 			 */
-			callbackEditSignal_ : function(data) {
+			callbackEditSignal_ : function(responseDto) {
+				var result = responseDto.result;
 
-				var signalDefinition = data.signalDefinition;
+				if (result === "fail") {
+					var message = responseDto.message;
+					alert(message);
+					return;
+				}
+				var signalDefinition = responseDto.data;
 				var signalName = signalDefinition.signalName;
 				var breforeSignalName = $("#beforeSignalName").val();
 				$("#beforeSignalName").val("");

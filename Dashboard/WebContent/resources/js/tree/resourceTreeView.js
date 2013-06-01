@@ -102,6 +102,14 @@ ENS.ResourceTreeView = ENS.treeView
 							var treeIcon = treeModel.get("icon");
 							var treeText = treeModel.get("data");
 
+							var signalModel = instance.childView.collection
+									.get(treeId);
+							// 同一シグナルが既にマップ上に存在する場合
+							if (signalModel != null) {
+								alert("Cannot add the signal. Because the signal has already existed in the map.");
+								return false;
+							}
+
 							resourceModel.set({
 								objectId : treeId,
 								objectName : "ENS.SignalElementView",
@@ -112,7 +120,7 @@ ENS.ResourceTreeView = ENS.treeView
 								stateId : "normal",
 								linkId : "test",
 								stateId : treeIcon,
-								text :treeText
+								text : treeText
 							});
 						}
 
@@ -128,27 +136,27 @@ ENS.ResourceTreeView = ENS.treeView
 
 			},
 			/**
-			 * ツリー要素の基となるコレクションが変更された場合に、
-			 * 別ペインへ状態変更を伝搬する。
+			 * ツリー要素の基となるコレクションが変更された場合に、 別ペインへ状態変更を伝搬する。
 			 */
-			onChange : function(treeModel){
+			onChange : function(treeModel) {
 
 				// 継承元のonChangeメソッド実行
-				ENS.treeView.prototype.onChange.apply(this, [treeModel]);
+				ENS.treeView.prototype.onChange.apply(this, [ treeModel ]);
 
 				var treeType = treeModel.get("type");
-				if(this.childView){
+				if (this.childView) {
 					var childView = this.childView;
 
 					var mapElementView = childView.viewCollection[treeModel.id];
 
 					// 伝搬対象のビューがマップに存在しなければ処理終了
-					if(!mapElementView){
+					if (!mapElementView) {
 						return;
 					}
 
 					// モデルのチェンジイベントを発行する。
-					mapElementView.model.trigger("change", mapElementView.model);
+					mapElementView.model
+							.trigger("change", mapElementView.model);
 				}
 			}
 		});

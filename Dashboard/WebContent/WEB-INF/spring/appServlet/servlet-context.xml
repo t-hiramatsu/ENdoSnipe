@@ -65,7 +65,7 @@
 	<beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<beans:property name="dataSource" ref="dataSource" />
 		<beans:property name="mapperLocations"
-			value="classpath*:jp/co/acroquest/endosnipe/web/dashboard/dao/**/*.xml" />
+			value="classpath:jp/co/acroquest/endosnipe/web/dashboard/dao/**/*.xml" />
 	</beans:bean>
 
 	<beans:bean id="signalInfoDao" class="org.mybatis.spring.mapper.MapperFactoryBean">

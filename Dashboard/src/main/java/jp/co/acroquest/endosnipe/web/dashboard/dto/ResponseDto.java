@@ -35,6 +35,9 @@ public class ResponseDto
     /** 結果 */
     private String result_;
 
+    /** メッセージ */
+    private String message_;
+
     /** データ */
     private Object data_;
 
@@ -65,6 +68,24 @@ public class ResponseDto
     }
 
     /**
+     * メッセージを取得する。
+     * @return メッセージ
+     */
+    public String getMessage()
+    {
+        return this.message_;
+    }
+
+    /**
+     * メッセージを設定する。
+     * @param message メッセージ
+     */
+    public void setMessage(final String message)
+    {
+        this.message_ = message;
+    }
+
+    /**
      * 
      * @return データ
      */
@@ -91,7 +112,8 @@ public class ResponseDto
         final int prime = 31;
         int result = 1;
         result = prime * result + ((data_ == null) ? 0 : data_.hashCode());
-        result = prime * result + ((this.result_ == null) ? 0 : this.result_.hashCode());
+        result = prime * result + ((message_ == null) ? 0 : message_.hashCode());
+        result = prime * result + ((result_ == null) ? 0 : result_.hashCode());
         return result;
     }
 
@@ -125,6 +147,17 @@ public class ResponseDto
         {
             return false;
         }
+        if (message_ == null)
+        {
+            if (other.message_ != null)
+            {
+                return false;
+            }
+        }
+        else if (!message_.equals(other.message_))
+        {
+            return false;
+        }
         if (result_ == null)
         {
             if (other.result_ != null)
@@ -145,7 +178,8 @@ public class ResponseDto
     @Override
     public String toString()
     {
-        return "ResponseDto [result=" + result_ + ", data=" + data_ + "]";
+        return "ResponseDto [result_=" + result_ + ", message_=" + message_ + ", data_=" + data_
+                + "]";
     }
 
 }

@@ -7,6 +7,7 @@ ENS.signalElementModel = wgp.MapElement.extend({
 
 // 状態ID毎の画像のURL定義
 ENS.SignalElementURL = {
+	"signal_-1" : "/resources/images/signal/signal_-1.png",
 	"signal_0" : "/resources/images/signal/signal_0.png",
 	"signal_1" : "/resources/images/signal/signal_1.png",
 	"signal_2" : "/resources/images/signal/signal_2.png",
@@ -23,7 +24,7 @@ ENS.SignalElementView = wgp.MapElementView.extend({
 
 		// 状態画像の情報はresourceTreeから取得
 		var treeModel = resourceTreeView.collection.get(model.id);
-		var icon = "signal_0";
+		var icon = "signal_-1";
 		if(treeModel){
 			icon = treeModel.get("icon");
 		}
