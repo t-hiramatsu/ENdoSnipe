@@ -63,7 +63,6 @@ wgp.PerspectiveView = Backbone.View
 				$(window).resize(function(event){
 
 					// パースペクティブに対するリサイズの場合は処理を行わない。
-					console.log($(event.target));
 					if($(event.target).hasClass(wgp.styleClassConstants.PERSPECTIVE_DROP_AREA)){
 						return false;
 					}else{

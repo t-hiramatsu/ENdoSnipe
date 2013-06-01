@@ -138,7 +138,7 @@ public class TreeStateListener extends AbstractTelegramListener
         }
 
         // TODO 更新のタイプは固定にしているが、状況によって変更できるようにする
-        resourceSender.sendTreeStatus(treeMenuDtoList, "add");
+        resourceSender.send(treeMenuDtoList, "add");
 
         return null;
     }

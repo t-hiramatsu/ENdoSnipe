@@ -37,7 +37,6 @@ import java.util.Map.Entry;
 import jp.co.acroquest.endosnipe.data.dao.JavelinLogDao;
 import jp.co.acroquest.endosnipe.data.entity.JavelinLog;
 import jp.co.acroquest.endosnipe.perfdoctor.WarningUnit;
-import jp.co.acroquest.endosnipe.web.dashboard.constants.TreeMenuConstants;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.MeasurementValueDto;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.PerfDoctorTableDto;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.SignalDefinitionDto;
@@ -61,7 +60,7 @@ import org.wgp.util.DataConvertUtil;
 
 /**
  * 期間データを取り扱うコントローラークラス。
- * 
+ *
  * @author miyasaka
  *
  */
@@ -97,7 +96,7 @@ public class TermDataController
 
     /**
      * 機関データを取得する。
-     * 
+     *
      * @param data 取得する期間データに関する情報
      * @return 期間データ
      */
@@ -146,7 +145,7 @@ public class TermDataController
             Date endDate = new Date(endTime);
             Map<String, List<MeasurementValueDto>> measurementValueMap =
                     measurementValueService.getMeasurementValueList(startDate, endDate,
-                                                                     graphDataList);
+                                                                    graphDataList);
             for (Entry<String, List<MeasurementValueDto>> measurementValueEntry : measurementValueMap.entrySet())
             {
                 String dataGroupId = measurementValueEntry.getKey();
@@ -214,7 +213,7 @@ public class TermDataController
 
     /**
      * ツリーメニューのデータを作成する。
-     * 
+     *
      * @param treeMenuDtoList ツリーメニューのDtoのリスト
      * @return ツリーメニューのデータ
      */
@@ -240,26 +239,7 @@ public class TermDataController
 
         for (SignalDefinitionDto signal : signalList)
         {
-            SignalTreeMenuDto treeMenu = new SignalTreeMenuDto();
-
-            String signalName = signal.getSignalName();
-
-            // シグナル名から親階層のツリーID名を取得する。
-            // ※一番右のスラッシュ区切りまでを親階層とする。
-            int terminateParentTreeIndex = signalName.lastIndexOf("/");
-            String parentTreeId = signalName.substring(0, terminateParentTreeIndex);
-
-            // シグナル表示名を取得する。
-            // ※一番右のスラッシュ区切り以降を表示名とする。
-            String signalDisplayName = signalName.substring(terminateParentTreeIndex + 1);
-
-            treeMenu.setId(signalName);
-            treeMenu.setTreeId(signalName);
-            treeMenu.setParentTreeId(parentTreeId);
-            treeMenu.setData(signalDisplayName);
-            treeMenu.setSignalValue(signal.getSignalValue());
-            treeMenu.setType(TreeMenuConstants.TREE_MENU_TYPE_SIGNAL);
-            treeMenu.setIcon("signal_" + signal.getSignalValue());
+            SignalTreeMenuDto treeMenu = this.signalService.convertSignalTreeMenu(signal);
 
             signalTreeList.add(treeMenu);
         }

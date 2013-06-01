@@ -10,20 +10,20 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-	<!-- DispatcherServlet Context: defines this servlet's request-processing 
+	<!-- DispatcherServlet Context: defines this servlet's request-processing
 		infrastructure -->
 
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
 
-	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving
 		up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
 
 	<context:component-scan base-package="jp.co.acroquest.endosnipe" />
 	<context:component-scan base-package="org.wgp" />
 
-	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources
 		in the /WEB-INF/views directory -->
 	<beans:bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -43,6 +43,9 @@
 			<aop:pointcut id="updateDataPointCut"
 				expression="execution(* org.wgp.manager.WgpDataManager.updateData (..))" />
 			<aop:before pointcut-ref="updateDataPointCut" method="updateInterceptor" />
+			<aop:pointcut id="deleteDataPointCut"
+				expression="execution(* org.wgp.manager.WgpDataManager.removeData(..))" />
+			<aop:before pointcut-ref="deleteDataPointCut" method="deleteInterceptor" />
 		</aop:aspect>
 		<aop:aspect ref="completeUpdateDataInterceptor">
 			<!-- you must change this setting of expression. -->
@@ -79,7 +82,7 @@
 			value="jp.co.acroquest.endosnipe.web.dashboard.dao.MapInfoDao" />
 		<beans:property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</beans:bean>
-	
+
 	<beans:bean id="reportDefinitionDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
 		<beans:property name="mapperInterface"
 			value="jp.co.acroquest.endosnipe.web.dashboard.dao.ReportDefinitionDao" />

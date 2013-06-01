@@ -33,6 +33,7 @@ import jp.co.acroquest.endosnipe.communicator.entity.Body;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.SignalTreeMenuDto;
+import jp.co.acroquest.endosnipe.web.dashboard.dto.TreeMenuDto;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.EventManager;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.ResourceSender;
 
@@ -58,7 +59,7 @@ public class SignalStateChangeListener extends AbstractTelegramListener
     @Override
     protected Telegram doReceiveTelegram(final Telegram telegram)
     {
-        List<SignalTreeMenuDto> signalTreeMenuDtoList = new ArrayList<SignalTreeMenuDto>();
+        List<TreeMenuDto> signalTreeMenuDtoList = new ArrayList<TreeMenuDto>();
 
         Body[] resourceAlarmBodys = telegram.getObjBody();
 
@@ -112,7 +113,7 @@ public class SignalStateChangeListener extends AbstractTelegramListener
             return null;
         }
 
-        resourceSender.send(signalTreeMenuDtoList);
+        resourceSender.send(signalTreeMenuDtoList, "update");
 
         return null;
     }

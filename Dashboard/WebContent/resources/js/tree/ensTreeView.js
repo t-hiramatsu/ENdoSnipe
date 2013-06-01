@@ -639,11 +639,12 @@ ENS.treeView = wgp.TreeView
 				ENS.tree.doRender = true;
 			},
 			/**
-			 * シグナル追加処理操作成功後に、画面に結果を反映する。
+			 * シグナル追加操作の結果を表示する。
 			 */
 			callbackAddSignal_ : function(responseDto) {
 				var result = responseDto.result;
 
+				// 追加操作に失敗した場合はメッセージを表示する。
 				if (result === "fail") {
 					var message = responseDto.message;
 					alert(message);
@@ -656,82 +657,30 @@ ENS.treeView = wgp.TreeView
 							+ "\nPlease change signal name and try again.");
 					return;
 				}
-
-				var signalName = signalDefinition.signalName;
-
-				// シグナルの表示名及び親ノード名をシグナル名から導出する。
-				var showName = this.getSignalDisplayName_(signalName);
-				var targetTreeId = this.getSignalParentTreeId_(signalName);
-
-				// シグナルアイコンを取得する
-				var icon = this.getIcon(signalDefinition);
-
-				// シグナルをツリーに追加する。
-				var treeOption = {
-					id : signalName,
-					treeId : signalName,
-					data : showName,
-					parentTreeId : targetTreeId,
-					icon : icon,
-					type : ENS.tree.type.SIGNAL
-				};
-				this.collection.add([ treeOption ]);
-
-				// 追加したシグナルの箇所を展開＆選択する。
-				this.openNode(signalName, "id");
-
-				// 新しいシグナルに対してリアルタイム更新を行う
-				appView.syncData([ signalName ]);
 			},
 			/**
-			 * シグナル編集操作成功時に、画面に結果を反映する。
+			 * シグナル編集操作の結果を表示する。
 			 */
 			callbackEditSignal_ : function(responseDto) {
 				var result = responseDto.result;
 
+				// 編集操作に失敗した場合はメッセージを表示する。
 				if (result === "fail") {
 					var message = responseDto.message;
 					alert(message);
 					return;
 				}
-				var signalDefinition = responseDto.data;
-				var signalName = signalDefinition.signalName;
-				var breforeSignalName = $("#beforeSignalName").val();
-				$("#beforeSignalName").val("");
-
-				// シグナル表示名及び親階層のツリーIDを取得する。
-				var signalDisplayName = this.getSignalDisplayName_(signalName);
-				var parentTreeId = this.getSignalParentTreeId_(signalName);
-
-				// シグナルアイコンを取得する
-				var icon = this.getIcon(signalDefinition);
-
-				// 編集後のシグナル情報
-				var treeOption = {
-					id : signalName,
-					data : signalDisplayName,
-					parentTreeId : parentTreeId,
-					icon : icon,
-					type : ENS.tree.type.SIGNAL,
-					treeId : signalName
-				};
-
-				// ツリーに編集後の情報を設定する。
-				var treeModel = this.collection.get(breforeSignalName);
-				treeModel.set(treeOption);
-
-				// 新しいシグナルに対してリアルタイム更新を行う
-				appView.stopSyncData([ breforeSignalName ]);
-				appView.syncData([ signalName ]);
-
 			},
 			// シグナル削除処理応答受信後にツリーからシグナルを削除する。
-			callbackDeleteSignal_ : function(data) {
-				var signalName = data.signalName;
-				this.collection.remove({
-					id : signalName
-				});
+			callbackDeleteSignal_ : function(responseDto) {
+				var result = responseDto.result;
 
+				// 削除操作に失敗した場合はメッセージを表示する。
+				if (result === "fail") {
+					var message = responseDto.message;
+					alert(message);
+					return;
+				}
 			},
 			// レポート削除処理応答受信後にツリーからシグナルを削除する。
 			callbackDeleteReport_ : function(data) {
@@ -787,7 +736,7 @@ ENS.treeView = wgp.TreeView
 					}
 					reportTreeId += nameSplit;
 				}
-				
+
 				var treeOption = {
 					id : signalName,
 					data : showName,
@@ -870,7 +819,7 @@ ENS.treeView = wgp.TreeView
 				var settings = {
 					url : ENS.tree.SIGNAL_GET_URL,
 					data : {
-						signalName : treeModel.get("treeId")
+						signalName : treeModel.get("id")
 					}
 				}
 
@@ -959,10 +908,30 @@ ENS.treeView = wgp.TreeView
 				}
 			},
 			/**
+			 * ツリー要素の基となるコレクションに要素が追加された場合に、変更内容をツリーに反映する。
+			 */
+			onAdd : function(treeModel) {
+
+				// 継承元の追加処理を実行して画面に反映する。
+				wgp.TreeView.prototype.onAdd.call(this, treeModel);
+
+				var treeType = treeModel.get("type");
+
+				// シグナルの場合はリアルタイム更新開始処理を行う。
+				if(ENS.tree.type.SIGNAL == treeType){
+					appView.syncData([ treeModel.get("id") ]);
+				}
+
+			},
+			/**
 			 * ツリー要素の基となるコレクションが変更された場合に、 変更内容をツリーに反映する。
 			 */
 			onChange : function(treeModel) {
-				var treeId = treeModel.id;
+
+				// 継承元の変更処理を実行して画面に反映する。
+				wgp.TreeView.prototype.onChange.call(this, treeModel);
+
+				var treeId = treeModel.get("id");
 				var treeType = treeModel.get("type");
 
 				var previousTreeId = treeModel.previousAttributes()["id"];
@@ -984,10 +953,29 @@ ENS.treeView = wgp.TreeView
 
 					// 状態を再度設定する。
 					iconTag.addClass(treeIcon);
+
+					// 前回のシグナルIDによるリアルタイム更新を停止
+					// 新しいシグナルIDによるリアルタイム更新を開始
+					appView.stopSyncData([ previousTreeId ]);
+					appView.syncData([ treeId ]);
 				}
 
-				$("#" + this.$el.attr("id")).jstree("rename_node", treeTag,
-						treeModel.get("data"));
+			},
+			/**
+			 * ツリー要素の基となるコレクションの要素が削除された場合に、削除内容をツリーに反映する。
+			 */
+			onRemove : function(treeModel) {
+
+				// 継承元の削除処理を実行して画面に反映する。
+				wgp.TreeView.prototype.onRemove.call(this, treeModel);
+
+				var treeType = treeModel.get("type");
+
+				// シグナルの場合はリアルタイム更新開始処理を行う。
+				if(ENS.tree.type.SIGNAL == treeType){
+					appView.stopSyncData([ treeModel.get("id") ]);
+				}
+
 			},
 			// シグナル名を基にシグナルの親階層のツリーIDを取得する。
 			getSignalParentTreeId_ : function(signalName) {

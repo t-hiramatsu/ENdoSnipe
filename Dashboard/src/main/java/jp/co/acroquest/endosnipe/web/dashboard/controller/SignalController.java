@@ -49,7 +49,7 @@ import org.wgp.manager.WgpDataManager;
 
 /**
  * 閾値判定機能のコントローラークラス。
- * 
+ *
  * @author miyasaka
  *
  */
@@ -79,7 +79,7 @@ public class SignalController
 
     /**
      * 閾値判定の定義をすべて取得する。
-     * 
+     *
      * @return 全ての閾値判定の定義
      */
     @RequestMapping(value = "/getAllDefinition", method = RequestMethod.POST)
@@ -170,9 +170,8 @@ public class SignalController
 
         // DBに登録されている定義を更新する
         SignalDefinitionDto updatedDefinitionDto = this.signalService.updateSignalInfo(signalInfo);
-
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("signalDefinition", updatedDefinitionDto);
+        responseDto.setResult(ResponseConstants.RESULT_SUCCESS);
+        responseDto.setData(updatedDefinitionDto);
 
         return responseDto;
     }
@@ -182,15 +181,19 @@ public class SignalController
      *
      * @param signalName
      *            閾値判定のシグナル名
+     * @return 削除した閾値判定のシグナル名
      */
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> delete(@RequestParam(value = "signalName") final String signalName)
+    public ResponseDto delete(@RequestParam(value = "signalName") final String signalName)
     {
         this.signalService.deleteSignalInfo(signalName);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("signalName", signalName);
 
-        return map;
+        ResponseDto responseDto = new ResponseDto();
+        responseDto.setResult(ResponseConstants.RESULT_SUCCESS);
+        responseDto.setData(map);
+        return responseDto;
     }
 }

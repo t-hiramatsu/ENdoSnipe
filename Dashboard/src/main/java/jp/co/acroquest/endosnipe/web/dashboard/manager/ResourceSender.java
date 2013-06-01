@@ -1,20 +1,20 @@
 /*******************************************************************************
  * ENdoSnipe 5.0 - (https://github.com/endosnipe)
- * 
+ *
  * The MIT License (MIT)
- * 
+ *
  * Copyright (c) 2012 Acroquest Technology Co.,Ltd.
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -37,7 +37,6 @@ import jp.co.acroquest.endosnipe.common.entity.MeasurementDetail;
 import jp.co.acroquest.endosnipe.common.entity.ResourceData;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.MeasurementValueDto;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.MultipleMeasurementValueDto;
-import jp.co.acroquest.endosnipe.web.dashboard.dto.SignalTreeMenuDto;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.TreeMenuDto;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,9 +48,9 @@ import org.wgp.servlet.WgpMessageInbound;
 
 /**
  * リソース通知を行うクラス。
- * 
+ *
  * @author fujii
- * 
+ *
  */
 @Service
 @Scope("singleton")
@@ -85,41 +84,19 @@ public class ResourceSender
     }
 
     /**
-     * シグナルの状態値をWGP用のデータに変換し、送信する。
-     * 
-     * @param signalTreeMenuDtoList 送信するデータ元のシグナル状態
-     */
-    public void send(final List<SignalTreeMenuDto> signalTreeMenuDtoList)
-    {
-        MessageInboundManager inboundManager = MessageInboundManager.getInstance();
-        List<WgpMessageInbound> inboundList = inboundManager.getMessageInboundList();
-
-        for (WgpMessageInbound inbound : inboundList)
-        {
-            sendWgpSignalData(signalTreeMenuDtoList, this.wgpDataManager, inbound);
-        }
-    }
-
-    /**
      * ツリーの状態値をWGP用のデータに変換し、送信する。
-     * 
-     * @param treeMenuDtoList 送信するデータ元のシグナル状態
-     * @param type データ送信の種類(追加:add, 更新:update)
+     *
+     * @param treeMenuDtoList 送信するツリーのデータ
+     * @param type データ送信の種類(追加:add, 更新:update, 削除:delete)
      */
-    public void sendTreeStatus(final List<TreeMenuDto> treeMenuDtoList, final String type)
+    public void send(final List<TreeMenuDto> treeMenuDtoList, final String type)
     {
-        MessageInboundManager inboundManager = MessageInboundManager.getInstance();
-        List<WgpMessageInbound> inboundList = inboundManager.getMessageInboundList();
-
-        for (WgpMessageInbound inbound : inboundList)
-        {
-            sendWgpTreeData(treeMenuDtoList, this.wgpDataManager, inbound, type);
-        }
+        sendWgpTreeData(treeMenuDtoList, this.wgpDataManager, type);
     }
 
     /**
      * WGP用のデータに変換し、送信する。
-     * 
+     *
      * @param resourceData 送信するデータ元
      * @param dataManager WGPオブジェクト
      * @param inbound クライアント
@@ -214,45 +191,38 @@ public class ResourceSender
         }
     }
 
-    /**
-     * シグナル状態をWGP用のデータに変換し、送信する。
-     * 
-     * @param signalTreeMenuDtoList 送信するデータ元
-     * @param dataManager WGPオブジェクト
-     * @param inbound クライアント
-     */
-    private void sendWgpSignalData(final List<SignalTreeMenuDto> signalTreeMenuDtoList,
-            final WgpDataManager dataManager, final WgpMessageInbound inbound)
-    {
-        for (SignalTreeMenuDto signalTreeMenuDto : signalTreeMenuDtoList)
-        {
-            String signalId = signalTreeMenuDto.getId();
-            dataManager.updateData("tree", signalId, signalTreeMenuDto);
-        }
-    }
+    //    /**
+    //     * シグナル状態をWGP用のデータに変換し、送信する。
+    //     *
+    //     * @param signalTreeMenuDtoList 送信するデータ元
+    //     * @param dataManager WGPオブジェクト
+    //     * @param inbound クライアント
+    //     */
+    //    private void sendWgpSignalData(final List<SignalTreeMenuDto> signalTreeMenuDtoList,
+    //            final WgpDataManager dataManager, final WgpMessageInbound inbound, final String type)
+    //    {
+    //        for (SignalTreeMenuDto signalTreeMenuDto : signalTreeMenuDtoList)
+    //        {
+    //            String signalId = signalTreeMenuDto.getId();
+    //
+    //            dataManager.updateData("tree", signalId, signalTreeMenuDto);
+    //        }
+    //    }
 
     /**
      * ツリー状態をWGP用のデータに変換し、送信する。
-     * 
+     *
      * @param treeMenuDtoList 送信するデータ元
      * @param dataManager WGPオブジェクト
      * @param inbound クライアント
      * @param type データ送信の種類(追加:add, 更新:update)
      */
     private void sendWgpTreeData(final List<TreeMenuDto> treeMenuDtoList,
-            final WgpDataManager dataManager, final WgpMessageInbound inbound, final String type)
+            final WgpDataManager dataManager, final String type)
     {
-        Set<String> listeners = inbound.getListeners();
-
         for (TreeMenuDto treeMenuDto : treeMenuDtoList)
         {
             String signalId = treeMenuDto.getId();
-            String observateGroupId = searchObservateGroupId(listeners, signalId);
-            if (observateGroupId == null)
-            {
-                continue;
-            }
-
             if ("add".equals(type))
             {
                 dataManager.setData("tree", signalId, treeMenuDto);
@@ -270,7 +240,7 @@ public class ResourceSender
 
     /**
      * 監視対象グループに計測対象が含まれているかどうか。リスナに保持したグループIDの前方一致で判定する。
-     * 
+     *
      * @param listeners
      *            監視対象リスナ
      * @param itemName

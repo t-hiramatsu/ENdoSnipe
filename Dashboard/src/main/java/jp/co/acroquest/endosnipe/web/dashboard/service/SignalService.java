@@ -13,23 +13,29 @@ import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.data.dao.JavelinMeasurementItemDao;
 import jp.co.acroquest.endosnipe.web.dashboard.constants.LogMessageCodes;
+import jp.co.acroquest.endosnipe.web.dashboard.constants.TreeMenuConstants;
 import jp.co.acroquest.endosnipe.web.dashboard.dao.SignalInfoDao;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.SignalDefinitionDto;
+import jp.co.acroquest.endosnipe.web.dashboard.dto.SignalTreeMenuDto;
+import jp.co.acroquest.endosnipe.web.dashboard.dto.TreeMenuDto;
 import jp.co.acroquest.endosnipe.web.dashboard.entity.SignalInfo;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.ConnectionClient;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.DatabaseManager;
+import jp.co.acroquest.endosnipe.web.dashboard.manager.EventManager;
+import jp.co.acroquest.endosnipe.web.dashboard.manager.ResourceSender;
 
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.wgp.manager.WgpDataManager;
 
 /**
  * シグナル定義のサービスクラス。
- * 
+ *
  * @author miyasaka
- * 
+ *
  */
 @Service
 public class SignalService
@@ -62,7 +68,7 @@ public class SignalService
 
     /**
      * すべてのシグナルデータを返す。
-     * 
+     *
      * @return シグナルデータ一覧
      */
     public List<SignalDefinitionDto> getAllSignal()
@@ -101,7 +107,7 @@ public class SignalService
 
     /**
      * シグナルの全状態を取得するリクエストを生成する。
-     * 
+     *
      * @param signalList
      *            シグナル定義情報一覧
      */
@@ -119,7 +125,7 @@ public class SignalService
 
     /**
      * 閾値判定定義情報を更新するリクエストを生成する。
-     * 
+     *
      * @param signalDefinitionDto 閾値判定定義情報
      */
     private void addSignalDefinitionRequest(final SignalDefinitionDto signalDefinitionDto)
@@ -136,7 +142,7 @@ public class SignalService
 
     /**
      * 全閾値情報を取得する電文を作成する。
-     * 
+     *
      * @param signalList
      *            シグナル定義情報のリスト
      * @return 全閾値情報を取得する電文
@@ -176,7 +182,7 @@ public class SignalService
 
     /**
      * 閾値判定定義を取得する電文を作成する。
-     * 
+     *
      * @param signalDefinitionDto シグナル定義情報のリスト
      * @return 全閾値情報を取得する電文
      */
@@ -219,7 +225,7 @@ public class SignalService
 
     /**
      * シグナル定義をDBに登録する。
-     * 
+     *
      * @param signalInfo
      *            シグナル定義
      * @return シグナル定義のDTOオブジェクト
@@ -245,7 +251,11 @@ public class SignalService
         // 初期状態にはデフォルト値を設定とする。
         signalDefinitionDto.setSignalValue(DEFAULT_SIGNAL_STATE);
 
+        // DataCollectorにシグナル定義の追加を通知する。
         addSignalDefinitionRequest(signalDefinitionDto);
+
+        // 各クライアントにシグナル定義の追加を送信する。
+        sendSignalDefinition(signalDefinitionDto, "add");
 
         return signalDefinitionDto;
     }
@@ -264,7 +274,7 @@ public class SignalService
 
     /**
      * シグナル定義を更新する。
-     * 
+     *
      * @param signalInfo
      *            シグナル定義
      * @return {@link SignalDefinitionDto}オブジェクト
@@ -308,8 +318,10 @@ public class SignalService
         }
 
         SignalDefinitionDto signalDefinitionDto = this.convertSignalDto(signalInfo);
+        signalDefinitionDto.setSignalValue(-1);
 
-        signalDefinitionDto.setSignalValue(0);
+        // 各クライアントにシグナル定義の変更を送信する。
+        sendSignalDefinition(signalDefinitionDto, "update");
 
         return signalDefinitionDto;
     }
@@ -322,8 +334,12 @@ public class SignalService
      */
     public void deleteSignalInfo(final String signalName)
     {
+        SignalDefinitionDto signalDefinitionDto = null;
         try
         {
+            // 削除前に定義情報を取得しておく。
+            signalDefinitionDto = getSignalInfo(signalName);
+
             signalInfoDao.delete(signalName);
             this.deleteMeasurementItem(signalName);
         }
@@ -344,14 +360,17 @@ public class SignalService
         {
             LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx, sqlEx.getMessage());
         }
+
+        // 各クライアントにシグナル定義の削除を送信する。
+        sendSignalDefinition(signalDefinitionDto, "delete");
     }
 
     /**
      * SignalDefinitionDtoオブジェクトをSignalInfoオブジェクトに変換する。
-     * 
+     *
      * @param definitionDto
      *            SignalDefinitionDtoオブジェクト
-     * 
+     *
      * @return SignalInfoオブジェクト
      */
     public SignalInfo convertSignalInfo(final SignalDefinitionDto definitionDto)
@@ -370,7 +389,7 @@ public class SignalService
 
     /**
      * SignalInfoオブジェクトをSignalDefinitionDtoオブジェクトに変換する。
-     * 
+     *
      * @param signalInfo
      *            SignalInfoオブジェクト
      * @return SignalDefinitionDtoオブジェクト
@@ -392,7 +411,7 @@ public class SignalService
 
     /**
      * javelin_measurement_itemテーブルのMEASUREMENT_ITEM_NAMEを更新する。
-     * 
+     *
      * @param beforeItemName
      *            更新前のMEASUREMENT_ITEM_NAME
      * @param afterItemName
@@ -411,7 +430,7 @@ public class SignalService
 
     /**
      * javelin_measurement_itemテーブルの指定したMEASUREMENT_ITEM_NAMEのレコードを削除する。
-     * 
+     *
      * @param itemName
      *            削除するレコードの MEASUREMENT_ITEM_NAME
      * @throws SQLException
@@ -463,5 +482,57 @@ public class SignalService
             return false;
         }
         return true;
+    }
+
+    /**
+     * シグナル定義DTOをツリーメニュー用のDTOに変換する。
+     * @param signalDto シグナル定義情報
+     * @return ツリーメニュー用のDTO
+     */
+    public SignalTreeMenuDto convertSignalTreeMenu(final SignalDefinitionDto signalDto)
+    {
+
+        SignalTreeMenuDto treeMenu = new SignalTreeMenuDto();
+
+        String signalName = signalDto.getSignalName();
+
+        // シグナル名から親階層のツリーID名を取得する。
+        // ※一番右のスラッシュ区切りまでを親階層とする。
+        int terminateParentTreeIndex = signalName.lastIndexOf("/");
+        String parentTreeId = signalName.substring(0, terminateParentTreeIndex);
+
+        // シグナル表示名を取得する。
+        // ※一番右のスラッシュ区切り以降を表示名とする。
+        String signalDisplayName = signalName.substring(terminateParentTreeIndex + 1);
+
+        treeMenu.setId(signalName);
+        treeMenu.setTreeId(signalName);
+        treeMenu.setParentTreeId(parentTreeId);
+        treeMenu.setData(signalDisplayName);
+        treeMenu.setSignalValue(signalDto.getSignalValue());
+        treeMenu.setType(TreeMenuConstants.TREE_MENU_TYPE_SIGNAL);
+        treeMenu.setIcon("signal_" + signalDto.getSignalValue());
+
+        return treeMenu;
+    }
+
+    /**
+     * シグナル定義情報の追加・更新・削除を各クライアントに送信する。
+     * @param signalDefinitionDto シグナル定義情報
+     * @param type 送信タイプ(add:追加 update:変更 delete:削除)
+     */
+    private void sendSignalDefinition(final SignalDefinitionDto signalDefinitionDto,
+            final String type)
+    {
+        // 各クライアントにシグナル定義の追加を通知する。
+        EventManager eventManager = EventManager.getInstance();
+        WgpDataManager dataManager = eventManager.getWgpDataManager();
+        ResourceSender resourceSender = eventManager.getResourceSender();
+        if (dataManager != null && resourceSender != null)
+        {
+            List<TreeMenuDto> treeMenuDtoList = new ArrayList<TreeMenuDto>();
+            treeMenuDtoList.add(this.convertSignalTreeMenu(signalDefinitionDto));
+            resourceSender.send(treeMenuDtoList, type);
+        }
     }
 }
