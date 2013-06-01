@@ -43,10 +43,10 @@ ENS.SignalElementView = wgp.MapElementView.extend({
 
 		var textElementProperty = {
 			pointX : elementProperty.pointX + model.get("width") / 2,
-			pointY : elementProperty.pointY + elementProperty.height + 5,
+			pointY : elementProperty.pointY + elementProperty.height + 10,
 			width : 1,
 			height : 1,
-			fontSize : 10,
+			fontSize : 16,
 			text : model.get("text"),
 			fill : "#FFFFFF"
 		};
