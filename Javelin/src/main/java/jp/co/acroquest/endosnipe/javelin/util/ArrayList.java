@@ -31,120 +31,203 @@ import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.RandomAccess;
 
+/**
+ * ArrayListクラス
+ * @author acroquest
+ *
+ * @param <E> 要素
+ */
 public class ArrayList<E> extends AbstractList<E> implements List<E>, RandomAccess, Cloneable,
         java.io.Serializable
 {
-    /**  */
-    private static final long serialVersionUID = 8960495295892130433L;
+    /** シリアルバージョンID */
+    private static final long serialVersionUID       = 8960495295892130433L;
 
-    private transient E[] elementData;
+    /** デフォルトのArrayListのサイズ */
+    private static final int  DEFAULT_ARRAYLIST_SIZE = 10;
 
-    private int size;
+    /** 容量計算用数値 */
+    private static final long CAPACITY_MULTIPLE      = 110L;
 
+    /** 容量計算用数値 */
+    private static final int  CAPACITY_DIVISION      = 100;
+
+    /** 3倍を示す数 */
+    private static final int  THREE_TIMES            = 3;
+
+    /** 要素のデータ */
+    private transient E[]     elementData_;
+
+    /** サイズ */
+    private int               size_;
+
+    /**
+     * コンストラクタ
+     * @param initialCapacity 初期容量
+     */
+    @SuppressWarnings("unchecked")
     public ArrayList(int initialCapacity)
     {
         super();
         if (initialCapacity < 0)
+        {
             throw new IllegalArgumentException("Illegal Capacity: " + initialCapacity);
-        this.elementData = (E[])new Object[initialCapacity];
+        }
+        this.elementData_ = (E[])new Object[initialCapacity];
     }
 
+    /**
+     * コンストラクタ
+     */
     public ArrayList()
     {
-        this(10);
+        this(DEFAULT_ARRAYLIST_SIZE);
     }
 
+    /**
+     * コンストラクタ
+     * @param c コレクション
+     */
+    @SuppressWarnings("unchecked")
     public ArrayList(Collection<? extends E> c)
     {
-        size = c.size();
+        size_ = c.size();
 
-        int capacity = (int)Math.min((size * 110L) / 100, Integer.MAX_VALUE);
-        elementData = (E[])c.toArray(new Object[capacity]);
+        int capacity =
+                       (int)Math.min((size_ * CAPACITY_MULTIPLE) / CAPACITY_DIVISION,
+                                     Integer.MAX_VALUE);
+        elementData_ = (E[])c.toArray(new Object[capacity]);
     }
 
+    /**
+     * 配列をサイズにトリミングします。
+     */
+    @SuppressWarnings("unchecked")
     public void trimToSize()
     {
         modCount++;
-        int oldCapacity = elementData.length;
-        if (size < oldCapacity)
+        int oldCapacity = elementData_.length;
+        if (size_ < oldCapacity)
         {
-            Object oldData[] = elementData;
-            elementData = (E[])new Object[size];
-            System.arraycopy(oldData, 0, elementData, 0, size);
+            Object[] oldData = elementData_;
+            elementData_ = (E[])new Object[size_];
+            System.arraycopy(oldData, 0, elementData_, 0, size_);
         }
     }
 
+    /**
+     * 配列の容量を確定します。 
+     * @param minCapacity 最小容量
+     */
+    @SuppressWarnings("unchecked")
     public void ensureCapacity(int minCapacity)
     {
         modCount++;
-        int oldCapacity = elementData.length;
+        int oldCapacity = elementData_.length;
         if (minCapacity > oldCapacity)
         {
-            Object oldData[] = elementData;
-            int newCapacity = (oldCapacity * 3) / 2 + 1;
+            Object[] oldData = elementData_;
+            int newCapacity = (oldCapacity * THREE_TIMES) / 2 + 1;
             if (newCapacity < minCapacity)
+            {
                 newCapacity = minCapacity;
-            elementData = (E[])new Object[newCapacity];
-            System.arraycopy(oldData, 0, elementData, 0, size);
+            }
+            elementData_ = (E[])new Object[newCapacity];
+            System.arraycopy(oldData, 0, elementData_, 0, size_);
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public int size()
     {
-        return size;
+        return size_;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean isEmpty()
     {
-        return size == 0;
+        return size_ == 0;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean contains(Object elem)
     {
         return indexOf(elem) >= 0;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public int indexOf(Object elem)
     {
         if (elem == null)
         {
-            for (int i = 0; i < size; i++)
-                if (elementData[i] == null)
+            for (int i = 0; i < size_; i++)
+            {
+                if (elementData_[i] == null)
+                {
                     return i;
+                }
+            }
         }
         else
         {
-            for (int i = 0; i < size; i++)
-                if (elem.equals(elementData[i]))
+            for (int i = 0; i < size_; i++)
+            {
+                if (elem.equals(elementData_[i]))
+                {
                     return i;
+                }
+            }
         }
         return -1;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public int lastIndexOf(Object elem)
     {
         if (elem == null)
         {
-            for (int i = size - 1; i >= 0; i--)
-                if (elementData[i] == null)
+            for (int i = size_ - 1; i >= 0; i--)
+            {
+                if (elementData_[i] == null)
+                {
                     return i;
+                }
+            }
         }
         else
         {
-            for (int i = size - 1; i >= 0; i--)
-                if (elem.equals(elementData[i]))
+            for (int i = size_ - 1; i >= 0; i--)
+            {
+                if (elem.equals(elementData_[i]))
+                {
                     return i;
+                }
+            }
         }
         return -1;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @SuppressWarnings("unchecked")
     public Object clone()
     {
         try
         {
             ArrayList<E> v = (ArrayList<E>)super.clone();
-            v.elementData = (E[])new Object[size];
-            System.arraycopy(elementData, 0, v.elementData, 0, size);
+            v.elementData_ = (E[])new Object[size_];
+            System.arraycopy(elementData_, 0, v.elementData_, 0, size_);
             v.modCount = 0;
             return v;
         }
@@ -155,91 +238,128 @@ public class ArrayList<E> extends AbstractList<E> implements List<E>, RandomAcce
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public Object[] toArray()
     {
-        Object[] result = new Object[size];
-        System.arraycopy(elementData, 0, result, 0, size);
+        Object[] result = new Object[size_];
+        System.arraycopy(elementData_, 0, result, 0, size_);
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @SuppressWarnings("unchecked")
     public <T> T[] toArray(T[] a)
     {
-        if (a.length < size)
-            a = (T[])java.lang.reflect.Array.newInstance(a.getClass().getComponentType(), size);
-        System.arraycopy(elementData, 0, a, 0, size);
-        if (a.length > size)
-            a[size] = null;
+        if (a.length < size_)
+        {
+            a = (T[])java.lang.reflect.Array.newInstance(a.getClass().getComponentType(), size_);
+        }
+        System.arraycopy(elementData_, 0, a, 0, size_);
+        if (a.length > size_)
+        {
+            a[size_] = null;
+        }
         return a;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public E get(int index)
     {
-        RangeCheck(index);
+        checkRange(index);
 
-        return elementData[index];
+        return elementData_[index];
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public E set(int index, E element)
     {
-        RangeCheck(index);
+        checkRange(index);
 
-        E oldValue = elementData[index];
-        elementData[index] = element;
+        E oldValue = elementData_[index];
+        elementData_[index] = element;
         return oldValue;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean add(E o)
     {
-        ensureCapacity(size + 1);
-        elementData[size++] = o;
+        ensureCapacity(size_ + 1);
+        elementData_[size_++] = o;
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void add(int index, E element)
     {
-        if (index > size || index < 0)
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        if (index > size_ || index < 0)
+        {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size_);
+        }
 
-        ensureCapacity(size + 1);
-        System.arraycopy(elementData, index, elementData, index + 1, size - index);
-        elementData[index] = element;
-        size++;
+        ensureCapacity(size_ + 1);
+        System.arraycopy(elementData_, index, elementData_, index + 1, size_ - index);
+        elementData_[index] = element;
+        size_++;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public E remove(int index)
     {
-        RangeCheck(index);
+        checkRange(index);
 
         modCount++;
-        E oldValue = elementData[index];
+        E oldValue = elementData_[index];
 
-        int numMoved = size - index - 1;
+        int numMoved = size_ - index - 1;
         if (numMoved > 0)
-            System.arraycopy(elementData, index + 1, elementData, index, numMoved);
-        elementData[--size] = null;
+        {
+            System.arraycopy(elementData_, index + 1, elementData_, index, numMoved);
+        }
+        elementData_[--size_] = null;
 
         return oldValue;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean remove(Object o)
     {
         if (o == null)
         {
-            for (int index = 0; index < size; index++)
-                if (elementData[index] == null)
+            for (int index = 0; index < size_; index++)
+            {
+                if (elementData_[index] == null)
                 {
                     fastRemove(index);
                     return true;
                 }
+            }
         }
         else
         {
-            for (int index = 0; index < size; index++)
-                if (o.equals(elementData[index]))
+            for (int index = 0; index < size_; index++)
+            {
+                if (o.equals(elementData_[index]))
                 {
                     fastRemove(index);
                     return true;
                 }
+            }
         }
         return false;
     }
@@ -247,65 +367,89 @@ public class ArrayList<E> extends AbstractList<E> implements List<E>, RandomAcce
     private void fastRemove(int index)
     {
         modCount++;
-        int numMoved = size - index - 1;
+        int numMoved = size_ - index - 1;
         if (numMoved > 0)
-            System.arraycopy(elementData, index + 1, elementData, index, numMoved);
-        elementData[--size] = null;
+        {
+            System.arraycopy(elementData_, index + 1, elementData_, index, numMoved);
+        }
+        elementData_[--size_] = null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void clear()
     {
         modCount++;
 
-        for (int i = 0; i < size; i++)
-            elementData[i] = null;
+        for (int i = 0; i < size_; i++)
+        {
+            elementData_[i] = null;
+        }
 
-        size = 0;
+        size_ = 0;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean addAll(Collection<? extends E> c)
     {
         Object[] a = c.toArray();
         int numNew = a.length;
-        ensureCapacity(size + numNew);
-        System.arraycopy(a, 0, elementData, size, numNew);
-        size += numNew;
+        ensureCapacity(size_ + numNew);
+        System.arraycopy(a, 0, elementData_, size_, numNew);
+        size_ += numNew;
         return numNew != 0;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean addAll(int index, Collection<? extends E> c)
     {
-        if (index > size || index < 0)
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        if (index > size_ || index < 0)
+        {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size_);
+        }
 
         Object[] a = c.toArray();
         int numNew = a.length;
-        ensureCapacity(size + numNew);
+        ensureCapacity(size_ + numNew);
 
-        int numMoved = size - index;
+        int numMoved = size_ - index;
         if (numMoved > 0)
-            System.arraycopy(elementData, index, elementData, index + numNew, numMoved);
+        {
+            System.arraycopy(elementData_, index, elementData_, index + numNew, numMoved);
+        }
 
-        System.arraycopy(a, 0, elementData, index, numNew);
-        size += numNew;
+        System.arraycopy(a, 0, elementData_, index, numNew);
+        size_ += numNew;
         return numNew != 0;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected void removeRange(int fromIndex, int toIndex)
     {
         modCount++;
-        int numMoved = size - toIndex;
-        System.arraycopy(elementData, toIndex, elementData, fromIndex, numMoved);
+        int numMoved = size_ - toIndex;
+        System.arraycopy(elementData_, toIndex, elementData_, fromIndex, numMoved);
 
-        int newSize = size - (toIndex - fromIndex);
-        while (size != newSize)
-            elementData[--size] = null;
+        int newSize = size_ - (toIndex - fromIndex);
+        while (size_ != newSize)
+        {
+            elementData_[--size_] = null;
+        }
     }
 
-    private void RangeCheck(int index)
+    private void checkRange(int index)
     {
-        if (index >= size)
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        if (index >= size_)
+        {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size_);
+        }
     }
 
     private void writeObject(java.io.ObjectOutputStream s)
@@ -314,10 +458,12 @@ public class ArrayList<E> extends AbstractList<E> implements List<E>, RandomAcce
         int expectedModCount = modCount;
         s.defaultWriteObject();
 
-        s.writeInt(elementData.length);
+        s.writeInt(elementData_.length);
 
-        for (int i = 0; i < size; i++)
-            s.writeObject(elementData[i]);
+        for (int i = 0; i < size_; i++)
+        {
+            s.writeObject(elementData_[i]);
+        }
 
         if (modCount != expectedModCount)
         {
@@ -325,6 +471,7 @@ public class ArrayList<E> extends AbstractList<E> implements List<E>, RandomAcce
         }
     }
 
+    @SuppressWarnings("unchecked")
     private void readObject(java.io.ObjectInputStream s)
         throws java.io.IOException,
             ClassNotFoundException
@@ -332,9 +479,12 @@ public class ArrayList<E> extends AbstractList<E> implements List<E>, RandomAcce
         s.defaultReadObject();
 
         int arrayLength = s.readInt();
-        Object[] a = elementData = (E[])new Object[arrayLength];
+        elementData_ = (E[])new Object[arrayLength];
+        Object[] a = elementData_;
 
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < size_; i++)
+        {
             a[i] = s.readObject();
+        }
     }
 }

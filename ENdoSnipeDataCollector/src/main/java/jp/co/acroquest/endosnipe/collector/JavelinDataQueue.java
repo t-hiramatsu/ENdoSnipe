@@ -49,14 +49,12 @@ public class JavelinDataQueue implements LogMessageCodes, CommonLogMessageCodes
     /** キューからデータを取り出す際のタイムアウト時間(ミリ秒) */
     private static final int                 TAKING_TIMEOUT   = 1000;
 
-    private static ENdoSnipeLogger           logger_          =
-                                                                ENdoSnipeLogger.getLogger(
-                                                                                          JavelinDataQueue.class,
-                                                                                          ENdoSnipeDataCollectorPluginProvider.INSTANCE);
+    private static ENdoSnipeLogger           logger__          =
+                        ENdoSnipeLogger.getLogger(JavelinDataQueue.class,
+                                                  ENdoSnipeDataCollectorPluginProvider.INSTANCE);
 
     private final BlockingQueue<JavelinData> queue_           =
-                                                                new ArrayBlockingQueue<JavelinData>(
-                                                                                                    QUEUE_SIZE);
+                                        new ArrayBlockingQueue<JavelinData>(QUEUE_SIZE);
 
     /**
      * キューに {@link JavelinData} を追加します。<br />
@@ -70,14 +68,14 @@ public class JavelinDataQueue implements LogMessageCodes, CommonLogMessageCodes
             try
             {
                 queue_.offer(data, OFFERING_TIMEOUT, TimeUnit.MILLISECONDS);
-                if (logger_.isDebugEnabled())
+                if (logger__.isDebugEnabled())
                 {
-                    logger_.log(QUEUE_OFFERED, data.toString());
+                    logger__.log(QUEUE_OFFERED, data.toString());
                 }
             }
             catch (InterruptedException ex)
             {
-                logger_.log(EXCEPTION_OCCURED_WITH_RESASON, ex, ex.getMessage());
+                logger__.log(EXCEPTION_OCCURED_WITH_RESASON, ex, ex.getMessage());
             }
         }
     }
@@ -94,15 +92,15 @@ public class JavelinDataQueue implements LogMessageCodes, CommonLogMessageCodes
         try
         {
             JavelinData data = queue_.poll(TAKING_TIMEOUT, TimeUnit.MILLISECONDS);
-            if (logger_.isDebugEnabled() && data != null)
+            if (logger__.isDebugEnabled() && data != null)
             {
-                logger_.log(QUEUE_TAKEN, data.toString());
+                logger__.log(QUEUE_TAKEN, data.toString());
             }
             return data;
         }
         catch (InterruptedException ex)
         {
-            logger_.log(EXCEPTION_OCCURED_WITH_RESASON, ex, ex.getMessage());
+            logger__.log(EXCEPTION_OCCURED_WITH_RESASON, ex, ex.getMessage());
             return null;
         }
     }

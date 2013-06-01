@@ -59,6 +59,14 @@ public class MBeanCollectorInitializer
     private static final int    ATTRIBUTE_ITEM_TYPE_POSITION    = 1;
 
     /**
+     * コンストラクタ
+     */
+    private MBeanCollectorInitializer()
+    {
+        
+    };
+    
+    /**
      * リソース取得インスタンスをマップに登録します。
      *
      * @param multiResourceMap リソース取得インスタンスを登録するマップ（可変系列用）
@@ -73,7 +81,7 @@ public class MBeanCollectorInitializer
         }
 
         MBeanMultiResourceGetter getters = new MBeanMultiResourceGetter();
-        Enumeration enumetarion = properties.propertyNames();
+        Enumeration<?> enumetarion = properties.propertyNames();
         while (enumetarion.hasMoreElements())
         {
             String propKey = (String)enumetarion.nextElement();

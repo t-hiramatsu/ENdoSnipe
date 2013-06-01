@@ -49,10 +49,9 @@ import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 public class JvnFileNotifyListener extends AbstractTelegramListener implements TelegramListener,
         LogMessageCodes
 {
-    private static final ENdoSnipeLogger LOGGER        =
-                                                         ENdoSnipeLogger.getLogger(
-                                                                                   JvnFileNotifyListener.class,
-                                                                                   ENdoSnipeDataCollectorPluginProvider.INSTANCE);
+    private static final ENdoSnipeLogger LOGGER        = 
+            ENdoSnipeLogger.getLogger(JvnFileNotifyListener.class,
+                                      ENdoSnipeDataCollectorPluginProvider.INSTANCE);
 
     private final String                 tempDir_;
 

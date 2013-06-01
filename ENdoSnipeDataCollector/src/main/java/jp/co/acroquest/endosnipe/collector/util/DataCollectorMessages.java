@@ -29,6 +29,8 @@ import java.text.MessageFormat;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
+
 /**
  * DataCollectorメッセージ取得クラス。
  * @author S.Kimura
@@ -37,7 +39,8 @@ import java.util.ResourceBundle;
 public class DataCollectorMessages
 {
     /** メッセージプロパティファイルの名称 */
-    private static final String BUNDLE_NAME = "jp.co.acroquest.endosnipe.collector.util.EDCMessages";
+    private static final String BUNDLE_NAME = 
+            "jp.co.acroquest.endosnipe.collector.util.EDCMessages";
 
     /**
      * デフォルトコンストラクタ
@@ -65,6 +68,7 @@ public class DataCollectorMessages
         catch (MissingResourceException mre)
         {
             // Do Nothing.
+            SystemLogger.getInstance().warn(mre);
         }
         return message;
     }

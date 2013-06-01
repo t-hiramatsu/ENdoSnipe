@@ -61,7 +61,7 @@ public class StatsJavelinRecorder
     /** 初期化判定フラグ */
     private static boolean                   initialized__;
 
-    private static VMStatusHelper            vmStatusHelper__    = new VMStatusHelper();
+    private static VMStatusHelper            vmStatusHelper__       = new VMStatusHelper();
 
     /** 記録条件判定クラス */
     private static RecordStrategy            recordStrategy__;
@@ -70,23 +70,24 @@ public class StatsJavelinRecorder
     private static JavelinFileGenerator      generator__;
 
     /** アラームリスナのリスト */
-    private static final List<AlarmListener> ALARM_LISTENER_LIST = new ArrayList<AlarmListener>();
+    private static final List<AlarmListener> ALARM_LISTENER_LIST    =
+                                                          new ArrayList<AlarmListener>();
 
     /** バッファサイズのデフォルト値 */
-    private static final int                 DEF_BUFFER_SIZE     = 1024;
+    private static final int                 DEF_BUFFER_SIZE        = 1024;
 
     /** アラーム削除メッセージを保存します。 */
-    private static StringBuffer              discardBuffer__     = new StringBuffer(
-                                                                         DEF_BUFFER_SIZE);
+    private static StringBuffer              discardBuffer__        =
+                                                          new StringBuffer(DEF_BUFFER_SIZE);
 
     /** 前回削除を通知した時間を保存します。 */
-    private static long                      lastDiscardTime__   = 0;
+    private static long                      lastDiscardTime__      = 0;
 
     /** イベントの重複をチェックするためのリポジトリ。 */
-    private static EventRepository           eventRepository__   = new EventRepository();
+    private static EventRepository           eventRepository__      = new EventRepository();
 
     /** クライアントモード */
-    private static final String CONNECTION_MODE_CLIENT = "client";
+    private static final String              CONNECTION_MODE_CLIENT = "client";
 
     /**
      * インスタンス化を阻止するプライベートコンストラクタです。<br />
@@ -127,13 +128,11 @@ public class StatsJavelinRecorder
             catch (ClassNotFoundException cfne)
             {
                 String defaultRecordstrategy = JavelinConfig.DEFAULT_RECORDSTRATEGY;
-                SystemLogger.getInstance().info(
-                        "Failed to load " + strategyName
-                                + ". Use default value "
-                                + defaultRecordstrategy
-                                + " as javelin.recordStrategy.");
-                recordStrategy__ = (RecordStrategy) loadClass(
-                        defaultRecordstrategy).newInstance();
+                SystemLogger.getInstance().info("Failed to load " + strategyName
+                                                        + ". Use default value "
+                                                        + defaultRecordstrategy
+                                                        + " as javelin.recordStrategy.");
+                recordStrategy__ = (RecordStrategy)loadClass(defaultRecordstrategy).newInstance();
             }
 
             // スレッドの監視を開始する。
@@ -195,8 +194,9 @@ public class StatsJavelinRecorder
                 }
                 else
                 {
-                    String message = alarmListenerName
-                            + " is not used for sending alarms because it doesn't implement AlarmListener.";
+                    String message = 
+                       alarmListenerName
+                    + " is not used for sending alarms because it doesn't implement AlarmListener.";
                     SystemLogger.getInstance().info(message);
                 }
             }
@@ -204,8 +204,8 @@ public class StatsJavelinRecorder
             {
                 SystemLogger.getInstance().warn(
                         alarmListenerName
-                                + " is not used for sending alarms because of failing to be registered.",
-                        ex);
+                        + " is not used for sending alarms because of failing to be registered.",
+                                                ex);
             }
         }
     }
@@ -232,7 +232,7 @@ public class StatsJavelinRecorder
         catch (ClassNotFoundException cnfe)
         {
             SystemLogger.getInstance().info(
-                    "Load classes from context class loader because of failing to load "
+                            "Load classes from context class loader because of failing to load "
                             + className + ".");
             clazz = Thread.currentThread().getContextClassLoader().loadClass(className);
         }
@@ -245,23 +245,23 @@ public class StatsJavelinRecorder
      * @param methodName メソッド名
      * @param config パラメータの設定値を保存するオブジェクト
      * @param args 引数
-     * @param doExcludeProcess 除外対象処理を行うかどうか
+     * @param doExclude 除外対象処理を行うかどうか
      */
     public static void preProcess(final String className, final String methodName,
-            final Object[] args, final JavelinConfig config, final boolean doExcludeProcess)
+            final Object[] args, final JavelinConfig config, final boolean doExclude)
     {
         StackTraceElement[] stacktrace = null;
         if (config.isLogStacktrace())
         {
             stacktrace = ThreadUtil.getCurrentStackTrace();
         }
-        String normalizedMethodName = methodName;
+        String normalizedMName = methodName;
         if (methodName.length() > config.getInvocationNameLimitLength())
         {
-            normalizedMethodName = methodName.substring(0, config.getInvocationNameLimitLength());
+            normalizedMName = methodName.substring(0, config.getInvocationNameLimitLength());
         }
-        
-        preProcess(null, null, className, normalizedMethodName, args, stacktrace, config, doExcludeProcess);
+
+        preProcess(null, null, className, normalizedMName, args, stacktrace, config, doExclude);
     }
 
     /**
@@ -305,24 +305,26 @@ public class StatsJavelinRecorder
      * @param args 引数
      * @param stacktrace スタックトレース
      * @param config パラメータの設定値を保存するオブジェクト
-     * @param doExcludeProcess 除外対象処理を行うかどうか
+     * @param doExclude 除外対象処理を行うかどうか
      */
     public static void preProcess(final String className, final String methodName,
             final Object[] args, final StackTraceElement[] stacktrace, final JavelinConfig config,
-            final boolean doExcludeProcess)
+            final boolean doExclude)
     {
-        String normalizedMethodName = methodName;
+        String normalizedMName = methodName;
         if (methodName.length() > config.getInvocationNameLimitLength())
         {
-            normalizedMethodName = methodName.substring(0, config.getInvocationNameLimitLength());
+            normalizedMName = methodName.substring(0, config.getInvocationNameLimitLength());
         }
-        
-        preProcess(null, null, className, normalizedMethodName, args, stacktrace, config, doExcludeProcess,
+
+        preProcess(null, null, className, normalizedMName, args, stacktrace, config, doExclude,
                    false);
     }
 
     /**
      * 前処理。
+     * @param component コンポーネント
+     * @param invocation インボケーション
      * @param className  クラス名
      * @param methodName メソッド名
      * @param args 引数
@@ -346,20 +348,20 @@ public class StatsJavelinRecorder
      * @param args 引数
      * @param stacktrace スタックトレース
      * @param config パラメータの設定値を保存するオブジェクト
-     * @param doExcludeProcess 除外対象処理を行うかどうか
+     * @param doExclude 除外対象処理を行うかどうか
      * @param isResponse デフォルトでレスポンスを記録するかどうか。
      */
     public static void preProcess(final String className, final String methodName,
             final Object[] args, final StackTraceElement[] stacktrace, final JavelinConfig config,
-            final boolean doExcludeProcess, final boolean isResponse)
+            final boolean doExclude, final boolean isResponse)
     {
-        String normalizedMethodName = methodName;
+        String normalizedMName = methodName;
         if (methodName.length() > config.getInvocationNameLimitLength())
         {
-            normalizedMethodName = methodName.substring(0, config.getInvocationNameLimitLength());
+            normalizedMName = methodName.substring(0, config.getInvocationNameLimitLength());
         }
-   
-        preProcess(null, null, className, normalizedMethodName, args, stacktrace, config, doExcludeProcess,
+
+        preProcess(null, null, className, normalizedMName, args, stacktrace, config, doExclude,
                    isResponse);
     }
 
@@ -485,9 +487,7 @@ public class StatsJavelinRecorder
         else
         {
             // CallTreeNodeが多い場合はイベントを送信する。
-            boolean isCallTreeFull =
-                sendCallTreeEvent(callTree, className, methodName, config,
-                                                       callTreeRecorder);
+            sendCallTreeEvent(callTree, className, methodName, config, callTreeRecorder);
 
             if (invocation == null)
             {
@@ -673,12 +673,8 @@ public class StatsJavelinRecorder
      * @param config 設定。
      * @param callTreeRecorder callTreeRecorder
      */
-    private static boolean sendCallTreeEvent(
-            CallTree callTree,
-            final String className,
-            final String methodName,
-            final JavelinConfig config,
-            CallTreeRecorder callTreeRecorder)
+    private static boolean sendCallTreeEvent(CallTree callTree, final String className,
+            final String methodName, final JavelinConfig config, CallTreeRecorder callTreeRecorder)
     {
         boolean isCallTreeFull = false;
 
@@ -688,8 +684,8 @@ public class StatsJavelinRecorder
             {
                 // 完了したCallTreeNodeをファイルに書き出す。
                 CommonEvent event;
-                event = CallTreeEventCreator.createTreeFullEvent(className,
-                                                                 methodName,
+                event =
+                        CallTreeEventCreator.createTreeFullEvent(className, methodName,
                                                                  config.getCallTreeMax());
                 addEvent(event);
                 callTree.setFlag(EventConstants.NAME_CALLTREE_FULL, "");
@@ -714,6 +710,7 @@ public class StatsJavelinRecorder
      *
      * @param methodName メソッド名。
      * @param config 設定。
+     * @param callTreeRecorder CallTreeRecorder
      * @return スレッドID。
      */
     private static String createThreadId(final String methodName, final JavelinConfig config,
@@ -837,6 +834,8 @@ public class StatsJavelinRecorder
      * @param component コンポーネント。
      * @param className クラス名
      * @param invocationNum Invocationの数
+     * @param addInvocation 追加のInvocation
+     * @param removedInvocation 除外したInvocation
      */
     private static void sendInvocationFullEvent(Component component, String className,
             int invocationNum, Invocation addInvocation, Invocation removedInvocation)
@@ -1065,8 +1064,8 @@ public class StatsJavelinRecorder
             }
 
             if (parent == null
-                || invocation.getAlarmThreshold()    != Invocation.THRESHOLD_NOT_SPECIFIED
-                || invocation.getAlarmCpuThreshold() != Invocation.THRESHOLD_NOT_SPECIFIED)
+                    || invocation.getAlarmThreshold() != Invocation.THRESHOLD_NOT_SPECIFIED
+                    || invocation.getAlarmCpuThreshold() != Invocation.THRESHOLD_NOT_SPECIFIED)
             {
                 // 以下、CallTreeNodeがrootの場合、または閾値が個別に指定されている場合の処理。
                 // CallTreeNodeがrootで、統計値記録の閾値を超えていた場合に、トランザクションを記録する。
@@ -1143,8 +1142,7 @@ public class StatsJavelinRecorder
                 if (generator__ != null)
                 {
                     generator__.generateJaveinFile(callTree, eventList.get(num),
-                                                   new JvnFileNotifyCallback(), null,
-                                                   telegramId);
+                                                   new JvnFileNotifyCallback(), null, telegramId);
                     sendEventAlarm();
                 }
 
@@ -1167,6 +1165,7 @@ public class StatsJavelinRecorder
      * @param config パラメータの設定値を保存するオブジェクト
      * @param callTree CallTree
      * @param node CallTreeNode
+     * @param callTreeRecorder callTreeRecorder
      * @param telegramId 電文 ID
      */
     private static void recordAndAlarmProcedure(final JavelinConfig config, CallTree callTree,
@@ -1193,8 +1192,8 @@ public class StatsJavelinRecorder
 
             if (node.getParent() == null)
             {
-                generator__.generateJaveinFile(callTree, createCallback(
-                        callTree, node), node, telegramId);
+                generator__.generateJaveinFile(callTree, createCallback(callTree, node), node,
+                                               telegramId);
                 sendAlarm(node, callTreeRecorder);
             }
         }
@@ -1326,10 +1325,10 @@ public class StatsJavelinRecorder
         CallTree tree = callTreeRecorder.getCallTree();
 
         // イベントのレベルがエラーの場合、即座にアラームを上げる。
-        if(event.getLevel() >= CommonEvent.LEVEL_ERROR)
+        if (event.getLevel() >= CommonEvent.LEVEL_ERROR)
         {
             Invocation invocation = null;
-            if( callTreeNode != null)
+            if (callTreeNode != null)
             {
                 invocation = callTreeNode.getInvocation();
             }
@@ -1395,7 +1394,6 @@ public class StatsJavelinRecorder
         return createEventNode(event, config, callTreeRecorder, tree, null);
     }
 
-
     /**
      * イベント用のノードを作成する。
      *
@@ -1437,6 +1435,10 @@ public class StatsJavelinRecorder
      * 即座にイベントを送信する。
      *
      * @param event 送信するイベント
+     * @param config Javelinのconfig
+     * @param invocation invocation
+     * @param callTreeRecorder callTreeRecorder
+     * @param telegram 電文
      */
     private static void sendEventImmediately(CommonEvent event, JavelinConfig config,
             Invocation invocation, CallTreeRecorder callTreeRecorder, long telegramId)
@@ -1479,6 +1481,7 @@ public class StatsJavelinRecorder
      * CallTreeNodeに設定された判定クラス(判定優先度：高)を利用して、
      * アラームを通知するかどうか判定する。
      *
+     *　@param callTree CallTree
      * @param node CallTreeNode
      * @return true:通知する、false:通知しない
      */
@@ -1586,8 +1589,7 @@ public class StatsJavelinRecorder
         long lastAlarmTime = invocation.getLastAlarmTime();
         long currentTime = System.currentTimeMillis();
         long alarmIntervalThreshold = config.getAlarmMinimumInterval();
-        if (judgeHigh == false
-                && currentTime - lastAlarmTime <= alarmIntervalThreshold)
+        if (judgeHigh == false && currentTime - lastAlarmTime <= alarmIntervalThreshold)
         {
             isLastAlarmTooNear = true;
 
@@ -1719,16 +1721,16 @@ public class StatsJavelinRecorder
             Invocation invocation = node.getInvocation();
             if (invocation != null)
             {
-                long elapsedTime     = node.getAccumulatedTime();
-                long elapsedCpuTime  = node.getCpuTime();
+                long elapsedTime = node.getAccumulatedTime();
+                long elapsedCpuTime = node.getCpuTime();
                 long elapsedUserTime = node.getUserTime();
 
-                elapsedTime     = elapsedTime     - node.getChildrenTime();
+                elapsedTime = elapsedTime - node.getChildrenTime();
                 if (elapsedTime < 0)
                 {
                     elapsedTime = 0;
                 }
-                elapsedCpuTime  = elapsedCpuTime  - node.getChildrenCpuTime();
+                elapsedCpuTime = elapsedCpuTime - node.getChildrenCpuTime();
                 if (elapsedCpuTime < 0)
                 {
                     elapsedCpuTime = 0;

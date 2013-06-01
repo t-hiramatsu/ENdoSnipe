@@ -73,6 +73,9 @@ public class HttpServletMonitor
 
     /** セッションを入力する引数番号 */
     private static final int ARGS_SESSION_NUM = 7;
+    
+    /** エラーステータス400番台を表す整数 */
+    private static final int ERROR_STATUS_FOUR_HUNDRED = 400;
 
     /** 引数の数. */
     private static final int ARGS_NUM = 8;
@@ -189,7 +192,7 @@ public class HttpServletMonitor
         try
         {
             int status = response.getStatus();
-            if (status / 100 >= 4 && config__.isHttpStatusError())
+            if (status >= ERROR_STATUS_FOUR_HUNDRED && config__.isHttpStatusError())
             {
                 HttpStatusEvent event =
                                         new HttpStatusEvent(contextPath, servletPath, status,

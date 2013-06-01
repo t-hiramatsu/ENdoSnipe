@@ -248,6 +248,16 @@ public class DBManager
         password__ = password;
     }
 
+    /**
+     * フィールドに変更があったか確認します。
+     * @param useDefault 初期DBを利用するかどうか
+     * @param dbDir DBディレクトリ名
+     * @param host ホスト名
+     * @param port ポート番号
+     * @param userName ユーザ名
+     * @param password パスワード
+     * @return 変更があったときtrue/そうでないときfalse
+     */
     public static boolean isDirty(boolean useDefault, String dbDir, String host,
         String port, String userName, String password)
     {

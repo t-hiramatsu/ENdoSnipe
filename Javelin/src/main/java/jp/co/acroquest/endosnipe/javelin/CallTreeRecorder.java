@@ -256,8 +256,8 @@ public class CallTreeRecorder
      * @param node 子ノード。
      * @param config 設定。
      */
-    public static void addCallTreeNode(CallTreeNode parent, final CallTree tree, final CallTreeNode node,
-            final JavelinConfig config)
+    public static void addCallTreeNode(CallTreeNode parent, 
+            final CallTree tree, final CallTreeNode node, final JavelinConfig config)
     {
         if (parent != null)
         {
@@ -296,6 +296,12 @@ public class CallTreeRecorder
         return node;
     }
 
+    /**
+     * ログに引数を追加します。
+     * @param node ノード
+     * @param args 引数
+     * @param config コンフィグ
+     */
     public static void addLogArgs(
             final CallTreeNode node,
             final Object[] args,

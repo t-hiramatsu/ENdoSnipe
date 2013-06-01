@@ -85,16 +85,4 @@ public class UpdateRequestTelegramListener implements TelegramListener, Telegram
         }
         return null;
     }
-
-    /**
-     * 指定された値が有効な Boolean 値であるかチェックします。
-     *
-     * @param value 値
-     * @return 有効な値の場合は <code>true</code>
-     */
-    private boolean isValidBooleanString(final String value)
-    {
-        boolean result = ("true".equalsIgnoreCase(value) || "false".equalsIgnoreCase(value));
-        return result;
-    }
 }

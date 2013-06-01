@@ -32,8 +32,10 @@ package jp.co.acroquest.endosnipe.javelin.bean.proc;
  */
 public class SelfStatInfo
 {
+    /** USER処理時間 */
     private long utime_;
 
+    /** CPUシステム処理時間 */
     private long stime_;
 
     private long cutime_;
@@ -42,30 +44,50 @@ public class SelfStatInfo
 
     private long vsize_;
 
+    /** RSS */
     private long rss_;
 
+    /** スレッド数 */
     private long numThreads_;
 
+    /** メジャーフォールト */
     private long majflt_;
-    
-    private int fdCount_;
 
+    /** プロセスのハンドル使用数 */
+    private int  fdCount_;
+
+    /**
+     * USER処理時間を取得します。
+     * @return USER処理時間
+     */
     public long getUtime()
     {
         return utime_;
     }
 
-    public void setUtime(long utime)
+    /**
+     * USER処理時間を設定します。
+     * @param utime USER処理時間
+     */
+    public void setUtime(final long utime)
     {
         utime_ = utime;
     }
 
+    /**
+     * CPUシステム処理時間を取得します。
+     * @return CPUシステム処理時間
+     */
     public long getStime()
     {
         return stime_;
     }
 
-    public void setStime(long stime)
+    /**
+     * CPUシステム処理時間を設定します。
+     * @param stime CPUシステム処理時間
+     */
+    public void setStime(final long stime)
     {
         stime_ = stime;
     }
@@ -95,47 +117,83 @@ public class SelfStatInfo
         return vsize_;
     }
 
-    public void setVsize(long vsize)
+    /**
+     * vsizeを設定します。
+     * @param vsize vsize
+     */
+    public void setVsize(final long vsize)
     {
         vsize_ = vsize;
     }
 
+    /**
+     * rssを取得します。
+     * @return rss
+     */
     public long getRss()
     {
         return rss_;
     }
 
-    public void setRss(long rss)
+    /**
+     * rssを設定します。
+     * @param rss rss
+     */
+    public void setRss(final long rss)
     {
         rss_ = rss;
     }
 
+    /**
+     * スレッド数を取得します。
+     * @return スレッド数
+     */
     public long getNumThreads()
     {
         return numThreads_;
     }
 
-    public void setNumThreads(long numThreads)
+    /**
+     * スレッド数を設定します。
+     * @param numThreads スレッド数
+     */
+    public void setNumThreads(final long numThreads)
     {
         numThreads_ = numThreads;
     }
 
+    /**
+     * メジャーフォールトを取得します。
+     * @return メジャーフォールト
+     */
     public long getMajflt()
     {
         return majflt_;
     }
 
-    public void setMajflt(long majflt)
+    /**
+     * メジャーフォールトを設定します。
+     * @param majflt メジャーフォールト
+     */
+    public void setMajflt(final long majflt)
     {
         majflt_ = majflt;
     }
 
+    /**
+     * プロセスのハンドル使用数を取得します。
+     * @return プロセスのハンドル使用数
+     */
     public int getFdCount()
     {
         return fdCount_;
     }
 
-    public void setFdCount(int fdcount)
+    /**
+     * プロセスのハンドル使用数を取得します。
+     * @param fdcount プロセスのハンドル使用数
+     */
+    public void setFdCount(final int fdcount)
     {
         fdCount_ = fdcount;
     }

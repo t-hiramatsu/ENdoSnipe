@@ -281,9 +281,9 @@ public class GetReportListRequestProcessor implements EventProcessor
                                            + LAST_CHARACTER_POSITION_OF_DAY_IN_DATE);
         int endTime =
                 Integer.valueOf(fileName.substring(FIRST_CHARACTER_POSITION_OF_END_DATE
-                                                           + FIRST_CHARACTER_POSITION_OF_HOUR_IN_DATE,
-                                                   FIRST_CHARACTER_POSITION_OF_END_DATE
-                                                           + LAST_CHARACTER_POSITION_OF_SECOND_IN_DATE));
+                        + FIRST_CHARACTER_POSITION_OF_HOUR_IN_DATE,
+                        FIRST_CHARACTER_POSITION_OF_END_DATE
+                        + LAST_CHARACTER_POSITION_OF_SECOND_IN_DATE));
 
         //Date型に変換してから期間を計算する。
         SimpleDateFormat format = new SimpleDateFormat(REPORT_FILE_DATE_PATTERN);

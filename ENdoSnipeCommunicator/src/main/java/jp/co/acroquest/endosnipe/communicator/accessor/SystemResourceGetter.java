@@ -113,8 +113,8 @@ public class SystemResourceGetter extends TimerTask implements TelegramConstants
         if (this.isInitialized_ == false)
         {
             Telegram initializeTelegram = null;
-            Body initializeBody
-            = ResourceNotifyAccessor.makeResourceRequestBody(ITEMNAME_INITIALIZE);
+            Body initializeBody 
+                = ResourceNotifyAccessor.makeResourceRequestBody(ITEMNAME_INITIALIZE);
             try
             {
                 initializeTelegram = this.requestResourceTelegram_.clone();

@@ -286,6 +286,11 @@ public class JavelinBridgeConverter extends AbstractConverter
         return this.info_ != null ? ":" + this.info_ : "";
     }
 
+    /**
+     * bytecode‚Ìî•ñ‚ğ‚ÂƒNƒ‰ƒX
+     * @author acroquest
+     *
+     */
     private static class BytecodeInfo
     {
         int length_ = -1;

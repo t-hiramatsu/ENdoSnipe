@@ -88,9 +88,6 @@ public class JavelinNotifyListener implements TelegramListener
         {
             Set<String> databaseNameList = ConnectNotifyAccessor.getDataBaseNameList(telegram);
             modifyCollectorClientThread(databaseNameList, header.getByteTelegramKind());
-
-            //            sendNotifyEntry(databaseNameList, header.getByteTelegramKind());
-            //
         }
         return null;
     }

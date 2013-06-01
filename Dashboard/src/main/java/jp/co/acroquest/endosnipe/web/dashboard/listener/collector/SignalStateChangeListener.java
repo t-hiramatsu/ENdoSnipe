@@ -88,12 +88,6 @@ public class SignalStateChangeListener extends AbstractTelegramListener
             {
                 levels = getIntValues(loopCount, measurementItemValues);
             }
-            // アラーム種類の項目に対する処理
-            //else if (TelegramConstants.ITEMNAME_ALARM_TYPE.equals(itemNameInTelegram))
-            //{
-            //　アラームの種別（現状は使用しない）
-            // alarmTypes = getStringValues(loopCount, measurementItemValues);
-            //}
         }
 
         for (int cnt = 0; cnt < treeIds.length; cnt++)

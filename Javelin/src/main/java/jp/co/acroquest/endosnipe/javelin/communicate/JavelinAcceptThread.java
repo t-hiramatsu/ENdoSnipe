@@ -53,7 +53,9 @@ public class JavelinAcceptThread extends CommunicationServerImpl implements Alar
     private JavelinAcceptThread()
     {
         super(config__.isAcceptPortIsRange(), config__.getAcceptPortRangeMax(),
-                JavelinTransformer.WAIT_FOR_THREAD_START, config__.getJavelinBindInterval(), config__.getTelegramListeners().split(","));
+                JavelinTransformer.WAIT_FOR_THREAD_START, 
+                config__.getJavelinBindInterval(), 
+                config__.getTelegramListeners().split(","));
         this.isJavelin_ = true;
         StatsJavelinRecorder.addListener(this);
     }

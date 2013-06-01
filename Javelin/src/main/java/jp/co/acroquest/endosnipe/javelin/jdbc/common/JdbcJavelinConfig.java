@@ -132,43 +132,53 @@ public class JdbcJavelinConfig extends JavelinConfig
     private static final boolean DEF_JDBC_JAVELIN_ENABLED = true;
 
     /** 実行計画を取得するか否かを設定するキー。 */
-    private static boolean isRecordExecPlan_;
+    private static boolean isRecordExecPlan__;
     
     /** SQL文のFull Scanを監視するか否かを設定するキー。*/
-    private static boolean isFullScanMonitor_;
+    private static boolean isFullScanMonitor__;
 
     /** JDBC呼出し重複出力を行うか否かを設定するキー。 */
-    private static boolean isRecordDuplJdbcCall_;
+    private static boolean isRecordDuplJdbcCall__;
 
     /** バインド変数を取得するか否かを設定するキー。 */
-    private static boolean isRecordBindVal_;
+    private static boolean isRecordBindVal__;
 
     /** 実行計画を取得する閾値を設定するキー。 */
     private static long execPlanThreshold__;
 
     /** バインド変数出力での文字列長制限を設定するキー。 */
-    private static long stringLimitLength_;
+    private static long stringLimitLength__;
 
     /** 同一トランザクション内の同一SQL呼び出し回数超過の閾値を監視するか否か。 */
-    private static boolean isSqlcountMonitor_;
+    private static boolean isSqlcountMonitor__;
 
     /**  同一トランザクション内の同一SQL呼び出し回数超過の閾値。 */
-    private static long sqlcount_;
+    private static long sqlcount__;
 
     /** SQLトレース出力を行うか否かを設定するキー。 */
-    private static boolean isOracleAllowSqlTrace_;
+    private static boolean isOracleAllowSqlTrace__;
 
     /** PostgreSQLで詳細な実行計画を取得するか否かを設定するキー。 */
-    private static boolean isPostgresVerbosePlan_;
+    private static boolean isPostgresVerbosePlan__;
 
     /** 最大クエリ保存数を設定するキー。 */
-    private static int recordStatementNumMaximum_;
+    private static int recordStatementNumMaximum__;
 
     /** JDBCJavelinでスタックトレース出力のON/OFFを設定するキー。 */
-    private static boolean isRecordStackTrace_;
+    private static boolean isRecordStackTrace__;
 
     /** JDBCJavelinでスタックトレースを出力するための閾値。 */
-    private static int recordStacktraceThreashold_;
+    private static int recordStacktraceThreashold__;
+
+    /**
+     * Oracleの実行計画の出力オプション。
+     * "BASIC","SERIAL","TYPICAL","ALL"の何れかを指定する。
+     * デフォルト値は"SERIAL"
+     */
+    private final String outputOption_;
+
+    /** JDBC Javelinを使用するかどうか */
+    private static boolean isJdbcJavelinEnabled__;
 
     static
     {
@@ -184,38 +194,29 @@ public class JdbcJavelinConfig extends JavelinConfig
     private static void initialize()
     {
         JavelinConfigUtil configUtil = JavelinConfigUtil.getInstance();
-        isRecordExecPlan_ = configUtil.getBoolean(RECORDEXECPLAN_KEY, DEFAULT_RECORDEXECPLAN);
-        isFullScanMonitor_ = configUtil.getBoolean(FULLSCAN_MONITOR_KEY, DEFAULT_FULLSCAN_MONITOR);
-        isRecordDuplJdbcCall_ =
+        isRecordExecPlan__ = configUtil.getBoolean(RECORDEXECPLAN_KEY, DEFAULT_RECORDEXECPLAN);
+        isFullScanMonitor__ = configUtil.getBoolean(FULLSCAN_MONITOR_KEY, DEFAULT_FULLSCAN_MONITOR);
+        isRecordDuplJdbcCall__ =
                 configUtil.getBoolean(RECORDDUPLJDBCCALL_KEY, DEFAULT_RECORDDUPLJDBCCALL);
-        isRecordBindVal_ = configUtil.getBoolean(RECORDBINDVAL_KEY, DEFAULT_RECORDBINDVAL);
+        isRecordBindVal__ = configUtil.getBoolean(RECORDBINDVAL_KEY, DEFAULT_RECORDBINDVAL);
         execPlanThreshold__ = configUtil.getLong(EXECPLANTHRESHOLD_KEY, DEFAULT_EXECPLANTHRESHOLD);
-        stringLimitLength_ = configUtil.getLong(STRINGLIMITLENGTH_KEY, DEFAULT_STRINGLIMITLENGTH);
-        isSqlcountMonitor_ = configUtil.getBoolean(SQLCOUNT_MONITOR_KEY, DEFAULT_SQLCOUNT_MONITOR);
-        sqlcount_ = configUtil.getLong(SQLCOUNT_KEY, DEFAULT_SQLCOUNT);
-        isOracleAllowSqlTrace_ =
+        stringLimitLength__ = configUtil.getLong(STRINGLIMITLENGTH_KEY, DEFAULT_STRINGLIMITLENGTH);
+        isSqlcountMonitor__ = configUtil.getBoolean(SQLCOUNT_MONITOR_KEY, DEFAULT_SQLCOUNT_MONITOR);
+        sqlcount__ = configUtil.getLong(SQLCOUNT_KEY, DEFAULT_SQLCOUNT);
+        isOracleAllowSqlTrace__ =
                 configUtil.getBoolean(ORACLE_ALLOW_SQL_TRACE_KEY, DEFAULT_ORACLE_ALLOW_SQL_TRACE);
-        isPostgresVerbosePlan_ =
+        isPostgresVerbosePlan__ =
                 configUtil.getBoolean(POSTGRES_VERBOSE_PLAN_KEY, DEFAULT_POSTGRES_VERBOSE_PLAN);
-        recordStatementNumMaximum_ =
+        recordStatementNumMaximum__ =
                 configUtil.getInteger(RECORD_STATEMENT_NUM_MAXIMUM_KEY,
                                       DEFAULT_MAX_RECORD_STATEMENT_NUM_MAXIMUM);
-        isRecordStackTrace_ = configUtil.getBoolean(RECORD_STACKTRACE_KEY, DEF_RECORD_STACKTRACE);
-        recordStacktraceThreashold_ =
+        isRecordStackTrace__ = configUtil.getBoolean(RECORD_STACKTRACE_KEY, DEF_RECORD_STACKTRACE);
+        recordStacktraceThreashold__ =
                 configUtil.getInteger(RECORD_STACKTRACE_THREADHOLD_KEY,
                                       DEF_RECORD_STACKTRACE_THRESHOLD);
-        isJdbcJavelinEnabled__ = configUtil.getBoolean(JDBC_JAVELIN_ENABLED_KEY, DEF_JDBC_JAVELIN_ENABLED);
+        isJdbcJavelinEnabled__ = 
+                configUtil.getBoolean(JDBC_JAVELIN_ENABLED_KEY, DEF_JDBC_JAVELIN_ENABLED);
     }
-
-    /**
-     * Oracleの実行計画の出力オプション。
-     * "BASIC","SERIAL","TYPICAL","ALL"の何れかを指定する。
-     * デフォルト値は"SERIAL"
-     */
-    private final String outputOption_;
-
-    /** JDBC Javelinを使用するかどうか */
-    private static boolean isJdbcJavelinEnabled__;
 
     /**
      * Javelinの設定オブジェクトを作成する。
@@ -257,7 +258,7 @@ public class JdbcJavelinConfig extends JavelinConfig
      */
     public boolean isRecordDuplJdbcCall()
     {
-        return isRecordDuplJdbcCall_;
+        return isRecordDuplJdbcCall__;
     }
 
     /**
@@ -267,9 +268,9 @@ public class JdbcJavelinConfig extends JavelinConfig
      */
     public void setRecordDuplJdbcCall(final boolean recordDuplJdbcCall)
     {
-        isRecordDuplJdbcCall_ = recordDuplJdbcCall;
+        isRecordDuplJdbcCall__ = recordDuplJdbcCall;
     }
-
+ 
     /** 
      * 実行計画出力ON/OFFフラグを返す。
      *
@@ -277,7 +278,7 @@ public class JdbcJavelinConfig extends JavelinConfig
      */
     public boolean isRecordExecPlan()
     {
-        return isRecordExecPlan_;
+        return isRecordExecPlan__;
     }
 
     /**
@@ -287,7 +288,7 @@ public class JdbcJavelinConfig extends JavelinConfig
      */
     public void setRecordExecPlan(final boolean recordExecPlan)
     {
-        isRecordExecPlan_ = recordExecPlan;
+        isRecordExecPlan__ = recordExecPlan;
     }
     
     /** 
@@ -297,7 +298,7 @@ public class JdbcJavelinConfig extends JavelinConfig
      */
     public boolean isFullScanMonitor()
     {
-        return isFullScanMonitor_;
+        return isFullScanMonitor__;
     }
 
     /** 
@@ -307,7 +308,7 @@ public class JdbcJavelinConfig extends JavelinConfig
      */
     public void setIsFullScanMonitor(boolean isFullScanMonitor)
     {
-        JdbcJavelinConfig.isFullScanMonitor_ = isFullScanMonitor;
+        JdbcJavelinConfig.isFullScanMonitor__ = isFullScanMonitor;
     }
 
     /** 
@@ -319,7 +320,7 @@ public class JdbcJavelinConfig extends JavelinConfig
      */
     public boolean isRecordBindVal()
     {
-        return isRecordBindVal_;
+        return isRecordBindVal__;
     }
 
     /**
@@ -329,7 +330,7 @@ public class JdbcJavelinConfig extends JavelinConfig
      */
     public void setRecordBindVal(final boolean recordBindVal)
     {
-        isRecordBindVal_ = recordBindVal;
+        isRecordBindVal__ = recordBindVal;
     }
 
     /**
@@ -352,7 +353,7 @@ public class JdbcJavelinConfig extends JavelinConfig
      */
     public long getJdbcStringLimitLength()
     {
-        return stringLimitLength_;
+        return stringLimitLength__;
     }
 
     /**
@@ -362,7 +363,7 @@ public class JdbcJavelinConfig extends JavelinConfig
      */
     public void setJdbcStringLimitLength(final long jdbcStringLimitLength)
     {
-        stringLimitLength_ = jdbcStringLimitLength;
+        stringLimitLength__ = jdbcStringLimitLength;
     }
 
     /**
@@ -372,7 +373,7 @@ public class JdbcJavelinConfig extends JavelinConfig
      */
     public boolean isSqlcountMonitor()
     {
-        return isSqlcountMonitor_;
+        return isSqlcountMonitor__;
     }
 
     /**
@@ -382,7 +383,7 @@ public class JdbcJavelinConfig extends JavelinConfig
      */
     public void setSqlcountMonitor(final boolean sqlcountMonitor)
     {
-        isSqlcountMonitor_ = sqlcountMonitor;
+        isSqlcountMonitor__ = sqlcountMonitor;
     }
 
     /**
@@ -392,7 +393,7 @@ public class JdbcJavelinConfig extends JavelinConfig
      */
     public long getSqlcount()
     {
-        return sqlcount_;
+        return sqlcount__;
     }
 
     /**
@@ -402,7 +403,7 @@ public class JdbcJavelinConfig extends JavelinConfig
      */
     public void setSqlcount(final long sqlcount)
     {
-        sqlcount_ = sqlcount;
+        sqlcount__ = sqlcount;
     }
 
     /** 
@@ -414,7 +415,7 @@ public class JdbcJavelinConfig extends JavelinConfig
      */
     public boolean isAllowSqlTraceForOracle()
     {
-        return isOracleAllowSqlTrace_;
+        return isOracleAllowSqlTrace__;
     }
 
     /**
@@ -424,7 +425,7 @@ public class JdbcJavelinConfig extends JavelinConfig
      */
     public void setAllowSqlTraceForOracle(final boolean allowSqlTraceForOracle)
     {
-        isOracleAllowSqlTrace_ = allowSqlTraceForOracle;
+        isOracleAllowSqlTrace__ = allowSqlTraceForOracle;
     }
 
     /**
@@ -436,7 +437,7 @@ public class JdbcJavelinConfig extends JavelinConfig
      */
     public boolean isVerbosePlanForPostgres()
     {
-        return isPostgresVerbosePlan_;
+        return isPostgresVerbosePlan__;
     }
 
     /**
@@ -446,7 +447,7 @@ public class JdbcJavelinConfig extends JavelinConfig
      */
     public void setVerbosePlanForPostgres(final boolean verbosePlanForPostgres)
     {
-        isPostgresVerbosePlan_ = verbosePlanForPostgres;
+        isPostgresVerbosePlan__ = verbosePlanForPostgres;
     }
 
     /**
@@ -458,7 +459,7 @@ public class JdbcJavelinConfig extends JavelinConfig
      */
     public int getRecordStatementNumMax()
     {
-        return recordStatementNumMaximum_;
+        return recordStatementNumMaximum__;
     }
 
     /**
@@ -468,7 +469,7 @@ public class JdbcJavelinConfig extends JavelinConfig
      */
     public void setRecordStatementNumMax(final int recordMaxStatementNum)
     {
-        recordStatementNumMaximum_ = recordMaxStatementNum;
+        recordStatementNumMaximum__ = recordMaxStatementNum;
     }
 
     /**
@@ -478,7 +479,7 @@ public class JdbcJavelinConfig extends JavelinConfig
      */
     public boolean isRecordStackTrace()
     {
-        return isRecordStackTrace_;
+        return isRecordStackTrace__;
     }
 
     /**
@@ -488,7 +489,7 @@ public class JdbcJavelinConfig extends JavelinConfig
      */
     public void setRecordStackTrace(boolean isRecordThreashold)
     {
-        isRecordStackTrace_ = isRecordThreashold;
+        isRecordStackTrace__ = isRecordThreashold;
     }
 
     /**
@@ -498,7 +499,7 @@ public class JdbcJavelinConfig extends JavelinConfig
      */
     public int getRecordStackTraceThreshold()
     {
-        return recordStacktraceThreashold_;
+        return recordStacktraceThreashold__;
     }
 
     /**
@@ -508,7 +509,7 @@ public class JdbcJavelinConfig extends JavelinConfig
      */
     public void setRecordStackTraceThreshold(int stackTraceThreshold)
     {
-        recordStacktraceThreashold_ = stackTraceThreshold;
+        recordStacktraceThreashold__ = stackTraceThreshold;
     }
 
     /**

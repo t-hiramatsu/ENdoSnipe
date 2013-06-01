@@ -49,6 +49,64 @@ public class HttpServletConverter extends AbstractConverter
     /** ThrowableのCtClass。 */
     private CtClass throwableClass_;
 
+    private static final String BEFORE =
+            "if ($1 instanceof javax.servlet.http.HttpServletRequest) {" + 
+            "javax.servlet.http.HttpServletRequest httpRequest "+
+            "= (javax.servlet.http.HttpServletRequest)$1;" +
+            "jp.co.acroquest.endosnipe.javelin.converter.servlet.monitor.HttpRequestValue "+
+            "requestValue = " + 
+            "    new jp.co.acroquest.endosnipe.javelin.converter."+
+            "servlet.monitor.HttpRequestValue();" + 
+            "requestValue.setPathInfo(httpRequest.getPathInfo());" +
+            "requestValue.setContextPath(httpRequest.getContextPath());" +
+            "requestValue.setServletPath(httpRequest.getServletPath());" +
+            "requestValue.setRemoteHost(httpRequest.getRemoteHost());" +
+            "requestValue.setRemotePort(httpRequest.getRemotePort());" +
+            "requestValue.setMethod(httpRequest.getMethod());" +
+            "requestValue.setQueryString(httpRequest.getQueryString());" +
+            "requestValue.setCharacterEncoding(httpRequest.getCharacterEncoding());" +
+            "if (requestValue.getCharacterEncoding() != null) {" + 
+            "    requestValue.setParameterMap(httpRequest.getParameterMap()); " +
+            "}" +
+            SERVLET_MONITOR_NAME + ".preProcess(requestValue);" +
+            "}";
+        
+        private static final String AFTER =
+            "if ($1 instanceof javax.servlet.http.HttpServletRequest) {" + 
+            "javax.servlet.http.HttpServletRequest httpRequest "+
+            "= (javax.servlet.http.HttpServletRequest)$1;" +
+            "jp.co.acroquest.endosnipe.javelin.converter.servlet.monitor.HttpRequestValue "+
+            "requestValue = " + 
+            "    new jp.co.acroquest.endosnipe.javelin.converter."+
+            "servlet.monitor.HttpRequestValue();" + 
+            "requestValue.setPathInfo(httpRequest.getPathInfo());" +
+            "requestValue.setContextPath(httpRequest.getContextPath());" +
+            "requestValue.setServletPath(httpRequest.getServletPath());" +
+            "javax.servlet.http.HttpServletResponse httpResponse = "+
+            "(javax.servlet.http.HttpServletResponse)$2;" +
+            "jp.co.acroquest.endosnipe.javelin.converter.servlet.monitor.HttpResponseValue "+
+            "responseValue = " + 
+            "    new jp.co.acroquest.endosnipe.javelin.converter."+
+            "servlet.monitor.HttpResponseValue();" + 
+            "responseValue.setContentType(httpResponse.getContentType());" +
+            SERVLET_MONITOR_NAME + ".postProcess(requestValue, responseValue);" +
+            "}";
+        
+        private static final String NG =
+            "if ($1 instanceof javax.servlet.http.HttpServletRequest) {" + 
+            "javax.servlet.http.HttpServletRequest httpRequest "+
+            "= (javax.servlet.http.HttpServletRequest)$1;" +
+            "jp.co.acroquest.endosnipe.javelin.converter.servlet.monitor.HttpRequestValue "+
+            "requestValue = " + 
+            "    new jp.co.acroquest.endosnipe.javelin.converter."+
+            "servlet.monitor.HttpRequestValue();" + 
+            "requestValue.setPathInfo(httpRequest.getPathInfo());" +
+            "requestValue.setContextPath(httpRequest.getContextPath());" +
+            "requestValue.setServletPath(httpRequest.getServletPath());" +
+            SERVLET_MONITOR_NAME + ".postProcessNG(requestValue, $e);" +
+            "}" + 
+            "throw $e;";
+
     /**
      * {@inheritDoc}
      */
@@ -101,70 +159,12 @@ public class HttpServletConverter extends AbstractConverter
     private void convertMethod(final CtMethod ctMethod)
         throws CannotCompileException
     {
-        ctMethod.insertBefore(before_);
-        ctMethod.insertAfter(after_);
-        ctMethod.addCatch(ng_, throwableClass_);
+        ctMethod.insertBefore(BEFORE);
+        ctMethod.insertAfter(AFTER);
+        ctMethod.addCatch(NG, throwableClass_);
 
         // 処理結果をログに出力する。
         logModifiedMethod("HttpServletConverter", ctMethod);
     }
     
-    private static final String before_ =
-        "if ($1 instanceof javax.servlet.http.HttpServletRequest) {" + 
-        "javax.servlet.http.HttpServletRequest httpRequest = (javax.servlet.http.HttpServletRequest)$1;" +
-        "jp.co.acroquest.endosnipe.javelin.converter.servlet.monitor.HttpRequestValue requestValue = " + 
-        "    new jp.co.acroquest.endosnipe.javelin.converter.servlet.monitor.HttpRequestValue();" + 
-        "requestValue.setPathInfo(httpRequest.getPathInfo());" +
-        "requestValue.setContextPath(httpRequest.getContextPath());" +
-        "requestValue.setServletPath(httpRequest.getServletPath());" +
-        "requestValue.setRemoteHost(httpRequest.getRemoteHost());" +
-        "requestValue.setRemotePort(httpRequest.getRemotePort());" +
-        "requestValue.setMethod(httpRequest.getMethod());" +
-        "requestValue.setQueryString(httpRequest.getQueryString());" +
-        "requestValue.setCharacterEncoding(httpRequest.getCharacterEncoding());" +
-        "if (requestValue.getCharacterEncoding() != null) {" + 
-        "    requestValue.setParameterMap(httpRequest.getParameterMap()); " +
-        "}" +
-        SERVLET_MONITOR_NAME + ".preProcess(requestValue);" +
-        "}";
-    
-    private static final String after_ =
-        "if ($1 instanceof javax.servlet.http.HttpServletRequest) {" + 
-        "javax.servlet.http.HttpServletRequest httpRequest = (javax.servlet.http.HttpServletRequest)$1;" +
-        "jp.co.acroquest.endosnipe.javelin.converter.servlet.monitor.HttpRequestValue requestValue = " + 
-        "    new jp.co.acroquest.endosnipe.javelin.converter.servlet.monitor.HttpRequestValue();" + 
-        "requestValue.setPathInfo(httpRequest.getPathInfo());" +
-        "requestValue.setContextPath(httpRequest.getContextPath());" +
-        "requestValue.setServletPath(httpRequest.getServletPath());" +
-//        "requestValue.setRemoteHost(httpRequest.getRemoteHost());" +
-//        "requestValue.setRemotePort(httpRequest.getRemotePort());" +
-//        "requestValue.setMethod(httpRequest.getMethod());" +
-//        "requestValue.setQueryString(httpRequest.getQueryString());" +
-//        "requestValue.setCharacterEncoding(httpRequest.getCharacterEncoding());" +
-//        "requestValue.setParameterMap(httpRequest.getParameterMap());" +
-        
-        "javax.servlet.http.HttpServletResponse httpResponse = (javax.servlet.http.HttpServletResponse)$2;" +
-        "jp.co.acroquest.endosnipe.javelin.converter.servlet.monitor.HttpResponseValue responseValue = " + 
-        "    new jp.co.acroquest.endosnipe.javelin.converter.servlet.monitor.HttpResponseValue();" + 
-        "responseValue.setContentType(httpResponse.getContentType());" +
-        SERVLET_MONITOR_NAME + ".postProcess(requestValue, responseValue);" +
-        "}";
-    
-    private static final String ng_ =
-        "if ($1 instanceof javax.servlet.http.HttpServletRequest) {" + 
-        "javax.servlet.http.HttpServletRequest httpRequest = (javax.servlet.http.HttpServletRequest)$1;" +
-        "jp.co.acroquest.endosnipe.javelin.converter.servlet.monitor.HttpRequestValue requestValue = " + 
-        "    new jp.co.acroquest.endosnipe.javelin.converter.servlet.monitor.HttpRequestValue();" + 
-        "requestValue.setPathInfo(httpRequest.getPathInfo());" +
-        "requestValue.setContextPath(httpRequest.getContextPath());" +
-        "requestValue.setServletPath(httpRequest.getServletPath());" +
-//        "requestValue.setRemoteHost(httpRequest.getRemoteHost());" +
-//        "requestValue.setRemotePort(httpRequest.getRemotePort());" +
-//        "requestValue.setMethod(httpRequest.getMethod());" +
-//        "requestValue.setQueryString(httpRequest.getQueryString());" +
-//        "value.setCharacterEncoding(httpRequest.getCharacterEncoding());" +
-//        "value.setParameterMap(httpRequest.getParameterMap());" +
-        SERVLET_MONITOR_NAME + ".postProcessNG(requestValue, $e);" +
-        "}" + 
-        "throw $e;";
 }

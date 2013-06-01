@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
+import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 import jp.co.acroquest.endosnipe.communicator.CommunicationServer;
 import jp.co.acroquest.endosnipe.communicator.CommunicatorListener;
 import jp.co.acroquest.endosnipe.communicator.ENdoSnipeCommunicatorPluginProvider;
@@ -353,6 +354,7 @@ public class CommunicationServerImpl implements Runnable, CommunicationServer, T
         catch (Exception ex)
         {
             // Do nothing.
+            SystemLogger.getInstance().warn(ex);
         }
 
         ThreadGroup group = new ThreadGroup("JavelinThreadGroup");

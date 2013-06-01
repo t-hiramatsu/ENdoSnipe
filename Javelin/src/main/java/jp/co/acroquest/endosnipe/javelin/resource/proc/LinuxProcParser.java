@@ -52,7 +52,6 @@ import jp.co.acroquest.endosnipe.javelin.bean.proc.StatInfo;
  */
 public class LinuxProcParser implements ProcParser
 {
-
     /** /proc/self/statのパス。 */
     private static final String PROC_SELF_STAT_PATH = "/proc/self/stat";
 
@@ -727,7 +726,10 @@ public class LinuxProcParser implements ProcParser
         return diskStats;
     }
     
-    /** リソース使用状況のデータ procInfo を返す */
+    /** 
+     * リソース使用状況のデータ procInfo を返す
+     * @return procInfo
+     */
     public ProcInfo getProcInfo()
     {
         return this.procInfo_;

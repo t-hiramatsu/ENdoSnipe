@@ -35,7 +35,6 @@ import java.util.List;
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 import jp.co.acroquest.endosnipe.javelin.CallTreeRecorder;
 import jp.co.acroquest.endosnipe.javelin.VMStatus;
-import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
 
 /**
  * JMXからVMの状態を取得し、記録するために使用する。

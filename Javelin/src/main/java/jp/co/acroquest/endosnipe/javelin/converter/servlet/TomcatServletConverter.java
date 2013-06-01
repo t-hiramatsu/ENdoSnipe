@@ -52,7 +52,7 @@ public class TomcatServletConverter extends AbstractConverter
     private static final String SERVLET_REQUEST_CLASS = "org.apache.catalina.connector.Request";
 
     /** ThrowableのCtClass。 */
-    private CtClass throwableClass_;
+    private CtClass             throwableClass_;
 
     /**
      * {@inheritDoc}
@@ -87,7 +87,7 @@ public class TomcatServletConverter extends AbstractConverter
         {
             convertMethod(ctBehavior);
         }
-        
+
         setNewClassfileBuffer(ctClass.toBytecode());
     }
 
@@ -108,10 +108,9 @@ public class TomcatServletConverter extends AbstractConverter
             {
                 return;
             }
-            
-            ctMethod.insertBefore(before_);
-            ctMethod.insertAfter(after_);
-            ctMethod.addCatch(ng_, throwableClass_);
+            ctMethod.insertBefore(BEFORE);
+            ctMethod.insertAfter(AFTER);
+            ctMethod.addCatch(NG, throwableClass_);
 
             // 処理結果をログに出力する。
             logModifiedMethod("TomcatHttpServletConverter", ctMethod);
@@ -121,65 +120,68 @@ public class TomcatServletConverter extends AbstractConverter
             SystemLogger.getInstance().warn(ex);
         }
     }
-    
-    private static final String before_ =
-        "if ($1 instanceof " + SERVLET_REQUEST_CLASS + ") {" +
-        SERVLET_REQUEST_CLASS + " httpRequest = (" + SERVLET_REQUEST_CLASS + ")$1;" +
-        "jp.co.acroquest.endosnipe.javelin.converter.servlet.monitor.HttpRequestValue requestValue = " + 
-        "    new jp.co.acroquest.endosnipe.javelin.converter.servlet.monitor.HttpRequestValue();" + 
-        "requestValue.setPathInfo(httpRequest.getPathInfo());" +
-        "requestValue.setContextPath(httpRequest.getContextPath());" +
-        "requestValue.setServletPath(httpRequest.getServletPath());" +
-        "requestValue.setRemoteHost(httpRequest.getRemoteHost());" +
-        "requestValue.setRemotePort(httpRequest.getRemotePort());" +
-        "requestValue.setMethod(httpRequest.getMethod());" +
-        "requestValue.setQueryString(httpRequest.getQueryString());" +
-        "requestValue.setCharacterEncoding(httpRequest.getCharacterEncoding());" +
-        "if (requestValue.getCharacterEncoding() != null) {" + 
-        "    requestValue.setParameterMap(httpRequest.getParameterMap()); " +
-        "}" +
-        SERVLET_MONITOR_NAME + ".preProcess(requestValue);" +
-        "}";
-    
-    private static final String after_ =
-        "if ($1 instanceof " + SERVLET_REQUEST_CLASS + ") {" + 
-          SERVLET_REQUEST_CLASS  + " httpRequest = (" + SERVLET_REQUEST_CLASS + ")$1;" +
-          "jp.co.acroquest.endosnipe.javelin.converter.servlet.monitor.HttpRequestValue requestValue = " + 
-          "    new jp.co.acroquest.endosnipe.javelin.converter.servlet.monitor.HttpRequestValue();" + 
-        "requestValue.setPathInfo(httpRequest.getPathInfo());" +
-        "requestValue.setContextPath(httpRequest.getContextPath());" +
-        "requestValue.setServletPath(httpRequest.getServletPath());" +
-//        "requestValue.setRemoteHost(httpRequest.getRemoteHost());" +
-//        "requestValue.setRemotePort(httpRequest.getRemotePort());" +
-//        "requestValue.setMethod(httpRequest.getMethod());" +
-//        "requestValue.setQueryString(httpRequest.getQueryString());" +
-//        "requestValue.setCharacterEncoding(httpRequest.getCharacterEncoding());" +
-//        "requestValue.setParameterMap(httpRequest.getParameterMap());" +
 
-          SERVLET_RESPONSE_CLASS + " httpResponse = (" + SERVLET_RESPONSE_CLASS + ")$2;" +
-        "jp.co.acroquest.endosnipe.javelin.converter.servlet.monitor.HttpResponseValue responseValue = " + 
-        "    new jp.co.acroquest.endosnipe.javelin.converter.servlet.monitor.HttpResponseValue();" + 
-        "responseValue.setContentType(httpResponse.getContentType());" +
-        "responseValue.setStatus(httpResponse.getStatus());" +
-        "responseValue.setThrowable((java.lang.Throwable)httpRequest.getAttribute(\"javax.servlet.error.exception\"));" +
-        SERVLET_MONITOR_NAME + ".postProcess(requestValue, responseValue);" +
-        "}";
-    
-    private static final String ng_ =
-        "if ($1 instanceof " + SERVLET_REQUEST_CLASS + ") {" + 
-        SERVLET_REQUEST_CLASS + " httpRequest = (" + SERVLET_REQUEST_CLASS + ")$1;" +
-        "jp.co.acroquest.endosnipe.javelin.converter.servlet.monitor.HttpRequestValue requestValue = " + 
-        "    new jp.co.acroquest.endosnipe.javelin.converter.servlet.monitor.HttpRequestValue();" + 
-      "requestValue.setPathInfo(httpRequest.getPathInfo());" +
-      "requestValue.setContextPath(httpRequest.getContextPath());" +
-      "requestValue.setServletPath(httpRequest.getServletPath());" +
-//      "requestValue.setRemoteHost(httpRequest.getRemoteHost());" +
-//      "requestValue.setRemotePort(httpRequest.getRemotePort());" +
-//      "requestValue.setMethod(httpRequest.getMethod());" +
-//      "requestValue.setQueryString(httpRequest.getQueryString());" +
-//      "requestValue.setCharacterEncoding(httpRequest.getCharacterEncoding());" +
-//      "requestValue.setParameterMap(httpRequest.getParameterMap());" +
-        SERVLET_MONITOR_NAME + ".postProcessNG(requestValue, $e);" +
-        "}" + 
-        "throw $e;";
+    private static final String BEFORE = "if ($1 instanceof "
+     + SERVLET_REQUEST_CLASS
+     + ") {"
+     + SERVLET_REQUEST_CLASS
+     + " httpRequest = ("
+     + SERVLET_REQUEST_CLASS
+     + ")$1;"
+     + "jp.co.acroquest.endosnipe.javelin.converter.servlet.monitor.HttpRequestValue requestValue="
+     + "    new jp.co.acroquest.endosnipe.javelin.converter.servlet.monitor.HttpRequestValue();"
+     + "requestValue.setPathInfo(httpRequest.getPathInfo());"
+     + "requestValue.setContextPath(httpRequest.getContextPath());"
+     + "requestValue.setServletPath(httpRequest.getServletPath());"
+     + "requestValue.setRemoteHost(httpRequest.getRemoteHost());"
+     + "requestValue.setRemotePort(httpRequest.getRemotePort());"
+     + "requestValue.setMethod(httpRequest.getMethod());"
+     + "requestValue.setQueryString(httpRequest.getQueryString());"
+     + "requestValue.setCharacterEncoding(httpRequest.getCharacterEncoding());"
+     + "if (requestValue.getCharacterEncoding() != null) {"
+     + "    requestValue.setParameterMap(httpRequest.getParameterMap()); "
+     + "}" + SERVLET_MONITOR_NAME
+     + ".preProcess(requestValue);" + "}";
+
+    private static final String AFTER  = "if ($1 instanceof "
+     + SERVLET_REQUEST_CLASS
+     + ") {"
+     + SERVLET_REQUEST_CLASS
+     + " httpRequest = ("
+     + SERVLET_REQUEST_CLASS
+     + ")$1;"
+     + "jp.co.acroquest.endosnipe.javelin.converter.servlet.monitor.HttpRequestValue requestValue="
+     + "    new jp.co.acroquest.endosnipe.javelin.converter.servlet.monitor.HttpRequestValue();"
+     + "requestValue.setPathInfo(httpRequest.getPathInfo());"
+     + "requestValue.setContextPath(httpRequest.getContextPath());"
+     + "requestValue.setServletPath(httpRequest.getServletPath());"
+     + SERVLET_RESPONSE_CLASS
+     + " httpResponse = ("
+     + SERVLET_RESPONSE_CLASS
+     + ")$2;"
+     +"jp.co.acroquest.endosnipe.javelin.converter.servlet.monitor.HttpResponseValue responseValue="
+     + "    new jp.co.acroquest.endosnipe.javelin.converter.servlet.monitor.HttpResponseValue();"
+     + "responseValue.setContentType(httpResponse.getContentType());"
+     + "responseValue.setStatus(httpResponse.getStatus());"
+     + "responseValue.setThrowable((java.lang.Throwable)"
+     + "httpRequest.getAttribute(\"javax.servlet.error.exception\"));"
+     + SERVLET_MONITOR_NAME
+     + ".postProcess(requestValue, responseValue);"
+     + "}";
+
+    private static final String NG = "if ($1 instanceof "
+     + SERVLET_REQUEST_CLASS
+     + ") {"
+     + SERVLET_REQUEST_CLASS
+     + " httpRequest = ("
+     + SERVLET_REQUEST_CLASS
+     + ")$1;"
+     + "jp.co.acroquest.endosnipe.javelin.converter.servlet.monitor.HttpRequestValue requestValue="
+     + "    new jp.co.acroquest.endosnipe.javelin.converter.servlet.monitor.HttpRequestValue();"
+     + "requestValue.setPathInfo(httpRequest.getPathInfo());"
+     + "requestValue.setContextPath(httpRequest.getContextPath());"
+     + "requestValue.setServletPath(httpRequest.getServletPath());"
+     + SERVLET_MONITOR_NAME
+     + ".postProcessNG(requestValue, $e);" + "}"
+     + "throw $e;";
 }

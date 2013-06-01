@@ -48,6 +48,18 @@ public class WindowsProcParser implements ProcParser
     /** パーセント値を小数に直すための定数：100 */
     private static final double PERCENT_TO_DECIMAL = 100;
     
+    /** CPUシステム時間　*/
+    private static long cpuTimeSystem__ = 0;
+
+    /** CPUユーザ時間 */
+    private static long cpuTimeUser__ = 0;
+    
+    /** CPU処理時間 */
+    private static long processUserTime__ = 0;
+    
+    /** CPUシステム時間 */
+    private static long processSTime__ = 0;
+
     /** 取得したリソース値 */
     private ProcInfo procInfo_;
     
@@ -130,11 +142,11 @@ public class WindowsProcParser implements ProcParser
         cpuTimeUser__ +=
             procCount * userobj
             / PERCENT_TO_DECIMAL * interval * SECONDS_TO_NANO_SECONDS;
-        cpuTimeSys__ +=
+        cpuTimeSystem__ +=
             procCount * sysobj
             / PERCENT_TO_DECIMAL * interval * SECONDS_TO_NANO_SECONDS;
-        procUTime__ += userTime / PERCENT_TO_DECIMAL * interval * SECONDS_TO_NANO_SECONDS;
-        procSTime__ += privilegedTime / PERCENT_TO_DECIMAL * interval * SECONDS_TO_NANO_SECONDS;
+        processUserTime__ += userTime / PERCENT_TO_DECIMAL * interval * SECONDS_TO_NANO_SECONDS;
+        processSTime__ += privilegedTime / PERCENT_TO_DECIMAL * interval * SECONDS_TO_NANO_SECONDS;
         
         Double pageInTotal = pageIn * interval;
         Double pageOutTotal = pageOut * interval;
@@ -143,7 +155,7 @@ public class WindowsProcParser implements ProcParser
         Double swapTotal = pageBytes / pageUsage * PERCENT_TO_DECIMAL;
         Double swapFree = swapTotal - pageBytes;
         
-        statInfo.setCpuSystem(cpuTimeSys__);
+        statInfo.setCpuSystem(cpuTimeSystem__);
         statInfo.setCpuUser(cpuTimeUser__);
         //statInfo.setCpuTask(cpuTask);
         statInfo.setPageIn(pageInTotal.longValue());
@@ -154,8 +166,8 @@ public class WindowsProcParser implements ProcParser
         selfStatInfo.setVsize(vsize.longValue());
         selfStatInfo.setRss(rss.longValue());
         selfStatInfo.setNumThreads(numThreads.longValue());
-        selfStatInfo.setUtime(procUTime__);
-        selfStatInfo.setStime(procSTime__);
+        selfStatInfo.setUtime(processUserTime__);
+        selfStatInfo.setStime(processSTime__);
         selfStatInfo.setFdCount(procFDCount.intValue());
 
         memInfo.setMemTotal(memTotal.longValue());
@@ -175,13 +187,6 @@ public class WindowsProcParser implements ProcParser
         return procInfo;
     }
     
-    
-    static long cpuTimeSys__ = 0;
-    static long cpuTimeUser__ = 0;
-    static long procUTime__ = 0;
-    static long procSTime__ = 0;
-    
-
     /**
      * リソース使用状況のデータ procInfo を返す
      * @return ProcInfo

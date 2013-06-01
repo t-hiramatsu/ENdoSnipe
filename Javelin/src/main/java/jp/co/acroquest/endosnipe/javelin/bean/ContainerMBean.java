@@ -25,7 +25,15 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.javelin.bean;
 
+/**
+ * ContainerMBeanインターフェース
+ * @author acroquest
+ *
+ */
 public interface ContainerMBean
 {
+    /**
+     * リセットを行います。
+     */
     void reset();
 }

@@ -34,6 +34,15 @@ import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
  */
 public class StatsUtil
 {
+    /** 変換フォーマット */
+    private static final int EXCHANGE_FORMAT = 0xFF;
+    
+    /** カウントの最大数 */
+    private static final int MAX_COUNT = 8;
+    
+    /**
+     * コンストラクタ
+     */
     private StatsUtil()
     {
     }
@@ -183,7 +192,7 @@ public class StatsUtil
      */
     public static String toStr(final byte binary)
     {
-        String hex = Integer.toHexString((binary) & 0xFF).toUpperCase();
+        String hex = Integer.toHexString((binary) & EXCHANGE_FORMAT).toUpperCase();
         String result = "byte[1]:" + "00".substring(hex.length()) + hex;
         return result;
     }
@@ -210,12 +219,12 @@ public class StatsUtil
         StringBuffer result = new StringBuffer("byte[");
         result.append(binary.length);
         result.append("]:");
-        for (int count = 0; count < 8 && count < binary.length; count++)
+        for (int count = 0; count < MAX_COUNT && count < binary.length; count++)
         {
-            String hex = Integer.toHexString((binary[count]) & 0xFF).toUpperCase();
+            String hex = Integer.toHexString((binary[count]) & EXCHANGE_FORMAT).toUpperCase();
             result.append("00".substring(hex.length()) + hex);
         }
-        if (binary.length > 8)
+        if (binary.length > MAX_COUNT)
         {
             result.append("...");
         }
@@ -248,6 +257,12 @@ public class StatsUtil
         return DetailStringBuilder.buildString(object);
     }
 
+    /**
+     * 指定した文字列の指定した長さまでの文字列を取得します。
+     * @param str 文字列
+     * @param maxLength 長さ
+     * @return 該当文字列
+     */
     public static String substring(String str, int maxLength)
     {
         if (str == null)
@@ -259,6 +274,7 @@ public class StatsUtil
         {
             maxLength = str.length();
         }
+        
         return str.substring(0, maxLength);
     }
 

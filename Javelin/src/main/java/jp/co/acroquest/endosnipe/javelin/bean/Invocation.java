@@ -41,7 +41,6 @@ import jp.co.acroquest.endosnipe.javelin.util.concurrent.ConcurrentHashMap;
  */
 public class Invocation implements InvocationMBean, Serializable
 {
-
     /** バッファサイズのデフォルト値 */
     private static final int DEF_BUFFER_SIZE = 256;
 
@@ -57,6 +56,9 @@ public class Invocation implements InvocationMBean, Serializable
     /** アラーム閾値が指定されていないときの alarmThreshold の値 */
     public static final long THRESHOLD_NOT_SPECIFIED = -1;
 
+    /** HashMapのデフォルトサイズ */
+    private static final int HASH_MAP_DEFALT_SIZE = 5;
+    
     /** クラス名 */
     private final String className_;
 
@@ -165,16 +167,22 @@ public class Invocation implements InvocationMBean, Serializable
     /** 起動後、メソッドが呼び出されたか */
     private transient boolean isCalledAfterStarted_ = false;
 
+    /** 除外優先であるかのフラグ */
     private boolean isExcludePreffered_;
 
+    /** 対象優先であるか */
     private boolean isTargetPreferred_;
 
+    /** 除外であるか*/
     private boolean isExclude_;
 
+    /** ターゲットであるか */
     private boolean isTarget_;
 
+    /** 例外のカウントのMap */
     private Map<String, Integer> throwableCountMap_;
     
+    /** httpStatusのカウントのMap */
     private Map<String, Integer> httpStatusCountMap_;
     
     /**
@@ -224,8 +232,8 @@ public class Invocation implements InvocationMBean, Serializable
         this.isExclude_ = false;
         this.isTargetPreferred_ = false;
         this.isExcludePreffered_ = false;
-        this.throwableCountMap_ = new HashMap<String, Integer>(5);
-        this.httpStatusCountMap_ = new HashMap<String, Integer>(5);
+        this.throwableCountMap_ = new HashMap<String, Integer>(HASH_MAP_DEFALT_SIZE);
+        this.httpStatusCountMap_ = new HashMap<String, Integer>(HASH_MAP_DEFALT_SIZE);
     }
 
     /**
@@ -600,7 +608,10 @@ public class Invocation implements InvocationMBean, Serializable
      * 　　<li>intervalMax_:InvocationInteralの各要素の最大値</li>
      * 　　<li>minimumInterval_:InvocationIntervalの各要素の最小値</li>
      * </ul>
+     * @param node ノード
      * @param interval {@link InvocationInterval}オブジェクト
+     * @param cpuInterval CPUのインターバル時間
+     * @param userInterval USERのインターバル時間
      */
     public synchronized void addInterval(
             final CallTreeNode node, 
@@ -1085,12 +1096,13 @@ public class Invocation implements InvocationMBean, Serializable
             this.accumulatedMin_ = 0;
             this.resetThrowableCountMap(false);
             this.resetHttpStatusCountMap(false);
-            TurnAroundTimeInfo retVal = new TurnAroundTimeInfo(this.accumulatedTimeSum_, this.accumulatedMax_,
+            TurnAroundTimeInfo retVal = 
+                    new TurnAroundTimeInfo(this.accumulatedTimeSum_, this.accumulatedMax_,
                                           this.accumulatedMin_, this.accumulatedTimeCount_,
                                           this.throwableCountMap_, this.httpStatusCountMap_,
                                           this.methodStallCount_);
-            this.throwableCountMap_ = new HashMap<String, Integer>(5);
-            this.httpStatusCountMap_ = new HashMap<String, Integer>(5);
+            this.throwableCountMap_ = new HashMap<String, Integer>(HASH_MAP_DEFALT_SIZE);
+            this.httpStatusCountMap_ = new HashMap<String, Integer>(HASH_MAP_DEFALT_SIZE);
             this.methodStallCount_ = 0;
             return retVal;
         }
@@ -1223,41 +1235,73 @@ public class Invocation implements InvocationMBean, Serializable
         return true;
     }
 
+    /**
+     * 除外優先であるかのフラグを設定します。
+     * @param isExcludePreffered 除外優先であるかのフラグ
+     */
     public void setExcludePreffered(boolean isExcludePreffered)
     {
         this.isExcludePreffered_ = isExcludePreffered;
     }
 
+    /**
+     * 除外優先であるかのフラグを取得します。
+     * @return 除外優先であるかのフラグ
+     */
     public boolean isExcludePreffered()
     {
         return isExcludePreffered_;
     }
 
+    /**
+     * 対象優先であるかのフラグを取得します。
+     * @return 対象優先であるかのフラグ
+     */
     public boolean isTargetPreferred()
     {
         return this.isTargetPreferred_;
     }
 
+    /**
+     * 対象優先であるかのフラグを設定します。
+     * @param isTargetPreferred 対象優先であるかのフラグ
+     */
     public void setTargetPreferred(boolean isTargetPreferred)
     {
         isTargetPreferred_ = isTargetPreferred;
     }
 
+    /**
+     * 除外であるかのフラグを設定します。
+     * @param isExclude 除外であるかのフラグ
+     */
     public void setExclude(boolean isExclude)
     {
         this.isExclude_ = isExclude;
     }
 
+    /**
+     * 除外であるかのフラグを取得します。
+     * @return 除外であるかのフラグ
+     */
     public boolean isExclude()
     {
         return isExclude_;
     }
 
+    /**
+     * ターゲットであるかのフラグを設定します。
+     * @param isTarget ターゲットであるかのフラグ
+     */
     public void setTarget(boolean isTarget)
     {
         this.isTarget_ = isTarget;
     }
 
+    /**
+     * ターゲットであるかのフラグを取得します。
+     * @return ターゲットであるかのフラグ
+     */
     public boolean isTarget()
     {
         return isTarget_;

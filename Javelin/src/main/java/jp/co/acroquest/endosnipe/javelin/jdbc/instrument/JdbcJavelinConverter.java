@@ -40,11 +40,19 @@ import jp.co.smg.endosnipe.javassist.Modifier;
 import jp.co.smg.endosnipe.javassist.NotFoundException;
 
 /**
- * 
- * 
+ * JdbcJavelinの変換用クラス
+ * @author acroquest
  */
 public class JdbcJavelinConverter
 {
+    /**
+     * コンストラクタ
+     */
+    private JdbcJavelinConverter()
+    {
+        
+    }
+    
     /**
      * BCIにてsetXXXに埋め込むコード（パターンA）
      * 1.PreparedStatementオブジェクトのバインド変数保持フィールド（List）を取得する
@@ -251,8 +259,11 @@ public class JdbcJavelinConverter
                     + "[indexOfPlanStmt].getPreparedStatement().close();\n" + "    }\n" + "}\n";
 
     /** 設定値保持Bean */
-    private static final String   JAVELIN_RECORDER_NAME                     =
-                                                                                    JdbcJavelinRecorder.class.getName();
+    private static final String JAVELIN_RECORDER_NAME = JdbcJavelinRecorder.class.getName();
+    
+    /** 引数の数 */
+    private static final int ARGS = 3;
+    
     /**
      * Statementのメソッドに対して計測コードを埋め込む。
      *
@@ -300,7 +311,9 @@ public class JdbcJavelinConverter
                                                ctClass);
             ctClass.addMethod(urlMethod);
             CtMethod urlSetMethod =
-                                    CtMethod.make("public void setJdbcUrl(String jdbcUrl){ jdbcUrl_ = jdbcUrl; }", ctClass);
+                                    CtMethod.make("public void " 
+                                                  + "setJdbcUrl(String jdbcUrl)"
+                                                  +"{ jdbcUrl_ = jdbcUrl; }", ctClass);
             ctClass.addMethod(urlSetMethod);
         }
         catch (NotFoundException ex)
@@ -378,19 +391,12 @@ public class JdbcJavelinConverter
             {
                 if (SystemLogger.getInstance().isDebugEnabled())
                 {
-                    SystemLogger.getInstance().debug(
-                                                     "JDBC JAVELIN:-->Running ctMethodName:"
+                    SystemLogger.getInstance().debug("JDBC JAVELIN:-->Running ctMethodName:"
                                                              + methodName);
                 }
-                if ("execute".equals(methodName))
-                {
-                    convertStatementMethod(pool, ctClass, method);
-                }
-                else if ("executeQuery".equals(methodName))
-                {
-                    convertStatementMethod(pool, ctClass, method);
-                }
-                else if ("executeUpdate".equals(methodName))
+                
+                if ("execute".equals(methodName) || "executeQuery".equals(methodName) 
+                        || "executeUpdate".equals(methodName) || "executeBatch".equals(methodName))
                 {
                     convertStatementMethod(pool, ctClass, method);
                 }
@@ -405,11 +411,6 @@ public class JdbcJavelinConverter
                         delSqlFromField(ctClass, method);
                     }
                 }
-                else if ("executeBatch".equals(methodName))
-                {
-                    convertStatementMethod(pool, ctClass, method);
-                }
-
             }
 
             // BCI対象クラス「java.sql.PreparedStatement」に対して、コード転換を行う
@@ -417,18 +418,15 @@ public class JdbcJavelinConverter
             {
                 if (SystemLogger.getInstance().isDebugEnabled())
                 {
-                    SystemLogger.getInstance().debug(
-                                                     "JDBC JAVELIN:-->Running ctMethodName:"
+                    SystemLogger.getInstance().debug("JDBC JAVELIN:-->Running ctMethodName:"
                                                              + methodName);
                 }
                 if ("setString".equals(methodName) || "setObject".equals(methodName))
                 {
-                    // パターンAのsetter
-                    // 文字列長制限ラベルに具体的な設定値を入れる
+                    // パターンAのsetter. 文字列長制限ラベルに具体的な設定値を入れる.
                     long jdbcStringLimitLength =
                             JdbcJavelinRecorder.getConfig().getJdbcStringLimitLength();
-                    String code =
-                            BCI_METHOD_A.replaceAll("BCI_METHOD_A_LENGTH",
+                    String code = BCI_METHOD_A.replaceAll("BCI_METHOD_A_LENGTH",
                                                     String.valueOf(jdbcStringLimitLength));
                     convertPreparedMethod(ctClass, method, code, BCI_METHOD_PLANFORPREPARED_SETXXX);
                 }
@@ -438,7 +436,6 @@ public class JdbcJavelinConverter
                     // パターンBのsetter
                     convertPreparedMethod(ctClass, method, BCI_METHOD_B,
                                           BCI_METHOD_PLANFORPREPARED_SETXXX);
-
                 }
                 else if ("setBoolean".equals(methodName) || "setShort".equals(methodName)
                         || "setInt".equals(methodName) || "setLong".equals(methodName)
@@ -473,7 +470,7 @@ public class JdbcJavelinConverter
                         || "setUnicodeStream".equals(methodName))
                 {
                     // TODO Java6.0 でインターフェースの仕様が変わったため、引数の数が3以外のものも対応が必要。
-                    if (method.getParameterTypes().length == 3)
+                    if (method.getParameterTypes().length == ARGS)
                     {
                         // パターンGのsetter
                         convertPreparedMethod(ctClass, method, BCI_METHOD_E,
@@ -483,7 +480,7 @@ public class JdbcJavelinConverter
                 else if ("setCharacterStream".equals(methodName))
                 {
                     // TODO Java6.0 でインターフェースの仕様が変わったため、引数の数が3以外のものも対応が必要。
-                    if (method.getParameterTypes().length == 3)
+                    if (method.getParameterTypes().length == ARGS)
                     {
                         // パターンHのsetter
                         convertPreparedMethod(ctClass, method, BCI_METHOD_E,
@@ -492,15 +489,15 @@ public class JdbcJavelinConverter
                 }
                 else if ("addBatch".equals(methodName))
                 {
-                    convertPreparedMethod_addBatch(ctClass, method);
+                    convertPreparedMethodAddBatch(ctClass, method);
                 }
                 else if ("clearBatch".equals(methodName))
                 {
-                    convertPreparedMethod_clearBatch(ctClass, method);
+                    convertPreparedMethodClearBatch(ctClass, method);
                 }
                 else if ("close".equals(methodName))
                 {
-                    convertPreparedMethod_close(ctClass, method);
+                    convertPreparedMethodClose(ctClass, method);
                 }
                 if ("execute".equals(methodName) || "executeBatch".equals(methodName)
                         || "executeQuery".equals(methodName) || "executeUpdate".equals(methodName))
@@ -518,7 +515,6 @@ public class JdbcJavelinConverter
     /**
      * PreparedStatementのexecuteメソッドに、
      * バインド引数保存用ArrayList初期化処理を追加する。
-     * 
      * @param ctClass 変換対象のクラス。
      * @param method メソッド。
      * @throws CannotCompileException javassistがコンパイルに失敗した場合。
@@ -533,14 +529,12 @@ public class JdbcJavelinConverter
         String key = "javelin.jdbc.instrument.JdbcJavelinConverter.ModifiedMethodLabel";
         String message = JdbcJavelinMessages.getMessage(key, className, method.getName());
         SystemLogger.getInstance().info(message);
-        method.insertAfter(//
-                "this.jdbcJavelinBindValIndex_ = 0;" //
-                + "this.flagForPlanStmt_ = false;", true);
+        method.insertAfter("this.jdbcJavelinBindValIndex_ = 0;" + "this.flagForPlanStmt_ = false;",
+                           true);
     }
 
     /**
      * PreparedStatement用にパターン別のコードを埋め込む
-     * 
      * @param ctClass クラス
      * @param method メソッド
      * @param bindValCode バインド変数取得用コード
@@ -555,8 +549,7 @@ public class JdbcJavelinConverter
         String methodName = method.getName();
         className = className.substring(className.lastIndexOf('.') + 1);
 
-        // setメソッドの引数の1番目がintのときのみ、
-        // 実行計画取得用処理、バインド引数取得処理を追加する
+        // setメソッドの引数の1番目がintのときのみ、実行計画取得用処理、バインド引数取得処理を追加する
         try
         {
             CtClass[] paramTypes;
@@ -564,8 +557,7 @@ public class JdbcJavelinConverter
             if (paramTypes.length >= 1 && "int".equals(paramTypes[0].getName()))
             {
                 // 実行計画取得用PreparedStatementのsetXXXを適したメソッド名に変更する
-                String explainCode =
-                                     explainCodeTemplate.replaceAll(REPLACETARGET_OF_PLANPREPARED,
+                String explainCode = explainCodeTemplate.replaceAll(REPLACETARGET_OF_PLANPREPARED,
                                                                     methodName);
                 
                 // 前処理を埋め込む
@@ -590,7 +582,7 @@ public class JdbcJavelinConverter
      * @param method addBatchメソッド
      * @throws CannotCompileException コード埋め込みに失敗した場合
      */
-    public static void convertPreparedMethod_addBatch(final CtClass ctClass, final CtBehavior method)
+    public static void convertPreparedMethodAddBatch(final CtClass ctClass, final CtBehavior method)
         throws CannotCompileException
     {
         String className = ctClass.getName();
@@ -610,7 +602,7 @@ public class JdbcJavelinConverter
      * @param method clearBatchメソッド
      * @throws CannotCompileException コード埋め込みに失敗した場合
      */
-    public static void convertPreparedMethod_clearBatch(final CtClass ctClass,
+    public static void convertPreparedMethodClearBatch(final CtClass ctClass,
             final CtBehavior method)
         throws CannotCompileException
     {
@@ -631,7 +623,7 @@ public class JdbcJavelinConverter
      * @param method closeメソッド
      * @throws CannotCompileException コード埋め込みに失敗した場合
      */
-    public static void convertPreparedMethod_close(final CtClass ctClass, final CtBehavior method)
+    public static void convertPreparedMethodClose(final CtClass ctClass, final CtBehavior method)
         throws CannotCompileException
     {
         String className = ctClass.getName();
@@ -780,6 +772,12 @@ public class JdbcJavelinConverter
         }
     }
 
+    /**
+     * フィールドからSQLを削除する
+     * @param ctClass クラス
+     * @param method メソッド
+     * @throws CannotCompileException コンパイル不可時のエラー
+     */
     public static void delSqlFromField(final CtClass ctClass, final CtBehavior method)
         throws CannotCompileException
     {
@@ -797,6 +795,13 @@ public class JdbcJavelinConverter
         }
     }
 
+    /**
+     * ログ取得コードをThrowableのcatch節として追加する
+     * @param pool Statementを含むプール
+     * @param ctClass PreparedStatementを実装するクラス
+     * @param behaviour behaviour
+     * @throws CannotCompileException コンパイルができないときの例外
+     */
     public static void convertCatch(final ClassPool pool, final CtClass ctClass,
             final CtBehavior behaviour)
         throws CannotCompileException
@@ -833,6 +838,12 @@ public class JdbcJavelinConverter
         }
     }
 
+    /**
+     * 指定したクラスが指定したインターフェースを持つか判定する
+     * @param targetClass 判定する対象クラス
+     * @param interfaceClass 確認するインターフェース
+     * @return 指定したインターフェースを持つときtrue/そうでないときfalse
+     */
     public static boolean hasInterface(CtClass targetClass, CtClass interfaceClass)
     {
         boolean hasInterface = false;
@@ -851,6 +862,7 @@ public class JdbcJavelinConverter
         catch (NotFoundException ex)
         {
             // 何もしない。
+            SystemLogger.getInstance().warn(ex);
         }
         return hasInterface;
     }

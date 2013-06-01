@@ -8,7 +8,6 @@ package jp.co.acroquest.endosnipe.web.dashboard.dto;
  */
 public class PerfDoctorTableDto
 {
-
     /**
      * コンストラクタ。
      */
@@ -36,7 +35,7 @@ public class PerfDoctorTableDto
     private String detail_;
 
     /** ログファイル名。 */
-	private String logFileName;
+    private String logFileName_;
 
     /**
      * 日付を取得する。
@@ -163,18 +162,18 @@ public class PerfDoctorTableDto
      * 
      * @return 詳細
      */
-	public String getLogFileName()
-	{
-		return logFileName;
-	}
+    public String getLogFileName()
+    {
+        return logFileName_;
+    }
 
     /**
      * ログファイル名を設定する。
      * 
-     * @param detail ログファイル名
+     * @param logFileName ログファイル名
      */
-	public void setLogFileName(String logFileName)
-	{
-		this.logFileName = logFileName;
-	}
+    public void setLogFileName(final String logFileName)
+    {
+        this.logFileName_ = logFileName;
+    }
 }

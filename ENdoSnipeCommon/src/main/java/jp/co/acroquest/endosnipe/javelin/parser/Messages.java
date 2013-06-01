@@ -35,11 +35,16 @@ import java.util.ResourceBundle;
  */
 public class Messages
 {
+    /** バンドル名 */
     private static final String BUNDLE_NAME
     	= "jp.co.acroquest.endosnipe.javelin.parser.messages"; //$NON-NLS-1$
 
+    /** リソースバンドル */
     private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
 
+    /**
+     * コンストラクタ
+     */
     private Messages()
     {
     }

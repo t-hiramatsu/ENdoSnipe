@@ -30,6 +30,11 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
+/**
+ * HttpErrorDetectResponseWrapperクラス
+ * @author acroquest
+ *
+ */
 public class HttpErrorDetectResponseWrapper extends HttpServletResponseWrapper
 {
     /** Httpレスポンスステータス実行結果 */
@@ -72,6 +77,7 @@ public class HttpErrorDetectResponseWrapper extends HttpServletResponseWrapper
      * @param sc エラー番号
      * @param sm メッセージ
      */
+    @SuppressWarnings("deprecation")
     public void setStatus(int sc, String sm)
     {
         this.resultCode_ = sc;
@@ -83,6 +89,8 @@ public class HttpErrorDetectResponseWrapper extends HttpServletResponseWrapper
      * エラー番号を取得し、保持する
      * 
      * @param sc エラー番号
+     * @param msg メッセージ
+     * @throws IOException 入出力例外
      */
     public void sendError(int sc, String msg)
         throws IOException
@@ -96,6 +104,7 @@ public class HttpErrorDetectResponseWrapper extends HttpServletResponseWrapper
      * エラー番号を取得し、保持する
      * 
      * @param sc エラー番号
+     * @throws IOException 入出力例外
      */
     public void sendError(int sc)
         throws IOException

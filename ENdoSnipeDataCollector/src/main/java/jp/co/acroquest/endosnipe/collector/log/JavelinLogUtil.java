@@ -48,69 +48,89 @@ import jp.co.acroquest.endosnipe.data.entity.JavelinLog;
 public class JavelinLogUtil
 {
     /** "Call  "、"Return"などの種別文字列をキーに、Javelinログの1行目からJavelinLog用のデータを取得するためのリストを取得します。 */
-    private static Map<String, List<Integer>> indexListMap__       =
-                                                                     new HashMap<String, List<Integer>>();
+    private static Map<String, List<Integer>> indexListMap__ = new HashMap<String, List<Integer>>();
 
     /** "Call  "、"Return"などの種別文字列をキーに、logTypeの値とするマップです。 */
-    private static Map<String, Integer>       logTypeMap__         = new HashMap<String, Integer>();
+    private static Map<String, Integer> logTypeMap__ = new HashMap<String, Integer>();
 
     /** START_TIMEのインデックス。 */
-    private static final int                  DB_START_TIME        = 0;
+    private static final int DB_START_TIME = 0;
 
     /** END_TIMEのインデックス。 */
     // private static final int DB_END_TIME = 1;
     /** SESSION_DESCのインデックス。 */
-    private static final int                  DB_SESSION_DESC      = 2;
+    private static final int DB_SESSION_DESC = 2;
 
     /** LOG_TYPEのインデックス。 */
-    private static final int                  DB_LOG_TYPE          = 3;
+    private static final int DB_LOG_TYPE = 3;
 
     /** CALLEE_NAMEのインデックス。 */
-    private static final int                  DB_CALLEE_NAME       = 4;
+    private static final int DB_CALLEE_NAME = 4;
 
     /** CALLEE_SIGNATUREのインデックス。 */
-    private static final int                  DB_CALLEE_SIGNATURE  = 5;
+    private static final int DB_CALLEE_SIGNATURE = 5;
 
     /** CALLEE_CLASSのインデックス。 */
-    private static final int                  DB_CALLEE_CLASS      = 6;
+    private static final int DB_CALLEE_CLASS = 6;
 
     /** CALLEE_FIELD_TYPEのインデックス。 */
-    private static final int                  DB_CALLEE_FIELD_TYPE = 7;
+    private static final int DB_CALLEE_FIELD_TYPE = 7;
 
     /** CALLEE_OBJECTIDのインデックス。 */
-    private static final int                  DB_CALLEE_OBJECTID   = 8;
+    private static final int DB_CALLEE_OBJECTID = 8;
 
     /** CALLER_NAMEのインデックス。 */
-    private static final int                  DB_CALLER_NAME       = 9;
+    private static final int DB_CALLER_NAME = 9;
 
     /** CALLER_SIGNATUREのインデックス。 */
-    private static final int                  DB_CALLER_SIGNATURE  = 10;
+    private static final int DB_CALLER_SIGNATURE = 10;
 
     /** CALLER_CLASSのインデックス。 */
-    private static final int                  DB_CALLER_CLASS      = 11;
+    private static final int DB_CALLER_CLASS = 11;
 
     /** CALLER_OBJECTIDのインデックス。 */
-    private static final int                  DB_CALLER_OBJECTID   = 12;
+    private static final int DB_CALLER_OBJECTID = 12;
 
     /** DB_EVENT_LEVELのインデックス。 */
-    private static final int                  DB_EVENT_LEVEL       = 13;
+    private static final int DB_EVENT_LEVEL = 13;
 
     /** ELAPSED_TIMEのインデックス。 */
     //private static final int                  DB_ELAPSED_TIME      = 14;
     /** MODIFIERのインデックス。 */
-    private static final int                  DB_MODIFIER          = 15;
+    private static final int DB_MODIFIER = 15;
 
     /** THREAD_NAMEのインデックス。 */
-    private static final int                  DB_THREAD_NAME       = 16;
+    private static final int DB_THREAD_NAME = 16;
 
     /** THREAD_CLASSのインデックス。 */
-    private static final int                  DB_THREAD_CLASS      = 17;
+    private static final int DB_THREAD_CLASS = 17;
 
     /** THREAD_OBJECTIDのインデックス。 */
-    private static final int                  DB_THREAD_OBJECTID   = 18;
+    private static final int DB_THREAD_OBJECTID = 18;
+
+    /** logTypeマップのCALLの値*/
+    private static final int LOG_TYPE_MAP_CALL = 1;
+
+    /** logTypeマップのCALLの値*/
+    private static final int LOG_TYPE_MAP_RETURN = 2;
+
+    /** logTypeマップのFIELD_READの値*/
+    private static final int LOG_TYPE_MAP_FIELD_READ = 3;
+
+    /** logTypeマップのFIELD_WRITEの値*/
+    private static final int LOG_TYPE_MAP_FIELD_WRITE = 4;
+
+    /** logTypeマップのTHROWの値*/
+    private static final int LOG_TYPE_MAP_THROW = 5;
+
+    /** logTypeマップのCATCHの値*/
+    private static final int LOG_TYPE_MAP_CATCH = 6;
+
+    /** logTypeマップのEVENTの値*/
+    private static final int LOG_TYPE_MAP_EVENT = 7;
 
     /** durationを取得する際のキー。 */
-    public static final String                DURATION_KEY         = "duration = ";
+    public static final String DURATION_KEY = "duration = ";
 
     /**
      * インスタンス化を避けるためのprivateコンストラクタです。<br />
@@ -123,149 +143,149 @@ public class JavelinLogUtil
     {
         // JavleinログからJavelinLogへのカラムの添え字のマップを初期化する。
         indexListMap__.put(JavelinConstants.MSG_CALL, Arrays.asList(new Integer[]{ //
-        JavelinLogColumnNum.CALL_TIME, // START_TIME
-            -1, // END_TIME
-            -1, // SESSION_DESC
-            JavelinLogColumnNum.ID, // LOG_TYPE
-            JavelinLogColumnNum.CALL_CALLEE_METHOD, // CALLEE_NAME
-            -1, // CALLEE_SIGNATURE
-            JavelinLogColumnNum.CALL_CALLEE_CLASS, // CALLEE_CLASS
-            -1, // CALLEE_FIELD_TYPE
-            JavelinLogColumnNum.CALL_CALLEE_OBJECTID, // CALLEE_OBJECTID
-            JavelinLogColumnNum.CALL_CALLER_METHOD, // CALLER_NAME
-            -1, // CALLER_SIGNATURE
-            JavelinLogColumnNum.CALL_CALLER_CLASS, // CALLER_CLASS
-            JavelinLogColumnNum.CALL_CALLER_OBJECTID, // CALLER_OBJECTID
-            -1, // EVENT_LEVEL
-            -1, // ELAPSED_TIME
-            JavelinLogColumnNum.CALL_CALLEE_METHOD_MODIFIER, // MODIFIER
-            JavelinLogColumnNum.CALL_THREADID, // THREAD_NAME
-            -1, // THREAD_CLASS
-            -1, // THREAD_OBJECTID
+                JavelinLogColumnNum.CALL_TIME, // START_TIME
+                -1, // END_TIME
+                -1, // SESSION_DESC
+                JavelinLogColumnNum.ID, // LOG_TYPE
+                JavelinLogColumnNum.CALL_CALLEE_METHOD, // CALLEE_NAME
+                -1, // CALLEE_SIGNATURE
+                JavelinLogColumnNum.CALL_CALLEE_CLASS, // CALLEE_CLASS
+                -1, // CALLEE_FIELD_TYPE
+                JavelinLogColumnNum.CALL_CALLEE_OBJECTID, // CALLEE_OBJECTID
+                JavelinLogColumnNum.CALL_CALLER_METHOD, // CALLER_NAME
+                -1, // CALLER_SIGNATURE
+                JavelinLogColumnNum.CALL_CALLER_CLASS, // CALLER_CLASS
+                JavelinLogColumnNum.CALL_CALLER_OBJECTID, // CALLER_OBJECTID
+                -1, // EVENT_LEVEL
+                -1, // ELAPSED_TIME
+                JavelinLogColumnNum.CALL_CALLEE_METHOD_MODIFIER, // MODIFIER
+                JavelinLogColumnNum.CALL_THREADID, // THREAD_NAME
+                -1, // THREAD_CLASS
+                -1, // THREAD_OBJECTID
         }));
 
         indexListMap__.put(JavelinConstants.MSG_RETURN, Arrays.asList(new Integer[]{ //
-        JavelinLogColumnNum.RETURN_TIME, // START_TIME
-            -1, // END_TIME
-            -1, // SESSION_DESC
-            JavelinLogColumnNum.ID, // LOG_TYPE
-            JavelinLogColumnNum.RETURN_CALLEE_METHOD, // CALLEE_NAME
-            -1, // CALLEE_SIGNATURE
-            JavelinLogColumnNum.RETURN_CALLEE_CLASS, // CALLEE_CLASS
-            -1, // CALLEE_FIELD_TYPE
-            JavelinLogColumnNum.RETURN_CALLEE_OBJECTID, // CALLEE_OBJECTID
-            JavelinLogColumnNum.RETURN_CALLER_METHOD, // CALLER_NAME
-            -1, // CALLER_SIGNATURE
-            JavelinLogColumnNum.RETURN_CALLER_CLASS, // CALLER_CLASS
-            JavelinLogColumnNum.RETURN_CALLER_OBJECTID, // CALLER_OBJECTID
-            -1, // EVENT_LEVEL
-            -1, // ELAPSED_TIME
-            JavelinLogColumnNum.RETURN_CALLEE_METHOD_MODIFIER, // MODIFIER
-            JavelinLogColumnNum.RETURN_THREADID, // THREAD_NAME
-            -1, // THREAD_CLASS
-            -1, // THREAD_OBJECTID
+                JavelinLogColumnNum.RETURN_TIME, // START_TIME
+                -1, // END_TIME
+                -1, // SESSION_DESC
+                JavelinLogColumnNum.ID, // LOG_TYPE
+                JavelinLogColumnNum.RETURN_CALLEE_METHOD, // CALLEE_NAME
+                -1, // CALLEE_SIGNATURE
+                JavelinLogColumnNum.RETURN_CALLEE_CLASS, // CALLEE_CLASS
+                -1, // CALLEE_FIELD_TYPE
+                JavelinLogColumnNum.RETURN_CALLEE_OBJECTID, // CALLEE_OBJECTID
+                JavelinLogColumnNum.RETURN_CALLER_METHOD, // CALLER_NAME
+                -1, // CALLER_SIGNATURE
+                JavelinLogColumnNum.RETURN_CALLER_CLASS, // CALLER_CLASS
+                JavelinLogColumnNum.RETURN_CALLER_OBJECTID, // CALLER_OBJECTID
+                -1, // EVENT_LEVEL
+                -1, // ELAPSED_TIME
+                JavelinLogColumnNum.RETURN_CALLEE_METHOD_MODIFIER, // MODIFIER
+                JavelinLogColumnNum.RETURN_THREADID, // THREAD_NAME
+                -1, // THREAD_CLASS
+                -1, // THREAD_OBJECTID
         }));
 
         indexListMap__.put(JavelinConstants.MSG_FIELD_READ, Arrays.asList(new Integer[]{ //
-        JavelinLogColumnNum.READ_WRITE_TIME, // START_TIME
-            -1, // END_TIME
-            -1, // SESSION_DESC
-            JavelinLogColumnNum.ID, // LOG_TYPE
-            JavelinLogColumnNum.READ_WRITE_ACCESSEE_FIELD, // CALLEE_NAME
-            -1, // CALLEE_SIGNATURE
-            JavelinLogColumnNum.READ_WRITE_ACCESSEE_CLASS, // CALLEE_CLASS
-            -1, // CALLEE_FIELD_TYPE
-            JavelinLogColumnNum.READ_WRITE_ACCESSEE_OBJECTID, // CALLEE_OBJECTID
-            JavelinLogColumnNum.READ_WRITE_ACCESSOR_METHOD, // CALLER_NAME
-            -1, // CALLER_SIGNATURE
-            JavelinLogColumnNum.READ_WRITE_ACCESSOR_CLASS, // CALLER_CLASS
-            JavelinLogColumnNum.READ_WRITE_ACCESSOR_OBJECTID, // CALLER_OBJECTID
-            -1, // EVENT_LEVEL
-            -1, // ELAPSED_TIME
-            -1, // MODIFIER
-            JavelinLogColumnNum.READ_WRITE_THREADID, // THREAD_NAME
-            -1, // THREAD_CLASS
-            -1, // THREAD_OBJECTID
+                JavelinLogColumnNum.READ_WRITE_TIME, // START_TIME
+                -1, // END_TIME
+                -1, // SESSION_DESC
+                JavelinLogColumnNum.ID, // LOG_TYPE
+                JavelinLogColumnNum.READ_WRITE_ACCESSEE_FIELD, // CALLEE_NAME
+                -1, // CALLEE_SIGNATURE
+                JavelinLogColumnNum.READ_WRITE_ACCESSEE_CLASS, // CALLEE_CLASS
+                -1, // CALLEE_FIELD_TYPE
+                JavelinLogColumnNum.READ_WRITE_ACCESSEE_OBJECTID, // CALLEE_OBJECTID
+                JavelinLogColumnNum.READ_WRITE_ACCESSOR_METHOD, // CALLER_NAME
+                -1, // CALLER_SIGNATURE
+                JavelinLogColumnNum.READ_WRITE_ACCESSOR_CLASS, // CALLER_CLASS
+                JavelinLogColumnNum.READ_WRITE_ACCESSOR_OBJECTID, // CALLER_OBJECTID
+                -1, // EVENT_LEVEL
+                -1, // ELAPSED_TIME
+                -1, // MODIFIER
+                JavelinLogColumnNum.READ_WRITE_THREADID, // THREAD_NAME
+                -1, // THREAD_CLASS
+                -1, // THREAD_OBJECTID
         }));
 
         indexListMap__.put(JavelinConstants.MSG_FIELD_WRITE,
                            indexListMap__.get(JavelinConstants.MSG_FIELD_WRITE));
 
         indexListMap__.put(JavelinConstants.MSG_THROW, Arrays.asList(new Integer[]{ //
-        JavelinLogColumnNum.THROW_TIME, // START_TIME
-            -1, // END_TIME
-            -1, // SESSION_DESC
-            JavelinLogColumnNum.ID, // LOG_TYPE
-            -1, // CALLEE_NAME
-            -1, // CALLEE_SIGNATURE
-            JavelinLogColumnNum.THROW_EX_CLASS, // CALLEE_CLASS
-            -1, // CALLEE_FIELD_TYPE
-            JavelinLogColumnNum.THROW_EX_OBJECTID, // CALLEE_OBJECTID
-            JavelinLogColumnNum.THROW_THROWER_METHOD, // CALLER_NAME
-            -1, // CALLER_SIGNATURE
-            JavelinLogColumnNum.THROW_THROWER_CLASS, // CALLER_CLASS
-            JavelinLogColumnNum.THROW_THROWER_OBJECTID, // CALLER_OBJECTID
-            -1, // EVENT_LEVEL
-            -1, // ELAPSED_TIME
-            -1, // MODIFIER
-            JavelinLogColumnNum.THROW_THREADID, // THREAD_NAME
-            -1, // THREAD_CLASS
-            -1, // THREAD_OBJECTID
+                JavelinLogColumnNum.THROW_TIME, // START_TIME
+                -1, // END_TIME
+                -1, // SESSION_DESC
+                JavelinLogColumnNum.ID, // LOG_TYPE
+                -1, // CALLEE_NAME
+                -1, // CALLEE_SIGNATURE
+                JavelinLogColumnNum.THROW_EX_CLASS, // CALLEE_CLASS
+                -1, // CALLEE_FIELD_TYPE
+                JavelinLogColumnNum.THROW_EX_OBJECTID, // CALLEE_OBJECTID
+                JavelinLogColumnNum.THROW_THROWER_METHOD, // CALLER_NAME
+                -1, // CALLER_SIGNATURE
+                JavelinLogColumnNum.THROW_THROWER_CLASS, // CALLER_CLASS
+                JavelinLogColumnNum.THROW_THROWER_OBJECTID, // CALLER_OBJECTID
+                -1, // EVENT_LEVEL
+                -1, // ELAPSED_TIME
+                -1, // MODIFIER
+                JavelinLogColumnNum.THROW_THREADID, // THREAD_NAME
+                -1, // THREAD_CLASS
+                -1, // THREAD_OBJECTID
         }));
 
         indexListMap__.put(JavelinConstants.MSG_CATCH, Arrays.asList(new Integer[]{ //
-        JavelinLogColumnNum.CATCH_TIME, // START_TIME
-            -1, // END_TIME
-            -1, // SESSION_DESC
-            JavelinLogColumnNum.ID, // LOG_TYPE
-            -1, // CALLEE_NAME
-            -1, // CALLEE_SIGNATURE
-            JavelinLogColumnNum.CATCH_EX_CLASS, // CALLEE_CLASS
-            -1, // CALLEE_FIELD_TYPE
-            JavelinLogColumnNum.CATCH_EX_OBJECTID, // CALLEE_OBJECTID
-            JavelinLogColumnNum.CATCH_CATCHER_METHOD, // CALLER_NAME
-            -1, // CALLER_SIGNATURE
-            JavelinLogColumnNum.CATCH_CATCHER_CLASS, // CALLER_CLASS
-            JavelinLogColumnNum.CATCH_CATCHER_OBJECTID, // CALLER_OBJECTID
-            -1, // EVENT_LEVEL
-            -1, // ELAPSED_TIME
-            -1, // MODIFIER
-            JavelinLogColumnNum.CATCH_THREADID, // THREAD_NAME
-            -1, // THREAD_CLASS
-            -1, // THREAD_OBJECTID
+                JavelinLogColumnNum.CATCH_TIME, // START_TIME
+                -1, // END_TIME
+                -1, // SESSION_DESC
+                JavelinLogColumnNum.ID, // LOG_TYPE
+                -1, // CALLEE_NAME
+                -1, // CALLEE_SIGNATURE
+                JavelinLogColumnNum.CATCH_EX_CLASS, // CALLEE_CLASS
+                -1, // CALLEE_FIELD_TYPE
+                JavelinLogColumnNum.CATCH_EX_OBJECTID, // CALLEE_OBJECTID
+                JavelinLogColumnNum.CATCH_CATCHER_METHOD, // CALLER_NAME
+                -1, // CALLER_SIGNATURE
+                JavelinLogColumnNum.CATCH_CATCHER_CLASS, // CALLER_CLASS
+                JavelinLogColumnNum.CATCH_CATCHER_OBJECTID, // CALLER_OBJECTID
+                -1, // EVENT_LEVEL
+                -1, // ELAPSED_TIME
+                -1, // MODIFIER
+                JavelinLogColumnNum.CATCH_THREADID, // THREAD_NAME
+                -1, // THREAD_CLASS
+                -1, // THREAD_OBJECTID
         }));
 
         // イベント。
         indexListMap__.put(JavelinConstants.MSG_EVENT, Arrays.asList(new Integer[]{ //
-        JavelinLogColumnNum.THROW_TIME, // START_TIME
-            -1, // END_TIME
-            -1, // SESSION_DESC
-            JavelinLogColumnNum.ID, // LOG_TYPE
-            -1, // CALLEE_NAME
-            -1, // CALLEE_SIGNATURE
-            JavelinLogColumnNum.EVENT_NAME, // CALLEE_CLASS
-            -1, // CALLEE_FIELD_TYPE
-            -1, // CALLEE_OBJECTID
-            JavelinLogColumnNum.EVENT_METHOD, // CALLER_NAME
-            -1, // CALLER_SIGNATURE
-            JavelinLogColumnNum.EVENT_CLASS, // CALLER_CLASS
-            -1, // CALLER_OBJECTID
-            JavelinLogColumnNum.EVENT_LEVEL, // EVENT_LEVEL
-            -1, // ELAPSED_TIME
-            -1, // MODIFIER
-            JavelinLogColumnNum.EVENT_THREADID, // THREAD_NAME
-            -1, // THREAD_CLASS
-            -1, // THREAD_OBJECTID
+                JavelinLogColumnNum.THROW_TIME, // START_TIME
+                -1, // END_TIME
+                -1, // SESSION_DESC
+                JavelinLogColumnNum.ID, // LOG_TYPE
+                -1, // CALLEE_NAME
+                -1, // CALLEE_SIGNATURE
+                JavelinLogColumnNum.EVENT_NAME, // CALLEE_CLASS
+                -1, // CALLEE_FIELD_TYPE
+                -1, // CALLEE_OBJECTID
+                JavelinLogColumnNum.EVENT_METHOD, // CALLER_NAME
+                -1, // CALLER_SIGNATURE
+                JavelinLogColumnNum.EVENT_CLASS, // CALLER_CLASS
+                -1, // CALLER_OBJECTID
+                JavelinLogColumnNum.EVENT_LEVEL, // EVENT_LEVEL
+                -1, // ELAPSED_TIME
+                -1, // MODIFIER
+                JavelinLogColumnNum.EVENT_THREADID, // THREAD_NAME
+                -1, // THREAD_CLASS
+                -1, // THREAD_OBJECTID
         }));
 
         // logTypeのマップを初期化する。
-        logTypeMap__.put(JavelinConstants.MSG_CALL, 1);
-        logTypeMap__.put(JavelinConstants.MSG_RETURN, 2);
-        logTypeMap__.put(JavelinConstants.MSG_FIELD_READ, 3);
-        logTypeMap__.put(JavelinConstants.MSG_FIELD_WRITE, 4);
-        logTypeMap__.put(JavelinConstants.MSG_THROW, 5);
-        logTypeMap__.put(JavelinConstants.MSG_CATCH, 6);
-        logTypeMap__.put(JavelinConstants.MSG_EVENT, 7);
+        logTypeMap__.put(JavelinConstants.MSG_CALL, LOG_TYPE_MAP_CALL);
+        logTypeMap__.put(JavelinConstants.MSG_RETURN, LOG_TYPE_MAP_RETURN);
+        logTypeMap__.put(JavelinConstants.MSG_FIELD_READ, LOG_TYPE_MAP_FIELD_READ);
+        logTypeMap__.put(JavelinConstants.MSG_FIELD_WRITE, LOG_TYPE_MAP_FIELD_WRITE);
+        logTypeMap__.put(JavelinConstants.MSG_THROW, LOG_TYPE_MAP_THROW);
+        logTypeMap__.put(JavelinConstants.MSG_CATCH, LOG_TYPE_MAP_CATCH);
+        logTypeMap__.put(JavelinConstants.MSG_EVENT, LOG_TYPE_MAP_EVENT);
     }
 
     /**

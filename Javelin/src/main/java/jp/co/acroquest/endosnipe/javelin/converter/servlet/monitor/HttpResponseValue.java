@@ -25,39 +25,71 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.javelin.converter.servlet.monitor;
 
+/**
+ * HttpResponseValueクラス
+ * @author acroquest
+ *
+ */
 public class HttpResponseValue
 {
+    /** コンテンツタイプ */
     private String    contentType_;
 
+    /** ステータス */
     private int       status_ = -1;
 
+    /** 例外　*/
     private Throwable throwable_;
 
+    /**
+     * コンテンツタイプを取得します。
+     * @return コンテンツタイプ
+     */
     public String getContentType()
     {
         return contentType_;
     }
 
+    /**
+     * コンテンツタイプを設定します。
+     * @param contentType コンテンツタイプ
+     */
     public void setContentType(String contentType)
     {
         contentType_ = contentType;
     }
 
+    /**
+     * ステータスを取得します。
+     * @return ステータス
+     */
     public int getStatus()
     {
         return status_;
     }
 
+    /**
+     * ステータスを設定します。
+     * @param status ステータス
+     */
     public void setStatus(int status)
     {
         status_ = status;
     }
 
+    /**
+     * 例外を取得します。
+     * @return 例外
+     */
     public Throwable getThrowable()
     {
         return throwable_;
     }
 
+    /**
+     * 例外を設定します。
+     * @param throwable 例外
+     */
     public void setThrowable(Throwable throwable)
     {
         throwable_ = throwable;

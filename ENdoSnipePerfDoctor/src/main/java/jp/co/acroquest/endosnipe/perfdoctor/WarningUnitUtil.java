@@ -51,7 +51,8 @@ import jp.co.acroquest.endosnipe.javelin.parser.JavelinParser;
  */
 public class WarningUnitUtil
 {
-	private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(
+	private static final ENdoSnipeLogger LOGGER = 
+	ENdoSnipeLogger.getLogger(
 			WarningUnitUtil.class, null);
 
 	// リソースバンドル名

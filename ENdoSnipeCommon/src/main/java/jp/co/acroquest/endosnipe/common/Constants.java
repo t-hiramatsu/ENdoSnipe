@@ -26,586 +26,612 @@
 package jp.co.acroquest.endosnipe.common;
 
 /**
- * ENdoSnipeCommon ‚Ì‚½‚ß‚Ì’è”ƒCƒ“ƒ^[ƒtƒF[ƒX‚Å‚·B<br/>
+ * ENdoSnipeCommon ã®ãŸã‚ã®å®šæ•°ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã§ã™ã€‚<br/>
  * 
  * @author y-komori
  */
 public interface Constants
 {
-	// ƒvƒŠƒtƒ@ƒŒƒ“ƒXƒL[
-	/** ƒƒOƒŒƒxƒ‹‚Ì‚½‚ß‚ÌƒvƒŠƒtƒ@ƒŒƒ“ƒXƒL[ */
-	String PREF_LOG_LEVEL = "pref.endosnipecommon.loglevel";
-
-	// ////////////////
-	// §Œä—p€–Ú–¼ //
-	// ////////////////
-
-	/** €–Ú–¼i‰Šú‰»ˆ—j */
-	String ITEMNAME_INITIALIZE = "/initialize";
-
-	/** €–Ú–¼(ƒq[ƒvƒ_ƒ“ƒvæ“¾) */
-	String ITEMNAME_HEAPDUMP = "/heapDump";
-
-	/** €–Ú–¼(ƒXƒŒƒbƒhƒ_ƒ“ƒvæ“¾) */
-	String ITEMNAME_THREADDUMP = "/threadDump";
-
-	// ////////////////
-	// æ“¾—p€–Ú–¼ //
-	// ////////////////
-	// €–Ú–¼(DB‚©‚çæ“¾‚·‚éŒn—ñ‚ğw’è‚·‚éƒL[•¶š—ñ)
-
-	// -----------------------------------------------------
-	// Šî‘b€–Ú
-
-	/** €–Ú–¼ij */
-	// String ITEMNAME_TIME = "/time";
-	String ITEMNAME_TIME = "/common/fundamental/time/current";
-
-	/** €–Ú–¼iƒŠƒ\[ƒX’l‚Å‚Ìæ“¾j */
-	// String ITEMNAME_ACQUIREDTIME = "/acquiredTime";
-	String ITEMNAME_ACQUIREDTIME = "/common/fundamental/time/acquired";
-
-	/** €–Ú–¼(ŒÄ‚Ño‚µ‰ñ”) */
-	// String ITEMNAME_CALL_COUNT = "/callCount";
-	String ITEMNAME_CALL_COUNT = "/common/fundamental/callCount";
-
-	/** €–Ú–¼(¡‰ñ‚Ìˆ—ŠÔ) */
-	// String ITEMNAME_CURRENT_INTERVAL = "/currentInterval";
-	String ITEMNAME_CURRENT_INTERVAL = "/common/fundamental/interval/current";
-
-	/** €–Ú–¼(‡Œvˆ—ŠÔ) */
-	// String ITEMNAME_TOTAL_INTERVAL = "/totalInterval";
-	String ITEMNAME_TOTAL_INTERVAL = "/common/fundamental/interval/total";
-
-	/** €–Ú–¼(Å‘åˆ—ŠÔ) */
-	// String ITEMNAME_MAXIMUM_INTERVAL = "/maximumInterval";
-	String ITEMNAME_MAXIMUM_INTERVAL = "/common/fundamental/interval/max";
-
-	/** €–Ú–¼(Å¬ˆ—ŠÔ) */
-	// String ITEMNAME_MINIMUM_INTERVAL = "/minimumInterval";
-	String ITEMNAME_MINIMUM_INTERVAL = "/common/fundamental/interval/min";
-
-	/** €–Ú–¼(‡ŒvCPUŠÔ) */
-	// String ITEMNAME_TOTAL_CPU_INTERVAL = "/totalCpuInterval";
-	String ITEMNAME_TOTAL_CPU_INTERVAL = "/common/fundamental/cpuInterval/total";
-
-	/** €–Ú–¼(Å‘åCPUŠÔ) */
-	// String ITEMNAME_MAXIMUM_CPU_INTERVAL = "/maximumCpuInterval";
-	String ITEMNAME_MAXIMUM_CPU_INTERVAL = "/common/fundamental/cpuInterval/max";
-
-	/** €–Ú–¼(Å¬CPUŠÔ) */
-	// String ITEMNAME_MINIMUM_CPU_INTERVAL = "/minimumCpuInterval";
-	String ITEMNAME_MINIMUM_CPU_INTERVAL = "/common/fundamental/cpuInterval/min";
-
-	/** €–Ú–¼(‡Œvƒ†[ƒUŠÔ) */
-	// String ITEMNAME_TOTAL_USER_INTERVAL = "/totalUserInterval";
-	String ITEMNAME_TOTAL_USER_INTERVAL = "/common/fundamental/userInterval/total";
-
-	/** €–Ú–¼(Å‘åƒ†[ƒUŠÔ) */
-	// String ITEMNAME_MAXIMUM_USER_INTERVAL = "/maximumUserInterval";
-	String ITEMNAME_MAXIMUM_USER_INTERVAL = "/common/fundamental/userInterval/max";
-
-	/** €–Ú–¼(Å¬ƒ†[ƒUŠÔ) */
-	// String ITEMNAME_MINIMUM_USER_INTERVAL = "/minimumUserInterval";
-	String ITEMNAME_MINIMUM_USER_INTERVAL = "/common/fundamental/userInterval/min";
-
-	// -----------------------------------------------------
-	// —İÏ’l
-
-	/** €–Ú–¼(‡Œvˆ—ŠÔ) */
-	// String ITEMNAME_ACCUMULATED_TOTAL_INTERVAL = "totalAccumulatedInterval";
-	String ITEMNAME_ACCUMULATED_TOTAL_INTERVAL = "/common/accumulated/interval/total";
-
-	/** €–Ú–¼(Å‘åˆ—ŠÔ) */
-	// String ITEMNAME_ACCUMULATED_MAXIMUM_INTERVAL =
-	// "maximumAccumulatedInterval";
-	String ITEMNAME_ACCUMULATED_MAXIMUM_INTERVAL = "/common/accumulated/interval/max";
-
-	/** €–Ú–¼(Å¬ˆ—ŠÔ) */
-	// String ITEMNAME_ACCUMULATED_MINIMUM_INTERVAL =
-	// "minimumAccumulatedInterval";
-	String ITEMNAME_ACCUMULATED_MINIMUM_INTERVAL = "/common/accumulated/interval/min";
-
-	/** €–Ú–¼(‡ŒvCPUŠÔ) */
-	// String ITEMNAME_ACCUMULATED_TOTAL_CPU_INTERVAL =
-	// "totalAccumulatedCpuInterval";
-	String ITEMNAME_ACCUMULATED_TOTAL_CPU_INTERVAL = "/common/accumulated/cpuInterval/total";
-
-	/** €–Ú–¼(Å‘åCPUŠÔ) */
-	// String ITEMNAME_ACCUMULATED_MAXIMUM_CPU_INTERVAL =
-	// "maximumAccumulatedCpuInterval";
-	String ITEMNAME_ACCUMULATED_MAXIMUM_CPU_INTERVAL = "/common/accumulated/cpuInterval/max";
-
-	/** €–Ú–¼(Å¬CPUŠÔ) */
-	// String ITEMNAME_ACCUMULATED_MINIMUM_CPU_INTERVAL =
-	// "minimumAccumulatedCpuInterval";
-	String ITEMNAME_ACCUMULATED_MINIMUM_CPU_INTERVAL = "/common/accumulated/cpuInterval/min";
-
-	/** €–Ú–¼(‡ŒvCPUŠÔ) */
-	// String ITEMNAME_ACCUMULATED_TOTAL_USER_INTERVAL =
-	// "totalAccumulatedUserInterval";
-	String ITEMNAME_ACCUMULATED_TOTAL_USER_INTERVAL = "/common/accumulated/userInterval/total";
-
-	/** €–Ú–¼(Å‘åCPUŠÔ) */
-	// String ITEMNAME_ACCUMULATED_MAXIMUM_USER_INTERVAL =
-	// "maximumAccumulatedUserInterval";
-	String ITEMNAME_ACCUMULATED_MAXIMUM_USER_INTERVAL = "/common/accumulated/userInterval/max";
-
-	/** €–Ú–¼(Å¬CPUŠÔ) */
-	// String ITEMNAME_ACCUMULATED_MINIMUM_USER_INTERVAL =
-	// "minimumAccumulatedUserInterval";
-	String ITEMNAME_ACCUMULATED_MINIMUM_USER_INTERVAL = "/common/accumulated/userInterval/min";
-
-	// -----------------------------------------------------
-	// ƒVƒXƒeƒ€€–Ú: Šî‘b’l
-
-	/** €–Ú–¼iƒŠƒ\[ƒX’l‚Å‚ÌƒvƒƒZƒbƒT”j */
-	// String ITEMNAME_SYSTEM_CPU_PROCESSOR_COUNT =
-	// "/system.cpu.processor.count";
-	String ITEMNAME_SYSTEM_CPU_PROCESSOR_COUNT = "/system/cpu/processor/number";
-
-	/** €–Ú–¼iƒ†[ƒUƒ‚[ƒh‚Å‚ÌCPUg—p—Êj */
-	// String ITEMNAME_SYSTEM_CPU_USERMODE_TIME = "/system.cpu.usermode.time";
-	String ITEMNAME_SYSTEM_CPU_USERMODE_TIME = "/system/cpu/time/user(d)";
-
-	/** €–Ú–¼iƒVƒXƒeƒ€ƒ‚[ƒh‚Å‚ÌCPUg—p—Êj */
-	// String ITEMNAME_SYSTEM_CPU_SYSTEM_TIME = "/system.cpu.system.time";
-	String ITEMNAME_SYSTEM_CPU_SYSTEM_TIME = "/system/cpu/time/system(d)";
-
-	/** €–Ú–¼iiowait‚Å‚ÌCPUg—p—Êj */
-	// String ITEMNAME_SYSTEM_CPU_IOWAIT_TIME = "/system.cpu.iowait.time";
-	String ITEMNAME_SYSTEM_CPU_IOWAIT_TIME = "/system/cpu/time/iowait(d)";
-
-	// -----------------------------------------------------
-	// ƒVƒXƒeƒ€€–Ú: CPU(Zo’l)
-
-	/** €–Ú–¼iCPUg—p—¦iƒVƒXƒeƒ€j‚Ì‡Œvj */
-	// String ITEMNAME_SYSTEM_CPU_TOTAL_USAGE = "/system.cpu.total.usage";
-	String ITEMNAME_SYSTEM_CPU_TOTAL_USAGE = "/system/cpu/usage/total:%";
-
-	/** €–Ú–¼iCPUg—p—¦iƒVƒXƒeƒ€j‚Ì‚¤‚¿‚ÌƒVƒXƒeƒ€‚Ìg—p—¦j */
-	// String ITEMNAME_SYSTEM_CPU_SYSTEM_USAGE = "/system.cpu.system.usage";
-	String ITEMNAME_SYSTEM_CPU_SYSTEM_USAGE = "/system/cpu/usage/system:%";
-
-	/** €–Ú–¼iCPUg—p—¦iƒVƒXƒeƒ€j‚Ì‚¤‚¿‚ÌI/O Wait‚Ìg—p—¦j */
-	// String ITEMNAME_SYSTEM_CPU_IOWAIT_USAGE = "/system.cpu.iowait.usage";
-	String ITEMNAME_SYSTEM_CPU_IOWAIT_USAGE = "/system/cpu/usage/iowait:%";
-
-	/** €–Ú–¼iCPU‚²‚Æ‚Ì•‰‰×FŒã‚ë‚ÉCPUƒRƒA”Ô†(1`N)‚ğ•t‚¯‚éj */
-	// String ITEMNAME_CPU_ARRAY = "/sys_cputime_1";
-	String ITEMNAME_CPU_ARRAY = "/system/cpu/load(d)";
-
-	// -----------------------------------------------------
-	// ƒVƒXƒeƒ€€–Ú: ƒƒ‚ƒŠ(Zo’l)
-
-	/** €–Ú–¼iƒVƒXƒeƒ€‘S‘Ì‚Ìƒƒ‚ƒŠÅ‘å’lj */
-	// String ITEMNAME_SYSTEM_MEMORY_PHYSICAL_MAX =
-	// "/system.memory.physical.max";
-	String ITEMNAME_SYSTEM_MEMORY_PHYSICAL_MAX = "/system/memory/physical/max:bytes";
-
-	/** €–Ú–¼iƒVƒXƒeƒ€‘S‘Ì‚Ì‹ó‚«ƒƒ‚ƒŠj */
-	// String ITEMNAME_SYSTEM_MEMORY_PHYSICAL_FREE =
-	// "/system.memory.physical.free";
-	String ITEMNAME_SYSTEM_MEMORY_PHYSICAL_FREE = "/system/memory/physical/free:bytes";
-
-	/** €–Ú–¼iƒVƒXƒeƒ€‘S‘Ì‚Ìƒƒ‚ƒŠg—p—Êj */
-	// String ITEMNAME_SYSTEM_MEMORY_PHYSICAL_USED =
-	// "/system.memory.physical.used";
-	String ITEMNAME_SYSTEM_MEMORY_PHYSICAL_USED = "/system/memory/physical/used:bytes";
-
-	/** €–Ú–¼iƒŠƒ\[ƒX’l‚Å‚Ì‰¼‘zƒƒ‚ƒŠ—e—Êj */
-	// String ITEMNAME_SYSTEM_MEMORY_VIRTUAL_USED =
-	// "/system.memory.virtual.used";
-	String ITEMNAME_SYSTEM_MEMORY_VIRTUAL_USED = "/system/memory/virtual/used:bytes";
-
-	/** €–Ú–¼iƒŠƒ\[ƒX’l‚Å‚ÌƒXƒƒbƒv—Ìˆæ—e—Êj */
-	// String ITEMNAME_SYSTEM_MEMORY_SWAP_MAX = "/system.memory.swap.max";
-	String ITEMNAME_SYSTEM_MEMORY_SWAP_MAX = "/system/memory/swap/max:bytes";
-
-	/** €–Ú–¼iƒŠƒ\[ƒX’l‚Å‚ÌƒXƒƒbƒv—Ìˆæ‹ó‚«—e—Êj */
-	// String ITEMNAME_SYSTEM_MEMORY_SWAP_FREE = "/system.memory.swap.free";
-	String ITEMNAME_SYSTEM_MEMORY_SWAP_FREE = "/system/memory/swap/free:bytes";
-
-	/** €–Ú–¼ipage inj */
-	// String ITEMNAME_SYSTEM_MEMORY_PAGEIN_COUNT =
-	// "/system.memory.pagein.count";
-	String ITEMNAME_SYSTEM_MEMORY_PAGEIN_COUNT = "/system/memory/pagein(d)";
-
-	/** €–Ú–¼ipage outj */
-	// String ITEMNAME_SYSTEM_MEMORY_PAGEOUT_COUNT =
-	// "/system.memory.pageout.count";
-	String ITEMNAME_SYSTEM_MEMORY_PAGEOUT_COUNT = "/system/memory/pageout(d)";
-
-	// -----------------------------------------------------
-	// ƒVƒXƒeƒ€€–Ú: ƒtƒ@ƒCƒ‹
-
-	/** €–Ú–¼iƒŠƒ\[ƒX’l‚Å‚ÌAƒtƒ@ƒCƒ‹“ü—Í—Êj */
-	// String ITEMNAME_FILEINPUTSIZEOFSYSTEM = "/system.file.input";
-	String ITEMNAME_FILEINPUTSIZEOFSYSTEM = "/system/file/read:bytes(d)";
-
-	/** €–Ú–¼iƒŠƒ\[ƒX’l‚Å‚ÌAƒtƒ@ƒCƒ‹o—Í—Êj */
-	// String ITEMNAME_FILEOUTPUTSIZEOFSYSTEM = "/system.file.output";
-	String ITEMNAME_FILEOUTPUTSIZEOFSYSTEM = "/system/file/write:bytes(d)";
-
-	/** €–Ú–¼iFD/ƒnƒ“ƒhƒ‹”j */
-	// String ITEMNAME_SYSTEM_HANDLE_TOTAL_NUMBER =
-	// "/system.handle.total.number";
-	String ITEMNAME_SYSTEM_HANDLE_TOTAL_NUMBER = "/system/file/handle/number";
-
-	// -----------------------------------------------------
-	// ƒvƒƒZƒX€–Ú: CPU(Šî‘b’l)
-
-	/** €–Ú–¼iCPUg—pŠÔ:totalj */
-	// String ITEMNAME_PROCESS_CPU_TOTAL_TIME = "/process.cpu.total.time";
-	String ITEMNAME_PROCESS_CPU_TOTAL_TIME = "/process/cpu/time/total(d)";
-
-	/** €–Ú–¼iCPUg—pŠÔ:systemj */
-	// String ITEMNAME_PROC_CPUTIME_SYS = "/process.cpu.system.time";
-	String ITEMNAME_PROCESS_CPU_SYSTEM_TIME = "/process/cpu/time/system(d)";
-
-	/** €–Ú–¼iCPUg—pŠÔ:iowaitj */
-	// String ITEMNAME_PROCESS_CPU_IOWAIT_TIME = "/process.cpu.iowait.time";
-	String ITEMNAME_PROCESS_CPU_IOWAIT_TIME = "/process/cpu/time/iowait(d)";
-
-	/** €–Ú–¼iƒŠƒ\[ƒX’l‚Å‚ÌJava‰Ò“­ŠÔj */
-	// String ITEMNAME_JAVAUPTIME = "/javaUpTime";
-	String ITEMNAME_JAVAUPTIME = "/process/fundamental/uptime";
-
-	// -----------------------------------------------------
-	// ƒvƒƒZƒX€–Ú: CPU(Zo’l)
-
-	/** €–Ú–¼iCPUg—p—¦iƒvƒƒZƒXj‚Ì‡Œvj */
-	// String ITEMNAME_PROCESS_CPU_TOTAL_USAGE = "/process.cpu.total.usage";
-	String ITEMNAME_PROCESS_CPU_TOTAL_USAGE = "/process/cpu/usage/total:%";
-
-	/** €–Ú–¼iCPUg—p—¦iƒvƒƒZƒXj‚Ì‚¤‚¿‚ÌƒVƒXƒeƒ€‚Ìg—p—¦j */
-	// String ITEMNAME_PROCESS_CPU_SYSTEM_USAGE = "/process.cpu.system.usage";
-	String ITEMNAME_PROCESS_CPU_SYSTEM_USAGE = "/process/cpu/usage/system:%";
-
-	/** €–Ú–¼iCPUg—p—¦iƒvƒƒZƒXj‚Ì‚¤‚¿‚ÌIOWAIT‚Ìg—p—¦j */
-	// String ITEMNAME_PROCESS_CPU_IOWAIT_USAGE = "/process.cpu.iowait.usage";
-	String ITEMNAME_PROCESS_CPU_IOWAIT_USAGE = "/process/cpu/usage/iowait:%";
-
-	// -----------------------------------------------------
-	// ƒvƒƒZƒX€–Ú: ƒƒ‚ƒŠ(Zo’l)
-
-	/** €–Ú–¼iƒŠƒ\[ƒX’l‚Å‚Ì•¨—ƒƒ‚ƒŠ—e—Êj */
-	// String ITEMNAME_PROCESS_MEMORY_PHYSICAL_MAX =
-	// "/process.memory.physical.max";
-	String ITEMNAME_PROCESS_MEMORY_PHYSICAL_MAX = "/process/memory/physical/max:bytes";
-
-	/** €–Ú–¼i•¨—ƒƒ‚ƒŠg—p—ÊiƒvƒƒZƒXjj */
-	// String ITEMNAME_PROCESS_MEMORY_PHYSICAL_USED =
-	// "/process.memory.physical.used";
-	String ITEMNAME_PROCESS_MEMORY_PHYSICAL_USED = "/process/memory/physical/used:bytes";
-
-	/** €–Ú–¼iƒŠƒ\[ƒX’l‚Å‚Ì•¨—ƒƒ‚ƒŠ‹ó‚«—e—Êj */
-	// String ITEMNAME_PROCESS_MEMORY_PHYSICAL_FREE =
-	// "/process.memory.physical.free";
-	String ITEMNAME_PROCESS_MEMORY_PHYSICAL_FREE = "/process/memory/physical/free:bytes";
-
-	/** €–Ú–¼iƒŠƒ\[ƒX’l‚Å‚Ì‰¼‘zƒ}ƒVƒ“ƒƒ‚ƒŠ—e—Êj */
-	// String ITEMNAME_PROCESS_MEMORY_VIRTUALMACHINE_MAX =
-	// "/process.memory.virtualmachine.max";
-	String ITEMNAME_PROCESS_MEMORY_VIRTUALMACHINE_MAX = "/process/memory/virtual/max:bytes";
-
-	/** €–Ú–¼i‰¼‘zƒƒ‚ƒŠg—p—ÊiƒvƒƒZƒXjj */
-	// String ITEMNAME_PROCESS_MEMORY_VIRTUAL_USED =
-	// "/process.memory.virtual.used";
-	String ITEMNAME_PROCESS_MEMORY_VIRTUAL_USED = "/process/memory/virtual/used:bytes";
-
-	/** €–Ú–¼iƒŠƒ\[ƒX’l‚Å‚Ì‰¼‘zƒ}ƒVƒ“ƒƒ‚ƒŠ‹ó‚«—e—Êj */
-	// String ITEMNAME_PROCESS_MEMORY_VIRTUALMACHINE_FREE =
-	// "/process.memory.virtualmachine.free";
-	String ITEMNAME_PROCESS_MEMORY_VIRTUALMACHINE_FREE = "/process/memory/virtual/free:bytes";
-
-	/** €–Ú–¼iƒŠƒ\[ƒX’l‚Å‚Ìƒq[ƒvƒƒ‚ƒŠƒRƒ~ƒbƒg—e—Êj */
-	// String ITEMNAME_JAVAPROCESS_MEMORY_HEAP_COMMIT =
-	// "/javaprocess.memory.heap.commit";
-	String ITEMNAME_JAVAPROCESS_MEMORY_HEAP_COMMIT = "/process/heap/commit:bytes";
-
-	/** €–Ú–¼iƒŠƒ\[ƒX’l‚Å‚Ìƒq[ƒvƒƒ‚ƒŠÅ‘åj */
-	// String ITEMNAME_JAVAPROCESS_MEMORY_HEAP_MAX =
-	// "/javaprocess.memory.heap.max";
-	String ITEMNAME_JAVAPROCESS_MEMORY_HEAP_MAX = "/process/heap/max:bytes";
-
-	/** €–Ú–¼iƒŠƒ\[ƒX’l‚Å‚Ìƒq[ƒvƒƒ‚ƒŠg—p—Êj */
-	// String ITEMNAME_JAVAPROCESS_MEMORY_HEAP_USED =
-	// "/javaprocess.memory.heap.used";
-	String ITEMNAME_JAVAPROCESS_MEMORY_HEAP_USED = "/process/heap/used:bytes";
-
-	/** €–Ú–¼iƒŠƒ\[ƒX’l‚Å‚Ìƒq[ƒvˆÈŠO‚Ìƒƒ‚ƒŠƒRƒ~ƒbƒg—e—Êj */
-	// String ITEMNAME_JAVAPROCESS_MEMORY_NONHEAP_COMMIT =
-	// "/javaprocess.memory.nonheap.commit";
-	String ITEMNAME_JAVAPROCESS_MEMORY_NONHEAP_COMMIT = "/process/nonheap/commit:bytes";
-
-	/** €–Ú–¼iƒŠƒ\[ƒX’l‚Å‚Ìƒq[ƒvˆÈŠO‚Ìƒƒ‚ƒŠÅ‘åj */
-	// String ITEMNAME_JAVAPROCESS_MEMORY_NONHEAP_MAX =
-	// "/javaprocess.memory.nonheap.max";
-	String ITEMNAME_JAVAPROCESS_MEMORY_NONHEAP_MAX = "/process/nonheap/max:bytes";
-
-	/** €–Ú–¼iƒŠƒ\[ƒX’l‚Å‚Ìƒq[ƒvˆÈŠO‚Ìƒƒ‚ƒŠg—p—Êj */
-	// String ITEMNAME_JAVAPROCESS_MEMORY_NONHEAP_USED =
-	// "/javaprocess.memory.nonheap.used";
-	String ITEMNAME_JAVAPROCESS_MEMORY_NONHEAP_USED = "/process/nonheap/used:bytes";
-
-	/** €–Ú–¼iƒƒWƒƒ[ƒtƒH[ƒ‹ƒg”j */
-	// String ITEMNAME_PROCESS_MEMORY_MAJORFAULT_COUNT =
-	// "/process.memory.majorfault.count";
-	String ITEMNAME_PROCESS_MEMORY_MAJORFAULT_COUNT = "/process/memory/majorfault/count(d)";
-
-	// -----------------------------------------------------
-	// ƒvƒƒZƒX€–Ú: ƒlƒbƒgƒ[ƒN
-
-	/** €–Ú–¼iƒŠƒ\[ƒX’l‚Å‚ÌAƒvƒƒZƒX‘S‘Ì‚Ìƒlƒbƒgƒ[ƒNƒf[ƒ^óM—Êj */
-	// String ITEMNAME_NETWORKINPUTSIZEOFPROCESS = "/proc.network.input";
-	String ITEMNAME_NETWORKINPUTSIZEOFPROCESS = "/process/network/read:bytes(d)";
-
-	/** €–Ú–¼iƒŠƒ\[ƒX’l‚Å‚ÌAƒvƒƒZƒX‘S‘Ì‚Ìƒlƒbƒgƒ[ƒNƒf[ƒ^‘—M—Êj */
-	// String ITEMNAME_NETWORKOUTPUTSIZEOFPROCESS = "/proc.network.output";
-	String ITEMNAME_NETWORKOUTPUTSIZEOFPROCESS = "/process/network/write:bytes(d)";
-
-	// -----------------------------------------------------
-	// ƒvƒƒZƒX€–Ú: ƒtƒ@ƒCƒ‹
-
-	/** €–Ú–¼iƒŠƒ\[ƒX’l‚Å‚ÌAƒtƒ@ƒCƒ‹“ü—Í—Êj */
-	// String ITEMNAME_FILEINPUTSIZEOFPROCESS = "/proc.file.input";
-	String ITEMNAME_FILEINPUTSIZEOFPROCESS = "/process/file/read:bytes(d)";
-
-	/** €–Ú–¼iƒŠƒ\[ƒX’l‚Å‚ÌAƒtƒ@ƒCƒ‹o—Í—Êj */
-	// String ITEMNAME_FILEOUTPUTSIZEOFPROCESS = "/proc.file.output";
-	String ITEMNAME_FILEOUTPUTSIZEOFPROCESS = "/process/file/write:bytes(d)";
-
-	// -----------------------------------------------------
-	// ƒvƒƒZƒX€–Ú: ƒXƒŒƒbƒh
-
-	/** €–Ú–¼iƒXƒŒƒbƒh”j */
-	// String ITEMNAME_PROCESS_THREAD_TOTAL_COUNT =
-	// "/process.thread.total.count";
-	String ITEMNAME_PROCESS_THREAD_TOTAL_COUNT = "/process/thread/native";
-
-	/** €–Ú–¼iFD/ƒnƒ“ƒhƒ‹”j */
-	// String ITEMNAME_PROCESS_HANDLE_TOTAL_NUMBER =
-	// "/process.handle.total.number";
-	String ITEMNAME_PROCESS_HANDLE_TOTAL_NUMBER = "/process/file/handle/number";
-
-	/** €–Ú–¼iƒŠƒ\[ƒX’l‚Å‚ÌAƒXƒŒƒbƒh”j */
-	// String ITEMNAME_JAVAPROCESS_THREAD_TOTAL_COUNT =
-	// "/javaprocess.thread.total.count";
-	String ITEMNAME_JAVAPROCESS_THREAD_TOTAL_COUNT = "/process/thread/java";
-
-	// -----------------------------------------------------
-	// ƒvƒƒZƒXî•ñ: ƒRƒŒƒNƒVƒ‡ƒ“î•ñ
-
-	/** €–Ú–¼iƒŠƒ\[ƒX’l‚Å‚ÌAƒRƒŒƒNƒVƒ‡ƒ“‚Ì”j */
-	// String ITEMNAME_JAVAPROCESS_COLLECTION_LIST_COUNT =
-	// "/javaprocess.collection.list.count";
-	String ITEMNAME_JAVAPROCESS_COLLECTION_LIST_COUNT = "/process/collection/list";
-
-	/** €–Ú–¼iƒŠƒ\[ƒX’l‚Å‚ÌAƒRƒŒƒNƒVƒ‡ƒ“‚Ì”j */
-	// String ITEMNAME_JAVAPROCESS_COLLECTION_QUEUE_COUNT =
-	// "/javaprocess.collection.queue.count";
-	String ITEMNAME_JAVAPROCESS_COLLECTION_QUEUE_COUNT = "/process/collection/queue";
-
-	/** €–Ú–¼iƒŠƒ\[ƒX’l‚Å‚ÌAƒRƒŒƒNƒVƒ‡ƒ“‚Ì”j */
-	// String ITEMNAME_JAVAPROCESS_COLLECTION_SET_COUNT =
-	// "/javaprocess.collection.set.count";
-	String ITEMNAME_JAVAPROCESS_COLLECTION_SET_COUNT = "/process/collection/set";
-
-	/** €–Ú–¼iƒŠƒ\[ƒX’l‚Å‚ÌAƒRƒŒƒNƒVƒ‡ƒ“‚Ì”j */
-	// String ITEMNAME_JAVAPROCESS_COLLECTION_MAP_COUNT =
-	// "/javaprocess.collection.map.count";
-	String ITEMNAME_JAVAPROCESS_COLLECTION_MAP_COUNT = "/process/collection/map";
-
-	/** €–Ú–¼iƒŠƒ\[ƒX’l‚Å‚ÌAƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€‚©‚çæ“¾‚µ‚½ƒIƒuƒWƒFƒNƒg‚ÌƒTƒCƒYj */
-	// String ITEMNAME_JAVAPROCESS_COLLECTION_HISTOGRAM_SIZE =
-	// "/javaprocess.collection.histogram.size";
-	String ITEMNAME_JAVAPROCESS_COLLECTION_HISTOGRAM_SIZE
-		= "/process/histogram/object/size:bytes";
-
-	/** €–Ú–¼iƒŠƒ\[ƒX’l‚Å‚ÌAƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€‚©‚çæ“¾‚µ‚½ƒIƒuƒWƒFƒNƒg‚Ì”j */
-	// String ITEMNAME_JAVAPROCESS_COLLECTION_HISTOGRAM_COUNT =
-	// "/javaprocess.collection.histogram.count";
-	String ITEMNAME_JAVAPROCESS_COLLECTION_HISTOGRAM_COUNT = "/process/histogram/object/number";
-
-	// -----------------------------------------------------
-	// ƒvƒƒZƒXî•ñ: ƒŒƒXƒ|ƒ“ƒXî•ñ
-
-	/** €–Ú–¼iƒŠƒ\[ƒX’l‚Å‚ÌATurn Around Time‚Ì•½‹Ï’lj */
-	// String ITEMNAME_PROCESS_RESPONSE_TIME_AVERAGE =
-	// "/process.response.time.average";
-	String ITEMNAME_PROCESS_RESPONSE_TIME_AVERAGE = "/response/total/average";
-
-	/** €–Ú–¼iƒŠƒ\[ƒX’l‚Å‚ÌATurn Around Time‚ÌÅ‘å’lj */
-	// String ITEMNAME_PROCESS_RESPONSE_TIME_MAX = "/process.response.time.max";
-	String ITEMNAME_PROCESS_RESPONSE_TIME_MAX = "/response/total/max";
-
-	/** €–Ú–¼iƒŠƒ\[ƒX’l‚Å‚ÌATurn Around Time‚ÌÅ¬’lj */
-	// String ITEMNAME_PROCESS_RESPONSE_TIME_MIN = "/process.response.time.min";
-	String ITEMNAME_PROCESS_RESPONSE_TIME_MIN = "/response/total/min";
-
-	/** €–Ú–¼iƒŠƒ\[ƒX’l‚Å‚ÌATurn Around Time‚ÌŒÄ‚Ño‚µ‰ñ”j */
-	// String ITEMNAME_PROCESS_RESPONSE_TOTAL_COUNT =
-	// "/process.response.total.count";
-	String ITEMNAME_PROCESS_RESPONSE_TOTAL_COUNT = "/response/total/count";
-
-	/** €–Ú–¼iƒŠƒ\[ƒX’l‚Å‚ÌATurn Around Time‚Ì•½‹Ï’l(SQLˆÈŠO)j */
-	String ITEMNAME_PROCESS_RESPONSE_TIME_AVERAGE_EXCL_SQL = "/response/nosql/average";
-
-	/** €–Ú–¼iƒŠƒ\[ƒX’l‚Å‚ÌATurn Around Time‚ÌÅ‘å’l(SQLˆÈŠO)j */
-	String ITEMNAME_PROCESS_RESPONSE_TIME_MAX_EXCL_SQL = "/response/nosql/max";
-
-	/** €–Ú–¼iƒŠƒ\[ƒX’l‚Å‚ÌATurn Around Time‚ÌÅ¬’l(SQLˆÈŠO)j */
-	String ITEMNAME_PROCESS_RESPONSE_TIME_MIN_EXCL_SQL = "/response/nosql/min";
-
-	/** €–Ú–¼iƒŠƒ\[ƒX’l‚Å‚ÌATurn Around Time‚ÌŒÄ‚Ño‚µ‰ñ”(SQLˆÈŠO)j */
-	String ITEMNAME_PROCESS_RESPONSE_TOTAL_COUNT_EXCL_SQL = "/response/nosql/count";
-
-	/** €–Ú–¼iƒŠƒ\[ƒX’l‚Å‚ÌATurn Around Time‚Ì•½‹Ï’l(SQL‚Ì‚İ)j */
-	String ITEMNAME_PROCESS_RESPONSE_TIME_AVERAGE_ONLY_SQL = "/response/sql/average";
-
-	/** €–Ú–¼iƒŠƒ\[ƒX’l‚Å‚ÌATurn Around Time‚ÌÅ‘å’l(SQL‚Ì‚İ)j */
-	String ITEMNAME_PROCESS_RESPONSE_TIME_MAX_ONLY_SQL = "/response/sql/max";
-
-	/** €–Ú–¼iƒŠƒ\[ƒX’l‚Å‚ÌATurn Around Time‚ÌÅ¬’l(SQL‚Ì‚İ)j */
-	String ITEMNAME_PROCESS_RESPONSE_TIME_MIN_ONLY_SQL = "/response/sql/min";
-
-	/** €–Ú–¼iƒŠƒ\[ƒX’l‚Å‚ÌATurn Around Time‚ÌŒÄ‚Ño‚µ‰ñ”(SQL‚Ì‚İ)j */
-	String ITEMNAME_PROCESS_RESPONSE_TOTAL_COUNT_ONLY_SQL = "/response/sql/count";
-
-	/** €–Ú–¼(HTTP—áŠO) */
-	// String ITEMNAME_JAVAPROCESS_HTTP_EXCEPTION =
-	// "/javaprocess.http.exception.occurence.count";
-	String ITEMNAME_JAVAPROCESS_HTTP_EXCEPTION = "/response/http/thrown";
-
-	// -----------------------------------------------------
-	// ƒvƒƒZƒXî•ñ: VM
-
-	/** €–Ú–¼(Java ‰¼‘zƒ}ƒVƒ“‚ªÀs‚ğŠJn‚µ‚Ä‚©‚çƒ[ƒh‚³‚ê‚½ƒNƒ‰ƒX‚Ì‡Œv”) */
-	// String ITEMNAME_JAVAPROCESS_CLASSLOADER_CLASS_TOTAL =
-	// "/javaprocess.classloader.class.total";
-	String ITEMNAME_JAVAPROCESS_CLASSLOADER_CLASS_TOTAL = "/process/classloader/class/total";
-
-	/** €–Ú–¼(Java ‰¼‘zƒ}ƒVƒ“‚ÉŒ»İƒ[ƒh‚³‚ê‚Ä‚¢‚éƒNƒ‰ƒX‚Ì”) */
-	// String ITEMNAME_JAVAPROCESS_CLASSLOADER_CLASS_CURRENT =
-	// "/javaprocess.classloader.class.current";
-	String ITEMNAME_JAVAPROCESS_CLASSLOADER_CLASS_CURRENT
-		= "/process/classloader/class/current";
-
-	/** €–Ú–¼iƒŠƒ\[ƒX’l‚Å‚ÌAƒg[ƒ^ƒ‹‚ÌƒKƒx[ƒWƒRƒŒƒNƒVƒ‡ƒ“‚ÌŠÔj */
-	// String ITEMNAME_JAVAPROCESS_GC_TIME_TOTAL = "/javaprocess.gc.time.total";
-	String ITEMNAME_JAVAPROCESS_GC_TIME_TOTAL = "/process/gc/time/total(d)";
-
-	/** €–Ú–¼iƒŠƒ\[ƒX’l‚Å‚ÌAƒtƒ@ƒCƒiƒ‰ƒCƒY‘Ò‚¿ƒIƒuƒWƒFƒNƒg”j */
-	// String ITEMNAME_JAVAPROCESS_GC_FINALIZEQUEUE_COUNT =
-	// "/javaprocess.gc.finalizequeue.count";
-	String ITEMNAME_JAVAPROCESS_GC_FINALIZEQUEUE_COUNT = "/process/gc/finalizequeue/number";
-
-	/** €–Ú–¼(—áŠO”­¶‰ñ”) */
-	// String ITEMNAME_JAVAPROCESS_EXCEPTION_OCCURENCE_COUNT =
-	// "/javaprocess.exception.occurence.count";
-	String ITEMNAME_JAVAPROCESS_EXCEPTION_OCCURENCE_COUNT = "/response/java/thrown";
-
-	/** €–Ú–¼(ƒXƒg[ƒ‹”­¶‰ñ”) */
-	// String ITEMNAME_JAVAPROCESS_STALL_OCCURENCE_COUNT =
-	// "/javaprocess.method.stall.count";
-	String ITEMNAME_JAVAPROCESS_STALL_OCCURENCE_COUNT = "/response/java/stalled";
-
-	// -----------------------------------------------------
-	// ƒvƒƒZƒXî•ñ: APƒT[ƒoî•ñ
-
-	/** €–Ú–¼iAPƒT[ƒo‚Ìƒ[ƒJ[ƒXƒŒƒbƒhƒv[ƒ‹(Å‘å”,‰Ò“®”)j */
-	// String ITEMNAME_SERVER_POOL = "/serverPool";
-	String ITEMNAME_SERVER_POOL = "/process/apserver/worker/number";
-
-	/** €–Ú–¼iƒv[ƒ‹(Å‘å”,‰Ò“®”)j */
-	// String ITEMNAME_POOL_SIZE = "/poolSize";
-	String ITEMNAME_POOL_SIZE = "/process/commons/poolsize";
-
-	/** €–Ú–¼iƒŠƒ\[ƒX’l‚Å‚ÌAHttpSession”j */
-	// String ITEMNAME_HTTPSESSION_NUM = "/httpSessionNumber";
-	String ITEMNAME_HTTPSESSION_NUM = "/process/httpsession/instance/number";
-
-	/** €–Ú–¼iƒŠƒ\[ƒX’l‚Å‚ÌAHttpSession‘ƒTƒCƒYj */
-	// String ITEMNAME_HTTPSESSION_TOTALSIZE = "/httpSessionTotalSize";
-	String ITEMNAME_HTTPSESSION_TOTALSIZE = "/process/httpsession/size/total:bytes";
-
-	// -----------------------------------------------------
-	// Agentî•ñ
-
-	/** €–Ú–¼iƒJƒoƒŒƒbƒWj */
-	// String ITEMNAME_COVERAGE = "/coverage";
-	String ITEMNAME_COVERAGE = "/javelin/converter/coverage:%";
-
-	/** €–Ú–¼iƒCƒxƒ“ƒgí•Ê–ˆ‚ÌƒCƒxƒ“ƒg”­¶‰ñ”j */
-	// String ITEMNAME_EVENT_COUNT = "/eventCount";
-	String ITEMNAME_EVENT_COUNT = "/javelin/event/occured/count";
-
-	/** €–Ú–¼(CallNodeTree”) */
-	// String ITEMNAME_NODECOUNT = "/callTreeNodeCount";
-	String ITEMNAME_NODECOUNT = "/javelin/calltreenode/generated/current";
-
-	/** €–Ú–¼(Å‘åCallTreeNode”) */
-	// String ITEMNAME_MAX_NODECOUNT = "/maxCallTreeNodeCount";
-	String ITEMNAME_MAX_NODECOUNT = "/javelin/calltreenode/generated/max";
-
-	/** €–Ú–¼(‡ŒvCallTreeNode”) */
-	// String ITEMNAME_ALL_NODECOUNT = "/allCallTreeNodeCount";
-	String ITEMNAME_ALL_NODECOUNT = "/javelin/calltreenode/generated/all";
-
-	/** €–Ú–¼(CallTree”) */
-	// String ITEMNAME_CALLTREECOUNT = "/callTreeCount";
-	String ITEMNAME_CALLTREECOUNT = "/javelin/calltree/generated/current";
-
-	/** €–Ú–¼(JavelinConverter‚Å•ÏŠ·‚µ‚½ƒƒ\ƒbƒh”) */
-	// String ITEMNAME_CONVERTEDMETHOD = "/convertedMethodCount";
-	String ITEMNAME_CONVERTEDMETHOD = "/javelin/converter/methods/converted";
-
-	/** €–Ú–¼(JavelinConverter‚Å•ÏŠ·‘ÎÛ‚©‚çœŠO‚µ‚½ƒƒ\ƒbƒh”) */
-	// String ITEMNAME_EXCLUDEDMETHOD = "/excludedMethodCount";
-	String ITEMNAME_EXCLUDEDMETHOD = "/javelin/converter/methods/excluded";
-
-	/** €–Ú–¼(JavelinConverter‚Å•ÏŠ·‚ğs‚Á‚½ƒƒ\ƒbƒh‚Ì‚¤‚¿AŒÄ‚Ño‚³‚ê‚½ƒƒ\ƒbƒh”) */
-	// String ITEMNAME_CALLEDMETHODCOUNT = "/calledMethodCount";
-	String ITEMNAME_CALLEDMETHODCOUNT = "/javelin/converter/methods/executed";
-
-	/** €–Ú–¼iJVNƒtƒ@ƒCƒ‹ JVNƒtƒ@ƒCƒ‹–¼j */
-	// String ITEMNAME_JVN_FILE_NAME = "/jvnFileName";
-	String ITEMNAME_JVN_FILE_NAME = "/javelin/jvnfile/name";
-
-	/** €–Ú–¼iJVNƒtƒ@ƒCƒ‹ JVNƒtƒ@ƒCƒ‹“à—ej */
-	// String ITEMNAME_JVN_FILE_CONTENT = "/jvnFileContent";
-	String ITEMNAME_JVN_FILE_CONTENT = "/javelin/jvnfile/contents";
-
-	// -----------------------------------------------------
-	// ‚»‚Ì‘¼
-
-	/** €–Ú–¼iJMXŒv‘ª’lj */
-	// String ITEMNAME_JMX = "jmx";
-	String ITEMNAME_JMX = "/jmx";
-
-	// -----------------------------------------------------
-	// ŠÄ‹î•ñ
-
-	/** €–Ú–¼(‘S‚Ä‚ÌŒÄ‚Ño‚µŒ³‚Ì–¼‘O) */
-	String ITEMNAME_ALL_CALLER_NAMES = "/allCallerNames";
-
-	/** €–Ú–¼(ƒ‹[ƒg) */
-	String ITEMNAME_ROOT_NODE = "/rootNode";
-
-	/** €–Ú–¼(Œv‘ª‘ÎÛ) */
-	String ITEMNAME_TARGET = "/target";
-
-	/** €–Ú–¼(ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒOƒ‰ƒto—Í‘ÎÛ) */
-	String ITEMNAME_TRANSACTION_GRAPH = "/transactionGraph";
-
-	/** €–Ú–¼(TATƒAƒ‰[ƒ€è‡’l) */
-	String ITEMNAME_ALARM_THRESHOLD = "/alarmThreshold";
-
-	/** €–Ú–¼(CPUƒAƒ‰[ƒ€è‡’l) */
-	String ITEMNAME_ALARM_CPU_THRESHOLD = "/alarmCpuThreshold";
-
-	/** €–Ú–¼(ƒNƒ‰ƒX–¼) */
-	String ITEMNAME_CLASSTOREMOVE = "/classToRemove";
+    // ãƒ—ãƒªãƒ•ã‚¡ãƒ¬ãƒ³ã‚¹ã‚­ãƒ¼
+    /** ãƒ­ã‚°ãƒ¬ãƒ™ãƒ«ã®ãŸã‚ã®ãƒ—ãƒªãƒ•ã‚¡ãƒ¬ãƒ³ã‚¹ã‚­ãƒ¼ */
+    String PREF_LOG_LEVEL = "pref.endosnipecommon.loglevel";
+
+    // ////////////////
+    // åˆ¶å¾¡ç”¨é …ç›®å //
+    // ////////////////
+
+    /** é …ç›®åï¼ˆåˆæœŸåŒ–å‡¦ç†ï¼‰ */
+    String ITEMNAME_INITIALIZE = "/initialize";
+
+    /** é …ç›®å(ãƒ’ãƒ¼ãƒ—ãƒ€ãƒ³ãƒ—å–å¾—) */
+    String ITEMNAME_HEAPDUMP = "/heapDump";
+
+    /** é …ç›®å(ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å–å¾—) */
+    String ITEMNAME_THREADDUMP = "/threadDump";
+
+    // ////////////////
+    // å–å¾—ç”¨é …ç›®å //
+    // ////////////////
+    // é …ç›®å(DBã‹ã‚‰å–å¾—ã™ã‚‹ç³»åˆ—ã‚’æŒ‡å®šã™ã‚‹ã‚­ãƒ¼æ–‡å­—åˆ—)
+
+    // -----------------------------------------------------
+    // åŸºç¤é …ç›®
+
+    /** é …ç›®åï¼ˆæ™‚åˆ»ï¼‰ */
+    // String ITEMNAME_TIME = "/time";
+    String ITEMNAME_TIME = "/common/fundamental/time/current";
+
+    /** é …ç›®åï¼ˆãƒªã‚½ãƒ¼ã‚¹å€¤ã§ã®å–å¾—æ™‚åˆ»ï¼‰ */
+    // String ITEMNAME_ACQUIREDTIME = "/acquiredTime";
+    String ITEMNAME_ACQUIREDTIME = "/common/fundamental/time/acquired";
+
+    /** é …ç›®å(å‘¼ã³å‡ºã—å›æ•°) */
+    // String ITEMNAME_CALL_COUNT = "/callCount";
+    String ITEMNAME_CALL_COUNT = "/common/fundamental/callCount";
+
+    /** é …ç›®å(ä»Šå›ã®å‡¦ç†æ™‚é–“) */
+    // String ITEMNAME_CURRENT_INTERVAL = "/currentInterval";
+    String ITEMNAME_CURRENT_INTERVAL = "/common/fundamental/interval/current";
+
+    /** é …ç›®å(åˆè¨ˆå‡¦ç†æ™‚é–“) */
+    // String ITEMNAME_TOTAL_INTERVAL = "/totalInterval";
+    String ITEMNAME_TOTAL_INTERVAL = "/common/fundamental/interval/total";
+
+    /** é …ç›®å(æœ€å¤§å‡¦ç†æ™‚é–“) */
+    // String ITEMNAME_MAXIMUM_INTERVAL = "/maximumInterval";
+    String ITEMNAME_MAXIMUM_INTERVAL = "/common/fundamental/interval/max";
+
+    /** é …ç›®å(æœ€å°å‡¦ç†æ™‚é–“) */
+    // String ITEMNAME_MINIMUM_INTERVAL = "/minimumInterval";
+    String ITEMNAME_MINIMUM_INTERVAL = "/common/fundamental/interval/min";
+
+    /** é …ç›®å(åˆè¨ˆCPUæ™‚é–“) */
+    // String ITEMNAME_TOTAL_CPU_INTERVAL = "/totalCpuInterval";
+    String ITEMNAME_TOTAL_CPU_INTERVAL = "/common/fundamental/cpuInterval/total";
+
+    /** é …ç›®å(æœ€å¤§CPUæ™‚é–“) */
+    // String ITEMNAME_MAXIMUM_CPU_INTERVAL = "/maximumCpuInterval";
+    String ITEMNAME_MAXIMUM_CPU_INTERVAL = "/common/fundamental/cpuInterval/max";
+
+    /** é …ç›®å(æœ€å°CPUæ™‚é–“) */
+    // String ITEMNAME_MINIMUM_CPU_INTERVAL = "/minimumCpuInterval";
+    String ITEMNAME_MINIMUM_CPU_INTERVAL = "/common/fundamental/cpuInterval/min";
+
+    /** é …ç›®å(åˆè¨ˆãƒ¦ãƒ¼ã‚¶æ™‚é–“) */
+    // String ITEMNAME_TOTAL_USER_INTERVAL = "/totalUserInterval";
+    String ITEMNAME_TOTAL_USER_INTERVAL = "/common/fundamental/userInterval/total";
+
+    /** é …ç›®å(æœ€å¤§ãƒ¦ãƒ¼ã‚¶æ™‚é–“) */
+    // String ITEMNAME_MAXIMUM_USER_INTERVAL = "/maximumUserInterval";
+    String ITEMNAME_MAXIMUM_USER_INTERVAL = "/common/fundamental/userInterval/max";
+
+    /** é …ç›®å(æœ€å°ãƒ¦ãƒ¼ã‚¶æ™‚é–“) */
+    // String ITEMNAME_MINIMUM_USER_INTERVAL = "/minimumUserInterval";
+    String ITEMNAME_MINIMUM_USER_INTERVAL = "/common/fundamental/userInterval/min";
+
+    // -----------------------------------------------------
+    // ç´¯ç©å€¤
+
+    /** é …ç›®å(åˆè¨ˆå‡¦ç†æ™‚é–“) */
+    // String ITEMNAME_ACCUMULATED_TOTAL_INTERVAL = "totalAccumulatedInterval";
+    String ITEMNAME_ACCUMULATED_TOTAL_INTERVAL = "/common/accumulated/interval/total";
+
+    /** é …ç›®å(æœ€å¤§å‡¦ç†æ™‚é–“) */
+    // String ITEMNAME_ACCUMULATED_MAXIMUM_INTERVAL =
+    // "maximumAccumulatedInterval";
+    String ITEMNAME_ACCUMULATED_MAXIMUM_INTERVAL = "/common/accumulated/interval/max";
+
+    /** é …ç›®å(æœ€å°å‡¦ç†æ™‚é–“) */
+    // String ITEMNAME_ACCUMULATED_MINIMUM_INTERVAL =
+    // "minimumAccumulatedInterval";
+    String ITEMNAME_ACCUMULATED_MINIMUM_INTERVAL = "/common/accumulated/interval/min";
+
+    /** é …ç›®å(åˆè¨ˆCPUæ™‚é–“) */
+    // String ITEMNAME_ACCUMULATED_TOTAL_CPU_INTERVAL =
+    // "totalAccumulatedCpuInterval";
+    String ITEMNAME_ACCUMULATED_TOTAL_CPU_INTERVAL = "/common/accumulated/cpuInterval/total";
+
+    /** é …ç›®å(æœ€å¤§CPUæ™‚é–“) */
+    // String ITEMNAME_ACCUMULATED_MAXIMUM_CPU_INTERVAL =
+    // "maximumAccumulatedCpuInterval";
+    String ITEMNAME_ACCUMULATED_MAXIMUM_CPU_INTERVAL = "/common/accumulated/cpuInterval/max";
+
+    /** é …ç›®å(æœ€å°CPUæ™‚é–“) */
+    // String ITEMNAME_ACCUMULATED_MINIMUM_CPU_INTERVAL =
+    // "minimumAccumulatedCpuInterval";
+    String ITEMNAME_ACCUMULATED_MINIMUM_CPU_INTERVAL = "/common/accumulated/cpuInterval/min";
+
+    /** é …ç›®å(åˆè¨ˆCPUæ™‚é–“) */
+    // String ITEMNAME_ACCUMULATED_TOTAL_USER_INTERVAL =
+    // "totalAccumulatedUserInterval";
+    String ITEMNAME_ACCUMULATED_TOTAL_USER_INTERVAL = "/common/accumulated/userInterval/total";
+
+    /** é …ç›®å(æœ€å¤§CPUæ™‚é–“) */
+    // String ITEMNAME_ACCUMULATED_MAXIMUM_USER_INTERVAL =
+    // "maximumAccumulatedUserInterval";
+    String ITEMNAME_ACCUMULATED_MAXIMUM_USER_INTERVAL = "/common/accumulated/userInterval/max";
+
+    /** é …ç›®å(æœ€å°CPUæ™‚é–“) */
+    // String ITEMNAME_ACCUMULATED_MINIMUM_USER_INTERVAL =
+    // "minimumAccumulatedUserInterval";
+    String ITEMNAME_ACCUMULATED_MINIMUM_USER_INTERVAL = "/common/accumulated/userInterval/min";
+
+    // -----------------------------------------------------
+    // ã‚·ã‚¹ãƒ†ãƒ é …ç›®: åŸºç¤å€¤
+
+    /** é …ç›®åï¼ˆãƒªã‚½ãƒ¼ã‚¹å€¤ã§ã®ãƒ—ãƒ­ã‚»ãƒƒã‚µæ•°ï¼‰ */
+    // String ITEMNAME_SYSTEM_CPU_PROCESSOR_COUNT =
+    // "/system.cpu.processor.count";
+    String ITEMNAME_SYSTEM_CPU_PROCESSOR_COUNT = "/system/cpu/processor/number";
+
+    /** é …ç›®åï¼ˆãƒ¦ãƒ¼ã‚¶ãƒ¢ãƒ¼ãƒ‰ã§ã®CPUä½¿ç”¨é‡ï¼‰ */
+    // String ITEMNAME_SYSTEM_CPU_USERMODE_TIME = "/system.cpu.usermode.time";
+    String ITEMNAME_SYSTEM_CPU_USERMODE_TIME = "/system/cpu/time/user(d)";
+
+    /** é …ç›®åï¼ˆã‚·ã‚¹ãƒ†ãƒ ãƒ¢ãƒ¼ãƒ‰ã§ã®CPUä½¿ç”¨é‡ï¼‰ */
+    // String ITEMNAME_SYSTEM_CPU_SYSTEM_TIME = "/system.cpu.system.time";
+    String ITEMNAME_SYSTEM_CPU_SYSTEM_TIME = "/system/cpu/time/system(d)";
+
+    /** é …ç›®åï¼ˆiowaitã§ã®CPUä½¿ç”¨é‡ï¼‰ */
+    // String ITEMNAME_SYSTEM_CPU_IOWAIT_TIME = "/system.cpu.iowait.time";
+    String ITEMNAME_SYSTEM_CPU_IOWAIT_TIME = "/system/cpu/time/iowait(d)";
+
+    // -----------------------------------------------------
+    // ã‚·ã‚¹ãƒ†ãƒ é …ç›®: CPU(ç®—å‡ºå€¤)
+
+    /** é …ç›®åï¼ˆCPUä½¿ç”¨ç‡ï¼ˆã‚·ã‚¹ãƒ†ãƒ ï¼‰ã®åˆè¨ˆï¼‰ */
+    // String ITEMNAME_SYSTEM_CPU_TOTAL_USAGE = "/system.cpu.total.usage";
+    String ITEMNAME_SYSTEM_CPU_TOTAL_USAGE = "/system/cpu/usage/total:%";
+
+    /** é …ç›®åï¼ˆCPUä½¿ç”¨ç‡ï¼ˆã‚·ã‚¹ãƒ†ãƒ ï¼‰ã®ã†ã¡ã®ã‚·ã‚¹ãƒ†ãƒ ã®ä½¿ç”¨ç‡ï¼‰ */
+    // String ITEMNAME_SYSTEM_CPU_SYSTEM_USAGE = "/system.cpu.system.usage";
+    String ITEMNAME_SYSTEM_CPU_SYSTEM_USAGE = "/system/cpu/usage/system:%";
+
+    /** é …ç›®åï¼ˆCPUä½¿ç”¨ç‡ï¼ˆã‚·ã‚¹ãƒ†ãƒ ï¼‰ã®ã†ã¡ã®I/O Waitã®ä½¿ç”¨ç‡ï¼‰ */
+    // String ITEMNAME_SYSTEM_CPU_IOWAIT_USAGE = "/system.cpu.iowait.usage";
+    String ITEMNAME_SYSTEM_CPU_IOWAIT_USAGE = "/system/cpu/usage/iowait:%";
+
+    /** é …ç›®åï¼ˆCPUã”ã¨ã®è² è·ï¼šå¾Œã‚ã«CPUã‚³ã‚¢ç•ªå·(1ï½N)ã‚’ä»˜ã‘ã‚‹ï¼‰ */
+    // String ITEMNAME_CPU_ARRAY = "/sys_cputime_1";
+    String ITEMNAME_CPU_ARRAY = "/system/cpu/load(d)";
+
+    // -----------------------------------------------------
+    // ã‚·ã‚¹ãƒ†ãƒ é …ç›®: ãƒ¡ãƒ¢ãƒª(ç®—å‡ºå€¤)
+
+    /** é …ç›®åï¼ˆã‚·ã‚¹ãƒ†ãƒ å…¨ä½“ã®ãƒ¡ãƒ¢ãƒªæœ€å¤§å€¤ï¼‰ */
+    // String ITEMNAME_SYSTEM_MEMORY_PHYSICAL_MAX =
+    // "/system.memory.physical.max";
+    String ITEMNAME_SYSTEM_MEMORY_PHYSICAL_MAX = "/system/memory/physical/max:bytes";
+
+    /** é …ç›®åï¼ˆã‚·ã‚¹ãƒ†ãƒ å…¨ä½“ã®ç©ºããƒ¡ãƒ¢ãƒªï¼‰ */
+    // String ITEMNAME_SYSTEM_MEMORY_PHYSICAL_FREE =
+    // "/system.memory.physical.free";
+    String ITEMNAME_SYSTEM_MEMORY_PHYSICAL_FREE = "/system/memory/physical/free:bytes";
+
+    /** é …ç›®åï¼ˆã‚·ã‚¹ãƒ†ãƒ å…¨ä½“ã®ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡ï¼‰ */
+    // String ITEMNAME_SYSTEM_MEMORY_PHYSICAL_USED =
+    // "/system.memory.physical.used";
+    String ITEMNAME_SYSTEM_MEMORY_PHYSICAL_USED = "/system/memory/physical/used:bytes";
+
+    /** é …ç›®åï¼ˆãƒªã‚½ãƒ¼ã‚¹å€¤ã§ã®ä»®æƒ³ãƒ¡ãƒ¢ãƒªå®¹é‡ï¼‰ */
+    // String ITEMNAME_SYSTEM_MEMORY_VIRTUAL_USED =
+    // "/system.memory.virtual.used";
+    String ITEMNAME_SYSTEM_MEMORY_VIRTUAL_USED = "/system/memory/virtual/used:bytes";
+
+    /** é …ç›®åï¼ˆãƒªã‚½ãƒ¼ã‚¹å€¤ã§ã®ã‚¹ãƒ¯ãƒƒãƒ—é ˜åŸŸå®¹é‡ï¼‰ */
+    // String ITEMNAME_SYSTEM_MEMORY_SWAP_MAX = "/system.memory.swap.max";
+    String ITEMNAME_SYSTEM_MEMORY_SWAP_MAX = "/system/memory/swap/max:bytes";
+
+    /** é …ç›®åï¼ˆãƒªã‚½ãƒ¼ã‚¹å€¤ã§ã®ã‚¹ãƒ¯ãƒƒãƒ—é ˜åŸŸç©ºãå®¹é‡ï¼‰ */
+    // String ITEMNAME_SYSTEM_MEMORY_SWAP_FREE = "/system.memory.swap.free";
+    String ITEMNAME_SYSTEM_MEMORY_SWAP_FREE = "/system/memory/swap/free:bytes";
+
+    /** é …ç›®åï¼ˆpage inï¼‰ */
+    // String ITEMNAME_SYSTEM_MEMORY_PAGEIN_COUNT =
+    // "/system.memory.pagein.count";
+    String ITEMNAME_SYSTEM_MEMORY_PAGEIN_COUNT = "/system/memory/pagein(d)";
+
+    /** é …ç›®åï¼ˆpage outï¼‰ */
+    // String ITEMNAME_SYSTEM_MEMORY_PAGEOUT_COUNT =
+    // "/system.memory.pageout.count";
+    String ITEMNAME_SYSTEM_MEMORY_PAGEOUT_COUNT = "/system/memory/pageout(d)";
+
+    // -----------------------------------------------------
+    // ã‚·ã‚¹ãƒ†ãƒ é …ç›®: ãƒ•ã‚¡ã‚¤ãƒ«
+
+    /** é …ç›®åï¼ˆãƒªã‚½ãƒ¼ã‚¹å€¤ã§ã®ã€ãƒ•ã‚¡ã‚¤ãƒ«å…¥åŠ›é‡ï¼‰ */
+    // String ITEMNAME_FILEINPUTSIZEOFSYSTEM = "/system.file.input";
+    String ITEMNAME_FILEINPUTSIZEOFSYSTEM = "/system/file/read:bytes(d)";
+
+    /** é …ç›®åï¼ˆãƒªã‚½ãƒ¼ã‚¹å€¤ã§ã®ã€ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›é‡ï¼‰ */
+    // String ITEMNAME_FILEOUTPUTSIZEOFSYSTEM = "/system.file.output";
+    String ITEMNAME_FILEOUTPUTSIZEOFSYSTEM = "/system/file/write:bytes(d)";
+
+    /** é …ç›®åï¼ˆFD/ãƒãƒ³ãƒ‰ãƒ«æ•°ï¼‰ */
+    // String ITEMNAME_SYSTEM_HANDLE_TOTAL_NUMBER =
+    // "/system.handle.total.number";
+    String ITEMNAME_SYSTEM_HANDLE_TOTAL_NUMBER = "/system/file/handle/number";
+
+    // -----------------------------------------------------
+    // ãƒ—ãƒ­ã‚»ã‚¹é …ç›®: CPU(åŸºç¤å€¤)
+
+    /** é …ç›®åï¼ˆCPUä½¿ç”¨æ™‚é–“:totalï¼‰ */
+    // String ITEMNAME_PROCESS_CPU_TOTAL_TIME = "/process.cpu.total.time";
+    String ITEMNAME_PROCESS_CPU_TOTAL_TIME = "/process/cpu/time/total(d)";
+
+    /** é …ç›®åï¼ˆCPUä½¿ç”¨æ™‚é–“:systemï¼‰ */
+    // String ITEMNAME_PROC_CPUTIME_SYS = "/process.cpu.system.time";
+    String ITEMNAME_PROCESS_CPU_SYSTEM_TIME = "/process/cpu/time/system(d)";
+
+    /** é …ç›®åï¼ˆCPUä½¿ç”¨æ™‚é–“:iowaitï¼‰ */
+    // String ITEMNAME_PROCESS_CPU_IOWAIT_TIME = "/process.cpu.iowait.time";
+    String ITEMNAME_PROCESS_CPU_IOWAIT_TIME = "/process/cpu/time/iowait(d)";
+
+    /** é …ç›®åï¼ˆãƒªã‚½ãƒ¼ã‚¹å€¤ã§ã®Javaç¨¼åƒæ™‚é–“ï¼‰ */
+    // String ITEMNAME_JAVAUPTIME = "/javaUpTime";
+    String ITEMNAME_JAVAUPTIME = "/process/fundamental/uptime";
+
+    // -----------------------------------------------------
+    // ãƒ—ãƒ­ã‚»ã‚¹é …ç›®: CPU(ç®—å‡ºå€¤)
+
+    /** é …ç›®åï¼ˆCPUä½¿ç”¨ç‡ï¼ˆãƒ—ãƒ­ã‚»ã‚¹ï¼‰ã®åˆè¨ˆï¼‰ */
+    // String ITEMNAME_PROCESS_CPU_TOTAL_USAGE = "/process.cpu.total.usage";
+    String ITEMNAME_PROCESS_CPU_TOTAL_USAGE = "/process/cpu/usage/total:%";
+
+    /** é …ç›®åï¼ˆCPUä½¿ç”¨ç‡ï¼ˆãƒ—ãƒ­ã‚»ã‚¹ï¼‰ã®ã†ã¡ã®ã‚·ã‚¹ãƒ†ãƒ ã®ä½¿ç”¨ç‡ï¼‰ */
+    // String ITEMNAME_PROCESS_CPU_SYSTEM_USAGE = "/process.cpu.system.usage";
+    String ITEMNAME_PROCESS_CPU_SYSTEM_USAGE = "/process/cpu/usage/system:%";
+
+    /** é …ç›®åï¼ˆCPUä½¿ç”¨ç‡ï¼ˆãƒ—ãƒ­ã‚»ã‚¹ï¼‰ã®ã†ã¡ã®IOWAITã®ä½¿ç”¨ç‡ï¼‰ */
+    // String ITEMNAME_PROCESS_CPU_IOWAIT_USAGE = "/process.cpu.iowait.usage";
+    String ITEMNAME_PROCESS_CPU_IOWAIT_USAGE = "/process/cpu/usage/iowait:%";
+
+    // -----------------------------------------------------
+    // ãƒ—ãƒ­ã‚»ã‚¹é …ç›®: ãƒ¡ãƒ¢ãƒª(ç®—å‡ºå€¤)
+
+    /** é …ç›®åï¼ˆãƒªã‚½ãƒ¼ã‚¹å€¤ã§ã®ç‰©ç†ãƒ¡ãƒ¢ãƒªå®¹é‡ï¼‰ */
+    // String ITEMNAME_PROCESS_MEMORY_PHYSICAL_MAX =
+    // "/process.memory.physical.max";
+    String ITEMNAME_PROCESS_MEMORY_PHYSICAL_MAX = "/process/memory/physical/max:bytes";
+
+    /** é …ç›®åï¼ˆç‰©ç†ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡ï¼ˆãƒ—ãƒ­ã‚»ã‚¹ï¼‰ï¼‰ */
+    // String ITEMNAME_PROCESS_MEMORY_PHYSICAL_USED =
+    // "/process.memory.physical.used";
+    String ITEMNAME_PROCESS_MEMORY_PHYSICAL_USED = "/process/memory/physical/used:bytes";
+
+    /** é …ç›®åï¼ˆãƒªã‚½ãƒ¼ã‚¹å€¤ã§ã®ç‰©ç†ãƒ¡ãƒ¢ãƒªç©ºãå®¹é‡ï¼‰ */
+    // String ITEMNAME_PROCESS_MEMORY_PHYSICAL_FREE =
+    // "/process.memory.physical.free";
+    String ITEMNAME_PROCESS_MEMORY_PHYSICAL_FREE = "/process/memory/physical/free:bytes";
+
+    /** é …ç›®åï¼ˆãƒªã‚½ãƒ¼ã‚¹å€¤ã§ã®ä»®æƒ³ãƒã‚·ãƒ³ãƒ¡ãƒ¢ãƒªå®¹é‡ï¼‰ */
+    // String ITEMNAME_PROCESS_MEMORY_VIRTUALMACHINE_MAX =
+    // "/process.memory.virtualmachine.max";
+    String ITEMNAME_PROCESS_MEMORY_VIRTUALMACHINE_MAX = "/process/memory/virtual/max:bytes";
+
+    /** é …ç›®åï¼ˆä»®æƒ³ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡ï¼ˆãƒ—ãƒ­ã‚»ã‚¹ï¼‰ï¼‰ */
+    // String ITEMNAME_PROCESS_MEMORY_VIRTUAL_USED =
+    // "/process.memory.virtual.used";
+    String ITEMNAME_PROCESS_MEMORY_VIRTUAL_USED = "/process/memory/virtual/used:bytes";
+
+    /** é …ç›®åï¼ˆãƒªã‚½ãƒ¼ã‚¹å€¤ã§ã®ä»®æƒ³ãƒã‚·ãƒ³ãƒ¡ãƒ¢ãƒªç©ºãå®¹é‡ï¼‰ */
+    // String ITEMNAME_PROCESS_MEMORY_VIRTUALMACHINE_FREE =
+    // "/process.memory.virtualmachine.free";
+    String ITEMNAME_PROCESS_MEMORY_VIRTUALMACHINE_FREE = "/process/memory/virtual/free:bytes";
+
+    /** é …ç›®åï¼ˆãƒªã‚½ãƒ¼ã‚¹å€¤ã§ã®ãƒ’ãƒ¼ãƒ—ãƒ¡ãƒ¢ãƒªã‚³ãƒŸãƒƒãƒˆå®¹é‡ï¼‰ */
+    // String ITEMNAME_JAVAPROCESS_MEMORY_HEAP_COMMIT =
+    // "/javaprocess.memory.heap.commit";
+    String ITEMNAME_JAVAPROCESS_MEMORY_HEAP_COMMIT = "/process/heap/commit:bytes";
+
+    /** é …ç›®åï¼ˆãƒªã‚½ãƒ¼ã‚¹å€¤ã§ã®ãƒ’ãƒ¼ãƒ—ãƒ¡ãƒ¢ãƒªæœ€å¤§ï¼‰ */
+    // String ITEMNAME_JAVAPROCESS_MEMORY_HEAP_MAX =
+    // "/javaprocess.memory.heap.max";
+    String ITEMNAME_JAVAPROCESS_MEMORY_HEAP_MAX = "/process/heap/max:bytes";
+
+    /** é …ç›®åï¼ˆãƒªã‚½ãƒ¼ã‚¹å€¤ã§ã®ãƒ’ãƒ¼ãƒ—ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡ï¼‰ */
+    // String ITEMNAME_JAVAPROCESS_MEMORY_HEAP_USED =
+    // "/javaprocess.memory.heap.used";
+    String ITEMNAME_JAVAPROCESS_MEMORY_HEAP_USED = "/process/heap/used:bytes";
+
+    /** é …ç›®åï¼ˆãƒªã‚½ãƒ¼ã‚¹å€¤ã§ã®ãƒ’ãƒ¼ãƒ—ä»¥å¤–ã®ãƒ¡ãƒ¢ãƒªã‚³ãƒŸãƒƒãƒˆå®¹é‡ï¼‰ */
+    // String ITEMNAME_JAVAPROCESS_MEMORY_NONHEAP_COMMIT =
+    // "/javaprocess.memory.nonheap.commit";
+    String ITEMNAME_JAVAPROCESS_MEMORY_NONHEAP_COMMIT = "/process/nonheap/commit:bytes";
+
+    /** é …ç›®åï¼ˆãƒªã‚½ãƒ¼ã‚¹å€¤ã§ã®ãƒ’ãƒ¼ãƒ—ä»¥å¤–ã®ãƒ¡ãƒ¢ãƒªæœ€å¤§ï¼‰ */
+    // String ITEMNAME_JAVAPROCESS_MEMORY_NONHEAP_MAX =
+    // "/javaprocess.memory.nonheap.max";
+    String ITEMNAME_JAVAPROCESS_MEMORY_NONHEAP_MAX = "/process/nonheap/max:bytes";
+
+    /** é …ç›®åï¼ˆãƒªã‚½ãƒ¼ã‚¹å€¤ã§ã®ãƒ’ãƒ¼ãƒ—ä»¥å¤–ã®ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡ï¼‰ */
+    // String ITEMNAME_JAVAPROCESS_MEMORY_NONHEAP_USED =
+    // "/javaprocess.memory.nonheap.used";
+    String ITEMNAME_JAVAPROCESS_MEMORY_NONHEAP_USED = "/process/nonheap/used:bytes";
+
+    /** é …ç›®åï¼ˆãƒ¡ã‚¸ãƒ£ãƒ¼ãƒ•ã‚©ãƒ¼ãƒ«ãƒˆæ•°ï¼‰ */
+    // String ITEMNAME_PROCESS_MEMORY_MAJORFAULT_COUNT =
+    // "/process.memory.majorfault.count";
+    String ITEMNAME_PROCESS_MEMORY_MAJORFAULT_COUNT = "/process/memory/majorfault/count(d)";
+
+    // -----------------------------------------------------
+    // ãƒ—ãƒ­ã‚»ã‚¹é …ç›®: ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯
+
+    /** é …ç›®åï¼ˆãƒªã‚½ãƒ¼ã‚¹å€¤ã§ã®ã€ãƒ—ãƒ­ã‚»ã‚¹å…¨ä½“ã®ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ãƒ‡ãƒ¼ã‚¿å—ä¿¡é‡ï¼‰ */
+    // String ITEMNAME_NETWORKINPUTSIZEOFPROCESS = "/proc.network.input";
+    String ITEMNAME_NETWORKINPUTSIZEOFPROCESS = "/process/network/read:bytes(d)";
+
+    /** é …ç›®åï¼ˆãƒªã‚½ãƒ¼ã‚¹å€¤ã§ã®ã€ãƒ—ãƒ­ã‚»ã‚¹å…¨ä½“ã®ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ãƒ‡ãƒ¼ã‚¿é€ä¿¡é‡ï¼‰ */
+    // String ITEMNAME_NETWORKOUTPUTSIZEOFPROCESS = "/proc.network.output";
+    String ITEMNAME_NETWORKOUTPUTSIZEOFPROCESS = "/process/network/write:bytes(d)";
+
+    // -----------------------------------------------------
+    // ãƒ—ãƒ­ã‚»ã‚¹é …ç›®: ãƒ•ã‚¡ã‚¤ãƒ«
+
+    /** é …ç›®åï¼ˆãƒªã‚½ãƒ¼ã‚¹å€¤ã§ã®ã€ãƒ•ã‚¡ã‚¤ãƒ«å…¥åŠ›é‡ï¼‰ */
+    // String ITEMNAME_FILEINPUTSIZEOFPROCESS = "/proc.file.input";
+    String ITEMNAME_FILEINPUTSIZEOFPROCESS = "/process/file/read:bytes(d)";
+
+    /** é …ç›®åï¼ˆãƒªã‚½ãƒ¼ã‚¹å€¤ã§ã®ã€ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›é‡ï¼‰ */
+    // String ITEMNAME_FILEOUTPUTSIZEOFPROCESS = "/proc.file.output";
+    String ITEMNAME_FILEOUTPUTSIZEOFPROCESS = "/process/file/write:bytes(d)";
+
+    // -----------------------------------------------------
+    // ãƒ—ãƒ­ã‚»ã‚¹é …ç›®: ã‚¹ãƒ¬ãƒƒãƒ‰
+
+    /** é …ç›®åï¼ˆã‚¹ãƒ¬ãƒƒãƒ‰æ•°ï¼‰ */
+    // String ITEMNAME_PROCESS_THREAD_TOTAL_COUNT =
+    // "/process.thread.total.count";
+    String ITEMNAME_PROCESS_THREAD_TOTAL_COUNT = "/process/thread/native";
+
+    /** é …ç›®åï¼ˆFD/ãƒãƒ³ãƒ‰ãƒ«æ•°ï¼‰ */
+    // String ITEMNAME_PROCESS_HANDLE_TOTAL_NUMBER =
+    // "/process.handle.total.number";
+    String ITEMNAME_PROCESS_HANDLE_TOTAL_NUMBER = "/process/file/handle/number";
+
+    /** é …ç›®åï¼ˆãƒªã‚½ãƒ¼ã‚¹å€¤ã§ã®ã€ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ï¼‰ */
+    // String ITEMNAME_JAVAPROCESS_THREAD_TOTAL_COUNT =
+    // "/javaprocess.thread.total.count";
+    String ITEMNAME_JAVAPROCESS_THREAD_TOTAL_COUNT = "/process/thread/java";
+
+    // -----------------------------------------------------
+    // ãƒ—ãƒ­ã‚»ã‚¹æƒ…å ±: ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³æƒ…å ±
+
+    /** é …ç›®åï¼ˆãƒªã‚½ãƒ¼ã‚¹å€¤ã§ã®ã€ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã®æ•°ï¼‰ */
+    // String ITEMNAME_JAVAPROCESS_COLLECTION_LIST_COUNT =
+    // "/javaprocess.collection.list.count";
+    String ITEMNAME_JAVAPROCESS_COLLECTION_LIST_COUNT = "/process/collection/list";
+
+    /** é …ç›®åï¼ˆãƒªã‚½ãƒ¼ã‚¹å€¤ã§ã®ã€ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã®æ•°ï¼‰ */
+    // String ITEMNAME_JAVAPROCESS_COLLECTION_QUEUE_COUNT =
+    // "/javaprocess.collection.queue.count";
+    String ITEMNAME_JAVAPROCESS_COLLECTION_QUEUE_COUNT = "/process/collection/queue";
+
+    /** é …ç›®åï¼ˆãƒªã‚½ãƒ¼ã‚¹å€¤ã§ã®ã€ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã®æ•°ï¼‰ */
+    // String ITEMNAME_JAVAPROCESS_COLLECTION_SET_COUNT =
+    // "/javaprocess.collection.set.count";
+    String ITEMNAME_JAVAPROCESS_COLLECTION_SET_COUNT = "/process/collection/set";
+
+    /** é …ç›®åï¼ˆãƒªã‚½ãƒ¼ã‚¹å€¤ã§ã®ã€ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã®æ•°ï¼‰ */
+    // String ITEMNAME_JAVAPROCESS_COLLECTION_MAP_COUNT =
+    // "/javaprocess.collection.map.count";
+    String ITEMNAME_JAVAPROCESS_COLLECTION_MAP_COUNT = "/process/collection/map";
+
+    /** é …ç›®åï¼ˆãƒªã‚½ãƒ¼ã‚¹å€¤ã§ã®ã€ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã‹ã‚‰å–å¾—ã—ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚µã‚¤ã‚ºï¼‰ */
+    // String ITEMNAME_JAVAPROCESS_COLLECTION_HISTOGRAM_SIZE =
+    // "/javaprocess.collection.histogram.size";
+    String ITEMNAME_JAVAPROCESS_COLLECTION_HISTOGRAM_SIZE = "/process/histogram/object/size:bytes";
+
+    /** é …ç›®åï¼ˆãƒªã‚½ãƒ¼ã‚¹å€¤ã§ã®ã€ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã‹ã‚‰å–å¾—ã—ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ•°ï¼‰ */
+    // String ITEMNAME_JAVAPROCESS_COLLECTION_HISTOGRAM_COUNT =
+    // "/javaprocess.collection.histogram.count";
+    String ITEMNAME_JAVAPROCESS_COLLECTION_HISTOGRAM_COUNT = "/process/histogram/object/number";
+
+    // -----------------------------------------------------
+    // ãƒ—ãƒ­ã‚»ã‚¹æƒ…å ±: ãƒ¬ã‚¹ãƒãƒ³ã‚¹æƒ…å ±
+
+    /** é …ç›®åï¼ˆãƒªã‚½ãƒ¼ã‚¹å€¤ã§ã®ã€Turn Around Timeã®å¹³å‡å€¤ï¼‰ */
+    // String ITEMNAME_PROCESS_RESPONSE_TIME_AVERAGE =
+    // "/process.response.time.average";
+    String ITEMNAME_PROCESS_RESPONSE_TIME_AVERAGE = "/response/total/average";
+
+    /** é …ç›®åï¼ˆãƒªã‚½ãƒ¼ã‚¹å€¤ã§ã®ã€Turn Around Timeã®æœ€å¤§å€¤ï¼‰ */
+    // String ITEMNAME_PROCESS_RESPONSE_TIME_MAX = "/process.response.time.max";
+    String ITEMNAME_PROCESS_RESPONSE_TIME_MAX = "/response/total/max";
+
+    /** é …ç›®åï¼ˆãƒªã‚½ãƒ¼ã‚¹å€¤ã§ã®ã€Turn Around Timeã®æœ€å°å€¤ï¼‰ */
+    // String ITEMNAME_PROCESS_RESPONSE_TIME_MIN = "/process.response.time.min";
+    String ITEMNAME_PROCESS_RESPONSE_TIME_MIN = "/response/total/min";
+
+    /** é …ç›®åï¼ˆãƒªã‚½ãƒ¼ã‚¹å€¤ã§ã®ã€Turn Around Timeã®å‘¼ã³å‡ºã—å›æ•°ï¼‰ */
+    // String ITEMNAME_PROCESS_RESPONSE_TOTAL_COUNT =
+    // "/process.response.total.count";
+    String ITEMNAME_PROCESS_RESPONSE_TOTAL_COUNT = "/response/total/count";
+
+    /** é …ç›®åï¼ˆãƒªã‚½ãƒ¼ã‚¹å€¤ã§ã®ã€Turn Around Timeã®å¹³å‡å€¤(SQLä»¥å¤–)ï¼‰ */
+    String ITEMNAME_PROCESS_RESPONSE_TIME_AVERAGE_EXCL_SQL = "/response/nosql/average";
+
+    /** é …ç›®åï¼ˆãƒªã‚½ãƒ¼ã‚¹å€¤ã§ã®ã€Turn Around Timeã®æœ€å¤§å€¤(SQLä»¥å¤–)ï¼‰ */
+    String ITEMNAME_PROCESS_RESPONSE_TIME_MAX_EXCL_SQL = "/response/nosql/max";
+
+    /** é …ç›®åï¼ˆãƒªã‚½ãƒ¼ã‚¹å€¤ã§ã®ã€Turn Around Timeã®æœ€å°å€¤(SQLä»¥å¤–)ï¼‰ */
+    String ITEMNAME_PROCESS_RESPONSE_TIME_MIN_EXCL_SQL = "/response/nosql/min";
+
+    /** é …ç›®åï¼ˆãƒªã‚½ãƒ¼ã‚¹å€¤ã§ã®ã€Turn Around Timeã®å‘¼ã³å‡ºã—å›æ•°(SQLä»¥å¤–)ï¼‰ */
+    String ITEMNAME_PROCESS_RESPONSE_TOTAL_COUNT_EXCL_SQL = "/response/nosql/count";
+
+    /** é …ç›®åï¼ˆãƒªã‚½ãƒ¼ã‚¹å€¤ã§ã®ã€Turn Around Timeã®å¹³å‡å€¤(SQLã®ã¿)ï¼‰ */
+    String ITEMNAME_PROCESS_RESPONSE_TIME_AVERAGE_ONLY_SQL = "/response/sql/average";
+
+    /** é …ç›®åï¼ˆãƒªã‚½ãƒ¼ã‚¹å€¤ã§ã®ã€Turn Around Timeã®æœ€å¤§å€¤(SQLã®ã¿)ï¼‰ */
+    String ITEMNAME_PROCESS_RESPONSE_TIME_MAX_ONLY_SQL = "/response/sql/max";
+
+    /** é …ç›®åï¼ˆãƒªã‚½ãƒ¼ã‚¹å€¤ã§ã®ã€Turn Around Timeã®æœ€å°å€¤(SQLã®ã¿)ï¼‰ */
+    String ITEMNAME_PROCESS_RESPONSE_TIME_MIN_ONLY_SQL = "/response/sql/min";
+
+    /** é …ç›®åï¼ˆãƒªã‚½ãƒ¼ã‚¹å€¤ã§ã®ã€Turn Around Timeã®å‘¼ã³å‡ºã—å›æ•°(SQLã®ã¿)ï¼‰ */
+    String ITEMNAME_PROCESS_RESPONSE_TOTAL_COUNT_ONLY_SQL = "/response/sql/count";
+
+    /** é …ç›®å(HTTPä¾‹å¤–) */
+    // String ITEMNAME_JAVAPROCESS_HTTP_EXCEPTION =
+    // "/javaprocess.http.exception.occurence.count";
+    String ITEMNAME_JAVAPROCESS_HTTP_EXCEPTION = "/response/http/thrown";
+
+    // -----------------------------------------------------
+    // ãƒ—ãƒ­ã‚»ã‚¹æƒ…å ±: VM
+
+    /** é …ç›®å(Java ä»®æƒ³ãƒã‚·ãƒ³ãŒå®Ÿè¡Œã‚’é–‹å§‹ã—ã¦ã‹ã‚‰ãƒ­ãƒ¼ãƒ‰ã•ã‚ŒãŸã‚¯ãƒ©ã‚¹ã®åˆè¨ˆæ•°) */
+    // String ITEMNAME_JAVAPROCESS_CLASSLOADER_CLASS_TOTAL =
+    // "/javaprocess.classloader.class.total";
+    String ITEMNAME_JAVAPROCESS_CLASSLOADER_CLASS_TOTAL = "/process/classloader/class/total";
+
+    /** é …ç›®å(Java ä»®æƒ³ãƒã‚·ãƒ³ã«ç¾åœ¨ãƒ­ãƒ¼ãƒ‰ã•ã‚Œã¦ã„ã‚‹ã‚¯ãƒ©ã‚¹ã®æ•°) */
+    // String ITEMNAME_JAVAPROCESS_CLASSLOADER_CLASS_CURRENT =
+    // "/javaprocess.classloader.class.current";
+    String ITEMNAME_JAVAPROCESS_CLASSLOADER_CLASS_CURRENT = "/process/classloader/class/current";
+
+    /** é …ç›®åï¼ˆãƒªã‚½ãƒ¼ã‚¹å€¤ã§ã®ã€ãƒˆãƒ¼ã‚¿ãƒ«ã®ã‚¬ãƒ™ãƒ¼ã‚¸ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã®æ™‚é–“ï¼‰ */
+    // String ITEMNAME_JAVAPROCESS_GC_TIME_TOTAL = "/javaprocess.gc.time.total";
+    String ITEMNAME_JAVAPROCESS_GC_TIME_TOTAL = "/process/gc/time/total(d)";
+
+    /** é …ç›®åï¼ˆãƒªã‚½ãƒ¼ã‚¹å€¤ã§ã®ã€ãƒ•ã‚¡ã‚¤ãƒŠãƒ©ã‚¤ã‚ºå¾…ã¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ•°ï¼‰ */
+    // String ITEMNAME_JAVAPROCESS_GC_FINALIZEQUEUE_COUNT =
+    // "/javaprocess.gc.finalizequeue.count";
+    String ITEMNAME_JAVAPROCESS_GC_FINALIZEQUEUE_COUNT = "/process/gc/finalizequeue/number";
+
+    /** é …ç›®å(ä¾‹å¤–ç™ºç”Ÿå›æ•°) */
+    // String ITEMNAME_JAVAPROCESS_EXCEPTION_OCCURENCE_COUNT =
+    // "/javaprocess.exception.occurence.count";
+    String ITEMNAME_JAVAPROCESS_EXCEPTION_OCCURENCE_COUNT = "/response/java/thrown";
+
+    /** é …ç›®å(ã‚¹ãƒˆãƒ¼ãƒ«ç™ºç”Ÿå›æ•°) */
+    // String ITEMNAME_JAVAPROCESS_STALL_OCCURENCE_COUNT =
+    // "/javaprocess.method.stall.count";
+    String ITEMNAME_JAVAPROCESS_STALL_OCCURENCE_COUNT = "/response/java/stalled";
+
+    // -----------------------------------------------------
+    // ãƒ—ãƒ­ã‚»ã‚¹æƒ…å ±: APã‚µãƒ¼ãƒæƒ…å ±
+
+    /** é …ç›®åï¼ˆAPã‚µãƒ¼ãƒã®ãƒ¯ãƒ¼ã‚«ãƒ¼ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ—ãƒ¼ãƒ«(æœ€å¤§æ•°,ç¨¼å‹•æ•°)ï¼‰ */
+    // String ITEMNAME_SERVER_POOL = "/serverPool";
+    String ITEMNAME_SERVER_POOL = "/process/apserver/worker/number";
+
+    /** é …ç›®åï¼ˆãƒ—ãƒ¼ãƒ«(æœ€å¤§æ•°,ç¨¼å‹•æ•°)ï¼‰ */
+    // String ITEMNAME_POOL_SIZE = "/poolSize";
+    String ITEMNAME_POOL_SIZE = "/process/commons/poolsize";
+
+    /** é …ç›®åï¼ˆãƒªã‚½ãƒ¼ã‚¹å€¤ã§ã®ã€HttpSessionæ•°ï¼‰ */
+    // String ITEMNAME_HTTPSESSION_NUM = "/httpSessionNumber";
+    String ITEMNAME_HTTPSESSION_NUM = "/process/httpsession/instance/number";
+
+    /** é …ç›®åï¼ˆãƒªã‚½ãƒ¼ã‚¹å€¤ã§ã®ã€HttpSessionç·ã‚µã‚¤ã‚ºï¼‰ */
+    // String ITEMNAME_HTTPSESSION_TOTALSIZE = "/httpSessionTotalSize";
+    String ITEMNAME_HTTPSESSION_TOTALSIZE = "/process/httpsession/size/total:bytes";
+
+    // -----------------------------------------------------
+    // Agentæƒ…å ±
+
+    /** é …ç›®åï¼ˆã‚«ãƒãƒ¬ãƒƒã‚¸ï¼‰ */
+    // String ITEMNAME_COVERAGE = "/coverage";
+    String ITEMNAME_COVERAGE = "/javelin/converter/coverage:%";
+
+    /** é …ç›®åï¼ˆã‚¤ãƒ™ãƒ³ãƒˆç¨®åˆ¥æ¯ã®ã‚¤ãƒ™ãƒ³ãƒˆç™ºç”Ÿå›æ•°ï¼‰ */
+    // String ITEMNAME_EVENT_COUNT = "/eventCount";
+    String ITEMNAME_EVENT_COUNT = "/javelin/event/occured/count";
+
+    /** é …ç›®å(CallNodeTreeæ•°) */
+    // String ITEMNAME_NODECOUNT = "/callTreeNodeCount";
+    String ITEMNAME_NODECOUNT = "/javelin/calltreenode/generated/current";
+
+    /** é …ç›®å(æœ€å¤§CallTreeNodeæ•°) */
+    // String ITEMNAME_MAX_NODECOUNT = "/maxCallTreeNodeCount";
+    String ITEMNAME_MAX_NODECOUNT = "/javelin/calltreenode/generated/max";
+
+    /** é …ç›®å(åˆè¨ˆCallTreeNodeæ•°) */
+    // String ITEMNAME_ALL_NODECOUNT = "/allCallTreeNodeCount";
+    String ITEMNAME_ALL_NODECOUNT = "/javelin/calltreenode/generated/all";
+
+    /** é …ç›®å(CallTreeæ•°) */
+    // String ITEMNAME_CALLTREECOUNT = "/callTreeCount";
+    String ITEMNAME_CALLTREECOUNT = "/javelin/calltree/generated/current";
+
+    /** é …ç›®å(JavelinConverterã§å¤‰æ›ã—ãŸãƒ¡ã‚½ãƒƒãƒ‰æ•°) */
+    // String ITEMNAME_CONVERTEDMETHOD = "/convertedMethodCount";
+    String ITEMNAME_CONVERTEDMETHOD = "/javelin/converter/methods/converted";
+
+    /** é …ç›®å(JavelinConverterã§å¤‰æ›å¯¾è±¡ã‹ã‚‰é™¤å¤–ã—ãŸãƒ¡ã‚½ãƒƒãƒ‰æ•°) */
+    // String ITEMNAME_EXCLUDEDMETHOD = "/excludedMethodCount";
+    String ITEMNAME_EXCLUDEDMETHOD = "/javelin/converter/methods/excluded";
+
+    /** é …ç›®å(JavelinConverterã§å¤‰æ›ã‚’è¡Œã£ãŸãƒ¡ã‚½ãƒƒãƒ‰ã®ã†ã¡ã€å‘¼ã³å‡ºã•ã‚ŒãŸãƒ¡ã‚½ãƒƒãƒ‰æ•°) */
+    // String ITEMNAME_CALLEDMETHODCOUNT = "/calledMethodCount";
+    String ITEMNAME_CALLEDMETHODCOUNT = "/javelin/converter/methods/executed";
+
+    /** é …ç›®åï¼ˆJVNãƒ•ã‚¡ã‚¤ãƒ« JVNãƒ•ã‚¡ã‚¤ãƒ«åï¼‰ */
+    // String ITEMNAME_JVN_FILE_NAME = "/jvnFileName";
+    String ITEMNAME_JVN_FILE_NAME = "/javelin/jvnfile/name";
+
+    /** é …ç›®åï¼ˆJVNãƒ•ã‚¡ã‚¤ãƒ« JVNãƒ•ã‚¡ã‚¤ãƒ«å†…å®¹ï¼‰ */
+    // String ITEMNAME_JVN_FILE_CONTENT = "/jvnFileContent";
+    String ITEMNAME_JVN_FILE_CONTENT = "/javelin/jvnfile/contents";
+
+    // -----------------------------------------------------
+    // ãã®ä»–
+
+    /** é …ç›®åï¼ˆJMXè¨ˆæ¸¬å€¤ï¼‰ */
+    // String ITEMNAME_JMX = "jmx";
+    String ITEMNAME_JMX = "/jmx";
+
+    // ItemTypeç”¨æ•°å­—
+    /** ä¸æ˜ */
+    int ITEMTYPE_UNKNOWN = -1;
+
+    /** byteå‹ */
+    int ITEMTYPE_BYTE = 0;
+
+    /** shortå‹ */
+    int ITEMTYPE_SHORT = 1;
+
+    /** intå‹ */
+    int ITEMTYPE_INT = 2;
+
+    /** longå‹ */
+    int ITEMTYPE_LONG = 3;
+
+    /** floatå‹ */
+    int ITEMTYPE_FLOAT = 4;
+
+    /** doubleå‹ */
+    int ITEMTYPE_DOUBLE = 5;
+
+    /** Stringå‹ */
+    int ITEMTYPE_STRING = 6;
+
+    /** JSONå‹ */
+    int ITEMTYPE_JMX = 7;
+
+    // -----------------------------------------------------
+    // ç›£è¦–æƒ…å ±
+
+    /** é …ç›®å(å…¨ã¦ã®å‘¼ã³å‡ºã—å…ƒã®åå‰) */
+    String ITEMNAME_ALL_CALLER_NAMES = "/allCallerNames";
+
+    /** é …ç›®å(ãƒ«ãƒ¼ãƒˆ) */
+    String ITEMNAME_ROOT_NODE = "/rootNode";
+
+    /** é …ç›®å(è¨ˆæ¸¬å¯¾è±¡) */
+    String ITEMNAME_TARGET = "/target";
+
+    /** é …ç›®å(ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚°ãƒ©ãƒ•å‡ºåŠ›å¯¾è±¡) */
+    String ITEMNAME_TRANSACTION_GRAPH = "/transactionGraph";
+
+    /** é …ç›®å(TATã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤) */
+    String ITEMNAME_ALARM_THRESHOLD = "/alarmThreshold";
+
+    /** é …ç›®å(CPUã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤) */
+    String ITEMNAME_ALARM_CPU_THRESHOLD = "/alarmCpuThreshold";
+
+    /** é …ç›®å(ã‚¯ãƒ©ã‚¹å) */
+    String ITEMNAME_CLASSTOREMOVE = "/classToRemove";
 
 }

@@ -47,8 +47,87 @@ import jp.co.acroquest.endosnipe.javelin.util.ArrayList;
  */
 public class JavelinTelegramCreator implements TelegramConstants
 {
+    /** 電文の項目数 */
     private static final int TELEGRAM_ITEM_COUNT = 26;
 
+    /** 処理時間のindex番号 */
+    private static final int PROCESS_TIME_INDEX_NUMBER = 1;
+
+    /** 積算号駅時間のindex番号 */
+    private static final int ACCUMULATED_TOTAL_INDEX_NUMBER = 2;
+
+    /** 積算最大時間のindex番号 */
+    private static final int ACCUMULATED_MAX_INDEX_NUMBER = 3;
+    
+    /** 積算最小時間のindex番号 */
+    private static final int ACCUMULATED_MIN_INDEX_NUMBER = 4;
+    
+    /** 積算CPU合計時間のindex番号 */
+    private static final int ACCUMULATED_CPU_TOTAL_INDEX_NUMBER = 5;
+    
+    /** 積算CPU最大時間のindex番号 */
+    private static final int ACCUMULATED_CPU_MAX_INDEX_NUMBER = 6;
+    
+    /** 積算CPU最小時間のindex番号 */
+    private static final int ACCUMULATED_CPU_MIN_INDEX_NUMBER = 7;
+    
+    /** 積算USER合計時間のindex番号 */
+    private static final int ACCUMULATED_USER_TOTAL_INDEX_NUMBER = 8;
+    
+    /** 積算USER最大時間のindex番号 */
+    private static final int ACCUMULATED_USER_MAX_INDEX_NUMBER = 9;
+    
+    /** 積算USER最小時間のindex番号 */
+    private static final int ACCUMULATED_USER_MIN_INDEX_NUMBER = 10;
+    
+    /** 合計時間のindex番号 */
+    private static final int TOTAL_TIME_INDEX_NUMBER = 11;
+    
+    /** 最大処理時間のindex番号 */
+    private static final int MAX_PROCESS_TIME_INDEX_NUMBER = 12;
+    
+    /** 最小処理時間のindex番号 */
+    private static final int MIN_PROCESS_TIME_INDEX_NUMBER = 13;
+    
+    /** CPU合計時間のindex番号 */
+    private static final int CPU_TOTAL_TIME_INDEX_NUMBER = 14;
+    
+    /** CPU最大処理時間のindex番号 */
+    private static final int MAX_CPU_TIME_INDEX_NUMBER = 15;
+    
+    /** CPU最小処理時間のindex番号 */
+    private static final int MIN_CPU_TIME_INDEX_NUMBER = 16;
+    
+    /** User合計時間index番号 */
+    private static final int USER_TOTAL_TIME_INDEX_NUMBER = 17;
+    
+    /** User最大処理時間のindex番号 */
+    private static final int MAX_USER_TIME_INDEX_NUMBER = 18;
+    
+    /** User最小処理時間のindex番号 */
+    private static final int MIN_USER_TIME_INDEX_NUMBER = 19;
+    
+    /** 例外発生回数のindex番号 */
+    private static final int THROWABLE_COUNT_INDEX_NUMBER = 20;
+    
+    /** メソッドの呼び出し元 クラス名のindex番号 */
+    private static final int CALLER_INDEX_NUMBER = 21;
+    
+    /** 計測対象であるかのフラグのindex番号 */
+    private static final int TARGET_FLAG_INDEX_NUMBER = 22;
+    
+    /** トランザクショングラフ出力対象のフラグのindex番号 */
+    private static final int TRANSACTION_GRAPH_TARGET_INDEX_NUMBER = 23;
+    
+    /** TATアラーム閾値のindex番号 */
+    private static final int TAT_ALARM_THRESHOLD_INDEX_NUMBER = 24;
+    
+    /** CPUアラーム閾値のindex番号 */
+    private static final int CPU_ALARM_THRESHOLD_INDEX_NUMBER = 25;
+    
+    /**
+     * コンストラクタ
+     */
     private JavelinTelegramCreator()
     {
         // Do Nothing.
@@ -168,135 +247,142 @@ public class JavelinTelegramCreator implements TelegramConstants
             {
                 objItemValueArr[0] = Long.valueOf(0);
             }
-            bodies[bodyIndex + 1] =
+            bodies[bodyIndex + PROCESS_TIME_INDEX_NUMBER] =
                     TelegramUtil.createResponseBody(objName, ITEMNAME_CURRENT_INTERVAL,
                                                     ItemType.ITEMTYPE_LONG, objItemValueArr);
 
             // 積算合計時間
             objItemValueArr = new Long[1];
             objItemValueArr[0] = Long.valueOf(invocation.getAccumulatedTotal());
-            bodies[bodyIndex + 2] =
+            bodies[bodyIndex + ACCUMULATED_TOTAL_INDEX_NUMBER] =
                     TelegramUtil.createResponseBody(objName, ITEMNAME_ACCUMULATED_TOTAL_INTERVAL,
                                                     ItemType.ITEMTYPE_LONG, objItemValueArr);
             // 積算最大時間
             objItemValueArr = new Long[1];
             objItemValueArr[0] = Long.valueOf(invocation.getAccumulatedMaximum());
-            bodies[bodyIndex + 3] =
+            bodies[bodyIndex + ACCUMULATED_MAX_INDEX_NUMBER] =
                     TelegramUtil.createResponseBody(objName, ITEMNAME_ACCUMULATED_MAXIMUM_INTERVAL,
                                                     ItemType.ITEMTYPE_LONG, objItemValueArr);
             // 積算最小時間
             objItemValueArr = new Long[1];
             objItemValueArr[0] = Long.valueOf(invocation.getAccumulatedMinimum());
-            bodies[bodyIndex + 4] =
+            bodies[bodyIndex + ACCUMULATED_MIN_INDEX_NUMBER] =
                     TelegramUtil.createResponseBody(objName, ITEMNAME_ACCUMULATED_MINIMUM_INTERVAL,
                                                     ItemType.ITEMTYPE_LONG, objItemValueArr);
             
             // 積算CPU合計時間
             objItemValueArr = new Long[1];
             objItemValueArr[0] = Long.valueOf(invocation.getAccumulatedCpuTotal());
-            bodies[bodyIndex + 5] =
-                    TelegramUtil.createResponseBody(objName, ITEMNAME_ACCUMULATED_TOTAL_CPU_INTERVAL,
+            bodies[bodyIndex + ACCUMULATED_CPU_TOTAL_INDEX_NUMBER] =
+                    TelegramUtil.createResponseBody(objName, 
+                                                    ITEMNAME_ACCUMULATED_TOTAL_CPU_INTERVAL,
                                                     ItemType.ITEMTYPE_LONG, objItemValueArr);
             // 積算CPU最大時間
             objItemValueArr = new Long[1];
             objItemValueArr[0] = Long.valueOf(invocation.getAccumulatedCpuMaximum());
-            bodies[bodyIndex + 6] =
-                    TelegramUtil.createResponseBody(objName, ITEMNAME_ACCUMULATED_MAXIMUM_CPU_INTERVAL,
+            bodies[bodyIndex + ACCUMULATED_CPU_MAX_INDEX_NUMBER] =
+                    TelegramUtil.createResponseBody(objName, 
+                                                    ITEMNAME_ACCUMULATED_MAXIMUM_CPU_INTERVAL,
                                                     ItemType.ITEMTYPE_LONG, objItemValueArr);
             // 積算CPU最小時間
             objItemValueArr = new Long[1];
             objItemValueArr[0] = Long.valueOf(invocation.getAccumulatedCpuMinimum());
-            bodies[bodyIndex + 7] =
-                    TelegramUtil.createResponseBody(objName, ITEMNAME_ACCUMULATED_MINIMUM_CPU_INTERVAL,
+            bodies[bodyIndex + ACCUMULATED_CPU_MIN_INDEX_NUMBER] =
+                    TelegramUtil.createResponseBody(objName, 
+                                                    ITEMNAME_ACCUMULATED_MINIMUM_CPU_INTERVAL,
                                                     ItemType.ITEMTYPE_LONG, objItemValueArr);
             
             // 積算USER合計時間
             objItemValueArr = new Long[1];
             objItemValueArr[0] = Long.valueOf(invocation.getAccumulatedUserTotal());
-            bodies[bodyIndex + 8] =
-                    TelegramUtil.createResponseBody(objName, ITEMNAME_ACCUMULATED_TOTAL_USER_INTERVAL,
+            bodies[bodyIndex + ACCUMULATED_USER_TOTAL_INDEX_NUMBER] =
+                    TelegramUtil.createResponseBody(objName, 
+                                                    ITEMNAME_ACCUMULATED_TOTAL_USER_INTERVAL,
                                                     ItemType.ITEMTYPE_LONG, objItemValueArr);
             // 積算USER最大時間
             objItemValueArr = new Long[1];
             objItemValueArr[0] = Long.valueOf(invocation.getAccumulatedUserMaximum());
-            bodies[bodyIndex + 9] =
-                    TelegramUtil.createResponseBody(objName, ITEMNAME_ACCUMULATED_MAXIMUM_USER_INTERVAL,
+            bodies[bodyIndex + ACCUMULATED_USER_MAX_INDEX_NUMBER] =
+                    TelegramUtil.createResponseBody(objName, 
+                                                    ITEMNAME_ACCUMULATED_MAXIMUM_USER_INTERVAL,
                                                     ItemType.ITEMTYPE_LONG, objItemValueArr);
             // 積算USER最小時間
             objItemValueArr = new Long[1];
             objItemValueArr[0] = Long.valueOf(invocation.getAccumulatedUserMinimum());
-            bodies[bodyIndex + 10] =
-                    TelegramUtil.createResponseBody(objName, ITEMNAME_ACCUMULATED_MINIMUM_USER_INTERVAL,
+            bodies[bodyIndex + ACCUMULATED_USER_MIN_INDEX_NUMBER] =
+                    TelegramUtil.createResponseBody(objName, 
+                                                    ITEMNAME_ACCUMULATED_MINIMUM_USER_INTERVAL,
                                                     ItemType.ITEMTYPE_LONG, objItemValueArr);
             
             // 合計時間
             objItemValueArr = new Long[1];
             objItemValueArr[0] = Long.valueOf(invocation.getTotal());
-            bodies[bodyIndex + 11] =
+            bodies[bodyIndex + TOTAL_TIME_INDEX_NUMBER] =
                     TelegramUtil.createResponseBody(objName, ITEMNAME_TOTAL_INTERVAL,
                                                     ItemType.ITEMTYPE_LONG, objItemValueArr);
 
             // 最大処理時間
             objItemValueArr = new Long[1];
             objItemValueArr[0] = Long.valueOf(invocation.getMaximum());
-            bodies[bodyIndex + 12] =
+            bodies[bodyIndex + MAX_PROCESS_TIME_INDEX_NUMBER] =
                     TelegramUtil.createResponseBody(objName, ITEMNAME_MAXIMUM_INTERVAL,
                                                     ItemType.ITEMTYPE_LONG, objItemValueArr);
 
             // 最小処理時間
             objItemValueArr = new Long[1];
             objItemValueArr[0] = Long.valueOf(invocation.getMinimum());
-            bodies[bodyIndex + 13] =
+            bodies[bodyIndex + MIN_PROCESS_TIME_INDEX_NUMBER] =
                     TelegramUtil.createResponseBody(objName, ITEMNAME_MINIMUM_INTERVAL,
                                                     ItemType.ITEMTYPE_LONG, objItemValueArr);
 
             // CPU合計時間
             objItemValueArr = new Long[1];
             objItemValueArr[0] = Long.valueOf(invocation.getCpuTotal());
-            bodies[bodyIndex + 14] =
+            bodies[bodyIndex + CPU_TOTAL_TIME_INDEX_NUMBER] =
                     TelegramUtil.createResponseBody(objName, ITEMNAME_TOTAL_CPU_INTERVAL,
                                                     ItemType.ITEMTYPE_LONG, objItemValueArr);
 
             // CPU最大処理時間
             objItemValueArr = new Long[1];
             objItemValueArr[0] = Long.valueOf(invocation.getCpuMaximum());
-            bodies[bodyIndex + 15] =
+            bodies[bodyIndex + MAX_CPU_TIME_INDEX_NUMBER] =
                     TelegramUtil.createResponseBody(objName, ITEMNAME_MAXIMUM_CPU_INTERVAL,
                                                     ItemType.ITEMTYPE_LONG, objItemValueArr);
 
             // CPU最小処理時間
             objItemValueArr = new Long[1];
             objItemValueArr[0] = Long.valueOf(invocation.getCpuMinimum());
-            bodies[bodyIndex + 16] =
+            bodies[bodyIndex + MIN_CPU_TIME_INDEX_NUMBER] =
                     TelegramUtil.createResponseBody(objName, ITEMNAME_MINIMUM_CPU_INTERVAL,
                                                     ItemType.ITEMTYPE_LONG, objItemValueArr);
 
             // User合計時間
             objItemValueArr = new Long[1];
             objItemValueArr[0] = Long.valueOf(invocation.getUserTotal());
-            bodies[bodyIndex + 17] =
+            bodies[bodyIndex + USER_TOTAL_TIME_INDEX_NUMBER] =
                     TelegramUtil.createResponseBody(objName, ITEMNAME_TOTAL_USER_INTERVAL,
                                                     ItemType.ITEMTYPE_LONG, objItemValueArr);
 
             // User最大処理時間
             objItemValueArr = new Long[1];
             objItemValueArr[0] = Long.valueOf(invocation.getUserMaximum());
-            bodies[bodyIndex + 18] =
+            bodies[bodyIndex + MAX_USER_TIME_INDEX_NUMBER] =
                     TelegramUtil.createResponseBody(objName, ITEMNAME_MAXIMUM_USER_INTERVAL,
                                                     ItemType.ITEMTYPE_LONG, objItemValueArr);
 
             // User最小処理時間
             objItemValueArr = new Long[1];
             objItemValueArr[0] = Long.valueOf(invocation.getUserMinimum());
-            bodies[bodyIndex + 19] =
+            bodies[bodyIndex + MIN_USER_TIME_INDEX_NUMBER] =
                     TelegramUtil.createResponseBody(objName, ITEMNAME_MINIMUM_USER_INTERVAL,
                                                     ItemType.ITEMTYPE_LONG, objItemValueArr);
 
             // 例外発生回数
             objItemValueArr = new Long[1];
             objItemValueArr[0] = Long.valueOf(invocation.getThrowableCount());
-            bodies[bodyIndex + 20] =
-                    TelegramUtil.createResponseBody(objName, ITEMNAME_JAVAPROCESS_EXCEPTION_OCCURENCE_COUNT,
+            bodies[bodyIndex + THROWABLE_COUNT_INDEX_NUMBER] =
+                    TelegramUtil.createResponseBody(objName, 
+                                                    ITEMNAME_JAVAPROCESS_EXCEPTION_OCCURENCE_COUNT,
                                                     ItemType.ITEMTYPE_LONG, objItemValueArr);
 
             // メソッドの呼び出し元 クラス名
@@ -306,7 +392,7 @@ public class JavelinTelegramCreator implements TelegramConstants
             {
                 callerNames[callerIndex] = callerInvocations[callerIndex].getClassName();
             }
-            bodies[bodyIndex + 21] =
+            bodies[bodyIndex + CALLER_INDEX_NUMBER] =
                     TelegramUtil.createResponseBody(objName, ITEMNAME_ALL_CALLER_NAMES,
                                                     ItemType.ITEMTYPE_STRING, callerNames);
 
@@ -314,38 +400,31 @@ public class JavelinTelegramCreator implements TelegramConstants
             objItemValueArr = new String[1];
             boolean isTarget = isTarget(invocation);
             objItemValueArr[0] = String.valueOf(isTarget);
-            bodies[bodyIndex + 22] =
+            bodies[bodyIndex + TARGET_FLAG_INDEX_NUMBER] =
                     TelegramUtil.createResponseBody(objName, ITEMNAME_TARGET,
                                                     ItemType.ITEMTYPE_STRING, objItemValueArr);
 
             // トランザクショングラフ出力対象か否か
             objItemValueArr = new String[1];
             objItemValueArr[0] = String.valueOf(invocation.isResponseGraphOutputTarget());
-            bodies[bodyIndex + 23] =
+            bodies[bodyIndex + TRANSACTION_GRAPH_TARGET_INDEX_NUMBER] =
                     TelegramUtil.createResponseBody(objName, ITEMNAME_TRANSACTION_GRAPH,
                                                     ItemType.ITEMTYPE_STRING, objItemValueArr);
 
             // TATアラーム閾値
             objItemValueArr = new Long[1];
             objItemValueArr[0] = Long.valueOf(invocation.getAlarmThreshold());
-            bodies[bodyIndex + 24] =
+            bodies[bodyIndex + TAT_ALARM_THRESHOLD_INDEX_NUMBER] =
                     TelegramUtil.createResponseBody(objName, ITEMNAME_ALARM_THRESHOLD,
                                                     ItemType.ITEMTYPE_LONG, objItemValueArr);
 
             // CPUアラーム閾値
             objItemValueArr = new Long[1];
             objItemValueArr[0] = Long.valueOf(invocation.getAlarmCpuThreshold());
-            bodies[bodyIndex + 25] =
+            bodies[bodyIndex + CPU_ALARM_THRESHOLD_INDEX_NUMBER] =
                     TelegramUtil.createResponseBody(objName, ITEMNAME_ALARM_CPU_THRESHOLD,
                                                     ItemType.ITEMTYPE_LONG, objItemValueArr);
             
-/*            // HTTPステータスエラー回数
-            objItemValueArr = new Long[1];
-            objItemValueArr[0] = Long.valueOf(invocation.getHttpStatusCount());
-            bodies[bodyIndex + 26] =
-                    TelegramUtil.createResponseBody(objName, ITEMNAME_JAVAPROCESS_HTTP_EXCEPTION,
-                                                    ItemType.ITEMTYPE_LONG, objItemValueArr);
-*/
         }
 
         // 電文オブジェクトを設定する
