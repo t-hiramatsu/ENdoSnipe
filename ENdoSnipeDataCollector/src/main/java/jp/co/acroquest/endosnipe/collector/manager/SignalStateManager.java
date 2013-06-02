@@ -85,6 +85,15 @@ public class SignalStateManager
     }
 
     /**
+     * 閾値情報を削除する。
+     * @param signalId シグナルを一意にする名称
+     */
+    public void removeAlarmData(final String signalId)
+    {
+        this.alarmDataMap_.remove(signalId);
+    }
+
+    /**
      * シグナル定義情報のマップを返却する。
      * @return シグナル定義情報のマップ
      */

@@ -767,23 +767,29 @@ public interface TelegramConstants
 	/** 項目名（計測ID） */
 	String ITEMNAME_MEASUREMENT_TYPE = "measurementType";
 
-	/** 項目名（アラームの種類） */
-	String ITEMNAME_ALARM_ID = "alarmId";
+    /** 項目名（アラームの種類） */
+    String ITEMNAME_ALARM_ID = "alarmId";
+
+    /** 項目名（閾値判定定義情報のID） */
+    String ITEMNAME_SIGNAL_ID = "signalId";
 
 	/** 項目名（アラームの種類） */
 	String ITEMNAME_ALARM_TYPE = "alarmType";
 
-	/** 項目名（アラームのレベル） */
-	String ITEMNAME_ALARM_LEVEL = "alarmLevel";
-	
+	/** 項目名（アラーム発生時の障害状態） */
+	String ITEMNAME_ALARM_STATE = "alarmState";
+
+    /** 項目名（閾値判定定義情報のレベル） */
+    String ITEMNAME_SIGNAL_LEVEL = "signalLevel";
+    
     /** 項目名(シグナル定義追加) */
     String ITEMNAME_SIGNAL_ADD = "signalAdd";
 
-    /** 項目名(シグナル定義追加) */
-    String ITEMNAME_SIGNAL_CHANGE= "signalChange";
+    /** 項目名(シグナル定義更新) */
+    String ITEMNAME_SIGNAL_UPDATE= "signalUpdate";
 
     /** 項目名(シグナル定義削除) */
-    String ITEMNAME_SIGNAL_REVEMO = "signalRemove";
+    String ITEMNAME_SIGNAL_DELETE = "signalDelete";
     
     /** 項目名(ツリー定義追加) */
     String ITEMNAME_TREE_ADD = "treeAdd";

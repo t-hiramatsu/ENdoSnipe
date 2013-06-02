@@ -297,13 +297,14 @@ public class AlarmData
             Long value = recoverTimeEntry.getValue();
 
             // 指定した閾値レベルよりも小さいレベルの中で、復旧時刻が設定されているものが対象。
-            if (targetLevel.intValue() < level && (value + escalationPeriod) > currentTime)
+            if (targetLevel.intValue() < level && (value + escalationPeriod) < currentTime)
             {
                 alarmEntry = new AlarmEntry();
                 alarmEntry.setAlarmType(AlarmType.RECOVER);
                 alarmEntry.setAlarmInterval(escalationPeriod);
                 alarmEntry.setAlarmLevel(targetLevel);
                 alarmEntry.setSendAlarm(true);
+                setAlarmLevel(targetLevel.intValue());
                 break;
             }
         }
@@ -345,6 +346,19 @@ public class AlarmData
     public void addRecoverTime(final int level, final Long recoverTime)
     {
         this.recoverTimeMap_.put(level, recoverTime);
+    }
+
+    /**
+     * 閾値判定結果をリセットする。
+     */
+    public void reset()
+    {
+        this.alarmLevel_ = -1;
+        this.alarmStatus_ = -1;
+
+        this.startExceedanceTimeMap_.clear();
+        this.recoverTimeMap_.clear();
+
     }
 
 }

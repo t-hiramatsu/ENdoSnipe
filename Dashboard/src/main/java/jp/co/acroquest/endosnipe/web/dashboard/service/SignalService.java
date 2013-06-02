@@ -13,6 +13,7 @@ import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.data.dao.JavelinMeasurementItemDao;
 import jp.co.acroquest.endosnipe.web.dashboard.constants.LogMessageCodes;
+import jp.co.acroquest.endosnipe.web.dashboard.constants.SignalConstants;
 import jp.co.acroquest.endosnipe.web.dashboard.constants.TreeMenuConstants;
 import jp.co.acroquest.endosnipe.web.dashboard.dao.SignalInfoDao;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.SignalDefinitionDto;
@@ -23,6 +24,7 @@ import jp.co.acroquest.endosnipe.web.dashboard.manager.ConnectionClient;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.DatabaseManager;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.EventManager;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.ResourceSender;
+import jp.co.acroquest.endosnipe.web.dashboard.util.SignalUtil;
 
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +35,9 @@ import org.wgp.manager.WgpDataManager;
 
 /**
  * シグナル定義のサービスクラス。
- *
+ * 
  * @author miyasaka
- *
+ * 
  */
 @Service
 public class SignalService
@@ -48,9 +50,6 @@ public class SignalService
      * デフォルトのシグナル状態(監視停止中)
      */
     private static final int DEFAULT_SIGNAL_STATE = -1;
-
-    /** シグナルのオブジェトに設定する引数の数 */
-    private static final int SIGNAL_ARGUMENT_COUNT = 6;
 
     /**
      * シグナル情報Dao
@@ -68,7 +67,7 @@ public class SignalService
 
     /**
      * すべてのシグナルデータを返す。
-     *
+     * 
      * @return シグナルデータ一覧
      */
     public List<SignalDefinitionDto> getAllSignal()
@@ -107,7 +106,7 @@ public class SignalService
 
     /**
      * シグナルの全状態を取得するリクエストを生成する。
-     *
+     * 
      * @param signalList
      *            シグナル定義情報一覧
      */
@@ -125,24 +124,41 @@ public class SignalService
 
     /**
      * 閾値判定定義情報を更新するリクエストを生成する。
-     *
+     * 
      * @param signalDefinitionDto 閾値判定定義情報
+     * @param type 操作種別(add, update, deleteのいずれか)s
      */
-    private void addSignalDefinitionRequest(final SignalDefinitionDto signalDefinitionDto)
+    private void sendSignalDefinitionRequest(final SignalDefinitionDto signalDefinitionDto,
+            final String type)
     {
         ConnectionClient connectionClient = ConnectionClient.getInstance();
         List<CommunicationClient> clientList = connectionClient.getClientList();
         for (CommunicationClient communicationClient : clientList)
         {
-            Telegram telegram = createAddSignalDefinition(signalDefinitionDto);
-            communicationClient.sendTelegram(telegram);
+            Telegram telegram = null;
+            if (SignalConstants.OPERATION_TYPE_ADD.equals(type))
+            {
+                telegram = createAddSignalTelegram(signalDefinitionDto);
+            }
+            else if (SignalConstants.OPERATION_TYPE_UPDATE.equals(type))
+            {
+                telegram = createUpdateSignalTelegram(signalDefinitionDto);
+            }
+            else if (SignalConstants.OPERATION_TYPE_DELETE.equals(type))
+            {
+                telegram = createDeleteSignalTelegram(signalDefinitionDto);
+            }
+            if (telegram != null)
+            {
+                communicationClient.sendTelegram(telegram);
+            }
         }
 
     }
 
     /**
      * 全閾値情報を取得する電文を作成する。
-     *
+     * 
      * @param signalList
      *            シグナル定義情報のリスト
      * @return 全閾値情報を取得する電文
@@ -157,22 +173,32 @@ public class SignalService
 
         int dtoCount = signalList.size();
 
-        // 閾値判定定義情報
-        Body signalBody = new Body();
+        // 閾値判定定義情報のID
+        Body signalIdBody = new Body();
+        signalIdBody.setStrObjName(TelegramConstants.OBJECTNAME_RESOURCEALARM);
+        signalIdBody.setStrItemName(TelegramConstants.ITEMNAME_SIGNAL_ID);
+        signalIdBody.setByteItemMode(ItemType.ITEMTYPE_LONG);
+        signalIdBody.setIntLoopCount(dtoCount);
+        Long[] signalIds = new Long[dtoCount];
 
-        signalBody.setStrObjName(TelegramConstants.OBJECTNAME_RESOURCEALARM);
-        signalBody.setStrItemName(TelegramConstants.ITEMNAME_ALARM_ID);
-        signalBody.setByteItemMode(ItemType.ITEMTYPE_STRING);
-        signalBody.setIntLoopCount(dtoCount);
+        // 閾値判定定義情報名
+        Body signalNameBody = new Body();
+        signalNameBody.setStrObjName(TelegramConstants.OBJECTNAME_RESOURCEALARM);
+        signalNameBody.setStrItemName(TelegramConstants.ITEMNAME_ALARM_ID);
+        signalNameBody.setByteItemMode(ItemType.ITEMTYPE_STRING);
+        signalNameBody.setIntLoopCount(dtoCount);
         String[] signalNames = new String[dtoCount];
+
         for (int cnt = 0; cnt < dtoCount; cnt++)
         {
             SignalInfo signalInfo = signalList.get(cnt);
             signalNames[cnt] = signalInfo.signalName;
+            signalIds[cnt] = Long.valueOf(signalInfo.signalId);
         }
-        signalBody.setObjItemValueArr(signalNames);
+        signalIdBody.setObjItemValueArr(signalIds);
+        signalNameBody.setObjItemValueArr(signalNames);
 
-        Body[] requestBodys = { signalBody };
+        Body[] requestBodys = { signalIdBody, signalNameBody };
 
         telegram.setObjHeader(requestHeader);
         telegram.setObjBody(requestBodys);
@@ -181,51 +207,44 @@ public class SignalService
     }
 
     /**
-     * 閾値判定定義を取得する電文を作成する。
-     *
+     * 閾値判定定義情報の追加を通知する電文を作成する。
+     * 
      * @param signalDefinitionDto シグナル定義情報のリスト
      * @return 全閾値情報を取得する電文
      */
-    private Telegram createAddSignalDefinition(final SignalDefinitionDto signalDefinitionDto)
+    private Telegram createAddSignalTelegram(final SignalDefinitionDto signalDefinitionDto)
     {
-        Telegram telegram = new Telegram();
+        return SignalUtil.createAddSignalDefinition(signalDefinitionDto,
+                                                    TelegramConstants.ITEMNAME_SIGNAL_ADD);
+    }
 
-        Header requestHeader = new Header();
-        requestHeader.setByteTelegramKind(TelegramConstants.BYTE_TELEGRAM_KIND_SIGNAL_DEFINITION);
-        requestHeader.setByteRequestKind(TelegramConstants.BYTE_REQUEST_KIND_NOTIFY);
+    /**
+     * 閾値判定定義情報の更新を通知する電文を作成する。
+     * 
+     * @param signalDefinitionDto シグナル定義情報のリスト
+     * @return 全閾値情報を取得する電文
+     */
+    private Telegram createUpdateSignalTelegram(final SignalDefinitionDto signalDefinitionDto)
+    {
+        return SignalUtil.createAddSignalDefinition(signalDefinitionDto,
+                                                    TelegramConstants.ITEMNAME_SIGNAL_UPDATE);
+    }
 
-        // 閾値判定定義情報
-        Body signalBody = new Body();
-
-        signalBody.setStrObjName(TelegramConstants.OBJECTNAME_SIGNAL_CHANGE);
-        signalBody.setStrItemName(TelegramConstants.ITEMNAME_SIGNAL_ADD);
-        signalBody.setByteItemMode(ItemType.ITEMTYPE_STRING);
-
-        int signalId = signalDefinitionDto.getSignalId();
-        String signalName = signalDefinitionDto.getSignalName();
-        String matchingPattern = signalDefinitionDto.getMatchingPattern();
-        int level = signalDefinitionDto.getLevel();
-        double escalationPeriod = signalDefinitionDto.getEscalationPeriod();
-        String patternValue = signalDefinitionDto.getPatternValue();
-
-        int dtoCount = SIGNAL_ARGUMENT_COUNT;
-        signalBody.setIntLoopCount(dtoCount);
-        String[] signalDefObj =
-                { String.valueOf(signalId), signalName, matchingPattern, String.valueOf(level),
-                        String.valueOf(escalationPeriod), patternValue };
-        signalBody.setObjItemValueArr(signalDefObj);
-
-        Body[] requestBodys = { signalBody };
-
-        telegram.setObjHeader(requestHeader);
-        telegram.setObjBody(requestBodys);
-
-        return telegram;
+    /**
+     * 閾値判定定義情報の削除を通知する電文を作成する。
+     * 
+     * @param signalDefinitionDto シグナル定義情報のリスト
+     * @return 全閾値情報を取得する電文
+     */
+    private Telegram createDeleteSignalTelegram(final SignalDefinitionDto signalDefinitionDto)
+    {
+        return SignalUtil.createAddSignalDefinition(signalDefinitionDto,
+                                                    TelegramConstants.ITEMNAME_SIGNAL_DELETE);
     }
 
     /**
      * シグナル定義をDBに登録する。
-     *
+     * 
      * @param signalInfo
      *            シグナル定義
      * @return シグナル定義のDTOオブジェクト
@@ -252,7 +271,7 @@ public class SignalService
         signalDefinitionDto.setSignalValue(DEFAULT_SIGNAL_STATE);
 
         // DataCollectorにシグナル定義の追加を通知する。
-        addSignalDefinitionRequest(signalDefinitionDto);
+        sendSignalDefinitionRequest(signalDefinitionDto, SignalConstants.OPERATION_TYPE_ADD);
 
         // 各クライアントにシグナル定義の追加を送信する。
         sendSignalDefinition(signalDefinitionDto, "add");
@@ -274,7 +293,7 @@ public class SignalService
 
     /**
      * シグナル定義を更新する。
-     *
+     * 
      * @param signalInfo
      *            シグナル定義
      * @return {@link SignalDefinitionDto}オブジェクト
@@ -320,6 +339,7 @@ public class SignalService
         SignalDefinitionDto signalDefinitionDto = this.convertSignalDto(signalInfo);
         signalDefinitionDto.setSignalValue(-1);
 
+        sendSignalDefinitionRequest(signalDefinitionDto, SignalConstants.OPERATION_TYPE_UPDATE);
         // 各クライアントにシグナル定義の変更を送信する。
         sendSignalDefinition(signalDefinitionDto, "update");
 
@@ -367,10 +387,10 @@ public class SignalService
 
     /**
      * SignalDefinitionDtoオブジェクトをSignalInfoオブジェクトに変換する。
-     *
+     * 
      * @param definitionDto
      *            SignalDefinitionDtoオブジェクト
-     *
+     * 
      * @return SignalInfoオブジェクト
      */
     public SignalInfo convertSignalInfo(final SignalDefinitionDto definitionDto)
@@ -389,7 +409,7 @@ public class SignalService
 
     /**
      * SignalInfoオブジェクトをSignalDefinitionDtoオブジェクトに変換する。
-     *
+     * 
      * @param signalInfo
      *            SignalInfoオブジェクト
      * @return SignalDefinitionDtoオブジェクト
@@ -411,7 +431,7 @@ public class SignalService
 
     /**
      * javelin_measurement_itemテーブルのMEASUREMENT_ITEM_NAMEを更新する。
-     *
+     * 
      * @param beforeItemName
      *            更新前のMEASUREMENT_ITEM_NAME
      * @param afterItemName
@@ -430,7 +450,7 @@ public class SignalService
 
     /**
      * javelin_measurement_itemテーブルの指定したMEASUREMENT_ITEM_NAMEのレコードを削除する。
-     *
+     * 
      * @param itemName
      *            削除するレコードの MEASUREMENT_ITEM_NAME
      * @throws SQLException
@@ -468,7 +488,7 @@ public class SignalService
      * @param signalName シグナル名
      * @return 同一シグナル名を保持する閾値判定定義情報が存在する場合にtrueを返し、存在しない場合にfalseを返す。
      */
-    public boolean hasSameSignalName(final int signalId, final String signalName)
+    public boolean hasSameSignalName(final long signalId, final String signalName)
     {
         SignalInfo signalInfo = this.signalInfoDao.selectByName(signalName);
         if (signalInfo == null)

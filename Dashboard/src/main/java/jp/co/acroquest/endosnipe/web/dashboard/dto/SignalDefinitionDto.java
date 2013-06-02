@@ -9,7 +9,7 @@ package jp.co.acroquest.endosnipe.web.dashboard.dto;
 public class SignalDefinitionDto
 {
     /** シグナル定義テーブルのID。 */
-    private int signalId_;
+    private long signalId_;
 
     /** シグナル名。 */
     private String signalName_;
@@ -52,7 +52,7 @@ public class SignalDefinitionDto
      * 
      * @return シグナルID
      */
-    public int getSignalId()
+    public long getSignalId()
     {
         return signalId_;
     }
@@ -63,7 +63,7 @@ public class SignalDefinitionDto
      * @param signalId
      *            シグナルID
      */
-    public void setSignalId(final int signalId)
+    public void setSignalId(final long signalId)
     {
         this.signalId_ = signalId;
     }

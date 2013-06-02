@@ -49,7 +49,7 @@ import org.wgp.manager.WgpDataManager;
 
 /**
  * 閾値判定機能のコントローラークラス。
- *
+ * 
  * @author miyasaka
  *
  */
@@ -79,7 +79,7 @@ public class SignalController
 
     /**
      * 閾値判定の定義をすべて取得する。
-     *
+     * 
      * @return 全ての閾値判定の定義
      */
     @RequestMapping(value = "/getAllDefinition", method = RequestMethod.POST)
@@ -156,7 +156,7 @@ public class SignalController
         SignalDefinitionDto signalDefinitionDto =
                 JSON.decode(signalDefinition, SignalDefinitionDto.class);
 
-        int signalId = signalDefinitionDto.getSignalId();
+        long signalId = signalDefinitionDto.getSignalId();
         String signalName = signalDefinitionDto.getSignalName();
         boolean hasSameSignalName = this.signalService.hasSameSignalName(signalId, signalName);
         if (hasSameSignalName)

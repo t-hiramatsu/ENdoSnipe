@@ -28,6 +28,7 @@ package jp.co.acroquest.endosnipe.collector.listener;
 import jp.co.acroquest.endosnipe.collector.ENdoSnipeDataCollectorPluginProvider;
 import jp.co.acroquest.endosnipe.collector.LogMessageCodes;
 import jp.co.acroquest.endosnipe.collector.manager.SignalStateManager;
+import jp.co.acroquest.endosnipe.collector.processor.AlarmData;
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
 import jp.co.acroquest.endosnipe.communicator.AbstractTelegramListener;
 import jp.co.acroquest.endosnipe.communicator.TelegramListener;
@@ -38,7 +39,7 @@ import jp.co.acroquest.endosnipe.data.dto.SignalDefinitionDto;
 import jp.co.acroquest.endosnipe.data.entity.SignalDefinition;
 
 /**
- * シグナルを更新するためのクラスです。<br />
+ * シグナル定義変更要求電文を受信するためのクラスです。<br />
  * 
  * @author fujii
  */
@@ -84,47 +85,91 @@ public class SignalChangeListener extends AbstractTelegramListener implements Te
      */
     private void updateSignalDefinition(final Telegram telegram)
     {
-        SignalStateManager signalStateManager = SignalStateManager.getInstance();
         Body[] bodys = telegram.getObjBody();
 
         for (Body body : bodys)
         {
-            String itemNameInTelegram = body.getStrItemName();
-            if (TelegramConstants.ITEMNAME_SIGNAL_ADD.equals(itemNameInTelegram) == true)
+            String itemName = body.getStrItemName();
+            if (TelegramConstants.ITEMNAME_SIGNAL_ADD.equals(itemName)
+                    || TelegramConstants.ITEMNAME_SIGNAL_UPDATE.equals(itemName))
             {
-                Object[] itemValues = body.getObjItemValueArr();
-                String signalId = (String)itemValues[ITEM_VALUE_SIGNAL_ID];
-                String signalName = (String)itemValues[ITEM_VALUE_SIGNAL_NAME];
-                String matchingPattern = (String)itemValues[ITEM_VALUE_SIGNAL_MATCHING_PATTERN];
-                String level = (String)itemValues[ITEM_VALUE_LEVEL];
-                String escalationPeriod = (String)itemValues[ITEM_VALUE_ESCALATION_PERIOD];
-                String patternValue = (String)itemValues[ITEM_VALUE_PATTERN_VALUE];
-
-                try
-                {
-
-                    SignalDefinition signalDefinition = new SignalDefinition();
-                    signalDefinition.signalId = Long.parseLong(signalId);
-                    signalDefinition.signalName = signalName;
-                    signalDefinition.matchingPattern = matchingPattern;
-                    signalDefinition.level = Integer.parseInt(level);
-                    signalDefinition.escalationPeriod = Double.parseDouble(escalationPeriod);
-                    signalDefinition.patternValue = patternValue;
-
-                    SignalDefinitionDto signalDefinitionDto =
-                                                              new SignalDefinitionDto(
-                                                                                      signalDefinition);
-
-                    signalStateManager.addSignalDefinition(signalDefinition.signalId,
-                                                           signalDefinitionDto);
-                }
-                catch (NumberFormatException ex)
-                {
-                    // シグナル定義情報の追加に失敗
-                }
+                setSignalDefinition(body, itemName);
+            }
+            else if (TelegramConstants.ITEMNAME_SIGNAL_DELETE.equals(itemName))
+            {
+                deleteSignalDefinition(body);
             }
         }
         return;
+    }
+
+    /**
+     * 
+     * @param body {@link Body}オブジェクト
+     * @param itemName 項目名
+     */
+    private void setSignalDefinition(final Body body, final String itemName)
+    {
+        SignalStateManager signalStateManager = SignalStateManager.getInstance();
+
+        Object[] itemValues = body.getObjItemValueArr();
+        String signalId = (String)itemValues[ITEM_VALUE_SIGNAL_ID];
+        String signalName = (String)itemValues[ITEM_VALUE_SIGNAL_NAME];
+        String matchingPattern = (String)itemValues[ITEM_VALUE_SIGNAL_MATCHING_PATTERN];
+        String level = (String)itemValues[ITEM_VALUE_LEVEL];
+        String escalationPeriod = (String)itemValues[ITEM_VALUE_ESCALATION_PERIOD];
+        String patternValue = (String)itemValues[ITEM_VALUE_PATTERN_VALUE];
+
+        try
+        {
+
+            SignalDefinition signalDefinition = new SignalDefinition();
+            signalDefinition.signalId = Long.parseLong(signalId);
+            signalDefinition.signalName = signalName;
+            signalDefinition.matchingPattern = matchingPattern;
+            signalDefinition.level = Integer.parseInt(level);
+            signalDefinition.escalationPeriod = Double.parseDouble(escalationPeriod);
+            signalDefinition.patternValue = patternValue;
+
+            SignalDefinitionDto signalDefinitionDto = new SignalDefinitionDto(signalDefinition);
+
+            signalStateManager.addSignalDefinition(signalDefinition.signalId, signalDefinitionDto);
+
+            if (TelegramConstants.ITEMNAME_SIGNAL_UPDATE.equals(itemName))
+            {
+                AlarmData alarmData = signalStateManager.getAlarmData(signalName);
+                alarmData.reset();
+            }
+        }
+        catch (NumberFormatException ex)
+        {
+            // シグナル定義情報の追加に失敗
+        }
+    }
+
+    /**
+     * 
+     * @param body {@link Body}オブジェクト
+     * @param itemName 項目名
+     */
+    private void deleteSignalDefinition(final Body body)
+    {
+        SignalStateManager signalStateManager = SignalStateManager.getInstance();
+
+        Object[] itemValues = body.getObjItemValueArr();
+        String signalIdStr = (String)itemValues[ITEM_VALUE_SIGNAL_ID];
+        String signalName = (String)itemValues[ITEM_VALUE_SIGNAL_NAME];
+
+        try
+        {
+            long signalId = Long.parseLong(signalIdStr);
+            signalStateManager.removeSignalDefinition(signalId);
+            signalStateManager.removeAlarmData(signalName);
+        }
+        catch (NumberFormatException ex)
+        {
+            // シグナル定義情報の追加に失敗
+        }
     }
 
     /**

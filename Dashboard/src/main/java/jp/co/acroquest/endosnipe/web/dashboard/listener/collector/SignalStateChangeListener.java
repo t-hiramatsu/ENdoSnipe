@@ -36,6 +36,7 @@ import jp.co.acroquest.endosnipe.web.dashboard.dto.SignalTreeMenuDto;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.TreeMenuDto;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.EventManager;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.ResourceSender;
+import jp.co.acroquest.endosnipe.web.dashboard.util.SignalUtil;
 
 import org.wgp.manager.WgpDataManager;
 
@@ -66,6 +67,7 @@ public class SignalStateChangeListener extends AbstractTelegramListener
         // DataCollectorから送信された電文から、
         // Dashboardのクライアントに通知するためのイベントを作成する。
         String[] treeIds = null;
+        int[] signalValues = null;
         int[] levels = null;
         // String[] alarmTypes = null;
 
@@ -85,21 +87,30 @@ public class SignalStateChangeListener extends AbstractTelegramListener
                 treeIds = getStringValues(loopCount, measurementItemValues);
             }
             // アラームレベルの項目に対する処理
-            else if (TelegramConstants.ITEMNAME_ALARM_LEVEL.equals(itemNameInTelegram))
+            else if (TelegramConstants.ITEMNAME_ALARM_STATE.equals(itemNameInTelegram))
+            {
+                signalValues = getIntValues(loopCount, measurementItemValues);
+            }
+            // アラームレベルの項目に対する処理
+            else if (TelegramConstants.ITEMNAME_SIGNAL_LEVEL.equals(itemNameInTelegram))
             {
                 levels = getIntValues(loopCount, measurementItemValues);
             }
+            // アラーム種類の項目に対する処理
+            //else if (TelegramConstants.ITEMNAME_ALARM_TYPE.equals(itemNameInTelegram))
+            //{
+            //　アラームの種別（現状は使用しない）
+            // alarmTypes = getStringValues(loopCount, measurementItemValues);
+            //}
         }
 
         for (int cnt = 0; cnt < treeIds.length; cnt++)
         {
-            SignalTreeMenuDto signalTreeMenu = new SignalTreeMenuDto();
-            signalTreeMenu.setId(treeIds[cnt]);
-            signalTreeMenu.setTreeId(treeIds[cnt]);
-            signalTreeMenu.setType("signal");
-            int signalValue = levels[cnt];
-            signalTreeMenu.setSignalValue(Integer.valueOf(signalValue));
-            signalTreeMenu.setIcon("signal_" + signalValue);
+            String treeId = treeIds[cnt];
+            int signalValue = signalValues[cnt];
+            int level = levels[cnt];
+            SignalTreeMenuDto signalTreeMenu =
+                    SignalUtil.createSignalMenu(treeId, signalValue, level);
 
             signalTreeMenuDtoList.add(signalTreeMenu);
         }

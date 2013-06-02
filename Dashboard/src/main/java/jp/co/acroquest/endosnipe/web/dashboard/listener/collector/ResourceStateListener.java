@@ -94,7 +94,7 @@ public class ResourceStateListener extends AbstractTelegramListener
             int loopCount = body.getIntLoopCount();
             Object[] itemValueArr = body.getObjItemValueArr();
             // アラームレベルの項目に対する処理
-            if (TelegramConstants.ITEMNAME_ALARM_LEVEL.equals(itemName))
+            if (TelegramConstants.ITEMNAME_ALARM_STATE.equals(itemName))
             {
                 // alarmLevels に1つのエージェントのアラームレベルだけを入れる
                 int[] alarmLevels = new int[1];

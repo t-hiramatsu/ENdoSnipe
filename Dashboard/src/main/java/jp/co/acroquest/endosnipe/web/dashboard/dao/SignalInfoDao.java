@@ -54,7 +54,7 @@ public interface SignalInfoDao
      *            シグナルID
      * @return シグナル定義
      */
-    SignalInfo selectById(int signalId);
+    SignalInfo selectById(long signalId);
 
     /**
      * シグナル定義情報を取得する。

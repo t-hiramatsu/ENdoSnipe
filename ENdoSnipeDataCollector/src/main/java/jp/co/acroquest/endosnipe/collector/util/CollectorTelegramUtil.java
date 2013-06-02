@@ -43,7 +43,7 @@ import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 public class CollectorTelegramUtil
 {
     /**  閾値超過アラームの電文本体のサイズ */
-    public static final int RESPONSEALARM_BODY_SIZE = 3;
+    public static final int RESPONSEALARM_BODY_SIZE = 4;
 
     /**
      * インスタンス化を防止するprivateコンストラクタです。
@@ -94,10 +94,19 @@ public class CollectorTelegramUtil
         Body alarmLevelBody = new Body();
 
         alarmLevelBody.setStrObjName(TelegramConstants.OBJECTNAME_RESOURCEALARM);
-        alarmLevelBody.setStrItemName(TelegramConstants.ITEMNAME_ALARM_LEVEL);
+        alarmLevelBody.setStrItemName(TelegramConstants.ITEMNAME_ALARM_STATE);
         alarmLevelBody.setByteItemMode(ItemType.ITEMTYPE_INT);
         alarmLevelBody.setIntLoopCount(alarmEntrySize);
         Integer[] alarmLevelItems = new Integer[alarmEntrySize];
+
+        // アラーム発生時の閾値状態
+        Body signalLevelBody = new Body();
+
+        signalLevelBody.setStrObjName(TelegramConstants.OBJECTNAME_RESOURCEALARM);
+        signalLevelBody.setStrItemName(TelegramConstants.ITEMNAME_SIGNAL_LEVEL);
+        signalLevelBody.setByteItemMode(ItemType.ITEMTYPE_INT);
+        signalLevelBody.setIntLoopCount(alarmEntrySize);
+        Integer[] signalLevel = new Integer[alarmEntrySize];
 
         // アラームの種類
         Body alarmTypeBody = new Body();
@@ -114,6 +123,7 @@ public class CollectorTelegramUtil
             AlarmEntry alarmEntry = alarmEntryList.get(cnt);
             String itemId = alarmEntry.getAlarmID();
             measurementTypeItems[cnt] = itemId;
+            signalLevel[cnt] = 3;
 
             int alarmLevel = alarmEntry.getAlarmLevel();
             alarmLevelItems[cnt] = Integer.valueOf(alarmLevel);
@@ -124,13 +134,15 @@ public class CollectorTelegramUtil
         }
         measurementTypeBody.setObjItemValueArr(measurementTypeItems);
         alarmLevelBody.setObjItemValueArr(alarmLevelItems);
+        signalLevelBody.setObjItemValueArr(signalLevel);
         alarmTypeBody.setObjItemValueArr(alarmTypeItems);
 
         responseTelegram.setObjHeader(responseHeader);
 
         responseBodys[0] = measurementTypeBody;
         responseBodys[1] = alarmLevelBody;
-        responseBodys[2] = alarmTypeBody;
+        responseBodys[2] = signalLevelBody;
+        responseBodys[3] = alarmTypeBody;
 
         responseTelegram.setObjBody(responseBodys);
 

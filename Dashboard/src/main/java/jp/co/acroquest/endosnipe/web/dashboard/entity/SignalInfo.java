@@ -34,7 +34,7 @@ package jp.co.acroquest.endosnipe.web.dashboard.entity;
 public class SignalInfo
 {
     /** シグナル定義テーブルのID。 */
-    public int signalId;
+    public long signalId;
 
     /** シグナル名。 */
     public String signalName;
@@ -63,8 +63,8 @@ public class SignalInfo
     public String toString()
     {
         return String.format("SignalID%d SignalName:%s MatchingPattern:%s Level:%d "
-                                     + "PatternValue:%s escalationPeriod:%f", signalId,
-                             signalName, matchingPattern,
+                                     + "PatternValue:%s escalationPeriod:%f", signalId, signalName,
+                             matchingPattern,
                              level, patternValue, escalationPeriod);
     }
 }
