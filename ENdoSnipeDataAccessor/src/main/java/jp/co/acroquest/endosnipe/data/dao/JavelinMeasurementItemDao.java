@@ -149,7 +149,7 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
             conn = getConnection(database, true);
             String sql =
                 "select MEASUREMENT_ITEM_NAME from " + JAVELIN_MEASUREMENT_ITEM
-                    + " where MEASUREMENT_ITEM_NAME LIKE ?";
+                    + " where MEASUREMENT_ITEM_NAME LIKE ? order by MEASUREMENT_ITEM_NAME";
             pstmt = conn.prepareStatement(sql);
             PreparedStatement preparedStatement = getDelegatingStatement(pstmt);
             String tempStr = measurementItemName + "%";
