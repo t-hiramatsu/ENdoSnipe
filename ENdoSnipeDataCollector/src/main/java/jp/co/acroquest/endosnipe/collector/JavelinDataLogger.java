@@ -931,13 +931,14 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         {
             SignalDefinitionDto signalDefinition = signalDefinitionEntry.getValue();
             String itemName = signalDefinition.getMatchingPattern();
+            String signalName = signalDefinition.getSignalName();
 
             //Œ»İ‚ÌƒAƒ‰[ƒ€’Ê’mó‹µ‚ğæ“¾
-            AlarmData currentAlarmData = signalStateManager.getAlarmData(itemName);
+            AlarmData currentAlarmData = signalStateManager.getAlarmData(signalName);
             if (currentAlarmData == null)
             {
                 currentAlarmData = new AlarmData();
-                signalStateManager.addAlarmData(itemName, currentAlarmData);
+                signalStateManager.addAlarmData(signalName, currentAlarmData);
             }
             AlarmProcessor processor = getAlarmProcessor(signalDefinition);
 
