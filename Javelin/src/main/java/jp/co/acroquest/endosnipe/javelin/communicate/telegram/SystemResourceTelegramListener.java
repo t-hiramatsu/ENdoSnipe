@@ -46,6 +46,7 @@ import jp.co.acroquest.endosnipe.javelin.resource.MultiResourceGetter;
 import jp.co.acroquest.endosnipe.javelin.resource.ResourceCollector;
 import jp.co.acroquest.endosnipe.javelin.resource.ResourceGroupGetter;
 import jp.co.acroquest.endosnipe.javelin.util.ArrayList;
+import jp.co.acroquest.endosnipe.javelin.util.HashMap;
 
 /**
  * システムリソース取得。
@@ -112,25 +113,93 @@ public class SystemResourceTelegramListener implements TelegramListener, Telegra
             long currentTime = System.currentTimeMillis();
             ResponseBody timeBody = ResourceNotifyAccessor.makeTimeBody(currentTime);
             responseBodyList.add(timeBody);
+            
+            Map<String, MultiResourceGetter> mrgMap = new HashMap<String, MultiResourceGetter>();
 
             // ProcParser の load処理
+            Body[] objBodies = telegram.getObjBody();
             this.resourceCollector_.load();
             
-            // 設定更新要求があれば反映する。
+         // 設定更新要求があれば反映する。
             ConfigUpdater.executeScheduledRequest();
             
-            Body[] objBodies = telegram.getObjBody();
             for (Body body : objBodies)
             {
                 String objectName = body.getStrObjName();
                 String itemName = body.getStrItemName();
                 if (OBJECTNAME_RESOURCE.equals(objectName) == true)
                 {
-                    // 初期化要求に対してはフラグを設定して終了
                     if (ITEMNAME_INITIALIZE.equals(itemName))
                     {
                         isInitializing = true;
-                        break;
+                        continue;
+                    }
+
+                    if (javelinConfig_.getCollectSystemResources()
+                            || systemResourceItemNameSet_.contains(itemName) == false)
+                    {
+                        Number value = this.resourceCollector_.getResource(itemName);
+                        ItemType itemType = this.resourceCollector_.getResourceType(itemName);
+                        
+                        if (value != null)
+                        {
+                            ResponseBody responseBody =
+                                ResourceNotifyAccessor.makeResourceResponseBody(itemName,
+                                                                           value, itemType);
+                            responseBodyList.add(responseBody);
+                        }
+                    }
+
+                    ItemType multiItemType = this.resourceCollector_.getMultiResourceType(itemName);
+                    MultiResourceGetter multiGetter =
+                            this.resourceCollector_.getMultiResourceGetterMap().get(itemName);
+                    List<ResourceItem> entries = null;
+                    if (multiGetter != null)
+                    {
+                        try
+                        {
+                            entries = multiGetter.getValues();
+                        }
+                        catch (Throwable th)
+                        {
+                            SystemLogger.getInstance().debug(th);
+                        }
+                    }
+
+                    if (entries != null)
+                    {
+                        addToBodyList(entries, responseBodyList, objectName, itemName,
+                                      multiItemType);
+                    }
+
+                    // ResourceGroupGetterから情報を取得する
+                    List<ResourceGroupGetter> resourceGroupGetterList =
+                            this.resourceCollector_.getResourceGroupGetterList();
+                    for (ResourceGroupGetter group : resourceGroupGetterList)
+                    {
+                        Set<String> itemNames = group.getItemNameSet();
+                        // ResourceGroupGetterが系列データを持っている場合
+                        if (itemNames.contains(itemName))
+                        {
+                            // ResourceGroupGetterが持つMultiResourceGetterが
+                            // 系列データ取得用のテンポラリマップに登録されていない場合、
+                            // テンポラリマップに登録する
+                            if (!mrgMap.containsKey(itemName))
+                            {
+                                Map<String, MultiResourceGetter> map = group.getResourceGroup();
+                                mrgMap.putAll(map);
+                            }
+
+                            // MultiResourceGetterを取得する
+                            MultiResourceGetter mg = mrgMap.get(itemName);
+                            entries = mg.getValues();
+                            ItemType mgItemType = mg.getItemType();
+                            if (entries != null)
+                            {
+                                addToBodyList(entries, responseBodyList, objectName, itemName,
+                                              mgItemType);
+                            }
+                        }
                     }
                 }
             }

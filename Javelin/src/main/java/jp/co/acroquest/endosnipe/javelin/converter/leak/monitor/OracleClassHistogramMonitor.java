@@ -54,7 +54,8 @@ import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 public class OracleClassHistogramMonitor extends ClassHistogramMonitor
 {
     /** クラスヒストグラムのヘッダ */
-    private static final String HEAP_HEADER = "--------- Detailed Heap Statistics: ---------";
+    private static final String HEAP_HEADER        =
+                                                     "--------- Detailed Heap Statistics: ---------";
 
     /** コマンド発行クラスのクラス名 */
     private static final String COMMAND_CLASS_NAME = "com.bea.jvm.DiagnosticCommand";
@@ -76,13 +77,7 @@ public class OracleClassHistogramMonitor extends ClassHistogramMonitor
 
     /** コマンド発行メソッド */
     private Method              executeMethod_;
-    
-    /** キロを表す数字 */
-    private static final int    KILLO = 1024;
 
-    /**
-     * コンストラクタ
-     */
     public OracleClassHistogramMonitor()
     {
         try
@@ -122,9 +117,6 @@ public class OracleClassHistogramMonitor extends ClassHistogramMonitor
 
     /**
      * heap_diagnosticsコマンドを発行してクラスヒストグラムを取得する。
-     * @param classHistoGC クラスヒストグラムのGC
-     * @return クラスヒストグラム
-     * @throws IOException 入出力例外
      */
     public BufferedReader newReader(boolean classHistoGC)
         throws IOException
@@ -167,7 +159,6 @@ public class OracleClassHistogramMonitor extends ClassHistogramMonitor
     /**
      * 1行をパースして、ClassHistogramEntryを生成する。
      * @param splitLine 1行
-     * @return ClassHistogramEntry
      */
     protected ClassHistogramEntry parseEntry(final String[] splitLine)
     {
@@ -203,11 +194,11 @@ public class OracleClassHistogramMonitor extends ClassHistogramMonitor
         int unitSize;
         if (bytes.charAt(lastIndex) == 'k')
         {
-            unitSize = KILLO;
+            unitSize = 1024;
         }
         else if (bytes.charAt(lastIndex) == 'm')
         {
-            unitSize = KILLO * KILLO;
+            unitSize = 1024 * 1024;
         }
         else
         {

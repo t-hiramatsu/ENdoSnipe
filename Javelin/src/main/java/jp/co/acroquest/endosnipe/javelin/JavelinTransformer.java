@@ -48,15 +48,24 @@ import jp.co.acroquest.endosnipe.common.config.ConfigPreprocessor;
 import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
+import jp.co.acroquest.endosnipe.javelin.common.AttachUtil;
 import jp.co.acroquest.endosnipe.javelin.common.JavassistUtil;
 import jp.co.acroquest.endosnipe.javelin.conf.ExcludeConversionConfig;
 import jp.co.acroquest.endosnipe.javelin.conf.IncludeConversionConfig;
 import jp.co.acroquest.endosnipe.javelin.conf.JavelinMessages;
 import jp.co.acroquest.endosnipe.javelin.conf.JavelinTransformConfig;
 import jp.co.acroquest.endosnipe.javelin.converter.Converter;
+import jp.co.acroquest.endosnipe.javelin.converter.concurrent.monitor.ConcurrentAccessMonitor;
+import jp.co.acroquest.endosnipe.javelin.converter.leak.monitor.CollectionMonitor;
+import jp.co.acroquest.endosnipe.javelin.converter.thread.monitor.FullGCMonitor;
+import jp.co.acroquest.endosnipe.javelin.converter.thread.monitor.MethodStallMonitor;
+import jp.co.acroquest.endosnipe.javelin.converter.thread.monitor.ThreadDumpMonitor;
+import jp.co.acroquest.endosnipe.javelin.converter.thread.monitor.ThreadMonitor;
+import jp.co.acroquest.endosnipe.javelin.util.ArrayList;
 import jp.co.acroquest.endosnipe.javelin.util.HashSet;
 import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
 import jp.co.acroquest.endosnipe.javelin.util.WeakHashMap;
+import jp.co.acroquest.endosnipe.javelin.util.concurrent.ArrayBlockingQueue;
 import jp.co.smg.endosnipe.javassist.ClassPool;
 import jp.co.smg.endosnipe.javassist.CtClass;
 import jp.co.smg.endosnipe.javassist.LoaderClassPath;
@@ -77,6 +86,8 @@ public class JavelinTransformer implements ClassFileTransformer
 
     /** クラスpoolを登録するMap */
     private static Map<ClassLoader, ClassPool> loaderPoolMap__;
+
+    private static boolean                     forceTransform__      = false;
 
     private static ConverterPool               converterPool__       = new ConverterPool();
 
@@ -131,12 +142,20 @@ public class JavelinTransformer implements ClassFileTransformer
         {
             return null;
         }
-        
+
         SystemLogger logger = SystemLogger.getInstance();
         if (logger.isDebugEnabled())
         {
             logger.debug("Class Loaded:" + className);
         }
+
+        Boolean prevTracing = isPrevTracing(className);
+        if (prevTracing == null)
+        {
+            return null;
+        }
+
+        CollectionMonitor.setTracing(Boolean.FALSE);
 
         byte[] transformedBytes = null;
         try
@@ -147,6 +166,10 @@ public class JavelinTransformer implements ClassFileTransformer
         {
             logger.warn(ex);
             return null;
+        }
+        finally
+        {
+            CollectionMonitor.setTracing(prevTracing);
         }
 
         if (transformedBytes == classfileBuffer)
@@ -486,10 +509,40 @@ public class JavelinTransformer implements ClassFileTransformer
         // ロードされたクラスが transformer__.transform() に渡されないことがあり得るため。
         ////////// ここから //////////
 
+        // スレッド監視スレッドを開始する。
+        initThreadMonitor();
+        
+        // スレッドダンプ取得スレッドを開始する。
+        initThreadDumpMonitor();
+        
+        // フルGC検出スレッドを開始する。
+        initFullGCMonitor();
+        
+        // ストールメソッド監視スレッドを開始する。
+        initMethodStallMonitor();
+        
         // ポートをオープンする。
         StatsJavelinRecorder.javelinInit(javelinConfig);
 
         ////////// ここまで //////////
+
+        // 自分自身に対してAttachする。
+        try
+        {
+            AttachUtil.attach();
+        }
+        catch (NoClassDefFoundError ncdfe)
+        {
+            String messageId = "javelin.JavelinTransformer.FailDownLoadAttachAPI";
+            String message = JavelinMessages.getMessage(messageId);
+            SystemLogger.getInstance().info(message);
+        }
+        catch (Throwable th)
+        {
+            String messageId = "javelin.JavelinTransformer.FailDownLoadAttachAPI";
+            String message = JavelinMessages.getMessage(messageId);
+            SystemLogger.getInstance().info(message, th);
+        }
 
         // リソースを取得してみる。
         JavelinCompatibilityChecker checker = new JavelinCompatibilityChecker();
@@ -501,7 +554,13 @@ public class JavelinTransformer implements ClassFileTransformer
         // ClassPoolの初期化でデッドロックを避けるため、ClassPoolをロードしておく
         ClassPool.getDefault();
 
-        new HashMap<String, String>();
+        Map<String, String> tempMap = new HashMap<String, String>();
+        CollectionMonitor.preProcessCollectionAdd(new ArrayList<String>(), new Object());
+        CollectionMonitor.preProcessCollectionAdd(new HashSet<String>(), new Object());
+        CollectionMonitor.preProcessCollectionAdd(new ArrayBlockingQueue<String>(1), new Object());
+        CollectionMonitor.preProcessMapPut(tempMap, new Object());
+        ConcurrentAccessMonitor.preProcess(tempMap);
+        ConcurrentAccessMonitor.postProcess(tempMap);
     }
 
     /**
@@ -513,6 +572,8 @@ public class JavelinTransformer implements ClassFileTransformer
     private static void transformLoadedClasses(final Instrumentation instrumentation,
             final Class<?>[] classes)
     {
+        forceTransform__ = true;
+
         for (Class<?> element : classes)
         {
             try
@@ -539,15 +600,26 @@ public class JavelinTransformer implements ClassFileTransformer
                 CtClass ctClass = pool.get(className);
                 ctClass.defrost();
 
-                byte[] newBytecode =
-                                     transformer__.transformClass(element.getClassLoader(), pool,
-                                                                  className, ctClass);
-                loadedClassSet__.add(element.getCanonicalName());
+                Boolean prevTracing = isPrevTracing(className);
 
-                if (newBytecode != null)
+                CollectionMonitor.setTracing(Boolean.FALSE);
+
+                try
                 {
-                    ClassDefinition definition = new ClassDefinition(element, newBytecode);
-                    instrumentation.redefineClasses(new ClassDefinition[]{definition});
+                    byte[] newBytecode =
+                                         transformer__.transformClass(element.getClassLoader(),
+                                                                      pool, className, ctClass);
+                    loadedClassSet__.add(element.getCanonicalName());
+
+                    if (newBytecode != null)
+                    {
+                        ClassDefinition definition = new ClassDefinition(element, newBytecode);
+                        instrumentation.redefineClasses(new ClassDefinition[]{definition});
+                    }
+                }
+                finally
+                {
+                    CollectionMonitor.setTracing(prevTracing);
                 }
             }
             catch (Throwable th)
@@ -557,6 +629,8 @@ public class JavelinTransformer implements ClassFileTransformer
                 SystemLogger.getInstance().warn(message, th);
             }
         }
+
+        forceTransform__ = false;
     }
 
     /**
@@ -572,6 +646,52 @@ public class JavelinTransformer implements ClassFileTransformer
         {
             SystemLogger.getInstance().warn(th);
         }
+    }
+    
+    /**
+     * スレッドダンプ取得スレッドを開始する。
+     */
+    private static void initThreadDumpMonitor()
+    {
+        ThreadDumpMonitor threadDumpMonitor = ThreadDumpMonitor.getInstance();
+        Thread threadDumpMonitorThread =
+                new Thread(threadDumpMonitor, "Javelin-ThreadDump-Monitor");
+        threadDumpMonitorThread.setDaemon(true);
+        threadDumpMonitorThread.start();
+    }
+
+    /**
+     * スレッド監視スレッドを開始する。
+     */
+    private static void initThreadMonitor()
+    {
+        ThreadMonitor threadMonitor = new ThreadMonitor();
+        Thread threadMonitorThread = new Thread(threadMonitor, "Javelin-Thread-Monitor");
+        threadMonitorThread.setDaemon(true);
+        threadMonitorThread.start();
+    }
+
+    /**
+     * FullGC検出スレッドを開始する。
+     */
+    private static void initFullGCMonitor()
+    {
+        FullGCMonitor fullGCMonitor = FullGCMonitor.getInstance();
+        Thread fullGcMonitorThread = new Thread(fullGCMonitor, "Javelin-FullGC-Monitor");
+        fullGcMonitorThread.setDaemon(true);
+        fullGcMonitorThread.start();
+    }
+    
+    /**
+     * ストールメソッド監視スレッドを開始する。
+     */
+    private static void initMethodStallMonitor()
+    {
+        MethodStallMonitor methodStallMonitor = MethodStallMonitor.getInstance();
+        Thread threadMethodStallThread =
+                new Thread(methodStallMonitor, "Javelin-MethodStall-Monitor");
+        threadMethodStallThread.setDaemon(true);
+        threadMethodStallThread.start();
     }
 
     /**
@@ -854,4 +974,52 @@ public class JavelinTransformer implements ClassFileTransformer
 
         return absoluteJarDirectory;
     }
+
+    /***
+     * 既にトレースしているかを返す。
+     * 
+     * @param className トレース中のクラス
+     * @return 既にトレースしているか。
+     */
+    private static Boolean isPrevTracing(String className)
+    {
+        SystemLogger logger = SystemLogger.getInstance();
+
+        Boolean prevTracing = CollectionMonitor.isTracing();
+        Boolean isTracingConcurrent = ConcurrentAccessMonitor.isTracing();
+
+        JavelinConfig config = new JavelinConfig();
+        if (config.isSkipClassOnProcessing())
+        {
+            if (!forceTransform__ && (!prevTracing || !isTracingConcurrent))
+            {
+                // CollectionMonitorまたはConcurrentAccessMonitor動作中は、transformしない
+                String key = "javelin.JavelinTransformer.NotTransformed";
+                List<String> monitorClasses = new ArrayList<String>();
+                if (!prevTracing)
+                {
+                    monitorClasses.add("CollectionMonitor");
+                }
+                if (!isTracingConcurrent)
+                {
+                    monitorClasses.add("ConcurrentAccessMonitor");
+                }
+                String message = JavelinMessages.getMessage(key, className, monitorClasses);
+                logger.warn(message);
+                return null;
+            }
+
+            String threadName = Thread.currentThread().getName();
+            if ("Reference Handler".equals(threadName))
+            {
+                // Reference Handlerスレッドでロードされたクラスはtransformしない
+                String key = "javelin.JavelinTransformer.CannotTransformInReferenceHandler";
+                String message = JavelinMessages.getMessage(key, className);
+                logger.warn(message);
+                return null;
+            }
+        }
+        return prevTracing;
+    }
+
 }
