@@ -58,6 +58,12 @@ ENS.ReportDialogView = ENS.DialogView
 														alert("'Report Term' is invalid format.");
 														return;
 													}
+													
+													// 開始時間が終了時間よりも後になっている場合は再入力を求める
+													if (termFrom >= termTo) {
+														alert("'From Time' should be earlier than the 'To Time'.");
+														return;
+													}
 
 													$("#" + option.dialogId)
 															.dialog("close");
@@ -93,25 +99,11 @@ ENS.ReportDialogView = ENS.DialogView
 			createDatepicker_ : function() {
 				var dates = $(
 						'#jquery-ui-datepicker-from, #jquery-ui-datepicker-to')
-						.datetimepicker(
-								{
-									changeMonth : true,
-									numberOfMonths : 2,
-									showCurrentAtPos : 1,
-									onSelect : function(selectedDate) {
-										var option = this.id == 'jquery-ui-datepicker-from' ? 'minDate'
-												: 'maxDate', instance = jQuery(
-												this).data('datetimepicker'), date = jQuery.datetimepicker
-												.parseDate(
-														instance.settings.dateFormat
-																|| jQuery.datetimepicker._defaults.dateFormat,
-														selectedDate,
-														instance.settings);
-
-										dates.not(this).datetimepicker(
-												'option', option, date);
-									}
-								});
+						.datetimepicker({
+							changeMonth : true,
+							numberOfMonths : 2,
+							showCurrentAtPos : 1
+						});
 
 				$("#jquery-ui-datepicker-from, #jquery-ui-datepicker-to")
 						.datetimepicker("option", "showOn", 'both');
