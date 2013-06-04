@@ -26,7 +26,7 @@
 package jp.co.acroquest.endosnipe.javelin.resource;
 
 import jp.co.acroquest.endosnipe.common.entity.ItemType;
-import jp.co.acroquest.endosnipe.javelin.CallTreeNodeMonitor;
+import jp.co.acroquest.endosnipe.javelin.converter.leak.monitor.CallTreeNodeMonitor;
 
 /**
  * CallTree‚ÌŒÂ”‚ğæ“¾‚·‚é

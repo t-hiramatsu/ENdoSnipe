@@ -37,6 +37,8 @@ import java.util.zip.ZipOutputStream;
 import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 import jp.co.acroquest.endosnipe.common.util.IOUtil;
+import jp.co.acroquest.endosnipe.javelin.converter.concurrent.monitor.ConcurrentAccessMonitor;
+import jp.co.acroquest.endosnipe.javelin.converter.leak.monitor.CollectionMonitor;
 
 /**
  * Javelinログを出力するスレッドです。
@@ -93,6 +95,9 @@ class JavelinLoggerThread extends Thread
     @Override
     public void run()
     {
+        CollectionMonitor.setTracing(Boolean.FALSE);
+        ConcurrentAccessMonitor.setTracing(Boolean.FALSE);
+        
         boolean isZipFileMax = this.javelinConfig_.isLogZipMax();
         int jvnFileMax = this.javelinConfig_.getLogJvnMax();
         int zipFileMax = this.javelinConfig_.getLogZipMax();

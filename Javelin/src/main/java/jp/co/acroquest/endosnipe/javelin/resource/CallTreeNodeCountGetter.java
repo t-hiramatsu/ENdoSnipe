@@ -31,7 +31,7 @@ import java.util.List;
 import jp.co.acroquest.endosnipe.common.entity.ItemType;
 import jp.co.acroquest.endosnipe.common.entity.ResourceItem;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
-import jp.co.acroquest.endosnipe.javelin.CallTreeNodeMonitor;
+import jp.co.acroquest.endosnipe.javelin.converter.leak.monitor.CallTreeNodeMonitor;
 
 /**
  * CallTreeNode数を取得するリソースゲッター
