@@ -35,10 +35,10 @@ import java.util.Set;
 import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 import jp.co.acroquest.endosnipe.common.config.JavelinConfigUtil;
 import jp.co.acroquest.endosnipe.javelin.RootInvocationManager;
+import jp.co.acroquest.endosnipe.javelin.converter.linear.monitor.LinearSearchMonitor;
 import jp.co.acroquest.endosnipe.javelin.event.JavelinEventCounter;
 import jp.co.acroquest.endosnipe.javelin.jdbc.common.JdbcJavelinConfig;
 import jp.co.acroquest.endosnipe.javelin.util.LinkedHashMap;
-
 /**
  * リモート設定機能から現在の設定値を更新するアダプタ
  * 
@@ -1271,6 +1271,24 @@ public class ConfigUpdater
         else if (JavelinConfig.CLASS_HISTO_GC.equals(key))
         {
             ConfigUpdater.updateClassHistoGC(Boolean.parseBoolean(value));
+        }
+        else if (JavelinConfig.LINEARSEARCH_ENABLED_KEY.equals(key))
+        {
+            boolean isMonitor = Boolean.parseBoolean(value);
+            ConfigUpdater.updateLinearSearchMonitor(isMonitor);
+            LinearSearchMonitor.setMonitor(isMonitor);
+        }
+        else if (JavelinConfig.LINEARSEARCH_SIZE.equals(key))
+        {
+            int listSize = Integer.parseInt(value);
+            ConfigUpdater.updateLinearSearchSize(listSize);
+            LinearSearchMonitor.setLinearSearchListSize(listSize);
+        }
+        else if (JavelinConfig.LINEARSEARCH_RATIO.equals(key))
+        {
+            double listRatio = Double.parseDouble(value);
+            ConfigUpdater.updateLinearSearchRatio(listRatio);
+            LinearSearchMonitor.setListRatio(listRatio);
         }
         else if (JavelinConfig.THREAD_MONITOR.equals(key))
         {

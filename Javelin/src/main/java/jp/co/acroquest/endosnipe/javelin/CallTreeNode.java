@@ -30,6 +30,7 @@ import java.util.Map;
 import java.util.Set;
 
 import jp.co.acroquest.endosnipe.javelin.bean.Invocation;
+import jp.co.acroquest.endosnipe.javelin.converter.hadoop.HadoopInfo;
 import jp.co.acroquest.endosnipe.javelin.event.CommonEvent;
 import jp.co.acroquest.endosnipe.javelin.util.ArrayList;
 import jp.co.acroquest.endosnipe.javelin.util.TreeMap;
@@ -121,10 +122,12 @@ public class CallTreeNode
 
     /** ストールメソッドとして検出されたかどうかを示すフラグ */
     private boolean             isStalled_   = false;
+    
+    /** HadoopのTaskTracker情報 */
+    private HadoopInfo hadoopInfo_ = null;
 
     /**
      * 深さを取得する。
-     *
      * @return 深さ
      */
     public int getDepth()
@@ -134,7 +137,6 @@ public class CallTreeNode
 
     /**
      * 深さを設定する。
-     *
      * @param depth 深さ
      */
     public void setDepth(int depth)
@@ -537,7 +539,6 @@ public class CallTreeNode
                 rootNode.setLoggingValue(key, value);
             }
         }
-
         synchronized (this.loggingValueMap_)
         {
             this.loggingValueMap_.put(key, value);
@@ -677,7 +678,6 @@ public class CallTreeNode
 
         this.javelinTime_ += javelinTime;
         CallTreeNode parent = this.parent_;
-
         if (parent != null)
         {
             parent.addJavelinTime(javelinTime);
@@ -795,5 +795,34 @@ public class CallTreeNode
     {
         isStalled_ = isStalled;
     }
+    
+    /**
+     * TaskTrackerのステータス情報を持っているかを返す。
+     *
+     * @return {@code true}：持っている／{@code false}：持っていない
+     */
+    public boolean hasHadoopInfo()
+    {
+        return hadoopInfo_ != null;
+    }
 
+    /**
+     * TaskTrackerのステータス情報を取得する。
+     *
+     * @return TaskTrackerのステータス情報
+     */
+    public HadoopInfo getHadoopInfo()
+    {
+        return this.hadoopInfo_;
+    }
+
+    /**
+     * TaskTrackerのステータス情報を設定する。
+     *
+     * @param hadoopInfo TaskTrackerのステータス情報
+     */
+    public void setHadoopInfo(HadoopInfo hadoopInfo)
+    {
+        this.hadoopInfo_ = hadoopInfo;
+    }
 }

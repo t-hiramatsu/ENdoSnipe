@@ -37,8 +37,13 @@ import jp.co.acroquest.endosnipe.javelin.CallTree;
 import jp.co.acroquest.endosnipe.javelin.CallTreeNode;
 import jp.co.acroquest.endosnipe.javelin.VMStatus;
 import jp.co.acroquest.endosnipe.javelin.bean.Invocation;
+import jp.co.acroquest.endosnipe.javelin.converter.hadoop.HadoopAction;
+import jp.co.acroquest.endosnipe.javelin.converter.hadoop.HadoopInfo;
+import jp.co.acroquest.endosnipe.javelin.converter.hadoop.HadoopTaskStatus;
+import jp.co.acroquest.endosnipe.javelin.converter.hadoop.HadoopTaskStatus.State;
 import jp.co.acroquest.endosnipe.javelin.event.CommonEvent;
 import jp.co.acroquest.endosnipe.javelin.helper.VMStatusHelper;
+import jp.co.acroquest.endosnipe.javelin.util.ArrayList;
 import jp.co.acroquest.endosnipe.javelin.util.StatsUtil;
 import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
 
@@ -143,23 +148,18 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
     /**
      * メソッド名にダブルクォーテーションがある場合は、それを2つのダブルクォーテーションに置き換え、
      * 改行がある場合は改行を削除して出力する。
-     *　@param invocation invocation
-     * @return 修正されたメソッド名
+     *
+     * @param invocation
+     * @return
      */
     protected static String getValidMethodName(Invocation invocation)
     {
         String validMethodName = invocation.getMethodName();
         Matcher matcher = DOUBLE_QUOTATION_PATTERN.matcher(validMethodName);
         validMethodName = matcher.replaceAll("\"\"");
-        
         return validMethodName.replaceAll("[\r\n]", " ");
     }
 
-    /**
-     * レベルの文字列を作成する。
-     * @param event イベント
-     * @return レベルの文字列
-     */
     protected static String createLevelStr(final CommonEvent event)
     {
         String levelStr;
@@ -199,8 +199,8 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
         boolean isReturnDetail = config.isReturnDetail();
 
         StringBuffer jvnBuffer = new StringBuffer();
-        Invocation callee = node.getInvocation();
 
+        Invocation callee = node.getInvocation();
         Invocation caller;
         if (parent == null)
         {
@@ -359,11 +359,6 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
         return jvnBuffer.toString();
     }
 
-    /**
-     * stacktraceを追加する。
-     * @param jvnBuffer バッファ
-     * @param stacktrace stacktrace
-     */
     protected static void addStackTrace(final StringBuffer jvnBuffer,
             final StackTraceElement[] stacktrace)
     {
@@ -374,11 +369,6 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
         jvnBuffer.append(NEW_LINE);
     }
 
-    /**
-     * stacktraceに例外を追加する。
-     * @param jvnBuffer バッファ
-     * @param throwable 例外
-     */
     protected static void addThrowable(final StringBuffer jvnBuffer, final Throwable throwable)
     {
         jvnBuffer.append(JAVELIN_STACKTRACE_START);
@@ -391,13 +381,6 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
         jvnBuffer.append(NEW_LINE);
     }
 
-    /**
-     * stacktraceに返り値を追加する。
-     * @param jvnBuffer バッファ
-     * @param returnValue 返り値
-     * @param stringLimitLength 文字列の最大長さ
-     * @param isReturnDetail 
-     */
     protected static void addReturn(final StringBuffer jvnBuffer, final String returnValue,
             final boolean isReturnDetail, final int stringLimitLength)
     {
@@ -409,12 +392,6 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
         jvnBuffer.append(NEW_LINE);
     }
 
-    /**
-     * stacktraceに引数を追加する。
-     * @param jvnBuffer バッファ
-     * @param stringLimitLength 文字列の最大長さ
-     * @param args 引数
-     */
     protected static void addArgs(final StringBuffer jvnBuffer, final int stringLimitLength,
             final String[] args)
     {
@@ -441,13 +418,6 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
         jvnBuffer.append(JAVELIN_ARGS_END);
         jvnBuffer.append(NEW_LINE);
     }
-    
-    /**
-     * stacktraceにVM状態の差分を追加します。
-     * @param jvnBuffer バッファ
-     * @param startStatus 開始状態
-     * @param endStatus 終了状態
-     */
     protected static void addVMStatusDiff(final StringBuffer jvnBuffer, final VMStatus startStatus,
             final VMStatus endStatus)
     {
@@ -480,12 +450,6 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
                               - startStatus.getCollectionTime()));
     }
 
-    /**
-     * stacktraceにパラメータを追加します。
-     * @param jvnBuffer バッファ
-     * @param paramName パラメータ名
-     * @param paramValue パラメータの値
-     */
     protected static void addParamDelta(final StringBuffer jvnBuffer, final String paramName,
             final String paramValue)
     {
@@ -499,12 +463,6 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
         jvnBuffer.append(NEW_LINE);
     }
 
-    /**
-     * stacktraceにパラメータを追加します。
-     * @param jvnBuffer バッファ
-     * @param paramName パラメータ名
-     * @param paramValue パラメータの値
-     */
     protected static void addParam(final StringBuffer jvnBuffer, final String paramName,
             final String paramValue)
     {
@@ -514,12 +472,6 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
         jvnBuffer.append(NEW_LINE);
     }
 
-    /**
-     * stacktraceにパラメータを追加します。
-     * @param jvnBuffer バッファ
-     * @param paramName パラメータ名
-     * @param paramValue パラメータの値
-     */
     protected static void addParam(final StringBuffer jvnBuffer, final String paramName,
             final long paramValue)
     {
@@ -529,15 +481,448 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
         jvnBuffer.append(NEW_LINE);
     }
 
-    /**
-     * stacktraceに要素を追加します。
-     * @param element 要素
-     * @param jvnBuffer バッファ
-     */
     protected static void addToJvnBuffer(final String element, final StringBuffer jvnBuffer)
     {
         jvnBuffer.append(",\"");
         jvnBuffer.append(element);
         jvnBuffer.append("\"");
+    }
+    
+
+    /**
+     * Hadoopのノード間パラメータに対応したメッセージを作成する。
+     *
+     * @param messageType メッセージタイプ
+     * @param time 時刻
+     * @param tree {@link CallTree}オブジェクト
+     * @param node {@link CallTreeNode}オブジェクト
+     *
+     * @return Javelinログの内容
+     */
+    static private String createHadoopLog(final int messageType,
+                                          final long time,
+                                          final CallTree tree,
+                                          final CallTreeNode node)
+    {
+        // TODO "Call"と"Return"以外は未対応
+        if ( !(messageType == ID_CALL) && !(messageType == ID_RETURN) )
+                return null;
+        if (!(node.hasHadoopInfo()))
+            return null;
+
+        CallTreeNode parent = node.getParent();
+        JavelinConfig config = new JavelinConfig();
+
+        StringBuffer jvnBuffer = new StringBuffer();
+
+        Invocation callee = node.getInvocation();
+
+        // RPCなので呼び出し元は必ずNULLになる
+        if (parent != null)
+        {
+            return null;
+        }
+
+        if (callee == null)
+        {
+            return null;
+        }
+
+        // ここからメッセージ作成開始
+        if (node.getHadoopInfo().hasActions() || node.getHadoopInfo().hasStatuses())
+        {
+            // heartbeat()はCallとReturnを逆転させて表示する
+            if (messageType == ID_CALL)
+            {
+                if (!node.getHadoopInfo().hasStatuses())
+                    return null;
+
+                jvnBuffer.append(MESSAGE_TYPES[ID_RETURN]);
+            }
+            else
+            {
+                if (!node.getHadoopInfo().hasActions())
+                    return null;
+
+                jvnBuffer.append(MESSAGE_TYPES[ID_CALL]);
+            }
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_PATTERN);
+            jvnBuffer.append(",");
+            jvnBuffer.append(dateFormat.format(time));
+
+            // TODO 例外の書き出しは考慮しない
+
+            // Phase
+            addToJvnBuffer(getType(node.getHadoopInfo(), messageType), jvnBuffer);
+
+            // 呼び出し元ホスト名
+            addToJvnBuffer(node.getHadoopInfo().getHost(), jvnBuffer);
+
+            // 呼び出し先オブジェクトID
+            addToJvnBuffer("", jvnBuffer);
+
+            // 呼び出し元IP
+            addToJvnBuffer("", jvnBuffer);
+
+            // "JobTracker"
+            addToJvnBuffer("JobTracker", jvnBuffer);
+
+            // 呼び出し元オブジェクトID
+            addToJvnBuffer("", jvnBuffer);
+
+            // モディファイア
+            addToJvnBuffer("", jvnBuffer);
+
+            // TT->JTの場合
+            if (messageType == ID_CALL)
+            {
+                // スレッドIDに最初に見つかったジョブIDを設定
+                for (HadoopTaskStatus stat : node.getHadoopInfo().getTaskStatuses())
+                {
+                    addToJvnBuffer(stat.getJobID(), jvnBuffer);
+                    jvnBuffer.append(NEW_LINE);
+                    break;
+                }
+
+                // 戻り値出力が設定されている場合
+                if (config.isLogReturn())
+                {
+                    String retVal = makeTaskStatus(node.getHadoopInfo().getTaskStatuses());
+                    // 出力対象のメッセージが無い場合はnullを返す
+                    if (null == retVal)
+                        return null;
+                    jvnBuffer.append(retVal);
+                }
+            }
+            if (messageType == ID_RETURN)
+            {
+                // スレッドIDに最初に見つかったジョブIDを設定
+                for (HadoopAction action : node.getHadoopInfo().getTaskTrackerActions())
+                {
+                    addToJvnBuffer(action.getJobID(), jvnBuffer);
+                    jvnBuffer.append(NEW_LINE);
+                    break;
+                }
+
+                // 引数出力が設定されている場合
+                if (config.isLogArgs())
+                {
+                    String retVal = makeHeartbeatResponse(node.getHadoopInfo().getTaskTrackerActions());
+                    // 出力対象のメッセージが無い場合はnullを返す
+                    if (null == retVal)
+                        return null;
+                    jvnBuffer.append(retVal);
+                }
+            }
+        }
+        // ジョブ投入、完了、停止の場合
+        else if (node.getHadoopInfo().hasSubmitInfo() ||
+                 node.getHadoopInfo().hasCompleteInfo() ||
+                 node.getHadoopInfo().hasKilledInfo())
+        {
+            String command = "";
+
+            // submitJob()のリターンは出力しない
+            if (node.getHadoopInfo().hasSubmitInfo())
+            {
+                if (messageType == ID_RETURN)
+                    return null;
+                else
+                    command = "SubmitJob";
+            }
+            // completedInfoのコールは出力しない
+            if (node.getHadoopInfo().hasCompleteInfo())
+            {
+                if (messageType == ID_CALL)
+                    return null;
+                else
+                    command = "JobCompleted";
+            }
+            // killedInfoのリターンは出力しない
+            if (node.getHadoopInfo().hasKilledInfo())
+            {
+                if (messageType == ID_RETURN)
+                    return null;
+                else
+                    command = "KillJob";
+            }
+
+            jvnBuffer.append(MESSAGE_TYPES[messageType]);
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_PATTERN);
+            jvnBuffer.append(",");
+            jvnBuffer.append(dateFormat.format(time));
+
+            // TODO 例外の書き出しは考慮しない
+
+            // 呼び出し先
+            addToJvnBuffer(command, jvnBuffer);
+
+            // "JobTracker"
+            addToJvnBuffer("JobTracker", jvnBuffer);
+
+            // 呼び出し先オブジェクトID
+            addToJvnBuffer("", jvnBuffer);
+
+            // 呼び出し元IP?
+            addToJvnBuffer("", jvnBuffer);
+
+            // 呼び出し元ホスト名
+            addToJvnBuffer("root", jvnBuffer);
+
+            // 呼び出し元オブジェクトID
+            addToJvnBuffer("", jvnBuffer);
+
+            // モディファイア
+            addToJvnBuffer("", jvnBuffer);
+
+            // ジョブID
+            String jobID;
+            if (node.getHadoopInfo().hasSubmitInfo())
+                jobID = node.getHadoopInfo().getSubmitJobID();
+            else if (node.getHadoopInfo().hasCompleteInfo())
+                jobID = node.getHadoopInfo().getCompleteJobID();
+            else
+                jobID = node.getHadoopInfo().getKilledJobID();
+            addToJvnBuffer(jobID, jvnBuffer);
+
+            jvnBuffer.append(NEW_LINE);
+
+            // Hadoop固有情報を書き出し
+            if (messageType == ID_CALL)
+            {
+                // 引数出力が設定されてる場合
+                if (config.isLogArgs())
+                {
+                    // ジョブIDを出力
+                    jvnBuffer.append(JAVELIN_ARGS_START);
+                    jvnBuffer.append(NEW_LINE);
+                    jvnBuffer.append("JobID : " + jobID);
+                    jvnBuffer.append(NEW_LINE);
+                    jvnBuffer.append(JAVELIN_ARGS_END);
+                    jvnBuffer.append(NEW_LINE);
+                }
+            }
+            else if (messageType == ID_RETURN)
+            {
+                // 戻り値出力が設定されてる場合
+                if (config.isLogReturn())
+                {
+                    // ジョブIDを出力
+                    jvnBuffer.append(JAVELIN_RETURN_START);
+                    jvnBuffer.append(NEW_LINE);
+                    jvnBuffer.append("JobID : " + jobID);
+                    jvnBuffer.append(NEW_LINE);
+                    jvnBuffer.append(JAVELIN_RETURN_END);
+                    jvnBuffer.append(NEW_LINE);
+                }
+            }
+        }
+
+        if (config.isLogMBeanInfo() || config.isLogMBeanInfoRoot())
+        {
+            if (messageType == ID_CALL)
+            {
+                // VM実行情報
+                VMStatus startStatus = node.getStartVmStatus();
+                VMStatus endStatus = node.getEndVmStatus();
+
+                StringBuffer vmStatusBuffer = new StringBuffer();
+                addVMStatusDiff(vmStatusBuffer, startStatus, endStatus);
+
+                if (vmStatusBuffer.length() > 0)
+                {
+                    jvnBuffer.append(JAVELIN_JMXINFO_START);
+                    jvnBuffer.append(NEW_LINE);
+
+                    jvnBuffer.append(vmStatusBuffer);
+
+                    jvnBuffer.append(JAVELIN_JMXINFO_END);
+                    jvnBuffer.append(NEW_LINE);
+                }
+            }
+        }
+
+        if (messageType == ID_CALL)
+        {
+            jvnBuffer.append(JAVELIN_EXTRAINFO_START);
+            jvnBuffer.append(NEW_LINE);
+
+            long duration = node.getAccumulatedTime();
+            if (duration >= 0)
+            {
+                addParam(jvnBuffer, EXTRAPARAM_DURATION, duration);
+            }
+
+            if (node.getParent() == null)
+            {
+                for (String key : tree.getLoggingKeys())
+                {
+                    Object value = tree.getLoggingValue(key);
+                    addParam(jvnBuffer, key, String.valueOf(value));
+                }
+            }
+            for (String key : node.getLoggingKeys())
+            {
+                Object value = node.getLoggingValue(key);
+                addParam(jvnBuffer, key, value.toString());
+            }
+
+            jvnBuffer.append(JAVELIN_EXTRAINFO_END);
+            jvnBuffer.append(NEW_LINE);
+        }
+
+        return jvnBuffer.toString();
+    }
+
+    /**
+     * HadoopのTaskTrackerのタスク状態のメッセージを作成します。
+     *
+     * @param taskStatusList タスク状態のリスト
+     *
+     * @return タスク状態のメッセージ／{@code null}は出力対象の情報なし
+     */
+    private static String makeTaskStatus(final ArrayList<HadoopTaskStatus> taskStatusList)
+    {
+        boolean result = false;
+        String ret = null;
+        StringBuffer buf = new StringBuffer();
+
+        if (taskStatusList == null) return ret;
+
+        buf.append(JAVELIN_RETURN_START);
+        buf.append(NEW_LINE);
+
+        // それぞれのタスク情報を書き出し
+        int index = 1;
+        for (HadoopTaskStatus taskStatus : taskStatusList)
+        {
+            // タスク実行中は出力しない
+            if (taskStatus.getState() == State.RUNNING)
+                continue;
+
+            String prefix = "Task[" + String.valueOf(index) + "] ";
+            String jobID = prefix + "JobID : " + taskStatus.getJobID();
+            String taskID = prefix + "TaskID : " + taskStatus.getTaskID();
+            String phase = prefix + "Phase : " + taskStatus.getPhase().toString();
+            String state = prefix + "State : " + taskStatus.getState().toString();
+
+            buf.append(jobID + NEW_LINE);
+            buf.append(taskID + NEW_LINE);
+            buf.append(phase + NEW_LINE);
+            buf.append(state + NEW_LINE);
+
+            ++index;
+            result = true;
+        }
+
+        buf.append(JAVELIN_RETURN_END);
+        buf.append(NEW_LINE);
+
+        if (result)
+        {
+            ret = buf.toString();
+        }
+
+        return ret;
+    }
+
+
+    /**
+     * Hadoopのハートビート返信のメッセージを作成します。
+     *
+     * @param taskTrackerActions アクション情報のリスト
+     *
+     * @return ハートビート返信のメッセージ／{@code null}は出力対象の情報なし
+     */
+    private static String makeHeartbeatResponse(final ArrayList<HadoopAction> taskTrackerActions)
+    {
+        boolean result = false;
+        String ret = null;
+        StringBuffer buf = new StringBuffer();
+
+        if (taskTrackerActions == null) return ret;
+
+        buf.append(JAVELIN_ARGS_START);
+        buf.append(NEW_LINE);
+
+        // アクションごとに情報を書き出し
+        int index = 1;
+        for(HadoopAction action : taskTrackerActions)
+        {
+
+            String prefix = "Task[" + String.valueOf(index) + "] ";
+            String jobID = prefix + "JobID : " + action.getJobID();
+            String jobName = prefix + "JobName : " + action.getJobName();
+            String taskID = prefix + "TaskID : " + action.getTaskID();
+            String input = prefix + "InputDIR : " + action.getInputData();
+            String act = prefix + "Action : " + action.getActionType().toString();
+            String type = prefix + "Type : " +
+                (action.isMapTask() ? "MapTask" : "ReduceTask");
+
+            buf.append(jobID + NEW_LINE);
+            buf.append(jobName + NEW_LINE);
+            buf.append(taskID + NEW_LINE);
+            buf.append(input + NEW_LINE);
+            buf.append(act + NEW_LINE);
+            buf.append(type + NEW_LINE);
+
+            ++index;
+            result = true;
+        }
+
+        buf.append(JAVELIN_ARGS_END);
+        buf.append(NEW_LINE);
+
+        if (result)
+        {
+            ret = buf.toString();
+        }
+
+        return ret;
+    }
+
+    /**
+     * Hadoop情報から現在のタスク種別を取得する。
+     *
+     * @param hadoopInfo Hadoop情報
+     * @param messageType CallまたはReturn
+     *
+     * @return MapかReduceの文字列
+     */
+    private static String getType(HadoopInfo hadoopInfo, int messageType)
+    {
+        // messageTypeがCallの時はTaskStatus、
+        // messageTypeがReturnの時はTaskTrackerActionから
+        // タスク種別を取得する。
+        ArrayList<HadoopTaskStatus> taskStatuses = hadoopInfo.getTaskStatuses();
+        if (ID_CALL == messageType)
+        {
+            String stateStr = "";
+            if (taskStatuses != null && taskStatuses.size() > 0 && taskStatuses.get(0) != null)
+            {
+                HadoopTaskStatus hadoopTaskStatus = taskStatuses.get(0);
+                State state = hadoopTaskStatus.getState();
+                if (state != null)
+                {
+                    stateStr = "(" + state.toString() + ")";
+                }
+            }
+            
+            for (HadoopTaskStatus status : taskStatuses)
+            {
+                return status.getPhase().toString() + stateStr;
+            }
+        }
+        else if (ID_RETURN == messageType)
+        {
+            for (HadoopAction action : hadoopInfo.getTaskTrackerActions())
+            {
+                return action.isMapTask()? "MAP" : "REDUCE";
+            }
+        }
+
+        return "";
     }
 }

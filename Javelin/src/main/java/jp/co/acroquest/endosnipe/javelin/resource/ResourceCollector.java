@@ -35,6 +35,8 @@ import jp.co.acroquest.endosnipe.common.entity.ItemType;
 import jp.co.acroquest.endosnipe.common.jmx.JMXManager;
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
+import jp.co.acroquest.endosnipe.javelin.converter.leak.monitor.ClassHistogramMonitor;
+import jp.co.acroquest.endosnipe.javelin.converter.leak.monitor.SunClassHistogramMonitor;
 import jp.co.acroquest.endosnipe.javelin.resource.jmx.MBeanCollectorInitializer;
 import jp.co.acroquest.endosnipe.javelin.resource.proc.LinuxCpuArrayGetter;
 import jp.co.acroquest.endosnipe.javelin.resource.proc.LinuxCpuIoWaitGetter;
@@ -177,6 +179,7 @@ public class ResourceCollector implements TelegramConstants
     public static void setResouceGetters(Map<String, ResourceGetter> resourceMap,
             Map<String, MultiResourceGetter> multiResourceMap, ProcParser procParser)
     {
+        ClassHistogramMonitor historgramMonitor = null;
         String vendor = System.getProperty("java.vendor");
         if (vendor != null)
         {
@@ -188,6 +191,7 @@ public class ResourceCollector implements TelegramConstants
             resourceMap.put(ITEMNAME_SYSTEM_MEMORY_SWAP_FREE, new SwapSpaceFreeGetter());
             resourceMap.put(ITEMNAME_SYSTEM_MEMORY_VIRTUAL_USED, new VirutalMemorySizeGetter());
             multiResourceMap.put(ITEMNAME_SERVER_POOL, new TomcatPoolCounter());
+            historgramMonitor = new SunClassHistogramMonitor();
         }
 
         resourceMap.put(ITEMNAME_ACQUIREDTIME, new TimeGetter());
@@ -274,7 +278,22 @@ public class ResourceCollector implements TelegramConstants
             }
             JMXManager.getInstance().initCompleted();
         }        
+        
 
+        multiResourceMap.put(ITEMNAME_JAVAPROCESS_COLLECTION_LIST_COUNT, new ListCountGetter());
+        multiResourceMap.put(ITEMNAME_JAVAPROCESS_COLLECTION_QUEUE_COUNT, new QueueCountGetter());
+        multiResourceMap.put(ITEMNAME_JAVAPROCESS_COLLECTION_SET_COUNT, new SetCountGetter());
+        multiResourceMap.put(ITEMNAME_JAVAPROCESS_COLLECTION_MAP_COUNT, new MapCountGetter());
+
+        if (historgramMonitor != null)
+        {
+            multiResourceMap.put(ITEMNAME_JAVAPROCESS_COLLECTION_HISTOGRAM_SIZE,
+                                 new ClassHistogramSizeGetter(historgramMonitor));
+            multiResourceMap.put(ITEMNAME_JAVAPROCESS_COLLECTION_HISTOGRAM_COUNT,
+                                 new ClassHistogramCountGetter(historgramMonitor));
+        }
+        
+        multiResourceMap.put(ITEMNAME_POOL_SIZE, new PoolSizeGetter());
         multiResourceMap.put(ITEMNAME_NODECOUNT, new CallTreeNodeCountGetter());
         multiResourceMap.put(ITEMNAME_EVENT_COUNT, new EventCountGetter());
 

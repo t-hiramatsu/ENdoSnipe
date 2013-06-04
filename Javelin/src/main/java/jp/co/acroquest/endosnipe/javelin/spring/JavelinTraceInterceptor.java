@@ -43,10 +43,12 @@ import org.apache.log4j.Logger;
  * Javelinログを出力するためのTraceInterceptor。
  * 
  * @version 0.2
- * @author eriguchi, hayakawa
+ * @author On Eriguchi (Acroquest), Tetsu Hayakawa (Acroquest)
  */
 public class JavelinTraceInterceptor implements MethodInterceptor
 {
+    private static final long serialVersionUID = 6661781313519708185L;
+
     /**
      * メソッド呼び出し時にJavelinログの先頭に出力する識別子。
      */
@@ -89,17 +91,6 @@ public class JavelinTraceInterceptor implements MethodInterceptor
      */
     private static final String TIME_FORMAT_STR = "yyyy/MM/dd HH:mm:ss.SSS";
 
-    /** 
-     * StringBufferの初期サイズ
-     */
-    private static final int STRING_BUFFER_INITIAL_SIZE = 512;
-
-    /** 
-     * メソッドコール用StringBufferのデフォルトサイズ
-     */
-    private static final int METHOD_CALL_BUFFER_INITIAL_SIZE = 256;
-    
-    
     /**
      * Javelinログに出力する時刻データ整形用フォーマッタ。
      */
@@ -168,7 +159,7 @@ public class JavelinTraceInterceptor implements MethodInterceptor
             }
         }
 
-        StringBuffer methodCallBuff = new StringBuffer(METHOD_CALL_BUFFER_INITIAL_SIZE);
+        StringBuffer methodCallBuff = new StringBuffer(256);
 
         // 呼び出し先情報取得。
         String calleeClassName = invocation.getMethod().getDeclaringClass().getName();
@@ -279,7 +270,7 @@ public class JavelinTraceInterceptor implements MethodInterceptor
             final MethodInvocation invocation)
     {
         String timeStr = (this.timeFormat_.get()).format(new Date());
-        StringBuffer callDetailBuff = new StringBuffer(STRING_BUFFER_INITIAL_SIZE);
+        StringBuffer callDetailBuff = new StringBuffer(512);
 
         callDetailBuff.append(CALL);
         callDetailBuff.append(DELIM);
@@ -344,7 +335,7 @@ public class JavelinTraceInterceptor implements MethodInterceptor
      */
     private StringBuffer createReturnDetail(final StringBuffer methodCallBuff, final Object ret)
     {
-        StringBuffer returnDetailBuff = new StringBuffer(STRING_BUFFER_INITIAL_SIZE);
+        StringBuffer returnDetailBuff = new StringBuffer(512);
         String returnTimeStr = (this.timeFormat_.get()).format(new Date());
         returnDetailBuff.append(RETURN);
         returnDetailBuff.append(DELIM);
@@ -388,7 +379,7 @@ public class JavelinTraceInterceptor implements MethodInterceptor
     {
         String throwTimeStr = (this.timeFormat_.get()).format(new Date());
         String throwableID = Integer.toHexString(System.identityHashCode(cause));
-        StringBuffer throwBuff = new StringBuffer(STRING_BUFFER_INITIAL_SIZE);
+        StringBuffer throwBuff = new StringBuffer(512);
         throwBuff.append(id);
         throwBuff.append(DELIM);
         throwBuff.append(throwTimeStr);
