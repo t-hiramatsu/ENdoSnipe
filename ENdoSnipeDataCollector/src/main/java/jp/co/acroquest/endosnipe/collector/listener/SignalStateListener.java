@@ -215,6 +215,7 @@ public class SignalStateListener extends AbstractTelegramListener implements Tel
         signalNamesBody.setObjItemValueArr(signalNames);
         alarmStateBody.setObjItemValueArr(signalState);
         alarmTypeBody.setObjItemValueArr(alarmTypeItems);
+        signalLevelBody.setObjItemValueArr(signalLevel);
 
         responseTelegram.setObjHeader(responseHeader);
 
