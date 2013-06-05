@@ -30,271 +30,173 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
-/**
- * LinkedHashMapクラス
- * 
- * @author acroquest
- * @param <K> キー
- * @param <V> 値
- */
 public class LinkedHashMap<K, V> extends HashMap<K, V> implements Map<K, V>
 {
-    /** シリアルバージョンID */
+
+    /**  */
     private static final long serialVersionUID = 8219104330698553529L;
 
-    /** ヘッダー */
-    private transient Entry<K, V> header_;
+    private transient Entry<K, V> header;
 
-    /** アクセス順 */
-    private final boolean accessOrder_;
+    private final boolean accessOrder;
 
-    /**
-     * コンストラクタ
-     * @param initialCapacity 初期容量
-     * @param loadFactor 使用率
-     */
     public LinkedHashMap(int initialCapacity, float loadFactor)
     {
         super(initialCapacity, loadFactor);
-        accessOrder_ = false;
+        accessOrder = false;
     }
 
-    /**
-     * コンストラクタ
-     * @param initialCapacity 初期容量
-     */
     public LinkedHashMap(int initialCapacity)
     {
         super(initialCapacity);
-        accessOrder_ = false;
+        accessOrder = false;
     }
 
-    /**
-     * コンストラクタ
-     */
     public LinkedHashMap()
     {
         super();
-        accessOrder_ = false;
+        accessOrder = false;
     }
 
-    /**
-     * コンストラクタ
-     * @param map マップ
-     */
-    public LinkedHashMap(Map<? extends K, ? extends V> map)
+    public LinkedHashMap(Map<? extends K, ? extends V> m)
     {
-        super(map);
-        accessOrder_ = false;
+        super(m);
+        accessOrder = false;
     }
 
-    /**
-     * コンストラクタ
-     * @param initialCapacity 初期容量
-     * @param loadFactor 使用率
-     * @param accessOrder アクセス順
-     */
     public LinkedHashMap(int initialCapacity, float loadFactor, boolean accessOrder)
     {
         super(initialCapacity, loadFactor);
-        this.accessOrder_ = accessOrder;
+        this.accessOrder = accessOrder;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     void init()
     {
-        header_ = new Entry<K, V>(-1, null, null, null);
-        header_.beforeEntry_ = header_;
-        header_.afterEntry_ = header_;
+        header = new Entry<K, V>(-1, null, null, null);
+        header.before = header.after = header;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    void transfer(HashMap.Entry<K, V>[] newTable)
+    void transfer(HashMap.Entry[] newTable)
     {
         int newCapacity = newTable.length;
-        for (Entry<K, V> entry = header_.afterEntry_; entry != header_; entry = entry.afterEntry_)
+        for (Entry<K, V> e = header.after; e != header; e = e.after)
         {
-            int index = indexFor(entry.hash_, newCapacity);
-            entry.next_ = newTable[index];
-            newTable[index] = entry;
+            int index = indexFor(e.hash, newCapacity);
+            e.next = newTable[index];
+            newTable[index] = e;
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
-   public boolean containsValue(Object value)
+    public boolean containsValue(Object value)
     {
         if (value == null)
         {
-            for (Entry<K, V> e = header_.afterEntry_; e != header_; e = e.afterEntry_)
-            {
-                if (e.value_ == null)
-                {
+            for (Entry e = header.after; e != header; e = e.after)
+                if (e.value == null)
                     return true;
-                }
-            }
         }
         else
         {
-            for (Entry<K, V> e = header_.afterEntry_; e != header_; e = e.afterEntry_)
-            {
-                if (value.equals(e.value_))
-                {
+            for (Entry e = header.after; e != header; e = e.after)
+                if (value.equals(e.value))
                     return true;
-                }
-            }
         }
         return false;
     }
 
-   /**
-    * {@inheritDoc}
-    */
     public V get(Object key)
     {
-        Entry<K, V> entry = (Entry<K, V>)getEntry(key);
-        if (entry == null)
-        {
+        Entry<K, V> e = (Entry<K, V>)getEntry(key);
+        if (e == null)
             return null;
-        }
-        entry.recordAccess(this);
-        return entry.value_;
+        e.recordAccess(this);
+        return e.value;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public void clear()
     {
         super.clear();
-        header_.beforeEntry_ = header_;
-        header_.afterEntry_ = header_;
+        header.before = header.after = header;
     }
 
-    /**
-     * エントリクラス
-     * 
-     * @param <K> キー
-     * @param <V> 値
-     */
     private static class Entry<K, V> extends HashMap.Entry<K, V>
     {
-        /** 前のエントリ */
-        Entry<K, V> beforeEntry_;
-        
-        /** 後のエントリ */
-        Entry<K, V> afterEntry_;
+        Entry<K, V> before, after;
 
-        /**
-         * コンストラクタ
-         * @param hash ハッシュ
-         * @param key キー
-         * @param value 値
-         * @param next 次のエントリ
-         */
-        public Entry(int hash, K key, V value, HashMap.Entry<K, V> next)
+        Entry(int hash, K key, V value, HashMap.Entry<K, V> next)
         {
             super(hash, key, value, next);
         }
 
-        /**
-         * エントリを削除する。
-         */
         private void remove()
         {
-            beforeEntry_.afterEntry_ = afterEntry_;
-            afterEntry_.beforeEntry_ = beforeEntry_;
+            before.after = after;
+            after.before = before;
         }
 
-        /**
-         * エントリを前の位置に移動する。
-         * @param existingEntry 前の位置にあるエントリ
-         */
         private void addBefore(Entry<K, V> existingEntry)
         {
-            afterEntry_ = existingEntry;
-            beforeEntry_ = existingEntry.beforeEntry_;
-            beforeEntry_.afterEntry_ = this;
-            afterEntry_.beforeEntry_ = this;
+            after = existingEntry;
+            before = existingEntry.before;
+            before.after = this;
+            after.before = this;
         }
 
-        /**
-         * アクセスを記録します。
-         * @param m マップ
-         */
         void recordAccess(HashMap<K, V> m)
         {
             LinkedHashMap<K, V> lm = (LinkedHashMap<K, V>)m;
-            if (lm.accessOrder_)
+            if (lm.accessOrder)
             {
-                lm.modCount_++;
+                lm.modCount++;
                 remove();
-                addBefore(lm.header_);
+                addBefore(lm.header);
             }
+        }
+
+        void recordRemoval(HashMap<K, V> m)
+        {
+            remove();
         }
     }
 
-    /**
-     * LinkedHashIteratorクラス
-     *
-     * @param <T>
-     */
     private abstract class LinkedHashIterator<T> implements Iterator<T>
     {
-        Entry<K, V> nextEntry_ = header_.afterEntry_;
+        Entry<K, V> nextEntry = header.after;
 
-        Entry<K, V> lastReturned_ = null;
+        Entry<K, V> lastReturned = null;
 
-        int expectedModCount_ = modCount_;
+        int expectedModCount = modCount;
 
         public boolean hasNext()
         {
-            return nextEntry_ != header_;
+            return nextEntry != header;
         }
 
         public void remove()
         {
-            if (lastReturned_ == null)
-            {
+            if (lastReturned == null)
                 throw new IllegalStateException();
-            }
-            if (modCount_ != expectedModCount_)
-            {
+            if (modCount != expectedModCount)
                 throw new ConcurrentModificationException();
-            }
 
-            LinkedHashMap.this.remove(lastReturned_.key_);
-            lastReturned_ = null;
-            expectedModCount_ = modCount_;
+            LinkedHashMap.this.remove(lastReturned.key);
+            lastReturned = null;
+            expectedModCount = modCount;
         }
 
         Entry<K, V> nextEntry()
         {
-            if (modCount_ != expectedModCount_)
-            {
+            if (modCount != expectedModCount)
                 throw new ConcurrentModificationException();
-            }
-            if (nextEntry_ == header_)
-            {
+            if (nextEntry == header)
                 throw new NoSuchElementException();
-            }
 
-            lastReturned_ = nextEntry_;
-            Entry<K, V> entry = nextEntry_;
-            nextEntry_ = entry.afterEntry_;
-            
-            return entry;
+            Entry<K, V> e = lastReturned = nextEntry;
+            nextEntry = e.after;
+            return e;
         }
     }
 
-    /**
-     * キーイテレータクラス
-     */
     private class KeyIterator extends LinkedHashIterator<K>
     {
         public K next()
@@ -303,20 +205,14 @@ public class LinkedHashMap<K, V> extends HashMap<K, V> implements Map<K, V>
         }
     }
 
-    /**
-     * 値のイテレータクラス
-     */
     private class ValueIterator extends LinkedHashIterator<V>
     {
         public V next()
         {
-            return nextEntry().value_;
+            return nextEntry().value;
         }
     }
 
-    /**
-     * エントリーのイテレータクラス
-     */
     private class EntryIterator extends LinkedHashIterator<Map.Entry<K, V>>
     {
         public Map.Entry<K, V> next()
@@ -326,69 +222,47 @@ public class LinkedHashMap<K, V> extends HashMap<K, V> implements Map<K, V>
     }
 
     // These Overrides alter the behavior of superclass view iterator() methods
-    /**
-     * {@inheritDoc}
-     */
     Iterator<K> newKeyIterator()
     {
         return new KeyIterator();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     Iterator<V> newValueIterator()
     {
         return new ValueIterator();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     Iterator<Map.Entry<K, V>> newEntryIterator()
     {
         return new EntryIterator();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     void addEntry(int hash, K key, V value, int bucketIndex)
     {
         createEntry(hash, key, value, bucketIndex);
 
         // Remove eldest entry if instructed, else grow capacity if appropriate
-        Entry<K, V> eldest = header_.afterEntry_;
+        Entry<K, V> eldest = header.after;
         if (removeEldestEntry(eldest))
         {
-            removeEntryForKey(eldest.key_);
+            removeEntryForKey(eldest.key);
         }
         else
         {
-            if (size_ >= threshold_)
-            {
-                resize(2 * table_.length);
-            }
+            if (size >= threshold)
+                resize(2 * table.length);
         }
     }
-    
-    /**
-     * {@inheritDoc}
-     */
+
     void createEntry(int hash, K key, V value, int bucketIndex)
     {
-        HashMap.Entry<K, V> old = table_[bucketIndex];
-        Entry<K, V> entry = new Entry<K, V>(hash, key, value, old);
-        table_[bucketIndex] = entry;
-        entry.addBefore(header_);
-        size_++;
+        HashMap.Entry<K, V> old = table[bucketIndex];
+        Entry<K, V> e = new Entry<K, V>(hash, key, value, old);
+        table[bucketIndex] = e;
+        e.addBefore(header);
+        size++;
     }
 
-    /**
-     * 一番古いエントリを削除します。
-     * @param eldest 一番古いエントリのキー
-     * @return false
-     */
     protected boolean removeEldestEntry(Map.Entry<K, V> eldest)
     {
         return false;
