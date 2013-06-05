@@ -32,47 +32,22 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Mapの抽象クラス
- * @author acroquest
- *
- * @param <K> キー
- * @param <V> 値
- */
 public abstract class AbstractMap<K, V> implements Map<K, V>
 {
-    /** キーセット */
-    transient volatile Set<K>        keySet_ = null;
-
-    /** 値の一覧 */
-    transient volatile Collection<V> values_ = null;
-
-    /**
-     * コンストラクタ
-     */
     protected AbstractMap()
     {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public int size()
     {
         return entrySet().size();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public boolean isEmpty()
     {
         return size() == 0;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public boolean containsValue(Object value)
     {
         Iterator<Entry<K, V>> i = entrySet().iterator();
@@ -82,9 +57,7 @@ public abstract class AbstractMap<K, V> implements Map<K, V>
             {
                 Entry<K, V> e = i.next();
                 if (e.getValue() == null)
-                {
                     return true;
-                }
             }
         }
         else
@@ -93,17 +66,12 @@ public abstract class AbstractMap<K, V> implements Map<K, V>
             {
                 Entry<K, V> e = i.next();
                 if (value.equals(e.getValue()))
-                {
                     return true;
-                }
             }
         }
         return false;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public boolean containsKey(Object key)
     {
         Iterator<Map.Entry<K, V>> i = entrySet().iterator();
@@ -113,9 +81,7 @@ public abstract class AbstractMap<K, V> implements Map<K, V>
             {
                 Entry<K, V> e = i.next();
                 if (e.getKey() == null)
-                {
                     return true;
-                }
             }
         }
         else
@@ -124,17 +90,12 @@ public abstract class AbstractMap<K, V> implements Map<K, V>
             {
                 Entry<K, V> e = i.next();
                 if (key.equals(e.getKey()))
-                {
                     return true;
-                }
             }
         }
         return false;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public V get(Object key)
     {
         Iterator<Entry<K, V>> i = entrySet().iterator();
@@ -144,9 +105,7 @@ public abstract class AbstractMap<K, V> implements Map<K, V>
             {
                 Entry<K, V> e = i.next();
                 if (e.getKey() == null)
-                {
                     return e.getValue();
-                }
             }
         }
         else
@@ -155,25 +114,17 @@ public abstract class AbstractMap<K, V> implements Map<K, V>
             {
                 Entry<K, V> e = i.next();
                 if (key.equals(e.getKey()))
-                {
                     return e.getValue();
-                }
             }
         }
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public V put(K key, V value)
     {
         throw new UnsupportedOperationException();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public V remove(Object key)
     {
         Iterator<Entry<K, V>> i = entrySet().iterator();
@@ -184,9 +135,7 @@ public abstract class AbstractMap<K, V> implements Map<K, V>
             {
                 Entry<K, V> e = i.next();
                 if (e.getKey() == null)
-                {
                     correctEntry = e;
-                }
             }
         }
         else
@@ -195,9 +144,7 @@ public abstract class AbstractMap<K, V> implements Map<K, V>
             {
                 Entry<K, V> e = i.next();
                 if (key.equals(e.getKey()))
-                {
                     correctEntry = e;
-                }
             }
         }
 
@@ -210,9 +157,6 @@ public abstract class AbstractMap<K, V> implements Map<K, V>
         return oldValue;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public void putAll(Map<? extends K, ? extends V> t)
     {
         Iterator<? extends Entry<? extends K, ? extends V>> i = t.entrySet().iterator();
@@ -223,41 +167,38 @@ public abstract class AbstractMap<K, V> implements Map<K, V>
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public void clear()
     {
         entrySet().clear();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    transient volatile Set<K> keySet = null;
+
+    transient volatile Collection<V> values = null;
+
     public Set<K> keySet()
     {
-        if (keySet_ == null)
+        if (keySet == null)
         {
-            keySet_ = new AbstractSet<K>() {
+            keySet = new AbstractSet<K>() {
                 public Iterator<K> iterator()
                 {
                     return new Iterator<K>() {
-
-                        private Iterator<Entry<K, V>> iterator_ = entrySet().iterator();
+                        private Iterator<Entry<K, V>> i = entrySet().iterator();
 
                         public boolean hasNext()
                         {
-                            return iterator_.hasNext();
+                            return i.hasNext();
                         }
 
                         public K next()
                         {
-                            return iterator_.next().getKey();
+                            return i.next().getKey();
                         }
 
                         public void remove()
                         {
-                            iterator_.remove();
+                            i.remove();
                         }
                     };
                 }
@@ -273,35 +214,32 @@ public abstract class AbstractMap<K, V> implements Map<K, V>
                 }
             };
         }
-        return keySet_;
+        return keySet;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public Collection<V> values()
     {
-        if (values_ == null)
+        if (values == null)
         {
-            values_ = new AbstractCollection<V>() {
+            values = new AbstractCollection<V>() {
                 public Iterator<V> iterator()
                 {
                     return new Iterator<V>() {
-                        private Iterator<Entry<K, V>> iterator_ = entrySet().iterator();
+                        private Iterator<Entry<K, V>> i = entrySet().iterator();
 
                         public boolean hasNext()
                         {
-                            return iterator_.hasNext();
+                            return i.hasNext();
                         }
 
                         public V next()
                         {
-                            return iterator_.next().getValue();
+                            return i.next().getValue();
                         }
 
                         public void remove()
                         {
-                            iterator_.remove();
+                            i.remove();
                         }
                     };
                 }
@@ -317,35 +255,21 @@ public abstract class AbstractMap<K, V> implements Map<K, V>
                 }
             };
         }
-        return values_;
+        return values;
     }
 
-    /**
-     * エントリーセットを取得します。
-     * @return エントリーセット
-     */
     public abstract Set<Entry<K, V>> entrySet();
 
-    /**
-     * {@inheritDoc}
-     */
-    @SuppressWarnings("unchecked")
     public boolean equals(Object o)
     {
         if (o == this)
-        {
             return true;
-        }
 
         if (!(o instanceof Map))
-        {
             return false;
-        }
         Map<K, V> t = (Map<K, V>)o;
         if (t.size() != size())
-        {
             return false;
-        }
 
         try
         {
@@ -358,16 +282,12 @@ public abstract class AbstractMap<K, V> implements Map<K, V>
                 if (value == null)
                 {
                     if (!(t.get(key) == null && t.containsKey(key)))
-                    {
                         return false;
-                    }
                 }
                 else
                 {
                     if (!value.equals(t.get(key)))
-                    {
                         return false;
-                    }
                 }
             }
         }
@@ -383,23 +303,15 @@ public abstract class AbstractMap<K, V> implements Map<K, V>
         return true;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public int hashCode()
     {
         int h = 0;
         Iterator<Entry<K, V>> i = entrySet().iterator();
         while (i.hasNext())
-        {
             h += i.next().hashCode();
-        }
         return h;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public String toString()
     {
         StringBuffer buf = new StringBuffer();
@@ -413,141 +325,83 @@ public abstract class AbstractMap<K, V> implements Map<K, V>
             K key = e.getKey();
             V value = e.getValue();
             if (key == this)
-            {
                 buf.append("(this Map)");
-            }
             else
-            {
                 buf.append(key);
-            }
             buf.append("=");
             if (value == this)
-            {
                 buf.append("(this Map)");
-            }
             else
-            {
                 buf.append(value);
-            }
             hasNext = i.hasNext();
             if (hasNext)
-            {
                 buf.append(", ");
-            }
         }
 
         buf.append("}");
         return buf.toString();
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @SuppressWarnings("unchecked")
     protected Object clone()
         throws CloneNotSupportedException
     {
         AbstractMap<K, V> result = (AbstractMap<K, V>)super.clone();
-        result.keySet_ = null;
-        result.values_ = null;
+        result.keySet = null;
+        result.values = null;
         return result;
     }
 
-    /**
-     * SimpleEntryクラス
-     * @author acroquest
-     *
-     * @param <K> キー
-     * @param <V> 値
-     */
     static class SimpleEntry<K, V> implements Entry<K, V>
     {
-        /** キー */
-        K key_;
+        K key;
 
-        /** 値 */
-        V value_;
+        V value;
 
-        /**
-         * コンストラクタ 
-         * @param key キー
-         * @param value 値
-         */
         public SimpleEntry(K key, V value)
         {
-            this.key_ = key;
-            this.value_ = value;
+            this.key = key;
+            this.value = value;
         }
 
-        /**
-         * コンストラクタ
-         * @param e エントリ
-         */
         public SimpleEntry(Entry<K, V> e)
         {
-            this.key_ = e.getKey();
-            this.value_ = e.getValue();
+            this.key = e.getKey();
+            this.value = e.getValue();
         }
 
-        /**
-         * キーを取得します。
-         * @return キー
-         */
         public K getKey()
         {
-            return key_;
+            return key;
         }
 
-        /**
-         * 値を取得します。
-         * @return 値
-         */
         public V getValue()
         {
-            return value_;
+            return value;
         }
 
-        /**
-         * 値を設定します。
-         * @param value 値
-         * @return 設定前の値
-         */
         public V setValue(V value)
         {
-            V oldValue = this.value_;
-            this.value_ = value;
+            V oldValue = this.value;
+            this.value = value;
             return oldValue;
         }
 
-        /**
-         * {@inheritDoc}
-         */
-        @SuppressWarnings("unchecked")
         public boolean equals(Object o)
         {
             if (!(o instanceof Map.Entry))
-            {
                 return false;
-            }
-            Map.Entry<K, V> e = (Map.Entry<K, V>)o;
-            return eq(key_, e.getKey()) && eq(value_, e.getValue());
+            Map.Entry e = (Map.Entry)o;
+            return eq(key, e.getKey()) && eq(value, e.getValue());
         }
 
-        /**
-         * {@inheritDoc}
-         */
         public int hashCode()
         {
-            return ((key_ == null) ? 0 : key_.hashCode())
-                    ^ ((value_ == null) ? 0 : value_.hashCode());
+            return ((key == null) ? 0 : key.hashCode()) ^ ((value == null) ? 0 : value.hashCode());
         }
 
-        /**
-         * {@inheritDoc}
-         */
         public String toString()
         {
-            return key_ + "=" + value_;
+            return key + "=" + value;
         }
 
         private static boolean eq(Object o1, Object o2)

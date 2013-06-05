@@ -36,7 +36,7 @@ public class ReportDao extends AbstractDao implements TableNames {
 			+ "    , min(cast(mv.measurement_value as bigint)) min_value"
 			+ "    ,floor( "
 			+ ITEM_COUNT
-			+ " * (date_part('epoch', measurement_time) - ?) "
+			+ " * (date_part('epoch', measurement_time) - date_part('epoch', ?::timestamp)) "
 			+ "    / ?"
 			+ ") measurement_index "
 			+ "FROM" //
@@ -60,7 +60,7 @@ public class ReportDao extends AbstractDao implements TableNames {
 			+ "    , sum(cast(mv.measurement_value as bigint)) min_value"
 			+ "    ,floor( "
 			+ ITEM_COUNT
-			+ " * (date_part('epoch', measurement_time) - ?) "
+			+ " * (date_part('epoch', measurement_time) - date_part('epoch', ?::timestamp)) "
 			+ "    / ?"
 			+ ") measurement_index "
 			+ "FROM" //
@@ -86,7 +86,7 @@ public class ReportDao extends AbstractDao implements TableNames {
 			+ "    , min(cast(mv.measurement_value as bigint)) min_value"
 			+ "    ,floor( "
 			+ ITEM_COUNT
-			+ " * (date_part('epoch', measurement_time) - ?) "
+			+ " * (date_part('epoch', measurement_time) - date_part('epoch', ?::timestamp)) "
 			+ "    / ?"
 			+ ") measurement_index "
 			+ "FROM" //
@@ -112,7 +112,7 @@ public class ReportDao extends AbstractDao implements TableNames {
 			+ "    , min(cast(mv.measurement_value as bigint)) min_value"
 			+ "    ,floor( "
 			+ ITEM_COUNT
-			+ " * (date_part('epoch', measurement_time) - ?) "
+			+ " * (date_part('epoch', measurement_time)  - date_part('epoch', ?::timestamp)) "
 			+ "    / ?"
 			+ ") measurement_index "
 			+ "FROM" //
@@ -138,7 +138,7 @@ public class ReportDao extends AbstractDao implements TableNames {
 			+ "    , sum(cast(mv.measurement_value as bigint)) min_value"
 			+ "    ,floor( "
 			+ ITEM_COUNT
-			+ " * (date_part('epoch', measurement_time) - ?) "
+			+ " * (date_part('epoch', measurement_time) - date_part('epoch', ?::timestamp)) "
 			+ "    / ?"
 			+ ") measurement_index "
 			+ "FROM" //
@@ -164,7 +164,7 @@ public class ReportDao extends AbstractDao implements TableNames {
 			+ "    , sum(cast(mv.measurement_value as bigint)) min_value"
 			+ "    ,floor( "
 			+ ITEM_COUNT
-			+ " * (date_part('epoch', measurement_time) - ?) "
+			+ " * (date_part('epoch', measurement_time) - date_part('epoch', ?::timestamp)) "
 			+ "    / ?"
 			+ ") measurement_index "
 			+ "FROM" //
@@ -190,7 +190,7 @@ public class ReportDao extends AbstractDao implements TableNames {
 			+ "    , sum(cast(mv.measurement_value as bigint)) min_value"
 			+ "    ,floor( "
 			+ ITEM_COUNT
-			+ " * (date_part('epoch', measurement_time) - ?) "
+			+ " * (date_part('epoch', measurement_time) - date_part('epoch', ?::timestamp)) "
 			+ "    / ?"
 			+ ") measurement_index "
 			+ "FROM" //
@@ -216,7 +216,7 @@ public class ReportDao extends AbstractDao implements TableNames {
 			+ "    , sum(cast(mv.measurement_value as bigint)) min_value"
 			+ "    ,floor( "
 			+ ITEM_COUNT
-			+ " * (date_part('epoch', measurement_time) - ?) "
+			+ " * (date_part('epoch', measurement_time) - date_part('epoch', ?::timestamp)) "
 			+ "    / ?"
 			+ ") measurement_index "
 			+ "FROM" //
@@ -242,7 +242,7 @@ public class ReportDao extends AbstractDao implements TableNames {
 			+ "    , min(cast(mv.measurement_value as bigint)) min_value"
 			+ "    ,floor( "
 			+ ITEM_COUNT
-			+ " * (date_part('epoch', measurement_time) - ?) "
+			+ " * (date_part('epoch', measurement_time) - date_part('epoch', ?::timestamp)) "
 			+ "    / ?"
 			+ ") measurement_index "
 			+ "FROM" //
@@ -598,7 +598,7 @@ public class ReportDao extends AbstractDao implements TableNames {
 			// CHECKSTYLE:OFF
 			long startSeconds = startTime.getTime() / 1000;
 			long endSeconds = endTime.getTime() / 1000;
-			pstmt.setLong(1, startSeconds);
+			pstmt.setTimestamp(1, startTime);
 			pstmt.setLong(2, endSeconds - startSeconds);
 			pstmt.setString(3, itemName);
 			pstmt.setTimestamp(4, startTime);
