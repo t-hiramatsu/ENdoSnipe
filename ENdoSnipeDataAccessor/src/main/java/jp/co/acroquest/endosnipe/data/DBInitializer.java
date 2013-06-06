@@ -349,7 +349,7 @@ public class DBInitializer
 		String checkConstraint = createCheckConstraintText("MEASUREMENT_TIME",
 				index, year);
 		String createMeasurementValueSql = String.format(
-				"CREATE TABLE %s (CONSTRAINT %s %s) INHERITS (%s)",
+				"CREATE UNLOGGED TABLE %s (CONSTRAINT %s %s) INHERITS (%s)",
 				tableName, checkConstraintName, checkConstraint,
 				TableNames.MEASUREMENT_VALUE);
 		SQLExecutor.executeSQL(con, createMeasurementValueSql, null);

@@ -28,29 +28,60 @@ package jp.co.acroquest.endosnipe.javelin.util;
 import java.util.Collection;
 import java.util.Set;
 
+/**
+ * LinkedHashSetクラス
+ *
+ * @author acroquest
+ * @param <E> エレメント
+ */
 public class LinkedHashSet<E> extends HashSet<E> implements Set<E>, Cloneable
 {
-    /**  */
+    /** シリアルバージョンID */
     private static final long serialVersionUID = -2133387120094590387L;
 
+    /** ロードファクターのデフォルト値*/
+    private static final float DEFAULT_LOAD_FACTOR = .75f;
+    
+    /** キャパシティのデフォルト値　*/
+    private static final int DEFAULT_INITIAL_CAPACITY = 16;
+    
+    /** キャパシティのしきい値　*/
+    private static final int CAPACITY_THRESHOLD_SIZE = 11;
+    
+    /**
+     * コンストラクタ
+     * @param initialCapacity 初期容量
+     * @param loadFactor 利用率
+     */
     public LinkedHashSet(int initialCapacity, float loadFactor)
     {
         super(initialCapacity, loadFactor, true);
     }
 
+    /**
+     * コンストラクタ
+     * @param initialCapacity 初期容量
+     */
     public LinkedHashSet(int initialCapacity)
     {
-        super(initialCapacity, .75f, true);
+        super(initialCapacity, DEFAULT_LOAD_FACTOR, true);
     }
 
+    /**
+     * コンストラクタ
+     */
     public LinkedHashSet()
     {
-        super(16, .75f, true);
+        super(DEFAULT_INITIAL_CAPACITY, DEFAULT_LOAD_FACTOR, true);
     }
 
-    public LinkedHashSet(Collection<? extends E> c)
+    /**
+     * コンストラクタ
+     * @param collection コレクション
+     */
+    public LinkedHashSet(Collection<? extends E> collection)
     {
-        super(Math.max(2 * c.size(), 11), .75f, true);
-        addAll(c);
+        super(Math.max(2 * collection.size(), CAPACITY_THRESHOLD_SIZE), DEFAULT_LOAD_FACTOR, true);
+        addAll(collection);
     }
 }
