@@ -36,129 +36,60 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
-/**
- * HashMapクラス
- * @author acroquest
- *
- * @param <K> キー
- * @param <V> 値
- */
 public class HashMap<K, V> extends AbstractMap<K, V> implements Map<K, V>, Cloneable, Serializable
 {
 
-    /** シリアルバージョンID */
-    private static final long              serialVersionUID              = 8761989745265438004L;
+    /**  */
+    private static final long serialVersionUID = 8761989745265438004L;
 
-    private static final int               OLD_HASH_LEFT_SHIFT_FOUR      = 4;
+    static final int DEFAULT_INITIAL_CAPACITY = 16;
 
-    private static final int               OLD_HASH_LEFT_SHIFT_NINE      = 9;
+    static final int MAXIMUM_CAPACITY = 1 << 30;
 
-    private static final int               OLD_HASH_RIGHT_SHIFT_FOURTEEN = 14;
+    static final float DEFAULT_LOAD_FACTOR = 0.75f;
 
-    private static final int               OLD_HASH_RIGHT_SHIFT_TEN      = 10;
+    transient Entry[] table;
 
-    private static final int               NEW_HASH_RIGHT_SHIFT_FOUR     = 4;
+    transient int size;
 
-    private static final int               NEW_HASH_RIGHT_SHIFT_SEVEN    = 7;
+    int threshold;
 
-    private static final int               NEW_HASH_RIGHT_SHIFT_TWELEVE  = 12;
+    final float loadFactor;
 
-    private static final int               NEW_HASH_RIGHT_SHIFT_TWENTY   = 20;
+    transient volatile int modCount;
 
-    /** デフォルトのハッシュマップの初期容量 */
-    static final int                       DEFAULT_INITIAL_CAPACITY      = 16;
-
-    /** 左シフト量 */
-    static final int                       CAPACITY_SHIFT_VALUE          = 30;
-
-    /** ハッシュマップの最大容量 */
-    static final int                       MAXIMUM_CAPACITY = 1 << CAPACITY_SHIFT_VALUE;
-
-    /** デフォルトのハッシュマップの負荷係数 */
-    static final float                     DEFAULT_LOAD_FACTOR           = 0.75f;
-
-    /** nullを示すキー */
-    static final Object                    NULL_KEY                      = new Object();
-
-    /** 新しいハッシュを使用しているかのフラグ */
-    private static final boolean           USER_NEW_HASH;
-
-    /** エントリセット */
-    private transient Set<Map.Entry<K, V>> entrySet_                     = null;
-
-    /** テーブル */
-    transient Entry<K, V>[]                table_;
-
-    /** サイズ */
-    transient int                          size_;
-
-    /** しきい値 */
-    int                                    threshold_;
-
-    /** ハッシュマップの負荷係数 */
-    final float                            loadFactor_;
-
-    /** 修正回数 */
-    transient volatile int                 modCount_;
-
-    /**
-     * コンストラクタ
-     * @param initialCapacity ハッシュマップの初期容量
-     * @param loadFactor ハッシュマップの負荷係数
-     */
-    @SuppressWarnings("unchecked")
     public HashMap(int initialCapacity, float loadFactor)
     {
         if (initialCapacity < 0)
-        {
             throw new IllegalArgumentException("Illegal initial capacity: " + initialCapacity);
-        }
         if (initialCapacity > MAXIMUM_CAPACITY)
-        {
             initialCapacity = MAXIMUM_CAPACITY;
-        }
         if (loadFactor <= 0 || Float.isNaN(loadFactor))
-        {
             throw new IllegalArgumentException("Illegal load factor: " + loadFactor);
-        }
 
         int capacity = 1;
         while (capacity < initialCapacity)
-        {
             capacity <<= 1;
-        }
 
-        this.loadFactor_ = loadFactor;
-        threshold_ = (int)(capacity * loadFactor);
-        table_ = new Entry[capacity];
+        this.loadFactor = loadFactor;
+        threshold = (int)(capacity * loadFactor);
+        table = new Entry[capacity];
         init();
     }
 
-    /**
-     * コンストラクタ
-     * @param initialCapacity ハッシュマップの初期容量
-     */
     public HashMap(int initialCapacity)
     {
         this(initialCapacity, DEFAULT_LOAD_FACTOR);
     }
 
-    /**
-     * コンストラクタ
-     */
-    @SuppressWarnings("unchecked")
     public HashMap()
     {
-        this.loadFactor_ = DEFAULT_LOAD_FACTOR;
-        threshold_ = (int)(DEFAULT_INITIAL_CAPACITY * DEFAULT_LOAD_FACTOR);
-        table_ = new Entry[DEFAULT_INITIAL_CAPACITY];
+        this.loadFactor = DEFAULT_LOAD_FACTOR;
+        threshold = (int)(DEFAULT_INITIAL_CAPACITY * DEFAULT_LOAD_FACTOR);
+        table = new Entry[DEFAULT_INITIAL_CAPACITY];
         init();
     }
 
-    /**
-     * コンストラクタ
-     * @param m マップ
-     */
     public HashMap(Map<? extends K, ? extends V> m)
     {
         this(Math.max((int)(m.size() / DEFAULT_LOAD_FACTOR) + 1, DEFAULT_INITIAL_CAPACITY),
@@ -166,261 +97,183 @@ public class HashMap<K, V> extends AbstractMap<K, V> implements Map<K, V>, Clone
         putAllForCreate(m);
     }
 
-    /**
-     * 初期化を行います。
-     */
     void init()
     {
     }
 
-    /**
-     * 指定されたキーがnullのときnullのオブジェクトを返します。
-     * @param <T> 
-     * @param key キー
-     * @return 指定されたキーがnullのときnullのオブジェクト/そうでないとき指定されたキー
-     */
-    @SuppressWarnings("unchecked")
+    static final Object NULL_KEY = new Object();
+
     static <T> T maskNull(T key)
     {
         return key == null ? (T)NULL_KEY : key;
     }
 
-    /**
-     * 指定されたキーがnullのオブジェクトときnullを返します。
-     * @param <T> 
-     * @param key キー
-     * @return 指定されたキーがnullのときnullのオブジェクト/そうでないとき指定されたキー
-     */
     static <T> T unmaskNull(T key)
     {
         return (key == NULL_KEY ? null : key);
     }
 
+    private static final boolean useNewHash;
     static
     {
-        USER_NEW_HASH = false;
+        useNewHash = false;
     }
 
     private static int oldHash(int h)
     {
-        h += ~(h << OLD_HASH_LEFT_SHIFT_NINE);
-        h ^= (h >>> OLD_HASH_RIGHT_SHIFT_FOURTEEN);
-        h += (h << OLD_HASH_LEFT_SHIFT_FOUR);
-        h ^= (h >>> OLD_HASH_RIGHT_SHIFT_TEN);
+        h += ~(h << 9);
+        h ^= (h >>> 14);
+        h += (h << 4);
+        h ^= (h >>> 10);
         return h;
     }
 
     private static int newHash(int h)
     {
-        h ^= (h >>> NEW_HASH_RIGHT_SHIFT_TWENTY) ^ (h >>> NEW_HASH_RIGHT_SHIFT_TWELEVE);
-        return h ^ (h >>> NEW_HASH_RIGHT_SHIFT_SEVEN) ^ (h >>> NEW_HASH_RIGHT_SHIFT_FOUR);
+        h ^= (h >>> 20) ^ (h >>> 12);
+        return h ^ (h >>> 7) ^ (h >>> 4);
     }
 
-    /**
-     * ハッシュを返します。。
-     * @param h ハッシュ値
-     * @return ハッシュ
-     */
     static int hash(int h)
     {
-        return USER_NEW_HASH ? newHash(h) : oldHash(h);
+        return useNewHash ? newHash(h) : oldHash(h);
     }
 
-    /**
-     * ハッシュを返します。
-     * @param key キー
-     * @return ハッシュ
-     */
     static int hash(Object key)
     {
         return hash(key.hashCode());
     }
 
-    /**
-     * オブジェクトが等しいか判定します。
-     * @param x 比較対象オブジェクト
-     * @param y 比較対象オブジェクト
-     * @return オブジェy区とが等しいときtrue/そうでないときfalse
-     */
     static boolean eq(Object x, Object y)
     {
         return x == y || x.equals(y);
     }
 
-    /**
-     * 指定されたハッシュと長さの論理和を返します。
-     * @param h ハッシュ
-     * @param length 長さ
-     * @return ハッシュと長さの論理和
-     */
     static int indexFor(int h, int length)
     {
         return h & (length - 1);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public int size()
     {
-        return size_;
+        return size;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public boolean isEmpty()
     {
-        return size_ == 0;
+        return size == 0;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public V get(Object key)
     {
         if (key == null)
-        {
             return getForNullKey();
-        }
         int hash = hash(key.hashCode());
-        int index = indexFor(hash, table_.length);
-        for (Entry<K, V> entry = table_[index]; entry != null; entry = entry.next_)
+        for (Entry<K, V> e = table[indexFor(hash, table.length)]; e != null; e = e.next)
         {
-            Object k = entry.key_;
-            if (entry.hash_ == hash && (k == key || key.equals(k)))
-            {
-                return entry.value_;
-            }
+            Object k;
+            if (e.hash == hash && ((k = e.key) == key || key.equals(k)))
+                return e.value;
         }
         return null;
     }
 
-    /**
-     * Nullキーを取得します。
-     * @return
-     */
     private V getForNullKey()
     {
         int hash = hash(NULL_KEY.hashCode());
-        int i = indexFor(hash, table_.length);
-        Entry<K, V> e = table_[i];
+        int i = indexFor(hash, table.length);
+        Entry<K, V> e = table[i];
         while (true)
         {
             if (e == null)
-            {
                 return null;
-            }
-            if (e.key_ == NULL_KEY)
-            {
-                return e.value_;
-            }
-            e = e.next_;
+            if (e.key == NULL_KEY)
+                return e.value;
+            e = e.next;
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public boolean containsKey(Object key)
     {
         Object k = maskNull(key);
         int hash = hash(k.hashCode());
-        int i = indexFor(hash, table_.length);
-        Entry<K, V> e = table_[i];
+        int i = indexFor(hash, table.length);
+        Entry e = table[i];
         while (e != null)
         {
-            if (e.hash_ == hash && eq(k, e.key_))
-            {
+            if (e.hash == hash && eq(k, e.key))
                 return true;
-            }
-            e = e.next_;
+            e = e.next;
         }
         return false;
     }
 
-    /**
-     * 指定したキーを持つエントリを取得します。
-     * @param key キー
-     * @return 指定したキーを持つエントリ
-     */
     Entry<K, V> getEntry(Object key)
     {
         Object k = maskNull(key);
         int hash = hash(k.hashCode());
-        int i = indexFor(hash, table_.length);
-        Entry<K, V> entry = table_[i];
-        while (entry != null && !(entry.hash_ == hash && eq(k, entry.key_)))
-        {
-            entry = entry.next_;
-        }
-        return entry;
+        int i = indexFor(hash, table.length);
+        Entry<K, V> e = table[i];
+        while (e != null && !(e.hash == hash && eq(k, e.key)))
+            e = e.next;
+        return e;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public V put(K key, V value)
     {
         if (key == null)
-        {
             return putForNullKey(value);
-        }
         int hash = hash(key.hashCode());
-        int i = indexFor(hash, table_.length);
-        for (Entry<K, V> e = table_[i]; e != null; e = e.next_)
+        int i = indexFor(hash, table.length);
+        for (Entry<K, V> e = table[i]; e != null; e = e.next)
         {
             Object k;
-            if (e.hash_ == hash && ((k = e.key_) == key || key.equals(k)))
+            if (e.hash == hash && ((k = e.key) == key || key.equals(k)))
             {
-                V oldValue = e.value_;
-                e.value_ = value;
+                V oldValue = e.value;
+                e.value = value;
                 e.recordAccess(this);
                 return oldValue;
             }
         }
-        modCount_++;
+
+        modCount++;
         addEntry(hash, key, value, i);
         return null;
     }
 
-    @SuppressWarnings("unchecked")
     private V putForNullKey(V value)
     {
         int hash = hash(NULL_KEY.hashCode());
-        int i = indexFor(hash, table_.length);
+        int i = indexFor(hash, table.length);
 
-        for (Entry<K, V> e = table_[i]; e != null; e = e.next_)
+        for (Entry<K, V> e = table[i]; e != null; e = e.next)
         {
-            if (e.key_ == NULL_KEY)
+            if (e.key == NULL_KEY)
             {
-                V oldValue = e.value_;
-                e.value_ = value;
+                V oldValue = e.value;
+                e.value = value;
+                e.recordAccess(this);
                 return oldValue;
             }
         }
 
-        modCount_++;
+        modCount++;
         addEntry(hash, (K)NULL_KEY, value, i);
         return null;
     }
 
-    /**
-     * 新規のエントリを追加します。
-     * @param key キー
-     * @param value 値
-     */
     private void putForCreate(K key, V value)
     {
         K k = maskNull(key);
         int hash = hash(k.hashCode());
-        int i = indexFor(hash, table_.length);
+        int i = indexFor(hash, table.length);
 
-        for (Entry<K, V> e = table_[i]; e != null; e = e.next_)
+        for (Entry<K, V> e = table[i]; e != null; e = e.next)
         {
-            if (e.hash_ == hash && eq(k, e.key_))
+            if (e.hash == hash && eq(k, e.key))
             {
-                e.value_ = value;
+                e.value = value;
                 return;
             }
         }
@@ -428,48 +281,34 @@ public class HashMap<K, V> extends AbstractMap<K, V> implements Map<K, V>, Clone
         createEntry(hash, k, value, i);
     }
 
-    /**
-     * 指定したMapの全要素からエントリを生成します。
-     * @param m マップ
-     */
     void putAllForCreate(Map<? extends K, ? extends V> m)
     {
-        Iterator<? extends Map.Entry<? extends K, ? extends V>> iterator = m.entrySet().iterator();
-        for (Iterator<? extends Map.Entry<? extends K, ? extends V>> i = iterator; i.hasNext();)
+        for (Iterator<? extends Map.Entry<? extends K, ? extends V>> i = m.entrySet().iterator(); i.hasNext();)
         {
             Map.Entry<? extends K, ? extends V> e = i.next();
             putForCreate(e.getKey(), e.getValue());
         }
     }
 
-    /**
-     * テーブルを指定した容量にリサイズします。
-     * @param newCapacity テーブルの容量
-     */
-    @SuppressWarnings("unchecked")
     void resize(int newCapacity)
     {
-        Entry<K, V>[] oldTable = table_;
+        Entry[] oldTable = table;
         int oldCapacity = oldTable.length;
         if (oldCapacity == MAXIMUM_CAPACITY)
         {
-            threshold_ = Integer.MAX_VALUE;
+            threshold = Integer.MAX_VALUE;
             return;
         }
 
-        Entry<K, V>[] newTable = new Entry[newCapacity];
+        Entry[] newTable = new Entry[newCapacity];
         transfer(newTable);
-        table_ = newTable;
-        threshold_ = (int)(newCapacity * loadFactor_);
+        table = newTable;
+        threshold = (int)(newCapacity * loadFactor);
     }
 
-    /**
-     * エントリの配列を新しいテーブルに移動します。
-     * @param newTable 新しいテーブル
-     */
-    void transfer(Entry<K, V>[] newTable)
+    void transfer(Entry[] newTable)
     {
-        Entry<K, V>[] src = table_;
+        Entry[] src = table;
         int newCapacity = newTable.length;
         for (int j = 0; j < src.length; j++)
         {
@@ -479,9 +318,9 @@ public class HashMap<K, V> extends AbstractMap<K, V> implements Map<K, V>, Clone
                 src[j] = null;
                 do
                 {
-                    Entry<K, V> next = e.next_;
-                    int i = indexFor(e.hash_, newCapacity);
-                    e.next_ = newTable[i];
+                    Entry<K, V> next = e.next;
+                    int i = indexFor(e.hash, newCapacity);
+                    e.next = newTable[i];
                     newTable[i] = e;
                     e = next;
                 }
@@ -490,124 +329,57 @@ public class HashMap<K, V> extends AbstractMap<K, V> implements Map<K, V>, Clone
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public void putAll(Map<? extends K, ? extends V> m)
     {
         int numKeysToBeAdded = m.size();
         if (numKeysToBeAdded == 0)
-        {
             return;
-        }
 
-        if (numKeysToBeAdded > threshold_)
+        if (numKeysToBeAdded > threshold)
         {
-            int targetCapacity = (int)(numKeysToBeAdded / loadFactor_ + 1);
+            int targetCapacity = (int)(numKeysToBeAdded / loadFactor + 1);
             if (targetCapacity > MAXIMUM_CAPACITY)
-            {
                 targetCapacity = MAXIMUM_CAPACITY;
-            }
-            int newCapacity = table_.length;
+            int newCapacity = table.length;
             while (newCapacity < targetCapacity)
-            {
                 newCapacity <<= 1;
-            }
-            if (newCapacity > table_.length)
-            {
+            if (newCapacity > table.length)
                 resize(newCapacity);
-            }
         }
 
-        Iterator<? extends Map.Entry<? extends K, ? extends V>> iterator = m.entrySet().iterator();
-        for (Iterator<? extends Map.Entry<? extends K, ? extends V>> i = iterator; i.hasNext();)
+        for (Iterator<? extends Map.Entry<? extends K, ? extends V>> i = m.entrySet().iterator(); i.hasNext();)
         {
             Map.Entry<? extends K, ? extends V> e = i.next();
             put(e.getKey(), e.getValue());
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public V remove(Object key)
     {
         Entry<K, V> e = removeEntryForKey(key);
-        return (e == null ? null : e.value_);
+        return (e == null ? null : e.value);
     }
 
-    /**
-     * 指定したキーを持つエントリを削除します。
-     * @param key 削除するエントリのキー
-     * @return 削除したエントリ
-     */
-    public Entry<K, V> removeEntryForKey(Object key)
+    Entry<K, V> removeEntryForKey(Object key)
     {
         Object k = maskNull(key);
         int hash = hash(k.hashCode());
-        int i = indexFor(hash, table_.length);
-        Entry<K, V> prev = table_[i];
-        Entry<K, V> entry = prev;
-
-        while (entry != null)
-        {
-            Entry<K, V> next = entry.next_;
-            if (entry.hash_ == hash && eq(k, entry.key_))
-            {
-                modCount_++;
-                size_--;
-                if (prev == entry)
-                {
-                    table_[i] = next;
-                }
-                else
-                {
-                    prev.next_ = next;
-                }
-                return entry;
-            }
-            prev = entry;
-            entry = next;
-        }
-
-        return entry;
-    }
-
-    /**
-     * 指定したエントリのMappingを削除します。
-     * @param o エントリ
-     * @return 削除したエントリ
-     */
-    @SuppressWarnings("unchecked")
-    Entry<K, V> removeMapping(Object o)
-    {
-        if (!(o instanceof Map.Entry))
-        {
-            return null;
-        }
-
-        Map.Entry<K, V> entry = (Map.Entry<K, V>)o;
-        Object k = maskNull(entry.getKey());
-        int hash = hash(k.hashCode());
-        int i = indexFor(hash, table_.length);
-        Entry<K, V> prev = table_[i];
+        int i = indexFor(hash, table.length);
+        Entry<K, V> prev = table[i];
         Entry<K, V> e = prev;
 
         while (e != null)
         {
-            Entry<K, V> next = e.next_;
-            if (e.hash_ == hash && e.equals(entry))
+            Entry<K, V> next = e.next;
+            if (e.hash == hash && eq(k, e.key))
             {
-                modCount_++;
-                size_--;
+                modCount++;
+                size--;
                 if (prev == e)
-                {
-                    table_[i] = next;
-                }
+                    table[i] = next;
                 else
-                {
-                    prev.next_ = next;
-                }
+                    prev.next = next;
+                e.recordRemoval(this);
                 return e;
             }
             prev = e;
@@ -617,64 +389,71 @@ public class HashMap<K, V> extends AbstractMap<K, V> implements Map<K, V>, Clone
         return e;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public void clear()
+    Entry<K, V> removeMapping(Object o)
     {
-        modCount_++;
-        Entry<K, V>[] tab = table_;
-        for (int i = 0; i < tab.length; i++)
+        if (!(o instanceof Map.Entry))
+            return null;
+
+        Map.Entry<K, V> entry = (Map.Entry<K, V>)o;
+        Object k = maskNull(entry.getKey());
+        int hash = hash(k.hashCode());
+        int i = indexFor(hash, table.length);
+        Entry<K, V> prev = table[i];
+        Entry<K, V> e = prev;
+
+        while (e != null)
         {
-            tab[i] = null;
+            Entry<K, V> next = e.next;
+            if (e.hash == hash && e.equals(entry))
+            {
+                modCount++;
+                size--;
+                if (prev == e)
+                    table[i] = next;
+                else
+                    prev.next = next;
+                e.recordRemoval(this);
+                return e;
+            }
+            prev = e;
+            e = next;
         }
-        size_ = 0;
+
+        return e;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    public void clear()
+    {
+        modCount++;
+        Entry[] tab = table;
+        for (int i = 0; i < tab.length; i++)
+            tab[i] = null;
+        size = 0;
+    }
+
     public boolean containsValue(Object value)
     {
         if (value == null)
-        {
             return containsNullValue();
-        }
 
-        Entry<K, V>[] tab = table_;
+        Entry[] tab = table;
         for (int i = 0; i < tab.length; i++)
-        {
-            for (Entry<K, V> e = tab[i]; e != null; e = e.next_)
-            {
-                if (value.equals(e.value_))
-                {
+            for (Entry e = tab[i]; e != null; e = e.next)
+                if (value.equals(e.value))
                     return true;
-                }
-            }
-        }
         return false;
     }
 
     private boolean containsNullValue()
     {
-        Entry<K, V>[] tab = table_;
+        Entry[] tab = table;
         for (int i = 0; i < tab.length; i++)
-        {
-            for (Entry<K, V> e = tab[i]; e != null; e = e.next_)
-            {
-                if (e.value_ == null)
-                {
+            for (Entry e = tab[i]; e != null; e = e.next)
+                if (e.value == null)
                     return true;
-                }
-            }
-        }
         return false;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @SuppressWarnings("unchecked")
     public Object clone()
     {
         HashMap<K, V> result = null;
@@ -686,93 +465,56 @@ public class HashMap<K, V> extends AbstractMap<K, V> implements Map<K, V>, Clone
         {
             // assert false;
         }
-        result.table_ = new Entry[table_.length];
-        result.entrySet_ = null;
-        result.modCount_ = 0;
-        result.size_ = 0;
+        result.table = new Entry[table.length];
+        result.entrySet = null;
+        result.modCount = 0;
+        result.size = 0;
         result.init();
         result.putAllForCreate(this);
 
         return result;
     }
 
-    /**
-     * エントリクラス
-     * @author acroquest
-     *
-     * @param <K> キー
-     * @param <V> 値
-     */
     static class Entry<K, V> implements Map.Entry<K, V>
     {
-        /** キー */
-        final K     key_;
+        final K key;
 
-        /** 値 */
-        V           value_;
+        V value;
 
-        /** ハッシュ */
-        final int   hash_;
+        final int hash;
 
-        /** 次のエントリ */
-        Entry<K, V> next_;
+        Entry<K, V> next;
 
-        /** 
-         * コンストラクタ
-         * @param hash ハッシュ
-         * @param key キー
-         * @param value 値
-         * @param next 次のエントリ
-         */
-        Entry(int hash, K key, V value, Entry<K, V> next)
+        Entry(int h, K k, V v, Entry<K, V> n)
         {
-            value_ = value;
-            next_ = next;
-            key_ = key;
-            hash_ = hash;
+            value = v;
+            next = n;
+            key = k;
+            hash = h;
         }
 
-        /**
-         * キーを取得します。
-         * @return キー
-         */
         public K getKey()
         {
-            return HashMap.<K> unmaskNull(key_);
+            return HashMap.<K> unmaskNull(key);
         }
 
-        /**
-         * 値を取得します。
-         * @return 値
-         */
         public V getValue()
         {
-            return value_;
+            return value;
         }
 
-        /**
-         * 値を設定します。
-         * @param newValue 新しい値
-         * @return 古い値
-         */
         public V setValue(V newValue)
         {
-            V oldValue = value_;
-            value_ = newValue;
+            V oldValue = value;
+            value = newValue;
             return oldValue;
         }
 
-        /**
-         * {@inheritDoc}
-         */
-        @SuppressWarnings("unchecked")
         public boolean equals(Object o)
         {
             if (!(o instanceof Map.Entry))
-            {
                 return false;
-            }
-            Map.Entry<K, V> e = (Entry<K, V>)o;
+            Map.Entry e = (Map.Entry)o;
             Object k1 = getKey();
             Object k2 = e.getKey();
             if (k1 == k2 || (k1 != null && k1.equals(k2)))
@@ -780,178 +522,115 @@ public class HashMap<K, V> extends AbstractMap<K, V> implements Map<K, V>, Clone
                 Object v1 = getValue();
                 Object v2 = e.getValue();
                 if (v1 == v2 || (v1 != null && v1.equals(v2)))
-                {
                     return true;
-                }
             }
             return false;
         }
 
-        /**
-         * {@inheritDoc}
-         */
         public int hashCode()
         {
-            int keyHash = 0;
-            int valueHash = 0;
-
-            if (key_ != NULL_KEY)
-            {
-                keyHash = key_.hashCode();
-            }
-
-            if (value_ != null)
-            {
-                valueHash = value_.hashCode();
-            }
-
-            int result = keyHash ^ valueHash;
-
-            return result;
+            return (key == NULL_KEY ? 0 : key.hashCode()) ^ (value == null ? 0 : value.hashCode());
         }
 
-        /**
-         * {@inheritDoc}
-         */
         public String toString()
         {
             return getKey() + "=" + getValue();
         }
-        
-        void recordAccess(HashMap<K, V> m)        
+
+        void recordAccess(HashMap<K, V> m)
         {
-            
+        }
+
+        void recordRemoval(HashMap<K, V> m)
+        {
         }
     }
 
-    /**
-     * エントリを追加します。
-     * @param hash ハッシュ
-     * @param key キー
-     * @param value 値
-     * @param bucketIndex 格納するインデックス
-     */
     void addEntry(int hash, K key, V value, int bucketIndex)
     {
-        Entry<K, V> e = table_[bucketIndex];
-        table_[bucketIndex] = new Entry<K, V>(hash, key, value, e);
-        if (size_++ >= threshold_)
-        {
-            resize(2 * table_.length);
-        }
+        Entry<K, V> e = table[bucketIndex];
+        table[bucketIndex] = new Entry<K, V>(hash, key, value, e);
+        if (size++ >= threshold)
+            resize(2 * table.length);
     }
 
-    /**
-     * エントリを生成します。
-     * @param hash ハッシュ
-     * @param key キー
-     * @param value 値
-     * @param bucketIndex 格納するインデックス
-     */
     void createEntry(int hash, K key, V value, int bucketIndex)
     {
-        Entry<K, V> e = table_[bucketIndex];
-        table_[bucketIndex] = new Entry<K, V>(hash, key, value, e);
-        size_++;
+        Entry<K, V> e = table[bucketIndex];
+        table[bucketIndex] = new Entry<K, V>(hash, key, value, e);
+        size++;
     }
 
-    /**
-     * ハッシュイテレータクラス
-     * @author acorquest
-     *
-     * @param <E> element
-     */
     private abstract class HashIterator<E> implements Iterator<E>
     {
-        Entry<K, V> next_;            // next entry to return
+        Entry<K, V> next; // next entry to return
 
-        int         expectedModCount_; // For fast-fail 
+        int expectedModCount; // For fast-fail 
 
-        int         index_;           // current slot 
+        int index; // current slot 
 
-        Entry<K, V> current_;         // current entry
+        Entry<K, V> current; // current entry
 
         HashIterator()
         {
-            expectedModCount_ = modCount_;
-            Entry<K, V>[] t = table_;
+            expectedModCount = modCount;
+            Entry[] t = table;
             int i = t.length;
             Entry<K, V> n = null;
-            if (size_ != 0)
+            if (size != 0)
             { // advance to first entry
                 while (i > 0 && (n = t[--i]) == null)
                     ;
             }
-            next_ = n;
-            index_ = i;
+            next = n;
+            index = i;
         }
 
         public boolean hasNext()
         {
-            return next_ != null;
+            return next != null;
         }
 
         Entry<K, V> nextEntry()
         {
-            if (modCount_ != expectedModCount_)
-            {
+            if (modCount != expectedModCount)
                 throw new ConcurrentModificationException();
-            }
-            Entry<K, V> e = next_;
+            Entry<K, V> e = next;
             if (e == null)
-            {
                 throw new NoSuchElementException();
-            }
 
-            Entry<K, V> n = e.next_;
-            Entry<K, V>[] t = table_;
-            int i = index_;
+            Entry<K, V> n = e.next;
+            Entry[] t = table;
+            int i = index;
             while (n == null && i > 0)
-            {
                 n = t[--i];
-            }
-            index_ = i;
-            next_ = n;
-            current_ = e;
-            return current_;
+            index = i;
+            next = n;
+            return current = e;
         }
 
         public void remove()
         {
-            if (current_ == null)
-            {
+            if (current == null)
                 throw new IllegalStateException();
-            }
-            if (modCount_ != expectedModCount_)
-            {
+            if (modCount != expectedModCount)
                 throw new ConcurrentModificationException();
-            }
-            Object k = current_.key_;
-            current_ = null;
+            Object k = current.key;
+            current = null;
             HashMap.this.removeEntryForKey(k);
-            expectedModCount_ = modCount_;
+            expectedModCount = modCount;
         }
 
     }
 
-    /**
-     * 値のイテレータクラス
-     * @author acroquest
-     *
-     */
     private class ValueIterator extends HashIterator<V>
     {
         public V next()
         {
-            return nextEntry().value_;
+            return nextEntry().value;
         }
     }
 
-    /**
-     * キーのイテレータクラス
-     * @author acroquest
-     *
-     */
     private class KeyIterator extends HashIterator<K>
     {
         public K next()
@@ -960,11 +639,6 @@ public class HashMap<K, V> extends AbstractMap<K, V> implements Map<K, V>, Clone
         }
     }
 
-    /**
-     * エントリのイテレータクラス
-     * @author acroquest
-     *
-     */
     private class EntryIterator extends HashIterator<Map.Entry<K, V>>
     {
         public Map.Entry<K, V> next()
@@ -974,55 +648,29 @@ public class HashMap<K, V> extends AbstractMap<K, V> implements Map<K, V>, Clone
     }
 
     // Subclass overrides these to alter behavior of views' iterator() method
-
-    /**
-     * 新規のキーのイテレータを取得します。
-     * @return 新規のキーのイテレータ
-     */
     Iterator<K> newKeyIterator()
     {
         return new KeyIterator();
     }
 
-    /**
-     * 新規の値のイテレータを取得します。
-     * @return 新規の値のイテレータ
-     */
     Iterator<V> newValueIterator()
     {
         return new ValueIterator();
     }
 
-    /**
-     * 新規のエントリのイテレータを取得します。
-     * @return 新規のエントリのイテレータ
-     */
     Iterator<Map.Entry<K, V>> newEntryIterator()
     {
         return new EntryIterator();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    private transient Set<Map.Entry<K, V>> entrySet = null;
+
     public Set<K> keySet()
     {
-        Set<K> ks = keySet_;
-
-        if (ks != null)
-        {
-            return ks;
-        }
-
-        keySet_ = new KeySet();
-        return keySet_;
+        Set<K> ks = keySet;
+        return (ks != null ? ks : (keySet = new KeySet()));
     }
 
-    /**
-     * キーセットクラス
-     * @author acorquest
-     *
-     */
     private class KeySet extends AbstractSet<K>
     {
         public Iterator<K> iterator()
@@ -1032,7 +680,7 @@ public class HashMap<K, V> extends AbstractMap<K, V> implements Map<K, V>, Clone
 
         public int size()
         {
-            return size_;
+            return size;
         }
 
         public boolean contains(Object o)
@@ -1051,26 +699,12 @@ public class HashMap<K, V> extends AbstractMap<K, V> implements Map<K, V>, Clone
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public Collection<V> values()
     {
-        Collection<V> vs = values_;
-
-        if (vs != null)
-        {
-            return vs;
-        }
-        values_ = new Values();
-        return values_;
+        Collection<V> vs = values;
+        return (vs != null ? vs : (values = new Values()));
     }
 
-    /**
-     * 値の一覧クラス
-     * @author acroquest
-     *
-     */
     private class Values extends AbstractCollection<V>
     {
         public Iterator<V> iterator()
@@ -1080,7 +714,7 @@ public class HashMap<K, V> extends AbstractMap<K, V> implements Map<K, V>, Clone
 
         public int size()
         {
-            return size_;
+            return size;
         }
 
         public boolean contains(Object o)
@@ -1094,83 +728,44 @@ public class HashMap<K, V> extends AbstractMap<K, V> implements Map<K, V>, Clone
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public Set<Map.Entry<K, V>> entrySet()
     {
-        Set<Map.Entry<K, V>> es = entrySet_;
-
-        if (es != null)
-        {
-            return es;
-        }
-
-        entrySet_ = (Set<Map.Entry<K, V>>)new EntrySet();
-
-        return entrySet_;
+        Set<Map.Entry<K, V>> es = entrySet;
+        return (es != null ? es : (entrySet = (Set<Map.Entry<K, V>>)(Set)new EntrySet()));
     }
 
-    /**
-     * エントリーセットクラス
-     * @author acroquest
-     *
-     */
-    private class EntrySet extends AbstractSet<Map.Entry<K, V>>
+    private class EntrySet extends AbstractSet/*<Map.Entry<K,V>>*/
     {
-        /**
-         * {@inheritDoc}
-         */
-        public Iterator<Map.Entry<K, V>> iterator()
+        public Iterator/*<Map.Entry<K,V>>*/iterator()
         {
             return newEntryIterator();
         }
 
-        /**
-         * {@inheritDoc}
-         */
-        @SuppressWarnings("unchecked")
         public boolean contains(Object o)
         {
             if (!(o instanceof Map.Entry))
-            {
                 return false;
-            }
             Map.Entry<K, V> e = (Map.Entry<K, V>)o;
             Entry<K, V> candidate = getEntry(e.getKey());
             return candidate != null && candidate.equals(e);
         }
 
-        /**
-         * {@inheritDoc}
-         */
         public boolean remove(Object o)
         {
             return removeMapping(o) != null;
         }
 
-        /**
-         * {@inheritDoc}
-         */
         public int size()
         {
-            return size_;
+            return size;
         }
 
-        /**
-         * {@inheritDoc}
-         */
         public void clear()
         {
             HashMap.this.clear();
         }
     }
 
-    /**
-     * writerObjectを生成します。
-     * @param s 出力ストリーム
-     * @throws IOException 入出力例外
-     */
     private void writeObject(java.io.ObjectOutputStream s)
         throws IOException
     {
@@ -1178,9 +773,9 @@ public class HashMap<K, V> extends AbstractMap<K, V> implements Map<K, V>, Clone
 
         s.defaultWriteObject();
 
-        s.writeInt(table_.length);
+        s.writeInt(table.length);
 
-        s.writeInt(size_);
+        s.writeInt(size);
 
         while (i.hasNext())
         {
@@ -1190,13 +785,6 @@ public class HashMap<K, V> extends AbstractMap<K, V> implements Map<K, V>, Clone
         }
     }
 
-    /**
-     * readObjectを生成します。
-     * @param s 入力ストリーム
-     * @throws IOException 入出力例外
-     * @throws ClassNotFoundException　クラスが見つからなかった時の例外
-     */
-    @SuppressWarnings("unchecked")
     private void readObject(java.io.ObjectInputStream s)
         throws IOException,
             ClassNotFoundException
@@ -1204,7 +792,7 @@ public class HashMap<K, V> extends AbstractMap<K, V> implements Map<K, V>, Clone
         s.defaultReadObject();
 
         int numBuckets = s.readInt();
-        table_ = new Entry[numBuckets];
+        table = new Entry[numBuckets];
 
         init();
 
@@ -1218,21 +806,13 @@ public class HashMap<K, V> extends AbstractMap<K, V> implements Map<K, V>, Clone
         }
     }
 
-    /**
-     * テーブルの長さを返します。
-     * @return テーブルの長さ
-     */
-    int getLength()
+    int capacity()
     {
-        return table_.length;
+        return table.length;
     }
 
-    /**
-     * ハッシュマップの負荷係数を取得します。
-     * @return ハッシュマップの負荷係数
-     */
     float loadFactor()
     {
-        return loadFactor_;
+        return loadFactor;
     }
 }

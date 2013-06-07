@@ -33,142 +33,86 @@ import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.Queue;
 
-/**
- * LinkedListクラス
- * @author acroquest
-
- * @param <E> エレメント
- */
 public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>, Queue<E>,
         Cloneable, java.io.Serializable
 {
-    /** シリアルバージョンID */
-    private static final long  serialVersionUID = 6287226297445011619L;
+    /**  */
+    private static final long serialVersionUID = 6287226297445011619L;
 
-    /** ヘッダ */
-    private transient Entry<E> header_          = new Entry<E>(null, null, null);
+    private transient Entry<E> header = new Entry<E>(null, null, null);
 
-    /** サイズ */
-    private transient int      size_            = 0;
+    private transient int size = 0;
 
-    /**
-     * コンストラクタ
-     */
     public LinkedList()
     {
-        header_.next_ = header_;
-        header_.previous_ = header_;
+        header.next = header.previous = header;
     }
 
-    /**
-     * コンストラクタ
-     * @param c コレクション
-     */
     public LinkedList(Collection<? extends E> c)
     {
         this();
         addAll(c);
     }
 
-    /**
-     * 最初のエレメントを取得します。
-     * @return 最初のエレメント
-     */
     public E getFirst()
     {
-        if (size_ == 0)
-        {
+        if (size == 0)
             throw new NoSuchElementException();
-        }
 
-        return header_.next_.element_;
+        return header.next.element;
     }
 
-    /**
-     * 最後のエレメントを取得します。
-     * @return 最後のエレメント
-     */
     public E getLast()
     {
-        if (size_ == 0)
-        {
+        if (size == 0)
             throw new NoSuchElementException();
-        }
 
-        return header_.previous_.element_;
+        return header.previous.element;
     }
 
-    /**
-     * 最初のエレメントを削除します。
-     * @return 削除したエレメント
-     */
     public E removeFirst()
     {
-        return remove(header_.next_);
+        return remove(header.next);
     }
 
-    /**
-     * 最後のエレメントを削除します。
-     * @return 削除したエレメント
-     */
     public E removeLast()
     {
-        return remove(header_.previous_);
+        return remove(header.previous);
     }
 
-    /**
-     * 最初にエレメントを追加します。
-     * @param element エレメント
-     */
-    public void addFirst(E element)
+    public void addFirst(E o)
     {
-        addBefore(element, header_.next_);
+        addBefore(o, header.next);
     }
 
-    /**
-     * 最後にエレメントを追加します。
-     * @param element エレメント
-     */
-    public void addLast(E element)
+    public void addLast(E o)
     {
-        addBefore(element, header_);
+        addBefore(o, header);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public boolean contains(Object o)
     {
         return indexOf(o) != -1;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public int size()
     {
-        return size_;
+        return size;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public boolean add(E o)
     {
-        addBefore(o, header_);
+        addBefore(o, header);
         return true;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public boolean remove(Object o)
     {
         if (o == null)
         {
-            for (Entry<E> e = header_.next_; e != header_; e = e.next_)
+            for (Entry<E> e = header.next; e != header; e = e.next)
             {
-                if (e.element_ == null)
+                if (e.element == null)
                 {
                     remove(e);
                     return true;
@@ -177,9 +121,9 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
         }
         else
         {
-            for (Entry<E> e = header_.next_; e != header_; e = e.next_)
+            for (Entry<E> e = header.next; e != header; e = e.next)
             {
-                if (o.equals(e.element_))
+                if (o.equals(e.element))
                 {
                     remove(e);
                     return true;
@@ -189,441 +133,329 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
         return false;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public boolean addAll(Collection<? extends E> c)
     {
-        return addAll(size_, c);
+        return addAll(size, c);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @SuppressWarnings("unchecked")
-    public boolean addAll(int index, Collection<? extends E> collection)
+    public boolean addAll(int index, Collection<? extends E> c)
     {
-        if (index < 0 || index > size_)
-        {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size_);
-        }
-        Object[] array = collection.toArray();
-        int numNew = array.length;
+        if (index < 0 || index > size)
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        Object[] a = c.toArray();
+        int numNew = a.length;
         if (numNew == 0)
-        {
             return false;
-        }
         modCount++;
 
-        Entry<E> successor = (index == size_ ? header_ : entry(index));
-        Entry<E> predecessor = successor.previous_;
-        for (int loopIndex = 0; loopIndex < numNew; loopIndex++)
+        Entry<E> successor = (index == size ? header : entry(index));
+        Entry<E> predecessor = successor.previous;
+        for (int i = 0; i < numNew; i++)
         {
-            Entry<E> entry = new Entry<E>((E)array[loopIndex], successor, predecessor);
-            predecessor.next_ = entry;
-            predecessor = entry;
+            Entry<E> e = new Entry<E>((E)a[i], successor, predecessor);
+            predecessor.next = e;
+            predecessor = e;
         }
-        successor.previous_ = predecessor;
+        successor.previous = predecessor;
 
-        size_ += numNew;
+        size += numNew;
         return true;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public void clear()
     {
-        Entry<E> entry = header_.next_;
-        while (entry != header_)
+        Entry<E> e = header.next;
+        while (e != header)
         {
-            Entry<E> next = entry.next_;
-            entry.next_ = null;
-            entry.previous_ = null;
-            entry.element_ = null;
-            entry = next;
+            Entry<E> next = e.next;
+            e.next = e.previous = null;
+            e.element = null;
+            e = next;
         }
-        header_.next_ = header_;
-        header_.previous_ = header_;
-        size_ = 0;
+        header.next = header.previous = header;
+        size = 0;
         modCount++;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public E get(int index)
     {
-        return entry(index).element_;
+        return entry(index).element;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public E set(int index, E element)
     {
         Entry<E> e = entry(index);
-        E oldVal = e.element_;
-        e.element_ = element;
+        E oldVal = e.element;
+        e.element = element;
         return oldVal;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public void add(int index, E element)
     {
-        addBefore(element, (index == size_ ? header_ : entry(index)));
+        addBefore(element, (index == size ? header : entry(index)));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public E remove(int index)
     {
         return remove(entry(index));
     }
 
-    /**
-     * Entryを指定したindexに追加します。
-     * @param index
-     * @return　指定したindexにセットされたEntry
-     */
     private Entry<E> entry(int index)
     {
-        if (index < 0 || index >= size_)
-        {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size_);
-        }
-        Entry<E> entry = header_;
-        if (index < (size_ >> 1))
+        if (index < 0 || index >= size)
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        Entry<E> e = header;
+        if (index < (size >> 1))
         {
             for (int i = 0; i <= index; i++)
-            {
-                entry = entry.next_;
-            }
+                e = e.next;
         }
         else
         {
-            for (int i = size_; i > index; i--)
-            {
-                entry = entry.previous_;
-            }
+            for (int i = size; i > index; i--)
+                e = e.previous;
         }
-        
-        return entry;
+        return e;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public int indexOf(Object object)
+    public int indexOf(Object o)
     {
         int index = 0;
-        if (object == null)
+        if (o == null)
         {
-            for (Entry<E> entry = header_.next_; entry != header_; entry = entry.next_)
+            for (Entry e = header.next; e != header; e = e.next)
             {
-                if (entry.element_ == null)
-                {
+                if (e.element == null)
                     return index;
-                }
                 index++;
             }
         }
         else
         {
-            for (Entry<E> e = header_.next_; e != header_; e = e.next_)
+            for (Entry e = header.next; e != header; e = e.next)
             {
-                if (object.equals(e.element_))
-                {
+                if (o.equals(e.element))
                     return index;
-                }
                 index++;
             }
         }
         return -1;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public int lastIndexOf(Object object)
+    public int lastIndexOf(Object o)
     {
-        int index = size_;
-        if (object == null)
+        int index = size;
+        if (o == null)
         {
-            for (Entry<E> entry = header_.previous_; entry != header_; entry = entry.previous_)
+            for (Entry e = header.previous; e != header; e = e.previous)
             {
                 index--;
-                if (entry.element_ == null)
-                {
+                if (e.element == null)
                     return index;
-                }
             }
         }
         else
         {
-            for (Entry<E> entry = header_.previous_; entry != header_; entry = entry.previous_)
+            for (Entry e = header.previous; e != header; e = e.previous)
             {
                 index--;
-                if (object.equals(entry.element_))
-                {
+                if (o.equals(e.element))
                     return index;
-                }
             }
         }
         return -1;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public E peek()
     {
-        if (size_ == 0)
-        {
+        if (size == 0)
             return null;
-        }
         return getFirst();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public E element()
     {
         return getFirst();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public E poll()
     {
-        if (size_ == 0)
-        {
+        if (size == 0)
             return null;
-        }
         return removeFirst();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public E remove()
     {
         return removeFirst();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public boolean offer(E o)
     {
         return add(o);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public ListIterator<E> listIterator(int index)
     {
         return new ListItr(index);
     }
 
-    /**
-     * ListIteratorクラス
-     *
-     */
     private class ListItr implements ListIterator<E>
     {
+        private Entry<E> lastReturned = header;
 
-        private Entry<E> lastReturned_     = header_;
+        private Entry<E> next;
 
-        private Entry<E> next_;
+        private int nextIndex;
 
-        private int      nextIndex_;
-
-        private int      expectedModCount_ = modCount;
+        private int expectedModCount = modCount;
 
         ListItr(int index)
         {
-            if (index < 0 || index > size_)
+            if (index < 0 || index > size)
+                throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+            if (index < (size >> 1))
             {
-                throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size_);
-            }
-            if (index < (size_ >> 1))
-            {
-                next_ = header_.next_;
-                for (nextIndex_ = 0; nextIndex_ < index; nextIndex_++)
-                {
-                    next_ = next_.next_;
-                }
+                next = header.next;
+                for (nextIndex = 0; nextIndex < index; nextIndex++)
+                    next = next.next;
             }
             else
             {
-                next_ = header_;
-                for (nextIndex_ = size_; nextIndex_ > index; nextIndex_--)
-                {
-                    next_ = next_.previous_;
-                }
+                next = header;
+                for (nextIndex = size; nextIndex > index; nextIndex--)
+                    next = next.previous;
             }
         }
 
         public boolean hasNext()
         {
-            return nextIndex_ != size_;
+            return nextIndex != size;
         }
 
         public E next()
         {
             checkForComodification();
-            if (nextIndex_ == size_)
-            {
+            if (nextIndex == size)
                 throw new NoSuchElementException();
-            }
 
-            lastReturned_ = next_;
-            next_ = next_.next_;
-            nextIndex_++;
-            return lastReturned_.element_;
+            lastReturned = next;
+            next = next.next;
+            nextIndex++;
+            return lastReturned.element;
         }
 
         public boolean hasPrevious()
         {
-            return nextIndex_ != 0;
+            return nextIndex != 0;
         }
 
         public E previous()
         {
-            if (nextIndex_ == 0)
-            {
+            if (nextIndex == 0)
                 throw new NoSuchElementException();
-            }
 
-            lastReturned_ = next_.previous_;
-            next_ = next_.previous_;
-            nextIndex_--;
+            lastReturned = next = next.previous;
+            nextIndex--;
             checkForComodification();
-            return lastReturned_.element_;
+            return lastReturned.element;
         }
 
         public int nextIndex()
         {
-            return nextIndex_;
+            return nextIndex;
         }
 
         public int previousIndex()
         {
-            return nextIndex_ - 1;
+            return nextIndex - 1;
         }
 
         public void remove()
         {
             checkForComodification();
-            Entry<E> lastNext = lastReturned_.next_;
+            Entry<E> lastNext = lastReturned.next;
             try
             {
-                LinkedList.this.remove(lastReturned_);
+                LinkedList.this.remove(lastReturned);
             }
             catch (NoSuchElementException e)
             {
                 throw new IllegalStateException();
             }
-            if (next_ == lastReturned_)
-            {
-                next_ = lastNext;
-            }
+            if (next == lastReturned)
+                next = lastNext;
             else
-            {
-                nextIndex_--;
-            }
-            lastReturned_ = header_;
-            expectedModCount_++;
+                nextIndex--;
+            lastReturned = header;
+            expectedModCount++;
         }
 
         public void set(E o)
         {
-            if (lastReturned_ == header_)
-            {
+            if (lastReturned == header)
                 throw new IllegalStateException();
-            }
             checkForComodification();
-            lastReturned_.element_ = o;
+            lastReturned.element = o;
         }
 
         public void add(E o)
         {
             checkForComodification();
-            lastReturned_ = header_;
-            addBefore(o, next_);
-            nextIndex_++;
-            expectedModCount_++;
+            lastReturned = header;
+            addBefore(o, next);
+            nextIndex++;
+            expectedModCount++;
         }
 
         final void checkForComodification()
         {
-            if (modCount != expectedModCount_)
-            {
+            if (modCount != expectedModCount)
                 throw new ConcurrentModificationException();
-            }
         }
     }
 
-    /**
-     * Entryクラス
-     * @param <E>
-     */
     private static class Entry<E>
     {
-        private E        element_;
+        E element;
 
-        private Entry<E> next_;
+        Entry<E> next;
 
-        private Entry<E> previous_;
+        Entry<E> previous;
 
-        public Entry(E element, Entry<E> next, Entry<E> previous)
+        Entry(E element, Entry<E> next, Entry<E> previous)
         {
-            this.element_ = element;
-            this.next_ = next;
-            this.previous_ = previous;
+            this.element = element;
+            this.next = next;
+            this.previous = previous;
         }
     }
 
     private Entry<E> addBefore(E o, Entry<E> e)
     {
-        Entry<E> newEntry = new Entry<E>(o, e, e.previous_);
-        newEntry.previous_.next_ = newEntry;
-        newEntry.next_.previous_ = newEntry;
-        size_++;
+        Entry<E> newEntry = new Entry<E>(o, e, e.previous);
+        newEntry.previous.next = newEntry;
+        newEntry.next.previous = newEntry;
+        size++;
         modCount++;
         return newEntry;
     }
 
-    private E remove(Entry<E> entry)
+    private E remove(Entry<E> e)
     {
-        if (entry == header_)
-        {
+        if (e == header)
             throw new NoSuchElementException();
-        }
 
-        E result = entry.element_;
-        entry.previous_.next_ = entry.next_;
-        entry.next_.previous_ = entry.previous_;
-        entry.next_ = null;
-        entry.previous_ = null;
-        entry.element_ = null;
-        size_--;
+        E result = e.element;
+        e.previous.next = e.next;
+        e.next.previous = e.previous;
+        e.next = e.previous = null;
+        e.element = null;
+        size--;
         modCount++;
-
         return result;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @SuppressWarnings("unchecked")
     public Object clone()
     {
         LinkedList<E> clone = null;
@@ -636,58 +468,39 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
             throw new InternalError();
         }
 
-        clone.header_ = new Entry<E>(null, null, null);
-        clone.header_.next_ = clone.header_;
-        clone.header_.previous_ = clone.header_;
-        clone.size_ = 0;
+        clone.header = new Entry<E>(null, null, null);
+        clone.header.next = clone.header.previous = clone.header;
+        clone.size = 0;
         clone.modCount = 0;
 
-        for (Entry<E> entry = header_.next_; entry != header_; entry = entry.next_)
-        {
-            clone.add(entry.element_);
-        }
+        for (Entry<E> e = header.next; e != header; e = e.next)
+            clone.add(e.element);
 
         return clone;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public Object[] toArray()
     {
-        Object[] result = new Object[size_];
+        Object[] result = new Object[size];
         int i = 0;
-        for (Entry<E> entry = header_.next_; entry != header_; entry = entry.next_)
-        {
-            result[i++] = entry.element_;
-        }
+        for (Entry<E> e = header.next; e != header; e = e.next)
+            result[i++] = e.element;
         return result;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @SuppressWarnings("unchecked")
-    public <T> T[] toArray(T[] array)
+    public <T> T[] toArray(T[] a)
     {
-        if (array.length < size_)
-        {
-            Class<?> componentType = array.getClass().getComponentType();
-            array = (T[])java.lang.reflect.Array.newInstance(componentType, size_);
-        }
+        if (a.length < size)
+            a = (T[])java.lang.reflect.Array.newInstance(a.getClass().getComponentType(), size);
         int i = 0;
-        Object[] result = array;
-        for (Entry<E> e = header_.next_; e != header_; e = e.next_)
-        {
-            result[i++] = e.element_;
-        }
+        Object[] result = a;
+        for (Entry<E> e = header.next; e != header; e = e.next)
+            result[i++] = e.element;
 
-        if (array.length > size_)
-        {
-            array[size_] = null;
-        }
+        if (a.length > size)
+            a[size] = null;
 
-        return array;
+        return a;
     }
 
     private void writeObject(java.io.ObjectOutputStream s)
@@ -695,15 +508,12 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
     {
         s.defaultWriteObject();
 
-        s.writeInt(size_);
+        s.writeInt(size);
 
-        for (Entry<E> e = header_.next_; e != header_; e = e.next_)
-        {
-            s.writeObject(e.element_);
-        }
+        for (Entry e = header.next; e != header; e = e.next)
+            s.writeObject(e.element);
     }
 
-    @SuppressWarnings("unchecked")
     private void readObject(java.io.ObjectInputStream s)
         throws java.io.IOException,
             ClassNotFoundException
@@ -712,13 +522,10 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
 
         int size = s.readInt();
 
-        header_ = new Entry<E>(null, null, null);
-        header_.next_ = header_;
-        header_.previous_ = header_;
+        header = new Entry<E>(null, null, null);
+        header.next = header.previous = header;
 
         for (int i = 0; i < size; i++)
-        {
-            addBefore((E)s.readObject(), header_);
-        }
+            addBefore((E)s.readObject(), header);
     }
 }
