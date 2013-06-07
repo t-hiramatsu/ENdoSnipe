@@ -94,7 +94,7 @@ public class TomcatPoolMonitor
             threadPools.add(oi.getObjectName());
         }
         
-        String poolPrefix = "process/pool/";
+        String poolPrefix = "/process/pool/";
         // 各ポートごとのワーカスレッドの最大数、稼動数を取得する。
         for (ObjectName objectName : threadPools)
         {
