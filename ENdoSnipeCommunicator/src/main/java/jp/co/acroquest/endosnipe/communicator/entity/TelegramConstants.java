@@ -569,6 +569,9 @@ public interface TelegramConstants
 	// String ITEMNAME_PROCESS_RESPONSE_TOTAL_COUNT =
 	// "/process.response.total.count";
 	String ITEMNAME_PROCESS_RESPONSE_TOTAL_COUNT = "/process/response/total/count";
+	
+	/** 接頭辞（リソース値での、eventの発生回数） */
+	String PREFIX_PROCESS_RESPONSE_EVENT = "/process/response/page/event";
 
 	/** 項目名（リソース値での、Turn Around Timeの平均値(SQL以外)） */
 	String ITEMNAME_PROCESS_RESPONSE_TIME_AVERAGE_EXCL_SQL = "/process/response/nosql/average";
@@ -624,7 +627,7 @@ public interface TelegramConstants
 	/** 項目名(例外発生回数) */
 	// String ITEMNAME_JAVAPROCESS_EXCEPTION_OCCURENCE_COUNT =
 	// "/javaprocess.exception.occurence.count";
-	String ITEMNAME_JAVAPROCESS_EXCEPTION_OCCURENCE_COUNT = "/process/response/java/thrown";
+	String ITEMNAME_JAVAPROCESS_EXCEPTION_OCCURENCE_COUNT = "/process/response/java/error";
 
 	/** 項目名(ストール発生回数) */
 	// String ITEMNAME_JAVAPROCESS_STALL_OCCURENCE_COUNT =
