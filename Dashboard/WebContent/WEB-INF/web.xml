@@ -51,7 +51,6 @@
 		<load-on-startup>2</load-on-startup>
 	</servlet>
 
-
 	<servlet>
 		<servlet-name>DashBoardServlet</servlet-name>
 		<servlet-class>jp.co.acroquest.endosnipe.web.dashboard.servlet.DashBoardServlet</servlet-class>
