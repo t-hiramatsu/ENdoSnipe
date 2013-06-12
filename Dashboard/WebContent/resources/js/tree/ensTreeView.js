@@ -280,7 +280,7 @@ ENS.treeView = wgp.TreeView
 					executeOption.okObject = this;
 					executeOption.okFunctionName = "signalPushOkFunction";
 					executeOption.cancelObject = this;
-					executeOption.cancelFunctionName = "pushCancelFunction";
+					executeOption.cancelFunctionName = "signalPushCancelFunction";
 					eval("new " + executeClass + "(executeOption)");
 				}
 			},
@@ -320,7 +320,7 @@ ENS.treeView = wgp.TreeView
 					executeOption.okObject = this;
 					executeOption.okFunctionName = "reportPushOkFunction";
 					executeOption.cancelObject = this;
-					executeOption.cancelFunctionName = "pushCancelFunction";
+					executeOption.cancelFunctionName = "reportPushCancelFunction";
 					eval("new " + executeClass + "(executeOption)");
 				}
 			},
@@ -364,6 +364,13 @@ ENS.treeView = wgp.TreeView
 				settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = callbackFunction;
 				ajaxHandler.requestServerAsync(settings);
 
+				// 閾値判定定義の入力内容をクリアする。
+				this.clearSignalDialog_();
+			},
+			/** 閾値判定の定義を入力をキャンセルした場合に実行するメソッド */
+			signalPushCancelFunction : function(event, option){
+
+				// 閾値判定定義の入力内容をクリアする。
 				this.clearSignalDialog_();
 			},
 			/**
@@ -463,11 +470,18 @@ ENS.treeView = wgp.TreeView
 				settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = callbackFunction;
 				ajaxHandler.requestServerAsync(settings);
 
+				// レポート出力ダイアログの入力内容をクリアする。
 				this.clearReportDialog_();
 
 				// ツリーノードを追加する
 				var treeOption = this.createReportTreeOption_(reportDefinition);
 				this.collection.add([ treeOption ]);
+			},
+			/** レポート出力をキャンセルした場合に実行するメソッド */
+			reportPushCancelFunction : function(event, option){
+
+				// レポート出力ダイアログの入力内容をクリアする。
+				this.clearReportDialog_();
 			},
 			createReportDefinition_ : function(option) {
 				var treeId = option.treeId;
