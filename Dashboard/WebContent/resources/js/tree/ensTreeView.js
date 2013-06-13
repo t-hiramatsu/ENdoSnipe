@@ -883,18 +883,14 @@ ENS.treeView = wgp.TreeView
 				var signalLevel = 0;
 				if (level == 3) {
 					signalLevel = parseInt(signalValue, 10);
-					if (signalLevel == 0) {
-						icon = ENS.tree.SIGNAL_ICON_0;
-					} else if (0 < signalLevel && signalLevel <= 3) {
-						icon = "signal_" + (2 * signalLevel - 1);
+					if (0 <= signalLevel && signalLevel < 3) {
+						icon = "signal_" + 2 * signalLevel;
 					} else {
 						icon = ENS.tree.SIGNAL_ICON_STOP;
 					}
 				} else if (level == 5) {
 					signalLevel = parseInt(signalValue, 10);
-					if (signalLevel == 0) {
-						icon = ENS.tree.SIGNAL_ICON_0;
-					} else if (0 < signalLevel && signalLevel <= 5) {
+					if (0 <= signalLevel && signalLevel < 5) {
 						icon = "signal_" + signalLevel;
 					} else {
 						icon = ENS.tree.SIGNAL_ICON_STOP;
