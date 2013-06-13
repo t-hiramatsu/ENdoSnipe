@@ -18,10 +18,10 @@
 
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/resources/lib/jQuery-ui/css/jquery-ui-1.9.2.custom.min.css"
-	type="text/css" media="all" />
+	type="text/css" media="all">
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/resources/lib/jqGrid/css/ui.jqgrid.css"
-	type="text/css" media="all" />
+	type="text/css" media="all">
 <link rel="stylesheet" type="text/css" media="screen"
 	href="<%=request.getContextPath()%>/resources/lib/jeegoocontext/skins/cm_default/style.css" />
 
@@ -50,6 +50,7 @@
 	libraryPathList.add("datetimepicker");
 	libraryPathList.add("Raphael");
 	libraryPathList.add("wgp");
+	libraryPathList.add("pagination");
 	String libraryJsDirectoryPath = config.getServletContext()
 			.getRealPath("resources/lib");
 	File libraryJsDirectory = new File(libraryJsDirectoryPath);
