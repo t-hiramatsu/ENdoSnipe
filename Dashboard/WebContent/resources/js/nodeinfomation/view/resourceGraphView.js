@@ -81,8 +81,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 		this.dateWindow = argument["dateWindow"];
 		this.maxId = 0;
 		this.graphMaxNumber = 50;// argument.graphMaxNumber;
-		this.maxValue = 100;// argument.maxValue;
-
+		this.maxValue = 1;// argument.maxValue;
 	},
 	render : function() {
 		var graphId = this.$el.attr("id") + "_ensgraph";
@@ -95,9 +94,8 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 		var labelDom = document.getElementById(labelId);
 
 		var data = this.getData();
-
-
 		var optionSettings = {
+			valueRange: [0, this.maxValue* 1.1],
 			title : this.title,
 			xlabel : this.labelX,
 			ylabel : this.labelY,
@@ -128,6 +126,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 		this.entity.resize(this.width, this.graphHeight);
 		$("#" + graphId).height(this.height);
 		this.getGraphObject().updateOptions({
+			valueRange: [0, this.maxValue* 1.1],
 			dateWindow : this.dateWindow,
 			axisLabelFontSize : 10,
 			titleHeight : 22
@@ -162,7 +161,8 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 			}
 			this.data = this.getData();
 			var updateOption = {
-				'file' : this.data
+				'file' : this.data,
+				'valueRange': [0, this.maxValue* 1.1]
 			};
 			if (this.data.length !== 0) {
 				updateOption['dateWindow'] = [ this.data[1][0],
