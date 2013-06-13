@@ -1,20 +1,20 @@
 /*******************************************************************************
  * ENdoSnipe 5.0 - (https://github.com/endosnipe)
- *
+ * 
  * The MIT License (MIT)
- *
+ * 
  * Copyright (c) 2012 Acroquest Technology Co.,Ltd.
- *
+ * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * 
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -32,7 +32,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 		appView.addView(this, argument.graphId);
 		this.render();
 		this.registerCollectionEvent();
-
+		
 		if (!this.noTermData) {
 			var startTime = new Date(new Date().getTime() - this.term * 1000);
 			var endTime = new Date();
@@ -63,6 +63,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 			graphMaxNumber : 50,
 			maxValue : 100
 		};
+
 		this.viewType = wgp.constants.VIEW_TYPE.VIEW;
 		this.collection = new ENS.ResourceGraphCollection();
 		this.cid = argument["cid"];
@@ -137,6 +138,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 			var target = event.target;
 			if ($(target).hasClass("dygraph-title")) {
 				$(target).text(tmpTitle);
+				$(target).parent("div").css('z-index',"1");
 			}
 		});
 		$("#" + graphId).mouseout(function(event) {
@@ -146,6 +148,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 			var target = event.target;
 			if ($(target).hasClass("dygraph-title")) {
 				$(target).text(optionSettings.title);
+				$(target).parent("div").css('z-index',"0");
 			}
 		});
 
@@ -266,7 +269,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 	/**
 	 * 運用時のイベントを設定する。
 	 */
-	setOperateFunction : function(){
+	setOperateFunction : function() {
 
 	},
 	/**
@@ -277,28 +280,32 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 		var divArea = $("#" + this.$el.attr("id"));
 		var instance = this;
 		divArea.draggable({
-			stop : function(e, ui){
+			stop : function(e, ui) {
 				var offset = $(e.target).offset();
-				instance.model.set("pointX", offset["left"], {silent:true});
-				instance.model.set("pointY", offset["top"], {silent:true});
+				instance.model.set("pointX", offset["left"], {
+					silent : true
+				});
+				instance.model.set("pointY", offset["top"], {
+					silent : true
+				});
 			}
 		});
 
 		var beforeWidth = 0;
 		var beforeHeight = 0;
 		divArea.resizable({
-			start : function(e, ui){
+			start : function(e, ui) {
 				var offset = $(e.target).offset();
 				beforeWidth = $(e.target).width();
 				beforeHeight = $(e.target).height();
 			},
-			resize : function(e, ui){
+			resize : function(e, ui) {
 				$(e.target).offset({
 					top : instance.model.get("pointY"),
 					left : instance.model.get("pointX")
 				});
 			},
-			stop : function(e, ui){
+			stop : function(e, ui) {
 				var afterWidth = $(e.target).width();
 				var afterHeight = $(e.target).height();
 
@@ -306,8 +313,11 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 				var changeHeight = afterHeight - beforeHeight;
 
 				instance.resize(changeWidth, changeHeight);
-				instance.model.set("width", afterWidth, {silent:true});
-				instance.model.set("height", afterHeight, {silent:true});
+				instance.model.set("width", afterWidth, {
+					silent : true
+				});
+				instance.model.set("height", afterHeight, {
+					silent : true});
 			}
 		});
 	}
