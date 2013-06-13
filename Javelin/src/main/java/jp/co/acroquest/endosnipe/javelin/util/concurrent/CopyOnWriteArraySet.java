@@ -29,140 +29,86 @@ import java.util.AbstractSet;
 import java.util.Collection;
 import java.util.Iterator;
 
-/**
- * CopyOnWriteArraySetクラス
- * @author acroquest
- *
- * @param <E> element
- */
 public class CopyOnWriteArraySet<E> extends AbstractSet<E> implements java.io.Serializable
 {
-    /** シリアルバージョンID */
+    /**  */
     private static final long serialVersionUID = 8560577487834038908L;
-    
-    /** copyOnWriteArrayList */
-    private final CopyOnWriteArrayList<E> copyOnWriteArrayList_;
+    private final CopyOnWriteArrayList<E> al;
 
-    /**
-     * コンストラクタ
-     */
     public CopyOnWriteArraySet()
     {
-        copyOnWriteArrayList_ = new CopyOnWriteArrayList<E>();
+        al = new CopyOnWriteArrayList<E>();
     }
 
-    /**
-     * コンストラクタ
-     * @param c コレクション
-     */
     public CopyOnWriteArraySet(Collection<? extends E> c)
     {
-        copyOnWriteArrayList_ = new CopyOnWriteArrayList<E>();
-        copyOnWriteArrayList_.addAllAbsent(c);
+        al = new CopyOnWriteArrayList<E>();
+        al.addAllAbsent(c);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public int size()
     {
-        return copyOnWriteArrayList_.size();
+        return al.size();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public boolean isEmpty()
     {
-        return copyOnWriteArrayList_.isEmpty();
+        return al.isEmpty();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public boolean contains(Object o)
     {
-        return copyOnWriteArrayList_.contains(o);
+        return al.contains(o);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public Object[] toArray()
     {
-        return copyOnWriteArrayList_.toArray();
+        return al.toArray();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public <T> T[] toArray(T[] a)
     {
-        return copyOnWriteArrayList_.toArray(a);
+        return al.toArray(a);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public void clear()
     {
-        copyOnWriteArrayList_.clear();
+        al.clear();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public Iterator<E> iterator()
     {
-        return copyOnWriteArrayList_.iterator();
+        return al.iterator();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public boolean remove(Object o)
     {
-        return copyOnWriteArrayList_.remove(o);
+        return al.remove(o);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public boolean add(E o)
     {
-        return copyOnWriteArrayList_.addIfAbsent(o);
+        return al.addIfAbsent(o);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public boolean containsAll(Collection<?> c)
     {
-        return copyOnWriteArrayList_.containsAll(c);
+        return al.containsAll(c);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public boolean addAll(Collection<? extends E> c)
     {
-        return copyOnWriteArrayList_.addAllAbsent(c) > 0;
+        return al.addAllAbsent(c) > 0;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public boolean removeAll(Collection<?> c)
     {
-        return copyOnWriteArrayList_.removeAll(c);
+        return al.removeAll(c);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public boolean retainAll(Collection<?> c)
     {
-        return copyOnWriteArrayList_.retainAll(c);
+        return al.retainAll(c);
     }
 
 }

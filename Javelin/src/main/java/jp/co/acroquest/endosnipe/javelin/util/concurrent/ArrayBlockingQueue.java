@@ -34,166 +34,117 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
-/**
- * ArrayBlockingQueueクラス
- * @author acroquest
- *
- * @param <E> 要素
- */
 public class ArrayBlockingQueue<E> extends AbstractQueue<E> implements BlockingQueue<E>,
         java.io.Serializable
 {
-    /** シリアルバージョンID */
-    private static final long   serialVersionUID = -3591139035925002859L;
+    /**  */
+    private static final long serialVersionUID = -3591139035925002859L;
 
-    private final E[]           items_;
+    private final E[] items;
 
-    private transient int       takeIndex_ = 0;
+    private transient int takeIndex;
 
-    private transient int       putIndex_;
+    private transient int putIndex;
 
-    private int                 count_;
+    private int count;
 
-    private final ReentrantLock lock_;
+    private final ReentrantLock lock;
 
-    private final transient Condition     notEmpty_;
+    private final Condition notEmpty;
 
-    private final transient Condition     notFull_;
+    private final Condition notFull;
 
-    /**
-     * 指定した値に1加えた数を返します。要素のサイズ上限に達した時は0を返します。
-     * @param i 値
-     * @return 指定した値に1を加えた数
-     */
     final int inc(int i)
     {
-        return (++i == items_.length) ? 0 : i;
+        return (++i == items.length) ? 0 : i;
     }
 
-    /**
-     * 要素を追加します。
-     * @param x 要素
-     */
     private void insert(E x)
     {
-        items_[putIndex_] = x;
-        putIndex_ = inc(putIndex_);
-        ++count_;
-        notEmpty_.signal();
+        items[putIndex] = x;
+        putIndex = inc(putIndex);
+        ++count;
+        notEmpty.signal();
     }
 
-    /**
-     * 要素を除外します。
-     * @return 除外された要素
-     */
     private E extract()
     {
-        final E[] ITEMS = this.items_;
-        E x = ITEMS[takeIndex_];
-        ITEMS[takeIndex_] = null;
-        takeIndex_ = inc(takeIndex_);
-        --count_;
-        notFull_.signal();
+        final E[] items = this.items;
+        E x = items[takeIndex];
+        items[takeIndex] = null;
+        takeIndex = inc(takeIndex);
+        --count;
+        notFull.signal();
         return x;
     }
 
-    /**
-     * 指定したインデックスの要素を削除します。
-     * @param i 削除する要素のインデックス
-     */
     void removeAt(int i)
     {
-        final E[] ITEMS = this.items_;
-        if (i == takeIndex_)
+        final E[] items = this.items;
+
+        if (i == takeIndex)
         {
-            ITEMS[takeIndex_] = null;
-            takeIndex_ = inc(takeIndex_);
+            items[takeIndex] = null;
+            takeIndex = inc(takeIndex);
         }
         else
         {
+
             for (;;)
             {
                 int nexti = inc(i);
-                if (nexti != putIndex_)
+                if (nexti != putIndex)
                 {
-                    ITEMS[i] = ITEMS[nexti];
+                    items[i] = items[nexti];
                     i = nexti;
                 }
                 else
                 {
-                    ITEMS[i] = null;
-                    putIndex_ = i;
+                    items[i] = null;
+                    putIndex = i;
                     break;
                 }
             }
         }
-        --count_;
-        notFull_.signal();
+        --count;
+        notFull.signal();
     }
 
-    /**
-     * コンストラクタ
-     * @param capacity キューの容量
-     */
     public ArrayBlockingQueue(int capacity)
     {
         this(capacity, false);
     }
 
-    /**
-     * コンストラクタ
-     * @param capacity キューの容量
-     * @param fair 挿入または削除時にブロックされたスレッドに対するキューアクセスをFIFO の順序で処理するフラグ
-     */
-    @SuppressWarnings("unchecked")
     public ArrayBlockingQueue(int capacity, boolean fair)
     {
         if (capacity <= 0)
-        {
             throw new IllegalArgumentException();
-        }
-        this.items_ = (E[])new Object[capacity];
-        lock_ = new ReentrantLock(fair);
-        notEmpty_ = lock_.newCondition();
-        notFull_ = lock_.newCondition();
+        this.items = (E[])new Object[capacity];
+        lock = new ReentrantLock(fair);
+        notEmpty = lock.newCondition();
+        notFull = lock.newCondition();
     }
 
-    /**
-     * コンストラクタ
-     * @param capacity キューの容量
-     * @param fair 挿入または削除時にブロックされたスレッドに対するキューアクセスをFIFO の順序で処理するフラグ
-     * @param c 要素のコレクション
-     */
     public ArrayBlockingQueue(int capacity, boolean fair, Collection<? extends E> c)
     {
         this(capacity, fair);
         if (capacity < c.size())
-        {
             throw new IllegalArgumentException();
-        }
+
         for (Iterator<? extends E> it = c.iterator(); it.hasNext();)
-        {
             add(it.next());
-        }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public boolean offer(E o)
     {
         if (o == null)
-        {
             throw new NullPointerException();
-        }
-        final ReentrantLock LOCK = this.lock_;
-        LOCK.lock();
+        final ReentrantLock lock = this.lock;
+        lock.lock();
         try
         {
-            if (count_ == items_.length)
-            {
+            if (count == items.length)
                 return false;
-            }
             else
             {
                 insert(o);
@@ -202,188 +153,158 @@ public class ArrayBlockingQueue<E> extends AbstractQueue<E> implements BlockingQ
         }
         finally
         {
-            LOCK.unlock();
+            lock.unlock();
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public boolean offer(E o, long timeout, TimeUnit unit)
         throws InterruptedException
     {
 
         if (o == null)
-        {
             throw new NullPointerException();
-        }
-        final ReentrantLock LOCK = this.lock_;
-        LOCK.lockInterruptibly();
+        final ReentrantLock lock = this.lock;
+        lock.lockInterruptibly();
         try
         {
             long nanos = unit.toNanos(timeout);
             for (;;)
             {
-                if (count_ != items_.length)
+                if (count != items.length)
                 {
                     insert(o);
                     return true;
                 }
                 if (nanos <= 0)
-                {
                     return false;
-                }
                 try
                 {
-                    nanos = notFull_.awaitNanos(nanos);
+                    nanos = notFull.awaitNanos(nanos);
                 }
                 catch (InterruptedException ie)
                 {
-                    notFull_.signal();
+                    notFull.signal();
                     throw ie;
                 }
             }
         }
         finally
         {
-            LOCK.unlock();
+            lock.unlock();
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public E poll()
     {
-        final ReentrantLock LOCK = this.lock_;
-        LOCK.lock();
+        final ReentrantLock lock = this.lock;
+        lock.lock();
         try
         {
-            if (count_ == 0)
-            {
+            if (count == 0)
                 return null;
-            }
             E x = extract();
             return x;
         }
         finally
         {
-            LOCK.unlock();
+            lock.unlock();
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public E poll(long timeout, TimeUnit unit)
         throws InterruptedException
     {
-        final ReentrantLock LOCK = this.lock_;
-        LOCK.lockInterruptibly();
+        final ReentrantLock lock = this.lock;
+        lock.lockInterruptibly();
         try
         {
             long nanos = unit.toNanos(timeout);
             for (;;)
             {
-                if (count_ != 0)
+                if (count != 0)
                 {
                     E x = extract();
                     return x;
                 }
                 if (nanos <= 0)
-                {
                     return null;
-                }
                 try
                 {
-                    nanos = notEmpty_.awaitNanos(nanos);
+                    nanos = notEmpty.awaitNanos(nanos);
                 }
                 catch (InterruptedException ie)
                 {
-                    notEmpty_.signal();
+                    notEmpty.signal();
                     throw ie;
                 }
+
             }
         }
         finally
         {
-            LOCK.unlock();
+            lock.unlock();
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public boolean remove(Object o)
     {
         if (o == null)
-        {
             return false;
-        }
-        final E[] ITEMS = this.items_;
-        final ReentrantLock LOCK = this.lock_;
-        LOCK.lock();
+        final E[] items = this.items;
+        final ReentrantLock lock = this.lock;
+        lock.lock();
         try
         {
-            int i = takeIndex_;
+            int i = takeIndex;
             int k = 0;
             for (;;)
             {
-                if (k++ >= count_)
-                {
+                if (k++ >= count)
                     return false;
-                }
-                if (o.equals(ITEMS[i]))
+                if (o.equals(items[i]))
                 {
                     removeAt(i);
                     return true;
                 }
                 i = inc(i);
             }
+
         }
         finally
         {
-            LOCK.unlock();
+            lock.unlock();
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public E peek()
     {
-        final ReentrantLock LOCK = this.lock_;
-        LOCK.lock();
+        final ReentrantLock lock = this.lock;
+        lock.lock();
         try
         {
-            return (count_ == 0) ? null : items_[takeIndex_];
+            return (count == 0) ? null : items[takeIndex];
         }
         finally
         {
-            LOCK.unlock();
+            lock.unlock();
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public E take()
         throws InterruptedException
     {
-        final ReentrantLock LOCK = this.lock_;
-        LOCK.lockInterruptibly();
+        final ReentrantLock lock = this.lock;
+        lock.lockInterruptibly();
         try
         {
             try
             {
-                while (count_ == 0)
-                {
-                    notEmpty_.await();
-                }
+                while (count == 0)
+                    notEmpty.await();
             }
             catch (InterruptedException ie)
             {
-                notEmpty_.signal();
+                notEmpty.signal();
                 throw ie;
             }
             E x = extract();
@@ -391,418 +312,352 @@ public class ArrayBlockingQueue<E> extends AbstractQueue<E> implements BlockingQ
         }
         finally
         {
-            LOCK.unlock();
+            lock.unlock();
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public void put(E o)
         throws InterruptedException
     {
         if (o == null)
-        {
             throw new NullPointerException();
-        }
-        final E[] ITEMS = this.items_;
-        final ReentrantLock LOCK = this.lock_;
-        LOCK.lockInterruptibly();
+        final E[] items = this.items;
+        final ReentrantLock lock = this.lock;
+        lock.lockInterruptibly();
         try
         {
             try
             {
-                while (count_ == ITEMS.length)
-                {
-                    notFull_.await();
-                }
+                while (count == items.length)
+                    notFull.await();
             }
             catch (InterruptedException ie)
             {
-                notFull_.signal();
+                notFull.signal();
                 throw ie;
             }
             insert(o);
         }
         finally
         {
-            LOCK.unlock();
+            lock.unlock();
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public int size()
     {
-        final ReentrantLock LOCK = this.lock_;
-        LOCK.lock();
+        final ReentrantLock lock = this.lock;
+        lock.lock();
         try
         {
-            return count_;
+            return count;
         }
         finally
         {
-            LOCK.unlock();
+            lock.unlock();
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public int remainingCapacity()
     {
-        final ReentrantLock LOCK = this.lock_;
-        LOCK.lock();
+        final ReentrantLock lock = this.lock;
+        lock.lock();
         try
         {
-            return items_.length - count_;
+            return items.length - count;
         }
         finally
         {
-            LOCK.unlock();
+            lock.unlock();
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public boolean contains(Object o)
     {
         if (o == null)
-        {
             return false;
-        }
-        final E[] ITEMS = this.items_;
-        final ReentrantLock LOCK = this.lock_;
-        LOCK.lock();
+        final E[] items = this.items;
+        final ReentrantLock lock = this.lock;
+        lock.lock();
         try
         {
-            int i = takeIndex_;
+            int i = takeIndex;
             int k = 0;
-            while (k++ < count_)
+            while (k++ < count)
             {
-                if (o.equals(ITEMS[i]))
-                {
+                if (o.equals(items[i]))
                     return true;
-                }
                 i = inc(i);
             }
             return false;
         }
         finally
         {
-            LOCK.unlock();
+            lock.unlock();
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public Object[] toArray()
     {
-        final E[] ITEMS = this.items_;
-        final ReentrantLock LOCK = this.lock_;
-        LOCK.lock();
+        final E[] items = this.items;
+        final ReentrantLock lock = this.lock;
+        lock.lock();
         try
         {
-            Object[] a = new Object[count_];
+            Object[] a = new Object[count];
             int k = 0;
-            int i = takeIndex_;
-            while (k < count_)
+            int i = takeIndex;
+            while (k < count)
             {
-                a[k++] = ITEMS[i];
+                a[k++] = items[i];
                 i = inc(i);
             }
             return a;
         }
         finally
         {
-            LOCK.unlock();
+            lock.unlock();
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @SuppressWarnings("unchecked")
     public <T> T[] toArray(T[] a)
     {
-        final E[] ITEMS = this.items_;
-        final ReentrantLock LOCK = this.lock_;
-        LOCK.lock();
+        final E[] items = this.items;
+        final ReentrantLock lock = this.lock;
+        lock.lock();
         try
         {
-            if (a.length < count_)
-            {
-                Class<?> componentType = a.getClass().getComponentType();
-                a = (T[])java.lang.reflect.Array.newInstance(componentType, count_);
-            }
+            if (a.length < count)
+                a =
+                        (T[])java.lang.reflect.Array.newInstance(a.getClass().getComponentType(),
+                                                                 count);
 
             int k = 0;
-            int i = takeIndex_;
-            while (k < count_)
+            int i = takeIndex;
+            while (k < count)
             {
-                a[k++] = (T)ITEMS[i];
+                a[k++] = (T)items[i];
                 i = inc(i);
             }
-            if (a.length > count_)
-            {
-                a[count_] = null;
-            }
+            if (a.length > count)
+                a[count] = null;
             return a;
         }
         finally
         {
-            LOCK.unlock();
+            lock.unlock();
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public String toString()
     {
-        final ReentrantLock LOCK = this.lock_;
-        LOCK.lock();
+        final ReentrantLock lock = this.lock;
+        lock.lock();
         try
         {
             return super.toString();
         }
         finally
         {
-            LOCK.unlock();
+            lock.unlock();
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public void clear()
     {
-        final E[] ITEMS = this.items_;
-        final ReentrantLock LOCK = this.lock_;
-        LOCK.lock();
+        final E[] items = this.items;
+        final ReentrantLock lock = this.lock;
+        lock.lock();
         try
         {
-            int i = takeIndex_;
-            int k = count_;
+            int i = takeIndex;
+            int k = count;
             while (k-- > 0)
             {
-                ITEMS[i] = null;
+                items[i] = null;
                 i = inc(i);
             }
-            count_ = 0;
-            putIndex_ = 0;
-            takeIndex_ = 0;
-            notFull_.signalAll();
+            count = 0;
+            putIndex = 0;
+            takeIndex = 0;
+            notFull.signalAll();
         }
         finally
         {
-            LOCK.unlock();
+            lock.unlock();
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public int drainTo(Collection<? super E> c)
     {
         if (c == null)
-        {
             throw new NullPointerException();
-        }
         if (c == this)
-        {
             throw new IllegalArgumentException();
-        }
-        final E[] ITEMS = this.items_;
-        final ReentrantLock LOCK = this.lock_;
-        LOCK.lock();
+        final E[] items = this.items;
+        final ReentrantLock lock = this.lock;
+        lock.lock();
         try
         {
-            int i = takeIndex_;
+            int i = takeIndex;
             int n = 0;
-            int max = count_;
+            int max = count;
             while (n < max)
             {
-                c.add(ITEMS[i]);
-                ITEMS[i] = null;
+                c.add(items[i]);
+                items[i] = null;
                 i = inc(i);
                 ++n;
             }
             if (n > 0)
             {
-                count_ = 0;
-                putIndex_ = 0;
-                takeIndex_ = 0;
-                notFull_.signalAll();
+                count = 0;
+                putIndex = 0;
+                takeIndex = 0;
+                notFull.signalAll();
             }
             return n;
         }
         finally
         {
-            LOCK.unlock();
+            lock.unlock();
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public int drainTo(Collection<? super E> c, int maxElements)
     {
         if (c == null)
-        {
             throw new NullPointerException();
-        }
         if (c == this)
-        {
             throw new IllegalArgumentException();
-        }
         if (maxElements <= 0)
-        {
             return 0;
-        }
-        final E[] ITEMS = this.items_;
-        final ReentrantLock LOCK = this.lock_;
-        LOCK.lock();
+        final E[] items = this.items;
+        final ReentrantLock lock = this.lock;
+        lock.lock();
         try
         {
-            int i = takeIndex_;
+            int i = takeIndex;
             int n = 0;
-            int max = (maxElements < count_) ? maxElements : count_;
+            int sz = count;
+            int max = (maxElements < count) ? maxElements : count;
             while (n < max)
             {
-                c.add(ITEMS[i]);
-                ITEMS[i] = null;
+                c.add(items[i]);
+                items[i] = null;
                 i = inc(i);
                 ++n;
             }
             if (n > 0)
             {
-                count_ -= n;
-                takeIndex_ = i;
-                notFull_.signalAll();
+                count -= n;
+                takeIndex = i;
+                notFull.signalAll();
             }
             return n;
         }
         finally
         {
-            LOCK.unlock();
+            lock.unlock();
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public Iterator<E> iterator()
     {
-        final ReentrantLock LOCK = this.lock_;
-        LOCK.lock();
+        final ReentrantLock lock = this.lock;
+        lock.lock();
         try
         {
             return new Itr();
         }
         finally
         {
-            LOCK.unlock();
+            lock.unlock();
         }
     }
 
-    /**
-     * イテレータクラス
-     * @author acroquest
-     */
     private class Itr implements Iterator<E>
     {
-        /** 次のindex */
-        private int nextIndex_;
 
-        /** 次の要素 */
-        private E   nextItem_;
+        private int nextIndex;
 
-        /** 最後に返したindex */
-        private int lastReturn_;
+        private E nextItem;
+
+        private int lastRet;
 
         Itr()
         {
-            lastReturn_ = -1;
-            if (count_ == 0)
-            {
-                nextIndex_ = -1;
-            }
+            lastRet = -1;
+            if (count == 0)
+                nextIndex = -1;
             else
             {
-                nextIndex_ = takeIndex_;
-                nextItem_ = items_[takeIndex_];
+                nextIndex = takeIndex;
+                nextItem = items[takeIndex];
             }
         }
 
         public boolean hasNext()
         {
-            return nextIndex_ >= 0;
+
+            return nextIndex >= 0;
         }
 
         private void checkNext()
         {
-            if (nextIndex_ == putIndex_)
+            if (nextIndex == putIndex)
             {
-                nextIndex_ = -1;
-                nextItem_ = null;
+                nextIndex = -1;
+                nextItem = null;
             }
             else
             {
-                nextItem_ = items_[nextIndex_];
-                if (nextItem_ == null)
-                {
-                    nextIndex_ = -1;
-                }
+                nextItem = items[nextIndex];
+                if (nextItem == null)
+                    nextIndex = -1;
             }
         }
 
         public E next()
         {
-            final ReentrantLock LOCK = ArrayBlockingQueue.this.lock_;
-            LOCK.lock();
+            final ReentrantLock lock = ArrayBlockingQueue.this.lock;
+            lock.lock();
             try
             {
-                if (nextIndex_ < 0)
-                {
+                if (nextIndex < 0)
                     throw new NoSuchElementException();
-                }
-                lastReturn_ = nextIndex_;
-                E x = nextItem_;
-                nextIndex_ = inc(nextIndex_);
+                lastRet = nextIndex;
+                E x = nextItem;
+                nextIndex = inc(nextIndex);
                 checkNext();
                 return x;
             }
             finally
             {
-                LOCK.unlock();
+                lock.unlock();
             }
         }
 
         public void remove()
         {
-            final ReentrantLock LOCK = ArrayBlockingQueue.this.lock_;
-            LOCK.lock();
+            final ReentrantLock lock = ArrayBlockingQueue.this.lock;
+            lock.lock();
             try
             {
-                int i = lastReturn_;
+                int i = lastRet;
                 if (i == -1)
-                {
                     throw new IllegalStateException();
-                }
+                lastRet = -1;
 
-                lastReturn_ = -1;
-                int ti = takeIndex_;
+                int ti = takeIndex;
                 removeAt(i);
-                nextIndex_ = (i == ti) ? takeIndex_ : i;
+
+                nextIndex = (i == ti) ? takeIndex : i;
                 checkNext();
             }
             finally
             {
-                LOCK.unlock();
+                lock.unlock();
             }
         }
     }
