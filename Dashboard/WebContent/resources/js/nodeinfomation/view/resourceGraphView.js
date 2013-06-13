@@ -1,20 +1,20 @@
 /*******************************************************************************
  * ENdoSnipe 5.0 - (https://github.com/endosnipe)
- * 
+ *
  * The MIT License (MIT)
- * 
+ *
  * Copyright (c) 2012 Acroquest Technology Co.,Ltd.
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -37,8 +37,8 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 			var startTime = new Date(new Date().getTime() - this.term * 1000);
 			var endTime = new Date();
 			appView.getTermData([ this.graphId ], startTime, endTime);
-					}
-		
+		}
+
 		var realTag = $("#" + this.$el.attr("id"));
 		if (this.width == null) {
 			this.width = realTag.width();
@@ -56,7 +56,6 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 			margin : "10px",
 			float : "left"
 		});
-		
 	},
 	_initData : function(argument, treeSettings) {
 		var defauldSettings = {
@@ -75,28 +74,30 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 		this.height = argument["height"];
 		this.title = argument["title"];
 		this.labelX = "time";
-		this.labelY = "Value";
+		this.labelY = "value";
 		this.rootView = argument["rootView"];
 		this.graphHeight = this.height - ENS.nodeinfo.GRAPH_HEIGHT_MARGIN;
 		this.dateWindow = argument["dateWindow"];
 		this.maxId = 0;
 		this.graphMaxNumber = 50;// argument.graphMaxNumber;
-		this.maxValue = 1;
+		this.maxValue = 1;// argument.maxValue;
 	},
 	render : function() {
 		var graphId = this.$el.attr("id") + "_ensgraph";
 		var graphdiv = $("<div id='" + graphId + "'><div>");
 		$("#" + this.$el.attr("id")).append(graphdiv);
+
 		var labelId = this.$el.attr("id") + "_enslabel";
 		var labeldiv = $("<div id='" + labelId + "' class='ensLabel'><div>");
 		$("#" + this.$el.attr("id")).append(labeldiv);
 		var labelDom = document.getElementById(labelId);
+
 		var data = this.getData();
 		var optionSettings = {
+			valueRange: [0, this.maxValue* 1.1],
 			title : this.title,
 			xlabel : this.labelX,
 			ylabel : this.labelY,
-			valueRange:[ 0, this.maxValue*1.1 ],
 			axisLabelColor : "#000000",
 			labelsDivStyles : {
 				background : "none repeat scroll 0 0 #000000"
@@ -105,6 +106,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 
 		this.attributes = undefined;
 		var attributes = this.getAttributes(ENS.ResourceGraphAttribute);
+
 		optionSettings = $.extend(true, optionSettings, attributes);
 		optionSettings.labelsDiv = labelDom;
 
@@ -123,7 +125,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 		this.entity.resize(this.width, this.graphHeight);
 		$("#" + graphId).height(this.height);
 		this.getGraphObject().updateOptions({
-			valueRange:[0, this.maxValue*1.1],
+			valueRange: [0, this.maxValue* 1.1],
 			dateWindow : this.dateWindow,
 			axisLabelFontSize : 10,
 			titleHeight : 22
@@ -157,7 +159,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 			this.data = this.getData();
 			var updateOption = {
 				'file' : this.data,
-				'valueRange':[0, this.maxValue*1.1]
+				'valueRange': [0, this.maxValue* 1.1]
 			};
 			if (this.data.length !== 0) {
 				updateOption['dateWindow'] = [ this.data[1][0],
@@ -240,11 +242,10 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 		if (this.maxValue < value) {
 			this.maxValue = value;
 		}
-		this.graphValue = this.maxValue;
 		return [ date, value ];
 	},
 	change : function() {
-		// TODO 螳溯｣・・螳ｹ讀懆ｨ・
+		// TODO 実装内容検討
 	},
 	remove : function() {
 		this.destroy();
@@ -263,45 +264,41 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 				option);
 	},
 	/**
-	 * 驕狗畑譎ゅ・繧､繝吶Φ繝医ｒ險ｭ螳壹☆繧九・
+	 * 運用時のイベントを設定する。
 	 */
-	setOperateFunction : function() {
+	setOperateFunction : function(){
 
 	},
 	/**
-	 * 邱ｨ髮・凾縺ｮ繧､繝吶Φ繝医ｒ險ｭ螳壹☆繧九・
+	 * 編集時のイベントを設定する。
 	 */
 	setEditFunction : function() {
 
 		var divArea = $("#" + this.$el.attr("id"));
 		var instance = this;
 		divArea.draggable({
-			stop : function(e, ui) {
+			stop : function(e, ui){
 				var offset = $(e.target).offset();
-				instance.model.set("pointX", offset["left"], {
-					silent : true
-				});
-				instance.model.set("pointY", offset["top"], {
-					silent : true
-				});
+				instance.model.set("pointX", offset["left"], {silent:true});
+				instance.model.set("pointY", offset["top"], {silent:true});
 			}
 		});
 
 		var beforeWidth = 0;
 		var beforeHeight = 0;
 		divArea.resizable({
-			start : function(e, ui) {
+			start : function(e, ui){
 				var offset = $(e.target).offset();
 				beforeWidth = $(e.target).width();
 				beforeHeight = $(e.target).height();
 			},
-			resize : function(e, ui) {
+			resize : function(e, ui){
 				$(e.target).offset({
 					top : instance.model.get("pointY"),
 					left : instance.model.get("pointX")
 				});
 			},
-			stop : function(e, ui) {
+			stop : function(e, ui){
 				var afterWidth = $(e.target).width();
 				var afterHeight = $(e.target).height();
 
@@ -309,12 +306,8 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 				var changeHeight = afterHeight - beforeHeight;
 
 				instance.resize(changeWidth, changeHeight);
-				instance.model.set("width", afterWidth, {
-					silent : true
-				});
-				instance.model.set("height", afterHeight, {
-					silent : true
-				});
+				instance.model.set("width", afterWidth, {silent:true});
+				instance.model.set("height", afterHeight, {silent:true});
 			}
 		});
 	}
