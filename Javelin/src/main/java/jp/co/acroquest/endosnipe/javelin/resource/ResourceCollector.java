@@ -25,7 +25,9 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.javelin.resource;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -71,8 +73,6 @@ import jp.co.acroquest.endosnipe.javelin.resource.sun.PhysicalMemoryFreeGetter;
 import jp.co.acroquest.endosnipe.javelin.resource.sun.SwapSpaceCapacityGetter;
 import jp.co.acroquest.endosnipe.javelin.resource.sun.SwapSpaceFreeGetter;
 import jp.co.acroquest.endosnipe.javelin.resource.sun.VirutalMemorySizeGetter;
-import jp.co.acroquest.endosnipe.javelin.util.ArrayList;
-import jp.co.acroquest.endosnipe.javelin.util.HashMap;
 
 /**
  * リソース情報を収集するクラス。
