@@ -35,6 +35,7 @@ import jp.co.acroquest.endosnipe.common.event.EventConstants;
 import jp.co.acroquest.endosnipe.javelin.StatsJavelinRecorder;
 import jp.co.acroquest.endosnipe.javelin.event.CommonEvent;
 import jp.co.acroquest.endosnipe.javelin.event.LinearSearchEvent;
+import jp.co.acroquest.endosnipe.javelin.util.IdentityWeakMap;
 import jp.co.acroquest.endosnipe.javelin.util.StatsUtil;
 import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
 
@@ -50,12 +51,12 @@ public class LinearSearchMonitor
     private static ThreadLocal<Map<Object, Integer>> lastIndexMap__;
 
     /** 線形検索イベント検出を保存するマップ */
-    private static Map<Object, AtomicInteger> searchCountMap__ =
-            new WeakHashMap<Object, AtomicInteger>();
+    private static IdentityWeakMap<Object, AtomicInteger> searchCountMap__ =
+            new IdentityWeakMap<Object, AtomicInteger>();
 
     /** LinkedList#indexOf() 呼び出し回数を保存するマップ */
-    private static Map<Object, AtomicInteger> indexOfMap__ =
-            new WeakHashMap<Object, AtomicInteger>();
+    private static IdentityWeakMap<Object, AtomicInteger> indexOfMap__ =
+            new IdentityWeakMap<Object, AtomicInteger>();
 
     /** Javelinの設定値 */
     private static JavelinConfig config__ = new JavelinConfig();
