@@ -87,6 +87,7 @@
         <copy file="${endosnipe-communicator.jar}" todir="${weblib.path}" failonerror="yes" />
         <copy file="${endosnipe-dataaccessor.jar}" todir="${weblib.path}" failonerror="yes" />
         <copy file="${endosnipe-reporter.jar}" todir="${weblib.path}" failonerror="yes" />
+        <copy file="${endosnipe-report-command.jar}" todir="${weblib.path}" failonerror="yes" />
         <javac srcdir       = "${src.path}"
                destdir      = "${classes.path}"
                encoding     = "UTF-8"
