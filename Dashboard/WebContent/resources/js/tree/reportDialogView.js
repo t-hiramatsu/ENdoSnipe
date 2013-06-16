@@ -65,16 +65,21 @@ ENS.ReportDialogView = ENS.DialogView
 														return;
 													}
 
-													$("#" + option.dialogId)
-															.dialog("close");
 													if (!ins.op_[okObj]) {
+														$("#" + option.dialogId)
+																.dialog("close");
 														return;
 													}
 													if (!ins.op_[okObj][ins.op_[okName]]) {
+														$("#" + option.dialogId)
+																.dialog("close");
 														return;
 													}
 													ins.op_[okObj][ins.op_[okName]]
 															(event, ins.op_);
+
+													$("#" + option.dialogId)
+															.dialog("close");
 												}
 											},
 											{
@@ -92,14 +97,15 @@ ENS.ReportDialogView = ENS.DialogView
 															(event, ins.op_);
 												}
 											} ],
-									close : function(event){
+									close : function(event) {
 										if (!ins.op_[cObj]) {
 											return;
 										}
 										if (!ins.op_[cObj][ins.op_[cName]]) {
 											return;
 										}
-										ins.op_[cObj][ins.op_[cName]](event, ins.op_);
+										ins.op_[cObj][ins.op_[cName]](event,
+												ins.op_);
 									},
 									modal : true,
 									width : 350
