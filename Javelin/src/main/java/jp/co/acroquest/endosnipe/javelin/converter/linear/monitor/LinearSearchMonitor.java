@@ -26,8 +26,6 @@
 package jp.co.acroquest.endosnipe.javelin.converter.linear.monitor;
 
 import java.util.List;
-import java.util.Map;
-import java.util.WeakHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
@@ -48,7 +46,7 @@ import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
 public class LinearSearchMonitor
 {
     /** オブジェクトが前回指定したインデックスを保存するマップ */
-    private static ThreadLocal<Map<Object, Integer>> lastIndexMap__;
+    private static ThreadLocal<IdentityWeakMap<Object, Integer>> lastIndexMap__;
 
     /** 線形検索イベント検出を保存するマップ */
     private static IdentityWeakMap<Object, AtomicInteger> searchCountMap__ =
@@ -87,10 +85,10 @@ public class LinearSearchMonitor
 
         target__ = new ThreadLocal<Object>();
 
-        lastIndexMap__ = new ThreadLocal<Map<Object, Integer>>() {
-            protected synchronized Map<Object, Integer> initialValue()
+        lastIndexMap__ = new ThreadLocal<IdentityWeakMap<Object, Integer>>() {
+            protected synchronized IdentityWeakMap<Object, Integer> initialValue()
             {
-                return new WeakHashMap<Object, Integer>();
+                return new IdentityWeakMap<Object, Integer>();
             }
         };
 
@@ -240,7 +238,7 @@ public class LinearSearchMonitor
      */
     public static void detect(List<?> list, int index)
     {
-        Map<Object, Integer> lastIndexMap = lastIndexMap__.get();
+        IdentityWeakMap<Object, Integer> lastIndexMap = lastIndexMap__.get();
         Integer lastIndex = lastIndexMap.get(list);
 
         if (lastIndex != null)

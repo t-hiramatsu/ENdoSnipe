@@ -274,10 +274,15 @@ public class JavelinTransformer implements ClassFileTransformer
                                     + includeConfig.getMethodNamePattern() + ",class=" + className);
                         }
 
-                        transformedBytes =
-                                           applyConverter(className, transformedBytes, pool,
-                                                          ctClass, includeConfig, exludeConfigList,
-                                                          converterClassName);
+                        byte[] currentTransformedBytes = applyConverter(className, transformedBytes, pool,
+                                          ctClass, includeConfig, exludeConfigList,
+                                          converterClassName);
+                        
+                        if(currentTransformedBytes != null)
+                        {
+                            transformedBytes = currentTransformedBytes;
+                        }
+                        
                         appliedConverterSet.add(converterClassName);
                     }
                 }
