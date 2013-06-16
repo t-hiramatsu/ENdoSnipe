@@ -59,8 +59,8 @@ ENS.treeManager = wgp.AbstractView
 
 				var instance = this;
 
-				$("#" + this.ensTreeView.$el.attr("id")).mousedown(
-						function(event) {
+				$("#tree_area").jstree("mousedown").bind(
+						"mousedown.jstree", function(event) {
 							/** 右クリック押下時には処理を行わない。 */
 							if (event.which == ENS.tree.CLICK_RIGHT) {
 								return;
@@ -71,8 +71,16 @@ ENS.treeManager = wgp.AbstractView
 							if ($(parentTag).hasClass("jstree-leaf")) {
 								return true;
 							}
+							
+							var isOpen;
+							if ($(parentTag).hasClass("jstree-open")) {
+								isOpen = true;
+							} else {
+								isOpen = false;
+							}
+							
 							setTimeout(function() {
-								instance.handleExpandCollapseTag(clickTarget);
+								instance.handleExpandCollapseTag(clickTarget, isOpen);
 							}, 0);
 							return true;
 						});
@@ -95,7 +103,7 @@ ENS.treeManager = wgp.AbstractView
 			destroy : function() {
 
 			},
-			handleExpandCollapseTag : function(clickTarget) {
+			handleExpandCollapseTag : function(clickTarget, isOpen) {
 				/* Managerかどうか判定する。 */
 				var tagName = clickTarget.tagName;
 				if (tagName != "INS") {
@@ -105,7 +113,7 @@ ENS.treeManager = wgp.AbstractView
 				/* 展開か格納かを判定する。 */
 				var parentTag = $(clickTarget).parent();
 				var treeTagModel = treeTag[0];
-				if ($(parentTag).hasClass("jstree-open")) {
+				if (isOpen === true) {
 					/* 格納 */
 					if (treeTagModel !== undefined) {
 						var parentNodeId = treeTagModel.getAttribute("id");
@@ -218,14 +226,17 @@ ENS.treeManager = wgp.AbstractView
 					};
 					removeOptionList.push(option);
 				});
-				
+
 				this.ensTreeView.collection.remove(removeOptionList);
-				
+
 				var elem = document.getElementById(parentNodeId);
 				var parentLiTag = $(elem).parent("li");
 				if (parentLiTag) {
-					parentLiTag.attr("class",
-							"jstree-last jstree-open");
+					if (childNodes.length == 0) {
+						parentLiTag.attr("class", "jstree-last jstree-open");
+					} else {
+						parentLiTag.attr("class", "jstree-last");
+					}
 				}
 			}
 		});
