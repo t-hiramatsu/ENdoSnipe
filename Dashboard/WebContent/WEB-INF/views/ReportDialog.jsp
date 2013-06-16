@@ -27,7 +27,7 @@
 				Measurement Name :</div>
 			<div id="reportTargetNameValue" class="dialogValue">
 				<input type="text" id="targetName" class="reportValue" value=""
-					readonly="readonly" />
+					readonly="readonly" disabled="disabled" />
 			</div>
 		</div>
 		<div id="reportSetTermArea" class="dialogContentArea">
