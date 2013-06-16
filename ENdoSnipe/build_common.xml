@@ -29,7 +29,7 @@
     <property name="endosnipe-dataaccessor.jar" value="${endosnipe-dataaccessor.dir}/dist/endosnipe-dataaccessor-${version}.jar" />
     <property name="endosnipe-datacollector.jar" value="${endosnipe-datacollector.dir}/dist/endosnipe-datacollector-${version}.jar" />
     <property name="endosnipe-reporter.jar" value="${endosnipe-reporter.dir}/dist/endosnipe-reporter.jar" />
-    <property name="endosnipe-report-command.jar" value="${endosnipe-reporter.dir}/dist/endosnipe-report-command.jar" />
+    <property name="endosnipe-report-command.jar" value="${endosnipe-report-command.dir}/dist/endosnipe-report-command.jar" />
 
     <!-- 依存ライブラリの存在チェック -->
     <available file="${endosnipe-common.jar}" type="file" property="endosnipe-common.present" />
