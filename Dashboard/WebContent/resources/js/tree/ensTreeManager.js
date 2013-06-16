@@ -233,7 +233,13 @@ ENS.treeManager = wgp.AbstractView
 				var parentLiTag = $(elem).parent("li");
 				if (parentLiTag) {
 					if (childNodes.length == 0) {
-						parentLiTag.attr("class", "jstree-open");
+						var nextElem = parentLiTag.next("li");
+						if (nextElem.length == 0) {
+							parentLiTag.attr("class", "jstree-last jstree-open");
+						} else {
+							parentLiTag.attr("class", "jstree-open");
+						}
+						
 					} else {
 						parentLiTag.attr("class", "jstree-last");
 					}
