@@ -26,9 +26,11 @@
 package jp.co.acroquest.endosnipe.javelin.converter.concurrent.monitor;
 
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
-import java.util.WeakHashMap;
-
+import java.util.Map.Entry;
+import java.util.Set;
 
 /**
  * ConcurrentMonitorObjectの追加、参照、削除を行うクラスです。
@@ -37,6 +39,12 @@ import java.util.WeakHashMap;
  */
 public class ConcurrentAccessRegistry
 {
+    /** クリーンアップを行う間隔。 */
+    private static final int                     CLEANUP_INTERVAL = 10000;
+
+    /** 操作回数。 */
+    private int                                  count_;
+
     /** キーがオブジェクト識別子、値がConcurrentMonitorObjectのマップ。 */
     private Map<Object, ConcurrentMonitorObject> entryMap_;
 
@@ -45,9 +53,9 @@ public class ConcurrentAccessRegistry
      */
     public ConcurrentAccessRegistry()
     {
-        WeakHashMap<Object, ConcurrentMonitorObject> map =
-                new WeakHashMap<Object, ConcurrentMonitorObject>();
+        Map<Object, ConcurrentMonitorObject> map = new HashMap<Object, ConcurrentMonitorObject>();
         entryMap_ = Collections.synchronizedMap(map);
+        this.count_ = 0;
     }
 
     /**
@@ -57,10 +65,38 @@ public class ConcurrentAccessRegistry
      */
     public synchronized void add(ConcurrentMonitorObject newEntry)
     {
-        Object ref = newEntry.getRef();
-        if(ref != null)
+        this.count_++;
+        if (this.count_ > CLEANUP_INTERVAL)
         {
-            entryMap_.put(ref, newEntry);
+            this.count_ = 0;
+            cleanup();
+        }
+
+        Object ref = newEntry.getRef();
+        if (ref != null)
+        {
+            entryMap_.put(newEntry.getIdentifier(), newEntry);
+        }
+    }
+
+    /**
+     * 参照がなくなったエントリを削除する。
+     */
+    private void cleanup()
+    {
+        synchronized (this.entryMap_)
+        {
+            Set<Entry<Object, ConcurrentMonitorObject>> entrySet = this.entryMap_.entrySet();
+            Iterator<Entry<Object, ConcurrentMonitorObject>> iterator = entrySet.iterator();
+            while (iterator.hasNext())
+            {
+                Entry<Object, ConcurrentMonitorObject> entry = iterator.next();
+                Object ref = entry.getValue().getRef();
+                if (ref == null)
+                {
+                    iterator.remove();
+                }
+            }
         }
     }
 
@@ -71,7 +107,13 @@ public class ConcurrentAccessRegistry
      */
     public synchronized void remove(Object obj)
     {
-        entryMap_.remove(obj);
+        this.count_++;
+
+        if (obj instanceof ConcurrentMonitorObject)
+        {
+            ConcurrentMonitorObject monitorObj = (ConcurrentMonitorObject)obj;
+            entryMap_.remove(monitorObj.getIdentifier());
+        }
     }
 
     /**
@@ -82,7 +124,14 @@ public class ConcurrentAccessRegistry
      */
     public ConcurrentMonitorObject get(Object obj)
     {
-        ConcurrentMonitorObject entry = entryMap_.get(obj);
+        this.count_++;
+        ConcurrentMonitorObject entry = null;
+        if (obj instanceof ConcurrentMonitorObject)
+        {
+            ConcurrentMonitorObject monitorObj = (ConcurrentMonitorObject)obj;
+            entry = entryMap_.get(monitorObj.getIdentifier());
+        }
+
         return entry;
     }
 }
