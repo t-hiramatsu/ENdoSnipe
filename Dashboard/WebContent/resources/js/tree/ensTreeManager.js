@@ -34,6 +34,7 @@ ENS.treeManager = wgp.AbstractView
 					themeUrl : wgp.common.getContextPath()
 							+ "/resources/css/jsTree/style.css"
 				});
+				
 				// ツリー連携を追加。
 				this.ensTreeView.setClickEvent("contents_area");
 				this.ensTreeView.addContextMenu(ENS.tree.contextOption);
@@ -56,11 +57,14 @@ ENS.treeManager = wgp.AbstractView
 				});
 
 				this.getTopNodes();
+				this.finishOpenOrClose = false;
 
 				var instance = this;
 
 				$("#tree_area").jstree("mousedown").bind(
 						"mousedown.jstree", function(event) {
+							instance.finishOpenOrClose = false;
+							
 							/** 右クリック押下時には処理を行わない。 */
 							if (event.which == ENS.tree.CLICK_RIGHT) {
 								return;
@@ -79,11 +83,17 @@ ENS.treeManager = wgp.AbstractView
 								isOpen = false;
 							}
 							
+							ENS.tree.addedOtherNodes = [];
+							
 							setTimeout(function() {
 								instance.handleExpandCollapseTag(clickTarget, isOpen);
 							}, 0);
 							return true;
 						});
+				
+				$("#tree_area").bind("open_node.jstree close_node.jstree", function (e) {
+					instance.finishOpenOrClose = true;
+				});
 			},
 			render : function() {
 				console.log('call render');
@@ -235,13 +245,25 @@ ENS.treeManager = wgp.AbstractView
 					if (childNodes.length == 0) {
 						var nextElem = parentLiTag.next("li");
 						if (nextElem.length == 0) {
-							parentLiTag.attr("class", "jstree-last jstree-open");
+							if (this.finishOpenOrClose === true) {
+								parentLiTag.attr("class", "jstree-last jstree-closed");
+							} else {
+								parentLiTag.attr("class", "jstree-last jstree-open");
+							}
 						} else {
-							parentLiTag.attr("class", "jstree-open");
+							if (this.finishOpenOrClose === true) {
+								parentLiTag.attr("class", "jstree-closed");
+							} else {
+								parentLiTag.attr("class", "jstree-open");
+							}
 						}
 						
 					} else {
-						parentLiTag.attr("class", "jstree-last");
+						if (this.finishOpenOrClose === true) {
+							parentLiTag.attr("class", "jstree-closed");
+						} else {
+							parentLiTag.attr("class", "jstree-open");
+						}
 					}
 				}
 			}
