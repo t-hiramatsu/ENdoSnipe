@@ -69,6 +69,9 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
             PreparedStatement delegated = getDelegatingStatement(pstmt);
             // CHECKSTYLE:OFF
             String measurementItemName = item.itemName;
+            measurementItemName = measurementItemName.replaceAll("\\n", "");
+            measurementItemName = measurementItemName.replaceAll("\\r", "");
+            
             delegated.setString(1, measurementItemName);
             delegated.setTimestamp(2, item.lastInserted);
             // CHECKSTYLE:ON

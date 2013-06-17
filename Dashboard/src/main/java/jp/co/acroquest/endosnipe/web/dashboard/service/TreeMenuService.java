@@ -217,8 +217,6 @@ public class TreeMenuService
                     boolean isContain = childNodeList.contains(childNodeName);
                     if (!isContain)
                     {
-                        childNodeName = childNodeName.replaceAll("\\n", "");
-
                         childNodeList.add(childNodeName);
                         StringBuilder stringBuilder = new StringBuilder();
                         stringBuilder.append(parentTreeId);
@@ -319,21 +317,12 @@ public class TreeMenuService
         DatabaseManager dbMmanager = DatabaseManager.getInstance();
         String dbName = dbMmanager.getDataBaseName(1);
 
-        List<String> parsedNodes = new ArrayList<String>();
+        List<String> childNodes = null;
         try
         {
-            List<String> childNodes =
+            childNodes =
                     JavelinMeasurementItemDao.selectItemNameListByParentItemName(dbName,
                                                                                  parentTreeId);
-
-            int nodeLength = childNodes.size();
-            for (int index = 0; index < nodeLength; index++)
-            {
-                String childNodeName = childNodes.get(index);
-                childNodeName = childNodeName.replaceAll("\\n", "");
-
-                parsedNodes.add(childNodeName);
-            }
 
         }
         catch (SQLException sqlEx)
@@ -341,7 +330,7 @@ public class TreeMenuService
             LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx, sqlEx.getMessage());
         }
 
-        return parsedNodes;
+        return childNodes;
     }
 
     /**
