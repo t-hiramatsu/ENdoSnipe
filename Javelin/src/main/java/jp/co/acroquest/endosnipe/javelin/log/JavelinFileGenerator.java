@@ -38,6 +38,7 @@ import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 import jp.co.acroquest.endosnipe.common.parser.JavelinConstants;
 import jp.co.acroquest.endosnipe.javelin.CallTree;
 import jp.co.acroquest.endosnipe.javelin.CallTreeNode;
+import jp.co.acroquest.endosnipe.javelin.CallTreeRecorder;
 import jp.co.acroquest.endosnipe.javelin.conf.JavelinMessages;
 import jp.co.acroquest.endosnipe.javelin.event.CommonEvent;
 import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
@@ -119,8 +120,34 @@ public class JavelinFileGenerator implements JavelinConstants
         Date date = new Date();
         String jvnFileName = JavelinLoggerThread.createJvnFileName(date);
         
-        // ‰¼‚ÌitemName
         String itemName = "";
+		CallTree callTree = CallTreeRecorder.getInstance().getCallTree();
+		if (callTree != null)
+		{
+			CallTreeNode rootNode = callTree.getRootNode();
+			if (rootNode != null)
+			{
+				itemName = "/process/response/" + rootNode.getInvocation().getRootInvocationManagerKey()
+						.replace("/", "&#47;") + "/event";
+				String eventName = null;
+				if (rootNode.getEventList().length == 1) {
+					eventName = rootNode.getEventList()[0].getName();
+				}
+				else if (rootNode.getEventList().length > 1) {
+					eventName = rootNode.getEventList()[0].getName();
+					for (CommonEvent event: rootNode.getEventList()) {
+						if (!event.getName().equals(eventName)){
+							eventName = null;
+							break;
+						}
+					}
+				}
+				if (eventName != null) {
+					itemName += "/" + eventName;
+				}
+			}
+		}
+        
         JavelinLogTask task = new JavelinLogTask(date, jvnFileName, tree, node, callback, endNode,
                                                  telegramId, itemName);
 
