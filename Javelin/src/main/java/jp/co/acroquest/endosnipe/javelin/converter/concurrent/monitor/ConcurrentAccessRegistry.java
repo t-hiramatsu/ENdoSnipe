@@ -103,34 +103,26 @@ public class ConcurrentAccessRegistry
     /**
      * ConcurrentMonitorObjectを削除します。
      * 
-     * @param obj 監視対象オブジェクト。
+     * @param identifier 監視対象オブジェクト。
      */
-    public synchronized void remove(Object obj)
+    public synchronized void remove(String identifier)
     {
         this.count_++;
 
-        if (obj instanceof ConcurrentMonitorObject)
-        {
-            ConcurrentMonitorObject monitorObj = (ConcurrentMonitorObject)obj;
-            entryMap_.remove(monitorObj.getIdentifier());
-        }
+        entryMap_.remove(identifier);
     }
 
     /**
      * ConcurrentMonitorObjectを取得します。
      * 
-     * @param obj 監視対象オブジェクト。
+     * @param identifier 監視対象オブジェクト。
      * @return ConcurrentMonitorObject。
      */
-    public ConcurrentMonitorObject get(Object obj)
+    public ConcurrentMonitorObject get(String identifier)
     {
         this.count_++;
-        ConcurrentMonitorObject entry = null;
-        if (obj instanceof ConcurrentMonitorObject)
-        {
-            ConcurrentMonitorObject monitorObj = (ConcurrentMonitorObject)obj;
-            entry = entryMap_.get(monitorObj.getIdentifier());
-        }
+        ConcurrentMonitorObject entry;
+        entry = entryMap_.get(identifier);
 
         return entry;
     }

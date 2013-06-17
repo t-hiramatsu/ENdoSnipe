@@ -260,7 +260,7 @@ public class ConcurrentAccessMonitor
 
         // 現在アクセスしているスレッドの情報を取得する。
         long threadId = ThreadUtil.getThreadId();
-        ConcurrentMonitorObject entry = registry__.get(obj);
+        ConcurrentMonitorObject entry = registry__.get(identifier);
         if (entry == null || entry.getRef() != obj)
         {
             ConcurrentMonitorObject newEntry = new ConcurrentMonitorObject(obj, identifier);
@@ -301,7 +301,7 @@ public class ConcurrentAccessMonitor
         }
         else
         {
-            registry__.remove(obj);
+            registry__.remove(identifier);
         }
     }
 
