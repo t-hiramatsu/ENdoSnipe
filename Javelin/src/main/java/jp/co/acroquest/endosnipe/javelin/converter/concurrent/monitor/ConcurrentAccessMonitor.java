@@ -447,7 +447,7 @@ public class ConcurrentAccessMonitor
         }
         else
         {
-            event.setLevel(CommonEvent.LEVEL_INFO);
+            return null;
         }
 
         List<ConcurrentMonitorItem> itemList = entry.getItemMap();
