@@ -187,9 +187,16 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 	},
 	_getTermData : function() {
 		this.data = this.getData();
+		
+		if (this.data.length != 0) {
+			this.maxValue = this.getMaxValue(this.data);
+		}
+		
 		var updateOption = {
+			valueRange: [0, this.maxValue* 1.1],
 			'file' : this.data
 		};
+		
 		this.entity.updateOptions(updateOption);
 
 		var tmpAppView = new ENS.AppView();
@@ -210,6 +217,25 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 			data.push(instance._parseModel(model));
 		});
 		return data;
+	},
+	getMaxValue : function(dataList) {
+		var maxValue = 0;
+		
+		_.each(dataList, function(data, index) {
+			var value = data[1];
+			
+			if (value) {
+				if (value > maxValue) {
+					maxValue = value;
+				}
+			}
+		});
+		
+		if (maxValue === 0) {
+			maxValue = 1;
+		}
+		
+		return maxValue;
 	},
 	getRegisterId : function() {
 		return this.graphId;
