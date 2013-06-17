@@ -1,6 +1,7 @@
 // シグナルダイアログの設定項目を格納しておくためのリスト
 ENS.tree.signalDefinitionList = [];
 ENS.tree.doRender = true;
+ENS.tree.addedOtherNodes = [];
 
 ENS.treeView = wgp.TreeView
 		.extend({
@@ -104,8 +105,12 @@ ENS.treeView = wgp.TreeView
 								}
 
 								if (icon == "center" || icon == "leaf") {
-									// シグナルやレポートアイコンなど、その他ノードをコレクションから検索し追加する
-									instance.addOtherNodes(id);
+									
+									if (ENS.tree.addedOtherNodes.indexOf(id) == -1) {
+										// シグナルやレポートアイコンなど、その他ノードをコレクションから検索し追加する
+										instance.addOtherNodes(id);
+										ENS.tree.addedOtherNodes.push(id);
+									}
 								}
 							});
 				} else {
