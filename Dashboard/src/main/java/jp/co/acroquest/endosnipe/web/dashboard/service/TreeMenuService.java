@@ -323,6 +323,7 @@ public class TreeMenuService
             childNodes =
                     JavelinMeasurementItemDao.selectItemNameListByParentItemName(dbName,
                                                                                  parentTreeId);
+
         }
         catch (SQLException sqlEx)
         {
