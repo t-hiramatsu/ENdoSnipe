@@ -58,12 +58,15 @@ case "$1" in
     #--------------------
     echo -n "Starting ENdoSnipe DataCollector: "
     if [ -f $PID_FILE ]; then
-      failure
-      echo "ENdoSnipe DataCollector is already running."
-      scriptend 1
+      PSCOUNT=`ps -ef | grep $(cat ${PID_FILE}) | grep -vc grep`
+      if [ $PSCOUNT -eq 1 ]; then
+        failure
+        echo "ENdoSnipe DataCollector is already running."
+        scriptend 1
+      fi
     fi
     
-    $JAVA -Dcollector.property=$PROP -Dlog4j.configuration=file:../conf/log4j.properties -jar ../lib/endosnipe-datacollector.jar start &
+    $JAVA -Xmx256m -Dcollector.property=$PROP -Dlog4j.configuration=file:../conf/log4j.properties -jar ../lib/endosnipe-datacollector.jar start &
 
     COUNT=0
     OKCOUNT=0
