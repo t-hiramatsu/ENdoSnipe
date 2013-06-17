@@ -66,7 +66,7 @@ case "$1" in
       fi
     fi
     
-    $JAVA -Xmx256m -Dcollector.property=$PROP -Dlog4j.configuration=file:../conf/log4j.properties -jar ../lib/endosnipe-datacollector.jar start &
+    $JAVA -Dcollector.property=$PROP -Dlog4j.configuration=file:../conf/log4j.properties -jar ../lib/endosnipe-datacollector.jar start &
 
     COUNT=0
     OKCOUNT=0
