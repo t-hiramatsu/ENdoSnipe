@@ -38,6 +38,9 @@
 		perspectiveView.dropView("persArea_drop_0_1", "contents_area");
 
 		var appView = new ENS.AppView();
+		$(window).scroll(function() {
+		   alert("scrolling");
+		});
 	</script>
 
 	<%@ include file="../include/pluginsInclude.jsp"%>

@@ -113,7 +113,7 @@ ENS.NodeInfoParentView = wgp.AbstractView
 					term : 1800 * 2,
 					width : 260,
 					height : 200,
-					pageNo : this.pageNo,
+					displayNo : this.num_display,
 					dateWindow : [ new Date() - 60 * 60 * 1000, new Date() ],
 					attributes : {
 						xlabel : "Time",
@@ -135,34 +135,17 @@ ENS.NodeInfoParentView = wgp.AbstractView
 					$("#" + this.divId)
 							.append("<div id='pagingDivArea'><div/>");
 				}
-
-				if ($("#page_1").length <= 0) {
-					for ( var i = 1; i <= this.noOfPage; i++) {
-						var newDiv;
-
-						if (i == 1) {
-							newDiv = "<div id='page_" + i
-									+ "' class='page_current'></div>";
-						} else {
-							newDiv = "<div id='page_" + i
-									+ "' class='page'></div>";
-						}
-
-						$("#pagingDivArea").append(newDiv);
-					}
-
-					$(".page").hide();
+				
+				if ($("#page").length <= 0) {
+					$("#pagingDivArea").append(
+							"<div id='page' class='page_current'></div>");
 				}
-
 				var newDivAreaId = this.divId + "_" + viewId;
 
 				var newDivArea = $("<div id='" + newDivAreaId + "'></div>");
 
-				var pageNo = Math.floor(viewId / this.graphPerPage) + 1;
+				$("#page").append(newDivArea);
 
-				$("#page_" + pageNo).append(newDivArea);
-
-				// $("#pagingDivArea").append(newDivArea);
 
 				newDivArea.width(300);
 				newDivArea.height(300);
@@ -173,7 +156,6 @@ ENS.NodeInfoParentView = wgp.AbstractView
 				// 動的に生成するオブジェクトを切り替える必要があるため、やむを得ずeval()を使う
 				var view = eval("new " + viewClassName
 						+ "(viewAttribute, treeSettings)");
-
 				var registerId = view.getRegisterId();
 				ENS.nodeinfo.viewList[registerId] = view;
 			},
@@ -244,11 +226,17 @@ ENS.NodeInfoParentView = wgp.AbstractView
 					if (parentGraphNameList.indexOf(graphName) >= 0) {
 						return;
 					}
-
-					instance._addGraphDivision(graphName);
 					parentGraphNameList.push(graphName);
 				});
+
+				this.childNodes = parentGraphNameList;
 				this.pagingGraph();
+			},
+			createGraphOnPage : function(startVar, endVar) {
+
+				for ( var i = startVar; i < endVar; i++) {
+					this._addGraphDivision(this.childNodes[i])
+				}
 			},
 			createParseData : function(parse, collection) {
 				var jsonData = [];
@@ -298,21 +286,34 @@ ENS.NodeInfoParentView = wgp.AbstractView
 			},
 			pagingGraph : function() {
 
-				$("#pagingDemo").pagination(
-						this.num_display,
-						{
-							items_per_page : this.graphPerPage,
-							num_display_entries : 8,
-							current_page : 0,
-							num_edge_entries : 2,
-							callback : function(page) {
-								$('._current', '#pagingDivArea').removeClass(
-										'_current').hide();
-								$('#page_' + (page + 1)).addClass('_current')
-										.show();
-								return false;
-							}
-						});
+				var instance = this;
+				$("#pagingDemo")
+						.pagination(
+								this.num_display,
+								{
+									items_per_page : this.graphPerPage,
+									num_display_entries : 8,
+									current_page : 0,
+									num_edge_entries : 2,
+									callback : function(page) {
+										
+										if ($("#page").length > 0) {
+											$("#page").remove();
+										}
+										
+										var startVar = page
+												* instance.graphPerPage;
+										var endVar = (page + 1)
+												* instance.graphPerPage;
+										if (endVar > instance.num_display) {
+											endVar = endVar
+													- (endVar - instance.num_display);
+										}
+										instance.createGraphOnPage(startVar,
+												endVar);
+										return false;
+									}
+								});
 			},
 			destroy : function() {
 				var viewList = ENS.nodeinfo.viewList;
