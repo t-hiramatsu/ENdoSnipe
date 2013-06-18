@@ -31,8 +31,10 @@ import java.lang.management.ThreadMXBean;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
@@ -43,10 +45,8 @@ import jp.co.acroquest.endosnipe.javelin.CallTreeRecorder;
 import jp.co.acroquest.endosnipe.javelin.StatsJavelinRecorder;
 import jp.co.acroquest.endosnipe.javelin.converter.leak.monitor.CollectionMonitor;
 import jp.co.acroquest.endosnipe.javelin.event.CommonEvent;
-import jp.co.acroquest.endosnipe.javelin.util.HashMap;
 import jp.co.acroquest.endosnipe.javelin.util.StatsUtil;
 import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
-import jp.co.acroquest.endosnipe.javelin.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * 複数スレッドの同時アクセスを監視するクラス
@@ -260,7 +260,7 @@ public class ConcurrentAccessMonitor
 
         // 現在アクセスしているスレッドの情報を取得する。
         long threadId = ThreadUtil.getThreadId();
-        ConcurrentMonitorObject entry = registry__.get(obj);
+        ConcurrentMonitorObject entry = registry__.get(identifier);
         if (entry == null || entry.getRef() != obj)
         {
             ConcurrentMonitorObject newEntry = new ConcurrentMonitorObject(obj, identifier);
@@ -301,7 +301,7 @@ public class ConcurrentAccessMonitor
         }
         else
         {
-            registry__.remove(obj);
+            registry__.remove(identifier);
         }
     }
 
@@ -447,7 +447,7 @@ public class ConcurrentAccessMonitor
         }
         else
         {
-            event.setLevel(CommonEvent.LEVEL_INFO);
+            return null;
         }
 
         List<ConcurrentMonitorItem> itemList = entry.getItemMap();

@@ -197,7 +197,7 @@ ENS.tree.SIGNAL_ICON_4 = "signal_4";
 ENS.tree.SIGNAL_ICON_5 = "signal_5";
 ENS.tree.REPORT_ICON = "report";
 
-ENS.tree.DEFAULT_SIGNAL_NAME = "new Signal";
+ENS.tree.DEFAULT_SIGNAL_NAME = "new signal";
 ENS.tree.DEFAULT_SIGNAL_PATTERN = "3";
 ENS.tree.DEFAULT_ESCALATION_PERIOD = "15";
 

@@ -17,14 +17,14 @@
 		<div id="signalNameArea" class="dialogContentArea">
 			<div id="signalNameItem" class="dialogItem">Signal Name : </div>
 			<div id="signalNameValue" class="dialogValue">
-				<input type="text" id="signalName" class="signalValue" value="new Signal" />
+				<input type="text" id="signalName" class="signalValue" value="new signal" />
 				<input type="hidden" id="beforeSignalName" class="signalValue" value="" />
 			</div>
 		</div>
 		<div id="signalMatchingPatternArea" class="dialogContentArea">
 			<div id="signalMatchingPatternItem" class="dialogItem">Matching Pattern : </div>
 			<div id="signalMatchingPatternValue" class="dialogValue">
-				<input type="text" id="matchingPattern" class="signalValue" value="" readonly="readonly" />
+				<input type="text" id="matchingPattern" class="signalValue" value="" readonly="readonly" disabled="disabled" />
 			</div>
 		</div>
 		<div id="signalPatternArea" class="dialogContentArea">
@@ -61,7 +61,7 @@
 		<div id="signalEscalationPeriodArea" class="dialogContentArea">
 			<div id="signalEscalationPeriodItem" class="dialogItem">Escalation Period : </div>
 			<div id="signalEscalationPeriodValue" class="dialogValue">
-				<input type="text" id="escalationPeriod" class="signalValue" value="15" />
+				<input type="text" id="escalationPeriod" class="signalValue" value="15" pattern="^([1-9]\d*|0)(\.\d+)?$" />
 			</div>
 			<div id="signalEscalationPeriodUnit">s</div>
 		</div>

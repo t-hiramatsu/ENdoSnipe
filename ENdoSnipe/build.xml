@@ -8,6 +8,8 @@
     <property name="endosnipe-communicator.dir" value="ENdoSnipeCommunicator" />
     <property name="endosnipe-dataaccessor.dir" value="ENdoSnipeDataAccessor" />
     <property name="endosnipe-datacollector.dir" value="ENdoSnipeDataCollector" />
+    <property name="endosnipe-reporter.dir" value="ENdoSnipeReporter" />
+    <property name="endosnipe-report-command.dir" value="ENdoSnipeReportCommand" />
     <property name="javelin.dir" value="Javelin" />
     <property name="release.dir" value="ENdoSnipe/release" />
     <property name="plugin.jar" value="jp.co.acroquest.*.jar" />
@@ -26,19 +28,9 @@
     <target name="all_build" depends="clean, prepare,
         build_ENdoSnipeCommon, build_ENdoSnipeDataAccessor,
         build_ENdoSnipeCommunicator, build_ENdoSnipeDataCollector,
-        build_Javelin">
+        build_Javelin, build_ENdoSnipeReporter, build_ENdoSnipeReportCommand">
         <copy todir="${release.dir}">
-            <fileset dir="${endosnipe-common.dir}/dist">
-                <include name="${plugin.jar}" />
-            </fileset>
-            <fileset dir="${endosnipe-communicator.dir}/dist">
-                <include name="${plugin.jar}" />
-            </fileset>
-            <fileset dir="${endosnipe-dataaccessor.dir}/dist">
-                <include name="${plugin.jar}" />
-            </fileset>
             <fileset dir="${endosnipe-datacollector.dir}/dist">
-                <include name="${plugin.jar}" />
                 <include name="${datacollector.zip}" />
                 <include name="${datacollector.tar.gz}" />
             </fileset>
@@ -74,6 +66,16 @@
     <!-- Javelin をビルドする -->
     <target name="build_Javelin">
         <ant antfile="build.xml" dir="${javelin.dir}" target="release" inheritall="false"/>
+    </target>
+
+    <!-- ENdoSnipeReporter をビルドする -->
+    <target name="build_ENdoSnipeReporter">
+        <ant antfile="build.xml" dir="${endosnipe-reporter.dir}" target="release" inheritall="false"/>
+    </target>
+    
+    <!-- ENdoSnipeReportCommand をビルドする -->
+    <target name="build_ENdoSnipeReportCommand">
+        <ant antfile="build.xml" dir="${endosnipe-report-command.dir}" target="release" inheritall="false"/>
     </target>
 
     <!-- WebDashboard をビルドする -->

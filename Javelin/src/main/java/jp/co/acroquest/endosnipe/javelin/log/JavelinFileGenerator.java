@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
@@ -37,10 +38,10 @@ import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 import jp.co.acroquest.endosnipe.common.parser.JavelinConstants;
 import jp.co.acroquest.endosnipe.javelin.CallTree;
 import jp.co.acroquest.endosnipe.javelin.CallTreeNode;
+import jp.co.acroquest.endosnipe.javelin.bean.Invocation;
 import jp.co.acroquest.endosnipe.javelin.conf.JavelinMessages;
 import jp.co.acroquest.endosnipe.javelin.event.CommonEvent;
 import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
-import jp.co.acroquest.endosnipe.javelin.util.concurrent.ArrayBlockingQueue;
 
 /**
  * Javelinのログファイル名を管理する
@@ -119,8 +120,63 @@ public class JavelinFileGenerator implements JavelinConstants
         Date date = new Date();
         String jvnFileName = JavelinLoggerThread.createJvnFileName(date);
         
-        // 仮のitemName
         String itemName = "";
+		if (tree != null)
+		{
+			CallTreeNode rootNode = tree.getRootNode();
+			if (rootNode != null)
+			{
+                Invocation invocation = rootNode.getInvocation();
+                String rootInvocationManagerKey = invocation.getRootInvocationManagerKey();
+                itemName =
+                           "/process/response/" + rootInvocationManagerKey.replace("/", "&#47;")
+                                   + "/event";
+                String eventName = null;
+				if (rootNode.getEventList().length == 1) {
+					eventName = rootNode.getEventList()[0].getName();
+				}
+				else if (rootNode.getEventList().length > 1) {
+					eventName = rootNode.getEventList()[0].getName();
+					for (CommonEvent event: rootNode.getEventList()) {
+						if (!event.getName().equals(eventName)){
+							eventName = null;
+							break;
+						}
+					}
+				}
+				if (eventName != null) {
+					itemName += "/" + eventName;
+				}
+            }
+            else if (tree.getEventNodeList().size() > 0)
+            {
+                String eventName = null;
+                for (CallTreeNode eventNode : tree.getEventNodeList())
+                {
+                    for (CommonEvent event : eventNode.getEventList())
+                    {
+                        if (eventName != null && event.getName().equals(eventName) == false)
+                        {
+                            eventName = null;
+                            break;
+                        }
+                        
+                        eventName = event.getName();
+                        
+                    }
+                }
+                
+                if (eventName == null)
+                {
+                    itemName += "/event";
+                }
+                else
+                {
+                    itemName += "/event/" + eventName;
+                }
+            }
+		}
+        
         JavelinLogTask task = new JavelinLogTask(date, jvnFileName, tree, node, callback, endNode,
                                                  telegramId, itemName);
 
