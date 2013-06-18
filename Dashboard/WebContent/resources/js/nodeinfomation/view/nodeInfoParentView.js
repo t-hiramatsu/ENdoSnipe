@@ -78,8 +78,8 @@ ENS.NodeInfoParentView = wgp.AbstractView
 						'<div class="clearFloat"></div>');
 
 				this.render();
-
 			},
+			
 			render : function() {
 				console.log('call render');
 			},
