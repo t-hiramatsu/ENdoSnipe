@@ -73,7 +73,7 @@ ENS.SignalDefinitionDialogView = ENS.DialogView
 														}
 
 														if (inputValue2 === ""
-																&& inputValue4 === "") {
+																|| inputValue4 === "") {
 															alert("Please input 'Signal Levels'.");
 															return;
 														}
@@ -97,9 +97,9 @@ ENS.SignalDefinitionDialogView = ENS.DialogView
 														}
 
 														if (inputValue1 === ""
-																&& inputValue2 === ""
-																&& inputValue3 === ""
-																&& inputValue4 === "") {
+																|| inputValue2 === ""
+																|| inputValue3 === ""
+																|| inputValue4 === "") {
 															alert("Please input 'Signal Levels'.");
 															return;
 														}
