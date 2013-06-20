@@ -34,8 +34,8 @@ import org.bbreak.excella.reports.tag.SingleParamParser;
  */
 public class RecordReporter<E> {
 	/** ロガー */
-	private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(
-			RecordReporter.class);
+	private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
+			.getLogger(RecordReporter.class);
 
 	private static final String XLS_EXTENTION = ".xls";
 
@@ -59,9 +59,6 @@ public class RecordReporter<E> {
 
 	/** グラフ名のパラメータ名 */
 	public static final String GRAPH_TITLE = "graphTitle";
-
-	/** 出力した複数系列グラフのカウンタ */
-	private int counter_;
 
 	/**
 	 * コンストラクタ
@@ -370,11 +367,8 @@ public class RecordReporter<E> {
 	 */
 	private String createFilePath(String outputFolderPath, String itemName) {
 		String outputFileName = PathUtil.getValidFileName(itemName);
-		DecimalFormat format = new DecimalFormat("00000");
-		String addtion = format.format(this.counter_);
-		this.counter_++;
-		String outputFilePath = PathUtil.getValidLengthPath(outputFolderPath
-				+ File.separator + outputFileName + XLS_EXTENTION, addtion);
+		String outputFilePath = outputFolderPath + File.separator
+				+ outputFileName + XLS_EXTENTION;
 
 		outputFilePath = outputFilePath.substring(0, outputFilePath.length()
 				- XLS_EXTENTION.length());
@@ -430,7 +424,7 @@ public class RecordReporter<E> {
 
 		// データ取得開始日時とデータ取得終了日時を成型する
 		calendar.setTime(startDate);
-		
+
 		Locale.setDefault(Locale.ENGLISH);
 		String startDateString = String.format(
 				"%1$tY/%1$tm/%1$td(%1$ta) %1$tH:%1$tM:%1$tS", calendar);
@@ -471,10 +465,13 @@ public class RecordReporter<E> {
 				dirName = dirName.replace("<", "_");
 				dirName = dirName.replace(">", "_");
 				dirName = dirName.replace("|", "_");
-				
+				// "/"が"&#47;"という文字コードに変換されてディレクト名になるパターンがあるため、
+				// "&#47;"も"_"に置換する。
+				dirName = dirName.replace("&#47;", "_");
+
 				builder.append("/");
 			}
-			
+
 			builder.append(dirName);
 		}
 
