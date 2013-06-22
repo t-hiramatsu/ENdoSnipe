@@ -64,7 +64,7 @@ public class AlarmData
      */
     public AlarmData()
     {
-        this.alarmLevel_ = JavelinDataLogger.NORMAL_ALARM_LEVEL;
+        this.alarmLevel_ = JavelinDataLogger.STOP_ALARM_LEVEL;
     }
 
     /**
