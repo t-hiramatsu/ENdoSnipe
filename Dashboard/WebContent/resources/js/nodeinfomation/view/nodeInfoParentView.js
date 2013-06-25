@@ -37,11 +37,15 @@ ENS.NodeInfoParentView = wgp.AbstractView
 				});
 				var appView = new ENS.AppView();
 				appView.addView(treeListView, "tree");
-				
+
 				this.divId = this.$el.attr("id");
 				var id = argument["ids"];
 				this.maxId = 0;
 				this.viewList = {};
+
+				this.graphPerPage = 12;
+				this.noOfPage = 0;
+				this.moveScale = [];
 
 				// 全ての子ノードのパスを取得し、グラフを表示する
 				this.getChildTargetNodes(treeSettings.id);
@@ -61,19 +65,24 @@ ENS.NodeInfoParentView = wgp.AbstractView
 				var instance = this;
 
 				this.dualSliderView.setScaleMovedEvent(function(from, to) {
+					instance.moveScale["from"] = from;
+					instance.moveScale["to"] = to;
 					var viewList = ENS.nodeinfo.viewList;
 					for ( var key in viewList) {
-						var instance = viewList[key];
+						var ins = viewList[key];
 						// グラフの表示期間の幅を更新する
-						instance.updateDisplaySpan(from, to);
+						ins.updateDisplaySpan(from, to);
 						// グラフの表示データを更新する
-						instance.updateGraphData(key, from, to);
+						ins.updateGraphData(key, from, to);
 					}
 				});
 
 				$("#" + this.$el.attr("id")).append(
 						'<div class="clearFloat"></div>');
+
+				this.render();
 			},
+
 			render : function() {
 				console.log('call render');
 			},
@@ -107,6 +116,7 @@ ENS.NodeInfoParentView = wgp.AbstractView
 					term : 1800 * 2,
 					width : 260,
 					height : 200,
+					displayNo : this.num_display,
 					dateWindow : [ new Date() - 60 * 60 * 1000, new Date() ],
 					attributes : {
 						xlabel : "Time",
@@ -124,9 +134,21 @@ ENS.NodeInfoParentView = wgp.AbstractView
 					}
 				}
 
+				if ($("#pagingDivArea").length <= 0) {
+					$("#" + this.divId)
+							.append("<div id='pagingDivArea'><div/>");
+				}
+
+				if ($("#page").length <= 0) {
+					$("#pagingDivArea").append(
+							"<div id='page' class='page_current'></div>");
+				}
 				var newDivAreaId = this.divId + "_" + viewId;
+
 				var newDivArea = $("<div id='" + newDivAreaId + "'></div>");
-				$("#" + this.divId).append(newDivArea);
+
+				$("#page").append(newDivArea);
+
 				newDivArea.width(300);
 				newDivArea.height(300);
 
@@ -136,7 +158,6 @@ ENS.NodeInfoParentView = wgp.AbstractView
 				// 動的に生成するオブジェクトを切り替える必要があるため、やむを得ずeval()を使う
 				var view = eval("new " + viewClassName
 						+ "(viewAttribute, treeSettings)");
-
 				var registerId = view.getRegisterId();
 				ENS.nodeinfo.viewList[registerId] = view;
 			},
@@ -144,7 +165,6 @@ ENS.NodeInfoParentView = wgp.AbstractView
 				// データの成型
 			},
 			_setGraphIds : function(parseId, collection) {
-				// console.log(parseId);
 				var instance = this;
 				_.each(collection.models, function(model) {
 					var attr = {};
@@ -171,7 +191,6 @@ ENS.NodeInfoParentView = wgp.AbstractView
 					parentTreeId : parentId
 				};
 				var url = ENS.tree.GET_CHILD_TARGET_NODES;
-
 				// Ajax通信用の設定
 				var settings = {
 					data : sendData,
@@ -185,6 +204,15 @@ ENS.NodeInfoParentView = wgp.AbstractView
 				ajaxHandler.requestServerAsync(settings);
 			},
 			callbackGetChildTargetNodes : function(childNodes) {
+
+				this.num_display = childNodes.length;
+				this.noOfPage = Math.floor(this.num_display / 12) + 1;
+
+				if ($("#pagingDemo").length <= 0) {
+					$("#" + this.divId)
+							.append(
+									"<br/><div id='pagingDemo' class='pagination' style='padding-left:10px;'></div><br/><br/>");
+				}
 				var instance = this;
 				/*
 				 * シグナルノードやレポートノードの上の階層にあるグラフノードを格納する配列
@@ -199,10 +227,24 @@ ENS.NodeInfoParentView = wgp.AbstractView
 					if (parentGraphNameList.indexOf(graphName) >= 0) {
 						return;
 					}
-
-					instance._addGraphDivision(graphName);
 					parentGraphNameList.push(graphName);
 				});
+
+				this.childNodes = parentGraphNameList;
+				this.pagingGraph();
+			},
+			createGraphOnPage : function(startVar, endVar) {
+				var from = this.moveScale["from"];
+				var to = this.moveScale["to"];
+				for ( var i = startVar; i < endVar; i++) {
+					var viewName = this.childNodes[i];
+					this._addGraphDivision(viewName);
+					var instance = ENS.nodeinfo.viewList[viewName];
+					if (from != undefined && to != undefined) {
+						instance.updateDisplaySpan(from, to);
+						instance.updateGraphData(viewName, from, to);
+					}
+				}
 			},
 			createParseData : function(parse, collection) {
 				var jsonData = [];
@@ -249,6 +291,30 @@ ENS.NodeInfoParentView = wgp.AbstractView
 					children : childrenData
 				};
 				return treeData;
+			},
+			pagingGraph : function() {
+
+				var instance = this;
+				$("#pagingDemo").pagination(this.num_display, {
+					items_per_page : this.graphPerPage,
+					num_display_entries : 8,
+					current_page : 0,
+					num_edge_entries : 2,
+					callback : function(page) {
+
+						if ($("#page").length > 0) {
+							$("#page").remove();
+						}
+
+						var startVar = page * instance.graphPerPage;
+						var endVar = (page + 1) * instance.graphPerPage;
+						if (endVar > instance.num_display) {
+							endVar = endVar - (endVar - instance.num_display);
+						}
+						instance.createGraphOnPage(startVar, endVar);
+						return false;
+					}
+				});
 			},
 			destroy : function() {
 				var viewList = ENS.nodeinfo.viewList;
