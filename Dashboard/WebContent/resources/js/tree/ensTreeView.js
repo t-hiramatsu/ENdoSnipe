@@ -266,6 +266,9 @@ ENS.treeView = wgp.TreeView
 				var executeClass = targetOption.get("executeClass");
 				if (executeClass) {
 					if (id == ENS.tree.ADD_SIGNAL_TYPE) {
+						// デフォルトのレポート名にレポート出力対象のノード名を入れる(空白を削除する処理を入れている)
+						var targetNodeName = executeOption.displayName.replace(/\s+/g, ""); 
+						$("#signalName").val(targetNodeName + " signal");
 						// Matching Patternにデフォルトのツリー階層を入力する
 						$("#matchingPattern").val(executeOption.treeId);
 
@@ -316,6 +319,9 @@ ENS.treeView = wgp.TreeView
 				var executeClass = targetOption.get("executeClass");
 				if (executeClass) {
 					if (id == ENS.tree.OUTPUT_REPORT_TYPE) {
+						// デフォルトのレポート名にレポート出力対象のノード名を入れる(空白を削除する処理を入れている)
+						var targetNodeName = executeOption.displayName.replace(/\s+/g, ""); 
+						$("#reportName").val(targetNodeName + " report");
 						// Target Measurement Nameにツリー階層を入力する
 						$("#targetName").val(executeOption.treeId);
 					}
@@ -809,10 +815,9 @@ ENS.treeView = wgp.TreeView
 			 */
 			clearSignalDialog_ : function() {
 				$("#signalId").val("");
-				$("#signalName").val(ENS.tree.DEFAULT_SIGNAL_NAME);
+				$("#signalName").val("");
 				$("#matchingPattern").val("");
-				$("#signalPatternValue select").val(
-						ENS.tree.DEFAULT_SIGNAL_PATTERN);
+				$("#signalPatternValue select").val("");
 				$("#patternValue_1").val("");
 				$("#patternValue_2").val("");
 				$("#patternValue_3").val("");
@@ -825,7 +830,7 @@ ENS.treeView = wgp.TreeView
 			 */
 			clearReportDialog_ : function() {
 				$("#reportId").val("");
-				$("#reportName").val("new report");
+				$("#reportName").val("");
 				$("#targetName").val("");
 				$("#jquery-ui-datepicker-from").val("");
 				$("#jquery-ui-datepicker-to").val("");

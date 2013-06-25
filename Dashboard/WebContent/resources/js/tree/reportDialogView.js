@@ -30,8 +30,8 @@ ENS.ReportDialogView = ENS.DialogView
 														alert("Please input 'Report Name'.");
 														return;
 													} else if (reportName
-															.match(/[\\\/]/)) {
-														alert("Don't use '/'or'\\' in 'Report Name'.");
+															.match(/[\\\/\:\;\|\,\*\?/"\<\>]/)) {
+														alert("Don't use '/\\:;|,*?\"<>' in 'Report Name'.");
 														return;
 													}
 
