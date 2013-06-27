@@ -1,7 +1,6 @@
 package jp.co.acroquest.endosnipe.report.output;
 
 import java.io.File;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -38,6 +37,9 @@ public class RecordReporter<E> {
 			.getLogger(RecordReporter.class);
 
 	private static final String XLS_EXTENTION = ".xls";
+
+	/** 積算データ用のテンプレートシート名 */
+	private static final String SUM_DATA_SHEET_NAME = "DATA_SUM";
 
 	/** 参照するテンプレートのシート名のリスト */
 	private String[] templateSheetNames_;
@@ -302,7 +304,11 @@ public class RecordReporter<E> {
 		ReportBook outputBook = new ReportBook(templateFilePath,
 				outputFilePath, ExcelExporter.FORMAT_TYPE);
 
-		for (String templateSheetName : this.templateSheetNames_) {
+		int sheetNum = this.templateSheetNames_.length;
+
+		for (int sheetindex = 0; sheetindex < sheetNum; sheetindex++) {
+			String templateSheetName = this.templateSheetNames_[sheetindex];
+
 			// テンプレートファイル内のシート名と出力シート名を指定し、
 			// ReportSheetインスタンスを生成して、ReportBookに追加する。
 			ReportSheet outputDataSheet = new ReportSheet(templateSheetName);
@@ -314,18 +320,45 @@ public class RecordReporter<E> {
 				ItemRecord[] records = (ItemRecord[]) recordList
 						.toArray(new ItemRecord[recordList.size()]);
 
-				// 置換パラメータをReportSheetオブジェクトに追加する。
-				// (反復置換のパラメータには配列を渡す。)
+				int recordsLength = records.length;
+
+				ItemRecord[] changedRecords = new ItemRecord[recordsLength];
 				List<Integer> numberList = new ArrayList<Integer>();
-				for (int index = 0; index < records.length; index++) {
-					numberList.add(index + 1);
+				// 「オブジェクト数」レポートであり、シート名が積算値用のものであれば、
+				// 積算値にデータを変換して、レポートに出力する
+				if (SUM_DATA_SHEET_NAME.equals(templateSheetName)) {
+					long sum = 0;
+					for (int index = 0; index < recordsLength; index++) {
+						numberList.add(index + 1);
+						ItemRecord record = records[index];
+						sum += record.getValue();
+						
+						ItemRecord itemRecord = new ItemRecord();
+						itemRecord.setValue(sum);
+						itemRecord.setMeasurementTime(records[index].getMeasurementTime());
+						
+						changedRecords[index] = itemRecord;
+					}
+				} else {
+					for (int index = 0; index < recordsLength; index++) {
+						numberList.add(index + 1);
+						
+						ItemRecord itemRecord = new ItemRecord();
+						itemRecord.setValue(records[index].getValue());
+						itemRecord.setMeasurementTime(records[index].getMeasurementTime());
+						itemRecord.setValueMax(records[index].getValueMax());
+						itemRecord.setValueMin(records[index].getValueMin());
+						changedRecords[index] = itemRecord;
+					}
 				}
+
 				String parameterName = RecordReporter.PARAMETER_NAME;
-				if (this.recordParameters_.length > itemIndex) {
-					parameterName = this.recordParameters_[itemIndex];
+				if (this.recordParameters_.length > sheetindex) {
+					parameterName = this.recordParameters_[sheetindex];
 				}
+
 				outputDataSheet.addParam(BlockRowRepeatParamParser.DEFAULT_TAG,
-						parameterName, records);
+						parameterName, changedRecords);
 
 				// 表の一番左端の列に項目番号を追加
 				outputDataSheet.addParam(RowRepeatParamParser.DEFAULT_TAG,

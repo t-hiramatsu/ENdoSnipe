@@ -156,46 +156,5 @@ public class ObjectReportProcessor extends ReportPublishProcessorBase {
 			reporter.outputReports(templateFilePath, outputFolderPath
 					+ File.separator + key, value, startTime, endTime);
 		}
-
-		// List<ItemData> listDataList = (List<ItemData>) data
-		// .get(Constants.ITEMNAME_JAVAPROCESS_COLLECTION_LIST_COUNT);
-		//
-		// List<ItemData> queueDataList = (List<ItemData>) data
-		// .get(Constants.ITEMNAME_JAVAPROCESS_COLLECTION_QUEUE_COUNT);
-		//
-		// List<ItemData> setDataList = (List<ItemData>) data
-		// .get(Constants.ITEMNAME_JAVAPROCESS_COLLECTION_SET_COUNT);
-		//
-		// List<ItemData> mapDataList = (List<ItemData>) data
-		// .get(Constants.ITEMNAME_JAVAPROCESS_COLLECTION_MAP_COUNT);
-		//
-		// List<ItemData> sizeDataList = (List<ItemData>) data
-		// .get(Constants.ITEMNAME_JAVAPROCESS_COLLECTION_HISTOGRAM_SIZE);
-		//
-		// List<ItemData> countDataList = (List<ItemData>) data
-		// .get(Constants.ITEMNAME_JAVAPROCESS_COLLECTION_HISTOGRAM_COUNT);
-
-		// reporter.outputReports(
-		// templateFilePath, outputFolderPath + File.separator +
-		// Constants.ITEMNAME_JAVAPROCESS_COLLECTION_QUEUE_COUNT,
-		// queueDataList, startTime, endTime);
-		// reporter.outputReports(
-		// templateFilePath, outputFolderPath + File.separator +
-		// Constants.ITEMNAME_JAVAPROCESS_COLLECTION_SET_COUNT,
-		// setDataList, startTime, endTime);
-		// reporter.outputReports(
-		// templateFilePath, outputFolderPath + File.separator +
-		// Constants.ITEMNAME_JAVAPROCESS_COLLECTION_MAP_COUNT,
-		// mapDataList, startTime, endTime);
-		// reporter.outputReports(
-		// templateFilePath,
-		// outputFolderPath + File.separator +
-		// Constants.ITEMNAME_JAVAPROCESS_COLLECTION_HISTOGRAM_SIZE,
-		// sizeDataList, startTime, endTime);
-		// reporter.outputReports(
-		// templateFilePath,
-		// outputFolderPath + File.separator +
-		// Constants.ITEMNAME_JAVAPROCESS_COLLECTION_HISTOGRAM_COUNT,
-		// countDataList, startTime, endTime);
 	}
 }
