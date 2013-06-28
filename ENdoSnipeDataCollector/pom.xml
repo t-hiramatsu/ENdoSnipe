@@ -193,7 +193,8 @@
 				<configuration>
 					<encoding>${src.encoding}</encoding>
 					<!--
-					<configLocation>${basedir}/checkstyle.xml</configLocation>
+					<configLocation>${basedir}/.config/.Checkstyle_Setting.xml</configLocation>
+					<!--
 					<includes>**/*.java</includes>
 					<excludes>**/stub/**/*.java, **/Test*.java</excludes>
 					-->
