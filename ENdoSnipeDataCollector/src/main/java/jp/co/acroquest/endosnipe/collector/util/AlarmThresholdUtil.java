@@ -25,6 +25,9 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.collector.util;
 
+import java.util.Map;
+import java.util.Map.Entry;
+
 import jp.co.acroquest.endosnipe.collector.LogMessageCodes;
 import jp.co.acroquest.endosnipe.common.entity.MeasurementData;
 import jp.co.acroquest.endosnipe.common.entity.MeasurementDetail;
@@ -63,23 +66,35 @@ public class AlarmThresholdUtil implements LogMessageCodes
             return null;
         }
 
-        // 単一のデータ系列のときは、空文字をキーに、一つの値のみが入っている
-        MeasurementDetail measurementDetail = measurementData.getMeasurementDetailMap().get("");
+        Map<String, MeasurementDetail> measurementDetailMap =
+                                                              measurementData.getMeasurementDetailMap();
 
-        if (measurementDetail == null)
-        {
-            return null;
-        }
-        String value = measurementDetail.value;
         Number number = null;
+        for (Entry<String, MeasurementDetail> measurementEntry : measurementDetailMap.entrySet())
+        {
+            String key = measurementEntry.getKey();
+            MeasurementDetail measurementDetail = measurementEntry.getValue();
+            if (measurementDetail == null)
+            {
+                return null;
+            }
+            // 単一のデータ系列のときは、空文字をキーに、一つの値のみが入っており、
+            // 可変データ系列はホスト名、エージェント名を除いたキーで値が格納されるため、それ以外は無視する。
+            if (!"".equals(key) && !itemName.endsWith(key))
+            {
+                continue;
+            }
 
-        try
-        {
-            number = Long.valueOf(value);
-        }
-        catch (NumberFormatException ex)
-        {
-            LOGGER.log(SYSTEM_UNKNOW_ERROR, ex.getMessage(), ex);
+            String value = measurementDetail.value;
+
+            try
+            {
+                number = Double.valueOf(value);
+            }
+            catch (NumberFormatException ex)
+            {
+                LOGGER.log(SYSTEM_UNKNOW_ERROR, ex.getMessage(), ex);
+            }
         }
 
         return number;
