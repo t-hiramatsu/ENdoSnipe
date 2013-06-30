@@ -236,16 +236,27 @@ ENS.NodeInfoParentView = wgp.AbstractView
 			createGraphOnPage : function(startVar, endVar) {
 				var from = this.moveScale["from"];
 				var to = this.moveScale["to"];
+				// resize width and height
 				var width = 260;
 				var height = 200;
+				var graphWidth = 0;
+				var graphHeight = 0;
 				var nodesNum = this.childNodes.length;
 				if (nodesNum == 1) {
-					var width = 780;
-					var height = 600;
+					graphWidth = $("#contents_area").width() * 0.9;
+					var areaHeight = $("#contents_area").height() - $("#contents_area_content").height();
+					graphHeight = areaHeight * 0.75;
 				}
 				else if (nodesNum < 5) {
-					var width = 390;
-					var height = 350;
+					graphWidth = $("#contents_area").width() * 0.43;
+					var areaHeight = $("#contents_area").height() - $("#contents_area_content").height();
+					graphHeight = areaHeight * 0.35;
+				}
+				if (width < graphWidth) {
+					width = graphWidth;
+				}
+				if (height < graphHeight) {
+					height = graphHeight;
 				}
 				for ( var i = startVar; i < endVar; i++) {
 					var viewName = this.childNodes[i];
