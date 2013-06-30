@@ -229,7 +229,7 @@ public class AlarmData
     }
 
     /**
-     * 引数で指定した閾値レベルよりも低い閾値レベルで発生した閾値超過アラームを削除する。
+     * 引数で指定した閾値レベルよりも高い閾値レベルで発生した閾値超過アラームを削除する。
      * @param level 削除判定に利用する閾値レベル
      */
     public void clearStartExceedance(final int level)
@@ -240,7 +240,7 @@ public class AlarmData
         {
             Entry<Integer, Long> startExceedanceEntry = it.next();
             Integer targetLevel = startExceedanceEntry.getKey();
-            if (targetLevel.intValue() < level)
+            if (targetLevel.intValue() > level)
             {
                 it.remove();
             }
@@ -322,7 +322,7 @@ public class AlarmData
     }
 
     /**
-     * 引数で指定した閾値レベルよりも高い閾値レベルで発生した復旧アラームを削除する。
+     * 引数で指定した閾値レベルよりも低い閾値レベルで発生した復旧アラームを削除する。
      * @param level 削除判定に利用する閾値レベル
      */
     public void clearRecoverTimeMap(final int level)
@@ -333,7 +333,7 @@ public class AlarmData
         {
             Entry<Integer, Long> recoverEntry = it.next();
             Integer targetLevel = recoverEntry.getKey();
-            if (targetLevel.intValue() > level)
+            if (targetLevel.intValue() < level)
             {
                 it.remove();
             }
