@@ -71,17 +71,26 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 		this.term = argument.term;
 		this.noTermData = argument.noTermData;
 		this.graphId = argument["graphId"];
+
+		if (argument["title"].indexOf(":") != -1) {
+			var splitTitle = argument["title"].split(":");
+			this.title = splitTitle[0];
+			this.labelY = splitTitle[1];
+		} else {
+			this.title = argument["title"];
+			this.labelY = "value";
+		}
 		this.width = argument["width"];
 		this.height = argument["height"];
-		this.title = argument["title"];
 		this.labelX = "time";
-		this.labelY = "value";
 		this.rootView = argument["rootView"];
 		this.graphHeight = this.height - ENS.nodeinfo.GRAPH_HEIGHT_MARGIN;
 		this.dateWindow = argument["dateWindow"];
 		this.maxId = 0;
+
 		this.graphMaxNumber = 50;// argument.graphMaxNumber;
-		this.maxValue = 1;// argument.maxValue;
+		this.maxValue = 100;// argument.maxValue;
+
 	},
 	render : function() {
 		var graphId = this.$el.attr("id") + "_ensgraph";
@@ -95,7 +104,6 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 
 		var data = this.getData();
 		var optionSettings = {
-			valueRange: [0, this.maxValue* 1.1],
 			title : this.title,
 			xlabel : this.labelX,
 			ylabel : this.labelY,
@@ -126,7 +134,6 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 		this.entity.resize(this.width, this.graphHeight);
 		$("#" + graphId).height(this.height);
 		this.getGraphObject().updateOptions({
-			valueRange: [0, this.maxValue* 1.1],
 			dateWindow : this.dateWindow,
 			axisLabelFontSize : 10,
 			titleHeight : 22
@@ -138,7 +145,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 			var target = event.target;
 			if ($(target).hasClass("dygraph-title")) {
 				$(target).text(tmpTitle);
-				$(target).parent("div").css('z-index',"1");
+				$(target).parent("div").css('z-index', "1");
 			}
 		});
 		$("#" + graphId).mouseout(function(event) {
@@ -148,7 +155,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 			var target = event.target;
 			if ($(target).hasClass("dygraph-title")) {
 				$(target).text(optionSettings.title);
-				$(target).parent("div").css('z-index',"0");
+				$(target).parent("div").css('z-index', "0");
 			}
 		});
 
@@ -161,8 +168,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 			}
 			this.data = this.getData();
 			var updateOption = {
-				'file' : this.data,
-				'valueRange': [0, this.maxValue* 1.1]
+				'file' : this.data
 			};
 			if (this.data.length !== 0) {
 				updateOption['dateWindow'] = [ this.data[1][0],
@@ -187,16 +193,9 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 	},
 	_getTermData : function() {
 		this.data = this.getData();
-		
-		if (this.data.length != 0) {
-			this.maxValue = this.getMaxValue(this.data);
-		}
-		
 		var updateOption = {
-			valueRange: [0, this.maxValue* 1.1],
 			'file' : this.data
 		};
-		
 		this.entity.updateOptions(updateOption);
 
 		var tmpAppView = new ENS.AppView();
@@ -217,25 +216,6 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 			data.push(instance._parseModel(model));
 		});
 		return data;
-	},
-	getMaxValue : function(dataList) {
-		var maxValue = 0;
-		
-		_.each(dataList, function(data, index) {
-			var value = data[1];
-			
-			if (value) {
-				if (value > maxValue) {
-					maxValue = value;
-				}
-			}
-		});
-		
-		if (maxValue === 0) {
-			maxValue = 1;
-		}
-		
-		return maxValue;
 	},
 	getRegisterId : function() {
 		return this.graphId;
@@ -343,7 +323,8 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 					silent : true
 				});
 				instance.model.set("height", afterHeight, {
-					silent : true});
+					silent : true
+				});
 			}
 		});
 	}
