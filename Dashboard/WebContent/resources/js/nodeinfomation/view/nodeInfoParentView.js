@@ -250,7 +250,11 @@ ENS.NodeInfoParentView = wgp.AbstractView
 				else if (nodesNum < 5) {
 					graphWidth = $("#contents_area").width() * 0.43;
 					var areaHeight = $("#contents_area").height() - $("#contents_area_content").height();
-					graphHeight = areaHeight * 0.35;
+					if (nodesNum < 3) {
+						graphHeight = areaHeight * 0.75;
+					}else {
+						graphHeight = areaHeight * 0.35;
+					}
 				}
 				if (width < graphWidth) {
 					width = graphWidth;
