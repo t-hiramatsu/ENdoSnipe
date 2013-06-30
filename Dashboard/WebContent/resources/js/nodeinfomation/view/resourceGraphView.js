@@ -1,20 +1,20 @@
 /*******************************************************************************
  * ENdoSnipe 5.0 - (https://github.com/endosnipe)
- * 
+ *
  * The MIT License (MIT)
- * 
+ *
  * Copyright (c) 2012 Acroquest Technology Co.,Ltd.
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -32,7 +32,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 		appView.addView(this, argument.graphId);
 		this.render();
 		this.registerCollectionEvent();
-		
+
 		if (!this.noTermData) {
 			var startTime = new Date(new Date().getTime() - this.term * 1000);
 			var endTime = new Date();
@@ -286,12 +286,43 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 		var divArea = $("#" + this.$el.attr("id"));
 		var instance = this;
 		divArea.draggable({
+			scroll : true,
+			drag : function(e, ui) {
+				var position = ui.position;
+				var positionLeft = position.left;
+				var positionTop = position.top;
+
+				var afterWidth = $(e.target).width();
+				var afterHeight = $(e.target).height();
+
+				// グラフ分のマップエリア拡張
+				resourceMapListView.childView.enlargeMapArea(
+						positionLeft, positionTop, afterWidth, afterHeight + 10);
+			},
 			stop : function(e, ui) {
-				var offset = $(e.target).offset();
-				instance.model.set("pointX", offset["left"], {
+				var position = ui.position;
+				var positionLeft = position.left;
+				var positionTop = position.top;
+
+				var parentOffset = $(e.target).parent().offset();
+				if(position["left"] < 0){
+					$(e.target).offset({left : parentOffset.left});
+
+					// 再取得
+					positionLeft = $(e.target).position().left;
+				}
+
+				if(position["top"] < 0){
+					$(e.target).offset({top : parentOffset.top});
+
+					// 再取得
+					positionTop = $(e.target).position().top;
+				}
+
+				instance.model.set("pointX", positionLeft, {
 					silent : true
 				});
-				instance.model.set("pointY", offset["top"], {
+				instance.model.set("pointY", positionTop, {
 					silent : true
 				});
 			}
@@ -301,15 +332,24 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 		var beforeHeight = 0;
 		divArea.resizable({
 			start : function(e, ui) {
-				var offset = $(e.target).offset();
 				beforeWidth = $(e.target).width();
 				beforeHeight = $(e.target).height();
+
+				var parentOffset = $(e.target).parent().offset();
+				var position = ui.position;
+				$(e.target).offset({top : parentOffset.top + position.top, left : parentOffset.left + position.left});
 			},
 			resize : function(e, ui) {
-				$(e.target).offset({
-					top : instance.model.get("pointY"),
-					left : instance.model.get("pointX")
-				});
+				var position = ui.position;
+				var positionLeft = position.left;
+				var positionTop = position.top;
+
+				var afterWidth = $(e.target).width();
+				var afterHeight = $(e.target).height();
+
+				// グラフ分のマップエリア拡張
+				resourceMapListView.childView.enlargeMapArea(
+						positionLeft, positionTop, afterWidth, afterHeight + 10);
 			},
 			stop : function(e, ui) {
 				var afterWidth = $(e.target).width();

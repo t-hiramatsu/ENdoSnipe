@@ -87,10 +87,29 @@ ENS.ResourceLinkElementView = wgp.MapElementView.extend({
 		this.object.drag(
 		// マウスムーヴ時の処理
 		function(dx, dy, x, y, e) {
+
+			var afterX = this.data("x") + dx;
+			var afterY = this.data("y") + dy;
+
+			// いずれかの座標が0以下となる場合は移動しない。
+			if(afterX < 0 || afterY < 0){
+				return;
+			}
+
 			this.attr({
-				x : this.data("x") + dx,
-				y : this.data("y") + dy
+				x : afterX,
+				y : afterY
 			});
+
+			var afterWidth = this.attr("width");
+			var afterHeight = this.attr("height");
+			var fontSize = this.attr("font-size");
+
+			// マップエリア拡張
+			resourceMapListView.childView.enlargeMapArea(
+					afterX, afterY, afterWidth, afterHeight + fontSize);
+
+
 		},
 		// ドラッグ開始時の処理
 		function(x, y, e) {

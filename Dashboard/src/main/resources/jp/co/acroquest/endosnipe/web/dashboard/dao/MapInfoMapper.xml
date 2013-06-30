@@ -22,6 +22,12 @@
 		= #{mapId}
 	</select>
 
+	<select id="selectByName" resultMap="MapInfoMap">
+		select * from MAP_INFO
+		where NAME
+		= #{name}
+	</select>
+
 	<insert id="insert"
 		parameterType="jp.co.acroquest.endosnipe.web.dashboard.entity.MapInfo">
 		insert into MAP_INFO
