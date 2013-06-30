@@ -85,6 +85,14 @@ ENS.ResourceTreeView = ENS.treeView
 
 						// グラフを追加する場合
 						if (event.currentTarget.id == "addGraph") {
+
+							// 同一グラフが既にマップ上に存在する場合
+							var graphModel = instance.childView.collection.get(treeId);
+							if(graphModel != null){
+								alert("Cannot add the graph. Because the graph has already existed in the map.");
+								return;
+							}
+
 							resourceModel.set({
 								objectId : treeId,
 								objectName : "ENS.ResourceGraphElementView",

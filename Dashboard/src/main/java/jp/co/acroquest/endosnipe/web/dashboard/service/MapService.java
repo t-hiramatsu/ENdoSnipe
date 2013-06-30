@@ -1,20 +1,20 @@
 /*******************************************************************************
  * ENdoSnipe 5.0 - (https://github.com/endosnipe)
- * 
+ *
  * The MIT License (MIT)
- * 
+ *
  * Copyright (c) 2012 Acroquest Technology Co.,Ltd.
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -34,8 +34,11 @@ import java.util.List;
 import java.util.Map;
 
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
+import jp.co.acroquest.endosnipe.common.util.MessageUtil;
 import jp.co.acroquest.endosnipe.web.dashboard.constants.LogMessageCodes;
+import jp.co.acroquest.endosnipe.web.dashboard.constants.ResponseConstants;
 import jp.co.acroquest.endosnipe.web.dashboard.dao.MapInfoDao;
+import jp.co.acroquest.endosnipe.web.dashboard.dto.ResponseDto;
 import jp.co.acroquest.endosnipe.web.dashboard.entity.MapInfo;
 
 import org.apache.ibatis.exceptions.PersistenceException;
@@ -45,7 +48,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * Map用サービスクラス。
- * 
+ *
  * @author fujii
  */
 @Service
@@ -58,7 +61,7 @@ public class MapService
      * マップ情報Dao
      */
     @Autowired
-    protected MapInfoDao mapInfoDao;
+    protected MapInfoDao mapInfoDao_;
 
     /**
      * コンストラクタ
@@ -70,7 +73,7 @@ public class MapService
 
     /**
      * 全てのマップデータを返す。
-     * 
+     *
      * @return マップデータ
      */
     public List<Map<String, String>> getAllMap()
@@ -78,7 +81,7 @@ public class MapService
         List<MapInfo> mapList = null;
         try
         {
-            mapList = mapInfoDao.selectAll();
+            mapList = mapInfoDao_.selectAll();
         }
         catch (PersistenceException pe)
         {
@@ -104,39 +107,75 @@ public class MapService
     /**
      * マップを登録する。
      * @param mapInfo 登録するマップ情報
-     * @return 例外が発生しないとき0
+     * @return 登録結果電文
      */
-    public long insert(final MapInfo mapInfo)
+    public ResponseDto insert(final MapInfo mapInfo)
     {
+        ResponseDto responseDto = new ResponseDto();
+        if (getByName(mapInfo.name).size() > 0)
+        {
+            String errorMessage = MessageUtil.getMessage("WEWD0160", new Object[] {});
+            responseDto.setMessage(errorMessage);
+            responseDto.setResult(ResponseConstants.RESULT_FAIL);
+            return responseDto;
+        }
+
         // 最終更新日時を設定
         mapInfo.lastUpdate = new Timestamp(Calendar.getInstance().getTimeInMillis());
+        int count = 0;
         try
         {
-            int count = mapInfoDao.insert(mapInfo);
+            count = mapInfoDao_.insert(mapInfo);
             if (count > 0)
             {
-                return mapInfoDao.selectSequenceNum();
+                responseDto.setResult(ResponseConstants.RESULT_SUCCESS);
             }
+            else
+            {
+                String errorMessage = MessageUtil.getMessage("WEWD0161", new Object[] {});
+                responseDto.setResult(ResponseConstants.RESULT_FAIL);
+                responseDto.setMessage(errorMessage);
+            }
+
+            return responseDto;
         }
         catch (DuplicateKeyException dkEx)
         {
             LOGGER.log(LogMessageCodes.SQL_EXCEPTION, dkEx, dkEx.getMessage());
+            String errorMessage = MessageUtil.getMessage("WEWD0160", new Object[] {});
+            responseDto.setMessage(errorMessage);
+            responseDto.setResult(ResponseConstants.RESULT_FAIL);
+            return responseDto;
         }
-        return 0;
     }
 
     /**
      * マップを更新する。
-     * 
+     *
      * @param mapInfo マップ情報
+     * @return 更新結果電文
      */
-    public void update(final MapInfo mapInfo)
+    public ResponseDto update(final MapInfo mapInfo)
     {
         // 最終更新日時を設定
         mapInfo.lastUpdate = new Timestamp(Calendar.getInstance().getTimeInMillis());
+        int count = 0;
+        ResponseDto responseDto = new ResponseDto();
         try
         {
-            mapInfoDao.update(mapInfo);
+            count = mapInfoDao_.update(mapInfo);
+            if (count > 0)
+            {
+                responseDto.setResult(ResponseConstants.RESULT_SUCCESS);
+            }
+            else
+            {
+                String errorMessage = MessageUtil.getMessage("WEWD0162", new Object[] {});
+                responseDto.setResult(ResponseConstants.RESULT_FAIL);
+                responseDto.setMessage(errorMessage);
+            }
+
+            return responseDto;
         }
         catch (PersistenceException pEx)
         {
@@ -150,20 +189,38 @@ public class MapService
             {
                 LOGGER.log(LogMessageCodes.SQL_EXCEPTION, pEx, pEx.getMessage());
             }
+
+            String errorMessage = MessageUtil.getMessage("WEWD0163", new Object[] {});
+            responseDto.setMessage(errorMessage);
+            responseDto.setResult(ResponseConstants.RESULT_FAIL);
+            return responseDto;
         }
     }
 
     /**
      * マップを取得する。
      * @param mapId Target mapId
-     * @return Map
+     * @return 取得結果
      */
-    public Map<String, String> getById(final long mapId)
+    public ResponseDto getById(final long mapId)
     {
+        ResponseDto responseDto = new ResponseDto();
         try
         {
-            MapInfo mapInfo = mapInfoDao.selectById(mapId);
-            return this.convertDataMap(mapInfo);
+            MapInfo mapInfo = mapInfoDao_.selectById(mapId);
+            if (mapInfo == null)
+            {
+                String errorMessage = MessageUtil.getMessage("WEWD0164", new Object[] {});
+                responseDto.setMessage(errorMessage);
+                responseDto.setResult(ResponseConstants.RESULT_FAIL);
+                return responseDto;
+            }
+
+            Map<String, String> convertData = this.convertDataMap(mapInfo);
+            responseDto.setResult(ResponseConstants.RESULT_SUCCESS);
+            responseDto.setData(convertData);
+
+            return responseDto;
         }
         catch (PersistenceException pEx)
         {
@@ -177,20 +234,63 @@ public class MapService
             {
                 LOGGER.log(LogMessageCodes.SQL_EXCEPTION, pEx, pEx.getMessage());
             }
-            throw pEx;
+
+            String errorMessage = MessageUtil.getMessage("WEWD0165", new Object[] {});
+            responseDto.setMessage(errorMessage);
+            responseDto.setResult(ResponseConstants.RESULT_FAIL);
+            return responseDto;
+        }
+    }
+
+    /**
+     * マップを取得する。
+     * @param name マップ名
+     * @return 取得結果
+     */
+    public List<MapInfo> getByName(final String name)
+    {
+        try
+        {
+            return mapInfoDao_.selectByName(name);
+        }
+        catch (PersistenceException pEx)
+        {
+            Throwable cause = pEx.getCause();
+            if (cause instanceof SQLException)
+            {
+                SQLException sqlEx = (SQLException)cause;
+                LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx, sqlEx.getMessage());
+            }
+            else
+            {
+                LOGGER.log(LogMessageCodes.SQL_EXCEPTION, pEx, pEx.getMessage());
+            }
+            return new ArrayList<MapInfo>();
         }
     }
 
     /**
      * マップを削除する。
      * @param mapId マップID
-     * @return 例外が発生しないとき0
+     * @return 削除結果
      */
-    public int removeMapById(final long mapId)
+    public ResponseDto removeMapById(final long mapId)
     {
+        int count = 0;
+        ResponseDto responseDto = new ResponseDto();
         try
         {
-            return mapInfoDao.deleteById(mapId);
+            count = mapInfoDao_.deleteById(mapId);
+            if (count == 0)
+            {
+                String errorMessage = MessageUtil.getMessage("WEWD0166", new Object[] {});
+                responseDto.setMessage(errorMessage);
+                responseDto.setResult(ResponseConstants.RESULT_FAIL);
+                return responseDto;
+            }
+
+            responseDto.setResult(ResponseConstants.RESULT_SUCCESS);
+            return responseDto;
         }
         catch (PersistenceException pEx)
         {
@@ -204,7 +304,11 @@ public class MapService
             {
                 LOGGER.log(LogMessageCodes.SQL_EXCEPTION, pEx, pEx.getMessage());
             }
-            return 0;
+
+            String errorMessage = MessageUtil.getMessage("WEWD0167", new Object[] {});
+            responseDto.setMessage(errorMessage);
+            responseDto.setResult(ResponseConstants.RESULT_FAIL);
+            return responseDto;
         }
     }
 
