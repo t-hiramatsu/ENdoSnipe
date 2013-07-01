@@ -23,10 +23,12 @@ case "$1" in
     #
     echo -n "Starting ENdoSnipe DataCollector: "
     if [ -f $PID_FILE ] ; then
-      failure
-      echo
-      echo "ENdoSnipe DataCollector is already running."
-      exit 1
+      PSCOUNT=`ps -ef | grep $(cat ${PID_FILE}) | grep -vc grep`
+      if [ $PSCOUNT -eq 1 ]; then
+        failure
+        echo "ENdoSnipe DataCollector is already running."
+        exit 1
+      fi
     fi
 
     $DC_HOME/bin/jsvc \
