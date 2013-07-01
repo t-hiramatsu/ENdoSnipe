@@ -18,7 +18,7 @@ import jp.co.acroquest.endosnipe.web.dashboard.entity.MapInfo;
 
 /**
  * {@link MapInfo} のための DAO のインターフェースです。
- * 
+ *
  * @author miyasaka
  *
  */
@@ -27,9 +27,9 @@ public interface MapInfoDao
 
     /**
      * マップ情報を全て取得する。<br />
-     * 
+     *
      * マップ情報が登録されていない場合は空のリストを返却する。<br />
-     * 
+     *
      * @return マップ情報のリスト
      */
     List<MapInfo> selectAll();
@@ -40,6 +40,13 @@ public interface MapInfoDao
      * @return マップ情報
      */
     MapInfo selectById(final long mapId);
+
+    /**
+     * マップ情報を取得する。
+     * @param name マップ名
+     * @return マップ情報
+     */
+    List<MapInfo> selectByName(final String name);
 
     /**
      * マップ情報を新規登録する。<br />

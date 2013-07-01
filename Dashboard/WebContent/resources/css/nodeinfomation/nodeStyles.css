@@ -87,6 +87,7 @@
 	padding: 5px;
 	margin-bottom: 5px;
 	background: #ff00f0;
+	/* width: 85%; */
 	color: #FFFFFF;
 	font-family: Verdana;
 	background: #666666; /* Old browsers */
@@ -104,9 +105,10 @@
 		#333333 79%, #666666 100%); /* IE10+ */
 	background: linear-gradient(135deg, #666666 0%, #333333 24%, #222222 50%, #333333
 		79%, #666666 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient(       startColorstr='#666666',
+	filter: progid:DXImageTransform.Microsoft.gradient(          startColorstr='#666666',
 		endColorstr='#87bcea', GradientType=1 );
 	word-wrap: break-word;
+	font-family: Verdana;
 	/* IE6-9 fallback on horizontal gradient */
 }
 
@@ -122,7 +124,7 @@
 }
 
 .ui-tabs .ui-tabs-nav li {
-	height : 30px;
+	height: 30px;
 }
 
 .ui-tabs .ui-tabs-nav li a {
@@ -131,7 +133,7 @@
 
 /* jqGrid style */
 .ui-jqgrid tr.jqgrow td {
-     white-space: normal;
+	white-space: normal;
 }
 
 /* signal dialog style */
@@ -148,11 +150,11 @@
 }
 
 #signalName {
-	width : 100%;
+	width: 100%;
 }
 
 #matchingPattern {
-	width : 100%;
+	width: 100%;
 }
 
 #signalPatternValueArea {
@@ -160,27 +162,31 @@
 }
 
 #signalPatternValueValue .dialogPatternValue div {
-	float : left;
+	float: left;
 }
 
 #signalPatternValueValue .dialogPatternValue input {
-	margin-left : 20px;
-	width : 100px;
+	margin-left: 20px;
+	width: 100px;
 }
 
 #signalEscalationPeriodArea {
-	margin-top : 10px;
+	margin-top: 10px;
 }
+
 #signalEscalationPeriodItem {
-	float : left;
+	float: left;
 }
+
 #signalEscalationPeriodValue {
-	float : left;
+	float: left;
 }
+
 #escalationPeriod {
-	margin-left: 35px;	
+	margin-left: 35px;
 	width: 100px;
 }
+
 #signalEscalationPeriodUnit {
 	margin-left: 289px;
 }
@@ -191,7 +197,7 @@
 }
 
 .jstree-default a .signal_0 {
-	background-position: -2.8px -73px;
+	background-position: -19.8px -73px;
 }
 
 .jstree-default a .signal_1 {

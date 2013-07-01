@@ -127,9 +127,10 @@ ENS.ResourceMapView = wgp.MapView.extend({
 		$("#" + view.$el.attr("id")).attr("cid", model.cid);
 
 		// 後で移動する。
+		var parentOffset = newDivArea.parent().offset();
 		newDivArea.offset({
-			top : model.get("pointY"),
-			left : model.get("pointX")
+			top : parentOffset["top"]  + model.get("pointY"),
+			left :parentOffset["left"] + model.get("pointX")
 		});
 
 		return view;
@@ -160,7 +161,12 @@ ENS.ResourceMapView = wgp.MapView.extend({
 			resourceArray.push(model.toJSON());
 		});
 
+		var mapWidth = this.paper.width;
+		var mapHeight = this.paper.height;
+
 		var resourceMap = {
+			mapWidth : mapWidth,
+			mapHeight : mapHeight,
 			resources : resourceArray
 		}
 
@@ -172,7 +178,13 @@ ENS.ResourceMapView = wgp.MapView.extend({
 			},
 			url : wgp.common.getContextPath() + "/map/update"
 		}
-		this.ajaxHandler.requestServerSync(setting);
+		var telegram = this.ajaxHandler.requestServerSync(setting);
+		var returnData = $.parseJSON(telegram);
+
+		var result = returnData.result;
+		if(result == "fail"){
+			alert(returnData.message);
+		}
 	},
 	onLoad : function(){
 
@@ -185,7 +197,20 @@ ENS.ResourceMapView = wgp.MapView.extend({
 		if(mapId != undefined && mapId.length > 0){
 
 			// サーバからマップ情報を取得し、結果をコレクションに追加する。
-			var mapData = this.getMapData(mapId);
+			var telegram = this.getMapData(mapId);
+			var returnData = $.parseJSON(telegram);
+			if(returnData.result == "fail"){
+				alert(returnData.message);
+				return;
+			}
+
+			var mapData = $.parseJSON(returnData.data.mapData);
+			var mapWidth = mapData["mapWidth"];
+			var mapHeight = mapData["mapHeight"];
+			if(mapWidth && mapHeight){
+				this.paper.setSize(mapWidth, mapHeight);
+			}
+
 			var resources = mapData["resources"];
 			var instance = this;
 			_.each(resources, function(resource, index){
@@ -206,9 +231,7 @@ ENS.ResourceMapView = wgp.MapView.extend({
 			},
 			url : wgp.common.getContextPath() + "/map/getById"
 		}
-		var result = this.ajaxHandler.requestServerSync(setting);
-		var mapInfo = $.parseJSON(result);
-		return $.parseJSON(mapInfo["mapData"]);
+		return this.ajaxHandler.requestServerSync(setting);
 	},
 	// raphaelPaperをクリックした際に追加するイベントを付加する。
 	setClickAddEvent : function(viewClassName){
@@ -227,10 +250,10 @@ ENS.ResourceMapView = wgp.MapView.extend({
 
 			var linkNameLabel = $("<label for='linkName'>Link Name：</label>");
 			var linkNameText =
-				$("<input type='text' name='linkName' id='linkName' class='text ui-widget-content ui-corner-all'>");
+				$("<input type='text' name='linkName' id='linkName' class='text'>");
 
 			var linkUrlLabel = $("<label for='linkUrl' style='margin-top: 10px;'>Target Map：</label>");
-			var linkUrlSelect = $("<select name='selectMapList' class='ui-widget-content ui-corner-all' style='margin-top: 10px;'></select>")
+			var linkUrlSelect = $("<select name='selectMapList' style='margin-top: 10px;'></select>")
 			var mapList = resourceMapListView.collection.models;
 			_.each(mapList, function(mapListModel, index){
 				var linkUrlName = mapListModel.get("data");
@@ -329,5 +352,24 @@ ENS.ResourceMapView = wgp.MapView.extend({
 
 		var resourceView = this.viewCollection[model.id];
 		resourceView.relateContextMenu(this.contextMenuId, option);
+	},
+	enlargeMapArea : function(pointX, pointY, width, height){
+		var mapWidth = this.paper.width;
+		var mapHeight = this.paper.height;
+		var changeFlag = false;
+
+		if(pointX + width > mapWidth){
+			mapWidth = pointX + width;
+			changeFlag = true;
+		}
+
+		if(pointY + height > mapHeight){
+			mapHeight = pointY + height;
+			changeFlag = true;
+		}
+
+		if(changeFlag){
+			this.paper.setSize(mapWidth, mapHeight);
+		}
 	}
 });

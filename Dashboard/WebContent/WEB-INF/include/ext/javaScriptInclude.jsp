@@ -25,6 +25,8 @@
 <link rel="stylesheet" type="text/css" media="screen"
 	href="<%=request.getContextPath()%>/resources/lib/jeegoocontext/skins/cm_default/style.css" />
 
+<link rel="stylesheet" type="text/css" media="screen"
+	href="<%=request.getContextPath()%>/resources/lib/pagination/pagination_black.css" />
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/resources/lib/wgp/css/wgp-graph.css"
 	type="text/css" media="all">
@@ -48,6 +50,7 @@
 	libraryPathList.add("datetimepicker");
 	libraryPathList.add("Raphael");
 	libraryPathList.add("wgp");
+	libraryPathList.add("pagination");
 	String libraryJsDirectoryPath = config.getServletContext()
 			.getRealPath("resources/lib");
 	File libraryJsDirectory = new File(libraryJsDirectoryPath);

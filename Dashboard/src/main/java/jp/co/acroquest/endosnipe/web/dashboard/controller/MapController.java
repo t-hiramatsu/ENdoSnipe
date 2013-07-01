@@ -31,6 +31,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import jp.co.acroquest.endosnipe.web.dashboard.dto.ResponseDto;
 import jp.co.acroquest.endosnipe.web.dashboard.entity.MapInfo;
 import jp.co.acroquest.endosnipe.web.dashboard.form.MapListForm;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.EventManager;
@@ -48,7 +49,7 @@ import org.wgp.manager.WgpDataManager;
 
 /**
  * マップ機能のコントローラークラス。
- * 
+ *
  * @author miyasaka
  *
  */
@@ -84,7 +85,7 @@ public class MapController
 
     /**
      * Get Map List.
-     * 
+     *
      * @param request HTTPサーブレットリクエスト
      * @param mapListForm マップ情報
      * @return 表示するjspファイルの名前
@@ -108,7 +109,7 @@ public class MapController
 
     /**
      * Get All map Data for Tree.
-     * 
+     *
      * @return 全てのマップ情報
      */
     @RequestMapping(value = "/getAll", method = RequestMethod.POST)
@@ -124,29 +125,33 @@ public class MapController
 
     /**
      * Insert Map.
-     * 
+     *
      * @param data 登録するマップのデータ
      * @param name 登録するマップ名
+     * @return 登録結果
      */
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
-    public void insert(@RequestParam(value = "data") final String data,
+    @ResponseBody
+    public ResponseDto insert(@RequestParam(value = "data") final String data,
             @RequestParam(value = "name") final String name)
     {
         MapInfo mapInfo = new MapInfo();
         mapInfo.data = data;
         mapInfo.name = name;
-        this.mapService_.insert(mapInfo);
+        return this.mapService_.insert(mapInfo);
     }
 
     /**
      * Update Map.
-     * 
+     *
      * @param mapId 更新するマップのID
      * @param data 更新するマップのデータ
      * @param name 更新するマップ名
+     * @return 更新結果
      */
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public void update(@RequestParam(value = "mapId") final String mapId,
+    @ResponseBody
+    public ResponseDto update(@RequestParam(value = "mapId") final String mapId,
             @RequestParam(value = "data") final String data,
             @RequestParam(value = "name") final String name)
     {
@@ -154,32 +159,32 @@ public class MapController
         mapInfo.mapId = Long.valueOf(mapId);
         mapInfo.data = data;
         mapInfo.name = name;
-        this.mapService_.update(mapInfo);
+        return this.mapService_.update(mapInfo);
     }
 
     /**
      * Get Map.
-     * 
+     *
      * @param mapId 取得するマップのID
-     * @return マップの情報
+     * @return 取得結果
      */
     @RequestMapping(value = "/getById", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, String> getById(@RequestParam(value = "mapId") final String mapId)
+    public ResponseDto getById(@RequestParam(value = "mapId") final String mapId)
     {
-        Map<String, String> responseMap = this.mapService_.getById(Long.valueOf(mapId));
-        return responseMap;
+        return this.mapService_.getById(Long.valueOf(mapId));
     }
 
     /**
      * Remove Map
      * @param mapId Target remove mapId
+     * @return 削除結果
      */
     @RequestMapping(value = "/removeById", method = RequestMethod.POST)
     @ResponseBody
-    public void removeById(@RequestParam(value = "mapId") final String mapId)
+    public ResponseDto removeById(@RequestParam(value = "mapId") final String mapId)
     {
-        this.mapService_.removeMapById(Long.valueOf(mapId));
+        return this.mapService_.removeMapById(Long.valueOf(mapId));
     }
 
 }

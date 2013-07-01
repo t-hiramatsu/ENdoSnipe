@@ -46,6 +46,8 @@ import jp.co.acroquest.endosnipe.data.entity.JavelinMeasurementItem;
  */
 public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
 {
+    /** 改行コードの代替文字。 */
+    private static final String ALTERNATE_LINE_FEED_CODE = " ";
 
     /**
      * 項目（系列）名称のレコードを追加します。<br />
@@ -69,9 +71,7 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
             PreparedStatement delegated = getDelegatingStatement(pstmt);
             // CHECKSTYLE:OFF
             String measurementItemName = item.itemName;
-            measurementItemName = measurementItemName.replaceAll("\\n", "");
-            measurementItemName = measurementItemName.replaceAll("\\r", "");
-            
+
             delegated.setString(1, measurementItemName);
             delegated.setTimestamp(2, item.lastInserted);
             // CHECKSTYLE:ON
@@ -152,7 +152,9 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
             conn = getConnection(database, true);
             String sql =
                 "select MEASUREMENT_ITEM_NAME from " + JAVELIN_MEASUREMENT_ITEM
-                    + " where MEASUREMENT_ITEM_NAME LIKE ? order by MEASUREMENT_ITEM_NAME";
+                    + " where replace(replace(replace(MEASUREMENT_ITEM_NAME,chr(13)"
+                    + "||chr(10),' '),chr(13),' '),chr(10),' ') LIKE ? "
+                    + "order by MEASUREMENT_ITEM_NAME";
             pstmt = conn.prepareStatement(sql);
             PreparedStatement preparedStatement = getDelegatingStatement(pstmt);
             String tempStr = measurementItemName + "%";
@@ -161,8 +163,13 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
 
             while (rs.next())
             {
+                String itemName = rs.getString(1);
+                // 改行コードを変換する
+                itemName = itemName.replaceAll("\\r\\n", ALTERNATE_LINE_FEED_CODE);
+                itemName = itemName.replaceAll("\\r", ALTERNATE_LINE_FEED_CODE);
+                itemName = itemName.replaceAll("\\n", ALTERNATE_LINE_FEED_CODE);
                 // CHECKSTYLE:OFF
-                itemNameList.add(rs.getString(1));
+                itemNameList.add(itemName);
                 // CHECKSTYLE:ON
             }
         }
@@ -197,7 +204,8 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
             conn = getConnection(database, true);
             pstmt =
                 conn.prepareStatement("select MEASUREMENT_ITEM_ID from " + JAVELIN_MEASUREMENT_ITEM
-                    + " where MEASUREMENT_ITEM_NAME = ?");
+                    + " where replace(replace(replace(MEASUREMENT_ITEM_NAME,chr(13)||"
+                    + "chr(10),' '),chr(13),' '),chr(10),' ') = ?");
             PreparedStatement delegated = getDelegatingStatement(pstmt);
             String measurementItemID = itemName;
             delegated.setString(1, measurementItemID);
@@ -329,8 +337,13 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
             rs = stmt.executeQuery(sql);
             while (rs.next() == true)
             {
+                String itemName = rs.getString(1);
+                // 改行コードを変換する
+                itemName = itemName.replaceAll("\\r\\n", ALTERNATE_LINE_FEED_CODE);
+                itemName = itemName.replaceAll("\\r", ALTERNATE_LINE_FEED_CODE);
+                itemName = itemName.replaceAll("\\n", ALTERNATE_LINE_FEED_CODE);
                 // CHECKSTYLE:OFF
-                result.add(rs.getString(1));
+                result.add(itemName);
                 // CHECKSTYLE:ON
             }
         }
@@ -409,7 +422,9 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
         {
             conn = getConnection(database, true);
             String sql =
-                "delete from " + JAVELIN_MEASUREMENT_ITEM + " where MEASUREMENT_ITEM_NAME = ?";
+                "delete from " + JAVELIN_MEASUREMENT_ITEM
+                    + " where replace(replace(replace(MEASUREMENT_ITEM_NAME,chr(13)||"
+                    + "chr(10),' '),chr(13),' '),chr(10),' ') = ?";
             pstmt = conn.prepareStatement(sql);
             PreparedStatement delegated = getDelegatingStatement(pstmt);
             delegated.setString(1, measurementItemName);
@@ -490,7 +505,8 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
             conn = getConnection(database, true);
             String sql =
                 "update " + JAVELIN_MEASUREMENT_ITEM + " set MEASUREMENT_ITEM_NAME = ?"
-                    + " where MEASUREMENT_ITEM_NAME = ?";
+                    + " where replace(replace(replace(MEASUREMENT_ITEM_NAME,chr(13)||"
+                    + "chr(10),' '),chr(13),' '),chr(10),' ') = ?";
             pstmt = conn.prepareStatement(sql);
             PreparedStatement delegated = getDelegatingStatement(pstmt);
             delegated.setString(1, afterItemName);
@@ -521,7 +537,8 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
             conn = getConnection(database, true);
             String sql =
                 "update " + JAVELIN_MEASUREMENT_ITEM + " set LAST_INSERTED = ?"
-                    + " where MEASUREMENT_ITEM_NAME = ?";
+                    + " where replace(replace(replace(MEASUREMENT_ITEM_NAME,chr(13)||"
+                    + "chr(10),' '),chr(13),' '),chr(10),' ') = ?";
             pstmt = conn.prepareStatement(sql);
             PreparedStatement delegated = getDelegatingStatement(pstmt);
             for (Map.Entry<String, Timestamp> entry : map.entrySet())

@@ -52,141 +52,6 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.eclipse.core.runtime_3.3.100</groupId>
-			<artifactId>org.eclipse.core.runtime_3.3.100</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>
-				${basedir}/lib/dependency/org.eclipse.core.runtime_3.3.100.v20070530.jar
-			</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.osgi_3.3.0</groupId>
-			<artifactId>org.eclipse.osgi_3.3.0</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>
-				${basedir}/lib/dependency/org.eclipse.osgi_3.3.0.v20070530.jar
-			</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.equinox.common_3.3.0</groupId>
-			<artifactId>org.eclipse.equinox.common_3.3.0</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>
-				${basedir}/lib/dependency/org.eclipse.equinox.common_3.3.0.v20070426.jar
-			</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.core.jobs_3.3.0</groupId>
-			<artifactId>org.eclipse.core.jobs_3.3.0</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>
-				${basedir}/lib/dependency/org.eclipse.core.jobs_3.3.0.v20070423.jar
-			</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>runtime_registry_compatibility</groupId>
-			<artifactId>runtime_registry_compatibility</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>
-				${basedir}/lib/dependency/runtime_registry_compatibility.jar
-			</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.equinox.registry_3.3.0</groupId>
-			<artifactId>org.eclipse.equinox.registry_3.3.0</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>
-				${basedir}/lib/dependency/org.eclipse.equinox.registry_3.3.0.v20070522.jar
-			</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.equinox.preferences_3.2.100</groupId>
-			<artifactId>org.eclipse.equinox.preferences_3.2.100</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>
-				${basedir}/lib/dependency/org.eclipse.equinox.preferences_3.2.100.v20070522.jar
-			</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.core.contenttype_3.2.100</groupId>
-			<artifactId>org.eclipse.core.contenttype_3.2.100</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>
-				${basedir}/lib/dependency/org.eclipse.core.contenttype_3.2.100.v20070319.jar
-			</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.equinox.app_1.0.0</groupId>
-			<artifactId>org.eclipse.equinox.app_1.0.0</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>
-				${basedir}/lib/dependency/org.eclipse.equinox.app_1.0.0.v20070606.jar
-			</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.ui_3.4.1</groupId>
-			<artifactId>org.eclipse.ui_3.4.1</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>
-				${basedir}/lib/dependency/org.eclipse.ui_3.4.1.M20080910-0800.jar
-			</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.swt_3.3.0</groupId>
-			<artifactId>org.eclipse.swt_3.3.0</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>
-				${basedir}/lib/dependency/org.eclipse.swt_3.3.0.v3346.jar
-			</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.swt.win32.win32.x86_3.3.0</groupId>
-			<artifactId>org.eclipse.swt.win32.win32.x86_3.3.0</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>
-				${basedir}/lib/dependency/org.eclipse.swt.win32.win32.x86_3.3.0.v3346.jar
-			</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.jface_3.3.0</groupId>
-			<artifactId>org.eclipse.jface_3.3.0</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>
-				${basedir}/lib/dependency/org.eclipse.jface_3.3.0.I20070606-0010.jar
-			</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.core.commands_3.3.0</groupId>
-			<artifactId>org.eclipse.core.commands_3.3.0</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>
-				${basedir}/lib/dependency/org.eclipse.core.commands_3.3.0.I20070605-0010.jar
-			</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.ui.workbench_3.3.0</groupId>
-			<artifactId>org.eclipse.ui.workbench_3.3.0</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>
-				${basedir}/lib/dependency/org.eclipse.ui.workbench_3.3.0.I20070608-1100.jar
-			</systemPath>
-		</dependency>
-		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>1.0</version>
@@ -365,7 +230,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>findbugs-maven-plugin</artifactId>
-				<!-- version>2.3.1</version -->
+				<version>2.3.1</version>
 				<configuration>
 					<!--
 					<includeFilterFile>${basedir}/findbugs-include.xml</includeFilterFile>
@@ -382,7 +247,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>javancss-maven-plugin</artifactId>
-				<!-- version>2.0</version -->
+				<version>2.0</version>
 				<configuration>
 					<lineThreshold>300</lineThreshold>
 					<sourceEncoding>${src.encoding}</sourceEncoding>

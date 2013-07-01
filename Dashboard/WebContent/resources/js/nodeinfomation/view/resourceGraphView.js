@@ -1,20 +1,20 @@
 /*******************************************************************************
  * ENdoSnipe 5.0 - (https://github.com/endosnipe)
- * 
+ *
  * The MIT License (MIT)
- * 
+ *
  * Copyright (c) 2012 Acroquest Technology Co.,Ltd.
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -32,7 +32,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 		appView.addView(this, argument.graphId);
 		this.render();
 		this.registerCollectionEvent();
-		
+
 		if (!this.noTermData) {
 			var startTime = new Date(new Date().getTime() - this.term * 1000);
 			var endTime = new Date();
@@ -71,17 +71,26 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 		this.term = argument.term;
 		this.noTermData = argument.noTermData;
 		this.graphId = argument["graphId"];
+
+		if (argument["title"].indexOf(":") != -1) {
+			var splitTitle = argument["title"].split(":");
+			this.title = splitTitle[0];
+			this.labelY = splitTitle[1];
+		} else {
+			this.title = argument["title"];
+			this.labelY = "value";
+		}
 		this.width = argument["width"];
 		this.height = argument["height"];
-		this.title = argument["title"];
 		this.labelX = "time";
-		this.labelY = "value";
 		this.rootView = argument["rootView"];
 		this.graphHeight = this.height - ENS.nodeinfo.GRAPH_HEIGHT_MARGIN;
 		this.dateWindow = argument["dateWindow"];
 		this.maxId = 0;
+
 		this.graphMaxNumber = 50;// argument.graphMaxNumber;
-		this.maxValue = 1;// argument.maxValue;
+		this.maxValue = 100;// argument.maxValue;
+
 	},
 	render : function() {
 		var graphId = this.$el.attr("id") + "_ensgraph";
@@ -95,7 +104,6 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 
 		var data = this.getData();
 		var optionSettings = {
-			valueRange: [0, this.maxValue* 1.1],
 			title : this.title,
 			xlabel : this.labelX,
 			ylabel : this.labelY,
@@ -126,7 +134,6 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 		this.entity.resize(this.width, this.graphHeight);
 		$("#" + graphId).height(this.height);
 		this.getGraphObject().updateOptions({
-			valueRange: [0, this.maxValue* 1.1],
 			dateWindow : this.dateWindow,
 			axisLabelFontSize : 10,
 			titleHeight : 22
@@ -138,7 +145,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 			var target = event.target;
 			if ($(target).hasClass("dygraph-title")) {
 				$(target).text(tmpTitle);
-				$(target).parent("div").css('z-index',"1");
+				$(target).parent("div").css('z-index', "1");
 			}
 		});
 		$("#" + graphId).mouseout(function(event) {
@@ -148,7 +155,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 			var target = event.target;
 			if ($(target).hasClass("dygraph-title")) {
 				$(target).text(optionSettings.title);
-				$(target).parent("div").css('z-index',"0");
+				$(target).parent("div").css('z-index', "0");
 			}
 		});
 
@@ -161,8 +168,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 			}
 			this.data = this.getData();
 			var updateOption = {
-				'file' : this.data,
-				'valueRange': [0, this.maxValue* 1.1]
+				'file' : this.data
 			};
 			if (this.data.length !== 0) {
 				updateOption['dateWindow'] = [ this.data[1][0],
@@ -187,16 +193,9 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 	},
 	_getTermData : function() {
 		this.data = this.getData();
-		
-		if (this.data.length != 0) {
-			this.maxValue = this.getMaxValue(this.data);
-		}
-		
 		var updateOption = {
-			valueRange: [0, this.maxValue* 1.1],
 			'file' : this.data
 		};
-		
 		this.entity.updateOptions(updateOption);
 
 		var tmpAppView = new ENS.AppView();
@@ -217,25 +216,6 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 			data.push(instance._parseModel(model));
 		});
 		return data;
-	},
-	getMaxValue : function(dataList) {
-		var maxValue = 0;
-		
-		_.each(dataList, function(data, index) {
-			var value = data[1];
-			
-			if (value) {
-				if (value > maxValue) {
-					maxValue = value;
-				}
-			}
-		});
-		
-		if (maxValue === 0) {
-			maxValue = 1;
-		}
-		
-		return maxValue;
 	},
 	getRegisterId : function() {
 		return this.graphId;
@@ -306,12 +286,43 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 		var divArea = $("#" + this.$el.attr("id"));
 		var instance = this;
 		divArea.draggable({
+			scroll : true,
+			drag : function(e, ui) {
+				var position = ui.position;
+				var positionLeft = position.left;
+				var positionTop = position.top;
+
+				var afterWidth = $(e.target).width();
+				var afterHeight = $(e.target).height();
+
+				// グラフ分のマップエリア拡張
+				resourceMapListView.childView.enlargeMapArea(
+						positionLeft, positionTop, afterWidth, afterHeight + 10);
+			},
 			stop : function(e, ui) {
-				var offset = $(e.target).offset();
-				instance.model.set("pointX", offset["left"], {
+				var position = ui.position;
+				var positionLeft = position.left;
+				var positionTop = position.top;
+
+				var parentOffset = $(e.target).parent().offset();
+				if(position["left"] < 0){
+					$(e.target).offset({left : parentOffset.left});
+
+					// 再取得
+					positionLeft = $(e.target).position().left;
+				}
+
+				if(position["top"] < 0){
+					$(e.target).offset({top : parentOffset.top});
+
+					// 再取得
+					positionTop = $(e.target).position().top;
+				}
+
+				instance.model.set("pointX", positionLeft, {
 					silent : true
 				});
-				instance.model.set("pointY", offset["top"], {
+				instance.model.set("pointY", positionTop, {
 					silent : true
 				});
 			}
@@ -321,15 +332,24 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 		var beforeHeight = 0;
 		divArea.resizable({
 			start : function(e, ui) {
-				var offset = $(e.target).offset();
 				beforeWidth = $(e.target).width();
 				beforeHeight = $(e.target).height();
+
+				var parentOffset = $(e.target).parent().offset();
+				var position = ui.position;
+				$(e.target).offset({top : parentOffset.top + position.top, left : parentOffset.left + position.left});
 			},
 			resize : function(e, ui) {
-				$(e.target).offset({
-					top : instance.model.get("pointY"),
-					left : instance.model.get("pointX")
-				});
+				var position = ui.position;
+				var positionLeft = position.left;
+				var positionTop = position.top;
+
+				var afterWidth = $(e.target).width();
+				var afterHeight = $(e.target).height();
+
+				// グラフ分のマップエリア拡張
+				resourceMapListView.childView.enlargeMapArea(
+						positionLeft, positionTop, afterWidth, afterHeight + 10);
 			},
 			stop : function(e, ui) {
 				var afterWidth = $(e.target).width();
@@ -343,7 +363,8 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 					silent : true
 				});
 				instance.model.set("height", afterHeight, {
-					silent : true});
+					silent : true
+				});
 			}
 		});
 	}

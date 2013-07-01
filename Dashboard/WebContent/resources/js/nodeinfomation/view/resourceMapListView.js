@@ -93,7 +93,7 @@ ENS.ResourceMapListView = wgp.TreeView
 				createMapDialog.append("<p> Please enter new Map name</p>");
 
 				var mapNameLabel = $("<label for='mapName'>Map Name</label>");
-				var mapNameText = $("<input type='text' name='mapName' id='mapName' class='text ui-widget-content ui-corner-all'>");
+				var mapNameText = $("<input type='text' name='mapName' id='mapName' class='text'>");
 				createMapDialog.append(mapNameLabel);
 				createMapDialog.append(mapNameText);
 
@@ -118,11 +118,20 @@ ENS.ResourceMapListView = wgp.TreeView
 								url : wgp.common.getContextPath()
 										+ "/map/insert"
 							}
-							instance.ajaxHandler.requestServerSync(setting);
-							createMapDialog.dialog("close");
 
-							// マップ一覧を再描画する。
-							instance.onLoad();
+							var telegram = instance.ajaxHandler.requestServerSync(setting);
+							var returnData = $.parseJSON(telegram);
+
+							var result = returnData.result;
+							if(result == "fail"){
+								alert(returnData.message);
+
+							}else{
+								createMapDialog.dialog("close");
+
+								// マップ一覧を再描画する。
+								instance.onLoad();
+							}
 						},
 						"CANCEL" : function() {
 							createMapDialog.dialog("close");
@@ -154,7 +163,12 @@ ENS.ResourceMapListView = wgp.TreeView
 								url : wgp.common.getContextPath()
 										+ "/map/removeById"
 							}
-							instance.ajaxHandler.requestServerSync(setting);
+							var telegram = instance.ajaxHandler.requestServerSync(setting);
+							var returnData = $.parseJSON(telegram);
+							if(returnData.result == "fail"){
+								alert(returnData.message);
+								return;
+							}
 							removeMapDialog.dialog("close");
 
 							// マップの表示内容を全て消去する。
@@ -162,7 +176,6 @@ ENS.ResourceMapListView = wgp.TreeView
 
 							// ビューの関連付けを削除する。
 							instance.childView = null;
-							resoureceTreeView.childView = null;
 
 							// マップ一覧を再描画する。
 							instance.onLoad();

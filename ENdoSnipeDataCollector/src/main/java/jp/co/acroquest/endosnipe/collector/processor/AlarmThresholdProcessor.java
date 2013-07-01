@@ -67,12 +67,20 @@ public class AlarmThresholdProcessor implements AlarmProcessor
         Number itemValueNumber =
                                  AlarmThresholdUtil.getNumberFromResourceData(currentResourceData,
                                                                               matchingPattern);
-
         if (itemValueNumber == null)
         {
-            return null;
+            if (alarmData == null)
+            {
+                return null;
+            }
+            int currentLevel = alarmData.getAlarmLevel();
+            if (currentLevel <= JavelinDataLogger.NORMAL_ALARM_LEVEL)
+            {
+                return null;
+            }
+            // 可変グラフでは監視していない状態では値が取れなくなるため、復旧アラームを発生させるようにする。
+            itemValueNumber = Double.valueOf(0);
         }
-
         double itemValue = itemValueNumber.doubleValue();
         AlarmEntry alarmEntry =
                                 createAlarmEntry(currentResourceData.measurementTime, itemValue,
