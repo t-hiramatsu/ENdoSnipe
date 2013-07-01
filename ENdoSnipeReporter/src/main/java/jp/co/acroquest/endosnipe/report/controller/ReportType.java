@@ -49,8 +49,10 @@ public enum ReportType
     PERF_DOCTOR("reporter.report.type.perfDoctor"),
     /** レスポンスタイムサマリレポート */
     ITEM("reporter.report.type.item"),
-    /** オブジェクト数個別レポート */
-    OBJECT_ITEM("reporter.report.type.object.item"),
+    /** 平均サマリのレポート */
+    OBJECT_AVERAGE("reporter.report.type.object.average"),
+    /** 積算サマリグラフのレポート */
+    OBJECT_TOTAL("reporter.report.type.object.total"),
     /** サマリレポート */
     SUMMARY("reporter.report.type.summary");
 

@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -43,8 +44,14 @@ import jp.co.acroquest.endosnipe.report.util.ReporterConfigAccessor;
  */
 public class ObjectReportProcessor extends ReportPublishProcessorBase {
 	/** ロガー */
-	private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(
-			ObjectReportProcessor.class);
+	private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
+			.getLogger(ObjectReportProcessor.class);
+
+	/** 積算グラフのmeasurement_item_nameに対して後方一致する文字列のリスト。 */
+	private List<String> sumGraphBackwardMatchList = new ArrayList<String>();
+
+	/** 積算グラフのmeasurement_item_nameに対して部分一致する正規表現のリスト。 */
+	private List<String> sumGraphPartialMatchList = new ArrayList<String>();
 
 	/**
 	 * ReportProcessorを生成する。
@@ -54,6 +61,14 @@ public class ObjectReportProcessor extends ReportPublishProcessorBase {
 	 */
 	public ObjectReportProcessor(ReportType type) {
 		super(type);
+
+		// 積算グラフのmeasurement_item_nameに対して後方一致する文字列をリストに登録する
+		sumGraphBackwardMatchList.add("count");
+		sumGraphBackwardMatchList.add("(d)");
+
+		// 積算グラフのmeasurement_item_nameに対して部分一致する文字列をリストに登録する
+		sumGraphPartialMatchList.add(".*/response/.*/error/.*");
+		sumGraphPartialMatchList.add(".*/response/.*/stalled/.*");
 	}
 
 	/**
@@ -78,9 +93,19 @@ public class ObjectReportProcessor extends ReportPublishProcessorBase {
 			for (int index = 0; index < itemNameListLength; index++) {
 				String measurementItemName = measurementItemNameList.get(index);
 
+				CompressOperator compressOperator;
+				
+				// 積算サマリか、平均サマリかを判別し、適切なサマリ方法でサマリを実行する
+				boolean isTotalSummary = this.judgeTotalSummary(measurementItemName);
+				if (isTotalSummary) {
+					compressOperator = CompressOperator.TOTAL;
+				} else {
+					compressOperator = CompressOperator.SIMPLE_AVERAGE;
+				}
+
 				List<ItemData> itemDataList = GraphItemAccessUtil.findItemData(
 						database, measurementItemName,
-						CompressOperator.SIMPLE_AVERAGE, startTime, endTime);
+						compressOperator, startTime, endTime);
 
 				itemMap.put(measurementItemName, itemDataList);
 			}
@@ -137,14 +162,30 @@ public class ObjectReportProcessor extends ReportPublishProcessorBase {
 
 			// Map.Entry型のオブジェクトからキーを取得する
 			String key = entry.getKey();
+
+			// キーがnullだった場合は、レポートを出力しない。
+			if (key == null) {
+				continue;
+			}
+
 			// Map.Entry型のオブジェクトから値を取得する
 			List<ItemData> value = (List<ItemData>) entry.getValue();
 
 			// 出力するレポートの種類にあわせてテンプレートのファイルパスを取得する
 			String templateFilePath;
 			try {
+				ReportType reportType;
+
+				// 積算サマリか、平均サマリかを判別する
+				boolean isTotalSummary = this.judgeTotalSummary(key);
+				if (isTotalSummary) {
+					reportType = ReportType.OBJECT_TOTAL;
+				} else {
+					reportType = ReportType.OBJECT_AVERAGE;
+				}
+
 				templateFilePath = TemplateFileManager.getInstance()
-						.getTemplateFile(ReportType.OBJECT_ITEM);
+						.getTemplateFile(reportType);
 			} catch (IOException exception) {
 				reportContainer.setHappendedError(exception);
 				return;
@@ -156,5 +197,37 @@ public class ObjectReportProcessor extends ReportPublishProcessorBase {
 			reporter.outputReports(templateFilePath, outputFolderPath
 					+ File.separator + key, value, startTime, endTime);
 		}
+	}
+
+	/**
+	 * 積算サマリをする項目か判断する。<br>
+	 * 積算サマリをする項目である場合にtrueを返す。
+	 * 
+	 * @param itemName
+	 *            項目名
+	 * @return 積算サマリをする項目である場合にtrue
+	 */
+	private boolean judgeTotalSummary(String itemName) {
+		if (itemName == null) {
+			return false;
+		}
+
+		// 積算グラフのmeasurement_item_nameに対して後方一致する文字列を使って、
+		// 積算グラフかどうか確認する。
+		for (String backwardMatchStr : sumGraphBackwardMatchList) {
+			if (itemName.endsWith(backwardMatchStr)) {
+				return true;
+			}
+		}
+
+		// 積算グラフのmeasurement_item_nameに対して部分一致する正規表現を使って、
+		// 積算グラフかどうか確認する。
+		for (String particalMatchStr : sumGraphPartialMatchList) {
+			if (itemName.matches(particalMatchStr)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }
