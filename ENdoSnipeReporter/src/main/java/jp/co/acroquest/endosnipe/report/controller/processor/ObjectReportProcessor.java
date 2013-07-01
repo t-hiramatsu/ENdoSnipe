@@ -140,10 +140,7 @@ public class ObjectReportProcessor extends ReportPublishProcessorBase {
 		Map<String, List<? extends Object>> data = (Map<String, List<? extends Object>>) convertedData;
 
 		// レポート出力の引数情報を取得する
-		String outputFolderPath = getOutputFolderName()
-				+ File.separator
-				+ ReporterConfigAccessor.getProperty(super.getReportType()
-						.getId() + ".outputFile");
+		String outputFolderPath = getOutputFolderName();
 		Timestamp startTime = cond.getStartDate();
 		Timestamp endTime = cond.getEndDate();
 
