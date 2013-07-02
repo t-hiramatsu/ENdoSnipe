@@ -76,7 +76,7 @@
 	}	
 %>
 <script
-	src="<%=request.getContextPath()%>/resources/lib/jqGrid/js/i18n/grid.locale-<%=request.getLocale().getLanguage()%>.js"
+	src="<%=request.getContextPath()%>/resources/lib/jqGrid/js/i18n/grid.locale-en.js"
 	type="text/javascript"></script>
 <script
 	src="<%=request.getContextPath()%>/resources/lib/jqGrid/js/jquery.jqGrid.min.js"
