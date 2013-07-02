@@ -37,9 +37,9 @@ ENS.reportView = wgp.AbstractView
 									+ this.treeSettings.parentTreeId + "/"
 									+ this.treeSettings.data,
 							pager : "reportPager",
-							rowList : [ 10, 50, 500 ],
-							pgbuttons : false,
-							pginput : false,
+							rowList : [ 20, 50, 100 ],
+							pgbuttons : true,
+							pginput : true,
 							height : height
 						});
 				$("#reportTable").filterToolbar({
