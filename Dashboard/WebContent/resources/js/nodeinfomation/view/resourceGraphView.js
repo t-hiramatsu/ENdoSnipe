@@ -89,7 +89,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 		this.maxId = 0;
 
 		this.graphMaxNumber = 50;// argument.graphMaxNumber;
-		this.maxValue = 100;// argument.maxValue;
+		this.maxValue = 1;// argument.maxValue;
 
 	},
 	render : function() {
@@ -104,6 +104,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 
 		var data = this.getData();
 		var optionSettings = {
+			valueRange: [0, this.maxValue* 1.1], 
 			title : this.title,
 			xlabel : this.labelX,
 			ylabel : this.labelY,
@@ -134,6 +135,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 		this.entity.resize(this.width, this.graphHeight);
 		$("#" + graphId).height(this.height);
 		this.getGraphObject().updateOptions({
+			valueRange: [0, this.maxValue* 1.1], 
 			dateWindow : this.dateWindow,
 			axisLabelFontSize : 10,
 			titleHeight : 22
@@ -168,7 +170,8 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 			}
 			this.data = this.getData();
 			var updateOption = {
-				'file' : this.data
+				'file' : this.data,
+				'valueRange': [0, this.maxValue* 1.1] 
 			};
 			if (this.data.length !== 0) {
 				updateOption['dateWindow'] = [ this.data[1][0],
@@ -193,7 +196,13 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 	},
 	_getTermData : function() {
 		this.data = this.getData();
+		
+		if (this.data.length !== 0) { 
+			this.maxValue = this.getMaxValue(this.data); 
+		}
+		
 		var updateOption = {
+			valueRange: [0, this.maxValue* 1.1], 
 			'file' : this.data
 		};
 		this.entity.updateOptions(updateOption);
@@ -216,6 +225,25 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 			data.push(instance._parseModel(model));
 		});
 		return data;
+	},
+	getMaxValue : function(dataList) { 
+		var maxValue = 0; 
+		
+		_.each(dataList, function(data, index) { 
+			var value = data[1]; 
+			
+			if (value) { 
+				if (value > maxValue) {
+					maxValue = value;
+				}
+			}
+		});
+		
+		if (maxValue === 0) {
+			maxValue = 1;
+		}
+		
+		return maxValue; 
 	},
 	getRegisterId : function() {
 		return this.graphId;
