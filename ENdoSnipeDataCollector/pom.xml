@@ -96,6 +96,33 @@
 				${basedir}/lib/djunit.jar
 			</systemPath>
 		</dependency>
+		<dependency>
+			<groupId>ENdoSnipeCommon</groupId>
+			<artifactId>ENdoSnipeCommon</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>
+				${basedir}/lib/dependency/ENdoSnipeCommon-1.0.0.jar
+			</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>ENdoSnipeDataAccessor</groupId>
+			<artifactId>ENdoSnipeDataAccessor</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>
+				${basedir}/lib/dependency/ENdoSnipeDataAccessor-1.0.0.jar
+			</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>ENdoSnipeCommunicator</groupId>
+			<artifactId>ENdoSnipeCommunicator</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>
+				${basedir}/lib/dependency/ENdoSnipeCommunicator-1.0.0.jar
+			</systemPath>
+		</dependency>
 	</dependencies>
 
 	<!-- ビルド設定 -->
