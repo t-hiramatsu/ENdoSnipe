@@ -1,7 +1,6 @@
 // シグナルダイアログの設定項目を格納しておくためのリスト
 ENS.tree.signalDefinitionList = [];
 ENS.tree.doRender = true;
-ENS.tree.addedOtherNodes = [];
 
 ENS.treeView = wgp.TreeView
 		.extend({
@@ -151,12 +150,8 @@ ENS.treeView = wgp.TreeView
 								}
 
 								if (icon == "center" || icon == "leaf") {
-									
-									if (ENS.tree.addedOtherNodes.indexOf(id) == -1) {
-										// シグナルやレポートアイコンなど、その他ノードをコレクションから検索し追加する
-										instance.addOtherNodes(id);
-										ENS.tree.addedOtherNodes.push(id);
-									}
+									// シグナルやレポートアイコンなど、その他ノードをコレクションから検索し追加する
+									instance.addOtherNodes(id);
 								}
 							});
 
@@ -293,9 +288,6 @@ ENS.treeView = wgp.TreeView
 				var executeClass = targetOption.get("executeClass");
 				if (executeClass) {
 					if (id == ENS.tree.ADD_SIGNAL_TYPE) {
-						// デフォルトのレポート名にレポート出力対象のノード名を入れる(空白を削除する処理を入れている)
-						var targetNodeName = executeOption.displayName.replace(/\s+/g, ""); 
-						$("#signalName").val(targetNodeName + " signal");
 						// Matching Patternにデフォルトのツリー階層を入力する
 						$("#matchingPattern").val(executeOption.treeId);
 
@@ -315,7 +307,7 @@ ENS.treeView = wgp.TreeView
 					executeOption.okObject = this;
 					executeOption.okFunctionName = "signalPushOkFunction";
 					executeOption.cancelObject = this;
-					executeOption.cancelFunctionName = "signalPushCancelFunction";
+					executeOption.cancelFunctionName = "pushCancelFunction";
 					eval("new " + executeClass + "(executeOption)");
 				}
 			},
@@ -346,9 +338,6 @@ ENS.treeView = wgp.TreeView
 				var executeClass = targetOption.get("executeClass");
 				if (executeClass) {
 					if (id == ENS.tree.OUTPUT_REPORT_TYPE) {
-						// デフォルトのレポート名にレポート出力対象のノード名を入れる(空白を削除する処理を入れている)
-						var targetNodeName = executeOption.displayName.replace(/\s+/g, ""); 
-						$("#reportName").val(targetNodeName + " report");
 						// Target Measurement Nameにツリー階層を入力する
 						$("#targetName").val(executeOption.treeId);
 					}
@@ -358,7 +347,7 @@ ENS.treeView = wgp.TreeView
 					executeOption.okObject = this;
 					executeOption.okFunctionName = "reportPushOkFunction";
 					executeOption.cancelObject = this;
-					executeOption.cancelFunctionName = "reportPushCancelFunction";
+					executeOption.cancelFunctionName = "pushCancelFunction";
 					eval("new " + executeClass + "(executeOption)");
 				}
 			},
@@ -402,13 +391,6 @@ ENS.treeView = wgp.TreeView
 				settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = callbackFunction;
 				ajaxHandler.requestServerAsync(settings);
 
-				// 閾値判定定義の入力内容をクリアする。
-				this.clearSignalDialog_();
-			},
-			/** 閾値判定の定義を入力をキャンセルした場合に実行するメソッド */
-			signalPushCancelFunction : function(event, option){
-
-				// 閾値判定定義の入力内容をクリアする。
 				this.clearSignalDialog_();
 			},
 			/**
@@ -508,18 +490,11 @@ ENS.treeView = wgp.TreeView
 				settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = callbackFunction;
 				ajaxHandler.requestServerAsync(settings);
 
-				// レポート出力ダイアログの入力内容をクリアする。
 				this.clearReportDialog_();
 
 				// ツリーノードを追加する
 				var treeOption = this.createReportTreeOption_(reportDefinition);
 				this.collection.add([ treeOption ]);
-			},
-			/** レポート出力をキャンセルした場合に実行するメソッド */
-			reportPushCancelFunction : function(event, option){
-
-				// レポート出力ダイアログの入力内容をクリアする。
-				this.clearReportDialog_();
 			},
 			createReportDefinition_ : function(option) {
 				var treeId = option.treeId;
@@ -842,9 +817,10 @@ ENS.treeView = wgp.TreeView
 			 */
 			clearSignalDialog_ : function() {
 				$("#signalId").val("");
-				$("#signalName").val("");
+				$("#signalName").val(ENS.tree.DEFAULT_SIGNAL_NAME);
 				$("#matchingPattern").val("");
-				$("#signalPatternValue select").val("");
+				$("#signalPatternValue select").val(
+						ENS.tree.DEFAULT_SIGNAL_PATTERN);
 				$("#patternValue_1").val("");
 				$("#patternValue_2").val("");
 				$("#patternValue_3").val("");
@@ -857,7 +833,7 @@ ENS.treeView = wgp.TreeView
 			 */
 			clearReportDialog_ : function() {
 				$("#reportId").val("");
-				$("#reportName").val("");
+				$("#reportName").val("new report");
 				$("#targetName").val("");
 				$("#jquery-ui-datepicker-from").val("");
 				$("#jquery-ui-datepicker-to").val("");
@@ -920,14 +896,18 @@ ENS.treeView = wgp.TreeView
 				var signalLevel = 0;
 				if (level == 3) {
 					signalLevel = parseInt(signalValue, 10);
-					if (0 <= signalLevel && signalLevel < 3) {
-						icon = "signal_" + 2 * signalLevel;
+					if (signalLevel == 0) {
+						icon = ENS.tree.SIGNAL_ICON_0;
+					} else if (0 < signalLevel && signalLevel <= 3) {
+						icon = "signal_" + (2 * signalLevel - 1);
 					} else {
 						icon = ENS.tree.SIGNAL_ICON_STOP;
 					}
 				} else if (level == 5) {
 					signalLevel = parseInt(signalValue, 10);
-					if (0 <= signalLevel && signalLevel < 5) {
+					if (signalLevel == 0) {
+						icon = ENS.tree.SIGNAL_ICON_0;
+					} else if (0 < signalLevel && signalLevel <= 5) {
 						icon = "signal_" + signalLevel;
 					} else {
 						icon = ENS.tree.SIGNAL_ICON_STOP;
@@ -965,7 +945,7 @@ ENS.treeView = wgp.TreeView
 				var treeType = treeModel.get("type");
 
 				// シグナルの場合はリアルタイム更新開始処理を行う。
-				if(ENS.tree.type.SIGNAL == treeType){
+				if (ENS.tree.type.SIGNAL == treeType) {
 					appView.syncData([ treeModel.get("id") ]);
 				}
 
@@ -1019,7 +999,7 @@ ENS.treeView = wgp.TreeView
 				var treeType = treeModel.get("type");
 
 				// シグナルの場合はリアルタイム更新開始処理を行う。
-				if(ENS.tree.type.SIGNAL == treeType){
+				if (ENS.tree.type.SIGNAL == treeType) {
 					appView.stopSyncData([ treeModel.get("id") ]);
 				}
 
