@@ -40,7 +40,6 @@ import jp.co.acroquest.endosnipe.web.dashboard.config.AlarmSetting;
 import jp.co.acroquest.endosnipe.web.dashboard.constants.EventConstants;
 import jp.co.acroquest.endosnipe.web.dashboard.entity.AlarmNotifyEntity;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.EventManager;
-import jp.co.acroquest.endosnipe.web.dashboard.manager.MessageSender;
 import jp.co.acroquest.endosnipe.web.dashboard.service.JvnFileEntryJudge;
 import jp.co.acroquest.endosnipe.web.dashboard.util.DaoUtil;
 import jp.co.acroquest.endosnipe.web.dashboard.util.EventUtil;
@@ -53,20 +52,15 @@ import net.arnx.jsonic.JSON;
  */
 public class AlarmNotifyListener extends AbstractTelegramListener
 {
-    /** メッセージ送信用オブジェクトです。 */
-    private final MessageSender messageSender_;
-
     /** エージェントID */
     private final int agentId_;
 
     /**
      * コンストラクタです。
-     * @param messageSender {@link MessageSender}オブジェクト
      * @param agentId エージェントID
      */
-    public AlarmNotifyListener(final MessageSender messageSender, final int agentId)
+    public AlarmNotifyListener(final int agentId)
     {
-        this.messageSender_ = messageSender;
         this.agentId_ = agentId;
     }
 
@@ -88,8 +82,7 @@ public class AlarmNotifyListener extends AbstractTelegramListener
         {
             String level = unit.getLevel();
             int eventId = EventConstants.EVENT_NOTIFY_ALARM_ITEM;
-            DaoUtil.createAlarmEntity(this.agentId_, unit,
-                    level, eventId);
+            DaoUtil.createAlarmEntity(this.agentId_, unit, level, eventId);
 
         }
 
@@ -145,7 +138,7 @@ public class AlarmNotifyListener extends AbstractTelegramListener
     {
         if (message != null && message.equals("") == false)
         {
-            this.messageSender_.send(clientId, message);
+            // WebSocketによるメッセージ送信処理を追加する。
         }
     }
 
