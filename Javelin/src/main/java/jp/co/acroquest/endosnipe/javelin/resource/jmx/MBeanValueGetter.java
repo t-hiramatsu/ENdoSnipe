@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 import javax.management.AttributeNotFoundException;
 import javax.management.InstanceNotFoundException;
@@ -79,6 +80,19 @@ public class MBeanValueGetter
 
     /** ID */
     private String                id_;
+
+    /** 数値を表す型のセット */
+    private static Set<String>    numberTypeSet__;
+
+    static
+    {
+        numberTypeSet__ = new CopyOnWriteArraySet<String>();
+        numberTypeSet__.add(Short.class.getName());
+        numberTypeSet__.add(Integer.class.getName());
+        numberTypeSet__.add(Long.class.getName());
+        numberTypeSet__.add(Float.class.getName());
+        numberTypeSet__.add(Double.class.getName());
+    }
 
     /**
      * JMXの計測値を取得するためのクラスを初期化します。
@@ -227,7 +241,11 @@ public class MBeanValueGetter
         for (MBeanAttributeInfo attributeInfo : attributeInfos)
         {
             String attribute = attributeInfo.getName();
-            attributeList.add(attribute);
+            String attributetype = attributeInfo.getType();
+            if (isNumber(attributetype))
+            {
+                attributeList.add(attribute);
+            }
         }
         return attributeList;
     }
@@ -376,5 +394,10 @@ public class MBeanValueGetter
     public void setConnection(MBeanServerConnection connection)
     {
         this.connection_ = connection;
+    }
+
+    private boolean isNumber(String type)
+    {
+        return numberTypeSet__.contains(type);
     }
 }
