@@ -40,7 +40,9 @@ ENS.reportView = wgp.AbstractView
 							rowList : [ 20, 50, 100 ],
 							pgbuttons : true,
 							pginput : true,
-							height : height
+							height : height,
+							viewrecords : true, 
+							rownumbers : true
 						});
 				$("#reportTable").filterToolbar({
 					defaultSearch : 'cn'
