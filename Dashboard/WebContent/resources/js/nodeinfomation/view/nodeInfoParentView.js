@@ -69,7 +69,10 @@ ENS.NodeInfoParentView = wgp.AbstractView
 					instance.moveScale["to"] = to;
 					var viewList = ENS.nodeinfo.viewList;
 					for ( var key in viewList) {
+						var fromHour = from / 60 / 60 / 1000;
 						var ins = viewList[key];
+						// 15秒毎にグラフが更新されるので、グラフ内に収まるデータ数は、4 × 60 × 表示期間(h) となる
+						ins.graphMaxNumber = 4 * 60 * fromHour;
 						// グラフの表示期間の幅を更新する
 						ins.updateDisplaySpan(from, to);
 						// グラフの表示データを更新する
