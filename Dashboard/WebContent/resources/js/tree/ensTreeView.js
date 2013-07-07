@@ -24,6 +24,12 @@ ENS.treeView = wgp.TreeView
 						var treeModel = instance.collection.get(treeId);
 						instance.clickModel(treeModel);
 					}
+					if ("a" == target.parentElement.localName) {
+						var parentPath = target.parentElement;
+						var iconId = $(parentPath).attr("id");
+						treeModel = instance.collection.get(iconId);
+						instance.clickModel(treeModel);
+					}
 				});
 			},
 			/**
