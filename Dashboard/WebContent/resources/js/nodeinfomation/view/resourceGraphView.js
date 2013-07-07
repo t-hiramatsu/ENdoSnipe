@@ -58,12 +58,6 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				});
 			},
 			_initData : function(argument, treeSettings) {
-				var defauldSettings = {
-					term : 60 * 30,
-					graphMaxNumber : 50,
-					maxValue : 100
-				};
-
 				this.viewType = wgp.constants.VIEW_TYPE.VIEW;
 				this.collection = new ENS.ResourceGraphCollection();
 				this.cid = argument["cid"];
@@ -88,7 +82,8 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 						- ENS.nodeinfo.GRAPH_HEIGHT_MARGIN;
 				this.dateWindow = argument["dateWindow"];
 				this.maxId = 0;
-				this.graphMaxNumber = 50;// argument.graphMaxNumber;
+				// 15秒に一度の更新なので、1時間だと4×60のデータがグラフ内に入る
+				this.graphMaxNumber = 4 * 60;
 				this.maxValue = 1;// argument.maxValue;
 				this.timeStart = new Date(new Date().getTime() - this.term
 						* 1000);
