@@ -784,7 +784,6 @@ public class JavelinTransformer implements ClassFileTransformer
         int traceDepth = config.getTraceDepth();
         int collectionLeakDetectDepth = config.getCollectionLeakDetectDepth();
         int collectionSizeThreshold = config.getCollectionSizeThreshold();
-        boolean leakCollectionSizeOut = config.isLeakCollectionSizePrint();
         boolean linearSearchMonitor = config.isLinearSearchMonitor();
         int linearSearchListSize = config.getLinearSearchListSize();
         double linearSearchListRatio = config.getLinearSearchListRatio();
@@ -897,7 +896,6 @@ public class JavelinTransformer implements ClassFileTransformer
         System.out.println("\tjavelin.leak.class.histo.interval    : " + classHistoInterval);
         System.out.println("\tjavelin.leak.class.histo.max         : " + classHistoMax);
         System.out.println("\tjavelin.leak.class.histo.gc          : " + classHistoGC);
-        System.out.println("\tjavelin.leak.collectionSizeOut       : " + leakCollectionSizeOut);
         System.out.println("\tjavelin.leak.collectionSizeThreshold : " + collectionSizeThreshold);
         System.out.println("\tjavelin.linearsearch.monitor         : " + linearSearchMonitor);
         System.out.println("\tjavelin.linearsearch.size            : " + linearSearchListSize);

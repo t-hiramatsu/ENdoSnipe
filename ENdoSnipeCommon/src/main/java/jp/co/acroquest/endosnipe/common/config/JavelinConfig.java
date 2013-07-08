@@ -216,8 +216,6 @@ public class JavelinConfig extends JavelinConfigBase
 
     private static boolean isIntervalMonitor__;
 
-    private static boolean isLeakCollectionSizePrint__;
-
     private static boolean isLinearSearchMonitor__;
 
     private static boolean isLogArgs__;
@@ -414,7 +412,6 @@ public class JavelinConfig extends JavelinConfigBase
         isHttpSessionCount__ = super.isHttpSessionCount();
         isHttpSessionSize__ = super.isHttpSessionSize();
         isIntervalMonitor__ = super.isIntervalMonitor();
-        isLeakCollectionSizePrint__ = super.isLeakCollectionSizePrint();
         isLinearSearchMonitor__ = super.isLinearSearchMonitor();
         isLogArgs__ = super.isLogArgs();
         isLogHttpSession__ = super.isLogHttpSession();
@@ -2043,24 +2040,6 @@ public class JavelinConfig extends JavelinConfigBase
     public void setIntervalMonitor(final boolean isIntervalMonitor)
     {
         isIntervalMonitor__ = isIntervalMonitor;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isLeakCollectionSizePrint()
-    {
-        return isLeakCollectionSizePrint__;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setLeakCollectionSizePrint(final boolean isLeakCollectionSizePrint)
-    {
-        isLeakCollectionSizePrint__ = isLeakCollectionSizePrint;
     }
 
     /**

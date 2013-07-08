@@ -43,13 +43,10 @@ import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 import jp.co.acroquest.endosnipe.javelin.CallTree;
 import jp.co.acroquest.endosnipe.javelin.CallTreeRecorder;
 import jp.co.acroquest.endosnipe.javelin.StatsJavelinRecorder;
-import jp.co.acroquest.endosnipe.javelin.conf.JavelinMessages;
 import jp.co.acroquest.endosnipe.javelin.event.CommonEvent;
 import jp.co.acroquest.endosnipe.javelin.event.LeakDetectEvent;
 import jp.co.acroquest.endosnipe.javelin.util.StatsUtil;
 import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
-
-import org.netbeans.insane.scanner.ScannerUtils;
 
 /**
  * コレクションクラス、マップクラスのサイズを常時監視する監視クラス
@@ -181,22 +178,6 @@ public class CollectionMonitor
 
         int leakSize = 0;
 
-        //コレクションのオブジェクトサイズ算出処理の負荷が高いため、
-        //サイズは設定フラグがONになっている場合のみ算出/出力を行う
-        if (javelinConfig__.isLeakCollectionSizePrint() == true && target != null)
-        {
-                try
-                {
-                    leakSize = ScannerUtils.recursiveSizeOf(target, null);
-                }
-                catch (Exception ex)
-                {
-                    String key = "javelin.converter.leak.monitor.CannotGetSize";
-                    String message = JavelinMessages.getMessage(key);
-                    SystemLogger.getInstance().warn(message, ex);
-                }
-        }
-        
         // Leak検出を引き起こしたオブジェクトのクラス名を取得する。
         String className = null;
         if (element != null)
@@ -211,10 +192,6 @@ public class CollectionMonitor
         event.addParam(EventConstants.PARAM_LEAK_THRESHOLD,
                        String.valueOf(javelinConfig__.getCollectionSizeThreshold()));
         event.addParam(EventConstants.PARAM_LEAK_COUNT, String.valueOf(count));
-        if (javelinConfig__.isLeakCollectionSizePrint() == true)
-        {
-            event.addParam(EventConstants.PARAM_LEAK_SIZE, String.valueOf(leakSize));
-        }
         if (className != null)
         {
             event.addParam(EventConstants.PARAM_LEAK_CLASS_NAME, className);

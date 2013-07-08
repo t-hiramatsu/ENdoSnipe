@@ -10,11 +10,13 @@
     <property name="src.dir" location="src/main/java" />
     <property name="src.test.dir" location="src/test/java" />
     <property name="src.servlet-api.dir" location="src/main/servlet-api" />
+    <property name="src.jsonic.dir" location="src/main/jsonic" />
     <property name="resources.dir" location="src/main/resources" />
     <property name="resources.test.dir" location="src/test/resources" />
     <property name="classes.dir" location="classes_build" />
     <property name="classes.test.dir" location="classes-test_build" />
     <property name="classes.servlet-api.dir" location="classes-servlet-api" />
+    <property name="classes.jsonic.dir" location="classes-jsonic" />
     <property name="lib.dir" value="lib" />
     <property name="lib-compile.dir" location="${lib.dir}/compile" />
     <property name="lib-opt.dir" location="${lib.dir}/opt" />
@@ -30,6 +32,7 @@
     <property name="doc.dir"     value="doc" />
     <property name="report.dir" location="junit-report" />
     <property name="servlet-api.jar" value="servlet.jar" />
+    <property name="jsonic.jar" value="jsonic.jar" />
 	
 
     <!-- Javadoc settings -->
@@ -59,6 +62,7 @@
         <mkdir dir="${classes.dir}" />
         <mkdir dir="${classes.test.dir}" />
         <mkdir dir="${classes.servlet-api.dir}" />
+        <mkdir dir="${classes.jsonic.dir}" />
         <mkdir dir="${dist.dir}" />
         <mkdir dir="${temp.dir}/${lib.dir}" />
         <mkdir dir="${temp.dir}/${conf.dir}" />
@@ -71,6 +75,7 @@
         <delete dir="${classes.dir}" />
         <delete dir="${classes.test.dir}" />
         <delete dir="${classes.servlet-api.dir}" />
+        <delete dir="${classes.jsonic.dir}" />
         <delete dir="${dist.dir}" />
         <delete dir="${report.dir}" />
     </target>
@@ -91,13 +96,35 @@
         </copy>
     </target>
 
+   	<!-- jsonic のコンパイル -->
+    <target name="check-jsonic-needs-compile">
+        <uptodate property="jsonic.compiled" targetfile="${lib.dir}/${jsonic.jar}">
+            <srcfiles dir="${src.jsonic.dir}" includes="**/*.*" />
+        </uptodate>
+    </target>
+
+    <target name="compileJsonic" depends="prepare" unless="jsonic.compiled">
+        <javac srcdir="${src.jsonic.dir}" destdir="${classes.jsonic.dir}" />
+        <copy todir="${classes.jsonic.dir}">
+            <fileset dir="${src.jsonic.dir}">
+                <exclude name="**/*.java" />
+            </fileset>
+        </copy>
+    </target>
+	
     <!-- ServletAPI の Jar 生成 -->
     <target name="jarServletAPI" depends="compileServletAPI">
         <jar jarfile="${lib-opt.dir}/${servlet-api.jar}" basedir="${classes.servlet-api.dir}" />
     </target>
+	
+    <!-- jsonic の Jar 生成 -->
+    <target name="jarJsonic" depends="compileJsonic">
+        <jar jarfile="${lib.dir}/${jsonic.jar}" basedir="${classes.jsonic.dir}" />
+    </target>
 
+	
     <!-- Normal build of application -->
-    <target name="compile" depends="prepare, compileENdoSnipeCommon, compileENdoSnipeCommunicator, jarServletAPI">
+    <target name="compile" depends="prepare, compileENdoSnipeCommon, compileENdoSnipeCommunicator, jarServletAPI, jarJsonic">
         <!-- Copy depending libraries -->
         <copy file="${endosnipe-common.jar}" todir="${lib-dependency.dir}" failonerror="yes" />
         <copy file="${endosnipe-communicator.jar}" todir="${lib-dependency.dir}" failonerror="yes" />
@@ -190,11 +217,21 @@
                 <include name="*.jar" />
                 <include name="license/*.*" />
             </fileset>
+            <fileset dir="${lib.dir}/license">
+                <include name="*.*" />
+            </fileset>
             <fileset dir="${lib-dependency.dir}">
                 <include name="endosnipe-*.jar" />
             </fileset>
         </copy>
 
+    	<!-- ライセンスをコピー -->
+        <copy todir="${temp.dir}/${license.dir}">
+            <fileset dir="${lib.dir}/license">
+                <include name="*.*" />
+            </fileset>
+        </copy>
+    	
 		<!-- 依存ライブラリをjavelin.jarに一本化する。 -->
 		<unjar dest="${temp.dir}/${package.dir}">
 		    <fileset dir="${temp.dir}/${lib.dir}">
@@ -242,7 +279,6 @@
         <touch file="${temp.dir}/traces/deleteme.txt" />
         <mkdir dir="${temp.dir}/data" />
         <touch file="${temp.dir}/data/deleteme.txt" />
-        <touch file="${temp.dir}/license/deleteme.txt" />
 
         <!-- Create zipfile. -->
         <zip destfile="${dist.dir}/${zipname}_${version}.zip">

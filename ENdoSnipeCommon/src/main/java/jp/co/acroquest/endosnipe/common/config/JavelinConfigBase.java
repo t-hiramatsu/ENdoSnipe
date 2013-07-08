@@ -649,9 +649,6 @@ public class JavelinConfigBase
     private static final String AUTO_EXCLUDE_THRESHOLD_TIME = JAVELIN_PREFIX
             + "autoExcludeThreshold.time";
 
-    /** メモリリーク検出時に、リークしたコレクションのサイズを出力するかどうか */
-    public static final String LEAK_COLLECTIONSIZE_OUT = JAVELIN_PREFIX + "leak.collectionSizeOut";
-
     /** Log4Jのログ出力の際、スタックトレースを出力するレベルの閾値 */
     public static final String LOG4J_PRINTSTACK_LEVEL = JAVELIN_PREFIX + "log4j.printstack.level";
 
@@ -802,9 +799,6 @@ public class JavelinConfigBase
 
     /** 計測対象に含めるか判定するための時間の閾値(単位:ミリ秒) */
     public static final int DEF_AUTO_EXCLUDE_THRESHOLD_TIME = 100;
-
-    /** メモリリーク検出時に、リークしたコレクションのサイズを出力するかのフラグのデフォルト値 */
-    public static final boolean DEF_LEAK_COLLECTIONSIZE_OUT = false;
 
     /** BottleNeckEyeとの通信に使用するポートを再取得する間隔のデフォルト値 */
     public static final int DEF_JAVELIN_BIND_INTERVAL = 5000;
@@ -2892,8 +2886,7 @@ public class JavelinConfigBase
      */
     public int getAutoExcludeThresholdCount()
     {
-        return CONFIGUTIL.getInteger(AUTO_EXCLUDE_THRESHOLD_COUNT,
-        		DEF_AUTO_EXCLUDE_THRESHOLD_COUNT);
+        return CONFIGUTIL.getInteger(AUTO_EXCLUDE_THRESHOLD_COUNT, DEF_AUTO_EXCLUDE_THRESHOLD_COUNT);
     }
 
     /**
@@ -2904,26 +2897,6 @@ public class JavelinConfigBase
     public int getAutoExcludeThresholdTime()
     {
         return CONFIGUTIL.getInteger(AUTO_EXCLUDE_THRESHOLD_TIME, DEF_AUTO_EXCLUDE_THRESHOLD_TIME);
-    }
-
-    /**
-     * メモリリーク検出時に、リークしたコレクションのサイズを出力するかどうかを返します。<br /> 
-     * 
-     * @return メモリリーク検出時に、リークしたコレクションのサイズを出力するかどうか
-     */
-    public boolean isLeakCollectionSizePrint()
-    {
-        return CONFIGUTIL.getBoolean(LEAK_COLLECTIONSIZE_OUT, DEF_LEAK_COLLECTIONSIZE_OUT);
-    }
-
-    /**
-     * メモリリーク検出時に、リークしたコレクションのサイズを出力するかどうかを設定する。
-     * 
-     * @param leakCollectionSizePrint メモリリーク検出時に、リークしたコレクションのサイズを出力するかどうか
-     */
-    public void setLeakCollectionSizePrint(final boolean leakCollectionSizePrint)
-    {
-        CONFIGUTIL.setBoolean(LEAK_COLLECTIONSIZE_OUT, leakCollectionSizePrint);
     }
 
     /**
