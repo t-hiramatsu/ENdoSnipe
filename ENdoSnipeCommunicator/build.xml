@@ -82,7 +82,6 @@
         <!-- jarを作成する -->
 
         <!-- 依存ライブラリを一本化 -->
-        <unjar dest="${classes}" src="${lib.dir}/dependency/jsonic-1.2.5.jar" />
 
         <jar jarfile="${dist}/${distname}-${version}.jar" basedir="${classes}" excludes="**/log4j.properties">
             <manifest>
@@ -128,8 +127,6 @@
         </copy>
 
         <!-- 依存ライブラリを一本化 -->
-        <unjar dest="${plugin-temp}" src="${lib.dir}/dependency/jsonic-1.2.5.jar" />
-
         <copy todir="${plugin-temp}">
             <fileset dir="." includes="plugin*.properties" />
         </copy>

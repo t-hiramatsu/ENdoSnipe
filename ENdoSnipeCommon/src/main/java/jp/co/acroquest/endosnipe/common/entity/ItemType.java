@@ -76,100 +76,100 @@ package jp.co.acroquest.endosnipe.common.entity;
  */
 public enum ItemType
 {
-	/** ïsñæ */
-	ITEMTYPE_UNKNOWN, // -1
-	/** byteå^ */
-	ITEMTYPE_BYTE, // 0
-	/** shortå^ */
-	ITEMTYPE_SHORT, // 1
-	/** intå^ */
-	ITEMTYPE_INT, // 2
-	/** longå^ */
-	ITEMTYPE_LONG, // 3
-	/** floatå^ */
-	ITEMTYPE_FLOAT, // 4
-	/** doubleå^ */
-	ITEMTYPE_DOUBLE, // 5
-	/** Stringå^ */
-	ITEMTYPE_STRING, // 6
-	/** JSONå^ */
-	ITEMTYPE_JMX; // 7
+    /** ïsñæ */
+    ITEMTYPE_UNKNOWN, // -1
+    /** byteå^ */
+    ITEMTYPE_BYTE, // 0
+    /** shortå^ */
+    ITEMTYPE_SHORT, // 1
+    /** intå^ */
+    ITEMTYPE_INT, // 2
+    /** longå^ */
+    ITEMTYPE_LONG, // 3
+    /** floatå^ */
+    ITEMTYPE_FLOAT, // 4
+    /** doubleå^ */
+    ITEMTYPE_DOUBLE, // 5
+    /** Stringå^ */
+    ITEMTYPE_STRING; // 6
 
-	private static final byte BYTE_UNKNOWN = -1;
-	private static final byte BYTE_BYTE = 0;
-	private static final byte BYTE_SHORT = 1;
-	private static final byte BYTE_INT = 2;
-	private static final byte BYTE_LONG = 3;
-	private static final byte BYTE_FLOAT = 4;
-	private static final byte BYTE_DOUBLE = 5;
-	private static final byte BYTE_STRING = 6;
-	private static final byte BYTE_JMX = 7;
+    private static final byte BYTE_UNKNOWN = -1;
 
-	/**
-	 * êîílÇ©ÇÁÉfÅ[É^å^Çï‘Ç∑ÅB
-	 * 
-	 * @param n
-	 *            êîíl
-	 * @return ÉfÅ[É^å^
-	 */
-	public static ItemType getItemType(final byte n)
-	{
-		switch (n)
-		{
-		case BYTE_UNKNOWN:
-			return ITEMTYPE_UNKNOWN;
-		case BYTE_BYTE:
-			return ITEMTYPE_BYTE;
-		case BYTE_SHORT:
-			return ITEMTYPE_SHORT;
-		case BYTE_INT:
-			return ITEMTYPE_INT;
-		case BYTE_LONG:
-			return ITEMTYPE_LONG;
-		case BYTE_FLOAT:
-			return ITEMTYPE_FLOAT;
-		case BYTE_DOUBLE:
-			return ITEMTYPE_DOUBLE;
-		case BYTE_STRING:
-			return ITEMTYPE_STRING;
-		case BYTE_JMX:
-			return ITEMTYPE_JMX;
-		default:
-			throw new IllegalArgumentException();
-		}
-	}
+    private static final byte BYTE_BYTE = 0;
 
-	/**
-	 * ÉfÅ[É^å^Ç…âûÇ∂ÇΩêîílÇéÊìæÇµÇ‹Ç∑ÅB
-	 * 
-	 * @param type
-	 *            ÉfÅ[É^å^
-	 * @return êîíl
-	 */
-	public static byte getItemTypeNumber(final ItemType type)
-	{
-		switch (type)
-		{
-		case ITEMTYPE_UNKNOWN:
-			return BYTE_UNKNOWN;
-		case ITEMTYPE_BYTE:
-			return BYTE_BYTE;
-		case ITEMTYPE_SHORT:
-			return BYTE_SHORT;
-		case ITEMTYPE_INT:
-			return BYTE_INT;
-		case ITEMTYPE_LONG:
-			return BYTE_LONG;
-		case ITEMTYPE_FLOAT:
-			return BYTE_FLOAT;
-		case ITEMTYPE_DOUBLE:
-			return BYTE_DOUBLE;
-		case ITEMTYPE_STRING:
-			return BYTE_STRING;
-		case ITEMTYPE_JMX:
-			return BYTE_JMX;
-		default:
-			throw new IllegalArgumentException();
-		}
-	}
+    private static final byte BYTE_SHORT = 1;
+
+    private static final byte BYTE_INT = 2;
+
+    private static final byte BYTE_LONG = 3;
+
+    private static final byte BYTE_FLOAT = 4;
+
+    private static final byte BYTE_DOUBLE = 5;
+
+    private static final byte BYTE_STRING = 6;
+
+    /**
+     * êîílÇ©ÇÁÉfÅ[É^å^Çï‘Ç∑ÅB
+     * 
+     * @param n
+     *            êîíl
+     * @return ÉfÅ[É^å^
+     */
+    public static ItemType getItemType(final byte n)
+    {
+        switch (n)
+        {
+        case BYTE_UNKNOWN:
+            return ITEMTYPE_UNKNOWN;
+        case BYTE_BYTE:
+            return ITEMTYPE_BYTE;
+        case BYTE_SHORT:
+            return ITEMTYPE_SHORT;
+        case BYTE_INT:
+            return ITEMTYPE_INT;
+        case BYTE_LONG:
+            return ITEMTYPE_LONG;
+        case BYTE_FLOAT:
+            return ITEMTYPE_FLOAT;
+        case BYTE_DOUBLE:
+            return ITEMTYPE_DOUBLE;
+        case BYTE_STRING:
+            return ITEMTYPE_STRING;
+        default:
+            throw new IllegalArgumentException();
+        }
+    }
+
+    /**
+     * ÉfÅ[É^å^Ç…âûÇ∂ÇΩêîílÇéÊìæÇµÇ‹Ç∑ÅB
+     * 
+     * @param type
+     *            ÉfÅ[É^å^
+     * @return êîíl
+     */
+    public static byte getItemTypeNumber(final ItemType type)
+    {
+        switch (type)
+        {
+        case ITEMTYPE_UNKNOWN:
+            return BYTE_UNKNOWN;
+        case ITEMTYPE_BYTE:
+            return BYTE_BYTE;
+        case ITEMTYPE_SHORT:
+            return BYTE_SHORT;
+        case ITEMTYPE_INT:
+            return BYTE_INT;
+        case ITEMTYPE_LONG:
+            return BYTE_LONG;
+        case ITEMTYPE_FLOAT:
+            return BYTE_FLOAT;
+        case ITEMTYPE_DOUBLE:
+            return BYTE_DOUBLE;
+        case ITEMTYPE_STRING:
+            return BYTE_STRING;
+        default:
+            throw new IllegalArgumentException();
+        }
+    }
 }

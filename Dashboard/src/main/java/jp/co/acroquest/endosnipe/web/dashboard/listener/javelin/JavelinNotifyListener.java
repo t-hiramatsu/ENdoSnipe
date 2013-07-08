@@ -43,7 +43,6 @@ import jp.co.acroquest.endosnipe.web.dashboard.listener.collector.CollectorListe
 import jp.co.acroquest.endosnipe.web.dashboard.listener.collector.SignalStateChangeListener;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.ConnectionClient;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.DatabaseManager;
-import jp.co.acroquest.endosnipe.web.dashboard.manager.MessageSender;
 import jp.co.acroquest.endosnipe.web.dashboard.servlet.DashBoardServlet;
 
 /**
@@ -53,9 +52,6 @@ import jp.co.acroquest.endosnipe.web.dashboard.servlet.DashBoardServlet;
  */
 public class JavelinNotifyListener implements TelegramListener
 {
-
-    /** メッセージ送信用オブジェクトです。 */
-    private final MessageSender messageSender_;
 
     /** DB名(1つの場合のみ対応) TODO 複数対応 */
     private static String databaseName__;
@@ -68,11 +64,10 @@ public class JavelinNotifyListener implements TelegramListener
 
     /**
      * コンストラクタです。
-     * @param messageSender {@link MessageSender}オブジェクト
      */
-    public JavelinNotifyListener(final MessageSender messageSender)
+    public JavelinNotifyListener()
     {
-        this.messageSender_ = messageSender;
+        // Do Nothing.
     }
 
     /**
@@ -124,8 +119,7 @@ public class JavelinNotifyListener implements TelegramListener
                         CommunicationFactory.getCommunicationClient("DataCollector-ClientThread-"
                                 + clientId);
                 client.init(javelinHost, javelinPort);
-                client.addTelegramListener(new CollectorListener(messageSender_, agentId,
-                                                                 databaseName));
+                client.addTelegramListener(new CollectorListener(agentId, databaseName));
                 client.addTelegramListener(new SignalStateChangeListener());
 
                 ConnectNotifyData connectNotify = new ConnectNotifyData();

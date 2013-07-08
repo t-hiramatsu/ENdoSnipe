@@ -145,9 +145,6 @@ public class ConfigUpdater
         // メモリリーク閾値
         properties.put(JavelinConfig.COLLECTION_SIZE_THRESHOLD,
                        String.valueOf(config.getCollectionSizeThreshold())); // メモリリーク閾値
-        // メモリリーク検出時、リークを起こしたコレクションのオブジェクトサイズを出力するかのフラグ
-        properties.put(JavelinConfig.LEAK_COLLECTIONSIZE_OUT,
-                       String.valueOf(config.isLeakCollectionSizePrint()));
         // クラスヒストグラムを取得するかどうか　
         properties.put(JavelinConfig.CLASS_HISTO, String.valueOf(config.getClassHisto()));
         // クラスヒストグラム取得間隔(ミリ秒) 
@@ -1043,16 +1040,6 @@ public class ConfigUpdater
     }
 
     /**
-     * メモリリーク検出時に、リークしたコレクションのサイズを出力するかどうかを更新します。<br />
-     * @param leakCollectionSizePrint メモリリーク検出時に、リークしたコレクションのサイズを出力するかどうか
-     */
-    public static void updateLeakCollectionSizePrint(final boolean leakCollectionSizePrint)
-    {
-        JavelinConfig config = new JavelinConfig();
-        config.setLeakCollectionSizePrint(leakCollectionSizePrint);
-    }
-
-    /**
      * Log4jのスタックトレースを行うログレベルの閾値を更新します。<br />
      * 
      * @param log4jPrintStackLevel Log4jのスタックトレースを行うログレベルの閾値
@@ -1251,10 +1238,6 @@ public class ConfigUpdater
         else if (JavelinConfig.COLLECTION_SIZE_THRESHOLD.equals(key))
         {
             ConfigUpdater.updateCollectionSizesThreshold(Integer.parseInt(value));
-        }
-        else if (JavelinConfig.LEAK_COLLECTIONSIZE_OUT.equals(key))
-        {
-            ConfigUpdater.updateLeakCollectionSizePrint(Boolean.parseBoolean(value));
         }
         else if (JavelinConfig.CLASS_HISTO.equals(key))
         {

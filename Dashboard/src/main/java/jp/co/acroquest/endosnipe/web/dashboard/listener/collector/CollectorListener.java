@@ -38,7 +38,6 @@ import jp.co.acroquest.endosnipe.communicator.entity.MeasurementConstants;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.EventManager;
-import jp.co.acroquest.endosnipe.web.dashboard.manager.MessageSender;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.ResourceSender;
 
 import org.wgp.manager.WgpDataManager;
@@ -78,12 +77,10 @@ public class CollectorListener implements TelegramListener
 
     /**
      * コンストラクタです。
-     * @param messageSender {@link MessageSender}オブジェクト
      * @param agentId エージェントID
      * @param databaseName DB名
      */
-    public CollectorListener(final MessageSender messageSender, final int agentId,
-            final String databaseName)
+    public CollectorListener(final int agentId, final String databaseName)
     {
         this.databaseName_ = databaseName;
     }

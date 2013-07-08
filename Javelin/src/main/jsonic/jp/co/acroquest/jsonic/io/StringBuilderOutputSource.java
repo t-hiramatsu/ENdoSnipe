@@ -23,56 +23,40 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package jp.co.acroquest.endosnipe.javelin.converter.intercepting;
+package jp.co.acroquest.jsonic.io;
 
-import java.io.IOException;
-import java.util.List;
 
-import jp.co.acroquest.endosnipe.javelin.converter.AbstractConverter;
-import jp.co.smg.endosnipe.javassist.CannotCompileException;
-import jp.co.smg.endosnipe.javassist.CtBehavior;
-
-import org.aopalliance.intercept.MethodInterceptor;
-import org.aopalliance.intercept.MethodInvocation;
-
-/**
- * InterCeptor用コンバータ
- * @author yamasaki
- */
-public abstract class InterceptingConverter extends AbstractConverter implements MethodInterceptor
-{
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void convertImpl()
-        throws CannotCompileException,
-            IOException
-    {
-        List<CtBehavior> behaviorList = getMatcheDeclaredBehavior();
-        for (CtBehavior ctBehavior : behaviorList)
-        {
-            convertBehavior(ctBehavior);
-        }
-
-        setNewClassfileBuffer(getCtClass().toBytecode());
-    }
-
-    /**
-     * メソッドの振る舞いを変更する。
-     * @param ctBehavior メソッド
-     */
-    private void convertBehavior(final CtBehavior ctBehavior)
-    {
-        // Do Nothing.
-    }
-
-    /**
-     * 未定
-     * @param invocation Invocation
-     * @throws Throwable 例外
-     * @return Object
-     */
-    public abstract Object invoke(MethodInvocation invocation)
-        throws Throwable;
+public class StringBuilderOutputSource implements OutputSource {
+	private final StringBuilder sb;
+	
+	public StringBuilderOutputSource() {
+		this.sb = new StringBuilder(1000);
+	}
+	
+	public StringBuilderOutputSource(StringBuilder sb) {
+		this.sb = sb;
+	}
+	
+	public void append(String text) {
+		sb.append(text);
+	}
+	
+	public void append(String text, int start, int end) {
+		sb.append(text, start, end);
+	}
+	
+	public void append(char c) {
+		sb.append(c);
+	}
+	
+	public void flush() {
+	}
+	
+	public void clear() {
+		sb.setLength(0);
+	}
+	
+	public String toString() {
+		return sb.toString();
+	}
 }

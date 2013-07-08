@@ -40,7 +40,6 @@ import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 import jp.co.acroquest.endosnipe.communicator.entity.Body;
 import jp.co.acroquest.endosnipe.communicator.entity.Header;
 import jp.co.acroquest.endosnipe.communicator.entity.RequestBody;
-import jp.co.acroquest.endosnipe.communicator.entity.ResourceItemConverter;
 import jp.co.acroquest.endosnipe.communicator.entity.ResponseBody;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
@@ -337,9 +336,6 @@ public final class TelegramUtil implements TelegramConstants
 						case ITEMTYPE_STRING:
 							value = stringToByteArray((String) obj);
 							break;
-						case ITEMTYPE_JMX:
-							value = stringToByteArray((String) obj);
-							break;
 						default:
 							return null;
 						}
@@ -479,18 +475,6 @@ public final class TelegramUtil implements TelegramConstants
 					break;
 				case ITEMTYPE_STRING:
 					values[index] = byteArrayToString(telegramBuffer);
-					break;
-				case ITEMTYPE_JMX:
-					String jsonStr = byteArrayToString(telegramBuffer);
-					try
-					{
-						values[index] = ResourceItemConverter.getInstance()
-								.decodeFromJSON(jsonStr);
-					}
-					catch (Exception e)
-					{
-						SystemLogger.getInstance().warn(e);
-					}
 					break;
 				default:
 					return null;
