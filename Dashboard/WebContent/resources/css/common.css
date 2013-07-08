@@ -3,6 +3,9 @@
 body {
 	background: no-repeat 0 0,
 		-moz-linear-gradient(left top, #EEEEEE, #222222);
+	background: no-repeat 0 0,
+		-webkit-gradient(linear, left top, right bottom, from(#EEEEEE),
+		to(#222222) );
 	/*background-repeat : */
 }
 
@@ -130,7 +133,7 @@ option {
 }
 
 /** datepickerのセレクトボックスのオプション */
-#ui-datepicker-div > select option {
+#ui-datepicker-div>select option {
 	background: #FFFFFF;
 }
 
@@ -150,8 +153,8 @@ option {
 }
 
 .headerTable {
-	margin-right:auto;
-	text-align:center;
+	margin-right: auto;
+	text-align: center;
 }
 
 .headerTable .ui-widget {
