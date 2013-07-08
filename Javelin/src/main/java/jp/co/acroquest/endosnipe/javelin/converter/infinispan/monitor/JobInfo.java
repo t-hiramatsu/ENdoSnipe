@@ -3,7 +3,8 @@ package jp.co.acroquest.endosnipe.javelin.converter.infinispan.monitor;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.arnx.jsonic.JSON;
+import jp.co.acroquest.jsonic.JSON;
+
 
 /**
  * ƒWƒ‡ƒu‚Ìî•ñ
