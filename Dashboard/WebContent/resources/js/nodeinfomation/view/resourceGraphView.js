@@ -31,7 +31,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 
 				var appView = new ENS.AppView();
 				appView.addView(this, argument.graphId);
-				this.render();
+				
 				this.registerCollectionEvent();
 
 				if (!this.noTermData) {
@@ -56,6 +56,8 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 					margin : "10px",
 					float : "left"
 				});
+				
+				this.render();
 			},
 			_initData : function(argument, treeSettings) {
 				this.viewType = wgp.constants.VIEW_TYPE.VIEW;
