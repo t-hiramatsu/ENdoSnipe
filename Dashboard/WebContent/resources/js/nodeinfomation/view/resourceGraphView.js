@@ -145,9 +145,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				});
 				$("#" + graphId).mouseover(function(event) {
 					var target = event.target;
-					if ($(target).hasClass("dygraph-title")) {
-						$("#" + graphId).attr("title", graphPath);
-					}
+					$("#" + graphId).attr("title", graphPath);
 					if (!isShort) {
 						return;
 					}
