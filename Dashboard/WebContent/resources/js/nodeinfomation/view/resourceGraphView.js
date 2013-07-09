@@ -93,6 +93,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				this.timeFrom = 0;
 			},
 			render : function() {
+				var graphPath = this.graphId;
 				var graphId = this.$el.attr("id") + "_ensgraph";
 				var graphdiv = $("<div id='" + graphId + "'><div>");
 				$("#" + this.$el.attr("id")).append(graphdiv);
@@ -143,6 +144,10 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 					titleHeight : 22
 				});
 				$("#" + graphId).mouseover(function(event) {
+					var target = event.target;
+					if ($(target).hasClass("dygraph-title")) {
+						$("#" + graphId).attr("title", graphPath);
+					}
 					if (!isShort) {
 						return;
 					}
