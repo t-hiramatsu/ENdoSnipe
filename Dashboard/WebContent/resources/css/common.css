@@ -172,3 +172,7 @@ option {
 div#contents_area_content {
 	border-style: none;
 }
+
+.ensLabel {
+	font-size: 12px;
+}

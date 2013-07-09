@@ -12,7 +12,7 @@
 .jstree-default .jstree-closed > ins { background-position:-54px 0; }
 .jstree-default .jstree-leaf > ins { background-position:-36px 0; }
 
-.jstree-default .jstree-hovered { background:#6495ED; border:1px solid #6495ED; pz:0 2px 0 1px; }
+.jstree-default .jstree-hovered { background:#6495ED; border:1px solid #6495ED; padding:0 2px 0 1px; }
 .jstree-default .jstree-clicked { background:#1E90FF; border:1px solid #1E90FF; padding:0 2px 0 1px; }
 .jstree-default a .root { background-position:-56px -19px; }
 .jstree-default a .center { background-position:-76px -19px; }
