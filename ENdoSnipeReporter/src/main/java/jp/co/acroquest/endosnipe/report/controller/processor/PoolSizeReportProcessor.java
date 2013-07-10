@@ -138,11 +138,11 @@ public class PoolSizeReportProcessor extends ReportPublishProcessorBase
                 ItemRecord itemRecord = itemData.getRecords().get(index);
                 PoolSizeRecord poolSizeRecord = poolSizeRecordMap.get(itemName[0]).get(index);
                 if ("max".equals(itemName[1])) {
-                    poolSizeRecord.setPoolSizeMax(itemRecord.getValue());
+                    poolSizeRecord.setPoolSizeMax((long)itemRecord.getValue());
                 } else if ("current".equals(itemName[1])) {
-                    poolSizeRecord.setPoolSizeCurrent(itemRecord.getValue());
+                    poolSizeRecord.setPoolSizeCurrent((long)itemRecord.getValue());
                 } else if ("wait".equals(itemName[1])) {
-                    poolSizeRecord.setPoolSizeWait(itemRecord.getValue());
+                    poolSizeRecord.setPoolSizeWait((long)itemRecord.getValue());
                 }
             }
         }

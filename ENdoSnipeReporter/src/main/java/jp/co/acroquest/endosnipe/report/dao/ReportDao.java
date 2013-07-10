@@ -745,12 +745,12 @@ public class ReportDao extends AbstractDao implements TableNames {
 			// CHECKSTYLE:OFF
 			reportItemValue.measurementTime = rs.getTimestamp(1);
 			reportItemValue.itemName = rs.getString(2);
-			reportItemValue.summaryValue = rs.getLong(3);
-			reportItemValue.maxValue = rs.getLong(4);
+			reportItemValue.summaryValue = rs.getDouble(3);
+			reportItemValue.maxValue = rs.getDouble(4);
 			if (reportItemValue.maxValue == null) {
 				reportItemValue.maxValue = reportItemValue.summaryValue;
 			}
-			reportItemValue.minValue = rs.getLong(5);
+			reportItemValue.minValue = rs.getDouble(5);
 			if (reportItemValue.minValue == null) {
 				reportItemValue.minValue = reportItemValue.summaryValue;
 			}

@@ -83,9 +83,9 @@ public class GraphItemAccessUtil {
 			for (ReportItemValue itemValue : list) {
 				ItemRecord itemRecord = new ItemRecord();
 				itemRecord.setMeasurementTime(itemValue.measurementTime);
-				itemRecord.setValue(itemValue.summaryValue.longValue());
-				itemRecord.setValueMax(itemValue.maxValue.longValue());
-				itemRecord.setValueMin(itemValue.minValue.longValue());
+				itemRecord.setValue(itemValue.summaryValue.doubleValue());
+				itemRecord.setValueMax(itemValue.maxValue.doubleValue());
+				itemRecord.setValueMin(itemValue.minValue.doubleValue());
 
 				records.add(itemRecord);
 			}
