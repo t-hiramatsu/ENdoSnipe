@@ -6,13 +6,13 @@ function global:Replace-Content
     Write-Error "存在しないパスです"
     return
   }
-  $file_contents = $(Get-Content $filepath) -replace $rep1, $rep2 -encoding Shift-JIS
-  $file_contents > $filepath
+  $file_contents = $(Get-Content $filepath -encoding String) -replace $rep1, $rep2
+  $file_contents | Out-File $filepath -encoding default
 }
 
 
 #タグ名称を設定する。
-$tags = "5.0.4-001"
+$tags = "5.0.4-002"
 
 $tag_array = $tags -split "-"
 $ver = $tag_array[0]
