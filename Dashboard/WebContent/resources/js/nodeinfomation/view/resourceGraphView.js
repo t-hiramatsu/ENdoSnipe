@@ -31,7 +31,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 
 				var appView = new ENS.AppView();
 				appView.addView(this, argument.graphId);
-				
+
 				this.registerCollectionEvent();
 
 				if (!this.noTermData) {
@@ -56,7 +56,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 					margin : "10px",
 					float : "left"
 				});
-				
+
 				this.render();
 			},
 			_initData : function(argument, treeSettings) {
@@ -113,7 +113,10 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 					axisLabelColor : "#000000",
 					labelsDivStyles : {
 						background : "none repeat scroll 0 0 #000000"
-					}
+					},
+					dateWindow : this.dateWindow,
+					axisLabelFontSize : 10,
+					titleHeight : 22
 				};
 
 				this.attributes = undefined;
@@ -137,12 +140,17 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				this.entity = new Dygraph(element, data, optionSettings);
 				this.entity.resize(this.width, this.graphHeight);
 				$("#" + graphId).height(this.height);
-				this.getGraphObject().updateOptions({
-					valueRange : [ 0, this.maxValue * 1.1 ],
-					dateWindow : this.dateWindow,
-					axisLabelFontSize : 10,
-					titleHeight : 22
-				});
+
+				if (this.labelY == "%") {
+					this.getGraphObject().updateOptions({
+						valueRange : [ 0, 105 ]
+					});
+				} else {
+					this.getGraphObject().updateOptions({
+						valueRange : [ 0, this.maxValue * 1.1 ]
+					});
+				}
+
 				$("#" + graphId).mouseover(function(event) {
 					var target = event.target;
 					$("#" + graphId).attr("title", graphPath);
@@ -180,15 +188,25 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 					var time = new Date();
 					if (this.timeFrom === 0) {
 						tempEnd = time;
-						tempStart =  new Date(new Date().getTime() - this.term* 1000);
-					} else{
+						tempStart = new Date(new Date().getTime() - this.term
+								* 1000);
+					} else {
 						tempEnd = time;
 						tempStart = new Date(time.getTime() - this.timeFrom);
-					} 
-					var updateOption = {
-						'file' : this.data,
-						'valueRange': [0, this.maxValue* 1.1]
-					};
+					}
+					
+					var updateOption;
+					if (this.labelY == "%") {
+						updateOption = {
+								valueRange : [ 0, 105 ],
+								'file' : this.data
+						};
+					} else {
+						updateOption = {
+								'file' : this.data,
+								'valueRange' : [ 0, this.maxValue * 1.1 ]
+						};
+					}
 					if (this.data.length !== 0) {
 						updateOption['dateWindow'] = [ tempStart, tempEnd ];
 					}
@@ -215,11 +233,19 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				if (this.data.length !== 0) {
 					this.maxValue = this.getMaxValue(this.data);
 				}
+				var updateOption;
+				if (this.labelY == "%") {
+					updateOption = {
+						valueRange : [ 0, 105 ],
+						'file' : this.data
+					};
+				} else {
+					updateOption = {
+						valueRange : [ 0, this.maxValue * 1.1 ],
+						'file' : this.data
+					};
+				}
 
-				var updateOption = {
-					valueRange : [ 0, this.maxValue * 1.1 ],
-					'file' : this.data
-				};
 				this.entity.updateOptions(updateOption);
 
 				var tmpAppView = new ENS.AppView();
