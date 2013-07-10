@@ -6,7 +6,7 @@ function global:Replace-Content
     Write-Error "‘¶Ý‚µ‚È‚¢ƒpƒX‚Å‚·"
     return
   }
-  $file_contents = $(Get-Content $filepath) -replace $rep1, $rep2
+  $file_contents = $(Get-Content $filepath) -replace $rep1, $rep2 -encoding Shift-JIS
   $file_contents > $filepath
 }
 
