@@ -1,5 +1,25 @@
+function global:Replace-Content
+{
+  Param([string]$filepath, [string]$rep1, [string]$rep2)
+  if ( $(test-path $filepath) -ne $True )
+  {
+    Write-Error "存在しないパスです"
+    return
+  }
+  $file_contents = $(Get-Content $filepath) -replace $rep1, $rep2
+  $file_contents > $filepath
+}
+
+
 #タグ名称を設定する。
-$tags = "5.0.3-023"
+$tags = "5.0.4-001"
+
+$tag_array = $tags -split "-"
+$ver = $tag_array[0]
+$build = $tag_array[1]
+
+Replace-Content ENdoSnipe\build.bat "set VER=.+" "set VER=$ver"
+Replace-Content ENdoSnipe\build.bat "set BUILD=.+" "set BUILD=$build"
 
 $WorkDir="build"
 

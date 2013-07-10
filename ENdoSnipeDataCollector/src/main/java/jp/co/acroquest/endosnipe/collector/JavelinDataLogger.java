@@ -464,7 +464,7 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             {
                 // ÏZ’l‚ª“ü‚Á‚Ä‚¢‚éê‡A·•ª‚É‚·‚é
                 convertedResourceData =
-                                        accumulatedValueParser(this.prevResourceDataMap_.get(database),
+                                        accumulatedValueParser(this.prevResourceDataMap_.get(prevDataKey),
                                                                resourceData);
             }
 
@@ -487,7 +487,7 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
                 if (resourceData.getMeasurementMap() != null
                         && resourceData.getMeasurementMap().size() != 0)
                 {
-                    this.prevResourceDataMap_.put(database, resourceData);
+                    this.prevResourceDataMap_.put(prevDataKey, resourceData);
                     this.prevConvertedResourceDataMap_.put(prevDataKey, convertedResourceData);
                 }
 
