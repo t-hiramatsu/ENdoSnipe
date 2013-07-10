@@ -42,6 +42,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import jp.co.acroquest.endosnipe.collector.config.DataCollectorConfig;
 import jp.co.acroquest.endosnipe.collector.config.RotateConfig;
+import jp.co.acroquest.endosnipe.collector.converter.CPUConverter;
 import jp.co.acroquest.endosnipe.collector.data.JavelinConnectionData;
 import jp.co.acroquest.endosnipe.collector.data.JavelinData;
 import jp.co.acroquest.endosnipe.collector.data.JavelinLogData;
@@ -55,7 +56,6 @@ import jp.co.acroquest.endosnipe.collector.processor.AlarmThresholdProcessor;
 import jp.co.acroquest.endosnipe.collector.request.CommunicationClientRepository;
 import jp.co.acroquest.endosnipe.collector.util.CollectorTelegramUtil;
 import jp.co.acroquest.endosnipe.common.Constants;
-import jp.co.acroquest.endosnipe.common.entity.ItemType;
 import jp.co.acroquest.endosnipe.common.entity.MeasurementData;
 import jp.co.acroquest.endosnipe.common.entity.MeasurementDetail;
 import jp.co.acroquest.endosnipe.common.entity.ResourceData;
@@ -65,8 +65,6 @@ import jp.co.acroquest.endosnipe.common.parser.JavelinLogAccessor;
 import jp.co.acroquest.endosnipe.common.util.ResourceDataUtil;
 import jp.co.acroquest.endosnipe.common.util.StreamUtil;
 import jp.co.acroquest.endosnipe.communicator.accessor.ResourceNotifyAccessor;
-import jp.co.acroquest.endosnipe.communicator.entity.Body;
-import jp.co.acroquest.endosnipe.communicator.entity.Header;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.data.dao.JavelinLogDao;
@@ -96,8 +94,6 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
 
     private static final ENdoSnipeLogger LOGGER =
                                                   ENdoSnipeLogger.getLogger(JavelinDataLogger.class);
-
-    private static final int TREE_TELEGRAM_DTO_COUNT = 3;
 
     private final JavelinDataQueue queue_ = new JavelinDataQueue();
 
@@ -142,6 +138,15 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
 
     /** 閾値レベル（監視停止中） */
     public static final int STOP_ALARM_LEVEL = -1;
+
+    /** measurement_item_nameをスラッシュ区切りした際に、クラスタ名が入るIndex番号。 */
+    private static final int CLUSTER_INDEX = 1;
+
+    /** measurement_item_nameをスラッシュ区切りした際に、サーバ名が入るIndex番号。 */
+    private static final int SERVER_INDEX = 2;
+
+    /** measurement_item_nameをスラッシュ区切りした際に、エージェント名が入るIndex番号。 */
+    private static final int AGENT_INDEX = 3;
 
     /** JAVELIN_LOG テーブルを truncate するコールバックメソッド */
     private final RotateCallback javelinRotateCallback_ = new RotateCallback() {
@@ -459,7 +464,7 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             {
                 // 積算値が入っている場合、差分にする
                 convertedResourceData =
-                                        accumulatedValueParser(this.prevResourceDataMap_.get(database),
+                                        accumulatedValueParser(this.prevResourceDataMap_.get(prevDataKey),
                                                                resourceData);
             }
 
@@ -482,7 +487,7 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
                 if (resourceData.getMeasurementMap() != null
                         && resourceData.getMeasurementMap().size() != 0)
                 {
-                    this.prevResourceDataMap_.put(database, resourceData);
+                    this.prevResourceDataMap_.put(prevDataKey, resourceData);
                     this.prevConvertedResourceDataMap_.put(prevDataKey, convertedResourceData);
                 }
 
@@ -517,54 +522,6 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             LOGGER.log("IEDC0022", database, elapsedTime, result.getInsertCount(), cacheHitCount,
                        result.getCacheOverflowCount());
         }
-
-        // TODO 実際の値を取得して代入すること
-        int measurementItemId = 0;
-        String measurementItemName = "";
-        String lastInserted = "";
-
-        Telegram telegram =
-                            createAddTreeNodeTelegram(measurementItemId, measurementItemName,
-                                                      lastInserted);
-        // TODO 作成したTelegramをDashboardにSendする処理を書くこと
-    }
-
-    /**
-     * ツリーノード追加の電文を作成する。
-     * 
-     * @return
-     */
-    private Telegram createAddTreeNodeTelegram(final int measurementItemId,
-            final String measurementItemName, final String lastInserted)
-    {
-        Telegram telegram = new Telegram();
-
-        Header requestHeader = new Header();
-        requestHeader.setByteTelegramKind(TelegramConstants.BYTE_TELEGRAM_KIND_TREE_DEFINITION);
-        requestHeader.setByteRequestKind(TelegramConstants.BYTE_REQUEST_KIND_NOTIFY);
-
-        // 追加されたツリーノード情報
-        Body treeBody = new Body();
-
-        treeBody.setStrObjName(TelegramConstants.OBJECTNAME_TREE_CHANGE);
-        treeBody.setStrItemName(TelegramConstants.ITEMNAME_TREE_ADD);
-        treeBody.setByteItemMode(ItemType.ITEMTYPE_STRING);
-
-        // データ数をセットする
-        treeBody.setIntLoopCount(TREE_TELEGRAM_DTO_COUNT);
-
-        String[] treeDefObj =
-                              {String.valueOf(measurementItemId), measurementItemName, lastInserted};
-
-        // Valueをセットする
-        treeBody.setObjItemValueArr(treeDefObj);
-
-        Body[] requestBodys = {treeBody};
-
-        telegram.setObjHeader(requestHeader);
-        telegram.setObjBody(requestBodys);
-
-        return telegram;
     }
 
     /**
@@ -684,15 +641,25 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
                        (double)calledMethodCount / convertedMethodCount
                                * ResourceDataUtil.PERCENT_CONST;
         }
-
+        String subKey = "";
+        String[] temp = null;
+        for (String key : measurementTypeMap.keySet())
+        {
+            temp = key.split("/");
+            subKey = "/" + temp[CLUSTER_INDEX] + "/" + temp[SERVER_INDEX] + "/" + temp[AGENT_INDEX];
+            break;
+        }
         // カバレッジの値が入ったデータを作成する。
         MeasurementData coverageData =
-                                       createCpuUsageMeasurementData(measurementTypeMap,
-                                                                     Constants.ITEMNAME_COVERAGE,
-                                                                     coverage);
+                                       createCpuUsageMeasurementData(measurementTypeMap, subKey
+                                               + Constants.ITEMNAME_COVERAGE, coverage);
+        Map<String, MeasurementData> measurementMap = resourceData.getMeasurementMap();
 
         // 作成したデータを、他のデータの入ったMapに追加する。
-        resourceData.getMeasurementMap().put(Constants.ITEMNAME_COVERAGE, coverageData);
+        if (!subKey.equals(""))
+        {
+            measurementMap.put(subKey + Constants.ITEMNAME_COVERAGE, coverageData);
+        }
     }
 
     /**
@@ -706,98 +673,133 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         throws SQLException
     {
         Map<String, Integer> measurementTypeMap = makeMeasurementTypeMap(database);
-
+        Map<String, MeasurementData> measurementMap = resourceData.getMeasurementMap();
+        String subKey = null;
+        String[] temp = null;
         // CPU使用率の計算に必要な値を取得する。
         long processorCount =
                               getSingleDetailValue(resourceData, measurementTypeMap,
                                                    Constants.ITEMNAME_SYSTEM_CPU_PROCESSOR_COUNT);
-        long javaUpTime =
-                          getSingleDetailValue(resourceData, measurementTypeMap,
-                                               Constants.ITEMNAME_JAVAUPTIME);
-        long sysCputimeTotal =
-                               getSingleDetailValue(resourceData, measurementTypeMap,
-                                                    Constants.ITEMNAME_SYSTEM_CPU_USERMODE_TIME);
+        for (String key : measurementMap.keySet())
+        {
+            temp = key.split("/");
+            subKey = "/" + temp[CLUSTER_INDEX] + "/" + temp[SERVER_INDEX] + "/" + temp[AGENT_INDEX];
+            break;
+        }
+        long resourceInterval = this.config_.getResourceInterval();
+        long sysCputimeUser =
+                              getSingleDetailValue(resourceData, measurementTypeMap, subKey
+                                      + Constants.ITEMNAME_SYSTEM_CPU_USERMODE_TIME);
         long sysCputimeSys =
-                             getSingleDetailValue(resourceData, measurementTypeMap,
-                                                  Constants.ITEMNAME_SYSTEM_CPU_SYSTEM_TIME);
+                             getSingleDetailValue(resourceData, measurementTypeMap, subKey
+                                     + Constants.ITEMNAME_SYSTEM_CPU_SYSTEM_TIME);
         long sysCputimeIoWait =
-                                getSingleDetailValue(resourceData, measurementTypeMap,
-                                                     Constants.ITEMNAME_SYSTEM_CPU_IOWAIT_TIME);
+                                getSingleDetailValue(resourceData, measurementTypeMap, subKey
+                                        + Constants.ITEMNAME_SYSTEM_CPU_IOWAIT_TIME);
+        long sysCputimeTotal = sysCputimeUser + sysCputimeSys + sysCputimeIoWait;
 
         long procCputimeTotal =
-                                getSingleDetailValue(resourceData, measurementTypeMap,
-                                                     Constants.ITEMNAME_PROCESS_CPU_TOTAL_TIME);
+                                getSingleDetailValue(resourceData, measurementTypeMap, subKey
+                                        + Constants.ITEMNAME_PROCESS_CPU_TOTAL_TIME);
         long procCputimeSys =
-                              getSingleDetailValue(resourceData, measurementTypeMap,
-                                                   Constants.ITEMNAME_PROCESS_CPU_SYSTEM_TIME);
+                              getSingleDetailValue(resourceData, measurementTypeMap, subKey
+                                      + Constants.ITEMNAME_PROCESS_CPU_SYSTEM_TIME);
         long procCputimeIoWait =
-                                 getSingleDetailValue(resourceData, measurementTypeMap,
-                                                      Constants.ITEMNAME_PROCESS_CPU_IOWAIT_TIME);
+                                 getSingleDetailValue(resourceData, measurementTypeMap, subKey
+                                         + Constants.ITEMNAME_PROCESS_CPU_IOWAIT_TIME);
+        long procCputimeUser = procCputimeTotal - procCputimeSys - procCputimeIoWait;
 
-        Map<String, MeasurementData> measurementMap = resourceData.getMeasurementMap();
-
-        // システムのCPU使用率の計算に必要な値が取得できている場合、そのデータを追加する。
-        if (-1 < sysCputimeTotal && -1 < sysCputimeSys && -1 < processorCount && -1 < javaUpTime)
+        if (-1 < sysCputimeUser && -1 < sysCputimeSys && -1 < processorCount)
         {
-            double sysCpuusageTotal =
-                                      ResourceDataUtil.calcCPUUsage(sysCputimeTotal, javaUpTime,
-                                                                    processorCount);
+            double sysCpuusageUser =
+                                     CPUConverter.calcCPUUsage(sysCputimeUser, resourceInterval,
+                                                               processorCount);
             double sysCpuusageSys =
-                                    ResourceDataUtil.calcCPUUsage(sysCputimeSys, javaUpTime,
-                                                                  processorCount);
+                                    CPUConverter.calcCPUUsage(sysCputimeSys, resourceInterval,
+                                                              processorCount);
             double sysCpuusageIoWait =
-                                       ResourceDataUtil.calcCPUUsage(sysCputimeIoWait, javaUpTime,
-                                                                     processorCount);
+                                       CPUConverter.calcCPUUsage(sysCputimeIoWait,
+                                                                 resourceInterval, processorCount);
+            double sysCpuusageTotal =
+                                      CPUConverter.calcCPUUsage(sysCputimeTotal, resourceInterval,
+                                                                processorCount);
 
-            MeasurementData sysCpuusageTotalData =
-                                                   createCpuUsageMeasurementData(measurementTypeMap,
-                                                                                 Constants.ITEMNAME_SYSTEM_CPU_TOTAL_USAGE,
-                                                                                 sysCpuusageTotal);
+            MeasurementData sysCpuusageUserData =
+                                                  createCpuUsageMeasurementData(measurementTypeMap,
+                                                                                subKey
+                                                                                        + Constants.ITEMNAME_SYSTEM_CPU_USER_USAGE,
+                                                                                sysCpuusageUser);
             MeasurementData sysCpuusageSysData =
                                                  createCpuUsageMeasurementData(measurementTypeMap,
-                                                                               Constants.ITEMNAME_SYSTEM_CPU_SYSTEM_USAGE,
+                                                                               subKey
+                                                                                       + Constants.ITEMNAME_SYSTEM_CPU_SYSTEM_USAGE,
                                                                                sysCpuusageSys);
-
             MeasurementData sysCpuusageIoWaitData =
                                                     createCpuUsageMeasurementData(measurementTypeMap,
-                                                                                  Constants.ITEMNAME_SYSTEM_CPU_IOWAIT_USAGE,
+                                                                                  subKey
+                                                                                          + Constants.ITEMNAME_SYSTEM_CPU_IOWAIT_USAGE,
                                                                                   sysCpuusageIoWait);
+            MeasurementData sysCpuusageTotalData =
+                                                   createCpuUsageMeasurementData(measurementTypeMap,
+                                                                                 subKey
+                                                                                         + Constants.ITEMNAME_SYSTEM_CPU_TOTAL_USAGE,
+                                                                                 sysCpuusageTotal);
 
-            measurementMap.put(Constants.ITEMNAME_SYSTEM_CPU_TOTAL_USAGE, sysCpuusageTotalData);
-            measurementMap.put(Constants.ITEMNAME_SYSTEM_CPU_SYSTEM_USAGE, sysCpuusageSysData);
-            measurementMap.put(Constants.ITEMNAME_SYSTEM_CPU_IOWAIT_USAGE, sysCpuusageIoWaitData);
+            measurementMap.put(subKey + Constants.ITEMNAME_SYSTEM_CPU_USER_USAGE,
+                               sysCpuusageUserData);
+            measurementMap.put(subKey + Constants.ITEMNAME_SYSTEM_CPU_SYSTEM_USAGE,
+                               sysCpuusageSysData);
+            measurementMap.put(subKey + Constants.ITEMNAME_SYSTEM_CPU_IOWAIT_USAGE,
+                               sysCpuusageIoWaitData);
+            measurementMap.put(subKey + Constants.ITEMNAME_SYSTEM_CPU_TOTAL_USAGE,
+                               sysCpuusageTotalData);
         }
 
         // プロセスのCPU使用率の計算に必要な値が取得できている場合、そのデータを追加する。
-        if (-1 < procCputimeTotal && -1 < procCputimeSys && -1 < processorCount && -1 < javaUpTime)
+        if (-1 < procCputimeTotal && -1 < procCputimeSys && -1 < processorCount)
         {
-            double procCpuusageTotal =
-                                       ResourceDataUtil.calcCPUUsage(procCputimeTotal, javaUpTime,
-                                                                     processorCount);
+            double procCpuusageUser =
+                                      CPUConverter.calcCPUUsage(procCputimeUser, resourceInterval,
+                                                                processorCount);
             double procCpuusageSys =
-                                     ResourceDataUtil.calcCPUUsage(procCputimeSys, javaUpTime,
-                                                                   processorCount);
-
+                                     CPUConverter.calcCPUUsage(procCputimeSys, resourceInterval,
+                                                               processorCount);
             double procCpuusageIoWait =
-                                        ResourceDataUtil.calcCPUUsage(procCputimeIoWait,
-                                                                      javaUpTime, processorCount);
+                                        CPUConverter.calcCPUUsage(procCputimeIoWait,
+                                                                  resourceInterval, processorCount);
+            double procCpuusageTotal =
+                                       CPUConverter.calcCPUUsage(procCputimeTotal,
+                                                                 resourceInterval, processorCount);
 
-            MeasurementData procCpuusageTotalData =
-                                                    createCpuUsageMeasurementData(measurementTypeMap,
-                                                                                  Constants.ITEMNAME_PROCESS_CPU_TOTAL_USAGE,
-                                                                                  procCpuusageTotal);
+            MeasurementData procCpuusageUserData =
+                                                   createCpuUsageMeasurementData(measurementTypeMap,
+                                                                                 subKey
+                                                                                         + Constants.ITEMNAME_PROCESS_CPU_USER_USAGE,
+                                                                                 procCpuusageUser);
             MeasurementData procCpuusageSysData =
                                                   createCpuUsageMeasurementData(measurementTypeMap,
-                                                                                Constants.ITEMNAME_PROCESS_CPU_SYSTEM_USAGE,
+                                                                                subKey
+                                                                                        + Constants.ITEMNAME_PROCESS_CPU_SYSTEM_USAGE,
                                                                                 procCpuusageSys);
             MeasurementData procCpuusageIoWaitData =
                                                      createCpuUsageMeasurementData(measurementTypeMap,
-                                                                                   Constants.ITEMNAME_PROCESS_CPU_IOWAIT_USAGE,
+                                                                                   subKey
+                                                                                           + Constants.ITEMNAME_PROCESS_CPU_IOWAIT_USAGE,
                                                                                    procCpuusageIoWait);
+            MeasurementData procCpuusageTotalData =
+                                                    createCpuUsageMeasurementData(measurementTypeMap,
+                                                                                  subKey
+                                                                                          + Constants.ITEMNAME_PROCESS_CPU_TOTAL_USAGE,
+                                                                                  procCpuusageTotal);
 
-            measurementMap.put(Constants.ITEMNAME_PROCESS_CPU_TOTAL_USAGE, procCpuusageTotalData);
-            measurementMap.put(Constants.ITEMNAME_PROCESS_CPU_SYSTEM_USAGE, procCpuusageSysData);
-            measurementMap.put(Constants.ITEMNAME_PROCESS_CPU_IOWAIT_USAGE, procCpuusageIoWaitData);
+            measurementMap.put(subKey + Constants.ITEMNAME_PROCESS_CPU_USER_USAGE,
+                               procCpuusageUserData);
+            measurementMap.put(subKey + Constants.ITEMNAME_PROCESS_CPU_SYSTEM_USAGE,
+                               procCpuusageSysData);
+            measurementMap.put(subKey + Constants.ITEMNAME_PROCESS_CPU_IOWAIT_USAGE,
+                               procCpuusageIoWaitData);
+            measurementMap.put(subKey + Constants.ITEMNAME_PROCESS_CPU_TOTAL_USAGE,
+                               procCpuusageTotalData);
         }
     }
 
@@ -836,18 +838,28 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
     {
         long value = -1;
         Map<String, MeasurementData> measurementMap = resourceData.getMeasurementMap();
-        MeasurementData measurementData = measurementMap.get(itemName);
-        if (measurementData != null)
+        for (String key : measurementMap.keySet())
         {
-            Map<String, MeasurementDetail> measurementDetailMap;
-            measurementDetailMap = measurementData.getMeasurementDetailMap();
-            MeasurementDetail measurementDetail;
-            measurementDetail = measurementDetailMap.get(MeasurementData.SINGLE_DETAIL_KEY);
-            if (measurementDetail != null)
+            if (key.endsWith(itemName))
             {
-                value = Long.valueOf(measurementDetail.value).longValue();
+                MeasurementData measurementData = measurementMap.get(key);
+                if (measurementData != null)
+                {
+                    Map<String, MeasurementDetail> measurementDetailMap;
+                    measurementDetailMap = measurementData.getMeasurementDetailMap();
+                    MeasurementDetail measurementDetail;
+                    measurementDetail = measurementDetailMap.get(MeasurementData.SINGLE_DETAIL_KEY);
+                    if (measurementDetail != null)
+                    {
+                        value = Long.valueOf(measurementDetail.value).longValue();
+                    }
+                }
+                break;
+
             }
+
         }
+
         return value;
     }
 
@@ -888,9 +900,7 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
     {
         MeasurementDetail measurementDetail = new MeasurementDetail();
         // 小数点以下の値も保持するため、一定の倍率を掛ける。
-        measurementDetail.value =
-                                  String.valueOf(cpuUsage
-                                          * ResourceDataUtil.PERCENTAGE_DATA_MAGNIFICATION);
+        measurementDetail.value = String.valueOf(cpuUsage);
         measurementDetail.displayName = "";
 
         MeasurementData measurementData = new MeasurementData();
@@ -959,9 +969,7 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             alarmEntry.setIpAddress(currentResourceData.ipAddress);
             alarmEntry.setPort(currentResourceData.portNum);
             alarmEntry.setDatabaseName(database);
-
             signalStateManager.addAlarmData(itemName, currentAlarmData);
-
             // アラーム通知処理
             if (alarmEntry.isSendAlarm())
             {

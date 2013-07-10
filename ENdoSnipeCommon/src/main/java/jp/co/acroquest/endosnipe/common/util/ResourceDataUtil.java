@@ -50,7 +50,10 @@ public class ResourceDataUtil
     public static final int NANO_TO_MILI = 1000 * 1000;
 
     /** CPU使用率（％）の最大値 */
-    private static final double MAX_CPU_RATE = 100.0;
+    public static final double MAX_CPU_RATE = 100.0;
+
+    /** CPU使用率（％）の最小値 */
+    public static final double MIN_CPU_RATE = 0.0;
 
     /**
      * 割合を表すデータ値をDBに入れる時に掛ける値。<br />
@@ -214,7 +217,7 @@ public class ResourceDataUtil
         {
             cpuUsage =
                     (double)cpuTime / (measurementInterval * NANO_TO_MILI * processorCount)
-                    * PERCENT_CONST;
+                            * PERCENT_CONST;
             // パフォーマンスカウンタの仕様上、CPU使用率が100％を超えることがあるため、
             // 最大100％に丸める。（#2006）
             cpuUsage = Math.min(cpuUsage, MAX_CPU_RATE);

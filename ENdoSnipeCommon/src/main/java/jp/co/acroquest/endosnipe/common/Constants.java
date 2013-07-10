@@ -191,6 +191,9 @@ public interface Constants
     // String ITEMNAME_SYSTEM_CPU_IOWAIT_USAGE = "/system.cpu.iowait.usage";
     String ITEMNAME_SYSTEM_CPU_IOWAIT_USAGE = "/system/cpu/usage/iowait:%";
 
+    /** 項目名（CPU使用率（システム）のうちのユーザーの使用率） */
+    String ITEMNAME_SYSTEM_CPU_USER_USAGE = "/system/cpu/usage/user:%";
+
     /** 項目名（CPUごとの負荷：後ろにCPUコア番号(1～N)を付ける） */
     // String ITEMNAME_CPU_ARRAY = "/sys_cputime_1";
     String ITEMNAME_CPU_ARRAY = "/system/cpu/load(d)";
@@ -285,6 +288,9 @@ public interface Constants
     /** 項目名（CPU使用率（プロセス）のうちのIOWAITの使用率） */
     // String ITEMNAME_PROCESS_CPU_IOWAIT_USAGE = "/process.cpu.iowait.usage";
     String ITEMNAME_PROCESS_CPU_IOWAIT_USAGE = "/process/cpu/usage/iowait:%";
+
+    /** 項目名（CPU使用率（プロセス）のうちのUSERの使用率） */
+    String ITEMNAME_PROCESS_CPU_USER_USAGE = "/process/cpu/usage/user:%";
 
     // -----------------------------------------------------
     // プロセス項目: メモリ(算出値)
