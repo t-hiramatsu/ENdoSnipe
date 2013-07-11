@@ -12,7 +12,7 @@ function global:Replace-Content
 
 
 #ƒ^ƒO–¼Ì‚ğİ’è‚·‚éB
-$tags = "5.0.4-002"
+$tags = "5.0.4-003"
 
 $tag_array = $tags -split "-"
 $ver = $tag_array[0]
