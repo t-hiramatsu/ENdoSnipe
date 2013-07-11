@@ -138,9 +138,9 @@ public class ServerPoolReportProcessor extends ReportPublishProcessorBase
                 ItemRecord itemRecord = itemData.getRecords().get(index);
                 ServerPoolRecord serverPoolRecord = serverPoolRecordMap.get(itemName[1]).get(index);
                 if ("Max".equals(itemName[0])) {
-                    serverPoolRecord.setServerPoolMax(itemRecord.getValue());
+                    serverPoolRecord.setServerPoolMax((long)itemRecord.getValue());
                 } else if ("Num".equals(itemName[0])) {
-                    serverPoolRecord.setServerPoolNum(itemRecord.getValue());
+                    serverPoolRecord.setServerPoolNum((long)itemRecord.getValue());
                 }
             }
         }

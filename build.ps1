@@ -6,20 +6,13 @@ function global:Replace-Content
     Write-Error "存在しないパスです"
     return
   }
-  $file_contents = $(Get-Content $filepath) -replace $rep1, $rep2
-  $file_contents > $filepath
+  $file_contents = $(Get-Content $filepath -encoding String) -replace $rep1, $rep2
+  $file_contents | Out-File $filepath -encoding default
 }
 
 
 #タグ名称を設定する。
-$tags = "5.0.4-001"
-
-$tag_array = $tags -split "-"
-$ver = $tag_array[0]
-$build = $tag_array[1]
-
-Replace-Content ENdoSnipe\build.bat "set VER=.+" "set VER=$ver"
-Replace-Content ENdoSnipe\build.bat "set BUILD=.+" "set BUILD=$build"
+$tags = "5.0.4-003"
 
 $WorkDir="build"
 
@@ -42,6 +35,16 @@ $zip = $shell.NameSpace($file)
 $dest =  $shell.NameSpace((Split-Path $file -Parent))
 
 $dest.CopyHere($zip.Items()) 
+
+# バージョンを更新する。
+$tag_array = $tags -split "-"
+$ver = $tag_array[0]
+$build = $tag_array[1]
+
+Replace-Content ENdoSnipe\build.bat "set VER=.+" "set VER=$ver"
+Replace-Content ENdoSnipe\build.bat "set BUILD=.+" "set BUILD=$build"
+
+
 
 # ビルドを実行する。
 cd ENdoSnipe

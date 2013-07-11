@@ -641,9 +641,11 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
                        (double)calledMethodCount / convertedMethodCount
                                * ResourceDataUtil.PERCENT_CONST;
         }
+
+        Map<String, MeasurementData> measurementMap = resourceData.getMeasurementMap();
         String subKey = "";
         String[] temp = null;
-        for (String key : measurementTypeMap.keySet())
+        for (String key : measurementMap.keySet())
         {
             temp = key.split("/");
             subKey = "/" + temp[CLUSTER_INDEX] + "/" + temp[SERVER_INDEX] + "/" + temp[AGENT_INDEX];
@@ -653,7 +655,6 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         MeasurementData coverageData =
                                        createCpuUsageMeasurementData(measurementTypeMap, subKey
                                                + Constants.ITEMNAME_COVERAGE, coverage);
-        Map<String, MeasurementData> measurementMap = resourceData.getMeasurementMap();
 
         // 作成したデータを、他のデータの入ったMapに追加する。
         if (!subKey.equals(""))

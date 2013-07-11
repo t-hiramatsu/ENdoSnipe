@@ -26,13 +26,13 @@ public class ItemRecord
     private Timestamp measurementTime_;
     
     /** ï‚ä‘ä˙ä‘ïΩãœÅ@*/
-    private long      value_;
+    private double      value_;
     
     /** ï‚ä‘ä˙ä‘ç≈ëÂ */
-    private long      valueMax_;
+    private double      valueMax_;
     
     /** ï‚ä‘ä˙ä‘ç≈è¨ */
-    private long      valueMin_;
+    private double      valueMin_;
     
     /**
 	 * @return the measurementTime_
@@ -53,7 +53,7 @@ public class ItemRecord
 	/**
 	 * @return the value_
 	 */
-	public long getValue()
+	public double getValue()
 	{
 		return value_;
 	}
@@ -61,7 +61,7 @@ public class ItemRecord
 	/**
 	 * @param value the value_ to set
 	 */
-	public void setValue(long value)
+	public void setValue(double value)
 	{
 		this.value_ = value;
 	}
@@ -69,7 +69,7 @@ public class ItemRecord
 	/**
 	 * @return the valueMax_
 	 */
-	public long getValueMax()
+	public double getValueMax()
 	{
 		return valueMax_;
 	}
@@ -77,7 +77,7 @@ public class ItemRecord
 	/**
 	 * @param valueMax the valueMax_ to set
 	 */
-	public void setValueMax(long valueMax)
+	public void setValueMax(double valueMax)
 	{
 		this.valueMax_ = valueMax;
 	}
@@ -85,7 +85,7 @@ public class ItemRecord
 	/**
 	 * @return the valueMin_
 	 */
-	public long getValueMin()
+	public double getValueMin()
 	{
 		return valueMin_;
 	}
@@ -93,7 +93,7 @@ public class ItemRecord
 	/**
 	 * @param valueMin the valueMin_ to set
 	 */
-	public void setValueMin(long valueMin)
+	public void setValueMin(double valueMin)
 	{
 		this.valueMin_ = valueMin;
 	}
