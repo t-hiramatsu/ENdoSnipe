@@ -61,15 +61,6 @@
 			</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>jsonic</groupId>
-			<artifactId>jsonic</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>
-				${basedir}/lib/dependency/jsonic-1.2.5.jar
-			</systemPath>
-		</dependency>
-		<dependency>
 			<groupId>org.eclipse.core.runtime_3.3.100</groupId>
 			<artifactId>org.eclipse.core.runtime_3.3.100</artifactId>
 			<version>1.0</version>
