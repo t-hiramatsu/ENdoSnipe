@@ -43,9 +43,7 @@ public class Reporter
     public static final String           TIME_FORMAT = "yyyyMMdd_HHmmss";
 
     /** ロガー */
-    private static final ENdoSnipeLogger LOGGER      = ENdoSnipeLogger
-                                                             .getLogger(
-                                                                     ReportPublishDispatcher.class);
+    private static final ENdoSnipeLogger LOGGER      = ENdoSnipeLogger.getLogger(ReportPublishDispatcher.class);
 
     /**
      * コンストラクタ。
@@ -100,15 +98,8 @@ public class Reporter
                 dbPass);
 
         // レポート作成時の各設定を行う
-        ReportType[] outputReportTypes = new ReportType[]{ReportType.OBJECT};
-
-        // TODO PerformanceDoctor のルール設定を有効にする。
-        // // PerformanceDoctorのルールを設定する
-        // int selectionIndex = 0;
-        // RuleManager ruleManager = RuleManager.getInstance();
-        // RuleSetConfig[] ruleSetConfigs = ruleManager.getRuleSetConfigs();
-        // String id = ruleSetConfigs[selectionIndex].getId();
-        // ruleManager.changeActiveRuleSetByID(id);
+        ReportType[] outputReportTypes = new ReportType[]
+        { ReportType.OBJECT, ReportType.PERF_DOCTOR };
 
         Runnable callback = null;
 
@@ -251,16 +242,15 @@ public class Reporter
         config.setDatabaseUserName("postgres");
         config.setDatabasePassword("postgres");
         SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-        
+
         Date fmDate = format.parse("2013/06/04 13:00");
         Calendar fmTime = Calendar.getInstance();
         fmTime.setTime(fmDate);
-        
+
         Date toDate = format.parse("2013/06/04 14:00");
         Calendar toTime = Calendar.getInstance();
         toTime.setTime(toDate);
 
-        
         String reportPath = "report";
         String targetItemName = "/";
         String reportName = "test";
