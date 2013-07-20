@@ -1,5 +1,4 @@
-css/jquery-ui-1.9.2.custom.min.css
-js/constants.js
+js/common/constants.js
 js/grow/staticValues.js
 js/common/tabView.js
 js/grow/view/hbaseView.js

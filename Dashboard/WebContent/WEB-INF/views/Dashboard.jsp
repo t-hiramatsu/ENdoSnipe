@@ -5,9 +5,9 @@
 <head>
 <%@ include file="../include/ext/javaScriptInclude.jsp"%>
 <%@ include file="../include/DashboardInclude.jsp"%>
-<%@ include file="./Header.jsp"%>
-<%@ include file="./SignalDialog.jsp"%>
-<%@ include file="./ReportDialog.jsp"%>
+<%@ include file="common/Header.jsp"%>
+<%@ include file="dialog/SignalDialog.jsp"%>
+<%@ include file="dialog/ReportDialog.jsp"%>
 <title>ENdoSnipe Dashboard</title>
 </head>
 <body id="main" oncontextmenu="return false;" onload="self.focus();">
@@ -62,6 +62,6 @@
 	</form>
 </body>
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/resources/css/common.css"
+	href="<%=request.getContextPath()%>/resources/css/common/common.css"
 	type="text/css" media="all">
 </html>
