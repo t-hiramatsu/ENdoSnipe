@@ -2,9 +2,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/resources/css/nodeinfomation/nodeStyles.css"
-	type="text/css" media="all">
-<link rel="stylesheet"
 	href="<%=request.getContextPath()%>/resources/lib/slider/ui.slider.extras.css"
 	type="text/css" media="all">
 <link rel="stylesheet"
