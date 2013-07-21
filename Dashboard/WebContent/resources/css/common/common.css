@@ -125,6 +125,25 @@ body {
 .graphbox {
 	background-color: #FFFFFF;
 	color: #666666;
+	align: center;
+	border-bottom: 3px double #d0e4f7;
+	border-top: 3px double #d0e4f7;
+	border-right: 3px double #d0e4f7;
+	border-left: 3px double #d0e4f7;
+}
+
+.graphbox h2 {
+	Align: center;
+	margin: 0;
+	font-size: 12px;
+	padding: 5px;
+	margin-bottom: 5px;
+	background: #ff00f0;
+	color: #000;
+	font-family: Verdana;
+	background: -moz-linear-gradient(-45deg, rgba(255, 255, 255, 1) 0%,
+		rgba(241, 241, 241, 1) 50%, rgba(225, 225, 225, 1) 51%,
+		rgba(246, 246, 246, 1) 100% );
 }
 
 /** セレクトボックスのオプション */
@@ -175,6 +194,8 @@ div#contents_area_content {
 
 .ensLabel {
 	font-size: 12px;
+	background-color: #000000;
+	margin-top: 5px;
 }
 
 /* tab style */
