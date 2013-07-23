@@ -68,11 +68,9 @@ import jp.co.acroquest.endosnipe.communicator.accessor.ResourceNotifyAccessor;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.data.dao.JavelinLogDao;
-import jp.co.acroquest.endosnipe.data.dao.JavelinMeasurementItemDao;
 import jp.co.acroquest.endosnipe.data.db.DBManager;
 import jp.co.acroquest.endosnipe.data.dto.SignalDefinitionDto;
 import jp.co.acroquest.endosnipe.data.entity.JavelinLog;
-import jp.co.acroquest.endosnipe.data.entity.JavelinMeasurementItem;
 import jp.co.acroquest.endosnipe.data.util.AccumulatedValuesDefinition;
 import jp.co.acroquest.endosnipe.javelin.parser.JavelinLogElement;
 import jp.co.acroquest.endosnipe.javelin.parser.JavelinParser;
@@ -474,7 +472,7 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             // カバレッジを計算し、データに加える。
             this.calculateAndAddCoverageData(database, convertedResourceData);
 
-            // 割合の値に対して、一定値をかけることで精度を保証する。
+            // JMXの計算を行う。
             this.convertJmxRatioData(database, convertedResourceData);
 
             insertMeasurementData(database, convertedResourceData, rotatePeriod, rotatePeriodUnit);
@@ -534,14 +532,13 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         throws SQLException
     {
         // 変換対象の値を特定する。
-        List<JavelinMeasurementItem> itemList = JavelinMeasurementItemDao.selectAll(database);
         Set<String> jmxTypeSet = new HashSet<String>();
-        for (JavelinMeasurementItem item : itemList)
+        for (String itemName : resourceData.getMeasurementMap().keySet())
         {
             // jmxの測定種別を判別する。
-            if (item.itemName.indexOf("/jmx/") >= 0)
+            if (itemName.indexOf("/jmx/") >= 0)
             {
-                jmxTypeSet.add(item.itemName);
+                jmxTypeSet.add(itemName);
             }
         }
 
@@ -618,14 +615,12 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
     private void calculateAndAddCoverageData(final String database, final ResourceData resourceData)
         throws SQLException
     {
-        Map<String, Integer> measurementTypeMap = makeMeasurementTypeMap(database);
-
         // カバレッジの計算に必要な値を取得する。
         long calledMethodCount =
-                                 getSingleDetailValue(resourceData, measurementTypeMap,
+                                 getSingleDetailValue(resourceData,
                                                       Constants.ITEMNAME_CALLEDMETHODCOUNT);
         long convertedMethodCount =
-                                    getSingleDetailValue(resourceData, measurementTypeMap,
+                                    getSingleDetailValue(resourceData,
                                                          Constants.ITEMNAME_CONVERTEDMETHOD);
 
         // 値が取得できない場合、データの追加は行わない。
@@ -653,8 +648,8 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         }
         // カバレッジの値が入ったデータを作成する。
         MeasurementData coverageData =
-                                       createCpuUsageMeasurementData(measurementTypeMap, subKey
-                                               + Constants.ITEMNAME_COVERAGE, coverage);
+                                       calcCpuUsage(subKey + Constants.ITEMNAME_COVERAGE, coverage,
+                                                    database);
 
         // 作成したデータを、他のデータの入ったMapに追加する。
         if (!subKey.equals(""))
@@ -673,13 +668,12 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
     private void calculateAndAddCpuUsageData(final String database, final ResourceData resourceData)
         throws SQLException
     {
-        Map<String, Integer> measurementTypeMap = makeMeasurementTypeMap(database);
         Map<String, MeasurementData> measurementMap = resourceData.getMeasurementMap();
         String subKey = null;
         String[] temp = null;
         // CPU使用率の計算に必要な値を取得する。
         long processorCount =
-                              getSingleDetailValue(resourceData, measurementTypeMap,
+                              getSingleDetailValue(resourceData,
                                                    Constants.ITEMNAME_SYSTEM_CPU_PROCESSOR_COUNT);
         for (String key : measurementMap.keySet())
         {
@@ -689,24 +683,24 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         }
         long resourceInterval = this.config_.getResourceInterval();
         long sysCputimeUser =
-                              getSingleDetailValue(resourceData, measurementTypeMap, subKey
+                              getSingleDetailValue(resourceData, subKey
                                       + Constants.ITEMNAME_SYSTEM_CPU_USERMODE_TIME);
         long sysCputimeSys =
-                             getSingleDetailValue(resourceData, measurementTypeMap, subKey
+                             getSingleDetailValue(resourceData, subKey
                                      + Constants.ITEMNAME_SYSTEM_CPU_SYSTEM_TIME);
         long sysCputimeIoWait =
-                                getSingleDetailValue(resourceData, measurementTypeMap, subKey
+                                getSingleDetailValue(resourceData, subKey
                                         + Constants.ITEMNAME_SYSTEM_CPU_IOWAIT_TIME);
         long sysCputimeTotal = sysCputimeUser + sysCputimeSys + sysCputimeIoWait;
 
         long procCputimeTotal =
-                                getSingleDetailValue(resourceData, measurementTypeMap, subKey
+                                getSingleDetailValue(resourceData, subKey
                                         + Constants.ITEMNAME_PROCESS_CPU_TOTAL_TIME);
         long procCputimeSys =
-                              getSingleDetailValue(resourceData, measurementTypeMap, subKey
+                              getSingleDetailValue(resourceData, subKey
                                       + Constants.ITEMNAME_PROCESS_CPU_SYSTEM_TIME);
         long procCputimeIoWait =
-                                 getSingleDetailValue(resourceData, measurementTypeMap, subKey
+                                 getSingleDetailValue(resourceData, subKey
                                          + Constants.ITEMNAME_PROCESS_CPU_IOWAIT_TIME);
         long procCputimeUser = procCputimeTotal - procCputimeSys - procCputimeIoWait;
 
@@ -726,25 +720,21 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
                                                                 processorCount);
 
             MeasurementData sysCpuusageUserData =
-                                                  createCpuUsageMeasurementData(measurementTypeMap,
-                                                                                subKey
-                                                                                        + Constants.ITEMNAME_SYSTEM_CPU_USER_USAGE,
-                                                                                sysCpuusageUser);
+                                                  calcCpuUsage(subKey
+                                                                       + Constants.ITEMNAME_SYSTEM_CPU_USER_USAGE,
+                                                               sysCpuusageUser, database);
             MeasurementData sysCpuusageSysData =
-                                                 createCpuUsageMeasurementData(measurementTypeMap,
-                                                                               subKey
-                                                                                       + Constants.ITEMNAME_SYSTEM_CPU_SYSTEM_USAGE,
-                                                                               sysCpuusageSys);
+                                                 calcCpuUsage(subKey
+                                                                      + Constants.ITEMNAME_SYSTEM_CPU_SYSTEM_USAGE,
+                                                              sysCpuusageSys, database);
             MeasurementData sysCpuusageIoWaitData =
-                                                    createCpuUsageMeasurementData(measurementTypeMap,
-                                                                                  subKey
-                                                                                          + Constants.ITEMNAME_SYSTEM_CPU_IOWAIT_USAGE,
-                                                                                  sysCpuusageIoWait);
+                                                    calcCpuUsage(subKey
+                                                                         + Constants.ITEMNAME_SYSTEM_CPU_IOWAIT_USAGE,
+                                                                 sysCpuusageIoWait, database);
             MeasurementData sysCpuusageTotalData =
-                                                   createCpuUsageMeasurementData(measurementTypeMap,
-                                                                                 subKey
-                                                                                         + Constants.ITEMNAME_SYSTEM_CPU_TOTAL_USAGE,
-                                                                                 sysCpuusageTotal);
+                                                   calcCpuUsage(subKey
+                                                                        + Constants.ITEMNAME_SYSTEM_CPU_TOTAL_USAGE,
+                                                                sysCpuusageTotal, database);
 
             measurementMap.put(subKey + Constants.ITEMNAME_SYSTEM_CPU_USER_USAGE,
                                sysCpuusageUserData);
@@ -773,25 +763,21 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
                                                                  resourceInterval, processorCount);
 
             MeasurementData procCpuusageUserData =
-                                                   createCpuUsageMeasurementData(measurementTypeMap,
-                                                                                 subKey
-                                                                                         + Constants.ITEMNAME_PROCESS_CPU_USER_USAGE,
-                                                                                 procCpuusageUser);
+                                                   calcCpuUsage(subKey
+                                                                        + Constants.ITEMNAME_PROCESS_CPU_USER_USAGE,
+                                                                procCpuusageUser, database);
             MeasurementData procCpuusageSysData =
-                                                  createCpuUsageMeasurementData(measurementTypeMap,
-                                                                                subKey
-                                                                                        + Constants.ITEMNAME_PROCESS_CPU_SYSTEM_USAGE,
-                                                                                procCpuusageSys);
+                                                  calcCpuUsage(subKey
+                                                                       + Constants.ITEMNAME_PROCESS_CPU_SYSTEM_USAGE,
+                                                               procCpuusageSys, database);
             MeasurementData procCpuusageIoWaitData =
-                                                     createCpuUsageMeasurementData(measurementTypeMap,
-                                                                                   subKey
-                                                                                           + Constants.ITEMNAME_PROCESS_CPU_IOWAIT_USAGE,
-                                                                                   procCpuusageIoWait);
+                                                     calcCpuUsage(subKey
+                                                                          + Constants.ITEMNAME_PROCESS_CPU_IOWAIT_USAGE,
+                                                                  procCpuusageIoWait, database);
             MeasurementData procCpuusageTotalData =
-                                                    createCpuUsageMeasurementData(measurementTypeMap,
-                                                                                  subKey
-                                                                                          + Constants.ITEMNAME_PROCESS_CPU_TOTAL_USAGE,
-                                                                                  procCpuusageTotal);
+                                                    calcCpuUsage(subKey
+                                                                         + Constants.ITEMNAME_PROCESS_CPU_TOTAL_USAGE,
+                                                                 procCpuusageTotal, database);
 
             measurementMap.put(subKey + Constants.ITEMNAME_PROCESS_CPU_USER_USAGE,
                                procCpuusageUserData);
@@ -805,37 +791,14 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
     }
 
     /**
-     * item_nameとmeasurement_typeの対応を表すマップを生成し、返します。<br />
-     *
-     * @param database データベース名
-     * @return item_nameをキー、measurement_typeを値としたマップ
-     * @throws SQLException DBアクセス中に発生した例外
-     */
-    private Map<String, Integer> makeMeasurementTypeMap(final String database)
-        throws SQLException
-    {
-        // measure_info テーブルの置き換え
-        List<JavelinMeasurementItem> measurementItemList;
-        measurementItemList = JavelinMeasurementItemDao.selectAll(database);
-        Map<String, Integer> measurementTypeMap = new HashMap<String, Integer>();
-        for (JavelinMeasurementItem info : measurementItemList)
-        {
-            measurementTypeMap.put(info.itemName, info.measurementItemId);
-        }
-        return measurementTypeMap;
-    }
-
-    /**
      * 指定されたリソースデータの、指定されたmeasurementTypeを持つデータの値を返します。<br />
      * ただし、データが入っていない場合や、複数系列のものを指定した場合は、-1を返します。<br />
      *
      * @param resourceData リソースデータ
-     * @param measurementTypeMap item_nameとmeasurement_typeの対応を表すマップ
      * @param itemName itemName
      * @return 指定されたデータの値
      */
-    private long getSingleDetailValue(final ResourceData resourceData,
-            final Map<String, Integer> measurementTypeMap, final String itemName)
+    private long getSingleDetailValue(final ResourceData resourceData, final String itemName)
     {
         long value = -1;
         Map<String, MeasurementData> measurementMap = resourceData.getMeasurementMap();
@@ -889,15 +852,14 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
     /**
      * CPU使用率のデータに対して、指定されたitemNameとvalueをMeasurementDetailとして持つ、<br />
      * MeasurementDataを生成し、返します。<br />
-     *
-     * @param measurementTypeMap item_nameとmeasurement_typeの対応を表すマップ
      * @param itemName itemName
      * @param cpuUsage データの値
+     * @param database 
+     *
      * @return MeasurementData
      */
-    private MeasurementData createCpuUsageMeasurementData(
-            final Map<String, Integer> measurementTypeMap, final String itemName,
-            final double cpuUsage)
+    private MeasurementData calcCpuUsage(final String itemName, final double cpuUsage,
+            final String database)
     {
         MeasurementDetail measurementDetail = new MeasurementDetail();
         // 小数点以下の値も保持するため、一定の倍率を掛ける。
@@ -906,15 +868,10 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
 
         MeasurementData measurementData = new MeasurementData();
         measurementData.itemName = itemName;
-        Integer typeObj = measurementTypeMap.get(itemName);
-        if (typeObj != null)
-        {
-            measurementData.measurementType = typeObj.intValue();
-        }
-        else
-        {
-            measurementData.measurementType = -1;
-        }
+        measurementData.measurementType =
+                                          ResourceDataDaoUtil.getItemId(database,
+                                                                        itemName,
+                                                                        config_.getItemIdCacheSize());
         measurementData.valueType = TelegramConstants.BYTE_ITEMMODE_KIND_STRING;
         measurementData.getMeasurementDetailMap().put(MeasurementData.SINGLE_DETAIL_KEY,
                                                       measurementDetail);

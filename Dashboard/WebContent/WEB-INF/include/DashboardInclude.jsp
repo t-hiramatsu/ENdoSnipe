@@ -2,9 +2,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/resources/css/nodeinfomation/nodeStyles.css"
-	type="text/css" media="all">
-<link rel="stylesheet"
 	href="<%=request.getContextPath()%>/resources/lib/slider/ui.slider.extras.css"
 	type="text/css" media="all">
 <link rel="stylesheet"
@@ -44,27 +41,24 @@
 
 <%-- resource tree --%>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/tree/dialogView.js">	
+	src="<%=request.getContextPath()%>/resources/js/dialog/dialogView.js">	
 </script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/tree/signalDefinitionDialogView.js">	
+	src="<%=request.getContextPath()%>/resources/js/dialog/signalDefinitionDialogView.js">	
 </script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/tree/reportDialogView.js">	
-</script>
-<script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/tree/signalDefinitionDialogView.js">	
+	src="<%=request.getContextPath()%>/resources/js/dialog/reportDialogView.js">	
 </script>
 
 <%-- nodeInfo graph --%>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/nodeinfomation/view/nodeInfoParentView.js">
+	src="<%=request.getContextPath()%>/resources/js/map/view/nodeInfoParentView.js">
 </script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/nodeinfomation/view/resourceGraphView.js">
+	src="<%=request.getContextPath()%>/resources/js/map/view/resourceGraphView.js">
 </script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/nodeinfomation/model/resourceGraphModel.js">	
+	src="<%=request.getContextPath()%>/resources/js/map/model/resourceGraphModel.js">	
 </script>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/tree/ensTreeManager.js">	
@@ -77,10 +71,10 @@
 </script>
 <%-- Performance Doctor --%>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/nodeinfomation/view/perfDoctorView.js">	
+	src="<%=request.getContextPath()%>/resources/js/map/view/perfDoctorView.js">	
 </script>
 
 <%-- Report view --%>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/nodeinfomation/view/reportView.js">	
+	src="<%=request.getContextPath()%>/resources/js/map/view/reportView.js">	
 </script>

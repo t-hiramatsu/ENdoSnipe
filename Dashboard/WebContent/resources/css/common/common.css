@@ -125,6 +125,25 @@ body {
 .graphbox {
 	background-color: #FFFFFF;
 	color: #666666;
+	align: center;
+	border-bottom: 3px double #d0e4f7;
+	border-top: 3px double #d0e4f7;
+	border-right: 3px double #d0e4f7;
+	border-left: 3px double #d0e4f7;
+}
+
+.graphbox h2 {
+	Align: center;
+	margin: 0;
+	font-size: 12px;
+	padding: 5px;
+	margin-bottom: 5px;
+	background: #ff00f0;
+	color: #000;
+	font-family: Verdana;
+	background: -moz-linear-gradient(-45deg, rgba(255, 255, 255, 1) 0%,
+		rgba(241, 241, 241, 1) 50%, rgba(225, 225, 225, 1) 51%,
+		rgba(246, 246, 246, 1) 100% );
 }
 
 /** セレクトボックスのオプション */
@@ -175,4 +194,55 @@ div#contents_area_content {
 
 .ensLabel {
 	font-size: 12px;
+	background-color: #000000;
+	margin-top: 5px;
+}
+
+/* tab style */
+.ui-tabs .ui-tabs-panel {
+	padding: 0 0;
+}
+
+.ui-tabs .ui-tabs-nav li {
+	height: 30px;
+}
+
+.ui-tabs .ui-tabs-nav li a {
+	padding: 0.1em 1em;
+}
+
+/* jqGrid style */
+.ui-jqgrid tr.jqgrow td {
+	white-space: normal;
+}
+
+.dygraph-title {
+	Align: center;
+	margin: 0;
+	padding: 5px;
+	margin-bottom: 5px;
+	background: #ff00f0;
+	/* width: 85%; */
+	color: #FFFFFF;
+	font-family: Verdana;
+	background: #666666; /* Old browsers */
+	background: -moz-linear-gradient(-45deg, #666666 0%, #333333 50%, #333333 51%,
+		#666666 100%);
+	background: -webkit-gradient(linear, left top, right bottom, color-stop(0%, #666666),
+		color-stop(24%, #333333), color-stop(50%, #222222),
+		color-stop(79%, #333333), color-stop(100%, #666666) );
+	/* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(-45deg, #666666 0%, #333333 24%, #222222 50%,
+		#333333 79%, #666666 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(-45deg, #666666 0%, #333333 24%, #222222 50%, #333333
+		79%, #666666 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(-45deg, #666666 0%, #333333 24%, #222222 50%,
+		#333333 79%, #666666 100%); /* IE10+ */
+	background: linear-gradient(135deg, #666666 0%, #333333 24%, #222222 50%, #333333
+		79%, #666666 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient(          startColorstr='#666666',
+		endColorstr='#87bcea', GradientType=1 );
+	word-wrap: break-word;
+	font-family: Verdana;
+	/* IE6-9 fallback on horizontal gradient */
 }

@@ -25,15 +25,15 @@
 		</repository>
 		<repository>
 			<id>arcana</id>
-			<name>SMG Repository</name>
-			<url>http://arcana.smg.co.jp/mvnrepository</url>
+			<name>Acroquest Repository</name>
+			<url>http://arcana.proma-c.com/mvnrepository</url>
 		</repository>
 	</repositories>
 	<pluginRepositories>
 		<pluginRepository>
 			<id>arcana</id>
-			<name>SMG Repository</name>
-			<url>http://arcana.smg.co.jp/mvnrepository</url>
+			<name>Acroquest Repository</name>
+			<url>http://arcana.proma-c.com/mvnrepository</url>
 		</pluginRepository>
 	</pluginRepositories>
 
@@ -133,22 +133,42 @@
 			</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<!-- ★パスが環境依存のためエラーの原因となります。 -->
-			<systemPath>
-				C:/AcroWorks/Tools/eclipse/plugins/org.junit_3.8.2.v3_8_2_v20100427-1100/junit.jar
-			</systemPath>
-		</dependency>
-		<dependency>
 			<groupId>jsr173_1</groupId>
 			<artifactId>jsr173_1</artifactId>
 			<version>1.0</version>
 			<scope>system</scope>
 			<systemPath>
 				${basedir}/lib/jsr173_1.0_api.jar
+			</systemPath>
+		</dependency>
+
+<!--
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>
+				${basedir}/lib/junit.jar
+			</systemPath>
+		</dependency>
+-->
+		<dependency>
+			<groupId>ENdoSnipeCommon-1.0.0</groupId>
+			<artifactId>ENdoSnipeCommon-1.0.0</artifactId>
+			<version>1.0.0</version>
+			<scope>system</scope>
+			<systemPath>
+				${basedir}/lib/ENdoSnipeCommon-1.0.0.jar
+			</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>ENdoSnipeDataAccessor-1.0.0</groupId>
+			<artifactId>ENdoSnipeDataAccessor-1.0.0</artifactId>
+			<version>1.0.0</version>
+			<scope>system</scope>
+			<systemPath>
+				${basedir}/lib/ENdoSnipeDataAccessor-1.0.0.jar
 			</systemPath>
 		</dependency>
 	</dependencies>
@@ -244,11 +264,11 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
-				<!-- version>2.6</version -->
+				<version>2.9.1</version>
 				<configuration>
 					<encoding>${src.encoding}</encoding>
+					<configLocation>${basedir}/.config/.Checkstyle_Setting.xml</configLocation>
 					<!--
-					<configLocation>${basedir}/checkstyle.xml</configLocation>
 					<includes>**/*.java</includes>
 					<excludes>**/stub/**/*.java, **/Test*.java</excludes>
 					-->
@@ -285,7 +305,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>findbugs-maven-plugin</artifactId>
-				<!-- version>2.3.1</version -->
+				<version>2.3.1</version>
 				<configuration>
 					<!--
 					<includeFilterFile>${basedir}/findbugs-include.xml</includeFilterFile>
@@ -302,7 +322,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>javancss-maven-plugin</artifactId>
-				<!-- version>2.0</version -->
+				<version>2.0</version>
 				<configuration>
 					<lineThreshold>300</lineThreshold>
 					<sourceEncoding>${src.encoding}</sourceEncoding>

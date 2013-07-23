@@ -184,6 +184,86 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
     }
 
     /**
+     * 指定されたItemName配下の計測項目名の一覧を取得します。<br />
+     *
+     * @param database データベース名
+     * @param measurementItemName 計測項目名
+     * @return 計測項目名の一覧
+     * @throws SQLException SQL 実行時に例外が発生した場合
+     */
+    public static List<String> selectDirectChildren(final String database,
+        final String measurementItemName)
+        throws SQLException
+    {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        List<String> itemNameList = new ArrayList<String>();
+
+        try
+        {
+            conn = getConnection(database, true);
+            String sql =
+                "select split_part(MEASUREMENT_ITEM_NAME,'/',?) as child, "
+                    + " split_part(MEASUREMENT_ITEM_NAME,'/',?) != '' as grandchild"
+                    + " from JAVELIN_MEASUREMENT_ITEM"
+                    + " where replace(replace(replace(MEASUREMENT_ITEM_NAME,chr(13)||chr(10),' '),"
+                    + " chr(13),' '),chr(10),' ')"
+                    + " LIKE ?"
+                    + " and split_part(replace(replace(replace(MEASUREMENT_ITEM_NAME,chr(13)||chr(10),' '),"
+                    + " chr(13),' '),chr(10),' '),'/',?) = ?" + "group by child, grandchild"
+                    + " order by child, grandchild";
+            pstmt = conn.prepareStatement(sql);
+            PreparedStatement preparedStatement = getDelegatingStatement(pstmt);
+
+            String[] measuremtnItemPart = measurementItemName.split("/");
+            int length = measuremtnItemPart.length;
+            String tempStr = measurementItemName + "%";
+            preparedStatement.setInt(1, length + 1);
+            preparedStatement.setInt(2, length + 2);
+            preparedStatement.setString(3, tempStr);
+            preparedStatement.setInt(4, length);
+            String measurementItem;
+            if (measuremtnItemPart.length > 0)
+            {
+                measurementItem = measuremtnItemPart[length - 1];
+            }
+            else
+            {
+                measurementItem = "";
+            }
+            preparedStatement.setString(5, measurementItem);
+            rs = preparedStatement.executeQuery();
+
+            while (rs.next())
+            {
+                String itemName = rs.getString(1);
+                
+                if(rs.getBoolean(2) == true)
+                {
+                    itemName += "/";
+                }
+                
+                // 改行コードを変換する
+                itemName = itemName.replaceAll("\\r\\n", ALTERNATE_LINE_FEED_CODE);
+                itemName = itemName.replaceAll("\\r", ALTERNATE_LINE_FEED_CODE);
+                itemName = itemName.replaceAll("\\n", ALTERNATE_LINE_FEED_CODE);
+                // CHECKSTYLE:OFF
+                itemNameList.add(itemName);
+                // CHECKSTYLE:ON
+            }
+        }
+        finally
+        {
+            SQLUtil.closeResultSet(rs);
+            SQLUtil.closeStatement(pstmt);
+            SQLUtil.closeConnection(conn);
+        }
+
+        return itemNameList;
+    }
+
+    /**
      * 指定された計測値種別と項目名称のレコードの　ID を返します。<br />
      *
      * @param database データベース名

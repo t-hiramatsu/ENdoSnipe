@@ -49,32 +49,32 @@
 
 <%-- resource map --%>
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/resources/css/nodeinfomation/map.css"
+	href="<%=request.getContextPath()%>/resources/css/map/map.css"
 	type="text/css" media="all">
 
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/nodeinfomation/view/resourceMapView.js">
+	src="<%=request.getContextPath()%>/resources/js/map/view/resourceMapView.js">
 </script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/nodeinfomation/view/resourceMapListView.js">
+	src="<%=request.getContextPath()%>/resources/js/map/view/resourceMapListView.js">
 </script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/nodeinfomation/view/resourceMapMenuView.js">
+	src="<%=request.getContextPath()%>/resources/js/map/view/resourceMapMenuView.js">
 </script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/nodeinfomation/view/signalView.js">
+	src="<%=request.getContextPath()%>/resources/js/map/view/signalView.js">
 </script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/nodeinfomation/view/resourceLinkView.js">
+	src="<%=request.getContextPath()%>/resources/js/map/view/resourceLinkView.js">
 </script>
 
 <%-- nodeInfo graph --%>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/nodeinfomation/view/nodeInfoParentView.js">
+	src="<%=request.getContextPath()%>/resources/js/map/view/nodeInfoParentView.js">
 </script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/nodeinfomation/view/resourceGraphView.js">
+	src="<%=request.getContextPath()%>/resources/js/map/view/resourceGraphView.js">
 </script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/nodeinfomation/model/resourceGraphModel.js">
+	src="<%=request.getContextPath()%>/resources/js/map/model/resourceGraphModel.js">
 </script>
