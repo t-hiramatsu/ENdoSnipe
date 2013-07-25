@@ -57,67 +57,58 @@ import jp.co.acroquest.endosnipe.data.entity.MeasurementValue;
 public class ResourceDataDaoUtil
 {
     /** ロガー */
-    private static final ENdoSnipeLogger                LOGGER                      =
-                                                                                        ENdoSnipeLogger.getLogger(ResourceDataDaoUtil.class);
+    private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
+        .getLogger(ResourceDataDaoUtil.class);
 
     /** データベース名をキーとする、前回データを挿入したテーブルインデックスを保持するマップ */
-    private static Map<String, Integer>                 prevTableIndexMap__         =
-                                                                                        new ConcurrentHashMap<String, Integer>();
+    private static Map<String, Integer> prevTableIndexMap__ =
+        new ConcurrentHashMap<String, Integer>();
 
     /** データベース名をキーとする、系列番号とその最終挿入時刻のマップを保持するマップ */
     private static Map<String, Map<Integer, Timestamp>> measurementItemUpdatedMap__ =
-                                                                                        new ConcurrentHashMap<String, Map<Integer, Timestamp>>();
+        new ConcurrentHashMap<String, Map<Integer, Timestamp>>();
 
     /** データベース名をキーとする、measurement_typeとitem_nameを":"で区切って連結した文字列をキーとする、item_idのマップを保持するマップ*/
-    private static Map<String, Map<String, Integer>>    measurementItemIdMap__      =
-                                                                                        new ConcurrentHashMap<String, Map<String, Integer>>();
+    private static Map<String, Map<String, Integer>> measurementItemIdMap__ =
+        new ConcurrentHashMap<String, Map<String, Integer>>();
 
     /** １週間の日数 */
-    public static final int                             DAY_OF_WEEK                 = 7;
+    public static final int DAY_OF_WEEK = 7;
 
     /** １年間の最大日数 */
-    private static final int                            DAY_OF_YEAR_MAX             = 366;
+    private static final int DAY_OF_YEAR_MAX = 366;
 
     /** パーティショニングされたテーブルの数（最後のテーブルは7日以上のデータが入る） */
-    public static final int                             PARTITION_TABLE_COUNT       =
-                                                                                        DAY_OF_YEAR_MAX
-                                                                                            / DAY_OF_WEEK;
+    public static final int PARTITION_TABLE_COUNT = DAY_OF_YEAR_MAX / DAY_OF_WEEK;
 
     /** JAVELIN_MEASUREMENT_ITEMテーブルのLAST_INSERTEDフィールドを更新する間隔（ミリ秒） */
-    private static final int                            ITEM_UPDATE_INTERVAL        =
-                                                                                        24 * 60 * 60 * 1000;
+    private static final int ITEM_UPDATE_INTERVAL = 24 * 60 * 60 * 1000;
 
     /** バッチのサイズ */
-    private static final int                            DEF_BATCH_SIZE              = 100;
+    private static final int DEF_BATCH_SIZE = 100;
 
     /** itemIdのキャッシュサイズ */
-    private static final int                            DEF_ITEMID_CACHE_SIZE       = 50000;
+    private static final int DEF_ITEMID_CACHE_SIZE = 50000;
 
     /** MEASUREMENT_VALUE テーブルを truncate するコールバックメソッド */
-    private static final RotateCallback                 MEASUREMENT_ROTATE_CALLBACK =
-                                                                                        new RotateCallback() {
-                                                                                            /**
-                                                                                             * {@inheritDoc}
-                                                                                             */
-                                                                                            public String getTableType()
-                                                                                            {
-                                                                                                return "MEASUREMENT_VALUE";
-                                                                                            }
+    private static final RotateCallback MEASUREMENT_ROTATE_CALLBACK = new RotateCallback() {
+        /**
+         * {@inheritDoc}
+         */
+        public String getTableType()
+        {
+            return "MEASUREMENT_VALUE";
+        }
 
-                                                                                            /**
-                                                                                             * {@inheritDoc}
-                                                                                             */
-                                                                                            public void truncate(
-                                                                                                final String database,
-                                                                                                final int tableIndex,
-                                                                                                final int year)
-                                                                                                throws SQLException
-                                                                                            {
-                                                                                                MeasurementValueDao.truncate(database,
-                                                                                                                             tableIndex,
-                                                                                                                             year);
-                                                                                            }
-                                                                                        };
+        /**
+         * {@inheritDoc}
+         */
+        public void truncate(final String database, final int tableIndex, final int year)
+            throws SQLException
+        {
+            MeasurementValueDao.truncate(database, tableIndex, year);
+        }
+    };
 
     /**
      * デフォルトコンストラクタを隠蔽します。
@@ -352,7 +343,8 @@ public class ResourceDataDaoUtil
                 // 前回JAVELIN_MEASUREMENT_ITEMテーブルのLAST_INSERTEDフィールド更新から
                 // 一定期間が経過した場合に、LAST_INSERTEDフィールドを更新する対象に含める。
                 Timestamp beforeTime = updatedMap.get(measurementValue.measurementItemId);
-                updatedMap.put(measurementValue.measurementItemId, measurementValue.measurementTime);
+                updatedMap
+                    .put(measurementValue.measurementItemId, measurementValue.measurementTime);
                 if (beforeTime == null
                     || measurementValue.measurementTime.getTime() > beforeTime.getTime()
                         + ITEM_UPDATE_INTERVAL)
@@ -465,7 +457,7 @@ public class ResourceDataDaoUtil
      * 
      * @param database データベース名。
      * @param itemName measurent_item_name
-     * @param itemIdCacheSize 
+     * @param itemIdCacheSize キャッシュサイズ。
      * @return measurement_item_id。
      */
     public static int getItemId(final String database, String itemName, int itemIdCacheSize)
@@ -477,7 +469,7 @@ public class ResourceDataDaoUtil
         }
         catch (SQLException ex)
         {
-            LOGGER.warn(ex);
+            LOGGER.log("EEDA0103", ex);
             return -1;
         }
     }
@@ -629,6 +621,10 @@ public class ResourceDataDaoUtil
                     {
                         // 削除に失敗した場合はまだITEMが使用されているため、
                         // Mapからも削除しない
+                        if (LOGGER.isDebugEnabled())
+                        {
+                            LOGGER.log("EEDA0103", ex);
+                        }
                     }
                 }
             }
@@ -645,6 +641,10 @@ public class ResourceDataDaoUtil
             {
                 // 削除に失敗した場合はまだITEMが使用されているため、
                 // Mapからも削除しない
+                if (LOGGER.isDebugEnabled())
+                {
+                    LOGGER.log("EEDA0103", ex);
+                }
             }
         }
 
@@ -663,7 +663,8 @@ public class ResourceDataDaoUtil
      * @param unit 単位（Calendarクラスのインデックス）
      * @return Calendarインスタンス
      */
-    private static Calendar getBeforeDate(final Timestamp baseTime, final int period, final int unit)
+    private static Calendar
+        getBeforeDate(final Timestamp baseTime, final int period, final int unit)
     {
         Calendar deleteTimeCalendar = Calendar.getInstance();
         deleteTimeCalendar.setTime(baseTime);

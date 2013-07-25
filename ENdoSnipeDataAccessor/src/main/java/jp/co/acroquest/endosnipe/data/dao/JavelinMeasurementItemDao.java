@@ -208,9 +208,9 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
                     + " split_part(MEASUREMENT_ITEM_NAME,'/',?) != '' as grandchild"
                     + " from JAVELIN_MEASUREMENT_ITEM"
                     + " where replace(replace(replace(MEASUREMENT_ITEM_NAME,chr(13)||chr(10),' '),"
-                    + " chr(13),' '),chr(10),' ')"
-                    + " LIKE ?"
-                    + " and split_part(replace(replace(replace(MEASUREMENT_ITEM_NAME,chr(13)||chr(10),' '),"
+                    + " chr(13),' '),chr(10),' ')" + " LIKE ?"
+                    + " and split_part(replace(replace(replace("
+                    + " MEASUREMENT_ITEM_NAME,chr(13)||chr(10),' '),"
                     + " chr(13),' '),chr(10),' '),'/',?) = ?" + "group by child, grandchild"
                     + " order by child, grandchild";
             pstmt = conn.prepareStatement(sql);
@@ -219,10 +219,11 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
             String[] measuremtnItemPart = measurementItemName.split("/");
             int length = measuremtnItemPart.length;
             String tempStr = measurementItemName + "%";
-            preparedStatement.setInt(1, length + 1);
-            preparedStatement.setInt(2, length + 2);
-            preparedStatement.setString(3, tempStr);
-            preparedStatement.setInt(4, length);
+            int index = 1;
+            preparedStatement.setInt(index++, length + 1);
+            preparedStatement.setInt(index++, length + 2);
+            preparedStatement.setString(index++, tempStr);
+            preparedStatement.setInt(index++, length);
             String measurementItem;
             if (measuremtnItemPart.length > 0)
             {
@@ -232,18 +233,18 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
             {
                 measurementItem = "";
             }
-            preparedStatement.setString(5, measurementItem);
+            preparedStatement.setString(index++, measurementItem);
             rs = preparedStatement.executeQuery();
 
             while (rs.next())
             {
                 String itemName = rs.getString(1);
-                
-                if(rs.getBoolean(2) == true)
+
+                if (rs.getBoolean(2) == true)
                 {
                     itemName += "/";
                 }
-                
+
                 if ("".equals(itemName))
                 {
                     continue;
