@@ -93,7 +93,27 @@ ENS.treeView = wgp.TreeView
 					var treeData = this.createTreeData(treeModel);
 
 					$("#" + this.$el.attr("id")).jstree("create_node",
-							$(targetTag), "last", treeData).bind(
+							$(targetTag), "last", treeData);
+				} else {
+					wgp.TreeView.prototype.render.call(this, renderType,
+							treeModel);
+				}
+			},
+			renderAll : function() {
+				var instance = this;
+				// View jsTree
+				var settings = this.treeOption;
+				settings = $.extend(true, settings, {
+					json_data : {
+						data : this.createJSONData()
+					}
+				});
+
+				$("#" + this.$el.attr("id")).jstree(settings).bind(
+						"loaded.jstree", function(event, data) {
+							instance.setOpenCloseIcon();
+						});
+				$("#" + this.$el.attr("id")).bind(
 							"create_node.jstree",
 							function(event, data) {
 								var childModel = data.args[2].data[0];
@@ -119,25 +139,6 @@ ENS.treeView = wgp.TreeView
 									}
 								}
 							});
-				} else {
-					wgp.TreeView.prototype.render.call(this, renderType,
-							treeModel);
-				}
-			},
-			renderAll : function() {
-				var instance = this;
-				// View jsTree
-				var settings = this.treeOption;
-				settings = $.extend(true, settings, {
-					json_data : {
-						data : this.createJSONData()
-					}
-				});
-
-				$("#" + this.$el.attr("id")).jstree(settings).bind(
-						"loaded.jstree", function(event, data) {
-							instance.setOpenCloseIcon();
-						});
 
 				this.getAllReport_();
 				this.getAllSignal_();
