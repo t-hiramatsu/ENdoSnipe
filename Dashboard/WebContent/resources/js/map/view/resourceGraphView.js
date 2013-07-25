@@ -58,6 +58,9 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				});
 
 				this.render();
+
+				this.windowResize();
+				this.addDragEvent();
 			},
 			_initData : function(argument, treeSettings) {
 				this.viewType = wgp.constants.VIEW_TYPE.VIEW;
@@ -91,8 +94,31 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 						* 1000);
 				this.timeEnd = new Date();
 				this.timeFrom = 0;
+				this.siblingNode = argument["siblingNode"];
+				this.fromScale = undefined;
+				this.toScale = undefined;
+				this.noOfGraph = argument["displayNo"];
+
+				var graphId = this.$el.attr("id") + "_ensgraph";
+
+				this.maximumButton = "maximum_button_" + graphId;
+
+				this.normalButton = "normalization_button_" + graphId;
+
+				this.maximumButtonImg = "<div id ='" + this.maximumButton
+						+ "' class = '" + this.maximumButton
+						+ "' style='z-index: -10;padding-top : 4px;'><img "
+						+ "src='./resources/images/maximum_button.png' "
+						+ "style='width: 18px; height: 18px;'></img></div>";
+				
+				this.normalButtonImg = "<div id ='" + this.normalButton
+						+ "' class = '" + this.normalButton
+						+ "' style='z-index: -10;padding-top : 4px;'><img "
+						+ "src='./resources/images/normalization_button.png' "
+						+ "style='width: 18px; height:18px;'></img></div>";
 			},
 			render : function() {
+				var instance = this;
 				var graphPath = this.graphId;
 				var graphId = this.$el.attr("id") + "_ensgraph";
 				var graphdiv = $("<div id='" + graphId + "'><div>");
@@ -151,19 +177,62 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 					});
 				}
 
+				if ($("#" + this.maximumButton).length > 0) {
+					$("#" + this.maximumButton).remove();
+				}
+
+				var childElem = $("#" + graphId + "").children("div");
+				$(childElem).append(this.maximumButtonImg);
+				$("#" + this.maximumButton).css("padding-left",
+						($("#" + graphId).width() - 20));
+				var minButton = this.normalButton, maxButton = this.maximumButton;
+
+				$(element)
+						.click(
+								function(e) {
+									var offsetLeft = $("#" + graphId).offset().left;
+									var offsetTop = $("#" + graphId).offset().top;
+									var position = {
+										x : Math.floor(e.clientX - offsetLeft),
+										y : Math.floor(e.clientY - offsetTop)
+									}
+
+									if (position.x > ($("#" + graphId).width() - 20)
+											&& position.x < ($("#" + graphId)
+													.width() - 7)
+											&& position.y > 4
+											&& position.y < 19) {
+										if ($("." + maxButton).length > 0) {
+											instance.addMaximizeEvent(
+													offsetLeft, offsetTop);
+										}
+									}
+								});
+
+				this.getGraphObject().updateOptions({
+					dateWindow : this.dateWindow,
+					axisLabelFontSize : 10,
+					titleHeight : 22
+				});
+
+				this.mouseEvent(graphId, isShort, tmpTitle, optionSettings);
+
+			},
+			mouseEvent : function(graphId, isShort, tmpTitle, optionSettings) {
+				var graphPath = this.graphId;
 				$("#" + graphId).mouseover(function(event) {
 					var target = event.target;
 					$("#" + graphId).attr("title", graphPath);
 					if (!isShort) {
 						return;
 					}
-					var target = event.target;
 					if ($(target).hasClass("dygraph-title")) {
 						$(target).text(tmpTitle);
 						$(target).parent("div").css('z-index', "1");
 					}
 				});
 				$("#" + graphId).mouseout(function(event) {
+					$("#" + graphId).removeAttr("title");
 					if (!isShort) {
 						return;
 					}
@@ -173,7 +242,6 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 						$(target).parent("div").css('z-index', "0");
 					}
 				});
-
 			},
 			onAdd : function(graphModel) {
 
@@ -194,23 +262,36 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 						tempEnd = time;
 						tempStart = new Date(time.getTime() - this.timeFrom);
 					}
-					
+
 					var updateOption;
 					if (this.labelY == "%") {
 						updateOption = {
-								valueRange : [ 0, 105 ],
-								'file' : this.data
+							valueRange : [ 0, 105 ],
+							'file' : this.data
 						};
 					} else {
 						updateOption = {
-								'file' : this.data,
-								'valueRange' : [ 0, this.maxValue * 1.1 ]
+							'file' : this.data,
+							'valueRange' : [ 0, this.maxValue * 1.1 ]
 						};
 					}
 					if (this.data.length !== 0) {
 						updateOption['dateWindow'] = [ tempStart, tempEnd ];
 					}
 					this.entity.updateOptions(updateOption);
+
+					var graphId = this.$el.attr("id") + "_ensgraph";
+
+					if ($("#tempDiv").length > 0) {
+						if (this.tempGraphId != undefined) {
+							this.tempEntity.updateOptions(updateOption);
+						}
+						$(".dygraph-title").width(
+								($("#tempDiv").width() * 0.977) - 67);
+					} else {
+						$(".dygraph-title").width(
+								($("#" + graphId).width() - 87));
+					}
 				}
 			},
 			addCollection : function(dataArray) {
@@ -247,6 +328,11 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				}
 
 				this.entity.updateOptions(updateOption);
+				if ($("#tempDiv").length > 0) {
+					if (this.tempGraphId != undefined) {
+						this.tempEntity.updateOptions(updateOption);
+					}
+				}
 
 				var tmpAppView = new ENS.AppView();
 				tmpAppView.syncData([ this.graphId ]);
@@ -254,6 +340,15 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 			onComplete : function(syncType) {
 				if (syncType == wgp.constants.syncType.SEARCH) {
 					this._getTermData();
+				}
+				var graphId = this.$el.attr("id") + "_ensgraph";
+
+				if ($("#tempDiv").length > 0) {
+					$(".dygraph-title").width(
+							($("#tempDiv").width() * 0.977) - 67);
+				} else {
+
+					$(".dygraph-title").width(($("#" + graphId).width() - 87));
 				}
 			},
 			getData : function() {
@@ -295,9 +390,21 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 			updateDisplaySpan : function(from, to) {
 				var startDate = new Date().getTime() - from;
 				var endDate = new Date().getTime() - to;
+
+				if ($("#tempDiv").length > 0) {
+					if (this.tempGraphId != undefined) {
+						this.tempEntity.updateOptions({
+							dateWindow : [ startDate, endDate ]
+						});
+					}
+				}
+
 				this.getGraphObject().updateOptions({
 					dateWindow : [ startDate, endDate ]
 				});
+
+				this.fromScale = startDate;
+				this.toScale = endDate;
 
 			},
 			updateGraphData : function(graphId, from, to) {
@@ -449,5 +556,304 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 						});
 					}
 				});
+			},
+			addDragEvent : function() {
+				var divArea = $("#" + this.$el.attr("id") + "_ensgraph");
+				this.createDragEvent(divArea);
+				if (this.tempGraphId != undefined) {
+					this.createDragEvent($("#tempDiv_ensgraph"));
+				}
+			},
+			createDragEvent : function(divArea) {
+				var instance = this;
+				$(divArea)
+						.bind(
+								'mousedown',
+								function(e) {
+									$(divArea).bind('mousemove', function(e) {
+									});
+
+									$(divArea)
+											.bind(
+													'mouseup',
+													function() {
+														$(divArea).unbind(
+																'mousemove');
+														if ($("#tempDiv").length > 0) {
+															$(".dygraph-title")
+																	.width(
+																			($(
+																					"#tempDiv")
+																					.width() * 0.977) - 67);
+														} else {
+															$(".dygraph-title")
+																	.width(
+																			($(
+																					"#"
+																							+ instance.$el
+																									.attr("id")
+																							+ "_ensgraph")
+																					.width() - 87));
+														}
+													});
+								});
+			},
+			windowResize : function() {
+				var instance = this;
+
+				var rtime = new Date(1, 1, 2013, 07, 00, 00);
+				var timeout = false;
+				var delta = 100;
+				$(window).resize(function() {
+					rtime = new Date();
+					if (timeout === false) {
+						timeout = true;
+						setTimeout(resizeend, delta);
+					}
+				});
+
+				function resizeend() {
+					if (new Date() - rtime < delta) {
+						setTimeout(resizeend, delta);
+					} else {
+						timeout = false;
+
+						var graphId = instance.$el.attr("id") + "_ensgraph";
+
+						if ($("#tempDiv").length > 0) {
+
+							instance.resizeState = true;
+
+							if ($("#" + instance.normalButton).length <= 0) {
+
+								var childElem = $("#" + graphId + "").children(
+										"div");
+								$(childElem).append(instance.normalButtonImg);
+								$("#" + instance.normalButton).show();
+
+								$("#" + instance.normalButton).css(
+										"padding-left",
+										$("#tempDiv").width() * 0.977);
+							}
+
+							$(".dygraph-title").width(
+									($("#tempDiv").width() * 0.977) - 67);
+						} else {
+
+							if ($("#" + instance.maximumButton).length <= 0) {
+
+								var childElem = $("#" + graphId + "").children(
+										"div");
+								$(childElem).append(instance.maximumButtonImg);
+
+								$("#" + instance.maximumButton).css(
+										"padding-left",
+										($("#" + graphId).width() - 20));
+
+							}
+
+							$(".dygraph-title").width(
+									($("#" + graphId).width() - 87));
+						}
+					}
+				}
+
+			},
+
+			addMaximizeEvent : function(offsetLeft, offsetTop) {
+				var instance = this;
+
+				var divArea = $("#" + this.$el.attr("id"));
+				var tempDiv = this.$el.attr("id").substring(0, 29);
+				this.tempGraphId = this.$el.attr("id");
+
+				$("#" + tempDiv).append(
+						"<div id='tempDiv' class='graphbox'></div>");
+				$("#tempDiv")
+						.append(
+								"<div id='tempDiv_ensgraph' style='height: 200px; width: 260px;'></div>");
+				$("#tempDiv").append(
+						"<div id='tempDiv_enslabel'class='ensLabel'></div>");
+				var data = this.getData();
+
+				var optionSettings = {
+					title : this.title,
+					xlabel : this.labelX,
+					ylabel : this.labelY,
+					axisLabelColor : "#000000",
+					labelsDivStyles : {
+						background : "none repeat scroll 0 0 #000000"
+					}
+				};
+
+				var attributes = this.getAttributes(ENS.ResourceGraphAttribute);
+				var labelDom = document.getElementById("tempDiv_enslabel");
+
+				optionSettings = $.extend(true, optionSettings, attributes);
+				optionSettings.labelsDiv = labelDom;
+
+				optionSettings.title = optionSettings.title.split("&#47;")
+						.join("/");
+
+				var tmpTitle = optionSettings.title;
+				var isShort = false;
+				if (optionSettings.title.length > ENS.nodeinfo.GRAPH_TITLE_LENGTH) {
+					optionSettings.title = optionSettings.title.substring(0,
+							ENS.nodeinfo.GRAPH_TITLE_LENGTH)
+							+ "......";
+					isShort = true;
+				}
+
+				this.tempEntity = new Dygraph(document
+						.getElementById("tempDiv_ensgraph"), data,
+						optionSettings);
+
+				this.tempEntity.updateOptions({
+					dateWindow : this.dateWindow,
+					axisLabelFontSize : 10,
+					titleHeight : 22
+				});
+
+				if (this.fromScale != undefined && this.toScale != undefined) {
+					this.tempEntity.updateOptions({
+						dateWindow : [ this.fromScale, this.toScale ]
+					});
+				}
+
+				this.mouseEvent("tempDiv_ensgraph", isShort, tmpTitle,
+						optionSettings);
+
+				var graphId = this.$el.attr("id") + "_ensgraph";
+
+				$("#" + graphId).hide();
+				$(divArea).hide();
+
+				var graphWidth = parseInt($("#contents_area").width() * 0.9);
+				var areaHeight = $("#contents_area_content").height();
+				var graphHeight = parseInt(areaHeight * 0.9);
+
+				var resizeStyle = new Array();
+
+				resizeStyle["width"] = graphWidth;
+				resizeStyle["height"] = graphHeight;
+
+				$("#tempDiv").css(resizeStyle);
+				this.tempEntity.resize(graphWidth, graphHeight);
+				this.addDragEvent();
+
+				var divNo = parseInt(this.$el.attr("id").substring(30,
+						this.$el.attr("id").length), 10);
+				var divCut = this.$el.attr("id").substring(0, 30);
+
+				var hiddenGraph = new Array();
+
+				var start = divNo - (divNo % 12);
+				var end = 12 - (divNo % 12);
+				var j = divNo - start;
+
+				hiddenGraph[j] = this.$el.attr("id");
+
+				if (this.noOfGraph != 1) {
+
+					if ((divNo + end) > this.noOfGraph) {
+						end = this.noOfGraph - divNo;
+					}
+
+					var graphPoint = 0;
+					for ( var i = start; i < divNo; i++) {
+						if (graphPoint == j) {
+							graphPoint++;
+						}
+						hiddenGraph[graphPoint++] = divCut + i;
+						$("#" + divCut + i).hide();
+						$("#" + divCut + i + "_ensgraph").hide();
+					}
+					for ( var i = (divNo + 1); i < divNo + end; i++) {
+						if (graphPoint == j) {
+							graphPoint++;
+						}
+
+						hiddenGraph[graphPoint++] = divCut + i;
+						$("#" + divCut + i).hide();
+						$("#" + divCut + i + "_ensgraph").hide();
+					}
+				}
+
+				this.hiddenGraph = hiddenGraph;
+
+				$(".dygraph-title").width(($("#tempDiv").width() * 0.977) - 67);
+				var childElem = $("#tempDiv_ensgraph").children("div");
+				$(childElem).append(this.normalButtonImg);
+
+				$("#" + this.normalButton).css("padding-left",
+						$("#tempDiv").width() * 0.977);
+				var minButton = this.normalButton;
+
+				$("#tempDiv")
+						.click(
+								function(e) {
+									var offsetLeft = $("#tempDiv_ensgraph")
+											.offset().left;
+									var offsetTop = $("#tempDiv_ensgraph")
+											.offset().top;
+									var position = {
+										x : Math.floor(e.clientX - offsetLeft),
+										y : Math.floor(e.clientY - offsetTop)
+									}
+									if (position.x > ($("#tempDiv_ensgraph")
+											.width() - 20)
+											&& position.x < ($(
+													"#tempDiv_ensgraph")
+													.width() - 7)
+											&& position.y > 3
+											&& position.y < 21) {
+										if ($("." + minButton).length > 0) {
+											instance.addNormalizeEvent();
+										}
+									}
+								});
+
+			},
+			addNormalizeEvent : function() {
+				$("#tempDiv").remove();
+				this.tempGraphId = undefined;
+
+				var divArea = $("#" + this.$el.attr("id"));
+				var graphId = this.$el.attr("id") + "_ensgraph";
+
+				if (this.resizeState == true) {
+
+					this.resizeState == false;
+					if ($("#" + this.maximumButton).length <= 0) {
+						var childElem = $("#" + graphId + "").children("div");
+						$(childElem).append(this.maximumButtonImg);
+					}
+					$("#" + this.maximumButton).css("padding-left",
+							($("#" + graphId).width() - 20));
+				}
+
+				$(".dygraph-title").width(($("#" + graphId).width() - 87));
+
+				if (this.hiddenGraph.length > 0) {
+					var startValue = parseInt(this.hiddenGraph[0].substring(30,
+							this.hiddenGraph[0].length), 10);
+					for ( var i = 0; i < this.hiddenGraph.length; i++) {
+						$("#" + this.hiddenGraph[i]).show();
+						var graph = this.hiddenGraph[i] + "_ensgraph";
+						$("#" + graph).show();
+						var ins = ENS.nodeinfo.viewList[this.siblingNode[startValue
+								+ i]];
+						ins.entity.resize(ins.width, ins.graphHeight);
+						if ($("#" + ins.maximumButton).length <= 0) {
+							var childElem = $("#" + graph + "").children("div");
+							$(childElem).append(ins.maximumButtonImg);
+
+							$("#" + ins.maximumButton).css("padding-left",
+									($("#" + graph).width() - 20));
+						}
+						$(".dygraph-title")
+								.width(($("#" + graph).width() - 87));
+					}
+				}
 			}
 		});
