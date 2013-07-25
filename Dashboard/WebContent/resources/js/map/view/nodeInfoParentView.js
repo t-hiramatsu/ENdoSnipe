@@ -68,6 +68,7 @@ ENS.NodeInfoParentView = wgp.AbstractView
 					instance.moveScale["from"] = from;
 					instance.moveScale["to"] = to;
 					var viewList = ENS.nodeinfo.viewList;
+
 					for ( var key in viewList) {
 						var fromHour = from / 60 / 60 / 1000;
 						var ins = viewList[key];
@@ -77,6 +78,15 @@ ENS.NodeInfoParentView = wgp.AbstractView
 						ins.updateDisplaySpan(from, to);
 						// グラフの表示データを更新する
 						ins.updateGraphData(key, from, to);
+
+						if ($("#tempDiv").length > 0) {
+							$(".dygraph-title").width(
+									($("#tempDiv").width() * 0.977) - 67);
+						} else {
+							$(".dygraph-title").width(
+									($("#" + ins.$el.attr("id") + "_ensgraph")
+											.width() - 87));
+						}
 					}
 				});
 
@@ -98,7 +108,7 @@ ENS.NodeInfoParentView = wgp.AbstractView
 			onRemove : function(element) {
 				console.log('called removeModel');
 			},
-			_addGraphDivision : function(graphId, width, height) {
+			_addGraphDivision : function(graphId, width, height, index) {
 				var viewId = null;
 				var viewClassName = "ENS.ResourceGraphElementView";
 				var tempId = graphId.split("/");
@@ -120,6 +130,7 @@ ENS.NodeInfoParentView = wgp.AbstractView
 					width : width,
 					height : height,
 					displayNo : this.num_display,
+					siblingNode : this.childNodes,
 					dateWindow : [ new Date() - 60 * 60 * 1000, new Date() ],
 					attributes : {
 						xlabel : "Time",
@@ -146,7 +157,7 @@ ENS.NodeInfoParentView = wgp.AbstractView
 					$("#pagingDivArea").append(
 							"<div id='page' class='page_current'></div>");
 				}
-				var newDivAreaId = this.divId + "_" + viewId;
+				var newDivAreaId = this.divId + "_" + index;
 
 				var newDivArea = $("<div id='" + newDivAreaId + "'></div>");
 
@@ -247,15 +258,16 @@ ENS.NodeInfoParentView = wgp.AbstractView
 				var nodesNum = this.childNodes.length;
 				if (nodesNum == 1) {
 					graphWidth = $("#contents_area").width() * 0.9;
-					var areaHeight = $("#contents_area").height() - $("#contents_area_content").height();
+					var areaHeight = $("#contents_area").height()
+							- $("#contents_area_content").height();
 					graphHeight = areaHeight * 0.75;
-				}
-				else if (nodesNum < 5) {
+				} else if (nodesNum < 5) {
 					graphWidth = $("#contents_area").width() * 0.43;
-					var areaHeight = $("#contents_area").height() - $("#contents_area_content").height();
+					var areaHeight = $("#contents_area").height()
+							- $("#contents_area_content").height();
 					if (nodesNum < 3) {
 						graphHeight = areaHeight * 0.75;
-					}else {
+					} else {
 						graphHeight = areaHeight * 0.35;
 					}
 				}
@@ -267,7 +279,7 @@ ENS.NodeInfoParentView = wgp.AbstractView
 				}
 				for ( var i = startVar; i < endVar; i++) {
 					var viewName = this.childNodes[i];
-					this._addGraphDivision(viewName, width, height);
+					this._addGraphDivision(viewName, width, height, i);
 					var instance = ENS.nodeinfo.viewList[viewName];
 					if (from != undefined && to != undefined) {
 						instance.updateDisplaySpan(from, to);
@@ -333,6 +345,10 @@ ENS.NodeInfoParentView = wgp.AbstractView
 
 						if ($("#page").length > 0) {
 							$("#page").remove();
+						}
+
+						if ($("#tempDiv").length > 0) {
+							$("#tempDiv").remove();
 						}
 
 						var startVar = page * instance.graphPerPage;
