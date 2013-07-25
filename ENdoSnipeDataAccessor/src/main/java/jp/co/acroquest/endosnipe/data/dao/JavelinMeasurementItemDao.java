@@ -244,6 +244,11 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
                     itemName += "/";
                 }
                 
+                if ("".equals(itemName))
+                {
+                    continue;
+                }
+
                 // 改行コードを変換する
                 itemName = itemName.replaceAll("\\r\\n", ALTERNATE_LINE_FEED_CODE);
                 itemName = itemName.replaceAll("\\r", ALTERNATE_LINE_FEED_CODE);
