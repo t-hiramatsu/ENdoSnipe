@@ -275,7 +275,7 @@ ENS.ResourceMapView = wgp.MapView.extend({
 					"OK" : function(){
 
 						if(linkNameText.val().length == 0){
-							alert("link Name is require");
+							alert("Link Name is require");
 							return;
 						}
 						linkName = linkNameText.val();
