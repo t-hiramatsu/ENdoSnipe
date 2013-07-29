@@ -76,6 +76,26 @@ ENS.treeView = wgp.TreeView
 				this.childView = eval("new " + viewClassName
 						+ "(viewSettings, treeSettings)");
 			},
+			/**
+			 *  複数ノード更新時に、rollbackとclean_nodeを一時的にOFFにする。
+			 */
+			start_batch : function() {
+				var tree = jQuery.jstree._reference($("#" + this.$el.attr("id")));
+				var rollback = tree.get_rollback;
+				tree.get_rollback = function(){};
+				var clean_node = tree.clean_node;
+				tree.clean_node = function(){};
+
+				return [tree, rollback, clean_node];
+			},
+			/**
+			 *  複数ノード更新時に、rollbackとclean_nodeを一時的にOFFにする処理の後処理としてONにする。
+			 */
+			end_batch : function(args) {
+				var tree = args[0];
+				tree.get_rollback = args[1];
+				tree.clean_node = args[2];
+			},
 			render : function(renderType, treeModel) {
 				// renderを行わない場合はreturnする
 				if (ENS.tree.doRender === false) {
