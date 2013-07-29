@@ -106,7 +106,7 @@ ENS.ResourceMapListView = wgp.TreeView
 						"OK" : function() {
 
 							if (mapNameText.val().length == 0) {
-								alert("Map Name is require");
+								alert("Map Name is required.");
 								return;
 							}
 
