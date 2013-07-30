@@ -52,9 +52,11 @@ ENS.SignalDefinitionDialogView = ENS.DialogView
 													var level = $(
 															"#signalPatternValue select")
 															.val() - 0;
+													
 													// レベルを入力するテキストボックスに数値が入力されているか確認し、
 													// 数値以外のものが入力されている場合はアラートを表示し、再入力を求める。
-													// また全ての閾値レベルの入力欄が空であった場合も同様にアラートを表示し、再入力を求める。
+													// 全ての閾値レベルの入力欄が空であった場合も同様にアラートを表示し、再入力を求める。
+													// また閾値レベルの上下関係にエラーがあった場合もアラートを表示し、再入力を求める。
 													var emptyNum = 0;
 
 													var inputValue2 = $(
@@ -63,6 +65,7 @@ ENS.SignalDefinitionDialogView = ENS.DialogView
 													var inputValue4 = $(
 															"input#patternValue_4")
 															.val();
+													
 													if (level == 3) {
 														if (!inputValue2
 																.match(/^([1-9]\d*|0|^$)(\.\d+)?$/)
@@ -77,6 +80,12 @@ ENS.SignalDefinitionDialogView = ENS.DialogView
 															alert("Please input 'Signal Levels'.");
 															return;
 														}
+														
+														if (inputValue2 > inputValue4){
+															alert('The value of CRITICAL should be larger than that of WARNING.');
+															return;
+														}
+														
 													} else if (level == 5) {
 														var inputValue1 = $(
 																"input#patternValue_1")
@@ -84,6 +93,7 @@ ENS.SignalDefinitionDialogView = ENS.DialogView
 														var inputValue3 = $(
 																"input#patternValue_3")
 																.val();
+														
 														if (!inputValue1
 																.match(/^([1-9]\d*|0|^$)(\.\d+)?$/)
 																|| !inputValue2
@@ -103,6 +113,20 @@ ENS.SignalDefinitionDialogView = ENS.DialogView
 															alert("Please input 'Signal Levels'.");
 															return;
 														}
+														
+														if (inputValue1 > inputValue2){
+															alert('The value of WARNING should be larger than that of INFO.');
+															return;
+														}
+														else if (inputValue2 > inputValue3){
+															alert('The value of ERROR should be larger than that of WARNING.');
+															return;
+														}
+														else if (inputValue3 > inputValue4){
+															alert('The value of CRITICAL should be larger than that of ERROR.');
+															return;
+														}
+
 													}
 
 													// エスカレーションピリオドに数値が入力されていない場合にアラートを表示し、再入力を求める。
