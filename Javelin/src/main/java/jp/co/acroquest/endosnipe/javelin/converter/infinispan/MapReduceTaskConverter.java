@@ -2,6 +2,7 @@ package jp.co.acroquest.endosnipe.javelin.converter.infinispan;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
@@ -45,8 +46,9 @@ public class MapReduceTaskConverter extends AbstractConverter
         ctClass.addField(mapReduceJobId);
         CtField mapReduceTaskIdMap = CtField.make(
                 "java.util.Map mapReduceTaskIdMap_ = "
-                        + "new jp.co.acroquest.endosnipe.javelin.util.concurrent."
-                        + "ConcurrentHashMap();", ctClass);
+                        + "new "
+                        + ConcurrentHashMap.class.getName()
+                        + "();", ctClass);
         ctClass.addField(mapReduceTaskIdMap);
         CtMethod getJobId = CtNewMethod.make(
                 "public String getJobId() {return mapReduceJobId_;}", ctClass);
