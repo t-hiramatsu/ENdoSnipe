@@ -26,6 +26,7 @@
 ENS.treeManager = wgp.AbstractView
 		.extend({
 			initialize : function(argument, treeSettings) {
+				this.BATCH_UPDATE_MIN_SIZE = 3;
 
 				// ENdoSnipe用のツリー作成
 				this.ensTreeView = new ENS.treeView({
@@ -191,7 +192,16 @@ ENS.treeManager = wgp.AbstractView
 			 *            追加する子ノードの配列
 			 */
 			callbackGetDirectChildNode : function(childNodes) {
-				this.ensTreeView.collection.add(childNodes);
+				if(childNodes.length > this.BATCH_UPDATE_MIN_SIZE) {
+					// 追加する子ノードが多い場合には、clean_node、__getrollbackなどの実行を最初と最後の要素のみにする。
+					this.ensTreeView.collection.add(childNodes.slice(0, 1));
+					var args = this.ensTreeView.start_batch();
+					this.ensTreeView.collection.add(childNodes.slice(1, childNodes.length - 1));
+					this.ensTreeView.end_batch(args);
+					this.ensTreeView.collection.add(childNodes.slice(childNodes.length - 1, childNodes.length));
+				} else {
+					this.ensTreeView.collection.add(childNodes);
+				}
 			},
 			/**
 			 * 直下の子要素を削除する。

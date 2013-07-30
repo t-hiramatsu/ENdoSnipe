@@ -75,6 +75,26 @@ ENS.treeView = wgp.TreeView
 				this.childView = eval("new " + viewClassName
 						+ "(viewSettings, treeSettings)");
 			},
+			/**
+			 *  複数ノード更新時に、rollbackとclean_nodeを一時的にOFFにする。
+			 */
+			start_batch : function() {
+				var tree = jQuery.jstree._reference($("#" + this.$el.attr("id")));
+				var rollback = tree.get_rollback;
+				tree.get_rollback = function(){};
+				var clean_node = tree.clean_node;
+				tree.clean_node = function(){};
+
+				return [tree, rollback, clean_node];
+			},
+			/**
+			 *  複数ノード更新時に、rollbackとclean_nodeを一時的にOFFにする処理の後処理としてONにする。
+			 */
+			end_batch : function(args) {
+				var tree = args[0];
+				tree.get_rollback = args[1];
+				tree.clean_node = args[2];
+			},
 			render : function(renderType, treeModel) {
 				// renderを行わない場合はreturnする
 				if (ENS.tree.doRender === false) {
@@ -92,7 +112,27 @@ ENS.treeView = wgp.TreeView
 					var treeData = this.createTreeData(treeModel);
 
 					$("#" + this.$el.attr("id")).jstree("create_node",
-							$(targetTag), "last", treeData).bind(
+							$(targetTag), "last", treeData);
+				} else {
+					wgp.TreeView.prototype.render.call(this, renderType,
+							treeModel);
+				}
+			},
+			renderAll : function() {
+				var instance = this;
+				// View jsTree
+				var settings = this.treeOption;
+				settings = $.extend(true, settings, {
+					json_data : {
+						data : this.createJSONData()
+					}
+				});
+
+				$("#" + this.$el.attr("id")).jstree(settings).bind(
+						"loaded.jstree", function(event, data) {
+							instance.setOpenCloseIcon();
+						});
+				$("#" + this.$el.attr("id")).bind(
 							"create_node.jstree",
 							function(event, data) {
 								var childModel = data.args[2].data[0];
@@ -114,25 +154,6 @@ ENS.treeView = wgp.TreeView
 									instance.addOtherNodes(id);
 								}
 							});
-				} else {
-					wgp.TreeView.prototype.render.call(this, renderType,
-							treeModel);
-				}
-			},
-			renderAll : function() {
-				var instance = this;
-				// View jsTree
-				var settings = this.treeOption;
-				settings = $.extend(true, settings, {
-					json_data : {
-						data : this.createJSONData()
-					}
-				});
-
-				$("#" + this.$el.attr("id")).jstree(settings).bind(
-						"loaded.jstree", function(event, data) {
-							instance.setOpenCloseIcon();
-						});
 
 				this.getAllReport_();
 				this.getAllSignal_();

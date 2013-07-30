@@ -246,7 +246,7 @@ ENS.ResourceMapView = wgp.MapView.extend({
 			var resourceModel = new wgp.MapElement();
 
 			var createLinkDialog = $("<div title='Create new Link'></div>");
-			createLinkDialog.append("<p> Please enter new Link name</p>");
+			createLinkDialog.append("<p> Please enter new Link Name</p>");
 
 			var linkNameLabel = $("<label for='linkName'>Link Name：</label>");
 			var linkNameText =
@@ -275,7 +275,7 @@ ENS.ResourceMapView = wgp.MapView.extend({
 					"OK" : function(){
 
 						if(linkNameText.val().length == 0){
-							alert("link Name is require");
+							alert("Link Name is required.");
 							return;
 						}
 						linkName = linkNameText.val();

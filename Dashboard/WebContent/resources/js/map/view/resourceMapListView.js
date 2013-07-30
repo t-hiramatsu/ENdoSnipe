@@ -90,7 +90,7 @@ ENS.ResourceMapListView = wgp.TreeView
 			onCreate : function() {
 				var instance = this;
 				var createMapDialog = $("<div title='Create new Map'></div>");
-				createMapDialog.append("<p> Please enter new Map name</p>");
+				createMapDialog.append("<p> Please enter new Map Name</p>");
 
 				var mapNameLabel = $("<label for='mapName'>Map Name</label>");
 				var mapNameText = $("<input type='text' name='mapName' id='mapName' class='text'>");
@@ -106,7 +106,7 @@ ENS.ResourceMapListView = wgp.TreeView
 						"OK" : function() {
 
 							if (mapNameText.val().length == 0) {
-								alert("Map Name is require");
+								alert("Map Name is required.");
 								return;
 							}
 
