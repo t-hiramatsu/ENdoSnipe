@@ -25,13 +25,10 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.web.dashboard.controller;
 
-import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
-import jp.co.acroquest.endosnipe.communicator.CommunicationClient;
-import jp.co.acroquest.endosnipe.web.dashboard.manager.ConnectionClient;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.EventManager;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.ResourceSender;
 import jp.co.acroquest.endosnipe.web.dashboard.service.TreeMenuService;
@@ -41,7 +38,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 import org.wgp.manager.WgpDataManager;
 
 /**
@@ -82,33 +78,13 @@ public class DashboardController
      * @return 表示するjspファイルの名前
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView initialize(final Locale locale, final Model model,
+    public String initialize(final Locale locale, final Model model,
             final HttpServletRequest request)
     {
         // TODO ServletContextから取得できないため、初期化時に設定する。
         EventManager eventManager = EventManager.getInstance();
         eventManager.setWgpDataManager(wgpDataManager);
         eventManager.setResourceSender(resourceSender);
-
-        ConnectionClient connectionClient = ConnectionClient.getInstance();
-        List<CommunicationClient> clientList = connectionClient.getClientList();
-        Boolean isConnected = false;
-        int connect = 0;
-        for (int clientNumber = 0; clientNumber <= clientList.size() - 1; clientNumber++)
-        {
-            isConnected = clientList.get(clientNumber).isConnected();
-
-            if (isConnected.equals(true))
-            {
-                connect = 0;
-            }
-            else
-            {
-                connect = -1;
-            }
-        }
-        ModelAndView modelAndView = new ModelAndView("Dashboard");
-        modelAndView.addObject("connect", connect);
-        return modelAndView;
+        return "Dashboard";
     }
 }
