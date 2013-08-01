@@ -1630,6 +1630,13 @@
             inst.selectedAMPM = inst.currentAMPM = $("#DP_jQuery_AMPM_" + dpuuid).val();
             this._selectDate(id, this._formatDate(inst,
 			inst.currentDay, inst.currentMonth, inst.currentYear));
+            
+            var activeList = $(".ui-state-active");
+            _.each(activeList, function(activeTag, index) {
+            	$(activeTag).removeClass("ui-state-active");
+            });
+            
+            $(td.children[0]).addClass("ui-state-active");
         },
 
         /* Erase the input field and hide the date picker. */
@@ -1655,7 +1662,6 @@
             if (inst.inline)
                 this._updateDatepicker(inst);
             else {
-                this._hideDatepicker();
                 this._lastInput = inst.input[0];
                 if (typeof (inst.input[0]) != 'object')
                     inst.input.focus(); // restore focus
@@ -2089,7 +2095,7 @@
 							inst.id + '\',' + printDate.getMonth() + ',' + printDate.getFullYear() + ', this);return false;"') + '>' + // actions
 							(otherMonth && !showOtherMonths ? '&#xa0;' : // display for other months
 							(unselectable ? '<span class="ui-state-default">' + printDate.getDate() + '</span>' : '<a class="ui-state-default' +
-							(printDate.getTime() == today.getTime() ? ' ui-state-highlight' : '') +
+							(printDate.getTime() == today.getTime() ? ' ui-state-default' : '') +
 							(printDate.getTime() == currentDate.getTime() ? ' ui-state-active' : '') + // highlight selected day
 							(otherMonth ? ' ui-priority-secondary' : '') + // distinguish dates from other months
 							'" href="#">' + printDate.getDate() + '</a>')) + '</td>'; // display selectable date
@@ -2175,8 +2181,8 @@
 //                
                 html += '&nbsp;';
                 html += '<button type="button" class="ui-datepicker-current ui-state-default ui-priority-secondary ui-corner-all"';
-                html += ' onclick="$(\'.ui-datepicker-current-day\').click()"';
-                html+= '>OK</button>';
+                html += ' onclick="DP_jQuery_' + dpuuid + '.datetimepicker._validateSelected();return false;"';
+                html += '>OK</button>';
 /*
                 //AM/PM drop Down
                 html += ' <select id="DP_jQuery_AMPM_' + dpuuid + '"><option value="AM"';
@@ -2204,6 +2210,18 @@
 			'<iframe src="javascript:false;" class="ui-datepicker-cover" frameborder="0"></iframe>' : '');
             inst._keyEvent = false;
             return html;
+        },
+        
+        /*　Validation for date select */
+        _validateSelected: function()　{
+        	var elemList = $(".ui-state-active");
+
+        	if(elemList.length == 0){
+        		return alert("Select any date.");
+        	}
+        	
+        	this._hideDatepicker();
+        	return false;
         },
 
         /* Generate the month and year header. */
