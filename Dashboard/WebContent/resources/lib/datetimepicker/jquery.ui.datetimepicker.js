@@ -2120,7 +2120,7 @@
 
                 // Hour Drop Down
                 html += 'Time <select id="DP_jQuery_Hour_' + dpuuid + '">';
-//修正                for (i = 1; i < 13; i++) {
+                //修正                for (i = 1; i < 13; i++) {
                 for (i = 0; i < 24; i++) {
                     html += '<option value="' + i + '"';
 
@@ -2181,7 +2181,7 @@
 //                
                 html += '&nbsp;';
                 html += '<button type="button" class="ui-datepicker-current ui-state-default ui-priority-secondary ui-corner-all"';
-                html += ' onclick="DP_jQuery_' + dpuuid + '.datetimepicker._validateSelected();return false;"';
+                html += ' onclick="DP_jQuery_' + dpuuid + '.datetimepicker._validateSelected(\'#' + inst.id + '\');return false;"';
                 html += '>OK</button>';
 /*
                 //AM/PM drop Down
@@ -2213,14 +2213,16 @@
         },
         
         /*　Validation for date select */
-        _validateSelected: function()　{
+        _validateSelected: function(id)　{
+        	
+        	$('.ui-datepicker-current-day').click();
         	var elemList = $(".ui-state-active");
-
         	if(elemList.length == 0){
         		return alert("Select any date.");
         	}
         	
         	this._hideDatepicker();
+        	
         	return false;
         },
 
