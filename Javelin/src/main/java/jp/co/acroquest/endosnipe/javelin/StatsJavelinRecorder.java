@@ -90,6 +90,9 @@ public class StatsJavelinRecorder
     /** クライアントモード */
     private static final String              CONNECTION_MODE_CLIENT = "client";
 
+    /** クライアント/サーバ両用モード */
+    private static final String              CONNECTION_MODE_BOTH = "both";
+
     /**
      * インスタンス化を阻止するプライベートコンストラクタです。<br />
      */
@@ -139,11 +142,21 @@ public class StatsJavelinRecorder
             // スレッドの監視を開始する。
             vmStatusHelper__.init();
 
-            // クライアントモードの場合のみ、TCPでの接続を開始する。
+            // クライアントモードの場合、TCPでの接続を開始する。
+            // クライアント/サーバモードの場合、TCPでの接続、および接続受付する。
             // クライアントモードでない場合、TCPでの接続受付を開始する。
             if (CONNECTION_MODE_CLIENT.equals(config.getConnectionMode()))
             {
+                // 接続
                 JavelinConnectThread.getInstance().connect();
+            }
+            else if(CONNECTION_MODE_BOTH.equals(config.getConnectionMode()))
+            {
+                JavelinConnectThread.getInstance().connect();
+                
+                // TCPでの接続受付を開始する。
+                JavelinAcceptThread.getInstance().start();
+                
             }
             else
             {
