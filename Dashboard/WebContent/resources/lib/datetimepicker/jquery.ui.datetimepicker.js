@@ -1636,7 +1636,14 @@
             	$(activeTag).removeClass("ui-state-active");
             });
             
+            var currentDayList = $(".ui-datepicker-current-day");
+            _.each(currentDayList, function(currentDayTag, index) {
+            	$(currentDayTag).removeClass("ui-datepicker-current-day");
+            });
+            
             $(td.children[0]).addClass("ui-state-active");
+            $(td.children[0]).addClass("ui-datepicker-current-day");
+            
         },
 
         /* Erase the input field and hide the date picker. */
@@ -2215,10 +2222,12 @@
         /*　Validation for date select */
         _validateSelected: function(id)　{
         	
-        	$('.ui-datepicker-current-day').click();
         	var elemList = $(".ui-state-active");
+        	
         	if(elemList.length == 0){
         		return alert("Select any date.");
+        	} else {
+        		elemList[0].click();
         	}
         	
         	this._hideDatepicker();
