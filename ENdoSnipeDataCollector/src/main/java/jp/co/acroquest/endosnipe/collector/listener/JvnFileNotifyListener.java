@@ -46,10 +46,10 @@ import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
  * @author nagai
  */
 public class JvnFileNotifyListener extends AbstractTelegramListener implements TelegramListener,
-        LogMessageCodes
+    LogMessageCodes, AgentNameListener
 {
-    private static final ENdoSnipeLogger LOGGER =
-                                                  ENdoSnipeLogger.getLogger(JvnFileNotifyListener.class);
+    private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
+        .getLogger(JvnFileNotifyListener.class);
 
     private final String tempDir_;
 
@@ -77,8 +77,8 @@ public class JvnFileNotifyListener extends AbstractTelegramListener implements T
 
         String iotemp = System.getProperty("java.io.tmpdir");
         tempDir_ =
-                   iotemp + System.getProperty("file.separator") + "collector"
-                           + System.getProperty("file.separator");
+            iotemp + System.getProperty("file.separator") + "collector"
+                + System.getProperty("file.separator");
 
         File tempFile = new File(tempDir_);
         if (tempFile.exists() == false)

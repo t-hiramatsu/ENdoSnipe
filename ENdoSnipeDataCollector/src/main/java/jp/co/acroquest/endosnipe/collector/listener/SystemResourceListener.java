@@ -47,7 +47,7 @@ import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
  * @author y-komori
  */
 public class SystemResourceListener extends AbstractTelegramListener implements TelegramListener,
-        LogMessageCodes, CommonLogMessageCodes
+        LogMessageCodes, CommonLogMessageCodes, AgentNameListener
 {
     /** ロガー */
     private static final ENdoSnipeLogger LOGGER;
@@ -132,9 +132,8 @@ public class SystemResourceListener extends AbstractTelegramListener implements 
         return TelegramConstants.BYTE_TELEGRAM_KIND_RESOURCENOTIFY;
     }
 
-    /**
-     * エージェント名を取得します。
-     * @return エージェント名
+    /* (non-Javadoc)
+     * @see jp.co.acroquest.endosnipe.collector.listener.AgentNameListener#getAgentName()
      */
     public String getAgentName()
     {
@@ -200,9 +199,8 @@ public class SystemResourceListener extends AbstractTelegramListener implements 
         javelinData.setTelegramId(telegramId);
     }
 
-    /**
-     * エージェント名を設定します。
-     * @param agentName エージェント名
+    /* (non-Javadoc)
+     * @see jp.co.acroquest.endosnipe.collector.listener.AgentNameListener#setAgentName(java.lang.String)
      */
     public void setAgentName(final String agentName)
     {

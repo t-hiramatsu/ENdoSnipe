@@ -29,6 +29,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -336,5 +337,15 @@ public class JavelinClientConnection
         throws InterruptedException
     {
         return queue_.take();
+    }
+    
+    /**
+     * ローカルアドレスを取得する。
+     * 
+     * @return ローカルアドレス。
+     */
+    public InetAddress getAddress()
+    {
+        return this.clientSocket_.getLocalAddress();
     }
 }

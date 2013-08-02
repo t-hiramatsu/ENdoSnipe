@@ -34,6 +34,7 @@ import java.util.List;
 import jp.co.acroquest.endosnipe.collector.data.JavelinConnectionData;
 import jp.co.acroquest.endosnipe.collector.listener.AllNotifyListener;
 import jp.co.acroquest.endosnipe.collector.listener.CommonResponseListener;
+import jp.co.acroquest.endosnipe.collector.listener.ConnectNotifyListener;
 import jp.co.acroquest.endosnipe.collector.listener.JvnFileNotifyListener;
 import jp.co.acroquest.endosnipe.collector.listener.SignalChangeListener;
 import jp.co.acroquest.endosnipe.collector.listener.SignalStateListener;
@@ -47,11 +48,9 @@ import jp.co.acroquest.endosnipe.communicator.AbstractCommunicator;
 import jp.co.acroquest.endosnipe.communicator.CommunicationClient;
 import jp.co.acroquest.endosnipe.communicator.CommunicationFactory;
 import jp.co.acroquest.endosnipe.communicator.CommunicatorListener;
-import jp.co.acroquest.endosnipe.communicator.TelegramListener;
 import jp.co.acroquest.endosnipe.communicator.TelegramReceiver;
 import jp.co.acroquest.endosnipe.communicator.TelegramSender;
 import jp.co.acroquest.endosnipe.communicator.entity.ConnectNotifyData;
-import jp.co.acroquest.endosnipe.communicator.entity.Header;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.data.service.HostInfoManager;
@@ -104,7 +103,7 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
      * @param acceptPort BottleneckEye からの接続待ち受けポート番号
      */
     public void init(final String databaseName, final String javelinHost, final int javelinPort,
-            final int acceptPort)
+        final int acceptPort)
     {
         this.databaseName_ = databaseName;
         this.javelinHost_ = javelinHost;
@@ -139,7 +138,7 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
      * @param connectNotify 接続完了後に送信する接続通知情報
      */
     public synchronized void connect(final JavelinDataQueue queue,
-            final ConnectNotifyData connectNotify)
+        final ConnectNotifyData connectNotify)
     {
         connect(queue, BehaviorMode.CONNECT_MODE, connectNotify);
     }
@@ -152,7 +151,22 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
      * @param connectNotify 接続完了後に送信する接続通知情報
      */
     public synchronized void connect(final JavelinDataQueue queue, final BehaviorMode behaviorMode,
-            final ConnectNotifyData connectNotify)
+        final ConnectNotifyData connectNotify)
+    {
+        this.connect(queue, behaviorMode, connectNotify, 0);
+    }
+
+    /**
+     * クライアントを開始します。<br />
+     *
+     * @param queue データを蓄積するためのキュー
+     * @param behaviorMode サービスモード
+     * @param connectNotify 接続完了後に送信する接続通知情報
+     * @param agentId エージェントID
+     */
+    public synchronized void connect(final JavelinDataQueue queue, final BehaviorMode behaviorMode,
+        final ConnectNotifyData connectNotify, final int agentId)
+
     {
         this.queue_ = queue;
 
@@ -169,7 +183,7 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
             hostName = this.javelinHost_;
         }
 
-        initializeClient(queue, behaviorMode, hostName, connectNotify);
+        initializeClient(queue, behaviorMode, hostName, connectNotify, agentId);
     }
 
     /**
@@ -183,8 +197,7 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
             Date currentDate = new Date();
             long currentTime = currentDate.getTime();
             JavelinConnectionData disconnectionData =
-                                                      new JavelinConnectionData(
-                                                                                JavelinConnectionData.TYPE_DISCONNECTION);
+                new JavelinConnectionData(JavelinConnectionData.TYPE_DISCONNECTION);
             disconnectionData.measurementTime = currentTime;
             disconnectionData.setDatabaseName(JavelinClient.this.databaseName_);
             if (this.queue_ != null)
@@ -252,7 +265,7 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
         }
         catch (UnknownHostException ex)
         {
-            LOGGER.warn(CommonLogMessageCodes.UNEXPECTED_ERROR, ex);
+            LOGGER.log(CommonLogMessageCodes.UNEXPECTED_ERROR, ex);
         }
 
         return createClientId(ipAddress, port);
@@ -350,18 +363,23 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
      * @param behaviorMode サービスモード
      * @param hostName ホスト名
      * @param connectNotify 接続完了後に送信する接続通知情報
+     * @param agentId エージェントID
      */
     private synchronized void initializeClient(final JavelinDataQueue queue,
-            final BehaviorMode behaviorMode, final String hostName,
-            final ConnectNotifyData connectNotify)
+        final BehaviorMode behaviorMode, final String hostName,
+        final ConnectNotifyData connectNotify, final int agentId)
     {
         this.client_ =
-                       CommunicationFactory.getCommunicationClient("DataCollector-ClientThread-"
-                               + this.clientId_);
+            CommunicationFactory.getCommunicationClient("DataCollector-ClientThread-"
+                + this.clientId_);
         this.client_.init(this.javelinHost_, this.javelinPort_);
 
-        String agentName = connectNotify.getAgentName();
-        initializeCommon(queue, behaviorMode, hostName, agentName);
+        String agentName = null;
+        if (connectNotify != null)
+        {
+            agentName = connectNotify.getAgentName();
+        }
+        initializeCommon(queue, behaviorMode, hostName, agentName, agentId);
 
         // サーバへ接続する(接続に成功するまでリトライを続ける)
         this.client_.connect(connectNotify);
@@ -374,9 +392,11 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
      * @param alarmRepository アラーム
      * @param behaviorMode サービスモード
      * @param hostName ホスト名
+     * @param agentId エージェントID
      */
     private synchronized void initializeCommon(final JavelinDataQueue queue,
-            final BehaviorMode behaviorMode, final String hostName, final String agentName)
+        final BehaviorMode behaviorMode, final String hostName, final String agentName,
+        final int agentId)
     {
         setTelegramSenders();
 
@@ -387,12 +407,9 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
         receiver.addTelegramListener(allNotifyListener);
 
         final JvnFileNotifyListener JVN_FILE_NOTIFY_LISTENER =
-                                                               createJvnFileNotifyListener(queue,
-                                                                                           hostName);
+            createJvnFileNotifyListener(queue, hostName);
         final SystemResourceListener SYSTEM_RESOURCE_LISTENER =
-                                                                createSystemResourceListener(queue,
-                                                                                             hostName,
-                                                                                             agentName);
+            createSystemResourceListener(queue, hostName, agentName);
 
         final SignalStateListener SIGNAL_STATE_LISTENER = new SignalStateListener();
         final SignalChangeListener SIGNAL_CHANGE_LISTENER = new SignalChangeListener();
@@ -406,46 +423,16 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
             addResponseTelegramListener(TelegramConstants.BYTE_TELEGRAM_KIND_UPDATE_PROPERTY);
         }
 
+        ConnectNotifyListener connectListener = new ConnectNotifyListener(agentId);
+        connectListener.addAgentNameListener(SYSTEM_RESOURCE_LISTENER);
+        connectListener.addAgentNameListener(JVN_FILE_NOTIFY_LISTENER);
+        receiver.addTelegramListener(connectListener);
+
         // クライアント・サーバの状態変化を通知するためのリスナを登録
         CommunicatorListener listener =
-                                        createCommunicatorListener(queue, JVN_FILE_NOTIFY_LISTENER,
-                                                                   SYSTEM_RESOURCE_LISTENER);
+            createCommunicatorListener(queue, JVN_FILE_NOTIFY_LISTENER, SYSTEM_RESOURCE_LISTENER);
         getCommunicator().addCommunicatorListener(listener);
         getCommunicator().addCommunicatorListener(this);
-    }
-
-    /**
-     * サービスモード時の初期化処理。
-     * @param alarmRepository アラーム
-     */
-    private synchronized void initializeForServiceMode()
-    {
-
-        // BottleneckEye->DataCollector->Javelin
-        this.transferThread_.addTelegramListener(new TelegramListener() {
-            public Telegram receiveTelegram(final Telegram telegram)
-            {
-                getTelegramSender().sendTelegram(telegram);
-                return null;
-            }
-        });
-
-        // Javelin->DataCollector->BottleneckEye
-        this.transferThread_.start(this.acceptPort_);
-        getTelegramReceiver().addTelegramListener(new TelegramListener() {
-            public Telegram receiveTelegram(final Telegram telegram)
-            {
-                Header header = telegram.getObjHeader();
-                if (header.getByteTelegramKind() == TelegramConstants.BYTE_TELEGRAM_KIND_RESOURCENOTIFY
-                        && header.getByteRequestKind() == TelegramConstants.BYTE_REQUEST_KIND_RESPONSE)
-                {
-                    return null;
-                }
-
-                transferThread_.sendTelegram(telegram);
-                return null;
-            }
-        });
     }
 
     /**
@@ -457,14 +444,14 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
      * @return 生成したリスナ
      */
     private CommunicatorListener createCommunicatorListener(final JavelinDataQueue queue,
-            final JvnFileNotifyListener jvnFileNotifyListener,
-            final SystemResourceListener systemResourceListener)
+        final JvnFileNotifyListener jvnFileNotifyListener,
+        final SystemResourceListener systemResourceListener)
     {
         // 接続に成功するとSocketChannelからIPアドレスを取得できるため、
         // そのときにJvnFileNotifyListenerにIPアドレスを登録する
         CommunicatorListener listener = new CommunicatorListener() {
             public void clientConnected(final String hostName, final String ipAddress,
-                    final int port)
+                final int port)
             {
                 if (queue != null)
                 {
@@ -484,8 +471,7 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
                 Date currentDate = new Date();
                 long currentTime = currentDate.getTime();
                 JavelinConnectionData connectionData =
-                                                       new JavelinConnectionData(
-                                                                                 JavelinConnectionData.TYPE_CONNECTION);
+                    new JavelinConnectionData(JavelinConnectionData.TYPE_CONNECTION);
                 connectionData.measurementTime = currentTime;
                 connectionData.setDatabaseName(JavelinClient.this.databaseName_);
                 if (queue != null)
@@ -502,8 +488,7 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
                     Date currentDate = new Date();
                     long currentTime = currentDate.getTime();
                     JavelinConnectionData disconnectionData =
-                                                              new JavelinConnectionData(
-                                                                                        JavelinConnectionData.TYPE_DISCONNECTION);
+                        new JavelinConnectionData(JavelinConnectionData.TYPE_DISCONNECTION);
                     disconnectionData.measurementTime = currentTime;
                     disconnectionData.setDatabaseName(JavelinClient.this.databaseName_);
                     if (queue != null)
@@ -529,7 +514,7 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
      * @return 作成したJvnFileNotifyListener
      */
     private JvnFileNotifyListener createJvnFileNotifyListener(final JavelinDataQueue queue,
-            final String hostName)
+        final String hostName)
     {
         JvnFileNotifyListener notifyListener = null;
         if (queue != null)
@@ -550,7 +535,7 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
      * @return 作成したSystemResourceListener
      */
     private SystemResourceListener createSystemResourceListener(final JavelinDataQueue queue,
-            final String hostName, final String agentName)
+        final String hostName, final String agentName)
     {
         SystemResourceListener notifyListener = null;
         if (queue != null)
@@ -574,4 +559,5 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
         communicator = this.client_;
         return communicator;
     }
+
 }
