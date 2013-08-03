@@ -220,6 +220,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 			},
 			mouseEvent : function(graphId, isShort, tmpTitle, optionSettings) {
 				var graphPath = this.graphId;
+				var instance = this;
 				$("#" + graphId).mouseover(function(event) {
 					var target = event.target;
 					$("#" + graphId).attr("title", graphPath);
@@ -241,6 +242,13 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 						$(target).text(optionSettings.title);
 						$(target).parent("div").css('z-index', "0");
 					}
+				});
+				
+				// ズームアウト時（ダブルクリック）のイベントを設定。
+				$("#" + graphId).dblclick(function(event) {
+					instance.zoomOut(instance.getGraphObject())
+					$(".dygraph-title").width(
+							($("#" + graphId).width() - 87));
 				});
 			},
 			onAdd : function(graphModel) {
@@ -812,6 +820,12 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 										}
 									}
 								});
+				// ズームアウト時（ダブルクリック）のイベントを設定。
+				$("#tempDiv").dblclick(function(event) {
+					instance.zoomOut(instance.tempEntity);
+					$(".dygraph-title").width(
+							($("#tempDiv").width() * 0.977) - 67);
+				});
 
 			},
 			addNormalizeEvent : function() {
@@ -855,5 +869,23 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 								.width(($("#" + graph).width() - 87));
 					}
 				}
+			},
+			// ズームアウト時、表示範囲を指定してグラフを更新する。
+			zoomOut : function(graphObj) {
+				var tempStart;
+				var tempEnd;
+				var time = new Date();
+				if (this.timeFrom === 0) {
+					tempEnd = time;
+					tempStart = new Date(new Date().getTime() - this.term
+							* 1000);
+				} else {
+					tempEnd = time;
+					tempStart = new Date(time.getTime() - this.timeFrom);
+				}
+
+				var updateOption = {};
+				updateOption['dateWindow'] = [ tempStart, tempEnd ];
+				graphObj.updateOptions(updateOption);
 			}
 		});
