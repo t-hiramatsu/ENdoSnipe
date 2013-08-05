@@ -52,7 +52,7 @@ public class JavelinClientThread implements Runnable
 
     private boolean isRunning_;
     
-    private JavelinConfig config__ = new JavelinConfig();
+    private JavelinConfig config_ = new JavelinConfig();
 
     /** 電文処理クラスのリスト */
     private final List<TelegramListener> telegramListenerList_ = new ArrayList<TelegramListener>();
@@ -187,7 +187,7 @@ public class JavelinClientThread implements Runnable
         connectNotify.setKind(ConnectNotifyData.KIND_JAVELIN);
 
         // DB名称を生成
-        String agentName = config__.getAgentName();
+        String agentName = config_.getAgentName();
         InetAddress localAddress = this.clientConnection_.getAddress();
         String ipAddr = localAddress.getHostAddress();
         String localhostName = localAddress.getHostName();
@@ -195,7 +195,8 @@ public class JavelinClientThread implements Runnable
         String realAgentName =
             CommunicationClientImpl.createAgentName(agentName, localhostName, ipAddr);
         connectNotify.setAgentName(realAgentName);
-        List<byte[]> telegramList = TelegramUtil.createTelegram(ConnectNotifyAccessor.createTelegram(connectNotify));
+        List<byte[]> telegramList =
+            TelegramUtil.createTelegram(ConnectNotifyAccessor.createTelegram(connectNotify));
         for (byte[] telegram : telegramList)
         {
             this.clientConnection_.sendAlarm(telegram);
@@ -261,7 +262,8 @@ public class JavelinClientThread implements Runnable
     }
 
     /**
-     * TelegramListenerのクラスをJavelin設定から読み込み、登録する。 クラスのロードは、以下の順でクラスローダでのロードを試みる。
+     * TelegramListenerのクラスをJavelin設定から読み込み、登録する。 クラスのロードは、
+     * 以下の順でクラスローダでのロードを試みる。
      * <ol> <li>JavelinClientThreadをロードしたクラスローダ</li> <li>コンテキストクラスローダ</li>
      * </ol>
      * 
@@ -307,7 +309,8 @@ public class JavelinClientThread implements Runnable
     }
 
     /**
-     * クラスをロードする。 以下の順でクラスローダでのロードを試みる。 <ol> <li>JavelinClientThreadをロードしたクラスローダ</li>
+     * クラスをロードする。 以下の順でクラスローダでのロードを試みる。 <ol> 
+     * <li>JavelinClientThreadをロードしたクラスローダ</li>
      * <li>コンテキストクラスローダ</li> </ol>
      * 
      * @param className ロードするクラスの名前。
