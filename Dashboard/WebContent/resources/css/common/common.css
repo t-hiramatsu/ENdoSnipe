@@ -163,6 +163,8 @@ option {
 .ui-dialog {
 	background: no-repeat 0 0,
 		-moz-linear-gradient(left top, #999999, #222222);
+	background: no-repeat 0 0,
+		-webkit-linear-gradient(left top, #999999, #222222);
 }
 
 /** ツールチップのオプション */

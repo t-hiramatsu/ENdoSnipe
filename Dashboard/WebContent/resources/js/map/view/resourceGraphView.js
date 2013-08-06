@@ -541,8 +541,13 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 						var positionTop = position.top;
 
 						var afterWidth = $(e.target).width();
+						if (afterWidth < ENS.map.MIN_GRAPH_WIDTH) {
+							$(e.target).width(ENS.map.MIN_GRAPH_WIDTH);
+						}
 						var afterHeight = $(e.target).height();
-
+						if (afterHeight < ENS.map.MIN_GRAPH_HEIGHT) {
+							$(e.target).height(ENS.map.MIN_GRAPH_HEIGHT);
+						}
 						// グラフ分のマップエリア拡張
 						resourceMapListView.childView.enlargeMapArea(
 								positionLeft, positionTop, afterWidth,
@@ -555,6 +560,21 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 						var changeWidth = afterWidth - beforeWidth;
 						var changeHeight = afterHeight - beforeHeight;
 
+						if (afterWidth < ENS.map.MIN_GRAPH_WIDTH) {
+							afterWidth = ENS.map.MIN_GRAPH_WIDTH;
+						}
+						if (afterHeight < ENS.map.MIN_GRAPH_HEIGHT) {
+							afterHeight = ENS.map.MIN_GRAPH_HEIGHT;
+						}
+						var changeWidth = afterWidth - beforeWidth;
+						if (beforeWidth <= ENS.map.MIN_GRAPH_WIDTH && afterWidth <= ENS.map.MIN_GRAPH_WIDTH) {
+							changeWidth = 0;
+						}
+						var changeHeight = afterHeight - beforeHeight;
+						if (beforeHeight <= ENS.map.MIN_GRAPH_HEIGHT && afterHeight <= ENS.map.MIN_GRAPH_HEIGHT) {
+							changeHeight = 0;
+						}
+						
 						instance.resize(changeWidth, changeHeight);
 						instance.model.set("width", afterWidth, {
 							silent : true
