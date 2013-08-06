@@ -68,9 +68,9 @@ ENS.SignalDefinitionDialogView = ENS.DialogView
 													
 													if (level == 3) {
 														if (!inputValue2
-																.match(/^([1-9]\d*|0|^$)(\.\d+)?$/)
+																.match(/^([+-]?)([1-9]\d*|0|^$)(\.\d+)?$/)
 																|| !inputValue4
-																		.match(/^([1-9]\d*|0|^$)(\.\d+)?$/)) {
+																		.match(/^([+-]?)([1-9]\d*|0|^$)(\.\d+)?$/)) {
 															alert("Don't use non-number in 'Signal Levels'.");
 															return;
 														}
@@ -81,7 +81,8 @@ ENS.SignalDefinitionDialogView = ENS.DialogView
 															return;
 														}
 														
-														if (inputValue2 > inputValue4){
+														// 数値として比較するために、-0をしている
+														if ((inputValue2 - 0) > (inputValue4 - 0)){
 															alert('The value of CRITICAL should be larger than that of WARNING.');
 															return;
 														}
@@ -95,13 +96,13 @@ ENS.SignalDefinitionDialogView = ENS.DialogView
 																.val();
 														
 														if (!inputValue1
-																.match(/^([1-9]\d*|0|^$)(\.\d+)?$/)
+																.match(/^([+-]?)([1-9]\d*|0|^$)(\.\d+)?$/)
 																|| !inputValue2
-																		.match(/^([1-9]\d*|0|^$)(\.\d+)?$/)
+																		.match(/^([+-]?)([1-9]\d*|0|^$)(\.\d+)?$/)
 																|| !inputValue3
-																		.match(/^([1-9]\d*|0|^$)(\.\d+)?$/)
+																		.match(/^([+-]?)([1-9]\d*|0|^$)(\.\d+)?$/)
 																|| !inputValue4
-																		.match(/^([1-9]\d*|0|^$)(\.\d+)?$/)) {
+																		.match(/^([+-]?)([1-9]\d*|0|^$)(\.\d+)?$/)) {
 															alert("Don't use non-number in 'Signal Levels'.");
 															return;
 														}
@@ -114,15 +115,16 @@ ENS.SignalDefinitionDialogView = ENS.DialogView
 															return;
 														}
 														
-														if (inputValue1 > inputValue2){
+														// 数値として比較するために、-0をしている
+														if ((inputValue1 - 0) > (inputValue2 - 0)){
 															alert('The value of WARNING should be larger than that of INFO.');
 															return;
 														}
-														else if (inputValue2 > inputValue3){
+														else if ((inputValue2 - 0) > (inputValue3 - 0)){
 															alert('The value of ERROR should be larger than that of WARNING.');
 															return;
 														}
-														else if (inputValue3 > inputValue4){
+														else if ((inputValue3 - 0) > (inputValue4 - 0)){
 															alert('The value of CRITICAL should be larger than that of ERROR.');
 															return;
 														}
