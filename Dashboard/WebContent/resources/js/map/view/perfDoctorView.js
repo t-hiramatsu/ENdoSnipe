@@ -59,10 +59,12 @@ ENS.perfDoctorView = wgp.AbstractView.extend({
 			pgbuttons : true,
 			pginput : true,
 			height : height,
+			width : 880,
 			sortname : "date", 
 			sortorder : "desc",
 			viewrecords : true, 
-			rownumbers : true
+			rownumbers : true,
+			shrinkToFit : false
 		});
 		$("#journalTable").filterToolbar({
 			defaultSearch : 'cn'
