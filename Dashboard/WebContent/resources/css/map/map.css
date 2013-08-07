@@ -1,7 +1,10 @@
 .map_menu_icon {
-	margin: 10px;
+	float: left;
 }
 
+.map_menu_icon img {
+	margin: 5px;
+}
 .map_menu_icon:hover {
 	cursor: pointer;
 	background: #2e7db2;

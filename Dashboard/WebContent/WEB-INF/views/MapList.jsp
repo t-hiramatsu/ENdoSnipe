@@ -6,7 +6,7 @@
 <%@ include file="../include/ext/javaScriptInclude.jsp"%>
 <%@ include file="../include/MapListInclude.jsp"%>
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/resources/css/common/common.css"
+	href="<%=request.getContextPath()%>/resources/css/common.css"
 	type="text/css" media="all">
 </head>
 <%@ include file="common/Header.jsp"%>
@@ -243,7 +243,11 @@
 					if(resourceMapListView.childView){
 						var selectedId = $("#" + resourceMapListView.id).find(".jstree-clicked")[0].id;
 						var treeModel = resourceMapListView.collection.where({id : selectedId})[0];
-						resourceMapListView.childView.setClickAddEvent("ENS.ResourceLinkElementView");
+						var mapView = resourceMapListView.childView;
+						mapView.setClickAddElementEvent(
+							"ENS.ResourceLinkElementView",
+							raphaelMapConstants.TEXTAREA_ELEMENT_NAME,
+							raphaelMapConstants.TEXTAREA_TYPE_NAME);
 						$("[alt='createLink']").addClass("map_menu_icon-active");
 					}else{
 						console.log("please select a map");
@@ -251,6 +255,60 @@
 				})
 			});
 			menuModelArray.push(linkMapMenuModel);
+
+			var rectangleMenuModel = new ENS.mapMenuModel({
+				width : 25,
+				height : 25,
+				styleClass : 'map_menu_icon',
+				src : '<%=request.getContextPath()%>/resources/images/map/rectangleIcon.png',
+				alt : 'Please click if you want to add this object.',
+				onclick : (function(event){
+					if(resourceMapListView.childView){
+						var mapView = resourceMapListView.childView;
+						mapView.setClickAddElementEvent(
+							"ENS.ShapeElementView",
+							raphaelMapConstants.RECTANGLE_ELEMENT_NAME,
+							raphaelMapConstants.POLYGON_TYPE_NAME);
+					}
+				})
+			});
+			menuModelArray.push(rectangleMenuModel);
+
+			var ellipseMenuModel = new ENS.mapMenuModel({
+				width : 25,
+				height : 25,
+				styleClass : 'map_menu_icon',
+				src : '<%=request.getContextPath()%>/resources/images/map/ellipseIcon.png',
+				alt : 'Please click if you want to add this object.',
+				onclick : (function(event){
+					if(resourceMapListView.childView){
+						var mapView = resourceMapListView.childView;
+						mapView.setClickAddElementEvent(
+							"ENS.ShapeElementView",
+							raphaelMapConstants.ELLIPSE_ELEMENT_NAME,
+							raphaelMapConstants.POLYGON_TYPE_NAME);
+					}
+				})
+			});
+			menuModelArray.push(ellipseMenuModel);
+
+			var textMenuModel = new ENS.mapMenuModel({
+				width : 25,
+				height : 25,
+				styleClass : 'map_menu_icon',
+				src : '<%=request.getContextPath()%>/resources/images/map/textIcon.png',
+				alt : 'Please click if you want to add this object.',
+				onclick : (function(event){
+					if(resourceMapListView.childView){
+						var mapView = resourceMapListView.childView;
+						mapView.setClickAddElementEvent(
+							"ENS.TextBoxElementView",
+							raphaelMapConstants.TEXTAREA_ELEMENT_NAME,
+							raphaelMapConstants.TEXTAREA_TYPE_NAME);
+					}
+				})
+			});
+			menuModelArray.push(textMenuModel);
 		}
 
 		// メニューアイコンを生成する。

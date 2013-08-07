@@ -94,7 +94,7 @@ ENS.ResourceTreeView = ENS.treeView
 							}
 
 							resourceModel.set({
-								objectId : treeId,
+								resourceId : treeId,
 								objectName : "ENS.ResourceGraphElementView",
 								pointX : 50 + offsetX,
 								pointY : 50 + offsetY,
@@ -119,7 +119,7 @@ ENS.ResourceTreeView = ENS.treeView
 							}
 
 							resourceModel.set({
-								objectId : treeId,
+								resourceId : treeId,
 								objectName : "ENS.SignalElementView",
 								pointX : 50,
 								pointY : 50,
@@ -128,7 +128,14 @@ ENS.ResourceTreeView = ENS.treeView
 								stateId : "normal",
 								linkId : "test",
 								stateId : treeIcon,
-								text : treeText
+								text : treeText,
+								elementAttrList : [{
+								},
+								{
+									fontSize : 16,
+									textAnchor : "middle",
+									fill : ENS.map.fontColor,
+								}]
 							});
 						}
 
@@ -155,9 +162,14 @@ ENS.ResourceTreeView = ENS.treeView
 				if (this.childView) {
 					var childView = this.childView;
 
-					var mapElementView = childView.viewCollection[treeModel.id];
+					var mapElementModel = childView.collection.where({resourceId : treeModel.id});
 
 					// 伝搬対象のビューがマップに存在しなければ処理終了
+					if (!mapElementModel){
+						return;
+					}
+
+					var mapElementView = childView.viewCollection.get(mapElementModel.id);
 					if (!mapElementView) {
 						return;
 					}

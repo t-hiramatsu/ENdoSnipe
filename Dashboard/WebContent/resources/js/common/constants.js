@@ -207,6 +207,45 @@ ENS.map.mode.EDIT = "EDIT";
 ENS.map.fontSize = 16;
 ENS.map.fontColor = "#F58400";
 
+ENS.svg = {};
+ENS.svg.attribute = {
+	arrowEnd : "arrow-end",
+	clipRect : "clip-rect",
+	cursor : "cursor",
+	cx : "cx",
+	cy : "cy",
+	fill : "fill",
+	fillOpacity : "fill-opacity",
+	font : "font",
+	fontFamily : "font-family",
+	fontSize : "font-size",
+	fontWeight : "font-weight",
+	height : "height",
+	href : "href",
+	opacity : "opacity",
+	path : "path",
+	r : "r",
+	rx : "rx",
+	ry : "ry",
+	src : "src",
+	stroke : "stroke",
+	strokeDasharray : "stroke-dasharray",
+	strokeLinecap : "stroke-linecap",
+	strokeLinejoin : "stroke-linejoin",
+	strokeMiterlimit : "stroke-miterlimit",
+	strokeOpacity : "stroke-opacity",
+	strokeWidth : "stroke-width",
+	target : "target",
+	text : "text",
+	textAnchor : "text-anchor",
+	title : "title",
+	transform : "transform",
+	width : "width",
+	x : "x",
+	y : "y"
+};
+
+
 ENS.report = {};
 ENS.report.DOWNLOAD_URL = wgp.common.getContextPath() + "/report/download";
 
