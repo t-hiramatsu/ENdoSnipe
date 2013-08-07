@@ -276,7 +276,7 @@ public interface TelegramConstants
     String ITEMNAME_SYSTEM_CPU_IOWAIT_USAGE = "/system/cpu/usage/iowait:%";
 
     /** 項目名（CPUごとの負荷：後ろにCPUコア番号(1～N)を付ける） */
-    String ITEMNAME_CPU_ARRAY = "/system/cpu/load(d)";
+    String ITEMNAME_CPU_ARRAY = "/system/cpu/processor";
 
     // -----------------------------------------------------
     // システム項目: メモリ(算出値)
@@ -562,6 +562,7 @@ public interface TelegramConstants
     // -----------------------------------------------------
     // その他
 
+    /** 項目名（jmx） */
     String ITEMNAME_JMX = "/jmx";
 
     // -----------------------------------------------------
