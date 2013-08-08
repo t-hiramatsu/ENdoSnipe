@@ -35,6 +35,7 @@ import jp.co.acroquest.endosnipe.javelin.CallTree;
 import jp.co.acroquest.endosnipe.javelin.CallTreeNode;
 import jp.co.acroquest.endosnipe.javelin.CallTreeRecorder;
 import jp.co.acroquest.endosnipe.javelin.bean.FastInteger;
+import jp.co.acroquest.endosnipe.javelin.resource.TurnAroundTimeGroupGetter;
 
 /**
  * イベント種別毎のイベント発生数を数えるクラス。<br />
@@ -55,7 +56,9 @@ public class JavelinEventCounter implements JavelinConstants
 	private long lastClearTime_;
 
 	private static final JavelinEventCounter INSTANCE = new JavelinEventCounter();
-
+	
+	private TurnAroundTimeGroupGetter turnAroundTimeGroupGetter = new TurnAroundTimeGroupGetter();
+    
 	/**
 	 * コンストラクタを隠蔽します。<br />
 	 */
@@ -109,19 +112,18 @@ public class JavelinEventCounter implements JavelinConstants
 			CallTreeNode rootNode = callTree.getRootNode();
 			if (rootNode != null)
 			{
-				pageName = rootNode.getInvocation().getRootInvocationManagerKey()
-						.replace("/", "&#47;");
+				pageName = rootNode.getInvocation().getRootInvocationManagerKey();
 			}
 		}
 
 		FastInteger count = this.eventCountMap_.get(event.getName());
-		if (count == null)
+		if (pageName == null)
 		{
-			count = new FastInteger();
-			this.eventCountMap_.put((pageName == null ? "/event/" + event.getName()
-					: TelegramConstants.PREFIX_PROCESS_RESPONSE_EVENT.replace("page", pageName)
-							+ "/" + event.getName()), count);
+		    pageName = TelegramConstants.POSTFIX_EVENT + event.getName();
 		}
+		
+		String eventCountName = turnAroundTimeGroupGetter.getTreeNodeName(pageName, TelegramConstants.POSTFIX_EVENT, event.getName());
+		eventCountMap_.put(eventCountName, count);
 		count.increment();
 	}
 

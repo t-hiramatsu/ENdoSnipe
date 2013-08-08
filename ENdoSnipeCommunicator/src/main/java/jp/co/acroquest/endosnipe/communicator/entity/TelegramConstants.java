@@ -344,6 +344,36 @@ public interface TelegramConstants
     /** 項目名（CPU使用率（プロセス）のうちのIOWAITの使用率） */
     String ITEMNAME_PROCESS_CPU_IOWAIT_USAGE = "/process/cpu/usage/iowait:%";
 
+    /** jdbc node under response */
+    String PREFIX_PROCESS_RESPONSE_JDBC = "/process/response/jdbc/";
+
+    /** servlet node under response */
+    String PREFIX_PROCESS_RESPONSE_SERVLET = "/process/response/servlet";
+
+    /** method node under response */
+    String PREFIX_PROCESS_RESPONSE_METHOD = "/process/response/method/";
+
+    /** the leaf node */
+    String POSTFIX_MAX = "/max";
+
+    /** the leaf node */
+    String POSTFIX_MIN = "/min";
+
+    /** the leaf node */
+    String POSTFIX_AVERAGE = "/average";
+
+    /** the leaf node */
+    String POSTFIX_COUNT = "/count";
+
+    /** the leaf node */
+    String POSTFIX_EVENT = "/event/";
+
+    /** the leaf node */
+    String POSTFIX_ERROR = "/error/";
+
+    /** the leaf node */
+    String POSTFIX_STALLED = "/stalled";
+    
     // -----------------------------------------------------
     // プロセス項目: メモリ(算出値)
 
