@@ -26,14 +26,18 @@
 package jp.co.acroquest.endosnipe.communicator.impl;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 import jp.co.acroquest.endosnipe.communicator.TelegramListener;
 import jp.co.acroquest.endosnipe.communicator.TelegramUtil;
+import jp.co.acroquest.endosnipe.communicator.accessor.ConnectNotifyAccessor;
+import jp.co.acroquest.endosnipe.communicator.entity.ConnectNotifyData;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 
 /**
@@ -47,6 +51,8 @@ public class JavelinClientThread implements Runnable
     private JavelinClientConnection clientConnection_;
 
     private boolean isRunning_;
+    
+    private JavelinConfig config_ = new JavelinConfig();
 
     /** 電文処理クラスのリスト */
     private final List<TelegramListener> telegramListenerList_ = new ArrayList<TelegramListener>();
@@ -116,6 +122,9 @@ public class JavelinClientThread implements Runnable
         {
             // 送信スレッドを開始する。
             startSendThread();
+            
+            // 接続通知を送信する。
+            sendConnectNotify();
 
             this.isRunning_ = true;
             while (this.isRunning_)
@@ -166,6 +175,31 @@ public class JavelinClientThread implements Runnable
             {
                 clientListener_.disconnected(forceDisconnected);
             }
+        }
+    }
+
+    /**
+     * 接続通知を送信する。
+     */
+    private void sendConnectNotify()
+    {
+        ConnectNotifyData connectNotify = new ConnectNotifyData();
+        connectNotify.setKind(ConnectNotifyData.KIND_JAVELIN);
+
+        // DB名称を生成
+        String agentName = config_.getAgentName();
+        InetAddress localAddress = this.clientConnection_.getAddress();
+        String ipAddr = localAddress.getHostAddress();
+        String localhostName = localAddress.getHostName();
+
+        String realAgentName =
+            CommunicationClientImpl.createAgentName(agentName, localhostName, ipAddr);
+        connectNotify.setAgentName(realAgentName);
+        List<byte[]> telegramList =
+            TelegramUtil.createTelegram(ConnectNotifyAccessor.createTelegram(connectNotify));
+        for (byte[] telegram : telegramList)
+        {
+            this.clientConnection_.sendAlarm(telegram);
         }
     }
 
@@ -228,7 +262,8 @@ public class JavelinClientThread implements Runnable
     }
 
     /**
-     * TelegramListenerのクラスをJavelin設定から読み込み、登録する。 クラスのロードは、以下の順でクラスローダでのロードを試みる。
+     * TelegramListenerのクラスをJavelin設定から読み込み、登録する。 クラスのロードは、
+     * 以下の順でクラスローダでのロードを試みる。
      * <ol> <li>JavelinClientThreadをロードしたクラスローダ</li> <li>コンテキストクラスローダ</li>
      * </ol>
      * 
@@ -274,7 +309,8 @@ public class JavelinClientThread implements Runnable
     }
 
     /**
-     * クラスをロードする。 以下の順でクラスローダでのロードを試みる。 <ol> <li>JavelinClientThreadをロードしたクラスローダ</li>
+     * クラスをロードする。 以下の順でクラスローダでのロードを試みる。 <ol> 
+     * <li>JavelinClientThreadをロードしたクラスローダ</li>
      * <li>コンテキストクラスローダ</li> </ol>
      * 
      * @param className ロードするクラスの名前。

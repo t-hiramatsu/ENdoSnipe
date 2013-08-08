@@ -206,6 +206,8 @@ ENS.map.mode.OPERATE = "OPERATE";
 ENS.map.mode.EDIT = "EDIT";
 ENS.map.fontSize = 16;
 ENS.map.fontColor = "#F58400";
+ENS.map.MIN_GRAPH_WIDTH = 260;
+ENS.map.MIN_GRAPH_HEIGHT = 200;
 
 ENS.report = {};
 ENS.report.DOWNLOAD_URL = wgp.common.getContextPath() + "/report/download";

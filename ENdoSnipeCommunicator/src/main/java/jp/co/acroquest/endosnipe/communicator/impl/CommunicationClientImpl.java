@@ -709,7 +709,7 @@ public class CommunicationClientImpl implements CommunicationClient, Runnable
 	 *            IPƒAƒhƒŒƒX
 	 * @return •ÔŠÒŒã‚ÌDB–¼Ì
 	 */
-	private static String createAgentName(String agentName, String hostName,
+	public static String createAgentName(String agentName, String hostName,
 			String ipAddr)
 	{
 		if (agentName == null)

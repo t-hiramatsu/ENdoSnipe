@@ -41,8 +41,10 @@ ENS.reportView = wgp.AbstractView
 							pgbuttons : true,
 							pginput : true,
 							height : height,
+							width : 875,
 							viewrecords : true, 
-							rownumbers : true
+							rownumbers : true,
+							shrinkToFit : false
 						});
 				$("#reportTable").filterToolbar({
 					defaultSearch : 'cn'

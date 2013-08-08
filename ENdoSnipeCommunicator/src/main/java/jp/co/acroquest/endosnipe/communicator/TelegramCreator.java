@@ -87,8 +87,8 @@ public final class TelegramCreator implements TelegramConstants
 	 *          項目名
 	 * @return ログ通知電文
 	 */
-	public static Telegram createJvnFileNotifyTelegram(final String jvnFileName,
-			final String javelinLogContent, final long telegramId, final String itemName)
+    public static Telegram createJvnFileNotifyTelegram(final String jvnFileName,
+        final String javelinLogContent, final long telegramId, final String itemName)
 	{
 		Telegram telegram =	createJvnLogDownloadTelegram(
 		                             BYTE_REQUEST_KIND_NOTIFY, 
@@ -222,7 +222,8 @@ public final class TelegramCreator implements TelegramConstants
 	 * JVNログ取得応答電文を生成します。<br />
 	 * 
 	 * @param jvnFileNames
-	 *			JVNログファイル名のリスト (<code>null</code> の場合は <code>null</code> を返す)
+	 *			JVNログファイル名のリスト (<code>null</code> の場合は
+	 *         <code>null</code> を返す)
 	 * @return 電文オブジェクト
 	 */
 	public static Telegram createJvnLogListTelegram(final String[] jvnFileNames)
@@ -403,7 +404,8 @@ public final class TelegramCreator implements TelegramConstants
 		 * @param methodName
 		 *			メソッド名
 		 * @param transactionGraph
-		 *			トランザクショングラフを出力するか否か（ <code>null</code> なら設定しない）
+		 *			トランザクショングラフを出力するか否か
+		 *            （ <code>null</code> なら設定しない）
 		 * @param target
 		 *			計測対象にするか否か（ <code>null</code> なら設定しない）
 		 * @param alarmThreshold
