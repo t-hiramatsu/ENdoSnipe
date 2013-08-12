@@ -15,11 +15,29 @@ ENS.ResourceMapView = wgp.MapView.extend({
 
 		this.mapId = argument["mapId"];
 
+		// マップ操作用マネージャ
+		this.mapManager = new raphaelMapManager(this);
+
 		// 継承元の初期化メソッド実行
 		this.__proto__.__proto__.initialize.apply(this, [argument]);
 
+		// 手動でのオブジェクトID割り振り用のカウント変数
+		this.maxObjectId = 0;
+
 		// 本クラスのrenderメソッド実行
 		this.renderExtend();
+
+		// モードごとの各種イベントを設定する。
+		var mapMode = $("#mapMode").val();
+		if(mapMode == ENS.map.mode.EDIT){
+			this.setEditFunction();
+
+		}else{
+			this.setOperateFunction();
+		}
+
+		// イベント実行可設定
+		this.isExecuteEvent_ = true;
 	},
 	renderExtend : function(){
 
@@ -37,6 +55,13 @@ ENS.ResourceMapView = wgp.MapView.extend({
 	onAdd : function(model){
 		var objectName = model.get("objectName");
 
+		// オブジェクトIDが未採番の場合
+		var objectId = model.get("objectId");
+		if(objectId == null){
+			objectId = this.createObjectId();
+			model.set({objectId : objectId}, {silent: true});
+		}
+
 		// リソースグラフの場合はグラフを描画する。
 		var newView;
 		if("ENS.ResourceGraphElementView" == objectName){
@@ -51,6 +76,14 @@ ENS.ResourceMapView = wgp.MapView.extend({
 			newView = this._addLinkElement(model);
 			this.viewCollection[model.id] = newView;
 
+		}else if("ENS.TextBoxElementView" == objectName){
+			newView = this._addTextboxElement(model);
+			this.viewCollection[model.id] = newView;
+
+		}else if("ENS.ShapeElementView" == objectName){
+			newView = this._addShapeElement(model);
+			this.viewCollection[model.id] = newView;
+
 		}else{
 
 			// 継承元の追加メソッドを実行する。
@@ -62,7 +95,7 @@ ENS.ResourceMapView = wgp.MapView.extend({
 		if(mapMode == ENS.map.mode.EDIT){
 
 			// ビューの編集イベントを設定する。
-			if(newView){
+			if(newView && newView.setEditFunction){
 				newView.setEditFunction();
 			}
 
@@ -71,13 +104,16 @@ ENS.ResourceMapView = wgp.MapView.extend({
 
 		}else{
 
-			// 運用時のイベントを設定する。
-			newView.setOperateFunction();
+			// ビューの運用イベントを設定する。
+			if(newView && newView.setOperationFunction){
+				newView.setOperateFunction();
+			}
 		}
 
 	},
 	_addGraphDivision : function(model) {
-		var graphId = model.get("objectId");
+		var objectId = model.get("objectId");
+		var graphId = model.get("resourceId");
 		var width = model.get("width");
 		var height = model.get("height");
 
@@ -138,6 +174,7 @@ ENS.ResourceMapView = wgp.MapView.extend({
 	_addStateElement : function(model){
 		var argument = {
 			paper : this.paper,
+			mapView : this,
 			model : model
 		};
 
@@ -148,11 +185,34 @@ ENS.ResourceMapView = wgp.MapView.extend({
 	_addLinkElement : function(model){
 		var argument = {
 			paper : this.paper,
+			mapView : this,
 			model : model
 		};
 
 		var view =
 			new ENS.ResourceLinkElementView(argument);
+		return view;
+	},
+	_addShapeElement : function(model){
+		var argument = {
+			paper : this.paper,
+			mapView : this,
+			model : model
+		};
+
+		var view =
+			new ENS.ShapeElementView(argument);
+		return view;
+	},
+	_addTextboxElement : function(model){
+		var argument = {
+			paper : this.paper,
+			mapView : this,
+			model : model
+		};
+
+		var view =
+			new ENS.TextBoxElementView(argument);
 		return view;
 	},
 	onSave : function(treeModel){
@@ -219,9 +279,10 @@ ENS.ResourceMapView = wgp.MapView.extend({
 			});
 		}
 
-		// 運用モードの場合はシグナル・リンクがグラフの前に来るように調整
-		if($("#mapMode").val() == ENS.map.mode.OPERATE){
-			$(this.paper.canvas).css("z-index", 1);
+		// オブジェクトIDの番号の最大値をセット
+		var maxObjectIdElement = this.collection.max(function(element){return element.get("objectId")});
+		if(maxObjectIdElement){
+			this.maxObjectId = maxObjectIdElement.get("objectId") + 1;
 		}
 	},
 	getMapData : function(mapId){
@@ -234,9 +295,85 @@ ENS.ResourceMapView = wgp.MapView.extend({
 		return this.ajaxHandler.requestServerSync(setting);
 	},
 	// raphaelPaperをクリックした際に追加するイベントを付加する。
-	setClickAddEvent : function(viewClassName){
-		$(this.paper.canvas).unbind("click");
+	setClickAddElementEvent : function(viewClassName, name, type){
 
+		if(this.clickAddElementFunction){
+			$(this.paper.canvas).off("click", this.clickAddElementFunction);
+		}
+
+		if("ENS.ResourceLinkElementView" === viewClassName){
+			this.clickAddElementFunction = this.createClickAddLinkEvent(name, type);
+
+		} else if("ENS.TextBoxElementView" == viewClassName){
+			this.clickAddElementFunction = this.createClickAddTextboxEvent(name, type);
+
+		} else if("ENS.ShapeElementView" === viewClassName){
+			this.clickAddElementFunction = this.createClickAddShapeEvent(name, type);
+
+		} else{
+			this.clickAddElementFunction = null;
+
+		}
+
+		if(this.clickAddElementFunction){
+			$(this.paper.canvas).on("click", this.clickAddElementFunction);
+		}
+	},
+	createClickAddShapeEvent : function(shapeName, shapeType){
+		var instance = this;
+		var clickEventFunction = function(event){
+			var resourceModel = new wgp.MapElement();
+
+			// オリジナルオブジェクトIDの算出
+			var objectId = instance.createObjectId();
+
+			var width = 100;
+			var height = 100;
+			resourceModel.set({
+				objectId : objectId,
+				objectName : "ENS.ShapeElementView",
+				pointX : event.pageX - $("#" + instance.$el.attr("id")).offset()["left"],
+				pointY : event.pageY - $("#" + instance.$el.attr("id")).offset()["top"],
+				width : 100,
+				height : 100,
+				shapeName : shapeName,
+				shapeType : shapeType,
+				zIndex : 1,
+				elementAttrList : [{}]
+			});
+			instance.collection.add(resourceModel);
+			$(instance.paper.canvas).off("click", clickEventFunction);
+		}
+
+		return clickEventFunction;
+	},
+	createClickAddTextboxEvent :function(){
+		var instance = this;
+		var clickEventFunction = function(event){
+			var resourceModel = new wgp.MapElement();
+
+			// オリジナルオブジェクトIDの算出
+			var objectId = instance.createObjectId();
+
+			var width = 100;
+			var height = 100;
+			resourceModel.set({
+				objectId : objectId,
+				objectName : "ENS.TextBoxElementView",
+				pointX : event.pageX - $("#" + instance.$el.attr("id")).offset()["left"],
+				pointY : event.pageY - $("#" + instance.$el.attr("id")).offset()["top"],
+				width : 100,
+				height : 100,
+				zIndex : 1,
+				elementAttrList : [{}]
+			});
+			instance.collection.add(resourceModel);
+			$(instance.paper.canvas).off("click", clickEventFunction);
+		}
+
+		return clickEventFunction;
+	},
+	createClickAddLinkEvent : function(shapeName, shapeType){
 		var instance = this;
 		var linkName = "";
 		var linkUrl = "";
@@ -246,7 +383,7 @@ ENS.ResourceMapView = wgp.MapView.extend({
 			var resourceModel = new wgp.MapElement();
 
 			var createLinkDialog = $("<div title='Create new Link'></div>");
-			createLinkDialog.append("<p> Please enter new Link Name</p>");
+			createLinkDialog.append("<p> Please enter new Link name</p>");
 
 			var linkNameLabel = $("<label for='linkName'>Link Name：</label>");
 			var linkNameText =
@@ -275,40 +412,33 @@ ENS.ResourceMapView = wgp.MapView.extend({
 					"OK" : function(){
 
 						if(linkNameText.val().length == 0){
-							alert("Link Name is required.");
+							alert("link Name is require");
 							return;
 						}
 						linkName = linkNameText.val();
 						linkUrl = linkUrlSelect.val();
 						createLinkDialog.dialog("close");
 
-						// resourceIdの算出
-						var resourceId = 1;
-						var sameObjectNameArray = instance.collection.where({objectName : viewClassName});
-						_.each(sameObjectNameArray, function(sameObject, index){
-							if(resourceId <= sameObject.get("objectId")){
-								resourceId = sameObject.get("objectId") + 1;
-							}
-						});
+						// オブジェクトIDの算出
+						var objectId = instance.createObjectId();
 
-						var width = 100;
-						var height = 100;
 						resourceModel.set({
-							objectId : resourceId,
-							objectName : viewClassName,
+							objectId : objectId,
+							objectName : "ENS.ResourceLinkElementView",
 							text : linkName,
 							linkUrl : linkUrl,
 							linkType : "mapLinkURL",
 							pointX : event.pageX - $("#" + instance.$el.attr("id")).offset()["left"],
 							pointY : event.pageY - $("#" + instance.$el.attr("id")).offset()["top"],
-							width : 100,
-							height : 100,
-							fontSize : ENS.map.fontSize,
-							fill : ENS.map.fontColor,
+							elementAttrList : [{
+								fontSize : 30,
+								textAnchor : "start",
+								fill : ENS.map.fontColor,
+							}],
 							zIndex : 1
 						});
 						instance.collection.add(resourceModel);
-
+						$(instance.paper.canvas).unbind("click", clickEventFunction);
 					},
 					"CANCEL" : function(){
 						createLinkDialog.dialog("close");
@@ -316,7 +446,7 @@ ENS.ResourceMapView = wgp.MapView.extend({
 				},
 				close : function(event){
 					createLinkDialog.remove();
-					$(instance.paper.canvas).unbind("click", clickEventFunction);
+					$(instance.paper.canvas).off("click", clickEventFunction);
 					$(".map_menu_icon-active").removeClass("map_menu_icon-active");
 				}
 			});
@@ -324,7 +454,7 @@ ENS.ResourceMapView = wgp.MapView.extend({
 			createLinkDialog.dialog("open");
 		};
 
-		$(this.paper.canvas).click(clickEventFunction);
+		return clickEventFunction;
 	},
 	createContextMenuTag : function(){
 
@@ -371,5 +501,96 @@ ENS.ResourceMapView = wgp.MapView.extend({
 		if(changeFlag){
 			this.paper.setSize(mapWidth, mapHeight);
 		}
+	},
+	createObjectId : function(){
+		this.maxObjectId = this.maxObjectId + 1;
+		return this.maxObjectId;
+	},
+	setEditFunction : function(){
+
+		var draginitEventKey = "draginit ." + raphaelMapConstants.CLASS_MAP_ELEMENT;
+		var draginitEventFunctionName = "draginitFunction";
+
+		var dragEventKey = "drag ." + raphaelMapConstants.CLASS_MAP_ELEMENT;
+		var dragEventFunctionName = "dragFunction";
+
+		var dragendEventKey = "dragend ." + raphaelMapConstants.CLASS_MAP_ELEMENT;
+		var dragendEventFunctionName = "dragendFunction";
+
+		var events = {};
+		events[draginitEventKey] = draginitEventFunctionName;
+		events[dragEventKey] = dragEventFunctionName;
+		events[dragendEventKey] = dragendEventFunctionName;
+
+		this.delegateEvents(events);
+	},
+	setOperateFunction : function(){
+
+	},
+	draginitFunction : function(event, option){
+		// target has object id ?
+		var target = event.target;
+		var objectType = $(target).attr(raphaelMapConstants.OBJECT_TYPE_FIELD_NAME);
+		if (objectType == raphaelMapConstants.ELLIPSESMALL_ELEMENT_NAME) {
+			// resize event
+			this.eventType = raphaelMapConstants.EVENT_TYPE_RESIZE;
+			this.mapManager.executeEvent(raphaelMapConstants.EVENT_TYPE_RESIZE_START,
+					event, option);
+		} else {
+			// move event
+			var objectId = $(target).attr(raphaelMapConstants.OBJECT_ID_NAME);
+			if (objectId) {
+				this.eventType = raphaelMapConstants.EVENT_TYPE_MOVE;
+				this.mapManager.executeEvent(raphaelMapConstants.EVENT_TYPE_MOVE_START,
+						event, option);
+				// select event
+				this.mapManager.executeEvent(raphaelMapConstants.EVENT_TYPE_SELECT,
+						event, option);
+			} else {
+				this.eventType = raphaelMapConstants.EVENT_TYPE_RELEASE_SELECT;
+				this.mapManager.executeEvent(raphaelMapConstants.EVENT_TYPE_RELEASE_SELECT,
+						event, option);
+			}
+		}
+	},
+	dragFunction : function(event, option){
+		// event adjust
+		if (!this.isExecuteEvent_) {
+			return;
+		}
+		this.isExecuteEvent_ = false;
+		var instance = this;
+		window.setTimeout(function() {
+			instance.isExecuteEvent_ = true;
+		}, raphaelMapConstants.EVENT_EXECUTE_INTERVAL);
+
+		if (this.eventType == raphaelMapConstants.EVENT_TYPE_MOVE) {
+			this._dragMove(event, option);
+		} else {
+			this._dragResize(event, option);
+		}
+	},
+	_dragMove : function(event, option){
+		this.mapManager.executeEvent(raphaelMapConstants.EVENT_TYPE_MOVE, event,
+				option);
+	},
+	_dragResize : function(event, option){
+		this.mapManager.executeEvent(raphaelMapConstants.EVENT_TYPE_RESIZE, event,
+				option);
+	},
+	dragendFunction : function(event, option){
+		if (this.eventType == raphaelMapConstants.EVENT_TYPE_MOVE) {
+			this._dragMoveEnd(event, option);
+		} else if (this.eventType == raphaelMapConstants.EVENT_TYPE_RESIZE) {
+			this._dragResizeEnd(event, option);
+		}
+	},
+	_dragMoveEnd :function(event, option){
+		this.mapManager.executeEvent(raphaelMapConstants.EVENT_TYPE_MOVE_END,
+			event, option);
+	},
+	_dragResizeEnd : function(event, option){
+		this.mapManager.executeEvent(raphaelMapConstants.EVENT_TYPE_RESIZE_END,
+			event, option);
 	}
 });
