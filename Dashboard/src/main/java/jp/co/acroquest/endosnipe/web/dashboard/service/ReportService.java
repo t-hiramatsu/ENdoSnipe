@@ -30,7 +30,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import jp.co.acroquest.endosnipe.collector.config.DataCollectorConfig;
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
-import jp.co.acroquest.endosnipe.report.ReportData;
 import jp.co.acroquest.endosnipe.report.Reporter;
 import jp.co.acroquest.endosnipe.web.dashboard.config.DataBaseConfig;
 import jp.co.acroquest.endosnipe.web.dashboard.constants.LogMessageCodes;
@@ -77,7 +76,6 @@ public class ReportService
      */
     public ReportService()
     {
-        new ReportData();
     }
 
     /**

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -51,15 +51,27 @@
 	<input type="hidden" id="context" value="<%=request.getContextPath()%>" />
 
 	<!-- レポートダウンロード用のフォーム -->
-	<form method="post" id="reportDownload" action="<%=request.getContextPath()%>/report/download">
+	<form method="post" id="reportDownload"
+		action="<%=request.getContextPath()%>/report/download">
 		<input type="hidden" id="reportId" name="reportId" value="" />
-		<div hidden=true><input type="submit" name="btn" id="btn" value="submit"></div>
+		<div hidden=true>
+			<input type="submit" name="btn" id="btn" value="submit">
+		</div>
+		<div id="connect" style="display: none">${connect}</div>
 	</form>
-	
+	<script>
+		if ($("#connect").text() == "-1") {
+			alert("DataCollector cannot be connected");
+		}
+	</script>
+
 	<!-- Javelinlogダウンロード用のフォーム -->
-	<form method="post" id="jvnLogDownload" action="<%=request.getContextPath()%>/performanceDoctor/download">
+	<form method="post" id="jvnLogDownload"
+		action="<%=request.getContextPath()%>/performanceDoctor/download">
 		<input type="hidden" id="fileName" name="fileName" value="" />
-		<div hidden=true><input type="submit" name="jvnLogBtn" id="jvnLogBtn" value="submit"></div>
+		<div hidden=true>
+			<input type="submit" name="jvnLogBtn" id="jvnLogBtn" value="submit">
+		</div>
 	</form>
 </body>
 <link rel="stylesheet"

@@ -42,18 +42,24 @@ ENS.mapMenuView = wgp.AbstractView.extend({
 
 		// create Image Tag
 		if (src != null) {
+			var coverDivTag = $("<div></div>");
+			coverDivTag.attr("class", styleClass);
+
 			var imgTag = $("<img></img>");
 			imgTag.attr("width", width);
 			imgTag.attr("height", height);
 			imgTag.attr("src", src);
 			imgTag.attr("alt", alt);
-			imgTag.attr("class", styleClass);
+//			imgTag.attr("class", styleClass);
 			if (onclick != null && typeof onclick === "function") {
 				imgTag.click(function(){
 					onclick();
 				});
 			}
-			$("#" + this.divId).append(imgTag);
+
+			coverDivTag.append(imgTag);
+			coverDivTag.height($("#" + this.divId).height());
+			$("#" + this.divId).append(coverDivTag);
 		}
 	},
 	destroy : function (){

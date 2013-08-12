@@ -53,6 +53,10 @@
 	type="text/css" media="all">
 
 <script type="text/javascript"
+	src="<%=request.getContextPath()%>/resources/js/map/element/textField.js">
+</script>
+
+<script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/map/view/resourceMapView.js">
 </script>
 <script type="text/javascript"
@@ -62,10 +66,16 @@
 	src="<%=request.getContextPath()%>/resources/js/map/view/resourceMapMenuView.js">
 </script>
 <script type="text/javascript"
+	src="<%=request.getContextPath()%>/resources/js/map/view/shapeView.js">
+</script>
+<script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/map/view/signalView.js">
 </script>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/map/view/resourceLinkView.js">
+</script>
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/resources/js/map/view/textboxView.js">
 </script>
 
 <%-- nodeInfo graph --%>
@@ -77,4 +87,28 @@
 </script>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/map/model/resourceGraphModel.js">
+</script>
+
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/resources/js/map/manager/raphaelMapManager.js">
+</script>
+
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/resources/js/common/command.js">
+</script>
+
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/resources/js/map/command/raphaelMapMoveCommand.js">
+</script>
+
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/resources/js/map/command/raphaelMapDeleteCommand.js">
+</script>
+
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/resources/js/map/command/raphaelMapResizeCommand.js">
+</script>
+
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/resources/js/map/command/raphaelMapPasteCommand.js">
 </script>
