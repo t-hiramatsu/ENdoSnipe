@@ -49,6 +49,9 @@
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/dialog/reportDialogView.js">	
 </script>
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/resources/js/dialog/MultipleResourceGraphDefinitionDialogView.js">	
+</script>
 
 <%-- nodeInfo graph --%>
 <script type="text/javascript"
@@ -78,3 +81,5 @@
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/map/view/reportView.js">	
 </script>
+
+

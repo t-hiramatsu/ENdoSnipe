@@ -50,11 +50,14 @@ import jp.co.acroquest.endosnipe.communicator.accessor.ResourceNotifyAccessor;
 import jp.co.acroquest.endosnipe.communicator.accessor.SystemResourceGetter;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.impl.DataCollectorClient;
+import jp.co.acroquest.endosnipe.data.dao.MultipleResourceGraphDefinitionDao;
 import jp.co.acroquest.endosnipe.data.dao.SignalDefinitionDao;
 import jp.co.acroquest.endosnipe.data.db.ConnectionManager;
 import jp.co.acroquest.endosnipe.data.db.DBManager;
 import jp.co.acroquest.endosnipe.data.db.DatabaseType;
+import jp.co.acroquest.endosnipe.data.dto.MultipleResourceGraphDefinitionDto;
 import jp.co.acroquest.endosnipe.data.dto.SignalDefinitionDto;
+import jp.co.acroquest.endosnipe.data.entity.MultipleResourceGraphDefinition;
 import jp.co.acroquest.endosnipe.data.entity.SignalDefinition;
 
 /**
@@ -180,6 +183,8 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
 
         Map<Long, SignalDefinitionDto> signalDefinitionMap = null;
 
+        Map<Long, MultipleResourceGraphDefinitionDto> multipleResourceGraphDefinitionMap = null;
+
         this.behaviorMode_ = behaviorMode;
         if (config_ != null)
         {
@@ -204,6 +209,8 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
             }
 
             signalDefinitionMap = createSignalDefinition(databaseName);
+            multipleResourceGraphDefinitionMap =
+                createmultipleResourceGraphDefinitionDefinition(databaseName);
         }
 
         // JavelinDataLogger の開始
@@ -259,6 +266,35 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
             {
                 SignalDefinitionDto signalDefinitionDto = new SignalDefinitionDto(signalDefinition);
                 signalDefinitionMap.put(signalDefinition.signalId, signalDefinitionDto);
+            }
+        }
+        catch (SQLException ex)
+        {
+            LOGGER.log(FAIL_READ_SIGNAL_DEFINITION, ex, ex.getMessage());
+        }
+        return signalDefinitionMap;
+    }
+
+    /**
+     * 閾値判定定義情報のマップを作成する。
+     * @param databaseName データベース名 
+     * @return 閾値判定定義情報のマップ
+     */
+    private Map<Long, MultipleResourceGraphDefinitionDto>
+        createmultipleResourceGraphDefinitionDefinition(final String databaseName)
+    {
+        Map<Long, MultipleResourceGraphDefinitionDto> signalDefinitionMap =
+            new ConcurrentHashMap<Long, MultipleResourceGraphDefinitionDto>();
+        try
+        {
+            List<MultipleResourceGraphDefinition> signalDefinitionList =
+                MultipleResourceGraphDefinitionDao.selectAll(databaseName);
+            for (MultipleResourceGraphDefinition signalDefinition : signalDefinitionList)
+            {
+                MultipleResourceGraphDefinitionDto signalDefinitionDto =
+                    new MultipleResourceGraphDefinitionDto(signalDefinition);
+                signalDefinitionMap.put(signalDefinition.multipleResourceGraphId,
+                                        signalDefinitionDto);
             }
         }
         catch (SQLException ex)

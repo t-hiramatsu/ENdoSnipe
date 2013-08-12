@@ -176,6 +176,7 @@ ENS.treeView = wgp.TreeView
 
 				this.getAllReport_();
 				this.getAllSignal_();
+				this.getAllMulResGraph_();
 			},
 			/**
 			 * ツリーを開け閉めするためのアイコンを設定する。
@@ -210,6 +211,9 @@ ENS.treeView = wgp.TreeView
 					returnData.data.icon = "center";
 				} else if (type == ENS.tree.type.TARGET) {
 					returnData.data.icon = "leaf";
+				}
+				else if (type == ENS.tree.type.MULTIPLERESOURCEGRAPH) {
+					returnData.data.icon = "graph";
 				}
 				return returnData;
 			},
@@ -285,7 +289,11 @@ ENS.treeView = wgp.TreeView
 						} else if (dialogId == ENS.tree.REPORT_DIALOG) {
 							instance.reportOnSelect_(event, target, menuId,
 									tmpClickTarget);
+						}else if (dialogId == ENS.tree.MULTIPLE_RESOURCE_GRAPH_DIALOG) {
+							instance.multipleResourceGraphOnSelect_(event, target,
+									menuId, tmpClickTarget);
 						}
+						
 					}
 				};
 				contextMenuCreator.initializeContextMenu(menuId, contextOption);
@@ -395,6 +403,58 @@ ENS.treeView = wgp.TreeView
 					eval("new " + executeClass + "(executeOption)");
 				}
 			},
+			multipleResourceGraphOnSelect_ : function(event, target, menuId,
+					tmpClickTarget) {
+	
+				
+				var clickTarget = event.target;
+				var id = $(clickTarget).attr("id");
+				var targetOption = this.getContextOption_(id);
+
+				var executeOption = targetOption.get("executeOption");
+				executeOption.treeId = $(tmpClickTarget).attr("id");
+				executeOption.displayName = $(tmpClickTarget).text();
+
+				// 削除が選択された場合はそのノードを削除する
+				if (id == ENS.tree.DELETE_MULTIPLE_RESOURCE_GRAPH_TYPE) {
+					if (confirm("Are you sure you want to delete it?")) {
+						this.deleteMulResGraph_(executeOption);
+					}
+					return;
+				}
+
+				// 開くViewのクラス
+				var executeClass = targetOption.get("executeClass");
+				if (executeClass) {
+					
+					if (id == ENS.tree.ADD_MULTIPLE_RESOURCE_GRAPH_TYPE) {
+						// デフォルトのレポート名にレポート出力対象のノード名を入れる(空白を削除する処理を入れている)
+						var targetNodeName = executeOption.displayName.replace(/\s+/g, ""); 
+						$("#multipleResourceGraphName").val(targetNodeName + " Graph");
+						// Matching Patternにデフォルトのツリー階層を入力する
+						
+
+						// 編集の場合は事前に値を設定する。
+					} else if (id == ENS.tree.EDIT_MULTIPLE_RESOURCE_GRAPH_TYPE) {
+						var treeModel = this.collection
+								.get(executeOption.treeId);
+						this.inputMulResGraphDialog_(treeModel);
+
+						// 追加時と同様に扱うため、親ツリーのIDを設定する。
+						executeOption.treeId = this
+								.getSignalParentTreeId_(executeOption.treeId);
+					}
+
+					// set execute class and function, if push ok
+					// button.
+					executeOption.okObject = this;
+					executeOption.okFunctionName = "mulResGraphPushOkFunction";
+					executeOption.cancelObject = this;
+					executeOption.cancelFunctionName = "pushCancelFunction";
+					eval("new " + executeClass + "(executeOption)");
+				}
+			}	,
+			
 			/** 閾値判定の定義を入力した後に実行するメソッド。 */
 			signalPushOkFunction : function(event, option) {
 
@@ -590,6 +650,141 @@ ENS.treeView = wgp.TreeView
 
 				return reportDefinition;
 			},
+			mulResGraphPushOkFunction : function(event, option) {
+
+				// add tree data for signal
+				var treeId = option.treeId;
+				var mulResGraphDispalyName = $("#multipleResourceGraphName").val();
+				var mulResGraphName = treeId + "/" + mulResGraphDispalyName;
+
+				// Ajax通信のコールバック関数名
+				var callbackFunction = "";
+				// Ajax通信の送信先URL
+				var url = "";
+				// サーバに送信するデータ
+				var sendData;
+				// Ajax通信のコールバック関数と送信先URLを追加か編集かによって決める
+				// シグナル追加時
+				if (option.signalType == ENS.tree.ADD_MULTIPLE_RESOURCE_GRAPH_TYPE) {
+					sendData = this.createSendAddMulResGraphData_(mulResGraphName);
+					callbackFunction = "callbackAddMulResGraph_";
+					url = ENS.tree.MULTIPLE_RESOURCE_GRAPH_ADD_URL;
+
+					// シグナル編集時
+				} else if (option.signalType == ENS.tree.EDIT_MULTIPLE_RESOURCE_GRAPH_TYPE) {
+					sendData = this.createSendEditMulResGraphData_(mulResGraphName);
+					callbackFunction = "callbackEditMulResGraph_";
+					url = ENS.tree.MULTIPLE_RESOURCE_GRAPH_EDIT_URL;
+				}
+
+				// Ajax通信用の設定
+				var settings = {
+					data : sendData,
+					url : url
+				};
+
+				// 非同期通信でデータを送信する
+				var ajaxHandler = new wgp.AjaxHandler();
+				settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] = this;
+				settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = callbackFunction;
+				ajaxHandler.requestServerAsync(settings);
+
+				// 閾値判定定義の入力内容をクリアする。
+				this.clearMulResGraphDialog_();
+			},
+			/** 閾値判定の定義を入力をキャンセルした場合に実行するメソッド */
+			mulResGraphPushCancelFunction : function(event, option){
+
+				// 閾値判定定義の入力内容をクリアする。
+				this.clearMulResGraphDialog_();
+			},
+			/**
+			 * シグナル新規追加時の送信データを生成する。
+			 */
+			createSendAddMulResGraphData_ : function(mulResGraphName) {
+				// 入力された秒をミリ秒に変換する
+				var measurementList;
+				var measurementItem;
+				if ($('#multipleResourceGraphSelection').attr("checked")) {
+					
+					//measurementList = $('#multipleResourceMultipleLstBox2 option');
+					measurementList = $("#multipleResourceMultipleLstBox2>option").map(function() { return $(this).val(); });
+					
+					/*$('#multipleResourceGraphSelection option').each(function(){
+						measurementList=measurementList+ $(this).val().label()+",";
+					});*/
+					measurementItem=measurementList.get(0);
+					 for(i=1;i< measurementList.length;i++){
+							
+						 measurementItem=measurementItem+","+measurementList.get(i);
+					
+					 }
+				
+				}
+				else if($('#multipleResourceGraphRegExpression').attr("checked")) 
+						
+					{
+					 
+						measurementList = $("#multipleResourceGraphItems").val();
+					
+					}
+				// シグナル定義を作成する
+				var mulResGraphDefinition = {
+					multipleResourceGraphId : $("#mulResGraphId").val(),
+					multipleResourceGraphName : mulResGraphName,
+					measurementItemIdList : measurementItem
+				};
+
+				var sendData = {
+					mulResGraphDefinition : JSON.stringify(mulResGraphDefinition)
+				};
+
+				return sendData;
+			},
+			/**
+			 * シグナル編集時の送信データを生成する。
+			 */
+			createSendEditMulResGraphData_ : function(mulResGraphName) {
+				
+				$('#multipleResourceGraphLstBox2').empty();
+				var measurementList;
+				var measurementItem;
+				if ($('#multipleResourceGraphSelection').attr("checked")) {
+					
+					//measurementList = $('#multipleResourceMultipleLstBox2 option');
+					measurementList = $("#multipleResourceMultipleLstBox2>option").map(function() { return $(this).val(); });
+					
+					/*$('#multipleResourceGraphSelection option').each(function(){
+						measurementList=measurementList+ $(this).val().label()+",";
+					});*/
+					measurementItem=measurementList.get(0);
+					 for(i=1;i< measurementList.length;i++){
+							
+						 measurementItem=measurementItem+","+measurementList.get(i);
+					
+					 }
+				
+				}
+				else if($('#multipleResourceGraphRegExpression').attr("checked")) 
+						
+					{
+					 
+						measurementList = $("#multipleResourceGraphItems").val();
+					
+					}
+				// シグナル定義を作成する
+				var mulResGraphDefinition = {
+					multipleResourceGraphId : $("#mulResGraphId").val(),
+					multipleResourceGraphName : mulResGraphName,
+					measurementItemIdList : measurementItem
+				};
+				var sendData = {
+					mulResGraphDefinition : JSON.stringify(mulResGraphDefinition)
+				};
+
+				return sendData;
+			},
+		
 			checkShowContext_ : function(treeModel) {
 				$.each(this.contextCollection.models, function(index, value) {
 					var menuId = value.get("menu_id");
@@ -718,6 +913,20 @@ ENS.treeView = wgp.TreeView
 				settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = "callbackGetAllReport_";
 				ajaxHandler.requestServerAsync(settings);
 			},
+			getAllMulResGraph_ : function() {
+				// シグナル定義を取得する
+				// Ajax通信用の設定
+			
+				var settings = {
+					url : ENS.tree.MULTIPLE_RESOURCE_GRAPH_SELECT_ALL_URL
+				};
+
+				// 非同期通信でデータを送信する
+				var ajaxHandler = new wgp.AjaxHandler();
+				settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] = this;
+				settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = "callbackGetAllMulResGraph_";
+				ajaxHandler.requestServerAsync(settings);
+			},
 			callbackGetAllSignal_ : function(signalDefinitionList) {
 				var instance = this;
 				var addOptionList = [];
@@ -755,6 +964,45 @@ ENS.treeView = wgp.TreeView
 				this.collection.add(addOptionList);
 				// renderのADDを実行する権限を与える
 				ENS.tree.doRender = true;
+			},
+			
+			callbackGetAllMulResGraph_ : function(mulResGraphDefinitionList) {
+				var instance = this;
+				var addOptionList = [];
+				_.each(mulResGraphDefinitionList, function(mulResGraphDefinition, index) {
+					var treeOption = instance
+							.createMulResGraphSignalTreeOption_(mulResGraphDefinition);
+					addOptionList.push(treeOption);
+				});
+
+				// renderのADDを実行する権限を無くす
+				ENS.tree.doRender = false;
+				// ツリーノードに追加する
+				this.collection.add(addOptionList);
+				// renderのADDを実行する権限を与える
+				ENS.tree.doRender = true;
+			},
+			deleteMulResGraph_ : function(executeOption) {
+				// リアルタイム通信を止める
+				appView.stopSyncData([ executeOption.treeId ]);
+
+				// Ajax通信の送信先URL
+				var callbackFunction = "callbackDeleteMulResGraph_";
+				var url = ENS.tree.MULTIPLE_RESOURCE_GRAPH_DELETE_URL;
+
+				// Ajax通信用の設定
+				var settings = {
+					data : {
+						multipleResourceGraphName : executeOption.treeId
+					},
+					url : url
+				};
+
+				// 非同期通信でシグナル削除依頼電文を送信する。
+				var ajaxHandler = new wgp.AjaxHandler();
+				settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] = this;
+				settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = callbackFunction;
+				ajaxHandler.requestServerAsync(settings);
 			},
 			/**
 			 * シグナル追加操作の結果を表示する。
@@ -834,6 +1082,30 @@ ENS.treeView = wgp.TreeView
 			},
 			callbackAddReport_ : function(reportDefinition) {
 				// TODO レポート一覧テーブルが表示されているときはリロードする
+			},
+			/**
+			 * シグナル編集操作の結果を表示する。
+			 */
+			callbackEditMulResGraph_ : function(responseDto) {
+				var result = responseDto.result;
+
+				// 編集操作に失敗した場合はメッセージを表示する。
+				if (result === "fail") {
+					var message = responseDto.message;
+					alert(message);
+					return;
+				}
+			},
+			// シグナル削除処理応答受信後にツリーからシグナルを削除する。
+			callbackDeleteMulResGraph_ : function(responseDto) {
+				var result = responseDto.result;
+
+				// 削除操作に失敗した場合はメッセージを表示する。
+				if (result === "fail") {
+					var message = responseDto.message;
+					alert(message);
+					return;
+				}
 			},
 			createSignalTreeOption_ : function(signalDefinition) {
 				var signalName = signalDefinition.signalName;
@@ -922,6 +1194,42 @@ ENS.treeView = wgp.TreeView
 
 				return treeOption;
 			},
+			createMulResGraphSignalTreeOption_ : function(mulResGraphDefinition) {
+				var multipleResourceGraphName = mulResGraphDefinition.multipleResourceGraphName;
+
+				var nameSplitList = multipleResourceGraphName.split("/");
+				var nameSplitListLength = nameSplitList.length;
+
+				var showName = nameSplitList[nameSplitListLength - 1];
+				// 親ノードのパス
+				var targetTreeId = "";
+				// 新規ノードのパス
+				var reportTreeId = "";
+				// 親ノードへのパスと、新規ノードのパスを作成する
+				for ( var index = 1; index < nameSplitListLength; index++) {
+					var nameSplit = nameSplitList[index];
+
+					if (index == nameSplitListLength - 1) {
+						reportTreeId += ENS.tree.REPORT_PREFIX_ID;
+					} else {
+						targetTreeId += "/";
+						targetTreeId += nameSplit;
+
+						reportTreeId += "/";
+					}
+					reportTreeId += nameSplit;
+				}
+
+				var treeOption = {
+					id : multipleResourceGraphName,
+					data : showName,
+					parentTreeId : targetTreeId,
+					icon : ENS.tree.MULRECGRAPH_ICON,
+					type : ENS.tree.type.MULTIPLERESOURCEGRAPH
+				};
+
+				return treeOption;
+			},
 			/**
 			 * シグナルダイアログをクリアする。
 			 */
@@ -951,6 +1259,46 @@ ENS.treeView = wgp.TreeView
 				$("#jquery-ui-datepicker-from, #jquery-ui-datepicker-to")
 						.datetimepicker('destroy');
 			},
+			/**
+			 * シグナルダイアログをクリアする。
+			 */
+			clearMulResGraphDialog_ : function() {
+				$("#multipleResourceGraphId").val("");
+				$("#multipleResourceGraphName").val("");
+				$("#multipleResourceGraphLstBox2").empty();
+				
+			},
+			inputMulResGraphDialog_ : function(treeModel) {
+				// Ajax通信用の送信先URL
+				var settings = {
+					url : ENS.tree.MULTIPLE_RESOURCE_GRAPH_GET_URL,
+					data : {
+						multipleResourceGraphName : treeModel.get("id")
+					}
+				}
+
+				var ajaxHandler = new wgp.AjaxHandler();
+				var result = ajaxHandler.requestServerSync(settings);
+				var multipleResourceGraphDefinition = JSON.parse(result);
+				
+
+				// 各入力項目を入力する
+				$("#multipleResourceGraphId").val(multipleResourceGraphDefinition.multipleResourceGraphId);
+
+				// シグナル名の表示名称は自身より親のツリー構造を除外した値を指定する。
+				$("#multipleResourceGraphName")
+						.val(
+								this
+										.getSignalDisplayName_(multipleResourceGraphDefinition.multipleResourceGraphName));
+				$("#beforemultipleResourceGraphName").val(multipleResourceGraphDefinition.multipleResourceGraphName);
+				var measurementList = multipleResourceGraphDefinition.measurementItemIdList
+				.split(",");
+				for(i=0;i<measurementList.length;i++)
+					{
+					$('#multipleResourceMultipleLstBox2').append("<option value='" + measurementList[i]  + "'>" + measurementList[i] + "</option>");
+					
+					}
+				},
 			inputSignalDialog_ : function(treeModel) {
 				// Ajax通信用の送信先URL
 				var settings = {

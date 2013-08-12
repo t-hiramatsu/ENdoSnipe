@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jp.co.acroquest.endosnipe.web.dashboard.dao.MultipleResourceGraphInfoDao">
+	<resultMap id="MultipleResourceGraphInfoMap"
+		type="jp.co.acroquest.endosnipe.web.dashboard.entity.MultipleResourceGraphInfo">
+		<id property="multipleResourceGraphId" column="MULTIPLE_RESOURCE_GRAPH_ID" />
+		<result property="multipleResourceGraphName" column="MULTIPLE_RESOURCE_GRAPH_NAME" />
+		<result property="measurementItemIdList" column="MEASUREMENT_ITEM_ID_LIST" />
+	</resultMap>
+
+	<select id="selectAll" resultMap="MultipleResourceGraphInfoMap">
+		SELECT * FROM MULTIPLE_RESOURCE_GRAPH
+	</select>
+
+	<select id="selectById" resultMap="MultipleResourceGraphInfoMap">
+		SELECT * FROM
+		MULTIPLE_RESOURCE_GRAPH
+		where MULTIPLE_RESOURCE_GRAPH_ID
+		= #{multipleResourceGraphId}
+	</select>
+
+	<select id="selectByName" resultMap="MultipleResourceGraphInfoMap">
+		SELECT * FROM
+		MULTIPLE_RESOURCE_GRAPH
+		where MULTIPLE_RESOURCE_GRAPH_NAME
+		= #{selectByName}
+	</select>
+
+	<insert id="insert"
+		parameterType="jp.co.acroquest.endosnipe.web.dashboard.entity.MultipleResourceGraphInfo">
+		insert into MULTIPLE_RESOURCE_GRAPH
+		(MULTIPLE_RESOURCE_GRAPH_NAME,MEASUREMENT_ITEM_ID_LIST)
+		values
+		(#{multipleResourceGraphName},#{measurementItemIdList})
+	</insert>
+
+	<update id="update"
+		parameterType="jp.co.acroquest.endosnipe.web.dashboard.entity.MultipleResourceGraphInfo">
+		update MULTIPLE_RESOURCE_GRAPH set
+		MULTIPLE_RESOURCE_GRAPH_NAME = #{multipleResourceGraphName},
+		MEASUREMENT_ITEM_ID_LIST = #{measurementItemIdList}
+		where MULTIPLE_RESOURCE_GRAPH_NAME
+		= #{multipleResourceGraphName}
+	</update>
+
+	<delete id="delete">
+		delete from MULTIPLE_RESOURCE_GRAPH
+		where MULTIPLE_RESOURCE_GRAPH_NAME =
+		#{multipleResourceGraphName}
+	</delete>
+
+	<delete id="deleteAll"
+		parameterType="jp.co.acroquest.endosnipe.web.dashboard.entity.MultipleResourceGraphInfo">
+		delete from MULTIPLE_RESOURCE_GRAPH
+	</delete>
+
+	<select id="selectSequenceNum" resultType="int">
+		SELECT MULTIPLE_RESOURCE_GRAPH_ID FROM
+		MULTIPLE_RESOURCE_GRAPH
+		where MULTIPLE_RESOURCE_GRAPH_NAME
+		= #{multipleResourceGraphName}
+	</select>
+</mapper>

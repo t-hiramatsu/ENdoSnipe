@@ -22,6 +22,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import jp.co.acroquest.endosnipe.report.ReportData;
 import jp.co.acroquest.endosnipe.report.Reporter;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.ReportDefinitionDto;
 import jp.co.acroquest.endosnipe.web.dashboard.entity.ReportDefinition;
@@ -54,7 +55,7 @@ public class ReportController
      */
     public ReportController()
     {
-
+        new ReportData();
     }
 
     /**

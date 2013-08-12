@@ -67,4 +67,6 @@ public interface TableNames
 
     /** シグナル定義テーブル。 */
     String SIGNAL_DEFINITION        = "SIGNAL_DEFINITION";
+    
+    String MULTIPLE_RESOURCE_GRAPH = "MULTIPLE_RESOURCE_GRAPH";
 }
