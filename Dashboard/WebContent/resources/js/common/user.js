@@ -29,7 +29,17 @@ ENS.nodeInfoParentView = {
 		ids : {
 			dualSliderArea : "sliderArea",
 			graphArea : "graphArea"
-		}
+		},
+		// %グラフのY軸の最大値
+		percentGraphMaxYValue : 105,
+		// グラフの上限を決める際の、グラフのY値の最大に対する係数
+		yValueMagnification : 1.1,
+		// 最大化グラフの横のマージン
+		maxGraphSideMargin : 30,
+		// 最大化グラフの縦のマージン
+		maxGraphVerticalMargin : 310,
+		// グラフタイトル横のボタン用スペースの大きさ
+		titleButtonSpace : 88
 	}
 
 };
