@@ -39,9 +39,16 @@ ENS.NodeInfoParentView = wgp.AbstractView
 				appView.addView(treeListView, "tree");
 
 				this.divId = this.$el.attr("id");
-				var id = argument["ids"];
 				this.maxId = 0;
 				this.viewList = {};
+
+				// argument内の定義を取得する
+				var id = argument.ids;
+				this.percentGraphMaxYValue = argument.percentGraphMaxYValue;
+				this.yValueMagnification = argument.yValueMagnification;
+				this.maxGraphSideMargin = argument.maxGraphSideMargin;
+				this.maxGraphVerticalMargin = argument.maxGraphVerticalMargin;
+				this.titleButtonSpace = argument.titleButtonSpace;
 
 				this.graphPerPage = 12;
 				this.noOfPage = 0;
@@ -167,7 +174,12 @@ ENS.NodeInfoParentView = wgp.AbstractView
 				newDivArea.height(300);
 
 				$.extend(true, viewAttribute, {
-					id : newDivAreaId
+					id : newDivAreaId,
+					percentGraphMaxYValue : this.percentGraphMaxYValue,
+					yValueMagnification : this.yValueMagnification,
+					maxGraphSideMargin : this.maxGraphSideMargin,
+					maxGraphVerticalMargin : this.maxGraphVerticalMargin,
+					titleButtonSpace : this.titleButtonSpace
 				});
 				// 動的に生成するオブジェクトを切り替える必要があるため、やむを得ずeval()を使う
 				var view = eval("new " + viewClassName
@@ -257,10 +269,10 @@ ENS.NodeInfoParentView = wgp.AbstractView
 				var graphHeight = 0;
 				var nodesNum = this.childNodes.length;
 				if (nodesNum == 1) {
-					graphWidth = $("#contents_area").width() * 0.9;
-					var areaHeight = $("#contents_area").height()
-							- $("#contents_area_content").height();
-					graphHeight = areaHeight * 0.75;
+					graphWidth = $("#contents_area").width()
+							- this.maxGraphSideMargin;
+					graphHeight = $("#contents_area").height()
+							- this.maxGraphVerticalMargin;
 				} else if (nodesNum < 5) {
 					graphWidth = $("#contents_area").width() * 0.43;
 					var areaHeight = $("#contents_area").height()
