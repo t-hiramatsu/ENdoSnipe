@@ -74,7 +74,7 @@ public class ResourceDataUtil
      * @return 計測値を0にし、計測時刻を変更したデータ
      */
     public static ResourceData createAllZeroResourceData(final ResourceData srcData,
-            final long measurementTime, final boolean connected)
+        final long measurementTime, final boolean connected)
     {
         ResourceData dstData = new ResourceData();
         dstData.measurementTime = measurementTime;
@@ -83,7 +83,7 @@ public class ResourceDataUtil
         dstData.portNum = srcData.portNum;
 
         Set<Entry<String, MeasurementData>> measurementMapEntrySet =
-                srcData.getMeasurementMap().entrySet();
+            srcData.getMeasurementMap().entrySet();
 
         for (Map.Entry<String, MeasurementData> measurementMapEntry : measurementMapEntrySet)
         {
@@ -95,7 +95,7 @@ public class ResourceDataUtil
             dstMeasurementData.valueType = ItemType.getItemTypeNumber(ItemType.ITEMTYPE_STRING);
 
             Set<Entry<String, MeasurementDetail>> detailMapEntrySet =
-                    srcMeasurementData.getMeasurementDetailMap().entrySet();
+                srcMeasurementData.getMeasurementDetailMap().entrySet();
 
             for (Map.Entry<String, MeasurementDetail> measurementDetailMapEntry : detailMapEntrySet)
             {
@@ -141,23 +141,24 @@ public class ResourceDataUtil
      * @return グラフの始まりを表すために追加すべきデータ。
      */
     public static ResourceData createAdditionalPreviousData(final ResourceData prevData,
-            final ResourceData currData)
+        final ResourceData currData)
     {
         ResourceData additionalData = new ResourceData();
         // 時刻は前回のものを用いる。
         additionalData.measurementTime = prevData.measurementTime;
+        additionalData.clientId = currData.clientId;
         additionalData.hostName = currData.hostName;
         additionalData.ipAddress = currData.ipAddress;
         additionalData.portNum = currData.portNum;
 
         Set<Entry<String, MeasurementData>> measurementMapEntrySet =
-                currData.getMeasurementMap().entrySet();
+            currData.getMeasurementMap().entrySet();
 
         for (Map.Entry<String, MeasurementData> measurementMapEntry : measurementMapEntrySet)
         {
             MeasurementData currMeasurementData = measurementMapEntry.getValue();
             MeasurementData prevMeasurementData =
-                    prevData.getMeasurementMap().get(measurementMapEntry.getKey());
+                prevData.getMeasurementMap().get(measurementMapEntry.getKey());
             if (prevMeasurementData == null)
             {
                 prevMeasurementData = new MeasurementData();
@@ -168,17 +169,17 @@ public class ResourceDataUtil
             // 時刻は前回のものを用いる。
             additionalMeasurementData.measurementTime = new Timestamp(prevData.measurementTime);
             additionalMeasurementData.valueType =
-                    ItemType.getItemTypeNumber(ItemType.ITEMTYPE_STRING);
+                ItemType.getItemTypeNumber(ItemType.ITEMTYPE_STRING);
 
             Set<Entry<String, MeasurementDetail>> detailMapEntry =
-                    currMeasurementData.getMeasurementDetailMap().entrySet();
+                currMeasurementData.getMeasurementDetailMap().entrySet();
 
             for (Map.Entry<String, MeasurementDetail> measurementDetailMapEntry : detailMapEntry)
             {
                 MeasurementDetail currMeasurementDetail = measurementDetailMapEntry.getValue();
                 String key = measurementDetailMapEntry.getKey();
                 MeasurementDetail prevMeasurementDetail =
-                        prevMeasurementData.getMeasurementDetailMap().get(key);
+                    prevMeasurementData.getMeasurementDetailMap().get(key);
 
                 if (prevMeasurementDetail == null)
                 {
@@ -210,14 +211,14 @@ public class ResourceDataUtil
      * @return CPU使用率
      */
     public static double calcCPUUsage(final long cpuTime, final long measurementInterval,
-            final long processorCount)
+        final long processorCount)
     {
         double cpuUsage = 0.0;
         if (measurementInterval * processorCount > 0)
         {
             cpuUsage =
-                    (double)cpuTime / (measurementInterval * NANO_TO_MILI * processorCount)
-                            * PERCENT_CONST;
+                (double)cpuTime / (measurementInterval * NANO_TO_MILI * processorCount)
+                    * PERCENT_CONST;
             // パフォーマンスカウンタの仕様上、CPU使用率が100％を超えることがあるため、
             // 最大100％に丸める。（#2006）
             cpuUsage = Math.min(cpuUsage, MAX_CPU_RATE);
