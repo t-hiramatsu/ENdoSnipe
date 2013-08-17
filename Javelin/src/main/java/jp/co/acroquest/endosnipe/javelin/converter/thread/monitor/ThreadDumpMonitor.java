@@ -25,10 +25,9 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.javelin.converter.thread.monitor;
 
-import java.lang.management.ManagementFactory;
-import java.lang.management.ThreadMXBean;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 import jp.co.acroquest.endosnipe.common.event.EventConstants;
@@ -55,11 +54,20 @@ public class ThreadDumpMonitor implements Runnable
     private final JavelinConfig config_ = new JavelinConfig();
 
     /** 前回のCPU時間 */
-    private long lastCpuTime_ = 0;
+    private long lastCpuTotalTime_ = 0;
+
+    /** 前回のCPU時間 */
+    private long lastCpuSystemTime_ = 0;
+
+    /** 前回のCPU時間 */
+    private long lastCpuIoWaitTime_ = 0;
 
     /** 前回のJavaUp時間 */
     private long lastUpTime_ = 0;
 
+    /** 前回の値 */
+    private Map<String, Double> prevValues_ = new ConcurrentHashMap<String, Double>();
+    
     /** Javaアップタイムの差分 */
     private long upTimeDif_ = 0;
 
@@ -67,7 +75,7 @@ public class ThreadDumpMonitor implements Runnable
     private int processorCount_;
 
     /** CPU使用率 */
-    private double cpuUsage_;
+    private CpuUsage cpuUsage_;
 
     /** スレッド数 */
     private int threadNum_;
@@ -119,9 +127,9 @@ public class ThreadDumpMonitor implements Runnable
         }
         catch (Exception ex)
         {
-            ;
+            SystemLogger.getInstance().debug(ex);
         }
-        
+
         while (true)
         {
             try
@@ -168,8 +176,13 @@ public class ThreadDumpMonitor implements Runnable
             return false;
         }
 
-        int threasholdCpu = config_.getThreadDumpCpu();
-        if (this.cpuUsage_ > threasholdCpu)
+        int threasholdCpuTotal = config_.getThreadDumpCpu();
+        int threasholdCpuSystem = config_.getThreadDumpCpuSys();
+        int threasholdCpuUser = config_.getThreadDumpCpuUser();
+        if (this.cpuUsage_.getCpuTotal() > threasholdCpuTotal
+            || this.cpuUsage_.getCpuSystem() > threasholdCpuSystem
+            || this.cpuUsage_.getCpuTotal() - this.cpuUsage_.getCpuSystem()
+                - this.cpuUsage_.getCpuIoWait() > threasholdCpuUser)
         {
             return true;
         }
@@ -181,7 +194,52 @@ public class ThreadDumpMonitor implements Runnable
         {
             return true;
         }
+        
+        Map<String, Double> thresholdMap = config_.getThreadDumpResourceTreshold();
+
+        for (Map.Entry<String, Double> entry : thresholdMap.entrySet())
+        {
+            String itemName = entry.getKey();
+            double threshold = entry.getValue().doubleValue();
+            boolean result =
+                judgeThreshold(itemName, threshold);
+            if (result)
+            {
+                return true;
+            }
+        }
+
         return false;
+    }
+
+    /**
+     * 指定した系列が閾値を超えているかどうかを判定する。
+     * 
+     * @param itemName 系列名
+     * @param threshold 閾値
+     * @return  指定した系列が閾値を超えているかどうか。
+     */
+    private boolean judgeThreshold(String itemName, double threshold)
+    {
+        double currentValue = 0;
+        Number resource = collector__.getResource(itemName);
+        if (resource != null)
+        {
+            currentValue = resource.doubleValue();
+        }
+
+        if (itemName.endsWith("(d)"))
+        {
+            Double prevValue = prevValues_.get(itemName);
+            prevValues_.put(itemName, currentValue);
+            if(prevValue != null)
+            {
+                currentValue -= prevValue.doubleValue();
+            }
+            
+        }
+
+        return threshold < currentValue;
     }
 
     /**
@@ -190,35 +248,61 @@ public class ThreadDumpMonitor implements Runnable
      * 
      * @return CPU使用率
      */
-    private synchronized double getCpuUssage()
+    private synchronized CpuUsage getCpuUssage()
     {
-        Number cpuResource = collector__.getResource(TelegramConstants.ITEMNAME_PROCESS_CPU_TOTAL_TIME);
+        Number cpuTotal =
+            collector__.getResource(TelegramConstants.ITEMNAME_PROCESS_CPU_TOTAL_TIME);
+        Number cpuSystem =
+            collector__.getResource(TelegramConstants.ITEMNAME_PROCESS_CPU_SYSTEM_TIME);
+        Number cpuIoWait =
+            collector__.getResource(TelegramConstants.ITEMNAME_PROCESS_CPU_IOWAIT_TIME);
+
         Number uptimeResource = collector__.getResource(TelegramConstants.ITEMNAME_JAVAUPTIME);
         Number processorResource =
-                collector__.getResource(TelegramConstants.ITEMNAME_SYSTEM_CPU_PROCESSOR_COUNT);
+            collector__.getResource(TelegramConstants.ITEMNAME_SYSTEM_CPU_PROCESSOR_COUNT);
 
-        if (cpuResource == null || uptimeResource == null || processorResource == null)
+        CpuUsage usage = new CpuUsage();
+        if (cpuTotal == null || uptimeResource == null || processorResource == null)
         {
-            return 0;
+            return usage;
         }
 
-        long cpuTime = cpuResource.longValue();
+        if (cpuSystem == null || cpuIoWait == null)
+        {
+            cpuSystem = 0;
+            cpuIoWait = 0;
+        }
+
+        long cpuTotalTime = cpuTotal.longValue();
+        long cpuSystemTime = cpuSystem.longValue();
+        long cpuIoWaitTime = cpuIoWait.longValue();
         long upTime = uptimeResource.longValue();
         this.processorCount_ = processorResource.intValue();
 
         // CPU使用率が閾値を越えているときに、スレッドダンプを出力する。
-        double cpuUsage = 0;
         if (this.lastUpTime_ != 0)
         {
             this.upTimeDif_ = upTime - this.lastUpTime_;
-            cpuUsage =
-                    (double)(cpuTime - this.lastCpuTime_)
-                            / (this.upTimeDif_ * CONVERT_RATIO * this.processorCount_);
+            double cpuTotalUsage =
+                (double)(cpuTotalTime - this.lastCpuTotalTime_)
+                    / (this.upTimeDif_ * CONVERT_RATIO * this.processorCount_);
+            double cpuSystemUsage =
+                (double)(cpuSystemTime - this.lastCpuSystemTime_)
+                    / (this.upTimeDif_ * CONVERT_RATIO * this.processorCount_);
+            double cpuIoWaitUsage =
+                (double)(cpuIoWaitTime - this.lastCpuIoWaitTime_)
+                    / (this.upTimeDif_ * CONVERT_RATIO * this.processorCount_);
+
+            usage.setCpuSystem(cpuSystemUsage);
+            usage.setCpuUser(cpuTotalUsage - cpuSystemUsage - cpuIoWaitUsage);
+            usage.setCpuSystem(cpuIoWaitUsage);
         }
-        this.lastCpuTime_ = cpuTime;
+        this.lastCpuTotalTime_ = cpuTotalTime;
+        this.lastCpuSystemTime_ = cpuSystemTime;
+        this.lastCpuIoWaitTime_ = cpuIoWaitTime;
         this.lastUpTime_ = upTime;
 
-        return cpuUsage;
+        return usage;
     }
 
     /**
@@ -239,14 +323,14 @@ public class ThreadDumpMonitor implements Runnable
      */
     private synchronized Map<Long, Long> getThreadCpuMap()
     {
-        ThreadMXBean bean = ManagementFactory.getThreadMXBean();
         long[] threadIds = ThreadUtil.getAllThreadIds();
 
         Map<Long, Long> threadCpuMap = new LinkedHashMap<Long, Long>();
+        long[] threadCpuTimes = ThreadUtil.getThreadCpuTime(threadIds);
         for (int num = 0; num < threadIds.length; num++)
         {
             long threadId = threadIds[num];
-            threadCpuMap.put(threadId, bean.getThreadCpuTime(threadId));
+            threadCpuMap.put(threadId, threadCpuTimes[num]);
         }
 
         return threadCpuMap;
@@ -319,14 +403,14 @@ public class ThreadDumpMonitor implements Runnable
             else if (lastCpuTime != null)
             {
                 double threadCpuRate =
-                        (double)(cpuTime - lastCpuTime)
-                                / (upTimeDif * CONVERT_RATIO * this.processorCount_);
+                    (double)(cpuTime - lastCpuTime)
+                        / (upTimeDif * CONVERT_RATIO * this.processorCount_);
                 threadCpuRateMap.put(threadId, threadCpuRate);
             }
             else
             {
                 double threadCpuRate =
-                        (double)(cpuTime) / (upTimeDif * CONVERT_RATIO * this.processorCount_);
+                    (double)(cpuTime) / (upTimeDif * CONVERT_RATIO * this.processorCount_);
                 threadCpuRateMap.put(threadId, threadCpuRate);
             }
         }
