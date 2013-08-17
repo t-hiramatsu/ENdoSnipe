@@ -205,6 +205,12 @@ public class ConfigUpdater
         // フルスレッドダンプ出力のCPU使用率の閾値
         properties.put(JavelinConfig.THREAD_DUMP_CPU, String.valueOf(config.getThreadDumpCpu()));
         
+        properties.put(JavelinConfig.THREAD_DUMP_CPU_SYS,
+                       String.valueOf(config.getThreadDumpCpuSys()));
+
+        properties.put(JavelinConfig.THREAD_DUMP_CPU_USER,
+                       String.valueOf(config.getThreadDumpCpuUser()));
+            
         Map<String, Double> thresholdMap = config.getThreadDumpResourceTreshold();
         for (Map.Entry<String, Double> entry : thresholdMap.entrySet())
         {
