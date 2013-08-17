@@ -113,7 +113,7 @@ public class ThreadMonitor implements Runnable
         }
         catch (Exception ex)
         {
-            ;
+            SystemLogger.getInstance().debug(ex);
         }
         
         prevThreadMonitor_ = true;
@@ -297,7 +297,6 @@ public class ThreadMonitor implements Runnable
         }
 
         Arrays.sort(deadlockThreads);
-        SystemLogger.getInstance().debug("Deadlocks of thread " + Arrays.toString(deadlockThreads) + " are detected");
 
         DeadLockDetectedEvent event = new DeadLockDetectedEvent();
         int index = 1;
