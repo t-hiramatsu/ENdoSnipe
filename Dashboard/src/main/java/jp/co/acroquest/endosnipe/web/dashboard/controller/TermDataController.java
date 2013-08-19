@@ -28,16 +28,20 @@ package jp.co.acroquest.endosnipe.web.dashboard.controller;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import jp.co.acroquest.endosnipe.data.dao.JavelinLogDao;
 import jp.co.acroquest.endosnipe.data.entity.JavelinLog;
 import jp.co.acroquest.endosnipe.perfdoctor.WarningUnit;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.MeasurementValueDto;
+import jp.co.acroquest.endosnipe.web.dashboard.dto.MultipleResourceGraphDefinitionDto;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.PerfDoctorTableDto;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.SignalDefinitionDto;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.SignalTreeMenuDto;
@@ -46,6 +50,7 @@ import jp.co.acroquest.endosnipe.web.dashboard.form.TermDataForm;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.DatabaseManager;
 import jp.co.acroquest.endosnipe.web.dashboard.service.JvnFileEntryJudge;
 import jp.co.acroquest.endosnipe.web.dashboard.service.MeasurementValueService;
+import jp.co.acroquest.endosnipe.web.dashboard.service.MultipleResourceGraphService;
 import jp.co.acroquest.endosnipe.web.dashboard.service.SignalService;
 import jp.co.acroquest.endosnipe.web.dashboard.service.TreeMenuService;
 import net.arnx.jsonic.JSON;
@@ -86,6 +91,9 @@ public class TermDataController
     @Autowired
     protected SignalService signalService;
 
+    @Autowired
+    MultipleResourceGraphService service = new MultipleResourceGraphService();
+
     /**
      * コンストラクタ。
      */
@@ -116,26 +124,101 @@ public class TermDataController
             // if no dataGroupId, return empty map.
             return new HashMap<String, List<Map<String, String>>>();
         }
+
         for (String dataId : dataGroupIdList)
         {
-            if (TREE_DATA_ID.equals(dataId))
+
+            /* dataId = dataId.substring(dataId.indexOf("(") + 1, dataId.indexOf(")"));
+             String[] dataGroupIds = dataId.split("^");
+
+             for (int index = 0; index > dataGroupIds.length; index++)
+             {
+                 dataGroupIds[index] =
+                         dataGroupIds[index].substring(0, dataGroupIds[index].indexOf('$'));
+             }
+
+             if (dataGroupIds != null && dataGroupIds.length > 0)
+             {
+                 for (int index = 0; index > dataGroupIds.length; index++)
+                 {
+                     String dataMeasurement = dataGroupIds[index];
+                     if (TREE_DATA_ID.equals(dataMeasurement))
+                     {
+                         // 計測対象の項目を全て取得してツリー要素に変換
+                         List<Map<String, String>> treeMenuDtoList =
+                                 createTreeMenuData(treeMenuService.initialize());
+
+                         // シグナル定義を全て取得
+                         List<SignalDefinitionDto> signalList = signalService.getAllSignal();
+
+                         // 計測対象のツリーにシグナル定義を追加
+                         treeMenuDtoList.addAll(convertSignalDefinition(signalList));
+
+                         responceDataList.put(TREE_DATA_ID, treeMenuDtoList);
+                     }
+                     else
+                     {
+                          String[] dataSplit = dataId.split("");
+                          List<String> dataSplitList = Arrays.asList(dataSplit);
+                         if (dataMeasurement.contains("graph") || dataMeasurement.contains("Graph"))
+                         {
+
+                             MultipleResourceGraphDefinitionDto dto =
+                                     service.getmultipleResourceGraphInfo(dataMeasurement);
+                             String[] measurementList = dto.getMeasurementItemIdList().split(",");
+
+                             graphDataList.addAll(Arrays.asList(measurementList));
+                         }
+                         else
+                         {
+                             graphDataList.add(dataMeasurement);
+                         }
+                     }
+                 }
+             }
+             else
+             {*/
+
+            Pattern p = Pattern.compile(dataId);
+            Matcher m = p.matcher(dataId);
+
+            while (m.find())
             {
-                // 計測対象の項目を全て取得してツリー要素に変換
-                List<Map<String, String>> treeMenuDtoList =
-                        createTreeMenuData(treeMenuService.initialize());
+                String matchData = m.group();
+                if (TREE_DATA_ID.equals(matchData))
+                {
+                    // 計測対象の項目を全て取得してツリー要素に変換
+                    List<Map<String, String>> treeMenuDtoList =
+                            createTreeMenuData(treeMenuService.initialize());
 
-                // シグナル定義を全て取得
-                List<SignalDefinitionDto> signalList = signalService.getAllSignal();
+                    // シグナル定義を全て取得
+                    List<SignalDefinitionDto> signalList = signalService.getAllSignal();
 
-                // 計測対象のツリーにシグナル定義を追加
-                treeMenuDtoList.addAll(convertSignalDefinition(signalList));
+                    // 計測対象のツリーにシグナル定義を追加
+                    treeMenuDtoList.addAll(convertSignalDefinition(signalList));
 
-                responceDataList.put(TREE_DATA_ID, treeMenuDtoList);
+                    responceDataList.put(TREE_DATA_ID, treeMenuDtoList);
+                }
+                else
+                {
+                    /* String[] dataSplit = dataId.split("");
+                     List<String> dataSplitList = Arrays.asList(dataSplit);*/
+                    if (matchData.contains("graph") || matchData.contains("Graph"))
+                    {
+
+                        MultipleResourceGraphDefinitionDto dto =
+                                service.getmultipleResourceGraphInfo(matchData);
+                        String[] measurementList = dto.getMeasurementItemIdList().split(",");
+
+                        graphDataList.addAll(Arrays.asList(measurementList));
+                    }
+                    else
+                    {
+                        graphDataList.add(matchData);
+                    }
+                }
             }
-            else
-            {
-                graphDataList.add(dataId);
-            }
+            //  }
         }
         if (graphDataList.size() != 0)
         {

@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.co.acroquest.endosnipe.collector.listener.MultipleResourceGraphChangeListener;
 import jp.co.acroquest.endosnipe.common.entity.ItemType;
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
 import jp.co.acroquest.endosnipe.communicator.CommunicationClient;
@@ -14,7 +15,6 @@ import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.data.dao.JavelinMeasurementItemDao;
 import jp.co.acroquest.endosnipe.data.entity.JavelinMeasurementItem;
 import jp.co.acroquest.endosnipe.web.dashboard.constants.LogMessageCodes;
-import jp.co.acroquest.endosnipe.web.dashboard.constants.MultipleResourceGraphConstants;
 import jp.co.acroquest.endosnipe.web.dashboard.constants.TreeMenuConstants;
 import jp.co.acroquest.endosnipe.web.dashboard.dao.MultipleResourceGraphInfoDao;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.MultipleResourceGraphDefinitionDto;
@@ -56,6 +56,8 @@ public class MultipleResourceGraphService
      */
     @Autowired
     protected MultipleResourceGraphInfoDao multipleResourceGraphDao;
+
+    MultipleResourceGraphChangeListener Glistener = new MultipleResourceGraphChangeListener();
 
     /**
      * コンストラクタ
@@ -131,7 +133,7 @@ public class MultipleResourceGraphService
      * @param multipleResourceGraphDefinitionDto 閾値判定定義情報
      * @param type 操作種別(add, update, deleteのいずれか)s
      */
-    private void sendMultipleResourceGraphDefinitionRequest(
+    /*private void sendMultipleResourceGraphDefinitionRequest(
             final MultipleResourceGraphDefinitionDto multipleResourceGraphDefinitionDto,
             final String type)
     {
@@ -157,11 +159,12 @@ public class MultipleResourceGraphService
             }
             if (telegram != null)
             {
+
                 communicationClient.sendTelegram(telegram);
             }
         }
 
-    }
+    }*/
 
     /**
      * 全閾値情報を取得する電文を作成する。
@@ -177,6 +180,7 @@ public class MultipleResourceGraphService
 
         Header requestHeader = new Header();
         requestHeader.setByteTelegramKind(TelegramConstants.BYTE_TELEGRAM_KIND_MUL_RES_GRAPH_DEFINITION);
+        //  requestHeader.setByteTelegramKind(TelegramConstants.BYTE_TELEGRAM_KIND_ADD_MUL_RES_GRAPH_DEFINITION);
         requestHeader.setByteRequestKind(TelegramConstants.BYTE_REQUEST_KIND_REQUEST);
 
         int dtoCount = multipleResourceGraphInfoList.size();
@@ -225,8 +229,12 @@ public class MultipleResourceGraphService
     private Telegram createAddMultipleResourceGraphTelegram(
             final MultipleResourceGraphDefinitionDto multipleResourceGraphDefinitionDto)
     {
+        Glistener.receiveTelegram(MultipleResourceGraphUtil.createAddMultipleResourceGraphDefinition(multipleResourceGraphDefinitionDto,
+                                                                                                     TelegramConstants.ITEMNAME_MUL_RES_GRAPH_ADD));
+
         return MultipleResourceGraphUtil.createAddMultipleResourceGraphDefinition(multipleResourceGraphDefinitionDto,
                                                                                   TelegramConstants.ITEMNAME_MUL_RES_GRAPH_ADD);
+
     }
 
     /**
@@ -238,6 +246,10 @@ public class MultipleResourceGraphService
     private Telegram createUpdateMultipleResourceGraphTelegram(
             final MultipleResourceGraphDefinitionDto multipleResourceGraphDefinitionDto)
     {
+
+        Glistener.receiveTelegram(MultipleResourceGraphUtil.createAddMultipleResourceGraphDefinition(multipleResourceGraphDefinitionDto,
+                                                                                                     TelegramConstants.ITEMNAME_MUL_RES_GRAPH_UPDATE));
+
         return MultipleResourceGraphUtil.createAddMultipleResourceGraphDefinition(multipleResourceGraphDefinitionDto,
                                                                                   TelegramConstants.ITEMNAME_MUL_RES_GRAPH_UPDATE);
     }
@@ -251,6 +263,9 @@ public class MultipleResourceGraphService
     private Telegram createDeleteMultipleResourceGraphTelegram(
             final MultipleResourceGraphDefinitionDto multipleResourceGraphDefinitionDto)
     {
+        Glistener.receiveTelegram(MultipleResourceGraphUtil.createAddMultipleResourceGraphDefinition(multipleResourceGraphDefinitionDto,
+                                                                                                     TelegramConstants.ITEMNAME_MUL_RES_GRAPH_DELETE));
+
         return MultipleResourceGraphUtil.createAddMultipleResourceGraphDefinition(multipleResourceGraphDefinitionDto,
                                                                                   TelegramConstants.ITEMNAME_MUL_RES_GRAPH_DELETE);
     }
@@ -289,9 +304,9 @@ public class MultipleResourceGraphService
         //   multipleResourceGraphDefinitionDto.setSignalValue(DEFAULT_SIGNAL_STATE);
 
         // DataCollectorにシグナル定義の追加を通知する。
-        sendMultipleResourceGraphDefinitionRequest(multipleResourceGraphDefinitionDto,
-                                                   MultipleResourceGraphConstants.OPERATION_TYPE_ADD);
-
+        /*   sendMultipleResourceGraphDefinitionRequest(multipleResourceGraphDefinitionDto,
+                                                      MultipleResourceGraphConstants.OPERATION_TYPE_ADD);
+        */
         // 各クライアントにシグナル定義の追加を送信する。
         sendmultipleResourceGraphDefinition(multipleResourceGraphDefinitionDto, "add");
 
@@ -308,6 +323,7 @@ public class MultipleResourceGraphService
     {
         MultipleResourceGraphInfo multipleResourceGraphInfo =
                 multipleResourceGraphDao.selectByName(multipleResourceGraphName);
+
         MultipleResourceGraphDefinitionDto defitionDto =
                 this.convertmultipleResourceGraphDto(multipleResourceGraphInfo);
         return defitionDto;
@@ -364,9 +380,9 @@ public class MultipleResourceGraphService
                 this.convertmultipleResourceGraphDto(multipleResourceGraphInfo);
         //  multipleResourceGraphDefinitionDto.setSignalValue(-1);
 
-        sendMultipleResourceGraphDefinitionRequest(multipleResourceGraphDefinitionDto,
-                                                   MultipleResourceGraphConstants.OPERATION_TYPE_UPDATE);
-        // 各クライアントにシグナル定義の変更を送信する。
+        /*   sendMultipleResourceGraphDefinitionRequest(multipleResourceGraphDefinitionDto,
+                                                      MultipleResourceGraphConstants.OPERATION_TYPE_UPDATE);
+        */// 各クライアントにシグナル定義の変更を送信する。
         sendmultipleResourceGraphDefinition(multipleResourceGraphDefinitionDto, "update");
 
         return multipleResourceGraphDefinitionDto;
@@ -578,7 +594,7 @@ public class MultipleResourceGraphService
         treeMenu.setParentTreeId(parentTreeId);
         treeMenu.setData(multipleResourceGraphDisplayName);
         treeMenu.setType(TreeMenuConstants.TREE_MENU_TYPE_MUL_RESOURCE_GRAPH);
-        treeMenu.setIcon("mulRecGraph");
+        treeMenu.setIcon("mulResGraph");
         return treeMenu;
     }
 

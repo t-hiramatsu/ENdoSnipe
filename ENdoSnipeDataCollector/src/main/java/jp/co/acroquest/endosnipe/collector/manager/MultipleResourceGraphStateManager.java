@@ -39,11 +39,11 @@ public class MultipleResourceGraphStateManager
 {
     /** MultipleResourceGraphStateManagerインスタンス */
     public static MultipleResourceGraphStateManager instance__ =
-                                                                 new MultipleResourceGraphStateManager();
+        new MultipleResourceGraphStateManager();
 
     /** シグナル定義を保持するマップ */
     private Map<Long, MultipleResourceGraphDefinitionDto> multipleResourceGraphDefinitionMap_ =
-                                                                                                null;
+        null;
 
     /**
      * インスタンス化を阻止するprivateコンストラクタです。
@@ -76,7 +76,7 @@ public class MultipleResourceGraphStateManager
      * @param multipleResourceGraphDefinitionMap シグナル定義情報のマップ
      */
     public void setMultipleResourceGraphDefinitionMap(
-            final Map<Long, MultipleResourceGraphDefinitionDto> multipleResourceGraphDefinitionMap)
+        final Map<Long, MultipleResourceGraphDefinitionDto> multipleResourceGraphDefinitionMap)
     {
         this.multipleResourceGraphDefinitionMap_ = multipleResourceGraphDefinitionMap;
     }
@@ -88,12 +88,12 @@ public class MultipleResourceGraphStateManager
      * 
      */
     public void addMultipleResourceGraphDefinition(final Long multipleResourceGraphId,
-            final MultipleResourceGraphDefinitionDto multipleResourceGraphDefinitionDto)
+        final MultipleResourceGraphDefinitionDto multipleResourceGraphDefinitionDto)
     {
         if (this.multipleResourceGraphDefinitionMap_ == null)
         {
             this.multipleResourceGraphDefinitionMap_ =
-                                                       new ConcurrentHashMap<Long, MultipleResourceGraphDefinitionDto>();
+                new ConcurrentHashMap<Long, MultipleResourceGraphDefinitionDto>();
         }
         this.multipleResourceGraphDefinitionMap_.put(multipleResourceGraphId,
                                                      multipleResourceGraphDefinitionDto);
@@ -107,7 +107,7 @@ public class MultipleResourceGraphStateManager
      * 
      */
     public MultipleResourceGraphDefinitionDto removeMultipleResourceGraphDefinition(
-            final Long multipleResourceGraphId)
+        final Long multipleResourceGraphId)
     {
         if (this.multipleResourceGraphDefinitionMap_ == null)
         {

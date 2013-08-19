@@ -37,7 +37,6 @@ import jp.co.acroquest.endosnipe.collector.data.JavelinConnectionData;
 import jp.co.acroquest.endosnipe.collector.listener.AllNotifyListener;
 import jp.co.acroquest.endosnipe.collector.listener.CommonResponseListener;
 import jp.co.acroquest.endosnipe.collector.listener.JvnFileNotifyListener;
-import jp.co.acroquest.endosnipe.collector.listener.MultipleResourceGraphChangeListener;
 import jp.co.acroquest.endosnipe.collector.listener.SignalChangeListener;
 import jp.co.acroquest.endosnipe.collector.listener.SignalStateListener;
 import jp.co.acroquest.endosnipe.collector.listener.SystemResourceListener;
@@ -366,12 +365,12 @@ public class JavelinServer implements TelegramSender
 
         SignalStateListener signalStateListener = new SignalStateListener();
         SignalChangeListener signalChangeListener = new SignalChangeListener();
-        MultipleResourceGraphChangeListener multipleResourceGraphChangeListener =
-            new MultipleResourceGraphChangeListener();
-
+        /*   MultipleResourceGraphChangeListener multipleResourceGraphChangeListener =
+               new MultipleResourceGraphChangeListener();
+        */
         client.addTelegramListener(signalStateListener);
         client.addTelegramListener(signalChangeListener);
-        client.addTelegramListener(multipleResourceGraphChangeListener);
+        //  client.addTelegramListener(multipleResourceGraphChangeListener);
 
         // 制御クライアントが存在するなら、Javelinクライアントと紐付ける。
         Set<DataCollectorClient> controlClientSet = getControlClient(dbName);
@@ -482,7 +481,7 @@ public class JavelinServer implements TelegramSender
 
         controlClient.addTelegramListener(new SignalStateListener());
         controlClient.addTelegramListener(new SignalChangeListener());
-        controlClient.addTelegramListener(new MultipleResourceGraphChangeListener());
+        // controlClient.addTelegramListener(new MultipleResourceGraphChangeListener());
 
         // Javelin->DataCollector->BottleneckEye
         javelinClient.addTelegramListener(new TelegramListener() {

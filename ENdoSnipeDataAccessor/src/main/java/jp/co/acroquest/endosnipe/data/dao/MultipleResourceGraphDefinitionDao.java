@@ -74,7 +74,7 @@ public class MultipleResourceGraphDefinitionDao extends AbstractDao implements T
 
         return result;
     }
-
+    
     /**
      * すべてのレコードを削除します。<br />
      *

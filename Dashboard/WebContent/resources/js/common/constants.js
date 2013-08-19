@@ -129,6 +129,8 @@ ENS.tree.MULTIPLE_RESOURCE_GRAPH_EDIT_URL = wgp.common.getContextPath() + "/mult
 ENS.tree.MULTIPLE_RESOURCE_GRAPH_DELETE_URL = wgp.common.getContextPath() + "/multipleResourceGraph/delete";
 ENS.tree.MEASUREMENT_ITEM_SELECT_ALL_URL = wgp.common.getContextPath()
 + "/multipleResourceGraph/getAllMeasurementList";
+ENS.tree.MEASUREMENT_ITEM_SELECT_EXP_URL = wgp.common.getContextPath()
++ "/multipleResourceGraph/getAllMeasurementListByExp";
 
 ENS.tree.MEASUREMENT_ITEM_SELECT_BY_REG_EXP = wgp.common.getContextPath() + "/multipleResourceGraph/getMeasurementByRegExp";
 
@@ -156,6 +158,7 @@ ENS.tree.type.TARGET = "target";
 ENS.tree.type.SIGNAL = "signal";
 ENS.tree.type.REPORT = "report";
 ENS.tree.type.MULTIPLERESOURCEGRAPH = "multipleResourceGraph";
+
 
 ENS.tree.contextOption = [ {
 	menu_id : ENS.tree.ADD_SIGNAL_TYPE,

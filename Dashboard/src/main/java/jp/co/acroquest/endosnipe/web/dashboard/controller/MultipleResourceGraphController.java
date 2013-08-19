@@ -106,6 +106,30 @@ public class MultipleResourceGraphController
 
     }
 
+    /*
+        @RequestMapping(value = "/getAllMeasurementList", method = RequestMethod.POST)
+        @ResponseBody
+        public List<JavelinMeasurementItem> getTermDataByExp(
+                @RequestParam(value = "multipleResourceGraphName") final String multipleResourceGraphName)
+        {
+
+            List<JavelinMeasurementItem> measurementValueDtoList;
+            try
+            {
+                measurementValueDtoList = multipleResourceGraphService_.getMeasurementItemName();
+                
+                return measurementValueDtoList;
+
+            }
+            catch (SQLException ex)
+            {
+                // TODO 自動生成された catch ブロック
+                ex.printStackTrace();
+                return new ArrayList<JavelinMeasurementItem>();
+            }
+
+        }
+    */
     @RequestMapping(value = "/getAllDefinition", method = RequestMethod.POST)
     @ResponseBody
     public List<MultipleResourceGraphDefinitionDto> getAllDefinition()
@@ -189,7 +213,7 @@ public class MultipleResourceGraphController
         MultipleResourceGraphDefinitionDto multipleResourceGraphDefinitionDto =
                 JSON.decode(mulResGraphDefinition, MultipleResourceGraphDefinitionDto.class);
 
-        long multipleResourceGraphId =
+        /*long multipleResourceGraphId =
                 multipleResourceGraphDefinitionDto.getMultipleResourceGraphId();
         String multipleResourceGraphName =
                 multipleResourceGraphDefinitionDto.getMultipleResourceGraphName();
@@ -201,7 +225,7 @@ public class MultipleResourceGraphController
             responseDto.setResult(ResponseConstants.RESULT_FAIL);
             responseDto.setMessage(errorMessage);
             return responseDto;
-        }
+        }*/
 
         MultipleResourceGraphInfo multipleResourceGraphInfo =
                 this.multipleResourceGraphService_.convertMultipleResourceGraphInfo(multipleResourceGraphDefinitionDto);

@@ -42,10 +42,10 @@ import jp.co.acroquest.endosnipe.data.entity.MultipleResourceGraphDefinition;
  * @author pin
  */
 public class MultipleResourceGraphChangeListener extends AbstractTelegramListener implements
-        TelegramListener, LogMessageCodes
+    TelegramListener, LogMessageCodes
 {
-    private static final ENdoSnipeLogger LOGGER =
-                                                  ENdoSnipeLogger.getLogger(MultipleResourceGraphChangeListener.class);
+    private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
+        .getLogger(MultipleResourceGraphChangeListener.class);
 
     private static final int ITEM_VALUE_MUL_RES_GRAPH_ID = 0;
 
@@ -82,7 +82,7 @@ public class MultipleResourceGraphChangeListener extends AbstractTelegramListene
         {
             String itemName = body.getStrItemName();
             if (TelegramConstants.ITEMNAME_MUL_RES_GRAPH_ADD.equals(itemName)
-                    || TelegramConstants.ITEMNAME_MUL_RES_GRAPH_UPDATE.equals(itemName))
+                || TelegramConstants.ITEMNAME_MUL_RES_GRAPH_UPDATE.equals(itemName))
             {
                 setMultipleResourceGraphDefinition(body, itemName);
             }
@@ -102,7 +102,7 @@ public class MultipleResourceGraphChangeListener extends AbstractTelegramListene
     private void setMultipleResourceGraphDefinition(final Body body, final String itemName)
     {
         MultipleResourceGraphStateManager multipleResourceGraphStateManager =
-                                                                              MultipleResourceGraphStateManager.getInstance();
+            MultipleResourceGraphStateManager.getInstance();
 
         Object[] itemValues = body.getObjItemValueArr();
         String multipleResourceGraphId = (String)itemValues[ITEM_VALUE_MUL_RES_GRAPH_ID];
@@ -113,28 +113,28 @@ public class MultipleResourceGraphChangeListener extends AbstractTelegramListene
         {
 
             MultipleResourceGraphDefinition multipleResourceGraphDefinition =
-                                                                              new MultipleResourceGraphDefinition();
+                new MultipleResourceGraphDefinition();
             multipleResourceGraphDefinition.multipleResourceGraphId =
-                                                                      Long.parseLong(multipleResourceGraphId);
+                Long.parseLong(multipleResourceGraphId);
             multipleResourceGraphDefinition.multipleResourceGraphName = multipleResourceGraphName;
             multipleResourceGraphDefinition.measurementItemIdList = measurementItemList;
 
             MultipleResourceGraphDefinitionDto multipleResourceGraphDefinitionDto =
-                                                                                    new MultipleResourceGraphDefinitionDto(
-                                                                                                                           multipleResourceGraphDefinition);
+                new MultipleResourceGraphDefinitionDto(multipleResourceGraphDefinition);
 
-            multipleResourceGraphStateManager.addMultipleResourceGraphDefinition(multipleResourceGraphDefinition.multipleResourceGraphId,
-                                                                                 multipleResourceGraphDefinitionDto);
+            multipleResourceGraphStateManager
+                .addMultipleResourceGraphDefinition(multipleResourceGraphDefinition.multipleResourceGraphId,
+                                                    multipleResourceGraphDefinitionDto);
 
-            if (TelegramConstants.ITEMNAME_MUL_RES_GRAPH_UPDATE.equals(itemName))
-            {
-                /* AlarmData alarmData =
-                                       multipleResourceGraphStateManager.getAlarmData(multipleResourceGraphName);
-                 if (alarmData != null)
-                 {
-                     alarmData.reset();
-                 }*/
-            }
+            //  if (TelegramConstants.ITEMNAME_MUL_RES_GRAPH_UPDATE.equals(itemName))
+            // {
+            /* AlarmData alarmData =
+                                   multipleResourceGraphStateManager.getAlarmData(multipleResourceGraphName);
+             if (alarmData != null)
+             {
+                 alarmData.reset();
+             }*/
+            // }
         }
         catch (NumberFormatException ex)
         {
@@ -150,7 +150,7 @@ public class MultipleResourceGraphChangeListener extends AbstractTelegramListene
     private void deleteMultipleResourceGraphDefinition(final Body body)
     {
         MultipleResourceGraphStateManager multipleResourceGraphStateManager =
-                                                                              MultipleResourceGraphStateManager.getInstance();
+            MultipleResourceGraphStateManager.getInstance();
 
         Object[] itemValues = body.getObjItemValueArr();
         String multipleResourceGraphIdStr = (String)itemValues[ITEM_VALUE_MUL_RES_GRAPH_ID];
@@ -159,7 +159,8 @@ public class MultipleResourceGraphChangeListener extends AbstractTelegramListene
         try
         {
             long multipleResourceGraphId = Long.parseLong(multipleResourceGraphIdStr);
-            multipleResourceGraphStateManager.removeMultipleResourceGraphDefinition(multipleResourceGraphId);
+            multipleResourceGraphStateManager
+                .removeMultipleResourceGraphDefinition(multipleResourceGraphId);
             // multipleResourceGraphStateManager.removeAlarmData(multipleResourceGraphName);
         }
         catch (NumberFormatException ex)

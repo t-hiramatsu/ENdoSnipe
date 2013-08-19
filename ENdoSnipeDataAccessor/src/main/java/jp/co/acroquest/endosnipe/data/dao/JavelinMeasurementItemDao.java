@@ -37,6 +37,7 @@ import java.util.Map;
 
 import jp.co.acroquest.endosnipe.common.util.SQLUtil;
 import jp.co.acroquest.endosnipe.data.TableNames;
+import jp.co.acroquest.endosnipe.data.dto.GraphTypeDto;
 import jp.co.acroquest.endosnipe.data.entity.JavelinMeasurementItem;
 
 /**
@@ -138,14 +139,14 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
      * @return 計測項目名の一覧
      * @throws SQLException SQL 実行時に例外が発生した場合
      */
-    public static List<String> selectItemNameListByParentItemName(final String database,
+    public static List<GraphTypeDto> selectItemNameListByParentItemName(final String database,
         final String measurementItemName)
         throws SQLException
     {
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        List<String> itemNameList = new ArrayList<String>();
+        List<GraphTypeDto> itemNameList = new ArrayList<GraphTypeDto>();
 
         try
         {
@@ -155,6 +156,8 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
                     + " where replace(replace(replace(MEASUREMENT_ITEM_NAME,chr(13)"
                     + "||chr(10),' '),chr(13),' '),chr(10),' ') LIKE ? "
                     + "order by MEASUREMENT_ITEM_NAME";
+             
+            
             pstmt = conn.prepareStatement(sql);
             PreparedStatement preparedStatement = getDelegatingStatement(pstmt);
             String tempStr = measurementItemName + "%";
@@ -169,7 +172,66 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
                 itemName = itemName.replaceAll("\\r", ALTERNATE_LINE_FEED_CODE);
                 itemName = itemName.replaceAll("\\n", ALTERNATE_LINE_FEED_CODE);
                 // CHECKSTYLE:OFF
-                itemNameList.add(itemName);
+                itemNameList.add(new GraphTypeDto(itemName, "graph"));
+                // CHECKSTYLE:ON
+            }
+            
+            List<GraphTypeDto> itemNameList2 = selectMulGrapNameListByParentItemName(database, measurementItemName);
+            itemNameList.addAll(itemNameList2);          
+            
+        }
+        finally
+        {
+            SQLUtil.closeResultSet(rs);
+            SQLUtil.closeStatement(pstmt);
+            SQLUtil.closeConnection(conn);
+        }
+
+        return itemNameList;
+    }
+
+    /**
+     * 指定されたItemName配下の計測項目名の一覧を取得します。<br />
+     *
+     * @param database データベース名
+     * @param measurementItemName 計測項目名
+     * @return 計測項目名の一覧
+     * @throws SQLException SQL 実行時に例外が発生した場合
+     */
+    public static List<GraphTypeDto> selectMulGrapNameListByParentItemName(final String database,
+        final String measurementItemName)
+        throws SQLException
+    {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        List<GraphTypeDto> itemNameList = new ArrayList<GraphTypeDto>();
+
+        try
+        {
+            conn = getConnection(database, true);
+            String sql =
+                "select MULTIPLE_RESOURCE_GRAPH_NAME from " + MULTIPLE_RESOURCE_GRAPH
+                    + " where replace(replace(replace(MULTIPLE_RESOURCE_GRAPH_NAME,chr(13)"
+                    + "||chr(10),' '),chr(13),' '),chr(10),' ') LIKE ? "
+                    + "order by MULTIPLE_RESOURCE_GRAPH_NAME";
+           
+               
+            pstmt = conn.prepareStatement(sql);
+            PreparedStatement preparedStatement = getDelegatingStatement(pstmt);
+            String tempStr = measurementItemName + "%";
+            preparedStatement.setString(1, tempStr);
+            rs = preparedStatement.executeQuery();
+
+            while (rs.next())
+            {
+                String itemName = rs.getString(1);
+                // 改行コードを変換する
+                itemName = itemName.replaceAll("\\r\\n", ALTERNATE_LINE_FEED_CODE);
+                itemName = itemName.replaceAll("\\r", ALTERNATE_LINE_FEED_CODE);
+                itemName = itemName.replaceAll("\\n", ALTERNATE_LINE_FEED_CODE);
+                // CHECKSTYLE:OFF
+                itemNameList.add(new GraphTypeDto(itemName, "mulResGraph"));
                 // CHECKSTYLE:ON
             }
         }
@@ -182,7 +244,8 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
 
         return itemNameList;
     }
-
+    
+    
     /**
      * 指定されたItemName配下の計測項目名の一覧を取得します。<br />
      *

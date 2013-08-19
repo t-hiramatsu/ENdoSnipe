@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/resources/css/Dialog/SummarySignalDialog.css"
+	href="<%=request.getContextPath()%>/resources/css/Dialog/MultipleResourceGraphDialog.css"
 	type="text/css" media="all">
 </head>
 <body>
@@ -69,13 +69,15 @@
 						</td>
 						<td style='width: 150px;'>Selected Graphs:<br /> <select
 							style='width: 150px; height: 250px;' multiple="multiple"
-							id='multipleResourceMultipleLstBox2'>
+							id='multipleResourceGraphLstBox2'>
 							<!-- <option value="graph3">/default/127.0.0.1/agent_000/javelin/javelin/converter/methods/excluded</option>
 							<option value="graph1">/default/127.0.0.1/agent_000/common/fundamental/time/acquired</option>
 						 -->
 						</select></td>
 					</tr>
-					<tr><td colspan="3"><a href="#">1</a>&nbsp;<a href="#">2</a>&nbsp;<a href="#">3</a>&nbsp;<a href="#">4</a>&nbsp;<a href="#">5</a>&nbsp;<a href="#">...</a></td></tr>
+					<tr><td colspan="3">
+					<div id="multipleResourceGraphlink" class="dialogValue">
+				<!-- 	<a href="#">1</a>&nbsp;<a href="#">2</a>&nbsp;<a href="#">3</a>&nbsp;<a href="#">4</a>&nbsp;<a href="#">5</a>&nbsp;<a href="#">...</a> --></div></td></tr>
 				
 				<tr><td colspan="3">
 				<div id="multipleResourceGraphPatternTextRadio" class="dialogValue">

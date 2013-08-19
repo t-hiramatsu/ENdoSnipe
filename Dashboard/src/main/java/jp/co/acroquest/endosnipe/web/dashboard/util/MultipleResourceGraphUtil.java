@@ -115,7 +115,7 @@ public class MultipleResourceGraphUtil
         Telegram telegram = new Telegram();
 
         Header requestHeader = new Header();
-        requestHeader.setByteTelegramKind(TelegramConstants.BYTE_TELEGRAM_KIND_ADD_MUL_RES_GRAPH_DEFINITION);
+        requestHeader.setByteTelegramKind(TelegramConstants.BYTE_TELEGRAM_KIND_MUL_RES_GRAPH_DEFINITION);
         requestHeader.setByteRequestKind(TelegramConstants.BYTE_REQUEST_KIND_NOTIFY);
 
         // 閾値判定定義情報

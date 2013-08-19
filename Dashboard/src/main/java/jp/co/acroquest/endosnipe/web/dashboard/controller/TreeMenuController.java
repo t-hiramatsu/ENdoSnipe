@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jp.co.acroquest.endosnipe.data.dto.GraphTypeDto;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.TreeMenuDto;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.ResourceSender;
 import jp.co.acroquest.endosnipe.web.dashboard.service.TreeMenuService;
@@ -101,10 +102,10 @@ public class TreeMenuController
      */
     @RequestMapping(value = "/getChildTargetNodes", method = RequestMethod.POST)
     @ResponseBody
-    public List<String> getChildTargetNodes(
+    public List<GraphTypeDto> getChildTargetNodes(
             @RequestParam(value = "parentTreeId") final String parentTreeId)
     {
-        List<String> childNodes = this.treeMenuService.getChildTargetNodes(parentTreeId);
+        List<GraphTypeDto> childNodes = this.treeMenuService.getChildTargetNodes(parentTreeId);
 
         return childNodes;
     }
@@ -120,7 +121,7 @@ public class TreeMenuController
     public Map<String, Object> getAllChildNodes(
             @RequestParam(value = "parentTreeId") final String parentTreeId)
     {
-        List<String> childNodes = this.treeMenuService.getAllChildNodes(parentTreeId);
+        List<GraphTypeDto> childNodes = this.treeMenuService.getAllChildNodes(parentTreeId);
 
         Map<String, Object> returnMap = new HashMap<String, Object>();
         returnMap.put(KEY_OF_CHILD_NODE, childNodes);
