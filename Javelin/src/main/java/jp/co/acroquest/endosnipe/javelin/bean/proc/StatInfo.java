@@ -25,6 +25,8 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.javelin.bean.proc;
 
+import java.util.List;
+
 /**
  *　/proc/statの内容を保持するBean
  * 
@@ -42,7 +44,7 @@ public class StatInfo
     private long   cpuTask_;
 
     /** CPU配列 */
-    private long[] cpuArray_;
+    private List<CpuCoreInfo> cpuArray_;
 
     /** ページイン時間 */
     private long   pageIn_;
@@ -114,7 +116,7 @@ public class StatInfo
      * CPU配列を取得します。
      * @return CPU配列
      */
-    public long[] getCpuArray()
+    public List<CpuCoreInfo> getCpuArray()
     {
         return cpuArray_;
     }
@@ -123,7 +125,7 @@ public class StatInfo
      * CPU配列を設定します。
      * @param cpuArray CPU配列
      */
-    public void setCpuArray(long[] cpuArray)
+    public void setCpuArray(List<CpuCoreInfo> cpuArray)
     {
         cpuArray_ = cpuArray;
     }

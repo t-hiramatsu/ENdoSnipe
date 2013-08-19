@@ -25,43 +25,33 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.javelin.resource;
 
-import java.util.concurrent.atomic.AtomicLong;
-
+import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 import jp.co.acroquest.endosnipe.common.entity.ItemType;
-import jp.co.acroquest.endosnipe.javelin.SystemStatusManager;
+import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
 
 /**
- * プロセス全体のネットワークデータ受信量を取得するクラス。
+ * RUNNABLEなスレッド数を取得するクラス。
  * 
- * @author Sakamoto
+ * @author eriguchi
  */
-public class SystemStatusValueGetter extends AbstractResourceGetter
+public class RunnableThreadCountGetter extends AbstractResourceGetter
 {
-    /** データを取得するためのキー */
-    private String key_;
-
-    /**
-     * SystemStatusManagerからデータを取得するためのオブジェクトを生成する。
-     * 
-     * @param key データを取得するためのキー
-     */
-    public SystemStatusValueGetter(String key)
-    {
-        this.key_ = key;
-    }
-
+    /** Javelinの設定。 */
+    private final JavelinConfig config_ = new JavelinConfig();
+    
     /**
      * {@inheritDoc}
      */
     public Number getValue()
     {
-        AtomicLong size;
-        size = SystemStatusManager.getValue(this.key_);
-        if (size == null)
+        if(config_.isResourceThreadRunnable())
         {
-            size = new AtomicLong();
+            return ThreadUtil.getRunnableThreadCount();
         }
-        return size.get();
+        else
+        {
+            return null;
+        }
     }
 
     /**
@@ -69,6 +59,6 @@ public class SystemStatusValueGetter extends AbstractResourceGetter
      */
     public ItemType getItemType()
     {
-        return ItemType.ITEMTYPE_LONG;
+        return ItemType.ITEMTYPE_INT;
     }
 }

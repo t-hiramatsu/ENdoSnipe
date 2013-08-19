@@ -170,9 +170,15 @@ public class JavelinConfig extends JavelinConfigBase
 
     private static int threadDumpCpu__;
 
+    private static int threadDumpCpuSys__;
+
+    private static int threadDumpCpuUser__;
+
     private static int threadDumpInterval__;
 
     private static int threadDumpThreadNum__;
+
+    private static boolean resourceThreadRunnable__;
 
     private static int threadModel__;
 
@@ -388,8 +394,11 @@ public class JavelinConfig extends JavelinConfigBase
         tatZeroKeepTime__ = super.getTatZeroKeepTime();
         telegramListeners__ = super.getTelegramListeners();
         threadDumpCpu__ = super.getThreadDumpCpu();
+        threadDumpCpuUser__ = super.getThreadDumpCpuUser();
+        threadDumpCpuSys__ = super.getThreadDumpCpuSys();
         threadDumpInterval__ = super.getThreadDumpInterval();
         threadDumpThreadNum__ = super.getThreadDumpThreadNum();
+        resourceThreadRunnable__ = super.isResourceThreadRunnable();
         threadModel__ = super.getThreadModel();
         threadMonitor__ = super.getThreadMonitor();
         threadMonitorDepth__ = super.getThreadMonitorDepth();
@@ -1632,6 +1641,42 @@ public class JavelinConfig extends JavelinConfigBase
      * {@inheritDoc}
      */
     @Override
+    public int getThreadDumpCpuSys()
+    {
+        return threadDumpCpuSys__;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setThreadDumpCpuSys(final int threadDumpCpu)
+    {
+        threadDumpCpuSys__ = threadDumpCpu;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getThreadDumpCpuUser()
+    {
+        return threadDumpCpuUser__;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setThreadDumpCpuUser(final int threadDumpCpu)
+    {
+        threadDumpCpuUser__ = threadDumpCpu;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public int getThreadDumpInterval()
     {
         return threadDumpInterval__;
@@ -1662,6 +1707,24 @@ public class JavelinConfig extends JavelinConfigBase
     public void setThreadDumpThreadNum(final int threadDumpThreadNum)
     {
         threadDumpThreadNum__ = threadDumpThreadNum;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isResourceThreadRunnable()
+    {
+        return resourceThreadRunnable__;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setResourceThreadRunnable(final boolean threadDumpThreadNum)
+    {
+        resourceThreadRunnable__ = threadDumpThreadNum;
     }
 
     /**
@@ -2860,4 +2923,5 @@ public class JavelinConfig extends JavelinConfigBase
     {
         invocationNameLimitLength__ = invocationNameLimitLength;
     }
+
 }

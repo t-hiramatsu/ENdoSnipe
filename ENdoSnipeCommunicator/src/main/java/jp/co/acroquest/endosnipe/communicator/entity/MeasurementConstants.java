@@ -298,4 +298,7 @@ public interface MeasurementConstants
     
     /** 計測値種別(MapReduce) */
     int TYPE_INFINISPAN_MAPREDUCE = 89;
+
+    /** 計測値種別(スレッド数) */
+    int TYPE_RUNNABLE_THREADCOUNT = 90;
 }

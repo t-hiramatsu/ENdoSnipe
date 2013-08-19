@@ -27,6 +27,7 @@ package jp.co.acroquest.endosnipe.javelin;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * システムの状態を管理するクラスです。<br />
@@ -37,7 +38,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class SystemStatusManager
 {
     /** システムの状態を管理するMap */
-    private static Map<String, Object> statusMap__ = new ConcurrentHashMap<String, Object>();
+    private static Map<String, AtomicLong> statusMap__ =
+        new ConcurrentHashMap<String, AtomicLong>();
 
     /**
      * インスタンス化を阻止するprivateコンストラクタです。<br />
@@ -48,24 +50,19 @@ public class SystemStatusManager
     }
 
     /**
-     * システムの状態を保存します。<br />
-     * 
-     * @param key キー
-     * @param value 値
-     */
-    public static void setValue(final String key, final Object value)
-    {
-        statusMap__.put(key, value);
-    }
-
-    /**
      * システムの状態を取得します。<br />
      * 
      * @param key キー
      * @return 指定されたキーに対応する状態
      */
-    public static Object getValue(final String key)
+    public static AtomicLong getValue(final String key)
     {
-        return statusMap__.get(key);
+        AtomicLong value = statusMap__.get(key);
+        if (value == null)
+        {
+            value = new AtomicLong();
+            statusMap__.put(key, value);
+        }
+        return value;
     }
 }
