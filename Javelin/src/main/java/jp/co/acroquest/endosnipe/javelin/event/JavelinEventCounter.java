@@ -44,138 +44,163 @@ import jp.co.acroquest.endosnipe.javelin.resource.TurnAroundTimeGroupGetter;
  */
 public class JavelinEventCounter implements JavelinConstants
 {
-	private long poolStorePeriod_;
+    private long poolStorePeriod_;
 
-	/** イベント名をキーにしたイベント発生回数のマップ */
-	private Map<String, FastInteger> eventCountMap_;
+    /** イベント名をキーにしたイベント発生回数のマップ */
+    private Map<String, FastInteger> eventCountMap_;
 
-	private Map<String, FastInteger> prevEventCountMap_;
+    private Map<String, FastInteger> prevEventCountMap_;
 
-	private Map<String, String> eventPageNameMap_;
+    private Map<String, String> eventPageNameMap_;
 
-	private long lastClearTime_;
+    private long lastClearTime_;
 
-	private static final JavelinEventCounter INSTANCE = new JavelinEventCounter();
-	
-	private TurnAroundTimeGroupGetter turnAroundTimeGroupGetter = new TurnAroundTimeGroupGetter();
-    
-	/**
-	 * コンストラクタを隠蔽します。<br />
-	 */
-	private JavelinEventCounter()
-	{
-		this.eventCountMap_ = new HashMap<String, FastInteger>();
-		this.prevEventCountMap_ = new HashMap<String, FastInteger>();
-		this.lastClearTime_ = System.currentTimeMillis();
-		JavelinConfig config = new JavelinConfig();
-		this.poolStorePeriod_ = config.getTatKeepTime();
-	}
+    private static final JavelinEventCounter INSTANCE = new JavelinEventCounter();
 
-	/**
-	 * このクラスのインスタンスを返します。<br />
-	 * 
-	 * @return インスタンス
-	 */
-	public static JavelinEventCounter getInstance()
-	{
-		return INSTANCE;
-	}
+    private TurnAroundTimeGroupGetter turnAroundTimeGroupGetter = new TurnAroundTimeGroupGetter();
 
-	/**
-	 * イベント蓄積期間をセットします。<br />
-	 * 
-	 * イベント追加時に、すでにこの値を超えてイベントを蓄積されていた場合、 蓄積したイベント発生数をクリアします。<br />
-	 * 
-	 * @param period
-	 *            期間（ミリ秒）
-	 */
-	public void setPoolStorePeriod(final long period)
-	{
-		this.poolStorePeriod_ = period;
-	}
+    /**
+     * コンストラクタを隠蔽します。<br />
+     */
+    private JavelinEventCounter()
+    {
+        this.eventCountMap_ = new HashMap<String, FastInteger>();
+        this.prevEventCountMap_ = new HashMap<String, FastInteger>();
+        this.lastClearTime_ = System.currentTimeMillis();
+        JavelinConfig config = new JavelinConfig();
+        this.poolStorePeriod_ = config.getTatKeepTime();
+    }
 
-	/**
-	 * イベントを追加します。<br />
-	 * 
-	 * 前回プールをクリアした時刻からイベント蓄積期間が過ぎている場合は、 プールをクリアした後にイベントを追加します。<br />
-	 * 
-	 * @param event
-	 *            Javelin イベント
-	 */
-	public synchronized void addEvent(final CommonEvent event)
-	{
-		clearOldEvents();
-		String pageName = null;
-		CallTree callTree = CallTreeRecorder.getInstance().getCallTree();
-		if (callTree != null)
-		{
-			CallTreeNode rootNode = callTree.getRootNode();
-			if (rootNode != null)
-			{
-				pageName = rootNode.getInvocation().getRootInvocationManagerKey();
-			}
-		}
+    /**
+     * このクラスのインスタンスを返します。<br />
+     * 
+     * @return インスタンス
+     */
+    public static JavelinEventCounter getInstance()
+    {
+        return INSTANCE;
+    }
 
-		FastInteger count = this.eventCountMap_.get(event.getName());
-		if (pageName == null)
-		{
-		    pageName = TelegramConstants.POSTFIX_EVENT + event.getName();
-		}
-		
-		String eventCountName = turnAroundTimeGroupGetter.getTreeNodeName(pageName, TelegramConstants.POSTFIX_EVENT, event.getName());
-		eventCountMap_.put(eventCountName, count);
-		count.increment();
-	}
+    /**
+     * イベント蓄積期間をセットします。<br />
+     * 
+     * イベント追加時に、すでにこの値を超えてイベントを蓄積されていた場合、 蓄積したイベント発生数をクリアします。<br />
+     * 
+     * @param period
+     *            期間（ミリ秒）
+     */
+    public void setPoolStorePeriod(final long period)
+    {
+        this.poolStorePeriod_ = period;
+    }
 
-	/**
-	 * イベント種別毎のイベント発生数を取得します。<br />
-	 * 
-	 * 取得後、イベント発生数はクリアされます。<br />
-	 * 
-	 * @return イベント発生数のマップ
-	 */
-	public synchronized Map<String, FastInteger> takeEventCount()
-	{
-		Map<String, FastInteger> eventCountMapCopy = new HashMap<String, FastInteger>(
-				this.eventCountMap_);
-		addZeroCount(eventCountMapCopy);
-		this.prevEventCountMap_ = this.eventCountMap_;
-		this.eventCountMap_ = new HashMap<String, FastInteger>();
-		this.lastClearTime_ = System.currentTimeMillis();
-		return eventCountMapCopy;
-	}
+    /**
+     * イベントを追加します。<br />
+     * 
+     * 前回プールをクリアした時刻からイベント蓄積期間が過ぎている場合は、 プールをクリアした後にイベントを追加します。<br />
+     * 
+     * @param event
+     *            Javelin イベント
+     */
+    public synchronized void addEvent(final CommonEvent event)
+    {
+        clearOldEvents();
+        String pageName = null;
+        CallTree callTree = CallTreeRecorder.getInstance().getCallTree();
+        if (callTree != null)
+        {
+            CallTreeNode rootNode = callTree.getRootNode();
+            if (rootNode != null)
+            {
+                pageName = rootNode.getInvocation().getRootInvocationManagerKey();
+            }
+        }
 
-	/**
-	 * 前回発生していたイベントのうち、今回は発生しなかったイベントの発生数を <code>0</code> にします。<br />
-	 * 
-	 * イベントが発生しなかった場合はクライアント側に発生数を通知しませんが、 前回イベントが発生していた場合、 <code>0</code> を追加することにより、 グラフ表示で
-	 * <code>0</code> を表現できるようになります。<br />
-	 * 
-	 * @param currentCount
-	 *            現在の発生数
-	 */
-	private void addZeroCount(Map<String, FastInteger> currentCount)
-	{
-		for (Map.Entry<String, FastInteger> entry : this.prevEventCountMap_.entrySet())
-		{
-			if (!currentCount.containsKey(entry.getKey()) && entry.getValue().getValue() != 0)
-			{
-				// 発生数 0 を追加する
-				currentCount.put(entry.getKey(), new FastInteger());
-			}
-		}
-	}
+        FastInteger count = this.eventCountMap_.get(event.getName());
+        if (count == null)
+        {
+            count = new FastInteger();
+            if (pageName == null)
+            {
+                pageName = TelegramConstants.POSTFIX_EVENT + event.getName();
+                eventCountMap_.put(pageName, count);
+            }
+            else
+            {
+                String eventCountName =
+                    turnAroundTimeGroupGetter.getTreeNodeName(pageName,
+                                                              TelegramConstants.POSTFIX_EVENT,
+                                                              event.getName());
+                eventCountMap_.put(eventCountName, count);
+            }
+        }
+        count.increment();
 
-	/**
-	 * イベント蓄積期間を超えたイベントをクリアします。<br />
-	 */
-	private void clearOldEvents()
-	{
-		long nowTime = System.currentTimeMillis();
-		if (nowTime > this.lastClearTime_ + this.poolStorePeriod_)
-		{
-			this.eventCountMap_.clear();
-			this.lastClearTime_ = nowTime;
-		}
-	}
+        /*if (pageName == null)
+        {
+            pageName = TelegramConstants.POSTFIX_EVENT + event.getName();
+            eventCountMap_.put(pageName, count);
+        }
+        else
+        {
+            String eventCountName =
+                turnAroundTimeGroupGetter.getTreeNodeName(pageName,
+                                                          TelegramConstants.POSTFIX_EVENT,
+                                                          event.getName());
+            eventCountMap_.put(eventCountName, count);
+        }
+        count.increment();*/
+    }
+
+    /**
+     * イベント種別毎のイベント発生数を取得します。<br />
+     * 
+     * 取得後、イベント発生数はクリアされます。<br />
+     * 
+     * @return イベント発生数のマップ
+     */
+    public synchronized Map<String, FastInteger> takeEventCount()
+    {
+        Map<String, FastInteger> eventCountMapCopy =
+            new HashMap<String, FastInteger>(this.eventCountMap_);
+        addZeroCount(eventCountMapCopy);
+        this.prevEventCountMap_ = this.eventCountMap_;
+        this.eventCountMap_ = new HashMap<String, FastInteger>();
+        this.lastClearTime_ = System.currentTimeMillis();
+        return eventCountMapCopy;
+    }
+
+    /**
+     * 前回発生していたイベントのうち、今回は発生しなかったイベントの発生数を <code>0</code> にします。<br />
+     * 
+     * イベントが発生しなかった場合はクライアント側に発生数を通知しませんが、 前回イベントが発生していた場合、 <code>0</code> を追加することにより、 グラフ表示で
+     * <code>0</code> を表現できるようになります。<br />
+     * 
+     * @param currentCount
+     *            現在の発生数
+     */
+    private void addZeroCount(Map<String, FastInteger> currentCount)
+    {
+        for (Map.Entry<String, FastInteger> entry : this.prevEventCountMap_.entrySet())
+        {
+            if (!currentCount.containsKey(entry.getKey()) && entry.getValue().getValue() != 0)
+            {
+                // 発生数 0 を追加する
+                currentCount.put(entry.getKey(), new FastInteger());
+            }
+        }
+    }
+
+    /**
+     * イベント蓄積期間を超えたイベントをクリアします。<br />
+     */
+    private void clearOldEvents()
+    {
+        long nowTime = System.currentTimeMillis();
+        if (nowTime > this.lastClearTime_ + this.poolStorePeriod_)
+        {
+            this.eventCountMap_.clear();
+            this.lastClearTime_ = nowTime;
+        }
+    }
 }

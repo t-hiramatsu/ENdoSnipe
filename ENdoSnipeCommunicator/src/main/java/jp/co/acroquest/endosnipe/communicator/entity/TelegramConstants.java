@@ -353,25 +353,25 @@ public interface TelegramConstants
     /** method node under response */
     String PREFIX_PROCESS_RESPONSE_METHOD = "/process/response/method/";
 
-    /** the leaf node */
+    /** max (Maximum turn around time)*/
     String POSTFIX_MAX = "/max";
 
-    /** the leaf node */
+    /** min (Minimum turn around time) */
     String POSTFIX_MIN = "/min";
 
-    /** the leaf node */
+    /** average (Average turn around time) */
     String POSTFIX_AVERAGE = "/average";
 
-    /** the leaf node */
+    /** count (Number of accessing) */
     String POSTFIX_COUNT = "/count";
 
-    /** the leaf node */
+    /** event (Event node when an event is detected) */
     String POSTFIX_EVENT = "/event/";
 
-    /** the leaf node */
+    /**  error (Error node when an error is happened) */
     String POSTFIX_ERROR = "/error/";
 
-    /** the leaf node */
+    /** stalled */
     String POSTFIX_STALLED = "/stalled";
     
     // -----------------------------------------------------
