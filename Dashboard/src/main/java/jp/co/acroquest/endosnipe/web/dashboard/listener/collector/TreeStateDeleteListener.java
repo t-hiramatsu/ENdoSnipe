@@ -23,6 +23,8 @@ import jp.co.acroquest.endosnipe.web.dashboard.dto.TreeMenuDto;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.EventManager;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.ResourceSender;
 
+import org.wgp.manager.WgpDataManager;
+
 /**
  * listener class for deleting tree node
  * 
@@ -48,9 +50,6 @@ public class TreeStateDeleteListener extends AbstractTelegramListener
     {
         Body[] resourceAlarmBodys = telegram.getObjBody();
 
-        EventManager eventManager = EventManager.getInstance();
-        ResourceSender resourceSender = eventManager.getResourceSender();
-
         for (Body body : resourceAlarmBodys)
         {
             List<TreeMenuDto> treeMenuDtoList = new ArrayList<TreeMenuDto>();
@@ -70,6 +69,14 @@ public class TreeStateDeleteListener extends AbstractTelegramListener
                 }
 
                 String type = "delete";
+
+                EventManager eventManager = EventManager.getInstance();
+                WgpDataManager dataManager = eventManager.getWgpDataManager();
+                ResourceSender resourceSender = eventManager.getResourceSender();
+                if (dataManager == null || resourceSender == null)
+                {
+                    return null;
+                }
 
                 resourceSender.send(treeMenuDtoList, type);
             }

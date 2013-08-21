@@ -20,7 +20,10 @@ import jp.co.acroquest.endosnipe.communicator.entity.Body;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.TreeMenuDto;
+import jp.co.acroquest.endosnipe.web.dashboard.manager.EventManager;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.ResourceSender;
+
+import org.wgp.manager.WgpDataManager;
 
 /**
  * listener class for tree node adding
@@ -45,17 +48,12 @@ public class TreeStateAddListener extends AbstractTelegramListener
     @Override
     protected Telegram doReceiveTelegram(final Telegram telegram)
     {
-        System.out.println("hello TreeAddListener");
         Body[] resourceAlarmBodys = telegram.getObjBody();
 
-        //EventManager eventManager = EventManager.getInstance();
-        ResourceSender resourceSender = new ResourceSender();
-        System.out.println(resourceSender);
         for (Body body : resourceAlarmBodys)
         {
             List<TreeMenuDto> treeMenuDtoList = new ArrayList<TreeMenuDto>();
             String itemNameInTelegram = body.getStrItemName();
-            System.out.println(itemNameInTelegram);
             if (TelegramConstants.ITEMNAME_TREE_ADD.equals(itemNameInTelegram))
             {
                 Object[] measurementItemValues = body.getObjItemValueArr();
@@ -63,7 +61,6 @@ public class TreeStateAddListener extends AbstractTelegramListener
                 {
                     TreeMenuDto treeMenuDto = new TreeMenuDto();
                     String measurementItemName = (String)itemValues;
-                    System.out.println(measurementItemName);
                     int tempIndex = measurementItemName.lastIndexOf("/");
 
                     String treeId = measurementItemName;
@@ -84,6 +81,14 @@ public class TreeStateAddListener extends AbstractTelegramListener
                 }
 
                 String type = "add";
+
+                EventManager eventManager = EventManager.getInstance();
+                WgpDataManager dataManager = eventManager.getWgpDataManager();
+                ResourceSender resourceSender = eventManager.getResourceSender();
+                if (dataManager == null || resourceSender == null)
+                {
+                    return null;
+                }
 
                 resourceSender.send(treeMenuDtoList, type);
             }
