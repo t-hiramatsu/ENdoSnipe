@@ -60,6 +60,7 @@ public class SignalStateChangeListener extends AbstractTelegramListener
     @Override
     protected Telegram doReceiveTelegram(final Telegram telegram)
     {
+        System.out.println("Welcome from SignalStateChange Listener");
         List<TreeMenuDto> signalTreeMenuDtoList = new ArrayList<TreeMenuDto>();
 
         Body[] resourceAlarmBodys = telegram.getObjBody();

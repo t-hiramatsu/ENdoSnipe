@@ -20,7 +20,6 @@ import jp.co.acroquest.endosnipe.communicator.entity.Body;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.TreeMenuDto;
-import jp.co.acroquest.endosnipe.web.dashboard.manager.EventManager;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.ResourceSender;
 
 /**
@@ -49,8 +48,8 @@ public class TreeStateAddListener extends AbstractTelegramListener
         System.out.println("hello TreeAddListener");
         Body[] resourceAlarmBodys = telegram.getObjBody();
 
-        EventManager eventManager = EventManager.getInstance();
-        ResourceSender resourceSender = eventManager.getResourceSender();
+        //EventManager eventManager = EventManager.getInstance();
+        ResourceSender resourceSender = new ResourceSender();
         System.out.println(resourceSender);
         for (Body body : resourceAlarmBodys)
         {
@@ -74,6 +73,7 @@ public class TreeStateAddListener extends AbstractTelegramListener
                     String type = "target";
                     String icon = "leaf";
 
+                    treeMenuDto.setId(treeId);
                     treeMenuDto.setData(data);
                     treeMenuDto.setIcon(icon);
                     treeMenuDto.setParentTreeId(parentTreeId);
