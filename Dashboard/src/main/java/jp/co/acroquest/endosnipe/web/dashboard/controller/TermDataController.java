@@ -127,58 +127,6 @@ public class TermDataController
 
         for (String dataId : dataGroupIdList)
         {
-
-            /* dataId = dataId.substring(dataId.indexOf("(") + 1, dataId.indexOf(")"));
-             String[] dataGroupIds = dataId.split("^");
-
-             for (int index = 0; index > dataGroupIds.length; index++)
-             {
-                 dataGroupIds[index] =
-                         dataGroupIds[index].substring(0, dataGroupIds[index].indexOf('$'));
-             }
-
-             if (dataGroupIds != null && dataGroupIds.length > 0)
-             {
-                 for (int index = 0; index > dataGroupIds.length; index++)
-                 {
-                     String dataMeasurement = dataGroupIds[index];
-                     if (TREE_DATA_ID.equals(dataMeasurement))
-                     {
-                         // 計測対象の項目を全て取得してツリー要素に変換
-                         List<Map<String, String>> treeMenuDtoList =
-                                 createTreeMenuData(treeMenuService.initialize());
-
-                         // シグナル定義を全て取得
-                         List<SignalDefinitionDto> signalList = signalService.getAllSignal();
-
-                         // 計測対象のツリーにシグナル定義を追加
-                         treeMenuDtoList.addAll(convertSignalDefinition(signalList));
-
-                         responceDataList.put(TREE_DATA_ID, treeMenuDtoList);
-                     }
-                     else
-                     {
-                          String[] dataSplit = dataId.split("");
-                          List<String> dataSplitList = Arrays.asList(dataSplit);
-                         if (dataMeasurement.contains("graph") || dataMeasurement.contains("Graph"))
-                         {
-
-                             MultipleResourceGraphDefinitionDto dto =
-                                     service.getmultipleResourceGraphInfo(dataMeasurement);
-                             String[] measurementList = dto.getMeasurementItemIdList().split(",");
-
-                             graphDataList.addAll(Arrays.asList(measurementList));
-                         }
-                         else
-                         {
-                             graphDataList.add(dataMeasurement);
-                         }
-                     }
-                 }
-             }
-             else
-             {*/
-
             Pattern p = Pattern.compile(dataId);
             Matcher m = p.matcher(dataId);
 
@@ -201,11 +149,8 @@ public class TermDataController
                 }
                 else
                 {
-                    /* String[] dataSplit = dataId.split("");
-                     List<String> dataSplitList = Arrays.asList(dataSplit);*/
                     if (matchData.contains("graph") || matchData.contains("Graph"))
                     {
-
                         MultipleResourceGraphDefinitionDto dto =
                                 service.getmultipleResourceGraphInfo(matchData);
                         String[] measurementList = dto.getMeasurementItemIdList().split(",");
@@ -218,7 +163,6 @@ public class TermDataController
                     }
                 }
             }
-            //  }
         }
         if (graphDataList.size() != 0)
         {
@@ -229,12 +173,32 @@ public class TermDataController
             Map<String, List<MeasurementValueDto>> measurementValueMap =
                     measurementValueService.getMeasurementValueList(startDate, endDate,
                                                                     graphDataList);
-            for (Entry<String, List<MeasurementValueDto>> measurementValueEntry : measurementValueMap.entrySet())
+
+            if (measurementValueMap.size() > 1)
             {
-                String dataGroupId = measurementValueEntry.getKey();
+                // 各のキーのmeasurementValueListを一つのListに結合する
+                List<MeasurementValueDto> combinedMeasurementValueList =
+                        new ArrayList<MeasurementValueDto>();
+                for (Entry<String, List<MeasurementValueDto>> measurementValueEntry : measurementValueMap.entrySet())
+                {
+                    for (MeasurementValueDto measurementValueDto : measurementValueEntry.getValue())
+                    {
+                        combinedMeasurementValueList.add(measurementValueDto);
+                    }
+                }
+
                 List<Map<String, String>> measurementValueList =
-                        createTreeMenuData(measurementValueEntry.getValue());
-                responceDataList.put(dataGroupId, measurementValueList);
+                        createTreeMenuData(combinedMeasurementValueList);
+                responceDataList.put(dataGroupIdList.get(0), measurementValueList);
+            }
+            else
+            {
+                for (Entry<String, List<MeasurementValueDto>> measurementValueEntry : measurementValueMap.entrySet())
+                {
+                    List<Map<String, String>> measurementValueList =
+                            createTreeMenuData(measurementValueEntry.getValue());
+                    responceDataList.put(dataGroupIdList.get(0), measurementValueList);
+                }
             }
         }
         return responceDataList;

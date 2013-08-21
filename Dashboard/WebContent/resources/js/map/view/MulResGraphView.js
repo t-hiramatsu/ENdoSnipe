@@ -56,7 +56,7 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				
 				if (!this.noTermData) {
 					
-					appView.getTermData([ (graphIds) ], this.timeStart,
+					appView.getTermData([ graphIds ], this.timeStart,
 							this.timeEnd);
 					
 				}
@@ -197,7 +197,7 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 //				this.pagingGraph();*/
 //			},//,
 			///////////////////////modify//////////////////////
-			/*render : function() {
+			render : function() {
 				var instance = this;
 				var graphPath = this.graphId;
 				var graphId = this.$el.attr("id") + "_ensgraph";
@@ -210,7 +210,10 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				$("#" + this.$el.attr("id")).append(labeldiv);
 				var labelDom = document.getElementById(labelId);
 
+				var measurementItemName=this.collection.get("measurementItemName");
+				
 				var data = this.getData();
+				
 				var optionSettings = {
 					valueRange : [ 0, this.maxValue * 1.1 ],
 					title : this.title,
@@ -243,6 +246,7 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				}
 
 				var element = document.getElementById(graphId);
+			//	this.entity = new Dygraph(element, data, optionSettings);
 				this.entity = new Dygraph(element, data, optionSettings);
 				this.entity.resize(this.width, this.graphHeight);
 				$("#" + graphId).height(this.height);
@@ -298,7 +302,7 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				this.mouseEvent(graphId, isShort, tmpTitle, optionSettings);
 
 			},
-			mouseEvent : function(graphId, isShort, tmpTitle, optionSettings) {
+			/*	mouseEvent : function(graphId, isShort, tmpTitle, optionSettings) {
 				var graphPath = this.graphId;
 				var instance = this;
 				$("#" + graphId).mouseover(function(event) {
@@ -439,18 +443,24 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 
 					$(".dygraph-title").width(($("#" + graphId).width() - 87));
 				}
-		}//,
-////			getData : function() {
-//
-//				var data = [];
-//				var instance = this;
-//				data.push([ new Date(0), null, null, null, null, null, null,
-//						null, null, null, null, null, null, null, null, null ]);
-//				_.each(this.collection.models, function(model, index) {
-//					data.push(instance._parseModel(model));
-//				});
-//				return data;
-//			},
+		},
+			getData : function() {
+
+				var measurementListMap = {};
+				var data = [];
+				var instance = this;
+				var measurementItemName;
+				data.push([ new Date(0), null, null, null, null, null, null,
+						null, null, null, null, null, null, null, null, null ]);
+				_.each(this.collection.models, function(model, index) {
+					measurementItemName = model.get("measurementItemName");
+					//var tmpModel = measurementList[measurementItemName];
+					
+					data.push(instance._parseModel(model));
+				});
+				measurementListMap[measurementItemName] =data;
+				return measurementListMap;
+			}//,
 //			getMaxValue : function(dataList) {
 //				var maxValue = 0;
 //

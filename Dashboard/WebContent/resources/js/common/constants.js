@@ -157,7 +157,7 @@ ENS.tree.type.GROUP = "group";
 ENS.tree.type.TARGET = "target";
 ENS.tree.type.SIGNAL = "signal";
 ENS.tree.type.REPORT = "report";
-ENS.tree.type.MULTIPLERESOURCEGRAPH = "multipleResourceGraph";
+ENS.tree.type.MULTIPLERESOURCEGRAPH = "mulResGraph";
 
 
 ENS.tree.contextOption = [ {

@@ -20,21 +20,28 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView.extend({
 		this.getAllMeasurement_();
 		
 		
-		
-			    $("select option").attr( "title", "" );
+		/*$(".map_menu_icon").tooltip({
+			content : function() {
+				return $(this).attr("alt");
+			},
+			items : "[alt]",
+			tooltipClass : "tooltip"
+		});*/
+			   $("select option").attr( "title", "" );
 			    $("select option").each(function(i){
 			      this.title = this.text;
 			    });
 			
 
 			  // Attach a tooltip to select elements
-			// $("select").tooltip({
-				  
-			   /*
-				 * left: "auto", color: "black"
-				 */
-			 // });
-
+			$("select").tooltip({
+				content : function() {
+					return $(this).attr(this.title);
+				},
+				items : "[alt]",
+				tooltipClass : "tooltip"});
+			
+			
 		$("#" + option.dialogId).dialog({
 			
 			buttons : [ {
@@ -239,10 +246,10 @@ callbackGetAllMeasurement_ : function(measurementDefinitionList) {
 			
 
 				lengthList=lengthList/10;
-				
-				for(i=1;i<=lengthList;i++)
+				$('#multipleResourceGraphlink').empty();
+				for(index=1;index<=lengthList;index++)
 					{
-					$('#multipleResourceGraphlink').append("<a href=# class=dialogValue id=link"+ i +">"+i+"</a>&nbsp;");
+					$('#multipleResourceGraphlink').append("<a href=# class=dialogValue id=link"+ index +">"+index+"</a>&nbsp;");
 					
 					}
 						
@@ -250,12 +257,12 @@ callbackGetAllMeasurement_ : function(measurementDefinitionList) {
 		_.each(measurementDefinitionList, function(javelinMeasurementItem, index) {
 			// addOptionList.push(signalDefinition);
 		
-			if(count<10)
-				{
+			/*if(count<10)
+				{*/
 				$('#multipleResourceGraphLstBox1').append("<option value='" + javelinMeasurementItem.itemName  + "'>" + javelinMeasurementItem.itemName + "</option>");
 				
-				}
-			count++;
+			/*	}
+			count++;*/
 			
 			
 		
