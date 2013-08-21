@@ -529,23 +529,20 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
                 JavelinClient.createClientId(convertedResourceData.ipAddress,
                                              convertedResourceData.portNum);
         }
-        if (!clientId.equals("0"))
+        if (result.getMeasurementItemList() != null)
         {
+            System.out.println(result.getMeasurementItemList().size());
+            Telegram addTelegram = createAddTreeNodeTelegram(result.getMeasurementItemList());
+            this.clientRepository_.sendTelegramToClient(clientId, addTelegram);
 
-            if (result.getMeasurementItemList() != null)
-            {
-                Telegram addTelegram = createAddTreeNodeTelegram(result.getMeasurementItemList());
+        }
+        if (result.getDeleteItemIdList() != null)
+        {
+            System.out.println(result.getDeleteItemIdList().size());
+            Telegram deleteTelegram =
+                createDeleteTreeNodeTelegram(database, result.getDeleteItemIdList());
 
-                this.clientRepository_.sendTelegramToClient(clientId, addTelegram);
-
-            }
-            if (result.getDeleteItemIdList() != null)
-            {
-                Telegram deleteTelegram =
-                    createDeleteTreeNodeTelegram(database, result.getDeleteItemIdList());
-
-                this.clientRepository_.sendTelegramToClient(clientId, deleteTelegram);
-            }
+            this.clientRepository_.sendTelegramToClient(clientId, deleteTelegram);
         }
     }
 
@@ -564,8 +561,6 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         responseHeader.setByteRequestKind(TelegramConstants.BYTE_REQUEST_KIND_NOTIFY);
 
         Telegram responseTelegram = new Telegram();
-
-        Body[] responseBodys = new Body[CollectorTelegramUtil.RESPONSEALARM_BODY_SIZE];
         int addedNodeCount = measurementItemList.size();
 
         Body measurementItemNameList = new Body();
@@ -587,8 +582,7 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
 
         responseTelegram.setObjHeader(responseHeader);
 
-        responseBodys[0] = measurementItemNameList;
-
+        Body[] responseBodys = {measurementItemNameList};
         responseTelegram.setObjBody(responseBodys);
 
         return responseTelegram;
@@ -605,14 +599,12 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         final List<Integer> deleteItemList)
     {
         Header responseHeader = new Header();
-        System.out.println(deleteItemList);
         responseHeader
             .setByteTelegramKind(TelegramConstants.BYTE_TELEGRAM_KIND_TREE_DELETE_DEFINITION);
         responseHeader.setByteRequestKind(TelegramConstants.BYTE_REQUEST_KIND_REQUEST);
 
         Telegram responseTelegram = new Telegram();
 
-        Body[] responseBodys = new Body[CollectorTelegramUtil.RESPONSEALARM_BODY_SIZE];
         int deletedNodeCount = deleteItemList.size();
 
         Body idList = new Body();
@@ -643,7 +635,7 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         idList.setObjItemValueArr(measurementItemNames);
         responseTelegram.setObjHeader(responseHeader);
 
-        responseBodys[0] = idList;
+        Body[] responseBodys = {idList};
 
         responseTelegram.setObjBody(responseBodys);
 

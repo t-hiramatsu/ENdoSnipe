@@ -51,7 +51,7 @@ public class TreeStateAddListener extends AbstractTelegramListener
 
         EventManager eventManager = EventManager.getInstance();
         ResourceSender resourceSender = eventManager.getResourceSender();
-
+        System.out.println(resourceSender);
         for (Body body : resourceAlarmBodys)
         {
             List<TreeMenuDto> treeMenuDtoList = new ArrayList<TreeMenuDto>();

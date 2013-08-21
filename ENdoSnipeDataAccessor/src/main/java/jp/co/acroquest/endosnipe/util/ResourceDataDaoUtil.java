@@ -287,7 +287,6 @@ public class ResourceDataDaoUtil
         {
             for (MeasurementDetail detail : measurementData.getMeasurementDetailMap().values())
             {
-                MeasurementValueDto measuredData = new MeasurementValueDto();
                 String measurementItemName;
                 if (detail.itemName != null && detail.itemName.length() > 0)
                 {
@@ -329,6 +328,12 @@ public class ResourceDataDaoUtil
                     measurementValue.measurementItemId =
                         insertJavelinMeasurementItem(database, measurementItemName,
                                                      measurementValue.measurementTime);
+                    MeasurementValueDto measuredData = new MeasurementValueDto();
+
+                    measuredData.measurementItemName = measurementItemName;
+                    measuredData.measurementItemId = measurementValue.measurementItemId;
+
+                    measurementItemList.add(measuredData);
                 }
 
                 int overflowCount =
@@ -359,11 +364,6 @@ public class ResourceDataDaoUtil
                 {
                     updateTargetMap.put(measurementItemName, measurementValue.measurementTime);
                 }
-                measuredData.measurementItemName = measurementItemName;
-                measuredData.measurementItemId = measurementValue.measurementItemId;
-                measuredData.measurementTime = measurementValue.measurementTime;
-
-                measurementItemList.add(measuredData);
 
                 prevTableName = tableName;
             }

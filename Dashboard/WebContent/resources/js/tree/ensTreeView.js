@@ -1055,7 +1055,7 @@ ENS.treeView = wgp.TreeView
 			 */
 			onAdd : function(treeModel) {
 
-
+				console.log(treeModel.get("id"));
 				// 継承元の追加処理を実行して画面に反映する。
 				wgp.TreeView.prototype.onAdd.call(this, treeModel);
 
