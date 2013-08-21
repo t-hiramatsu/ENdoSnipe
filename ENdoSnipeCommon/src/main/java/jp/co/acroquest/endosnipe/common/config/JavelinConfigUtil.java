@@ -157,7 +157,7 @@ public class JavelinConfigUtil
                 if (file != null)
                 {
                     System.err.println("プロパティファイルの読み込みに失敗しました。" + "(" + file.getAbsolutePath()
-                            + ")");
+                        + ")");
                 }
             }
             finally
@@ -247,16 +247,16 @@ public class JavelinConfigUtil
     private String getLevel(final String key, final String defaultValue, final String[] levelArray)
     {
 
-    	String value = null;
+        String value = null;
         synchronized (this)
         {
-        	value = this.properties_.getProperty(key);
-	        if (value == null)
-	        {
-	            value = defaultValue.toUpperCase();
-	            this.properties_.put(key, value);
-	            return value;
-	        }
+            value = this.properties_.getProperty(key);
+            if (value == null)
+            {
+                value = defaultValue.toUpperCase();
+                this.properties_.put(key, value);
+                return value;
+            }
         }
         value = value.toUpperCase();
         for (int num = 0; num < levelArray.length; num++)
@@ -269,7 +269,7 @@ public class JavelinConfigUtil
         System.out.println(key + "に不正な値が入力されました。デフォルト値(" + defaultValue.toUpperCase() + ")を使用します。");
         synchronized (this)
         {
-        	this.properties_.put(key, defaultValue.toUpperCase());
+            this.properties_.put(key, defaultValue.toUpperCase());
         }
         return defaultValue;
     }
@@ -284,7 +284,7 @@ public class JavelinConfigUtil
      */
     public String getString(final String key, final String defaultValue)
     {
-    	String value = null;
+        String value = null;
         synchronized (this)
         {
             if (this.properties_ == null)
@@ -520,7 +520,7 @@ public class JavelinConfigUtil
      */
     public boolean isKeyExist(final String key)
     {
-    	boolean ret = false;
+        boolean ret = false;
         synchronized (this)
         {
             if (this.properties_ == null)
@@ -753,4 +753,14 @@ public class JavelinConfigUtil
         }
         this.longMap_.remove(key);
     }
+
+    /**
+     * プロパティを取得する。
+     * @return プロパティ。
+     */
+    public Properties getProperties()
+    {
+        return properties_;
+    }
+
 }

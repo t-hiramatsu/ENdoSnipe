@@ -34,6 +34,7 @@ import java.util.Set;
 
 import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 import jp.co.acroquest.endosnipe.common.entity.ItemType;
+import jp.co.acroquest.endosnipe.common.entity.ResourceItem;
 import jp.co.acroquest.endosnipe.common.jmx.JMXManager;
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
@@ -189,10 +190,10 @@ public class ResourceCollector implements TelegramConstants
 			resourceMap.put(ITEMNAME_PROCESS_CPU_TOTAL_TIME, new CpuTimeGetter());
 			resourceMap.put(ITEMNAME_PROCESS_MEMORY_PHYSICAL_MAX,
 					new PhysicalMemoryCapacityGetter());
-			resourceMap.put(ITEMNAME_PROCESS_MEMORY_PHYSICAL_FREE, new PhysicalMemoryFreeGetter());
-			resourceMap.put(ITEMNAME_SYSTEM_MEMORY_SWAP_MAX, new SwapSpaceCapacityGetter());
-			resourceMap.put(ITEMNAME_SYSTEM_MEMORY_SWAP_FREE, new SwapSpaceFreeGetter());
-			resourceMap.put(ITEMNAME_SYSTEM_MEMORY_VIRTUAL_USED, new VirutalMemorySizeGetter());
+            resourceMap.put(ITEMNAME_PROCESS_MEMORY_PHYSICAL_FREE, new PhysicalMemoryFreeGetter());
+            resourceMap.put(ITEMNAME_SYSTEM_MEMORY_SWAP_MAX, new SwapSpaceCapacityGetter());
+            resourceMap.put(ITEMNAME_SYSTEM_MEMORY_SWAP_FREE, new SwapSpaceFreeGetter());
+            resourceMap.put(ITEMNAME_SYSTEM_MEMORY_VIRTUAL_USED, new VirutalMemorySizeGetter());
 			multiResourceMap.put(ITEMNAME_SERVER_POOL, new TomcatPoolCounter());
 			historgramMonitor = new SunClassHistogramMonitor();
 		}
@@ -227,51 +228,53 @@ public class ResourceCollector implements TelegramConstants
 		resourceMap.put(ITEMNAME_NETWORKINPUTSIZEOFPROCESS, networkReadMonitor);
 		resourceMap.put(ITEMNAME_NETWORKOUTPUTSIZEOFPROCESS, networkWriteMonitor);
 
-		LoadedClassTotalCountGetter loadedClassTotalCountGetter = new LoadedClassTotalCountGetter();
-		resourceMap.put(ITEMNAME_JAVAPROCESS_CLASSLOADER_CLASS_TOTAL, loadedClassTotalCountGetter);
-		LoadedClassCountGetter loadedClassCountGetter = new LoadedClassCountGetter();
-		resourceMap.put(ITEMNAME_JAVAPROCESS_CLASSLOADER_CLASS_CURRENT, loadedClassCountGetter);
+        LoadedClassTotalCountGetter loadedClassTotalCountGetter = new LoadedClassTotalCountGetter();
+        resourceMap.put(ITEMNAME_JAVAPROCESS_CLASSLOADER_CLASS_TOTAL, loadedClassTotalCountGetter);
+        LoadedClassCountGetter loadedClassCountGetter = new LoadedClassCountGetter();
+        resourceMap.put(ITEMNAME_JAVAPROCESS_CLASSLOADER_CLASS_CURRENT, loadedClassCountGetter);
 		resourceMap.put(ITEMNAME_CALLEDMETHODCOUNT, new CalledMethodCountGetter());
 
+        resourceMap.put(ITEMNAME_RUNNABLE_THREAD_COUNT, new RunnableThreadCountGetter());
+		
 		if (procParser != null)
 		{
 			resourceMap.put(ITEMNAME_SYSTEM_MEMORY_PHYSICAL_MAX,
 					new LinuxMemTotalGetter(procParser));
 			resourceMap.put(ITEMNAME_SYSTEM_MEMORY_PHYSICAL_FREE,
 					new LinuxMemFreeGetter(procParser));
-			resourceMap.put(ITEMNAME_SYSTEM_MEMORY_SWAP_MAX, new LinuxSwapTotalGetter(procParser));
-			resourceMap.put(ITEMNAME_SYSTEM_MEMORY_SWAP_FREE, new LinuxSwapFreeGetter(procParser));
-			resourceMap.put(ITEMNAME_SYSTEM_CPU_USERMODE_TIME, new LinuxCpuTotalGetter(procParser));
-			resourceMap.put(ITEMNAME_SYSTEM_CPU_SYSTEM_TIME, new LinuxCpuSystemGetter(procParser));
-			resourceMap.put(ITEMNAME_SYSTEM_CPU_IOWAIT_TIME, new LinuxCpuIoWaitGetter(procParser));
-			resourceMap.put(ITEMNAME_CPU_ARRAY, new LinuxCpuArrayGetter(procParser));
-			resourceMap.put(ITEMNAME_SYSTEM_MEMORY_PAGEIN_COUNT, new LinuxPageInGetter(procParser));
-			resourceMap.put(ITEMNAME_SYSTEM_MEMORY_PAGEOUT_COUNT,
-					new LinuxPageOutGetter(procParser));
-			LinuxCpuTimeSysGetter linuxCpuTimeSysGetter = new LinuxCpuTimeSysGetter(procParser);
-			resourceMap.put(ITEMNAME_PROCESS_CPU_SYSTEM_TIME, linuxCpuTimeSysGetter);
-			resourceMap.put(ITEMNAME_PROCESS_CPU_IOWAIT_TIME, new LinuxCpuTimeIoWaitGetter(
-					procParser));
-			resourceMap.put(ITEMNAME_PROCESS_CPU_TOTAL_TIME,
-					new LinuxCpuTimeTotalGetter(procParser));
-			resourceMap.put(ITEMNAME_PROCESS_MEMORY_VIRTUAL_USED, new LinuxVSizeGetter(procParser));
-			resourceMap.put(ITEMNAME_PROCESS_MEMORY_PHYSICAL_USED, new LinuxRSSGetter(procParser));
-			resourceMap.put(ITEMNAME_PROCESS_THREAD_TOTAL_COUNT, new LinuxNumThreadsGetter(
-					procParser));
-			resourceMap.put(ITEMNAME_PROCESS_MEMORY_MAJORFAULT_COUNT, new LinuxMajfltGetter(
-					procParser));
-			ProcFdCountGetter procFdCountGetter = new ProcFdCountGetter(procParser);
-			resourceMap.put(ITEMNAME_PROCESS_HANDLE_TOTAL_NUMBER, procFdCountGetter);
-			resourceMap.put(ITEMNAME_SYSTEM_HANDLE_TOTAL_NUMBER, new SysFdCountGetter(procParser));
+            resourceMap.put(ITEMNAME_SYSTEM_MEMORY_SWAP_MAX, new LinuxSwapTotalGetter(procParser));
+            resourceMap.put(ITEMNAME_SYSTEM_MEMORY_SWAP_FREE, new LinuxSwapFreeGetter(procParser));
+            resourceMap.put(ITEMNAME_SYSTEM_CPU_USERMODE_TIME, new LinuxCpuTotalGetter(procParser));
+            resourceMap.put(ITEMNAME_SYSTEM_CPU_SYSTEM_TIME, new LinuxCpuSystemGetter(procParser));
+            resourceMap.put(ITEMNAME_SYSTEM_CPU_IOWAIT_TIME, new LinuxCpuIoWaitGetter(procParser));
+            multiResourceMap.put(ITEMNAME_CPU_ARRAY, new LinuxCpuArrayGetter(procParser));
+            resourceMap.put(ITEMNAME_SYSTEM_MEMORY_PAGEIN_COUNT, new LinuxPageInGetter(procParser));
+            resourceMap.put(ITEMNAME_SYSTEM_MEMORY_PAGEOUT_COUNT,
+                            new LinuxPageOutGetter(procParser));
+            LinuxCpuTimeSysGetter linuxCpuTimeSysGetter = new LinuxCpuTimeSysGetter(procParser);
+            resourceMap.put(ITEMNAME_PROCESS_CPU_SYSTEM_TIME, linuxCpuTimeSysGetter);
+            resourceMap.put(ITEMNAME_PROCESS_CPU_IOWAIT_TIME,
+                            new LinuxCpuTimeIoWaitGetter(procParser));
+            resourceMap.put(ITEMNAME_PROCESS_CPU_TOTAL_TIME,
+                            new LinuxCpuTimeTotalGetter(procParser));
+            resourceMap.put(ITEMNAME_PROCESS_MEMORY_VIRTUAL_USED, new LinuxVSizeGetter(procParser));
+            resourceMap.put(ITEMNAME_PROCESS_MEMORY_PHYSICAL_USED, new LinuxRSSGetter(procParser));
+            resourceMap.put(ITEMNAME_PROCESS_THREAD_TOTAL_COUNT,
+                            new LinuxNumThreadsGetter(procParser));
+            resourceMap.put(ITEMNAME_PROCESS_MEMORY_MAJORFAULT_COUNT,
+                            new LinuxMajfltGetter(procParser));
+            ProcFdCountGetter procFdCountGetter = new ProcFdCountGetter(procParser);
+            resourceMap.put(ITEMNAME_PROCESS_HANDLE_TOTAL_NUMBER, procFdCountGetter);
+            resourceMap.put(ITEMNAME_SYSTEM_HANDLE_TOTAL_NUMBER, new SysFdCountGetter(procParser));
 
-			LinuxProcFileInputGetter pInputGetter = new LinuxProcFileInputGetter(procParser);
-			resourceMap.put(ITEMNAME_FILEINPUTSIZEOFPROCESS, pInputGetter);
-			LinuxProcFileOutputGetter pOutputGetter = new LinuxProcFileOutputGetter(procParser);
-			resourceMap.put(ITEMNAME_FILEOUTPUTSIZEOFPROCESS, pOutputGetter);
-			LinuxSystemFileInputGetter sInputGetter = new LinuxSystemFileInputGetter(procParser);
-			resourceMap.put(ITEMNAME_FILEINPUTSIZEOFSYSTEM, sInputGetter);
-			LinuxSystemFileOutputGetter sOutputGetter = new LinuxSystemFileOutputGetter(procParser);
-			resourceMap.put(ITEMNAME_FILEOUTPUTSIZEOFSYSTEM, sOutputGetter);
+            LinuxProcFileInputGetter pInputGetter = new LinuxProcFileInputGetter(procParser);
+            resourceMap.put(ITEMNAME_FILEINPUTSIZEOFPROCESS, pInputGetter);
+            LinuxProcFileOutputGetter pOutputGetter = new LinuxProcFileOutputGetter(procParser);
+            resourceMap.put(ITEMNAME_FILEOUTPUTSIZEOFPROCESS, pOutputGetter);
+            LinuxSystemFileInputGetter sInputGetter = new LinuxSystemFileInputGetter(procParser);
+            resourceMap.put(ITEMNAME_FILEINPUTSIZEOFSYSTEM, sInputGetter);
+            LinuxSystemFileOutputGetter sOutputGetter = new LinuxSystemFileOutputGetter(procParser);
+            resourceMap.put(ITEMNAME_FILEOUTPUTSIZEOFSYSTEM, sOutputGetter);
 		}
 
 		// JMXのリソースデータを取得するかどうか
@@ -350,6 +353,31 @@ public class ResourceCollector implements TelegramConstants
 		return instance__;
 	}
 
+    /**
+     * 指定したリソース情報を取得します。
+     * 
+     * @param itemName
+     *            リソースの名称。
+     * @return リソース情報。
+     */
+    public List<ResourceItem> getMultiResources(String itemName)
+    {
+        MultiResourceGetter getter = this.multiResourceGetterMap_.get(itemName);
+        List<ResourceItem> value = null;
+        if (getter != null)
+        {
+            try
+            {
+                value = getter.getValues();
+            }
+            catch (Throwable th)
+            {
+                SystemLogger.getInstance().debug(th);
+            }
+        }
+
+        return value;
+    }	
 	/**
 	 * 指定したリソース情報を取得します。
 	 * 

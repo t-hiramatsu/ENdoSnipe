@@ -25,17 +25,22 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.javelin.resource.proc;
 
-import jp.co.acroquest.endosnipe.common.entity.ItemType;
+import java.util.ArrayList;
+import java.util.List;
 
+import jp.co.acroquest.endosnipe.common.entity.ItemType;
+import jp.co.acroquest.endosnipe.common.entity.ResourceItem;
+import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
+import jp.co.acroquest.endosnipe.javelin.bean.proc.CpuCoreInfo;
+import jp.co.acroquest.endosnipe.javelin.bean.proc.StatInfo;
 
 /**
  * StatInfoからタスク待ちでのCPU使用量を取得する。
  * 
  * @author akita
  */
-public class LinuxCpuArrayGetter extends ProcResourceGetter
+public class LinuxCpuArrayGetter extends ProcMultiResourceGetter
 {
-
     /**
      * 
      * @param procParser リソース情報取得用
@@ -50,17 +55,43 @@ public class LinuxCpuArrayGetter extends ProcResourceGetter
      */
     public ItemType getItemType()
     {
-        return ItemType.ITEMTYPE_LONG;
+        return ItemType.ITEMTYPE_STRING;
     }
 
     /**
      * {@inheritDoc}
      */
-    public Number getValue()
+    public List<ResourceItem> getValues()
     {
-//        ProcParser lpp = this.getProcParser();
-//        ProcInfo pi = lpp.getProcInfo();
-        //TODO：以下のソースを修正すること。（暫定的に０を入れている）
-        return Long.valueOf(0);
+        StatInfo statInfo = this.getProcParser().getProcInfo().getStatInfo();
+
+        List<ResourceItem> values = new ArrayList<ResourceItem>();
+        List<CpuCoreInfo> coreList = statInfo.getCpuArray();
+        for (int index = 0; index < coreList.size(); index++)
+        {
+            CpuCoreInfo coreInfo = coreList.get(index);
+            String base = TelegramConstants.ITEMNAME_CPU_ARRAY + "/" + index + "/time";
+            values.add(createItem(base, "/user(d)", coreInfo.getCpuUser()));
+            values.add(createItem(base, "/system(d)", coreInfo.getCpuSystem()));
+            values.add(createItem(base, "/iowait(d)", coreInfo.getCpuIoWait()));
+        }
+
+        return values;
     }
+
+    /**
+     * 
+     * @param base
+     * @param name
+     * @param value
+     * @return
+     */
+    private ResourceItem createItem(String base, String name, long value)
+    {
+        ResourceItem item = new ResourceItem();
+        item.setName(base + name);
+        item.setValue(String.valueOf(value));
+        return item;
+    }
+
 }

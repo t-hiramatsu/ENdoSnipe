@@ -107,7 +107,8 @@ public class FullGCMonitor implements Runnable
         }
         catch (Exception ex)
         {
-            ;
+            SystemLogger.getInstance().debug(ex);
+
         }
         
         while (true)
