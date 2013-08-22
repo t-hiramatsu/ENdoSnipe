@@ -214,6 +214,14 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				
 				var data = this.getData();
 				
+				var dataList=[];
+				var datalabel=[];
+				
+				$.map(data,function(value,key){
+					dataList.push(value);
+					datalabel.push(key);
+				});
+				
 				var optionSettings = {
 					valueRange : [ 0, this.maxValue * 1.1 ],
 					title : this.title,
@@ -223,6 +231,7 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 					labelsDivStyles : {
 						background : "none repeat scroll 0 0 #000000"
 					},
+					labels:this.datalabel,
 					dateWindow : this.dateWindow,
 					axisLabelFontSize : 10,
 					titleHeight : 22
@@ -246,9 +255,9 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				}
 
 				var element = document.getElementById(graphId);
-			//	this.entity = new Dygraph(element, data, optionSettings);
-				this.entity = new Dygraph(element, data, optionSettings);
-				this.entity.resize(this.width, this.graphHeight);
+				//this.entity = new Dygraph(element, data, optionSettings);
+				this.entity = new Dygraph(element, dataList, optionSettings);
+				//this.entity.resize(this.width, this.graphHeight);
 				$("#" + graphId).height(this.height);
 
 				if (this.labelY == "%") {
@@ -450,15 +459,18 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				var data = [];
 				var instance = this;
 				var measurementItemName;
+				
 				data.push([ new Date(0), null, null, null, null, null, null,
 						null, null, null, null, null, null, null, null, null ]);
 				_.each(this.collection.models, function(model, index) {
+					
 					measurementItemName = model.get("measurementItemName");
 					//var tmpModel = measurementList[measurementItemName];
 					
 					data.push(instance._parseModel(model));
+					measurementListMap[measurementItemName] =data;
 				});
-				measurementListMap[measurementItemName] =data;
+				
 				return measurementListMap;
 			}//,
 //			getMaxValue : function(dataList) {
