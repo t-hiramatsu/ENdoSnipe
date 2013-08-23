@@ -180,7 +180,7 @@ ENS.reportView = wgp.AbstractView
 				}
 
 				// 整形して返却
-				return date.getFullYear() + "-" + month + "-" + day + " "
+				return date.getFullYear() + "/" + month + "/" + day + " "
 						+ hour + ":" + minute + ":" + second;
 			}
 		});

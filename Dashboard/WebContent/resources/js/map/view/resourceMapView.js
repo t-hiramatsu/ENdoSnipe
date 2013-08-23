@@ -6,7 +6,10 @@ ENS.ResourceMapView = wgp.MapView.extend({
 		var width = $("#" + this.$el.attr("id")).width();
 		var height = $("#" + this.$el.attr("id")).height();
 		_.extend(argument, {width : width, height : height});
-
+		
+		var changedFlag = false;
+		this.changedFlag = changedFlag;
+		
 		var ajaxHandler = new wgp.AjaxHandler();
 		this.ajaxHandler = ajaxHandler;
 
@@ -240,7 +243,8 @@ ENS.ResourceMapView = wgp.MapView.extend({
 		}
 		var telegram = this.ajaxHandler.requestServerSync(setting);
 		var returnData = $.parseJSON(telegram);
-
+		this.changedFlag = false;
+		
 		var result = returnData.result;
 		if(result == "fail"){
 			alert(returnData.message);
@@ -439,6 +443,9 @@ ENS.ResourceMapView = wgp.MapView.extend({
 						});
 						instance.collection.add(resourceModel);
 						$(instance.paper.canvas).unbind("click", clickEventFunction);
+						
+						// リンク追加イベント
+						window.resourceMapListView.childView.changedFlag = true;
 					},
 					"CANCEL" : function(){
 						createLinkDialog.dialog("close");
@@ -474,6 +481,8 @@ ENS.ResourceMapView = wgp.MapView.extend({
 			onSelect : function(event, target){
 				var cid = $(target).attr("cid");
 				if(event.currentTarget.id == "Remove"){
+					// 削除時のイベント
+					window.resourceMapListView.childView.changedFlag = true;
 					var model = instance.collection._byCid[cid];
 					instance.collection.remove(model);
 				}
@@ -501,6 +510,9 @@ ENS.ResourceMapView = wgp.MapView.extend({
 		if(changeFlag){
 			this.paper.setSize(mapWidth, mapHeight);
 		}
+		
+		// ドラッグ時のイベント
+		this.changedFlag = true;
 	},
 	createObjectId : function(){
 		this.maxObjectId = this.maxObjectId + 1;

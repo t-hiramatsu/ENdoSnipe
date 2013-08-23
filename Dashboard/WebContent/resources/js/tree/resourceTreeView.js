@@ -102,6 +102,9 @@ ENS.ResourceTreeView = ENS.treeView
 								height : 300,
 								zIndex : zIndex
 							});
+							
+							// グラフ追加イベント
+							window.resourceMapListView.childView.changedFlag = true;
 
 							// シグナルを追加する場合
 						} else if (event.currentTarget.id == "addSignal") {
@@ -137,6 +140,9 @@ ENS.ResourceTreeView = ENS.treeView
 									fill : ENS.map.fontColor,
 								}]
 							});
+							
+							// シグナル追加イベント
+							window.resourceMapListView.childView.changedFlag = true;
 						}
 
 						instance.childView.collection.add(resourceModel);
