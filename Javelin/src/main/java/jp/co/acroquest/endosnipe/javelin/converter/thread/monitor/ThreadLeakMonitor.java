@@ -96,7 +96,7 @@ public class ThreadLeakMonitor
             Thread currentThread = Thread.currentThread();
             StackTraceElement[] stacktraces = ThreadUtil.getCurrentStackTrace();
             CommonEvent event =
-                    createEvent("Thread Stop", ThreadUtil.getThreadId(), currentThread, stacktraces);
+                createEvent("Thread Stop", ThreadUtil.getThreadId(), currentThread, stacktraces);
             event.setLevel(CommonEvent.LEVEL_INFO);
             StatsJavelinRecorder.addEvent(event);
         }

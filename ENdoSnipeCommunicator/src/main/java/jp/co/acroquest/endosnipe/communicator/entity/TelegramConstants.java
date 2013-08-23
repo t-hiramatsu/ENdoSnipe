@@ -423,7 +423,10 @@ public interface TelegramConstants
     String ITEMNAME_PROCESS_HANDLE_TOTAL_NUMBER = "/process/file/handle/number";
 
     /** 項目名（リソース値での、スレッド数） */
-    String ITEMNAME_JAVAPROCESS_THREAD_TOTAL_COUNT = "/process/thread/java";
+    String ITEMNAME_JAVAPROCESS_THREAD_TOTAL_COUNT = "/process/thread/java/total";
+
+    /** 項目名(RUNNBLEなスレッド数) */
+    String ITEMNAME_RUNNABLE_THREAD_COUNT = "/process/thread/java/runnable";
 
     // -----------------------------------------------------
     // プロセス情報: コレクション情報

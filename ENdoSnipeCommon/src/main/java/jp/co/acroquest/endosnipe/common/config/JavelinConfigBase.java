@@ -29,8 +29,13 @@ import java.io.File;
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
+import java.util.Set;
+
+import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 
 /**
  * Javelinの設定を保持するためのクラスです。<br />
@@ -55,7 +60,7 @@ public class JavelinConfigBase
      * ConcurrentAccessMonitorやCollectionMonitor動作中にクラスロードが起ったときに、
      * バイトコード変換を行うかどうかを設定するプロパティ（バイトコード変換を行わない場合は <code>true</code> ） */
     public static final String SKIPCLASS_ONPROCESSING_KEY = JAVELIN_PREFIX
-            + "skipClassOnProcessing";
+        + "skipClassOnProcessing";
 
     /** メソッド平均時間を出力するために記録するInvocation数のプロパティ */
     public static final String INTERVALMAX_KEY = JAVELIN_PREFIX + "intervalMax";
@@ -65,19 +70,19 @@ public class JavelinConfigBase
 
     /** Javelinの情報取得対象から除外する、最大Bytecode長のプロパティ */
     public static final String BYTECODE_EXCLUDE_LENGTH_KEY = JAVELIN_PREFIX
-            + "bytecode.exclude.length";
+        + "bytecode.exclude.length";
 
     /** Javelinの情報取得対象から除外する、最大の制御命令数のプロパティ */
     public static final String BYTECODE_EXCLUDE_CONTROLCOUNT_MAX_KEY = JAVELIN_PREFIX
-            + "bytecode.exclude.controlCount";
+        + "bytecode.exclude.controlCount";
 
     /** Bytecodeの内容を元に計測対象から除外する際のポリシー。0:除外しない 1:BCIしない */
     public static final String BYTECODE_EXCLUDE_POLICY_KEY = JAVELIN_PREFIX
-            + "bytecode.exclude.policy";
+        + "bytecode.exclude.policy";
 
     /** メモリに保存する閾値のプロパティ */
     public static final String STATISTICSTHRESHOLD_KEY = JAVELIN_PREFIX + "statistics"
-            + "Threshold";
+        + "Threshold";
 
     /** アラームを通知するTATの閾値のプロパティ */
     public static final String ALARMTHRESHOLD_KEY = JAVELIN_PREFIX + "alarmThreshold";
@@ -111,11 +116,11 @@ public class JavelinConfigBase
 
     /** 引数の詳細情報の深さを表すプロパティ */
     public static final String ARGS_DETAIL_DEPTH_KEY = JAVELIN_PREFIX + "log.args."
-            + "detail.depth";
+        + "detail.depth";
 
     /** 戻り値の詳細情報の深さを表すプロパティ */
     public static final String RETURN_DETAIL_DEPTH_KEY = JAVELIN_PREFIX + "log.return."
-            + "detail.depth";
+        + "detail.depth";
 
     /** 呼び出し元が不明のときに設定する名前のプロパティ */
     public static final String ROOTCALLERNAME_KEY = JAVELIN_PREFIX + "rootCallerName";
@@ -179,7 +184,7 @@ public class JavelinConfigBase
 
     /** Javelinのシステムログの最大ファイルサイズのキー */
     private static final String SYSTEM_LOG_SIZE_MAX_KEY = JAVELIN_PREFIX + "system.log."
-            + "size.max";
+        + "size.max";
 
     /** Javelinのシステムログのログレベルのキー */
     private static final String SYSTEM_LOG_LEVEL_KEY = JAVELIN_PREFIX + "system.log.level";
@@ -201,7 +206,7 @@ public class JavelinConfigBase
 
     /** １クラス辺り保持するInvocation（メソッド呼び出し）最大数のキー */
     public static final String RECORD_INVOCATION_MAX_KEY = JAVELIN_PREFIX
-            + "record.invocation.num.max";
+        + "record.invocation.num.max";
 
     /** Turn Around Timeを計測するかどうかを決定するプロパティのキー */
     public static final String TAT_ENABLED_KEY = JAVELIN_PREFIX + "tat.monitor";
@@ -233,30 +238,30 @@ public class JavelinConfigBase
 
     /** システムのリソースデータを取得するかどうか。 */
     public static final String COLLECT_SYSTEM_RESOURCES = JAVELIN_PREFIX
-            + "resource.collectSystemResources";
+        + "resource.collectSystemResources";
 
     /** システムのリソースデータを取得するかどうか。 */
     public static final String ITEMNAME_PREFIX = JAVELIN_PREFIX + "resource.itemName.prefix";
 
     /** システムのリソースデータを取得するかどうか。 */
     public static final String ITEMNAME_NOPREFIX_LIST = JAVELIN_PREFIX
-            + "resource.itemName.noPrefixList";
+        + "resource.itemName.noPrefixList";
 
     /** システムのリソースデータを取得するかどうか。 */
     public static final String COLLECT_HADOOP_AGENT_RESOURCES = JAVELIN_PREFIX
-            + "resource.collectHadoopAgentResources";
+        + "resource.collectHadoopAgentResources";
 
     /** HBaseのリソースデータを取得するかどうか。 */
     public static final String COLLECT_HBASE_AGENT_RESOURCES = JAVELIN_PREFIX
-            + "resource.collectHBaseAgentResources";
+        + "resource.collectHBaseAgentResources";
 
     /** InvocationFullEventを送信するかどうか。 */
     public static final String SEND_INVOCATION_FULL_EVENT = JAVELIN_PREFIX
-            + "record.invocation.sendFullEvent";
+        + "record.invocation.sendFullEvent";
 
     /** JMXのリソースデータを取得するかどうか。 */
     public static final String COLLECT_JMX_RESOURCES = JAVELIN_PREFIX
-            + "resource.collectJmxResources";
+        + "resource.collectJmxResources";
 
     /** ストールメソッドを監視するかどうか */
     private static final String METHOD_STALL_MONITOR = JAVELIN_PREFIX + "method.stall.monitor";
@@ -269,7 +274,7 @@ public class JavelinConfigBase
 
     /** ストールメソッド検出時に出力するスタックトレースの深さ */
     private static final String METHOD_STALL_TRACE_DEPTH = JAVELIN_PREFIX
-            + "method.stall.traceDepth";
+        + "method.stall.traceDepth";
 
     /** MBeanサーバのホスト名 */
     public static final String JMX_HOST = "javelin.jmx.host";
@@ -288,7 +293,7 @@ public class JavelinConfigBase
 
     /** メソッド名の最大文字数 */
     private static final String INVOCATION_NAME_LIMITLENGTH_KEY = JAVELIN_PREFIX
-            + "invocation.name.limitLength";
+        + "invocation.name.limitLength";
 
     /**
      * ConcurrentAccessMonitorやCollectionMonitor動作中にクラスロードが起ったときに、
@@ -423,12 +428,12 @@ public class JavelinConfigBase
 
     /** 記録条件判定クラスのデフォルト */
     public static final String DEFAULT_RECORDSTRATEGY =
-            "jp.co.acroquest.endosnipe.javelin.record.CpuTimeRecordStrategy";
+        "jp.co.acroquest.endosnipe.javelin.record.CpuTimeRecordStrategy";
 
     /** デフォルトで利用するTelegramListener名 */
     private static final String DEFAULT_TELEGEAM_LISTENERS =
-            "jp.co.acroquest.endosnipe.javelin.communicate.GetRequestTelegramListener,"
-                    + "jp.co.acroquest.endosnipe.javelin.communicate.ResetRequestTelegramListener";
+        "jp.co.acroquest.endosnipe.javelin.communicate.GetRequestTelegramListener,"
+            + "jp.co.acroquest.endosnipe.javelin.communicate.ResetRequestTelegramListener";
 
     /** Javelinのシステムログの最大ファイル数のデフォルト */
     private static final int DEFAULT_SYSTEM_LOG_NUM_MAX = 16;
@@ -510,7 +515,7 @@ public class JavelinConfigBase
 
     /** コレクションの数を監視する際の閾値 */
     public static final String COLLECTION_SIZE_THRESHOLD = JAVELIN_PREFIX
-            + "leak.collectionSizeThreshold";
+        + "leak.collectionSizeThreshold";
 
     /** コレクションの数を監視する際の出力チェックの間隔 */
     public static final String COLLECTION_INTERVAL = JAVELIN_PREFIX + "leak.interval";
@@ -523,7 +528,7 @@ public class JavelinConfigBase
 
     /** コレクションの数を監視する際に保持するスタックトレースの深さ。 */
     public static final String COLLECTION_LEAKDETECT_DEPTH = JAVELIN_PREFIX
-            + "leak.detect.traceDepth";
+        + "leak.detect.traceDepth";
 
     /** クラスヒストグラムを取得する際に、GCを行うかどうか。 */
     public static final String CLASS_HISTO_GC = JAVELIN_PREFIX + "leak.class.histo.gc";
@@ -567,8 +572,21 @@ public class JavelinConfigBase
     /** フルスレッドダンプ出力に利用するスレッド数の閾値　 */
     public static final String THREAD_DUMP_THREAD = JAVELIN_PREFIX + "thread.dump.threadnum";
 
+    /** フルスレッドダンプ出力に利用するスレッド数の閾値　 */
+    public static final String THREAD_DUMP_THRESHOLD = JAVELIN_PREFIX + "thread.dump.threshold.";
+
+    /** RUNNBLE状態のスレッド数を取得するかどうか　 */
+    public static final String RESOURCE_THREAD_RUNNABLE = JAVELIN_PREFIX
+        + "resource.thread.runnable";
+
     /** フルスレッドダンプ出力に利用するCPU使用率の閾値　 */
     public static final String THREAD_DUMP_CPU = JAVELIN_PREFIX + "thread.dump.cpu";
+
+    /** フルスレッドダンプ出力に利用するCPU使用率の閾値(system)　 */
+    public static final String THREAD_DUMP_CPU_SYS = JAVELIN_PREFIX + "thread.dump.cpu.sys";
+
+    /** フルスレッドダンプ出力に利用するCPU使用率の閾値(usr)　 */
+    public static final String THREAD_DUMP_CPU_USER = JAVELIN_PREFIX + "thread.dump.cpu.usr";
 
     /** フルGCを検出するかどうか */
     public static final String FULLGC_MONITOR = JAVELIN_PREFIX + "fullgc.monitor";
@@ -593,7 +611,7 @@ public class JavelinConfigBase
 
     /** ファイナライズ待ちオブジェクト数を取得するかどうかのフラグのプロパティ名　 */
     public static final String FINALIZATION_COUNT_MONITOR = JAVELIN_PREFIX
-            + "finalizationCount.monitor";
+        + "finalizationCount.monitor";
 
     /** メソッド呼び出し間隔超過を監視するかどうかを決定するプロパティ名 */
     public static final String INTERVAL_ERROR_MONITOR = JAVELIN_PREFIX + "interval.monitor";
@@ -603,15 +621,15 @@ public class JavelinConfigBase
 
     /** ブロック回数が多すぎるかどうかの閾値 */
     public static final String THREAD_BLOCK_THRESHOLD = JAVELIN_PREFIX + "thread.block"
-            + ".threshold";
+        + ".threshold";
 
     /** ブロック継続イベントを出力する際のブロック継続時間の閾値 */
     public static final String THREAD_BLOCKTIME_THRESHOLD = JAVELIN_PREFIX + "thread.blocktime"
-            + ".threshold";
+        + ".threshold";
 
     /** ブロック回数が閾値を超えた際に取得するスレッド情報の数。 */
     public static final String THREAD_BLOCK_THREADINFO_NUM = JAVELIN_PREFIX + "thread.block"
-            + ".threadinfo.num";
+        + ".threadinfo.num";
 
     /** Javaレベルデッドロックの監視を行うか */
     public static final String THREAD_DEADLOCK_MONITOR = JAVELIN_PREFIX + "thread.deadlock.monitor";
@@ -621,15 +639,15 @@ public class JavelinConfigBase
 
     /** メソッドに対する、引数の値ごとの呼び出し間隔の閾値定義。 */
     public static final String INTERVAL_PER_ARGS_THRESHOLD = JAVELIN_PREFIX + "interval.perargs"
-            + ".threshold";
+        + ".threshold";
 
     /** HttpSessionのインスタンス数を取得するかどうかのフラグのプロパティ名　 */
     public static final String HTTP_SESSION_COUNT_MONITOR = JAVELIN_PREFIX + "httpSessionCount"
-            + ".monitor";
+        + ".monitor";
 
     /** HttpSessionへの登録オブジェクト総サイズを取得するかどうかのフラグのプロパティ名　 */
     public static final String HTTP_SESSION_SIZE_MONITOR = JAVELIN_PREFIX + "httpSessionSize"
-            + ".monitor";
+        + ".monitor";
 
     /** 引数情報にHTTPセッション情報を出力するかどうかを決定するプロパティ */
     public static final String LOG_HTTP_SESSION_KEY = JAVELIN_PREFIX + "log.http.session";
@@ -639,15 +657,15 @@ public class JavelinConfigBase
 
     /** HTTPセッションの詳細情報の深さを表すプロパティ */
     public static final String HTTP_SESSION_DETAIL_DEPTH_KEY = JAVELIN_PREFIX
-            + "log.http.session.detail.depth";
+        + "log.http.session.detail.depth";
 
     /** 計測対象から自動除外する呼び出し回数の閾値 */
     private static final String AUTO_EXCLUDE_THRESHOLD_COUNT = JAVELIN_PREFIX
-            + "autoExcludeThreshold.count";
+        + "autoExcludeThreshold.count";
 
     /** 計測対象から自動除外する実行時間の閾値 */
     private static final String AUTO_EXCLUDE_THRESHOLD_TIME = JAVELIN_PREFIX
-            + "autoExcludeThreshold.time";
+        + "autoExcludeThreshold.time";
 
     /** Log4Jのログ出力の際、スタックトレースを出力するレベルの閾値 */
     public static final String LOG4J_PRINTSTACK_LEVEL = JAVELIN_PREFIX + "log4j.printstack.level";
@@ -734,7 +752,10 @@ public class JavelinConfigBase
     public static final int DEF_THREAD_DUMP_INTERVAL = 10000;
 
     /** フルスレッドダンプを出力するスレッド数の閾値のデフォルト値 */
-    public static final int DEF_THREAD_DUMP_THREAD = 100;
+    public static final int DEF_THREAD_DUMP_NUM = 100;
+
+    /** フルスレッドダンプを出力するスレッド数の閾値のデフォルト値 */
+    public static final boolean DEF_RESOURCE_THREAD_RUNNABLE = false;
 
     /** フルスレッドダンプを出力するCPU使用率の閾値のデフォルト値 */
     public static final int DEF_THREAD_DUMP_CPU = 50;
@@ -744,7 +765,7 @@ public class JavelinConfigBase
 
     /** フルGCを行うGarbageCollector名のリストのデフォルト値 */
     public static final String DEF_FULLGC_LIST =
-            "MarkSweepCompact,Garbage collection optimized for throughput Old Collector";
+        "MarkSweepCompact,Garbage collection optimized for throughput Old Collector";
 
     /** フルGC検出を行うGC時間の閾値のデフォルト値 */
     public static final int DEF_FULLGC_THRESHOLD = 5000;
@@ -2616,7 +2637,7 @@ public class JavelinConfigBase
      */
     public int getThreadDumpThreadNum()
     {
-        return CONFIGUTIL.getInteger(THREAD_DUMP_THREAD, DEF_THREAD_DUMP_THREAD);
+        return CONFIGUTIL.getInteger(THREAD_DUMP_THREAD, DEF_THREAD_DUMP_NUM);
     }
 
     /**
@@ -2627,6 +2648,26 @@ public class JavelinConfigBase
     public void setThreadDumpThreadNum(final int threadDumpNum)
     {
         CONFIGUTIL.setInteger(THREAD_DUMP_THREAD, threadDumpNum);
+    }
+
+    /**
+     * フルスレッドダンプ出力のスレッド数の閾値を返します。<br />
+     * 
+     * @return フルスレッドダンプ出力のスレッド数の閾値
+     */
+    public boolean isResourceThreadRunnable()
+    {
+        return CONFIGUTIL.getBoolean(RESOURCE_THREAD_RUNNABLE, DEF_RESOURCE_THREAD_RUNNABLE);
+    }
+
+    /**
+     * フルスレッドダンプ出力のスレッド数の閾値を設定します。<br />
+     * 
+     * @param threadDumpNum フルスレッドダンプ出力のスレッド数の閾値
+     */
+    public void setResourceThreadRunnable(final boolean threadDumpNum)
+    {
+        CONFIGUTIL.setBoolean(RESOURCE_THREAD_RUNNABLE, threadDumpNum);
     }
 
     /**
@@ -2647,6 +2688,46 @@ public class JavelinConfigBase
     public void setThreadDumpCpu(final int threadDumpCpu)
     {
         CONFIGUTIL.setInteger(THREAD_DUMP_CPU, threadDumpCpu);
+    }
+
+    /**
+     * フルスレッドダンプ出力のCPU使用率の閾値を返します。<br />
+     * 
+     * @return フルスレッドダンプ出力のCPU使用率の閾値
+     */
+    public int getThreadDumpCpuSys()
+    {
+        return CONFIGUTIL.getInteger(THREAD_DUMP_CPU_SYS, DEF_THREAD_DUMP_CPU);
+    }
+
+    /**
+     * フルスレッドダンプ出力のCPU使用率の閾値を設定します。<br />
+     * 
+     * @param threadDumpCpu フルスレッドダンプ出力のCPU使用率の閾値
+     */
+    public void setThreadDumpCpuSys(final int threadDumpCpu)
+    {
+        CONFIGUTIL.setInteger(THREAD_DUMP_CPU_SYS, threadDumpCpu);
+    }
+
+    /**
+     * フルスレッドダンプ出力のCPU使用率の閾値を返します。<br />
+     * 
+     * @return フルスレッドダンプ出力のCPU使用率の閾値
+     */
+    public int getThreadDumpCpuUser()
+    {
+        return CONFIGUTIL.getInteger(THREAD_DUMP_CPU_USER, DEF_THREAD_DUMP_CPU);
+    }
+
+    /**
+     * フルスレッドダンプ出力のCPU使用率の閾値を設定します。<br />
+     * 
+     * @param threadDumpCpu フルスレッドダンプ出力のCPU使用率の閾値
+     */
+    public void setThreadDumpCpuUser(final int threadDumpCpu)
+    {
+        CONFIGUTIL.setInteger(THREAD_DUMP_CPU_USER, threadDumpCpu);
     }
 
     /**
@@ -2886,7 +2967,8 @@ public class JavelinConfigBase
      */
     public int getAutoExcludeThresholdCount()
     {
-        return CONFIGUTIL.getInteger(AUTO_EXCLUDE_THRESHOLD_COUNT, DEF_AUTO_EXCLUDE_THRESHOLD_COUNT);
+        return CONFIGUTIL
+            .getInteger(AUTO_EXCLUDE_THRESHOLD_COUNT, DEF_AUTO_EXCLUDE_THRESHOLD_COUNT);
     }
 
     /**
@@ -3350,5 +3432,52 @@ public class JavelinConfigBase
     public String getClusterName()
     {
         return CONFIGUTIL.getString(CLUSTER_NAME_KEY, DEF_CLUSTER_NAME);
+    }
+
+    /**
+     * スレッドダンプの閾値
+     * 
+     * @return スレッドダンプの閾値。
+     */
+    public Map<String, Double> getThreadDumpResourceTreshold()
+    {
+        Map<String, Double> result = new HashMap<String, Double>();
+        Properties properties = JavelinConfigUtil.getInstance().getProperties();
+        Set<Object> keySet = properties.keySet();
+        for (Object key : keySet)
+        {
+            String keyStr = (String)key;
+            if (keyStr.startsWith(THREAD_DUMP_THRESHOLD))
+            {
+                String valueStr = properties.getProperty(keyStr);
+                try
+                {
+                    Double value = Double.parseDouble(valueStr);
+                    String itemName = keyStr.substring(THREAD_DUMP_THRESHOLD.length());
+                    result.put(itemName, value);
+                }
+                catch (NumberFormatException nfe)
+                {
+                    SystemLogger.getInstance().warn(nfe);
+                }
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * 閾値を設定する。
+     * @param itemName 閾値のitemName
+     * @param value 閾値
+     */
+    public void setThreadDumpResourceTreshold(final String itemName, final Double value)
+    {
+        if (itemName.startsWith(THREAD_DUMP_THRESHOLD) == false)
+        {
+            return;
+        }
+        Properties properties = JavelinConfigUtil.getInstance().getProperties();
+        properties.setProperty(itemName, String.valueOf(value));
     }
 }

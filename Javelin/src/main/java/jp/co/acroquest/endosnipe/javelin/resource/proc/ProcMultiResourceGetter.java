@@ -23,57 +23,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package jp.co.acroquest.endosnipe.javelin.converter.util;
+package jp.co.acroquest.endosnipe.javelin.resource.proc;
 
-import java.util.concurrent.atomic.AtomicLong;
-
-import jp.co.acroquest.endosnipe.javelin.CallTree;
-import jp.co.acroquest.endosnipe.javelin.CallTreeRecorder;
-import jp.co.acroquest.endosnipe.javelin.SystemStatusManager;
+import jp.co.acroquest.endosnipe.javelin.resource.MultiResourceGetter;
 
 /**
- * ストリームの受信量／送信量監視用のユーティリティクラス
+ * Windows/Linux リソースのゲッターの親クラス
  * 
- * @author kimura
- *
+ * @author ochiai
  */
-public class StreamMonitorUtil
+public abstract class ProcMultiResourceGetter implements MultiResourceGetter
 {
+    /** Windows/Linux の ProcParser */
+    private ProcParser procParser_;
+    
     /**
-     * コンストラクタ
-     */
-    private StreamMonitorUtil()
-    {
-        // Do Nothing.
-    }
-
-    /**
-     * 蓄積対象の識別子と加算量を指定し、累算する。
-     * 累算対象はスレッド内での値と、プロセス全体としての値の２つ。
      * 
-     * @param recordAmount          加算される値
-     * @param recordTargetThreadKey スレッドの累算値に加算する際の識別子
-     * @param recordTargetKey       プロセス全体の累算値に加算する際の識別子
+     * @param procParser Windows/Linux の ProcParser
      */
-    public static void recordStreamAmount(final long recordAmount,
-            final String recordTargetThreadKey, final String recordTargetKey)
+    public ProcMultiResourceGetter(ProcParser procParser)
     {
-        CallTree tree = CallTreeRecorder.getInstance().getCallTree();
-
-        long oldSize;
-        long newSize;
-        Object value;
-
-        oldSize = 0;
-        value = tree.getLoggingValue(recordTargetThreadKey);
-        if (value != null)
-        {
-            oldSize = (Long)value;
-        }
-        newSize = oldSize + recordAmount;
-        tree.setLoggingValue(recordTargetThreadKey, newSize);
-
-        AtomicLong longValue = SystemStatusManager.getValue(recordTargetKey);
-        longValue.addAndGet(recordAmount);
+        this.procParser_ = procParser;
     }
+
+    /**
+     * 
+     * @return procParser Windows/Linux の ProcParser
+     */
+    public ProcParser getProcParser()
+    {
+        return procParser_;
+    }
+    
+    
 }

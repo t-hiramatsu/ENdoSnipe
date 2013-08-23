@@ -204,6 +204,21 @@ public class ConfigUpdater
                        String.valueOf(config.getThreadDumpThreadNum()));
         // フルスレッドダンプ出力のCPU使用率の閾値
         properties.put(JavelinConfig.THREAD_DUMP_CPU, String.valueOf(config.getThreadDumpCpu()));
+        
+        properties.put(JavelinConfig.THREAD_DUMP_CPU_SYS,
+                       String.valueOf(config.getThreadDumpCpuSys()));
+
+        properties.put(JavelinConfig.THREAD_DUMP_CPU_USER,
+                       String.valueOf(config.getThreadDumpCpuUser()));
+            
+        Map<String, Double> thresholdMap = config.getThreadDumpResourceTreshold();
+        for (Map.Entry<String, Double> entry : thresholdMap.entrySet())
+        {
+            String itemName = entry.getKey();
+            double threshold = entry.getValue().doubleValue();
+            properties.put(JavelinConfig.THREAD_DUMP_THRESHOLD + itemName,
+                           String.valueOf(threshold));
+        }
         // フルGCを検出するかどうか
         properties.put(JavelinConfig.FULLGC_MONITOR, String.valueOf(config.isFullGCMonitor()));
         // フルGC検出のGC時間の閾値
@@ -241,7 +256,11 @@ public class ConfigUpdater
         properties.put(JavelinConfig.LOG_JVN_FILE, String.valueOf(config.isLogJvnFile()));
         // システムのリソースデータを取得するかどうか。
         properties.put(JavelinConfig.COLLECT_SYSTEM_RESOURCES,
-                       String.valueOf(config.getCollectSystemResources()));
+                       String.valueOf(config.getCollectSystemResources())); 
+        // フルスレッドダンプ出力のCPU使用率の閾値
+        properties.put(JavelinConfig.RESOURCE_THREAD_RUNNABLE,
+                       String.valueOf(config.isResourceThreadRunnable()));
+
         // InvocationFullEventを送信するかどうか。
         properties.put(JavelinConfig.SEND_INVOCATION_FULL_EVENT,
                        String.valueOf(config.getSendInvocationFullEvent()));
@@ -285,6 +304,7 @@ public class ConfigUpdater
         properties.put(JdbcJavelinConfig.RECORD_STACKTRACE_THREADHOLD_KEY,
                        String.valueOf(jdbcConfig.getRecordStackTraceThreshold()));
 
+        
         return properties;
     }
 
@@ -905,6 +925,17 @@ public class ConfigUpdater
     }
 
     /**
+     * フルスレッドダンプ出力のスレッド数の閾値を更新します。
+     * 
+     * @param threadDumpNum フルスレッドダンプ出力のスレッド数の閾値
+     */
+    public static void updateThreadDumpNumRunnable(final boolean threadDumpNum)
+    {
+        JavelinConfig config = new JavelinConfig();
+        config.setResourceThreadRunnable(threadDumpNum);
+    }
+
+    /**
      * フルスレッドダンプ出力のCPU使用率の閾値を更新します。
      * 
      * @param threadDumpCpu フルスレッドダンプ出力のCPU使用率の閾値
@@ -913,6 +944,30 @@ public class ConfigUpdater
     {
         JavelinConfig config = new JavelinConfig();
         config.setThreadDumpCpu(threadDumpCpu);
+    }
+
+
+    /**
+     * フルスレッドダンプ出力のCPU使用率の閾値を更新します。
+     * 
+     * @param threadDumpCpu フルスレッドダンプ出力のCPU使用率の閾値
+     */
+    public static void updateThreadDumpCpuSys(final int threadDumpCpu)
+    {
+        JavelinConfig config = new JavelinConfig();
+        config.setThreadDumpCpuSys(threadDumpCpu);
+    }
+
+
+    /**
+     * フルスレッドダンプ出力のCPU使用率の閾値を更新します。
+     * 
+     * @param threadDumpCpu フルスレッドダンプ出力のCPU使用率の閾値
+     */
+    public static void updateThreadDumpCpuUser(final int threadDumpCpu)
+    {
+        JavelinConfig config = new JavelinConfig();
+        config.setThreadDumpCpuUser(threadDumpCpu);
     }
 
     /**
@@ -1107,6 +1162,17 @@ public class ConfigUpdater
         {
             updateLaterMap__.put(key, new ConfigUpdateRequest(key, value, updateTime));
         }
+    }
+
+    /**
+     * 閾値を設定する。
+     * @param itemName 閾値のitemName
+     * @param value 閾値
+     */
+    public static void updateThreadDumpResourceTreshold(final String itemName, final Double value)
+    {
+        JavelinConfig config = new JavelinConfig();
+        config.setThreadDumpResourceTreshold(itemName, value);
     }
 
     /**
@@ -1309,9 +1375,21 @@ public class ConfigUpdater
         {
             ConfigUpdater.updateThreadDumpNum(Integer.parseInt(value));
         }
+        else if (JavelinConfig.RESOURCE_THREAD_RUNNABLE.equals(key))
+        {
+            ConfigUpdater.updateThreadDumpNumRunnable(Boolean.parseBoolean(value));
+        }
         else if (JavelinConfig.THREAD_DUMP_CPU.equals(key))
         {
             ConfigUpdater.updateThreadDumpCpu(Integer.parseInt(value));
+        }
+        else if (JavelinConfig.THREAD_DUMP_CPU_SYS.equals(key))
+        {
+            ConfigUpdater.updateThreadDumpCpuSys(Integer.parseInt(value));
+        }
+        else if (JavelinConfig.THREAD_DUMP_CPU_USER.equals(key))
+        {
+            ConfigUpdater.updateThreadDumpCpuUser(Integer.parseInt(value));
         }
         else if (JavelinConfig.FULLGC_MONITOR.equals(key))
         {
@@ -1413,6 +1491,10 @@ public class ConfigUpdater
         else if (JavelinConfig.HTTP_STATUS_ERROR_KEY.equals(key))
         {
             ConfigUpdater.updateHttpStatusError(Boolean.parseBoolean(value));
+        }
+        else if (key != null && key.startsWith(JavelinConfig.THREAD_DUMP_THRESHOLD))
+        {
+            ConfigUpdater.updateThreadDumpResourceTreshold(key, Double.parseDouble(value));
         }
         JavelinConfigUtil.getInstance().update();
     }
