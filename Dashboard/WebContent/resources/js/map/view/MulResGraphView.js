@@ -210,19 +210,44 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				$("#" + this.$el.attr("id")).append(labeldiv);
 				var labelDom = document.getElementById(labelId);
 
-				var measurementItemName=this.collection.get("measurementItemName");
-				
 				var data = this.getData();
 				
 				var dataList=[];
 				var datalabel=[];
 				
 				$.map(data,function(value,key){
+					
+				/*	_.each(value, function(valuedata, index) {
+						
+					$.map(data,function(value1,key1){
+						if(key!=key1)
+							{
+							_.each(value1, function(value1data, index1) {
+							
+							
+								valuedata.push(value1data[1]);
+							
+						});
+							
+							}
+					});
+					});*/
+					
+					//dataList=value;
+				//	alert(dataList);
+					//return false;
+					//datalabel.push(key);
 					dataList.push(value);
-					datalabel.push(key);
 				});
+					//dataList.pust(valuedata);
+				//	datalabel.push(key);
+				//	dataList.push(key);
+					//dataList.push(value);
+					
+				
 				
 				var optionSettings = {
+					labels : this.datalabel,
 					valueRange : [ 0, this.maxValue * 1.1 ],
 					title : this.title,
 					xlabel : this.labelX,
@@ -231,7 +256,6 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 					labelsDivStyles : {
 						background : "none repeat scroll 0 0 #000000"
 					},
-					labels:this.datalabel,
 					dateWindow : this.dateWindow,
 					axisLabelFontSize : 10,
 					titleHeight : 22

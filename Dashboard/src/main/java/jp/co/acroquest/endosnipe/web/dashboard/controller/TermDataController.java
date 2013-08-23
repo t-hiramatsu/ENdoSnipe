@@ -163,6 +163,38 @@ public class TermDataController
                     }
                 }
             }
+            if (!m.find() && dataId.indexOf("|") == -1)
+            {
+                if (TREE_DATA_ID.equals(dataId))
+                {
+                    // 計測対象の項目を全て取得してツリー要素に変換
+                    List<Map<String, String>> treeMenuDtoList =
+                            createTreeMenuData(treeMenuService.initialize());
+
+                    // シグナル定義を全て取得
+                    List<SignalDefinitionDto> signalList = signalService.getAllSignal();
+
+                    // 計測対象のツリーにシグナル定義を追加
+                    treeMenuDtoList.addAll(convertSignalDefinition(signalList));
+
+                    responceDataList.put(TREE_DATA_ID, treeMenuDtoList);
+                }
+                else
+                {
+                    if (dataId.contains("graph") || dataId.contains("Graph"))
+                    {
+                        MultipleResourceGraphDefinitionDto dto =
+                                service.getmultipleResourceGraphInfo(dataId);
+                        String[] measurementList = dto.getMeasurementItemIdList().split(",");
+
+                        graphDataList.addAll(Arrays.asList(measurementList));
+                    }
+                    else
+                    {
+                        graphDataList.add(dataId);
+                    }
+                }
+            }
         }
         if (graphDataList.size() != 0)
         {
