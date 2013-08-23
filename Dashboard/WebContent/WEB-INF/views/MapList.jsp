@@ -194,6 +194,7 @@
 					$("#mapMode").val(ENS.map.mode.OPERATE);
 					$("#mapListForm").attr("action", "<%=request.getContextPath()%>/map/mapList");
 					saveDisplayState();
+					this.resourceMapListView.saveOperation();
 					$("#mapListForm").submit();
 				})
 			});
