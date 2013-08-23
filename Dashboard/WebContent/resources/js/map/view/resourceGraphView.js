@@ -116,16 +116,18 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 
 				this.normalButton = "normalization_button_" + graphId;
 
+				var contextPath = wgp.common.getContextPath();
+				
 				this.maximumButtonImg = "<div id ='" + this.maximumButton
 						+ "' class = '" + this.maximumButton
 						+ "' style='z-index: -10;'><img "
-						+ "src='./resources/images/maximum_button.png' "
+						+ "src='" + contextPath + "/resources/images/maximum_button.png' "
 						+ "style='width: 20px; height: 28px'></img></div>";
 
 				this.normalButtonImg = "<div id ='" + this.normalButton
 						+ "' class = '" + this.normalButton
 						+ "' style='z-index: -10;'><img "
-						+ "src='./resources/images/normalization_button.png' "
+						+ "src='" + contextPath + "/resources/images/normalization_button.png' "
 						+ "style='width: 20px; height: 28px'></img></div>";
 			},
 			render : function() {
@@ -789,7 +791,6 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				resizeStyle["height"] = graphHeight;
 
 				$("#tempDiv").css(resizeStyle);
-				this.tempEntity.resize(graphWidth, graphHeight);
 				this.addDragEvent();
 
 				var divNo = parseInt(this.$el.attr("id").substring(30,
@@ -831,6 +832,8 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				}
 
 				this.hiddenGraph = hiddenGraph;
+				
+				this.tempEntity.resize(graphWidth, graphHeight);
 
 				$(".dygraph-title").width($("#tempDiv").width() - this.titleButtonSpace);
 				var childElem = $("#tempDiv_ensgraph").children("div");
