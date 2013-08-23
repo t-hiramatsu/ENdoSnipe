@@ -31,9 +31,20 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 			initialize : function(argument, treeSettings) {
 				this.isRealTime = true;
 				this._initData(argument, treeSettings);
+				// %グラフのY軸の最大値
+				this.percentGraphMaxYValue = argument.percentGraphMaxYValue;
+				// グラフの上限を決める際の、グラフのY値の最大に対する係数
+				this.yValueMagnification = argument.yValueMagnification;
+				// 最大化グラフの横のマージン
+				this.maxGraphSideMargin = argument.maxGraphSideMargin;
+				// 最大化グラフの縦のマージン
+				this.maxGraphVerticalMargin = argument.maxGraphVerticalMargin;
+				// グラフタイトル横のボタン用スペースの大きさ
+				this.titleButtonSpace = argument.titleButtonSpace;
+
 				var graphIds="(";
 				var appView = new ENS.AppView();
-				this.getMeasurementTargetNodes(this.graphId);
+				this.getMeasurementTargetNodes(argument.graphId);
 			
 				for(index=0;index<ENS.tree.measurementDefinitionList.length;index++)
 					{
@@ -248,7 +259,7 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				
 				var optionSettings = {
 					labels : this.datalabel,
-					valueRange : [ 0, this.maxValue * 1.1 ],
+					valueRange : [ 0, this.maxValue * this.yValueMagnification ],
 					title : this.title,
 					xlabel : this.labelX,
 					ylabel : this.labelY,
@@ -280,18 +291,23 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 
 				var element = document.getElementById(graphId);
 				//this.entity = new Dygraph(element, data, optionSettings);
+				
 				this.entity = new Dygraph(element, dataList, optionSettings);
-				//this.entity.resize(this.width, this.graphHeight);
+				this.entity.resize(this.width, this.graphHeight);
 				$("#" + graphId).height(this.height);
 
 				if (this.labelY == "%") {
 					this.getGraphObject().updateOptions({
-						valueRange : [ 0, 105 ]
+						valueRange : [ 0, this.percentGraphMaxYValue ]
 					});
 				} else {
-					this.getGraphObject().updateOptions({
-						valueRange : [ 0, this.maxValue * 1.1 ]
-					});
+					this.getGraphObject().updateOptions(
+							{
+								valueRange : [
+										0,
+										this.maxValue
+												* this.yValueMagnification ]
+							});
 				}
 
 				if ($("#" + this.maximumButton).length > 0) {
@@ -300,8 +316,7 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 
 				var childElem = $("#" + graphId + "").children("div");
 				$(childElem).append(this.maximumButtonImg);
-				$("#" + this.maximumButton).css("padding-left",
-						($("#" + graphId).width() - 20));
+				$("#" + this.maximumButton).css("float", "right");
 				var minButton = this.normalButton, maxButton = this.maximumButton;
 
 				$(element)
@@ -312,13 +327,13 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 									var position = {
 										x : Math.floor(e.clientX - offsetLeft),
 										y : Math.floor(e.clientY - offsetTop)
-									}
+									};
 
 									if (position.x > ($("#" + graphId).width() - 20)
 											&& position.x < ($("#" + graphId)
-													.width() - 7)
-											&& position.y > 4
-											&& position.y < 19) {
+													.width())
+											&& position.y > 0
+											&& position.y < 28) {
 										if ($("." + maxButton).length > 0) {
 											instance.addMaximizeEvent(
 													offsetLeft, offsetTop);
@@ -331,6 +346,8 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 					axisLabelFontSize : 10,
 					titleHeight : 22
 				});
+				
+				$(".dygraph-title").width($("#" + graphId).width() - this.titleButtonSpace);
 
 				this.mouseEvent(graphId, isShort, tmpTitle, optionSettings);
 

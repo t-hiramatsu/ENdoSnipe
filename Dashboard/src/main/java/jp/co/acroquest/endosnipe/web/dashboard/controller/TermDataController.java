@@ -125,13 +125,16 @@ public class TermDataController
             return new HashMap<String, List<Map<String, String>>>();
         }
 
+        boolean found = false;
         for (String dataId : dataGroupIdList)
         {
+            found = false;
             Pattern p = Pattern.compile(dataId);
             Matcher m = p.matcher(dataId);
 
             while (m.find())
             {
+                found = true;
                 String matchData = m.group();
                 if (TREE_DATA_ID.equals(matchData))
                 {
@@ -163,7 +166,7 @@ public class TermDataController
                     }
                 }
             }
-            if (!m.find() && dataId.indexOf("|") == -1)
+            if (!found)
             {
                 if (TREE_DATA_ID.equals(dataId))
                 {
