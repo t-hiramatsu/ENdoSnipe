@@ -135,21 +135,6 @@ public class JavelinEventCounter implements JavelinConstants
             }
         }
         count.increment();
-
-        /*if (pageName == null)
-        {
-            pageName = TelegramConstants.POSTFIX_EVENT + event.getName();
-            eventCountMap_.put(pageName, count);
-        }
-        else
-        {
-            String eventCountName =
-                turnAroundTimeGroupGetter.getTreeNodeName(pageName,
-                                                          TelegramConstants.POSTFIX_EVENT,
-                                                          event.getName());
-            eventCountMap_.put(eventCountName, count);
-        }
-        count.increment();*/
     }
 
     /**
