@@ -58,6 +58,11 @@ ENS.nodePerfDoctorParentElem = {
 	}
 };
 
+ENS.nodeSqlPlanElem = {
+	viewClassName : "ENS.sqlPlanView",
+	viewAttribute : {}
+};
+
 ENS.nodePerfDoctorParentView = {
 	viewClassName : "wgp.MultiAreaView",
 	rootView : appView,
@@ -65,10 +70,24 @@ ENS.nodePerfDoctorParentView = {
 	collection : [ ENS.nodePerfDoctorParentElem ]
 };
 
+ENS.nodeSqlPlantView = {
+	viewClassName : "wgp.MultiAreaView",
+	rootView : appView,
+	tabTitle : "Plan",
+	collection : [ ENS.nodeSqlPlanElem ]
+};
+
 ENS.nodeTabView = {
 	viewClassName : "wgp.TabView",
 	rootView : appView,
-	collection : [ENS.nodeInfoField, ENS.nodePerfDoctorParentView]
+	collection : [ ENS.nodeInfoField, ENS.nodePerfDoctorParentView ]
+};
+
+ENS.sqlPlanTabView = {
+	viewClassName : "wgp.TabView",
+	rootView : appView,
+	collection : [ ENS.nodeInfoField, ENS.nodePerfDoctorParentView,
+			ENS.nodeSqlPlantView ]
 };
 
 ENS.reportParentElem = {
@@ -96,6 +115,7 @@ if (!wgp.constants.VIEW_SETTINGS) {
 }
 wgp.constants.VIEW_SETTINGS = $.extend(wgp.constants.VIEW_SETTINGS, {
 	"reportNode-" : ENS.reportParentView,
+	"/^postgresql:[A-C]+postgres/[A-C]+$/" : ENS.sqlPlanTabView,
 	"default" : ENS.nodeTabView,
 	"ENS.ResourceMapView" : ENS.ResourceMapField
 });

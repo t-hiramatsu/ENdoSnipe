@@ -78,3 +78,8 @@
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/map/view/reportView.js">	
 </script>
+
+<%-- SQL Plan View --%>
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/resources/js/map/view/sqlPlanView.js">	
+</script>
