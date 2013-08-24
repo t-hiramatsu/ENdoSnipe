@@ -34,46 +34,48 @@ package jp.co.acroquest.endosnipe.perfdoctor;
 public class WarningUnit
 {
     /** 警告ID */
-    private final String   unitId_;
+    private final String unitId_;
 
     /** ルールID */
-    private final String   id_;
+    private final String id_;
 
     /** 内容 */
-    private final String   description_;
+    private final String description_;
 
     /** 警告対象のクラス名 */
-    private final String   className_;
+    private final String className_;
 
     /** 警告対象のメソッド名 */
-    private final String   methodName_;
+    private final String methodName_;
 
     /** 警告の重要度 */
-    private final String   level_;
+    private final String level_;
 
     /** 警告対象のログファイル名 */
-    private final String   logFileName_;
+    private final String logFileName_;
 
     /** 警告対象のログファイルの行番号 */
-    private final int      logFileLineNumber_;
+    private final int logFileLineNumber_;
 
     /** 開始時間 */
-    private final long     startTime_;
+    private final long startTime_;
 
     /** 終了時間 */
-    private final long     endTime_;
+    private final long endTime_;
 
     /** 降順フラグ(フィルタ時に降順に並べるかどうか) */
-    private final boolean  isDescend_;
+    private final boolean isDescend_;
 
     /** 変数リスト */
     private final Object[] args_;
 
     /** スタックトレース */
-    private String         stackTrace_ = "";
+    private String stackTrace_ = "";
 
     /** イベントによる警告であるかどうか。 */
-    private boolean        isEvent_    = false;
+    private boolean isEvent_ = false;
+
+    private String measurementItemName_;
 
     /**
      * コンストラクタ。
@@ -92,9 +94,9 @@ public class WarningUnit
      * @param args 閾値、検出値などの引数。
      */
     WarningUnit(final String unitId, final String id, final String description,
-            final String className, final String methodName, final String level,
-            final String logFileName, final int logFileLineNumber, final long startTime,
-            final long endTime, final boolean isDescend, final Object[] args)
+        final String className, final String methodName, final String level,
+        final String logFileName, final int logFileLineNumber, final long startTime,
+        final long endTime, final boolean isDescend, final Object[] args)
     {
         super();
         this.unitId_ = unitId;
@@ -130,15 +132,16 @@ public class WarningUnit
      * @param args 閾値、検出値などの引数。
      */
     WarningUnit(final String unitId, final String id, final String description,
-            final String className, final String methodName, final String level,
-            final String logFileName, final int logFileLineNumber, final long startTime,
-            final long endTime, final boolean isDescend, final boolean isEvent,
-            final String stackTrace, final Object[] args)
+        final String className, final String methodName, final String level,
+        final String logFileName, final int logFileLineNumber, final long startTime,
+        final long endTime, final boolean isDescend, final boolean isEvent,
+        final String stackTrace, final Object[] args, final String measurementItemName)
     {
         this(unitId, id, description, className, methodName, level, logFileName, logFileLineNumber,
-                startTime, endTime, isDescend, args);
+            startTime, endTime, isDescend, args);
         this.isEvent_ = isEvent;
         this.stackTrace_ = stackTrace;
+        this.measurementItemName_ = measurementItemName;
     }
 
     /**
@@ -231,14 +234,14 @@ public class WarningUnit
      */
     public Object[] getArgs()
     {
-    	if (args_ == null)
-    	{
-    		return null;
-    	}
-    	else
-    	{
-    		return this.args_.clone();
-    	}
+        if (args_ == null)
+        {
+            return null;
+        }
+        else
+        {
+            return this.args_.clone();
+        }
     }
 
     /**
@@ -269,5 +272,15 @@ public class WarningUnit
     public boolean isDescend()
     {
         return this.isDescend_;
+    }
+
+    public String getMeasurementItemName()
+    {
+        return measurementItemName_;
+    }
+
+    public void setMeasurementItemName(final String measurementItemName)
+    {
+        measurementItemName_ = measurementItemName;
     }
 }

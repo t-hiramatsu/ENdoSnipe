@@ -4,6 +4,13 @@
 	<classpathentry kind="src" path="src/main/resources"/>
 	<classpathentry kind="src" output="target/test-classes" path="src/test/java"/>
 	<classpathentry kind="src" output="target/test-classes" path="src/test/resources"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ENdoSnipePerfDoctor"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ENdoSnipeCommon"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ENdoSnipeCommunicator"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ENdoSnipeDataAccessor"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ENdoSnipeReportCommand"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ENdoSnipeReporter"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ENdoSnipeDataCollector"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/junit-4.4.jar" sourcepath="lib/sources/junit-4.4-sources.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/antlr-2.7.7.jar"/>
@@ -70,11 +77,5 @@
 	<classpathentry kind="var" path="TOMCAT_HOME/lib/jsp-api.jar"/>
 	<classpathentry kind="var" path="TOMCAT_HOME/lib/el-api.jar"/>
 	<classpathentry kind="var" path="TOMCAT_HOME/lib/annotations-api.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ENdoSnipeCommon"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ENdoSnipeCommunicator"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ENdoSnipeDataAccessor"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ENdoSnipeReportCommand"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ENdoSnipeReporter"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ENdoSnipeDataCollector"/>
 	<classpathentry kind="output" path="WebContent/WEB-INF/classes"/>
 </classpath>
