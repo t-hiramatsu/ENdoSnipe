@@ -137,7 +137,8 @@ public class JvnFileEntryJudge
             JavelinLogInputStreamAccessor javelinLogMemoryAccessor =
                     new JavelinLogInputStreamAccessor(entry.fileName, javelinLogStream);
 
-            parseJvnLogStream(javelinLogElementList, javelinLogStream, javelinLogMemoryAccessor);
+            parseJvnLogStream(javelinLogElementList, javelinLogStream, javelinLogMemoryAccessor,
+                              null);
         }
     }
 
@@ -160,7 +161,9 @@ public class JvnFileEntryJudge
             JavelinLogInputStreamAccessor javelinLogMemoryAccessor =
                     new JavelinLogInputStreamAccessor(jvnLog.logFileName, javelinLogStream);
 
-            parseJvnLogStream(javelinLogElementList, javelinLogStream, javelinLogMemoryAccessor);
+            String measurementItemName = jvnLog.measurementItemName;
+            parseJvnLogStream(javelinLogElementList, javelinLogStream, javelinLogMemoryAccessor,
+                              measurementItemName);
         }
     }
 
@@ -201,10 +204,12 @@ public class JvnFileEntryJudge
      * @param javelinLogElementList {@link JavelinLogElement}オブジェクトのリスト
      * @param javelinLogStream Javelinログのストリーム
      * @param javelinLogMemoryAccessor {@link JavelinLogInputStreamAccessor}オブジェクト
+     * @param measurementItemName 計測項目名
      */
     private void parseJvnLogStream(final List<JavelinLogElement> javelinLogElementList,
             final InputStream javelinLogStream,
-            final JavelinLogInputStreamAccessor javelinLogMemoryAccessor)
+            final JavelinLogInputStreamAccessor javelinLogMemoryAccessor,
+            final String measurementItemName)
     {
         JavelinParser javelinParser = new JavelinParser(javelinLogMemoryAccessor);
 
@@ -214,6 +219,7 @@ public class JvnFileEntryJudge
             JavelinLogElement javelinLogElement;
             while ((javelinLogElement = javelinParser.nextElement()) != null)
             {
+                javelinLogElement.setMeasurementItemName(measurementItemName);
                 javelinLogElementList.add(javelinLogElement);
             }
         }

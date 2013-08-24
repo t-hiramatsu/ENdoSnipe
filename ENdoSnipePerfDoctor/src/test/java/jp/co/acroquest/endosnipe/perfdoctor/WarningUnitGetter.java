@@ -20,9 +20,10 @@ public class WarningUnitGetter
      * @param args 閾値、検出値などの引数。
      * @return WarnignUnit WarningUnit
      */
-    public static WarningUnit createWarningUnit(String unitId, String id, String description,
-            String className, String methodName, String level, String logFileName,
-            int logFileLineNumber, long startTime, long endTime, Object[] args)
+    public static WarningUnit createWarningUnit(final String unitId, final String id,
+        final String description, final String className, final String methodName,
+        final String level, final String logFileName, final int logFileLineNumber,
+        final long startTime, final long endTime, final Object[] args)
     {
         return new WarningUnit(unitId, id, description, className, methodName, level, logFileName,
                                logFileLineNumber, startTime, endTime, true, args);
@@ -43,14 +44,15 @@ public class WarningUnitGetter
      * @param args 閾値、検出値などの引数。
      * @return WarnignUnit WarningUnit
      */
-    public static WarningUnit createWarningUnit(String unitId, String id, String description,
-            String className, String methodName, String level, String logFileName,
-            int logFileLineNumber, long startTime, long endTime, boolean isEvent,
-            String stackTrace, Object[] args)
+    public static WarningUnit createWarningUnit(final String unitId, final String id,
+        final String description, final String className, final String methodName,
+        final String level, final String logFileName, final int logFileLineNumber,
+        final long startTime, final long endTime, final boolean isEvent, final String stackTrace,
+        final Object[] args)
     {
         return new WarningUnit(unitId, id, description, className, methodName, level, logFileName,
                                logFileLineNumber, startTime, endTime, true, isEvent, stackTrace,
-                               args);
+                               args, null);
     }
 
 }
