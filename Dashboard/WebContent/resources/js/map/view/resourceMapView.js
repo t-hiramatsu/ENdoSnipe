@@ -112,7 +112,6 @@ ENS.ResourceMapView = wgp.MapView.extend({
 				newView.setOperateFunction();
 			}
 		}
-
 	},
 	_addGraphDivision : function(model) {
 		var objectId = model.get("objectId");
@@ -343,7 +342,12 @@ ENS.ResourceMapView = wgp.MapView.extend({
 				shapeName : shapeName,
 				shapeType : shapeType,
 				zIndex : 1,
-				elementAttrList : [{}]
+				elementAttrList : [{
+					fill : "#FFFFFF",
+					stroke : "#000000",
+					strokeDasharray : "",
+					strokeWidth : 3
+				}]
 			});
 			instance.collection.add(resourceModel);
 			$(instance.paper.canvas).off("click", clickEventFunction);
@@ -369,7 +373,17 @@ ENS.ResourceMapView = wgp.MapView.extend({
 				width : 100,
 				height : 100,
 				zIndex : 1,
-				elementAttrList : [{}]
+				elementAttrList : [{
+					fill : "#FFFFFF",
+					stroke : "#000000",
+					strokeDasharray : "",
+					strokeWidth : 1
+				},{
+					fontSize : 10,
+					textAnchor : "middle",
+					fontFamily : "Arial",
+					fill : "#000000"
+				}]
 			});
 			instance.collection.add(resourceModel);
 			$(instance.paper.canvas).off("click", clickEventFunction);
@@ -435,8 +449,9 @@ ENS.ResourceMapView = wgp.MapView.extend({
 							pointX : event.pageX - $("#" + instance.$el.attr("id")).offset()["left"],
 							pointY : event.pageY - $("#" + instance.$el.attr("id")).offset()["top"],
 							elementAttrList : [{
-								fontSize : 30,
+								fontSize : 28,
 								textAnchor : "start",
+								fontFamily : "Arial",
 								fill : ENS.map.fontColor,
 							}],
 							zIndex : 1
@@ -469,7 +484,8 @@ ENS.ResourceMapView = wgp.MapView.extend({
 		if($("#" + this.contextMenuId).length == 0){
 
 			var contextMenu0 = new contextMenu("Remove", "Remove");
-			var contextMenuArray = [ contextMenu0 ];
+			var contextMenu1 = new contextMenu("Properties", "Properties");
+			var contextMenuArray = [ contextMenu0 , contextMenu1];
 			contextMenuCreator.initializeContextMenu(this.contextMenuId, contextMenuArray);
 		}
 	},
@@ -480,11 +496,15 @@ ENS.ResourceMapView = wgp.MapView.extend({
 			},
 			onSelect : function(event, target){
 				var cid = $(target).attr("cid");
+				var model = instance.collection._byCid[cid];
 				if(event.currentTarget.id == "Remove"){
 					// 削除時のイベント
 					window.resourceMapListView.childView.changedFlag = true;
 					var model = instance.collection._byCid[cid];
 					instance.collection.remove(model);
+				}else if(event.currentTarget.id == "Properties"){
+					var targetView = instance.viewCollection[model.id];
+					var propertyView = new ENS.MapElementPropertyView(targetView);
 				}
 			}
 		};
@@ -497,13 +517,13 @@ ENS.ResourceMapView = wgp.MapView.extend({
 		var mapHeight = this.paper.height;
 		var changeFlag = false;
 
-		if(pointX + width > mapWidth){
-			mapWidth = pointX + width;
+		if(pointX + width + ENS.map.extraMapSize > mapWidth){
+			mapWidth = pointX + width + ENS.map.extraMapSize;
 			changeFlag = true;
 		}
 
-		if(pointY + height > mapHeight){
-			mapHeight = pointY + height;
+		if(pointY + height + ENS.map.extraMapSize > mapHeight){
+			mapHeight = pointY + height + ENS.map.extraMapSize;
 			changeFlag = true;
 		}
 

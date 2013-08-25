@@ -112,3 +112,6 @@
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/map/command/raphaelMapPasteCommand.js">
 </script>
+
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/resources/js/map/dialog/mapElementPropertyView.js">
