@@ -206,10 +206,8 @@ ENS.map.mode.OPERATE = "OPERATE";
 ENS.map.mode.EDIT = "EDIT";
 ENS.map.fontSize = 16;
 ENS.map.fontColor = "#F58400";
-ENS.map.extraMapSize = 10;
-ENS.map.resizeSpan = 16;
+ENS.map.MIN_GRAPH_WIDTH = 260;ENS.map.MIN_GRAPH_HEIGHT = 200;ENS.map.extraMapSize = 10;
 ENS.map.moveSpan = 16;
-
 ENS.svg = {};
 ENS.svg.attribute = {
 //	arrowEnd : "arrow-end",

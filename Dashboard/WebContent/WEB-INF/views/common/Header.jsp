@@ -20,5 +20,10 @@
 </body>
 <script>
 	$(".headerTable a").button();
+	$(".ui-button-text").click(function(){
+				if($("#mapMode").val() == ENS.map.mode.EDIT){
+					window.resourceMapListView.saveOperation();
+				}
+			});
 </script>
 </html>

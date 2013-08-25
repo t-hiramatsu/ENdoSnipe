@@ -92,19 +92,20 @@ public class DashboardController
 
         ConnectionClient connectionClient = ConnectionClient.getInstance();
         List<CommunicationClient> clientList = connectionClient.getClientList();
-        Boolean isConnected = false;
+        boolean isConnected = false;
         int connect = 0;
-        for (int clientNumber = 0; clientNumber <= clientList.size() - 1; clientNumber++)
+        for (int clientNumber = 0; clientNumber < clientList.size(); clientNumber++)
         {
             isConnected = clientList.get(clientNumber).isConnected();
 
-            if (isConnected.equals(true))
+            if (isConnected == true)
             {
                 connect = 0;
             }
             else
             {
                 connect = -1;
+                break;
             }
         }
         ModelAndView modelAndView = new ModelAndView("Dashboard");

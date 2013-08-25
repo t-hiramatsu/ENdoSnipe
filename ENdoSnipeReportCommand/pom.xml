@@ -13,7 +13,7 @@
 	<properties>
 		<jdk.version>1.6</jdk.version>
 		<src.encoding>shift_jis</src.encoding>
-		<site.encoding>windows-31j</site.encoding>
+		<site.encoding>UTF-8</site.encoding>
 	</properties>
 
 	<!-- リポジトリ設定 -->

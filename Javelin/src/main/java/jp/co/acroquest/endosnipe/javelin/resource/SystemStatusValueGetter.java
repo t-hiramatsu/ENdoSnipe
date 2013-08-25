@@ -25,6 +25,8 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.javelin.resource;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 import jp.co.acroquest.endosnipe.common.entity.ItemType;
 import jp.co.acroquest.endosnipe.javelin.SystemStatusManager;
 
@@ -53,16 +55,13 @@ public class SystemStatusValueGetter extends AbstractResourceGetter
      */
     public Number getValue()
     {
-        Object size;
-        synchronized (SystemStatusManager.class)
-        {
-            size = SystemStatusManager.getValue(this.key_);
-        }
+        AtomicLong size;
+        size = SystemStatusManager.getValue(this.key_);
         if (size == null)
         {
-            size = Long.valueOf(0);
+            size = new AtomicLong();
         }
-        return (Long)size;
+        return size.get();
     }
 
     /**

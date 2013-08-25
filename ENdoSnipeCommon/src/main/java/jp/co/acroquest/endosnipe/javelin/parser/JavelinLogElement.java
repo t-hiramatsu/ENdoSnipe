@@ -40,6 +40,8 @@ import jp.co.acroquest.endosnipe.common.parser.JavelinLogColumnNum;
  */
 public class JavelinLogElement
 {
+    private String measurementItemName_;
+
     private String logFileName_;
 
     private int startLogLine_;
@@ -369,6 +371,26 @@ public class JavelinLogElement
     public void setCpuAlarmThreshold(final long cpuAlarmThreshold)
     {
         cpuAlarmThreshold_ = cpuAlarmThreshold;
+    }
+
+    /**
+     * 計測項目名を取得します。
+     * 
+     * @return 計測項目名
+     */
+    public String getMeasurementItemName()
+    {
+        return measurementItemName_;
+    }
+
+    /**
+     * 計測項目名を設定します。
+     * 
+     * @param measurementItemName 計測項目名
+     */
+    public void setMeasurementItemName(final String measurementItemName)
+    {
+        this.measurementItemName_ = measurementItemName;
     }
 
 }

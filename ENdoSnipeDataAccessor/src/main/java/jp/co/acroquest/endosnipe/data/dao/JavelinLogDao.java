@@ -55,19 +55,17 @@ import jp.co.acroquest.endosnipe.util.ResourceDataDaoUtil;
  */
 public class JavelinLogDao extends AbstractDao implements LogMessageCodes, TableNames
 {
-    private static final ENdoSnipeLogger LOGGER                  =
-                                                                        ENdoSnipeLogger.getLogger(JavelinLogDao.class);
+    private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(JavelinLogDao.class);
 
     /** ZIP 圧縮用ストリームのバッファサイズ */
-    private static final int             BUF_SIZE                  = 8192;
+    private static final int BUF_SIZE = 8192;
 
     /** 蓄積期間を取得する SQL */
-    private static final String       GET_LOG_TERM_SQL_PARTITION = createGetLogTermSql();
+    private static final String GET_LOG_TERM_SQL_PARTITION = createGetLogTermSql();
 
     /** 蓄積期間を取得する SQL */
-    private static final String       GET_LOG_TERM_SQL         =
-                                                                        "select min(START_TIME) START_TIME, max(END_TIME) END_TIME from "
-                                                                            + JAVELIN_LOG;
+    private static final String GET_LOG_TERM_SQL =
+        "select min(START_TIME) START_TIME, max(END_TIME) END_TIME from " + JAVELIN_LOG;
 
     /**
      * データを挿入するテーブルの名前を返します。
@@ -277,7 +275,7 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
                     + "CALLEE_FIELD_TYPE, CALLEE_OBJECTID, CALLER_NAME, "
                     + "CALLER_SIGNATURE, CALLER_CLASS, CALLER_OBJECTID, "
                     + "EVENT_LEVEL, ELAPSED_TIME, MODIFIER, THREAD_NAME, "
-                    + "THREAD_CLASS, THREAD_OBJECTID from " + JAVELIN_LOG
+                    + "THREAD_CLASS, THREAD_OBJECTID, MEASUREMENT_ITEM_NAME from " + JAVELIN_LOG
                     + " where LOG_FILE_NAME = ?";
             pstmt = conn.prepareStatement(sql);
             PreparedStatement delegated = getDelegatingStatement(pstmt);
@@ -499,6 +497,89 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
     }
 
     /**
+     * 期間と項目名を指定してデータを取得します。
+     * 
+     * @param database データベース名
+     * @param start 開始時刻
+     * @param end 終了時刻
+     * @param name 項目名
+     * @param outputLog Javelinログを出力する場合<code>true</code>
+     * @param removeDiagnosed 診断済みJavelinLogを含めない場合<code>true</code>
+     * @return {@link JavelinLog} のリスト
+     * @throws SQLException SQL 実行時に例外が発生した場合
+     */
+    public static List<JavelinLog> selectByTermAndName(final String database,
+        final Timestamp start, final Timestamp end, final String name, final boolean outputLog,
+        boolean removeDiagnosed)
+        throws SQLException
+    {
+        List<JavelinLog> result = new ArrayList<JavelinLog>();
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try
+        {
+
+            conn = getConnection(database, true);
+            String sql = createSelectSqlByTermAndName(JAVELIN_LOG, start, end, name, true);
+            pstmt = conn.prepareStatement(sql);
+            PreparedStatement delegated = getDelegatingStatement(pstmt);
+            setTimestampByTerm(delegated, start, end);
+            rs = delegated.executeQuery();
+
+            // 結果をリストに１つずつ格納する
+            while (rs.next() == true)
+            {
+                JavelinLog log = new JavelinLog();
+                setJavelinLogFromResultSet(log, rs, outputLog);
+                result.add(log);
+            }
+        }
+        finally
+        {
+            SQLUtil.closeResultSet(rs);
+            SQLUtil.closeStatement(pstmt);
+            SQLUtil.closeConnection(conn);
+        }
+
+        return result;
+    }
+
+    /**
+     * JavelinLogを診断済みにします。
+     * 
+     * @param database データベース名
+     * @param start 開始時刻
+     * @param end 終了時刻
+     * @param name 項目名
+     * @throws SQLException SQL 実行時に例外が発生した場合
+     */
+    public static void updateDiagnosed(final String database,
+        final Timestamp start, final Timestamp end, final String name)
+        throws SQLException
+    {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try
+        {
+
+            conn = getConnection(database, true);
+            String sql = createUpdateDiagnosedSql(JAVELIN_LOG, start, end, name);
+            pstmt = conn.prepareStatement(sql);
+            PreparedStatement delegated = getDelegatingStatement(pstmt);
+            setTimestampByTerm(delegated, start, end);
+            rs = delegated.executeQuery();
+        }
+        finally
+        {
+            SQLUtil.closeResultSet(rs);
+            SQLUtil.closeStatement(pstmt);
+            SQLUtil.closeConnection(conn);
+        }
+    }
+
+    /**
      * 時刻、アイテム名の指定に応じたSELECT文のSQLを作成します。<br />
      * 
      * @param tableName テーブル名
@@ -509,6 +590,21 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
      */
     private static String createSelectSqlByTermAndName(final String tableName,
         final Timestamp start, final Timestamp end, final String name)
+    {
+        return createSelectSqlByTermAndName(tableName, start, end, name, false);
+    }
+
+    /**
+     * 時刻、アイテム名の指定に応じたSELECT文のSQLを作成します。<br />
+     * 
+     * @param tableName テーブル名
+     * @param start 開始時刻
+     * @param end 終了時刻
+     * @param name アイテム名
+     * @return
+     */
+    private static String createSelectSqlByTermAndName(final String tableName,
+        final Timestamp start, final Timestamp end, final String name, boolean removeDiagnosed)
     {
         String sql = "select * from " + tableName;
         if (start != null && end != null)
@@ -529,7 +625,38 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
                 ((start == null && end == null) ? " where " : " and ")
                     + "MEASUREMENT_ITEM_NAME like '" + name + "%'";
         }
+        if (removeDiagnosed)
+        {
+            sql +=
+                ((start == null && end == null && name == null) ? " where " : " and ")
+                    + "NOT DIAGNOSED";
+        }
         sql += " order by START_TIME desc";
+        return sql;
+    }
+
+    private static String createUpdateDiagnosedSql(final String tableName, final Timestamp start,
+        final Timestamp end, final String name)
+    {
+        String sql = "update " + tableName + " set DIAGNOSED = TRUE";
+        if (start != null && end != null)
+        {
+            sql += " where ? <= START_TIME and END_TIME <= ?";
+        }
+        else if (start != null && end == null)
+        {
+            sql += " where ? <= START_TIME";
+        }
+        else if (start == null && end != null)
+        {
+            sql += " where END_TIME <= ?";
+        }
+        if (name != null)
+        {
+            sql +=
+                ((start == null && end == null) ? " where " : " and ")
+                    + "MEASUREMENT_ITEM_NAME like '" + name + "%'";
+        }
         return sql;
     }
 
@@ -633,6 +760,7 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
         log.threadName = rs.getString(22);
         log.threadClass = rs.getString(23);
         log.threadObjectId = rs.getInt(24);
+        log.measurementItemName = rs.getString(25);
         // CHECKSTYLE:ON
     }
 

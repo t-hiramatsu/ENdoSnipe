@@ -41,8 +41,10 @@ ENS.reportView = wgp.AbstractView
 							pgbuttons : true,
 							pginput : true,
 							height : height,
+							width : 875,
 							viewrecords : true, 
-							rownumbers : true
+							rownumbers : true,
+							shrinkToFit : false
 						});
 				$("#reportTable").filterToolbar({
 					defaultSearch : 'cn'
@@ -178,7 +180,7 @@ ENS.reportView = wgp.AbstractView
 				}
 
 				// 整形して返却
-				return date.getFullYear() + "-" + month + "-" + day + " "
+				return date.getFullYear() + "/" + month + "/" + day + " "
 						+ hour + ":" + minute + ":" + second;
 			}
 		});

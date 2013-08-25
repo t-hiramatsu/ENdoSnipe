@@ -51,18 +51,17 @@ import jp.co.acroquest.endosnipe.javelin.parser.JavelinParser;
  */
 public class WarningUnitUtil
 {
-    private static final ENdoSnipeLogger LOGGER              =
-                                                               ENdoSnipeLogger.getLogger(WarningUnitUtil.class);
+    private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(WarningUnitUtil.class);
 
     // リソースバンドル名
-    private static final String          PERFDOCTOR_MESSAGES = "PerfDoctorMessages";
+    private static final String PERFDOCTOR_MESSAGES = "PerfDoctorMessages";
 
     // リソースバンドルからメッセージを取得する際に
     // ルールIDの後ろにつけるsuffix
-    private static final String          MESSAGE_SUFFIX      = "_message";
+    private static final String MESSAGE_SUFFIX = "_message";
 
     /** 日付のフォーマット */
-    private static final String          DATE_FORMAT         = "yyyy/M/d HH:mm:ss.SSS";
+    private static final String DATE_FORMAT = "yyyy/M/d HH:mm:ss.SSS";
 
     /**
      * インスタンス化を防止するためのプライベートコンストラクタです。<br />
@@ -90,7 +89,7 @@ public class WarningUnitUtil
      * @return 警告。
      */
     public static WarningUnit createWarningUnit(final String unitId, final PerformanceRule rule,
-            final JavelinLogElement javelinLogElement, final boolean isDescend, final Object[] args)
+        final JavelinLogElement javelinLogElement, final boolean isDescend, final Object[] args)
     {
         return createWarningUnit(false, "", unitId, rule, javelinLogElement, isDescend, args);
     }
@@ -116,8 +115,8 @@ public class WarningUnitUtil
      * @return 警告。
      */
     public static WarningUnit createWarningUnit(final boolean isEvent, final String stackTrace,
-            final String unitId, final PerformanceRule rule,
-            final JavelinLogElement javelinLogElement, final boolean isDescend, final Object[] args)
+        final String unitId, final PerformanceRule rule, final JavelinLogElement javelinLogElement,
+        final boolean isDescend, final Object[] args)
     {
         String id = rule.getId();
         String message = getMessage(id + MESSAGE_SUFFIX, args);
@@ -138,9 +137,11 @@ public class WarningUnitUtil
             endTime = calculateEndTime(javelinLogElement, startTime);
         }
 
+        String measurementItemName = javelinLogElement.getMeasurementItemName();
+
         return new WarningUnit(unitId, id, message, className, methodName, level, logFileName,
                                startLogLine, startTime, endTime, isDescend, isEvent, stackTrace,
-                               args);
+                               args, measurementItemName);
     }
 
     /**
@@ -197,12 +198,11 @@ public class WarningUnitUtil
      */
     @SuppressWarnings("deprecation")
     private static long calculateEndTime(final JavelinLogElement javelinLogElement,
-            final long startTime)
+        final long startTime)
     {
         Map<String, String> extraInfoMap;
         extraInfoMap =
-                       JavelinLogUtil.parseDetailInfo(javelinLogElement,
-                                                      JavelinParser.TAG_TYPE_EXTRAINFO);
+            JavelinLogUtil.parseDetailInfo(javelinLogElement, JavelinParser.TAG_TYPE_EXTRAINFO);
 
         // Durationを登録するMapが見つからない場合は開始時刻を返す。
         if (extraInfoMap == null)

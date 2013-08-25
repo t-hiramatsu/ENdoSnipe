@@ -36,6 +36,7 @@ import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
+import jp.co.acroquest.endosnipe.javelin.bean.proc.CpuCoreInfo;
 import jp.co.acroquest.endosnipe.javelin.bean.proc.DiskStats;
 import jp.co.acroquest.endosnipe.javelin.bean.proc.MemInfo;
 import jp.co.acroquest.endosnipe.javelin.bean.proc.ProcInfo;
@@ -57,34 +58,34 @@ public class LinuxProcParser implements ProcParser
 
     /** /proc/self/fdのパス。 */
     private static final String PROC_SELF_FD_PATH = "/proc/self/fd";
-    
+
     /** /proc/sys/fs/file-nrのパス。 */
     private static final String PROC_SYS_FS_FILENR = "/proc/sys/fs/file-nr";
 
     /** /proc/meminfoのパス。 */
-    private static final String PROC_MEMINFO_PATH   = "/proc/meminfo";
+    private static final String PROC_MEMINFO_PATH = "/proc/meminfo";
 
     /** /proc/statファイルのパス */
-    private static final String PROC_STAT_PATH      = "/proc/stat";
+    private static final String PROC_STAT_PATH = "/proc/stat";
 
     /** /proc/vmstatファイルのパス */
-    private static final String PROC_VMSTAT_PATH    = "/proc/vmstat";
+    private static final String PROC_VMSTAT_PATH = "/proc/vmstat";
 
     /** /proc/diskstatsのパス。 */
-    private static final String PROC_DISKSTATS_PATH   = "/proc/diskstats";
+    private static final String PROC_DISKSTATS_PATH = "/proc/diskstats";
 
     // parseStatInfoで用いる定数。
     // 各パラメータが表示される行の先頭の文字列を示す。
     //CPUごとの負荷のキーワードは"cpu"を利用し、その後に０からの連番をつける。(cpu0,cpu1,・・・)
 
     /** statファイル中のcpuのキーワード */
-    private static final String CPU_VALUE_KEY       = "cpu";
+    private static final String CPU_VALUE_KEY = "cpu";
 
     /** vmstatファイル中のページインのキーワード */
-    private static final String PAGEIN_VALUE_KEY    = "pgpgin";
+    private static final String PAGEIN_VALUE_KEY = "pgpgin";
 
     /** vmstatファイル中のページアウトのキーワード */
-    private static final String PAGEOUT_VALUE_KEY   = "pgpgout";
+    private static final String PAGEOUT_VALUE_KEY = "pgpgout";
 
     // parseSelfStatInfoで用いる定数。
     // 各パラメータ値が何番目に表示されているのかを示す。（ただし、番号は0から始まる。）
@@ -92,58 +93,60 @@ public class LinuxProcParser implements ProcParser
     // http://lxr.linux.no/linux+v2.6.18/fs/proc/array.c
 
     /** /proc/self/statでutimeが出力される順番。 */
-    private static final int    UTIME_INDEX         = 13;
+    private static final int UTIME_INDEX = 13;
 
     /** /proc/self/statでstimeが出力される順番。 */
-    private static final int    STIME_INDEX         = 14;
+    private static final int STIME_INDEX = 14;
 
     /** /proc/self/statでvsizeが出力される順番。（"0"より後ろにある。） */
-    private static final int    VSIZE_INDEX         = 22;
+    private static final int VSIZE_INDEX = 22;
 
     /** /proc/self/statでrssが出力される順番。（"0"より後ろにある。） */
-    private static final int    RSS_INDEX           = 23;
+    private static final int RSS_INDEX = 23;
 
     /** /proc/self/statでnumThreadが出力される順番 */
-    private static final int    NUM_THREADS_INDEX   = 19;
+    private static final int NUM_THREADS_INDEX = 19;
 
     /** /proc/self/statでmajfltが出力される順番 */
-    private static final int    MAJFLT_INDEX        = 11;
+    private static final int MAJFLT_INDEX = 11;
 
     /** cpuの単位変換（1/100sec→nsec）に用いる。 */
-    private static final int    JIFFY_TO_NANO       = 10000000;
+    private static final int JIFFY_TO_NANO = 10000000;
 
     /** rssの値変換に用いる。 */
-    private static final int    CONVERT_RSS         = 4096;
+    private static final int CONVERT_RSS = 4096;
 
     /** メモリ,スワップのkilobyteをbyteに単位変換（kilobyte→byte）する。 */
-    private static final int    KILOBYTE_TO_BYTE    = 1024;
+    private static final int KILOBYTE_TO_BYTE = 1024;
+
+    /** コア情報のサイズ */
+    private static final int CORE_INFO_SIZE = 4;
 
     // parseMemInfoで用いる定数。
     // 各パラメータが表示される行の先頭の文字列を示す。
 
     /** /proc/meminfoでMemTotalを示す文字列。 */
-    private static final String MEM_TOTAL           = "MemTotal:";
+    private static final String MEM_TOTAL = "MemTotal:";
 
     /** /proc/meminfoでMemFreeを示す文字列。 */
-    private static final String MEM_FREE            = "MemFree:";
+    private static final String MEM_FREE = "MemFree:";
 
     /** /proc/meminfoでBuffersを示す文字列。 */
-    private static final String BUFFERS             = "Buffers:";
+    private static final String BUFFERS = "Buffers:";
 
     /** /proc/meminfoでCachedを示す文字列。 */
-    private static final String CACHED              = "Cached:";
+    private static final String CACHED = "Cached:";
 
     /** /proc/meminfoでSwapTotalを示す文字列。 */
-    private static final String SWAP_TOTAL          = "SwapTotal:";
+    private static final String SWAP_TOTAL = "SwapTotal:";
 
     /** /proc/meminfoでSwapFreeを示す文字列。 */
-    private static final String SWAP_FREE           = "SwapFree:";
+    private static final String SWAP_FREE = "SwapFree:";
 
-    private static final int    BLOCK_TO_BYTE       = 512;
+    private static final int BLOCK_TO_BYTE = 512;
 
     /**proc/diskstatsで読み出すべき列のトークン数 */
     private static final int DISKSTATS_TOKEN_MAX = 10;
-
 
     /** 取得したリソース値 */
     private ProcInfo procInfo_;
@@ -176,7 +179,7 @@ public class LinuxProcParser implements ProcParser
         procInfo.setDiskStats(diskStats);
         procInfo.setStatInfo(statInfo);
         procInfo.setSelfStatInfo(selfStatInfo);
-        
+
         this.procInfo_ = procInfo;
 
         return procInfo;
@@ -272,12 +275,12 @@ public class LinuxProcParser implements ProcParser
             int length = list.length;
             selfStatInfo.setFdCount(length);
         }
-        
+
         return selfStatInfo;
     }
 
     private long getLongFromParamValueString(final List<String> paramValueStrings, final int index,
-            final int unit)
+        final int unit)
     {
         String paramValueString = paramValueStrings.get(index);
         long paramValue = Long.parseLong(paramValueString) * unit;
@@ -301,7 +304,7 @@ public class LinuxProcParser implements ProcParser
         loadProcStat(statInfo, PROC_STAT_PATH);
         loadProcVmstat(statInfo, PROC_VMSTAT_PATH);
         loadProcSysFs(statInfo, PROC_SYS_FS_FILENR);
-        
+
         return statInfo;
     }
 
@@ -318,11 +321,11 @@ public class LinuxProcParser implements ProcParser
         {
             reader = new BufferedReader(new FileReader(filenrFile));
             String line = reader.readLine();
-            if(line == null)
+            if (line == null)
             {
                 return;
             }
-                
+
             StringTokenizer tokenizer = new StringTokenizer(line);
             if (tokenizer.hasMoreTokens() == false)
             {
@@ -335,10 +338,10 @@ public class LinuxProcParser implements ProcParser
                 return;
             }
             String totalFreeFdCountStr = tokenizer.nextToken();
-            
+
             long totalFdCount = Long.parseLong(totalFdCountStr);
             long totalFreeFdCount = Long.parseLong(totalFreeFdCountStr);
-            
+
             statInfo.setFdCount(totalFdCount - totalFreeFdCount);
         }
         catch (NumberFormatException nfe)
@@ -357,7 +360,7 @@ public class LinuxProcParser implements ProcParser
         }
         finally
         {
-            if(reader != null)
+            if (reader != null)
             {
                 try
                 {
@@ -379,7 +382,7 @@ public class LinuxProcParser implements ProcParser
         {
             return;
         }
-        
+
         try
         {
             br = new BufferedReader(new FileReader(statFile));
@@ -398,7 +401,7 @@ public class LinuxProcParser implements ProcParser
         String str;
         int cpuNo = 0;
         String cpuLoadParamKey = CPU_VALUE_KEY + cpuNo;
-        ArrayList<Long> cpuXXXList = new ArrayList<Long>();
+        List<CpuCoreInfo> coreList = new ArrayList<CpuCoreInfo>();
 
         // 行の1列目のキーワードからそれぞれの値を判別する。
         // cpu: ユーザモードのCPU使用量、システムモードでのCPU使用量、
@@ -410,8 +413,9 @@ public class LinuxProcParser implements ProcParser
             {
                 StringTokenizer st = new StringTokenizer(str);
                 String token = st.nextToken();
+                String key = token;
 
-                if (token.equals(CPU_VALUE_KEY))
+                if (token.equals(CPU_VALUE_KEY) || key.equals(cpuLoadParamKey))
                 {
                     token = st.nextToken();
                     long cpuUser = Long.parseLong(token) * JIFFY_TO_NANO;
@@ -419,37 +423,42 @@ public class LinuxProcParser implements ProcParser
                     token = st.nextToken();
                     long cpuSystem = Long.parseLong(token) * JIFFY_TO_NANO;
                     token = st.nextToken();
-                    sid.setCpuTask(Long.parseLong(token) * JIFFY_TO_NANO);
-                    if(st.hasMoreTokens())
+                    long cpuTask = Long.parseLong(token) * JIFFY_TO_NANO;
+                    long cpuIoWait = 0;
+                    if (st.hasMoreTokens())
                     {
                         token = st.nextToken();
-                        sid.setCpuIoWait(Long.parseLong(token) * JIFFY_TO_NANO);
+                        cpuIoWait = Long.parseLong(token) * JIFFY_TO_NANO;
                     }
                     while (st.hasMoreTokens())
                     {
                         token = st.nextToken();
                         cpuUser += Long.parseLong(token) * JIFFY_TO_NANO;
                     }
-                    sid.setCpuSystem(cpuSystem);
-                    sid.setCpuUser(cpuUser);
-                }
-                else if (token.equals(cpuLoadParamKey))
-                {
-                    token = st.nextToken();
-                    cpuXXXList.add(Long.parseLong(token));
-                    cpuNo = cpuNo + 1;
-                    cpuLoadParamKey = CPU_VALUE_KEY + cpuNo;
+
+                    if (key.equals(cpuLoadParamKey))
+                    {
+                        CpuCoreInfo coreInfo = new CpuCoreInfo();
+                        coreInfo.setCpuUser(cpuUser);
+                        coreInfo.setCpuSystem(cpuSystem);
+                        coreInfo.setCpuTask(cpuTask);
+                        coreInfo.setCpuIoWait(cpuIoWait);
+                        coreList.add(coreInfo);
+                        cpuNo = cpuNo + 1;
+                        cpuLoadParamKey = CPU_VALUE_KEY + cpuNo;
+                    }
+                    else
+                    {
+                        sid.setCpuSystem(cpuSystem);
+                        sid.setCpuUser(cpuUser);
+                        sid.setCpuTask(Long.parseLong(token) * JIFFY_TO_NANO);
+                        sid.setCpuIoWait(Long.parseLong(token) * JIFFY_TO_NANO);
+                    }
+
                 }
             }
 
-            long[] cpuArray = new long[cpuXXXList.size()];
-            Long temp = new Long("0");
-            for (int index = 0; index < cpuXXXList.size(); index++)
-            {
-                temp = (Long)cpuXXXList.get(index);
-                cpuArray[index] = (temp * JIFFY_TO_NANO);
-            }
-            sid.setCpuArray(cpuArray);
+            sid.setCpuArray(coreList);
         }
         catch (NumberFormatException nfex)
         {
@@ -725,7 +734,7 @@ public class LinuxProcParser implements ProcParser
 
         return diskStats;
     }
-    
+
     /** 
      * リソース使用状況のデータ procInfo を返す
      * @return procInfo

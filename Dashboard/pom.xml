@@ -13,7 +13,7 @@
 	<properties>
 		<jdk.version>1.5</jdk.version>
 		<src.encoding>UTF-8</src.encoding>
-		<site.encoding>windows-31j</site.encoding>
+		<site.encoding>UTF-8</site.encoding>
 	</properties>
 
 	<!-- リポジトリ設定 -->

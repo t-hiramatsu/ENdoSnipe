@@ -25,6 +25,7 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.javelin.util;
 
+import java.lang.Thread.State;
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadInfo;
 import java.lang.management.ThreadMXBean;
@@ -72,6 +73,12 @@ public class ThreadUtil
     /** java.lang.management.MonitorInfo#getLockedStackDepth*/
     private static Method getLockedStackDepthMethod__ = null;
 
+    /** com.sun.management.ThreadMXBean#getThreadCpuTime(long[] arg0)*/
+    private static Method getThreadCpuTimeMethod__ = null;
+
+    /** com.sun.management.ThreadMXBean#getThreadUserTime(long[] arg0)*/
+    private static Method getThreadUserTimeMethod__ = null;
+    
     /** 改行文字 */
     private static final String NEW_LINE = System.getProperty("line.separator");
 
@@ -114,6 +121,22 @@ public class ThreadUtil
                 catch (ClassNotFoundException cne)
                 {
                     SystemLogger.getInstance().debug(cne);
+                }
+                
+                Class<?> mbeanClass = threadMBean__.getClass();
+                if (mbeanClass.getName().equals("com.sun.management.ThreadMXBean"))
+                {
+                    try
+                    {
+                        getThreadCpuTimeMethod__ =
+                            mbeanClass.getDeclaredMethod("getThreadCpuTime", long[].class);
+                        getThreadUserTimeMethod__ =
+                            mbeanClass.getDeclaredMethod("getThreadUserTime", long[].class);
+                    }
+                    catch (NoSuchMethodException cne)
+                    {
+                        SystemLogger.getInstance().debug(cne);
+                    }
                 }
             }
             catch (SecurityException se)
@@ -379,6 +402,74 @@ public class ThreadUtil
     }
 
     /**
+     * 指定したスレッドのCPU時間を取得する。
+     * 
+     * @param threadIds スレッド。
+     * @return CPU時間の配列。
+     */
+    public static long[] getThreadCpuTime(long[] threadIds)
+    {
+        long[] cpuTimes = null;
+
+        if (getThreadCpuTimeMethod__ != null)
+        {
+            try
+            {
+                cpuTimes = (long[])getThreadCpuTimeMethod__.invoke(threadMBean__, threadIds);
+            }
+            catch (Exception ex)
+            {
+                SystemLogger.getInstance().warn(ex);
+            }
+        }
+
+        if (cpuTimes == null)
+        {
+            cpuTimes = new long[threadIds.length];
+            for (int num = 0; num < threadIds.length; num++)
+            {
+                long threadId = threadIds[num];
+                cpuTimes[num] = threadMBean__.getThreadCpuTime(threadId);
+            }
+        }
+        return cpuTimes;
+    }
+    
+    /**
+     * 指定したスレッドのUser時間を取得する。
+     * 
+     * @param threadIds スレッド。
+     * @return CPU時間の配列。
+     */
+    public static long[] getThreadUserTime(long[] threadIds)
+    {
+        long[] cpuTimes = null;
+
+        if (getThreadUserTimeMethod__ != null)
+        {
+            try
+            {
+                cpuTimes = (long[])getThreadUserTimeMethod__.invoke(threadMBean__, threadIds);
+            }
+            catch (Exception ex)
+            {
+                SystemLogger.getInstance().warn(ex);
+            }
+        }
+
+        if (cpuTimes == null)
+        {
+            cpuTimes = new long[threadIds.length];
+            for (int num = 0; num < threadIds.length; num++)
+            {
+                long threadId = threadIds[num];
+                cpuTimes[num] = threadMBean__.getThreadUserTime(threadId);
+            }
+        }
+        return cpuTimes;
+    }
+
+    /**
      * Java6 を利用した場合にスレッドダンプを取得します。<br />
      * 
      * @param info {@link ThreadInfo}オブジェクト
@@ -507,6 +598,29 @@ public class ThreadUtil
     private ThreadUtil()
     {
         //
+    }
+
+    /**
+     * RUNNABLE状態のスレッド数を取得する。
+     * @return RUNNABLE状態のスレッド数。
+     */
+    public static int getRunnableThreadCount()
+    {
+        long[] threadIds = getAllThreadIds();
+    
+        ThreadInfo[] threadInfos = getThreadInfo(threadIds, 0);
+        
+        int count = 0;
+        for (ThreadInfo threadInfo : threadInfos)
+        {
+            State threadState = threadInfo.getThreadState();
+            if (State.RUNNABLE.equals(threadState))
+            {
+                count++;
+            }
+        }
+    
+        return count;
     }
 
 }

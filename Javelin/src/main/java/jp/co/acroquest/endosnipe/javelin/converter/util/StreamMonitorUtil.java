@@ -25,6 +25,8 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.javelin.converter.util;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 import jp.co.acroquest.endosnipe.javelin.CallTree;
 import jp.co.acroquest.endosnipe.javelin.CallTreeRecorder;
 import jp.co.acroquest.endosnipe.javelin.SystemStatusManager;
@@ -71,16 +73,7 @@ public class StreamMonitorUtil
         newSize = oldSize + recordAmount;
         tree.setLoggingValue(recordTargetThreadKey, newSize);
 
-        synchronized (SystemStatusManager.class)
-        {
-            oldSize = 0;
-            value = SystemStatusManager.getValue(recordTargetKey);
-            if (value != null)
-            {
-                oldSize = (Long)value;
-            }
-            newSize = oldSize + recordAmount;
-            SystemStatusManager.setValue(recordTargetKey, newSize);
-        }
+        AtomicLong longValue = SystemStatusManager.getValue(recordTargetKey);
+        longValue.addAndGet(recordAmount);
     }
 }

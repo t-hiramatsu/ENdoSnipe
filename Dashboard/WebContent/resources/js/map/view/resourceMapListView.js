@@ -48,6 +48,7 @@ ENS.ResourceMapListView = wgp.TreeView
 			},
 			clickModel : function(treeModel) {
 				if (this.childView) {
+					this.saveOperation();
 					var tmpAppView = new wgp.AppView();
 					tmpAppView.removeView(this.childView);
 					this.childView = null;
@@ -256,6 +257,24 @@ ENS.ResourceMapListView = wgp.TreeView
 				var treeModel = this.collection.get(selectTreeId);
 				if(treeModel){
 					this.clickModel(treeModel);
+				}
+			},
+						/**
+			 * 操作した内容を保存するか確認する。
+			 */
+			saveOperation : function(){
+				var instance = this;
+				var changedFlag = instance.childView.changedFlag;
+				
+				if(changedFlag)
+				{
+					if(window.confirm("Save change?"))
+					{	
+						var selectedId = $("#" + instance.id).find(".jstree-clicked")[0].id;
+						var treeModel = instance.collection.where({id : selectedId})[0];
+						instance.childView.onSave(treeModel);
+					}
+					instance.childView.changedFlag = false;
 				}
 			}
 		});
