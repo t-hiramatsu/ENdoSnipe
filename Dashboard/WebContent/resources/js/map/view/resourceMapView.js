@@ -273,9 +273,24 @@ ENS.ResourceMapView = wgp.MapView.extend({
 			var mapData = $.parseJSON(returnData.data.mapData);
 			var mapWidth = mapData["mapWidth"];
 			var mapHeight = mapData["mapHeight"];
+			var background = mapData["background"];
 			if(mapWidth && mapHeight){
 				this.paper.setSize(mapWidth, mapHeight);
 			}
+
+			if(!background){
+				background = ENS.map.backgroundSetting;
+			}
+			var backgroundModel = new wgp.MapElement(background);
+
+			var backgroundArgument = {
+				paper : this.paper,
+				mapView : this,
+				model : backgroundModel
+			};
+
+			var backgroundView = new ENS.BackgroundElementView(backgroundArgument);
+			this.backgroundView = backgroundView;
 
 			var resources = mapData["resources"];
 			var instance = this;
@@ -482,14 +497,6 @@ ENS.ResourceMapView = wgp.MapView.extend({
 		return clickEventFunction;
 	},
 	createOperateContextMenuTag : function(){
-
-		// メニューの定義がない場合にのみメニュー用のタグを作成する。
-		if($("#" + this.contextMenuId).length == 0){
-
-			var contextMenu0 = new contextMenu("MapSwitching", "Map Switching.");
-			var contextMenuArray = [ contextMenu0];
-			contextMenuCreator.initializeContextMenu(this.contextMenuId, contextMenuArray);
-		}
 	},
 	createEditContextMenuTag : function(){
 
@@ -503,20 +510,6 @@ ENS.ResourceMapView = wgp.MapView.extend({
 		}
 	},
 	relateOperateContextMenu : function(){
-
-		var instance = this;
-		var option = {
-			onShow: function(event, target){
-			},
-			onSelect : function(event, target){
-				if(event.currentTarget.id == "MapSwitching"){
-					$("#" + window.resourceMapListView.$el.attr("id")).dialog("open");
-				}
-			}
-		};
-
-		contextMenuCreator.createContextMenu(this.$el.attr("id"),
-			this.contextMenuId, option);
 	},
 	relateEditContextMenu : function(model){
 		var instance = this;
@@ -558,6 +551,16 @@ ENS.ResourceMapView = wgp.MapView.extend({
 
 		if(changeFlag){
 			this.paper.setSize(mapWidth, mapHeight);
+		}
+
+		if(this.backgroundView){
+			var backWidth = this.backgroundView.getWidth();
+			var backHeight = this.backgroundView.getHeight();
+			this.backgroundView.resize(
+				mapWidth / backWidth,
+				mapHeight / backHeight,
+				raphaelMapConstants.RIGHT_UPPER
+			);
 		}
 
 		// ドラッグ時のイベント

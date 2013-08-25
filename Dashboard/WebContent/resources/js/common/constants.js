@@ -208,6 +208,23 @@ ENS.map.fontSize = 16;
 ENS.map.fontColor = "#F58400";
 ENS.map.MIN_GRAPH_WIDTH = 260;ENS.map.MIN_GRAPH_HEIGHT = 200;ENS.map.extraMapSize = 10;
 ENS.map.moveSpan = 16;
+ENS.map.backgroundSetting = {
+	objectId : "background",
+	objectName : "ENS.BackgroundElementView",
+	pointX : 0,
+	pointY : 0,
+	width : 1000,
+	height : 750,
+	shapeName : raphaelMapConstants.RECTANGLE_ELEMENT_NAME,
+	shapeType : raphaelMapConstants.POLYGON_TYPE_NAME,
+	zIndex : 0,
+	elementAttrList : [{
+		fill : "#FFFFFF",
+		stroke : "#000000",
+		strokeDasharray : "",
+		strokeWidth : 1
+	}]
+};
 ENS.svg = {};
 ENS.svg.attribute = {
 //	arrowEnd : "arrow-end",
@@ -264,7 +281,11 @@ ENS.svg.attribute = {
 	},
 	fontWeight : "font-weight",
 	height : "height",
-	href : "href",
+	href : {
+		name : "url",
+		type : "string",
+		display : "url"
+	},
 	opacity : "opacity",
 	path : "path",
 	r : "r",

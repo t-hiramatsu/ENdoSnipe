@@ -205,6 +205,23 @@
 				autoOpen : false,
 				modal : true
 			});
+
+			var contextMenu0 = new contextMenu("MapSwitching", "Map Switching.");
+			var contextMenuArray = [ contextMenu0];
+			contextMenuCreator.initializeContextMenu("map_operate", contextMenuArray);
+
+			var option = {
+				onShow: function(event, target){
+				},
+				onSelect : function(event, target){
+					if(event.currentTarget.id == "MapSwitching"){
+						$("#" + window.resourceMapListView.$el.attr("id")).dialog("open");
+					}
+				}
+			};
+
+			contextMenuCreator.createContextMenu("contents_area",
+				"map_operate", option);
 		}
 
 		var menuModelArray = [];
@@ -275,6 +292,24 @@
 				})
 			});
 			menuModelArray.push(saveMapMenuModel);
+
+			var backgroundMenuModel = new ENS.mapMenuModel({
+				width : 25,
+				height : 25,
+				styleClass : "map_menu_icon",
+				src : '<%=request.getContextPath()%>/resources/images/map/backgroundIcon.png',
+				alt : 'Please click if you want to set the background map.',
+				onclick : (function(event){
+					if(resourceMapListView.childView){
+						var mapView = resourceMapListView.childView;
+						var backgroundView = mapView.backgroundView;
+						var propertyView = new ENS.MapElementPropertyView(backgroundView);
+					}else{
+						console.log("please select a map");
+					}
+				})
+			});
+			menuModelArray.push(backgroundMenuModel);
 
 			var linkMapMenuModel = new ENS.mapMenuModel({
 				width : 25,
