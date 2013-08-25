@@ -461,6 +461,14 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				this.destroy();
 				$("#" + this.$el.attr("id")).remove();
 			},
+			move : function(pointX, pointY){
+				var divArea = $("#" + this.$el.attr("id"));
+				var offsetParent = divArea.offsetParent().offset();
+				divArea.offset({
+					top : pointY + offsetParent.top,
+					left : pointX + offsetParent.left
+				});
+			},
 			resize : function(changeWidth, changeHeight) {
 
 				this.width = this.width + changeWidth;
@@ -469,6 +477,19 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				this.graphHeight = this.height
 						- ENS.nodeinfo.GRAPH_HEIGHT_MARGIN;
 				this.entity.resize(this.width, this.graphHeight);
+			},
+			setModelPosition : function(property){
+
+				this.model.set({
+					pointX : property.pointX,
+					pointY : property.pointY,
+					width  : property.width,
+					height : property.height
+				},{
+					silent : true
+				});
+				this.move(property.pointX, property.pointY);
+				this.resize(this.width - property.width, this.height - property.height);
 			},
 			relateContextMenu : function(menuId, option) {
 				contextMenuCreator.createContextMenu(this.$el.attr("id"),
@@ -488,6 +509,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				var divArea = $("#" + this.$el.attr("id"));
 				var instance = this;
 				divArea.draggable({
+					grid : [16, 16],
 					scroll : true,
 					drag : function(e, ui) {
 						var position = ui.position;
@@ -538,6 +560,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				var beforeWidth = 0;
 				var beforeHeight = 0;
 				divArea.resizable({
+					grid : [16, 16],
 					start : function(e, ui) {
 						beforeWidth = $(e.target).width();
 						beforeHeight = $(e.target).height();
@@ -931,5 +954,11 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				var updateOption = {};
 				updateOption['dateWindow'] = [ tempStart, tempEnd ];
 				graphObj.updateOptions(updateOption);
+			},
+			isResizable : function(){
+				return true;
+			},
+			setAttributes : function(elementAttributeList){
+				//TODO
 			}
 		});

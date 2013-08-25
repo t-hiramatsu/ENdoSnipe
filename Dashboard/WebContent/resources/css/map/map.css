@@ -13,3 +13,55 @@
 .map_menu_icon-active {
 	background: #2e7db2;
 }
+
+.ui-widget{
+	font-size: 0.8em;
+}
+
+.mapProperty{
+	width: 500px;
+	height: 500px;
+}
+
+.mapPropertyItem{
+	clear:both;
+	height: 30px;
+}
+
+.mapPropertyItem div{
+	width: 200px;
+	height: 20px;
+	float: left;
+	margin-left: 10px;
+}
+
+.mapPropertyItem input{
+	width: 80px;
+	height: 20px;
+}
+
+.mapPropertyItem select{
+	width: 80px;
+	height: 20px;
+}
+.mapPropertyItem > .number{
+	text-align: right;
+}
+
+.mapPropertyFontItem {
+	clear:both;
+	height : 40px;
+}
+
+.mapPropertyFontItem div{
+	width: 200px;
+	height: 30px;
+	float: left;
+	margin-left: 10px;
+}
+
+.mapPropertyFontItem select{
+	width: 200px;
+	height : 30px;
+	font-size : 20px;
+}
