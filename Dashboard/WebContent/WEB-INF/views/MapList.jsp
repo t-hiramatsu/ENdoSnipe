@@ -5,11 +5,11 @@
 <head>
 <%@ include file="../include/ext/javaScriptInclude.jsp"%>
 <%@ include file="../include/MapListInclude.jsp"%>
+<%@ include file="common/Header.jsp"%>
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/resources/css/common.css"
+	href="<%=request.getContextPath()%>/resources/css/common/common.css"
 	type="text/css" media="all">
 </head>
-<%@ include file="common/Header.jsp"%>
 <title>ENdoSnipe Map</title>
 <body id="main" oncontextmenu="return false;" onload="self.focus();">
 	<div id="persArea"></div>
