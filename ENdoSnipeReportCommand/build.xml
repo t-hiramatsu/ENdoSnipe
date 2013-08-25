@@ -188,5 +188,8 @@
         <delete dir="${classes.test}" />
         <delete dir="${dist}" />
         <delete dir="${report}" />
+        <delete>
+            <fileset dir="${lib-dependency.dir}" includes="endosnipe-*.jar"/>
+        </delete>
     </target>
 </project>

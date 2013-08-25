@@ -147,5 +147,8 @@
         <delete dir="${dist}" />
         <delete dir="${report}" />
         <delete dir="${plugin-temp}" />
+        <delete>
+            <fileset dir="${lib-dependency.dir}" includes="endosnipe-*.jar"/>
+        </delete>
     </target>
 </project>

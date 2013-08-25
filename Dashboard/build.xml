@@ -59,6 +59,10 @@
     <!-- 以前のビルドにより構築したクラスファイルの削除、
          コピーしたプロパティファイルの削除 -->
     <target name="clean" description="以前にビルドされたファイルを削除する">
+      <delete>
+        <fileset dir="${weblib.path}" includes="endosnipe-*.jar"/>
+        <fileset dir="${weblib.path}" includes="ENdoSnipe*.jar"/>
+      </delete>
       <delete dir="${classes.path}"/>
       <delete dir="${webclass.path}"/>
     </target>

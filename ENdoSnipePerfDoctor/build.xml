@@ -47,6 +47,9 @@
         <delete dir="${classes.test.dir}" />
         <delete dir="${dist.dir}" />
         <delete dir="${temp.dir}" />
+        <delete>
+            <fileset dir="${lib.dir}" includes="endosnipe-*.jar"/>
+        </delete>
     </target>
 
     <!-- Normal build of application -->
