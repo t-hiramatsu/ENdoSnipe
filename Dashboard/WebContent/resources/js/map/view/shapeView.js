@@ -37,6 +37,9 @@ ENS.ShapeElementView = wgp.MapElementView.extend({
 	getElement : function(index){
 		return this.elementList_[index];
 	},
+	getAttributes : function(){
+		return _.extend({}, this.model.get("elementAttrList"));
+	},
 	setAttributes : function(elementAttributeList){
 
 		var instance = this;
@@ -46,7 +49,7 @@ ENS.ShapeElementView = wgp.MapElementView.extend({
 			var element = instance.getElement(index);
 
 			_.each(attributes, function(value, key){
-				element.object.attr(ENS.svg.attribute[key], value);
+				element.object.attr(ENS.svg.attribute[key].name, value);
 			});
 
 			elementAttrList_[index] = attributes;
@@ -75,10 +78,14 @@ ENS.ShapeElementView = wgp.MapElementView.extend({
 		this.updateModelPosition();
 	},
 	resize : function(ratioX, ratioY, ellipsePosition){
-		_.each(this.elementList_, function(element, index){
-			element.resize(ratioX, ratioY, ellipsePosition);
-		});
-		this.updateModelPosition();
+
+		// リサイズ可能なビューのみリサイズ対象とする。
+		if(this.isResizable()){
+			_.each(this.elementList_, function(element, index){
+				element.resize(ratioX, ratioY, ellipsePosition);
+			});
+			this.updateModelPosition();
+		}
 	},
 	remove : function(){
 		_.each(this.elementList_, function(element, index){
@@ -94,6 +101,15 @@ ENS.ShapeElementView = wgp.MapElementView.extend({
 	getHeight : function(){
 		return this.elementList_[0].height;
 	},
+	setModelPosition : function(property){
+		var element = this.elementList_[0];
+		var x = property.pointX - element.x;
+		var y = property.pointY - element.y;
+		var ratioX = property.width / element.width;
+		var ratioY = property.height / element.height;
+		this.moveElement(x, y);
+		this.resize(ratioX , ratioY ,raphaelMapConstants.RIGHT_UNDER);
+	},
 	updateModelPosition : function(){
 		var element = this.elementList_[0];
 		this.model.set({
@@ -104,5 +120,15 @@ ENS.ShapeElementView = wgp.MapElementView.extend({
 		},{
 			silent : true
 		});
+
+		// マップ領域の拡張
+		this.mapView.enlargeMapArea(
+			element.x,
+			element.y,
+			element.width,
+			element.height);
+	},
+	isResizable : function(){
+		return true;
 	}
 });

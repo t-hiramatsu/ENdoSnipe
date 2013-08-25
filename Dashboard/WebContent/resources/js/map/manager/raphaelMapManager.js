@@ -445,10 +445,16 @@ raphaelMapManager.prototype.startMoveElement = function(event, options) {
 raphaelMapManager.prototype.moveElement = function(event, options) {
 
 	// ドラッグされた大きさを計測する。
-	// ドラッグ時のX座標
-	var moveX = options.deltaX - this.movedPointX;
-	// ドラッグ時のy座標
-	var moveY = options.deltaY - this.movedPointY;
+	var moveX = 0;
+	if(Math.abs(options.deltaX - this.movedPointX) > ENS.map.moveSpan){
+		moveX = options.deltaX - this.movedPointX;
+		this.movedPointX = options.deltaX;
+	}
+	var moveY = 0;
+	if(Math.abs(options.deltaY - this.movedPointY) > ENS.map.moveSpan){
+		moveY = options.deltaY - this.movedPointY;
+		this.movedPointY = options.deltaY;
+	}
 
 	// 複数選択されている場合は、全てのオブジェクトを合成する
 	// 子要素があればすべて動かす。
@@ -459,11 +465,6 @@ raphaelMapManager.prototype.moveElement = function(event, options) {
 	var moveCommand = new raphaelMapMoveCommand(this.selectViewList_,
 			arguments);
 	moveCommand.execute();
-
-	// ドラッグ時のx座標
-	this.movedPointX = options.deltaX;
-	// ドラッグ時のy座標
-	this.movedPointY = options.deltaY;
 };
 
 raphaelMapManager.prototype.endMoveElement = function(event, options) {
@@ -538,9 +539,20 @@ raphaelMapManager.prototype.startResizeElement = function(event, options) {
 raphaelMapManager.prototype.resizeElement = function(target, options) {
 
 	// 移動量を算出し、円を移動する。
-	var moveX = options.deltaX - this.movedPointX;
-	// ドラッグ時のy座標
-	var moveY = options.deltaY - this.movedPointY;
+	var moveX = 0;
+	var moveY = 0;
+
+	if(Math.abs(options.deltaX - this.movedPointX) >= ENS.map.resizeSpan){
+		moveX = options.deltaX - this.movedPointX;
+		this.movedPointX = options.deltaX;
+		this.sizeX = this.sizeX + moveX;
+	}
+
+	if(Math.abs(options.deltaY - this.movedPointY) >= ENS.map.resizeSpan){
+		moveY = options.deltaY - this.movedPointY;
+		this.movedPointY = options.deltaY;
+		this.sizeY = this.sizeY + moveY;
+	}
 
 	var ratioX = (this.sizeX + moveX) / this.sizeX;
 	var ratioY = (this.sizeY + moveY) / this.sizeY;
@@ -554,11 +566,6 @@ raphaelMapManager.prototype.resizeElement = function(target, options) {
 	_.each(this.selectViewList_, function(selectView, index) {
 		selectView.resize(ratioX, ratioY, instance.ellipsePosition);
 	});
-
-	this.movedPointX = options.deltaX;
-	this.movedPointY = options.deltaY;
-	this.sizeX = this.sizeX + moveX;
-	this.sizeY = this.sizeY + moveY;
 };
 
 raphaelMapManager.prototype.endResizeElement = function(event, options) {

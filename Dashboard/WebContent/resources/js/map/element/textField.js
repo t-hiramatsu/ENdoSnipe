@@ -52,7 +52,6 @@ function textField(elementProperty, paper){
 
 	this.width = elementProperty.width;
 	this.height = elementProperty.height;
-	this.setTextValue(elementProperty.text);
 	return this;
 }
 textField.prototype = new mapElement();
@@ -169,47 +168,6 @@ textField.prototype.adjustPositionRight = function(fontSize) {
 };
 
 /**
- * テキストオブジェクトにテキストを設定する。
- *
- * @param {String}
- *            text テキストオブジェクトに設定する文字列
- *
- * @private
- */
-textField.prototype.setTextValue = function(text) {
-	this.text = text;
-	return;
-	var lineFeedCode = wgp.common.getLineFeedCode();
-
-	var arrayText = String.split(text, lineFeedCode);
-	var replaceText = [];
-	var tempText;
-	$.each(arrayText, function(index, textValue) {
-		if (textValue === "" || textValue === "&nbsp;") {
-			if (tempText != "&nbsp;") {
-				replaceText.push("&nbsp;" + lineFeedCode);
-			} else {
-				replaceText.push(lineFeedCode);
-			}
-			tempText = "";
-			return true;
-		}
-		var arraySpace = textValue.replace(/ /g, "");
-		if (arraySpace === "") {
-			tempText = "";
-		} else {
-			tempText = textValue;
-		}
-		replaceText.push(textValue + lineFeedCode);
-	});
-
-	var resultText = replaceText.join("");
-	resultText = resultText.replace(/ /g, "&nbsp;");
-
-	this.object.attr("text", resultText);
-};
-
-/**
  * テキストオブジェクトにフレームを設定する。
  */
 textField.prototype.setFrame = function() {
@@ -252,4 +210,18 @@ textField.prototype.setFrame = function() {
 			frameObject.object.show();
 		});
 	}
+};
+
+/**
+ * テキストオブジェクトにフレームを再設定する。
+ */
+textField.prototype.resetFrame = function(){
+	if (!this.frame) {
+		return;
+	}
+	$.each(this.frame, function(index, frameObject) {
+		frameObject.object.remove();
+	});
+	delete this.frame;
+	this.setFrame();
 };
