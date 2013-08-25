@@ -39,10 +39,13 @@
 
 <%-- tree --%>
 <script type="text/javascript"
+	src="<%=request.getContextPath()%>/resources/js/tree/ensTreeManager.js">
+</script>
+
+<script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/tree/ensTreeView.js">
 </script>
 
-<%-- tree --%>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/tree/resourceTreeView.js">
 </script>

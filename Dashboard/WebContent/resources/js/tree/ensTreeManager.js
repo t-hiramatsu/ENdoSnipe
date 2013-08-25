@@ -1,20 +1,20 @@
 /*******************************************************************************
  * ENdoSnipe 5.0 - (https://github.com/endosnipe)
- * 
+ *
  * The MIT License (MIT)
- * 
+ *
  * Copyright (c) 2012 Acroquest Technology Co.,Ltd.
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -35,10 +35,10 @@ ENS.treeManager = wgp.AbstractView
 					themeUrl : wgp.common.getContextPath()
 							+ "/resources/css/jsTree/style.css"
 				});
-				
+
 				// ツリー連携を追加。
-				this.ensTreeView.setClickEvent("contents_area");
-				this.ensTreeView.addContextMenu(ENS.tree.contextOption);
+				this.setTreeCooperation();
+
 				appView.addView(this.ensTreeView, wgp.constants.TREE.DATA_ID);
 				var websocketClient = new wgp.WebSocketClient(appView,
 						"notifyEvent");
@@ -65,7 +65,7 @@ ENS.treeManager = wgp.AbstractView
 				$("#tree_area").jstree("mousedown").bind(
 						"mousedown.jstree", function(event) {
 							instance.finishOpenOrClose = false;
-							
+
 							/** 右クリック押下時には処理を行わない。 */
 							if (event.which == ENS.tree.CLICK_RIGHT) {
 								return;
@@ -76,25 +76,29 @@ ENS.treeManager = wgp.AbstractView
 							if ($(parentTag).hasClass("jstree-leaf")) {
 								return true;
 							}
-							
+
 							var isOpen;
 							if ($(parentTag).hasClass("jstree-open")) {
 								isOpen = true;
 							} else {
 								isOpen = false;
 							}
-							
+
 							ENS.tree.addedOtherNodes = [];
-							
+
 							setTimeout(function() {
 								instance.handleExpandCollapseTag(clickTarget, isOpen);
 							}, 0);
 							return true;
 						});
-				
+
 				$("#tree_area").bind("open_node.jstree close_node.jstree", function (e) {
 					instance.finishOpenOrClose = true;
 				});
+			},
+			setTreeCooperation : function(){
+				this.ensTreeView.setClickEvent("contents_area");
+				this.ensTreeView.addContextMenu(ENS.tree.contextOption);
 			},
 			render : function() {
 				console.log('call render');
@@ -163,7 +167,7 @@ ENS.treeManager = wgp.AbstractView
 			},
 			/**
 			 * 直下の子要素を取得する。
-			 * 
+			 *
 			 * @param parentNodeId
 			 *            親ノードのID
 			 */
@@ -186,8 +190,8 @@ ENS.treeManager = wgp.AbstractView
 			},
 			/**
 			 * 直下の子要素取得のコールバック関数。<br>
-			 * 
-			 * 
+			 *
+			 *
 			 * @param childNodes
 			 *            追加する子ノードの配列
 			 */
@@ -205,7 +209,7 @@ ENS.treeManager = wgp.AbstractView
 			},
 			/**
 			 * 直下の子要素を削除する。
-			 * 
+			 *
 			 * @param parentNodeId
 			 *            親ノードのID
 			 */
@@ -267,7 +271,7 @@ ENS.treeManager = wgp.AbstractView
 								parentLiTag.attr("class", "jstree-open");
 							}
 						}
-						
+
 					} else {
 						if (this.finishOpenOrClose === true) {
 							parentLiTag.attr("class", "jstree-closed");

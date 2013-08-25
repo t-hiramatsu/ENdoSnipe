@@ -6,12 +6,14 @@ ENS.ResourceMapView = wgp.MapView.extend({
 		var width = $("#" + this.$el.attr("id")).width();
 		var height = $("#" + this.$el.attr("id")).height();
 		_.extend(argument, {width : width, height : height});
-		
+
 		var changedFlag = false;
 		this.changedFlag = changedFlag;
-		
+
 		var ajaxHandler = new wgp.AjaxHandler();
 		this.ajaxHandler = ajaxHandler;
+
+		this.mapMode = $("#mapMode").val();
 
 		var contextMenuId = this.cid + "_contextMenu";
 		this.contextMenuId = contextMenuId;
@@ -30,12 +32,11 @@ ENS.ResourceMapView = wgp.MapView.extend({
 		// 本クラスのrenderメソッド実行
 		this.renderExtend();
 
-		// モードごとの各種イベントを設定する。
-		var mapMode = $("#mapMode").val();
-		if(mapMode == ENS.map.mode.EDIT){
+		if(this.mapMode == ENS.map.mode.EDIT){
 			this.setEditFunction();
 
 		}else{
+			this.relateOperateContextMenu();
 			this.setOperateFunction();
 		}
 
@@ -44,8 +45,11 @@ ENS.ResourceMapView = wgp.MapView.extend({
 	},
 	renderExtend : function(){
 
-		// コンテキストメニュー用のタグを生成
-		this.createContextMenuTag();
+		if(this.mapMode == ENS.map.mode.EDIT){
+			this.createEditContextMenuTag();
+		}else {
+			this.createOperateContextMenuTag();
+		}
 
 		// マップ情報を読み込む。
 		this.onLoad();
@@ -94,8 +98,7 @@ ENS.ResourceMapView = wgp.MapView.extend({
 		}
 
 		// 編集モードの場合に各種イベントを設定する。
-		var mapMode = $("#mapMode").val();
-		if(mapMode == ENS.map.mode.EDIT){
+		if(this.mapMode == ENS.map.mode.EDIT){
 
 			// ビューの編集イベントを設定する。
 			if(newView && newView.setEditFunction){
@@ -103,12 +106,12 @@ ENS.ResourceMapView = wgp.MapView.extend({
 			}
 
 			// コンテキストメニューとの関連付け
-			this.relateContextMenu(model);
+			this.relateEditContextMenu(model);
 
 		}else{
 
 			// ビューの運用イベントを設定する。
-			if(newView && newView.setOperationFunction){
+			if(newView && newView.setOperateFunction){
 				newView.setOperateFunction();
 			}
 		}
@@ -243,7 +246,7 @@ ENS.ResourceMapView = wgp.MapView.extend({
 		var telegram = this.ajaxHandler.requestServerSync(setting);
 		var returnData = $.parseJSON(telegram);
 		this.changedFlag = false;
-		
+
 		var result = returnData.result;
 		if(result == "fail"){
 			alert(returnData.message);
@@ -458,7 +461,7 @@ ENS.ResourceMapView = wgp.MapView.extend({
 						});
 						instance.collection.add(resourceModel);
 						$(instance.paper.canvas).unbind("click", clickEventFunction);
-						
+
 						// リンク追加イベント
 						window.resourceMapListView.childView.changedFlag = true;
 					},
@@ -478,7 +481,17 @@ ENS.ResourceMapView = wgp.MapView.extend({
 
 		return clickEventFunction;
 	},
-	createContextMenuTag : function(){
+	createOperateContextMenuTag : function(){
+
+		// メニューの定義がない場合にのみメニュー用のタグを作成する。
+		if($("#" + this.contextMenuId).length == 0){
+
+			var contextMenu0 = new contextMenu("MapSwitching", "Map Switching.");
+			var contextMenuArray = [ contextMenu0];
+			contextMenuCreator.initializeContextMenu(this.contextMenuId, contextMenuArray);
+		}
+	},
+	createEditContextMenuTag : function(){
 
 		// メニューの定義がない場合にのみメニュー用のタグを作成する。
 		if($("#" + this.contextMenuId).length == 0){
@@ -489,7 +502,23 @@ ENS.ResourceMapView = wgp.MapView.extend({
 			contextMenuCreator.initializeContextMenu(this.contextMenuId, contextMenuArray);
 		}
 	},
-	relateContextMenu : function(model){
+	relateOperateContextMenu : function(){
+
+		var instance = this;
+		var option = {
+			onShow: function(event, target){
+			},
+			onSelect : function(event, target){
+				if(event.currentTarget.id == "MapSwitching"){
+					$("#" + window.resourceMapListView.$el.attr("id")).dialog("open");
+				}
+			}
+		};
+
+		contextMenuCreator.createContextMenu(this.$el.attr("id"),
+			this.contextMenuId, option);
+	},
+	relateEditContextMenu : function(model){
 		var instance = this;
 		var option = {
 			onShow: function(event, target){
@@ -530,7 +559,7 @@ ENS.ResourceMapView = wgp.MapView.extend({
 		if(changeFlag){
 			this.paper.setSize(mapWidth, mapHeight);
 		}
-		
+
 		// ドラッグ時のイベント
 		this.changedFlag = true;
 	},
