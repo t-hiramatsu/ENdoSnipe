@@ -29,6 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import jp.co.acroquest.endosnipe.web.dashboard.dto.ResponseDto;
@@ -65,11 +66,17 @@ public class MapController
     @Autowired
     protected ResourceSender resourceSender;
 
+    @Autowired
+    protected ServletContext servletContext;
+
     /** マップを表すID */
     private static final String MAP_DATA_ID = "map";
 
     /** 運用モード */
     private static final String OPERATE_MODE = "OPERATE";
+
+    /** 背景画像パス */
+    private static final String BACKGROUND_IMAGE_PATH = "resources/images/user";
 
     /** マップ機能のサービスクラス。 */
     @Autowired
@@ -187,4 +194,16 @@ public class MapController
         return this.mapService_.removeMapById(Long.valueOf(mapId));
     }
 
+    /**
+     * Get Background Image List.
+     * @return 背景画像取得結果
+     */
+    @RequestMapping(value = "/getBackgroundImage", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseDto getBackgroundImageList()
+    {
+        String path = "resources/images/user";
+        String directoryPath = servletContext.getRealPath(BACKGROUND_IMAGE_PATH);
+        return this.mapService_.getImageList(directoryPath, BACKGROUND_IMAGE_PATH);
+    }
 }

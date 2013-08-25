@@ -81,6 +81,10 @@
 	src="<%=request.getContextPath()%>/resources/js/map/view/textboxView.js">
 </script>
 
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/resources/js/map/view/backgroundView.js">
+</script>
+
 <%-- nodeInfo graph --%>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/map/view/nodeInfoParentView.js">
@@ -118,3 +122,4 @@
 
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/map/dialog/mapElementPropertyView.js">
+</script>
