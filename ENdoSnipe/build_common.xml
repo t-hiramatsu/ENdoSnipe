@@ -18,6 +18,7 @@
     <property name="endosnipe-datacollector.dir" value="../ENdoSnipeDataCollector" />
     <property name="endosnipe-reporter.dir" value="../ENdoSnipeReporter" />
     <property name="endosnipe-report-command.dir" value="../ENdoSnipeReportCommand" />
+    <property name="endosnipe-perfdoctor.dir" value="../ENdoSnipePerfDoctor" />
 
     <!-- 各プロジェクトの jar ファイルパス -->
     <property name="endosnipe-arrowvision.jar" value="${endosnipe-arrowvision.dir}/dist/arrowvision.jar" />
@@ -30,6 +31,7 @@
     <property name="endosnipe-datacollector.jar" value="${endosnipe-datacollector.dir}/dist/endosnipe-datacollector-${version}.jar" />
     <property name="endosnipe-reporter.jar" value="${endosnipe-reporter.dir}/dist/endosnipe-reporter.jar" />
     <property name="endosnipe-report-command.jar" value="${endosnipe-report-command.dir}/dist/endosnipe-report-command.jar" />
+    <property name="endosnipe-perfdoctor.jar" value="${endosnipe-perfdoctor.dir}/dist/ENdoSnipePerfDoctor.jar" />
 
     <!-- 依存ライブラリの存在チェック -->
     <available file="${endosnipe-common.jar}" type="file" property="endosnipe-common.present" />
@@ -39,6 +41,7 @@
     <available file="${endosnipe-datacollector.jar}" type="file" property="endosnipe-datacollector.present" />
     <available file="${endosnipe-reporter.jar}" type="file" property="endosnipe-reporter.present" />
     <available file="${endosnipe-report-command.jar}" type="file" property="endosnipe-report-command.present" />
+    <available file="${endosnipe-perfdoctor.jar}" type="file" property="endosnipe-perfdoctor.present" />
 
     <!-- EndoSnipe-Common の再コンパイルが必要かチェック -->
     <target name="check-endosnipe-common-needs-compile" if="endosnipe-common.present">
@@ -89,6 +92,13 @@
         </uptodate>
     </target>
 
+    <!-- EndoSnipePerformance Doctord の再コンパイルが必要かチェック -->
+    <target name="check-endosnipe-perfdoctor-needs-compile" if="endosnipe-perfdoctor.present">
+        <uptodate property="endosnipe-perfdoctor.compiled" targetfile="${endosnipe-perfdoctor.jar}">
+            <srcfiles dir="${endosnipe-perfdoctor.dir}/src" includes="**/*.*" />
+        </uptodate>
+    </target>
+
     <!-- 依存ライブラリのコンパイル -->
     <target name="compileENdoSnipeCommon" unless="endosnipe-common.compiled" depends="check-endosnipe-common-needs-compile">
         <echo>ENdoSnipeCommonのコンパイルを行います...</echo>
@@ -123,6 +133,11 @@
     <target name="compileENdoSnipeReportCommand" unless="endosnipe-report-command.compiled" depends="check-endosnipe-report-command-needs-compile">
         <echo>ENdoSnipeDataCollectorのコンパイルを行います...</echo>
         <ant dir="${endosnipe-report-command.dir}" antfile="${endosnipe-report-command.dir}/build.xml" inheritall="false" />
+    </target>
+
+    <target name="compileENdoSnipePerfDoctor" unless="endosnipe-perfdoctor.compiled" depends="check-endosnipe-perfdoctor-needs-compile">
+        <echo>ENdoSnipeDataCollectorのコンパイルを行います...</echo>
+        <ant dir="${endosnipe-perfdoctor.dir}" antfile="${endosnipe-perfdoctor.dir}/build.xml" inheritall="false" />
     </target>
 
     <!-- log4j.properties のトレースレベルに INFO 以下が含まれていないか確認 -->

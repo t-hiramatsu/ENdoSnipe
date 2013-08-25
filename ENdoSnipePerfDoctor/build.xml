@@ -51,6 +51,7 @@
 
     <!-- Normal build of application -->
     <target name="compile" depends="prepare, compileENdoSnipeCommon, compileENdoSnipeDataAccessor">
+        <copy file="${endosnipe-common.jar}" todir="${lib.dir}" failonerror="yes" />
         <!-- コンパイル実行 -->
         <javac srcdir="${src.dir}" destdir="${classes.dir}" fork="false" debug="true">
             <classpath refid="compile.classpath" />
