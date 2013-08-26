@@ -39,10 +39,13 @@
 
 <%-- tree --%>
 <script type="text/javascript"
+	src="<%=request.getContextPath()%>/resources/js/tree/ensTreeManager.js">
+</script>
+
+<script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/tree/ensTreeView.js">
 </script>
 
-<%-- tree --%>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/tree/resourceTreeView.js">
 </script>
@@ -76,6 +79,10 @@
 </script>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/map/view/textboxView.js">
+</script>
+
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/resources/js/map/view/backgroundView.js">
 </script>
 
 <%-- nodeInfo graph --%>
@@ -115,3 +122,4 @@
 
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/map/dialog/mapElementPropertyView.js">
+</script>
