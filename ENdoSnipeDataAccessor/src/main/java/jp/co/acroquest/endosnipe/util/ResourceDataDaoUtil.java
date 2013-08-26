@@ -46,6 +46,7 @@ import jp.co.acroquest.endosnipe.data.LogMessageCodes;
 import jp.co.acroquest.endosnipe.data.dao.JavelinMeasurementItemDao;
 import jp.co.acroquest.endosnipe.data.dao.MeasurementValueDao;
 import jp.co.acroquest.endosnipe.data.db.DBManager;
+import jp.co.acroquest.endosnipe.data.dto.MeasurementValueDto;
 import jp.co.acroquest.endosnipe.data.entity.JavelinMeasurementItem;
 import jp.co.acroquest.endosnipe.data.entity.MeasurementValue;
 
@@ -261,13 +262,18 @@ public class ResourceDataDaoUtil
         throws SQLException
     {
         InsertResult result = new InsertResult();
+        List<Integer> deleteItemIdList = new ArrayList<Integer>();
+
+        List<MeasurementValueDto> measurementItemList = new ArrayList<MeasurementValueDto>();
         MeasurementValue baseMeasurementValue = new MeasurementValue();
         baseMeasurementValue.measurementTime = new Timestamp(resourceData.measurementTime);
 
         if (DBManager.isDefaultDb() == false)
         {
             // H2以外のデータベースの場合は、パーティショニング処理を行う
-            partitioning(database, rotatePeriod, rotatePeriodUnit, batchUnit, baseMeasurementValue);
+            deleteItemIdList =
+                partitioning(database, rotatePeriod, rotatePeriodUnit, batchUnit,
+                             baseMeasurementValue);
         }
         Map<String, Integer> itemMap = getItemIdMap(database, itemIdCacheSize);
 
@@ -275,6 +281,7 @@ public class ResourceDataDaoUtil
 
         Map<String, Timestamp> updateTargetMap = new HashMap<String, Timestamp>();
         Map<Integer, Timestamp> updatedMap = getUpdatedMap(database);
+
         List<MeasurementValue> updateValueList = new ArrayList<MeasurementValue>();
         for (MeasurementData measurementData : resourceData.getMeasurementMap().values())
         {
@@ -321,6 +328,12 @@ public class ResourceDataDaoUtil
                     measurementValue.measurementItemId =
                         insertJavelinMeasurementItem(database, measurementItemName,
                                                      measurementValue.measurementTime);
+                    MeasurementValueDto measuredData = new MeasurementValueDto();
+
+                    measuredData.measurementItemName = measurementItemName;
+                    measuredData.measurementItemId = measurementValue.measurementItemId;
+
+                    measurementItemList.add(measuredData);
                 }
 
                 int overflowCount =
@@ -351,6 +364,7 @@ public class ResourceDataDaoUtil
                 {
                     updateTargetMap.put(measurementItemName, measurementValue.measurementTime);
                 }
+
                 prevTableName = tableName;
             }
         }
@@ -366,6 +380,15 @@ public class ResourceDataDaoUtil
         if (updateTargetMap.size() > 0)
         {
             JavelinMeasurementItemDao.updateLastInserted(database, updateTargetMap);
+        }
+        if (deleteItemIdList.size() > 0)
+        {
+            result.setDeleteItemIdList(deleteItemIdList);
+        }
+
+        if (measurementItemList.size() > 0)
+        {
+            result.setMeasurementItemList(measurementItemList);
         }
         return result;
     }
@@ -383,10 +406,12 @@ public class ResourceDataDaoUtil
         return itemMap;
     }
 
-    private static void partitioning(final String database, final int rotatePeriod,
+    private static List<Integer> partitioning(final String database, final int rotatePeriod,
         final int rotatePeriodUnit, final int batchUnit, MeasurementValue baseMeasurementValue)
         throws SQLException
     {
+        List<Integer> deleteItemIdList = new ArrayList<Integer>();
+
         Integer tableIndex = getTableIndexToInsert(baseMeasurementValue.measurementTime);
         Integer prevTableIndex = prevTableIndexMap__.get(database);
         if (tableIndex.equals(prevTableIndex) == false)
@@ -403,9 +428,12 @@ public class ResourceDataDaoUtil
                             MEASUREMENT_ROTATE_CALLBACK);
                 prevTableIndexMap__.put(database, tableIndex);
             }
-            deleteOldMeasurementItems(database, baseMeasurementValue.measurementTime, rotatePeriod,
-                                      rotatePeriodUnit, batchUnit);
+            deleteItemIdList =
+                deleteOldMeasurementItems(database, baseMeasurementValue.measurementTime,
+                                          rotatePeriod, rotatePeriodUnit, batchUnit);
         }
+
+        return deleteItemIdList;
     }
 
     private static LinkedHashMap<String, Integer> loadMeasurementItemIdMap(String database,
@@ -591,8 +619,9 @@ public class ResourceDataDaoUtil
      * @param rotatePeriod ローテート期間
      * @param rotatePeriodUnit ローテート期間の単位（Calendar.DATE or Calendar.MONTH）
      */
-    private static void deleteOldMeasurementItems(final String database, final Timestamp date,
-        final int rotatePeriod, final int rotatePeriodUnit, final int insertUnit)
+    private static List<Integer> deleteOldMeasurementItems(final String database,
+        final Timestamp date, final int rotatePeriod, final int rotatePeriodUnit,
+        final int insertUnit)
     {
         List<Integer> deleteIdList = new ArrayList<Integer>();
 
@@ -615,7 +644,7 @@ public class ResourceDataDaoUtil
                     {
                         JavelinMeasurementItemDao.deleteByMeasurementItemId(database, deleteIdList);
                         removedItems += deleteIdList.size();
-                        deleteIdList.clear();
+                        //deleteIdList.clear();
                     }
                     catch (SQLException ex)
                     {
@@ -635,7 +664,7 @@ public class ResourceDataDaoUtil
             {
                 JavelinMeasurementItemDao.deleteByMeasurementItemId(database, deleteIdList);
                 removedItems += deleteIdList.size();
-                deleteIdList.clear();
+                // deleteIdList.clear();
             }
             catch (SQLException ex)
             {
@@ -653,6 +682,8 @@ public class ResourceDataDaoUtil
             LOGGER.log(LogMessageCodes.NO_NEEDED_SERIES_REMOVED, database,
                        Integer.valueOf(removedItems));
         }
+
+        return deleteIdList;
     }
 
     /**
