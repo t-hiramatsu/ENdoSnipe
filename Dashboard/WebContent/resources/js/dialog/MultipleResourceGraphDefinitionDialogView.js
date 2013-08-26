@@ -27,19 +27,7 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView.extend({
 			items : "[alt]",
 			tooltipClass : "tooltip"
 		});*/
-			   $("select option").attr( "title", "" );
-			    $("select option").each(function(i){
-			      this.title = this.text;
-			    });
-			
-
-			  // Attach a tooltip to select elements
-			$("select").tooltip({
-				content : function() {
-					return $(this).attr(this.title);
-				},
-				items : "[alt]",
-				tooltipClass : "tooltip"});
+			 
 			
 			
 		$("#" + option.dialogId).dialog({
@@ -263,7 +251,19 @@ callbackGetAllMeasurement_ : function(measurementDefinitionList) {
 				
 			/*	}
 			count++;*/
-			
+				  $("select option").attr( "title", "" );
+				    $("select option").each(function(i){
+				      this.title = this.text;
+				    });
+				
+
+				  // Attach a tooltip to select elements
+				$("select").tooltip({
+					content : function() {
+						return $(this).attr(this.title);
+					},
+					items : "[alt]",
+					tooltipClass : "tooltip"});
 			
 		
 });
