@@ -11,6 +11,8 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView.extend({
 		this.signalType = option.signalType;
 		var treeId = option.treeId;
 		this.measurementDefinitionList = [];
+		this.noOfPage = 0;
+		this.graphPerPage = 10;
 		var okName = "okFunctionName";
 		var okObj = "okObject";
 		var cName = "cancelFunctionName";
@@ -20,13 +22,10 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView.extend({
 		this.getAllMeasurement_();
 		
 		
-		/*$(".map_menu_icon").tooltip({
-			content : function() {
-				return $(this).attr("alt");
-			},
-			items : "[alt]",
-			tooltipClass : "tooltip"
-		});*/
+		/*
+		 * $(".map_menu_icon").tooltip({ content : function() { return
+		 * $(this).attr("alt"); }, items : "[alt]", tooltipClass : "tooltip" });
+		 */
 			 
 			
 			
@@ -112,26 +111,19 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView.extend({
 			
 					});
 		
-		/*	$('#link2').click(function() {
-				
-				var count=2*10;
-				var end;
-				if(count>ins.measurementDefinitionList.length)
-					{
-					end=ins.measurementDefinitionList.length;
-					}
-				else
-					{
-					end=count;
-					}
-				var start=(2-1)*10;
-				for(i=start;i<end;i++)
-					{
-					$('#multipleResourceGraphLstBox1').append("<option value='" + ins.measurementDefinitionList.get(i).itemName  + "'>" + ins.measurementDefinitionList.get(i).itemName + "</option>");
-										
-					}
-			
-			});*/
+		/*
+		 * $('#link2').click(function() {
+		 * 
+		 * var count=2*10; var end;
+		 * if(count>ins.measurementDefinitionList.length) {
+		 * end=ins.measurementDefinitionList.length; } else { end=count; } var
+		 * start=(2-1)*10; for(i=start;i<end;i++) {
+		 * $('#multipleResourceGraphLstBox1').append("<option value='" +
+		 * ins.measurementDefinitionList.get(i).itemName + "'>" +
+		 * ins.measurementDefinitionList.get(i).itemName + "</option>"); }
+		 * 
+		 * });
+		 */
 
 			$('#btnAddGraph').click(function(e) {
 				
@@ -189,8 +181,9 @@ getAllMeasurement_ : function() {
 	var settings = {
 		url : ENS.tree.MEASUREMENT_ITEM_SELECT_ALL_URL
 	};
+	$('#hiddenIdList').empty();
 	$('#multipleResourceGraphLstBox1').empty();
-	//$('#multipleResourceGraphLstBox2').empty();
+	// $('#multipleResourceGraphLstBox2').empty();
 	// 非同期通信でデータを送信する
 	var ajaxHandler = new wgp.AjaxHandler();
 	settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] = this;
@@ -213,69 +206,53 @@ callbackGetAllMeasurement_ : function(measurementDefinitionList) {
 		
 		var instance = this;
 		var addOptionList = [];
-		
-		
-		/*
-		 * _.each(measurementDefinitionList, function(signalDefinition, index) {
-		 * //addOptionList.push(signalDefinition); var
-		 * signalDataList=signalDefinition.signalName; var
-		 * signalData=signalDataList[signalDataList.length-1];
-		 * $('#multipleResourceGraphLstBox1').append("<option value='" +
-		 * signalDefinition.signalName + "'>" + signalDefinition.signalName + "</option>");
-		 * $('#multipleResourceGraphLstBox1').append("<option value='" +
-		 * signalDefinition.signalName + "'>" + signalDefinition.signalName + "</option>");
-		 * $('#multipleResourceGraphLstBox1').append("<option value='" +
-		 * signalDefinition.signalName + "'>" + signalDefinition.signalName + "</option>");
-		 * 
-		 * });
-		 */
-		
-			var lengthList=measurementDefinitionList.length;
-			
 
-				lengthList=lengthList/10;
-				$('#multipleResourceGraphlink').empty();
-				for(index=1;index<=lengthList;index++)
-					{
-					$('#multipleResourceGraphlink').append("<a href=# class=dialogValue id=link"+ index +">"+index+"</a>&nbsp;");
+//		this.num_display = measurementDefinitionList.length;
+//		this.noOfPage = Math.floor(this.num_display / 10) + 1;
+
+    	
+		
+				
+		// var lengthList=measurementDefinitionList.length;
 					
-					}
+		
+//		 lengthList=lengthList/10;
+//		 $('#multipleResourceGraphlink').empty();
+//		 for(index=1;index<=lengthList;index++)
+//		 {
+//		 $('#multipleResourceGraphlink').append("<a href=# class=dialogValue id=link"+
+//		 index +">"+index+"</a>&nbsp;");
+//							
+//		 }
+//								
+//		 var count=0;
+		 _.each(measurementDefinitionList, function(javelinMeasurementItem, index) {
+			 $('#hiddenIdList').append("<option value='" +
+			 javelinMeasurementItem.itemName + "'>" + javelinMeasurementItem.itemName +
+			 "</option>");
 						
-		var count=0;
-		_.each(measurementDefinitionList, function(javelinMeasurementItem, index) {
-			// addOptionList.push(signalDefinition);
+		 });
+		 instance.pagingGraph(measurementDefinitionList);
+		 $("select option").attr( "title", "" );
+		    $("select option").each(function(i){
+		      this.title = this.text;
+		    });
 		
-			/*if(count<10)
-				{*/
-				$('#multipleResourceGraphLstBox1').append("<option value='" + javelinMeasurementItem.itemName  + "'>" + javelinMeasurementItem.itemName + "</option>");
-				
-			/*	}
-			count++;*/
-				  $("select option").attr( "title", "" );
-				    $("select option").each(function(i){
-				      this.title = this.text;
-				    });
-				
 
-				  // Attach a tooltip to select elements
-				$("select").tooltip({
-					content : function() {
-						return $(this).attr(this.title);
-					},
-					items : "[alt]",
-					tooltipClass : "tooltip"});
-			
-		
-});
-
+		  // Attach a tooltip to select elements
+		$("select").tooltip({
+			content : function() {
+				return $(this).attr(this.title);
+			},
+			items : "[alt]",
+			tooltipClass : "tooltip"});
 },
 inputMulResGraphDialog_ : function() {
 	// Ajax通信用の送信先URL
 	
 	var settings = {
 		url : ENS.tree.MEASUREMENT_ITEM_SELECT_ALL_URL
-		
-	}
+	};
 
 	var ajaxHandler = new wgp.AjaxHandler();
 	var result = ajaxHandler.requestServerSync(settings);
@@ -285,9 +262,9 @@ inputMulResGraphDialog_ : function() {
 	_.each(measurementDefinitionList, function(javelinMeasurementItem, index) {
 		// addOptionList.push(signalDefinition);
 		
-	//	/[\\\/]/
+	// /[\\\/]/
 		
-		//multipleResourceGraphItems.match(javelinMeasurementItem.itemName)
+		// multipleResourceGraphItems.match(javelinMeasurementItem.itemName)
 		if(javelinMeasurementItem.itemName.match(multipleResourceGraphItems))
 			{
 	$('#multipleResourceGraphLstBox2').append("<option value='" + javelinMeasurementItem.itemName  + "'>" + javelinMeasurementItem.itemName + "</option>");
@@ -300,6 +277,28 @@ inputMulResGraphDialog_ : function() {
 
 	});
 }
+,
+pagingGraph : function(measurementDefinitionList) {
+
+	var instance = this;
+	var num_entries = $('#hiddenIdList option').length;
+	$("#pagingMeasurement").pagination(num_entries, {
+		items_per_page : this.graphPerPage,
+		num_display_entries : 8,
+		current_page : 0,
+		num_edge_entries : 2,
+		callback : instance.pageselectCallback
+	});
+}, 
+pageselectCallback : function (page_index,jq){
+	
+	
+    var new_content = $('#hiddenIdList option:eq('+page_index+')').clone();
+	
+    $('#multipleResourceGraphLstBox1').empty().append(new_content);
+
+    return false;
+ }
 
 
 });

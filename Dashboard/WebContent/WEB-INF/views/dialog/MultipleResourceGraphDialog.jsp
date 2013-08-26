@@ -56,7 +56,8 @@
 						</select></td>
 					</tr>
 					<tr><td colspan="3">
-					<div id="multipleResourceGraphlink" class="dialogValue">
+					<div id='pagingMeasurement' class='pagination' style='padding-left:10px;'></div>
+					<!-- <div id="multipleResourceGraphlink" class="dialogValue"> -->
 				<!-- 	<a href="#">1</a>&nbsp;<a href="#">2</a>&nbsp;<a href="#">3</a>&nbsp;<a href="#">4</a>&nbsp;<a href="#">5</a>&nbsp;<a href="#">...</a> --></div></td></tr>
 				
 				<tr><td colspan="3">
@@ -77,6 +78,9 @@
 				</table>
 			</div>
 		</div>
+		
+		<select id="hiddenIdList" style="display:none;" class="dialogValue">
+		</select>
 	</div>
 </body>
 </html>

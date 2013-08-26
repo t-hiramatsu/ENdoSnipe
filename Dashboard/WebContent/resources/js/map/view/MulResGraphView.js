@@ -147,42 +147,42 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				var labelDom = document.getElementById(labelId);
 
 				var data = this.getData();
-								
-				var dataMap={};
-				var keys=this.keysByValue(data);
-				
-				var top;
-				if(keys.length>5)
-					{
-					top=5;
-					}
-				else
-					{
-					top=keys.length;
-					}
-				for(var indexKey=0;indexKey<top;indexKey++)
-					{
-					var value=data[keys[indexKey]];
-					_.each(value,function(valueData,index)
-							{
-						if(dataMap[valueData[0]]==undefined)
-							{
-							dataMap[valueData[0]]=valueData;
-							}
-						else
-							{
-							var list=dataMap[valueData[0]];
-							list.push(valueData[1]);
-							dataMap[valueData[0]]=list;
-							}
-							});
-					}
-				
-				var dataFinal=[];
-				$.map(dataMap,function(value,key){
-					
-					dataFinal.push(value);
-				});
+				var dataFinal=this.createDataList(data);
+//				var dataMap={};
+//				var keys=this.keysByValue(data);
+//				
+//				var top;
+//				if(keys.length>5)
+//					{
+//					top=5;
+//					}
+//				else
+//					{
+//					top=keys.length;
+//					}
+//				for(var indexKey=0;indexKey<top;indexKey++)
+//					{
+//					var value=data[keys[indexKey]];
+//					_.each(value,function(valueData,index)
+//							{
+//						if(dataMap[valueData[0]]==undefined)
+//							{
+//							dataMap[valueData[0]]=valueData;
+//							}
+//						else
+//							{
+//							var list=dataMap[valueData[0]];
+//							list.push(valueData[1]);
+//							dataMap[valueData[0]]=list;
+//							}
+//							});
+//					}
+//				
+//				var dataFinal=[];
+//				$.map(dataMap,function(value,key){
+//					
+//					dataFinal.push(value);
+//				});
 				
 				var optionSettings = {
 					labels : this.datalabel,
@@ -280,6 +280,86 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 
 			},
 		
+			onAdd : function(graphModel) {
+
+				if (this.isRealTime) {
+					if (this.collection.length > this.graphMaxNumber) {
+						this.collection
+								.shift(wgp.constants.BACKBONE_EVENT.SILENT);
+					}
+					this.data = this.getData();
+					var dataList=this.createDataList(data);
+					var tempStart;
+					var tempEnd;
+					var time = new Date();
+					if (this.timeFrom === 0) {
+						tempEnd = time;
+						tempStart = new Date(new Date().getTime() - this.term
+								* 1000);
+					} else {
+						tempEnd = time;
+						tempStart = new Date(time.getTime() - this.timeFrom);
+					}
+
+					var updateOption;
+					if (this.labelY == "%") {
+						updateOption = {
+							valueRange : [ 0, this.percentGraphMaxYValue ],
+							'file' : dataList
+						};
+					} else {
+						updateOption = {
+							'file' : dataList,
+							'valueRange' : [ 0,
+									this.maxValue * this.yValueMagnification ]
+						};
+					}
+					if (dataList.length !== 0) {
+						updateOption['dateWindow'] = [ tempStart, tempEnd ];
+					}
+					this.entity.updateOptions(updateOption);
+
+					var graphId = this.$el.attr("id") + "_ensgraph";
+
+					if ($("#tempDiv").length > 0) {
+						if (this.tempGraphId !== undefined) {
+							this.tempEntity.updateOptions(updateOption);
+						}
+
+					}
+					$(".dygraph-title").width($("#tempDiv").width() - this.titleButtonSpace);
+				}
+			},
+			_getTermData : function() {
+				this.data = this.getData();
+				var dataList=this.createDataList(data);
+				if (dataList.length !== 0) {
+					this.maxValue = this.getMaxValue(dataList);
+				}
+				var updateOption;
+				if (this.labelY == "%") {
+					updateOption = {
+						valueRange : [ 0, this.percentGraphMaxYValue ],
+						'file' : dataList
+					};
+				} else {
+					updateOption = {
+						valueRange : [ 0,
+								this.maxValue * this.yValueMagnification ],
+						'file' : dataList
+					};
+				}
+
+				this.entity.updateOptions(updateOption);
+				if ($("#tempDiv").length > 0) {
+					if (this.tempGraphId !== undefined) {
+						this.tempEntity.updateOptions(updateOption);
+					}
+				}
+
+				var tmpAppView = new ENS.AppView();
+				tmpAppView.syncData([ this.graphId ]);
+			},
 			onComplete : function(syncType) {
 				if (syncType == wgp.constants.syncType.SEARCH) {
 					this._getTermData();
@@ -293,6 +373,58 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 
 					$(".dygraph-title").width(($("#" + graphId).width() - 87));
 				}
+		},
+		getMaxValue : function(dataList) {
+			var maxValue = 0;
+
+			_.each(dataList, function(data, index) {
+				for(var i=1;i<data.length;i++)
+					{
+				var value = data[i];
+
+				if (value) {
+					if (value > maxValue) {
+						maxValue = value;
+					}
+				}
+					}
+			});
+
+			if (maxValue === 0) {
+				maxValue = 1;
+			}
+
+			return maxValue;
+		},
+		updateGraphData : function(graphId, from, to) {
+			if (to === 0) {
+				this.isRealTime = true;
+			} else {
+				this.isRealTime = false;
+			}
+
+			var startTime = new Date(new Date().getTime() - from);
+			var endTime = new Date(new Date().getTime() - to);
+			this.timeStart = startTime;
+			this.timeEnd = endTime;
+			this.timeFrom = from;
+			var graphIds="(";
+			this.getMeasurementTargetNodes(graphId);
+			
+			for(index=0;index<ENS.tree.measurementDefinitionList.length;index++)
+				{
+				
+				if(index==ENS.tree.measurementDefinitionList.length-1)
+					{
+					 graphIds=graphIds+ENS.tree.measurementDefinitionList[index]+")";
+					}
+				else
+					{
+				 graphIds=graphIds+ENS.tree.measurementDefinitionList[index]+"|";
+					}
+				 
+				}
+			appView.getTermData([ graphIds ], startTime, endTime);
 		},
 			getData : function() {
 
@@ -312,5 +444,214 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				
 				 return measurementListMap;
 				
+			},
+
+			addMaximizeEvent : function(offsetLeft, offsetTop) {
+				var instance = this;
+
+				var divArea = $("#" + this.$el.attr("id"));
+				var tempDiv = this.$el.attr("id").substring(0, 29);
+				this.tempGraphId = this.$el.attr("id");
+
+				$("#" + tempDiv)
+						.append(
+								"<div id='tempDiv' class='graphbox' style='margin: 10px;'></div>");
+				$("#tempDiv").append("<div id='tempDiv_ensgraph'></div>");
+				$("#tempDiv").append(
+						"<div id='tempDiv_enslabel'class='ensLabel'></div>");
+				var data = this.getData();
+				var dataFinal=this.createDataList(data);
+				var optionSettings = {
+					title : this.title,
+					xlabel : this.labelX,
+					ylabel : this.labelY,
+					axisLabelColor : "#000000",
+					labelsDivStyles : {
+						background : "none repeat scroll 0 0 #000000"
+					}
+				};
+
+				var attributes = this.getAttributes(ENS.ResourceGraphAttribute);
+				var labelDom = document.getElementById("tempDiv_enslabel");
+
+				optionSettings = $.extend(true, optionSettings, attributes);
+				optionSettings.labelsDiv = labelDom;
+
+				optionSettings.title = optionSettings.title.split("&#47;")
+						.join("/");
+
+				var tmpTitle = optionSettings.title;
+				var isShort = false;
+				if (optionSettings.title.length > ENS.nodeinfo.GRAPH_TITLE_LENGTH) {
+					optionSettings.title = optionSettings.title.substring(0,
+							ENS.nodeinfo.GRAPH_TITLE_LENGTH)
+							+ "......";
+					isShort = true;
+				}
+
+				this.tempEntity = new Dygraph(document
+						.getElementById("tempDiv_ensgraph"), dataFinal,
+						optionSettings);
+
+				this.tempEntity.updateOptions({
+					dateWindow : this.dateWindow,
+					axisLabelFontSize : 10,
+					titleHeight : 22
+				});
+
+				if (this.fromScale !== undefined && this.toScale !== undefined) {
+					this.tempEntity.updateOptions({
+						dateWindow : [ this.fromScale, this.toScale ]
+					});
+				}
+
+				if (this.labelY == "%") {
+					this.tempEntity.updateOptions({
+						valueRange : [ 0, this.percentGraphMaxYValue ]
+					});
+				} else {
+					this.tempEntity.updateOptions({
+						valueRange : [ 0,
+								this.maxValue * this.yValueMagnification ]
+					});
+				}
+
+				this.mouseEvent("tempDiv_ensgraph", isShort, tmpTitle,
+						optionSettings);
+
+				var graphId = this.$el.attr("id") + "_ensgraph";
+
+				$("#" + graphId).hide();
+				$(divArea).hide();
+
+				var graphWidth = parseInt($("#contents_area").width()
+						- this.maxGraphSideMargin, 10);
+				var graphHeight = parseInt($("#contents_area").height()
+						- this.maxGraphVerticalMargin, 10);
+
+				var resizeStyle = [];
+
+				resizeStyle["width"] = graphWidth;
+				resizeStyle["height"] = graphHeight;
+
+				$("#tempDiv").css(resizeStyle);
+				this.tempEntity.resize(graphWidth, graphHeight);
+				this.addDragEvent();
+
+				var divNo = parseInt(this.$el.attr("id").substring(30,
+						this.$el.attr("id").length), 10);
+				var divCut = this.$el.attr("id").substring(0, 30);
+
+				var hiddenGraph = [];
+
+				var start = divNo - (divNo % 12);
+				var end = 12 - (divNo % 12);
+				var j = divNo - start;
+
+				hiddenGraph[j] = this.$el.attr("id");
+
+				if (this.noOfGraph != 1) {
+
+					if ((divNo + end) > this.noOfGraph) {
+						end = this.noOfGraph - divNo;
+					}
+
+					var graphPoint = 0;
+					for ( var cnt1 = start; cnt1 < divNo; cnt1++) {
+						if (graphPoint == j) {
+							graphPoint++;
+						}
+						hiddenGraph[graphPoint++] = divCut + cnt1;
+						$("#" + divCut + cnt1).hide();
+						$("#" + divCut + cnt1 + "_ensgraph").hide();
+					}
+					for ( var cnt2 = (divNo + 1); cnt2 < divNo + end; cnt2++) {
+						if (graphPoint == j) {
+							graphPoint++;
+						}
+
+						hiddenGraph[graphPoint++] = divCut + cnt2;
+						$("#" + divCut + cnt2).hide();
+						$("#" + divCut + cnt2 + "_ensgraph").hide();
+					}
+				}
+
+				this.hiddenGraph = hiddenGraph;
+
+				$(".dygraph-title").width($("#tempDiv").width() - this.titleButtonSpace);
+				var childElem = $("#tempDiv_ensgraph").children("div");
+				$(childElem).append(this.normalButtonImg);
+
+				$("#" + this.normalButton).css("float", "right");
+				var minButton = this.normalButton;
+
+				$("#tempDiv")
+						.click(
+								function(e) {
+									var offsetLeft = $("#tempDiv_ensgraph")
+											.offset().left;
+									var offsetTop = $("#tempDiv_ensgraph")
+											.offset().top;
+									var position = {
+										x : Math.floor(e.clientX - offsetLeft),
+										y : Math.floor(e.clientY - offsetTop)
+									};
+									if (position.x > ($("#tempDiv_ensgraph")
+											.width() - 20)
+											&& position.x < ($(
+													"#tempDiv_ensgraph")
+													.width())
+											&& position.y > 0
+											&& position.y < 28) {
+										if ($("." + minButton).length > 0) {
+											instance.addNormalizeEvent();
+										}
+									}
+								});
+				// ズームアウト時（ダブルクリック）のイベントを設定。
+				$("#tempDiv").dblclick(function(event) {
+					instance.zoomOut(instance.tempEntity);
+					$(".dygraph-title").width($("#tempDiv").width() - instance.titleButtonSpace);
+				});
+
+			},
+			createDataList : function (data)
+			{
+				var dataMap={};
+				var keys=this.keysByValue(data);
+				
+				var top;
+				if(keys.length>5)
+					{
+					top=5;
+					}
+				else
+					{
+					top=keys.length;
+					}
+				for(var indexKey=0;indexKey<top;indexKey++)
+					{
+					var value=data[keys[indexKey]];
+					_.each(value,function(valueData,index)
+							{
+						if(dataMap[valueData[0]]==undefined)
+							{
+							dataMap[valueData[0]]=valueData;
+							}
+						else
+							{
+							var list=dataMap[valueData[0]];
+							list.push(valueData[1]);
+							dataMap[valueData[0]]=list;
+							}
+							});
+					}
+				
+				var dataFinal=[];
+				$.map(dataMap,function(value,key){
+					
+					dataFinal.push(value);
+				});
+				return dataFinal;
 			}
 		});

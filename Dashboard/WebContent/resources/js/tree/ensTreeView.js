@@ -447,6 +447,7 @@ ENS.treeView = wgp.TreeView
 
 						// 編集の場合は事前に値を設定する。
 					} else if (id == ENS.tree.EDIT_MULTIPLE_RESOURCE_GRAPH_TYPE) {
+						$('#multipleResourceGraphLstBox2').empty();
 						var treeModel = this.collection
 								.get(executeOption.treeId);
 						this.inputMulResGraphDialog_(treeModel);
@@ -665,6 +666,7 @@ ENS.treeView = wgp.TreeView
 
 					// シグナル編集時
 				} else if (option.signalType == ENS.tree.EDIT_MULTIPLE_RESOURCE_GRAPH_TYPE) {
+				
 					sendData = this
 							.createSendEditMulResGraphData_(mulResGraphName);
 					callbackFunction = "callbackEditMulResGraph_";
