@@ -13,6 +13,7 @@ ENS.mapElementPropertyTab["ENS.ShapeElementView"] =  ["Shape"];
 ENS.mapElementPropertyTab["ENS.SignalElementView"] = [null, "Text"];
 ENS.mapElementPropertyTab["ENS.TextBoxElementView"] = ["Shape", "Textbox"];
 ENS.mapElementPropertyTab["ENS.ResourceLinkElementView"] = ["Text"];
+ENS.mapElementPropertyTab["ENS.BackgroundElementView"] = ["Background"];
 ENS.mapElementPropertyTab["ENS.ResourceGraphElementView"] = [];
 
 /**
@@ -51,7 +52,14 @@ ENS.MapElementPropertyView = Backbone.View.extend({
 			width : this.model.get("width"),
 			height : this.model.get("height")
 		};
-		this.basicPropertyView = new ENS.MapElementPropertyPositionTab(property, "Basic", this.targetView);
+
+		var objectName = this.model.get("objectName");
+		if(objectName != "ENS.BackgroundElementView"){
+			this.basicPropertyView = new ENS.MapElementPropertyPositionTab(property, "Basic", this.targetView);
+		}else{
+			this.basicPropertyView = new ENS.BackgroundPropertyPositionTab(property, "Basic", this.targetView);
+		}
+
 		this.addTabView(this.basicPropertyView);
 
 		// マップの要素ごとに決められたタブを追加する。
@@ -127,6 +135,10 @@ ENS.MapElementPropertyView = Backbone.View.extend({
 
 				} else if(tabName == "Textbox"){
 					propertyView = new ENS.MapElementPropertyTextboxTab(property, "Text", instance.targetView);
+					instance.addTabView(propertyView);
+
+				} else if(tabName == "Background"){
+					propertyView = new ENS.BackgroundPropertyTab(property, "Background", instance.targetView);
 					instance.addTabView(propertyView);
 				}
 			}
@@ -346,6 +358,131 @@ ENS.MapElementPropertyPositionTab = ENS.MapElementPropertyTab.extend({
 			parentDiv.append(widthRow);
 			parentDiv.append(heightRow);
 		}
+		return parentDiv;
+	}
+});
+
+/**
+ * 背景の大きさタブ
+ */
+ENS.BackgroundPropertyPositionTab = ENS.MapElementPropertyTab.extend({
+	render : function(cid){
+
+		// 継承元のレンダリングメソッド実行
+		var parentDiv = this.__proto__.__proto__.render(cid);
+		var titleSpan = $("<span class='propertyTitle'>Background Size</span><hr color='white'>");
+		parentDiv.append(titleSpan);
+
+		// 継承元のレンダリングメソッド実行
+		var parentDiv = this.__proto__.__proto__.render(cid);
+
+		var widthSpan = $("<div>Width</div>");
+		var widthInput = this.createSettingItem("width", "number", parseInt(this.property.width));
+		var widthRow = $("<div class='mapPropertyItem'></div>");
+		widthRow.append(widthSpan).append(widthInput);
+
+		var heightspan = $("<div>Height</div>");
+		var heightInput = this.createSettingItem("height", "number", parseInt(this.property.height));
+		var heightRow = $("<div class='mapPropertyItem'></div>");
+		heightRow.append(heightspan).append(heightInput);
+
+		parentDiv.append(widthRow);
+		parentDiv.append(heightRow);
+
+		return parentDiv;
+	},
+	validation : function(){
+
+		// 継承元のバリデーションメソッド実行
+		var result = ENS.MapElementPropertyTab.prototype.validation.apply(this);
+		if(!result){
+			return result;
+		}
+	}
+});
+
+/**
+ * 背景設定のタブ
+ */
+ENS.BackgroundPropertyTab = ENS.MapElementPropertyTab.extend({
+	render : function(cid){
+
+		// 継承元のレンダリングメソッド実行
+		var parentDiv = this.__proto__.__proto__.render(cid);
+
+		var setting = {
+			data : {},
+			url : wgp.common.getContextPath()
+					+ "/map/getBackgroundImage"
+		}
+
+		var ajaxHandler = new wgp.AjaxHandler();
+		var telegram = ajaxHandler.requestServerSync(setting);
+		var returnData = $.parseJSON(telegram);
+		if(returnData.result == "fail"){
+			alert(returnData.message);
+			return;
+		}
+		var imageDataList = returnData.data;
+
+		var titleSpan = $("<span class='propertyTitle'>Setting</span><hr color='white'>");
+		parentDiv.append(titleSpan);
+
+		var fillColorRadio = $("<input type='radio' name='objectType' value='"+ raphaelMapConstants.POLYGON_TYPE_NAME +"'>");
+		var fillColorSpan = $("<div>color</div>");
+		var fillAttribute = ENS.svg.attribute["fill"];
+		var fillColorInput =
+			this.createSettingItem("fill", fillAttribute.type, this.property.fill);
+		var fillRow = $("<div class='mapPropertyItem'></div>");
+		fillRow.append(fillColorSpan).append(fillColorInput);
+		fillColorSpan.prepend(fillColorRadio);
+		parentDiv.append(fillRow);
+
+		var imageRadio = $("<input type='radio' name='objectType' value='"+ raphaelMapConstants.IMAGE_TYPE_NAME +"'>");
+		var imageSpan = $("<div>image</div>");
+		var imageAttribute = ENS.svg.attribute["href"];
+		var imageInput =
+			this.createSettingItem("href", "select", this.property.href, imageDataList);
+		var imageRow = $("<div class='mapPropertyItem'></div>");
+		imageRow.append(imageSpan).append(imageInput);
+		imageSpan.prepend(imageRadio);
+		parentDiv.append(imageRow);
+
+		parentDiv.on("change", "input[name='objectType']:radio", function(event){
+			var objectType = $(this).val();
+
+			if(objectType != raphaelMapConstants.POLYGON_TYPE_NAME){
+				fillColorInput.prop("disabled", true);
+				var fillColor = fillColorInput.val();
+				fillColorInput.css("backgroundColor", "");
+				fillColorInput.css("color", "#000");
+
+			}else{
+				fillColorInput.prop("disabled", false);
+				var fillColor = fillColorInput.val();
+				if(fillColor && fillColor.length > 0){
+					fillColorInput.css("backgroundColor", fillColor);
+				}
+			}
+
+			if(objectType != raphaelMapConstants.IMAGE_TYPE_NAME){
+				imageInput.prop("disabled", true);
+			}else{
+				imageInput.prop("disabled", false);
+			}
+		});
+
+		if(this.property.fill){
+			fillColorRadio.prop("checked", true);
+			imageInput.prop("disabled", true);
+
+		}else{
+			imageRadio.prop("checked", true);
+			fillColorInput.prop("disabled", true);
+			fillColorInput.css("backgroundColor", "");
+			fillColorInput.css("color", "#000");
+		}
+
 		return parentDiv;
 	}
 });

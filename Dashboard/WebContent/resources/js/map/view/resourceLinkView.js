@@ -34,7 +34,8 @@ ENS.ResourceLinkElementView = ENS.ShapeElementView.extend({
 	setOperateFunction : function() {
 
 		var instance = this;
-		this.object.dblclick(
+		var element = this.getElement(0);
+		element.object.dblclick(
 		// ダブルクリック時の画面遷移処理
 		function(event) {
 
