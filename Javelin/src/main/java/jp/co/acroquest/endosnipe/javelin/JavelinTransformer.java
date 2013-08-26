@@ -125,6 +125,12 @@ public class JavelinTransformer implements ClassFileTransformer
             final Class<?> classBeingRedefined, final ProtectionDomain protectionDomain,
             final byte[] classfileBuffer)
     {
+        // Javelin関連のスレッドの場合は、変換を行わない。
+        if (Thread.currentThread().getName().startsWith("Javelin"))
+        {
+            return null;
+        }
+        
         className = className.replaceAll("/", "\\.");
 
         if (!isTargetClassName(className))
