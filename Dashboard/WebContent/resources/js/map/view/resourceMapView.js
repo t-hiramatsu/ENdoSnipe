@@ -68,6 +68,10 @@ ENS.ResourceMapView = wgp.MapView.extend({
 			newView = this._addGraphDivision(model);
 			this.viewCollection[model.id] = newView;
 
+		}else if("ENS.MultipleResourceGraphElementView" == objectName){
+			newView = this._addGraphDivision(model);
+			this.viewCollection[model.id] = newView;
+
 		}else if("ENS.SignalElementView" == objectName){
 			newView = this._addStateElement(model);
 			this.viewCollection[model.id] = newView;

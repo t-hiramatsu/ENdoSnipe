@@ -148,41 +148,6 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 
 				var data = this.getData();
 				var dataFinal=this.createDataList(data);
-//				var dataMap={};
-//				var keys=this.keysByValue(data);
-//				
-//				var top;
-//				if(keys.length>5)
-//					{
-//					top=5;
-//					}
-//				else
-//					{
-//					top=keys.length;
-//					}
-//				for(var indexKey=0;indexKey<top;indexKey++)
-//					{
-//					var value=data[keys[indexKey]];
-//					_.each(value,function(valueData,index)
-//							{
-//						if(dataMap[valueData[0]]==undefined)
-//							{
-//							dataMap[valueData[0]]=valueData;
-//							}
-//						else
-//							{
-//							var list=dataMap[valueData[0]];
-//							list.push(valueData[1]);
-//							dataMap[valueData[0]]=list;
-//							}
-//							});
-//					}
-//				
-//				var dataFinal=[];
-//				$.map(dataMap,function(value,key){
-//					
-//					dataFinal.push(value);
-//				});
 				
 				var optionSettings = {
 					labels : this.datalabel,
@@ -331,7 +296,24 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				}
 			},
 			_getTermData : function() {
-				this.data = this.getData();
+				
+				var graphIds="(";
+				
+				for(index=0;index<ENS.tree.measurementDefinitionList.length;index++)
+					{
+					
+					if(index==ENS.tree.measurementDefinitionList.length-1)
+						{
+						 graphIds=graphIds+ENS.tree.measurementDefinitionList[index]+")";
+						}
+					else
+						{
+					 graphIds=graphIds+ENS.tree.measurementDefinitionList[index]+"|";
+						}
+					 
+					}
+				
+				var data = this.getData();
 				var dataList=this.createDataList(data);
 				if (dataList.length !== 0) {
 					this.maxValue = this.getMaxValue(dataList);
@@ -358,7 +340,8 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				}
 
 				var tmpAppView = new ENS.AppView();
-				tmpAppView.syncData([ this.graphId ]);
+				//tmpAppView.syncData([ this.graphId ]);graphIds
+				tmpAppView.syncData([ graphIds ]);
 			},
 			onComplete : function(syncType) {
 				if (syncType == wgp.constants.syncType.SEARCH) {

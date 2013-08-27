@@ -34,8 +34,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import jp.co.acroquest.endosnipe.data.dao.JavelinLogDao;
 import jp.co.acroquest.endosnipe.data.entity.JavelinLog;
@@ -125,17 +123,26 @@ public class TermDataController
             return new HashMap<String, List<Map<String, String>>>();
         }
 
-        boolean found = false;
         for (String dataId : dataGroupIdList)
         {
-            found = false;
-            Pattern p = Pattern.compile(dataId);
-            Matcher m = p.matcher(dataId);
-
-            while (m.find())
+            String[] measurementArray = null;
+            if (dataId.indexOf("|") != -1 || dataId.indexOf("(") != dataId.lastIndexOf("("))
             {
-                found = true;
-                String matchData = m.group();
+                measurementArray =
+                        (dataId.substring(dataId.indexOf("(") + 1, dataId.lastIndexOf(")"))).split("\\|");
+            }
+            List<String> measurementDataList = new ArrayList<String>();
+            if (measurementArray != null)
+            {
+                measurementDataList.addAll(Arrays.asList(measurementArray));
+            }
+            else
+            {
+                measurementDataList.add(dataId);
+            }
+            for (int index = 0; index < measurementDataList.size(); index++)
+            {
+                String matchData = measurementDataList.get(index);
                 if (TREE_DATA_ID.equals(matchData))
                 {
                     // 計測対象の項目を全て取得してツリー要素に変換
@@ -163,38 +170,6 @@ public class TermDataController
                     else
                     {
                         graphDataList.add(matchData);
-                    }
-                }
-            }
-            if (!found)
-            {
-                if (TREE_DATA_ID.equals(dataId))
-                {
-                    // 計測対象の項目を全て取得してツリー要素に変換
-                    List<Map<String, String>> treeMenuDtoList =
-                            createTreeMenuData(treeMenuService.initialize());
-
-                    // シグナル定義を全て取得
-                    List<SignalDefinitionDto> signalList = signalService.getAllSignal();
-
-                    // 計測対象のツリーにシグナル定義を追加
-                    treeMenuDtoList.addAll(convertSignalDefinition(signalList));
-
-                    responceDataList.put(TREE_DATA_ID, treeMenuDtoList);
-                }
-                else
-                {
-                    if (dataId.contains("graph") || dataId.contains("Graph"))
-                    {
-                        MultipleResourceGraphDefinitionDto dto =
-                                service.getmultipleResourceGraphInfo(dataId);
-                        String[] measurementList = dto.getMeasurementItemIdList().split(",");
-
-                        graphDataList.addAll(Arrays.asList(measurementList));
-                    }
-                    else
-                    {
-                        graphDataList.add(dataId);
                     }
                 }
             }
