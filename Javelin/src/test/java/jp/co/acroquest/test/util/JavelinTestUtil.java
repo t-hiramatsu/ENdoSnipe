@@ -110,7 +110,7 @@ public class JavelinTestUtil
         Map<String, MultiResourceGetter> multiResourceMap =
             new HashMap<String, MultiResourceGetter>();
         ProcParser procParser = ResourceCollector.createProcParser();
-        ResourceCollector.setResouceGetters(resourceMap, multiResourceMap, procParser);
+        ResourceCollector.setResouceGetters(resourceMap, multiResourceMap, procParser, null);
         for (Map.Entry<String, ResourceGetter> entry : resourceMap.entrySet())
         {
             resourceGetterClass__.put(entry.getKey(), entry.getValue().getClass());

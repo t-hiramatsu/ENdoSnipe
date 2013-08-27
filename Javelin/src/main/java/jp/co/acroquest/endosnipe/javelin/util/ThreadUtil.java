@@ -78,7 +78,7 @@ public class ThreadUtil
 
     /** com.sun.management.ThreadMXBean#getThreadUserTime(long[] arg0)*/
     private static Method getThreadUserTimeMethod__ = null;
-    
+
     /** 改行文字 */
     private static final String NEW_LINE = System.getProperty("line.separator");
 
@@ -109,20 +109,20 @@ public class ThreadUtil
             try
             {
                 getLockedSynchronizersMethod__ =
-                        ThreadInfo.class.getDeclaredMethod("getLockedSynchronizers");
+                    ThreadInfo.class.getDeclaredMethod("getLockedSynchronizers");
                 getLockInfoMethod__ = ThreadInfo.class.getDeclaredMethod("getLockInfo");
                 getLockedMonitorsMethod__ = ThreadInfo.class.getDeclaredMethod("getLockedMonitors");
                 try
                 {
                     Class<?> monitorInfoClass = Class.forName("java.lang.management.MonitorInfo");
                     getLockedStackDepthMethod__ =
-                            monitorInfoClass.getDeclaredMethod("getLockedStackDepth");
+                        monitorInfoClass.getDeclaredMethod("getLockedStackDepth");
                 }
                 catch (ClassNotFoundException cne)
                 {
                     SystemLogger.getInstance().debug(cne);
                 }
-                
+
                 Class<?> mbeanClass = threadMBean__.getClass();
                 if (mbeanClass.getName().equals("com.sun.management.ThreadMXBean"))
                 {
@@ -154,7 +154,7 @@ public class ThreadUtil
             }
 
             if (config.isThreadContentionMonitor()
-                    && threadMBean__.isThreadContentionMonitoringSupported())
+                && threadMBean__.isThreadContentionMonitoringSupported())
             {
                 threadMBean__.setThreadContentionMonitoringEnabled(true);
             }
@@ -169,13 +169,12 @@ public class ThreadUtil
         }
     }
 
-    private static ThreadLocal<Long> tid__ = new ThreadLocal<Long>()
-    {
+    private static ThreadLocal<Long> tid__ = new ThreadLocal<Long>() {
         @Override
         protected Long initialValue()
         {
             Thread thread = Thread.currentThread();
-            Long   tid    = ThreadUtil.getThreadId(thread);
+            Long tid = ThreadUtil.getThreadId(thread);
             return tid;
         }
     };
@@ -385,7 +384,7 @@ public class ThreadUtil
             StackTraceElement[] elements = threadInfo.getStackTrace();
             String threadDump = null;
             if (getLockedSynchronizersMethod__ != null && getLockedMonitorsMethod__ != null
-                    && getLockInfoMethod__ != null && getLockedStackDepthMethod__ != null)
+                && getLockInfoMethod__ != null && getLockedStackDepthMethod__ != null)
             {
                 threadDump = getThreadDumpJava6(threadInfo, elements);
             }
@@ -434,7 +433,7 @@ public class ThreadUtil
         }
         return cpuTimes;
     }
-    
+
     /**
      * 指定したスレッドのUser時間を取得する。
      * 
@@ -571,8 +570,8 @@ public class ThreadUtil
     private static StringBuilder getThreadInfoBuffer(ThreadInfo info)
     {
         StringBuilder sb =
-                new StringBuilder("\"" + info.getThreadName() + "\"" + " Id=" + info.getThreadId()
-                        + " " + info.getThreadState());
+            new StringBuilder("\"" + info.getThreadName() + "\"" + " Id=" + info.getThreadId()
+                + " " + info.getThreadState());
         if (info.getLockName() != null)
         {
             sb.append(" on " + info.getLockName());
@@ -606,21 +605,57 @@ public class ThreadUtil
      */
     public static int getRunnableThreadCount()
     {
+        return getThreadCount(State.RUNNABLE);
+    }
+
+    /**
+     * 指定した状態のスレッド数を取得する。
+     * @param state スレッドの状態
+     * @return 指定した状態のスレッド数。
+     */
+    public static int getThreadCount(State state)
+    {
         long[] threadIds = getAllThreadIds();
-    
+
         ThreadInfo[] threadInfos = getThreadInfo(threadIds, 0);
-        
+
         int count = 0;
+        for (ThreadInfo threadInfo : threadInfos)
+        {
+            State threadState = threadInfo.getThreadState();
+            if (state.equals(threadState))
+            {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    /**
+     * 指定した状態のスレッド数を取得する。
+     * @return 指定した状態のスレッド数。
+     */
+    public static DetailThreadInfo getThreadStateCount()
+    {
+        long[] threadIds = getAllThreadIds();
+
+        ThreadInfo[] threadInfos = getThreadInfo(threadIds, 0);
+
+        DetailThreadInfo info = new DetailThreadInfo();
         for (ThreadInfo threadInfo : threadInfos)
         {
             State threadState = threadInfo.getThreadState();
             if (State.RUNNABLE.equals(threadState))
             {
-                count++;
+                info.setRunnableCount(info.getRunnableCount() + 1);
+            }
+            else if (State.BLOCKED.equals(threadState))
+            {
+                info.setBlockedCount(info.getBlockedCount() + 1);
             }
         }
-    
-        return count;
-    }
 
+        return info;
+    }
 }

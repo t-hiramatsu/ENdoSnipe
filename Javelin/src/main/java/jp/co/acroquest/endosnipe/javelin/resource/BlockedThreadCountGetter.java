@@ -23,34 +23,54 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package jp.co.acroquest.endosnipe.javelin.resource.proc;
+package jp.co.acroquest.endosnipe.javelin.resource;
 
-import jp.co.acroquest.endosnipe.javelin.bean.proc.ProcInfo;
-import jp.co.acroquest.endosnipe.javelin.resource.ResourceLoader;
+import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
+import jp.co.acroquest.endosnipe.common.entity.ItemType;
 
 /**
- * /procからの情報を取得し、ProcInfoに変換するインタフェース。
+ * RUNNABLEなスレッド数を取得するクラス。
  * 
  * @author eriguchi
  */
-public interface ProcParser extends ResourceLoader
+public class BlockedThreadCountGetter extends AbstractResourceGetter
 {
-    /**
-     * 初期化を行う。成功した場合にのみtrue
-     * 
-     * @return 成功した場合にのみtrue
-     */
-    boolean init();
-   
-    /**
-     * /proc以下のファイルを読み込み、ProcInfoに変換して返す。
-     */
-    void load();
+    /** Javelinの設定。 */
+    private final JavelinConfig config_ = new JavelinConfig();
+
+    /** スレッド情報の取得 */
+    private ThreadDetailInfoLoader loader_;
 
     /**
-     * procInfo を返す。
+     * コンストラクタ。
      * 
-     * @return /proc以下のファイルを読み込んだ結果
+     * @param loader スレッド情報ロードオブジェクト
      */
-    ProcInfo getProcInfo();
+    public BlockedThreadCountGetter(ThreadDetailInfoLoader loader)
+    {
+        this.loader_ = loader;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public Number getValue()
+    {
+        if (config_.isResourceThreadBlocked())
+        {
+            return this.loader_.getInfo().getBlockedCount();
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public ItemType getItemType()
+    {
+        return ItemType.ITEMTYPE_INT;
+    }
 }

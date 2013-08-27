@@ -119,8 +119,6 @@ public class LinuxProcParser implements ProcParser
     /** メモリ,スワップのkilobyteをbyteに単位変換（kilobyte→byte）する。 */
     private static final int KILOBYTE_TO_BYTE = 1024;
 
-    /** コア情報のサイズ */
-    private static final int CORE_INFO_SIZE = 4;
 
     // parseMemInfoで用いる定数。
     // 各パラメータが表示される行の先頭の文字列を示す。
@@ -164,10 +162,8 @@ public class LinuxProcParser implements ProcParser
     /**
      * /proc/meminfo、/proc/stat、/proc/self/statから読み込み、
      * ProcInfoに格納する。
-     *
-     * @return ProcInfo
      */
-    public ProcInfo load()
+    public void load()
     {
         MemInfo memInfo = parseMemInfo();
         DiskStats diskStats = parseDiskStats();
@@ -181,8 +177,6 @@ public class LinuxProcParser implements ProcParser
         procInfo.setSelfStatInfo(selfStatInfo);
 
         this.procInfo_ = procInfo;
-
-        return procInfo;
     }
 
     /**

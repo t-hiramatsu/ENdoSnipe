@@ -449,6 +449,9 @@ public interface TelegramConstants
     /** 項目名(RUNNBLEなスレッド数) */
     String ITEMNAME_RUNNABLE_THREAD_COUNT = "/process/thread/java/runnable";
 
+    /** 項目名(RUNNBLEなスレッド数) */
+    String ITEMNAME_BLOCKED_THREAD_COUNT = "/process/thread/java/blocked";
+
     // -----------------------------------------------------
     // プロセス情報: コレクション情報
 
