@@ -27,10 +27,9 @@ package jp.co.acroquest.endosnipe.javelin.resource;
 
 import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 import jp.co.acroquest.endosnipe.common.entity.ItemType;
-import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
 
 /**
- * RUNNABLEなスレッド数を取得するクラス。
+ * BLOCKEDなスレッド数を取得するクラス。
  * 
  * @author eriguchi
  */
@@ -38,15 +37,28 @@ public class BlockedThreadCountGetter extends AbstractResourceGetter
 {
     /** Javelinの設定。 */
     private final JavelinConfig config_ = new JavelinConfig();
-    
+
+    /** スレッド情報の取得 */
+    private ThreadDetailInfoLoader loader_;
+
+    /**
+     * コンストラクタ。
+     * 
+     * @param loader スレッド情報ロードオブジェクト
+     */
+    public BlockedThreadCountGetter(ThreadDetailInfoLoader loader)
+    {
+        this.loader_ = loader;
+    }
+
     /**
      * {@inheritDoc}
      */
     public Number getValue()
     {
-        if(config_.isResourceThreadBlocked())
+        if (config_.isResourceThreadBlocked())
         {
-            return ThreadUtil.getThreadCount(Thread.State.BLOCKED);
+            return this.loader_.getInfo().getBlockedCount();
         }
         else
         {

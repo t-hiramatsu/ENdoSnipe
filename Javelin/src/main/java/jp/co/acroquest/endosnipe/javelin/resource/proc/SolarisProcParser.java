@@ -71,10 +71,8 @@ public class SolarisProcParser implements ProcParser
     /**
      * /proc/meminfo、/proc/stat、/proc/self/statから読み込み、
      * ProcInfoに格納する。
-     *
-     * @return ProcInfo
      */
-    public ProcInfo load()
+    public void load()
     {
         if (this.resourceReader_ == null)
         {
@@ -98,8 +96,6 @@ public class SolarisProcParser implements ProcParser
         procInfo.setDiskStats(diskStats);
         
         this.procInfo_ = procInfo;
-
-        return procInfo;
     }
 
     /**

@@ -26,13 +26,14 @@
 package jp.co.acroquest.endosnipe.javelin.resource.proc;
 
 import jp.co.acroquest.endosnipe.javelin.bean.proc.ProcInfo;
+import jp.co.acroquest.endosnipe.javelin.resource.ResourceLoader;
 
 /**
  * /procからの情報を取得し、ProcInfoに変換するインタフェース。
  * 
  * @author eriguchi
  */
-public interface ProcParser
+public interface ProcParser extends ResourceLoader
 {
     /**
      * 初期化を行う。成功した場合にのみtrue
@@ -43,10 +44,8 @@ public interface ProcParser
    
     /**
      * /proc以下のファイルを読み込み、ProcInfoに変換して返す。
-     * 
-     * @return /proc以下のファイルを読み込んだ結果
      */
-    ProcInfo load();
+    void load();
 
     /**
      * procInfo を返す。

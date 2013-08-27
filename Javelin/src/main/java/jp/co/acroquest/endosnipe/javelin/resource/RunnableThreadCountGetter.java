@@ -27,7 +27,6 @@ package jp.co.acroquest.endosnipe.javelin.resource;
 
 import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 import jp.co.acroquest.endosnipe.common.entity.ItemType;
-import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
 
 /**
  * RUNNABLEなスレッド数を取得するクラス。
@@ -39,6 +38,20 @@ public class RunnableThreadCountGetter extends AbstractResourceGetter
     /** Javelinの設定。 */
     private final JavelinConfig config_ = new JavelinConfig();
     
+
+    /** スレッド情報の取得 */
+    private ThreadDetailInfoLoader loader_;
+
+    /**
+     * コンストラクタ。
+     * 
+     * @param loader スレッド情報ロードオブジェクト
+     */
+    public RunnableThreadCountGetter(ThreadDetailInfoLoader loader)
+    {
+        this.loader_ = loader;
+    }
+    
     /**
      * {@inheritDoc}
      */
@@ -46,7 +59,7 @@ public class RunnableThreadCountGetter extends AbstractResourceGetter
     {
         if(config_.isResourceThreadRunnable())
         {
-            return ThreadUtil.getRunnableThreadCount();
+            return this.loader_.getInfo().getRunnableCount();
         }
         else
         {

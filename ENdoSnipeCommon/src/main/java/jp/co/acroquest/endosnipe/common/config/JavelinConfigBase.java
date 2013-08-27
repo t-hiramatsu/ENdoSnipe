@@ -579,6 +579,9 @@ public class JavelinConfigBase
     public static final String RESOURCE_THREAD_RUNNABLE = JAVELIN_PREFIX
         + "resource.thread.runnable";
 
+    /** BLOCKED状態のスレッド数を取得するかどうか　 */
+    public static final String RESOURCE_THREAD_BLOCKED = JAVELIN_PREFIX + "resource.thread.blocked";
+
     /** フルスレッドダンプ出力に利用するCPU使用率の閾値　 */
     public static final String THREAD_DUMP_CPU = JAVELIN_PREFIX + "thread.dump.cpu";
 
@@ -754,8 +757,11 @@ public class JavelinConfigBase
     /** フルスレッドダンプを出力するスレッド数の閾値のデフォルト値 */
     public static final int DEF_THREAD_DUMP_NUM = 100;
 
-    /** フルスレッドダンプを出力するスレッド数の閾値のデフォルト値 */
+    /** RUNNBLE状態のスレッド数を取得するかどうかのデフォルト値 */
     public static final boolean DEF_RESOURCE_THREAD_RUNNABLE = false;
+
+    /** BLOCKED状態のスレッド数を取得するかどうかのデフォルト値 */
+    public static final boolean DEF_RESOURCE_THREAD_BLOCKED = false;
 
     /** フルスレッドダンプを出力するCPU使用率の閾値のデフォルト値 */
     public static final int DEF_THREAD_DUMP_CPU = 50;
@@ -2668,6 +2674,26 @@ public class JavelinConfigBase
     public void setResourceThreadRunnable(final boolean threadDumpNum)
     {
         CONFIGUTIL.setBoolean(RESOURCE_THREAD_RUNNABLE, threadDumpNum);
+    }
+
+    /**
+     * フルスレッドダンプ出力のスレッド数の閾値を返します。<br />
+     * 
+     * @return フルスレッドダンプ出力のスレッド数の閾値
+     */
+    public boolean isResourceThreadBlocked()
+    {
+        return CONFIGUTIL.getBoolean(RESOURCE_THREAD_BLOCKED, DEF_RESOURCE_THREAD_BLOCKED);
+    }
+
+    /**
+     * フルスレッドダンプ出力のスレッド数の閾値を設定します。<br />
+     * 
+     * @param threadDumpNum フルスレッドダンプ出力のスレッド数の閾値
+     */
+    public void setResourceThreadBlocked(final boolean threadDumpNum)
+    {
+        CONFIGUTIL.setBoolean(RESOURCE_THREAD_BLOCKED, threadDumpNum);
     }
 
     /**
