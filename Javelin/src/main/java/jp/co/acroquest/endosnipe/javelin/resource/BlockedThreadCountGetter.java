@@ -29,7 +29,7 @@ import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 import jp.co.acroquest.endosnipe.common.entity.ItemType;
 
 /**
- * RUNNABLEなスレッド数を取得するクラス。
+ * BLOCKEDなスレッド数を取得するクラス。
  * 
  * @author eriguchi
  */
