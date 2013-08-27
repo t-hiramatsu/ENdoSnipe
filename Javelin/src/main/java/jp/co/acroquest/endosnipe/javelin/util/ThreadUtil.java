@@ -606,6 +606,16 @@ public class ThreadUtil
      */
     public static int getRunnableThreadCount()
     {
+        return getThreadCount(State.RUNNABLE);
+    }
+
+    /**
+     * 指定した状態のスレッド数を取得する。
+     * @param state スレッドの状態
+     * @return 指定した状態のスレッド数。
+     */
+    public static int getThreadCount(State state)
+    {
         long[] threadIds = getAllThreadIds();
     
         ThreadInfo[] threadInfos = getThreadInfo(threadIds, 0);
@@ -614,7 +624,7 @@ public class ThreadUtil
         for (ThreadInfo threadInfo : threadInfos)
         {
             State threadState = threadInfo.getThreadState();
-            if (State.RUNNABLE.equals(threadState))
+            if (state.equals(threadState))
             {
                 count++;
             }
