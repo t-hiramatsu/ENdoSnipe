@@ -10,7 +10,7 @@ Please see [ENdoSnipe wiki](https://github.com/endosnipe/endosnipe/wiki) for det
 
 ENdoSnipeは、JavaVMの内部動作を可視化し、問題点の早期発見やシステムの安定運用を支援するツールであり、[WGP](http://wgp.sourceforge.net/)を用いて開発しています。
 
-ENdoSnipe is the visualization tool for JavaVM inner operation and it support early detection of problems and system stable operation.
+ENdoSnipe is the visualization tool for JavaVM inner operation , and it supports early detection of problems and system stable operation.
 And ENdoSnipe is developed by using [WGP](http://wgp.sourceforge.net/).
 
 ENdoSnipeはAcroquest Technologyの商用製品をリファインし、2013年にオープンソース化したものです。
@@ -22,7 +22,7 @@ Refer [ENdoSnipe HP](http://www.endosnipe.com/en/) about its functions and intro
 ## 利用手順 (How to use)
 
 利用マニュアルについては近日公開予定です。
-Usage manual coming soon.
+User's manual coming soon.
 
 ## ビルド (Build)
 
