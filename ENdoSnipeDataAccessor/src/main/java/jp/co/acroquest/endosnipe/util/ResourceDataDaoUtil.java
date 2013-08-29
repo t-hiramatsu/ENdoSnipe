@@ -328,12 +328,12 @@ public class ResourceDataDaoUtil
                     measurementValue.measurementItemId =
                         insertJavelinMeasurementItem(database, measurementItemName,
                                                      measurementValue.measurementTime);
-                    MeasurementValueDto measuredData = new MeasurementValueDto();
+                    MeasurementValueDto measurementValueDto = new MeasurementValueDto();
 
-                    measuredData.measurementItemName = measurementItemName;
-                    measuredData.measurementItemId = measurementValue.measurementItemId;
+                    measurementValueDto.measurementItemName = measurementItemName;
+                    measurementValueDto.measurementItemId = measurementValue.measurementItemId;
 
-                    measurementItemList.add(measuredData);
+                    measurementItemList.add(measurementValueDto);
                 }
 
                 int overflowCount =
@@ -664,7 +664,6 @@ public class ResourceDataDaoUtil
             {
                 JavelinMeasurementItemDao.deleteByMeasurementItemId(database, deleteIdList);
                 removedItems += deleteIdList.size();
-                // deleteIdList.clear();
             }
             catch (SQLException ex)
             {

@@ -549,21 +549,24 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
                 JavelinClient.createClientId(convertedResourceData.ipAddress,
                                              convertedResourceData.portNum);
         }
-        if (result.getMeasurementItemList() != null)
+
+        List<MeasurementValueDto> measurementItemList = result.getMeasurementItemList();
+
+        if (measurementItemList != null)
         {
-            System.out.println(result.getMeasurementItemList().size());
-            Telegram addTelegram = createAddTreeNodeTelegram(result.getMeasurementItemList());
+            Telegram addTelegram = createAddTreeNodeTelegram(measurementItemList);
             this.clientRepository_.sendTelegramToClient(clientId, addTelegram);
 
         }
-        if (result.getDeleteItemIdList() != null)
-        {
-            System.out.println(result.getDeleteItemIdList().size());
-            Telegram deleteTelegram =
-                createDeleteTreeNodeTelegram(database, result.getDeleteItemIdList());
 
-            this.clientRepository_.sendTelegramToClient(clientId, deleteTelegram);
-        }
+        // TODO 削除リストをサーバに送信し、リアルタイムのツリーノード削除を実現する
+        //        if (result.getDeleteItemIdList() != null)
+        //        {
+        //            Telegram deleteTelegram =
+        //                createDeleteTreeNodeTelegram(database, result.getDeleteItemIdList());
+        //
+        //            this.clientRepository_.sendTelegramToClient(clientId, deleteTelegram);
+        //        }
     }
 
     /**
@@ -572,7 +575,7 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
      * @param measurementItemList list of added tree node
      * @return telegram of added tree node
      */
-    public Telegram createAddTreeNodeTelegram(final List<MeasurementValueDto> measurementItemList)
+    private Telegram createAddTreeNodeTelegram(final List<MeasurementValueDto> measurementItemList)
     {
         Header responseHeader = new Header();
 
@@ -595,7 +598,6 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             MeasurementValueDto measurementValue = measurementItemList.get(cnt);
             String measurementItemName = measurementValue.measurementItemName;
             measuremntItemNames[cnt] = measurementItemName;
-
         }
 
         measurementItemNameList.setObjItemValueArr(measuremntItemNames);
@@ -615,7 +617,7 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
      * @param deleteItemList list of deleted tree node
      * @return  telegram
      */
-    public Telegram createDeleteTreeNodeTelegram(final String database,
+    private Telegram createDeleteTreeNodeTelegram(final String database,
         final List<Integer> deleteItemList)
     {
         Header responseHeader = new Header();

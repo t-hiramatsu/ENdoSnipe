@@ -59,7 +59,6 @@ public class TreeStateAddListener extends AbstractTelegramListener
                 Object[] measurementItemValues = body.getObjItemValueArr();
                 for (Object itemValues : measurementItemValues)
                 {
-                    TreeMenuDto treeMenuDto = new TreeMenuDto();
                     String measurementItemName = (String)itemValues;
                     int tempIndex = measurementItemName.lastIndexOf("/");
 
@@ -69,6 +68,8 @@ public class TreeStateAddListener extends AbstractTelegramListener
                             measurementItemName.substring(tempIndex, measurementItemName.length());
                     String type = "target";
                     String icon = "leaf";
+
+                    TreeMenuDto treeMenuDto = new TreeMenuDto();
 
                     treeMenuDto.setId(treeId);
                     treeMenuDto.setData(data);
@@ -80,8 +81,6 @@ public class TreeStateAddListener extends AbstractTelegramListener
                     treeMenuDtoList.add(treeMenuDto);
                 }
 
-                String type = "add";
-
                 EventManager eventManager = EventManager.getInstance();
                 WgpDataManager dataManager = eventManager.getWgpDataManager();
                 ResourceSender resourceSender = eventManager.getResourceSender();
@@ -89,6 +88,8 @@ public class TreeStateAddListener extends AbstractTelegramListener
                 {
                     return null;
                 }
+
+                String type = "add";
 
                 resourceSender.send(treeMenuDtoList, type);
             }
