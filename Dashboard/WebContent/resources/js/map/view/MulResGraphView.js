@@ -25,11 +25,15 @@
  ******************************************************************************/
 
 ENS.tree.measurementDefinitionList = [];
+ENS.tree.previousKey = [];
 
 ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 		.extend({
 			initialize : function(argument, treeSettings) {
+				this.isFirstRender = true;
 				this.isRealTime = true;
+				this.isFirstCreate=true;
+				
 				this._initData(argument, treeSettings);
 				// %グラフのY軸の最大値
 				this.percentGraphMaxYValue = argument.percentGraphMaxYValue;
@@ -42,33 +46,32 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				// グラフタイトル横のボタン用スペースの大きさ
 				this.titleButtonSpace = argument.titleButtonSpace;
 
-				var graphIds="(";
+				var graphIds = "(";
 				var appView = new ENS.AppView();
 				this.getMeasurementTargetNodes(argument.graphId);
-			
-				for(index=0;index<ENS.tree.measurementDefinitionList.length;index++)
-					{
-					
-					if(index==ENS.tree.measurementDefinitionList.length-1)
-						{
-						 graphIds=graphIds+ENS.tree.measurementDefinitionList[index]+")";
-						}
-					else
-						{
-					 graphIds=graphIds+ENS.tree.measurementDefinitionList[index]+"|";
-						}
-					 
+
+				for (index = 0; index < ENS.tree.measurementDefinitionList.length; index++) {
+
+					if (index == ENS.tree.measurementDefinitionList.length - 1) {
+						graphIds = graphIds
+								+ ENS.tree.measurementDefinitionList[index]
+								+ ")";
+					} else {
+						graphIds = graphIds
+								+ ENS.tree.measurementDefinitionList[index]
+								+ "|";
 					}
+
+				}
 				appView.addView(this, graphIds);
 
 				this.registerCollectionEvent();
 
-				
 				if (!this.noTermData) {
-					
+
 					appView.getTermData([ graphIds ], this.timeStart,
 							this.timeEnd);
-					
+
 				}
 
 				var realTag = $("#" + this.$el.attr("id"));
@@ -88,48 +91,42 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 					margin : "10px",
 					float : "left"
 				});
-
-				this.render();
-
 				this.windowResize();
 				this.addDragEvent();
 			},
-					// /////////////////////modify//////////////////////
+			// /////////////////////modify//////////////////////
 			getMeasurementTargetNodes : function(parentId) {
-				
+
 				var settings = {
-						url : ENS.tree.MULTIPLE_RESOURCE_GRAPH_GET_URL,
-						data : {
-							multipleResourceGraphName : parentId
-						}
+					url : ENS.tree.MULTIPLE_RESOURCE_GRAPH_GET_URL,
+					data : {
+						multipleResourceGraphName : parentId
 					}
+				}
 
-					var ajaxHandler = new wgp.AjaxHandler();
-					var result = ajaxHandler.requestServerSync(settings);
-					var multipleResourceGraphDefinition = JSON.parse(result);
+				var ajaxHandler = new wgp.AjaxHandler();
+				var result = ajaxHandler.requestServerSync(settings);
+				var multipleResourceGraphDefinition = JSON.parse(result);
 
-					ENS.tree.measurementDefinitionList = multipleResourceGraphDefinition.measurementItemIdList.split(",");
+				ENS.tree.measurementDefinitionList = multipleResourceGraphDefinition.measurementItemIdList
+						.split(",");
 
 			},
-			keysByValue : function (data)
-			{
-				var arrayData=[];
-				for(var key in data)
-					{
-					if(data.hasOwnProperty(key))
-						{
-						arrayData.push([key,data[key]]);
-						}
+			keysByValue : function(data) {
+				var arrayData = [];
+				for ( var key in data) {
+					if (data.hasOwnProperty(key)) {
+						arrayData.push([ key, data[key] ]);
 					}
-				
-				arrayData.sort(function (data1,data2){
-					var value1=data1[1],value2=data2[1];
-					return value2.length-value1.length;
+				}
+
+				arrayData.sort(function(data1, data2) {
+					var value1 = data1[1], value2 = data2[1];
+					return value2.length - value1.length;
 				});
-				for(var index=0,length=arrayData.length;index<length;index++)
-					{
-					arrayData[index]=arrayData[index][0];
-					}
+				for ( var index = 0, length = arrayData.length; index < length; index++) {
+					arrayData[index] = arrayData[index][0];
+				}
 				return arrayData;
 			},
 			// /////////////////////modify//////////////////////
@@ -147,8 +144,8 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				var labelDom = document.getElementById(labelId);
 
 				var data = this.getData();
-				var dataFinal=this.createDataList(data);
-				
+				var dataFinal = this.createDataList(data);
+
 				var optionSettings = {
 					labels : this.datalabel,
 					valueRange : [ 0, this.maxValue * this.yValueMagnification ],
@@ -182,9 +179,8 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				}
 
 				var element = document.getElementById(graphId);
-				
+
 				this.entity = new Dygraph(element, dataFinal, optionSettings);
-				
 				this.entity.resize(this.width, this.graphHeight);
 				$("#" + graphId).height(this.height);
 
@@ -201,7 +197,6 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 												* this.yValueMagnification ]
 							});
 				}
-
 				if ($("#" + this.maximumButton).length > 0) {
 					$("#" + this.maximumButton).remove();
 				}
@@ -210,50 +205,43 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				$(childElem).append(this.maximumButtonImg);
 				$("#" + this.maximumButton).css("float", "right");
 				var minButton = this.normalButton, maxButton = this.maximumButton;
+				$(element).click(
+						function(e) {
+							var offsetLeft = $("#" + graphId).offset().left;
+							var offsetTop = $("#" + graphId).offset().top;
+							var position = {
+								x : Math.floor(e.clientX - offsetLeft),
+								y : Math.floor(e.clientY - offsetTop)
+							};
 
-				$(element)
-						.click(
-								function(e) {
-									var offsetLeft = $("#" + graphId).offset().left;
-									var offsetTop = $("#" + graphId).offset().top;
-									var position = {
-										x : Math.floor(e.clientX - offsetLeft),
-										y : Math.floor(e.clientY - offsetTop)
-									};
-
-									if (position.x > ($("#" + graphId).width() - 20)
-											&& position.x < ($("#" + graphId)
-													.width())
-											&& position.y > 0
-											&& position.y < 28) {
-										if ($("." + maxButton).length > 0) {
-											instance.addMaximizeEvent(
-													offsetLeft, offsetTop);
-										}
-									}
-								});
-
+							if (position.x > ($("#" + graphId).width() - 20)
+									&& position.x < ($("#" + graphId).width())
+									&& position.y > 0 && position.y < 28) {
+								if ($("." + maxButton).length > 0) {
+									instance.addMaximizeEvent(offsetLeft,
+											offsetTop);
+								}
+							}
+						});
 				this.getGraphObject().updateOptions({
 					dateWindow : this.dateWindow,
 					axisLabelFontSize : 10,
 					titleHeight : 22
 				});
-				
-				$(".dygraph-title").width($("#" + graphId).width() - this.titleButtonSpace);
 
+				$(".dygraph-title").width(
+						$("#" + graphId).width() - this.titleButtonSpace);
 				this.mouseEvent(graphId, isShort, tmpTitle, optionSettings);
-
 			},
-		
-			onAdd : function(graphModel) {
 
+			onAdd : function(graphModel) {
 				if (this.isRealTime) {
 					if (this.collection.length > this.graphMaxNumber) {
 						this.collection
 								.shift(wgp.constants.BACKBONE_EVENT.SILENT);
 					}
-					this.data = this.getData();
-					var dataList=this.createDataList(data);
+					var data = this.getData();
+					var dataList = this.createDataList(data);
 					var tempStart;
 					var tempEnd;
 					var time = new Date();
@@ -292,29 +280,30 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 						}
 
 					}
-					$(".dygraph-title").width($("#tempDiv").width() - this.titleButtonSpace);
+					$(".dygraph-title").width(
+							$("#tempDiv").width() - this.titleButtonSpace);
 				}
 			},
 			_getTermData : function() {
-				
-				var graphIds="(";
-				
-				for(index=0;index<ENS.tree.measurementDefinitionList.length;index++)
-					{
-					
-					if(index==ENS.tree.measurementDefinitionList.length-1)
-						{
-						 graphIds=graphIds+ENS.tree.measurementDefinitionList[index]+")";
-						}
-					else
-						{
-					 graphIds=graphIds+ENS.tree.measurementDefinitionList[index]+"|";
-						}
-					 
+
+				var graphIds = "(";
+
+				for (index = 0; index < ENS.tree.measurementDefinitionList.length; index++) {
+
+					if (index == ENS.tree.measurementDefinitionList.length - 1) {
+						graphIds = graphIds
+								+ ENS.tree.measurementDefinitionList[index]
+								+ ")";
+					} else {
+						graphIds = graphIds
+								+ ENS.tree.measurementDefinitionList[index]
+								+ "|";
 					}
-				
+
+				}
+
 				var data = this.getData();
-				var dataList=this.createDataList(data);
+				var dataList = this.createDataList(data);
 				if (dataList.length !== 0) {
 					this.maxValue = this.getMaxValue(dataList);
 				}
@@ -340,93 +329,110 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				}
 
 				var tmpAppView = new ENS.AppView();
-				//tmpAppView.syncData([ this.graphId ]);graphIds
+				// tmpAppView.syncData([ this.graphId ]);graphIds
 				tmpAppView.syncData([ graphIds ]);
 			},
 			onComplete : function(syncType) {
-				if (syncType == wgp.constants.syncType.SEARCH) {
-					this._getTermData();
+
+				if (this.isFirstRender == true) {
+					this.render();
+					this.isFirstRender = false;
 				}
-				var graphId = this.$el.attr("id") + "_ensgraph";
-
-				if ($("#tempDiv").length > 0) {
-					$(".dygraph-title").width(
-							($("#tempDiv").width() * 0.977) - 67);
-			} else {
-
-					$(".dygraph-title").width(($("#" + graphId).width() - 87));
-				}
-		},
-		getMaxValue : function(dataList) {
-			var maxValue = 0;
-
-			_.each(dataList, function(data, index) {
-				for(var i=1;i<data.length;i++)
-					{
-				var value = data[i];
-
-				if (value) {
-					if (value > maxValue) {
-						maxValue = value;
-					}
-				}
-					}
-			});
-
-			if (maxValue === 0) {
-				maxValue = 1;
-			}
-
-			return maxValue;
-		},
-		updateGraphData : function(graphId, from, to) {
-			if (to === 0) {
-				this.isRealTime = true;
-			} else {
-				this.isRealTime = false;
-			}
-
-			var startTime = new Date(new Date().getTime() - from);
-			var endTime = new Date(new Date().getTime() - to);
-			this.timeStart = startTime;
-			this.timeEnd = endTime;
-			this.timeFrom = from;
-			var graphIds="(";
-			this.getMeasurementTargetNodes(graphId);
-			
-			for(index=0;index<ENS.tree.measurementDefinitionList.length;index++)
-				{
+				 if (syncType == wgp.constants.syncType.SEARCH) {
+				 this._getTermData();
+				 }
+				 var graphId = this.$el.attr("id") + "_ensgraph";
 				
-				if(index==ENS.tree.measurementDefinitionList.length-1)
-					{
-					 graphIds=graphIds+ENS.tree.measurementDefinitionList[index]+")";
+				 if ($("#tempDiv").length > 0) {
+				 $(".dygraph-title").width(
+				 ($("#tempDiv").width() * 0.977) - 67);
+				 } else {
+				
+				 $(".dygraph-title").width(($("#" + graphId).width() - 87));
+				 }
+			},
+			getMaxValue : function(dataList) {
+				var maxValue = 0;
+
+				_.each(dataList, function(data, index) {
+					for ( var i = 1; i < data.length; i++) {
+						var value = data[i];
+
+						if (value) {
+							if (value > maxValue) {
+								maxValue = value;
+							}
+						}
 					}
-				else
-					{
-				 graphIds=graphIds+ENS.tree.measurementDefinitionList[index]+"|";
-					}
-				 
+				});
+
+				if (maxValue === 0) {
+					maxValue = 1;
 				}
-			appView.getTermData([ graphIds ], startTime, endTime);
-		},
+
+				return maxValue;
+			},
+			updateGraphData : function(graphId, from, to) {
+				if (to === 0) {
+					this.isRealTime = true;
+				} else {
+					this.isRealTime = false;
+				}
+
+				var startTime = new Date(new Date().getTime() - from);
+				var endTime = new Date(new Date().getTime() - to);
+				this.timeStart = startTime;
+				this.timeEnd = endTime;
+				this.timeFrom = from;
+				var graphIds = "(";
+				this.getMeasurementTargetNodes(graphId);
+
+				for (index = 0; index < ENS.tree.measurementDefinitionList.length; index++) {
+
+					if (index == ENS.tree.measurementDefinitionList.length - 1) {
+						graphIds = graphIds
+								+ ENS.tree.measurementDefinitionList[index]
+								+ ")";
+					} else {
+						graphIds = graphIds
+								+ ENS.tree.measurementDefinitionList[index]
+								+ "|";
+					}
+
+				}
+				appView.getTermData([ graphIds ], startTime, endTime);
+			},
 			getData : function() {
 
 				var measurementListMap = {};
+				var dataMap = [];
 				var data = [];
 				var instance = this;
 				var measurementItemName;
-				var measurmentListm={};
-				data.push([ new Date(0), null, null, null, null, null, null,
-						null, null, null, null, null, null, null, null, null ]);
+				var measurmentListm = {};
+				
+//				alert(this.collection.models.length);
 				_.each(this.collection.models, function(model, index) {
-					
+//					var data = [];
+//					data.push([ new Date(0), null, null, null, null, null, null,
+//								null, null, null, null, null, null, null, null, null ]);
 					measurementItemName = model.get("measurementItemName");
-					data.push(instance._parseModel(model));
-					measurementListMap[measurementItemName] =data;
+					
+					if (data[measurementItemName] === undefined) {
+						data[measurementItemName] = [];
+						data[measurementItemName].push([ new Date(0), null, null, null, null, null, null,
+									null, null, null, null, null, null, null, null, null ]);
+					}
+					
+					data[measurementItemName].push(instance._parseModel(model));
+//					var datal=data.slice();
+//					data.splice(0,data.length);
+					measurementListMap[measurementItemName] = data[measurementItemName];
+					
 				});
-				
-				 return measurementListMap;
-				
+
+				return measurementListMap;
+
 			},
 
 			addMaximizeEvent : function(offsetLeft, offsetTop) {
@@ -443,7 +449,7 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				$("#tempDiv").append(
 						"<div id='tempDiv_enslabel'class='ensLabel'></div>");
 				var data = this.getData();
-				var dataFinal=this.createDataList(data);
+				var dataFinal = this.createDataList(data);
 				var optionSettings = {
 					title : this.title,
 					xlabel : this.labelX,
@@ -561,7 +567,8 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 
 				this.hiddenGraph = hiddenGraph;
 
-				$(".dygraph-title").width($("#tempDiv").width() - this.titleButtonSpace);
+				$(".dygraph-title").width(
+						$("#tempDiv").width() - this.titleButtonSpace);
 				var childElem = $("#tempDiv_ensgraph").children("div");
 				$(childElem).append(this.normalButtonImg);
 
@@ -581,8 +588,7 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 									};
 									if (position.x > ($("#tempDiv_ensgraph")
 											.width() - 20)
-											&& position.x < ($(
-													"#tempDiv_ensgraph")
+											&& position.x < ($("#tempDiv_ensgraph")
 													.width())
 											&& position.y > 0
 											&& position.y < 28) {
@@ -592,47 +598,105 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 									}
 								});
 				// ズームアウト時（ダブルクリック）のイベントを設定。
-				$("#tempDiv").dblclick(function(event) {
-					instance.zoomOut(instance.tempEntity);
-					$(".dygraph-title").width($("#tempDiv").width() - instance.titleButtonSpace);
-				});
+				$("#tempDiv").dblclick(
+						function(event) {
+							instance.zoomOut(instance.tempEntity);
+							$(".dygraph-title").width(
+									$("#tempDiv").width()
+											- instance.titleButtonSpace);
+						});
 
 			},
-			createDataList : function (data)
-			{
-				var dataMap={};
-				var keys=this.keysByValue(data);
+//			contains :function(a, obj) {
+//			    var i = a.length;
+//			    while (i--) {
+//			       if (a[i] === obj) {
+//			           return true;
+//			       }
+//			    }
+//			    return false;
+//			},
+			createDataList : function(data) {
+				var dataMap = {};
+				var dataValue = {};
+				dataValue = data;
+				var keys = this.keysByValue(data);
+
 				
 				var top;
-				if(keys.length>5)
-					{
-					top=5;
-					}
+				if (keys.length > 5) {
+					top = 5;
+				} else {
+					top = keys.length;
+				}
+				
+				if(this.isFirstCreate)
+				{					
+						ENS.tree.previousKey=keys;			
+						this.isFirstCreate=false;
+				}
 				else
 					{
-					top=keys.length;
-					}
-				for(var indexKey=0;indexKey<top;indexKey++)
-					{
-					var value=data[keys[indexKey]];
-					_.each(value,function(valueData,index)
+					for ( var indKey = 0; indKey < top; indKey++) {
+						var found=false;
+						for ( var iKey = 0; iKey < ENS.tree.previousKey.length; iKey++) {
+							if(ENS.tree.previousKey[iKey]===keys[indKey])
+								{
+								found=true;
+								}
+						}
+						if(!found)
 							{
-						if(dataMap[valueData[0]]==undefined)
-							{
-							dataMap[valueData[0]]=valueData;
+							ENS.tree.previousKey.push(keys[indKey]);
 							}
-						else
-							{
-							var list=dataMap[valueData[0]];
-							list.push(valueData[1]);
-							dataMap[valueData[0]]=list;
-							}
-							});
+						
 					}
-				
-				var dataFinal=[];
-				$.map(dataMap,function(value,key){
 					
+					}
+//				for ( var indKey = 0; indKey < ENS.tree.previousKey.length; indKey++) {
+//					var found=false;
+//					for ( var iKey = 0; iKey < top; iKey++) {
+//						if(ENS.tree.previousKey[iKey]===keys[indKey])
+//							{
+//							found=true;
+//							}
+//					}
+//					if(!found)
+//						{
+//						ENS.tree.previousKey.splice(ENS.tree.previousKey[indKey]);
+//						}
+//					
+//				}
+				for ( var indexKey = 0; indexKey < top; indexKey++) {
+					var value = dataValue[keys[indexKey]]/*.slice()*/;
+
+					// var valueD;
+					// valueD=value.slice();
+					// alert(value);
+					_.each(value, function(valueData, index) {
+						// alert(valueData);
+						var valueD = valueData/*.slice()*/;
+						if (dataMap[valueD[0]] == undefined
+								|| dataMap[valueD[0]] == null) {
+							dataMap[valueD[0]] = valueD/*.slice()*/;
+						} else if (dataMap[valueD[0]] != undefined
+								|| dataMap[valueD[0]] != null) {
+
+							var list = dataMap[valueD[0]]/*.slice()*/;
+							// // alert(indexKey+" "+list);
+							// // if(list[indexKey+1]==null)
+							// // {
+							list.push(valueD[1]);
+							dataMap[valueD[0]] = list/*.slice()*/;
+							// // }
+						}
+					});
+					// alert(indexKey);
+				}
+
+				var dataFinal = [];
+				$.map(dataMap, function(value, key) {
+
 					dataFinal.push(value);
 				});
 				return dataFinal;

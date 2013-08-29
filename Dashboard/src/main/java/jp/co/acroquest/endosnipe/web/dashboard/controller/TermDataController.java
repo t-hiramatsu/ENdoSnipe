@@ -196,7 +196,6 @@ public class TermDataController
                         combinedMeasurementValueList.add(measurementValueDto);
                     }
                 }
-
                 List<Map<String, String>> measurementValueList =
                         createTreeMenuData(combinedMeasurementValueList);
                 responceDataList.put(dataGroupIdList.get(0), measurementValueList);
@@ -265,6 +264,7 @@ public class TermDataController
             list.clear();
             responceDataList.put(dataGroupId + PERFDOCTOR_POSTFIX_ID, dtoList);
         }
+
         return responceDataList;
     }
 
