@@ -41,8 +41,6 @@ ENS.treeView = wgp.TreeView
 				if (ENS.tree.type.SIGNAL == treeModel.get("type")) {
 					return;
 				}
-				
-				
 
 				if (this.childView) {
 					var tmpAppView = new wgp.AppView();
@@ -73,43 +71,9 @@ ENS.treeView = wgp.TreeView
 				$.extend(true, viewSettings, {
 					id : targetContentId
 				});
-				
-				
+
 				var treeSettings = treeModel.attributes;
 				// 動的に生成するオブジェクトを切り替える必要があるため、やむを得ずeval()を使う
-				
-//				if (ENS.tree.type.MULTIPLERESOURCEGRAPH == treeModel.get("type")) {
-//					
-//					var viewClassName = "ENS.MulResGraphElementView";
-//					var tempId = dataId.split("/");
-//					var dataId1 = tempId[tempId.length - 1];
-//					var viewAttribute = {
-//							id : dataId,
-//							rootView : this,
-//							graphId : dataId,
-//							title : dataId1,
-//							noTermData : false,
-//							term : 1800 * 2,
-//							width : 500,
-//							height : 500,
-//							displayNo : this.num_display,
-//							siblingNode : this.childNodes,
-//							dateWindow : [ new Date() - 60 * 60 * 1000, new Date() ],
-//							attributes : {
-//								xlabel : "Time",
-//								ylabel : "value",
-//								labels : [ "time", "PC1", "PC2" ]
-//							}
-//						};
-//
-//					$.extend(true, viewAttribute, {
-//						id : targetContentId
-//					});
-//					this.childView = eval("new " + viewClassName
-//							+ "(viewAttribute, treeSettings)");
-//					return;
-//				}
-//				
 				this.childView = eval("new " + viewClassName
 						+ "(viewSettings, treeSettings)");
 			},
@@ -438,7 +402,7 @@ ENS.treeView = wgp.TreeView
 				if (executeClass) {
 
 					if (id == ENS.tree.ADD_MULTIPLE_RESOURCE_GRAPH_TYPE) {
-						
+
 						$('#multipleResourceGraphName').removeAttr("disabled");
 						// デフォルトのレポート名にレポート出力対象のノード名を入れる(空白を削除する処理を入れている)
 						var targetNodeName = executeOption.displayName.replace(
@@ -669,7 +633,7 @@ ENS.treeView = wgp.TreeView
 
 					// シグナル編集時
 				} else if (option.signalType == ENS.tree.EDIT_MULTIPLE_RESOURCE_GRAPH_TYPE) {
-				
+
 					sendData = this
 							.createSendEditMulResGraphData_(mulResGraphName);
 					callbackFunction = "callbackEditMulResGraph_";
@@ -704,44 +668,19 @@ ENS.treeView = wgp.TreeView
 				// 入力された秒をミリ秒に変換する
 				var measurementList;
 				var measurementItem;
-			//	if ($('#multipleResourceGraphSelection').attr("checked")) {
+				measurementList = $("#multipleResourceGraphLstBox2>option")
+						.map(function() {
+							return $(this).val();
+						});
+				
+				measurementItem = measurementList.get(0);
+				for (var i = 1; i < measurementList.length; i++) {
 
-					// measurementList = $('#multipleResourceGraphLstBox2
-					// option');
-					measurementList = $("#multipleResourceGraphLstBox2>option")
-							.map(function() {
-								return $(this).val();
-							});
-					if(measurementList==null || measurementList.length==0)
-					{
-					alert("Please input 'Measurement Resource Graph Items'.");
-					return;
-					}
-					/*
-					 * $('#multipleResourceGraphSelection
-					 * option').each(function(){
-					 * measurementList=measurementList+
-					 * $(this).val().label()+","; });
-					 */
-					measurementItem = measurementList.get(0);
-					for (i = 1; i < measurementList.length; i++) {
+					measurementItem = measurementItem + ","
+							+ measurementList.get(i);
 
-						measurementItem = measurementItem + ","
-								+ measurementList.get(i);
+				}
 
-					}
-
-				/*} else if ($('#multipleResourceGraphRegExpression').attr(
-						"checked"))
-
-				{
-
-					measurementList = $("#multipleResourceGraphLstBox2>option")
-					.map(function() {
-						return $(this).val();
-					});
-
-				}*/
 				// シグナル定義を作成する
 				var mulResGraphDefinition = {
 					multipleResourceGraphId : $("#mulResGraphId").val(),
@@ -761,45 +700,21 @@ ENS.treeView = wgp.TreeView
 			 */
 			createSendEditMulResGraphData_ : function(mulResGraphName) {
 
-				//$('#multipleResourceGraphLstBox2').empty();
 				var measurementList;
 				var measurementItem;
-			//	if ($('#multipleResourceGraphSelection').attr("checked")) {
+				measurementList = $("#multipleResourceGraphLstBox2>option")
+						.map(function() {
+							return $(this).val();
+						});
 
-					// measurementList = $('#multipleResourceGraphLstBox2
-					// option');
-					measurementList = $("#multipleResourceGraphLstBox2>option")
-							.map(function() {
-								return $(this).val();
-							});
+				measurementItem = measurementList.get(0);
+				for (var i = 1; i < measurementList.length; i++) {
 
-					if(measurementList==null || measurementList.length==0)
-						{
-						alert("Please input 'Measurement Resource Graph Items'.");
-						return;
-						}
-					/*
-					 * $('#multipleResourceGraphSelection
-					 * option').each(function(){
-					 * measurementList=measurementList+
-					 * $(this).val().label()+","; });
-					 */
-					measurementItem = measurementList.get(0);
-					for (i = 1; i < measurementList.length; i++) {
+					measurementItem = measurementItem + ","
+							+ measurementList.get(i);
 
-						measurementItem = measurementItem + ","
-								+ measurementList.get(i);
+				}
 
-					}
-
-				/*} else if ($('#multipleResourceGraphRegExpression').attr(
-						"checked"))
-
-				{
-
-					measurementList = $("#multipleResourceGraphItems").val();
-
-				}*/
 				// シグナル定義を作成する
 				var mulResGraphDefinition = {
 					multipleResourceGraphId : $("#mulResGraphId").val(),
@@ -1274,7 +1189,7 @@ ENS.treeView = wgp.TreeView
 					data : {
 						multipleResourceGraphName : treeModel.get("id")
 					}
-				}
+				};
 
 				var ajaxHandler = new wgp.AjaxHandler();
 				var result = ajaxHandler.requestServerSync(settings);
@@ -1295,7 +1210,7 @@ ENS.treeView = wgp.TreeView
 								multipleResourceGraphDefinition.multipleResourceGraphName);
 				var measurementList = multipleResourceGraphDefinition.measurementItemIdList
 						.split(",");
-				for (i = 0; i < measurementList.length; i++) {
+				for (var i = 0; i < measurementList.length; i++) {
 					$('#multipleResourceGraphLstBox2').append(
 							"<option value='" + measurementList[i] + "'>"
 									+ measurementList[i] + "</option>");
