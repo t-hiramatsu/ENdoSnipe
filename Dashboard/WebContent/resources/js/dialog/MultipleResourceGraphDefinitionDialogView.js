@@ -97,7 +97,7 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 				$('#multipleResourceGraphLstBox1').removeAttr("disabled");
 				$('#multipleResourceGraphLstBox2').removeAttr("disabled");
 				$('#multipleResourceGraphItems').attr("disabled", true);
-
+				
 				if (ENS.multipleResourceGraphDialog.isFirst === true) {
 
 					$(

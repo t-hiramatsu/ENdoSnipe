@@ -438,6 +438,8 @@ ENS.treeView = wgp.TreeView
 				if (executeClass) {
 
 					if (id == ENS.tree.ADD_MULTIPLE_RESOURCE_GRAPH_TYPE) {
+						
+						$('#multipleResourceGraphName').removeAttr("disabled");
 						// デフォルトのレポート名にレポート出力対象のノード名を入れる(空白を削除する処理を入れている)
 						var targetNodeName = executeOption.displayName.replace(
 								/\s+/g, "");
@@ -447,6 +449,7 @@ ENS.treeView = wgp.TreeView
 
 						// 編集の場合は事前に値を設定する。
 					} else if (id == ENS.tree.EDIT_MULTIPLE_RESOURCE_GRAPH_TYPE) {
+						$('#multipleResourceGraphName').attr("disabled", true);
 						$('#multipleResourceGraphLstBox2').empty();
 						var treeModel = this.collection
 								.get(executeOption.treeId);
@@ -709,7 +712,11 @@ ENS.treeView = wgp.TreeView
 							.map(function() {
 								return $(this).val();
 							});
-
+					if(measurementList==null || measurementList.length==0)
+					{
+					alert("Please input 'Measurement Resource Graph Items'.");
+					return;
+					}
 					/*
 					 * $('#multipleResourceGraphSelection
 					 * option').each(function(){
@@ -766,6 +773,11 @@ ENS.treeView = wgp.TreeView
 								return $(this).val();
 							});
 
+					if(measurementList==null || measurementList.length==0)
+						{
+						alert("Please input 'Measurement Resource Graph Items'.");
+						return;
+						}
 					/*
 					 * $('#multipleResourceGraphSelection
 					 * option').each(function(){

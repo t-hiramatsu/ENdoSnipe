@@ -32,8 +32,8 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 			initialize : function(argument, treeSettings) {
 				this.isFirstRender = true;
 				this.isRealTime = true;
-				this.isFirstCreate=true;
-				
+				this.isFirstCreate = true;
+				this.count = 0;
 				this._initData(argument, treeSettings);
 				// %グラフのY軸の最大値
 				this.percentGraphMaxYValue = argument.percentGraphMaxYValue;
@@ -127,6 +127,7 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				for ( var index = 0, length = arrayData.length; index < length; index++) {
 					arrayData[index] = arrayData[index][0];
 				}
+
 				return arrayData;
 			},
 			// /////////////////////modify//////////////////////
@@ -235,12 +236,32 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 			},
 
 			onAdd : function(graphModel) {
+				// if (this.isRealTime) {
+				//					
+				// if (this.collection.length > this.graphMaxNumber * 2) {
+				// this.collection
+				// .shift(wgp.constants.BACKBONE_EVENT.SILENT);
+				// }
+				var data = this.getData();
+				var len = Object.keys(data).length;
+				// var dataList = this.createDataList(data);
+
 				if (this.isRealTime) {
-					if (this.collection.length > this.graphMaxNumber) {
-						this.collection
-								.shift(wgp.constants.BACKBONE_EVENT.SILENT);
+
+					if (this.collection.length > this.graphMaxNumber * len) {
+						for ( var index = 0; index < len; index++) {
+							var removeIndex = (this.graphMaxNumber * index)
+									- (this.count * index) - index;
+							if (removeIndex < 0) {
+								removeIndex = 0;
+							}
+							this.collection.remove(this.collection
+									.at(removeIndex));
+						}
+
+						this.count++;
 					}
-					var data = this.getData();
+					data = this.getData();
 					var dataList = this.createDataList(data);
 					var tempStart;
 					var tempEnd;
@@ -338,18 +359,18 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 					this.render();
 					this.isFirstRender = false;
 				}
-				 if (syncType == wgp.constants.syncType.SEARCH) {
-				 this._getTermData();
-				 }
-				 var graphId = this.$el.attr("id") + "_ensgraph";
-				
-				 if ($("#tempDiv").length > 0) {
-				 $(".dygraph-title").width(
-				 ($("#tempDiv").width() * 0.977) - 67);
-				 } else {
-				
-				 $(".dygraph-title").width(($("#" + graphId).width() - 87));
-				 }
+				if (syncType == wgp.constants.syncType.SEARCH) {
+					this._getTermData();
+				}
+				var graphId = this.$el.attr("id") + "_ensgraph";
+
+				if ($("#tempDiv").length > 0) {
+					$(".dygraph-title").width(
+							($("#tempDiv").width() * 0.977) - 67);
+				} else {
+
+					$(".dygraph-title").width(($("#" + graphId).width() - 87));
+				}
 			},
 			getMaxValue : function(dataList) {
 				var maxValue = 0;
@@ -410,26 +431,36 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				var instance = this;
 				var measurementItemName;
 				var measurmentListm = {};
-				
-//				alert(this.collection.models.length);
-				_.each(this.collection.models, function(model, index) {
-//					var data = [];
-//					data.push([ new Date(0), null, null, null, null, null, null,
-//								null, null, null, null, null, null, null, null, null ]);
-					measurementItemName = model.get("measurementItemName");
-					
-					if (data[measurementItemName] === undefined) {
-						data[measurementItemName] = [];
-						data[measurementItemName].push([ new Date(0), null, null, null, null, null, null,
-									null, null, null, null, null, null, null, null, null ]);
-					}
-					
-					data[measurementItemName].push(instance._parseModel(model));
-//					var datal=data.slice();
-//					data.splice(0,data.length);
-					measurementListMap[measurementItemName] = data[measurementItemName];
-					
-				});
+
+				// alert(this.collection.models.length);
+				_
+						.each(
+								this.collection.models,
+								function(model, index) {
+									// var data = [];
+									// data.push([ new Date(0), null, null,
+									// null, null, null, null,
+									// null, null, null, null, null, null, null,
+									// null, null ]);
+									measurementItemName = model
+											.get("measurementItemName");
+
+									if (data[measurementItemName] === undefined) {
+										data[measurementItemName] = [];
+										data[measurementItemName].push([
+												new Date(0), null, null, null,
+												null, null, null, null, null,
+												null, null, null, null, null,
+												null, null ]);
+									}
+
+									data[measurementItemName].push(instance
+											._parseModel(model));
+									// var datal=data.slice();
+									// data.splice(0,data.length);
+									measurementListMap[measurementItemName] = data[measurementItemName];
+
+								});
 
 				return measurementListMap;
 
@@ -607,87 +638,96 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 						});
 
 			},
-//			contains :function(a, obj) {
-//			    var i = a.length;
-//			    while (i--) {
-//			       if (a[i] === obj) {
-//			           return true;
-//			       }
-//			    }
-//			    return false;
-//			},
+			// contains :function(a, obj) {
+			// var i = a.length;
+			// while (i--) {
+			// if (a[i] === obj) {
+			// return true;
+			// }
+			// }
+			// return false;
+			// },
 			createDataList : function(data) {
 				var dataMap = {};
 				var dataValue = {};
 				dataValue = data;
 				var keys = this.keysByValue(data);
 
-				
 				var top;
 				if (keys.length > 5) {
 					top = 5;
 				} else {
 					top = keys.length;
 				}
-				
-				if(this.isFirstCreate)
-				{					
-						ENS.tree.previousKey=keys;			
-						this.isFirstCreate=false;
-				}
-				else
-					{
+
+				if (this.isFirstCreate) {
+					ENS.tree.previousKey = keys;
+					this.isFirstCreate = false;
+				} else {
+					var tempKey=ENS.tree.previousKey.slice();
 					for ( var indKey = 0; indKey < top; indKey++) {
-						var found=false;
+						var found = false;
 						for ( var iKey = 0; iKey < ENS.tree.previousKey.length; iKey++) {
-							if(ENS.tree.previousKey[iKey]===keys[indKey])
-								{
-								found=true;
-								}
-						}
-						if(!found)
-							{
-							ENS.tree.previousKey.push(keys[indKey]);
+							if (ENS.tree.previousKey[iKey] === keys[indKey]) {
+								found = true;
+								
 							}
-						
+						}
+						if (!found) {
+							tempKey.push(keys[indKey]);
+						}
+
 					}
 					
+					ENS.tree.previousKey=tempKey.slice();
+					
+					for ( var indKey = 0; indKey < top; indKey++) {
+						tempKey.splice(keys[indKey]);
 					}
-//				for ( var indKey = 0; indKey < ENS.tree.previousKey.length; indKey++) {
-//					var found=false;
-//					for ( var iKey = 0; iKey < top; iKey++) {
-//						if(ENS.tree.previousKey[iKey]===keys[indKey])
-//							{
-//							found=true;
-//							}
-//					}
-//					if(!found)
-//						{
-//						ENS.tree.previousKey.splice(ENS.tree.previousKey[indKey]);
-//						}
-//					
-//				}
+					
+					for(var tempIndex=0;tempIndex<tempKey.length;tempIndex++){
+						
+						ENS.tree.previousKey.splice(tempKey[tempIndex]);
+						}
+				}
+			
+				
+				// for ( var indKey = 0; indKey < ENS.tree.previousKey.length;
+				// indKey++) {
+				// var found=false;
+				// for ( var iKey = 0; iKey < top; iKey++) {
+				// if(ENS.tree.previousKey[iKey]===keys[indKey])
+				// {
+				// found=true;
+				// }
+				// }
+				// if(!found)
+				// {
+				// ENS.tree.previousKey.splice(ENS.tree.previousKey[indKey]);
+				// }
+				//					
+				// }
 				for ( var indexKey = 0; indexKey < top; indexKey++) {
-					var value = dataValue[keys[indexKey]]/*.slice()*/;
+					var value = dataValue[ENS.tree.previousKey[indexKey]]/* .slice() */;
 
 					// var valueD;
 					// valueD=value.slice();
 					// alert(value);
 					_.each(value, function(valueData, index) {
 						// alert(valueData);
-						var valueD = valueData/*.slice()*/;
+						var valueD = valueData/* .slice() */;
 						if (dataMap[valueD[0]] == undefined
 								|| dataMap[valueD[0]] == null) {
-							dataMap[valueD[0]] = valueD/*.slice()*/;
+							dataMap[valueD[0]] = valueD/* .slice() */;
 						} else if (dataMap[valueD[0]] != undefined
 								|| dataMap[valueD[0]] != null) {
 
-							var list = dataMap[valueD[0]]/*.slice()*/;
+							var list = dataMap[valueD[0]]/* .slice() */;
 							// // alert(indexKey+" "+list);
 							// // if(list[indexKey+1]==null)
 							// // {
 							list.push(valueD[1]);
-							dataMap[valueD[0]] = list/*.slice()*/;
+							dataMap[valueD[0]] = list/* .slice() */;
 							// // }
 						}
 					});

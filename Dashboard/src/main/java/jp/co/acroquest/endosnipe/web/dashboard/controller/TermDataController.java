@@ -138,7 +138,16 @@ public class TermDataController
             }
             else
             {
-                measurementDataList.add(dataId);
+                if ((dataId.charAt(0) == '(') && (dataId.charAt((dataId.length() - 1)) == ')'))
+                {
+                    measurementDataList.add(dataId.substring(dataId.indexOf("(") + 1,
+                                                             dataId.lastIndexOf(")")));
+                }
+                else
+                {
+                    measurementDataList.add(dataId);
+                }
+                //  measurementDataList.add(dataId);
             }
             for (int index = 0; index < measurementDataList.size(); index++)
             {

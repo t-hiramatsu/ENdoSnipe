@@ -284,6 +284,7 @@ public class ResourceSender
                 measurementArray =
                         (groupId.substring(groupId.indexOf("(") + 1, groupId.lastIndexOf(")"))).split("\\|");
             }
+
             List<String> measurementDataList = new ArrayList<String>();
             if (measurementArray != null)
             {
@@ -291,7 +292,15 @@ public class ResourceSender
             }
             else
             {
-                measurementDataList.add(groupId);
+                if ((groupId.charAt(0) == '(') && (groupId.charAt((groupId.length() - 1)) == ')'))
+                {
+                    measurementDataList.add(groupId.substring(groupId.indexOf("(") + 1,
+                                                              groupId.lastIndexOf(")")));
+                }
+                else
+                {
+                    measurementDataList.add(groupId);
+                }
             }
             for (int index = 0; index < measurementDataList.size(); index++)
             {
