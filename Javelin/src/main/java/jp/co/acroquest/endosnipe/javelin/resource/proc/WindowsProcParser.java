@@ -81,14 +81,11 @@ public class WindowsProcParser implements ProcParser
 /**
      *      /proc/meminfo、/proc/stat、/proc/self/statから読み込み、
      *    ProcInfoに格納する。
-     *    
-     *    @return PocInfo
      */
-    public ProcInfo load()
+    public void load()
     {
         ProcInfo procInfo = parseStatInfo();
         this.procInfo_ = procInfo;
-        return procInfo;
     }
 
     /**

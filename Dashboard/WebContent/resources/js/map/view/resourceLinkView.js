@@ -34,7 +34,8 @@ ENS.ResourceLinkElementView = ENS.ShapeElementView.extend({
 	setOperateFunction : function() {
 
 		var instance = this;
-		this.object.dblclick(
+		var element = this.getElement(0);
+		element.object.dblclick(
 		// ダブルクリック時の画面遷移処理
 		function(event) {
 
@@ -57,5 +58,16 @@ ENS.ResourceLinkElementView = ENS.ShapeElementView.extend({
 	},
 	getHeight : function(){
 		return this.getElement(0).object.getBBox()["height"];
+	},
+	isResizable : function(){
+		return false;
+	},
+	setAttributes : function(elementAttributeList){
+
+		// 継承元のrenderメソッド実行
+		ENS.ShapeElementView.prototype.setAttributes.apply(this, [ elementAttributeList ]);
+
+		// フレームをリセット
+		this.getElement(0).resetFrame();
 	}
 });

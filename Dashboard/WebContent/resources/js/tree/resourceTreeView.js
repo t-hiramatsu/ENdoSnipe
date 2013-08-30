@@ -1,5 +1,11 @@
-ENS.ResourceTreeView = ENS.treeView
+ENS.ResourceTreeView = ENS.treeManager
 		.extend({
+
+			/**
+			 * ツリー連携は不要であるため空でオーバーライドする。
+			 */
+			setTreeCooperation : function(){
+			},
 			/**
 			 * 編集用のイベントを設定する。
 			 */
@@ -29,7 +35,7 @@ ENS.ResourceTreeView = ENS.treeView
 				var clickTarget = null;
 				var zIndex = 1;
 				var option = {
-					target_id : "#" + this.$el.attr("id"),
+					target_id : "#" + this.ensTreeView.$el.attr("id"),
 
 					// コンテキストメニューの表示条件を指定する。
 					// 以下の条件に全て該当する要素を右クリックした場合に表示する。
@@ -44,7 +50,7 @@ ENS.ResourceTreeView = ENS.treeView
 						clickTarget = $(event.target);
 						var treeId = clickTarget.attr("id");
 
-						var treeModel = instance.collection.get(treeId);
+						var treeModel = instance.ensTreeView.collection.get(treeId);
 						var treeType = treeModel.get("type");
 
 						// シグナルかグラフかによって表示するメニューを変更する。
@@ -70,7 +76,7 @@ ENS.ResourceTreeView = ENS.treeView
 					},
 					onSelect : function(event, target) {
 						var treeId = clickTarget.attr("id");
-						var treeModel = instance.collection.get(treeId);
+						var treeModel = instance.ensTreeView.collection.get(treeId);
 
 						// TODO マップが選択されていない場合はメッセージを表示して処理を中止する。
 						if (!instance.childView) {
@@ -103,10 +109,13 @@ ENS.ResourceTreeView = ENS.treeView
 								zIndex : zIndex
 							});
 
+							// グラフ追加イベント
+							window.resourceMapListView.childView.changedFlag = true;
+
 							// シグナルを追加する場合
 						} else if (event.currentTarget.id == "addSignal") {
 
-							var treeModel = instance.collection.get(treeId);
+							var treeModel = instance.ensTreeView.collection.get(treeId);
 							var treeIcon = treeModel.get("icon");
 							var treeText = treeModel.get("data");
 
@@ -137,6 +146,9 @@ ENS.ResourceTreeView = ENS.treeView
 									fill : ENS.map.fontColor,
 								}]
 							});
+
+							// シグナル追加イベント
+							window.resourceMapListView.childView.changedFlag = true;
 						}
 
 						instance.childView.collection.add(resourceModel);
@@ -144,7 +156,7 @@ ENS.ResourceTreeView = ENS.treeView
 					}
 				};
 
-				var targetTag = $("#" + this.$el.attr("id"));
+				var targetTag = $("#" + this.ensTreeView.$el.attr("id"));
 				var menuId = this.contextMenuId;
 				contextMenuCreator.createContextMenuSelector(targetTag, menuId,
 						option);

@@ -10,6 +10,7 @@
     <property name="endosnipe-datacollector.dir" value="ENdoSnipeDataCollector" />
     <property name="endosnipe-reporter.dir" value="ENdoSnipeReporter" />
     <property name="endosnipe-report-command.dir" value="ENdoSnipeReportCommand" />
+    <property name="endosnipe-perfdoctor.dir" value="ENdoSnipePerfDoctor" />
     <property name="javelin.dir" value="Javelin" />
     <property name="release.dir" value="ENdoSnipe/release" />
     <property name="plugin.jar" value="jp.co.acroquest.*.jar" />
@@ -28,7 +29,8 @@
     <target name="all_build" depends="clean, prepare,
         build_ENdoSnipeCommon, build_ENdoSnipeDataAccessor,
         build_ENdoSnipeCommunicator, build_ENdoSnipeDataCollector,
-        build_Javelin, build_ENdoSnipeReporter, build_ENdoSnipeReportCommand">
+        build_Javelin, build_ENdoSnipeReporter, build_ENdoSnipeReportCommand
+        , build_ENdoSnipePerfDoctor">
         <copy todir="${release.dir}">
             <fileset dir="${endosnipe-datacollector.dir}/dist">
                 <include name="${datacollector.zip}" />
@@ -76,6 +78,11 @@
     <!-- ENdoSnipeReportCommand をビルドする -->
     <target name="build_ENdoSnipeReportCommand">
         <ant antfile="build.xml" dir="${endosnipe-report-command.dir}" target="release" inheritall="false"/>
+    </target>
+    
+    <!-- ENdoSnipePerfDoctor をビルドする -->
+    <target name="build_ENdoSnipePerfDoctor">
+        <ant antfile="build.xml" dir="${endosnipe-perfdoctor.dir}" target="release" inheritall="false"/>
     </target>
 
     <!-- WebDashboard をビルドする -->

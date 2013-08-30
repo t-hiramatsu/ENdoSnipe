@@ -260,40 +260,133 @@ ENS.map.mode.OPERATE = "OPERATE";
 ENS.map.mode.EDIT = "EDIT";
 ENS.map.fontSize = 16;
 ENS.map.fontColor = "#F58400";
-ENS.map.MIN_GRAPH_WIDTH = 260;
-ENS.map.MIN_GRAPH_HEIGHT = 200;
-
+ENS.map.MIN_GRAPH_WIDTH = 260;ENS.map.MIN_GRAPH_HEIGHT = 200;ENS.map.extraMapSize = 10;
+ENS.map.moveSpan = 16;
+ENS.map.backgroundSetting = {
+	objectId : "background",
+	objectName : "ENS.BackgroundElementView",
+	pointX : 0,
+	pointY : 0,
+	width : 1000,
+	height : 750,
+	shapeName : raphaelMapConstants.RECTANGLE_ELEMENT_NAME,
+	shapeType : raphaelMapConstants.POLYGON_TYPE_NAME,
+	zIndex : 0,
+	elementAttrList : [{
+		fill : "#FFFFFF",
+		stroke : "#000000",
+		strokeDasharray : "",
+		strokeWidth : 1
+	}]
+};
 ENS.svg = {};
 ENS.svg.attribute = {
-	arrowEnd : "arrow-end",
-	clipRect : "clip-rect",
-	cursor : "cursor",
-	cx : "cx",
-	cy : "cy",
-	fill : "fill",
-	fillOpacity : "fill-opacity",
-	font : "font",
-	fontFamily : "font-family",
-	fontSize : "font-size",
+//	arrowEnd : "arrow-end",
+//	clipRect : "clip-rect",
+//	cursor : "cursor",
+//	cx : "cx",
+//	cy : "cy",
+	fill : {
+		name : "fill",
+		type : "color",
+		display : "Fill color"
+	},
+	fillOpacity : {
+		name : "fill-opacity",
+		type : "number",
+		display : "Transparency",
+		unit : "%"
+	},
+//	font : "font",
+	fontFamily : {
+		name : "font-family",
+		type : "select",
+		display : "Font type",
+		selection : {
+			"Arial" : "Arial",
+			"MS Mincho" : "MS Mincho",
+			"MS Gothic" : "MS Gothic"
+		}
+	},
+	fontSize : {
+		name : "font-size",
+		type : "select",
+		selection : {
+			"6" : 6,
+			"8" : 8,
+			"9" : 9,
+			"10" : 10,
+			"11" : 11,
+			"12" : 12,
+			"14" : 14,
+			"16" : 16,
+			"18" : 18,
+			"20" : 20,
+			"22" : 22,
+			"24" : 24,
+			"26" : 26,
+			"28" : 28,
+			"36" : 26,
+			"48" : 48,
+			"72" : 72
+		},
+		display : "Font size",
+		unit : "px"
+	},
 	fontWeight : "font-weight",
 	height : "height",
-	href : "href",
+	href : {
+		name : "url",
+		type : "string",
+		display : "url"
+	},
 	opacity : "opacity",
 	path : "path",
 	r : "r",
 	rx : "rx",
 	ry : "ry",
 	src : "src",
-	stroke : "stroke",
-	strokeDasharray : "stroke-dasharray",
+	stroke : {
+		name : "stroke",
+		type : "color",
+		display : "Line color"
+	},
+	strokeDasharray : {
+		name : "stroke-dasharray",
+		type : "select",
+		display : "Line type",
+		selection : {
+			"――――" : "",
+			"--------" : "-",
+			"・・・・" : ".",
+			"―・―・" : "-."
+		}
+	},
 	strokeLinecap : "stroke-linecap",
 	strokeLinejoin : "stroke-linejoin",
 	strokeMiterlimit : "stroke-miterlimit",
 	strokeOpacity : "stroke-opacity",
-	strokeWidth : "stroke-width",
+	strokeWidth : {
+		name : "stroke-width",
+		type : "number",
+		display : "Line width"
+	},
 	target : "target",
-	text : "text",
-	textAnchor : "text-anchor",
+	text : {
+		name : "text",
+		type : "string",
+		dislpay : "text"
+	},
+	textAnchor : {
+		name : "text-anchor",
+		type : "select",
+		display : "Text Anchor",
+		selection : {
+			"Align Left" : "start",
+			"Align Center" : "middle",
+			"Align Right" : "end"
+		}
+	},
 	title : "title",
 	transform : "transform",
 	width : "width",

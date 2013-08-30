@@ -42,6 +42,8 @@ ENS.reportView = wgp.AbstractView
 							pginput : true,
 							height : height,
 							width : 875,
+							sortname : "reportName", 
+							sortorder : "desc",
 							viewrecords : true, 
 							rownumbers : true,
 							shrinkToFit : false
@@ -180,7 +182,7 @@ ENS.reportView = wgp.AbstractView
 				}
 
 				// 整形して返却
-				return date.getFullYear() + "-" + month + "-" + day + " "
+				return date.getFullYear() + "/" + month + "/" + day + " "
 						+ hour + ":" + minute + ":" + second;
 			}
 		});

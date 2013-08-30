@@ -59,6 +59,10 @@
     <!-- 以前のビルドにより構築したクラスファイルの削除、
          コピーしたプロパティファイルの削除 -->
     <target name="clean" description="以前にビルドされたファイルを削除する">
+      <delete>
+        <fileset dir="${weblib.path}" includes="endosnipe-*.jar"/>
+        <fileset dir="${weblib.path}" includes="ENdoSnipe*.jar"/>
+      </delete>
       <delete dir="${classes.path}"/>
       <delete dir="${webclass.path}"/>
     </target>
@@ -89,6 +93,7 @@
         <copy file="${endosnipe-datacollector.jar}" todir="${weblib.path}" failonerror="yes" />
         <copy file="${endosnipe-reporter.jar}" todir="${weblib.path}" failonerror="yes" />
         <copy file="${endosnipe-report-command.jar}" todir="${weblib.path}" failonerror="yes" />
+        <copy file="${endosnipe-perfdoctor.jar}" todir="${weblib.path}" failonerror="yes" />
         <javac srcdir       = "${src.path}"
                destdir      = "${classes.path}"
                encoding     = "UTF-8"

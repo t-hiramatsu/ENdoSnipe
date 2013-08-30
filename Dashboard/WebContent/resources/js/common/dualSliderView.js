@@ -44,6 +44,13 @@ ENS.DualSliderView = wgp.AbstractView
 				this.fromScale = this.groupUnitNum * this.groupNum - 1;
 				this.toScale = this.groupUnitNum * this.groupNum;
 
+				// 仮処理として、Chromeでスライダーの位置まで表示領域が消える問題が起こらないために、表示領域に一定の大きさのCANVASを書いている
+				$("#" + this.id).append('<canvas id="' + this.viewId + '_nonmean_canvas" width="800" height="90" style="margin-top: -300px; margin-left: -800px; position: absolute;"></canvas>');
+				var canvas = document.getElementById(this.viewId + '_nonmean_canvas');
+				var ctx = canvas.getContext('2d');
+				ctx.strokeRect(0, 0, 0.001, 0.001);
+				// ↑ここまでが仮処理
+				
 				// get html of slider
 				var htmlString = this._getScaleHtml(this.scaleUnitStrings,
 						this.scaleUnitString,
@@ -75,6 +82,7 @@ ENS.DualSliderView = wgp.AbstractView
 
 				// group selector event
 				this._setGroupSelectorMovedEvent();
+				
 			},
 			render : function() {
 				console.log('call render (dual slider)');

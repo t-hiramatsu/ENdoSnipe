@@ -15,104 +15,31 @@ package jp.co.acroquest.endosnipe.javelin.communicate.config;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.co.acroquest.endosnipe.communicator.CommunicationClient;
-import jp.co.acroquest.endosnipe.communicator.CommunicatorListener;
 import jp.co.acroquest.endosnipe.communicator.entity.Body;
 import jp.co.acroquest.endosnipe.communicator.entity.Header;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
-import jp.co.acroquest.endosnipe.communicator.impl.CommunicationClientImpl;
+import jp.co.acroquest.endosnipe.javelin.communicate.SimpleENdoSnipeClient;
 
 /**
  * 設定変更クライアント
  * 
  * @author eriguchi
  */
-public class ConfigUpdateClient
+public class ConfigUpdateClient extends SimpleENdoSnipeClient
 {
-    /** タイムアウト時間 */
-    private static final int TIMEOUT_MILLIS = 5000;
-
-    /** 通信用クライアント。 */
-    private CommunicationClient client_;
 
     /** 応答の待ち受けリスナ。 */
-    private UpdatePropertyResponseListener listener_;
+    protected UpdatePropertyResponseListener listener_;
 
-    /** タイムアウトに使用するオブジェクト。 */
-    private Object timeoutObject_;
-
-    /** コンストラクタ */
-    public ConfigUpdateClient()
-    {
-        client_ = new CommunicationClientImpl("ConfigUpdateClient");
-        timeoutObject_ = new Object();
-    }
-
-    /**
-     * 指定したホスト、ポートのJavelinに接続する。
-     * 
-     * @param host ホスト名。
-     * @param port ポート番号。
-     * 
-     * @return 接続に成功したか、失敗したか。
+    /** コンストラクタ 
+     * @param threadName スレッド名
      */
-    public boolean connect(String host, int port)
+    public ConfigUpdateClient(String threadName)
     {
-
-        client_.init(host, port);
-
+        super(threadName);
         listener_ = new UpdatePropertyResponseListener(timeoutObject_);
         client_.addTelegramListener(listener_);
-        client_.addCommunicatorListener(new CommunicatorListener() {
-
-            public void clientDisconnected(boolean forceDisconnected)
-            {
-                // 何もしない。
-            }
-
-            public void clientConnected(String hostName, String ipAddress, int port)
-            {
-                synchronized (ConfigUpdateClient.this.timeoutObject_)
-                {
-                    ConfigUpdateClient.this.timeoutObject_.notifyAll();
-                }
-            }
-        });
-
-        client_.connect(null);
-
-        if (client_.isConnected() == false)
-        {
-            try
-            {
-                synchronized (this.timeoutObject_)
-                {
-                    this.timeoutObject_.wait(TIMEOUT_MILLIS);
-                }
-            }
-            catch (InterruptedException ex)
-            {
-                ex.printStackTrace();
-            }
-
-            if (client_.isConnected() == false)
-            {
-                System.out.println("connect timeout. ");
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * 切断する。
-     */
-    public void disconnect()
-    {
-        client_.disconnect();
-        client_.shutdown();
     }
 
     /**
@@ -270,7 +197,7 @@ public class ConfigUpdateClient
             return;
         }
 
-        ConfigUpdateClient client = new ConfigUpdateClient();
+        ConfigUpdateClient client = new ConfigUpdateClient("ConfigUpdateClient");
 
         List<PropertyEntry> list = new ArrayList<PropertyEntry>();
 

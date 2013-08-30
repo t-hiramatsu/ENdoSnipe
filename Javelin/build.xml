@@ -78,6 +78,9 @@
         <delete dir="${classes.jsonic.dir}" />
         <delete dir="${dist.dir}" />
         <delete dir="${report.dir}" />
+        <delete>
+            <fileset dir="${lib-dependency.dir}" includes="endosnipe-*.jar"/>
+        </delete>
     </target>
 
     <!-- ServletAPI のコンパイル -->

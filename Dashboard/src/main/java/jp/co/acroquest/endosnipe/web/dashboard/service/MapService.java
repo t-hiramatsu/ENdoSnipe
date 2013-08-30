@@ -25,6 +25,7 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.web.dashboard.service;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -326,5 +327,36 @@ public class MapService
         dataMap.put("treeId", String.valueOf(mapInfo.mapId));
         dataMap.put("mapData", mapInfo.data);
         return dataMap;
+    }
+
+    /**
+     * 背景画像のリストを取得する。
+     * @param directoryPath 背景画像格納フォルダ
+     * @param relativePath 相対パス
+     * @return 背景画像のリスト取得結果
+     */
+    public ResponseDto getImageList(final String directoryPath, final String relativePath)
+    {
+        Map<String, String> imageMap = new HashMap<String, String>();
+        File directory = new File(directoryPath);
+        if (directory.isDirectory())
+        {
+            File[] imageFile = directory.listFiles();
+
+            for (File image : imageFile)
+            {
+                String imageName = image.getName();
+                if (imageName.endsWith(".png"))
+                {
+                    String imagePath = image.getPath();
+                    imageMap.put(imageName, relativePath + "/" + imageName);
+                }
+            }
+        }
+
+        ResponseDto responseDto = new ResponseDto();
+        responseDto.setResult(ResponseConstants.RESULT_SUCCESS);
+        responseDto.setData(imageMap);
+        return responseDto;
     }
 }

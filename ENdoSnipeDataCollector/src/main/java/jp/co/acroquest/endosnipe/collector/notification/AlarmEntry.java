@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import jp.co.acroquest.endosnipe.collector.processor.AlarmType;
+import jp.co.acroquest.endosnipe.data.dto.SignalDefinitionDto;
 
 /**
  * シグナルのアラームを通知に使用するEntityクラス。
@@ -73,6 +74,8 @@ public class AlarmEntry
 
     /** シグナルのレベル(3 or 5) */
     private int signalLevel_;
+
+    private SignalDefinitionDto definition_;
 
     /**
      * コンストラクタ。
@@ -303,6 +306,24 @@ public class AlarmEntry
     public void setSignalLevel(final int signalLevel)
     {
         signalLevel_ = signalLevel;
+    }
+
+    /**
+     * シグナルの定義情報を取得する。
+     * @return シグナルの定義情報
+     */
+    public SignalDefinitionDto getDefinition()
+    {
+        return definition_;
+    }
+
+    /**
+     * シグナルの定義情報を設定する。
+     * @param definition シグナルの定義情報
+     */
+    public void setDefinition(final SignalDefinitionDto definition)
+    {
+        definition_ = definition;
     }
 
 }

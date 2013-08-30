@@ -31,6 +31,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 import jp.co.acroquest.endosnipe.common.entity.ResourceItem;
@@ -46,165 +48,239 @@ import jp.co.acroquest.endosnipe.javelin.bean.TurnAroundTimeInfo;
  */
 public class TurnAroundTimeGroupGetter implements ResourceGroupGetter, TelegramConstants
 {
-	/** JavelinのConfig */
-	private JavelinConfig config_ = new JavelinConfig();
+    /** JavelinのConfig */
+    private JavelinConfig config_ = new JavelinConfig();
 
-	/**
-	 * コンストラクタ
-	 */
-	public TurnAroundTimeGroupGetter()
-	{
+    private String prefixedName_;
 
-	}
+    /**
+     * コンストラクタ
+     */
+    public TurnAroundTimeGroupGetter()
+    {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Set<String> getItemNameSet()
-	{
-		// javelin.tat.monitorの値がfalseの時には、
-		// グラフの値を取得しないようにする。
-		if (this.config_.isTatEnabled() == false)
-		{
-			return new HashSet<String>();
-		}
+    }
 
-		Set<String> retVal = new HashSet<String>();
-		retVal.add(ITEMNAME_PROCESS_RESPONSE_TIME_AVERAGE);
-		retVal.add(ITEMNAME_PROCESS_RESPONSE_TIME_MAX);
-		retVal.add(ITEMNAME_PROCESS_RESPONSE_TIME_MIN);
-		retVal.add(ITEMNAME_PROCESS_RESPONSE_TOTAL_COUNT);
-		retVal.add(ITEMNAME_JAVAPROCESS_EXCEPTION_OCCURENCE_COUNT);
-		retVal.add(ITEMNAME_JAVAPROCESS_STALL_OCCURENCE_COUNT);
-		return retVal;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public Set<String> getItemNameSet()
+    {
+        // javelin.tat.monitorの値がfalseの時には、
+        // グラフの値を取得しないようにする。
+        if (this.config_.isTatEnabled() == false)
+        {
+            return new HashSet<String>();
+        }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Map<String, MultiResourceGetter> getResourceGroup()
-	{
-		long currentTime = System.currentTimeMillis();
-		long tatZeroKeepTime = this.config_.getTatZeroKeepTime();
+        Set<String> retVal = new HashSet<String>();
+        retVal.add(ITEMNAME_PROCESS_RESPONSE_TIME_AVERAGE);
+        retVal.add(ITEMNAME_PROCESS_RESPONSE_TIME_MAX);
+        retVal.add(ITEMNAME_PROCESS_RESPONSE_TIME_MIN);
+        retVal.add(ITEMNAME_PROCESS_RESPONSE_TOTAL_COUNT);
+        retVal.add(ITEMNAME_JAVAPROCESS_EXCEPTION_OCCURENCE_COUNT);
+        retVal.add(ITEMNAME_JAVAPROCESS_STALL_OCCURENCE_COUNT);
+        return retVal;
+    }
 
-		// Turn Around Time情報(平均値)
-		List<ResourceItem> tatEntryList = new ArrayList<ResourceItem>();
-		// Turn Around Time情報(最大値)
-		List<ResourceItem> tatMaxEntryList = new ArrayList<ResourceItem>();
-		// Turn Around Time情報(最小値)
-		List<ResourceItem> tatMinEntryList = new ArrayList<ResourceItem>();
-		// Turn Around Time呼び出し回数情報
-		List<ResourceItem> tstCountEntryList = new ArrayList<ResourceItem>();
-		// 例外発生回数情報
-		List<ResourceItem> throwableCountEntryList = new ArrayList<ResourceItem>();
+    /**
+     * {@inheritDoc}
+     */
+    public Map<String, MultiResourceGetter> getResourceGroup()
+    {
+        long currentTime = System.currentTimeMillis();
+        long tatZeroKeepTime = this.config_.getTatZeroKeepTime();
 
-		// HTTPステータスエラー発生回数情報
-		List<ResourceItem> httpStatusCountEntryList = new ArrayList<ResourceItem>();
-		// ストール検出回数情報
-		List<ResourceItem> methodStallCountEntryList = new ArrayList<ResourceItem>();
+        // Turn Around Time情報(平均値)
+        List<ResourceItem> tatEntryList = new ArrayList<ResourceItem>();
+        // Turn Around Time情報(最大値)
+        List<ResourceItem> tatMaxEntryList = new ArrayList<ResourceItem>();
+        // Turn Around Time情報(最小値)
+        List<ResourceItem> tatMinEntryList = new ArrayList<ResourceItem>();
+        // Turn Around Time呼び出し回数情報
+        List<ResourceItem> tstCountEntryList = new ArrayList<ResourceItem>();
+        // 例外発生回数情報
+        List<ResourceItem> throwableCountEntryList = new ArrayList<ResourceItem>();
 
-		Invocation[] invocations = RootInvocationManager.getAllRootInvocations();
+        // HTTPステータスエラー発生回数情報
+        List<ResourceItem> httpStatusCountEntryList = new ArrayList<ResourceItem>();
+        // ストール検出回数情報
+        List<ResourceItem> methodStallCountEntryList = new ArrayList<ResourceItem>();
 
-		for (Invocation invocation : invocations)
-		{
-			boolean output = invocation.isResponseGraphOutputTarget();
-			if (!output)
-			{
-				continue;
-			}
-			TurnAroundTimeInfo info = invocation.resetAccumulatedTimeCount();
+        Invocation[] invocations = RootInvocationManager.getAllRootInvocations();
 
-			// resetAccumulatedTimeCount() 呼出し後に、呼び出し回数が 0 である期間を調べる
-			long tatCallZeroValueStartTime = invocation.getTatCallZeroValueStartTime();
-			if (tatCallZeroValueStartTime != Invocation.TAT_ZERO_KEEP_TIME_NULL_VALUE
-					&& currentTime > tatCallZeroValueStartTime + tatZeroKeepTime)
-			{
-				// 呼び出し回数が 0 である時間が閾値を超えた場合は、クライアントに通知しない
-				continue;
-			}
+        for (Invocation invocation : invocations)
+        {
+            boolean output = invocation.isResponseGraphOutputTarget();
+            if (!output)
+            {
+                continue;
+            }
+            TurnAroundTimeInfo info = invocation.resetAccumulatedTimeCount();
 
-			// 戻り値で返すResourceEntryを作成する
-			ResourceItem tatEntry = new ResourceItem();
-			ResourceItem tatMaxEntry = new ResourceItem();
-			ResourceItem tatMinEntry = new ResourceItem();
-			ResourceItem tatCountEntry = new ResourceItem();
+            // resetAccumulatedTimeCount() 呼出し後に、呼び出し回数が 0 である期間を調べる
+            long tatCallZeroValueStartTime = invocation.getTatCallZeroValueStartTime();
+            if (tatCallZeroValueStartTime != Invocation.TAT_ZERO_KEEP_TIME_NULL_VALUE
+                && currentTime > tatCallZeroValueStartTime + tatZeroKeepTime)
+            {
+                // 呼び出し回数が 0 である時間が閾値を超えた場合は、クライアントに通知しない
+                continue;
+            }
 
-			// ResourceEntryにNameを設定する。
-			// スラッシュは区切り文字のため、スラッシュがある場合には文字参照に変換する
-			String name = invocation.getRootInvocationManagerKey().replace("/", "&#47;");
+            // 戻り値で返すResourceEntryを作成する
+            ResourceItem tatEntry = new ResourceItem();
+            ResourceItem tatMaxEntry = new ResourceItem();
+            ResourceItem tatMinEntry = new ResourceItem();
+            ResourceItem tatCountEntry = new ResourceItem();
 
-			tatEntry.setName(ITEMNAME_PROCESS_RESPONSE_TIME_AVERAGE.replace("total", name));
-			tatMaxEntry.setName(ITEMNAME_PROCESS_RESPONSE_TIME_MAX.replace("total", name));
-			tatMinEntry.setName(ITEMNAME_PROCESS_RESPONSE_TIME_MIN.replace("total", name));
-			tatCountEntry.setName(ITEMNAME_PROCESS_RESPONSE_TOTAL_COUNT.replace("total", name));
+            // ResourceEntryにNameを設定する。
+            // スラッシュは区切り文字のため、スラッシュがある場合には文字参照に変換する
+            String name = invocation.getRootInvocationManagerKey();
 
-			// ResourceEntryにValueを設定する
-			int count = info.getCallCount();
-			tatCountEntry.setValue(String.valueOf(count));
-			if (count == 0)
-			{
-				tatEntry.setValue(String.valueOf(Long.valueOf(0)));
-			}
-			else
-			{
-				tatEntry.setValue(String.valueOf(info.getTurnAroundTime() / count));
-			}
-			tatMaxEntry.setValue(String.valueOf(info.getTurnAroundTimeMax()));
-			tatMinEntry.setValue(String.valueOf(info.getTurnAroundTimeMin()));
+            String tatName = getTreeNodeName(name, TelegramConstants.POSTFIX_AVERAGE);
+            tatEntry.setName(tatName);
 
-			// ResourceEntryをリストに設定する。
-			tatEntryList.add(tatEntry);
-			tatMaxEntryList.add(tatMaxEntry);
-			tatMinEntryList.add(tatMinEntry);
-			tstCountEntryList.add(tatCountEntry);
+            String tatMaxName = getTreeNodeName(name, TelegramConstants.POSTFIX_MAX);
+            tatMaxEntry.setName(tatMaxName);
 
-			// 例外発生情報を設定
-			Map<String, Integer> throwableCountMap = info.getThrowableCountMap();
-			for (Map.Entry<String, Integer> entry : throwableCountMap.entrySet())
-			{
-				String throwableName = entry.getKey();
-				Integer throwableCount = entry.getValue();
+            String tatMinName = getTreeNodeName(name, TelegramConstants.POSTFIX_MIN);
+            tatMinEntry.setName(tatMinName);
 
-				ResourceItem throwableCountEntry = new ResourceItem();
-				throwableCountEntry.setName(ITEMNAME_JAVAPROCESS_EXCEPTION_OCCURENCE_COUNT.replace(
-						"java", name) + "/" + throwableName);
-				throwableCountEntry.setValue(String.valueOf(throwableCount));
-				throwableCountEntryList.add(throwableCountEntry);
-			}
+            String tatCountName = getTreeNodeName(name, TelegramConstants.POSTFIX_COUNT);
+            tatCountEntry.setName(tatCountName);
 
-			// HTTPエラー発生情報を設定
-			Map<String, Integer> httpStatusCountMap = info.getHttpStatusCountMap();
-			for (Map.Entry<String, Integer> entry : httpStatusCountMap.entrySet())
-			{
-				String httpStatusName = entry.getKey();
-				Integer httpStatusCount = entry.getValue();
+            // ResourceEntryにValueを設定する
+            int count = info.getCallCount();
+            tatCountEntry.setValue(String.valueOf(count));
+            if (count == 0)
+            {
+                tatEntry.setValue(String.valueOf(Long.valueOf(0)));
+            }
+            else
+            {
+                tatEntry.setValue(String.valueOf(info.getTurnAroundTime() / count));
+            }
+            tatMaxEntry.setValue(String.valueOf(info.getTurnAroundTimeMax()));
+            tatMinEntry.setValue(String.valueOf(info.getTurnAroundTimeMin()));
 
-				ResourceItem httpStatusCountEntry = new ResourceItem();
-				httpStatusCountEntry.setName(ITEMNAME_JAVAPROCESS_EXCEPTION_OCCURENCE_COUNT
-						.replace("java", name) + "/" + httpStatusName);
-				httpStatusCountEntry.setValue(String.valueOf(httpStatusCount));
-				httpStatusCountEntryList.add(httpStatusCountEntry);
-			}
+            // ResourceEntryをリストに設定する。
+            tatEntryList.add(tatEntry);
+            tatMaxEntryList.add(tatMaxEntry);
+            tatMinEntryList.add(tatMinEntry);
+            tstCountEntryList.add(tatCountEntry);
 
-			// ストール検出情報を設定
-			ResourceItem methodStallCountEntry = new ResourceItem();
-			methodStallCountEntry.setName(ITEMNAME_JAVAPROCESS_STALL_OCCURENCE_COUNT.replace(
-					"java", name));
-			methodStallCountEntry.setValue(String.valueOf(info.getMethodStallCount()));
-			methodStallCountEntryList.add(methodStallCountEntry);
-		}
+            // 例外発生情報を設定
+            Map<String, Integer> throwableCountMap = info.getThrowableCountMap();
+            for (Map.Entry<String, Integer> entry : throwableCountMap.entrySet())
+            {
+                String throwableName = entry.getKey();
+                Integer throwableCount = entry.getValue();
 
-		// 戻り値となるMultiResourceGetterのリストを設定する
-		Map<String, MultiResourceGetter> retVal = new LinkedHashMap<String, MultiResourceGetter>();
-		retVal.put(ITEMNAME_PROCESS_RESPONSE_TIME_AVERAGE, new TurnAroundTimeGetter(tatEntryList));
-		retVal.put(ITEMNAME_PROCESS_RESPONSE_TIME_MAX, new TurnAroundTimeGetter(tatMaxEntryList));
-		retVal.put(ITEMNAME_PROCESS_RESPONSE_TIME_MIN, new TurnAroundTimeGetter(tatMinEntryList));
-		retVal.put(ITEMNAME_PROCESS_RESPONSE_TOTAL_COUNT, new TurnAroundTimeCountGetter(
-				tstCountEntryList));
-		retVal.put(ITEMNAME_JAVAPROCESS_EXCEPTION_OCCURENCE_COUNT, new TurnAroundTimeCountGetter(
-				throwableCountEntryList));
-		retVal.put(ITEMNAME_JAVAPROCESS_STALL_OCCURENCE_COUNT, new TurnAroundTimeCountGetter(
-				methodStallCountEntryList));
-		return retVal;
-	}
+                ResourceItem throwableCountEntry = new ResourceItem();
+                String throwableCountName =
+                    getTreeNodeName(name, TelegramConstants.POSTFIX_ERROR, throwableName);
+                throwableCountEntry.setName(throwableCountName);
+                throwableCountEntry.setValue(String.valueOf(throwableCount));
+                throwableCountEntryList.add(throwableCountEntry);
+            }
+
+            // HTTPエラー発生情報を設定
+            Map<String, Integer> httpStatusCountMap = info.getHttpStatusCountMap();
+            for (Map.Entry<String, Integer> entry : httpStatusCountMap.entrySet())
+            {
+                String httpStatusName = entry.getKey();
+                Integer httpStatusCount = entry.getValue();
+
+                ResourceItem httpStatusCountEntry = new ResourceItem();
+                String httpStatusCountName =
+                    getTreeNodeName(name, TelegramConstants.POSTFIX_ERROR, httpStatusName);
+                httpStatusCountEntry.setName(httpStatusCountName);
+                httpStatusCountEntry.setValue(String.valueOf(httpStatusCount));
+                httpStatusCountEntryList.add(httpStatusCountEntry);
+            }
+
+            // ストール検出情報を設定
+            ResourceItem methodStallCountEntry = new ResourceItem();
+            String methodStallCountName = getTreeNodeName(name, TelegramConstants.POSTFIX_STALLED);
+            methodStallCountEntry.setName(methodStallCountName);
+            methodStallCountEntry.setValue(String.valueOf(info.getMethodStallCount()));
+            methodStallCountEntryList.add(methodStallCountEntry);
+        }
+
+        // 戻り値となるMultiResourceGetterのリストを設定する
+        Map<String, MultiResourceGetter> retVal = new LinkedHashMap<String, MultiResourceGetter>();
+        retVal.put(ITEMNAME_PROCESS_RESPONSE_TIME_AVERAGE, new TurnAroundTimeGetter(tatEntryList));
+        retVal.put(ITEMNAME_PROCESS_RESPONSE_TIME_MAX, new TurnAroundTimeGetter(tatMaxEntryList));
+        retVal.put(ITEMNAME_PROCESS_RESPONSE_TIME_MIN, new TurnAroundTimeGetter(tatMinEntryList));
+        retVal.put(ITEMNAME_PROCESS_RESPONSE_TOTAL_COUNT,
+                   new TurnAroundTimeCountGetter(tstCountEntryList));
+        retVal.put(ITEMNAME_JAVAPROCESS_EXCEPTION_OCCURENCE_COUNT,
+                   new TurnAroundTimeCountGetter(throwableCountEntryList));
+        retVal.put(ITEMNAME_JAVAPROCESS_STALL_OCCURENCE_COUNT,
+                   new TurnAroundTimeCountGetter(methodStallCountEntryList));
+        return retVal;
+    }
+
+    /**
+     * getting tree node name
+     * @param key node prefix name
+     * @param postfix node postfix name from TelegramConstants
+     * @return node name
+     */
+    public String getTreeNodeName(String key, String postfix)
+    {
+        String name = getTreeNodeName(key, postfix, "");
+        return name;
+    }
+
+    /**
+     * getting tree node name
+     * @param key node name from invocation
+     * @param postfix postfix of the node
+     * @param eventName the name of event
+     * @return the name of tree node
+     */
+    public String getTreeNodeName(String key, String postfix, String eventName)
+    {
+        String name = addPrefix(key);
+        StringBuilder nodeName = new StringBuilder();
+        nodeName.append(name);
+        nodeName.append(postfix);
+        nodeName.append(eventName);
+        return nodeName.toString();
+    }
+
+    /**
+     * set the prefix of the node according to the starting node name
+     * @param name node name from invocation
+     * @return prefix for node
+     */
+    private String addPrefix(String name)
+    {
+        if (name.startsWith("/"))
+        {
+            prefixedName_ = TelegramConstants.PREFIX_PROCESS_RESPONSE_SERVLET + name;
+        }
+        else if (name.startsWith("jdbc"))
+        {
+            String regexp = "jdbc:(.+)#(.+)";
+            String dbmsName = null;
+            String query = null;
+            Pattern pattern = Pattern.compile(regexp);
+            Matcher matcher = pattern.matcher(name);
+            if (matcher.find())
+            {
+                dbmsName = matcher.group(1);
+                query = matcher.group(2);
+                dbmsName = dbmsName.replace("/", "&#47;");
+            }
+            prefixedName_ = TelegramConstants.PREFIX_PROCESS_RESPONSE_JDBC + dbmsName + "/" + query;
+        }
+
+        else
+        {
+            prefixedName_ = TelegramConstants.PREFIX_PROCESS_RESPONSE_METHOD + name;
+        }
+        return prefixedName_;
+    }
 }
