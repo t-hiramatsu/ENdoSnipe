@@ -7,6 +7,7 @@
 <%@ include file="../include/DashboardInclude.jsp"%>
 <%@ include file="common/Header.jsp"%>
 <%@ include file="dialog/SignalDialog.jsp"%>
+<%@ include file="dialog/MultipleResourceGraphDialog.jsp"%>
 <%@ include file="dialog/ReportDialog.jsp"%>
 <title>ENdoSnipe Dashboard</title>
 </head>

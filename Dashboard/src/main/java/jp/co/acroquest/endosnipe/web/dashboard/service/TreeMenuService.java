@@ -34,6 +34,7 @@ import java.util.regex.Pattern;
 
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
 import jp.co.acroquest.endosnipe.data.dao.JavelinMeasurementItemDao;
+import jp.co.acroquest.endosnipe.data.dto.GraphTypeDto;
 import jp.co.acroquest.endosnipe.data.entity.JavelinMeasurementItem;
 import jp.co.acroquest.endosnipe.web.dashboard.constants.LogMessageCodes;
 import jp.co.acroquest.endosnipe.web.dashboard.constants.TreeMenuConstants;
@@ -75,6 +76,9 @@ public class TreeMenuService
 
     /** アイコン：ターゲット。 */
     private static final String TARGET_ICON = "leaf";
+
+    /** アイコン：ターゲット。 */
+    private static final String MUL_GRAPH_ICON = "graph";
 
     /**
      * コンストラクタ
@@ -257,12 +261,12 @@ public class TreeMenuService
      * @param parentTreeId 親ノードのID
      * @return 子要素のターゲットのパスのリスト
      */
-    public List<String> getChildTargetNodes(final String parentTreeId)
+    public List<GraphTypeDto> getChildTargetNodes(final String parentTreeId)
     {
         DatabaseManager dbMmanager = DatabaseManager.getInstance();
         String dbName = dbMmanager.getDataBaseName(1);
 
-        List<String> childNodes = null;
+        List<GraphTypeDto> childNodes = null;
         try
         {
             childNodes =
@@ -284,15 +288,15 @@ public class TreeMenuService
      * @param parentTreeId 親ノードのID
      * @return 子要素のパスのリスト
      */
-    public List<String> getAllChildNodes(final String parentTreeId)
+    public List<GraphTypeDto> getAllChildNodes(final String parentTreeId)
     {
         DatabaseManager dbMmanager = DatabaseManager.getInstance();
         String dbName = dbMmanager.getDataBaseName(1);
 
-        List<String> childAllNodes = new ArrayList<String>();
+        List<GraphTypeDto> childAllNodes = new ArrayList<GraphTypeDto>();
         try
         {
-            List<String> childNodes =
+            List<GraphTypeDto> childNodes =
                     JavelinMeasurementItemDao.selectItemNameListByParentItemName(dbName,
                                                                                  parentTreeId);
 
@@ -302,7 +306,7 @@ public class TreeMenuService
             int childNodesLength = childNodes.size();
             for (int childIndex = 0; childIndex < childNodesLength; childIndex++)
             {
-                String childNode = childNodes.get(childIndex);
+                String childNode = childNodes.get(childIndex).getItemName();
                 String[] childNodeSplits = childNode.split(TREE_SEPARATOR);
                 // 子パスの階層の深さ
                 int childSplitsLength = childNodeSplits.length;
@@ -315,7 +319,8 @@ public class TreeMenuService
                         pathBuilder.append(TREE_SEPARATOR);
                         pathBuilder.append(childNodeSplits[pathIndex]);
                     }
-                    childAllNodes.add(pathBuilder.toString());
+                    childNodes.get(childIndex).setItemName(pathBuilder.toString());
+                    childAllNodes.add(childNodes.get(childIndex));
                 }
             }
         }

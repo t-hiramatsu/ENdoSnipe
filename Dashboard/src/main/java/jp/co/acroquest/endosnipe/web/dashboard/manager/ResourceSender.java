@@ -25,6 +25,8 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.web.dashboard.manager;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -129,34 +131,59 @@ public class ResourceSender
                 MeasurementDetail measurementDetail = valIterator.next();
                 String value = String.valueOf(measurementDetail.value);
 
-                // 完全一致する場合は、単数系列取得扱いとして、値を返す。
-                // 完全一致しない場合は、複数系列取得扱いとして、値を返す。
-                if (observateGroupId.equals(measurementItemName))
+                String[] measurementArray = null;
+                if (observateGroupId.indexOf("|") != -1
+                        || observateGroupId.indexOf("(") != observateGroupId.lastIndexOf("("))
                 {
-                    MeasurementValueDto singleData = singleDataMap.get(observateGroupId);
-                    if (singleData == null)
-                    {
-                        singleData = new MeasurementValueDto();
-                        singleData.setMeasurementItemId(0);
-                        singleData.setMeasurementItemName(measurementItemName);
-                        singleData.setMeasurementTime(measurementTime);
-                        singleData.setMeasurementValue(value);
-                        singleDataMap.put(observateGroupId, singleData);
-                    }
-                    singleData.setMeasurementValue(value);
+                    measurementArray =
+                            (observateGroupId.substring(observateGroupId.indexOf("(") + 1,
+                                                        observateGroupId.lastIndexOf(")"))).split("\\|");
+                }
+                List<String> measurementDataList = new ArrayList<String>();
+                if (measurementArray != null)
+                {
+                    measurementDataList.addAll(Arrays.asList(measurementArray));
                 }
                 else
                 {
-                    MultipleMeasurementValueDto multiData = multiDataMap.get(observateGroupId);
-                    if (multiData == null)
+                    measurementDataList.add(observateGroupId);
+                }
+                for (int index = 0; index < measurementDataList.size(); index++)
+                {
+                    String matchData = measurementDataList.get(index);
+
+                    // 完全一致する場合は、単数系列取得扱いとして、値を返す。
+                    // 完全一致しない場合は、複数系列取得扱いとして、値を返す。
+                    if (matchData.equals(measurementItemName) && measurementDataList.size() == 1)
                     {
-                        multiData = new MultipleMeasurementValueDto();
-                        multiData.setMeasurementTime(measurementTime);
-                        multiData.setSearchCondition(observateGroupId);
-                        multiDataMap.put(observateGroupId, multiData);
+                        MeasurementValueDto singleData = singleDataMap.get(observateGroupId);
+                        if (singleData == null)
+                        {
+                            singleData = new MeasurementValueDto();
+                            singleData.setMeasurementItemId(0);
+                            singleData.setMeasurementItemName(measurementItemName);
+                            singleData.setMeasurementTime(measurementTime);
+                            singleData.setMeasurementValue(value);
+
+                            // singleDataMap.put(observateGroupId, singleData);
+                            singleDataMap.put(matchData, singleData);
+                        }
+                        singleData.setMeasurementValue(value);
                     }
-                    Map<String, String> measurmentDataMap = multiData.getMeasurementValue();
-                    measurmentDataMap.put(measurementItemName, value);
+                    else
+                    {
+                        // MultipleMeasurementValueDto multiData = multiDataMap.get(observateGroupId);
+                        MultipleMeasurementValueDto multiData = multiDataMap.get(observateGroupId);
+                        if (multiData == null)
+                        {
+                            multiData = new MultipleMeasurementValueDto();
+                            multiData.setMeasurementTime(measurementTime);
+                            multiData.setSearchCondition(observateGroupId);
+                            multiDataMap.put(observateGroupId, multiData);
+                        }
+                        Map<String, String> measurmentDataMap = multiData.getMeasurementValue();
+                        measurmentDataMap.put(measurementItemName, value);
+                    }
                 }
             }
         }
@@ -251,13 +278,52 @@ public class ResourceSender
     {
         for (String groupId : listeners)
         {
-            String pattern = groupId.replace("%", ".*");
-            if (itemName.matches(pattern) || itemName.equals(groupId))
+            String[] measurementArray = null;
+            if (groupId.indexOf("|") != -1 || groupId.indexOf("(") != groupId.lastIndexOf("("))
             {
-                return groupId;
+                measurementArray =
+                        (groupId.substring(groupId.indexOf("(") + 1, groupId.lastIndexOf(")"))).split("\\|");
+            }
+
+            List<String> measurementDataList = new ArrayList<String>();
+            if (measurementArray != null)
+            {
+                measurementDataList.addAll(Arrays.asList(measurementArray));
+            }
+            else
+            {
+                if ((groupId.charAt(0) == '(') && (groupId.charAt((groupId.length() - 1)) == ')'))
+                {
+                    measurementDataList.add(groupId.substring(groupId.indexOf("(") + 1,
+                                                              groupId.lastIndexOf(")")));
+                }
+                else
+                {
+                    measurementDataList.add(groupId);
+                }
+            }
+            for (int index = 0; index < measurementDataList.size(); index++)
+            {
+                String matchData = measurementDataList.get(index);
+
+                if (checkPattern(matchData, itemName))
+                {
+                    return groupId;
+                }
+
             }
         }
         return null;
+    }
+
+    private boolean checkPattern(final String groupId, final String itemName)
+    {
+        String pattern = groupId.replace("%", ".*");
+        if (itemName.matches(pattern) || itemName.equals(groupId))
+        {
+            return true;
+        }
+        return false;
     }
 
 }

@@ -122,6 +122,7 @@ public class DashBoardServlet extends HttpServlet
                 client.addTelegramListener(new CollectorListener(agentId, setting.databaseName_));
                 client.addTelegramListener(new AlarmNotifyListener(agentId));
                 client.addTelegramListener(new SignalStateChangeListener());
+                //  client.addTelegramListener(new MultipleResourceGraphStateChangeListener());
 
                 ConnectNotifyData connectNotify = new ConnectNotifyData();
                 connectNotify.setKind(ConnectNotifyData.KIND_CONTROLLER);

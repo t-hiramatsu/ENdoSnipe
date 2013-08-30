@@ -121,6 +121,7 @@ public class JavelinNotifyListener implements TelegramListener
                 client.init(javelinHost, javelinPort);
                 client.addTelegramListener(new CollectorListener(agentId, databaseName));
                 client.addTelegramListener(new SignalStateChangeListener());
+                //  client.addTelegramListener(new MultipleResourceGraphStateChangeListener());
 
                 ConnectNotifyData connectNotify = new ConnectNotifyData();
                 connectNotify.setKind(ConnectNotifyData.KIND_CONTROLLER);

@@ -3,7 +3,7 @@
  * 
  * The MIT License (MIT)
  * 
- * Copyright (c) 2012 Acroquest Technology Co.,Ltd.
+ * Copyright (c) 2013 Acroquest Technology Co.,Ltd.
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,24 +23,42 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package jp.co.acroquest.endosnipe.web.dashboard.constants;
+package jp.co.acroquest.endosnipe.data.entity;
 
 /**
- * ãƒ„ãƒªãƒ¼ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®å®šæ•°ã‚¯ãƒ©ã‚¹
- * @author kawasaki
+ * ƒVƒOƒiƒ‹’è‹`ƒe[ƒuƒ‹‚É‘Î‚·‚éƒGƒ“ƒeƒBƒeƒBƒNƒ‰ƒX‚Å‚·B<br />
+ * 
+ * @author pin
  *
  */
-public interface TreeMenuConstants
+public class MultipleResourceGraphDefinition
 {
-    /** ãƒ„ãƒªãƒ¼ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®ã‚¿ã‚¤ãƒ—:ã‚°ãƒ«ãƒ¼ãƒ—(è¤‡æ•°ã®è¨ˆæ¸¬å¯¾è±¡ã®ã‚°ãƒ«ãƒ¼ãƒ—) */
-    String TREE_MENU_TYPE_GROUP = "group";
+    /** ƒVƒOƒiƒ‹’è‹`ƒe[ƒuƒ‹‚ÌID */
+    public long   multipleResourceGraphId;
 
-    /** ãƒ„ãƒªãƒ¼ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®ã‚¿ã‚¤ãƒ—:ã‚¿ãƒ¼ã‚²ãƒƒãƒˆ(è¨ˆæ¸¬å¯¾è±¡ã¨ãªã‚‹ã‚¿ãƒ¼ã‚²ãƒƒãƒˆ) */
-    String TREE_MENU_TYPE_TARGET = "target";
+    /** ƒVƒOƒiƒ‹–¼ */
+    public String multipleResourceGraphName;
 
-    /** ãƒ„ãƒªãƒ¼ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®ã‚¿ã‚¤ãƒ—:ã‚·ã‚°ãƒŠãƒ« */
-    String TREE_MENU_TYPE_SIGNAL = "signal";
+    /** ƒ}ƒbƒ`ƒ“ƒOƒpƒ^[ƒ“ */
+    public String measurementItemIdList;
 
-    /** ãƒ„ãƒªãƒ¼ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®ã‚¿ã‚¤ãƒ—:ã‚·ã‚°ãƒŠãƒ« */
-    String TREE_MENU_TYPE_MUL_RESOURCE_GRAPH = "mulResGraph";
+   
+    /**
+     * {@link MultipleResourceGraphDefinition} ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‚Ü‚·B<br />
+     */
+    public MultipleResourceGraphDefinition()
+    {
+        this.multipleResourceGraphId = -1;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString()
+    {
+        return "MultipleResourceGraphInfo [multipleResourceGraphId=" + multipleResourceGraphId + ", multipleResourceGraphName=" + multipleResourceGraphName
+            + ", measurementItemIdList=" + measurementItemIdList
+            + "]";
+    }
 }
