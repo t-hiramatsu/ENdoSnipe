@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/resources/css/Dialog/MultipleResourceGraphDialog.css"
+	href="<%=request.getContextPath()%>/resources/css/dialog/MultipleResourceGraphDialog.css"
 	type="text/css" media="all">
 </head>
 <body>

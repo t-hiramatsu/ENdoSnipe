@@ -50,7 +50,7 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				var appView = new ENS.AppView();
 				this.getMeasurementTargetNodes(argument.graphId);
 
-				for (index = 0; index < ENS.tree.measurementDefinitionList.length; index++) {
+				for ( var index = 0; index < ENS.tree.measurementDefinitionList.length; index++) {
 
 					if (index == ENS.tree.measurementDefinitionList.length - 1) {
 						graphIds = graphIds
@@ -94,7 +94,6 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				this.windowResize();
 				this.addDragEvent();
 			},
-			// /////////////////////modify//////////////////////
 			getMeasurementTargetNodes : function(parentId) {
 
 				var settings = {
@@ -102,7 +101,7 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 					data : {
 						multipleResourceGraphName : parentId
 					}
-				}
+				};
 
 				var ajaxHandler = new wgp.AjaxHandler();
 				var result = ajaxHandler.requestServerSync(settings);
@@ -130,7 +129,6 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 
 				return arrayData;
 			},
-			// /////////////////////modify//////////////////////
 			render : function() {
 				var instance = this;
 				var graphPath = this.graphId;
@@ -236,15 +234,8 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 			},
 
 			onAdd : function(graphModel) {
-				// if (this.isRealTime) {
-				//					
-				// if (this.collection.length > this.graphMaxNumber * 2) {
-				// this.collection
-				// .shift(wgp.constants.BACKBONE_EVENT.SILENT);
-				// }
 				var data = this.getData();
 				var len = Object.keys(data).length;
-				// var dataList = this.createDataList(data);
 
 				if (this.isRealTime) {
 
@@ -309,7 +300,7 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 
 				var graphIds = "(";
 
-				for (index = 0; index < ENS.tree.measurementDefinitionList.length; index++) {
+				for ( var index = 0; index < ENS.tree.measurementDefinitionList.length; index++) {
 
 					if (index == ENS.tree.measurementDefinitionList.length - 1) {
 						graphIds = graphIds
@@ -350,12 +341,11 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				}
 
 				var tmpAppView = new ENS.AppView();
-				// tmpAppView.syncData([ this.graphId ]);graphIds
 				tmpAppView.syncData([ graphIds ]);
 			},
 			onComplete : function(syncType) {
 
-				if (this.isFirstRender == true) {
+				if (this.isFirstRender === true) {
 					this.render();
 					this.isFirstRender = false;
 				}
@@ -408,7 +398,7 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				var graphIds = "(";
 				this.getMeasurementTargetNodes(graphId);
 
-				for (index = 0; index < ENS.tree.measurementDefinitionList.length; index++) {
+				for ( var index = 0; index < ENS.tree.measurementDefinitionList.length; index++) {
 
 					if (index == ENS.tree.measurementDefinitionList.length - 1) {
 						graphIds = graphIds
@@ -432,16 +422,10 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				var measurementItemName;
 				var measurmentListm = {};
 
-				// alert(this.collection.models.length);
 				_
 						.each(
 								this.collection.models,
 								function(model, index) {
-									// var data = [];
-									// data.push([ new Date(0), null, null,
-									// null, null, null, null,
-									// null, null, null, null, null, null, null,
-									// null, null ]);
 									measurementItemName = model
 											.get("measurementItemName");
 
@@ -456,8 +440,6 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 
 									data[measurementItemName].push(instance
 											._parseModel(model));
-									// var datal=data.slice();
-									// data.splice(0,data.length);
 									measurementListMap[measurementItemName] = data[measurementItemName];
 
 								});
@@ -465,7 +447,6 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				return measurementListMap;
 
 			},
-
 			addMaximizeEvent : function(offsetLeft, offsetTop) {
 				var instance = this;
 
@@ -638,15 +619,6 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 						});
 
 			},
-			// contains :function(a, obj) {
-			// var i = a.length;
-			// while (i--) {
-			// if (a[i] === obj) {
-			// return true;
-			// }
-			// }
-			// return false;
-			// },
 			createDataList : function(data) {
 				var dataMap = {};
 				var dataValue = {};
@@ -664,74 +636,48 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 					ENS.tree.previousKey = keys;
 					this.isFirstCreate = false;
 				} else {
-					var tempKey=ENS.tree.previousKey.slice();
-					for ( var indKey = 0; indKey < top; indKey++) {
+					var tempKey = ENS.tree.previousKey.slice();
+					for ( var keyIndex = 0; keyIndex < top; keyIndex++) {
 						var found = false;
 						for ( var iKey = 0; iKey < ENS.tree.previousKey.length; iKey++) {
-							if (ENS.tree.previousKey[iKey] === keys[indKey]) {
+							if (ENS.tree.previousKey[iKey] === keys[keyIndex]) {
 								found = true;
-								
+
 							}
 						}
 						if (!found) {
-							tempKey.push(keys[indKey]);
+							tempKey.push(keys[keyIndex]);
 						}
 
 					}
-					
-					ENS.tree.previousKey=tempKey.slice();
-					
-					for ( var indKey = 0; indKey < top; indKey++) {
-						tempKey.splice(keys[indKey]);
+
+					ENS.tree.previousKey = tempKey.slice();
+
+					for ( var keyIndex2 = 0; keyIndex2 < top; keyIndex2++) {
+						tempKey.splice(keys[keyIndex2]);
 					}
-					
-					for(var tempIndex=0;tempIndex<tempKey.length;tempIndex++){
-						
+
+					for ( var tempIndex = 0; tempIndex < tempKey.length; tempIndex++) {
 						ENS.tree.previousKey.splice(tempKey[tempIndex]);
-						}
+					}
 				}
-			
-				
-				// for ( var indKey = 0; indKey < ENS.tree.previousKey.length;
-				// indKey++) {
-				// var found=false;
-				// for ( var iKey = 0; iKey < top; iKey++) {
-				// if(ENS.tree.previousKey[iKey]===keys[indKey])
-				// {
-				// found=true;
-				// }
-				// }
-				// if(!found)
-				// {
-				// ENS.tree.previousKey.splice(ENS.tree.previousKey[indKey]);
-				// }
-				//					
-				// }
-				for ( var indexKey = 0; indexKey < top; indexKey++) {
-					var value = dataValue[ENS.tree.previousKey[indexKey]]/* .slice() */;
 
-					// var valueD;
-					// valueD=value.slice();
-					// alert(value);
+				for ( var keyIndex3 = 0; keyIndex3 < top; keyIndex3++) {
+					var value = dataValue[ENS.tree.previousKey[keyIndex3]]/* .slice() */;
+
 					_.each(value, function(valueData, index) {
-						// alert(valueData);
-						var valueD = valueData/* .slice() */;
-						if (dataMap[valueD[0]] == undefined
-								|| dataMap[valueD[0]] == null) {
-							dataMap[valueD[0]] = valueD/* .slice() */;
-						} else if (dataMap[valueD[0]] != undefined
-								|| dataMap[valueD[0]] != null) {
+						var valueD = valueData;
+						if (dataMap[valueD[0]] === undefined
+								|| dataMap[valueD[0]] === null) {
+							dataMap[valueD[0]] = valueD;
+						} else if (dataMap[valueD[0]] !== undefined
+								|| dataMap[valueD[0]] !== null) {
 
-							var list = dataMap[valueD[0]]/* .slice() */;
-							// // alert(indexKey+" "+list);
-							// // if(list[indexKey+1]==null)
-							// // {
+							var list = dataMap[valueD[0]];
 							list.push(valueD[1]);
-							dataMap[valueD[0]] = list/* .slice() */;
-							// // }
+							dataMap[valueD[0]] = list;
 						}
 					});
-					// alert(indexKey);
 				}
 
 				var dataFinal = [];
