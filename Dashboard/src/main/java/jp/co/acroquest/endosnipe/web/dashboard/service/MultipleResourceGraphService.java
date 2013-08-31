@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.co.acroquest.endosnipe.collector.listener.MultipleResourceGraphChangeListener;
 import jp.co.acroquest.endosnipe.common.entity.ItemType;
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
 import jp.co.acroquest.endosnipe.communicator.CommunicationClient;
@@ -24,7 +23,6 @@ import jp.co.acroquest.endosnipe.web.dashboard.manager.ConnectionClient;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.DatabaseManager;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.EventManager;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.ResourceSender;
-import jp.co.acroquest.endosnipe.web.dashboard.util.MultipleResourceGraphUtil;
 
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,17 +45,10 @@ public class MultipleResourceGraphService
     private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(MapService.class);
 
     /**
-     * デフォルトのシグナル状態(監視停止中)
-     */
-    private static final int DEFAULT_MUL_RESOURCE_GRAPH_STATE = -1;
-
-    /**
      * シグナル情報Dao
      */
     @Autowired
     protected MultipleResourceGraphInfoDao multipleResourceGraphDao;
-
-    MultipleResourceGraphChangeListener Glistener = new MultipleResourceGraphChangeListener();
 
     /**
      * コンストラクタ
@@ -74,10 +65,10 @@ public class MultipleResourceGraphService
      */
     public List<MultipleResourceGraphDefinitionDto> getAllMultipleResourceGraph()
     {
-        List<MultipleResourceGraphInfo> MultipleResourceGraphList = null;
+        List<MultipleResourceGraphInfo> multipleResourceGraphList = null;
         try
         {
-            MultipleResourceGraphList = multipleResourceGraphDao.selectAll();
+            multipleResourceGraphList = multipleResourceGraphDao.selectAll();
         }
         catch (PersistenceException pEx)
         {
@@ -95,7 +86,7 @@ public class MultipleResourceGraphService
         List<MultipleResourceGraphDefinitionDto> definitionDtoList =
                 new ArrayList<MultipleResourceGraphDefinitionDto>();
 
-        for (MultipleResourceGraphInfo multipleResourceGraphInfo : MultipleResourceGraphList)
+        for (MultipleResourceGraphInfo multipleResourceGraphInfo : multipleResourceGraphList)
         {
             MultipleResourceGraphDefinitionDto multipleResourceGraphDto =
                     this.convertmultipleResourceGraphDto(multipleResourceGraphInfo);
@@ -104,7 +95,7 @@ public class MultipleResourceGraphService
             definitionDtoList.add(multipleResourceGraphDto);
         }
 
-        sendGetAllStateRequest(MultipleResourceGraphList);
+        sendGetAllStateRequest(multipleResourceGraphList);
         return definitionDtoList;
     }
 
@@ -126,45 +117,6 @@ public class MultipleResourceGraphService
         }
 
     }
-
-    /**
-     * 閾値判定定義情報を更新するリクエストを生成する。
-     * 
-     * @param multipleResourceGraphDefinitionDto 閾値判定定義情報
-     * @param type 操作種別(add, update, deleteのいずれか)s
-     */
-    /*private void sendMultipleResourceGraphDefinitionRequest(
-            final MultipleResourceGraphDefinitionDto multipleResourceGraphDefinitionDto,
-            final String type)
-    {
-        ConnectionClient connectionClient = ConnectionClient.getInstance();
-        List<CommunicationClient> clientList = connectionClient.getClientList();
-        for (CommunicationClient communicationClient : clientList)
-        {
-            Telegram telegram = null;
-            if (MultipleResourceGraphConstants.OPERATION_TYPE_ADD.equals(type))
-            {
-                telegram =
-                        createAddMultipleResourceGraphTelegram(multipleResourceGraphDefinitionDto);
-            }
-            else if (MultipleResourceGraphConstants.OPERATION_TYPE_UPDATE.equals(type))
-            {
-                telegram =
-                        createUpdateMultipleResourceGraphTelegram(multipleResourceGraphDefinitionDto);
-            }
-            else if (MultipleResourceGraphConstants.OPERATION_TYPE_DELETE.equals(type))
-            {
-                telegram =
-                        createDeleteMultipleResourceGraphTelegram(multipleResourceGraphDefinitionDto);
-            }
-            if (telegram != null)
-            {
-
-                communicationClient.sendTelegram(telegram);
-            }
-        }
-
-    }*/
 
     /**
      * 全閾値情報を取得する電文を作成する。
@@ -221,56 +173,6 @@ public class MultipleResourceGraphService
     }
 
     /**
-     * 閾値判定定義情報の追加を通知する電文を作成する。
-     * 
-     * @param multipleResourceGraphDefinitionDto シグナル定義情報のリスト
-     * @return 全閾値情報を取得する電文
-     */
-    private Telegram createAddMultipleResourceGraphTelegram(
-            final MultipleResourceGraphDefinitionDto multipleResourceGraphDefinitionDto)
-    {
-        Glistener.receiveTelegram(MultipleResourceGraphUtil.createAddMultipleResourceGraphDefinition(multipleResourceGraphDefinitionDto,
-                                                                                                     TelegramConstants.ITEMNAME_MUL_RES_GRAPH_ADD));
-
-        return MultipleResourceGraphUtil.createAddMultipleResourceGraphDefinition(multipleResourceGraphDefinitionDto,
-                                                                                  TelegramConstants.ITEMNAME_MUL_RES_GRAPH_ADD);
-
-    }
-
-    /**
-     * 閾値判定定義情報の更新を通知する電文を作成する。
-     * 
-     * @param multipleResourceGraphDefinitionDto シグナル定義情報のリスト
-     * @return 全閾値情報を取得する電文
-     */
-    private Telegram createUpdateMultipleResourceGraphTelegram(
-            final MultipleResourceGraphDefinitionDto multipleResourceGraphDefinitionDto)
-    {
-
-        Glistener.receiveTelegram(MultipleResourceGraphUtil.createAddMultipleResourceGraphDefinition(multipleResourceGraphDefinitionDto,
-                                                                                                     TelegramConstants.ITEMNAME_MUL_RES_GRAPH_UPDATE));
-
-        return MultipleResourceGraphUtil.createAddMultipleResourceGraphDefinition(multipleResourceGraphDefinitionDto,
-                                                                                  TelegramConstants.ITEMNAME_MUL_RES_GRAPH_UPDATE);
-    }
-
-    /**
-     * 閾値判定定義情報の削除を通知する電文を作成する。
-     * 
-     * @param multipleResourceGraphDefinitionDto シグナル定義情報のリスト
-     * @return 全閾値情報を取得する電文
-     */
-    private Telegram createDeleteMultipleResourceGraphTelegram(
-            final MultipleResourceGraphDefinitionDto multipleResourceGraphDefinitionDto)
-    {
-        Glistener.receiveTelegram(MultipleResourceGraphUtil.createAddMultipleResourceGraphDefinition(multipleResourceGraphDefinitionDto,
-                                                                                                     TelegramConstants.ITEMNAME_MUL_RES_GRAPH_DELETE));
-
-        return MultipleResourceGraphUtil.createAddMultipleResourceGraphDefinition(multipleResourceGraphDefinitionDto,
-                                                                                  TelegramConstants.ITEMNAME_MUL_RES_GRAPH_DELETE);
-    }
-
-    /**
      * シグナル定義をDBに登録する。
      * 
      * @param multipleResourceGraphInfo
@@ -287,12 +189,10 @@ public class MultipleResourceGraphService
             multipleResourceGraphDao.insert(multipleResourceGraphInfo);
             multipleResourceGraphId =
                     multipleResourceGraphDao.selectSequenceNum(multipleResourceGraphInfo);
-            System.out.println("success");
         }
         catch (DuplicateKeyException dkEx)
         {
             LOGGER.log(LogMessageCodes.SQL_EXCEPTION, dkEx, dkEx.getMessage());
-            System.out.println("not success");
             return new MultipleResourceGraphDefinitionDto();
         }
 
@@ -300,13 +200,6 @@ public class MultipleResourceGraphService
                 this.convertmultipleResourceGraphDto(multipleResourceGraphInfo);
         multipleResourceGraphDefinitionDto.setMultipleResourceGraphId(multipleResourceGraphId);
 
-        // 初期状態にはデフォルト値を設定とする。
-        //   multipleResourceGraphDefinitionDto.setSignalValue(DEFAULT_SIGNAL_STATE);
-
-        // DataCollectorにシグナル定義の追加を通知する。
-        /*   sendMultipleResourceGraphDefinitionRequest(multipleResourceGraphDefinitionDto,
-                                                      MultipleResourceGraphConstants.OPERATION_TYPE_ADD);
-        */
         // 各クライアントにシグナル定義の追加を送信する。
         sendmultipleResourceGraphDefinition(multipleResourceGraphDefinitionDto, "add");
 
@@ -334,26 +227,14 @@ public class MultipleResourceGraphService
      * 
      * @param multipleResourceGraphInfo
      *            シグナル定義
-     * @return {@link multipleResourceGraphInfo}オブジェクト
+     * @return {@link MultipleResourceGraphDefinitionDto}オブジェクト
      */
     public MultipleResourceGraphDefinitionDto updatemultipleResourceGraphInfo(
             final MultipleResourceGraphInfo multipleResourceGraphInfo)
     {
         try
         {
-            /*MultipleResourceGraphInfo beforeMultipleResourceGraphInfo =
-                    multipleResourceGraphDao.selectById(multipleResourceGraphInfo.multipleResourceGraphId);
-            if (beforeMultipleResourceGraphInfo == null)
-            {
-                return new MultipleResourceGraphDefinitionDto();
-            }
-            */
             multipleResourceGraphDao.update(multipleResourceGraphInfo);
-            /*
-                        String beforeItemName = beforeMultipleResourceGraphInfo.multipleResourceGraphName;
-                        String afterItemName = multipleResourceGraphInfo.multipleResourceGraphName;
-            */
-            // this.updateMeasurementItemName(beforeItemName, afterItemName);
         }
         catch (PersistenceException pEx)
         {
@@ -370,19 +251,10 @@ public class MultipleResourceGraphService
 
             return new MultipleResourceGraphDefinitionDto();
         }
-        /*  catch (SQLException sqlEx)
-          {
-              LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx, sqlEx.getMessage());
-              return new MultipleResourceGraphDefinitionDto();
-          }*/
 
         MultipleResourceGraphDefinitionDto multipleResourceGraphDefinitionDto =
                 this.convertmultipleResourceGraphDto(multipleResourceGraphInfo);
-        //  multipleResourceGraphDefinitionDto.setSignalValue(-1);
-
-        /*   sendMultipleResourceGraphDefinitionRequest(multipleResourceGraphDefinitionDto,
-                                                      MultipleResourceGraphConstants.OPERATION_TYPE_UPDATE);
-        */// 各クライアントにシグナル定義の変更を送信する。
+        // 各クライアントにシグナル定義の変更を送信する。
         sendmultipleResourceGraphDefinition(multipleResourceGraphDefinitionDto, "update");
 
         return multipleResourceGraphDefinitionDto;
@@ -475,6 +347,8 @@ public class MultipleResourceGraphService
      * 
      * @throws SQLException
      *             SQL 実行時に例外が発生した場合
+     *             
+     * @return javelin_measurement_itemのリスト
      */
     public List<JavelinMeasurementItem> getMeasurementItemName()
         throws SQLException
@@ -485,25 +359,6 @@ public class MultipleResourceGraphService
         List<JavelinMeasurementItem> measurementItemList =
                 JavelinMeasurementItemDao.selectAll(dbName);
         return measurementItemList;
-    }
-
-    /**
-     * javelin_measurement_itemテーブルのMEASUREMENT_ITEM_NAMEを更新する。
-     * 
-     * @param beforeItemName
-     *            更新前のMEASUREMENT_ITEM_NAME
-     * @param afterItemName
-     *            更新前のMEASUREMENT_ITEM_NAME
-     * @throws SQLException
-     *             SQL 実行時に例外が発生した場合
-     */
-    private void updateMeasurementItemName(final String beforeItemName, final String afterItemName)
-        throws SQLException
-    {
-        DatabaseManager dbMmanager = DatabaseManager.getInstance();
-        String dbName = dbMmanager.getDataBaseName(1);
-
-        JavelinMeasurementItemDao.updateMeasurementItemName(dbName, beforeItemName, afterItemName);
     }
 
     /**
