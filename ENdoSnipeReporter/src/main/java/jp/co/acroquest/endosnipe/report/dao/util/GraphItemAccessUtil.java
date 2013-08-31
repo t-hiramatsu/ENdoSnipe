@@ -25,6 +25,7 @@ import jp.co.acroquest.endosnipe.report.entity.ItemRecord;
 import jp.co.acroquest.endosnipe.report.entity.ReportItemValue;
 import jp.co.acroquest.endosnipe.common.Constants;
 import jp.co.acroquest.endosnipe.data.dao.JavelinMeasurementItemDao;
+import jp.co.acroquest.endosnipe.data.dto.GraphTypeDto;
 
 /**
  * 複数系列のグラフ情報を、<br/>
@@ -247,17 +248,17 @@ public class GraphItemAccessUtil {
 	}
 
 	/**
-	 * 引数に指定したItemName配下の計測対象名の一覧を取得する。
+	 * 引数に指定したItemName配下の計測対象の一覧を取得する。
 	 * 
 	 * @param parentItemName
 	 *            取得したい計測対象名の親の名前
-	 * @return 計測対象名の一覧
+	 * @return 計測対象の一覧
 	 * @throws SQLException
 	 *             データ取得時に例外が発生した場合
 	 */
-	public static List<String> findChildMeasurementItemName(String database,
+	public static List<GraphTypeDto> findChildMeasurementItems(String database,
 			String parentItemName) throws SQLException {
-		List<String> measurementItemNameList = JavelinMeasurementItemDao
+		List<GraphTypeDto> measurementItemNameList = JavelinMeasurementItemDao
 				.selectItemNameListByParentItemName(database, parentItemName);
 
 		return measurementItemNameList;

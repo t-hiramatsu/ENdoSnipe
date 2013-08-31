@@ -98,6 +98,12 @@ public interface TelegramConstants
     /** byte telegram for tree node deleting */
     byte BYTE_TELEGRAM_KIND_TREE_DELETE_DEFINITION = 24;
 
+    /** 電文種別(ツリー定義更新) */
+    byte BYTE_TELEGRAM_KIND_MUL_RES_GRAPH_DEFINITION = 25;
+    
+    /** 電文種別(ツリー定義更新) */
+    byte BYTE_TELEGRAM_KIND_ADD_MUL_RES_GRAPH_DEFINITION = 27;
+    
     /** 最後の電文以外 */
     byte HALFWAY_TELEGRAM = 0;
 
@@ -139,7 +145,10 @@ public interface TelegramConstants
 
     /** オブジェクト名(シグナル定義変更) */
     String OBJECTNAME_SIGNAL_CHANGE = "signalDefinitionChange";
-
+    
+    /** オブジェクト名(シグナル定義変更) */
+    String OBJECTNAME_MUL_RES_GRAPH_CHANGE = "multipleResourceGraphDefinitionChange";
+    
     /** オブジェクト名(ツリー定義変更) */
     String OBJECTNAME_TREE_CHANGE = "treeDefinitionChange";
 
@@ -714,7 +723,20 @@ public interface TelegramConstants
 
     /** 項目名（計測単位） */
     String ITEMNAME_TREE_MEASUREMENTUNIT = "measurementUnit";
+    
+    /** 項目名（閾値判定定義情報のID） */
+    String ITEMNAME_MUL_RES_GRAPH_ID = "mulResourceGraphId";
+    
+    /** 項目名(シグナル定義追加) */
+    String ITEMNAME_MUL_RES_GRAPH_ADD = "mulResourceGraphAdd";
 
+    /** 項目名(シグナル定義更新) */
+    String ITEMNAME_MUL_RES_GRAPH_UPDATE= "mulResourceGraphUpdate";
+
+    /** 項目名(シグナル定義削除) */
+    String ITEMNAME_MUL_RES_GRAPH_DELETE = "mulResourceGraphDelete";
+    
+    
     /** int ⇔ byte[] 変換時に対応するバイト数 */
     int INT_BYTE_SWITCH_LENGTH = 4;
 

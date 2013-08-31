@@ -115,9 +115,17 @@ ENS.NodeInfoParentView = wgp.AbstractView
 			onRemove : function(element) {
 				console.log('called removeModel');
 			},
-			_addGraphDivision : function(graphId, width, height, index) {
+			_addGraphDivision : function(graphId, graphType, width, height, index) {
 				var viewId = null;
-				var viewClassName = "ENS.ResourceGraphElementView";
+				var viewClassName=null;
+			if(graphType=="graph")
+				{	
+				viewClassName = "ENS.ResourceGraphElementView";
+				}
+				else if(graphType=="mulResGraph")
+					{
+					viewClassName = "ENS.MultipleResourceGraphElementView";
+				}
 				var tempId = graphId.split("/");
 				var dataId = tempId[tempId.length - 1];
 				var treeSettings = {
@@ -290,8 +298,9 @@ ENS.NodeInfoParentView = wgp.AbstractView
 					height = graphHeight;
 				}
 				for ( var i = startVar; i < endVar; i++) {
-					var viewName = this.childNodes[i];
-					this._addGraphDivision(viewName, width, height, i);
+					var viewName = this.childNodes[i].itemName;
+					var viewType= this.childNodes[i].itemType;
+					this._addGraphDivision(viewName, viewType, width, height, i);
 					var instance = ENS.nodeinfo.viewList[viewName];
 					if (from != undefined && to != undefined) {
 						instance.updateDisplaySpan(from, to);

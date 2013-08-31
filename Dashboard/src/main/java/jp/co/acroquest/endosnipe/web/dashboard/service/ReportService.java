@@ -76,7 +76,6 @@ public class ReportService
      */
     public ReportService()
     {
-
     }
 
     /**
@@ -182,6 +181,7 @@ public class ReportService
      */
     public void createReport(final ReportDefinitionDto reportDefinitionDto)
     {
+
         Reporter reporter = new Reporter();
 
         DatabaseManager dbMmanager = DatabaseManager.getInstance();
@@ -210,6 +210,7 @@ public class ReportService
      */
     public ReportDefinition convertReportDefinition(final ReportDefinitionDto definitionDto)
     {
+
         ReportDefinition reportDefinition = new ReportDefinition();
 
         reportDefinition.reportId_ = definitionDto.getReportId();
