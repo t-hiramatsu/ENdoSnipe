@@ -57,6 +57,7 @@ import jp.co.acroquest.endosnipe.collector.processor.AlarmType;
 import jp.co.acroquest.endosnipe.collector.request.CommunicationClientRepository;
 import jp.co.acroquest.endosnipe.collector.util.CollectorTelegramUtil;
 import jp.co.acroquest.endosnipe.common.Constants;
+import jp.co.acroquest.endosnipe.common.entity.ItemType;
 import jp.co.acroquest.endosnipe.common.entity.MeasurementData;
 import jp.co.acroquest.endosnipe.common.entity.MeasurementDetail;
 import jp.co.acroquest.endosnipe.common.entity.ResourceData;
@@ -66,14 +67,19 @@ import jp.co.acroquest.endosnipe.common.parser.JavelinLogAccessor;
 import jp.co.acroquest.endosnipe.common.util.ResourceDataUtil;
 import jp.co.acroquest.endosnipe.common.util.StreamUtil;
 import jp.co.acroquest.endosnipe.communicator.accessor.ResourceNotifyAccessor;
+import jp.co.acroquest.endosnipe.communicator.entity.Body;
+import jp.co.acroquest.endosnipe.communicator.entity.Header;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.data.dao.JavelinLogDao;
+import jp.co.acroquest.endosnipe.data.dao.JavelinMeasurementItemDao;
 import jp.co.acroquest.endosnipe.data.dao.PerfDoctorResultDao;
 import jp.co.acroquest.endosnipe.data.db.DBManager;
+import jp.co.acroquest.endosnipe.data.dto.MeasurementValueDto;
 import jp.co.acroquest.endosnipe.data.dto.PerfDoctorResultDto;
 import jp.co.acroquest.endosnipe.data.dto.SignalDefinitionDto;
 import jp.co.acroquest.endosnipe.data.entity.JavelinLog;
+import jp.co.acroquest.endosnipe.data.entity.JavelinMeasurementItem;
 import jp.co.acroquest.endosnipe.data.util.AccumulatedValuesDefinition;
 import jp.co.acroquest.endosnipe.javelin.parser.JavelinLogElement;
 import jp.co.acroquest.endosnipe.javelin.parser.JavelinParser;
@@ -534,6 +540,128 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             LOGGER.log("IEDC0022", database, elapsedTime, result.getInsertCount(), cacheHitCount,
                        result.getCacheOverflowCount());
         }
+
+        String clientId = convertedResourceData.clientId;
+
+        if (clientId == null || "".equals(clientId))
+        {
+            clientId =
+                JavelinClient.createClientId(convertedResourceData.ipAddress,
+                                             convertedResourceData.portNum);
+        }
+
+        List<MeasurementValueDto> measurementItemList = result.getMeasurementItemList();
+
+        if (measurementItemList != null)
+        {
+            Telegram addTelegram = createAddTreeNodeTelegram(measurementItemList);
+            this.clientRepository_.sendTelegramToClient(clientId, addTelegram);
+
+        }
+
+        // TODO 削除リストをサーバに送信し、リアルタイムのツリーノード削除を実現する
+        //        if (result.getDeleteItemIdList() != null)
+        //        {
+        //            Telegram deleteTelegram =
+        //                createDeleteTreeNodeTelegram(database, result.getDeleteItemIdList());
+        //
+        //            this.clientRepository_.sendTelegramToClient(clientId, deleteTelegram);
+        //        }
+    }
+
+    /**
+     * This method create the telegram for added tree node
+     * 
+     * @param measurementItemList list of added tree node
+     * @return telegram of added tree node
+     */
+    private Telegram createAddTreeNodeTelegram(final List<MeasurementValueDto> measurementItemList)
+    {
+        Header responseHeader = new Header();
+
+        responseHeader
+            .setByteTelegramKind(TelegramConstants.BYTE_TELEGRAM_KIND_TREE_ADD_DEFINITION);
+        responseHeader.setByteRequestKind(TelegramConstants.BYTE_REQUEST_KIND_NOTIFY);
+
+        Telegram responseTelegram = new Telegram();
+        int addedNodeCount = measurementItemList.size();
+
+        Body measurementItemNameList = new Body();
+        measurementItemNameList.setStrObjName(TelegramConstants.OBJECTNAME_TREE_CHANGE);
+        measurementItemNameList.setStrItemName(TelegramConstants.ITEMNAME_TREE_ADD);
+        measurementItemNameList.setByteItemMode(ItemType.ITEMTYPE_STRING);
+        measurementItemNameList.setIntLoopCount(addedNodeCount);
+        String[] measuremntItemNames = new String[addedNodeCount];
+
+        for (int cnt = 0; cnt < addedNodeCount; cnt++)
+        {
+            MeasurementValueDto measurementValue = measurementItemList.get(cnt);
+            String measurementItemName = measurementValue.measurementItemName;
+            measuremntItemNames[cnt] = measurementItemName;
+        }
+
+        measurementItemNameList.setObjItemValueArr(measuremntItemNames);
+
+        responseTelegram.setObjHeader(responseHeader);
+
+        Body[] responseBodys = {measurementItemNameList};
+        responseTelegram.setObjBody(responseBodys);
+
+        return responseTelegram;
+    }
+
+    /**
+     * This method create the telegram for the deleted tree node
+     * 
+     * @param database database name to access the database
+     * @param deleteItemList list of deleted tree node
+     * @return  telegram
+     */
+    private Telegram createDeleteTreeNodeTelegram(final String database,
+        final List<Integer> deleteItemList)
+    {
+        Header responseHeader = new Header();
+        responseHeader
+            .setByteTelegramKind(TelegramConstants.BYTE_TELEGRAM_KIND_TREE_DELETE_DEFINITION);
+        responseHeader.setByteRequestKind(TelegramConstants.BYTE_REQUEST_KIND_REQUEST);
+
+        Telegram responseTelegram = new Telegram();
+
+        int deletedNodeCount = deleteItemList.size();
+
+        Body idList = new Body();
+        idList.setStrObjName(TelegramConstants.OBJECTNAME_TREE_CHANGE);
+        idList.setStrItemName(TelegramConstants.ITEMNAME_TREE_DELETE);
+        idList.setByteItemMode(ItemType.ITEMTYPE_STRING);
+        idList.setIntLoopCount(deletedNodeCount);
+        String[] measurementItemNames = new String[deletedNodeCount];
+
+        for (int cnt = 0; cnt < deletedNodeCount; cnt++)
+        {
+            JavelinMeasurementItem measurementItem;
+            try
+            {
+                measurementItem =
+                    JavelinMeasurementItemDao.selectById(database, deleteItemList.get(cnt));
+                String id = measurementItem.itemName;
+
+                measurementItemNames[cnt] = id;
+            }
+            catch (SQLException ex)
+            {
+                System.out.println("SQL exception");
+                ex.printStackTrace();
+            }
+
+        }
+        idList.setObjItemValueArr(measurementItemNames);
+        responseTelegram.setObjHeader(responseHeader);
+
+        Body[] responseBodys = {idList};
+
+        responseTelegram.setObjBody(responseBodys);
+
+        return responseTelegram;
     }
 
     /**
@@ -903,6 +1031,7 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             AlarmEntry alarmEntry =
                 processor.calculateAlarmLevel(currentResourceData, prevResourceData,
                                               signalDefinition, currentAlarmData);
+
             if (alarmEntry == null)
             {
                 continue;

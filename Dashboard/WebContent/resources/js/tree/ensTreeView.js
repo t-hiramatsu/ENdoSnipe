@@ -109,15 +109,27 @@ ENS.treeView = wgp.TreeView
 					var parentTreeId = treeModel.get("parentTreeId");
 					var idAttribute = treeModel.idAttribute;
 					var targetTag;
+					var addPlace = "";
+					
 					if (parentTreeId !== null && parentTreeId !== undefined) {
-						targetTag = this.getTreeNode(parentTreeId, idAttribute);
+						var topNodeNum = $("#tree_area > ul > li").length;
+						
+						// Topノードがすでにあるときに、Topノードを追加する時は、他のTopノードの後に追加する。
+						// そうでない場合は、親ノードの下にノードを作成する。
+						if (topNodeNum !== 0 && parentTreeId === "") {
+							addPlace = "after";
+							targetTag = $("#tree_area ul li")[topNodeNum - 1];
+						} else {
+							addPlace = "last";
+							targetTag = this.getTreeNode(parentTreeId, idAttribute);
+						}
 					}
 
 					var instance = this;
 					var treeData = this.createTreeData(treeModel);
 
 					$("#" + this.$el.attr("id")).jstree("create_node",
-							$(targetTag), "last", treeData);
+							$(targetTag), addPlace, treeData);
 				} else {
 					wgp.TreeView.prototype.render.call(this, renderType,
 							treeModel);
