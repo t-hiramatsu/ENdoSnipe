@@ -249,7 +249,7 @@ ENS.tree.SIGNAL_ICON_3 = "signal_3";
 ENS.tree.SIGNAL_ICON_4 = "signal_4";
 ENS.tree.SIGNAL_ICON_5 = "signal_5";
 ENS.tree.REPORT_ICON = "report";
-ENS.tree.MULRECGRAPH_ICON = "mulRecGraph";
+ENS.tree.MULRECGRAPH_ICON = "leaf";
 
 ENS.tree.DEFAULT_SIGNAL_PATTERN = "3";
 ENS.tree.DEFAULT_ESCALATION_PERIOD = "15";
