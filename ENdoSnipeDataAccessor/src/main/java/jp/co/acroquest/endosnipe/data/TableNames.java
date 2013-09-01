@@ -68,5 +68,9 @@ public interface TableNames
     /** シグナル定義テーブル。 */
     String SIGNAL_DEFINITION        = "SIGNAL_DEFINITION";
     
+    /** 複数グラフテーブル。 */
     String MULTIPLE_RESOURCE_GRAPH = "MULTIPLE_RESOURCE_GRAPH";
+    
+    /** SQL実行計画テーブル。 */
+    String SQL_PLAN = "SQL_PLAN";
 }

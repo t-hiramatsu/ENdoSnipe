@@ -39,6 +39,7 @@ import jp.co.acroquest.endosnipe.collector.listener.CommonResponseListener;
 import jp.co.acroquest.endosnipe.collector.listener.JvnFileNotifyListener;
 import jp.co.acroquest.endosnipe.collector.listener.SignalChangeListener;
 import jp.co.acroquest.endosnipe.collector.listener.SignalStateListener;
+import jp.co.acroquest.endosnipe.collector.listener.SqlPlanNotifyListener;
 import jp.co.acroquest.endosnipe.collector.listener.SystemResourceListener;
 import jp.co.acroquest.endosnipe.collector.listener.TelegramNotifyListener;
 import jp.co.acroquest.endosnipe.communicator.TelegramListener;
@@ -358,6 +359,9 @@ public class JavelinServer implements TelegramSender
             client
                 .addTelegramListener(createResponseTelegramListener(TelegramConstants.BYTE_TELEGRAM_KIND_UPDATE_PROPERTY));
 
+            client.addTelegramListener(createSqlPlanNotifyListener(hostName, agentName, port,
+                                                                   dbName));
+
             HostInfoManager.registerHostInfo(dbName, hostName, ipAddress, port, null);
 
             notifyJavelinConnected(dbName, hostName, ipAddress, port);
@@ -365,12 +369,9 @@ public class JavelinServer implements TelegramSender
 
         SignalStateListener signalStateListener = new SignalStateListener();
         SignalChangeListener signalChangeListener = new SignalChangeListener();
-        /*   MultipleResourceGraphChangeListener multipleResourceGraphChangeListener =
-               new MultipleResourceGraphChangeListener();
-        */
+
         client.addTelegramListener(signalStateListener);
         client.addTelegramListener(signalChangeListener);
-        //  client.addTelegramListener(multipleResourceGraphChangeListener);
 
         // 制御クライアントが存在するなら、Javelinクライアントと紐付ける。
         Set<DataCollectorClient> controlClientSet = getControlClient(dbName);
@@ -481,7 +482,6 @@ public class JavelinServer implements TelegramSender
 
         controlClient.addTelegramListener(new SignalStateListener());
         controlClient.addTelegramListener(new SignalChangeListener());
-        // controlClient.addTelegramListener(new MultipleResourceGraphChangeListener());
 
         // Javelin->DataCollector->BottleneckEye
         javelinClient.addTelegramListener(new TelegramListener() {
@@ -556,6 +556,28 @@ public class JavelinServer implements TelegramSender
             notifyListener.setClientId(clientId);
             notifyListener.setAgentName(agentName);
         }
+        return notifyListener;
+    }
+
+    /**
+     * SqlPlanNotifyListenerを作成します。
+     * 
+     * @param hostName 接続先のホスト名
+     * @param agentName Agent名
+     * @param port 接続先のポート番号
+     * @param dbName データベース名
+     * @return SqlPlanNotifyListenerオブジェクト
+     */
+    private SqlPlanNotifyListener createSqlPlanNotifyListener(final String hostName,
+        final String agentName, final int port, final String dbName)
+    {
+        SqlPlanNotifyListener notifyListener = new SqlPlanNotifyListener();
+
+        notifyListener.setHostName(hostName);
+        notifyListener.setAgentName(agentName);
+        notifyListener.setPort(port);
+        notifyListener.setDatabaseName(dbName);
+
         return notifyListener;
     }
 
