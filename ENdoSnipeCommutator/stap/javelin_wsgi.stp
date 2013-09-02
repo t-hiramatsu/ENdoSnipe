@@ -1,0 +1,21 @@
+/**
+ * ENdoSnipe Commutator
+ * wsgi(Python)‚©‚çEndoSnipe‚ÌDataCollector‚É‘—‚éî•ñ‚ğûW‚·‚éB
+ *
+ * Copyright (C) Acroquest Technology, Co.LTD
+ */
+
+probe begin
+{
+  printf("Monitoring start.\n")
+}
+
+probe process("/usr/local/apache-2.4.6//bin/httpd").library("/usr/lib64/libpython2.6.so.1.0").mark("function__entry")
+{
+  printf("Function entry: File %s, Function name %s\n", user_string($arg1), user_string($arg2));
+}
+
+probe end
+{
+  printf("\nMonitoring end.\n")
+}
