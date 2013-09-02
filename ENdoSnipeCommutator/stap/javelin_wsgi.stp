@@ -4,16 +4,29 @@
  *
  * Copyright (C) Acroquest Technology, Co.LTD
  */
+global function_entry
 
 probe begin
 {
-  printf("Monitoring start.\n")
+  function_entry = 0
 }
 
 probe process("/usr/local/apache-2.4.6//bin/httpd").library("/usr/lib64/libpython2.6.so.1.0").mark("function__entry")
 {
-  printf("Function entry: File %s, Function name %s\n", user_string($arg1), user_string($arg2));
+  //printf("Function entry: File %s, Function name %s\n", user_string($arg1), user_string($arg2));
+  function_entry++
 }
+
+function print_function_entry()
+{
+  printf("/python/function_entry, %d\n", function_entry);
+}
+
+probe timer.ms(15000)
+{
+  print_function_entry()
+}
+
 
 probe end
 {
