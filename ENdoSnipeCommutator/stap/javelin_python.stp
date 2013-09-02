@@ -1,0 +1,20 @@
+/**
+ * ENdoSnipe Commutator
+ * Python‚©‚çEndoSnipe‚ÌDataCollector‚É‘—‚éî•ñ‚ğûW‚·‚éB
+ *
+ * Copyright (C) Acroquest Technology, Co.LTD
+ */
+
+probe begin
+{
+}
+
+probe python.function.entry
+{
+  printf("Function entry: File %s, Function name %s\n", user_string($arg1), user_string($arg2));
+}
+
+probe end
+{
+}
+

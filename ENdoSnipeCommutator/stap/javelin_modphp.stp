@@ -1,0 +1,20 @@
+/**
+ * ENdoSnipe Commutator
+ * mod_php‚©‚çEndoSnipe‚ÌDataCollector‚É‘—‚éî•ñ‚ğûW‚·‚éB
+ *
+ * Copyright (C) Acroquest Technology, Co.LTD
+ */
+
+probe begin
+{
+}
+
+probe process("/usr/local/apache-2.4.6/modules/libphp5.so").mark("function__entry")
+{
+  printf("Function entry: File %s, Class %s, Function name %s\n", user_string($arg2), user_string($arg4), user_string($arg1));
+}
+
+probe end
+{
+}
+
