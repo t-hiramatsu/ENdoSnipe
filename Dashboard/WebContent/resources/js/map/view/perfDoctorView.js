@@ -1,5 +1,5 @@
 ENS.perfDoctorView = wgp.AbstractView.extend({
-	tableColNames : [ "Time", "Description", "Level", "Class Name", "Method Name", "Download", "Logfile" ],
+	tableColNames : [ "Time", "Description", "Level", "Class Name", "Method Name", "Detail", "Download", "Logfile" ],
 	initialize : function(argument, treeSettings) {
 
 		this.tableColModel = this.createTableColModel();
@@ -105,19 +105,28 @@ ENS.perfDoctorView = wgp.AbstractView.extend({
 	createTableColModel : function() {
 		var tableColModel = [ {
 			name : "date",
-			width : 95
+			width : 85
 		}, {
 			name : "description",
-			width : 320
+			width : 310
 		}, {
 			name : "level",
-			width : 65
+			width : 55
 		}, {
 			name : "className",
-			width : 130
+			width : 120
 		}, {
 			name : "methodName",
-			width : 130
+			width : 120
+		}, {
+			name : "detailInfo",
+			// width : 140,
+			width : 50,
+			formatter : ENS.Utility.makeAnchor,
+			editoptions : {
+				"onclick" : "ENS.perfDoctor.dialog",
+				"linkName" : "Detail"
+			}
 		}, {
 			name : "detail",
 			width : 80,
@@ -148,4 +157,16 @@ ENS.perfDoctor.download = function(id) {
 	var fileName = rowData.logFileName;
 	$("input#fileName").val(fileName);
 	$('#jvnLogBtn').click();
+};
+ENS.perfDoctor.dialog = function(id) {
+	/*var rowData = $("#journalTable").getRowData(id);
+	var fileName = rowData.logFileName;
+	$("input#fileName").val(fileName);*/
+	//window.open("./resources/html/PerfDoctorDetailDialog.html");
+	
+	$("#performanceDoctorDialog").dialog({
+		modal : true,
+		width : 600
+	});
+	
 }

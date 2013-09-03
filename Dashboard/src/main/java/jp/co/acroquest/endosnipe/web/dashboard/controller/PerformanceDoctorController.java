@@ -27,7 +27,9 @@ package jp.co.acroquest.endosnipe.web.dashboard.controller;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -117,7 +119,10 @@ public class PerformanceDoctorController
                 list =
                         JavelinLogDao.selectByTermAndName(dbName, start, end, dataGroupId, true,
                                                           true);
-                JavelinLogDao.updateDiagnosed(dbName, start, end, dataGroupId);
+                if (list.size() > 0)
+                {
+                    JavelinLogDao.updateDiagnosed(dbName, start, end, dataGroupId);
+                }
             }
             catch (SQLException e)
             {
@@ -129,6 +134,7 @@ public class PerformanceDoctorController
             List<WarningUnit> warnings = judge.judge(list, true, true);
             // 診断結果をPerfDoctorResultTableに登録するべく、Dtoに変換
             List<PerfDoctorResultDto> dtoList = new ArrayList<PerfDoctorResultDto>();
+
             for (WarningUnit warning : warnings)
             {
                 PerfDoctorResultDto dto = new PerfDoctorResultDto();
@@ -158,6 +164,20 @@ public class PerformanceDoctorController
             // 各要素をPerformanceDoctorTableDtoに変換して返す。
             List<PerfDoctorResultDto> resultList;
             List<PerfDoctorTableDto> displayList = new ArrayList<PerfDoctorTableDto>();
+            PerfDoctorTableDto dto1 = new PerfDoctorTableDto();
+            dto1.setDate(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date()));
+            dto1.setDescription("There is not field name in the table.");
+            dto1.setLevel("ERROR");
+            dto1.setClassName("jdbc:postgresql://localhost:5432/ENdoSnipe-db");
+            dto1.setMethodName("select * from emp where empname=JOHN");
+            dto1.setDetail("Event, 2013/06/25 13:26:32, FullScan,select * from emp where empname=JOHN"
+                    + "      <<javelin.EventInfo_START>>"
+                    + "      javelin.jdbc.fullScan.tableName=dept,emp"
+                    + "javelin.jdbc.fullScan.duration=241"
+                    + "javelin.jdbc.fullScan.stackTrace=[STACKTRACE] Get a stacktrace.");
+            dto1.setLogFileName("20130512_133200-20130514_133200.zip");
+
+            displayList.add(dto1);
             try
             {
                 resultList =

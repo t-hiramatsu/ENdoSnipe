@@ -91,7 +91,6 @@ public class MeasurementValueService
                 List<jp.co.acroquest.endosnipe.data.dto.MeasurementValueDto> queryResultList =
                         MeasurementValueDao.selectByTermAndMeasurementItemName(dbName, starttime,
                                                                                endtime, itemName);
-                System.out.println(itemName + " " + queryResultList.size());
                 exchangeToDashboardDto(queryResultList, valueList);
             }
             catch (SQLException ex)
