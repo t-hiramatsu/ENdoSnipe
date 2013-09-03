@@ -1,0 +1,32 @@
+/**
+ * ENdoSnipe Commutator
+ * ruby‚©‚çEndoSnipe‚ÌDataCollector‚É‘—‚éî•ñ‚ğûW‚·‚éB
+ *
+ * Copyright (C) Acroquest Technology, Co.LTD
+ */
+global function_entry
+
+probe begin
+{
+  function_entry = 0
+}
+
+probe process("/usr/local/ruby-2.0.0-p247/bin/ruby").mark("method__entry")
+{
+  //printf("Method entry: File %s, Class %s, Method name %s\n", user_string($arg3), user_string($arg1), user_string($arg2));
+  function_entry++
+}
+
+function print_function_entry()
+{
+  printf("/modphp/function_entry, %d\n", function_entry);
+}
+
+probe timer.ms(15000)
+{
+  print_function_entry()
+}
+
+probe end
+{
+}
