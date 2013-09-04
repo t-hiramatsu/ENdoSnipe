@@ -25,6 +25,8 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.collector.listener;
 
+import java.sql.SQLException;
+
 import jp.co.acroquest.endosnipe.collector.LogMessageCodes;
 import jp.co.acroquest.endosnipe.collector.data.JavelinData;
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
@@ -34,6 +36,8 @@ import jp.co.acroquest.endosnipe.communicator.accessor.SqlPlanNotifyAccessor;
 import jp.co.acroquest.endosnipe.communicator.accessor.SqlPlanNotifyAccessor.SqlPlanEntry;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
+import jp.co.acroquest.endosnipe.data.dao.SqlPlanDao;
+import jp.co.acroquest.endosnipe.data.entity.SqlPlan;
 
 /**
  * SQL実行計画通知電文を受信するためのクラスです。<br />
@@ -68,6 +72,23 @@ public class SqlPlanNotifyListener extends AbstractTelegramListener implements T
         }
 
         SqlPlanEntry[] entries = SqlPlanNotifyAccessor.getSqlPlanEntries(telegram);
+
+        int entryLength = entries.length;
+
+        for (int index = 0; index < entryLength; index++)
+        {
+            SqlPlanEntry sqlPlanEntry = entries[index];
+            SqlPlan sqlPlan = convertSqlPlan(sqlPlanEntry);
+
+            try
+            {
+                SqlPlanDao.insert(databaseName_, sqlPlan);
+            }
+            catch (SQLException ex)
+            {
+                LOGGER.log(DATABASE_ACCESS_ERROR, ex, ex.getMessage());
+            }
+        }
 
         return null;
     }
@@ -151,5 +172,23 @@ public class SqlPlanNotifyListener extends AbstractTelegramListener implements T
     public void setDatabaseName(final String databaseName)
     {
         databaseName_ = databaseName;
+    }
+
+    /**
+     * SqlPlanEntryオブジェクトをSqlPlanオブジェクトに変更する。
+     * 
+     * @param entry 変換対象のSqlPlanEntryオブジェクト
+     * @return SqlPlanオブジェクト
+     */
+    private SqlPlan convertSqlPlan(final SqlPlanEntry entry)
+    {
+        SqlPlan sqlPlan = new SqlPlan();
+        sqlPlan.measurementItemName = entry.measurementItemName;
+        sqlPlan.executionPlan = entry.executionPlan;
+        sqlPlan.sqlStatement = entry.sqlStatement;
+        sqlPlan.gettingPlanTime = entry.gettingPlanTime;
+        sqlPlan.stackTrace = entry.stackTrace;
+
+        return sqlPlan;
     }
 }

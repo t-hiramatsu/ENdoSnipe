@@ -10,30 +10,35 @@
  * CLAIM, DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING
  * OR DISTRIBUTING THIS SOFTWARE OR ITS DERIVATIVES.
  */
-package jp.co.acroquest.endosnipe.data.entity;
+package jp.co.acroquest.endosnipe.web.dashboard.entity;
 
 import java.sql.Timestamp;
 
 /**
- * SQL_PLANƒe[ƒuƒ‹‚É‘Î‚·‚éEntityƒNƒ‰ƒX‚Å‚·B
+ * SQL_PLANãƒ†ãƒ¼ãƒ–ãƒ«ã«å¯¾ã™ã‚‹Entityã‚¯ãƒ©ã‚¹ã§ã™ã€‚
  * 
  * @author miyasaka
  *
  */
 public class SqlPlan
 {
-    /** Œv‘ª–¼B */
+    /** è¨ˆæ¸¬åã€‚ */
     public String measurementItemName;
-    
-    /** SQL•¶B */
+
+    /** SQLæ–‡ã€‚ */
     public String sqlStatement;
-    
-    /** SQL‚ÌÀsŒv‰æB */
+
+    /** SQLã®å®Ÿè¡Œè¨ˆç”»ã€‚ */
     public String executionPlan;
-    
-    /** ÀsŒv‰æ‚ªæ“¾‚Å‚«‚½ŠÔB */
+
+    /** å®Ÿè¡Œè¨ˆç”»ãŒå–å¾—ã§ããŸæ™‚é–“ã€‚ */
     public Timestamp gettingPlanTime;
-    
-    /** ƒXƒ^ƒbƒNƒgƒŒ[ƒXB */
+
+    /** ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã€‚ */
     public String stackTrace;
+
+    public SqlPlan()
+    {
+        // Do nothing.
+    }
 }

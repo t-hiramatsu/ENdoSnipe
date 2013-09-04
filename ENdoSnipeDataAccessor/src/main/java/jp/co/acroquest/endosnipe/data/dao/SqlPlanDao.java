@@ -47,20 +47,23 @@ public class SqlPlanDao extends AbstractDao implements TableNames
         {
             conn = getConnection(database);
             pstmt =
-                conn.prepareStatement("insert into " + SQL_PLAN
-                    + " (MEASUREMENT_ITEM_NAME, SQL_STATEMENT, EXECUTION_PLAN, GETTING_PLAN_TIME)"
-                    + " values (?,?,?,?)");
+                conn.prepareStatement("insert into "
+                    + SQL_PLAN
+                    + " (MEASUREMENT_ITEM_NAME, SQL_STATEMENT, EXECUTION_PLAN, GETTING_PLAN_TIME, STACK_TRACE)"
+                    + " values (?,?,?,?,?)");
             PreparedStatement delegated = getDelegatingStatement(pstmt);
             // CHECKSTYLE:OFF
             String measurementItemName = sqlPlan.measurementItemName;
             String sqlStatement = sqlPlan.sqlStatement;
             String executionPlan = sqlPlan.executionPlan;
             Timestamp gettingPlanTime = sqlPlan.gettingPlanTime;
+            String stackTrace = sqlPlan.stackTrace;
 
             delegated.setString(1, measurementItemName);
             delegated.setString(2, sqlStatement);
             delegated.setString(3, executionPlan);
             delegated.setTimestamp(4, gettingPlanTime);
+            delegated.setString(5, stackTrace);
             // CHECKSTYLE:ON
             delegated.execute();
         }

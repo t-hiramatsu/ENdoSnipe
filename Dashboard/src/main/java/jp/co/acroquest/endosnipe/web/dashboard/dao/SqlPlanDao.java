@@ -10,30 +10,25 @@
  * CLAIM, DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING
  * OR DISTRIBUTING THIS SOFTWARE OR ITS DERIVATIVES.
  */
-package jp.co.acroquest.endosnipe.data.entity;
+package jp.co.acroquest.endosnipe.web.dashboard.dao;
 
-import java.sql.Timestamp;
+import java.util.List;
+
+import jp.co.acroquest.endosnipe.web.dashboard.entity.SqlPlan;
 
 /**
- * SQL_PLANƒe[ƒuƒ‹‚É‘Î‚·‚éEntityƒNƒ‰ƒX‚Å‚·B
- * 
+ * {@link SqlPlan} ã®ãŸã‚ã® DAO ã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã§ã™ã€‚
+ *
  * @author miyasaka
  *
  */
-public class SqlPlan
+public interface SqlPlanDao
 {
-    /** Œv‘ª–¼B */
-    public String measurementItemName;
-    
-    /** SQL•¶B */
-    public String sqlStatement;
-    
-    /** SQL‚ÌÀsŒv‰æB */
-    public String executionPlan;
-    
-    /** ÀsŒv‰æ‚ªæ“¾‚Å‚«‚½ŠÔB */
-    public Timestamp gettingPlanTime;
-    
-    /** ƒXƒ^ƒbƒNƒgƒŒ[ƒXB */
-    public String stackTrace;
+    /**
+     * measurement_item_nameãŒä¸€è‡´ã™ã‚‹SQLå®Ÿè¡Œè¨ˆç”»ãƒ‡ãƒ¼ã‚¿ã®ãƒªã‚¹ãƒˆã‚’å–å¾—ã™ã‚‹ã€‚
+     * 
+     * @param itemName measurement_item_name
+     * @return SQLå®Ÿè¡Œè¨ˆç”»ãƒ‡ãƒ¼ã‚¿ã®ãƒªã‚¹ãƒˆ
+     */
+    List<SqlPlan> selectByItemName(final String itemName);
 }

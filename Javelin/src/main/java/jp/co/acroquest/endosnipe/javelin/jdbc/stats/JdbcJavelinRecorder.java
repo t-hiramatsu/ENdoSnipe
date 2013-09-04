@@ -1094,12 +1094,25 @@ public class JdbcJavelinRecorder
                         }
                         execPlanText.append(execPlanResult);
 
+                        StackTraceElement[] stacktrace = ThreadUtil.getCurrentStackTrace();
+                        int stacktraceLength = stacktrace.length;
+
+                        StringBuffer stacktraceStrBuffer = new StringBuffer();
+
+                        for (int index = 0; index < stacktraceLength; index++)
+                        {
+                            stacktraceStrBuffer.append(stacktrace[index]);
+                            stacktraceStrBuffer.append(",");
+                        }
+
+                        // DataCollector側でDB登録するために、実行計画に関するデータを電文で送信する
                         SqlPlanTelegramSender sqlPlanTelegramSender = new SqlPlanTelegramSender();
                         sqlPlanTelegramSender
                             .execute(TelegramConstants.PREFIX_PROCESS_RESPONSE_JDBC
                                          + originalSqlElement, originalSqlElement,
                                      execPlanText.toString(),
-                                     new Timestamp(System.currentTimeMillis()));
+                                     new Timestamp(System.currentTimeMillis()),
+                                     stacktraceStrBuffer.toString());
                     }
                 }
                 catch (Exception ex)

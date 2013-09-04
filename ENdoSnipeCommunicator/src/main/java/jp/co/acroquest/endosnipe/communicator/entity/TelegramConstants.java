@@ -168,10 +168,13 @@ public interface TelegramConstants
     String OBJECTNAME_SQL_STATEMENT = "sqlplan";
     
     /** オブジェクト名(SQL実行計画) */
-    String OBJECTNAME_SQL_EXECUTION_PLAN = "sqlplan";
+    String OBJECTNAME_SQL_EXECUTION_PLAN = "sqlexecution";
     
     /** オブジェクト名(SQL実行計画取得時間) */
-    String OBJECTNAME_GETTING_PLAN_TIME = "sqlplan";
+    String OBJECTNAME_GETTING_PLAN_TIME = "gettingplantime";
+    
+    /** オブジェクト名(スタックとレース) */
+    String OBJECTNAME_STACK_TRACE = "stacktrace";
 
     // ////////////////
     // 制御用項目名 //

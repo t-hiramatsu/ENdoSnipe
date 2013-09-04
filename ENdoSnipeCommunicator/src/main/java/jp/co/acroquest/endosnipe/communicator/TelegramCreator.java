@@ -106,10 +106,13 @@ public final class TelegramCreator implements TelegramConstants
      * @param sqlStatement SQL文
      * @param executionPlan 実行計画
      * @param gettingPlanTime 実行計画取得時間
+     * @param stackTrace スタックトレース
+     * 
      * @return SQL実行計画通知電文
      */
     public static Telegram createSqlPlanTelegram(final String measurementItemName,
-        final String sqlStatement, final String executionPlan, final Timestamp gettingPlanTime)
+        final String sqlStatement, final String executionPlan, final Timestamp gettingPlanTime,
+        final String stackTrace)
     {
         // 電文ヘッダを作る
         Header objHeader = new Header();
@@ -122,7 +125,7 @@ public final class TelegramCreator implements TelegramConstants
             TelegramUtil.createResponseBody(OBJECTNAME_SQL_STATEMENT, measurementItemName,
                                             ItemType.ITEMTYPE_STRING, sqlStatementArr);
 
-        // SQL文のBodyを作る
+        // SQL実行計画のBodyを作る
         String[] executionPlanArr = {executionPlan};
         ResponseBody executionPlanBody =
             TelegramUtil.createResponseBody(OBJECTNAME_SQL_EXECUTION_PLAN, measurementItemName,
@@ -136,13 +139,19 @@ public final class TelegramCreator implements TelegramConstants
             TelegramUtil.createResponseBody(OBJECTNAME_GETTING_PLAN_TIME, measurementItemName,
                                             ItemType.ITEMTYPE_STRING, gettingPlanTimeArr);
 
+        // スタックトレースのBodyを作成する
+        String[] stackTraceArr = {stackTrace};
+        ResponseBody stackTraceBody =
+            TelegramUtil.createResponseBody(OBJECTNAME_STACK_TRACE, measurementItemName,
+                                            ItemType.ITEMTYPE_STRING, stackTraceArr);
+
         // 電文オブジェクトを設定する
         Telegram objTelegram = new Telegram();
         objTelegram.setObjHeader(objHeader);
         objTelegram.setObjBody(new ResponseBody[]{sqlStatementBody, executionPlanBody,
-            gettingPlanTimeBody});
+            gettingPlanTimeBody, stackTraceBody});
 
-        return null;
+        return objTelegram;
 
     }
 

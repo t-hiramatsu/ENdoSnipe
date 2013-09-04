@@ -35,9 +35,10 @@ public class SqlPlanTelegramSender
      * @param sqlStatement SQL文
      * @param executionPlan 実行計画
      * @param gettingPlanTime 実行計画取得時間
+     * @param stackTrace スタックトレース
      */
     public void execute(final String measurementItemName, final String sqlStatement,
-        final String executionPlan, final Timestamp gettingPlanTime)
+        final String executionPlan, final Timestamp gettingPlanTime, final String stackTrace)
     {
         // クライアントがいない場合は電文を作成しない。
         if (JavelinAcceptThread.getInstance().hasClient() == false
@@ -52,7 +53,7 @@ public class SqlPlanTelegramSender
         {
             telegram =
                 TelegramCreator.createSqlPlanTelegram(measurementItemName, sqlStatement,
-                                                      executionPlan, gettingPlanTime);
+                                                      executionPlan, gettingPlanTime, stackTrace);
         }
         catch (IllegalArgumentException ex)
         {

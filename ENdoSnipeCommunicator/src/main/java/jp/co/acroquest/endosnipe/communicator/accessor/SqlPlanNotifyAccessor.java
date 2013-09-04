@@ -33,9 +33,9 @@ import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
  */
 public class SqlPlanNotifyAccessor implements TelegramConstants
 {
-    private static final ENdoSnipeLogger LOGGER =
-        ENdoSnipeLogger.getLogger(SystemResourceGetter.class);
-    
+    private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
+        .getLogger(SystemResourceGetter.class);
+
     /**
      * プライベートコンストラクタです。<br />
      */
@@ -63,6 +63,7 @@ public class SqlPlanNotifyAccessor implements TelegramConstants
         List<String> sqlStatements = new ArrayList<String>(bodies.length);
         List<String> executionPlans = new ArrayList<String>(bodies.length);
         List<Timestamp> gettingPlanTimes = new ArrayList<Timestamp>(bodies.length);
+        List<String> stackTraces = new ArrayList<String>(bodies.length);
 
         for (Body body : bodies)
         {
@@ -78,7 +79,7 @@ public class SqlPlanNotifyAccessor implements TelegramConstants
                 }
 
                 String sqlStatement = (String)objItemValueArr[0];
-                measurmentItemNames.add(sqlStatement);
+                sqlStatements.add(sqlStatement);
 
                 String itemName = body.getStrItemName();
                 measurmentItemNames.add(itemName);
@@ -104,27 +105,39 @@ public class SqlPlanNotifyAccessor implements TelegramConstants
 
                 String gettingPlanTimeStr = (String)objItemValueArr[0];
                 Timestamp timestamp;
-                
+
                 // TimeStampへのパースが失敗した場合は、現在時刻のTimeStampを作成する
                 try
                 {
-                    timestamp = new Timestamp(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
-                        .parse(gettingPlanTimeStr).getTime());
+                    timestamp =
+                        new Timestamp(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
+                            .parse(gettingPlanTimeStr).getTime());
                 }
                 catch (ParseException pEx)
                 {
                     timestamp = new Timestamp(System.currentTimeMillis());
-                    
+
                     LOGGER.log("WECC0103", pEx);
                     pEx.printStackTrace();
                 }
                 gettingPlanTimes.add(timestamp);
             }
+            else if (OBJECTNAME_STACK_TRACE.equals(objectName) == true)
+            {
+                Object[] objItemValueArr = responseBody.getObjItemValueArr();
+                if (objItemValueArr.length == 0)
+                {
+                    continue;
+                }
+
+                String stackTrace = (String)objItemValueArr[0];
+                stackTraces.add(stackTrace);
+            }
         }
 
         int entriesSize = measurmentItemNames.size();
         if (entriesSize != sqlStatements.size() || entriesSize != executionPlans.size()
-            || entriesSize != gettingPlanTimes.size())
+            || entriesSize != gettingPlanTimes.size() || entriesSize != stackTraces.size())
         {
             return null;
         }
@@ -137,6 +150,7 @@ public class SqlPlanNotifyAccessor implements TelegramConstants
             entries[i].sqlStatement = sqlStatements.get(i);
             entries[i].executionPlan = executionPlans.get(i);
             entries[i].gettingPlanTime = gettingPlanTimes.get(i);
+            entries[i].stackTrace = stackTraces.get(i);
         }
 
         return entries;
@@ -172,5 +186,8 @@ public class SqlPlanNotifyAccessor implements TelegramConstants
 
         /** 実行計画が取得できた時間。 */
         public Timestamp gettingPlanTime;
+        
+        /** スタックトレース。 */
+        public String stackTrace;
     }
 }
