@@ -166,21 +166,29 @@ ENS.perfDoctor.download = function(id) {
 
 ENS.perfDoctor.dialog = function(id) {
 	var rowData = $("#journalTable").getRowData(id);
+	
+	$("#perDocTime").empty();
 	$("#perDocTime").append(rowData.date);
 
+	$("#perDocDescription").empty();
 	$("#perDocDescription").append(rowData.description);
 
+	$("#perDocLevel").empty();
 	$("#perDocLevel").append(rowData.level);
 
+	$("#perDocClassName").empty();
 	$("#perDocClassName").append(rowData.className);
 
+	$("#perDocMethodName").empty();
 	$("#perDocMethodName").append(rowData.methodName);
 
+	$("#perDocLogFileName").empty();
 	$("#perDocLogFileName").append(rowData.logFileName);
 
 	var changed = rowData.detailResult;
 	changed = changed.replace(/>/g, "&gt;").replace(/</g, "&lt;");
 	changed = changed.replace(/%/gi, "<br/>");
+	$("#perDocDetail").empty();
 	$("#perDocDetail").append(changed);
 	$("#performanceDoctorDialog").dialog({
 		modal : true,
