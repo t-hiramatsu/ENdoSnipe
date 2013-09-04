@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -14,44 +14,46 @@
 	<input id="treeData" type="hidden" value='${treeData}' />
 	<div id="performanceDoctorDialog" title="Detail of Diagnotics Result"
 		style="display: none">
-		
+
 		<div id="performanceDoctorPatternValueArea" class="dialogContentArea">
 			<div id="performanceDoctorPatternValue" class="dialogValue">
-				<table style='width: 570px; height: 370px;' border=1 cellpadding=0 cellspacing=0>
-						<tr>
-						<td style='width: 120px;'><b>Time</b><br />
-					</td>
-					<td id="perDocTime" style='width: 450px;'>2013/07/18 14:20:35 </td></tr>
+
+				<table id="performanceDoctorDetailResult"
+					style='width: 1150px; height: 770px; font-size: 14px;' border=1
+					cellpadding=0 cellspacing=0>
 					<tr>
-						<td style='width: 150px;'><b>Description</b> <br />
-					</td>
-					<td id="perDocDescription">There is not field name in the table.</td> 	</tr>
+						<td style='width: 120px;'><b>Time</b><br /></td>
+						<td id="perDocTime" style="word-break: break-all;"></td>
+					</tr>
+					<tr>
+						<td style='width: 150px;'><b>Description</b> <br /></td>
+						<td id="perDocDescription" style="word-break: break-all;"></td>
+					</tr>
 					<tr>
 						<td style='width: 150px;'>Level<br />
-					</td>
-					<td id="perDocLevel">ERROR</td>	</tr>
+						</td>
+						<td id="perDocLevel" style="word-break: break-all;"></td>
+					</tr>
 					<tr>
 						<td style='width: 150px;'>Class Name <br />
-					</td>
-					<td id="perDocClassName">jdbc:postgresql://localhost:5432/ENdoSnipe-db</td></tr>
+						</td>
+						<td id="perDocClassName" style="word-break: break-all;"></td>
+					</tr>
 					<tr>
 						<td style='width: 150px;'>Method Name<br />
-					</td>
-					<td id="perDocMethodName">select * from emp where empname="JOHN"</td>	</tr>
+						</td>
+						<td id="perDocMethodName" style="word-break: break-all;"></td>
+					</tr>
 					<tr>
 						<td style='width: 150px;'>Log File Name <br />
-					</td>
-					<td id="perDocLogFileName">20130512_133200-20130514_133200.jvn	</td></tr>
-						<tr>
-						<td style='width: 150px;' valign="top">Log Detail <br />
-					</td>
-					<td id="perDocDetail" valign="top">
-				   <c:out value="Event, 2013/06/25 13:26:32, FullScan,select * from emp where empname=JOHN<br/><<javelin.EventInfo_START>></br>javelin.jdbc.fullScan.tableName=dept,emp<br/>javelin.jdbc.fullScan.duration=241
-					<br/>javelin.jdbc.fullScan.stackTrace=[STACKTRACE] Get a stacktrace."></c:out>
-					<!-- Event, 2013/06/25 13:26:32, "FullScan","select * from emp where empname="JOHN"<br/>&lt;&lt;javelin.EventInfo_START&gt;&gt;</br>javelin.jdbc.fullScan.tableName=dept,emp<br/>javelin.jdbc.fullScan.duration=241
-					<br/>javelin.jdbc.fullScan.stackTrace=[STACKTRACE] Get a stacktrace. --></td>	
+						</td>
+						<td id="perDocLogFileName" style="word-break: break-all;"></td>
 					</tr>
-				
+					<tr>
+						<td style='width: 150px;' valign="top">Log Detail <br />
+						</td>
+						<td id="perDocDetail" valign="top" style="word-break: break-all;"></td>
+					</tr>
 				</table>
 			</div>
 		</div>

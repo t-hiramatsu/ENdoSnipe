@@ -1,5 +1,6 @@
 ENS.perfDoctorView = wgp.AbstractView.extend({
-	tableColNames : [ "Time", "Description", "Level", "Class Name", "Method Name", "Detail", "Download", "Logfile" ],
+	tableColNames : [ "Time", "Description", "Level", "Class Name",
+			"Method Name", "Detail", "Download", "Logfile", "detailResult" ],
 	initialize : function(argument, treeSettings) {
 
 		this.tableColModel = this.createTableColModel();
@@ -29,7 +30,6 @@ ENS.perfDoctorView = wgp.AbstractView.extend({
 
 		this.id = argument.id;
 
-		
 		this.dualSliderView.setScaleMovedEvent(function(from, to) {
 			var appView = new ENS.AppView();
 			var startTime = new Date(new Date().getTime() - from);
@@ -60,9 +60,9 @@ ENS.perfDoctorView = wgp.AbstractView.extend({
 			pginput : true,
 			height : height,
 			width : 880,
-			sortname : "date", 
+			sortname : "date",
 			sortorder : "desc",
-			viewrecords : true, 
+			viewrecords : true,
 			rownumbers : true,
 			shrinkToFit : false
 		});
@@ -139,6 +139,10 @@ ENS.perfDoctorView = wgp.AbstractView.extend({
 			name : "logFileName",
 			width : 0,
 			hidden : true
+		}, {
+			name : "detailResult",
+			width : 0,
+			hidden : true
 		} ];
 
 		return tableColModel;
@@ -149,24 +153,39 @@ ENS.perfDoctorView = wgp.AbstractView.extend({
 		var rowId = options.rowId;
 		var onclick = selectValueList.onclick;
 		return '<a href="javascript:void(0)" onclick="'
-		+ selectValueList.onclick + ';">' + 'DL' + '</a>';
+				+ selectValueList.onclick + ';">' + 'DL' + '</a>';
 	}
 });
+
 ENS.perfDoctor.download = function(id) {
 	var rowData = $("#journalTable").getRowData(id);
 	var fileName = rowData.logFileName;
 	$("input#fileName").val(fileName);
 	$('#jvnLogBtn').click();
 };
+
 ENS.perfDoctor.dialog = function(id) {
-	/*var rowData = $("#journalTable").getRowData(id);
-	var fileName = rowData.logFileName;
-	$("input#fileName").val(fileName);*/
-	//window.open("./resources/html/PerfDoctorDetailDialog.html");
-	
+	var rowData = $("#journalTable").getRowData(id);
+	$("#perDocTime").append(rowData.date);
+
+	$("#perDocDescription").append(rowData.description);
+
+	$("#perDocLevel").append(rowData.level);
+
+	$("#perDocClassName").append(rowData.className);
+
+	$("#perDocMethodName").append(rowData.methodName);
+
+	$("#perDocLogFileName").append(rowData.logFileName);
+
+	var changed = rowData.detailResult;
+	changed = changed.replace(/>/g, "&gt;").replace(/</g, "&lt;");
+	changed = changed.replace(/%/gi, "<br/>");
+	$("#perDocDetail").append(changed);
 	$("#performanceDoctorDialog").dialog({
 		modal : true,
-		width : 600
+		width : 1200,
+		height : 800
 	});
-	
-}
+
+};
