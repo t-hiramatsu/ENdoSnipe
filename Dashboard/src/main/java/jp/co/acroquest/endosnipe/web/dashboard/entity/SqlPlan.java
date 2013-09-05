@@ -37,6 +37,9 @@ public class SqlPlan
     /** スタックトレース。 */
     public String stackTrace;
 
+    /**
+     * コンストラクタ。
+     */
     public SqlPlan()
     {
         // Do nothing.
