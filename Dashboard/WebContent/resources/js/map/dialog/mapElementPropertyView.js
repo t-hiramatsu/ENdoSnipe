@@ -247,6 +247,11 @@ ENS.MapElementPropertyTab = Backbone.View.extend({
 		return tag;
 	},
 	createColorbox : function(propertyName, propertyType, initialValue){
+
+		if(initialValue == null || initialValue == undefined){
+			initialValue = "#FFFFFF";
+		}
+
 		var tag = this.createTextbox(propertyName, propertyType, initialValue);
 		tag.css("backgroundColor", initialValue);
 
@@ -278,44 +283,72 @@ ENS.MapElementPropertyTab = Backbone.View.extend({
 		return tag;
 	},
 	getAllProperty : function(){
+		var instance = this;
 		var property = {};
 		var inputTags = this.$el.find("input");
 		var selectTags = this.$el.find("select");
 
 		_.each(inputTags, function(inputTag, inputTags){
-			var name = $(inputTag).attr("name");
-			var value = $(inputTag).val();
-			if($(inputTag).hasClass("number")){
-				value = parseInt(value);
-			}
 
-			property[name] = value;
+			if(instance.checkAvailable(inputTag)){
+				var name = $(inputTag).attr("name");
+				var value = $(inputTag).val();
+				if($(inputTag).hasClass("number")){
+					value = parseInt(value);
+				}
+				property[name] = value;
+			}
 		});
 
 		_.each(selectTags, function(selectTag, selectTags){
-			var name = $(selectTag).attr("name");
-			var value = $(selectTag).val();
-			property[name] = value;
+
+			if(instance.checkAvailable(selectTag)){
+				var name = $(selectTag).attr("name");
+				var value = $(selectTag).val();
+				property[name] = value;
+			}
 		})
 		return property;
 	},
 	validation : function(){
+		var instance = this;
 		var property = {};
 		var inputTags = this.$el.find("input");
 		var selectTags = this.$el.find("select");
 
 		var result = true;
 		_.each(inputTags, function(inputTag, inputTags){
-			var name = $(inputTag).attr("name");
-			var value = $(inputTag).val();
 
-			if($(inputTag).hasClass("number")){
-				if(isNaN(value) || parseInt(value) < 0){
-					result = false;
+			// 有効な値のみチェックする。
+			if(instance.checkAvailable(inputTag)){
+				var name = $(inputTag).attr("name");
+				var value = $(inputTag).val();
+
+				if($(inputTag).hasClass("number")){
+					if(isNaN(value) || parseInt(value) < 0){
+						result = false;
+					}
 				}
 			}
 		});
 		return result;
+	},
+	checkAvailable : function(tag){
+
+		if($(tag).is(':disabled')){
+			return false;
+		}
+
+		var tagName = tag.tagName;
+		if("INPUT" == tagName){
+
+			var type = tag.type;
+			if(("radio" == type || "checkbox" == type)
+				&& $(tag).is(':checked') == false){
+				return false;
+			}
+		}
+		return true;
 	}
 });
 
@@ -395,9 +428,31 @@ ENS.BackgroundPropertyPositionTab = ENS.MapElementPropertyTab.extend({
 
 		// 継承元のバリデーションメソッド実行
 		var result = ENS.MapElementPropertyTab.prototype.validation.apply(this);
+
+		// 入力不正の場合は大きさチェックは行わない。
 		if(!result){
 			return result;
 		}
+
+		var inputProperty = this.getAllProperty();
+		var mapView = this.targetView.mapView;
+		_.each(mapView.collection.models, function(model, index){
+
+			var pointX = model.get("pointX");
+			var pointY = model.get("pointY");
+			var width = model.get("width");
+			var height = model.get("height");
+
+			if(pointX + width > inputProperty["width"]){
+				result = false;
+			}
+
+			if(pointY + height > inputProperty["height"]){
+				result = false;
+			}
+		});
+
+		return result;
 	}
 });
 
@@ -441,8 +496,13 @@ ENS.BackgroundPropertyTab = ENS.MapElementPropertyTab.extend({
 		var imageRadio = $("<input type='radio' name='objectType' value='"+ raphaelMapConstants.IMAGE_TYPE_NAME +"'>");
 		var imageSpan = $("<div>image</div>");
 		var imageAttribute = ENS.svg.attribute["href"];
+
+		var src = ""
+		if(this.property.src){
+			src = this.property.src.replace(wgp.common.getContextPath() + "/", "");
+		}
 		var imageInput =
-			this.createSettingItem("href", "select", this.property.href, imageDataList);
+			this.createSettingItem("src", "select", this.property.src, imageDataList);
 		var imageRow = $("<div class='mapPropertyItem'></div>");
 		imageRow.append(imageSpan).append(imageInput);
 		imageSpan.prepend(imageRadio);
@@ -455,7 +515,7 @@ ENS.BackgroundPropertyTab = ENS.MapElementPropertyTab.extend({
 				fillColorInput.prop("disabled", true);
 				var fillColor = fillColorInput.val();
 				fillColorInput.css("backgroundColor", "");
-				fillColorInput.css("color", "#000");
+				fillColorInput.css("color", "");
 
 			}else{
 				fillColorInput.prop("disabled", false);
