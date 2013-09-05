@@ -5,9 +5,6 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/resources/css/dialog/PerfDoctorDialog.css"
-	type="text/css" media="all">
 </head>
 <body>
 	<div id="persArea"></div>
@@ -19,8 +16,8 @@
 			<div id="performanceDoctorPatternValue" class="dialogValue">
 
 				<table id="performanceDoctorDetailResult"
-					style='width: 1150px; height: 770px; font-size: 14px;' border=1
-					cellpadding=0 cellspacing=0>
+					style='width: 1150px; height: 770px; font-size: 14px; background-color: black;'
+					border=1 cellpadding=2 cellspacing=0>
 					<tr>
 						<td style='width: 120px;'><b>Time</b><br /></td>
 						<td id="perDocTime" style="word-break: break-all;"></td>
