@@ -1,0 +1,136 @@
+/**
+ * ENdonipe Commutator
+ * MySQLからEndoSnipeのDataCollectorに送る情報を収集する。
+ *
+ * Copyright (C) Acroquest Technology, Co.LTD
+ */
+
+global select_count, insert_count, update_count, delete_count, other_count
+global keycache_wcount, keycache_rcount, index_read_count
+global wrlock_count, unlock_count, rdlock_count, filesort_count
+global connection_count, command_count
+
+probe begin
+{
+    select_count = 0
+    insert_count = 0
+    update_count = 0
+    delete_count = 0
+    other_count = 0
+    keycache_wcount = 0
+    keycache_rcount = 0
+    index_read_count = 0
+    wrlock_count = 0
+    unlock_count = 0
+    rdlock_count = 0
+    filesort_count = 0
+    connection_count = 0
+    command_count = 0
+}
+
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("query__start")
+{
+    query = user_string($arg1)
+    if(strcmp_head6(query, "SELECT")){
+        select_count++
+    }else if(strcmp_head6(query, "INSERT")){
+        insert_count++
+    }else if(strcmp_head6(query, "UPDATE")){
+        update_count++
+    }else if(strcmp_head6(query, "DELETE")){
+        delete_count++
+    }else{
+        other_count++
+    }
+}
+
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("keycache__write__start")
+{
+    keycache_wcount++
+}
+
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("keycache__read__start")
+{
+    keycache_rcount++
+}
+
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("index__read__row__start")
+{
+    index_read_count++
+}
+
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("handler__wrlock__start")
+{
+    wrlock_count++
+}
+
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("handler__unlock__start")
+{
+    unlock_count++
+}
+
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("handler__rdlock__start")
+{
+    rdlock_count++
+}
+
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("filesort__start")
+{
+    filesort_count++
+}
+
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("connection__start")
+{
+    connection_count++
+}
+
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("command__start")
+{
+    command_count++
+}
+
+function print_query_counts()
+{
+    query_count = select_count + insert_count + update_count + delete_count + other_count
+    printf("/mysql/sql,%d\n", query_count)
+    printf("/mysql/sql/select,%d\n", select_count)
+    printf("/mysql/sql/insert,%d\n", insert_count)
+    printf("/mysql/sql/update,%d\n", update_count)
+    printf("/mysql/sql/delete,%d\n", delete_count)
+    printf("/mysql/sql/other,%d\n", other_count)
+    printf("/mysql/sql/keycache_write,%d\n", keycache_wcount)
+    printf("/mysql/sql/keycache_read,%d\n", keycache_rcount)
+    printf("/mysql/sql/index_read_row,%d\n", index_read_count)
+    printf("/mysql/sql/handler_wrlock,%d\n", wrlock_count)
+    printf("/mysql/sql/handler_unlock,%d\n", unlock_count)
+    printf("/mysql/sql/handler_rdlock,%d\n", rdlock_count)
+    printf("/mysql/sql/filesort,%d\n", filesort_count)
+    printf("/mysql/sql/counnection,%d\n", connection_count)
+    printf("/mysql/sql/command,%d\n", command_count)
+}
+
+function strcmp_head6:long(s1: string, s2: string){
+    for( i=0; i<6; i++ ){
+        if( !strcmp_ignorecase( substr(s1, i, i+1), substr(s2, i, i+1) ) ) return 0;
+    }
+    return 1
+}
+
+function strcmp_ignorecase:long(s1: string, s2: string)%{
+    char c1, c2;
+    int i1, i2;
+    c1 = STAP_ARG_s1[0];
+    c2 = STAP_ARG_s2[0];
+    i1 = toupper(c1);
+    i2 = toupper(c2);
+    if( i1 == i2 ) STAP_RETVALUE = 1;
+    else STAP_RETVALUE = 0;
+%}
+
+probe timer.ms(15000)
+{
+    printf("/common/fundamental/time/current,%ld\n",gettimeofday_ms())
+    print_query_counts()
+    printf(".\n")
+}
+

@@ -54,7 +54,7 @@ probe begin
     delete_count = 0
     other_count = 0
     transaction_commit_count = 0
-    sql_exec_time_threshold = 10000	//SQL実行時間の閾値(この時間をオーバーしたクエリの実行回数が出力される)
+    sql_exec_time_threshold = 1	//SQL実行時間の閾値(この時間をオーバーしたクエリの実行回数が出力される)
     sql_over_threshold_count = 0
     init_sql_exec_times()
     init_transaction_time()
