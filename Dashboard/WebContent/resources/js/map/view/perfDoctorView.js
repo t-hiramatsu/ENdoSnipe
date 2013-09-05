@@ -193,7 +193,6 @@ ENS.perfDoctor.dialog = function(id) {
 	$("#performanceDoctorDialog").dialog({
 		modal : true,
 		width : 1200,
-		height : 800
+		height : 800,
 	});
-
 };
