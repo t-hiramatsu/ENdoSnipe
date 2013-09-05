@@ -558,15 +558,6 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             this.clientRepository_.sendTelegramToClient(clientId, addTelegram);
 
         }
-
-        // TODO 削除リストをサーバに送信し、リアルタイムのツリーノード削除を実現する
-        //        if (result.getDeleteItemIdList() != null)
-        //        {
-        //            Telegram deleteTelegram =
-        //                createDeleteTreeNodeTelegram(database, result.getDeleteItemIdList());
-        //
-        //            this.clientRepository_.sendTelegramToClient(clientId, deleteTelegram);
-        //        }
     }
 
     /**
@@ -617,7 +608,7 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
      * @param deleteItemList list of deleted tree node
      * @return  telegram
      */
-    private Telegram createDeleteTreeNodeTelegram(final String database,
+    public Telegram createDeleteTreeNodeTelegram(final String database,
         final List<Integer> deleteItemList)
     {
         Header responseHeader = new Header();
@@ -1031,7 +1022,6 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             AlarmEntry alarmEntry =
                 processor.calculateAlarmLevel(currentResourceData, prevResourceData,
                                               signalDefinition, currentAlarmData);
-
             if (alarmEntry == null)
             {
                 continue;
@@ -1114,6 +1104,9 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         }
         else
         {
+            // 回復した閾値の内、最も小さいものを取得
+            threshold =
+                alarmEntry.getDefinition().getThresholdMaping().get(alarmEntry.getAlarmState() + 1);
             alarmType = "falls";
         }
         signalStateChangeEvent.setLevel(level);
