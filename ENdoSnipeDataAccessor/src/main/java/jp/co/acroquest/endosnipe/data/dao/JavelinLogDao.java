@@ -197,6 +197,10 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
                 setJavelinLogFromResultSet(javelinLog, rs);
             }
         }
+        catch (SQLException ex)
+        {
+            LOGGER.log(DB_ACCESS_ERROR, ex, ex.getMessage());
+        }
         finally
         {
             SQLUtil.closeResultSet(rs);
@@ -560,7 +564,6 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
     {
         Connection conn = null;
         PreparedStatement pstmt = null;
-        ResultSet rs = null;
         try
         {
 
@@ -569,11 +572,10 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
             pstmt = conn.prepareStatement(sql);
             PreparedStatement delegated = getDelegatingStatement(pstmt);
             setTimestampByTerm(delegated, start, end);
-            rs = delegated.executeQuery();
+            delegated.executeUpdate();
         }
         finally
         {
-            SQLUtil.closeResultSet(rs);
             SQLUtil.closeStatement(pstmt);
             SQLUtil.closeConnection(conn);
         }

@@ -78,7 +78,7 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 												}
 											} ],
 									modal : true,
-									width : 350
+									width : 550
 
 								});
 

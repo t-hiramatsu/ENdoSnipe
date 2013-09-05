@@ -1,7 +1,9 @@
 package jp.co.acroquest.endosnipe.web.dashboard.service;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,8 +27,8 @@ import org.springframework.stereotype.Service;
 public class PerformanceDoctorService
 {
     /** ロガー */
-    private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
-            .getLogger(JvnDownloadServlet.class);
+    private static final ENdoSnipeLogger LOGGER =
+            ENdoSnipeLogger.getLogger(JvnDownloadServlet.class);
 
     /** バッファのサイズ */
     private static final int BUFFER_SIZE = 1024;
@@ -38,7 +40,6 @@ public class PerformanceDoctorService
     {
 
     }
-
 
     /**
      * クライアントからのjvnファイル出力ダウンロードを受信するためのサーブレットです。
@@ -78,8 +79,8 @@ public class PerformanceDoctorService
      */
     private void printOutFile(final HttpServletRequest req, final HttpServletResponse res,
             final String logFileName, InputStream inputStream)
-                    throws IOException
-                    {
+        throws IOException
+    {
         OutputStream os = res.getOutputStream();
         try
         {
@@ -122,7 +123,7 @@ public class PerformanceDoctorService
                 }
             }
         }
-                    }
+    }
 
     /**
      * ファイルが見つからない場合
@@ -162,5 +163,43 @@ public class PerformanceDoctorService
                 }
             }
         }
+    }
+
+    /**
+     * Get data according to fileName
+     * 
+     * @param fileName
+     *           jvn log file name
+     *  @return detailData
+     */
+    public String getPerfDoctorDetailData(final String fileName)
+    {
+        StringBuffer detailData = new StringBuffer();
+
+        try
+        {
+
+            JavelinLog jvnLog = DaoUtil.getJavelinLog("1", fileName);
+            if (jvnLog == null)
+            {
+                LOGGER.log(LogMessageCodes.FAIL_GET_JVNLOG);
+                return null;
+            }
+            BufferedReader reader = new BufferedReader(new InputStreamReader(jvnLog.javelinLog));
+            String line;
+            while ((line = reader.readLine()) != null)
+            {
+                detailData.append(line + "%");
+            }
+
+            reader.close();
+
+        }
+        catch (IOException ex)
+        {
+            // Do Nothing.
+            SystemLogger.getInstance().warn(ex);
+        }
+        return detailData.toString();
     }
 }

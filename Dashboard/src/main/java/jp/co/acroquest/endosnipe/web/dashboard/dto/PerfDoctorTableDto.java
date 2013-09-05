@@ -32,7 +32,7 @@ public class PerfDoctorTableDto
     private String methodName_;
 
     /** 詳細。 */
-    private String detail_;
+    private String detailResult_;
 
     /** ログファイル名。 */
     private String logFileName_;
@@ -142,19 +142,19 @@ public class PerfDoctorTableDto
      * 
      * @return 詳細
      */
-    public String getDetail()
+    public String getDetailResult()
     {
-        return detail_;
+        return detailResult_;
     }
 
     /**
      * 詳細を設定する。
      * 
-     * @param detail 詳細
+     * @param detailResult 詳細
      */
-    public void setDetail(final String detail)
+    public void setDetailResult(final String detailResult)
     {
-        this.detail_ = detail;
+        this.detailResult_ = detailResult;
     }
 
     /**

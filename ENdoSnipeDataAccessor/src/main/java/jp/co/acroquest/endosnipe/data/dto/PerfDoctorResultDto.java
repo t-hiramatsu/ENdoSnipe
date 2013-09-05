@@ -205,7 +205,7 @@ public class PerfDoctorResultDto
     {
         methodName_ = methodName;
     }
-
+    
     /**
      * ログファイル名を取得する。
      * 

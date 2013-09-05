@@ -266,7 +266,7 @@ public class TermDataController
                 dto.setLevel(warning.getLevel());
                 dto.setClassName(warning.getClassName());
                 dto.setMethodName(warning.getMethodName());
-                dto.setDetail(warning.getLogFileName());
+                dto.setDetailResult(warning.getLogFileName());
                 dtoList.add(dto);
             }
 
