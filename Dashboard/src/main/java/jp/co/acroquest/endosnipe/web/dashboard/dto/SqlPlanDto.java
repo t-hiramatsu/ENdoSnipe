@@ -13,6 +13,7 @@
 package jp.co.acroquest.endosnipe.web.dashboard.dto;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * SQL実行計画のDtoクラス。
@@ -29,11 +30,11 @@ public class SqlPlanDto
     /** SQL文。 */
     private String sqlStatement_;
 
-    /** SQLの実行計画。 */
-    private String executionPlan_;
+    /** SQLの実行計画(gettingPlanTimeList_のindex番号と関連している)。 */
+    private List<String> executionPlanList_;
 
-    /** 実行計画が取得できた時間。 */
-    private Timestamp gettingPlanTime_;
+    /** 実行計画が取得できた時間(executionPlanList_のindex番号と関連している)。 */
+    private List<Timestamp> gettingPlanTimeList_;
 
     /** スタックトレース。 */
     private String stackTrace_;
@@ -87,43 +88,43 @@ public class SqlPlanDto
     }
 
     /**
-     * SQLの実行計画を取得する。
+     * SQLの実行計画のリストを取得する。
      * 
      * @return SQLの実行計画
      */
-    public String getExecutionPlan()
+    public List<String> getExecutionPlanList()
     {
-        return executionPlan_;
+        return executionPlanList_;
     }
 
     /**
-     * SQLの実行計画を設定する。
+     * SQLの実行計画のリストを設定する。
      * 
-     * @param executionPlan SQLの実行計画
+     * @param executionPlanList SQLの実行計画のリスト
      */
-    public void setExecutionPlan(final String executionPlan)
+    public void setExecutionPlanList(final List<String> executionPlanList)
     {
-        executionPlan_ = executionPlan;
+        executionPlanList_ = executionPlanList;
     }
 
     /**
-     * 実行計画が取得できた時間を取得する。
+     * 実行計画が取得できた時間のリストを取得する。
      * 
-     * @return 実行計画が取得できた時間
+     * @return 実行計画が取得できた時間のリスト
      */
-    public Timestamp getGettingPlanTime()
+    public List<Timestamp> getGettingPlanTimeList()
     {
-        return gettingPlanTime_;
+        return gettingPlanTimeList_;
     }
 
     /**
-     * 実行計画が取得できた時間を設定する。
+     * 実行計画が取得できた時間のリストを設定する。
      * 
-     * @param gettingPlanTime 実行計画が取得できた時間
+     * @param gettingPlanTimeList 実行計画が取得できた時間のリスト
      */
-    public void setGettingPlanTime(final Timestamp gettingPlanTime)
+    public void setGettingPlanTimeList(final List<Timestamp> gettingPlanTimeList)
     {
-        gettingPlanTime_ = gettingPlanTime;
+        gettingPlanTimeList_ = gettingPlanTimeList;
     }
 
     /**

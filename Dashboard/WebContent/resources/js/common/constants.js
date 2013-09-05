@@ -151,6 +151,7 @@ ENS.tree.GET_DIRECT_CHILDLEN_NODE = wgp.common.getContextPath() + "/tree/getDire
 ENS.tree.GET_TOP_NODES = wgp.common.getContextPath() + "/tree/getTopNodes";
 ENS.tree.GET_CHILD_TARGET_NODES = wgp.common.getContextPath() + "/tree/getChildTargetNodes";
 ENS.tree.GET_ALL_CHILD_NODES = wgp.common.getContextPath() + "/tree/getAllChildNodes";
+ENS.tree.GET_SQL_PLAN = wgp.common.getContextPath() + "/sqlPlan/getSqlPlan";
 
 ENS.tree.type = {};
 ENS.tree.type.GROUP = "group";

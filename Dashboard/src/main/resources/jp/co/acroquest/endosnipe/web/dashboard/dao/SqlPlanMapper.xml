@@ -13,7 +13,7 @@
 		<result property="stackTrace" column="STACK_TRACE" />
 	</resultMap>
 
-	<select id="selectByName" resultMap="SignalInfoMap">
+	<select id="selectByItemName" resultMap="SqlPlanMap">
 		SELECT * FROM
 		SQL_PLAN
 		where

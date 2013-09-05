@@ -12,12 +12,11 @@
  */
 package jp.co.acroquest.endosnipe.web.dashboard.controller;
 
-import java.util.List;
-
 import jp.co.acroquest.endosnipe.web.dashboard.dto.SqlPlanDto;
 import jp.co.acroquest.endosnipe.web.dashboard.service.SqlPlanService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,6 +28,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author miyasaka
  *
  */
+@Controller
+@RequestMapping("/sqlPlan")
 public class SqlPlanController
 {
     /** シグナル定義のサービスクラスのオブジェクト。 */
@@ -44,17 +45,17 @@ public class SqlPlanController
     }
 
     /**
-     * SQL実行計画のリストを取得する。
+     * SQL実行計画を取得する。
      * 
      * @param itemName 項目名
-     * @return SQL実行計画のリスト
+     * @return SQL実行計画
      */
-    @RequestMapping(value = "/getSqlPlanList", method = RequestMethod.POST)
+    @RequestMapping(value = "/getSqlPlan", method = RequestMethod.POST)
     @ResponseBody
-    public List<SqlPlanDto> getSqlPlanList(@RequestParam(value = "itemName") final String itemName)
+    public SqlPlanDto getSqlPlanList(@RequestParam(value = "itemName") final String itemName)
     {
-        List<SqlPlanDto> sqlPlanDtoList = this.sqlPlanService.getSqlPlanList(itemName);
+        SqlPlanDto sqlPlanDto = this.sqlPlanService.getSqlPlan(itemName);
 
-        return sqlPlanDtoList;
+        return sqlPlanDto;
     }
 }
