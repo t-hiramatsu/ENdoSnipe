@@ -25,6 +25,10 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.util;
 
+import java.util.List;
+
+import jp.co.acroquest.endosnipe.data.dto.MeasurementValueDto;
+
 /**
  * “ü—ÍŒ‹‰Ê
  * 
@@ -37,6 +41,10 @@ public class InsertResult
     private int cacheMissCount_;
 
     private int cacheOverflowCount_;
+
+    private List<Integer> deleteItemIdList_;
+
+    private List<MeasurementValueDto> measurementItemList_;
 
     /**
      * InsertCount‚ğ•Ô‚·
@@ -91,6 +99,45 @@ public class InsertResult
     public void setCacheOverflowCount(int cacheOverflowCount)
     {
         cacheOverflowCount_ = cacheOverflowCount;
+    }
+
+    /**
+     * deleteItemIdList‚ğ•Ô‚·
+     * 
+     * @return deleteItemIdList
+     */
+    public List<Integer> getDeleteItemIdList()
+    {
+        return deleteItemIdList_;
+    }
+
+    /**
+     * deleteItemIdList‚ğİ’è‚·‚é
+     * 
+     * @param deleteItemIdList deleteItemIdList
+     */
+    public void setDeleteItemIdList(List<Integer> deleteItemIdList)
+    {
+        deleteItemIdList_ = deleteItemIdList;
+    }
+
+    /**
+     * measurementItemList‚ğ•Ô‚·
+     * 
+     * @return measurementItemList
+     */
+    public List<MeasurementValueDto> getMeasurementItemList()
+    {
+        return measurementItemList_;
+    }
+
+    /**
+     * deleteItemIdList‚ğİ’è‚·‚é
+     * @param measurementItemList measurementItemList
+     */
+    public void setMeasurementItemList(List<MeasurementValueDto> measurementItemList)
+    {
+        measurementItemList_ = measurementItemList;
     }
 
 }

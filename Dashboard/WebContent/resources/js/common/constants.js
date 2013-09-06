@@ -107,6 +107,10 @@ ENS.tree.EDIT_SIGNAL_TYPE = "editSignal";
 ENS.tree.DELETE_SIGNAL_TYPE = "deleteSignal";
 ENS.tree.OUTPUT_REPORT_TYPE = "outputReport";
 ENS.tree.DELETE_REPORT_TYPE = "deleteReport";
+ENS.tree.ADD_MULTIPLE_RESOURCE_GRAPH_TYPE = "addMultipleResourceGraph";
+ENS.tree.EDIT_MULTIPLE_RESOURCE_GRAPH_TYPE = "editMultipleResourceGraph";
+ENS.tree.DELETE_MULTIPLE_RESOURCE_GRAPH_TYPE = "deleteMultipleResourceGraph";
+
 ENS.tree.SIGNAL_PREFIX_ID = "/singalNode-";
 ENS.tree.SIGNAL_ADD_URL = wgp.common.getContextPath() + "/signal/add";
 ENS.tree.SIGNAL_GET_URL = wgp.common.getContextPath() + "/signal/getDefinition";
@@ -114,11 +118,28 @@ ENS.tree.SIGNAL_EDIT_URL = wgp.common.getContextPath() + "/signal/edit";
 ENS.tree.SIGNAL_DELETE_URL = wgp.common.getContextPath() + "/signal/delete";
 ENS.tree.SIGNAL_SELECT_ALL_URL = wgp.common.getContextPath()
 		+ "/signal/getAllDefinition";
+
+ENS.tree.ADD_MULTIPLE_RESOURCE_GRAPH_TYPE = "addMulResGraph";
+ENS.tree.MULTIPLE_RESOURCE_GRAPH_PREFIX_ID = "/mulResGraphNode-";
+ENS.tree.MULTIPLE_RESOURCE_GRAPH_SELECT_ALL_URL = wgp.common.getContextPath()
++ "/multipleResourceGraph/getAllDefinition";
+ENS.tree.MULTIPLE_RESOURCE_GRAPH_ADD_URL = wgp.common.getContextPath() + "/multipleResourceGraph/add";
+ENS.tree.MULTIPLE_RESOURCE_GRAPH_GET_URL = wgp.common.getContextPath() + "/multipleResourceGraph/getDefinition";
+ENS.tree.MULTIPLE_RESOURCE_GRAPH_EDIT_URL = wgp.common.getContextPath() + "/multipleResourceGraph/edit";
+ENS.tree.MULTIPLE_RESOURCE_GRAPH_DELETE_URL = wgp.common.getContextPath() + "/multipleResourceGraph/delete";
+ENS.tree.MEASUREMENT_ITEM_SELECT_ALL_URL = wgp.common.getContextPath()
++ "/multipleResourceGraph/getAllMeasurementList";
+ENS.tree.MEASUREMENT_ITEM_SELECT_EXP_URL = wgp.common.getContextPath()
++ "/multipleResourceGraph/getAllMeasurementListByExp";
+
+ENS.tree.MEASUREMENT_ITEM_SELECT_BY_REG_EXP = wgp.common.getContextPath() + "/multipleResourceGraph/getMeasurementByRegExp";
+
 ENS.tree.REPORT_ADD_URL = wgp.common.getContextPath() + "/report/add";
 ENS.tree.SIGNAL_NAME = "signalName";
 ENS.tree.SIGNAL_VALUE = "signalValue";
 ENS.tree.SIGNAL_DIALOG = "signalDialog";
 ENS.tree.REPORT_DIALOG = "reportDialog";
+ENS.tree.MULTIPLE_RESOURCE_GRAPH_DIALOG = "multipleResourceGraphDialog";
 ENS.tree.REPORT_PREFIX_ID = "/reportNode-";
 ENS.tree.REPORT_SELECT_ALL_URL = wgp.common.getContextPath()
 		+ "/report/getAllDefinition";
@@ -136,6 +157,8 @@ ENS.tree.type.GROUP = "group";
 ENS.tree.type.TARGET = "target";
 ENS.tree.type.SIGNAL = "signal";
 ENS.tree.type.REPORT = "report";
+ENS.tree.type.MULTIPLERESOURCEGRAPH = "mulResGraph";
+
 
 ENS.tree.contextOption = [ {
 	menu_id : ENS.tree.ADD_SIGNAL_TYPE,
@@ -187,7 +210,37 @@ ENS.tree.contextOption = [ {
 		signalType : ENS.tree.DELETE_REPORT_TYPE
 	},
 	children : []
-} ];
+} , {
+	menu_id : ENS.tree.ADD_MULTIPLE_RESOURCE_GRAPH_TYPE,
+	menu_name : "Add Multiple Resource Graph",
+	executeClass : "ENS.MultipleResourceGraphDefinitionDialogView",
+	showTreeTypes : [ ENS.tree.type.GROUP, ENS.tree.type.TARGET ],
+	executeOption : {
+		dialogId : ENS.tree.MULTIPLE_RESOURCE_GRAPH_DIALOG,
+		signalType : ENS.tree.ADD_MULTIPLE_RESOURCE_GRAPH_TYPE
+	},
+	children : []
+}, {
+	menu_id : ENS.tree.EDIT_MULTIPLE_RESOURCE_GRAPH_TYPE,
+	menu_name : "Edit Multiple Resource Graph",
+	executeClass : "ENS.MultipleResourceGraphDefinitionDialogView",
+	showTreeTypes : [ ENS.tree.type.MULTIPLERESOURCEGRAPH ],
+	executeOption : {
+		dialogId : ENS.tree.MULTIPLE_RESOURCE_GRAPH_DIALOG,
+		signalType : ENS.tree.EDIT_MULTIPLE_RESOURCE_GRAPH_TYPE
+	},
+	children : []
+}, {
+	menu_id : ENS.tree.DELETE_MULTIPLE_RESOURCE_GRAPH_TYPE,
+	menu_name : "Delete Multiple Resource Graph",
+	executeClass : "ENS.MultipleResourceGraphDefinitionDialogView",
+	showTreeTypes : [ ENS.tree.type.MULTIPLERESOURCEGRAPH ],
+	executeOption : {
+		dialogId : ENS.tree.MULTIPLE_RESOURCE_GRAPH_DIALOG,
+		signalType : ENS.tree.DELETE_MULTIPLE_RESOURCE_GRAPH_TYPE
+	},
+	children : []
+}];
 ENS.tree.SIGNAL_ICON_STOP = "signal_-1";
 ENS.tree.SIGNAL_ICON_0 = "signal_0";
 ENS.tree.SIGNAL_ICON_1 = "signal_1";
@@ -196,6 +249,7 @@ ENS.tree.SIGNAL_ICON_3 = "signal_3";
 ENS.tree.SIGNAL_ICON_4 = "signal_4";
 ENS.tree.SIGNAL_ICON_5 = "signal_5";
 ENS.tree.REPORT_ICON = "report";
+ENS.tree.MULRECGRAPH_ICON = "leaf";
 
 ENS.tree.DEFAULT_SIGNAL_PATTERN = "3";
 ENS.tree.DEFAULT_ESCALATION_PERIOD = "15";

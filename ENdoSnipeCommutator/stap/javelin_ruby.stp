@@ -1,0 +1,35 @@
+/**
+ * ENdoSnipe Commutator
+ * rubyからEndoSnipeのDataCollectorに送る情報を収集する。
+ *
+ * Copyright (C) Acroquest Technology, Co.LTD
+ */
+global function_entry
+
+probe begin
+{
+  function_entry = 0
+}
+
+probe process("/usr/local/ruby-2.0.0-p247/bin/ruby").mark("method__entry")
+{
+  //printf("Method entry: File %s, Class %s, Method name %s\n", user_string($arg3), user_string($arg1), user_string($arg2));
+  function_entry++
+}
+
+function print_function_entry()
+{
+  printf("/ruby/function_entry,%d\n", function_entry);
+  function_entry = 0;
+}
+
+probe timer.ms(15000)
+{
+  printf("/common/fundamental/time/current,%ld\n",gettimeofday_ms())
+  print_function_entry()
+  printf(".\n")
+}
+
+//probe end
+//{
+//}

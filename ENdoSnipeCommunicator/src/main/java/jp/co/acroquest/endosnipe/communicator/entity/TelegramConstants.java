@@ -91,10 +91,19 @@ public interface TelegramConstants
 
     /** 電文種別(シグナル定義更新) */
     byte BYTE_TELEGRAM_KIND_SIGNAL_DEFINITION = 22;
+
+    /** byte telegram for tree node adding */
+    byte BYTE_TELEGRAM_KIND_TREE_ADD_DEFINITION = 23;
+
+    /** byte telegram for tree node deleting */
+    byte BYTE_TELEGRAM_KIND_TREE_DELETE_DEFINITION = 24;
+
+    /** 電文種別(ツリー定義更新) */
+    byte BYTE_TELEGRAM_KIND_MUL_RES_GRAPH_DEFINITION = 25;
     
     /** 電文種別(ツリー定義更新) */
-    byte BYTE_TELEGRAM_KIND_TREE_DEFINITION = 23;
-
+    byte BYTE_TELEGRAM_KIND_ADD_MUL_RES_GRAPH_DEFINITION = 27;
+    
     /** 最後の電文以外 */
     byte HALFWAY_TELEGRAM = 0;
 
@@ -136,6 +145,9 @@ public interface TelegramConstants
 
     /** オブジェクト名(シグナル定義変更) */
     String OBJECTNAME_SIGNAL_CHANGE = "signalDefinitionChange";
+    
+    /** オブジェクト名(シグナル定義変更) */
+    String OBJECTNAME_MUL_RES_GRAPH_CHANGE = "multipleResourceGraphDefinitionChange";
     
     /** オブジェクト名(ツリー定義変更) */
     String OBJECTNAME_TREE_CHANGE = "treeDefinitionChange";
@@ -449,6 +461,9 @@ public interface TelegramConstants
     /** 項目名(RUNNBLEなスレッド数) */
     String ITEMNAME_RUNNABLE_THREAD_COUNT = "/process/thread/java/runnable";
 
+    /** 項目名(RUNNBLEなスレッド数) */
+    String ITEMNAME_BLOCKED_THREAD_COUNT = "/process/thread/java/blocked";
+
     // -----------------------------------------------------
     // プロセス情報: コレクション情報
 
@@ -485,7 +500,7 @@ public interface TelegramConstants
 
     /** 項目名（リソース値での、Turn Around Timeの呼び出し回数） */
     String ITEMNAME_PROCESS_RESPONSE_TOTAL_COUNT = "/process/response/total/count";
-    
+
     /** 接頭辞（リソース値での、eventの発生回数） */
     String PREFIX_PROCESS_RESPONSE_EVENT = "/process/response/page/event";
 
@@ -672,40 +687,56 @@ public interface TelegramConstants
 
     /** 項目名（閾値判定定義情報のレベル） */
     String ITEMNAME_SIGNAL_LEVEL = "signalLevel";
-    
+
     /** 項目名(シグナル定義追加) */
     String ITEMNAME_SIGNAL_ADD = "signalAdd";
 
     /** 項目名(シグナル定義更新) */
-    String ITEMNAME_SIGNAL_UPDATE= "signalUpdate";
+    String ITEMNAME_SIGNAL_UPDATE = "signalUpdate";
 
     /** 項目名(シグナル定義削除) */
     String ITEMNAME_SIGNAL_DELETE = "signalDelete";
-    
+
     /** 項目名(ツリー定義追加) */
     String ITEMNAME_TREE_ADD = "treeAdd";
-    
+
+    /** tree delete message */
+    String ITEMNAME_TREE_DELETE = "treeDelete";
+
     /** 項目名（ツリー表示名） */
     String ITEMNAME_TREE_DATA = "data";
-    
+
     /** 項目名（ツリーID） */
     String ITEMNAME_TREE_TREEID = "treeId";
-    
+
     /** 項目名（親ツリーID） */
     String ITEMNAME_TREE_PARENTTREEID = "parentTreeId";
-    
+
     /** 項目名（ID） */
     String ITEMNAME_TREE_ID = "id";
-    
+
     /** 項目名（ツリーのタイプ） */
     String ITEMNAME_TREE_TYPE = "type";
-  
+
     /** 項目名（アイコン） */
     String ITEMNAME_TREE_ICON = "icon";
-    
+
     /** 項目名（計測単位） */
     String ITEMNAME_TREE_MEASUREMENTUNIT = "measurementUnit";
+    
+    /** 項目名（閾値判定定義情報のID） */
+    String ITEMNAME_MUL_RES_GRAPH_ID = "mulResourceGraphId";
+    
+    /** 項目名(シグナル定義追加) */
+    String ITEMNAME_MUL_RES_GRAPH_ADD = "mulResourceGraphAdd";
 
+    /** 項目名(シグナル定義更新) */
+    String ITEMNAME_MUL_RES_GRAPH_UPDATE= "mulResourceGraphUpdate";
+
+    /** 項目名(シグナル定義削除) */
+    String ITEMNAME_MUL_RES_GRAPH_DELETE = "mulResourceGraphDelete";
+    
+    
     /** int ⇔ byte[] 変換時に対応するバイト数 */
     int INT_BYTE_SWITCH_LENGTH = 4;
 

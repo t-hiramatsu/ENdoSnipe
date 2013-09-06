@@ -50,7 +50,7 @@ public class Reporter
      */
     public Reporter()
     {
-
+    	
     }
 
     /**

@@ -42,6 +42,8 @@ ENS.reportView = wgp.AbstractView
 							pginput : true,
 							height : height,
 							width : 875,
+							sortname : "reportName", 
+							sortorder : "desc",
 							viewrecords : true, 
 							rownumbers : true,
 							shrinkToFit : false

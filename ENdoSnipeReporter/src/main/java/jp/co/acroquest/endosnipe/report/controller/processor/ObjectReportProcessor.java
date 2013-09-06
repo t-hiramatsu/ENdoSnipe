@@ -25,6 +25,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
+import jp.co.acroquest.endosnipe.data.dto.GraphTypeDto;
 import jp.co.acroquest.endosnipe.report.LogIdConstants;
 import jp.co.acroquest.endosnipe.report.controller.ReportProcessReturnContainer;
 import jp.co.acroquest.endosnipe.report.controller.ReportSearchCondition;
@@ -85,13 +86,14 @@ public class ObjectReportProcessor extends ReportPublishProcessorBase {
 		Map<String, List<ItemData>> itemMap = new HashMap<String, List<ItemData>>();
 
 		try {
-			List<String> measurementItemNameList = GraphItemAccessUtil
-					.findChildMeasurementItemName(database, parentItemName);
+			List<GraphTypeDto> measurementItemNameList = GraphItemAccessUtil
+					.findChildMeasurementItems(database, parentItemName);
 
 			int itemNameListLength = measurementItemNameList.size();
 
 			for (int index = 0; index < itemNameListLength; index++) {
-				String measurementItemName = measurementItemNameList.get(index);
+				GraphTypeDto graphTypeDto = measurementItemNameList.get(index);
+				String measurementItemName = graphTypeDto.getItemName();
 
 				CompressOperator compressOperator;
 				

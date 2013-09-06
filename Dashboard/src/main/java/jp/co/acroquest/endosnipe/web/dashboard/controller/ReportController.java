@@ -54,7 +54,7 @@ public class ReportController
      */
     public ReportController()
     {
-
+        //  new ReportData();
     }
 
     /**

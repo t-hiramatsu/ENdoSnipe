@@ -40,4 +40,7 @@ public interface TreeMenuConstants
 
     /** ツリーメニューのタイプ:シグナル */
     String TREE_MENU_TYPE_SIGNAL = "signal";
+
+    /** ツリーメニューのタイプ:シグナル */
+    String TREE_MENU_TYPE_MUL_RESOURCE_GRAPH = "mulResGraph";
 }

@@ -28,6 +28,7 @@ package jp.co.acroquest.endosnipe.web.dashboard.controller;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -38,6 +39,7 @@ import jp.co.acroquest.endosnipe.data.dao.JavelinLogDao;
 import jp.co.acroquest.endosnipe.data.entity.JavelinLog;
 import jp.co.acroquest.endosnipe.perfdoctor.WarningUnit;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.MeasurementValueDto;
+import jp.co.acroquest.endosnipe.web.dashboard.dto.MultipleResourceGraphDefinitionDto;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.PerfDoctorTableDto;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.SignalDefinitionDto;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.SignalTreeMenuDto;
@@ -46,6 +48,7 @@ import jp.co.acroquest.endosnipe.web.dashboard.form.TermDataForm;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.DatabaseManager;
 import jp.co.acroquest.endosnipe.web.dashboard.service.JvnFileEntryJudge;
 import jp.co.acroquest.endosnipe.web.dashboard.service.MeasurementValueService;
+import jp.co.acroquest.endosnipe.web.dashboard.service.MultipleResourceGraphService;
 import jp.co.acroquest.endosnipe.web.dashboard.service.SignalService;
 import jp.co.acroquest.endosnipe.web.dashboard.service.TreeMenuService;
 import net.arnx.jsonic.JSON;
@@ -86,6 +89,9 @@ public class TermDataController
     @Autowired
     protected SignalService signalService;
 
+    @Autowired
+    MultipleResourceGraphService service = new MultipleResourceGraphService();
+
     /**
      * コンストラクタ。
      */
@@ -116,25 +122,65 @@ public class TermDataController
             // if no dataGroupId, return empty map.
             return new HashMap<String, List<Map<String, String>>>();
         }
+
         for (String dataId : dataGroupIdList)
         {
-            if (TREE_DATA_ID.equals(dataId))
+            String[] measurementArray = null;
+            if (dataId.indexOf("|") != -1 || dataId.indexOf("(") != dataId.lastIndexOf("("))
             {
-                // 計測対象の項目を全て取得してツリー要素に変換
-                List<Map<String, String>> treeMenuDtoList =
-                        createTreeMenuData(treeMenuService.initialize());
-
-                // シグナル定義を全て取得
-                List<SignalDefinitionDto> signalList = signalService.getAllSignal();
-
-                // 計測対象のツリーにシグナル定義を追加
-                treeMenuDtoList.addAll(convertSignalDefinition(signalList));
-
-                responceDataList.put(TREE_DATA_ID, treeMenuDtoList);
+                measurementArray =
+                        (dataId.substring(dataId.indexOf("(") + 1, dataId.lastIndexOf(")"))).split("\\|");
+            }
+            List<String> measurementDataList = new ArrayList<String>();
+            if (measurementArray != null)
+            {
+                measurementDataList.addAll(Arrays.asList(measurementArray));
             }
             else
             {
-                graphDataList.add(dataId);
+                if ((dataId.charAt(0) == '(') && (dataId.charAt((dataId.length() - 1)) == ')'))
+                {
+                    measurementDataList.add(dataId.substring(dataId.indexOf("(") + 1,
+                                                             dataId.lastIndexOf(")")));
+                }
+                else
+                {
+                    measurementDataList.add(dataId);
+                }
+                //  measurementDataList.add(dataId);
+            }
+            for (int index = 0; index < measurementDataList.size(); index++)
+            {
+                String matchData = measurementDataList.get(index);
+                if (TREE_DATA_ID.equals(matchData))
+                {
+                    // 計測対象の項目を全て取得してツリー要素に変換
+                    List<Map<String, String>> treeMenuDtoList =
+                            createTreeMenuData(treeMenuService.initialize());
+
+                    // シグナル定義を全て取得
+                    List<SignalDefinitionDto> signalList = signalService.getAllSignal();
+
+                    // 計測対象のツリーにシグナル定義を追加
+                    treeMenuDtoList.addAll(convertSignalDefinition(signalList));
+
+                    responceDataList.put(TREE_DATA_ID, treeMenuDtoList);
+                }
+                else
+                {
+                    if (matchData.contains("graph") || matchData.contains("Graph"))
+                    {
+                        MultipleResourceGraphDefinitionDto dto =
+                                service.getmultipleResourceGraphInfo(matchData);
+                        String[] measurementList = dto.getMeasurementItemIdList().split(",");
+
+                        graphDataList.addAll(Arrays.asList(measurementList));
+                    }
+                    else
+                    {
+                        graphDataList.add(matchData);
+                    }
+                }
             }
         }
         if (graphDataList.size() != 0)
@@ -146,12 +192,31 @@ public class TermDataController
             Map<String, List<MeasurementValueDto>> measurementValueMap =
                     measurementValueService.getMeasurementValueList(startDate, endDate,
                                                                     graphDataList);
-            for (Entry<String, List<MeasurementValueDto>> measurementValueEntry : measurementValueMap.entrySet())
+
+            if (measurementValueMap.size() > 1)
             {
-                String dataGroupId = measurementValueEntry.getKey();
+                // 各のキーのmeasurementValueListを一つのListに結合する
+                List<MeasurementValueDto> combinedMeasurementValueList =
+                        new ArrayList<MeasurementValueDto>();
+                for (Entry<String, List<MeasurementValueDto>> measurementValueEntry : measurementValueMap.entrySet())
+                {
+                    for (MeasurementValueDto measurementValueDto : measurementValueEntry.getValue())
+                    {
+                        combinedMeasurementValueList.add(measurementValueDto);
+                    }
+                }
                 List<Map<String, String>> measurementValueList =
-                        createTreeMenuData(measurementValueEntry.getValue());
-                responceDataList.put(dataGroupId, measurementValueList);
+                        createTreeMenuData(combinedMeasurementValueList);
+                responceDataList.put(dataGroupIdList.get(0), measurementValueList);
+            }
+            else
+            {
+                for (Entry<String, List<MeasurementValueDto>> measurementValueEntry : measurementValueMap.entrySet())
+                {
+                    List<Map<String, String>> measurementValueList =
+                            createTreeMenuData(measurementValueEntry.getValue());
+                    responceDataList.put(dataGroupIdList.get(0), measurementValueList);
+                }
             }
         }
         return responceDataList;
@@ -201,13 +266,14 @@ public class TermDataController
                 dto.setLevel(warning.getLevel());
                 dto.setClassName(warning.getClassName());
                 dto.setMethodName(warning.getMethodName());
-                dto.setDetail(warning.getLogFileName());
+                dto.setDetailResult(warning.getLogFileName());
                 dtoList.add(dto);
             }
 
             list.clear();
             responceDataList.put(dataGroupId + PERFDOCTOR_POSTFIX_ID, dtoList);
         }
+
         return responceDataList;
     }
 

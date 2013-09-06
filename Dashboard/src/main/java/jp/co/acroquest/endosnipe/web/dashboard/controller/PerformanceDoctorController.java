@@ -129,6 +129,7 @@ public class PerformanceDoctorController
             List<WarningUnit> warnings = judge.judge(list, true, true);
             // 診断結果をPerfDoctorResultTableに登録するべく、Dtoに変換
             List<PerfDoctorResultDto> dtoList = new ArrayList<PerfDoctorResultDto>();
+
             for (WarningUnit warning : warnings)
             {
                 PerfDoctorResultDto dto = new PerfDoctorResultDto();
@@ -158,6 +159,7 @@ public class PerformanceDoctorController
             // 各要素をPerformanceDoctorTableDtoに変換して返す。
             List<PerfDoctorResultDto> resultList;
             List<PerfDoctorTableDto> displayList = new ArrayList<PerfDoctorTableDto>();
+
             try
             {
                 resultList =
@@ -171,6 +173,7 @@ public class PerformanceDoctorController
                     tableDto.setDescription(resultDto.getDescription());
                     tableDto.setLevel(resultDto.getLevel());
                     tableDto.setLogFileName(resultDto.getLogFileName());
+                    tableDto.setDetailResult(this.perfDoctorService_.getPerfDoctorDetailData(tableDto.getLogFileName()));
                     displayList.add(tableDto);
                 }
             }

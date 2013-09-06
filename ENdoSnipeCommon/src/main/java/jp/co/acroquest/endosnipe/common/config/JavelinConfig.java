@@ -180,6 +180,8 @@ public class JavelinConfig extends JavelinConfigBase
 
     private static boolean resourceThreadRunnable__;
 
+    private static boolean resourceThreadBlocked__;
+
     private static int threadModel__;
 
     private static boolean threadMonitor__;
@@ -399,6 +401,7 @@ public class JavelinConfig extends JavelinConfigBase
         threadDumpInterval__ = super.getThreadDumpInterval();
         threadDumpThreadNum__ = super.getThreadDumpThreadNum();
         resourceThreadRunnable__ = super.isResourceThreadRunnable();
+        resourceThreadBlocked__ = super.isResourceThreadBlocked();
         threadModel__ = super.getThreadModel();
         threadMonitor__ = super.getThreadMonitor();
         threadMonitorDepth__ = super.getThreadMonitorDepth();
@@ -1725,6 +1728,24 @@ public class JavelinConfig extends JavelinConfigBase
     public void setResourceThreadRunnable(final boolean threadDumpThreadNum)
     {
         resourceThreadRunnable__ = threadDumpThreadNum;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isResourceThreadBlocked()
+    {
+        return resourceThreadBlocked__;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setResourceThreadBlocked(final boolean threadDumpThreadNum)
+    {
+        resourceThreadBlocked__ = threadDumpThreadNum;
     }
 
     /**

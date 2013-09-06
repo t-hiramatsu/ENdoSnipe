@@ -40,6 +40,8 @@ import jp.co.acroquest.endosnipe.web.dashboard.constants.LogMessageCodes;
 import jp.co.acroquest.endosnipe.web.dashboard.listener.collector.AlarmNotifyListener;
 import jp.co.acroquest.endosnipe.web.dashboard.listener.collector.CollectorListener;
 import jp.co.acroquest.endosnipe.web.dashboard.listener.collector.SignalStateChangeListener;
+import jp.co.acroquest.endosnipe.web.dashboard.listener.collector.TreeStateAddListener;
+import jp.co.acroquest.endosnipe.web.dashboard.listener.collector.TreeStateDeleteListener;
 import jp.co.acroquest.endosnipe.web.dashboard.listener.javelin.JavelinNotifyListener;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.ConnectionClient;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.DatabaseManager;
@@ -122,6 +124,8 @@ public class DashBoardServlet extends HttpServlet
                 client.addTelegramListener(new CollectorListener(agentId, setting.databaseName_));
                 client.addTelegramListener(new AlarmNotifyListener(agentId));
                 client.addTelegramListener(new SignalStateChangeListener());
+                client.addTelegramListener(new TreeStateAddListener());
+                client.addTelegramListener(new TreeStateDeleteListener());
 
                 ConnectNotifyData connectNotify = new ConnectNotifyData();
                 connectNotify.setKind(ConnectNotifyData.KIND_CONTROLLER);
