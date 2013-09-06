@@ -61,8 +61,6 @@ public class SqlPlanNotifyListener extends AbstractTelegramListener implements T
 
     private int port_ = -1;
 
-    private String clientId_ = null;
-
     @Override
     protected Telegram doReceiveTelegram(final Telegram telegram)
     {
@@ -71,7 +69,7 @@ public class SqlPlanNotifyListener extends AbstractTelegramListener implements T
             LOGGER.log(JVN_FILE_NOTIFY_RECEIVED);
         }
 
-        SqlPlanEntry[] entries = SqlPlanNotifyAccessor.getSqlPlanEntries(telegram);
+        SqlPlanEntry[] entries = SqlPlanNotifyAccessor.getSqlPlanEntries(telegram, agentName_);
 
         int entryLength = entries.length;
 
@@ -143,15 +141,6 @@ public class SqlPlanNotifyListener extends AbstractTelegramListener implements T
     public void setPort(final int port)
     {
         this.port_ = port;
-    }
-
-    /**
-     * {@link JavelinData} 用のクライアントIDを設定します。
-     * @param clientId クライアントID
-     */
-    public void setClientId(final String clientId)
-    {
-        clientId_ = clientId;
     }
 
     /**

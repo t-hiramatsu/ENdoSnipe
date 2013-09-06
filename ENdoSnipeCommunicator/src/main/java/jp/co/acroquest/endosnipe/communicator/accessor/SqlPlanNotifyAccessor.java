@@ -49,9 +49,10 @@ public class SqlPlanNotifyAccessor implements TelegramConstants
      * 電文種別がログ通知電文ではない場合や、内容が防いである場合は <code>null</code> を返します。<br />
      * 
      * @param telegram SQL実行計画通知電文
+     * @param agentName エージェント名
      * @return 電文内容
      */
-    public static SqlPlanEntry[] getSqlPlanEntries(final Telegram telegram)
+    public static SqlPlanEntry[] getSqlPlanEntries(final Telegram telegram, String agentName)
     {
         if (checkTelegram(telegram) == false)
         {
@@ -81,8 +82,11 @@ public class SqlPlanNotifyAccessor implements TelegramConstants
                 String sqlStatement = (String)objItemValueArr[0];
                 sqlStatements.add(sqlStatement);
 
+                // measurement_item_nameを作成する
                 String itemName = body.getStrItemName();
-                measurmentItemNames.add(itemName);
+                String mearsurmentItemName = agentName + itemName;
+
+                measurmentItemNames.add(mearsurmentItemName);
             }
             else if (OBJECTNAME_SQL_EXECUTION_PLAN.equals(objectName) == true)
             {
@@ -186,7 +190,7 @@ public class SqlPlanNotifyAccessor implements TelegramConstants
 
         /** 実行計画が取得できた時間。 */
         public Timestamp gettingPlanTime;
-        
+
         /** スタックトレース。 */
         public String stackTrace;
     }

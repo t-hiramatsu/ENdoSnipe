@@ -35,6 +35,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 import jp.co.acroquest.endosnipe.common.db.AbstractExecutePlanChecker;
@@ -73,6 +75,9 @@ public class JdbcJavelinRecorder
 {
     /** SQLの最初のインデックス. */
     private static final int FIRST_SQL_INDEX = 0;
+
+    /** DataCollectorに送る、最大のスタックトレースの行数. */
+    private static final int MAX_STACKTRACE_LINE_NUM = 15;
 
     /** SQL処理時間のプレフィックス. */
     public static final String TIME_PREFIX = "[Time] ";
@@ -1099,20 +1104,42 @@ public class JdbcJavelinRecorder
 
                         StringBuffer stacktraceStrBuffer = new StringBuffer();
 
-                        for (int index = 0; index < stacktraceLength; index++)
+                        // DataCollectorに送るスタックトレースの行数が、
+                        // 指定された最大値を超えないようにする
+                        int maxIndex = 0;
+                        if (stacktraceLength < MAX_STACKTRACE_LINE_NUM)
+                        {
+                            maxIndex = stacktraceLength;
+                        }
+                        else
+                        {
+                            maxIndex = MAX_STACKTRACE_LINE_NUM;
+                        }
+
+                        for (int index = 0; index < maxIndex; index++)
                         {
                             stacktraceStrBuffer.append(stacktrace[index]);
                             stacktraceStrBuffer.append(",");
                         }
 
+                        String pageName = "";
+                        if (callTree != null)
+                        {
+                            CallTreeNode rootNode = callTree.getRootNode();
+                            if (rootNode != null)
+                            {
+                                pageName = rootNode.getInvocation().getRootInvocationManagerKey();
+                            }
+                        }
+
+                        String itemName = addPrefix(pageName);
+
                         // DataCollector側でDB登録するために、実行計画に関するデータを電文で送信する
                         SqlPlanTelegramSender sqlPlanTelegramSender = new SqlPlanTelegramSender();
-                        sqlPlanTelegramSender
-                            .execute(TelegramConstants.PREFIX_PROCESS_RESPONSE_JDBC
-                                         + originalSqlElement, originalSqlElement,
-                                     execPlanText.toString(),
-                                     new Timestamp(System.currentTimeMillis()),
-                                     stacktraceStrBuffer.toString());
+                        sqlPlanTelegramSender.execute(itemName, originalSqlElement,
+                                                      execPlanText.toString(),
+                                                      new Timestamp(System.currentTimeMillis()),
+                                                      stacktraceStrBuffer.toString());
                     }
                 }
                 catch (Exception ex)
@@ -1180,6 +1207,42 @@ public class JdbcJavelinRecorder
         }
 
         return resultText;
+    }
+
+    /**
+     * set the prefix of the node according to the starting node name
+     * @param name node name from invocation
+     * @return prefix for node
+     */
+    private static String addPrefix(String name)
+    {
+        String prefixedName = "";
+        if (name.startsWith("/"))
+        {
+            prefixedName = TelegramConstants.PREFIX_PROCESS_RESPONSE_SERVLET + name;
+        }
+        else if (name.startsWith("jdbc"))
+        {
+            String regexp = "jdbc:(.+)#(.+)";
+            String dbmsName = null;
+            String query = null;
+            Pattern pattern = Pattern.compile(regexp);
+            Matcher matcher = pattern.matcher(name);
+            if (matcher.find())
+            {
+                dbmsName = matcher.group(1);
+                query = matcher.group(2);
+                dbmsName = dbmsName.replace("/", "&#47;");
+            }
+            prefixedName = TelegramConstants.PREFIX_PROCESS_RESPONSE_JDBC + dbmsName + "/" + query;
+        }
+
+        else
+        {
+            prefixedName = TelegramConstants.PREFIX_PROCESS_RESPONSE_METHOD + name;
+        }
+
+        return prefixedName;
     }
 
     private static String appendLineBreak(String str)
