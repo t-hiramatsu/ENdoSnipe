@@ -36,7 +36,7 @@ public class SqlPlanDto
     private List<String> gettingPlanTimeList_;
 
     /** スタックトレース。 */
-    private String stackTrace_;
+    private List<String> stackTraceList_;
 
     /**
      * コンストラクタ。
@@ -127,23 +127,23 @@ public class SqlPlanDto
     }
 
     /**
-     * スタックトレースを取得する。
+     * スタックトレースのリストを取得する。
      * 
-     * @return スタックトレース
+     * @return スタックトレースのリスト
      */
-    public String getStackTrace()
+    public List<String> getStackTraceList()
     {
-        return stackTrace_;
+        return stackTraceList_;
     }
 
     /**
-     * スタックトレースを設定する。
+     * スタックトレースのリストを設定する。
      * 
-     * @param stackTrace スタックトレース
+     * @param stackTraceList スタックトレースのリスト
      */
-    public void setStackTrace(final String stackTrace)
+    public void setStackTraceList(final List<String> stackTraceList)
     {
-        stackTrace_ = stackTrace;
+        stackTraceList_ = stackTraceList;
     }
 
 }
