@@ -160,6 +160,9 @@ ENS.tree.type.SIGNAL = "signal";
 ENS.tree.type.REPORT = "report";
 ENS.tree.type.MULTIPLERESOURCEGRAPH = "mulResGraph";
 
+ENS.tree.types = {};
+ENS.tree.types.GRAPH = [ENS.tree.type.TARGET, ENS.tree.type.MULTIPLERESOURCEGRAPH];
+
 
 ENS.tree.contextOption = [ {
 	menu_id : ENS.tree.ADD_SIGNAL_TYPE,

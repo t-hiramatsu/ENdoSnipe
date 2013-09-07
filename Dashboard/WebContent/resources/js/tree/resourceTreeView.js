@@ -62,7 +62,7 @@ ENS.ResourceTreeView = ENS.treeManager
 									.show();
 
 							// グラフの場合
-						} else if (ENS.tree.type.TARGET == treeType) {
+						} else if ( _.contains(ENS.tree.types.GRAPH, treeType)) {
 							$("#" + instance.contextMenuId + " #addGraph")
 									.show();
 							$("#" + instance.contextMenuId + " #addSignal")
@@ -79,13 +79,13 @@ ENS.ResourceTreeView = ENS.treeManager
 						var treeModel = instance.ensTreeView.collection.get(treeId);
 
 						// TODO マップが選択されていない場合はメッセージを表示して処理を中止する。
-						if (!instance.childView) {
+						if (!window.resourceMapListView.childView) {
 							return;
 						}
 
-						var offsetX = $("#" + instance.childView.$el.attr("id"))
+						var offsetX = $("#" + window.resourceMapListView.childView.$el.attr("id"))
 								.offset()["left"];
-						var offsetY = $("#" + instance.childView.$el.attr("id"))
+						var offsetY = $("#" + window.resourceMapListView.childView.$el.attr("id"))
 								.offset()["top"];
 						var resourceModel = new wgp.MapElement();
 
@@ -93,15 +93,23 @@ ENS.ResourceTreeView = ENS.treeManager
 						if (event.currentTarget.id == "addGraph") {
 
 							// 同一グラフが既にマップ上に存在する場合
-							var graphModel = instance.childView.collection.get(treeId);
+							var graphModel = window.resourceMapListView.childView.collection.get(treeId);
 							if(graphModel != null){
 								alert("Cannot add the graph. Because the graph has already existed in the map.");
 								return;
 							}
 
+							var treeType = treeModel.get("type");
+							var graphObjectName = "";
+							if(ENS.tree.type.MULTIPLERESOURCEGRAPH == treeType){
+								graphObjectName = "ENS.MultipleResourceGraphElementView";
+							}else{
+								graphObjectName = "ENS.ResourceGraphElementView";
+							}
+
 							resourceModel.set({
 								resourceId : treeId,
-								objectName : "ENS.ResourceGraphElementView",
+								objectName : graphObjectName,
 								pointX : 50 + offsetX,
 								pointY : 50 + offsetY,
 								width : 300,
@@ -119,7 +127,7 @@ ENS.ResourceTreeView = ENS.treeManager
 							var treeIcon = treeModel.get("icon");
 							var treeText = treeModel.get("data");
 
-							var signalModel = instance.childView.collection
+							var signalModel = window.resourceMapListView.childView.collection
 									.get(treeId);
 							// 同一シグナルが既にマップ上に存在する場合
 							if (signalModel != null) {
@@ -151,7 +159,7 @@ ENS.ResourceTreeView = ENS.treeManager
 							window.resourceMapListView.childView.changedFlag = true;
 						}
 
-						instance.childView.collection.add(resourceModel);
+						window.resourceMapListView.childView.collection.add(resourceModel);
 						zIndex++;
 					}
 				};
