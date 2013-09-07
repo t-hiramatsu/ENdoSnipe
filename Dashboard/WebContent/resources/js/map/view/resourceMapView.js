@@ -20,11 +20,11 @@ ENS.ResourceMapView = wgp.MapView.extend({
 
 		this.mapId = argument["mapId"];
 
-		// マップ操作用マネージャ
-		this.mapManager = new raphaelMapManager(this);
-
 		// 継承元の初期化メソッド実行
 		this.__proto__.__proto__.initialize.apply(this, [argument]);
+
+		// マップ操作用マネージャ
+		this.mapManager = new raphaelMapManager(this);
 
 		// 手動でのオブジェクトID割り振り用のカウント変数
 		this.maxObjectId = 0;
@@ -57,6 +57,7 @@ ENS.ResourceMapView = wgp.MapView.extend({
 	},
 	destroy : function (){
 		this.$el.children().remove();
+		this.undelegateEvents();
 	},
 	// 要素が追加された際に、自身の領域に要素のタイプに応じて描画要素を追加する。
 	onAdd : function(model){
@@ -292,10 +293,12 @@ ENS.ResourceMapView = wgp.MapView.extend({
 
 		var mapWidth = this.paper.width;
 		var mapHeight = this.paper.height;
+		var background = this.backgroundView.model.toJSON();
 
 		var resourceMap = {
 			mapWidth : mapWidth,
 			mapHeight : mapHeight,
+			background : background,
 			resources : resourceArray
 		}
 
@@ -615,20 +618,21 @@ ENS.ResourceMapView = wgp.MapView.extend({
 
 		if(changeFlag){
 			this.paper.setSize(mapWidth, mapHeight);
-		}
-
-		if(this.backgroundView){
 			var backWidth = this.backgroundView.getWidth();
 			var backHeight = this.backgroundView.getHeight();
 			this.backgroundView.resize(
 				mapWidth / backWidth,
 				mapHeight / backHeight,
-				raphaelMapConstants.RIGHT_UPPER
+				raphaelMapConstants.RIGHT_UNDER
 			);
 		}
 
 		// ドラッグ時のイベント
 		this.changedFlag = true;
+	},
+	setMapSize : function(mapWidth, mapHeight){
+		this.paper.setSize(mapWidth, mapHeight);
+		this.changeFlag = true;
 	},
 	createObjectId : function(){
 		this.maxObjectId = this.maxObjectId + 1;

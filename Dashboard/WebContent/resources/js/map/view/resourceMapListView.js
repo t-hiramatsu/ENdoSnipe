@@ -51,9 +51,8 @@ ENS.ResourceMapListView = wgp.TreeView
 					this.saveOperation();
 					var tmpAppView = new wgp.AppView();
 					tmpAppView.removeView(this.childView);
-					this.childView = null;
+					this.childView.destroy();
 				}
-				$("#" + this.targetId).children().remove();
 
 				var treeSettings = treeModel.attributes;
 				var resourceMapView = new ENS.ResourceMapView({
@@ -62,7 +61,6 @@ ENS.ResourceMapListView = wgp.TreeView
 				});
 
 				this.childView = resourceMapView;
-				resourceTreeView.childView = resourceMapView;
 
 				// ツリー要素を再選択
 				var treeNode = this.getTreeNode(treeModel.id, "id");
@@ -265,11 +263,11 @@ ENS.ResourceMapListView = wgp.TreeView
 			saveOperation : function(){
 				var instance = this;
 				var changedFlag = instance.childView.changedFlag;
-				
+
 				if(changedFlag)
 				{
 					if(window.confirm("Save change?"))
-					{	
+					{
 						var selectedId = $("#" + instance.id).find(".jstree-clicked")[0].id;
 						var treeModel = instance.collection.where({id : selectedId})[0];
 						instance.childView.onSave(treeModel);
