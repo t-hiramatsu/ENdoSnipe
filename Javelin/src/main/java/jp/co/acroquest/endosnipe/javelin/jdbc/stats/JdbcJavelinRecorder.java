@@ -30,15 +30,19 @@ import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 import jp.co.acroquest.endosnipe.common.db.AbstractExecutePlanChecker;
 import jp.co.acroquest.endosnipe.common.event.EventConstants;
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
+import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.javelin.CallTree;
 import jp.co.acroquest.endosnipe.javelin.CallTreeNode;
 import jp.co.acroquest.endosnipe.javelin.CallTreeRecorder;
@@ -70,53 +74,53 @@ import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
 public class JdbcJavelinRecorder
 {
     /** SQLの最初のインデックス. */
-    private static final int         FIRST_SQL_INDEX       = 0;
+    private static final int FIRST_SQL_INDEX = 0;
+
+    /** DataCollectorに送る、最大のスタックトレースの行数. */
+    private static final int MAX_STACKTRACE_LINE_NUM = 15;
 
     /** SQL処理時間のプレフィックス. */
-    public static final String       TIME_PREFIX           = "[Time] ";
+    public static final String TIME_PREFIX = "[Time] ";
 
     /** バインド変数のプレフィックス. */
-    public static final String       BIND_PREFIX           = "[VALUE] ";
+    public static final String BIND_PREFIX = "[VALUE] ";
 
     /** 実行計画のプレフィックス. */
-    public static final String       PLAN_PREFIX           = "[PLAN] ";
+    public static final String PLAN_PREFIX = "[PLAN] ";
 
     /** スタックトレースのプレフィックス. */
-    public static final String       STACKTRACE_PREFIX     = "[STACKTRACE] ";
+    public static final String STACKTRACE_PREFIX = "[STACKTRACE] ";
 
-    private static final String      STACKTRACE_BASE       =
-                                                             STACKTRACE_PREFIX
-                                                                     + "Get a stacktrace." + '\n';
+    private static final String STACKTRACE_BASE = STACKTRACE_PREFIX + "Get a stacktrace." + '\n';
 
     /** 実行メソッドのパラメタのプレフィックス. */
-    public static final String       PARAM_PREFIX          = "[ExecuteParam] ";
-    
+    public static final String PARAM_PREFIX = "[ExecuteParam] ";
+
     /** javelin.jdbc.stringLimitLengthによって、SQL文が切り詰められた時に表示される記号. */
-    private static final String      STRING_LIMITED_MARK   = "...";
+    private static final String STRING_LIMITED_MARK = "...";
 
     /** 実行計画取得に失敗した場合のメッセージ。 */
-    public static final String       EXPLAIN_PLAN_FAILED   =
-                                             JdbcJavelinMessages.getMessage("javelin.jdbc.stats."
-                                                 + "JdbcJavelinRecorder.FailExplainPlanMessage");
+    public static final String EXPLAIN_PLAN_FAILED = JdbcJavelinMessages
+        .getMessage("javelin.jdbc.stats." + "JdbcJavelinRecorder.FailExplainPlanMessage");
 
     /** 設定値保持Bean */
     private static JdbcJavelinConfig config__;
 
-    private static JavelinConfig     logArgsConfig__       = new JavelinConfig() {
-                                                               public boolean isLogArgs()
-                                                               {
-                                                                   return true;
-                                                               }
-                                                           };
+    private static JavelinConfig logArgsConfig__ = new JavelinConfig() {
+        public boolean isLogArgs()
+        {
+            return true;
+        }
+    };
 
     /** 対象文字列が見つからないとき */
-    public static final int          NOT_FOUND             = -1;
+    public static final int NOT_FOUND = -1;
 
     /** 複数行コメントの開始を表す文字列の長さ */
-    public static final int          COMMENT_FOOTER_LENGTH = "*/".length();
+    public static final int COMMENT_FOOTER_LENGTH = "*/".length();
 
     /** 複数行コメントの終了を表す文字列の長さ */
-    public static final int          COMMENT_HEADER_LENGTH = "/*".length();
+    public static final int COMMENT_HEADER_LENGTH = "/*".length();
 
     /** DBProcessorのリスト。 */
     private static List<DBProcessor> processorList__;
@@ -149,14 +153,14 @@ public class JdbcJavelinRecorder
      */
     public static void preProcessSQLArgs(final Statement stmt, final Object[] args)
     {
-        JdbcJvnStatus    jdbcJvnStatus    = JdbcJvnStatus.getInstance();
+        JdbcJvnStatus jdbcJvnStatus = JdbcJvnStatus.getInstance();
         CallTreeRecorder callTreeRecorder = jdbcJvnStatus.getCallTreeRecorder();
-        CallTree         tree             = callTreeRecorder.getCallTree();
+        CallTree tree = callTreeRecorder.getCallTree();
         if (tree.getRootNode() == null)
         {
             tree.loadConfig();
         }
-        
+
         if (tree.isJdbcEnabled() == false)
         {
             return;
@@ -175,15 +179,15 @@ public class JdbcJavelinRecorder
      */
     public static void preProcessParam(final Statement stmt, final Object[] args)
     {
-        JdbcJvnStatus    jdbcJvnStatus    = JdbcJvnStatus.getInstance();
+        JdbcJvnStatus jdbcJvnStatus = JdbcJvnStatus.getInstance();
         CallTreeRecorder callTreeRecorder = jdbcJvnStatus.getCallTreeRecorder();
-        CallTree         tree             = callTreeRecorder.getCallTree();
-        
+        CallTree tree = callTreeRecorder.getCallTree();
+
         if (tree.getRootNode() == null)
         {
             tree.loadConfig();
         }
-        
+
         if (tree.isJdbcEnabled() == false)
         {
             return;
@@ -204,7 +208,7 @@ public class JdbcJavelinRecorder
      * @param jdbcJvnStatus JDBC Javelinの状態
      */
     public static void preProcess(final Statement stmt, final Object[] args,
-            JdbcJvnStatus jdbcJvnStatus)
+        JdbcJvnStatus jdbcJvnStatus)
     {
         try
         {
@@ -231,8 +235,8 @@ public class JdbcJavelinRecorder
 
                 // セッション終了処理に入っている場合は、処理しない。
                 if (tree != null && (config__.isAllowSqlTraceForOracle() // 
-                        && (tree.containsFlag(SqlTraceStatus.KEY_SESSION_CLOSING) //
-                        || tree.containsFlag(SqlTraceStatus.KEY_SESSION_INITIALIZING))))
+                    && (tree.containsFlag(SqlTraceStatus.KEY_SESSION_CLOSING) //
+                    || tree.containsFlag(SqlTraceStatus.KEY_SESSION_INITIALIZING))))
                 {
                     return;
                 }
@@ -258,7 +262,7 @@ public class JdbcJavelinRecorder
      * @param jdbcJvnStatus JDBC Javelinの状態
      */
     public static void recordPre(final Statement stmt, final Object[] args,
-            JdbcJvnStatus jdbcJvnStatus)
+        JdbcJvnStatus jdbcJvnStatus)
     {
         try
         {
@@ -281,14 +285,14 @@ public class JdbcJavelinRecorder
             }
 
             methodName = ((String)args[FIRST_SQL_INDEX]);
-            
+
             // SQL文を、javelin.jdbc.stringLimitLengthで設定した長さに切り詰める。
             int stringLimitLength = (int)config__.getJdbcStringLimitLength();
             if (stringLimitLength < methodName.length())
             {
                 methodName = methodName.substring(0, stringLimitLength) + STRING_LIMITED_MARK;
             }
-            
+
             noSql = Boolean.FALSE;
             jdbcJvnStatus.setNoSql(noSql);
 
@@ -297,8 +301,7 @@ public class JdbcJavelinRecorder
             if (invocation == null)
             {
                 invocation =
-                             StatsJavelinRecorder.registerInvocation(component, methodName,
-                                                                       config__, false);
+                    StatsJavelinRecorder.registerInvocation(component, methodName, config__, false);
             }
 
             boolean isTarget = ExcludeMonitor.isMeasurementTarget(invocation);
@@ -379,7 +382,7 @@ public class JdbcJavelinRecorder
     }
 
     private static void execNoDuplicateCall(JdbcJvnStatus jdbcJvnStatus,
-            CallTreeRecorder callTreeRecorder, CallTree tree)
+        CallTreeRecorder callTreeRecorder, CallTree tree)
     {
         int depth = jdbcJvnStatus.incrementDepth();
         if (depth > 1)
@@ -400,7 +403,7 @@ public class JdbcJavelinRecorder
     }
 
     private static void onExecStatement(final DBProcessor processor, final Connection connection,
-            final JdbcJvnStatus jdbcJvnStatus)
+        final JdbcJvnStatus jdbcJvnStatus)
     {
         if (processor == null)
         {
@@ -414,9 +417,9 @@ public class JdbcJavelinRecorder
         // かつ、セッションではじめてのSQL実行であれば、
         // SQLトレースを開始する。
         if (JdbcJavelinRecorder.config__.isAllowSqlTraceForOracle()
-                && processor instanceof OracleProcessor
-                && tree.containsFlag(SqlTraceStatus.KEY_SESSION_INITIALIZING) == false
-                && tree.containsFlag(SqlTraceStatus.KEY_SESSION_STARTED) == false)
+            && processor instanceof OracleProcessor
+            && tree.containsFlag(SqlTraceStatus.KEY_SESSION_INITIALIZING) == false
+            && tree.containsFlag(SqlTraceStatus.KEY_SESSION_STARTED) == false)
         {
             // 「SQLトレース初期化」に遷移する。
             tree.removeFlag(SqlTraceStatus.KEY_SESSION_CLOSING);
@@ -477,9 +480,9 @@ public class JdbcJavelinRecorder
             CallTreeRecorder callTreeRecorder = jdbcJvnStatus.getCallTreeRecorder();
             CallTree tree = callTreeRecorder.getCallTree();
             if (tree == null || (config__.isAllowSqlTraceForOracle() //
-                    && (tree.containsFlag(SqlTraceStatus.KEY_SESSION_INITIALIZING) //
-                            || tree.containsFlag(SqlTraceStatus.KEY_SESSION_CLOSING) //
-                    || tree.containsFlag(SqlTraceStatus.KEY_SESSION_FINISHED))))
+                && (tree.containsFlag(SqlTraceStatus.KEY_SESSION_INITIALIZING) //
+                    || tree.containsFlag(SqlTraceStatus.KEY_SESSION_CLOSING) //
+                || tree.containsFlag(SqlTraceStatus.KEY_SESSION_FINISHED))))
             {
                 return;
             }
@@ -501,7 +504,7 @@ public class JdbcJavelinRecorder
      * @param jdbcJvnStatus jdbcJvnStatus
      */
     public static void recordPostOK(final Statement stmt, final int paramNum,
-            JdbcJvnStatus jdbcJvnStatus)
+        JdbcJvnStatus jdbcJvnStatus)
     {
         CallTreeRecorder callTreeRecorder = jdbcJvnStatus.getCallTreeRecorder();
         CallTree tree = callTreeRecorder.getCallTree();
@@ -564,14 +567,14 @@ public class JdbcJavelinRecorder
             // 2.クエリ時間が閾値を超えている。
             // 3.実行計画取得フラグがONである。
             if (processor != null && queryTime >= config__.getExecPlanThreshold()
-                    && config__.isRecordExecPlan())
+                && config__.isRecordExecPlan())
             {
 
                 long startTime = System.currentTimeMillis();
                 // 実行計画取得
                 List<String> newArgs =
-                                       getExecPlan(tree, node, processor, jdbcUrl, oldArgs, stmt,
-                                                   paramNum, jdbcJvnStatus);
+                    getExecPlan(tree, node, processor, jdbcUrl, oldArgs, stmt, paramNum,
+                                jdbcJvnStatus);
                 jdbcJvnStatus.setExecPlanSql(null);
                 // argsに追加
                 tempArgs.addAll(newArgs);
@@ -587,7 +590,7 @@ public class JdbcJavelinRecorder
 
             // スタックトレース取得フラグがONである、かつクエリ時間が閾値を超えているとき、スタックトレースを取得する。
             if (config__.isRecordStackTrace()
-                    && queryTime >= config__.getRecordStackTraceThreshold())
+                && queryTime >= config__.getRecordStackTraceThreshold())
             {
                 tempArgs.add(getStackTrace());
             }
@@ -619,9 +622,8 @@ public class JdbcJavelinRecorder
      * @param execPlanSql SQL文
      * @param resultText 実行計画
      */
-    private static void sendFullScanEvent(DBProcessor processor,
-            List<String> newArgs, final Statement stmt, final int paramNum,
-            final CallTreeNode node, String[] execPlanSql)
+    private static void sendFullScanEvent(DBProcessor processor, List<String> newArgs,
+        final Statement stmt, final int paramNum, final CallTreeNode node, String[] execPlanSql)
     {
         try
         {
@@ -629,7 +631,7 @@ public class JdbcJavelinRecorder
             if (executeChecker != null)
             {
                 String exePlan = executeChecker.parseExecutePlan(newArgs);
-                
+
                 // フルスキャンの判定中は、CollectionのトレースをOFFにする。
                 Boolean prevTracing = CollectionMonitor.isTracing();
                 CollectionMonitor.setTracing(Boolean.FALSE);
@@ -642,18 +644,17 @@ public class JdbcJavelinRecorder
                 {
                     CollectionMonitor.setTracing(prevTracing);
                 }
-                
+
                 if (0 < fullScanTableNameSet.size())
                 {
                     // イベントパラメータをセットする。
                     FullScanEvent event = new FullScanEvent();
-                    
+
                     // テーブル名とSQL実行時間は常に出力する。
                     String fullScanTableNames = fullScanTableNameSet.toString();
-                    fullScanTableNames = fullScanTableNames
-                            .substring(1, fullScanTableNames.length() - 1);
-                    event.addParam(EventConstants.PARAM_FULL_SCAN_TABLE_NAME,
-                                   fullScanTableNames);
+                    fullScanTableNames =
+                        fullScanTableNames.substring(1, fullScanTableNames.length() - 1);
+                    event.addParam(EventConstants.PARAM_FULL_SCAN_TABLE_NAME, fullScanTableNames);
                     String[] oldArgs = node.getArgs();
                     if (oldArgs == null)
                     {
@@ -662,16 +663,16 @@ public class JdbcJavelinRecorder
                     long queryTime = calcQueryTime(stmt, paramNum, node, oldArgs);
                     event.addParam(EventConstants.PARAM_FULL_SCAN_DURATION,
                                    String.valueOf(queryTime));
-                    
+
                     // コールツリーを使用するモードの場合。
                     if (logArgsConfig__.isCallTreeEnabled())
                     {
                         // スタックトレース取得を行わない場合、
                         // または取得を行う場合でも、その閾値に達していない場合、スタックトレースを出力する。
                         if (config__.isRecordStackTrace() == false
-                                || config__.getRecordStackTraceThreshold() < queryTime)
+                            || config__.getRecordStackTraceThreshold() < queryTime)
                         {
-                            
+
                             event.addParam(EventConstants.PARAM_FULL_SCAN_STACK_TRACE,
                                            getStackTrace());
                         }
@@ -680,12 +681,11 @@ public class JdbcJavelinRecorder
                     else
                     {
                         // 実行計画の内容、スタックトレースともに出力する。
-                        event.addParam(EventConstants.PARAM_FULL_SCAN_EXEC_PLAN,
-                                       newArgs.toString());
-                        event.addParam(EventConstants.PARAM_FULL_SCAN_STACK_TRACE,
-                                       getStackTrace());
+                        event
+                            .addParam(EventConstants.PARAM_FULL_SCAN_EXEC_PLAN, newArgs.toString());
+                        event.addParam(EventConstants.PARAM_FULL_SCAN_STACK_TRACE, getStackTrace());
                     }
-                    
+
                     StatsJavelinRecorder.addEvent(event);
                 }
             }
@@ -698,7 +698,7 @@ public class JdbcJavelinRecorder
     }
 
     private static void saveExecPlan(CallTreeNode node, String[] execPlan,
-            JdbcJvnStatus jdbcJvnStatus)
+        JdbcJvnStatus jdbcJvnStatus)
     {
         CallTreeRecorder callTreeRecorder = jdbcJvnStatus.getCallTreeRecorder();
         SqlPlanStrategy sqlPlanRecordStrategy = getSqlPlanStrategy(callTreeRecorder.getCallTree());
@@ -792,7 +792,7 @@ public class JdbcJavelinRecorder
     }
 
     private static long calcQueryTime(final Statement stmt, final int paramNum,
-            final CallTreeNode node, final String[] oldArgs)
+        final CallTreeNode node, final String[] oldArgs)
         throws Exception
     {
         long queryTime = System.currentTimeMillis() - node.getStartTime();
@@ -851,7 +851,7 @@ public class JdbcJavelinRecorder
     }
 
     private static void addPrefix(final Statement stmt, final int paramNum,
-            final List<String> tempArgs, final String[] oldArgs)
+        final List<String> tempArgs, final String[] oldArgs)
     {
         // バインド変数出力フラグがONなら、バインド変数出力文字列を作成する。
         List<?> bindList = null;
@@ -896,10 +896,10 @@ public class JdbcJavelinRecorder
     {
         try
         {
-            JdbcJvnStatus    jdbcJvnStatus    = JdbcJvnStatus.getInstance();
+            JdbcJvnStatus jdbcJvnStatus = JdbcJvnStatus.getInstance();
             CallTreeRecorder callTreeRecorder = jdbcJvnStatus.getCallTreeRecorder();
-            CallTree         tree             = callTreeRecorder.getCallTree();
-            
+            CallTree tree = callTreeRecorder.getCallTree();
+
             if (tree.isJdbcEnabled() == false)
             {
                 return;
@@ -915,9 +915,9 @@ public class JdbcJavelinRecorder
 
             // セッション終了処理に入っている場合は、実行計画は取得しない。
             if ((config__.isAllowSqlTraceForOracle() //
-                    && (tree.containsFlag(SqlTraceStatus.KEY_SESSION_INITIALIZING) //
-                            || tree.containsFlag(SqlTraceStatus.KEY_SESSION_CLOSING) //
-                    || tree.containsFlag(SqlTraceStatus.KEY_SESSION_FINISHED))))
+            && (tree.containsFlag(SqlTraceStatus.KEY_SESSION_INITIALIZING) //
+                || tree.containsFlag(SqlTraceStatus.KEY_SESSION_CLOSING) //
+            || tree.containsFlag(SqlTraceStatus.KEY_SESSION_FINISHED))))
             {
                 return;
             }
@@ -979,8 +979,8 @@ public class JdbcJavelinRecorder
      * @return　SQLの実行計画
      */
     private static List<String> getExecPlan(CallTree callTree, CallTreeNode node,
-            final DBProcessor processor, final String jdbcUrl, final String[] args,
-            final Statement stmt, final int paramNum, JdbcJvnStatus jdbcJvnStatus)
+        final DBProcessor processor, final String jdbcUrl, final String[] args,
+        final Statement stmt, final int paramNum, JdbcJvnStatus jdbcJvnStatus)
     {
         // 結果リスト（nodeに登録しなおすargs）
         List<String> resultText = new LinkedList<String>();
@@ -1064,20 +1064,19 @@ public class JdbcJavelinRecorder
                         if (recordIntervalExpired || prevExecPlans == null)
                         {
                             planStmt = stmt.getConnection().createStatement();
-                            
+
                             if (processor.needsLock())
                             {
                                 synchronized (processor)
                                 {
                                     recordIntervalExpired =
-                                                            isRecordIntervalExpired(node,
-                                                                                    jdbcJvnStatus);
+                                        isRecordIntervalExpired(node, jdbcJvnStatus);
                                     prevExecPlans = getPrevExecPlan(callTree, node);
                                     if (recordIntervalExpired || prevExecPlans == null)
                                     {
                                         execPlanResult =
-                                                         doExecPlan(processor, stmt, bindList,
-                                                                    planStmt, originalSqlElement);
+                                            doExecPlan(processor, stmt, bindList, planStmt,
+                                                       originalSqlElement);
                                     }
                                     else
                                     {
@@ -1088,10 +1087,10 @@ public class JdbcJavelinRecorder
                             else
                             {
                                 execPlanResult =
-                                                 doExecPlan(processor, stmt, bindList, planStmt,
-                                                            originalSqlElement);
+                                    doExecPlan(processor, stmt, bindList, planStmt,
+                                               originalSqlElement);
                             }
-                            
+
                             execPlans.add(execPlanResult);
                         }
                         else
@@ -1099,6 +1098,48 @@ public class JdbcJavelinRecorder
                             execPlanResult = prevExecPlans[count];
                         }
                         execPlanText.append(execPlanResult);
+
+                        StackTraceElement[] stacktrace = ThreadUtil.getCurrentStackTrace();
+                        int stacktraceLength = stacktrace.length;
+
+                        StringBuffer stacktraceStrBuffer = new StringBuffer();
+
+                        // DataCollectorに送るスタックトレースの行数が、
+                        // 指定された最大値を超えないようにする
+                        int maxIndex = 0;
+                        if (stacktraceLength < MAX_STACKTRACE_LINE_NUM)
+                        {
+                            maxIndex = stacktraceLength;
+                        }
+                        else
+                        {
+                            maxIndex = MAX_STACKTRACE_LINE_NUM;
+                        }
+
+                        for (int index = 0; index < maxIndex; index++)
+                        {
+                            stacktraceStrBuffer.append(stacktrace[index]);
+                            stacktraceStrBuffer.append(",");
+                        }
+
+                        String pageName = "";
+                        if (callTree != null)
+                        {
+                            CallTreeNode rootNode = callTree.getRootNode();
+                            if (rootNode != null)
+                            {
+                                pageName = rootNode.getInvocation().getRootInvocationManagerKey();
+                            }
+                        }
+
+                        String itemName = addPrefix(pageName);
+
+                        // DataCollector側でDB登録するために、実行計画に関するデータを電文で送信する
+                        SqlPlanTelegramSender sqlPlanTelegramSender = new SqlPlanTelegramSender();
+                        sqlPlanTelegramSender.execute(itemName, originalSqlElement,
+                                                      execPlanText.toString(),
+                                                      new Timestamp(System.currentTimeMillis()),
+                                                      stacktraceStrBuffer.toString());
                     }
                 }
                 catch (Exception ex)
@@ -1118,7 +1159,7 @@ public class JdbcJavelinRecorder
                     if (paramNum != 1)
                     {
                         // 実行計画を取得すべきSQLが複数ある場合、バインド変数、実行計画を末尾に追加
-                                 if (bindVals != null)
+                        if (bindVals != null)
                         {
                             resultText.add(BIND_PREFIX + bindVals);
                         }
@@ -1150,8 +1191,7 @@ public class JdbcJavelinRecorder
                 // イベントを発生させる。
                 if (config__.isFullScanMonitor())
                 {
-                    sendFullScanEvent(processor, resultText, stmt,
-                                      paramNum, node, execPlanSql);
+                    sendFullScanEvent(processor, resultText, stmt, paramNum, node, execPlanSql);
                 }
             }
         }
@@ -1169,6 +1209,42 @@ public class JdbcJavelinRecorder
         return resultText;
     }
 
+    /**
+     * set the prefix of the node according to the starting node name
+     * @param name node name from invocation
+     * @return prefix for node
+     */
+    private static String addPrefix(String name)
+    {
+        String prefixedName = "";
+        if (name.startsWith("/"))
+        {
+            prefixedName = TelegramConstants.PREFIX_PROCESS_RESPONSE_SERVLET + name;
+        }
+        else if (name.startsWith("jdbc"))
+        {
+            String regexp = "jdbc:(.+)#(.+)";
+            String dbmsName = null;
+            String query = null;
+            Pattern pattern = Pattern.compile(regexp);
+            Matcher matcher = pattern.matcher(name);
+            if (matcher.find())
+            {
+                dbmsName = matcher.group(1);
+                query = matcher.group(2);
+                dbmsName = dbmsName.replace("/", "&#47;");
+            }
+            prefixedName = TelegramConstants.PREFIX_PROCESS_RESPONSE_JDBC + dbmsName + "/" + query;
+        }
+
+        else
+        {
+            prefixedName = TelegramConstants.PREFIX_PROCESS_RESPONSE_METHOD + name;
+        }
+
+        return prefixedName;
+    }
+
     private static String appendLineBreak(String str)
     {
         if (str == null || str.endsWith("\n"))
@@ -1180,7 +1256,7 @@ public class JdbcJavelinRecorder
     }
 
     private static String doExecPlan(DBProcessor processor, Statement stmt, List<?> bindList,
-            Statement planStmt, String originalSqlElement)
+        Statement planStmt, String originalSqlElement)
         throws SQLException
     {
         String execPlanResult;
@@ -1197,7 +1273,7 @@ public class JdbcJavelinRecorder
     }
 
     private static String[] createBindValArray(final Statement stmt, String[] originalSql,
-            final String[] execPlanSql)
+        final String[] execPlanSql)
         throws Exception
     {
         int bindValCount = SqlUtil.getPreparedStatementAddBatchCount(stmt);
@@ -1267,17 +1343,17 @@ public class JdbcJavelinRecorder
      * @param methodName メソッド名
      */
     public static void postPrepareStatement(final Connection connection, final String sql,
-            final PreparedStatement pstmt, final String methodName)
+        final PreparedStatement pstmt, final String methodName)
     {
-        JdbcJvnStatus    jdbcJvnStatus    = JdbcJvnStatus.getInstance();
+        JdbcJvnStatus jdbcJvnStatus = JdbcJvnStatus.getInstance();
         CallTreeRecorder callTreeRecorder = jdbcJvnStatus.getCallTreeRecorder();
-        CallTree         tree             = callTreeRecorder.getCallTree();
+        CallTree tree = callTreeRecorder.getCallTree();
 
         if (tree.getRootNode() == null)
         {
             tree.loadConfig();
         }
-                
+
         if (tree.isJdbcEnabled() == false)
         {
             return;

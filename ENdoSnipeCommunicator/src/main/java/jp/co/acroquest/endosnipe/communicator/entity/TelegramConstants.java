@@ -104,6 +104,9 @@ public interface TelegramConstants
     /** 電文種別(ツリー定義更新) */
     byte BYTE_TELEGRAM_KIND_ADD_MUL_RES_GRAPH_DEFINITION = 27;
     
+    /** 電文種別(SQL実行計画取得通知) */
+    byte BYTE_TELEGRAM_KIND_SQL_PLAN = 28;
+    
     /** 最後の電文以外 */
     byte HALFWAY_TELEGRAM = 0;
 
@@ -160,6 +163,18 @@ public interface TelegramConstants
 
     /** オブジェクト名(DB名) */
     String OBJECTnAME_DATABASE_NAME = "databaseName";
+    
+    /** オブジェクト名(SQL文) */
+    String OBJECTNAME_SQL_STATEMENT = "sqlplan";
+    
+    /** オブジェクト名(SQL実行計画) */
+    String OBJECTNAME_SQL_EXECUTION_PLAN = "sqlexecution";
+    
+    /** オブジェクト名(SQL実行計画取得時間) */
+    String OBJECTNAME_GETTING_PLAN_TIME = "gettingplantime";
+    
+    /** オブジェクト名(スタックとレース) */
+    String OBJECTNAME_STACK_TRACE = "stacktrace";
 
     // ////////////////
     // 制御用項目名 //
