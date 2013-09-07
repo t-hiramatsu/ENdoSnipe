@@ -28,7 +28,6 @@ package jp.co.acroquest.endosnipe.collector.listener;
 import java.sql.SQLException;
 
 import jp.co.acroquest.endosnipe.collector.LogMessageCodes;
-import jp.co.acroquest.endosnipe.collector.data.JavelinData;
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
 import jp.co.acroquest.endosnipe.communicator.AbstractTelegramListener;
 import jp.co.acroquest.endosnipe.communicator.TelegramListener;
@@ -48,18 +47,15 @@ import jp.co.acroquest.endosnipe.data.entity.SqlPlan;
 public class SqlPlanNotifyListener extends AbstractTelegramListener implements TelegramListener,
     LogMessageCodes, AgentNameListener
 {
+    /** ロガー。 */
     private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
         .getLogger(JvnFileNotifyListener.class);
 
+    /** DB名。 */
     private String databaseName_ = "";
 
-    private String hostName_ = null;
-
+    /** エージェント名。 */
     private String agentName_ = null;
-
-    private String ipAddress_ = "";
-
-    private int port_ = -1;
 
     @Override
     protected Telegram doReceiveTelegram(final Telegram telegram)
@@ -124,40 +120,10 @@ public class SqlPlanNotifyListener extends AbstractTelegramListener implements T
     }
 
     /**
-     * {@link JavelinData} 用の接続先 IP アドレスを設定します。<br />
-     * 
-     * @param ipAddress 接続先 IP アドレス
-     */
-    public void setIpAddress(final String ipAddress)
-    {
-        this.ipAddress_ = ipAddress;
-    }
-
-    /**
-     * {@link JavelinData} 用の接続先ポート番号を設定します。<br />
-     * 
-     * @param port 接続先ポート番号
-     */
-    public void setPort(final int port)
-    {
-        this.port_ = port;
-    }
-
-    /**
-     * ホスト名を設定する。
-     * 
-     * @param hostName ホスト名
-     */
-    public void setHostName(final String hostName)
-    {
-        hostName_ = hostName;
-    }
-
-    /**
-     * DB名を設定する。
-     * 
-     * @param databaseName DB名
-     */
+      * DB名を設定する。
+      * 
+      * @param databaseName DB名
+      */
     public void setDatabaseName(final String databaseName)
     {
         databaseName_ = databaseName;

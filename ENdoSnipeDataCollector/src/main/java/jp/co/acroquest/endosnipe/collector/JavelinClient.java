@@ -568,9 +568,7 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
     {
         SqlPlanNotifyListener notifyListener = new SqlPlanNotifyListener();
 
-        notifyListener.setHostName(hostName);
         notifyListener.setAgentName(agentName);
-        notifyListener.setPort(this.javelinPort_);
         notifyListener.setDatabaseName(this.databaseName_);
 
         return notifyListener;

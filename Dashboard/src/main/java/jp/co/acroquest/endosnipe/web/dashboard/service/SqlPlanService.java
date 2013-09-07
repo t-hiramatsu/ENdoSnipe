@@ -12,9 +12,11 @@
  */
 package jp.co.acroquest.endosnipe.web.dashboard.service;
 
-import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import jp.co.acroquest.endosnipe.web.dashboard.dao.SqlPlanDao;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.SqlPlanDto;
@@ -22,6 +24,10 @@ import jp.co.acroquest.endosnipe.web.dashboard.entity.SqlPlan;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import blanco.commons.sql.format.BlancoSqlFormatter;
+import blanco.commons.sql.format.BlancoSqlFormatterException;
+import blanco.commons.sql.format.BlancoSqlRule;
 
 /**
  * SQL実行計画機能のサービスクラス。
@@ -35,6 +41,15 @@ public class SqlPlanService
     /** SQL実行計画のDaoオブジェクト。 */
     @Autowired
     protected SqlPlanDao sqlPlanDao;
+
+    /** NumberedAction（イベント）における、SQL文の出力箇所を表します。 */
+    private static final int NUMBERED_ACTION_SQL_INDEX = 3;
+
+    /** NumberedMessageにおける、SQL文の出力箇所を表します。 */
+    private static final int NUMBERED_MESSAGE_SQL_INDEX = 2;
+
+    /** 新しい行の箇所を表します。 */
+    private static final String NEW_LINE = System.getProperty("line.separator");
 
     /**
      * コンストラクタ。
@@ -80,14 +95,16 @@ public class SqlPlanService
         {
             return sqlPlanDto;
         }
+
+        String formattedSqlStatement = this.formatTextSQL(sqlPlanFirstIndex.sqlStatement, null);
+        sqlPlanDto.setSqlStatement(formattedSqlStatement);
         sqlPlanDto.setMeasurementItemName(sqlPlanFirstIndex.measurementItemName);
-        sqlPlanDto.setSqlStatement(sqlPlanFirstIndex.sqlStatement);
         sqlPlanDto.setStackTrace(sqlPlanFirstIndex.stackTrace);
 
         // SQL実行計画、SQL実行計画の取得時間は、リストの各Indexで違う値が入っている可能性があるので、
         // リストにして、SqlPlanDtoオブジェクトに設定する
         List<String> executionPlanList = new ArrayList<String>();
-        List<Timestamp> gettingPlanTimeList = new ArrayList<Timestamp>();
+        List<String> gettingPlanTimeList = new ArrayList<String>();
 
         for (SqlPlan sqlPlan : sqlPlanList)
         {
@@ -95,13 +112,49 @@ public class SqlPlanService
             {
                 return new SqlPlanDto();
             }
+
+            String timeStr =
+                    new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(sqlPlan.gettingPlanTime);
+
             executionPlanList.add(sqlPlan.executionPlan);
-            gettingPlanTimeList.add(sqlPlan.gettingPlanTime);
+            gettingPlanTimeList.add(timeStr);
         }
 
         sqlPlanDto.setExecutionPlanList(executionPlanList);
         sqlPlanDto.setGettingPlanTimeList(gettingPlanTimeList);
 
         return sqlPlanDto;
+    }
+
+    /**
+     * SQL文を整形する。
+     * 
+     * @param text SQL文
+     * @param sqlName SQL名
+     * @return 整形されたSQL文
+     */
+    private String formatTextSQL(final String text, final String sqlName)
+    {
+        BlancoSqlFormatter formatter = new BlancoSqlFormatter(new BlancoSqlRule());
+
+        String formattedSql;
+        try
+        {
+            formattedSql = formatter.format(text);
+            formattedSql = formattedSql.replace("\r\n", "<br>");
+            formattedSql = formattedSql.replace("\n", "<br>");
+            formattedSql = formattedSql.replace("\r", "<br>");
+
+            // 半角スペース2つを全角スペース一つに変更する
+            Pattern pattern = Pattern.compile("  ");
+            Matcher matcher = pattern.matcher(formattedSql);
+            formattedSql = matcher.replaceAll("　　");
+        }
+        catch (BlancoSqlFormatterException ex)
+        {
+            formattedSql = text;
+        }
+
+        return formattedSql;
     }
 }

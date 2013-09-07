@@ -12,7 +12,6 @@
  */
 package jp.co.acroquest.endosnipe.web.dashboard.dto;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -34,7 +33,7 @@ public class SqlPlanDto
     private List<String> executionPlanList_;
 
     /** 実行計画が取得できた時間(executionPlanList_のindex番号と関連している)。 */
-    private List<Timestamp> gettingPlanTimeList_;
+    private List<String> gettingPlanTimeList_;
 
     /** スタックトレース。 */
     private String stackTrace_;
@@ -112,7 +111,7 @@ public class SqlPlanDto
      * 
      * @return 実行計画が取得できた時間のリスト
      */
-    public List<Timestamp> getGettingPlanTimeList()
+    public List<String> getGettingPlanTimeList()
     {
         return gettingPlanTimeList_;
     }
@@ -122,7 +121,7 @@ public class SqlPlanDto
      * 
      * @param gettingPlanTimeList 実行計画が取得できた時間のリスト
      */
-    public void setGettingPlanTimeList(final List<Timestamp> gettingPlanTimeList)
+    public void setGettingPlanTimeList(final List<String> gettingPlanTimeList)
     {
         gettingPlanTimeList_ = gettingPlanTimeList;
     }

@@ -115,6 +115,7 @@ if (!wgp.constants.VIEW_SETTINGS) {
 }
 wgp.constants.VIEW_SETTINGS = $.extend(wgp.constants.VIEW_SETTINGS, {
 	"reportNode-" : ENS.reportParentView,
+	"/jdbc/[^/]+/[^/]+/[^/]+" : ENS.nodeTabView,
 	"/jdbc/[^/]+/[^/]+" : ENS.sqlPlanTabView,
 	"default" : ENS.nodeTabView,
 	"ENS.ResourceMapView" : ENS.ResourceMapField

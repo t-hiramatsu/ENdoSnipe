@@ -573,9 +573,7 @@ public class JavelinServer implements TelegramSender
     {
         SqlPlanNotifyListener notifyListener = new SqlPlanNotifyListener();
 
-        notifyListener.setHostName(hostName);
         notifyListener.setAgentName(agentName);
-        notifyListener.setPort(port);
         notifyListener.setDatabaseName(dbName);
 
         return notifyListener;
