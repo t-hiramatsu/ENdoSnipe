@@ -91,13 +91,11 @@ public class SqlPlanService
         sqlPlanDto.setSqlStatement(formattedSqlStatement);
         sqlPlanDto.setMeasurementItemName(sqlPlanFirstIndex.measurementItemName);
 
-        String stackTrace = this.formatStackTrace(sqlPlanFirstIndex.stackTrace);
-        sqlPlanDto.setStackTrace(stackTrace);
-
         // SQL実行計画、SQL実行計画の取得時間は、リストの各Indexで違う値が入っている可能性があるので、
         // リストにして、SqlPlanDtoオブジェクトに設定する
         List<String> executionPlanList = new ArrayList<String>();
         List<String> gettingPlanTimeList = new ArrayList<String>();
+        List<String> stackTraceList = new ArrayList<String>();
 
         for (SqlPlan sqlPlan : sqlPlanList)
         {
@@ -111,10 +109,14 @@ public class SqlPlanService
 
             executionPlanList.add(sqlPlan.executionPlan);
             gettingPlanTimeList.add(timeStr);
+
+            String stackTrace = this.formatStackTrace(sqlPlan.stackTrace);
+            stackTraceList.add(stackTrace);
         }
 
         sqlPlanDto.setExecutionPlanList(executionPlanList);
         sqlPlanDto.setGettingPlanTimeList(gettingPlanTimeList);
+        sqlPlanDto.setStackTraceList(stackTraceList);
 
         return sqlPlanDto;
     }
