@@ -126,6 +126,7 @@ ENS.ResourceMapView = wgp.MapView.extend({
 		var graphId = model.get("resourceId");
 		var width = model.get("width");
 		var height = model.get("height");
+		var objectName = model.get("objectName");
 
 		var tempId = graphId.split("/");
 		var dataId = tempId[tempId.length - 1];
@@ -165,8 +166,13 @@ ENS.ResourceMapView = wgp.MapView.extend({
 		$.extend(true, viewAttribute, {
 			id : newDivAreaId
 		});
-		var view =
-			new ENS.ResourceGraphElementView(viewAttribute, treeSettings);
+		$.extend(true, viewAttribute, ENS.nodeInfoParentView.viewAttribute);
+		var view = null;
+		if ("ENS.ResourceGraphElementView" === objectName) {
+			view = new ENS.ResourceGraphElementView(viewAttribute, treeSettings);
+		} else {
+			view = new ENS.MultipleResourceGraphElementView(viewAttribute, treeSettings);
+		}
 		view.model = model;
 
 		// cidを設定
