@@ -13,24 +13,17 @@ probe begin
 
 probe python.function.entry
 {
-  //printf("Function entry: File %s, Function name %s\n", user_string($arg1), user_string($arg2));
   function_entry++
 }
 
 function print_function_entry()
 {
-  printf("/python_cli/function_entry, %d\n", function_entry);
+  printf("/python/function_entry, %d\n", function_entry);
 }
 
 probe timer.ms(15000)
 {
-  printf("/common/fundamental/time/current,%ld\n",gettimeofday_ms())
   print_function_entry()
   printf(".\n");
 }
-
-
-//probe end
-//{
-//}
 

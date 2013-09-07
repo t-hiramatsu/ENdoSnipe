@@ -24,13 +24,7 @@ function print_function_entry()
 
 probe timer.ms(15000)
 {
-  printf("/common/fundamental/time/current,%ld\n",gettimeofday_ms())
   print_function_entry()
   printf(".\n");
 }
-
-
-//probe end
-//{
-//}
 

@@ -1,6 +1,5 @@
 #
-# Make file for ENdoSnipeCommutator
-# 2013/08/31
+# Makefile for ENdoSnipe Commutator
 #
 
 all : 
