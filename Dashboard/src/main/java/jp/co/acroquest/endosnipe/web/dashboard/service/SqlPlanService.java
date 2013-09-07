@@ -42,15 +42,6 @@ public class SqlPlanService
     @Autowired
     protected SqlPlanDao sqlPlanDao;
 
-    /** NumberedAction（イベント）における、SQL文の出力箇所を表します。 */
-    private static final int NUMBERED_ACTION_SQL_INDEX = 3;
-
-    /** NumberedMessageにおける、SQL文の出力箇所を表します。 */
-    private static final int NUMBERED_MESSAGE_SQL_INDEX = 2;
-
-    /** 新しい行の箇所を表します。 */
-    private static final String NEW_LINE = System.getProperty("line.separator");
-
     /**
      * コンストラクタ。
      */
@@ -99,12 +90,12 @@ public class SqlPlanService
         String formattedSqlStatement = this.formatTextSQL(sqlPlanFirstIndex.sqlStatement, null);
         sqlPlanDto.setSqlStatement(formattedSqlStatement);
         sqlPlanDto.setMeasurementItemName(sqlPlanFirstIndex.measurementItemName);
-        sqlPlanDto.setStackTrace(sqlPlanFirstIndex.stackTrace);
 
         // SQL実行計画、SQL実行計画の取得時間は、リストの各Indexで違う値が入っている可能性があるので、
         // リストにして、SqlPlanDtoオブジェクトに設定する
         List<String> executionPlanList = new ArrayList<String>();
         List<String> gettingPlanTimeList = new ArrayList<String>();
+        List<String> stackTraceList = new ArrayList<String>();
 
         for (SqlPlan sqlPlan : sqlPlanList)
         {
@@ -118,16 +109,20 @@ public class SqlPlanService
 
             executionPlanList.add(sqlPlan.executionPlan);
             gettingPlanTimeList.add(timeStr);
+
+            String stackTrace = this.formatStackTrace(sqlPlan.stackTrace);
+            stackTraceList.add(stackTrace);
         }
 
         sqlPlanDto.setExecutionPlanList(executionPlanList);
         sqlPlanDto.setGettingPlanTimeList(gettingPlanTimeList);
+        sqlPlanDto.setStackTraceList(stackTraceList);
 
         return sqlPlanDto;
     }
 
     /**
-     * SQL文を整形する。
+     * SQL文をHTML表示用に整形する。
      * 
      * @param text SQL文
      * @param sqlName SQL名
@@ -145,7 +140,7 @@ public class SqlPlanService
             formattedSql = formattedSql.replace("\n", "<br>");
             formattedSql = formattedSql.replace("\r", "<br>");
 
-            // 半角スペース2つを全角スペース一つに変更する
+            // 半角スペース2つを全角スペース2つに変更する
             Pattern pattern = Pattern.compile("  ");
             Matcher matcher = pattern.matcher(formattedSql);
             formattedSql = matcher.replaceAll("　　");
@@ -156,5 +151,20 @@ public class SqlPlanService
         }
 
         return formattedSql;
+    }
+
+    /**
+     * スタックトレースをHTML表示用に整形する。
+     * 
+     * @param stackTrace スタックトレース
+     * @return 整形後のスタックトレース
+     */
+    private String formatStackTrace(final String stackTrace)
+    {
+        String formattedStackTrace = stackTrace.replace("\r\n", "<br>");
+        formattedStackTrace = stackTrace.replace("\n", "<br>");
+        formattedStackTrace = stackTrace.replace("\r", "<br>");
+
+        return formattedStackTrace;
     }
 }

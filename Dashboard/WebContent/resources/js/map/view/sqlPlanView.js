@@ -66,7 +66,7 @@ ENS.sqlPlanView = wgp.AbstractView
 					} ],
 					"stackTrace" : [ {
 						name : "stackTrace",
-						width : this.tableWidth - 5
+						width : this.tableWidth - 35
 					} ]
 				};
 			},
@@ -109,7 +109,7 @@ ENS.sqlPlanView = wgp.AbstractView
 					pginput : true,
 					height : "auto",
 					width : this.tableWidth,
-					sortname : "Getting Plan Time",
+					sortname : "stackTrace",
 					sortorder : "desc",
 					viewrecords : true,
 					rownumbers : true,
@@ -127,6 +127,7 @@ ENS.sqlPlanView = wgp.AbstractView
 			},
 			createStackTraceTable : function(divId) {
 				$("#" + divId).append('<table id="stackTraceTable"></table>');
+				$("#" + divId).append('<div id="stackTracePager"></table>');
 
 				$("#stackTraceTable").jqGrid({
 					datatype : "local",
@@ -134,8 +135,16 @@ ENS.sqlPlanView = wgp.AbstractView
 					colModel : this.tableColModelsList["stackTrace"],
 					colNames : this.tableColNamesList["stackTrace"],
 					caption : "Stack Trace",
+					pager : "stackTracePager",
+					rowList : [ 1, 3, 5 ],
+					pgbuttons : true,
+					pginput : true,
 					height : "auto",
 					width : this.tableWidth,
+					sortname : "gettingPlanTime",
+					sortorder : "desc",
+					viewrecords : true,
+					rownumbers : true,
 					shrinkToFit : false,
 					cellEdit : true
 				});
@@ -146,6 +155,7 @@ ENS.sqlPlanView = wgp.AbstractView
 
 				$("#stackTraceTable").css('font-size', '13px');
 				$("#stackTraceTable").css('word-break', 'break-all');
+				$("#stackTracePager").css('font-size', '13px');
 			},
 			getSqlPlan : function(itemName) {
 				// SQL文、SQL実行計画、スタックトレースを取得する
@@ -167,7 +177,7 @@ ENS.sqlPlanView = wgp.AbstractView
 				var sqlStatement = sqlPlan.sqlStatement;
 				var executionPlanList = sqlPlan.executionPlanList;
 				var gettingPlanTimeList = sqlPlan.gettingPlanTimeList;
-				var stackTrace = sqlPlan.stackTrace;
+				var stackTraceList = sqlPlan.stackTraceList;
 
 				if (sqlStatement) {
 					// 各テーブル用データを作成し、テーブルごとにリロードする
@@ -206,14 +216,18 @@ ENS.sqlPlanView = wgp.AbstractView
 					}).trigger("reloadGrid");
 				}
 
-				if (stackTrace) {
-					if (stackTrace) {
-						stackTrace = stackTrace.replace(/,/g, "<br>");
-					}
+				if (stackTraceList) {
+					var stackTraceTableData = [];
 
-					var stackTraceTableData = [ {
-						"stackTrace" : stackTrace + "<br>"
-					} ];
+					_
+							.each(
+									stackTraceList,
+									function(stackTrace, index) {
+										var data = {
+											"stackTrace" : stackTrace
+										};
+										stackTraceTableData.push(data);
+									});
 
 					$("#stackTraceTable").clearGridData().setGridParam({
 						data : stackTraceTableData

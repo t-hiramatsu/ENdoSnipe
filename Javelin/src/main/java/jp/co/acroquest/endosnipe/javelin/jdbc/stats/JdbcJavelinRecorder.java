@@ -77,7 +77,7 @@ public class JdbcJavelinRecorder
     private static final int FIRST_SQL_INDEX = 0;
 
     /** DataCollectorに送る、最大のスタックトレースの行数. */
-    private static final int MAX_STACKTRACE_LINE_NUM = 15;
+    private static final int MAX_STACKTRACE_LINE_NUM = 30;
 
     /** SQL処理時間のプレフィックス. */
     public static final String TIME_PREFIX = "[Time] ";
@@ -1100,27 +1100,8 @@ public class JdbcJavelinRecorder
                         execPlanText.append(execPlanResult);
 
                         StackTraceElement[] stacktrace = ThreadUtil.getCurrentStackTrace();
-                        int stacktraceLength = stacktrace.length;
-
-                        StringBuffer stacktraceStrBuffer = new StringBuffer();
-
-                        // DataCollectorに送るスタックトレースの行数が、
-                        // 指定された最大値を超えないようにする
-                        int maxIndex = 0;
-                        if (stacktraceLength < MAX_STACKTRACE_LINE_NUM)
-                        {
-                            maxIndex = stacktraceLength;
-                        }
-                        else
-                        {
-                            maxIndex = MAX_STACKTRACE_LINE_NUM;
-                        }
-
-                        for (int index = 0; index < maxIndex; index++)
-                        {
-                            stacktraceStrBuffer.append(stacktrace[index]);
-                            stacktraceStrBuffer.append(",");
-                        }
+                        String stacktraceStr =
+                            ThreadUtil.getStackTrace(stacktrace, MAX_STACKTRACE_LINE_NUM);
 
                         String pageName = "";
                         if (callTree != null)
@@ -1139,7 +1120,7 @@ public class JdbcJavelinRecorder
                         sqlPlanTelegramSender.execute(itemName, originalSqlElement,
                                                       execPlanText.toString(),
                                                       new Timestamp(System.currentTimeMillis()),
-                                                      stacktraceStrBuffer.toString());
+                                                      stacktraceStr);
                     }
                 }
                 catch (Exception ex)
