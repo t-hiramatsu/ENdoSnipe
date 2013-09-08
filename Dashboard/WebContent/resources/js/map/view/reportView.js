@@ -46,7 +46,9 @@ ENS.reportView = wgp.AbstractView
 							sortorder : "desc",
 							viewrecords : true, 
 							rownumbers : true,
-							shrinkToFit : false
+							shrinkToFit : false,
+							cellEdit : true,
+							cmTemplate: { title: false }
 						});
 				$("#reportTable").filterToolbar({
 					defaultSearch : 'cn'
