@@ -141,9 +141,7 @@ public class SqlPlanService
             formattedSql = formattedSql.replace("\r", "<br>");
 
             // 半角スペース2つを全角スペース2つに変更する
-            Pattern pattern = Pattern.compile("  ");
-            Matcher matcher = pattern.matcher(formattedSql);
-            formattedSql = matcher.replaceAll("　　");
+            formattedSql = formattedSql.replace("  ", "　　");
         }
         catch (BlancoSqlFormatterException ex)
         {
@@ -162,8 +160,13 @@ public class SqlPlanService
     private String formatStackTrace(final String stackTrace)
     {
         String formattedStackTrace = stackTrace.replace("\r\n", "<br>");
-        formattedStackTrace = stackTrace.replace("\n", "<br>");
-        formattedStackTrace = stackTrace.replace("\r", "<br>");
+        formattedStackTrace = formattedStackTrace.replace("\n", "<br>");
+        formattedStackTrace = formattedStackTrace.replace("\r", "<br>");
+
+        // スタックトレースの先頭に改行が入っている場合は削除する
+        Pattern pattern = Pattern.compile("\\A<br>");
+        Matcher matcher = pattern.matcher(formattedStackTrace);
+        formattedStackTrace = matcher.replaceAll("");
 
         return formattedStackTrace;
     }

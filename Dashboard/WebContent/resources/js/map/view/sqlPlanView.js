@@ -59,10 +59,10 @@ ENS.sqlPlanView = wgp.AbstractView
 					} ],
 					"sqlExecutePlan" : [ {
 						name : "gettingPlanTime",
-						width : 80
+						width : 70
 					}, {
 						name : "executePlan",
-						width : this.tableWidth - 120
+						width : this.tableWidth - 110
 					} ],
 					"stackTrace" : [ {
 						name : "stackTrace",
