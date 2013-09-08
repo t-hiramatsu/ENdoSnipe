@@ -19,14 +19,7 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 				var cName = "cancelFunctionName";
 				var cObj = "cancelObject";
 
-				// this.getAllMeasurementItem_();
 				this.getAllMeasurement_();
-
-				/*
-				 * $(".map_menu_icon").tooltip({ content : function() { return
-				 * $(this).attr("alt"); }, items : "[alt]", tooltipClass :
-				 * "tooltip" });
-				 */
 
 				$("#" + option.dialogId)
 						.dialog(
@@ -82,17 +75,6 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 
 								});
 
-				/*
-				 * $("#multipleResourceGraphLstBox1").hover(function (e) {
-				 * 
-				 * var $target = $(e.target); if($target.is('option')){ //
-				 * $target.attr("id",$target.val());
-				 * alert($target.attr("id"));//Will alert id if it has id
-				 * attribute $($target.attr("id")).attr() //
-				 * alert($target.text());//Will alert the text of the option //
-				 * alert($target.val());//Will alert the value of the option }
-				 * });
-				 */
 				$("#multipleResourceGraphSelection").attr('checked', 'checked');
 				$('#multipleResourceGraphLstBox1').removeAttr("disabled");
 				$('#multipleResourceGraphLstBox2').removeAttr("disabled");
@@ -104,49 +86,27 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 							"#multipleResourceGraphSelection, #multipleResourceGraphRegExpression")
 							.change(
 									function(event) {
-										/* $('#multipleResourceGraphPatternTextValue').removeAttr("disabled"); */
 										if ($('#multipleResourceGraphSelection')
 												.attr("checked")) {
 
-											// $('#multipleResourceGraphLstBox1').disabled=
-											// true;
 											$('#multipleResourceGraphLstBox1')
 													.removeAttr("disabled");
 											$('#multipleResourceGraphItems')
 													.attr("disabled", true);
-											// alert("a");
-
 										}
 
 										else if ($(
 												'#multipleResourceGraphRegExpression')
 												.attr("checked")) {
-											// $('#multipleResourceGraphPatternTextValue').hidden=
-											// true;
 											$('#multipleResourceGraphItems')
 													.removeAttr("disabled");
 											$('#multipleResourceGraphLstBox1')
 													.attr("disabled", true);
 											$('#multipleResourceGraphLstBox2')
 													.attr("disabled", true);
-											// alert("b");
 										}
 
 									});
-
-					/*
-					 * $('#link2').click(function() {
-					 * 
-					 * var count=2*10; var end;
-					 * if(count>ins.measurementDefinitionList.length) {
-					 * end=ins.measurementDefinitionList.length; } else {
-					 * end=count; } var start=(2-1)*10; for(i=start;i<end;i++) {
-					 * $('#multipleResourceGraphLstBox1').append("<option
-					 * value='" + ins.measurementDefinitionList.get(i).itemName +
-					 * "'>" + ins.measurementDefinitionList.get(i).itemName + "</option>"); }
-					 * 
-					 * });
-					 */
 
 					$('#btnAddGraph')
 							.click(
@@ -194,16 +154,6 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 											ins.inputMulResGraphDialog_();
 											// alert("button");
 										}
-										/*
-										 * var multipleResourceGraphName =
-										 * $("#multipleResourceGraphName").val();
-										 * if (multipleResourceGraphName === "") {
-										 * alert("Please input 'Summary Graph
-										 * Name'."); return; } else if
-										 * (multipleResourceGraphName.match(/[\\\/]/)) {
-										 * alert("Don't use '/'or'\\' in
-										 * 'Summary Graph Name'."); return; }
-										 */
 
 									});
 
@@ -219,7 +169,6 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 				};
 				$('#hiddenIdList').empty();
 				$('#multipleResourceGraphLstBox1').empty();
-				// $('#multipleResourceGraphLstBox2').empty();
 				// 非同期通信でデータを送信する
 				var ajaxHandler = new wgp.AjaxHandler();
 				settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] = this;
@@ -316,9 +265,6 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 				    var offset = page_index * items_per_page;   
 				    var new_content = $('#hiddenIdList option').slice(offset, offset + items_per_page).clone();  
 				    
-//				var new_content = $(
-//						'#hiddenIdList option:eq(' + page_index + ')').clone();
-
 				$('#multipleResourceGraphLstBox1').empty().append(new_content);
 
 				return false;

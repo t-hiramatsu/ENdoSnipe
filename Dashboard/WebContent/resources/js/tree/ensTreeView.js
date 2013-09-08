@@ -636,14 +636,12 @@ ENS.treeView = wgp.TreeView
 				// サーバに送信するデータ
 				var sendData;
 				// Ajax通信のコールバック関数と送信先URLを追加か編集かによって決める
-				// シグナル追加時
 				if (option.signalType == ENS.tree.ADD_MULTIPLE_RESOURCE_GRAPH_TYPE) {
 					sendData = this
 							.createSendAddMulResGraphData_(mulResGraphName);
 					callbackFunction = "callbackAddMulResGraph_";
 					url = ENS.tree.MULTIPLE_RESOURCE_GRAPH_ADD_URL;
 
-					// シグナル編集時
 				} else if (option.signalType == ENS.tree.EDIT_MULTIPLE_RESOURCE_GRAPH_TYPE) {
 
 					sendData = this
@@ -664,7 +662,7 @@ ENS.treeView = wgp.TreeView
 				settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = callbackFunction;
 				ajaxHandler.requestServerAsync(settings);
 
-				// 閾値判定定義の入力内容をクリアする。
+				// 複数グラフ定義の入力内容をクリアする。
 				this.clearMulResGraphDialog_();
 			},
 			/** 閾値判定の定義を入力をキャンセルした場合に実行するメソッド */
@@ -674,7 +672,7 @@ ENS.treeView = wgp.TreeView
 				this.clearMulResGraphDialog_();
 			},
 			/**
-			 * シグナル新規追加時の送信データを生成する。
+			 * 複数グラフ新規追加時の送信データを生成する。
 			 */
 			createSendAddMulResGraphData_ : function(mulResGraphName) {
 				// 入力された秒をミリ秒に変換する
@@ -693,7 +691,7 @@ ENS.treeView = wgp.TreeView
 
 				}
 
-				// シグナル定義を作成する
+				// 複数グラフ定義を作成する
 				var mulResGraphDefinition = {
 					multipleResourceGraphId : $("#mulResGraphId").val(),
 					multipleResourceGraphName : mulResGraphName,
@@ -708,7 +706,7 @@ ENS.treeView = wgp.TreeView
 				return sendData;
 			},
 			/**
-			 * シグナル編集時の送信データを生成する。
+			 * 複数グラフ編集時の送信データを生成する。
 			 */
 			createSendEditMulResGraphData_ : function(mulResGraphName) {
 
@@ -727,7 +725,7 @@ ENS.treeView = wgp.TreeView
 
 				}
 
-				// シグナル定義を作成する
+				// 複数グラフ定義を作成する
 				var mulResGraphDefinition = {
 					multipleResourceGraphId : $("#mulResGraphId").val(),
 					multipleResourceGraphName : mulResGraphName,
@@ -908,7 +906,9 @@ ENS.treeView = wgp.TreeView
 				// renderのADDを実行する権限を与える
 				ENS.tree.doRender = true;
 			},
-
+			callbackAddMulResGraph_ : function() {
+				// Do nothing
+			},
 			callbackGetAllMulResGraph_ : function(mulResGraphDefinitionList) {
 				var instance = this;
 				var addOptionList = [];
@@ -1023,9 +1023,6 @@ ENS.treeView = wgp.TreeView
 			callbackAddReport_ : function(reportDefinition) {
 				// TODO レポート一覧テーブルが表示されているときはリロードする
 			},
-			/**
-			 * シグナル編集操作の結果を表示する。
-			 */
 			callbackEditMulResGraph_ : function(responseDto) {
 				var result = responseDto.result;
 

@@ -63,7 +63,8 @@ ENS.treeManager = wgp.AbstractView
 				var instance = this;
 
 				$("#tree_area").jstree("mousedown").bind(
-						"mousedown.jstree", function(event) {
+						"mousedown.jstree",
+						function(event) {
 							instance.finishOpenOrClose = false;
 
 							/** 右クリック押下時には処理を行わない。 */
@@ -87,16 +88,18 @@ ENS.treeManager = wgp.AbstractView
 							ENS.tree.addedOtherNodes = [];
 
 							setTimeout(function() {
-								instance.handleExpandCollapseTag(clickTarget, isOpen);
+								instance.handleExpandCollapseTag(clickTarget,
+										isOpen);
 							}, 0);
 							return true;
 						});
 
-				$("#tree_area").bind("open_node.jstree close_node.jstree", function (e) {
-					instance.finishOpenOrClose = true;
-				});
+				$("#tree_area").bind("open_node.jstree close_node.jstree",
+						function(e) {
+							instance.finishOpenOrClose = true;
+						});
 			},
-			setTreeCooperation : function(){
+			setTreeCooperation : function() {
 				this.ensTreeView.setClickEvent("contents_area");
 				this.ensTreeView.addContextMenu(ENS.tree.contextOption);
 			},
@@ -196,13 +199,15 @@ ENS.treeManager = wgp.AbstractView
 			 *            追加する子ノードの配列
 			 */
 			callbackGetDirectChildNode : function(childNodes) {
-				if(childNodes.length > this.BATCH_UPDATE_MIN_SIZE) {
+				if (childNodes.length > this.BATCH_UPDATE_MIN_SIZE) {
 					// 追加する子ノードが多い場合には、clean_node、__getrollbackなどの実行を最初と最後の要素のみにする。
 					this.ensTreeView.collection.add(childNodes.slice(0, 1));
 					var args = this.ensTreeView.start_batch();
-					this.ensTreeView.collection.add(childNodes.slice(1, childNodes.length - 1));
+					this.ensTreeView.collection.add(childNodes.slice(1,
+							childNodes.length - 1));
 					this.ensTreeView.end_batch(args);
-					this.ensTreeView.collection.add(childNodes.slice(childNodes.length - 1, childNodes.length));
+					this.ensTreeView.collection.add(childNodes.slice(
+							childNodes.length - 1, childNodes.length));
 				} else {
 					this.ensTreeView.collection.add(childNodes);
 				}
@@ -215,20 +220,31 @@ ENS.treeManager = wgp.AbstractView
 			 */
 			removeChildNodes : function(parentNodeId) {
 				var removeOptionList = [];
-				
+
 				var models = this.ensTreeView.collection.models;
 				var parentRegExp = new RegExp("^" + parentNodeId);
-				_.each(models, function(model, index) {
-					if (model.get("parentTreeId").match(parentRegExp)) {
-						var option = {
-							id : model.id
-						};
-						removeOptionList.push(option);
-					}
-				});
-				
+				_
+						.each(
+								models,
+								function(model, index) {
+									var type = model.get("type");
+									var parentTreeId = model
+											.get("parentTreeId");
+
+									// 削除対象は、ディレクトリノードとグラフノードのみとする
+									if ((type == ENS.tree.type.GROUP || type == ENS.tree.type.TARGET)
+											&& parentTreeId.match(parentRegExp)) {
+
+										var option = {
+											id : model.id
+										};
+
+										removeOptionList.push(option);
+									}
+								});
+
 				this.ensTreeView.collection.remove(removeOptionList);
-				
+
 				var elem = document.getElementById(parentNodeId);
 				var parentLiTag = $(elem).parent("li");
 				if (parentLiTag) {
@@ -236,9 +252,11 @@ ENS.treeManager = wgp.AbstractView
 						var nextElem = parentLiTag.next("li");
 						if (nextElem.length === 0) {
 							if (this.finishOpenOrClose === true) {
-								parentLiTag.attr("class", "jstree-last jstree-closed");
+								parentLiTag.attr("class",
+										"jstree-last jstree-closed");
 							} else {
-								parentLiTag.attr("class", "jstree-last jstree-open");
+								parentLiTag.attr("class",
+										"jstree-last jstree-open");
 							}
 						} else {
 							if (this.finishOpenOrClose === true) {
