@@ -26,14 +26,14 @@
 package jp.co.acroquest.endosnipe.web.dashboard.constants;
 
 /**
- * 閾値判定定義情報に関する定数クラスです。
+ * 複数グラフ定義情報に関する定数クラスです。
  * @author pin
  *
  */
 public class MultipleResourceGraphConstants
 {
-    /** シグナルアイコン名のヘッダ */
-    public static final String MUL_RES_GRAPH_ICON = "mulRecGraph";
+    /** 複数グラフアイコン名のヘッダ */
+    public static final String MUL_RES_GRAPH_ICON = "leaf";
 
     /** 操作種別：追加 */
     public static final String OPERATION_TYPE_ADD = "add";

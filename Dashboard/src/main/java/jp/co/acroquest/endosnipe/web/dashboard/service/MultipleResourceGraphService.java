@@ -14,6 +14,7 @@ import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.data.dao.JavelinMeasurementItemDao;
 import jp.co.acroquest.endosnipe.data.entity.JavelinMeasurementItem;
 import jp.co.acroquest.endosnipe.web.dashboard.constants.LogMessageCodes;
+import jp.co.acroquest.endosnipe.web.dashboard.constants.MultipleResourceGraphConstants;
 import jp.co.acroquest.endosnipe.web.dashboard.constants.TreeMenuConstants;
 import jp.co.acroquest.endosnipe.web.dashboard.dao.MultipleResourceGraphInfoDao;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.MultipleResourceGraphDefinitionDto;
@@ -32,7 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.wgp.manager.WgpDataManager;
 
 /**
- * シグナル定義のサービスクラス。
+ * 複数グラフ定義のサービスクラス。
  * 
  * @author pin
  * 
@@ -45,7 +46,7 @@ public class MultipleResourceGraphService
     private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(MapService.class);
 
     /**
-     * シグナル情報Dao
+     * 複数グラフ情報Dao
      */
     @Autowired
     protected MultipleResourceGraphInfoDao multipleResourceGraphDao;
@@ -59,9 +60,9 @@ public class MultipleResourceGraphService
     }
 
     /**
-     * すべてのシグナルデータを返す。
+     * すべての複数グラフデータを返す。
      * 
-     * @return シグナルデータ一覧
+     * @return 複数グラフデータ一覧
      */
     public List<MultipleResourceGraphDefinitionDto> getAllMultipleResourceGraph()
     {
@@ -100,10 +101,10 @@ public class MultipleResourceGraphService
     }
 
     /**
-     * シグナルの全状態を取得するリクエストを生成する。
+     * 複数グラフの全状態を取得するリクエストを生成する。
      * 
      * @param multipleResourceGraphList
-     *            シグナル定義情報一覧
+     *            複数グラフ定義情報一覧
      */
     private void sendGetAllStateRequest(
             final List<MultipleResourceGraphInfo> multipleResourceGraphList)
@@ -119,11 +120,11 @@ public class MultipleResourceGraphService
     }
 
     /**
-     * 全閾値情報を取得する電文を作成する。
+     * 複数グラフ情報を取得する電文を作成する。
      * 
      * @param multipleResourceGraphInfoList
-     *            シグナル定義情報のリスト
-     * @return 全閾値情報を取得する電文
+     *            複数グラフ定義情報のリスト
+     * @return 複数グラフ情報を取得する電文
      */
     private Telegram createAllStateTelegram(
             final List<MultipleResourceGraphInfo> multipleResourceGraphInfoList)
@@ -137,7 +138,7 @@ public class MultipleResourceGraphService
 
         int dtoCount = multipleResourceGraphInfoList.size();
 
-        // 閾値判定定義情報のID
+        // 複数グラフ定義情報のID
         Body multipleResourceGraphIdBody = new Body();
         multipleResourceGraphIdBody.setStrObjName(TelegramConstants.OBJECTNAME_RESOURCEALARM);
         multipleResourceGraphIdBody.setStrItemName(TelegramConstants.ITEMNAME_MUL_RES_GRAPH_ID);
@@ -145,7 +146,7 @@ public class MultipleResourceGraphService
         multipleResourceGraphIdBody.setIntLoopCount(dtoCount);
         Long[] multipleResourceGraphIds = new Long[dtoCount];
 
-        // 閾値判定定義情報名
+        // 複数グラフ定義情報名
         Body multipleResourceGraphNameBody = new Body();
         multipleResourceGraphNameBody.setStrObjName(TelegramConstants.OBJECTNAME_RESOURCEALARM);
         multipleResourceGraphNameBody.setStrItemName(TelegramConstants.ITEMNAME_ALARM_ID);
@@ -173,11 +174,11 @@ public class MultipleResourceGraphService
     }
 
     /**
-     * シグナル定義をDBに登録する。
+     * 複数グラフ定義をDBに登録する。
      * 
      * @param multipleResourceGraphInfo
-     *            シグナル定義
-     * @return シグナル定義のDTOオブジェクト
+     *            複数グラフ定義
+     * @return 複数グラフ定義のDTOオブジェクト
      */
     @Transactional
     public MultipleResourceGraphDefinitionDto insertMultipleResourceGraphInfo(
@@ -200,16 +201,16 @@ public class MultipleResourceGraphService
                 this.convertmultipleResourceGraphDto(multipleResourceGraphInfo);
         multipleResourceGraphDefinitionDto.setMultipleResourceGraphId(multipleResourceGraphId);
 
-        // 各クライアントにシグナル定義の追加を送信する。
+        // 各クライアントに複数グラフ定義の追加を送信する。
         sendmultipleResourceGraphDefinition(multipleResourceGraphDefinitionDto, "add");
 
         return multipleResourceGraphDefinitionDto;
     }
 
     /**
-     * シグナル定義をDBから取得する。
-     * @param multipleResourceGraphName シグナル名
-     * @return シグナル定義のDTOオブジェクト
+     * 複数グラフ定義をDBから取得する。
+     * @param multipleResourceGraphName 複数グラフ名
+     * @return 複数グラフ定義のDTOオブジェクト
      */
     public MultipleResourceGraphDefinitionDto getmultipleResourceGraphInfo(
             final String multipleResourceGraphName)
@@ -223,10 +224,10 @@ public class MultipleResourceGraphService
     }
 
     /**
-     * シグナル定義を更新する。
+     * 複数グラフ定義を更新する。
      * 
      * @param multipleResourceGraphInfo
-     *            シグナル定義
+     *            複数グラフ定義
      * @return {@link MultipleResourceGraphDefinitionDto}オブジェクト
      */
     public MultipleResourceGraphDefinitionDto updatemultipleResourceGraphInfo(
@@ -254,17 +255,17 @@ public class MultipleResourceGraphService
 
         MultipleResourceGraphDefinitionDto multipleResourceGraphDefinitionDto =
                 this.convertmultipleResourceGraphDto(multipleResourceGraphInfo);
-        // 各クライアントにシグナル定義の変更を送信する。
+        // 各クライアントに複数グラフ定義の変更を送信する。
         sendmultipleResourceGraphDefinition(multipleResourceGraphDefinitionDto, "update");
 
         return multipleResourceGraphDefinitionDto;
     }
 
     /**
-     * シグナル名に該当するシグナル定義をDBから削除する。
+     * 複数グラフ名に該当する複数グラフ定義をDBから削除する。
      *
      * @param multipleResourceGraphName
-     *            シグナル名
+     *            複数グラフ名
      */
     public void deletemultipleResourceGraphInfo(final String multipleResourceGraphName)
     {
@@ -296,7 +297,7 @@ public class MultipleResourceGraphService
             LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx, sqlEx.getMessage());
         }
 
-        // 各クライアントにシグナル定義の削除を送信する。
+        // 各クライアントに複数グラフ定義の削除を送信する。
         sendmultipleResourceGraphDefinition(multipleResourceGraphDefinitionDto, "delete");
     }
 
@@ -379,9 +380,9 @@ public class MultipleResourceGraphService
     }
 
     /**
-     * 同一のシグナル名を持つ閾値判定定義情報がDBに存在するかどうか。
-     * @param multipleResourceGraphName シグナル名
-     * @return 同一シグナル名を保持する閾値判定定義情報が存在する場合にtrueを返し、存在しない場合にfalseを返す。
+     * 同一の複数グラフ名を持つ複数グラフ定義情報がDBに存在するかどうか。
+     * @param multipleResourceGraphName 複数グラフ名
+     * @return 同一複数グラフ名を保持する複数グラフ定義情報が存在する場合にtrueを返し、存在しない場合にfalseを返す。
      */
     public boolean hasSamemultipleResourceGraphName(final String multipleResourceGraphName)
     {
@@ -389,18 +390,18 @@ public class MultipleResourceGraphService
                 this.multipleResourceGraphDao.selectByName(multipleResourceGraphName);
         if (multipleResourceGraphInfo == null)
         {
-            // 同一シグナル名を持つ閾値判定定義情報が存在しない場合
+            // 同一複数グラフ名を持つ複数グラフ定義情報が存在しない場合
             return false;
         }
         return true;
     }
 
     /**
-     * 同一のシグナル名を持つ閾値判定定義情報がDBに存在するかどうか。<br />
-     * ただし、同一のシグナルIDを保持する場合は、更新対象がDBに定義された閾値判定定義情報と同一とみなし、falseを返す。
-     * @param multipleResourceGraphId シグナルID
-     * @param multipleResourceGraphName シグナル名
-     * @return 同一シグナル名を保持する閾値判定定義情報が存在する場合にtrueを返し、存在しない場合にfalseを返す。
+     * 同一の複数グラフ名を持つ複数グラフ定義情報がDBに存在するかどうか。<br />
+     * ただし、同一の複数グラフIDを保持する場合は、更新対象がDBに定義された複数グラフ定義情報と同一とみなし、falseを返す。
+     * @param multipleResourceGraphId 複数グラフID
+     * @param multipleResourceGraphName 複数グラフ名
+     * @return 同一複数グラフ名を保持する複数グラフ定義情報が存在する場合にtrueを返し、存在しない場合にfalseを返す。
      */
     public boolean hasSameMultipleResourceGraphName(final long multipleResourceGraphId,
             final String multipleResourceGraphName)
@@ -409,20 +410,20 @@ public class MultipleResourceGraphService
                 this.multipleResourceGraphDao.selectByName(multipleResourceGraphName);
         if (multipleResourceGraphInfo == null)
         {
-            // 同一シグナル名を持つ閾値判定定義情報が存在しない場合
+            // 同一複数グラフ名を持つ複数グラフ定義情報が存在しない場合
             return false;
         }
         else if (multipleResourceGraphInfo.multipleResourceGraphId == multipleResourceGraphId)
         {
-            // シグナル名が一致する閾値判定定義情報が更新対象自身の場合
+            // 複数グラフ名が一致する複数グラフ定義情報が更新対象自身の場合
             return false;
         }
         return true;
     }
 
     /**
-     * シグナル定義DTOをツリーメニュー用のDTOに変換する。
-     * @param multipleResourceGraphDefinitionDto シグナル定義情報
+     * 複数グラフ定義DTOをツリーメニュー用のDTOに変換する。
+     * @param multipleResourceGraphDefinitionDto 複数グラフ定義情報
      * @return ツリーメニュー用のDTO
      */
     public TreeMenuDto convertMultipleResourceGraphTreeMenu(
@@ -434,12 +435,12 @@ public class MultipleResourceGraphService
         String multipleResourceGraphName =
                 multipleResourceGraphDefinitionDto.getMultipleResourceGraphName();
 
-        // シグナル名から親階層のツリーID名を取得する。
+        // 複数グラフ名から親階層のツリーID名を取得する。
         // ※一番右のスラッシュ区切りまでを親階層とする。
         int terminateParentTreeIndex = multipleResourceGraphName.lastIndexOf("/");
         String parentTreeId = multipleResourceGraphName.substring(0, terminateParentTreeIndex);
 
-        // シグナル表示名を取得する。
+        // 複数グラフ表示名を取得する。
         // ※一番右のスラッシュ区切り以降を表示名とする。
         String multipleResourceGraphDisplayName =
                 multipleResourceGraphName.substring(terminateParentTreeIndex + 1);
@@ -449,20 +450,20 @@ public class MultipleResourceGraphService
         treeMenu.setParentTreeId(parentTreeId);
         treeMenu.setData(multipleResourceGraphDisplayName);
         treeMenu.setType(TreeMenuConstants.TREE_MENU_TYPE_MUL_RESOURCE_GRAPH);
-        treeMenu.setIcon("mulResGraph");
+        treeMenu.setIcon(MultipleResourceGraphConstants.MUL_RES_GRAPH_ICON);
         return treeMenu;
     }
 
     /**
-     * シグナル定義情報の追加・更新・削除を各クライアントに送信する。
-     * @param multipleResourceGraphDefinitionDto シグナル定義情報
+     * 複数グラフ定義情報の追加・更新・削除を各クライアントに送信する。
+     * @param multipleResourceGraphDefinitionDto 複数グラフ定義情報
      * @param type 送信タイプ(add:追加 update:変更 delete:削除)
      */
     private void sendmultipleResourceGraphDefinition(
             final MultipleResourceGraphDefinitionDto multipleResourceGraphDefinitionDto,
             final String type)
     {
-        // 各クライアントにシグナル定義の追加を通知する。
+        // 各クライアントに複数グラフ定義の追加を通知する。
         EventManager eventManager = EventManager.getInstance();
         WgpDataManager dataManager = eventManager.getWgpDataManager();
         ResourceSender resourceSender = eventManager.getResourceSender();
