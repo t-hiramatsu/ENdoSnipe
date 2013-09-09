@@ -46,8 +46,8 @@ import jp.co.acroquest.endosnipe.perfdoctor.rule.AbstractRule;
 import junit.framework.TestCase;
 
 /**
- * PerformanceRule‚Ì’ŠÛƒeƒXƒgƒP[ƒXƒNƒ‰ƒXB<br>
- * PerformanceRule‚ÌƒeƒXƒgƒP[ƒX‚ÍA‚±‚ÌƒNƒ‰ƒX‚ğŒp³‚µ‚Äì¬‚·‚éB
+ * PerformanceRuleã®æŠ½è±¡ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹ã‚¯ãƒ©ã‚¹ã€‚<br>
+ * PerformanceRuleã®ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹ã¯ã€ã“ã®ã‚¯ãƒ©ã‚¹ã‚’ç¶™æ‰¿ã—ã¦ä½œæˆã™ã‚‹ã€‚
  * 
  * @author tanimoto
  */
@@ -99,12 +99,12 @@ public abstract class PerformanceRuleTestCase extends TestCase
     }
 
     /**
-     * ƒ‹[ƒ‹ƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB<br>
-     * TestCase‚ğì¬‚·‚éê‡‚É‚ÍA•K‚¸‚±‚Ìƒƒ\ƒbƒh‚ğ—˜—p‚µ‚Äƒ‹[ƒ‹‚ğì¬‚·‚é‚±‚ÆB
+     * ãƒ«ãƒ¼ãƒ«ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ä½œæˆã™ã‚‹ã€‚<br>
+     * TestCaseã‚’ä½œæˆã™ã‚‹å ´åˆã«ã¯ã€å¿…ãšã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã‚’åˆ©ç”¨ã—ã¦ãƒ«ãƒ¼ãƒ«ã‚’ä½œæˆã™ã‚‹ã“ã¨ã€‚
      * 
-     * @param <T> ƒ‹[ƒ‹Œ^
-     * @param clazz ƒNƒ‰ƒX
-     * @return ƒ‹[ƒ‹ƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
+     * @param <T> ãƒ«ãƒ¼ãƒ«å‹
+     * @param clazz ã‚¯ãƒ©ã‚¹
+     * @return ãƒ«ãƒ¼ãƒ«ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
      */
     protected <T extends AbstractRule> T createInstance(final Class<? extends T> clazz)
     {
@@ -137,9 +137,9 @@ public abstract class PerformanceRuleTestCase extends TestCase
     }
 
     /**
-     * w’è‚³‚ê‚½JavelinƒƒOƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚ñ‚ÅAƒ‹[ƒ‹‚ÌÀs‚ğs‚¤B
+     * æŒ‡å®šã•ã‚ŒãŸJavelinãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚“ã§ã€ãƒ«ãƒ¼ãƒ«ã®å®Ÿè¡Œã‚’è¡Œã†ã€‚
      * 
-     * @param fileName JavelinƒƒOƒtƒ@ƒCƒ‹–¼
+     * @param fileName Javelinãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«å
      */
     protected void doJudgeFromJavelinLog(final String fileName)
     {
@@ -148,10 +148,10 @@ public abstract class PerformanceRuleTestCase extends TestCase
     }
 
     /**
-     * JavelinƒƒOƒtƒ@ƒCƒ‹‚ğ‰ğÍ‚µAJavelinLogElement‚ÌƒŠƒXƒg‚ğì¬‚·‚éB
+     * Javelinãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã‚’è§£æã—ã€JavelinLogElementã®ãƒªã‚¹ãƒˆã‚’ä½œæˆã™ã‚‹ã€‚
      * 
-     * @param fileName JavelinƒƒOƒtƒ@ƒCƒ‹–¼
-     * @return JavelinLogElement‚ÌƒŠƒXƒg
+     * @param fileName Javelinãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«å
+     * @return JavelinLogElementã®ãƒªã‚¹ãƒˆ
      */
     protected List<JavelinLogElement> createJavelinLogElement(final String fileName)
     {
@@ -194,12 +194,12 @@ public abstract class PerformanceRuleTestCase extends TestCase
     }
 
     /**
-     * ƒtƒ@ƒCƒ‹‚ÌƒpƒX‚ğæ“¾‚·‚éB<br>
-     * ƒtƒ@ƒCƒ‹‚ªƒNƒ‰ƒXƒpƒX“à‚É‚ ‚ê‚ÎA‚»‚Ìƒtƒ@ƒCƒ‹‚ÌURL‚ğ•Ô‚·B<br>
-     * ƒNƒ‰ƒXƒpƒX“à‚É‚È‚¢ê‡‚ÍAƒtƒ@ƒCƒ‹‚Ìâ‘ÎƒpƒX‚ğ•Ô‚·B<br>
+     * ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹ã‚’å–å¾—ã™ã‚‹ã€‚<br>
+     * ãƒ•ã‚¡ã‚¤ãƒ«ãŒã‚¯ãƒ©ã‚¹ãƒ‘ã‚¹å†…ã«ã‚ã‚Œã°ã€ãã®ãƒ•ã‚¡ã‚¤ãƒ«ã®URLã‚’è¿”ã™ã€‚<br>
+     * ã‚¯ãƒ©ã‚¹ãƒ‘ã‚¹å†…ã«ãªã„å ´åˆã¯ã€ãƒ•ã‚¡ã‚¤ãƒ«ã®çµ¶å¯¾ãƒ‘ã‚¹ã‚’è¿”ã™ã€‚<br>
      * 
-     * @param fileName ƒtƒ@ƒCƒ‹–¼
-     * @return ƒtƒ@ƒCƒ‹‚ÌURL‚à‚µ‚­‚Íâ‘ÎƒpƒXB
+     * @param fileName ãƒ•ã‚¡ã‚¤ãƒ«å
+     * @return ãƒ•ã‚¡ã‚¤ãƒ«ã®URLã‚‚ã—ãã¯çµ¶å¯¾ãƒ‘ã‚¹ã€‚
      */
     protected String getAbsolutePath(final String fileName)
     {
@@ -214,11 +214,11 @@ public abstract class PerformanceRuleTestCase extends TestCase
     }
 
     /**
-     * ˆø”‚Åw’è‚µ‚½JavelinLogElement‚¨‚æ‚Ñˆø”‚Éˆê’v‚·‚éƒGƒ‰[‚ª<br>
-     * ”­¶‚µ‚Ä‚¢‚½‚±‚Æ‚ğƒ`ƒFƒbƒN‚·‚éB
+     * å¼•æ•°ã§æŒ‡å®šã—ãŸJavelinLogElementãŠã‚ˆã³å¼•æ•°ã«ä¸€è‡´ã™ã‚‹ã‚¨ãƒ©ãƒ¼ãŒ<br>
+     * ç™ºç”Ÿã—ã¦ã„ãŸã“ã¨ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã€‚
      * 
      * @param element JavelinLogElement
-     * @param args ƒGƒ‰[ƒƒbƒZ[ƒWˆø”
+     * @param args ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å¼•æ•°
      */
     protected void assertErrorOccurred(final JavelinLogElement element, final Object... args)
     {
@@ -232,11 +232,11 @@ public abstract class PerformanceRuleTestCase extends TestCase
     }
 
     /**
-     * ˆø”‚Åw’è‚µ‚½JavelinLogElement‚¨‚æ‚Ñˆø”‚Éˆê’v‚·‚é–â‘è‚ª<br>
-     * ”­¶‚µ‚Ä‚¢‚È‚¢‚±‚Æ‚ğŠm”F‚·‚éB
+     * å¼•æ•°ã§æŒ‡å®šã—ãŸJavelinLogElementãŠã‚ˆã³å¼•æ•°ã«ä¸€è‡´ã™ã‚‹å•é¡ŒãŒ<br>
+     * ç™ºç”Ÿã—ã¦ã„ãªã„ã“ã¨ã‚’ç¢ºèªã™ã‚‹ã€‚
      * 
      * @param element JavelinLogElement
-     * @param args ƒGƒ‰[ƒƒbƒZ[ƒWˆø”
+     * @param args ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å¼•æ•°
      */
     protected void assertErrorNotOccurred(final JavelinLogElement element, final Object... args)
     {
@@ -250,12 +250,12 @@ public abstract class PerformanceRuleTestCase extends TestCase
     }
 
     /**
-     * ˆø”‚Åw’è‚µ‚½JavelinLogElement‚¨‚æ‚Ñˆø”‚Éˆê’v‚·‚é–â‘è‚ª<br>
-     * ”­¶‚µ‚Ä‚¢‚½‚©‚Ç‚¤‚©‚ğŠm”F‚·‚éB
+     * å¼•æ•°ã§æŒ‡å®šã—ãŸJavelinLogElementãŠã‚ˆã³å¼•æ•°ã«ä¸€è‡´ã™ã‚‹å•é¡ŒãŒ<br>
+     * ç™ºç”Ÿã—ã¦ã„ãŸã‹ã©ã†ã‹ã‚’ç¢ºèªã™ã‚‹ã€‚
      * 
      * @param element JavelinLogElement
-     * @param args ƒGƒ‰[ƒƒbƒZ[ƒWˆø”
-     * @return ƒGƒ‰[‚ª”­¶‚µ‚Ä‚¢‚½ê‡‚ÍtrueA‚»‚¤‚Å‚È‚¢ê‡‚ÍfalseB
+     * @param args ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å¼•æ•°
+     * @return ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¦ã„ãŸå ´åˆã¯trueã€ãã†ã§ãªã„å ´åˆã¯falseã€‚
      */
     private boolean containsError(final JavelinLogElement element, final Object... args)
     {
@@ -275,11 +275,11 @@ public abstract class PerformanceRuleTestCase extends TestCase
     }
 
     /**
-     * ˆø”‚Åw’è‚µ‚½JavelinLogElement‚É‘Î‰‚·‚éƒGƒ‰[‚ª‚ ‚éê‡‚ÉA
-     * ƒGƒ‰[ƒƒbƒZ[ƒWˆø”‚ğ•Ô‚·B
+     * å¼•æ•°ã§æŒ‡å®šã—ãŸJavelinLogElementã«å¯¾å¿œã™ã‚‹ã‚¨ãƒ©ãƒ¼ãŒã‚ã‚‹å ´åˆã«ã€
+     * ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å¼•æ•°ã‚’è¿”ã™ã€‚
      * 
      * @param element JavelinLogElement
-     * @return ‘Î‰‚·‚éƒGƒ‰[‚ª‚ ‚éê‡‚ÍƒGƒ‰[ƒƒbƒZ[ƒWˆø”B‘Î‰‚·‚éƒGƒ‰[‚ª‚È‚¢ê‡‚ÍnullB
+     * @return å¯¾å¿œã™ã‚‹ã‚¨ãƒ©ãƒ¼ãŒã‚ã‚‹å ´åˆã¯ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å¼•æ•°ã€‚å¯¾å¿œã™ã‚‹ã‚¨ãƒ©ãƒ¼ãŒãªã„å ´åˆã¯nullã€‚
      */
     public Object[] getErrorArgs(final JavelinLogElement element)
     {
@@ -298,8 +298,8 @@ public abstract class PerformanceRuleTestCase extends TestCase
     }
 
     /**
-     * –â‘è‚ğŒŸo‚µ‚½JavelinLogElementˆê——‚ğ•Ô‚·B
-     * @return JavelinLogElementˆê——
+     * å•é¡Œã‚’æ¤œå‡ºã—ãŸJavelinLogElementä¸€è¦§ã‚’è¿”ã™ã€‚
+     * @return JavelinLogElementä¸€è¦§
      */
     protected List<JavelinLogElement> getErrorJavelinLogElements()
     {
@@ -317,8 +317,8 @@ public abstract class PerformanceRuleTestCase extends TestCase
     }
 
     /**
-     * –â‘è‚ğŒŸo‚µ‚½Û‚Ìargsˆê——‚ğ•Ô‚·B
-     * @return argsˆê——
+     * å•é¡Œã‚’æ¤œå‡ºã—ãŸéš›ã®argsä¸€è¦§ã‚’è¿”ã™ã€‚
+     * @return argsä¸€è¦§
      */
     protected List<Object[]> getErrorArgs()
     {
@@ -336,10 +336,10 @@ public abstract class PerformanceRuleTestCase extends TestCase
     }
 
     /**
-     * ˆø”‚Åw’è‚µ‚½ƒGƒ‰[ƒƒbƒZ[ƒW‚Éˆê’v‚·‚é–â‘è‚ª<br>
-     * ”­¶‚µ‚Ä‚¢‚½‚©‚Ç‚¤‚©‚ğŠm”F‚·‚éB
+     * å¼•æ•°ã§æŒ‡å®šã—ãŸã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã«ä¸€è‡´ã™ã‚‹å•é¡ŒãŒ<br>
+     * ç™ºç”Ÿã—ã¦ã„ãŸã‹ã©ã†ã‹ã‚’ç¢ºèªã™ã‚‹ã€‚
      * 
-     * @param message ƒGƒ‰[ƒƒbƒZ[ƒW
+     * @param message ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
      */
     protected void assertContainsMessage(final String message)
     {
@@ -353,10 +353,10 @@ public abstract class PerformanceRuleTestCase extends TestCase
     }
 
     /**
-     * ˆø”‚Åw’è‚µ‚½ƒGƒ‰[ƒƒbƒZ[ƒW‚Éˆê’v‚·‚é–â‘è‚ª<br>
-     * ”­¶‚µ‚Ä‚¢‚È‚¢‚±‚Æ‚ğŠm”F‚·‚éB
+     * å¼•æ•°ã§æŒ‡å®šã—ãŸã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã«ä¸€è‡´ã™ã‚‹å•é¡ŒãŒ<br>
+     * ç™ºç”Ÿã—ã¦ã„ãªã„ã“ã¨ã‚’ç¢ºèªã™ã‚‹ã€‚
      * 
-     * @param message ƒGƒ‰[ƒƒbƒZ[ƒW
+     * @param message ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
      */
     protected void assertNotContainsMessage(final String message)
     {
@@ -370,8 +370,8 @@ public abstract class PerformanceRuleTestCase extends TestCase
     }
 
     /**
-     * ŒŸo‚µ‚½–â‘è‚ÌƒGƒ‰[ƒƒbƒZ[ƒWˆê——‚ğæ“¾‚·‚éB
-     * @return ƒGƒ‰[ƒƒbƒZ[ƒWˆê——
+     * æ¤œå‡ºã—ãŸå•é¡Œã®ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ä¸€è¦§ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ä¸€è¦§
      */
     protected List<String> getErrorMessages()
     {
@@ -394,9 +394,9 @@ public abstract class PerformanceRuleTestCase extends TestCase
     }
 
     /**
-     * Œx‚ğAƒƒbƒZ[ƒW•¶š—ñ‡‚Éƒ\[ƒg‚µ‚Ü‚·B
+     * è­¦å‘Šã‚’ã€ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸æ–‡å­—åˆ—é †ã«ã‚½ãƒ¼ãƒˆã—ã¾ã™ã€‚
      *
-     * @param list Œx‚ÌƒŠƒXƒg
+     * @param list è­¦å‘Šã®ãƒªã‚¹ãƒˆ
      */
     protected void sortWarningUnit(final List<WarningUnit> list)
     {

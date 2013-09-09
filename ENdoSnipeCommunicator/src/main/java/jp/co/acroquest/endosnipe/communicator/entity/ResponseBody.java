@@ -26,11 +26,11 @@
 package jp.co.acroquest.endosnipe.communicator.entity;
 
 /**
- * ‰ž“š“d•¶‚Ì‚½‚ß‚ÌƒGƒ“ƒeƒBƒeƒBƒNƒ‰ƒX‚Å‚·B<br />
+ * å¿œç­”é›»æ–‡ã®ãŸã‚ã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  * 
  * @author y-komori
  */
 public class ResponseBody extends Body
 {
-    // ‰½‚àŽÀ‘•‚µ‚È‚¢B
+    // ä½•ã‚‚å®Ÿè£…ã—ãªã„ã€‚
 }

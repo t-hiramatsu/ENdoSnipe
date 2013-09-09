@@ -40,7 +40,7 @@ public class DeadLockDetectedRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * JavelinƒƒO‚ÉƒfƒbƒhƒƒbƒNƒCƒxƒ“ƒg‚ª‘¶İ‚µ‚È‚¢ê‡‚Ì”»’è
+     * Javelinãƒ­ã‚°ã«ãƒ‡ãƒƒãƒ‰ãƒ­ãƒƒã‚¯ã‚¤ãƒ™ãƒ³ãƒˆãŒå­˜åœ¨ã—ãªã„å ´åˆã®åˆ¤å®š
      */
     public void testDoJudge_deadlock_none()
     {
@@ -55,12 +55,12 @@ public class DeadLockDetectedRuleTest extends PerformanceRuleTestCase
         
         if (errorListSize != 0)
         {
-            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
+            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
         }
     }
     
     /**
-     * JavelinƒƒO‚ÉƒfƒbƒhƒƒbƒNƒCƒxƒ“ƒg(2‚Â)‚ª‘¶İ‚·‚éê‡‚Ì”»’è
+     * Javelinãƒ­ã‚°ã«ãƒ‡ãƒƒãƒ‰ãƒ­ãƒƒã‚¯ã‚¤ãƒ™ãƒ³ãƒˆ(2ã¤)ãŒå­˜åœ¨ã™ã‚‹å ´åˆã®åˆ¤å®š
      */
     public void testDoJudge_deadlock_pair()
     {
@@ -75,7 +75,7 @@ public class DeadLockDetectedRuleTest extends PerformanceRuleTestCase
     }
     
     /**
-     * JavelinƒƒO‚ÉƒfƒbƒhƒƒbƒNƒCƒxƒ“ƒg(3‚Â)‚ª‘¶İ‚·‚éê‡‚Ì”»’è
+     * Javelinãƒ­ã‚°ã«ãƒ‡ãƒƒãƒ‰ãƒ­ãƒƒã‚¯ã‚¤ãƒ™ãƒ³ãƒˆ(3ã¤)ãŒå­˜åœ¨ã™ã‚‹å ´åˆã®åˆ¤å®š
      */
     public void testDoJudge_deadlock_trio()
     {
@@ -90,7 +90,7 @@ public class DeadLockDetectedRuleTest extends PerformanceRuleTestCase
     }
     
     /**
-     * JavelinƒƒO‚ÉƒfƒbƒhƒƒbƒNƒCƒxƒ“ƒg(2‚Â)‚ª•¡”‘¶İ‚·‚éê‡‚Ì”»’è
+     * Javelinãƒ­ã‚°ã«ãƒ‡ãƒƒãƒ‰ãƒ­ãƒƒã‚¯ã‚¤ãƒ™ãƒ³ãƒˆ(2ã¤)ãŒè¤‡æ•°å­˜åœ¨ã™ã‚‹å ´åˆã®åˆ¤å®š
      */
     public void testDoJudge_deadlock_multi()
     {

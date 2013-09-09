@@ -27,69 +27,69 @@ import org.bbreak.excella.reports.tag.RowRepeatParamParser;
 import org.bbreak.excella.reports.tag.SingleParamParser;
 
 /**
- * ƒTƒ}ƒŠƒŒƒ|[ƒg‚ğo—Í‚·‚éAƒvƒƒZƒbƒTƒNƒ‰ƒXB<br>
+ * ã‚µãƒãƒªãƒ¬ãƒãƒ¼ãƒˆã‚’å‡ºåŠ›ã™ã‚‹ã€ãƒ—ãƒ­ã‚»ãƒƒã‚µã‚¯ãƒ©ã‚¹ã€‚<br>
  * 
  * @author iida
  */
 public class SummaryReportProcessor implements ReportPublishProcessor
 {
-    /** ƒƒK[ */
+    /** ãƒ­ã‚¬ãƒ¼ */
     private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(
             SummaryReportProcessor.class);
 
-	/** o—Í‚³‚ê‚éƒŒƒ|[ƒg‚Ìí—Ş‚ÌƒŠƒXƒg */
+	/** å‡ºåŠ›ã•ã‚Œã‚‹ãƒ¬ãƒãƒ¼ãƒˆã®ç¨®é¡ã®ãƒªã‚¹ãƒˆ */
 	private static final ThreadLocal<ReportType[]> OUTPUT_FILE_TYPE_LIST
 	        = new ThreadLocal<ReportType[]>();
 
 	/**
-	 * o—Í‚³‚ê‚éƒŒƒ|[ƒg‚Ìí—Ş‚ÌƒŠƒXƒg‚ğƒZƒbƒg‚µ‚Ü‚·B<br>
+	 * å‡ºåŠ›ã•ã‚Œã‚‹ãƒ¬ãƒãƒ¼ãƒˆã®ç¨®é¡ã®ãƒªã‚¹ãƒˆã‚’ã‚»ãƒƒãƒˆã—ã¾ã™ã€‚<br>
 	 * 
-	 * @param outputFileTypeList o—Í‚³‚ê‚éƒŒƒ|[ƒg‚Ìí—Ş‚ÌƒŠƒXƒg
+	 * @param outputFileTypeList å‡ºåŠ›ã•ã‚Œã‚‹ãƒ¬ãƒãƒ¼ãƒˆã®ç¨®é¡ã®ãƒªã‚¹ãƒˆ
 	 */
 	public static void setOutputFileTypeList(ReportType[] outputFileTypeList)
 	{
 		OUTPUT_FILE_TYPE_LIST.set(outputFileTypeList);
 	}
 
-	/** ƒŒƒ|[ƒgƒvƒƒZƒbƒT‚ÌH’ö‚Ì” */
+	/** ãƒ¬ãƒãƒ¼ãƒˆãƒ—ãƒ­ã‚»ãƒƒã‚µã®å·¥ç¨‹ã®æ•° */
 	public static final int PROCESS_PHASE_NUM = 3;
 
-	/** ƒf[ƒ^‚ğæ“¾‚·‚éH’ö */
+	/** ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹å·¥ç¨‹ */
 	private static final String GET_DATA_PHASE_KEY
 	        = "reporter.report.progress.detail.getData";
 
-	/** æ“¾‚µ‚½ƒf[ƒ^‚ğ•ÏŠ·‚·‚éH’ö */
+	/** å–å¾—ã—ãŸãƒ‡ãƒ¼ã‚¿ã‚’å¤‰æ›ã™ã‚‹å·¥ç¨‹ */
 	private static final String CONVERT_DATA_PHASE_KEY
 	        = "reporter.report.progress.detail.convData";
 
-	/** ƒtƒ@ƒCƒ‹‚ğo—Í‚·‚éH’ö */
+	/** ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å‡ºåŠ›ã™ã‚‹å·¥ç¨‹ */
 	private static final String OUTPUT_DATA_PHASE_KEY
 	        = "reporter.report.progress.detail.output";
 	
-	/** ƒŒƒ|[ƒgo—ÍŠúŠÔ‚ğ¦‚·ƒ^ƒO */
+	/** ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›æœŸé–“ã‚’ç¤ºã™ã‚¿ã‚° */
 	private static final String DATE_RANGE_TAG = "dataRange";
 	
-	/** ƒf[ƒ^ƒx[ƒX–¼‚ğ¦‚·ƒ^ƒO */
+	/** ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã‚’ç¤ºã™ã‚¿ã‚° */
 	private static final String DATABASE_NAME_TAG = "dataBaseName";
 	
-	/** ”Ô†‚ÌƒŠƒXƒg‚ğ¦‚·ƒ^ƒO */
+	/** ç•ªå·ã®ãƒªã‚¹ãƒˆã‚’ç¤ºã™ã‚¿ã‚° */
 	private static final String NUMBERS_TAG = "numbers";
 	
-	/** o—Íƒtƒ@ƒCƒ‹–¼‚ÌƒŠƒXƒg‚ğ¦‚·ƒ^ƒO */
+	/** å‡ºåŠ›ãƒ•ã‚¡ã‚¤ãƒ«åã®ãƒªã‚¹ãƒˆã‚’ç¤ºã™ã‚¿ã‚° */
 	private static final String FILE_NAMES_TAG = "fileNames";
 	
-	/** o—Íƒtƒ@ƒCƒ‹‚Ìà–¾‚ğ¦‚·ƒ^ƒO */
+	/** å‡ºåŠ›ãƒ•ã‚¡ã‚¤ãƒ«ã®èª¬æ˜ã‚’ç¤ºã™ã‚¿ã‚° */
 	private static final String FILE_EXPLANATIONS_TAG = "fileExplanations";
 	
-	/** ƒŒƒ|[ƒgí•Ê */
+	/** ãƒ¬ãƒãƒ¼ãƒˆç¨®åˆ¥ */
 	private ReportType rType_;
 
-	/** o—ÍæƒfƒBƒŒƒNƒgƒŠ–¼ */
+	/** å‡ºåŠ›å…ˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªå */
 	private String outputDir_;
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
-	 * @param rType ƒŒƒ|[ƒgí•Ê
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
+	 * @param rType ãƒ¬ãƒãƒ¼ãƒˆç¨®åˆ¥
 	 */
 	public SummaryReportProcessor(ReportType rType)
 	{
@@ -97,8 +97,8 @@ public class SummaryReportProcessor implements ReportPublishProcessor
 	}
 
 	/**
-	 * ©•ª‚ªˆ—‚·‚éƒŒƒ|[ƒgí•Ê‚ğæ“¾‚·‚éB
-	 * @return ƒŒƒ|[ƒgí•Ê
+	 * è‡ªåˆ†ãŒå‡¦ç†ã™ã‚‹ãƒ¬ãƒãƒ¼ãƒˆç¨®åˆ¥ã‚’å–å¾—ã™ã‚‹ã€‚
+	 * @return ãƒ¬ãƒãƒ¼ãƒˆç¨®åˆ¥
 	 */
 	protected ReportType getReportType()
 	{
@@ -106,8 +106,8 @@ public class SummaryReportProcessor implements ReportPublishProcessor
 	}
 
 	/**
-	 * o—Íæƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹–¼‚ğæ“¾‚·‚éiŠg’£q–³‚µj
-	 * @return o—Íæƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹–¼
+	 * å‡ºåŠ›å…ˆãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ•ã‚¡ã‚¤ãƒ«åã‚’å–å¾—ã™ã‚‹ï¼ˆæ‹¡å¼µå­ç„¡ã—ï¼‰
+	 * @return å‡ºåŠ›å…ˆãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ•ã‚¡ã‚¤ãƒ«å
 	 */
 	protected String getOutputFileName()
 	{
@@ -117,8 +117,8 @@ public class SummaryReportProcessor implements ReportPublishProcessor
 	}
 	
 	/**
-	 * o—ÍæƒtƒHƒ‹ƒ_‚ÌƒpƒX‚ğæ“¾‚·‚é
-	 * @return o—ÍæƒtƒHƒ‹ƒ_‚ÌƒpƒX
+	 * å‡ºåŠ›å…ˆãƒ•ã‚©ãƒ«ãƒ€ã®ãƒ‘ã‚¹ã‚’å–å¾—ã™ã‚‹
+	 * @return å‡ºåŠ›å…ˆãƒ•ã‚©ãƒ«ãƒ€ã®ãƒ‘ã‚¹
 	 */
 	protected String getOutputFolderName()
 	{
@@ -127,15 +127,15 @@ public class SummaryReportProcessor implements ReportPublishProcessor
 	}
 
 	/**
-	 * ƒŒƒ|[ƒgo—Íˆ—‚ğs‚¤B
-	 * @param cond ƒŒƒ|[ƒgo—Í‚ÌğŒ
-	 * @return ReportProcessReturnContainer ƒRƒ“ƒeƒi
-	 * @throws InterruptedException ‚ ‚éƒXƒŒƒbƒh‚ª‚±‚ÌƒXƒŒƒbƒh‚ğ’†’f‚³‚¹‚½‚É”­¶‚·‚éB
+	 * ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›å‡¦ç†ã‚’è¡Œã†ã€‚
+	 * @param cond ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã®æ¡ä»¶
+	 * @return ReportProcessReturnContainer ã‚³ãƒ³ãƒ†ãƒŠ
+	 * @throws InterruptedException ã‚ã‚‹ã‚¹ãƒ¬ãƒƒãƒ‰ãŒã“ã®ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’ä¸­æ–­ã•ã›ãŸæ™‚ã«ç™ºç”Ÿã™ã‚‹ã€‚
 	 */
 	public ReportProcessReturnContainer publish(ReportSearchCondition cond)
 			throws InterruptedException
 	{
-		// TODO ‘¼‚ÌƒvƒƒZƒbƒT‚Æ“¯—l‚ÌPhase‚ğg—p‚µ‚Ä‚¢‚é‚Ì‚ğC³‚·‚éB
+		// TODO ä»–ã®ãƒ—ãƒ­ã‚»ãƒƒã‚µã¨åŒæ§˜ã®Phaseã‚’ä½¿ç”¨ã—ã¦ã„ã‚‹ã®ã‚’ä¿®æ­£ã™ã‚‹ã€‚
 		
 		outputDir_ = cond.getOutputFilePath();
 
@@ -147,16 +147,16 @@ public class SummaryReportProcessor implements ReportPublishProcessor
 	}
 
 	/**
-	 * ƒf[ƒ^æ“¾‚Ì”ÍˆÍ‚ğ•\¦‚·‚é•¶š—ñ‚ğ¬Œ^‚·‚é
-	 * @param startDate ƒf[ƒ^æ“¾ŠJn“ú
-	 * @param endDate ƒf[ƒ^æ“¾I—¹“ú
-	 * @return@•\¦—p‚Ì•¶š—ñ
+	 * ãƒ‡ãƒ¼ã‚¿å–å¾—æ™‚åˆ»ã®ç¯„å›²ã‚’è¡¨ç¤ºã™ã‚‹æ–‡å­—åˆ—ã‚’æˆå‹ã™ã‚‹
+	 * @param startDate ãƒ‡ãƒ¼ã‚¿å–å¾—é–‹å§‹æ—¥æ™‚
+	 * @param endDate ãƒ‡ãƒ¼ã‚¿å–å¾—çµ‚äº†æ—¥æ™‚
+	 * @returnã€€è¡¨ç¤ºç”¨ã®æ–‡å­—åˆ—
 	 */
 	private String getDataRangeString(Date startDate, Date endDate)
 	{
 		Calendar calendar = Calendar.getInstance();
 
-		// ƒf[ƒ^æ“¾ŠJn“ú‚Æƒf[ƒ^æ“¾I—¹“ú‚ğ¬Œ^‚·‚é
+		// ãƒ‡ãƒ¼ã‚¿å–å¾—é–‹å§‹æ—¥æ™‚ã¨ãƒ‡ãƒ¼ã‚¿å–å¾—çµ‚äº†æ—¥æ™‚ã‚’æˆå‹ã™ã‚‹
 		calendar.setTime(startDate);
 		String startDateString = String.format(
 				"%1$tY/%1$tm/%1$td(%1$ta) %1$tH:%1$tM", calendar);
@@ -164,10 +164,10 @@ public class SummaryReportProcessor implements ReportPublishProcessor
 		String endDateString = String.format(
 				"%1$tY/%1$tm/%1$td(%1$ta) %1$tH:%1$tM", calendar);
 
-		// •\¦—p•¶š—ñ‚ğ¬Œ`‚·‚é
+		// è¡¨ç¤ºç”¨æ–‡å­—åˆ—ã‚’æˆå½¢ã™ã‚‹
 		StringBuilder builder = new StringBuilder();
 		builder.append(startDateString);
-		builder.append(" ` ");
+		builder.append(" ï½ ");
 		builder.append(endDateString);
 
 		String returnValue = builder.toString();
@@ -176,21 +176,21 @@ public class SummaryReportProcessor implements ReportPublishProcessor
 	}
 
 	/**
-	 * ƒŒƒ|[ƒgo—Íˆ—‚ğs‚¤B
-	 * @param plotData g—p‚µ‚È‚¢
-	 * @param cond ƒŒƒ|[ƒgo—Í‚ÌğŒ
-	 * @param reportContainer ƒRƒ“ƒeƒi
+	 * ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›å‡¦ç†ã‚’è¡Œã†ã€‚
+	 * @param plotData ä½¿ç”¨ã—ãªã„
+	 * @param cond ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã®æ¡ä»¶
+	 * @param reportContainer ã‚³ãƒ³ãƒ†ãƒŠ
 	 */
 	private void outputReport(Object plotData, ReportSearchCondition cond,
 			ReportProcessReturnContainer reportContainer)
 	{
-		// ƒ_ƒCƒAƒƒO‚Åƒ`ƒFƒbƒN‚³‚ê‚½AƒŒƒ|[ƒgí—Ş‚ÌƒŠƒXƒg‚ğæ“¾‚·‚éB
+		// ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã§ãƒã‚§ãƒƒã‚¯ã•ã‚ŒãŸã€ãƒ¬ãƒãƒ¼ãƒˆç¨®é¡ã®ãƒªã‚¹ãƒˆã‚’å–å¾—ã™ã‚‹ã€‚
 		ReportType[] outputFileTypeList = OUTPUT_FILE_TYPE_LIST.get();
-		// u”Ô†v‚Ì—ñ‚Éo—Í‚·‚éƒf[ƒ^
+		// ã€Œç•ªå·ã€ã®åˆ—ã«å‡ºåŠ›ã™ã‚‹ãƒ‡ãƒ¼ã‚¿
 		Integer[] numbers = new Integer[outputFileTypeList.length];
-		// uƒtƒ@ƒCƒ‹–¼v‚Ì—ñ‚Éo—Í‚·‚éƒf[ƒ^
+		// ã€Œãƒ•ã‚¡ã‚¤ãƒ«åã€ã®åˆ—ã«å‡ºåŠ›ã™ã‚‹ãƒ‡ãƒ¼ã‚¿
 		String[] fileNames = new String[outputFileTypeList.length];
-		// uƒtƒ@ƒCƒ‹–¼v‚Æuà–¾v‚Ì—ñ‚Éo—Í‚·‚éƒf[ƒ^‚Ì‘Î‰ŠÖŒW‚ğ•\‚·ƒ}ƒbƒv
+		// ã€Œãƒ•ã‚¡ã‚¤ãƒ«åã€ã¨ã€Œèª¬æ˜ã€ã®åˆ—ã«å‡ºåŠ›ã™ã‚‹ãƒ‡ãƒ¼ã‚¿ã®å¯¾å¿œé–¢ä¿‚ã‚’è¡¨ã™ãƒãƒƒãƒ—
 		Map<String, String> explanationMap = new HashMap<String, String>();
 		for (int index = 0; index < outputFileTypeList.length; index++)
 		{
@@ -200,8 +200,8 @@ public class SummaryReportProcessor implements ReportPublishProcessor
 			String explanation = ReporterConfigAccessor
 	                .getExplanation(currentReportType);
 			numbers[index] = index + 1;
-			// ApplicationReport‚ÆObjectReportAResponseTimeReportAEventReport‚Í
-			// ƒfƒBƒŒƒNƒgƒŠ‚Æ‚µ‚Äo—Í‚³‚ê‚é‚Ì‚ÅA".xls"‚ğ•t‚¯‚È‚¢
+			// ApplicationReportã¨ObjectReportã€ResponseTimeReportã€EventReportã¯
+			// ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã¨ã—ã¦å‡ºåŠ›ã•ã‚Œã‚‹ã®ã§ã€".xls"ã‚’ä»˜ã‘ãªã„
 			if (currentReportType.equals(ReportType.SERVER_POOL)
 			    || currentReportType.equals(ReportType.POOL_SIZE)
 			    || currentReportType.equals(ReportType.OBJECT)
@@ -217,7 +217,7 @@ public class SummaryReportProcessor implements ReportPublishProcessor
 			explanationMap.put(fileNames[index], explanation);
 		}
 		Arrays.sort(fileNames);
-		// uà–¾v‚Ì—ñ‚Éo—Í‚·‚éƒf[ƒ^
+		// ã€Œèª¬æ˜ã€ã®åˆ—ã«å‡ºåŠ›ã™ã‚‹ãƒ‡ãƒ¼ã‚¿
 		String[] explanations = new String[outputFileTypeList.length];
 		for (int index = 0; index < outputFileTypeList.length; index++)
 		{
@@ -225,7 +225,7 @@ public class SummaryReportProcessor implements ReportPublishProcessor
 			explanations[index] = explanationMap.get(fileName);
 		}
 
-		// o—Í‚·‚éƒŒƒ|[ƒg‚Ìí—Ş‚É‚ ‚í‚¹‚Äƒeƒ“ƒvƒŒ[ƒg‚Ìƒtƒ@ƒCƒ‹ƒpƒX‚ğæ“¾‚·‚é
+		// å‡ºåŠ›ã™ã‚‹ãƒ¬ãƒãƒ¼ãƒˆã®ç¨®é¡ã«ã‚ã‚ã›ã¦ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã®ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã‚’å–å¾—ã™ã‚‹
 		String templateFilePath;
 		try
 		{
@@ -238,13 +238,13 @@ public class SummaryReportProcessor implements ReportPublishProcessor
 			return;
 		}
 
-		// ƒŒƒ|[ƒgo—Í‚Ìˆø”î•ñ‚ğæ“¾‚·‚é
+		// ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã®å¼•æ•°æƒ…å ±ã‚’å–å¾—ã™ã‚‹
 		String outputFilePath = this.getOutputFileName();
 		Timestamp startDate = cond.getStartDate();
 		Timestamp endDate = cond.getEndDate();
 		List<String> databases = cond.getDatabases();
 
-		// o—Í‚·‚éExcel‚ÌƒuƒbƒN‚ÆƒV[ƒg‚ğ•\‚·ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚é
+		// å‡ºåŠ›ã™ã‚‹Excelã®ãƒ–ãƒƒã‚¯ã¨ã‚·ãƒ¼ãƒˆã‚’è¡¨ã™ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã™ã‚‹
 		String id = this.getReportType().getId();
 		String templateSheetName = ReporterConfigAccessor.getProperty(id
 				+ ".templateSheetName");
@@ -253,7 +253,7 @@ public class SummaryReportProcessor implements ReportPublishProcessor
 		ReportSheet outputDataSheet = new ReportSheet(templateSheetName);
 		outputBook.addReportSheet(outputDataSheet);
 
-		// ƒV[ƒg‚Éƒf[ƒ^‚ğ—¬‚µ‚Ş
+		// ã‚·ãƒ¼ãƒˆã«ãƒ‡ãƒ¼ã‚¿ã‚’æµã—è¾¼ã‚€
 		outputDataSheet.addParam(SingleParamParser.DEFAULT_TAG,
 				DATE_RANGE_TAG, this.getDataRangeString(startDate, endDate));
 		outputDataSheet.addParam(SingleParamParser.DEFAULT_TAG,
@@ -266,7 +266,7 @@ public class SummaryReportProcessor implements ReportPublishProcessor
 		outputDataSheet.addParam(RowRepeatParamParser.DEFAULT_TAG,
 				FILE_EXPLANATIONS_TAG, explanations);
 
-		// Excelƒtƒ@ƒCƒ‹‚ğo—Í‚·‚éB
+		// Excelãƒ•ã‚¡ã‚¤ãƒ«ã‚’å‡ºåŠ›ã™ã‚‹ã€‚
 		ReportProcessor reportProcessor = new ReportProcessor();
 		try
 		{

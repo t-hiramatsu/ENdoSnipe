@@ -30,43 +30,43 @@ import java.util.Map;
 
 
 /**
- * Turn Around Timeî•ñB
+ * Turn Around Timeæƒ…å ±ã€‚
  * 
  * @author tsukano
  */
 public class TurnAroundTimeInfo
 {
-    /** Turn Around Time‚Ì•½‹Ï’l(’PˆÊFƒ~ƒŠ•b) */
+    /** Turn Around Timeã®å¹³å‡å€¤(å˜ä½ï¼šãƒŸãƒªç§’) */
     private final long turnAroundTime_;
 
-    /** Turn Around Time‚ÌÅ‘å’l(’PˆÊFƒ~ƒŠ•b) */
+    /** Turn Around Timeã®æœ€å¤§å€¤(å˜ä½ï¼šãƒŸãƒªç§’) */
     private final long turnAroundTimeMax_;
 
-    /** Turn Around Time‚ÌÅ¬’l(’PˆÊFƒ~ƒŠ•b) */
+    /** Turn Around Timeã®æœ€å°å€¤(å˜ä½ï¼šãƒŸãƒªç§’) */
     private final long turnAroundTimeMin_;
 
-    /** ŒÄ‚Ño‚µ‰ñ” */
+    /** å‘¼ã³å‡ºã—å›æ•° */
     private final int callCount_;
 
-    /** —áŠO”­¶‰ñ” */
+    /** ä¾‹å¤–ç™ºç”Ÿå›æ•° */
     private final Map<String, Integer> throwableCountMap_;
     
-    /** HTTPƒGƒ‰[”­¶‰ñ” */
+    /** HTTPã‚¨ãƒ©ãƒ¼ç™ºç”Ÿå›æ•° */
     private final Map<String, Integer> httpStatusCountMap_;
     
-    /** ƒXƒg[ƒ‹ŒŸo‰ñ” */
+    /** ã‚¹ãƒˆãƒ¼ãƒ«æ¤œå‡ºå›æ•° */
     private final int methodStallCount_;
 
     /**
-     * Turn Around Timeî•ñ‚ğİ’è‚·‚éB
+     * Turn Around Timeæƒ…å ±ã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param tat Turn Around Time(•½‹Ï’l)
-     * @param tatMax Turn Around Time(Å‘å’l)
-     * @param tatMin Turn Around Time(Å¬’l)
-     * @param callCount ŒÄ‚Ño‚µ‰ñ”
-     * @param throwableCountMap —áŠO”­¶‰ñ”
-     * @param httpStatusCountMap httpƒXƒe[ƒ^ƒXƒGƒ‰[”­¶‰ñ”
-     * @param methodStallCount ƒXƒg[ƒ‹ŒŸo‰ñ”
+     * @param tat Turn Around Time(å¹³å‡å€¤)
+     * @param tatMax Turn Around Time(æœ€å¤§å€¤)
+     * @param tatMin Turn Around Time(æœ€å°å€¤)
+     * @param callCount å‘¼ã³å‡ºã—å›æ•°
+     * @param throwableCountMap ä¾‹å¤–ç™ºç”Ÿå›æ•°
+     * @param httpStatusCountMap httpã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚¨ãƒ©ãƒ¼ç™ºç”Ÿå›æ•°
+     * @param methodStallCount ã‚¹ãƒˆãƒ¼ãƒ«æ¤œå‡ºå›æ•°
      */
     public TurnAroundTimeInfo(final long tat, final long tatMax,
             final long tatMin, final int callCount, final Map<String, Integer> throwableCountMap,
@@ -82,9 +82,9 @@ public class TurnAroundTimeInfo
     }
 
     /**
-     * Turn Around Time(•½‹Ï’l)‚ğ•Ô‚·B
+     * Turn Around Time(å¹³å‡å€¤)ã‚’è¿”ã™ã€‚
      * 
-     * @return Turn Around Time‚Ì•½‹Ï’l
+     * @return Turn Around Timeã®å¹³å‡å€¤
      */
     public long getTurnAroundTime()
     {
@@ -92,9 +92,9 @@ public class TurnAroundTimeInfo
     }
 
     /**
-     * Turn Around Time(Å‘å’l)‚ğ•Ô‚·B
+     * Turn Around Time(æœ€å¤§å€¤)ã‚’è¿”ã™ã€‚
      * 
-     * @return Turn Around Time‚ÌÅ‘å’l
+     * @return Turn Around Timeã®æœ€å¤§å€¤
      */
     public long getTurnAroundTimeMax()
     {
@@ -102,9 +102,9 @@ public class TurnAroundTimeInfo
     }
 
     /**
-     * Turn Around Time‚ğ•Ô‚·B
+     * Turn Around Timeã‚’è¿”ã™ã€‚
      * 
-     * @return Turn Around Time‚ÌÅ¬’l
+     * @return Turn Around Timeã®æœ€å°å€¤
      */
     public long getTurnAroundTimeMin()
     {
@@ -112,9 +112,9 @@ public class TurnAroundTimeInfo
     }
 
     /**
-     * ŒÄ‚Ño‚µ‰ñ”‚ğ•Ô‚·B
+     * å‘¼ã³å‡ºã—å›æ•°ã‚’è¿”ã™ã€‚
      * 
-     * @return ŒÄ‚Ño‚µ‰ñ”
+     * @return å‘¼ã³å‡ºã—å›æ•°
      */
     public int getCallCount()
     {
@@ -122,9 +122,9 @@ public class TurnAroundTimeInfo
     }
 
     /**
-     * —áŠO”­¶‰ñ”‚ğ•Ô‚·B
+     * ä¾‹å¤–ç™ºç”Ÿå›æ•°ã‚’è¿”ã™ã€‚
      * 
-     * @return —áŠO”­¶‰ñ”
+     * @return ä¾‹å¤–ç™ºç”Ÿå›æ•°
      */
     public Map<String, Integer> getThrowableCountMap()
     {
@@ -132,9 +132,9 @@ public class TurnAroundTimeInfo
     } 
     
     /**
-     * HTTPƒXƒe[ƒ^ƒXƒGƒ‰[”­¶‰ñ”‚ğ•Ô‚·B
+     * HTTPã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚¨ãƒ©ãƒ¼ç™ºç”Ÿå›æ•°ã‚’è¿”ã™ã€‚
      * 
-     * @return HTTPƒXƒe[ƒ^ƒXƒGƒ‰[”­¶‰ñ”
+     * @return HTTPã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚¨ãƒ©ãƒ¼ç™ºç”Ÿå›æ•°
      */
     public Map<String, Integer> getHttpStatusCountMap()
     {
@@ -142,9 +142,9 @@ public class TurnAroundTimeInfo
     } 
     
     /**
-     * ƒXƒg[ƒ‹ŒŸo‰ñ”‚ğ•Ô‚·B
+     * ã‚¹ãƒˆãƒ¼ãƒ«æ¤œå‡ºå›æ•°ã‚’è¿”ã™ã€‚
      * 
-     * @return ƒXƒg[ƒ‹ŒŸo‰ñ”
+     * @return ã‚¹ãƒˆãƒ¼ãƒ«æ¤œå‡ºå›æ•°
      */
     public int getMethodStallCount()
     {

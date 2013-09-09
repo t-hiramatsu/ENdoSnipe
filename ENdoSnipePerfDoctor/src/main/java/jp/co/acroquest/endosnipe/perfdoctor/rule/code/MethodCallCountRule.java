@@ -38,44 +38,44 @@ import jp.co.acroquest.endosnipe.perfdoctor.PerfConstants;
 import jp.co.acroquest.endosnipe.perfdoctor.rule.AbstractRule;
 
 /**
- * ѓЃѓ\ѓbѓh‚МЊД‚СЏo‚µ‰сђ”‚Єи‡’l‚р’ґ‚¦‚ЅЏкЌ‡‚ЙЊxЌђ‚р•\Ћ¦‚·‚йѓ‹Ѓ[ѓ‹ЃB
+ * гѓЎг‚Ѕгѓѓгѓ‰гЃ®е‘јгЃіе‡єгЃ—е›ћж•°гЃЊй–ѕеЂ¤г‚’и¶…гЃ€гЃџе ґеђ€гЃ«и­¦е‘Љг‚’иЎЁз¤єгЃ™г‚‹гѓ«гѓјгѓ«гЂ‚
  * 
  * @author tooru
  * 
  */
 public class MethodCallCountRule extends AbstractRule
 {
-    /** ЊxЌђ‚Ж”»’f‚·‚йOR/UNION‰сђ”‚МѓfѓtѓHѓ‹ѓg’lЃB */
+    /** и­¦е‘ЉгЃЁе€¤ж–­гЃ™г‚‹OR/UNIONе›ћж•°гЃ®гѓ‡гѓ•г‚©гѓ«гѓ€еЂ¤гЂ‚ */
     private static final int DEFAULT_THRESHOLD = 1000;
 
     /**
-     * ЊД‚СЏo‚µ‰сђ”‚Ми‡’lЃB‚±‚М’l‚р’ґ‚¦‚ЅЌЫ‚ЙЊxЌђ‚рђ¶ђ¬‚·‚йЃB
+     * е‘јгЃіе‡єгЃ—е›ћж•°гЃ®й–ѕеЂ¤гЂ‚гЃ“гЃ®еЂ¤г‚’и¶…гЃ€гЃџйљ›гЃ«и­¦е‘Љг‚’з”џж€ђгЃ™г‚‹гЂ‚
      */
     public int               threshold         = DEFAULT_THRESHOLD;
 
     /**
-     * ѓNѓ‰ѓXЃAѓЃѓ\ѓbѓhЃAѓXѓЊѓbѓhID–€‚ЙЊД‚СЏo‚µ‰сђ”‚рЏWЊv‚µЃA и‡’l‚р’ґ‚¦‚ЅЌЫ‚ЙЊxЌђ‚·‚йЃB
+     * г‚Їгѓ©г‚№гЂЃгѓЎг‚Ѕгѓѓгѓ‰гЂЃг‚№гѓ¬гѓѓгѓ‰IDжЇЋгЃ«е‘јгЃіе‡єгЃ—е›ћж•°г‚’й›†иЁ€гЃ—гЂЃ й–ѕеЂ¤г‚’и¶…гЃ€гЃџйљ›гЃ«и­¦е‘ЉгЃ™г‚‹гЂ‚
      * 
      * @param javelinLogElementList
-     *            ѓЌѓOѓfЃ[ѓ^ЃB
+     *            гѓ­г‚°гѓ‡гѓјг‚їгЂ‚
      */
     @Override
     public void doJudge(final List<JavelinLogElement> javelinLogElementList)
     {
 
         /**
-         * ЊД‚СЏo‚µ‰сђ”‚р‹L^‚·‚йѓ}ѓbѓvЃB ѓNѓ‰ѓX–ј#ѓЃѓ\ѓbѓh–ј#ѓXѓЊѓbѓhID‚рѓLЃ[‚Ж‚µЃAЊД‚СЏo‚µ‰сђ”‚р’l‚Ж‚·‚йЃB
+         * е‘јгЃіе‡єгЃ—е›ћж•°г‚’иЁйЊІгЃ™г‚‹гѓћгѓѓгѓ—гЂ‚ г‚Їгѓ©г‚№еђЌ#гѓЎг‚Ѕгѓѓгѓ‰еђЌ#г‚№гѓ¬гѓѓгѓ‰IDг‚’г‚­гѓјгЃЁгЃ—гЂЃе‘јгЃіе‡єгЃ—е›ћж•°г‚’еЂ¤гЃЁгЃ™г‚‹гЂ‚
          */
         Map<String, Integer> callCountMap = new HashMap<String, Integer>();
 
         /**
-         * ЊД‚СЏo‚і‚к‚Ѕ‰сђ”‚Єи‡’l‚р’ґ‚¦‚ЅѓЃѓ\ѓbѓh‚р‹L^‚·‚йѓ}ѓbѓvЃB
-         * ѓNѓ‰ѓX–ј#ѓЃѓ\ѓbѓh–ј#ѓXѓЊѓbѓhID‚рѓLЃ[‚Ж‚µЃAи‡’l‚р’ґ‚¦‚Ѕ‚Ж‚«‚МJavelinLogElement‚р’l‚Ж‚·‚йЃB
+         * е‘јгЃіе‡єгЃ•г‚ЊгЃџе›ћж•°гЃЊй–ѕеЂ¤г‚’и¶…гЃ€гЃџгѓЎг‚Ѕгѓѓгѓ‰г‚’иЁйЊІгЃ™г‚‹гѓћгѓѓгѓ—гЂ‚
+         * г‚Їгѓ©г‚№еђЌ#гѓЎг‚Ѕгѓѓгѓ‰еђЌ#г‚№гѓ¬гѓѓгѓ‰IDг‚’г‚­гѓјгЃЁгЃ—гЂЃй–ѕеЂ¤г‚’и¶…гЃ€гЃџгЃЁгЃЌгЃ®JavelinLogElementг‚’еЂ¤гЃЁгЃ™г‚‹гЂ‚
          */
         Map<String, JavelinLogElement> overThresholdMethodMap =
                                                                 new HashMap<String, JavelinLogElement>();
 
-        // ѓЃѓ\ѓbѓh–€‚ЙЃuЊД‚СЏo‚µ‰сђ”Ѓv‚рѓJѓEѓ“ѓg‚·‚йЃB
+        // гѓЎг‚Ѕгѓѓгѓ‰жЇЋгЃ«гЂЊе‘јгЃіе‡єгЃ—е›ћж•°гЂЌг‚’г‚«г‚¦гѓігѓ€гЃ™г‚‹гЂ‚
         for (JavelinLogElement javelinLogElement : javelinLogElementList)
         {
             try
@@ -89,17 +89,17 @@ public class MethodCallCountRule extends AbstractRule
             }
         }
 
-        // и‡’l‚р’ґ‚¦‚Ѕ‚а‚М‚Є‚ ‚йЏкЌ‡‚Й‚НЊxЌђ‚рЏo‚·ЃB
+        // й–ѕеЂ¤г‚’и¶…гЃ€гЃџг‚‚гЃ®гЃЊгЃ‚г‚‹е ґеђ€гЃ«гЃЇи­¦е‘Љг‚’е‡єгЃ™гЂ‚
         addErrorElements(callCountMap, overThresholdMethodMap);
     }
 
     /**
-     * и‡’l‚р’ґ‚¦‚Ѕ‚а‚М‚Є‚ ‚йЏкЌ‡‚Й‚НЊxЌђ‚рЏo‚·ЃB
+     * й–ѕеЂ¤г‚’и¶…гЃ€гЃџг‚‚гЃ®гЃЊгЃ‚г‚‹е ґеђ€гЃ«гЃЇи­¦е‘Љг‚’е‡єгЃ™гЂ‚
      * 
      * @param callCountMap
-     *            ЊД‚СЏo‚µ‰сђ”‚р‹L^‚·‚йѓ}ѓbѓvЃB
+     *            е‘јгЃіе‡єгЃ—е›ћж•°г‚’иЁйЊІгЃ™г‚‹гѓћгѓѓгѓ—гЂ‚
      * @param overThresholdMethodMap
-     *            ЊД‚СЏo‚і‚к‚Ѕ‰сђ”‚Єи‡’l‚р’ґ‚¦‚ЅѓЃѓ\ѓbѓh‚р‹L^‚·‚йѓ}ѓbѓvЃB
+     *            е‘јгЃіе‡єгЃ•г‚ЊгЃџе›ћж•°гЃЊй–ѕеЂ¤г‚’и¶…гЃ€гЃџгѓЎг‚Ѕгѓѓгѓ‰г‚’иЁйЊІгЃ™г‚‹гѓћгѓѓгѓ—гЂ‚
      */
     private void addErrorElements(final Map<String, Integer> callCountMap,
             final Map<String, JavelinLogElement> overThresholdMethodMap)
@@ -118,14 +118,14 @@ public class MethodCallCountRule extends AbstractRule
     }
 
     /**
-     * ЉeѓЃѓ\ѓbѓh‚МЊД‚СЏo‚µ‰сђ”‚рѓJѓEѓ“ѓg‚·‚йЃB и‡’l‚р’ґ‚¦‚Ѕ‚а‚М‚Є‚ ‚йЏкЌ‡‚Й‚Н‹L^‚·‚йЃB
+     * еђ„гѓЎг‚Ѕгѓѓгѓ‰гЃ®е‘јгЃіе‡єгЃ—е›ћж•°г‚’г‚«г‚¦гѓігѓ€гЃ™г‚‹гЂ‚ й–ѕеЂ¤г‚’и¶…гЃ€гЃџг‚‚гЃ®гЃЊгЃ‚г‚‹е ґеђ€гЃ«гЃЇиЁйЊІгЃ™г‚‹гЂ‚
      * 
      * @param javelinLogElement
-     *            ѓЌѓOѓfЃ[ѓ^ЃB
+     *            гѓ­г‚°гѓ‡гѓјг‚їгЂ‚
      * @param callCountMap
-     *            ЊД‚СЏo‚µ‰сђ”‚р‹L^‚·‚йѓ}ѓbѓvЃB
+     *            е‘јгЃіе‡єгЃ—е›ћж•°г‚’иЁйЊІгЃ™г‚‹гѓћгѓѓгѓ—гЂ‚
      * @param overThresholdMethodMap
-     *            ЊД‚СЏo‚і‚к‚Ѕ‰сђ”‚Єи‡’l‚р’ґ‚¦‚ЅѓЃѓ\ѓbѓh‚р‹L^‚·‚йѓ}ѓbѓvЃB
+     *            е‘јгЃіе‡єгЃ•г‚ЊгЃџе›ћж•°гЃЊй–ѕеЂ¤г‚’и¶…гЃ€гЃџгѓЎг‚Ѕгѓѓгѓ‰г‚’иЁйЊІгЃ™г‚‹гѓћгѓѓгѓ—гЂ‚
      */
     private void doJudgeSingleElement(final JavelinLogElement javelinLogElement,
             final Map<String, Integer> callCountMap,
@@ -133,19 +133,19 @@ public class MethodCallCountRule extends AbstractRule
     {
         List<String> baseInfo = javelinLogElement.getBaseInfo();
 
-        // CallѓЌѓO‚М‚Э‚р‘ОЏЫ‚Ж‚·‚йЃB
+        // Callгѓ­г‚°гЃ®гЃїг‚’еЇѕи±ЎгЃЁгЃ™г‚‹гЂ‚
         String id = baseInfo.get(JavelinLogColumnNum.ID);
         if (JavelinConstants.MSG_CALL.equals(id) == false)
         {
             return;
         }
 
-        // Map‚МѓLЃ[‚рЌмђ¬‚·‚йЃB
+        // MapгЃ®г‚­гѓјг‚’дЅњж€ђгЃ™г‚‹гЂ‚
         String className = baseInfo.get(JavelinLogColumnNum.CALL_CALLEE_CLASS);
         String methodName = baseInfo.get(JavelinLogColumnNum.CALL_CALLEE_METHOD);
         String threadId = baseInfo.get(JavelinLogColumnNum.CALL_THREADID);
 
-        // SQLЋАЌs‚НЏњЉO‚·‚й
+        // SQLе®џиЎЊгЃЇй™¤е¤–гЃ™г‚‹
         if (isSqlExec(className) == true)
         {
             return;
@@ -153,8 +153,8 @@ public class MethodCallCountRule extends AbstractRule
 
         String key = className + "#" + methodName + "#" + threadId;
 
-        // ѓJѓEѓ“ѓg‚Й1‚р‰Б‚¦‚йЃB
-        // ‚Ь‚ѕ€к“x‚аЋАЌs‚і‚к‚Д‚ў‚И‚ўЏкЌ‡‚Й‚НђV‚Ѕ‚ЙѓIѓuѓWѓFѓNѓg‚рЌм‚иЃA’l‚р1‚Й‚·‚йЃB
+        // г‚«г‚¦гѓігѓ€гЃ«1г‚’еЉ гЃ€г‚‹гЂ‚
+        // гЃѕгЃ дёЂеє¦г‚‚е®џиЎЊгЃ•г‚ЊгЃ¦гЃ„гЃЄгЃ„е ґеђ€гЃ«гЃЇж–°гЃџгЃ«г‚Єгѓ–г‚ёг‚§г‚Їгѓ€г‚’дЅњг‚ЉгЂЃеЂ¤г‚’1гЃ«гЃ™г‚‹гЂ‚
         Integer count = callCountMap.get(key);
         if (count == null)
         {
@@ -166,7 +166,7 @@ public class MethodCallCountRule extends AbstractRule
         }
         callCountMap.put(key, count);
 
-        // ‚а‚µѓJѓEѓ“ѓg‚Єи‡’l‚Й’B‚·‚й‚М‚Е‚ ‚к‚ОЃAoverThresholdMethodMap_‚Й‹L^‚·‚йЃB
+        // г‚‚гЃ—г‚«г‚¦гѓігѓ€гЃЊй–ѕеЂ¤гЃ«йЃ”гЃ™г‚‹гЃ®гЃ§гЃ‚г‚ЊгЃ°гЂЃoverThresholdMethodMap_гЃ«иЁйЊІгЃ™г‚‹гЂ‚
         if (count.intValue() == this.threshold)
         {
             overThresholdMethodMap.put(key, javelinLogElement);

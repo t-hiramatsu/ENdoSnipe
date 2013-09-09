@@ -8,15 +8,15 @@ import jp.co.acroquest.endosnipe.perfdoctor.WarningUnit;
 import jp.co.acroquest.endosnipe.perfdoctor.rule.PerformanceRuleFacade;
 
 /**
- * “¯ˆêSQL‚Ì”­s‰ñ”ƒ‹[ƒ‹‚ÌƒeƒXƒg<br>
+ * åŒä¸€SQLã®ç™ºè¡Œå›æ•°ãƒ«ãƒ¼ãƒ«ã®ãƒ†ã‚¹ãƒˆ<br>
  * @author tooru
  *
  */
 public class OneSqlCountRuleTest extends PerformanceRuleTestCase
 {
     /**
-     * è‡’l‚ğw’è‚µ‚ÄOneSqlCountRule‚ğ¶¬‚·‚éB<br>
-     * @param threshold è‡’l
+     * é–¾å€¤ã‚’æŒ‡å®šã—ã¦OneSqlCountRuleã‚’ç”Ÿæˆã™ã‚‹ã€‚<br>
+     * @param threshold é–¾å€¤
      * @return OneSqlCountRule
      */
     private OneSqlCountRule createRule(int threshold)
@@ -42,11 +42,11 @@ public class OneSqlCountRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [€”Ô] 3-3-1<br>
+     * [é …ç•ª] 3-3-1<br>
      * <br>
-     * ”»’èFè‡’lƒ`ƒFƒbƒN<br>
-     * è‡’l‚æ‚è¬‚³‚¢’l‚ğŒŸo¨ƒGƒ‰[‚Ío—Í‚µ‚È‚¢B<br>
-     * (è‡’l3‚É‘Î‚µA“¯ˆê‚ÌSQL‚ğ2‰ñ”­s)<br>
+     * åˆ¤å®šï¼šé–¾å€¤ãƒã‚§ãƒƒã‚¯<br>
+     * é–¾å€¤ã‚ˆã‚Šå°ã•ã„å€¤ã‚’æ¤œå‡ºâ†’ã‚¨ãƒ©ãƒ¼ã¯å‡ºåŠ›ã—ãªã„ã€‚<br>
+     * (é–¾å€¤3ã«å¯¾ã—ã€åŒä¸€ã®SQLã‚’2å›ç™ºè¡Œ)<br>
      */
     public void testDoJudge_01()
     {
@@ -60,16 +60,16 @@ public class OneSqlCountRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
+            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
         }
     }
 
     /**
-     * [€”Ô] 3-3-2<br>
+     * [é …ç•ª] 3-3-2<br>
      * <br>
-     * ”»’èFè‡’lƒ`ƒFƒbƒN<br>
-     * è‡’l‚Æ“¯‚¶’l‚ğŒŸo¨ƒGƒ‰[‚ğo—ÍB<br>
-     * (è‡’l3‚É‘Î‚µA“¯ˆê‚ÌSQL‚ğ3‰ñ”­s)<br>
+     * åˆ¤å®šï¼šé–¾å€¤ãƒã‚§ãƒƒã‚¯<br>
+     * é–¾å€¤ã¨åŒã˜å€¤ã‚’æ¤œå‡ºâ†’ã‚¨ãƒ©ãƒ¼ã‚’å‡ºåŠ›ã€‚<br>
+     * (é–¾å€¤3ã«å¯¾ã—ã€åŒä¸€ã®SQLã‚’3å›ç™ºè¡Œ)<br>
      */
     public void testDoJudge_02()
     {
@@ -84,11 +84,11 @@ public class OneSqlCountRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [€”Ô] 3-3-3<br>
+     * [é …ç•ª] 3-3-3<br>
      * <br>
-     * ”»’èFè‡’lƒ`ƒFƒbƒN<br>
-     * è‡’l‚ğ’´‚¦‚½’l‚ğŒŸo¨ƒGƒ‰[‚ğo—ÍB<br>
-     * (è‡’l3‚É‘Î‚µA“¯ˆê‚ÌSQL‚ğ4‰ñ”­s)<br>
+     * åˆ¤å®šï¼šé–¾å€¤ãƒã‚§ãƒƒã‚¯<br>
+     * é–¾å€¤ã‚’è¶…ãˆãŸå€¤ã‚’æ¤œå‡ºâ†’ã‚¨ãƒ©ãƒ¼ã‚’å‡ºåŠ›ã€‚<br>
+     * (é–¾å€¤3ã«å¯¾ã—ã€åŒä¸€ã®SQLã‚’4å›ç™ºè¡Œ)<br>
      */
     public void testDoJudge_03()
     {
@@ -103,11 +103,11 @@ public class OneSqlCountRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [€”Ô] 3-3-5<br>
+     * [é …ç•ª] 3-3-5<br>
      * <br>
-     * ”»’èFè‡’lƒ`ƒFƒbƒN<br>
-     * è‡’l‚Æ“¯‚¶’l‚ğŒŸo¨ƒGƒ‰[‚ğo—ÍB<br>
-     * (è‡’l1‚É‘Î‚µA“¯ˆê‚ÌSQL‚ğ1‰ñ”­s)<br>
+     * åˆ¤å®šï¼šé–¾å€¤ãƒã‚§ãƒƒã‚¯<br>
+     * é–¾å€¤ã¨åŒã˜å€¤ã‚’æ¤œå‡ºâ†’ã‚¨ãƒ©ãƒ¼ã‚’å‡ºåŠ›ã€‚<br>
+     * (é–¾å€¤1ã«å¯¾ã—ã€åŒä¸€ã®SQLã‚’1å›ç™ºè¡Œ)<br>
      */
     public void testDoJudge_05()
     {
@@ -122,13 +122,13 @@ public class OneSqlCountRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [€”Ô] 3-3-9<br>
+     * [é …ç•ª] 3-3-9<br>
      * <br>
-     * doJudge‚ÌƒeƒXƒgB<br>
-     * E2í—Ş‚ÌSQL•¶B<br>
-     * E”­s‰ñ”‚Í‚»‚ê‚¼‚ê2‰ñ‚¸‚ÂB<br>
-     * Eè‡’l‚Í3B<br>
-     * ¨Œx‚Í”­¶‚µ‚È‚¢B<br>
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
+     * ãƒ»2ç¨®é¡ã®SQLæ–‡ã€‚<br>
+     * ãƒ»ç™ºè¡Œå›æ•°ã¯ãã‚Œãã‚Œ2å›ãšã¤ã€‚<br>
+     * ãƒ»é–¾å€¤ã¯3ã€‚<br>
+     * â†’è­¦å‘Šã¯ç™ºç”Ÿã—ãªã„ã€‚<br>
      */
     public void testDoJudge_09()
     {
@@ -142,17 +142,17 @@ public class OneSqlCountRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
+            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
         }
 
     }
 
     /**
-     * [€”Ô] 3-3-13<br>
+     * [é …ç•ª] 3-3-13<br>
      * <br>
-     * doJudge‚ÌƒeƒXƒgB<br>
-     * E[SQL]‚Æ‚¢‚¤ƒ^ƒO‚ª‚È‚¢B<br>
-     * ¨Œx‚ğ•\¦‚µ‚È‚¢B<br>
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
+     * ãƒ»[SQL]ã¨ã„ã†ã‚¿ã‚°ãŒãªã„ã€‚<br>
+     * â†’è­¦å‘Šã‚’è¡¨ç¤ºã—ãªã„ã€‚<br>
      */
     public void testDoJudge_13()
     {
@@ -166,16 +166,16 @@ public class OneSqlCountRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
+            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
         }
     }
 
     /**
-     * [€”Ô] 3-3-15<br>
+     * [é …ç•ª] 3-3-15<br>
      * <br>
-     * doJudge‚ÌƒeƒXƒgB<br>
-     * ECALL‚ª‚È‚¢B<br>
-     * ¨Œx‚ğ•\¦‚µ‚È‚¢B<br>
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
+     * ãƒ»CALLãŒãªã„ã€‚<br>
+     * â†’è­¦å‘Šã‚’è¡¨ç¤ºã—ãªã„ã€‚<br>
      */
     public void testDoJudge_15()
     {
@@ -189,16 +189,16 @@ public class OneSqlCountRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
+            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
         }
     }
 
     /**
-     * [€”Ô] 3-3-18<br>
+     * [é …ç•ª] 3-3-18<br>
      * <br>
-     * ˆÙíƒf[ƒ^<br>
-     * SQL•¶‚É‚È‚Á‚Ä‚¢‚È‚¢¨•¶š—ñ‚ª“¯ˆê‚Å‚ ‚ê‚ÎA“¯‚¶uSQL•¶v‚Å‚ ‚é‚Æ”»’f‚µˆ—‚·‚éB<br>
-     * (è‡’l3‚É‘Î‚µA“¯ˆê‚ÌSQL‚ğ4‰ñ”­s)<br>
+     * ç•°å¸¸ãƒ‡ãƒ¼ã‚¿<br>
+     * SQLæ–‡ã«ãªã£ã¦ã„ãªã„â†’æ–‡å­—åˆ—ãŒåŒä¸€ã§ã‚ã‚Œã°ã€åŒã˜ã€ŒSQLæ–‡ã€ã§ã‚ã‚‹ã¨åˆ¤æ–­ã—å‡¦ç†ã™ã‚‹ã€‚<br>
+     * (é–¾å€¤3ã«å¯¾ã—ã€åŒä¸€ã®SQLã‚’4å›ç™ºè¡Œ)<br>
      */
     public void testDoJudge_18()
     {
@@ -213,10 +213,10 @@ public class OneSqlCountRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [€”Ô] 3-3-26<br>
+     * [é …ç•ª] 3-3-26<br>
      * <br>
-     * doJudge‚ÌƒeƒXƒgB<br>
-     * E•¡”‚ÌJavelinLogElement‚ÅŒx‚ªo‚éB<br>
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
+     * ãƒ»è¤‡æ•°ã®JavelinLogElementã§è­¦å‘ŠãŒå‡ºã‚‹ã€‚<br>
      */
     public void testDoJudge_26()
     {
@@ -232,11 +232,11 @@ public class OneSqlCountRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [€”Ô] 3-3-27<br>
+     * [é …ç•ª] 3-3-27<br>
      * <br>
-     * doJudge‚ÌƒeƒXƒgB<br>
-     * E‚ ‚éJavelinLogElement‚ÅÀs—áŠO‚ª”­¶<br>
-     * ¨‚»‚ÌJavelinLogElement‚ÍƒXƒLƒbƒv‚µ‚Äˆ—‚·‚éB<br>
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
+     * ãƒ»ã‚ã‚‹JavelinLogElementã§å®Ÿè¡Œæ™‚ä¾‹å¤–ãŒç™ºç”Ÿ<br>
+     * â†’ãã®JavelinLogElementã¯ã‚¹ã‚­ãƒƒãƒ—ã—ã¦å‡¦ç†ã™ã‚‹ã€‚<br>
      */
     public void testDoJudge_RuntimeException()
     {
@@ -254,10 +254,10 @@ public class OneSqlCountRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * SCR‘Î‰<br>
-     * [€”Ô] 1-3-7
-     * ERROR‚ª”­¶B
-     * WARNAINFO‚ª”­¶‚µ‚È‚¢‚±‚Æ‚ğŠm”F‚·‚éB<br>
+     * SCRå¯¾å¿œ<br>
+     * [é …ç•ª] 1-3-7
+     * ERRORãŒç™ºç”Ÿã€‚
+     * WARNã€INFOãŒç™ºç”Ÿã—ãªã„ã“ã¨ã‚’ç¢ºèªã™ã‚‹ã€‚<br>
      */
     public void testJudge_RuleFacade_Error()
     {
@@ -280,10 +280,10 @@ public class OneSqlCountRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * SCR‘Î‰<br>
-     * [€”Ô] 1-3-8
-     * WARN‚ª”­¶B
-     * ERRORAINFO‚ª”­¶‚µ‚È‚¢‚±‚Æ‚ğŠm”F‚·‚éB<br>
+     * SCRå¯¾å¿œ<br>
+     * [é …ç•ª] 1-3-8
+     * WARNãŒç™ºç”Ÿã€‚
+     * ERRORã€INFOãŒç™ºç”Ÿã—ãªã„ã“ã¨ã‚’ç¢ºèªã™ã‚‹ã€‚<br>
      */
     public void testJudge_RuleFacade_Warn()
     {
@@ -306,10 +306,10 @@ public class OneSqlCountRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * SCR‘Î‰<br>
-     * [€”Ô] 1-3-9
-     * INFO‚ª”­¶B
-     * ERRORAWARN‚ª”­¶‚µ‚È‚¢‚±‚Æ‚ğŠm”F‚·‚éB<br>
+     * SCRå¯¾å¿œ<br>
+     * [é …ç•ª] 1-3-9
+     * INFOãŒç™ºç”Ÿã€‚
+     * ERRORã€WARNãŒç™ºç”Ÿã—ãªã„ã“ã¨ã‚’ç¢ºèªã™ã‚‹ã€‚<br>
      */
     public void testJudge_RuleFacade_Info()
     {

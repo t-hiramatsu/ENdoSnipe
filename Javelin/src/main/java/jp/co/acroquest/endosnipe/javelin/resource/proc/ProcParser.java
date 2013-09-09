@@ -29,28 +29,28 @@ import jp.co.acroquest.endosnipe.javelin.bean.proc.ProcInfo;
 import jp.co.acroquest.endosnipe.javelin.resource.ResourceLoader;
 
 /**
- * /proc‚©‚ç‚Ìî•ñ‚ğæ“¾‚µAProcInfo‚É•ÏŠ·‚·‚éƒCƒ“ƒ^ƒtƒF[ƒXB
+ * /procã‹ã‚‰ã®æƒ…å ±ã‚’å–å¾—ã—ã€ProcInfoã«å¤‰æ›ã™ã‚‹ã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹ã€‚
  * 
  * @author eriguchi
  */
 public interface ProcParser extends ResourceLoader
 {
     /**
-     * ‰Šú‰»‚ğs‚¤B¬Œ÷‚µ‚½ê‡‚É‚Ì‚İtrue
+     * åˆæœŸåŒ–ã‚’è¡Œã†ã€‚æˆåŠŸã—ãŸå ´åˆã«ã®ã¿true
      * 
-     * @return ¬Œ÷‚µ‚½ê‡‚É‚Ì‚İtrue
+     * @return æˆåŠŸã—ãŸå ´åˆã«ã®ã¿true
      */
     boolean init();
    
     /**
-     * /procˆÈ‰º‚Ìƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚İAProcInfo‚É•ÏŠ·‚µ‚Ä•Ô‚·B
+     * /procä»¥ä¸‹ã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã¿ã€ProcInfoã«å¤‰æ›ã—ã¦è¿”ã™ã€‚
      */
     void load();
 
     /**
-     * procInfo ‚ğ•Ô‚·B
+     * procInfo ã‚’è¿”ã™ã€‚
      * 
-     * @return /procˆÈ‰º‚Ìƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚ñ‚¾Œ‹‰Ê
+     * @return /procä»¥ä¸‹ã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚“ã çµæœ
      */
     ProcInfo getProcInfo();
 }

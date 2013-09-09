@@ -41,7 +41,7 @@ import jp.co.acroquest.endosnipe.common.util.StreamUtil;
 import junit.framework.TestCase;
 
 /**
- * {@link ZipUtil} ‚Ì‚½‚ß‚ÌƒeƒXƒgƒNƒ‰ƒX‚Å‚·B<br />
+ * {@link ZipUtil} ã®ãŸã‚ã®ãƒ†ã‚¹ãƒˆã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  * 
  * @author y-komori
  */
@@ -50,7 +50,7 @@ public class ZipUtilTest extends TestCase
     private static final int BUF_SIZE = 8192;
 
     /**
-     * ˆ³k‚Æ‰ğ“€‚ÌƒeƒXƒg‚ğs‚¢‚Ü‚·B<br />
+     * åœ§ç¸®ã¨è§£å‡ã®ãƒ†ã‚¹ãƒˆã‚’è¡Œã„ã¾ã™ã€‚<br />
      */
     public void testZipAndUnzip()
     {
@@ -59,7 +59,7 @@ public class ZipUtilTest extends TestCase
         BufferedReader br2 = null;
         try
         {
-            // ˆ³kˆ—
+            // åœ§ç¸®å‡¦ç†
             String path = "javelin_010k.jvn";
             File file = ResourceUtil.getResourceAsFile(getClass(), path);
             out = new ByteArrayOutputStream(BUF_SIZE);
@@ -67,12 +67,12 @@ public class ZipUtilTest extends TestCase
             byte[] zippedArray = out.toByteArray();
             StreamUtil.closeStream(out);
 
-            // “WŠJˆ—‚ÆƒIƒŠƒWƒiƒ‹‚Æ‚Ì”äŠr
+            // å±•é–‹å‡¦ç†ã¨ã‚ªãƒªã‚¸ãƒŠãƒ«ã¨ã®æ¯”è¼ƒ
 
-            // “WŠJ‚µ‚½ƒXƒgƒŠ[ƒ€
+            // å±•é–‹ã—ãŸã‚¹ãƒˆãƒªãƒ¼ãƒ 
             InputStream is = ZipUtil.unzipFromByteArray(new ByteArrayInputStream(zippedArray));
             br1 = new BufferedReader(new InputStreamReader(is));
-            // ƒIƒŠƒWƒiƒ‹‚ÌƒXƒgƒŠ[ƒ€
+            // ã‚ªãƒªã‚¸ãƒŠãƒ«ã®ã‚¹ãƒˆãƒªãƒ¼ãƒ 
             br2 = new BufferedReader(new FileReader(file));
 
             String line1;

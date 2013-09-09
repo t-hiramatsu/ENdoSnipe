@@ -13,53 +13,53 @@
 package jp.co.acroquest.endosnipe.report.converter.util.calc;
 
 /**
- * Object‚ª¦‚·ƒf[ƒ^Œ^‚É“K‡‚µ‚½ŒvZˆ—‚ğÀs‚·‚é‚½‚ß‚ÌƒCƒ“ƒ^ƒtƒF[ƒX
+ * ObjectãŒç¤ºã™ãƒ‡ãƒ¼ã‚¿å‹ã«é©åˆã—ãŸè¨ˆç®—å‡¦ç†ã‚’å®Ÿè¡Œã™ã‚‹ãŸã‚ã®ã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹
  * 
  * @author M.Yoshida
  */
 public interface Calculator 
 {
 	/**
-	 * 2‚Â‚Ìƒf[ƒ^‚ğu‰ÁZv‚µ‚½Œ‹‰Ê‚ğ•Ô‚·B
+	 * 2ã¤ã®ãƒ‡ãƒ¼ã‚¿ã‚’ã€ŒåŠ ç®—ã€ã—ãŸçµæœã‚’è¿”ã™ã€‚
 	 * 
-	 * @param obj1 ƒf[ƒ^‚P
-	 * @param obj2 ƒf[ƒ^‚Q
-	 * @return ‰ÁZŒ‹‰Ê
+	 * @param obj1 ãƒ‡ãƒ¼ã‚¿ï¼‘
+	 * @param obj2 ãƒ‡ãƒ¼ã‚¿ï¼’
+	 * @return åŠ ç®—çµæœ
 	 */
 	public Object add(Object obj1, Object obj2);
 
 	/**
-	 * 2‚Â‚Ìƒf[ƒ^‚ğuŒ¸Zv‚µ‚½Œ‹‰Ê‚ğ•Ô‚·B
+	 * 2ã¤ã®ãƒ‡ãƒ¼ã‚¿ã‚’ã€Œæ¸›ç®—ã€ã—ãŸçµæœã‚’è¿”ã™ã€‚
 	 * 
-	 * @param obj1 ƒf[ƒ^‚P
-	 * @param obj2 ƒf[ƒ^‚Q
-	 * @return Œ¸ZŒ‹‰Ê
+	 * @param obj1 ãƒ‡ãƒ¼ã‚¿ï¼‘
+	 * @param obj2 ãƒ‡ãƒ¼ã‚¿ï¼’
+	 * @return æ¸›ç®—çµæœ
 	 */
 	public Object sub(Object obj1, Object obj2);
 
 	/**
-	 * 2‚Â‚Ìƒf[ƒ^‚ğuæZv‚µ‚½Œ‹‰Ê‚ğ•Ô‚·B
+	 * 2ã¤ã®ãƒ‡ãƒ¼ã‚¿ã‚’ã€Œä¹—ç®—ã€ã—ãŸçµæœã‚’è¿”ã™ã€‚
 	 * 
-	 * @param obj1 ƒf[ƒ^‚P
-	 * @param obj2 ƒf[ƒ^‚Q
-	 * @return æZŒ‹‰Ê
+	 * @param obj1 ãƒ‡ãƒ¼ã‚¿ï¼‘
+	 * @param obj2 ãƒ‡ãƒ¼ã‚¿ï¼’
+	 * @return ä¹—ç®—çµæœ
 	 */
 	public Object mul(Object obj1, Object obj2);
 
 	/**
-	 * 2‚Â‚Ìƒf[ƒ^‚ğuœZv‚µ‚½Œ‹‰Ê‚ğ•Ô‚·B
+	 * 2ã¤ã®ãƒ‡ãƒ¼ã‚¿ã‚’ã€Œé™¤ç®—ã€ã—ãŸçµæœã‚’è¿”ã™ã€‚
 	 * 
-	 * @param obj1 ƒf[ƒ^‚P
-	 * @param obj2 ƒf[ƒ^‚Q
-	 * @return œZŒ‹‰Ê
+	 * @param obj1 ãƒ‡ãƒ¼ã‚¿ï¼‘
+	 * @param obj2 ãƒ‡ãƒ¼ã‚¿ï¼’
+	 * @return é™¤ç®—çµæœ
 	 */
 	public Object div(Object obj1, Object obj2);
 	
 	/**
-	 * •¶š—ñ•\Œ»‚Å¦‚³‚ê‚½’l‚ğ“K‡‚·‚éŒ^‚ÌƒIƒuƒWƒFƒNƒg‚É•ÏŠ·‚µ‚Ä•Ô‚·B
+	 * æ–‡å­—åˆ—è¡¨ç¾ã§ç¤ºã•ã‚ŒãŸå€¤ã‚’é©åˆã™ã‚‹å‹ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«å¤‰æ›ã—ã¦è¿”ã™ã€‚
 	 * 
-	 * @param str ’l‚Ì•¶š—ñ•\Œ»
-	 * @return ’l
+	 * @param str å€¤ã®æ–‡å­—åˆ—è¡¨ç¾
+	 * @return å€¤
 	 */
 	public Object immediate(String str);
 }

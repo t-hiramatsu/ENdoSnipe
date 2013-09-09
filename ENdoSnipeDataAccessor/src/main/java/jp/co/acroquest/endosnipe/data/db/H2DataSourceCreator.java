@@ -39,7 +39,7 @@ import org.apache.commons.dbcp.PoolingDataSource;
 import org.apache.commons.pool.ObjectPool;
 
 /**
- * H2—p‚Ìƒf[ƒ^ƒ\[ƒX‚ğì¬‚·‚éƒNƒ‰ƒX‚Å‚·B<br />
+ * H2ç”¨ã®ãƒ‡ãƒ¼ã‚¿ã‚½ãƒ¼ã‚¹ã‚’ä½œæˆã™ã‚‹ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  * 
  * @author fujii
  *
@@ -66,8 +66,8 @@ public class H2DataSourceCreator extends AbstractDataSourceCreator implements Lo
             ConnectionFactory connectionFactory =
                     new DriverManagerConnectionFactory(uri, USER_NAME, PASSWORD);
 
-            // ƒf[ƒ^ƒx[ƒX–¼‚É‘Î‰‚µ‚½ StackObjectPool ‚ğæ“¾‚·‚éB
-            // ‚à‚µ‘¶İ‚µ‚È‚¯‚ê‚ÎA¶¬‚·‚éB
+            // ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã«å¯¾å¿œã—ãŸ StackObjectPool ã‚’å–å¾—ã™ã‚‹ã€‚
+            // ã‚‚ã—å­˜åœ¨ã—ãªã‘ã‚Œã°ã€ç”Ÿæˆã™ã‚‹ã€‚
             ConnectionManager manager = ConnectionManager.getInstance();
             ObjectPool connectionPool = manager.getConnectionPool(uri);
             if (connectionPool == null)
@@ -87,11 +87,11 @@ public class H2DataSourceCreator extends AbstractDataSourceCreator implements Lo
     }
 
     /**
-     * ƒf[ƒ^ƒx[ƒXÚ‘±—p URI ‚ğ¶¬‚µ‚Ü‚·B<br />
+     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹æ¥ç¶šç”¨ URI ã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
      *
-     * @param dbname ƒf[ƒ^ƒx[ƒX–¼
-     * @param connectOnlyExists ƒf[ƒ^ƒx[ƒX‚ª‘¶İ‚·‚é‚Æ‚«‚Ì‚İÚ‘±‚·‚éê‡‚Í <code>true</code> A
-     *                          ‘¶İ‚µ‚È‚¢‚Æ‚«‚Éƒf[ƒ^ƒx[ƒX‚ğ¶¬‚·‚éê‡‚Í <code>false</code>
+     * @param dbname ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param connectOnlyExists ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãŒå­˜åœ¨ã™ã‚‹ã¨ãã®ã¿æ¥ç¶šã™ã‚‹å ´åˆã¯ <code>true</code> ã€
+     *                          å­˜åœ¨ã—ãªã„ã¨ãã«ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚’ç”Ÿæˆã™ã‚‹å ´åˆã¯ <code>false</code>
      * @return URL
      */
     protected String createDatabaseURI(final String dbname, final boolean connectOnlyExists)
@@ -126,7 +126,7 @@ public class H2DataSourceCreator extends AbstractDataSourceCreator implements Lo
      */
     public boolean existsDatabase(String dbName)
     {
-        // À‘•‚È‚µ
+        // å®Ÿè£…ãªã—
         return true;
     }
 }

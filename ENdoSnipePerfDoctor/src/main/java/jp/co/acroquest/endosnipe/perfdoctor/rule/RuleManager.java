@@ -49,7 +49,7 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.SerializationUtils;
 
 /**
- * ƒ‹[ƒ‹‚ÌŠÇ—i’Ç‰ÁA•ÏXAíœAQÆj‚ğs‚¤ƒNƒ‰ƒXB
+ * ãƒ«ãƒ¼ãƒ«ã®ç®¡ç†ï¼ˆè¿½åŠ ã€å¤‰æ›´ã€å‰Šé™¤ã€å‚ç…§ï¼‰ã‚’è¡Œã†ã‚¯ãƒ©ã‚¹ã€‚
  * 
  * @author tanimoto
  * 
@@ -59,89 +59,89 @@ public class RuleManager
     private static final ENdoSnipeLogger   LOGGER                     =
                                                                         ENdoSnipeLogger.getLogger(RuleManager.class);
 
-    /** ƒ‹[ƒ‹’è‹`ƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İ‚É¸”s‚µ‚½Û‚É“Š‚°‚ç‚ê‚é—áŠO‚É“n‚·•¶š—ñB */
+    /** ãƒ«ãƒ¼ãƒ«å®šç¾©ãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿è¾¼ã¿ã«å¤±æ•—ã—ãŸéš›ã«æŠ•ã’ã‚‰ã‚Œã‚‹ä¾‹å¤–ã«æ¸¡ã™æ–‡å­—åˆ—ã€‚ */
     private static final String            RULE_CREATE_ERROR          = "RuleCreateError";
 
-    /** ƒfƒtƒHƒ‹ƒg‚Ìƒ‹[ƒ‹ƒZƒbƒg‚ÌIDB */
+    /** ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆã®IDã€‚ */
     public static final String             DEFAULT_RULESET_ID         = "PERFDOCTOR_DEFAULT";
 
-    /** ƒfƒtƒHƒ‹ƒg‚Ìƒ‹[ƒ‹ƒZƒbƒg‚Ì–¼‘OB */
+    /** ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆã®åå‰ã€‚ */
     private static final String            DEFAULT_RULESET_NAME       =
                                                                         Messages.getMessage("endosnipe.perfdoctor.rule.RuleManager.DefaultRuleSetName");
 
-    /** ƒfƒtƒHƒ‹ƒg‚Ìƒ‹[ƒ‹ƒZƒbƒg‚Ìƒtƒ@ƒCƒ‹–¼B */
+    /** ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆã®ãƒ•ã‚¡ã‚¤ãƒ«åã€‚ */
     private static final String            DEFAULT_RULESET_FILE       = "/perfdoctor_rule.xml";
 
-    /** Java—p‚ÌƒfƒtƒHƒ‹ƒg‚Ìƒ‹[ƒ‹ƒZƒbƒg‚ÌIDB */
+    /** Javaç”¨ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆã®IDã€‚ */
     public static final String             DEFAULT_JAVA_RULESET_ID    = "PERFDOCTOR_JAVA_DEFAULT";
 
-    /** Java—p‚ÌƒfƒtƒHƒ‹ƒg‚Ìƒ‹[ƒ‹ƒZƒbƒg‚Ì–¼‘OB */
+    /** Javaç”¨ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆã®åå‰ã€‚ */
     private static final String            DEFAULT_JAVA_RULESET_NAME  =
                                                                         Messages.getMessage("endosnipe.perfdoctor.rule.RuleManager.DefaultJavaRuleSetName");
 
-    /** Java—p‚ÌƒfƒtƒHƒ‹ƒg‚Ìƒ‹[ƒ‹ƒZƒbƒg‚Ìƒtƒ@ƒCƒ‹–¼B */
+    /** Javaç”¨ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆã®ãƒ•ã‚¡ã‚¤ãƒ«åã€‚ */
     private static final String            DEFAULT_JAVA_RULESET_FILE  = "/perfdoctor_Java_rule.xml";
 
-    /** DB—p‚ÌƒfƒtƒHƒ‹ƒg‚Ìƒ‹[ƒ‹ƒZƒbƒg‚ÌIDB */
+    /** DBç”¨ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆã®IDã€‚ */
     public static final String             DEFAULT_DB_RULESET_ID      = "PERFDOCTOR_DB_DEFAULT";
 
-    /** DB—p‚ÌƒfƒtƒHƒ‹ƒg‚Ìƒ‹[ƒ‹ƒZƒbƒg‚Ì–¼‘OB */
+    /** DBç”¨ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆã®åå‰ã€‚ */
     private static final String            DEFAULT_DB_RULESET_NAME    =
                                                                         Messages.getMessage("endosnipe.perfdoctor.rule.RuleManager.DefaultDBRuleSetName");
 
-    /** DB—p‚ÌƒfƒtƒHƒ‹ƒg‚Ìƒ‹[ƒ‹ƒZƒbƒg‚Ìƒtƒ@ƒCƒ‹–¼B */
+    /** DBç”¨ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆã®ãƒ•ã‚¡ã‚¤ãƒ«åã€‚ */
     private static final String            DEFAULT_DB_RULESET_FILE    = "/perfdoctor_DB_rule.xml";
 
-    /** HP-UX—p‚ÌƒfƒtƒHƒ‹ƒg‚Ìƒ‹[ƒ‹ƒZƒbƒg‚ÌIDB */
+    /** HP-UXç”¨ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆã®IDã€‚ */
     public static final String             DEFAULT_HP_UX_RULESET_ID   = "PERFDOCTOR_HP_UX_DEFAULT";
 
-    /** HP-UX—p‚ÌƒfƒtƒHƒ‹ƒg‚Ìƒ‹[ƒ‹ƒZƒbƒg‚Ì–¼‘OB */
+    /** HP-UXç”¨ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆã®åå‰ã€‚ */
     private static final String            DEFAULT_HP_UX_RULESET_NAME =
                                                                         Messages.getMessage("endosnipe.perfdoctor.rule.RuleManager.DefaultHPUXRuleSetName");
 
-    /** @HP-UX—p‚ÌƒfƒtƒHƒ‹ƒg‚Ìƒ‹[ƒ‹ƒZƒbƒg‚Ìƒtƒ@ƒCƒ‹–¼B */
+    /** ã€€HP-UXç”¨ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆã®ãƒ•ã‚¡ã‚¤ãƒ«åã€‚ */
     private static final String            DEFAULT_HP_UX_RULESET_FILE =
                                                                         "/perfdoctor_HP_UX_rule.xml";
 
-    /** ƒ‹[ƒ‹‚ÌŠÇ—‚ğs‚¤ƒCƒ“ƒXƒ^ƒ“ƒXB */
+    /** ãƒ«ãƒ¼ãƒ«ã®ç®¡ç†ã‚’è¡Œã†ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã€‚ */
     private static RuleManager             instance__;
 
-    /** ƒ‹[ƒ‹’è‹`‚ÌƒCƒ“ƒ^ƒtƒF[ƒXB */
+    /** ãƒ«ãƒ¼ãƒ«å®šç¾©ã®ã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹ã€‚ */
     private final RuleDefAccessor          accessor_                  = new XmlRuleDefAccessor();
 
-    /** ƒŠƒXƒi[‚ÌƒZƒbƒg */
+    /** ãƒªã‚¹ãƒŠãƒ¼ã®ã‚»ãƒƒãƒˆ */
     private final Set<RuleChangeListener>  listenerSet_               =
                                                                         new LinkedHashSet<RuleChangeListener>();
 
-    // ¦ƒ[ƒ‹ƒoƒbƒN‘ÎÛB
+    // â€»ãƒ­ãƒ¼ãƒ«ãƒãƒƒã‚¯å¯¾è±¡ã€‚
     /**
-     * —˜—p‰Â”\‚ÈRuleSetConfig‚ğ•Û‚·‚éMapB ƒL[‚ÍRuleSetConfig‚ÌIDA’l‚ÍRuleSetConfig–{‘ÌB
+     * åˆ©ç”¨å¯èƒ½ãªRuleSetConfigã‚’ä¿æŒã™ã‚‹Mapã€‚ ã‚­ãƒ¼ã¯RuleSetConfigã®IDã€å€¤ã¯RuleSetConfigæœ¬ä½“ã€‚
      */
     private HashMap<String, RuleSetConfig> ruleSetConfigMap_;
 
-    /** ƒtƒ@ƒCƒ‹íœ‘ÎÛƒ‹[ƒ‹ */
+    /** ãƒ•ã‚¡ã‚¤ãƒ«å‰Šé™¤å¯¾è±¡ãƒ«ãƒ¼ãƒ« */
     private List<RuleSetConfig>            removeList_;
 
-    // ¦ƒ[ƒ‹ƒoƒbƒN‘ÎÛB
+    // â€»ãƒ­ãƒ¼ãƒ«ãƒãƒƒã‚¯å¯¾è±¡ã€‚
     /**
-     * RuleSetDef‚ğ•Û‚·‚éMapB ƒL[‚ÍRuleSetDef‚ÌIDA’l‚ÍRuleSetDef–{‘ÌB
+     * RuleSetDefã‚’ä¿æŒã™ã‚‹Mapã€‚ ã‚­ãƒ¼ã¯RuleSetDefã®IDã€å€¤ã¯RuleSetDefæœ¬ä½“ã€‚
      */
     private HashMap<String, RuleSetDef>    ruleSetMap_;
 
     /**
-     * —LŒø‚Æ‚È‚Á‚Ä‚¢‚éƒ‹[ƒ‹ƒZƒbƒg‚ÌIDB
+     * æœ‰åŠ¹ã¨ãªã£ã¦ã„ã‚‹ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆã®IDã€‚
      */
     private String                         activeRuleSetId_;
 
     /**
-     * İ’è‚ª•ÏX‚³‚ê‚½ƒ‹[ƒ‹ƒZƒbƒg‚ÌID‚ÌƒŠƒXƒgB
+     * è¨­å®šãŒå¤‰æ›´ã•ã‚ŒãŸãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆã®IDã®ãƒªã‚¹ãƒˆã€‚
      */
     private Set<String>                    dirtyRuleSetIds_;
 
     /**
-     * RuleManagerƒCƒ“ƒXƒ^ƒ“ƒX‚Ìæ“¾B
+     * RuleManagerã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®å–å¾—ã€‚
      * 
-     * @return RuleManagerƒCƒ“ƒXƒ^ƒ“ƒXB
+     * @return RuleManagerã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã€‚
      */
     public static synchronized RuleManager getInstance()
     {
@@ -153,7 +153,7 @@ public class RuleManager
     }
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^BŠO•”‚©‚ç‚ÌŒÄ‚Ño‚µ‚ğ‹Ö~‚·‚éB
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚å¤–éƒ¨ã‹ã‚‰ã®å‘¼ã³å‡ºã—ã‚’ç¦æ­¢ã™ã‚‹ã€‚
      */
     private RuleManager()
     {
@@ -161,7 +161,7 @@ public class RuleManager
     }
 
     /**
-     * ƒCƒ“ƒXƒ^ƒ“ƒX‚Ì‰Šú‰»‚ğs‚¤B
+     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®åˆæœŸåŒ–ã‚’è¡Œã†ã€‚
      */
     private void initialize()
     {
@@ -173,9 +173,9 @@ public class RuleManager
     }
 
     /**
-     * ƒ‹[ƒ‹ƒZƒbƒg’è‹`‚ğ“Ç‚İ‚ŞB ƒvƒŠƒtƒ@ƒŒƒ“ƒXƒXƒgƒA‚Éƒ‹[ƒ‹ƒZƒbƒg‚ÌID‚ªˆê‚Â‚à•Û‘¶‚³‚ê‚Ä‚¢‚È‚¢ê‡‚É‚Í ƒfƒtƒHƒ‹ƒg‚Ìƒ‹[ƒ‹ƒZƒbƒg’è‹`ƒ}ƒbƒv‚ğ•Ô‚·B
+     * ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆå®šç¾©ã‚’èª­ã¿è¾¼ã‚€ã€‚ ãƒ—ãƒªãƒ•ã‚¡ãƒ¬ãƒ³ã‚¹ã‚¹ãƒˆã‚¢ã«ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆã®IDãŒä¸€ã¤ã‚‚ä¿å­˜ã•ã‚Œã¦ã„ãªã„å ´åˆã«ã¯ ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆå®šç¾©ãƒãƒƒãƒ—ã‚’è¿”ã™ã€‚
      * 
-     * @return ƒ‹[ƒ‹ƒZƒbƒg’è‹`ƒ}ƒbƒvi’è‹`“Ç‚İ‚İÏ‚İj
+     * @return ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆå®šç¾©ãƒãƒƒãƒ—ï¼ˆå®šç¾©èª­ã¿è¾¼ã¿æ¸ˆã¿ï¼‰
      */
     private HashMap<String, RuleSetConfig> loadConfigurations()
     {
@@ -192,9 +192,9 @@ public class RuleManager
     }
 
     /**
-     * ‰Šúƒ‹[ƒ‹ƒZƒbƒg’è‹`ƒ}ƒbƒv‚ğì¬‚·‚éB
+     * åˆæœŸãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆå®šç¾©ãƒãƒƒãƒ—ã‚’ä½œæˆã™ã‚‹ã€‚
      * 
-     * @return ƒ‹[ƒ‹ƒZƒbƒg’è‹`ƒ}ƒbƒviƒfƒtƒHƒ‹ƒg’è‹`‚Ì‚İj
+     * @return ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆå®šç¾©ãƒãƒƒãƒ—ï¼ˆãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå®šç¾©ã®ã¿ï¼‰
      */
     private HashMap<String, RuleSetConfig> createDefaultConfigMap()
     {
@@ -204,25 +204,25 @@ public class RuleManager
         RuleSetConfig javaRuleSetConfig = new RuleSetConfig();
         RuleSetConfig dbRuleSetConfig = new RuleSetConfig();
 
-        // ƒfƒtƒHƒ‹ƒg‚Ìƒ‹[ƒ‹ƒZƒbƒg‚ğ’è‹`‚·‚éB
+        // ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆã‚’å®šç¾©ã™ã‚‹ã€‚
         config.setId(DEFAULT_RULESET_ID);
         config.setName(DEFAULT_RULESET_NAME);
         config.setFileName(DEFAULT_RULESET_FILE);
         map.put(DEFAULT_RULESET_ID, config);
 
-        // HP_UX—p‚Ìƒ‹[ƒ‹ƒZƒbƒg‚ğ’è‹`‚·‚éB
+        // HP_UXç”¨ã®ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆã‚’å®šç¾©ã™ã‚‹ã€‚
         hpUxRuleSetConfig.setId(DEFAULT_HP_UX_RULESET_ID);
         hpUxRuleSetConfig.setName(DEFAULT_HP_UX_RULESET_NAME);
         hpUxRuleSetConfig.setFileName(DEFAULT_HP_UX_RULESET_FILE);
         map.put(DEFAULT_HP_UX_RULESET_ID, hpUxRuleSetConfig);
 
-        // java—p‚Ìƒ‹[ƒ‹ƒZƒbƒg‚ğ’è‹`‚·‚éB
+        // javaç”¨ã®ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆã‚’å®šç¾©ã™ã‚‹ã€‚
         javaRuleSetConfig.setId(DEFAULT_JAVA_RULESET_ID);
         javaRuleSetConfig.setName(DEFAULT_JAVA_RULESET_NAME);
         javaRuleSetConfig.setFileName(DEFAULT_JAVA_RULESET_FILE);
         map.put(DEFAULT_JAVA_RULESET_ID, javaRuleSetConfig);
 
-        // DB—p‚Ìƒ‹[ƒ‹ƒZƒbƒg‚ğ’è‹`‚·‚éB
+        // DBç”¨ã®ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆã‚’å®šç¾©ã™ã‚‹ã€‚
         dbRuleSetConfig.setId(DEFAULT_DB_RULESET_ID);
         dbRuleSetConfig.setName(DEFAULT_DB_RULESET_NAME);
         dbRuleSetConfig.setFileName(DEFAULT_DB_RULESET_FILE);
@@ -232,10 +232,10 @@ public class RuleManager
     }
 
     /**
-     * Œ»İƒAƒNƒeƒBƒu‚Èƒ‹[ƒ‹ƒZƒbƒgID‚ğæ“¾‚·‚éB ƒvƒŠƒtƒ@ƒŒƒ“ƒXƒXƒgƒA‚É•Û‘¶‚³‚ê‚Ä‚¢‚½ƒ‹[ƒ‹ƒZƒbƒg‚ÌID‚ªnull‚Å‚ ‚é‚©A
-     * ’·‚³0‚Å‚ ‚Á‚½ê‡‚É‚ÍAƒfƒtƒHƒ‹ƒg‚Ìƒ‹[ƒ‹ƒZƒbƒg‚ÌID‚ğ•Ô‚·B
+     * ç¾åœ¨ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ãªãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆIDã‚’å–å¾—ã™ã‚‹ã€‚ ãƒ—ãƒªãƒ•ã‚¡ãƒ¬ãƒ³ã‚¹ã‚¹ãƒˆã‚¢ã«ä¿å­˜ã•ã‚Œã¦ã„ãŸãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆã®IDãŒnullã§ã‚ã‚‹ã‹ã€
+     * é•·ã•0ã§ã‚ã£ãŸå ´åˆã«ã¯ã€ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆã®IDã‚’è¿”ã™ã€‚
      * 
-     * @return ƒAƒNƒeƒBƒu‚Èƒ‹[ƒ‹ƒZƒbƒgID
+     * @return ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ãªãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆID
      */
     private String loadActiveRuleSetId()
     {
@@ -250,10 +250,10 @@ public class RuleManager
     }
 
     /**
-     * ƒ‹[ƒ‹ƒZƒbƒg’è‹`(RuleSetConfigƒCƒ“ƒXƒ^ƒ“ƒX)‚ğ—˜—p‰Â”\‚Èƒ‹[ƒ‹ƒZƒbƒg‚É’Ç‰Á‚·‚éB
+     * ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆå®šç¾©(RuleSetConfigã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹)ã‚’åˆ©ç”¨å¯èƒ½ãªãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆã«è¿½åŠ ã™ã‚‹ã€‚
      * 
      * @param config
-     *            ƒ‹[ƒ‹ƒZƒbƒg’è‹`
+     *            ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆå®šç¾©
      */
     public void addRuleSetConfig(final RuleSetConfig config)
     {
@@ -261,9 +261,9 @@ public class RuleManager
     }
 
     /**
-     * ƒ‹[ƒ‹ƒZƒbƒg’è‹`ˆê——(—˜—p‰Â”\‚Èƒ‹[ƒ‹ˆê——)‚ğæ“¾‚·‚éB
+     * ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆå®šç¾©ä¸€è¦§(åˆ©ç”¨å¯èƒ½ãªãƒ«ãƒ¼ãƒ«ä¸€è¦§)ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return ƒ‹[ƒ‹ƒZƒbƒg’è‹`ˆê——
+     * @return ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆå®šç¾©ä¸€è¦§
      */
     public RuleSetConfig[] getRuleSetConfigs()
     {
@@ -272,10 +272,10 @@ public class RuleManager
     }
 
     /**
-     * ƒ‹[ƒ‹ƒZƒbƒg’è‹`‚ğ—˜—p‰Â”\‚Èƒ‹[ƒ‹ƒZƒbƒgˆê——‚©‚çíœ‚·‚éB
+     * ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆå®šç¾©ã‚’åˆ©ç”¨å¯èƒ½ãªãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆä¸€è¦§ã‹ã‚‰å‰Šé™¤ã™ã‚‹ã€‚
      * 
      * @param id
-     *            íœ‚·‚éƒ‹[ƒ‹ƒZƒbƒgID
+     *            å‰Šé™¤ã™ã‚‹ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆID
      */
     public synchronized void removeRuleSetConfig(final String id)
     {
@@ -285,9 +285,9 @@ public class RuleManager
     }
 
     /**
-     * Œ»İƒAƒNƒeƒBƒu‚Èƒ‹[ƒ‹ƒZƒbƒg’è‹`(RuleSetConfigƒCƒ“ƒXƒ^ƒ“ƒX)‚ğæ“¾‚·‚éB
+     * ç¾åœ¨ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ãªãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆå®šç¾©(RuleSetConfigã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹)ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return ƒAƒNƒeƒBƒu‚Èƒ‹[ƒ‹ƒZƒbƒg’è‹`
+     * @return ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ãªãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆå®šç¾©
      */
     public RuleSetConfig getActiveRuleSetConfig()
     {
@@ -295,10 +295,10 @@ public class RuleManager
     }
 
     /**
-     * ƒAƒNƒeƒBƒu‚Èƒ‹[ƒ‹ƒZƒbƒg‚ğİ’è‚·‚éB
+     * ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ãªãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆã‚’è¨­å®šã™ã‚‹ã€‚
      * 
      * @param ruleSetConfig
-     *            ƒ‹[ƒ‹ƒZƒbƒg’è‹`
+     *            ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆå®šç¾©
      */
     public void setActiveRuleSetConfig(final RuleSetConfig ruleSetConfig)
     {
@@ -306,15 +306,15 @@ public class RuleManager
     }
 
     /**
-     * ƒ‹[ƒ‹ƒZƒbƒg’è‹`‚È‚Ç‚ğƒvƒŠƒtƒ@ƒŒƒ“ƒXƒXƒgƒAAxmlƒtƒ@ƒCƒ‹‚É•Û‘¶‚·‚éB
+     * ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆå®šç¾©ãªã©ã‚’ãƒ—ãƒªãƒ•ã‚¡ãƒ¬ãƒ³ã‚¹ã‚¹ãƒˆã‚¢ã€xmlãƒ•ã‚¡ã‚¤ãƒ«ã«ä¿å­˜ã™ã‚‹ã€‚
      */
     @SuppressWarnings("deprecation")
     public synchronized void commit()
     {
-        // ƒAƒNƒeƒBƒu‚Èƒ‹[ƒ‹ƒZƒbƒgID‚Ì•Û‘¶B
+        // ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ãªãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆIDã®ä¿å­˜ã€‚
         RulePreferenceUtil.saveActiveRuleSetId(this.activeRuleSetId_);
 
-        // ƒ‹[ƒ‹ƒZƒbƒgÚ×ˆê——‚Ì•Û‘¶B
+        // ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆè©³ç´°ä¸€è¦§ã®ä¿å­˜ã€‚
         List<String> ruleSetIdList = new ArrayList<String>();
         Collection<RuleSetConfig> ruleSetConfigs = this.ruleSetConfigMap_.values();
 
@@ -332,12 +332,12 @@ public class RuleManager
             ruleSetIdList.add(id);
         }
 
-        // ƒ‹[ƒ‹ƒZƒbƒgIDˆê——‚Ì•Û‘¶B
+        // ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆIDä¸€è¦§ã®ä¿å­˜ã€‚
         String[] ruleSetIds = ruleSetIdList.toArray(new String[ruleSetIdList.size()]);
         RulePreferenceUtil.saveRuleSetIds(ruleSetIds);
 
-        // ƒ‹[ƒ‹ƒZƒbƒg‚Ì•Û‘¶B
-        // •ÏX‚ª‚ ‚Á‚½ƒ‹[ƒ‹ƒZƒbƒg‚Ì‚İ•Û‘¶‚·‚éB
+        // ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆã®ä¿å­˜ã€‚
+        // å¤‰æ›´ãŒã‚ã£ãŸãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆã®ã¿ä¿å­˜ã™ã‚‹ã€‚
         for (String ruleId : this.dirtyRuleSetIds_)
         {
             if (isDefaultRuleSet(ruleId))
@@ -354,9 +354,9 @@ public class RuleManager
             this.accessor_.updateRuleSet(def, config.getFileName());
         }
 
-        // ƒ‹[ƒ‹ƒZƒbƒg‚Ì•Û‘¶B
-        // ƒtƒ@ƒCƒ‹‚ª‘¶İ‚µ‚È‚¢ƒ‹[ƒ‹ƒZƒbƒg‚É‚Â‚¢‚ÄA
-        // ƒfƒtƒHƒ‹ƒg‚Ìƒ‹[ƒ‹‚ğŒ³‚Éƒtƒ@ƒCƒ‹‚ğì¬‚·‚éB
+        // ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆã®ä¿å­˜ã€‚
+        // ãƒ•ã‚¡ã‚¤ãƒ«ãŒå­˜åœ¨ã—ãªã„ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆã«ã¤ã„ã¦ã€
+        // ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ãƒ«ãƒ¼ãƒ«ã‚’å…ƒã«ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä½œæˆã™ã‚‹ã€‚
         for (RuleSetConfig config : ruleSetConfigs)
         {
             String id = config.getId();
@@ -385,7 +385,7 @@ public class RuleManager
                 }
             }
 
-            // ƒfƒtƒHƒ‹ƒg‚Ìƒ‹[ƒ‹‚ğƒRƒs[‚µ‚Ä•Û‘¶‚·‚é
+            // ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ãƒ«ãƒ¼ãƒ«ã‚’ã‚³ãƒ”ãƒ¼ã—ã¦ä¿å­˜ã™ã‚‹
             try
             {
                 RuleSetDef defaultRuleSetClone = new RuleSetDef(getRuleSetDef(DEFAULT_RULESET_ID));
@@ -398,7 +398,7 @@ public class RuleManager
             }
         }
 
-        // ƒ‹[ƒ‹ƒtƒ@ƒCƒ‹‚ğíœ‚·‚éB
+        // ãƒ«ãƒ¼ãƒ«ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å‰Šé™¤ã™ã‚‹ã€‚
         for (RuleSetConfig config : this.removeList_)
         {
             File file = new File(config.getFileName());
@@ -418,15 +418,15 @@ public class RuleManager
     }
 
     /**
-     * ƒ‹[ƒ‹ƒZƒbƒg’è‹`‚ğæ“¾‚·‚éB<br>
-     * w’è‚³‚ê‚½ƒ‹[ƒ‹ƒZƒbƒgID‚É‘Î‰‚·‚éİ’èƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡‚ÍA<br>
-     * ƒfƒtƒHƒ‹ƒg‚Ìƒ‹[ƒ‹ƒZƒbƒg’è‹`‚ğæ“¾‚·‚éB
+     * ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆå®šç¾©ã‚’å–å¾—ã™ã‚‹ã€‚<br>
+     * æŒ‡å®šã•ã‚ŒãŸãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆIDã«å¯¾å¿œã™ã‚‹è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ãŒè¦‹ã¤ã‹ã‚‰ãªã„å ´åˆã¯ã€<br>
+     * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆå®šç¾©ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
      * @param id
-     *            ƒ‹[ƒ‹ƒZƒbƒgID
-     * @return ƒ‹[ƒ‹ƒZƒbƒg’è‹`
+     *            ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆID
+     * @return ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆå®šç¾©
      * @throws RuleCreateException
-     *             ƒ‹[ƒ‹ƒZƒbƒg’è‹`ƒtƒ@ƒCƒ‹“Ç‚İ‚İ‚É¸”s‚µ‚½ê‡
+     *             ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆå®šç¾©ãƒ•ã‚¡ã‚¤ãƒ«èª­ã¿è¾¼ã¿ã«å¤±æ•—ã—ãŸå ´åˆ
      */
     public RuleSetDef getRuleSetDef(final String id)
         throws RuleCreateException
@@ -474,16 +474,16 @@ public class RuleManager
     }
 
     /**
-     * ƒ‹[ƒ‹‚ğƒRƒs[‚µ‚Ü‚·B<br />
+     * ãƒ«ãƒ¼ãƒ«ã‚’ã‚³ãƒ”ãƒ¼ã—ã¾ã™ã€‚<br />
      * 
      * @param orgId
-     *            ƒRƒs[Œ³ ID
+     *            ã‚³ãƒ”ãƒ¼å…ƒ ID
      * @param dstId
-     *            ƒRƒs[æ ID
+     *            ã‚³ãƒ”ãƒ¼å…ˆ ID
      * @param dstName
-     *            ƒRƒs[æƒ‹[ƒ‹ƒZƒbƒg‚Ì–¼‘O
+     *            ã‚³ãƒ”ãƒ¼å…ˆãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆã®åå‰
      * @throws RuleCreateException
-     *             ƒ‹[ƒ‹ƒZƒbƒg’è‹`ƒtƒ@ƒCƒ‹“Ç‚İ‚İ‚É¸”s‚µ‚½ê‡
+     *             ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆå®šç¾©ãƒ•ã‚¡ã‚¤ãƒ«èª­ã¿è¾¼ã¿ã«å¤±æ•—ã—ãŸå ´åˆ
      */
     public void copyRuleSetDef(final String orgId, final String dstId, final String dstName)
         throws RuleCreateException
@@ -495,10 +495,10 @@ public class RuleManager
     }
 
     /**
-     * ƒ‹[ƒ‹ƒZƒbƒg’è‹`‚ğˆê“I‚É•Û‘¶‚·‚éB<br>
-     * rollbackRuleSetƒƒ\ƒbƒh‚ªÀs‚³‚ê‚½Û‚ÉAƒ‹[ƒ‹ƒZƒbƒg’è‹`‚ğŠª‚«–ß‚·‚½‚ß‚É—˜—p‚·‚éB
+     * ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆå®šç¾©ã‚’ä¸€æ™‚çš„ã«ä¿å­˜ã™ã‚‹ã€‚<br>
+     * rollbackRuleSetãƒ¡ã‚½ãƒƒãƒ‰ãŒå®Ÿè¡Œã•ã‚ŒãŸéš›ã«ã€ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆå®šç¾©ã‚’å·»ãæˆ»ã™ãŸã‚ã«åˆ©ç”¨ã™ã‚‹ã€‚
      * 
-     * @return ƒVƒŠƒAƒ‰ƒCƒY‰»‚³‚ê‚½ƒ‹[ƒ‹ƒf[ƒ^
+     * @return ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚ºåŒ–ã•ã‚ŒãŸãƒ«ãƒ¼ãƒ«ãƒ‡ãƒ¼ã‚¿
      */
     public synchronized SerializedRules saveRuleSet()
     {
@@ -508,10 +508,10 @@ public class RuleManager
     }
 
     /**
-     * ƒ‹[ƒ‹ƒZƒbƒg’è‹`‚ğƒ[ƒ‹ƒoƒbƒN‚·‚éB<br>
+     * ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆå®šç¾©ã‚’ãƒ­ãƒ¼ãƒ«ãƒãƒƒã‚¯ã™ã‚‹ã€‚<br>
      * 
      * @param serializedRules
-     *            ƒVƒŠƒAƒ‰ƒCƒY‰»‚³‚ê‚½ƒ‹[ƒ‹ƒf[ƒ^
+     *            ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚ºåŒ–ã•ã‚ŒãŸãƒ«ãƒ¼ãƒ«ãƒ‡ãƒ¼ã‚¿
      */
     @SuppressWarnings("unchecked")
     public synchronized void rollbackRuleSet(final SerializedRules serializedRules)
@@ -531,12 +531,12 @@ public class RuleManager
     }
 
     /**
-     * •ÏX‚ª‚ ‚Á‚½ƒ‹[ƒ‹ƒZƒbƒgID‚ğ•Û‘¶‚·‚éB<br>
-     * commitƒƒ\ƒbƒh‚ªÀs‚³‚ê‚½Û‚ÉA‚±‚Ìƒƒ\ƒbƒh‚Åw’è‚µ‚½<br>
-     * ƒ‹[ƒ‹ƒZƒbƒgID‚É‘Î‚·‚éƒ‹[ƒ‹ƒZƒbƒg’è‹`‚Ì‚İ•Û‘¶‚·‚éB
+     * å¤‰æ›´ãŒã‚ã£ãŸãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆIDã‚’ä¿å­˜ã™ã‚‹ã€‚<br>
+     * commitãƒ¡ã‚½ãƒƒãƒ‰ãŒå®Ÿè¡Œã•ã‚ŒãŸéš›ã«ã€ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã§æŒ‡å®šã—ãŸ<br>
+     * ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆIDã«å¯¾ã™ã‚‹ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆå®šç¾©ã®ã¿ä¿å­˜ã™ã‚‹ã€‚
      * 
      * @param ruleSetId
-     *            ƒ‹[ƒ‹ƒZƒbƒgID
+     *            ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆID
      */
     public void addDirty(final String ruleSetId)
     {
@@ -544,11 +544,11 @@ public class RuleManager
     }
 
     /**
-     * ƒAƒNƒeƒBƒu‚Èƒ‹[ƒ‹ƒZƒbƒg’è‹`‚ğæ“¾‚·‚éB
+     * ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ãªãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆå®šç¾©ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return ƒ‹[ƒ‹ƒZƒbƒg’è‹`
+     * @return ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆå®šç¾©
      * @throws RuleCreateException
-     *             ƒ‹[ƒ‹’è‹`ƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İ‚É¸”s‚µ‚½Û‚É”­¶‚·‚éB
+     *             ãƒ«ãƒ¼ãƒ«å®šç¾©ãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿è¾¼ã¿ã«å¤±æ•—ã—ãŸéš›ã«ç™ºç”Ÿã™ã‚‹ã€‚
      */
     public RuleSetDef getActiveRuleSetDef()
         throws RuleCreateException
@@ -557,12 +557,12 @@ public class RuleManager
     }
 
     /**
-     * ƒAƒNƒeƒBƒu‚Èƒ‹[ƒ‹ƒZƒbƒg‚ÉŠÜ‚Ü‚ê‚éAƒ‹[ƒ‹ƒCƒ“ƒXƒ^ƒ“ƒX‚Ìˆê——‚ğæ“¾‚·‚éB ƒAƒNƒeƒBƒu‚Èƒ‹[ƒ‹ƒZƒbƒg’†‚Ì—v‘f’†‚É‚ ‚éƒ‹[ƒ‹–¼‚ª•s³‚Å‚ ‚é‚½‚ß‚ÉA
-     * ƒCƒ“ƒXƒ^ƒ“ƒX¶¬‚É¸”s‚µ‚½ê‡‚É‚ÍARuleCreateException‚ğƒXƒ[‚·‚éB
+     * ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ãªãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆã«å«ã¾ã‚Œã‚‹ã€ãƒ«ãƒ¼ãƒ«ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®ä¸€è¦§ã‚’å–å¾—ã™ã‚‹ã€‚ ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ãªãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆä¸­ã®è¦ç´ ä¸­ã«ã‚ã‚‹ãƒ«ãƒ¼ãƒ«åãŒä¸æ­£ã§ã‚ã‚‹ãŸã‚ã«ã€
+     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ç”Ÿæˆã«å¤±æ•—ã—ãŸå ´åˆã«ã¯ã€RuleCreateExceptionã‚’ã‚¹ãƒ­ãƒ¼ã™ã‚‹ã€‚
      * 
-     * @return ƒ‹[ƒ‹ƒCƒ“ƒXƒ^ƒ“ƒX‚Ìˆê——
+     * @return ãƒ«ãƒ¼ãƒ«ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®ä¸€è¦§
      * @throws RuleCreateException
-     *             ƒ‹[ƒ‹’è‹`ƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İ‚É¸”s‚µ‚½ê‡
+     *             ãƒ«ãƒ¼ãƒ«å®šç¾©ãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿è¾¼ã¿ã«å¤±æ•—ã—ãŸå ´åˆ
      */
     public List<PerformanceRule> getActiveRules()
         throws RuleCreateException
@@ -598,9 +598,9 @@ public class RuleManager
     }
 
     /**
-     * ƒ†ƒj[ƒN‚Èƒ‹[ƒ‹ƒZƒbƒgID‚ğæ“¾‚·‚éB
+     * ãƒ¦ãƒ‹ãƒ¼ã‚¯ãªãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆIDã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return ƒ‹[ƒ‹ƒZƒbƒgID
+     * @return ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆID
      */
     public String createUniqueId()
     {
@@ -617,7 +617,7 @@ public class RuleManager
     }
 
     /**
-     * ƒfƒtƒHƒ‹ƒgƒ‹[ƒ‹ƒZƒbƒg‚ğƒAƒNƒeƒBƒu‚É‚·‚éB
+     * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆã‚’ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ã«ã™ã‚‹ã€‚
      */
     public void setActiveRuleSetDefault()
     {
@@ -627,9 +627,9 @@ public class RuleManager
     }
 
     /**
-     * —LŒø‚Æ‚È‚Á‚Ä‚¢‚éƒ‹[ƒ‹ƒZƒbƒg‚ÌID‚ğæ“¾‚·‚éB
+     * æœ‰åŠ¹ã¨ãªã£ã¦ã„ã‚‹ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆã®IDã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return —LŒø‚Æ‚È‚Á‚Ä‚¢‚éƒ‹[ƒ‹ƒZƒbƒgID
+     * @return æœ‰åŠ¹ã¨ãªã£ã¦ã„ã‚‹ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆID
      */
     public String getActiveRuleSetID()
     {
@@ -637,10 +637,10 @@ public class RuleManager
     }
 
     /**
-     * ƒ‹[ƒ‹ƒZƒbƒgID‚ğw’è‚µ‚ÄA—LŒø‚Æ‚È‚Á‚Ä‚¢‚éƒ‹[ƒ‹ƒZƒbƒg‚ğØ‚èŠ·‚¦‚éB
+     * ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆIDã‚’æŒ‡å®šã—ã¦ã€æœ‰åŠ¹ã¨ãªã£ã¦ã„ã‚‹ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆã‚’åˆ‡ã‚Šæ›ãˆã‚‹ã€‚
      * 
      * @param ruleSetID
-     *            —LŒø‰»‚·‚éƒ‹[ƒ‹ƒZƒbƒgID
+     *            æœ‰åŠ¹åŒ–ã™ã‚‹ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆID
      */
     public void changeActiveRuleSetByID(final String ruleSetID)
     {
@@ -653,10 +653,10 @@ public class RuleManager
     }
 
     /**
-     * ƒ‹[ƒ‹•ÏXƒŠƒXƒi‚ğ’Ç‰Á‚·‚éB
+     * ãƒ«ãƒ¼ãƒ«å¤‰æ›´ãƒªã‚¹ãƒŠã‚’è¿½åŠ ã™ã‚‹ã€‚
      * 
      * @param listener
-     *            ƒŠƒXƒi
+     *            ãƒªã‚¹ãƒŠ
      */
     public void addListener(final RuleChangeListener listener)
     {
@@ -664,10 +664,10 @@ public class RuleManager
     }
 
     /**
-     * ƒ‹[ƒ‹•ÏXƒŠƒXƒi‚ğíœ‚·‚éB
+     * ãƒ«ãƒ¼ãƒ«å¤‰æ›´ãƒªã‚¹ãƒŠã‚’å‰Šé™¤ã™ã‚‹ã€‚
      * 
      * @param listener
-     *            ƒŠƒXƒi
+     *            ãƒªã‚¹ãƒŠ
      */
     public void removeListener(final RuleChangeListener listener)
     {
@@ -675,7 +675,7 @@ public class RuleManager
     }
 
     /**
-     * XV‚ğ’Ê’m‚·‚éB
+     * æ›´æ–°ã‚’é€šçŸ¥ã™ã‚‹ã€‚
      */
     public void notifyChanged()
     {
@@ -686,11 +686,11 @@ public class RuleManager
     }
 
     /**
-     * w’è‚³‚ê‚½ƒ‹[ƒ‹ ID ‚Ìƒ‹[ƒ‹‚ªƒfƒtƒHƒ‹ƒgƒ‹[ƒ‹‚©‚Ç‚¤‚©‚ğƒ`ƒFƒbƒN‚µ‚Ü‚·B<br />
+     * æŒ‡å®šã•ã‚ŒãŸãƒ«ãƒ¼ãƒ« ID ã®ãƒ«ãƒ¼ãƒ«ãŒãƒ‡ãƒ•ã‚©ãƒ«ãƒˆãƒ«ãƒ¼ãƒ«ã‹ã©ã†ã‹ã‚’ãƒã‚§ãƒƒã‚¯ã—ã¾ã™ã€‚<br />
      * 
      * @param ruleId
-     *            ƒ‹[ƒ‹ ID
-     * @return ƒfƒtƒHƒ‹ƒgƒ‹[ƒ‹‚Ìê‡‚Í <code>true</code> AƒfƒtƒHƒ‹ƒgƒ‹[ƒ‹‚Å‚È‚¢ê‡‚Í <code>false</code>
+     *            ãƒ«ãƒ¼ãƒ« ID
+     * @return ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆãƒ«ãƒ¼ãƒ«ã®å ´åˆã¯ <code>true</code> ã€ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆãƒ«ãƒ¼ãƒ«ã§ãªã„å ´åˆã¯ <code>false</code>
      */
     private boolean isDefaultRuleSet(final String ruleId)
     {

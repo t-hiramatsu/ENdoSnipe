@@ -13,47 +13,47 @@
 package jp.co.acroquest.endosnipe.report.controller;
 
 /**
- * ƒŒƒ|[ƒg‚Ìuí—Şv‚ğ¦‚·—ñ‹“Œ^
- * í—Ş–ˆ‚ÉƒvƒƒpƒeƒBƒL[‚ğ“±‚­‚½‚ß‚ÌuIDv‚ğ‚ÂB
+ * ãƒ¬ãƒãƒ¼ãƒˆã®ã€Œç¨®é¡ã€ã‚’ç¤ºã™åˆ—æŒ™å‹
+ * ç¨®é¡æ¯ã«ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚­ãƒ¼ã‚’å°ããŸã‚ã®ã€ŒIDã€ã‚’æŒã¤ã€‚
  * 
  * @author M.Yoshida
  *
  */
 public enum ReportType
 {
-    /** ƒVƒXƒeƒ€ƒŠƒ\[ƒXg—p„ˆÚƒŒƒ|[ƒg */
+    /** ã‚·ã‚¹ãƒ†ãƒ ãƒªã‚½ãƒ¼ã‚¹ä½¿ç”¨æ¨ç§»ãƒ¬ãƒãƒ¼ãƒˆ */
     SYSTEM("reporter.report.type.system"),
-    /** ƒvƒƒZƒXƒŠƒ\[ƒXg—p„ˆÚƒŒƒ|[ƒg */
+    /** ãƒ—ãƒ­ã‚»ã‚¹ãƒªã‚½ãƒ¼ã‚¹ä½¿ç”¨æ¨ç§»ãƒ¬ãƒãƒ¼ãƒˆ */
     PROCESS("reporter.report.type.process"),
-    /** ƒf[ƒ^“üo—ÍƒŒƒ|[ƒg */
+    /** ãƒ‡ãƒ¼ã‚¿å…¥å‡ºåŠ›ãƒ¬ãƒãƒ¼ãƒˆ */
     DATA_IO("reporter.report.type.dataIO"),
-    /** VMó‘ÔƒŒƒ|[ƒg */
+    /** VMçŠ¶æ…‹ãƒ¬ãƒãƒ¼ãƒˆ */
     VM_STATUS("reporter.report.type.vmStatus"),
-    /** ƒIƒuƒWƒFƒNƒg”ƒŒƒ|[ƒg */
+    /** ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ•°ãƒ¬ãƒãƒ¼ãƒˆ */
     OBJECT("reporter.report.type.object"),
-    /** ƒŒƒXƒ|ƒ“ƒXƒ^ƒCƒ€ƒTƒ}ƒŠƒŒƒ|[ƒg */
+    /** ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚¿ã‚¤ãƒ ã‚µãƒãƒªãƒ¬ãƒãƒ¼ãƒˆ */
     RESPONSE_SUMMARY("reporter.report.type.responseSummary"),
-    /** ƒAƒNƒZƒX‘ÎÛ•ÊƒŒƒXƒ|ƒ“ƒXƒ^ƒCƒ€ƒŒƒ|[ƒg */
+    /** ã‚¢ã‚¯ã‚»ã‚¹å¯¾è±¡åˆ¥ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚¿ã‚¤ãƒ ãƒ¬ãƒãƒ¼ãƒˆ */
     RESPONSE_LIST("reporter.report.type.responseList"),
-    /** ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒŒƒ|[ƒg */
+    /** ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ãƒ¬ãƒãƒ¼ãƒˆ */
     APPLICATION("reporter.report.type.application"),
-    /** ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒŒƒ|[ƒg‚ÌCommons Pool‚ÌƒTƒCƒY‚ÌƒŒƒ|[ƒg */
+    /** ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ãƒ¬ãƒãƒ¼ãƒˆã®Commons Poolã®ã‚µã‚¤ã‚ºã®ãƒ¬ãƒãƒ¼ãƒˆ */
     SERVER_POOL("reporter.report.type.serverPool"),
-    /** ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒŒƒ|[ƒg‚ÌAPƒT[ƒo‚Ìƒ[ƒJƒXƒŒƒbƒh”‚ÌƒŒƒ|[ƒg */
+    /** ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ãƒ¬ãƒãƒ¼ãƒˆã®APã‚µãƒ¼ãƒã®ãƒ¯ãƒ¼ã‚«ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã®ãƒ¬ãƒãƒ¼ãƒˆ */
     POOL_SIZE("reporter.report.type.poolSize"),
-    /** JavelinƒŒƒ|[ƒg */
+    /** Javelinãƒ¬ãƒãƒ¼ãƒˆ */
     JAVELIN("reporter.report.type.javelin"),
-    /** ƒCƒxƒ“ƒgí•Ê–ˆ‚ÌƒCƒxƒ“ƒg”­¶‰ñ”ƒŒƒ|[ƒg */
+    /** ã‚¤ãƒ™ãƒ³ãƒˆç¨®åˆ¥æ¯ã®ã‚¤ãƒ™ãƒ³ãƒˆç™ºç”Ÿå›æ•°ãƒ¬ãƒãƒ¼ãƒˆ */
     EVENT("reporter.report.type.javelin.event"),
-    /** PerformanceDoctorƒŒƒ|[ƒg */
+    /** PerformanceDoctorãƒ¬ãƒãƒ¼ãƒˆ */
     PERF_DOCTOR("reporter.report.type.perfDoctor"),
-    /** ƒŒƒXƒ|ƒ“ƒXƒ^ƒCƒ€ƒTƒ}ƒŠƒŒƒ|[ƒg */
+    /** ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚¿ã‚¤ãƒ ã‚µãƒãƒªãƒ¬ãƒãƒ¼ãƒˆ */
     ITEM("reporter.report.type.item"),
-    /** •½‹ÏƒTƒ}ƒŠ‚ÌƒŒƒ|[ƒg */
+    /** å¹³å‡ã‚µãƒãƒªã®ãƒ¬ãƒãƒ¼ãƒˆ */
     OBJECT_AVERAGE("reporter.report.type.object.average"),
-    /** ÏZƒTƒ}ƒŠƒOƒ‰ƒt‚ÌƒŒƒ|[ƒg */
+    /** ç©ç®—ã‚µãƒãƒªã‚°ãƒ©ãƒ•ã®ãƒ¬ãƒãƒ¼ãƒˆ */
     OBJECT_TOTAL("reporter.report.type.object.total"),
-    /** ƒTƒ}ƒŠƒŒƒ|[ƒg */
+    /** ã‚µãƒãƒªãƒ¬ãƒãƒ¼ãƒˆ */
     SUMMARY("reporter.report.type.summary");
 
 
@@ -61,7 +61,7 @@ public enum ReportType
     private String id_;
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      * @param id
      */
     private ReportType(String id)
@@ -70,7 +70,7 @@ public enum ReportType
     }
 
     /**
-     * ƒŒƒ|[ƒg‚Ìí—Ş‚É‘Î‰‚·‚éuIDv‚ğæ“¾‚·‚éB
+     * ãƒ¬ãƒãƒ¼ãƒˆã®ç¨®é¡ã«å¯¾å¿œã™ã‚‹ã€ŒIDã€ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
      * @return ID
      */

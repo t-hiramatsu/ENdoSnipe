@@ -36,29 +36,29 @@ import java.util.concurrent.ConcurrentHashMap;
 import jp.co.acroquest.endosnipe.javelin.RootInvocationManager;
 
 /**
- * ComponentƒNƒ‰ƒX
+ * Componentã‚¯ãƒ©ã‚¹
  * @author acroquest
  *
  */
 public class Component implements ComponentMBean, Serializable
 {
-    /** ƒVƒŠƒAƒ‹ƒo[ƒWƒ‡ƒ“ID */
+    /** ã‚·ãƒªã‚¢ãƒ«ãƒãƒ¼ã‚¸ãƒ§ãƒ³ID */
     private static final long             serialVersionUID = 934662584633636762L;
 
-    /** ƒNƒ‰ƒX–¼ */
+    /** ã‚¯ãƒ©ã‚¹å */
     private final String                  className_;
 
     /** invocationMap */
     private final Map<String, Invocation> invocationMap_   =
                                                      new ConcurrentHashMap<String, Invocation>();
 
-    /** ƒƒ\ƒbƒh–¼‚ÌƒŠƒXƒg */
+    /** ãƒ¡ã‚½ãƒƒãƒ‰åã®ãƒªã‚¹ãƒˆ */
     private final List<String>            methodNameList_  =
                                              Collections.synchronizedList(new LinkedList<String>());
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
-     * @param className ƒNƒ‰ƒX–¼
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+     * @param className ã‚¯ãƒ©ã‚¹å
      */
     public Component(final String className)
     {
@@ -84,8 +84,8 @@ public class Component implements ComponentMBean, Serializable
     }
 
     /**
-     * invovation‚ğ’Ç‰Á‚µ‚Ü‚·
-     * @param invocation ’Ç‰Á‚·‚éinvocation
+     * invovationã‚’è¿½åŠ ã—ã¾ã™
+     * @param invocation è¿½åŠ ã™ã‚‹invocation
      */
     public synchronized void addInvocation(final Invocation invocation)
     {
@@ -95,10 +95,10 @@ public class Component implements ComponentMBean, Serializable
     }
 
     /**
-     * ŒÃ‚¢ƒƒ\ƒbƒhî•ñ‚ğíœ‚µAV‚µ‚¢ƒƒ\ƒbƒhî•ñ‚ğ’Ç‰Á‚µ‚Ü‚·B
+     * å¤ã„ãƒ¡ã‚½ãƒƒãƒ‰æƒ…å ±ã‚’å‰Šé™¤ã—ã€æ–°ã—ã„ãƒ¡ã‚½ãƒƒãƒ‰æƒ…å ±ã‚’è¿½åŠ ã—ã¾ã™ã€‚
      *
-     * @param invocation ’Ç‰Á‚·‚éƒƒ\ƒbƒhî•ñ
-     * @return íœ‚³‚ê‚½ƒƒ\ƒbƒhî•ñ
+     * @param invocation è¿½åŠ ã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰æƒ…å ±
+     * @return å‰Šé™¤ã•ã‚ŒãŸãƒ¡ã‚½ãƒƒãƒ‰æƒ…å ±
      */
     public synchronized Invocation addAndDeleteOldestInvocation(final Invocation invocation)
     {
@@ -127,8 +127,8 @@ public class Component implements ComponentMBean, Serializable
     }
 
     /**
-     * invocation‚ğæ“¾‚µ‚Ü‚·B 
-     * @param methodName ƒƒ\ƒbƒh–¼
+     * invocationã‚’å–å¾—ã—ã¾ã™ã€‚ 
+     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
      * @return invocation
      */
     public Invocation getInvocation(final String methodName)
@@ -137,8 +137,8 @@ public class Component implements ComponentMBean, Serializable
     }
 
     /**
-     * invocation‚ÌMap‚ÌƒTƒCƒY‚ğæ“¾‚·‚éB
-     * @return invocation‚ÌMap‚ÌƒTƒCƒY
+     * invocationã®Mapã®ã‚µã‚¤ã‚ºã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return invocationã®Mapã®ã‚µã‚¤ã‚º
      */
     public int getRecordedInvocationNum()
     {
@@ -157,9 +157,9 @@ public class Component implements ComponentMBean, Serializable
     }
 
     /**
-     * ‚±‚ÌƒNƒ‰ƒX“à‚É‚ ‚é‚·‚×‚Ä‚Ìƒƒ\ƒbƒh‚Ì‡ŒvŠÔ‚Ì‡Œv‚ğŒvZ‚µ‚Ü‚·B
+     * ã“ã®ã‚¯ãƒ©ã‚¹å†…ã«ã‚ã‚‹ã™ã¹ã¦ã®ãƒ¡ã‚½ãƒƒãƒ‰ã®åˆè¨ˆæ™‚é–“ã®åˆè¨ˆã‚’è¨ˆç®—ã—ã¾ã™ã€‚
      *
-     * @return ÀsŠÔ‚Ì‡Œviƒ~ƒŠ•bj
+     * @return å®Ÿè¡Œæ™‚é–“ã®åˆè¨ˆï¼ˆãƒŸãƒªç§’ï¼‰
      */
     private long getTotalDuration()
     {

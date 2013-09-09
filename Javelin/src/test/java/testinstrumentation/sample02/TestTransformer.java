@@ -36,7 +36,7 @@ public class TestTransformer implements ClassFileTransformer
             final byte[] classfileBuffer)
         throws IllegalClassFormatException
     {
-        System.out.println("¦‚u‚l‚Å’ñ‹Ÿ‚³‚ê‚Ä‚¢‚éƒNƒ‰ƒX‚Í: " + className);
+        System.out.println("â€»ï¼¶ï¼­ã§æä¾›ã•ã‚Œã¦ã„ã‚‹ã‚¯ãƒ©ã‚¹ã¯: " + className);
         return classfileBuffer;
     }
 }

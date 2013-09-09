@@ -24,7 +24,7 @@ import jp.co.acroquest.endosnipe.common.util.SQLUtil;
 import jp.co.acroquest.endosnipe.data.dto.PerfDoctorResultDto;
 
 /**
- * PerformanceDoctorf’fŒ‹‰Ê’~Ïƒe[ƒuƒ‹‚ÌDAO
+ * PerformanceDoctorè¨ºæ–­çµæœè“„ç©ãƒ†ãƒ¼ãƒ–ãƒ«ã®DAO
  * 
  * @author hiramatsu
  *
@@ -32,15 +32,15 @@ import jp.co.acroquest.endosnipe.data.dto.PerfDoctorResultDto;
 public class PerfDoctorResultDao extends AbstractDao
 {
 
-    /** ƒe[ƒuƒ‹–¼ */
+    /** ãƒ†ãƒ¼ãƒ–ãƒ«å */
     private static final String PERFDOCTOR_RESULT_TABLE = "PERFDOCTOR_RESULT";
 
     /**
-     * ƒŒƒR[ƒh‚ğ‘}“ü‚µ‚Ü‚·B<br />
+     * ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’æŒ¿å…¥ã—ã¾ã™ã€‚<br />
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param pDResult ‘}“ü‚·‚é’l
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param pDResult æŒ¿å…¥ã™ã‚‹å€¤
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static void insert(final String database, PerfDoctorResultDto pDResult)
         throws SQLException
@@ -74,14 +74,14 @@ public class PerfDoctorResultDao extends AbstractDao
     }
 
     /**
-     * ŠúŠÔ‚Æ€–Ú–¼‚ğw’è‚µ‚Äƒf[ƒ^‚ğæ“¾‚·‚éB
+     * æœŸé–“ã¨é …ç›®åã‚’æŒ‡å®šã—ã¦ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @param dbName ƒf[ƒ^ƒx[ƒX–¼
-     * @param start ŠJn
-     * @param end I—¹
+     * @param dbName ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param start é–‹å§‹æ™‚åˆ»
+     * @param end çµ‚äº†æ™‚åˆ»
      * @param dataGroupId ID
-     * @return f’fŒ‹‰ÊDTO‚ÌƒŠƒXƒg
-     * @throws SQLException select¸”s
+     * @return è¨ºæ–­çµæœDTOã®ãƒªã‚¹ãƒˆ
+     * @throws SQLException selectå¤±æ•—æ™‚
      */
     public static List<PerfDoctorResultDto> selectByTermAndName(String dbName, Timestamp start,
         Timestamp end, String dataGroupId)
@@ -102,7 +102,7 @@ public class PerfDoctorResultDao extends AbstractDao
             setTimestampByTerm(delegated, start, end);
             rs = delegated.executeQuery();
 
-            // Œ‹‰Ê‚ğƒŠƒXƒg‚É‚P‚Â‚¸‚ÂŠi”[‚·‚é
+            // çµæœã‚’ãƒªã‚¹ãƒˆã«ï¼‘ã¤ãšã¤æ ¼ç´ã™ã‚‹
             while (rs.next() == true)
             {
                 PerfDoctorResultDto dto = new PerfDoctorResultDto();

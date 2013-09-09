@@ -13,22 +13,22 @@
 package jp.co.acroquest.endosnipe.javelin.communicate.config;
 
 /**
- * ƒŠƒ‚[ƒgİ’è‰æ–Ê‚Ìƒe[ƒuƒ‹‚Ìˆês•ª‚Ì—v‘fB
+ * ãƒªãƒ¢ãƒ¼ãƒˆè¨­å®šç”»é¢ã®ãƒ†ãƒ¼ãƒ–ãƒ«ã®ä¸€è¡Œåˆ†ã®è¦ç´ ã€‚
  * 
  * @author eriguchi
  */
 public class PropertyEntry
 {
-    /** €–Ú–¼ */
+    /** é …ç›®å */
     private String property_ = "";
 
-    /** €–Ú‚Ì‰ğà */
+    /** é …ç›®ã®è§£èª¬ */
     private String propertyDetail_ = "";
 
-    /** Œ»İ‚Ìİ’è’l */
+    /** ç¾åœ¨ã®è¨­å®šå€¤ */
     private String currentValue_ = "";
 
-    /** •ÏXŒã‚Ì’l */
+    /** å¤‰æ›´å¾Œã®å€¤ */
     private String updateValue_ = "";
 
     /**

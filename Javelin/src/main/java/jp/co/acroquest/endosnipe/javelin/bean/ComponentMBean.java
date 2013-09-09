@@ -26,26 +26,26 @@
 package jp.co.acroquest.endosnipe.javelin.bean;
 
 /**
- * ComponentMBean�N���X
+ * ComponentMBeanクラス
  * @author acroquest
  *
  */
 public interface ComponentMBean
 {
     /**
-     * ClassName���擾���܂��B
+     * ClassNameを取得します。
      * @return ClassName
      */
     String getClassName();
 
     /**
-     * �S�Ă�invocation���擾���܂��B
-     * @return invocation�̔z��
+     * 全てのinvocationを取得します。
+     * @return invocationの配列
      */
     Invocation[] getAllInvocation();
 
     /**
-     * ���Z�b�g���܂��B
+     * リセットします。
      */
     void reset();
 }

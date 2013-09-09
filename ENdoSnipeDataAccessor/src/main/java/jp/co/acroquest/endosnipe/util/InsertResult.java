@@ -30,7 +30,7 @@ import java.util.List;
 import jp.co.acroquest.endosnipe.data.dto.MeasurementValueDto;
 
 /**
- * “ü—ÍŒ‹‰Ê
+ * å…¥åŠ›çµæœ
  * 
  * @author sakamoto
  */
@@ -47,7 +47,7 @@ public class InsertResult
     private List<MeasurementValueDto> measurementItemList_;
 
     /**
-     * InsertCount‚ğ•Ô‚·
+     * InsertCountã‚’è¿”ã™
      * @return InsertCount
      */
     public int getInsertCount()
@@ -56,7 +56,7 @@ public class InsertResult
     }
 
     /**
-     * InsertCount‚ğİ’è‚·‚é
+     * InsertCountã‚’è¨­å®šã™ã‚‹
      * @param insertCount InsertCount
      */
     public void setInsertCount(int insertCount)
@@ -65,7 +65,7 @@ public class InsertResult
     }
 
     /**
-     * CacheMissCount‚ğ•Ô‚·
+     * CacheMissCountã‚’è¿”ã™
      * @return CacheMissCount
      */
     public int getCacheMissCount()
@@ -74,7 +74,7 @@ public class InsertResult
     }
 
     /**
-     * CacheMissCount‚ğİ’è‚·‚é
+     * CacheMissCountã‚’è¨­å®šã™ã‚‹
      * @param cacheMissCount CacheMissCount
      */
     public void setCacheMissCount(int cacheMissCount)
@@ -83,7 +83,7 @@ public class InsertResult
     }
 
     /**
-     * CacheOverflowCount‚ğ•Ô‚·
+     * CacheOverflowCountã‚’è¿”ã™
      * @return CacheOverflowCount
      */
     public int getCacheOverflowCount()
@@ -92,7 +92,7 @@ public class InsertResult
     }
 
     /**
-     * CacheOverflowCount‚ğİ’è‚·‚é
+     * CacheOverflowCountã‚’è¨­å®šã™ã‚‹
      * 
      * @param cacheOverflowCount CacheOverflowCount
      */
@@ -102,7 +102,7 @@ public class InsertResult
     }
 
     /**
-     * deleteItemIdList‚ğ•Ô‚·
+     * deleteItemIdListã‚’è¿”ã™
      * 
      * @return deleteItemIdList
      */
@@ -112,7 +112,7 @@ public class InsertResult
     }
 
     /**
-     * deleteItemIdList‚ğİ’è‚·‚é
+     * deleteItemIdListã‚’è¨­å®šã™ã‚‹
      * 
      * @param deleteItemIdList deleteItemIdList
      */
@@ -122,7 +122,7 @@ public class InsertResult
     }
 
     /**
-     * measurementItemList‚ğ•Ô‚·
+     * measurementItemListã‚’è¿”ã™
      * 
      * @return measurementItemList
      */
@@ -132,7 +132,7 @@ public class InsertResult
     }
 
     /**
-     * deleteItemIdList‚ğİ’è‚·‚é
+     * deleteItemIdListã‚’è¨­å®šã™ã‚‹
      * @param measurementItemList measurementItemList
      */
     public void setMeasurementItemList(List<MeasurementValueDto> measurementItemList)

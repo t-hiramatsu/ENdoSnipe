@@ -43,14 +43,14 @@ import jp.co.acroquest.endosnipe.data.entity.MeasurementValue;
 import jp.co.acroquest.endosnipe.util.ResourceDataDaoUtil;
 
 /**
- * {@link ResourceDataDaoUtil} ƒNƒ‰ƒX‚ÌƒeƒXƒgƒP[ƒXB<br />
+ * {@link ResourceDataDaoUtil} ã‚¯ãƒ©ã‚¹ã®ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹ã€‚<br />
  *
  * @author sakamoto
  */
 public class ResourceDataDaoUtilTest extends AbstractDaoTest
 {
     /**
-     * ƒzƒXƒgî•ñB<br />
+     * ãƒ›ã‚¹ãƒˆæƒ…å ±ã€‚<br />
      */
     private HostInfo hostInfo_;
 
@@ -70,7 +70,7 @@ public class ResourceDataDaoUtilTest extends AbstractDaoTest
     }
 
     /**
-     * 2 ‚Â‚ÌƒOƒ‰ƒt‚ÅA@1@‚Â‚Í 1 Œn—ñA‚à‚¤ 1 ‚Â‚Í 2 Œn—ñ‚Ìƒf[ƒ^‚ğì¬‚µ‚Ü‚·B<br />
+     * 2 ã¤ã®ã‚°ãƒ©ãƒ•ã§ã€ã€€1ã€€ã¤ã¯ 1 ç³»åˆ—ã€ã‚‚ã† 1 ã¤ã¯ 2 ç³»åˆ—ã®ãƒ‡ãƒ¼ã‚¿ã‚’ä½œæˆã—ã¾ã™ã€‚<br />
      *
      * <ul>
      *   <li>ResourceData</li>
@@ -87,8 +87,8 @@ public class ResourceDataDaoUtilTest extends AbstractDaoTest
      *   </ul>
      * </ul>
      *
-     * @param hostInfo ƒzƒXƒgî•ñ
-     * @return {@link ResourceData} ƒIƒuƒWƒFƒNƒg
+     * @param hostInfo ãƒ›ã‚¹ãƒˆæƒ…å ±
+     * @return {@link ResourceData} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     private ResourceData createResourceData(final HostInfo hostInfo)
     {
@@ -133,9 +133,9 @@ public class ResourceDataDaoUtilTest extends AbstractDaoTest
     }
 
     /**
-     * Œv‘ª’lí•Ê‚ª 101 ‚©‚ç@104 ‚ÌŒv‘ª’lî•ñ‚ğ“o˜^‚µ‚Ü‚·B
+     * è¨ˆæ¸¬å€¤ç¨®åˆ¥ãŒ 101 ã‹ã‚‰ã€€104 ã®è¨ˆæ¸¬å€¤æƒ…å ±ã‚’ç™»éŒ²ã—ã¾ã™ã€‚
      *
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     private void insertMeasurementInfo()
         throws SQLException
@@ -151,23 +151,23 @@ public class ResourceDataDaoUtilTest extends AbstractDaoTest
 
     /**
      * @target testInsert
-     * @test ‘}“ü
-     *   condition:: 2 ‚Â‚ÌƒOƒ‰ƒt‚Å‡Œv 3 ‚Â‚ÌŒn—ñ‚ğ“o˜^‚·‚éB
-     *   result:: MEASUREMENT_VALUE ƒe[ƒuƒ‹‚É 3 ‚Â‚ÌƒŒƒR[ƒh‚Æ
-     *            JAVELIN_MEASUREMENT_ITEM ‚É 3 ‚Â‚ÌƒŒƒR[ƒh‚ª“o˜^‚³‚ê‚Ä‚¢‚é‚±‚ÆB
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @test æŒ¿å…¥
+     *   condition:: 2 ã¤ã®ã‚°ãƒ©ãƒ•ã§åˆè¨ˆ 3 ã¤ã®ç³»åˆ—ã‚’ç™»éŒ²ã™ã‚‹ã€‚
+     *   result:: MEASUREMENT_VALUE ãƒ†ãƒ¼ãƒ–ãƒ«ã« 3 ã¤ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã¨
+     *            JAVELIN_MEASUREMENT_ITEM ã« 3 ã¤ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ãŒç™»éŒ²ã•ã‚Œã¦ã„ã‚‹ã“ã¨ã€‚
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public void testInsert_oneTime()
         throws SQLException
     {
-        // €”õ
+        // æº–å‚™
         insertMeasurementInfo();
         ResourceData resourceData = createResourceData(this.hostInfo_);
 
-        // Às
+        // å®Ÿè¡Œ
         ResourceDataDaoUtil.insert(DB_NAME, resourceData, 7, Calendar.DATE);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         List<MeasurementValue> measurementValueList = MeasurementValueDao.selectAll(DB_NAME);
         assertEquals(3, measurementValueList.size());
         List<JavelinMeasurementItem> measurementItemList =
@@ -177,24 +177,24 @@ public class ResourceDataDaoUtilTest extends AbstractDaoTest
 
     /**
      * @target testInsert
-     * @test ‘}“ü
-     *   condition:: 2 ‚Â‚ÌƒOƒ‰ƒt‚Å‡Œv 3 ‚Â‚ÌŒn—ñ‚ğ‚QŒÂ“o˜^‚·‚éB
-     *   result:: MEASUREMENT_VALUE ƒe[ƒuƒ‹‚É 6 ‚Â‚ÌƒŒƒR[ƒh‚Æ
-     *            JAVELIN_MEASUREMENT_ITEM ‚É 3 ‚Â‚ÌƒŒƒR[ƒh‚ª“o˜^‚³‚ê‚Ä‚¢‚é‚±‚ÆB
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @test æŒ¿å…¥
+     *   condition:: 2 ã¤ã®ã‚°ãƒ©ãƒ•ã§åˆè¨ˆ 3 ã¤ã®ç³»åˆ—ã‚’ï¼’å€‹ç™»éŒ²ã™ã‚‹ã€‚
+     *   result:: MEASUREMENT_VALUE ãƒ†ãƒ¼ãƒ–ãƒ«ã« 6 ã¤ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã¨
+     *            JAVELIN_MEASUREMENT_ITEM ã« 3 ã¤ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ãŒç™»éŒ²ã•ã‚Œã¦ã„ã‚‹ã“ã¨ã€‚
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public void testInsert_twoTime()
         throws SQLException
     {
-        // €”õ
+        // æº–å‚™
         ResourceData resourceData1 = createResourceData(this.hostInfo_);
         ResourceData resourceData2 = createResourceData(this.hostInfo_);
 
-        // Às
+        // å®Ÿè¡Œ
         ResourceDataDaoUtil.insert(DB_NAME, resourceData1, 7, Calendar.DATE);
         ResourceDataDaoUtil.insert(DB_NAME, resourceData2, 7, Calendar.DATE);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         List<MeasurementValue> measurementValueList = MeasurementValueDao.selectAll(DB_NAME);
         assertEquals(6, measurementValueList.size());
         List<JavelinMeasurementItem> measurementItemList =

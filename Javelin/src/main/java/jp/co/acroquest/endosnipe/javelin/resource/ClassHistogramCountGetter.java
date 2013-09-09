@@ -35,7 +35,7 @@ import jp.co.acroquest.endosnipe.javelin.converter.leak.monitor.ClassHistogramMo
 import jp.co.acroquest.endosnipe.javelin.converter.leak.monitor.InstanceMonitor;
 
 /**
- * ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€‚©‚çAƒIƒuƒWƒFƒNƒg‚Ì”‚ğæ“¾‚·‚éƒNƒ‰ƒXB
+ * ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã‹ã‚‰ã€ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ•°ã‚’å–å¾—ã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚
  * 
  * @author eriguchi
  */
@@ -70,12 +70,12 @@ public class ClassHistogramCountGetter implements MultiResourceGetter
     }
 
     /**
-     * ClassHistogramEntry ‚©‚ç ResourceEntry ‚Ö‚ÌŒ^•ÏŠ·‚ğs‚¢‚Ü‚·B<br />
+     * ClassHistogramEntry ã‹ã‚‰ ResourceEntry ã¸ã®å‹å¤‰æ›ã‚’è¡Œã„ã¾ã™ã€‚<br />
      *
-     * list ‚ª <code>null</code> ‚Ìê‡‚ÍA <code>null</code> ‚ğ•Ô‚µ‚Ü‚·B<br />
+     * list ãŒ <code>null</code> ã®å ´åˆã¯ã€ <code>null</code> ã‚’è¿”ã—ã¾ã™ã€‚<br />
      *
-     * @param list ClassHistogramEntry‚ÌƒŠƒXƒg
-     * @return ResourceEntry‚ÌƒŠƒXƒg
+     * @param list ClassHistogramEntryã®ãƒªã‚¹ãƒˆ
+     * @return ResourceEntryã®ãƒªã‚¹ãƒˆ
      */
     List<ResourceItem> convert(List<ClassHistogramEntry> list)
     {

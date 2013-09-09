@@ -31,23 +31,23 @@ import java.util.Map;
 import jp.co.acroquest.endosnipe.javelin.parser.JavelinLogElement;
 
 /**
- * “¯ˆêSQL‚Ì”­s‰ñ”‚ğƒJƒEƒ“ƒg‚·‚éƒ‹[ƒ‹B
+ * åŒä¸€SQLã®ç™ºè¡Œå›æ•°ã‚’ã‚«ã‚¦ãƒ³ãƒˆã™ã‚‹ãƒ«ãƒ¼ãƒ«ã€‚
  * 
  * @author y-komori
  */
 public class OneSqlCountRule extends AbstractDbAccessRule
 {
-    /** SQL‚ÌŠJnƒ^ƒO */
+    /** SQLã®é–‹å§‹ã‚¿ã‚° */
     private static final String                   SQL_TAG = "[SQL]";
 
-    /** Œx‚Æ”»’f‚·‚é SQL Às‰ñ”‚Ìè‡’l */
+    /** è­¦å‘Šã¨åˆ¤æ–­ã™ã‚‹ SQL å®Ÿè¡Œå›æ•°ã®é–¾å€¤ */
     public int                                    threshold;
 
-    /** “¯ˆêSQL•¶‚Ì”­s‰ñ”‚ğ‹L˜^‚·‚éMap */
+    /** åŒä¸€SQLæ–‡ã®ç™ºè¡Œå›æ•°ã‚’è¨˜éŒ²ã™ã‚‹Map */
     private final Map<SqlKeyEntry, SqlCountEntry> sqlCounts_;
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
      */
     public OneSqlCountRule()
     {
@@ -62,7 +62,7 @@ public class OneSqlCountRule extends AbstractDbAccessRule
     protected void doJudgeContent(final JavelinLogElement element, final String content,
             final String bindVal)
     {
-        // TODO validation‚ğÀ‘•‚·‚éÛ‚É‚Í‚»‚¿‚ç‚Åƒ`ƒFƒbƒN‚·‚é‚æ‚¤‚É‚·‚é
+        // TODO validationã‚’å®Ÿè£…ã™ã‚‹éš›ã«ã¯ãã¡ã‚‰ã§ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã‚ˆã†ã«ã™ã‚‹
         if (this.threshold < 1)
         {
             this.threshold = 1;
@@ -126,19 +126,19 @@ public class OneSqlCountRule extends AbstractDbAccessRule
     }
 
     /**
-     * ƒƒOƒtƒ@ƒCƒ‹‚²‚Æ‚ÌSQL
+     * ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã”ã¨ã®SQL
      */
     private static class SqlKeyEntry
     {
-        /** ƒƒOƒtƒ@ƒCƒ‹–¼Ì */
+        /** ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«åç§° */
         private final String logFileName_;
 
-        /** SQL ‚Ì“à—e */
+        /** SQL ã®å†…å®¹ */
         private final String sql_;
 
         /**
-         * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
-         * @param logFileName ƒƒOƒtƒ@ƒCƒ‹–¼
+         * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
+         * @param logFileName ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«å
          * @param sql SQL
          */
         public SqlKeyEntry(final String logFileName, final String sql)
@@ -148,8 +148,8 @@ public class OneSqlCountRule extends AbstractDbAccessRule
         }
 
         /**
-         * SQL‚Ì“à—e‚ğ•Ô‚·B
-         * @return SQL•¶
+         * SQLã®å†…å®¹ã‚’è¿”ã™ã€‚
+         * @return SQLæ–‡
          */
         public String getSql()
         {

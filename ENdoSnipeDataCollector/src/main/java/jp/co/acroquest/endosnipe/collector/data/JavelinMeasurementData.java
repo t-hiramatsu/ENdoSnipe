@@ -28,7 +28,7 @@ package jp.co.acroquest.endosnipe.collector.data;
 import jp.co.acroquest.endosnipe.common.entity.ResourceData;
 
 /**
- * Javelin Œv‘ª’l‚ð•\‚·ƒNƒ‰ƒX‚Å‚·B<br />
+ * Javelin è¨ˆæ¸¬å€¤ã‚’è¡¨ã™ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  * 
  * @author y-komori
  */
@@ -37,9 +37,9 @@ public class JavelinMeasurementData extends AbstractJavelinData
     private final ResourceData resourceData_;
 
     /**
-     * {@link JavelinMeasurementData} ‚ð\’z‚µ‚Ü‚·B<br />
+     * {@link JavelinMeasurementData} ã‚’æ§‹ç¯‰ã—ã¾ã™ã€‚<br />
      * 
-     * @param resourceData Œv‘ª’lƒf[ƒ^
+     * @param resourceData è¨ˆæ¸¬å€¤ãƒ‡ãƒ¼ã‚¿
      */
     public JavelinMeasurementData(final ResourceData resourceData)
     {
@@ -47,9 +47,9 @@ public class JavelinMeasurementData extends AbstractJavelinData
     }
 
     /**
-     * Œv‘ª’lƒf[ƒ^‚ð•Ô‚µ‚Ü‚·B<br />
+     * è¨ˆæ¸¬å€¤ãƒ‡ãƒ¼ã‚¿ã‚’è¿”ã—ã¾ã™ã€‚<br />
      * 
-     * @return resourceData Œv‘ª’lƒf[ƒ^
+     * @return resourceData è¨ˆæ¸¬å€¤ãƒ‡ãƒ¼ã‚¿
      */
     public ResourceData getResourceData()
     {

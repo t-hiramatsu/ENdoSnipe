@@ -31,16 +31,16 @@ import jp.co.acroquest.endosnipe.javelin.parser.JavelinParser;
 import jp.co.acroquest.endosnipe.perfdoctor.rule.AbstractSingleValueLimitRule;
 
 /**
- * ‚P‰ñ‚Ìˆ—•Ó‚è‚Ìƒlƒbƒgƒ[ƒN“ü—Í—Ê‚ªè‡’lˆÈã‚É‚È‚Á‚½ê‡‚Éo—Í‚·‚éƒ‹[ƒ‹
+ * ï¼‘å›ã®å‡¦ç†è¾ºã‚Šã®ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯å…¥åŠ›é‡ãŒé–¾å€¤ä»¥ä¸Šã«ãªã£ãŸå ´åˆã«å‡ºåŠ›ã™ã‚‹ãƒ«ãƒ¼ãƒ«
  * 
  * @author S.Kimura
  */
 public class NetworkInputRule extends AbstractSingleValueLimitRule
 {
     /**
-     * RETURNƒƒO‚ğ¦‚·í•Ê‚ğ•Ô‚·B
+     * RETURNãƒ­ã‚°ã‚’ç¤ºã™ç¨®åˆ¥ã‚’è¿”ã™ã€‚
      * 
-     * @return RETURNƒƒOí•Ê
+     * @return RETURNãƒ­ã‚°ç¨®åˆ¥
      */
     @Override
     protected String getTargetID()
@@ -49,9 +49,9 @@ public class NetworkInputRule extends AbstractSingleValueLimitRule
     }
 
     /**
-     * “üo—Íî•ñ‚ğ¦‚·î•ñƒ^ƒO‚ğ•Ô‚·B
+     * å…¥å‡ºåŠ›æƒ…å ±ã‚’ç¤ºã™æƒ…å ±ã‚¿ã‚°ã‚’è¿”ã™ã€‚
      * 
-     * @return “üo—Íî•ñƒ^ƒO
+     * @return å…¥å‡ºåŠ›æƒ…å ±ã‚¿ã‚°
      */
     @Override
     protected String getTargetInfoTag()
@@ -60,9 +60,9 @@ public class NetworkInputRule extends AbstractSingleValueLimitRule
     }
 
     /**
-     * ƒlƒbƒgƒ[ƒN“ü—Í—Ê‚ğ¦‚·ƒpƒ‰ƒ[ƒ^–¼Ì‚ğ•Ô‚·B
+     * ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯å…¥åŠ›é‡ã‚’ç¤ºã™ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿åç§°ã‚’è¿”ã™ã€‚
      * 
-     * @return ƒlƒbƒgƒ[ƒN“ü—Í—Êƒpƒ‰ƒ[ƒ^–¼Ì
+     * @return ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯å…¥åŠ›é‡ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿åç§°
      */
     @Override
     protected String getTargetValueName()

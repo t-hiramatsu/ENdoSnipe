@@ -37,8 +37,8 @@ import jp.co.acroquest.endosnipe.data.entity.HostInfo;
 import org.seasar.framework.util.StringUtil;
 
 /**
- * ƒf[ƒ^ƒx[ƒX‚ÌƒzƒXƒgî•ñ‚ÉŠÖ‚·‚éŠÇ—‚ğs‚¤‚½‚ß‚ÌƒNƒ‰ƒX‚Å‚·B<br />
- * ƒzƒXƒgî•ñ‚ÉŠÖ‚·‚éƒAƒNƒZƒX‚ÍADAO ‚ğ’¼Úg—p‚¹‚¸‚É–{ƒNƒ‰ƒX‚ğg—p‚µ‚Ü‚·B<br />
+ * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®ãƒ›ã‚¹ãƒˆæƒ…å ±ã«é–¢ã™ã‚‹ç®¡ç†ã‚’è¡Œã†ãŸã‚ã®ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+ * ãƒ›ã‚¹ãƒˆæƒ…å ±ã«é–¢ã™ã‚‹ã‚¢ã‚¯ã‚»ã‚¹ã¯ã€DAO ã‚’ç›´æ¥ä½¿ç”¨ã›ãšã«æœ¬ã‚¯ãƒ©ã‚¹ã‚’ä½¿ç”¨ã—ã¾ã™ã€‚<br />
  * 
  * @author y-komori
  */
@@ -53,11 +53,11 @@ public class HostInfoManager implements LogMessageCodes, TableNames
     }
 
     /**
-     * w’è‚³‚ê‚½ƒf[ƒ^ƒx[ƒX‚ÌƒzƒXƒgî•ñ‚ğæ“¾‚µ‚Ü‚·B<br />
+     * æŒ‡å®šã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®ãƒ›ã‚¹ãƒˆæƒ…å ±ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      * 
-     * @param database ƒf[ƒ^ƒx[ƒX
-     * @param log ƒzƒXƒgî•ñ‚ªæ“¾‚Å‚«‚È‚¢ê‡‚ÉƒGƒ‰[“à—e‚ğƒƒO‚Éo—Í‚·‚éê‡‚Í <code>true</code>
-     * @return ƒzƒXƒgî•ñBŒ©‚Â‚©‚ç‚È‚¢ê‡‚Í <code>null</code>B
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹
+     * @param log ãƒ›ã‚¹ãƒˆæƒ…å ±ãŒå–å¾—ã§ããªã„å ´åˆã«ã‚¨ãƒ©ãƒ¼å†…å®¹ã‚’ãƒ­ã‚°ã«å‡ºåŠ›ã™ã‚‹å ´åˆã¯ <code>true</code>
+     * @return ãƒ›ã‚¹ãƒˆæƒ…å ±ã€‚è¦‹ã¤ã‹ã‚‰ãªã„å ´åˆã¯ <code>null</code>ã€‚
      */
     public static HostInfo getHostInfo(final String database, final boolean log)
     {
@@ -81,21 +81,21 @@ public class HostInfoManager implements LogMessageCodes, TableNames
     }
 
     /**
-     * ƒzƒXƒgî•ñ‚ğ DB ‚É“o˜^‚µ‚Ü‚·B<br />
+     * ãƒ›ã‚¹ãƒˆæƒ…å ±ã‚’ DB ã«ç™»éŒ²ã—ã¾ã™ã€‚<br />
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param hostName ƒzƒXƒg–¼i <code>null</code> ‚à‰Âj
-     * @param ipAddress IPƒAƒhƒŒƒXi <code>null</code> ‚Í•s‰Âj
-     * @param port ƒ|[ƒg”Ô†
-     * @param description ƒf[ƒ^ƒx[ƒX‚Ìà–¾
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param hostName ãƒ›ã‚¹ãƒˆåï¼ˆ <code>null</code> ã‚‚å¯ï¼‰
+     * @param ipAddress IPã‚¢ãƒ‰ãƒ¬ã‚¹ï¼ˆ <code>null</code> ã¯ä¸å¯ï¼‰
+     * @param port ãƒãƒ¼ãƒˆç•ªå·
+     * @param description ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®èª¬æ˜
      */
     public static synchronized void registerHostInfo(final String database, final String hostName,
             final String ipAddress, final int port, final String description)
     {
         try
         {
-            // w’è‚³‚ê‚½ƒzƒXƒgî•ñ‚ÆDB‚É“o˜^‚³‚ê‚Ä‚¢‚éƒzƒXƒgî•ñ‚ğ”äŠr‚µA
-            // •ÏX‚ª‚ ‚ê‚ÎXV‚·‚é
+            // æŒ‡å®šã•ã‚ŒãŸãƒ›ã‚¹ãƒˆæƒ…å ±ã¨DBã«ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹ãƒ›ã‚¹ãƒˆæƒ…å ±ã‚’æ¯”è¼ƒã—ã€
+            // å¤‰æ›´ãŒã‚ã‚Œã°æ›´æ–°ã™ã‚‹
             HostInfo oldHostInfo = getHostInfo(database, false);
             if (oldHostInfo != null)
             {
@@ -104,14 +104,14 @@ public class HostInfoManager implements LogMessageCodes, TableNames
                         && port == oldHostInfo.port
                         && StringUtil.equals(description, oldHostInfo.description))
                 {
-                    // ƒzƒXƒgî•ñ‚ªˆê’v‚µ‚½‚Ì‚Å‰½‚à‚µ‚È‚¢
+                    // ãƒ›ã‚¹ãƒˆæƒ…å ±ãŒä¸€è‡´ã—ãŸã®ã§ä½•ã‚‚ã—ãªã„
                     return;
                 }
             }
-            // •ÏX‚ª‚ ‚Á‚½‚çAˆê’Uíœ‚µ‚Ä‚©‚ç“o˜^‚µ‚È‚¨‚·
+            // å¤‰æ›´ãŒã‚ã£ãŸã‚‰ã€ä¸€æ—¦å‰Šé™¤ã—ã¦ã‹ã‚‰ç™»éŒ²ã—ãªãŠã™
             HostInfoDao.deleteAll(database);
 
-            // ƒzƒXƒgî•ñ‚ªXV‚³‚ê‚Ä‚¢‚é‚½‚ßAÄ“o˜^‚ğs‚¤
+            // ãƒ›ã‚¹ãƒˆæƒ…å ±ãŒæ›´æ–°ã•ã‚Œã¦ã„ã‚‹ãŸã‚ã€å†ç™»éŒ²ã‚’è¡Œã†
             HostInfo newHostInfo = new HostInfo();
             newHostInfo.hostName = hostName;
             newHostInfo.ipAddress = ipAddress;

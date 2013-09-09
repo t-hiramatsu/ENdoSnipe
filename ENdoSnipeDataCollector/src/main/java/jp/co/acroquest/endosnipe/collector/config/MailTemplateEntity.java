@@ -26,15 +26,15 @@
 package jp.co.acroquest.endosnipe.collector.config;
 
 /**
- * ƒ[ƒ‹ƒeƒ“ƒvƒŒ[ƒg‚ÌÝ’èB
+ * ãƒ¡ãƒ¼ãƒ«ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã®è¨­å®šã€‚
  *
  * @author sakamoto
  */
 public class MailTemplateEntity
 {
-    /** Œ–¼ƒeƒ“ƒvƒŒ[ƒgB */
+    /** ä»¶åãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã€‚ */
     public String subject;
 
-    /** –{•¶ƒeƒ“ƒvƒŒ[ƒgB */
+    /** æœ¬æ–‡ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã€‚ */
     public String body;
 }

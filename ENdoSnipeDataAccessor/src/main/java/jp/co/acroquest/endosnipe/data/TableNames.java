@@ -26,51 +26,51 @@
 package jp.co.acroquest.endosnipe.data;
 
 /**
- * ƒe[ƒuƒ‹–¼Ì‚ð’è‹`‚·‚éƒCƒ“ƒ^[ƒtƒF[ƒX‚Å‚·B<br />
+ * ãƒ†ãƒ¼ãƒ–ãƒ«åç§°ã‚’å®šç¾©ã™ã‚‹ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã§ã™ã€‚<br />
  * 
  * @author y-komori
  */
 public interface TableNames
 {
-    /** ŒyH‘ÎÛƒzƒXƒgî•ñ */
+    /** è»½é£Ÿå¯¾è±¡ãƒ›ã‚¹ãƒˆæƒ…å ± */
     String HOST_INFO                = "HOST_INFO";
 
-    /** Œv‘ª’lî•ñ */
+    /** è¨ˆæ¸¬å€¤æƒ…å ± */
     String MEASUREMENT_INFO         = "MEASUREMENT_INFO";
 
-    /** Javelin ƒƒO */
+    /** Javelin ãƒ­ã‚° */
     String JAVELIN_LOG              = "JAVELIN_LOG";
 
-    /** Javelin Œv‘ª€–Ú */
+    /** Javelin è¨ˆæ¸¬é …ç›® */
     String JAVELIN_MEASUREMENT_ITEM = "JAVELIN_MEASUREMENT_ITEM";
 
-    /** Javelin Œv‘ª’l */
+    /** Javelin è¨ˆæ¸¬å€¤ */
     String MEASUREMENT_VALUE        = "MEASUREMENT_VALUE";
 
-    /** Javelin Œv‘ª’lƒA[ƒJƒCƒu */
+    /** Javelin è¨ˆæ¸¬å€¤ã‚¢ãƒ¼ã‚«ã‚¤ãƒ– */
     String ARCHIVED_VALUE           = "ARCHIVED_VALUE";
 
-    /** ƒƒO ID ‚Ì’l‚ð¶¬‚·‚éƒV[ƒPƒ“ƒX–¼B */
+    /** ãƒ­ã‚° ID ã®å€¤ã‚’ç”Ÿæˆã™ã‚‹ã‚·ãƒ¼ã‚±ãƒ³ã‚¹åã€‚ */
     String SEQ_LOG_ID               = "SEQ_LOG_ID";
 
-    /** ƒZƒbƒVƒ‡ƒ“ ID ‚Ì’l‚ð¶¬‚·‚éƒV[ƒPƒ“ƒX–¼B */
+    /** ã‚»ãƒƒã‚·ãƒ§ãƒ³ ID ã®å€¤ã‚’ç”Ÿæˆã™ã‚‹ã‚·ãƒ¼ã‚±ãƒ³ã‚¹åã€‚ */
     String SEQ_SESSION_ID           = "SEQ_SESSION_ID";
 
-    /** ƒzƒXƒg ID ‚Ì’l‚ð¶¬‚·‚éƒV[ƒPƒ“ƒX–¼B */
+    /** ãƒ›ã‚¹ãƒˆ ID ã®å€¤ã‚’ç”Ÿæˆã™ã‚‹ã‚·ãƒ¼ã‚±ãƒ³ã‚¹åã€‚ */
     String SEQ_HOST_ID              = "SEQ_HOST_ID";
 
-    /** Œv‘ª€–Ú ID ‚Ì’l‚ð¶¬‚·‚éƒV[ƒPƒ“ƒX–¼B */
+    /** è¨ˆæ¸¬é …ç›® ID ã®å€¤ã‚’ç”Ÿæˆã™ã‚‹ã‚·ãƒ¼ã‚±ãƒ³ã‚¹åã€‚ */
     String SEQ_MEASUREMENT_ITEM_ID  = "SEQ_MEASUREMENT_ITEM_ID";
 
-    /** Œv‘ª No. ‚Ì’l‚ð¶¬‚·‚éƒV[ƒPƒ“ƒX–¼B */
+    /** è¨ˆæ¸¬ No. ã®å€¤ã‚’ç”Ÿæˆã™ã‚‹ã‚·ãƒ¼ã‚±ãƒ³ã‚¹åã€‚ */
     String SEQ_MEASUREMENT_NUM      = "SEQ_MEASUREMENT_NUM";
 
-    /** ƒVƒOƒiƒ‹’è‹`ƒe[ƒuƒ‹B */
+    /** ã‚·ã‚°ãƒŠãƒ«å®šç¾©ãƒ†ãƒ¼ãƒ–ãƒ«ã€‚ */
     String SIGNAL_DEFINITION        = "SIGNAL_DEFINITION";
     
-    /** •¡”ƒOƒ‰ƒtƒe[ƒuƒ‹B */
+    /** è¤‡æ•°ã‚°ãƒ©ãƒ•ãƒ†ãƒ¼ãƒ–ãƒ«ã€‚ */
     String MULTIPLE_RESOURCE_GRAPH = "MULTIPLE_RESOURCE_GRAPH";
     
-    /** SQLŽÀsŒv‰æƒe[ƒuƒ‹B */
+    /** SQLå®Ÿè¡Œè¨ˆç”»ãƒ†ãƒ¼ãƒ–ãƒ«ã€‚ */
     String SQL_PLAN = "SQL_PLAN";
 }

@@ -29,24 +29,24 @@ import jp.co.acroquest.endosnipe.perfdoctor.exception.RuleCreateException;
 import jp.co.acroquest.endosnipe.perfdoctor.rule.def.RuleSetDef;
 
 /**
- * ƒ‹[ƒ‹’è‹`‚Ì’Ç‰ÁA•ÏXAíœAQÆ‚ğs‚¤ƒCƒ“ƒ^ƒtƒF[ƒXB
+ * ãƒ«ãƒ¼ãƒ«å®šç¾©ã®è¿½åŠ ã€å¤‰æ›´ã€å‰Šé™¤ã€å‚ç…§ã‚’è¡Œã†ã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹ã€‚
  * @author tanimoto
  *
  */
 public interface RuleDefAccessor
 {
     /**
-     * ƒ‹[ƒ‹ƒZƒbƒg‚ğ•Û‘¶‚·‚éB
-     * @param ruleSetDef ƒ‹[ƒ‹ƒZƒbƒg’è‹`
-     * @param fileName ƒtƒ@ƒCƒ‹–¼
+     * ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆã‚’ä¿å­˜ã™ã‚‹ã€‚
+     * @param ruleSetDef ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆå®šç¾©
+     * @param fileName ãƒ•ã‚¡ã‚¤ãƒ«å
      */
     void updateRuleSet(RuleSetDef ruleSetDef, String fileName);
 
     /**
-     * ƒ‹[ƒ‹ƒZƒbƒg‚ğŒŸõ‚·‚éB
-     * @param fileName ƒtƒ@ƒCƒ‹–¼
-     * @return ƒ‹[ƒ‹ƒZƒbƒgB
-     * @throws RuleCreateException ƒ‹[ƒ‹‚Ì“Ç‚İ‚İ‚É¸”s‚µ‚½ê‡‚É•Ô‚·B
+     * ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆã‚’æ¤œç´¢ã™ã‚‹ã€‚
+     * @param fileName ãƒ•ã‚¡ã‚¤ãƒ«å
+     * @return ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆã€‚
+     * @throws RuleCreateException ãƒ«ãƒ¼ãƒ«ã®èª­ã¿è¾¼ã¿ã«å¤±æ•—ã—ãŸå ´åˆã«è¿”ã™ã€‚
      */
     RuleSetDef findRuleSet(String fileName)
         throws RuleCreateException;

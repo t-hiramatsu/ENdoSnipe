@@ -26,7 +26,7 @@
 package jp.co.acroquest.endosnipe.javelin.log;
 
 /**
- * JavelinLog‚ÌƒR[ƒ‹ƒoƒbƒNƒCƒ“ƒ^[ƒtƒF[ƒX‚Å‚·B<br />
+ * JavelinLogã®ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã§ã™ã€‚<br />
  * 
  * @author eriguchi
  *
@@ -34,11 +34,11 @@ package jp.co.acroquest.endosnipe.javelin.log;
 public interface JavelinLogCallback
 {
     /**
-     * ƒR[ƒ‹ƒoƒbƒN‚ğÀs‚µ‚Ü‚·B<br />
+     * ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã‚’å®Ÿè¡Œã—ã¾ã™ã€‚<br />
      * 
-     * @param jvnLogFileName JavelinƒƒOƒtƒ@ƒCƒ‹–¼
-     * @param javelinLogContent JavelinƒƒO‚Ì“à—e
-     * @param telegramId “d•¶ ID
+     * @param jvnLogFileName Javelinãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«å
+     * @param javelinLogContent Javelinãƒ­ã‚°ã®å†…å®¹
+     * @param telegramId é›»æ–‡ ID
      */
     void execute(String jvnLogFileName, String javelinLogContent, long telegramId, String itemName);
 }

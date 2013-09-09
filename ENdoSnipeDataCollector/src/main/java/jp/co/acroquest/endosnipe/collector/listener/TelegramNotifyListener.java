@@ -30,41 +30,41 @@ import jp.co.acroquest.endosnipe.communicator.TelegramSender;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 
 /**
- * DataCollector ‚©‚çƒNƒ‰ƒCƒAƒ“ƒg‚É’Ê’m‚·‚é‚½‚ß‚ÌƒŠƒXƒiB<br />
+ * DataCollector ã‹ã‚‰ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã«é€šçŸ¥ã™ã‚‹ãŸã‚ã®ãƒªã‚¹ãƒŠã€‚<br />
  *
- * ‚±‚ÌƒCƒ“ƒ^ƒtƒF[ƒX‚ğÀ‘•‚·‚éƒCƒ“ƒXƒ^ƒ“ƒX‚ğ JavelinClient ‚É“o˜^‚·‚é‚±‚Æ‚ÅA
- * ‚»‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ÉƒAƒ‰[ƒ€’Ê’m‚³‚ê‚Ü‚·B
+ * ã“ã®ã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹ã‚’å®Ÿè£…ã™ã‚‹ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ JavelinClient ã«ç™»éŒ²ã™ã‚‹ã“ã¨ã§ã€
+ * ãã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã«ã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥ã•ã‚Œã¾ã™ã€‚
  *
  * @author sakamoto
  */
 public interface TelegramNotifyListener extends CommunicatorListener
 {
     /**
-     * ƒNƒ‰ƒCƒAƒ“ƒg‚É’Ê’m‚µ‚Ü‚·B
+     * ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã«é€šçŸ¥ã—ã¾ã™ã€‚
      *
-     * @param telegram ’Ê’m‚·‚éƒf[ƒ^
+     * @param telegram é€šçŸ¥ã™ã‚‹ãƒ‡ãƒ¼ã‚¿
      */
     void receiveTelegram(Telegram telegram);
 
     /**
-     * “d•¶‘—MƒIƒuƒWƒFƒNƒg‚ğƒZƒbƒg‚µ‚Ü‚·B
+     * é›»æ–‡é€ä¿¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ã‚»ãƒƒãƒˆã—ã¾ã™ã€‚
      *
-     * @param telegramSender “d•¶‘—MƒIƒuƒWƒFƒNƒg‚ğƒZƒbƒg‚µ‚Ü‚·B
+     * @param telegramSender é›»æ–‡é€ä¿¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ã‚»ãƒƒãƒˆã—ã¾ã™ã€‚
      */
     void setTelegramSender(TelegramSender telegramSender);
 
     /**
-     * óM‚µ‚½“d•¶‚»‚Ì‚Ü‚Ü‚ğ’Ê’m‚·‚é‚©A
-     * •ÏŠ·ˆ—‚ğs‚Á‚½ƒf[ƒ^‚ğ’Ê’m‚·‚é‚©A‚Ì‚Ç‚¿‚ç‚©‚ğŒˆ’è‚µ‚Ü‚·B<br />
+     * å—ä¿¡ã—ãŸé›»æ–‡ãã®ã¾ã¾ã‚’é€šçŸ¥ã™ã‚‹ã‹ã€
+     * å¤‰æ›å‡¦ç†ã‚’è¡Œã£ãŸãƒ‡ãƒ¼ã‚¿ã‚’é€šçŸ¥ã™ã‚‹ã‹ã€ã®ã©ã¡ã‚‰ã‹ã‚’æ±ºå®šã—ã¾ã™ã€‚<br />
      *
-     * ‚±‚Ìƒƒ\ƒbƒh‚ª <code>true</code> ‚ğ•Ô‚µ‚½ê‡A
-     * {@link #receiveTelegram(Telegram)} ‚Ìˆø”‚É‚ÍA
-     * óM‚µ‚½“d•¶‚ª‚»‚Ì‚Ü‚Ü“n‚³‚ê‚Ü‚·B<br />
-     * ‚±‚Ìƒƒ\ƒbƒh‚ª <code>false</code> ‚ğ•Ô‚µ‚½ê‡A
-     * {@link #receiveTelegram(Telegram)} ‚Ìˆø”‚É‚ÍA
-     * DataCollector ‚É‚æ‚Á‚Ä•ÏŠ·‚³‚ê‚½ƒf[ƒ^‚ª“n‚³‚ê‚Ü‚·B<br />
+     * ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ãŒ <code>true</code> ã‚’è¿”ã—ãŸå ´åˆã€
+     * {@link #receiveTelegram(Telegram)} ã®å¼•æ•°ã«ã¯ã€
+     * å—ä¿¡ã—ãŸé›»æ–‡ãŒãã®ã¾ã¾æ¸¡ã•ã‚Œã¾ã™ã€‚<br />
+     * ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ãŒ <code>false</code> ã‚’è¿”ã—ãŸå ´åˆã€
+     * {@link #receiveTelegram(Telegram)} ã®å¼•æ•°ã«ã¯ã€
+     * DataCollector ã«ã‚ˆã£ã¦å¤‰æ›ã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ãŒæ¸¡ã•ã‚Œã¾ã™ã€‚<br />
      *
-     * @return óM‚µ‚½“d•¶‚»‚Ì‚Ü‚Ü‚ğ’Ê’m‚·‚éê‡‚Í <code>true</code> A
+     * @return å—ä¿¡ã—ãŸé›»æ–‡ãã®ã¾ã¾ã‚’é€šçŸ¥ã™ã‚‹å ´åˆã¯ <code>true</code> ã€
      */
     boolean isRawTelegramNeeded();
 }

@@ -38,49 +38,49 @@ import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
 //import org.apache.log4j.Priority;
 
 /**
- * Log4JConverter‚©‚зЊД‚СЏo‚і‚к‚йѓXѓ^ѓbѓNѓgѓЊЃ[ѓXЏo—Н—pѓNѓ‰ѓX
+ * Log4JConverterгЃ‹г‚‰е‘јгЃіе‡єгЃ•г‚Њг‚‹г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№е‡єеЉ›з”Ёг‚Їгѓ©г‚№
  * 
  * @author S.Kimura
  */
 public class Log4JMonitor
 {
-    /** LevelѓIѓuѓWѓFѓNѓg’†‚МѓЊѓxѓ‹(intЊ^)‚рЋ¦‚·ѓtѓBЃ[ѓ‹ѓh‚М–јЏМ */
+    /** Levelг‚Єгѓ–г‚ёг‚§г‚Їгѓ€дё­гЃ®гѓ¬гѓ™гѓ«(intећ‹)г‚’з¤єгЃ™гѓ•г‚Јгѓјгѓ«гѓ‰гЃ®еђЌз§° */
     private static final String LEVEL_FIELD = "level";
 
-    /** LevelѓIѓuѓWѓFѓNѓg’†‚МѓЊѓxѓ‹(StringЊ^)‚рЋ¦‚·ѓtѓBЃ[ѓ‹ѓh‚М–јЏМ */
+    /** Levelг‚Єгѓ–г‚ёг‚§г‚Їгѓ€дё­гЃ®гѓ¬гѓ™гѓ«(Stringећ‹)г‚’з¤єгЃ™гѓ•г‚Јгѓјгѓ«гѓ‰гЃ®еђЌз§° */
     private static final String LEVELSTR_FIELD = "levelStr";
 
-    /** ѓfѓtѓHѓ‹ѓg‚МѓXѓ^ѓbѓNѓgѓЊЃ[ѓXЏo—Ни‡’l(int•\Њ») */
+    /** гѓ‡гѓ•г‚©гѓ«гѓ€гЃ®г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№е‡єеЉ›й–ѕеЂ¤(intиЎЁзЏѕ) */
     private static final int DEF_PRINT_LEVEL = 40000;
 
-    /** ѓЊѓxѓ‹ЃuDEBUGЃv‚рЋ¦‚·ѓЌѓOѓЊѓxѓ‹’l */
+    /** гѓ¬гѓ™гѓ«гЂЊDEBUGгЂЌг‚’з¤єгЃ™гѓ­г‚°гѓ¬гѓ™гѓ«еЂ¤ */
     private static final int DEBUG_LEVEL_INT = 10000;
 
-    /** ѓЊѓxѓ‹ЃuINFOЃv‚рЋ¦‚·ѓЌѓOѓЊѓxѓ‹’l */
+    /** гѓ¬гѓ™гѓ«гЂЊINFOгЂЌг‚’з¤єгЃ™гѓ­г‚°гѓ¬гѓ™гѓ«еЂ¤ */
     private static final int INFO_LEVEL_INT = 20000;
 
-    /** ѓЊѓxѓ‹ЃuWARNЃv‚рЋ¦‚·ѓЌѓOѓЊѓxѓ‹’l */
+    /** гѓ¬гѓ™гѓ«гЂЊWARNгЂЌг‚’з¤єгЃ™гѓ­г‚°гѓ¬гѓ™гѓ«еЂ¤ */
     private static final int WARN_LEVEL_INT = 30000;
 
-    /** ѓЊѓxѓ‹ЃuERRORЃv‚рЋ¦‚·ѓЌѓOѓЊѓxѓ‹’l */
+    /** гѓ¬гѓ™гѓ«гЂЊERRORгЂЌг‚’з¤єгЃ™гѓ­г‚°гѓ¬гѓ™гѓ«еЂ¤ */
     private static final int ERROR_LEVEL_INT = 40000;
 
-    /** ѓЊѓxѓ‹ЃuFATALЃv‚рЋ¦‚·ѓЌѓOѓЊѓxѓ‹’l */
+    /** гѓ¬гѓ™гѓ«гЂЊFATALгЂЌг‚’з¤єгЃ™гѓ­г‚°гѓ¬гѓ™гѓ«еЂ¤ */
     private static final int FATAL_LEVEL_INT = 50000;
 
     /**
-     * ѓCѓ“ѓXѓ^ѓ“ѓX‰»‚р–hЋ~‚·‚й‚Ѕ‚Я‚МѓRѓ“ѓXѓgѓ‰ѓNѓ^
+     * г‚¤гѓіг‚№г‚їгѓіг‚№еЊ–г‚’йІж­ўгЃ™г‚‹гЃџг‚ЃгЃ®г‚ігѓіг‚№гѓ€гѓ©г‚Їг‚ї
      */
     private Log4JMonitor()
     {
     }
 
     /**
-     * Ћw’и‚і‚к‚ЅѓЌѓOѓЊѓxѓ‹‚МѓЃѓbѓZЃ[ѓWЏo—НЋћ‚МѓXѓ^ѓbѓNѓgѓЊЃ[ѓX‚рЏo—Н‚·‚йЃB
+     * жЊ‡е®љгЃ•г‚ЊгЃџгѓ­г‚°гѓ¬гѓ™гѓ«гЃ®гѓЎгѓѓг‚»гѓјг‚ёе‡єеЉ›ж™‚гЃ®г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№г‚’е‡єеЉ›гЃ™г‚‹гЂ‚
      * 
-     * @param levelObj LevelѓIѓuѓWѓFѓNѓg
-     * @param message ѓЌѓOѓЃѓbѓZЃ[ѓW
-     * @param th —бЉO
+     * @param levelObj Levelг‚Єгѓ–г‚ёг‚§г‚Їгѓ€
+     * @param message гѓ­г‚°гѓЎгѓѓг‚»гѓјг‚ё
+     * @param th дѕ‹е¤–
      */
     public static void printLog4JStackTrace(Object levelObj, Object message, Throwable th)
     {
@@ -108,9 +108,9 @@ public class Log4JMonitor
     }
 
     /**
-     * ѓRѓ“ѓtѓBѓO‚ЙђЭ’и‚і‚к‚ЅЏo—НѓЊѓxѓ‹и‡’l‚рђ”’l‚Й•ПЉ·‚µ‚Д•Ф‚·
+     * г‚ігѓігѓ•г‚Јг‚°гЃ«иЁ­е®љгЃ•г‚ЊгЃџе‡єеЉ›гѓ¬гѓ™гѓ«й–ѕеЂ¤г‚’ж•°еЂ¤гЃ«е¤‰жЏ›гЃ—гЃ¦иї”гЃ™
      * 
-     * @return Џo—НѓЊѓxѓ‹и‡’lђЭ’иЃiintЊ^Ѓj
+     * @return е‡єеЉ›гѓ¬гѓ™гѓ«й–ѕеЂ¤иЁ­е®љпј€intећ‹пј‰
      */
     private static int getPrintStackLevelInt()
     {
@@ -144,17 +144,17 @@ public class Log4JMonitor
     }
 
     /**
-     * LevelѓIѓuѓWѓFѓNѓg‚©‚зIntegerЊ^‚Мlevel‚Ж‚ў‚¤–јЏМ‚МѓtѓBЃ[ѓ‹ѓh‚рЋж“ѕ‚·‚йЃB
+     * Levelг‚Єгѓ–г‚ёг‚§г‚Їгѓ€гЃ‹г‚‰Integerећ‹гЃ®levelгЃЁгЃ„гЃ†еђЌз§°гЃ®гѓ•г‚Јгѓјгѓ«гѓ‰г‚’еЏ–еѕ—гЃ™г‚‹гЂ‚
      * 
-     * @param levelObj LevelѓIѓuѓWѓFѓNѓg
-     * @return ѓЌѓOЏo—НѓЊѓxѓ‹Ѓiђ”’lЊ`Ћ®Ѓj
+     * @param levelObj Levelг‚Єгѓ–г‚ёг‚§г‚Їгѓ€
+     * @return гѓ­г‚°е‡єеЉ›гѓ¬гѓ™гѓ«пј€ж•°еЂ¤еЅўејЏпј‰
      */
     private static Integer getLevel(Object levelObj)
     {
         Integer level = null;
 
-        // levelѓtѓBЃ[ѓ‹ѓh‚р•ЫЋќ‚µ‚Д‚ў‚й‚М‚НLevel‚МѓXЃ[ѓpЃ[ѓNѓ‰ѓX‚Е‚ ‚йPriorityѓNѓ‰ѓX‚М‚Ѕ‚ЯЃA
-        // ‚Н‚¶‚Я‚©‚з‚P’iЉKѓXЃ[ѓpЃ[ѓNѓ‰ѓX‚Ж‚µ‚ДѓtѓBЃ[ѓ‹ѓh‚МЋж“ѕ‚рЌs‚¤
+        // levelгѓ•г‚Јгѓјгѓ«гѓ‰г‚’дїќжЊЃгЃ—гЃ¦гЃ„г‚‹гЃ®гЃЇLevelгЃ®г‚№гѓјгѓ‘гѓјг‚Їгѓ©г‚№гЃ§гЃ‚г‚‹Priorityг‚Їгѓ©г‚№гЃ®гЃџг‚ЃгЂЃ
+        // гЃЇгЃг‚ЃгЃ‹г‚‰пј‘ж®µйљЋг‚№гѓјгѓ‘гѓјг‚Їгѓ©г‚№гЃЁгЃ—гЃ¦гѓ•г‚Јгѓјгѓ«гѓ‰гЃ®еЏ–еѕ—г‚’иЎЊгЃ†
         for (Class<?> cls = levelObj.getClass().getSuperclass(); cls != null; cls =
                 cls.getSuperclass())
         {
@@ -175,17 +175,17 @@ public class Log4JMonitor
     }
 
     /**
-     * levelStrѓIѓuѓWѓFѓNѓg‚©‚зStringЊ^‚МlevelStr‚Ж‚ў‚¤–јЏМ‚МѓtѓBЃ[ѓ‹ѓh‚рЋж“ѕ‚·‚йЃB
+     * levelStrг‚Єгѓ–г‚ёг‚§г‚Їгѓ€гЃ‹г‚‰Stringећ‹гЃ®levelStrгЃЁгЃ„гЃ†еђЌз§°гЃ®гѓ•г‚Јгѓјгѓ«гѓ‰г‚’еЏ–еѕ—гЃ™г‚‹гЂ‚
      * 
-     * @param levelObj LevelѓIѓuѓWѓFѓNѓg
-     * @return ѓЌѓOЏo—НѓЊѓxѓ‹ЃiStringЊ`Ћ®Ѓj
+     * @param levelObj Levelг‚Єгѓ–г‚ёг‚§г‚Їгѓ€
+     * @return гѓ­г‚°е‡єеЉ›гѓ¬гѓ™гѓ«пј€StringеЅўејЏпј‰
      */
     private static String getLevelStr(Object levelObj)
     {
         String levelStr = null;
 
-        // levelѓtѓBЃ[ѓ‹ѓh‚р•ЫЋќ‚µ‚Д‚ў‚й‚М‚НLevel‚МѓXЃ[ѓpЃ[ѓNѓ‰ѓX‚Е‚ ‚йPriorityѓNѓ‰ѓX‚М‚Ѕ‚ЯЃA
-        // ‚Н‚¶‚Я‚©‚з‚P’iЉKѓXЃ[ѓpЃ[ѓNѓ‰ѓX‚Ж‚µ‚ДѓtѓBЃ[ѓ‹ѓh‚МЋж“ѕ‚рЌs‚¤
+        // levelгѓ•г‚Јгѓјгѓ«гѓ‰г‚’дїќжЊЃгЃ—гЃ¦гЃ„г‚‹гЃ®гЃЇLevelгЃ®г‚№гѓјгѓ‘гѓјг‚Їгѓ©г‚№гЃ§гЃ‚г‚‹Priorityг‚Їгѓ©г‚№гЃ®гЃџг‚ЃгЂЃ
+        // гЃЇгЃг‚ЃгЃ‹г‚‰пј‘ж®µйљЋг‚№гѓјгѓ‘гѓјг‚Їгѓ©г‚№гЃЁгЃ—гЃ¦гѓ•г‚Јгѓјгѓ«гѓ‰гЃ®еЏ–еѕ—г‚’иЎЊгЃ†
         for (Class<?> cls = levelObj.getClass().getSuperclass(); cls != null; cls =
                 cls.getSuperclass())
         {
@@ -206,12 +206,12 @@ public class Log4JMonitor
     }
 
     /**
-     * Log4jѓGѓ‰Ѓ[ѓCѓxѓ“ѓg‚рЏo—Н
+     * Log4jг‚Ёгѓ©гѓјг‚¤гѓ™гѓігѓ€г‚’е‡єеЉ›
      * 
-     * @param levelStr ѓЌѓOѓЊѓxѓ‹
-     * @param message ѓЌѓOѓЃѓbѓZЃ[ѓW
-     * @param th —бЉO
-     * @param stackTraceDepth ѓЌѓOЏo—НЋћ‚МѓXѓ^ѓbѓNѓgѓЊЃ[ѓX‚Мђ[‚і
+     * @param levelStr гѓ­г‚°гѓ¬гѓ™гѓ«
+     * @param message гѓ­г‚°гѓЎгѓѓг‚»гѓјг‚ё
+     * @param th дѕ‹е¤–
+     * @param stackTraceDepth гѓ­г‚°е‡єеЉ›ж™‚гЃ®г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№гЃ®ж·±гЃ•
      */
     private static void outputLog4jErrorEvent(String levelStr, Object message,
             Throwable th, int stackTraceDepth)

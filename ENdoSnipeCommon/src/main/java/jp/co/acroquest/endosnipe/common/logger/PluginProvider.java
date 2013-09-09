@@ -27,22 +27,22 @@ package jp.co.acroquest.endosnipe.common.logger;
 
 
 /**
- * ���O�Ώۂ̃v���O�C���C���X�^���X��񋟂��邽�߂̃C���^�[�t�F�[�X�ł��B<br />
- * ENdoSnipeLogger �𗘗p����N���X�� Eclipse ���Ɣ�Eclipse ���̗�����
- * ���s�����\��������ꍇ�A�{�C���^�[�t�F�[�X�̎����N���X�� {@link Class}
- * �I�u�W�F�N�g��
+ * ログ対象のプラグインインスタンスを提供するためのインターフェースです。<br />
+ * ENdoSnipeLogger を利用するクラスが Eclipse 環境と非Eclipse 環境の両方で
+ * 実行される可能性がある場合、本インターフェースの実装クラスの {@link Class}
+ * オブジェクトを
  * 
  * @author y-komori
  */
 public interface PluginProvider
 {
     /**
-     * Plugin �̃C���X�^���X��Ԃ��܂��B<br />
-     * �߂�l�� Object �^�ɂȂ��Ă��܂����A�K�� org.eclipse.core.runtime.Plugin
-     * �̃T�u�N���X(�܂��� <code>null</code>) ��Ԃ��Ă��������B<br />
-     * ����́A�{�N���X�� Eclipse ���C�u�����Ɉˑ������Ȃ��悤�ɂ��邽�߂ł��B<br /> 
+     * Plugin のインスタンスを返します。<br />
+     * 戻り値は Object 型になっていますが、必ず org.eclipse.core.runtime.Plugin
+     * のサブクラス(または <code>null</code>) を返してください。<br />
+     * これは、本クラスを Eclipse ライブラリに依存させないようにするためです。<br /> 
      * 
-     * @return Plugin �̃C���X�^���X
+     * @return Plugin のインスタンス
      */
     Object getPlugin();
 }

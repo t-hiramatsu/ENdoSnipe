@@ -13,14 +13,14 @@
 package jp.co.acroquest.endosnipe.report.controller;
 
 /**
- * ƒŒƒ|[ƒgˆ—ƒvƒƒZƒbƒT‚ªŒÄ‚Ño‚µŒ³‚É’l‚ð•Ô‚·‚½‚ß‚ÌƒRƒ“ƒeƒiƒNƒ‰ƒXB
- * ŠeƒvƒƒZƒbƒT‚ÍA‚±‚ÌƒRƒ“ƒeƒiƒNƒ‰ƒX‚ðŒp³‚µ‚Ä“ÆŽ©ƒtƒB[ƒ‹ƒh‚ð’è‹`‚·‚é‚±‚ÆB
+ * ãƒ¬ãƒãƒ¼ãƒˆå‡¦ç†ãƒ—ãƒ­ã‚»ãƒƒã‚µãŒå‘¼ã³å‡ºã—å…ƒã«å€¤ã‚’è¿”ã™ãŸã‚ã®ã‚³ãƒ³ãƒ†ãƒŠã‚¯ãƒ©ã‚¹ã€‚
+ * å„ãƒ—ãƒ­ã‚»ãƒƒã‚µã¯ã€ã“ã®ã‚³ãƒ³ãƒ†ãƒŠã‚¯ãƒ©ã‚¹ã‚’ç¶™æ‰¿ã—ã¦ç‹¬è‡ªãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã‚’å®šç¾©ã™ã‚‹ã“ã¨ã€‚
  * 
  * @author M.Yoshida
  */
 public class ReportProcessReturnContainer
 {
-    /** ƒvƒƒZƒbƒT‚Å”­¶‚µ‚½—áŠO */
+    /** ãƒ—ãƒ­ã‚»ãƒƒã‚µã§ç™ºç”Ÿã—ãŸä¾‹å¤– */
     private Throwable happendedError_;
 
     /**

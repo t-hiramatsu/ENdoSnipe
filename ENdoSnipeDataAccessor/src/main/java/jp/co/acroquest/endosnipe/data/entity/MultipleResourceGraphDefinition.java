@@ -26,25 +26,25 @@
 package jp.co.acroquest.endosnipe.data.entity;
 
 /**
- * ƒVƒOƒiƒ‹’è‹`ƒe[ƒuƒ‹‚É‘Î‚·‚éƒGƒ“ƒeƒBƒeƒBƒNƒ‰ƒX‚Å‚·B<br />
+ * ã‚·ã‚°ãƒŠãƒ«å®šç¾©ãƒ†ãƒ¼ãƒ–ãƒ«ã«å¯¾ã™ã‚‹ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  * 
  * @author pin
  *
  */
 public class MultipleResourceGraphDefinition
 {
-    /** ƒVƒOƒiƒ‹’è‹`ƒe[ƒuƒ‹‚ÌID */
+    /** ã‚·ã‚°ãƒŠãƒ«å®šç¾©ãƒ†ãƒ¼ãƒ–ãƒ«ã®ID */
     public long   multipleResourceGraphId;
 
-    /** ƒVƒOƒiƒ‹–¼ */
+    /** ã‚·ã‚°ãƒŠãƒ«å */
     public String multipleResourceGraphName;
 
-    /** ƒ}ƒbƒ`ƒ“ƒOƒpƒ^[ƒ“ */
+    /** ãƒãƒƒãƒãƒ³ã‚°ãƒ‘ã‚¿ãƒ¼ãƒ³ */
     public String measurementItemIdList;
 
    
     /**
-     * {@link MultipleResourceGraphDefinition} ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‚Ü‚·B<br />
+     * {@link MultipleResourceGraphDefinition} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
      */
     public MultipleResourceGraphDefinition()
     {

@@ -26,17 +26,17 @@
 package jp.co.acroquest.endosnipe.collector.config;
 
 /**
- * ŠúŠÔ‚Ì’PˆÊ‚ğ•\‚·—ñ‹“‘ÌB<br />
+ * æœŸé–“ã®å˜ä½ã‚’è¡¨ã™åˆ—æŒ™ä½“ã€‚<br />
  *
  * @author sakamoto
  */
 public enum PeriodUnit
 {
-    /** “ú */
-    DAY("“ú"),
+    /** æ—¥ */
+    DAY("æ—¥"),
 
-    /** Œ */
-    MONTH("Œ");
+    /** æœˆ */
+    MONTH("æœˆ");
 
     private final String text_;
 
@@ -46,9 +46,9 @@ public enum PeriodUnit
     }
 
     /**
-     * •\¦–¼‚ğ•Ô‚µ‚Ü‚·B<br />
+     * è¡¨ç¤ºåã‚’è¿”ã—ã¾ã™ã€‚<br />
      *
-     * @return •\¦–¼
+     * @return è¡¨ç¤ºå
      */
     public String getText()
     {

@@ -6,15 +6,15 @@ import jp.co.acroquest.endosnipe.javelin.parser.JavelinLogElement;
 import jp.co.acroquest.endosnipe.perfdoctor.PerformanceRuleTestCase;
 
 /**
- * ƒlƒbƒgƒ[ƒN“ü—Í—Ê”»’èƒ‹[ƒ‹—p‚ÌƒeƒXƒgƒP[ƒX<br>
+ * ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯å…¥åŠ›é‡åˆ¤å®šãƒ«ãƒ¼ãƒ«ç”¨ã®ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹<br>
  * <br>
  * @author S.Kimura
  */
 public class NetworkInputRuleTest extends PerformanceRuleTestCase
 {
     /**
-     * è‡’l‚ğw’è‚µ‚ÄNetworkInputRule‚ğ¶¬‚·‚éB<br>
-     * @param threshold è‡’l
+     * é–¾å€¤ã‚’æŒ‡å®šã—ã¦NetworkInputRuleã‚’ç”Ÿæˆã™ã‚‹ã€‚<br>
+     * @param threshold é–¾å€¤
      * @return NetworkInputRule
      */
     private NetworkInputRule createRule(long threshold)
@@ -29,18 +29,18 @@ public class NetworkInputRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * Àˆ—‚Í‘S‚ÄAbstractSingleValueLimitƒNƒ‰ƒX‚É‘‚¢‚Ä‚ ‚é‚½‚ßA<br>
-     * Ú×‚ÈŒŸØ‚Í“¯‚¶‚­AbstractSingleValueLimit‚ÌÀ‘•ƒNƒ‰ƒX‚Å‚ ‚éA<br>
-     * DiskInputRuleTest‚É‚Äs‚¤B<br>
-     * –{ƒeƒXƒgƒP[ƒX‚É‚¨‚¢‚Ä‚ÍAƒGƒ‰[‚ªo—Í‚³‚ê‚é‚±‚Æ‚Ì‚İ‚ğŠm”F‚·‚éB<br>
+     * å®Ÿå‡¦ç†ã¯å…¨ã¦AbstractSingleValueLimitã‚¯ãƒ©ã‚¹ã«æ›¸ã„ã¦ã‚ã‚‹ãŸã‚ã€<br>
+     * è©³ç´°ãªæ¤œè¨¼ã¯åŒã˜ãAbstractSingleValueLimitã®å®Ÿè£…ã‚¯ãƒ©ã‚¹ã§ã‚ã‚‹ã€<br>
+     * DiskInputRuleTestã«ã¦è¡Œã†ã€‚<br>
+     * æœ¬ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹ã«ãŠã„ã¦ã¯ã€ã‚¨ãƒ©ãƒ¼ãŒå‡ºåŠ›ã•ã‚Œã‚‹ã“ã¨ã®ã¿ã‚’ç¢ºèªã™ã‚‹ã€‚<br>
      */
 
     /**
-     * [€”Ô] 2-11-1<br>
-     * doJudge‚ÌƒeƒXƒgB<br>
-     * Eƒlƒbƒgƒ[ƒN“ü—Í—Ê‚ª9999999<br>
-     * Eè‡’l‚ª1000000<br>
-     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br>
+     * [é …ç•ª] 2-11-1<br>
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
+     * ãƒ»ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯å…¥åŠ›é‡ãŒ9999999<br>
+     * ãƒ»é–¾å€¤ãŒ1000000<br>
+     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br>
      */
     public void testDoJudge_th1000000_val999999()
     {
@@ -54,16 +54,16 @@ public class NetworkInputRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
+            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
         }
     }
 
     /**
-     * [€”Ô] 2-11-2<br>
-     * doJudge‚ÌƒeƒXƒgB<br>
-     * Eƒlƒbƒgƒ[ƒN“ü—Í—Ê‚ª1000000<br>
-     * Eè‡’l‚ª1000000<br>
-     * ¨Œx‚ª”­¶‚·‚éB<br>
+     * [é …ç•ª] 2-11-2<br>
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
+     * ãƒ»ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯å…¥åŠ›é‡ãŒ1000000<br>
+     * ãƒ»é–¾å€¤ãŒ1000000<br>
+     * â†’è­¦å‘ŠãŒç™ºç”Ÿã™ã‚‹ã€‚<br>
      */
     public void testDoJudge_th1000000_val1000000()
     {
@@ -78,11 +78,11 @@ public class NetworkInputRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [€”Ô] 2-11-3<br>
-     * doJudge‚ÌƒeƒXƒgB<br>
-     * Eƒlƒbƒgƒ[ƒN“ü—Í—Ê‚ª1000001<br>
-     * Eè‡’l‚ª1000000<br>
-     * ¨Œx‚ª”­¶‚·‚éB<br>
+     * [é …ç•ª] 2-11-3<br>
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
+     * ãƒ»ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯å…¥åŠ›é‡ãŒ1000001<br>
+     * ãƒ»é–¾å€¤ãŒ1000000<br>
+     * â†’è­¦å‘ŠãŒç™ºç”Ÿã™ã‚‹ã€‚<br>
      */
     public void testDoJudge_th1000000_val1000001()
     {

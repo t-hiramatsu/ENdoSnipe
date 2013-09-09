@@ -15,112 +15,112 @@ package jp.co.acroquest.endosnipe.report.entity;
 import java.sql.Timestamp;
 
 /**
- * CPU/ƒƒ‚ƒŠŽg—p—Ê‚Ì‚P•W–{‚ðŽ¦‚·ƒGƒ“ƒeƒBƒeƒBƒNƒ‰ƒXB
+ * CPU/ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡ã®ï¼‘æ¨™æœ¬ã‚’ç¤ºã™ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã€‚
  * 
  * @author M.Yoshida
  */
 public class ProcessResourceRecord
 {
-    /** Œv‘ªŽž */
+    /** è¨ˆæ¸¬æ™‚åˆ» */
     private Timestamp measurementTime_;
 
-    /** CPUŽg—p—¦[%] (•âŠÔŠúŠÔ•½‹Ï) */
+    /** CPUä½¿ç”¨çŽ‡[%] (è£œé–“æœŸé–“å¹³å‡) */
     private double    cpuUsage_;
 
-    /** CPUŽg—p—¦[%] (•âŠÔŠúŠÔÅ‘å) */
+    /** CPUä½¿ç”¨çŽ‡[%] (è£œé–“æœŸé–“æœ€å¤§) */
     private double    cpuUsageMax_;
 
-    /** CPUŽg—p—¦[%] (•âŠÔŠúŠÔÅ¬) */
+    /** CPUä½¿ç”¨çŽ‡[%] (è£œé–“æœŸé–“æœ€å°) */
     private double    cpuUsageMin_;
     
-    /** CPUŽg—p—¦iƒVƒXƒeƒ€j[%] (•âŠÔŠúŠÔ•½‹Ï) */
+    /** CPUä½¿ç”¨çŽ‡ï¼ˆã‚·ã‚¹ãƒ†ãƒ ï¼‰[%] (è£œé–“æœŸé–“å¹³å‡) */
     private double    cpuUsageSys_;
 
-    /** CPUŽg—p—¦iƒVƒXƒeƒ€j[%] (•âŠÔŠúŠÔÅ‘å) */
+    /** CPUä½¿ç”¨çŽ‡ï¼ˆã‚·ã‚¹ãƒ†ãƒ ï¼‰[%] (è£œé–“æœŸé–“æœ€å¤§) */
     private double    cpuUsageSysMax_;
 
-    /** CPUŽg—p—¦iƒVƒXƒeƒ€j[%] (•âŠÔŠúŠÔÅ¬) */
+    /** CPUä½¿ç”¨çŽ‡ï¼ˆã‚·ã‚¹ãƒ†ãƒ ï¼‰[%] (è£œé–“æœŸé–“æœ€å°) */
     private double    cpuUsageSysMin_;
 
-    /** •¨—ƒƒ‚ƒŠŽg—p—ÊiƒVƒXƒeƒ€j[B] */
+    /** ç‰©ç†ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡ï¼ˆã‚·ã‚¹ãƒ†ãƒ ï¼‰[B] */
     private double    physicalMemoryAll_;
 
-    /** •¨—ƒƒ‚ƒŠŽg—p—ÊiƒvƒƒZƒXj[B] */
+    /** ç‰©ç†ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡ï¼ˆãƒ—ãƒ­ã‚»ã‚¹ï¼‰[B] */
     private double    physicalMemoryProcess_;
 
-    /** ƒXƒƒbƒvƒƒ‚ƒŠŽg—p—Ê[B] */
+    /** ã‚¹ãƒ¯ãƒƒãƒ—ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡[B] */
     private double    swapMemory_;
 
-    /** ƒq[ƒvƒƒ‚ƒŠŽg—p—ÊiÅ‘åj[B] */
+    /** ãƒ’ãƒ¼ãƒ—ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡ï¼ˆæœ€å¤§ï¼‰[B] */
     private double    heapMemoryMax_;
 
-    /** ƒq[ƒvƒƒ‚ƒŠŽg—p—ÊiŒ»Ýj[B] */
+    /** ãƒ’ãƒ¼ãƒ—ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡ï¼ˆç¾åœ¨ï¼‰[B] */
     private double    heapMemoryNow_;
 
-    /** ƒq[ƒvƒƒ‚ƒŠŽg—p—ÊiŒ»Ýj[B] Å‘å’l */
+    /** ãƒ’ãƒ¼ãƒ—ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡ï¼ˆç¾åœ¨ï¼‰[B] æœ€å¤§å€¤ */
     private double    heapMemoryNowMax_;
 
-    /** ƒq[ƒvƒƒ‚ƒŠŽg—p—ÊiŒ»Ýj[B] Å¬’l */
+    /** ãƒ’ãƒ¼ãƒ—ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡ï¼ˆç¾åœ¨ï¼‰[B] æœ€å°å€¤ */
     private double    heapMemoryNowMin_;
 
-    /** ”ñƒq[ƒvƒƒ‚ƒŠŽg—p—ÊiÅ‘åj[B] */
+    /** éžãƒ’ãƒ¼ãƒ—ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡ï¼ˆæœ€å¤§ï¼‰[B] */
     private double    nonHeapMemoryMax_;
 
-    /** ”ñƒq[ƒvƒƒ‚ƒŠŽg—p—ÊiŒ»Ýj[B] */
+    /** éžãƒ’ãƒ¼ãƒ—ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡ï¼ˆç¾åœ¨ï¼‰[B] */
     private double    nonHeapMemoryNow_;
 
-    /** ”ñƒq[ƒvƒƒ‚ƒŠŽg—p—ÊiŒ»Ýj[B] Å‘å’l*/
+    /** éžãƒ’ãƒ¼ãƒ—ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡ï¼ˆç¾åœ¨ï¼‰[B] æœ€å¤§å€¤*/
     private double    nonHeapMemoryNowMax_;
 
-    /** ”ñƒq[ƒvƒƒ‚ƒŠŽg—p—ÊiŒ»Ýj[B] Å¬’l*/
+    /** éžãƒ’ãƒ¼ãƒ—ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡ï¼ˆç¾åœ¨ï¼‰[B] æœ€å°å€¤*/
     private double    nonHeapMemoryNowMin_;
 
-    /** ‰¼‘zƒ}ƒVƒ“ƒƒ‚ƒŠŽg—p—ÊiÅ‘åj[B] */
+    /** ä»®æƒ³ãƒžã‚·ãƒ³ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡ï¼ˆæœ€å¤§ï¼‰[B] */
     private double    vmMemoryMax_;
 
-    /** ‰¼‘zƒ}ƒVƒ“ƒƒ‚ƒŠŽg—p—ÊiŒ»Ýj[B] */
+    /** ä»®æƒ³ãƒžã‚·ãƒ³ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡ï¼ˆç¾åœ¨ï¼‰[B] */
     private double    vmMemoryNow_;
 
-    /** ‰¼‘zƒ}ƒVƒ“ƒƒ‚ƒŠŽg—p—ÊiŒ»Ýj[B] Å‘å’l*/
+    /** ä»®æƒ³ãƒžã‚·ãƒ³ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡ï¼ˆç¾åœ¨ï¼‰[B] æœ€å¤§å€¤*/
     private double    vmMemoryNowMax_;
 
-    /** ‰¼‘zƒ}ƒVƒ“ƒƒ‚ƒŠŽg—p—ÊiŒ»Ýj[B] Å¬’l*/
+    /** ä»®æƒ³ãƒžã‚·ãƒ³ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡ï¼ˆç¾åœ¨ï¼‰[B] æœ€å°å€¤*/
     private double    vmMemoryNowMin_;
 
-    /** ƒtƒ@ƒCƒ‹‹LqŽq/ƒnƒ“ƒhƒ‹” */
+    /** ãƒ•ã‚¡ã‚¤ãƒ«è¨˜è¿°å­/ãƒãƒ³ãƒ‰ãƒ«æ•° */
     private double    fdCount_;
 
-    /** ƒtƒ@ƒCƒ‹‹LqŽq/ƒnƒ“ƒhƒ‹” Å‘å’l */
+    /** ãƒ•ã‚¡ã‚¤ãƒ«è¨˜è¿°å­/ãƒãƒ³ãƒ‰ãƒ«æ•° æœ€å¤§å€¤ */
     private double    fdCountMax_;
 
-    /** ƒtƒ@ƒCƒ‹‹LqŽq/ƒnƒ“ƒhƒ‹” Å¬’l */
+    /** ãƒ•ã‚¡ã‚¤ãƒ«è¨˜è¿°å­/ãƒãƒ³ãƒ‰ãƒ«æ•° æœ€å°å€¤ */
     private double    fdCountMin_;
     
-    /** ƒƒWƒƒ[ƒtƒH[ƒ‹ƒg” */
+    /** ãƒ¡ã‚¸ãƒ£ãƒ¼ãƒ•ã‚©ãƒ¼ãƒ«ãƒˆæ•° */
     private double    majorFault_;
     
-    /** ƒƒWƒƒ[ƒtƒH[ƒ‹ƒg”@Å‘å’l */
+    /** ãƒ¡ã‚¸ãƒ£ãƒ¼ãƒ•ã‚©ãƒ¼ãƒ«ãƒˆæ•°ã€€æœ€å¤§å€¤ */
     private double    majorFaultMax_;
     
-    /** ƒƒWƒƒ[ƒtƒH[ƒ‹ƒg”@Å¬’l */
+    /** ãƒ¡ã‚¸ãƒ£ãƒ¼ãƒ•ã‚©ãƒ¼ãƒ«ãƒˆæ•°ã€€æœ€å°å€¤ */
     private double    majorFaultMin_;
     
-    /** ƒvƒƒZƒX‚Ìƒƒ‚ƒŠŽg—p—Ê@‰¼‘zƒƒ‚ƒŠŽg—p—ÊiƒvƒƒZƒXj */
+    /** ãƒ—ãƒ­ã‚»ã‚¹ã®ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡ã€€ä»®æƒ³ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡ï¼ˆãƒ—ãƒ­ã‚»ã‚¹ï¼‰ */
     private double    virtualMem_;
     
-    /** ƒvƒƒZƒX‚Ìƒƒ‚ƒŠŽg—p—Ê@‰¼‘zƒƒ‚ƒŠŽg—p—ÊiƒvƒƒZƒXj@Å‘å’l */
+    /** ãƒ—ãƒ­ã‚»ã‚¹ã®ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡ã€€ä»®æƒ³ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡ï¼ˆãƒ—ãƒ­ã‚»ã‚¹ï¼‰ã€€æœ€å¤§å€¤ */
     private double    virtualMemMax_;
     
-    /** ƒvƒƒZƒX‚Ìƒƒ‚ƒŠŽg—p—Ê@‰¼‘zƒƒ‚ƒŠŽg—p—ÊiƒvƒƒZƒXj@Å¬’l */
+    /** ãƒ—ãƒ­ã‚»ã‚¹ã®ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡ã€€ä»®æƒ³ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡ï¼ˆãƒ—ãƒ­ã‚»ã‚¹ï¼‰ã€€æœ€å°å€¤ */
     private double    virtualMemMin_;
     
-    /** ƒvƒƒZƒX‚Ìƒƒ‚ƒŠŽg—p—Ê@•¨—ƒƒ‚ƒŠŽg—p—ÊiƒvƒƒZƒXj */
+    /** ãƒ—ãƒ­ã‚»ã‚¹ã®ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡ã€€ç‰©ç†ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡ï¼ˆãƒ—ãƒ­ã‚»ã‚¹ï¼‰ */
     private double    physicalMem_;
     
-    /** ƒvƒƒZƒX‚Ìƒƒ‚ƒŠŽg—p—Ê@•¨—ƒƒ‚ƒŠŽg—p—ÊiƒvƒƒZƒXj@Å‘å’l */
+    /** ãƒ—ãƒ­ã‚»ã‚¹ã®ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡ã€€ç‰©ç†ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡ï¼ˆãƒ—ãƒ­ã‚»ã‚¹ï¼‰ã€€æœ€å¤§å€¤ */
     private double    physicalMemMax_;
     
-    /** ƒvƒƒZƒX‚Ìƒƒ‚ƒŠŽg—p—Ê@•¨—ƒƒ‚ƒŠŽg—p—ÊiƒvƒƒZƒXj@Å¬’l */
+    /** ãƒ—ãƒ­ã‚»ã‚¹ã®ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡ã€€ç‰©ç†ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡ï¼ˆãƒ—ãƒ­ã‚»ã‚¹ï¼‰ã€€æœ€å°å€¤ */
     private double    physicalMemMin_;
     
     /**

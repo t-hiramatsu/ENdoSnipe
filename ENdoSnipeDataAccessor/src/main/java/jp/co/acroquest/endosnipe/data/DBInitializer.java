@@ -42,7 +42,7 @@ import jp.co.acroquest.endosnipe.data.db.SQLExecutor;
 import jp.co.acroquest.endosnipe.util.ResourceDataDaoUtil;
 
 /**
- * ENdoSnipe —pƒf[ƒ^ƒx[ƒX‚ğ‰Šú‰»‚·‚é‚½‚ß‚ÌƒNƒ‰ƒX‚Å‚·B<br />
+ * ENdoSnipe ç”¨ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚’åˆæœŸåŒ–ã™ã‚‹ãŸã‚ã®ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  * 
  * @author y-komori
  */
@@ -59,10 +59,10 @@ public class DBInitializer
 	private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(
 			DBInitializer.class);
 
-	/** PostgreSQLƒf[ƒ^ƒx[ƒX‚Ìƒhƒ‰ƒCƒoƒNƒ‰ƒX–¼Ì */
+	/** PostgreSQLãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®ãƒ‰ãƒ©ã‚¤ãƒã‚¯ãƒ©ã‚¹åç§° */
 	private static final String POSTGRES_DRIVER = "org.postgresql.Driver";
 
-	/** PostgreSQLÚ‘±—pURI‚ÌƒvƒŒƒtƒBƒNƒX */
+	/** PostgreSQLæ¥ç¶šç”¨URIã®ãƒ—ãƒ¬ãƒ•ã‚£ã‚¯ã‚¹ */
 	private static final String POSTGRES_URI_PREFIX = "jdbc:postgresql://";
 
 	private DBInitializer()
@@ -71,11 +71,11 @@ public class DBInitializer
 	}
 
 	/**
-	 * Ú‘±‚³‚ê‚½ƒf[ƒ^ƒx[ƒX‚ª‰Šú‰»Ï‚İ‚©‚Ç‚¤‚©‚ğ’²‚×‚Ü‚·B<br />
+	 * æ¥ç¶šã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãŒåˆæœŸåŒ–æ¸ˆã¿ã‹ã©ã†ã‹ã‚’èª¿ã¹ã¾ã™ã€‚<br />
 	 * 
 	 * @param con
-	 *            ƒRƒlƒNƒVƒ‡ƒ“
-	 * @return ‰Šú‰»Ï‚İ‚Ìê‡‚Í <code>true</code>A‚»‚¤‚Å‚È‚¢ê‡‚Í <code>false</code>B
+	 *            ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³
+	 * @return åˆæœŸåŒ–æ¸ˆã¿ã®å ´åˆã¯ <code>true</code>ã€ãã†ã§ãªã„å ´åˆã¯ <code>false</code>ã€‚
 	 */
 	public static boolean isInitialized(final Connection con)
 	{
@@ -108,8 +108,8 @@ public class DBInitializer
 		}
 		catch (SQLException ex)
 		{
-			// ‰Šú‰»‚³‚ê‚Ä‚¢‚È‚¢ê‡‚É—áŠO‚ª”­¶‚·‚é‚½‚ßA
-			// INFOˆÈã‚Å‚Ìo—Í‚Æ‚·‚éB
+			// åˆæœŸåŒ–ã•ã‚Œã¦ã„ãªã„å ´åˆã«ä¾‹å¤–ãŒç™ºç”Ÿã™ã‚‹ãŸã‚ã€
+			// INFOä»¥ä¸Šã§ã®å‡ºåŠ›ã¨ã™ã‚‹ã€‚
 			if (LOGGER.isInfoEnabled())
 			{
 				LOGGER
@@ -126,15 +126,15 @@ public class DBInitializer
 	}
 
 	/**
-	 * Ú‘±‚³‚ê‚½ƒf[ƒ^ƒx[ƒX‚Ì‰Šú‰»‚ğs‚¢‚Ü‚·B<br />
-	 * ƒf[ƒ^ƒx[ƒX‚ª‰Šú‰»Ï‚İ‚Ìê‡‚Í‰½‚às‚¢‚Ü‚¹‚ñB<br />
+	 * æ¥ç¶šã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®åˆæœŸåŒ–ã‚’è¡Œã„ã¾ã™ã€‚<br />
+	 * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãŒåˆæœŸåŒ–æ¸ˆã¿ã®å ´åˆã¯ä½•ã‚‚è¡Œã„ã¾ã›ã‚“ã€‚<br />
 	 * 
 	 * @param con
-	 *            ƒRƒlƒNƒVƒ‡ƒ“
+	 *            ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³
 	 * @throws SQLException
-	 *             SQL”­s‚É¸”s‚µ‚½ê‡
+	 *             SQLç™ºè¡Œã«å¤±æ•—ã—ãŸå ´åˆ
 	 * @throws IOException
-	 *             “üo—ÍƒGƒ‰[‚ª”­¶‚µ‚½ê‡
+	 *             å…¥å‡ºåŠ›ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
 	 */
 	public static void initialize(final Connection con) throws SQLException,
 			IOException
@@ -153,28 +153,28 @@ public class DBInitializer
 		{
 			H2DBUtil.executeDDL(con, POSTGRES_DDL_PATH);
 
-			// Œ»İ‚Ìƒf[ƒ^‚ğ‘}“ü‚·‚éƒe[ƒuƒ‹ƒCƒ“ƒfƒbƒNƒX
+			// ç¾åœ¨ã®ãƒ‡ãƒ¼ã‚¿ã‚’æŒ¿å…¥ã™ã‚‹ãƒ†ãƒ¼ãƒ–ãƒ«ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
 			int startIndex = ResourceDataDaoUtil.getTableIndexToInsert(null);
 
-			// ¡”N‚Ì¼—ï
+			// ä»Šå¹´ã®è¥¿æš¦
 			Calendar currentYearCalendar = Calendar.getInstance();
 			int currentYear = currentYearCalendar.get(Calendar.YEAR);
 
-			// ƒp[ƒeƒBƒVƒ‡ƒjƒ“ƒO—pƒe[ƒuƒ‹‚ğì¬‚·‚éiMEASUREMENT_VALUEAJAVELIN_LOGƒe[ƒuƒ‹j
+			// ãƒ‘ãƒ¼ãƒ†ã‚£ã‚·ãƒ§ãƒ‹ãƒ³ã‚°ç”¨ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ä½œæˆã™ã‚‹ï¼ˆMEASUREMENT_VALUEã€JAVELIN_LOGãƒ†ãƒ¼ãƒ–ãƒ«ï¼‰
 			for (int index = 1;
 				index <= ResourceDataDaoUtil.PARTITION_TABLE_COUNT; index++)
 			{
 				int year;
 				if (index < startIndex)
 				{
-					// Œ»İ‚Ìƒf[ƒ^‚ğ‘}“ü‚·‚éƒe[ƒuƒ‹‚æ‚è‚à‘O‚Ìƒe[ƒuƒ‹‚ğì¬‚·‚éê‡A
-					// CHECK§–ñ‚É“ü‚ê‚é‚Ì”ÍˆÍ‚Í—‚”N‚Ì’l‚ğ“ü‚ê‚é
+					// ç¾åœ¨ã®ãƒ‡ãƒ¼ã‚¿ã‚’æŒ¿å…¥ã™ã‚‹ãƒ†ãƒ¼ãƒ–ãƒ«ã‚ˆã‚Šã‚‚å‰ã®ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ä½œæˆã™ã‚‹å ´åˆã€
+					// CHECKåˆ¶ç´„ã«å…¥ã‚Œã‚‹æ™‚åˆ»ã®ç¯„å›²ã¯ç¿Œå¹´ã®å€¤ã‚’å…¥ã‚Œã‚‹
 					year = currentYear + 1;
 				}
 				else
 				{
-					// Œ»İ‚Ìƒf[ƒ^‚ğ‘}“ü‚·‚éƒe[ƒuƒ‹ˆÈ~‚Ìƒe[ƒuƒ‹‚ğì¬‚·‚éê‡A
-					// CHECK§–ñ‚É“ü‚ê‚é‚Ì”ÍˆÍ‚Í¡”N‚Ì’l‚ğ“ü‚ê‚é
+					// ç¾åœ¨ã®ãƒ‡ãƒ¼ã‚¿ã‚’æŒ¿å…¥ã™ã‚‹ãƒ†ãƒ¼ãƒ–ãƒ«ä»¥é™ã®ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ä½œæˆã™ã‚‹å ´åˆã€
+					// CHECKåˆ¶ç´„ã«å…¥ã‚Œã‚‹æ™‚åˆ»ã®ç¯„å›²ã¯ä»Šå¹´ã®å€¤ã‚’å…¥ã‚Œã‚‹
 					year = currentYear;
 				}
 
@@ -182,20 +182,20 @@ public class DBInitializer
 				createJavelinLogTable(con, index, year);
 			}
 		}
-		// MEASUREMENT_INFOƒe[ƒuƒ‹‚ğíœ‚µ‚½‚Ì‚ÅA‰Šúƒf[ƒ^“Š“ü‚à‚µ‚È‚¢
+		// MEASUREMENT_INFOãƒ†ãƒ¼ãƒ–ãƒ«ã‚’å‰Šé™¤ã—ãŸã®ã§ã€åˆæœŸãƒ‡ãƒ¼ã‚¿æŠ•å…¥ã‚‚ã—ãªã„
 		// initMeasurementInfoFromTsv(con, TSV_MEASUREMENT_INFO_PATH);
 
 	}
 
 	/**
-	 * Ú‘±‚Ì“x‚É•K—v‚È‰Šú‰»‚ğs‚¢‚Ü‚·B
+	 * æ¥ç¶šã®åº¦ã«å¿…è¦ãªåˆæœŸåŒ–ã‚’è¡Œã„ã¾ã™ã€‚
 	 * 
 	 * @param con
-	 *            ƒRƒlƒNƒVƒ‡ƒ“
+	 *            ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³
 	 * @throws SQLException
-	 *             SQL”­s‚É¸”s‚µ‚½ê‡
+	 *             SQLç™ºè¡Œã«å¤±æ•—ã—ãŸå ´åˆ
 	 * @throws IOException
-	 *             “üo—ÍƒGƒ‰[‚ª”­¶‚µ‚½ê‡
+	 *             å…¥å‡ºåŠ›ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
 	 */
 	public static void reinitialize(Connection con) throws SQLException,
 			IOException
@@ -205,18 +205,18 @@ public class DBInitializer
 		{
 			H2DBUtil.executeDDL(con, H2_FUNC_PATH);
 		}
-		// MEASUREMENT_INFOƒe[ƒuƒ‹‚ğíœ‚µ‚½‚Ì‚ÅA‰Šúƒf[ƒ^“Š“ü‚à‚µ‚È‚¢
+		// MEASUREMENT_INFOãƒ†ãƒ¼ãƒ–ãƒ«ã‚’å‰Šé™¤ã—ãŸã®ã§ã€åˆæœŸãƒ‡ãƒ¼ã‚¿æŠ•å…¥ã‚‚ã—ãªã„
 		// initMeasurementInfoFromTsv(con, TSV_MEASUREMENT_INFO_PATH);
 	}
 
-	// MEASUREMENT_INFOƒe[ƒuƒ‹‚ğíœ‚µ‚½‚Ì‚ÅA‰Šúƒf[ƒ^“Š“ü‚à‚µ‚È‚¢
+	// MEASUREMENT_INFOãƒ†ãƒ¼ãƒ–ãƒ«ã‚’å‰Šé™¤ã—ãŸã®ã§ã€åˆæœŸãƒ‡ãƒ¼ã‚¿æŠ•å…¥ã‚‚ã—ãªã„
 	// /**
-	// * ƒNƒ‰ƒXƒpƒXã‚É‘¶İ‚·‚é TSV ƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚İA MEASUREMENT_INFO ƒe[ƒuƒ‹‚Éƒf[ƒ^‚ğ‘}“ü‚µ‚Ü‚·B<br />
+	// * ã‚¯ãƒ©ã‚¹ãƒ‘ã‚¹ä¸Šã«å­˜åœ¨ã™ã‚‹ TSV ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã¿ã€ MEASUREMENT_INFO ãƒ†ãƒ¼ãƒ–ãƒ«ã«ãƒ‡ãƒ¼ã‚¿ã‚’æŒ¿å…¥ã—ã¾ã™ã€‚<br />
 	// *
-	// * @param con ƒRƒlƒNƒVƒ‡ƒ“
-	// * @param path “Ç‚İ‚Ş TSV ƒtƒ@ƒCƒ‹‚ÌƒpƒX
-	// * @throws IOException “üo—ÍƒGƒ‰[‚ª”­¶‚µ‚½ê‡
-	// * @throws SQLException SQLƒGƒ‰[‚ª”­¶‚µ‚½ê‡
+	// * @param con ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³
+	// * @param path èª­ã¿è¾¼ã‚€ TSV ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹
+	// * @throws IOException å…¥å‡ºåŠ›ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
+	// * @throws SQLException SQLã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
 	// */
 	// public static void initMeasurementInfoFromTsv(final Connection con, final
 	// String path)
@@ -236,8 +236,8 @@ public class DBInitializer
 	// }
 	// catch (SQLException sqle)
 	// {
-	// // ‰Šú‰»‚³‚ê‚Ä‚¢‚È‚¢ê‡‚É—áŠO‚ª”­¶‚·‚é‚½‚ßA
-	// // INFOˆÈã‚Å‚Ìo—Í‚Æ‚·‚éB
+	// // åˆæœŸåŒ–ã•ã‚Œã¦ã„ãªã„å ´åˆã«ä¾‹å¤–ãŒç™ºç”Ÿã™ã‚‹ãŸã‚ã€
+	// // INFOä»¥ä¸Šã§ã®å‡ºåŠ›ã¨ã™ã‚‹ã€‚
 	// if (LOGGER.isInfoEnabled())
 	// {
 	// LOGGER.log(LogMessageCodes.DB_ACCESS_ERROR, sqle, sqle.getMessage());
@@ -276,13 +276,13 @@ public class DBInitializer
 	// }
 
 	/**
-	 * CHECK §–ñ–¼‚ğ¶¬‚µ‚Ü‚·B
+	 * CHECK åˆ¶ç´„åã‚’ç”Ÿæˆã—ã¾ã™ã€‚
 	 * 
 	 * @param tableName
-	 *            ƒCƒ“ƒfƒbƒNƒX‚àŠÜ‚ß‚½ƒe[ƒuƒ‹–¼
+	 *            ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚‚å«ã‚ãŸãƒ†ãƒ¼ãƒ–ãƒ«å
 	 * @param column
-	 *            ƒJƒ‰ƒ€–¼
-	 * @return CHECK §–ñ–¼
+	 *            ã‚«ãƒ©ãƒ å
+	 * @return CHECK åˆ¶ç´„å
 	 */
 	public static String createCheckConstraintName(final String tableName,
 			final String column)
@@ -291,15 +291,15 @@ public class DBInitializer
 	}
 
 	/**
-	 * ƒp[ƒeƒBƒVƒ‡ƒjƒ“ƒO‚³‚ê‚½ŒÂX‚Ìƒe[ƒuƒ‹‚É‘Î‚µ‚Äİ’è‚·‚é CHECK §–ñ‚Ì•¶‚ğ¶¬‚µ‚Ü‚·B
+	 * ãƒ‘ãƒ¼ãƒ†ã‚£ã‚·ãƒ§ãƒ‹ãƒ³ã‚°ã•ã‚ŒãŸå€‹ã€…ã®ãƒ†ãƒ¼ãƒ–ãƒ«ã«å¯¾ã—ã¦è¨­å®šã™ã‚‹ CHECK åˆ¶ç´„ã®æ–‡ã‚’ç”Ÿæˆã—ã¾ã™ã€‚
 	 * 
 	 * @param column
-	 *            §ŒÀ‚ğ‚©‚¯‚éƒJƒ‰ƒ€–¼
+	 *            åˆ¶é™ã‚’ã‹ã‘ã‚‹ã‚«ãƒ©ãƒ å
 	 * @param tableIndex
-	 *            ƒe[ƒuƒ‹ƒCƒ“ƒfƒbƒNƒX
+	 *            ãƒ†ãƒ¼ãƒ–ãƒ«ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
 	 * @param year
-	 *            ”N
-	 * @return CHECK §–ñ‚Ì•¶
+	 *            å¹´
+	 * @return CHECK åˆ¶ç´„ã®æ–‡
 	 */
 	public static String createCheckConstraintText(final String column,
 			final int tableIndex, final int year)
@@ -311,7 +311,7 @@ public class DBInitializer
 		Date startDate = calendar.getTime();
 		if (tableIndex == ResourceDataDaoUtil.PARTITION_TABLE_COUNT)
 		{
-			// ÅŒã‚Ìƒe[ƒuƒ‹‚Å‚ÍAƒe[ƒuƒ‹‚ÉŠi”[‚·‚éI—¹“ú•t‚Í‚»‚Ì”N‚Ì12/31i‚È‚Ì‚ÅI—¹“ú‚Í—‚”N‚Ì1/1j
+			// æœ€å¾Œã®ãƒ†ãƒ¼ãƒ–ãƒ«ã§ã¯ã€ãƒ†ãƒ¼ãƒ–ãƒ«ã«æ ¼ç´ã™ã‚‹çµ‚äº†æ—¥ä»˜ã¯ãã®å¹´ã®12/31ï¼ˆãªã®ã§çµ‚äº†æ—¥ã¯ç¿Œå¹´ã®1/1ï¼‰
 			calendar.set(year + 1, 0, 1, 0, 0, 0);
 		}
 		else
@@ -327,21 +327,21 @@ public class DBInitializer
 	}
 
 	/**
-	 * MEASUREMENT_VALUE_xx ƒe[ƒuƒ‹‚ğì¬‚µ‚Ü‚·B
+	 * MEASUREMENT_VALUE_xx ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ä½œæˆã—ã¾ã™ã€‚
 	 * 
 	 * @param con
-	 *            ƒf[ƒ^ƒx[ƒXƒRƒlƒNƒVƒ‡ƒ“
+	 *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³
 	 * @param index
-	 *            ì¬‚·‚éƒe[ƒuƒ‹‚ÌƒCƒ“ƒfƒbƒNƒX
+	 *            ä½œæˆã™ã‚‹ãƒ†ãƒ¼ãƒ–ãƒ«ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
 	 * @param year
-	 *            ¼—ï
+	 *            è¥¿æš¦
 	 * @throws SQLException
-	 *             ƒe[ƒuƒ‹ì¬‚É—áŠO‚ª”­¶‚µ‚½ê‡
+	 *             ãƒ†ãƒ¼ãƒ–ãƒ«ä½œæˆæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
 	 */
 	private static void createMeasurementValueTable(final Connection con,
 			int index, int year) throws SQLException
 	{
-		// MEASUREMENT_VALUE_xx ƒe[ƒuƒ‹‚ğì¬‚·‚é
+		// MEASUREMENT_VALUE_xx ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ä½œæˆã™ã‚‹
 		String tableName = String.format("%s_%02d",
 				TableNames.MEASUREMENT_VALUE, index);
 		String checkConstraintName = createCheckConstraintName(tableName,
@@ -354,7 +354,7 @@ public class DBInitializer
 				TableNames.MEASUREMENT_VALUE);
 		SQLExecutor.executeSQL(con, createMeasurementValueSql, null);
 
-		// MEASUREMENT_VALUE_xx ƒe[ƒuƒ‹‚ÉƒCƒ“ƒfƒbƒNƒX‚ğ‚Â‚¯‚é
+		// MEASUREMENT_VALUE_xx ãƒ†ãƒ¼ãƒ–ãƒ«ã«ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’ã¤ã‘ã‚‹
 		String createIndexSql = String
 				.format(
 						"CREATE INDEX IDX_%1$s_MEASUREMENT_TIME" +
@@ -364,21 +364,21 @@ public class DBInitializer
 	}
 
 	/**
-	 * JAVELIN_LOG_xx ƒe[ƒuƒ‹‚ğì¬‚µ‚Ü‚·B
+	 * JAVELIN_LOG_xx ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ä½œæˆã—ã¾ã™ã€‚
 	 * 
 	 * @param con
-	 *            ƒf[ƒ^ƒx[ƒXƒRƒlƒNƒVƒ‡ƒ“
+	 *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³
 	 * @param index
-	 *            ì¬‚·‚éƒe[ƒuƒ‹‚ÌƒCƒ“ƒfƒbƒNƒX
+	 *            ä½œæˆã™ã‚‹ãƒ†ãƒ¼ãƒ–ãƒ«ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
 	 * @param year
-	 *            ¼—ï
+	 *            è¥¿æš¦
 	 * @throws SQLException
-	 *             ƒe[ƒuƒ‹ì¬‚É—áŠO‚ª”­¶‚µ‚½ê‡
+	 *             ãƒ†ãƒ¼ãƒ–ãƒ«ä½œæˆæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
 	 */
 	private static void createJavelinLogTable(final Connection con, int index,
 			int year) throws SQLException
 	{
-		// JAVELIN_LOG_xx ƒe[ƒuƒ‹‚ğì¬‚·‚é
+		// JAVELIN_LOG_xx ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ä½œæˆã™ã‚‹
 		String tableName = String.format("%s_%02d", TableNames.JAVELIN_LOG,
 				index);
 		String checkConstraintName = createCheckConstraintName(tableName,
@@ -390,7 +390,7 @@ public class DBInitializer
 				checkConstraintName, checkConstraint, TableNames.JAVELIN_LOG);
 		SQLExecutor.executeSQL(con, createJavelinLogSql, null);
 
-		// JAVELIN_LOG_xx ƒe[ƒuƒ‹‚ÉƒCƒ“ƒfƒbƒNƒX‚ğ‚Â‚¯‚é
+		// JAVELIN_LOG_xx ãƒ†ãƒ¼ãƒ–ãƒ«ã«ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’ã¤ã‘ã‚‹
 		String createStartTimeIndexSql = String.format(
 				"CREATE INDEX IDX_%1$s_START_TIME ON %1$s (START_TIME)",
 				tableName);
@@ -401,28 +401,28 @@ public class DBInitializer
 	}
 
 	/**
-	 * w’è‚³‚ê‚½–¼‘O‚Ìƒf[ƒ^ƒx[ƒX‚ğì¬‚·‚éB
+	 * æŒ‡å®šã•ã‚ŒãŸåå‰ã®ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚’ä½œæˆã™ã‚‹ã€‚
 	 * 
 	 * @param dbName
-	 *            ƒf[ƒ^ƒx[ƒX–¼
-	 * @return ƒf[ƒ^ƒx[ƒX‚Ìì¬‚É¬Œ÷‚µ‚½‚ç <code>true</code>A‚»‚¤‚Å‚È‚¢ê‡‚Í<code>false</code>
+	 *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+	 * @return ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®ä½œæˆã«æˆåŠŸã—ãŸã‚‰ <code>true</code>ã€ãã†ã§ãªã„å ´åˆã¯<code>false</code>
 	 */
 	public static boolean createDatabase(String dbName)
 	{
 		if (DBManager.isDefaultDb() == true)
 		{
-			// H2‚Ìê‡‚Í‰½‚à‚µ‚È‚¢
+			// H2ã®å ´åˆã¯ä½•ã‚‚ã—ãªã„
 			return false;
 		}
 		return createPostgresDatabase(dbName);
 	}
 
 	/**
-	 * w’è‚³‚ê‚½–¼‘O‚Ìƒf[ƒ^ƒx[ƒX‚ğPostgreSQL‚Åì¬‚·‚éB
+	 * æŒ‡å®šã•ã‚ŒãŸåå‰ã®ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚’PostgreSQLã§ä½œæˆã™ã‚‹ã€‚
 	 * 
 	 * @param dbName
-	 *            ƒf[ƒ^ƒx[ƒX–¼
-	 * @return ƒf[ƒ^ƒx[ƒX‚Ìì¬‚É¬Œ÷‚µ‚½‚ç <code>true</code>A‚»‚¤‚Å‚È‚¢ê‡‚Í<code>false</code>
+	 *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+	 * @return ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®ä½œæˆã«æˆåŠŸã—ãŸã‚‰ <code>true</code>ã€ãã†ã§ãªã„å ´åˆã¯<code>false</code>
 	 */
 	private static boolean createPostgresDatabase(String dbName)
 	{
@@ -440,7 +440,7 @@ public class DBInitializer
 		Connection conn = null;
 		Statement state = null;
 
-		// ƒf[ƒ^ƒx[ƒX‚ğì¬‚µA‚»‚ÌŒ‹‰Ê‚ğ•Ô‚·
+		// ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚’ä½œæˆã—ã€ãã®çµæœã‚’è¿”ã™
 		try
 		{
 			conn = DriverManager.getConnection(uri, DBManager.getUserName(),
@@ -448,7 +448,7 @@ public class DBInitializer
 
 			state = conn.createStatement();
 
-			// ƒf[ƒ^ƒx[ƒX–¼‚ğ""‚ÅŠ‡‚é
+			// ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã‚’""ã§æ‹¬ã‚‹
 			dbName = "\"" + dbName + "\"";
 
 			return state.execute("CREATE DATABASE " + dbName + ";");

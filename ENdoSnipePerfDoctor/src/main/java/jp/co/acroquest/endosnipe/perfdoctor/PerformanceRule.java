@@ -30,33 +30,33 @@ import java.util.List;
 import jp.co.acroquest.endosnipe.javelin.parser.JavelinLogElement;
 
 /**
- * PerformanceDoctorƒ‹[ƒ‹‚ÌƒCƒ“ƒ^ƒtƒF[ƒXB
+ * PerformanceDoctorãƒ«ãƒ¼ãƒ«ã®ã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹ã€‚
  * @author tanimoto
  *
  */
 public interface PerformanceRule
 {
     /**
-     * ƒƒO‚Ì”»’è‚ğs‚¤B
-     * @param javelinLogElementList ƒƒO—v‘f
-     * @return ŒxƒŠƒXƒg
+     * ãƒ­ã‚°ã®åˆ¤å®šã‚’è¡Œã†ã€‚
+     * @param javelinLogElementList ãƒ­ã‚°è¦ç´ 
+     * @return è­¦å‘Šãƒªã‚¹ãƒˆ
      */
     List<WarningUnit> judge(List<JavelinLogElement> javelinLogElementList);
 
     /**
-     * ƒ‹[ƒ‹ID‚ğæ“¾‚·‚éB
-     * @return ƒ‹[ƒ‹ID
+     * ãƒ«ãƒ¼ãƒ«IDã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ãƒ«ãƒ¼ãƒ«ID
      */
     String getId();
 
     /**
-     * –â‘èƒŒƒxƒ‹‚ğæ“¾‚·‚éB
-     * @return –â‘èƒŒƒxƒ‹
+     * å•é¡Œãƒ¬ãƒ™ãƒ«ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return å•é¡Œãƒ¬ãƒ™ãƒ«
      */
     String getLevel();
 
     /**
-     * ƒ‹[ƒ‹‚Ìİ’è’l‚É‘Î‚µ‚Ä‰Šú‰»‚ğs‚¢‚Ü‚·B<br />
+     * ãƒ«ãƒ¼ãƒ«ã®è¨­å®šå€¤ã«å¯¾ã—ã¦åˆæœŸåŒ–ã‚’è¡Œã„ã¾ã™ã€‚<br />
      */
     void init();
 }

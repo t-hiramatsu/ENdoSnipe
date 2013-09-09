@@ -15,23 +15,23 @@ package jp.co.acroquest.endosnipe.report.entity;
 import java.sql.Timestamp;
 
 /**
- * Œn—ñ‚²‚Æ‚ÉƒOƒ‰ƒt‚ğo—Í‚·‚éê‡‚Ìƒf[ƒ^‚ğ
- * 1ŒÂ•Û‚·‚éƒNƒ‰ƒX‚Å‚·B
+ * ç³»åˆ—ã”ã¨ã«ã‚°ãƒ©ãƒ•ã‚’å‡ºåŠ›ã™ã‚‹å ´åˆã®ãƒ‡ãƒ¼ã‚¿ã‚’
+ * 1å€‹ä¿æŒã™ã‚‹ã‚¯ãƒ©ã‚¹ã§ã™ã€‚
  * 
  * @author ochiai
  */
 public class ItemRecord
 {
-	/** Œv‘ª */
+	/** è¨ˆæ¸¬æ™‚åˆ» */
     private Timestamp measurementTime_;
     
-    /** •âŠÔŠúŠÔ•½‹Ï@*/
+    /** è£œé–“æœŸé–“å¹³å‡ã€€*/
     private double      value_;
     
-    /** •âŠÔŠúŠÔÅ‘å */
+    /** è£œé–“æœŸé–“æœ€å¤§ */
     private double      valueMax_;
     
-    /** •âŠÔŠúŠÔÅ¬ */
+    /** è£œé–“æœŸé–“æœ€å° */
     private double      valueMin_;
     
     /**

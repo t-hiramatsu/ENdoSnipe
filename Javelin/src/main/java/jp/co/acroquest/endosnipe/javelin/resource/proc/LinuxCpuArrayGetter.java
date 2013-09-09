@@ -35,7 +35,7 @@ import jp.co.acroquest.endosnipe.javelin.bean.proc.CpuCoreInfo;
 import jp.co.acroquest.endosnipe.javelin.bean.proc.StatInfo;
 
 /**
- * StatInfo����^�X�N�҂��ł�CPU�g�p�ʂ��擾����B
+ * StatInfoからタスク待ちでのCPU使用量を取得する。
  * 
  * @author akita
  */
@@ -43,7 +43,7 @@ public class LinuxCpuArrayGetter extends ProcMultiResourceGetter
 {
     /**
      * 
-     * @param procParser ���\�[�X���擾�p
+     * @param procParser リソース情報取得用
      */
     public LinuxCpuArrayGetter(ProcParser procParser)
     {

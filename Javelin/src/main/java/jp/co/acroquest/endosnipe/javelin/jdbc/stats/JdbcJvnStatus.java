@@ -36,45 +36,45 @@ import java.util.Set;
 import jp.co.acroquest.endosnipe.javelin.CallTreeRecorder;
 
 /**
- * JDBCJavelin‚ªƒXƒŒƒbƒh–ˆ‚É‚Âó‘Ô’l‚Å‚·B
+ * JDBCJavelinãŒã‚¹ãƒ¬ãƒƒãƒ‰æ¯ã«æŒã¤çŠ¶æ…‹å€¤ã§ã™ã€‚
  * 
  * @author eriguchi
  */
 public class JdbcJvnStatus
 {
     /**
-     * ÀsŒv‰ææ“¾’†‚ÉA‚»‚ê—p‚ÌStatement‚ğ“o˜^‚·‚éƒtƒB[ƒ‹ƒhB
-     * ÀsŒv‰ææ“¾’†‚Å‚È‚¯‚ê‚Înull‚ğİ’è‚µ‚Ä‚¨‚«‚Ü‚·B
+     * å®Ÿè¡Œè¨ˆç”»å–å¾—ä¸­ã«ã€ãã‚Œç”¨ã®Statementã‚’ç™»éŒ²ã™ã‚‹ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã€‚
+     * å®Ÿè¡Œè¨ˆç”»å–å¾—ä¸­ã§ãªã‘ã‚Œã°nullã‚’è¨­å®šã—ã¦ãŠãã¾ã™ã€‚
      */
     private Statement nowExpalaining_;
 
-    /** ƒƒ\ƒbƒhŒÄ‚Ño‚µ‚Ì[‚³ */
+    /** ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—ã®æ·±ã• */
     private int depth_;
 
-    /** ƒƒ\ƒbƒhŒÄ‚Ño‚µ‚Ì[‚³‚ÌÅ‘å’l */
+    /** ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—ã®æ·±ã•ã®æœ€å¤§å€¤ */
     private int depthMax_;
 
-    /** callDepth_‚ğƒL[‚Æ‚µASQL‚ª•Û‘¶‚³‚ê‚Ä‚¢‚È‚¢‚©‚Ç‚¤‚©‚ğ’l‚Æ‚·‚éƒ}ƒbƒvB */
+    /** callDepth_ã‚’ã‚­ãƒ¼ã¨ã—ã€SQLãŒä¿å­˜ã•ã‚Œã¦ã„ãªã„ã‹ã©ã†ã‹ã‚’å€¤ã¨ã™ã‚‹ãƒãƒƒãƒ—ã€‚ */
     private Map<Integer, Boolean> noSqlArgsMap_;
 
-    /** JdbcJavelinRecorder‚ÌŒÄ‚Ño‚µ‚Ì[‚³B  */
+    /** JdbcJavelinRecorderã®å‘¼ã³å‡ºã—ã®æ·±ã•ã€‚  */
     private int callDepth_;
 
-    /** SQL‚Ìˆê•Û‘¶æ */
+    /** SQLã®ä¸€æ™‚ä¿å­˜å…ˆ */
     private String[] execPlanSql_;
 
-    /** Preprocess‚µ‚½[‚³B  */
+    /** Preprocessã—ãŸæ·±ã•ã€‚  */
     private Set<Integer> preprocessedDepthSet_;
     
-    /** ƒR[ƒ‹ƒcƒŠ[ƒŒƒR[ƒ_ */
+    /** ã‚³ãƒ¼ãƒ«ãƒ„ãƒªãƒ¼ãƒ¬ã‚³ãƒ¼ãƒ€ */
     private CallTreeRecorder callTreeRecorder_;
 
     /**
-     * Œ»İŒÄ‚Ño‚µ’†‚ÌConnection
+     * ç¾åœ¨å‘¼ã³å‡ºã—ä¸­ã®Connection
      */
     private Connection nowCalling_;
 
-    /** JDBC Javelin‚ªƒXƒŒƒbƒh–ˆ‚É‚Âó‘ÔB */
+    /** JDBC JavelinãŒã‚¹ãƒ¬ãƒƒãƒ‰æ¯ã«æŒã¤çŠ¶æ…‹ã€‚ */
     private static ThreadLocal<JdbcJvnStatus> jdbcJvnStatus__ = new ThreadLocal<JdbcJvnStatus>() {
         @Override
         protected synchronized JdbcJvnStatus initialValue()
@@ -84,7 +84,7 @@ public class JdbcJvnStatus
     };
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
      */
     private JdbcJvnStatus()
     {
@@ -99,9 +99,9 @@ public class JdbcJvnStatus
     }
 
     /**
-     * ƒR[ƒ‹ƒcƒŠ[ƒŒƒR[ƒ_‚ğæ“¾‚·‚éB
+     * ã‚³ãƒ¼ãƒ«ãƒ„ãƒªãƒ¼ãƒ¬ã‚³ãƒ¼ãƒ€ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return ƒR[ƒ‹ƒcƒŠ[ƒŒƒR[ƒ_
+     * @return ã‚³ãƒ¼ãƒ«ãƒ„ãƒªãƒ¼ãƒ¬ã‚³ãƒ¼ãƒ€
      */
     public CallTreeRecorder getCallTreeRecorder()
     {
@@ -114,9 +114,9 @@ public class JdbcJvnStatus
     }
 
     /**
-     * ŠY“–‚·‚éƒXƒŒƒbƒh‚É‘®‚·‚éƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚µ‚Ü‚·B
+     * è©²å½“ã™ã‚‹ã‚¹ãƒ¬ãƒƒãƒ‰ã«å±ã™ã‚‹ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã—ã¾ã™ã€‚
      * 
-     * @return ƒCƒ“ƒXƒ^ƒ“ƒXB
+     * @return ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã€‚
      */
     public static JdbcJvnStatus getInstance()
     {
@@ -124,9 +124,9 @@ public class JdbcJvnStatus
     }
 
     /**
-     * [‚³‚ğ1‘‚â‚µ‚Ü‚·B
+     * æ·±ã•ã‚’1å¢—ã‚„ã—ã¾ã™ã€‚
      * 
-     * @return XVŒã‚Ì[‚³B
+     * @return æ›´æ–°å¾Œã®æ·±ã•ã€‚
      */
     public int incrementDepth()
     {
@@ -136,7 +136,7 @@ public class JdbcJvnStatus
     }
 
     /**
-     * JdbcJavelinRecorder‚ÌŒÄ‚Ño‚µ‚Ì[‚³‚ğƒCƒ“ƒNƒŠƒƒ“ƒg‚µ‚Ü‚·B
+     * JdbcJavelinRecorderã®å‘¼ã³å‡ºã—ã®æ·±ã•ã‚’ã‚¤ãƒ³ã‚¯ãƒªãƒ¡ãƒ³ãƒˆã—ã¾ã™ã€‚
      */
     public void incrementCallDepth()
     {
@@ -144,7 +144,7 @@ public class JdbcJvnStatus
     }
 
     /**
-     * JdbcJavelinRecorder‚ÌŒÄ‚Ño‚µ‚Ì[‚³‚ğƒfƒNƒŠƒƒ“ƒg‚µ‚Ü‚·B
+     * JdbcJavelinRecorderã®å‘¼ã³å‡ºã—ã®æ·±ã•ã‚’ãƒ‡ã‚¯ãƒªãƒ¡ãƒ³ãƒˆã—ã¾ã™ã€‚
      */
     public void decrementCallDepth()
     {
@@ -152,9 +152,9 @@ public class JdbcJvnStatus
     }
 
     /**
-     * –‘Oˆ—‚ğs‚Á‚½‚©‚Ç‚¤‚©‚ğæ“¾‚µ‚Ü‚·B
+     * äº‹å‰å‡¦ç†ã‚’è¡Œã£ãŸã‹ã©ã†ã‹ã‚’å–å¾—ã—ã¾ã™ã€‚
      * 
-     * @return –‘Oˆ—‚ğs‚Á‚½‚©‚Ç‚¤‚©B
+     * @return äº‹å‰å‡¦ç†ã‚’è¡Œã£ãŸã‹ã©ã†ã‹ã€‚
      */
     public boolean isPreprocessDepth()
     {
@@ -167,7 +167,7 @@ public class JdbcJvnStatus
     }
 
     /**
-     * –‘Oˆ—‚ğs‚Á‚½‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO‚ğAƒNƒŠƒA‚µ‚Ü‚·B
+     * äº‹å‰å‡¦ç†ã‚’è¡Œã£ãŸã‹ã©ã†ã‹ã®ãƒ•ãƒ©ã‚°ã‚’ã€ã‚¯ãƒªã‚¢ã—ã¾ã™ã€‚
      */
     public void removePreProcessDepth()
     {
@@ -175,13 +175,13 @@ public class JdbcJvnStatus
     }
 
     /**
-     * ThreadLocal‚ÉÀsŒv‰ææ“¾—p‚ÌSQL‚ğŠi”[‚·‚é.
-     * @param sql ˆê•Û‘¶‚·‚éSQL
+     * ThreadLocalã«å®Ÿè¡Œè¨ˆç”»å–å¾—ç”¨ã®SQLã‚’æ ¼ç´ã™ã‚‹.
+     * @param sql ä¸€æ™‚ä¿å­˜ã™ã‚‹SQL
      */
     public void setExecPlanSql(final Object[] sql)
     {
 
-        // Šù‚Éİ’è‚³‚ê‚Ä‚¢‚éê‡‚Í‰½‚à‚µ‚È‚¢B
+        // æ—¢ã«è¨­å®šã•ã‚Œã¦ã„ã‚‹å ´åˆã¯ä½•ã‚‚ã—ãªã„ã€‚
         String[] execPlanSql = this.execPlanSql_;
         if (execPlanSql != null && execPlanSql.length > 0)
         {
@@ -199,8 +199,8 @@ public class JdbcJvnStatus
     }
 
     /**
-     * SQL‚ª•Û‘¶‚³‚ê‚Ä‚¢‚È‚¢ƒtƒ‰ƒO‚ğİ’è‚µ‚Ü‚·B
-     * @param noSql SQL‚ª•Û‘¶‚³‚ê‚Ä‚¢‚È‚¢ƒtƒ‰ƒO
+     * SQLãŒä¿å­˜ã•ã‚Œã¦ã„ãªã„ãƒ•ãƒ©ã‚°ã‚’è¨­å®šã—ã¾ã™ã€‚
+     * @param noSql SQLãŒä¿å­˜ã•ã‚Œã¦ã„ãªã„ãƒ•ãƒ©ã‚°
      */
     public void setNoSql(Boolean noSql)
     {
@@ -208,7 +208,7 @@ public class JdbcJvnStatus
     }
 
     /**
-     * Preprocess‚µ‚½[‚³‚ğ•Û‘¶‚µ‚Ü‚·B
+     * Preprocessã—ãŸæ·±ã•ã‚’ä¿å­˜ã—ã¾ã™ã€‚
      */
     public void savePreprocessDepth()
     {
@@ -216,8 +216,8 @@ public class JdbcJvnStatus
     }
 
     /**
-     * SQL‚ª•Û‘¶‚³‚ê‚Ä‚¢‚È‚¢‚©”»’è‚µ‚Ü‚·B
-     * @return •Û‘¶‚³‚ê‚Ä‚¢‚È‚¢‚Æ‚«true/‚»‚¤‚Å‚È‚¢‚Æ‚«false
+     * SQLãŒä¿å­˜ã•ã‚Œã¦ã„ãªã„ã‹åˆ¤å®šã—ã¾ã™ã€‚
+     * @return ä¿å­˜ã•ã‚Œã¦ã„ãªã„ã¨ãtrue/ãã†ã§ãªã„ã¨ãfalse
      */
     public Boolean isNoSql()
     {
@@ -225,7 +225,7 @@ public class JdbcJvnStatus
     }
 
     /**
-     * ƒƒ\ƒbƒhŒÄ‚Ño‚µ‚Ì[‚³‚ğ‚Ğ‚Æ‚ÂŒ¸‚ç‚µ‚Ü‚·B
+     * ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—ã®æ·±ã•ã‚’ã²ã¨ã¤æ¸›ã‚‰ã—ã¾ã™ã€‚
      */
     public void decrementDepth()
     {
@@ -233,7 +233,7 @@ public class JdbcJvnStatus
     }
 
     /**
-     * Preprocess‚µ‚½[‚³‚ğƒNƒŠƒA‚µ‚Ü‚·B
+     * Preprocessã—ãŸæ·±ã•ã‚’ã‚¯ãƒªã‚¢ã—ã¾ã™ã€‚
      */
     public void clearPreprocessedDepthSet()
     {
@@ -241,8 +241,8 @@ public class JdbcJvnStatus
     }
 
     /**
-     * ÀsŒv‰æ’†‚ÌStatement‚ğæ“¾‚µ‚Ü‚·B
-     * @return ÀsŒv‰æ’†‚ÌStatement
+     * å®Ÿè¡Œè¨ˆç”»ä¸­ã®Statementã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @return å®Ÿè¡Œè¨ˆç”»ä¸­ã®Statement
      */
     public Statement getNowExpalaining()
     {
@@ -250,8 +250,8 @@ public class JdbcJvnStatus
     }
     
     /**
-     * ÀsŒv‰æ’†‚ÌStatement‚ğİ’è‚µ‚Ü‚·B
-     * @param nowExpalaining ÀsŒv‰æ’†‚ÌStatement
+     * å®Ÿè¡Œè¨ˆç”»ä¸­ã®Statementã‚’è¨­å®šã—ã¾ã™ã€‚
+     * @param nowExpalaining å®Ÿè¡Œè¨ˆç”»ä¸­ã®Statement
      */
     public void setNowExpalaining(Statement nowExpalaining)
     {
@@ -259,8 +259,8 @@ public class JdbcJvnStatus
     }
 
     /**
-     * ƒƒ\ƒbƒhŒÄ‚Ño‚µ‚Ì[‚³‚ğæ“¾‚µ‚Ü‚·B
-     * @return ƒƒ\ƒbƒhŒÄ‚Ño‚µ‚Ì[‚³
+     * ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—ã®æ·±ã•ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @return ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—ã®æ·±ã•
      */
     public int getDepth()
     {
@@ -268,8 +268,8 @@ public class JdbcJvnStatus
     }
 
     /**
-     * ƒƒ\ƒbƒhŒÄ‚Ño‚µ‚Ì[‚³‚ğİ’è‚µ‚Ü‚·B
-     * @param depth ƒƒ\ƒbƒhŒÄ‚Ño‚µ‚Ì[‚³
+     * ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—ã®æ·±ã•ã‚’è¨­å®šã—ã¾ã™ã€‚
+     * @param depth ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—ã®æ·±ã•
      */
     public void setDepth(int depth)
     {
@@ -277,8 +277,8 @@ public class JdbcJvnStatus
     }
 
     /**
-     * ƒƒ\ƒbƒhŒÄ‚Ño‚µ‚Ì[‚³‚ÌÅ‘å’l‚ğæ“¾‚µ‚Ü‚·B
-     * @return ƒƒ\ƒbƒhŒÄ‚Ño‚µ‚Ì[‚³‚ÌÅ‘å’l
+     * ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—ã®æ·±ã•ã®æœ€å¤§å€¤ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @return ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—ã®æ·±ã•ã®æœ€å¤§å€¤
      */
     public int getDepthMax()
     {
@@ -286,8 +286,8 @@ public class JdbcJvnStatus
     }
 
     /**
-     * ƒƒ\ƒbƒhŒÄ‚Ño‚µ‚Ì[‚³‚ÌÅ‘å’l‚ğİ’è‚µ‚Ü‚·B
-     * @param depthMax ƒƒ\ƒbƒhŒÄ‚Ño‚µ‚Ì[‚³‚ÌÅ‘å’l
+     * ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—ã®æ·±ã•ã®æœ€å¤§å€¤ã‚’è¨­å®šã—ã¾ã™ã€‚
+     * @param depthMax ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—ã®æ·±ã•ã®æœ€å¤§å€¤
      */
     public void setDepthMax(int depthMax)
     {
@@ -295,8 +295,8 @@ public class JdbcJvnStatus
     }
 
     /**
-     * JdbcJavelinRecorder‚ÌŒÄ‚Ño‚µ‚Ì[‚³‚ğæ“¾‚µ‚Ü‚·B
-     * @return JdbcJavelinRecorder‚ÌŒÄ‚Ño‚µ‚Ì[‚³
+     * JdbcJavelinRecorderã®å‘¼ã³å‡ºã—ã®æ·±ã•ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @return JdbcJavelinRecorderã®å‘¼ã³å‡ºã—ã®æ·±ã•
      */
     public int getCallDepth()
     {
@@ -304,8 +304,8 @@ public class JdbcJvnStatus
     }
 
     /**
-     * JdbcJavelinRecorder‚ÌŒÄ‚Ño‚µ‚Ì[‚³‚ğİ’è‚µ‚Ü‚·B
-     * @param callDepth JdbcJavelinRecorder‚ÌŒÄ‚Ño‚µ‚Ì[‚³
+     * JdbcJavelinRecorderã®å‘¼ã³å‡ºã—ã®æ·±ã•ã‚’è¨­å®šã—ã¾ã™ã€‚
+     * @param callDepth JdbcJavelinRecorderã®å‘¼ã³å‡ºã—ã®æ·±ã•
      */
     public void setCallDepth(int callDepth)
     {
@@ -313,8 +313,8 @@ public class JdbcJvnStatus
     }
 
     /**
-     * SQL‚Ìˆê•Û‘¶æ‚ğæ“¾‚µ‚Ü‚·B
-     * @return SQL‚Ìˆê•Û‘¶æ
+     * SQLã®ä¸€æ™‚ä¿å­˜å…ˆã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @return SQLã®ä¸€æ™‚ä¿å­˜å…ˆ
      */
     public String[] getExecPlanSql()
     {
@@ -322,8 +322,8 @@ public class JdbcJvnStatus
     }
 
     /**
-     * SQL‚Ìˆê•Û‘¶æ‚ğİ’è‚µ‚Ü‚·B
-     * @param execPlanSql SQL‚Ìˆê•Û‘¶æ
+     * SQLã®ä¸€æ™‚ä¿å­˜å…ˆã‚’è¨­å®šã—ã¾ã™ã€‚
+     * @param execPlanSql SQLã®ä¸€æ™‚ä¿å­˜å…ˆ
      */
     public void setExecPlanSql(String[] execPlanSql)
     {
@@ -331,8 +331,8 @@ public class JdbcJvnStatus
     }
 
     /**
-     * Œ»İŒÄ‚Ño‚µ’†‚ÌConnection‚ğæ“¾‚µ‚Ü‚·B
-     * @return Œ»İŒÄ‚Ño‚µ’†‚ÌConnection
+     * ç¾åœ¨å‘¼ã³å‡ºã—ä¸­ã®Connectionã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @return ç¾åœ¨å‘¼ã³å‡ºã—ä¸­ã®Connection
      */
     public Connection getNowCalling()
     {
@@ -340,8 +340,8 @@ public class JdbcJvnStatus
     }
 
     /**
-     * Œ»İŒÄ‚Ño‚µ’†‚ÌConnection‚ğİ’è‚µ‚Ü‚·B
-     * @param nowCalling Œ»İŒÄ‚Ño‚µ’†‚ÌConnection
+     * ç¾åœ¨å‘¼ã³å‡ºã—ä¸­ã®Connectionã‚’è¨­å®šã—ã¾ã™ã€‚
+     * @param nowCalling ç¾åœ¨å‘¼ã³å‡ºã—ä¸­ã®Connection
      */
     public void setNowCalling(Connection nowCalling)
     {

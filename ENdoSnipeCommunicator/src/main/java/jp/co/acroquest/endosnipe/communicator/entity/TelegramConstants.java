@@ -26,70 +26,70 @@
 package jp.co.acroquest.endosnipe.communicator.entity;
 
 /**
- * �d���Ɋւ���萔�C���^�[�t�F�[�X�ł��B<br />
+ * 電文に関する定数インターフェースです。<br />
  * 
  * @author y-komori
  */
 public interface TelegramConstants
 {
-    /** �d����ʁi��Ԓʒm�j */
+    /** 電文種別（状態通知） */
     byte BYTE_TELEGRAM_KIND_ALERT = 0;
 
-    /** �d����ʁi��Ԏ擾�j */
+    /** 電文種別（状態取得） */
     byte BYTE_TELEGRAM_KIND_GET = 1;
 
-    /** �d����ʁi���Z�b�g�j */
+    /** 電文種別（リセット） */
     byte BYTE_TELEGRAM_KIND_RESET = 2;
 
-    /** �d����ʁi���\�[�X�ʒm�j */
+    /** 電文種別（リソース通知） */
     byte BYTE_TELEGRAM_KIND_RESOURCENOTIFY = 3;
 
-    /** �d����ʁi�ݒ�ύX�j */
+    /** 電文種別（設定変更） */
     byte BYTE_TELEGRAM_KIND_CONFIGCHANGE = 4;
 
-    /** �d����ʁi�@�\�Ăяo���j */
+    /** 電文種別（機能呼び出し） */
     byte BYTE_TELEGRAM_KIND_FUNCTIONCALL = 5;
 
-    /** �d�����(JVN���O�_�E�����[�h) */
+    /** 電文種別(JVNログダウンロード) */
     byte BYTE_TELEGRAM_KIND_JVN_FILE = 6;
 
-    /** �d�����(�T�[�o�v���p�e�B�ݒ�擾) */
+    /** 電文種別(サーバプロパティ設定取得) */
     byte BYTE_TELEGRAM_KIND_GET_PROPERTY = 7;
 
-    /** �d�����(�T�[�o�v���p�e�B�ݒ�X�V) */
+    /** 電文種別(サーバプロパティ設定更新) */
     byte BYTE_TELEGRAM_KIND_UPDATE_PROPERTY = 8;
 
-    /** �d�����(JVN���O�ꗗ�擾) */
+    /** 電文種別(JVNログ一覧取得) */
     byte BYTE_TELEGRAM_KIND_JVN_FILE_LIST = 9;
 
-    /** �d�����(�v���ΏۍX�V) */
+    /** 電文種別(計測対象更新) */
     byte BYTE_TELEGRAM_KIND_UPDATE_TARGET = 10;
 
-    /** �d�����(�_���v�擾) */
+    /** 電文種別(ダンプ取得) */
     byte BYTE_TELEGRAM_KIND_GET_DUMP = 11;
 
-    /** �d�����(�N���X�폜) */
+    /** 電文種別(クラス削除) */
     byte BYTE_TELEGRAM_KIND_REMOVE_CLASS = 12;
 
-    /** �d�����(臒l���߃A���[��/�����A���[���ʒm) */
+    /** 電文種別(閾値超過アラーム/復旧アラーム通知) */
     byte BYTE_TELEGRAM_SIGNAL_STATE_CHANGE = 13;
 
-    /** �d�����(�ڑ��ʒm) */
+    /** 電文種別(接続通知) */
     byte BYTE_TELEGRAM_KIND_CONNECT_NOTIFY = 14;
 
-    /** �d�����(JMX���ڒʒm) */
+    /** 電文種別(JMX項目通知) */
     byte BYTE_TELEGRAM_KIND_JMX = 15;
 
-    /** �d�����(DB�������ʒm) */
+    /** 電文種別(DB名増加通知) */
     byte BYTE_TELEGRAM_KIND_ADD_DATABASE_NAME = 16;
 
-    /** �d�����(DB�������ʒm) */
+    /** 電文種別(DB名減少通知) */
     byte BYTE_TELEGRAM_KIND_DEL_DATABASE_NAME = 17;
 
-    /** �d�����(�V�O�i����Ԏ擾) */
+    /** 電文種別(シグナル状態取得) */
     byte BYTE_TELEGRAM_KIND_SIGNAL_STATE = 21;
 
-    /** �d�����(�V�O�i����`�X�V) */
+    /** 電文種別(シグナル定義更新) */
     byte BYTE_TELEGRAM_KIND_SIGNAL_DEFINITION = 22;
 
     /** byte telegram for tree node adding */
@@ -98,277 +98,277 @@ public interface TelegramConstants
     /** byte telegram for tree node deleting */
     byte BYTE_TELEGRAM_KIND_TREE_DELETE_DEFINITION = 24;
 
-    /** �d�����(�c���[��`�X�V) */
+    /** 電文種別(ツリー定義更新) */
     byte BYTE_TELEGRAM_KIND_MUL_RES_GRAPH_DEFINITION = 25;
     
-    /** �d�����(�c���[��`�X�V) */
+    /** 電文種別(ツリー定義更新) */
     byte BYTE_TELEGRAM_KIND_ADD_MUL_RES_GRAPH_DEFINITION = 27;
     
-    /** �d�����(SQL���s�v��擾�ʒm) */
+    /** 電文種別(SQL実行計画取得通知) */
     byte BYTE_TELEGRAM_KIND_SQL_PLAN = 28;
     
-    /** �Ō�̓d���ȊO */
+    /** 最後の電文以外 */
     byte HALFWAY_TELEGRAM = 0;
 
-    /** �Ō�̓d�� */
+    /** 最後の電文 */
     byte FINAL_TELEGRAM = 1;
 
-    /** �v��������ʁi�ʒm�j */
+    /** 要求応答種別（通知） */
     byte BYTE_REQUEST_KIND_NOTIFY = 0;
 
-    /** �v��������ʁi�v���j */
+    /** 要求応答種別（要求） */
     byte BYTE_REQUEST_KIND_REQUEST = 1;
 
-    /** �v��������ʁi�����j */
+    /** 要求応答種別（応答） */
     byte BYTE_REQUEST_KIND_RESPONSE = 2;
 
-    /** �I�u�W�F�N�g���i���\�[�X�ʒm�ł̃��\�[�X�l�j */
+    /** オブジェクト名（リソース通知でのリソース値） */
     String OBJECTNAME_RESOURCE = "resources";
 
-    /** �I�u�W�F�N�g���i���\�[�X�ʒm�ł̎����j */
+    /** オブジェクト名（リソース通知での時刻） */
     String TIME_RESOURCE = "resource-time";
 
-    /** �I�u�W�F�N�g���i�@�\�Ăяo���ł̐ڑ��Ǘ��j */
+    /** オブジェクト名（機能呼び出しでの接続管理） */
     String OBJECTNAME_CONNECTIONMANAGER = "connectionManager";
 
-    /** �I�u�W�F�N�g���i�@�\�Ăяo���ł̕\������j */
+    /** オブジェクト名（機能呼び出しでの表示操作） */
     String OBJECTNAME_VIEWOPERATION = "viewOperation";
 
-    /** �I�u�W�F�N�g���i�@�\�Ăяo���ł̋��� Full GC ���s�j */
+    /** オブジェクト名（機能呼び出しでの強制 Full GC 実行） */
     String OBJECTNAME_FORCEFULLGC = "forceFullGC";
 
-    /** �I�u�W�F�N�g���iJVN�t�@�C���j */
+    /** オブジェクト名（JVNファイル） */
     String OBJECTNAME_JVN_FILE = "jvnFile";
 
-    /** �I�u�W�F�N�g��(�_���v�擾) */
+    /** オブジェクト名(ダンプ取得) */
     String OBJECTNAME_DUMP = "dump";
 
-    /** �I�u�W�F�N�g��(�v���A���[��) */
+    /** オブジェクト名(計測アラーム) */
     String OBJECTNAME_RESOURCEALARM = "resourceAlarm";
 
-    /** �I�u�W�F�N�g��(�V�O�i����`�ύX) */
+    /** オブジェクト名(シグナル定義変更) */
     String OBJECTNAME_SIGNAL_CHANGE = "signalDefinitionChange";
     
-    /** �I�u�W�F�N�g��(�V�O�i����`�ύX) */
+    /** オブジェクト名(シグナル定義変更) */
     String OBJECTNAME_MUL_RES_GRAPH_CHANGE = "multipleResourceGraphDefinitionChange";
     
-    /** �I�u�W�F�N�g��(�c���[��`�ύX) */
+    /** オブジェクト名(ツリー定義変更) */
     String OBJECTNAME_TREE_CHANGE = "treeDefinitionChange";
 
-    /** �I�u�W�F�N�g���i�ڑ����ʒm�ł̐ڑ����j */
+    /** オブジェクト名（接続情報通知での接続情報） */
     String OBJECTNAME_CONNECTINFO = "connectInformation";
 
-    /** �I�u�W�F�N�g��(JMX�I�u�W�F�N�g��) */
+    /** オブジェクト名(JMXオブジェクト名) */
     String OBJECTNAME_JMX = "jmx";
 
-    /** �I�u�W�F�N�g��(DB��) */
+    /** オブジェクト名(DB名) */
     String OBJECTnAME_DATABASE_NAME = "databaseName";
     
-    /** �I�u�W�F�N�g��(SQL��) */
+    /** オブジェクト名(SQL文) */
     String OBJECTNAME_SQL_STATEMENT = "sqlplan";
     
-    /** �I�u�W�F�N�g��(SQL���s�v��) */
+    /** オブジェクト名(SQL実行計画) */
     String OBJECTNAME_SQL_EXECUTION_PLAN = "sqlexecution";
     
-    /** �I�u�W�F�N�g��(SQL���s�v��擾����) */
+    /** オブジェクト名(SQL実行計画取得時間) */
     String OBJECTNAME_GETTING_PLAN_TIME = "gettingplantime";
     
-    /** �I�u�W�F�N�g��(�X�^�b�N�ƃ��[�X) */
+    /** オブジェクト名(スタックとレース) */
     String OBJECTNAME_STACK_TRACE = "stacktrace";
 
     // ////////////////
-    // ����p���ږ� //
+    // 制御用項目名 //
     // ////////////////
 
-    /** ���ږ��i�����������j */
+    /** 項目名（初期化処理） */
     String ITEMNAME_INITIALIZE = "/initialize";
 
-    /** ���ږ�(�q�[�v�_���v�擾) */
+    /** 項目名(ヒープダンプ取得) */
     String ITEMNAME_HEAPDUMP = "/heapDump";
 
-    /** ���ږ�(�X���b�h�_���v�擾) */
+    /** 項目名(スレッドダンプ取得) */
     String ITEMNAME_THREADDUMP = "/threadDump";
 
-    /** ���ږ�(�N���X�q�X�g�O�����擾) */
+    /** 項目名(クラスヒストグラム取得) */
     String ITEMNAME_CLASSHISTOGRAM = "classHistogramDump";
 
-    /** ���ږ�(�Z�b�V�����_���v�擾) */
+    /** 項目名(セッションダンプ取得) */
     String ITEMNAME_SESSIONDUMP = "sessionDump";
 
-    /** ���ږ�(�@�\�Ăяo���ł̋��� Full GC) */
+    /** 項目名(機能呼び出しでの強制 Full GC) */
     String ITEMNAME_FORCEFULLGC = "forceFullGC";
 
     // ////////////////
-    // �擾�p���ږ� //
+    // 取得用項目名 //
     // ////////////////
-    // ���ږ�(DB����擾����n����w�肷��L�[������)
+    // 項目名(DBから取得する系列を指定するキー文字列)
 
     // -----------------------------------------------------
-    // ��b����
+    // 基礎項目
 
-    /** ���ږ��i�����j */
+    /** 項目名（時刻） */
     String ITEMNAME_TIME = "/common/fundamental/time/current";
 
-    /** ���ږ��i���\�[�X�l�ł̎擾�����j */
+    /** 項目名（リソース値での取得時刻） */
     String ITEMNAME_ACQUIREDTIME = "/common/fundamental/time/acquired";
 
-    /** ���ږ�(�Ăяo����) */
+    /** 項目名(呼び出し回数) */
     String ITEMNAME_CALL_COUNT = "/common/fundamental/callCount";
 
-    /** ���ږ�(����̏�������) */
+    /** 項目名(今回の処理時間) */
     String ITEMNAME_CURRENT_INTERVAL = "/common/fundamental/interval/current";
 
-    /** ���ږ�(���v��������) */
+    /** 項目名(合計処理時間) */
     String ITEMNAME_TOTAL_INTERVAL = "/common/fundamental/interval/total";
 
-    /** ���ږ�(�ő又������) */
+    /** 項目名(最大処理時間) */
     String ITEMNAME_MAXIMUM_INTERVAL = "/common/fundamental/interval/max";
 
-    /** ���ږ�(�ŏ���������) */
+    /** 項目名(最小処理時間) */
     String ITEMNAME_MINIMUM_INTERVAL = "/common/fundamental/interval/min";
 
-    /** ���ږ�(���vCPU����) */
+    /** 項目名(合計CPU時間) */
     String ITEMNAME_TOTAL_CPU_INTERVAL = "/common/fundamental/cpuInterval/total";
 
-    /** ���ږ�(�ő�CPU����) */
+    /** 項目名(最大CPU時間) */
     String ITEMNAME_MAXIMUM_CPU_INTERVAL = "/common/fundamental/cpuInterval/max";
 
-    /** ���ږ�(�ŏ�CPU����) */
+    /** 項目名(最小CPU時間) */
     String ITEMNAME_MINIMUM_CPU_INTERVAL = "/common/fundamental/cpuInterval/min";
 
-    /** ���ږ�(���v���[�U����) */
+    /** 項目名(合計ユーザ時間) */
     String ITEMNAME_TOTAL_USER_INTERVAL = "/common/fundamental/userInterval/total";
 
-    /** ���ږ�(�ő僆�[�U����) */
+    /** 項目名(最大ユーザ時間) */
     String ITEMNAME_MAXIMUM_USER_INTERVAL = "/common/fundamental/userInterval/max";
 
-    /** ���ږ�(�ŏ����[�U����) */
+    /** 項目名(最小ユーザ時間) */
     String ITEMNAME_MINIMUM_USER_INTERVAL = "/common/fundamental/userInterval/min";
 
     // -----------------------------------------------------
-    // �ݐϒl
+    // 累積値
 
-    /** ���ږ�(���v��������) */
+    /** 項目名(合計処理時間) */
     String ITEMNAME_ACCUMULATED_TOTAL_INTERVAL = "/common/accumulated/interval/total";
 
-    /** ���ږ�(�ő又������) */
+    /** 項目名(最大処理時間) */
     String ITEMNAME_ACCUMULATED_MAXIMUM_INTERVAL = "/common/accumulated/interval/max";
 
-    /** ���ږ�(�ŏ���������) */
+    /** 項目名(最小処理時間) */
     String ITEMNAME_ACCUMULATED_MINIMUM_INTERVAL = "/common/accumulated/interval/min";
 
-    /** ���ږ�(���vCPU����) */
+    /** 項目名(合計CPU時間) */
     String ITEMNAME_ACCUMULATED_TOTAL_CPU_INTERVAL = "/common/accumulated/cpuInterval/total";
 
-    /** ���ږ�(�ő�CPU����) */
+    /** 項目名(最大CPU時間) */
     String ITEMNAME_ACCUMULATED_MAXIMUM_CPU_INTERVAL = "/common/accumulated/cpuInterval/max";
 
-    /** ���ږ�(�ŏ�CPU����) */
+    /** 項目名(最小CPU時間) */
     String ITEMNAME_ACCUMULATED_MINIMUM_CPU_INTERVAL = "/common/accumulated/cpuInterval/min";
 
-    /** ���ږ�(���vCPU����) */
+    /** 項目名(合計CPU時間) */
     String ITEMNAME_ACCUMULATED_TOTAL_USER_INTERVAL = "/common/accumulated/userInterval/total";
 
-    /** ���ږ�(�ő�CPU����) */
+    /** 項目名(最大CPU時間) */
     String ITEMNAME_ACCUMULATED_MAXIMUM_USER_INTERVAL = "/common/accumulated/userInterval/max";
 
-    /** ���ږ�(�ŏ�CPU����) */
+    /** 項目名(最小CPU時間) */
     String ITEMNAME_ACCUMULATED_MINIMUM_USER_INTERVAL = "/common/accumulated/userInterval/min";
 
     // -----------------------------------------------------
-    // �V�X�e������: ��b�l
+    // システム項目: 基礎値
 
-    /** ���ږ��i���\�[�X�l�ł̃v���Z�b�T���j */
+    /** 項目名（リソース値でのプロセッサ数） */
     String ITEMNAME_SYSTEM_CPU_PROCESSOR_COUNT = "/system/cpu/processor/number";
 
-    /** ���ږ��i���[�U���[�h�ł�CPU�g�p�ʁj */
+    /** 項目名（ユーザモードでのCPU使用量） */
     String ITEMNAME_SYSTEM_CPU_USERMODE_TIME = "/system/cpu/time/user(d)";
 
-    /** ���ږ��i�V�X�e�����[�h�ł�CPU�g�p�ʁj */
+    /** 項目名（システムモードでのCPU使用量） */
     String ITEMNAME_SYSTEM_CPU_SYSTEM_TIME = "/system/cpu/time/system(d)";
 
-    /** ���ږ��iiowait�ł�CPU�g�p�ʁj */
+    /** 項目名（iowaitでのCPU使用量） */
     String ITEMNAME_SYSTEM_CPU_IOWAIT_TIME = "/system/cpu/time/iowait(d)";
 
     // -----------------------------------------------------
-    // �V�X�e������: CPU(�Z�o�l)
+    // システム項目: CPU(算出値)
 
-    /** ���ږ��iCPU�g�p���i�V�X�e���j�̍��v�j */
+    /** 項目名（CPU使用率（システム）の合計） */
     String ITEMNAME_SYSTEM_CPU_TOTAL_USAGE = "/system/cpu/usage/total:%";
 
-    /** ���ږ��iCPU�g�p���i�V�X�e���j�̂����̃V�X�e���̎g�p���j */
+    /** 項目名（CPU使用率（システム）のうちのシステムの使用率） */
     String ITEMNAME_SYSTEM_CPU_SYSTEM_USAGE = "/system/cpu/usage/system:%";
 
-    /** ���ږ��iCPU�g�p���i�V�X�e���j�̂�����I/O Wait�̎g�p���j */
+    /** 項目名（CPU使用率（システム）のうちのI/O Waitの使用率） */
     String ITEMNAME_SYSTEM_CPU_IOWAIT_USAGE = "/system/cpu/usage/iowait:%";
 
-    /** ���ږ��iCPU���Ƃ̕��ׁF����CPU�R�A�ԍ�(1�`N)��t����j */
+    /** 項目名（CPUごとの負荷：後ろにCPUコア番号(1～N)を付ける） */
     String ITEMNAME_CPU_ARRAY = "/system/cpu/processor";
 
     // -----------------------------------------------------
-    // �V�X�e������: ������(�Z�o�l)
+    // システム項目: メモリ(算出値)
 
-    /** ���ږ��i�V�X�e���S�̂̃������ő�l�j */
+    /** 項目名（システム全体のメモリ最大値） */
     String ITEMNAME_SYSTEM_MEMORY_PHYSICAL_MAX = "/system/memory/physical/max:bytes";
 
-    /** ���ږ��i�V�X�e���S�̂̋󂫃������j */
+    /** 項目名（システム全体の空きメモリ） */
     String ITEMNAME_SYSTEM_MEMORY_PHYSICAL_FREE = "/system/memory/physical/free:bytes";
 
-    /** ���ږ��i�V�X�e���S�̂̋󂫃������j */
+    /** 項目名（システム全体の空きメモリ） */
     String ITEMNAME_SYSTEM_MEMORY_PHYSICAL_USED = "/system/memory/physical/used:bytes";
 
-    /** ���ږ��i���\�[�X�l�ł̉��z�������e�ʁj */
+    /** 項目名（リソース値での仮想メモリ容量） */
     String ITEMNAME_SYSTEM_MEMORY_VIRTUAL_USED = "/system/memory/virtual/used:bytes";
 
-    /** ���ږ��i���\�[�X�l�ł̃X���b�v�̈�e�ʁj */
+    /** 項目名（リソース値でのスワップ領域容量） */
     String ITEMNAME_SYSTEM_MEMORY_SWAP_MAX = "/system/memory/swap/max:bytes";
 
-    /** ���ږ��i���\�[�X�l�ł̃X���b�v�̈�󂫗e�ʁj */
+    /** 項目名（リソース値でのスワップ領域空き容量） */
     String ITEMNAME_SYSTEM_MEMORY_SWAP_FREE = "/system/memory/swap/free:bytes";
 
-    /** ���ږ��ipage in�j */
+    /** 項目名（page in） */
     String ITEMNAME_SYSTEM_MEMORY_PAGEIN_COUNT = "/system/memory/pagein(d)";
 
-    /** ���ږ��ipage out�j */
+    /** 項目名（page out） */
     String ITEMNAME_SYSTEM_MEMORY_PAGEOUT_COUNT = "/system/memory/pageout(d)";
 
     // -----------------------------------------------------
-    // �V�X�e������: �t�@�C��
+    // システム項目: ファイル
 
-    /** ���ږ��i���\�[�X�l�ł́A�t�@�C�����͗ʁj */
+    /** 項目名（リソース値での、ファイル入力量） */
     String ITEMNAME_FILEINPUTSIZEOFSYSTEM = "/system/file/read:bytes(d)";
 
-    /** ���ږ��i���\�[�X�l�ł́A�t�@�C���o�͗ʁj */
+    /** 項目名（リソース値での、ファイル出力量） */
     String ITEMNAME_FILEOUTPUTSIZEOFSYSTEM = "/system/file/write:bytes(d)";
 
-    /** ���ږ��iFD/�n���h�����j */
+    /** 項目名（FD/ハンドル数） */
     String ITEMNAME_SYSTEM_HANDLE_TOTAL_NUMBER = "/system/file/handle/number";
 
     // -----------------------------------------------------
-    // �v���Z�X����: CPU(��b�l)
+    // プロセス項目: CPU(基礎値)
 
-    /** ���ږ��iCPU�g�p����:total�j */
+    /** 項目名（CPU使用時間:total） */
     String ITEMNAME_PROCESS_CPU_TOTAL_TIME = "/process/cpu/time/total(d)";
 
-    /** ���ږ��iCPU�g�p����:system�j */
+    /** 項目名（CPU使用時間:system） */
     String ITEMNAME_PROCESS_CPU_SYSTEM_TIME = "/process/cpu/time/system(d)";
 
-    /** ���ږ��iCPU�g�p����:iowait�j */
+    /** 項目名（CPU使用時間:iowait） */
     String ITEMNAME_PROCESS_CPU_IOWAIT_TIME = "/process/cpu/time/iowait(d)";
 
-    /** ���ږ��i���\�[�X�l�ł�Java�ғ����ԁj */
+    /** 項目名（リソース値でのJava稼働時間） */
     String ITEMNAME_JAVAUPTIME = "/process/fundamental/uptime";
 
     // -----------------------------------------------------
-    // �v���Z�X����: CPU(�Z�o�l)
+    // プロセス項目: CPU(算出値)
 
-    /** ���ږ��iCPU�g�p���i�v���Z�X�j�̍��v�j */
+    /** 項目名（CPU使用率（プロセス）の合計） */
     String ITEMNAME_PROCESS_CPU_TOTAL_USAGE = "/process/cpu/usage/total:%";
 
-    /** ���ږ��iCPU�g�p���i�v���Z�X�j�̂����̃V�X�e���̎g�p���j */
+    /** 項目名（CPU使用率（プロセス）のうちのシステムの使用率） */
     String ITEMNAME_PROCESS_CPU_SYSTEM_USAGE = "/process/cpu/usage/system:%";
 
-    /** ���ږ��iCPU�g�p���i�v���Z�X�j�̂�����IOWAIT�̎g�p���j */
+    /** 項目名（CPU使用率（プロセス）のうちのIOWAITの使用率） */
     String ITEMNAME_PROCESS_CPU_IOWAIT_USAGE = "/process/cpu/usage/iowait:%";
 
     /** jdbc node under response */
@@ -402,377 +402,377 @@ public interface TelegramConstants
     String POSTFIX_STALLED = "/stalled";
     
     // -----------------------------------------------------
-    // �v���Z�X����: ������(�Z�o�l)
+    // プロセス項目: メモリ(算出値)
 
-    /** ���ږ��i���\�[�X�l�ł̕����������e�ʁj */
+    /** 項目名（リソース値での物理メモリ容量） */
     String ITEMNAME_PROCESS_MEMORY_PHYSICAL_MAX = "/process/memory/physical/max:bytes";
 
-    /** ���ږ��i�����������g�p�ʁi�v���Z�X�j�j */
+    /** 項目名（物理メモリ使用量（プロセス）） */
     String ITEMNAME_PROCESS_MEMORY_PHYSICAL_USED = "/process/memory/physical/used:bytes";
 
-    /** ���ږ��i���\�[�X�l�ł̕����������󂫗e�ʁj */
+    /** 項目名（リソース値での物理メモリ空き容量） */
     String ITEMNAME_PROCESS_MEMORY_PHYSICAL_FREE = "/process/memory/physical/free:bytes";
 
-    /** ���ږ��i���\�[�X�l�ł̉��z�}�V���������e�ʁj */
+    /** 項目名（リソース値での仮想マシンメモリ容量） */
     String ITEMNAME_PROCESS_MEMORY_VIRTUALMACHINE_MAX = "/process/memory/virtual/max:bytes";
 
-    /** ���ږ��i���z�������g�p�ʁi�v���Z�X�j�j */
+    /** 項目名（仮想メモリ使用量（プロセス）） */
     String ITEMNAME_PROCESS_MEMORY_VIRTUAL_USED = "/process/memory/virtual/used:bytes";
 
-    /** ���ږ��i���\�[�X�l�ł̉��z�}�V���������󂫗e�ʁj */
+    /** 項目名（リソース値での仮想マシンメモリ空き容量） */
     String ITEMNAME_PROCESS_MEMORY_VIRTUALMACHINE_FREE = "/process/memory/virtual/free:bytes";
 
-    /** ���ږ��i���\�[�X�l�ł̃q�[�v�������R�~�b�g�e�ʁj */
+    /** 項目名（リソース値でのヒープメモリコミット容量） */
     String ITEMNAME_JAVAPROCESS_MEMORY_HEAP_COMMIT = "/process/heap/commit:bytes";
 
-    /** ���ږ��i���\�[�X�l�ł̃q�[�v�������ő�j */
+    /** 項目名（リソース値でのヒープメモリ最大） */
     String ITEMNAME_JAVAPROCESS_MEMORY_HEAP_MAX = "/process/heap/max:bytes";
 
-    /** ���ږ��i���\�[�X�l�ł̃q�[�v�������g�p�ʁj */
+    /** 項目名（リソース値でのヒープメモリ使用量） */
     String ITEMNAME_JAVAPROCESS_MEMORY_HEAP_USED = "/process/heap/used:bytes";
 
-    /** ���ږ��i���\�[�X�l�ł̃q�[�v�ȊO�̃������R�~�b�g�e�ʁj */
+    /** 項目名（リソース値でのヒープ以外のメモリコミット容量） */
     String ITEMNAME_JAVAPROCESS_MEMORY_NONHEAP_COMMIT = "/process/nonheap/commit:bytes";
 
-    /** ���ږ��i���\�[�X�l�ł̃q�[�v�ȊO�̃������ő�j */
+    /** 項目名（リソース値でのヒープ以外のメモリ最大） */
     String ITEMNAME_JAVAPROCESS_MEMORY_NONHEAP_MAX = "/process/nonheap/max:bytes";
 
-    /** ���ږ��i���\�[�X�l�ł̃q�[�v�ȊO�̃������g�p�ʁj */
+    /** 項目名（リソース値でのヒープ以外のメモリ使用量） */
     String ITEMNAME_JAVAPROCESS_MEMORY_NONHEAP_USED = "/process/nonheap/used:bytes";
 
-    /** ���ږ��i���W���[�t�H�[���g���j */
+    /** 項目名（メジャーフォールト数） */
     String ITEMNAME_PROCESS_MEMORY_MAJORFAULT_COUNT = "/process/memory/majorfault/count(d)";
 
     // -----------------------------------------------------
-    // �v���Z�X����: �l�b�g���[�N
+    // プロセス項目: ネットワーク
 
-    /** ���ږ��i���\�[�X�l�ł́A�v���Z�X�S�̂̃l�b�g���[�N�f�[�^��M�ʁj */
+    /** 項目名（リソース値での、プロセス全体のネットワークデータ受信量） */
     String ITEMNAME_NETWORKINPUTSIZEOFPROCESS = "/process/network/read:bytes(d)";
 
-    /** ���ږ��i���\�[�X�l�ł́A�v���Z�X�S�̂̃l�b�g���[�N�f�[�^���M�ʁj */
+    /** 項目名（リソース値での、プロセス全体のネットワークデータ送信量） */
     String ITEMNAME_NETWORKOUTPUTSIZEOFPROCESS = "/process/network/write:bytes(d)";
 
     // -----------------------------------------------------
-    // �v���Z�X����: �t�@�C��
+    // プロセス項目: ファイル
 
-    /** ���ږ��i���\�[�X�l�ł́A�t�@�C�����͗ʁj */
+    /** 項目名（リソース値での、ファイル入力量） */
     String ITEMNAME_FILEINPUTSIZEOFPROCESS = "/process/file/read:bytes(d)";
 
-    /** ���ږ��i���\�[�X�l�ł́A�t�@�C���o�͗ʁj */
+    /** 項目名（リソース値での、ファイル出力量） */
     String ITEMNAME_FILEOUTPUTSIZEOFPROCESS = "/process/file/write:bytes(d)";
 
     // -----------------------------------------------------
-    // �v���Z�X����: �X���b�h
+    // プロセス項目: スレッド
 
-    /** ���ږ��i�X���b�h���j */
+    /** 項目名（スレッド数） */
     String ITEMNAME_PROCESS_THREAD_TOTAL_COUNT = "/process/thread/native";
 
-    /** ���ږ��iFD/�n���h�����j */
+    /** 項目名（FD/ハンドル数） */
     String ITEMNAME_PROCESS_HANDLE_TOTAL_NUMBER = "/process/file/handle/number";
 
-    /** ���ږ��i���\�[�X�l�ł́A�X���b�h���j */
+    /** 項目名（リソース値での、スレッド数） */
     String ITEMNAME_JAVAPROCESS_THREAD_TOTAL_COUNT = "/process/thread/java/total";
 
-    /** ���ږ�(RUNNBLE�ȃX���b�h��) */
+    /** 項目名(RUNNBLEなスレッド数) */
     String ITEMNAME_RUNNABLE_THREAD_COUNT = "/process/thread/java/runnable";
 
-    /** ���ږ�(RUNNBLE�ȃX���b�h��) */
+    /** 項目名(RUNNBLEなスレッド数) */
     String ITEMNAME_BLOCKED_THREAD_COUNT = "/process/thread/java/blocked";
 
     // -----------------------------------------------------
-    // �v���Z�X���: �R���N�V�������
+    // プロセス情報: コレクション情報
 
-    /** ���ږ��i���\�[�X�l�ł́A�R���N�V�����̐��j */
+    /** 項目名（リソース値での、コレクションの数） */
     String ITEMNAME_JAVAPROCESS_COLLECTION_LIST_COUNT = "/process/collection/list";
 
-    /** ���ږ��i���\�[�X�l�ł́A�R���N�V�����̐��j */
+    /** 項目名（リソース値での、コレクションの数） */
     String ITEMNAME_JAVAPROCESS_COLLECTION_QUEUE_COUNT = "/process/collection/queue";
 
-    /** ���ږ��i���\�[�X�l�ł́A�R���N�V�����̐��j */
+    /** 項目名（リソース値での、コレクションの数） */
     String ITEMNAME_JAVAPROCESS_COLLECTION_SET_COUNT = "/process/collection/set";
 
-    /** ���ږ��i���\�[�X�l�ł́A�R���N�V�����̐��j */
+    /** 項目名（リソース値での、コレクションの数） */
     String ITEMNAME_JAVAPROCESS_COLLECTION_MAP_COUNT = "/process/collection/map";
 
-    /** ���ږ��i���\�[�X�l�ł́A�N���X�q�X�g�O��������擾�����I�u�W�F�N�g�̃T�C�Y�j */
+    /** 項目名（リソース値での、クラスヒストグラムから取得したオブジェクトのサイズ） */
     String ITEMNAME_JAVAPROCESS_COLLECTION_HISTOGRAM_SIZE = "/process/histogram/"
         + "object/size:bytes";
 
-    /** ���ږ��i���\�[�X�l�ł́A�N���X�q�X�g�O��������擾�����I�u�W�F�N�g�̐��j */
+    /** 項目名（リソース値での、クラスヒストグラムから取得したオブジェクトの数） */
     String ITEMNAME_JAVAPROCESS_COLLECTION_HISTOGRAM_COUNT = "/process/histogram/object/number";
 
     // -----------------------------------------------------
-    // �v���Z�X���: ���X�|���X���
+    // プロセス情報: レスポンス情報
 
-    /** ���ږ��i���\�[�X�l�ł́ATurn Around Time�̕��ϒl�j */
+    /** 項目名（リソース値での、Turn Around Timeの平均値） */
     String ITEMNAME_PROCESS_RESPONSE_TIME_AVERAGE = "/process/response/total/average";
 
-    /** ���ږ��i���\�[�X�l�ł́ATurn Around Time�̍ő�l�j */
+    /** 項目名（リソース値での、Turn Around Timeの最大値） */
     String ITEMNAME_PROCESS_RESPONSE_TIME_MAX = "/process/response/total/max";
 
-    /** ���ږ��i���\�[�X�l�ł́ATurn Around Time�̍ŏ��l�j */
+    /** 項目名（リソース値での、Turn Around Timeの最小値） */
     String ITEMNAME_PROCESS_RESPONSE_TIME_MIN = "/process/response/total/min";
 
-    /** ���ږ��i���\�[�X�l�ł́ATurn Around Time�̌Ăяo���񐔁j */
+    /** 項目名（リソース値での、Turn Around Timeの呼び出し回数） */
     String ITEMNAME_PROCESS_RESPONSE_TOTAL_COUNT = "/process/response/total/count";
 
-    /** �ړ����i���\�[�X�l�ł́Aevent�̔����񐔁j */
+    /** 接頭辞（リソース値での、eventの発生回数） */
     String PREFIX_PROCESS_RESPONSE_EVENT = "/process/response/page/event";
 
-    /** ���ږ��i���\�[�X�l�ł́ATurn Around Time�̕��ϒl(SQL�ȊO)�j */
+    /** 項目名（リソース値での、Turn Around Timeの平均値(SQL以外)） */
     String ITEMNAME_PROCESS_RESPONSE_TIME_AVERAGE_EXCL_SQL = "/process/response/nosql/average";
 
-    /** ���ږ��i���\�[�X�l�ł́ATurn Around Time�̍ő�l(SQL�ȊO)�j */
+    /** 項目名（リソース値での、Turn Around Timeの最大値(SQL以外)） */
     String ITEMNAME_PROCESS_RESPONSE_TIME_MAX_EXCL_SQL = "/process/response/nosql/max";
 
-    /** ���ږ��i���\�[�X�l�ł́ATurn Around Time�̍ŏ��l(SQL�ȊO)�j */
+    /** 項目名（リソース値での、Turn Around Timeの最小値(SQL以外)） */
     String ITEMNAME_PROCESS_RESPONSE_TIME_MIN_EXCL_SQL = "/process/response/nosql/min";
 
-    /** ���ږ��i���\�[�X�l�ł́ATurn Around Time�̌Ăяo����(SQL�ȊO)�j */
+    /** 項目名（リソース値での、Turn Around Timeの呼び出し回数(SQL以外)） */
     String ITEMNAME_PROCESS_RESPONSE_TOTAL_COUNT_EXCL_SQL = "/process/response/nosql/count";
 
-    /** ���ږ��i���\�[�X�l�ł́ATurn Around Time�̕��ϒl(SQL�̂�)�j */
+    /** 項目名（リソース値での、Turn Around Timeの平均値(SQLのみ)） */
     String ITEMNAME_PROCESS_RESPONSE_TIME_AVERAGE_ONLY_SQL = "/process/response/sql/average";
 
-    /** ���ږ��i���\�[�X�l�ł́ATurn Around Time�̍ő�l(SQL�̂�)�j */
+    /** 項目名（リソース値での、Turn Around Timeの最大値(SQLのみ)） */
     String ITEMNAME_PROCESS_RESPONSE_TIME_MAX_ONLY_SQL = "/process/response/sql/max";
 
-    /** ���ږ��i���\�[�X�l�ł́ATurn Around Time�̍ŏ��l(SQL�̂�)�j */
+    /** 項目名（リソース値での、Turn Around Timeの最小値(SQLのみ)） */
     String ITEMNAME_PROCESS_RESPONSE_TIME_MIN_ONLY_SQL = "/process/response/sql/min";
 
-    /** ���ږ��i���\�[�X�l�ł́ATurn Around Time�̌Ăяo����(SQL�̂�)�j */
+    /** 項目名（リソース値での、Turn Around Timeの呼び出し回数(SQLのみ)） */
     String ITEMNAME_PROCESS_RESPONSE_TOTAL_COUNT_ONLY_SQL = "/process/response/sql/count";
 
-    /** ���ږ�(HTTP��O) */
+    /** 項目名(HTTP例外) */
     String ITEMNAME_JAVAPROCESS_HTTP_EXCEPTION = "/process/response/http/thrown";
 
     // -----------------------------------------------------
-    // �v���Z�X���: VM
+    // プロセス情報: VM
 
-    /** ���ږ�(Java ���z�}�V�������s���J�n���Ă��烍�[�h���ꂽ�N���X�̍��v��) */
+    /** 項目名(Java 仮想マシンが実行を開始してからロードされたクラスの合計数) */
     String ITEMNAME_JAVAPROCESS_CLASSLOADER_CLASS_TOTAL = "/process/classloader/class/total";
 
-    /** ���ږ�(Java ���z�}�V���Ɍ��݃��[�h����Ă���N���X�̐�) */
+    /** 項目名(Java 仮想マシンに現在ロードされているクラスの数) */
     String ITEMNAME_JAVAPROCESS_CLASSLOADER_CLASS_CURRENT = "/process/classloader/"
         + "class/current";
 
-    /** ���ږ��i���\�[�X�l�ł́A�g�[�^���̃K�x�[�W�R���N�V�����̎��ԁj */
+    /** 項目名（リソース値での、トータルのガベージコレクションの時間） */
     String ITEMNAME_JAVAPROCESS_GC_TIME_TOTAL = "/process/gc/time/total(d)";
 
-    /** ���ږ��i���\�[�X�l�ł́A�t�@�C�i���C�Y�҂��I�u�W�F�N�g���j */
+    /** 項目名（リソース値での、ファイナライズ待ちオブジェクト数） */
     String ITEMNAME_JAVAPROCESS_GC_FINALIZEQUEUE_COUNT = "/process/gc/finalizequeue/number";
 
-    /** ���ږ�(��O������) */
+    /** 項目名(例外発生回数) */
     String ITEMNAME_JAVAPROCESS_EXCEPTION_OCCURENCE_COUNT = "/process/response/java/error";
 
-    /** ���ږ�(�X�g�[��������) */
+    /** 項目名(ストール発生回数) */
     String ITEMNAME_JAVAPROCESS_STALL_OCCURENCE_COUNT = "/process/response/java/stalled";
 
     // -----------------------------------------------------
-    // �v���Z�X���: AP�T�[�o���
+    // プロセス情報: APサーバ情報
 
-    /** ���ږ��iAP�T�[�o�̃��[�J�[�X���b�h�v�[��(�ő吔,�ғ���)�j */
+    /** 項目名（APサーバのワーカースレッドプール(最大数,稼動数)） */
     String ITEMNAME_SERVER_POOL = "/process/apserver/worker/number";
 
-    /** ���ږ��i�v�[��(�ő吔,�ғ���)�j */
+    /** 項目名（プール(最大数,稼動数)） */
     String ITEMNAME_POOL_SIZE = "/process/commons/poolsize";
 
-    /** ���ږ��i���\�[�X�l�ł́AHttpSession���j */
+    /** 項目名（リソース値での、HttpSession数） */
     String ITEMNAME_HTTPSESSION_NUM = "/process/httpsession/instance/number";
 
-    /** ���ږ��i���\�[�X�l�ł́AHttpSession���T�C�Y�j */
+    /** 項目名（リソース値での、HttpSession総サイズ） */
     String ITEMNAME_HTTPSESSION_TOTALSIZE = "/process/httpsession/size/total:bytes";
 
     // -----------------------------------------------------
-    // Agent���
+    // Agent情報
 
-    /** ���ږ��i�J�o���b�W�j */
+    /** 項目名（カバレッジ） */
     String ITEMNAME_COVERAGE = "/javelin/converter/coverage:%";
 
-    /** ���ږ��i�C�x���g��ʖ��̃C�x���g�����񐔁j */
+    /** 項目名（イベント種別毎のイベント発生回数） */
     String ITEMNAME_EVENT_COUNT = "/javelin/event/occured/count";
 
-    /** ���ږ�(CallNodeTree��) */
+    /** 項目名(CallNodeTree数) */
     String ITEMNAME_NODECOUNT = "/javelin/calltreenode/generated/current";
 
-    /** ���ږ�(�ő�CallTreeNode��) */
+    /** 項目名(最大CallTreeNode数) */
     String ITEMNAME_MAX_NODECOUNT = "/javelin/calltreenode/generated/max";
 
-    /** ���ږ�(���vCallTreeNode��) */
+    /** 項目名(合計CallTreeNode数) */
     String ITEMNAME_ALL_NODECOUNT = "/javelin/calltreenode/generated/all";
 
-    /** ���ږ�(CallTree��) */
+    /** 項目名(CallTree数) */
     String ITEMNAME_CALLTREECOUNT = "/javelin/calltree/generated/current";
 
-    /** ���ږ�(JavelinConverter�ŕϊ��������\�b�h��) */
+    /** 項目名(JavelinConverterで変換したメソッド数) */
     String ITEMNAME_CONVERTEDMETHOD = "/javelin/converter/methods/converted";
 
-    /** ���ږ�(JavelinConverter�ŕϊ��Ώۂ��珜�O�������\�b�h��) */
+    /** 項目名(JavelinConverterで変換対象から除外したメソッド数) */
     String ITEMNAME_EXCLUDEDMETHOD = "/javelin/converter/methods/excluded";
 
-    /** ���ږ�(JavelinConverter�ŕϊ����s�������\�b�h�̂����A�Ăяo���ꂽ���\�b�h��) */
+    /** 項目名(JavelinConverterで変換を行ったメソッドのうち、呼び出されたメソッド数) */
     String ITEMNAME_CALLEDMETHODCOUNT = "/javelin/converter/methods/executed";
 
-    /** ���ږ��iJVN�t�@�C�� JVN�t�@�C�����j */
+    /** 項目名（JVNファイル JVNファイル名） */
     String ITEMNAME_JVN_FILE_NAME = "/javelin/jvnfile/name";
 
-    /** ���ږ��iJVN�t�@�C�� JVN�t�@�C�����e�j */
+    /** 項目名（JVNファイル JVNファイル内容） */
     String ITEMNAME_JVN_FILE_CONTENT = "/javelin/jvnfile/contents";
 
-    /** ���ږ��i�A�C�e�����j */
+    /** 項目名（アイテム名） */
     String ITEMNAME_JVN_ITEM_NAME = "/javelin/jvnfile/itemname";
 
     // -----------------------------------------------------
-    // ���̑�
+    // その他
 
-    /** ���ږ��ijmx�j */
+    /** 項目名（jmx） */
     String ITEMNAME_JMX = "/jmx";
 
     // -----------------------------------------------------
-    // �Ď����
+    // 監視情報
 
-    /** ���ږ��i�ڑ��ʒm�F�ڑ�����ʁj */
+    /** 項目名（接続通知：接続元種別） */
     String ITEMNAME_CONNECTNOTIFY_KIND = "kind";
 
-    /** ���ږ��i�ڑ��ʒm�FDB���j */
+    /** 項目名（接続通知：DB名） */
     String ITEMNAME_CONNECTNOTIFY_DBNAME = "dbName";
 
-    /** ���ږ�(�ڑ��ʒm�F�ڑ��ړI) */
+    /** 項目名(接続通知：接続目的) */
     String ITEMNAME_CONNECTNOTIFY_PURPOSE = "purpose";
 
-    /** ���ږ�(�S�Ă̌Ăяo�����̖��O) */
+    /** 項目名(全ての呼び出し元の名前) */
     String ITEMNAME_ALL_CALLER_NAMES = "/allCallerNames";
 
-    /** ���ږ�(���[�g) */
+    /** 項目名(ルート) */
     String ITEMNAME_ROOT_NODE = "/rootNode";
 
-    /** ���ږ�(�v���Ώ�) */
+    /** 項目名(計測対象) */
     String ITEMNAME_TARGET = "/target";
 
-    /** ���ږ�(�g�����U�N�V�����O���t�o�͑Ώ�) */
+    /** 項目名(トランザクショングラフ出力対象) */
     String ITEMNAME_TRANSACTION_GRAPH = "/transactionGraph";
 
-    /** ���ږ�(TAT�A���[��臒l) */
+    /** 項目名(TATアラーム閾値) */
     String ITEMNAME_ALARM_THRESHOLD = "/alarmThreshold";
 
-    /** ���ږ�(CPU�A���[��臒l) */
+    /** 項目名(CPUアラーム閾値) */
     String ITEMNAME_ALARM_CPU_THRESHOLD = "/alarmCpuThreshold";
 
-    /** ���ږ�(�N���X��) */
+    /** 項目名(クラス名) */
     String ITEMNAME_CLASSTOREMOVE = "/classToRemove";
 
-    /** ���ږ�(HTTP�G���[������) */
+    /** 項目名(HTTPエラー発生回数) */
     String ITEMNAME_HTTP_ERRCOUNT = "httpErrorCount";
 
-    /** ���ږ�(Hadoop:NameNode) */
+    /** 項目名(Hadoop:NameNode) */
     String ITEMNAME_HADOOP_NAMENODE = "/hadoop/NameNode";
 
-    /** ���ږ�(Hadoop:JobTracker) */
+    /** 項目名(Hadoop:JobTracker) */
     String ITEMNAME_HADOOP_JOBTRACKER = "/hadoop/JobTracker";
 
-    /** ���ږ�(Infinispan:mapreduce) */
+    /** 項目名(Infinispan:mapreduce) */
     String ITEMNAME_INFINISPAN_MAPREDUCE = "/infinispan/MapReduce";
 
-    /** ���ږ�(Hadoop:DataNode) */
+    /** 項目名(Hadoop:DataNode) */
     String ITEMNAME_HADOOP_DATANODE = "/hadoop/DataNode";
 
-    /** ���ږ�(Hadoop:TaskTracker) */
+    /** 項目名(Hadoop:TaskTracker) */
     String ITEMNAME_HADOOP_TASKTRACKER = "/hadoop/TaskTracker";
 
-    /** ���ږ�(HBase:HMaster) */
+    /** 項目名(HBase:HMaster) */
     String ITEMNAME_HBASE_HMASTER = "/hbase/HMaster";
 
-    /** ���ږ�(HBase:HRegionServer) */
+    /** 項目名(HBase:HRegionServer) */
     String ITEMNAME_HBASE_HREGIONSERVER = "/hbase/HRegionServer";
 
-    /** ���ږ��i�v��ID�j */
+    /** 項目名（計測ID） */
     String ITEMNAME_MEASUREMENT_TYPE = "measurementType";
 
-    /** ���ږ��i�A���[���̎�ށj */
+    /** 項目名（アラームの種類） */
     String ITEMNAME_ALARM_ID = "alarmId";
 
-    /** ���ږ��i臒l�����`����ID�j */
+    /** 項目名（閾値判定定義情報のID） */
     String ITEMNAME_SIGNAL_ID = "signalId";
 
-    /** ���ږ��i�A���[���̎�ށj */
+    /** 項目名（アラームの種類） */
     String ITEMNAME_ALARM_TYPE = "alarmType";
 
-    /** ���ږ��i�A���[���������̏�Q��ԁj */
+    /** 項目名（アラーム発生時の障害状態） */
     String ITEMNAME_ALARM_STATE = "alarmState";
 
-    /** ���ږ��i臒l�����`���̃��x���j */
+    /** 項目名（閾値判定定義情報のレベル） */
     String ITEMNAME_SIGNAL_LEVEL = "signalLevel";
 
-    /** ���ږ�(�V�O�i����`�ǉ�) */
+    /** 項目名(シグナル定義追加) */
     String ITEMNAME_SIGNAL_ADD = "signalAdd";
 
-    /** ���ږ�(�V�O�i����`�X�V) */
+    /** 項目名(シグナル定義更新) */
     String ITEMNAME_SIGNAL_UPDATE = "signalUpdate";
 
-    /** ���ږ�(�V�O�i����`�폜) */
+    /** 項目名(シグナル定義削除) */
     String ITEMNAME_SIGNAL_DELETE = "signalDelete";
 
-    /** ���ږ�(�c���[��`�ǉ�) */
+    /** 項目名(ツリー定義追加) */
     String ITEMNAME_TREE_ADD = "treeAdd";
 
     /** tree delete message */
     String ITEMNAME_TREE_DELETE = "treeDelete";
 
-    /** ���ږ��i�c���[�\�����j */
+    /** 項目名（ツリー表示名） */
     String ITEMNAME_TREE_DATA = "data";
 
-    /** ���ږ��i�c���[ID�j */
+    /** 項目名（ツリーID） */
     String ITEMNAME_TREE_TREEID = "treeId";
 
-    /** ���ږ��i�e�c���[ID�j */
+    /** 項目名（親ツリーID） */
     String ITEMNAME_TREE_PARENTTREEID = "parentTreeId";
 
-    /** ���ږ��iID�j */
+    /** 項目名（ID） */
     String ITEMNAME_TREE_ID = "id";
 
-    /** ���ږ��i�c���[�̃^�C�v�j */
+    /** 項目名（ツリーのタイプ） */
     String ITEMNAME_TREE_TYPE = "type";
 
-    /** ���ږ��i�A�C�R���j */
+    /** 項目名（アイコン） */
     String ITEMNAME_TREE_ICON = "icon";
 
-    /** ���ږ��i�v���P�ʁj */
+    /** 項目名（計測単位） */
     String ITEMNAME_TREE_MEASUREMENTUNIT = "measurementUnit";
     
-    /** ���ږ��i臒l�����`����ID�j */
+    /** 項目名（閾値判定定義情報のID） */
     String ITEMNAME_MUL_RES_GRAPH_ID = "mulResourceGraphId";
     
-    /** ���ږ�(�V�O�i����`�ǉ�) */
+    /** 項目名(シグナル定義追加) */
     String ITEMNAME_MUL_RES_GRAPH_ADD = "mulResourceGraphAdd";
 
-    /** ���ږ�(�V�O�i����`�X�V) */
+    /** 項目名(シグナル定義更新) */
     String ITEMNAME_MUL_RES_GRAPH_UPDATE= "mulResourceGraphUpdate";
 
-    /** ���ږ�(�V�O�i����`�폜) */
+    /** 項目名(シグナル定義削除) */
     String ITEMNAME_MUL_RES_GRAPH_DELETE = "mulResourceGraphDelete";
     
     
-    /** int �� byte[] �ϊ����ɑΉ�����o�C�g�� */
+    /** int ⇔ byte[] 変換時に対応するバイト数 */
     int INT_BYTE_SWITCH_LENGTH = 4;
 
-    /** long �� byte[] �ϊ����ɑΉ�����o�C�g�� */
+    /** long ⇔ byte[] 変換時に対応するバイト数 */
     int LONG_BYTE_SWITCH_LENGTH = 8;
 
-    /** ���ڌ^�i�P�o�C�g�����t�����j */
+    /** 項目型（１バイト符号付整数） */
     byte BYTE_ITEMMODE_KIND_BYTE = 0;
 
-    /** ���ڌ^�i�S�o�C�g�����t�����j */
+    /** 項目型（４バイト符号付整数） */
     byte BYTE_ITEMMODE_KIND_4BYTE_INT = 2;
 
-    /** ���ڌ^�i�W�o�C�g�����t�����j */
+    /** 項目型（８バイト符号付整数） */
     byte BYTE_ITEMMODE_KIND_8BYTE_INT = 3;
 
-    /** ���ڌ^�i������j */
+    /** 項目型（文字列） */
     byte BYTE_ITEMMODE_KIND_STRING = 6;
 
-    /** ���[�v�񐔁i1��j */
+    /** ループ回数（1回） */
     int INT_LOOP_COUNT_SINGLE = 1;
 
-    /** �N���X���A���\�b�h���̃Z�p���[�^ */
+    /** クラス名、メソッド名のセパレータ */
     String CLASSMETHOD_SEPARATOR = "###CLASSMETHOD_SEPARATOR###";
 }

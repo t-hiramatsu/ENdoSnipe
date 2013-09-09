@@ -29,7 +29,7 @@ import jp.co.acroquest.endosnipe.common.entity.ItemType;
 import jp.co.acroquest.endosnipe.javelin.bean.proc.ProcInfo;
 
 /**
- * SelfStatInfoからutimeを取得する。
+ * SelfStatInfo縺九ｉutime繧貞叙蠕励☆繧九�
  * 
  * @author akita
  */
@@ -38,7 +38,7 @@ public class LinuxUTimeGetter extends ProcResourceGetter
 
     /**
      * 
-     * @param procParser リソース情報取得用
+     * @param procParser 繝ｪ繧ｽ繝ｼ繧ｹ諠�蝣ｱ蜿門ｾ礼畑
      */
     public LinuxUTimeGetter(ProcParser procParser)
     {

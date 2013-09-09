@@ -36,9 +36,9 @@ import jp.co.smg.endosnipe.javassist.CtClass;
 import jp.co.smg.endosnipe.javassist.NotFoundException;
 
 /**
- * �Ăяo���Ԋu�`�F�b�N�R���o�[�^�B<br />
- * IntervalMonitor �Ƃ͈قȂ�A�������\�b�h�̒��ł��A
- * ���\�b�h�Ăяo�����̈������������ꍇ�ɃJ�E���g�A�b�v���܂��B<br />
+ * 呼び出し間隔チェックコンバータ。<br />
+ * IntervalMonitor とは異なり、同名メソッドの中でも、
+ * メソッド呼び出し時の引数が等しい場合にカウントアップします。<br />
  * 
  * @author sakamoto
  */
@@ -72,13 +72,13 @@ public class IntervalPerArgumentsMonitorConverter extends AbstractConverter
     }
 
     /**
-     * ���\�b�h�̐U�镑�����C������B
-     * �Ăяo�����Ԃ��L�^���A�O��Ƃ̌Ăяo�����Ԃ�臒l�ȏ�ł���΁A
-     * �����I�ɃA���[�����o�͂��A����ʒm����B
+     * メソッドの振る舞いを修正する。
+     * 呼び出し時間を記録し、前回との呼び出し時間が閾値以上であれば、
+     * 強制的にアラームを出力し、問題を通知する。
      * 
      * @param ctBehavior CtBehavior
-     * @throws CannotCompileException �R���p�C���ł��Ȃ��ꍇ
-     * @throws NotFoundException �N���X��������Ȃ��ꍇ
+     * @throws CannotCompileException コンパイルできない場合
+     * @throws NotFoundException クラスが見つからない場合
      */
     private void convertBehavior(final CtBehavior ctBehavior)
         throws CannotCompileException,

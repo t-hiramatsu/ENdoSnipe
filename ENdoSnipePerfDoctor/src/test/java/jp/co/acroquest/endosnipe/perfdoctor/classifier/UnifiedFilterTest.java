@@ -8,32 +8,32 @@ import jp.co.acroquest.endosnipe.perfdoctor.classfier.UnifiedFilter;
 import junit.framework.TestCase;
 
 /**
- * UnifiedFilter‚ÌƒeƒXƒgƒP[ƒX
+ * UnifiedFilterã®ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹
  * @author fujii
  *
  */
 public class UnifiedFilterTest extends TestCase
 {
-    /** TAT‚ÌŒx‚ğo‚·ƒ‹[ƒ‹ID */
+    /** TATã®è­¦å‘Šã‚’å‡ºã™ãƒ«ãƒ¼ãƒ«ID */
     private static final String RULEID_TAT     = "COD.MTRC.METHOD_TAT";
 
-    /** Àˆ—ŠÔ‚ÌŒx‚ğo‚·ƒ‹[ƒ‹ID */
+    /** å®Ÿå‡¦ç†æ™‚é–“ã®è­¦å‘Šã‚’å‡ºã™ãƒ«ãƒ¼ãƒ«ID */
     private static final String RULEID_ELAPSED = "COD.MTRC.METHOD_ELAPSEDTIME";
 
-    /** •¡”‚ÌŒxƒ‹[ƒ‹‚ği‚éƒtƒBƒ‹ƒ^ */
+    /** è¤‡æ•°ã®è­¦å‘Šãƒ«ãƒ¼ãƒ«ã‚’çµã‚‹ãƒ•ã‚£ãƒ«ã‚¿ */
     private UnifiedFilter       filter_        = new UnifiedFilter();
 
     /**
-     * [€”Ô] <br>
+     * [é …ç•ª] <br>
      * <br>
-     * doFilter‚ÌƒeƒXƒg<br>
-     * Eƒ‹[ƒ‹IDF{"COD.MTRC.METHOD_ELAPSEDTIME","COD.MTRC.METHOD_TAT"}<br>
-     * EŒxƒŠƒXƒg‚ğ‚P‚Âì¬‚·‚é<br>
-     * ¨ì¬‚µ‚½ŒxƒŠƒXƒg‚ª‚»‚Ì‚Ü‚Ü•Ô‚éB<br>
+     * doFilterã®ãƒ†ã‚¹ãƒˆ<br>
+     * ãƒ»ãƒ«ãƒ¼ãƒ«IDï¼š{"COD.MTRC.METHOD_ELAPSEDTIME","COD.MTRC.METHOD_TAT"}<br>
+     * ãƒ»è­¦å‘Šãƒªã‚¹ãƒˆã‚’ï¼‘ã¤ä½œæˆã™ã‚‹<br>
+     * â†’ä½œæˆã—ãŸè­¦å‘Šãƒªã‚¹ãƒˆãŒãã®ã¾ã¾è¿”ã‚‹ã€‚<br>
      */
     public void testDoFilterTatOneData()
     {
-        // €”õ
+        // æº–å‚™
         List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
 
         WarningUnit unit =
@@ -41,26 +41,26 @@ public class UnifiedFilterTest extends TestCase
                         5, 10});
         warningUnitList.add(unit);
 
-        // Às
+        // å®Ÿè¡Œ
         List<WarningUnit> resultList = this.filter_.doFilter(warningUnitList);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         ClassifierUtil.assertWarningUnitList(warningUnitList.get(0), resultList.get(0));
 
     }
 
     /**
-     * [€”Ô] <br>
+     * [é …ç•ª] <br>
      * <br>
-     * doFilter‚ÌƒeƒXƒg<br>
-     * Eƒ‹[ƒ‹IDF{"COD.MTRC.METHOD_ELAPSEDTIME","COD.MTRC.METHOD_TAT"}<br>
-     * ETAT‚ÌŠJnŠÔ‚ªÀŠÔ‚Ì”ÍˆÍ‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚é<br>
-     * ¨Œx‚ÌƒŠƒXƒg‚ÌƒTƒCƒY‚ª1‚Å‚ ‚é‚±‚ÆB
-     * ¨ELAPSEDTIME‚ÌŒxƒ‹[ƒ‹‚Ì‚İ•\¦‚³‚ê‚éB<br>
+     * doFilterã®ãƒ†ã‚¹ãƒˆ<br>
+     * ãƒ»ãƒ«ãƒ¼ãƒ«IDï¼š{"COD.MTRC.METHOD_ELAPSEDTIME","COD.MTRC.METHOD_TAT"}<br>
+     * ãƒ»TATã®é–‹å§‹æ™‚é–“ãŒå®Ÿæ™‚é–“ã®ç¯„å›²ã«å«ã¾ã‚Œã¦ã„ã‚‹<br>
+     * â†’è­¦å‘Šã®ãƒªã‚¹ãƒˆã®ã‚µã‚¤ã‚ºãŒ1ã§ã‚ã‚‹ã“ã¨ã€‚
+     * â†’ELAPSEDTIMEã®è­¦å‘Šãƒ«ãƒ¼ãƒ«ã®ã¿è¡¨ç¤ºã•ã‚Œã‚‹ã€‚<br>
      */
     public void testDoFilterTatStartIn()
     {
-        // €”õ
+        // æº–å‚™
         List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
 
         WarningUnit unit1 =
@@ -72,31 +72,31 @@ public class UnifiedFilterTest extends TestCase
         warningUnitList.add(unit1);
         warningUnitList.add(unit2);
 
-        // Às
+        // å®Ÿè¡Œ
         List<WarningUnit> resultList = this.filter_.doFilter(warningUnitList);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(1, resultList.size());
         ClassifierUtil.assertWarningUnitList(warningUnitList.get(0), resultList.get(0));
     }
 
     /**
-     * [€”Ô] <br>
+     * [é …ç•ª] <br>
      * <br>
-     * doFilter‚ÌƒeƒXƒg<br>
-     * Eƒ‹[ƒ‹IDF{"COD.MTRC.METHOD_ELAPSEDTIME","COD.MTRC.METHOD_TAT"}<br>
-     * ETAT‚ÌI—¹ŠÔ‚ªÀŠÔ‚Ì”ÍˆÍ‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚é<br>
-     * ¨Œx‚ÌƒŠƒXƒg‚ÌƒTƒCƒY‚ª1‚Å‚ ‚é‚±‚ÆB
-     * ¨ELAPSEDTIME‚ÌŒxƒ‹[ƒ‹‚Ì‚İ•\¦‚³‚ê‚éB<br>
+     * doFilterã®ãƒ†ã‚¹ãƒˆ<br>
+     * ãƒ»ãƒ«ãƒ¼ãƒ«IDï¼š{"COD.MTRC.METHOD_ELAPSEDTIME","COD.MTRC.METHOD_TAT"}<br>
+     * ãƒ»TATã®çµ‚äº†æ™‚é–“ãŒå®Ÿæ™‚é–“ã®ç¯„å›²ã«å«ã¾ã‚Œã¦ã„ã‚‹<br>
+     * â†’è­¦å‘Šã®ãƒªã‚¹ãƒˆã®ã‚µã‚¤ã‚ºãŒ1ã§ã‚ã‚‹ã“ã¨ã€‚
+     * â†’ELAPSEDTIMEã®è­¦å‘Šãƒ«ãƒ¼ãƒ«ã®ã¿è¡¨ç¤ºã•ã‚Œã‚‹ã€‚<br>
      */
 
     /**
-     * [€”Ô] <br>
+     * [é …ç•ª] <br>
      * <br>
-     * doFilter‚ÌƒeƒXƒg<br>
-     * Eƒ‹[ƒ‹IDF{"COD.MTRC.METHOD_ELAPSEDTIME","COD.MTRC.METHOD_TAT"}<br>
-     * ETAT‚ÌI—¹ŠÔ‚ªÀŠÔ‚Ì”ÍˆÍ‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚È‚¢<br>
-     * ¨ELAPSEDTIMEATAT‚ÌŒxƒ‹[ƒ‹‚Ì—¼•û‚ª•\¦‚³‚ê‚éB<br>
+     * doFilterã®ãƒ†ã‚¹ãƒˆ<br>
+     * ãƒ»ãƒ«ãƒ¼ãƒ«IDï¼š{"COD.MTRC.METHOD_ELAPSEDTIME","COD.MTRC.METHOD_TAT"}<br>
+     * ãƒ»TATã®çµ‚äº†æ™‚é–“ãŒå®Ÿæ™‚é–“ã®ç¯„å›²ã«å«ã¾ã‚Œã¦ã„ãªã„<br>
+     * â†’ELAPSEDTIMEã€TATã®è­¦å‘Šãƒ«ãƒ¼ãƒ«ã®ä¸¡æ–¹ãŒè¡¨ç¤ºã•ã‚Œã‚‹ã€‚<br>
      */
 
 }

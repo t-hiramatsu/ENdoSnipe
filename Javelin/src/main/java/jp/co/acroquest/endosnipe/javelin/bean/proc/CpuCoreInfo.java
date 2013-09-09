@@ -13,28 +13,28 @@
 package jp.co.acroquest.endosnipe.javelin.bean.proc;
 
 /**
- * ƒRƒA‚²‚Æ‚ÌCPUg—pŠÔB
+ * ã‚³ã‚¢ã”ã¨ã®CPUä½¿ç”¨æ™‚é–“ã€‚
  * 
  * @author eriguchi
  */
 public class CpuCoreInfo
 {
-    /** CPUƒ†[ƒU */
+    /** CPUãƒ¦ãƒ¼ã‚¶ */
     private long cpuUser_;
 
-    /** CPUƒVƒXƒeƒ€ */
+    /** CPUã‚·ã‚¹ãƒ†ãƒ  */
     private long cpuSystem_;
 
-    /** CPUƒ^ƒXƒN */
+    /** CPUã‚¿ã‚¹ã‚¯ */
     private long cpuTask_;
 
-    /** CPU@I/O‘Ò‹@ŠÔ */
+    /** CPUã€€I/Oå¾…æ©Ÿæ™‚é–“ */
     private long cpuIoWait_;
 
     /**
-     * CPUƒ†[ƒU‚ğæ“¾‚·‚éB
+     * CPUãƒ¦ãƒ¼ã‚¶ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return CPUƒ†[ƒUB
+     * @return CPUãƒ¦ãƒ¼ã‚¶ã€‚
      */
     public long getCpuUser()
     {
@@ -42,9 +42,9 @@ public class CpuCoreInfo
     }
 
     /**
-     * CPUƒ†[ƒU‚ğİ’è‚·‚éB
+     * CPUãƒ¦ãƒ¼ã‚¶ã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param cpuUser CPUƒ†[ƒUB
+     * @param cpuUser CPUãƒ¦ãƒ¼ã‚¶ã€‚
      */
     public void setCpuUser(long cpuUser)
     {
@@ -52,9 +52,9 @@ public class CpuCoreInfo
     }
 
     /**
-     * CPUƒ†[ƒU‚ğæ“¾‚·‚éB
+     * CPUãƒ¦ãƒ¼ã‚¶ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return CPUƒ†[ƒUB
+     * @return CPUãƒ¦ãƒ¼ã‚¶ã€‚
      */
     public long getCpuSystem()
     {
@@ -62,9 +62,9 @@ public class CpuCoreInfo
     }
 
     /**
-     * CPUƒ†[ƒU‚ğİ’è‚·‚éB
+     * CPUãƒ¦ãƒ¼ã‚¶ã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param cpuSystem CPUƒ†[ƒUB
+     * @param cpuSystem CPUãƒ¦ãƒ¼ã‚¶ã€‚
      */
     public void setCpuSystem(long cpuSystem)
     {
@@ -72,9 +72,9 @@ public class CpuCoreInfo
     }
 
     /**
-     * CPUƒ†[ƒU‚ğæ“¾‚·‚éB
+     * CPUãƒ¦ãƒ¼ã‚¶ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return CPUƒ†[ƒUB
+     * @return CPUãƒ¦ãƒ¼ã‚¶ã€‚
      */
     public long getCpuTask()
     {
@@ -82,9 +82,9 @@ public class CpuCoreInfo
     }
 
     /**
-     * CPUƒ†[ƒU‚ğİ’è‚·‚éB
+     * CPUãƒ¦ãƒ¼ã‚¶ã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param cpuTask CPUƒ†[ƒUB
+     * @param cpuTask CPUãƒ¦ãƒ¼ã‚¶ã€‚
      */
     public void setCpuTask(long cpuTask)
     {
@@ -92,9 +92,9 @@ public class CpuCoreInfo
     }
 
     /**
-     * CPUƒ†[ƒU‚ğæ“¾‚·‚éB
+     * CPUãƒ¦ãƒ¼ã‚¶ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return CPUƒ†[ƒUB
+     * @return CPUãƒ¦ãƒ¼ã‚¶ã€‚
      */
     public long getCpuIoWait()
     {
@@ -102,9 +102,9 @@ public class CpuCoreInfo
     }
 
     /**
-     * CPUƒ†[ƒU‚ğİ’è‚·‚éB
+     * CPUãƒ¦ãƒ¼ã‚¶ã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param cpuIoWait CPUƒ†[ƒUB
+     * @param cpuIoWait CPUãƒ¦ãƒ¼ã‚¶ã€‚
      */
     public void setCpuIoWait(long cpuIoWait)
     {

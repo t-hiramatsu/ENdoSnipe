@@ -26,25 +26,25 @@
 package jp.co.acroquest.endosnipe.common.entity.series;
 
 /**
- * ƒOƒ‰ƒt‚É•\¦‚·‚éƒŠƒ\[ƒX‚Ì@1@‚Â‚Ì“_‚ğ•\‚µ‚Ü‚·B<br />
+ * ã‚°ãƒ©ãƒ•ã«è¡¨ç¤ºã™ã‚‹ãƒªã‚½ãƒ¼ã‚¹ã®ã€€1ã€€ã¤ã®ç‚¹ã‚’è¡¨ã—ã¾ã™ã€‚<br />
  *
- * “_‚Ìî•ñ‚ÍA‚Æ’l‚©‚ç\¬‚³‚ê‚Ü‚·B<br />
+ * ç‚¹ã®æƒ…å ±ã¯ã€æ™‚åˆ»ã¨å€¤ã‹ã‚‰æ§‹æˆã•ã‚Œã¾ã™ã€‚<br />
  *
  * @author eriguchi
  */
 public class GraphResourceEntry
 {
-    /** ‚±‚Ì’l‚ªæ“¾‚³‚ê‚½iƒ~ƒŠ•bj */
+    /** ã“ã®å€¤ãŒå–å¾—ã•ã‚ŒãŸæ™‚åˆ»ï¼ˆãƒŸãƒªç§’ï¼‰ */
     private final long time_;
 
-    /** ’l */
+    /** å€¤ */
     private final Number value_;
 
     /**
-     * ƒOƒ‰ƒt‚É•\¦‚·‚éƒŠƒ\[ƒX‚Ì 1 ‚Â‚Ì“_‚ğ¶¬‚µ‚Ü‚·B<br />
+     * ã‚°ãƒ©ãƒ•ã«è¡¨ç¤ºã™ã‚‹ãƒªã‚½ãƒ¼ã‚¹ã® 1 ã¤ã®ç‚¹ã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
      *
-     * @param time ‚±‚Ì’l‚ªæ“¾‚³‚ê‚½iƒ~ƒŠ•bj
-     * @param value ’l
+     * @param time ã“ã®å€¤ãŒå–å¾—ã•ã‚ŒãŸæ™‚åˆ»ï¼ˆãƒŸãƒªç§’ï¼‰
+     * @param value å€¤
      */
     public GraphResourceEntry(final long time, final Number value)
     {
@@ -53,9 +53,9 @@ public class GraphResourceEntry
     }
 
     /**
-     * {@link GraphResourceEntry} ‚ÌƒRƒs[ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Å‚·B<br />
+     * {@link GraphResourceEntry} ã®ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§ã™ã€‚<br />
      *
-     * @param entry ƒRƒs[‚·‚éƒIƒuƒWƒFƒNƒg
+     * @param entry ã‚³ãƒ”ãƒ¼ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     public GraphResourceEntry(final GraphResourceEntry entry)
     {
@@ -64,9 +64,9 @@ public class GraphResourceEntry
     }
 
     /**
-     * ‚±‚Ì’l‚ªæ“¾‚³‚ê‚½‚ğƒ~ƒŠ•b‚Å•Ô‚µ‚Ü‚·B<br />
+     * ã“ã®å€¤ãŒå–å¾—ã•ã‚ŒãŸæ™‚åˆ»ã‚’ãƒŸãƒªç§’ã§è¿”ã—ã¾ã™ã€‚<br />
      *
-     * @return 
+     * @return æ™‚åˆ»
      */
     public long getTime()
     {
@@ -74,9 +74,9 @@ public class GraphResourceEntry
     }
 
     /**
-     * ’l‚ğæ“¾‚·‚éB
+     * å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return ’lB
+     * @return å€¤ã€‚
      */
     public Number getValue()
     {

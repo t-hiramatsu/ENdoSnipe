@@ -28,14 +28,14 @@ package jp.co.acroquest.endosnipe.javelin.bean;
 import java.util.List;
 
 /**
- * ���v�����pMBean�B<br>
- * S2JmxJavelin�Œ~�ς������ɑ΂��ē��v�������s�������ʂ�Ԃ��B<br>
- * ����A�ȉ��̏����擾���邱�Ƃ��\�B
+ * 統計処理用MBean。<br>
+ * S2JmxJavelinで蓄積した情報に対して統計処理を行った結果を返す。<br>
+ * 現状、以下の情報を取得することが可能。
  * <ol>
- * <li>���ϒl�Ń\�[�g�������\�b�h�R�[�����B</li>
- * <li>�ő�l�Ń\�[�g�������\�b�h�R�[�����B</li>
- * <li>�ŏ��l�Ń\�[�g�������\�b�h�R�[�����B</li>
- * <li>��O�̔����񐔂Ń\�[�g�������\�b�h�R�[�����B</li>
+ * <li>平均値でソートしたメソッドコール情報。</li>
+ * <li>最大値でソートしたメソッドコール情報。</li>
+ * <li>最小値でソートしたメソッドコール情報。</li>
+ * <li>例外の発生回数でソートしたメソッドコール情報。</li>
  * </ol>
  * 
  * @author yamasaki
@@ -44,26 +44,26 @@ import java.util.List;
 public interface StatisticsMBean
 {
     /**
-     * ���ϒl�Ń\�[�g�������\�b�h�R�[������Ԃ��܂��B
-     * @return ���ϒl�Ń\�[�g�������\�b�h�R�[�����
+     * 平均値でソートしたメソッドコール情報を返します。
+     * @return 平均値でソートしたメソッドコール情報
      */
     List<InvocationMBean> getInvocationListOrderByAverage();
 
     /**
-     * �ő�l�Ń\�[�g�������\�b�h�R�[������Ԃ��܂��B
-     * @return �ő�l�Ń\�[�g�������\�b�h�R�[�����
+     * 最大値でソートしたメソッドコール情報を返します。
+     * @return 最大値でソートしたメソッドコール情報
      */
     List<InvocationMBean> getInvocationListOrderByMaximum();
 
     /**
-     * �ŏ��l�Ń\�[�g�������\�b�h�R�[������Ԃ��܂��B
-     * @return �ŏ��l�Ń\�[�g�������\�b�h�R�[�����
+     * 最小値でソートしたメソッドコール情報を返します。
+     * @return 最小値でソートしたメソッドコール情報
      */
     List<InvocationMBean> getInvocationListOrderByMinimum();
 
     /**
-     * ��O�̔����񐔂Ń\�[�g�������\�b�h�R�[������Ԃ��܂��B
-     * @return ��O�̔����񐔂Ń\�[�g�������\�b�h�R�[�����
+     * 例外の発生回数でソートしたメソッドコール情報を返します。
+     * @return 例外の発生回数でソートしたメソッドコール情報
      */
     List<InvocationMBean> getInvocationListOrderByThrowableCount();
 }

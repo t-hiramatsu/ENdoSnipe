@@ -28,7 +28,7 @@ package jp.co.acroquest.endosnipe.data.entity;
 import java.sql.Timestamp;
 
 /**
- * ƒ}ƒbƒvƒe[ƒuƒ‹‚É‘Î‚·‚éƒGƒ“ƒeƒBƒeƒBƒNƒ‰ƒX‚Å‚·B<br />
+ * ãƒãƒƒãƒ—ãƒ†ãƒ¼ãƒ–ãƒ«ã«å¯¾ã™ã‚‹ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  *
  * @author fujii
  */
@@ -36,27 +36,27 @@ public class MapInfo
 {
 
     /**
-     * ƒ}ƒbƒv‚ğ¯•Ê‚·‚é ID B<br />
+     * ãƒãƒƒãƒ—ã‚’è­˜åˆ¥ã™ã‚‹ ID ã€‚<br />
      */
     public long       mapId;
 
     /**
-     * ƒ}ƒbƒv–¼B<br />
+     * ãƒãƒƒãƒ—åã€‚<br />
      */
     public String    name;
 
     /**
-     * ƒ}ƒbƒvƒf[ƒ^B<br />
+     * ãƒãƒƒãƒ—ãƒ‡ãƒ¼ã‚¿ã€‚<br />
      */
     public String    data;
 
     /**
-     * ƒ}ƒbƒv‚ªXV‚³‚ê‚½ÅVB<br />
+     * ãƒãƒƒãƒ—ãŒæ›´æ–°ã•ã‚ŒãŸæœ€æ–°æ™‚åˆ»ã€‚<br />
      */
     public Timestamp lastUpdate;
 
     /**
-     * {@link MapInfo} ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‚Ü‚·B<br />
+     * {@link MapInfo} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
      */
     public MapInfo()
     {

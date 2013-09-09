@@ -26,18 +26,18 @@
 package jp.co.acroquest.endosnipe.javelin.converter.util;
 
 /**
- * JavelinConverter‚Å•ÏŠ·‚ğs‚Á‚½ƒƒ\ƒbƒh‚Ì‚¤‚¿A
- * ŒÄ‚Ño‚³‚ê‚½ƒƒ\ƒbƒh”‚ğƒJƒEƒ“ƒg‚·‚éƒJƒEƒ“ƒ^ƒNƒ‰ƒX
+ * JavelinConverterã§å¤‰æ›ã‚’è¡Œã£ãŸãƒ¡ã‚½ãƒƒãƒ‰ã®ã†ã¡ã€
+ * å‘¼ã³å‡ºã•ã‚ŒãŸãƒ¡ã‚½ãƒƒãƒ‰æ•°ã‚’ã‚«ã‚¦ãƒ³ãƒˆã™ã‚‹ã‚«ã‚¦ãƒ³ã‚¿ã‚¯ãƒ©ã‚¹
  * 
  * @author S.Kimura
  */
 public class CalledMethodCounter
 {
-    /** ŒÄ‚Ño‚³‚ê‚½ƒƒ\ƒbƒh”‚ÌƒJƒEƒ“ƒ^ */
+    /** å‘¼ã³å‡ºã•ã‚ŒãŸãƒ¡ã‚½ãƒƒãƒ‰æ•°ã®ã‚«ã‚¦ãƒ³ã‚¿ */
     private static long calledMethodCount__;
     
     /**
-     * ƒCƒ“ƒXƒ^ƒ“ƒX‰»–h~‚Ì‚½‚ß‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–é˜²æ­¢ã®ãŸã‚ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      */
     private CalledMethodCounter()
     {
@@ -49,7 +49,7 @@ public class CalledMethodCounter
     }
     
     /**
-     * ŒÄ‚Ño‚³‚ê‚½ƒƒ\ƒbƒh”‚ÌƒJƒEƒ“ƒ^‚ğ‰Šú‰»
+     * å‘¼ã³å‡ºã•ã‚ŒãŸãƒ¡ã‚½ãƒƒãƒ‰æ•°ã®ã‚«ã‚¦ãƒ³ã‚¿ã‚’åˆæœŸåŒ–
      */
     public static void clear()
     {
@@ -57,7 +57,7 @@ public class CalledMethodCounter
     }
     
     /**
-     * ŒÄ‚Ño‚³‚ê‚½ƒƒ\ƒbƒh”‚ÌƒJƒEƒ“ƒ^‚ğƒCƒ“ƒNƒŠƒƒ“ƒg
+     * å‘¼ã³å‡ºã•ã‚ŒãŸãƒ¡ã‚½ãƒƒãƒ‰æ•°ã®ã‚«ã‚¦ãƒ³ã‚¿ã‚’ã‚¤ãƒ³ã‚¯ãƒªãƒ¡ãƒ³ãƒˆ
      */
     public static void incrementCounter()
     {
@@ -65,8 +65,8 @@ public class CalledMethodCounter
     }
     
     /**
-     * ŒÄ‚Ño‚³‚ê‚½ƒƒ\ƒbƒh”‚ÌƒJƒEƒ“ƒ^‚ğæ“¾
-     * @return ŒÄ‚Ño‚³‚ê‚½ƒƒ\ƒbƒh”
+     * å‘¼ã³å‡ºã•ã‚ŒãŸãƒ¡ã‚½ãƒƒãƒ‰æ•°ã®ã‚«ã‚¦ãƒ³ã‚¿ã‚’å–å¾—
+     * @return å‘¼ã³å‡ºã•ã‚ŒãŸãƒ¡ã‚½ãƒƒãƒ‰æ•°
      */
     public static long getCounter()
     {

@@ -30,50 +30,50 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 
 /**
- * DataSourceì¬‚Ì‚½‚ß‚ÌƒCƒ“ƒ^ƒtƒF[ƒX‚Å‚·
+ * DataSourceä½œæˆã®ãŸã‚ã®ã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹ã§ã™
  * 
  * @author fujii
  */
 public interface DataSourceCreator
 {
     /**
-     * ƒx[ƒXƒfƒBƒŒƒNƒgƒŠ‚ğİ’è‚µ‚Ü‚·B
+     * ãƒ™ãƒ¼ã‚¹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’è¨­å®šã—ã¾ã™ã€‚
      * 
-     * @param baseDir ƒx[ƒXƒfƒBƒŒƒNƒgƒŠ
+     * @param baseDir ãƒ™ãƒ¼ã‚¹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
      */
     void setBaseDir(String baseDir);
 
     /**
-     * {@link DataSource}ƒIƒuƒWƒFƒNƒg‚ğì¬‚µ‚Ü‚·B<br />
+     * {@link DataSource}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆã—ã¾ã™ã€‚<br />
      * 
-     * @param dbname ƒf[ƒ^ƒx[ƒX–¼
-     * @param connectOnlyExists ƒRƒlƒNƒVƒ‡ƒ“‚ª‘¶İ‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©B
+     * @param dbname ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param connectOnlyExists ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ãŒå­˜åœ¨ã—ã¦ã„ã‚‹ã‹ã©ã†ã‹ã€‚
      * 
      * @return {@link DataSource}
-     * @throws SQLException SQL”­s‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @throws SQLException SQLç™ºè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     DataSource createPoolingDataSource(String dbname, boolean connectOnlyExists)
         throws SQLException;
 
     /**
-     * ƒ^[ƒQƒbƒg‚Å‚ ‚é‚©‚Ç‚¤‚©B
-     * @return ƒ^[ƒQƒbƒg‚Å‚ ‚éê‡A<code>true</code>
+     * ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã§ã‚ã‚‹ã‹ã©ã†ã‹ã€‚
+     * @return ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã§ã‚ã‚‹å ´åˆã€<code>true</code>
      */
     boolean isTarget();
 
     /**
-     * ƒV[ƒPƒ“ƒX”Ô†‚ğæ“¾‚·‚éSQL‚ğæ“¾‚µ‚Ü‚·B<br />
+     * ã‚·ãƒ¼ã‚±ãƒ³ã‚¹ç•ªå·ã‚’å–å¾—ã™ã‚‹SQLã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      * 
-     * @param sequenceName ƒV[ƒPƒ“ƒX–¼
-     * @return ƒV[ƒPƒ“ƒX”Ô†æ“¾—pSQL
+     * @param sequenceName ã‚·ãƒ¼ã‚±ãƒ³ã‚¹å
+     * @return ã‚·ãƒ¼ã‚±ãƒ³ã‚¹ç•ªå·å–å¾—ç”¨SQL
      */
     String getSequenceSql(String sequenceName);
 
     /**
-     * w’è‚³‚ê‚½ƒf[ƒ^ƒx[ƒX‚ª‘¶İ‚·‚é‚©Šm”F‚·‚éB
+     * æŒ‡å®šã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãŒå­˜åœ¨ã™ã‚‹ã‹ç¢ºèªã™ã‚‹ã€‚
      * 
-     * @param dbName ƒf[ƒ^ƒx[ƒX–¼
-     * @return ‘¶İ‚·‚éê‡‚Í <code>true</code>A‚»‚¤‚Å‚È‚¢ê‡‚Í <code>false</code>
+     * @param dbName ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @return å­˜åœ¨ã™ã‚‹å ´åˆã¯ <code>true</code>ã€ãã†ã§ãªã„å ´åˆã¯ <code>false</code>
      */
     boolean existsDatabase(String dbName);
 

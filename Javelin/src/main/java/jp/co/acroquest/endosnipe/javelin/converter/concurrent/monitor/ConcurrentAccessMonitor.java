@@ -49,7 +49,7 @@ import jp.co.acroquest.endosnipe.javelin.util.StatsUtil;
 import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
 
 /**
- * •¡”ƒXƒŒƒbƒh‚Ì“¯ƒAƒNƒZƒX‚ğŠÄ‹‚·‚éƒNƒ‰ƒX
+ * è¤‡æ•°ã‚¹ãƒ¬ãƒƒãƒ‰ã®åŒæ™‚ã‚¢ã‚¯ã‚»ã‚¹ã‚’ç›£è¦–ã™ã‚‹ã‚¯ãƒ©ã‚¹
  * 
  * @author fujii
  */
@@ -59,22 +59,22 @@ public class ConcurrentAccessMonitor
     private static final String CLASSLOADER_CHECKPACKAGEACCESS =
             "java.lang.ClassLoader.checkPackageAccess";
 
-    /** ƒXƒŒƒbƒhî•ñæ“¾—pMXBeanB */
+    /** ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±å–å¾—ç”¨MXBeanã€‚ */
     private static ThreadMXBean threadMBean__ = ManagementFactory.getThreadMXBean();
 
-    /** FinalizerƒXƒŒƒbƒh‚Ì–¼ÌB */
+    /** Finalizerã‚¹ãƒ¬ãƒƒãƒ‰ã®åç§°ã€‚ */
     private static final String FINALIZER_NAME = "Finalizer";
 
-    /** •¡”ƒXƒŒƒbƒh‚É‚æ‚éƒAƒNƒZƒX‚Ì”»’è’†‚©‚Ç‚¤‚©‚ğ•\‚·ƒtƒ‰ƒO */
+    /** è¤‡æ•°ã‚¹ãƒ¬ãƒƒãƒ‰ã«ã‚ˆã‚‹ã‚¢ã‚¯ã‚»ã‚¹ã®åˆ¤å®šä¸­ã‹ã©ã†ã‹ã‚’è¡¨ã™ãƒ•ãƒ©ã‚° */
     private static ThreadLocal<Boolean> isTracing__;
 
-    /** ƒAƒNƒZƒX’†‚ÌHashMap‚ğ“o˜^‚·‚éB */
+    /** ã‚¢ã‚¯ã‚»ã‚¹ä¸­ã®HashMapã‚’ç™»éŒ²ã™ã‚‹ã€‚ */
     private static Map<String, Object> accessMap__;
 
-    /** ƒAƒNƒZƒX’†‚ÌHashMap‚ğ“o˜^‚·‚éB */
+    /** ã‚¢ã‚¯ã‚»ã‚¹ä¸­ã®HashMapã‚’ç™»éŒ²ã™ã‚‹ã€‚ */
     private static Map<String, AtomicInteger> countMap__;
 
-    /** Javelin‚Ìİ’è’l */
+    /** Javelinã®è¨­å®šå€¤ */
     private static JavelinConfig config__ = new JavelinConfig();
 
     /** java.lang.management.ThreadMXBean#getThreadInfo */
@@ -89,7 +89,7 @@ public class ConcurrentAccessMonitor
     /** java.lang.management.LockInfo#getIdentityHashCode */
     private static Method monitorHashCodeMethod__ = null;
 
-    /** ŠÄ‹‘ÎÛ‚ÌƒIƒuƒWƒFƒNƒgŠÇ—ƒNƒ‰ƒXB */
+    /** ç›£è¦–å¯¾è±¡ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç®¡ç†ã‚¯ãƒ©ã‚¹ã€‚ */
     private static ConcurrentAccessRegistry registry__ = new ConcurrentAccessRegistry();
 
     static
@@ -104,7 +104,7 @@ public class ConcurrentAccessMonitor
             }
         };
 
-        // Java6‚Å‚ÌƒƒbƒNî•ñæ“¾—p‚Ìƒƒ\ƒbƒh‚ğ‰Šú‰»‚·‚éB
+        // Java6ã§ã®ãƒ­ãƒƒã‚¯æƒ…å ±å–å¾—ç”¨ã®ãƒ¡ã‚½ãƒƒãƒ‰ã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
         try
         {
             threadInfoMethod__ =
@@ -119,13 +119,13 @@ public class ConcurrentAccessMonitor
         }
         catch (Exception ex)
         {
-            // –³‹‚·‚éB
+            // ç„¡è¦–ã™ã‚‹ã€‚
             SystemLogger.getInstance().debug(ex);
         }
     }
 
     /**
-     * ƒvƒ‰ƒCƒx[ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      */
     private ConcurrentAccessMonitor()
     {
@@ -133,8 +133,8 @@ public class ConcurrentAccessMonitor
     }
 
     /**
-     * ƒƒ\ƒbƒhŒÄ‚Ño‚µ‘O‚Ìˆ—
-     * @param obj ŠÄ‹‚·‚éƒIƒuƒWƒFƒNƒg
+     * ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—å‰ã®å‡¦ç†
+     * @param obj ç›£è¦–ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     public static void postProcess(final Object obj)
     {
@@ -173,8 +173,8 @@ public class ConcurrentAccessMonitor
     }
 
     /**
-     * ƒƒ\ƒbƒhŒÄ‚Ño‚µŒã‚Ìˆ—
-     * @param obj ŠÄ‹‚·‚éƒIƒuƒWƒFƒNƒg
+     * ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—å¾Œã®å‡¦ç†
+     * @param obj ç›£è¦–ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     public static void preProcess(final Object obj)
     {
@@ -219,9 +219,9 @@ public class ConcurrentAccessMonitor
     }
 
     /**
-     * ƒ‚ƒjƒ^‚ªˆ—’†‚©‚Ç‚¤‚©‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ãƒ¢ãƒ‹ã‚¿ãŒå‡¦ç†ä¸­ã‹ã©ã†ã‹ã‚’è¿”ã—ã¾ã™ã€‚<br />
      *
-     * @return ˆ—’†‚Ìê‡‚Í <code>true</code>
+     * @return å‡¦ç†ä¸­ã®å ´åˆã¯ <code>true</code>
      */
     public static Boolean isTracing()
     {
@@ -229,9 +229,9 @@ public class ConcurrentAccessMonitor
     }
 
     /**
-     * ƒ‚ƒjƒ^‚ğs‚¤‚©‚Ç‚¤‚©‚ğİ’è‚·‚éB
+     * ãƒ¢ãƒ‹ã‚¿ã‚’è¡Œã†ã‹ã©ã†ã‹ã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param isTracing ƒ‚ƒjƒ^‚ğs‚¤‚©‚Ç‚¤‚©B
+     * @param isTracing ãƒ¢ãƒ‹ã‚¿ã‚’è¡Œã†ã‹ã©ã†ã‹ã€‚
      */
     public static void setTracing(Boolean isTracing)
     {
@@ -239,16 +239,16 @@ public class ConcurrentAccessMonitor
     }
 
     /**
-     * ‘ÎÛ‚Æ‚·‚éƒIƒuƒWƒFƒNƒg‚É‘Î‚µAˆÈ‰º‚ÌğŒ‚ğ–‚½‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ”»’è‚µA
-     * –‚½‚µ‚Ä‚¢‚éê‡‚É‚ÍEvent‚Æ‚µ‚Ä’Ê’m‚·‚éB
+     * å¯¾è±¡ã¨ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«å¯¾ã—ã€ä»¥ä¸‹ã®æ¡ä»¶ã‚’æº€ãŸã—ã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’åˆ¤å®šã—ã€
+     * æº€ãŸã—ã¦ã„ã‚‹å ´åˆã«ã¯Eventã¨ã—ã¦é€šçŸ¥ã™ã‚‹ã€‚
      * 
      * <ol>
-     * <li>•¡”ƒXƒŒƒbƒh‚É‚æ‚éƒAƒNƒZƒX‚ğs‚Á‚Ä‚¢‚éB</li>
-     * <li>ƒAƒNƒZƒX‚ÉƒƒbƒN‚µ‚Ä‚¢‚éƒIƒuƒWƒFƒNƒg‚É‹¤’Ê•”‚ª–³‚¢B</li>
+     * <li>è¤‡æ•°ã‚¹ãƒ¬ãƒƒãƒ‰ã«ã‚ˆã‚‹ã‚¢ã‚¯ã‚»ã‚¹ã‚’è¡Œã£ã¦ã„ã‚‹ã€‚</li>
+     * <li>ã‚¢ã‚¯ã‚»ã‚¹æ™‚ã«ãƒ­ãƒƒã‚¯ã—ã¦ã„ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«å…±é€šéƒ¨ãŒç„¡ã„ã€‚</li>
      * </ol>
      * 
-     * @param identifier ¯•ÊqB
-     * @param obj ƒIƒuƒWƒFƒNƒg
+     * @param identifier è­˜åˆ¥å­ã€‚
+     * @param obj ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     private static void checkConcurrentAccess(String identifier, Object obj)
     {
@@ -258,7 +258,7 @@ public class ConcurrentAccessMonitor
             return;
         }
 
-        // Œ»İƒAƒNƒZƒX‚µ‚Ä‚¢‚éƒXƒŒƒbƒh‚Ìî•ñ‚ğæ“¾‚·‚éB
+        // ç¾åœ¨ã‚¢ã‚¯ã‚»ã‚¹ã—ã¦ã„ã‚‹ã‚¹ãƒ¬ãƒƒãƒ‰ã®æƒ…å ±ã‚’å–å¾—ã™ã‚‹ã€‚
         long threadId = ThreadUtil.getThreadId();
         ConcurrentMonitorObject entry = registry__.get(identifier);
         if (entry == null || entry.getRef() != obj)
@@ -269,13 +269,13 @@ public class ConcurrentAccessMonitor
             return;
         }
 
-        // Œ»İ‚ÌƒXƒŒƒbƒh‚ªŠù‚ÉŒŸoÏ‚İ‚Ì‚à‚Ì‚Å‚ ‚ê‚ÎA‰½‚à‚µ‚È‚¢B
+        // ç¾åœ¨ã®ã‚¹ãƒ¬ãƒƒãƒ‰ãŒæ—¢ã«æ¤œå‡ºæ¸ˆã¿ã®ã‚‚ã®ã§ã‚ã‚Œã°ã€ä½•ã‚‚ã—ãªã„ã€‚
         if (entry.containsThreadId(threadId) || entry.getPrevThreadId() == threadId)
         {
             return;
         }
 
-        // ”ñ“¯Šú•¡”ƒXƒŒƒbƒhƒAƒNƒZƒX‚ğs‚Á‚Ä‚¢‚È‚¢ê‡‚ÍA‰½‚à‚µ‚È‚¢B
+        // éåŒæœŸè¤‡æ•°ã‚¹ãƒ¬ãƒƒãƒ‰ã‚¢ã‚¯ã‚»ã‚¹ã‚’è¡Œã£ã¦ã„ãªã„å ´åˆã¯ã€ä½•ã‚‚ã—ãªã„ã€‚
         boolean concurrentAccess = isConcurrentAccess(threadId, entry);
         if (concurrentAccess == false)
         {
@@ -292,7 +292,7 @@ public class ConcurrentAccessMonitor
             }
         }
 
-        // ƒgƒŒ[ƒXƒƒO‚É”ñ“¯Šú•¡”ƒXƒŒƒbƒhƒAƒNƒZƒXŒŸo‚ğ’Ê’m‚·‚éB
+        // ãƒˆãƒ¬ãƒ¼ã‚¹ãƒ­ã‚°ã«éåŒæœŸè¤‡æ•°ã‚¹ãƒ¬ãƒƒãƒ‰ã‚¢ã‚¯ã‚»ã‚¹æ¤œå‡ºã‚’é€šçŸ¥ã™ã‚‹ã€‚
         CommonEvent event = createDetectedEvent(entry, isError);
 
         if (event != null)
@@ -306,15 +306,15 @@ public class ConcurrentAccessMonitor
     }
 
     /**
-     * ”ñ“¯Šú•¡”ƒXƒŒƒbƒhƒAƒNƒZƒX‚ğs‚Á‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
+     * éåŒæœŸè¤‡æ•°ã‚¹ãƒ¬ãƒƒãƒ‰ã‚¢ã‚¯ã‚»ã‚¹ã‚’è¡Œã£ã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’åˆ¤å®šã™ã‚‹ã€‚
      * 
      * @param threadId 
-     * @param obj ‘ÎÛ‚ÌƒIƒuƒWƒFƒNƒgB
-     * @return@”ñ“¯Šú•¡”ƒXƒŒƒbƒhƒAƒNƒZƒX‚ğs‚Á‚Ä‚¢‚é‚©‚Ç‚¤‚©B
+     * @param obj å¯¾è±¡ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚
+     * @returnã€€éåŒæœŸè¤‡æ•°ã‚¹ãƒ¬ãƒƒãƒ‰ã‚¢ã‚¯ã‚»ã‚¹ã‚’è¡Œã£ã¦ã„ã‚‹ã‹ã©ã†ã‹ã€‚
      */
     private static boolean isConcurrentAccess(long threadId, ConcurrentMonitorObject entry)
     {
-        // ƒƒbƒNî•ñæ“¾—p‚ÌAPI‚ª‘¶İ‚µ‚È‚¯‚ê‚ÎA”ñ“¯ŠúƒAƒNƒZƒX‚ÆŒ©‚È‚³‚È‚¢B
+        // ãƒ­ãƒƒã‚¯æƒ…å ±å–å¾—ç”¨ã®APIãŒå­˜åœ¨ã—ãªã‘ã‚Œã°ã€éåŒæœŸã‚¢ã‚¯ã‚»ã‚¹ã¨è¦‹ãªã•ãªã„ã€‚
         List<String> lockedObjectList;
         if (threadInfoMethod__ == null)
         {
@@ -325,7 +325,7 @@ public class ConcurrentAccessMonitor
             lockedObjectList = createLockObjectList();
         }
 
-        // ‰‚ß‚Ä‚Ìê‡‚Í”ñ“¯ŠúƒAƒNƒZƒX‚Æ‚İ‚È‚³‚È‚¢B
+        // åˆã‚ã¦ã®å ´åˆã¯éåŒæœŸã‚¢ã‚¯ã‚»ã‚¹ã¨ã¿ãªã•ãªã„ã€‚
         List<String> prevList = entry.getLockedObjectList();
         if (prevList == null)
         {
@@ -335,7 +335,7 @@ public class ConcurrentAccessMonitor
             return false;
         }
 
-        // ƒƒbƒN‚³‚ê‚Ä‚¢‚È‚¢ê‡‚ÍA”ñ“¯ŠúƒAƒNƒZƒX‚ÆŒ©‚È‚·B
+        // ãƒ­ãƒƒã‚¯ã•ã‚Œã¦ã„ãªã„å ´åˆã¯ã€éåŒæœŸã‚¢ã‚¯ã‚»ã‚¹ã¨è¦‹ãªã™ã€‚
         int lockCount = lockedObjectList.size();
         if (lockCount == 0 || prevList.size() == 0)
         {
@@ -344,10 +344,10 @@ public class ConcurrentAccessMonitor
             return true;
         }
 
-        // ƒƒbƒN‚Ì‹¤’Ê•”•ª‚Ì‚İ‚ğc‚·B
+        // ãƒ­ãƒƒã‚¯ã®å…±é€šéƒ¨åˆ†ã®ã¿ã‚’æ®‹ã™ã€‚
         prevList.retainAll(lockedObjectList);
 
-        // ƒƒbƒN‚Ì‹¤’Ê•”•ª‚ª–³‚¢ê‡‚ÍA”ñ“¯ŠúƒAƒNƒZƒX‚ÆŒ©‚È‚·B
+        // ãƒ­ãƒƒã‚¯ã®å…±é€šéƒ¨åˆ†ãŒç„¡ã„å ´åˆã¯ã€éåŒæœŸã‚¢ã‚¯ã‚»ã‚¹ã¨è¦‹ãªã™ã€‚
         if (prevList.size() == 0)
         {
             addTrace(threadId, entry, lockedObjectList);
@@ -358,10 +358,10 @@ public class ConcurrentAccessMonitor
     }
 
     /**
-     * ƒƒbƒNƒIƒuƒWƒFƒNƒg‚ğæ“¾‚·‚éB
-     * Java 6.0‚Å‚Ì‚İÀs‰Â”\‚Å‚ ‚éB
+     * ãƒ­ãƒƒã‚¯ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾—ã™ã‚‹ã€‚
+     * Java 6.0ã§ã®ã¿å®Ÿè¡Œå¯èƒ½ã§ã‚ã‚‹ã€‚
      * 
-     * @return ƒƒbƒNƒIƒuƒWƒFƒNƒg‚Ìˆê——B
+     * @return ãƒ­ãƒƒã‚¯ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ä¸€è¦§ã€‚
      */
     private static List<String> createLockObjectList()
     {
@@ -369,8 +369,8 @@ public class ConcurrentAccessMonitor
         ThreadInfo[] threadInfo;
         try
         {
-            // TODO: «”\‚É‘å‚«‚È‰e‹¿‚ª‚ ‚é‚½‚ßAgetLockedSynchronizers‚ğŒÄ‚Ôˆ—‚Í–³Œø‚Æ‚µ‚Ä‚¢‚éB
-            //       Ver4.1‚Å‚ÍAgetLockedSynchronizers‚ğŒÄ‚ÔƒR[ƒh‚ğ—LŒø‚É‚µAİ’è‚É‚æ‚èON/OFFo—ˆ‚é‚æ‚¤‚É‚·‚éB
+            // TODO: æ€§èƒ½ã«å¤§ããªå½±éŸ¿ãŒã‚ã‚‹ãŸã‚ã€getLockedSynchronizersã‚’å‘¼ã¶å‡¦ç†ã¯ç„¡åŠ¹ã¨ã—ã¦ã„ã‚‹ã€‚
+            //       Ver4.1ã§ã¯ã€getLockedSynchronizersã‚’å‘¼ã¶ã‚³ãƒ¼ãƒ‰ã‚’æœ‰åŠ¹ã«ã—ã€è¨­å®šã«ã‚ˆã‚ŠON/OFFå‡ºæ¥ã‚‹ã‚ˆã†ã«ã™ã‚‹ã€‚
             threadInfo =
                     (ThreadInfo[])threadInfoMethod__.invoke(threadMBean__,
                                                             new long[]{ThreadUtil.getThreadId()},
@@ -391,12 +391,12 @@ public class ConcurrentAccessMonitor
     }
 
     /**
-     * ƒƒbƒNƒIƒuƒWƒFƒNƒg‚ÌƒŠƒXƒg‚ÉƒƒbƒNƒIƒuƒWƒFƒNƒg‚ğ’Ç‰Á‚·‚éB
+     * ãƒ­ãƒƒã‚¯ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒªã‚¹ãƒˆã«ãƒ­ãƒƒã‚¯ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¿½åŠ ã™ã‚‹ã€‚
      * 
-     * @param lockedObjectList ƒƒbƒNƒIƒuƒWƒFƒNƒg‚ÌƒŠƒXƒgB
-     * @param lockedMonitors ƒƒbƒNƒIƒuƒWƒFƒNƒgB
-     * @throws IllegalAccessException@ƒƒ\ƒbƒhÀs‚ÌƒAƒNƒZƒXƒGƒ‰[B
-     * @throws InvocationTargetException ƒƒ\ƒbƒhÀs‚Ì—áŠOB
+     * @param lockedObjectList ãƒ­ãƒƒã‚¯ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒªã‚¹ãƒˆã€‚
+     * @param lockedMonitors ãƒ­ãƒƒã‚¯ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚
+     * @throws IllegalAccessExceptionã€€ãƒ¡ã‚½ãƒƒãƒ‰å®Ÿè¡Œæ™‚ã®ã‚¢ã‚¯ã‚»ã‚¹ã‚¨ãƒ©ãƒ¼ã€‚
+     * @throws InvocationTargetException ãƒ¡ã‚½ãƒƒãƒ‰å®Ÿè¡Œæ™‚ã®ä¾‹å¤–ã€‚
      */
     private static void addLockObject(List<String> lockedObjectList, Object[] lockedMonitors)
         throws IllegalAccessException,
@@ -411,10 +411,10 @@ public class ConcurrentAccessMonitor
     }
 
     /** 
-     * ƒgƒŒ[ƒX‚ğ’Ç‰Á‚·‚éB
+     * ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’è¿½åŠ ã™ã‚‹ã€‚
      * 
-     * @param threadId ƒXƒŒƒbƒhIDB 
-     * @param entry ƒGƒ“ƒgƒŠB
+     * @param threadId ã‚¹ãƒ¬ãƒƒãƒ‰IDã€‚ 
+     * @param entry ã‚¨ãƒ³ãƒˆãƒªã€‚
      */
     private static void addTrace(long threadId, ConcurrentMonitorObject entry,
             List<String> lockedObjectList)
@@ -426,12 +426,12 @@ public class ConcurrentAccessMonitor
     }
 
     /**
-     * •¡”ƒXƒŒƒbƒhŒŸoEvent‚ğo—Í‚·‚éB
+     * è¤‡æ•°ã‚¹ãƒ¬ãƒƒãƒ‰æ¤œå‡ºEventã‚’å‡ºåŠ›ã™ã‚‹ã€‚
      * 
-     * @param entry ƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒAƒNƒZƒXî•ñB
-     * @param isError –â‘è‚»‚Ì‚à‚Ì‚ğŒŸo‚µ‚½‚©‚Ç‚¤‚©B
+     * @param entry ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¸ã®ã‚¢ã‚¯ã‚»ã‚¹æƒ…å ±ã€‚
+     * @param isError å•é¡Œãã®ã‚‚ã®ã‚’æ¤œå‡ºã—ãŸã‹ã©ã†ã‹ã€‚
      * 
-     * @return •¡”ƒXƒŒƒbƒhŒŸoEventB
+     * @return è¤‡æ•°ã‚¹ãƒ¬ãƒƒãƒ‰æ¤œå‡ºEventã€‚
      */
     private static CommonEvent createDetectedEvent(ConcurrentMonitorObject entry, boolean isError)
     {
@@ -455,7 +455,7 @@ public class ConcurrentAccessMonitor
         for (ConcurrentMonitorItem item : itemList)
         {
             String stackTrace = item.getStackTrace();
-            // ClassLoader.checkPackageAccess“à•”‚ÌHashMap‚ÍJava‚Ìsynchronized‚Æ‚Í•Ê‚Ìd‘g‚İ‚Å“¯Šú‚³‚ê‚é‚½‚ßA–³‹‚·‚éB
+            // ClassLoader.checkPackageAccesså†…éƒ¨ã®HashMapã¯Javaã®synchronizedã¨ã¯åˆ¥ã®ä»•çµ„ã¿ã§åŒæœŸã•ã‚Œã‚‹ãŸã‚ã€ç„¡è¦–ã™ã‚‹ã€‚
 
             if (stackTrace.contains(CLASSLOADER_CHECKPACKAGEACCESS))
             {

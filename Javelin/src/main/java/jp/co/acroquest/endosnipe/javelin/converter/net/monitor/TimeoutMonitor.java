@@ -47,48 +47,48 @@ import jp.co.acroquest.endosnipe.javelin.util.StatsUtil;
 import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
 
 /**
- * ƒ^ƒCƒ€ƒAƒEƒgİ’è‚ªs‚í‚ê‚Ä‚¢‚é‚©”»’è‚µ‚Ü‚·B<br />
+ * ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆè¨­å®šãŒè¡Œã‚ã‚Œã¦ã„ã‚‹ã‹åˆ¤å®šã—ã¾ã™ã€‚<br />
  * 
  * @author fujii
  *
  */
 public class TimeoutMonitor extends InputStream
 {
-    /** ƒ^ƒCƒ€ƒAƒEƒg’l‚ğæ“¾‚·‚éƒ\ƒPƒbƒgƒIƒuƒWƒFƒNƒg */
+    /** ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹ã‚½ã‚±ãƒƒãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     private final SocketImpl socket_;
 
-    /** ˆ—‚ğˆÏ÷‚·‚éƒNƒ‰ƒX */
+    /** å‡¦ç†ã‚’å§”è­²ã™ã‚‹ã‚¯ãƒ©ã‚¹ */
     private final InputStream delegated_;
 
-    /** ƒƒ\ƒbƒh‚ÌÀs‚ğ•\‚·ƒtƒ‰ƒO */
+    /** ãƒ¡ã‚½ãƒƒãƒ‰ã®å®Ÿè¡Œã‚’è¡¨ã™ãƒ•ãƒ©ã‚° */
     private boolean inProcess_;
 
-    /** ‚·‚Å‚ÉŒx‚ª”­¶‚µ‚½‚©‚Ç‚¤‚©‚ğ•\‚·ƒtƒ‰ƒO */
+    /** ã™ã§ã«è­¦å‘ŠãŒç™ºç”Ÿã—ãŸã‹ã©ã†ã‹ã‚’è¡¨ã™ãƒ•ãƒ©ã‚° */
     private boolean isAlarmed_ = false;
 
-    /** ƒƒ\ƒbƒh‚ğŒŸõ‚·‚é[‚³‚ÌÅ‘å” */
+    /** ãƒ¡ã‚½ãƒƒãƒ‰ã‚’æ¤œç´¢ã™ã‚‹æ·±ã•ã®æœ€å¤§æ•° */
     private static final int MAX_DEPTH = 3;
 
-    /** Javelin‚Ìİ’è’l */
+    /** Javelinã®è¨­å®šå€¤ */
     private static JavelinConfig config__ = new JavelinConfig();
 
-    /** getTimeoutƒƒ\ƒbƒh */
+    /** getTimeoutãƒ¡ã‚½ãƒƒãƒ‰ */
     private Method getTimeoutMethod_;
 
-    /** ƒ|[ƒg”Ô†B */
+    /** ãƒãƒ¼ãƒˆç•ªå·ã€‚ */
     private int port_;
 
-    /** ƒAƒhƒŒƒXB */
+    /** ã‚¢ãƒ‰ãƒ¬ã‚¹ã€‚ */
     private InetAddress address_;
 
-    /** ƒ[ƒJƒ‹ƒAƒhƒŒƒX‚ÌƒŠƒXƒgB */
+    /** ãƒ­ãƒ¼ã‚«ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹ã®ãƒªã‚¹ãƒˆã€‚ */
     private Set<String> localAddressSet_;
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Å‚·B<br />
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§ã™ã€‚<br />
      * 
-     * @param socket ƒ\ƒPƒbƒgƒIƒuƒWƒFƒNƒg
-     * @param delegated {@link InputStream}ƒIƒuƒWƒFƒNƒg
+     * @param socket ã‚½ã‚±ãƒƒãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param delegated {@link InputStream}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     public TimeoutMonitor(final SocketImpl socket, final InputStream delegated)
     {
@@ -159,10 +159,10 @@ public class TimeoutMonitor extends InputStream
     }
 
     /**
-     * ƒ^ƒCƒ€ƒAƒEƒgİ’è‚ªs‚í‚ê‚Ä‚¢‚é‚©”»’è‚µA<br />
-     * İ’è‚ªs‚í‚ê‚Ä‚¢‚È‚¢ê‡AJavelinƒƒO‚ÉƒGƒ‰[ƒƒbƒZ[ƒW‚ğo—Í‚µ‚Ü‚·B<br />
+     * ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆè¨­å®šãŒè¡Œã‚ã‚Œã¦ã„ã‚‹ã‹åˆ¤å®šã—ã€<br />
+     * è¨­å®šãŒè¡Œã‚ã‚Œã¦ã„ãªã„å ´åˆã€Javelinãƒ­ã‚°ã«ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
      * 
-     * @throws SocketException g—p‚µ‚Ä‚¢‚éƒvƒƒgƒRƒ‹‚ÅƒGƒ‰[‚ª”­¶‚µ‚½ê‡
+     * @throws SocketException ä½¿ç”¨ã—ã¦ã„ã‚‹ãƒ—ãƒ­ãƒˆã‚³ãƒ«ã§ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     private void detect()
         throws SocketException
@@ -213,9 +213,9 @@ public class TimeoutMonitor extends InputStream
     }
 
     /**
-     * ƒ^ƒCƒ€ƒAƒEƒg–¢İ’èŒŸoƒCƒxƒ“ƒg‚ğì¬‚µ‚Ü‚·B
-     * @param timeout w’è‚³‚ê‚Ä‚¢‚éƒ^ƒCƒ€ƒAƒEƒgŠÔ
-     * @return {@link CommonEvent}ƒIƒuƒWƒFƒNƒg
+     * ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆæœªè¨­å®šæ¤œå‡ºã‚¤ãƒ™ãƒ³ãƒˆã‚’ä½œæˆã—ã¾ã™ã€‚
+     * @param timeout æŒ‡å®šã•ã‚Œã¦ã„ã‚‹ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆæ™‚é–“
+     * @return {@link CommonEvent}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     private CommonEvent createNoTimeOutDetectedEvent(int timeout)
     {
@@ -245,10 +245,10 @@ public class TimeoutMonitor extends InputStream
     }
 
     /**
-     * ƒ[ƒJƒ‹ƒzƒXƒg‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
+     * ãƒ­ãƒ¼ã‚«ãƒ«ãƒ›ã‚¹ãƒˆã‹ã©ã†ã‹ã‚’åˆ¤å®šã™ã‚‹ã€‚
      * 
-     * @param inetAddress ”»’è‘ÎÛ‚ÌƒAƒhƒŒƒXB
-     * @return ƒ[ƒJƒ‹ƒzƒXƒg‚©‚Ç‚¤‚©B
+     * @param inetAddress åˆ¤å®šå¯¾è±¡ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã€‚
+     * @return ãƒ­ãƒ¼ã‚«ãƒ«ãƒ›ã‚¹ãƒˆã‹ã©ã†ã‹ã€‚
      */
     private boolean isLocalAddress(String inetAddress)
     {
@@ -264,9 +264,9 @@ public class TimeoutMonitor extends InputStream
     }
 
     /**
-     * ƒ[ƒJƒ‹‚ÌƒAƒhƒŒƒX‚ÌƒZƒbƒg‚ğæ“¾‚·‚éB
+     * ãƒ­ãƒ¼ã‚«ãƒ«ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã®ã‚»ãƒƒãƒˆã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return ƒ[ƒJƒ‹ƒAƒhƒŒƒX‚ÌƒZƒbƒgB
+     * @return ãƒ­ãƒ¼ã‚«ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹ã®ã‚»ãƒƒãƒˆã€‚
      */
     private Set<String> getLocalAddressSet()
     {
@@ -312,9 +312,9 @@ public class TimeoutMonitor extends InputStream
     }
 
     /**
-     * ƒ^ƒCƒ€ƒAƒEƒgİ’èŒŸo‚ğs‚¤•K—v‚ª‚ ‚é‚©A”»’è‚µ‚Ü‚·B<br />
+     * ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆè¨­å®šæ¤œå‡ºã‚’è¡Œã†å¿…è¦ãŒã‚ã‚‹ã‹ã€åˆ¤å®šã—ã¾ã™ã€‚<br />
      * 
-     * @return true:ŒŸo”»’è‚ğs‚¤Afalse:ŒŸo”»’è‚ğs‚í‚È‚¢
+     * @return true:æ¤œå‡ºåˆ¤å®šã‚’è¡Œã†ã€false:æ¤œå‡ºåˆ¤å®šã‚’è¡Œã‚ãªã„
      */
     private boolean isMonitor()
     {

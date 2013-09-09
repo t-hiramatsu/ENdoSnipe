@@ -43,10 +43,10 @@ import jp.co.smg.endosnipe.javassist.NotFoundException;
  */
 public class HttpServletConverter extends AbstractConverter
 {
-    /** HttpServletƒ‚ƒjƒ^‚ÌƒNƒ‰ƒX–¼Ì */
+    /** HttpServletãƒ¢ãƒ‹ã‚¿ã®ã‚¯ãƒ©ã‚¹åç§° */
     private static final String SERVLET_MONITOR_NAME = HttpServletMonitor.class.getCanonicalName();
 
-    /** Throwable‚ÌCtClassB */
+    /** Throwableã®CtClassã€‚ */
     private CtClass throwableClass_;
 
     private static final String BEFORE =
@@ -118,7 +118,7 @@ public class HttpServletConverter extends AbstractConverter
         }
         catch (NotFoundException nfe)
         {
-            // ”­¶‚µ‚È‚¢B
+            // ç™ºç”Ÿã—ãªã„ã€‚
             SystemLogger.getInstance().warn(nfe);
         }
     }
@@ -133,8 +133,8 @@ public class HttpServletConverter extends AbstractConverter
     {
         CtClass ctClass = getCtClass();
 
-        // serviceƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µAserviceƒƒ\ƒbƒh‚ª‘¶İ‚·‚éê‡‚Ì‚İA
-        // ƒƒ\ƒbƒh‚ÉƒƒOo—ÍƒR[ƒh‚ğ–„‚ß‚ŞB
+        // serviceãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã³å‡ºã—ã€serviceãƒ¡ã‚½ãƒƒãƒ‰ãŒå­˜åœ¨ã™ã‚‹å ´åˆã®ã¿ã€
+        // ãƒ¡ã‚½ãƒƒãƒ‰ã«ãƒ­ã‚°å‡ºåŠ›ã‚³ãƒ¼ãƒ‰ã‚’åŸ‹ã‚è¾¼ã‚€ã€‚
         try
         {
             CtMethod serviceMethod = ctClass.getDeclaredMethod("service");
@@ -151,10 +151,10 @@ public class HttpServletConverter extends AbstractConverter
     }
 
     /**
-     * ‘ÎÛƒƒ\ƒbƒh‚ğ•ÏŠ·‚·‚éB
+     * å¯¾è±¡ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å¤‰æ›ã™ã‚‹ã€‚
      * 
-     * @param ctMethod •ÏŠ·‘ÎÛƒƒ\ƒbƒh
-     * @throws CannotCompileException ƒRƒ“ƒpƒCƒ‹¸”s
+     * @param ctMethod å¤‰æ›å¯¾è±¡ãƒ¡ã‚½ãƒƒãƒ‰
+     * @throws CannotCompileException ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«å¤±æ•—æ™‚
      */
     private void convertMethod(final CtMethod ctMethod)
         throws CannotCompileException
@@ -163,7 +163,7 @@ public class HttpServletConverter extends AbstractConverter
         ctMethod.insertAfter(AFTER);
         ctMethod.addCatch(NG, throwableClass_);
 
-        // ˆ—Œ‹‰Ê‚ğƒƒO‚Éo—Í‚·‚éB
+        // å‡¦ç†çµæœã‚’ãƒ­ã‚°ã«å‡ºåŠ›ã™ã‚‹ã€‚
         logModifiedMethod("HttpServletConverter", ctMethod);
     }
     

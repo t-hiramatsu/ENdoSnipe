@@ -26,79 +26,79 @@
 package jp.co.acroquest.endosnipe.common.parser;
 
 /**
- * Javelin�Ŏg�p����萔�C���^�[�t�F�[�X�ł��B<br />
+ * Javelinで使用する定数インターフェースです。<br />
  * 
  * @author eriguchi
  */
 public interface JavelinConstants
 {
     /**
-     * ���������ŁA���샍�O�̎�ނ���ʂ��邽�߂Ɏg�p����"Call"��ID�B <br />
+     * 内部処理で、動作ログの種類を区別するために使用する"Call"のID。 <br />
      */
     int ID_CALL = 0;
 
     /**
-     * ���������ŁA���샍�O�̎�ނ���ʂ��邽�߂Ɏg�p����"Return"��ID�B <br />
+     * 内部処理で、動作ログの種類を区別するために使用する"Return"のID。 <br />
      */
     int ID_RETURN = 1;
 
     /**
-     * ���������ŁA���샍�O�̎�ނ���ʂ��邽�߂Ɏg�p����"Read"��ID�B <br />
+     * 内部処理で、動作ログの種類を区別するために使用する"Read"のID。 <br />
      */
     int ID_FIELD_READ = 2;
 
     /**
-     * ���������ŁA���샍�O�̎�ނ���ʂ��邽�߂Ɏg�p����"Write"��ID�B <br />
+     * 内部処理で、動作ログの種類を区別するために使用する"Write"のID。 <br />
      */
     int ID_FIELD_WRITE = 3;
 
     /**
-     * ���������ŁA���샍�O�̎�ނ���ʂ��邽�߂Ɏg�p����"Catch"��ID�B <br />
+     * 内部処理で、動作ログの種類を区別するために使用する"Catch"のID。 <br />
      */
     int ID_CATCH = 4;
 
     /**
-     * ���������ŁA���샍�O�̎�ނ���ʂ��邽�߂Ɏg�p����"Throw"��ID�B <br />
+     * 内部処理で、動作ログの種類を区別するために使用する"Throw"のID。 <br />
      */
     int ID_THROW = 5;
 
     /**
-     * ���������ŁA���샍�O�̎�ނ���ʂ��邽�߂Ɏg�p����"Event"��ID�B <br />
+     * 内部処理で、動作ログの種類を区別するために使用する"Event"のID。 <br />
      */
     int ID_EVENT = 6;
 
     /**
-     * ���샍�O�ɏo�͂���"Return"��\��������B<br />
+     * 動作ログに出力する"Return"を表す文字列。<br />
      */
     String MSG_RETURN = "Return";
 
     /**
-     * ���샍�O�ɏo�͂���"Call"��\��������B<br />
+     * 動作ログに出力する"Call"を表す文字列。<br />
      */
     String MSG_CALL = "Call  ";
 
     /**
-     * ���샍�O�ɏo�͂���"Read"��\��������B<br />
+     * 動作ログに出力する"Read"を表す文字列。<br />
      */
     String MSG_FIELD_READ = "Read  ";
 
     /**
-     * ���샍�O�ɏo�͂���"Write"��\��������B<br />
+     * 動作ログに出力する"Write"を表す文字列。<br />
      */
     String MSG_FIELD_WRITE = "Write ";
 
     /**
-     * ���샍�O�ɏo�͂���"Catch"��\��������B<br />
+     * 動作ログに出力する"Catch"を表す文字列。<br />
      */
     String MSG_CATCH = "Catch ";
 
     /**
-     * ���샍�O�ɏo�͂���"Throw"��\��������B<br />
+     * 動作ログに出力する"Throw"を表す文字列。<br />
      */
     String MSG_THROW = "Throw ";
 
     /**
-     * ���샍�O�ɏo�͂���"Throw"��\��������B<br />
+     * 動作ログに出力する"Throw"を表す文字列。<br />
      */
     String MSG_EVENT = "Event ";
 }

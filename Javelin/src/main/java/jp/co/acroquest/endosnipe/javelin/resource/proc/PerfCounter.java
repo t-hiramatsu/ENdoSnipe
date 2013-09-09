@@ -38,97 +38,97 @@ import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
  */
 public class PerfCounter
 {
-    /** CPUg—p—¦æ“¾‚Ì‚½‚ß‚Ì•¶š—ñ */
+    /** CPUä½¿ç”¨ç‡å–å¾—ã®ãŸã‚ã®æ–‡å­—åˆ— */
     public static final String PROCESSOR_TOTAL_PROCESSOR_TIME =
         "\\\\Processor(_Total)\\\\% Processor Time";
     
-    /** CPUg—p—¦iƒVƒXƒeƒ€jæ“¾‚Ì‚½‚ß‚Ì•¶š—ñ */
+    /** CPUä½¿ç”¨ç‡ï¼ˆã‚·ã‚¹ãƒ†ãƒ ï¼‰å–å¾—ã®ãŸã‚ã®æ–‡å­—åˆ— */
     public static final String PROCESSOR_TOTAL_PRIVILEGED_TIME =
         "\\\\Processor(_Total)\\\\% Privileged Time";
     
-    /** CPUg—p—¦iƒ†[ƒUjæ“¾‚Ì‚½‚ß‚Ì•¶š—ñ */
+    /** CPUä½¿ç”¨ç‡ï¼ˆãƒ¦ãƒ¼ã‚¶ï¼‰å–å¾—ã®ãŸã‚ã®æ–‡å­—åˆ— */
     public static final String PROCESSOR_TOTAL_USER_TIME =
         "\\\\Processor(_Total)\\\\% User Time";
     
-    /** •¨—ƒƒ‚ƒŠiÅ‘åjæ“¾‚Ì‚½‚ß‚Ì•¶š—ñ */
+    /** ç‰©ç†ãƒ¡ãƒ¢ãƒªï¼ˆæœ€å¤§ï¼‰å–å¾—ã®ãŸã‚ã®æ–‡å­—åˆ— */
     public static final String MEMORY_TOTAL =
         "Memory Total";
     
-    /** •¨—ƒƒ‚ƒŠi‹ó‚«jæ“¾‚Ì‚½‚ß‚Ì•¶š—ñ */
+    /** ç‰©ç†ãƒ¡ãƒ¢ãƒªï¼ˆç©ºãï¼‰å–å¾—ã®ãŸã‚ã®æ–‡å­—åˆ— */
     public static final String MEMORY_AVAILABLE_BYTES =
         "\\\\Memory\\\\Available Bytes";
     
-    /** ƒy[ƒWƒtƒ@ƒCƒ‹g—p—¦æ“¾‚Ì‚½‚ß‚Ì•¶š—ñij */
+    /** ãƒšãƒ¼ã‚¸ãƒ•ã‚¡ã‚¤ãƒ«ä½¿ç”¨ç‡å–å¾—ã®ãŸã‚ã®æ–‡å­—åˆ—ï¼ˆï¼‰ */
     public static final String PAGING_FILE_USAGE =
         "\\\\PAGING FILE\\\\% USAGE";
     
-    /** ƒy[ƒWƒtƒ@ƒCƒ‹g—p—Êæ“¾‚Ì‚½‚ß‚Ì•¶š—ñ */
+    /** ãƒšãƒ¼ã‚¸ãƒ•ã‚¡ã‚¤ãƒ«ä½¿ç”¨é‡å–å¾—ã®ãŸã‚ã®æ–‡å­—åˆ— */
     public static final String PROCESS_TOTAL_PAGE_FILE_BYTES =
         "\\\\Processor(_Total)\\\\Page File Bytes";
     
-    /** ‰¼‘zƒƒ‚ƒŠg—p—Êæ“¾‚Ì‚½‚ß‚Ì•¶š—ñ */
+    /** ä»®æƒ³ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡å–å¾—ã®ãŸã‚ã®æ–‡å­—åˆ— */
     public static final String PROCESS_TOTAL_VIRTUAL_BYTES =
         "\\\\Process(_Total)\\\\Virtual Bytes";
     
-    /** ƒVƒXƒeƒ€‘S‘Ì‚Ìƒnƒ“ƒhƒ‹g—p”æ“¾‚Ì‚½‚ß‚Ì•¶š—ñ */
+    /** ã‚·ã‚¹ãƒ†ãƒ å…¨ä½“ã®ãƒãƒ³ãƒ‰ãƒ«ä½¿ç”¨æ•°å–å¾—ã®ãŸã‚ã®æ–‡å­—åˆ— */
     public static final String PROCESS_TOTAL_NUMBER_FDS =
         "\\\\Process(_Total)\\\\Handle Count";
     
-    /** ƒy[ƒWƒCƒ“æ“¾‚Ì‚½‚ß‚Ì•¶š—ñ */
+    /** ãƒšãƒ¼ã‚¸ã‚¤ãƒ³å–å¾—ã®ãŸã‚ã®æ–‡å­—åˆ— */
     public static final String MEMORY_PAGES_INPUT_SEC =
         "\\\\Memory\\\\Pages Input/sec";
     
-    /** ƒy[ƒWƒAƒEƒgæ“¾‚Ì‚½‚ß‚Ì•¶š—ñ */
+    /** ãƒšãƒ¼ã‚¸ã‚¢ã‚¦ãƒˆå–å¾—ã®ãŸã‚ã®æ–‡å­—åˆ— */
     public static final String MEMORY_PAGES_OUTPUT_SEC =
         "\\\\Memory\\\\Pages Output/sec";
     
-    /** % User Timeæ“¾‚Ì‚½‚ß‚Ì•¶š—ñ */
+    /** % User Timeå–å¾—ã®ãŸã‚ã®æ–‡å­—åˆ— */
     public static final String PROCESS_USER_TIME =
         "\\\\Process(xxx)\\\\% User Time";
     
-    /** % Privileged Timeæ“¾‚Ì‚½‚ß‚Ì•¶š—ñ */
+    /** % Privileged Timeå–å¾—ã®ãŸã‚ã®æ–‡å­—åˆ— */
     public static final String PROCESS_PRIVILEGED_TIME =
         "\\\\Processor(xxx)\\\\% Privileged Time";
     
-    /** ƒƒWƒƒ[ƒtƒH[ƒ‹ƒgæ“¾‚Ì‚½‚ß‚Ì•¶š—ñ */
+    /** ãƒ¡ã‚¸ãƒ£ãƒ¼ãƒ•ã‚©ãƒ¼ãƒ«ãƒˆå–å¾—ã®ãŸã‚ã®æ–‡å­—åˆ— */
     public static final String PROCESS_PAGE_FAULTS_SEC =
         "\\\\Process(xxx)\\\\Page Faults/sec";
     
-    /** vsizeæ“¾‚Ì‚½‚ß‚Ì•¶š—ñ */
+    /** vsizeå–å¾—ã®ãŸã‚ã®æ–‡å­—åˆ— */
     public static final String PROCESS_VIRTUAL_BYTES =
         "\\\\Process(xxx)\\\\Virtual Bytes";
     
-    /** rssæ“¾‚Ì‚½‚ß‚Ì•¶š—ñ */
+    /** rsså–å¾—ã®ãŸã‚ã®æ–‡å­—åˆ— */
     public static final String PROCESS_WORKING_SET =
         "\\\\Process(xxx)\\\\Working Set";
     
-    /** ƒXƒŒƒbƒh”æ“¾‚Ì‚½‚ß‚Ì•¶š—ñ */
+    /** ã‚¹ãƒ¬ãƒƒãƒ‰æ•°å–å¾—ã®ãŸã‚ã®æ–‡å­—åˆ— */
     public static final String PROCESS_THREAD_COUNT =
         "\\\\Process(xxx)\\\\Thread Count";
     
-    /** ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹g—p”æ“¾‚Ì‚½‚ß‚Ì•¶š—ñ */
+    /** ãƒ—ãƒ­ã‚»ã‚¹ã®ãƒãƒ³ãƒ‰ãƒ«ä½¿ç”¨æ•°å–å¾—ã®ãŸã‚ã®æ–‡å­—åˆ— */
     public static final String PROCESS_NUMBER_FDS =
         "\\\\Process(xxx)\\\\Handle Count";
 
-    /** Œv‘ªŠÔŠuiÀÛ‚Ì’lj */
+    /** è¨ˆæ¸¬é–“éš”ï¼ˆå®Ÿéš›ã®å€¤ï¼‰ */
     public static final String INTERVAL = "Interval";
 
-    /** ƒ~ƒŠ•b‚©‚ç•b‚Ö‚Ì•ÏŠ· */
+    /** ãƒŸãƒªç§’ã‹ã‚‰ç§’ã¸ã®å¤‰æ› */
     private static final double MILLI_SECONDS_TO_SECONDS = 1000.0;
     
-    /** ‘O‰ñ‚ÌŒv‘ªilong’l ƒ~ƒŠ•bj */
+    /** å‰å›ã®è¨ˆæ¸¬æ™‚åˆ»ï¼ˆlongå€¤ ãƒŸãƒªç§’ï¼‰ */
     private long lastMeasuredTime_;
 
     private Map<String, Double> prevResourceMap_;
 
-    // dll ƒtƒ@ƒCƒ‹‚ğƒ[ƒh‚·‚é
+    // dll ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ãƒ­ãƒ¼ãƒ‰ã™ã‚‹
     static {
         SystemLogger logger = SystemLogger.getInstance();
 
-        // ƒ‰ƒCƒuƒ‰ƒŠ‚ğƒ[ƒh‚µ‚Ü‚·
+        // ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã‚’ãƒ­ãƒ¼ãƒ‰ã—ã¾ã™
         JavelinConfigUtil javelinConfigUtil = JavelinConfigUtil.getInstance();
         
-        // CPU bit”
+        // CPU bitæ•°
         String bit = System.getProperty("sun.arch.data.model");
         if (bit == null || bit.length() == 0)
         {
@@ -160,140 +160,140 @@ public class PerfCounter
     }
     
     /**
-     * V‹KƒNƒGƒŠ[‚ğì¬
-     * @return ì¬‚É¬Œ÷‚µ‚½‚ç true
+     * æ–°è¦ã‚¯ã‚¨ãƒªãƒ¼ã‚’ä½œæˆ
+     * @return ä½œæˆã«æˆåŠŸã—ãŸã‚‰ true
      */
     private native boolean openQuery();
 
     /**
-     * ƒNƒGƒŠ[‚ğ’Ç‰Á
-     * @return ’Ç‰Á‚É¬Œ÷‚µ‚½‚ç true
+     * ã‚¯ã‚¨ãƒªãƒ¼ã‚’è¿½åŠ 
+     * @return è¿½åŠ ã«æˆåŠŸã—ãŸã‚‰ true
      */
     private native boolean addCounter(String counterPath);
 
     /**
-     * ƒnƒ“ƒhƒ‹‚ğXV‚µ‚Ü‚·B
+     * ãƒãƒ³ãƒ‰ãƒ«ã‚’æ›´æ–°ã—ã¾ã™ã€‚
      *
-     * @return ƒnƒ“ƒhƒ‹‚ğXV‚µ‚½ê‡‚Í <code>true</code> AXV‚µ‚È‚©‚Á‚½ê‡‚Í <code>false</code>
+     * @return ãƒãƒ³ãƒ‰ãƒ«ã‚’æ›´æ–°ã—ãŸå ´åˆã¯ <code>true</code> ã€æ›´æ–°ã—ãªã‹ã£ãŸå ´åˆã¯ <code>false</code>
      */
     private native boolean updateHandles();
 
     /**
-     * Œv‘ª
-     * @return Œv‘ª‚É¬Œ÷‚µ‚½‚çtrue
+     * è¨ˆæ¸¬
+     * @return è¨ˆæ¸¬ã«æˆåŠŸã—ãŸã‚‰true
      */
     private native boolean collectQueryData();
 
     /**
-     * ƒVƒXƒeƒ€‚ÌCPUg—p—¦iSystemj‚ğæ“¾
-     * @return æ“¾‚µ‚½’l
+     * ã‚·ã‚¹ãƒ†ãƒ ã®CPUä½¿ç”¨ç‡ï¼ˆSystemï¼‰ã‚’å–å¾—
+     * @return å–å¾—ã—ãŸå€¤
      */
     private native double getFormattedCounterValueSysCPUSys();
 
     /**
-     * ƒVƒXƒeƒ€‚ÌCPUg—p—¦iUserj‚ğæ“¾
-     * @return æ“¾‚µ‚½’l
+     * ã‚·ã‚¹ãƒ†ãƒ ã®CPUä½¿ç”¨ç‡ï¼ˆUserï¼‰ã‚’å–å¾—
+     * @return å–å¾—ã—ãŸå€¤
      */
     private native double getFormattedCounterValueSysCPUUser();
 
     /**
-     * •¨—ƒƒ‚ƒŠiÅ‘åj‚ğæ“¾
-     * @return æ“¾‚µ‚½’l
+     * ç‰©ç†ãƒ¡ãƒ¢ãƒªï¼ˆæœ€å¤§ï¼‰ã‚’å–å¾—
+     * @return å–å¾—ã—ãŸå€¤
      */
     private native double getMemoryTotal();
 
     /**
-     * •¨—ƒƒ‚ƒŠi‹ó‚«j‚ğæ“¾
-     * @return æ“¾‚µ‚½’l
+     * ç‰©ç†ãƒ¡ãƒ¢ãƒªï¼ˆç©ºãï¼‰ã‚’å–å¾—
+     * @return å–å¾—ã—ãŸå€¤
      */
     private native double getFormattedCounterValueMemAvailable();
 
     /**
-     * ƒy[ƒWƒtƒ@ƒCƒ‹g—p—¦‚ğæ“¾
-     * @return æ“¾‚µ‚½’l
+     * ãƒšãƒ¼ã‚¸ãƒ•ã‚¡ã‚¤ãƒ«ä½¿ç”¨ç‡ã‚’å–å¾—
+     * @return å–å¾—ã—ãŸå€¤
      */
     private native double getFormattedCounterValuePageFileUsage();
 
     /**
-     * ƒy[ƒWƒtƒ@ƒCƒ‹g—p—Ê‚ğæ“¾
-     * @return æ“¾‚µ‚½’l
+     * ãƒšãƒ¼ã‚¸ãƒ•ã‚¡ã‚¤ãƒ«ä½¿ç”¨é‡ã‚’å–å¾—
+     * @return å–å¾—ã—ãŸå€¤
      */
     private native double getFormattedCounterValuePageFileBytes();
 
     /**
-     * ƒy[ƒWƒtƒ@ƒCƒ‹g—p—Ê‚ğæ“¾
-     * @return æ“¾‚µ‚½’l
+     * ãƒšãƒ¼ã‚¸ãƒ•ã‚¡ã‚¤ãƒ«ä½¿ç”¨é‡ã‚’å–å¾—
+     * @return å–å¾—ã—ãŸå€¤
      */
     private native double getFormattedCounterValueVirtualBytes();
 
     /**
-     * ƒVƒXƒeƒ€‘S‘Ì‚ÌFD”‚ğæ“¾
-     * @return æ“¾‚µ‚½’l
+     * ã‚·ã‚¹ãƒ†ãƒ å…¨ä½“ã®FDæ•°ã‚’å–å¾—
+     * @return å–å¾—ã—ãŸå€¤
      */
     private native double getFormattedCounterValueSystemFDs();
 
     /**
-     * ƒy[ƒWƒCƒ“‚ğæ“¾
-     * @return æ“¾‚µ‚½’l
+     * ãƒšãƒ¼ã‚¸ã‚¤ãƒ³ã‚’å–å¾—
+     * @return å–å¾—ã—ãŸå€¤
      */
     private native double getFormattedCounterValuePageIn();
 
     /**
-     * ƒy[ƒWƒAƒEƒg‚ğæ“¾
-     * @return æ“¾‚µ‚½’l
+     * ãƒšãƒ¼ã‚¸ã‚¢ã‚¦ãƒˆã‚’å–å¾—
+     * @return å–å¾—ã—ãŸå€¤
      */
     private native double getFormattedCounterValuePageOut();
 
     /**
-     * % User Time‚ğæ“¾
-     * @return æ“¾‚µ‚½’l
+     * % User Timeã‚’å–å¾—
+     * @return å–å¾—ã—ãŸå€¤
      */
     private native double getFormattedCounterValueProcessUserTime();
 
     /**
-     * % Privileged Time‚ğæ“¾
-     * @return æ“¾‚µ‚½’l
+     * % Privileged Timeã‚’å–å¾—
+     * @return å–å¾—ã—ãŸå€¤
      */
     private native double getFormattedCounterValueProcessPrivilegedTime();
 
     /**
-     * ƒƒWƒƒ[ƒtƒH[ƒ‹ƒg‚ğæ“¾
-     * @return æ“¾‚µ‚½’l
+     * ãƒ¡ã‚¸ãƒ£ãƒ¼ãƒ•ã‚©ãƒ¼ãƒ«ãƒˆã‚’å–å¾—
+     * @return å–å¾—ã—ãŸå€¤
      */
     private native double getFormattedCounterValueMajFlt();
 
     /**
-     * vsize‚ğæ“¾
-     * @return æ“¾‚µ‚½’l
+     * vsizeã‚’å–å¾—
+     * @return å–å¾—ã—ãŸå€¤
      */
     private native double getFormattedCounterValueVSize();
 
     /**
-     * rss‚ğæ“¾
-     * @return æ“¾‚µ‚½’l
+     * rssã‚’å–å¾—
+     * @return å–å¾—ã—ãŸå€¤
      */
     private native double getFormattedCounterValueRSS();
 
     /**
-     * ƒXƒŒƒbƒh”‚ğæ“¾
-     * @return æ“¾‚µ‚½’l
+     * ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã‚’å–å¾—
+     * @return å–å¾—ã—ãŸå€¤
      */
     private native double getFormattedCounterValueNumThreads();
 
     /**
-     * ƒvƒƒZƒX‚ÌFD”‚ğæ“¾
-     * @return æ“¾‚µ‚½’l
+     * ãƒ—ãƒ­ã‚»ã‚¹ã®FDæ•°ã‚’å–å¾—
+     * @return å–å¾—ã—ãŸå€¤
      */
     private native double getFormattedCounterValueProcFDs();
     
     /**
-     * ƒNƒGƒŠ[‚Ìg—p‚ğI—¹
-     * @return I—¹‚É¬Œ÷‚µ‚½‚ç true
+     * ã‚¯ã‚¨ãƒªãƒ¼ã®ä½¿ç”¨ã‚’çµ‚äº†
+     * @return çµ‚äº†ã«æˆåŠŸã—ãŸã‚‰ true
      */
     private native boolean closeQuery();
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      */
     public PerfCounter()
     {
@@ -301,8 +301,8 @@ public class PerfCounter
     }
     
     /**
-     * ƒVƒXƒeƒ€ƒŠƒ\[ƒXæ“¾ˆ—‚Ì‰Šú‰»ƒƒ\ƒbƒh
-     * @return ‰Šú‰»‚É¬Œ÷‚µ‚½‚çtrue
+     * ã‚·ã‚¹ãƒ†ãƒ ãƒªã‚½ãƒ¼ã‚¹å–å¾—å‡¦ç†ã®åˆæœŸåŒ–ãƒ¡ã‚½ãƒƒãƒ‰
+     * @return åˆæœŸåŒ–ã«æˆåŠŸã—ãŸã‚‰true
      */
     public boolean init()
     {
@@ -320,8 +320,8 @@ public class PerfCounter
     }
     
     /**
-     * ƒVƒXƒeƒ€ƒŠƒ\[ƒXæ“¾ˆ—‚ÌI—¹ƒƒ\ƒbƒh
-     * @return I—¹‚É¬Œ÷‚µ‚½‚çtrue
+     * ã‚·ã‚¹ãƒ†ãƒ ãƒªã‚½ãƒ¼ã‚¹å–å¾—å‡¦ç†ã®çµ‚äº†ãƒ¡ã‚½ãƒƒãƒ‰
+     * @return çµ‚äº†ã«æˆåŠŸã—ãŸã‚‰true
      */
     public boolean destroy()
     {
@@ -330,24 +330,24 @@ public class PerfCounter
     }
     
     /**
-     * Windows ‚ÌƒVƒXƒeƒ€ƒŠƒ\[ƒX‚ÌMap‚ğ•Ô‚·
+     * Windows ã®ã‚·ã‚¹ãƒ†ãƒ ãƒªã‚½ãƒ¼ã‚¹ã®Mapã‚’è¿”ã™
      * 
-     * @return ƒVƒXƒeƒ€ƒŠƒ\[ƒX‚ÌMap
+     * @return ã‚·ã‚¹ãƒ†ãƒ ãƒªã‚½ãƒ¼ã‚¹ã®Map
      */
     public Map<String, Double> getPerfData()
     {
         long currentTime = Calendar.getInstance().getTimeInMillis();
-        // Œv‘ªŠÔŠu‚ğ•b’PˆÊ‚É•ÏŠ·‚·‚é
+        // è¨ˆæ¸¬é–“éš”ã‚’ç§’å˜ä½ã«å¤‰æ›ã™ã‚‹
         double measurementInterval =
             (currentTime - this.lastMeasuredTime_) / MILLI_SECONDS_TO_SECONDS;
         this.lastMeasuredTime_ = currentTime;
 
         boolean updated = updateHandles();
 
-        // “o˜^‚³‚ê‚Ä‚¢‚éƒJƒEƒ“ƒ^’l‚ğŒv‘ª‚·‚é
+        // ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹ã‚«ã‚¦ãƒ³ã‚¿å€¤ã‚’è¨ˆæ¸¬ã™ã‚‹
         collectQueryData();
 
-        // ‚»‚ê‚¼‚ê‚ÌƒJƒEƒ“ƒ^’l‚ÌŒv‘ªŒ‹‰Ê‚ğ“¾‚é
+        // ãã‚Œãã‚Œã®ã‚«ã‚¦ãƒ³ã‚¿å€¤ã®è¨ˆæ¸¬çµæœã‚’å¾—ã‚‹
         double sysCPUSys = getFormattedCounterValueSysCPUSys();
         double sysCPUUser = getFormattedCounterValueSysCPUUser();
         double memTotal = getMemoryTotal();

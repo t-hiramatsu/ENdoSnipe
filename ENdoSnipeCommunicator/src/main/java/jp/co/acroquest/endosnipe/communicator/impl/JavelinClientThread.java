@@ -41,7 +41,7 @@ import jp.co.acroquest.endosnipe.communicator.entity.ConnectNotifyData;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 
 /**
- * Javelin‚ÌƒNƒ‰ƒCƒAƒ“ƒgƒXƒŒƒbƒh‚Å‚·<br />
+ * Javelinã®ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚¹ãƒ¬ãƒƒãƒ‰ã§ã™<br />
  * 
  * @author eriguchi
  *
@@ -54,37 +54,37 @@ public class JavelinClientThread implements Runnable
     
     private JavelinConfig config_ = new JavelinConfig();
 
-    /** “d•¶ˆ—ƒNƒ‰ƒX‚ÌƒŠƒXƒg */
+    /** é›»æ–‡å‡¦ç†ã‚¯ãƒ©ã‚¹ã®ãƒªã‚¹ãƒˆ */
     private final List<TelegramListener> telegramListenerList_ = new ArrayList<TelegramListener>();
     
-    /** JavelinClientThread‚Ìó‘Ô•Ï‰»‚ğ’Ê’m‚·‚éƒŠƒXƒi */
+    /** JavelinClientThreadã®çŠ¶æ…‹å¤‰åŒ–ã‚’é€šçŸ¥ã™ã‚‹ãƒªã‚¹ãƒŠ */
     private JavelinClientThreadListener clientListener_;
 
     /**
-     * JavelinClientThread‚Ìó‘Ô•Ï‰»‚ğ’Ê’m‚·‚éƒŠƒXƒiB
+     * JavelinClientThreadã®çŠ¶æ…‹å¤‰åŒ–ã‚’é€šçŸ¥ã™ã‚‹ãƒªã‚¹ãƒŠã€‚
      * 
-     * <p>”Ä—p«‚Ì‚È‚¢ {@link JavelinClientThread} ê—p‚ÌƒR[ƒ‹ƒoƒbƒNƒCƒ“ƒ^[ƒtƒFƒCƒX
-     * ‚Å‚ ‚é‚½‚ßA“à•”ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Æ‚µ‚Ä’è‹`‚·‚éB</p>
+     * <p>æ±ç”¨æ€§ã®ãªã„ {@link JavelinClientThread} å°‚ç”¨ã®ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹
+     * ã§ã‚ã‚‹ãŸã‚ã€å†…éƒ¨ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹ã¨ã—ã¦å®šç¾©ã™ã‚‹ã€‚</p>
      * 
      * @author matsuoka
      */
     interface JavelinClientThreadListener 
     {
         /**
-         * ’ÊMØ’f‚ÉƒR[ƒ‹‚³‚ê‚éB
+         * é€šä¿¡åˆ‡æ–­æ™‚ã«ã‚³ãƒ¼ãƒ«ã•ã‚Œã‚‹ã€‚
          *
-         * @param forceDisconnected ‹­§Ø’f‚³‚ê‚½ê‡‚Í <code>true</code>
+         * @param forceDisconnected å¼·åˆ¶åˆ‡æ–­ã•ã‚ŒãŸå ´åˆã¯ <code>true</code>
          */
         void disconnected(boolean forceDisconnected);
     }
 
     /**
-     * JavelinClientƒRƒlƒNƒVƒ‡ƒ“‚ÌŠJn‚Æ“d•¶ƒNƒ‰ƒX‚Ì“o˜^‚ğs‚¢‚Ü‚·B<br />
+     * JavelinClientã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ã®é–‹å§‹ã¨é›»æ–‡ã‚¯ãƒ©ã‚¹ã®ç™»éŒ²ã‚’è¡Œã„ã¾ã™ã€‚<br />
      * 
-     * @param objSocket ƒ\ƒPƒbƒg
-     * @param discard ƒAƒ‰[ƒ€‘—MŠÔŠu“à‚É”­¶‚µ‚½“¯‚¶ƒAƒ‰[ƒ€‚ğ”jŠü‚·‚é‚©‚Ç‚¤‚©
-     * @param listeners —˜—p‚·‚éTelegramListener–¼
-     * @throws IOException “üo—Í—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param objSocket ã‚½ã‚±ãƒƒãƒˆ
+     * @param discard ã‚¢ãƒ©ãƒ¼ãƒ é€ä¿¡é–“éš”å†…ã«ç™ºç”Ÿã—ãŸåŒã˜ã‚¢ãƒ©ãƒ¼ãƒ ã‚’ç ´æ£„ã™ã‚‹ã‹ã©ã†ã‹
+     * @param listeners åˆ©ç”¨ã™ã‚‹TelegramListenerå
+     * @throws IOException å…¥å‡ºåŠ›ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public JavelinClientThread(final Socket objSocket, final boolean discard,
             final String[] listeners)
@@ -92,18 +92,18 @@ public class JavelinClientThread implements Runnable
     {
         this.clientConnection_ = new JavelinClientConnection(objSocket, discard);
 
-        // “d•¶ˆ—ƒNƒ‰ƒX‚ğ“o˜^‚·‚é
+        // é›»æ–‡å‡¦ç†ã‚¯ãƒ©ã‚¹ã‚’ç™»éŒ²ã™ã‚‹
         registerTelegramListeners(listeners);
     }
     
     /**
-     * JavelinClientƒRƒlƒNƒVƒ‡ƒ“‚ÌŠJn‚Æ“d•¶ƒNƒ‰ƒX‚Ì“o˜^‚ğs‚¢‚Ü‚·B<br />
+     * JavelinClientã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ã®é–‹å§‹ã¨é›»æ–‡ã‚¯ãƒ©ã‚¹ã®ç™»éŒ²ã‚’è¡Œã„ã¾ã™ã€‚<br />
      * 
-     * @param objSocket ƒ\ƒPƒbƒg
-     * @param discard ƒAƒ‰[ƒ€‘—MŠÔŠu“à‚É”­¶‚µ‚½“¯‚¶ƒAƒ‰[ƒ€‚ğ”jŠü‚·‚é‚©‚Ç‚¤‚©
-     * @param listeners —˜—p‚·‚éTelegramListener–¼
-     * @param clientLisener JavelinClientThread‚Ìó‘Ô‚ğ’Ê’m‚·‚é‚½‚ß‚ÌƒŠƒXƒi
-     * @throws IOException “üo—Í—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param objSocket ã‚½ã‚±ãƒƒãƒˆ
+     * @param discard ã‚¢ãƒ©ãƒ¼ãƒ é€ä¿¡é–“éš”å†…ã«ç™ºç”Ÿã—ãŸåŒã˜ã‚¢ãƒ©ãƒ¼ãƒ ã‚’ç ´æ£„ã™ã‚‹ã‹ã©ã†ã‹
+     * @param listeners åˆ©ç”¨ã™ã‚‹TelegramListenerå
+     * @param clientLisener JavelinClientThreadã®çŠ¶æ…‹ã‚’é€šçŸ¥ã™ã‚‹ãŸã‚ã®ãƒªã‚¹ãƒŠ
+     * @throws IOException å…¥å‡ºåŠ›ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public JavelinClientThread(final Socket objSocket, final boolean discard,
             final String[] listeners, JavelinClientThreadListener clientLisener)
@@ -120,10 +120,10 @@ public class JavelinClientThread implements Runnable
     {
         try
         {
-            // ‘—MƒXƒŒƒbƒh‚ğŠJn‚·‚éB
+            // é€ä¿¡ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’é–‹å§‹ã™ã‚‹ã€‚
             startSendThread();
             
-            // Ú‘±’Ê’m‚ğ‘—M‚·‚éB
+            // æ¥ç¶šé€šçŸ¥ã‚’é€ä¿¡ã™ã‚‹ã€‚
             sendConnectNotify();
 
             this.isRunning_ = true;
@@ -131,11 +131,11 @@ public class JavelinClientThread implements Runnable
             {
                 try
                 {
-                    // —v‹‚ğóM‚·‚éB
+                    // è¦æ±‚ã‚’å—ä¿¡ã™ã‚‹ã€‚
                     byte[] byteInputArr = null;
                     byteInputArr = this.clientConnection_.recvRequest();
 
-                    // byte—ñ‚ğTelegram‚É•ÏŠ·‚·‚éB
+                    // byteåˆ—ã‚’Telegramã«å¤‰æ›ã™ã‚‹ã€‚
                     Telegram request = TelegramUtil.recoveryTelegram(byteInputArr);
 
                     if (request == null)
@@ -179,14 +179,14 @@ public class JavelinClientThread implements Runnable
     }
 
     /**
-     * Ú‘±’Ê’m‚ğ‘—M‚·‚éB
+     * æ¥ç¶šé€šçŸ¥ã‚’é€ä¿¡ã™ã‚‹ã€‚
      */
     private void sendConnectNotify()
     {
         ConnectNotifyData connectNotify = new ConnectNotifyData();
         connectNotify.setKind(ConnectNotifyData.KIND_JAVELIN);
 
-        // DB–¼Ì‚ğ¶¬
+        // DBåç§°ã‚’ç”Ÿæˆ
         String agentName = config_.getAgentName();
         InetAddress localAddress = this.clientConnection_.getAddress();
         String ipAddr = localAddress.getHostAddress();
@@ -214,9 +214,9 @@ public class JavelinClientThread implements Runnable
     }
 
     /**
-     * “d•¶ˆ—‚É—˜—p‚·‚éTelegramListener‚ğ“o˜^‚·‚é
+     * é›»æ–‡å‡¦ç†ã«åˆ©ç”¨ã™ã‚‹TelegramListenerã‚’ç™»éŒ²ã™ã‚‹
      * 
-     * @param listener “d•¶ˆ—‚É—˜—p‚·‚éTelegramListener
+     * @param listener é›»æ–‡å‡¦ç†ã«åˆ©ç”¨ã™ã‚‹TelegramListener
      */
     public void addListener(final TelegramListener listener)
     {
@@ -227,20 +227,20 @@ public class JavelinClientThread implements Runnable
     }
 
     /**
-     * “d•¶‚ğóM‚µA‰“š“d•¶‚ª‚ ‚é‚Æ‚«‚Ì‚İ“d•¶‚ğ‘—M‚µ‚Ü‚·B<br />
+     * é›»æ–‡ã‚’å—ä¿¡ã—ã€å¿œç­”é›»æ–‡ãŒã‚ã‚‹ã¨ãã®ã¿é›»æ–‡ã‚’é€ä¿¡ã—ã¾ã™ã€‚<br />
      * 
-     * @param request æ“¾“d•¶
+     * @param request å–å¾—é›»æ–‡
      */
     protected void receiveTelegram(final Telegram request)
     {
-        // ŠeTelegramListener‚Åˆ—‚ğs‚¤
+        // å„TelegramListenerã§å‡¦ç†ã‚’è¡Œã†
         for (TelegramListener listener : this.telegramListenerList_)
         {
             try
             {
                 Telegram response = listener.receiveTelegram(request);
 
-                // ‰“š“d•¶‚ª‚ ‚éê‡‚Ì‚İA‰“š‚ğ•Ô‚·
+                // å¿œç­”é›»æ–‡ãŒã‚ã‚‹å ´åˆã®ã¿ã€å¿œç­”ã‚’è¿”ã™
                 if (response != null)
                 {
                     List<byte[]> byteList = TelegramUtil.createTelegram(response);
@@ -262,12 +262,12 @@ public class JavelinClientThread implements Runnable
     }
 
     /**
-     * TelegramListener‚ÌƒNƒ‰ƒX‚ğJavelinİ’è‚©‚ç“Ç‚İ‚İA“o˜^‚·‚éB ƒNƒ‰ƒX‚Ìƒ[ƒh‚ÍA
-     * ˆÈ‰º‚Ì‡‚ÅƒNƒ‰ƒXƒ[ƒ_‚Å‚Ìƒ[ƒh‚ğ‚İ‚éB
-     * <ol> <li>JavelinClientThread‚ğƒ[ƒh‚µ‚½ƒNƒ‰ƒXƒ[ƒ_</li> <li>ƒRƒ“ƒeƒLƒXƒgƒNƒ‰ƒXƒ[ƒ_</li>
+     * TelegramListenerã®ã‚¯ãƒ©ã‚¹ã‚’Javelinè¨­å®šã‹ã‚‰èª­ã¿è¾¼ã¿ã€ç™»éŒ²ã™ã‚‹ã€‚ ã‚¯ãƒ©ã‚¹ã®ãƒ­ãƒ¼ãƒ‰ã¯ã€
+     * ä»¥ä¸‹ã®é †ã§ã‚¯ãƒ©ã‚¹ãƒ­ãƒ¼ãƒ€ã§ã®ãƒ­ãƒ¼ãƒ‰ã‚’è©¦ã¿ã‚‹ã€‚
+     * <ol> <li>JavelinClientThreadã‚’ãƒ­ãƒ¼ãƒ‰ã—ãŸã‚¯ãƒ©ã‚¹ãƒ­ãƒ¼ãƒ€</li> <li>ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆã‚¯ãƒ©ã‚¹ãƒ­ãƒ¼ãƒ€</li>
      * </ol>
      * 
-     * @param listeners —˜—p‚·‚éTelegramListener–¼
+     * @param listeners åˆ©ç”¨ã™ã‚‹TelegramListenerå
      */
     private void registerTelegramListeners(final String[] listeners)
     {
@@ -309,13 +309,13 @@ public class JavelinClientThread implements Runnable
     }
 
     /**
-     * ƒNƒ‰ƒX‚ğƒ[ƒh‚·‚éB ˆÈ‰º‚Ì‡‚ÅƒNƒ‰ƒXƒ[ƒ_‚Å‚Ìƒ[ƒh‚ğ‚İ‚éB <ol> 
-     * <li>JavelinClientThread‚ğƒ[ƒh‚µ‚½ƒNƒ‰ƒXƒ[ƒ_</li>
-     * <li>ƒRƒ“ƒeƒLƒXƒgƒNƒ‰ƒXƒ[ƒ_</li> </ol>
+     * ã‚¯ãƒ©ã‚¹ã‚’ãƒ­ãƒ¼ãƒ‰ã™ã‚‹ã€‚ ä»¥ä¸‹ã®é †ã§ã‚¯ãƒ©ã‚¹ãƒ­ãƒ¼ãƒ€ã§ã®ãƒ­ãƒ¼ãƒ‰ã‚’è©¦ã¿ã‚‹ã€‚ <ol> 
+     * <li>JavelinClientThreadã‚’ãƒ­ãƒ¼ãƒ‰ã—ãŸã‚¯ãƒ©ã‚¹ãƒ­ãƒ¼ãƒ€</li>
+     * <li>ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆã‚¯ãƒ©ã‚¹ãƒ­ãƒ¼ãƒ€</li> </ol>
      * 
-     * @param className ƒ[ƒh‚·‚éƒNƒ‰ƒX‚Ì–¼‘OB
-     * @return ƒ[ƒh‚µ‚½ƒNƒ‰ƒXB
-     * @throws ClassNotFoundException ‘S‚Ä‚ÌƒNƒ‰ƒXƒ[ƒ_‚ÅƒNƒ‰ƒX‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡
+     * @param className ãƒ­ãƒ¼ãƒ‰ã™ã‚‹ã‚¯ãƒ©ã‚¹ã®åå‰ã€‚
+     * @return ãƒ­ãƒ¼ãƒ‰ã—ãŸã‚¯ãƒ©ã‚¹ã€‚
+     * @throws ClassNotFoundException å…¨ã¦ã®ã‚¯ãƒ©ã‚¹ãƒ­ãƒ¼ãƒ€ã§ã‚¯ãƒ©ã‚¹ãŒè¦‹ã¤ã‹ã‚‰ãªã„å ´åˆ
      */
     private Class<?> loadClass(final String className)
         throws ClassNotFoundException
@@ -338,7 +338,7 @@ public class JavelinClientThread implements Runnable
     }
 
     /**
-     * ƒXƒŒƒbƒh‚ğ’â~‚·‚éB
+     * ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’åœæ­¢ã™ã‚‹ã€‚
      */
     public void stop()
     {
@@ -346,9 +346,9 @@ public class JavelinClientThread implements Runnable
     }
 
     /**
-     * ’ÊM‚ªƒNƒ[ƒY‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ•Ô‚µ‚Ü‚·B<br />
+     * é€šä¿¡ãŒã‚¯ãƒ­ãƒ¼ã‚ºã—ã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’è¿”ã—ã¾ã™ã€‚<br />
      * 
-     * @return ’ÊM‚ªƒNƒ[ƒY‚µ‚Ä‚¢‚éê‡A<code>true</code>
+     * @return é€šä¿¡ãŒã‚¯ãƒ­ãƒ¼ã‚ºã—ã¦ã„ã‚‹å ´åˆã€<code>true</code>
      */
     public boolean isClosed()
     {
@@ -356,9 +356,9 @@ public class JavelinClientThread implements Runnable
     }
 
     /**
-     * ƒAƒ‰[ƒ€‚ğ‘—M‚µ‚Ü‚·B<br />
+     * ã‚¢ãƒ©ãƒ¼ãƒ ã‚’é€ä¿¡ã—ã¾ã™ã€‚<br />
      * 
-     * @param bytes “d•¶‚ÌƒoƒCƒg—ñ
+     * @param bytes é›»æ–‡ã®ãƒã‚¤ãƒˆåˆ—
      */
     public void sendAlarm(final byte[] bytes)
     {
@@ -366,10 +366,10 @@ public class JavelinClientThread implements Runnable
     }
 
     /**
-     * “d•¶‚ÌƒƒO‚ğƒfƒoƒbƒOƒŒƒxƒ‹‚Å•\¦‚µ‚Ü‚·B<br />
+     * é›»æ–‡ã®ãƒ­ã‚°ã‚’ãƒ‡ãƒãƒƒã‚°ãƒ¬ãƒ™ãƒ«ã§è¡¨ç¤ºã—ã¾ã™ã€‚<br />
      * 
-     * @param telegram “d•¶
-     * @param bytes ƒoƒCƒg—ñ
+     * @param telegram é›»æ–‡
+     * @param bytes ãƒã‚¤ãƒˆåˆ—
      */
     public void logTelegram(final Telegram telegram, final byte[] bytes)
     {
@@ -378,10 +378,10 @@ public class JavelinClientThread implements Runnable
     }
 
     /**
-     * óM“d•¶‚ÌƒƒO‚ğƒfƒoƒbƒOƒŒƒxƒ‹‚Å•\¦‚µ‚Ü‚·B<br />
+     * å—ä¿¡é›»æ–‡ã®ãƒ­ã‚°ã‚’ãƒ‡ãƒãƒƒã‚°ãƒ¬ãƒ™ãƒ«ã§è¡¨ç¤ºã—ã¾ã™ã€‚<br />
      * 
-     * @param telegram “d•¶
-     * @param bytes ƒoƒCƒg—ñ
+     * @param telegram é›»æ–‡
+     * @param bytes ãƒã‚¤ãƒˆåˆ—
      */
     public void logReceiveTelegram(final Telegram telegram, final byte[] bytes)
     {

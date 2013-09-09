@@ -29,18 +29,18 @@ import jp.co.acroquest.endosnipe.javelin.JavelinLogUtil;
 import jp.co.acroquest.endosnipe.javelin.parser.JavelinLogElement;
 
 /**
- * SQL‚ÌŽÀsŽž‚Éargs‚©‚çˆø”[TIME]‚ðè‡’l‚Æ‚µ‚ÄŽæ‚èo‚·B
+ * SQLã®å®Ÿè¡Œæ™‚ã«argsã‹ã‚‰å¼•æ•°[TIME]ã‚’é–¾å€¤ã¨ã—ã¦å–ã‚Šå‡ºã™ã€‚
  * @author eriguchi
  */
 public class SQLThresholdStrategy implements ThresholdStrategy
 {
-    /** SQLŽÀsŽžŠÔ‚ÌŠJŽnƒ^ƒO */
+    /** SQLå®Ÿè¡Œæ™‚é–“ã®é–‹å§‹ã‚¿ã‚° */
     private static final String TIME_TAG = "[Time]";
 
     /** 
-     *@avelinLogElement‚Ìargs‚©‚çˆø”[TIME]‚ðè‡’l‚Æ‚µ‚ÄŽæ‚èo‚·B
-     *@@param javelinLogElement ’l‚ðŽæ‚èo‚·‚à‚Æ‚ÌJavelinLogElement
-     * @return Žæ‚èo‚µ‚½Œ‹‰Ê
+     *ã€€avelinLogElementã®argsã‹ã‚‰å¼•æ•°[TIME]ã‚’é–¾å€¤ã¨ã—ã¦å–ã‚Šå‡ºã™ã€‚
+     *ã€€@param javelinLogElement å€¤ã‚’å–ã‚Šå‡ºã™ã‚‚ã¨ã®JavelinLogElement
+     * @return å–ã‚Šå‡ºã—ãŸçµæžœ
      */
     public String extractDurationThreshold(final JavelinLogElement javelinLogElement)
     {

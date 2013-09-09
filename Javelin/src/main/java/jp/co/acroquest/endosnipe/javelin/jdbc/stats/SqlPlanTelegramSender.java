@@ -21,7 +21,7 @@ import jp.co.acroquest.endosnipe.javelin.communicate.JavelinAcceptThread;
 import jp.co.acroquest.endosnipe.javelin.communicate.JavelinConnectThread;
 
 /**
- * SQLÀsŒv‰æ‚Ì’Ê’m“d•¶‚ğ‘—M‚·‚éƒNƒ‰ƒXB
+ * SQLå®Ÿè¡Œè¨ˆç”»ã®é€šçŸ¥é›»æ–‡ã‚’é€ä¿¡ã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚
  * 
  * @author miyasaka
  *
@@ -29,25 +29,25 @@ import jp.co.acroquest.endosnipe.javelin.communicate.JavelinConnectThread;
 public class SqlPlanTelegramSender
 {
     /**
-     * SQLÀsŒv‰æ‚Ì’Ê’m“d•¶‚ğ‘—M‚·‚éB
+     * SQLå®Ÿè¡Œè¨ˆç”»ã®é€šçŸ¥é›»æ–‡ã‚’é€ä¿¡ã™ã‚‹ã€‚
      * 
-     * @param measurementItemName €–Ú–¼
-     * @param sqlStatement SQL•¶
-     * @param executionPlan ÀsŒv‰æ
-     * @param gettingPlanTime ÀsŒv‰ææ“¾ŠÔ
-     * @param stackTrace ƒXƒ^ƒbƒNƒgƒŒ[ƒX
+     * @param measurementItemName é …ç›®å
+     * @param sqlStatement SQLæ–‡
+     * @param executionPlan å®Ÿè¡Œè¨ˆç”»
+     * @param gettingPlanTime å®Ÿè¡Œè¨ˆç”»å–å¾—æ™‚é–“
+     * @param stackTrace ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹
      */
     public void execute(final String measurementItemName, final String sqlStatement,
         final String executionPlan, final Timestamp gettingPlanTime, final String stackTrace)
     {
-        // ƒNƒ‰ƒCƒAƒ“ƒg‚ª‚¢‚È‚¢ê‡‚Í“d•¶‚ğì¬‚µ‚È‚¢B
+        // ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆãŒã„ãªã„å ´åˆã¯é›»æ–‡ã‚’ä½œæˆã—ãªã„ã€‚
         if (JavelinAcceptThread.getInstance().hasClient() == false
             && JavelinConnectThread.getInstance().isConnected() == false)
         {
             return;
         }
 
-        // ’Ê’m“d•¶‚ğì¬‚·‚éB
+        // é€šçŸ¥é›»æ–‡ã‚’ä½œæˆã™ã‚‹ã€‚
         Telegram telegram = null;
         try
         {

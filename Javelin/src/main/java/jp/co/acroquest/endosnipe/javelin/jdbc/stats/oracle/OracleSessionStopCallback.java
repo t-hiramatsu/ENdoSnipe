@@ -37,18 +37,18 @@ import jp.co.acroquest.endosnipe.javelin.CallTreeRecorder;
 import jp.co.acroquest.endosnipe.javelin.Callback;
 
 /**
- * Oracle‚ÌƒZƒbƒVƒ‡ƒ“‚ğI—¹‚·‚é‚½‚ß‚ÌƒR[ƒ‹ƒoƒbƒN
+ * Oracleã®ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚’çµ‚äº†ã™ã‚‹ãŸã‚ã®ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯
  * @author akiba
  *
  */
 public class OracleSessionStopCallback implements Callback
 {
-    /** ƒRƒlƒNƒVƒ‡ƒ“ */
+    /** ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ */
     private final Connection connection_;
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
-     * @param connection ƒRƒlƒNƒVƒ‡ƒ“
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+     * @param connection ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³
      */
     public OracleSessionStopCallback(final Connection connection)
     {
@@ -56,20 +56,20 @@ public class OracleSessionStopCallback implements Callback
     }
 
     /**
-     * SQLƒgƒŒ[ƒX‚ğI—¹‚·‚éB
+     * SQLãƒˆãƒ¬ãƒ¼ã‚¹ã‚’çµ‚äº†ã™ã‚‹ã€‚
      */
     public void execute()
     {
         CallTree tree = CallTreeRecorder.getInstance().getCallTree();
 
-        // uSQLƒgƒŒ[ƒXI—¹’†v‚É‘JˆÚ‚·‚éB
+        // ã€ŒSQLãƒˆãƒ¬ãƒ¼ã‚¹çµ‚äº†ä¸­ã€ã«é·ç§»ã™ã‚‹ã€‚
         tree.removeFlag(KEY_SESSION_INITIALIZING);
         tree.removeFlag(KEY_SESSION_STARTED);
         tree.setFlag(KEY_SESSION_CLOSING, KEY_SESSION_CLOSING);
 
         OracleProcessor.stopSqlTrace(this.connection_);
 
-        // uSQLƒgƒŒ[ƒX’â~’†v‚É‘JˆÚ‚·‚éB
+        // ã€ŒSQLãƒˆãƒ¬ãƒ¼ã‚¹åœæ­¢ä¸­ã€ã«é·ç§»ã™ã‚‹ã€‚
         tree.removeFlag(KEY_SESSION_CLOSING);
         tree.setFlag(KEY_SESSION_FINISHED, KEY_SESSION_FINISHED);
     }

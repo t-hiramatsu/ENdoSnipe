@@ -29,7 +29,7 @@ import jp.co.acroquest.endosnipe.common.entity.ItemType;
 
 
 /**
- * ƒvƒƒZƒbƒT”‚ğæ“¾‚·‚éƒNƒ‰ƒXB
+ * ãƒ—ãƒ­ã‚»ãƒƒã‚µæ•°ã‚’å–å¾—ã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚
  * 
  * @author Sakamoto
  */

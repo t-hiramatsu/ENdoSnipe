@@ -39,21 +39,21 @@ import jp.co.acroquest.endosnipe.report.util.ReporterConfigAccessor;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * APƒT[ƒo‚Ìƒ[ƒJƒXƒŒƒbƒh”‚ÌƒŒƒ|[ƒg‚ğ¶¬‚·‚éƒŒƒ|[ƒgƒvƒƒZƒbƒTB
+ * APã‚µãƒ¼ãƒã®ãƒ¯ãƒ¼ã‚«ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã®ãƒ¬ãƒãƒ¼ãƒˆã‚’ç”Ÿæˆã™ã‚‹ãƒ¬ãƒãƒ¼ãƒˆãƒ—ãƒ­ã‚»ãƒƒã‚µã€‚
  * 
  * @author iida
  */
 public class PoolSizeReportProcessor extends ReportPublishProcessorBase
 {
-    /** ƒƒK[ */
+    /** ãƒ­ã‚¬ãƒ¼ */
     private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(
             PoolSizeReportProcessor.class);
 
     /**
-     * ReportProcessor‚ğ¶¬‚·‚éB<br>
+     * ReportProcessorã‚’ç”Ÿæˆã™ã‚‹ã€‚<br>
      * 
      * @param type
-     *            ƒŒƒ|[ƒgí•Ê
+     *            ãƒ¬ãƒãƒ¼ãƒˆç¨®åˆ¥
      */
     public PoolSizeReportProcessor(ReportType type)
     {
@@ -69,12 +69,12 @@ public class PoolSizeReportProcessor extends ReportPublishProcessorBase
     protected Object getReportPlotData(ReportSearchCondition cond,
             ReportProcessReturnContainer reportContainer)
     {
-        // ŒŸõğŒ‚ğæ“¾‚·‚éB
+        // æ¤œç´¢æ¡ä»¶ã‚’å–å¾—ã™ã‚‹ã€‚
         String database = cond.getDatabases().get(0);
         Timestamp startTime = cond.getStartDate();
         Timestamp endTime = cond.getEndDate();
 
-        // DB‚©‚çƒf[ƒ^‚ğŒŸõ‚·‚éB
+        // DBã‹ã‚‰ãƒ‡ãƒ¼ã‚¿ã‚’æ¤œç´¢ã™ã‚‹ã€‚
         List<ItemData> workerThreadNumData = null;
         try
         {
@@ -103,7 +103,7 @@ public class PoolSizeReportProcessor extends ReportPublishProcessorBase
             ReportSearchCondition cond,
             ReportProcessReturnContainer reportContainer)
     {
-        // ƒf[ƒ^•ÏŠ·‚Í“Á‚És‚¢‚Ü‚¹‚ñB
+        // ãƒ‡ãƒ¼ã‚¿å¤‰æ›ã¯ç‰¹ã«è¡Œã„ã¾ã›ã‚“ã€‚
         return rawData;
     }
 
@@ -120,8 +120,8 @@ public class PoolSizeReportProcessor extends ReportPublishProcessorBase
     {
         List<ItemData> workerThreadNumData = (List<ItemData>) plotData;
         
-        // €–Ú–¼‚ª"http-8080_max","http-8080_current","http-8080_wait"‚Æ‚È‚Á‚Ä‚¢‚é‚Ì‚ÅA
-        // "_"‚Ì‘O‚ª“™‚µ‚¢‚à‚Ì‚ğ‚Ü‚Æ‚ßA“¯ˆê‚ÌƒOƒ‰ƒt‚Éo—Í‚·‚éB
+        // é …ç›®åãŒ"http-8080_max","http-8080_current","http-8080_wait"ã¨ãªã£ã¦ã„ã‚‹ã®ã§ã€
+        // "_"ã®å‰ãŒç­‰ã—ã„ã‚‚ã®ã‚’ã¾ã¨ã‚ã€åŒä¸€ã®ã‚°ãƒ©ãƒ•ã«å‡ºåŠ›ã™ã‚‹ã€‚
         Map<String, List<PoolSizeRecord>> poolSizeRecordMap = new HashMap<String, List<PoolSizeRecord>>();
         for (ItemData itemData : workerThreadNumData) {
             String[] itemName = StringUtils.split(itemData.getItemName(), "_");
@@ -147,7 +147,7 @@ public class PoolSizeReportProcessor extends ReportPublishProcessorBase
             }
         }
 
-        // o—Í‚·‚éƒŒƒ|[ƒg‚Ìí—Ş‚É‰‚¶‚ÄAƒeƒ“ƒvƒŒ[ƒg‚Ìƒtƒ@ƒCƒ‹ƒpƒX‚ğæ“¾‚·‚éB
+        // å‡ºåŠ›ã™ã‚‹ãƒ¬ãƒãƒ¼ãƒˆã®ç¨®é¡ã«å¿œã˜ã¦ã€ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã®ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã‚’å–å¾—ã™ã‚‹ã€‚
         String templateFilePath;
         try
         {
@@ -160,7 +160,7 @@ public class PoolSizeReportProcessor extends ReportPublishProcessorBase
             return;
         }
 
-        // ƒŒƒ|[ƒgo—Í‚Ìˆø”î•ñ‚ğæ“¾‚·‚éB
+        // ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã®å¼•æ•°æƒ…å ±ã‚’å–å¾—ã™ã‚‹ã€‚
         String outputFolderPath = getOutputFolderName()
                 + File.separator
                 + ReporterConfigAccessor.getProperty(super.getReportType()
@@ -169,7 +169,7 @@ public class PoolSizeReportProcessor extends ReportPublishProcessorBase
         Timestamp startTime = cond.getStartDate();
         Timestamp endTime = cond.getEndDate();
 
-        // ƒŒƒ|[ƒgo—Í‚ğÀs‚·‚éB
+        // ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã‚’å®Ÿè¡Œã™ã‚‹ã€‚
         RecordReporter<PoolSizeRecord> reporter = new RecordReporter<PoolSizeRecord>(
                 getReportType());
         
@@ -179,7 +179,7 @@ public class PoolSizeReportProcessor extends ReportPublishProcessorBase
                     new PoolSizeRecord[] {});
             String itemName = poolSizeRecordEntry.getKey();
             String[] graphTitles =
-            { "APƒT[ƒo‚Ìƒ[ƒJƒXƒŒƒbƒh”i" + itemName + "j" };
+            { "APã‚µãƒ¼ãƒã®ãƒ¯ãƒ¼ã‚«ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ï¼ˆ" + itemName + "ï¼‰" };
             reporter.outputReport(templateFilePath, outputFolderPath, itemName,
                     graphTitles, records, startTime, endTime);
         }

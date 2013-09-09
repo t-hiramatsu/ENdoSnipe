@@ -31,22 +31,22 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * ƒOƒ‰ƒt‚Ì 1 Œn—ñ‚ğ•\‚·ƒNƒ‰ƒXB<br />
+ * ã‚°ãƒ©ãƒ•ã® 1 ç³»åˆ—ã‚’è¡¨ã™ã‚¯ãƒ©ã‚¹ã€‚<br />
  *
  * @author sakamoto
  */
 public class GraphSeriesResource implements Iterable<GraphResourceEntry>
 {
 
-    /** Œn—ñ–¼ */
+    /** ç³»åˆ—å */
     private final String seriesName_;
 
     private final List<GraphResourceEntry> entries_;
 
     /**
-     * ƒOƒ‰ƒt‚Ì 1 Œn—ñ‚ğ•\‚·ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‚Ü‚·B<br />
+     * ã‚°ãƒ©ãƒ•ã® 1 ç³»åˆ—ã‚’è¡¨ã™ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
      *
-     * @param seriesName Œn—ñ–¼
+     * @param seriesName ç³»åˆ—å
      */
     public GraphSeriesResource(final String seriesName)
     {
@@ -55,10 +55,10 @@ public class GraphSeriesResource implements Iterable<GraphResourceEntry>
     }
 
     /**
-     * ƒOƒ‰ƒt‚Ì 1 Œn—ñ‚ğ•\‚·ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‚Ü‚·B<br />
+     * ã‚°ãƒ©ãƒ•ã® 1 ç³»åˆ—ã‚’è¡¨ã™ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
      *
-     * @param seriesName Œn—ñ–¼
-     * @param entryList Œn—ñƒf[ƒ^
+     * @param seriesName ç³»åˆ—å
+     * @param entryList ç³»åˆ—ãƒ‡ãƒ¼ã‚¿
      */
     public GraphSeriesResource(final String seriesName, final List<GraphResourceEntry> entryList)
     {
@@ -67,9 +67,9 @@ public class GraphSeriesResource implements Iterable<GraphResourceEntry>
     }
 
     /**
-     * Œn—ñ‚É’l‚ğ 1 ‚Â’Ç‰Á‚µ‚Ü‚·B<br />
+     * ç³»åˆ—ã«å€¤ã‚’ 1 ã¤è¿½åŠ ã—ã¾ã™ã€‚<br />
      *
-     * @param entry ’Ç‰Á‚·‚é’l
+     * @param entry è¿½åŠ ã™ã‚‹å€¤
      */
     public void addGraphResourceEntry(final GraphResourceEntry entry)
     {
@@ -77,10 +77,10 @@ public class GraphSeriesResource implements Iterable<GraphResourceEntry>
     }
 
     /**
-     * Œn—ñ‚É’l‚ğ 1 ‚Â’Ç‰Á‚µ‚Ü‚·B<br />
+     * ç³»åˆ—ã«å€¤ã‚’ 1 ã¤è¿½åŠ ã—ã¾ã™ã€‚<br />
      *
-     * @param time ’Ç‰Á‚·‚é’l‚ªæ“¾‚³‚ê‚½iƒ~ƒŠ•bj
-     * @param value ’Ç‰Á‚·‚é’l
+     * @param time è¿½åŠ ã™ã‚‹å€¤ãŒå–å¾—ã•ã‚ŒãŸæ™‚åˆ»ï¼ˆãƒŸãƒªç§’ï¼‰
+     * @param value è¿½åŠ ã™ã‚‹å€¤
      */
     public void addGraphResourceEntry(final long time, final Number value)
     {
@@ -89,9 +89,9 @@ public class GraphSeriesResource implements Iterable<GraphResourceEntry>
     }
 
     /**
-     * Œn—ñ–¼‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ç³»åˆ—åã‚’è¿”ã—ã¾ã™ã€‚<br />
      *
-     * @return Œn—ñ–¼
+     * @return ç³»åˆ—å
      */
     public String getSeriesName()
     {
@@ -99,9 +99,9 @@ public class GraphSeriesResource implements Iterable<GraphResourceEntry>
     }
 
     /**
-     * Œn—ñ‚É‘¶İ‚·‚é’l‚Ì”‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ç³»åˆ—ã«å­˜åœ¨ã™ã‚‹å€¤ã®æ•°ã‚’è¿”ã—ã¾ã™ã€‚<br />
      *
-     * @return ’l‚Ì”
+     * @return å€¤ã®æ•°
      */
     public int getValueCount()
     {
@@ -109,11 +109,11 @@ public class GraphSeriesResource implements Iterable<GraphResourceEntry>
     }
 
     /**
-     * Œn—ñ“à‚Ìƒf[ƒ^‚ÌƒŠƒXƒg‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ç³»åˆ—å†…ã®ãƒ‡ãƒ¼ã‚¿ã®ãƒªã‚¹ãƒˆã‚’è¿”ã—ã¾ã™ã€‚<br />
      *
-     * •Ô‚³‚ê‚½ƒf[ƒ^‚ÍQÆ‚Ì‚İ‰Â”\‚ÅA’Ç‰Á‚âíœ‚Ís‚¦‚Ü‚¹‚ñB<br />
+     * è¿”ã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ã¯å‚ç…§ã®ã¿å¯èƒ½ã§ã€è¿½åŠ ã‚„å‰Šé™¤ã¯è¡Œãˆã¾ã›ã‚“ã€‚<br />
      *
-     * @return Œn—ñ“à‚Ìƒf[ƒ^‚ÌƒŠƒXƒg
+     * @return ç³»åˆ—å†…ã®ãƒ‡ãƒ¼ã‚¿ã®ãƒªã‚¹ãƒˆ
      */
     public List<GraphResourceEntry> getEntryList()
     {

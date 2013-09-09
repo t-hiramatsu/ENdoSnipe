@@ -32,45 +32,45 @@ import jp.co.dgic.testing.framework.DJUnitTestCase;
 import jp.co.acroquest.endosnipe.common.util.IOUtil;
 
 /**
- * ConnectionManager‚ÌƒeƒXƒgƒR[ƒhB
- * Ver4.5 ƒŠƒOƒŒƒbƒVƒ‡ƒ“Œ±—pƒR[ƒh
+ * ConnectionManagerã®ãƒ†ã‚¹ãƒˆã‚³ãƒ¼ãƒ‰ã€‚
+ * Ver4.5 ãƒªã‚°ãƒ¬ãƒƒã‚·ãƒ§ãƒ³è©¦é¨“ç”¨ã‚³ãƒ¼ãƒ‰
  * 
  * @author eriguchi
  */
 public class ConnectionManagerTest extends DJUnitTestCase
 {
-    /** ƒf[ƒ^ƒx[ƒXƒtƒ@ƒCƒ‹‚ğ•Û‘¶‚·‚éƒfƒBƒŒƒNƒgƒŠB */
+    /** ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä¿å­˜ã™ã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã€‚ */
     private static final String   BASE_DIR = IOUtil.getTmpDirFile().getAbsolutePath();
 
-    /** ƒeƒXƒg‚Åg—p‚·‚éƒf[ƒ^ƒx[ƒX‚Ì–¼‘OB */
+    /** ãƒ†ã‚¹ãƒˆã§ä½¿ç”¨ã™ã‚‹ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®åå‰ã€‚ */
     protected static final String DB_NAME  = "endosnipedb";
 
     /**
-     * Ver4.5 ƒŠƒOƒŒƒbƒVƒ‡ƒ“Œ±—pƒR[ƒh(1-1-1)
-     * ƒRƒlƒNƒVƒ‡ƒ“‚ğæ“¾‚µ‚½ó‘Ô‚ÅConnectionManager‚ÅƒRƒlƒNƒVƒ‡ƒ“‚ğ‘SØ’f‚·‚é‚ÆA
-     * WEDA0106‚ÌƒƒbƒZ[ƒW‚ğo—Í‚·‚é‚±‚Æ‚ğŠm”F‚·‚éB
+     * Ver4.5 ãƒªã‚°ãƒ¬ãƒƒã‚·ãƒ§ãƒ³è©¦é¨“ç”¨ã‚³ãƒ¼ãƒ‰(1-1-1)
+     * ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ã‚’å–å¾—ã—ãŸçŠ¶æ…‹ã§ConnectionManagerã§ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ã‚’å…¨åˆ‡æ–­ã™ã‚‹ã¨ã€
+     * WEDA0106ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å‡ºåŠ›ã™ã‚‹ã“ã¨ã‚’ç¢ºèªã™ã‚‹ã€‚
      */
     public void testCloseAllMessage()
         throws Exception
     {
-        // €”õ
+        // æº–å‚™
         ConnectionManager connectionManager = ConnectionManager.getInstance();
         File tempDir = new File(BASE_DIR);
         if (tempDir.exists() == false)
         {
             if (tempDir.mkdir() == false)
             {
-                fail("ƒfƒBƒŒƒNƒgƒŠ‚Ìì¬‚É¸”s‚µ‚Ü‚µ‚½. ƒfƒBƒŒƒNƒgƒŠ–¼:" + tempDir.getAbsolutePath());
+                fail("ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®ä½œæˆã«å¤±æ•—ã—ã¾ã—ãŸ. ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªå:" + tempDir.getAbsolutePath());
             }
         }
         connectionManager.setBaseDir(BASE_DIR);
 
-        // Às
+        // å®Ÿè¡Œ
         connectionManager.getConnection(DB_NAME, false);
         connectionManager.closeAll();
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertArgumentPassed("org.apache.commons.logging.Log", "warn", 0,
-                             "[WEDA0106]ƒf[ƒ^ƒx[ƒX‚©‚çƒAƒCƒhƒ‹ƒRƒlƒNƒVƒ‡ƒ“‚ğ‘SØ’f‚µ‚Ü‚µ‚½‚ªAƒAƒNƒeƒBƒuƒRƒlƒNƒVƒ‡ƒ“‚ªc‚Á‚Ä‚¢‚Ü‚·.(ƒRƒlƒNƒVƒ‡ƒ“”:1)");
+                             "[WEDA0106]ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‹ã‚‰ã‚¢ã‚¤ãƒ‰ãƒ«ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ã‚’å…¨åˆ‡æ–­ã—ã¾ã—ãŸãŒã€ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ãŒæ®‹ã£ã¦ã„ã¾ã™.(ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³æ•°:1)");
     }
 }

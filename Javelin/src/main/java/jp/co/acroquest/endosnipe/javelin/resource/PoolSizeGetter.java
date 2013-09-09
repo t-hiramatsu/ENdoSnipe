@@ -34,7 +34,7 @@ import jp.co.acroquest.endosnipe.javelin.converter.pool.monitor.MonitoredPool;
 import jp.co.acroquest.endosnipe.javelin.converter.pool.monitor.PoolMonitor;
 
 /**
- * ƒv[ƒ‹‚ÌƒTƒCƒY‚ğæ“¾‚·‚éƒNƒ‰ƒXB
+ * ãƒ—ãƒ¼ãƒ«ã®ã‚µã‚¤ã‚ºã‚’å–å¾—ã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚
  * 
  * @author eriguchi
  */
@@ -59,9 +59,9 @@ public class PoolSizeGetter implements MultiResourceGetter
     }
 
     /**
-     * MonitoredPool‚©‚çResourceEntry‚Ö‚ÌŒ^•ÏŠ·‚ğs‚¤B
-     * @param list ClassHistogramEntry‚ÌƒŠƒXƒg
-     * @return ResourceEntry‚ÌƒŠƒXƒg
+     * MonitoredPoolã‹ã‚‰ResourceEntryã¸ã®å‹å¤‰æ›ã‚’è¡Œã†ã€‚
+     * @param list ClassHistogramEntryã®ãƒªã‚¹ãƒˆ
+     * @return ResourceEntryã®ãƒªã‚¹ãƒˆ
      */
     List<ResourceItem> convert(final List<MonitoredPool> list)
     {

@@ -17,21 +17,21 @@ import jp.co.acroquest.endosnipe.javelin.util.DetailThreadInfo;
 import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
 
 /**
- * �X���b�h�ڍ׏������[�h����B
+ * スレッド詳細情報をロードする。
  * 
  * @author eriguchi
  *
  */
 public class ThreadDetailInfoLoader implements ResourceLoader
 {
-    /** Javelin�̐ݒ�B */
+    /** Javelinの設定。 */
     private final JavelinConfig config_ = new JavelinConfig();
 
-    /** �X���b�h��Ǐ�� */
+    /** スレッド城塞情報 */
     private DetailThreadInfo info_;
 
     /**
-     * �X���b�h�ڍ׏������[�h����B
+     * スレッド詳細情報をロードする。
      */
     public void load()
     {
@@ -43,9 +43,9 @@ public class ThreadDetailInfoLoader implements ResourceLoader
     }
 
     /**
-     * �X���b�h�ڍ׏����擾����B
+     * スレッド詳細情報を取得する。
      * 
-     * @return �X���b�h�ڍ׏��
+     * @return スレッド詳細情報
      */
     public DetailThreadInfo getInfo()
     {

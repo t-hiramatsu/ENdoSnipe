@@ -26,32 +26,32 @@
 package jp.co.acroquest.endosnipe.javelin;
 
 /**
- * CallTree“à‚ÅŒÄ‚Î‚ê‚½ƒƒ\ƒbƒh‚ÌŒv‘ªî•ñ‚ğ•Û‘¶‚·‚éƒIƒuƒWƒFƒNƒg‚Å‚·B
+ * CallTreeå†…ã§å‘¼ã°ã‚ŒãŸãƒ¡ã‚½ãƒƒãƒ‰ã®è¨ˆæ¸¬æƒ…å ±ã‚’ä¿å­˜ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã§ã™ã€‚
 
  * @author fujii
  *
  */
 public class CallTreeMeasurement
 {
-    /** ƒNƒ‰ƒX–¼ */
+    /** ã‚¯ãƒ©ã‚¹å */
     private String className_;
 
-    /** ƒƒ\ƒbƒh–¼ */
+    /** ãƒ¡ã‚½ãƒƒãƒ‰å */
     private String methodName_;
 
-    /** ƒƒ\ƒbƒhŒÄ‚Ño‚µ‰ñ” */
+    /** ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—å›æ•° */
     private long count_;
 
-    /** ƒƒ\ƒbƒh‚ÌŠÔ */
+    /** ãƒ¡ã‚½ãƒƒãƒ‰ã®æ™‚åˆ»æ™‚é–“ */
     private long total_;
 
     /**
-     * ƒƒ\ƒbƒh‚ÌŒÄ‚Ño‚µ‰ñ”‚Æƒƒ\ƒbƒh‚ÌÀsŠÔ‚ğİ’è‚µ‚Ü‚·B<br />
+     * ãƒ¡ã‚½ãƒƒãƒ‰ã®å‘¼ã³å‡ºã—å›æ•°ã¨ãƒ¡ã‚½ãƒƒãƒ‰ã®å®Ÿè¡Œæ™‚é–“ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
      * 
-     * @param className ƒNƒ‰ƒX–¼
-     * @param methodName ƒƒ\ƒbƒh–¼
-     * @param count ƒƒ\ƒbƒh‚ÌŒÄ‚Ño‚µ‰ñ”
-     * @param total ƒƒ\ƒbƒh‚ÌÀsŠÔ
+     * @param className ã‚¯ãƒ©ã‚¹å
+     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
+     * @param count ãƒ¡ã‚½ãƒƒãƒ‰ã®å‘¼ã³å‡ºã—å›æ•°
+     * @param total ãƒ¡ã‚½ãƒƒãƒ‰ã®å®Ÿè¡Œæ™‚é–“
      */
     public CallTreeMeasurement(String className, String methodName, long count, long total)
     {
@@ -62,9 +62,9 @@ public class CallTreeMeasurement
     }
 
     /**
-     * Œv‘ª’l‚ğ‰Á‚¦‚Ü‚·B<br />
+     * è¨ˆæ¸¬å€¤ã‚’åŠ ãˆã¾ã™ã€‚<br />
      * 
-     * @param interval Œv‘ª’l
+     * @param interval è¨ˆæ¸¬å€¤
      */
     public void addInterval(long interval)
     {
@@ -72,7 +72,7 @@ public class CallTreeMeasurement
     }
 
     /**
-     * Às‰ñ”‚ğ‚P‘‚â‚µ‚Ü‚·B<br />
+     * å®Ÿè¡Œå›æ•°ã‚’ï¼‘å¢—ã‚„ã—ã¾ã™ã€‚<br />
      * 
      */
     public void incrementCount()

@@ -8,19 +8,19 @@ import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 
 /**
- * JvnƒƒO’Ê’m‚ğó‚¯æ‚éB
+ * Jvnãƒ­ã‚°é€šçŸ¥ã‚’å—ã‘å–ã‚‹ã€‚
  * @author eriguchi
  */
 public class JvnFileNotifyListener extends AbstractTelegramListener implements TelegramListener
 {
-    /** ƒ^ƒCƒ€ƒAƒEƒg‚Ég—p‚·‚éƒIƒuƒWƒFƒNƒgB */
+    /** ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆã«ä½¿ç”¨ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚ */
     private Object timeoutObject_;
 
     private JvnFileEntry[] entries_;
 
     /**
-     * ƒŠƒXƒi‚ğì¬‚·‚éB
-     * @param timeoutObject ƒ^ƒCƒ€ƒAƒEƒg‘Ò‚¿‚ğ‚·‚éƒIƒuƒWƒFƒNƒgB
+     * ãƒªã‚¹ãƒŠã‚’ä½œæˆã™ã‚‹ã€‚
+     * @param timeoutObject ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆå¾…ã¡ã‚’ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚
      */
     public JvnFileNotifyListener(Object timeoutObject)
     {
@@ -61,9 +61,9 @@ public class JvnFileNotifyListener extends AbstractTelegramListener implements T
     }
 
     /**
-     * Œ‹‰Ê‚ğæ“¾‚·‚éB
+     * çµæœã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return Œ‹‰Ê‚ÌJvnƒƒOB
+     * @return çµæœã®Jvnãƒ­ã‚°ã€‚
      */
     public JvnFileEntry[] getEntries()
     {

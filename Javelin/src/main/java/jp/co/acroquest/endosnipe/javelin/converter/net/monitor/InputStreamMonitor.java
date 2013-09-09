@@ -35,24 +35,24 @@ import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 import jp.co.acroquest.endosnipe.javelin.converter.util.StreamMonitorUtil;
 
 /**
- * ƒlƒbƒgƒ[ƒN‚ÌŽóM—Ê‚ðŠÄŽ‹‚·‚éƒNƒ‰ƒXB
- * ƒvƒƒZƒX‘S‘Ì‚Ìƒlƒbƒgƒ[ƒN‚ÌŽóM—Ê‚ð•Û‘¶‚·‚éB
+ * ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ã®å—ä¿¡é‡ã‚’ç›£è¦–ã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚
+ * ãƒ—ãƒ­ã‚»ã‚¹å…¨ä½“ã®ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ã®å—ä¿¡é‡ã‚’ä¿å­˜ã™ã‚‹ã€‚
  * 
  * @author yamasaki
  * 
  */
 public class InputStreamMonitor extends InputStream
 {
-    /** ˆ—‚ðˆÏ÷‚·‚éƒNƒ‰ƒX */
+    /** å‡¦ç†ã‚’å§”è­²ã™ã‚‹ã‚¯ãƒ©ã‚¹ */
     private final InputStream delegated_;
 
-    /** ƒƒ\ƒbƒh‚ÌŽÀs‚ð•\‚·ƒtƒ‰ƒO */
+    /** ãƒ¡ã‚½ãƒƒãƒ‰ã®å®Ÿè¡Œã‚’è¡¨ã™ãƒ•ãƒ©ã‚° */
     private boolean inProcess_;
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      * 
-     * @param delegated ˆÏ÷ƒNƒ‰ƒX
+     * @param delegated å§”è­²ã‚¯ãƒ©ã‚¹
      */
     public InputStreamMonitor(final InputStream delegated)
     {
@@ -60,9 +60,9 @@ public class InputStreamMonitor extends InputStream
     }
 
     /**
-     * ƒf[ƒ^‚ðŽóM‚µAƒlƒbƒgƒ[ƒN‚ÌŽóM—Ê‚ð•Û‘¶‚·‚éB
-     * @return ƒlƒbƒgƒ[ƒNŽóM—Ê
-     * @throws IOException “üo—Í—áŠO
+     * ãƒ‡ãƒ¼ã‚¿ã‚’å—ä¿¡ã—ã€ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ã®å—ä¿¡é‡ã‚’ä¿å­˜ã™ã‚‹ã€‚
+     * @return ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯å—ä¿¡é‡
+     * @throws IOException å…¥å‡ºåŠ›ä¾‹å¤–
      */
     @Override
     public int read()
@@ -78,7 +78,7 @@ public class InputStreamMonitor extends InputStream
         {
             int value = this.delegated_.read();
 
-            // ƒlƒbƒgƒ[ƒNŽóM—Ê‚ª0ˆÈã‚Ì‚Æ‚«‚Ì‚Ý•Û‘¶‚·‚éB
+            // ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯å—ä¿¡é‡ãŒ0ä»¥ä¸Šã®ã¨ãã®ã¿ä¿å­˜ã™ã‚‹ã€‚
             if (value >= 0)
             {
                 JavelinConfig config = new JavelinConfig();
@@ -98,12 +98,12 @@ public class InputStreamMonitor extends InputStream
     }
 
     /**
-     * ƒf[ƒ^‚ðŽóM‚µAƒlƒbƒgƒ[ƒN‚ÌŽóM—Ê‚ð•Û‘¶‚·‚éB
-     * @param b ƒf[ƒ^‚ÌƒoƒCƒg—ñ
-     * @param off ƒf[ƒ^‚ÌƒIƒtƒZƒbƒg
-     * @param len ƒf[ƒ^‚Ì’·‚³
-     * @return ƒlƒbƒgƒ[ƒNŽóM—Ê
-     * @throws IOException “üo—Í—áŠO
+     * ãƒ‡ãƒ¼ã‚¿ã‚’å—ä¿¡ã—ã€ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ã®å—ä¿¡é‡ã‚’ä¿å­˜ã™ã‚‹ã€‚
+     * @param b ãƒ‡ãƒ¼ã‚¿ã®ãƒã‚¤ãƒˆåˆ—
+     * @param off ãƒ‡ãƒ¼ã‚¿ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆ
+     * @param len ãƒ‡ãƒ¼ã‚¿ã®é•·ã•
+     * @return ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯å—ä¿¡é‡
+     * @throws IOException å…¥å‡ºåŠ›ä¾‹å¤–
      */
     @Override
     public int read(final byte[] b, final int off, final int len)
@@ -118,7 +118,7 @@ public class InputStreamMonitor extends InputStream
         {
             int length = this.delegated_.read(b, off, len);
 
-            // ƒlƒbƒgƒ[ƒNŽóM—Ê‚ª0ˆÈã‚Ì‚Æ‚«‚Ì‚Ý•Û‘¶‚·‚éB
+            // ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯å—ä¿¡é‡ãŒ0ä»¥ä¸Šã®ã¨ãã®ã¿ä¿å­˜ã™ã‚‹ã€‚
             if (length >= 0)
             {
                 JavelinConfig config = new JavelinConfig();
@@ -137,10 +137,10 @@ public class InputStreamMonitor extends InputStream
     }
 
     /**
-     * ƒf[ƒ^‚ðŽóM‚µAƒlƒbƒgƒ[ƒN‚ÌŽóM—Ê‚ð•Û‘¶‚·‚éB
-     * @param b ƒf[ƒ^‚ÌƒoƒCƒg—ñ
-     * @return ƒlƒbƒgƒ[ƒNŽóM—Ê
-     * @throws IOException “üo—Í—áŠO
+     * ãƒ‡ãƒ¼ã‚¿ã‚’å—ä¿¡ã—ã€ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ã®å—ä¿¡é‡ã‚’ä¿å­˜ã™ã‚‹ã€‚
+     * @param b ãƒ‡ãƒ¼ã‚¿ã®ãƒã‚¤ãƒˆåˆ—
+     * @return ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯å—ä¿¡é‡
+     * @throws IOException å…¥å‡ºåŠ›ä¾‹å¤–
      */
     @Override
     public int read(final byte[] b)
@@ -155,7 +155,7 @@ public class InputStreamMonitor extends InputStream
         {
             int length = this.delegated_.read(b);
 
-            // ƒlƒbƒgƒ[ƒNŽóM—Ê‚ª0ˆÈã‚Ì‚Æ‚«‚Ì‚Ý•Û‘¶‚·‚éB
+            // ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯å—ä¿¡é‡ãŒ0ä»¥ä¸Šã®ã¨ãã®ã¿ä¿å­˜ã™ã‚‹ã€‚
             if (length >= 0)
             {
                 JavelinConfig config = new JavelinConfig();

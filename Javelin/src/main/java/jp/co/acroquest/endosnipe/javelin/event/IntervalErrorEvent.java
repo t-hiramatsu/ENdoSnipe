@@ -29,17 +29,17 @@ import jp.co.acroquest.endosnipe.common.event.EventConstants;
 import jp.co.acroquest.endosnipe.javelin.util.StatsUtil;
 
 /**
- * ƒƒ\ƒbƒhŒÄ‚Ño‚µŠÔŠu’´‰ßƒCƒxƒ“ƒgB
+ * ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—é–“éš”è¶…éã‚¤ãƒ™ãƒ³ãƒˆã€‚
  * 
  * @author eriguchi
  */
 public class IntervalErrorEvent extends AbstractStackTraceCheckEvent
 {
-    /** equalsÀs‚É”äŠr‚É—p‚¢‚éB */
+    /** equalså®Ÿè¡Œæ™‚ã«æ¯”è¼ƒã«ç”¨ã„ã‚‹ã€‚ */
     private static final int EQUALS_LENGTH = 1000;
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
      */
     public IntervalErrorEvent()
     {

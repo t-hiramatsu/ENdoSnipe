@@ -32,7 +32,7 @@ import java.util.List;
 import jp.co.acroquest.endosnipe.data.dto.MeasurementValueDto;
 
 /**
- * GC ŠÔ‚ğˆµ‚¤ƒtƒBƒ‹ƒ^B<br />
+ * GC æ™‚é–“ã‚’æ‰±ã†ãƒ•ã‚£ãƒ«ã‚¿ã€‚<br />
  *
  * @author fujii
  */
@@ -43,10 +43,10 @@ public class GarbageCollectionTimeDataFilter
     private long prevGcTotalTime_ = VALUE_NOT_SET;
 
     /**
-     * MeasurementData‚©‚ç’l‚ğ•ÏŠ·‚·‚éB
+     * MeasurementDataã‹ã‚‰å€¤ã‚’å¤‰æ›ã™ã‚‹ã€‚
      * 
-     * @param gcTotalTimeList •ÏŠ·‘ÎÛ‚ÌŒv‘ªƒf[ƒ^B
-     * @return •ÏŠ·Œã‚Ìƒf[ƒ^B
+     * @param gcTotalTimeList å¤‰æ›å¯¾è±¡ã®è¨ˆæ¸¬ãƒ‡ãƒ¼ã‚¿ã€‚
+     * @return å¤‰æ›å¾Œã®ãƒ‡ãƒ¼ã‚¿ã€‚
      */
     public List<MeasurementValueDto> filter(final List<MeasurementValueDto> gcTotalTimeList)
     {

@@ -40,7 +40,7 @@ import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 
 /**
- * Javelin ƒƒO’Ê’m“d•¶‚ğóM‚·‚é‚½‚ß‚ÌƒNƒ‰ƒX‚Å‚·B<br />
+ * Javelin ãƒ­ã‚°é€šçŸ¥é›»æ–‡ã‚’å—ä¿¡ã™ã‚‹ãŸã‚ã®ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  * 
  * @author y-komori
  * @author nagai
@@ -68,8 +68,8 @@ public class JvnFileNotifyListener extends AbstractTelegramListener implements T
     private String clientId_ = null;
 
     /**
-     * {@link JvnFileNotifyListener} ‚ğ\’z‚µ‚Ü‚·B<br />
-     * @param queue ƒLƒ…[
+     * {@link JvnFileNotifyListener} ã‚’æ§‹ç¯‰ã—ã¾ã™ã€‚<br />
+     * @param queue ã‚­ãƒ¥ãƒ¼
      */
     public JvnFileNotifyListener(final JavelinDataQueue queue)
     {
@@ -85,7 +85,7 @@ public class JvnFileNotifyListener extends AbstractTelegramListener implements T
         {
             if (tempFile.mkdir() == false)
             {
-                // ƒeƒ“ƒ|ƒ‰ƒŠƒfƒBƒŒƒNƒgƒŠ¶¬‚É¸”s‚µ‚½
+                // ãƒ†ãƒ³ãƒãƒ©ãƒªãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªç”Ÿæˆã«å¤±æ•—ã—ãŸ
                 LOGGER.log(MAKING_DIR_FAILED, tempFile.getAbsolutePath());
             }
         }
@@ -155,9 +155,9 @@ public class JvnFileNotifyListener extends AbstractTelegramListener implements T
     }
 
     /**
-     * {@link JavelinData} —p‚Ìƒf[ƒ^ƒx[ƒX–¼‚ğİ’è‚µ‚Ü‚·B<br />
+     * {@link JavelinData} ç”¨ã®ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã‚’è¨­å®šã—ã¾ã™ã€‚<br />
      *
-     * @param databaseName ƒf[ƒ^ƒx[ƒX–¼
+     * @param databaseName ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
      */
     public void setDatabaseName(final String databaseName)
     {
@@ -165,8 +165,8 @@ public class JvnFileNotifyListener extends AbstractTelegramListener implements T
     }
 
     /**
-     * {@link JavelinData} —p‚ÌÚ‘±æƒzƒXƒg–¼‚ğİ’è‚µ‚Ü‚·B<br />
-     * @param hostName Ú‘±æƒzƒXƒg–¼
+     * {@link JavelinData} ç”¨ã®æ¥ç¶šå…ˆãƒ›ã‚¹ãƒˆåã‚’è¨­å®šã—ã¾ã™ã€‚<br />
+     * @param hostName æ¥ç¶šå…ˆãƒ›ã‚¹ãƒˆå
      */
     public void setHostName(final String hostName)
     {
@@ -184,9 +184,9 @@ public class JvnFileNotifyListener extends AbstractTelegramListener implements T
     }
 
     /**
-     * {@link JavelinData} —p‚ÌÚ‘±æ IP ƒAƒhƒŒƒX‚ğİ’è‚µ‚Ü‚·B<br />
+     * {@link JavelinData} ç”¨ã®æ¥ç¶šå…ˆ IP ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
      * 
-     * @param ipAddress Ú‘±æ IP ƒAƒhƒŒƒX
+     * @param ipAddress æ¥ç¶šå…ˆ IP ã‚¢ãƒ‰ãƒ¬ã‚¹
      */
     public void setIpAddress(final String ipAddress)
     {
@@ -194,9 +194,9 @@ public class JvnFileNotifyListener extends AbstractTelegramListener implements T
     }
 
     /**
-     * {@link JavelinData} —p‚ÌÚ‘±æƒ|[ƒg”Ô†‚ğİ’è‚µ‚Ü‚·B<br />
+     * {@link JavelinData} ç”¨ã®æ¥ç¶šå…ˆãƒãƒ¼ãƒˆç•ªå·ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
      * 
-     * @param port Ú‘±æƒ|[ƒg”Ô†
+     * @param port æ¥ç¶šå…ˆãƒãƒ¼ãƒˆç•ªå·
      */
     public void setPort(final int port)
     {
@@ -204,8 +204,8 @@ public class JvnFileNotifyListener extends AbstractTelegramListener implements T
     }
 
     /**
-     * {@link JavelinData} —p‚ÌƒNƒ‰ƒCƒAƒ“ƒgID‚ğİ’è‚µ‚Ü‚·B
-     * @param clientId ƒNƒ‰ƒCƒAƒ“ƒgID
+     * {@link JavelinData} ç”¨ã®ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆIDã‚’è¨­å®šã—ã¾ã™ã€‚
+     * @param clientId ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆID
      */
     public void setClientId(final String clientId)
     {

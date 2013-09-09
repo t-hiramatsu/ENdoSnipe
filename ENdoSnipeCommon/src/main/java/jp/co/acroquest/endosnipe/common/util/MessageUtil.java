@@ -28,14 +28,14 @@ package jp.co.acroquest.endosnipe.common.util;
 import org.seasar.framework.message.MessageFormatter;
 
 /**
- * ƒƒbƒZ[ƒW‚ğˆµ‚¤ƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒX‚Å‚·B
+ * ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’æ‰±ã†ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã§ã™ã€‚
  * @author fujii
  *
  */
 public class MessageUtil
 {
     /**
-     * ƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğ‘j~‚·‚éprivateƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Å‚·B
+     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã‚’é˜»æ­¢ã™ã‚‹privateã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§ã™ã€‚
      */
     private MessageUtil()
     {
@@ -43,11 +43,11 @@ public class MessageUtil
     }
 
     /**
-     * propertiesƒtƒ@ƒCƒ‹‚É‹Lq‚³‚ê‚½ƒƒbƒZ[ƒW‚©‚çƒƒbƒZ[ƒWƒR[ƒh‚ğœ‚­ƒƒbƒZ[ƒW‚ğæ“¾‚µ‚Ü‚·B<br />
+     * propertiesãƒ•ã‚¡ã‚¤ãƒ«ã«è¨˜è¿°ã•ã‚ŒãŸãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‹ã‚‰ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚³ãƒ¼ãƒ‰ã‚’é™¤ããƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      * 
-     * @param messageCode ƒƒbƒZ[ƒWƒR[ƒh
-     * @param args ’uŠ·‚·‚éˆø”
-     * @return ƒƒbƒZ[ƒW
+     * @param messageCode ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚³ãƒ¼ãƒ‰
+     * @param args ç½®æ›ã™ã‚‹å¼•æ•°
+     * @return ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
      */
     public static String getMessage(final String messageCode, final Object... args)
     {

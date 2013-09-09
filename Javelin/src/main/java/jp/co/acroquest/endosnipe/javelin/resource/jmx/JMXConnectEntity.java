@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * JMX‚ÌÚ‘±‚ğs‚¤‚½‚ß‚ÌƒGƒ“ƒeƒBƒeƒB‚Å‚·B
+ * JMXã®æ¥ç¶šã‚’è¡Œã†ãŸã‚ã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã§ã™ã€‚
  * @author fujii
  *
  */
@@ -38,20 +38,20 @@ public class JMXConnectEntity
     /** ID */
     private String                 id_;
 
-    /** JMX‚ÌÚ‘±æURL */
+    /** JMXã®æ¥ç¶šå…ˆURL */
     private String                 url_;
 
-    /** ƒ†[ƒU */
+    /** ãƒ¦ãƒ¼ã‚¶ */
     private String                 user_;
 
-    /** ƒpƒXƒ[ƒh */
+    /** ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ */
     private String                 password_;
 
-    /** Ú‘±‘ÎÛƒŠƒXƒg */
+    /** æ¥ç¶šå¯¾è±¡ãƒªã‚¹ãƒˆ */
     private List<MBeanValueGetter> resourceList_ = new ArrayList<MBeanValueGetter>();
 
     /**
-     * ID‚ğæ“¾‚·‚éB
+     * IDã‚’å–å¾—ã™ã‚‹ã€‚
      * @return ID
      */
     public String getId()
@@ -60,7 +60,7 @@ public class JMXConnectEntity
     }
 
     /**
-     * ID‚ğİ’è‚·‚éB
+     * IDã‚’è¨­å®šã™ã‚‹ã€‚
      * @param id ID
      */
     public void setId(String id)
@@ -69,8 +69,8 @@ public class JMXConnectEntity
     }
 
     /**
-     * JMX‚ÌÚ‘±æURL‚ğæ“¾‚·‚éB
-     * @return JMX‚ÌÚ‘±æURL
+     * JMXã®æ¥ç¶šå…ˆURLã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return JMXã®æ¥ç¶šå…ˆURL
      */
     public String getUrl()
     {
@@ -78,8 +78,8 @@ public class JMXConnectEntity
     }
 
     /**
-     * JMX‚ÌÚ‘±æURL‚ğİ’è‚·‚éB
-     * @param url JMX‚ÌÚ‘±æURL
+     * JMXã®æ¥ç¶šå…ˆURLã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param url JMXã®æ¥ç¶šå…ˆURL
      */
     public void setUrl(String url)
     {
@@ -87,8 +87,8 @@ public class JMXConnectEntity
     }
 
     /**
-     * ƒ†[ƒU‚ğæ“¾‚·‚éB
-     * @return ƒ†[ƒU
+     * ãƒ¦ãƒ¼ã‚¶ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ãƒ¦ãƒ¼ã‚¶
      */
     public String getUser()
     {
@@ -96,8 +96,8 @@ public class JMXConnectEntity
     }
 
     /**
-     * ƒ†[ƒU‚ğİ’è‚·‚éB
-     * @param user ƒ†[ƒU
+     * ãƒ¦ãƒ¼ã‚¶ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param user ãƒ¦ãƒ¼ã‚¶
      */
     public void setUser(String user)
     {
@@ -105,8 +105,8 @@ public class JMXConnectEntity
     }
 
     /**
-     * ƒpƒXƒ[ƒh‚ğæ“¾‚·‚éB
-     * @return ƒpƒXƒ[ƒh
+     * ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰
      */
     public String getPassword()
     {
@@ -114,8 +114,8 @@ public class JMXConnectEntity
     }
 
     /**
-     * ƒpƒXƒ[ƒh‚ğİ’è‚·‚éB
-     * @param password ƒpƒXƒ[ƒh
+     * ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param password ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰
      */
     public void setPassword(String password)
     {
@@ -123,8 +123,8 @@ public class JMXConnectEntity
     }
 
     /**
-     * Ú‘±‘ÎÛƒŠƒXƒg‚ğæ“¾‚·‚éB
-     * @return Ú‘±‘ÎÛƒŠƒXƒg
+     * æ¥ç¶šå¯¾è±¡ãƒªã‚¹ãƒˆã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return æ¥ç¶šå¯¾è±¡ãƒªã‚¹ãƒˆ
      */
     public List<MBeanValueGetter> getResourceList()
     {
@@ -132,8 +132,8 @@ public class JMXConnectEntity
     }
 
     /**
-     * Ú‘±‘ÎÛ‚ğƒŠƒXƒg‚É’Ç‰Á‚·‚éB
-     * @param resource Ú‘±‘ÎÛ
+     * æ¥ç¶šå¯¾è±¡ã‚’ãƒªã‚¹ãƒˆã«è¿½åŠ ã™ã‚‹ã€‚
+     * @param resource æ¥ç¶šå¯¾è±¡
      */
     public void addResource(MBeanValueGetter resource)
     {

@@ -38,17 +38,17 @@ import org.seasar.framework.util.FieldUtil;
 import org.seasar.framework.util.StringUtil;
 
 /**
- * ƒƒbƒZ[ƒWƒR[ƒh—p’è”ƒNƒ‰ƒX‚ÆƒvƒƒpƒeƒBƒtƒ@ƒCƒ‹‚Ì‘Î‰‚ğƒ`ƒFƒbƒN‚·‚é
- * ƒeƒXƒgƒNƒ‰ƒX‚Ì‚½‚ß‚ÌŠî’êƒNƒ‰ƒX‚Å‚·B<br />
+ * ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚³ãƒ¼ãƒ‰ç”¨å®šæ•°ã‚¯ãƒ©ã‚¹ã¨ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãƒ•ã‚¡ã‚¤ãƒ«ã®å¯¾å¿œã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹
+ * ãƒ†ã‚¹ãƒˆã‚¯ãƒ©ã‚¹ã®ãŸã‚ã®åŸºåº•ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  * 
  * @author y-komori
  */
 public abstract class AbstractMessageCodeTest extends TestCase
 {
-    /** ƒeƒXƒg‘ÎÛƒNƒ‰ƒX */
+    /** ãƒ†ã‚¹ãƒˆå¯¾è±¡ã‚¯ãƒ©ã‚¹ */
     private Class<?> messageCodeClass_;
 
-    /** ƒeƒXƒg‘ÎÛƒoƒ“ƒhƒ‹–¼ */
+    /** ãƒ†ã‚¹ãƒˆå¯¾è±¡ãƒãƒ³ãƒ‰ãƒ«å */
     private String resourceBundleName_;
 
     /* (non-Javadoc)
@@ -66,8 +66,8 @@ public abstract class AbstractMessageCodeTest extends TestCase
     }
 
     /**
-     * ’è”ƒNƒ‰ƒX‚É’è‹`‚³‚ê‚Ä‚¢‚é’è”‚É‘Î‰‚·‚éƒƒbƒZ[ƒW‚ªƒvƒƒpƒeƒBƒtƒ@ƒCƒ‹
-     * ‚É“o˜^‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğƒeƒXƒg‚µ‚Ü‚·B<br />
+     * å®šæ•°ã‚¯ãƒ©ã‚¹ã«å®šç¾©ã•ã‚Œã¦ã„ã‚‹å®šæ•°ã«å¯¾å¿œã™ã‚‹ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãŒãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãƒ•ã‚¡ã‚¤ãƒ«
+     * ã«ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’ãƒ†ã‚¹ãƒˆã—ã¾ã™ã€‚<br />
      */
     public void testConstants()
     {
@@ -85,8 +85,8 @@ public abstract class AbstractMessageCodeTest extends TestCase
     }
 
     /**
-     * ƒvƒƒpƒeƒBƒtƒ@ƒCƒ‹‚É“o˜^‚³‚ê‚Ä‚¢‚éƒL[‚ª‚·‚×‚Ä’è”ƒNƒ‰ƒX‚É
-     * ‚É“o˜^‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğƒeƒXƒg‚µ‚Ü‚·B<br />
+     * ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãƒ•ã‚¡ã‚¤ãƒ«ã«ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹ã‚­ãƒ¼ãŒã™ã¹ã¦å®šæ•°ã‚¯ãƒ©ã‚¹ã«
+     * ã«ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’ãƒ†ã‚¹ãƒˆã—ã¾ã™ã€‚<br />
      */
     public void testMessages()
     {
@@ -111,9 +111,9 @@ public abstract class AbstractMessageCodeTest extends TestCase
     }
 
     /**
-     * ƒeƒXƒg‘ÎÛ‚ÌƒŠƒ\[ƒXƒoƒ“ƒhƒ‹–¼‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ãƒ†ã‚¹ãƒˆå¯¾è±¡ã®ãƒªã‚½ãƒ¼ã‚¹ãƒãƒ³ãƒ‰ãƒ«åã‚’è¿”ã—ã¾ã™ã€‚<br />
      * 
-     * @return ƒeƒXƒg‘ÎÛ‚ÌƒŠƒ\[ƒXƒoƒ“ƒhƒ‹–¼
+     * @return ãƒ†ã‚¹ãƒˆå¯¾è±¡ã®ãƒªã‚½ãƒ¼ã‚¹ãƒãƒ³ãƒ‰ãƒ«å
      */
     abstract protected String getResourceBundleName();
 }

@@ -31,13 +31,13 @@ import java.util.Comparator;
 import jp.co.acroquest.endosnipe.javelin.bean.InvocationMBean;
 
 /**
- * AverageComparatorクラス
+ * AverageComparator繧ｯ繝ｩ繧ｹ
  * @author acroquest
  *
  */
 public class AverageComparator implements Comparator<InvocationMBean>, Serializable
 {
-    /** シリアルバージョンID */
+    /** 繧ｷ繝ｪ繧｢繝ｫ繝舌�ｼ繧ｸ繝ｧ繝ｳID */
     private static final long serialVersionUID = 150841565321516412L;
 
     /**

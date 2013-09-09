@@ -6,15 +6,15 @@ import jp.co.acroquest.endosnipe.javelin.parser.JavelinLogElement;
 import jp.co.acroquest.endosnipe.perfdoctor.PerformanceRuleTestCase;
 
 /**
- * ƒfƒBƒXƒNo—Í—Ê”»’èƒ‹[ƒ‹—p‚ÌƒeƒXƒgƒP[ƒX<br>
+ * ãƒ‡ã‚£ã‚¹ã‚¯å‡ºåŠ›é‡åˆ¤å®šãƒ«ãƒ¼ãƒ«ç”¨ã®ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹<br>
  * <br>
  * @author S.Kimura
  */
 public class DiskOutputRuleTest extends PerformanceRuleTestCase
 {
     /**
-     * è‡’l‚ğw’è‚µ‚ÄDiskOutputRule‚ğ¶¬‚·‚éB<br>
-     * @param threshold è‡’l
+     * é–¾å€¤ã‚’æŒ‡å®šã—ã¦DiskOutputRuleã‚’ç”Ÿæˆã™ã‚‹ã€‚<br>
+     * @param threshold é–¾å€¤
      * @return DiskOutputRule
      */
     private DiskOutputRule createRule(long threshold)
@@ -29,11 +29,11 @@ public class DiskOutputRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [€”Ô] 2-10-1<br>
-     * doJudge‚ÌƒeƒXƒgB<br>
-     * EƒfƒBƒXƒN“ü—Í—Ê‚ª999999<br>
-     * Eè‡’l‚ª1000000<br>
-     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br>
+     * [é …ç•ª] 2-10-1<br>
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
+     * ãƒ»ãƒ‡ã‚£ã‚¹ã‚¯å…¥åŠ›é‡ãŒ999999<br>
+     * ãƒ»é–¾å€¤ãŒ1000000<br>
+     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br>
      */
     public void testDoJudge_th1000000_val999999()
     {
@@ -47,16 +47,16 @@ public class DiskOutputRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
+            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
         }
     }
 
     /**
-     * [€”Ô] 2-10-2<br>
-     * doJudge‚ÌƒeƒXƒgB<br>
-     * EƒfƒBƒXƒN“ü—Í—Ê‚ª1000000<br>
-     * Eè‡’l‚ª1000000<br>
-     * ¨Œx‚ª”­¶‚·‚éB<br>
+     * [é …ç•ª] 2-10-2<br>
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
+     * ãƒ»ãƒ‡ã‚£ã‚¹ã‚¯å…¥åŠ›é‡ãŒ1000000<br>
+     * ãƒ»é–¾å€¤ãŒ1000000<br>
+     * â†’è­¦å‘ŠãŒç™ºç”Ÿã™ã‚‹ã€‚<br>
      */
     public void testDoJudge_th1000000_val1000000()
     {
@@ -71,11 +71,11 @@ public class DiskOutputRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [€”Ô] 2-10-3<br>
-     * doJudge‚ÌƒeƒXƒgB<br>
-     * EƒfƒBƒXƒN“ü—Í—Ê‚ª1000001<br>
-     * Eè‡’l‚ª1000000<br>
-     * ¨Œx‚ª”­¶‚·‚éB<br>
+     * [é …ç•ª] 2-10-3<br>
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
+     * ãƒ»ãƒ‡ã‚£ã‚¹ã‚¯å…¥åŠ›é‡ãŒ1000001<br>
+     * ãƒ»é–¾å€¤ãŒ1000000<br>
+     * â†’è­¦å‘ŠãŒç™ºç”Ÿã™ã‚‹ã€‚<br>
      */
     public void testDoJudge_th1000000_val1000001()
     {

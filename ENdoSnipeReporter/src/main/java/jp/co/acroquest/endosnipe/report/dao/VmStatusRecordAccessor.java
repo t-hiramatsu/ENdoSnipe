@@ -23,35 +23,35 @@ import jp.co.acroquest.endosnipe.common.Constants;
 import jp.co.acroquest.endosnipe.report.dao.ReportDao;
 
 /**
- * VMó‘ÔŒv‘ªƒf[ƒ^‚ÌƒŒƒ|[ƒgo—Íî•ñ‚ğæ“¾‚·‚éƒAƒNƒZƒTƒNƒ‰ƒXB
+ * VMçŠ¶æ…‹è¨ˆæ¸¬ãƒ‡ãƒ¼ã‚¿ã®ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›æƒ…å ±ã‚’å–å¾—ã™ã‚‹ã‚¢ã‚¯ã‚»ã‚µã‚¯ãƒ©ã‚¹ã€‚
  * 
  * @author akiba
  */
 public class VmStatusRecordAccessor
 {
     /**
-     * ŠúŠÔ‚ğw’è‚µA‚»‚ÌŠúŠÔ“à‚Å‚ÌVMó‘Ô‚ÌƒŒƒ|[ƒgƒf[ƒ^‚ğæ“¾‚·‚éB<br/>
-     * æ“¾‚·‚éƒf[ƒ^‚ÍˆÈ‰º‚Ì’Ê‚èB<br/>
+     * æœŸé–“ã‚’æŒ‡å®šã—ã€ãã®æœŸé–“å†…ã§ã®VMçŠ¶æ…‹ã®ãƒ¬ãƒãƒ¼ãƒˆãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã€‚<br/>
+     * å–å¾—ã™ã‚‹ãƒ‡ãƒ¼ã‚¿ã¯ä»¥ä¸‹ã®é€šã‚Šã€‚<br/>
      * <ul>
-     * 	<li>ƒXƒŒƒbƒh”</li>
-     *  <li>GC’â~ŠÔ</li>
-     *  <li>VMƒXƒ‹[ƒvƒbƒg</li>
-     *  <li>ƒtƒ@ƒCƒiƒ‰ƒCƒY‘Ò‚¿ƒIƒuƒWƒFƒNƒg”</li>
-     *  <li>ƒNƒ‰ƒXƒ[ƒh”</li>
+     * 	<li>ã‚¹ãƒ¬ãƒƒãƒ‰æ•°</li>
+     *  <li>GCåœæ­¢æ™‚é–“</li>
+     *  <li>VMã‚¹ãƒ«ãƒ¼ãƒ—ãƒƒãƒˆ</li>
+     *  <li>ãƒ•ã‚¡ã‚¤ãƒŠãƒ©ã‚¤ã‚ºå¾…ã¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ•°</li>
+     *  <li>ã‚¯ãƒ©ã‚¹ãƒ­ãƒ¼ãƒ‰æ•°</li>
      * </ul>
      * 
-     * @param database ƒf[ƒ^ƒx[ƒX–¼B
-     * @param startTime ŒŸõğŒ(ŠJn)B
-     * @param endTime ŒŸõğŒ(I—¹)B
-     * @return VMó‘Ô‚ÌƒŒƒ|[ƒgƒf[ƒ^B
-     * @throws SQLException ƒf[ƒ^æ“¾‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã€‚
+     * @param startTime æ¤œç´¢æ¡ä»¶(é–‹å§‹æ™‚åˆ»)ã€‚
+     * @param endTime æ¤œç´¢æ¡ä»¶(çµ‚äº†æ™‚åˆ»)ã€‚
+     * @return VMçŠ¶æ…‹ã®ãƒ¬ãƒãƒ¼ãƒˆãƒ‡ãƒ¼ã‚¿ã€‚
+     * @throws SQLException ãƒ‡ãƒ¼ã‚¿å–å¾—æ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public List<VmStatusRecord> findVmStatusStaticsByTerm(String database, Timestamp startTime,
             Timestamp endTime) throws SQLException
     {
         List<VmStatusRecord> result = new ArrayList<VmStatusRecord>();
 
-        // ƒf[ƒ^ƒx[ƒX‚©‚ç’l‚ğæ“¾‚·‚é
+        // ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‹ã‚‰å€¤ã‚’å–å¾—ã™ã‚‹
         List<ReportItemValue> nativeThreadNumValues;
         List<ReportItemValue> threadNumValues;
         List<ReportItemValue> gcStopTimeValues;
@@ -61,10 +61,10 @@ public class VmStatusRecordAccessor
         List<ReportItemValue> loadedClassNumValues;
         
 
-        // ƒXƒŒƒbƒh”(Native)
+        // ã‚¹ãƒ¬ãƒƒãƒ‰æ•°(Native)
         nativeThreadNumValues = ReportDao.selectAverage(database, startTime,
                 endTime, Constants.ITEMNAME_PROCESS_THREAD_TOTAL_COUNT);
-        // ƒXƒŒƒbƒh”(Java)
+        // ã‚¹ãƒ¬ãƒƒãƒ‰æ•°(Java)
     	threadNumValues = ReportDao.selectAverage(database, startTime,
     			endTime, Constants.ITEMNAME_JAVAPROCESS_THREAD_TOTAL_COUNT);
     	gcStopTimeValues = ReportDao.selectAverage(database, startTime,
@@ -72,10 +72,10 @@ public class VmStatusRecordAccessor
     	vmThroughputValues = selectVMThroughput(database, startTime, endTime);
     	finalizeObjNumValues = ReportDao.selectAverage(database, startTime,
     			endTime, Constants.ITEMNAME_JAVAPROCESS_GC_FINALIZEQUEUE_COUNT);
-    	// ƒ[ƒh‚³‚ê‚½ƒNƒ‰ƒX‚Ì‡Œv”
+    	// ãƒ­ãƒ¼ãƒ‰ã•ã‚ŒãŸã‚¯ãƒ©ã‚¹ã®åˆè¨ˆæ•°
     	totalLoadedClassNumValues = ReportDao.selectAverage(database, startTime,
                 endTime, Constants.ITEMNAME_JAVAPROCESS_CLASSLOADER_CLASS_TOTAL);
-    	// Œ»İƒ[ƒh‚³‚ê‚Ä‚¢‚éƒNƒ‰ƒX‚Ì”
+    	// ç¾åœ¨ãƒ­ãƒ¼ãƒ‰ã•ã‚Œã¦ã„ã‚‹ã‚¯ãƒ©ã‚¹ã®æ•°
     	loadedClassNumValues = ReportDao.selectAverage(database, startTime,
     			endTime, Constants.ITEMNAME_JAVAPROCESS_CLASSLOADER_CLASS_CURRENT);
 
@@ -124,13 +124,13 @@ public class VmStatusRecordAccessor
     }
     
     /**
-     * DB‚©‚çGC’â~ŠÔ‚ğæ“¾‚µAVMƒXƒ‹[ƒvƒbƒg‚ğŠ„‚èo‚·B
+     * DBã‹ã‚‰GCåœæ­¢æ™‚é–“ã‚’å–å¾—ã—ã€VMã‚¹ãƒ«ãƒ¼ãƒ—ãƒƒãƒˆã‚’å‰²ã‚Šå‡ºã™ã€‚
      * 
-     * @param database  ƒf[ƒ^ƒx[ƒXB
-     * @param startTime ŒŸõğŒ(ŠJn)B
-     * @param endTime   ŒŸõğŒ(I—¹)B
-     * @return VMƒXƒ‹[ƒvƒbƒg‚ÌƒŠƒXƒgB
-     * @throws SQLException ƒf[ƒ^ƒx[ƒX‚©‚ç‚ÌŒŸõ‚ÉƒGƒ‰[‚ª”­¶‚µ‚½ê‡B
+     * @param database  ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã€‚
+     * @param startTime æ¤œç´¢æ¡ä»¶(é–‹å§‹æ™‚åˆ»)ã€‚
+     * @param endTime   æ¤œç´¢æ¡ä»¶(çµ‚äº†æ™‚åˆ»)ã€‚
+     * @return VMã‚¹ãƒ«ãƒ¼ãƒ—ãƒƒãƒˆã®ãƒªã‚¹ãƒˆã€‚
+     * @throws SQLException ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‹ã‚‰ã®æ¤œç´¢æ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆã€‚
      */
     private List<ReportItemValue> selectVMThroughput(String database, Timestamp startTime,
             Timestamp endTime)

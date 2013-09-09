@@ -36,13 +36,13 @@ import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 public abstract class ClassHistogramMonitor
 {
 
-    /** ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€‚ÌƒŠƒXƒgB */
+    /** ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã®ãƒªã‚¹ãƒˆã€‚ */
     private List<ClassHistogramEntry> histgramList_;
 
-    /** ‘O‰ñî•ñæ“¾‚ÌB */
+    /** å‰å›æƒ…å ±å–å¾—æ™‚ã®æ™‚åˆ»ã€‚ */
     private volatile long             prevTime_;
 
-    /** İ’è */
+    /** è¨­å®š */
     private JavelinConfig             javelinConfig_;
 
     public ClassHistogramMonitor()
@@ -53,19 +53,19 @@ public abstract class ClassHistogramMonitor
     }
 
     /**
-     * ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€‚ğæ“¾‚µAŒ‹‰Ê‚ğ•Ô‚·B<br>
-     * •‰‰×‚ğŒ¸‚ç‚·‚½‚ßA‘O‰ñæ“¾‚µ‚½‚©‚çİ’è‚µ‚½ŠÔŒo‰ß‚µ‚Ä‚¢‚éê‡‚Ì‚İÄæ“¾‚ğs‚¤B<br>
-     * ‚»‚êˆÈŠO‚Ìê‡‚Í‘O‰ñæ“¾‚µ‚½î•ñ‚ğ‚»‚Ì‚Ü‚Ü•Ô‚·B<br>
-     * İ’èƒpƒ‰ƒ[ƒ^‚ÍˆÈ‰º‚Ì’Ê‚èB<br>
+     * ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã‚’å–å¾—ã—ã€çµæœã‚’è¿”ã™ã€‚<br>
+     * è² è·ã‚’æ¸›ã‚‰ã™ãŸã‚ã€å‰å›å–å¾—ã—ãŸæ™‚åˆ»ã‹ã‚‰è¨­å®šã—ãŸæ™‚é–“çµŒéã—ã¦ã„ã‚‹å ´åˆã®ã¿å†å–å¾—ã‚’è¡Œã†ã€‚<br>
+     * ãã‚Œä»¥å¤–ã®å ´åˆã¯å‰å›å–å¾—ã—ãŸæƒ…å ±ã‚’ãã®ã¾ã¾è¿”ã™ã€‚<br>
+     * è¨­å®šãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã¯ä»¥ä¸‹ã®é€šã‚Šã€‚<br>
      * <ul>
-     * <li>javelin.leak.class.histo ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©B
-     * <li>javelin.leak.class.histo.interval ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€æ“¾ŠÔŠu(ƒ~ƒŠ•b)B
-     * <li>javelin.leak.class.histo.max ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€‚ÌãˆÊ‰½Œ‚ğæ“¾‚·‚é‚©B
+     * <li>javelin.leak.class.histo ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã€‚
+     * <li>javelin.leak.class.histo.interval ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ å–å¾—é–“éš”(ãƒŸãƒªç§’)ã€‚
+     * <li>javelin.leak.class.histo.max ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã®ä¸Šä½ä½•ä»¶ã‚’å–å¾—ã™ã‚‹ã‹ã€‚
      * </ul>
      *
-     * ƒq[ƒvƒqƒXƒgƒOƒ‰ƒ€æ“¾‚ª OFF ‚Ìê‡‚ÍA <code>null</code> ‚ğ•Ô‚·B<br />
+     * ãƒ’ãƒ¼ãƒ—ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ å–å¾—ãŒ OFF ã®å ´åˆã¯ã€ <code>null</code> ã‚’è¿”ã™ã€‚<br />
      *
-     * @return æ“¾‚µ‚½ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€‚ÌŒ‹‰ÊB
+     * @return å–å¾—ã—ãŸã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã®çµæœã€‚
      */
     public List<ClassHistogramEntry> getHistogramList()
     {
@@ -104,7 +104,7 @@ public abstract class ClassHistogramMonitor
                 heapHistoReader = newReader(classHistoGC);
                 if (heapHistoReader == null)
                 {
-                    // ƒq[ƒvƒqƒXƒgƒOƒ‰ƒ€‚ªæ“¾‚Å‚«‚È‚¢ê‡‚ÍAGC‚Ì‚İÀ{‚·‚éB
+                    // ãƒ’ãƒ¼ãƒ—ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ãŒå–å¾—ã§ããªã„å ´åˆã¯ã€GCã®ã¿å®Ÿæ–½ã™ã‚‹ã€‚
                     if (javelinConfig_.getClassHistoGC())
                     {
                         System.gc();
@@ -164,19 +164,19 @@ public abstract class ClassHistogramMonitor
     }
 
     /**
-     * ƒqƒXƒgƒOƒ‰ƒ€‚Ì•¶š—ñ‚ğ“Ç‚İ‚ŞReader‚ğ¶¬‚·‚éB
+     * ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã®æ–‡å­—åˆ—ã‚’èª­ã¿è¾¼ã‚€Readerã‚’ç”Ÿæˆã™ã‚‹ã€‚
      * 
-     * @param classHistoGC ƒqƒXƒgƒOƒ‰ƒ€æ“¾‚ÉGC‚·‚é‚©‚Ç‚¤‚©
-     * @return@ƒqƒXƒgƒOƒ‰ƒ€‚Ì•¶š—ñ‚ğ“Ç‚İ‚ŞReaderB
-     * @throws IOException ƒqƒXƒgƒOƒ‰ƒ€æ“¾‚ÉIOƒGƒ‰[‚ª”­¶
+     * @param classHistoGC ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ å–å¾—æ™‚ã«GCã™ã‚‹ã‹ã©ã†ã‹
+     * @returnã€€ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã®æ–‡å­—åˆ—ã‚’èª­ã¿è¾¼ã‚€Readerã€‚
+     * @throws IOException ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ å–å¾—æ™‚ã«IOã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿ
      */
     public abstract BufferedReader newReader(boolean classHistoGC)
         throws IOException;
 
     /**
-     * 1s‚ğƒp[ƒX‚µ‚ÄAClassHistogramEntry‚ğ¶¬‚·‚éB
-     * @param splitLine 1s
-     * @return ClassHistogramEntryAƒp[ƒX‚É¸”s‚µ‚½ê‡‚Ínull
+     * 1è¡Œã‚’ãƒ‘ãƒ¼ã‚¹ã—ã¦ã€ClassHistogramEntryã‚’ç”Ÿæˆã™ã‚‹ã€‚
+     * @param splitLine 1è¡Œ
+     * @return ClassHistogramEntryã€ãƒ‘ãƒ¼ã‚¹ã«å¤±æ•—ã—ãŸå ´åˆã¯null
      */
     protected abstract ClassHistogramEntry parseEntry(final String[] splitLine);
 }

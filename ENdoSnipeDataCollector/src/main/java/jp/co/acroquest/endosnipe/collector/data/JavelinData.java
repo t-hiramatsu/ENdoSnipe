@@ -26,91 +26,91 @@
 package jp.co.acroquest.endosnipe.collector.data;
 
 /**
- * Javelin ƒƒO‚ğ•\‚·ƒCƒ“ƒ^[ƒtƒF[ƒX‚Å‚·B<br />
+ * Javelin ãƒ­ã‚°ã‚’è¡¨ã™ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã§ã™ã€‚<br />
  * 
  * @author y-komori
  */
 public interface JavelinData
 {
     /**
-     * ƒf[ƒ^ƒx[ƒX–¼‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã‚’è¿”ã—ã¾ã™ã€‚<br />
      *
-     * @return ƒf[ƒ^ƒx[ƒX–¼
+     * @return ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
      */
     String getDatabaseName();
 
     /**
-     * ƒf[ƒ^ƒx[ƒX–¼‚ğİ’è‚µ‚Ü‚·B<br />
+     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã‚’è¨­å®šã—ã¾ã™ã€‚<br />
      *
-     * @param databaseName ƒf[ƒ^ƒx[ƒX–¼
+     * @param databaseName ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
      */
     void setDatabaseName(String databaseName);
 
     /**
-     * ƒzƒXƒg–¼‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ãƒ›ã‚¹ãƒˆåã‚’è¿”ã—ã¾ã™ã€‚<br />
      * 
-     * @return ƒzƒXƒg–¼
+     * @return ãƒ›ã‚¹ãƒˆå
      */
     String getHost();
 
     /**
-     * ƒzƒXƒg–¼‚ğİ’è‚µ‚Ü‚·B<br />
+     * ãƒ›ã‚¹ãƒˆåã‚’è¨­å®šã—ã¾ã™ã€‚<br />
      * 
-     * @param host ƒzƒXƒg–¼
+     * @param host ãƒ›ã‚¹ãƒˆå
      */
     void setHost(String host);
 
     /**
-     * IP ƒAƒhƒŒƒX‚ğ•Ô‚µ‚Ü‚·B<br />
+     * IP ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’è¿”ã—ã¾ã™ã€‚<br />
      * 
-     * @return IPƒAƒhƒŒƒX
+     * @return IPã‚¢ãƒ‰ãƒ¬ã‚¹
      */
     String getIpAddress();
 
     /**
-     * IP ƒAƒhƒŒƒX‚ğİ’è‚µ‚Ü‚·B<br />
+     * IP ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
      * 
-     * @param ipAddress IP ƒAƒhƒŒƒX
+     * @param ipAddress IP ã‚¢ãƒ‰ãƒ¬ã‚¹
      */
     void setIpAddress(String ipAddress);
 
     /**
-     * ƒ|[ƒg”Ô†‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ãƒãƒ¼ãƒˆç•ªå·ã‚’è¿”ã—ã¾ã™ã€‚<br />
      * 
-     * @return ƒ|[ƒg”Ô†
+     * @return ãƒãƒ¼ãƒˆç•ªå·
      */
     int getPort();
 
     /**
-     * ƒ|[ƒg”Ô†‚ğİ’è‚µ‚Ü‚·B<br />
+     * ãƒãƒ¼ãƒˆç•ªå·ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
      * 
-     * @param port ƒ|[ƒg”Ô†
+     * @param port ãƒãƒ¼ãƒˆç•ªå·
      */
     void setPort(int port);
 
     /**
-     * ƒNƒ‰ƒCƒAƒ“ƒgID‚ğ•Ô‚µ‚Ü‚·B
-     * @return ƒNƒ‰ƒCƒAƒ“ƒgID
+     * ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆIDã‚’è¿”ã—ã¾ã™ã€‚
+     * @return ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆID
      */
     String getClientId();
 
     /**
-     * ƒNƒ‰ƒCƒAƒ“ƒgID‚ğİ’è‚µ‚Ü‚·B
-     * @param clientId ƒNƒ‰ƒCƒAƒ“ƒgID
+     * ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆIDã‚’è¨­å®šã—ã¾ã™ã€‚
+     * @param clientId ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆID
      */
     void setClientId(String clientId);
 
     /**
-     * “d•¶ ID ‚ğ•Ô‚µ‚Ü‚·B
+     * é›»æ–‡ ID ã‚’è¿”ã—ã¾ã™ã€‚
      *
-     * @return “d•¶ ID
+     * @return é›»æ–‡ ID
      */
     long getTelegramId();
 
     /**
-     * “d•¶ ID ‚ğİ’è‚µ‚Ü‚·B
+     * é›»æ–‡ ID ã‚’è¨­å®šã—ã¾ã™ã€‚
      *
-     * @param telegramId “d•¶ ID
+     * @param telegramId é›»æ–‡ ID
      */
     void setTelegramId(long telegramId);
 }

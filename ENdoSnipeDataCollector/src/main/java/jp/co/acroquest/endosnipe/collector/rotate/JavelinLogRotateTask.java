@@ -36,23 +36,23 @@ import jp.co.acroquest.endosnipe.data.dao.JavelinLogDao;
 import jp.co.acroquest.endosnipe.data.db.ConnectionManager;
 
 /**
- * JavelinƒƒO‚Ìƒ[ƒe[ƒg‚ğs‚¤ƒ^ƒXƒN
+ * Javelinãƒ­ã‚°ã®ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆã‚’è¡Œã†ã‚¿ã‚¹ã‚¯
  * 
  * @author S.Kimura
  */
 public class JavelinLogRotateTask implements LogRotateTask
 {
-    /** ƒƒK[B */
+    /** ãƒ­ã‚¬ãƒ¼ã€‚ */
     private static final ENdoSnipeLogger LOGGER =
                                                   ENdoSnipeLogger.getLogger(JavelinLogRotateTask.class);
 
-    /** ƒ[ƒe[ƒg—pİ’è */
+    /** ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆç”¨è¨­å®š */
     private final RotateConfig config_;
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      * 
-     * @param config ƒ[ƒe[ƒg—pİ’è
+     * @param config ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆç”¨è¨­å®š
      */
     public JavelinLogRotateTask(final RotateConfig config)
     {

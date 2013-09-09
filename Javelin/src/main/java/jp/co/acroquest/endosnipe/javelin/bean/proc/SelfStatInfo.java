@@ -26,16 +26,16 @@
 package jp.co.acroquest.endosnipe.javelin.bean.proc;
 
 /**
- *@/proc/self/stat‚Ì“à—e‚ğ•Û‚·‚éBean
+ *ã€€/proc/self/statã®å†…å®¹ã‚’ä¿æŒã™ã‚‹Bean
  * 
  * @author eriguchi
  */
 public class SelfStatInfo
 {
-    /** USERˆ—ŠÔ */
+    /** USERå‡¦ç†æ™‚é–“ */
     private long utime_;
 
-    /** CPUƒVƒXƒeƒ€ˆ—ŠÔ */
+    /** CPUã‚·ã‚¹ãƒ†ãƒ å‡¦ç†æ™‚é–“ */
     private long stime_;
 
     private long cutime_;
@@ -47,18 +47,18 @@ public class SelfStatInfo
     /** RSS */
     private long rss_;
 
-    /** ƒXƒŒƒbƒh” */
+    /** ã‚¹ãƒ¬ãƒƒãƒ‰æ•° */
     private long numThreads_;
 
-    /** ƒƒWƒƒ[ƒtƒH[ƒ‹ƒg */
+    /** ãƒ¡ã‚¸ãƒ£ãƒ¼ãƒ•ã‚©ãƒ¼ãƒ«ãƒˆ */
     private long majflt_;
 
-    /** ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹g—p” */
+    /** ãƒ—ãƒ­ã‚»ã‚¹ã®ãƒãƒ³ãƒ‰ãƒ«ä½¿ç”¨æ•° */
     private int  fdCount_;
 
     /**
-     * USERˆ—ŠÔ‚ğæ“¾‚µ‚Ü‚·B
-     * @return USERˆ—ŠÔ
+     * USERå‡¦ç†æ™‚é–“ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @return USERå‡¦ç†æ™‚é–“
      */
     public long getUtime()
     {
@@ -66,8 +66,8 @@ public class SelfStatInfo
     }
 
     /**
-     * USERˆ—ŠÔ‚ğİ’è‚µ‚Ü‚·B
-     * @param utime USERˆ—ŠÔ
+     * USERå‡¦ç†æ™‚é–“ã‚’è¨­å®šã—ã¾ã™ã€‚
+     * @param utime USERå‡¦ç†æ™‚é–“
      */
     public void setUtime(final long utime)
     {
@@ -75,8 +75,8 @@ public class SelfStatInfo
     }
 
     /**
-     * CPUƒVƒXƒeƒ€ˆ—ŠÔ‚ğæ“¾‚µ‚Ü‚·B
-     * @return CPUƒVƒXƒeƒ€ˆ—ŠÔ
+     * CPUã‚·ã‚¹ãƒ†ãƒ å‡¦ç†æ™‚é–“ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @return CPUã‚·ã‚¹ãƒ†ãƒ å‡¦ç†æ™‚é–“
      */
     public long getStime()
     {
@@ -84,8 +84,8 @@ public class SelfStatInfo
     }
 
     /**
-     * CPUƒVƒXƒeƒ€ˆ—ŠÔ‚ğİ’è‚µ‚Ü‚·B
-     * @param stime CPUƒVƒXƒeƒ€ˆ—ŠÔ
+     * CPUã‚·ã‚¹ãƒ†ãƒ å‡¦ç†æ™‚é–“ã‚’è¨­å®šã—ã¾ã™ã€‚
+     * @param stime CPUã‚·ã‚¹ãƒ†ãƒ å‡¦ç†æ™‚é–“
      */
     public void setStime(final long stime)
     {
@@ -118,7 +118,7 @@ public class SelfStatInfo
     }
 
     /**
-     * vsize‚ğİ’è‚µ‚Ü‚·B
+     * vsizeã‚’è¨­å®šã—ã¾ã™ã€‚
      * @param vsize vsize
      */
     public void setVsize(final long vsize)
@@ -127,7 +127,7 @@ public class SelfStatInfo
     }
 
     /**
-     * rss‚ğæ“¾‚µ‚Ü‚·B
+     * rssã‚’å–å¾—ã—ã¾ã™ã€‚
      * @return rss
      */
     public long getRss()
@@ -136,7 +136,7 @@ public class SelfStatInfo
     }
 
     /**
-     * rss‚ğİ’è‚µ‚Ü‚·B
+     * rssã‚’è¨­å®šã—ã¾ã™ã€‚
      * @param rss rss
      */
     public void setRss(final long rss)
@@ -145,8 +145,8 @@ public class SelfStatInfo
     }
 
     /**
-     * ƒXƒŒƒbƒh”‚ğæ“¾‚µ‚Ü‚·B
-     * @return ƒXƒŒƒbƒh”
+     * ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @return ã‚¹ãƒ¬ãƒƒãƒ‰æ•°
      */
     public long getNumThreads()
     {
@@ -154,8 +154,8 @@ public class SelfStatInfo
     }
 
     /**
-     * ƒXƒŒƒbƒh”‚ğİ’è‚µ‚Ü‚·B
-     * @param numThreads ƒXƒŒƒbƒh”
+     * ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã‚’è¨­å®šã—ã¾ã™ã€‚
+     * @param numThreads ã‚¹ãƒ¬ãƒƒãƒ‰æ•°
      */
     public void setNumThreads(final long numThreads)
     {
@@ -163,8 +163,8 @@ public class SelfStatInfo
     }
 
     /**
-     * ƒƒWƒƒ[ƒtƒH[ƒ‹ƒg‚ğæ“¾‚µ‚Ü‚·B
-     * @return ƒƒWƒƒ[ƒtƒH[ƒ‹ƒg
+     * ãƒ¡ã‚¸ãƒ£ãƒ¼ãƒ•ã‚©ãƒ¼ãƒ«ãƒˆã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @return ãƒ¡ã‚¸ãƒ£ãƒ¼ãƒ•ã‚©ãƒ¼ãƒ«ãƒˆ
      */
     public long getMajflt()
     {
@@ -172,8 +172,8 @@ public class SelfStatInfo
     }
 
     /**
-     * ƒƒWƒƒ[ƒtƒH[ƒ‹ƒg‚ğİ’è‚µ‚Ü‚·B
-     * @param majflt ƒƒWƒƒ[ƒtƒH[ƒ‹ƒg
+     * ãƒ¡ã‚¸ãƒ£ãƒ¼ãƒ•ã‚©ãƒ¼ãƒ«ãƒˆã‚’è¨­å®šã—ã¾ã™ã€‚
+     * @param majflt ãƒ¡ã‚¸ãƒ£ãƒ¼ãƒ•ã‚©ãƒ¼ãƒ«ãƒˆ
      */
     public void setMajflt(final long majflt)
     {
@@ -181,8 +181,8 @@ public class SelfStatInfo
     }
 
     /**
-     * ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹g—p”‚ğæ“¾‚µ‚Ü‚·B
-     * @return ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹g—p”
+     * ãƒ—ãƒ­ã‚»ã‚¹ã®ãƒãƒ³ãƒ‰ãƒ«ä½¿ç”¨æ•°ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @return ãƒ—ãƒ­ã‚»ã‚¹ã®ãƒãƒ³ãƒ‰ãƒ«ä½¿ç”¨æ•°
      */
     public int getFdCount()
     {
@@ -190,8 +190,8 @@ public class SelfStatInfo
     }
 
     /**
-     * ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹g—p”‚ğæ“¾‚µ‚Ü‚·B
-     * @param fdcount ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹g—p”
+     * ãƒ—ãƒ­ã‚»ã‚¹ã®ãƒãƒ³ãƒ‰ãƒ«ä½¿ç”¨æ•°ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @param fdcount ãƒ—ãƒ­ã‚»ã‚¹ã®ãƒãƒ³ãƒ‰ãƒ«ä½¿ç”¨æ•°
      */
     public void setFdCount(final int fdcount)
     {

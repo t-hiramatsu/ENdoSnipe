@@ -33,27 +33,27 @@ import jp.co.dgic.testing.framework.DJUnitTestCase;
 import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 
 /**
- * SystemLogger�̃e�X�g�P�[�X�ł��B<br>
+ * SystemLoggerのテストケースです。<br>
  * 
  * @author iida
  */
 public class SystemLoggerTest extends DJUnitTestCase
 {
     /**
-     * Javelin��trace���O�ւ̏������݂��s�\�ł���ꍇ�̃��b�Z�[�W�o�͂��m�F���܂��B<br>
-     * JUnit�̎������ʂ̑��AConsole�Ɉȉ��̃��b�Z�[�W�o�͂����邩�ǂ������m�F����K�v������܂��B<br>
-     * "Javelin���s�G���[�o�̓t�@�C���֏������߂Ȃ��������߁A�W���G���[�o�͂��g�p���܂��B"<br>
+     * Javelinのtraceログへの書き込みが不可能である場合のメッセージ出力を確認します。<br>
+     * JUnitの試験結果の他、Consoleに以下のメッセージ出力があるかどうかを確認する必要があります。<br>
+     * "Javelin実行エラー出力ファイルへ書き込めなかったため、標準エラー出力を使用します。"<br>
      */
     public void testLog_IOException()
     {
-        // ����
-        // OutputStreamWriter#write��IOException����������悤�ɂ��܂��B
+        // 準備
+        // OutputStreamWriter#writeでIOExceptionが発生するようにします。
         MockObjectManager.addReturnValue(OutputStreamWriter.class, "write", new IOException(""));
         JavelinConfig config = new JavelinConfig();
         SystemLogger.initSystemLog(config);
         SystemLogger logger = SystemLogger.getInstance();
 
-        // ���{
+        // 実施
         logger.error("");
 
         try

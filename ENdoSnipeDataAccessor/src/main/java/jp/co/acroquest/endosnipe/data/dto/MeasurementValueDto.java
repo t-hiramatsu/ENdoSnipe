@@ -28,18 +28,18 @@ package jp.co.acroquest.endosnipe.data.dto;
 import jp.co.acroquest.endosnipe.data.entity.MeasurementValue;
 
 /**
- * Javelin 計測値テーブルに対するDtoクラス
+ * Javelin 險域ｸｬ蛟､繝�繝ｼ繝悶Ν縺ｫ蟇ｾ縺吶ｋDto繧ｯ繝ｩ繧ｹ
  * 
  * @author kimura
  */
 public class MeasurementValueDto extends MeasurementValue
 {
-    /** 計測値項目名称 */
+    /** 險域ｸｬ蛟､鬆�逶ｮ蜷咲ｧｰ */
     public String measurementTypeItemName;
     
-    /** 計測値表示名称 */
+    /** 險域ｸｬ蛟､陦ｨ遉ｺ蜷咲ｧｰ */
     public String measurementTypeDisplayName;
     
-    /** 計測値系列名称 */
+    /** 險域ｸｬ蛟､邉ｻ蛻怜錐遘ｰ */
     public String measurementItemName;
 }

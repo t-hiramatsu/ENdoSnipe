@@ -36,14 +36,14 @@ import jp.co.smg.endosnipe.javassist.CtClass;
 import jp.co.smg.endosnipe.javassist.NotFoundException;
 
 /**
- * —áŠO‚ª”­¶‚µ‚½Û‚ÉJavelinƒƒO‚É—áŠOŒŸo‚ğo—Í‚·‚éƒRƒ“ƒo[ƒ^‚Å‚·B<br />
+ * ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸéš›ã«Javelinãƒ­ã‚°ã«ä¾‹å¤–æ¤œå‡ºã‚’å‡ºåŠ›ã™ã‚‹ã‚³ãƒ³ãƒãƒ¼ã‚¿ã§ã™ã€‚<br />
  * 
  * @author eriguchi
  */
 public class ExceptionMonitorConverter extends AbstractConverter
 {
 
-    /** ƒ‚ƒjƒ^ƒNƒ‰ƒX–¼B */
+    /** ãƒ¢ãƒ‹ã‚¿ã‚¯ãƒ©ã‚¹åã€‚ */
     private static final String MONITOR_CLASSNAME = ExceptionMonitor.class.getCanonicalName();
 
     /**
@@ -72,11 +72,11 @@ public class ExceptionMonitorConverter extends AbstractConverter
     }
 
     /**
-     * —áŠO”­¶‚Ìƒƒ\ƒbƒh‚ÌU‚é•‘‚¢‚ğC³‚µ‚Ü‚·B<br />
+     * ä¾‹å¤–ç™ºç”Ÿæ™‚ã®ãƒ¡ã‚½ãƒƒãƒ‰ã®æŒ¯ã‚‹èˆã„ã‚’ä¿®æ­£ã—ã¾ã™ã€‚<br />
      * 
      * @param ctBehavior CtBehavior
-     * @throws CannotCompileException ƒRƒ“ƒpƒCƒ‹‚Å‚«‚È‚¢ê‡
-     * @throws NotFoundException ƒNƒ‰ƒX‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡
+     * @throws CannotCompileException ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã§ããªã„å ´åˆ
+     * @throws NotFoundException ã‚¯ãƒ©ã‚¹ãŒè¦‹ã¤ã‹ã‚‰ãªã„å ´åˆ
      */
     private void convertBehavior(final CtBehavior ctBehavior)
         throws CannotCompileException,

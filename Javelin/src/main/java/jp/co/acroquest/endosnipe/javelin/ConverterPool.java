@@ -32,26 +32,26 @@ import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 import jp.co.acroquest.endosnipe.javelin.converter.Converter;
 
 /**
- * ƒRƒ“ƒo[ƒ^‚ğƒLƒƒƒbƒVƒ…‚·‚éƒv[ƒ‹‚Å‚·B
+ * ã‚³ãƒ³ãƒãƒ¼ã‚¿ã‚’ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã™ã‚‹ãƒ—ãƒ¼ãƒ«ã§ã™ã€‚
  * 
- * “¯ˆêƒCƒ“ƒXƒ^ƒ“ƒX‚ÌConverter‚ğ“¯‚É—˜—p‚µ‚Ä‚µ‚Ü‚¤‚±‚Æ‚ª–³‚¢‚æ‚¤‚É‚·‚é‚±‚Æ‚ª–Ú“I‚Å‚·B
- * request‚µ‚½Û‚Éƒv[ƒ‹“à‚É‘ÎÛ‚ÌƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ª‚È‚¯‚ê‚ÎV‚½‚É¶¬‚µ‚Ä•Ô‚µA
- * release‚µ‚½Û‚É‚Íƒv[ƒ‹‚ÉƒCƒ“ƒXƒ^ƒ“ƒX‚ğ“o˜^‚µ‚Ü‚·B
+ * åŒä¸€ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®Converterã‚’åŒæ™‚ã«åˆ©ç”¨ã—ã¦ã—ã¾ã†ã“ã¨ãŒç„¡ã„ã‚ˆã†ã«ã™ã‚‹ã“ã¨ãŒç›®çš„ã§ã™ã€‚
+ * requestã—ãŸéš›ã«ãƒ—ãƒ¼ãƒ«å†…ã«å¯¾è±¡ã®ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ãŒãªã‘ã‚Œã°æ–°ãŸã«ç”Ÿæˆã—ã¦è¿”ã—ã€
+ * releaseã—ãŸéš›ã«ã¯ãƒ—ãƒ¼ãƒ«ã«ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç™»éŒ²ã—ã¾ã™ã€‚
  * 
  * @author eriguchi
  */
 public class ConverterPool
 {
-    /** ƒRƒ“ƒo[ƒ^‚ğ“o˜^‚·‚éMap */
+    /** ã‚³ãƒ³ãƒãƒ¼ã‚¿ã‚’ç™»éŒ²ã™ã‚‹Map */
     private final Map<String, Converter> converterMap_ = new ConcurrentHashMap<String, Converter>();
 
     /**
-     * ƒv[ƒ‹‚©‚çConverter‚ğæ“¾‚µ‚Ü‚·B
-     * ƒv[ƒ‹“à‚Éw’è‚µ‚½ƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ª‚È‚¯‚ê‚ÎAV‚½‚É¶¬‚µ‚Ä•Ô‚µA
-     * ƒCƒ“ƒXƒ^ƒ“ƒX‚ª‚ ‚ê‚ÎAƒv[ƒ‹‚©‚çíœ‚µ‚Ä‚»‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ•Ô‚µ‚Ü‚·B
+     * ãƒ—ãƒ¼ãƒ«ã‹ã‚‰Converterã‚’å–å¾—ã—ã¾ã™ã€‚
+     * ãƒ—ãƒ¼ãƒ«å†…ã«æŒ‡å®šã—ãŸã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ãŒãªã‘ã‚Œã°ã€æ–°ãŸã«ç”Ÿæˆã—ã¦è¿”ã—ã€
+     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ãŒã‚ã‚Œã°ã€ãƒ—ãƒ¼ãƒ«ã‹ã‚‰å‰Šé™¤ã—ã¦ãã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’è¿”ã—ã¾ã™ã€‚
      * 
-     * @param converterClassName ConverterƒNƒ‰ƒX–¼B
-     * @return Converter‚ÌƒCƒ“ƒXƒ^ƒ“ƒXB
+     * @param converterClassName Converterã‚¯ãƒ©ã‚¹åã€‚
+     * @return Converterã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã€‚
      */
     public synchronized Converter request(String converterClassName)
     {
@@ -65,9 +65,9 @@ public class ConverterPool
     }
 
     /**
-     * w’è‚µ‚½Converter‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğƒv[ƒ‹‚É•Ô‚µ‚Ü‚·B
+     * æŒ‡å®šã—ãŸConverterã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ãƒ—ãƒ¼ãƒ«ã«è¿”ã—ã¾ã™ã€‚
      * 
-     * @param converter Converter‚ÌƒCƒ“ƒXƒ^ƒ“ƒXB
+     * @param converter Converterã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã€‚
      */
     public synchronized void release(Converter converter)
     {
@@ -75,9 +75,9 @@ public class ConverterPool
     }
 
     /**
-     * ƒRƒ“ƒo[ƒ^‚ğƒ[ƒh‚µ‚Ü‚·B<br />
+     * ã‚³ãƒ³ãƒãƒ¼ã‚¿ã‚’ãƒ­ãƒ¼ãƒ‰ã—ã¾ã™ã€‚<br />
      * 
-     * @param converterClassName ƒRƒ“ƒo[ƒ^‚ÌƒNƒ‰ƒX–¼
+     * @param converterClassName ã‚³ãƒ³ãƒãƒ¼ã‚¿ã®ã‚¯ãƒ©ã‚¹å
      */
     private void loadConverter(final String converterClassName)
     {

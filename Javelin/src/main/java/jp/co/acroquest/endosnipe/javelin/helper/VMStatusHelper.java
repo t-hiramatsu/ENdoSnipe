@@ -37,15 +37,15 @@ import jp.co.acroquest.endosnipe.javelin.CallTreeRecorder;
 import jp.co.acroquest.endosnipe.javelin.VMStatus;
 
 /**
- * JMX‚©‚çVM‚Ìó‘Ô‚ğæ“¾‚µA‹L˜^‚·‚é‚½‚ß‚Ég—p‚·‚éB
+ * JMXã‹ã‚‰VMã®çŠ¶æ…‹ã‚’å–å¾—ã—ã€è¨˜éŒ²ã™ã‚‹ãŸã‚ã«ä½¿ç”¨ã™ã‚‹ã€‚
  * 
- * ˆÈ‰º‚ÌMXBean‚©‚çAƒvƒƒpƒeƒB‚ğæ“¾‚·‚éB<br>
+ * ä»¥ä¸‹ã®MXBeanã‹ã‚‰ã€ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’å–å¾—ã™ã‚‹ã€‚<br>
  * <br>
  * <table border="1" cellspacing="0">
  * <tr>
- *  <th>MXBean–¼Ì</th>
- *  <th>ƒvƒƒpƒeƒB</th>
- *  <th>”õl</th>
+ *  <th>MXBeanåç§°</th>
+ *  <th>ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£</th>
+ *  <th>å‚™è€ƒ</th>
  * </tr>
  * <tr>
  *  <td>ThreadMXBean</td>
@@ -65,7 +65,7 @@ import jp.co.acroquest.endosnipe.javelin.VMStatus;
  *      collectionCount<br>
  *      collectionTime<br>
  *  </td>
- *  <td>GarbageCollector‚ª•¡”‚ ‚éê‡‚ÍA‘S‚Ä‚ÌGarbageCollector‚Ì’l‚Ì‡Œv‚ğg—p‚·‚éB&nbsp;</td>
+ *  <td>GarbageCollectorãŒè¤‡æ•°ã‚ã‚‹å ´åˆã¯ã€å…¨ã¦ã®GarbageCollectorã®å€¤ã®åˆè¨ˆã‚’ä½¿ç”¨ã™ã‚‹ã€‚&nbsp;</td>
  * </tr>
  * <tr>
  *  <td>MemoryPoolMXBean</td>
@@ -73,8 +73,8 @@ import jp.co.acroquest.endosnipe.javelin.VMStatus;
  *      peakUsage.usage<br>
  *  </td>
  *  <td>
- *      MemoryPool‚ª•¡”‚ ‚éê‡‚ÍA‘S‚Ä‚ÌMemoryPool‚Ì’l‚Ì‡Œv‚ğg—p‚·‚éB<br>
- *      ƒs[ƒNg—p—Ê‚ÌƒŠƒZƒbƒg‚ÍACallTree‚Ìî•ñ‚ªThreadLocal‚É‚È‚¢ê‡‚ÉÀ{‚·‚éB&nbsp;
+ *      MemoryPoolãŒè¤‡æ•°ã‚ã‚‹å ´åˆã¯ã€å…¨ã¦ã®MemoryPoolã®å€¤ã®åˆè¨ˆã‚’ä½¿ç”¨ã™ã‚‹ã€‚<br>
+ *      ãƒ”ãƒ¼ã‚¯ä½¿ç”¨é‡ã®ãƒªã‚»ãƒƒãƒˆã¯ã€CallTreeã®æƒ…å ±ãŒThreadLocalã«ãªã„å ´åˆã«å®Ÿæ–½ã™ã‚‹ã€‚&nbsp;
  *  </td>
  * </tr>
  * </table>
@@ -91,7 +91,7 @@ public class VMStatusHelper
     private final List<GarbageCollectorMXBean> garbageCollectorMXBeanList_ =
             ManagementFactory.getGarbageCollectorMXBeans();
 
-    /** ƒvƒƒZƒX–¼ */
+    /** ãƒ—ãƒ­ã‚»ã‚¹å */
     private static String processName__;
 
     static
@@ -100,17 +100,17 @@ public class VMStatusHelper
     }
 
     /**
-     * ‰Šú‰»‚ğs‚¤B
+     * åˆæœŸåŒ–ã‚’è¡Œã†ã€‚
      */
     public void init()
     {
     }
 
     /**
-     * JMX‚©‚çVM‚Ìó‘Ô‚ğæ“¾‚µAVMStatusƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB<br>
+     * JMXã‹ã‚‰VMã®çŠ¶æ…‹ã‚’å–å¾—ã—ã€VMStatusã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã™ã‚‹ã€‚<br>
      * @param callTreeRecorder  callTreeRecorder
      * 
-     * @return JMX‚©‚çVM‚Ìó‘Ô‚ğæ“¾‚µ‚½AVMStatusƒIƒuƒWƒFƒNƒgB
+     * @return JMXã‹ã‚‰VMã®çŠ¶æ…‹ã‚’å–å¾—ã—ãŸã€VMStatusã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚
      */
     public VMStatus createVMStatus(CallTreeRecorder callTreeRecorder)
     {
@@ -180,9 +180,9 @@ public class VMStatusHelper
     }
 
     /**
-     * ƒvƒƒZƒX–¼‚ğæ“¾‚µ‚Ü‚·B<br />
+     * ãƒ—ãƒ­ã‚»ã‚¹åã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      * 
-     * @return ƒvƒƒZƒX–¼
+     * @return ãƒ—ãƒ­ã‚»ã‚¹å
      */
     public static String getProcessName()
     {

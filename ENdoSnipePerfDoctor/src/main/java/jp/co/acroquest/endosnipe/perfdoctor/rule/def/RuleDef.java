@@ -35,34 +35,34 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
 /**
- * ƒ‹[ƒ‹’è‹`ƒNƒ‰ƒXB
+ * ãƒ«ãƒ¼ãƒ«å®šç¾©ã‚¯ãƒ©ã‚¹ã€‚
  * @author tanimoto
  *
  */
 @XmlAccessorType(XmlAccessType.NONE)
 public class RuleDef implements Serializable
 {
-    /** ƒVƒŠƒAƒ‹ID */
+    /** ã‚·ãƒªã‚¢ãƒ«ID */
     private static final long  serialVersionUID = 1L;
 
-    /** ƒ‹[ƒ‹ID */
+    /** ãƒ«ãƒ¼ãƒ«ID */
     @XmlAttribute
     private String             id_;
 
-    /** ƒ‹[ƒ‹‚ÌƒNƒ‰ƒX–¼ */
+    /** ãƒ«ãƒ¼ãƒ«ã®ã‚¯ãƒ©ã‚¹å */
     @XmlAttribute
     private String             className_;
 
-    /** ƒ‹[ƒ‹‚ª—LŒø‚©‚Ç‚¤‚© */
+    /** ãƒ«ãƒ¼ãƒ«ãŒæœ‰åŠ¹ã‹ã©ã†ã‹ */
     @XmlAttribute
     private String             enabled_;
 
-    /** ƒŒƒxƒ‹•Ê’è‹` */
+    /** ãƒ¬ãƒ™ãƒ«åˆ¥å®šç¾© */
     @XmlElement(name = "ruleLevel")
     private List<RuleLevelDef> ruleLevelDefs_;
 
     /**
-     * ƒfƒtƒHƒ‹ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^B<br />
+     * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚<br />
      */
     public RuleDef()
     {
@@ -70,9 +70,9 @@ public class RuleDef implements Serializable
     }
 
     /**
-     * ƒRƒs[ƒRƒ“ƒXƒgƒ‰ƒNƒ^B<br />
+     * ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚<br />
      *
-     * @param ruleDef ƒRƒs[Œ³
+     * @param ruleDef ã‚³ãƒ”ãƒ¼å…ƒ
      */
     public RuleDef(final RuleDef ruleDef)
     {
@@ -90,8 +90,8 @@ public class RuleDef implements Serializable
     }
 
     /**
-     * ƒ‹[ƒ‹‚ÌƒNƒ‰ƒX–¼‚ğæ“¾‚·‚éB
-     * @return ƒ‹[ƒ‹‚ÌƒNƒ‰ƒX–¼
+     * ãƒ«ãƒ¼ãƒ«ã®ã‚¯ãƒ©ã‚¹åã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ãƒ«ãƒ¼ãƒ«ã®ã‚¯ãƒ©ã‚¹å
      */
     public String getClassName()
     {
@@ -99,8 +99,8 @@ public class RuleDef implements Serializable
     }
 
     /**
-     * ƒ‹[ƒ‹‚ÌƒNƒ‰ƒX–¼‚ğİ’è‚·‚éB
-     * @param className ƒ‹[ƒ‹‚ÌƒNƒ‰ƒX–¼
+     * ãƒ«ãƒ¼ãƒ«ã®ã‚¯ãƒ©ã‚¹åã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param className ãƒ«ãƒ¼ãƒ«ã®ã‚¯ãƒ©ã‚¹å
      */
     public void setClassName(final String className)
     {
@@ -108,8 +108,8 @@ public class RuleDef implements Serializable
     }
 
     /**
-     * ƒ‹[ƒ‹‚ª—LŒø‚©‚Ç‚¤‚©‚ğæ“¾‚·‚éB
-     * @return ƒ‹[ƒ‹‚ª—LŒø‚©‚Ç‚¤‚©
+     * ãƒ«ãƒ¼ãƒ«ãŒæœ‰åŠ¹ã‹ã©ã†ã‹ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ãƒ«ãƒ¼ãƒ«ãŒæœ‰åŠ¹ã‹ã©ã†ã‹
      */
     public String getEnabled()
     {
@@ -117,8 +117,8 @@ public class RuleDef implements Serializable
     }
 
     /**
-     * ƒ‹[ƒ‹‚ª—LŒø‚©‚Ç‚¤‚©‚ğİ’è‚·‚éB
-     * @param enabled ƒ‹[ƒ‹‚ª—LŒø‚©‚Ç‚¤‚©
+     * ãƒ«ãƒ¼ãƒ«ãŒæœ‰åŠ¹ã‹ã©ã†ã‹ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param enabled ãƒ«ãƒ¼ãƒ«ãŒæœ‰åŠ¹ã‹ã©ã†ã‹
      */
     public void setEnabled(final String enabled)
     {
@@ -126,8 +126,8 @@ public class RuleDef implements Serializable
     }
 
     /**
-     * ƒ‹[ƒ‹ID‚ğæ“¾‚·‚éB
-     * @return ƒ‹[ƒ‹ID
+     * ãƒ«ãƒ¼ãƒ«IDã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ãƒ«ãƒ¼ãƒ«ID
      */
     public String getId()
     {
@@ -135,8 +135,8 @@ public class RuleDef implements Serializable
     }
 
     /**
-     * ƒ‹[ƒ‹ID‚ğİ’è‚·‚éB
-     * @param id ƒ‹[ƒ‹ID
+     * ãƒ«ãƒ¼ãƒ«IDã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param id ãƒ«ãƒ¼ãƒ«ID
      */
     public void setId(final String id)
     {
@@ -144,8 +144,8 @@ public class RuleDef implements Serializable
     }
 
     /**
-     * ƒŒƒxƒ‹•Ê’è‹`‚ğæ“¾‚·‚éB
-     * @return ruleLevelDefs ƒŒƒxƒ‹•Ê’è‹`
+     * ãƒ¬ãƒ™ãƒ«åˆ¥å®šç¾©ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ruleLevelDefs ãƒ¬ãƒ™ãƒ«åˆ¥å®šç¾©
      */
     public List<RuleLevelDef> getRuleLevelDefs()
     {
@@ -153,8 +153,8 @@ public class RuleDef implements Serializable
     }
 
     /**
-     * ƒŒƒxƒ‹•Ê’è‹`‚ğİ’è‚·‚éB
-     * @param ruleLevelDefs ƒŒƒxƒ‹•Ê’è‹`
+     * ãƒ¬ãƒ™ãƒ«åˆ¥å®šç¾©ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param ruleLevelDefs ãƒ¬ãƒ™ãƒ«åˆ¥å®šç¾©
      */
     public void setRuleLevelDefs(final List<RuleLevelDef> ruleLevelDefs)
     {

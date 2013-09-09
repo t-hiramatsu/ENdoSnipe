@@ -28,20 +28,20 @@ package jp.co.acroquest.endosnipe.perfdoctor.rule.code;
 import jp.co.acroquest.endosnipe.javelin.parser.JavelinLogElement;
 
 /**
- * ƒXƒŒƒbƒh‚ÉŠÖ‚·‚éî•ñ‚ğ•\‚·ƒNƒ‰ƒXB
+ * ã‚¹ãƒ¬ãƒƒãƒ‰ã«é–¢ã™ã‚‹æƒ…å ±ã‚’è¡¨ã™ã‚¯ãƒ©ã‚¹ã€‚
  * 
  * @author tsukano
- * @param <E> ƒXƒŒƒbƒhî•ñ‚Æ‚µ‚Ä•Û‚·‚é’l‚ÌŒ^
+ * @param <E> ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±ã¨ã—ã¦ä¿æŒã™ã‚‹å€¤ã®å‹
  */
 public class ThreadInfo<E>
 {
-    /** –{ƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒXì¬‚É—˜—p‚µ‚½JavelinLogElement */
+    /** æœ¬ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ä½œæˆã«åˆ©ç”¨ã—ãŸJavelinLogElement */
     private JavelinLogElement javelinLogElement_;
 
-    /** ƒXƒŒƒbƒh–¼ */
+    /** ã‚¹ãƒ¬ãƒƒãƒ‰å */
     private String            threadName_;
 
-    /** ƒXƒŒƒbƒh‚²‚Æ‚ÌŒv‘ª’l */
+    /** ã‚¹ãƒ¬ãƒƒãƒ‰ã”ã¨ã®è¨ˆæ¸¬å€¤ */
     private E                 value_;
 
     /**
@@ -53,7 +53,7 @@ public class ThreadInfo<E>
     }
 
     /**
-     * @param javelinLogElement İ’è‚·‚é javelinLogElement
+     * @param javelinLogElement è¨­å®šã™ã‚‹ javelinLogElement
      */
     public void setJavelinLogElement(final JavelinLogElement javelinLogElement)
     {
@@ -69,7 +69,7 @@ public class ThreadInfo<E>
     }
 
     /**
-     * @param value İ’è‚·‚é value
+     * @param value è¨­å®šã™ã‚‹ value
      */
     public void setValue(final E value)
     {
@@ -85,7 +85,7 @@ public class ThreadInfo<E>
     }
 
     /**
-     * @param threadName İ’è‚·‚é threadName
+     * @param threadName è¨­å®šã™ã‚‹ threadName
      */
     public void setThreadName(final String threadName)
     {

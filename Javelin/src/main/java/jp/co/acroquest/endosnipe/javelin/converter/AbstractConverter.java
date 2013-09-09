@@ -44,29 +44,29 @@ import jp.co.smg.endosnipe.javassist.Modifier;
 import jp.co.smg.endosnipe.javassist.NotFoundException;
 
 /**
- * ƒRƒ“ƒo[ƒ^‚Ì’ŠÛƒNƒ‰ƒX
+ * ã‚³ãƒ³ãƒãƒ¼ã‚¿ã®æŠ½è±¡ã‚¯ãƒ©ã‚¹
  * 
  * @author eriguchi
  * 
  */
 public abstract class AbstractConverter implements Converter
 {
-    /** ƒRƒ“ƒXƒgƒ‰ƒNƒ^—p‚Ìƒƒ\ƒbƒh¯•Êq */
+    /** ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ç”¨ã®ãƒ¡ã‚½ãƒƒãƒ‰è­˜åˆ¥å­ */
     private static final String           CONSTRUCTOR_IDENTIFIER = "<CONSTRUCTOR>";
 
-    /** ƒNƒ‰ƒXƒtƒ@ƒCƒ‹‚Ìƒoƒbƒtƒ@ */
+    /** ã‚¯ãƒ©ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒãƒƒãƒ•ã‚¡ */
     private byte[]                        classfileBuffer_;
 
-    /** ƒR[ƒh–„‚ß‚İŒã‚ÌƒNƒ‰ƒXƒtƒ@ƒCƒ‹‚Ìƒoƒbƒtƒ@ */
+    /** ã‚³ãƒ¼ãƒ‰åŸ‹ã‚è¾¼ã¿å¾Œã®ã‚¯ãƒ©ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒãƒƒãƒ•ã‚¡ */
     private byte[]                        newClassfileBuffer_;
 
-    /** ƒNƒ‰ƒX–¼ */
+    /** ã‚¯ãƒ©ã‚¹å */
     private String                        className_;
 
-    /** Include‚Ìİ’è */
+    /** Includeã®è¨­å®š */
     private IncludeConversionConfig       includeConfig_;
 
-    /** Exclude‚Ìİ’èƒŠƒXƒg */
+    /** Excludeã®è¨­å®šãƒªã‚¹ãƒˆ */
     private List<ExcludeConversionConfig> excludeConfigList_;
 
     /** CtClass */
@@ -127,16 +127,16 @@ public abstract class AbstractConverter implements Converter
     }
 
     /**
-     * ‘O€”õ
+     * å‰æº–å‚™
      */
     protected void prepare()
     {
-        // ‰½‚à‚µ‚È‚¢
+        // ä½•ã‚‚ã—ãªã„
     }
 
     /**
-     * ƒR[ƒh–„‚ß‚İ‘ÎÛƒƒ\ƒbƒh‚ÌƒŠƒXƒg‚ğì¬‚·‚éB
-     * @return ƒR[ƒh–„‚ß‚İ‘ÎÛƒƒ\ƒbƒh‚ÌƒŠƒXƒg
+     * ã‚³ãƒ¼ãƒ‰åŸ‹ã‚è¾¼ã¿å¯¾è±¡ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒªã‚¹ãƒˆã‚’ä½œæˆã™ã‚‹ã€‚
+     * @return ã‚³ãƒ¼ãƒ‰åŸ‹ã‚è¾¼ã¿å¯¾è±¡ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒªã‚¹ãƒˆ
      */
     protected List<CtBehavior> getMatcheDeclaredBehavior()
     {
@@ -144,23 +144,23 @@ public abstract class AbstractConverter implements Converter
 
         for (CtBehavior ctBehavior : this.ctClass_.getDeclaredBehaviors())
         {
-            // ‹ó‚Ìƒƒ\ƒbƒh‚ÍœŠO‚·‚éB
+            // ç©ºã®ãƒ¡ã‚½ãƒƒãƒ‰ã¯é™¤å¤–ã™ã‚‹ã€‚
             if (ctBehavior.isEmpty())
             {
                 continue;
             }
 
-            // Cüq‚ªAbstract–”‚ÍNative‚Ìƒƒ\ƒbƒh‚ÍœŠO‚·‚éB
+            // ä¿®é£¾å­ãŒAbstractåˆã¯Nativeã®ãƒ¡ã‚½ãƒƒãƒ‰ã¯é™¤å¤–ã™ã‚‹ã€‚
             int modifiers = ctBehavior.getModifiers();
             if (Modifier.isAbstract(modifiers) || Modifier.isNative(modifiers))
             {
                 continue;
             }
 
-            // Include‚Éİ’è‚³‚ê‚Ä‚¢‚ÄAExclude‚Éİ’è‚³‚ê‚Ä‚¢‚È‚¢ƒƒ\ƒbƒh‚ğƒŠƒXƒg‚É’Ç‰Á‚·‚éB
+            // Includeã«è¨­å®šã•ã‚Œã¦ã„ã¦ã€Excludeã«è¨­å®šã•ã‚Œã¦ã„ãªã„ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ãƒªã‚¹ãƒˆã«è¿½åŠ ã™ã‚‹ã€‚
             String methodName = ctBehavior.getName();
 
-            //ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Ìê‡Aƒpƒ^[ƒ“‚ª<Constructor>‚Ìê‡‚à’Ç‰Á‚Å”»’è‚ğs‚¤
+            //ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã®å ´åˆã€ãƒ‘ã‚¿ãƒ¼ãƒ³ãŒ<Constructor>ã®å ´åˆã‚‚è¿½åŠ ã§åˆ¤å®šã‚’è¡Œã†
             boolean isConstructor = ctBehavior instanceof CtConstructor;
             boolean isConstInclude = false;
             boolean isConstExclude = false;
@@ -177,12 +177,12 @@ public abstract class AbstractConverter implements Converter
                 }
             }
 
-            //ƒƒ\ƒbƒh–¼‚Å‚Ì”»’èŒ‹‰Êæ“¾
+            //ãƒ¡ã‚½ãƒƒãƒ‰åã§ã®åˆ¤å®šçµæœå–å¾—
             boolean isNameInclude = methodName.matches(methodNamePattern);
             boolean isNameExclude = isExcludeTarget(methodName);
 
-            //ƒRƒ“ƒXƒgƒ‰ƒNƒ^Aƒƒ\ƒbƒh–¼‚Ì”»’è‚Ì‚Ç‚¿‚ç‚©‚Åuincludev‚Æ‚È‚èA
-            //‚©‚ÂƒRƒ“ƒXƒgƒ‰ƒNƒ^Aƒƒ\ƒbƒh–¼‚Ì”»’è‚Åuexcludev‚Æ‚È‚Á‚Ä‚¢‚È‚¢ê‡A•ÏŠ·‘ÎÛ‚É’Ç‰Á
+            //ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€ãƒ¡ã‚½ãƒƒãƒ‰åã®åˆ¤å®šã®ã©ã¡ã‚‰ã‹ã§ã€Œincludeã€ã¨ãªã‚Šã€
+            //ã‹ã¤ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€ãƒ¡ã‚½ãƒƒãƒ‰åã®åˆ¤å®šã§ã€Œexcludeã€ã¨ãªã£ã¦ã„ãªã„å ´åˆã€å¤‰æ›å¯¾è±¡ã«è¿½åŠ 
             if ((isConstInclude || isNameInclude) && (!isConstExclude && !isNameExclude))
             {
                 list.add(ctBehavior);
@@ -193,9 +193,9 @@ public abstract class AbstractConverter implements Converter
     }
 
     /**
-     * ˆø”‚Åw’è‚µ‚½ƒƒ\ƒbƒh‚ªƒR[ƒh–„‚ß‚İ‘ÎÛ‚©‚çœŠO‚³‚ê‚é‚©”»’è‚·‚éB
-     * @param methodName ƒƒ\ƒbƒh–¼
-     * @return true:ƒR[ƒh–„‚ß‚İ‘ÎÛ‚©‚çœŠO‚·‚éAfalse:ƒR[ƒh–„‚ß‚İ‘ÎÛ‚©‚çœŠO‚µ‚È‚¢
+     * å¼•æ•°ã§æŒ‡å®šã—ãŸãƒ¡ã‚½ãƒƒãƒ‰ãŒã‚³ãƒ¼ãƒ‰åŸ‹ã‚è¾¼ã¿å¯¾è±¡ã‹ã‚‰é™¤å¤–ã•ã‚Œã‚‹ã‹åˆ¤å®šã™ã‚‹ã€‚
+     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
+     * @return true:ã‚³ãƒ¼ãƒ‰åŸ‹ã‚è¾¼ã¿å¯¾è±¡ã‹ã‚‰é™¤å¤–ã™ã‚‹ã€false:ã‚³ãƒ¼ãƒ‰åŸ‹ã‚è¾¼ã¿å¯¾è±¡ã‹ã‚‰é™¤å¤–ã—ãªã„
      */
     private boolean isExcludeTarget(final String methodName)
     {
@@ -210,10 +210,10 @@ public abstract class AbstractConverter implements Converter
     }
 
     /**
-     * ƒRƒ“ƒo[ƒ^‚ÌÀ‘•
-     * @throws CannotCompileException ƒRƒ“ƒpƒCƒ‹‚ª‚Å‚«‚È‚¢ê‡
-     * @throws NotFoundException ƒNƒ‰ƒX‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡
-     * @throws IOException “üo—Í—áŠO
+     * ã‚³ãƒ³ãƒãƒ¼ã‚¿ã®å®Ÿè£…
+     * @throws CannotCompileException ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ãŒã§ããªã„å ´åˆ
+     * @throws NotFoundException ã‚¯ãƒ©ã‚¹ãŒè¦‹ã¤ã‹ã‚‰ãªã„å ´åˆ
+     * @throws IOException å…¥å‡ºåŠ›ä¾‹å¤–
      */
     public abstract void convertImpl()
         throws CannotCompileException,
@@ -221,8 +221,8 @@ public abstract class AbstractConverter implements Converter
             IOException;
 
     /**
-     * ƒNƒ‰ƒXƒtƒ@ƒCƒ‹‚Ìƒoƒbƒtƒ@‚ğæ“¾‚·‚éB
-     * @return ƒNƒ‰ƒXƒtƒ@ƒCƒ‹‚Ìƒoƒbƒtƒ@
+     * ã‚¯ãƒ©ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒãƒƒãƒ•ã‚¡ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ã‚¯ãƒ©ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒãƒƒãƒ•ã‚¡
      */
     public byte[] getClassfileBuffer()
     {
@@ -235,8 +235,8 @@ public abstract class AbstractConverter implements Converter
     }
 
     /**
-     * ƒR[ƒh–„‚ß‚İŒã‚ÌƒNƒ‰ƒXƒtƒ@ƒCƒ‹‚Ìƒoƒbƒtƒ@‚ğæ“¾‚·‚éB
-     * @return ƒR[ƒh–„‚ß‚İŒã‚ÌƒNƒ‰ƒXƒtƒ@ƒCƒ‹‚Ìƒoƒbƒtƒ@
+     * ã‚³ãƒ¼ãƒ‰åŸ‹ã‚è¾¼ã¿å¾Œã®ã‚¯ãƒ©ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒãƒƒãƒ•ã‚¡ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ã‚³ãƒ¼ãƒ‰åŸ‹ã‚è¾¼ã¿å¾Œã®ã‚¯ãƒ©ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒãƒƒãƒ•ã‚¡
      */
     public byte[] getNewClassfileBuffer()
     {
@@ -249,8 +249,8 @@ public abstract class AbstractConverter implements Converter
     }
 
     /**
-     * ƒR[ƒh–„‚ß‚İŒã‚ÌƒNƒ‰ƒXƒtƒ@ƒCƒ‹‚Ìƒoƒbƒtƒ@‚ğİ’è‚·‚éB
-     * @param newClassfileBuffer ƒR[ƒh–„‚ß‚İŒã‚ÌƒNƒ‰ƒXƒtƒ@ƒCƒ‹‚Ìƒoƒbƒtƒ@
+     * ã‚³ãƒ¼ãƒ‰åŸ‹ã‚è¾¼ã¿å¾Œã®ã‚¯ãƒ©ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒãƒƒãƒ•ã‚¡ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param newClassfileBuffer ã‚³ãƒ¼ãƒ‰åŸ‹ã‚è¾¼ã¿å¾Œã®ã‚¯ãƒ©ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒãƒƒãƒ•ã‚¡
      */
     public void setNewClassfileBuffer(final byte[] newClassfileBuffer)
     {
@@ -261,9 +261,9 @@ public abstract class AbstractConverter implements Converter
     }
 
     /**
-     * ƒNƒ‰ƒX–¼‚ğæ“¾‚·‚é.
+     * ã‚¯ãƒ©ã‚¹åã‚’å–å¾—ã™ã‚‹.
      * 
-     * @return ƒNƒ‰ƒX–¼
+     * @return ã‚¯ãƒ©ã‚¹å
      */
     public String getClassName()
     {
@@ -271,7 +271,7 @@ public abstract class AbstractConverter implements Converter
     }
 
     /**
-     * Config‚ğæ“¾‚·‚é.
+     * Configã‚’å–å¾—ã™ã‚‹.
      * 
      * @return Config
      */
@@ -281,9 +281,9 @@ public abstract class AbstractConverter implements Converter
     }
 
     /**
-     * C‚”Class‚ğæ“¾‚·‚é.
+     * Cï½”Classã‚’å–å¾—ã™ã‚‹.
      * 
-     * @return C‚”Class
+     * @return Cï½”Class
      */
     public CtClass getCtClass()
     {
@@ -291,7 +291,7 @@ public abstract class AbstractConverter implements Converter
     }
 
     /**
-     * ClassPool‚ğæ“¾‚·‚é.
+     * ClassPoolã‚’å–å¾—ã™ã‚‹.
      * 
      * @return ClassPool
      */
@@ -301,9 +301,9 @@ public abstract class AbstractConverter implements Converter
     }
 
     /**
-     * •ÏŠ·ƒNƒ‰ƒX–¼‚Ìæ“¾
+     * å¤‰æ›ã‚¯ãƒ©ã‚¹åã®å–å¾—
      * 
-     * @return •ÏŠ·ƒNƒ‰ƒX–¼
+     * @return å¤‰æ›ã‚¯ãƒ©ã‚¹å
      */
     protected String simpleName()
     {
@@ -313,10 +313,10 @@ public abstract class AbstractConverter implements Converter
     }
 
     /**
-     * •ÏŠ·î•ñ‚ğo—Í‚·‚é
+     * å¤‰æ›æƒ…å ±ã‚’å‡ºåŠ›ã™ã‚‹
      * 
-     * @param converterName ƒRƒ“ƒo[ƒ^–¼B
-     * @param ctMember •ÏŠ·‘ÎÛ
+     * @param converterName ã‚³ãƒ³ãƒãƒ¼ã‚¿åã€‚
+     * @param ctMember å¤‰æ›å¯¾è±¡
      */
     protected void logModifiedMethod(final String converterName, final CtMember ctMember)
     {
@@ -324,16 +324,16 @@ public abstract class AbstractConverter implements Converter
     }
 
     /**
-     * •ÏŠ·î•ñ‚ğo—Í‚·‚é
+     * å¤‰æ›æƒ…å ±ã‚’å‡ºåŠ›ã™ã‚‹
      * 
-     * @param converterName ƒRƒ“ƒo[ƒ^–¼B
-     * @param ctMember •ÏŠ·‘ÎÛ
-     * @param message ƒƒbƒZ[ƒWB
+     * @param converterName ã‚³ãƒ³ãƒãƒ¼ã‚¿åã€‚
+     * @param ctMember å¤‰æ›å¯¾è±¡
+     * @param message ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã€‚
      */
     protected void logModifiedMethod(final String converterName, final CtMember ctMember,
             final String message)
     {
-        // ˆ—Œ‹‰Ê‚ğƒƒO‚Éo—Í‚·‚éB
+        // å‡¦ç†çµæœã‚’ãƒ­ã‚°ã«å‡ºåŠ›ã™ã‚‹ã€‚
         String methodName = ctMember.getName();
 
         String key = "javelin.converter.AbstractConverter.ModifiedMethodLabel";

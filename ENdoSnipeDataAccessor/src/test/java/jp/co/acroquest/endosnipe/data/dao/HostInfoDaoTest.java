@@ -31,7 +31,7 @@ import java.util.List;
 import jp.co.acroquest.endosnipe.data.entity.HostInfo;
 
 /**
- * {@link HostInfoDao} ƒNƒ‰ƒX‚ÌƒeƒXƒgƒP[ƒXB<br />
+ * {@link HostInfoDao} ã‚¯ãƒ©ã‚¹ã®ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹ã€‚<br />
  *
  * @author y-sakamoto
  */
@@ -40,19 +40,19 @@ public class HostInfoDaoTest extends AbstractDaoTest
 
     /**
      * @target testInsert_one
-     * @test ‘}“ü
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @test æŒ¿å…¥
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public void testInsert_one()
         throws SQLException
     {
-        // €”õ
+        // æº–å‚™
         HostInfo hostInfo = createHostInfo("localhost", "127.0.0.1", 18000, "Host1");
 
-        // Às
+        // å®Ÿè¡Œ
         HostInfoDao.insert(DB_NAME, hostInfo);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         List<HostInfo> actual = HostInfoDao.selectAll(DB_NAME);
         assertEquals(1, actual.size());
         assertEquals("localhost", actual.get(0).hostName);
@@ -63,25 +63,25 @@ public class HostInfoDaoTest extends AbstractDaoTest
 
     /**
      * @target testSelectAll_exist
-     * @test ‘I‘ğ
-     *   Condition:: ƒŒƒR[ƒh‚ª‘¶İ‚·‚éB
-     *   Result:: ‚·‚×‚Ä‚ÌƒŒƒR[ƒh‚ª•Ô‚é‚±‚ÆB
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @test é¸æŠ
+     *   Condition:: ãƒ¬ã‚³ãƒ¼ãƒ‰ãŒå­˜åœ¨ã™ã‚‹ã€‚
+     *   Result:: ã™ã¹ã¦ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ãŒè¿”ã‚‹ã“ã¨ã€‚
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public void testSelectAll_exist()
         throws SQLException
     {
-        // €”õ
+        // æº–å‚™
         HostInfo hostInfo;
         hostInfo = createHostInfo("localhost1", "127.0.0.1", 18000, "Host1");
         HostInfoDao.insert(DB_NAME, hostInfo);
         hostInfo = createHostInfo("localhost2", "127.0.0.2", 18001, "Host2");
         HostInfoDao.insert(DB_NAME, hostInfo);
 
-        // Às
+        // å®Ÿè¡Œ
         List<HostInfo> actual = HostInfoDao.selectAll(DB_NAME);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(2, actual.size());
         assertEquals("localhost1", actual.get(0).hostName);
         assertEquals("127.0.0.1", actual.get(0).ipAddress);
@@ -95,29 +95,29 @@ public class HostInfoDaoTest extends AbstractDaoTest
 
     /**
      * @target testSelectAll_notExist
-     * @test ‘I‘ğ
-     *   Condition:: ƒŒƒR[ƒh‚ª‘¶İ‚µ‚È‚¢B
-     *   Result:: ƒŒƒR[ƒh‚ª•Ô‚ç‚È‚¢‚±‚ÆB
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @test é¸æŠ
+     *   Condition:: ãƒ¬ã‚³ãƒ¼ãƒ‰ãŒå­˜åœ¨ã—ãªã„ã€‚
+     *   Result:: ãƒ¬ã‚³ãƒ¼ãƒ‰ãŒè¿”ã‚‰ãªã„ã“ã¨ã€‚
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public void testSelectAll_notExist()
         throws SQLException
     {
-        // Às
+        // å®Ÿè¡Œ
         List<HostInfo> actual = HostInfoDao.selectAll(DB_NAME);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(0, actual.size());
     }
 
     /**
-     * {@link HostInfo} ƒIƒuƒWƒFƒNƒg‚ğì¬‚µ‚Ü‚·B<br />
+     * {@link HostInfo} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆã—ã¾ã™ã€‚<br />
      *
-     * @param hostName ƒzƒXƒg–¼
-     * @param ipAddress IP ƒAƒhƒŒƒX
-     * @param port ƒ|[ƒg”Ô†
-     * @param description Ú×à–¾
-     * @return {@link HostInfo} ƒIƒuƒWƒFƒNƒg
+     * @param hostName ãƒ›ã‚¹ãƒˆå
+     * @param ipAddress IP ã‚¢ãƒ‰ãƒ¬ã‚¹
+     * @param port ãƒãƒ¼ãƒˆç•ªå·
+     * @param description è©³ç´°èª¬æ˜
+     * @return {@link HostInfo} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     private HostInfo createHostInfo(String hostName, String ipAddress, int port, String description)
     {

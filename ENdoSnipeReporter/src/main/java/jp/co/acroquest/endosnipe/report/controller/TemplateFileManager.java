@@ -23,8 +23,8 @@ import java.net.URL;
 import jp.co.acroquest.endosnipe.report.util.ReporterConfigAccessor;
 
 /**
- * ƒŒƒ|[ƒg‚Ìuí—Şv‚É‘Î‰‚µ‚½ƒŒƒ|[ƒgƒeƒ“ƒvƒŒ[ƒg‚ğŠÇ—‚·‚éB
- * ƒŠƒNƒGƒXƒg‚É‰‚¶‚ÄAƒŒƒ|[ƒgƒeƒ“ƒvƒŒ[ƒgƒŠƒ\[ƒX‚ÉƒAƒNƒZƒX‚·‚é‚½‚ß‚ÌƒpƒX‚ğ•Ô‚·B
+ * ãƒ¬ãƒãƒ¼ãƒˆã®ã€Œç¨®é¡ã€ã«å¯¾å¿œã—ãŸãƒ¬ãƒãƒ¼ãƒˆãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã‚’ç®¡ç†ã™ã‚‹ã€‚
+ * ãƒªã‚¯ã‚¨ã‚¹ãƒˆã«å¿œã˜ã¦ã€ãƒ¬ãƒãƒ¼ãƒˆãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆãƒªã‚½ãƒ¼ã‚¹ã«ã‚¢ã‚¯ã‚»ã‚¹ã™ã‚‹ãŸã‚ã®ãƒ‘ã‚¹ã‚’è¿”ã™ã€‚
  * 
  * @author M.Yoshida
  */
@@ -33,7 +33,7 @@ public class TemplateFileManager
     private static TemplateFileManager instance__ = null;
 
     /**
-     * ƒCƒ“ƒXƒ^ƒ“ƒX–h~‚Ì‚½‚ß‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹é˜²æ­¢ã®ãŸã‚ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      */
     private TemplateFileManager()
     // CHECKSTYLE:OFF
@@ -43,8 +43,8 @@ public class TemplateFileManager
     // CHECKSTYLE:ON
 
     /**
-     * ƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚·‚éB
-     * @return ƒCƒ“ƒXƒ^ƒ“ƒXB
+     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã€‚
      */
     public static TemplateFileManager getInstance()
     {
@@ -56,12 +56,12 @@ public class TemplateFileManager
     }
 
     /**
-     * ƒŒƒ|[ƒg‚Ìuí—Şv‚É‘Î‰‚·‚éƒeƒ“ƒvƒŒ[ƒgƒtƒ@ƒCƒ‹‚ğƒŠƒ\[ƒX‚©‚çæ‚èo‚µ
-     * ƒeƒ“ƒ|ƒ‰ƒŠ—Ìˆæ‚ÉƒRƒs[ŒãAƒeƒ“ƒ|ƒ‰ƒŠƒtƒ@ƒCƒ‹‚Ö‚Ìâ‘ÎƒpƒX‚ğ¶¬‚·‚éB
+     * ãƒ¬ãƒãƒ¼ãƒˆã®ã€Œç¨®é¡ã€ã«å¯¾å¿œã™ã‚‹ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã‚’ãƒªã‚½ãƒ¼ã‚¹ã‹ã‚‰å–ã‚Šå‡ºã—
+     * ãƒ†ãƒ³ãƒãƒ©ãƒªé ˜åŸŸã«ã‚³ãƒ”ãƒ¼å¾Œã€ãƒ†ãƒ³ãƒãƒ©ãƒªãƒ•ã‚¡ã‚¤ãƒ«ã¸ã®çµ¶å¯¾ãƒ‘ã‚¹ã‚’ç”Ÿæˆã™ã‚‹ã€‚
      * 
-     * @param type ƒŒƒ|[ƒg‚Ìí—Ş
-     * @throws IOException “üo—ÍƒGƒ‰[”­¶
-     * @return ƒtƒ@ƒCƒ‹ƒpƒX
+     * @param type ãƒ¬ãƒãƒ¼ãƒˆã®ç¨®é¡
+     * @throws IOException å…¥å‡ºåŠ›ã‚¨ãƒ©ãƒ¼ç™ºç”Ÿæ™‚
+     * @return ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹
      */
     public String getTemplateFile(ReportType type)
         throws IOException
@@ -118,10 +118,10 @@ public class TemplateFileManager
     }
 
     /**
-     * ƒXƒgƒŠ[ƒ€‚ğƒNƒ[ƒY‚µ‚Ü‚·B<br />
-     * ˆø”‚ª <code>null</code> ‚Ìê‡‚Í‰½‚às‚¢‚Ü‚¹‚ñB
+     * ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚’ã‚¯ãƒ­ãƒ¼ã‚ºã—ã¾ã™ã€‚<br />
+     * å¼•æ•°ãŒ <code>null</code> ã®å ´åˆã¯ä½•ã‚‚è¡Œã„ã¾ã›ã‚“ã€‚
      * 
-     * @param stream ƒXƒgƒŠ[ƒ€
+     * @param stream ã‚¹ãƒˆãƒªãƒ¼ãƒ 
 
      */
     private void closeStream(final Closeable stream)

@@ -40,45 +40,45 @@ import jp.co.smg.endosnipe.javassist.CtMethod;
 import jp.co.smg.endosnipe.javassist.NotFoundException;
 
 /**
- * EJB‚ÌƒZƒbƒVƒ‡ƒ“Bean‚ğŠÄ‹‚·‚é‚½‚ß‚ÌƒRƒ“ƒo[ƒ^BEJB2ˆÈ‘O‚ÆEJB3ˆÈ~‚Ì‹¤’Êˆ—‚ğ–{ƒNƒ‰ƒX‚É‹Lq‚·‚éB
+ * EJBã®ã‚»ãƒƒã‚·ãƒ§ãƒ³Beanã‚’ç›£è¦–ã™ã‚‹ãŸã‚ã®ã‚³ãƒ³ãƒãƒ¼ã‚¿ã€‚EJB2ä»¥å‰ã¨EJB3ä»¥é™ã®å…±é€šå‡¦ç†ã‚’æœ¬ã‚¯ãƒ©ã‚¹ã«è¨˜è¿°ã™ã‚‹ã€‚
  * 
  * @author S.Kimura
  */
 public abstract class AbstractEjbConverter extends AbstractConverter
 {
-    /** •ÏŠ·‘ÎÛ‚©‚çœŠO‚·‚éƒƒ\ƒbƒh */
+    /** å¤‰æ›å¯¾è±¡ã‹ã‚‰é™¤å¤–ã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ */
     private static final Set<String> EXCLUDE_METHODS = new HashSet<String>();
 
-    /** JavelinRecorder–¼ */
+    /** JavelinRecorderå */
     private static final String EJB_MONITOR_NAME = EjbSessionMonitor.class.getCanonicalName();
 
-    /** Às‘Oˆ—‚Æ‚µ‚Ä’Ç‰Á‚·‚épreProcess‚ÌƒR[ƒh(‘O)B */
+    /** å®Ÿè¡Œå‰å‡¦ç†ã¨ã—ã¦è¿½åŠ ã™ã‚‹preProcessã®ã‚³ãƒ¼ãƒ‰(å‰)ã€‚ */
     private static final String PREPROCESS_CODE_BEFORE = EJB_MONITOR_NAME + ".preProcess(";
 
-    /** Às‘Oˆ—‚Æ‚µ‚Ä’Ç‰Á‚·‚épreProcess‚ÌƒR[ƒh(Œã)B */
+    /** å®Ÿè¡Œå‰å‡¦ç†ã¨ã—ã¦è¿½åŠ ã™ã‚‹preProcessã®ã‚³ãƒ¼ãƒ‰(å¾Œ)ã€‚ */
     private static final String PREPROCESS_CODE_AFTER = "\", $args);";
 
-    /** ÀsŒãˆ—‚Æ‚µ‚Ä’Ç‰Á‚·‚épostProcessNG‚ÌƒR[ƒh(‘O)B */
+    /** å®Ÿè¡Œå¾Œå‡¦ç†ã¨ã—ã¦è¿½åŠ ã™ã‚‹postProcessNGã®ã‚³ãƒ¼ãƒ‰(å‰)ã€‚ */
     private static final String POSTPROCESS_NG_CODE_BEFORE = EJB_MONITOR_NAME + ".postProcessNG(";
 
-    /** ÀsŒãˆ—‚Æ‚µ‚Ä’Ç‰Á‚·‚épostProcessNG‚ÌƒR[ƒh(Œã)B */
+    /** å®Ÿè¡Œå¾Œå‡¦ç†ã¨ã—ã¦è¿½åŠ ã™ã‚‹postProcessNGã®ã‚³ãƒ¼ãƒ‰(å¾Œ)ã€‚ */
     private static final String POSTPROCESS_NG_CODE_AFTER = "\",$e);throw $e;";
 
-    /** ÀsŒãˆ—‚Æ‚µ‚Ä’Ç‰Á‚·‚épostProcessOK‚ÌƒR[ƒh(‘O)B */
+    /** å®Ÿè¡Œå¾Œå‡¦ç†ã¨ã—ã¦è¿½åŠ ã™ã‚‹postProcessOKã®ã‚³ãƒ¼ãƒ‰(å‰)ã€‚ */
     private static final String POSTPROCESS_OK_CODE_BEFORE = EJB_MONITOR_NAME + ".postProcessOK(";
 
-    /** ÀsŒãˆ—‚Æ‚µ‚Ä’Ç‰Á‚·‚épostProcessOK‚ÌƒR[ƒh(Œã)B */
+    /** å®Ÿè¡Œå¾Œå‡¦ç†ã¨ã—ã¦è¿½åŠ ã™ã‚‹postProcessOKã®ã‚³ãƒ¼ãƒ‰(å¾Œ)ã€‚ */
     private static final String POSTPROCESS_OK_CODE_AFTER = "\",($w)$_);";
 
-    /** Às‘Oˆ—‚Æ‚µ‚Ä’Ç‰Á‚³‚ê‚éƒR[ƒh‚ÌŒÅ’è•”•ª‚Ì•¶š—ñ’· */
+    /** å®Ÿè¡Œå‰å‡¦ç†ã¨ã—ã¦è¿½åŠ ã•ã‚Œã‚‹ã‚³ãƒ¼ãƒ‰ã®å›ºå®šéƒ¨åˆ†ã®æ–‡å­—åˆ—é•· */
     private static final int PREPROCESS_CODE_FIXEDLENGTH =
             PREPROCESS_CODE_BEFORE.length() + PREPROCESS_CODE_AFTER.length();
 
-    /** ÀsŒãˆ—‚Æ‚µ‚Ä’Ç‰Á‚³‚ê‚éƒR[ƒh‚ÌŒÅ’è•”•ª‚Ì•¶š—ñ’· */
+    /** å®Ÿè¡Œå¾Œå‡¦ç†ã¨ã—ã¦è¿½åŠ ã•ã‚Œã‚‹ã‚³ãƒ¼ãƒ‰ã®å›ºå®šéƒ¨åˆ†ã®æ–‡å­—åˆ—é•· */
     private static final int POSTPROCESS_CODE_FIXEDLENGTH =
             POSTPROCESS_OK_CODE_BEFORE.length() + POSTPROCESS_OK_CODE_AFTER.length();
 
-    /** ÀsŒãˆ—‚Æ‚µ‚Ä’Ç‰Á‚³‚ê‚éNGƒR[ƒh‚ÌŒÅ’è•”•ª‚Ì•¶š—ñ’· */
+    /** å®Ÿè¡Œå¾Œå‡¦ç†ã¨ã—ã¦è¿½åŠ ã•ã‚Œã‚‹NGã‚³ãƒ¼ãƒ‰ã®å›ºå®šéƒ¨åˆ†ã®æ–‡å­—åˆ—é•· */
     private static final int NG_CODE_FIXEDLENGTH =
             POSTPROCESS_NG_CODE_BEFORE.length() + POSTPROCESS_NG_CODE_AFTER.length();
 
@@ -131,7 +131,7 @@ public abstract class AbstractEjbConverter extends AbstractConverter
 
                 CtMethod ctMethod = (CtMethod)ctBehavior;
                 convertMethod(ctMethod );
-                //ƒJƒoƒŒƒbƒW‚ğæ“¾‚·‚é‚½‚ßAŠJ”­ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’†‚Å•ÏŠ·‚³‚ê‚½ƒƒ\ƒbƒh”‚Æ‚µ‚ÄƒJƒEƒ“ƒg
+                //ã‚«ãƒãƒ¬ãƒƒã‚¸ã‚’å–å¾—ã™ã‚‹ãŸã‚ã€é–‹ç™ºã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ä¸­ã§å¤‰æ›ã•ã‚ŒãŸãƒ¡ã‚½ãƒƒãƒ‰æ•°ã¨ã—ã¦ã‚«ã‚¦ãƒ³ãƒˆ
                 ConvertedMethodCounter.incrementConvertedCount();
                 isConverted = true;
             }
@@ -152,11 +152,11 @@ public abstract class AbstractEjbConverter extends AbstractConverter
     }
 
     /**
-     * •ÏŠ·‘ÎÛƒƒ\ƒbƒh‚ÌƒNƒ‰ƒX•ÏŠ·‚ğs‚¤
+     * å¤‰æ›å¯¾è±¡ãƒ¡ã‚½ãƒƒãƒ‰ã®ã‚¯ãƒ©ã‚¹å¤‰æ›ã‚’è¡Œã†
      * 
-     * @param targetMethod •ÏŠ·‘ÎÛƒƒ\ƒbƒh
-     * @throws CannotCompileException ƒRƒ“ƒpƒCƒ‹‚É¸”s‚µ‚½ê‡ 
-     * @throws NotFoundException ƒNƒ‰ƒX‚ªæ“¾‚Å‚«‚È‚©‚Á‚½ê‡
+     * @param targetMethod å¤‰æ›å¯¾è±¡ãƒ¡ã‚½ãƒƒãƒ‰
+     * @throws CannotCompileException ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã«å¤±æ•—ã—ãŸå ´åˆ 
+     * @throws NotFoundException ã‚¯ãƒ©ã‚¹ãŒå–å¾—ã§ããªã‹ã£ãŸå ´åˆ
      */
     private void convertMethod(final CtMethod targetMethod)
         throws CannotCompileException,
@@ -167,7 +167,7 @@ public abstract class AbstractEjbConverter extends AbstractConverter
         String argClassMethod = "\"" + className + "\",\"" + methodName;
         int argLength = argClassMethod.length();
 
-        // Às‘Oˆ—‚ğ’Ç‰Á‚·‚éB
+        // å®Ÿè¡Œå‰å‡¦ç†ã‚’è¿½åŠ ã™ã‚‹ã€‚
         int preProcessCodeLength = argLength + PREPROCESS_CODE_FIXEDLENGTH;
         StringBuilder preProcessCodeBuffer = new StringBuilder(preProcessCodeLength);
         preProcessCodeBuffer.append(PREPROCESS_CODE_BEFORE);
@@ -176,7 +176,7 @@ public abstract class AbstractEjbConverter extends AbstractConverter
         String callPreProcessCode = preProcessCodeBuffer.toString();
         targetMethod.insertBefore(callPreProcessCode);
 
-        // ÀsŒãˆ—‚ğ’Ç‰Á‚·‚éB
+        // å®Ÿè¡Œå¾Œå‡¦ç†ã‚’è¿½åŠ ã™ã‚‹ã€‚
         int postProcessCodeLength = argLength + POSTPROCESS_CODE_FIXEDLENGTH;
         StringBuilder postProcessCodeBuffer = new StringBuilder(postProcessCodeLength);
         postProcessCodeBuffer.append(POSTPROCESS_OK_CODE_BEFORE);
@@ -186,9 +186,9 @@ public abstract class AbstractEjbConverter extends AbstractConverter
 
         targetMethod.insertAfter(callPostProcessCode);
 
-        // —áŠOƒnƒ“ƒhƒŠƒ“ƒO‚ğ’Ç‰Á‚·‚éB
+        // ä¾‹å¤–ãƒãƒ³ãƒ‰ãƒªãƒ³ã‚°ã‚’è¿½åŠ ã™ã‚‹ã€‚
         CtClass throwable = getClassPool().get(Throwable.class.getName());
-        // Às‘Oˆ—‚ğ’Ç‰Á‚·‚éB
+        // å®Ÿè¡Œå‰å‡¦ç†ã‚’è¿½åŠ ã™ã‚‹ã€‚
         int ngCodeLength = argLength + NG_CODE_FIXEDLENGTH;
         StringBuilder ngCodeBuffer = new StringBuilder(ngCodeLength);
         ngCodeBuffer.append(POSTPROCESS_NG_CODE_BEFORE);
@@ -200,18 +200,18 @@ public abstract class AbstractEjbConverter extends AbstractConverter
     }
 
     /**
-     * ‘ÎÛƒNƒ‰ƒX‚ÌƒRƒ“ƒo[ƒg‚ğs‚¤‚©‚Ç‚¤‚©”»’è‚ğs‚¤
+     * å¯¾è±¡ã‚¯ãƒ©ã‚¹ã®ã‚³ãƒ³ãƒãƒ¼ãƒˆã‚’è¡Œã†ã‹ã©ã†ã‹åˆ¤å®šã‚’è¡Œã†
      * 
-     * @return ƒRƒ“ƒo[ƒg‚ğs‚¤‚©‚Ç‚¤‚©
-     * @throws CannotCompileException ƒRƒ“ƒo[ƒg‚ÌŒ‹‰ÊƒRƒ“ƒpƒCƒ‹‚É¸”s‚µ‚½ê‡
+     * @return ã‚³ãƒ³ãƒãƒ¼ãƒˆã‚’è¡Œã†ã‹ã©ã†ã‹
+     * @throws CannotCompileException ã‚³ãƒ³ãƒãƒ¼ãƒˆã®çµæœã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã«å¤±æ•—ã—ãŸå ´åˆ
      */
     protected abstract boolean isConvert()
         throws CannotCompileException;
 
     /**
-     * •ÏŠ·î•ñ‚ğo—Í‚·‚é
+     * å¤‰æ›æƒ…å ±ã‚’å‡ºåŠ›ã™ã‚‹
      * 
-     * @param target •ÏŠ·À{ƒƒ\ƒbƒh
+     * @param target å¤‰æ›å®Ÿæ–½ãƒ¡ã‚½ãƒƒãƒ‰
      */
     protected abstract void printModifiedLog(final CtMethod target);
 }

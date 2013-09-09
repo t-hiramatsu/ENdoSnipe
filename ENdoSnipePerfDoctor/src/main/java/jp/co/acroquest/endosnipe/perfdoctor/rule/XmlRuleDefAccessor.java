@@ -46,7 +46,7 @@ import jp.co.acroquest.endosnipe.perfdoctor.exception.RuleNotFoundException;
 import jp.co.acroquest.endosnipe.perfdoctor.rule.def.RuleSetDef;
 
 /**
- * ƒ‹[ƒ‹’è‹`‚Ì’Ç‰ÁA•ÏXAíœAQÆ‚ğs‚¤ƒNƒ‰ƒXBXMLƒtƒ@ƒCƒ‹‚ğ—˜—p‚·‚éB
+ * ãƒ«ãƒ¼ãƒ«å®šç¾©ã®è¿½åŠ ã€å¤‰æ›´ã€å‰Šé™¤ã€å‚ç…§ã‚’è¡Œã†ã‚¯ãƒ©ã‚¹ã€‚XMLãƒ•ã‚¡ã‚¤ãƒ«ã‚’åˆ©ç”¨ã™ã‚‹ã€‚
  * @author tanimoto
  *
  */
@@ -55,17 +55,17 @@ public class XmlRuleDefAccessor implements RuleDefAccessor
     private static final ENdoSnipeLogger LOGGER         =
                                                           ENdoSnipeLogger.getLogger(RuleDefAccessor.class);
 
-    /** •¶šƒR[ƒhUTF-8‚ğ•\‚·•¶š—ñ */
+    /** æ–‡å­—ã‚³ãƒ¼ãƒ‰UTF-8ã‚’è¡¨ã™æ–‡å­—åˆ— */
     private static final String          ENCODING_UTF_8 = "utf-8";
 
-    /** ƒf[ƒ^‚ğXML‚É–ß‚·Û‚Ì§Œä‚ğs‚¤ƒIƒuƒWƒFƒNƒg */
+    /** ãƒ‡ãƒ¼ã‚¿ã‚’XMLã«æˆ»ã™éš›ã®åˆ¶å¾¡ã‚’è¡Œã†ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     private Marshaller                   marshaller_;
 
-    /** ƒf[ƒ^‚ğXML‚©‚çæ“¾‚·‚éÛ‚Ì§Œä‚ğs‚¤ƒIƒuƒWƒFƒNƒg */
+    /** ãƒ‡ãƒ¼ã‚¿ã‚’XMLã‹ã‚‰å–å¾—ã™ã‚‹éš›ã®åˆ¶å¾¡ã‚’è¡Œã†ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     private Unmarshaller                 unmarshaller_;
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^Bmarshaller/unmarshaller‚ğ‰Šú‰»‚·‚éB
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚marshaller/unmarshallerã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
      */
     public XmlRuleDefAccessor()
     {
@@ -85,11 +85,11 @@ public class XmlRuleDefAccessor implements RuleDefAccessor
 
     /**
      * {@inheritDoc}<br>
-     * XMLƒtƒ@ƒCƒ‹‚æ‚è’è‹`‚ğ“Ç‚İ‚ŞB
-     * @param fileName “Ç‚İ‚Şƒtƒ@ƒCƒ‹‚Ì–¼‘O
-     * @return ƒ‹[ƒ‹ƒZƒbƒg’è‹`(RuleSetDef)
-     * @throws RuleNotFoundException ƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡
-     * @throws RuleCreateException “Ç‚İ‚İ‚É¸”s‚µ‚½ê‡
+     * XMLãƒ•ã‚¡ã‚¤ãƒ«ã‚ˆã‚Šå®šç¾©ã‚’èª­ã¿è¾¼ã‚€ã€‚
+     * @param fileName èª­ã¿è¾¼ã‚€ãƒ•ã‚¡ã‚¤ãƒ«ã®åå‰
+     * @return ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆå®šç¾©(RuleSetDef)
+     * @throws RuleNotFoundException ãƒ•ã‚¡ã‚¤ãƒ«ãŒè¦‹ã¤ã‹ã‚‰ãªã„å ´åˆ
+     * @throws RuleCreateException èª­ã¿è¾¼ã¿ã«å¤±æ•—ã—ãŸå ´åˆ
      */
     @SuppressWarnings("deprecation")
     public RuleSetDef findRuleSet(final String fileName)
@@ -133,11 +133,11 @@ public class XmlRuleDefAccessor implements RuleDefAccessor
     }
 
     /**
-     * ƒtƒ@ƒCƒ‹–¼‚æ‚èURL‚ğì¬‚·‚éB<br>
-     * •¨—ƒtƒ@ƒCƒ‹‚ª‘¶İ‚µ‚½ê‡‚ÍAfile://‚©‚çn‚Ü‚éURL‚ğì¬‚µA<br>
-     * ‚»‚¤‚Å‚È‚¢ê‡‚ÍƒNƒ‰ƒXƒ[ƒ_[‚ªƒtƒ@ƒCƒ‹‚ğ’T‚µ‚ÄURL‚ğì¬‚·‚éB<br>
-     * ƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡‚Ínull‚ğ•Ô‚·B
-     * @param fileName ƒtƒ@ƒCƒ‹–¼
+     * ãƒ•ã‚¡ã‚¤ãƒ«åã‚ˆã‚ŠURLã‚’ä½œæˆã™ã‚‹ã€‚<br>
+     * ç‰©ç†ãƒ•ã‚¡ã‚¤ãƒ«ãŒå­˜åœ¨ã—ãŸå ´åˆã¯ã€file://ã‹ã‚‰å§‹ã¾ã‚‹URLã‚’ä½œæˆã—ã€<br>
+     * ãã†ã§ãªã„å ´åˆã¯ã‚¯ãƒ©ã‚¹ãƒ­ãƒ¼ãƒ€ãƒ¼ãŒãƒ•ã‚¡ã‚¤ãƒ«ã‚’æ¢ã—ã¦URLã‚’ä½œæˆã™ã‚‹ã€‚<br>
+     * ãƒ•ã‚¡ã‚¤ãƒ«ãŒè¦‹ã¤ã‹ã‚‰ãªã„å ´åˆã¯nullã‚’è¿”ã™ã€‚
+     * @param fileName ãƒ•ã‚¡ã‚¤ãƒ«å
      * @return URL
      */
     @SuppressWarnings("deprecation")
@@ -167,9 +167,9 @@ public class XmlRuleDefAccessor implements RuleDefAccessor
 
     /**
      * {@inheritDoc}<br>
-     * XMLƒtƒ@ƒCƒ‹‚É’è‹`‚ğ‘‚«‚ŞB
-     * @param ruleSetDef ƒ‹[ƒ‹ƒZƒbƒg’è‹`(RuleSetDef)
-     * @param fileName ‘‚«‚Şƒtƒ@ƒCƒ‹‚Ì–¼‘O
+     * XMLãƒ•ã‚¡ã‚¤ãƒ«ã«å®šç¾©ã‚’æ›¸ãè¾¼ã‚€ã€‚
+     * @param ruleSetDef ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆå®šç¾©(RuleSetDef)
+     * @param fileName æ›¸ãè¾¼ã‚€ãƒ•ã‚¡ã‚¤ãƒ«ã®åå‰
      */
     @SuppressWarnings("deprecation")
     public void updateRuleSet(final RuleSetDef ruleSetDef, final String fileName)

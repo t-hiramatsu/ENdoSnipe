@@ -24,7 +24,7 @@ import jp.co.acroquest.endosnipe.common.Constants;
 import jp.co.acroquest.endosnipe.report.dao.ReportDao;
 
 /**
- * Javelin ƒOƒ‰ƒtƒf[ƒ^‚ğDB‚©‚çæ“¾‚·‚éƒAƒNƒZƒTƒNƒ‰ƒXB
+ * Javelin ã‚°ãƒ©ãƒ•ãƒ‡ãƒ¼ã‚¿ã‚’DBã‹ã‚‰å–å¾—ã™ã‚‹ã‚¢ã‚¯ã‚»ã‚µã‚¯ãƒ©ã‚¹ã€‚
  * 
  * @author akiba
  */
@@ -33,20 +33,20 @@ public class JavelinRecordAccessor
     private static final double DECIMAL_TO_PERCENT = 100.0;
 
     /**
-     * ŠúŠÔ‚ğw’è‚µA‚»‚ÌŠúŠÔ“à‚Å‚ÌJavelin‚ÌƒŒƒ|[ƒgƒf[ƒ^‚ğæ“¾‚·‚éB
+     * æœŸé–“ã‚’æŒ‡å®šã—ã€ãã®æœŸé–“å†…ã§ã®Javelinã®ãƒ¬ãƒãƒ¼ãƒˆãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @param database ƒf[ƒ^ƒx[ƒX–¼B
-     * @param startTime ŒŸõğŒ(ŠJn)B
-     * @param endTime ŒŸõğŒ(I—¹)B
-     * @return Javelin‚ÌƒŒƒ|[ƒg‚Ìƒf[ƒ^B
-     * @throws SQLException ƒf[ƒ^æ“¾‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã€‚
+     * @param startTime æ¤œç´¢æ¡ä»¶(é–‹å§‹æ™‚åˆ»)ã€‚
+     * @param endTime æ¤œç´¢æ¡ä»¶(çµ‚äº†æ™‚åˆ»)ã€‚
+     * @return Javelinã®ãƒ¬ãƒãƒ¼ãƒˆã®ãƒ‡ãƒ¼ã‚¿ã€‚
+     * @throws SQLException ãƒ‡ãƒ¼ã‚¿å–å¾—æ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public List<JavelinRecord> findJavelinStaticsByTerm(String database,
             Timestamp startTime, Timestamp endTime) throws SQLException
     {
         List<JavelinRecord> result = new ArrayList<JavelinRecord>();
 
-        // ƒf[ƒ^ƒx[ƒX‚©‚ç’l‚ğæ“¾‚·‚é
+        // ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‹ã‚‰å€¤ã‚’å–å¾—ã™ã‚‹
         List<ReportItemValue> maxCallTreeNodeValues;
         List<ReportItemValue> convertedValues;
         List<ReportItemValue> excludedValues;
@@ -56,7 +56,7 @@ public class JavelinRecordAccessor
         List<ReportItemValue> coverageValues;
         List<ReportItemValue> eventValues;
 
-        // CallTreeNode ¶¬”iÅ‘åj
+        // CallTreeNode ç”Ÿæˆæ•°ï¼ˆæœ€å¤§ï¼‰
         maxCallTreeNodeValues = ReportDao.selectCallTreeAverage(database,
                 startTime, endTime, Constants.ITEMNAME_MAX_NODECOUNT);
         allNodeCountValues = ReportDao.selectCallTreeAverage(database,
@@ -75,7 +75,7 @@ public class JavelinRecordAccessor
         coverageValues = ReportDao.selectAverage(database, startTime, endTime,
                 Constants.ITEMNAME_COVERAGE);
 
-        // ƒJƒoƒŒƒbƒW‚Ìƒf[ƒ^‚ªDB‚É‚ ‚èAæ“¾‚Å‚«‚½ê‡‚ÍA‚»‚ê‚ç‚É•ÏŠ·ˆ—‚ğs‚¤B
+        // ã‚«ãƒãƒ¬ãƒƒã‚¸ã®ãƒ‡ãƒ¼ã‚¿ãŒDBã«ã‚ã‚Šã€å–å¾—ã§ããŸå ´åˆã¯ã€ãã‚Œã‚‰ã«å¤‰æ›å‡¦ç†ã‚’è¡Œã†ã€‚
         if (coverageValues != null && 0 < coverageValues.size())
         {
             coverageValues = PercentageDataUtil.reconstitutePercentageData(coverageValues);
@@ -112,7 +112,7 @@ public class JavelinRecordAccessor
                 record.setJavelinConverterMethodNum(converted.summaryValue.longValue());
                 record.setJavelinConverterExcludedMethodNum(excluded.summaryValue.longValue());
                 record.setExecutedMethodNum(executed.summaryValue.longValue());
-                // ƒJƒoƒŒƒbƒWƒf[ƒ^‚Ìˆ—‚ğs‚¤B
+                // ã‚«ãƒãƒ¬ãƒƒã‚¸ãƒ‡ãƒ¼ã‚¿ã®å‡¦ç†ã‚’è¡Œã†ã€‚
                 ReportItemValue coverageRecord = new ReportItemValue();
                 if (coverageValues != null)
                 {
@@ -146,34 +146,34 @@ public class JavelinRecordAccessor
     }
 
     //	/**
-    //	 * ŠúŠÔ‚ğw’è‚µA‚»‚ÌŠúŠÔ“à‚Å‚Ì<br/>
-    //	 * uCallTreeNode ¶¬”vƒOƒ‰ƒt‚Ìƒf[ƒ^‚ğæ“¾‚·‚éB
+    //	 * æœŸé–“ã‚’æŒ‡å®šã—ã€ãã®æœŸé–“å†…ã§ã®<br/>
+    //	 * ã€ŒCallTreeNode ç”Ÿæˆæ•°ã€ã‚°ãƒ©ãƒ•ã®ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã€‚
     //	 * 
     //	 * @param database
-    //	 *            ƒf[ƒ^ƒx[ƒX–¼B
+    //	 *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã€‚
     //	 * @param startTime
-    //	 *            ŒŸõğŒ(ŠJn)B
+    //	 *            æ¤œç´¢æ¡ä»¶(é–‹å§‹æ™‚åˆ»)ã€‚
     //	 * @param endTime
-    //	 *            ŒŸõğŒ(I—¹)B
-    //	 * @return uCallTreeNode ¶¬”vƒOƒ‰ƒt‚Ìƒf[ƒ^B
+    //	 *            æ¤œç´¢æ¡ä»¶(çµ‚äº†æ™‚åˆ»)ã€‚
+    //	 * @return ã€ŒCallTreeNode ç”Ÿæˆæ•°ã€ã‚°ãƒ©ãƒ•ã®ãƒ‡ãƒ¼ã‚¿ã€‚
     //	 */
     //	public List<CallTreeNodeRecord> findCallTreeNodeByTerm(
     //			String database, Timestamp startTime, Timestamp endTime)
     //			{
     //		List<CallTreeNodeRecord> result = new ArrayList<CallTreeNodeRecord>();
     //
-    //		// ƒf[ƒ^ƒx[ƒX‚©‚ç’l‚ğæ“¾‚·‚é
+    //		// ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‹ã‚‰å€¤ã‚’å–å¾—ã™ã‚‹
     //		List<MeasurementValueDto> maxCallTreeNodeValues;
     //		List<MeasurementValueDto> aveCallTreeNodeValues;
     //
     //		try
     //		{
-    //			// CallTreeNode ¶¬”iÅ‘åj
+    //			// CallTreeNode ç”Ÿæˆæ•°ï¼ˆæœ€å¤§ï¼‰
     //			maxCallTreeNodeValues = MeasurementValueDao
     //					.selectByTermAndMeasurementTypeWithNameOrderByTime(
     //							database, startTime, endTime,
     //							Constants.ITEMNAME_MAX_NODECOUNT);
-    //			// CallTreeNode ¶¬”i•½‹Ïj
+    //			// CallTreeNode ç”Ÿæˆæ•°ï¼ˆå¹³å‡ï¼‰
     //			aveCallTreeNodeValues = MeasurementValueDao
     //					.selectByTermAndMeasurementTypeWithNameOrderByTime(
     //							database, startTime, endTime,
@@ -181,12 +181,12 @@ public class JavelinRecordAccessor
     //		}
     //		catch (SQLException exception)
     //		{
-    //			// TODO ƒƒOƒƒbƒZ[ƒW‚Ì’è‹`‚ğs‚Á‚ÄA‚±‚±‚É’Ç‹L‚·‚é‚±‚ÆB
+    //			// TODO ãƒ­ã‚°ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®å®šç¾©ã‚’è¡Œã£ã¦ã€ã“ã“ã«è¿½è¨˜ã™ã‚‹ã“ã¨ã€‚
     //			LOGGER.log("", exception, new Object[0]);
     //			return null;
     //		}
     //
-    //		// ƒf[ƒ^ƒx[ƒX‚©‚çæ“¾‚µ‚½ƒf[ƒ^‚ğACallTreeNodeRecord ‚ÌƒŠƒXƒg‚É•ÏŠ·
+    //		// ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‹ã‚‰å–å¾—ã—ãŸãƒ‡ãƒ¼ã‚¿ã‚’ã€CallTreeNodeRecord ã®ãƒªã‚¹ãƒˆã«å¤‰æ›
     //		for (int index = 0; index < aveCallTreeNodeValues.size(); index++)
     //		{
     //			CallTreeNodeRecord record = new CallTreeNodeRecord();
@@ -204,40 +204,40 @@ public class JavelinRecordAccessor
     //	}
     //
     //	/**
-    //	 * ŠúŠÔ‚ğw’è‚µA‚»‚ÌŠúŠÔ“à‚Å‚Ì<br/>
-    //	 * u•ÏŠ·ƒƒ\ƒbƒh”vƒOƒ‰ƒt‚Ìƒf[ƒ^‚ğæ“¾‚·‚éB
+    //	 * æœŸé–“ã‚’æŒ‡å®šã—ã€ãã®æœŸé–“å†…ã§ã®<br/>
+    //	 * ã€Œå¤‰æ›ãƒ¡ã‚½ãƒƒãƒ‰æ•°ã€ã‚°ãƒ©ãƒ•ã®ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã€‚
     //	 * 
     //	 * @param database
-    //	 *            ƒf[ƒ^ƒx[ƒX–¼B
+    //	 *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã€‚
     //	 * @param startTime
-    //	 *            ŒŸõğŒ(ŠJn)B
+    //	 *            æ¤œç´¢æ¡ä»¶(é–‹å§‹æ™‚åˆ»)ã€‚
     //	 * @param endTime
-    //	 *            ŒŸõğŒ(I—¹)B
-    //	 * @return u•ÏŠ·ƒƒ\ƒbƒh”vƒOƒ‰ƒt‚Ìƒf[ƒ^B
+    //	 *            æ¤œç´¢æ¡ä»¶(çµ‚äº†æ™‚åˆ»)ã€‚
+    //	 * @return ã€Œå¤‰æ›ãƒ¡ã‚½ãƒƒãƒ‰æ•°ã€ã‚°ãƒ©ãƒ•ã®ãƒ‡ãƒ¼ã‚¿ã€‚
     //	 */
     //	public List<ConvertedMethodNumRecord> findConvertedMethodNumByTerm(
     //			String database, Timestamp startTime, Timestamp endTime)
     //			{
     //		List<ConvertedMethodNumRecord> result = new ArrayList<ConvertedMethodNumRecord>();
     //
-    //		// ƒf[ƒ^ƒx[ƒX‚©‚ç’l‚ğæ“¾‚·‚é
+    //		// ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‹ã‚‰å€¤ã‚’å–å¾—ã™ã‚‹
     //		List<MeasurementValueDto> convertedValues;
     //		List<MeasurementValueDto> excludedValues;
     //		List<MeasurementValueDto> executedValues;
     //
     //		try
     //		{
-    //			// JavelinConverter•ÏŠ·ƒƒ\ƒbƒh”
+    //			// JavelinConverterå¤‰æ›ãƒ¡ã‚½ãƒƒãƒ‰æ•°
     //			convertedValues = MeasurementValueDao
     //					.selectByTermAndMeasurementTypeWithNameOrderByTime(
     //							database, startTime, endTime,
     //							Constants.ITEMNAME_CONVERTEDMETHOD);
-    //			// JavelinConverter•ÏŠ·œŠOƒƒ\ƒbƒh”
+    //			// JavelinConverterå¤‰æ›é™¤å¤–ãƒ¡ã‚½ãƒƒãƒ‰æ•°
     //			excludedValues = MeasurementValueDao
     //					.selectByTermAndMeasurementTypeWithNameOrderByTime(
     //							database, startTime, endTime,
     //							Constants.ITEMNAME_EXCLUDEDMETHOD);
-    //			// Àsƒƒ\ƒbƒh”
+    //			// å®Ÿè¡Œãƒ¡ã‚½ãƒƒãƒ‰æ•°
     //			executedValues = MeasurementValueDao
     //					.selectByTermAndMeasurementTypeWithNameOrderByTime(
     //							database, startTime, endTime,
@@ -245,12 +245,12 @@ public class JavelinRecordAccessor
     //		}
     //		catch (SQLException exception)
     //		{
-    //			// TODO ƒƒOƒƒbƒZ[ƒW‚Ì’è‹`‚ğs‚Á‚ÄA‚±‚±‚É’Ç‹L‚·‚é‚±‚ÆB
+    //			// TODO ãƒ­ã‚°ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®å®šç¾©ã‚’è¡Œã£ã¦ã€ã“ã“ã«è¿½è¨˜ã™ã‚‹ã“ã¨ã€‚
     //			LOGGER.log("", exception, new Object[0]);
     //			return null;
     //		}
     //
-    //		// ƒf[ƒ^ƒx[ƒX‚©‚çæ“¾‚µ‚½ƒf[ƒ^‚ğAConvertedMethodNumRecord ‚ÌƒŠƒXƒg‚É•ÏŠ·
+    //		// ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‹ã‚‰å–å¾—ã—ãŸãƒ‡ãƒ¼ã‚¿ã‚’ã€ConvertedMethodNumRecord ã®ãƒªã‚¹ãƒˆã«å¤‰æ›
     //		for (int index = 0; index < convertedValues.size(); index++)
     //		{
     //			ConvertedMethodNumRecord record = new ConvertedMethodNumRecord();
@@ -270,16 +270,16 @@ public class JavelinRecordAccessor
     //	}
     //
     //	/**
-    //	 * ŠúŠÔ‚ğw’è‚µA‚»‚ÌŠúŠÔ“à‚Å‚Ì<br/>
-    //	 * uƒJƒoƒŒƒbƒWvƒOƒ‰ƒt‚Ìƒf[ƒ^‚ğæ“¾‚·‚éB
+    //	 * æœŸé–“ã‚’æŒ‡å®šã—ã€ãã®æœŸé–“å†…ã§ã®<br/>
+    //	 * ã€Œã‚«ãƒãƒ¬ãƒƒã‚¸ã€ã‚°ãƒ©ãƒ•ã®ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã€‚
     //	 * 
     //	 * @param database
-    //	 *            ƒf[ƒ^ƒx[ƒX–¼B
+    //	 *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã€‚
     //	 * @param startTime
-    //	 *            ŒŸõğŒ(ŠJn)B
+    //	 *            æ¤œç´¢æ¡ä»¶(é–‹å§‹æ™‚åˆ»)ã€‚
     //	 * @param endTime
-    //	 *            ŒŸõğŒ(I—¹)B
-    //	 * @return uHttpSession‚ÌƒCƒ“ƒXƒ^ƒ“ƒX”vƒOƒ‰ƒt‚Ìƒf[ƒ^B
+    //	 *            æ¤œç´¢æ¡ä»¶(çµ‚äº†æ™‚åˆ»)ã€‚
+    //	 * @return ã€ŒHttpSessionã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ•°ã€ã‚°ãƒ©ãƒ•ã®ãƒ‡ãƒ¼ã‚¿ã€‚
     //	 */
     //	public List<CoverageRecord> findCoverageByTerm(
     //			String database, Timestamp startTime, Timestamp endTime)
@@ -287,12 +287,12 @@ public class JavelinRecordAccessor
     //		List<CoverageRecord> result =
     //			new ArrayList<CoverageRecord>();
     //
-    //		// ƒf[ƒ^ƒx[ƒX‚©‚ç’l‚ğæ“¾‚·‚é
+    //		// ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‹ã‚‰å€¤ã‚’å–å¾—ã™ã‚‹
     //		List<MeasurementValueDto> coverageRecordValues;
     //
     //		try
     //		{
-    //			// ƒJƒoƒŒƒbƒW
+    //			// ã‚«ãƒãƒ¬ãƒƒã‚¸
     //			coverageRecordValues = MeasurementValueDao
     //					.selectByTermAndMeasurementTypeWithNameOrderByTime(
     //							database, startTime, endTime,
@@ -300,7 +300,7 @@ public class JavelinRecordAccessor
     //		}
     //		catch (SQLException exception)
     //		{
-    //			// TODO ƒƒOƒƒbƒZ[ƒW‚Ì’è‹`‚ğs‚Á‚ÄA‚±‚±‚É’Ç‹L‚·‚é‚±‚ÆB
+    //			// TODO ãƒ­ã‚°ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®å®šç¾©ã‚’è¡Œã£ã¦ã€ã“ã“ã«è¿½è¨˜ã™ã‚‹ã“ã¨ã€‚
     //			LOGGER.log("", exception, new Object[0]);
     //			return result;
     //		}

@@ -49,7 +49,7 @@ import jp.co.acroquest.endosnipe.data.util.ZipUtil;
 import jp.co.acroquest.endosnipe.util.ResourceDataDaoUtil;
 
 /**
- * {@link JavelinLog} ‚Ì‚½‚ß‚Ì DAO ‚Å‚·B
+ * {@link JavelinLog} ã®ãŸã‚ã® DAO ã§ã™ã€‚
  * 
  * @author y-komori
  */
@@ -57,21 +57,21 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
 {
     private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(JavelinLogDao.class);
 
-    /** ZIP ˆ³k—pƒXƒgƒŠ[ƒ€‚Ìƒoƒbƒtƒ@ƒTƒCƒY */
+    /** ZIP åœ§ç¸®ç”¨ã‚¹ãƒˆãƒªãƒ¼ãƒ ã®ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º */
     private static final int BUF_SIZE = 8192;
 
-    /** ’~ÏŠúŠÔ‚ğæ“¾‚·‚é SQL */
+    /** è“„ç©æœŸé–“ã‚’å–å¾—ã™ã‚‹ SQL */
     private static final String GET_LOG_TERM_SQL_PARTITION = createGetLogTermSql();
 
-    /** ’~ÏŠúŠÔ‚ğæ“¾‚·‚é SQL */
+    /** è“„ç©æœŸé–“ã‚’å–å¾—ã™ã‚‹ SQL */
     private static final String GET_LOG_TERM_SQL =
         "select min(START_TIME) START_TIME, max(END_TIME) END_TIME from " + JAVELIN_LOG;
 
     /**
-     * ƒf[ƒ^‚ğ‘}“ü‚·‚éƒe[ƒuƒ‹‚Ì–¼‘O‚ğ•Ô‚µ‚Ü‚·B
+     * ãƒ‡ãƒ¼ã‚¿ã‚’æŒ¿å…¥ã™ã‚‹ãƒ†ãƒ¼ãƒ–ãƒ«ã®åå‰ã‚’è¿”ã—ã¾ã™ã€‚
      *
-     * @param date ‘}“ü‚·‚éƒf[ƒ^‚Ì“ú•t
-     * @return ƒe[ƒuƒ‹–¼
+     * @param date æŒ¿å…¥ã™ã‚‹ãƒ‡ãƒ¼ã‚¿ã®æ—¥ä»˜
+     * @return ãƒ†ãƒ¼ãƒ–ãƒ«å
      */
     public static String getTableNameToInsert(final Date date)
     {
@@ -80,11 +80,11 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
     }
 
     /**
-     * {@link JavelinLog} ƒIƒuƒWƒFƒNƒg‚ğ‘}“ü‚µ‚Ü‚·B<br />
+     * {@link JavelinLog} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æŒ¿å…¥ã—ã¾ã™ã€‚<br />
      *
-     * @param database ‘}“üæƒf[ƒ^ƒx[ƒX–¼
-     * @param javelinLog ‘ÎÛƒIƒuƒWƒFƒNƒg
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database æŒ¿å…¥å…ˆãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param javelinLog å¯¾è±¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static void insert(final String database, final JavelinLog javelinLog)
         throws SQLException
@@ -156,16 +156,16 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
     }
 
     /**
-     * Javelin ƒƒO ID ‚ğw’è‚µ‚ÄƒŒƒR[ƒh‚ğæ“¾‚µ‚Ü‚·B<br />
-     * JAVELIN_LOG ƒe[ƒuƒ‹‚É‘Î‚µ‚ÄŒŸõ‚ğs‚¢AŒ©‚Â‚©‚Á‚½ƒŒƒR[ƒh‚ğ 1 Œ•Ô‚µ‚Ü‚·B<br />
+     * Javelin ãƒ­ã‚° ID ã‚’æŒ‡å®šã—ã¦ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * JAVELIN_LOG ãƒ†ãƒ¼ãƒ–ãƒ«ã«å¯¾ã—ã¦æ¤œç´¢ã‚’è¡Œã„ã€è¦‹ã¤ã‹ã£ãŸãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’ 1 ä»¶è¿”ã—ã¾ã™ã€‚<br />
      * 
-     * {@link JavelinLog#javelinLog} ‚Íæ“¾‚µ‚Ü‚¹‚ñB
-     * •Ê“rA {@link JavelinLogDao#selectJavelinLogByLogId(String, long)} ‚ğg—p‚µ‚Ä‚­‚¾‚³‚¢B
+     * {@link JavelinLog#javelinLog} ã¯å–å¾—ã—ã¾ã›ã‚“ã€‚
+     * åˆ¥é€”ã€ {@link JavelinLogDao#selectJavelinLogByLogId(String, long)} ã‚’ä½¿ç”¨ã—ã¦ãã ã•ã„ã€‚
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param logId ƒƒO ID
-     * @return ƒŒƒR[ƒhBæ“¾‚Å‚«‚È‚¢ê‡‚Í <code>null</code>
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param logId ãƒ­ã‚° ID
+     * @return ãƒ¬ã‚³ãƒ¼ãƒ‰ã€‚å–å¾—ã§ããªã„å ´åˆã¯ <code>null</code>
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static JavelinLog selectByLogId(final String database, final long logId)
         throws SQLException
@@ -212,15 +212,15 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
     }
 
     /**
-     * Javelin ƒƒOƒtƒ@ƒCƒ‹–¼‚ğw’è‚µ‚ÄƒŒƒR[ƒh‚ğæ“¾‚µ‚Ü‚·B<br />
-     * JAVELIN_LOG ƒe[ƒuƒ‹‚É‘Î‚µ‚ÄŒŸõ‚ğs‚¢AŒ©‚Â‚©‚Á‚½ƒŒƒR[ƒh‚ğ‚·‚×‚Ä•Ô‚µ‚Ü‚·B<br />
+     * Javelin ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«åã‚’æŒ‡å®šã—ã¦ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * JAVELIN_LOG ãƒ†ãƒ¼ãƒ–ãƒ«ã«å¯¾ã—ã¦æ¤œç´¢ã‚’è¡Œã„ã€è¦‹ã¤ã‹ã£ãŸãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’ã™ã¹ã¦è¿”ã—ã¾ã™ã€‚<br />
      * 
-     * {@link JavelinLog#javelinLog} ‚ğæ“¾‚µ‚Ü‚·B
+     * {@link JavelinLog#javelinLog} ã‚’å–å¾—ã—ã¾ã™ã€‚
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param fileName ƒƒOƒtƒ@ƒCƒ‹–¼
-     * @return ƒŒƒR[ƒhBæ“¾‚Å‚«‚È‚¢ê‡‚Í <code>null</code>
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param fileName ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«å
+     * @return ãƒ¬ã‚³ãƒ¼ãƒ‰ã€‚å–å¾—ã§ããªã„å ´åˆã¯ <code>null</code>
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static JavelinLog selectByLogFileNameWithBinary(final String database,
         final String fileName)
@@ -230,16 +230,16 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
     }
 
     /**
-     * Javelin ƒƒOƒtƒ@ƒCƒ‹–¼‚ğw’è‚µ‚ÄƒŒƒR[ƒh‚ğæ“¾‚µ‚Ü‚·B<br />
-     * JAVELIN_LOG ƒe[ƒuƒ‹‚É‘Î‚µ‚ÄŒŸõ‚ğs‚¢AŒ©‚Â‚©‚Á‚½ƒŒƒR[ƒh‚ğ‚·‚×‚Ä•Ô‚µ‚Ü‚·B<br />
+     * Javelin ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«åã‚’æŒ‡å®šã—ã¦ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * JAVELIN_LOG ãƒ†ãƒ¼ãƒ–ãƒ«ã«å¯¾ã—ã¦æ¤œç´¢ã‚’è¡Œã„ã€è¦‹ã¤ã‹ã£ãŸãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’ã™ã¹ã¦è¿”ã—ã¾ã™ã€‚<br />
      * 
-     * {@link JavelinLog#javelinLog} ‚Íæ“¾‚µ‚Ü‚¹‚ñB
-     * •Ê“rA {@link JavelinLogDao#selectJavelinLogByLogId(String, long)} ‚ğg—p‚µ‚Ä‚­‚¾‚³‚¢B
+     * {@link JavelinLog#javelinLog} ã¯å–å¾—ã—ã¾ã›ã‚“ã€‚
+     * åˆ¥é€”ã€ {@link JavelinLogDao#selectJavelinLogByLogId(String, long)} ã‚’ä½¿ç”¨ã—ã¦ãã ã•ã„ã€‚
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param fileName ƒƒOƒtƒ@ƒCƒ‹–¼
-     * @return ƒŒƒR[ƒhBæ“¾‚Å‚«‚È‚¢ê‡‚Í <code>null</code>
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param fileName ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«å
+     * @return ãƒ¬ã‚³ãƒ¼ãƒ‰ã€‚å–å¾—ã§ããªã„å ´åˆã¯ <code>null</code>
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static JavelinLog selectByLogFileName(final String database, final String fileName)
         throws SQLException
@@ -248,17 +248,17 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
     }
 
     /**
-     * Javelin ƒƒOƒtƒ@ƒCƒ‹–¼‚ğw’è‚µ‚ÄƒŒƒR[ƒh‚ğæ“¾‚µ‚Ü‚·B<br />
-     * JAVELIN_LOG ƒe[ƒuƒ‹‚É‘Î‚µ‚ÄŒŸõ‚ğs‚¢AŒ©‚Â‚©‚Á‚½ƒŒƒR[ƒh‚ğ‚·‚×‚Ä•Ô‚µ‚Ü‚·B<br />
+     * Javelin ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«åã‚’æŒ‡å®šã—ã¦ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * JAVELIN_LOG ãƒ†ãƒ¼ãƒ–ãƒ«ã«å¯¾ã—ã¦æ¤œç´¢ã‚’è¡Œã„ã€è¦‹ã¤ã‹ã£ãŸãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’ã™ã¹ã¦è¿”ã—ã¾ã™ã€‚<br />
      * 
-     * {@link JavelinLog#javelinLog} ‚Íæ“¾‚µ‚Ü‚¹‚ñB
-     * •Ê“rA {@link JavelinLogDao#selectJavelinLogByLogId(String, long)} ‚ğg—p‚µ‚Ä‚­‚¾‚³‚¢B
+     * {@link JavelinLog#javelinLog} ã¯å–å¾—ã—ã¾ã›ã‚“ã€‚
+     * åˆ¥é€”ã€ {@link JavelinLogDao#selectJavelinLogByLogId(String, long)} ã‚’ä½¿ç”¨ã—ã¦ãã ã•ã„ã€‚
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param fileName ƒƒOƒtƒ@ƒCƒ‹–¼
-     * @param outputLog true‚Ìê‡‚Í{@link JavelinLog#javelinLog}‚ğæ“¾‚·‚éBfalse‚Ìê‡‚Íæ“¾‚µ‚È‚¢B
-     * @return ƒŒƒR[ƒhBæ“¾‚Å‚«‚È‚¢ê‡‚Í <code>null</code>
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param fileName ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«å
+     * @param outputLog trueã®å ´åˆã¯{@link JavelinLog#javelinLog}ã‚’å–å¾—ã™ã‚‹ã€‚falseã®å ´åˆã¯å–å¾—ã—ãªã„ã€‚
+     * @return ãƒ¬ã‚³ãƒ¼ãƒ‰ã€‚å–å¾—ã§ããªã„å ´åˆã¯ <code>null</code>
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     private static JavelinLog selectByLogFileName(final String database, final String fileName,
         final boolean outputLog)
@@ -303,18 +303,18 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
     }
 
     /**
-     * ŠúŠÔ‚ğw’è‚µ‚Ä‘SƒzƒXƒg‚ÌƒŒƒR[ƒh‚ğæ“¾‚µ‚Ü‚·B<br />
-     * ŠJnAI—¹‚ªnull ‚Ìê‡‚ÍAw’è‚ªs‚í‚ê‚Ä‚¢‚È‚¢‚à‚Ì‚Æ‚µA<br />
-     * ‘Sƒf[ƒ^‚ğæ“¾‚µ‚Ü‚·B
+     * æœŸé–“ã‚’æŒ‡å®šã—ã¦å…¨ãƒ›ã‚¹ãƒˆã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * é–‹å§‹æ™‚åˆ»ã€çµ‚äº†æ™‚åˆ»ãŒnull ã®å ´åˆã¯ã€æŒ‡å®šãŒè¡Œã‚ã‚Œã¦ã„ãªã„ã‚‚ã®ã¨ã—ã€<br />
+     * å…¨ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã—ã¾ã™ã€‚
      *
-     * {@link JavelinLog#javelinLog} ‚Íæ“¾‚µ‚Ü‚¹‚ñB
-     * •Ê“rA {@link JavelinLogDao#selectJavelinLogByLogId(String, long)} ‚ğg—p‚µ‚Ä‚­‚¾‚³‚¢B
+     * {@link JavelinLog#javelinLog} ã¯å–å¾—ã—ã¾ã›ã‚“ã€‚
+     * åˆ¥é€”ã€ {@link JavelinLogDao#selectJavelinLogByLogId(String, long)} ã‚’ä½¿ç”¨ã—ã¦ãã ã•ã„ã€‚
      * 
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param start ŠJn
-     * @param end I—¹
-     * @return {@link JavelinLog} ‚ÌƒŠƒXƒg
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param start é–‹å§‹æ™‚åˆ»
+     * @param end çµ‚äº†æ™‚åˆ»
+     * @return {@link JavelinLog} ã®ãƒªã‚¹ãƒˆ
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static List<JavelinLog> selectByTerm(final String database, final Timestamp start,
         final Timestamp end)
@@ -324,18 +324,18 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
     }
 
     /**
-     * ŠúŠÔ‚ğw’è‚µ‚Ä‘SƒzƒXƒg‚ÌƒŒƒR[ƒh‚ğæ“¾‚µ‚Ü‚·B<br />
-     * ŠJnAI—¹‚ªnull ‚Ìê‡‚ÍAw’è‚ªs‚í‚ê‚Ä‚¢‚È‚¢‚à‚Ì‚Æ‚µA<br />
-     * ‘Sƒf[ƒ^‚ğæ“¾‚µ‚Ü‚·B
+     * æœŸé–“ã‚’æŒ‡å®šã—ã¦å…¨ãƒ›ã‚¹ãƒˆã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * é–‹å§‹æ™‚åˆ»ã€çµ‚äº†æ™‚åˆ»ãŒnull ã®å ´åˆã¯ã€æŒ‡å®šãŒè¡Œã‚ã‚Œã¦ã„ãªã„ã‚‚ã®ã¨ã—ã€<br />
+     * å…¨ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã—ã¾ã™ã€‚
      *
-     * ‚±‚Ìƒƒ\ƒbƒh‚Í{@link JavelinLog#javelinLog} ‚ğæ“¾‚µ‚Ü‚·B
-     * ƒIƒuƒWƒFƒNƒgƒTƒCƒY‚ª‘å‚«‚­‚È‚éê‡‚ª‚ ‚é‚Ì‚ÅA’ˆÓ‚µ‚Ä‚­‚¾‚³‚¢B
+     * ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã¯{@link JavelinLog#javelinLog} ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚µã‚¤ã‚ºãŒå¤§ãããªã‚‹å ´åˆãŒã‚ã‚‹ã®ã§ã€æ³¨æ„ã—ã¦ãã ã•ã„ã€‚
      * 
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param start ŠJn
-     * @param end I—¹
-     * @return {@link JavelinLog} ‚ÌƒŠƒXƒg
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param start é–‹å§‹æ™‚åˆ»
+     * @param end çµ‚äº†æ™‚åˆ»
+     * @return {@link JavelinLog} ã®ãƒªã‚¹ãƒˆ
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static List<JavelinLog> selectByTermWithLog(final String database,
         final Timestamp start, final Timestamp end)
@@ -345,19 +345,19 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
     }
 
     /**
-     * ŠúŠÔ‚ğw’è‚µ‚Ä‘SƒzƒXƒg‚ÌƒŒƒR[ƒh‚ğæ“¾‚µ‚Ü‚·B<br />
-     * ŠJnAI—¹‚ªnull ‚Ìê‡‚ÍAw’è‚ªs‚í‚ê‚Ä‚¢‚È‚¢‚à‚Ì‚Æ‚µA<br />
-     * ‘Sƒf[ƒ^‚ğæ“¾‚µ‚Ü‚·B
+     * æœŸé–“ã‚’æŒ‡å®šã—ã¦å…¨ãƒ›ã‚¹ãƒˆã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * é–‹å§‹æ™‚åˆ»ã€çµ‚äº†æ™‚åˆ»ãŒnull ã®å ´åˆã¯ã€æŒ‡å®šãŒè¡Œã‚ã‚Œã¦ã„ãªã„ã‚‚ã®ã¨ã—ã€<br />
+     * å…¨ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã—ã¾ã™ã€‚
      *
-     * {@link JavelinLog#javelinLog} ‚Íæ“¾‚µ‚Ü‚¹‚ñB
-     * •Ê“rA {@link JavelinLogDao#selectJavelinLogByLogId(String, long)} ‚ğg—p‚µ‚Ä‚­‚¾‚³‚¢B
+     * {@link JavelinLog#javelinLog} ã¯å–å¾—ã—ã¾ã›ã‚“ã€‚
+     * åˆ¥é€”ã€ {@link JavelinLogDao#selectJavelinLogByLogId(String, long)} ã‚’ä½¿ç”¨ã—ã¦ãã ã•ã„ã€‚
      * 
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param start ŠJn
-     * @param end I—¹
-     * @param outputLog JavelinƒƒO‚ğo—Í‚·‚éê‡<code>true</code>
-     * @return {@link JavelinLog} ‚ÌƒŠƒXƒg
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param start é–‹å§‹æ™‚åˆ»
+     * @param end çµ‚äº†æ™‚åˆ»
+     * @param outputLog Javelinãƒ­ã‚°ã‚’å‡ºåŠ›ã™ã‚‹å ´åˆ<code>true</code>
+     * @return {@link JavelinLog} ã®ãƒªã‚¹ãƒˆ
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static List<JavelinLog> selectByTerm(final String database, final Timestamp start,
         final Timestamp end, final boolean outputLog)
@@ -377,7 +377,7 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
             setTimestampByTerm(delegated, start, end);
             rs = delegated.executeQuery();
 
-            // Œ‹‰Ê‚ğƒŠƒXƒg‚É‚P‚Â‚¸‚ÂŠi”[‚·‚é
+            // çµæœã‚’ãƒªã‚¹ãƒˆã«ï¼‘ã¤ãšã¤æ ¼ç´ã™ã‚‹
             while (rs.next() == true)
             {
                 JavelinLog log = new JavelinLog();
@@ -396,11 +396,11 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
     }
 
     /**
-     * ‚Ìw’è‚É‰‚¶‚½SELECT•¶‚ÌSQL‚ğì¬‚µ‚Ü‚·B<br />
+     * æ™‚åˆ»ã®æŒ‡å®šã«å¿œã˜ãŸSELECTæ–‡ã®SQLã‚’ä½œæˆã—ã¾ã™ã€‚<br />
      * 
-     * @param tableName ƒe[ƒuƒ‹–¼
-     * @param start ŠJn
-     * @param end I—¹
+     * @param tableName ãƒ†ãƒ¼ãƒ–ãƒ«å
+     * @param start é–‹å§‹æ™‚åˆ»
+     * @param end çµ‚äº†æ™‚åˆ»
      * @return
      */
     private static String createSelectSqlByTerm(final String tableName, final Timestamp start,
@@ -424,11 +424,11 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
     }
 
     /**
-     * ‚Ìw’è‚É‰‚¶‚½SELECT•¶‚ÌSQL‚ğì¬‚µ‚Ü‚·B<br />
+     * æ™‚åˆ»ã®æŒ‡å®šã«å¿œã˜ãŸSELECTæ–‡ã®SQLã‚’ä½œæˆã—ã¾ã™ã€‚<br />
      * 
      * @param delegated PreparedStatement
-     * @param start ŠJn
-     * @param end I—¹
+     * @param start é–‹å§‹æ™‚åˆ»
+     * @param end çµ‚äº†æ™‚åˆ»
      */
     private static void setTimestampByTerm(final PreparedStatement delegated,
         final Timestamp start, final Timestamp end)
@@ -450,19 +450,19 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
     }
 
     /**
-     * ŠúŠÔ‚Æ–¼‘O‚ğw’è‚µ‚Ä‘SƒzƒXƒg‚ÌƒŒƒR[ƒh‚ğæ“¾‚µ‚Ü‚·B<br />
-     * ŠJnAI—¹‚ªnull ‚Ìê‡‚ÍAw’è‚ªs‚í‚ê‚Ä‚¢‚È‚¢‚à‚Ì‚Æ‚µA<br />
-     * ‘Sƒf[ƒ^‚ğæ“¾‚µ‚Ü‚·B<br />
-     * ƒAƒCƒeƒ€–¼‚ªnull ‚Ìê‡‚ÍAw’è‚ªs‚í‚ê‚Ä‚¢‚È‚¢‚à‚Ì‚Æ‚µA<br />
-     * ‘Sƒf[ƒ^‚ğæ“¾‚µ‚Ü‚·B
+     * æœŸé–“ã¨åå‰ã‚’æŒ‡å®šã—ã¦å…¨ãƒ›ã‚¹ãƒˆã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * é–‹å§‹æ™‚åˆ»ã€çµ‚äº†æ™‚åˆ»ãŒnull ã®å ´åˆã¯ã€æŒ‡å®šãŒè¡Œã‚ã‚Œã¦ã„ãªã„ã‚‚ã®ã¨ã—ã€<br />
+     * å…¨ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * ã‚¢ã‚¤ãƒ†ãƒ åãŒnull ã®å ´åˆã¯ã€æŒ‡å®šãŒè¡Œã‚ã‚Œã¦ã„ãªã„ã‚‚ã®ã¨ã—ã€<br />
+     * å…¨ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã—ã¾ã™ã€‚
      * 
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param start ŠJn
-     * @param end I—¹
-     * @param name ƒAƒCƒeƒ€–¼
-     * @param outputLog JavelinƒƒO‚ğo—Í‚·‚éê‡<code>true</code>
-     * @return {@link JavelinLog} ‚ÌƒŠƒXƒg
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param start é–‹å§‹æ™‚åˆ»
+     * @param end çµ‚äº†æ™‚åˆ»
+     * @param name ã‚¢ã‚¤ãƒ†ãƒ å
+     * @param outputLog Javelinãƒ­ã‚°ã‚’å‡ºåŠ›ã™ã‚‹å ´åˆ<code>true</code>
+     * @return {@link JavelinLog} ã®ãƒªã‚¹ãƒˆ
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static List<JavelinLog> selectByTermAndName(final String database,
         final Timestamp start, final Timestamp end, final String name, final boolean outputLog)
@@ -482,7 +482,7 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
             setTimestampByTerm(delegated, start, end);
             rs = delegated.executeQuery();
 
-            // Œ‹‰Ê‚ğƒŠƒXƒg‚É‚P‚Â‚¸‚ÂŠi”[‚·‚é
+            // çµæœã‚’ãƒªã‚¹ãƒˆã«ï¼‘ã¤ãšã¤æ ¼ç´ã™ã‚‹
             while (rs.next() == true)
             {
                 JavelinLog log = new JavelinLog();
@@ -501,16 +501,16 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
     }
 
     /**
-     * ŠúŠÔ‚Æ€–Ú–¼‚ğw’è‚µ‚Äƒf[ƒ^‚ğæ“¾‚µ‚Ü‚·B
+     * æœŸé–“ã¨é …ç›®åã‚’æŒ‡å®šã—ã¦ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã—ã¾ã™ã€‚
      * 
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param start ŠJn
-     * @param end I—¹
-     * @param name €–Ú–¼
-     * @param outputLog JavelinƒƒO‚ğo—Í‚·‚éê‡<code>true</code>
-     * @param removeDiagnosed f’fÏ‚İJavelinLog‚ğŠÜ‚ß‚È‚¢ê‡<code>true</code>
-     * @return {@link JavelinLog} ‚ÌƒŠƒXƒg
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param start é–‹å§‹æ™‚åˆ»
+     * @param end çµ‚äº†æ™‚åˆ»
+     * @param name é …ç›®å
+     * @param outputLog Javelinãƒ­ã‚°ã‚’å‡ºåŠ›ã™ã‚‹å ´åˆ<code>true</code>
+     * @param removeDiagnosed è¨ºæ–­æ¸ˆã¿JavelinLogã‚’å«ã‚ãªã„å ´åˆ<code>true</code>
+     * @return {@link JavelinLog} ã®ãƒªã‚¹ãƒˆ
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static List<JavelinLog> selectByTermAndName(final String database,
         final Timestamp start, final Timestamp end, final String name, final boolean outputLog,
@@ -531,7 +531,7 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
             setTimestampByTerm(delegated, start, end);
             rs = delegated.executeQuery();
 
-            // Œ‹‰Ê‚ğƒŠƒXƒg‚É‚P‚Â‚¸‚ÂŠi”[‚·‚é
+            // çµæœã‚’ãƒªã‚¹ãƒˆã«ï¼‘ã¤ãšã¤æ ¼ç´ã™ã‚‹
             while (rs.next() == true)
             {
                 JavelinLog log = new JavelinLog();
@@ -550,13 +550,13 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
     }
 
     /**
-     * JavelinLog‚ğf’fÏ‚İ‚É‚µ‚Ü‚·B
+     * JavelinLogã‚’è¨ºæ–­æ¸ˆã¿ã«ã—ã¾ã™ã€‚
      * 
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param start ŠJn
-     * @param end I—¹
-     * @param name €–Ú–¼
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param start é–‹å§‹æ™‚åˆ»
+     * @param end çµ‚äº†æ™‚åˆ»
+     * @param name é …ç›®å
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static void updateDiagnosed(final String database,
         final Timestamp start, final Timestamp end, final String name)
@@ -582,12 +582,12 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
     }
 
     /**
-     * AƒAƒCƒeƒ€–¼‚Ìw’è‚É‰‚¶‚½SELECT•¶‚ÌSQL‚ğì¬‚µ‚Ü‚·B<br />
+     * æ™‚åˆ»ã€ã‚¢ã‚¤ãƒ†ãƒ åã®æŒ‡å®šã«å¿œã˜ãŸSELECTæ–‡ã®SQLã‚’ä½œæˆã—ã¾ã™ã€‚<br />
      * 
-     * @param tableName ƒe[ƒuƒ‹–¼
-     * @param start ŠJn
-     * @param end I—¹
-     * @param name ƒAƒCƒeƒ€–¼
+     * @param tableName ãƒ†ãƒ¼ãƒ–ãƒ«å
+     * @param start é–‹å§‹æ™‚åˆ»
+     * @param end çµ‚äº†æ™‚åˆ»
+     * @param name ã‚¢ã‚¤ãƒ†ãƒ å
      * @return
      */
     private static String createSelectSqlByTermAndName(final String tableName,
@@ -597,12 +597,12 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
     }
 
     /**
-     * AƒAƒCƒeƒ€–¼‚Ìw’è‚É‰‚¶‚½SELECT•¶‚ÌSQL‚ğì¬‚µ‚Ü‚·B<br />
+     * æ™‚åˆ»ã€ã‚¢ã‚¤ãƒ†ãƒ åã®æŒ‡å®šã«å¿œã˜ãŸSELECTæ–‡ã®SQLã‚’ä½œæˆã—ã¾ã™ã€‚<br />
      * 
-     * @param tableName ƒe[ƒuƒ‹–¼
-     * @param start ŠJn
-     * @param end I—¹
-     * @param name ƒAƒCƒeƒ€–¼
+     * @param tableName ãƒ†ãƒ¼ãƒ–ãƒ«å
+     * @param start é–‹å§‹æ™‚åˆ»
+     * @param end çµ‚äº†æ™‚åˆ»
+     * @param name ã‚¢ã‚¤ãƒ†ãƒ å
      * @return
      */
     private static String createSelectSqlByTermAndName(final String tableName,
@@ -663,11 +663,11 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
     }
 
     /**
-     * ‚·‚×‚Ä‚ÌƒŒƒR[ƒh‚ğæ“¾‚µ‚Ü‚·B<br />
+     * ã™ã¹ã¦ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      * 
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @return {@link JavelinLog} ‚ÌƒŠƒXƒg
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @return {@link JavelinLog} ã®ãƒªã‚¹ãƒˆ
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static List<JavelinLog> selectAll(final String database)
         throws SQLException
@@ -683,7 +683,7 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
             stmt = conn.createStatement();
             rs = stmt.executeQuery("select * from " + JAVELIN_LOG + " order by START_TIME desc");
 
-            // Œ‹‰Ê‚ğƒŠƒXƒg‚É‚P‚Â‚¸‚ÂŠi”[‚·‚é
+            // çµæœã‚’ãƒªã‚¹ãƒˆã«ï¼‘ã¤ãšã¤æ ¼ç´ã™ã‚‹
             while (rs.next())
             {
                 JavelinLog log = new JavelinLog();
@@ -702,12 +702,12 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
     }
 
     /**
-     * ‚PƒŒƒR[ƒh‚ğ Javelin ƒƒOƒGƒ“ƒeƒBƒeƒB‚ÉŠi”[‚µ‚Ü‚·B<br />
-     * ‚½‚¾‚µAJavelinLog ƒtƒB[ƒ‹ƒh‚Íæ“¾‚µ‚Ü‚¹‚ñB<br />
+     * ï¼‘ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’ Javelin ãƒ­ã‚°ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã«æ ¼ç´ã—ã¾ã™ã€‚<br />
+     * ãŸã ã—ã€JavelinLog ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã¯å–å¾—ã—ã¾ã›ã‚“ã€‚<br />
      * 
-     * @param log Ši”[æ Javelin ƒƒOƒGƒ“ƒeƒBƒeƒB
-     * @param rs {@link ResultSet} ƒIƒuƒWƒFƒNƒg
-     * @throws SQLException SQL ÀsŒ‹‰Êæ“¾‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param log æ ¼ç´å…ˆ Javelin ãƒ­ã‚°ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£
+     * @param rs {@link ResultSet} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @throws SQLException SQL å®Ÿè¡Œçµæœå–å¾—æ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     private static void setJavelinLogFromResultSet(final JavelinLog log, final ResultSet rs)
         throws SQLException
@@ -716,12 +716,12 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
     }
 
     /**
-     * ‚PƒŒƒR[ƒh‚ğ Javelin ƒƒOƒGƒ“ƒeƒBƒeƒB‚ÉŠi”[‚µ‚Ü‚·B<br />
-     * ‚½‚¾‚µAJavelinLog ƒtƒB[ƒ‹ƒh‚Íæ“¾‚µ‚Ü‚¹‚ñB<br />
+     * ï¼‘ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’ Javelin ãƒ­ã‚°ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã«æ ¼ç´ã—ã¾ã™ã€‚<br />
+     * ãŸã ã—ã€JavelinLog ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã¯å–å¾—ã—ã¾ã›ã‚“ã€‚<br />
      * 
-     * @param log Ši”[æ Javelin ƒƒOƒGƒ“ƒeƒBƒeƒB
-     * @param rs {@link ResultSet} ƒIƒuƒWƒFƒNƒg
-     * @throws SQLException SQL ÀsŒ‹‰Êæ“¾‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param log æ ¼ç´å…ˆ Javelin ãƒ­ã‚°ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£
+     * @param rs {@link ResultSet} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @throws SQLException SQL å®Ÿè¡Œçµæœå–å¾—æ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     private static void setJavelinLogFromResultSet(final JavelinLog log, final ResultSet rs,
         final boolean outputLog)
@@ -767,11 +767,11 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
     }
 
     /**
-     * ƒe[ƒuƒ‹‚É‹L˜^‚³‚ê‚Ä‚¢‚éƒƒO‚ÌŠúŠÔ‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ãƒ†ãƒ¼ãƒ–ãƒ«ã«è¨˜éŒ²ã•ã‚Œã¦ã„ã‚‹ãƒ­ã‚°ã®æœŸé–“ã‚’è¿”ã—ã¾ã™ã€‚<br />
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @return ŠJn“úAI—¹“ú‚Ì”z—ñAæ“¾‚É¸”s‚µ‚½ê‡‚Í‹ó‚Ì”z—ñ
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @return é–‹å§‹æ—¥æ™‚ã€çµ‚äº†æ—¥æ™‚ã®é…åˆ—ã€å–å¾—ã«å¤±æ•—ã—ãŸå ´åˆã¯ç©ºã®é…åˆ—
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static Timestamp[] getLogTerm(final String database)
         throws SQLException
@@ -802,8 +802,8 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
     }
 
     /**
-     * ŠúŠÔ‚ğæ“¾‚·‚éSQL‚ğæ“¾‚·‚éB
-     * @return@ŠúŠÔ‚ğæ“¾‚·‚éSQL
+     * æœŸé–“ã‚’å–å¾—ã™ã‚‹SQLã‚’å–å¾—ã™ã‚‹ã€‚
+     * @returnã€€æœŸé–“ã‚’å–å¾—ã™ã‚‹SQL
      */
     private static String getLogTermSql()
     {
@@ -818,13 +818,13 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
     }
 
     /**
-     * ƒƒO ID ‚ğw’è‚µ‚Ä Javelin ƒƒO‚ğæ“¾‚µ‚Ü‚·B
+     * ãƒ­ã‚° ID ã‚’æŒ‡å®šã—ã¦ Javelin ãƒ­ã‚°ã‚’å–å¾—ã—ã¾ã™ã€‚
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param logId ƒƒO ID
-     * @return Javelin ƒƒO
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
-     * @throws IOException “üo—ÍƒGƒ‰[‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param logId ãƒ­ã‚° ID
+     * @return Javelin ãƒ­ã‚°
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @throws IOException å…¥å‡ºåŠ›ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static InputStream selectJavelinLogByLogId(final String database, final long logId)
         throws SQLException,
@@ -861,12 +861,12 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
     }
 
     /**
-     * ‚ğw’è‚µ‚ÄA‚»‚ê‚æ‚èŒÃ‚¢ƒŒƒR[ƒh‚ğíœ‚µ‚Ü‚·B
-     * íœŠúŒÀ‚ÌƒL[‚Æ‚µ‚Ä‚ÍAƒZƒbƒVƒ‡ƒ“I—¹‚ğŠî€‚Æ‚µ‚Ü‚·B
+     * æ™‚åˆ»ã‚’æŒ‡å®šã—ã¦ã€ãã‚Œã‚ˆã‚Šå¤ã„ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å‰Šé™¤ã—ã¾ã™ã€‚
+     * å‰Šé™¤æœŸé™æ™‚åˆ»ã®ã‚­ãƒ¼ã¨ã—ã¦ã¯ã€ã‚»ãƒƒã‚·ãƒ§ãƒ³çµ‚äº†æ™‚åˆ»ã‚’åŸºæº–ã¨ã—ã¾ã™ã€‚
      * 
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param deleteLimit íœŠúŒÀ
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param deleteLimit å‰Šé™¤æœŸé™æ™‚åˆ»
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static void deleteOldRecordByTime(final String database, final Timestamp deleteLimit)
         throws SQLException
@@ -890,10 +890,10 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
     }
 
     /**
-     * ‚·‚×‚Ä‚ÌƒŒƒR[ƒh‚ğíœ‚µ‚Ü‚·B<br />
+     * ã™ã¹ã¦ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å‰Šé™¤ã—ã¾ã™ã€‚<br />
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static void deleteAll(final String database)
         throws SQLException
@@ -902,12 +902,12 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
     }
 
     /**
-     * w’è‚µ‚½ƒCƒ“ƒfƒbƒNƒX‚Ìƒe[ƒuƒ‹‚ğ truncate ‚µ‚Ü‚·B
+     * æŒ‡å®šã—ãŸã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã®ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ truncate ã—ã¾ã™ã€‚
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param tableIndex ƒe[ƒuƒ‹ƒCƒ“ƒfƒbƒNƒX
-     * @param year Ÿ‚É‚±‚Ìƒe[ƒuƒ‹‚É“ü‚ê‚éƒf[ƒ^‚Ì”N
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param tableIndex ãƒ†ãƒ¼ãƒ–ãƒ«ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+     * @param year æ¬¡ã«ã“ã®ãƒ†ãƒ¼ãƒ–ãƒ«ã«å…¥ã‚Œã‚‹ãƒ‡ãƒ¼ã‚¿ã®å¹´
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static void truncate(final String database, final int tableIndex, final int year)
         throws SQLException
@@ -918,11 +918,11 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
     }
 
     /**
-     * ƒŒƒR[ƒh‚Ì”‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ãƒ¬ã‚³ãƒ¼ãƒ‰ã®æ•°ã‚’è¿”ã—ã¾ã™ã€‚<br />
      * 
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @return ƒŒƒR[ƒh‚Ì”
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @return ãƒ¬ã‚³ãƒ¼ãƒ‰ã®æ•°
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static int count(final String database)
         throws SQLException
@@ -940,7 +940,7 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
     }
 
     /**
-     * ’~ÏŠúŠÔ‚ğæ“¾‚·‚é SQL ‚ğ¶¬‚µ‚Ü‚·B
+     * è“„ç©æœŸé–“ã‚’å–å¾—ã™ã‚‹ SQL ã‚’ç”Ÿæˆã—ã¾ã™ã€‚
      *
      * @return SQL
      */

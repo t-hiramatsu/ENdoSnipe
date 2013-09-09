@@ -33,52 +33,52 @@ import jp.co.acroquest.endosnipe.collector.processor.AlarmType;
 import jp.co.acroquest.endosnipe.data.dto.SignalDefinitionDto;
 
 /**
- * ƒVƒOƒiƒ‹‚ÌƒAƒ‰[ƒ€‚ğ’Ê’m‚Ég—p‚·‚éEntityƒNƒ‰ƒXB
+ * ã‚·ã‚°ãƒŠãƒ«ã®ã‚¢ãƒ©ãƒ¼ãƒ ã‚’é€šçŸ¥ã«ä½¿ç”¨ã™ã‚‹Entityã‚¯ãƒ©ã‚¹ã€‚
  * 
  * @author fujii
  */
 public class AlarmEntry
 {
-    /** ƒAƒ‰[ƒ€–¼ */
+    /** ã‚¢ãƒ©ãƒ¼ãƒ å */
     private String alarmID_;
 
-    /** è‡’l */
+    /** é–¾å€¤ */
     private Double risingThreshold_;
 
-    /** ó‘Ô’l */
+    /** çŠ¶æ…‹å€¤ */
     private Double alarmValue_;
 
-    /** Œv‘ªŠÔŠu(’PˆÊ:ƒ~ƒŠ•b) */
+    /** è¨ˆæ¸¬é–“éš”(å˜ä½:ãƒŸãƒªç§’) */
     private double alarmInterval_;
 
-    /** ƒAƒ‰[ƒ€‚Ìó‘Ô’l */
+    /** ã‚¢ãƒ©ãƒ¼ãƒ ã®çŠ¶æ…‹å€¤ */
     private int alarmState_;
 
-    /** ƒAƒ‰[ƒ€‚ğo‚·‚©‚Ç‚¤‚© */
+    /** ã‚¢ãƒ©ãƒ¼ãƒ ã‚’å‡ºã™ã‹ã©ã†ã‹ */
     private boolean sendAlarm_;
 
-    /** ƒAƒ‰[ƒ€‚Ìí—Ş */
+    /** ã‚¢ãƒ©ãƒ¼ãƒ ã®ç¨®é¡ */
     private AlarmType alarmType_;
 
-    /** Javelin‚ÌIPƒAƒhƒŒƒX */
+    /** Javelinã®IPã‚¢ãƒ‰ãƒ¬ã‚¹ */
     private String ipAddress_;
 
-    /** Javelin‚Ìƒ|[ƒg”Ô† */
+    /** Javelinã®ãƒãƒ¼ãƒˆç•ªå· */
     private int port_;
 
-    /** ƒƒOƒf[ƒ^‚Ì•Û‘¶‚³‚ê‚éDB‚Ì–¼‘O */
+    /** ãƒ­ã‚°ãƒ‡ãƒ¼ã‚¿ã®ä¿å­˜ã•ã‚Œã‚‹DBã®åå‰ */
     private String databaseName_;
 
-    /** ƒpƒ‰ƒ[ƒ^i’Ç‰Áî•ñj */
+    /** ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ï¼ˆè¿½åŠ æƒ…å ±ï¼‰ */
     private final Map<String, Object> parameters_;
 
-    /** ƒVƒOƒiƒ‹‚ÌƒŒƒxƒ‹(3 or 5) */
+    /** ã‚·ã‚°ãƒŠãƒ«ã®ãƒ¬ãƒ™ãƒ«(3 or 5) */
     private int signalLevel_;
 
     private SignalDefinitionDto definition_;
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
      */
     public AlarmEntry()
     {
@@ -86,8 +86,8 @@ public class AlarmEntry
     }
 
     /**
-     * ƒAƒ‰[ƒ€–¼‚ğæ“¾‚·‚éB
-     * @return ƒAƒ‰[ƒ€–¼
+     * ã‚¢ãƒ©ãƒ¼ãƒ åã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ã‚¢ãƒ©ãƒ¼ãƒ å
      */
     public String getAlarmID()
     {
@@ -95,8 +95,8 @@ public class AlarmEntry
     }
 
     /**
-     * ƒAƒ‰[ƒ€–¼‚ğİ’è‚·‚éB
-     * @param alarmID ƒAƒ‰[ƒ€–¼
+     * ã‚¢ãƒ©ãƒ¼ãƒ åã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param alarmID ã‚¢ãƒ©ãƒ¼ãƒ å
      */
     public void setAlarmID(final String alarmID)
     {
@@ -104,8 +104,8 @@ public class AlarmEntry
     }
 
     /**
-     * ”­¶è‡’l‚ğæ“¾‚·‚éB
-     * @return ”­¶è‡’l
+     * ç™ºç”Ÿé–¾å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ç™ºç”Ÿé–¾å€¤
      */
     public Double getRisingThreshold()
     {
@@ -113,8 +113,8 @@ public class AlarmEntry
     }
 
     /**
-     * ”­¶è‡’l‚ğİ’è‚·‚éB
-     * @param risingThreshold ”­¶è‡’l
+     * ç™ºç”Ÿé–¾å€¤ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param risingThreshold ç™ºç”Ÿé–¾å€¤
      */
     public void setRisingThreshold(final Double risingThreshold)
     {
@@ -122,8 +122,8 @@ public class AlarmEntry
     }
 
     /**
-     * ó‘Ô’l‚ğæ“¾‚·‚éB
-     * @return ó‘Ô’l
+     * çŠ¶æ…‹å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return çŠ¶æ…‹å€¤
      */
     public Double getAlarmValue()
     {
@@ -131,8 +131,8 @@ public class AlarmEntry
     }
 
     /**
-     * ó‘Ô’l‚ğİ’è‚·‚éB
-     * @param alarmValue ó‘Ô’l
+     * çŠ¶æ…‹å€¤ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param alarmValue çŠ¶æ…‹å€¤
      */
     public void setAlarmValue(final Double alarmValue)
     {
@@ -140,8 +140,8 @@ public class AlarmEntry
     }
 
     /**
-     * Œv‘ªŠÔŠu(’PˆÊ:ƒ~ƒŠ•b‚ğæ“¾‚·‚éB
-     * @return Œv‘ªŠÔŠu(’PˆÊ:ƒ~ƒŠ•b
+     * è¨ˆæ¸¬é–“éš”(å˜ä½:ãƒŸãƒªç§’ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return è¨ˆæ¸¬é–“éš”(å˜ä½:ãƒŸãƒªç§’
      */
     public double getAlarmInterval()
     {
@@ -149,8 +149,8 @@ public class AlarmEntry
     }
 
     /**
-     * Œv‘ªŠÔŠu(’PˆÊ:ƒ~ƒŠ•b‚ğİ’è‚·‚éB
-     * @param alarmInterval Œv‘ªŠÔŠu(’PˆÊ:ƒ~ƒŠ•b
+     * è¨ˆæ¸¬é–“éš”(å˜ä½:ãƒŸãƒªç§’ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param alarmInterval è¨ˆæ¸¬é–“éš”(å˜ä½:ãƒŸãƒªç§’
      */
     public void setAlarmInterval(final double alarmInterval)
     {
@@ -158,8 +158,8 @@ public class AlarmEntry
     }
 
     /**
-     * ƒAƒ‰[ƒ€‚Ìó‘Ô’l‚ğæ“¾‚·‚éB
-     * @return ƒAƒ‰[ƒ€‚Ìó‘Ô’l
+     * ã‚¢ãƒ©ãƒ¼ãƒ ã®çŠ¶æ…‹å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ã‚¢ãƒ©ãƒ¼ãƒ ã®çŠ¶æ…‹å€¤
      */
     public int getAlarmState()
     {
@@ -167,8 +167,8 @@ public class AlarmEntry
     }
 
     /**
-     * ƒAƒ‰[ƒ€‚Ìó‘Ô’l‚ğİ’è‚·‚éB
-     * @param alarmState ƒAƒ‰[ƒ€‚Ìó‘Ô’l
+     * ã‚¢ãƒ©ãƒ¼ãƒ ã®çŠ¶æ…‹å€¤ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param alarmState ã‚¢ãƒ©ãƒ¼ãƒ ã®çŠ¶æ…‹å€¤
      */
     public void setAlarmState(final int alarmState)
     {
@@ -176,8 +176,8 @@ public class AlarmEntry
     }
 
     /**
-     * ƒAƒ‰[ƒ€‚ğo‚·‚©‚Ç‚¤‚©‚ğİ’è‚·‚éB
-     * @param sendAlarm ƒZƒbƒg‚·‚é sendAlarm
+     * ã‚¢ãƒ©ãƒ¼ãƒ ã‚’å‡ºã™ã‹ã©ã†ã‹ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param sendAlarm ã‚»ãƒƒãƒˆã™ã‚‹ sendAlarm
      */
     public void setSendAlarm(final boolean sendAlarm)
     {
@@ -185,8 +185,8 @@ public class AlarmEntry
     }
 
     /**
-     * ƒAƒ‰[ƒ€‚ğo‚·‚©‚Ç‚¤‚©‚ğæ“¾‚·‚éB
-     * @return ‘ÎÛ‚ÌŒn—ñ–¼
+     * ã‚¢ãƒ©ãƒ¼ãƒ ã‚’å‡ºã™ã‹ã©ã†ã‹ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return å¯¾è±¡ã®ç³»åˆ—å
      */
     public boolean isSendAlarm()
     {
@@ -194,7 +194,7 @@ public class AlarmEntry
     }
 
     /**
-     * @param alarmType ƒZƒbƒg‚·‚é alarmType
+     * @param alarmType ã‚»ãƒƒãƒˆã™ã‚‹ alarmType
      */
     public void setAlarmType(final AlarmType alarmType)
     {
@@ -202,7 +202,7 @@ public class AlarmEntry
     }
 
     /**
-     * @return alarmType@ƒAƒ‰[ƒ€í•Ê
+     * @return alarmTypeã€€ã‚¢ãƒ©ãƒ¼ãƒ ç¨®åˆ¥
      */
     public AlarmType getAlarmType()
     {
@@ -210,9 +210,9 @@ public class AlarmEntry
     }
 
     /**
-     * ‚±‚ÌƒAƒ‰[ƒ€‚ğŒŸ’m‚µ‚½Javelin‚ÌIPƒAƒhƒŒƒX‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ã“ã®ã‚¢ãƒ©ãƒ¼ãƒ ã‚’æ¤œçŸ¥ã—ãŸJavelinã®IPã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’è¿”ã—ã¾ã™ã€‚<br />
      * 
-     * @return IPƒAƒhƒŒƒX
+     * @return IPã‚¢ãƒ‰ãƒ¬ã‚¹
      */
     public String getIpAddress()
     {
@@ -220,9 +220,9 @@ public class AlarmEntry
     }
 
     /**
-     * ‚±‚ÌƒAƒ‰[ƒ€‚ğŒŸ’m‚µ‚½Javelin‚ÌIPƒAƒhƒŒƒX‚ğİ’è‚µ‚Ü‚·B<br />
+     * ã“ã®ã‚¢ãƒ©ãƒ¼ãƒ ã‚’æ¤œçŸ¥ã—ãŸJavelinã®IPã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
      * 
-     * @param ipAddress IPƒAƒhƒŒƒX
+     * @param ipAddress IPã‚¢ãƒ‰ãƒ¬ã‚¹
      */
     public void setIpAddress(final String ipAddress)
     {
@@ -230,7 +230,7 @@ public class AlarmEntry
     }
 
     /**
-     * ‚±‚ÌƒAƒ‰[ƒ€‚ğŒŸ’m‚µ‚½Javelin‚Ìƒ|[ƒg”Ô†‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ã“ã®ã‚¢ãƒ©ãƒ¼ãƒ ã‚’æ¤œçŸ¥ã—ãŸJavelinã®ãƒãƒ¼ãƒˆç•ªå·ã‚’è¿”ã—ã¾ã™ã€‚<br />
      * 
      * @return port
      */
@@ -240,9 +240,9 @@ public class AlarmEntry
     }
 
     /**
-     * ‚±‚ÌƒAƒ‰[ƒ€‚ğŒŸ’m‚µ‚½Javelin‚Ìƒ|[ƒg”Ô†‚ğİ’è‚µ‚Ü‚·B<br />
+     * ã“ã®ã‚¢ãƒ©ãƒ¼ãƒ ã‚’æ¤œçŸ¥ã—ãŸJavelinã®ãƒãƒ¼ãƒˆç•ªå·ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
      * 
-     * @param port ƒ|[ƒg”Ô†
+     * @param port ãƒãƒ¼ãƒˆç•ªå·
      */
     public void setPort(final int port)
     {
@@ -250,9 +250,9 @@ public class AlarmEntry
     }
 
     /**
-     * ‚±‚ÌƒAƒ‰[ƒ€‚ğŒŸ’m‚µ‚½Javelin‚©‚ç‚Ìƒf[ƒ^‚ğ•Û‘¶‚·‚éDB‚Ì–¼‘O‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ã“ã®ã‚¢ãƒ©ãƒ¼ãƒ ã‚’æ¤œçŸ¥ã—ãŸJavelinã‹ã‚‰ã®ãƒ‡ãƒ¼ã‚¿ã‚’ä¿å­˜ã™ã‚‹DBã®åå‰ã‚’è¿”ã—ã¾ã™ã€‚<br />
      * 
-     * @return databaseName DB–¼
+     * @return databaseName DBå
      */
     public String getDatabaseName()
     {
@@ -260,9 +260,9 @@ public class AlarmEntry
     }
 
     /**
-     * ‚±‚ÌƒAƒ‰[ƒ€‚ğŒŸ’m‚µ‚½Javelin‚©‚ç‚Ìƒf[ƒ^‚ğ•Û‘¶‚·‚éDB‚Ì–¼‘O‚ğİ’è‚µ‚Ü‚·B<br />
+     * ã“ã®ã‚¢ãƒ©ãƒ¼ãƒ ã‚’æ¤œçŸ¥ã—ãŸJavelinã‹ã‚‰ã®ãƒ‡ãƒ¼ã‚¿ã‚’ä¿å­˜ã™ã‚‹DBã®åå‰ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
      * 
-     * @param databaseName DB–¼
+     * @param databaseName DBå
      */
     public void setDatabaseName(final String databaseName)
     {
@@ -270,10 +270,10 @@ public class AlarmEntry
     }
 
     /**
-     * ƒpƒ‰ƒ[ƒ^‚ğ’Ç‰Á‚µ‚Ü‚·B
+     * ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’è¿½åŠ ã—ã¾ã™ã€‚
      *
-     * @param key ƒL[
-     * @param value ’l
+     * @param key ã‚­ãƒ¼
+     * @param value å€¤
      */
     public void addParamter(final String key, final Object value)
     {
@@ -281,9 +281,9 @@ public class AlarmEntry
     }
 
     /**
-     * ƒpƒ‰ƒ[ƒ^‚ğæ“¾‚µ‚Ü‚·B
+     * ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’å–å¾—ã—ã¾ã™ã€‚
      *
-     * @return ƒpƒ‰ƒ[ƒ^
+     * @return ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
      */
     public Map<String, Object> getParameters()
     {
@@ -291,8 +291,8 @@ public class AlarmEntry
     }
 
     /**
-     * ƒVƒOƒiƒ‹‚ÌƒŒƒxƒ‹‚ğæ“¾‚·‚éB
-     * @return ƒVƒOƒiƒ‹‚ÌƒŒƒxƒ‹
+     * ã‚·ã‚°ãƒŠãƒ«ã®ãƒ¬ãƒ™ãƒ«ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ã‚·ã‚°ãƒŠãƒ«ã®ãƒ¬ãƒ™ãƒ«
      */
     public int getSignalLevel()
     {
@@ -300,8 +300,8 @@ public class AlarmEntry
     }
 
     /**
-     * ƒVƒOƒiƒ‹‚ÌƒŒƒxƒ‹‚ğİ’è‚·‚éB
-     * @param signalLevel ƒVƒOƒiƒ‹‚ÌƒŒƒxƒ‹
+     * ã‚·ã‚°ãƒŠãƒ«ã®ãƒ¬ãƒ™ãƒ«ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param signalLevel ã‚·ã‚°ãƒŠãƒ«ã®ãƒ¬ãƒ™ãƒ«
      */
     public void setSignalLevel(final int signalLevel)
     {
@@ -309,8 +309,8 @@ public class AlarmEntry
     }
 
     /**
-     * ƒVƒOƒiƒ‹‚Ì’è‹`î•ñ‚ğæ“¾‚·‚éB
-     * @return ƒVƒOƒiƒ‹‚Ì’è‹`î•ñ
+     * ã‚·ã‚°ãƒŠãƒ«ã®å®šç¾©æƒ…å ±ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ã‚·ã‚°ãƒŠãƒ«ã®å®šç¾©æƒ…å ±
      */
     public SignalDefinitionDto getDefinition()
     {
@@ -318,8 +318,8 @@ public class AlarmEntry
     }
 
     /**
-     * ƒVƒOƒiƒ‹‚Ì’è‹`î•ñ‚ğİ’è‚·‚éB
-     * @param definition ƒVƒOƒiƒ‹‚Ì’è‹`î•ñ
+     * ã‚·ã‚°ãƒŠãƒ«ã®å®šç¾©æƒ…å ±ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param definition ã‚·ã‚°ãƒŠãƒ«ã®å®šç¾©æƒ…å ±
      */
     public void setDefinition(final SignalDefinitionDto definition)
     {

@@ -26,36 +26,36 @@
 package jp.co.acroquest.endosnipe.javelin.bean.proc;
 
 /**
- *�@/proc/meminfo�̓��e��ێ�����Bean
+ *　/proc/meminfoの内容を保持するBean
  * 
  * @author eriguchi
  */
 public class MemInfo
 {
-    /** �V�X�e���S�̂̃������ő�l */
+    /** システム全体のメモリ最大値 */
     private long memTotal_;
     
-    /** �V�X�e���S�̂̋󂫃����� */
+    /** システム全体の空きメモリ */
     private long memFree_;
     
-    /** �V�X�e���S�̂̃o�b�t�@ */ 
+    /** システム全体のバッファ */ 
     private long bufferes_;
 
-    /** �V�X�e���S�̂̃L���b�V�� */ 
+    /** システム全体のキャッシュ */ 
     private long cached_;
     
-    /** �V�X�e���S�̂̃X���b�v�ő�� */ 
+    /** システム全体のスワップ最大量 */ 
     private long swapTotal_;
     
-    /** �V�X�e���S�̂̃X���b�v�󂫗e�� */ 
+    /** システム全体のスワップ空き容量 */ 
     private long swapFree_;
     
-    /** �V�X�e���S�̂̉��z�������g�p�� */ 
+    /** システム全体の仮想メモリ使用量 */ 
     private long vmallocTotal_;
     
     /**
-     * �V�X�e���S�̂̃������ő�l���擾���܂��B
-     * @return �V�X�e���S�̂̃������ő�l
+     * システム全体のメモリ最大値を取得します。
+     * @return システム全体のメモリ最大値
      */
     public long getMemTotal()
     {
@@ -63,8 +63,8 @@ public class MemInfo
     }
     
     /**
-     * �V�X�e���S�̂̃������ő�l��ݒ肵�܂��B
-     * @param memTotal �V�X�e���S�̂̃������ő�l
+     * システム全体のメモリ最大値を設定します。
+     * @param memTotal システム全体のメモリ最大値
      */
     public void setMemTotal(long memTotal)
     {
@@ -72,8 +72,8 @@ public class MemInfo
     }
     
     /**
-     * �V�X�e���S�̂̋󂫃��������擾���܂��B
-     * @return �V�X�e���S�̂̋󂫃�����
+     * システム全体の空きメモリを取得します。
+     * @return システム全体の空きメモリ
      */
     public long getMemFree()
     {
@@ -81,8 +81,8 @@ public class MemInfo
     }
     
     /** 
-     * �V�X�e���S�̂̋󂫃�������ݒ肵�܂��B
-     * @param memFree �V�X�e���S�̂̋󂫃�����
+     * システム全体の空きメモリを設定します。
+     * @param memFree システム全体の空きメモリ
      */
     public void setMemFree(long memFree)
     {
@@ -90,8 +90,8 @@ public class MemInfo
     }
     
     /**
-     * �V�X�e���S�̂̃o�b�t�@���擾���܂��B   
-     * @return �V�X�e���S�̂̃o�b�t�@
+     * システム全体のバッファを取得します。   
+     * @return システム全体のバッファ
      */
     public long getBufferes()
     {
@@ -99,8 +99,8 @@ public class MemInfo
     }
     
     /**
-     * �V�X�e���S�̂̃o�b�t�@��ݒ肵�܂��B
-     * @param bufferes �V�X�e���S�̂̃o�b�t�@
+     * システム全体のバッファを設定します。
+     * @param bufferes システム全体のバッファ
      */
     public void setBufferes(long bufferes)
     {
@@ -108,8 +108,8 @@ public class MemInfo
     }
     
     /**
-     * �V�X�e���S�̂̃L���b�V�����擾���܂��B
-     * @return �V�X�e���S�̂̃L���b�V��
+     * システム全体のキャッシュを取得します。
+     * @return システム全体のキャッシュ
      */
     public long getCached()
     {
@@ -117,8 +117,8 @@ public class MemInfo
     }
     
     /**
-     * �V�X�e���S�̂̃L���b�V����ݒ肵�܂��B
-     * @param cached �V�X�e���S�̂̃L���b�V��
+     * システム全体のキャッシュを設定します。
+     * @param cached システム全体のキャッシュ
      */
     public void setCached(long cached)
     {
@@ -126,8 +126,8 @@ public class MemInfo
     }
     
     /**
-     * �V�X�e���S�̂̃X���b�v�ő�ʂ��擾���܂��B
-     * @return �V�X�e���S�̂̃X���b�v�ő��
+     * システム全体のスワップ最大量を取得します。
+     * @return システム全体のスワップ最大量
      */
     public long getSwapTotal()
     {
@@ -135,8 +135,8 @@ public class MemInfo
     }
     
     /**
-     * �V�X�e���S�̂̃X���b�v�ő�ʂ�ݒ肵�܂��B
-     * @param swapTotal �V�X�e���S�̂̃X���b�v�ő��
+     * システム全体のスワップ最大量を設定します。
+     * @param swapTotal システム全体のスワップ最大量
      */
     public void setSwapTotal(long swapTotal)
     {
@@ -144,8 +144,8 @@ public class MemInfo
     }
     
     /**
-     * �V�X�e���S�̂̃X���b�v�󂫗e�ʂ��擾���܂��B
-     * @return �V�X�e���S�̂̃X���b�v�󂫗e��
+     * システム全体のスワップ空き容量を取得します。
+     * @return システム全体のスワップ空き容量
      */
     public long getSwapFree()
     {
@@ -153,8 +153,8 @@ public class MemInfo
     }
     
     /**
-     * �V�X�e���S�̂̃X���b�v�󂫗e�ʂ�ݒ肵�܂��B
-     * @param swapFree �V�X�e���S�̂̃X���b�v�󂫗e��
+     * システム全体のスワップ空き容量を設定します。
+     * @param swapFree システム全体のスワップ空き容量
      */
     public void setSwapFree(long swapFree)
     {
@@ -162,8 +162,8 @@ public class MemInfo
     }
     
     /**
-     * �V�X�e���S�̂̉��z�������g�p�ʂ��擾���܂��B
-     * @return �V�X�e���S�̂̉��z�������g�p��
+     * システム全体の仮想メモリ使用量を取得します。
+     * @return システム全体の仮想メモリ使用量
      */
     public long getVmallocTotal()
     {
@@ -171,8 +171,8 @@ public class MemInfo
     }
     
     /**
-     * �V�X�e���S�̂̉��z�������g�p�ʂ�ݒ肵�܂��B
-     * @param vmallocTotal �V�X�e���S�̂̉��z�������g�p��
+     * システム全体の仮想メモリ使用量を設定します。
+     * @param vmallocTotal システム全体の仮想メモリ使用量
      */
     public void setVmallocTotal(long vmallocTotal)
     {

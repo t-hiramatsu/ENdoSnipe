@@ -18,16 +18,16 @@ import jp.co.acroquest.endosnipe.data.dao.AbstractDao;
 import jp.co.acroquest.endosnipe.data.db.DBManager;
 
 /**
- * ƒŒƒ|[ƒgo—Í—p‚ÌDao
+ * ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ç”¨ã®Dao
  * 
  * @author eriguchi
  * 
  */
 public class ReportDao extends AbstractDao implements TableNames {
-	/** Å‘åŒ” */
+	/** æœ€å¤§ä»¶æ•° */
 	public static final int ITEM_COUNT = 200;
 
-	/** •½‹Ï’lŒvZ—p‚ÌSQL */
+	/** å¹³å‡å€¤è¨ˆç®—ç”¨ã®SQL */
 	private static final String SQL_AVERAGE = "SELECT"
 			+ "    min(mv.measurement_time) measurement_time"
 			+ "    , ji.measurement_item_name measurement_item_name"
@@ -51,7 +51,7 @@ public class ReportDao extends AbstractDao implements TableNames {
 			+ "    ) " + "GROUP BY measurement_index, ji.measurement_item_name "
 			+ "ORDER BY" + "    ji.measurement_item_name, measurement_time";
 
-    /** ‡Œv’lŒvZ—p‚ÌSQL */
+    /** åˆè¨ˆå€¤è¨ˆç®—ç”¨ã®SQL */
 	private static final String SQL_SUM = "SELECT"
 			+ "    min(mv.measurement_time) measurement_time"
 			+ "    , ji.measurement_item_name item_name"
@@ -75,7 +75,7 @@ public class ReportDao extends AbstractDao implements TableNames {
 			+ "    ) " + "GROUP BY measurement_index, ji.measurement_item_name "
 			+ "ORDER BY" + "    ji.measurement_item_name, measurement_time";
 
-    /** •½‹Ï’lŒvZ—p‚ÌSQL(H2) */
+    /** å¹³å‡å€¤è¨ˆç®—ç”¨ã®SQL(H2) */
 	private static final String SQL_AVERAGE_ALL_H2 = "SELECT"
 			+ "    min(mv.measurement_time) measurement_time"
 			+ "    , case when substring(ji.measurement_item_name, 0, 1) = '/' then '/' "
@@ -101,7 +101,7 @@ public class ReportDao extends AbstractDao implements TableNames {
 			+ "    ) " + " GROUP BY measurement_index, item_name_head"
 			+ " ORDER BY" + "    measurement_time";
 
-    /** •½‹Ï’lŒvZ—p‚ÌSQL(postgres) */
+    /** å¹³å‡å€¤è¨ˆç®—ç”¨ã®SQL(postgres) */
 	private static final String SQL_AVERAGE_ALL_POSTGRES = "SELECT"
 			+ "    min(mv.measurement_time) measurement_time"
 			+ "    , case when substring(ji.measurement_item_name, 0, 2) = '/' then '/' "
@@ -127,7 +127,7 @@ public class ReportDao extends AbstractDao implements TableNames {
 			+ "    ) " + " GROUP BY measurement_index, item_name_head"
 			+ " ORDER BY" + "    measurement_time";
 
-    /** ‡Œv’lŒvZ—p‚ÌSQL(H2) */
+    /** åˆè¨ˆå€¤è¨ˆç®—ç”¨ã®SQL(H2) */
 	private static final String SQL_SUM_ALL_H2 = "SELECT"
 			+ "    min(mv.measurement_time) measurement_time"
 			+ "    , case when substring(ji.measurement_item_name, 0, 1) = '/' then '/' "
@@ -153,7 +153,7 @@ public class ReportDao extends AbstractDao implements TableNames {
 			+ "    ) " + "GROUP BY measurement_index, item_name_head " //
 			+ "ORDER BY " + "    measurement_time";
 
-    /** ‡Œv’lŒvZ—p‚ÌSQL(postgres) */
+    /** åˆè¨ˆå€¤è¨ˆç®—ç”¨ã®SQL(postgres) */
 	private static final String SQL_SUM_ALL_POSTGRES = "SELECT"
 			+ "    min(mv.measurement_time) measurement_time"
 			+ "    , case when substring(ji.measurement_item_name, 0, 2) = '/' then '/' "
@@ -179,7 +179,7 @@ public class ReportDao extends AbstractDao implements TableNames {
 			+ "    ) " + "GROUP BY measurement_index, item_name_head " //
 			+ "ORDER BY " + "    measurement_time";
 
-	/** —áŠOŒvZ—p‚ÌSQL(H2) */
+	/** ä¾‹å¤–è¨ˆç®—ç”¨ã®SQL(H2) */
 	private static final String SQL_EXCEPTION_H2 = "SELECT"
 			+ "    min(mv.measurement_time) measurement_time"
 			+ "    , case when substring(ji.measurement_item_name, 0, 1) = '/' then '/' "
@@ -205,7 +205,7 @@ public class ReportDao extends AbstractDao implements TableNames {
 			+ "    ) " + "GROUP BY measurement_index, ji.measurement_item_name "
 			+ "ORDER BY" + "    item_name_head, measurement_time";
 
-    /** —áŠOŒvZ—p‚ÌSQL(postgres) */
+    /** ä¾‹å¤–è¨ˆç®—ç”¨ã®SQL(postgres) */
 	private static final String SQL_EXCEPTION_POSTGRES = "SELECT"
 			+ "    min(mv.measurement_time) measurement_time"
 			+ "    , case when substring(ji.measurement_item_name, 0, 2) = '/' then '/' "
@@ -232,7 +232,7 @@ public class ReportDao extends AbstractDao implements TableNames {
 			+ "ORDER BY" + "    item_name_head, measurement_time";
 
 	/**
-	 * CallTreeNodo¶¬”‚Ìƒf[ƒ^‚ğæ“¾‚·‚é‚½‚ß‚ÌSQL•¶B
+	 * CallTreeNodoç”Ÿæˆæ•°ã®ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ãŸã‚ã®SQLæ–‡ã€‚
 	 */
 	private static final String SQL_CALLTREE_AVERAGE = "SELECT"
 			+ "    min(mv.measurement_time) measurement_time"
@@ -258,21 +258,21 @@ public class ReportDao extends AbstractDao implements TableNames {
 			+ "ORDER BY" + "    ji.measurement_item_name, measurement_time";
 
 	/**
-	 * w’è‚µ‚½ŠúŠÔ‚©‚çAƒTƒ}ƒŠŒvZ‚ğs‚¢AŒ‹‰Ê‚ğæ“¾‚·‚éB
+	 * æŒ‡å®šã—ãŸæœŸé–“ã‹ã‚‰ã€ã‚µãƒãƒªè¨ˆç®—ã‚’è¡Œã„ã€çµæœã‚’å–å¾—ã™ã‚‹ã€‚
 	 * 
-	 * ƒTƒ}ƒŠ‚Æ‚µ‚Ä•½‹Ï’l‚ğŒvZ‚·‚éSQL‚Å–â‚¢‡‚í‚¹AŒ‹‰Ê‚ğƒŠƒXƒg‚É‚µ‚Ä•Ô‚·B •K‚¸AITEM_COUNT‚ÌƒTƒCƒY‚ÌƒŠƒXƒg‚ğ•Ô‚·B
+	 * ã‚µãƒãƒªã¨ã—ã¦å¹³å‡å€¤ã‚’è¨ˆç®—ã™ã‚‹SQLã§å•ã„åˆã‚ã›ã€çµæœã‚’ãƒªã‚¹ãƒˆã«ã—ã¦è¿”ã™ã€‚ å¿…ãšã€ITEM_COUNTã®ã‚µã‚¤ã‚ºã®ãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚
 	 * 
 	 * @param database
-	 *            ƒf[ƒ^ƒx[ƒX
+	 *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹
 	 * @param startTime
-	 *            ŠJn
+	 *            é–‹å§‹æ™‚åˆ»
 	 * @param endTime
-	 *            I—¹
+	 *            çµ‚äº†æ™‚åˆ»
 	 * @param itemName
 	 *            item_name
-	 * @return ƒŒƒ|[ƒgo—Í‚Ég—p‚·‚éReportItemValue‚ÌƒŠƒXƒgB
+	 * @return ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã«ä½¿ç”¨ã™ã‚‹ReportItemValueã®ãƒªã‚¹ãƒˆã€‚
 	 * @throws SQLException
-	 *             DBƒAƒNƒZƒX‚ÉƒGƒ‰[‚ª”­¶‚µ‚½ê‡
+	 *             DBã‚¢ã‚¯ã‚»ã‚¹æ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
 	 */
 	public static List<ReportItemValue> selectSum(String database,
 			Timestamp startTime, Timestamp endTime, String itemName)
@@ -284,21 +284,21 @@ public class ReportDao extends AbstractDao implements TableNames {
 	}
 
 	/**
-	 * w’è‚µ‚½ŠúŠÔ‚©‚çAƒTƒ}ƒŠŒvZ‚ğs‚¢AŒ‹‰Ê‚ğæ“¾‚·‚éB
+	 * æŒ‡å®šã—ãŸæœŸé–“ã‹ã‚‰ã€ã‚µãƒãƒªè¨ˆç®—ã‚’è¡Œã„ã€çµæœã‚’å–å¾—ã™ã‚‹ã€‚
 	 * 
-	 * ƒTƒ}ƒŠ‚Æ‚µ‚Ä•½‹Ï’l‚ğŒvZ‚·‚éSQL‚Å–â‚¢‡‚í‚¹AŒ‹‰Ê‚ğƒŠƒXƒg‚É‚µ‚Ä•Ô‚·B •K‚¸AITEM_COUNT‚ÌƒTƒCƒY‚ÌƒŠƒXƒg‚ğ•Ô‚·B
+	 * ã‚µãƒãƒªã¨ã—ã¦å¹³å‡å€¤ã‚’è¨ˆç®—ã™ã‚‹SQLã§å•ã„åˆã‚ã›ã€çµæœã‚’ãƒªã‚¹ãƒˆã«ã—ã¦è¿”ã™ã€‚ å¿…ãšã€ITEM_COUNTã®ã‚µã‚¤ã‚ºã®ãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚
 	 * 
 	 * @param database
-	 *            ƒf[ƒ^ƒx[ƒX
+	 *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹
 	 * @param startTime
-	 *            ŠJn
+	 *            é–‹å§‹æ™‚åˆ»
 	 * @param endTime
-	 *            I—¹
+	 *            çµ‚äº†æ™‚åˆ»
 	 * @param itemName
 	 *            item_name
-	 * @return ƒŒƒ|[ƒgo—Í‚Ég—p‚·‚éReportItemValue‚ÌƒŠƒXƒgB
+	 * @return ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã«ä½¿ç”¨ã™ã‚‹ReportItemValueã®ãƒªã‚¹ãƒˆã€‚
 	 * @throws SQLException
-	 *             DBƒAƒNƒZƒX‚ÉƒGƒ‰[‚ª”­¶‚µ‚½ê‡
+	 *             DBã‚¢ã‚¯ã‚»ã‚¹æ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
 	 */
 	public static List<ReportItemValue> selectAverage(String database,
 			Timestamp startTime, Timestamp endTime, String itemName)
@@ -310,21 +310,21 @@ public class ReportDao extends AbstractDao implements TableNames {
 	}
 
 	/**
-	 * w’è‚µ‚½ŠúŠÔ‚©‚çAƒTƒ}ƒŠŒvZ‚ğs‚¢AŒ‹‰Ê‚ğæ“¾‚·‚éB ‚±‚Ìƒƒ\ƒbƒh‚Åæ“¾‚Å‚«‚é‚Ì‚ÍACallTreeNode¶¬”‚Ìƒf[ƒ^‚Ì‚İ‚Å‚ ‚éB
+	 * æŒ‡å®šã—ãŸæœŸé–“ã‹ã‚‰ã€ã‚µãƒãƒªè¨ˆç®—ã‚’è¡Œã„ã€çµæœã‚’å–å¾—ã™ã‚‹ã€‚ ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã§å–å¾—ã§ãã‚‹ã®ã¯ã€CallTreeNodeç”Ÿæˆæ•°ã®ãƒ‡ãƒ¼ã‚¿ã®ã¿ã§ã‚ã‚‹ã€‚
 	 * 
-	 * ƒTƒ}ƒŠ‚Æ‚µ‚Ä•½‹Ï’l‚ğŒvZ‚·‚éSQL‚Å–â‚¢‡‚í‚¹AŒ‹‰Ê‚ğƒŠƒXƒg‚É‚µ‚Ä•Ô‚·B •K‚¸AITEM_COUNT‚ÌƒTƒCƒY‚ÌƒŠƒXƒg‚ğ•Ô‚·B
+	 * ã‚µãƒãƒªã¨ã—ã¦å¹³å‡å€¤ã‚’è¨ˆç®—ã™ã‚‹SQLã§å•ã„åˆã‚ã›ã€çµæœã‚’ãƒªã‚¹ãƒˆã«ã—ã¦è¿”ã™ã€‚ å¿…ãšã€ITEM_COUNTã®ã‚µã‚¤ã‚ºã®ãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚
 	 * 
 	 * @param database
-	 *            ƒf[ƒ^ƒx[ƒX
+	 *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹
 	 * @param startTime
-	 *            ŠJn
+	 *            é–‹å§‹æ™‚åˆ»
 	 * @param endTime
-	 *            I—¹
+	 *            çµ‚äº†æ™‚åˆ»
 	 * @param itemName
 	 *            item_name
-	 * @return ƒŒƒ|[ƒgo—Í‚Ég—p‚·‚éReportItemValue‚ÌƒŠƒXƒgB
+	 * @return ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã«ä½¿ç”¨ã™ã‚‹ReportItemValueã®ãƒªã‚¹ãƒˆã€‚
 	 * @throws SQLException
-	 *             DBƒAƒNƒZƒX‚ÉƒGƒ‰[‚ª”­¶‚µ‚½ê‡
+	 *             DBã‚¢ã‚¯ã‚»ã‚¹æ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
 	 */
 	public static List<ReportItemValue> selectCallTreeAverage(String database,
 			Timestamp startTime, Timestamp endTime, String itemName)
@@ -336,21 +336,21 @@ public class ReportDao extends AbstractDao implements TableNames {
 	}
 
 	/**
-	 * w’è‚µ‚½ŠúŠÔ‚©‚çAƒTƒ}ƒŠŒvZ‚ğs‚¢AŒ‹‰Ê‚ğæ“¾‚·‚éB
+	 * æŒ‡å®šã—ãŸæœŸé–“ã‹ã‚‰ã€ã‚µãƒãƒªè¨ˆç®—ã‚’è¡Œã„ã€çµæœã‚’å–å¾—ã™ã‚‹ã€‚
 	 * 
-	 * ƒTƒ}ƒŠ‚Æ‚µ‚Ä•½‹Ï’l‚ğŒvZ‚·‚éSQL‚Å–â‚¢‡‚í‚¹AŒ‹‰Ê‚ğƒŠƒXƒg‚É‚µ‚Ä•Ô‚·B •K‚¸AITEM_COUNT‚ÌƒTƒCƒY‚ÌƒŠƒXƒg‚ğ•Ô‚·B
+	 * ã‚µãƒãƒªã¨ã—ã¦å¹³å‡å€¤ã‚’è¨ˆç®—ã™ã‚‹SQLã§å•ã„åˆã‚ã›ã€çµæœã‚’ãƒªã‚¹ãƒˆã«ã—ã¦è¿”ã™ã€‚ å¿…ãšã€ITEM_COUNTã®ã‚µã‚¤ã‚ºã®ãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚
 	 * 
 	 * @param database
-	 *            ƒf[ƒ^ƒx[ƒX
+	 *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹
 	 * @param startTime
-	 *            ŠJn
+	 *            é–‹å§‹æ™‚åˆ»
 	 * @param endTime
-	 *            I—¹
+	 *            çµ‚äº†æ™‚åˆ»
 	 * @param itemName
 	 *            item_name
-	 * @return ƒŒƒ|[ƒgo—Í‚Ég—p‚·‚éReportItemValue‚ÌƒŠƒXƒgB
+	 * @return ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã«ä½¿ç”¨ã™ã‚‹ReportItemValueã®ãƒªã‚¹ãƒˆã€‚
 	 * @throws SQLException
-	 *             DBƒAƒNƒZƒX‚ÉƒGƒ‰[‚ª”­¶‚µ‚½ê‡
+	 *             DBã‚¢ã‚¯ã‚»ã‚¹æ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
 	 */
 	public static Map<String, List<ReportItemValue>> selectSumAll(
 			String database, Timestamp startTime, Timestamp endTime,
@@ -376,21 +376,21 @@ public class ReportDao extends AbstractDao implements TableNames {
 	}
 
 	/**
-	 * w’è‚µ‚½ŠúŠÔ‚©‚çAƒTƒ}ƒŠŒvZ‚ğs‚¢AŒ‹‰Ê‚ğæ“¾‚·‚éB
+	 * æŒ‡å®šã—ãŸæœŸé–“ã‹ã‚‰ã€ã‚µãƒãƒªè¨ˆç®—ã‚’è¡Œã„ã€çµæœã‚’å–å¾—ã™ã‚‹ã€‚
 	 * 
-	 * ƒTƒ}ƒŠ‚Æ‚µ‚Ä•½‹Ï’l‚ğŒvZ‚·‚éSQL‚Å–â‚¢‡‚í‚¹AŒ‹‰Ê‚ğƒŠƒXƒg‚É‚µ‚Ä•Ô‚·B •K‚¸AITEM_COUNT‚ÌƒTƒCƒY‚ÌƒŠƒXƒg‚ğ•Ô‚·B
+	 * ã‚µãƒãƒªã¨ã—ã¦å¹³å‡å€¤ã‚’è¨ˆç®—ã™ã‚‹SQLã§å•ã„åˆã‚ã›ã€çµæœã‚’ãƒªã‚¹ãƒˆã«ã—ã¦è¿”ã™ã€‚ å¿…ãšã€ITEM_COUNTã®ã‚µã‚¤ã‚ºã®ãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚
 	 * 
 	 * @param database
-	 *            ƒf[ƒ^ƒx[ƒX
+	 *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹
 	 * @param startTime
-	 *            ŠJn
+	 *            é–‹å§‹æ™‚åˆ»
 	 * @param endTime
-	 *            I—¹
+	 *            çµ‚äº†æ™‚åˆ»
 	 * @param itemName
 	 *            item_name
-	 * @return ƒŒƒ|[ƒgo—Í‚Ég—p‚·‚éReportItemValue‚ÌƒŠƒXƒgB
+	 * @return ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã«ä½¿ç”¨ã™ã‚‹ReportItemValueã®ãƒªã‚¹ãƒˆã€‚
 	 * @throws SQLException
-	 *             DBƒAƒNƒZƒX‚ÉƒGƒ‰[‚ª”­¶‚µ‚½ê‡
+	 *             DBã‚¢ã‚¯ã‚»ã‚¹æ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
 	 */
 	public static Map<String, List<ReportItemValue>> selectAverageAll(
 			String database, Timestamp startTime, Timestamp endTime,
@@ -415,12 +415,12 @@ public class ReportDao extends AbstractDao implements TableNames {
 	}
 
 	/**
-	 * ’l‚ª0‚ÌMap‚ğ¶¬‚·‚éB
+	 * å€¤ãŒ0ã®Mapã‚’ç”Ÿæˆã™ã‚‹ã€‚
 	 * 
-	 * @param startTime ŠJnB
-	 * @param endTime I—¹B
-	 * @param itemName €–Ú–¼B
-	 * @return@¶¬‚µ‚½MapB
+	 * @param startTime é–‹å§‹æ™‚åˆ»ã€‚
+	 * @param endTime çµ‚äº†æ™‚åˆ»ã€‚
+	 * @param itemName é …ç›®åã€‚
+	 * @returnã€€ç”Ÿæˆã—ãŸMapã€‚
 	 */
 	private static Map<String, List<ReportItemValue>> createZeroMapData(
 			Timestamp startTime, Timestamp endTime, String itemName) {
@@ -444,21 +444,21 @@ public class ReportDao extends AbstractDao implements TableNames {
 	}
 
 	/**
-	 * w’è‚µ‚½ŠúŠÔ‚©‚çAƒTƒ}ƒŠŒvZ‚ğs‚¢AŒ‹‰Ê‚ğæ“¾‚·‚éB
+	 * æŒ‡å®šã—ãŸæœŸé–“ã‹ã‚‰ã€ã‚µãƒãƒªè¨ˆç®—ã‚’è¡Œã„ã€çµæœã‚’å–å¾—ã™ã‚‹ã€‚
 	 * 
-	 * ƒTƒ}ƒŠ‚Æ‚µ‚Ä•½‹Ï’l‚ğŒvZ‚·‚éSQL‚Å–â‚¢‡‚í‚¹AŒ‹‰Ê‚ğƒŠƒXƒg‚É‚µ‚Ä•Ô‚·B •K‚¸AITEM_COUNT‚ÌƒTƒCƒY‚ÌƒŠƒXƒg‚ğ•Ô‚·B
+	 * ã‚µãƒãƒªã¨ã—ã¦å¹³å‡å€¤ã‚’è¨ˆç®—ã™ã‚‹SQLã§å•ã„åˆã‚ã›ã€çµæœã‚’ãƒªã‚¹ãƒˆã«ã—ã¦è¿”ã™ã€‚ å¿…ãšã€ITEM_COUNTã®ã‚µã‚¤ã‚ºã®ãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚
 	 * 
 	 * @param database
-	 *            ƒf[ƒ^ƒx[ƒX
+	 *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹
 	 * @param startTime
-	 *            ŠJn
+	 *            é–‹å§‹æ™‚åˆ»
 	 * @param endTime
-	 *            I—¹
+	 *            çµ‚äº†æ™‚åˆ»
 	 * @param itemName
 	 *            item_name
-	 * @return ƒŒƒ|[ƒgo—Í‚Ég—p‚·‚éReportItemValue‚ÌƒŠƒXƒgB
+	 * @return ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã«ä½¿ç”¨ã™ã‚‹ReportItemValueã®ãƒªã‚¹ãƒˆã€‚
 	 * @throws SQLException
-	 *             DBƒAƒNƒZƒX‚ÉƒGƒ‰[‚ª”­¶‚µ‚½ê‡
+	 *             DBã‚¢ã‚¯ã‚»ã‚¹æ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
 	 */
 	public static Map<String, List<ReportItemValue>> selectSumMap(
 			String database, Timestamp startTime, Timestamp endTime,
@@ -473,21 +473,21 @@ public class ReportDao extends AbstractDao implements TableNames {
 	}
 
     /**
-     * w’è‚µ‚½ŠúŠÔ‚©‚çAƒTƒ}ƒŠŒvZ‚ğs‚¢AŒ‹‰Ê‚ğæ“¾‚·‚éB
+     * æŒ‡å®šã—ãŸæœŸé–“ã‹ã‚‰ã€ã‚µãƒãƒªè¨ˆç®—ã‚’è¡Œã„ã€çµæœã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * ƒTƒ}ƒŠ‚Æ‚µ‚Ä‡Œv’l‚ğŒvZ‚·‚éSQL‚Å–â‚¢‡‚í‚¹AŒ‹‰Ê‚ğƒŠƒXƒg‚É‚µ‚Ä•Ô‚·B •K‚¸AITEM_COUNT‚ÌƒTƒCƒY‚ÌƒŠƒXƒg‚ğ•Ô‚·B
+     * ã‚µãƒãƒªã¨ã—ã¦åˆè¨ˆå€¤ã‚’è¨ˆç®—ã™ã‚‹SQLã§å•ã„åˆã‚ã›ã€çµæœã‚’ãƒªã‚¹ãƒˆã«ã—ã¦è¿”ã™ã€‚ å¿…ãšã€ITEM_COUNTã®ã‚µã‚¤ã‚ºã®ãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚
      * 
      * @param database
-     *            ƒf[ƒ^ƒx[ƒX
+     *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹
      * @param startTime
-     *            ŠJn
+     *            é–‹å§‹æ™‚åˆ»
      * @param endTime
-     *            I—¹
+     *            çµ‚äº†æ™‚åˆ»
      * @param itemName
      *            item_name
-     * @return ƒŒƒ|[ƒgo—Í‚Ég—p‚·‚éReportItemValue‚ÌƒŠƒXƒgB
+     * @return ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã«ä½¿ç”¨ã™ã‚‹ReportItemValueã®ãƒªã‚¹ãƒˆã€‚
      * @throws SQLException
-     *             DBƒAƒNƒZƒX‚ÉƒGƒ‰[‚ª”­¶‚µ‚½ê‡
+     *             DBã‚¢ã‚¯ã‚»ã‚¹æ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
 	public static Map<String, List<ReportItemValue>> selectExceptionSumMap(
 			String database, Timestamp startTime, Timestamp endTime,
@@ -509,28 +509,28 @@ public class ReportDao extends AbstractDao implements TableNames {
 	}
 
     /**
-     * w’è‚µ‚½ŠúŠÔ‚©‚çAƒTƒ}ƒŠŒvZ‚ğs‚¢AŒ‹‰Ê‚ğæ“¾‚·‚éB
+     * æŒ‡å®šã—ãŸæœŸé–“ã‹ã‚‰ã€ã‚µãƒãƒªè¨ˆç®—ã‚’è¡Œã„ã€çµæœã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * ƒTƒ}ƒŠ‚Æ‚µ‚Ä‡Œv’l‚ğŒvZ‚·‚éSQL‚Å–â‚¢‡‚í‚¹AŒ‹‰Ê‚ğƒŠƒXƒg‚É‚µ‚Ä•Ô‚·B •K‚¸AITEM_COUNT‚ÌƒTƒCƒY‚ÌƒŠƒXƒg‚ğ•Ô‚·B
+     * ã‚µãƒãƒªã¨ã—ã¦åˆè¨ˆå€¤ã‚’è¨ˆç®—ã™ã‚‹SQLã§å•ã„åˆã‚ã›ã€çµæœã‚’ãƒªã‚¹ãƒˆã«ã—ã¦è¿”ã™ã€‚ å¿…ãšã€ITEM_COUNTã®ã‚µã‚¤ã‚ºã®ãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚
      * 
      * @param database
-     *            ƒf[ƒ^ƒx[ƒX
+     *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹
      * @param startTime
-     *            ŠJn
+     *            é–‹å§‹æ™‚åˆ»
      * @param endTime
-     *            I—¹
+     *            çµ‚äº†æ™‚åˆ»
      * @param itemName
      *            item_name
-     * @return ƒŒƒ|[ƒgo—Í‚Ég—p‚·‚éReportItemValue‚ÌƒŠƒXƒgB
+     * @return ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã«ä½¿ç”¨ã™ã‚‹ReportItemValueã®ãƒªã‚¹ãƒˆã€‚
      * @throws SQLException
-     *             DBƒAƒNƒZƒX‚ÉƒGƒ‰[‚ª”­¶‚µ‚½ê‡
+     *             DBã‚¢ã‚¯ã‚»ã‚¹æ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static Map<String, List<ReportItemValue>> selectStallSumMap(
             String database, Timestamp startTime, Timestamp endTime,
             String itemName) throws SQLException {
         Map<String, Map<Integer, ReportItemValue>> resultMap;
 
-        // g—p‚·‚éSQL‚Í—áŠOƒf[ƒ^‚Æ“¯‚¶‚à‚Ì‚ğg—p‚·‚éB
+        // ä½¿ç”¨ã™ã‚‹SQLã¯ä¾‹å¤–ãƒ‡ãƒ¼ã‚¿ã¨åŒã˜ã‚‚ã®ã‚’ä½¿ç”¨ã™ã‚‹ã€‚
         if (DBManager.isDefaultDb() == true) {
             resultMap = selectMap(database, startTime, endTime, itemName,
                     SQL_EXCEPTION_H2);
@@ -546,21 +546,21 @@ public class ReportDao extends AbstractDao implements TableNames {
     }
 
 	/**
-	 * w’è‚µ‚½ŠúŠÔ‚©‚çAƒTƒ}ƒŠŒvZ‚ğs‚¢AŒ‹‰Ê‚ğæ“¾‚·‚éB
+	 * æŒ‡å®šã—ãŸæœŸé–“ã‹ã‚‰ã€ã‚µãƒãƒªè¨ˆç®—ã‚’è¡Œã„ã€çµæœã‚’å–å¾—ã™ã‚‹ã€‚
 	 * 
-	 * ƒTƒ}ƒŠ‚Æ‚µ‚Ä•½‹Ï’l‚ğŒvZ‚·‚éSQL‚Å–â‚¢‡‚í‚¹AŒ‹‰Ê‚ğƒŠƒXƒg‚É‚µ‚Ä•Ô‚·B •K‚¸AITEM_COUNT‚ÌƒTƒCƒY‚ÌƒŠƒXƒg‚ğ•Ô‚·B
+	 * ã‚µãƒãƒªã¨ã—ã¦å¹³å‡å€¤ã‚’è¨ˆç®—ã™ã‚‹SQLã§å•ã„åˆã‚ã›ã€çµæœã‚’ãƒªã‚¹ãƒˆã«ã—ã¦è¿”ã™ã€‚ å¿…ãšã€ITEM_COUNTã®ã‚µã‚¤ã‚ºã®ãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚
 	 * 
 	 * @param database
-	 *            ƒf[ƒ^ƒx[ƒX
+	 *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹
 	 * @param startTime
-	 *            ŠJn
+	 *            é–‹å§‹æ™‚åˆ»
 	 * @param endTime
-	 *            I—¹
+	 *            çµ‚äº†æ™‚åˆ»
 	 * @param itemName
 	 *            item_name
-	 * @return ƒŒƒ|[ƒgo—Í‚Ég—p‚·‚éReportItemValue‚ÌƒŠƒXƒgB
+	 * @return ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã«ä½¿ç”¨ã™ã‚‹ReportItemValueã®ãƒªã‚¹ãƒˆã€‚
 	 * @throws SQLException
-	 *             DBƒAƒNƒZƒX‚ÉƒGƒ‰[‚ª”­¶‚µ‚½ê‡
+	 *             DBã‚¢ã‚¯ã‚»ã‚¹æ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
 	 */
 	public static Map<String, List<ReportItemValue>> selectAverageMap(
 			String database, Timestamp startTime, Timestamp endTime,
@@ -574,15 +574,15 @@ public class ReportDao extends AbstractDao implements TableNames {
 	}
 
     /**
-     * w’è‚µ‚½ŠúŠÔ‚©‚çAw’è‚µ‚½SQL‚ğ—p‚¢‚ÄƒTƒ}ƒŠŒvZ‚ğs‚¢AŒ‹‰Ê‚ğæ“¾‚·‚éB
+     * æŒ‡å®šã—ãŸæœŸé–“ã‹ã‚‰ã€æŒ‡å®šã—ãŸSQLã‚’ç”¨ã„ã¦ã‚µãƒãƒªè¨ˆç®—ã‚’è¡Œã„ã€çµæœã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @param database ƒf[ƒ^ƒx[ƒX
-     * @param startTime ŠJn
-     * @param endTime I—¹
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹
+     * @param startTime é–‹å§‹æ™‚åˆ»
+     * @param endTime çµ‚äº†æ™‚åˆ»
      * @param itemName item_name
      * @param sqlBase SQL
-     * @return ƒŒƒ|[ƒgo—Í‚Ég—p‚·‚éReportItemValue‚ÌƒŠƒXƒgB
-     * @throws SQLException DBƒAƒNƒZƒX‚ÉƒGƒ‰[‚ª”­¶‚µ‚½ê‡
+     * @return ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã«ä½¿ç”¨ã™ã‚‹ReportItemValueã®ãƒªã‚¹ãƒˆã€‚
+     * @throws SQLException DBã‚¢ã‚¯ã‚»ã‚¹æ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
 	public static Map<String, Map<Integer, ReportItemValue>> selectMap(
 			String database, Timestamp startTime, Timestamp endTime,
@@ -616,23 +616,23 @@ public class ReportDao extends AbstractDao implements TableNames {
 	}
 
 	/**
-	 * w’è‚µ‚½ŠúŠÔ‚ÌŒv‘ªî•ñ‚ÌƒTƒ}ƒŠŒvZ‚ğs‚¢AŒ‹‰Ê‚ğæ“¾‚·‚éB
+	 * æŒ‡å®šã—ãŸæœŸé–“ã®è¨ˆæ¸¬æƒ…å ±ã®ã‚µãƒãƒªè¨ˆç®—ã‚’è¡Œã„ã€çµæœã‚’å–å¾—ã™ã‚‹ã€‚
 	 * 
-	 * ˆø”‚Åw’è‚µ‚½SQL‚Å–â‚¢‡‚í‚¹AŒ‹‰Ê‚ğƒŠƒXƒg‚É‚µ‚Ä•Ô‚·B •K‚¸AITEM_COUNT‚ÌƒTƒCƒY‚ÌƒŠƒXƒg‚ğ•Ô‚·B
+	 * å¼•æ•°ã§æŒ‡å®šã—ãŸSQLã§å•ã„åˆã‚ã›ã€çµæœã‚’ãƒªã‚¹ãƒˆã«ã—ã¦è¿”ã™ã€‚ å¿…ãšã€ITEM_COUNTã®ã‚µã‚¤ã‚ºã®ãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚
 	 * 
 	 * @param database
-	 *            ƒf[ƒ^ƒx[ƒX
+	 *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹
 	 * @param startTime
-	 *            ŠJn
+	 *            é–‹å§‹æ™‚åˆ»
 	 * @param endTime
-	 *            I—¹
+	 *            çµ‚äº†æ™‚åˆ»
 	 * @param itemName
 	 *            item_name
 	 * @param sql
 	 *            SQL
-	 * @return ƒŒƒ|[ƒgo—Í‚Ég—p‚·‚éReportItemValue‚ÌƒŠƒXƒgB
+	 * @return ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã«ä½¿ç”¨ã™ã‚‹ReportItemValueã®ãƒªã‚¹ãƒˆã€‚
 	 * @throws SQLException
-	 *             DBƒAƒNƒZƒX‚ÉƒGƒ‰[‚ª”­¶‚µ‚½ê‡
+	 *             DBã‚¢ã‚¯ã‚»ã‚¹æ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
 	 */
 	private static List<ReportItemValue> select(String database,
 			Timestamp startTime, Timestamp endTime, String itemName, String sql)
@@ -662,7 +662,7 @@ public class ReportDao extends AbstractDao implements TableNames {
 				ReportItemValue reportItemValue = reportItemMap.get(Integer
 						.valueOf(index));
 				if (reportItemValue == null) {
-					// ’l‚ª‚È‚¯‚ê‚Î0‚Å•âŠÔ‚·‚é
+					// å€¤ãŒãªã‘ã‚Œã°0ã§è£œé–“ã™ã‚‹
 					reportItemValue = new ReportItemValue();
 					reportItemValue.itemName = itemName;
 					reportItemValue.measurementTime = new Timestamp(startMillis
@@ -681,14 +681,14 @@ public class ReportDao extends AbstractDao implements TableNames {
 
 	/**
 	 * 
-	 * itemName‚ªƒL[AReportItemValue‚ÌƒŠƒXƒg‚ª’l‚Ìƒ}ƒbƒv‚É•ÏŠ·‚·‚éB
+	 * itemNameãŒã‚­ãƒ¼ã€ReportItemValueã®ãƒªã‚¹ãƒˆãŒå€¤ã®ãƒãƒƒãƒ—ã«å¤‰æ›ã™ã‚‹ã€‚
 	 * 
 	 * @param startTime
-	 *            ŠJ¦
+	 *            é–‹ç¤ºæ™‚åˆ»
 	 * @param endTime
-	 *            I—¹
+	 *            çµ‚äº†æ™‚åˆ»
 	 * @param inputMap
-	 *            •ÏŠ·‘ÎÛ‚Ìƒ}ƒbƒv
+	 *            å¤‰æ›å¯¾è±¡ã®ãƒãƒƒãƒ—
 	 * @return
 	 */
 	private static Map<String, List<ReportItemValue>> convertToReportItemListMap(
@@ -709,7 +709,7 @@ public class ReportDao extends AbstractDao implements TableNames {
 				ReportItemValue reportItemValue = reportItemMap.get(Integer
 						.valueOf(index));
 				if (reportItemValue == null) {
-					// ’l‚ª‚È‚¯‚ê‚Î0‚Å•âŠÔ‚·‚é
+					// å€¤ãŒãªã‘ã‚Œã°0ã§è£œé–“ã™ã‚‹
 					reportItemValue = new ReportItemValue();
 					reportItemValue.itemName = entryItemName;
 					reportItemValue.measurementTime = new Timestamp(startMillis
@@ -729,12 +729,12 @@ public class ReportDao extends AbstractDao implements TableNames {
 	}
 
 	/**
-	 * {@link ResultSet}ƒCƒ“ƒXƒ^ƒ“ƒX‚©‚çA{@link ReportValue}‚ÌƒŠƒXƒg‚ğ¶¬‚µ‚Ü‚·B
+	 * {@link ResultSet}ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‹ã‚‰ã€{@link ReportValue}ã®ãƒªã‚¹ãƒˆã‚’ç”Ÿæˆã—ã¾ã™ã€‚
 	 * 
 	 * @param rs
-	 *            ƒf[ƒ^‚ªŠÜ‚Ü‚ê‚Ä‚¢‚é{@link ResultSet} ƒCƒ“ƒXƒ^ƒ“ƒX
+	 *            ãƒ‡ãƒ¼ã‚¿ãŒå«ã¾ã‚Œã¦ã„ã‚‹{@link ResultSet} ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
 	 * @throws SQLException
-	 *             SQL ÀsŒ‹‰Êæ“¾‚É—áŠO‚ª”­¶‚µ‚½ê‡
+	 *             SQL å®Ÿè¡Œçµæœå–å¾—æ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
 	 */
 	private static Map<String, Map<Integer, ReportItemValue>> getReportItemMapFromResultSet(
 			final ResultSet rs) throws SQLException {

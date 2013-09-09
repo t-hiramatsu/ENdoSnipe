@@ -15,175 +15,175 @@ package jp.co.acroquest.endosnipe.report.entity;
 import java.sql.Timestamp;
 
 /**
- * ���X�|���X�^�C���̌v���������_�ł̃T�}���������G���e�B�e�B
+ * レスポンスタイムの計測時刻時点でのサマリを示すエンティティ
  * 
  * @author M.Yoshida
  */
 public class ResponseTimeSummaryRecord
 {
-    /** �v������ */
+    /** 計測時刻 */
     private Timestamp measurementTime_;
 
-    /** �Ώ�URL�ɃA�N�Z�X������ */
+    /** 対象URLにアクセスした回数 */
     private long      webAccessCount_;
 
-    /** �Ώ�URL�ɃA�N�Z�X������ ���ԍő� */
+    /** 対象URLにアクセスした回数 期間最大 */
     private long      webAccessCountMax_;
 
-    /** �Ώ�URL�ɃA�N�Z�X������ ���ԍŏ� */
+    /** 対象URLにアクセスした回数 期間最小 */
     private long      webAccessCountMin_;
 
-    /** �Ώۃ��\�b�h�ɃA�N�Z�X������ */
+    /** 対象メソッドにアクセスした回数 */
     private long      javaAccessCount_;
 
-    /** �Ώۃ��\�b�h�ɃA�N�Z�X������ ���ԍő� */
+    /** 対象メソッドにアクセスした回数 期間最大 */
     private long      javaAccessCountMax_;
 
-    /** �Ώۃ��\�b�h�ɃA�N�Z�X������ ���ԍŏ� */
+    /** 対象メソッドにアクセスした回数 期間最小 */
     private long      javaAccessCountMin_;
 
-    /** �Ώ�SQL�ɃA�N�Z�X������ */
+    /** 対象SQLにアクセスした回数 */
     private long      sqlAccessCount_;
 
-    /** �Ώ�SQL�ɃA�N�Z�X������ ���ԍő� */
+    /** 対象SQLにアクセスした回数 期間最大 */
     private long      sqlAccessCountMax_;
 
-    /** �Ώ�SQL�ɃA�N�Z�X������ ���ԍŏ� */
+    /** 対象SQLにアクセスした回数 期間最小 */
     private long      sqlAccessCountMin_;
 
-    /** �o�͊��ԓ��̍ŏ����X�|���X�^�C��(Web)[ms] */
+    /** 出力期間内の最小レスポンスタイム(Web)[ms] */
     private long      webMinResponseTime_;
 
-    /** �o�͊��ԓ��̍ŏ����X�|���X�^�C��(Web)[ms] ���ԍő� */
+    /** 出力期間内の最小レスポンスタイム(Web)[ms] 期間最大 */
     private long      webMinResponseTimeMax_;
 
-    /** �o�͊��ԓ��̍ŏ����X�|���X�^�C��(Web)[ms] ���ԍŏ� */
+    /** 出力期間内の最小レスポンスタイム(Web)[ms] 期間最小 */
     private long      webMinResponseTimeMin_;
 
-    /** �o�͊��ԓ��̕��σ��X�|���X�^�C��(Web)[ms] */
+    /** 出力期間内の平均レスポンスタイム(Web)[ms] */
     private long      webAveResponseTime_;
 
-    /** �o�͊��ԓ��̕��σ��X�|���X�^�C��(Web)[ms] ���ԍő� */
+    /** 出力期間内の平均レスポンスタイム(Web)[ms] 期間最大 */
     private long      webAveResponseTimeMax_;
 
-    /** �o�͊��ԓ��̕��σ��X�|���X�^�C��(Web)[ms] ���ԍŏ� */
+    /** 出力期間内の平均レスポンスタイム(Web)[ms] 期間最小 */
     private long      webAveResponseTimeMin_;
 
-    /** �o�͊��ԓ��̍ő僌�X�|���X�^�C��(Web)[ms] */
+    /** 出力期間内の最大レスポンスタイム(Web)[ms] */
     private long      webMaxResponseTime_;
 
-    /** �o�͊��ԓ��̍ő僌�X�|���X�^�C��(Web)[ms] ���ԍő� */
+    /** 出力期間内の最大レスポンスタイム(Web)[ms] 期間最大 */
     private long      webMaxResponseTimeMax_;
 
-    /** �o�͊��ԓ��̍ő僌�X�|���X�^�C��(Web)[ms] ���ԍŏ� */
+    /** 出力期間内の最大レスポンスタイム(Web)[ms] 期間最小 */
     private long      webMaxResponseTimeMin_;
 
-    /** �o�͊��ԓ��̍ŏ����X�|���X�^�C��(Java)[ms] */
+    /** 出力期間内の最小レスポンスタイム(Java)[ms] */
     private long      javaMinResponseTime_;
 
-    /** �o�͊��ԓ��̍ŏ����X�|���X�^�C��(Java)[ms] ���ԍő� */
+    /** 出力期間内の最小レスポンスタイム(Java)[ms] 期間最大 */
     private long      javaMinResponseTimeMax_;
 
-    /** �o�͊��ԓ��̍ŏ����X�|���X�^�C��(Java)[ms] ���ԍŏ� */
+    /** 出力期間内の最小レスポンスタイム(Java)[ms] 期間最小 */
     private long      javaMinResponseTimeMin_;
 
-    /** �o�͊��ԓ��̕��σ��X�|���X�^�C��(Java)[ms] */
+    /** 出力期間内の平均レスポンスタイム(Java)[ms] */
     private long      javaAveResponseTime_;
 
-    /** �o�͊��ԓ��̕��σ��X�|���X�^�C��(Java)[ms] ���ԍő� */
+    /** 出力期間内の平均レスポンスタイム(Java)[ms] 期間最大 */
     private long      javaAveResponseTimeMax_;
 
-    /** �o�͊��ԓ��̕��σ��X�|���X�^�C��(Java)[ms] ���ԍŏ� */
+    /** 出力期間内の平均レスポンスタイム(Java)[ms] 期間最小 */
     private long      javaAveResponseTimeMin_;
 
-    /** �o�͊��ԓ��̍ő僌�X�|���X�^�C��(Java)[ms] */
+    /** 出力期間内の最大レスポンスタイム(Java)[ms] */
     private long      javaMaxResponseTime_;
 
-    /** �o�͊��ԓ��̍ő僌�X�|���X�^�C��(Java)[ms] ���ԍő� */
+    /** 出力期間内の最大レスポンスタイム(Java)[ms] 期間最大 */
     private long      javaMaxResponseTimeMax_;
 
-    /** �o�͊��ԓ��̍ő僌�X�|���X�^�C��(Java)[ms] ���ԍŏ� */
+    /** 出力期間内の最大レスポンスタイム(Java)[ms] 期間最小 */
     private long      javaMaxResponseTimeMin_;
 
-    /** �o�͊��ԓ��̍ŏ����X�|���X�^�C��(SQL)[ms] */
+    /** 出力期間内の最小レスポンスタイム(SQL)[ms] */
     private long      sqlMinResponseTime_;
 
-    /** �o�͊��ԓ��̍ŏ����X�|���X�^�C��(SQL)[ms] ���ԍő� */
+    /** 出力期間内の最小レスポンスタイム(SQL)[ms] 期間最大 */
     private long      sqlMinResponseTimeMax_;
 
-    /** �o�͊��ԓ��̍ŏ����X�|���X�^�C��(SQL)[ms] ���ԍŏ� */
+    /** 出力期間内の最小レスポンスタイム(SQL)[ms] 期間最小 */
     private long      sqlMinResponseTimeMin_;
 
-    /** �o�͊��ԓ��̕��σ��X�|���X�^�C��(SQL)[ms] */
+    /** 出力期間内の平均レスポンスタイム(SQL)[ms] */
     private long      sqlAveResponseTime_;
 
-    /** �o�͊��ԓ��̕��σ��X�|���X�^�C��(SQL)[ms] ���ԍő� */
+    /** 出力期間内の平均レスポンスタイム(SQL)[ms] 期間最大 */
     private long      sqlAveResponseTimeMax_;
 
-    /** �o�͊��ԓ��̕��σ��X�|���X�^�C��(SQL)[ms] ���ԍŏ� */
+    /** 出力期間内の平均レスポンスタイム(SQL)[ms] 期間最小 */
     private long      sqlAveResponseTimeMin_;
 
-    /** �o�͊��ԓ��̍ő僌�X�|���X�^�C��(SQL)[ms] */
+    /** 出力期間内の最大レスポンスタイム(SQL)[ms] */
     private long      sqlMaxResponseTime_;
 
-    /** �o�͊��ԓ��̍ő僌�X�|���X�^�C��(SQL)[ms] ���ԍő� */
+    /** 出力期間内の最大レスポンスタイム(SQL)[ms] 期間最大 */
     private long      sqlMaxResponseTimeMax_;
 
-    /** �o�͊��ԓ��̍ő僌�X�|���X�^�C��(SQL)[ms] ���ԍŏ� */
+    /** 出力期間内の最大レスポンスタイム(SQL)[ms] 期間最小 */
     private long      sqlMaxResponseTimeMin_;
 
-    /** �Ώ�URL�ŗ�O������������ */
+    /** 対象URLで例外が発生した回数 */
     private long      webExceptionCount_;
 
-    /** �Ώ�URL�ŗ�O������������ ���ԍő� */
+    /** 対象URLで例外が発生した回数 期間最大 */
     private long      webExceptionCountMax_;
 
-    /** �Ώ�URL�ŗ�O������������ ���ԍŏ� */
+    /** 対象URLで例外が発生した回数 期間最小 */
     private long      webExceptionCountMin_;
 
-    /** �Ώۃ��\�b�h�ŗ�O������������ */
+    /** 対象メソッドで例外が発生した回数 */
     private long      javaExceptionCount_;
 
-    /** �Ώۃ��\�b�h�ŗ�O������������ ���ԍő� */
+    /** 対象メソッドで例外が発生した回数 期間最大 */
     private long      javaExceptionCountMax_;
 
-    /** �Ώۃ��\�b�h�ŗ�O������������ ���ԍŏ� */
+    /** 対象メソッドで例外が発生した回数 期間最小 */
     private long      javaExceptionCountMin_;
 
-    /** �Ώ�SQL�ŗ�O������������ */
+    /** 対象SQLで例外が発生した回数 */
     private long      sqlExceptionCount_;
 
-    /** �Ώ�SQL�ŗ�O������������ ���ԍő� */
+    /** 対象SQLで例外が発生した回数 期間最大 */
     private long      sqlExceptionCountMax_;
 
-    /** �Ώ�SQL�ŗ�O������������ ���ԍŏ� */
+    /** 対象SQLで例外が発生した回数 期間最小 */
     private long      sqlExceptionCountMin_;
 
-    /** �Ώ�URL�ŃX�g�[�������������� */
+    /** 対象URLでストールが発生した回数 */
     private long      webStallCount_;
 
-    /** �Ώ�URL�ŃX�g�[�������������� ���ԍő� */
+    /** 対象URLでストールが発生した回数 期間最大 */
     private long      webStallCountMax_;
 
-    /** �Ώ�URL�ŃX�g�[�������������� ���ԍŏ� */
+    /** 対象URLでストールが発生した回数 期間最小 */
     private long      webStallCountMin_;
 
-    /** �Ώۃ��\�b�h�ŃX�g�[�������������� */
+    /** 対象メソッドでストールが発生した回数 */
     private long      javaStallCount_;
 
-    /** �Ώۃ��\�b�h�ŃX�g�[�������������� ���ԍő� */
+    /** 対象メソッドでストールが発生した回数 期間最大 */
     private long      javaStallCountMax_;
 
-    /** �Ώۃ��\�b�h�ŃX�g�[�������������� ���ԍŏ� */
+    /** 対象メソッドでストールが発生した回数 期間最小 */
     private long      javaStallCountMin_;
 
-    /** �Ώ�SQL�ŃX�g�[�������������� */
+    /** 対象SQLでストールが発生した回数 */
     private long      sqlStallCount_;
 
-    /** �Ώ�SQL�ŃX�g�[�������������� ���ԍő� */
+    /** 対象SQLでストールが発生した回数 期間最大 */
     private long      sqlStallCountMax_;
 
-    /** �Ώ�SQL�ŃX�g�[�������������� ���ԍŏ� */
+    /** 対象SQLでストールが発生した回数 期間最小 */
     private long      sqlStallCountMin_;
 
     /**

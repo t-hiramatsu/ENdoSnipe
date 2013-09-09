@@ -34,7 +34,7 @@ import java.sql.Statement;
 import java.util.List;
 
 /**
- * SQL ���s�̂��߂̃��[�e�B���e�B�N���X�ł��B<br />
+ * SQL 実行のためのユーティリティクラスです。<br />
  * 
  * @author y-komori
  */
@@ -45,16 +45,16 @@ public class SQLExecutor
     }
 
     /**
-     * �X�g���[������SQL��ǂݍ���Ŏ��s���܂��B<br />
+     * ストリームからSQLを読み込んで実行します。<br />
      * 
-     * �Z�~�R�����ŋ�؂�ꂽ������SQL���L�q����Ă���ꍇ�A���ԂɎ��s���܂��B<br />
-     * �s���ɂ��� -- �ȍ~�̓R�����g�Ƃ��ēǂݔ�΂��܂��B
+     * セミコロンで区切られた複数のSQLが記述されている場合、順番に実行します。<br />
+     * 行中にある -- 以降はコメントとして読み飛ばします。
      * 
-     * @param con �f�[�^�x�[�X�R�l�N�V����
-     * @param stream SQL ��ǂݍ��ނ��߂̓��̓X�g���[��
-     * @return ���X�V�s��
-     * @throws IOException ���o�̓G���[�����������ꍇ
-     * @throws SQLException SQL���s�Ɏ��s�����ꍇ
+     * @param con データベースコネクション
+     * @param stream SQL を読み込むための入力ストリーム
+     * @return 総更新行数
+     * @throws IOException 入出力エラーが発生した場合
+     * @throws SQLException SQL実行に失敗した場合
      */
     public static int executeSQL(final Connection con, final InputStream stream)
         throws IOException,
@@ -64,17 +64,17 @@ public class SQLExecutor
     }
 
     /**
-     * �X�g���[������SQL��ǂݍ���Ŏ��s���܂��B<br />
+     * ストリームからSQLを読み込んで実行します。<br />
      * 
-     * �Z�~�R�����ŋ�؂�ꂽ������SQL���L�q����Ă���ꍇ�A���ԂɎ��s���܂��B<br />
-     * �s���ɂ��� -- �ȍ~�̓R�����g�Ƃ��ēǂݔ�΂��܂��B
+     * セミコロンで区切られた複数のSQLが記述されている場合、順番に実行します。<br />
+     * 行中にある -- 以降はコメントとして読み飛ばします。
      * 
-     * @param con �f�[�^�x�[�X�R�l�N�V����
-     * @param stream SQL ��ǂݍ��ނ��߂̓��̓X�g���[��
-     * @param replacer SQL ��u�����邽�߂� {@link SQLReplacer}
-     * @return ���X�V�s��
-     * @throws IOException ���o�̓G���[�����������ꍇ
-     * @throws SQLException SQL���s�Ɏ��s�����ꍇ
+     * @param con データベースコネクション
+     * @param stream SQL を読み込むための入力ストリーム
+     * @param replacer SQL を置換するための {@link SQLReplacer}
+     * @return 総更新行数
+     * @throws IOException 入出力エラーが発生した場合
+     * @throws SQLException SQL実行に失敗した場合
      */
     public static int executeSQL(final Connection con, final InputStream stream,
             final SQLReplacer replacer)
@@ -85,18 +85,18 @@ public class SQLExecutor
     }
 
     /**
-     * �G���R�[�f�B���O���w�肵���X�g���[������SQL��ǂݍ���Ŏ��s���܂��B<br />
+     * エンコーディングを指定したストリームからSQLを読み込んで実行します。<br />
      * 
-     * �Z�~�R�����ŋ�؂�ꂽ������SQL���L�q����Ă���ꍇ�A���ԂɎ��s���܂��B<br />
-     * �s���ɂ��� -- �ȍ~�̓R�����g�Ƃ��ēǂݔ�΂��܂��B
+     * セミコロンで区切られた複数のSQLが記述されている場合、順番に実行します。<br />
+     * 行中にある -- 以降はコメントとして読み飛ばします。
      * 
-     * @param con  �f�[�^�x�[�X�R�l�N�V����
-     * @param stream SQL ��ǂݍ��ނ��߂̓��̓X�g���[��
-     * @param encoding SQL �̃G���R�[�f�B���O
-     * @param replacer SQL ��u�����邽�߂� {@link SQLReplacer}
-     * @return ���X�V�s��
-     * @throws IOException ���o�̓G���[�����������ꍇ
-     * @throws SQLException SQL���s�Ɏ��s�����ꍇ
+     * @param con  データベースコネクション
+     * @param stream SQL を読み込むための入力ストリーム
+     * @param encoding SQL のエンコーディング
+     * @param replacer SQL を置換するための {@link SQLReplacer}
+     * @return 総更新行数
+     * @throws IOException 入出力エラーが発生した場合
+     * @throws SQLException SQL実行に失敗した場合
 
      */
     public static int executeSQL(final Connection con, final InputStream stream,
@@ -168,13 +168,13 @@ public class SQLExecutor
     }
 
     /**
-     * SQL�����s���܂��B
+     * SQLを実行します。
      *
-     * @param con �f�[�^�x�[�X�R�l�N�V����
-     * @param sql SQL��
-     * @param replacer SQL ��u�����邽�߂� {@link SQLReplacer}
-     * @return ���X�V�s��
-     * @throws SQLException SQL���s�Ɏ��s�����ꍇ
+     * @param con データベースコネクション
+     * @param sql SQL文
+     * @param replacer SQL を置換するための {@link SQLReplacer}
+     * @return 総更新行数
+     * @throws SQLException SQL実行に失敗した場合
      */
     public static int executeSQL(final Connection con, final String sql, final SQLReplacer replacer)
         throws SQLException

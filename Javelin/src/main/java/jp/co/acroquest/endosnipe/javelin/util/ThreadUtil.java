@@ -38,25 +38,25 @@ import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 
 /**
- * ƒXƒŒƒbƒh‚ğˆµ‚¤‚½‚ß‚Ìƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒX‚Å‚·B<br />
+ * ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’æ‰±ã†ãŸã‚ã®ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  * 
  * @author eriguchi
  */
 public class ThreadUtil
 {
-    /** ƒXƒŒƒbƒhî•ñæ“¾—pMXBeanB */
+    /** ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±å–å¾—ç”¨MXBeanã€‚ */
     private static ThreadMXBean threadMBean__ = ManagementFactory.getThreadMXBean();
 
-    /** ƒXƒŒƒbƒhƒ_ƒ“ƒv‚Ìƒwƒbƒ_ŠJn•” */
+    /** ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—ã®ãƒ˜ãƒƒãƒ€é–‹å§‹éƒ¨ */
     private static final String THREAD_DUMP_HEAD_START = "Full thread dump ";
 
-    /** ƒXƒŒƒbƒhƒ_ƒ“ƒv‚Ìƒwƒbƒ_I—¹•” */
+    /** ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—ã®ãƒ˜ãƒƒãƒ€çµ‚äº†éƒ¨ */
     private static final String THREAD_DUMP_HEAD_END = "):";
 
-    /** ƒXƒ^ƒbƒNƒgƒŒ[ƒXŒŸõ‚ÌŠJnƒCƒ“ƒfƒbƒNƒXB */
+    /** ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹æ¤œç´¢ã®é–‹å§‹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€‚ */
     private static final int STACK_SEARCH_START_INDEX = 0;
 
-    /** StringBuilderƒIƒuƒWƒFƒNƒg‚ÌƒfƒtƒHƒ‹ƒgƒTƒCƒY */
+    /** StringBuilderã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚µã‚¤ã‚º */
     private static final int DEF_BUILDER_SIZE = 512;
 
     private static Field tidField__;
@@ -79,21 +79,21 @@ public class ThreadUtil
     /** com.sun.management.ThreadMXBean#getThreadUserTime(long[] arg0)*/
     private static Method getThreadUserTimeMethod__ = null;
 
-    /** ‰üs•¶š */
+    /** æ”¹è¡Œæ–‡å­— */
     private static final String NEW_LINE = System.getProperty("line.separator");
 
     /**
-     * —˜—p‚·‚éƒƒ\ƒbƒhAMXBean‚Ì‰Šú‰»‚ğs‚¢‚Ü‚·B
+     * åˆ©ç”¨ã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã€MXBeanã®åˆæœŸåŒ–ã‚’è¡Œã„ã¾ã™ã€‚
      * 
-     * @param config Javelin‚Ìİ’è
+     * @param config Javelinã®è¨­å®š
      */
     public static void init(JavelinConfig config)
     {
         try
         {
-            // OracleAS‚ğ—˜—p‚µ‚½ê‡AThead#getThreadID()‚©‚çƒXƒŒƒbƒhID‚ğæ“¾‚·‚é‚ÆA
-            // í‚ÉŒÅ’è’l‚ªo—Í‚³‚ê‚é‚Ì‚ÅAThreadƒNƒ‰ƒX‚ÌƒtƒB[ƒ‹ƒh‚©‚çæ“¾‚·‚éB
-            // ‚Ü‚½AIBM‚ÌVM‚ğ—˜—p‚µ‚½—˜—p‚µ‚½ê‡‚É‚ÍA"tid"‚Æ‚¢‚¤ƒtƒB[ƒ‹ƒh‚ª‚È‚¢‚½‚ßA"uniqueId"‚ğ—˜—p‚·‚éB
+            // OracleASã‚’åˆ©ç”¨ã—ãŸå ´åˆã€Thead#getThreadID()ã‹ã‚‰ã‚¹ãƒ¬ãƒƒãƒ‰IDã‚’å–å¾—ã™ã‚‹ã¨ã€
+            // å¸¸ã«å›ºå®šå€¤ãŒå‡ºåŠ›ã•ã‚Œã‚‹ã®ã§ã€Threadã‚¯ãƒ©ã‚¹ã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã‹ã‚‰å–å¾—ã™ã‚‹ã€‚
+            // ã¾ãŸã€IBMã®VMã‚’åˆ©ç”¨ã—ãŸåˆ©ç”¨ã—ãŸå ´åˆã«ã¯ã€"tid"ã¨ã„ã†ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ãŒãªã„ãŸã‚ã€"uniqueId"ã‚’åˆ©ç”¨ã™ã‚‹ã€‚
             try
             {
                 tidField__ = Thread.class.getDeclaredField("tid");
@@ -180,9 +180,9 @@ public class ThreadUtil
     };
 
     /**
-     * ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğæ“¾‚·‚éB
+     * ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return ƒXƒ^ƒbƒNƒgƒŒ[ƒXB
+     * @return ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã€‚
      */
     public static StackTraceElement[] getCurrentStackTrace()
     {
@@ -191,18 +191,18 @@ public class ThreadUtil
     }
 
     /**
-     * ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğ•¶š—ñ‚É•ÏŠ·‚µ‚Ü‚·B<br />
-     * ‚½‚¾‚µAƒNƒ‰ƒX‚É"javelin"‚ğŠÜ‚ŞƒXƒ^ƒbƒNƒgƒŒ[ƒX‚Ìs‚Í•\¦‚µ‚Ü‚¹‚ñB<br />
+     * ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’æ–‡å­—åˆ—ã«å¤‰æ›ã—ã¾ã™ã€‚<br />
+     * ãŸã ã—ã€ã‚¯ãƒ©ã‚¹ã«"javelin"ã‚’å«ã‚€ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®è¡Œã¯è¡¨ç¤ºã—ã¾ã›ã‚“ã€‚<br />
      *  
-     * @param stacktraces ƒXƒ^ƒbƒNƒgƒŒ[ƒXB
-     * @param depth ƒXƒ^ƒbƒNƒgƒŒ[ƒXæ“¾‚Ì[‚³B
-     * @return ƒXƒ^ƒbƒNƒgƒŒ[ƒX•¶š—ñB
+     * @param stacktraces ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã€‚
+     * @param depth ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹å–å¾—ã®æ·±ã•ã€‚
+     * @return ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹æ–‡å­—åˆ—ã€‚
      */
     public static String getStackTrace(final StackTraceElement[] stacktraces, int depth)
     {
         StringBuilder traceBuffer = new StringBuilder();
 
-        // æ“ª‚Ìjavelin‚ğŠÜ‚ŞƒXƒ^ƒbƒN‚Í“Ç‚İ”ò‚Î‚·B
+        // å…ˆé ­ã®javelinã‚’å«ã‚€ã‚¹ã‚¿ãƒƒã‚¯ã¯èª­ã¿é£›ã°ã™ã€‚
         int index;
         for (index = STACK_SEARCH_START_INDEX; index < stacktraces.length; index++)
         {
@@ -230,10 +230,10 @@ public class ThreadUtil
     }
 
     /**
-     * "javelin"‚àŠÜ‚ß‚½‘S‚Ä‚ÌƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğæ“¾‚µ‚Ü‚·B<br />
+     * "javelin"ã‚‚å«ã‚ãŸå…¨ã¦ã®ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      * 
-     * @param stacktraces ƒXƒ^ƒbƒNƒgƒŒ[ƒX
-     * @return ƒXƒ^ƒbƒNƒgƒŒ[ƒX•¶š—ñ
+     * @param stacktraces ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹
+     * @return ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹æ–‡å­—åˆ—
      */
     public static String getAllStackTrace(final StackTraceElement[] stacktraces)
     {
@@ -249,10 +249,10 @@ public class ThreadUtil
     }
 
     /**
-     * ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğ•¶š—ñ‚É•ÏŠ·‚·‚éB
+     * ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’æ–‡å­—åˆ—ã«å¤‰æ›ã™ã‚‹ã€‚
      *  
-     * @param stacktraces ƒXƒ^ƒbƒNƒgƒŒ[ƒXB
-     * @return ƒXƒ^ƒbƒNƒgƒŒ[ƒX•¶š—ñB
+     * @param stacktraces ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã€‚
+     * @return ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹æ–‡å­—åˆ—ã€‚
      */
     public static String getStackTrace(final StackTraceElement[] stacktraces)
     {
@@ -260,9 +260,9 @@ public class ThreadUtil
     }
 
     /**
-     * ƒXƒŒƒbƒhID‚ğæ“¾‚·‚éB
+     * ã‚¹ãƒ¬ãƒƒãƒ‰IDã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return ƒXƒŒƒbƒhIDB
+     * @return ã‚¹ãƒ¬ãƒƒãƒ‰IDã€‚
      */
     public static long getThreadId()
     {
@@ -270,10 +270,10 @@ public class ThreadUtil
     }
 
     /**
-     * ƒXƒŒƒbƒhID‚ğæ“¾‚·‚éB
-     * @param thread ƒXƒŒƒbƒhB
+     * ã‚¹ãƒ¬ãƒƒãƒ‰IDã‚’å–å¾—ã™ã‚‹ã€‚
+     * @param thread ã‚¹ãƒ¬ãƒƒãƒ‰ã€‚
      * 
-     * @return ƒXƒŒƒbƒhIDB
+     * @return ã‚¹ãƒ¬ãƒƒãƒ‰IDã€‚
      */
     public static Long getThreadId(final Thread thread)
     {
@@ -297,9 +297,9 @@ public class ThreadUtil
     }
 
     /**
-     * ‘S‚Ä‚ÌƒXƒŒƒbƒhID‚ğæ“¾‚·‚éB
+     * å…¨ã¦ã®ã‚¹ãƒ¬ãƒƒãƒ‰IDã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return ‘S‚Ä‚ÌƒXƒŒƒbƒhIDB
+     * @return å…¨ã¦ã®ã‚¹ãƒ¬ãƒƒãƒ‰IDã€‚
      */
     public static long[] getAllThreadIds()
     {
@@ -307,11 +307,11 @@ public class ThreadUtil
     }
 
     /**
-     * ƒXƒŒƒbƒhî•ñ‚ğæ“¾‚·‚éB
+     * ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @param maxDepth [‚³B
-     * @param threadId ƒXƒŒƒbƒhIDB
-     * @return ƒXƒŒƒbƒhî•ñB
+     * @param maxDepth æ·±ã•ã€‚
+     * @param threadId ã‚¹ãƒ¬ãƒƒãƒ‰IDã€‚
+     * @return ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±ã€‚
      */
     public static ThreadInfo getThreadInfo(final long threadId, final int maxDepth)
     {
@@ -319,11 +319,11 @@ public class ThreadUtil
     }
 
     /**
-     * ƒXƒŒƒbƒhî•ñ‚ğæ“¾‚·‚éB
+     * ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @param maxDepth [‚³B
-     * @param threadIds ƒXƒŒƒbƒhI‚Ì”z—ñB
-     * @return ƒXƒŒƒbƒhî•ñ‚Ì”z—ñB
+     * @param maxDepth æ·±ã•ã€‚
+     * @param threadIds ã‚¹ãƒ¬ãƒƒãƒ‰Iã®é…åˆ—ã€‚
+     * @return ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±ã®é…åˆ—ã€‚
      */
     public static ThreadInfo[] getThreadInfo(final long[] threadIds, final int maxDepth)
     {
@@ -331,11 +331,11 @@ public class ThreadUtil
     }
 
     /**
-     * w’è‚µ‚½ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğŒŸõ‚µAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌÅ‰‚ÌƒXƒ^ƒbƒNƒgƒŒ[ƒX—v‘f‚ğæ“¾‚µ‚Ü‚·B
+     * æŒ‡å®šã—ãŸã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’æ¤œç´¢ã—ã€ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã®æœ€åˆã®ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹è¦ç´ ã‚’å–å¾—ã—ã¾ã™ã€‚
      * 
-     * @param stackTrace ŒŸõ‘ÎÛ‚ÌƒXƒ^ƒbƒNƒgƒŒ[ƒXB
+     * @param stackTrace æ¤œç´¢å¯¾è±¡ã®ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã€‚
      * 
-     * @return ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌÅ‰‚ÌƒXƒ^ƒbƒNƒgƒŒ[ƒX—v‘fB
+     * @return ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã®æœ€åˆã®ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹è¦ç´ ã€‚
      */
     public static StackTraceElement getApplicationStack(StackTraceElement[] stackTrace)
     {
@@ -352,9 +352,9 @@ public class ThreadUtil
     }
 
     /**
-     * FullƒXƒŒƒbƒhƒ_ƒ“ƒv‚ğæ“¾‚µ‚Ü‚·B<br />
+     * Fullã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      * 
-     * @return FullƒXƒŒƒbƒhƒ_ƒ“ƒv
+     * @return Fullã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—
      */
     public static String getFullThreadDump()
     {
@@ -362,13 +362,13 @@ public class ThreadUtil
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-        // ‚ğo—Í‚·‚éB
+        // æ™‚åˆ»ã‚’å‡ºåŠ›ã™ã‚‹ã€‚
         long now = System.currentTimeMillis();
         builder.append(NEW_LINE);
         builder.append(format.format(now));
         builder.append(NEW_LINE);
 
-        // ƒwƒbƒ_•”‚ğo—Í‚·‚éB
+        // ãƒ˜ãƒƒãƒ€éƒ¨ã‚’å‡ºåŠ›ã™ã‚‹ã€‚
         builder.append(THREAD_DUMP_HEAD_START);
         builder.append(System.getProperty("java.vm.name"));
         builder.append(" (");
@@ -376,7 +376,7 @@ public class ThreadUtil
         builder.append(THREAD_DUMP_HEAD_END);
         builder.append(NEW_LINE);
 
-        // ŠeƒXƒŒƒbƒh‚Ìî•ñ‚ğæ“¾‚·‚éB
+        // å„ã‚¹ãƒ¬ãƒƒãƒ‰ã®æƒ…å ±ã‚’å–å¾—ã™ã‚‹ã€‚
         long[] threadIds = getAllThreadIds();
         ThreadInfo[] threadInfos = getThreadInfo(threadIds, Integer.MAX_VALUE);
         for (ThreadInfo threadInfo : threadInfos)
@@ -401,10 +401,10 @@ public class ThreadUtil
     }
 
     /**
-     * w’è‚µ‚½ƒXƒŒƒbƒh‚ÌCPUŠÔ‚ğæ“¾‚·‚éB
+     * æŒ‡å®šã—ãŸã‚¹ãƒ¬ãƒƒãƒ‰ã®CPUæ™‚é–“ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @param threadIds ƒXƒŒƒbƒhB
-     * @return CPUŠÔ‚Ì”z—ñB
+     * @param threadIds ã‚¹ãƒ¬ãƒƒãƒ‰ã€‚
+     * @return CPUæ™‚é–“ã®é…åˆ—ã€‚
      */
     public static long[] getThreadCpuTime(long[] threadIds)
     {
@@ -435,10 +435,10 @@ public class ThreadUtil
     }
 
     /**
-     * w’è‚µ‚½ƒXƒŒƒbƒh‚ÌUserŠÔ‚ğæ“¾‚·‚éB
+     * æŒ‡å®šã—ãŸã‚¹ãƒ¬ãƒƒãƒ‰ã®Useræ™‚é–“ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @param threadIds ƒXƒŒƒbƒhB
-     * @return CPUŠÔ‚Ì”z—ñB
+     * @param threadIds ã‚¹ãƒ¬ãƒƒãƒ‰ã€‚
+     * @return CPUæ™‚é–“ã®é…åˆ—ã€‚
      */
     public static long[] getThreadUserTime(long[] threadIds)
     {
@@ -469,10 +469,10 @@ public class ThreadUtil
     }
 
     /**
-     * Java6 ‚ğ—˜—p‚µ‚½ê‡‚ÉƒXƒŒƒbƒhƒ_ƒ“ƒv‚ğæ“¾‚µ‚Ü‚·B<br />
+     * Java6 ã‚’åˆ©ç”¨ã—ãŸå ´åˆã«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      * 
-     * @param info {@link ThreadInfo}ƒIƒuƒWƒFƒNƒg
-     * @param elements {@link StackTraceElement}ƒIƒuƒWƒFƒNƒg‚Ì”z—ñ
+     * @param info {@link ThreadInfo}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param elements {@link StackTraceElement}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®é…åˆ—
      * @return
      */
     private static String getThreadDumpJava6(ThreadInfo info, StackTraceElement[] elements)
@@ -545,10 +545,10 @@ public class ThreadUtil
     }
 
     /**
-     * Java5 ‚ğ—˜—p‚µ‚½ê‡‚ÉƒXƒŒƒbƒhƒ_ƒ“ƒv‚ğæ“¾‚µ‚Ü‚·B<br />
+     * Java5 ã‚’åˆ©ç”¨ã—ãŸå ´åˆã«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      * 
-     * @param info {@link ThreadInfo}ƒIƒuƒWƒFƒNƒg
-     * @param elements {@link StackTraceElement}ƒIƒuƒWƒFƒNƒg‚Ì”z—ñ
+     * @param info {@link ThreadInfo}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param elements {@link StackTraceElement}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®é…åˆ—
      * @return
      */
     private static String getThreadDumpJava5(ThreadInfo info, StackTraceElement[] elements)
@@ -562,10 +562,10 @@ public class ThreadUtil
     }
 
     /**
-     * ƒXƒŒƒbƒh‚Ìó‘Ô‚ğStringBuffer‚É‚µ‚Ä•Ô‚µ‚Ü‚·B<br />
+     * ã‚¹ãƒ¬ãƒƒãƒ‰ã®çŠ¶æ…‹ã‚’StringBufferã«ã—ã¦è¿”ã—ã¾ã™ã€‚<br />
      * 
-     * @param info {@link ThreadInfo}ƒIƒuƒWƒFƒNƒg
-     * @return ƒXƒŒƒbƒh‚Ìó‘Ô‚ğStringBuffer‚É‚µ‚Ä•Ô‚µ‚½‚à‚ÌB
+     * @param info {@link ThreadInfo}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @return ã‚¹ãƒ¬ãƒƒãƒ‰ã®çŠ¶æ…‹ã‚’StringBufferã«ã—ã¦è¿”ã—ãŸã‚‚ã®ã€‚
      */
     private static StringBuilder getThreadInfoBuffer(ThreadInfo info)
     {
@@ -592,7 +592,7 @@ public class ThreadUtil
     }
 
     /**
-     * ƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğ‹Ö~‚·‚éB
+     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã‚’ç¦æ­¢ã™ã‚‹ã€‚
      */
     private ThreadUtil()
     {
@@ -600,8 +600,8 @@ public class ThreadUtil
     }
 
     /**
-     * RUNNABLEó‘Ô‚ÌƒXƒŒƒbƒh”‚ğæ“¾‚·‚éB
-     * @return RUNNABLEó‘Ô‚ÌƒXƒŒƒbƒh”B
+     * RUNNABLEçŠ¶æ…‹ã®ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return RUNNABLEçŠ¶æ…‹ã®ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã€‚
      */
     public static int getRunnableThreadCount()
     {
@@ -609,9 +609,9 @@ public class ThreadUtil
     }
 
     /**
-     * w’è‚µ‚½ó‘Ô‚ÌƒXƒŒƒbƒh”‚ğæ“¾‚·‚éB
-     * @param state ƒXƒŒƒbƒh‚Ìó‘Ô
-     * @return w’è‚µ‚½ó‘Ô‚ÌƒXƒŒƒbƒh”B
+     * æŒ‡å®šã—ãŸçŠ¶æ…‹ã®ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @param state ã‚¹ãƒ¬ãƒƒãƒ‰ã®çŠ¶æ…‹
+     * @return æŒ‡å®šã—ãŸçŠ¶æ…‹ã®ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã€‚
      */
     public static int getThreadCount(State state)
     {
@@ -633,8 +633,8 @@ public class ThreadUtil
     }
 
     /**
-     * w’è‚µ‚½ó‘Ô‚ÌƒXƒŒƒbƒh”‚ğæ“¾‚·‚éB
-     * @return w’è‚µ‚½ó‘Ô‚ÌƒXƒŒƒbƒh”B
+     * æŒ‡å®šã—ãŸçŠ¶æ…‹ã®ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return æŒ‡å®šã—ãŸçŠ¶æ…‹ã®ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã€‚
      */
     public static DetailThreadInfo getThreadStateCount()
     {

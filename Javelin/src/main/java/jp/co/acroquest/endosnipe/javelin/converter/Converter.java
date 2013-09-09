@@ -33,34 +33,34 @@ import jp.co.smg.endosnipe.javassist.ClassPool;
 import jp.co.smg.endosnipe.javassist.CtClass;
 
 /**
- * ƒR[ƒh–„‚ß‚İ‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX
+ * ã‚³ãƒ¼ãƒ‰åŸ‹ã‚è¾¼ã¿ã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹
  * 
  * @author yamasaki
  */
 public interface Converter
 {
     /**
-     * ƒR[ƒh–„‚ß‚İ‚ğs‚¤B
+     * ã‚³ãƒ¼ãƒ‰åŸ‹ã‚è¾¼ã¿ã‚’è¡Œã†ã€‚
      * 
-     * @param className ƒNƒ‰ƒX–¼
-     * @param classfileBuffer ƒNƒ‰ƒXƒtƒ@ƒCƒ‹‚Ìƒoƒbƒtƒ@
+     * @param className ã‚¯ãƒ©ã‚¹å
+     * @param classfileBuffer ã‚¯ãƒ©ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒãƒƒãƒ•ã‚¡
      * @param pool ClassPool
      * @param ctClass CtClass
-     * @param config Include‚Ìİ’è
-     * @param excludeConfigList Exclude‚Ìİ’èƒŠƒXƒg
-     * @return ƒR[ƒh–„‚ß‚İŒã‚ÌƒNƒ‰ƒXƒtƒ@ƒCƒ‹‚Ìƒoƒbƒtƒ@
+     * @param config Includeã®è¨­å®š
+     * @param excludeConfigList Excludeã®è¨­å®šãƒªã‚¹ãƒˆ
+     * @return ã‚³ãƒ¼ãƒ‰åŸ‹ã‚è¾¼ã¿å¾Œã®ã‚¯ãƒ©ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒãƒƒãƒ•ã‚¡
      */
     byte[] convert(String className, byte[] classfileBuffer, ClassPool pool, CtClass ctClass,
             IncludeConversionConfig config, List<ExcludeConversionConfig> excludeConfigList);
 
     /**
-     * ƒR[ƒh–„‚ß‚İŒã‚ÌŒ‹‰Ê‚ğ•Ô‚·B
-     * @return ƒR[ƒh–„‚ß‚İŒã‚ÌƒNƒ‰ƒXƒtƒ@ƒCƒ‹‚Ìƒoƒbƒtƒ@
+     * ã‚³ãƒ¼ãƒ‰åŸ‹ã‚è¾¼ã¿å¾Œã®çµæœã‚’è¿”ã™ã€‚
+     * @return ã‚³ãƒ¼ãƒ‰åŸ‹ã‚è¾¼ã¿å¾Œã®ã‚¯ãƒ©ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒãƒƒãƒ•ã‚¡
      */
     byte[] getResult();
 
     /**
-     * ‰Šú‰»ƒƒ\ƒbƒh
+     * åˆæœŸåŒ–ãƒ¡ã‚½ãƒƒãƒ‰
      */
     void init();
 }

@@ -8,15 +8,15 @@ import jp.co.acroquest.endosnipe.perfdoctor.PerformanceRuleTestCase;
 import jp.co.acroquest.endosnipe.perfdoctor.WarningUnit;
 
 /**
- * MethodTotalElapsedTimeRule‚ÌƒeƒXƒgƒNƒ‰ƒXB
+ * MethodTotalElapsedTimeRuleã®ãƒ†ã‚¹ãƒˆã‚¯ãƒ©ã‚¹ã€‚
  * @author tooru
  *
  */
 public class MethodTotalElapsedTimeRuleTest extends PerformanceRuleTestCase
 {
     /**
-     * è‡’l‚ğw’è‚µ‚ÄMethodTotalElapsedTimeRuleTest‚ğ¶¬‚·‚éB<br>
-     * @param threshold è‡’l
+     * é–¾å€¤ã‚’æŒ‡å®šã—ã¦MethodTotalElapsedTimeRuleTestã‚’ç”Ÿæˆã™ã‚‹ã€‚<br>
+     * @param threshold é–¾å€¤
      * @return MethodTotalElapsedTimeRuleTest
      */
     private MethodTotalElapsedTimeRule createRule(int threshold)
@@ -31,9 +31,9 @@ public class MethodTotalElapsedTimeRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [€”Ô] 2-1-1<br>
+     * [é …ç•ª] 2-1-1<br>
      * <br>
-     * doJudge‚ÌƒeƒXƒgB<br>
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
      */
     public void testDoJudge_th100000_call99999()
     {
@@ -50,9 +50,9 @@ public class MethodTotalElapsedTimeRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [€”Ô] 2-1-2<br>
+     * [é …ç•ª] 2-1-2<br>
      * <br>
-     * doJudge‚ÌƒeƒXƒgB<br>
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
      */
     public void testDoJudge_th100000_call100000()
     {
@@ -65,14 +65,14 @@ public class MethodTotalElapsedTimeRuleTest extends PerformanceRuleTestCase
 
         assertEquals(1, getErrorJavelinLogElements().size());
         assertErrorOccurred(elementList.get(0), rule.threshold, 100000.0);
-        assertEquals("ƒƒ\ƒbƒh‚ÌÀˆ—ŠÔ‚Ì‡Œv‚ªè‡’l‚ğ’´‚¦‚Ä‚¢‚Ü‚·B(è‡’l:100,000msecAŒŸo’l:100,000msec)",
+        assertEquals("ãƒ¡ã‚½ãƒƒãƒ‰ã®å®Ÿå‡¦ç†æ™‚é–“ã®åˆè¨ˆãŒé–¾å€¤ã‚’è¶…ãˆã¦ã„ã¾ã™ã€‚(é–¾å€¤:100,000msecã€æ¤œå‡ºå€¤:100,000msec)",
                      list.get(0).getDescription());
     }
 
     /**
-     * [€”Ô] 2-1-3<br>
+     * [é …ç•ª] 2-1-3<br>
      * <br>
-     * doJudge‚ÌƒeƒXƒgB<br>
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
      */
     public void testDoJudge_th100000_call100001()
     {
@@ -85,15 +85,15 @@ public class MethodTotalElapsedTimeRuleTest extends PerformanceRuleTestCase
 
         assertEquals(1, getErrorJavelinLogElements().size());
         assertErrorOccurred(elementList.get(0), rule.threshold, 100001.0);
-        assertEquals("ƒƒ\ƒbƒh‚ÌÀˆ—ŠÔ‚Ì‡Œv‚ªè‡’l‚ğ’´‚¦‚Ä‚¢‚Ü‚·B(è‡’l:100,000msecAŒŸo’l:100,001msec)",
+        assertEquals("ãƒ¡ã‚½ãƒƒãƒ‰ã®å®Ÿå‡¦ç†æ™‚é–“ã®åˆè¨ˆãŒé–¾å€¤ã‚’è¶…ãˆã¦ã„ã¾ã™ã€‚(é–¾å€¤:100,000msecã€æ¤œå‡ºå€¤:100,001msec)",
                      list.get(0).getDescription());
 
     }
 
     /**
-     * [€”Ô] 2-1-4<br>
+     * [é …ç•ª] 2-1-4<br>
      * <br>
-     * doJudge‚ÌƒeƒXƒgB<br>
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
      */
     public void testDoJudge_th5000_call5000()
     {
@@ -106,15 +106,15 @@ public class MethodTotalElapsedTimeRuleTest extends PerformanceRuleTestCase
 
         assertEquals(1, getErrorJavelinLogElements().size());
         assertErrorOccurred(elementList.get(0), rule.threshold, 5000.0);
-        assertEquals("ƒƒ\ƒbƒh‚ÌÀˆ—ŠÔ‚Ì‡Œv‚ªè‡’l‚ğ’´‚¦‚Ä‚¢‚Ü‚·B(è‡’l:5,000msecAŒŸo’l:5,000msec)",
+        assertEquals("ãƒ¡ã‚½ãƒƒãƒ‰ã®å®Ÿå‡¦ç†æ™‚é–“ã®åˆè¨ˆãŒé–¾å€¤ã‚’è¶…ãˆã¦ã„ã¾ã™ã€‚(é–¾å€¤:5,000msecã€æ¤œå‡ºå€¤:5,000msec)",
                      list.get(0).getDescription());
 
     }
 
     /**
-     * [€”Ô] 2-1-5<br>
+     * [é …ç•ª] 2-1-5<br>
      * <br>
-     * doJudge‚ÌƒeƒXƒgB<br>
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
 
      */
     public void testDoJudge_4000_times_4()
@@ -128,15 +128,15 @@ public class MethodTotalElapsedTimeRuleTest extends PerformanceRuleTestCase
 
         assertEquals(1, getErrorJavelinLogElements().size());
         assertErrorOccurred(elementList.get(8), rule.threshold, 160000.0);
-        assertEquals("ƒƒ\ƒbƒh‚ÌÀˆ—ŠÔ‚Ì‡Œv‚ªè‡’l‚ğ’´‚¦‚Ä‚¢‚Ü‚·B(è‡’l:100,000msecAŒŸo’l:160,000msec)",
+        assertEquals("ãƒ¡ã‚½ãƒƒãƒ‰ã®å®Ÿå‡¦ç†æ™‚é–“ã®åˆè¨ˆãŒé–¾å€¤ã‚’è¶…ãˆã¦ã„ã¾ã™ã€‚(é–¾å€¤:100,000msecã€æ¤œå‡ºå€¤:160,000msec)",
                      list.get(0).getDescription());
 
     }
 
     /**
-     * [€”Ô] 2-1-6<br>
+     * [é …ç•ª] 2-1-6<br>
      * <br>
-     * doJudge‚ÌƒeƒXƒgB<br>
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
      */
     public void testDoJudge_empty()
     {
@@ -153,9 +153,9 @@ public class MethodTotalElapsedTimeRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [€”Ô] 2-1-7<br>
+     * [é …ç•ª] 2-1-7<br>
      * <br>
-     * doJudge‚ÌƒeƒXƒgB<br>
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
      */
     public void testDoJudge_no_call()
     {
@@ -172,9 +172,9 @@ public class MethodTotalElapsedTimeRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [€”Ô] 2-1-8<br>
+     * [é …ç•ª] 2-1-8<br>
      * <br>
-     * doJudge‚ÌƒeƒXƒgB<br>
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
      */
     public void testDoJudge_methods_in_same_class()
     {
@@ -191,9 +191,9 @@ public class MethodTotalElapsedTimeRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [€”Ô] 2-1-9<br>
+     * [é …ç•ª] 2-1-9<br>
      * <br>
-     * doJudge‚ÌƒeƒXƒgB<br>
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
      */
     public void testDoJudge_same_method_name()
     {
@@ -210,9 +210,9 @@ public class MethodTotalElapsedTimeRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [€”Ô] 2-1-10<br>
+     * [é …ç•ª] 2-1-10<br>
      * <br>
-     * doJudge‚ÌƒeƒXƒgB<br>
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
      */
     public void testDoJudge_different_thread()
     {
@@ -232,9 +232,9 @@ public class MethodTotalElapsedTimeRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [€”Ô] 2-1-11<br>
+     * [é …ç•ª] 2-1-11<br>
      * <br>
-     * doJudge‚ÌƒeƒXƒgB<br>
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
      */
     public void testDoJudge_different_thread_multi()
     {
@@ -264,15 +264,15 @@ public class MethodTotalElapsedTimeRuleTest extends PerformanceRuleTestCase
         assertErrorOccurred(elementList.get(12), rule.threshold, 100004.0);
         assertErrorOccurred(elementList.get(16), rule.threshold, 100005.0);
         sortWarningUnit(list);
-        assertEquals("ƒƒ\ƒbƒh‚ÌÀˆ—ŠÔ‚Ì‡Œv‚ªè‡’l‚ğ’´‚¦‚Ä‚¢‚Ü‚·B(è‡’l:100,000msecAŒŸo’l:100,001msec)",
+        assertEquals("ãƒ¡ã‚½ãƒƒãƒ‰ã®å®Ÿå‡¦ç†æ™‚é–“ã®åˆè¨ˆãŒé–¾å€¤ã‚’è¶…ãˆã¦ã„ã¾ã™ã€‚(é–¾å€¤:100,000msecã€æ¤œå‡ºå€¤:100,001msec)",
                      list.get(0).getDescription());
-        assertEquals("ƒƒ\ƒbƒh‚ÌÀˆ—ŠÔ‚Ì‡Œv‚ªè‡’l‚ğ’´‚¦‚Ä‚¢‚Ü‚·B(è‡’l:100,000msecAŒŸo’l:100,002msec)",
+        assertEquals("ãƒ¡ã‚½ãƒƒãƒ‰ã®å®Ÿå‡¦ç†æ™‚é–“ã®åˆè¨ˆãŒé–¾å€¤ã‚’è¶…ãˆã¦ã„ã¾ã™ã€‚(é–¾å€¤:100,000msecã€æ¤œå‡ºå€¤:100,002msec)",
                      list.get(1).getDescription());
-        assertEquals("ƒƒ\ƒbƒh‚ÌÀˆ—ŠÔ‚Ì‡Œv‚ªè‡’l‚ğ’´‚¦‚Ä‚¢‚Ü‚·B(è‡’l:100,000msecAŒŸo’l:100,003msec)",
+        assertEquals("ãƒ¡ã‚½ãƒƒãƒ‰ã®å®Ÿå‡¦ç†æ™‚é–“ã®åˆè¨ˆãŒé–¾å€¤ã‚’è¶…ãˆã¦ã„ã¾ã™ã€‚(é–¾å€¤:100,000msecã€æ¤œå‡ºå€¤:100,003msec)",
                      list.get(2).getDescription());
-        assertEquals("ƒƒ\ƒbƒh‚ÌÀˆ—ŠÔ‚Ì‡Œv‚ªè‡’l‚ğ’´‚¦‚Ä‚¢‚Ü‚·B(è‡’l:100,000msecAŒŸo’l:100,004msec)",
+        assertEquals("ãƒ¡ã‚½ãƒƒãƒ‰ã®å®Ÿå‡¦ç†æ™‚é–“ã®åˆè¨ˆãŒé–¾å€¤ã‚’è¶…ãˆã¦ã„ã¾ã™ã€‚(é–¾å€¤:100,000msecã€æ¤œå‡ºå€¤:100,004msec)",
                      list.get(3).getDescription());
-        assertEquals("ƒƒ\ƒbƒh‚ÌÀˆ—ŠÔ‚Ì‡Œv‚ªè‡’l‚ğ’´‚¦‚Ä‚¢‚Ü‚·B(è‡’l:100,000msecAŒŸo’l:100,005msec)",
+        assertEquals("ãƒ¡ã‚½ãƒƒãƒ‰ã®å®Ÿå‡¦ç†æ™‚é–“ã®åˆè¨ˆãŒé–¾å€¤ã‚’è¶…ãˆã¦ã„ã¾ã™ã€‚(é–¾å€¤:100,000msecã€æ¤œå‡ºå€¤:100,005msec)",
                      list.get(4).getDescription());
 
     }

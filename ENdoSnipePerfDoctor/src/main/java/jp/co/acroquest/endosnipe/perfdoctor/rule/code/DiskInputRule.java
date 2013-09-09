@@ -31,16 +31,16 @@ import jp.co.acroquest.endosnipe.javelin.parser.JavelinParser;
 import jp.co.acroquest.endosnipe.perfdoctor.rule.AbstractSingleValueLimitRule;
 
 /**
- * ‚P‰ñ‚Ìˆ—•Ó‚è‚ÌƒfƒBƒXƒN“ü—Í—Ê‚ªè‡’lˆÈã‚É‚È‚Á‚½ê‡‚Éo—Í‚·‚éƒ‹[ƒ‹
+ * ï¼‘å›ã®å‡¦ç†è¾ºã‚Šã®ãƒ‡ã‚£ã‚¹ã‚¯å…¥åŠ›é‡ãŒé–¾å€¤ä»¥ä¸Šã«ãªã£ãŸå ´åˆã«å‡ºåŠ›ã™ã‚‹ãƒ«ãƒ¼ãƒ«
  * 
  * @author S.Kimura
  */
 public class DiskInputRule extends AbstractSingleValueLimitRule
 {
     /**
-     * ƒƒO‚ğ¦‚·í•Ê‚ğ•Ô‚·B
+     * ãƒ­ã‚°ã‚’ç¤ºã™ç¨®åˆ¥ã‚’è¿”ã™ã€‚
      * 
-     * @return ƒƒOí•ÊiCALLj
+     * @return ãƒ­ã‚°ç¨®åˆ¥ï¼ˆCALLï¼‰
      */
     @Override
     protected String getTargetID()
@@ -49,9 +49,9 @@ public class DiskInputRule extends AbstractSingleValueLimitRule
     }
 
     /**
-     * “üo—Íî•ñ‚ğ¦‚·î•ñƒ^ƒO‚ğ•Ô‚·B
+     * å…¥å‡ºåŠ›æƒ…å ±ã‚’ç¤ºã™æƒ…å ±ã‚¿ã‚°ã‚’è¿”ã™ã€‚
      * 
-     * @return “üo—Íî•ñƒ^ƒO
+     * @return å…¥å‡ºåŠ›æƒ…å ±ã‚¿ã‚°
      */
     @Override
     protected String getTargetInfoTag()
@@ -60,9 +60,9 @@ public class DiskInputRule extends AbstractSingleValueLimitRule
     }
 
     /**
-     * ƒfƒBƒXƒN“ü—Í—Ê‚ğ¦‚·ƒpƒ‰ƒ[ƒ^–¼Ì‚ğ•Ô‚·B
+     * ãƒ‡ã‚£ã‚¹ã‚¯å…¥åŠ›é‡ã‚’ç¤ºã™ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿åç§°ã‚’è¿”ã™ã€‚
      * 
-     * @return ƒfƒBƒXƒN“ü—Í—Êƒpƒ‰ƒ[ƒ^–¼Ì
+     * @return ãƒ‡ã‚£ã‚¹ã‚¯å…¥åŠ›é‡ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿åç§°
      */
     @Override
     protected String getTargetValueName()

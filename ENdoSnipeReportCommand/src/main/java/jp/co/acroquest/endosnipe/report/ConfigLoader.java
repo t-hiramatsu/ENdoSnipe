@@ -22,11 +22,11 @@ import jp.co.acroquest.endosnipe.collector.exception.InitializeException;
 import jp.co.acroquest.endosnipe.common.util.PathUtil;
 
 public class ConfigLoader {
-	/** İ’èƒtƒ@ƒCƒ‹‚ÌƒpƒX */
+	/** è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹ */
 	private static final String DEF_COLLECTOR_PROPERTY = "../../../conf/collector.properties";
 
 	public static DataCollectorConfig loadConfig() throws InitializeException {
-		// İ’èƒtƒ@ƒCƒ‹‚ÌƒpƒX‚ğâ‘ÎƒpƒX‚É•ÏŠ·‚·‚é
+		// è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹ã‚’çµ¶å¯¾ãƒ‘ã‚¹ã«å¤‰æ›ã™ã‚‹
 		String jarPath = PathUtil.getJarDir(ConfigLoader.class);
 		String fileName = jarPath + DEF_COLLECTOR_PROPERTY;
 
@@ -34,12 +34,12 @@ public class ConfigLoader {
 		try {
 			config = ConfigurationReader.load(fileName);
 		} catch (IOException ex) {
-			throw new InitializeException("ƒvƒƒpƒeƒBƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB",
+			throw new InitializeException("ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãƒ•ã‚¡ã‚¤ãƒ«ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ã€‚",
 					ConfigurationReader.getAbsoluteFilePath());
 		}
 		List<AgentSetting> agentList = config.getAgentSettingList();
 		if (agentList == null || agentList.size() == 0) {
-			throw new InitializeException("ƒf[ƒ^ƒx[ƒXİ’èî•ñ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB",
+			throw new InitializeException("ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹è¨­å®šæƒ…å ±ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ã€‚",
 					ConfigurationReader.getAbsoluteFilePath());
 		}
 

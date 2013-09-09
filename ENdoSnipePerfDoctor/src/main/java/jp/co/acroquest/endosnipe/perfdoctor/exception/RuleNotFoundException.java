@@ -26,7 +26,7 @@
 package jp.co.acroquest.endosnipe.perfdoctor.exception;
 
 /**
- * ƒ‹[ƒ‹ƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡‚ÉƒXƒ[‚·‚é—áŠOB<br />
+ * ãƒ«ãƒ¼ãƒ«ãƒ•ã‚¡ã‚¤ãƒ«ãŒè¦‹ã¤ã‹ã‚‰ãªã„å ´åˆã«ã‚¹ãƒ­ãƒ¼ã™ã‚‹ä¾‹å¤–ã€‚<br />
  *
  * @author sakamoto
  */
@@ -36,10 +36,10 @@ public class RuleNotFoundException extends RuleCreateException
     private static final long serialVersionUID = -7939846883269181106L;
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B<br />
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚<br />
      *
-     * @param messageId ƒƒbƒZ[ƒWID
-     * @param args ƒƒbƒZ[ƒWˆø”
+     * @param messageId ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ID
+     * @param args ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å¼•æ•°
      */
     public RuleNotFoundException(final String messageId, final Object[] args)
     {
@@ -47,13 +47,13 @@ public class RuleNotFoundException extends RuleCreateException
     }
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B<br />
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚<br />
      *
-     * •¡”‚ÌƒƒbƒZ[ƒW‚ğ’Ê’m‚·‚é‚±‚Æ‚ª‚Å‚«‚éB<br />
+     * è¤‡æ•°ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’é€šçŸ¥ã™ã‚‹ã“ã¨ãŒã§ãã‚‹ã€‚<br />
      *
-     * @param messageId ƒƒbƒZ[ƒWID
-     * @param args ƒƒbƒZ[ƒWˆø”
-     * @param messages ãˆÊ‚É“`’B‚·‚éƒƒbƒZ[ƒWˆê——
+     * @param messageId ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ID
+     * @param args ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å¼•æ•°
+     * @param messages ä¸Šä½ã«ä¼é”ã™ã‚‹ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ä¸€è¦§
      */
     public RuleNotFoundException(final String messageId, final Object[] args,
             final String[] messages)

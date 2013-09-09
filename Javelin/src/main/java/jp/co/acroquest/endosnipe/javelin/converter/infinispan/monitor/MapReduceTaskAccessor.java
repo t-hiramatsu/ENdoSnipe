@@ -1,7 +1,7 @@
 package jp.co.acroquest.endosnipe.javelin.converter.infinispan.monitor;
 
 /**
- * MapReduceTask‚ğMapReduceTaskMonitor‚Åˆµ‚¤‚½‚ß‚ÌƒCƒ“ƒ^ƒtƒF[ƒX
+ * MapReduceTaskã‚’MapReduceTaskMonitorã§æ‰±ã†ãŸã‚ã®ã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹
  * 
  * @author hiramatsu
  *
@@ -9,38 +9,38 @@ package jp.co.acroquest.endosnipe.javelin.converter.infinispan.monitor;
 public interface MapReduceTaskAccessor
 {
     /**
-     * ƒWƒ‡ƒuID‚ğƒZƒbƒg‚·‚éB
+     * ã‚¸ãƒ§ãƒ–IDã‚’ã‚»ãƒƒãƒˆã™ã‚‹ã€‚
      * 
-     * @param jobId ƒZƒbƒg‚·‚éƒWƒ‡ƒuID
+     * @param jobId ã‚»ãƒƒãƒˆã™ã‚‹ã‚¸ãƒ§ãƒ–ID
      */
     void setJobId(String jobId);
 
     /**
-     * ƒWƒ‡ƒuID‚ğæ“¾‚·‚éB
+     * ã‚¸ãƒ§ãƒ–IDã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return ƒWƒ‡ƒuID
+     * @return ã‚¸ãƒ§ãƒ–ID
      */
     String getJobId();
 
     /**
-     * mapper‚Ì–¼‘O‚ğ•Ô‚·B
+     * mapperã®åå‰ã‚’è¿”ã™ã€‚
      * 
-     * @return mapper‚Ì–¼‘O
+     * @return mapperã®åå‰
      */
     String getMapperName();
 
     /**
-     * ƒ^ƒXƒNID‚ğƒ}ƒbƒv‚É“o˜^‚·‚éB
+     * ã‚¿ã‚¹ã‚¯IDã‚’ãƒãƒƒãƒ—ã«ç™»éŒ²ã™ã‚‹ã€‚
      * 
-     * @param address ƒ^ƒXƒN‚ÌÀs‚³‚ê‚éƒAƒhƒŒƒX
-     * @param taskId ƒ^ƒXƒNID
+     * @param address ã‚¿ã‚¹ã‚¯ã®å®Ÿè¡Œã•ã‚Œã‚‹ã‚¢ãƒ‰ãƒ¬ã‚¹
+     * @param taskId ã‚¿ã‚¹ã‚¯ID
      */
     void putTaskId(String address, String taskId);
 
     /**
-     * “o˜^‚³‚ê‚½ƒ^ƒXƒNID‚ÌŒÂ”‚ğ•Ô‚·B
+     * ç™»éŒ²ã•ã‚ŒãŸã‚¿ã‚¹ã‚¯IDã®å€‹æ•°ã‚’è¿”ã™ã€‚
      * 
-     * @return “o˜^‚³‚ê‚½ƒ^ƒXƒNID‚ÌŒÂ”
+     * @return ç™»éŒ²ã•ã‚ŒãŸã‚¿ã‚¹ã‚¯IDã®å€‹æ•°
      */
     int getSizeOfTaskIdMap();
 }

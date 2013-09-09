@@ -33,7 +33,7 @@ import jp.co.acroquest.endosnipe.javelin.parser.JavelinLogElement;
 import jp.co.acroquest.endosnipe.javelin.parser.JavelinParser;
 
 /**
- * JavelinLogElement‚ğ‘€ì‚·‚éƒ†[ƒeƒBƒŠƒeƒBB
+ * JavelinLogElementã‚’æ“ä½œã™ã‚‹ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã€‚
  * 
  * @author eriguchi
  * 
@@ -41,7 +41,7 @@ import jp.co.acroquest.endosnipe.javelin.parser.JavelinParser;
 public class JavelinLogUtil
 {
     /**
-     * ƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğ‘j~‚·‚éƒvƒ‰ƒCƒx[ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^B
+     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã‚’é˜»æ­¢ã™ã‚‹ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
      */
     private JavelinLogUtil()
     {
@@ -49,11 +49,11 @@ public class JavelinLogUtil
     }
 
     /**
-     * JavleinLogElement‚©‚çˆø”‚ğæ“¾‚·‚éB
+     * JavleinLogElementã‹ã‚‰å¼•æ•°ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
      * @param javelinLogElement
-     *            JavelinƒƒO‚Ì—v‘fB
-     * @return ˆø”B
+     *            Javelinãƒ­ã‚°ã®è¦ç´ ã€‚
+     * @return å¼•æ•°ã€‚
      */
     public static String[] getArgs(final JavelinLogElement javelinLogElement)
     {
@@ -92,11 +92,11 @@ public class JavelinLogUtil
     }
 
     /**
-     * JavelinLogElement‘Š“–‚Ì•¶š—ñ‚©‚çˆø”‚ğæ“¾‚·‚éB
+     * JavelinLogElementç›¸å½“ã®æ–‡å­—åˆ—ã‹ã‚‰å¼•æ•°ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
      * @param logElementString
-     *            JavelinLogElement‘Š“–‚Ì•¶š—ñB
-     * @return ˆø”B
+     *            JavelinLogElementç›¸å½“ã®æ–‡å­—åˆ—ã€‚
+     * @return å¼•æ•°ã€‚
      */
     public static String[] getArgs(final String logElementString)
     {
@@ -124,16 +124,16 @@ public class JavelinLogUtil
     }
 
     /**
-     * Ú×ˆø”‚©‚çƒ^ƒO‚ğæ‚èœ‚¢‚½“à—e‚Ì•”•ª‚ğæ“¾‚·‚éB<br />
-     * y—áz<br />
-     * Ú×ˆø”‚ª <code>"[Time] xxxx"</code> ‚Æ‚È‚Á‚Ä‚¢‚éê‡A<code>arg</code> ‚É
-     * <code>[Time]</code> ‚ğw’è‚µ‚Ä–{ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·‚ÆA<code>xxx</code> ‚Ì•”•ª‚ª•Ô‚³‚ê‚éB
+     * è©³ç´°å¼•æ•°ã‹ã‚‰ã‚¿ã‚°ã‚’å–ã‚Šé™¤ã„ãŸå†…å®¹ã®éƒ¨åˆ†ã‚’å–å¾—ã™ã‚‹ã€‚<br />
+     * ã€ä¾‹ã€‘<br />
+     * è©³ç´°å¼•æ•°ãŒ <code>"[Time] xxxx"</code> ã¨ãªã£ã¦ã„ã‚‹å ´åˆã€<code>arg</code> ã«
+     * <code>[Time]</code> ã‚’æŒ‡å®šã—ã¦æœ¬ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã³å‡ºã™ã¨ã€<code>xxx</code> ã®éƒ¨åˆ†ãŒè¿”ã•ã‚Œã‚‹ã€‚
      * 
      * @param arg
-     *            ˆø”
+     *            å¼•æ•°
      * @param argName
-     *            ƒ^ƒO–¼Ì
-     * @return “à—e•”•ªBƒ^ƒO‚ª‘¶İ‚µ‚È‚¢ê‡‚Í <code>null</code>
+     *            ã‚¿ã‚°åç§°
+     * @return å†…å®¹éƒ¨åˆ†ã€‚ã‚¿ã‚°ãŒå­˜åœ¨ã—ãªã„å ´åˆã¯ <code>null</code>
      */
     public static String getArgContent(final String arg, final String argName)
     {
@@ -151,13 +151,13 @@ public class JavelinLogUtil
             .getProperty("line.separator");
 
     /**
-     * JavelinLogElement ‚Éw’è‚³‚ê‚½ƒ^ƒO‚ª‘¶İ‚·‚é‚©ƒ`ƒFƒbƒN‚µ‚Ü‚·B
+     * JavelinLogElement ã«æŒ‡å®šã•ã‚ŒãŸã‚¿ã‚°ãŒå­˜åœ¨ã™ã‚‹ã‹ãƒã‚§ãƒƒã‚¯ã—ã¾ã™ã€‚
      * 
      * @param javelinLogElement
-     *            JavelinƒƒO‚Ì—v‘f
+     *            Javelinãƒ­ã‚°ã®è¦ç´ 
      * @param tagName
-     *            ‘¶İƒ`ƒFƒbƒN‚·‚éƒ^ƒO
-     * @return ‘¶İ‚·‚éê‡‚Í <code>true</code> A‘¶İ‚µ‚È‚¢ê‡‚Í <code>false</code>
+     *            å­˜åœ¨ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã‚¿ã‚°
+     * @return å­˜åœ¨ã™ã‚‹å ´åˆã¯ <code>true</code> ã€å­˜åœ¨ã—ãªã„å ´åˆã¯ <code>false</code>
      */
     public static boolean isExistTag(final JavelinLogElement javelinLogElement,
             final String tagName)
@@ -173,14 +173,14 @@ public class JavelinLogUtil
     }
 
     /**
-     * JavleinLogElement‚©‚çJMXî•ñ‚ğ•Û‚µ‚½ƒ}ƒbƒv‚ğæ“¾‚·‚éB
+     * JavleinLogElementã‹ã‚‰JMXæƒ…å ±ã‚’ä¿æŒã—ãŸãƒãƒƒãƒ—ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
      * @param javelinLogElement
-     *            JavelinƒƒO‚Ì—v‘fB
+     *            Javelinãƒ­ã‚°ã®è¦ç´ ã€‚
      * @param paramName
-     *            ƒpƒ‰ƒ[ƒ^–¼
+     *            ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿å
      * 
-     * @return ƒ}ƒbƒv
+     * @return ãƒãƒƒãƒ—
      */
     public static Map<String, String> parseDetailInfo(
             final JavelinLogElement javelinLogElement, final String paramName)
@@ -202,11 +202,11 @@ public class JavelinLogUtil
     }
 
     /**
-     * ƒvƒƒpƒeƒBŒ`®‚Å‹Lq‚³‚ê‚½•¶š—ñ‚©‚çAƒvƒƒpƒeƒB‚ÌƒL[‚Æ’l‚É•ªŠ„‚µ‚½ƒ}ƒbƒv‚ğì¬‚µ‚Ü‚·B<br />
+     * ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å½¢å¼ã§è¨˜è¿°ã•ã‚ŒãŸæ–‡å­—åˆ—ã‹ã‚‰ã€ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã®ã‚­ãƒ¼ã¨å€¤ã«åˆ†å‰²ã—ãŸãƒãƒƒãƒ—ã‚’ä½œæˆã—ã¾ã™ã€‚<br />
      * 
      * @param propStr
-     *            ƒvƒƒpƒeƒBŒ`®‚Å‹Lq‚³‚ê‚½•¶š—ñ
-     * @return ƒvƒƒpƒeƒB‚ÌƒL[‚Æ’l‚É•ªŠ„‚µ‚½ƒ}ƒbƒv
+     *            ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å½¢å¼ã§è¨˜è¿°ã•ã‚ŒãŸæ–‡å­—åˆ—
+     * @return ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã®ã‚­ãƒ¼ã¨å€¤ã«åˆ†å‰²ã—ãŸãƒãƒƒãƒ—
      */
     public static Map<String, String> createJmxInfoMap(final String propStr)
     {

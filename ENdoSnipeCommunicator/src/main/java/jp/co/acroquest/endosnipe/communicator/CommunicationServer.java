@@ -26,34 +26,34 @@
 package jp.co.acroquest.endosnipe.communicator;
 
 /**
- * ƒRƒ~ƒ…ƒjƒP[ƒVƒ‡ƒ“ƒT[ƒo‚Ì‚½‚ß‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX‚Å‚·B<br />
+ * ã‚³ãƒŸãƒ¥ãƒ‹ã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã‚µãƒ¼ãƒã®ãŸã‚ã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã§ã™ã€‚<br />
  * 
  * @author y-komori
  */
 public interface CommunicationServer extends AbstractCommunicator
 {
     /**
-     * ƒT[ƒo‚Ì‰Šú‰»‚ğs‚¢‚Ü‚·B<br />
-     * {@link #start(int)} ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·‘O‚ÉA–{ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢B
+     * ã‚µãƒ¼ãƒã®åˆæœŸåŒ–ã‚’è¡Œã„ã¾ã™ã€‚<br />
+     * {@link #start(int)} ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã³å‡ºã™å‰ã«ã€æœ¬ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„ã€‚
      */
     void init();
 
     /**
-     * ƒT[ƒo‚ğŠJn‚µ‚Ü‚·B<br />
+     * ã‚µãƒ¼ãƒã‚’é–‹å§‹ã—ã¾ã™ã€‚<br />
      * 
-     * @param port ƒ|[ƒg”Ô†
+     * @param port ãƒãƒ¼ãƒˆç•ªå·
      */
     void start(int port);
 
     /**
-     * ƒT[ƒo‚ğ’â~‚µ‚Ü‚·B<br />
+     * ã‚µãƒ¼ãƒã‚’åœæ­¢ã—ã¾ã™ã€‚<br />
      */
     void stop();
     
     /**
-     * Ú‘±’†ƒNƒ‰ƒCƒAƒ“ƒg‚Ì”‚ğ•Ô‚µ‚Ü‚·B<br />
+     * æ¥ç¶šä¸­ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã®æ•°ã‚’è¿”ã—ã¾ã™ã€‚<br />
      * 
-     * @return ƒNƒ‰ƒCƒAƒ“ƒg‚Ì”
+     * @return ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã®æ•°
      */
     int getActiveClient();
 }

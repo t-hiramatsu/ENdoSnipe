@@ -32,27 +32,27 @@ import jp.co.acroquest.endosnipe.javelin.converter.wait.monitor.WaitMonitor;
 import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
 
 /**
- * ƒuƒƒbƒN‚ª‘½‚·‚¬‚é‚©‚Ç‚¤‚©‚ğƒ`ƒFƒbƒN‚·‚éB
+ * ãƒ–ãƒ­ãƒƒã‚¯ãŒå¤šã™ãã‚‹ã‹ã©ã†ã‹ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã€‚
  * 
  * @author eriguchi
  *
  */
 public class BlockManyTask implements ThreadMonitorTask
 {
-    /** ƒƒbƒNæ“¾‘Ò‚¿ƒXƒŒƒbƒh‚ÌƒL[B */
+    /** ãƒ­ãƒƒã‚¯å–å¾—å¾…ã¡ã‚¹ãƒ¬ãƒƒãƒ‰ã®ã‚­ãƒ¼ã€‚ */
     private static final String KEY_THREAD_MONITOR_COUNTOVER = "thread.monitor.countover.";
 
-    /** ƒuƒƒbƒN‚ª‘½‚·‚¬‚é‚©‚Ç‚¤‚©‚Ìè‡’lB */
+    /** ãƒ–ãƒ­ãƒƒã‚¯ãŒå¤šã™ãã‚‹ã‹ã©ã†ã‹ã®é–¾å€¤ã€‚ */
     private final long blockThreshold_;
 
-    /** ƒuƒƒbƒN‰ñ”‚ª‘½‚·‚¬‚éÛ‚Éæ“¾‚·‚éƒXƒŒƒbƒhî•ñ‚Ì”B */
+    /** ãƒ–ãƒ­ãƒƒã‚¯å›æ•°ãŒå¤šã™ãã‚‹éš›ã«å–å¾—ã™ã‚‹ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±ã®æ•°ã€‚ */
     private final int threadInfoNum_;
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
      * 
-     * @param blockThreshold ƒuƒƒbƒN‚ª‘½‚·‚¬‚é‚©‚Ç‚¤‚©‚Ìè‡’lB
-     * @param threadInfoNum ƒuƒƒbƒN‰ñ”‚ª‘½‚·‚¬‚éÛ‚Éæ“¾‚·‚éƒXƒŒƒbƒhî•ñ‚Ì”B 
+     * @param blockThreshold ãƒ–ãƒ­ãƒƒã‚¯ãŒå¤šã™ãã‚‹ã‹ã©ã†ã‹ã®é–¾å€¤ã€‚
+     * @param threadInfoNum ãƒ–ãƒ­ãƒƒã‚¯å›æ•°ãŒå¤šã™ãã‚‹éš›ã«å–å¾—ã™ã‚‹ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±ã®æ•°ã€‚ 
      */
     public BlockManyTask(final long blockThreshold, final int threadInfoNum)
     {
@@ -61,12 +61,12 @@ public class BlockManyTask implements ThreadMonitorTask
     }
 
     /**
-     * ƒuƒƒbƒN‚ª‘½‚·‚¬‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
+     * ãƒ–ãƒ­ãƒƒã‚¯ãŒå¤šã™ãã‚‹ã‹ã©ã†ã‹ã‚’åˆ¤å®šã™ã‚‹ã€‚
      * 
      * 
-     * @param prevThreadInfo ‘O‰ñ‚ÌƒXƒŒƒbƒhî•ñB
-     * @param threadInfo Œ»İ‚ÌƒXƒŒƒbƒhî•ñB
-     * @return ƒuƒƒbƒN‚ªŒp‘±‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©B
+     * @param prevThreadInfo å‰å›ã®ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±ã€‚
+     * @param threadInfo ç¾åœ¨ã®ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±ã€‚
+     * @return ãƒ–ãƒ­ãƒƒã‚¯ãŒç¶™ç¶šã—ã¦ã„ã‚‹ã‹ã©ã†ã‹ã€‚
      */
     public boolean isTarget(final ThreadInfo prevThreadInfo, final ThreadInfo threadInfo)
     {
@@ -81,12 +81,12 @@ public class BlockManyTask implements ThreadMonitorTask
     }
 
     /**
-     * w’è‚µ‚½node‚ÉƒƒbƒN‚Ìó‹µ‚ğ’Ç‰Á‚·‚éB
+     * æŒ‡å®šã—ãŸnodeã«ãƒ­ãƒƒã‚¯ã®çŠ¶æ³ã‚’è¿½åŠ ã™ã‚‹ã€‚
      * 
-     * @param node ‘ÎÛ‚ÌCallTreeNodeB
-     * @param threadInfo Œ»İ‚ÌƒXƒŒƒbƒhî•ñB
-     * @param prevThreadInfo ‘O‰ñ‚ÌƒXƒŒƒbƒhî•ñB
-     * @param maxDepth æ“¾‚·‚éƒXƒ^ƒbƒNƒgƒŒ[ƒX‚Ì[‚³B
+     * @param node å¯¾è±¡ã®CallTreeNodeã€‚
+     * @param threadInfo ç¾åœ¨ã®ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±ã€‚
+     * @param prevThreadInfo å‰å›ã®ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±ã€‚
+     * @param maxDepth å–å¾—ã™ã‚‹ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®æ·±ã•ã€‚
      */
     public void updateNode(final CallTreeNode node, final ThreadInfo threadInfo,
             final ThreadInfo prevThreadInfo, final int maxDepth)
@@ -123,7 +123,7 @@ public class BlockManyTask implements ThreadMonitorTask
     public void sendEvent(final Long threadId, ThreadInfo threadInfo, ThreadInfo prevThreadInfo,
             int maxDepth)
     {
-        //Œ»ó‚Í‰½‚à‚µ‚È‚¢
+        //ç¾çŠ¶ã¯ä½•ã‚‚ã—ãªã„
         return;
     }
 
@@ -132,7 +132,7 @@ public class BlockManyTask implements ThreadMonitorTask
      */
     public void updateInfo(final Long threadId, ThreadInfo prevThreadInfo)
     {
-        //Œ»ó‚Í‰½‚à‚µ‚È‚¢
+        //ç¾çŠ¶ã¯ä½•ã‚‚ã—ãªã„
         return;
     }
 
@@ -141,7 +141,7 @@ public class BlockManyTask implements ThreadMonitorTask
      */
     public void clearInfo(Long threadId)
     {
-        //Œ»ó‚Í‰½‚à‚µ‚È‚¢
+        //ç¾çŠ¶ã¯ä½•ã‚‚ã—ãªã„
         return;
     }
 }

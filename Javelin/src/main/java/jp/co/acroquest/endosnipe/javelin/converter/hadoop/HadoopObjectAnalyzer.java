@@ -35,34 +35,34 @@ import jp.co.acroquest.endosnipe.javelin.converter.hadoop.HadoopAction.ActionTyp
 import jp.co.acroquest.endosnipe.javelin.converter.hadoop.HadoopTaskStatus.State;
 
 /**
- * Hadoop‚ÌƒIƒuƒWƒFƒNƒg‚ğ‰ğÍ‚·‚éƒNƒ‰ƒXB
+ * Hadoopã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è§£æã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚
  *
  * @author y_asazuma
  *
  */
 public class HadoopObjectAnalyzer
 {
-    /** JobStatus.getRunState()‚Ì–ß‚è’l */
+    /** JobStatus.getRunState()ã®æˆ»ã‚Šå€¤ */
     public enum HadoopJobStatus
     {
-        /** “à•”ƒGƒ‰[ */
+        /** å†…éƒ¨ã‚¨ãƒ©ãƒ¼ */
         ERROR,          // -1
-        /** Às’† */
+        /** å®Ÿè¡Œä¸­ */
         RUNNING,        // 1
-        /** ¬Œ÷ */
+        /** æˆåŠŸ */
         SUCCEEDED,      // 2
-        /** ¸”s */
+        /** å¤±æ•— */
         FAILED,         // 3
-        /** €”õ’† */
+        /** æº–å‚™ä¸­ */
         PREP,           // 4
-        /** ’â~‚³‚ê‚½ */
+        /** åœæ­¢ã•ã‚ŒãŸ */
         KILLED;         // 5
 
         /**
-         * JobStatus‚ğHadoop“à•”‚Åg‚í‚ê‚é”’l‚É•ÏŠ·‚µ‚Ü‚·B
+         * JobStatusã‚’Hadoopå†…éƒ¨ã§ä½¿ã‚ã‚Œã‚‹æ•°å€¤ã«å¤‰æ›ã—ã¾ã™ã€‚
          * 
-         * @param status ƒXƒe[ƒ^ƒX‚Ì—ñ‹“‘Ì
-         * @return ‚P`‚T‚Ì”’l(-1‚ÍƒGƒ‰[)
+         * @param status ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã®åˆ—æŒ™ä½“
+         * @return ï¼‘ï½ï¼•ã®æ•°å€¤(-1ã¯ã‚¨ãƒ©ãƒ¼)
          */
         public static int getNumber(HadoopJobStatus status)
         {
@@ -89,10 +89,10 @@ public class HadoopObjectAnalyzer
         }
 
         /**
-         * Hadoop“à•”‚Åg‚í‚ê‚é”’l‚ğJobStatus‚É•ÏŠ·‚µ‚Ü‚·B
+         * Hadoopå†…éƒ¨ã§ä½¿ã‚ã‚Œã‚‹æ•°å€¤ã‚’JobStatusã«å¤‰æ›ã—ã¾ã™ã€‚
          * 
-         * @param status ‚P`‚T‚Ì”’l
-         * @return ƒXƒe[ƒ^ƒX—ñ‹“‘Ì
+         * @param status ï¼‘ï½ï¼•ã®æ•°å€¤
+         * @return ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹åˆ—æŒ™ä½“
          */
         public static HadoopJobStatus getStatus(int status)
         {
@@ -119,13 +119,13 @@ public class HadoopObjectAnalyzer
         }
     }
 
-    /** JobID‚ğ•ª‰ğ‚·‚é‚½‚ß‚ÌƒZƒpƒŒ[ƒ^ */
+    /** JobIDã‚’åˆ†è§£ã™ã‚‹ãŸã‚ã®ã‚»ãƒ‘ãƒ¬ãƒ¼ã‚¿ */
     private static String SEPARATOR = "_";
 
     /**
-     * Hadoop‚ÌTaskTrackerStatusƒIƒuƒWƒFƒNƒg‚©‚çƒzƒXƒg–¼‚ğæ“¾‚·‚éB
+     * Hadoopã®TaskTrackerStatusã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‹ã‚‰ãƒ›ã‚¹ãƒˆåã‚’å–å¾—ã™ã‚‹ã€‚
      *
-     * @param taskTrackerStatus Hadoop‚ÌTaskTrackerStatus
+     * @param taskTrackerStatus Hadoopã®TaskTrackerStatus
      *
      * @throws NoSuchMethodException NoSuchMethodException
      * @throws InvocationTargetException InvocationTargetException
@@ -139,22 +139,22 @@ public class HadoopObjectAnalyzer
                InvocationTargetException, NoSuchMethodException
     {
         Class taskTrackerClass = taskTrackerStatus.getClass();
-        // TaskTrackerStatusˆÈŠO‚ÌƒNƒ‰ƒX‚Ìê‡‚Íˆ—‚ğ”ò‚Î‚·
+        // TaskTrackerStatusä»¥å¤–ã®ã‚¯ãƒ©ã‚¹ã®å ´åˆã¯å‡¦ç†ã‚’é£›ã°ã™
         if (!taskTrackerClass.getName().equals("org.apache.hadoop.mapred.TaskTrackerStatus"))
         {
             return null;
         }
 
-        // Host–¼‚ğƒŠƒ^[ƒ“
+        // Hoståã‚’ãƒªã‚¿ãƒ¼ãƒ³
         return taskTrackerClass.getMethod("getHost", new Class[]{}).invoke(taskTrackerStatus, new Object[]{}).toString();
     }
 
     /**
-     * Hadoop‚ÌTaskTrackerStatus‚©‚çHadoopTaskStatusƒIƒuƒWƒFƒNƒg‚ÌƒŠƒXƒg‚ğì¬‚·‚éB
+     * Hadoopã®TaskTrackerStatusã‹ã‚‰HadoopTaskStatusã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒªã‚¹ãƒˆã‚’ä½œæˆã™ã‚‹ã€‚
      *
-     * @param taskTrackerStatus Hadoop‚ÌTaskTrackerStatusƒIƒuƒWƒFƒNƒg
+     * @param taskTrackerStatus Hadoopã®TaskTrackerStatusã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      *
-     * @return •ÏŠ·‚µ‚½HadoopTaskStatus
+     * @return å¤‰æ›ã—ãŸHadoopTaskStatus
      *
      * @throws NoSuchMethodException NoSuchMethodException
      * @throws InvocationTargetException InvocationTargetException
@@ -168,20 +168,20 @@ public class HadoopObjectAnalyzer
                InvocationTargetException, NoSuchMethodException
     {
         Class taskTrackerClass = taskTrackerStatus.getClass();
-        // TaskTrackerStatusˆÈŠO‚ÌƒNƒ‰ƒX‚Ìê‡‚Íˆ—‚ğ”ò‚Î‚·
+        // TaskTrackerStatusä»¥å¤–ã®ã‚¯ãƒ©ã‚¹ã®å ´åˆã¯å‡¦ç†ã‚’é£›ã°ã™
         if (!taskTrackerClass.getName().equals("org.apache.hadoop.mapred.TaskTrackerStatus"))
         {
             return null;
         }
 
-        // TaskStatus‚ÌƒŠƒXƒg‚ğæ‚èo‚·
+        // TaskStatusã®ãƒªã‚¹ãƒˆã‚’å–ã‚Šå‡ºã™
         Object taskObjectList = taskTrackerClass.getMethod("getTaskReports", new Class[]{}).invoke(taskTrackerStatus, new Object[]{});
 
         ArrayList<HadoopTaskStatus> hadoopTaskStatusList = new ArrayList<HadoopTaskStatus>();
 
         java.util.ArrayList<Object> taskList = (java.util.ArrayList)taskObjectList;
 
-        // HadoopTaskStatus‚Ìİ’è
+        // HadoopTaskStatusã®è¨­å®š
         for (Object taskStatus : taskList)
         {
             HadoopTaskStatus hadoopTaskStatus = new HadoopTaskStatus();
@@ -189,7 +189,7 @@ public class HadoopObjectAnalyzer
             // state
             String state = taskStatus.getClass().getMethod("getRunState", new Class[]{}).invoke(taskStatus, new Object[]{}).toString();
 
-            // RUNNING‚Í–³‹
+            // RUNNINGã¯ç„¡è¦–
             if (state.endsWith(State.RUNNING.toString()))
                 continue;
 
@@ -210,11 +210,11 @@ public class HadoopObjectAnalyzer
     }
 
     /**
-     * Hadoop‚ÌHeartbeatResponseƒIƒuƒWƒFƒNƒg‚©‚çHadoopActionƒIƒuƒWƒFƒNƒg‚ÌƒŠƒXƒg‚ğì¬‚·‚éB
+     * Hadoopã®HeartbeatResponseã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‹ã‚‰HadoopActionã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒªã‚¹ãƒˆã‚’ä½œæˆã™ã‚‹ã€‚
      *
      * @param heartbeatResponse TaskTrackerAction[]
      *
-     * @return HadoopAction‚ÌƒŠƒXƒg
+     * @return HadoopActionã®ãƒªã‚¹ãƒˆ
      *
      * @throws IllegalArgumentException IllegalArgumentException
      * @throws SecurityException SecurityException
@@ -230,66 +230,66 @@ public class HadoopObjectAnalyzer
                NoSuchMethodException, NoSuchFieldException
     {
         Class heartbeatResponseClass = heartbeatResponse.getClass();
-        // HeartbeatResponseˆÈŠO‚ÌƒNƒ‰ƒX‚Ìê‡‚Íˆ—‚ğ”ò‚Î‚·
+        // HeartbeatResponseä»¥å¤–ã®ã‚¯ãƒ©ã‚¹ã®å ´åˆã¯å‡¦ç†ã‚’é£›ã°ã™
         if (!heartbeatResponseClass.getName().equals("org.apache.hadoop.mapred.HeartbeatResponse"))
         {
             return null;
         }
-        // TaskTrackerAction[]‚ğ‰ğÍ
+        // TaskTrackerAction[]ã‚’è§£æ
         Method method = heartbeatResponseClass.getMethod("getActions", new Class[]{});
         method.setAccessible(true);
         Object[] actionList = (Object[])(method.invoke(heartbeatResponse, new Object[]{}));
         ArrayList<HadoopAction> ret = new ArrayList<HadoopAction>();
 
-        // HadoopAction‚ğ’Ç‰Á
+        // HadoopActionã‚’è¿½åŠ 
         for (Object action : actionList)
         {
             HadoopAction hadoopAction = new HadoopAction();
 
-            // ƒAƒNƒVƒ‡ƒ“í•Ê‚Ì”»’è
-            // ƒŠƒtƒŒƒNƒVƒ‡ƒ“‚ÍŠî’êƒNƒ‰ƒX‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚¹‚È‚¢‚Ì‚ÅAŠî’êƒNƒ‰ƒX‚©‚çƒƒ\ƒbƒh‚ğæ“¾‚·‚éB
+            // ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ç¨®åˆ¥ã®åˆ¤å®š
+            // ãƒªãƒ•ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã¯åŸºåº•ã‚¯ãƒ©ã‚¹ã®ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã³å‡ºã›ãªã„ã®ã§ã€åŸºåº•ã‚¯ãƒ©ã‚¹ã‹ã‚‰ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å–å¾—ã™ã‚‹ã€‚
             Method getActionIdMethod = action.getClass().getSuperclass().getDeclaredMethod("getActionId", new Class[]{});
             getActionIdMethod.setAccessible(true);
             String actionType = getActionIdMethod.invoke(action, new Object[]{}).toString();
             hadoopAction.setActionType(actionType);
 
-            // KillJobATaskTracker‚ÌÄ\’z‚Í‰ğÍ‚ğÈ—ª
+            // KillJobã€TaskTrackerã®å†æ§‹ç¯‰ã¯è§£æã‚’çœç•¥
             if ( (actionType.toString().equals(ActionType.REINIT_TRACKER.toString())) ||
                  (actionType.toString().equals(ActionType.KILL_JOB.toString())) )
                 continue;
 
-            // V‹Kƒ^ƒXƒNÀs‚Ìê‡
+            // æ–°è¦ã‚¿ã‚¹ã‚¯å®Ÿè¡Œã®å ´åˆ
             if (actionType.toString().equals(ActionType.LAUNCH_TASK.toString()))
             {
-                // TaskƒIƒuƒWƒFƒNƒgæ“¾
+                // Taskã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå–å¾—
                 Method getTaskMethod = action.getClass().getDeclaredMethod("getTask", new Class[]{});
                 getTaskMethod.setAccessible(true);
                 Object task = getTaskMethod.invoke(action, new Object[]{});
 
-                // Mapƒ^ƒXƒN‚©H
+                // Mapã‚¿ã‚¹ã‚¯ã‹ï¼Ÿ
                 Method isMapTaskMethod = task.getClass().getDeclaredMethod("isMapTask", new Class[]{});
                 isMapTaskMethod.setAccessible(true);
                 hadoopAction.setMapTask(((Boolean)(isMapTaskMethod.invoke(task, new Object[]{}))).booleanValue());
 
-                // ƒWƒ‡ƒuID
+                // ã‚¸ãƒ§ãƒ–ID
                 Method getJobIDMethod = task.getClass().getSuperclass().getDeclaredMethod("getJobID", new Class[]{});
                 getJobIDMethod.setAccessible(true);
                 hadoopAction.setJobID(getJobIDMethod.invoke(task, new Object[]{}).toString());
 
-                // ƒ^ƒXƒNsID
+                // ã‚¿ã‚¹ã‚¯è©¦è¡ŒID
                 Method getTaskIDMethod = task.getClass().getSuperclass().getDeclaredMethod("getTaskID", new Class[]{});
                 getTaskIDMethod.setAccessible(true);
                 hadoopAction.setTaskID(getTaskIDMethod.invoke(task, new Object[]{}).toString());
 
-                // JobConfƒIƒuƒWƒFƒNƒgæ“¾
+                // JobConfã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå–å¾—
                 Method getConfMethod = task.getClass().getSuperclass().getDeclaredMethod("getConf", new Class[]{});
                 getConfMethod.setAccessible(true);
                 Object jobConf = getConfMethod.invoke(task, new Object[]{});
 
-                // ƒWƒ‡ƒu–¼
+                // ã‚¸ãƒ§ãƒ–å
                 hadoopAction.setJobName(jobConf.getClass().getDeclaredMethod("getJobName", new Class[]{}).invoke(jobConf, new Object[]{}).toString());
 
-                // ˆ—‘ÎÛƒf[ƒ^
+                // å‡¦ç†å¯¾è±¡ãƒ‡ãƒ¼ã‚¿
                 if (task.getClass().toString().equals("class org.apache.hadoop.mapred.MapTask"))
                 {
                     Field splitMetaInfoField = task.getClass().getDeclaredField("splitMetaInfo");
@@ -301,16 +301,16 @@ public class HadoopObjectAnalyzer
                     hadoopAction.setInputData(splitLocation + "(" + startOffset + ")");
                 }
             }
-            // ‚»‚Ì‘¼
+            // ãã®ä»–
             else
             {
-                // ƒ^ƒXƒNsID
+                // ã‚¿ã‚¹ã‚¯è©¦è¡ŒID
                 Method getTaskIDMethod = action.getClass().getDeclaredMethod("getTaskID", new Class[]{});
                 getTaskIDMethod.setAccessible(true);
                 Object taskAttemptID = getTaskIDMethod.invoke(action, new Object[]{});
                 hadoopAction.setTaskID(taskAttemptID.toString());
 
-                // ƒWƒ‡ƒuID
+                // ã‚¸ãƒ§ãƒ–ID
                 Method getJobIDMethod = taskAttemptID.getClass().getDeclaredMethod("getJobID", new Class[]{});
                 getJobIDMethod.setAccessible(true);
                 Object jobID = getJobIDMethod.invoke(taskAttemptID, new Object[]{});
@@ -324,11 +324,11 @@ public class HadoopObjectAnalyzer
     }
 
     /**
-     * JobStatusƒIƒuƒWƒFƒNƒg‚©‚çƒWƒ‡ƒuID‚ğæ“¾‚·‚éB
+     * JobStatusã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‹ã‚‰ã‚¸ãƒ§ãƒ–IDã‚’å–å¾—ã™ã‚‹ã€‚
      *
-     * @param jobStatus JobStatusƒIƒuƒWƒFƒNƒg
+     * @param jobStatus JobStatusã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      *
-     * @return ƒWƒ‡ƒuID
+     * @return ã‚¸ãƒ§ãƒ–ID
      *
      * @throws IllegalArgumentException IllegalArgumentException
      * @throws SecurityException SecurityException
@@ -342,22 +342,22 @@ public class HadoopObjectAnalyzer
                InvocationTargetException, NoSuchMethodException
     {
         Class jobStatusClass = jobStatus.getClass();
-        // JobStatusˆÈŠO‚ÌƒNƒ‰ƒX‚Ìê‡‚Íˆ—‚ğ”ò‚Î‚·
+        // JobStatusä»¥å¤–ã®ã‚¯ãƒ©ã‚¹ã®å ´åˆã¯å‡¦ç†ã‚’é£›ã°ã™
         if (!jobStatusClass.getName().equals("org.apache.hadoop.mapred.JobStatus"))
         {
             return null;
         }
 
-        // JobID‚ğæ“¾
+        // JobIDã‚’å–å¾—
         return jobStatusClass.getMethod("getJobId", new Class[]{}).invoke(jobStatus, new Object[]{}).toString();
     }
 
     /**
-     * JobStatusƒIƒuƒWƒFƒNƒg‚ğ‰ğÍ‚µ‚ÄAƒWƒ‡ƒu‚ªŠ®—¹‚µ‚Ä‚¢‚é‚©”»’è‚·‚éB
+     * JobStatusã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è§£æã—ã¦ã€ã‚¸ãƒ§ãƒ–ãŒå®Œäº†ã—ã¦ã„ã‚‹ã‹åˆ¤å®šã™ã‚‹ã€‚
      *
-     * @param jobStatus JobStatusƒIƒuƒWƒFƒNƒg
+     * @param jobStatus JobStatusã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      *
-     * @return ƒWƒ‡ƒu‚ÌƒXƒe[ƒ^ƒX
+     * @return ã‚¸ãƒ§ãƒ–ã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
      *
      * @throws IllegalArgumentException IllegalArgumentException
      * @throws SecurityException SecurityException
@@ -376,13 +376,13 @@ public class HadoopObjectAnalyzer
             return ret;
 
         Class jobStatusClass = jobStatus.getClass();
-        // JobStatusˆÈŠO‚ÌƒNƒ‰ƒX‚Ìê‡‚Íˆ—‚ğ”ò‚Î‚·
+        // JobStatusä»¥å¤–ã®ã‚¯ãƒ©ã‚¹ã®å ´åˆã¯å‡¦ç†ã‚’é£›ã°ã™
         if (!jobStatusClass.getName().equals("org.apache.hadoop.mapred.JobStatus"))
         {
             return ret;
         }
 
-        // getRunState()‚ğæ“¾AÀs
+        // getRunState()ã‚’å–å¾—ã€å®Ÿè¡Œ
         int state = ((Integer)(jobStatusClass.getMethod("getRunState", new Class[]{}).invoke(jobStatus, new Object[]{}))).intValue();
 
         ret = HadoopJobStatus.getStatus(state);
@@ -391,12 +391,12 @@ public class HadoopObjectAnalyzer
     }
 
     /**
-     * JobID‚ğŠî‚ÉƒWƒ‡ƒu‚ÌƒXƒe[ƒ^ƒX‚ğæ“¾‚µ‚Ü‚·B
+     * JobIDã‚’åŸºã«ã‚¸ãƒ§ãƒ–ã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚’å–å¾—ã—ã¾ã™ã€‚
      * 
-     * @param jobID ƒWƒ‡ƒuID
-     * @param jobTracker JobTrackerƒCƒ“ƒXƒ^ƒ“ƒX
+     * @param jobID ã‚¸ãƒ§ãƒ–ID
+     * @param jobTracker JobTrackerã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
      * 
-     * @return ƒWƒ‡ƒu‚ÌƒXƒe[ƒ^ƒX
+     * @return ã‚¸ãƒ§ãƒ–ã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
      * 
      * @throws IllegalArgumentException IllegalArgumentException
      * @throws SecurityException SecurityException
@@ -416,26 +416,26 @@ public class HadoopObjectAnalyzer
         if (jobID == null || jobID.equals(""))
             return status;
 
-        // StringŒ^‚ÌJobID‚ğ•ª‰ğ‚µAJobIDƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚é
+        // Stringå‹ã®JobIDã‚’åˆ†è§£ã—ã€JobIDã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆã™ã‚‹
         String[] elem = jobID.split(SEPARATOR);
-        // JobID‚Í"job_xxxxxxxxxxxx_yyy‚ÌŒ`‚Ì‚Í‚¸
+        // JobIDã¯"job_xxxxxxxxxxxx_yyyã®å½¢ã®ã¯ãš
         if (3 != elem.length)
             return status;
 
-        // JobIDƒNƒ‰ƒX‚ğ¶¬‚·‚é‚½‚ß‚ÌƒIƒuƒWƒFƒNƒg
+        // JobIDã‚¯ãƒ©ã‚¹ã‚’ç”Ÿæˆã™ã‚‹ãŸã‚ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         Class<?> jobIDClass = loader.loadClass("org.apache.hadoop.mapred.JobID");
-        // JobID‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^ˆø”‚Í(String, int)
+        // JobIDã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿å¼•æ•°ã¯(String, int)
         Class<?>[] classes = new Class[]{String.class, int.class};
         Constructor<?> jobIDConstructor = jobIDClass.getConstructor(classes);
-        // ˆø”•t‚«ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ÅJobIDƒIƒuƒWƒFƒNƒg¶¬
+        // å¼•æ•°ä»˜ãã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§JobIDã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆ
         Object[] args = {elem[1], Integer.valueOf(elem[2])};
         Object[] jobIDObject = {jobIDConstructor.newInstance(args)};
 
-        // getJobStatusƒƒ\ƒbƒh‚Ìˆø”‚ÌŒ^
+        // getJobStatusãƒ¡ã‚½ãƒƒãƒ‰ã®å¼•æ•°ã®å‹
         Class<?>[] getJobStatusTypes = new Class[]{jobIDClass};
 
-        // getJobStatusƒƒ\ƒbƒh‚ğÀs‚µ‚ÄJobStatusƒIƒuƒWƒFƒNƒg‚ğæ“¾
+        // getJobStatusãƒ¡ã‚½ãƒƒãƒ‰ã‚’å®Ÿè¡Œã—ã¦JobStatusã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾—
         Method getJobStatusMethod = jobTracker.getClass().getMethod("getJobStatus", getJobStatusTypes);
         Object jobStatusObject = getJobStatusMethod.invoke(jobTracker, jobIDObject);
 

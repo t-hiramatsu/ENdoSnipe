@@ -36,21 +36,21 @@ import jp.co.acroquest.endosnipe.javelin.bean.Component;
 import jp.co.acroquest.endosnipe.javelin.bean.Invocation;
 
 /**
- * ѓVѓЉѓAѓ‰ѓCѓYѓrѓ…Ѓ[ѓAЃ[
- * ѓVѓЉѓAѓ‰ѓCѓY‚і‚к‚Ѕѓtѓ@ѓCѓ‹‚р“З‚ЭЌћ‚ЭЃAЏо•с‚р“Ї‚¶ѓtѓHѓ‹ѓ_“а‚ЙЏ‘‚«Џo‚·ЃB
+ * г‚·гѓЄг‚ўгѓ©г‚¤г‚єгѓ“гѓҐгѓјг‚ўгѓј
+ * г‚·гѓЄг‚ўгѓ©г‚¤г‚єгЃ•г‚ЊгЃџгѓ•г‚Ўг‚¤гѓ«г‚’иЄ­гЃїиѕјгЃїгЂЃжѓ…е ±г‚’еђЊгЃгѓ•г‚©гѓ«гѓЂе†…гЃ«ж›ёгЃЌе‡єгЃ™гЂ‚
  * @author acroquest
  *
  */
 public class SerializeViewer
 {
-    /** Bean‚МMap */
+    /** BeanгЃ®Map */
     private static Map<String, Component> beanMap__;
 
-    /** ѓ~ѓЉ‚р•\‚·ђ”Ћљ */
+    /** гѓџгѓЄг‚’иЎЁгЃ™ж•°е­— */
     private static final long MILLIS = 1000 * 1000;
 
     /**
-     * ѓRѓ“ѓXѓgѓ‰ѓNѓ^
+     * г‚ігѓіг‚№гѓ€гѓ©г‚Їг‚ї
      */
     private SerializeViewer()
     {
@@ -58,33 +58,33 @@ public class SerializeViewer
     }
     
     /**
-     * ѓVѓЉѓAѓ‰ѓCѓY‚і‚к‚Ѕѓtѓ@ѓCѓ‹‚М’†ђg‚р•Кѓtѓ@ѓCѓ‹‚ЙЏ‘‚«Џo‚·‚±‚Ж‚ЕЃAView‚·‚йЃB
-     * @param args ѓVѓЉѓAѓ‰ѓCѓY‚і‚к‚Ѕѓtѓ@ѓCѓ‹
+     * г‚·гѓЄг‚ўгѓ©г‚¤г‚єгЃ•г‚ЊгЃџгѓ•г‚Ўг‚¤гѓ«гЃ®дё­иє«г‚’е€Ґгѓ•г‚Ўг‚¤гѓ«гЃ«ж›ёгЃЌе‡єгЃ™гЃ“гЃЁгЃ§гЂЃViewгЃ™г‚‹гЂ‚
+     * @param args г‚·гѓЄг‚ўгѓ©г‚¤г‚єгЃ•г‚ЊгЃџгѓ•г‚Ўг‚¤гѓ«
      * 
      */
     public static void main(String[] args)
     {
         if (args.length == 0)
         {
-            System.out.println("ѓtѓ@ѓCѓ‹‚рђв‘ОѓpѓX‚ЕЋw’и‚µ‚Д‚­‚ѕ‚і‚ўЃB");
+            System.out.println("гѓ•г‚Ўг‚¤гѓ«г‚’зµ¶еЇѕгѓ‘г‚№гЃ§жЊ‡е®љгЃ—гЃ¦гЃЏгЃ гЃ•гЃ„гЂ‚");
             return;
         }
         File inputFilePath = new File(args[0]);
         if (!inputFilePath.getName().equals("serialize.dat"))
         {
-            System.out.println("ѓtѓ@ѓCѓ‹‚М–јЏМ‚ЄЉФ€б‚Б‚Д‚ў‚Ь‚·ЃBЃiserialize.datЃj");
+            System.out.println("гѓ•г‚Ўг‚¤гѓ«гЃ®еђЌз§°гЃЊй–“йЃ•гЃЈгЃ¦гЃ„гЃѕгЃ™гЂ‚пј€serialize.datпј‰");
             return;
         }
         else if (inputFilePath.isFile() == false)
         {
-            System.out.println("ѓtѓ@ѓCѓ‹‚Є‘¶ЌЭ‚·‚й‚©ЃA‚ ‚й‚ў‚Нѓtѓ@ѓCѓ‹–ј‚ЄЉФ€б‚Б‚Д‚ў‚И‚ў‚©Љm”F‚µ‚Д‚­‚ѕ‚і‚ўЃB");
+            System.out.println("гѓ•г‚Ўг‚¤гѓ«гЃЊе­ењЁгЃ™г‚‹гЃ‹гЂЃгЃ‚г‚‹гЃ„гЃЇгѓ•г‚Ўг‚¤гѓ«еђЌгЃЊй–“йЃ•гЃЈгЃ¦гЃ„гЃЄгЃ„гЃ‹зўєиЄЌгЃ—гЃ¦гЃЏгЃ гЃ•гЃ„гЂ‚");
             return;
         }
 
         FileWriter fw = null;
         File deserializeFile = new File(inputFilePath.getParent() + "/deserializedFile.csv");
 
-        //€шђ”‚ЙЋw’и‚і‚к‚Ѕdatѓtѓ@ѓCѓ‹‚рѓfѓVѓЉѓAѓ‰ѓCѓY‚·‚йЃB
+        //еј•ж•°гЃ«жЊ‡е®љгЃ•г‚ЊгЃџdatгѓ•г‚Ўг‚¤гѓ«г‚’гѓ‡г‚·гѓЄг‚ўгѓ©г‚¤г‚єгЃ™г‚‹гЂ‚
         try
         {
             beanMap__ = MBeanManagerSerializer.deserializeFile(args[0]);
@@ -106,23 +106,23 @@ public class SerializeViewer
         BufferedWriter bw = new BufferedWriter(fw);
         try
         {
-            String titles = "ѓЊѓXѓ|ѓ“ѓX," + "Њv‘Є‘ОЏЫ," + "ѓNѓ‰ѓX–ј," + "ѓЃѓ\ѓbѓh–ј," + "TATи‡’l,"+"CPUи‡’l,"
-                            + "ЊД‚СЏo‚µ‰сђ”," +"Ќ‡ЊvЏ€—ќЋћЉФ(ђПЋZ),"+"•Ѕ‹ПЏ€—ќЋћЉФ(ђПЋZ),"+"ЌЕ‘еЏ€—ќЋћЉФ(ђПЋZ)," 
-                            + "ЌЕЏ¬Џ€—ќЋћЉФ(ђПЋZ),"+"Ќ‡ЊvCPUЋћЉФ(ђПЋZ),"+" •Ѕ‹ПCPUЋћЉФ(ђПЋZ),"
-                            + "ЌЕ‘еCPUЋћЉФ(ђПЋZ),"+" ЌЕЏ¬CPUЋћЉФ(ђПЋZ),"+"Ќ‡ЊvUSERЋћЉФ(ђПЋZ),"+"•Ѕ‹ПUSERЋћЉФ(ђПЋZ),"
-                            + "ЌЕ‘еUSERЋћЉФ(ђПЋZ),"+"ЌЕЏ¬USERЋћЉФ(ђПЋZ),"
-                            + "Ќ‡ЊvЏ€—ќЋћЉФ," + "•Ѕ‹ПЏ€—ќЋћЉФ," + "ЌЕ‘еЏ€—ќЋћЉФ," + "ЌЕЏ¬Џ€—ќЋћЉФ,"
-                            + "Ќ‡ЊvCPUЋћЉФ," + "•Ѕ‹ПCPUЋћЉФ," + "ЌЕ‘еCPUЋћЉФ," + "ЌЕЏ¬CPUЋћЉФ," + "Ќ‡ЊvUSERЋћЉФ,"
-                            + "•Ѕ‹ПUSERЋћЉФ," + "ЌЕ‘еUSERЋћЉФ," + "ЌЕЏ¬USERЋћЉФ," + "—бЉO”­ђ¶‰сђ”\n";
+            String titles = "гѓ¬г‚№гѓќгѓіг‚№," + "иЁ€жё¬еЇѕи±Ў," + "г‚Їгѓ©г‚№еђЌ," + "гѓЎг‚Ѕгѓѓгѓ‰еђЌ," + "TATй–ѕеЂ¤,"+"CPUй–ѕеЂ¤,"
+                            + "е‘јгЃіе‡єгЃ—е›ћж•°," +"еђ€иЁ€е‡¦зђ†ж™‚й–“(з©Ќз®—),"+"е№іеќ‡е‡¦зђ†ж™‚й–“(з©Ќз®—),"+"жњЂе¤§е‡¦зђ†ж™‚й–“(з©Ќз®—)," 
+                            + "жњЂе°Џе‡¦зђ†ж™‚й–“(з©Ќз®—),"+"еђ€иЁ€CPUж™‚й–“(з©Ќз®—),"+" е№іеќ‡CPUж™‚й–“(з©Ќз®—),"
+                            + "жњЂе¤§CPUж™‚й–“(з©Ќз®—),"+" жњЂе°ЏCPUж™‚й–“(з©Ќз®—),"+"еђ€иЁ€USERж™‚й–“(з©Ќз®—),"+"е№іеќ‡USERж™‚й–“(з©Ќз®—),"
+                            + "жњЂе¤§USERж™‚й–“(з©Ќз®—),"+"жњЂе°ЏUSERж™‚й–“(з©Ќз®—),"
+                            + "еђ€иЁ€е‡¦зђ†ж™‚й–“," + "е№іеќ‡е‡¦зђ†ж™‚й–“," + "жњЂе¤§е‡¦зђ†ж™‚й–“," + "жњЂе°Џе‡¦зђ†ж™‚й–“,"
+                            + "еђ€иЁ€CPUж™‚й–“," + "е№іеќ‡CPUж™‚й–“," + "жњЂе¤§CPUж™‚й–“," + "жњЂе°ЏCPUж™‚й–“," + "еђ€иЁ€USERж™‚й–“,"
+                            + "е№іеќ‡USERж™‚й–“," + "жњЂе¤§USERж™‚й–“," + "жњЂе°ЏUSERж™‚й–“," + "дѕ‹е¤–з™єз”џе›ћж•°\n";
             bw.write(titles);
 
-            //ѓfѓVѓЉѓAѓ‰ѓCѓY‚і‚к‚Ѕѓtѓ@ѓCѓ‹‚Й•Ы‘¶‚і‚к‚Д‚ў‚й‘SComponent‚Й‘О‚µ‚ДЃAЏ€—ќ‚рЌs‚¤ЃB
+            //гѓ‡г‚·гѓЄг‚ўгѓ©г‚¤г‚єгЃ•г‚ЊгЃџгѓ•г‚Ўг‚¤гѓ«гЃ«дїќе­гЃ•г‚ЊгЃ¦гЃ„г‚‹е…ЁComponentгЃ«еЇѕгЃ—гЃ¦гЂЃе‡¦зђ†г‚’иЎЊгЃ†гЂ‚
             for (Component component : beanMap__.values())
             {
-                //‚P‚В‚Мcomponent’†‚Й‘¶ЌЭ‚·‚й‘SInvocation‚Й‘О‚µ‚ДЃAЏ€—ќ‚рЌs‚¤ЃB
+                //пј‘гЃ¤гЃ®componentдё­гЃ«е­ењЁгЃ™г‚‹е…ЁInvocationгЃ«еЇѕгЃ—гЃ¦гЂЃе‡¦зђ†г‚’иЎЊгЃ†гЂ‚
                 for (Invocation invocation : component.getAllInvocation())
                 {
-                    //Invocation‚©‚зЉe—v‘f‚р“З‚ЭЌћ‚ЮЃB
+                    //InvocationгЃ‹г‚‰еђ„и¦Ѓзґ г‚’иЄ­гЃїиѕјг‚ЂгЂ‚
                     String str = getContentsFromInvocation(invocation).toString();
                     bw.write(str);
                     bw.flush();
@@ -146,12 +146,12 @@ public class SerializeViewer
         }
     }
 
-    /**Invocation‚©‚зЉe—v‘f‚р“З‚ЭЌћ‚ЮЃB*/
+    /**InvocationгЃ‹г‚‰еђ„и¦Ѓзґ г‚’иЄ­гЃїиѕјг‚ЂгЂ‚*/
     private static StringBuilder getContentsFromInvocation(Invocation invocation)
     {
         StringBuilder sb = new StringBuilder();
 
-        //ѓЊѓXѓ|ѓ“ѓX‚НЃAtrue‚рONЃAfalse‚рOFF‚Ж‚µ‚ДЏo—Н‚·‚йЃB
+        //гѓ¬г‚№гѓќгѓіг‚№гЃЇгЂЃtrueг‚’ONгЂЃfalseг‚’OFFгЃЁгЃ—гЃ¦е‡єеЉ›гЃ™г‚‹гЂ‚
         if (invocation.isResponseGraphOutputTarget() == true)
         {
             sb.append("ON,");
@@ -160,27 +160,27 @@ public class SerializeViewer
         {
             sb.append("OFF,");
         }
-        //Њv‘Є‘ОЏЫ‚НЃAЃuONЃvЃuOFFЃvЃuNOT_SPECIFIEDЃv‚М3Ћн—Ю‚рЏo—Н‚·‚йЃB
+        //иЁ€жё¬еЇѕи±ЎгЃЇгЂЃгЂЊONгЂЌгЂЊOFFгЂЌгЂЊNOT_SPECIFIEDгЂЌгЃ®3зЁ®йЎћг‚’е‡єеЉ›гЃ™г‚‹гЂ‚
         sb.append(invocation.getMeasurementTarget() + ",");
         sb.append(invocation.getClassName() + ",");
         sb.append("\"" + invocation.getMethodName() + "\"" + ",");
 
-        //ѓAѓ‰Ѓ[ѓЂ”­ђ¶”»’и‚МTAT‚Ми‡’l‚М’l‚Є-1‚М‚Ж‚«‚НЃAЃu–ўЋw’иЃv‚ЖЏo—Н‚·‚йЃB‚»‚к€ИЉO‚НЃAи‡’l‚М’l‚рЏo—Н‚·‚йЃB
+        //г‚ўгѓ©гѓјгѓ з™єз”џе€¤е®љгЃ®TATгЃ®й–ѕеЂ¤гЃ®еЂ¤гЃЊ-1гЃ®гЃЁгЃЌгЃЇгЂЃгЂЊжњЄжЊ‡е®љгЂЌгЃЁе‡єеЉ›гЃ™г‚‹гЂ‚гЃќг‚Њд»Ґе¤–гЃЇгЂЃй–ѕеЂ¤гЃ®еЂ¤г‚’е‡єеЉ›гЃ™г‚‹гЂ‚
         long tatThreshold = invocation.getAlarmThreshold();
         if (tatThreshold == -1)
         {
-            sb.append("–ўЋw’и,");
+            sb.append("жњЄжЊ‡е®љ,");
         }
         else
         {
             sb.append(tatThreshold + ",");
         }
 
-        //ЊxЌђ‚р”­ђ¶‚і‚№‚йCPUЋћЉФ‚Ми‡’l‚М’l‚Є-1‚М‚Ж‚«‚НЃAЃu–ўЋw’иЃv‚ЖЏo—Н‚·‚йЃB‚»‚к€ИЉO‚НЃAи‡’l‚М’l‚рЏo—Н‚·‚йЃB
+        //и­¦е‘Љг‚’з™єз”џгЃ•гЃ›г‚‹CPUж™‚й–“гЃ®й–ѕеЂ¤гЃ®еЂ¤гЃЊ-1гЃ®гЃЁгЃЌгЃЇгЂЃгЂЊжњЄжЊ‡е®љгЂЌгЃЁе‡єеЉ›гЃ™г‚‹гЂ‚гЃќг‚Њд»Ґе¤–гЃЇгЂЃй–ѕеЂ¤гЃ®еЂ¤г‚’е‡єеЉ›гЃ™г‚‹гЂ‚
         long cpuThreshold = invocation.getAlarmCpuThreshold();
         if (cpuThreshold == -1)
         {
-            sb.append("–ўЋw’и,");
+            sb.append("жњЄжЊ‡е®љ,");
         }
         else
         {
@@ -188,7 +188,7 @@ public class SerializeViewer
         }
         sb.append(invocation.getCount() + ",");
         
-        //•Ѕ‹ПЏ€—ќЋћЉФ,•Ѕ‹ПCPUЋћЉФ,•Ѕ‹ПUSERЋћЉФ‚НЃAЏ¬ђ”‚R€К‚Ь‚ЕЏo—Н‚·‚йЃB‚»‚к€ИЉO‚Нђ®ђ”’l‚рЏo—Н‚·‚йЃB
+        //е№іеќ‡е‡¦зђ†ж™‚й–“,е№іеќ‡CPUж™‚й–“,е№іеќ‡USERж™‚й–“гЃЇгЂЃе°Џж•°пј“дЅЌгЃѕгЃ§е‡єеЉ›гЃ™г‚‹гЂ‚гЃќг‚Њд»Ґе¤–гЃЇж•ґж•°еЂ¤г‚’е‡єеЉ›гЃ™г‚‹гЂ‚
         DecimalFormat decimalFormat = new DecimalFormat("0.000");
         
         sb.append(invocation.getAccumulatedTotal()+ ",");
@@ -222,7 +222,7 @@ public class SerializeViewer
         sb.append(invocation.getTotal() + ",");
 
       
-        //•Ѕ‹ПЏ€—ќЋћЉФ,•Ѕ‹ПCPUЋћЉФ,•Ѕ‹ПUSERЋћЉФ‚НЃAЏ¬ђ”‚R€К‚Ь‚ЕЏo—Н‚·‚йЃB
+        //е№іеќ‡е‡¦зђ†ж™‚й–“,е№іеќ‡CPUж™‚й–“,е№іеќ‡USERж™‚й–“гЃЇгЂЃе°Џж•°пј“дЅЌгЃѕгЃ§е‡єеЉ›гЃ™г‚‹гЂ‚
         String average = "0";
         if(invocation.getCount() == 0)
         {
@@ -236,13 +236,13 @@ public class SerializeViewer
         sb.append(invocation.getMaximum() + ",");
         sb.append(invocation.getMinimum() + ",");
         sb.append(invocation.getCpuTotal() / MILLIS + ",");
-        //•Ѕ‹ПЏ€—ќЋћЉФ,•Ѕ‹ПCPUЋћЉФ,•Ѕ‹ПUSERЋћЉФ‚НЃAЏ¬ђ”‚R€К‚Ь‚ЕЏo—Н‚·‚йЃB
+        //е№іеќ‡е‡¦зђ†ж™‚й–“,е№іеќ‡CPUж™‚й–“,е№іеќ‡USERж™‚й–“гЃЇгЂЃе°Џж•°пј“дЅЌгЃѕгЃ§е‡єеЉ›гЃ™г‚‹гЂ‚
         String cpuAverage = decimalFormat.format((double)invocation.getCpuAverage() / MILLIS);
         sb.append(cpuAverage + ",");
         sb.append(invocation.getCpuMaximum() / MILLIS + ",");
         sb.append(invocation.getCpuMinimum() / MILLIS + ",");
         sb.append(invocation.getUserTotal() / MILLIS + ",");
-        //•Ѕ‹ПЏ€—ќЋћЉФ,•Ѕ‹ПCPUЋћЉФ,•Ѕ‹ПUSERЋћЉФ‚НЃAЏ¬ђ”‚R€К‚Ь‚ЕЏo—Н‚·‚йЃB
+        //е№іеќ‡е‡¦зђ†ж™‚й–“,е№іеќ‡CPUж™‚й–“,е№іеќ‡USERж™‚й–“гЃЇгЂЃе°Џж•°пј“дЅЌгЃѕгЃ§е‡єеЉ›гЃ™г‚‹гЂ‚
         String userAverage = decimalFormat.format((double)invocation.getUserAverage() / MILLIS);
         sb.append(userAverage + ",");
         sb.append(invocation.getUserMaximum() / MILLIS + ",");
