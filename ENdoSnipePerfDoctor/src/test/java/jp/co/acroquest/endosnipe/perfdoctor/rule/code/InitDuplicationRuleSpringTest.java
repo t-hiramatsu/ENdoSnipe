@@ -31,23 +31,23 @@ import jp.co.acroquest.endosnipe.javelin.parser.JavelinLogElement;
 import jp.co.acroquest.endosnipe.perfdoctor.PerformanceRuleTestCase;
 
 /**
- * ENdoSnipeVer.4.0‚ÌVƒ‹[ƒ‹
- * SpringƒRƒ“ƒeƒi‚Ì•¡”‰ñ‰Šú‰»ƒ`ƒFƒbƒNƒ‹[ƒ‹‚ÌƒeƒXƒg
+ * ENdoSnipeVer.4.0ã®æ–°ãƒ«ãƒ¼ãƒ«
+ * Springã‚³ãƒ³ãƒ†ãƒŠã®è¤‡æ•°å›åˆæœŸåŒ–ãƒã‚§ãƒƒã‚¯ãƒ«ãƒ¼ãƒ«ã®ãƒ†ã‚¹ãƒˆ
  * @author fujii
  *
  */
 public class InitDuplicationRuleSpringTest extends PerformanceRuleTestCase
 {
-    /** Spring‚Ì‰Šú‰»ƒƒ\ƒbƒh */
+    /** Springã®åˆæœŸåŒ–ãƒ¡ã‚½ãƒƒãƒ‰ */
     private static final String SPRING_INITIAL_METHOD = "GenericApplicationContext";
 
-    /** Spring‚Ì‰Šú‰»ƒNƒ‰ƒX */
+    /** Springã®åˆæœŸåŒ–ã‚¯ãƒ©ã‚¹ */
     private static final String SPRING_INITIAL_CLASS =
             "org.springframework.context.support.GenericApplicationContext";
 
     /**
-     * InitDupulicationRule‚ğ¶¬‚·‚éB<br />
-     * @param threshold è‡’l
+     * InitDupulicationRuleã‚’ç”Ÿæˆã™ã‚‹ã€‚<br />
+     * @param threshold é–¾å€¤
      * @return InitDupulicationRule
      */
     private InitDupulicationRule createRule(long threshold)
@@ -63,15 +63,15 @@ public class InitDuplicationRuleSpringTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [€”Ô] 3-17-1<br />
+     * [é …ç•ª] 3-17-1<br />
      * <br />
-     * doJudge‚ÌƒeƒXƒgB<br />
-     * E‹«ŠE’l•ªÍ(è‡’l‚æ‚è1¬‚³‚¢ê‡)<br />
-     * ¨Œx‚ª”­¶‚·‚éB<br />
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
+     * ãƒ»å¢ƒç•Œå€¤åˆ†æ(é–¾å€¤ã‚ˆã‚Š1å°ã•ã„å ´åˆ)<br />
+     * â†’è­¦å‘ŠãŒç™ºç”Ÿã™ã‚‹ã€‚<br />
      */
     public void testDoJudge_1()
     {
-        // €”õ
+        // æº–å‚™
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("InitDuplicateTest_testDoJudge_spring_999.jvn");
 
@@ -79,10 +79,10 @@ public class InitDuplicationRuleSpringTest extends PerformanceRuleTestCase
 
         InitDupulicationRule rule = createRule(threshold);
 
-        // Às
+        // å®Ÿè¡Œ
         rule.judge(elementList);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(1, getErrorJavelinLogElements().size());
         assertErrorOccurred(elementList.get(0), threshold, (long)999, SPRING_INITIAL_CLASS,
                             SPRING_INITIAL_METHOD);
@@ -90,15 +90,15 @@ public class InitDuplicationRuleSpringTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [€”Ô] 3-17-2<br />
+     * [é …ç•ª] 3-17-2<br />
      * <br />
-     * doJudge‚ÌƒeƒXƒgB<br />
-     * E‹«ŠE’l•ªÍ(è‡’l‚Æ“™‚µ‚¢ê‡)<br />
-     * ¨Œx‚ª”­¶‚·‚éB<br />
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
+     * ãƒ»å¢ƒç•Œå€¤åˆ†æ(é–¾å€¤ã¨ç­‰ã—ã„å ´åˆ)<br />
+     * â†’è­¦å‘ŠãŒç™ºç”Ÿã™ã‚‹ã€‚<br />
      */
     public void testDoJudge_2()
     {
-        // €”õ
+        // æº–å‚™
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("InitDuplicateTest_testDoJudge_spring_1000.jvn");
 
@@ -106,10 +106,10 @@ public class InitDuplicationRuleSpringTest extends PerformanceRuleTestCase
 
         InitDupulicationRule rule = createRule(threshold);
 
-        // Às
+        // å®Ÿè¡Œ
         rule.judge(elementList);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(1, getErrorJavelinLogElements().size());
         assertErrorOccurred(elementList.get(0), threshold, (long)1000, SPRING_INITIAL_CLASS,
                             SPRING_INITIAL_METHOD);
@@ -117,15 +117,15 @@ public class InitDuplicationRuleSpringTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [€”Ô] 3-17-3<br />
+     * [é …ç•ª] 3-17-3<br />
      * <br />
-     * doJudge‚ÌƒeƒXƒgB<br />
-     * E‹«ŠE’l•ªÍ(è‡’l‚æ‚è1‘å‚«‚¢ê‡)<br />
-     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br />
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
+     * ãƒ»å¢ƒç•Œå€¤åˆ†æ(é–¾å€¤ã‚ˆã‚Š1å¤§ãã„å ´åˆ)<br />
+     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br />
      */
     public void testDoJudge_3()
     {
-        // €”õ
+        // æº–å‚™
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("InitDuplicateTest_testDoJudge_spring_1001.jvn");
 
@@ -133,23 +133,23 @@ public class InitDuplicationRuleSpringTest extends PerformanceRuleTestCase
 
         InitDupulicationRule rule = createRule(threshold);
 
-        // Às
+        // å®Ÿè¡Œ
         rule.judge(elementList);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(0, getErrorJavelinLogElements().size());
     }
 
     /**
-     * [€”Ô] 3-17-4<br />
+     * [é …ç•ª] 3-17-4<br />
      * <br />
-     * doJudge‚ÌƒeƒXƒgB<br />
-     * E‹«ŠE’l•ªÍ(è‡’l‚ğ•Ê‚Ì’l‚Éİ’è/è‡’l‚Æ“™‚µ‚¢ê‡)<br />
-     * ¨Œx‚ª”­¶‚·‚éB<br />
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
+     * ãƒ»å¢ƒç•Œå€¤åˆ†æ(é–¾å€¤ã‚’åˆ¥ã®å€¤ã«è¨­å®š/é–¾å€¤ã¨ç­‰ã—ã„å ´åˆ)<br />
+     * â†’è­¦å‘ŠãŒç™ºç”Ÿã™ã‚‹ã€‚<br />
      */
     public void testDoJudge_5()
     {
-        // €”õ
+        // æº–å‚™
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("InitDuplicateTest_testDoJudge_spring_500.jvn");
 
@@ -157,25 +157,25 @@ public class InitDuplicationRuleSpringTest extends PerformanceRuleTestCase
 
         InitDupulicationRule rule = createRule(threshold);
 
-        // Às
+        // å®Ÿè¡Œ
         rule.judge(elementList);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(1, getErrorJavelinLogElements().size());
         assertErrorOccurred(elementList.get(0), threshold, (long)500, SPRING_INITIAL_CLASS,
                             SPRING_INITIAL_METHOD);
     }
 
     /**
-     * [€”Ô] 3-17-5<br />
+     * [é …ç•ª] 3-17-5<br />
      * <br />
-     * doJudge‚ÌƒeƒXƒgB<br />
-     * E‹«ŠE’l•ªÍ(è‡’l0AŒŸo’l0‚Ìê‡)<br />
-     * ¨Œx‚ª”­¶‚·‚éB<br />
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
+     * ãƒ»å¢ƒç•Œå€¤åˆ†æ(é–¾å€¤0ã€æ¤œå‡ºå€¤0ã®å ´åˆ)<br />
+     * â†’è­¦å‘ŠãŒç™ºç”Ÿã™ã‚‹ã€‚<br />
      */
     public void testDoJudge_7()
     {
-        // €”õ
+        // æº–å‚™
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("InitDuplicateTest_testDoJudge_spring_0.jvn");
 
@@ -183,25 +183,25 @@ public class InitDuplicationRuleSpringTest extends PerformanceRuleTestCase
 
         InitDupulicationRule rule = createRule(threshold);
 
-        // Às
+        // å®Ÿè¡Œ
         rule.judge(elementList);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(1, getErrorJavelinLogElements().size());
         assertErrorOccurred(elementList.get(0), threshold, (long)0, SPRING_INITIAL_CLASS,
                             SPRING_INITIAL_METHOD);
     }
 
     /**
-     * [€”Ô] 3-17-6<br />
+     * [é …ç•ª] 3-17-6<br />
      * <br />
-     * doJudge‚ÌƒeƒXƒgB<br />
-     * E‹«ŠE’l•ªÍ(è‡’l0AŒŸo’l‚ª³‚Ì’l‚Ìê‡)<br />
-     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br />
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
+     * ãƒ»å¢ƒç•Œå€¤åˆ†æ(é–¾å€¤0ã€æ¤œå‡ºå€¤ãŒæ­£ã®å€¤ã®å ´åˆ)<br />
+     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br />
      */
     public void testDoJudge_8()
     {
-        // €”õ
+        // æº–å‚™
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("InitDuplicateTest_testDoJudge_spring_threshold0.jvn");
 
@@ -209,23 +209,23 @@ public class InitDuplicationRuleSpringTest extends PerformanceRuleTestCase
 
         InitDupulicationRule rule = createRule(threshold);
 
-        // Às
+        // å®Ÿè¡Œ
         rule.judge(elementList);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(0, getErrorJavelinLogElements().size());
     }
 
     /**
-     * [€”Ô] 3-17-7<br />
+     * [é …ç•ª] 3-17-7<br />
      * <br />
-     * doJudge‚ÌƒeƒXƒgB<br />
-     * Ew’è‚³‚ê‚½ƒpƒ‰ƒ[ƒ^‚Ì’l‚ª•¶š—ñ‚É‚È‚Á‚Ä‚¢‚éê‡<br />
-     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br />
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
+     * ãƒ»æŒ‡å®šã•ã‚ŒãŸãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®å€¤ãŒæ–‡å­—åˆ—ã«ãªã£ã¦ã„ã‚‹å ´åˆ<br />
+     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br />
      */
     public void testDoJudge_10()
     {
-        // €”õ
+        // æº–å‚™
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("InitDuplicateTest_testDoJudge_spring_parameterString.jvn");
 
@@ -233,23 +233,23 @@ public class InitDuplicationRuleSpringTest extends PerformanceRuleTestCase
 
         InitDupulicationRule rule = createRule(threshold);
 
-        // Às
+        // å®Ÿè¡Œ
         rule.judge(elementList);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(0, getErrorJavelinLogElements().size());
     }
 
     /**
-     * [€”Ô] 3-17-8<br />
+     * [é …ç•ª] 3-17-8<br />
      * <br />
-     * doJudge‚ÌƒeƒXƒgB<br />
-     * Ew’è‚³‚ê‚½ƒpƒ‰ƒ[ƒ^‚Ì’l‚ª‹ó‚É‚È‚Á‚Ä‚¢‚éê‡<br />
-     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br />
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
+     * ãƒ»æŒ‡å®šã•ã‚ŒãŸãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®å€¤ãŒç©ºã«ãªã£ã¦ã„ã‚‹å ´åˆ<br />
+     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br />
      */
     public void testDoJudge_11()
     {
-        // €”õ
+        // æº–å‚™
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("InitDuplicateTest_testDoJudge_spring_parameterEmpty.jvn");
 
@@ -257,23 +257,23 @@ public class InitDuplicationRuleSpringTest extends PerformanceRuleTestCase
 
         InitDupulicationRule rule = createRule(threshold);
 
-        // Às
+        // å®Ÿè¡Œ
         rule.judge(elementList);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(0, getErrorJavelinLogElements().size());
     }
 
     /**
-     * [€”Ô] 3-17-9<br />
+     * [é …ç•ª] 3-17-9<br />
      * <br />
-     * doJudge‚ÌƒeƒXƒgB<br />
-     * Ew’è‚³‚ê‚½ƒpƒ‰ƒ[ƒ^‚ª‚È‚¢ê‡<br />
-     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br />
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
+     * ãƒ»æŒ‡å®šã•ã‚ŒãŸãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãŒãªã„å ´åˆ<br />
+     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br />
      */
     public void testDoJudge_12()
     {
-        // €”õ
+        // æº–å‚™
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("InitDuplicateTest_testDoJudge_spring_parameterNone.jvn");
 
@@ -281,23 +281,23 @@ public class InitDuplicationRuleSpringTest extends PerformanceRuleTestCase
 
         InitDupulicationRule rule = createRule(threshold);
 
-        // Às
+        // å®Ÿè¡Œ
         rule.judge(elementList);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(0, getErrorJavelinLogElements().size());
     }
 
     /**
-     * [€”Ô] 3-17-10<br />
+     * [é …ç•ª] 3-17-10<br />
      * <br />
-     * doJudge‚ÌƒeƒXƒgB<br />
-     * Ew’è‚³‚ê‚½Info‚ª‚È‚¢ê‡<br />
-     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br />
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
+     * ãƒ»æŒ‡å®šã•ã‚ŒãŸInfoãŒãªã„å ´åˆ<br />
+     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br />
      */
     public void testDoJudge_14()
     {
-        // €”õ
+        // æº–å‚™
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("InitDuplicateTest_testDoJudge_spring_NoInfo.jvn");
 
@@ -305,23 +305,23 @@ public class InitDuplicationRuleSpringTest extends PerformanceRuleTestCase
 
         InitDupulicationRule rule = createRule(threshold);
 
-        // Às
+        // å®Ÿè¡Œ
         rule.judge(elementList);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(0, getErrorJavelinLogElements().size());
     }
 
     /**
-     * [€”Ô] 3-17-11<br />
+     * [é …ç•ª] 3-17-11<br />
      * <br />
-     * doJudge‚ÌƒeƒXƒgB<br />
-     * Ew’è‚³‚ê‚½ƒ^ƒCƒv‚ÌƒƒbƒZ[ƒW‚ª‚È‚¢ê‡<br />
-     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br />
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
+     * ãƒ»æŒ‡å®šã•ã‚ŒãŸã‚¿ã‚¤ãƒ—ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãŒãªã„å ´åˆ<br />
+     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br />
      */
     public void testDoJudge_15()
     {
-        // €”õ
+        // æº–å‚™
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("InitDuplicateTest_testDoJudge_spring_NoType.jvn");
 
@@ -329,23 +329,23 @@ public class InitDuplicationRuleSpringTest extends PerformanceRuleTestCase
 
         InitDupulicationRule rule = createRule(threshold);
 
-        // Às
+        // å®Ÿè¡Œ
         rule.judge(elementList);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(0, getErrorJavelinLogElements().size());
     }
 
     /**
-     * [€”Ô] 3-17-12<br />
+     * [é …ç•ª] 3-17-12<br />
      * <br />
-     * doJudge‚ÌƒeƒXƒgB<br />
-     * Ew’è‚³‚ê‚½ƒCƒxƒ“ƒg–¼‚ª‚È‚¢ê‡<br />
-     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br />
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
+     * ãƒ»æŒ‡å®šã•ã‚ŒãŸã‚¤ãƒ™ãƒ³ãƒˆåãŒãªã„å ´åˆ<br />
+     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br />
      */
     public void testDoJudge_16()
     {
-        // €”õ
+        // æº–å‚™
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("InitDuplicateTest_testDoJudge_spring_NoEventName.jvn");
 
@@ -353,23 +353,23 @@ public class InitDuplicationRuleSpringTest extends PerformanceRuleTestCase
 
         InitDupulicationRule rule = createRule(threshold);
 
-        // Às
+        // å®Ÿè¡Œ
         rule.judge(elementList);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(0, getErrorJavelinLogElements().size());
     }
 
     /**
-     * [€”Ô] 3-17-13<br />
+     * [é …ç•ª] 3-17-13<br />
      * <br />
-     * doJudge‚ÌƒeƒXƒgB<br />
-     * EƒNƒ‰ƒX–¼‚ª“¯ˆê‚¾‚ªAƒƒ\ƒbƒh–¼‚ªˆÙ‚È‚éê‡<br />
-     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br />
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
+     * ãƒ»ã‚¯ãƒ©ã‚¹åãŒåŒä¸€ã ãŒã€ãƒ¡ã‚½ãƒƒãƒ‰åãŒç•°ãªã‚‹å ´åˆ<br />
+     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br />
      */
     public void testDoJudge_24()
     {
-        // €”õ
+        // æº–å‚™
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("InitDuplicateTest_testDoJudge_spring_wrongMethodName.jvn");
 
@@ -377,23 +377,23 @@ public class InitDuplicationRuleSpringTest extends PerformanceRuleTestCase
 
         InitDupulicationRule rule = createRule(threshold);
 
-        // Às
+        // å®Ÿè¡Œ
         rule.judge(elementList);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(0, getErrorJavelinLogElements().size());
     }
 
     /**
-     * [€”Ô] 3-17-14<br />
+     * [é …ç•ª] 3-17-14<br />
      * <br />
-     * doJudge‚ÌƒeƒXƒgB<br />
-     * Eƒƒ\ƒbƒh–¼‚ª“¯ˆê‚¾‚ªAƒNƒ‰ƒX–¼‚ªˆÙ‚È‚éê‡<br />
-     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br />
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
+     * ãƒ»ãƒ¡ã‚½ãƒƒãƒ‰åãŒåŒä¸€ã ãŒã€ã‚¯ãƒ©ã‚¹åãŒç•°ãªã‚‹å ´åˆ<br />
+     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br />
      */
     public void testDoJudge_25()
     {
-        // €”õ
+        // æº–å‚™
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("InitDuplicateTest_testDoJudge_spring_wrongClassName.jvn");
 
@@ -401,23 +401,23 @@ public class InitDuplicationRuleSpringTest extends PerformanceRuleTestCase
 
         InitDupulicationRule rule = createRule(threshold);
 
-        // Às
+        // å®Ÿè¡Œ
         rule.judge(elementList);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(0, getErrorJavelinLogElements().size());
     }
 
     /**
-     * [€”Ô] 3-17-15<br />
+     * [é …ç•ª] 3-17-15<br />
      * <br />
-     * doJudge‚ÌƒeƒXƒgB<br />
-     * E•¡”‚ÌJavelinLogElement‚ÅŒx‚ªo‚éê‡<br />
-     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br />
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
+     * ãƒ»è¤‡æ•°ã®JavelinLogElementã§è­¦å‘ŠãŒå‡ºã‚‹å ´åˆ<br />
+     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br />
      */
     public void testDoJudge_27()
     {
-        // €”õ
+        // æº–å‚™
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("InitDuplicateTest_testDoJudge_spring_multiElement.jvn");
 
@@ -425,15 +425,15 @@ public class InitDuplicationRuleSpringTest extends PerformanceRuleTestCase
 
         InitDupulicationRule rule = createRule(threshold);
 
-        // Às
+        // å®Ÿè¡Œ
         rule.judge(elementList);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(2, getErrorJavelinLogElements().size());
 
-        // CALL ¨ EVENT ¨ RETURN ¨ CALL ¨ EVENT ¨ RETURN
-        // ‚Ì‡‚ÉelementList‚ÌƒCƒxƒ“ƒg‚ªì¬‚³‚ê‚é‚Ì‚ÅA
-        // 2”Ô–Ú‚Æ5”Ô–Ú‚ÌƒCƒxƒ“ƒg‚ªŒx‚Éo—Í‚³‚ê‚é‚±‚Æ‚ğŠm”F‚·‚éB
+        // CALL â†’ EVENT â†’ RETURN â†’ CALL â†’ EVENT â†’ RETURN
+        // ã®é †ã«elementListã®ã‚¤ãƒ™ãƒ³ãƒˆãŒä½œæˆã•ã‚Œã‚‹ã®ã§ã€
+        // 2ç•ªç›®ã¨5ç•ªç›®ã®ã‚¤ãƒ™ãƒ³ãƒˆãŒè­¦å‘Šã«å‡ºåŠ›ã•ã‚Œã‚‹ã“ã¨ã‚’ç¢ºèªã™ã‚‹ã€‚
         assertErrorOccurred(elementList.get(1), threshold, (long)1000, SPRING_INITIAL_CLASS,
                             SPRING_INITIAL_METHOD);
         assertErrorOccurred(elementList.get(4), threshold, (long)500, SPRING_INITIAL_CLASS,
@@ -441,15 +441,15 @@ public class InitDuplicationRuleSpringTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [€”Ô] 3-17-16<br>
+     * [é …ç•ª] 3-17-16<br>
      * <br>
-     * doJudge‚ÌƒeƒXƒgB<br>
-     * EÀs—áŠO‚ª”­¶‚·‚éê‡<br>
-     * ¨‚»‚ÌJavelinLogElement‚ÍƒXƒLƒbƒv‚µ‚Äˆ—‚·‚éB<br>
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
+     * ãƒ»å®Ÿè¡Œæ™‚ä¾‹å¤–ãŒç™ºç”Ÿã™ã‚‹å ´åˆ<br>
+     * â†’ãã®JavelinLogElementã¯ã‚¹ã‚­ãƒƒãƒ—ã—ã¦å‡¦ç†ã™ã‚‹ã€‚<br>
      */
     public void testDoJudge_29_RuntimeException()
     {
-        // €”õ
+        // æº–å‚™
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("InitDuplicateTest_testDoJudge_spring_1000.jvn");
 
@@ -458,10 +458,10 @@ public class InitDuplicationRuleSpringTest extends PerformanceRuleTestCase
 
         elementList.add(0, null);
 
-        // Às
+        // å®Ÿè¡Œ
         rule.doJudge(elementList);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(1, getErrorJavelinLogElements().size());
         assertErrorOccurred(elementList.get(1), threshold, (long)1000, SPRING_INITIAL_CLASS,
                             SPRING_INITIAL_METHOD);

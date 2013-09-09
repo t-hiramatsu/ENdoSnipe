@@ -31,15 +31,15 @@ import jp.co.acroquest.endosnipe.javelin.parser.JavelinLogElement;
 import jp.co.acroquest.endosnipe.perfdoctor.PerformanceRuleTestCase;
 
 /**
- * ENdoSnipeVer.4.0‚ÌVƒ‹[ƒ‹
- * ƒ^ƒCƒ€ƒAƒEƒg’l‰Šú‰»ƒ`ƒFƒbƒNƒ‹[ƒ‹‚ÌƒeƒXƒg
+ * ENdoSnipeVer.4.0ã®æ–°ãƒ«ãƒ¼ãƒ«
+ * ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆå€¤åˆæœŸåŒ–ãƒã‚§ãƒƒã‚¯ãƒ«ãƒ¼ãƒ«ã®ãƒ†ã‚¹ãƒˆ
  * @author fujii
  *
  */
 public class NoTimeoutDetectRuleTest extends PerformanceRuleTestCase
 {
     /**
-     * NoTimeoutDetectRule‚ğ¶¬‚·‚éB<br />
+     * NoTimeoutDetectRuleã‚’ç”Ÿæˆã™ã‚‹ã€‚<br />
      * @return NoTimeoutDetectRule
      */
     private NoTimeoutDetectRule createRule()
@@ -52,199 +52,199 @@ public class NoTimeoutDetectRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [€”Ô] 3-22-1<br />
+     * [é …ç•ª] 3-22-1<br />
      * <br />
-     * doJudge‚ÌƒeƒXƒgB<br />
-     * E‹«ŠE’l•ªÍ(è‡’l‚Æ“™‚µ‚¢ê‡)<br />
-     * ¨Œx‚ª”­¶‚·‚éB<br />
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
+     * ãƒ»å¢ƒç•Œå€¤åˆ†æ(é–¾å€¤ã¨ç­‰ã—ã„å ´åˆ)<br />
+     * â†’è­¦å‘ŠãŒç™ºç”Ÿã™ã‚‹ã€‚<br />
      */
     public void testDoJudge_2()
     {
-        // €”õ
+        // æº–å‚™
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("NoTimeoutDetect_testDoJudge_0.jvn");
 
         NoTimeoutDetectRule rule = createRule();
 
-        // Às
+        // å®Ÿè¡Œ
         rule.judge(elementList);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(1, getErrorJavelinLogElements().size());
         assertErrorOccurred(elementList.get(0), "java.net.SocksSocketImpl@f0c0d3", 0);
 
     }
 
     /**
-     * [€”Ô] 3-22-2<br />
+     * [é …ç•ª] 3-22-2<br />
      * <br />
-     * doJudge‚ÌƒeƒXƒgB<br />
-     * Ew’è‚³‚ê‚½ƒpƒ‰ƒ[ƒ^‚Ì’l‚ª•¶š—ñ‚É‚È‚Á‚Ä‚¢‚éê‡<br />
-     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br />
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
+     * ãƒ»æŒ‡å®šã•ã‚ŒãŸãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®å€¤ãŒæ–‡å­—åˆ—ã«ãªã£ã¦ã„ã‚‹å ´åˆ<br />
+     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br />
      */
     public void testDoJudge_10()
     {
-        // €”õ
+        // æº–å‚™
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("NoTimeoutDetect_testDoJudge_parameterString.jvn");
 
         NoTimeoutDetectRule rule = createRule();
 
-        // Às
+        // å®Ÿè¡Œ
         rule.judge(elementList);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(0, getErrorJavelinLogElements().size());
     }
 
     /**
-     * [€”Ô] 3-22-3<br />
+     * [é …ç•ª] 3-22-3<br />
      * <br />
-     * doJudge‚ÌƒeƒXƒgB<br />
-     * Ew’è‚³‚ê‚½ƒpƒ‰ƒ[ƒ^‚Ì’l‚ª‹ó‚É‚È‚Á‚Ä‚¢‚éê‡<br />
-     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br />
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
+     * ãƒ»æŒ‡å®šã•ã‚ŒãŸãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®å€¤ãŒç©ºã«ãªã£ã¦ã„ã‚‹å ´åˆ<br />
+     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br />
      */
     public void testDoJudge_11()
     {
-        // €”õ
+        // æº–å‚™
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("NoTimeoutDetect_testDoJudge_parameterEmpty.jvn");
 
         NoTimeoutDetectRule rule = createRule();
 
-        // Às
+        // å®Ÿè¡Œ
         rule.judge(elementList);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(0, getErrorJavelinLogElements().size());
     }
 
     /**
-     * [€”Ô] 3-22-4<br />
+     * [é …ç•ª] 3-22-4<br />
      * <br />
-     * doJudge‚ÌƒeƒXƒgB<br />
-     * Ew’è‚³‚ê‚½ƒpƒ‰ƒ[ƒ^‚ª‚È‚¢ê‡<br />
-     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br />
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
+     * ãƒ»æŒ‡å®šã•ã‚ŒãŸãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãŒãªã„å ´åˆ<br />
+     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br />
      */
     public void testDoJudge_12()
     {
-        // €”õ
+        // æº–å‚™
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("NoTimeoutDetect_testDoJudge_parameterNone.jvn");
 
         NoTimeoutDetectRule rule = createRule();
 
-        // Às
+        // å®Ÿè¡Œ
         rule.judge(elementList);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(0, getErrorJavelinLogElements().size());
     }
 
     /**
-     * [€”Ô] 3-22-5<br />
+     * [é …ç•ª] 3-22-5<br />
      * <br />
-     * doJudge‚ÌƒeƒXƒgB<br />
-     * Ew’è‚³‚ê‚½Info‚ª‚È‚¢ê‡<br />
-     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br />
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
+     * ãƒ»æŒ‡å®šã•ã‚ŒãŸInfoãŒãªã„å ´åˆ<br />
+     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br />
      */
     public void testDoJudge_14()
     {
-        // €”õ
+        // æº–å‚™
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("NoTimeoutDetect_testDoJudge_noEventInfo.jvn");
 
         NoTimeoutDetectRule rule = createRule();
 
-        // Às
+        // å®Ÿè¡Œ
         rule.judge(elementList);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(0, getErrorJavelinLogElements().size());
     }
 
     /**
-     * [€”Ô] 3-22-6<br />
+     * [é …ç•ª] 3-22-6<br />
      * <br />
-     * doJudge‚ÌƒeƒXƒgB<br />
-     * Ew’è‚³‚ê‚½ƒ^ƒCƒv‚ÌƒƒbƒZ[ƒW‚ª‚È‚¢ê‡<br />
-     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br />
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
+     * ãƒ»æŒ‡å®šã•ã‚ŒãŸã‚¿ã‚¤ãƒ—ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãŒãªã„å ´åˆ<br />
+     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br />
      */
     public void testDoJudge_15()
     {
-        // €”õ
+        // æº–å‚™
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("NoTimeoutDetect_testDoJudge_noEventType.jvn");
 
         NoTimeoutDetectRule rule = createRule();
 
-        // Às
+        // å®Ÿè¡Œ
         rule.judge(elementList);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(0, getErrorJavelinLogElements().size());
     }
 
     /**
-     * [€”Ô] 3-22-7<br />
+     * [é …ç•ª] 3-22-7<br />
      * <br />
-     * doJudge‚ÌƒeƒXƒgB<br />
-     * Ew’è‚³‚ê‚½ƒCƒxƒ“ƒg–¼‚ª‚È‚¢ê‡<br />
-     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br />
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
+     * ãƒ»æŒ‡å®šã•ã‚ŒãŸã‚¤ãƒ™ãƒ³ãƒˆåãŒãªã„å ´åˆ<br />
+     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br />
      */
     public void testDoJudge_16()
     {
-        // €”õ
+        // æº–å‚™
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("NoTimeoutDetect_testDoJudge_noEventName.jvn");
 
         NoTimeoutDetectRule rule = createRule();
 
-        // Às
+        // å®Ÿè¡Œ
         rule.judge(elementList);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(0, getErrorJavelinLogElements().size());
     }
 
     /**
-     * [€”Ô] 3-22-8<br />
+     * [é …ç•ª] 3-22-8<br />
      * <br />
-     * doJudge‚ÌƒeƒXƒgB<br />
-     * E•¡”‚ÌJavelinLogElement‚ÅŒx‚ªo‚éê‡<br />
-     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br />
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
+     * ãƒ»è¤‡æ•°ã®JavelinLogElementã§è­¦å‘ŠãŒå‡ºã‚‹å ´åˆ<br />
+     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br />
      */
     public void testDoJudge_27()
     {
-        // €”õ
+        // æº–å‚™
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("NoTimeoutDetect_testDoJudge_multiElement.jvn");
 
         NoTimeoutDetectRule rule = createRule();
 
-        // Às
+        // å®Ÿè¡Œ
         rule.judge(elementList);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(2, getErrorJavelinLogElements().size());
 
-        // CALL ¨ EVENT ¨ RETURN ¨ CALL ¨ EVENT ¨ RETURN
-        // ‚Ì‡‚ÉelementList‚ÌƒCƒxƒ“ƒg‚ªì¬‚³‚ê‚é‚Ì‚ÅA
-        // 2”Ô–Ú‚Æ5”Ô–Ú‚ÌƒCƒxƒ“ƒg‚ªŒx‚Éo—Í‚³‚ê‚é‚±‚Æ‚ğŠm”F‚·‚éB
+        // CALL â†’ EVENT â†’ RETURN â†’ CALL â†’ EVENT â†’ RETURN
+        // ã®é †ã«elementListã®ã‚¤ãƒ™ãƒ³ãƒˆãŒä½œæˆã•ã‚Œã‚‹ã®ã§ã€
+        // 2ç•ªç›®ã¨5ç•ªç›®ã®ã‚¤ãƒ™ãƒ³ãƒˆãŒè­¦å‘Šã«å‡ºåŠ›ã•ã‚Œã‚‹ã“ã¨ã‚’ç¢ºèªã™ã‚‹ã€‚
         assertErrorOccurred(elementList.get(1), "java.net.SocksSocketImpl@5f8172", 0);
         assertErrorOccurred(elementList.get(4), "java.net.SocksSocketImpl@5f8173", 0);
     }
 
     /**
-     * [€”Ô] 3-22-9<br>
+     * [é …ç•ª] 3-22-9<br>
      * <br>
-     * doJudge‚ÌƒeƒXƒgB<br>
-     * EÀs—áŠO‚ª”­¶‚·‚éê‡<br>
-     * ¨‚»‚ÌJavelinLogElement‚ÍƒXƒLƒbƒv‚µ‚Äˆ—‚·‚éB<br>
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
+     * ãƒ»å®Ÿè¡Œæ™‚ä¾‹å¤–ãŒç™ºç”Ÿã™ã‚‹å ´åˆ<br>
+     * â†’ãã®JavelinLogElementã¯ã‚¹ã‚­ãƒƒãƒ—ã—ã¦å‡¦ç†ã™ã‚‹ã€‚<br>
      */
     public void testDoJudge_29_RuntimeException()
     {
-        // €”õ
+        // æº–å‚™
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("NoTimeoutDetect_testDoJudge_0.jvn");
 
@@ -252,10 +252,10 @@ public class NoTimeoutDetectRuleTest extends PerformanceRuleTestCase
 
         elementList.add(0, null);
 
-        // Às
+        // å®Ÿè¡Œ
         rule.doJudge(elementList);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(1, getErrorJavelinLogElements().size());
         assertErrorOccurred(elementList.get(1), "java.net.SocksSocketImpl@f0c0d3", 0);
     }

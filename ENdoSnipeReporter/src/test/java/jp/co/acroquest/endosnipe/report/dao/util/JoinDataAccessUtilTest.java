@@ -9,7 +9,7 @@ import jp.co.acroquest.endosnipe.data.dto.MeasurementValueDto;
 import jp.co.acroquest.endosnipe.test.ReporterTestUtil;
 
 /**
- * JoinDataAccessUtilƒNƒ‰ƒX‚ÌƒeƒXƒgƒNƒ‰ƒX
+ * JoinDataAccessUtilã‚¯ãƒ©ã‚¹ã®ãƒ†ã‚¹ãƒˆã‚¯ãƒ©ã‚¹
  * 
  * @author kimura
  */
@@ -24,45 +24,45 @@ public class JoinDataAccessUtilTest extends DJUnitTestCase
     }
 
     /**
-     * Œv‘ª’l‚Ì•½‹Ï’l‚ðo—Í‚·‚éƒeƒXƒgƒƒ\ƒbƒh
+     * è¨ˆæ¸¬å€¤ã®å¹³å‡å€¤ã‚’å‡ºåŠ›ã™ã‚‹ãƒ†ã‚¹ãƒˆãƒ¡ã‚½ãƒƒãƒ‰
      */
     public void testGetMearsumentValueAverageList()
     {
         String[] averageData =
                                new String[]{
-                                       "13, 1, 2009/08/04 21:13:23, 31, 4, 600, turnAroundTime, ƒŒƒXƒ|ƒ“ƒXƒ^ƒCƒ€‚Ì•½‹Ï’l, jp.co.acroquest.gms.journal.JournalManager#onEvent",
-                                       "39, 2, 2009/08/04 21:13:29, 31, 4, 75, turnAroundTime, ƒŒƒXƒ|ƒ“ƒXƒ^ƒCƒ€‚Ì•½‹Ï’l, jp.co.acroquest.gms.journal.JournalManager#onEvent",
-                                       "61, 3, 2009/08/04 21:13:41, 31, 4, 570, turnAroundTime, ƒŒƒXƒ|ƒ“ƒXƒ^ƒCƒ€‚Ì•½‹Ï’l, jp.co.acroquest.gms.journal.JournalManager#onEvent",
-                                       "17, 1, 2009/08/04 21:13:23, 31, 5, 600, turnAroundTime, ƒŒƒXƒ|ƒ“ƒXƒ^ƒCƒ€‚Ì•½‹Ï’l, jp.co.acroquest.gms.nameconv.NamingConverter#convert",
-                                       "43, 2, 2009/08/04 21:13:29, 31, 5, 800, turnAroundTime, ƒŒƒXƒ|ƒ“ƒXƒ^ƒCƒ€‚Ì•½‹Ï’l, jp.co.acroquest.gms.nameconv.NamingConverter#convert",
-                                       "5, 1, 2009/08/04 21:13:23, 31, 2, 610, turnAroundTime, ƒŒƒXƒ|ƒ“ƒXƒ^ƒCƒ€‚Ì•½‹Ï’l, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish",
-                                       "31, 2, 2009/08/04 21:13:29, 31, 2, 905, turnAroundTime, ƒŒƒXƒ|ƒ“ƒXƒ^ƒCƒ€‚Ì•½‹Ï’l, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish",
-                                       "53, 3, 2009/08/04 21:13:41, 31, 2, 120, turnAroundTime, ƒŒƒXƒ|ƒ“ƒXƒ^ƒCƒ€‚Ì•½‹Ï’l, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish",
-                                       "69, 4, 2009/08/04 21:13:47, 31, 2, 700, turnAroundTime, ƒŒƒXƒ|ƒ“ƒXƒ^ƒCƒ€‚Ì•½‹Ï’l, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish",
-                                       "9, 1, 2009/08/04 21:13:23, 31, 3, 900, turnAroundTime, ƒŒƒXƒ|ƒ“ƒXƒ^ƒCƒ€‚Ì•½‹Ï’l, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process",
-                                       "35, 2, 2009/08/04 21:13:29, 31, 3, 783, turnAroundTime, ƒŒƒXƒ|ƒ“ƒXƒ^ƒCƒ€‚Ì•½‹Ï’l, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process",
-                                       "57, 3, 2009/08/04 21:13:41, 31, 3, 180, turnAroundTime, ƒŒƒXƒ|ƒ“ƒXƒ^ƒCƒ€‚Ì•½‹Ï’l, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process",
-                                       "1, 1, 2009/08/04 21:13:23, 31, 1, 95, turnAroundTime, ƒŒƒXƒ|ƒ“ƒXƒ^ƒCƒ€‚Ì•½‹Ï’l, jp.co.acroquest.mc.event.io.ListIOStream#print",
-                                       "27, 2, 2009/08/04 21:13:29, 31, 1, 50, turnAroundTime, ƒŒƒXƒ|ƒ“ƒXƒ^ƒCƒ€‚Ì•½‹Ï’l, jp.co.acroquest.mc.event.io.ListIOStream#print",
-                                       "65, 4, 2009/08/04 21:13:47, 31, 1, 500, turnAroundTime, ƒŒƒXƒ|ƒ“ƒXƒ^ƒCƒ€‚Ì•½‹Ï’l, jp.co.acroquest.mc.event.io.ListIOStream#print"};
+                                       "13, 1, 2009/08/04 21:13:23, 31, 4, 600, turnAroundTime, ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚¿ã‚¤ãƒ ã®å¹³å‡å€¤, jp.co.acroquest.gms.journal.JournalManager#onEvent",
+                                       "39, 2, 2009/08/04 21:13:29, 31, 4, 75, turnAroundTime, ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚¿ã‚¤ãƒ ã®å¹³å‡å€¤, jp.co.acroquest.gms.journal.JournalManager#onEvent",
+                                       "61, 3, 2009/08/04 21:13:41, 31, 4, 570, turnAroundTime, ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚¿ã‚¤ãƒ ã®å¹³å‡å€¤, jp.co.acroquest.gms.journal.JournalManager#onEvent",
+                                       "17, 1, 2009/08/04 21:13:23, 31, 5, 600, turnAroundTime, ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚¿ã‚¤ãƒ ã®å¹³å‡å€¤, jp.co.acroquest.gms.nameconv.NamingConverter#convert",
+                                       "43, 2, 2009/08/04 21:13:29, 31, 5, 800, turnAroundTime, ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚¿ã‚¤ãƒ ã®å¹³å‡å€¤, jp.co.acroquest.gms.nameconv.NamingConverter#convert",
+                                       "5, 1, 2009/08/04 21:13:23, 31, 2, 610, turnAroundTime, ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚¿ã‚¤ãƒ ã®å¹³å‡å€¤, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish",
+                                       "31, 2, 2009/08/04 21:13:29, 31, 2, 905, turnAroundTime, ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚¿ã‚¤ãƒ ã®å¹³å‡å€¤, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish",
+                                       "53, 3, 2009/08/04 21:13:41, 31, 2, 120, turnAroundTime, ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚¿ã‚¤ãƒ ã®å¹³å‡å€¤, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish",
+                                       "69, 4, 2009/08/04 21:13:47, 31, 2, 700, turnAroundTime, ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚¿ã‚¤ãƒ ã®å¹³å‡å€¤, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish",
+                                       "9, 1, 2009/08/04 21:13:23, 31, 3, 900, turnAroundTime, ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚¿ã‚¤ãƒ ã®å¹³å‡å€¤, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process",
+                                       "35, 2, 2009/08/04 21:13:29, 31, 3, 783, turnAroundTime, ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚¿ã‚¤ãƒ ã®å¹³å‡å€¤, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process",
+                                       "57, 3, 2009/08/04 21:13:41, 31, 3, 180, turnAroundTime, ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚¿ã‚¤ãƒ ã®å¹³å‡å€¤, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process",
+                                       "1, 1, 2009/08/04 21:13:23, 31, 1, 95, turnAroundTime, ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚¿ã‚¤ãƒ ã®å¹³å‡å€¤, jp.co.acroquest.mc.event.io.ListIOStream#print",
+                                       "27, 2, 2009/08/04 21:13:29, 31, 1, 50, turnAroundTime, ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚¿ã‚¤ãƒ ã®å¹³å‡å€¤, jp.co.acroquest.mc.event.io.ListIOStream#print",
+                                       "65, 4, 2009/08/04 21:13:47, 31, 1, 500, turnAroundTime, ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚¿ã‚¤ãƒ ã®å¹³å‡å€¤, jp.co.acroquest.mc.event.io.ListIOStream#print"};
 
         String[] countData =
                              new String[]{
-                                     "14, 1, 2009/08/04 21:13:23, 32, 9, 3, turnAroundTimeCount, ƒŒƒXƒ|ƒ“ƒX‰ñ”, jp.co.acroquest.gms.journal.JournalManager#onEvent",
-                                     "40, 2, 2009/08/04 21:13:29, 32, 9, 10, turnAroundTimeCount, ƒŒƒXƒ|ƒ“ƒX‰ñ”, jp.co.acroquest.gms.journal.JournalManager#onEvent",
-                                     "62, 3, 2009/08/04 21:13:41, 32, 9, 2, turnAroundTimeCount, ƒŒƒXƒ|ƒ“ƒX‰ñ”, jp.co.acroquest.gms.journal.JournalManager#onEvent",
-                                     "18, 1, 2009/08/04 21:13:23, 32, 10, 1, turnAroundTimeCount, ƒŒƒXƒ|ƒ“ƒX‰ñ”, jp.co.acroquest.gms.nameconv.NamingConverter#convert",
-                                     "44, 2, 2009/08/04 21:13:29, 32, 10, 1, turnAroundTimeCount, ƒŒƒXƒ|ƒ“ƒX‰ñ”, jp.co.acroquest.gms.nameconv.NamingConverter#convert",
-                                     "6, 1, 2009/08/04 21:13:23, 32, 7, 5, turnAroundTimeCount, ƒŒƒXƒ|ƒ“ƒX‰ñ”, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish",
-                                     "32, 2, 2009/08/04 21:13:29, 32, 7, 4, turnAroundTimeCount, ƒŒƒXƒ|ƒ“ƒX‰ñ”, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish",
-                                     "54, 3, 2009/08/04 21:13:41, 32, 7, 8, turnAroundTimeCount, ƒŒƒXƒ|ƒ“ƒX‰ñ”, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish",
-                                     "70, 4, 2009/08/04 21:13:47, 32, 7, 1, turnAroundTimeCount, ƒŒƒXƒ|ƒ“ƒX‰ñ”, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish",
-                                     "10, 1, 2009/08/04 21:13:23, 32, 8, 2, turnAroundTimeCount, ƒŒƒXƒ|ƒ“ƒX‰ñ”, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process",
-                                     "36, 2, 2009/08/04 21:13:29, 32, 8, 8, turnAroundTimeCount, ƒŒƒXƒ|ƒ“ƒX‰ñ”, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process",
-                                     "58, 3, 2009/08/04 21:13:41, 32, 8, 4, turnAroundTimeCount, ƒŒƒXƒ|ƒ“ƒX‰ñ”, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process",
-                                     "2, 1, 2009/08/04 21:13:23, 32, 6, 7, turnAroundTimeCount, ƒŒƒXƒ|ƒ“ƒX‰ñ”, jp.co.acroquest.mc.event.io.ListIOStream#print",
-                                     "28, 2, 2009/08/04 21:13:29, 32, 6, 9, turnAroundTimeCount, ƒŒƒXƒ|ƒ“ƒX‰ñ”, jp.co.acroquest.mc.event.io.ListIOStream#print",
-                                     "66, 4, 2009/08/04 21:13:47, 32, 6, 4, turnAroundTimeCount, ƒŒƒXƒ|ƒ“ƒX‰ñ”, jp.co.acroquest.mc.event.io.ListIOStream#print"};
+                                     "14, 1, 2009/08/04 21:13:23, 32, 9, 3, turnAroundTimeCount, ãƒ¬ã‚¹ãƒãƒ³ã‚¹å›žæ•°, jp.co.acroquest.gms.journal.JournalManager#onEvent",
+                                     "40, 2, 2009/08/04 21:13:29, 32, 9, 10, turnAroundTimeCount, ãƒ¬ã‚¹ãƒãƒ³ã‚¹å›žæ•°, jp.co.acroquest.gms.journal.JournalManager#onEvent",
+                                     "62, 3, 2009/08/04 21:13:41, 32, 9, 2, turnAroundTimeCount, ãƒ¬ã‚¹ãƒãƒ³ã‚¹å›žæ•°, jp.co.acroquest.gms.journal.JournalManager#onEvent",
+                                     "18, 1, 2009/08/04 21:13:23, 32, 10, 1, turnAroundTimeCount, ãƒ¬ã‚¹ãƒãƒ³ã‚¹å›žæ•°, jp.co.acroquest.gms.nameconv.NamingConverter#convert",
+                                     "44, 2, 2009/08/04 21:13:29, 32, 10, 1, turnAroundTimeCount, ãƒ¬ã‚¹ãƒãƒ³ã‚¹å›žæ•°, jp.co.acroquest.gms.nameconv.NamingConverter#convert",
+                                     "6, 1, 2009/08/04 21:13:23, 32, 7, 5, turnAroundTimeCount, ãƒ¬ã‚¹ãƒãƒ³ã‚¹å›žæ•°, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish",
+                                     "32, 2, 2009/08/04 21:13:29, 32, 7, 4, turnAroundTimeCount, ãƒ¬ã‚¹ãƒãƒ³ã‚¹å›žæ•°, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish",
+                                     "54, 3, 2009/08/04 21:13:41, 32, 7, 8, turnAroundTimeCount, ãƒ¬ã‚¹ãƒãƒ³ã‚¹å›žæ•°, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish",
+                                     "70, 4, 2009/08/04 21:13:47, 32, 7, 1, turnAroundTimeCount, ãƒ¬ã‚¹ãƒãƒ³ã‚¹å›žæ•°, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish",
+                                     "10, 1, 2009/08/04 21:13:23, 32, 8, 2, turnAroundTimeCount, ãƒ¬ã‚¹ãƒãƒ³ã‚¹å›žæ•°, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process",
+                                     "36, 2, 2009/08/04 21:13:29, 32, 8, 8, turnAroundTimeCount, ãƒ¬ã‚¹ãƒãƒ³ã‚¹å›žæ•°, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process",
+                                     "58, 3, 2009/08/04 21:13:41, 32, 8, 4, turnAroundTimeCount, ãƒ¬ã‚¹ãƒãƒ³ã‚¹å›žæ•°, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process",
+                                     "2, 1, 2009/08/04 21:13:23, 32, 6, 7, turnAroundTimeCount, ãƒ¬ã‚¹ãƒãƒ³ã‚¹å›žæ•°, jp.co.acroquest.mc.event.io.ListIOStream#print",
+                                     "28, 2, 2009/08/04 21:13:29, 32, 6, 9, turnAroundTimeCount, ãƒ¬ã‚¹ãƒãƒ³ã‚¹å›žæ•°, jp.co.acroquest.mc.event.io.ListIOStream#print",
+                                     "66, 4, 2009/08/04 21:13:47, 32, 6, 4, turnAroundTimeCount, ãƒ¬ã‚¹ãƒãƒ³ã‚¹å›žæ•°, jp.co.acroquest.mc.event.io.ListIOStream#print"};
 
         addReturnValue(MeasurementValueDao.class, "selectByTermAndMeasurementTypeWithName",
                        ReporterTestUtil.createMeasurementValueDtoEntities(averageData));
@@ -71,11 +71,11 @@ public class JoinDataAccessUtilTest extends DJUnitTestCase
 
         List<?> totalCntList =
                                ReporterTestUtil.createMeasurementValueDtoEntities(new String[]{
-                                       "62, 3, 2009/08/04 21:13:41, 32, 9, 15, turnAroundTimeCount, ƒŒƒXƒ|ƒ“ƒX‰ñ”, jp.co.acroquest.gms.journal.JournalManager#onEvent",
-                                       "18, 1, 2009/08/04 21:13:23, 32, 10, 2, turnAroundTimeCount, ƒŒƒXƒ|ƒ“ƒX‰ñ”, jp.co.acroquest.gms.nameconv.NamingConverter#convert",
-                                       "70, 4, 2009/08/04 21:13:47, 32, 7, 18, turnAroundTimeCount, ƒŒƒXƒ|ƒ“ƒX‰ñ”, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish",
-                                       "10, 1, 2009/08/04 21:13:23, 32, 8, 14, turnAroundTimeCount, ƒŒƒXƒ|ƒ“ƒX‰ñ”, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process",
-                                       "66, 4, 2009/08/04 21:13:47, 32, 6, 20, turnAroundTimeCount, ƒŒƒXƒ|ƒ“ƒX‰ñ”, jp.co.acroquest.mc.event.io.ListIOStream#print"});
+                                       "62, 3, 2009/08/04 21:13:41, 32, 9, 15, turnAroundTimeCount, ãƒ¬ã‚¹ãƒãƒ³ã‚¹å›žæ•°, jp.co.acroquest.gms.journal.JournalManager#onEvent",
+                                       "18, 1, 2009/08/04 21:13:23, 32, 10, 2, turnAroundTimeCount, ãƒ¬ã‚¹ãƒãƒ³ã‚¹å›žæ•°, jp.co.acroquest.gms.nameconv.NamingConverter#convert",
+                                       "70, 4, 2009/08/04 21:13:47, 32, 7, 18, turnAroundTimeCount, ãƒ¬ã‚¹ãƒãƒ³ã‚¹å›žæ•°, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish",
+                                       "10, 1, 2009/08/04 21:13:23, 32, 8, 14, turnAroundTimeCount, ãƒ¬ã‚¹ãƒãƒ³ã‚¹å›žæ•°, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process",
+                                       "66, 4, 2009/08/04 21:13:47, 32, 6, 20, turnAroundTimeCount, ãƒ¬ã‚¹ãƒãƒ³ã‚¹å›žæ•°, jp.co.acroquest.mc.event.io.ListIOStream#print"});
 
         List<?> averageList = null;
 
@@ -95,11 +95,11 @@ public class JoinDataAccessUtilTest extends DJUnitTestCase
 
         List<?> expectList =
                              ReporterTestUtil.createMeasurementValueDtoEntities(new String[]{
-                                     "14, 1, 2009/08/04 21:13:23, 32, 9, 246, turnAroundTimeCount, ƒŒƒXƒ|ƒ“ƒX‰ñ”, jp.co.acroquest.gms.journal.JournalManager#onEvent",
-                                     "18, 1, 2009/08/04 21:13:23, 32, 10, 700, turnAroundTimeCount, ƒŒƒXƒ|ƒ“ƒX‰ñ”, jp.co.acroquest.gms.nameconv.NamingConverter#convert",
-                                     "6, 1, 2009/08/04 21:13:23, 32, 7, 462, turnAroundTimeCount, ƒŒƒXƒ|ƒ“ƒX‰ñ”, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish",
-                                     "10, 1, 2009/08/04 21:13:23, 32, 8, 627, turnAroundTimeCount, ƒŒƒXƒ|ƒ“ƒX‰ñ”, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process",
-                                     "2, 1, 2009/08/04 21:13:23, 32, 6, 155, turnAroundTimeCount, ƒŒƒXƒ|ƒ“ƒX‰ñ”, jp.co.acroquest.mc.event.io.ListIOStream#print",});
+                                     "14, 1, 2009/08/04 21:13:23, 32, 9, 246, turnAroundTimeCount, ãƒ¬ã‚¹ãƒãƒ³ã‚¹å›žæ•°, jp.co.acroquest.gms.journal.JournalManager#onEvent",
+                                     "18, 1, 2009/08/04 21:13:23, 32, 10, 700, turnAroundTimeCount, ãƒ¬ã‚¹ãƒãƒ³ã‚¹å›žæ•°, jp.co.acroquest.gms.nameconv.NamingConverter#convert",
+                                     "6, 1, 2009/08/04 21:13:23, 32, 7, 462, turnAroundTimeCount, ãƒ¬ã‚¹ãƒãƒ³ã‚¹å›žæ•°, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish",
+                                     "10, 1, 2009/08/04 21:13:23, 32, 8, 627, turnAroundTimeCount, ãƒ¬ã‚¹ãƒãƒ³ã‚¹å›žæ•°, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process",
+                                     "2, 1, 2009/08/04 21:13:23, 32, 6, 155, turnAroundTimeCount, ãƒ¬ã‚¹ãƒãƒ³ã‚¹å›žæ•°, jp.co.acroquest.mc.event.io.ListIOStream#print",});
 
         ReporterTestUtil.assertMeasurementValueDto((List<Object>)expectList,
                                                    (List<Object>)averageList);

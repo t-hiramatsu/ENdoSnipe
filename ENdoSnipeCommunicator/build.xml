@@ -49,7 +49,7 @@
         <copy file="${endosnipe-dataaccessor.jar}" todir="${lib-dependency.dir}" failonerror="yes" />
 
         <!-- ${src}から${classes}に、Javaコードをコンパイルする -->
-        <javac srcdir="${src}" destdir="${classes}" debug="on">
+        <javac srcdir="${src}" destdir="${classes}" debug="on" encoding="UTF-8">
             <classpath refid="classpath" />
         </javac>
 
@@ -62,7 +62,7 @@
     <!-- テストソースのコンパイル -->
     <target name="compile-test" depends="compile" description="テストソースをコンパイルする">
         <!-- ${src.test}から${classes.test}に、Javaコードをコンパイルする -->
-        <javac srcdir="${src.test}" destdir="${classes.test}" debug="on">
+        <javac srcdir="${src.test}" destdir="${classes.test}" debug="on" encoding="UTF-8">
             <classpath>
                 <path refid="classpath-test" />
             </classpath>

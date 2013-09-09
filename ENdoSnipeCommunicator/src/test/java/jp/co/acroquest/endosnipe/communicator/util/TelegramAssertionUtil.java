@@ -37,7 +37,7 @@ import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import junit.framework.TestCase;
 
 /**
- * ŒŸØ—pƒ†[ƒeƒBƒŠƒeƒB
+ * æ¤œè¨¼ç”¨ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£
  * @author fujii
  *
  */
@@ -49,13 +49,13 @@ public class TelegramAssertionUtil extends TestCase
     }
 
     /**
-     * “d•¶‚ÌBody‚ÌŒŸØ‚ğs‚¤B(“d•¶‚Ì’†g‚àŒŸØ‚·‚é)
-     * @param objName ƒIƒuƒWƒFƒNƒg–¼
-     * @param itemName €–Ú–¼
-     * @param itemMode ƒ‚[ƒh
-     * @param loop ƒ‹[ƒv‰ñ”
-     * @param detail Ú×
-     * @param body ó‚¯æ‚Á‚½“d•¶
+     * é›»æ–‡ã®Bodyã®æ¤œè¨¼ã‚’è¡Œã†ã€‚(é›»æ–‡ã®ä¸­èº«ã‚‚æ¤œè¨¼ã™ã‚‹)
+     * @param objName ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå
+     * @param itemName é …ç›®å
+     * @param itemMode ãƒ¢ãƒ¼ãƒ‰
+     * @param loop ãƒ«ãƒ¼ãƒ—å›æ•°
+     * @param detail è©³ç´°
+     * @param body å—ã‘å–ã£ãŸé›»æ–‡
      */
     public static void assertTelegram(final String objName, final String itemName,
             final ItemType itemMode, final int loop, final Object[] detail, final Body body)
@@ -68,12 +68,12 @@ public class TelegramAssertionUtil extends TestCase
     }
 
     /**
-     * “d•¶‚ÌBody‚ÌŒŸØ‚ğs‚¤B(“d•¶‚Ì’†g‚ÍŒŸØ‚µ‚È‚¢)
-     * @param objName ƒIƒuƒWƒFƒNƒg–¼
-     * @param itemName €–Ú–¼
-     * @param itemMode ƒ‚[ƒh
-     * @param loop ƒ‹[ƒv‰ñ”
-     * @param body ó‚¯æ‚Á‚½“d•¶
+     * é›»æ–‡ã®Bodyã®æ¤œè¨¼ã‚’è¡Œã†ã€‚(é›»æ–‡ã®ä¸­èº«ã¯æ¤œè¨¼ã—ãªã„)
+     * @param objName ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå
+     * @param itemName é …ç›®å
+     * @param itemMode ãƒ¢ãƒ¼ãƒ‰
+     * @param loop ãƒ«ãƒ¼ãƒ—å›æ•°
+     * @param body å—ã‘å–ã£ãŸé›»æ–‡
      */
     public static void assertResourceTelegram(final String objName, final String itemName,
             final byte itemMode, final int loop, final Body body)
@@ -85,9 +85,9 @@ public class TelegramAssertionUtil extends TestCase
     }
 
     /**
-     * Body‚ÌÚ×‚ğŒŸØ‚·‚éB
-     * @param detail Šú‘Ò‚·‚éÚ×
-     * @param body ó‚¯æ‚Á‚½“d•¶
+     * Bodyã®è©³ç´°ã‚’æ¤œè¨¼ã™ã‚‹ã€‚
+     * @param detail æœŸå¾…ã™ã‚‹è©³ç´°
+     * @param body å—ã‘å–ã£ãŸé›»æ–‡
      */
     public static void assertDetail(final Object[] detail, final Body body)
     {
@@ -105,10 +105,10 @@ public class TelegramAssertionUtil extends TestCase
     }
 
     /**
-     * ƒwƒbƒ_‚ÌŒŸØ‚ğs‚È‚¢‚Ü‚·B
-     * @param telegramKind “d•¶í•Ê
-     * @param requestKind “d•¶‰“ší•Ê
-     * @param header ƒwƒbƒ_
+     * ãƒ˜ãƒƒãƒ€ã®æ¤œè¨¼ã‚’è¡Œãªã„ã¾ã™ã€‚
+     * @param telegramKind é›»æ–‡ç¨®åˆ¥
+     * @param requestKind é›»æ–‡å¿œç­”ç¨®åˆ¥
+     * @param header ãƒ˜ãƒƒãƒ€
      */
     public static void assertHeader(final byte telegramKind, final byte requestKind,
             final Header header)
@@ -118,16 +118,16 @@ public class TelegramAssertionUtil extends TestCase
     }
 
     /**
-     * JVNƒƒOƒ_ƒEƒ“ƒ[ƒh‰“š“d•¶‚ÌŒŸØ‚ğs‚¢‚Ü‚·B
+     * JVNãƒ­ã‚°ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰å¿œç­”é›»æ–‡ã®æ¤œè¨¼ã‚’è¡Œã„ã¾ã™ã€‚
      * 
-     * @param expectedRequestKind ƒŠƒNƒGƒXƒgí•ÊB
-     * @param expectedFileContents ƒtƒ@ƒCƒ‹‚Ì“à—eB
-     * @param expectedJvnFileNames ƒtƒ@ƒCƒ‹–¼B
+     * @param expectedRequestKind ãƒªã‚¯ã‚¨ã‚¹ãƒˆç¨®åˆ¥ã€‚
+     * @param expectedFileContents ãƒ•ã‚¡ã‚¤ãƒ«ã®å†…å®¹ã€‚
+     * @param expectedJvnFileNames ãƒ•ã‚¡ã‚¤ãƒ«åã€‚
      */
     public static void assertJvnLogDownloadTelegram(byte expectedRequestKind,
             Object[] expectedFileContents, Object[] expectedJvnFileNames, Telegram telegram)
     {
-        // ŒŸØ
+        // æ¤œè¨¼
         assertNotNull(telegram);
 
         int expectedObjBodyLength = 1;
@@ -136,20 +136,20 @@ public class TelegramAssertionUtil extends TestCase
             expectedObjBodyLength = 4;
         }
 
-        // “d•¶–{‘ÌƒTƒCƒY‚ÌŒŸØ
+        // é›»æ–‡æœ¬ä½“ã‚µã‚¤ã‚ºã®æ¤œè¨¼
         assertEquals(expectedObjBodyLength, telegram.getObjBody().length);
 
-        // ƒwƒbƒ_‚ÌŒŸØ
+        // ãƒ˜ãƒƒãƒ€ã®æ¤œè¨¼
         assertHeader(TelegramConstants.BYTE_TELEGRAM_KIND_JVN_FILE, expectedRequestKind,
                      telegram.getObjHeader());
 
-        // jvnƒtƒ@ƒCƒ‹–¼‚ÌŒŸØ
+        // jvnãƒ•ã‚¡ã‚¤ãƒ«åã®æ¤œè¨¼
         assertTelegram(TelegramConstants.OBJECTNAME_JVN_FILE,
                        TelegramConstants.ITEMNAME_JVN_FILE_NAME,
                        ItemType.ITEMTYPE_STRING, expectedJvnFileNames.length,
                        expectedJvnFileNames, telegram.getObjBody()[0]);
 
-        // jvnƒtƒ@ƒCƒ‹“à—e‚ÌŒŸØ
+        // jvnãƒ•ã‚¡ã‚¤ãƒ«å†…å®¹ã®æ¤œè¨¼
         if (expectedRequestKind != TelegramConstants.BYTE_REQUEST_KIND_REQUEST)
         {
             JavelinConfig config = new JavelinConfig();
@@ -173,27 +173,27 @@ public class TelegramAssertionUtil extends TestCase
     }
 
     /**
-     * JVNƒƒOˆê——æ“¾‰“š“d•¶‚ÌŒŸØ‚ğs‚¢‚Ü‚·B
+     * JVNãƒ­ã‚°ä¸€è¦§å–å¾—å¿œç­”é›»æ–‡ã®æ¤œè¨¼ã‚’è¡Œã„ã¾ã™ã€‚
      * 
-     * @param expectedRequestKind ƒŠƒNƒGƒXƒgí•ÊB
-     * @param expectedJvnFileNames ƒtƒ@ƒCƒ‹–¼B
+     * @param expectedRequestKind ãƒªã‚¯ã‚¨ã‚¹ãƒˆç¨®åˆ¥ã€‚
+     * @param expectedJvnFileNames ãƒ•ã‚¡ã‚¤ãƒ«åã€‚
      */
     public static void assertJvnLogListTelegram(byte expectedRequestKind,
             Object[] expectedJvnFileNames, Telegram telegram)
     {
-        // ŒŸØ
+        // æ¤œè¨¼
         assertNotNull(telegram);
 
         int expectedObjBodyLength = 1;
 
-        // ƒwƒbƒ_‚ÌŒŸØ
+        // ãƒ˜ãƒƒãƒ€ã®æ¤œè¨¼
         assertHeader(TelegramConstants.BYTE_TELEGRAM_KIND_JVN_FILE_LIST, expectedRequestKind,
                      telegram.getObjHeader());
 
-        // “d•¶–{‘ÌƒTƒCƒY‚ÌŒŸØ
+        // é›»æ–‡æœ¬ä½“ã‚µã‚¤ã‚ºã®æ¤œè¨¼
         assertEquals(expectedObjBodyLength, telegram.getObjBody().length);
 
-        // jvnƒtƒ@ƒCƒ‹–¼‚ÌŒŸØ
+        // jvnãƒ•ã‚¡ã‚¤ãƒ«åã®æ¤œè¨¼
         assertTelegram(TelegramConstants.OBJECTNAME_JVN_FILE,
                        TelegramConstants.ITEMNAME_JVN_FILE_NAME,
                        ItemType.ITEMTYPE_STRING, expectedJvnFileNames.length,
@@ -201,22 +201,22 @@ public class TelegramAssertionUtil extends TestCase
     }
 
     /**
-     * Œv‘ª‘ÎÛEƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒOƒ‰ƒto—ÍXV—v‹“d•¶‚ÌŒŸØ‚ğs‚¢‚Ü‚·B
+     * è¨ˆæ¸¬å¯¾è±¡ãƒ»ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚°ãƒ©ãƒ•å‡ºåŠ›æ›´æ–°è¦æ±‚é›»æ–‡ã®æ¤œè¨¼ã‚’è¡Œã„ã¾ã™ã€‚
      * 
-     * @param expectedRequestKind ƒŠƒNƒGƒXƒgí•ÊB
-     * @param expectedParam InvocationB
+     * @param expectedRequestKind ãƒªã‚¯ã‚¨ã‚¹ãƒˆç¨®åˆ¥ã€‚
+     * @param expectedParam Invocationã€‚
      */
     public static void assertUpdateInvocationTelegramTelegram(byte expectedRequestKind,
             UpdateInvocationParam[] expectedParam, Telegram telegram)
     {
-        // ŒŸØ
+        // æ¤œè¨¼
         assertNotNull(telegram);
 
-        // ƒwƒbƒ_‚ÌŒŸØ
+        // ãƒ˜ãƒƒãƒ€ã®æ¤œè¨¼
         assertHeader(TelegramConstants.BYTE_TELEGRAM_KIND_UPDATE_TARGET, expectedRequestKind,
                      telegram.getObjHeader());
 
-        // Invocation‚ÌŒŸØ
+        // Invocationã®æ¤œè¨¼
         int currentIndex = 0;
         if (expectedParam != null)
         {
@@ -261,27 +261,27 @@ public class TelegramAssertionUtil extends TestCase
             }
         }
 
-        // “d•¶–{‘ÌƒTƒCƒY‚ÌŒŸØ
+        // é›»æ–‡æœ¬ä½“ã‚µã‚¤ã‚ºã®æ¤œè¨¼
         assertEquals(currentIndex, telegram.getObjBody().length);
     }
 
     /**
-     * Œv‘ª‘ÎÛEƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒOƒ‰ƒto—ÍXV—v‹“d•¶‚ÌŒŸØ‚ğs‚¢‚Ü‚·B
+     * è¨ˆæ¸¬å¯¾è±¡ãƒ»ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚°ãƒ©ãƒ•å‡ºåŠ›æ›´æ–°è¦æ±‚é›»æ–‡ã®æ¤œè¨¼ã‚’è¡Œã„ã¾ã™ã€‚
      * 
-     * @param expectedRequestKind ƒŠƒNƒGƒXƒgí•ÊB
-     * @param expectedClassNameList ƒNƒ‰ƒX–¼‚ÌƒŠƒXƒgB
+     * @param expectedRequestKind ãƒªã‚¯ã‚¨ã‚¹ãƒˆç¨®åˆ¥ã€‚
+     * @param expectedClassNameList ã‚¯ãƒ©ã‚¹åã®ãƒªã‚¹ãƒˆã€‚
      */
     public static void assertRemoveClassTelegram(byte expectedRequestKind,
             List<String> expectedClassNameList, Telegram telegram)
     {
-        // ŒŸØ
+        // æ¤œè¨¼
         assertNotNull(telegram);
 
-        // ƒwƒbƒ_‚ÌŒŸØ
+        // ãƒ˜ãƒƒãƒ€ã®æ¤œè¨¼
         assertHeader(TelegramConstants.BYTE_TELEGRAM_KIND_REMOVE_CLASS, expectedRequestKind,
                      telegram.getObjHeader());
 
-        // Invocation‚ÌŒŸØ
+        // Invocationã®æ¤œè¨¼
         if (expectedClassNameList != null)
         {
             for (int index = 0; index < expectedClassNameList.size(); index++)
@@ -292,12 +292,12 @@ public class TelegramAssertionUtil extends TestCase
                                ItemType.ITEMTYPE_STRING, 0, new Object[]{},
                                telegram.getObjBody()[index]);
             }
-            // “d•¶–{‘ÌƒTƒCƒY‚ÌŒŸØ
+            // é›»æ–‡æœ¬ä½“ã‚µã‚¤ã‚ºã®æ¤œè¨¼
             assertEquals(expectedClassNameList.size(), telegram.getObjBody().length);
         }
         else
         {
-            // “d•¶–{‘ÌƒTƒCƒY‚ÌŒŸØ
+            // é›»æ–‡æœ¬ä½“ã‚µã‚¤ã‚ºã®æ¤œè¨¼
             assertEquals(0, telegram.getObjBody().length);
         }
     }

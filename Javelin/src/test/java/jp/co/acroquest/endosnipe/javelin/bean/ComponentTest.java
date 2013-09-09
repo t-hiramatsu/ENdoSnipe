@@ -34,21 +34,21 @@ import junit.framework.TestCase;
  */
 public class ComponentTest extends TestCase
 {
-    /** ƒNƒ‰ƒX–¼B */
+    /** ã‚¯ãƒ©ã‚¹åã€‚ */
     private static final String CLASS_NAME = "ClassName";
     
-    /** ƒvƒƒZƒX–¼B */
+    /** ãƒ—ãƒ­ã‚»ã‚¹åã€‚ */
     private static final String PROCESS_NAME = "ProcessName";
     
-    /** ‡ŒvÀsŠÔ‚ğİ’è‚·‚é‚É•K—v‚ÈCallTreeNodeƒIƒuƒWƒFƒNƒgB */
+    /** åˆè¨ˆå®Ÿè¡Œæ™‚é–“ã‚’è¨­å®šã™ã‚‹æ™‚ã«å¿…è¦ãªCallTreeNodeã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚ */
     private static CallTreeNode callTreeNode__ = new CallTreeNode();
     
     /**
-     * w’è‚³‚ê‚½ƒƒ\ƒbƒh–¼‚Æ‡ŒvÀsŠÔ‚ğ‚ÂInvocation‚ğ¶¬‚µA•Ô‚µ‚Ü‚·B<br />
+     * æŒ‡å®šã•ã‚ŒãŸãƒ¡ã‚½ãƒƒãƒ‰åã¨åˆè¨ˆå®Ÿè¡Œæ™‚é–“ã‚’æŒã¤Invocationã‚’ç”Ÿæˆã—ã€è¿”ã—ã¾ã™ã€‚<br />
      * 
-     * @param methodName ƒƒ\ƒbƒh–¼
-     * @param totalTime ‡ŒvÀsŠÔ
-     * @return V‚µ‚¢InvocationƒIƒuƒWƒFƒNƒg
+     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
+     * @param totalTime åˆè¨ˆå®Ÿè¡Œæ™‚é–“
+     * @return æ–°ã—ã„Invocationã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     private Invocation createInvocation(String methodName, int totalTime)
     {
@@ -59,31 +59,31 @@ public class ComponentTest extends TestCase
     }
     
     /**
-     * Invocation‚ğÅ‘å”‚Ü‚Å“ü‚ê‚½ŒãAV‚½‚ÈInvocation‚ğ‰Á‚¦AŒÃ‚¢—v‘f‚Ìíœ‚ğŠm”F‚µ‚Ü‚·B<br />
-     * íœ‚³‚ê‚é‚Ì‚ÍAÅ‰‚ÌInvocation‚Å‚·B<br />
+     * Invocationã‚’æœ€å¤§æ•°ã¾ã§å…¥ã‚ŒãŸå¾Œã€æ–°ãŸãªInvocationã‚’åŠ ãˆã€å¤ã„è¦ç´ ã®å‰Šé™¤ã‚’ç¢ºèªã—ã¾ã™ã€‚<br />
+     * å‰Šé™¤ã•ã‚Œã‚‹ã®ã¯ã€æœ€åˆã®Invocationã§ã™ã€‚<br />
      */
     public void testAddAndDeleteOldestInvocation_RemoveFirstInvocation()
     {
         Component component = new Component(CLASS_NAME);
         final String removedMethodName = "MethodName1";
         
-        // javelin.record.invocation.num.max‚Åw’è‚µ‚½”‚É‚È‚é‚Ü‚ÅAInvocation‚ğ‰Á‚¦‚éB
+        // javelin.record.invocation.num.maxã§æŒ‡å®šã—ãŸæ•°ã«ãªã‚‹ã¾ã§ã€Invocationã‚’åŠ ãˆã‚‹ã€‚
         component.addInvocation(createInvocation(removedMethodName, 10));
         for (int count = 2; count <= 1024; count++)
         {
             component.addInvocation(createInvocation("MethodName" + count, 20));
         }
         
-        // ”»’è1:ƒTƒCƒY‚ªÅ‘å’lA‚©‚Âíœ—\’è‚Ì—v‘f‚ª‚Ü‚¾‘¶İ‚·‚éB
+        // åˆ¤å®š1:ã‚µã‚¤ã‚ºãŒæœ€å¤§å€¤ã€ã‹ã¤å‰Šé™¤äºˆå®šã®è¦ç´ ãŒã¾ã å­˜åœ¨ã™ã‚‹ã€‚
         int size = component.getRecordedInvocationNum();
         Invocation removedInvocation = component.getInvocation(removedMethodName);
         assertEquals(size, 1024);
         assertNotNull(removedInvocation);
         
-        // V‚½‚ÈInvocation‚ğAaddAndDeleteOldestInvocationƒƒ\ƒbƒh‚Å‰Á‚¦‚éB
+        // æ–°ãŸãªInvocationã‚’ã€addAndDeleteOldestInvocationãƒ¡ã‚½ãƒƒãƒ‰ã§åŠ ãˆã‚‹ã€‚
         component.addAndDeleteOldestInvocation(createInvocation("MethodName1025", 20));
         
-        // ”»’è2FƒTƒCƒY‚ªÅ‘å’lA‚©‚Âíœ—\’è‚Ì—v‘f‚ªíœ‚³‚ê‚Ä‚¢‚éB
+        // åˆ¤å®š2ï¼šã‚µã‚¤ã‚ºãŒæœ€å¤§å€¤ã€ã‹ã¤å‰Šé™¤äºˆå®šã®è¦ç´ ãŒå‰Šé™¤ã•ã‚Œã¦ã„ã‚‹ã€‚
         size = component.getRecordedInvocationNum();
         removedInvocation = component.getInvocation(removedMethodName);
         assertEquals(size, 1024);
@@ -91,15 +91,15 @@ public class ComponentTest extends TestCase
     }
     
     /**
-     * Invocation‚ğÅ‘å”‚Ü‚Å“ü‚ê‚½ŒãAV‚½‚ÈInvocation‚ğ‰Á‚¦AŒÃ‚¢—v‘f‚Ìíœ‚ğŠm”F‚µ‚Ü‚·B<br />
-     * íœ‚³‚ê‚é‚Ì‚ÍA“r’†‚ÌInvocation‚Å‚·B<br />
+     * Invocationã‚’æœ€å¤§æ•°ã¾ã§å…¥ã‚ŒãŸå¾Œã€æ–°ãŸãªInvocationã‚’åŠ ãˆã€å¤ã„è¦ç´ ã®å‰Šé™¤ã‚’ç¢ºèªã—ã¾ã™ã€‚<br />
+     * å‰Šé™¤ã•ã‚Œã‚‹ã®ã¯ã€é€”ä¸­ã®Invocationã§ã™ã€‚<br />
      */
     public void testAddAndDeleteOldestInvocation_RemoveMiddleInvocation()
     {
         Component component = new Component(CLASS_NAME);
         final String removedMethodName = "MethodName512";
         
-        // javelin.record.invocation.num.max‚Åw’è‚µ‚½”‚É‚È‚é‚Ü‚ÅAInvocation‚ğ‰Á‚¦‚éB
+        // javelin.record.invocation.num.maxã§æŒ‡å®šã—ãŸæ•°ã«ãªã‚‹ã¾ã§ã€Invocationã‚’åŠ ãˆã‚‹ã€‚
         for (int count = 1; count <= 511; count++)
         {
             component.addInvocation(createInvocation("MethodName" + count, 20));
@@ -110,16 +110,16 @@ public class ComponentTest extends TestCase
             component.addInvocation(createInvocation("MethodName" + count, 20));
         }
         
-        // ”»’è1:ƒTƒCƒY‚ªÅ‘å’lA‚©‚Âíœ—\’è‚Ì—v‘f‚ª‚Ü‚¾‘¶İ‚·‚éB
+        // åˆ¤å®š1:ã‚µã‚¤ã‚ºãŒæœ€å¤§å€¤ã€ã‹ã¤å‰Šé™¤äºˆå®šã®è¦ç´ ãŒã¾ã å­˜åœ¨ã™ã‚‹ã€‚
         int size = component.getRecordedInvocationNum();
         Invocation removedInvocation = component.getInvocation(removedMethodName);
         assertEquals(size, 1024);
         assertNotNull(removedInvocation);
         
-        // V‚½‚ÈInvocation‚ğAaddAndDeleteOldestInvocationƒƒ\ƒbƒh‚Å‰Á‚¦‚éB
+        // æ–°ãŸãªInvocationã‚’ã€addAndDeleteOldestInvocationãƒ¡ã‚½ãƒƒãƒ‰ã§åŠ ãˆã‚‹ã€‚
         component.addAndDeleteOldestInvocation(createInvocation("MethodName1025", 20));
         
-        // ”»’è2FƒTƒCƒY‚ªÅ‘å’lA‚©‚Âíœ—\’è‚Ì—v‘f‚ªíœ‚³‚ê‚Ä‚¢‚éB
+        // åˆ¤å®š2ï¼šã‚µã‚¤ã‚ºãŒæœ€å¤§å€¤ã€ã‹ã¤å‰Šé™¤äºˆå®šã®è¦ç´ ãŒå‰Šé™¤ã•ã‚Œã¦ã„ã‚‹ã€‚
         size = component.getRecordedInvocationNum();
         removedInvocation = component.getInvocation(removedMethodName);
         assertEquals(size, 1024);
@@ -127,31 +127,31 @@ public class ComponentTest extends TestCase
     }
     
     /**
-     * Invocation‚ğÅ‘å”‚Ü‚Å“ü‚ê‚½ŒãAV‚½‚ÈInvocation‚ğ‰Á‚¦AŒÃ‚¢—v‘f‚Ìíœ‚ğŠm”F‚µ‚Ü‚·B<br />
-     * íœ‚³‚ê‚é‚Ì‚ÍAˆê”ÔÅŒã‚ÌInvocation‚Å‚·B<br />
+     * Invocationã‚’æœ€å¤§æ•°ã¾ã§å…¥ã‚ŒãŸå¾Œã€æ–°ãŸãªInvocationã‚’åŠ ãˆã€å¤ã„è¦ç´ ã®å‰Šé™¤ã‚’ç¢ºèªã—ã¾ã™ã€‚<br />
+     * å‰Šé™¤ã•ã‚Œã‚‹ã®ã¯ã€ä¸€ç•ªæœ€å¾Œã®Invocationã§ã™ã€‚<br />
      */
     public void testAddAndDeleteOldestInvocation_RemoveLastInvocation()
     {
         Component component = new Component(CLASS_NAME);
         final String removedMethodName = "MethodName1024";
         
-        // javelin.record.invocation.num.max‚Åw’è‚µ‚½”‚É‚È‚é‚Ü‚ÅAInvocation‚ğ‰Á‚¦‚éB
+        // javelin.record.invocation.num.maxã§æŒ‡å®šã—ãŸæ•°ã«ãªã‚‹ã¾ã§ã€Invocationã‚’åŠ ãˆã‚‹ã€‚
         for (int count = 1; count <= 1023; count++)
         {
             component.addInvocation(createInvocation("MethodName" + count, 20));
         }
         component.addInvocation(createInvocation(removedMethodName, 10));
         
-        // ”»’è1:ƒTƒCƒY‚ªÅ‘å’lA‚©‚Âíœ—\’è‚Ì—v‘f‚ª‚Ü‚¾‘¶İ‚·‚éB
+        // åˆ¤å®š1:ã‚µã‚¤ã‚ºãŒæœ€å¤§å€¤ã€ã‹ã¤å‰Šé™¤äºˆå®šã®è¦ç´ ãŒã¾ã å­˜åœ¨ã™ã‚‹ã€‚
         int size = component.getRecordedInvocationNum();
         Invocation removedInvocation = component.getInvocation(removedMethodName);
         assertEquals(size, 1024);
         assertNotNull(removedInvocation);
         
-        // V‚½‚ÈInvocation‚ğAaddAndDeleteOldestInvocationƒƒ\ƒbƒh‚Å‰Á‚¦‚éB
+        // æ–°ãŸãªInvocationã‚’ã€addAndDeleteOldestInvocationãƒ¡ã‚½ãƒƒãƒ‰ã§åŠ ãˆã‚‹ã€‚
         component.addAndDeleteOldestInvocation(createInvocation("MethodName1025", 20));
         
-        // ”»’è2FƒTƒCƒY‚ªÅ‘å’lA‚©‚Âíœ—\’è‚Ì—v‘f‚ªíœ‚³‚ê‚Ä‚¢‚éB
+        // åˆ¤å®š2ï¼šã‚µã‚¤ã‚ºãŒæœ€å¤§å€¤ã€ã‹ã¤å‰Šé™¤äºˆå®šã®è¦ç´ ãŒå‰Šé™¤ã•ã‚Œã¦ã„ã‚‹ã€‚
         size = component.getRecordedInvocationNum();
         removedInvocation = component.getInvocation(removedMethodName);
         assertEquals(size, 1024);
@@ -159,31 +159,31 @@ public class ComponentTest extends TestCase
     }
     
     /**
-     * Invocation‚ğÅ‘å”‚Ü‚Å“ü‚ê‚½ŒãAV‚½‚ÈInvocation‚ğ‰Á‚¦AŒÃ‚¢—v‘f‚Ìíœ‚ğŠm”F‚µ‚Ü‚·B<br />
-     * ‚½‚¾‚µA‘S‚Ä‚ÌInvocation‚Ì‡ŒvÀsŠÔ‚ª“¯‚¶‚Å‚·B<br />
+     * Invocationã‚’æœ€å¤§æ•°ã¾ã§å…¥ã‚ŒãŸå¾Œã€æ–°ãŸãªInvocationã‚’åŠ ãˆã€å¤ã„è¦ç´ ã®å‰Šé™¤ã‚’ç¢ºèªã—ã¾ã™ã€‚<br />
+     * ãŸã ã—ã€å…¨ã¦ã®Invocationã®åˆè¨ˆå®Ÿè¡Œæ™‚é–“ãŒåŒã˜ã§ã™ã€‚<br />
      */
     public void testAddAndDeleteOldestInvocation_SameTotalTimeInvocations()
     {
         Component component = new Component(CLASS_NAME);
         final String removedMethodName = "MethodName1";
         
-        // javelin.record.invocation.num.max‚Åw’è‚µ‚½”‚É‚È‚é‚Ü‚ÅAInvocation‚ğ‰Á‚¦‚éB
+        // javelin.record.invocation.num.maxã§æŒ‡å®šã—ãŸæ•°ã«ãªã‚‹ã¾ã§ã€Invocationã‚’åŠ ãˆã‚‹ã€‚
         component.addInvocation(createInvocation(removedMethodName, 20));
         for (int count = 2; count <= 1024; count++)
         {
             component.addInvocation(createInvocation("MethodName" + count, 20));
         }
         
-        // ”»’è1:ƒTƒCƒY‚ªÅ‘å’lA‚©‚Âíœ—\’è‚Ì—v‘f‚ª‚Ü‚¾‘¶İ‚·‚éB
+        // åˆ¤å®š1:ã‚µã‚¤ã‚ºãŒæœ€å¤§å€¤ã€ã‹ã¤å‰Šé™¤äºˆå®šã®è¦ç´ ãŒã¾ã å­˜åœ¨ã™ã‚‹ã€‚
         int size = component.getRecordedInvocationNum();
         Invocation removedInvocation = component.getInvocation(removedMethodName);
         assertEquals(size, 1024);
         assertNotNull(removedInvocation);
         
-        // V‚½‚ÈInvocation‚ğAaddAndDeleteOldestInvocationƒƒ\ƒbƒh‚Å‰Á‚¦‚éB
+        // æ–°ãŸãªInvocationã‚’ã€addAndDeleteOldestInvocationãƒ¡ã‚½ãƒƒãƒ‰ã§åŠ ãˆã‚‹ã€‚
         component.addAndDeleteOldestInvocation(createInvocation("MethodName1025", 20));
         
-        // ”»’è2FƒTƒCƒY‚ªÅ‘å’lA‚©‚Âíœ—\’è‚Ì—v‘f‚ªíœ‚³‚ê‚Ä‚¢‚éB
+        // åˆ¤å®š2ï¼šã‚µã‚¤ã‚ºãŒæœ€å¤§å€¤ã€ã‹ã¤å‰Šé™¤äºˆå®šã®è¦ç´ ãŒå‰Šé™¤ã•ã‚Œã¦ã„ã‚‹ã€‚
         size = component.getRecordedInvocationNum();
         removedInvocation = component.getInvocation(removedMethodName);
         assertEquals(size, 1024);

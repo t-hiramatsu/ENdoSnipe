@@ -65,11 +65,11 @@ public class JavelinLogSearchTest extends AbstractDaoTest
 
     public void testSelectAll1()
     {
-        // ğŒ
-        // --> DB“o˜^Ï‚İƒf[ƒ^
+        // æ¡ä»¶
+        // --> DBç™»éŒ²æ¸ˆã¿ãƒ‡ãƒ¼ã‚¿
         DataAccessorTestUtil.initializeJavelinLogTable(JAVELIN_LOG_DATA);
         
-        // À{
+        // å®Ÿæ–½
         List<Object> actualInsert = new ArrayList<Object>();
         try
         {
@@ -80,7 +80,7 @@ public class JavelinLogSearchTest extends AbstractDaoTest
             fail(ex.getMessage());
         }
         
-        // ŒŸØ
+        // æ¤œè¨¼
         List<Object> expectedList
             = DataAccessorTestUtil.createJavelinEntities(JAVELIN_LOG_DATA);
         
@@ -89,10 +89,10 @@ public class JavelinLogSearchTest extends AbstractDaoTest
     
     public void testSelectAll2()
     {
-        // ğŒ
-        // --> DB“o˜^Ï‚İƒf[ƒ^–³‚µ
+        // æ¡ä»¶
+        // --> DBç™»éŒ²æ¸ˆã¿ãƒ‡ãƒ¼ã‚¿ç„¡ã—
         
-        // À{
+        // å®Ÿæ–½
         List<Object> actualInsert = new ArrayList<Object>();
         try
         {
@@ -103,17 +103,17 @@ public class JavelinLogSearchTest extends AbstractDaoTest
             fail(ex.getMessage());
         }
         
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(0, actualInsert.size());
     }
     
     public void testSelectByLogId1()
     {
-        // ğŒ
-        // --> DB“o˜^Ï‚İƒf[ƒ^
+        // æ¡ä»¶
+        // --> DBç™»éŒ²æ¸ˆã¿ãƒ‡ãƒ¼ã‚¿
         DataAccessorTestUtil.initializeJavelinLogTable(JAVELIN_LOG_DATA);
         
-        // À{
+        // å®Ÿæ–½
         JavelinLog actualLog = null;
         try
         {
@@ -127,7 +127,7 @@ public class JavelinLogSearchTest extends AbstractDaoTest
         List<Object> actualList = new ArrayList<Object>();
         actualList.add(actualLog);
         
-        // ŒŸØ
+        // æ¤œè¨¼
         List<Object> expectedList
             = DataAccessorTestUtil.createJavelinEntities(new String[]{JAVELIN_LOG_DATA[2]});
         
@@ -136,11 +136,11 @@ public class JavelinLogSearchTest extends AbstractDaoTest
 
     public void testSelectByLogId2()
     {
-        // ğŒ
-        // --> DB“o˜^Ï‚İƒf[ƒ^
+        // æ¡ä»¶
+        // --> DBç™»éŒ²æ¸ˆã¿ãƒ‡ãƒ¼ã‚¿
         DataAccessorTestUtil.initializeJavelinLogTable(JAVELIN_LOG_DATA);
         
-        // À{
+        // å®Ÿæ–½
         JavelinLog actualLog = null;
         try
         {
@@ -151,17 +151,17 @@ public class JavelinLogSearchTest extends AbstractDaoTest
             fail(ex.getMessage());
         }
         
-        // ŒŸØ
+        // æ¤œè¨¼
         assertNull(actualLog);
     }
     
     public void testSelectByLogFileName1()
     {
-        // ğŒ
-        // --> DB“o˜^Ï‚İƒf[ƒ^
+        // æ¡ä»¶
+        // --> DBç™»éŒ²æ¸ˆã¿ãƒ‡ãƒ¼ã‚¿
         DataAccessorTestUtil.initializeJavelinLogTable(JAVELIN_LOG_DATA);
         
-        // À{
+        // å®Ÿæ–½
         JavelinLog actualLog = null;
         try
         {
@@ -175,7 +175,7 @@ public class JavelinLogSearchTest extends AbstractDaoTest
         List<Object> actualList = new ArrayList<Object>();
         actualList.add(actualLog);
         
-        // ŒŸØ
+        // æ¤œè¨¼
         List<Object> expectedList
             = DataAccessorTestUtil.createJavelinEntities(new String[]{JAVELIN_LOG_DATA[4]});
         
@@ -184,11 +184,11 @@ public class JavelinLogSearchTest extends AbstractDaoTest
     
     public void testSelectByLogFileName2()
     {
-        // ğŒ
-        // --> DB“o˜^Ï‚İƒf[ƒ^
+        // æ¡ä»¶
+        // --> DBç™»éŒ²æ¸ˆã¿ãƒ‡ãƒ¼ã‚¿
         DataAccessorTestUtil.initializeJavelinLogTable(JAVELIN_LOG_DATA);
         
-        // À{
+        // å®Ÿæ–½
         JavelinLog actualLog = null;
         try
         {
@@ -199,17 +199,17 @@ public class JavelinLogSearchTest extends AbstractDaoTest
             fail(ex.getMessage());
         }
         
-        // ŒŸØ
+        // æ¤œè¨¼
         assertNull(actualLog);
     }
     
     public void testSelectByTerm1()
     {
-        // ğŒ
-        // --> DB“o˜^Ï‚İƒf[ƒ^
+        // æ¡ä»¶
+        // --> DBç™»éŒ²æ¸ˆã¿ãƒ‡ãƒ¼ã‚¿
         DataAccessorTestUtil.initializeJavelinLogTable(JAVELIN_LOG_DATA);
         
-        // À{
+        // å®Ÿæ–½
         List<Object> actualLog = null;
         try
         {
@@ -229,7 +229,7 @@ public class JavelinLogSearchTest extends AbstractDaoTest
             fail(ex.getMessage());
         }
         
-        // ŒŸØ
+        // æ¤œè¨¼
         List<Object> expectedList
             = DataAccessorTestUtil.createJavelinEntities(
                 new String[]{JAVELIN_LOG_DATA[1], JAVELIN_LOG_DATA[2], JAVELIN_LOG_DATA[3], JAVELIN_LOG_DATA[4], JAVELIN_LOG_DATA[5]});
@@ -239,11 +239,11 @@ public class JavelinLogSearchTest extends AbstractDaoTest
     
     public void testSelectByTerm2()
     {
-        // ğŒ
-        // --> DB“o˜^Ï‚İƒf[ƒ^
+        // æ¡ä»¶
+        // --> DBç™»éŒ²æ¸ˆã¿ãƒ‡ãƒ¼ã‚¿
         DataAccessorTestUtil.initializeJavelinLogTable(JAVELIN_LOG_DATA);
         
-        // À{
+        // å®Ÿæ–½
         List<Object> actualLog = null;
         try
         {
@@ -263,17 +263,17 @@ public class JavelinLogSearchTest extends AbstractDaoTest
             fail(ex.getMessage());
         }
         
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(0, actualLog.size());
     }
     
     public void testGetLogTerm1()
     {
-        // ğŒ
-        // --> DB“o˜^Ï‚İƒf[ƒ^
+        // æ¡ä»¶
+        // --> DBç™»éŒ²æ¸ˆã¿ãƒ‡ãƒ¼ã‚¿
         DataAccessorTestUtil.initializeJavelinLogTable(JAVELIN_LOG_DATA);
         
-        // À{
+        // å®Ÿæ–½
         List<Object> actualLog = null;
         Timestamp[] term = null;
         try
@@ -284,7 +284,7 @@ public class JavelinLogSearchTest extends AbstractDaoTest
         {
             fail(ex.getMessage());
         }
-        // ŒŸØ
+        // æ¤œè¨¼
         SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Timestamp expectSearchStart = null;
         Timestamp expectSearchEnd   = null;
@@ -304,11 +304,11 @@ public class JavelinLogSearchTest extends AbstractDaoTest
     
     public void testGetLogTerm2()
     {
-        // ğŒ
-        // --> DB“o˜^Ï‚İƒf[ƒ^
+        // æ¡ä»¶
+        // --> DBç™»éŒ²æ¸ˆã¿ãƒ‡ãƒ¼ã‚¿
         DataAccessorTestUtil.initializeJavelinLogTable(JAVELIN_LOG_SAMETIME_DATA);
         
-        // À{
+        // å®Ÿæ–½
         List<Object> actualLog = null;
         Timestamp[] term = null;
         try
@@ -319,7 +319,7 @@ public class JavelinLogSearchTest extends AbstractDaoTest
         {
             fail(ex.getMessage());
         }
-        // ŒŸØ
+        // æ¤œè¨¼
         SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Timestamp expectSearchStart = null;
         Timestamp expectSearchEnd   = null;
@@ -339,10 +339,10 @@ public class JavelinLogSearchTest extends AbstractDaoTest
     
     public void testGetLogTerm3()
     {
-        // ğŒ
-        // --> DB“o˜^Ï‚İƒf[ƒ^
+        // æ¡ä»¶
+        // --> DBç™»éŒ²æ¸ˆã¿ãƒ‡ãƒ¼ã‚¿
         
-        // À{
+        // å®Ÿæ–½
         List<Object> actualLog = null;
         Timestamp[] term = null;
         try
@@ -353,7 +353,7 @@ public class JavelinLogSearchTest extends AbstractDaoTest
         {
             fail(ex.getMessage());
         }
-        // ŒŸØ
+        // æ¤œè¨¼
         
         assertNull(term[0]);
         assertNull(term[1]);
@@ -361,11 +361,11 @@ public class JavelinLogSearchTest extends AbstractDaoTest
     
     public void testSelectJavelinLogByLogId1()
     {
-        // ğŒ
-        // --> DB“o˜^Ï‚İƒf[ƒ^
+        // æ¡ä»¶
+        // --> DBç™»éŒ²æ¸ˆã¿ãƒ‡ãƒ¼ã‚¿
         DataAccessorTestUtil.initializeJavelinLogTable(JAVELIN_LOG_DATA);
         
-        // À{
+        // å®Ÿæ–½
         List<Object> actualLog = null;
         InputStream actualStream = null;
         try
@@ -381,12 +381,12 @@ public class JavelinLogSearchTest extends AbstractDaoTest
             fail(ex.getMessage());
         }
         
-        // ŒŸØ
+        // æ¤œè¨¼
         List<Object> expectedList
             = DataAccessorTestUtil.createJavelinEntities(new String[]{JAVELIN_LOG_DATA[3]});
         
         
-        // ŒŸØ
+        // æ¤œè¨¼
         InputStream expectedStream = ((JavelinLog)expectedList.get(0)).javelinLog;
         
         try
@@ -413,11 +413,11 @@ public class JavelinLogSearchTest extends AbstractDaoTest
     
     public void testSelectJavelinLogByLogId2()
     {
-        // ğŒ
-        // --> DB“o˜^Ï‚İƒf[ƒ^
+        // æ¡ä»¶
+        // --> DBç™»éŒ²æ¸ˆã¿ãƒ‡ãƒ¼ã‚¿
         DataAccessorTestUtil.initializeJavelinLogTable(JAVELIN_LOG_DATA);
         
-        // À{
+        // å®Ÿæ–½
         List<Object> actualLog = null;
         InputStream actualStream = null;
         try
@@ -433,7 +433,7 @@ public class JavelinLogSearchTest extends AbstractDaoTest
             fail(ex.getMessage());
         }
         
-        // ŒŸØ
+        // æ¤œè¨¼
         assertNull(actualStream);
    }
 

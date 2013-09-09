@@ -59,7 +59,7 @@ import jp.co.smg.endosnipe.javassist.CtClass;
 import junit.framework.Assert;
 
 /**
- * Javelin‚ÌƒeƒXƒgƒR[ƒh‚É—p‚¢‚éƒ†[ƒeƒBƒŠƒeƒBƒƒ\ƒbƒhŒQƒNƒ‰ƒX
+ * Javelinã®ãƒ†ã‚¹ãƒˆã‚³ãƒ¼ãƒ‰ã«ç”¨ã„ã‚‹ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ãƒ¡ã‚½ãƒƒãƒ‰ç¾¤ã‚¯ãƒ©ã‚¹
  * 
  * @author M.Yoshida
  */
@@ -96,7 +96,7 @@ public class JavelinTestUtil
     }
 
     /**
-     * ƒŠƒ\[ƒXæ“¾ƒNƒ‰ƒX‚ğì‚éB
+     * ãƒªã‚½ãƒ¼ã‚¹å–å¾—ã‚¯ãƒ©ã‚¹ã‚’ä½œã‚‹ã€‚
      */
     private static void initResource()
     {
@@ -118,11 +118,11 @@ public class JavelinTestUtil
     }
 
     /**
-     * ƒŠƒ\[ƒXî•ñ‚Ìæ“¾ƒƒ\ƒbƒh‚Ì•Ô‚è’l‚ğ‹U‘•‚µA”CˆÓ‚ÌƒŠƒ\[ƒXî•ñ‚ğæ“¾‚Å‚«‚é‚æ‚¤‚É‚·‚éB
+     * ãƒªã‚½ãƒ¼ã‚¹æƒ…å ±ã®å–å¾—ãƒ¡ã‚½ãƒƒãƒ‰ã®è¿”ã‚Šå€¤ã‚’å½è£…ã—ã€ä»»æ„ã®ãƒªã‚½ãƒ¼ã‚¹æƒ…å ±ã‚’å–å¾—ã§ãã‚‹ã‚ˆã†ã«ã™ã‚‹ã€‚
      * 
-     * @param resourceKey ƒŠƒ\[ƒXî•ñ‚ğˆêˆÓ‚É’è‚ß‚éƒL[(TelegramConstants‚Ìƒƒ“ƒo)
-     * @param value       •Ô‚è’li‹U‘•‚·‚éj
-     * @throws Exception  ˆ—‚Ì“r’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚½ê‡
+     * @param resourceKey ãƒªã‚½ãƒ¼ã‚¹æƒ…å ±ã‚’ä¸€æ„ã«å®šã‚ã‚‹ã‚­ãƒ¼(TelegramConstantsã®ãƒ¡ãƒ³ãƒ)
+     * @param value       è¿”ã‚Šå€¤ï¼ˆå½è£…ã™ã‚‹ï¼‰
+     * @throws Exception  å‡¦ç†ã®é€”ä¸­ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static void camouflageResourceInfo(String resourceKey, Number value) throws Exception
     {
@@ -133,11 +133,11 @@ public class JavelinTestUtil
     }
     
     /**
-     * ƒeƒXƒg—p‚Éì¬‚µ‚½Javelinİ’èƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚İAJavelin‚ª“à•”QÆ‚·‚éÛ‚Ìİ’è’l‚ğ‹U‘•‚·‚éB
+     * ãƒ†ã‚¹ãƒˆç”¨ã«ä½œæˆã—ãŸJavelinè¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã¿ã€JavelinãŒå†…éƒ¨å‚ç…§ã™ã‚‹éš›ã®è¨­å®šå€¤ã‚’å½è£…ã™ã‚‹ã€‚
      *
-     * @param baseClass ƒfƒBƒŒƒNƒgƒŠŠî€ƒNƒ‰ƒX
-     * @param fileName ‹U‘•‚·‚éİ’è’l‚ª‘‚©‚ê‚½ƒtƒ@ƒCƒ‹
-     * @throws Exception ˆ—‚ÌÅ’†ƒGƒ‰[‚ª”­¶‚µ‚½ê‡
+     * @param baseClass ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªåŸºæº–ã‚¯ãƒ©ã‚¹
+     * @param fileName å½è£…ã™ã‚‹è¨­å®šå€¤ãŒæ›¸ã‹ã‚ŒãŸãƒ•ã‚¡ã‚¤ãƒ«
+     * @throws Exception å‡¦ç†ã®æœ€ä¸­ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static void camouflageJavelinConfig(Class<?> baseClass, String fileName) throws Exception
     {
@@ -153,11 +153,11 @@ public class JavelinTestUtil
     }
     
     /**
-     * Javelin‚ª“à•”QÆ‚·‚éÛ‚Ìİ’è’l‚ğ‹U‘•‚·‚éB‚·‚Å‚É‹U‘•‚Ìİ’è‚ª‚ ‚éê‡‚ÍA
-     * ‚±‚Ìƒƒ\ƒbƒh‚ÌÀs‚É‚æ‚é‹U‘•’l‚ğã‘‚«‚·‚éB
+     * JavelinãŒå†…éƒ¨å‚ç…§ã™ã‚‹éš›ã®è¨­å®šå€¤ã‚’å½è£…ã™ã‚‹ã€‚ã™ã§ã«å½è£…ã®è¨­å®šãŒã‚ã‚‹å ´åˆã¯ã€
+     * ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã®å®Ÿè¡Œã«ã‚ˆã‚‹å½è£…å€¤ã‚’ä¸Šæ›¸ãã™ã‚‹ã€‚
      * 
-     * @param propKey Javelin‚ÌConfigƒtƒ@ƒCƒ‹‚É‹LÚ‚³‚ê‚éƒL[
-     * @param value   ƒL[‚Éİ’è‚³‚ê‚é’li‹U‘•’lj
+     * @param propKey Javelinã®Configãƒ•ã‚¡ã‚¤ãƒ«ã«è¨˜è¼‰ã•ã‚Œã‚‹ã‚­ãƒ¼
+     * @param value   ã‚­ãƒ¼ã«è¨­å®šã•ã‚Œã‚‹å€¤ï¼ˆå½è£…å€¤ï¼‰
      */
     public static void camouflageJavelinConfig(String propKey, Object value)
     {
@@ -172,11 +172,11 @@ public class JavelinTestUtil
     }
 
     /**
-     * —\‚ß”z’u‚µ‚Ä‚¢‚éİ’èƒtƒ@ƒCƒ‹‚Ìƒf[ƒ^‚ğæ“¾‚·‚éB
-     * –{ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·‘O‚ÉAcamouflageJavelinConfig()ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·•K—v‚ª‚ ‚éB
+     * äºˆã‚é…ç½®ã—ã¦ã„ã‚‹è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã€‚
+     * æœ¬ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã³å‡ºã™å‰ã«ã€camouflageJavelinConfig()ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã³å‡ºã™å¿…è¦ãŒã‚ã‚‹ã€‚
      * 
-     * @return İ’èƒtƒ@ƒCƒ‹‚Ìƒf[ƒ^‚ª“ü‚Á‚Ä‚¢‚éƒIƒuƒWƒFƒNƒg
-     * @throws IOException ƒtƒ@ƒCƒ‹‚Ì“Ç‚É¸”s‚µ‚½ê‡
+     * @return è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‡ãƒ¼ã‚¿ãŒå…¥ã£ã¦ã„ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @throws IOException ãƒ•ã‚¡ã‚¤ãƒ«ã®èª­è¾¼ã«å¤±æ•—ã—ãŸå ´åˆ
      */
     public static JavelinTransformConfig readTransformConfig() throws IOException
     {
@@ -211,16 +211,16 @@ public class JavelinTestUtil
     }
 
     /**
-     * ƒpƒ‰ƒ[ƒ^‚Åw’è‚µ‚½ƒRƒ“ƒo[ƒ^‚É‚æ‚è•ÏŠ·‚³‚ê‚½ƒNƒ‰ƒX‚ÌƒNƒ‰ƒXî•ñ‚ğæ“¾‚·‚éBB
+     * ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã§æŒ‡å®šã—ãŸã‚³ãƒ³ãƒãƒ¼ã‚¿ã«ã‚ˆã‚Šå¤‰æ›ã•ã‚ŒãŸã‚¯ãƒ©ã‚¹ã®ã‚¯ãƒ©ã‚¹æƒ…å ±ã‚’å–å¾—ã™ã‚‹ã€‚ã€‚
      * 
-     * @param converterName “K—p‚·‚éƒRƒ“ƒo[ƒ^‚ÌƒNƒ‰ƒX(Š®‘SŒÀ’è–¼)
-     * @param targetClass   ƒRƒ“ƒo[ƒ^‚É‚æ‚è•ÏŠ·‚·‚éƒNƒ‰ƒX(Š®‘SŒÀ’è–¼)
-     * @return@ƒRƒ“ƒo[ƒ^‚É‚æ‚è•ÏŠ·‚³‚ê‚½ƒNƒ‰ƒX‚ÌƒNƒ‰ƒXî•ñ
-     * @throws Exception ƒGƒ‰[‚ª”­¶‚µ‚½ê‡iŒ´ˆö‚Éˆö‚ç‚¸j
+     * @param converterName é©ç”¨ã™ã‚‹ã‚³ãƒ³ãƒãƒ¼ã‚¿ã®ã‚¯ãƒ©ã‚¹(å®Œå…¨é™å®šå)
+     * @param targetClass   ã‚³ãƒ³ãƒãƒ¼ã‚¿ã«ã‚ˆã‚Šå¤‰æ›ã™ã‚‹ã‚¯ãƒ©ã‚¹(å®Œå…¨é™å®šå)
+     * @returnã€€ã‚³ãƒ³ãƒãƒ¼ã‚¿ã«ã‚ˆã‚Šå¤‰æ›ã•ã‚ŒãŸã‚¯ãƒ©ã‚¹ã®ã‚¯ãƒ©ã‚¹æƒ…å ±
+     * @throws Exception ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆï¼ˆåŸå› ã«å› ã‚‰ãšï¼‰
      */
     public static Class<?> applyMonitor(String converterName, String targetClass) throws Exception
     {
-        // Šù‚ÉƒRƒ“ƒo[ƒg‚ğÀs‚µ‚½ƒNƒ‰ƒX‚Ìê‡‚ÍA•ÏŠ·ŒãƒNƒ‰ƒX‚ğ•Ô‚µ‚ÄI—¹‚·‚éB
+        // æ—¢ã«ã‚³ãƒ³ãƒãƒ¼ãƒˆã‚’å®Ÿè¡Œã—ãŸã‚¯ãƒ©ã‚¹ã®å ´åˆã¯ã€å¤‰æ›å¾Œã‚¯ãƒ©ã‚¹ã‚’è¿”ã—ã¦çµ‚äº†ã™ã‚‹ã€‚
         Set<String> convertedClassSet = convertedClass__.get(converterName);
         
         if(convertedClassSet != null && convertedClassSet.contains(targetClass) == true)
@@ -234,12 +234,12 @@ public class JavelinTestUtil
             convertedClass__.put(converterName, convertedClassSet);
         }
         
-        // ƒRƒ“ƒo[ƒg‘ÎÛƒNƒ‰ƒX‚Ìî•ñ‚ğæ“¾‚·‚éB
+        // ã‚³ãƒ³ãƒãƒ¼ãƒˆå¯¾è±¡ã‚¯ãƒ©ã‚¹ã®æƒ…å ±ã‚’å–å¾—ã™ã‚‹ã€‚
         ClassPool pool            = ClassPool.getDefault();
         CtClass   targetClassInfo = pool.get(targetClass);
         targetClassInfo.stopPruning(true);
         
-        // İ’èƒtƒ@ƒCƒ‹‚©‚çAw’è‚µ‚½ƒRƒ“ƒo[ƒ^‚Ì“K—p‘ÎÛ‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
+        // è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ã€æŒ‡å®šã—ãŸã‚³ãƒ³ãƒãƒ¼ã‚¿ã®é©ç”¨å¯¾è±¡ã‹ã©ã†ã‹ã‚’åˆ¤å®šã™ã‚‹ã€‚
         JavelinTransformConfig transformConfig = readTransformConfig();
         
         IncludeConversionConfig includeConversionInfo 
@@ -254,13 +254,13 @@ public class JavelinTestUtil
             return null;
         }
         
-        // “K—p‚·‚éƒRƒ“ƒo[ƒ^‚ğ¶¬‚·‚éB
+        // é©ç”¨ã™ã‚‹ã‚³ãƒ³ãƒãƒ¼ã‚¿ã‚’ç”Ÿæˆã™ã‚‹ã€‚
         Class<?>  convertClassInfo = Class.forName(converterName);
         Converter converter        = (Converter)convertClassInfo.newInstance();
 
         converter.init();
         
-        // ƒRƒ“ƒo[ƒg‚ğÀ{‚·‚éB
+        // ã‚³ãƒ³ãƒãƒ¼ãƒˆã‚’å®Ÿæ–½ã™ã‚‹ã€‚
         byte[] convertedByteCodeBuffer
             = converter.convert(targetClass,
                                 null,
@@ -269,7 +269,7 @@ public class JavelinTestUtil
                                 includeConversionInfo,
                                 excludeConverionInfo);
         
-        // ƒRƒ“ƒo[ƒg‚ªs‚í‚ê‚È‚©‚Á‚½ê‡‚ÍŒ³‚ÌƒNƒ‰ƒX‚ğ•Ô‚·B
+        // ã‚³ãƒ³ãƒãƒ¼ãƒˆãŒè¡Œã‚ã‚Œãªã‹ã£ãŸå ´åˆã¯å…ƒã®ã‚¯ãƒ©ã‚¹ã‚’è¿”ã™ã€‚
         if(convertedByteCodeBuffer == null || convertedByteCodeBuffer.length <= 0)
         {
             return Class.forName(targetClass);
@@ -288,12 +288,12 @@ public class JavelinTestUtil
     
     
     /**
-     * ƒpƒ‰ƒ[ƒ^‚Åw’è‚µ‚½ƒRƒ“ƒo[ƒ^‚É‚æ‚è•ÏŠ·‚³‚ê‚½ƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚·‚éB
+     * ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã§æŒ‡å®šã—ãŸã‚³ãƒ³ãƒãƒ¼ã‚¿ã«ã‚ˆã‚Šå¤‰æ›ã•ã‚ŒãŸã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @param converterName “K—p‚·‚éƒRƒ“ƒo[ƒ^‚ÌƒNƒ‰ƒX(Š®‘SŒÀ’è–¼)
-     * @param targetClass   ƒRƒ“ƒo[ƒ^‚É‚æ‚è•ÏŠ·‚·‚éƒNƒ‰ƒX(Š®‘SŒÀ’è–¼)
-     * @return@ƒRƒ“ƒo[ƒ^‚É‚æ‚è•ÏŠ·‚³‚ê‚½ƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
-     * @throws Exception ƒGƒ‰[‚ª”­¶‚µ‚½ê‡iŒ´ˆö‚Éˆö‚ç‚¸j
+     * @param converterName é©ç”¨ã™ã‚‹ã‚³ãƒ³ãƒãƒ¼ã‚¿ã®ã‚¯ãƒ©ã‚¹(å®Œå…¨é™å®šå)
+     * @param targetClass   ã‚³ãƒ³ãƒãƒ¼ã‚¿ã«ã‚ˆã‚Šå¤‰æ›ã™ã‚‹ã‚¯ãƒ©ã‚¹(å®Œå…¨é™å®šå)
+     * @returnã€€ã‚³ãƒ³ãƒãƒ¼ã‚¿ã«ã‚ˆã‚Šå¤‰æ›ã•ã‚ŒãŸã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+     * @throws Exception ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆï¼ˆåŸå› ã«å› ã‚‰ãšï¼‰
      */
     public static Object createMonitoredObject(String converterName, String targetClass) throws Exception
     {
@@ -309,11 +309,11 @@ public class JavelinTestUtil
     }
     
     /**
-     * w’è‚µ‚½ƒNƒ‰ƒX‚Ìƒƒ\ƒbƒh‚ªA‘z’è‚µ‚Ä‚¢‚é‰ñ”ƒR[ƒ‹‚³‚ê‚Ä‚¢‚é‚©”»’è‚·‚éB
+     * æŒ‡å®šã—ãŸã‚¯ãƒ©ã‚¹ã®ãƒ¡ã‚½ãƒƒãƒ‰ãŒã€æƒ³å®šã—ã¦ã„ã‚‹å›æ•°ã‚³ãƒ¼ãƒ«ã•ã‚Œã¦ã„ã‚‹ã‹åˆ¤å®šã™ã‚‹ã€‚
      * 
-     * @param clazz      ”»’è‘ÎÛ‚ÌƒNƒ‰ƒX‚ÌƒNƒ‰ƒXî•ñ
-     * @param methodName ”»’è‘ÎÛ‚Ìƒƒ\ƒbƒh–¼
-     * @param num        ŒÄ‚Ño‚³‚ê‚é‰ñ”‚ÌŠú‘Ò’l
+     * @param clazz      åˆ¤å®šå¯¾è±¡ã®ã‚¯ãƒ©ã‚¹ã®ã‚¯ãƒ©ã‚¹æƒ…å ±
+     * @param methodName åˆ¤å®šå¯¾è±¡ã®ãƒ¡ã‚½ãƒƒãƒ‰å
+     * @param num        å‘¼ã³å‡ºã•ã‚Œã‚‹å›æ•°ã®æœŸå¾…å€¤
      */
     public static void assertRecordCallNum(Class<?> clazz, String methodName, int num)
     {
@@ -345,20 +345,20 @@ public class JavelinTestUtil
     }
     
     /**
-     * privateƒtƒB[ƒ‹ƒh‚È‚ÇAƒAƒNƒZƒX‚Å‚«‚È‚¢ƒtƒB[ƒ‹ƒh‚É‘Î‚µ‚ÄA’l‚ğİ’è‚·‚éB
-     * static private‚É‘Î‚µ‚Ä‚ÌƒAƒNƒZƒX‚Í•s‰Â”\B
+     * privateãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ãªã©ã€ã‚¢ã‚¯ã‚»ã‚¹ã§ããªã„ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã«å¯¾ã—ã¦ã€å€¤ã‚’è¨­å®šã™ã‚‹ã€‚
+     * static privateã«å¯¾ã—ã¦ã®ã‚¢ã‚¯ã‚»ã‚¹ã¯ä¸å¯èƒ½ã€‚
      * 
-     * @param clazz     İ’è‘ÎÛ‚ÌƒNƒ‰ƒX‚ÌƒNƒ‰ƒXî•ñ
-     * @param fieldName İ’è‘ÎÛ‚ÌƒtƒB[ƒ‹ƒh–¼
-     * @param instance  İ’è‘ÎÛ‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
-     * @param value     İ’è‚·‚é’l
+     * @param clazz     è¨­å®šå¯¾è±¡ã®ã‚¯ãƒ©ã‚¹ã®ã‚¯ãƒ©ã‚¹æƒ…å ±
+     * @param fieldName è¨­å®šå¯¾è±¡ã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰å
+     * @param instance  è¨­å®šå¯¾è±¡ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+     * @param value     è¨­å®šã™ã‚‹å€¤
      */
     public static void setNonAccessibleField(
         Class<?> clazz, String fieldName, Object instance, Object value)
     {
         if (instance != null && clazz.equals(instance.getClass()) == false)
         {
-            throw new RuntimeException("İ’è‘ÎÛƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ªˆê’v‚µ‚Ü‚¹‚ñ");
+            throw new RuntimeException("è¨­å®šå¯¾è±¡ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ãŒä¸€è‡´ã—ã¾ã›ã‚“");
         }
         
         try
@@ -374,19 +374,19 @@ public class JavelinTestUtil
     }
 
     /**
-     * privateƒtƒB[ƒ‹ƒh‚È‚ÇAƒAƒNƒZƒX‚Å‚«‚È‚¢ƒtƒB[ƒ‹ƒh‚Ì’l‚ğæ“¾‚·‚éB
+     * privateãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ãªã©ã€ã‚¢ã‚¯ã‚»ã‚¹ã§ããªã„ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @param clazz     İ’è‘ÎÛƒNƒ‰ƒX‚ÌƒNƒ‰ƒXî•ñ
-     * @param fieldName İ’è‘ÎÛ‚ÌƒtƒB[ƒ‹ƒh–¼
-     * @param instance  İ’è‘ÎÛ‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
-     * @return          İ’è‚·‚é’l
+     * @param clazz     è¨­å®šå¯¾è±¡ã‚¯ãƒ©ã‚¹ã®ã‚¯ãƒ©ã‚¹æƒ…å ±
+     * @param fieldName è¨­å®šå¯¾è±¡ã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰å
+     * @param instance  è¨­å®šå¯¾è±¡ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+     * @return          è¨­å®šã™ã‚‹å€¤
      */
     public static Object getNonAccessibleField(
         Class<?> clazz, String fieldName, Object instance)
     {
         if (instance != null && clazz.equals(instance.getClass()) == false)
         {
-            throw new RuntimeException("æ“¾‘ÎÛƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ªˆê’v‚µ‚Ü‚¹‚ñ");
+            throw new RuntimeException("å–å¾—å¯¾è±¡ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ãŒä¸€è‡´ã—ã¾ã›ã‚“");
         }
         
         Object result = null;
@@ -405,13 +405,13 @@ public class JavelinTestUtil
     }
     
     /**
-     * privateƒƒ\ƒbƒh‚È‚ÇA’¼ÚƒAƒNƒZƒX‚Å‚«‚È‚¢ƒƒ\ƒbƒh‚ğÀs‚·‚éB
+     * privateãƒ¡ã‚½ãƒƒãƒ‰ãªã©ã€ç›´æ¥ã‚¢ã‚¯ã‚»ã‚¹ã§ããªã„ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å®Ÿè¡Œã™ã‚‹ã€‚
      * 
-     * @param clazz      ‘ÎÛ‚Ìƒƒ\ƒbƒh‚ª’è‹`‚³‚ê‚Ä‚¢‚éƒNƒ‰ƒX‚ÌƒNƒ‰ƒXî•ñ
-     * @param methodName ŒÄ‚Ño‚·‘ÎÛ‚Ìƒƒ\ƒbƒh‚Ì–¼Ì
-     * @param instance   ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·ƒCƒ“ƒXƒ^ƒ“ƒXBstaticƒƒ\ƒbƒh‚Ìê‡‚ÍnullB
-     * @param params     ƒƒ\ƒbƒh‚Éw’è‚·‚éƒpƒ‰ƒ[ƒ^(ƒvƒŠƒ~ƒeƒBƒuŒ^‚Ìê‡‚Íƒ‰ƒbƒp[ƒNƒ‰ƒX‚ğg—p‚·‚é)
-     * @return@w’è‚µ‚½ƒƒ\ƒbƒh‚ÌŒÄoŒ‹‰Ê
+     * @param clazz      å¯¾è±¡ã®ãƒ¡ã‚½ãƒƒãƒ‰ãŒå®šç¾©ã•ã‚Œã¦ã„ã‚‹ã‚¯ãƒ©ã‚¹ã®ã‚¯ãƒ©ã‚¹æƒ…å ±
+     * @param methodName å‘¼ã³å‡ºã™å¯¾è±¡ã®ãƒ¡ã‚½ãƒƒãƒ‰ã®åç§°
+     * @param instance   ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã³å‡ºã™ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã€‚staticãƒ¡ã‚½ãƒƒãƒ‰ã®å ´åˆã¯nullã€‚
+     * @param params     ãƒ¡ã‚½ãƒƒãƒ‰ã«æŒ‡å®šã™ã‚‹ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿(ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–å‹ã®å ´åˆã¯ãƒ©ãƒƒãƒ‘ãƒ¼ã‚¯ãƒ©ã‚¹ã‚’ä½¿ç”¨ã™ã‚‹)
+     * @returnã€€æŒ‡å®šã—ãŸãƒ¡ã‚½ãƒƒãƒ‰ã®å‘¼å‡ºçµæœ
      */
     public static Object invokeNonAccessibleMethod(
         Class<?> clazz, String methodName, Object instance, Object ... params)
@@ -442,12 +442,12 @@ public class JavelinTestUtil
     }
     
     /**
-     * w’è‚µ‚½ˆø”‚ÉAŒ^‚ª‘Î‰‚·‚éƒƒ\ƒbƒh‚ğæ“¾‚·‚éB
+     * æŒ‡å®šã—ãŸå¼•æ•°ã«ã€å‹ãŒå¯¾å¿œã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @param clazz      ƒƒ\ƒbƒh‚ğŒŸõ‚·‚éŒ^
-     * @param methodName ƒƒ\ƒbƒh‚Ì–¼‘O
-     * @param params     ƒƒ\ƒbƒh‚É“K—p‚·‚éˆø”
-     * @return “K‡‚µ‚½ƒƒ\ƒbƒhBŒ©•t‚©‚ç‚È‚©‚Á‚½ê‡‚ÍnullB
+     * @param clazz      ãƒ¡ã‚½ãƒƒãƒ‰ã‚’æ¤œç´¢ã™ã‚‹å‹
+     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰ã®åå‰
+     * @param params     ãƒ¡ã‚½ãƒƒãƒ‰ã«é©ç”¨ã™ã‚‹å¼•æ•°
+     * @return é©åˆã—ãŸãƒ¡ã‚½ãƒƒãƒ‰ã€‚è¦‹ä»˜ã‹ã‚‰ãªã‹ã£ãŸå ´åˆã¯nullã€‚
      */
     private static Method getParamTypesMatchMethod(Class<?> clazz, String methodName, Object ... params)
     {
@@ -488,14 +488,14 @@ public class JavelinTestUtil
     
     
     /**
-     * İ’èƒtƒ@ƒCƒ‹“à‚É‚ ‚éincludeİ’èî•ñ‚©‚çAw’è‚µ‚½ƒRƒ“ƒo[ƒ^^‘ÎÛƒNƒ‰ƒX‚Æ‡’v‚·‚éİ’è‚ğ
-     * æ“¾‚·‚éB
-     * @param convertedTargetName ƒRƒ“ƒo[ƒg‘ÎÛƒNƒ‰ƒX
-     * @param convertClassName    ƒRƒ“ƒo[ƒ^‚ÌƒNƒ‰ƒX
-     * @param pool                ƒNƒ‰ƒXƒv[ƒ‹
-     * @param convertCtClass      ƒRƒ“ƒo[ƒg‘ÎÛƒNƒ‰ƒX‚ÌƒNƒ‰ƒXƒtƒ@ƒCƒ‹î•ñ
-     * @param transformConfig     ƒtƒ@ƒCƒ‹‚©‚ç“Ç‚İ‚ñ‚¾İ’èî•ñ
-     * @return ğŒ‚É‡’v‚·‚éincludeİ’èî•ñ
+     * è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«å†…ã«ã‚ã‚‹includeè¨­å®šæƒ…å ±ã‹ã‚‰ã€æŒ‡å®šã—ãŸã‚³ãƒ³ãƒãƒ¼ã‚¿ï¼å¯¾è±¡ã‚¯ãƒ©ã‚¹ã¨åˆè‡´ã™ã‚‹è¨­å®šã‚’
+     * å–å¾—ã™ã‚‹ã€‚
+     * @param convertedTargetName ã‚³ãƒ³ãƒãƒ¼ãƒˆå¯¾è±¡ã‚¯ãƒ©ã‚¹
+     * @param convertClassName    ã‚³ãƒ³ãƒãƒ¼ã‚¿ã®ã‚¯ãƒ©ã‚¹
+     * @param pool                ã‚¯ãƒ©ã‚¹ãƒ—ãƒ¼ãƒ«
+     * @param convertCtClass      ã‚³ãƒ³ãƒãƒ¼ãƒˆå¯¾è±¡ã‚¯ãƒ©ã‚¹ã®ã‚¯ãƒ©ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«æƒ…å ±
+     * @param transformConfig     ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰èª­ã¿è¾¼ã‚“ã è¨­å®šæƒ…å ±
+     * @return æ¡ä»¶ã«åˆè‡´ã™ã‚‹includeè¨­å®šæƒ…å ±
      */
     private static IncludeConversionConfig findMatchConversionConfig(
             String    convertedTargetName,
@@ -526,11 +526,11 @@ public class JavelinTestUtil
     }
 
     /**
-     * w’è‚³‚ê‚½ƒNƒ‰ƒX‚©‚ç‚Ì‘Š‘ÎƒpƒX‚Åw’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚ğAâ‘ÎƒpƒX‚É•ÏŠ·‚µ‚Ü‚·B
+     * æŒ‡å®šã•ã‚ŒãŸã‚¯ãƒ©ã‚¹ã‹ã‚‰ã®ç›¸å¯¾ãƒ‘ã‚¹ã§æŒ‡å®šã•ã‚ŒãŸãƒ•ã‚¡ã‚¤ãƒ«ã¾ãŸã¯ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’ã€çµ¶å¯¾ãƒ‘ã‚¹ã«å¤‰æ›ã—ã¾ã™ã€‚
      *
-     * @param clazz Šî€ƒNƒ‰ƒX
-     * @param relative ‘Š‘ÎƒpƒX
-     * @return â‘ÎƒpƒX
+     * @param clazz åŸºæº–ã‚¯ãƒ©ã‚¹
+     * @param relative ç›¸å¯¾ãƒ‘ã‚¹
+     * @return çµ¶å¯¾ãƒ‘ã‚¹
      */
     public static String getAbsolutePath(final Class<?> clazz, final String relative)
     {

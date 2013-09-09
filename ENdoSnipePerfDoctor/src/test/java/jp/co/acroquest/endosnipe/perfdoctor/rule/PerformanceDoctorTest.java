@@ -20,23 +20,23 @@ import jp.co.dgic.testing.common.virtualmock.MockObjectManager;
 import junit.framework.TestCase;
 
 /**
- * ƒpƒtƒH[ƒ}ƒ“ƒXƒhƒNƒ^[‚Ì’P‘ÌŒ±‚Ég—p‚·‚éƒeƒXƒgƒP[ƒXB<br>
+ * ãƒ‘ãƒ•ã‚©ãƒ¼ãƒãƒ³ã‚¹ãƒ‰ã‚¯ã‚¿ãƒ¼ã®å˜ä½“è©¦é¨“ã«ä½¿ç”¨ã™ã‚‹ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹ã€‚<br>
  * <br>
- * ¦ˆÈ‰º‚Ìİ’è‚ÅdjUnit‚ğÀs‚·‚é‚±‚ÆB<br>
+ * â€»ä»¥ä¸‹ã®è¨­å®šã§djUnitã‚’å®Ÿè¡Œã™ã‚‹ã“ã¨ã€‚<br>
  * <ul>
- * <li>Virtual Mock Objects‚ğg—p‚·‚é</li>
- * <li>ƒoƒCƒgƒR[ƒh‘€ìƒ‰ƒCƒuƒ‰ƒŠ‚É‚ÍBCEL</li>
- * <li>-noverify(VMƒIƒvƒVƒ‡ƒ“)‚ğg—p‚·‚é</li>
+ * <li>Virtual Mock Objectsã‚’ä½¿ç”¨ã™ã‚‹</li>
+ * <li>ãƒã‚¤ãƒˆã‚³ãƒ¼ãƒ‰æ“ä½œãƒ©ã‚¤ãƒ–ãƒ©ãƒªã«ã¯BCEL</li>
+ * <li>-noverify(VMã‚ªãƒ—ã‚·ãƒ§ãƒ³)ã‚’ä½¿ç”¨ã™ã‚‹</li>
  * </ul>
  * @author tooru
  */
 public class PerformanceDoctorTest extends TestCase
 {
     /**
-     * €”Ô2-1-1<br>
-     * €”Ô2-1-2 Java6.0<br>
-     * €”Ô2-1-3<br>
-     * €”Ô2-1-4
+     * é …ç•ª2-1-1<br>
+     * é …ç•ª2-1-2 Java6.0<br>
+     * é …ç•ª2-1-3<br>
+     * é …ç•ª2-1-4
      */
     public void testReadXml_Normal()
     {
@@ -78,7 +78,7 @@ public class PerformanceDoctorTest extends TestCase
     }
 
     /**
-     * €”Ô2-1-6
+     * é …ç•ª2-1-6
      */
 
     public void testReadXml_NotRuleDefXml()
@@ -90,7 +90,7 @@ public class PerformanceDoctorTest extends TestCase
             String fileName = getResourcePath("data_testReadXml_NotRuleDefXml.xml");
             accessor.findRuleSet(fileName);
         }
-        // —áŠO‚ª”­¶‚·‚ê‚Î¬Œ÷B
+        // ä¾‹å¤–ãŒç™ºç”Ÿã™ã‚Œã°æˆåŠŸã€‚
         catch (RuleCreateException ex)
         {
             ex.printStackTrace();
@@ -101,7 +101,7 @@ public class PerformanceDoctorTest extends TestCase
     }
 
     /**
-     * €”Ô2-1-8
+     * é …ç•ª2-1-8
      */
     public void testReadXml_ReadTextFile()
     {
@@ -143,7 +143,7 @@ public class PerformanceDoctorTest extends TestCase
     }
 
     /**
-     * €”Ô2-1-9
+     * é …ç•ª2-1-9
      */
 
     public void testReadXml_NotXml()
@@ -155,7 +155,7 @@ public class PerformanceDoctorTest extends TestCase
             String fileName = getResourcePath("data_testReadXml_NotXml.txt");
             accessor.findRuleSet(fileName);
         }
-        // —áŠO‚ª”­¶‚·‚ê‚Î¬Œ÷B
+        // ä¾‹å¤–ãŒç™ºç”Ÿã™ã‚Œã°æˆåŠŸã€‚
         catch (RuleCreateException ex)
         {
             ex.printStackTrace();
@@ -166,7 +166,7 @@ public class PerformanceDoctorTest extends TestCase
     }
 
     /**
-     * €”Ô2-1-10
+     * é …ç•ª2-1-10
      */
 
     public void testReadXml_NotFound()
@@ -177,7 +177,7 @@ public class PerformanceDoctorTest extends TestCase
         {
             accessor.findRuleSet("testReadXml_NotFound.xml");
         }
-        // —áŠO‚ª”­¶‚·‚ê‚Î¬Œ÷B
+        // ä¾‹å¤–ãŒç™ºç”Ÿã™ã‚Œã°æˆåŠŸã€‚
         catch (RuleCreateException ex)
         {
             ex.printStackTrace();
@@ -188,10 +188,10 @@ public class PerformanceDoctorTest extends TestCase
     }
 
     /**
-     * €”Ô2-1-12<br>
-     * €”Ô2-1-13 Java6.0<br>
-     * €”Ô2-1-14<br>
-     * €”Ô2-1-15
+     * é …ç•ª2-1-12<br>
+     * é …ç•ª2-1-13 Java6.0<br>
+     * é …ç•ª2-1-14<br>
+     * é …ç•ª2-1-15
      */
     public void testGetRuleSetFromID_normal()
     {
@@ -228,8 +228,8 @@ public class PerformanceDoctorTest extends TestCase
             fail();
         }
 
-        // ruleSetMap_‚É‘‚«‚Ü‚ê‚Ä‚¢‚é‚±‚Æ‚ğŠm”FB
-        // “Çæ‚Ìƒtƒ@ƒCƒ‹–¼‚Ìƒf[ƒ^‚ğ•ÏXB
+        // ruleSetMap_ã«æ›¸ãè¾¼ã¾ã‚Œã¦ã„ã‚‹ã“ã¨ã‚’ç¢ºèªã€‚
+        // èª­è¾¼å…ˆã®ãƒ•ã‚¡ã‚¤ãƒ«åã®ãƒ‡ãƒ¼ã‚¿ã‚’å¤‰æ›´ã€‚
 
         config1.setFileName("");
         config2.setFileName("");
@@ -251,7 +251,7 @@ public class PerformanceDoctorTest extends TestCase
     }
 
     /**
-     * €”Ô2-1-16
+     * é …ç•ª2-1-16
      */
     public void testGetRuleSetFromID_Another()
     {
@@ -291,7 +291,7 @@ public class PerformanceDoctorTest extends TestCase
     }
 
     /**
-     * €”Ô2-1-17
+     * é …ç•ª2-1-17
      */
     public void testGetRuleSetFromID_NotFound()
     {
@@ -318,7 +318,7 @@ public class PerformanceDoctorTest extends TestCase
         }
         catch (RuleCreateException ex)
         {
-            // —áŠO‚ª”­¶‚·‚ê‚Î¬Œ÷
+            // ä¾‹å¤–ãŒç™ºç”Ÿã™ã‚Œã°æˆåŠŸ
             ex.printStackTrace();
             return;
         }
@@ -327,7 +327,7 @@ public class PerformanceDoctorTest extends TestCase
     }
 
     /**
-     * €”Ô2-1-18
+     * é …ç•ª2-1-18
      */
     public void testGetRuleSetFromID_Null()
     {
@@ -361,7 +361,7 @@ public class PerformanceDoctorTest extends TestCase
         }
         catch (NullPointerException e)
         {
-            // —vUTd—l‘‚ÌC³B
+            // è¦UTä»•æ§˜æ›¸ã®ä¿®æ­£ã€‚
             return;
         }
 
@@ -369,7 +369,7 @@ public class PerformanceDoctorTest extends TestCase
     }
 
     /**
-     * €”Ô2-1-19
+     * é …ç•ª2-1-19
      */
     public void testGetRuleSetFromActive_normal()
     {
@@ -408,8 +408,8 @@ public class PerformanceDoctorTest extends TestCase
             fail();
         }
 
-        // ruleSetMap_‚É‘‚«‚Ü‚ê‚Ä‚¢‚é‚±‚Æ‚ğŠm”FB
-        // “Çæ‚Ìƒtƒ@ƒCƒ‹–¼‚Ìƒf[ƒ^‚ğ•ÏXB
+        // ruleSetMap_ã«æ›¸ãè¾¼ã¾ã‚Œã¦ã„ã‚‹ã“ã¨ã‚’ç¢ºèªã€‚
+        // èª­è¾¼å…ˆã®ãƒ•ã‚¡ã‚¤ãƒ«åã®ãƒ‡ãƒ¼ã‚¿ã‚’å¤‰æ›´ã€‚
 
         config1.setFileName("");
         config2.setFileName("");
@@ -431,7 +431,7 @@ public class PerformanceDoctorTest extends TestCase
     }
 
     /**
-     * €”Ô2-1-20
+     * é …ç•ª2-1-20
      */
     public void testGetRuleSetFromActive_Another()
     {
@@ -472,7 +472,7 @@ public class PerformanceDoctorTest extends TestCase
     }
 
     /**
-     * €”Ô2-1-21
+     * é …ç•ª2-1-21
      */
     public void testGetRuleSetFromActive_Anothe()
     {
@@ -506,12 +506,12 @@ public class PerformanceDoctorTest extends TestCase
             fail();
         }
 
-        // –¼‘O‚ªconfig1ƒ‹[ƒ‹ƒZƒbƒg‚ÆˆÙ‚È‚Á‚½‚ç¸”sB
+        // åå‰ãŒconfig1ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆã¨ç•°ãªã£ãŸã‚‰å¤±æ•—ã€‚
         assertEquals(config1.getName(), ruleSetDef1.getName());
     }
 
     /**
-     * €”Ô2-2-1
+     * é …ç•ª2-2-1
      */
     public void testCreateRuleInstanceFromClassName_Normal()
     {
@@ -533,7 +533,7 @@ public class PerformanceDoctorTest extends TestCase
             fail();
         }
 
-        // MethodTatRuleŒ^‚Å‚È‚¯‚ê‚Î¸”sB
+        // MethodTatRuleå‹ã§ãªã‘ã‚Œã°å¤±æ•—ã€‚
         if (rule instanceof MethodTatRule == false)
         {
             fail();
@@ -541,10 +541,10 @@ public class PerformanceDoctorTest extends TestCase
     }
 
     /**
-     * €”Ô2-2-2<br>
-     * €”Ô2-2-3 Java6.0<br>
-     * €”Ô2-2-4<br>
-     * €”Ô2-2-5
+     * é …ç•ª2-2-2<br>
+     * é …ç•ª2-2-3 Java6.0<br>
+     * é …ç•ª2-2-4<br>
+     * é …ç•ª2-2-5
      */
     public void testCreateRuleInstanceFromClassName_Another()
     {
@@ -566,7 +566,7 @@ public class PerformanceDoctorTest extends TestCase
             fail();
         }
 
-        // AllSqlCountRuleŒ^‚Å‚È‚¯‚ê‚Î¸”sB
+        // AllSqlCountRuleå‹ã§ãªã‘ã‚Œã°å¤±æ•—ã€‚
         if (rule instanceof AllSqlCountRule == false)
         {
             fail();
@@ -574,10 +574,10 @@ public class PerformanceDoctorTest extends TestCase
     }
 
     /**
-     * €”Ô2-2-6<br>
-     * €”Ô2-2-7 Java6.0<br>
-     * €”Ô2-2-8<br>
-     * €”Ô2-2-9
+     * é …ç•ª2-2-6<br>
+     * é …ç•ª2-2-7 Java6.0<br>
+     * é …ç•ª2-2-8<br>
+     * é …ç•ª2-2-9
      */
     public void testCreateRuleInstanceFromClassName_NotRule()
     {
@@ -589,7 +589,7 @@ public class PerformanceDoctorTest extends TestCase
         {
             ex.printStackTrace();
 
-            if ("ƒNƒ‰ƒX‚ªPerformanceRuleƒCƒ“ƒ^ƒtƒF[ƒX‚ÌÀ‘•‚Å‚Í‚ ‚è‚Ü‚¹‚ñB(ƒNƒ‰ƒX–¼:jp.co.acroquest.endosnipe.perfdoctor.PerfDoctor)".equals(ex.getMessage()))
+            if ("ã‚¯ãƒ©ã‚¹ãŒPerformanceRuleã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹ã®å®Ÿè£…ã§ã¯ã‚ã‚Šã¾ã›ã‚“ã€‚(ã‚¯ãƒ©ã‚¹å:jp.co.acroquest.endosnipe.perfdoctor.PerfDoctor)".equals(ex.getMessage()))
             {
                 return;
             }
@@ -597,12 +597,12 @@ public class PerformanceDoctorTest extends TestCase
             fail();
         }
 
-        // —áŠO‚ª”­¶‚µ‚È‚¯‚ê‚Î¸”sB
+        // ä¾‹å¤–ãŒç™ºç”Ÿã—ãªã‘ã‚Œã°å¤±æ•—ã€‚
         fail();
     }
 
     /**
-     * €”Ô2-2-10
+     * é …ç•ª2-2-10
      */
     public void testCreateRuleInstanceFromClassName_ClassNotFound()
     {
@@ -614,7 +614,7 @@ public class PerformanceDoctorTest extends TestCase
         {
             ex.printStackTrace();
 
-            if ("ƒNƒ‰ƒXƒtƒ@ƒCƒ‹‚ª‘¶İ‚µ‚Ü‚¹‚ñB(ƒNƒ‰ƒX–¼:jp.co.acroquest.endosnipe.perfdoctor.rule.NotExist)".equals(ex.getMessage()))
+            if ("ã‚¯ãƒ©ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ãŒå­˜åœ¨ã—ã¾ã›ã‚“ã€‚(ã‚¯ãƒ©ã‚¹å:jp.co.acroquest.endosnipe.perfdoctor.rule.NotExist)".equals(ex.getMessage()))
             {
                 return;
             }
@@ -622,12 +622,12 @@ public class PerformanceDoctorTest extends TestCase
             fail();
         }
 
-        // —áŠO‚ª”­¶‚µ‚È‚¯‚ê‚Î¸”sB
+        // ä¾‹å¤–ãŒç™ºç”Ÿã—ãªã‘ã‚Œã°å¤±æ•—ã€‚
         fail();
     }
 
     /**
-     * €”Ô2-2-12
+     * é …ç•ª2-2-12
      */
     public void testCreateRuleInstanceFromRuleDef_Normal()
     {
@@ -643,7 +643,7 @@ public class PerformanceDoctorTest extends TestCase
     }
 
     /**
-     * €”Ô2-2-13
+     * é …ç•ª2-2-13
      */
     public void testCreateRuleInstanceFromRuleDef_Normal_2_2_13()
     {
@@ -659,8 +659,8 @@ public class PerformanceDoctorTest extends TestCase
     }
 
     /**
-     * €”Ô2-2-14<br>
-     * €”Ô2-2-15 Java6.0
+     * é …ç•ª2-2-14<br>
+     * é …ç•ª2-2-15 Java6.0
      */
     public void testCreateRuleInstanceFromRuleDef_Normal_2_2_14()
     {
@@ -676,7 +676,7 @@ public class PerformanceDoctorTest extends TestCase
     }
 
     /**
-     * €”Ô2-2-18
+     * é …ç•ª2-2-18
      */
     public void testCreateRuleInstanceFromRuleDef_Normal_2_2_18()
     {
@@ -692,7 +692,7 @@ public class PerformanceDoctorTest extends TestCase
     }
 
     /**
-     * €”Ô2-2-20
+     * é …ç•ª2-2-20
      */
     public void testCreateRuleInstanceFromRuleDef_Normal_2_2_20()
     {
@@ -708,8 +708,8 @@ public class PerformanceDoctorTest extends TestCase
     }
 
     /**
-     * €”Ô2-2-22<br>
-     * €”Ô2-2-23 Java6.0
+     * é …ç•ª2-2-22<br>
+     * é …ç•ª2-2-23 Java6.0
      */
     public void testCreateRuleInstanceFromRuleDef_Normal_2_2_22()
     {
@@ -726,7 +726,7 @@ public class PerformanceDoctorTest extends TestCase
 
     /**
      * 
-     * €”Ô2-2-26
+     * é …ç•ª2-2-26
      */
     public void testCreateRuleInstanceFromRuleDef_Normal_2_2_26()
     {
@@ -743,7 +743,7 @@ public class PerformanceDoctorTest extends TestCase
 
     /**
      * 
-     * €”Ô2-2-27
+     * é …ç•ª2-2-27
      */
     public void testCreateRuleInstanceFromRuleDef_Normal_2_2_27()
     {
@@ -760,7 +760,7 @@ public class PerformanceDoctorTest extends TestCase
 
     /**
      * 
-     * €”Ô2-2-32
+     * é …ç•ª2-2-32
      */
     public void testCreateRuleInstanceFromRuleDef_Normal_2_2_32()
     {
@@ -777,7 +777,7 @@ public class PerformanceDoctorTest extends TestCase
 
     /**
      * 
-     * €”Ô2-2-33
+     * é …ç•ª2-2-33
      */
     public void testCreateRuleInstanceFromRuleDef_Normal_2_2_33()
     {
@@ -793,8 +793,8 @@ public class PerformanceDoctorTest extends TestCase
     }
 
     /**
-     * €”Ô2-2-35<br>
-     * €”Ô2-2-36 Java6.0
+     * é …ç•ª2-2-35<br>
+     * é …ç•ª2-2-36 Java6.0
      */
     public void testCreateRuleInstanceFromRuleDef_Normal_2_2_35()
     {
@@ -811,7 +811,7 @@ public class PerformanceDoctorTest extends TestCase
 
     /**
      * 
-     * €”Ô2-2-39
+     * é …ç•ª2-2-39
      */
     public void testCreateRuleInstanceFromRuleDef_Normal_2_2_39()
     {
@@ -827,8 +827,8 @@ public class PerformanceDoctorTest extends TestCase
     }
 
     /**
-     * €”Ô2-2-41<br>
-     * €”Ô2-2-42 Java6.0
+     * é …ç•ª2-2-41<br>
+     * é …ç•ª2-2-42 Java6.0
      */
     public void testGetActiveRules_2_2_41()
         throws Exception
@@ -849,13 +849,13 @@ public class PerformanceDoctorTest extends TestCase
                                    "INFO", "TRUE", "500", "2000", "WARN", "TRUE", "500", "60000",
                                    "ERROR", "TRUE", "500", "200000"};
 
-        // Œ±À{
+        // è©¦é¨“å®Ÿæ–½
         mainGetActiveRules(params, params2);
     }
 
     /**
      * 
-     * €”Ô2-2-45
+     * é …ç•ª2-2-45
      */
     public void testGetActiveRules_2_2_45()
         throws Exception
@@ -874,13 +874,13 @@ public class PerformanceDoctorTest extends TestCase
                                    "INFO", "TRUE", "100", "0", "WARN", "TRUE", "100", "5000",
                                    "ERROR", "TRUE", "100", "20000"};
 
-        // Œ±À{
+        // è©¦é¨“å®Ÿæ–½
         mainGetActiveRules(params, params2);
     }
 
     /**
      * 
-     * €”Ô2-2-48
+     * é …ç•ª2-2-48
      */
     public void testGetActiveRules_2_2_48()
         throws Exception
@@ -889,13 +889,13 @@ public class PerformanceDoctorTest extends TestCase
 
         String params2[] = null;
 
-        // Œ±À{
+        // è©¦é¨“å®Ÿæ–½
         mainGetActiveRules(params, params2);
     }
 
     /**
      * 
-     * €”Ô2-2-49
+     * é …ç•ª2-2-49
      */
     public void testGetActiveRules_2_2_49()
         throws Exception
@@ -916,13 +916,13 @@ public class PerformanceDoctorTest extends TestCase
                                    "INFO", "TRUE", "500", "2000", "WARN", "TRUE", "500", "60000",
                                    "ERROR", "TRUE", "500", "200000"};
 
-        // Œ±À{
+        // è©¦é¨“å®Ÿæ–½
         mainGetActiveRules(params, params2);
     }
 
     /**
-     * €”Ô2-2-50<br>
-     * €”Ô2-2-51 Java6.0
+     * é …ç•ª2-2-50<br>
+     * é …ç•ª2-2-51 Java6.0
      */
     public void testGetActiveRules_2_2_50()
         throws Exception
@@ -943,13 +943,13 @@ public class PerformanceDoctorTest extends TestCase
                                    "INFO", "TRUE", "500", "2000", "WARN", "TRUE", "500", "60000",
                                    "ERROR", "TRUE", "500", "200000"};
 
-        // Œ±À{
+        // è©¦é¨“å®Ÿæ–½
         mainGetActiveRules(params, params2);
     }
 
     /**
      * 
-     * €”Ô2-2-54
+     * é …ç•ª2-2-54
      */
     public void testGetActiveRules_2_2_54()
         throws Exception
@@ -970,13 +970,13 @@ public class PerformanceDoctorTest extends TestCase
                                    "INFO", "FALSE", "500", "2000", "WARN", "TRUE", "500", "60000",
                                    "ERROR", "TRUE", "500", "200000"};
 
-        // Œ±À{
+        // è©¦é¨“å®Ÿæ–½
         mainGetActiveRules(params, params2);
     }
 
     /**
      * 
-     * €”Ô2-2-56
+     * é …ç•ª2-2-56
      */
     public void testGetActiveRules_2_2_56()
         throws Exception
@@ -997,14 +997,14 @@ public class PerformanceDoctorTest extends TestCase
                                    "INFO", "TRUE", "500", "2000", "WARN", "TRUE", "500", "60000",
                                    "ERROR", "TRUE", "500", "200000"};
 
-        // Œ±À{
+        // è©¦é¨“å®Ÿæ–½
         mainGetActiveRules(params, params2);
     }
 
     /**
      * 
-     * €”Ô2-2-65<br>
-     * €”Ô2-2-66 Java6.0
+     * é …ç•ª2-2-65<br>
+     * é …ç•ª2-2-66 Java6.0
      */
     public void testGetActiveRules_2_2_65()
         throws Exception
@@ -1025,13 +1025,13 @@ public class PerformanceDoctorTest extends TestCase
                                    "INFO", "TRUE", "500", "2000", "WARN", "TRUE", "500", "60000",
                                    "ERROR", "TRUE", "duration", "200000"};
 
-        // Œ±À{
+        // è©¦é¨“å®Ÿæ–½
         mainGetActiveRules(params, params2);
     }
 
     /**
      * 
-     * €”Ô2-2-69
+     * é …ç•ª2-2-69
      */
     public void testGetActiveRules_2_2_69()
         throws Exception
@@ -1052,13 +1052,13 @@ public class PerformanceDoctorTest extends TestCase
                                    "INFO", "TRUE", "500", "2000", "WARN", "TRUE", "500", "60000",
                                    "ERROR", "TRUE", "", "200000"};
 
-        // Œ±À{
+        // è©¦é¨“å®Ÿæ–½
         mainGetActiveRules(params, params2);
     }
 
     /**
      * 
-     * €”Ô2-2-71
+     * é …ç•ª2-2-71
      */
     public void testGetActiveRules_2_2_71()
         throws Exception
@@ -1079,13 +1079,13 @@ public class PerformanceDoctorTest extends TestCase
                                    "INFO", "TRUE", "500", "2000", "WARN", "TRUE", "500", "60000",
                                    "ERROR", "TRUE", "duration", "200000"};
 
-        // Œ±À{
+        // è©¦é¨“å®Ÿæ–½
         mainGetActiveRules(params, params2);
     }
 
     /**
      * 
-     * €”Ô2-2-72
+     * é …ç•ª2-2-72
      */
     public void testGetActiveRules_2_2_72()
         throws Exception
@@ -1106,18 +1106,18 @@ public class PerformanceDoctorTest extends TestCase
                                    "INFO", "TRUE", "500", "2000", "WARN", "TRUE", "500", "60000",
                                    "ERROR", "TRUE", "", "200000"};
 
-        // Œ±À{
+        // è©¦é¨“å®Ÿæ–½
         mainGetActiveRules(params, params2);
     }
 
     /**
-     * RuleSetDef‚Ì“à—e‚ğ”äŠr‚·‚éB
-     * ˆê’v‚·‚é‚È‚çtrue‚ğ•Ô‚·B
+     * RuleSetDefã®å†…å®¹ã‚’æ¯”è¼ƒã™ã‚‹ã€‚
+     * ä¸€è‡´ã™ã‚‹ãªã‚‰trueã‚’è¿”ã™ã€‚
      * 
-     * @param ruleSetDef1 ”äŠr‘ÎÛ‚ÌRuleSetDefB
-     * @param ruleSetDef2 ”äŠr‘ÎÛ‚ÌRuleSetDefB
+     * @param ruleSetDef1 æ¯”è¼ƒå¯¾è±¡ã®RuleSetDefã€‚
+     * @param ruleSetDef2 æ¯”è¼ƒå¯¾è±¡ã®RuleSetDefã€‚
      * 
-     * @return ˆê’v‚·‚é‚©‚Ç‚¤‚©B
+     * @return ä¸€è‡´ã™ã‚‹ã‹ã©ã†ã‹ã€‚
      */
     private boolean compareRuleSetDef(final RuleSetDef ruleSetDef1, final RuleSetDef ruleSetDef2)
     {
@@ -1152,13 +1152,13 @@ public class PerformanceDoctorTest extends TestCase
     }
 
     /**
-     * RuleDef‚Ì“à—e‚ğ”äŠr‚·‚éB
-     * ˆê’v‚·‚é‚È‚çtrue‚ğ•Ô‚·B
+     * RuleDefã®å†…å®¹ã‚’æ¯”è¼ƒã™ã‚‹ã€‚
+     * ä¸€è‡´ã™ã‚‹ãªã‚‰trueã‚’è¿”ã™ã€‚
      * 
-     * @param ruleDef1 ”äŠr‘ÎÛ‚ÌRuleDefB
-     * @param ruleDef2 ”äŠr‘ÎÛ‚ÌRuleDefB
+     * @param ruleDef1 æ¯”è¼ƒå¯¾è±¡ã®RuleDefã€‚
+     * @param ruleDef2 æ¯”è¼ƒå¯¾è±¡ã®RuleDefã€‚
      * 
-     * @return ˆê’v‚·‚é‚©‚Ç‚¤‚©B
+     * @return ä¸€è‡´ã™ã‚‹ã‹ã©ã†ã‹ã€‚
      */
     private boolean compareRuleDef(final RuleDef ruleDef1, final RuleDef ruleDef2)
     {
@@ -1197,12 +1197,12 @@ public class PerformanceDoctorTest extends TestCase
     }
 
     /**
-     * RuleLevelDef‚Ì“à—e‚ğ”äŠr‚·‚éB
-     * ˆê’v‚·‚é‚È‚çtrue‚ğ•Ô‚·B
-     * @param ruleLevelDef1 ”äŠr‘ÎÛ‚ÌRuleLevelDefB
-     * @param ruleLevelDef2 ”äŠr‘ÎÛ‚ÌRuleLevelDefB
+     * RuleLevelDefã®å†…å®¹ã‚’æ¯”è¼ƒã™ã‚‹ã€‚
+     * ä¸€è‡´ã™ã‚‹ãªã‚‰trueã‚’è¿”ã™ã€‚
+     * @param ruleLevelDef1 æ¯”è¼ƒå¯¾è±¡ã®RuleLevelDefã€‚
+     * @param ruleLevelDef2 æ¯”è¼ƒå¯¾è±¡ã®RuleLevelDefã€‚
      * 
-     * @return ˆê’v‚·‚é‚©‚Ç‚¤‚©B
+     * @return ä¸€è‡´ã™ã‚‹ã‹ã©ã†ã‹ã€‚
      */
     private boolean compareRuleLevelDef(final RuleLevelDef ruleLevelDef1,
             final RuleLevelDef ruleLevelDef2)
@@ -1238,13 +1238,13 @@ public class PerformanceDoctorTest extends TestCase
     }
 
     /**
-     * PropertyDef‚Ì“à—e‚ğ”äŠr‚·‚éB
-     * ˆê’v‚·‚é‚È‚çtrue‚ğ•Ô‚·B
+     * PropertyDefã®å†…å®¹ã‚’æ¯”è¼ƒã™ã‚‹ã€‚
+     * ä¸€è‡´ã™ã‚‹ãªã‚‰trueã‚’è¿”ã™ã€‚
      * 
-     * @param propertyDef1 ”äŠr‘ÎÛ‚ÌPropertyDefB
-     * @param propertyDef2 ”äŠr‘ÎÛ‚ÌPropertyDefB
+     * @param propertyDef1 æ¯”è¼ƒå¯¾è±¡ã®PropertyDefã€‚
+     * @param propertyDef2 æ¯”è¼ƒå¯¾è±¡ã®PropertyDefã€‚
      * 
-     * @return ˆê’v‚·‚é‚©‚Ç‚¤‚©B
+     * @return ä¸€è‡´ã™ã‚‹ã‹ã©ã†ã‹ã€‚
      */
     private boolean comparePropertyDef(final PropertyDef propertyDef1,
             final PropertyDef propertyDef2)
@@ -1258,13 +1258,13 @@ public class PerformanceDoctorTest extends TestCase
     }
 
     /**
-     * PerformanceRuleFacade‚Ì“à—e‚ğ”äŠr‚·‚éB
-     * ˆê’v‚·‚é‚È‚çtrue‚ğ•Ô‚·B
+     * PerformanceRuleFacadeã®å†…å®¹ã‚’æ¯”è¼ƒã™ã‚‹ã€‚
+     * ä¸€è‡´ã™ã‚‹ãªã‚‰trueã‚’è¿”ã™ã€‚
      * 
-     * @param facade1 ”äŠr‘ÎÛ‚ÌPerformanceRuleFacadeB
-     * @param facade2 ”äŠr‘ÎÛ‚ÌPerformanceRuleFacadeB
+     * @param facade1 æ¯”è¼ƒå¯¾è±¡ã®PerformanceRuleFacadeã€‚
+     * @param facade2 æ¯”è¼ƒå¯¾è±¡ã®PerformanceRuleFacadeã€‚
      * 
-     * @return ˆê’v‚·‚é‚©‚Ç‚¤‚©B
+     * @return ä¸€è‡´ã™ã‚‹ã‹ã©ã†ã‹ã€‚
      */
     private boolean compareRuleFacade(final PerformanceRuleFacade facade1,
             final PerformanceRuleFacade facade2)
@@ -1286,13 +1286,13 @@ public class PerformanceDoctorTest extends TestCase
     }
 
     /**
-     * PerformanceRule‚Ì“à—e‚ğ”äŠr‚·‚éB
-     * ˆê’v‚·‚é‚È‚çtrue‚ğ•Ô‚·B
+     * PerformanceRuleã®å†…å®¹ã‚’æ¯”è¼ƒã™ã‚‹ã€‚
+     * ä¸€è‡´ã™ã‚‹ãªã‚‰trueã‚’è¿”ã™ã€‚
      * 
-     * @param rule1 ”äŠr‘ÎÛ‚ÌPerformanceRuleB
-     * @param rule2 ”äŠr‘ÎÛ‚ÌPerformanceRuleB
+     * @param rule1 æ¯”è¼ƒå¯¾è±¡ã®PerformanceRuleã€‚
+     * @param rule2 æ¯”è¼ƒå¯¾è±¡ã®PerformanceRuleã€‚
      * 
-     * @return ˆê’v‚·‚é‚©‚Ç‚¤‚©B
+     * @return ä¸€è‡´ã™ã‚‹ã‹ã©ã†ã‹ã€‚
      */
     private boolean compareRule(final PerformanceRule rule1, final PerformanceRule rule2)
     {
@@ -1335,11 +1335,11 @@ public class PerformanceDoctorTest extends TestCase
     }
 
     /**
-     * PerformanceRuleFacade‚©‚çINFO‚Ìƒ‹[ƒ‹‚ğæ“¾‚·‚éB
+     * PerformanceRuleFacadeã‹ã‚‰INFOã®ãƒ«ãƒ¼ãƒ«ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @param facade1 æ“¾Œ³‚ÌPerformanceRuleFacadeB
+     * @param facade1 å–å¾—å…ƒã®PerformanceRuleFacadeã€‚
      * 
-     * @return INFO‚Ìƒ‹[ƒ‹B
+     * @return INFOã®ãƒ«ãƒ¼ãƒ«ã€‚
      */
     private PerformanceRule getInfoRule(final PerformanceRuleFacade facade1)
     {
@@ -1347,11 +1347,11 @@ public class PerformanceDoctorTest extends TestCase
     }
 
     /**
-     * PerformanceRuleFacade‚©‚çWARN‚Ìƒ‹[ƒ‹‚ğæ“¾‚·‚éB
+     * PerformanceRuleFacadeã‹ã‚‰WARNã®ãƒ«ãƒ¼ãƒ«ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @param facade1 æ“¾Œ³‚ÌPerformanceRuleFacadeB
+     * @param facade1 å–å¾—å…ƒã®PerformanceRuleFacadeã€‚
      * 
-     * @return WARN‚Ìƒ‹[ƒ‹B
+     * @return WARNã®ãƒ«ãƒ¼ãƒ«ã€‚
      */
     private PerformanceRule getWarnRule(final PerformanceRuleFacade facade1)
     {
@@ -1359,11 +1359,11 @@ public class PerformanceDoctorTest extends TestCase
     }
 
     /**
-     * PerformanceRuleFacade‚©‚çERROR‚Ìƒ‹[ƒ‹‚ğæ“¾‚·‚éB
+     * PerformanceRuleFacadeã‹ã‚‰ERRORã®ãƒ«ãƒ¼ãƒ«ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @param facade1 æ“¾Œ³‚ÌPerformanceRuleFacadeB
+     * @param facade1 å–å¾—å…ƒã®PerformanceRuleFacadeã€‚
      * 
-     * @return ERROR‚Ìƒ‹[ƒ‹B
+     * @return ERRORã®ãƒ«ãƒ¼ãƒ«ã€‚
      */
     private PerformanceRule getErrorRule(final PerformanceRuleFacade facade1)
     {
@@ -1371,13 +1371,13 @@ public class PerformanceDoctorTest extends TestCase
     }
 
     /**
-     * ƒ‹[ƒ‹‚ÌƒtƒB[ƒ‹ƒh–¼‚ğw’è‚µAPerformanceRuleFacade‚©‚çƒ‹[ƒ‹‚ğæ“¾‚·‚éB
+     * ãƒ«ãƒ¼ãƒ«ã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰åã‚’æŒ‡å®šã—ã€PerformanceRuleFacadeã‹ã‚‰ãƒ«ãƒ¼ãƒ«ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
      * 
-     * @param performanceRuleFacade æ“¾Œ³‚ÌPerformanceRuleFacadeB
-     * @param fieldName ƒ‹[ƒ‹‚ÌƒtƒB[ƒ‹ƒh–¼B
+     * @param performanceRuleFacade å–å¾—å…ƒã®PerformanceRuleFacadeã€‚
+     * @param fieldName ãƒ«ãƒ¼ãƒ«ã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰åã€‚
      * 
-     * @return ƒ‹[ƒ‹B
+     * @return ãƒ«ãƒ¼ãƒ«ã€‚
      */
     private PerformanceRule getRule(final PerformanceRuleFacade performanceRuleFacade,
             final String fieldName)
@@ -1386,10 +1386,10 @@ public class PerformanceDoctorTest extends TestCase
     }
 
     /**
-     * ƒtƒB[ƒ‹ƒh‚ğæ“¾‚·‚éB
-     * @param performanceRuleFacade æ“¾Œ³‚ÌPerformanceRuleFacadeB
-     * @param fieldName ƒtƒB[ƒ‹ƒh–¼B
-     * @return ƒtƒB[ƒ‹ƒh‚Ì’lB
+     * ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @param performanceRuleFacade å–å¾—å…ƒã®PerformanceRuleFacadeã€‚
+     * @param fieldName ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰åã€‚
+     * @return ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®å€¤ã€‚
      */
     private Object getField(final PerformanceRuleFacade performanceRuleFacade,
             final String fieldName)
@@ -1409,9 +1409,9 @@ public class PerformanceDoctorTest extends TestCase
     }
 
     /**
-     * RuleSetDef‚ğŒ±‚·‚é‚½‚ß‚Ìcreator
+     * RuleSetDefã‚’è©¦é¨“ã™ã‚‹ãŸã‚ã®creator
      * 
-     * @return RuleSetDefB
+     * @return RuleSetDefã€‚
      */
     private RuleSetDef createRuleSetDef_Data1()
     {
@@ -1435,7 +1435,7 @@ public class PerformanceDoctorTest extends TestCase
                            createRuleDef(id2, className2, enabled2, infoLevelDefArgs2,
                                          warnLevelDefArgs2, errorLevelDefArgs2);
 
-        // ƒ‹[ƒ‹ƒZƒbƒgˆê‚Â–Ú
+        // ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆä¸€ã¤ç›®
         List<RuleDef> ruleDefs = new ArrayList<RuleDef>();
         ruleDefs.add(ruleDef);
         ruleDefs.add(ruleDef2);
@@ -1448,9 +1448,9 @@ public class PerformanceDoctorTest extends TestCase
     }
 
     /**
-     * RuleSetDef‚ğŒ±‚·‚é‚½‚ß‚Ìcreator
+     * RuleSetDefã‚’è©¦é¨“ã™ã‚‹ãŸã‚ã®creator
      * 
-     * @return RuleSetDefB
+     * @return RuleSetDefã€‚
      */
     private RuleSetDef createRuleSetDef_Data2()
     {
@@ -1474,7 +1474,7 @@ public class PerformanceDoctorTest extends TestCase
                            createRuleDef(id2, className2, enabled2, infoLevelDefArgs2,
                                          warnLevelDefArgs2, errorLevelDefArgs2);
 
-        // ƒ‹[ƒ‹ƒZƒbƒg‚Ì¶¬        
+        // ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆã®ç”Ÿæˆ        
         List<RuleDef> ruleDefs = new ArrayList<RuleDef>();
         ruleDefs.add(ruleDef);
         ruleDefs.add(ruleDef2);
@@ -1487,13 +1487,13 @@ public class PerformanceDoctorTest extends TestCase
     }
 
     /**
-     * w’è‚µ‚½ƒpƒ‰ƒ[ƒ^‚ÅPerformanceRuleFacade‚ğ¶¬‚·‚éB
+     * æŒ‡å®šã—ãŸãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã§PerformanceRuleFacadeã‚’ç”Ÿæˆã™ã‚‹ã€‚
      * 
-     * @param id IDB
-     * @param infoLevelArgs INFOƒŒƒxƒ‹‚Ì“à—e(ƒŒƒxƒ‹AenabledAdurationThresholdAthreshold)B
-     * @param warnLevelArgs WARNƒŒƒxƒ‹‚Ì“à—e(ƒŒƒxƒ‹AenabledAdurationThresholdAthreshold)B
-     * @param errorLevelArgs ERRORƒŒƒxƒ‹‚Ì“à—e(ƒŒƒxƒ‹AenabledAdurationThresholdAthreshold)B
-     * @return PerformanceRuleFacadeB
+     * @param id IDã€‚
+     * @param infoLevelArgs INFOãƒ¬ãƒ™ãƒ«ã®å†…å®¹(ãƒ¬ãƒ™ãƒ«ã€enabledã€durationThresholdã€threshold)ã€‚
+     * @param warnLevelArgs WARNãƒ¬ãƒ™ãƒ«ã®å†…å®¹(ãƒ¬ãƒ™ãƒ«ã€enabledã€durationThresholdã€threshold)ã€‚
+     * @param errorLevelArgs ERRORãƒ¬ãƒ™ãƒ«ã®å†…å®¹(ãƒ¬ãƒ™ãƒ«ã€enabledã€durationThresholdã€threshold)ã€‚
+     * @return PerformanceRuleFacadeã€‚
      */
     private PerformanceRuleFacade createRuleFacade(final String id, final String[] infoLevelArgs,
             final String[] warnLevelArgs, final String[] errorLevelArgs)
@@ -1552,14 +1552,14 @@ public class PerformanceDoctorTest extends TestCase
     }
 
     /**
-     * w’è‚µ‚½ƒpƒ‰ƒ[ƒ^‚ÅRuleLevelDef‚ğ¶¬‚·‚éB
+     * æŒ‡å®šã—ãŸãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã§RuleLevelDefã‚’ç”Ÿæˆã™ã‚‹ã€‚
      * 
-     * @param level ƒŒƒxƒ‹
-     * @param enabled —LŒøE–³ŒøB
-     * @param durationThreshold durationThresholdƒvƒƒpƒeƒBB
-     * @param thresholdValue thresholdƒvƒƒpƒeƒBB
+     * @param level ãƒ¬ãƒ™ãƒ«
+     * @param enabled æœ‰åŠ¹ãƒ»ç„¡åŠ¹ã€‚
+     * @param durationThreshold durationThresholdãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã€‚
+     * @param thresholdValue thresholdãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã€‚
      * 
-     * @return RuleLevelDefB
+     * @return RuleLevelDefã€‚
      */
     private RuleLevelDef createRunLevelDef(final String level, final String enabled,
             final String durationThreshold, final String thresholdValue)
@@ -1580,15 +1580,15 @@ public class PerformanceDoctorTest extends TestCase
     }
 
     /**
-     * w’è‚µ‚½ƒpƒ‰ƒ[ƒ^‚ÅRuleDef‚ğ¶¬‚·‚éB
+     * æŒ‡å®šã—ãŸãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã§RuleDefã‚’ç”Ÿæˆã™ã‚‹ã€‚
      * 
-     * @param id IDB
-     * @param enabled —LŒøE–³ŒøB
-     * @param className ƒNƒ‰ƒX–¼B
-     * @param infoLevelDefArgs INFOƒŒƒxƒ‹‚Ì“à—e(ƒŒƒxƒ‹AenabledAdurationThresholdAthreshold)B
-     * @param warnLevelDefArgs WARNƒŒƒxƒ‹‚Ì“à—e(ƒŒƒxƒ‹AenabledAdurationThresholdAthreshold)B
-     * @param errorLevelDefArgs ERRORƒŒƒxƒ‹‚Ì“à—e(ƒŒƒxƒ‹AenabledAdurationThresholdAthreshold)B
-     * @return RuleDefB
+     * @param id IDã€‚
+     * @param enabled æœ‰åŠ¹ãƒ»ç„¡åŠ¹ã€‚
+     * @param className ã‚¯ãƒ©ã‚¹åã€‚
+     * @param infoLevelDefArgs INFOãƒ¬ãƒ™ãƒ«ã®å†…å®¹(ãƒ¬ãƒ™ãƒ«ã€enabledã€durationThresholdã€threshold)ã€‚
+     * @param warnLevelDefArgs WARNãƒ¬ãƒ™ãƒ«ã®å†…å®¹(ãƒ¬ãƒ™ãƒ«ã€enabledã€durationThresholdã€threshold)ã€‚
+     * @param errorLevelDefArgs ERRORãƒ¬ãƒ™ãƒ«ã®å†…å®¹(ãƒ¬ãƒ™ãƒ«ã€enabledã€durationThresholdã€threshold)ã€‚
+     * @return RuleDefã€‚
      */
     private RuleDef createRuleDef(final String id, final String className, final String enabled,
             final String[] infoLevelDefArgs, final String[] warnLevelDefArgs,
@@ -1618,11 +1618,11 @@ public class PerformanceDoctorTest extends TestCase
     }
 
     /**
-     * RuleManager‚ÉRuleSetDef‚ğİ’è‚·‚éB
+     * RuleManagerã«RuleSetDefã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param ruleManager İ’è‘ÎÛ‚ÌRuleManagerB
+     * @param ruleManager è¨­å®šå¯¾è±¡ã®RuleManagerã€‚
      * @param id 
-     * @param ruleSetDef  RuleManager‚Éİ’è‚·‚éruleSetDefB
+     * @param ruleSetDef  RuleManagerã«è¨­å®šã™ã‚‹ruleSetDefã€‚
      * @throws Exception
      */
     private void setRuleSetDef(final RuleManager ruleManager, final String id,
@@ -1637,9 +1637,9 @@ public class PerformanceDoctorTest extends TestCase
     }
 
     /**
-     * RuleManager‚ğ‰Šú‰»‚·‚éB
+     * RuleManagerã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
      * 
-     * @return ‰Šú‰»‚µ‚½RuleManagerB
+     * @return åˆæœŸåŒ–ã—ãŸRuleManagerã€‚
      */
     private RuleManager initRuleManager()
     {
@@ -1666,16 +1666,16 @@ public class PerformanceDoctorTest extends TestCase
     }
 
     /**
-     * getActiveRules‚ÌŒ±‚ğs‚¤B
+     * getActiveRulesã®è©¦é¨“ã‚’è¡Œã†ã€‚
      * 
-     * @param params Rule‚Ì“à—e(IDAenabledAƒNƒ‰ƒX–¼A(ƒŒƒxƒ‹AenabledAdurationThresholdAthreshold)~3)
-     * @param params2 Rule‚Ì“à—e(IDAenabledAƒNƒ‰ƒX–¼A(ƒŒƒxƒ‹AenabledAdurationThresholdAthreshold)~3)
+     * @param params Ruleã®å†…å®¹(IDã€enabledã€ã‚¯ãƒ©ã‚¹åã€(ãƒ¬ãƒ™ãƒ«ã€enabledã€durationThresholdã€threshold)Ã—3)
+     * @param params2 Ruleã®å†…å®¹(IDã€enabledã€ã‚¯ãƒ©ã‚¹åã€(ãƒ¬ãƒ™ãƒ«ã€enabledã€durationThresholdã€threshold)Ã—3)
      * @throws Exception
      */
     private void mainGetActiveRules(final String[] params, final String[] params2)
         throws Exception
     {
-        // ƒpƒ‰ƒ[ƒ^w’è
+        // ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿æŒ‡å®š
         RuleDef ruleDef = null;
         if (params != null)
         {
@@ -1709,7 +1709,7 @@ public class PerformanceDoctorTest extends TestCase
                                      errorLevelArgs2);
         }
 
-        // RuleSetDefƒCƒ“ƒXƒ^ƒ“ƒX‚Ìì¬
+        // RuleSetDefã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®ä½œæˆ
         RuleSetDef ruleSetDef = new RuleSetDef();
         List<RuleDef> ruleDefs = new ArrayList<RuleDef>();
         if (ruleDef != null)
@@ -1723,10 +1723,10 @@ public class PerformanceDoctorTest extends TestCase
         ruleSetDef.setRuleDefs(ruleDefs);
         ruleSetDef.setName("setA");
 
-        // RuleMangerƒCƒ“ƒXƒ^ƒ“ƒX‚Ì¶¬
+        // RuleMangerã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®ç”Ÿæˆ
         RuleManager ruleManager = initRuleManager();
 
-        // RuleManger‚Ö‚Ìƒ‹[ƒ‹‚Ìİ’è
+        // RuleMangerã¸ã®ãƒ«ãƒ¼ãƒ«ã®è¨­å®š
         setRuleSetDef(ruleManager, "setA", ruleSetDef);
         RuleSetConfig config = new RuleSetConfig();
         config.setId("setA");
@@ -1748,15 +1748,15 @@ public class PerformanceDoctorTest extends TestCase
             }
             catch (RuleCreateException rce)
             {
-                // ‰½‚à‚µ‚È‚¢B
+                // ä½•ã‚‚ã—ãªã„ã€‚
                 rce.printStackTrace();
             }
         }
 
-        // ƒeƒXƒg‘ÎÛ‚ÌÀs
+        // ãƒ†ã‚¹ãƒˆå¯¾è±¡ã®å®Ÿè¡Œ
         List<PerformanceRule> actualRules = ruleManager.getActiveRules();
 
-        // Œ‹‰ÊŠm”F
+        // çµæœç¢ºèª
         assertEquals(expectedRules.size(), actualRules.size());
         for (int index = 0; index < expectedRules.size(); index++)
         {
@@ -1767,26 +1767,26 @@ public class PerformanceDoctorTest extends TestCase
     }
 
     /**
-     * CreateRuleInstanceFromRuleDef(³í)‚ÌŒ±‚ğÀ{‚·‚éB
+     * CreateRuleInstanceFromRuleDef(æ­£å¸¸)ã®è©¦é¨“ã‚’å®Ÿæ–½ã™ã‚‹ã€‚
      * 
-     * @param id IDB
-     * @param enabled —LŒøE–³ŒøB
-     * @param className ƒNƒ‰ƒX–¼B
-     * @param infoLevelArgs INFOƒŒƒxƒ‹‚Ì“à—e(ƒŒƒxƒ‹AenabledAdurationThresholdAthreshold)B
-     * @param warnLevelArgs WARNƒŒƒxƒ‹‚Ì“à—e(ƒŒƒxƒ‹AenabledAdurationThresholdAthreshold)B
-     * @param errorLevelArgs ERRORƒŒƒxƒ‹‚Ì“à—e(ƒŒƒxƒ‹AenabledAdurationThresholdAthreshold)B
+     * @param id IDã€‚
+     * @param enabled æœ‰åŠ¹ãƒ»ç„¡åŠ¹ã€‚
+     * @param className ã‚¯ãƒ©ã‚¹åã€‚
+     * @param infoLevelArgs INFOãƒ¬ãƒ™ãƒ«ã®å†…å®¹(ãƒ¬ãƒ™ãƒ«ã€enabledã€durationThresholdã€threshold)ã€‚
+     * @param warnLevelArgs WARNãƒ¬ãƒ™ãƒ«ã®å†…å®¹(ãƒ¬ãƒ™ãƒ«ã€enabledã€durationThresholdã€threshold)ã€‚
+     * @param errorLevelArgs ERRORãƒ¬ãƒ™ãƒ«ã®å†…å®¹(ãƒ¬ãƒ™ãƒ«ã€enabledã€durationThresholdã€threshold)ã€‚
      */
     private void mainCreateRuleInstanceFromRuleDef(final String id, final String enabled,
             final String className, final String[] infoLevelArgs, final String[] warnLevelArgs,
             final String[] errorLevelArgs)
     {
-        // RuleDefƒCƒ“ƒXƒ^ƒ“ƒX‚Ìì¬
+        // RuleDefã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®ä½œæˆ
         RuleDef ruleDef = createRuleDef(id, className, enabled, //
                                         infoLevelArgs, //
                                         warnLevelArgs, // 
                                         errorLevelArgs);
 
-        // RuleFacadeƒNƒ‰ƒX‚Ìì¬
+        // RuleFacadeã‚¯ãƒ©ã‚¹ã®ä½œæˆ
         PerformanceRuleFacade expectedFacade =
                                                createRuleFacade(id, infoLevelArgs, warnLevelArgs,
                                                                 errorLevelArgs);
@@ -1803,26 +1803,26 @@ public class PerformanceDoctorTest extends TestCase
     }
 
     /**
-     * CreateRuleInstanceFromRuleDef(–ß‚è’lnull)‚ÌŒ±‚ğÀ{‚·‚éB
+     * CreateRuleInstanceFromRuleDef(æˆ»ã‚Šå€¤null)ã®è©¦é¨“ã‚’å®Ÿæ–½ã™ã‚‹ã€‚
      * 
-     * @param id IDB
-     * @param enabled —LŒøE–³ŒøB
-     * @param className ƒNƒ‰ƒX–¼B
-     * @param infoLevelArgs INFOƒŒƒxƒ‹‚Ì“à—e(ƒŒƒxƒ‹AenabledAdurationThresholdAthreshold)B
-     * @param warnLevelArgs WARNƒŒƒxƒ‹‚Ì“à—e(ƒŒƒxƒ‹AenabledAdurationThresholdAthreshold)B
-     * @param errorLevelArgs ERRORƒŒƒxƒ‹‚Ì“à—e(ƒŒƒxƒ‹AenabledAdurationThresholdAthreshold)B
+     * @param id IDã€‚
+     * @param enabled æœ‰åŠ¹ãƒ»ç„¡åŠ¹ã€‚
+     * @param className ã‚¯ãƒ©ã‚¹åã€‚
+     * @param infoLevelArgs INFOãƒ¬ãƒ™ãƒ«ã®å†…å®¹(ãƒ¬ãƒ™ãƒ«ã€enabledã€durationThresholdã€threshold)ã€‚
+     * @param warnLevelArgs WARNãƒ¬ãƒ™ãƒ«ã®å†…å®¹(ãƒ¬ãƒ™ãƒ«ã€enabledã€durationThresholdã€threshold)ã€‚
+     * @param errorLevelArgs ERRORãƒ¬ãƒ™ãƒ«ã®å†…å®¹(ãƒ¬ãƒ™ãƒ«ã€enabledã€durationThresholdã€threshold)ã€‚
      */
     private void mainCreateRuleInstanceFromRuleDef_Null(final String id, final String enabled,
             final String className, final String[] infoLevelArgs, final String[] warnLevelArgs,
             final String[] errorLevelArgs)
     {
-        // RuleDefƒCƒ“ƒXƒ^ƒ“ƒX‚Ìì¬
+        // RuleDefã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®ä½œæˆ
         RuleDef ruleDef = createRuleDef(id, className, enabled, //
                                         infoLevelArgs, //
                                         warnLevelArgs, // 
                                         errorLevelArgs);
 
-        // RuleFacadeƒNƒ‰ƒX‚Ìì¬
+        // RuleFacadeã‚¯ãƒ©ã‚¹ã®ä½œæˆ
         try
         {
             PerformanceRule actualFacade = RuleInstanceUtil.createRuleFacade(ruleDef);
@@ -1836,20 +1836,20 @@ public class PerformanceDoctorTest extends TestCase
     }
 
     /**
-     * CreateRuleInstanceFromRuleDef(RuleCreateException”­¶)‚ÌŒ±‚ğÀ{‚·‚éB
+     * CreateRuleInstanceFromRuleDef(RuleCreateExceptionç™ºç”Ÿ)ã®è©¦é¨“ã‚’å®Ÿæ–½ã™ã‚‹ã€‚
      * 
-     * @param id IDB
-     * @param enabled —LŒøE–³ŒøB
-     * @param className ƒNƒ‰ƒX–¼B
-     * @param infoLevelArgs INFOƒŒƒxƒ‹‚Ì“à—e(ƒŒƒxƒ‹AenabledAdurationThresholdAthreshold)B
-     * @param warnLevelArgs WARNƒŒƒxƒ‹‚Ì“à—e(ƒŒƒxƒ‹AenabledAdurationThresholdAthreshold)B
-     * @param errorLevelArgs ERRORƒŒƒxƒ‹‚Ì“à—e(ƒŒƒxƒ‹AenabledAdurationThresholdAthreshold)B
+     * @param id IDã€‚
+     * @param enabled æœ‰åŠ¹ãƒ»ç„¡åŠ¹ã€‚
+     * @param className ã‚¯ãƒ©ã‚¹åã€‚
+     * @param infoLevelArgs INFOãƒ¬ãƒ™ãƒ«ã®å†…å®¹(ãƒ¬ãƒ™ãƒ«ã€enabledã€durationThresholdã€threshold)ã€‚
+     * @param warnLevelArgs WARNãƒ¬ãƒ™ãƒ«ã®å†…å®¹(ãƒ¬ãƒ™ãƒ«ã€enabledã€durationThresholdã€threshold)ã€‚
+     * @param errorLevelArgs ERRORãƒ¬ãƒ™ãƒ«ã®å†…å®¹(ãƒ¬ãƒ™ãƒ«ã€enabledã€durationThresholdã€threshold)ã€‚
      */
     private void mainCreateRuleInstanceFromRuleDef_Fail(final String id, final String enabled,
             final String className, final String[] infoLevelArgs, final String[] warnLevelArgs,
             final String[] errorLevelArgs)
     {
-        // RuleDefƒCƒ“ƒXƒ^ƒ“ƒX‚Ìì¬
+        // RuleDefã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®ä½œæˆ
         RuleDef ruleDef = createRuleDef(id, className, enabled, //
                                         infoLevelArgs, //
                                         warnLevelArgs, // 
@@ -1859,7 +1859,7 @@ public class PerformanceDoctorTest extends TestCase
         {
             PerformanceRule actualFacade = RuleInstanceUtil.createRuleFacade(ruleDef);
 
-            // ÀsŒ‹‰Ê‚Ìì¬
+            // å®Ÿè¡Œçµæœã®ä½œæˆ
             PerformanceRuleFacade expectedFacade =
                                                    createRuleFacade(id, infoLevelArgs,
                                                                     warnLevelArgs, errorLevelArgs);

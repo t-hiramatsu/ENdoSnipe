@@ -33,7 +33,7 @@ import jp.co.acroquest.endosnipe.data.entity.JavelinLog;
 import jp.co.acroquest.endosnipe.test.DataAccessorTestUtil;
 
 /**
- * JavelinƒƒO’~Ï‹@”\‚ÌƒeƒXƒgƒNƒ‰ƒX
+ * Javelinãƒ­ã‚°è“„ç©æ©Ÿèƒ½ã®ãƒ†ã‚¹ãƒˆã‚¯ãƒ©ã‚¹
  * 
  * @author M.Yoshida
  *
@@ -69,16 +69,16 @@ public class JavelinLogAccumulationTest extends AbstractDaoTest
 
     public void testInsert1()
     {
-        // ğŒ
-        // --> DB“o˜^Ï‚İƒf[ƒ^
-        // <-- ƒf[ƒ^‚ª–³‚¢‚Æ‚« -->
+        // æ¡ä»¶
+        // --> DBç™»éŒ²æ¸ˆã¿ãƒ‡ãƒ¼ã‚¿
+        // <-- ãƒ‡ãƒ¼ã‚¿ãŒç„¡ã„ã¨ã -->
         
-        // --> ’Ç‰Á‘ÎÛƒf[ƒ^
+        // --> è¿½åŠ å¯¾è±¡ãƒ‡ãƒ¼ã‚¿
         List<Object> insertTarget
             = DataAccessorTestUtil.createJavelinEntities(
                 new String[]{JAVELIN_DATA[0]});
         
-        // À{
+        // å®Ÿæ–½
         for(Object entity : insertTarget)
         {
             try
@@ -91,7 +91,7 @@ public class JavelinLogAccumulationTest extends AbstractDaoTest
             }
         }
         
-        // ŒŸØ
+        // æ¤œè¨¼
         List<Object> actualInsert = new ArrayList<Object>();
         try
         {
@@ -107,19 +107,19 @@ public class JavelinLogAccumulationTest extends AbstractDaoTest
 
     public void testInsert2()
     {
-        // ğŒ
-        // --> DB“o˜^Ï‚İƒf[ƒ^
+        // æ¡ä»¶
+        // --> DBç™»éŒ²æ¸ˆã¿ãƒ‡ãƒ¼ã‚¿
         DataAccessorTestUtil.initializeJavelinLogTable(
             new String[]{JAVELIN_DATA[0]});
         
-        // --> ’Ç‰Á‘ÎÛƒf[ƒ^
+        // --> è¿½åŠ å¯¾è±¡ãƒ‡ãƒ¼ã‚¿
         List<Object> insertTarget = null;
         
         insertTarget
             = DataAccessorTestUtil.createJavelinEntities(
                 new String[]{JAVELIN_DATA[1]});
         
-        // À{
+        // å®Ÿæ–½
         for(Object entity : insertTarget)
         {
             try
@@ -138,7 +138,7 @@ public class JavelinLogAccumulationTest extends AbstractDaoTest
                 new String[]{JAVELIN_DATA[0], JAVELIN_DATA[1]});
         
         
-        // ŒŸØ
+        // æ¤œè¨¼
         List<Object> actualInsert = new ArrayList<Object>();
         try
         {
@@ -154,16 +154,16 @@ public class JavelinLogAccumulationTest extends AbstractDaoTest
 
     public void testInsert3()
     {
-        // ğŒ
-        // --> DB“o˜^Ï‚İƒf[ƒ^
-        // <-- ƒf[ƒ^‚ª–³‚¢‚Æ‚« -->
+        // æ¡ä»¶
+        // --> DBç™»éŒ²æ¸ˆã¿ãƒ‡ãƒ¼ã‚¿
+        // <-- ãƒ‡ãƒ¼ã‚¿ãŒç„¡ã„ã¨ã -->
         
-        // --> ’Ç‰Á‘ÎÛƒf[ƒ^
+        // --> è¿½åŠ å¯¾è±¡ãƒ‡ãƒ¼ã‚¿
         List<Object> insertTarget
             = DataAccessorTestUtil.createJavelinEntities(
                 new String[]{JAVELIN_DATA[2]});
         
-        // À{
+        // å®Ÿæ–½
         for(Object entity : insertTarget)
         {
             try
@@ -176,7 +176,7 @@ public class JavelinLogAccumulationTest extends AbstractDaoTest
             }
         }
         
-        // ŒŸØ
+        // æ¤œè¨¼
         List<Object> actualInsert = new ArrayList<Object>();
         try
         {
@@ -262,16 +262,16 @@ public class JavelinLogAccumulationTest extends AbstractDaoTest
     
     public void abnormalInsertTest(String insertData)
     {
-        // ğŒ
-        // --> DB“o˜^Ï‚İƒf[ƒ^
-        // <-- ƒf[ƒ^‚ª–³‚¢‚Æ‚« -->
+        // æ¡ä»¶
+        // --> DBç™»éŒ²æ¸ˆã¿ãƒ‡ãƒ¼ã‚¿
+        // <-- ãƒ‡ãƒ¼ã‚¿ãŒç„¡ã„ã¨ã -->
         
-        // --> ’Ç‰Á‘ÎÛƒf[ƒ^
+        // --> è¿½åŠ å¯¾è±¡ãƒ‡ãƒ¼ã‚¿
         List<Object> insertTarget
             = DataAccessorTestUtil.createJavelinEntities(
                 new String[]{insertData});
         
-        // À{
+        // å®Ÿæ–½
         for(Object entity : insertTarget)
         {
             try
@@ -284,7 +284,7 @@ public class JavelinLogAccumulationTest extends AbstractDaoTest
             }
         }
         
-        // ŒŸØ
+        // æ¤œè¨¼
         List<Object> actualInsert = new ArrayList<Object>();
         try
         {
