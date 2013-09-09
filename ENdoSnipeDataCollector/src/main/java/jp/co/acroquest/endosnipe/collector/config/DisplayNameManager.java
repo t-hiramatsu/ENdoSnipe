@@ -112,7 +112,7 @@ public class DisplayNameManager
         try
         {
             in =
-                 new BufferedReader(new InputStreamReader(new FileInputStream(file), "Windows-31J"));
+                new BufferedReader(new InputStreamReader(new FileInputStream(file), "Windows-31J"));
 
             String line = "";
             // １行ずつ読み込み解析
