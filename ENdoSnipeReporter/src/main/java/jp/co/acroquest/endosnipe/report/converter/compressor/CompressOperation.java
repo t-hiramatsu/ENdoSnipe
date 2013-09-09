@@ -15,23 +15,23 @@ package jp.co.acroquest.endosnipe.report.converter.compressor;
 import jp.co.acroquest.endosnipe.report.converter.compressor.CompressOperator;
 
 /**
- * ƒTƒ“ƒvƒŠƒ“ƒO‚Ìˆ³k‚ğs‚¤Û‚ÉACompressor‚Éˆ³kˆ—‚Ì•û–@‚ğ
- * w’è‚·‚é‚½‚ß‚ÌƒGƒ“ƒeƒBƒeƒBƒIƒuƒWƒFƒNƒg
+ * ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°ã®åœ§ç¸®ã‚’è¡Œã†éš›ã«ã€Compressorã«åœ§ç¸®å‡¦ç†ã®æ–¹æ³•ã‚’
+ * æŒ‡å®šã™ã‚‹ãŸã‚ã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
  * 
  * @author M.Yoshida
  */
 public class CompressOperation 
 {
-	/** ˆ³k‚ÌŒv‘ª’l‰‰Z‘ÎÛƒtƒB[ƒ‹ƒh */
+	/** åœ§ç¸®æ™‚ã®è¨ˆæ¸¬å€¤æ¼”ç®—å¯¾è±¡ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ */
 	private String           compressField_;
 
-	/** ˆ³k‚Ì‰‰Zˆ— */
+	/** åœ§ç¸®æ™‚ã®æ¼”ç®—å‡¦ç† */
 	private CompressOperator operation_;
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
-	 * @param compressField Œv‘ª’l‰‰Z‘ÎÛƒtƒB[ƒ‹ƒh
-	 * @param operation     ‰‰Zˆ—
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
+	 * @param compressField è¨ˆæ¸¬å€¤æ¼”ç®—å¯¾è±¡ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰
+	 * @param operation     æ¼”ç®—å‡¦ç†
 	 */
 	public CompressOperation(String compressField,
 			                 CompressOperator operation)

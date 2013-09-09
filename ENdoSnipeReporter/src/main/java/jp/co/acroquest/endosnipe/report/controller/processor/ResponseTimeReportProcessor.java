@@ -28,20 +28,20 @@ import jp.co.acroquest.endosnipe.report.output.ResponseTimeReporter;
 import jp.co.acroquest.endosnipe.report.util.ReporterConfigAccessor;
 
 /**
- * ƒŒƒXƒ|ƒ“ƒXƒ^ƒCƒ€ƒŒƒ|[ƒg‚ðo—Í‚·‚é‚½‚ß‚ÌƒvƒƒZƒbƒT
+ * ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚¿ã‚¤ãƒ ãƒ¬ãƒãƒ¼ãƒˆã‚’å‡ºåŠ›ã™ã‚‹ãŸã‚ã®ãƒ—ãƒ­ã‚»ãƒƒã‚µ
  * 
  * @author M.Yoshida
  *
  */
 public class ResponseTimeReportProcessor extends ReportPublishProcessorBase
 {
-    /** ƒƒK[ */
+    /** ãƒ­ã‚¬ãƒ¼ */
     private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(
             ResponseTimeReportProcessor.class);
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
-     * @param type ƒŒƒ|[ƒgŽí•Ê
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+     * @param type ãƒ¬ãƒãƒ¼ãƒˆç¨®åˆ¥
      */
     public ResponseTimeReportProcessor(ReportType type)
     {

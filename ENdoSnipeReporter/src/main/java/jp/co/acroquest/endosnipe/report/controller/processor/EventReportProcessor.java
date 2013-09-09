@@ -35,20 +35,20 @@ import jp.co.acroquest.endosnipe.report.output.RecordReporter;
 import jp.co.acroquest.endosnipe.report.util.ReporterConfigAccessor;
 
 /**
- * Javelin‚ÌƒCƒxƒ“ƒg”‚ÌƒŒƒ|[ƒg‚ğ¶¬‚·‚éƒŒƒ|[ƒgƒvƒƒZƒbƒT‚Å‚·B
+ * Javelinã®ã‚¤ãƒ™ãƒ³ãƒˆæ•°ã®ãƒ¬ãƒãƒ¼ãƒˆã‚’ç”Ÿæˆã™ã‚‹ãƒ¬ãƒãƒ¼ãƒˆãƒ—ãƒ­ã‚»ãƒƒã‚µã§ã™ã€‚
  * 
  * @author iida
  */
 public class EventReportProcessor extends ReportPublishProcessorBase
 {
-    /** ƒƒK[ */
+    /** ãƒ­ã‚¬ãƒ¼ */
     private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(
             EventReportProcessor.class);
 
     /**
-     * ReportProcessor‚ğ¶¬‚µ‚Ü‚·B<br>
+     * ReportProcessorã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br>
      * 
-     * @param type ƒŒƒ|[ƒgí•Ê
+     * @param type ãƒ¬ãƒãƒ¼ãƒˆç¨®åˆ¥
      */
     public EventReportProcessor(ReportType type)
     {
@@ -58,19 +58,19 @@ public class EventReportProcessor extends ReportPublishProcessorBase
     /**
      * {@inheritDoc}
      * 
-     * @param cond ƒŒƒ|[ƒgo—Íİ’è
-     * @param reportContainer ƒŒƒ|[ƒgo—Íˆ—‚ÌƒRƒ“ƒeƒi
+     * @param cond ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›è¨­å®š
+     * @param reportContainer ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›å‡¦ç†ã®ã‚³ãƒ³ãƒ†ãƒŠ
      */
     @Override
     protected Object getReportPlotData(ReportSearchCondition cond,
             ReportProcessReturnContainer reportContainer)
     {
-        // ŒŸõğŒ‚ğæ“¾‚µ‚Ü‚·B
+        // æ¤œç´¢æ¡ä»¶ã‚’å–å¾—ã—ã¾ã™ã€‚
         String database = cond.getDatabases().get(0);
         Timestamp startTime = cond.getStartDate();
         Timestamp endTime = cond.getEndDate();
 
-        // DB‚©‚çƒf[ƒ^‚ğŒŸõ‚µ‚Ü‚·B
+        // DBã‹ã‚‰ãƒ‡ãƒ¼ã‚¿ã‚’æ¤œç´¢ã—ã¾ã™ã€‚
         List<ItemData> eventCountData;
         try
         {
@@ -85,7 +85,7 @@ public class EventReportProcessor extends ReportPublishProcessorBase
             return null;
         }
 
-        // æ“¾‚µ‚½ƒf[ƒ^‚ğMap‚É‚Ü‚Æ‚ß‚ÄƒŠƒ^[ƒ“‚µ‚Ü‚·B
+        // å–å¾—ã—ãŸãƒ‡ãƒ¼ã‚¿ã‚’Mapã«ã¾ã¨ã‚ã¦ãƒªã‚¿ãƒ¼ãƒ³ã—ã¾ã™ã€‚
         Map<String, List<?>> data = new HashMap<String, List<?>>();
         data.put(Constants.ITEMNAME_EVENT_COUNT, eventCountData);
 
@@ -102,16 +102,16 @@ public class EventReportProcessor extends ReportPublishProcessorBase
             ReportSearchCondition cond,
             ReportProcessReturnContainer reportContainer)
     {
-        // ƒf[ƒ^•ÏŠ·‚Í“Á‚És‚¢‚Ü‚¹‚ñB
+        // ãƒ‡ãƒ¼ã‚¿å¤‰æ›ã¯ç‰¹ã«è¡Œã„ã¾ã›ã‚“ã€‚
         return rawData;
     }
 
     /**
      * {@inheritDoc}
      * 
-     * @param plotData ƒOƒ‰ƒto—Íƒf[ƒ^
-     * @param cond ƒŒƒ|[ƒgo—Íİ’è
-     * @param reportContainer ƒŒƒ|[ƒgo—Íˆ—‚ÌƒRƒ“ƒeƒi
+     * @param plotData ã‚°ãƒ©ãƒ•å‡ºåŠ›ãƒ‡ãƒ¼ã‚¿
+     * @param cond ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›è¨­å®š
+     * @param reportContainer ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›å‡¦ç†ã®ã‚³ãƒ³ãƒ†ãƒŠ
      */
     @Override
     protected void outputReport(Object plotData, ReportSearchCondition cond,
@@ -122,12 +122,12 @@ public class EventReportProcessor extends ReportPublishProcessorBase
             return;
         }
         
-        // Map‚©‚çƒOƒ‰ƒt‚Ìƒf[ƒ^‚ğæ“¾‚µ‚Ü‚·B
+        // Mapã‹ã‚‰ã‚°ãƒ©ãƒ•ã®ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã—ã¾ã™ã€‚
         Map<String, List<ItemData>> data = (Map<String, List<ItemData>>) plotData;
 
         List<ItemData> eventCountDataList = data.get(Constants.ITEMNAME_EVENT_COUNT);
 
-        // o—Í‚·‚éƒŒƒ|[ƒg‚Ìí—Ş‚É‰‚¶‚ÄAƒeƒ“ƒvƒŒ[ƒg‚Ìƒtƒ@ƒCƒ‹ƒpƒX‚ğæ“¾‚·‚éB
+        // å‡ºåŠ›ã™ã‚‹ãƒ¬ãƒãƒ¼ãƒˆã®ç¨®é¡ã«å¿œã˜ã¦ã€ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã®ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã‚’å–å¾—ã™ã‚‹ã€‚
         String templateFilePath;
         try
         {
@@ -140,7 +140,7 @@ public class EventReportProcessor extends ReportPublishProcessorBase
             return;
         }
 
-        // ƒŒƒ|[ƒgo—Í‚Ìˆø”î•ñ‚ğæ“¾‚·‚éB
+        // ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã®å¼•æ•°æƒ…å ±ã‚’å–å¾—ã™ã‚‹ã€‚
         String outputFolderPath = getOutputFolderName()
                 + File.separator
                 + ReporterConfigAccessor.getProperty(super.getReportType()
@@ -149,7 +149,7 @@ public class EventReportProcessor extends ReportPublishProcessorBase
         Timestamp startTime = cond.getStartDate();
         Timestamp endTime = cond.getEndDate();
 
-        // ƒŒƒ|[ƒgo—Í‚ğÀs‚·‚éB
+        // ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã‚’å®Ÿè¡Œã™ã‚‹ã€‚
         RecordReporter<ApplicationRecord> reporter = new RecordReporter<ApplicationRecord>(
                 getReportType());
         reporter.outputReports(templateFilePath, outputFolderPath,

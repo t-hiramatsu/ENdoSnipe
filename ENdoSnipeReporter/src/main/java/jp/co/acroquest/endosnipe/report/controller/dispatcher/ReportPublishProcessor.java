@@ -16,19 +16,19 @@ import jp.co.acroquest.endosnipe.report.controller.ReportProcessReturnContainer;
 import jp.co.acroquest.endosnipe.report.controller.ReportSearchCondition;
 
 /**
- * ƒŒƒ|[ƒgˆ—ƒvƒƒZƒbƒT‚ÌƒCƒ“ƒ^ƒtƒF[ƒXB
- * ƒŒƒ|[ƒgˆ—ƒvƒƒZƒbƒT‚ÍA–{ƒCƒ“ƒ^ƒtƒF[ƒX‚ğimplements‚µ‚Äì¬‚·‚éB
+ * ãƒ¬ãƒãƒ¼ãƒˆå‡¦ç†ãƒ—ãƒ­ã‚»ãƒƒã‚µã®ã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹ã€‚
+ * ãƒ¬ãƒãƒ¼ãƒˆå‡¦ç†ãƒ—ãƒ­ã‚»ãƒƒã‚µã¯ã€æœ¬ã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹ã‚’implementsã—ã¦ä½œæˆã™ã‚‹ã€‚
  * 
  * @author M.Yoshida
  */
 public interface ReportPublishProcessor
 {
     /**
-     * ƒŒƒ|[ƒgo—Íˆ—‚ğs‚¤B
+     * ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›å‡¦ç†ã‚’è¡Œã†ã€‚
      * 
-     * @param cond ƒŒƒ|[ƒgo—Í‚ÌÛ‚ÌğŒ
-     * @throws InterruptedException Š„‚è‚İ”­¶
-     * @return ƒŒƒ|[ƒgo—Í‚ÌŒ‹‰Ê
+     * @param cond ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã®éš›ã®æ¡ä»¶
+     * @throws InterruptedException å‰²ã‚Šè¾¼ã¿ç™ºç”Ÿæ™‚
+     * @return ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã®çµæœ
      */
     ReportProcessReturnContainer publish(ReportSearchCondition cond)
         throws InterruptedException;

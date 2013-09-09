@@ -26,7 +26,7 @@ import jp.co.acroquest.endosnipe.report.converter.util.calc.LongCalculator;
 import jp.co.acroquest.endosnipe.report.converter.util.calc.ShortCalculator;
 
 /**
- * 型に対応する計算機クラスを生成するFactoryクラス
+ * 蝙九↓蟇ｾ蠢懊☆繧玖ｨ育ｮ玲ｩ溘け繝ｩ繧ｹ繧堤函謌舌☆繧祈actory繧ｯ繝ｩ繧ｹ
  * 
  * @author M.Yoshida
  *

@@ -15,67 +15,67 @@ package jp.co.acroquest.endosnipe.report.entity;
 import java.sql.Timestamp;
 
 /**
- * �I�u�W�F�N�g���|�[�g�ɏo�͂���P���R�[�h���̏���ێ�����G���e�B�e�B�B
+ * オブジェクトレポートに出力する１レコード分の情報を保持するエンティティ。
  * 
  * @author akiba
  */
 public class ObjectRecord
 {
-    /** �v������ */
+    /** 計測時刻 */
     private Timestamp measurementTime_;
     
-    /** List�̃T�C�Y[�v�f��]�i��Ԋ��ԕ��ρj */
+    /** Listのサイズ[要素数]（補間期間平均） */
     private long      listSize_;
     
-    /** List�̃T�C�Y[�v�f��]�i��Ԋ��ԍő�j */
+    /** Listのサイズ[要素数]（補間期間最大） */
     private long      listSizeMax_;
     
-    /** List�̃T�C�Y[�v�f��]�i��Ԋ��ԍŏ��j */
+    /** Listのサイズ[要素数]（補間期間最小） */
     private long      listSizeMin_;
 
-    /** Queue�̃T�C�Y[�v�f��]�i��Ԋ��ԕ��ρj */
+    /** Queueのサイズ[要素数]（補間期間平均） */
     private long      queueSize_;
     
-    /** Queue�̃T�C�Y[�v�f��]�i��Ԋ��ԍő�j */
+    /** Queueのサイズ[要素数]（補間期間最大） */
     private long      queueSizeMax_;
     
-    /** Queue�̃T�C�Y[�v�f��]�i��Ԋ��ԍŏ��j */
+    /** Queueのサイズ[要素数]（補間期間最小） */
     private long      queueSizeMin_;
 
-    /** Set�̃T�C�Y[�v�f��]�i��Ԋ��ԕ��ρj */
+    /** Setのサイズ[要素数]（補間期間平均） */
     private long      setSize_;
     
-    /** Set�̃T�C�Y[�v�f��]�i��Ԋ��ԍő�j */
+    /** Setのサイズ[要素数]（補間期間最大） */
     private long      setSizeMax_;
     
-    /** Set�̃T�C�Y[�v�f��]�i��Ԋ��ԍŏ��j */
+    /** Setのサイズ[要素数]（補間期間最小） */
     private long      setSizeMin_;
 
-    /** Map�̃T�C�Y[�v�f��]�i��Ԋ��ԕ��ρj */
+    /** Mapのサイズ[要素数]（補間期間平均） */
     private long      mapSize_;
     
-    /** Map�̃T�C�Y[�v�f��]�i��Ԋ��ԍő�j */
+    /** Mapのサイズ[要素数]（補間期間最大） */
     private long      mapSizeMax_;
     
-    /** Map�̃T�C�Y[�v�f��]�i��Ԋ��ԍŏ��j */
+    /** Mapのサイズ[要素数]（補間期間最小） */
     private long      mapSizeMin_;
 
-    /** �I�u�W�F�N�g�T�C�Y[�v�f��]�i��Ԋ��ԕ��ρj */
+    /** オブジェクトサイズ[要素数]（補間期間平均） */
     private long      objectSize_;
     
-    /** �I�u�W�F�N�g�T�C�Y[�v�f��]�i��Ԋ��ԍő�j */
+    /** オブジェクトサイズ[要素数]（補間期間最大） */
     private long      objectSizeMax_;
     
-    /** �I�u�W�F�N�g�T�C�Y[�v�f��]�i��Ԋ��ԍŏ��j */
+    /** オブジェクトサイズ[要素数]（補間期間最小） */
     private long      objectSizeMin_;
 
-    /** �I�u�W�F�N�g��[�v�f��]�i��Ԋ��ԕ��ρj */
+    /** オブジェクト数[要素数]（補間期間平均） */
     private long      objectNum_;
     
-    /** �I�u�W�F�N�g��[�v�f��]�i��Ԋ��ԍő�j */
+    /** オブジェクト数[要素数]（補間期間最大） */
     private long      objectNumMax_;
     
-    /** �I�u�W�F�N�g��[�v�f��]�i��Ԋ��ԍŏ��j */
+    /** オブジェクト数[要素数]（補間期間最小） */
     private long      objectNumMin_;
 
 	/**

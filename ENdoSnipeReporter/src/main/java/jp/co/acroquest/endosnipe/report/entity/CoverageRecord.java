@@ -3,23 +3,23 @@ package jp.co.acroquest.endosnipe.report.entity;
 import java.sql.Timestamp;
 
 /**
- * �uJavelin�v�^�u�́u�J�o���b�W�v�̃O���t�̃f�[�^��
- * 1�ێ�����N���X�ł��B
+ * ・ｽuJavelin・ｽv・ｽ^・ｽu・ｽﾌ「・ｽJ・ｽo・ｽ・ｽ・ｽb・ｽW・ｽv・ｽﾌグ・ｽ・ｽ・ｽt・ｽﾌデ・ｽ[・ｽ^・ｽ・ｽ
+ * 1・ｽﾂ保趣ｿｽ・ｽ・ｽ・ｽ・ｽN・ｽ・ｽ・ｽX・ｽﾅゑｿｽ・ｽB
  * 
  * @author acroquest
  */
 public class CoverageRecord
 {
-	/** �v������ */
+	/** ・ｽv・ｽ・ｽ・ｽ・ｽ・ｽ・ｽ */
     private Timestamp measurementTime_;
 
-    /** �J�o���b�W[%]�i��Ԋ�ԕ��ρj */
+    /** ・ｽJ・ｽo・ｽ・ｽ・ｽb・ｽW[%]・ｽi・ｽ・ｽﾔ奇ｿｽﾔ包ｿｽ・ｽﾏ） */
     private double coverage_;
     
-    /** �J�o���b�W[%]�i��Ԋ�ԍő�j */
+    /** ・ｽJ・ｽo・ｽ・ｽ・ｽb・ｽW[%]・ｽi・ｽ・ｽﾔ奇ｿｽﾔ最托ｿｽj */
     private double coverageMax_;
     
-    /** �J�o���b�W[%]�i��Ԋ�ԍŏ��j */
+    /** ・ｽJ・ｽo・ｽ・ｽ・ｽb・ｽW[%]・ｽi・ｽ・ｽﾔ奇ｿｽﾔ最擾ｿｽ・ｽj */
     private double coverageMin_;
 
 	/**

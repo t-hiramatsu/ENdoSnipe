@@ -24,27 +24,27 @@ import jp.co.acroquest.endosnipe.common.Constants;
 import jp.co.acroquest.endosnipe.report.dao.ReportDao;
 
 /**
- * ƒVƒXƒeƒ€‚Ìƒf[ƒ^æ“¾‚ÆƒŒƒ|[ƒgî•ñ•ÏŠ·‚ğs‚¤ƒAƒNƒZƒTB
+ * ã‚·ã‚¹ãƒ†ãƒ ã®ãƒ‡ãƒ¼ã‚¿å–å¾—ã¨ãƒ¬ãƒãƒ¼ãƒˆæƒ…å ±å¤‰æ›ã‚’è¡Œã†ã‚¢ã‚¯ã‚»ã‚µã€‚
  * 
  * @author eriguchi
  */
 public class SystemRecordAccessor
 {
     /**
-     * ŠúŠÔ‚ğw’è‚µA‚»‚ÌŠúŠÔ“à‚Å‚ÌƒVƒXƒeƒ€ƒŠƒ\[ƒX(CPU^ƒƒ‚ƒŠ)g—pó‹µ‚ÌƒŒƒ|[ƒgƒf[ƒ^‚ğæ“¾‚·‚éB
+     * æœŸé–“ã‚’æŒ‡å®šã—ã€ãã®æœŸé–“å†…ã§ã®ã‚·ã‚¹ãƒ†ãƒ ãƒªã‚½ãƒ¼ã‚¹(CPUï¼ãƒ¡ãƒ¢ãƒª)ä½¿ç”¨çŠ¶æ³ã®ãƒ¬ãƒãƒ¼ãƒˆãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @param database  ƒf[ƒ^ƒx[ƒX–¼B
-     * @param startTime ŒŸõğŒ(ŠJn)B
-     * @param endTime   ŒŸõğŒ(I—¹)B
-     * @return ƒVƒXƒeƒ€ƒŠƒ\[ƒXg—pó‹µ‚ÌƒŒƒ|[ƒgƒf[ƒ^B
-     * @throws SQLException ƒf[ƒ^æ“¾‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database  ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã€‚
+     * @param startTime æ¤œç´¢æ¡ä»¶(é–‹å§‹æ™‚åˆ»)ã€‚
+     * @param endTime   æ¤œç´¢æ¡ä»¶(çµ‚äº†æ™‚åˆ»)ã€‚
+     * @return ã‚·ã‚¹ãƒ†ãƒ ãƒªã‚½ãƒ¼ã‚¹ä½¿ç”¨çŠ¶æ³ã®ãƒ¬ãƒãƒ¼ãƒˆãƒ‡ãƒ¼ã‚¿ã€‚
+     * @throws SQLException ãƒ‡ãƒ¼ã‚¿å–å¾—æ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public List<SystemResourceRecord> findSystemResourceStaticsByTerm(String database,
             Timestamp startTime, Timestamp endTime) throws SQLException
     {
         List<SystemResourceRecord> result = new ArrayList<SystemResourceRecord>();
 
-        // ƒf[ƒ^ƒx[ƒX‚©‚ç’l‚ğæ“¾‚·‚é
+        // ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‹ã‚‰å€¤ã‚’å–å¾—ã™ã‚‹
         List<ReportItemValue> cpuUsageTotalValues;
         List<ReportItemValue> cpuUsageSysValues;
         List<ReportItemValue> physicalMemValues;
@@ -59,8 +59,8 @@ public class SystemRecordAccessor
         cpuUsageSysValues = ReportDao.selectAverage(database, startTime,
                 endTime, Constants.ITEMNAME_SYSTEM_CPU_SYSTEM_USAGE);
 
-        // CPUg—p—¦‚Ìƒf[ƒ^‚ªDB‚É‚ ‚èAæ“¾‚Å‚«‚½ê‡‚ÍA‚»‚ê‚ç‚É•ÏŠ·ˆ—‚ğs‚¤B
-        // æ“¾‚Å‚«‚È‚©‚Á‚½ê‡‚ÍA‘¼‚Ìƒf[ƒ^‚©‚çŒvZ‚·‚é‚±‚Æ‚É‚æ‚Á‚ÄÄæ“¾‚·‚éB
+        // CPUä½¿ç”¨ç‡ã®ãƒ‡ãƒ¼ã‚¿ãŒDBã«ã‚ã‚Šã€å–å¾—ã§ããŸå ´åˆã¯ã€ãã‚Œã‚‰ã«å¤‰æ›å‡¦ç†ã‚’è¡Œã†ã€‚
+        // å–å¾—ã§ããªã‹ã£ãŸå ´åˆã¯ã€ä»–ã®ãƒ‡ãƒ¼ã‚¿ã‹ã‚‰è¨ˆç®—ã™ã‚‹ã“ã¨ã«ã‚ˆã£ã¦å†å–å¾—ã™ã‚‹ã€‚
         if (cpuUsageTotalValues != null && cpuUsageSysValues != null
                 && 0 < cpuUsageTotalValues.size()
                 && 0 < cpuUsageSysValues.size())
@@ -166,14 +166,14 @@ public class SystemRecordAccessor
     }
 
     /**
-     * DB‚©‚ç—İÏCPUŠÔ‚ğæ“¾‚µACPUg—p—¦‚ğŠ„‚èo‚·B
+     * DBã‹ã‚‰ç´¯ç©CPUæ™‚é–“ã‚’å–å¾—ã—ã€CPUä½¿ç”¨ç‡ã‚’å‰²ã‚Šå‡ºã™ã€‚
      * 
-     * @param database  ƒf[ƒ^ƒx[ƒXB
-     * @param startTime ŒŸõğŒ(ŠJn)B
-     * @param endTime   ŒŸõğŒ(I—¹)B
+     * @param database  ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã€‚
+     * @param startTime æ¤œç´¢æ¡ä»¶(é–‹å§‹æ™‚åˆ»)ã€‚
+     * @param endTime   æ¤œç´¢æ¡ä»¶(çµ‚äº†æ™‚åˆ»)ã€‚
      * @param cpuItemName TODO
-     * @return CPUg—p—¦‚ÌƒŠƒXƒgB
-     * @throws SQLException ƒf[ƒ^ƒx[ƒX‚©‚ç‚ÌŒŸõ‚ÉƒGƒ‰[‚ª”­¶‚µ‚½ê‡B
+     * @return CPUä½¿ç”¨ç‡ã®ãƒªã‚¹ãƒˆã€‚
+     * @throws SQLException ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‹ã‚‰ã®æ¤œç´¢æ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆã€‚
      */
     private List<ReportItemValue> selectCpuUsage(String database, Timestamp startTime,
             Timestamp endTime, String cpuItemName)
@@ -223,14 +223,14 @@ public class SystemRecordAccessor
     }
 
     /**
-     * DB‚©‚ç—İÏCPUŠÔ‚ğæ“¾‚µACPUg—p—¦‚ğŠ„‚èo‚·B
+     * DBã‹ã‚‰ç´¯ç©CPUæ™‚é–“ã‚’å–å¾—ã—ã€CPUä½¿ç”¨ç‡ã‚’å‰²ã‚Šå‡ºã™ã€‚
      * 
-     * @param database  ƒf[ƒ^ƒx[ƒXB
-     * @param startTime ŒŸõğŒ(ŠJn)B
-     * @param endTime   ŒŸõğŒ(I—¹)B
+     * @param database  ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã€‚
+     * @param startTime æ¤œç´¢æ¡ä»¶(é–‹å§‹æ™‚åˆ»)ã€‚
+     * @param endTime   æ¤œç´¢æ¡ä»¶(çµ‚äº†æ™‚åˆ»)ã€‚
      * @param memoryItemName TODO
-     * @return CPUg—p—¦‚ÌƒŠƒXƒgB
-     * @throws SQLException ƒf[ƒ^ƒx[ƒX‚©‚ç‚ÌŒŸõ‚ÉƒGƒ‰[‚ª”­¶‚µ‚½ê‡B
+     * @return CPUä½¿ç”¨ç‡ã®ãƒªã‚¹ãƒˆã€‚
+     * @throws SQLException ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‹ã‚‰ã®æ¤œç´¢æ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆã€‚
      */
     private List<ReportItemValue> selectMemoryUsage(String database, Timestamp startTime,
             Timestamp endTime, String memoryItemName, String memoryFreeItemName)

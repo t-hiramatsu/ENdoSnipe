@@ -17,7 +17,7 @@ import jp.co.acroquest.endosnipe.report.converter.util.calc.Calculator;
 import org.apache.commons.beanutils.converters.LongConverter;
 
 /**
- * Long型に適合した計算処理を実行する計算機クラス
+ * Long蝙九↓驕ｩ蜷医＠縺溯ｨ育ｮ怜�ｦ逅�繧貞ｮ溯｡後☆繧玖ｨ育ｮ玲ｩ溘け繝ｩ繧ｹ
  * 
  * @author M.Yoshida
  */

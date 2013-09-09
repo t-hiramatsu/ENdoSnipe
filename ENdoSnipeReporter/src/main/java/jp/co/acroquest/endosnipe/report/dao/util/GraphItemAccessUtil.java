@@ -28,35 +28,35 @@ import jp.co.acroquest.endosnipe.data.dao.JavelinMeasurementItemDao;
 import jp.co.acroquest.endosnipe.data.dto.GraphTypeDto;
 
 /**
- * •¡”Œn—ñ‚ÌƒOƒ‰ƒtî•ñ‚ğA<br/>
- * æ“¾‚·‚éƒNƒ‰ƒXB
+ * è¤‡æ•°ç³»åˆ—ã®ã‚°ãƒ©ãƒ•æƒ…å ±ã‚’ã€<br/>
+ * å–å¾—ã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚
  * 
  * @author ochiai
  */
 public class GraphItemAccessUtil {
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B ƒCƒ“ƒXƒ^ƒ“ƒX¶¬‚ğ–h~‚·‚é‚½‚ßAprivate‚Æ‚·‚éB
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚ ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ç”Ÿæˆã‚’é˜²æ­¢ã™ã‚‹ãŸã‚ã€privateã¨ã™ã‚‹ã€‚
 	 */
 	private GraphItemAccessUtil() {
 		// Do nothing.
 	}
 
 	/**
-	 * ƒOƒ‰ƒt–¼‚ğŒ³‚ÉAŒn—ñ–¼‚²‚Æ‚Ì’lƒŠƒXƒg‚ğ•Ô‚·B
+	 * ã‚°ãƒ©ãƒ•åã‚’å…ƒã«ã€ç³»åˆ—åã”ã¨ã®å€¤ãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚
 	 * 
 	 * @param database
-	 *            ƒf[ƒ^ƒx[ƒX–¼
+	 *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
 	 * @param graphName
-	 *            ƒOƒ‰ƒt–¼
+	 *            ã‚°ãƒ©ãƒ•å
 	 * @param operator
-	 *            ˆ³k•û–@
+	 *            åœ§ç¸®æ–¹æ³•
 	 * @param startTime
-	 *            ŒŸõğŒ(ŠJn)
+	 *            æ¤œç´¢æ¡ä»¶(é–‹å§‹æ™‚åˆ»)
 	 * @param endTime
-	 *            ŒŸõğŒ(I—¹)
-	 * @return uListvƒOƒ‰ƒt‚Ìƒf[ƒ^
+	 *            æ¤œç´¢æ¡ä»¶(çµ‚äº†æ™‚åˆ»)
+	 * @return ã€ŒListã€ã‚°ãƒ©ãƒ•ã®ãƒ‡ãƒ¼ã‚¿
 	 * @throws SQLException
-	 *             ƒf[ƒ^æ“¾‚É—áŠO‚ª”­¶‚µ‚½ê‡
+	 *             ãƒ‡ãƒ¼ã‚¿å–å¾—æ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
 	 */
 	public static List<ItemData> findItemData(String database,
 			String graphName, CompressOperator operator, Timestamp startTime,
@@ -104,22 +104,22 @@ public class GraphItemAccessUtil {
 	}
 
 	/**
-	 * ƒOƒ‰ƒt–¼‚ğŒ³‚ÉAŒn—ñ–¼‚²‚Æ‚Ì’lƒŠƒXƒg‚ğ•Ô‚·B
+	 * ã‚°ãƒ©ãƒ•åã‚’å…ƒã«ã€ç³»åˆ—åã”ã¨ã®å€¤ãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚
 	 * 
 	 * @param database
-	 *            ƒf[ƒ^ƒx[ƒX–¼
+	 *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
 	 * @param graphName
-	 *            ƒOƒ‰ƒt–¼
+	 *            ã‚°ãƒ©ãƒ•å
 	 * @param operator
-	 *            ˆ³k•û–@
+	 *            åœ§ç¸®æ–¹æ³•
 	 * @param startTime
-	 *            ŒŸõğŒ(ŠJn)
+	 *            æ¤œç´¢æ¡ä»¶(é–‹å§‹æ™‚åˆ»)
 	 * @param endTime
-	 *            ŒŸõğŒ(I—¹)
+	 *            æ¤œç´¢æ¡ä»¶(çµ‚äº†æ™‚åˆ»)
 	 * @param tatData
-	 * @return uListvƒOƒ‰ƒt‚Ìƒf[ƒ^
+	 * @return ã€ŒListã€ã‚°ãƒ©ãƒ•ã®ãƒ‡ãƒ¼ã‚¿
 	 * @throws SQLException
-	 *             ƒf[ƒ^æ“¾‚É—áŠO‚ª”­¶‚µ‚½ê‡
+	 *             ãƒ‡ãƒ¼ã‚¿å–å¾—æ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
 	 */
 	public static List<ItemData> findExceptionData(String database,
 			CompressOperator operator, Timestamp startTime, Timestamp endTime,
@@ -159,22 +159,22 @@ public class GraphItemAccessUtil {
 	}
 
 	/**
-	 * ƒOƒ‰ƒt–¼‚ğŒ³‚ÉAŒn—ñ–¼‚²‚Æ‚Ì’lƒŠƒXƒg‚ğ•Ô‚·B
+	 * ã‚°ãƒ©ãƒ•åã‚’å…ƒã«ã€ç³»åˆ—åã”ã¨ã®å€¤ãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚
 	 * 
 	 * @param database
-	 *            ƒf[ƒ^ƒx[ƒX–¼
+	 *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
 	 * @param graphName
-	 *            ƒOƒ‰ƒt–¼
+	 *            ã‚°ãƒ©ãƒ•å
 	 * @param operator
-	 *            ˆ³k•û–@
+	 *            åœ§ç¸®æ–¹æ³•
 	 * @param startTime
-	 *            ŒŸõğŒ(ŠJn)
+	 *            æ¤œç´¢æ¡ä»¶(é–‹å§‹æ™‚åˆ»)
 	 * @param endTime
-	 *            ŒŸõğŒ(I—¹)
+	 *            æ¤œç´¢æ¡ä»¶(çµ‚äº†æ™‚åˆ»)
 	 * @param tatData
-	 * @return uListvƒOƒ‰ƒt‚Ìƒf[ƒ^
+	 * @return ã€ŒListã€ã‚°ãƒ©ãƒ•ã®ãƒ‡ãƒ¼ã‚¿
 	 * @throws SQLException
-	 *             ƒf[ƒ^æ“¾‚É—áŠO‚ª”­¶‚µ‚½ê‡
+	 *             ãƒ‡ãƒ¼ã‚¿å–å¾—æ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
 	 */
 	public static List<ItemData> findStallData(String database,
 			CompressOperator operator, Timestamp startTime, Timestamp endTime,
@@ -216,21 +216,21 @@ public class GraphItemAccessUtil {
 	}
 
 	/**
-	 * ƒOƒ‰ƒt–¼‚ğŒ³‚ÉAŒn—ñ–¼‚²‚Æ‚Ì’lƒŠƒXƒg‚ğ•Ô‚·B
+	 * ã‚°ãƒ©ãƒ•åã‚’å…ƒã«ã€ç³»åˆ—åã”ã¨ã®å€¤ãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚
 	 * 
 	 * @param database
-	 *            ƒf[ƒ^ƒx[ƒX–¼
+	 *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
 	 * @param graphName
-	 *            ƒOƒ‰ƒt–¼
+	 *            ã‚°ãƒ©ãƒ•å
 	 * @param operator
-	 *            ˆ³k•û–@
+	 *            åœ§ç¸®æ–¹æ³•
 	 * @param startTime
-	 *            ŒŸõğŒ(ŠJn)
+	 *            æ¤œç´¢æ¡ä»¶(é–‹å§‹æ™‚åˆ»)
 	 * @param endTime
-	 *            ŒŸõğŒ(I—¹)
-	 * @return uListvƒOƒ‰ƒt‚Ìƒf[ƒ^
+	 *            æ¤œç´¢æ¡ä»¶(çµ‚äº†æ™‚åˆ»)
+	 * @return ã€ŒListã€ã‚°ãƒ©ãƒ•ã®ãƒ‡ãƒ¼ã‚¿
 	 * @throws SQLException
-	 *             ƒf[ƒ^æ“¾‚É—áŠO‚ª”­¶‚µ‚½ê‡
+	 *             ãƒ‡ãƒ¼ã‚¿å–å¾—æ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
 	 */
 	public static Map<String, List<ReportItemValue>> findItemDataMap(
 			String database, String graphName, CompressOperator operator,
@@ -248,13 +248,13 @@ public class GraphItemAccessUtil {
 	}
 
 	/**
-	 * ˆø”‚Éw’è‚µ‚½ItemName”z‰º‚ÌŒv‘ª‘ÎÛ‚Ìˆê——‚ğæ“¾‚·‚éB
+	 * å¼•æ•°ã«æŒ‡å®šã—ãŸItemNameé…ä¸‹ã®è¨ˆæ¸¬å¯¾è±¡ã®ä¸€è¦§ã‚’å–å¾—ã™ã‚‹ã€‚
 	 * 
 	 * @param parentItemName
-	 *            æ“¾‚µ‚½‚¢Œv‘ª‘ÎÛ–¼‚Ìe‚Ì–¼‘O
-	 * @return Œv‘ª‘ÎÛ‚Ìˆê——
+	 *            å–å¾—ã—ãŸã„è¨ˆæ¸¬å¯¾è±¡åã®è¦ªã®åå‰
+	 * @return è¨ˆæ¸¬å¯¾è±¡ã®ä¸€è¦§
 	 * @throws SQLException
-	 *             ƒf[ƒ^æ“¾‚É—áŠO‚ª”­¶‚µ‚½ê‡
+	 *             ãƒ‡ãƒ¼ã‚¿å–å¾—æ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
 	 */
 	public static List<GraphTypeDto> findChildMeasurementItems(String database,
 			String parentItemName) throws SQLException {

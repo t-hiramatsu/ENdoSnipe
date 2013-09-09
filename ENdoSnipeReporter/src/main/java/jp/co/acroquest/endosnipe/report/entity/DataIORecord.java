@@ -4,43 +4,43 @@ import java.sql.Timestamp;
 
 public class DataIORecord
 {
-	/** �v������ */
+	/** 計測時刻 */
     private Timestamp measurementTime_;
 
-    /** �l�b�g���[�N�o�R�ł̃f�[�^����M�ʂ̃O���t�́A�f�[�^��M��[�T�C�Y(Bytes)]�i��Ԋ��ԕ��ρj */
+    /** ネットワーク経由でのデータ送受信量のグラフの、データ受信量[サイズ(Bytes)]（補間期間平均） */
     private long dataReceive_;
     
-    /** �l�b�g���[�N�o�R�ł̃f�[�^����M�ʂ̃O���t�́A�f�[�^��M��[�T�C�Y(Bytes)]�i��Ԋ��ԍő�j */
+    /** ネットワーク経由でのデータ送受信量のグラフの、データ受信量[サイズ(Bytes)]（補間期間最大） */
     private long dataReceiveMax_;
     
-    /** �l�b�g���[�N�o�R�ł̃f�[�^����M�ʂ̃O���t�́A�f�[�^��M��[�T�C�Y(Bytes)]�i��Ԋ��ԍŏ��j */
+    /** ネットワーク経由でのデータ送受信量のグラフの、データ受信量[サイズ(Bytes)]（補間期間最小） */
     private long dataReceiveMin_;
 
-    /** �l�b�g���[�N�o�R�ł̃f�[�^����M�ʂ̃O���t�́A�f�[�^���M��[�T�C�Y(Bytes)]�i��Ԋ��ԕ��ρj */
+    /** ネットワーク経由でのデータ送受信量のグラフの、データ送信量[サイズ(Bytes)]（補間期間平均） */
     private long dataTransmit_;
     
-    /** �l�b�g���[�N�o�R�ł̃f�[�^����M�ʂ̃O���t�́A�f�[�^���M��[�T�C�Y(Bytes)]�i��Ԋ��ԍő�j */
+    /** ネットワーク経由でのデータ送受信量のグラフの、データ送信量[サイズ(Bytes)]（補間期間最大） */
     private long dataTransmitMax_;
     
-    /** �l�b�g���[�N�o�R�ł̃f�[�^����M�ʂ̃O���t�́A�f�[�^���M��[�T�C�Y(Bytes)]�i��Ԋ��ԍŏ��j */
+    /** ネットワーク経由でのデータ送受信量のグラフの、データ送信量[サイズ(Bytes)]（補間期間最小） */
     private long dataTransmitMin_;
 
-    /** �t�@�C�����o�͗ʂ̃O���t�́A�t�@�C�����͗�[�T�C�Y(Bytes)]�i��Ԋ��ԕ��ρj */
+    /** ファイル入出力量のグラフの、ファイル入力量[サイズ(Bytes)]（補間期間平均） */
     private long fileInput_;
     
-    /** �t�@�C�����o�͗ʂ̃O���t�́A�t�@�C�����͗�[�T�C�Y(Bytes)]�i��Ԋ��ԍő�j */
+    /** ファイル入出力量のグラフの、ファイル入力量[サイズ(Bytes)]（補間期間最大） */
     private long fileInputMax_;
     
-    /** �t�@�C�����o�͗ʂ̃O���t�́A�t�@�C�����͗�[�T�C�Y(Bytes)]�i��Ԋ��ԍŏ��j */
+    /** ファイル入出力量のグラフの、ファイル入力量[サイズ(Bytes)]（補間期間最小） */
     private long fileInputMin_;
 
-    /** �t�@�C�����o�͗ʂ̃O���t�́A�t�@�C���o�͗�[�T�C�Y(Bytes)]�i��Ԋ��ԕ��ρj */
+    /** ファイル入出力量のグラフの、ファイル出力量[サイズ(Bytes)]（補間期間平均） */
     private long fileOutput_;
     
-    /** �t�@�C�����o�͗ʂ̃O���t�́A�t�@�C���o�͗�[�T�C�Y(Bytes)]�i��Ԋ��ԍő�j */
+    /** ファイル入出力量のグラフの、ファイル出力量[サイズ(Bytes)]（補間期間最大） */
     private long fileOutputMax_;
     
-    /** �t�@�C�����o�͗ʂ̃O���t�́A�t�@�C���o�͗�[�T�C�Y(Bytes)]�i��Ԋ��ԍŏ��j */
+    /** ファイル入出力量のグラフの、ファイル出力量[サイズ(Bytes)]（補間期間最小） */
     private long fileOutputMin_;
 
 	/**
@@ -149,7 +149,7 @@ public class DataIORecord
 	}
 
 	/**
-	 * @param fileInput�@the fileInput_ to set
+	 * @param fileInput　the fileInput_ to set
 	 */
 	public void setFileInput(long fileInput) {
 		this.fileInput_ = fileInput;

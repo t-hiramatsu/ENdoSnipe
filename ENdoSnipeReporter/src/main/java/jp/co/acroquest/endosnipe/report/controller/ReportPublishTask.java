@@ -26,33 +26,33 @@ import jp.co.acroquest.endosnipe.report.controller.ReportSearchCondition;
 import jp.co.acroquest.endosnipe.report.controller.ReportType;
 
 /**
- * ƒŒƒ|[ƒgo—Íˆ—‚ğÀs‚·‚éƒ^ƒXƒNƒIƒuƒWƒFƒNƒg i’»—¦‚Ì’Ê’m‚ğ”º‚¤B
+ * ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›å‡¦ç†ã‚’å®Ÿè¡Œã™ã‚‹ã‚¿ã‚¹ã‚¯ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ é€²æ—ç‡ã®é€šçŸ¥ã‚’ä¼´ã†ã€‚
  * 
  * @author M.Yoshida
  */
 public class ReportPublishTask  {
-	/** ŒŸõğŒ */
+	/** æ¤œç´¢æ¡ä»¶ */
 	private ReportSearchCondition searchCondition_;
 
-	/** ƒŒƒ|[ƒgí•Ê */
+	/** ãƒ¬ãƒãƒ¼ãƒˆç¨®åˆ¥ */
 	private ReportType[] publishTypes_;
 
-	/** I—¹‚ÉƒR[ƒ‹ƒoƒbƒN‚·‚é */
+	/** çµ‚äº†æ™‚ã«ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã™ã‚‹ */
 	private Runnable callback_;
 
-	/** ƒƒK[ */
+	/** ãƒ­ã‚¬ãƒ¼ */
 	private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(
 			ReportPublishTask.class);
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 * 
 	 * @param cond
-	 *            ŒŸõğŒ
+	 *            æ¤œç´¢æ¡ä»¶
 	 * @param publishType
-	 *            ƒŒƒ|[ƒgí•Ê
+	 *            ãƒ¬ãƒãƒ¼ãƒˆç¨®åˆ¥
 	 * @param callback
-	 *            ƒR[ƒ‹ƒoƒbƒN
+	 *            ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯
 	 */
 	public ReportPublishTask(ReportSearchCondition cond,
 			ReportType[] publishType, Runnable callback) {
@@ -69,11 +69,11 @@ public class ReportPublishTask  {
 	}
 
 	/**
-	 * ‘æ“ñˆø”‚Ì‘S‚Ä‚Ìq—v‘f‚É‘Î‚µ‚ÄƒŒƒ|[ƒgo—Í‚ğÀs‚·‚éB
+	 * ç¬¬äºŒå¼•æ•°ã®å…¨ã¦ã®å­è¦ç´ ã«å¯¾ã—ã¦ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã‚’å®Ÿè¡Œã™ã‚‹ã€‚
 	 * 
-	 * @param monitor IProgressMonitorƒNƒ‰ƒX‚ÌƒIƒuƒWƒFƒNƒg
-	 * @param targetItemName ƒŒƒ|[ƒgo—Í‘ÎÛ‚Ìe‚Ì€–Ú–¼
-	 * @return ÀsŠ®—¹‚Ìó‘Ô
+	 * @param monitor IProgressMonitorã‚¯ãƒ©ã‚¹ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 * @param targetItemName ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›å¯¾è±¡ã®è¦ªã®é …ç›®å
+	 * @return å®Ÿè¡Œå®Œäº†æ™‚ã®çŠ¶æ…‹
 	 */
 	public void createReport(String targetItemName) {
 		searchCondition_
