@@ -28,7 +28,7 @@ package jp.co.acroquest.endosnipe.collector.exception;
 import org.seasar.framework.message.MessageFormatter;
 
 /**
- * ƒT[ƒrƒX‰Šú‰»ƒGƒ‰[‚Ì‚½‚ß‚Ì—áŠOƒNƒ‰ƒX‚Å‚·B<br />
+ * ã‚µãƒ¼ãƒ“ã‚¹åˆæœŸåŒ–ã‚¨ãƒ©ãƒ¼ã®ãŸã‚ã®ä¾‹å¤–ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  * 
  * @author y-komori
  */
@@ -37,10 +37,10 @@ public class InitializeException extends Exception
     private static final long serialVersionUID = -1114506435525447808L;
 
     /**
-     * {@link InitializeException} ‚ğ\’z‚µ‚Ü‚·B<br />
+     * {@link InitializeException} ã‚’æ§‹ç¯‰ã—ã¾ã™ã€‚<br />
      * 
-     * @param messageCode ƒƒbƒZ[ƒWƒR[ƒh
-     * @param args ƒƒbƒZ[ƒWˆø”
+     * @param messageCode ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚³ãƒ¼ãƒ‰
+     * @param args ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å¼•æ•°
      */
     public InitializeException(final String messageCode, final Object... args)
     {
@@ -48,9 +48,9 @@ public class InitializeException extends Exception
     }
 
     /**
-     * {@link InitializeException} ‚ğ\’z‚µ‚Ü‚·B<br />
+     * {@link InitializeException} ã‚’æ§‹ç¯‰ã—ã¾ã™ã€‚<br />
      * 
-     * @param message —áŠOƒƒbƒZ[ƒW
+     * @param message ä¾‹å¤–ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
      */
     private InitializeException(final String message)
     {
@@ -58,9 +58,9 @@ public class InitializeException extends Exception
     }
 
     /**
-     * {@link InitializeException} ‚ğ\’z‚µ‚Ü‚·B<br />
+     * {@link InitializeException} ã‚’æ§‹ç¯‰ã—ã¾ã™ã€‚<br />
      * 
-     * @param cause Œ´ˆö‚Æ‚È‚é—áŠOƒIƒuƒWƒFƒNƒg
+     * @param cause åŸå› ã¨ãªã‚‹ä¾‹å¤–ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     public InitializeException(final Throwable cause)
     {

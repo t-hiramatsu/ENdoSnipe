@@ -38,7 +38,7 @@ import jp.co.smg.endosnipe.javassist.NotFoundException;
 
 public class FileOpenConverter extends AbstractConverter
 {
-    /** ƒtƒ@ƒCƒ‹open/closeƒ‚ƒjƒ^‚ÌƒNƒ‰ƒX–¼Ì */
+    /** ãƒ•ã‚¡ã‚¤ãƒ«open/closeãƒ¢ãƒ‹ã‚¿ã®ã‚¯ãƒ©ã‚¹åç§° */
     private static final String OPENCLOSE_MONITOR_NAME =
                                                          FileOpenCloseMonitor.class.getCanonicalName();
 
@@ -47,13 +47,13 @@ public class FileOpenConverter extends AbstractConverter
      */
     public void init()
     {
-        // ‰½‚à‚µ‚È‚¢B
+        // ä½•ã‚‚ã—ãªã„ã€‚
     }
 
     /**
      * 
-     * @throws CannotCompileException ƒRƒ“ƒpƒCƒ‹—áŠO
-     * @throws IOException ƒtƒ@ƒCƒ‹“üo—Í‚Ì—áŠO
+     * @throws CannotCompileException ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«æ™‚ä¾‹å¤–
+     * @throws IOException ãƒ•ã‚¡ã‚¤ãƒ«å…¥å‡ºåŠ›æ™‚ã®ä¾‹å¤–
      */
     @Override
     public void convertImpl()

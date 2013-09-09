@@ -42,13 +42,13 @@ import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 
 /**
- * “d•¶‚ÌóMˆ—‚ğs‚¤‚½‚ß‚ÌƒNƒ‰ƒX‚Å‚·B<br />
+ * é›»æ–‡ã®å—ä¿¡å‡¦ç†ã‚’è¡Œã†ãŸã‚ã®ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  * 
  * @author y-komori
  */
 public class TelegramReader implements Runnable
 {
-    /** ƒƒK[ƒNƒ‰ƒX */
+    /** ãƒ­ã‚¬ãƒ¼ã‚¯ãƒ©ã‚¹ */
     private static final ENdoSnipeLogger LOGGER =
             ENdoSnipeLogger.getLogger(TelegramReader.class);
 
@@ -65,41 +65,41 @@ public class TelegramReader implements Runnable
 
     private SocketChannel channel_;
 
-    /** ƒT[ƒo‘¤‚©‚ç‚Ìƒf[ƒ^‚ÌHead—p•Ï” */
+    /** ã‚µãƒ¼ãƒå´ã‹ã‚‰ã®ãƒ‡ãƒ¼ã‚¿ã®Headç”¨å¤‰æ•° */
     private final ByteBuffer headerBuffer_ = ByteBuffer.allocate(Header.HEADER_LENGTH);
 
-    /** “d•¶‚ğ“]‘—‚·‚éƒ^[ƒQƒbƒgƒIƒuƒWƒFƒNƒg‚ÌƒŠƒXƒg */
+    /** é›»æ–‡ã‚’è»¢é€ã™ã‚‹ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒªã‚¹ãƒˆ */
     private final List<TelegramListener> telegramListenerList_;
 
-    /** Ä‹N“®—pTcpStatsVisionEditor */
+    /** å†èµ·å‹•ç”¨TcpStatsVisionEditor */
     private CommunicationClientImpl comminicationClient_ = null;
 
-    /** ƒŠƒgƒ‰ƒCŠÔ */
+    /** ãƒªãƒˆãƒ©ã‚¤æ™‚é–“ */
     private static final int RETRY_INTERVAL = 10000;
 
     private int retryCount_ = 0;
     
-    /** ƒƒOo—Í—L–³ */
+    /** ãƒ­ã‚°å‡ºåŠ›æœ‰ç„¡ */
     private boolean isOutputLog_ = true;
     
-    /** ƒT[ƒo‚Æ‚Ì’ÊM—pƒRƒlƒNƒVƒ‡ƒ“ */
+    /** ã‚µãƒ¼ãƒã¨ã®é€šä¿¡ç”¨ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ */
     private JavelinClientConnection clientConnection_;
     
-    /** “d•¶‘—M—pƒXƒŒƒbƒh–¼. */
+    /** é›»æ–‡é€ä¿¡ç”¨ã‚¹ãƒ¬ãƒƒãƒ‰å. */
     private String sendThreadName_;
 
-    /** “d•¶‘—M—pƒXƒŒƒbƒh. */
+    /** é›»æ–‡é€ä¿¡ç”¨ã‚¹ãƒ¬ãƒƒãƒ‰. */
     private Thread clientSendThread_;
     
     /**
-     * {@link TelegramReader} ‚ğ\’z‚µ‚Ü‚·B<br />
+     * {@link TelegramReader} ã‚’æ§‹ç¯‰ã—ã¾ã™ã€‚<br />
      *
-     * @param communicationClient {@link CommunicationClientImpl} ƒIƒuƒWƒFƒNƒg
-     * @param sendThreadName “d•¶‘—M—pƒXƒŒƒbƒh–¼
-     * @param objSocket “d•¶‘—M—pƒ\ƒPƒbƒg
-     * @param discard Discard‚ÌÀ{—L–³
-     * @param isOutputLog ƒƒOo—Í—L–³
-     * @throws IOException “üo—Í—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param communicationClient {@link CommunicationClientImpl} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param sendThreadName é›»æ–‡é€ä¿¡ç”¨ã‚¹ãƒ¬ãƒƒãƒ‰å
+     * @param objSocket é›»æ–‡é€ä¿¡ç”¨ã‚½ã‚±ãƒƒãƒˆ
+     * @param discard Discardã®å®Ÿæ–½æœ‰ç„¡
+     * @param isOutputLog ãƒ­ã‚°å‡ºåŠ›æœ‰ç„¡
+     * @throws IOException å…¥å‡ºåŠ›ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public TelegramReader(final CommunicationClientImpl communicationClient,
             final String sendThreadName, final Socket objSocket,
@@ -112,16 +112,16 @@ public class TelegramReader implements Runnable
         this.sendThreadName_ = sendThreadName;
         this.isOutputLog_ = isOutputLog;
 
-        // telegramListenerList_ ‚Í synchronized ‚ğs‚¤•K—v‚ª‚ ‚é‚ªA
-        // Šg’£ for •¶i iterator j‚ğg—p‚·‚éê‡‚Í Collections.synchronizedList ‚Åƒ‰ƒbƒv‚µ‚Ä‚à–³‘Ê‚È‚½‚ßA
-        // ©‘O‚Å synchronized ˆ—‚ğs‚¤
+        // telegramListenerList_ ã¯ synchronized ã‚’è¡Œã†å¿…è¦ãŒã‚ã‚‹ãŒã€
+        // æ‹¡å¼µ for æ–‡ï¼ˆ iterator ï¼‰ã‚’ä½¿ç”¨ã™ã‚‹å ´åˆã¯ Collections.synchronizedList ã§ãƒ©ãƒƒãƒ—ã—ã¦ã‚‚ç„¡é§„ãªãŸã‚ã€
+        // è‡ªå‰ã§ synchronized å‡¦ç†ã‚’è¡Œã†
         this.telegramListenerList_ = new ArrayList<TelegramListener>();
     }
 
     /**
-     * “d•¶ˆ——pƒIƒuƒWƒFƒNƒg‚ğ’Ç‰Á‚µ‚Ü‚·B<br />
+     * é›»æ–‡å‡¦ç†ç”¨ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¿½åŠ ã—ã¾ã™ã€‚<br />
      *
-     * @param telegramListener “d•¶ˆ——pƒIƒuƒWƒFƒNƒg
+     * @param telegramListener é›»æ–‡å‡¦ç†ç”¨ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     public void addTelegramListener(final TelegramListener telegramListener)
     {
@@ -132,7 +132,7 @@ public class TelegramReader implements Runnable
     }
 
     /**
-     * “d•¶óMƒ‹[ƒvB<br />
+     * é›»æ–‡å—ä¿¡ãƒ«ãƒ¼ãƒ—ã€‚<br />
      */
     public void run()
     {
@@ -169,7 +169,7 @@ public class TelegramReader implements Runnable
             catch (InterruptedException ex)
             // CHECKSTYLE:OFF
             {
-                // interrupt‚·‚éB
+                // interruptã™ã‚‹ã€‚
             }
             // CHECKSTYLE:ON
             return;
@@ -197,7 +197,7 @@ public class TelegramReader implements Runnable
         {
             if(isShutdown_ == false)
             {
-                // Ø’f‚³‚ê‚½
+                // åˆ‡æ–­ã•ã‚ŒãŸ
                 outputLog("WECC0201", ioe);
                 setRunning(false);
                 this.clientConnection_.close();
@@ -220,7 +220,7 @@ public class TelegramReader implements Runnable
                 {
                     Telegram response = listener.receiveTelegram(telegram);
                     
-                    // ‰“š“d•¶‚ª‚ ‚éê‡‚Ì‚İA‰“š‚ğ•Ô‚·
+                    // å¿œç­”é›»æ–‡ãŒã‚ã‚‹å ´åˆã®ã¿ã€å¿œç­”ã‚’è¿”ã™
                     if (response != null)
                     {
                         List<byte[]> byteList = TelegramUtil.createTelegram(response);
@@ -239,10 +239,10 @@ public class TelegramReader implements Runnable
     }
 
     /**
-     * ƒT[ƒo‚©‚çƒf[ƒ^‚ğ“Ç‚İ‚İ‚Ü‚·B<br />
+     * ã‚µãƒ¼ãƒã‹ã‚‰ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã¿ã¾ã™ã€‚<br />
      *
-     * @return óM‚µ‚½ƒf[ƒ^
-     * @throws IOException “üo—Í—áŠO‚ª”­¶‚µ‚½ê‡
+     * @return å—ä¿¡ã—ãŸãƒ‡ãƒ¼ã‚¿
+     * @throws IOException å…¥å‡ºåŠ›ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     @SuppressWarnings("deprecation")
 	public byte[] readTelegramBytes()
@@ -289,7 +289,7 @@ public class TelegramReader implements Runnable
             this.headerBuffer_.getLong();
             finalTelegram = this.headerBuffer_.get();
 
-            // ƒwƒbƒ_•”‚µ‚©‚È‚¢ê‡‚Í‚»‚Ì‚Ü‚Ü•Ô‚·B
+            // ãƒ˜ãƒƒãƒ€éƒ¨ã—ã‹ãªã„å ´åˆã¯ãã®ã¾ã¾è¿”ã™ã€‚
             if (telegramLength <= Header.HEADER_LENGTH)
             {
                 this.headerBuffer_.rewind();
@@ -343,7 +343,7 @@ public class TelegramReader implements Runnable
         int telegramLength = telegramBytes.length;
         ByteBuffer outputBuffer = ByteBuffer.wrap(telegramBytes);
 
-        // ƒwƒbƒ_‚ğ•ÏŠ·‚·‚é
+        // ãƒ˜ãƒƒãƒ€ã‚’å¤‰æ›ã™ã‚‹
         outputBuffer.rewind();
         outputBuffer.putInt(telegramLength);
 
@@ -351,9 +351,9 @@ public class TelegramReader implements Runnable
     }
 
     /**
-     * Àsó‘Ô‚ğİ’è‚µ‚Ü‚·B<br />
+     * å®Ÿè¡ŒçŠ¶æ…‹ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
      * 
-     * @param isRunning Àsó‘Ô
+     * @param isRunning å®Ÿè¡ŒçŠ¶æ…‹
      */
     public void setRunning(final boolean isRunning)
     {
@@ -361,11 +361,11 @@ public class TelegramReader implements Runnable
     }
 
     /**
-     * “d•¶‚ğƒfƒoƒbƒOo—Í‚µ‚Ü‚·B<br />
+     * é›»æ–‡ã‚’ãƒ‡ãƒãƒƒã‚°å‡ºåŠ›ã—ã¾ã™ã€‚<br />
      * 
-     * @param message ƒƒbƒZ[ƒW
-     * @param response óM“d•¶
-     * @param length “d•¶’·
+     * @param message ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
+     * @param response å—ä¿¡é›»æ–‡
+     * @param length é›»æ–‡é•·
      */
     public void logTelegram(final String message, final Telegram response, final int length)
     {
@@ -382,15 +382,15 @@ public class TelegramReader implements Runnable
         isShutdown_ = true;
         setRunning(false);    
 
-        // “d•¶‘—MƒXƒŒƒbƒh‚ÉŠ„‚è‚ñ‚Å’â~‚·‚éB
+        // é›»æ–‡é€ä¿¡ã‚¹ãƒ¬ãƒƒãƒ‰ã«å‰²ã‚Šè¾¼ã‚“ã§åœæ­¢ã™ã‚‹ã€‚
         this.clientSendThread_.interrupt();
     }
     
     /**
-     * ƒƒO‚ğo—Í‚µ‚Ü‚·B<br />
+     * ãƒ­ã‚°ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
      * 
-     * @param messageCode ƒƒbƒZ[ƒWƒR[ƒh
-     * @param args ˆø”
+     * @param messageCode ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚³ãƒ¼ãƒ‰
+     * @param args å¼•æ•°
      */
     private void outputLog(final String messageCode, final Object... args)
     {

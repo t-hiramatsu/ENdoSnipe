@@ -32,7 +32,7 @@ import java.util.List;
 import org.h2.tools.Server;
 
 /**
- * H2 ƒf[ƒ^ƒx[ƒX‚ğŠÇ—‚·‚é‚½‚ß‚ÌƒNƒ‰ƒX‚Å‚·B<br />
+ * H2 ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚’ç®¡ç†ã™ã‚‹ãŸã‚ã®ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  * 
  * @author y-komori
  */
@@ -56,9 +56,9 @@ public class H2Manager
     }
 
     /**
-     * {@link H2Manager} ‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚µ‚Ü‚·B<br />
+     * {@link H2Manager} ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      * 
-     * @return {@link H2Manager} ‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
+     * @return {@link H2Manager} ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
 
      */
     public static H2Manager getInstance()
@@ -71,9 +71,9 @@ public class H2Manager
     }
 
     /**
-     * ƒf[ƒ^ƒx[ƒX‚ğŠJn‚µ‚Ü‚·B<br />
+     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚’é–‹å§‹ã—ã¾ã™ã€‚<br />
      * 
-     * @throws SQLException ƒf[ƒ^ƒx[ƒX‚ÌŠJn‚É¸”s‚µ‚½ê‡
+     * @throws SQLException ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®é–‹å§‹ã«å¤±æ•—ã—ãŸå ´åˆ
      */
     public void start()
         throws SQLException
@@ -113,7 +113,7 @@ public class H2Manager
     }
 
     /**
-     * ƒf[ƒ^ƒx[ƒX‚ğ’â~‚µ‚Ü‚·B<br />
+     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚’åœæ­¢ã—ã¾ã™ã€‚<br />
      */
     public void stop()
     {
@@ -128,9 +128,9 @@ public class H2Manager
     }
 
     /**
-     * ƒf[ƒ^ƒx[ƒX‚Ìƒx[ƒXƒfƒBƒŒƒNƒgƒŠ‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®ãƒ™ãƒ¼ã‚¹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’è¿”ã—ã¾ã™ã€‚<br />
      * 
-     * @return ƒf[ƒ^ƒx[ƒX‚Ìƒx[ƒXƒfƒBƒŒƒNƒgƒŠ
+     * @return ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®ãƒ™ãƒ¼ã‚¹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
      */
     public String getBaseDir()
     {
@@ -138,9 +138,9 @@ public class H2Manager
     }
 
     /**
-     * ƒf[ƒ^ƒx[ƒX‚Ìƒx[ƒXƒfƒBƒŒƒNƒgƒŠ‚ğİ’è‚µ‚Ü‚·B<br />
+     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®ãƒ™ãƒ¼ã‚¹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’è¨­å®šã—ã¾ã™ã€‚<br />
      * 
-     * @param baseDir ƒf[ƒ^ƒx[ƒX‚Ìƒx[ƒXƒfƒBƒŒƒNƒgƒŠ
+     * @param baseDir ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®ãƒ™ãƒ¼ã‚¹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
      */
     public void setBaseDir(final String baseDir)
     {
@@ -148,9 +148,9 @@ public class H2Manager
     }
 
     /**
-     * TCP ‘Ò‚¿ó‚¯ƒ|[ƒg”Ô†‚ğ•Ô‚µ‚Ü‚·B<br />
+     * TCP å¾…ã¡å—ã‘ãƒãƒ¼ãƒˆç•ªå·ã‚’è¿”ã—ã¾ã™ã€‚<br />
      * 
-     * @return TCP ‘Ò‚¿ó‚¯ƒ|[ƒg”Ô†
+     * @return TCP å¾…ã¡å—ã‘ãƒãƒ¼ãƒˆç•ªå·
 
      */
     public int getTcpPort()
@@ -159,11 +159,11 @@ public class H2Manager
     }
 
     /**
-     * TCP ‘Ò‚¿ó‚¯ƒ|[ƒg”Ô†‚ğİ’è‚µ‚Ü‚·B<br />
+     * TCP å¾…ã¡å—ã‘ãƒãƒ¼ãƒˆç•ªå·ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
      * 
-     * İ’è‚µ‚È‚¢ê‡‚ÌƒfƒtƒHƒ‹ƒg’l‚Í 9092 ‚Æ‚È‚è‚Ü‚·B
+     * è¨­å®šã—ãªã„å ´åˆã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã¯ 9092 ã¨ãªã‚Šã¾ã™ã€‚
      * 
-     * @param tcpPort TCP ‘Ò‚¿ó‚¯ƒ|[ƒg”Ô†
+     * @param tcpPort TCP å¾…ã¡å—ã‘ãƒãƒ¼ãƒˆç•ªå·
 
      */
     public void setTcpPort(final int tcpPort)
@@ -172,10 +172,10 @@ public class H2Manager
     }
 
     /**
-     * ƒf[ƒ^ƒx[ƒXƒT[ƒo‚ğ’â~‚µ‚Ü‚·B<br />
+     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚µãƒ¼ãƒã‚’åœæ­¢ã—ã¾ã™ã€‚<br />
      *
-     * @param server ƒT[ƒo
-     * @return ’â~‚µ‚½ê‡‚Í <code>true</code> A‚·‚Å‚É’â~‚µ‚Ä‚¢‚éê‡‚Í <code>false</code>
+     * @param server ã‚µãƒ¼ãƒ
+     * @return åœæ­¢ã—ãŸå ´åˆã¯ <code>true</code> ã€ã™ã§ã«åœæ­¢ã—ã¦ã„ã‚‹å ´åˆã¯ <code>false</code>
      */
     protected boolean stopServer(final Server server)
     {

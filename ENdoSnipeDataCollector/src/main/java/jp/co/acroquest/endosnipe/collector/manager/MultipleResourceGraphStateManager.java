@@ -31,22 +31,22 @@ import java.util.concurrent.ConcurrentHashMap;
 import jp.co.acroquest.endosnipe.data.dto.MultipleResourceGraphDefinitionDto;
 
 /**
- * ƒVƒOƒiƒ‹‚Ìó‘Ô‚ğ•Û‚·‚éƒNƒ‰ƒX
+ * ã‚·ã‚°ãƒŠãƒ«ã®çŠ¶æ…‹ã‚’ä¿æŒã™ã‚‹ã‚¯ãƒ©ã‚¹
  * @author pin
  *
  */
 public class MultipleResourceGraphStateManager
 {
-    /** MultipleResourceGraphStateManagerƒCƒ“ƒXƒ^ƒ“ƒX */
+    /** MultipleResourceGraphStateManagerã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ */
     public static MultipleResourceGraphStateManager instance__ =
         new MultipleResourceGraphStateManager();
 
-    /** ƒVƒOƒiƒ‹’è‹`‚ğ•Û‚·‚éƒ}ƒbƒv */
+    /** ã‚·ã‚°ãƒŠãƒ«å®šç¾©ã‚’ä¿æŒã™ã‚‹ãƒãƒƒãƒ— */
     private Map<Long, MultipleResourceGraphDefinitionDto> multipleResourceGraphDefinitionMap_ =
         null;
 
     /**
-     * ƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğ‘j~‚·‚éprivateƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Å‚·B
+     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã‚’é˜»æ­¢ã™ã‚‹privateã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§ã™ã€‚
      */
     private MultipleResourceGraphStateManager()
     {
@@ -54,8 +54,8 @@ public class MultipleResourceGraphStateManager
     }
 
     /**
-     * {@link MultipleResourceGraphStateManager}ƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚·‚éB
-     * @return {@link MultipleResourceGraphStateManager}ƒCƒ“ƒXƒ^ƒ“ƒX
+     * {@link MultipleResourceGraphStateManager}ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return {@link MultipleResourceGraphStateManager}ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
      */
     public static MultipleResourceGraphStateManager getInstance()
     {
@@ -63,8 +63,8 @@ public class MultipleResourceGraphStateManager
     }
 
     /**
-    * ƒVƒOƒiƒ‹’è‹`î•ñ‚Ìƒ}ƒbƒv‚ğ•Ô‹p‚·‚éB
-    * @return ƒVƒOƒiƒ‹’è‹`î•ñ‚Ìƒ}ƒbƒv
+    * ã‚·ã‚°ãƒŠãƒ«å®šç¾©æƒ…å ±ã®ãƒãƒƒãƒ—ã‚’è¿”å´ã™ã‚‹ã€‚
+    * @return ã‚·ã‚°ãƒŠãƒ«å®šç¾©æƒ…å ±ã®ãƒãƒƒãƒ—
     */
     public Map<Long, MultipleResourceGraphDefinitionDto> getMultipleResourceGraphDefinition()
     {
@@ -72,8 +72,8 @@ public class MultipleResourceGraphStateManager
     }
 
     /**
-     * ƒVƒOƒiƒ‹’è‹`î•ñ‚Ìƒ}ƒbƒv‚ğİ’è‚·‚éB
-     * @param multipleResourceGraphDefinitionMap ƒVƒOƒiƒ‹’è‹`î•ñ‚Ìƒ}ƒbƒv
+     * ã‚·ã‚°ãƒŠãƒ«å®šç¾©æƒ…å ±ã®ãƒãƒƒãƒ—ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param multipleResourceGraphDefinitionMap ã‚·ã‚°ãƒŠãƒ«å®šç¾©æƒ…å ±ã®ãƒãƒƒãƒ—
      */
     public void setMultipleResourceGraphDefinitionMap(
         final Map<Long, MultipleResourceGraphDefinitionDto> multipleResourceGraphDefinitionMap)
@@ -82,9 +82,9 @@ public class MultipleResourceGraphStateManager
     }
 
     /**
-     * ƒVƒOƒiƒ‹’è‹`î•ñ‚ğ’Ç‰Á‚·‚éB
-     * @param multipleResourceGraphId ƒVƒOƒiƒ‹ID
-     * @param multipleResourceGraphDefinitionDto ƒVƒOƒiƒ‹’è‹`î•ñ
+     * ã‚·ã‚°ãƒŠãƒ«å®šç¾©æƒ…å ±ã‚’è¿½åŠ ã™ã‚‹ã€‚
+     * @param multipleResourceGraphId ã‚·ã‚°ãƒŠãƒ«ID
+     * @param multipleResourceGraphDefinitionDto ã‚·ã‚°ãƒŠãƒ«å®šç¾©æƒ…å ±
      * 
      */
     public void addMultipleResourceGraphDefinition(final Long multipleResourceGraphId,
@@ -100,10 +100,10 @@ public class MultipleResourceGraphStateManager
     }
 
     /**
-     * ƒVƒOƒiƒ‹’è‹`î•ñ‚ğíœ‚·‚éB
-     * @param multipleResourceGraphId ƒVƒOƒiƒ‹ID
+     * ã‚·ã‚°ãƒŠãƒ«å®šç¾©æƒ…å ±ã‚’å‰Šé™¤ã™ã‚‹ã€‚
+     * @param multipleResourceGraphId ã‚·ã‚°ãƒŠãƒ«ID
      * 
-     * @return íœ‚µ‚½ƒVƒOƒiƒ‹’è‹`î•ñ
+     * @return å‰Šé™¤ã—ãŸã‚·ã‚°ãƒŠãƒ«å®šç¾©æƒ…å ±
      * 
      */
     public MultipleResourceGraphDefinitionDto removeMultipleResourceGraphDefinition(

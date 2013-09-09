@@ -30,13 +30,13 @@ import jp.co.acroquest.endosnipe.communicator.entity.Header;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 
 /**
- * “d•¶ˆ—‚Ì‚½‚ß‚ÌŠî’êƒNƒ‰ƒX‚Å‚·B<br />
+ * é›»æ–‡å‡¦ç†ã®ãŸã‚ã®åŸºåº•ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  * 
  * @author y-komori
  */
 public abstract class AbstractTelegramListener implements TelegramListener
 {
-    /** ƒƒK[ƒNƒ‰ƒX */
+    /** ãƒ­ã‚¬ãƒ¼ã‚¯ãƒ©ã‚¹ */
     private static final ENdoSnipeLogger LOGGER =
             ENdoSnipeLogger.getLogger(AbstractTelegramListener.class);
 
@@ -62,11 +62,11 @@ public abstract class AbstractTelegramListener implements TelegramListener
     }
 
     /**
-     * óM‚µ‚½“d•¶‚ğˆ—‚·‚é‚©‚Ç‚¤‚©‚ğ”»’è‚µ‚Ü‚·B<br />
-     * ”»’èˆ—‚ğƒJƒXƒ^ƒ}ƒCƒY‚µ‚½‚¢ê‡‚ÍA–{ƒƒ\ƒbƒh‚ğƒTƒuƒNƒ‰ƒX‚ÅƒI[ƒo[ƒ‰ƒCƒh‚µ‚Ä‚­‚¾‚³‚¢B
+     * å—ä¿¡ã—ãŸé›»æ–‡ã‚’å‡¦ç†ã™ã‚‹ã‹ã©ã†ã‹ã‚’åˆ¤å®šã—ã¾ã™ã€‚<br />
+     * åˆ¤å®šå‡¦ç†ã‚’ã‚«ã‚¹ã‚¿ãƒã‚¤ã‚ºã—ãŸã„å ´åˆã¯ã€æœ¬ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ã‚µãƒ–ã‚¯ãƒ©ã‚¹ã§ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã—ã¦ãã ã•ã„ã€‚
      * 
-     * @param telegram óM“d•¶
-     * @return “d•¶ˆ—‚ğs‚¤ê‡A<code>true</code>B
+     * @param telegram å—ä¿¡é›»æ–‡
+     * @return é›»æ–‡å‡¦ç†ã‚’è¡Œã†å ´åˆã€<code>true</code>ã€‚
      */
     protected boolean judgeTelegram(final Telegram telegram)
     {
@@ -76,28 +76,28 @@ public abstract class AbstractTelegramListener implements TelegramListener
     }
 
     /**
-     * “d•¶ˆ—‚ğs‚¢‚Ü‚·B<br />
-     * –{ƒƒ\ƒbƒh‚ÍƒTƒuƒNƒ‰ƒX‚ÅÀ‘•‚µ‚Ä‚­‚¾‚³‚¢B<br />
+     * é›»æ–‡å‡¦ç†ã‚’è¡Œã„ã¾ã™ã€‚<br />
+     * æœ¬ãƒ¡ã‚½ãƒƒãƒ‰ã¯ã‚µãƒ–ã‚¯ãƒ©ã‚¹ã§å®Ÿè£…ã—ã¦ãã ã•ã„ã€‚<br />
      * 
-     * @param telegram óM‚µ‚½“d•¶ƒIƒuƒWƒFƒNƒg
-     * @return ‰“š“d•¶ƒIƒuƒWƒFƒNƒgB‰“š‚ğs‚í‚È‚¢ê‡‚Í <code>null</code>B
+     * @param telegram å—ä¿¡ã—ãŸé›»æ–‡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @return å¿œç­”é›»æ–‡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚å¿œç­”ã‚’è¡Œã‚ãªã„å ´åˆã¯ <code>null</code>ã€‚
      */
     protected abstract Telegram doReceiveTelegram(Telegram telegram);
 
     /**
-     * ˆ—‚·‚é“d•¶‚Ì—v‹‰“ší•Ê‚ğ•Ô‚µ‚Ü‚·B<br />
-     * –{ƒƒ\ƒbƒh‚ÍƒTƒuƒNƒ‰ƒX‚ÅÀ‘•‚µ‚Ä‚­‚¾‚³‚¢B
+     * å‡¦ç†ã™ã‚‹é›»æ–‡ã®è¦æ±‚å¿œç­”ç¨®åˆ¥ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * æœ¬ãƒ¡ã‚½ãƒƒãƒ‰ã¯ã‚µãƒ–ã‚¯ãƒ©ã‚¹ã§å®Ÿè£…ã—ã¦ãã ã•ã„ã€‚
      * 
-     * @return ˆ—‚·‚é“d•¶‚Ì—v‹‰“ší•Ê
+     * @return å‡¦ç†ã™ã‚‹é›»æ–‡ã®è¦æ±‚å¿œç­”ç¨®åˆ¥
      */
 
     protected abstract byte getByteRequestKind();
 
     /**
-     * ˆ—‚·‚é“d•¶‚Ìí•Ê‚ğ•Ô‚µ‚Ü‚·B<br />
-     * –{ƒƒ\ƒbƒh‚ÍƒTƒuƒNƒ‰ƒX‚ÅÀ‘•‚µ‚Ä‚­‚¾‚³‚¢B
+     * å‡¦ç†ã™ã‚‹é›»æ–‡ã®ç¨®åˆ¥ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * æœ¬ãƒ¡ã‚½ãƒƒãƒ‰ã¯ã‚µãƒ–ã‚¯ãƒ©ã‚¹ã§å®Ÿè£…ã—ã¦ãã ã•ã„ã€‚
      * 
-     * @return ˆ—‚·‚é“d•¶‚Ìí•Ê
+     * @return å‡¦ç†ã™ã‚‹é›»æ–‡ã®ç¨®åˆ¥
      */
     protected abstract byte getByteTelegramKind();
 }

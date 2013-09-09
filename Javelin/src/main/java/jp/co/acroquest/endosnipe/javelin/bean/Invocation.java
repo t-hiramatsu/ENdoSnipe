@@ -36,45 +36,45 @@ import jp.co.acroquest.endosnipe.javelin.CallTreeNode;
 import jp.co.acroquest.endosnipe.javelin.converter.util.CalledMethodCounter;
 
 /**
- * ƒƒ\ƒbƒhŒÄ‚Ño‚µ‚Ì“Œvî•ñ‚ğ‹L˜^‚·‚éB
+ * ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—ã®çµ±è¨ˆæƒ…å ±ã‚’è¨˜éŒ²ã™ã‚‹ã€‚
  * @author eriguchi
  */
 public class Invocation implements InvocationMBean, Serializable
 {
-    /** ƒoƒbƒtƒ@ƒTƒCƒY‚ÌƒfƒtƒHƒ‹ƒg’l */
+    /** ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚ºã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
     private static final int DEF_BUFFER_SIZE = 256;
 
-    /** ƒVƒŠƒAƒ‹ID */
+    /** ã‚·ãƒªã‚¢ãƒ«ID */
     private static final long serialVersionUID = -6941143619225037990L;    
 
-    /** ‰Šú’l */
+    /** åˆæœŸå€¤ */
     private static final long INITIAL = -1;
 
-    /** ƒŒƒXƒ|ƒ“ƒX‰ñ”‚ª 0 ˆÈŠO‚Ì‚Æ‚«‚Ì tatCallZeroValueStartTime_ ‚Ì’l */
+    /** ãƒ¬ã‚¹ãƒãƒ³ã‚¹å›æ•°ãŒ 0 ä»¥å¤–ã®ã¨ãã® tatCallZeroValueStartTime_ ã®å€¤ */
     public static final long TAT_ZERO_KEEP_TIME_NULL_VALUE = 0;
 
-    /** ƒAƒ‰[ƒ€è‡’l‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢‚Æ‚«‚Ì alarmThreshold ‚Ì’l */
+    /** ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ãŒæŒ‡å®šã•ã‚Œã¦ã„ãªã„ã¨ãã® alarmThreshold ã®å€¤ */
     public static final long THRESHOLD_NOT_SPECIFIED = -1;
 
-    /** HashMap‚ÌƒfƒtƒHƒ‹ƒgƒTƒCƒY */
+    /** HashMapã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚µã‚¤ã‚º */
     private static final int HASH_MAP_DEFALT_SIZE = 5;
     
-    /** ƒNƒ‰ƒX–¼ */
+    /** ã‚¯ãƒ©ã‚¹å */
     private final String className_;
 
-    /** ƒƒ\ƒbƒh–¼ */
+    /** ãƒ¡ã‚½ãƒƒãƒ‰å */
     private final String methodName_;
 
-    /** CallTree“à‚ÌŒv‘ªƒf[ƒ^‚ğ•Û‘¶‚·‚é‚½‚ß‚Ég—p‚·‚éAƒNƒ‰ƒX–¼Aƒƒ\ƒbƒh–¼‚ğŒ‹‡‚µ‚½ƒL[î•ñB */
+    /** CallTreeå†…ã®è¨ˆæ¸¬ãƒ‡ãƒ¼ã‚¿ã‚’ä¿å­˜ã™ã‚‹ãŸã‚ã«ä½¿ç”¨ã™ã‚‹ã€ã‚¯ãƒ©ã‚¹åã€ãƒ¡ã‚½ãƒƒãƒ‰åã‚’çµåˆã—ãŸã‚­ãƒ¼æƒ…å ±ã€‚ */
     private final String key_;
 
-    /** RootInvocationManager‚ªg—p‚·‚éƒL[î•ñB  */
+    /** RootInvocationManagerãŒä½¿ç”¨ã™ã‚‹ã‚­ãƒ¼æƒ…å ±ã€‚  */
     private final String rootInvocationManagerKey_;
     
-    /** ƒƒ\ƒbƒhŒÄ‚Ño‚µ‰ñ” */
+    /** ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—å›æ•° */
     private long count_;
 
-    /** ƒvƒƒZƒX‹N“®Œã‚©‚ç‚ÌŒÄ‚Ño‚µ‰ñ” */
+    /** ãƒ—ãƒ­ã‚»ã‚¹èµ·å‹•å¾Œã‹ã‚‰ã®å‘¼ã³å‡ºã—å›æ•° */
     private transient long countFromStartup_;
 
     private static final int SUM = 0;
@@ -88,109 +88,109 @@ public class Invocation implements InvocationMBean, Serializable
     private long[] accumulatedCpuIntervals_  = new long[]{0, INITIAL, INITIAL};
     private long[] accumulatedUserIntervals_ = new long[]{0, INITIAL, INITIAL};
     
-    /** ”­¶‚µ‚½—áŠO‚ÌŒÂ” */
+    /** ç™ºç”Ÿã—ãŸä¾‹å¤–ã®å€‹æ•° */
     private int throwableCount_ = 0;
 
-    /** ŒŸo‚µ‚½ƒXƒg[ƒ‹‚ÌŒÂ” */
+    /** æ¤œå‡ºã—ãŸã‚¹ãƒˆãƒ¼ãƒ«ã®å€‹æ•° */
     private int methodStallCount_ = 0;
 
-    /** HTTPƒXƒe[ƒ^ƒX‚ÌŒÂ” */
+    /** HTTPã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã®å€‹æ•° */
     private int httpStatusCount_ = 0;
     
-    /** ŒÄ‚Ño‚µŒ³‚ÌSet */
+    /** å‘¼ã³å‡ºã—å…ƒã®Set */
     private final Map<Invocation, Invocation> callerSet_ =
             new ConcurrentHashMap<Invocation, Invocation>();
 
-    /** ƒƒ\ƒbƒh‚ÌÅIÀsŠÔ */
+    /** ãƒ¡ã‚½ãƒƒãƒ‰ã®æœ€çµ‚å®Ÿè¡Œæ™‚é–“ */
     private long accumulatedTime_;
 
-    /** accumulatedTime_‚ÌÅ‘å’lB {@link #setAccumulatedTime}‚Ì’†‚ÅaccumulatedTime_‚Æ‹¤‚ÉXV”»’è‚ğs‚¤B@*/
+    /** accumulatedTime_ã®æœ€å¤§å€¤ã€‚ {@link #setAccumulatedTime}ã®ä¸­ã§accumulatedTime_ã¨å…±ã«æ›´æ–°åˆ¤å®šã‚’è¡Œã†ã€‚ã€€*/
     private long maxAccumulatedTime_;
 
-    /** ŒÄ‚Ño‚µî•ñ‚ğÔ‚­ƒuƒŠƒ“ƒN‚·‚éÛ‚Ìè‡’lB ’liƒ~ƒŠ•bj‚ğ‰º‰ñ‚éˆ—ŠÔ‚ÌŒÄ‚Ño‚µî•ñ‚ÍÔ‚­ƒuƒŠƒ“ƒN‚µ‚È‚¢B */
+    /** å‘¼ã³å‡ºã—æƒ…å ±ã‚’èµ¤ããƒ–ãƒªãƒ³ã‚¯ã™ã‚‹éš›ã®é–¾å€¤ã€‚ å€¤ï¼ˆãƒŸãƒªç§’ï¼‰ã‚’ä¸‹å›ã‚‹å‡¦ç†æ™‚é–“ã®å‘¼ã³å‡ºã—æƒ…å ±ã¯èµ¤ããƒ–ãƒªãƒ³ã‚¯ã—ãªã„ã€‚ */
     private long alarmThreshold_;
 
-    /** Œx‚ğ”­¶‚³‚¹‚éCPUŠÔ‚Ìè‡’l */
+    /** è­¦å‘Šã‚’ç™ºç”Ÿã•ã›ã‚‹CPUæ™‚é–“ã®é–¾å€¤ */
     private long alarmCpuThreshold_ = THRESHOLD_NOT_SPECIFIED;
 
-    /** ƒvƒƒZƒX–¼ */
+    /** ãƒ—ãƒ­ã‚»ã‚¹å */
     private final String processName_;
 
-    /** ƒnƒbƒVƒ…ƒR[ƒhB */
+    /** ãƒãƒƒã‚·ãƒ¥ã‚³ãƒ¼ãƒ‰ã€‚ */
     private int code_ = 0;
 
-    /** ÅIXV */
+    /** æœ€çµ‚æ›´æ–°æ™‚åˆ» */
     private long lastUpdatedTime_;
 
-    /** ÅIƒAƒ‰[ƒ€”­¶ */
+    /** æœ€çµ‚ã‚¢ãƒ©ãƒ¼ãƒ ç™ºç”Ÿæ™‚åˆ» */
     private long lastAlarmTime_;
 
-    /** ’Ç‰Á‚Å’l‚ğ•Û‘¶‚·‚éê‡‚É—˜—p‚·‚éB */
+    /** è¿½åŠ ã§å€¤ã‚’ä¿å­˜ã™ã‚‹å ´åˆã«åˆ©ç”¨ã™ã‚‹ã€‚ */
     private Map<String, Object> optValueMap_;
 
-    /** Invocation‚ªroot‚©‚Ç‚¤‚©(true:rootAfalse:not rootBƒfƒtƒHƒ‹ƒg’l‚Ífalse) */
+    /** InvocationãŒrootã‹ã©ã†ã‹(true:rootã€false:not rootã€‚ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã¯false) */
     private boolean isRoot_ = false;
 
-    /** Œv‘ª‘ÎÛ‚©”Û‚© */
+    /** è¨ˆæ¸¬å¯¾è±¡ã‹å¦ã‹ */
     private TripleState measurementTarget_ = TripleState.NOT_SPECIFIED;
 
-    /** ƒŒƒXƒ|ƒ“ƒXƒOƒ‰ƒt‚ğo—Í‚·‚é‚©‚Ç‚¤‚© */
+    /** ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚°ãƒ©ãƒ•ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ */
     private TripleState responseGraphOutput_ = TripleState.NOT_SPECIFIED;
 
-    /** AccumulatedTimeƒŠƒZƒbƒg‚ÌÅI */
+    /** AccumulatedTimeãƒªã‚»ãƒƒãƒˆã®æœ€çµ‚æ™‚åˆ» */
     private long lastResetAccumulatedTime_;
 
-    /** ƒƒ\ƒbƒhŒÄ‚Ño‚µ‰ñ”‚ª 0 ‚Å‚ ‚éó‘Ô‚ªƒXƒ^[ƒg‚µ‚½B */
+    /** ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—å›æ•°ãŒ 0 ã§ã‚ã‚‹çŠ¶æ…‹ãŒã‚¹ã‚¿ãƒ¼ãƒˆã—ãŸæ™‚åˆ»ã€‚ */
     private long tatCallZeroValueStartTime_;
 
-    /** TAT‚Ì‘˜aBroot‚ÌInvocation‚Ì‚İ—LŒø’l‚ªİ’è‚³‚ê‚é */
+    /** TATã®ç·å’Œã€‚rootã®Invocationã®ã¿æœ‰åŠ¹å€¤ãŒè¨­å®šã•ã‚Œã‚‹ */
     private long accumulatedTimeSum_;
 
-    /** TAT‚ÌÅ‘å’lBroot‚ÌInvocation‚Ì‚İ—LŒø’l‚ªİ’è‚³‚ê‚é */
+    /** TATã®æœ€å¤§å€¤ã€‚rootã®Invocationã®ã¿æœ‰åŠ¹å€¤ãŒè¨­å®šã•ã‚Œã‚‹ */
     private long accumulatedMax_;
 
-    /** TAT‚ÌÅ¬’lBroot‚ÌInvocation‚Ì‚İ—LŒø’l‚ªİ’è‚³‚ê‚é */
+    /** TATã®æœ€å°å€¤ã€‚rootã®Invocationã®ã¿æœ‰åŠ¹å€¤ãŒè¨­å®šã•ã‚Œã‚‹ */
     private long accumulatedMin_;
 
-    /** ƒ‹[ƒg‚Æ‚µ‚ÄŒÄ‚Ño‚³‚ê‚½‰ñ”Broot‚ÌInvocation‚Ì‚İ—LŒø’l‚ªİ’è‚³‚ê‚é */
+    /** ãƒ«ãƒ¼ãƒˆã¨ã—ã¦å‘¼ã³å‡ºã•ã‚ŒãŸå›æ•°ã€‚rootã®Invocationã®ã¿æœ‰åŠ¹å€¤ãŒè¨­å®šã•ã‚Œã‚‹ */
     private int accumulatedTimeCount_;
 
-    /** Turn Around Time‚ğŒv‘ª‚·‚é‚©‚Ç‚¤‚©true:Œv‘ª‚·‚éAfalse:Œv‘ª‚µ‚È‚¢BƒfƒtƒHƒ‹ƒg’l‚Ítrue) */
+    /** Turn Around Timeã‚’è¨ˆæ¸¬ã™ã‚‹ã‹ã©ã†ã‹true:è¨ˆæ¸¬ã™ã‚‹ã€false:è¨ˆæ¸¬ã—ãªã„ã€‚ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã¯true) */
     private boolean isTatEnabled_ = true;
 
-    /** Turn Around Time‚Ì•ÛŠúŠÔ */
+    /** Turn Around Timeã®ä¿æŒæœŸé–“ */
     private long tatKeepTime_;
 
-    /** Invocation‚ªJavaƒNƒ‰ƒX‚É‘Î‚µ‚Äİ’è‚³‚ê‚½‚à‚Ì‚©‚Ç‚¤‚© */
+    /** InvocationãŒJavaã‚¯ãƒ©ã‚¹ã«å¯¾ã—ã¦è¨­å®šã•ã‚ŒãŸã‚‚ã®ã‹ã©ã†ã‹ */
     private boolean isJavaClass_ = false;
 
-    /** ‹N“®ŒãAƒƒ\ƒbƒh‚ªŒÄ‚Ño‚³‚ê‚½‚© */
+    /** èµ·å‹•å¾Œã€ãƒ¡ã‚½ãƒƒãƒ‰ãŒå‘¼ã³å‡ºã•ã‚ŒãŸã‹ */
     private transient boolean isCalledAfterStarted_ = false;
 
-    /** œŠO—Dæ‚Å‚ ‚é‚©‚Ìƒtƒ‰ƒO */
+    /** é™¤å¤–å„ªå…ˆã§ã‚ã‚‹ã‹ã®ãƒ•ãƒ©ã‚° */
     private boolean isExcludePreffered_;
 
-    /** ‘ÎÛ—Dæ‚Å‚ ‚é‚© */
+    /** å¯¾è±¡å„ªå…ˆã§ã‚ã‚‹ã‹ */
     private boolean isTargetPreferred_;
 
-    /** œŠO‚Å‚ ‚é‚©*/
+    /** é™¤å¤–ã§ã‚ã‚‹ã‹*/
     private boolean isExclude_;
 
-    /** ƒ^[ƒQƒbƒg‚Å‚ ‚é‚© */
+    /** ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã§ã‚ã‚‹ã‹ */
     private boolean isTarget_;
 
-    /** —áŠO‚ÌƒJƒEƒ“ƒg‚ÌMap */
+    /** ä¾‹å¤–ã®ã‚«ã‚¦ãƒ³ãƒˆã®Map */
     private Map<String, Integer> throwableCountMap_;
     
-    /** httpStatus‚ÌƒJƒEƒ“ƒg‚ÌMap */
+    /** httpStatusã®ã‚«ã‚¦ãƒ³ãƒˆã®Map */
     private Map<String, Integer> httpStatusCountMap_;
     
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
-     * @param processName ƒvƒƒZƒX–¼
-     * @param className ƒNƒ‰ƒX–¼
-     * @param methodName ƒƒ\ƒbƒh–¼
-     * @param alarmThreshold ƒAƒ‰[ƒ€”­¶‚Ì‚½‚ß‚Ìƒƒ\ƒbƒhÀsŠÔ‚Ìè‡’l
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+     * @param processName ãƒ—ãƒ­ã‚»ã‚¹å
+     * @param className ã‚¯ãƒ©ã‚¹å
+     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
+     * @param alarmThreshold ã‚¢ãƒ©ãƒ¼ãƒ ç™ºç”Ÿã®ãŸã‚ã®ãƒ¡ã‚½ãƒƒãƒ‰å®Ÿè¡Œæ™‚é–“ã®é–¾å€¤
      */
     public Invocation(
             final String processName, 
@@ -211,8 +211,8 @@ public class Invocation implements InvocationMBean, Serializable
         {
             if ("/".equals(className))
             {
-                // ƒNƒ‰ƒX–¼‚ª "/" ‚Ì‚İ‚Ìê‡AƒNƒ‰ƒX–¼‚Æƒƒ\ƒbƒh–¼‚ğ‚Â‚È‚°‚é‚Æ "//path" ‚Æ‚¢‚¤‚æ‚¤‚É
-                // "/" ‚ª˜A‘±‚·‚é‚½‚ßAƒNƒ‰ƒX–¼‚ğœ‚¢‚½‚à‚Ì‚ğ¯•Ê•¶š—ñ‚Æ‚·‚é
+                // ã‚¯ãƒ©ã‚¹åãŒ "/" ã®ã¿ã®å ´åˆã€ã‚¯ãƒ©ã‚¹åã¨ãƒ¡ã‚½ãƒƒãƒ‰åã‚’ã¤ãªã’ã‚‹ã¨ "//path" ã¨ã„ã†ã‚ˆã†ã«
+                // "/" ãŒé€£ç¶šã™ã‚‹ãŸã‚ã€ã‚¯ãƒ©ã‚¹åã‚’é™¤ã„ãŸã‚‚ã®ã‚’è­˜åˆ¥æ–‡å­—åˆ—ã¨ã™ã‚‹
                 this.rootInvocationManagerKey_ = methodName;
             }
             else
@@ -237,8 +237,8 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ƒNƒ‰ƒX–¼‚ğæ“¾‚·‚éB
-     * @return ƒNƒ‰ƒX–¼
+     * ã‚¯ãƒ©ã‚¹åã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ã‚¯ãƒ©ã‚¹å
      */
     public String getClassName()
     {
@@ -246,8 +246,8 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ƒƒ\ƒbƒh–¼‚ğæ“¾‚·‚éB
-     * @return ƒƒ\ƒbƒh–¼
+     * ãƒ¡ã‚½ãƒƒãƒ‰åã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ãƒ¡ã‚½ãƒƒãƒ‰å
      */
     public String getMethodName()
     {
@@ -255,8 +255,8 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ƒL[î•ñ‚ğæ“¾‚·‚éB
-     * @return ƒL[î•ñ
+     * ã‚­ãƒ¼æƒ…å ±ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ã‚­ãƒ¼æƒ…å ±
      */
     public String getKey()
     {
@@ -264,8 +264,8 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * RootInvocationManager‚Åg—p‚·‚éƒL[î•ñ‚ğæ“¾‚·‚éB
-     * @return ƒL[î•ñ
+     * RootInvocationManagerã§ä½¿ç”¨ã™ã‚‹ã‚­ãƒ¼æƒ…å ±ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ã‚­ãƒ¼æƒ…å ±
      */
     public String getRootInvocationManagerKey()
     {
@@ -273,8 +273,8 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ƒƒ\ƒbƒhŒÄ‚Ño‚µ‰ñ”‚ğæ“¾‚·‚éB
-     * @return ƒƒ\ƒbƒhŒÄ‚Ño‚µ‰ñ”
+     * ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—å›æ•°ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—å›æ•°
      */
     public long getCount()
     {
@@ -282,7 +282,7 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * InvocationInterval‚ÌŠe—v‘f‚ÌÅ¬’l‚ğ•Û‘¶‚µ‚Ä‚¢‚é{@link InvocationInterval}
+     * InvocationIntervalã®å„è¦ç´ ã®æœ€å°å€¤ã‚’ä¿å­˜ã—ã¦ã„ã‚‹{@link InvocationInterval}
      * @return InvocationInterval
      */
     public long getMinimum()
@@ -291,7 +291,7 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * InvocationInterval‚ÌŠe—v‘f‚ÌÅ‘å’l‚ğ•Û‘¶‚µ‚Ä‚¢‚é{@link InvocationInterval}
+     * InvocationIntervalã®å„è¦ç´ ã®æœ€å¤§å€¤ã‚’ä¿å­˜ã—ã¦ã„ã‚‹{@link InvocationInterval}
      * @return InvocationInterval
      */
     public long getMaximum()
@@ -300,12 +300,12 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ƒƒ\ƒbƒhÀsŠÔ‚Ì•½‹Ï’l‚ğæ“¾‚·‚éB
-     * @return ƒƒ\ƒbƒhÀsŠÔ‚Ì•½‹Ï’l
+     * ãƒ¡ã‚½ãƒƒãƒ‰å®Ÿè¡Œæ™‚é–“ã®å¹³å‡å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ãƒ¡ã‚½ãƒƒãƒ‰å®Ÿè¡Œæ™‚é–“ã®å¹³å‡å€¤
      */
     public long getAverage()
     {
-        // 0œZ‚ğ”ğ‚¯‚éB
+        // 0é™¤ç®—ã‚’é¿ã‘ã‚‹ã€‚
         if (this.count_ == 0)
         {
             return 0;
@@ -315,9 +315,9 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ƒƒ\ƒbƒhÀsŠÔ‚Ì‡Œv’l‚ğæ“¾‚µ‚Ü‚·B<br />
+     * ãƒ¡ã‚½ãƒƒãƒ‰å®Ÿè¡Œæ™‚é–“ã®åˆè¨ˆå€¤ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      *
-     * @return ƒƒ\ƒbƒhÀsŠÔ‚Ì‡Œv’l
+     * @return ãƒ¡ã‚½ãƒƒãƒ‰å®Ÿè¡Œæ™‚é–“ã®åˆè¨ˆå€¤
      */
     public long getTotal()
     {
@@ -325,8 +325,8 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ƒƒ\ƒbƒh‚ÌCPUŠÔ‚ÌÅ¬’l‚ğæ“¾‚·‚éB
-     * @return ƒƒ\ƒbƒh‚ÌCPUŠÔ‚ÌÅ¬’l
+     * ãƒ¡ã‚½ãƒƒãƒ‰ã®CPUæ™‚é–“ã®æœ€å°å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ãƒ¡ã‚½ãƒƒãƒ‰ã®CPUæ™‚é–“ã®æœ€å°å€¤
      */
     public long getCpuMinimum()
     {
@@ -334,8 +334,8 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ƒƒ\ƒbƒh‚ÌCPUŠÔ‚ÌÅ‘å’l‚ğæ“¾‚·‚éB
-     * @return ƒƒ\ƒbƒh‚ÌCPUŠÔ‚ÌÅ‘å’l
+     * ãƒ¡ã‚½ãƒƒãƒ‰ã®CPUæ™‚é–“ã®æœ€å¤§å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ãƒ¡ã‚½ãƒƒãƒ‰ã®CPUæ™‚é–“ã®æœ€å¤§å€¤
      */
     public long getCpuMaximum()
     {
@@ -343,12 +343,12 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ƒƒ\ƒbƒh‚ÌCPUŠÔ‚Ì•½‹Ï’l‚ğæ“¾‚·‚éB
-     * @return ƒƒ\ƒbƒh‚ÌCPUŠÔ‚Ì•½‹Ï’l
+     * ãƒ¡ã‚½ãƒƒãƒ‰ã®CPUæ™‚é–“ã®å¹³å‡å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ãƒ¡ã‚½ãƒƒãƒ‰ã®CPUæ™‚é–“ã®å¹³å‡å€¤
      */
     public long getCpuAverage()
     {
-        // 0œZ‚ğ”ğ‚¯‚éB
+        // 0é™¤ç®—ã‚’é¿ã‘ã‚‹ã€‚
         if (this.count_ == 0)
         {
             return 0;
@@ -358,9 +358,9 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ƒƒ\ƒbƒh‚Ì CPU ŠÔ‚Ì‡Œv’l‚ğæ“¾‚µ‚Ü‚·B<br />
+     * ãƒ¡ã‚½ãƒƒãƒ‰ã® CPU æ™‚é–“ã®åˆè¨ˆå€¤ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      *
-     * @return ƒƒ\ƒbƒh‚Ì CPU ŠÔ‚Ì‡Œv’l
+     * @return ãƒ¡ã‚½ãƒƒãƒ‰ã® CPU æ™‚é–“ã®åˆè¨ˆå€¤
      */
     public long getCpuTotal()
     {
@@ -368,8 +368,8 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ƒƒ\ƒbƒh‚Ìƒ†[ƒUŠÔ‚ÌÅ¬’l‚ğæ“¾‚·‚éB
-     * @return ƒƒ\ƒbƒh‚Ìƒ†[ƒUŠÔ‚ÌÅ¬’l
+     * ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒ¦ãƒ¼ã‚¶æ™‚é–“ã®æœ€å°å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒ¦ãƒ¼ã‚¶æ™‚é–“ã®æœ€å°å€¤
      */
     public long getUserMinimum()
     {
@@ -377,8 +377,8 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ƒƒ\ƒbƒh‚Ìƒ†[ƒUŠÔ‚ÌÅ‘å’l‚ğæ“¾‚·‚éB
-     * @return ƒƒ\ƒbƒh‚Ìƒ†[ƒUŠÔ‚ÌÅ‘å’l
+     * ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒ¦ãƒ¼ã‚¶æ™‚é–“ã®æœ€å¤§å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒ¦ãƒ¼ã‚¶æ™‚é–“ã®æœ€å¤§å€¤
      */
     public long getUserMaximum()
     {
@@ -386,12 +386,12 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ƒƒ\ƒbƒh‚Ìƒ†[ƒUŠÔ‚Ì•½‹Ï’l‚ğæ“¾‚·‚éB
-     * @return ƒƒ\ƒbƒh‚Ìƒ†[ƒUŠÔ‚Ì•½‹Ï’l
+     * ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒ¦ãƒ¼ã‚¶æ™‚é–“ã®å¹³å‡å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒ¦ãƒ¼ã‚¶æ™‚é–“ã®å¹³å‡å€¤
      */
     public long getUserAverage()
     {
-        // 0œZ‚ğ”ğ‚¯‚éB
+        // 0é™¤ç®—ã‚’é¿ã‘ã‚‹ã€‚
         if (this.count_ == 0)
         {
             return 0;
@@ -401,9 +401,9 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ƒƒ\ƒbƒh‚Ìƒ†[ƒUŠÔ‚Ì‡Œv’l‚ğæ“¾‚µ‚Ü‚·B<br />
+     * ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒ¦ãƒ¼ã‚¶æ™‚é–“ã®åˆè¨ˆå€¤ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      *
-     * @return ƒƒ\ƒbƒh‚Ìƒ†[ƒUŠÔ‚Ì‡Œv’l
+     * @return ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒ¦ãƒ¼ã‚¶æ™‚é–“ã®åˆè¨ˆå€¤
      */
     public long getUserTotal()
     {
@@ -411,7 +411,7 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * InvocationInterval‚ÌŠe—v‘f‚ÌÅ¬’l‚ğ•Û‘¶‚µ‚Ä‚¢‚é{@link InvocationInterval}
+     * InvocationIntervalã®å„è¦ç´ ã®æœ€å°å€¤ã‚’ä¿å­˜ã—ã¦ã„ã‚‹{@link InvocationInterval}
      * @return InvocationInterval
      */
     public long getAccumulatedMinimum()
@@ -420,7 +420,7 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * InvocationInterval‚ÌŠe—v‘f‚ÌÅ‘å’l‚ğ•Û‘¶‚µ‚Ä‚¢‚é{@link InvocationInterval}
+     * InvocationIntervalã®å„è¦ç´ ã®æœ€å¤§å€¤ã‚’ä¿å­˜ã—ã¦ã„ã‚‹{@link InvocationInterval}
      * @return InvocationInterval
      */
     public long getAccumulatedMaximum()
@@ -429,12 +429,12 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ƒƒ\ƒbƒhÀsŠÔ‚Ì•½‹Ï’l‚ğæ“¾‚·‚éB
-     * @return ƒƒ\ƒbƒhÀsŠÔ‚Ì•½‹Ï’l
+     * ãƒ¡ã‚½ãƒƒãƒ‰å®Ÿè¡Œæ™‚é–“ã®å¹³å‡å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ãƒ¡ã‚½ãƒƒãƒ‰å®Ÿè¡Œæ™‚é–“ã®å¹³å‡å€¤
      */
     public long getAccumulatedAverage()
     {
-        // 0œZ‚ğ”ğ‚¯‚éB
+        // 0é™¤ç®—ã‚’é¿ã‘ã‚‹ã€‚
         if (this.count_ == 0)
         {
             return 0;
@@ -444,9 +444,9 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ƒƒ\ƒbƒhÀsŠÔ‚Ì‡Œv’l‚ğæ“¾‚µ‚Ü‚·B<br />
+     * ãƒ¡ã‚½ãƒƒãƒ‰å®Ÿè¡Œæ™‚é–“ã®åˆè¨ˆå€¤ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      *
-     * @return ƒƒ\ƒbƒhÀsŠÔ‚Ì‡Œv’l
+     * @return ãƒ¡ã‚½ãƒƒãƒ‰å®Ÿè¡Œæ™‚é–“ã®åˆè¨ˆå€¤
      */
     public long getAccumulatedTotal()
     {
@@ -454,8 +454,8 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ƒƒ\ƒbƒh‚ÌCPUŠÔ‚ÌÅ¬’l‚ğæ“¾‚·‚éB
-     * @return ƒƒ\ƒbƒh‚ÌCPUŠÔ‚ÌÅ¬’l
+     * ãƒ¡ã‚½ãƒƒãƒ‰ã®CPUæ™‚é–“ã®æœ€å°å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ãƒ¡ã‚½ãƒƒãƒ‰ã®CPUæ™‚é–“ã®æœ€å°å€¤
      */
     public long getAccumulatedCpuMinimum()
     {
@@ -463,8 +463,8 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ƒƒ\ƒbƒh‚ÌCPUŠÔ‚ÌÅ‘å’l‚ğæ“¾‚·‚éB
-     * @return ƒƒ\ƒbƒh‚ÌCPUŠÔ‚ÌÅ‘å’l
+     * ãƒ¡ã‚½ãƒƒãƒ‰ã®CPUæ™‚é–“ã®æœ€å¤§å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ãƒ¡ã‚½ãƒƒãƒ‰ã®CPUæ™‚é–“ã®æœ€å¤§å€¤
      */
     public long getAccumulatedCpuMaximum()
     {
@@ -472,12 +472,12 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ƒƒ\ƒbƒh‚ÌCPUŠÔ‚Ì•½‹Ï’l‚ğæ“¾‚·‚éB
-     * @return ƒƒ\ƒbƒh‚ÌCPUŠÔ‚Ì•½‹Ï’l
+     * ãƒ¡ã‚½ãƒƒãƒ‰ã®CPUæ™‚é–“ã®å¹³å‡å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ãƒ¡ã‚½ãƒƒãƒ‰ã®CPUæ™‚é–“ã®å¹³å‡å€¤
      */
     public long getAccumulatedCpuAverage()
     {
-        // 0œZ‚ğ”ğ‚¯‚éB
+        // 0é™¤ç®—ã‚’é¿ã‘ã‚‹ã€‚
         if (this.count_ == 0)
         {
             return 0;
@@ -487,9 +487,9 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ƒƒ\ƒbƒh‚Ì CPU ŠÔ‚Ì‡Œv’l‚ğæ“¾‚µ‚Ü‚·B<br />
+     * ãƒ¡ã‚½ãƒƒãƒ‰ã® CPU æ™‚é–“ã®åˆè¨ˆå€¤ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      *
-     * @return ƒƒ\ƒbƒh‚Ì CPU ŠÔ‚Ì‡Œv’l
+     * @return ãƒ¡ã‚½ãƒƒãƒ‰ã® CPU æ™‚é–“ã®åˆè¨ˆå€¤
      */
     public long getAccumulatedCpuTotal()
     {
@@ -497,8 +497,8 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ƒƒ\ƒbƒh‚Ìƒ†[ƒUŠÔ‚ÌÅ¬’l‚ğæ“¾‚·‚éB
-     * @return ƒƒ\ƒbƒh‚Ìƒ†[ƒUŠÔ‚ÌÅ¬’l
+     * ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒ¦ãƒ¼ã‚¶æ™‚é–“ã®æœ€å°å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒ¦ãƒ¼ã‚¶æ™‚é–“ã®æœ€å°å€¤
      */
     public long getAccumulatedUserMinimum()
     {
@@ -506,8 +506,8 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ƒƒ\ƒbƒh‚Ìƒ†[ƒUŠÔ‚ÌÅ‘å’l‚ğæ“¾‚·‚éB
-     * @return ƒƒ\ƒbƒh‚Ìƒ†[ƒUŠÔ‚ÌÅ‘å’l
+     * ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒ¦ãƒ¼ã‚¶æ™‚é–“ã®æœ€å¤§å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒ¦ãƒ¼ã‚¶æ™‚é–“ã®æœ€å¤§å€¤
      */
     public long getAccumulatedUserMaximum()
     {
@@ -515,12 +515,12 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ƒƒ\ƒbƒh‚Ìƒ†[ƒUŠÔ‚Ì•½‹Ï’l‚ğæ“¾‚·‚éB
-     * @return ƒƒ\ƒbƒh‚Ìƒ†[ƒUŠÔ‚Ì•½‹Ï’l
+     * ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒ¦ãƒ¼ã‚¶æ™‚é–“ã®å¹³å‡å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒ¦ãƒ¼ã‚¶æ™‚é–“ã®å¹³å‡å€¤
      */
     public long getAccumulatedUserAverage()
     {
-        // 0œZ‚ğ”ğ‚¯‚éB
+        // 0é™¤ç®—ã‚’é¿ã‘ã‚‹ã€‚
         if (this.count_ == 0)
         {
             return 0;
@@ -530,9 +530,9 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ƒƒ\ƒbƒh‚Ìƒ†[ƒUŠÔ‚Ì‡Œv’l‚ğæ“¾‚µ‚Ü‚·B<br />
+     * ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒ¦ãƒ¼ã‚¶æ™‚é–“ã®åˆè¨ˆå€¤ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      *
-     * @return ƒƒ\ƒbƒh‚Ìƒ†[ƒUŠÔ‚Ì‡Œv’l
+     * @return ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒ¦ãƒ¼ã‚¶æ™‚é–“ã®åˆè¨ˆå€¤
      */
     public long getAccumulatedUserTotal()
     {
@@ -540,8 +540,8 @@ public class Invocation implements InvocationMBean, Serializable
     }
     
     /**
-     * —áŠO‚Ì”­¶‰ñ”‚ğ•Ô‚·B
-     * @return —áŠO‚Ì”­¶‰ñ”
+     * ä¾‹å¤–ã®ç™ºç”Ÿå›æ•°ã‚’è¿”ã™ã€‚
+     * @return ä¾‹å¤–ã®ç™ºç”Ÿå›æ•°
      */
     public long getThrowableCount()
     {
@@ -549,8 +549,8 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ƒXƒg[ƒ‹‚Ì”­¶‰ñ”‚ğ•Ô‚·B
-     * @return ƒXƒg[ƒ‹‚Ì”­¶‰ñ”
+     * ã‚¹ãƒˆãƒ¼ãƒ«ã®ç™ºç”Ÿå›æ•°ã‚’è¿”ã™ã€‚
+     * @return ã‚¹ãƒˆãƒ¼ãƒ«ã®ç™ºç”Ÿå›æ•°
      */
     public long getMethodStallCount()
     {
@@ -558,8 +558,8 @@ public class Invocation implements InvocationMBean, Serializable
     }
     
     /**
-     * ƒXƒg[ƒ‹‚Ì”­¶‰ñ”‚ğ‰ÁZ‚·‚éB
-     * @param count ƒXƒg[ƒ‹‚Ì”­¶‰ñ”
+     * ã‚¹ãƒˆãƒ¼ãƒ«ã®ç™ºç”Ÿå›æ•°ã‚’åŠ ç®—ã™ã‚‹ã€‚
+     * @param count ã‚¹ãƒˆãƒ¼ãƒ«ã®ç™ºç”Ÿå›æ•°
      */
     public synchronized void addMethodStallCount(long count)
     {
@@ -567,9 +567,9 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ƒƒ\ƒbƒh‚ÌŒÄ‚Ño‚µŒ³‚ğ”z—ñ‚Æ‚µ‚Äæ“¾‚·‚éB<br />
-     * Œ`®F ƒNƒ‰ƒX–¼#ƒƒ\ƒbƒh–¼
-     * @return ƒƒ\ƒbƒh‚ÌŒÄ‚Ño‚µŒ³‚Ì”z—ñ
+     * ãƒ¡ã‚½ãƒƒãƒ‰ã®å‘¼ã³å‡ºã—å…ƒã‚’é…åˆ—ã¨ã—ã¦å–å¾—ã™ã‚‹ã€‚<br />
+     * å½¢å¼ï¼š ã‚¯ãƒ©ã‚¹å#ãƒ¡ã‚½ãƒƒãƒ‰å
+     * @return ãƒ¡ã‚½ãƒƒãƒ‰ã®å‘¼ã³å‡ºã—å…ƒã®é…åˆ—
      */
     public synchronized String[] getAllCallerName()
     {
@@ -587,8 +587,8 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * Invocation‚ª•Û‘¶‚µ‚Ä‚¢‚é‘S‚Ä‚Ìƒƒ\ƒbƒh‚ÌŒÄ‚Ño‚µŒ³‚É‘Î‰‚·‚éInvocation‚ğ•Ô‚·B
-     * @return ‘S‚Ä‚Ìƒƒ\ƒbƒh‚ÌŒÄ‚Ño‚µŒ³‚É‘Î‰‚·‚éInvocation
+     * InvocationãŒä¿å­˜ã—ã¦ã„ã‚‹å…¨ã¦ã®ãƒ¡ã‚½ãƒƒãƒ‰ã®å‘¼ã³å‡ºã—å…ƒã«å¯¾å¿œã™ã‚‹Invocationã‚’è¿”ã™ã€‚
+     * @return å…¨ã¦ã®ãƒ¡ã‚½ãƒƒãƒ‰ã®å‘¼ã³å‡ºã—å…ƒã«å¯¾å¿œã™ã‚‹Invocation
      */
     public synchronized Invocation[] getAllCallerInvocation()
     {
@@ -598,20 +598,20 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * •Û‘¶‚·‚éInvocationInterval‚Ìî•ñ‚ğXV‚·‚éB<br />
-     * •¹‚¹‚ÄA‹N“®Œã‰‚ß‚ÄŒÄ‚Ño‚³‚êA‚©‚ÂJavaƒNƒ‰ƒX‚¾‚Á‚½ê‡‚ÍŒÄ‚Ño‚³‚ê‚½‚±‚Æ‚ğƒJƒEƒ“ƒ^‚É”½‰f‚·‚éB<br />
-     * XV‘ÎÛ:
+     * ä¿å­˜ã™ã‚‹InvocationIntervalã®æƒ…å ±ã‚’æ›´æ–°ã™ã‚‹ã€‚<br />
+     * ä½µã›ã¦ã€èµ·å‹•å¾Œåˆã‚ã¦å‘¼ã³å‡ºã•ã‚Œã€ã‹ã¤Javaã‚¯ãƒ©ã‚¹ã ã£ãŸå ´åˆã¯å‘¼ã³å‡ºã•ã‚ŒãŸã“ã¨ã‚’ã‚«ã‚¦ãƒ³ã‚¿ã«åæ˜ ã™ã‚‹ã€‚<br />
+     * æ›´æ–°å¯¾è±¡:
      * <ul>
-     * @@<li>count_:ƒƒ\ƒbƒhŒÄ‚Ño‚µ‰ñ”</li>
-     * @@<li>intervalSum_:InvocationInterval‚ÌŠe—v‘f‚Ì‡Œv</li>
-     * @@<li>intervalList_:Invocation‚ª•Û‘¶‚·‚éInvocation‚ÌƒŠƒXƒg</li>
-     * @@<li>intervalMax_:InvocationInteral‚ÌŠe—v‘f‚ÌÅ‘å’l</li>
-     * @@<li>minimumInterval_:InvocationInterval‚ÌŠe—v‘f‚ÌÅ¬’l</li>
+     * ã€€ã€€<li>count_:ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—å›æ•°</li>
+     * ã€€ã€€<li>intervalSum_:InvocationIntervalã®å„è¦ç´ ã®åˆè¨ˆ</li>
+     * ã€€ã€€<li>intervalList_:InvocationãŒä¿å­˜ã™ã‚‹Invocationã®ãƒªã‚¹ãƒˆ</li>
+     * ã€€ã€€<li>intervalMax_:InvocationInteralã®å„è¦ç´ ã®æœ€å¤§å€¤</li>
+     * ã€€ã€€<li>minimumInterval_:InvocationIntervalã®å„è¦ç´ ã®æœ€å°å€¤</li>
      * </ul>
-     * @param node ƒm[ƒh
-     * @param interval {@link InvocationInterval}ƒIƒuƒWƒFƒNƒg
-     * @param cpuInterval CPU‚ÌƒCƒ“ƒ^[ƒoƒ‹ŠÔ
-     * @param userInterval USER‚ÌƒCƒ“ƒ^[ƒoƒ‹ŠÔ
+     * @param node ãƒãƒ¼ãƒ‰
+     * @param interval {@link InvocationInterval}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param cpuInterval CPUã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒãƒ«æ™‚é–“
+     * @param userInterval USERã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒãƒ«æ™‚é–“
      */
     public synchronized void addInterval(
             final CallTreeNode node, 
@@ -696,8 +696,8 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * Invocation‚ª•Û‘¶‚·‚éƒƒ\ƒbƒh‚ÌŒÄ‚Ño‚µŒ³‚ÌXV‚ğs‚¤B
-     * @param caller ƒƒ\ƒbƒh‚ÌŒÄ‚Ño‚µŒ³‚Ì{@link Invocation}ƒIƒuƒWƒFƒNƒg
+     * InvocationãŒä¿å­˜ã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã®å‘¼ã³å‡ºã—å…ƒã®æ›´æ–°ã‚’è¡Œã†ã€‚
+     * @param caller ãƒ¡ã‚½ãƒƒãƒ‰ã®å‘¼ã³å‡ºã—å…ƒã®{@link Invocation}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     public void addCaller(final Invocation caller)
     {
@@ -709,8 +709,8 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * Invocation‚ª•Û‘¶‚·‚é—áŠO‚ÌXV‚ğs‚¤B
-     * @param throwable V‹K‚Å”­¶‚µ‚½{@link Throwable}ƒIƒuƒWƒFƒNƒg
+     * InvocationãŒä¿å­˜ã™ã‚‹ä¾‹å¤–ã®æ›´æ–°ã‚’è¡Œã†ã€‚
+     * @param throwable æ–°è¦ã§ç™ºç”Ÿã—ãŸ{@link Throwable}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     public synchronized void addThrowable(final Throwable throwable)
     {
@@ -731,8 +731,8 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ƒAƒ‰[ƒ€”­¶”»’è‚ÌTAT‚Ìè‡’l‚ğ•Ô‚·B
-     * @return ƒAƒ‰[ƒ€”­¶”»’è‚ÌTAT‚Ìè‡’liŒÂ•Êw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡‚Í -1 j
+     * ã‚¢ãƒ©ãƒ¼ãƒ ç™ºç”Ÿåˆ¤å®šã®TATã®é–¾å€¤ã‚’è¿”ã™ã€‚
+     * @return ã‚¢ãƒ©ãƒ¼ãƒ ç™ºç”Ÿåˆ¤å®šã®TATã®é–¾å€¤ï¼ˆå€‹åˆ¥æŒ‡å®šã•ã‚Œã¦ã„ãªã„å ´åˆã¯ -1 ï¼‰
      */
     public long getAlarmThreshold()
     {
@@ -740,8 +740,8 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ƒAƒ‰[ƒ€”­¶”»’è‚ÌTAT‚Ìè‡’l‚ğİ’è‚·‚éB
-     * @param alarmThreshold ƒAƒ‰[ƒ€”­¶”»’è‚ÌTAT‚Ìè‡’l
+     * ã‚¢ãƒ©ãƒ¼ãƒ ç™ºç”Ÿåˆ¤å®šã®TATã®é–¾å€¤ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param alarmThreshold ã‚¢ãƒ©ãƒ¼ãƒ ç™ºç”Ÿåˆ¤å®šã®TATã®é–¾å€¤
      */
     public void setAlarmThreshold(final long alarmThreshold)
     {
@@ -840,8 +840,8 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ƒvƒƒZƒX–¼‚ğæ“¾‚·‚éB
-     * @return ƒvƒƒZƒX–¼
+     * ãƒ—ãƒ­ã‚»ã‚¹åã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ãƒ—ãƒ­ã‚»ã‚¹å
      */
     public String getProcessName()
     {
@@ -849,8 +849,8 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ƒƒ\ƒbƒh‚ÌÅIÀsŠÔ‚ğæ“¾‚·‚éB
-     * @return ƒƒ\ƒbƒh‚ÌÅIÀsŠÔ
+     * ãƒ¡ã‚½ãƒƒãƒ‰ã®æœ€çµ‚å®Ÿè¡Œæ™‚é–“ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ãƒ¡ã‚½ãƒƒãƒ‰ã®æœ€çµ‚å®Ÿè¡Œæ™‚é–“
      */
     public long getAccumulatedTime()
     {
@@ -858,8 +858,8 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ƒƒ\ƒbƒh‚ÌÅIÀsŠÔ‚ğİ’è‚µA¡‚Ü‚Å‚Ìƒƒ\ƒbƒhÀsŠÔ‚ÌÅ‘å’l‚ğ’´‚¦‚Ä‚¢‚éê‡‚ÍAÅ‘å’l‚ğXV‚·‚éB
-     * @param accumulatedTime ƒƒ\ƒbƒh‚ÌÅIÀsŠÔ
+     * ãƒ¡ã‚½ãƒƒãƒ‰ã®æœ€çµ‚å®Ÿè¡Œæ™‚é–“ã‚’è¨­å®šã—ã€ä»Šã¾ã§ã®ãƒ¡ã‚½ãƒƒãƒ‰å®Ÿè¡Œæ™‚é–“ã®æœ€å¤§å€¤ã‚’è¶…ãˆã¦ã„ã‚‹å ´åˆã¯ã€æœ€å¤§å€¤ã‚’æ›´æ–°ã™ã‚‹ã€‚
+     * @param accumulatedTime ãƒ¡ã‚½ãƒƒãƒ‰ã®æœ€çµ‚å®Ÿè¡Œæ™‚é–“
      */
     public void setAccumulatedTime(final long accumulatedTime)
     {
@@ -870,14 +870,14 @@ public class Invocation implements InvocationMBean, Serializable
         }
         
         updateLastUpdatedTime();
-        // TATŒv‘ª‘ÎÛ‚Å‚ ‚èA‚©‚ÂATAT‚ğŒv‘ª‚·‚éİ’è‚Ìê‡A
-        // AccumulatedTime‚Ì‘˜a‚Æİ’è‰ñ”‚ğXV‚·‚é
+        // TATè¨ˆæ¸¬å¯¾è±¡ã§ã‚ã‚Šã€ã‹ã¤ã€TATã‚’è¨ˆæ¸¬ã™ã‚‹è¨­å®šã®å ´åˆã€
+        // AccumulatedTimeã®ç·å’Œã¨è¨­å®šå›æ•°ã‚’æ›´æ–°ã™ã‚‹
         if (isResponseGraphOutputTarget() && this.isTatEnabled_ == true)
         {
             if (this.lastResetAccumulatedTime_ != 0
                     && this.lastUpdatedTime_ - this.lastResetAccumulatedTime_ > this.tatKeepTime_)
             {
-                // TAT•ÛŠúŠÔ‚æ‚èŒÃ‚¢ƒf[ƒ^‚ÍÁ‹‚·‚é
+                // TATä¿æŒæœŸé–“ã‚ˆã‚Šå¤ã„ãƒ‡ãƒ¼ã‚¿ã¯æ¶ˆå»ã™ã‚‹
                 this.accumulatedTimeSum_ = accumulatedTime;
                 this.accumulatedMin_ = accumulatedTime;
                 this.accumulatedMax_ = accumulatedTime;
@@ -885,7 +885,7 @@ public class Invocation implements InvocationMBean, Serializable
             }
             else
             {
-                // AccumulatedTime‚Ì‘˜a‚Æİ’è‰ñ”‚ğXV‚·‚é
+                // AccumulatedTimeã®ç·å’Œã¨è¨­å®šå›æ•°ã‚’æ›´æ–°ã™ã‚‹
                 if (accumulatedTime < this.accumulatedMin_ || this.accumulatedTimeCount_ == 0)
                 {
                     this.accumulatedMin_ = accumulatedTime;
@@ -902,8 +902,8 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ƒƒ\ƒbƒh‚ÌÀsŠÔ‚ÌÅ‘å’l‚ğæ“¾‚·‚éB
-     * @return ƒƒ\ƒbƒh‚ÌÀsŠÔ‚ÌÅ‘å’l
+     * ãƒ¡ã‚½ãƒƒãƒ‰ã®å®Ÿè¡Œæ™‚é–“ã®æœ€å¤§å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ãƒ¡ã‚½ãƒƒãƒ‰ã®å®Ÿè¡Œæ™‚é–“ã®æœ€å¤§å€¤
      */
     public long getMaxAccumulatedTime()
     {
@@ -911,8 +911,8 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ƒƒ\ƒbƒhÀsŠÔ‚ÌÅ‘å’l‚ğXV‚µ‚½‰ñ”‚ğæ“¾‚·‚éB
-     * @return ƒƒ\ƒbƒhÀsŠÔ‚ÌÅ‘å’l‚ğXV‚µ‚½‰ñ”
+     * ãƒ¡ã‚½ãƒƒãƒ‰å®Ÿè¡Œæ™‚é–“ã®æœ€å¤§å€¤ã‚’æ›´æ–°ã—ãŸå›æ•°ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ãƒ¡ã‚½ãƒƒãƒ‰å®Ÿè¡Œæ™‚é–“ã®æœ€å¤§å€¤ã‚’æ›´æ–°ã—ãŸå›æ•°
      */
     public long getCountFromStartup()
     {
@@ -920,8 +920,8 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * Œx‚ğ”­¶‚³‚¹‚éCPUŠÔ‚Ìè‡’l‚ğæ“¾‚·‚é
-     * @return CPUŠÔ‚Ìè‡’l
+     * è­¦å‘Šã‚’ç™ºç”Ÿã•ã›ã‚‹CPUæ™‚é–“ã®é–¾å€¤ã‚’å–å¾—ã™ã‚‹
+     * @return CPUæ™‚é–“ã®é–¾å€¤
      */
     public long getAlarmCpuThreshold()
     {
@@ -929,8 +929,8 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * Œx‚ğ”­¶‚³‚¹‚éCPUŠÔ‚Ìè‡’l‚ğİ’è‚·‚é
-     * @param alarmCpuThreshold CPUŠÔ‚Ìè‡’l
+     * è­¦å‘Šã‚’ç™ºç”Ÿã•ã›ã‚‹CPUæ™‚é–“ã®é–¾å€¤ã‚’è¨­å®šã™ã‚‹
+     * @param alarmCpuThreshold CPUæ™‚é–“ã®é–¾å€¤
      */
     public void setAlarmCpuThreshold(final long alarmCpuThreshold)
     {
@@ -939,8 +939,8 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ÅIXV‚ğæ“¾‚·‚éB
-     * @return ÅIXV
+     * æœ€çµ‚æ›´æ–°æ™‚åˆ»ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return æœ€çµ‚æ›´æ–°æ™‚åˆ»
      */
     public long getLastUpdatedTime()
     {
@@ -948,7 +948,7 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ÅIXV‚ğXV‚·‚éB
+     * æœ€çµ‚æ›´æ–°æ™‚åˆ»ã‚’æ›´æ–°ã™ã‚‹ã€‚
      */
     private void updateLastUpdatedTime()
     {
@@ -956,8 +956,8 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ÅIƒAƒ‰[ƒ€”­¶‚ğæ“¾‚·‚éB
-     * @return ÅIƒAƒ‰[ƒ€”­¶
+     * æœ€çµ‚ã‚¢ãƒ©ãƒ¼ãƒ ç™ºç”Ÿæ™‚åˆ»ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return æœ€çµ‚ã‚¢ãƒ©ãƒ¼ãƒ ç™ºç”Ÿæ™‚åˆ»
      */
     public long getLastAlarmTime()
     {
@@ -965,8 +965,8 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ÅIƒAƒ‰[ƒ€”­¶‚ğXV‚·‚éB
-     * @param lastAlarmTime ÅIƒAƒ‰[ƒ€”­¶
+     * æœ€çµ‚ã‚¢ãƒ©ãƒ¼ãƒ ç™ºç”Ÿæ™‚åˆ»ã‚’æ›´æ–°ã™ã‚‹ã€‚
+     * @param lastAlarmTime æœ€çµ‚ã‚¢ãƒ©ãƒ¼ãƒ ç™ºç”Ÿæ™‚åˆ»
      */
     public void setLastAlarmTime(final long lastAlarmTime)
     {
@@ -974,9 +974,9 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ’Ç‰Á‚Å•Û‘¶‚·‚é’l‚ğXV‚·‚éB
-     * @param key XV‚·‚é’l‚É‘Î‰‚·‚éƒL[
-     * @param value XV‚·‚é’l
+     * è¿½åŠ ã§ä¿å­˜ã™ã‚‹å€¤ã‚’æ›´æ–°ã™ã‚‹ã€‚
+     * @param key æ›´æ–°ã™ã‚‹å€¤ã«å¯¾å¿œã™ã‚‹ã‚­ãƒ¼
+     * @param value æ›´æ–°ã™ã‚‹å€¤
      */
     public synchronized void putOptValue(String key, Object value)
     {
@@ -989,9 +989,9 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * key‚É‘Î‰‚·‚é’l‚ğInvocation‚©‚çæ“¾‚·‚éB
-     * @param key ƒL[
-     * @return Invocation‚ª•Û‘¶‚·‚ékey‚É‘Î‰‚·‚é’l
+     * keyã«å¯¾å¿œã™ã‚‹å€¤ã‚’Invocationã‹ã‚‰å–å¾—ã™ã‚‹ã€‚
+     * @param key ã‚­ãƒ¼
+     * @return InvocationãŒä¿å­˜ã™ã‚‹keyã«å¯¾å¿œã™ã‚‹å€¤
      */
     public synchronized Object getOptValue(String key)
     {
@@ -1004,8 +1004,8 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * Invocation‚ªroot‚©‚Ç‚¤‚©‚ğ•\‚·’l‚ğ•Ô‚·B
-     * @return true:rootAfalse:not root
+     * InvocationãŒrootã‹ã©ã†ã‹ã‚’è¡¨ã™å€¤ã‚’è¿”ã™ã€‚
+     * @return true:rootã€false:not root
      */
     public boolean isRoot()
     {
@@ -1013,8 +1013,8 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * Invocation‚ªroot‚©‚Ç‚¤‚©‚ğ•\‚·’l‚ğİ’è‚·‚éB
-     * @param isRoot Invocation‚ªroot‚©‚Ç‚¤‚©‚ğ•\‚·’l
+     * InvocationãŒrootã‹ã©ã†ã‹ã‚’è¡¨ã™å€¤ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param isRoot InvocationãŒrootã‹ã©ã†ã‹ã‚’è¡¨ã™å€¤
      */
     public void setRoot(final boolean isRoot)
     {
@@ -1022,9 +1022,9 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒOƒ‰ƒto—Í‘ÎÛİ’è‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚°ãƒ©ãƒ•å‡ºåŠ›å¯¾è±¡è¨­å®šã‚’è¿”ã—ã¾ã™ã€‚<br />
      *
-     * @return {@link TripleState} ‚Ì’l
+     * @return {@link TripleState} ã®å€¤
      */
     public TripleState getTransactionGraphOutput()
     {
@@ -1032,10 +1032,10 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * Œv‘ª‘ÎÛ‚©”Û‚©‚ğƒZƒbƒg‚µ‚Ü‚·B<br />
+     * è¨ˆæ¸¬å¯¾è±¡ã‹å¦ã‹ã‚’ã‚»ãƒƒãƒˆã—ã¾ã™ã€‚<br />
      *
-     * @param state Œv‘ª‘ÎÛ‚Ìê‡‚Í <code>ON</code> AŒv‘ª‘ÎÛ‚Å‚È‚¢ê‡‚Í <code>OFF</code> A
-     *              w’è‚³‚ê‚Ä‚¢‚È‚¢ê‡‚Í <code>NOT_SPECIFIED</code>
+     * @param state è¨ˆæ¸¬å¯¾è±¡ã®å ´åˆã¯ <code>ON</code> ã€è¨ˆæ¸¬å¯¾è±¡ã§ãªã„å ´åˆã¯ <code>OFF</code> ã€
+     *              æŒ‡å®šã•ã‚Œã¦ã„ãªã„å ´åˆã¯ <code>NOT_SPECIFIED</code>
      */
     public void setMeasurementTarget(TripleState state)
     {
@@ -1043,10 +1043,10 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * Œv‘ª‘ÎÛ‚©”Û‚©‚ğ•Ô‚µ‚Ü‚·B<br />
+     * è¨ˆæ¸¬å¯¾è±¡ã‹å¦ã‹ã‚’è¿”ã—ã¾ã™ã€‚<br />
      *
-     * @return Œv‘ª‘ÎÛ‚Ìê‡‚Í <code>ON</code> AŒv‘ª‘ÎÛ‚Å‚È‚¢ê‡‚Í <code>OFF</code> A
-     *         w’è‚³‚ê‚Ä‚¢‚È‚¢ê‡‚Í <code>NOT_SPECIFIED</code>
+     * @return è¨ˆæ¸¬å¯¾è±¡ã®å ´åˆã¯ <code>ON</code> ã€è¨ˆæ¸¬å¯¾è±¡ã§ãªã„å ´åˆã¯ <code>OFF</code> ã€
+     *         æŒ‡å®šã•ã‚Œã¦ã„ãªã„å ´åˆã¯ <code>NOT_SPECIFIED</code>
      */
     public TripleState getMeasurementTarget()
     {
@@ -1054,9 +1054,9 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒOƒ‰ƒto—Í‘ÎÛİ’è‚ğƒZƒbƒg‚µ‚Ü‚·B<br />
+     * ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚°ãƒ©ãƒ•å‡ºåŠ›å¯¾è±¡è¨­å®šã‚’ã‚»ãƒƒãƒˆã—ã¾ã™ã€‚<br />
      *
-     * @param output {@link TripleState} ‚Ì’l
+     * @param output {@link TripleState} ã®å€¤
      */
     public void setResponseGraphOutput(TripleState output)
     {
@@ -1064,9 +1064,9 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒOƒ‰ƒto—Í‘ÎÛ‚©”Û‚©‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚°ãƒ©ãƒ•å‡ºåŠ›å¯¾è±¡ã‹å¦ã‹ã‚’è¿”ã—ã¾ã™ã€‚<br />
      *
-     * @return ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒOƒ‰ƒto—Í‘ÎÛ‚Ìê‡‚Í <code>true</code>
+     * @return ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚°ãƒ©ãƒ•å‡ºåŠ›å¯¾è±¡ã®å ´åˆã¯ <code>true</code>
      */
     public boolean isResponseGraphOutputTarget()
     {
@@ -1075,11 +1075,11 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * –{ƒNƒ‰ƒX‚ª‚ÂAAccumulatedTime‚Ì‘˜a‚Æİ’è‰ñ”‚ğƒŠƒZƒbƒg‚µA
-     * ‘O‰ñƒŠƒZƒbƒg‚©‚ç‚ÌAAccumulatedTime‚Ì•½‹Ï’l‚ğ•Ô‚·B<br />
-     * ‘O‰ñƒŠƒZƒbƒg‚©‚ç {@link #setAccumulatedTime} ‚ªŒÄ‚Ño‚³‚ê‚Ä‚¢‚È‚¢ê‡‚Í0‚ğ•Ô‚·B
+     * æœ¬ã‚¯ãƒ©ã‚¹ãŒæŒã¤ã€AccumulatedTimeã®ç·å’Œã¨è¨­å®šå›æ•°ã‚’ãƒªã‚»ãƒƒãƒˆã—ã€
+     * å‰å›ãƒªã‚»ãƒƒãƒˆã‹ã‚‰ã®ã€AccumulatedTimeã®å¹³å‡å€¤ã‚’è¿”ã™ã€‚<br />
+     * å‰å›ãƒªã‚»ãƒƒãƒˆã‹ã‚‰ {@link #setAccumulatedTime} ãŒå‘¼ã³å‡ºã•ã‚Œã¦ã„ãªã„å ´åˆã¯0ã‚’è¿”ã™ã€‚
      *
-     * @return ‘O‰ñƒŠƒZƒbƒg‚©‚ç¡‰ñ‚Ü‚Å‚Ì TAT î•ñ
+     * @return å‰å›ãƒªã‚»ãƒƒãƒˆã‹ã‚‰ä»Šå›ã¾ã§ã® TAT æƒ…å ±
      */
     public synchronized TurnAroundTimeInfo resetAccumulatedTimeCount()
     {
@@ -1089,7 +1089,7 @@ public class Invocation implements InvocationMBean, Serializable
         {
             if (this.tatCallZeroValueStartTime_ == TAT_ZERO_KEEP_TIME_NULL_VALUE)
             {
-                // ŒÄ‚Ño‚µ‰ñ”‚Ì’l‚ª 0 ‚Å‚ ‚éó‘Ô‚ªŠJn‚µ‚½‚ğƒZƒbƒg‚·‚é
+                // å‘¼ã³å‡ºã—å›æ•°ã®å€¤ãŒ 0 ã§ã‚ã‚‹çŠ¶æ…‹ãŒé–‹å§‹ã—ãŸæ™‚åˆ»ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
                 this.tatCallZeroValueStartTime_ = this.lastResetAccumulatedTime_;
             }
             this.accumulatedTimeSum_ = 0;
@@ -1125,10 +1125,10 @@ public class Invocation implements InvocationMBean, Serializable
     }
     
     /**
-     * –{ƒNƒ‰ƒX‚ª‚ÂThrowableCountMap‚ğƒŠƒZƒbƒg‚µ‚Ü‚·B<br />
-     * ’l‚ª1ˆÈã‚Ì—v‘f‚Í’l‚ğ0‚É‚µA’l‚ª0‚Ì—v‘f‚Í‚»‚Ì‚Ü‚Üc‚·‚©Map‚©‚çæ‚èœ‚«‚Ü‚·B<br />
+     * æœ¬ã‚¯ãƒ©ã‚¹ãŒæŒã¤ThrowableCountMapã‚’ãƒªã‚»ãƒƒãƒˆã—ã¾ã™ã€‚<br />
+     * å€¤ãŒ1ä»¥ä¸Šã®è¦ç´ ã¯å€¤ã‚’0ã«ã—ã€å€¤ãŒ0ã®è¦ç´ ã¯ãã®ã¾ã¾æ®‹ã™ã‹Mapã‹ã‚‰å–ã‚Šé™¤ãã¾ã™ã€‚<br />
      * 
-     * @param removeZeroCountData count‚ª0‚Ìƒf[ƒ^‚ğMap‚©‚çæ‚èœ‚­‚©‚Ç‚¤‚©
+     * @param removeZeroCountData countãŒ0ã®ãƒ‡ãƒ¼ã‚¿ã‚’Mapã‹ã‚‰å–ã‚Šé™¤ãã‹ã©ã†ã‹
      */
     private synchronized void resetThrowableCountMap(boolean removeZeroCountData)
     {
@@ -1146,8 +1146,8 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * Turn Around Time‚ğŒv‘ª‚·‚é‚©‚Ç‚¤‚©‚ğİ’è‚·‚éB
-     * @param tatEnabled Turn Around Time‚ğŒv‘ª‚·‚é‚È‚çtrue
+     * Turn Around Timeã‚’è¨ˆæ¸¬ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param tatEnabled Turn Around Timeã‚’è¨ˆæ¸¬ã™ã‚‹ãªã‚‰true
      */
     public void setTatEnabled(final boolean tatEnabled)
     {
@@ -1155,8 +1155,8 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * Turn Around Time‚Ì•ÛŠúŠÔ‚ğƒZƒbƒg‚·‚éB
-     * @param tatKeepTime Turn Around Time‚Ì•ÛŠúŠÔ
+     * Turn Around Timeã®ä¿æŒæœŸé–“ã‚’ã‚»ãƒƒãƒˆã™ã‚‹ã€‚
+     * @param tatKeepTime Turn Around Timeã®ä¿æŒæœŸé–“
      */
     public void setTatKeepTime(final long tatKeepTime)
     {
@@ -1164,9 +1164,9 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ƒƒ\ƒbƒhŒÄ‚Ño‚µ‰ñ”‚ª 0 ‚Å‚ ‚éó‘Ô‚ªƒXƒ^[ƒg‚µ‚½‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—å›æ•°ãŒ 0 ã§ã‚ã‚‹çŠ¶æ…‹ãŒã‚¹ã‚¿ãƒ¼ãƒˆã—ãŸæ™‚åˆ»ã‚’è¿”ã—ã¾ã™ã€‚<br />
      *
-     * @return ƒƒ\ƒbƒhŒÄ‚Ño‚µ‰ñ”‚ª 0 ‚Å‚ ‚éó‘Ô‚ªƒXƒ^[ƒg‚µ‚½
+     * @return ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—å›æ•°ãŒ 0 ã§ã‚ã‚‹çŠ¶æ…‹ãŒã‚¹ã‚¿ãƒ¼ãƒˆã—ãŸæ™‚åˆ»
      */
     public long getTatCallZeroValueStartTime()
     {
@@ -1174,9 +1174,9 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * Turn Around Time‚ÌÅ‘å’l‚ğ•Ô‚µ‚Ü‚·B<br />
+     * Turn Around Timeã®æœ€å¤§å€¤ã‚’è¿”ã—ã¾ã™ã€‚<br />
      * 
-     * @return Turn Around Time‚ÌÅ‘å’l
+     * @return Turn Around Timeã®æœ€å¤§å€¤
      */
     public long getAccumulatedMax()
     {
@@ -1184,9 +1184,9 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * Turn Around Time‚ÌÅ¬’l‚ğ•Ô‚µ‚Ü‚·B<br />
+     * Turn Around Timeã®æœ€å°å€¤ã‚’è¿”ã—ã¾ã™ã€‚<br />
      * 
-     * @return Turn Around Time‚ÌÅ¬’l
+     * @return Turn Around Timeã®æœ€å°å€¤
      */
     public long getAccumulatedMin()
     {
@@ -1194,37 +1194,37 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * InvocationƒNƒ‰ƒX‚ÌƒNƒ‰ƒX–¼ÌAƒƒ\ƒbƒh–¼Ì‚ğŠî‚ÉJavaƒNƒ‰ƒX‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
-     * @param className ƒNƒ‰ƒX–¼Ì
-     * @param methodName ƒƒ\ƒbƒh–¼Ì
-     * @return true JavaƒNƒ‰ƒX‚¾‚Á‚½ê‡
-     *         false JavaƒNƒ‰ƒX‚Å‚Í‚È‚¢ê‡
+     * Invocationã‚¯ãƒ©ã‚¹ã®ã‚¯ãƒ©ã‚¹åç§°ã€ãƒ¡ã‚½ãƒƒãƒ‰åç§°ã‚’åŸºã«Javaã‚¯ãƒ©ã‚¹ã‹ã©ã†ã‹ã‚’åˆ¤å®šã™ã‚‹ã€‚
+     * @param className ã‚¯ãƒ©ã‚¹åç§°
+     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰åç§°
+     * @return true Javaã‚¯ãƒ©ã‚¹ã ã£ãŸå ´åˆ
+     *         false Javaã‚¯ãƒ©ã‚¹ã§ã¯ãªã„å ´åˆ
      */
     private static boolean judgeIsJavaClass(final String className, final String methodName)
     {
-        //ƒCƒxƒ“ƒg”­•ñ—p‚É¶¬‚³‚ê‚½Invocation‚ğ‘ÎÛ‚©‚çœŠO
+        //ã‚¤ãƒ™ãƒ³ãƒˆç™ºå ±ç”¨ã«ç”Ÿæˆã•ã‚ŒãŸInvocationã‚’å¯¾è±¡ã‹ã‚‰é™¤å¤–
         if (className == null || className.length() == 0 || methodName == null
                 || methodName.length() == 0)
         {
             return false;
         }
 
-        // S2JavelinFilter/HttpServletMonitorAJrubyConverterA
-        // Evento—Í‚É¶¬‚³‚ê‚½Invocation‚ğ‘ÎÛ‚©‚çœŠO
+        // S2JavelinFilter/HttpServletMonitorã€JrubyConverterã€
+        // Eventå‡ºåŠ›æ™‚ã«ç”Ÿæˆã•ã‚ŒãŸInvocationã‚’å¯¾è±¡ã‹ã‚‰é™¤å¤–
         if (className.startsWith("/") == true
                 || EventConstants.EVENT_CLASSNAME.equals(className) == true)
         {
             return false;
         }
 
-        // JDBCJavelin‚É‚æ‚é•ÏŠ·‚ğœŠO
+        // JDBCJavelinã«ã‚ˆã‚‹å¤‰æ›ã‚’é™¤å¤–
         if (className.startsWith("jdbc:"))
         {
             return false;
         }
 
-        //JavelinƒƒO—v‘fì¬—pInvocation‚ÆAEvent‘—M—pInvocationA
-        //S2JavelinFilter/HttpServletMonitor‚Éì¬‚³‚ê‚½Invocation‚ğœŠO
+        //Javelinãƒ­ã‚°è¦ç´ ä½œæˆç”¨Invocationã¨ã€Eventé€ä¿¡ç”¨Invocationã€
+        //S2JavelinFilter/HttpServletMonitorã«ä½œæˆã•ã‚ŒãŸInvocationã‚’é™¤å¤–
         if (JavelinLogConstants.DEFAULT_LOGMETHOD.equals(methodName) == true
                 || methodName.startsWith("/") == true
                 || EventConstants.EVENT_METHODNAME.equals(className) == true)
@@ -1236,8 +1236,8 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * œŠO—Dæ‚Å‚ ‚é‚©‚Ìƒtƒ‰ƒO‚ğİ’è‚µ‚Ü‚·B
-     * @param isExcludePreffered œŠO—Dæ‚Å‚ ‚é‚©‚Ìƒtƒ‰ƒO
+     * é™¤å¤–å„ªå…ˆã§ã‚ã‚‹ã‹ã®ãƒ•ãƒ©ã‚°ã‚’è¨­å®šã—ã¾ã™ã€‚
+     * @param isExcludePreffered é™¤å¤–å„ªå…ˆã§ã‚ã‚‹ã‹ã®ãƒ•ãƒ©ã‚°
      */
     public void setExcludePreffered(boolean isExcludePreffered)
     {
@@ -1245,8 +1245,8 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * œŠO—Dæ‚Å‚ ‚é‚©‚Ìƒtƒ‰ƒO‚ğæ“¾‚µ‚Ü‚·B
-     * @return œŠO—Dæ‚Å‚ ‚é‚©‚Ìƒtƒ‰ƒO
+     * é™¤å¤–å„ªå…ˆã§ã‚ã‚‹ã‹ã®ãƒ•ãƒ©ã‚°ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @return é™¤å¤–å„ªå…ˆã§ã‚ã‚‹ã‹ã®ãƒ•ãƒ©ã‚°
      */
     public boolean isExcludePreffered()
     {
@@ -1254,8 +1254,8 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ‘ÎÛ—Dæ‚Å‚ ‚é‚©‚Ìƒtƒ‰ƒO‚ğæ“¾‚µ‚Ü‚·B
-     * @return ‘ÎÛ—Dæ‚Å‚ ‚é‚©‚Ìƒtƒ‰ƒO
+     * å¯¾è±¡å„ªå…ˆã§ã‚ã‚‹ã‹ã®ãƒ•ãƒ©ã‚°ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @return å¯¾è±¡å„ªå…ˆã§ã‚ã‚‹ã‹ã®ãƒ•ãƒ©ã‚°
      */
     public boolean isTargetPreferred()
     {
@@ -1263,8 +1263,8 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ‘ÎÛ—Dæ‚Å‚ ‚é‚©‚Ìƒtƒ‰ƒO‚ğİ’è‚µ‚Ü‚·B
-     * @param isTargetPreferred ‘ÎÛ—Dæ‚Å‚ ‚é‚©‚Ìƒtƒ‰ƒO
+     * å¯¾è±¡å„ªå…ˆã§ã‚ã‚‹ã‹ã®ãƒ•ãƒ©ã‚°ã‚’è¨­å®šã—ã¾ã™ã€‚
+     * @param isTargetPreferred å¯¾è±¡å„ªå…ˆã§ã‚ã‚‹ã‹ã®ãƒ•ãƒ©ã‚°
      */
     public void setTargetPreferred(boolean isTargetPreferred)
     {
@@ -1272,8 +1272,8 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * œŠO‚Å‚ ‚é‚©‚Ìƒtƒ‰ƒO‚ğİ’è‚µ‚Ü‚·B
-     * @param isExclude œŠO‚Å‚ ‚é‚©‚Ìƒtƒ‰ƒO
+     * é™¤å¤–ã§ã‚ã‚‹ã‹ã®ãƒ•ãƒ©ã‚°ã‚’è¨­å®šã—ã¾ã™ã€‚
+     * @param isExclude é™¤å¤–ã§ã‚ã‚‹ã‹ã®ãƒ•ãƒ©ã‚°
      */
     public void setExclude(boolean isExclude)
     {
@@ -1281,8 +1281,8 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * œŠO‚Å‚ ‚é‚©‚Ìƒtƒ‰ƒO‚ğæ“¾‚µ‚Ü‚·B
-     * @return œŠO‚Å‚ ‚é‚©‚Ìƒtƒ‰ƒO
+     * é™¤å¤–ã§ã‚ã‚‹ã‹ã®ãƒ•ãƒ©ã‚°ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @return é™¤å¤–ã§ã‚ã‚‹ã‹ã®ãƒ•ãƒ©ã‚°
      */
     public boolean isExclude()
     {
@@ -1290,8 +1290,8 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ƒ^[ƒQƒbƒg‚Å‚ ‚é‚©‚Ìƒtƒ‰ƒO‚ğİ’è‚µ‚Ü‚·B
-     * @param isTarget ƒ^[ƒQƒbƒg‚Å‚ ‚é‚©‚Ìƒtƒ‰ƒO
+     * ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã§ã‚ã‚‹ã‹ã®ãƒ•ãƒ©ã‚°ã‚’è¨­å®šã—ã¾ã™ã€‚
+     * @param isTarget ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã§ã‚ã‚‹ã‹ã®ãƒ•ãƒ©ã‚°
      */
     public void setTarget(boolean isTarget)
     {
@@ -1299,8 +1299,8 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ƒ^[ƒQƒbƒg‚Å‚ ‚é‚©‚Ìƒtƒ‰ƒO‚ğæ“¾‚µ‚Ü‚·B
-     * @return ƒ^[ƒQƒbƒg‚Å‚ ‚é‚©‚Ìƒtƒ‰ƒO
+     * ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã§ã‚ã‚‹ã‹ã®ãƒ•ãƒ©ã‚°ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @return ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã§ã‚ã‚‹ã‹ã®ãƒ•ãƒ©ã‚°
      */
     public boolean isTarget()
     {
@@ -1308,8 +1308,8 @@ public class Invocation implements InvocationMBean, Serializable
     }
 
     /**
-     * ˆø”‚Åw’è‚µ‚½HTTPƒXƒe[ƒ^ƒX‚É‘Î‚µ‚ÄƒJƒEƒ“ƒg‚ğ‚µ‚Ü‚·B
-     * @param httpStatus HTTPƒXƒe[ƒ^ƒX
+     * å¼•æ•°ã§æŒ‡å®šã—ãŸHTTPã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã«å¯¾ã—ã¦ã‚«ã‚¦ãƒ³ãƒˆã‚’ã—ã¾ã™ã€‚
+     * @param httpStatus HTTPã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
      */
     public synchronized void addHttpStatusCount(final String httpStatus)
     {
@@ -1345,10 +1345,10 @@ public class Invocation implements InvocationMBean, Serializable
 
     
     /**
-     * –{ƒNƒ‰ƒX‚ª‚ÂHttpStatusCountMap‚ğƒŠƒZƒbƒg‚µ‚Ü‚·B<br />
-     * ’l‚ª1ˆÈã‚Ì—v‘f‚Í’l‚ğ0‚É‚µA’l‚ª0‚Ì—v‘f‚Í‚»‚Ì‚Ü‚Üc‚·‚©Map‚©‚çæ‚èœ‚«‚Ü‚·B<br />
+     * æœ¬ã‚¯ãƒ©ã‚¹ãŒæŒã¤HttpStatusCountMapã‚’ãƒªã‚»ãƒƒãƒˆã—ã¾ã™ã€‚<br />
+     * å€¤ãŒ1ä»¥ä¸Šã®è¦ç´ ã¯å€¤ã‚’0ã«ã—ã€å€¤ãŒ0ã®è¦ç´ ã¯ãã®ã¾ã¾æ®‹ã™ã‹Mapã‹ã‚‰å–ã‚Šé™¤ãã¾ã™ã€‚<br />
      * 
-     * @param removeZeroCountData count‚ª0‚Ìƒf[ƒ^‚ğMap‚©‚çæ‚èœ‚­‚©‚Ç‚¤‚©
+     * @param removeZeroCountData countãŒ0ã®ãƒ‡ãƒ¼ã‚¿ã‚’Mapã‹ã‚‰å–ã‚Šé™¤ãã‹ã©ã†ã‹
      */
     private synchronized void resetHttpStatusCountMap(boolean removeZeroCountData)
     {

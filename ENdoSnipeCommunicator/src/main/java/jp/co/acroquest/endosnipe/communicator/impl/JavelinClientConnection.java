@@ -42,7 +42,7 @@ import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 
 /**
- * ƒNƒ‰ƒCƒAƒ“ƒg‚Æ’ÊM‚ğs‚¤ƒNƒ‰ƒX‚Å‚·B<br />
+ * ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã¨é€šä¿¡ã‚’è¡Œã†ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  * 
  * @author eriguchi
  *
@@ -55,32 +55,32 @@ public class JavelinClientConnection
 
     private static final int BUFFER_SIZE = 512 * 1024;
 
-    /** “d•¶”jŠü‚ğ•\¦‚·‚éŠÔŠu */
+    /** é›»æ–‡ç ´æ£„ã‚’è¡¨ç¤ºã™ã‚‹é–“éš” */
     private static final int TELEGRAM_DISCARD_INTERVAL = 5000;
 
-    /** ‘O‰ñ“d•¶‚ğ”jŠü‚µ‚½ŠÔ */
+    /** å‰å›é›»æ–‡ã‚’ç ´æ£„ã—ãŸæ™‚é–“ */
     private long lastDiscard_;
 
-    /** ”jŠü‚µ‚½“d•¶‚Ì‡ŒvƒTƒCƒY */
+    /** ç ´æ£„ã—ãŸé›»æ–‡ã®åˆè¨ˆã‚µã‚¤ã‚º */
     private int discardSum_;
 
-    /** ƒNƒ‰ƒCƒAƒ“ƒgƒ\ƒPƒbƒg */
+    /** ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚½ã‚±ãƒƒãƒˆ */
     private Socket clientSocket_ = null;
 
-    /** “ü—Í—pƒXƒgƒŠ[ƒ€ */
+    /** å…¥åŠ›ç”¨ã‚¹ãƒˆãƒªãƒ¼ãƒ  */
     private BufferedInputStream inputStream_ = null;
 
-    /** “ü—Í—pƒXƒgƒŠ[ƒ€ */
+    /** å…¥åŠ›ç”¨ã‚¹ãƒˆãƒªãƒ¼ãƒ  */
     private BufferedOutputStream outputStream_ = null;
 
     private final BlockingQueue<byte[]> queue_;
 
     /**
-     * ‘—M—pƒLƒ…[Aƒ\ƒPƒbƒgA“üo—ÍƒXƒgƒŠ[ƒ€‚ğ\’z‚µ‚Ü‚·B<br />
+     * é€ä¿¡ç”¨ã‚­ãƒ¥ãƒ¼ã€ã‚½ã‚±ãƒƒãƒˆã€å…¥å‡ºåŠ›ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚’æ§‹ç¯‰ã—ã¾ã™ã€‚<br />
      * 
-     * @param objSocket ƒNƒ‰ƒCƒAƒ“ƒgƒ\ƒPƒbƒg
-     * @param discard ƒAƒ‰[ƒ€‘—MŠÔŠu“à‚É”­¶‚µ‚½“¯‚¶ƒAƒ‰[ƒ€‚ğ”jŠü‚·‚é‚©‚Ç‚¤‚©
-     * @throws IOException “üo—Í—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param objSocket ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚½ã‚±ãƒƒãƒˆ
+     * @param discard ã‚¢ãƒ©ãƒ¼ãƒ é€ä¿¡é–“éš”å†…ã«ç™ºç”Ÿã—ãŸåŒã˜ã‚¢ãƒ©ãƒ¼ãƒ ã‚’ç ´æ£„ã™ã‚‹ã‹ã©ã†ã‹
+     * @throws IOException å…¥å‡ºåŠ›ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public JavelinClientConnection(final Socket objSocket, boolean discard)
         throws IOException
@@ -102,7 +102,7 @@ public class JavelinClientConnection
     }
 
     /**
-     * I—¹ˆ—‚Å‚·B<br />
+     * çµ‚äº†å‡¦ç†ã§ã™ã€‚<br />
      * 
      */
     void close()
@@ -135,10 +135,10 @@ public class JavelinClientConnection
     }
 
     /**
-     * ‘—Mˆ—‚Å‚·B<br />
+     * é€ä¿¡å‡¦ç†ã§ã™ã€‚<br />
      * 
-     * @param byteOutputArr o—Íƒf[ƒ^‚ÌƒoƒCƒg”z—ñ
-     * @throws IOException “üo—Í—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param byteOutputArr å‡ºåŠ›ãƒ‡ãƒ¼ã‚¿ã®ãƒã‚¤ãƒˆé…åˆ—
+     * @throws IOException å…¥å‡ºåŠ›ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     void send(final byte[] byteOutputArr)
         throws IOException
@@ -165,11 +165,11 @@ public class JavelinClientConnection
     }
 
     /**
-     * “d•¶‚ğƒfƒoƒbƒOo—Í‚µ‚Ü‚·B<br />
+     * é›»æ–‡ã‚’ãƒ‡ãƒãƒƒã‚°å‡ºåŠ›ã—ã¾ã™ã€‚<br />
      * 
-     * @param message ƒƒbƒZ[ƒW
-     * @param response óM“d•¶
-     * @param length “d•¶’·
+     * @param message ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
+     * @param response å—ä¿¡é›»æ–‡
+     * @param length é›»æ–‡é•·
      */
     public void logTelegram(final String message, final Telegram response, final int length)
     {
@@ -181,10 +181,10 @@ public class JavelinClientConnection
     }
 
     /**
-     * óM“d•¶‚Ìbyte”z—ñ‚ğ•Ô‚·B
+     * å—ä¿¡é›»æ–‡ã®byteé…åˆ—ã‚’è¿”ã™ã€‚
      * 
-     * @return byte”z—ñ
-     * @throws IOException “üo—Í—áŠO‚Ì”­¶
+     * @return byteé…åˆ—
+     * @throws IOException å…¥å‡ºåŠ›ä¾‹å¤–ã®ç™ºç”Ÿ
      */
     byte[] recvRequest()
         throws IOException
@@ -195,7 +195,7 @@ public class JavelinClientConnection
         ByteArrayOutputStream resultStream = new ByteArrayOutputStream();
         do
         {
-            // ƒwƒbƒ_‚ğ“Ç‚İ‚Ş
+            // ãƒ˜ãƒƒãƒ€ã‚’èª­ã¿è¾¼ã‚€
             byte[] header = new byte[Header.HEADER_LENGTH];
             readFull(header, 0, header.length);
 
@@ -220,10 +220,10 @@ public class JavelinClientConnection
 
             SystemLogger.getInstance().debug("telegramLength  = [" + telegramLength + "]");
 
-            // ƒwƒbƒ_‚Æ–{•¶‚ğŠÜ‚ß‚½ƒf[ƒ^‚ğŠi”[‚·‚é”z—ñ
+            // ãƒ˜ãƒƒãƒ€ã¨æœ¬æ–‡ã‚’å«ã‚ãŸãƒ‡ãƒ¼ã‚¿ã‚’æ ¼ç´ã™ã‚‹é…åˆ—
             byte[] telegram = new byte[telegramLength - header.length];
 
-            // –{•¶‚ğ“Ç‚İ‚Ş
+            // æœ¬æ–‡ã‚’èª­ã¿è¾¼ã‚€
             readFull(telegram, 0, telegramLength - header.length);
 
             resultStream.write(telegram);
@@ -235,7 +235,7 @@ public class JavelinClientConnection
         int telegramLength = telegramBytes.length;
         ByteBuffer outputBuffer = ByteBuffer.wrap(telegramBytes);
 
-        // ƒwƒbƒ_‚ğ•ÏŠ·‚·‚é
+        // ãƒ˜ãƒƒãƒ€ã‚’å¤‰æ›ã™ã‚‹
         outputBuffer.rewind();
         outputBuffer.putInt(telegramLength);
 
@@ -243,21 +243,21 @@ public class JavelinClientConnection
     }
 
     /**
-     * ƒXƒgƒŠ[ƒ€‚©‚çAw’è‚³‚ê‚½ƒoƒCƒg”‚ğ“Ç‚İ‚İ‚Ü‚·B<br />
+     * ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‹ã‚‰ã€æŒ‡å®šã•ã‚ŒãŸãƒã‚¤ãƒˆæ•°ã‚’èª­ã¿è¾¼ã¿ã¾ã™ã€‚<br />
      *
-     * w’è‚³‚ê‚½ƒoƒCƒg”•ª‚Ìƒf[ƒ^‚ğ“Ç‚İ‚ß‚é‚Ü‚ÅA‚±‚Ìƒƒ\ƒbƒh‚Íˆ—‚ğ•Ô‚µ‚Ü‚¹‚ñB<br />
+     * æŒ‡å®šã•ã‚ŒãŸãƒã‚¤ãƒˆæ•°åˆ†ã®ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã‚ã‚‹ã¾ã§ã€ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã¯å‡¦ç†ã‚’è¿”ã—ã¾ã›ã‚“ã€‚<br />
      *
-     * ƒf[ƒ^Ši”[æ‚É‚ÍAÅ’á <code>(offset + length)</code> •ª‚Ì—Ìˆæ‚ª•K—v‚Å‚·B<br />
+     * ãƒ‡ãƒ¼ã‚¿æ ¼ç´å…ˆã«ã¯ã€æœ€ä½ <code>(offset + length)</code> åˆ†ã®é ˜åŸŸãŒå¿…è¦ã§ã™ã€‚<br />
      *
-     * @param data ƒf[ƒ^Ši”[æ
-     * @param offset ƒf[ƒ^‚ğŠi”[‚·‚éÅ‰‚ÌˆÊ’ui data[offset] ‚ÉAÅ‰‚Ìƒf[ƒ^‚ªŠi”[‚³‚ê‚éj
-     * @param length ƒf[ƒ^‚ğ“Ç‚İ‚ŞƒoƒCƒg”
-     * @throws IOException “Ç‚İ‚İ’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚½ê‡
+     * @param data ãƒ‡ãƒ¼ã‚¿æ ¼ç´å…ˆ
+     * @param offset ãƒ‡ãƒ¼ã‚¿ã‚’æ ¼ç´ã™ã‚‹æœ€åˆã®ä½ç½®ï¼ˆ data[offset] ã«ã€æœ€åˆã®ãƒ‡ãƒ¼ã‚¿ãŒæ ¼ç´ã•ã‚Œã‚‹ï¼‰
+     * @param length ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã‚€ãƒã‚¤ãƒˆæ•°
+     * @throws IOException èª­ã¿è¾¼ã¿ä¸­ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     private void readFull(byte[] data, final int offset, final int length)
         throws IOException
     {
-        // read() ‚Í1‰ñ‚Å‚·‚×‚Ä‚Ìƒf[ƒ^‚ğ“Ç‚İ‚Ş‚±‚Æ‚ª‚Å‚«‚È‚¢‚½‚ßA‚·‚×‚Ä‚Ìƒf[ƒ^‚ğ“Ç‚İ‚Ş‚Ü‚ÅŒJ‚è•Ô‚·
+        // read() ã¯1å›ã§ã™ã¹ã¦ã®ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã‚€ã“ã¨ãŒã§ããªã„ãŸã‚ã€ã™ã¹ã¦ã®ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã‚€ã¾ã§ç¹°ã‚Šè¿”ã™
         int pos = offset;
         int remainLength = length;
         while (remainLength > 0)
@@ -273,10 +273,10 @@ public class JavelinClientConnection
     }
 
     /**
-     * ƒAƒ‰[ƒ€‚ğ‘—M‚µ‚Ü‚·B<br />
-     * ‚±‚Ìƒƒ\ƒbƒh‚ÍƒXƒŒƒbƒhŠO‚©‚çŒÄ‚Î‚ê‚Ü‚·B<br />
+     * ã‚¢ãƒ©ãƒ¼ãƒ ã‚’é€ä¿¡ã—ã¾ã™ã€‚<br />
+     * ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã¯ã‚¹ãƒ¬ãƒƒãƒ‰å¤–ã‹ã‚‰å‘¼ã°ã‚Œã¾ã™ã€‚<br />
      * 
-     * @param telegramArray “d•¶‚ÌƒoƒCƒg”z—ñ
+     * @param telegramArray é›»æ–‡ã®ãƒã‚¤ãƒˆé…åˆ—
      */
     public void sendAlarm(final byte[] telegramArray)
     {
@@ -307,9 +307,9 @@ public class JavelinClientConnection
     }
 
     /**
-     * ƒ\ƒPƒbƒg‚ª•Â‚¶‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ã‚½ã‚±ãƒƒãƒˆãŒé–‰ã˜ã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’è¿”ã—ã¾ã™ã€‚<br />
      * 
-     * @return ƒ\ƒPƒbƒg‚ª•Â‚¶‚Ä‚¢‚éê‡A<code>true</code>
+     * @return ã‚½ã‚±ãƒƒãƒˆãŒé–‰ã˜ã¦ã„ã‚‹å ´åˆã€<code>true</code>
      */
     public boolean isClosed()
     {
@@ -318,8 +318,8 @@ public class JavelinClientConnection
     }
     
     /**
-     * ƒ\ƒPƒbƒg‚ÌÚ‘±ó‘Ô‚ğ•Ô‚µ‚Ü‚·B
-     * @return ƒ\ƒPƒbƒg‚ªÚ‘±‚³‚ê‚Ä‚¢‚éê‡A<code>true</code>
+     * ã‚½ã‚±ãƒƒãƒˆã®æ¥ç¶šçŠ¶æ…‹ã‚’è¿”ã—ã¾ã™ã€‚
+     * @return ã‚½ã‚±ãƒƒãƒˆãŒæ¥ç¶šã•ã‚Œã¦ã„ã‚‹å ´åˆã€<code>true</code>
      */
     public boolean isConnected()
     {
@@ -328,10 +328,10 @@ public class JavelinClientConnection
     }
 
     /**
-     * ƒLƒ…[‚©‚çƒf[ƒ^‚ğæ‚èo‚µ‚Ü‚·B<br />
+     * ã‚­ãƒ¥ãƒ¼ã‹ã‚‰ãƒ‡ãƒ¼ã‚¿ã‚’å–ã‚Šå‡ºã—ã¾ã™ã€‚<br />
      *
-     * @return æ‚èo‚µ‚½ƒf[ƒ^
-     * @throws InterruptedException Š„‚è‚İˆ—‚ª“ü‚Á‚½‚Æ‚«
+     * @return å–ã‚Šå‡ºã—ãŸãƒ‡ãƒ¼ã‚¿
+     * @throws InterruptedException å‰²ã‚Šè¾¼ã¿å‡¦ç†ãŒå…¥ã£ãŸã¨ã
      */
     byte[] take()
         throws InterruptedException
@@ -340,9 +340,9 @@ public class JavelinClientConnection
     }
     
     /**
-     * ƒ[ƒJƒ‹ƒAƒhƒŒƒX‚ğæ“¾‚·‚éB
+     * ãƒ­ãƒ¼ã‚«ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return ƒ[ƒJƒ‹ƒAƒhƒŒƒXB
+     * @return ãƒ­ãƒ¼ã‚«ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹ã€‚
      */
     public InetAddress getAddress()
     {

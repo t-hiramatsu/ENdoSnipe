@@ -29,21 +29,21 @@ import jp.co.acroquest.endosnipe.common.event.EventConstants;
 import jp.co.acroquest.endosnipe.javelin.util.StatsUtil;
 
 /**
- * ƒƒ‚ƒŠƒŠ[ƒNŒŸoƒCƒxƒ“ƒg‚Å‚·B<br />
+ * ãƒ¡ãƒ¢ãƒªãƒªãƒ¼ã‚¯æ¤œå‡ºã‚¤ãƒ™ãƒ³ãƒˆã§ã™ã€‚<br />
  * 
  * @author fujii
  *
  */
 public class LeakDetectEvent extends AbstractStackTraceCheckEvent
 {
-    /** equalsÀs‚É”äŠr‚É—p‚¢‚éB */
+    /** equalså®Ÿè¡Œæ™‚ã«æ¯”è¼ƒã«ç”¨ã„ã‚‹ã€‚ */
     private static final int EQUALS_LENGTH = 1000;
 
-    /** ƒƒ‚ƒŠƒŠ[ƒNŒŸoƒCƒxƒ“ƒg‚Ì’Ç‰Á‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ÌƒNƒ‰ƒX–¼ */
+    /** ãƒ¡ãƒ¢ãƒªãƒªãƒ¼ã‚¯æ¤œå‡ºã‚¤ãƒ™ãƒ³ãƒˆã®è¿½åŠ ã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¯ãƒ©ã‚¹å */
     protected String         leakClassName_;
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^BƒCƒxƒ“ƒg–¼(LeakDetected)‚ğİ’è‚µ‚Ü‚·B<br />
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚ã‚¤ãƒ™ãƒ³ãƒˆå(LeakDetected)ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
      */
     public LeakDetectEvent()
     {

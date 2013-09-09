@@ -34,29 +34,29 @@ import java.util.Map;
 import jp.co.acroquest.endosnipe.perfdoctor.WarningUnit;
 
 /**
- * ŒxƒŠƒXƒg‚Ì’†‚©‚çAŒŸo’l‚ÌÅ¬’l‚Ì2”{‚Ì’l‚ğƒL[‚Æ‚µ‚ÄA<br />
- * ŒxƒŠƒXƒg‚ğ•ª—Ş‚·‚éB<br />
- * ŒŸo’l‚ª•¶š—ñ‚Ìê‡A‚ ‚é‚¢‚ÍŒŸo’l‚ª0‚Ìê‡AŒxƒŠƒXƒg‚Ìæ“ª‚ğ•Ô‚·B<br />
+ * è­¦å‘Šãƒªã‚¹ãƒˆã®ä¸­ã‹ã‚‰ã€æ¤œå‡ºå€¤ã®æœ€å°å€¤ã®2å€ã®å€¤ã‚’ã‚­ãƒ¼ã¨ã—ã¦ã€<br />
+ * è­¦å‘Šãƒªã‚¹ãƒˆã‚’åˆ†é¡ã™ã‚‹ã€‚<br />
+ * æ¤œå‡ºå€¤ãŒæ–‡å­—åˆ—ã®å ´åˆã€ã‚ã‚‹ã„ã¯æ¤œå‡ºå€¤ãŒ0ã®å ´åˆã€è­¦å‘Šãƒªã‚¹ãƒˆã®å…ˆé ­ã‚’è¿”ã™ã€‚<br />
  * 
  * @author fujii
  * 
  */
 public class SimpleClassifier implements Classifier
 {
-    /** DoubleŒ^‚ÌÅ‘å’l */
+    /** Doubleå‹ã®æœ€å¤§å€¤ */
     private static final double MAX_VALUE = Double.MAX_VALUE;
 
     /**
-     * “ü—Í‚µ‚½ƒŠƒXƒg‚ğ•ª—Ş‚µ‚ÄAŒŸo’l‚ªÅ‘å‚Æ‚È‚é‚à‚Ì‚ğ•Ô‚·B
-     * @param warningUnitList WarningUnit‚ÌƒŠƒXƒg
-     * @return WarningUnit‚ÌƒŠƒXƒg‚ÉƒtƒBƒ‹ƒ^[‚ğ‚©‚¯‚½ƒŠƒXƒg
+     * å…¥åŠ›ã—ãŸãƒªã‚¹ãƒˆã‚’åˆ†é¡ã—ã¦ã€æ¤œå‡ºå€¤ãŒæœ€å¤§ã¨ãªã‚‹ã‚‚ã®ã‚’è¿”ã™ã€‚
+     * @param warningUnitList WarningUnitã®ãƒªã‚¹ãƒˆ
+     * @return WarningUnitã®ãƒªã‚¹ãƒˆã«ãƒ•ã‚£ãƒ«ã‚¿ãƒ¼ã‚’ã‹ã‘ãŸãƒªã‚¹ãƒˆ
      */
     public List<WarningUnit> classify(final List<WarningUnit> warningUnitList)
     {
         List<WarningUnit> resultList;
-        // Šî€‚Æ‚È‚éƒL[‚ğæ“¾‚·‚éB
-        // ‚½‚¾‚µAƒL[‚ª”š‚Å‚È‚¢ê‡(ƒe[ƒuƒ‹–¼‚È‚Ç)‚Ì‚Æ‚«‚ÍA
-        // List‚Ìæ“ª‚¾‚¯‚ğæ“¾‚µ‚½List‚ğ•Ô‚·B
+        // åŸºæº–ã¨ãªã‚‹ã‚­ãƒ¼ã‚’å–å¾—ã™ã‚‹ã€‚
+        // ãŸã ã—ã€ã‚­ãƒ¼ãŒæ•°å­—ã§ãªã„å ´åˆ(ãƒ†ãƒ¼ãƒ–ãƒ«åãªã©)ã®ã¨ãã¯ã€
+        // Listã®å…ˆé ­ã ã‘ã‚’å–å¾—ã—ãŸListã‚’è¿”ã™ã€‚
         double keyvalue = getKeyValue(warningUnitList);
 
         if (keyvalue > 0)
@@ -73,16 +73,16 @@ public class SimpleClassifier implements Classifier
     }
 
     /**
-     * •ª—Ş‚·‚é‚½‚ß‚É•K—v‚ÈƒL[‚Ì’l‚ğ•Ô‚·B
-     * ‚±‚Ìƒƒ\ƒbƒh‚Å‚ÍAŒŸo’l‚ÌÅ¬’l‚Ì2”{‚ğ•Ô‚·B
-     * @param warningUnitList WarningUnit‚ÌƒŠƒXƒg
-     * @return ƒL[‚Ì’l
-     * @throws NumberFormatException@ŒŸo’l‚ª”šˆÈŠO‚Ì‚à‚Ì‚Å‚ ‚é‚Æ‚«B
+     * åˆ†é¡ã™ã‚‹ãŸã‚ã«å¿…è¦ãªã‚­ãƒ¼ã®å€¤ã‚’è¿”ã™ã€‚
+     * ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã§ã¯ã€æ¤œå‡ºå€¤ã®æœ€å°å€¤ã®2å€ã‚’è¿”ã™ã€‚
+     * @param warningUnitList WarningUnitã®ãƒªã‚¹ãƒˆ
+     * @return ã‚­ãƒ¼ã®å€¤
+     * @throws NumberFormatExceptionã€€æ¤œå‡ºå€¤ãŒæ•°å­—ä»¥å¤–ã®ã‚‚ã®ã§ã‚ã‚‹ã¨ãã€‚
      */
     private double getKeyValue(final List<WarningUnit> warningUnitList)
     {
         double min = MAX_VALUE;
-        // ‘S‚Ä‚ÌWaningUnit‚ğŒ©‚ÄAÅ¬‚Ì‚à‚Ì‚ğ’Šo‚·‚éB
+        // å…¨ã¦ã®WaningUnitã‚’è¦‹ã¦ã€æœ€å°ã®ã‚‚ã®ã‚’æŠ½å‡ºã™ã‚‹ã€‚
         for (WarningUnit unit : warningUnitList)
         {
             Object[] args = unit.getArgs();
@@ -94,7 +94,7 @@ public class SimpleClassifier implements Classifier
                 break;
             }
 
-            // ŒŸo’l‚ª”šˆÈŠO‚Ìƒf[ƒ^‚É‚Â‚¢‚Ä‚ÍA—áŠO‚ğ•Ô‚·B
+            // æ¤œå‡ºå€¤ãŒæ•°å­—ä»¥å¤–ã®ãƒ‡ãƒ¼ã‚¿ã«ã¤ã„ã¦ã¯ã€ä¾‹å¤–ã‚’è¿”ã™ã€‚
             double argNum;
             try
             {
@@ -115,10 +115,10 @@ public class SimpleClassifier implements Classifier
     }
 
     /**
-     * ƒtƒBƒ‹ƒ^[Œã‚ÌƒŠƒXƒg‚ğ’Šo‚·‚éB
-     * @param warningUnitList WarningUnit‚ÌƒŠƒXƒg
-     * @param keyValue •ª—Ş‚ÅƒL[‚Æ‚È‚é’lB
-     * @return ƒtƒBƒ‹ƒ^[Œã‚ÌƒŠƒXƒg
+     * ãƒ•ã‚£ãƒ«ã‚¿ãƒ¼å¾Œã®ãƒªã‚¹ãƒˆã‚’æŠ½å‡ºã™ã‚‹ã€‚
+     * @param warningUnitList WarningUnitã®ãƒªã‚¹ãƒˆ
+     * @param keyValue åˆ†é¡ã§ã‚­ãƒ¼ã¨ãªã‚‹å€¤ã€‚
+     * @return ãƒ•ã‚£ãƒ«ã‚¿ãƒ¼å¾Œã®ãƒªã‚¹ãƒˆ
      */
     private List<WarningUnit> selectList(final List<WarningUnit> warningUnitList,
             final double keyValue)
@@ -128,7 +128,7 @@ public class SimpleClassifier implements Classifier
         for (WarningUnit unit : warningUnitList)
         {
             Object[] args = unit.getArgs();
-            // try-catch ‚ÍgetKeyValue‚ÅÀsÏ‚İ‚Ì‚½‚ßAÈ—ª‚·‚éB
+            // try-catch ã¯getKeyValueã§å®Ÿè¡Œæ¸ˆã¿ã®ãŸã‚ã€çœç•¥ã™ã‚‹ã€‚
             double argNum =
                             Double.parseDouble(args[PerformanceDoctorFilter.TARGET_VALUE_INDEX].toString());
             int type = (int)(argNum / keyValue);
@@ -147,12 +147,12 @@ public class SimpleClassifier implements Classifier
     }
 
     /**
-     * •Û‘¶‚³‚ê‚Ä‚¢‚éUnit(‚»‚ê‚Ü‚Å‚ÌÅ‘å‚ÌŒŸo’l‚ğ‚ÂUnit)‚Æ”äŠr‘ÎÛ‚ÌUnit‚ğ”äŠr‚µA<br/>
-     * ”äŠr‘ÎÛ‚Ì•û‚Ì’l‚ª‘å‚«‚¯‚ê‚ÎAresultMap’†‚ÌƒL[type‚É‘Î‚·‚é’l‚ğXV‚·‚éB
-     * @param type ƒL[
-     * @param resultMap Œ‹‰Ê‚ğo—Í‚·‚éMap
-     * @param oldUnit ƒL[type‚É‘Î‚·‚é’l(WarningUnit)
-     * @param comparedUnit ”äŠr‚·‚éWarningUnit
+     * ä¿å­˜ã•ã‚Œã¦ã„ã‚‹Unit(ãã‚Œã¾ã§ã®æœ€å¤§ã®æ¤œå‡ºå€¤ã‚’æŒã¤Unit)ã¨æ¯”è¼ƒå¯¾è±¡ã®Unitã‚’æ¯”è¼ƒã—ã€<br/>
+     * æ¯”è¼ƒå¯¾è±¡ã®æ–¹ã®å€¤ãŒå¤§ãã‘ã‚Œã°ã€resultMapä¸­ã®ã‚­ãƒ¼typeã«å¯¾ã™ã‚‹å€¤ã‚’æ›´æ–°ã™ã‚‹ã€‚
+     * @param type ã‚­ãƒ¼
+     * @param resultMap çµæœã‚’å‡ºåŠ›ã™ã‚‹Map
+     * @param oldUnit ã‚­ãƒ¼typeã«å¯¾ã™ã‚‹å€¤(WarningUnit)
+     * @param comparedUnit æ¯”è¼ƒã™ã‚‹WarningUnit
      */
     private void updateWarningUnit(final int type, final Map<Integer, WarningUnit> resultMap,
             final WarningUnit oldUnit, final WarningUnit comparedUnit)
@@ -164,8 +164,8 @@ public class SimpleClassifier implements Classifier
         double oldValue = Double.parseDouble(oldValueString);
         double comparedValue = Double.parseDouble(compareValueString);
 
-        // ŒŸo’l‚ª‘å‚«‚¢‚à‚Ì‚ª—Dæ‚³‚ê‚éƒ‹[ƒ‹‚Ìê‡‚É‚ÍŒŸo’l‚ª‘å‚«‚¢Œx‚ğ“o˜^‚µA
-        // ŒŸo’l‚ª¬‚³‚¢‚à‚Ì‚ª—Dæ‚³‚ê‚éƒ‹[ƒ‹‚Ìê‡‚É‚ÍŒŸo’l‚ª¬‚³‚¢Œx‚ğ“o˜^‚·‚éB
+        // æ¤œå‡ºå€¤ãŒå¤§ãã„ã‚‚ã®ãŒå„ªå…ˆã•ã‚Œã‚‹ãƒ«ãƒ¼ãƒ«ã®å ´åˆã«ã¯æ¤œå‡ºå€¤ãŒå¤§ãã„è­¦å‘Šã‚’ç™»éŒ²ã—ã€
+        // æ¤œå‡ºå€¤ãŒå°ã•ã„ã‚‚ã®ãŒå„ªå…ˆã•ã‚Œã‚‹ãƒ«ãƒ¼ãƒ«ã®å ´åˆã«ã¯æ¤œå‡ºå€¤ãŒå°ã•ã„è­¦å‘Šã‚’ç™»éŒ²ã™ã‚‹ã€‚
         boolean isDescend = oldUnit.isDescend();
         if (isDescend)
         {
@@ -184,9 +184,9 @@ public class SimpleClassifier implements Classifier
     }
 
     /**
-     * ƒtƒBƒ‹ƒ^[Œã‚Ìƒ}ƒbƒv‚©‚çƒŠƒXƒgŒ^‚É•ÏŠ·‚·‚éB
-     * @param resultMap ƒtƒBƒ‹ƒ^[Œã‚Ìƒ}ƒbƒv 
-     * @return@ƒtƒBƒ‹ƒ^[Œã‚ÌWarningUnit‚ÌƒŠƒXƒg
+     * ãƒ•ã‚£ãƒ«ã‚¿ãƒ¼å¾Œã®ãƒãƒƒãƒ—ã‹ã‚‰ãƒªã‚¹ãƒˆå‹ã«å¤‰æ›ã™ã‚‹ã€‚
+     * @param resultMap ãƒ•ã‚£ãƒ«ã‚¿ãƒ¼å¾Œã®ãƒãƒƒãƒ— 
+     * @returnã€€ãƒ•ã‚£ãƒ«ã‚¿ãƒ¼å¾Œã®WarningUnitã®ãƒªã‚¹ãƒˆ
      */
     private List<WarningUnit> convertMapToList(final Map<Integer, WarningUnit> resultMap)
     {

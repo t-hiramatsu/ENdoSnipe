@@ -38,14 +38,14 @@ import jp.co.acroquest.endosnipe.data.db.ConnectionManager;
 import org.apache.commons.dbcp.DelegatingPreparedStatement;
 
 /**
- * Dao ‚Ì‚½‚ß‚ÌŠî’êƒNƒ‰ƒX‚Å‚·B<br />
+ * Dao ã®ãŸã‚ã®åŸºåº•ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  * 
  * @author y-komori
  */
 public abstract class AbstractDao
 {
     /**
-     * Šî’êƒNƒ‰ƒXƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‚Ü‚·B<br />
+     * åŸºåº•ã‚¯ãƒ©ã‚¹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
      */
     protected AbstractDao()
     {
@@ -53,13 +53,13 @@ public abstract class AbstractDao
     }
 
     /**
-     * ƒRƒlƒNƒVƒ‡ƒ“‚ğæ“¾‚µ‚Ü‚·B<br />
+     * ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      *
-     * ƒf[ƒ^ƒx[ƒX‚ª‘¶İ‚µ‚È‚¢ê‡‚ÍAì¬‚µ‚Ü‚·B<br />
+     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãŒå­˜åœ¨ã—ãªã„å ´åˆã¯ã€ä½œæˆã—ã¾ã™ã€‚<br />
      * 
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @return {@link Connection} ƒIƒuƒWƒFƒNƒg
-     * @throws SQLException ƒRƒlƒNƒVƒ‡ƒ“‚ªæ“¾‚Å‚«‚È‚¢ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @return {@link Connection} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @throws SQLException ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ãŒå–å¾—ã§ããªã„å ´åˆ
      */
     protected static Connection getConnection(final String database)
         throws SQLException
@@ -68,13 +68,13 @@ public abstract class AbstractDao
     }
 
     /**
-     * ƒRƒlƒNƒVƒ‡ƒ“‚ğæ“¾‚µ‚Ü‚·B<br />
+     * ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      * 
-     * @param databaseName ƒf[ƒ^ƒx[ƒX–¼
-     * @param connectOnlyExists ƒf[ƒ^ƒx[ƒX‚ª‘¶İ‚·‚é‚Æ‚«‚Ì‚İÚ‘±‚·‚éê‡‚Í <code>true</code> A
-     *                          ‘¶İ‚µ‚È‚¢‚Æ‚«‚Éƒf[ƒ^ƒx[ƒX‚ğ¶¬‚·‚éê‡‚Í <code>false</code>
-     * @return {@link Connection} ƒIƒuƒWƒFƒNƒg
-     * @throws SQLException ƒRƒlƒNƒVƒ‡ƒ“‚ªæ“¾‚Å‚«‚È‚¢ê‡
+     * @param databaseName ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param connectOnlyExists ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãŒå­˜åœ¨ã™ã‚‹ã¨ãã®ã¿æ¥ç¶šã™ã‚‹å ´åˆã¯ <code>true</code> ã€
+     *                          å­˜åœ¨ã—ãªã„ã¨ãã«ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚’ç”Ÿæˆã™ã‚‹å ´åˆã¯ <code>false</code>
+     * @return {@link Connection} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @throws SQLException ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ãŒå–å¾—ã§ããªã„å ´åˆ
      */
     protected static Connection getConnection(final String databaseName,
             final boolean connectOnlyExists)
@@ -84,13 +84,13 @@ public abstract class AbstractDao
     }
 
     /**
-     * ƒfƒŠƒQ[ƒg‚³‚ê‚½ {@link PreparedStatement} ƒIƒuƒWƒFƒNƒg‚ğæ“¾‚µ‚Ü‚·B<br />
+     * ãƒ‡ãƒªã‚²ãƒ¼ãƒˆã•ã‚ŒãŸ {@link PreparedStatement} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      * 
-     * commons-dbcp ‚Ì {@link DelegatingPreparedStatement} Œo—R‚Å blob ‚ğİ’è‚·‚é‚ÆA
-     * {@link AbstractMethodError} ‚ª”­¶‚·‚é‚½‚ß‚Ìˆ’uB
+     * commons-dbcp ã® {@link DelegatingPreparedStatement} çµŒç”±ã§ blob ã‚’è¨­å®šã™ã‚‹ã¨ã€
+     * {@link AbstractMethodError} ãŒç™ºç”Ÿã™ã‚‹ãŸã‚ã®å‡¦ç½®ã€‚
      * 
      * @param pstmt {@link PreparedStatement}
-     * @return {@link PreparedStatement} ƒIƒuƒWƒFƒNƒg
+     * @return {@link PreparedStatement} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     protected static PreparedStatement getDelegatingStatement(final PreparedStatement pstmt)
     {
@@ -105,11 +105,11 @@ public abstract class AbstractDao
     }
 
     /**
-     * w’è‚³‚ê‚½ƒe[ƒuƒ‹‚Ì‚·‚×‚Ä‚ÌƒŒƒR[ƒh‚ğíœ‚µ‚Ü‚·B<br />
+     * æŒ‡å®šã•ã‚ŒãŸãƒ†ãƒ¼ãƒ–ãƒ«ã®ã™ã¹ã¦ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å‰Šé™¤ã—ã¾ã™ã€‚<br />
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param table ƒe[ƒuƒ‹–¼
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param table ãƒ†ãƒ¼ãƒ–ãƒ«å
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     protected static void deleteAll(final String database, final String table)
         throws SQLException
@@ -127,11 +127,11 @@ public abstract class AbstractDao
     }
 
     /**
-     * w’è‚³‚ê‚½ƒe[ƒuƒ‹‚Ì‚·‚×‚Ä‚ÌƒŒƒR[ƒh‚ğíœ‚µ‚Ü‚·B<br />
+     * æŒ‡å®šã•ã‚ŒãŸãƒ†ãƒ¼ãƒ–ãƒ«ã®ã™ã¹ã¦ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å‰Šé™¤ã—ã¾ã™ã€‚<br />
      *
-     * @param conn ƒRƒlƒNƒVƒ‡ƒ“
-     * @param table ƒe[ƒuƒ‹–¼
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param conn ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³
+     * @param table ãƒ†ãƒ¼ãƒ–ãƒ«å
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     protected static void deleteAll(final Connection conn, final String table)
         throws SQLException
@@ -149,11 +149,11 @@ public abstract class AbstractDao
     }
 
     /**
-     * w’è‚µ‚½ƒe[ƒuƒ‹‚ğ truncate ‚µ‚Ü‚·B
+     * æŒ‡å®šã—ãŸãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ truncate ã—ã¾ã™ã€‚
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param tableName ƒe[ƒuƒ‹–¼
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param tableName ãƒ†ãƒ¼ãƒ–ãƒ«å
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     protected static void truncate(final String database, final String tableName)
         throws SQLException
@@ -165,7 +165,7 @@ public abstract class AbstractDao
             conn = getConnection(database);
             stmt = conn.createStatement();
 
-            // ƒf[ƒ^‚ğíœ‚·‚é
+            // ãƒ‡ãƒ¼ã‚¿ã‚’å‰Šé™¤ã™ã‚‹
             String sql = "truncate table " + tableName;
             stmt.execute(sql);
         }
@@ -177,14 +177,14 @@ public abstract class AbstractDao
     }
 
     /**
-     * w’è‚µ‚½ƒe[ƒuƒ‹‚Ì CHECK ‘®«‚ğXV‚µ‚Ü‚·B
+     * æŒ‡å®šã—ãŸãƒ†ãƒ¼ãƒ–ãƒ«ã® CHECK å±æ€§ã‚’æ›´æ–°ã—ã¾ã™ã€‚
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param tableName ƒe[ƒuƒ‹–¼iƒCƒ“ƒfƒbƒNƒX‚àŠÜ‚ß‚½ƒe[ƒuƒ‹–¼j
-     * @param tableIndex ƒe[ƒuƒ‹ƒCƒ“ƒfƒbƒNƒX
-     * @param column §–ñ‚ğ‚Â‚¯‚éƒJƒ‰ƒ€–¼
-     * @param year ”N
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param tableName ãƒ†ãƒ¼ãƒ–ãƒ«åï¼ˆã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚‚å«ã‚ãŸãƒ†ãƒ¼ãƒ–ãƒ«åï¼‰
+     * @param tableIndex ãƒ†ãƒ¼ãƒ–ãƒ«ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+     * @param column åˆ¶ç´„ã‚’ã¤ã‘ã‚‹ã‚«ãƒ©ãƒ å
+     * @param year å¹´
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     protected static void alterCheckConstraint(final String database, final String tableName,
             final int tableIndex, final String column, final int year)
@@ -200,13 +200,13 @@ public abstract class AbstractDao
             conn = getConnection(database);
             stmt = conn.createStatement();
 
-            // CHECK‘®«‚ğíœ‚·‚é
+            // CHECKå±æ€§ã‚’å‰Šé™¤ã™ã‚‹
             String sqlToDropCheck =
                     "ALTER TABLE " + tableName + " DROP CONSTRAINT " + checkConstraintName
                             + " RESTRICT";
             stmt.execute(sqlToDropCheck);
 
-            // CHECK‘®«‚ğXV‚·‚é
+            // CHECKå±æ€§ã‚’æ›´æ–°ã™ã‚‹
             String checkConstraint =
                     DBInitializer.createCheckConstraintText(column, tableIndex, year);
             String sqlToCreateCheck =
@@ -222,13 +222,13 @@ public abstract class AbstractDao
     }
 
     /**
-     * ƒŒƒR[ƒh‚Ì”‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ãƒ¬ã‚³ãƒ¼ãƒ‰ã®æ•°ã‚’è¿”ã—ã¾ã™ã€‚<br />
      * 
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param table ƒe[ƒuƒ‹–¼
-     * @param notNullKey NULL ‚Å‚È‚¢ƒL[
-     * @return ƒŒƒR[ƒh‚Ì”
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param table ãƒ†ãƒ¼ãƒ–ãƒ«å
+     * @param notNullKey NULL ã§ãªã„ã‚­ãƒ¼
+     * @return ãƒ¬ã‚³ãƒ¼ãƒ‰ã®æ•°
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     protected static int count(final String database, final String table, final String notNullKey)
         throws SQLException
@@ -258,12 +258,12 @@ public abstract class AbstractDao
     }
 
     /**
-     * w’è‚³‚ê‚½ƒV[ƒPƒ“ƒX–¼‚©‚ç’l‚ğ¶¬‚µ‚Ü‚·B<br />
+     * æŒ‡å®šã•ã‚ŒãŸã‚·ãƒ¼ã‚±ãƒ³ã‚¹åã‹ã‚‰å€¤ã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param sequenceName ƒV[ƒPƒ“ƒX–¼
-     * @return ’l‚Ì¶¬‚É¬Œ÷‚µ‚½ê‡‚Í¶¬‚³‚ê‚½’lA¸”s‚µ‚½ê‡‚Í <code>-1</code>
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param sequenceName ã‚·ãƒ¼ã‚±ãƒ³ã‚¹å
+     * @return å€¤ã®ç”Ÿæˆã«æˆåŠŸã—ãŸå ´åˆã¯ç”Ÿæˆã•ã‚ŒãŸå€¤ã€å¤±æ•—ã—ãŸå ´åˆã¯ <code>-1</code>
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     protected static int createValueFromSequenceId(final String database, final String sequenceName)
         throws SQLException

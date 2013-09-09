@@ -29,26 +29,26 @@ import jp.co.acroquest.endosnipe.communicator.TelegramSender;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 
 /**
- * Javelin ’ÊM—pƒIƒuƒWƒFƒNƒg‚ğŠÇ—‚·‚éƒCƒ“ƒ^ƒtƒF[ƒXB
+ * Javelin é€šä¿¡ç”¨ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç®¡ç†ã™ã‚‹ã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹ã€‚
  *
  * @author sakamoto
  */
 public interface CommunicationClientRepository
 {
     /**
-     * w’è‚³‚ê‚½ƒNƒ‰ƒCƒAƒ“ƒgID‚ÌJavelin‚Æ•R•t‚¢‚Ä‚¢‚é§ŒäƒNƒ‰ƒCƒAƒ“ƒg‚É
-     * “d•¶‚ğ‘—M‚·‚éB
+     * æŒ‡å®šã•ã‚ŒãŸã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆIDã®Javelinã¨ç´ä»˜ã„ã¦ã„ã‚‹åˆ¶å¾¡ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã«
+     * é›»æ–‡ã‚’é€ä¿¡ã™ã‚‹ã€‚
      *
-     * @param clientId ƒNƒ‰ƒCƒAƒ“ƒg ID
-     * @param telegram ‘—M‚·‚é“d•¶
+     * @param clientId ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆ ID
+     * @param telegram é€ä¿¡ã™ã‚‹é›»æ–‡
      */
     void sendTelegramToClient(final String clientId, final Telegram telegram);
 
     /**
-     * w’è‚³‚ê‚½ ID ‚É‘Î‰‚·‚éA Javelin ‘—M—pƒIƒuƒWƒFƒNƒg‚ğæ“¾‚µ‚Ü‚·B
+     * æŒ‡å®šã•ã‚ŒãŸ ID ã«å¯¾å¿œã™ã‚‹ã€ Javelin é€ä¿¡ç”¨ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾—ã—ã¾ã™ã€‚
      *
-     * @param clientId Javelin ’ÊM—p ID
-     * @return ‘—M—pƒIƒuƒWƒFƒNƒgiƒIƒuƒWƒFƒNƒg‚ª‘¶İ‚µ‚È‚¢ê‡‚Í <code>null</code> j
+     * @param clientId Javelin é€šä¿¡ç”¨ ID
+     * @return é€ä¿¡ç”¨ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆï¼ˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒå­˜åœ¨ã—ãªã„å ´åˆã¯ <code>null</code> ï¼‰
      */
     TelegramSender getTelegramSender(String clientId);
 }

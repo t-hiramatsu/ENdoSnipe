@@ -38,7 +38,7 @@ import jp.co.acroquest.endosnipe.common.util.SQLUtil;
 import jp.co.acroquest.endosnipe.data.entity.MapInfo;
 
 /**
- * {@link MapInfo} ‚Ì‚½‚ß‚Ì DAO ‚Å‚·B
+ * {@link MapInfo} ã®ãŸã‚ã® DAO ã§ã™ã€‚
  *
  * @author fujii
  */
@@ -51,11 +51,11 @@ public class MapInfoDao extends AbstractDao
     private static final int SQL_MAP_ID = 3;
 
     /**
-     * ƒŒƒR[ƒh‚ğ‘}“ü‚µ‚Ü‚·B<br />
+     * ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’æŒ¿å…¥ã—ã¾ã™ã€‚<br />
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param mapInfo ‘}“ü‚·‚é’l
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param mapInfo æŒ¿å…¥ã™ã‚‹å€¤
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static void insert(final String database, MapInfo mapInfo)
         throws SQLException
@@ -84,11 +84,11 @@ public class MapInfoDao extends AbstractDao
     }
 
     /**
-     * ‚·‚×‚Ä‚ÌƒŒƒR[ƒh‚ğæ“¾‚µ‚Ü‚·B<br />
+     * ã™ã¹ã¦ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @return ƒŒƒR[ƒh‚ÌƒŠƒXƒg
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @return ãƒ¬ã‚³ãƒ¼ãƒ‰ã®ãƒªã‚¹ãƒˆ
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static List<MapInfo> selectAll(final String database)
         throws SQLException
@@ -116,14 +116,14 @@ public class MapInfoDao extends AbstractDao
     }
 
     /**
-     * ŠúŠÔ‚ğw’è‚µ‚ÄƒŒƒR[ƒh‚ğæ“¾‚µ‚Ü‚·B<br />
+     * æœŸé–“ã‚’æŒ‡å®šã—ã¦ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      *
-     * ƒŒƒR[ƒh‚Í‚Å¸‡‚É•À‚×‘Ö‚¦‚Ä•Ô‚µ‚Ü‚·B
+     * ãƒ¬ã‚³ãƒ¼ãƒ‰ã¯æ™‚åˆ»ã§æ˜‡é †ã«ä¸¦ã¹æ›¿ãˆã¦è¿”ã—ã¾ã™ã€‚
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param mapId ƒ}ƒbƒvID
-     * @return {@link MapInfo} ƒIƒuƒWƒFƒNƒg
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param mapId ãƒãƒƒãƒ—ID
+     * @return {@link MapInfo} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static MapInfo selectById(final String database, final long mapId)
         throws SQLException
@@ -159,10 +159,10 @@ public class MapInfoDao extends AbstractDao
     }
 
     /**
-     * ƒ}ƒbƒv‚ğ“o˜^‚·‚éB
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param mapInfo ƒ}ƒbƒvî•ñ
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * ãƒãƒƒãƒ—ã‚’ç™»éŒ²ã™ã‚‹ã€‚
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param mapInfo ãƒãƒƒãƒ—æƒ…å ±
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static void update(String database, final MapInfo mapInfo)
         throws SQLException
@@ -191,11 +191,11 @@ public class MapInfoDao extends AbstractDao
     }
 
     /**
-     * {@link ResultSet} ‚©‚ç {@link MapInfo} ‚ÌƒŠƒXƒg‚ğì¬‚µ‚Ü‚·B<br />
+     * {@link ResultSet} ã‹ã‚‰ {@link MapInfo} ã®ãƒªã‚¹ãƒˆã‚’ä½œæˆã—ã¾ã™ã€‚<br />
      *
-     * @param result {@link MapInfo} ƒIƒuƒWƒFƒNƒg‚ÌŠi”[æ
+     * @param result {@link MapInfo} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ ¼ç´å…ˆ
      * @param rs {@link ResultSet}
-     * @throws SQLException SQL ÀsŒ‹‰Êæ“¾‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @throws SQLException SQL å®Ÿè¡Œçµæœå–å¾—æ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     private static void getMapInfoFromResultSet(List<MapInfo> result, ResultSet rs)
         throws SQLException
@@ -214,10 +214,10 @@ public class MapInfoDao extends AbstractDao
     }
 
     /**
-     * ‚·‚×‚Ä‚ÌƒŒƒR[ƒh‚ğíœ‚µ‚Ü‚·B<br />
+     * ã™ã¹ã¦ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å‰Šé™¤ã—ã¾ã™ã€‚<br />
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static void deleteAll(final String database)
         throws SQLException

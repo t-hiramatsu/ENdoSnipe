@@ -29,30 +29,30 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 /**
- * ƒƒbƒZ[ƒWƒNƒ‰ƒX
+ * ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚¯ãƒ©ã‚¹
  * @author hayakawa
  *
  */
 public class Messages
 {
-    /** ƒoƒ“ƒhƒ‹–¼ */
+    /** ãƒãƒ³ãƒ‰ãƒ«å */
     private static final String BUNDLE_NAME
     	= "jp.co.acroquest.endosnipe.javelin.parser.messages"; //$NON-NLS-1$
 
-    /** ƒŠƒ\[ƒXƒoƒ“ƒhƒ‹ */
+    /** ãƒªã‚½ãƒ¼ã‚¹ãƒãƒ³ãƒ‰ãƒ« */
     private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      */
     private Messages()
     {
     }
 
     /**
-     * ƒvƒƒpƒeƒBƒoƒ“ƒhƒ‹‚©‚çƒƒbƒZ[ƒW‚ğæ“¾‚·‚é
-     * @param key ƒL[
-     * @return ƒL[‚É‘Î‰‚·‚éƒƒbƒZ[ƒW
+     * ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãƒãƒ³ãƒ‰ãƒ«ã‹ã‚‰ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å–å¾—ã™ã‚‹
+     * @param key ã‚­ãƒ¼
+     * @return ã‚­ãƒ¼ã«å¯¾å¿œã™ã‚‹ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
      */
     public static String getString(final String key)
     {

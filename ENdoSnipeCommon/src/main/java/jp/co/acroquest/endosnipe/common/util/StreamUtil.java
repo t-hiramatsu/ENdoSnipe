@@ -37,7 +37,7 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 
 /**
- * ƒXƒgƒŠ[ƒ€‚ÉŠÖ‚·‚éƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒX‚Å‚·B<br />
+ * ã‚¹ãƒˆãƒªãƒ¼ãƒ ã«é–¢ã™ã‚‹ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  * 
  * @author y-komori
  */
@@ -49,10 +49,10 @@ public class StreamUtil
     }
 
     /**
-     * {@link File} ƒIƒuƒWƒFƒNƒg‚©‚ç“ü—ÍƒXƒgƒŠ[ƒ€‚ğ¶¬‚µ‚Ü‚·B<br />
+     * {@link File} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‹ã‚‰å…¥åŠ›ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
      * 
-     * @param file {@link File} ƒIƒuƒWƒFƒNƒg
-     * @return “ü—ÍƒXƒgƒŠ[ƒ€
+     * @param file {@link File} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @return å…¥åŠ›ã‚¹ãƒˆãƒªãƒ¼ãƒ 
      */
     public static InputStream getStream(final File file)
     {
@@ -80,10 +80,10 @@ public class StreamUtil
     }
 
     /**
-     * {@link File} ƒIƒuƒWƒFƒNƒg‚Ì¦‚·ƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚Ş‚½‚ß‚Ì {@link BufferedReader} ‚ğ¶¬‚µ‚Ü‚·B<br />
+     * {@link File} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ç¤ºã™ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚€ãŸã‚ã® {@link BufferedReader} ã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
      * 
-     * @param file {@link File} ƒIƒuƒWƒFƒNƒg
-     * @return {@link BufferedReader} ƒIƒuƒWƒFƒNƒg
+     * @param file {@link File} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @return {@link BufferedReader} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     public static BufferedReader getBufferedReader(final File file)
     {
@@ -112,10 +112,10 @@ public class StreamUtil
     }
 
     /**
-     * {@link InputStream} ‚©‚ç {@link BufferedReader} ‚ğ¶¬‚µ‚Ü‚·B<br />
+     * {@link InputStream} ã‹ã‚‰ {@link BufferedReader} ã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
      * 
-     * @param is {@link InputStream} ƒIƒuƒWƒFƒNƒg
-     * @return {@link BufferedReader} ƒIƒuƒWƒFƒNƒg
+     * @param is {@link InputStream} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @return {@link BufferedReader} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     public static BufferedReader getBufferedReader(final InputStream is)
     {
@@ -128,10 +128,10 @@ public class StreamUtil
     }
 
     /**
-     * •¡”s•¶š—ñ‚ğ“Ç‚İ‚Ş‚½‚ß‚Ì {@link BufferedReader} ‚ğ¶¬‚µ‚Ü‚·B<br />
+     * è¤‡æ•°è¡Œæ–‡å­—åˆ—ã‚’èª­ã¿è¾¼ã‚€ãŸã‚ã® {@link BufferedReader} ã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
      * 
-     * @param contents •¶š—ñ
-     * @return {@link BufferedReader} ƒIƒuƒWƒFƒNƒg
+     * @param contents æ–‡å­—åˆ—
+     * @return {@link BufferedReader} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     public static BufferedReader getBufferedReader(final String contents)
     {
@@ -145,10 +145,10 @@ public class StreamUtil
     }
 
     /**
-     * ƒXƒgƒŠ[ƒ€‚ğƒNƒ[ƒY‚µ‚Ü‚·B<br />
-     * ˆø”‚ª <code>null</code> ‚Ìê‡‚Í‰½‚às‚¢‚Ü‚¹‚ñB
+     * ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚’ã‚¯ãƒ­ãƒ¼ã‚ºã—ã¾ã™ã€‚<br />
+     * å¼•æ•°ãŒ <code>null</code> ã®å ´åˆã¯ä½•ã‚‚è¡Œã„ã¾ã›ã‚“ã€‚
      * 
-     * @param stream ƒXƒgƒŠ[ƒ€
+     * @param stream ã‚¹ãƒˆãƒªãƒ¼ãƒ 
 
      */
     public static void closeStream(final Closeable stream)

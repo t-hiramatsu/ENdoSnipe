@@ -31,14 +31,14 @@ import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 import jp.co.acroquest.endosnipe.javelin.converter.util.StreamMonitorUtil;
 
 /**
- * �t�@�C���̏o�͗ʂ��Ď�����N���X
+ * ファイルの出力量を監視するクラス
  * @author yamasaki
  *
  */
 public class FileOutputStreamMonitor
 {
     /**
-     * �f�t�H���g�R���X�g���N�^
+     * デフォルトコンストラクタ
      */
     private FileOutputStreamMonitor()
     {
@@ -46,9 +46,9 @@ public class FileOutputStreamMonitor
     }
 
     /**
-     * �R�[�h���ߍ��ݏ����ɂ��A���\�b�h���s��ɌĂ΂�郁�\�b�h
+     * コード埋め込み処理により、メソッド実行後に呼ばれるメソッド
      * 
-     * @param size �t�@�C���o�͗�
+     * @param size ファイル出力量
      */
     public static void postProcess(final int size)
     {

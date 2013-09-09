@@ -32,23 +32,23 @@ import jp.co.acroquest.endosnipe.collector.config.RotateConfig;
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 
 /**
- * ƒƒOƒ[ƒe[ƒg—pƒXƒŒƒbƒh
+ * ãƒ­ã‚°ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆç”¨ã‚¹ãƒ¬ãƒƒãƒ‰
  * 
  * @author S.Kimura
  */
 public class LogRotator implements Runnable
 {
-    /** ƒƒOƒ[ƒe[ƒg‚ğs‚¤ŠÔŠu(1“ú‚É2‰ñ)*/
+    /** ãƒ­ã‚°ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆã‚’è¡Œã†é–“éš”(1æ—¥ã«2å›)*/
     private static final int   ROTATE_INTERVAL = 300 * 1000;
 
-    /** ƒƒOƒ[ƒe[ƒg—p‚Ìİ’èƒŠƒXƒg */
+    /** ãƒ­ã‚°ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆç”¨ã®è¨­å®šãƒªã‚¹ãƒˆ */
     private List<RotateConfig> configList_;
 
-    /** ‹N“®‚µ‚Ä‚¢‚é‚© */
+    /** èµ·å‹•ã—ã¦ã„ã‚‹ã‹ */
     private volatile boolean   isRunning_;
 
     /**
-     * ƒƒOƒ[ƒe[ƒg‚ğs‚¢‚Ü‚·B
+     * ãƒ­ã‚°ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆã‚’è¡Œã„ã¾ã™ã€‚
      */
     public void run()
     {
@@ -76,7 +76,7 @@ public class LogRotator implements Runnable
     }
 
     /**
-     * ‰Šú‰»‚µ‚Ü‚·B<br />
+     * åˆæœŸåŒ–ã—ã¾ã™ã€‚<br />
      */
     protected void init()
     {
@@ -84,7 +84,7 @@ public class LogRotator implements Runnable
     }
 
     /**
-     * ƒXƒŒƒbƒh‚ğ’â~‚µ‚Ü‚·B<br />
+     * ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’åœæ­¢ã—ã¾ã™ã€‚<br />
      * 
      */
     public void stop()
@@ -93,7 +93,7 @@ public class LogRotator implements Runnable
     }
 
     /**
-     * ƒ[ƒe[ƒg‚ÌŠÔŠu•ªAƒXƒŠ[ƒv
+     * ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆã®é–“éš”åˆ†ã€ã‚¹ãƒªãƒ¼ãƒ—
      */
     private void sleep()
     {
@@ -109,7 +109,7 @@ public class LogRotator implements Runnable
     }
 
     /**
-     * @param configList ƒZƒbƒg‚·‚é configList
+     * @param configList ã‚»ãƒƒãƒˆã™ã‚‹ configList
      */
     public void setConfig(final List<RotateConfig> configList)
     {

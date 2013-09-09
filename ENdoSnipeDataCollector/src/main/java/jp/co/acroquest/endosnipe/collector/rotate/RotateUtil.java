@@ -30,7 +30,7 @@ import java.util.Calendar;
 import jp.co.acroquest.endosnipe.collector.config.PeriodUnit;
 
 /**
- * ƒ[ƒe[ƒg—pƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒXB
+ * ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆç”¨ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã€‚
  *
  * @author sakamoto
  */
@@ -38,7 +38,7 @@ public class RotateUtil
 {
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ğ‰B•Á‚µ‚Ü‚·B
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã‚’éš è”½ã—ã¾ã™ã€‚
      */
     private RotateUtil()
     {
@@ -46,10 +46,10 @@ public class RotateUtil
     }
 
     /**
-     * •ÛŠúŠÔ‚Ì’PˆÊ‚ğCalendarƒNƒ‰ƒX‚ÌƒCƒ“ƒfƒbƒNƒX‚É•ÏŠ·‚µ‚Ü‚·B
+     * ä¿æŒæœŸé–“ã®å˜ä½ã‚’Calendarã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã«å¤‰æ›ã—ã¾ã™ã€‚
      * 
-     * @param unit •ÛŠúŠÔ‚Ì’PˆÊ
-     * @return CalendarƒNƒ‰ƒX‚ÌƒCƒ“ƒfƒbƒNƒX
+     * @param unit ä¿æŒæœŸé–“ã®å˜ä½
+     * @return Calendarã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
      */
     public static int convertUnit(final PeriodUnit unit)
     {
@@ -70,11 +70,11 @@ public class RotateUtil
     }
 
     /**
-     * Œ»İ‚©‚çAw’è‚µ‚½ŠÔ‚¾‚¯‘O‚Ì‚ğ•Ô‚µ‚Ü‚·B
+     * ç¾åœ¨æ™‚åˆ»ã‹ã‚‰ã€æŒ‡å®šã—ãŸæ™‚é–“ã ã‘å‰ã®æ™‚åˆ»ã‚’è¿”ã—ã¾ã™ã€‚
      *
-     * @param unit ’PˆÊiCalendarƒNƒ‰ƒX‚ÌƒCƒ“ƒfƒbƒNƒXj
-     * @param period ŠúŠÔi³‚Ì’lj
-     * @return CalendarƒCƒ“ƒXƒ^ƒ“ƒX
+     * @param unit å˜ä½ï¼ˆCalendarã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ï¼‰
+     * @param period æœŸé–“ï¼ˆæ­£ã®å€¤ï¼‰
+     * @return Calendarã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
      */
     public static Calendar getBeforeDate(final int unit, final int period)
     {

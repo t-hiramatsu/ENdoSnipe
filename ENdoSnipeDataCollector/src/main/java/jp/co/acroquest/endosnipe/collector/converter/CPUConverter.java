@@ -63,8 +63,8 @@ public class CPUConverter
                        (double)cpuTime
                                / (measurementInterval * ResourceDataUtil.NANO_TO_MILI * processorCount)
                                * ResourceDataUtil.PERCENT_CONST;
-            // ƒpƒtƒH[ƒ}ƒ“ƒXƒJƒEƒ“ƒ^‚Ìd—lãACPUg—p—¦‚ª100“‚ğ’´‚¦‚½‚èA0“‚ğ‰º‰ñ‚é‚±‚Æ‚ª‚ ‚é‚½‚ßA
-            // Å‘å100“AÅ¬0“‚ÉŠÛ‚ß‚éBi#2006j
+            // ãƒ‘ãƒ•ã‚©ãƒ¼ãƒãƒ³ã‚¹ã‚«ã‚¦ãƒ³ã‚¿ã®ä»•æ§˜ä¸Šã€CPUä½¿ç”¨ç‡ãŒ100ï¼…ã‚’è¶…ãˆãŸã‚Šã€0ï¼…ã‚’ä¸‹å›ã‚‹ã“ã¨ãŒã‚ã‚‹ãŸã‚ã€
+            // æœ€å¤§100ï¼…ã€æœ€å°0ï¼…ã«ä¸¸ã‚ã‚‹ã€‚ï¼ˆ#2006ï¼‰
             cpuUsage = Math.min(cpuUsage, ResourceDataUtil.MAX_CPU_RATE);
             cpuUsage = Math.max(cpuUsage, ResourceDataUtil.MIN_CPU_RATE);
         }

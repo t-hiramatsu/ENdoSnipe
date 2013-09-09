@@ -35,52 +35,52 @@ import jp.co.acroquest.endosnipe.javelin.bean.proc.StatInfo;
 import jp.co.acroquest.endosnipe.javelin.resource.ProcessorCountGetter;
 
 /**
- * Windows‚ÌƒŠƒ\[ƒXî•ñ‚ğ“Ç‚İ‚ŞProcParserB
+ * Windowsã®ãƒªã‚½ãƒ¼ã‚¹æƒ…å ±ã‚’èª­ã¿è¾¼ã‚€ProcParserã€‚
  * 
  * @author ochiai
  */
 public class WindowsProcParser implements ProcParser
 {
 
-    /** •b‚ğƒiƒm•b‚É’¼‚·‚½‚ß‚Ì’è”F1000 * 1000 * 1000 */
+    /** ç§’ã‚’ãƒŠãƒç§’ã«ç›´ã™ãŸã‚ã®å®šæ•°ï¼š1000 * 1000 * 1000 */
     private static final int SECONDS_TO_NANO_SECONDS = 1000 * 1000 * 1000;
     
-    /** ƒp[ƒZƒ“ƒg’l‚ğ¬”‚É’¼‚·‚½‚ß‚Ì’è”F100 */
+    /** ãƒ‘ãƒ¼ã‚»ãƒ³ãƒˆå€¤ã‚’å°æ•°ã«ç›´ã™ãŸã‚ã®å®šæ•°ï¼š100 */
     private static final double PERCENT_TO_DECIMAL = 100;
     
-    /** CPUƒVƒXƒeƒ€ŠÔ@*/
+    /** CPUã‚·ã‚¹ãƒ†ãƒ æ™‚é–“ã€€*/
     private static long cpuTimeSystem__ = 0;
 
-    /** CPUƒ†[ƒUŠÔ */
+    /** CPUãƒ¦ãƒ¼ã‚¶æ™‚é–“ */
     private static long cpuTimeUser__ = 0;
     
-    /** CPUˆ—ŠÔ */
+    /** CPUå‡¦ç†æ™‚é–“ */
     private static long processUserTime__ = 0;
     
-    /** CPUƒVƒXƒeƒ€ŠÔ */
+    /** CPUã‚·ã‚¹ãƒ†ãƒ æ™‚é–“ */
     private static long processSTime__ = 0;
 
-    /** æ“¾‚µ‚½ƒŠƒ\[ƒX’l */
+    /** å–å¾—ã—ãŸãƒªã‚½ãƒ¼ã‚¹å€¤ */
     private ProcInfo procInfo_;
     
-    /** ƒŠƒ\[ƒX’l‚Ìæ“¾ */
+    /** ãƒªã‚½ãƒ¼ã‚¹å€¤ã®å–å¾— */
     private PerfCounter perfCounter_ = null;
 
     /**
-     * ‰Šú‰»‚ğs‚¤B¬Œ÷‚µ‚½ê‡‚É‚Ì‚İtrue
+     * åˆæœŸåŒ–ã‚’è¡Œã†ã€‚æˆåŠŸã—ãŸå ´åˆã«ã®ã¿true
      * 
-     * @return ¬Œ÷‚µ‚½ê‡‚É‚Ì‚İtrue
+     * @return æˆåŠŸã—ãŸå ´åˆã«ã®ã¿true
      */
     public boolean init()
     {
-        // €”õ
+        // æº–å‚™
         this.perfCounter_ = new PerfCounter();
         return this.perfCounter_.init();        
     }
     
 /**
-     *      /proc/meminfoA/proc/statA/proc/self/stat‚©‚ç“Ç‚İ‚İA
-     *    ProcInfo‚ÉŠi”[‚·‚éB
+     *      /proc/meminfoã€/proc/statã€/proc/self/statã‹ã‚‰èª­ã¿è¾¼ã¿ã€
+     *    ProcInfoã«æ ¼ç´ã™ã‚‹ã€‚
      */
     public void load()
     {
@@ -89,14 +89,14 @@ public class WindowsProcParser implements ProcParser
     }
 
     /**
-     * /proc/stat‚ÌˆÈ‰º‚Ìî•ñ‚ğStatInfo‚ÉƒZƒbƒg‚µA•Ô‚·B<br>
+     * /proc/statã®ä»¥ä¸‹ã®æƒ…å ±ã‚’StatInfoã«ã‚»ãƒƒãƒˆã—ã€è¿”ã™ã€‚<br>
      * <ul>
-     *   <li>cpu(nano•b)</li>
-     *   <li>cpu0,cpu1,cpu2,EEE(nano•b)</li>
+     *   <li>cpu(nanoç§’)</li>
+     *   <li>cpu0,cpu1,cpu2,ãƒ»ãƒ»ãƒ»(nanoç§’)</li>
      *   <li>pgpgin(byte)</li>
      *   <li>pgpgout(byte)</li>
      * </ul>
-     * @return SelfStatInfo /proc/stat,/proc/vmstat‚Ìî•ñ
+     * @return SelfStatInfo /proc/stat,/proc/vmstatã®æƒ…å ±
      */
     private ProcInfo parseStatInfo()
     {
@@ -109,7 +109,7 @@ public class WindowsProcParser implements ProcParser
 
         if (this.perfCounter_ == null)
         {
-            // €”õ
+            // æº–å‚™
             this.perfCounter_ = new PerfCounter();
             this.perfCounter_.init();
         }
@@ -132,7 +132,7 @@ public class WindowsProcParser implements ProcParser
         Double procFDCount = perfData.get(PerfCounter.PROCESS_NUMBER_FDS);
         Double systemFDCount = perfData.get(PerfCounter.PROCESS_TOTAL_NUMBER_FDS);
         
-        // ÏZ’l‚ğ“n‚·‚½‚ß‚É•ÏŠ·‚·‚é
+        // ç©ç®—å€¤ã‚’æ¸¡ã™ãŸã‚ã«å¤‰æ›ã™ã‚‹
         ProcessorCountGetter procCountGetter = new ProcessorCountGetter();
         int procCount = procCountGetter.getValue().intValue();
         double interval = perfData.get(PerfCounter.INTERVAL);
@@ -185,7 +185,7 @@ public class WindowsProcParser implements ProcParser
     }
     
     /**
-     * ƒŠƒ\[ƒXg—pó‹µ‚Ìƒf[ƒ^ procInfo ‚ğ•Ô‚·
+     * ãƒªã‚½ãƒ¼ã‚¹ä½¿ç”¨çŠ¶æ³ã®ãƒ‡ãƒ¼ã‚¿ procInfo ã‚’è¿”ã™
      * @return ProcInfo
      */
     public ProcInfo getProcInfo()

@@ -38,29 +38,29 @@ import jp.co.acroquest.endosnipe.collector.notification.AlarmEntry;
 import jp.co.acroquest.endosnipe.data.dto.SignalDefinitionDto;
 
 /**
- * è‡’l”»’èŒ‹‰Ê‚ğ•Û‚·‚éƒNƒ‰ƒX
+ * é–¾å€¤åˆ¤å®šçµæœã‚’ä¿æŒã™ã‚‹ã‚¯ãƒ©ã‚¹
  * @author fujii
  *
  */
 public class AlarmData
 {
-    /** Œ»İ‚Ìè‡’l”»’èƒŒƒxƒ‹ */
+    /** ç¾åœ¨ã®é–¾å€¤åˆ¤å®šãƒ¬ãƒ™ãƒ« */
     private int alarmLevel_;
 
-    /** Œ»İ‚ÌƒAƒ‰[ƒ€ƒŒƒxƒ‹‚ÅƒAƒ‰[ƒ€‚ğ”­•ñ‚µ‚½Œv‘ª */
+    /** ç¾åœ¨ã®ã‚¢ãƒ©ãƒ¼ãƒ ãƒ¬ãƒ™ãƒ«ã§ã‚¢ãƒ©ãƒ¼ãƒ ã‚’ç™ºå ±ã—ãŸè¨ˆæ¸¬æ™‚åˆ» */
     private Long alarmedTime_;
 
-    /** ƒŒƒxƒ‹‚²‚Æ‚Éè‡’l‚ğ’´‚¦‚½Œv‘ª */
+    /** ãƒ¬ãƒ™ãƒ«ã”ã¨ã«é–¾å€¤ã‚’è¶…ãˆãŸè¨ˆæ¸¬æ™‚åˆ» */
     private Map<Integer, Long> startExceedanceTimeMap_ = new TreeMap<Integer, Long>();
 
-    /** ƒŒƒxƒ‹‚²‚Æ‚Éè‡’l‚ğ‰º‰ñ‚Á‚½Œv‘ª */
+    /** ãƒ¬ãƒ™ãƒ«ã”ã¨ã«é–¾å€¤ã‚’ä¸‹å›ã£ãŸè¨ˆæ¸¬æ™‚åˆ» */
     private final Map<Integer, Long> recoverTimeMap_ = new TreeMap<Integer, Long>();
 
-    /** Œ»İ‚ÌƒAƒ‰[ƒ€ó‘Ô@*/
+    /** ç¾åœ¨ã®ã‚¢ãƒ©ãƒ¼ãƒ çŠ¶æ…‹ã€€*/
     private int alarmStatus_;
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      */
     public AlarmData()
     {
@@ -76,7 +76,7 @@ public class AlarmData
     }
 
     /**
-     * @param alarmLevel ƒZƒbƒg‚·‚é alarmLevel
+     * @param alarmLevel ã‚»ãƒƒãƒˆã™ã‚‹ alarmLevel
      */
     public void setAlarmLevel(final int alarmLevel)
     {
@@ -92,7 +92,7 @@ public class AlarmData
     }
 
     /**
-     * @param alarmedTime ƒZƒbƒg‚·‚é alarmedTime
+     * @param alarmedTime ã‚»ãƒƒãƒˆã™ã‚‹ alarmedTime
      */
     public void setAlarmedTime(final Long alarmedTime)
     {
@@ -108,7 +108,7 @@ public class AlarmData
     }
 
     /**
-     * @param alarmStatus ƒZƒbƒg‚·‚é alarmStatus
+     * @param alarmStatus ã‚»ãƒƒãƒˆã™ã‚‹ alarmStatus
      */
     public void setAlarmStatus(final int alarmStatus)
     {
@@ -116,8 +116,8 @@ public class AlarmData
     }
 
     /**
-     * ƒŒƒxƒ‹‚²‚Æ‚Éè‡’l‚ğ’´‚¦‚½Œv‘ª‚ğæ“¾‚·‚éB
-     * @return ƒŒƒxƒ‹‚²‚Æ‚Éè‡’l‚ğ’´‚¦‚½Œv‘ª
+     * ãƒ¬ãƒ™ãƒ«ã”ã¨ã«é–¾å€¤ã‚’è¶…ãˆãŸè¨ˆæ¸¬æ™‚åˆ»ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ãƒ¬ãƒ™ãƒ«ã”ã¨ã«é–¾å€¤ã‚’è¶…ãˆãŸè¨ˆæ¸¬æ™‚åˆ»
      */
     public Map<Integer, Long> getStartExceedanceTimeMap()
     {
@@ -125,9 +125,9 @@ public class AlarmData
     }
 
     /**
-     * ˆø”‚Åw’è‚µ‚½è‡’lƒŒƒxƒ‹‚Ìè‡’l’´‰ßŠJn‚ğæ“¾‚·‚éB
-     * @param level è‡’lƒŒƒxƒ‹
-     * @return ˆø”‚Åw’è‚µ‚½è‡’lƒŒƒxƒ‹‚Ìè‡’l’´‰ßŠJn
+     * å¼•æ•°ã§æŒ‡å®šã—ãŸé–¾å€¤ãƒ¬ãƒ™ãƒ«ã®é–¾å€¤è¶…éé–‹å§‹æ™‚åˆ»ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @param level é–¾å€¤ãƒ¬ãƒ™ãƒ«
+     * @return å¼•æ•°ã§æŒ‡å®šã—ãŸé–¾å€¤ãƒ¬ãƒ™ãƒ«ã®é–¾å€¤è¶…éé–‹å§‹æ™‚åˆ»
      */
     public Long getStartExceedanceTime(final int level)
     {
@@ -135,9 +135,9 @@ public class AlarmData
     }
 
     /**
-     * ˆø”‚Åw’è‚µ‚½è‡’lƒŒƒxƒ‹‚æ‚è¬‚³‚¢è‡’lƒŒƒxƒ‹‚ÌÅ‘åè‡’l’´‰ßŠJn‚ğæ“¾‚·‚éB
-     * @param level è‡’lƒŒƒxƒ‹
-     * @return ˆø”‚Åw’è‚µ‚½è‡’lƒŒƒxƒ‹‚æ‚è¬‚³‚¢è‡’lƒŒƒxƒ‹‚ÌÅ‘åè‡’l’´‰ßŠJn
+     * å¼•æ•°ã§æŒ‡å®šã—ãŸé–¾å€¤ãƒ¬ãƒ™ãƒ«ã‚ˆã‚Šå°ã•ã„é–¾å€¤ãƒ¬ãƒ™ãƒ«ã®æœ€å¤§é–¾å€¤è¶…éé–‹å§‹æ™‚åˆ»ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @param level é–¾å€¤ãƒ¬ãƒ™ãƒ«
+     * @return å¼•æ•°ã§æŒ‡å®šã—ãŸé–¾å€¤ãƒ¬ãƒ™ãƒ«ã‚ˆã‚Šå°ã•ã„é–¾å€¤ãƒ¬ãƒ™ãƒ«ã®æœ€å¤§é–¾å€¤è¶…éé–‹å§‹æ™‚åˆ»
      */
     public Long getMaxStartExceedanceTime(final int level)
     {
@@ -152,8 +152,8 @@ public class AlarmData
             }
             else
             {
-                // TreeMap‚É‚æ‚èè‡’lƒŒƒxƒ‹‡‚Éƒ\[ƒg‚³‚ê‚é‚½‚ßAˆø”‚Åw’è‚µ‚½è‡’lƒŒƒxƒ‹‚æ‚è‘å‚«‚¢ƒŒƒxƒ‹‚ªŒ©‚Â‚©‚Á‚½“_‚ÅA
-                // ˆ—‚ğI—¹‚·‚éB
+                // TreeMapã«ã‚ˆã‚Šé–¾å€¤ãƒ¬ãƒ™ãƒ«é †ã«ã‚½ãƒ¼ãƒˆã•ã‚Œã‚‹ãŸã‚ã€å¼•æ•°ã§æŒ‡å®šã—ãŸé–¾å€¤ãƒ¬ãƒ™ãƒ«ã‚ˆã‚Šå¤§ãã„ãƒ¬ãƒ™ãƒ«ãŒè¦‹ã¤ã‹ã£ãŸæ™‚ç‚¹ã§ã€
+                // å‡¦ç†ã‚’çµ‚äº†ã™ã‚‹ã€‚
                 break;
             }
         }
@@ -161,8 +161,8 @@ public class AlarmData
     }
 
     /**
-     * ƒŒƒxƒ‹‚²‚Æ‚Éè‡’l‚ğ’´‚¦‚½Œv‘ª‚ğİ’è‚·‚éB
-     * @param startExceedanceTimeMap ƒŒƒxƒ‹‚²‚Æ‚Éè‡’l‚ğ’´‚¦‚½Œv‘ª
+     * ãƒ¬ãƒ™ãƒ«ã”ã¨ã«é–¾å€¤ã‚’è¶…ãˆãŸè¨ˆæ¸¬æ™‚åˆ»ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param startExceedanceTimeMap ãƒ¬ãƒ™ãƒ«ã”ã¨ã«é–¾å€¤ã‚’è¶…ãˆãŸè¨ˆæ¸¬æ™‚åˆ»
      */
     public void setStartExceedanceTimeMap(final Map<Integer, Long> startExceedanceTimeMap)
     {
@@ -170,9 +170,9 @@ public class AlarmData
     }
 
     /**
-     * è‡’l’´‰ßŠJn‚ğİ’è‚·‚éB
-     * @param level è‡’lƒŒƒxƒ‹
-     * @param exceedanceTime è‡’l’´‰ß
+     * é–¾å€¤è¶…éé–‹å§‹æ™‚åˆ»ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param level é–¾å€¤ãƒ¬ãƒ™ãƒ«
+     * @param exceedanceTime é–¾å€¤è¶…éæ™‚åˆ»
      */
     public void addStartExceedanceTime(final int level, final Long exceedanceTime)
     {
@@ -180,10 +180,10 @@ public class AlarmData
     }
 
     /**
-     * è‡’l’´‰ßƒAƒ‰[ƒ€‚Ì’†‚Å‚à‚Á‚Æ‚àè‡’lƒŒƒxƒ‹‚ª‚‚¢è‡’l‚ÌƒAƒ‰[ƒ€‚ğæ“¾‚·‚éB
-     * @param level è‡’lƒŒƒxƒ‹
-     * @param signalDefinition è‡’l”»’èğŒ
-     * @return è‡’l’´‰ßƒAƒ‰[ƒ€‚Ì’†‚Å‚à‚Á‚Æ‚àè‡’lƒŒƒxƒ‹‚ª‚‚¢è‡’l‚ÌƒAƒ‰[ƒ€
+     * é–¾å€¤è¶…éã‚¢ãƒ©ãƒ¼ãƒ ã®ä¸­ã§ã‚‚ã£ã¨ã‚‚é–¾å€¤ãƒ¬ãƒ™ãƒ«ãŒé«˜ã„é–¾å€¤ã®ã‚¢ãƒ©ãƒ¼ãƒ ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @param level é–¾å€¤ãƒ¬ãƒ™ãƒ«
+     * @param signalDefinition é–¾å€¤åˆ¤å®šæ¡ä»¶
+     * @return é–¾å€¤è¶…éã‚¢ãƒ©ãƒ¼ãƒ ã®ä¸­ã§ã‚‚ã£ã¨ã‚‚é–¾å€¤ãƒ¬ãƒ™ãƒ«ãŒé«˜ã„é–¾å€¤ã®ã‚¢ãƒ©ãƒ¼ãƒ 
      */
     public AlarmEntry getExceedanceAlarmEntry(final int level,
             final SignalDefinitionDto signalDefinition)
@@ -198,7 +198,7 @@ public class AlarmData
             Integer targetLevel = exceedanceTimeEntry.getKey();
             Long value = exceedanceTimeEntry.getValue();
 
-            // w’è‚µ‚½è‡’lƒŒƒxƒ‹‚æ‚è‚à‚‚¢è‡’lƒŒƒxƒ‹‚Ì’†‚ÅAáŠQ”­¶‚ªİ’è‚³‚ê‚Ä‚¢‚é‚à‚Ì‚ª‘ÎÛB
+            // æŒ‡å®šã—ãŸé–¾å€¤ãƒ¬ãƒ™ãƒ«ã‚ˆã‚Šã‚‚é«˜ã„é–¾å€¤ãƒ¬ãƒ™ãƒ«ã®ä¸­ã§ã€éšœå®³ç™ºç”Ÿæ™‚åˆ»ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹ã‚‚ã®ãŒå¯¾è±¡ã€‚
             if (targetLevel.intValue() > level && (value + escalationPeriod) < currentTime)
             {
                 alarmEntry = new AlarmEntry();
@@ -211,7 +211,7 @@ public class AlarmData
                 removeList.add(targetLevel);
             }
         }
-        // ”»’è‚Ég—p‚µ‚½áŠQƒŒƒxƒ‹‚ğƒL[‚©‚çíœ‚·‚éB
+        // åˆ¤å®šã«ä½¿ç”¨ã—ãŸéšœå®³ãƒ¬ãƒ™ãƒ«ã‚’ã‚­ãƒ¼ã‹ã‚‰å‰Šé™¤ã™ã‚‹ã€‚
         for (Integer removeLevel : removeList)
         {
             this.startExceedanceTimeMap_.remove(removeLevel);
@@ -221,7 +221,7 @@ public class AlarmData
     }
 
     /**
-     * è‡’l’´‰ßŠJn‚ğƒNƒŠƒA‚·‚éB
+     * é–¾å€¤è¶…éé–‹å§‹æ™‚åˆ»ã‚’ã‚¯ãƒªã‚¢ã™ã‚‹ã€‚
      */
     public void clearStartExceedance()
     {
@@ -229,8 +229,8 @@ public class AlarmData
     }
 
     /**
-     * ˆø”‚Åw’è‚µ‚½è‡’lƒŒƒxƒ‹‚æ‚è‚à‚‚¢è‡’lƒŒƒxƒ‹‚Å”­¶‚µ‚½è‡’l’´‰ßƒAƒ‰[ƒ€‚ğíœ‚·‚éB
-     * @param level íœ”»’è‚É—˜—p‚·‚éè‡’lƒŒƒxƒ‹
+     * å¼•æ•°ã§æŒ‡å®šã—ãŸé–¾å€¤ãƒ¬ãƒ™ãƒ«ã‚ˆã‚Šã‚‚é«˜ã„é–¾å€¤ãƒ¬ãƒ™ãƒ«ã§ç™ºç”Ÿã—ãŸé–¾å€¤è¶…éã‚¢ãƒ©ãƒ¼ãƒ ã‚’å‰Šé™¤ã™ã‚‹ã€‚
+     * @param level å‰Šé™¤åˆ¤å®šã«åˆ©ç”¨ã™ã‚‹é–¾å€¤ãƒ¬ãƒ™ãƒ«
      */
     public void clearStartExceedance(final int level)
     {
@@ -248,9 +248,9 @@ public class AlarmData
     }
 
     /**
-     * w’è‚µ‚½è‡’lƒŒƒxƒ‹‚Æˆê’v‚·‚é•œ‹ŒƒAƒ‰[ƒ€‚Ì‚ğæ“¾‚·‚éB
-     * @param level è‡’lƒŒƒxƒ‹
-     * @return w’è‚µ‚½è‡’lƒŒƒxƒ‹‚Æˆê’v‚·‚é•œ‹ŒƒAƒ‰[ƒ€‚Ì
+     * æŒ‡å®šã—ãŸé–¾å€¤ãƒ¬ãƒ™ãƒ«ã¨ä¸€è‡´ã™ã‚‹å¾©æ—§ã‚¢ãƒ©ãƒ¼ãƒ ã®æ™‚åˆ»ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @param level é–¾å€¤ãƒ¬ãƒ™ãƒ«
+     * @return æŒ‡å®šã—ãŸé–¾å€¤ãƒ¬ãƒ™ãƒ«ã¨ä¸€è‡´ã™ã‚‹å¾©æ—§ã‚¢ãƒ©ãƒ¼ãƒ ã®æ™‚åˆ»
      */
     public Long getRecoverTime(final int level)
     {
@@ -258,9 +258,9 @@ public class AlarmData
     }
 
     /**
-     * •œ‹ŒƒAƒ‰[ƒ€‚Ì’†‚Å‚à‚Á‚Æ‚àè‡’lƒŒƒxƒ‹‚ª’á‚¢‚ğæ“¾‚·‚éB
-     * @param level è‡’lƒŒƒxƒ‹
-     * @return •œ‹ŒƒAƒ‰[ƒ€‚Ì’†‚Å‚à‚Á‚Æ‚àè‡’lƒŒƒxƒ‹‚ª’á‚¢
+     * å¾©æ—§ã‚¢ãƒ©ãƒ¼ãƒ ã®ä¸­ã§ã‚‚ã£ã¨ã‚‚é–¾å€¤ãƒ¬ãƒ™ãƒ«ãŒä½ã„æ™‚åˆ»ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @param level é–¾å€¤ãƒ¬ãƒ™ãƒ«
+     * @return å¾©æ—§ã‚¢ãƒ©ãƒ¼ãƒ ã®ä¸­ã§ã‚‚ã£ã¨ã‚‚é–¾å€¤ãƒ¬ãƒ™ãƒ«ãŒä½ã„æ™‚åˆ»
      */
     public Long getMinRecoverTime(final int level)
     {
@@ -279,11 +279,11 @@ public class AlarmData
     }
 
     /**
-     * •œ‹ŒƒAƒ‰[ƒ€‚Ì’†‚Å‚à‚Á‚Æ‚àè‡’lƒŒƒxƒ‹‚ª’á‚¢‚ğæ“¾‚·‚éB
-     * @param alarmData Œ»İ‚Ìè‡’lî•ñ
-     * @param level è‡’lƒŒƒxƒ‹
-     * @param signalDefinition è‡’l”»’èğŒ
-     * @return •œ‹ŒƒAƒ‰[ƒ€‚Ì’†‚Å‚à‚Á‚Æ‚àè‡’lƒŒƒxƒ‹‚ª’á‚¢
+     * å¾©æ—§ã‚¢ãƒ©ãƒ¼ãƒ ã®ä¸­ã§ã‚‚ã£ã¨ã‚‚é–¾å€¤ãƒ¬ãƒ™ãƒ«ãŒä½ã„æ™‚åˆ»ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @param alarmData ç¾åœ¨ã®é–¾å€¤æƒ…å ±
+     * @param level é–¾å€¤ãƒ¬ãƒ™ãƒ«
+     * @param signalDefinition é–¾å€¤åˆ¤å®šæ¡ä»¶
+     * @return å¾©æ—§ã‚¢ãƒ©ãƒ¼ãƒ ã®ä¸­ã§ã‚‚ã£ã¨ã‚‚é–¾å€¤ãƒ¬ãƒ™ãƒ«ãŒä½ã„æ™‚åˆ»
      */
     public AlarmEntry getRecoverAlarmEntry(final AlarmData alarmData, final int level,
             final SignalDefinitionDto signalDefinition)
@@ -297,7 +297,7 @@ public class AlarmData
             Integer targetLevel = recoverTimeEntry.getKey();
             Long value = recoverTimeEntry.getValue();
 
-            // w’è‚µ‚½è‡’lƒŒƒxƒ‹‚æ‚è‚à¬‚³‚¢ƒŒƒxƒ‹‚Ì’†‚ÅA•œ‹Œ‚ªİ’è‚³‚ê‚Ä‚¢‚é‚à‚Ì‚ª‘ÎÛB
+            // æŒ‡å®šã—ãŸé–¾å€¤ãƒ¬ãƒ™ãƒ«ã‚ˆã‚Šã‚‚å°ã•ã„ãƒ¬ãƒ™ãƒ«ã®ä¸­ã§ã€å¾©æ—§æ™‚åˆ»ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹ã‚‚ã®ãŒå¯¾è±¡ã€‚
             if (targetLevel.intValue() < level && (value + escalationPeriod) < currentTime)
             {
                 alarmEntry = new AlarmEntry();
@@ -314,7 +314,7 @@ public class AlarmData
     }
 
     /**
-     * •œ‹ŒŠJn‚ğƒNƒŠƒA‚·‚éB
+     * å¾©æ—§é–‹å§‹æ™‚åˆ»ã‚’ã‚¯ãƒªã‚¢ã™ã‚‹ã€‚
      */
     public void clearRecoverExceedance()
     {
@@ -322,8 +322,8 @@ public class AlarmData
     }
 
     /**
-     * ˆø”‚Åw’è‚µ‚½è‡’lƒŒƒxƒ‹‚æ‚è‚à’á‚¢è‡’lƒŒƒxƒ‹‚Å”­¶‚µ‚½•œ‹ŒƒAƒ‰[ƒ€‚ğíœ‚·‚éB
-     * @param level íœ”»’è‚É—˜—p‚·‚éè‡’lƒŒƒxƒ‹
+     * å¼•æ•°ã§æŒ‡å®šã—ãŸé–¾å€¤ãƒ¬ãƒ™ãƒ«ã‚ˆã‚Šã‚‚ä½ã„é–¾å€¤ãƒ¬ãƒ™ãƒ«ã§ç™ºç”Ÿã—ãŸå¾©æ—§ã‚¢ãƒ©ãƒ¼ãƒ ã‚’å‰Šé™¤ã™ã‚‹ã€‚
+     * @param level å‰Šé™¤åˆ¤å®šã«åˆ©ç”¨ã™ã‚‹é–¾å€¤ãƒ¬ãƒ™ãƒ«
      */
     public void clearRecoverTimeMap(final int level)
     {
@@ -341,9 +341,9 @@ public class AlarmData
     }
 
     /**
-     * •œ‹ŒŠJn‚ğİ’è‚·‚éB
-     * @param level è‡’lƒŒƒxƒ‹
-     * @param recoverTime è‡’l’´‰ß
+     * å¾©æ—§é–‹å§‹æ™‚åˆ»ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param level é–¾å€¤ãƒ¬ãƒ™ãƒ«
+     * @param recoverTime é–¾å€¤è¶…éæ™‚åˆ»
      */
     public void addRecoverTime(final int level, final Long recoverTime)
     {
@@ -351,7 +351,7 @@ public class AlarmData
     }
 
     /**
-     * è‡’l”»’èŒ‹‰Ê‚ğƒŠƒZƒbƒg‚·‚éB
+     * é–¾å€¤åˆ¤å®šçµæœã‚’ãƒªã‚»ãƒƒãƒˆã™ã‚‹ã€‚
      */
     public void reset()
     {

@@ -26,7 +26,7 @@ import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 
 /**
- * SQLÀsŒv‰æ’Ê’m“d•¶‚Ì‚½‚ß‚ÌƒAƒNƒZƒTƒNƒ‰ƒX‚Å‚·B<br />
+ * SQLå®Ÿè¡Œè¨ˆç”»é€šçŸ¥é›»æ–‡ã®ãŸã‚ã®ã‚¢ã‚¯ã‚»ã‚µã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  * 
  * @author miyasaka
  *
@@ -37,7 +37,7 @@ public class SqlPlanNotifyAccessor implements TelegramConstants
         .getLogger(SystemResourceGetter.class);
 
     /**
-     * ƒvƒ‰ƒCƒx[ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Å‚·B<br />
+     * ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§ã™ã€‚<br />
      */
     private SqlPlanNotifyAccessor()
     {
@@ -45,12 +45,12 @@ public class SqlPlanNotifyAccessor implements TelegramConstants
     }
 
     /**
-     * SQLÀsŒv‰æ’Ê’m“d•¶‚©‚ç“à—e‚ğæ‚èo‚µ‚Ü‚·B<br />
-     * “d•¶í•Ê‚ªƒƒO’Ê’m“d•¶‚Å‚Í‚È‚¢ê‡‚âA“à—e‚ª–h‚¢‚Å‚ ‚éê‡‚Í <code>null</code> ‚ğ•Ô‚µ‚Ü‚·B<br />
+     * SQLå®Ÿè¡Œè¨ˆç”»é€šçŸ¥é›»æ–‡ã‹ã‚‰å†…å®¹ã‚’å–ã‚Šå‡ºã—ã¾ã™ã€‚<br />
+     * é›»æ–‡ç¨®åˆ¥ãŒãƒ­ã‚°é€šçŸ¥é›»æ–‡ã§ã¯ãªã„å ´åˆã‚„ã€å†…å®¹ãŒé˜²ã„ã§ã‚ã‚‹å ´åˆã¯ <code>null</code> ã‚’è¿”ã—ã¾ã™ã€‚<br />
      * 
-     * @param telegram SQLÀsŒv‰æ’Ê’m“d•¶
-     * @param agentName ƒG[ƒWƒFƒ“ƒg–¼
-     * @return “d•¶“à—e
+     * @param telegram SQLå®Ÿè¡Œè¨ˆç”»é€šçŸ¥é›»æ–‡
+     * @param agentName ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆå
+     * @return é›»æ–‡å†…å®¹
      */
     public static SqlPlanEntry[] getSqlPlanEntries(final Telegram telegram, String agentName)
     {
@@ -82,7 +82,7 @@ public class SqlPlanNotifyAccessor implements TelegramConstants
                 String sqlStatement = (String)objItemValueArr[0];
                 sqlStatements.add(sqlStatement);
 
-                // measurement_item_name‚ğì¬‚·‚é
+                // measurement_item_nameã‚’ä½œæˆã™ã‚‹
                 String itemName = body.getStrItemName();
                 String mearsurmentItemName = agentName + itemName;
 
@@ -110,7 +110,7 @@ public class SqlPlanNotifyAccessor implements TelegramConstants
                 String gettingPlanTimeStr = (String)objItemValueArr[0];
                 Timestamp timestamp;
 
-                // TimeStamp‚Ö‚Ìƒp[ƒX‚ª¸”s‚µ‚½ê‡‚ÍAŒ»İ‚ÌTimeStamp‚ğì¬‚·‚é
+                // TimeStampã¸ã®ãƒ‘ãƒ¼ã‚¹ãŒå¤±æ•—ã—ãŸå ´åˆã¯ã€ç¾åœ¨æ™‚åˆ»ã®TimeStampã‚’ä½œæˆã™ã‚‹
                 try
                 {
                     timestamp =
@@ -161,10 +161,10 @@ public class SqlPlanNotifyAccessor implements TelegramConstants
     }
 
     /**
-     * “d•¶‚ªSQLÀsŒv‰æ’Ê’m“d•¶‚Å‚ ‚é‚±‚Æ‚ğŠm”F‚·‚éB
+     * é›»æ–‡ãŒSQLå®Ÿè¡Œè¨ˆç”»é€šçŸ¥é›»æ–‡ã§ã‚ã‚‹ã“ã¨ã‚’ç¢ºèªã™ã‚‹ã€‚
      * 
-     * @param telegram SQLÀsŒv‰æ’Ê’m“d•¶
-     * @return “d•¶‚ªSQLÀsŒv‰æ’Ê’m“d•¶‚Ìê‡‚ÉtureA‚»‚¤‚Å‚È‚¢ê‡‚Éfalse
+     * @param telegram SQLå®Ÿè¡Œè¨ˆç”»é€šçŸ¥é›»æ–‡
+     * @return é›»æ–‡ãŒSQLå®Ÿè¡Œè¨ˆç”»é€šçŸ¥é›»æ–‡ã®å ´åˆã«tureã€ãã†ã§ãªã„å ´åˆã«false
      */
     private static boolean checkTelegram(final Telegram telegram)
     {
@@ -173,25 +173,25 @@ public class SqlPlanNotifyAccessor implements TelegramConstants
     }
 
     /**
-     * SQLÀsŒv‰æ‚ğ•Û‚·‚é‚½‚ß‚ÌƒNƒ‰ƒX‚Å‚·B<br />
+     * SQLå®Ÿè¡Œè¨ˆç”»ã‚’ä¿æŒã™ã‚‹ãŸã‚ã®ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
      * 
      * @author miyasaka
      */
     public static class SqlPlanEntry
     {
-        /** Œv‘ª–¼B */
+        /** è¨ˆæ¸¬åã€‚ */
         public String measurementItemName;
 
-        /** SQL•¶B */
+        /** SQLæ–‡ã€‚ */
         public String sqlStatement;
 
-        /** SQL‚ÌÀsŒv‰æB */
+        /** SQLã®å®Ÿè¡Œè¨ˆç”»ã€‚ */
         public String executionPlan;
 
-        /** ÀsŒv‰æ‚ªæ“¾‚Å‚«‚½ŠÔB */
+        /** å®Ÿè¡Œè¨ˆç”»ãŒå–å¾—ã§ããŸæ™‚é–“ã€‚ */
         public Timestamp gettingPlanTime;
 
-        /** ƒXƒ^ƒbƒNƒgƒŒ[ƒXB */
+        /** ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã€‚ */
         public String stackTrace;
     }
 }

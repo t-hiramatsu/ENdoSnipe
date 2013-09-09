@@ -39,7 +39,7 @@ import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 import jp.co.acroquest.endosnipe.javelin.bean.Component;
 
 /**
- * ƒVƒŠƒAƒ‰ƒCƒYˆ—‚ğs‚¤ƒNƒ‰ƒXB<br />
+ * ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚ºå‡¦ç†ã‚’è¡Œã†ã‚¯ãƒ©ã‚¹ã€‚<br />
  *
  * @author acroquest
  */
@@ -47,7 +47,7 @@ public class MBeanManagerSerializer
 {
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ğ‰B•Á‚µ‚Ü‚·B<br />
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã‚’éš è”½ã—ã¾ã™ã€‚<br />
      */
     private MBeanManagerSerializer()
     {
@@ -55,9 +55,9 @@ public class MBeanManagerSerializer
     }
 
     /**
-     * ƒfƒVƒŠƒAƒ‰ƒCƒY‚ğs‚¢‚Ü‚·B<br />
+     * ãƒ‡ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚ºã‚’è¡Œã„ã¾ã™ã€‚<br />
      *
-     * @return ƒfƒVƒAƒ‰ƒCƒY‚µ‚½ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìƒ}ƒbƒv
+     * @return ãƒ‡ã‚·ã‚¢ãƒ©ã‚¤ã‚ºã—ãŸã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ãƒãƒƒãƒ—
      */
     public static Map<String, Component> deserialize()
     {
@@ -70,7 +70,7 @@ public class MBeanManagerSerializer
         String serializeFile = config.getSerializeFile();
         File file = new File(serializeFile);
 
-        // ƒtƒ@ƒCƒ‹‚ª‘¶İ‚µ‚È‚¢ê‡‚ÍƒfƒVƒŠƒAƒ‰ƒCƒY‚ğƒXƒLƒbƒv‚·‚éB
+        // ãƒ•ã‚¡ã‚¤ãƒ«ãŒå­˜åœ¨ã—ãªã„å ´åˆã¯ãƒ‡ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚ºã‚’ã‚¹ã‚­ãƒƒãƒ—ã™ã‚‹ã€‚
         if (!file.exists())
         {
             return new HashMap<String, Component>();
@@ -80,9 +80,9 @@ public class MBeanManagerSerializer
     }
 
     /**
-     * ƒfƒVƒŠƒAƒ‰ƒCƒY‚ğs‚¢‚Ü‚·B<br />
-     * @param serializeFile ƒVƒŠƒAƒ‰ƒCƒYƒtƒ@ƒCƒ‹
-     * @return ƒfƒVƒAƒ‰ƒCƒY‚µ‚½ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìƒ}ƒbƒv
+     * ãƒ‡ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚ºã‚’è¡Œã„ã¾ã™ã€‚<br />
+     * @param serializeFile ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚ºãƒ•ã‚¡ã‚¤ãƒ«
+     * @return ãƒ‡ã‚·ã‚¢ãƒ©ã‚¤ã‚ºã—ãŸã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ãƒãƒƒãƒ—
      */
     public static Map<String, Component> deserializeFile(String serializeFile)
     {
@@ -119,9 +119,9 @@ public class MBeanManagerSerializer
     }
 
     /**
-     * ƒVƒŠƒAƒ‰ƒCƒY‚ğs‚¢‚Ü‚·B<br />
+     * ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚ºã‚’è¡Œã„ã¾ã™ã€‚<br />
      *
-     * @param map ƒVƒŠƒAƒ‰ƒCƒY‚ğs‚¤ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìƒ}ƒbƒv
+     * @param map ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚ºã‚’è¡Œã†ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ãƒãƒƒãƒ—
      */
     public static void serialize(final Map<String, Component> map)
     {
@@ -147,9 +147,9 @@ public class MBeanManagerSerializer
     }
 
     /**
-     * Map‚Ö‚ÌƒLƒƒƒXƒg‚ğs‚¤B
-     * @param object ‘ÎÛƒIƒuƒWƒFƒNƒg
-     * @return Map‚ÉƒLƒƒƒXƒg‚µ‚½ƒIƒuƒWƒFƒNƒg
+     * Mapã¸ã®ã‚­ãƒ£ã‚¹ãƒˆã‚’è¡Œã†ã€‚
+     * @param object å¯¾è±¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @return Mapã«ã‚­ãƒ£ã‚¹ãƒˆã—ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     @SuppressWarnings("unchecked")
     private static Map<String, Component> castToMap(final Object object)

@@ -40,7 +40,7 @@ import jp.co.smg.endosnipe.javassist.expr.ConstructorCall;
 import jp.co.smg.endosnipe.javassist.expr.ExprEditor;
 
 /**
- * ƒCƒ“ƒXƒ^ƒ“ƒX”‚ğŠÄ‹‚·‚é‚½‚ß‚ÌƒRƒ“ƒo[ƒ^
+ * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ•°ã‚’ç›£è¦–ã™ã‚‹ãŸã‚ã®ã‚³ãƒ³ãƒãƒ¼ã‚¿
  * 
  * @author eriguchi
  */
@@ -53,7 +53,7 @@ public class InstanceMonitorConverter extends AbstractConverter
      */
     public void init()
     {
-        // ‰½‚à‚µ‚È‚¢B
+        // ä½•ã‚‚ã—ãªã„ã€‚
     }
 
     /**
@@ -96,10 +96,10 @@ public class InstanceMonitorConverter extends AbstractConverter
     }
 
     /**
-     * ƒƒ\ƒbƒh‚ÌU‚é•‘‚¢‚ğC³‚·‚éB
+     * ãƒ¡ã‚½ãƒƒãƒ‰ã®æŒ¯ã‚‹èˆã„ã‚’ä¿®æ­£ã™ã‚‹ã€‚
      * @param ctBehavior CtBehavior
-     * @throws CannotCompileException ƒRƒ“ƒpƒCƒ‹‚Å‚«‚È‚¢ê‡
-     * @throws NotFoundException ƒNƒ‰ƒX‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡
+     * @throws CannotCompileException ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã§ããªã„å ´åˆ
+     * @throws NotFoundException ã‚¯ãƒ©ã‚¹ãŒè¦‹ã¤ã‹ã‚‰ãªã„å ´åˆ
      */
     private void convertConstructor(CtBehavior ctBehavior)
         throws CannotCompileException,
@@ -119,7 +119,7 @@ public class InstanceMonitorConverter extends AbstractConverter
     }
     
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^ŒÄ‚Ño‚µ‚ª‚ ‚é‚©‚Ç‚¤‚©‚ğƒ`ƒFƒbƒN‚·‚é‚½‚ß‚ÌExprEditor
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿å‘¼ã³å‡ºã—ãŒã‚ã‚‹ã‹ã©ã†ã‹ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹ãŸã‚ã®ExprEditor
      * 
      * @author eriguchi
      */
@@ -140,10 +140,10 @@ public class InstanceMonitorConverter extends AbstractConverter
     }
 
     /**
-     * ƒƒ\ƒbƒh‚ÌU‚é•‘‚¢‚ğC³‚·‚éB
+     * ãƒ¡ã‚½ãƒƒãƒ‰ã®æŒ¯ã‚‹èˆã„ã‚’ä¿®æ­£ã™ã‚‹ã€‚
      * @param ctBehavior CtBehavior
-     * @throws CannotCompileException ƒRƒ“ƒpƒCƒ‹‚Å‚«‚È‚¢ê‡
-     * @throws NotFoundException ƒNƒ‰ƒX‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡
+     * @throws CannotCompileException ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã§ããªã„å ´åˆ
+     * @throws NotFoundException ã‚¯ãƒ©ã‚¹ãŒè¦‹ã¤ã‹ã‚‰ãªã„å ´åˆ
      */
     private void convertFinalizeMethod(CtBehavior ctBehavior)
         throws CannotCompileException,

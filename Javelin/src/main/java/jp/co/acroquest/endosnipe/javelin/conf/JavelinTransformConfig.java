@@ -39,31 +39,31 @@ import jp.co.smg.endosnipe.javassist.ClassPool;
 import jp.co.smg.endosnipe.javassist.CtClass;
 
 /**
- * Javelin‚ÌƒR[ƒh–„‚ß‚İİ’èB
+ * Javelinã®ã‚³ãƒ¼ãƒ‰åŸ‹ã‚è¾¼ã¿è¨­å®šã€‚
  * 
  * @author yamasaki
  */
 public class JavelinTransformConfig
 {
-    /** ƒRƒ“ƒo[ƒ^‚Ìİ’èƒŠƒXƒg */
+    /** ã‚³ãƒ³ãƒãƒ¼ã‚¿ã®è¨­å®šãƒªã‚¹ãƒˆ */
     private final List<ConverterConfig> converterConfigList_ = new ArrayList<ConverterConfig>();
 
-    /** Include‚Ìİ’èƒŠƒXƒg */
+    /** Includeã®è¨­å®šãƒªã‚¹ãƒˆ */
     private final List<IncludeConversionConfig> includeConfigList_ =
             new ArrayList<IncludeConversionConfig>();
 
-    /** Exclude‚Ìİ’èƒŠƒXƒg */
+    /** Excludeã®è¨­å®šãƒªã‚¹ãƒˆ */
     private final List<ExcludeConversionConfig> excludeConfigList_ =
             new ArrayList<ExcludeConversionConfig>();
 
-    /** İ’èƒtƒ@ƒCƒ‹‚ÌƒŠ[ƒ_ */
+    /** è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒªãƒ¼ãƒ€ */
     private BufferedReader reader_;
 
     /**
-     * İ’èƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚ŞB
-     * @param includeStream Includeƒtƒ@ƒCƒ‹—p“ü—ÍƒXƒgƒŠ[ƒ€
-     * @param excludeStream Excludeƒtƒ@ƒCƒ‹—p“ü—ÍƒXƒgƒŠ[ƒ€
-     * @throws IOException ƒtƒ@ƒCƒ‹“Ç‚İ‚İ‚É”­¶‚·‚é“üo—Í—áŠO
+     * è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚€ã€‚
+     * @param includeStream Includeãƒ•ã‚¡ã‚¤ãƒ«ç”¨å…¥åŠ›ã‚¹ãƒˆãƒªãƒ¼ãƒ 
+     * @param excludeStream Excludeãƒ•ã‚¡ã‚¤ãƒ«ç”¨å…¥åŠ›ã‚¹ãƒˆãƒªãƒ¼ãƒ 
+     * @throws IOException ãƒ•ã‚¡ã‚¤ãƒ«èª­ã¿è¾¼ã¿æ™‚ã«ç™ºç”Ÿã™ã‚‹å…¥å‡ºåŠ›ä¾‹å¤–
      */
     public void readConfig(final InputStream includeStream, final InputStream excludeStream)
         throws IOException
@@ -105,9 +105,9 @@ public class JavelinTransformConfig
     }
 
     /**
-     * ƒR[ƒh–„‚ß‚İ‘ÎÛ‚©‚çœŠO‚³‚ê‚é‚©‚Ç‚¤‚©‚ğ•Ô‚·B
-     * @param className ƒNƒ‰ƒX–¼
-     * @return ƒR[ƒh–„‚ß‚İ‘ÎÛ‚©‚çœŠO‚³‚ê‚é‚©‚Ç‚¤‚©
+     * ã‚³ãƒ¼ãƒ‰åŸ‹ã‚è¾¼ã¿å¯¾è±¡ã‹ã‚‰é™¤å¤–ã•ã‚Œã‚‹ã‹ã©ã†ã‹ã‚’è¿”ã™ã€‚
+     * @param className ã‚¯ãƒ©ã‚¹å
+     * @return ã‚³ãƒ¼ãƒ‰åŸ‹ã‚è¾¼ã¿å¯¾è±¡ã‹ã‚‰é™¤å¤–ã•ã‚Œã‚‹ã‹ã©ã†ã‹
      */
     public boolean isExcludeClass(final String className)
     {
@@ -127,9 +127,9 @@ public class JavelinTransformConfig
     }
 
     /**
-     * ƒR[ƒh–„‚ß‚İ‘ÎÛ‚©‚çœŠO‚³‚ê‚éƒNƒ‰ƒX‚ÌƒŠƒXƒg‚ğ•Ô‚·B
-     * @param className ƒNƒ‰ƒX–¼
-     * @return ƒR[ƒh–„‚ß‚İ‘ÎÛ‚©‚çœŠO‚³‚ê‚éƒNƒ‰ƒX‚ÌƒŠƒXƒg
+     * ã‚³ãƒ¼ãƒ‰åŸ‹ã‚è¾¼ã¿å¯¾è±¡ã‹ã‚‰é™¤å¤–ã•ã‚Œã‚‹ã‚¯ãƒ©ã‚¹ã®ãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚
+     * @param className ã‚¯ãƒ©ã‚¹å
+     * @return ã‚³ãƒ¼ãƒ‰åŸ‹ã‚è¾¼ã¿å¯¾è±¡ã‹ã‚‰é™¤å¤–ã•ã‚Œã‚‹ã‚¯ãƒ©ã‚¹ã®ãƒªã‚¹ãƒˆ
      */
     public List<ExcludeConversionConfig> matchesToExclude(final String className)
     {
@@ -148,11 +148,11 @@ public class JavelinTransformConfig
     }
 
     /**
-     * ƒR[ƒh–„‚ß‚İ‘ÎÛƒNƒ‰ƒX‚ÌƒŠƒXƒg‚ğ•Ô‚·B
-     * @param className ƒNƒ‰ƒX–¼
+     * ã‚³ãƒ¼ãƒ‰åŸ‹ã‚è¾¼ã¿å¯¾è±¡ã‚¯ãƒ©ã‚¹ã®ãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚
+     * @param className ã‚¯ãƒ©ã‚¹å
      * @param ctClass CtClass
      * @param pool ClassPool
-     * @return ƒR[ƒh–„‚ß‚İ‘ÎÛƒNƒ‰ƒX‚ÌƒŠƒXƒg
+     * @return ã‚³ãƒ¼ãƒ‰åŸ‹ã‚è¾¼ã¿å¯¾è±¡ã‚¯ãƒ©ã‚¹ã®ãƒªã‚¹ãƒˆ
      */
     public List<IncludeConversionConfig> matchesToInclude(final String className,
             final CtClass ctClass, final ClassPool pool)
@@ -184,9 +184,9 @@ public class JavelinTransformConfig
     }
 
     /**
-     * ƒRƒ“ƒo[ƒ^‚ÌƒNƒ‰ƒX–¼‚ÌƒŠƒXƒg‚ğ•Ô‚·B
-     * @param converterName ƒRƒ“ƒo[ƒ^–¼
-     * @return ƒRƒ“ƒo[ƒ^‚ÌƒNƒ‰ƒX–¼‚ÌƒŠƒXƒg
+     * ã‚³ãƒ³ãƒãƒ¼ã‚¿ã®ã‚¯ãƒ©ã‚¹åã®ãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚
+     * @param converterName ã‚³ãƒ³ãƒãƒ¼ã‚¿å
+     * @return ã‚³ãƒ³ãƒãƒ¼ã‚¿ã®ã‚¯ãƒ©ã‚¹åã®ãƒªã‚¹ãƒˆ
      */
     public List<String> getConverterClassNames(final String converterName)
     {
@@ -202,8 +202,8 @@ public class JavelinTransformConfig
     }
 
     /**
-     * ƒRƒ“ƒo[ƒ^–¼‚ÌƒŠƒXƒg‚ğ•Ô‚·B
-     * @return ƒRƒ“ƒo[ƒ^–¼‚ÌƒŠƒXƒg
+     * ã‚³ãƒ³ãƒãƒ¼ã‚¿åã®ãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚
+     * @return ã‚³ãƒ³ãƒãƒ¼ã‚¿åã®ãƒªã‚¹ãƒˆ
      */
     public List<String> getConverterNames()
     {
@@ -217,8 +217,8 @@ public class JavelinTransformConfig
     }
 
     /**
-     * ƒRƒ“ƒo[ƒ^‚Ìİ’èƒŠƒXƒgAInclude‚Ìİ’èƒŠƒXƒgAExclude‚Ìİ’èƒŠƒXƒg‚ğ•Ô‚·B
-     * @return ƒRƒ“ƒo[ƒ^‚Ìİ’èƒŠƒXƒgAInclude‚Ìİ’èƒŠƒXƒgAExclude‚Ìİ’èƒŠƒXƒg
+     * ã‚³ãƒ³ãƒãƒ¼ã‚¿ã®è¨­å®šãƒªã‚¹ãƒˆã€Includeã®è¨­å®šãƒªã‚¹ãƒˆã€Excludeã®è¨­å®šãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚
+     * @return ã‚³ãƒ³ãƒãƒ¼ã‚¿ã®è¨­å®šãƒªã‚¹ãƒˆã€Includeã®è¨­å®šãƒªã‚¹ãƒˆã€Excludeã®è¨­å®šãƒªã‚¹ãƒˆ
      */
     @Override
     public String toString()
@@ -233,9 +233,9 @@ public class JavelinTransformConfig
     }
 
     /**
-     * 1s“Ç‚İ‚İAƒRƒƒ“ƒgs‚Ìê‡AŸ‚Ìs‚ğ“Ç‚İ‚ŞB
-     * @return ƒRƒƒ“ƒgˆÈŠO‚Ìs
-     * @throws IOException “üo—Í—áŠO
+     * 1è¡Œèª­ã¿è¾¼ã¿ã€ã‚³ãƒ¡ãƒ³ãƒˆè¡Œã®å ´åˆã€æ¬¡ã®è¡Œã‚’èª­ã¿è¾¼ã‚€ã€‚
+     * @return ã‚³ãƒ¡ãƒ³ãƒˆä»¥å¤–ã®è¡Œ
+     * @throws IOException å…¥å‡ºåŠ›ä¾‹å¤–
      */
     private String readLine()
         throws IOException

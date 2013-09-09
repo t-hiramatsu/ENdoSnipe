@@ -26,14 +26,14 @@
 package jp.co.acroquest.endosnipe.collector.rotate;
 
 /**
- * ログローテートを行うタスク
+ * 繝ｭ繧ｰ繝ｭ繝ｼ繝�繝ｼ繝医ｒ陦後≧繧ｿ繧ｹ繧ｯ
  * 
  * @author S.Kimura
  */
 public interface LogRotateTask
 {
     /**
-     * ログローテートを行う
+     * 繝ｭ繧ｰ繝ｭ繝ｼ繝�繝ｼ繝医ｒ陦後≧
      */
     void rotate();
 }

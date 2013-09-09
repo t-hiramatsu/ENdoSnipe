@@ -28,14 +28,14 @@ package jp.co.acroquest.endosnipe.collector;
 import jp.co.acroquest.endosnipe.common.logger.CommonLogMessageCodes;
 
 /**
- * ƒƒOƒƒbƒZ[ƒW‚Ì‚½‚ß‚Ì’è”ƒNƒ‰ƒX‚Å‚·B<br />
+ * ãƒ­ã‚°ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®ãŸã‚ã®å®šæ•°ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  * 
  * @author y-komori
  */
 public interface LogMessageCodes extends CommonLogMessageCodes
 {
     // -------------------------------------------------------------------------
-    // Šî–{“®ìƒƒbƒZ[ƒWƒR[ƒh (00xx)
+    // åŸºæœ¬å‹•ä½œãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚³ãƒ¼ãƒ‰ (00xx)
     // -------------------------------------------------------------------------
     String ENDOSNIPE_DATA_COLLECTOR_STARTING = "IEDC0001";
 
@@ -79,162 +79,162 @@ public interface LogMessageCodes extends CommonLogMessageCodes
 
     String ERROR_OCCURED_ON_STARTING = "EEDC0021";
 
-    /** ƒVƒXƒeƒ€‚Å—\Šú‚µ‚È‚¢ƒGƒ‰[‚ª”­¶‚µ‚½ê‡ */
+    /** ã‚·ã‚¹ãƒ†ãƒ ã§äºˆæœŸã—ãªã„ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ */
     String SYSTEM_UNKNOW_ERROR = "EEDC0023";
 
     // -------------------------------------------------------------------------
-    // “d•¶ŽóMƒƒbƒZ[ƒWƒR[ƒh (01xx)
+    // é›»æ–‡å—ä¿¡ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚³ãƒ¼ãƒ‰ (01xx)
     // -------------------------------------------------------------------------
-    /** JavelinƒƒO’Ê’m“d•¶ŽóM */
+    /** Javelinãƒ­ã‚°é€šçŸ¥é›»æ–‡å—ä¿¡ */
     String JVN_FILE_NOTIFY_RECEIVED = "DEDC0101";
 
-    /** ƒŠƒ\[ƒX’Ê’m‰ž“š“d•¶ŽóM */
+    /** ãƒªã‚½ãƒ¼ã‚¹é€šçŸ¥å¿œç­”é›»æ–‡å—ä¿¡ */
     String RESOURCE_NOTIFY_RECEIVED = "DEDC0102";
 
-    /** ƒVƒOƒiƒ‹ó‘ÔŽæ“¾—v‹“d•¶ŽóM */
+    /** ã‚·ã‚°ãƒŠãƒ«çŠ¶æ…‹å–å¾—è¦æ±‚é›»æ–‡å—ä¿¡ */
     String SIGNAL_STATE_NOTIFY_RECEIVED = "DEDC0103";
 
-    /** ƒVƒOƒiƒ‹’è‹`•ÏX—v‹“d•¶ŽóM */
+    /** ã‚·ã‚°ãƒŠãƒ«å®šç¾©å¤‰æ›´è¦æ±‚é›»æ–‡å—ä¿¡ */
     String SIGNAL_DEFINITION_CHANGE_NOTIFY_RECEIVED = "DEDC0104";
 
-    /** ƒVƒOƒiƒ‹’è‹`•ÏX—v‹“d•¶ŽóM */
+    /** ã‚·ã‚°ãƒŠãƒ«å®šç¾©å¤‰æ›´è¦æ±‚é›»æ–‡å—ä¿¡ */
     String MULTIPLE_RESOURCE_GRAPH_DEFINITION_CHANGE_NOTIFY_RECEIVED = "DEDC0104";
 
     // -------------------------------------------------------------------------
-    // ƒLƒ…[ŠÖ˜AƒƒbƒZ[ƒWƒR[ƒh (02xx)
+    // ã‚­ãƒ¥ãƒ¼é–¢é€£ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚³ãƒ¼ãƒ‰ (02xx)
     // -------------------------------------------------------------------------
-    /** ƒLƒ…[‚Éƒf[ƒ^‚ð’Ç‰Á‚µ‚½ */
+    /** ã‚­ãƒ¥ãƒ¼ã«ãƒ‡ãƒ¼ã‚¿ã‚’è¿½åŠ ã—ãŸ */
     String QUEUE_OFFERED = "DEDC0201";
 
-    /** ƒLƒ…[‚©‚çƒf[ƒ^‚ðŽæ‚èo‚µ‚½ */
+    /** ã‚­ãƒ¥ãƒ¼ã‹ã‚‰ãƒ‡ãƒ¼ã‚¿ã‚’å–ã‚Šå‡ºã—ãŸ */
     String QUEUE_TAKEN = "DEDC0202";
 
-    /** ƒAƒ‰[ƒ€’Ê’mƒLƒ…[‚ªˆì‚ê‚½ */
+    /** ã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥ã‚­ãƒ¥ãƒ¼ãŒæº¢ã‚ŒãŸ */
     String ALARM_QUEUE_FULL = "WEDC0211";
 
     // -------------------------------------------------------------------------
-    // ƒf[ƒ^ƒx[ƒXŠÖ˜AƒƒbƒZ[ƒWƒR[ƒh (03xx)
+    // ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹é–¢é€£ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚³ãƒ¼ãƒ‰ (03xx)
     // -------------------------------------------------------------------------
-    /** ƒf[ƒ^ƒx[ƒXƒAƒNƒZƒXŽž‚ÉƒGƒ‰[‚ª”­¶‚µ‚½ */
+    /** ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚¢ã‚¯ã‚»ã‚¹æ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸ */
     String DATABASE_ACCESS_ERROR = "EEDC0301";
 
-    /** ƒzƒXƒgî•ñ‚ªŒ©‚Â‚©‚ç‚È‚¢ */
+    /** ãƒ›ã‚¹ãƒˆæƒ…å ±ãŒè¦‹ã¤ã‹ã‚‰ãªã„ */
     String CANNOT_FIND_HOST_INFO = "EEDC0302";
 
-    /** JavelinƒƒOƒe[ƒuƒ‹ƒ[ƒe[ƒgŽÀŽ{ */
+    /** Javelinãƒ­ã‚°ãƒ†ãƒ¼ãƒ–ãƒ«ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆå®Ÿæ–½ */
     String JAVELINLOG_ROTATE = "DEDC0303";
 
-    /** JavelinƒƒOƒe[ƒuƒ‹ƒ[ƒe[ƒgŽ¸”s */
+    /** Javelinãƒ­ã‚°ãƒ†ãƒ¼ãƒ–ãƒ«ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆå¤±æ•— */
     String JAVELINLOG_ROTATE_FAIL = "WEDC0304";
 
-    /** Œv‘ªƒf[ƒ^ƒe[ƒuƒ‹ƒ[ƒe[ƒgŽÀŽ{ */
+    /** è¨ˆæ¸¬ãƒ‡ãƒ¼ã‚¿ãƒ†ãƒ¼ãƒ–ãƒ«ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆå®Ÿæ–½ */
     String MEASURELOG_ROTATE = "DEDC0305";
 
-    /** Œv‘ªƒf[ƒ^ƒe[ƒuƒ‹ƒ[ƒe[ƒgŽ¸”s */
+    /** è¨ˆæ¸¬ãƒ‡ãƒ¼ã‚¿ãƒ†ãƒ¼ãƒ–ãƒ«ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆå¤±æ•— */
     String MEASURELOG_ROTATE_FAIL = "WEDC0306";
 
-    /** ‚·‚Å‚Éƒf[ƒ^ƒx[ƒX‚ªŽg—p‚³‚ê‚Ä‚¢‚é */
+    /** ã™ã§ã«ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãŒä½¿ç”¨ã•ã‚Œã¦ã„ã‚‹ */
     String DATABASE_ALREADY_USED = "EEDC0307";
 
     // -------------------------------------------------------------------------
-    // DataCollectorŠÖ˜AƒƒbƒZ[ƒWƒR[ƒh (04xx)
+    // DataCollectoré–¢é€£ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚³ãƒ¼ãƒ‰ (04xx)
     // -------------------------------------------------------------------------
-    /** ƒvƒƒpƒeƒBƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚ç‚È‚¢ */
+    /** ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãƒ•ã‚¡ã‚¤ãƒ«ãŒè¦‹ã¤ã‹ã‚‰ãªã„ */
     String CANNOT_FIND_PROPERTY = "EEDC0401";
 
-    /** ƒzƒXƒgî•ñ‚ªŒ©‚Â‚©‚ç‚È‚¢ */
+    /** ãƒ›ã‚¹ãƒˆæƒ…å ±ãŒè¦‹ã¤ã‹ã‚‰ãªã„ */
     String CANNOT_FIND_HOST = "EEDC0402";
 
-    /** ƒpƒ‰ƒ[ƒ^‚Ì‰ðÍ‚ÉŽ¸”s */
+    /** ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®è§£æžã«å¤±æ•— */
     String FAIL_TO_READ_PARAMETER = "EEDC0403";
 
-    /** è‡’l”»’èÝ’èƒtƒ@ƒCƒ‹‚ÌŽæ“¾‚ÉŽ¸”s */
+    /** é–¾å€¤åˆ¤å®šè¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã®å–å¾—ã«å¤±æ•— */
     String CANNOT_FIND_RESOURCE_MONITORING = "WEDC0404";
 
-    /** è‡’l”»’èÝ’èƒtƒ@ƒCƒ‹‚Ìƒpƒ‰ƒ[ƒ^”‚ª•s‘« */
+    /** é–¾å€¤åˆ¤å®šè¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿æ•°ãŒä¸è¶³ */
     String FAIL_MONITORING_PARAM_NUM = "WEDC0405";
 
-    /** è‡’l”»’èÝ’èƒtƒ@ƒCƒ‹‚Ìƒpƒ‰ƒ[ƒ^‚ª•s³ */
+    /** é–¾å€¤åˆ¤å®šè¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãŒä¸æ­£ */
     String FAIL_MONITORING_PARAM_VALUE = "WEDC0406";
 
-    /** ƒpƒ‰ƒ[ƒ^‚Ì‰ðÍ‚ÉŽ¸”s(ƒfƒtƒHƒ‹ƒg’l‚ðŽg—p) */
+    /** ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®è§£æžã«å¤±æ•—(ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’ä½¿ç”¨) */
     String FAIL_READ_PARAMETER_USE_DEFAULT = "WEDC0407";
 
-    /** ƒG[ƒWƒFƒ“ƒgID‚ÌŽæ“¾‚ÉŽ¸”s */
+    /** ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆIDã®å–å¾—ã«å¤±æ•— */
     String FAIL_GET_AGENT_ID = "WEDC0408";
 
-    /** ƒCƒxƒ“ƒg’Ê’mƒNƒ‰ƒX‚Ì‰Šú‰»‚ÉŽ¸”s */
+    /** ã‚¤ãƒ™ãƒ³ãƒˆé€šçŸ¥ã‚¯ãƒ©ã‚¹ã®åˆæœŸåŒ–ã«å¤±æ•— */
     String FAIL_CREATE_EVENT_SENDER = "WEDC0411";
 
-    /** è‡’l”»’èˆ—ƒNƒ‰ƒX‚Ì‰Šú‰»‚ÉŽ¸”s */
+    /** é–¾å€¤åˆ¤å®šå‡¦ç†ã‚¯ãƒ©ã‚¹ã®åˆæœŸåŒ–ã«å¤±æ•— */
     String FAIL_CREATE_ALARM_PROCESSOR = "WEDC0412";
 
-    /** JavelinƒƒOƒf[ƒ^‚Ì‰ðÍ‚ÉŽ¸”s */
+    /** Javelinãƒ­ã‚°ãƒ‡ãƒ¼ã‚¿ã®è§£æžã«å¤±æ•— */
     String FAIL_PARSE_JVN_DATA = "WEDC0413";
 
-    /** ƒŠƒ\[ƒXó‘ÔŠÇ—‚ÌÝ’è’lo—Í */
+    /** ãƒªã‚½ãƒ¼ã‚¹çŠ¶æ…‹ç®¡ç†ã®è¨­å®šå€¤å‡ºåŠ› */
     String OUTPUT_RESOURCE_MONITORING = "IEDC0414";
 
-    /** ƒCƒxƒ“ƒg’Ê’mƒXƒŒƒbƒhŠJŽn */
+    /** ã‚¤ãƒ™ãƒ³ãƒˆé€šçŸ¥ã‚¹ãƒ¬ãƒƒãƒ‰é–‹å§‹ */
     String EVENT_NOTIFICATION_THREAD_STARTED = "IEDC0415";
 
-    /** ƒCƒxƒ“ƒg’Ê’mƒXƒŒƒbƒhI—¹ */
+    /** ã‚¤ãƒ™ãƒ³ãƒˆé€šçŸ¥ã‚¹ãƒ¬ãƒƒãƒ‰çµ‚äº† */
     String EVENT_NOTIFICATION_THREAD_STOPPING = "IEDC0416";
 
-    /** ƒ[ƒ‹ƒeƒ“ƒvƒŒ[ƒg‚ª–¢Žw’è */
+    /** ãƒ¡ãƒ¼ãƒ«ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆãŒæœªæŒ‡å®š */
     String MAIL_TEMPLATE_NOT_SPECIFYED = "WEDC0417";
 
-    /** ƒ[ƒ‹ƒeƒ“ƒvƒŒ[ƒgÝ’è‚ÌŽæ“¾‚ÉŽ¸”s */
+    /** ãƒ¡ãƒ¼ãƒ«ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆè¨­å®šã®å–å¾—ã«å¤±æ•— */
     String FAIL_READ_MAIL_TEMPLATE_CONFIG = "WEDC0418";
 
-    /** Javelin ’ÊM—pƒIƒuƒWƒFƒNƒg‚ªŽæ“¾‚Å‚«‚È‚¢ */
+    /** Javelin é€šä¿¡ç”¨ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒå–å¾—ã§ããªã„ */
     String CANNOT_GET_JAVELIN_COMMUNICATION_CLIENT = "EEDC0431";
 
-    /** Ý’èFƒ[ƒ‹‘—M‚È‚µ */
+    /** è¨­å®šï¼šãƒ¡ãƒ¼ãƒ«é€ä¿¡ãªã— */
     String NO_SENDMAIL_CONFIG_MESSAGE = "WEDC0451";
 
-    /** ‘—M‚·‚éƒƒbƒZ[ƒW‚ª‹ó */
+    /** é€ä¿¡ã™ã‚‹ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãŒç©º */
     String NO_SEND_INFORMATION_MESSAGE = "WEDC0452";
 
-    /** ƒ[ƒ‹‘—M’†‚É—\Šú‚¹‚ÊƒGƒ‰[‚ª”­¶ */
+    /** ãƒ¡ãƒ¼ãƒ«é€ä¿¡ä¸­ã«äºˆæœŸã›ã¬ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿ */
     String SENDING_MAIL_ERROR_MESSAGE = "WEDC0453";
 
-    /** Ý’è:SMTPƒT[ƒo–¢Ý’è */
+    /** è¨­å®š:SMTPã‚µãƒ¼ãƒæœªè¨­å®š */
     String SMTP_SERVER_NOT_SPECIFIED = "WEDC0454";
 
-    /** ƒ[ƒ‹ƒeƒ“ƒvƒŒ[ƒg‚Ì“Ç‚Ýž‚Ý‚ÉŽ¸”s */
+    /** ãƒ¡ãƒ¼ãƒ«ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã®èª­ã¿è¾¼ã¿ã«å¤±æ•— */
     String FAIL_READ_MAIL_TEMPLATE = "WEDC0455";
 
-    /** SMTPÝ’è‚ÌÝ’è’lo—Í */
+    /** SMTPè¨­å®šã®è¨­å®šå€¤å‡ºåŠ› */
     String OUTPUT_SMTP_SETTINGS = "IEDC0456";
 
-    /** Ý’èFSNMP‚Ìƒo[ƒWƒ‡ƒ“‚ª‘Î‰žŠO */
+    /** è¨­å®šï¼šSNMPã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³ãŒå¯¾å¿œå¤– */
     String INVALID_SNMP_VERSION = "WEDC0461";
 
-    /** SNMPƒgƒ‰ƒbƒv‘—M’†‚É—\Šú‚¹‚Ê—áŠO‚ª”­¶ */
+    /** SNMPãƒˆãƒ©ãƒƒãƒ—é€ä¿¡ä¸­ã«äºˆæœŸã›ã¬ä¾‹å¤–ãŒç™ºç”Ÿ */
     String SENDING_SNMP_ERROR_MESSAGE = "WEDC0462";
 
-    /** Ý’èFSNMP‚Ìƒo[ƒWƒ‡ƒ“‚ª‘Î‰žŠO */
+    /** è¨­å®šï¼šSNMPã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³ãŒå¯¾å¿œå¤– */
     String OUTPUT_SNMP_SETTINGS = "IEDC0463";
 
-    /** è‡’l”»’è’è‹`ƒe[ƒuƒ‹‚ªŽæ“¾‚Å‚«‚È‚¢ê‡ */
+    /** é–¾å€¤åˆ¤å®šå®šç¾©ãƒ†ãƒ¼ãƒ–ãƒ«ãŒå–å¾—ã§ããªã„å ´åˆ */
     String FAIL_READ_SIGNAL_DEFINITION = "EEDC0471";
 
-    /** ƒtƒ@ƒCƒ‹ˆ—‚É‚¨‚¢‚ÄA—\Šú‚µ‚È‚¢—áŠO‚ª”­¶‚µ‚½ê‡ */
+    /** ãƒ•ã‚¡ã‚¤ãƒ«å‡¦ç†ã«ãŠã„ã¦ã€äºˆæœŸã—ãªã„ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ */
     String ERROR_FILE_HANDLER = "EEDC0499";
 
     // -------------------------------------------------------------------------
-    // ƒAƒ‰[ƒ€”­¶Žžî•ñŽûWŠÖ˜AƒƒbƒZ[ƒWƒR[ƒh (05xx)
+    // ã‚¢ãƒ©ãƒ¼ãƒ ç™ºç”Ÿæ™‚æƒ…å ±åŽé›†é–¢é€£ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚³ãƒ¼ãƒ‰ (05xx)
     // -------------------------------------------------------------------------
-    /** ƒAƒ‰[ƒ€”­¶Žž‚Ìî•ñŽûW‚ðŠJŽn */
+    /** ã‚¢ãƒ©ãƒ¼ãƒ ç™ºç”Ÿæ™‚ã®æƒ…å ±åŽé›†ã‚’é–‹å§‹ */
     String ALARM_DATA_COLLECT_STARTED = "IEDC0501";
 
-    /** ƒAƒ‰[ƒ€”­¶Žž‚Ìî•ñŽæ“¾‚ðŠ®—¹ */
+    /** ã‚¢ãƒ©ãƒ¼ãƒ ç™ºç”Ÿæ™‚ã®æƒ…å ±å–å¾—ã‚’å®Œäº† */
     String ALARM_DATA_COLLECT_COMPLETED = "IEDC0502";
 
-    /** ƒAƒ‰[ƒ€”­¶Žž‚Ìî•ñŽûW‚ð‚·‚×‚ÄŠ®—¹ */
+    /** ã‚¢ãƒ©ãƒ¼ãƒ ç™ºç”Ÿæ™‚ã®æƒ…å ±åŽé›†ã‚’ã™ã¹ã¦å®Œäº† */
     String ALARM_DATA_COLLECT_ALL_COMPLETED = "IEDC0503";
 
-    /** ƒAƒ‰[ƒ€ID‚É‘Î‰ž‚·‚éî•ñŽæ“¾’è‹`‚ª‘¶Ý‚µ‚È‚¢ */
+    /** ã‚¢ãƒ©ãƒ¼ãƒ IDã«å¯¾å¿œã™ã‚‹æƒ…å ±å–å¾—å®šç¾©ãŒå­˜åœ¨ã—ãªã„ */
     String ALARM_DATA_COLLECT_NOT_DEFINED = "DEDC0504";
 }

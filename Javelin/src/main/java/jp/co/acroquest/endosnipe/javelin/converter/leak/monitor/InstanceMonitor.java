@@ -40,7 +40,7 @@ import jp.co.acroquest.endosnipe.javelin.StatsJavelinRecorder;
 import jp.co.acroquest.endosnipe.javelin.event.CommonEvent;
 
 /**
- * ƒCƒ“ƒXƒ^ƒ“ƒX”‚ğŠÄ‹‚·‚éB
+ * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ•°ã‚’ç›£è¦–ã™ã‚‹ã€‚
  * 
  * @author eriguchi
  */
@@ -56,16 +56,16 @@ public class InstanceMonitor
     private static JavelinConfig javelinConfig__ = new JavelinConfig();
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
      */
     private InstanceMonitor()
     {
     }
 
     /**
-     * ƒCƒ“ƒXƒ^ƒ“ƒX¶¬‚ÉŒÄ‚Ño‚µAƒCƒ“ƒXƒ^ƒ“ƒX”‚ğ‘‰Á‚³‚¹‚éB
+     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ç”Ÿæˆæ™‚ã«å‘¼ã³å‡ºã—ã€ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ•°ã‚’å¢—åŠ ã•ã›ã‚‹ã€‚
      * 
-     * @param className ’Ç‰Á‚·‚éƒNƒ‰ƒX–¼B
+     * @param className è¿½åŠ ã™ã‚‹ã‚¯ãƒ©ã‚¹åã€‚
      */
     public static void add(String className)
     {
@@ -107,9 +107,9 @@ public class InstanceMonitor
     }
 
     /**
-     * ƒCƒ“ƒXƒ^ƒ“ƒX¶¬‚ÉŒÄ‚Ño‚µAƒCƒ“ƒXƒ^ƒ“ƒX”‚ğŒ¸­‚³‚¹‚éB
+     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ç”Ÿæˆæ™‚ã«å‘¼ã³å‡ºã—ã€ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ•°ã‚’æ¸›å°‘ã•ã›ã‚‹ã€‚
      * 
-     * @param className íœ‚·‚éƒNƒ‰ƒX–¼B
+     * @param className å‰Šé™¤ã™ã‚‹ã‚¯ãƒ©ã‚¹åã€‚
      */
     public static void remove(String className)
     {
@@ -123,9 +123,9 @@ public class InstanceMonitor
     }
 
     /**
-     * ƒCƒ“ƒXƒ^ƒ“ƒX”‚ÌMap‚ğæ“¾‚·‚éB
+     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ•°ã®Mapã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return@ƒCƒ“ƒXƒ^ƒ“ƒX”‚ÌMap
+     * @returnã€€ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ•°ã®Map
      */
     public static Map<String, AtomicInteger> getInstanceNumMap()
     {
@@ -133,9 +133,9 @@ public class InstanceMonitor
     }
 
     /**
-     * ƒCƒ“ƒXƒ^ƒ“ƒX”‚ÌList‚ğæ“¾‚·‚éB
+     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ•°ã®Listã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return@ƒCƒ“ƒXƒ^ƒ“ƒX”‚ÌMap
+     * @returnã€€ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ•°ã®Map
      */
     public static List<ClassHistogramEntry> getHistogramList()
     {

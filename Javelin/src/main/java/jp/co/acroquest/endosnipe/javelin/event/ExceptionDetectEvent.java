@@ -29,7 +29,7 @@ import jp.co.acroquest.endosnipe.common.event.EventConstants;
 import jp.co.acroquest.endosnipe.javelin.util.StatsUtil;
 
 /**
- * w’è‚µ‚½ƒƒ\ƒbƒh‚Å—áŠO‚ğŒŸo‚µ‚½ê‡‚Éo—Í‚·‚éƒCƒxƒ“ƒg‚Å‚·B<br />
+ * æŒ‡å®šã—ãŸãƒ¡ã‚½ãƒƒãƒ‰ã§ä¾‹å¤–ã‚’æ¤œå‡ºã—ãŸå ´åˆã«å‡ºåŠ›ã™ã‚‹ã‚¤ãƒ™ãƒ³ãƒˆã§ã™ã€‚<br />
  * 
  * @author fujii
  *
@@ -37,11 +37,11 @@ import jp.co.acroquest.endosnipe.javelin.util.StatsUtil;
 public class ExceptionDetectEvent extends AbstractStackTraceCheckEvent
 {
 
-    /** equalsÀs‚É”äŠr‚É—p‚¢‚éB */
+    /** equalså®Ÿè¡Œæ™‚ã«æ¯”è¼ƒã«ç”¨ã„ã‚‹ã€‚ */
     private static final int EQUALS_LENGTH = 1000;
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^BƒCƒxƒ“ƒg–¼(LeakDetected)‚ğİ’è‚µ‚Ü‚·B<br />
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚ã‚¤ãƒ™ãƒ³ãƒˆå(LeakDetected)ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
      */
     public ExceptionDetectEvent()
     {

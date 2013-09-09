@@ -37,7 +37,7 @@ import java.util.Set;
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 
 /**
- * ƒpƒ‰ƒ[ƒ^Ú×‰»‚ğs‚¤ƒNƒ‰ƒXB
+ * ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿è©³ç´°åŒ–ã‚’è¡Œã†ã‚¯ãƒ©ã‚¹ã€‚
  * 
  * @author kato
  */
@@ -63,7 +63,7 @@ public class DetailStringBuilder
 
     private static final String CLASS_NAME_SEPARATOR = "@";
 
-    // ‘¦o—Í‘ÎÛ‚Æ‚·‚éƒNƒ‰ƒXŒQ
+    // å³å‡ºåŠ›å¯¾è±¡ã¨ã™ã‚‹ã‚¯ãƒ©ã‚¹ç¾¤
     private static final Set<String> PRINT_CLASS_SET = new HashSet<String>();
     static
     {
@@ -84,43 +84,43 @@ public class DetailStringBuilder
     }
 
     /**
-     * Object‚Ìî•ño—Í‚ğs‚¤ 
-     * “ü—Í‚³‚ê‚½[“xî•ñ‚É‚ ‚í‚¹AƒtƒB[ƒ‹ƒh‚ğ’H‚é‚©‚»‚Ìê‚Åo—Í‚·‚é‚©”»’è‚·‚é
+     * Objectã®æƒ…å ±å‡ºåŠ›ã‚’è¡Œã† 
+     * å…¥åŠ›ã•ã‚ŒãŸæ·±åº¦æƒ…å ±ã«ã‚ã‚ã›ã€ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã‚’è¾¿ã‚‹ã‹ãã®å ´ã§å‡ºåŠ›ã™ã‚‹ã‹åˆ¤å®šã™ã‚‹
      * 
-     * @param object o—Í‘ÎÛƒIƒuƒWƒFƒNƒg
-     * @return o—ÍŒ‹‰Ê
+     * @param object å‡ºåŠ›å¯¾è±¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @return å‡ºåŠ›çµæœ
      */
     public static String buildDetailString(final Object object)
     {
-        // o—Í[“x1‚ÅŒÄ‚Ño‚·
+        // å‡ºåŠ›æ·±åº¦1ã§å‘¼ã³å‡ºã™
         String detailString = buildDetailString(object, DEFAULT_DEPTH);
 
         return detailString;
     }
 
     /**
-     * Object‚Ìî•ño—Í‚ğs‚¤ 
-     * “ü—Í‚³‚ê‚½[“xî•ñ‚É‚ ‚í‚¹AƒtƒB[ƒ‹ƒh‚ğ’H‚é‚©‚»‚Ìê‚Åo—Í‚·‚é‚©”»’è‚·‚é
+     * Objectã®æƒ…å ±å‡ºåŠ›ã‚’è¡Œã† 
+     * å…¥åŠ›ã•ã‚ŒãŸæ·±åº¦æƒ…å ±ã«ã‚ã‚ã›ã€ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã‚’è¾¿ã‚‹ã‹ãã®å ´ã§å‡ºåŠ›ã™ã‚‹ã‹åˆ¤å®šã™ã‚‹
      * 
-     * @param object o—Í‘ÎÛƒIƒuƒWƒFƒNƒg
-     * @param detailDepth İ’è[“x
-     * @return o—ÍŒ‹‰Ê
+     * @param object å‡ºåŠ›å¯¾è±¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param detailDepth è¨­å®šæ·±åº¦
+     * @return å‡ºåŠ›çµæœ
      */
     protected static String buildDetailString(final Object object, final int detailDepth)
     {
-        // null‚Ìê‡‚Í"null"‚Æo—Í‚·‚éB
+        // nullã®å ´åˆã¯"null"ã¨å‡ºåŠ›ã™ã‚‹ã€‚
         if (object == null)
         {
             return NULL_VALUE;
         }
 
-        // String‚Ìê‡‚Í‚»‚Ì‚Ü‚Üo—Í‚·‚éB
+        // Stringã®å ´åˆã¯ãã®ã¾ã¾å‡ºåŠ›ã™ã‚‹ã€‚
         if (object instanceof String)
         {
             return (String)object;
         }
 
-        //æ“ª‚Éƒwƒbƒ_•¶š—ñ‚ğ‚Â‚¯‚é
+        //å…ˆé ­ã«ãƒ˜ãƒƒãƒ€æ–‡å­—åˆ—ã‚’ã¤ã‘ã‚‹
         String detailString = toDetailString(object, detailDepth, 0);
         StringBuilder detailBuilder = new StringBuilder();
         detailBuilder.append(object.getClass().getName());
@@ -133,42 +133,42 @@ public class DetailStringBuilder
     }
 
     /**
-     * Object‚ÌÚ×•¶š—ñ‰»‚ğs‚¤ 
-     * “ü—Í‚³‚ê‚½[“xî•ñ‚É‚ ‚í‚¹AƒtƒB[ƒ‹ƒh‚ğ’H‚é‚©‚»‚Ìê‚Åo—Í‚·‚é‚©”»’è‚·‚é
+     * Objectã®è©³ç´°æ–‡å­—åˆ—åŒ–ã‚’è¡Œã† 
+     * å…¥åŠ›ã•ã‚ŒãŸæ·±åº¦æƒ…å ±ã«ã‚ã‚ã›ã€ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã‚’è¾¿ã‚‹ã‹ãã®å ´ã§å‡ºåŠ›ã™ã‚‹ã‹åˆ¤å®šã™ã‚‹
      * 
-     * @param object o—Í‘ÎÛƒIƒuƒWƒFƒNƒg
-     * @param detailDepth  o—Í[“x
-     * @param currentDepth Œ»İ[“x
-     * @return o—ÍŒ‹‰Ê
+     * @param object å‡ºåŠ›å¯¾è±¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param detailDepth  å‡ºåŠ›æ·±åº¦
+     * @param currentDepth ç¾åœ¨æ·±åº¦
+     * @return å‡ºåŠ›çµæœ
      */
     protected static String toDetailString(final Object object, final int detailDepth,
             final int currentDepth)
     {
-        // Œ»İ‚ÌŠK‘w‚Ì[‚³‚ªİ’è’lˆÈã‚Ìê‡AtoString‚ÌŒ‹‰Ê‚ğ•Ô‚·
+        // ç¾åœ¨ã®éšå±¤ã®æ·±ã•ãŒè¨­å®šå€¤ä»¥ä¸Šã®å ´åˆã€toStringã®çµæœã‚’è¿”ã™
         if (currentDepth >= detailDepth)
         {
             return buildString(object);
         }
 
-        // ‘¦o—Í‘ÎÛ‚Æ‚È‚éƒIƒuƒWƒFƒNƒg‚Ìê‡AtoString‚ÌŒ‹‰Ê‚ğ•Ô‚·
+        // å³å‡ºåŠ›å¯¾è±¡ã¨ãªã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å ´åˆã€toStringã®çµæœã‚’è¿”ã™
         if (isPrintable(object))
         {
             return buildString(object);
         }
 
         Class<?> clazz = object.getClass();
-        // ”z—ñ‚Ìê‡A”z—ñê—pˆ—‚Åo—Í‚ğs‚¤
+        // é…åˆ—ã®å ´åˆã€é…åˆ—å°‚ç”¨å‡¦ç†ã§å‡ºåŠ›ã‚’è¡Œã†
         if (clazz.isArray())
         {
             return toStringArrayObject(object, detailDepth, currentDepth);
         }
-        // ƒRƒŒƒNƒVƒ‡ƒ“‚Ìê‡AƒRƒŒƒNƒVƒ‡ƒ“ê—pˆ—‚Åo—Í‚ğs‚¤
+        // ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã®å ´åˆã€ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³å°‚ç”¨å‡¦ç†ã§å‡ºåŠ›ã‚’è¡Œã†
         if (object instanceof Collection)
         {
             Collection<?> collectionObject = (Collection<?>)object;
             return toStringCollectionObject(collectionObject, detailDepth, currentDepth);
         }
-        // Map‚Ìê‡AMapê—pˆ—‚Åo—Í‚ğs‚¤
+        // Mapã®å ´åˆã€Mapå°‚ç”¨å‡¦ç†ã§å‡ºåŠ›ã‚’è¡Œã†
         if (object instanceof Map<?, ?>)
         {
             Map<?, ?> mapObject = (Map<?, ?>)object;
@@ -210,7 +210,7 @@ public class DetailStringBuilder
                     builder.append(toDetailString(fieldValue, detailDepth, currentDepth + 1));
 
                 }
-                // ƒGƒ‰[‚ª”­¶‚µ‚½ê‡‚ÍƒfƒtƒHƒ‹ƒg•¶š—ñ‚Æ‚·‚é
+                // ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆæ–‡å­—åˆ—ã¨ã™ã‚‹
                 catch (IllegalAccessException iaex)
                 {
                     builder.append(DEFAULT_VALUE);
@@ -223,18 +223,18 @@ public class DetailStringBuilder
     }
 
     /**
-     * Map‚Ì•¶š—ño—Í‚ğs‚¤B
-     * [key1 = value1 , key2 = value2 ..... keyn = valuen]‚ÌŒ`®‚Åo—Í‚·‚é
+     * Mapã®æ–‡å­—åˆ—å‡ºåŠ›ã‚’è¡Œã†ã€‚
+     * [key1 = value1 , key2 = value2 ..... keyn = valuen]ã®å½¢å¼ã§å‡ºåŠ›ã™ã‚‹
      * 
-     * @param mapObject ‘ÎÛ‚Æ‚È‚éMap
-     * @param detailDepth o—Í[“x
-     * @param currentDepth Œ»İ[“x
-     * @return Map‚Ì•¶š—ñ•\Œ»
+     * @param mapObject å¯¾è±¡ã¨ãªã‚‹Map
+     * @param detailDepth å‡ºåŠ›æ·±åº¦
+     * @param currentDepth ç¾åœ¨æ·±åº¦
+     * @return Mapã®æ–‡å­—åˆ—è¡¨ç¾
      */
     protected static String toStringMapObject(final Map<?, ?> mapObject, final int detailDepth,
             final int currentDepth)
     {
-        // ”z—ñ‚ªnull‚Ì‚Í"null"‚ğ•Ô‚·B
+        // é…åˆ—ãŒnullã®æ™‚ã¯"null"ã‚’è¿”ã™ã€‚
         if (mapObject == null)
         {
             return NULL_VALUE;
@@ -271,17 +271,17 @@ public class DetailStringBuilder
     }
 
     /**
-     * ”z—ñƒIƒuƒWƒFƒNƒg‚ÌƒƒOo—Í‚ğs‚¤
+     * é…åˆ—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ­ã‚°å‡ºåŠ›ã‚’è¡Œã†
      * 
-     * @param array o—Í‘ÎÛi”z—ñj
-     * @param detailDepth o—Í[“x
-     * @param currentDepth Œ»İ[“x
-     * @return o—Í•¶š—ñ
+     * @param array å‡ºåŠ›å¯¾è±¡ï¼ˆé…åˆ—ï¼‰
+     * @param detailDepth å‡ºåŠ›æ·±åº¦
+     * @param currentDepth ç¾åœ¨æ·±åº¦
+     * @return å‡ºåŠ›æ–‡å­—åˆ—
      */
     protected static String toStringArrayObject(final Object array, final int detailDepth,
             final int currentDepth)
     {
-        // ”z—ñ‚ªnull‚Ì‚Í"null"‚ğ•Ô‚·B
+        // é…åˆ—ãŒnullã®æ™‚ã¯"null"ã‚’è¿”ã™ã€‚
         if (array == null)
         {
             return NULL_VALUE;
@@ -312,17 +312,17 @@ public class DetailStringBuilder
     }
 
     /**
-     * ƒRƒŒƒNƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg‚ÌƒƒOo—Í‚ğs‚¤
+     * ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ­ã‚°å‡ºåŠ›ã‚’è¡Œã†
      * 
-     * @param collection o—Í‘ÎÛi”z—ñj
-     * @param detailDepth o—Í[“x
-     * @param currentDepth Œ»İ[“x
-     * @return o—Í•¶š—ñ
+     * @param collection å‡ºåŠ›å¯¾è±¡ï¼ˆé…åˆ—ï¼‰
+     * @param detailDepth å‡ºåŠ›æ·±åº¦
+     * @param currentDepth ç¾åœ¨æ·±åº¦
+     * @return å‡ºåŠ›æ–‡å­—åˆ—
      */
     protected static String toStringCollectionObject(final Collection<?> collection,
             final int detailDepth, final int currentDepth)
     {
-        // ƒRƒŒƒNƒVƒ‡ƒ“‚ªnull‚Ì‚Í"null"‚ğ•Ô‚·B
+        // ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ãŒnullã®æ™‚ã¯"null"ã‚’è¿”ã™ã€‚
         if (collection == null)
         {
             return NULL_VALUE;
@@ -355,21 +355,21 @@ public class DetailStringBuilder
     }
 
     /**
-     * ToString‚ÌŒ‹‰Ê‚ğ•Ô‚·
+     * ToStringã®çµæœã‚’è¿”ã™
      * 
-     * @param object •ÏŠ·‘ÎÛ
-     * @return ToString‚ÌŒ‹‰Ê
+     * @param object å¤‰æ›å¯¾è±¡
+     * @return ToStringã®çµæœ
      */
     public static String buildString(final Object object)
     {
-        // ƒIƒuƒWƒFƒNƒg‚ªnull‚Ì‚Í"null"‚ğ•Ô‚·B
+        // ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒnullã®æ™‚ã¯"null"ã‚’è¿”ã™ã€‚
         if (object == null)
         {
             return NULL_VALUE;
         }
 
-        // toString‚Í—áŠO‚ğ”­¶‚³‚¹‚é‚±‚Æ‚ª‚ ‚é‚½‚ßA”­¶‚Í
-        // "????"‚Æ‚¢‚¤•¶š—ñ‚ğ•Ô‚·‚æ‚¤‚É‚·‚éB
+        // toStringã¯ä¾‹å¤–ã‚’ç™ºç”Ÿã•ã›ã‚‹ã“ã¨ãŒã‚ã‚‹ãŸã‚ã€ç™ºç”Ÿæ™‚ã¯
+        // "????"ã¨ã„ã†æ–‡å­—åˆ—ã‚’è¿”ã™ã‚ˆã†ã«ã™ã‚‹ã€‚
         try
         {
             return object.toString();
@@ -381,10 +381,10 @@ public class DetailStringBuilder
     }
 
     /**
-     * o—Í‘ÎÛ‚ÌƒIƒuƒWƒFƒNƒg‚©”»’è‚ğs‚¤
+     * å‡ºåŠ›å¯¾è±¡ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‹åˆ¤å®šã‚’è¡Œã†
      * 
-     * @param object ”»’è‘ÎÛ
-     * @return ”»’èŒ‹‰Ê
+     * @param object åˆ¤å®šå¯¾è±¡
+     * @return åˆ¤å®šçµæœ
      */
     protected static boolean isPrintable(final Object object)
     {
@@ -393,8 +393,8 @@ public class DetailStringBuilder
             return true;
         }
 
-        // FieldƒIƒuƒWƒFƒNƒg‚Ìê‡AƒCƒ“ƒi[ƒNƒ‰ƒXAtransientƒtƒB[ƒ‹ƒhAstaticƒtƒB[ƒ‹ƒh
-        // ‚Ì‚É‚Ío—Í‚ğs‚í‚È‚¢B
+        // Fieldã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å ´åˆã€ã‚¤ãƒ³ãƒŠãƒ¼ã‚¯ãƒ©ã‚¹ã€transientãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã€staticãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰
+        // ã®æ™‚ã«ã¯å‡ºåŠ›ã‚’è¡Œã‚ãªã„ã€‚
         if (object instanceof Field)
         {
             Field field = (Field)object;
@@ -413,8 +413,8 @@ public class DetailStringBuilder
             return true;
         }
 
-        // FieldƒIƒuƒWƒFƒNƒg‚Å‚Í‚È‚¢ê‡AƒvƒŠƒ~ƒeƒBƒuŒ^‚Ü‚½‚ÍƒvƒŠƒ~ƒeƒBƒuŒ^‚Ìƒ‰ƒbƒp[ƒNƒ‰ƒX
-        // ‚Ì‚É‚Í‘¦o—Í‘ÎÛ‚Æ‚·‚éB
+        // Fieldã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã§ã¯ãªã„å ´åˆã€ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–å‹ã¾ãŸã¯ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–å‹ã®ãƒ©ãƒƒãƒ‘ãƒ¼ã‚¯ãƒ©ã‚¹
+        // ã®æ™‚ã«ã¯å³å‡ºåŠ›å¯¾è±¡ã¨ã™ã‚‹ã€‚
         Class<?> clazz = object.getClass();
 
         if (clazz.isPrimitive())

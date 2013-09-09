@@ -36,7 +36,7 @@ import jp.co.acroquest.endosnipe.javelin.parser.JavelinParser;
 import jp.co.acroquest.endosnipe.perfdoctor.rule.SingleElementRule;
 
 /**
- * ƒƒ‚ƒŠƒŠ[ƒN‚ª”­¶‚µ‚½‰Â”\«‚ª‚ ‚é‚±‚Æ‚ğŒx‚·‚éƒ‹[ƒ‹
+ * ãƒ¡ãƒ¢ãƒªãƒªãƒ¼ã‚¯ãŒç™ºç”Ÿã—ãŸå¯èƒ½æ€§ãŒã‚ã‚‹ã“ã¨ã‚’è­¦å‘Šã™ã‚‹ãƒ«ãƒ¼ãƒ«
  * @author s.Kimura
  */
 public class LeakDetectedRule extends SingleElementRule
@@ -44,7 +44,7 @@ public class LeakDetectedRule extends SingleElementRule
     private static final String NOT_RECORDED = "[not recorded] ";
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
      */
     public LeakDetectedRule()
     {
@@ -78,7 +78,7 @@ public class LeakDetectedRule extends SingleElementRule
             String size = eventInfoMap.get(EventConstants.PARAM_LEAK_SIZE);
             if (size == null)
             {
-                // ƒTƒCƒY‚ğŒv‘ª‚µ‚Ä‚¢‚È‚¢ê‡A‚»‚Ì|‚ğƒƒbƒZ[ƒW‚Éo—Í‚·‚é‚æ‚¤İ’èB
+                // ã‚µã‚¤ã‚ºã‚’è¨ˆæ¸¬ã—ã¦ã„ãªã„å ´åˆã€ãã®æ—¨ã‚’ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã«å‡ºåŠ›ã™ã‚‹ã‚ˆã†è¨­å®šã€‚
                 size = NOT_RECORDED;
             }
             String thread = element.getBaseInfo().get(JavelinLogColumnNum.EVENT_THREADID);

@@ -28,16 +28,16 @@ package jp.co.acroquest.endosnipe.perfdoctor.rule.code;
 import jp.co.acroquest.endosnipe.common.parser.JavelinLogConstants;
 
 /**
- * ƒƒ\ƒbƒh‚ÌŒÄ‚Ño‚µ‚©‚çI—¹‚Ü‚Å‚ÉA‚»‚Ìƒƒ\ƒbƒh‚Åsleep‚µ‚½ŠÔ‚ªAè‡’l‚ğ’´‚¦‚½‚±‚Æ‚ğŒŸo‚·‚éRuleB
+ * ãƒ¡ã‚½ãƒƒãƒ‰ã®å‘¼ã³å‡ºã—ã‹ã‚‰çµ‚äº†ã¾ã§ã«ã€ãã®ãƒ¡ã‚½ãƒƒãƒ‰ã§sleepã—ãŸæ™‚é–“ãŒã€é–¾å€¤ã‚’è¶…ãˆãŸã“ã¨ã‚’æ¤œå‡ºã™ã‚‹Ruleã€‚
  * 
  * @author fujii
  */
 public class MethodPureWaitTimeRule extends AbstractExtraInfoRule
 {
     /**
-     * sleep‚µ‚½ƒˆ‚ÈŠÔ‚ğ¦‚·ƒpƒ‰ƒ[ƒ^‚Ì–¼Ì‚ğ•Ô‚·B
+     * sleepã—ãŸç´”ç²‹ãªæ™‚é–“ã‚’ç¤ºã™ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®åç§°ã‚’è¿”ã™ã€‚
      * 
-     * @return ƒpƒ‰ƒ[ƒ^–¼
+     * @return ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿å
      */
     @Override
     protected String getCheckParamName()

@@ -29,155 +29,155 @@ import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 import jp.co.acroquest.endosnipe.common.config.JavelinConfigUtil;
 
 /**
- * JDBCJavelin‚МђЭ’и‚р•ЫЋќ‚·‚йѓNѓ‰ѓXЃB
+ * JDBCJavelinгЃ®иЁ­е®љг‚’дїќжЊЃгЃ™г‚‹г‚Їгѓ©г‚№гЂ‚
  * @author eriguchi
  */
 public class JdbcJavelinConfig extends JavelinConfig
 {
-    /** ЋАЌsЊv‰ж‚рЋж“ѕ‚·‚й‚©”Ы‚©‚рђЭ’и‚·‚йѓLЃ[ЃB */
+    /** е®џиЎЊиЁ€з”»г‚’еЏ–еѕ—гЃ™г‚‹гЃ‹еђ¦гЃ‹г‚’иЁ­е®љгЃ™г‚‹г‚­гѓјгЂ‚ */
     public static final String RECORDEXECPLAN_KEY =
             JavelinConfig.JAVELIN_PREFIX + "jdbc.recordExecPlan";
     
-    /** SQL•¶‚МFull Scan‚рЉДЋ‹‚·‚й‚©”Ы‚©‚рђЭ’и‚·‚йѓLЃ[ЃB */ 
+    /** SQLж–‡гЃ®Full Scanг‚’з›Ји¦–гЃ™г‚‹гЃ‹еђ¦гЃ‹г‚’иЁ­е®љгЃ™г‚‹г‚­гѓјгЂ‚ */ 
     public static final String FULLSCAN_MONITOR_KEY =
         JavelinConfig.JAVELIN_PREFIX + "jdbc.fullScan.monitor";
 
-    /** JDBCЊДЏo‚µЏd•ЎЏo—Н‚рЌs‚¤‚©”Ы‚©‚рђЭ’и‚·‚йѓLЃ[ЃB */
+    /** JDBCе‘је‡єгЃ—й‡Ќи¤‡е‡єеЉ›г‚’иЎЊгЃ†гЃ‹еђ¦гЃ‹г‚’иЁ­е®љгЃ™г‚‹г‚­гѓјгЂ‚ */
     public static final String RECORDDUPLJDBCCALL_KEY =
             JavelinConfig.JAVELIN_PREFIX + "jdbc.recordDuplJdbcCall";
 
-    /** ѓoѓCѓ“ѓh•Пђ”‚рЋж“ѕ‚·‚й‚©”Ы‚©‚рђЭ’и‚·‚йѓLЃ[ЃB */
+    /** гѓђг‚¤гѓігѓ‰е¤‰ж•°г‚’еЏ–еѕ—гЃ™г‚‹гЃ‹еђ¦гЃ‹г‚’иЁ­е®љгЃ™г‚‹г‚­гѓјгЂ‚ */
     public static final String RECORDBINDVAL_KEY =
             JavelinConfig.JAVELIN_PREFIX + "jdbc.recordBindVal";
 
-    /** ЋАЌsЊv‰ж‚рЋж“ѕ‚·‚йи‡’l‚рђЭ’и‚·‚йѓLЃ[ЃB */
+    /** е®џиЎЊиЁ€з”»г‚’еЏ–еѕ—гЃ™г‚‹й–ѕеЂ¤г‚’иЁ­е®љгЃ™г‚‹г‚­гѓјгЂ‚ */
     public static final String EXECPLANTHRESHOLD_KEY =
             JavelinConfig.JAVELIN_PREFIX + "jdbc.execPlanThreshold";
 
-    /** ѓoѓCѓ“ѓh•Пђ”Џo—Н‚Е‚М•¶Ћљ—с’·ђ§ЊА‚рђЭ’и‚·‚йѓLЃ[ЃB */
+    /** гѓђг‚¤гѓігѓ‰е¤‰ж•°е‡єеЉ›гЃ§гЃ®ж–‡е­—е€—й•·е€¶й™ђг‚’иЁ­е®љгЃ™г‚‹г‚­гѓјгЂ‚ */
     public static final String STRINGLIMITLENGTH_KEY =
             JavelinConfig.JAVELIN_PREFIX + "jdbc.stringLimitLength";
 
-    /** “Ї€кѓgѓ‰ѓ“ѓUѓNѓVѓ‡ѓ““а‚М“Ї€кSQLЊД‚СЏo‚µ‰сђ”’ґ‰Я‚Ми‡’l‚рЉДЋ‹‚·‚й‚©”Ы‚©‚рђЭ’и‚·‚йѓLЃ[ЃB */
+    /** еђЊдёЂгѓ€гѓ©гѓіг‚¶г‚Їг‚·гѓ§гѓіе†…гЃ®еђЊдёЂSQLе‘јгЃіе‡єгЃ—е›ћж•°и¶…йЃЋгЃ®й–ѕеЂ¤г‚’з›Ји¦–гЃ™г‚‹гЃ‹еђ¦гЃ‹г‚’иЁ­е®љгЃ™г‚‹г‚­гѓјгЂ‚ */
     public static final String SQLCOUNT_MONITOR_KEY =
             JavelinConfig.JAVELIN_PREFIX + "jdbc.sqlcount.monitor";
 
-    /** “Ї€кѓgѓ‰ѓ“ѓUѓNѓVѓ‡ѓ““а‚М“Ї€кSQLЊД‚СЏo‚µ‰сђ”’ґ‰Я‚Ми‡’lЃB */
+    /** еђЊдёЂгѓ€гѓ©гѓіг‚¶г‚Їг‚·гѓ§гѓіе†…гЃ®еђЊдёЂSQLе‘јгЃіе‡єгЃ—е›ћж•°и¶…йЃЋгЃ®й–ѕеЂ¤гЂ‚ */
     public static final String SQLCOUNT_KEY =
             JavelinConfig.JAVELIN_PREFIX + "jdbc.sqlcount";
 
-    /** SQLѓgѓЊЃ[ѓXЏo—Н‚рЌs‚¤‚©”Ы‚©‚рђЭ’и‚·‚йѓLЃ[ЃB */
+    /** SQLгѓ€гѓ¬гѓјг‚№е‡єеЉ›г‚’иЎЊгЃ†гЃ‹еђ¦гЃ‹г‚’иЁ­е®љгЃ™г‚‹г‚­гѓјгЂ‚ */
     public static final String ORACLE_ALLOW_SQL_TRACE_KEY =
             JavelinConfig.JAVELIN_PREFIX + "jdbc.oracle.allowSqlTrace";
 
-    /** PostgreSQL‚ЕЏЪЌЧ‚ИЋАЌsЊv‰ж‚рЋж“ѕ‚·‚й‚©”Ы‚©‚рђЭ’и‚·‚йѓLЃ[ЃB */
+    /** PostgreSQLгЃ§и©ізґ°гЃЄе®џиЎЊиЁ€з”»г‚’еЏ–еѕ—гЃ™г‚‹гЃ‹еђ¦гЃ‹г‚’иЁ­е®љгЃ™г‚‹г‚­гѓјгЂ‚ */
     public static final String POSTGRES_VERBOSE_PLAN_KEY =
             JavelinConfig.JAVELIN_PREFIX + "jdbc.postgres.verbosePlan";
 
-    /** ЌЕ‘еѓNѓGѓЉ•Ы‘¶ђ”‚рђЭ’и‚·‚йѓLЃ[ЃB */
+    /** жњЂе¤§г‚Їг‚ЁгѓЄдїќе­ж•°г‚’иЁ­е®љгЃ™г‚‹г‚­гѓјгЂ‚ */
     public static final String RECORD_STATEMENT_NUM_MAXIMUM_KEY =
             JavelinConfig.JAVELIN_PREFIX + "jdbc.record.statement.num.maximum";
 
-    /** JDBCJavelin‚ЕѓXѓ^ѓbѓNѓgѓЊЃ[ѓXЏo—Н‚МON/OFF‚рђЭ’и‚·‚йѓLЃ[ЃB */
+    /** JDBCJavelinгЃ§г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№е‡єеЉ›гЃ®ON/OFFг‚’иЁ­е®љгЃ™г‚‹г‚­гѓјгЂ‚ */
     public static final String RECORD_STACKTRACE_KEY =
             JavelinConfig.JAVELIN_PREFIX + "jdbc.record.stackTrace";
 
-    /** JDBCJavelin‚ЕѓXѓ^ѓbѓNѓgѓЊЃ[ѓX‚рЏo—Н‚·‚й‚Ѕ‚Я‚Ми‡’lЃB */
+    /** JDBCJavelinгЃ§г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№г‚’е‡єеЉ›гЃ™г‚‹гЃџг‚ЃгЃ®й–ѕеЂ¤гЂ‚ */
     public static final String RECORD_STACKTRACE_THREADHOLD_KEY =
             JavelinConfig.JAVELIN_PREFIX + "jdbc.record.stacktraceThreashold";
 
-    /** JDBCJavelin‚р—LЊш‚Й‚·‚й‚©‚З‚¤‚©‚МѓLЃ[ */
+    /** JDBCJavelinг‚’жњ‰еЉ№гЃ«гЃ™г‚‹гЃ‹гЃ©гЃ†гЃ‹гЃ®г‚­гѓј */
     public static final String JDBC_JAVELIN_ENABLED_KEY = JAVELIN_PREFIX + "jdbc.enable";
 
-    /** ЋАЌsЊv‰жЏo—НON/OFFѓtѓ‰ѓO‚МѓfѓtѓHѓ‹ѓg’l */
+    /** е®џиЎЊиЁ€з”»е‡єеЉ›ON/OFFгѓ•гѓ©г‚°гЃ®гѓ‡гѓ•г‚©гѓ«гѓ€еЂ¤ */
     private static final boolean DEFAULT_RECORDEXECPLAN = false;
     
-    /** SQL•¶‚МFull Scan‚рЉДЋ‹‚·‚й‚©”Ы‚©‚рђЭ’и‚·‚й’l‚МѓfѓtѓHѓ‹ѓg’l */
+    /** SQLж–‡гЃ®Full Scanг‚’з›Ји¦–гЃ™г‚‹гЃ‹еђ¦гЃ‹г‚’иЁ­е®љгЃ™г‚‹еЂ¤гЃ®гѓ‡гѓ•г‚©гѓ«гѓ€еЂ¤ */
     private static final boolean DEFAULT_FULLSCAN_MONITOR = true; 
 
-    /** JDBCЊДЏo‚µЏd•ЎЏo—Нѓtѓ‰ѓO‚МѓfѓtѓHѓ‹ѓg’l */
+    /** JDBCе‘је‡єгЃ—й‡Ќи¤‡е‡єеЉ›гѓ•гѓ©г‚°гЃ®гѓ‡гѓ•г‚©гѓ«гѓ€еЂ¤ */
     private static final boolean DEFAULT_RECORDDUPLJDBCCALL = false;
 
-    /** ѓoѓCѓ“ѓh•Пђ”Џo—Нѓtѓ‰ѓO‚МѓfѓtѓHѓ‹ѓg’l */
+    /** гѓђг‚¤гѓігѓ‰е¤‰ж•°е‡єеЉ›гѓ•гѓ©г‚°гЃ®гѓ‡гѓ•г‚©гѓ«гѓ€еЂ¤ */
     private static final boolean DEFAULT_RECORDBINDVAL = true;
 
-    /** SQL‚МЋАЌsЊv‰ж‚р‹L^‚·‚йЌЫ‚Ми‡’l‚МѓfѓtѓHѓ‹ѓg’l */
+    /** SQLгЃ®е®џиЎЊиЁ€з”»г‚’иЁйЊІгЃ™г‚‹йљ›гЃ®й–ѕеЂ¤гЃ®гѓ‡гѓ•г‚©гѓ«гѓ€еЂ¤ */
     private static final long DEFAULT_EXECPLANTHRESHOLD = 0;
 
-    /** ѓoѓCѓ“ѓh•Пђ”Џo—Н‚Е‚М•¶Ћљ—с’·ђ§ЊА‚МѓfѓtѓHѓ‹ѓg’l */
+    /** гѓђг‚¤гѓігѓ‰е¤‰ж•°е‡єеЉ›гЃ§гЃ®ж–‡е­—е€—й•·е€¶й™ђгЃ®гѓ‡гѓ•г‚©гѓ«гѓ€еЂ¤ */
     private static final long DEFAULT_STRINGLIMITLENGTH = 102400;
 
-    /** “Ї€кѓgѓ‰ѓ“ѓUѓNѓVѓ‡ѓ““а‚М“Ї€кSQLЊД‚СЏo‚µ‰сђ”’ґ‰Я‚Ми‡’l‚рЉДЋ‹‚·‚й‚©”Ы‚©‚МѓfѓtѓHѓ‹ѓg’l */
+    /** еђЊдёЂгѓ€гѓ©гѓіг‚¶г‚Їг‚·гѓ§гѓіе†…гЃ®еђЊдёЂSQLе‘јгЃіе‡єгЃ—е›ћж•°и¶…йЃЋгЃ®й–ѕеЂ¤г‚’з›Ји¦–гЃ™г‚‹гЃ‹еђ¦гЃ‹гЃ®гѓ‡гѓ•г‚©гѓ«гѓ€еЂ¤ */
     private static final boolean DEFAULT_SQLCOUNT_MONITOR = true;
 
-    /** и‡’l‚МѓfѓtѓHѓ‹ѓg */
+    /** й–ѕеЂ¤гЃ®гѓ‡гѓ•г‚©гѓ«гѓ€ */
     private static final int DEFAULT_SQLCOUNT = 20;
     
-    /** SQLѓgѓЊЃ[ѓXЏo—Нѓtѓ‰ѓO‚МѓfѓtѓHѓ‹ѓg’l */
+    /** SQLгѓ€гѓ¬гѓјг‚№е‡єеЉ›гѓ•гѓ©г‚°гЃ®гѓ‡гѓ•г‚©гѓ«гѓ€еЂ¤ */
     private static final boolean DEFAULT_ORACLE_ALLOW_SQL_TRACE = false;
 
-    /** PostgreSQL—pЏЪЌЧЋАЌsЊv‰жЏo—Нѓtѓ‰ѓO‚МѓfѓtѓHѓ‹ѓg’l */
+    /** PostgreSQLз”Ёи©ізґ°е®џиЎЊиЁ€з”»е‡єеЉ›гѓ•гѓ©г‚°гЃ®гѓ‡гѓ•г‚©гѓ«гѓ€еЂ¤ */
     private static final boolean DEFAULT_POSTGRES_VERBOSE_PLAN = false;
 
-    /** ЌЕ‘еѓNѓGѓЉ•Ы‘¶ђ”‚МѓfѓtѓHѓ‹ѓg’l */
+    /** жњЂе¤§г‚Їг‚ЁгѓЄдїќе­ж•°гЃ®гѓ‡гѓ•г‚©гѓ«гѓ€еЂ¤ */
     private static final int DEFAULT_MAX_RECORD_STATEMENT_NUM_MAXIMUM = 256;
 
-    /** JDBCJavelin‚ЕѓXѓ^ѓbѓNѓgѓЊЃ[ѓXЏo—Н‚МѓfѓtѓHѓ‹ѓg’l */
+    /** JDBCJavelinгЃ§г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№е‡єеЉ›гЃ®гѓ‡гѓ•г‚©гѓ«гѓ€еЂ¤ */
     private static final boolean DEF_RECORD_STACKTRACE = true;
 
-    /** JDBCJavelin‚ЕѓXѓ^ѓbѓNѓgѓЊЃ[ѓXЏo—Н‚МSQLЋАЌsЋћЉФ‚МѓfѓtѓHѓ‹ѓg’l */
+    /** JDBCJavelinгЃ§г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№е‡єеЉ›гЃ®SQLе®џиЎЊж™‚й–“гЃ®гѓ‡гѓ•г‚©гѓ«гѓ€еЂ¤ */
     private static final int DEF_RECORD_STACKTRACE_THRESHOLD = 0;
 
-    /** JDBCJavelin‚р—LЊш‚Й‚·‚й‚©‚З‚¤‚©‚МѓfѓtѓHѓ‹ѓg’l */
+    /** JDBCJavelinг‚’жњ‰еЉ№гЃ«гЃ™г‚‹гЃ‹гЃ©гЃ†гЃ‹гЃ®гѓ‡гѓ•г‚©гѓ«гѓ€еЂ¤ */
     private static final boolean DEF_JDBC_JAVELIN_ENABLED = true;
 
-    /** ЋАЌsЊv‰ж‚рЋж“ѕ‚·‚й‚©”Ы‚©‚рђЭ’и‚·‚йѓLЃ[ЃB */
+    /** е®џиЎЊиЁ€з”»г‚’еЏ–еѕ—гЃ™г‚‹гЃ‹еђ¦гЃ‹г‚’иЁ­е®љгЃ™г‚‹г‚­гѓјгЂ‚ */
     private static boolean isRecordExecPlan__;
     
-    /** SQL•¶‚МFull Scan‚рЉДЋ‹‚·‚й‚©”Ы‚©‚рђЭ’и‚·‚йѓLЃ[ЃB*/
+    /** SQLж–‡гЃ®Full Scanг‚’з›Ји¦–гЃ™г‚‹гЃ‹еђ¦гЃ‹г‚’иЁ­е®љгЃ™г‚‹г‚­гѓјгЂ‚*/
     private static boolean isFullScanMonitor__;
 
-    /** JDBCЊДЏo‚µЏd•ЎЏo—Н‚рЌs‚¤‚©”Ы‚©‚рђЭ’и‚·‚йѓLЃ[ЃB */
+    /** JDBCе‘је‡єгЃ—й‡Ќи¤‡е‡єеЉ›г‚’иЎЊгЃ†гЃ‹еђ¦гЃ‹г‚’иЁ­е®љгЃ™г‚‹г‚­гѓјгЂ‚ */
     private static boolean isRecordDuplJdbcCall__;
 
-    /** ѓoѓCѓ“ѓh•Пђ”‚рЋж“ѕ‚·‚й‚©”Ы‚©‚рђЭ’и‚·‚йѓLЃ[ЃB */
+    /** гѓђг‚¤гѓігѓ‰е¤‰ж•°г‚’еЏ–еѕ—гЃ™г‚‹гЃ‹еђ¦гЃ‹г‚’иЁ­е®љгЃ™г‚‹г‚­гѓјгЂ‚ */
     private static boolean isRecordBindVal__;
 
-    /** ЋАЌsЊv‰ж‚рЋж“ѕ‚·‚йи‡’l‚рђЭ’и‚·‚йѓLЃ[ЃB */
+    /** е®џиЎЊиЁ€з”»г‚’еЏ–еѕ—гЃ™г‚‹й–ѕеЂ¤г‚’иЁ­е®љгЃ™г‚‹г‚­гѓјгЂ‚ */
     private static long execPlanThreshold__;
 
-    /** ѓoѓCѓ“ѓh•Пђ”Џo—Н‚Е‚М•¶Ћљ—с’·ђ§ЊА‚рђЭ’и‚·‚йѓLЃ[ЃB */
+    /** гѓђг‚¤гѓігѓ‰е¤‰ж•°е‡єеЉ›гЃ§гЃ®ж–‡е­—е€—й•·е€¶й™ђг‚’иЁ­е®љгЃ™г‚‹г‚­гѓјгЂ‚ */
     private static long stringLimitLength__;
 
-    /** “Ї€кѓgѓ‰ѓ“ѓUѓNѓVѓ‡ѓ““а‚М“Ї€кSQLЊД‚СЏo‚µ‰сђ”’ґ‰Я‚Ми‡’l‚рЉДЋ‹‚·‚й‚©”Ы‚©ЃB */
+    /** еђЊдёЂгѓ€гѓ©гѓіг‚¶г‚Їг‚·гѓ§гѓіе†…гЃ®еђЊдёЂSQLе‘јгЃіе‡єгЃ—е›ћж•°и¶…йЃЋгЃ®й–ѕеЂ¤г‚’з›Ји¦–гЃ™г‚‹гЃ‹еђ¦гЃ‹гЂ‚ */
     private static boolean isSqlcountMonitor__;
 
-    /**  “Ї€кѓgѓ‰ѓ“ѓUѓNѓVѓ‡ѓ““а‚М“Ї€кSQLЊД‚СЏo‚µ‰сђ”’ґ‰Я‚Ми‡’lЃB */
+    /**  еђЊдёЂгѓ€гѓ©гѓіг‚¶г‚Їг‚·гѓ§гѓіе†…гЃ®еђЊдёЂSQLе‘јгЃіе‡єгЃ—е›ћж•°и¶…йЃЋгЃ®й–ѕеЂ¤гЂ‚ */
     private static long sqlcount__;
 
-    /** SQLѓgѓЊЃ[ѓXЏo—Н‚рЌs‚¤‚©”Ы‚©‚рђЭ’и‚·‚йѓLЃ[ЃB */
+    /** SQLгѓ€гѓ¬гѓјг‚№е‡єеЉ›г‚’иЎЊгЃ†гЃ‹еђ¦гЃ‹г‚’иЁ­е®љгЃ™г‚‹г‚­гѓјгЂ‚ */
     private static boolean isOracleAllowSqlTrace__;
 
-    /** PostgreSQL‚ЕЏЪЌЧ‚ИЋАЌsЊv‰ж‚рЋж“ѕ‚·‚й‚©”Ы‚©‚рђЭ’и‚·‚йѓLЃ[ЃB */
+    /** PostgreSQLгЃ§и©ізґ°гЃЄе®џиЎЊиЁ€з”»г‚’еЏ–еѕ—гЃ™г‚‹гЃ‹еђ¦гЃ‹г‚’иЁ­е®љгЃ™г‚‹г‚­гѓјгЂ‚ */
     private static boolean isPostgresVerbosePlan__;
 
-    /** ЌЕ‘еѓNѓGѓЉ•Ы‘¶ђ”‚рђЭ’и‚·‚йѓLЃ[ЃB */
+    /** жњЂе¤§г‚Їг‚ЁгѓЄдїќе­ж•°г‚’иЁ­е®љгЃ™г‚‹г‚­гѓјгЂ‚ */
     private static int recordStatementNumMaximum__;
 
-    /** JDBCJavelin‚ЕѓXѓ^ѓbѓNѓgѓЊЃ[ѓXЏo—Н‚МON/OFF‚рђЭ’и‚·‚йѓLЃ[ЃB */
+    /** JDBCJavelinгЃ§г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№е‡єеЉ›гЃ®ON/OFFг‚’иЁ­е®љгЃ™г‚‹г‚­гѓјгЂ‚ */
     private static boolean isRecordStackTrace__;
 
-    /** JDBCJavelin‚ЕѓXѓ^ѓbѓNѓgѓЊЃ[ѓX‚рЏo—Н‚·‚й‚Ѕ‚Я‚Ми‡’lЃB */
+    /** JDBCJavelinгЃ§г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№г‚’е‡єеЉ›гЃ™г‚‹гЃџг‚ЃгЃ®й–ѕеЂ¤гЂ‚ */
     private static int recordStacktraceThreashold__;
 
     /**
-     * Oracle‚МЋАЌsЊv‰ж‚МЏo—НѓIѓvѓVѓ‡ѓ“ЃB
-     * "BASIC","SERIAL","TYPICAL","ALL"‚М‰Ѕ‚к‚©‚рЋw’и‚·‚йЃB
-     * ѓfѓtѓHѓ‹ѓg’l‚Н"SERIAL"
+     * OracleгЃ®е®џиЎЊиЁ€з”»гЃ®е‡єеЉ›г‚Єгѓ—г‚·гѓ§гѓігЂ‚
+     * "BASIC","SERIAL","TYPICAL","ALL"гЃ®дЅ•г‚ЊгЃ‹г‚’жЊ‡е®љгЃ™г‚‹гЂ‚
+     * гѓ‡гѓ•г‚©гѓ«гѓ€еЂ¤гЃЇ"SERIAL"
      */
     private final String outputOption_;
 
-    /** JDBC Javelin‚рЋg—p‚·‚й‚©‚З‚¤‚© */
+    /** JDBC Javelinг‚’дЅїз”ЁгЃ™г‚‹гЃ‹гЃ©гЃ†гЃ‹ */
     private static boolean isJdbcJavelinEnabled__;
 
     static
@@ -186,10 +186,10 @@ public class JdbcJavelinConfig extends JavelinConfig
     }
 
     /**
-     * ђЭ’и’l‚рЏ‰Љъ‰»‚µ‚Ь‚·ЃB<br />
+     * иЁ­е®љеЂ¤г‚’е€ќжњџеЊ–гЃ—гЃѕгЃ™гЂ‚<br />
      *
-     * ‚±‚МѓЃѓ\ѓbѓh‚НЃA JUnit ѓRЃ[ѓh‚©‚з‚аЊД‚О‚к‚Ь‚·ЃB<br />
-     * Ѓi {@link jp.co.acroquest.test.util.JavelinTestUtil#camouflageJavelinConfig(Class, String)} Ѓj
+     * гЃ“гЃ®гѓЎг‚Ѕгѓѓгѓ‰гЃЇгЂЃ JUnit г‚ігѓјгѓ‰гЃ‹г‚‰г‚‚е‘јгЃ°г‚ЊгЃѕгЃ™гЂ‚<br />
+     * пј€ {@link jp.co.acroquest.test.util.JavelinTestUtil#camouflageJavelinConfig(Class, String)} пј‰
      */
     private static void initialize()
     {
@@ -219,7 +219,7 @@ public class JdbcJavelinConfig extends JavelinConfig
     }
 
     /**
-     * Javelin‚МђЭ’иѓIѓuѓWѓFѓNѓg‚рЌмђ¬‚·‚йЃB
+     * JavelinгЃ®иЁ­е®љг‚Єгѓ–г‚ёг‚§г‚Їгѓ€г‚’дЅњж€ђгЃ™г‚‹гЂ‚
      */
     public JdbcJavelinConfig()
     {
@@ -227,11 +227,11 @@ public class JdbcJavelinConfig extends JavelinConfig
     }
 
     /** 
-     * SQL‚МЋАЌsЊv‰ж‚р‹L^‚·‚йЌЫ‚Ми‡’l‚р•Ф‚·ЃB
-     * ’lЃiѓ~ѓЉ•bЃj‚р‰є‰с‚йЏ€—ќЋћЉФ‚МЊД‚СЏo‚µЏо•с‚Н‹L^‚µ‚И‚ўЃB
-     * ѓfѓtѓHѓ‹ѓg’l‚Н0ЃB
+     * SQLгЃ®е®џиЎЊиЁ€з”»г‚’иЁйЊІгЃ™г‚‹йљ›гЃ®й–ѕеЂ¤г‚’иї”гЃ™гЂ‚
+     * еЂ¤пј€гѓџгѓЄз§’пј‰г‚’дё‹е›ћг‚‹е‡¦зђ†ж™‚й–“гЃ®е‘јгЃіе‡єгЃ—жѓ…е ±гЃЇиЁйЊІгЃ—гЃЄгЃ„гЂ‚
+     * гѓ‡гѓ•г‚©гѓ«гѓ€еЂ¤гЃЇ0гЂ‚
      *
-     * @return и‡’lЃiѓ~ѓЉ•bЃj
+     * @return й–ѕеЂ¤пј€гѓџгѓЄз§’пј‰
      */
     public long getExecPlanThreshold()
     {
@@ -239,9 +239,9 @@ public class JdbcJavelinConfig extends JavelinConfig
     }
 
     /**
-     * SQL‚МЋАЌsЊv‰ж‚р‹L^‚·‚йЌЫ‚Ми‡’l‚рђЭ’и‚·‚йЃB
+     * SQLгЃ®е®џиЎЊиЁ€з”»г‚’иЁйЊІгЃ™г‚‹йљ›гЃ®й–ѕеЂ¤г‚’иЁ­е®љгЃ™г‚‹гЂ‚
      * 
-     * @param execPlanThreshold и‡’lЃiѓ~ѓЉ•bЃj
+     * @param execPlanThreshold й–ѕеЂ¤пј€гѓџгѓЄз§’пј‰
      */
     public void setExecPlanThreshold(final long execPlanThreshold)
     {
@@ -249,12 +249,12 @@ public class JdbcJavelinConfig extends JavelinConfig
     }
 
     /** 
-     * JDBCЊДЏo‚µЏd•ЎЏo—Нѓtѓ‰ѓO‚р•Ф‚·ЃB
-     * true‚МЏкЌ‡‚НѓAѓvѓЉ‚©‚з‚МStatementЊД‚СЏo‚µ‹y‚СDBMS‚Й€Л‘¶‚µ‚Ѕ
-     * “а•”“I‚ИStatementЊД‚СЏo‚µ‚М—јЋТ‚рѓЌѓO‚ЙЏo—НЃB
-     * ѓfѓtѓHѓ‹ѓg‚НfalseЃB
+     * JDBCе‘је‡єгЃ—й‡Ќи¤‡е‡єеЉ›гѓ•гѓ©г‚°г‚’иї”гЃ™гЂ‚
+     * trueгЃ®е ґеђ€гЃЇг‚ўгѓ—гѓЄгЃ‹г‚‰гЃ®Statementе‘јгЃіе‡єгЃ—еЏЉгЃіDBMSгЃ«дѕќе­гЃ—гЃџ
+     * е†…йѓЁзљ„гЃЄStatementе‘јгЃіе‡єгЃ—гЃ®дёЎиЂ…г‚’гѓ­г‚°гЃ«е‡єеЉ›гЂ‚
+     * гѓ‡гѓ•г‚©гѓ«гѓ€гЃЇfalseгЂ‚
      *
-     * @return JDBCЊДЏo‚µЏd•ЎЏo—Нѓtѓ‰ѓO
+     * @return JDBCе‘је‡єгЃ—й‡Ќи¤‡е‡єеЉ›гѓ•гѓ©г‚°
      */
     public boolean isRecordDuplJdbcCall()
     {
@@ -262,9 +262,9 @@ public class JdbcJavelinConfig extends JavelinConfig
     }
 
     /**
-     * JDBCЊДЏo‚µЏd•ЎЏo—Нѓtѓ‰ѓO‚рђЭ’и‚·‚йЃB
+     * JDBCе‘је‡єгЃ—й‡Ќи¤‡е‡єеЉ›гѓ•гѓ©г‚°г‚’иЁ­е®љгЃ™г‚‹гЂ‚
      * 
-     * @param recordDuplJdbcCall JDBCЊДЏo‚µЏd•ЎЏo—Нѓtѓ‰ѓO
+     * @param recordDuplJdbcCall JDBCе‘је‡єгЃ—й‡Ќи¤‡е‡єеЉ›гѓ•гѓ©г‚°
      */
     public void setRecordDuplJdbcCall(final boolean recordDuplJdbcCall)
     {
@@ -272,9 +272,9 @@ public class JdbcJavelinConfig extends JavelinConfig
     }
  
     /** 
-     * ЋАЌsЊv‰жЏo—НON/OFFѓtѓ‰ѓO‚р•Ф‚·ЃB
+     * е®џиЎЊиЁ€з”»е‡єеЉ›ON/OFFгѓ•гѓ©г‚°г‚’иї”гЃ™гЂ‚
      *
-     * @return ЋАЌsЊv‰жЋж“ѕѓtѓ‰ѓO
+     * @return е®џиЎЊиЁ€з”»еЏ–еѕ—гѓ•гѓ©г‚°
      */
     public boolean isRecordExecPlan()
     {
@@ -282,9 +282,9 @@ public class JdbcJavelinConfig extends JavelinConfig
     }
 
     /**
-     * JDBCЊДЏo‚µЏd•ЎЏo—Нѓtѓ‰ѓO‚рђЭ’и‚·‚йЃB
+     * JDBCе‘је‡єгЃ—й‡Ќи¤‡е‡єеЉ›гѓ•гѓ©г‚°г‚’иЁ­е®љгЃ™г‚‹гЂ‚
      * 
-     * @param recordExecPlan ЋАЌsЊv‰жЋж“ѕѓtѓ‰ѓO
+     * @param recordExecPlan е®џиЎЊиЁ€з”»еЏ–еѕ—гѓ•гѓ©г‚°
      */
     public void setRecordExecPlan(final boolean recordExecPlan)
     {
@@ -292,9 +292,9 @@ public class JdbcJavelinConfig extends JavelinConfig
     }
     
     /** 
-     * SQL•¶‚МFull Scan‚рЉДЋ‹‚·‚й‚©‚З‚¤‚Мѓtѓ‰ѓO‚р•Ф‚·ЃB
+     * SQLж–‡гЃ®Full Scanг‚’з›Ји¦–гЃ™г‚‹гЃ‹гЃ©гЃ†гЃ®гѓ•гѓ©г‚°г‚’иї”гЃ™гЂ‚
      *
-     * @return ЋАЌsЊv‰жЋж“ѕѓtѓ‰ѓO
+     * @return е®џиЎЊиЁ€з”»еЏ–еѕ—гѓ•гѓ©г‚°
      */
     public boolean isFullScanMonitor()
     {
@@ -302,9 +302,9 @@ public class JdbcJavelinConfig extends JavelinConfig
     }
 
     /** 
-     * SQL•¶‚МFull Scan‚рЉДЋ‹‚·‚й‚©‚З‚¤‚Мѓtѓ‰ѓO‚рѓZѓbѓg‚·‚йЃB
+     * SQLж–‡гЃ®Full Scanг‚’з›Ји¦–гЃ™г‚‹гЃ‹гЃ©гЃ†гЃ®гѓ•гѓ©г‚°г‚’г‚»гѓѓгѓ€гЃ™г‚‹гЂ‚
      * 
-     * @param isFullScanMonitor Full ScanЉДЋ‹ѓtѓ‰ѓO
+     * @param isFullScanMonitor Full Scanз›Ји¦–гѓ•гѓ©г‚°
      */
     public void setIsFullScanMonitor(boolean isFullScanMonitor)
     {
@@ -312,11 +312,11 @@ public class JdbcJavelinConfig extends JavelinConfig
     }
 
     /** 
-     * ѓoѓCѓ“ѓh•Пђ”Џo—Нѓtѓ‰ѓO‚р•Ф‚·ЃB
-     * true‚МЏкЌ‡‚НPreparedStatement‚МѓoѓCѓ“ѓh•Пђ”‚рѓЌѓO‚ЙЏo—НЃB
-     * ѓfѓtѓHѓ‹ѓg‚НtrueЃB
+     * гѓђг‚¤гѓігѓ‰е¤‰ж•°е‡єеЉ›гѓ•гѓ©г‚°г‚’иї”гЃ™гЂ‚
+     * trueгЃ®е ґеђ€гЃЇPreparedStatementгЃ®гѓђг‚¤гѓігѓ‰е¤‰ж•°г‚’гѓ­г‚°гЃ«е‡єеЉ›гЂ‚
+     * гѓ‡гѓ•г‚©гѓ«гѓ€гЃЇtrueгЂ‚
      *
-     * @return ѓoѓCѓ“ѓh•Пђ”Џo—Нѓtѓ‰ѓO
+     * @return гѓђг‚¤гѓігѓ‰е¤‰ж•°е‡єеЉ›гѓ•гѓ©г‚°
      */
     public boolean isRecordBindVal()
     {
@@ -324,9 +324,9 @@ public class JdbcJavelinConfig extends JavelinConfig
     }
 
     /**
-     * ѓoѓCѓ“ѓh•Пђ”Џo—Нѓtѓ‰ѓO‚рђЭ’и‚·‚йЃB
+     * гѓђг‚¤гѓігѓ‰е¤‰ж•°е‡єеЉ›гѓ•гѓ©г‚°г‚’иЁ­е®љгЃ™г‚‹гЂ‚
      * 
-     * @param recordBindVal ЋАЌsЊv‰жЋж“ѕѓtѓ‰ѓO
+     * @param recordBindVal е®џиЎЊиЁ€з”»еЏ–еѕ—гѓ•гѓ©г‚°
      */
     public void setRecordBindVal(final boolean recordBindVal)
     {
@@ -334,9 +334,9 @@ public class JdbcJavelinConfig extends JavelinConfig
     }
 
     /**
-     * Oracle‚МЋАЌsЊv‰ж‚МЏo—НѓIѓvѓVѓ‡ѓ“‚р•Ф‚·ЃB
+     * OracleгЃ®е®џиЎЊиЁ€з”»гЃ®е‡єеЉ›г‚Єгѓ—г‚·гѓ§гѓіг‚’иї”гЃ™гЂ‚
      *
-     * @return Џo—НѓIѓvѓVѓ‡ѓ“
+     * @return е‡єеЉ›г‚Єгѓ—г‚·гѓ§гѓі
      */
     public String getOutputOption()
     {
@@ -344,12 +344,12 @@ public class JdbcJavelinConfig extends JavelinConfig
     }
 
     /**
-     * ѓoѓCѓ“ѓh•Пђ”Џo—Н‚Й‚Ё‚Ї‚й•¶Ћљ—с’·ђ§ЊА‚р•Ф‚·ЃB
-     * setString‚Ё‚ж‚СsetObjectѓЃѓ\ѓbѓh‚ЕЋw’и‚і‚к‚ЅѓoѓCѓ“ѓh•Пђ”‚р•¶Ћљ—с‰»‚·‚й
-     * ЌЫ‚МЌЕ‘е•¶Ћљ—с’·ЃB
-     * ѓfѓtѓHѓ‹ѓg’l‚Н64ЃB
+     * гѓђг‚¤гѓігѓ‰е¤‰ж•°е‡єеЉ›гЃ«гЃЉгЃ‘г‚‹ж–‡е­—е€—й•·е€¶й™ђг‚’иї”гЃ™гЂ‚
+     * setStringгЃЉг‚€гЃіsetObjectгѓЎг‚Ѕгѓѓгѓ‰гЃ§жЊ‡е®љгЃ•г‚ЊгЃџгѓђг‚¤гѓігѓ‰е¤‰ж•°г‚’ж–‡е­—е€—еЊ–гЃ™г‚‹
+     * йљ›гЃ®жњЂе¤§ж–‡е­—е€—й•·гЂ‚
+     * гѓ‡гѓ•г‚©гѓ«гѓ€еЂ¤гЃЇ64гЂ‚
      *
-     * @return ЌЕ‘е•¶Ћљ—с’·
+     * @return жњЂе¤§ж–‡е­—е€—й•·
      */
     public long getJdbcStringLimitLength()
     {
@@ -357,9 +357,9 @@ public class JdbcJavelinConfig extends JavelinConfig
     }
 
     /**
-     * ѓoѓCѓ“ѓh•Пђ”Џo—Н‚Й‚Ё‚Ї‚й•¶Ћљ—с’·ђ§ЊА‚рђЭ’и‚·‚йЃB
+     * гѓђг‚¤гѓігѓ‰е¤‰ж•°е‡єеЉ›гЃ«гЃЉгЃ‘г‚‹ж–‡е­—е€—й•·е€¶й™ђг‚’иЁ­е®љгЃ™г‚‹гЂ‚
      * 
-     * @param jdbcStringLimitLength ЌЕ‘е•¶Ћљ—с’·
+     * @param jdbcStringLimitLength жњЂе¤§ж–‡е­—е€—й•·
      */
     public void setJdbcStringLimitLength(final long jdbcStringLimitLength)
     {
@@ -367,9 +367,9 @@ public class JdbcJavelinConfig extends JavelinConfig
     }
 
     /**
-     * “Ї€кѓgѓ‰ѓ“ѓUѓNѓVѓ‡ѓ““а‚М“Ї€кSQLЊД‚СЏo‚µ‰сђ”’ґ‰Я‚Ми‡’l‚рЉДЋ‹‚·‚й‚©”Ы‚©‚р•Ф‚·ЃB
+     * еђЊдёЂгѓ€гѓ©гѓіг‚¶г‚Їг‚·гѓ§гѓіе†…гЃ®еђЊдёЂSQLе‘јгЃіе‡єгЃ—е›ћж•°и¶…йЃЋгЃ®й–ѕеЂ¤г‚’з›Ји¦–гЃ™г‚‹гЃ‹еђ¦гЃ‹г‚’иї”гЃ™гЂ‚
      * 
-     * @return “Ї€кѓgѓ‰ѓ“ѓUѓNѓVѓ‡ѓ““а‚М“Ї€кSQLЊД‚СЏo‚µ‰сђ”’ґ‰Я‚Ми‡’l‚рЉДЋ‹‚·‚й‚©”Ы‚©
+     * @return еђЊдёЂгѓ€гѓ©гѓіг‚¶г‚Їг‚·гѓ§гѓіе†…гЃ®еђЊдёЂSQLе‘јгЃіе‡єгЃ—е›ћж•°и¶…йЃЋгЃ®й–ѕеЂ¤г‚’з›Ји¦–гЃ™г‚‹гЃ‹еђ¦гЃ‹
      */
     public boolean isSqlcountMonitor()
     {
@@ -377,9 +377,9 @@ public class JdbcJavelinConfig extends JavelinConfig
     }
 
     /**
-     * “Ї€кѓgѓ‰ѓ“ѓUѓNѓVѓ‡ѓ““а‚М“Ї€кSQLЊД‚СЏo‚µ‰сђ”’ґ‰Я‚Ми‡’l‚рЉДЋ‹‚·‚й‚©”Ы‚©‚рђЭ’и‚·‚йЃB
+     * еђЊдёЂгѓ€гѓ©гѓіг‚¶г‚Їг‚·гѓ§гѓіе†…гЃ®еђЊдёЂSQLе‘јгЃіе‡єгЃ—е›ћж•°и¶…йЃЋгЃ®й–ѕеЂ¤г‚’з›Ји¦–гЃ™г‚‹гЃ‹еђ¦гЃ‹г‚’иЁ­е®љгЃ™г‚‹гЂ‚
      * 
-     * @param sqlcountMonitor “Ї€кѓgѓ‰ѓ“ѓUѓNѓVѓ‡ѓ““а‚М“Ї€кSQLЊД‚СЏo‚µ‰сђ”’ґ‰Я‚Ми‡’l‚рЉДЋ‹‚·‚й‚©”Ы‚©
+     * @param sqlcountMonitor еђЊдёЂгѓ€гѓ©гѓіг‚¶г‚Їг‚·гѓ§гѓіе†…гЃ®еђЊдёЂSQLе‘јгЃіе‡єгЃ—е›ћж•°и¶…йЃЋгЃ®й–ѕеЂ¤г‚’з›Ји¦–гЃ™г‚‹гЃ‹еђ¦гЃ‹
      */
     public void setSqlcountMonitor(final boolean sqlcountMonitor)
     {
@@ -387,9 +387,9 @@ public class JdbcJavelinConfig extends JavelinConfig
     }
 
     /**
-     * “Ї€кѓgѓ‰ѓ“ѓUѓNѓVѓ‡ѓ““а‚М“Ї€кSQLЊД‚СЏo‚µ‰сђ”’ґ‰Я‚Ми‡’l‚р•Ф‚·ЃB
+     * еђЊдёЂгѓ€гѓ©гѓіг‚¶г‚Їг‚·гѓ§гѓіе†…гЃ®еђЊдёЂSQLе‘јгЃіе‡єгЃ—е›ћж•°и¶…йЃЋгЃ®й–ѕеЂ¤г‚’иї”гЃ™гЂ‚
      *
-     * @return “Ї€кѓgѓ‰ѓ“ѓUѓNѓVѓ‡ѓ““а‚М“Ї€кSQLЊД‚СЏo‚µ‰сђ”’ґ‰Я‚Ми‡’l
+     * @return еђЊдёЂгѓ€гѓ©гѓіг‚¶г‚Їг‚·гѓ§гѓіе†…гЃ®еђЊдёЂSQLе‘јгЃіе‡єгЃ—е›ћж•°и¶…йЃЋгЃ®й–ѕеЂ¤
      */
     public long getSqlcount()
     {
@@ -397,9 +397,9 @@ public class JdbcJavelinConfig extends JavelinConfig
     }
 
     /**
-     * “Ї€кѓgѓ‰ѓ“ѓUѓNѓVѓ‡ѓ““а‚М“Ї€кSQLЊД‚СЏo‚µ‰сђ”’ґ‰Я‚Ми‡’l‚рђЭ’и‚·‚йЃB
+     * еђЊдёЂгѓ€гѓ©гѓіг‚¶г‚Їг‚·гѓ§гѓіе†…гЃ®еђЊдёЂSQLе‘јгЃіе‡єгЃ—е›ћж•°и¶…йЃЋгЃ®й–ѕеЂ¤г‚’иЁ­е®љгЃ™г‚‹гЂ‚
      * 
-     * @param sqlcount “Ї€кѓgѓ‰ѓ“ѓUѓNѓVѓ‡ѓ““а‚М“Ї€кSQLЊД‚СЏo‚µ‰сђ”’ґ‰Я‚Ми‡’l
+     * @param sqlcount еђЊдёЂгѓ€гѓ©гѓіг‚¶г‚Їг‚·гѓ§гѓіе†…гЃ®еђЊдёЂSQLе‘јгЃіе‡єгЃ—е›ћж•°и¶…йЃЋгЃ®й–ѕеЂ¤
      */
     public void setSqlcount(final long sqlcount)
     {
@@ -407,11 +407,11 @@ public class JdbcJavelinConfig extends JavelinConfig
     }
 
     /** 
-     * Oracle‚Й‘О‚·‚йSQLѓgѓЊЃ[ѓX‚МЏo—НЋwЋ¦ѓtѓ‰ѓOЃB
-     * true‚МЏкЌ‡‚НѓXѓЊѓbѓh‚МЉJЋn-ЏI—№ЉФ‚МSQLѓgѓЊЃ[ѓX‚рЏo—Н‚·‚йЃB
-     * ѓfѓtѓHѓ‹ѓg‚Нfalse(Џo—Н‚µ‚И‚ў)ЃB
+     * OracleгЃ«еЇѕгЃ™г‚‹SQLгѓ€гѓ¬гѓјг‚№гЃ®е‡єеЉ›жЊ‡з¤єгѓ•гѓ©г‚°гЂ‚
+     * trueгЃ®е ґеђ€гЃЇг‚№гѓ¬гѓѓгѓ‰гЃ®й–‹е§‹-зµ‚дє†й–“гЃ®SQLгѓ€гѓ¬гѓјг‚№г‚’е‡єеЉ›гЃ™г‚‹гЂ‚
+     * гѓ‡гѓ•г‚©гѓ«гѓ€гЃЇfalse(е‡єеЉ›гЃ—гЃЄгЃ„)гЂ‚
      *
-     * @return SQLѓgѓЊЃ[ѓX‚МЏo—НЋwЋ¦ѓtѓ‰ѓO
+     * @return SQLгѓ€гѓ¬гѓјг‚№гЃ®е‡єеЉ›жЊ‡з¤єгѓ•гѓ©г‚°
      */
     public boolean isAllowSqlTraceForOracle()
     {
@@ -419,9 +419,9 @@ public class JdbcJavelinConfig extends JavelinConfig
     }
 
     /**
-     * Oracle‚Й‘О‚·‚йSQLѓgѓЊЃ[ѓX‚МЏo—НЋwЋ¦ѓtѓ‰ѓO‚рђЭ’и‚·‚йЃB
+     * OracleгЃ«еЇѕгЃ™г‚‹SQLгѓ€гѓ¬гѓјг‚№гЃ®е‡єеЉ›жЊ‡з¤єгѓ•гѓ©г‚°г‚’иЁ­е®љгЃ™г‚‹гЂ‚
      * 
-     * @param allowSqlTraceForOracle SQLѓgѓЊЃ[ѓX‚МЏo—НЋwЋ¦ѓtѓ‰ѓO
+     * @param allowSqlTraceForOracle SQLгѓ€гѓ¬гѓјг‚№гЃ®е‡єеЉ›жЊ‡з¤єгѓ•гѓ©г‚°
      */
     public void setAllowSqlTraceForOracle(final boolean allowSqlTraceForOracle)
     {
@@ -429,11 +429,11 @@ public class JdbcJavelinConfig extends JavelinConfig
     }
 
     /**
-     * PostgreSQL‚Й‘О‚·‚йЋАЌsЊv‰жЏЪЌЧЋж“ѕѓtѓ‰ѓOЃB
-     * true‚МЏкЌ‡‚НЋАЌsЊv‰ж‚М—v–с‚Е‚Н‚И‚­ЃA“а•”•\Њ»‘S‚Д‚рЋж“ѕ‚·‚йЃB
-     * false‚МЏкЌ‡‚Н—v–с‚М‚Э‚рЋж“ѕ‚·‚йЃB
+     * PostgreSQLгЃ«еЇѕгЃ™г‚‹е®џиЎЊиЁ€з”»и©ізґ°еЏ–еѕ—гѓ•гѓ©г‚°гЂ‚
+     * trueгЃ®е ґеђ€гЃЇе®џиЎЊиЁ€з”»гЃ®и¦Ѓзґ„гЃ§гЃЇгЃЄгЃЏгЂЃе†…йѓЁиЎЁзЏѕе…ЁгЃ¦г‚’еЏ–еѕ—гЃ™г‚‹гЂ‚
+     * falseгЃ®е ґеђ€гЃЇи¦Ѓзґ„гЃ®гЃїг‚’еЏ–еѕ—гЃ™г‚‹гЂ‚
      * 
-     * @return PostgreSQL‚ЕЋАЌsЊv‰жЏЪЌЧ‚рЋж“ѕ‚·‚йЏкЌ‡‚НЃA<code>true</code>
+     * @return PostgreSQLгЃ§е®џиЎЊиЁ€з”»и©ізґ°г‚’еЏ–еѕ—гЃ™г‚‹е ґеђ€гЃЇгЂЃ<code>true</code>
      */
     public boolean isVerbosePlanForPostgres()
     {
@@ -441,9 +441,9 @@ public class JdbcJavelinConfig extends JavelinConfig
     }
 
     /**
-     * PostgreSQL‚Й‘О‚·‚йЋАЌsЊv‰жЏЪЌЧЋж“ѕѓtѓ‰ѓO‚рђЭ’и‚·‚йЃB
+     * PostgreSQLгЃ«еЇѕгЃ™г‚‹е®џиЎЊиЁ€з”»и©ізґ°еЏ–еѕ—гѓ•гѓ©г‚°г‚’иЁ­е®љгЃ™г‚‹гЂ‚
      * 
-     * @param verbosePlanForPostgres SQLѓgѓЊЃ[ѓX‚МЏo—НЋwЋ¦ѓtѓ‰ѓO
+     * @param verbosePlanForPostgres SQLгѓ€гѓ¬гѓјг‚№гЃ®е‡єеЉ›жЊ‡з¤єгѓ•гѓ©г‚°
      */
     public void setVerbosePlanForPostgres(final boolean verbosePlanForPostgres)
     {
@@ -451,11 +451,11 @@ public class JdbcJavelinConfig extends JavelinConfig
     }
 
     /**
-     * ѓNѓGѓЉ‚МЌЕ‘е•Ы‘¶ђ”‚рЋж“ѕ‚·‚йЃB
+     * г‚Їг‚ЁгѓЄгЃ®жњЂе¤§дїќе­ж•°г‚’еЏ–еѕ—гЃ™г‚‹гЂ‚
      * 
-     * ѓfѓtѓHѓ‹ѓg’l‚Н1000ЃB
+     * гѓ‡гѓ•г‚©гѓ«гѓ€еЂ¤гЃЇ1000гЂ‚
      *
-     * @return ЌЕ‘е•¶Ћљ—с’·
+     * @return жњЂе¤§ж–‡е­—е€—й•·
      */
     public int getRecordStatementNumMax()
     {
@@ -463,9 +463,9 @@ public class JdbcJavelinConfig extends JavelinConfig
     }
 
     /**
-     * ѓNѓGѓЉ‚МЌЕ‘е•Ы‘¶ђ”‚рђЭ’и‚·‚йЃB
+     * г‚Їг‚ЁгѓЄгЃ®жњЂе¤§дїќе­ж•°г‚’иЁ­е®љгЃ™г‚‹гЂ‚
      * 
-     * @param recordMaxStatementNum ѓNѓGѓЉ‚МЌЕ‘е•Ы‘¶ђ”
+     * @param recordMaxStatementNum г‚Їг‚ЁгѓЄгЃ®жњЂе¤§дїќе­ж•°
      */
     public void setRecordStatementNumMax(final int recordMaxStatementNum)
     {
@@ -473,9 +473,9 @@ public class JdbcJavelinConfig extends JavelinConfig
     }
 
     /**
-     * JDBCJavelin‚ЕѓXѓ^ѓbѓNѓgѓЊЃ[ѓX‚рЏo—Н‚·‚й‚©‚З‚¤‚©‚р•Ф‚µ‚Ь‚·ЃB<br />
+     * JDBCJavelinгЃ§г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№г‚’е‡єеЉ›гЃ™г‚‹гЃ‹гЃ©гЃ†гЃ‹г‚’иї”гЃ—гЃѕгЃ™гЂ‚<br />
      * 
-     * @return JDBCJavelin‚ЕѓXѓ^ѓbѓNѓgѓЊЃ[ѓX‚рЏo—Н‚·‚йЏкЌ‡ЃA<code>true</code>
+     * @return JDBCJavelinгЃ§г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№г‚’е‡єеЉ›гЃ™г‚‹е ґеђ€гЂЃ<code>true</code>
      */
     public boolean isRecordStackTrace()
     {
@@ -483,9 +483,9 @@ public class JdbcJavelinConfig extends JavelinConfig
     }
 
     /**
-     * JDBCJavelin‚ЕѓXѓ^ѓbѓNѓgѓЊЃ[ѓX‚рЏo—Н‚·‚й‚©‚З‚¤‚©‚р•Ф‚µ‚Ь‚·ЃB<br />
+     * JDBCJavelinгЃ§г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№г‚’е‡єеЉ›гЃ™г‚‹гЃ‹гЃ©гЃ†гЃ‹г‚’иї”гЃ—гЃѕгЃ™гЂ‚<br />
      * 
-     * @param isRecordThreashold JDBCJavelin‚ЕѓXѓ^ѓbѓNѓgѓЊЃ[ѓX‚рЏo—Н‚·‚йЏкЌ‡ЃA<code>true</code>
+     * @param isRecordThreashold JDBCJavelinгЃ§г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№г‚’е‡єеЉ›гЃ™г‚‹е ґеђ€гЂЃ<code>true</code>
      */
     public void setRecordStackTrace(boolean isRecordThreashold)
     {
@@ -493,9 +493,9 @@ public class JdbcJavelinConfig extends JavelinConfig
     }
 
     /**
-     * JDBCJavelin‚ЕѓXѓ^ѓbѓNѓgѓЊЃ[ѓX‚рЏo—Н‚·‚йSQLЋАЌsЋћЉФ‚Ми‡’l‚р•Ф‚µ‚Ь‚·ЃB<br />
+     * JDBCJavelinгЃ§г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№г‚’е‡єеЉ›гЃ™г‚‹SQLе®џиЎЊж™‚й–“гЃ®й–ѕеЂ¤г‚’иї”гЃ—гЃѕгЃ™гЂ‚<br />
      * 
-     * @return JDBCJavelin‚ЕѓXѓ^ѓbѓNѓgѓЊЃ[ѓX‚рЏo—Н‚·‚йSQLЋАЌsЋћЉФ‚Ми‡’l
+     * @return JDBCJavelinгЃ§г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№г‚’е‡єеЉ›гЃ™г‚‹SQLе®џиЎЊж™‚й–“гЃ®й–ѕеЂ¤
      */
     public int getRecordStackTraceThreshold()
     {
@@ -503,9 +503,9 @@ public class JdbcJavelinConfig extends JavelinConfig
     }
 
     /**
-     * JDBCJavelin‚ЕѓXѓ^ѓbѓNѓgѓЊЃ[ѓX‚рЏo—Н‚·‚йSQLЋАЌsЋћЉФ‚Ми‡’l‚рђЭ’и‚µ‚Ь‚·ЃB<br />
+     * JDBCJavelinгЃ§г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№г‚’е‡єеЉ›гЃ™г‚‹SQLе®џиЎЊж™‚й–“гЃ®й–ѕеЂ¤г‚’иЁ­е®љгЃ—гЃѕгЃ™гЂ‚<br />
      * 
-     * @param stackTraceThreshold JDBCJavelin‚ЕѓXѓ^ѓbѓNѓgѓЊЃ[ѓX‚рЏo—Н‚·‚йSQLЋАЌsЋћЉФ‚Ми‡’l
+     * @param stackTraceThreshold JDBCJavelinгЃ§г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№г‚’е‡єеЉ›гЃ™г‚‹SQLе®џиЎЊж™‚й–“гЃ®й–ѕеЂ¤
      */
     public void setRecordStackTraceThreshold(int stackTraceThreshold)
     {
@@ -513,9 +513,9 @@ public class JdbcJavelinConfig extends JavelinConfig
     }
 
     /**
-     * JDBC Javelin‚Є—LЊш‚©‚З‚¤‚©‚рЋж“ѕ‚·‚й
+     * JDBC JavelinгЃЊжњ‰еЉ№гЃ‹гЃ©гЃ†гЃ‹г‚’еЏ–еѕ—гЃ™г‚‹
      * 
-     * @return JDBC Javelin‚Є—LЊш‚©‚З‚¤‚©
+     * @return JDBC JavelinгЃЊжњ‰еЉ№гЃ‹гЃ©гЃ†гЃ‹
      */
     public boolean isJdbcJavelinEnabled()
     {
@@ -523,9 +523,9 @@ public class JdbcJavelinConfig extends JavelinConfig
     }
 
     /**
-     * JDBC Javelin‚рЋg—p‚·‚й‚©‚З‚¤‚©‚рђЭ’и‚·‚йЃB
+     * JDBC Javelinг‚’дЅїз”ЁгЃ™г‚‹гЃ‹гЃ©гЃ†гЃ‹г‚’иЁ­е®љгЃ™г‚‹гЂ‚
      * 
-     * @param isJdbcJavelinEnabled JDBC Javelin‚рЋg—p‚·‚й‚©‚З‚¤‚©
+     * @param isJdbcJavelinEnabled JDBC Javelinг‚’дЅїз”ЁгЃ™г‚‹гЃ‹гЃ©гЃ†гЃ‹
      */
     public void setJdbcJavelinEnabled(boolean isJdbcJavelinEnabled)
     {

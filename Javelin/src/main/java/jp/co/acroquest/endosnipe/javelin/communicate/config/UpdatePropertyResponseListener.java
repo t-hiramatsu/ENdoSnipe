@@ -9,7 +9,7 @@ import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 
 /**
- *  ƒT[ƒoƒvƒƒpƒeƒBİ’èXV‚Ì‰“š‚ğóM‚µ‚ÄAŒ‹‰Ê‚ğ•Û‚·‚éƒŠƒXƒiB
+ *  ã‚µãƒ¼ãƒãƒ—ãƒ­ãƒ‘ãƒ†ã‚£è¨­å®šæ›´æ–°ã®å¿œç­”ã‚’å—ä¿¡ã—ã¦ã€çµæœã‚’ä¿æŒã™ã‚‹ãƒªã‚¹ãƒŠã€‚
  * 
  * @author eriguchi
  */
@@ -17,13 +17,13 @@ public class UpdatePropertyResponseListener extends AbstractTelegramListener
 {
     private List<PropertyEntry> propertyInfoList_;
 
-    /** ƒ^ƒCƒ€ƒAƒEƒg‚Ég—p‚·‚éƒIƒuƒWƒFƒNƒgB */
+    /** ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆã«ä½¿ç”¨ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚ */
     private Object timeoutObject_;
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
      * 
-     * @param timeoutObject ŒÄ‚Ño‚µŒ³‚Æ‚Ì‘Ò‚¿‡‚í‚¹‚Ég‚¤ƒIƒuƒWƒFƒNƒgB
+     * @param timeoutObject å‘¼ã³å‡ºã—å…ƒã¨ã®å¾…ã¡åˆã‚ã›ã«ä½¿ã†ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚
      */
     public UpdatePropertyResponseListener(Object timeoutObject)
     {
@@ -31,9 +31,9 @@ public class UpdatePropertyResponseListener extends AbstractTelegramListener
     }
 
     /**
-     * óM‚µ‚½ƒvƒƒpƒeƒBİ’è‚ÌƒŠƒXƒg‚ğæ“¾‚·‚éB
+     * å—ä¿¡ã—ãŸãƒ—ãƒ­ãƒ‘ãƒ†ã‚£è¨­å®šã®ãƒªã‚¹ãƒˆã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return óM‚µ‚½ƒvƒƒpƒeƒBİ’è‚ÌƒŠƒXƒgB–¢óM‚Ìê‡Anull‚ğ•Ô‚·B
+     * @return å—ä¿¡ã—ãŸãƒ—ãƒ­ãƒ‘ãƒ†ã‚£è¨­å®šã®ãƒªã‚¹ãƒˆã€‚æœªå—ä¿¡ã®å ´åˆã€nullã‚’è¿”ã™ã€‚
      */
     public List<PropertyEntry> getPropertyInfoList()
     {
@@ -41,9 +41,9 @@ public class UpdatePropertyResponseListener extends AbstractTelegramListener
     }
 
     /**
-     * ƒT[ƒoƒvƒƒpƒeƒBİ’èXV‚Ì‰“š‚ğóM‚µ‚ÄAŒ‹‰Ê‚ğ•Û‚·‚éB
-     *@@param telegram ‰“š“d•¶B 
-     * @return null‚ğ•Ô‚·B
+     * ã‚µãƒ¼ãƒãƒ—ãƒ­ãƒ‘ãƒ†ã‚£è¨­å®šæ›´æ–°ã®å¿œç­”ã‚’å—ä¿¡ã—ã¦ã€çµæœã‚’ä¿æŒã™ã‚‹ã€‚
+     *ã€€@param telegram å¿œç­”é›»æ–‡ã€‚ 
+     * @return nullã‚’è¿”ã™ã€‚
      */
     @Override
     protected Telegram doReceiveTelegram(Telegram telegram)
@@ -58,8 +58,8 @@ public class UpdatePropertyResponseListener extends AbstractTelegramListener
     }
 
     /**
-     * —v‹‰“ší•Êi‰“šj‚ğ•Ô‚·B
-     * @return —v‹‰“ší•Êi‰“šjB
+     * è¦æ±‚å¿œç­”ç¨®åˆ¥ï¼ˆå¿œç­”ï¼‰ã‚’è¿”ã™ã€‚
+     * @return è¦æ±‚å¿œç­”ç¨®åˆ¥ï¼ˆå¿œç­”ï¼‰ã€‚
      */
     @Override
     protected byte getByteRequestKind()
@@ -68,8 +68,8 @@ public class UpdatePropertyResponseListener extends AbstractTelegramListener
     }
 
     /**
-     * ƒT[ƒoƒvƒƒpƒeƒBİ’èXV‚Ìí•Ê‚ğ•Ô‚·B
-     * @return ƒT[ƒoƒvƒƒpƒeƒBİ’èXV‚Ìí•ÊB
+     * ã‚µãƒ¼ãƒãƒ—ãƒ­ãƒ‘ãƒ†ã‚£è¨­å®šæ›´æ–°ã®ç¨®åˆ¥ã‚’è¿”ã™ã€‚
+     * @return ã‚µãƒ¼ãƒãƒ—ãƒ­ãƒ‘ãƒ†ã‚£è¨­å®šæ›´æ–°ã®ç¨®åˆ¥ã€‚
      */
     @Override
     protected byte getByteTelegramKind()
@@ -78,16 +78,16 @@ public class UpdatePropertyResponseListener extends AbstractTelegramListener
     }
 
     /**
-     * “d•¶‚©‚çƒe[ƒuƒ‹‚É•\¦‚·‚éƒvƒƒpƒeƒBî•ñ‚ğì¬‚·‚é
+     * é›»æ–‡ã‹ã‚‰ãƒ†ãƒ¼ãƒ–ãƒ«ã«è¡¨ç¤ºã™ã‚‹ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£æƒ…å ±ã‚’ä½œæˆã™ã‚‹
      * 
-     * @param telegram óM“d•¶
-     * @return •\¦‚·‚éƒvƒƒpƒeƒBî•ñ
+     * @param telegram å—ä¿¡é›»æ–‡
+     * @return è¡¨ç¤ºã™ã‚‹ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£æƒ…å ±
      */
     List<PropertyEntry> parsePropertyInfoList(final Telegram telegram)
     {
         List<PropertyEntry> propertyInfoList = new ArrayList<PropertyEntry>();
 
-        // óM“d•¶‚©‚çƒe[ƒuƒ‹‚É•\¦‚·‚éƒf[ƒ^‚ğì¬‚·‚é
+        // å—ä¿¡é›»æ–‡ã‹ã‚‰ãƒ†ãƒ¼ãƒ–ãƒ«ã«è¡¨ç¤ºã™ã‚‹ãƒ‡ãƒ¼ã‚¿ã‚’ä½œæˆã™ã‚‹
         Body[] bodyList = telegram.getObjBody();
 
         if (bodyList == null)

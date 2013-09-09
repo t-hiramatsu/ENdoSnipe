@@ -41,21 +41,21 @@ import jp.co.acroquest.endosnipe.data.dto.GraphTypeDto;
 import jp.co.acroquest.endosnipe.data.entity.JavelinMeasurementItem;
 
 /**
- * {@link JavelinMeasurementItem} ‚Ì‚½‚ß‚Ì DAO ‚Å‚·B
+ * {@link JavelinMeasurementItem} ã®ãŸã‚ã® DAO ã§ã™ã€‚
  *
  * @author y-sakamoto
  */
 public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
 {
-    /** ‰üsƒR[ƒh‚Ì‘ã‘Ö•¶šB */
+    /** æ”¹è¡Œã‚³ãƒ¼ãƒ‰ã®ä»£æ›¿æ–‡å­—ã€‚ */
     private static final String ALTERNATE_LINE_FEED_CODE = " ";
 
     /**
-     * €–ÚiŒn—ñj–¼Ì‚ÌƒŒƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B<br />
+     * é …ç›®ï¼ˆç³»åˆ—ï¼‰åç§°ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚<br />
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param item ‘}“ü‚·‚é’l
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param item æŒ¿å…¥ã™ã‚‹å€¤
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static void insert(final String database, final JavelinMeasurementItem item)
         throws SQLException
@@ -87,12 +87,12 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
     }
 
     /**
-     * w’è‚³‚ê‚½Œv‘ª€–Ú ID ‚ÌŒv‘ª€–Úî•ñ‚ğæ“¾‚µ‚Ü‚·B<br />
+     * æŒ‡å®šã•ã‚ŒãŸè¨ˆæ¸¬é …ç›® ID ã®è¨ˆæ¸¬é …ç›®æƒ…å ±ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param measurementItemId Œv‘ª€–Ú ID
-     * @return ƒŒƒR[ƒh‚ª‘¶İ‚·‚éê‡‚ÍŒv‘ª€–Úî•ñƒIƒuƒWƒFƒNƒgA‘¶İ‚µ‚È‚¢ê‡‚Í <code>null</code>
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param measurementItemId è¨ˆæ¸¬é …ç›® ID
+     * @return ãƒ¬ã‚³ãƒ¼ãƒ‰ãŒå­˜åœ¨ã™ã‚‹å ´åˆã¯è¨ˆæ¸¬é …ç›®æƒ…å ±ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€å­˜åœ¨ã—ãªã„å ´åˆã¯ <code>null</code>
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static JavelinMeasurementItem selectById(final String database,
         final int measurementItemId)
@@ -132,12 +132,12 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
     }
 
     /**
-     * w’è‚³‚ê‚½ItemName”z‰º‚ÌŒv‘ª€–Ú–¼‚Ìˆê——‚ğæ“¾‚µ‚Ü‚·B<br />
+     * æŒ‡å®šã•ã‚ŒãŸItemNameé…ä¸‹ã®è¨ˆæ¸¬é …ç›®åã®ä¸€è¦§ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param measurementItemName Œv‘ª€–Ú–¼
-     * @return Œv‘ª€–Ú–¼‚Ìˆê——
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param measurementItemName è¨ˆæ¸¬é …ç›®å
+     * @return è¨ˆæ¸¬é …ç›®åã®ä¸€è¦§
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static List<GraphTypeDto> selectItemNameListByParentItemName(final String database,
         final String measurementItemName)
@@ -167,7 +167,7 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
             while (rs.next())
             {
                 String itemName = rs.getString(1);
-                // ‰üsƒR[ƒh‚ğ•ÏŠ·‚·‚é
+                // æ”¹è¡Œã‚³ãƒ¼ãƒ‰ã‚’å¤‰æ›ã™ã‚‹
                 itemName = itemName.replaceAll("\\r\\n", ALTERNATE_LINE_FEED_CODE);
                 itemName = itemName.replaceAll("\\r", ALTERNATE_LINE_FEED_CODE);
                 itemName = itemName.replaceAll("\\n", ALTERNATE_LINE_FEED_CODE);
@@ -191,12 +191,12 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
     }
 
     /**
-     * w’è‚³‚ê‚½ItemName”z‰º‚ÌŒv‘ª€–Ú–¼‚Ìˆê——‚ğæ“¾‚µ‚Ü‚·B<br />
+     * æŒ‡å®šã•ã‚ŒãŸItemNameé…ä¸‹ã®è¨ˆæ¸¬é …ç›®åã®ä¸€è¦§ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param measurementItemName Œv‘ª€–Ú–¼
-     * @return Œv‘ª€–Ú–¼‚Ìˆê——
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param measurementItemName è¨ˆæ¸¬é …ç›®å
+     * @return è¨ˆæ¸¬é …ç›®åã®ä¸€è¦§
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static List<GraphTypeDto> selectMulGrapNameListByParentItemName(final String database,
         final String measurementItemName)
@@ -226,7 +226,7 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
             while (rs.next())
             {
                 String itemName = rs.getString(1);
-                // ‰üsƒR[ƒh‚ğ•ÏŠ·‚·‚é
+                // æ”¹è¡Œã‚³ãƒ¼ãƒ‰ã‚’å¤‰æ›ã™ã‚‹
                 itemName = itemName.replaceAll("\\r\\n", ALTERNATE_LINE_FEED_CODE);
                 itemName = itemName.replaceAll("\\r", ALTERNATE_LINE_FEED_CODE);
                 itemName = itemName.replaceAll("\\n", ALTERNATE_LINE_FEED_CODE);
@@ -247,12 +247,12 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
     
     
     /**
-     * w’è‚³‚ê‚½ItemName”z‰º‚ÌŒv‘ª€–Ú–¼‚Ìˆê——‚ğæ“¾‚µ‚Ü‚·B<br />
+     * æŒ‡å®šã•ã‚ŒãŸItemNameé…ä¸‹ã®è¨ˆæ¸¬é …ç›®åã®ä¸€è¦§ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param measurementItemName Œv‘ª€–Ú–¼
-     * @return Œv‘ª€–Ú–¼‚Ìˆê——
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param measurementItemName è¨ˆæ¸¬é …ç›®å
+     * @return è¨ˆæ¸¬é …ç›®åã®ä¸€è¦§
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static List<String> selectDirectChildren(final String database,
         final String measurementItemName)
@@ -313,7 +313,7 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
                     continue;
                 }
 
-                // ‰üsƒR[ƒh‚ğ•ÏŠ·‚·‚é
+                // æ”¹è¡Œã‚³ãƒ¼ãƒ‰ã‚’å¤‰æ›ã™ã‚‹
                 itemName = itemName.replaceAll("\\r\\n", ALTERNATE_LINE_FEED_CODE);
                 itemName = itemName.replaceAll("\\r", ALTERNATE_LINE_FEED_CODE);
                 itemName = itemName.replaceAll("\\n", ALTERNATE_LINE_FEED_CODE);
@@ -333,12 +333,12 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
     }
 
     /**
-     * w’è‚³‚ê‚½Œv‘ª’lí•Ê‚Æ€–Ú–¼Ì‚ÌƒŒƒR[ƒh‚Ì@ID ‚ğ•Ô‚µ‚Ü‚·B<br />
+     * æŒ‡å®šã•ã‚ŒãŸè¨ˆæ¸¬å€¤ç¨®åˆ¥ã¨é …ç›®åç§°ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã®ã€€ID ã‚’è¿”ã—ã¾ã™ã€‚<br />
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param itemName €–ÚiŒn—ñj–¼Ì
-     * @return ƒŒƒR[ƒh‚ª‘¶İ‚·‚éê‡‚ÍƒŒƒR[ƒh‚Ì ID A‘¶İ‚µ‚È‚¢ê‡‚Í <code>-1</code>
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param itemName é …ç›®ï¼ˆç³»åˆ—ï¼‰åç§°
+     * @return ãƒ¬ã‚³ãƒ¼ãƒ‰ãŒå­˜åœ¨ã™ã‚‹å ´åˆã¯ãƒ¬ã‚³ãƒ¼ãƒ‰ã® ID ã€å­˜åœ¨ã—ãªã„å ´åˆã¯ <code>-1</code>
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static int selectMeasurementItemIdFromItemName(final String database,
         final String itemName)
@@ -374,11 +374,11 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
     }
 
     /**
-     * ƒŒƒR[ƒh‚ğ‚·‚×‚Äæ“¾‚µ‚Ü‚·B<br />
+     * ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’ã™ã¹ã¦å–å¾—ã—ã¾ã™ã€‚<br />
      * 
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @return {@link JavelinMeasurementItem} ‚ÌƒŠƒXƒg
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @return {@link JavelinMeasurementItem} ã®ãƒªã‚¹ãƒˆ
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static List<JavelinMeasurementItem> selectAll(final String database)
         throws SQLException
@@ -415,12 +415,12 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
     }
 
     /**
-     * ƒŒƒR[ƒh‚ğ‚·‚×‚Äæ“¾‚µ‚Ü‚·B<br />
+     * ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’ã™ã¹ã¦å–å¾—ã—ã¾ã™ã€‚<br />
      * 
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param maxCount Å‘å”
-     * @return {@link JavelinMeasurementItem} ‚ÌƒŠƒXƒg
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param maxCount æœ€å¤§æ•°
+     * @return {@link JavelinMeasurementItem} ã®ãƒªã‚¹ãƒˆ
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static List<JavelinMeasurementItem> selectAll(final String database, int maxCount)
         throws SQLException
@@ -463,11 +463,11 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
     }
 
     /**
-     * €–Ú–¼‚ğ‚·‚×‚Äæ“¾‚µ‚Ü‚·B<br />
+     * é …ç›®åã‚’ã™ã¹ã¦å–å¾—ã—ã¾ã™ã€‚<br />
      * 
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @return {@link JavelinMeasurementItem} ‚ÌƒŠƒXƒg
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @return {@link JavelinMeasurementItem} ã®ãƒªã‚¹ãƒˆ
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static List<String> selectAllItemName(final String database)
         throws SQLException
@@ -487,7 +487,7 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
             while (rs.next() == true)
             {
                 String itemName = rs.getString(1);
-                // ‰üsƒR[ƒh‚ğ•ÏŠ·‚·‚é
+                // æ”¹è¡Œã‚³ãƒ¼ãƒ‰ã‚’å¤‰æ›ã™ã‚‹
                 itemName = itemName.replaceAll("\\r\\n", ALTERNATE_LINE_FEED_CODE);
                 itemName = itemName.replaceAll("\\r", ALTERNATE_LINE_FEED_CODE);
                 itemName = itemName.replaceAll("\\n", ALTERNATE_LINE_FEED_CODE);
@@ -506,12 +506,12 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
     }
 
     /**
-     * w’è‚µ‚½€–Ú–¼‚ÌƒŒƒR[ƒh‚ğ‘S‚Äæ“¾‚µ‚Ü‚·B<br />
+     * æŒ‡å®šã—ãŸé …ç›®åã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å…¨ã¦å–å¾—ã—ã¾ã™ã€‚<br />
      * 
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param measurementType €–Ú–¼
-     * @return {@link JavelinMeasurementItem} ‚ÌƒŠƒXƒg
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param measurementType é …ç›®å
+     * @return {@link JavelinMeasurementItem} ã®ãƒªã‚¹ãƒˆ
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static List<JavelinMeasurementItem> selectByMeasurementType(final String database,
         long measurementType)
@@ -555,11 +555,11 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
     }
 
     /**
-     * w’è‚³‚ê‚½ MEASUREMENT_ITEM_ID ‚ÌƒŒƒR[ƒh‚ğíœ‚µ‚Ü‚·B
+     * æŒ‡å®šã•ã‚ŒãŸ MEASUREMENT_ITEM_ID ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å‰Šé™¤ã—ã¾ã™ã€‚
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param measurementItemName íœ‚·‚éƒŒƒR[ƒh‚Ì MEASUREMENT_ITEM_NAME
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param measurementItemName å‰Šé™¤ã™ã‚‹ãƒ¬ã‚³ãƒ¼ãƒ‰ã® MEASUREMENT_ITEM_NAME
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static void deleteByMeasurementItemId(final String database,
         final String measurementItemName)
@@ -587,11 +587,11 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
     }
 
     /**
-     * w’è‚³‚ê‚½ MEASUREMENT_ITEM_ID ‚ÌƒŒƒR[ƒh‚ğíœ‚µ‚Ü‚·B
+     * æŒ‡å®šã•ã‚ŒãŸ MEASUREMENT_ITEM_ID ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å‰Šé™¤ã—ã¾ã™ã€‚
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param measurementItemIdList íœ‚·‚éƒŒƒR[ƒh‚Ì MEASUREMENT_ITEM_ID
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param measurementItemIdList å‰Šé™¤ã™ã‚‹ãƒ¬ã‚³ãƒ¼ãƒ‰ã® MEASUREMENT_ITEM_ID
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static void deleteByMeasurementItemId(final String database,
         final List<Integer> measurementItemIdList)
@@ -634,14 +634,14 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
     }
 
     /**
-     * Œv‘ªƒf[ƒ^‚ª‘}“ü‚³‚ê‚½‚ğ”½‰f‚µ‚Ü‚·B
+     * è¨ˆæ¸¬ãƒ‡ãƒ¼ã‚¿ãŒæŒ¿å…¥ã•ã‚ŒãŸæ™‚åˆ»ã‚’åæ˜ ã—ã¾ã™ã€‚
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
      * @param beforeItemName
-     *            XV‘O‚Ìmeasurement_item_name
+     *            æ›´æ–°å‰ã®measurement_item_name
      * @param afterItemName
-     *            XV‘O‚Ìmeasurement_item_name
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     *            æ›´æ–°å‰ã®measurement_item_name
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static void updateMeasurementItemName(final String database,
         final String beforeItemName, final String afterItemName)
@@ -670,11 +670,11 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
     }
 
     /**
-     * Œv‘ªƒf[ƒ^‚ª‘}“ü‚³‚ê‚½‚ğ”½‰f‚µ‚Ü‚·B
+     * è¨ˆæ¸¬ãƒ‡ãƒ¼ã‚¿ãŒæŒ¿å…¥ã•ã‚ŒãŸæ™‚åˆ»ã‚’åæ˜ ã—ã¾ã™ã€‚
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param map Œn—ñITEM‚ÆÅI‘}“ü‚Ìƒ}ƒbƒv
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param map ç³»åˆ—ITEMã¨æœ€çµ‚æŒ¿å…¥æ™‚åˆ»ã®ãƒãƒƒãƒ—
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static void updateLastInserted(final String database, final Map<String, Timestamp> map)
         throws SQLException
@@ -706,10 +706,10 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
     }
 
     /**
-     * ‚·‚×‚Ä‚ÌƒŒƒR[ƒh‚ğíœ‚µ‚Ü‚·B<br />
+     * ã™ã¹ã¦ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å‰Šé™¤ã—ã¾ã™ã€‚<br />
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static void deleteAll(final String database)
         throws SQLException
@@ -718,11 +718,11 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
     }
 
     /**
-     * ƒŒƒR[ƒh‚Ì”‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ãƒ¬ã‚³ãƒ¼ãƒ‰ã®æ•°ã‚’è¿”ã—ã¾ã™ã€‚<br />
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @return ƒŒƒR[ƒh‚Ì”
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @return ãƒ¬ã‚³ãƒ¼ãƒ‰ã®æ•°
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static int count(final String database)
         throws SQLException
@@ -732,11 +732,11 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
     }
 
     /**
-     * measurement_valueƒe[ƒuƒ‹‚Åg—p‚³‚ê‚Ä‚¢‚È‚¢ƒŒƒR[ƒh‚ğA<br />
-     * ‚±‚Ìƒe[ƒuƒ‹‚©‚çíœ‚µ‚Ü‚·B<br />
+     * measurement_valueãƒ†ãƒ¼ãƒ–ãƒ«ã§ä½¿ç”¨ã•ã‚Œã¦ã„ãªã„ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’ã€<br />
+     * ã“ã®ãƒ†ãƒ¼ãƒ–ãƒ«ã‹ã‚‰å‰Šé™¤ã—ã¾ã™ã€‚<br />
      * 
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @throws SQLException SQLÀs‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @throws SQLException SQLå®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static void deleteNotUsedRecord(final String database)
         throws SQLException

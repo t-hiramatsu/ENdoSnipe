@@ -26,14 +26,14 @@
 package jp.co.acroquest.endosnipe.javelin.converter.util;
 
 /**
- * �R�[�h���ߍ��ݎ��Ɏg�p���郆�[�e�B���e�B�N���X�B
+ * コード埋め込み時に使用するユーティリティクラス。
  *
  * @author Sakamoto
  */
 public class ConverterUtil
 {
     /**
-     * �R���X�g���N�^
+     * コンストラクタ
      */
     private ConverterUtil()
     {
@@ -41,11 +41,11 @@ public class ConverterUtil
     }
 
     /**
-     * �N���X������A$$�ȍ~���폜���āA�P���ȃN���X���ɕς���B<br>
-     * Seasar�A�v���P�[�V�����ł́A�R���e�i�ɂ���āA�����N���X����������鎖�������A �N���X�����ω����邽�߁A���̑Ώ����K�v�ɂȂ�܂��B
+     * クラス名から、$$以降を削除して、単純なクラス名に変える。<br>
+     * Seasarアプリケーションでは、コンテナによって、実装クラスが生成される事が多く、 クラス名が変化するため、この対処が必要になります。
      * 
-     * @param className �X�V�Ώۂ̃N���X���B
-     * @return $$�ȍ~���폜�����N���X���B
+     * @param className 更新対象のクラス名。
+     * @return $$以降を削除したクラス名。
      */
     public static String toSimpleName(String className)
     {

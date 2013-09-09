@@ -26,282 +26,282 @@
 package jp.co.acroquest.endosnipe.communicator.entity;
 
 /**
- * Œv‘ª’lŽí•Ê‚Ì’è”ƒCƒ“ƒ^[ƒtƒF[ƒX‚Å‚·B<br />
- * –{ƒCƒ“ƒ^[ƒtƒF[ƒX‚Å’è‹`‚³‚ê‚éŒv‘ª’lŽí•Êi<code>TYPE_</code>‚ÅŽn‚Ü‚é’è”j‚ÍA
- * Šî–{ÝŒvŽd—l‘u•\5-1 Œv‘ª’lî•ñƒe[ƒuƒ‹‚Ì‰Šú’lv‚Å‹K’è‚³‚ê‚½’l‚Å‚·B<br />
- * ’Ç‰ÁE•ÏX‚ÌÛ‚ÍAŠî–{ÝŒvŽd—l‘A measurementInfo.tsv ‚àC³‚µ‚Ä‚­‚¾‚³‚¢B
+ * è¨ˆæ¸¬å€¤ç¨®åˆ¥ã®å®šæ•°ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã§ã™ã€‚<br />
+ * æœ¬ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã§å®šç¾©ã•ã‚Œã‚‹è¨ˆæ¸¬å€¤ç¨®åˆ¥ï¼ˆ<code>TYPE_</code>ã§å§‹ã¾ã‚‹å®šæ•°ï¼‰ã¯ã€
+ * åŸºæœ¬è¨­è¨ˆä»•æ§˜æ›¸ã€Œè¡¨5-1 è¨ˆæ¸¬å€¤æƒ…å ±ãƒ†ãƒ¼ãƒ–ãƒ«ã®åˆæœŸå€¤ã€ã§è¦å®šã•ã‚ŒãŸå€¤ã§ã™ã€‚<br />
+ * è¿½åŠ ãƒ»å¤‰æ›´ã®éš›ã¯ã€åŸºæœ¬è¨­è¨ˆä»•æ§˜æ›¸ã€ measurementInfo.tsv ã‚‚ä¿®æ­£ã—ã¦ãã ã•ã„ã€‚
  * 
  * @author fujii
  */
 public interface MeasurementConstants
 {
-    /** Œv‘ª’lŽí•Ê(Œ»ÝŽž) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ç¾åœ¨æ™‚åˆ») */
     int TYPE_TIME = 1;
 
-    /** Œv‘ª’lŽí•Ê(Žæ“¾Žž) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(å–å¾—æ™‚åˆ») */
     int TYPE_ACQUIREDTIME = 2;
 
-    /** Œv‘ª’lŽí•Ê(CPUŽžŠÔ) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(CPUæ™‚é–“) */
     int TYPE_CPUTIME = 3;
 
-    /** Œv‘ª’lŽí•Ê(ƒq[ƒvƒƒ‚ƒŠƒRƒ~ƒbƒg—Ê) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ãƒ’ãƒ¼ãƒ—ãƒ¡ãƒ¢ãƒªã‚³ãƒŸãƒƒãƒˆé‡) */
     int TYPE_HEAPMEMORY_COMMITTED = 4;
 
-    /** Œv‘ª’lŽí•Ê(ƒq[ƒvƒƒ‚ƒŠŽg—p—Ê) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ãƒ’ãƒ¼ãƒ—ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡) */
     int TYPE_HEAPMEMORY_USED = 5;
 
-    /** Œv‘ª’lŽí•Ê(ƒq[ƒvƒƒ‚ƒŠÅ‘å) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ãƒ’ãƒ¼ãƒ—ãƒ¡ãƒ¢ãƒªæœ€å¤§) */
     int TYPE_HEAPMEMORY_MAX = 6;
 
-    /** Œv‘ª’lŽí•Ê(Java‰Ò“®ŽžŠÔ) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(Javaç¨¼å‹•æ™‚é–“) */
     int TYPE_JAVAUPTIME = 7;
 
-    /** Œv‘ª’lŽí•Ê(ƒq[ƒvˆÈŠO‚Ìƒƒ‚ƒŠƒRƒ~ƒbƒg—Ê) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ãƒ’ãƒ¼ãƒ—ä»¥å¤–ã®ãƒ¡ãƒ¢ãƒªã‚³ãƒŸãƒƒãƒˆé‡) */
     int TYPE_NONHEAPMEMORY_COMMITTED = 8;
 
-    /** Œv‘ª’lŽí•Ê(ƒq[ƒvˆÈŠO‚Ìƒƒ‚ƒŠŽg—p—Ê) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ãƒ’ãƒ¼ãƒ—ä»¥å¤–ã®ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡) */
     int TYPE_NONHEAPMEMORY_USED = 9;
 
-    /** Œv‘ª’lŽí•Ê(ƒq[ƒvˆÈŠO‚Ìƒƒ‚ƒŠÅ‘å) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ãƒ’ãƒ¼ãƒ—ä»¥å¤–ã®ãƒ¡ãƒ¢ãƒªæœ€å¤§) */
     int TYPE_NONHEAPMEMORY_MAX = 10;
 
-    /** Œv‘ª’lŽí•Ê(•¨—ƒƒ‚ƒŠ—e—Ê) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ç‰©ç†ãƒ¡ãƒ¢ãƒªå®¹é‡) */
     int TYPE_PHYSICALMEMORY_CAPACITY = 11;
 
-    /** Œv‘ª’lŽí•Ê(•¨—ƒƒ‚ƒŠ‹ó‚«—e—Ê) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ç‰©ç†ãƒ¡ãƒ¢ãƒªç©ºãå®¹é‡) */
     int TYPE_PHYSICALMEMORY_FREE = 12;
 
-    /** Œv‘ª’lŽí•Ê(ƒvƒƒZƒbƒT”) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ãƒ—ãƒ­ã‚»ãƒƒã‚µæ•°) */
     int TYPE_PROCESSORCOUNT = 13;
 
-    /** Œv‘ª’lŽí•Ê(ƒXƒƒbƒv—Ìˆæ—e—Ê) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ã‚¹ãƒ¯ãƒƒãƒ—é ˜åŸŸå®¹é‡) */
     int TYPE_SWAPSPACE_CAPACITY = 14;
 
-    /** Œv‘ª’lŽí•Ê(ƒXƒƒbƒv—Ìˆæ‹ó‚«—e—Ê) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ã‚¹ãƒ¯ãƒƒãƒ—é ˜åŸŸç©ºãå®¹é‡) */
     int TYPE_SWAPSPACE_FREE = 15;
 
-    /** Œv‘ª’lŽí•Ê(‰¼‘zƒ}ƒVƒ“ƒƒ‚ƒŠ—e—Ê) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ä»®æƒ³ãƒžã‚·ãƒ³ãƒ¡ãƒ¢ãƒªå®¹é‡) */
     int TYPE_VIRTUALMACHINEMEMORY_CAPACITY = 16;
 
-    /** Œv‘ª’lŽí•Ê(‰¼‘zƒ}ƒVƒ“ƒƒ‚ƒŠ‹ó‚«—e—Ê) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ä»®æƒ³ãƒžã‚·ãƒ³ãƒ¡ãƒ¢ãƒªç©ºãå®¹é‡) */
     int TYPE_VIRTUALMACHINEMEMORY_FREE = 17;
 
-    /** Œv‘ª’lŽí•Ê(‰¼‘zƒƒ‚ƒŠ—e—Ê) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ä»®æƒ³ãƒ¡ãƒ¢ãƒªå®¹é‡) */
     int TYPE_VIRTUALMEMORY_SIZE = 18;
 
-    /** Œv‘ª’lŽí•Ê(ƒlƒbƒgƒ[ƒNƒf[ƒ^ŽóM—Ê) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ãƒ‡ãƒ¼ã‚¿å—ä¿¡é‡) */
     int TYPE_NETWORK_INPUTSIZEOFPROCESS = 19;
 
-    /** Œv‘ª’lŽí•Ê(ƒlƒbƒgƒ[ƒNƒf[ƒ^‘—M—Ê) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ãƒ‡ãƒ¼ã‚¿é€ä¿¡é‡) */
     int TYPE_NETWORK_OUTPUTSIZEOFPROCESS = 20;
 
-    /** Œv‘ª’lŽí•Ê(ƒtƒ@ƒCƒ‹“ü—Í—Ê) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ãƒ•ã‚¡ã‚¤ãƒ«å…¥åŠ›é‡) */
     int TYPE_FILE_INPUTSIZEOFPROCESS = 21;
 
-    /** Œv‘ª’lŽí•Ê(ƒtƒ@ƒCƒ‹o—Í—Ê) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›é‡) */
     int TYPE_FILE_OUTPUTSIZEOFPROCESS = 22;
 
-    /** Œv‘ª’lŽí•Ê(ƒXƒŒƒbƒh”) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ã‚¹ãƒ¬ãƒƒãƒ‰æ•°) */
     int TYPE_THREADCOUNT = 23;
 
-    /** Œv‘ª’lŽí•Ê(GCƒg[ƒ^ƒ‹ŽžŠÔ) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(GCãƒˆãƒ¼ã‚¿ãƒ«æ™‚é–“) */
     int TYPE_GARBAGETOTALTIME = 24;
 
-    /** Œv‘ª’lŽí•Ê(ƒŠƒXƒgƒRƒŒƒNƒVƒ‡ƒ“‚Ì”) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ãƒªã‚¹ãƒˆã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã®æ•°) */
     int TYPE_LISTCOUNT = 25;
 
-    /** Œv‘ª’lŽí•Ê(QueueƒRƒŒƒNƒVƒ‡ƒ“‚Ì”) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(Queueã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã®æ•°) */
     int TYPE_QUEUECOUNT = 26;
 
-    /** Œv‘ª’lŽí•Ê(SetƒRƒŒƒNƒVƒ‡ƒ“‚Ì”) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(Setã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã®æ•°) */
     int TYPE_SETCOUNT = 27;
 
-    /** Œv‘ª’lŽí•Ê(MapƒRƒŒƒNƒVƒ‡ƒ“‚Ì”) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(Mapã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã®æ•°) */
     int TYPE_MAPCOUNT = 28;
 
-    /** Œv‘ª’lŽí•Ê(ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€‚©‚çŽæ“¾‚µ‚½ƒIƒuƒWƒFƒNƒg‚ÌƒTƒCƒY) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã‹ã‚‰å–å¾—ã—ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚µã‚¤ã‚º) */
     int TYPE_CLASSHISTOGRAM_SIZE = 29;
 
-    /** Œv‘ª’lŽí•Ê(ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€‚©‚çŽæ“¾‚µ‚½ƒIƒuƒWƒFƒNƒg‚Ì”) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã‹ã‚‰å–å¾—ã—ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ•°) */
     int TYPE_CLASSHISTOGRAM_COUNT = 30;
 
-    /** Œv‘ª’lŽí•Ê(Turn Around Time:•½‹Ï’l) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(Turn Around Time:å¹³å‡å€¤) */
     int TYPE_TURNAROUNDTIME = 31;
 
-    /** Œv‘ª’lŽí•Ê(Turn Around TimeŒÄ‚Ño‚µ‰ñ”) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(Turn Around Timeå‘¼ã³å‡ºã—å›žæ•°) */
     int TYPE_TURNAROUNDTIMECOUNT = 32;
 
-    /** Œv‘ª’lŽí•Ê(ƒv[ƒ‹‚ÌÅ‘å”A‰Ò“­”) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ãƒ—ãƒ¼ãƒ«ã®æœ€å¤§æ•°ã€ç¨¼åƒæ•°) */
     int TYPE_POOLSIZE = 33;
 
-    /** Œv‘ª’lŽí•Ê(Finalize‚É“o˜^‚³‚ê‚Ä‚¢‚éƒIƒuƒWƒFƒNƒg”) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(Finalizeã«ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ•°) */
     int TYPE_FINALIZATIONCOUNT = 34;
 
-    /** Œv‘ª’lŽí•Ê(HTTPƒZƒbƒVƒ‡ƒ“‚ÌƒCƒ“ƒXƒ^ƒ“ƒX”) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(HTTPã‚»ãƒƒã‚·ãƒ§ãƒ³ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ•°) */
     int TYPE_HTTPSESSION_NUMBER = 35;
 
-    /** Œv‘ª’lŽí•Ê(HTTPƒZƒbƒVƒ‡ƒ“‚ÌƒIƒuƒWƒFƒNƒg“o˜^”) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(HTTPã‚»ãƒƒã‚·ãƒ§ãƒ³ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç™»éŒ²æ•°) */
     int TYPE_HTTPSESSION_TOTALSIZE = 36;
 
-    /** Œv‘ª’lŽí•Ê(ƒ[ƒJƒXƒŒƒbƒh‚ÌÅ‘å”A‰Ò“®”) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ãƒ¯ãƒ¼ã‚«ã‚¹ãƒ¬ãƒƒãƒ‰ã®æœ€å¤§æ•°ã€ç¨¼å‹•æ•°) */
     int TYPE_SERVERPOOL = 37;
 
-    /** Œv‘ª’lŽí•Ê(Turn Around Time:Å‘å’l) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(Turn Around Time:æœ€å¤§å€¤) */
     int TYPE_TURNAROUNDTIMEMAX = 38;
 
-    /** Œv‘ª’lŽí•Ê(Turn Around Time:Å¬’l) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(Turn Around Time:æœ€å°å€¤) */
     int TYPE_TURNAROUNDTIMEMIN = 39;
 
-    /** Œv‘ª’lŽí•Ê(CallTreeNode”) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(CallTreeNodeæ•°) */
     int TYPE_CALLTREENODE_COUNT = 40;
 
-    /** Œv‘ª’lŽí•Ê(JavelinConverter‚Å•ÏŠ·‚µ‚½ƒƒ\ƒbƒh”) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(JavelinConverterã§å¤‰æ›ã—ãŸãƒ¡ã‚½ãƒƒãƒ‰æ•°) */
     int TYPE_CONVERTEDMOTHOD_COUNT = 41;
 
-    /** Œv‘ª’lŽí•Ê(JavelinConverter‚Å•ÏŠ·‚µ‚½ƒƒ\ƒbƒh”) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(JavelinConverterã§å¤‰æ›ã—ãŸãƒ¡ã‚½ãƒƒãƒ‰æ•°) */
     int TYPE_EXCLUDEDMOTHOD_COUNT = 42;
 
-    /** Œv‘ª’lŽí•Ê(Java ‰¼‘zƒ}ƒVƒ“‚ªŽÀs‚ðŠJŽn‚µ‚Ä‚©‚çƒ[ƒh‚³‚ê‚½ƒNƒ‰ƒX‚Ì‡Œv”) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(Java ä»®æƒ³ãƒžã‚·ãƒ³ãŒå®Ÿè¡Œã‚’é–‹å§‹ã—ã¦ã‹ã‚‰ãƒ­ãƒ¼ãƒ‰ã•ã‚ŒãŸã‚¯ãƒ©ã‚¹ã®åˆè¨ˆæ•°) */
     int TYPE_TOTAL_LOADEDCLASSCOUNT = 43;
 
-    /** Œv‘ª’lŽí•Ê(Java ‰¼‘zƒ}ƒVƒ“‚ÉŒ»Ýƒ[ƒh‚³‚ê‚Ä‚¢‚éƒNƒ‰ƒX‚Ì”) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(Java ä»®æƒ³ãƒžã‚·ãƒ³ã«ç¾åœ¨ãƒ­ãƒ¼ãƒ‰ã•ã‚Œã¦ã„ã‚‹ã‚¯ãƒ©ã‚¹ã®æ•°) */
     int TYPE_LOADEDCLASSCOUNT = 44;
 
-    /** Œv‘ª’lŽí•Ê(JavelinConverter‚Å•ÏŠ·‚ðs‚Á‚½ƒƒ\ƒbƒh‚Ì‚¤‚¿AŒÄ‚Ño‚³‚ê‚½ƒƒ\ƒbƒh”) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(JavelinConverterã§å¤‰æ›ã‚’è¡Œã£ãŸãƒ¡ã‚½ãƒƒãƒ‰ã®ã†ã¡ã€å‘¼ã³å‡ºã•ã‚ŒãŸãƒ¡ã‚½ãƒƒãƒ‰æ•°) */
     int TYPE_CALLEDMETHODCOUNT = 45;
 
-    /** Œv‘ª’lŽí•Ê(—áŠO”­¶‰ñ”) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ä¾‹å¤–ç™ºç”Ÿå›žæ•°) */
     int TYPE_THROWABLECOUNT = 46;
 
-    /** Œv‘ª’lŽí•Ê(HTTPƒGƒ‰[”­¶‰ñ”) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(HTTPã‚¨ãƒ©ãƒ¼ç™ºç”Ÿå›žæ•°) */
     int TYPE_HTTP_ERRCOUNT = 47;
 
-    /** Œv‘ª’lŽí•Ê(ƒCƒxƒ“ƒgŽí•Ê–ˆ‚ÌƒCƒxƒ“ƒg”­¶‰ñ”) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ã‚¤ãƒ™ãƒ³ãƒˆç¨®åˆ¥æ¯Žã®ã‚¤ãƒ™ãƒ³ãƒˆç™ºç”Ÿå›žæ•°) */
     int TYPE_EVENT_COUNT = 48;
 
-    /** Œv‘ª’lŽí•Ê(ƒVƒXƒeƒ€‘S‘Ì‚Ìƒƒ‚ƒŠÅ‘å’l) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ã‚·ã‚¹ãƒ†ãƒ å…¨ä½“ã®ãƒ¡ãƒ¢ãƒªæœ€å¤§å€¤) */
     int TYPE_SYS_PHYSICALMEM_MAX = 49;
 
-    /** Œv‘ª’lŽí•Ê(ƒVƒXƒeƒ€‘S‘Ì‚Ì‹ó‚«ƒƒ‚ƒŠ) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ã‚·ã‚¹ãƒ†ãƒ å…¨ä½“ã®ç©ºããƒ¡ãƒ¢ãƒª) */
     int TYPE_SYS_PHYSICALMEM_FREE = 50;
 
-    /** Œv‘ª’lŽí•Ê(ƒVƒXƒeƒ€‚Ìƒ†[ƒUƒ‚[ƒh‚ÌCPUŽg—p—Ê) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ã‚·ã‚¹ãƒ†ãƒ ã®ãƒ¦ãƒ¼ã‚¶ãƒ¢ãƒ¼ãƒ‰ã®CPUä½¿ç”¨é‡) */
     int TYPE_SYS_CPUTIME_TOTAL = 51;
 
-    /** Œv‘ª’lŽí•Ê(ƒVƒXƒeƒ€‚ÌƒVƒXƒeƒ€ƒ‚[ƒh‚Å‚ÌCPUŽg—p—Ê) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ã‚·ã‚¹ãƒ†ãƒ ã®ã‚·ã‚¹ãƒ†ãƒ ãƒ¢ãƒ¼ãƒ‰ã§ã®CPUä½¿ç”¨é‡) */
     int TYPE_SYS_CPUTIME_SYS = 52;
 
-    /** Œv‘ª’lŽí•Ê(CPU‚²‚Æ‚Ì•‰‰×) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(CPUã”ã¨ã®è² è·) */
     int TYPE_SYSTEM_CPUARRAY = 53;
 
-    /** Œv‘ª’lŽí•Ê(ƒVƒXƒeƒ€‘S‘Ì‚Ìƒy[ƒWƒCƒ“) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ã‚·ã‚¹ãƒ†ãƒ å…¨ä½“ã®ãƒšãƒ¼ã‚¸ã‚¤ãƒ³) */
     int TYPE_SYS_PAGE_IN = 54;
 
-    /** Œv‘ª’lŽí•Ê(ƒVƒXƒeƒ€‘S‘Ì‚Ìƒy[ƒWƒAƒEƒg) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ã‚·ã‚¹ãƒ†ãƒ å…¨ä½“ã®ãƒšãƒ¼ã‚¸ã‚¢ã‚¦ãƒˆ) */
     int TYPE_SYS_PAGE_OUT = 55;
 
-    /** Œv‘ª’lŽí•Ê(ƒvƒƒZƒX–ˆ‚ÌCpuTime) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ãƒ—ãƒ­ã‚»ã‚¹æ¯Žã®CpuTime) */
     int TYPE_PROC_CPUTIME_SYS = 56;
 
-    /** Œv‘ª’lŽí•Ê(ƒvƒƒZƒX–ˆ‚Ì‰¼‘zƒƒ‚ƒŠŽg—p—Ê) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ãƒ—ãƒ­ã‚»ã‚¹æ¯Žã®ä»®æƒ³ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡) */
     int TYPE_PROC_VIRTUALMEM_USE = 57;
 
-    /** Œv‘ª’lŽí•Ê(ƒvƒƒZƒX–ˆ‚Ì•¨—ƒƒ‚ƒŠŽg—p—Ê) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ãƒ—ãƒ­ã‚»ã‚¹æ¯Žã®ç‰©ç†ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡) */
     int TYPE_PROC_PHYSICALMEM_USE = 58;
 
-    /** Œv‘ª’lŽí•Ê(ƒvƒƒZƒX–ˆ‚ÌƒXƒŒƒbƒh”) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ãƒ—ãƒ­ã‚»ã‚¹æ¯Žã®ã‚¹ãƒ¬ãƒƒãƒ‰æ•°) */
     int TYPE_PROC_THREAD_OS = 59;
 
-    /** Œv‘ª’lŽí•Ê(ƒvƒƒZƒX–ˆ‚ÌƒƒWƒƒ[ƒtƒH[ƒ‹ƒg”) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ãƒ—ãƒ­ã‚»ã‚¹æ¯Žã®ãƒ¡ã‚¸ãƒ£ãƒ¼ãƒ•ã‚©ãƒ¼ãƒ«ãƒˆæ•°) */
     int TYPE_PROC_MAJFLT = 60;
 
-    /** Œv‘ª’lŽí•Ê(ƒvƒƒZƒX–ˆ‚Ìfd/ƒnƒ“ƒhƒ‹”) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ãƒ—ãƒ­ã‚»ã‚¹æ¯Žã®fd/ãƒãƒ³ãƒ‰ãƒ«æ•°) */
     int TYPE_SYS_FD_COUNT = 61;
     
-    /** Œv‘ª’lŽí•Ê(ƒvƒƒZƒX–ˆ‚Ìfd/ƒnƒ“ƒhƒ‹”) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ãƒ—ãƒ­ã‚»ã‚¹æ¯Žã®fd/ãƒãƒ³ãƒ‰ãƒ«æ•°) */
     int TYPE_PROC_FD_COUNT = 62;
     
-    /** CPUŽg—p—¦iƒVƒXƒeƒ€j‚Ì‡Œv */
+    /** CPUä½¿ç”¨çŽ‡ï¼ˆã‚·ã‚¹ãƒ†ãƒ ï¼‰ã®åˆè¨ˆ */
     int TYPE_SYS_CPU_TOTAL_USAGE = 63;
     
-    /** CPUŽg—p—¦iƒVƒXƒeƒ€j‚Ì’†‚ÌƒVƒXƒeƒ€‚ÌŽg—p—¦ */
+    /** CPUä½¿ç”¨çŽ‡ï¼ˆã‚·ã‚¹ãƒ†ãƒ ï¼‰ã®ä¸­ã®ã‚·ã‚¹ãƒ†ãƒ ã®ä½¿ç”¨çŽ‡ */
     int TYPE_SYS_CPU_SYS_USAGE = 64;
     
-    /** CPUŽg—p—¦iƒvƒƒZƒXj‚Ì‡Œv */
+    /** CPUä½¿ç”¨çŽ‡ï¼ˆãƒ—ãƒ­ã‚»ã‚¹ï¼‰ã®åˆè¨ˆ */
     int TYPE_PROC_CPU_TOTAL_USAGE = 65;
     
-    /** ƒJƒoƒŒƒbƒW */
+    /** ã‚«ãƒãƒ¬ãƒƒã‚¸ */
     int TYPE_PROC_CPU_SYS_USAGE = 66;
     
-    /** CPUŽg—p—¦iƒvƒƒZƒXj‚Ì‡Œv */
+    /** CPUä½¿ç”¨çŽ‡ï¼ˆãƒ—ãƒ­ã‚»ã‚¹ï¼‰ã®åˆè¨ˆ */
     int TYPE_COVERAGE = 67;
 
-    /** Œv‘ª’lŽí•Ê(ƒVƒXƒeƒ€‘S‘Ì‚Ì‹ó‚«ƒƒ‚ƒŠ) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ã‚·ã‚¹ãƒ†ãƒ å…¨ä½“ã®ç©ºããƒ¡ãƒ¢ãƒª) */
     int TYPE_SYS_PHYSICALMEM_USED = 68;
     
-    /** Œv‘ª’lŽí•Ê(ƒŒƒXƒ|ƒ“ƒX‰ñ”(sql‚ðœ‚­)) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ãƒ¬ã‚¹ãƒãƒ³ã‚¹å›žæ•°(sqlã‚’é™¤ã)) */
     int TYPE_PROC_RES_TOTAL_COUNT_EXCLUSION_SQL = 69;
     
-    /** Œv‘ª’lŽí•Ê(ƒŒƒXƒ|ƒ“ƒX‰ñ”(sql‚Ì‚Ý)) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ãƒ¬ã‚¹ãƒãƒ³ã‚¹å›žæ•°(sqlã®ã¿)) */
     int TYPE_PROC_RES_TOTAL_COUNT_ONLY_SQL = 70;
     
-    /** Œv‘ª’lŽí•Ê(ƒVƒXƒeƒ€‘S‘Ì‚Ì‹ó‚«ƒƒ‚ƒŠ) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ã‚·ã‚¹ãƒ†ãƒ å…¨ä½“ã®ç©ºããƒ¡ãƒ¢ãƒª) */
     int TYPE_PROC_RES_TIME_AVERAGE_EXCLUSION_SQL = 71;
     
-    /** Œv‘ª’lŽí•Ê(ƒVƒXƒeƒ€‘S‘Ì‚Ì‹ó‚«ƒƒ‚ƒŠ) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ã‚·ã‚¹ãƒ†ãƒ å…¨ä½“ã®ç©ºããƒ¡ãƒ¢ãƒª) */
     int TYPE_PROC_RES_TIME_AVERAGE_ONLY_SQL = 72;
     
-    /** Œv‘ª’lŽí•Ê(JMX‚ÌŒv‘ª’l) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(JMXã®è¨ˆæ¸¬å€¤) */
     int TYPE_JMX = 73;
     
-    /** CPUŽg—p—¦iƒVƒXƒeƒ€j‚Ì’†‚ÌIOWAIT‚ÌŽg—p—¦ */
+    /** CPUä½¿ç”¨çŽ‡ï¼ˆã‚·ã‚¹ãƒ†ãƒ ï¼‰ã®ä¸­ã®IOWAITã®ä½¿ç”¨çŽ‡ */
     int TYPE_SYS_CPU_IOWAIT_TIME = 75;
     
-    /** CPUŽg—p—¦iƒvƒƒZƒXj‚Ì’†‚ÌIOWAIT‚ÌŽg—p—¦ */
+    /** CPUä½¿ç”¨çŽ‡ï¼ˆãƒ—ãƒ­ã‚»ã‚¹ï¼‰ã®ä¸­ã®IOWAITã®ä½¿ç”¨çŽ‡ */
     int TYPE_PROC_CPU_IOWAIT_TIME = 76;
     
-    /** CPUŽg—p—¦iƒVƒXƒeƒ€j‚Ì’†‚ÌIOWAIT‚ÌŽg—p—¦ */
+    /** CPUä½¿ç”¨çŽ‡ï¼ˆã‚·ã‚¹ãƒ†ãƒ ï¼‰ã®ä¸­ã®IOWAITã®ä½¿ç”¨çŽ‡ */
     int TYPE_SYS_CPU_IOWAIT_USAGE = 77;
     
-    /** CPUŽg—p—¦iƒvƒƒZƒXj‚Ì’†‚ÌIOWAIT‚ÌŽg—p—¦ */
+    /** CPUä½¿ç”¨çŽ‡ï¼ˆãƒ—ãƒ­ã‚»ã‚¹ï¼‰ã®ä¸­ã®IOWAITã®ä½¿ç”¨çŽ‡ */
     int TYPE_PROC_CPU_IOWAIT_USAGE = 78;
 
-    /** Œv‘ª’lŽí•Ê(ƒtƒ@ƒCƒ‹“ü—Í—Ê) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ãƒ•ã‚¡ã‚¤ãƒ«å…¥åŠ›é‡) */
     int TYPE_FILE_INPUTSIZEOFSYSTEM = 79;
 
-    /** Œv‘ª’lŽí•Ê(ƒtƒ@ƒCƒ‹o—Í—Ê) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›é‡) */
     int TYPE_FILE_OUTPUTSIZEOFSYSTEM = 80;
     
-    /** Œv‘ª’lŽí•Ê(HTTPƒGƒ‰[”­¶‰ñ”) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(HTTPã‚¨ãƒ©ãƒ¼ç™ºç”Ÿå›žæ•°) */
     int TYPE_HTTP_ERRPR_RESPONSE = 81;
     
-    /** Œv‘ª’lŽí•Ê(ƒXƒg[ƒ‹ŒŸo‰ñ”) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ã‚¹ãƒˆãƒ¼ãƒ«æ¤œå‡ºå›žæ•°) */
     int TYPE_METHODSTALLCOUNT = 82;
 
-    /** Œv‘ª’lŽí•Ê(NameNode) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(NameNode) */
     int TYPE_HADOOP_NAMENODE = 83;
     
-    /** Œv‘ª’lŽí•Ê(DataNode) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(DataNode) */
     int TYPE_HADOOP_DATANODE = 84;
     
-    /** Œv‘ª’lŽí•Ê(JobTracker) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(JobTracker) */
     int TYPE_HAOOP_JOBTRACKER = 85;
     
-    /** Œv‘ª’lŽí•Ê(TaskTracker) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(TaskTracker) */
     int TYPE_HADOOP_TASKTRACKER = 86;
     
-    /** Œv‘ª’lŽí•Ê(HMaster) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(HMaster) */
     int TYPE_HBASE_HMASTER = 87;
 
-    /** Œv‘ª’lŽí•Ê(HRegionServer) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(HRegionServer) */
     int TYPE_HBASE_HREGIONSERVER = 88;
     
-    /** Œv‘ª’lŽí•Ê(MapReduce) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(MapReduce) */
     int TYPE_INFINISPAN_MAPREDUCE = 89;
 
-    /** Œv‘ª’lŽí•Ê(ƒXƒŒƒbƒh”) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ã‚¹ãƒ¬ãƒƒãƒ‰æ•°) */
     int TYPE_RUNNABLE_THREADCOUNT = 90;
 
-    /** Œv‘ª’lŽí•Ê(ƒXƒŒƒbƒh”) */
+    /** è¨ˆæ¸¬å€¤ç¨®åˆ¥(ã‚¹ãƒ¬ãƒƒãƒ‰æ•°) */
     int TYPE_BLOCKED_THREADCOUNT = 91;
 }

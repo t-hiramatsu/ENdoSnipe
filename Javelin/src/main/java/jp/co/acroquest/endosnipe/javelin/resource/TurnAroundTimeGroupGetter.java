@@ -42,19 +42,19 @@ import jp.co.acroquest.endosnipe.javelin.bean.Invocation;
 import jp.co.acroquest.endosnipe.javelin.bean.TurnAroundTimeInfo;
 
 /**
- * Turn Around Time‚ÌƒOƒ‹[ƒv‚ğæ“¾‚·‚éƒNƒ‰ƒXB
+ * Turn Around Timeã®ã‚°ãƒ«ãƒ¼ãƒ—ã‚’å–å¾—ã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚
  * 
  * @author tsukano
  */
 public class TurnAroundTimeGroupGetter implements ResourceGroupGetter, TelegramConstants
 {
-    /** Javelin‚ÌConfig */
+    /** Javelinã®Config */
     private JavelinConfig config_ = new JavelinConfig();
 
     private String prefixedName_;
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      */
     public TurnAroundTimeGroupGetter()
     {
@@ -66,8 +66,8 @@ public class TurnAroundTimeGroupGetter implements ResourceGroupGetter, TelegramC
      */
     public Set<String> getItemNameSet()
     {
-        // javelin.tat.monitor‚Ì’l‚ªfalse‚Ì‚É‚ÍA
-        // ƒOƒ‰ƒt‚Ì’l‚ğæ“¾‚µ‚È‚¢‚æ‚¤‚É‚·‚éB
+        // javelin.tat.monitorã®å€¤ãŒfalseã®æ™‚ã«ã¯ã€
+        // ã‚°ãƒ©ãƒ•ã®å€¤ã‚’å–å¾—ã—ãªã„ã‚ˆã†ã«ã™ã‚‹ã€‚
         if (this.config_.isTatEnabled() == false)
         {
             return new HashSet<String>();
@@ -91,20 +91,20 @@ public class TurnAroundTimeGroupGetter implements ResourceGroupGetter, TelegramC
         long currentTime = System.currentTimeMillis();
         long tatZeroKeepTime = this.config_.getTatZeroKeepTime();
 
-        // Turn Around Timeî•ñ(•½‹Ï’l)
+        // Turn Around Timeæƒ…å ±(å¹³å‡å€¤)
         List<ResourceItem> tatEntryList = new ArrayList<ResourceItem>();
-        // Turn Around Timeî•ñ(Å‘å’l)
+        // Turn Around Timeæƒ…å ±(æœ€å¤§å€¤)
         List<ResourceItem> tatMaxEntryList = new ArrayList<ResourceItem>();
-        // Turn Around Timeî•ñ(Å¬’l)
+        // Turn Around Timeæƒ…å ±(æœ€å°å€¤)
         List<ResourceItem> tatMinEntryList = new ArrayList<ResourceItem>();
-        // Turn Around TimeŒÄ‚Ño‚µ‰ñ”î•ñ
+        // Turn Around Timeå‘¼ã³å‡ºã—å›æ•°æƒ…å ±
         List<ResourceItem> tstCountEntryList = new ArrayList<ResourceItem>();
-        // —áŠO”­¶‰ñ”î•ñ
+        // ä¾‹å¤–ç™ºç”Ÿå›æ•°æƒ…å ±
         List<ResourceItem> throwableCountEntryList = new ArrayList<ResourceItem>();
 
-        // HTTPƒXƒe[ƒ^ƒXƒGƒ‰[”­¶‰ñ”î•ñ
+        // HTTPã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚¨ãƒ©ãƒ¼ç™ºç”Ÿå›æ•°æƒ…å ±
         List<ResourceItem> httpStatusCountEntryList = new ArrayList<ResourceItem>();
-        // ƒXƒg[ƒ‹ŒŸo‰ñ”î•ñ
+        // ã‚¹ãƒˆãƒ¼ãƒ«æ¤œå‡ºå›æ•°æƒ…å ±
         List<ResourceItem> methodStallCountEntryList = new ArrayList<ResourceItem>();
 
         Invocation[] invocations = RootInvocationManager.getAllRootInvocations();
@@ -118,23 +118,23 @@ public class TurnAroundTimeGroupGetter implements ResourceGroupGetter, TelegramC
             }
             TurnAroundTimeInfo info = invocation.resetAccumulatedTimeCount();
 
-            // resetAccumulatedTimeCount() ŒÄo‚µŒã‚ÉAŒÄ‚Ño‚µ‰ñ”‚ª 0 ‚Å‚ ‚éŠúŠÔ‚ğ’²‚×‚é
+            // resetAccumulatedTimeCount() å‘¼å‡ºã—å¾Œã«ã€å‘¼ã³å‡ºã—å›æ•°ãŒ 0 ã§ã‚ã‚‹æœŸé–“ã‚’èª¿ã¹ã‚‹
             long tatCallZeroValueStartTime = invocation.getTatCallZeroValueStartTime();
             if (tatCallZeroValueStartTime != Invocation.TAT_ZERO_KEEP_TIME_NULL_VALUE
                 && currentTime > tatCallZeroValueStartTime + tatZeroKeepTime)
             {
-                // ŒÄ‚Ño‚µ‰ñ”‚ª 0 ‚Å‚ ‚éŠÔ‚ªè‡’l‚ğ’´‚¦‚½ê‡‚ÍAƒNƒ‰ƒCƒAƒ“ƒg‚É’Ê’m‚µ‚È‚¢
+                // å‘¼ã³å‡ºã—å›æ•°ãŒ 0 ã§ã‚ã‚‹æ™‚é–“ãŒé–¾å€¤ã‚’è¶…ãˆãŸå ´åˆã¯ã€ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã«é€šçŸ¥ã—ãªã„
                 continue;
             }
 
-            // –ß‚è’l‚Å•Ô‚·ResourceEntry‚ğì¬‚·‚é
+            // æˆ»ã‚Šå€¤ã§è¿”ã™ResourceEntryã‚’ä½œæˆã™ã‚‹
             ResourceItem tatEntry = new ResourceItem();
             ResourceItem tatMaxEntry = new ResourceItem();
             ResourceItem tatMinEntry = new ResourceItem();
             ResourceItem tatCountEntry = new ResourceItem();
 
-            // ResourceEntry‚ÉName‚ğİ’è‚·‚éB
-            // ƒXƒ‰ƒbƒVƒ…‚Í‹æØ‚è•¶š‚Ì‚½‚ßAƒXƒ‰ƒbƒVƒ…‚ª‚ ‚éê‡‚É‚Í•¶šQÆ‚É•ÏŠ·‚·‚é
+            // ResourceEntryã«Nameã‚’è¨­å®šã™ã‚‹ã€‚
+            // ã‚¹ãƒ©ãƒƒã‚·ãƒ¥ã¯åŒºåˆ‡ã‚Šæ–‡å­—ã®ãŸã‚ã€ã‚¹ãƒ©ãƒƒã‚·ãƒ¥ãŒã‚ã‚‹å ´åˆã«ã¯æ–‡å­—å‚ç…§ã«å¤‰æ›ã™ã‚‹
             String name = invocation.getRootInvocationManagerKey();
 
             String tatName = getTreeNodeName(name, TelegramConstants.POSTFIX_AVERAGE);
@@ -149,7 +149,7 @@ public class TurnAroundTimeGroupGetter implements ResourceGroupGetter, TelegramC
             String tatCountName = getTreeNodeName(name, TelegramConstants.POSTFIX_COUNT);
             tatCountEntry.setName(tatCountName);
 
-            // ResourceEntry‚ÉValue‚ğİ’è‚·‚é
+            // ResourceEntryã«Valueã‚’è¨­å®šã™ã‚‹
             int count = info.getCallCount();
             tatCountEntry.setValue(String.valueOf(count));
             if (count == 0)
@@ -163,13 +163,13 @@ public class TurnAroundTimeGroupGetter implements ResourceGroupGetter, TelegramC
             tatMaxEntry.setValue(String.valueOf(info.getTurnAroundTimeMax()));
             tatMinEntry.setValue(String.valueOf(info.getTurnAroundTimeMin()));
 
-            // ResourceEntry‚ğƒŠƒXƒg‚Éİ’è‚·‚éB
+            // ResourceEntryã‚’ãƒªã‚¹ãƒˆã«è¨­å®šã™ã‚‹ã€‚
             tatEntryList.add(tatEntry);
             tatMaxEntryList.add(tatMaxEntry);
             tatMinEntryList.add(tatMinEntry);
             tstCountEntryList.add(tatCountEntry);
 
-            // —áŠO”­¶î•ñ‚ğİ’è
+            // ä¾‹å¤–ç™ºç”Ÿæƒ…å ±ã‚’è¨­å®š
             Map<String, Integer> throwableCountMap = info.getThrowableCountMap();
             for (Map.Entry<String, Integer> entry : throwableCountMap.entrySet())
             {
@@ -184,7 +184,7 @@ public class TurnAroundTimeGroupGetter implements ResourceGroupGetter, TelegramC
                 throwableCountEntryList.add(throwableCountEntry);
             }
 
-            // HTTPƒGƒ‰[”­¶î•ñ‚ğİ’è
+            // HTTPã‚¨ãƒ©ãƒ¼ç™ºç”Ÿæƒ…å ±ã‚’è¨­å®š
             Map<String, Integer> httpStatusCountMap = info.getHttpStatusCountMap();
             for (Map.Entry<String, Integer> entry : httpStatusCountMap.entrySet())
             {
@@ -199,7 +199,7 @@ public class TurnAroundTimeGroupGetter implements ResourceGroupGetter, TelegramC
                 httpStatusCountEntryList.add(httpStatusCountEntry);
             }
 
-            // ƒXƒg[ƒ‹ŒŸoî•ñ‚ğİ’è
+            // ã‚¹ãƒˆãƒ¼ãƒ«æ¤œå‡ºæƒ…å ±ã‚’è¨­å®š
             ResourceItem methodStallCountEntry = new ResourceItem();
             String methodStallCountName = getTreeNodeName(name, TelegramConstants.POSTFIX_STALLED);
             methodStallCountEntry.setName(methodStallCountName);
@@ -207,7 +207,7 @@ public class TurnAroundTimeGroupGetter implements ResourceGroupGetter, TelegramC
             methodStallCountEntryList.add(methodStallCountEntry);
         }
 
-        // –ß‚è’l‚Æ‚È‚éMultiResourceGetter‚ÌƒŠƒXƒg‚ğİ’è‚·‚é
+        // æˆ»ã‚Šå€¤ã¨ãªã‚‹MultiResourceGetterã®ãƒªã‚¹ãƒˆã‚’è¨­å®šã™ã‚‹
         Map<String, MultiResourceGetter> retVal = new LinkedHashMap<String, MultiResourceGetter>();
         retVal.put(ITEMNAME_PROCESS_RESPONSE_TIME_AVERAGE, new TurnAroundTimeGetter(tatEntryList));
         retVal.put(ITEMNAME_PROCESS_RESPONSE_TIME_MAX, new TurnAroundTimeGetter(tatMaxEntryList));

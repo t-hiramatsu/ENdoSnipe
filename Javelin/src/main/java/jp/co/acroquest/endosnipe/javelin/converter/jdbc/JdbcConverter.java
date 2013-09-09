@@ -35,13 +35,13 @@ import jp.co.smg.endosnipe.javassist.CannotCompileException;
 import jp.co.smg.endosnipe.javassist.NotFoundException;
 
 /**
- * JDBCJavelin�p�R���o�[�^
+ * JDBCJavelin用コンバータ
  * 
  * @author yamasaki
  */
 public class JdbcConverter extends AbstractConverter
 {
-    /** JDBCJavelin�ōŏ��ɓǂ܂��N���X */
+    /** JDBCJavelinで最初に読まれるクラス */
     private static JdbcJavelinTransformer transformer__;
 
     /**
@@ -49,7 +49,7 @@ public class JdbcConverter extends AbstractConverter
      */
     public void init()
     {
-        // StatsJavelinRecorder������������
+        // StatsJavelinRecorderを初期化する
         synchronized (StatsJavelinRecorder.class)
         {
             if (StatsJavelinRecorder.isInitialized() == false)
@@ -67,7 +67,7 @@ public class JdbcConverter extends AbstractConverter
         throws CannotCompileException,
             NotFoundException
     {
-        // JDBCJavelinTransformer���Ăяo���B
+        // JDBCJavelinTransformerを呼び出す。
         synchronized (JdbcConverter.class)
         {
             if (transformer__ == null)
@@ -77,7 +77,7 @@ public class JdbcConverter extends AbstractConverter
             }
         }
 
-        // �R�[�h���ߍ��݂��s���A�N���X�t�@�C���o�b�t�@�ɐݒ肷��B
+        // コード埋め込みを行い、クラスファイルバッファに設定する。
         try
         {
             byte[] newClassfileBuffer =

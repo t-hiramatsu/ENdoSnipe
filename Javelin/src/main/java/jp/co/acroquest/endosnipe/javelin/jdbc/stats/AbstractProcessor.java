@@ -36,29 +36,29 @@ import jp.co.acroquest.endosnipe.common.db.AbstractExecutePlanChecker;
 import jp.co.acroquest.endosnipe.javelin.jdbc.common.SqlUtil;
 
 /**
- * DBProcessor‚Ì’ŠÛƒNƒ‰ƒXB
- * ŠJ”­Ò‚ÍA‚±‚ÌƒNƒ‰ƒX‚ğŒp³‚µ‚ÄDBProcessor‚ğì¬‚·‚éB
+ * DBProcessorã®æŠ½è±¡ã‚¯ãƒ©ã‚¹ã€‚
+ * é–‹ç™ºè€…ã¯ã€ã“ã®ã‚¯ãƒ©ã‚¹ã‚’ç¶™æ‰¿ã—ã¦DBProcessorã‚’ä½œæˆã™ã‚‹ã€‚
  * 
  * @author eriguchi
  */
 public abstract class AbstractProcessor implements DBProcessor
 {
     /**
-     * PreparedStatement‚ÌÀsŒv‰æ‚ğæ“¾‚·‚éB
-     * getExecPlan‚ğŒÄ‚Ño‚·‚Ì‚İB
+     * PreparedStatementã®å®Ÿè¡Œè¨ˆç”»ã‚’å–å¾—ã™ã‚‹ã€‚
+     * getExecPlanã‚’å‘¼ã³å‡ºã™ã®ã¿ã€‚
      *
-     * @param stmt ƒXƒe[ƒgƒƒ“ƒg
-     * @param originalSql SQL•¶
-     * @param args ˆø”B
-     * @return ÀsŒv‰æ
+     * @param stmt ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆ
+     * @param originalSql SQLæ–‡
+     * @param args å¼•æ•°ã€‚
+     * @return å®Ÿè¡Œè¨ˆç”»
      * 
-     * @throws SQLException ÀsŒv‰ææ“¾‚ÉƒGƒ‰[‚ª”­¶‚µ‚½ê‡B
+     * @throws SQLException å®Ÿè¡Œè¨ˆç”»å–å¾—æ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆã€‚
      */
     public String getExecPlanPrepared(final Statement stmt, final String originalSql,
             final List<?> args)
         throws SQLException
     {
-        // ÀsŒv‰æ‚ğæ“¾iDBMS‚Ìí—Ş‚É‚æ‚Á‚Ä•ªŠòj
+        // å®Ÿè¡Œè¨ˆç”»ã‚’å–å¾—ï¼ˆDBMSã®ç¨®é¡ã«ã‚ˆã£ã¦åˆ†å²ï¼‰
         List<String> sqlList = SqlUtil.splitSqlStatement(originalSql);
         StringBuilder execPlanText = new StringBuilder();
         for (String sql : sqlList)

@@ -37,44 +37,44 @@ import jp.co.smg.endosnipe.javassist.CtClass;
 import jp.co.smg.endosnipe.javassist.NotFoundException;
 
 /**
- * JRuby—p‚ÌƒRƒ“ƒo[ƒ^ƒNƒ‰ƒXB
+ * JRubyç”¨ã®ã‚³ãƒ³ãƒãƒ¼ã‚¿ã‚¯ãƒ©ã‚¹ã€‚
  * @author tanimoto
  *
  */
 public class JrubyConverter extends AbstractConverter
 {
-    /** JavelinRecorder–¼ */
+    /** JavelinRecorderå */
     private static final String JRUBY_RECORDER_NAME = JrubyRecorder.class.getName();
 
-    /** Às‘Oˆ—‚Æ‚µ‚Ä’Ç‰Á‚·‚épreProcess‚ÌƒR[ƒh(‘O)B */
+    /** å®Ÿè¡Œå‰å‡¦ç†ã¨ã—ã¦è¿½åŠ ã™ã‚‹preProcessã®ã‚³ãƒ¼ãƒ‰(å‰)ã€‚ */
     private static final String PREPROCESS_CODE_BEFORE = JRUBY_RECORDER_NAME + ".preProcess(";
 
-    /** Às‘Oˆ—‚Æ‚µ‚Ä’Ç‰Á‚·‚épreProcess‚ÌƒR[ƒh(Œã)B */
+    /** å®Ÿè¡Œå‰å‡¦ç†ã¨ã—ã¦è¿½åŠ ã™ã‚‹preProcessã®ã‚³ãƒ¼ãƒ‰(å¾Œ)ã€‚ */
     private static final String PREPROCESS_CODE_AFTER = "\", $args);";
 
-    /** ÀsŒãˆ—‚Æ‚µ‚Ä’Ç‰Á‚·‚épostProcessNG‚ÌƒR[ƒh(‘O)B */
+    /** å®Ÿè¡Œå¾Œå‡¦ç†ã¨ã—ã¦è¿½åŠ ã™ã‚‹postProcessNGã®ã‚³ãƒ¼ãƒ‰(å‰)ã€‚ */
     private static final String POSTPROCESS_NG_CODE_BEFORE =
             JRUBY_RECORDER_NAME + ".postProcessNG(";
 
-    /** ÀsŒãˆ—‚Æ‚µ‚Ä’Ç‰Á‚·‚épostProcessNG‚ÌƒR[ƒh(Œã)B */
+    /** å®Ÿè¡Œå¾Œå‡¦ç†ã¨ã—ã¦è¿½åŠ ã™ã‚‹postProcessNGã®ã‚³ãƒ¼ãƒ‰(å¾Œ)ã€‚ */
     private static final String POSTPROCESS_NG_CODE_AFTER = "\",$args,$e);throw $e;";
 
-    /** ÀsŒãˆ—‚Æ‚µ‚Ä’Ç‰Á‚·‚épostProcessOK‚ÌƒR[ƒh(‘O)B */
+    /** å®Ÿè¡Œå¾Œå‡¦ç†ã¨ã—ã¦è¿½åŠ ã™ã‚‹postProcessOKã®ã‚³ãƒ¼ãƒ‰(å‰)ã€‚ */
     private static final String POSTPROCESS_OK_CODE_BEFORE =
             JRUBY_RECORDER_NAME + ".postProcessOK(";
 
-    /** ÀsŒãˆ—‚Æ‚µ‚Ä’Ç‰Á‚·‚épostProcessOK‚ÌƒR[ƒh(Œã)B */
+    /** å®Ÿè¡Œå¾Œå‡¦ç†ã¨ã—ã¦è¿½åŠ ã™ã‚‹postProcessOKã®ã‚³ãƒ¼ãƒ‰(å¾Œ)ã€‚ */
     private static final String POSTPROCESS_OK_CODE_AFTER = "\",$args,($w)$_);";
 
-    /** Às‘Oˆ—‚Æ‚µ‚Ä’Ç‰Á‚³‚ê‚éƒR[ƒh‚ÌŒÅ’è•”•ª‚Ì•¶š—ñ’· */
+    /** å®Ÿè¡Œå‰å‡¦ç†ã¨ã—ã¦è¿½åŠ ã•ã‚Œã‚‹ã‚³ãƒ¼ãƒ‰ã®å›ºå®šéƒ¨åˆ†ã®æ–‡å­—åˆ—é•· */
     private static final int PREPROCESS_CODE_FIXEDLENGTH =
             PREPROCESS_CODE_BEFORE.length() + PREPROCESS_CODE_AFTER.length();
 
-    /** ÀsŒãˆ—‚Æ‚µ‚Ä’Ç‰Á‚³‚ê‚éƒR[ƒh‚ÌŒÅ’è•”•ª‚Ì•¶š—ñ’· */
+    /** å®Ÿè¡Œå¾Œå‡¦ç†ã¨ã—ã¦è¿½åŠ ã•ã‚Œã‚‹ã‚³ãƒ¼ãƒ‰ã®å›ºå®šéƒ¨åˆ†ã®æ–‡å­—åˆ—é•· */
     private static final int POSTPROCESS_CODE_FIXEDLENGTH =
             POSTPROCESS_OK_CODE_BEFORE.length() + POSTPROCESS_OK_CODE_AFTER.length();
 
-    /** ÀsŒãˆ—‚Æ‚µ‚Ä’Ç‰Á‚³‚ê‚éNGƒR[ƒh‚ÌŒÅ’è•”•ª‚Ì•¶š—ñ’· */
+    /** å®Ÿè¡Œå¾Œå‡¦ç†ã¨ã—ã¦è¿½åŠ ã•ã‚Œã‚‹NGã‚³ãƒ¼ãƒ‰ã®å›ºå®šéƒ¨åˆ†ã®æ–‡å­—åˆ—é•· */
     private static final int NG_CODE_FIXEDLENGTH =
             POSTPROCESS_NG_CODE_BEFORE.length() + POSTPROCESS_NG_CODE_AFTER.length();
 
@@ -83,7 +83,7 @@ public class JrubyConverter extends AbstractConverter
      */
     public void init()
     {
-        // S2StatsJavelinRecorder‚ğ‰Šú‰»‚·‚é
+        // S2StatsJavelinRecorderã‚’åˆæœŸåŒ–ã™ã‚‹
         synchronized (StatsJavelinRecorder.class)
         {
             if (StatsJavelinRecorder.isInitialized() == false)
@@ -112,10 +112,10 @@ public class JrubyConverter extends AbstractConverter
     }
 
     /**
-     * ƒƒ\ƒbƒh‚ÌU‚é•‘‚¢‚ğC³‚·‚éB
+     * ãƒ¡ã‚½ãƒƒãƒ‰ã®æŒ¯ã‚‹èˆã„ã‚’ä¿®æ­£ã™ã‚‹ã€‚
      * @param ctBehavior CtBehavior
-     * @throws CannotCompileException ƒRƒ“ƒpƒCƒ‹‚Å‚«‚È‚¢ê‡
-     * @throws NotFoundException ƒNƒ‰ƒX‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡
+     * @throws CannotCompileException ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã§ããªã„å ´åˆ
+     * @throws NotFoundException ã‚¯ãƒ©ã‚¹ãŒè¦‹ã¤ã‹ã‚‰ãªã„å ´åˆ
      */
     private void convertBehavior(final CtBehavior ctBehavior)
         throws CannotCompileException,
@@ -126,7 +126,7 @@ public class JrubyConverter extends AbstractConverter
         String argClassMethod = "\"" + className + "\",\"" + methodName;
         int argLength = argClassMethod.length();
 
-        // Às‘Oˆ—‚ğ’Ç‰Á‚·‚éB
+        // å®Ÿè¡Œå‰å‡¦ç†ã‚’è¿½åŠ ã™ã‚‹ã€‚
         int preProcessCodeLength = argLength + PREPROCESS_CODE_FIXEDLENGTH;
         StringBuilder preProcessCodeBuffer = new StringBuilder(preProcessCodeLength);
         preProcessCodeBuffer.append(PREPROCESS_CODE_BEFORE);
@@ -135,7 +135,7 @@ public class JrubyConverter extends AbstractConverter
         String callPreProcessCode = preProcessCodeBuffer.toString();
         ctBehavior.insertBefore(callPreProcessCode);
 
-        // ÀsŒãˆ—‚ğ’Ç‰Á‚·‚éB
+        // å®Ÿè¡Œå¾Œå‡¦ç†ã‚’è¿½åŠ ã™ã‚‹ã€‚
         int postProcessCodeLength = argLength + POSTPROCESS_CODE_FIXEDLENGTH;
         StringBuilder postProcessCodeBuffer = new StringBuilder(postProcessCodeLength);
         postProcessCodeBuffer.append(POSTPROCESS_OK_CODE_BEFORE);
@@ -145,9 +145,9 @@ public class JrubyConverter extends AbstractConverter
 
         ctBehavior.insertAfter(callPostProcessCode);
 
-        // —áŠOƒnƒ“ƒhƒŠƒ“ƒO‚ğ’Ç‰Á‚·‚éB
+        // ä¾‹å¤–ãƒãƒ³ãƒ‰ãƒªãƒ³ã‚°ã‚’è¿½åŠ ã™ã‚‹ã€‚
         CtClass throwable = getClassPool().get(Throwable.class.getName());
-        // Às‘Oˆ—‚ğ’Ç‰Á‚·‚éB
+        // å®Ÿè¡Œå‰å‡¦ç†ã‚’è¿½åŠ ã™ã‚‹ã€‚
         int ngCodeLength = argLength + NG_CODE_FIXEDLENGTH;
         StringBuilder ngCodeBuffer = new StringBuilder(ngCodeLength);
         ngCodeBuffer.append(POSTPROCESS_NG_CODE_BEFORE);
@@ -156,7 +156,7 @@ public class JrubyConverter extends AbstractConverter
         String ngCode = ngCodeBuffer.toString();
         ctBehavior.addCatch(ngCode, throwable);
 
-        // ˆ—Œ‹‰Ê‚ğƒƒO‚Éo—Í‚·‚éB
+        // å‡¦ç†çµæœã‚’ãƒ­ã‚°ã«å‡ºåŠ›ã™ã‚‹ã€‚
         logModifiedMethod(JrubyConverter.class.getSimpleName(), ctBehavior);
     }
 }

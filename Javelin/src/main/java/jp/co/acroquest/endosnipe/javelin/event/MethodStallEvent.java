@@ -28,14 +28,14 @@ package jp.co.acroquest.endosnipe.javelin.event;
 import jp.co.acroquest.endosnipe.common.event.EventConstants;
 
 /**
- * ƒXƒg[ƒ‹ƒƒ\ƒbƒhŒŸoƒCƒxƒ“ƒg
+ * ã‚¹ãƒˆãƒ¼ãƒ«ãƒ¡ã‚½ãƒƒãƒ‰æ¤œå‡ºã‚¤ãƒ™ãƒ³ãƒˆ
  * 
  * @author matsuoka
  */
 public class MethodStallEvent extends CommonEvent
 {
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
      */
     public MethodStallEvent()
     {

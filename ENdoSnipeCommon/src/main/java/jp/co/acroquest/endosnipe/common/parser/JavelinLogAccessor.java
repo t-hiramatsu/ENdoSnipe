@@ -29,21 +29,21 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Javelin ƒƒO‚Ìƒf[ƒ^‚ğæ“¾‚·‚éè’i‚ğ’ñ‹Ÿ‚·‚éƒCƒ“ƒ^ƒtƒF[ƒXB<br />
+ * Javelin ãƒ­ã‚°ã®ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹æ‰‹æ®µã‚’æä¾›ã™ã‚‹ã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹ã€‚<br />
  *
  * @author y-sakamoto
  */
 public abstract class JavelinLogAccessor
 {
     /**
-     * Javelin ƒƒO‚Ìƒtƒ@ƒCƒ‹–¼B<br />
+     * Javelin ãƒ­ã‚°ã®ãƒ•ã‚¡ã‚¤ãƒ«åã€‚<br />
      */
     private String fileName_;
 
     /**
-     * Javelin ƒƒO‚Ìƒtƒ@ƒCƒ‹–¼‚ğİ’è‚µ‚Ü‚·B<br />
+     * Javelin ãƒ­ã‚°ã®ãƒ•ã‚¡ã‚¤ãƒ«åã‚’è¨­å®šã—ã¾ã™ã€‚<br />
      *
-     * @param fileName ƒtƒ@ƒCƒ‹–¼
+     * @param fileName ãƒ•ã‚¡ã‚¤ãƒ«å
      */
     public void setFileName(final String fileName)
     {
@@ -51,9 +51,9 @@ public abstract class JavelinLogAccessor
     }
 
     /**
-     * Javelin ƒƒO‚Ìƒtƒ@ƒCƒ‹–¼‚ğ•Ô‚µ‚Ü‚·B<br />
+     * Javelin ãƒ­ã‚°ã®ãƒ•ã‚¡ã‚¤ãƒ«åã‚’è¿”ã—ã¾ã™ã€‚<br />
      *
-     * @return ƒtƒ@ƒCƒ‹–¼
+     * @return ãƒ•ã‚¡ã‚¤ãƒ«å
      */
     public String getFileName()
     {
@@ -61,10 +61,10 @@ public abstract class JavelinLogAccessor
     }
 
     /**
-     * Javelin ƒƒOƒf[ƒ^‚Ì“ü—ÍƒXƒgƒŠ[ƒ€‚ğ•Ô‚µ‚Ü‚·B<br /> 
+     * Javelin ãƒ­ã‚°ãƒ‡ãƒ¼ã‚¿ã®å…¥åŠ›ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚’è¿”ã—ã¾ã™ã€‚<br /> 
      *
-     * @return Javelin ƒƒOƒf[ƒ^‚Ì“ü—ÍƒXƒgƒŠ[ƒ€
-     * @throws IOException “ü—ÍƒXƒgƒŠ[ƒ€ì¬‚ÉƒGƒ‰[‚ª”­¶‚µ‚½ê‡
+     * @return Javelin ãƒ­ã‚°ãƒ‡ãƒ¼ã‚¿ã®å…¥åŠ›ã‚¹ãƒˆãƒªãƒ¼ãƒ 
+     * @throws IOException å…¥åŠ›ã‚¹ãƒˆãƒªãƒ¼ãƒ ä½œæˆæ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public abstract InputStream getInputStream()
         throws IOException;

@@ -28,7 +28,7 @@ package jp.co.acroquest.endosnipe.javelin.event;
 import jp.co.acroquest.endosnipe.common.event.EventConstants;
 
 /**
- * CallTree‚ª’´‰ß‚µ‚½‚Æ‚«‚É”­¶‚·‚éƒCƒxƒ“ƒg‚Å‚·B<br />
+ * CallTreeãŒè¶…éŽã—ãŸã¨ãã«ç™ºç”Ÿã™ã‚‹ã‚¤ãƒ™ãƒ³ãƒˆã§ã™ã€‚<br />
  * 
  * @author fujii
  *
@@ -36,7 +36,7 @@ import jp.co.acroquest.endosnipe.common.event.EventConstants;
 public class CallTreeFullEvent extends AbstractStackTraceCheckEvent
 {
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^BƒCƒxƒ“ƒg–¼(CallTreeFull)‚ðÝ’è‚µ‚Ü‚·B<br />
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚ã‚¤ãƒ™ãƒ³ãƒˆå(CallTreeFull)ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
      */
     public CallTreeFullEvent()
     {

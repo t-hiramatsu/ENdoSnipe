@@ -34,215 +34,215 @@ import java.util.Map;
 import jp.co.acroquest.endosnipe.data.db.DatabaseType;
 
 /**
- * ENdoSnipe DataCollector ‚Ìİ’è/’è”‚ğ•Û‚·‚éƒNƒ‰ƒX‚Å‚·B<br />
+ * ENdoSnipe DataCollector ã®è¨­å®š/å®šæ•°ã‚’ä¿æŒã™ã‚‹ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  * 
  * @author y-komori
  */
 public class DataCollectorConfig
 {
-    /** JavelinƒƒO‚ğ•ªŠ„‚·‚é‚©‚Ç‚¤‚© */
+    /** Javelinãƒ­ã‚°ã‚’åˆ†å‰²ã™ã‚‹ã‹ã©ã†ã‹ */
     private boolean isLogSplit_ = DEF_IS_LOG_SPLIT;
 
-    /** JavelinƒƒO‚ğ•ªŠ„•Û‘¶‚·‚éê‡‚Ì‚PƒŒƒR[ƒh‚ ‚½‚è‚ÌÅ‘åƒTƒCƒY */
+    /** Javelinãƒ­ã‚°ã‚’åˆ†å‰²ä¿å­˜ã™ã‚‹å ´åˆã®ï¼‘ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚ãŸã‚Šã®æœ€å¤§ã‚µã‚¤ã‚º */
     private int logSplitSize_ = DEF_LOG_SPLIT_SIZE;
 
-    /** JavelinƒƒO‚ğ•ªŠ„‚·‚éê‡‚Ìè‡’l */
+    /** Javelinãƒ­ã‚°ã‚’åˆ†å‰²ã™ã‚‹å ´åˆã®é–¾å€¤ */
     private int logSplitThreshold_ = DEF_LOG_SPLIT_THRESHOLD;
 
-    /** JavelinƒƒOÅ‘å’~ÏŒ”‚ÌƒL[ */
+    /** Javelinãƒ­ã‚°æœ€å¤§è“„ç©ä»¶æ•°ã®ã‚­ãƒ¼ */
     public static final String JAVELIN_LOG_MAX_KEY = "javelin.log.max.record";
 
-    /** JavelinƒƒOÅ‘å’~ÏŒ”‚ÌƒfƒtƒHƒ‹ƒg’l */
+    /** Javelinãƒ­ã‚°æœ€å¤§è“„ç©ä»¶æ•°ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
     public static final int DEF_JAVELIN_LOG_MAX = 260000;
 
-    /** JavelinƒƒOÅ‘å’~ÏŒ”‚ÌÅ¬’l */
+    /** Javelinãƒ­ã‚°æœ€å¤§è“„ç©ä»¶æ•°ã®æœ€å°å€¤ */
     public static final int MIN_JAVELIN_LOG_MAX = 1;
 
-    /** Œv‘ªƒf[ƒ^Å‘å’~ÏŒ”‚ÌƒL[ */
+    /** è¨ˆæ¸¬ãƒ‡ãƒ¼ã‚¿æœ€å¤§è“„ç©ä»¶æ•°ã®ã‚­ãƒ¼ */
     public static final String MEASUREMENT_LOG_MAX_KEY = "measurement.log.max.record";
 
-    /** Œv‘ªƒf[ƒ^Å‘å’~ÏŒ”‚ÌƒfƒtƒHƒ‹ƒg’l */
+    /** è¨ˆæ¸¬ãƒ‡ãƒ¼ã‚¿æœ€å¤§è“„ç©ä»¶æ•°ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
     public static final int DEF_MEASUREMENT_LOG_MAX = 870000;
 
-    /** Œv‘ªƒf[ƒ^Å‘å’~ÏŒ”‚ÌÅ¬’l */
+    /** è¨ˆæ¸¬ãƒ‡ãƒ¼ã‚¿æœ€å¤§è“„ç©ä»¶æ•°ã®æœ€å°å€¤ */
     public static final int MIN_MEASUREMENT_LOG_MAX = 1;
 
-    /** ƒf[ƒ^ƒx[ƒX‚Ìí—Ş */
+    /** ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®ç¨®é¡ */
     private DatabaseType databaseType_ = DEF_DATABASE_TYPE;
 
-    /** ƒf[ƒ^ƒx[ƒXƒfƒBƒŒƒNƒgƒŠ */
+    /** ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª */
     private String baseDir_ = DEF_DATABASE_DIR;
 
-    /** ƒf[ƒ^ƒx[ƒX‚ÌƒzƒXƒgƒAƒhƒŒƒX */
+    /** ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®ãƒ›ã‚¹ãƒˆã‚¢ãƒ‰ãƒ¬ã‚¹ */
     private String databaseHost_ = DEF_DATABASE_HOST;
 
-    /** ƒf[ƒ^ƒx[ƒX‚Ìƒ|[ƒg”Ô† */
+    /** ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®ãƒãƒ¼ãƒˆç•ªå· */
     private String databasePort_ = DEF_DATABASE_PORT;
 
-    /** ƒf[ƒ^ƒx[ƒX–¼ */
+    /** ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å */
     private String databaseName_ = DEF_DATABASE_NAME;
 
-    /** ƒf[ƒ^ƒx[ƒXƒƒOƒCƒ“ƒ†[ƒU–¼ */
+    /** ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ­ã‚°ã‚¤ãƒ³ãƒ¦ãƒ¼ã‚¶å */
     private String databaseUserName_ = DEF_DATABASE_USER;
 
-    /** ƒf[ƒ^ƒx[ƒXƒƒOƒCƒ“ƒpƒXƒ[ƒh */
+    /** ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ­ã‚°ã‚¤ãƒ³ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ */
     private String databasePassword_ = DEF_DATABASE_PASSWORD;
 
-    /** ƒŠƒ\[ƒXƒ‚ƒjƒ^ƒŠƒ“ƒO‚Ìİ’èƒtƒ@ƒCƒ‹–¼ */
+    /** ãƒªã‚½ãƒ¼ã‚¹ãƒ¢ãƒ‹ã‚¿ãƒªãƒ³ã‚°ã®è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«å */
     private String resourceMonitoringConf_ = DEF_RESOURCE_MONITORING_CONF;
 
-    /** ƒŒƒ|[ƒg‚ğo—Í‚·‚éƒfƒBƒŒƒNƒgƒŠB */
+    /** ãƒ¬ãƒãƒ¼ãƒˆã‚’å‡ºåŠ›ã™ã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã€‚ */
     private String reportOutputPath_ = DEF_REPORT_OUTPUT_PATH;
 
-    /** Ú‘±ƒ‚[ƒh */
+    /** æ¥ç¶šãƒ¢ãƒ¼ãƒ‰ */
     private String connectionMode_ = DEF_MODE;
 
-    /** ‘Ò‚¿ó‚¯ƒzƒXƒg */
+    /** å¾…ã¡å—ã‘ãƒ›ã‚¹ãƒˆ */
     private String acceptHost_ = DEF_ACCEPT_HOST;
 
-    /** ‘Ò‚¿ó‚¯ƒ|[ƒg */
+    /** å¾…ã¡å—ã‘ãƒãƒ¼ãƒˆ */
     private int acceptPort_ = DEF_ACCEOT_PORT;
 
-    /** JavelinƒƒO‚ÌÅ‘å’~ÏŠúŠÔ */
+    /** Javelinãƒ­ã‚°ã®æœ€å¤§è“„ç©æœŸé–“ */
     private String jvnLogStoragePeriod_ = DEF_MEASUREMENT_LOG_STORAGE_PERIOD;
 
-    /** Œv‘ªƒf[ƒ^‚ÌÅ‘å’~ÏŠúŠÔ */
+    /** è¨ˆæ¸¬ãƒ‡ãƒ¼ã‚¿ã®æœ€å¤§è“„ç©æœŸé–“ */
     private String measurementLogStoragePeriod_ = DEF_MEASUREMENT_LOG_STORAGE_PERIOD;
 
-    /** Agent–ˆ‚Ìİ’è‚ğ•Û‚·‚éƒŠƒXƒg */
+    /** Agentæ¯ã®è¨­å®šã‚’ä¿æŒã™ã‚‹ãƒªã‚¹ãƒˆ */
     private final List<AgentSetting> agentSttingList_ = new ArrayList<AgentSetting>();
 
-    /** ƒf[ƒ^ƒx[ƒX‚Ìí—Ş‚ÌƒfƒtƒHƒ‹ƒg’l */
+    /** ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®ç¨®é¡ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
     private static final DatabaseType DEF_DATABASE_TYPE = DatabaseType.H2;
 
-    /** ƒf[ƒ^ƒx[ƒX•Û‘¶æƒx[ƒXƒfƒBƒŒƒNƒgƒŠ‚ÌƒfƒtƒHƒ‹ƒg’l */
+    /** ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ä¿å­˜å…ˆãƒ™ãƒ¼ã‚¹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
     private static final String DEF_DATABASE_DIR = "../data";
 
-    /** ƒf[ƒ^ƒx[ƒX‚ÌƒzƒXƒgƒAƒhƒŒƒX‚ÌƒfƒtƒHƒ‹ƒg’l */
+    /** ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®ãƒ›ã‚¹ãƒˆã‚¢ãƒ‰ãƒ¬ã‚¹ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
     private static final String DEF_DATABASE_HOST = "localhost";
 
-    /** ƒf[ƒ^ƒx[ƒX‚Ìƒ|[ƒg”Ô†‚ÌƒfƒtƒHƒ‹ƒg’l */
+    /** ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®ãƒãƒ¼ãƒˆç•ªå·ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
     private static final String DEF_DATABASE_PORT = "5432";
 
-    /** ƒf[ƒ^ƒx[ƒX–¼‚ÌƒfƒtƒHƒ‹ƒg’l */
+    /** ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
     private static final String DEF_DATABASE_NAME = "endosnipedb";
 
-    /** ƒf[ƒ^ƒx[ƒXƒƒOƒCƒ“ƒ†[ƒU–¼‚ÌƒfƒtƒHƒ‹ƒg’l */
+    /** ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ­ã‚°ã‚¤ãƒ³ãƒ¦ãƒ¼ã‚¶åã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
     private static final String DEF_DATABASE_USER = "";
 
-    /** ƒf[ƒ^ƒx[ƒXƒƒOƒCƒ“ƒpƒXƒ[ƒh‚ÌƒfƒtƒHƒ‹ƒg’l */
+    /** ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ­ã‚°ã‚¤ãƒ³ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
     private static final String DEF_DATABASE_PASSWORD = "";
 
-    /** JavelinƒƒO•ªŠ„•Û‘¶‚ğs‚¤‚©‚Ç‚¤‚©‚ÌƒfƒtƒHƒ‹ƒg’l */
+    /** Javelinãƒ­ã‚°åˆ†å‰²ä¿å­˜ã‚’è¡Œã†ã‹ã©ã†ã‹ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
     private static final boolean DEF_IS_LOG_SPLIT = false;
 
-    /** JavelinƒƒO‚ğ•ªŠ„•Û‘¶‚·‚éê‡‚Ì1ƒŒƒR[ƒh•Ó‚è‚ÌÅ‘åƒTƒCƒY‚ÌƒfƒtƒHƒ‹ƒg’l */
+    /** Javelinãƒ­ã‚°ã‚’åˆ†å‰²ä¿å­˜ã™ã‚‹å ´åˆã®1ãƒ¬ã‚³ãƒ¼ãƒ‰è¾ºã‚Šã®æœ€å¤§ã‚µã‚¤ã‚ºã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
     public static final int DEF_LOG_SPLIT_SIZE = 300;
 
-    /** JavelinƒƒO‚ğ•ªŠ„•Û‘¶‚·‚éê‡‚Ìè‡’l‚ÌƒfƒtƒHƒ‹ƒg’l */
+    /** Javelinãƒ­ã‚°ã‚’åˆ†å‰²ä¿å­˜ã™ã‚‹å ´åˆã®é–¾å€¤ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
     public static final int DEF_LOG_SPLIT_THRESHOLD = 1024;
 
-    /** ƒT[ƒo‚ÌƒŠƒ\[ƒXŠÔŠui‹¤’Êj */
+    /** ã‚µãƒ¼ãƒã®ãƒªã‚½ãƒ¼ã‚¹é–“éš”ï¼ˆå…±é€šï¼‰ */
     private long resourceInterval_ = DEF_RESOURCE_INTERVAL;
 
-    /** ƒŠƒ\[ƒXæ“¾ŠÔŠu‚ÌƒfƒtƒHƒ‹ƒg’l(ƒ~ƒŠ•b) */
+    /** ãƒªã‚½ãƒ¼ã‚¹å–å¾—é–“éš”ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤(ãƒŸãƒªç§’) */
     public static final int DEF_RESOURCE_INTERVAL = 5000;
 
-    /** ƒŠƒ\[ƒXƒ‚ƒjƒ^ƒŠƒ“ƒO‚Ìİ’èƒtƒ@ƒCƒ‹–¼‚ÌƒfƒtƒHƒ‹ƒg’l */
+    /** ãƒªã‚½ãƒ¼ã‚¹ãƒ¢ãƒ‹ã‚¿ãƒªãƒ³ã‚°ã®è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«åã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
     private static final String DEF_RESOURCE_MONITORING_CONF = "../conf/resource_monitoring.conf";
 
-    /** ƒŒƒ|[ƒgo—ÍæƒfƒBƒŒƒNƒgƒŠ‚ÌƒfƒtƒHƒ‹ƒg’l */
+    /** ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›å…ˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
     private static final String DEF_REPORT_OUTPUT_PATH = null;
 
-    /** Ú‘±•û® Client */
+    /** æ¥ç¶šæ–¹å¼ Client */
     public static final String MODE_CLIENT = "client";
 
-    /** Ú‘±•û® Server */
+    /** æ¥ç¶šæ–¹å¼ Server */
     public static final String MODE_SERVER = "server";
 
-    /** Ú‘±•û®‚ÌƒfƒtƒHƒ‹’l */
+    /** æ¥ç¶šæ–¹å¼ã®ãƒ‡ãƒ•ã‚©ãƒ«å€¤ */
     private static final String DEF_MODE = MODE_CLIENT;
 
-    /** ƒT[ƒoƒzƒXƒg–¼‚ÌƒfƒtƒHƒ‹ƒg’l */
+    /** ã‚µãƒ¼ãƒãƒ›ã‚¹ãƒˆåã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
     private static final String DEF_ACCEPT_HOST = "localhost";
 
-    /** ‘Ò‚¿ó‚¯ƒ|[ƒg‚ÌƒfƒtƒHƒ‹ƒg’l */
+    /** å¾…ã¡å—ã‘ãƒãƒ¼ãƒˆã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
     private static final int DEF_ACCEOT_PORT = 19000;
 
-    /** Œv‘ªƒf[ƒ^‚ÌÅ‘å’~ÏŠúŠÔ‚ÌƒfƒtƒHƒ‹ƒg’l */
+    /** è¨ˆæ¸¬ãƒ‡ãƒ¼ã‚¿ã®æœ€å¤§è“„ç©æœŸé–“ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
     private static final String DEF_MEASUREMENT_LOG_STORAGE_PERIOD = "7d";
 
     //--------------------
     // SMTP settings(default)
     //--------------------
-    /** ƒ[ƒ‹’Ê’m‚ğ‘—M‚·‚é‚©‚Ç‚¤‚©‚ÌƒfƒtƒHƒ‹ƒg’lB */
+    /** ãƒ¡ãƒ¼ãƒ«é€šçŸ¥ã‚’é€ä¿¡ã™ã‚‹ã‹ã©ã†ã‹ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã€‚ */
     public static final boolean DEF_SEND_MAIL = false;
 
-    /** ƒ[ƒ‹ƒT[ƒo‚ÌƒfƒtƒHƒ‹ƒg’lB */
+    /** ãƒ¡ãƒ¼ãƒ«ã‚µãƒ¼ãƒã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã€‚ */
     private static final String DEF_SMTP_SERVER = "mail.example.com";
 
-    /** ƒ[ƒ‹‚ÌƒGƒ“ƒR[ƒfƒBƒ“ƒOİ’èƒfƒtƒHƒ‹ƒg’lB */
+    /** ãƒ¡ãƒ¼ãƒ«ã®ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‡ã‚£ãƒ³ã‚°è¨­å®šãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã€‚ */
     private static final String DEF_SMTP_ENCODING = "iso-2022-jp";
 
-    /** ‘—MŒ³ƒ[ƒ‹ƒAƒhƒŒƒXİ’èƒfƒtƒHƒ‹ƒg’lB */
+    /** é€ä¿¡å…ƒãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹è¨­å®šãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã€‚ */
     private static final String DEF_SMTP_FROM = "endosnipe@example.com";
 
-    /** ‘—Mæƒ[ƒ‹ƒAƒhƒŒƒXİ’èƒfƒtƒHƒ‹ƒg’lB */
+    /** é€ä¿¡å…ˆãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹è¨­å®šãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã€‚ */
     private static final String DEF_SMTP_TO = "endosnipe@example.com";
 
-    /** ƒ[ƒ‹Subject‚ÌƒfƒtƒHƒ‹ƒg’lB */
+    /** ãƒ¡ãƒ¼ãƒ«Subjectã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã€‚ */
     private static final String DEF_SMTP_SUBJECT = "[javelin] ${eventName} is occurred.";
 
-    /** ƒ[ƒ‹ƒeƒ“ƒvƒŒ[ƒg(jvnƒAƒ‰[ƒ€—p)‚ÌƒfƒtƒHƒ‹ƒg’lB */
+    /** ãƒ¡ãƒ¼ãƒ«ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆ(jvnã‚¢ãƒ©ãƒ¼ãƒ ç”¨)ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã€‚ */
     private static final String DEF_SMTP_TEMPLATE_JVN = "mai_template_jvn.txt";
 
-    /** ƒ[ƒ‹ƒeƒ“ƒvƒŒ[ƒg(Œv‘ª’lƒAƒ‰[ƒ€—p)‚ÌƒfƒtƒHƒ‹ƒg’lB */
+    /** ãƒ¡ãƒ¼ãƒ«ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆ(è¨ˆæ¸¬å€¤ã‚¢ãƒ©ãƒ¼ãƒ ç”¨)ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã€‚ */
     private static final String DEF_SMTP_TEMPLATE_MEASUREMENT = "mai_template_measurement.txt";
 
     //--------------------
     // SMTP settings
     //--------------------
-    /** ƒ[ƒ‹’Ê’m‚ğ‘—M‚·‚é‚©‚Ç‚¤‚© */
+    /** ãƒ¡ãƒ¼ãƒ«é€šçŸ¥ã‚’é€ä¿¡ã™ã‚‹ã‹ã©ã†ã‹ */
     private boolean sendMail_ = DEF_SEND_MAIL;
 
-    /** ƒ[ƒ‹ƒT[ƒo */
+    /** ãƒ¡ãƒ¼ãƒ«ã‚µãƒ¼ãƒ */
     private String smtpServer_ = DEF_SMTP_SERVER;
 
-    /** ƒ[ƒ‹‚ÌƒGƒ“ƒR[ƒfƒBƒ“ƒO */
+    /** ãƒ¡ãƒ¼ãƒ«ã®ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‡ã‚£ãƒ³ã‚° */
     private String smtpEncoding_ = DEF_SMTP_ENCODING;
 
-    /** ‘—MŒ³ƒ[ƒ‹ƒAƒhƒŒƒX */
+    /** é€ä¿¡å…ƒãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹ */
     private String smtpFrom_ = DEF_SMTP_FROM;
 
-    /** ‘—Mæƒ[ƒ‹ƒAƒhƒŒƒX */
+    /** é€ä¿¡å…ˆãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹ */
     private String smtpTo_ = DEF_SMTP_TO;
 
-    /** ƒ[ƒ‹Subject */
+    /** ãƒ¡ãƒ¼ãƒ«Subject */
     private String smtpSubject_ = DEF_SMTP_SUBJECT;
 
-    /** ƒ[ƒ‹ƒeƒ“ƒvƒŒ[ƒg(jvnƒAƒ‰[ƒ€—p) */
+    /** ãƒ¡ãƒ¼ãƒ«ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆ(jvnã‚¢ãƒ©ãƒ¼ãƒ ç”¨) */
     private String smtpTemplateJvn_ = DEF_SMTP_TEMPLATE_JVN;
 
-    /** ƒ[ƒ‹ƒeƒ“ƒvƒŒ[ƒg(Œv‘ª’lƒAƒ‰[ƒ€—p) */
+    /** ãƒ¡ãƒ¼ãƒ«ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆ(è¨ˆæ¸¬å€¤ã‚¢ãƒ©ãƒ¼ãƒ ç”¨) */
     private String smtpTemplateMeasurement_ = DEF_SMTP_TEMPLATE_MEASUREMENT;
 
-    /** ƒ[ƒ‹ƒeƒ“ƒvƒŒ[ƒgiƒL[Fİ’è€–Ú–¼A’lFƒeƒ“ƒvƒŒ[ƒgƒtƒ@ƒCƒ‹–¼j */
+    /** ãƒ¡ãƒ¼ãƒ«ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆï¼ˆã‚­ãƒ¼ï¼šè¨­å®šé …ç›®åã€å€¤ï¼šãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆãƒ•ã‚¡ã‚¤ãƒ«åï¼‰ */
     private final Map<String, MailTemplateEntity> smtpTemplateMap_ =
                      new HashMap<String, MailTemplateEntity>();
 
     //--------------------
     // SNMP settings(default)
     //--------------------
-    /** SNMPTrap‚ğ‘—M‚·‚é‚©‚Ç‚¤‚©‚ÌƒfƒtƒHƒ‹ƒg’ltrue(=‘—M‚·‚é) */
+    /** SNMPTrapã‚’é€ä¿¡ã™ã‚‹ã‹ã©ã†ã‹ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤true(=é€ä¿¡ã™ã‚‹) */
     public static final boolean DEF_SEND_TRAP = false;
 
-    /** ƒ}ƒl[ƒWƒƒƒŠƒXƒg‚ÌƒfƒtƒHƒ‹ƒg’llocalhost */
+    /** ãƒãƒãƒ¼ã‚¸ãƒ£ãƒªã‚¹ãƒˆã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤localhost */
     private static final String DEF_MANAGERS = "localhost";
 
-    /** SNMP Trapƒ|[ƒg”Ô†‚ÌƒfƒtƒHƒ‹ƒg’l162 */
+    /** SNMP Trapãƒãƒ¼ãƒˆç•ªå·ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤162 */
     public static final int DEF_TRAP_PORT = 162;
 
-    /** TrapƒRƒ~ƒ…ƒjƒeƒB–¼‚ÌƒfƒtƒHƒ‹ƒg’lpublic */
+    /** Trapã‚³ãƒŸãƒ¥ãƒ‹ãƒ†ã‚£åã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤public */
     private static final String DEF_TRAP_COMMUNITY = "public";
 
     /** SNMP Version: v1 */
@@ -254,52 +254,52 @@ public class DataCollectorConfig
     /** SNMP Version: v3 */
     public static final String VERSION_V3 = "v3";
 
-    /** SNMP Version‚ÌƒfƒtƒHƒ‹ƒg’lv2c */
+    /** SNMP Versionã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤v2c */
     private static final String DEF_VERSION = VERSION_V2C;
 
     //--------------------
     // SNMP settings
     //--------------------
-    /** SNMPTrap‚ğ‘—M‚·‚é‚©‚Ç‚¤‚©Btrue:‘—M‚·‚éAfalse:‘—M‚µ‚È‚¢ */
+    /** SNMPTrapã‚’é€ä¿¡ã™ã‚‹ã‹ã©ã†ã‹ã€‚true:é€ä¿¡ã™ã‚‹ã€false:é€ä¿¡ã—ãªã„ */
     private boolean sendTrap_ = DEF_SEND_TRAP;
 
-    /** ƒ}ƒl[ƒWƒƒƒŠƒXƒg */
+    /** ãƒãƒãƒ¼ã‚¸ãƒ£ãƒªã‚¹ãƒˆ */
     private String managers_ = DEF_MANAGERS;
 
-    /** SNMP Trapƒ|[ƒg”Ô† */
+    /** SNMP Trapãƒãƒ¼ãƒˆç•ªå· */
     private int trapPort_ = DEF_TRAP_PORT;
 
     /** SNMP Version */
     private String version_ = DEF_VERSION;
 
-    /** TrapƒRƒ~ƒ…ƒjƒeƒB–¼ */
+    /** Trapã‚³ãƒŸãƒ¥ãƒ‹ãƒ†ã‚£å */
     private String trapCommunity_ = DEF_TRAP_COMMUNITY;
 
-    /** ƒoƒbƒ`ƒTƒCƒY */
+    /** ãƒãƒƒãƒã‚µã‚¤ã‚º */
     private int batchSize_ = DEF_BATCH_SIZE;
 
-    /** ƒoƒbƒ`XV */
+    /** ãƒãƒƒãƒæ›´æ–° */
     public static final int DEF_BATCH_SIZE = 100;
 
-    /** itemIdƒLƒƒƒbƒVƒ… */
+    /** itemIdã‚­ãƒ£ãƒƒã‚·ãƒ¥ */
     private int itemIdCacheSize_ = DEF_CACHE_SIZE;
 
-    /** itemIdƒLƒƒƒbƒVƒ… */
+    /** itemIdã‚­ãƒ£ãƒƒã‚·ãƒ¥ */
     public static final int DEF_CACHE_SIZE = 50000;
 
     //--------------------
     // Language settings
     //--------------------
-    /** ƒfƒtƒHƒ‹ƒg‚ÌŒ¾Œê */
+    /** ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®è¨€èª */
     private static final String DEF_LANGUAGE = "";
 
-    /** g—pŒ¾Œê */
+    /** ä½¿ç”¨è¨€èª */
     private String language_ = DEF_LANGUAGE;
 
     /**
-     * ƒf[ƒ^ƒx[ƒX‚Ìí—Ş‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®ç¨®é¡ã‚’è¿”ã—ã¾ã™ã€‚<br />
      *
-     * @return ƒf[ƒ^ƒx[ƒX‚Ìí—Ş
+     * @return ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®ç¨®é¡
      */
     public DatabaseType getDatabaseType()
     {
@@ -307,9 +307,9 @@ public class DataCollectorConfig
     }
 
     /**
-     * ƒf[ƒ^ƒx[ƒX‚Ìí—Ş‚ğİ’è‚µ‚Ü‚·B<br />
+     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®ç¨®é¡ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
      *
-     * @param type ƒf[ƒ^ƒx[ƒX‚Ìí—Ş
+     * @param type ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®ç¨®é¡
      */
     public void setDatabaseType(final DatabaseType type)
     {
@@ -317,9 +317,9 @@ public class DataCollectorConfig
     }
 
     /**
-     * ƒf[ƒ^ƒx[ƒXƒfƒBƒŒƒNƒgƒŠ‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’è¿”ã—ã¾ã™ã€‚<br />
      * 
-     * @return ƒf[ƒ^ƒx[ƒXƒfƒBƒŒƒNƒgƒŠ
+     * @return ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
      */
     public String getBaseDir()
     {
@@ -327,9 +327,9 @@ public class DataCollectorConfig
     }
 
     /**
-     * ƒf[ƒ^ƒx[ƒXƒfƒBƒŒƒNƒgƒŠ‚ğİ’è‚µ‚Ü‚·B<br />
+     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’è¨­å®šã—ã¾ã™ã€‚<br />
      * 
-     * @param baseDir ƒf[ƒ^ƒx[ƒXƒfƒBƒŒƒNƒgƒŠ
+     * @param baseDir ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
      */
     public void setBaseDir(final String baseDir)
     {
@@ -337,9 +337,9 @@ public class DataCollectorConfig
     }
 
     /**
-     * ƒf[ƒ^ƒx[ƒX‚ÌƒzƒXƒgƒAƒhƒŒƒX‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®ãƒ›ã‚¹ãƒˆã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’è¿”ã—ã¾ã™ã€‚<br />
      *
-     * @return ƒzƒXƒgƒAƒhƒŒƒX‚Ü‚½‚ÍƒzƒXƒg–¼
+     * @return ãƒ›ã‚¹ãƒˆã‚¢ãƒ‰ãƒ¬ã‚¹ã¾ãŸã¯ãƒ›ã‚¹ãƒˆå
      */
     public String getDatabaseHost()
     {
@@ -347,9 +347,9 @@ public class DataCollectorConfig
     }
 
     /**
-     * ƒf[ƒ^ƒx[ƒX‚ÌƒzƒXƒgƒAƒhƒŒƒX‚ğİ’è‚µ‚Ü‚·B<br />
+     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®ãƒ›ã‚¹ãƒˆã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
      *
-     * @param host ƒzƒXƒgƒAƒhƒŒƒXiƒzƒXƒg–¼‚Å‚à‰Âj
+     * @param host ãƒ›ã‚¹ãƒˆã‚¢ãƒ‰ãƒ¬ã‚¹ï¼ˆãƒ›ã‚¹ãƒˆåã§ã‚‚å¯ï¼‰
      */
     public void setDatabaseHost(final String host)
     {
@@ -357,9 +357,9 @@ public class DataCollectorConfig
     }
 
     /**
-     * ƒf[ƒ^ƒx[ƒX‚Ìƒ|[ƒg”Ô†‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®ãƒãƒ¼ãƒˆç•ªå·ã‚’è¿”ã—ã¾ã™ã€‚<br />
      *
-     * @return ƒ|[ƒg”Ô†
+     * @return ãƒãƒ¼ãƒˆç•ªå·
      */
     public String getDatabasePort()
     {
@@ -367,9 +367,9 @@ public class DataCollectorConfig
     }
 
     /**
-     * ƒf[ƒ^ƒx[ƒX‚Ìƒ|[ƒg”Ô†‚ğİ’è‚µ‚Ü‚·B<br />
+     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®ãƒãƒ¼ãƒˆç•ªå·ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
      *
-     * @param port ƒ|[ƒg”Ô†
+     * @param port ãƒãƒ¼ãƒˆç•ªå·
      */
     public void setDatabasePort(final String port)
     {
@@ -377,9 +377,9 @@ public class DataCollectorConfig
     }
 
     /**
-     * ƒf[ƒ^ƒx[ƒX–¼‚ğæ“¾‚µ‚Ü‚·B<br />
+     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      * 
-     * @return DataCollector‚ª‘‚«‚İ‚Ég—p‚·‚éƒf[ƒ^ƒx[ƒX–¼B
+     * @return DataCollectorãŒæ›¸ãè¾¼ã¿ã«ä½¿ç”¨ã™ã‚‹ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã€‚
      */
     public String getDatabaseName()
     {
@@ -387,9 +387,9 @@ public class DataCollectorConfig
     }
 
     /**
-     * ƒf[ƒ^ƒx[ƒX–¼‚ğİ’è‚µ‚Ü‚·B<br />
+     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã‚’è¨­å®šã—ã¾ã™ã€‚<br />
      * 
-     * @param dbname DataCollector‚ª‘‚«‚İ‚Ég—p‚·‚éƒf[ƒ^ƒx[ƒX–¼B
+     * @param dbname DataCollectorãŒæ›¸ãè¾¼ã¿ã«ä½¿ç”¨ã™ã‚‹ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã€‚
      */
     public void setDatabaseName(final String dbname)
     {
@@ -397,9 +397,9 @@ public class DataCollectorConfig
     }
 
     /**
-     * ƒf[ƒ^ƒx[ƒXƒƒOƒCƒ“ƒ†[ƒU–¼‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ­ã‚°ã‚¤ãƒ³ãƒ¦ãƒ¼ã‚¶åã‚’è¿”ã—ã¾ã™ã€‚<br />
      *
-     * @return ƒ†[ƒU–¼
+     * @return ãƒ¦ãƒ¼ã‚¶å
      */
     public String getDatabaseUserName()
     {
@@ -407,9 +407,9 @@ public class DataCollectorConfig
     }
 
     /**
-     * ƒf[ƒ^ƒx[ƒXƒƒOƒCƒ“ƒ†[ƒU–¼‚ğİ’è‚µ‚Ü‚·B<br />
+     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ­ã‚°ã‚¤ãƒ³ãƒ¦ãƒ¼ã‚¶åã‚’è¨­å®šã—ã¾ã™ã€‚<br />
      *
-     * @param user ƒ†[ƒU–¼
+     * @param user ãƒ¦ãƒ¼ã‚¶å
      */
     public void setDatabaseUserName(final String user)
     {
@@ -417,9 +417,9 @@ public class DataCollectorConfig
     }
 
     /**
-     * ƒf[ƒ^ƒx[ƒXƒƒOƒCƒ“ƒpƒXƒ[ƒh‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ­ã‚°ã‚¤ãƒ³ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã‚’è¿”ã—ã¾ã™ã€‚<br />
      *
-     * @return ƒpƒXƒ[ƒh
+     * @return ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰
      */
     public String getDatabasePassword()
     {
@@ -427,9 +427,9 @@ public class DataCollectorConfig
     }
 
     /**
-     * ƒf[ƒ^ƒx[ƒXƒƒOƒCƒ“ƒpƒXƒ[ƒh‚ğİ’è‚µ‚Ü‚·B<br />
+     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ­ã‚°ã‚¤ãƒ³ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
      *
-     * @param password ƒpƒXƒ[ƒh
+     * @param password ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰
      */
     public void setDatabasePassword(final String password)
     {
@@ -437,9 +437,9 @@ public class DataCollectorConfig
     }
 
     /**
-     * ƒŠƒ\[ƒXæ“¾ŠÔŠu‚ğİ’è‚µ‚Ü‚·B<br />
+     * ãƒªã‚½ãƒ¼ã‚¹å–å¾—é–“éš”ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
      *
-     * @param interval ƒŠƒ\[ƒXæ“¾ŠÔŠu
+     * @param interval ãƒªã‚½ãƒ¼ã‚¹å–å¾—é–“éš”
      */
     public void setResourceInterval(final long interval)
     {
@@ -447,9 +447,9 @@ public class DataCollectorConfig
     }
 
     /**
-     * ƒŠƒ\[ƒXæ“¾ŠÔŠu‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ãƒªã‚½ãƒ¼ã‚¹å–å¾—é–“éš”ã‚’è¿”ã—ã¾ã™ã€‚<br />
      *
-     * @return Interval ƒŠƒ\[ƒXæ“¾ŠÔŠu
+     * @return Interval ãƒªã‚½ãƒ¼ã‚¹å–å¾—é–“éš”
      */
     public long getResourceInterval()
     {
@@ -457,9 +457,9 @@ public class DataCollectorConfig
     }
 
     /**
-     * {@link AgentSetting} ‚ğ’Ç‰Á‚µ‚Ü‚·B<br />
+     * {@link AgentSetting} ã‚’è¿½åŠ ã—ã¾ã™ã€‚<br />
      * 
-     * @param agentSetting {@link AgentSetting} ƒIƒuƒWƒFƒNƒg
+     * @param agentSetting {@link AgentSetting} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     public void addAgentSetting(final AgentSetting agentSetting)
     {
@@ -467,9 +467,9 @@ public class DataCollectorConfig
     }
 
     /**
-     * {@link AgentSetting} ‚ÌƒŠƒXƒg‚ğ•Ô‚µ‚Ü‚·B<br />
+     * {@link AgentSetting} ã®ãƒªã‚¹ãƒˆã‚’è¿”ã—ã¾ã™ã€‚<br />
      * 
-     * @return {@link AgentSetting} ‚ÌƒŠƒXƒg
+     * @return {@link AgentSetting} ã®ãƒªã‚¹ãƒˆ
      */
     public List<AgentSetting> getAgentSettingList()
     {
@@ -477,9 +477,9 @@ public class DataCollectorConfig
     }
 
     /**
-     * JavelinƒƒO‚ğ•ªŠ„‚·‚é‚©‚Ç‚¤‚©B<br />
+     * Javelinãƒ­ã‚°ã‚’åˆ†å‰²ã™ã‚‹ã‹ã©ã†ã‹ã€‚<br />
      * 
-     * @return JavelinƒƒO‚ğ•ªŠ„‚·‚éê‡A<code>true</code>
+     * @return Javelinãƒ­ã‚°ã‚’åˆ†å‰²ã™ã‚‹å ´åˆã€<code>true</code>
      */
     public boolean isLogSplit()
     {
@@ -487,9 +487,9 @@ public class DataCollectorConfig
     }
 
     /**
-     * JavelinƒƒO‚ğ•ªŠ„‚·‚é‚©‚Ç‚¤‚©‚ğİ’è‚µ‚Ü‚·B<br />
+     * Javelinãƒ­ã‚°ã‚’åˆ†å‰²ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
      * 
-     * @param isLogSplit JavelinƒƒO‚ğ•ªŠ„‚·‚éê‡A<code>true</code>
+     * @param isLogSplit Javelinãƒ­ã‚°ã‚’åˆ†å‰²ã™ã‚‹å ´åˆã€<code>true</code>
      */
     public void setLogSplit(final boolean isLogSplit)
     {
@@ -497,9 +497,9 @@ public class DataCollectorConfig
     }
 
     /**
-     * JavelinƒƒO‚ğ•ªŠ„•Û‘¶‚·‚éê‡‚Ì1ƒŒƒR[ƒh“–‚½‚è‚ÌÅ‘åƒTƒCƒY‚ğ•Ô‚µ‚Ü‚·B<br />
+     * Javelinãƒ­ã‚°ã‚’åˆ†å‰²ä¿å­˜ã™ã‚‹å ´åˆã®1ãƒ¬ã‚³ãƒ¼ãƒ‰å½“ãŸã‚Šã®æœ€å¤§ã‚µã‚¤ã‚ºã‚’è¿”ã—ã¾ã™ã€‚<br />
      * 
-     * @return JavelinƒƒO‚ğ•ªŠ„•Û‘¶‚·‚éê‡‚Ì1ƒŒƒR[ƒh“–‚½‚è‚ÌÅ‘åƒTƒCƒY
+     * @return Javelinãƒ­ã‚°ã‚’åˆ†å‰²ä¿å­˜ã™ã‚‹å ´åˆã®1ãƒ¬ã‚³ãƒ¼ãƒ‰å½“ãŸã‚Šã®æœ€å¤§ã‚µã‚¤ã‚º
      */
     public int getLogSplitSize()
     {
@@ -507,9 +507,9 @@ public class DataCollectorConfig
     }
 
     /**
-     * JavelinƒƒO‚ğ•ªŠ„•Û‘¶‚·‚éê‡‚Ì1ƒŒƒR[ƒh“–‚½‚è‚ÌÅ‘åƒTƒCƒY‚ğİ’è‚µ‚Ü‚·B<br />
+     * Javelinãƒ­ã‚°ã‚’åˆ†å‰²ä¿å­˜ã™ã‚‹å ´åˆã®1ãƒ¬ã‚³ãƒ¼ãƒ‰å½“ãŸã‚Šã®æœ€å¤§ã‚µã‚¤ã‚ºã‚’è¨­å®šã—ã¾ã™ã€‚<br />
      * 
-     * @param logSplitSize JavelinƒƒO‚ğ•ªŠ„•Û‘¶‚·‚éê‡‚Ì1ƒŒƒR[ƒh“–‚½‚è‚ÌÅ‘åƒTƒCƒY
+     * @param logSplitSize Javelinãƒ­ã‚°ã‚’åˆ†å‰²ä¿å­˜ã™ã‚‹å ´åˆã®1ãƒ¬ã‚³ãƒ¼ãƒ‰å½“ãŸã‚Šã®æœ€å¤§ã‚µã‚¤ã‚º
      */
     public void setLogSplitSize(final int logSplitSize)
     {
@@ -517,9 +517,9 @@ public class DataCollectorConfig
     }
 
     /**
-     * JavelinƒƒO‚ğ•ªŠ„•Û‘¶‚·‚éê‡‚Ìè‡’l‚ğ•Ô‚µ‚Ü‚·B<br />
+     * Javelinãƒ­ã‚°ã‚’åˆ†å‰²ä¿å­˜ã™ã‚‹å ´åˆã®é–¾å€¤ã‚’è¿”ã—ã¾ã™ã€‚<br />
      * 
-     * @return JavelinƒƒO‚ğ•ªŠ„•Û‘¶‚·‚éê‡‚Ìè‡’l
+     * @return Javelinãƒ­ã‚°ã‚’åˆ†å‰²ä¿å­˜ã™ã‚‹å ´åˆã®é–¾å€¤
      */
     public int getLogSplitThreshold()
     {
@@ -527,9 +527,9 @@ public class DataCollectorConfig
     }
 
     /**
-     * JavelinƒƒO‚ğ•ªŠ„•Û‘¶‚·‚éê‡‚Ìè‡’l‚ğİ’è‚µ‚Ü‚·B<br />
+     * Javelinãƒ­ã‚°ã‚’åˆ†å‰²ä¿å­˜ã™ã‚‹å ´åˆã®é–¾å€¤ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
      * 
-     * @param logSplitThreshold JavelinƒƒO‚ğ•ªŠ„•Û‘¶‚·‚éê‡‚Ìè‡’l
+     * @param logSplitThreshold Javelinãƒ­ã‚°ã‚’åˆ†å‰²ä¿å­˜ã™ã‚‹å ´åˆã®é–¾å€¤
      */
     public void setLogSplitThreshold(final int logSplitThreshold)
     {
@@ -537,7 +537,7 @@ public class DataCollectorConfig
     }
 
     /**
-     * @param resourceMonitoringConf ƒZƒbƒg‚·‚é resourceMonitoringConf
+     * @param resourceMonitoringConf ã‚»ãƒƒãƒˆã™ã‚‹ resourceMonitoringConf
      */
     public void setResourceMonitoringConf(final String resourceMonitoringConf)
     {
@@ -553,9 +553,9 @@ public class DataCollectorConfig
     }
 
     /**
-     * ƒŒƒ|[ƒg‚ğo—Í‚·‚éƒfƒBƒŒƒNƒgƒŠ‚ğæ“¾‚·‚éB
+     * ãƒ¬ãƒãƒ¼ãƒˆã‚’å‡ºåŠ›ã™ã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return reportOutputPath ƒŒƒ|[ƒg‚ğo—Í‚·‚éƒfƒBƒŒƒNƒgƒŠB
+     * @return reportOutputPath ãƒ¬ãƒãƒ¼ãƒˆã‚’å‡ºåŠ›ã™ã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã€‚
      */
     public String getReportOutputPath()
     {
@@ -563,9 +563,9 @@ public class DataCollectorConfig
     }
 
     /**
-     * ƒŒƒ|[ƒg‚ğo—Í‚·‚éƒfƒBƒŒƒNƒgƒŠ‚ğİ’è‚·‚éB
+     * ãƒ¬ãƒãƒ¼ãƒˆã‚’å‡ºåŠ›ã™ã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param reportOutputPath ƒŒƒ|[ƒg‚ğo—Í‚·‚éƒfƒBƒŒƒNƒgƒŠB
+     * @param reportOutputPath ãƒ¬ãƒãƒ¼ãƒˆã‚’å‡ºåŠ›ã™ã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã€‚
      */
     public void setReportOutputPath(final String reportOutputPath)
     {
@@ -573,9 +573,9 @@ public class DataCollectorConfig
     }
 
     /**
-     * ƒ[ƒ‹’Ê’m‚ğ‘—M‚·‚é‚©‚Ç‚¤‚©‚ğæ“¾‚·‚éB
+     * ãƒ¡ãƒ¼ãƒ«é€šçŸ¥ã‚’é€ä¿¡ã™ã‚‹ã‹ã©ã†ã‹ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return ƒ[ƒ‹’Ê’m‚ğ‘—M‚·‚é‚©‚Ç‚¤‚©‚Ìİ’è
+     * @return ãƒ¡ãƒ¼ãƒ«é€šçŸ¥ã‚’é€ä¿¡ã™ã‚‹ã‹ã©ã†ã‹ã®è¨­å®š
      */
     public boolean isSendMail()
     {
@@ -583,9 +583,9 @@ public class DataCollectorConfig
     }
 
     /**
-     *@ƒ[ƒ‹’Ê’m‚ğ‘—M‚·‚é‚©‚Ç‚¤‚©‚ğİ’è‚·‚éB
+     *ã€€ãƒ¡ãƒ¼ãƒ«é€šçŸ¥ã‚’é€ä¿¡ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param sendMail ƒ[ƒ‹’Ê’m‚ğ‘—M‚·‚é‚©‚Ç‚¤‚©‚Ìİ’è
+     * @param sendMail ãƒ¡ãƒ¼ãƒ«é€šçŸ¥ã‚’é€ä¿¡ã™ã‚‹ã‹ã©ã†ã‹ã®è¨­å®š
      */
     public void setSendMail(final boolean sendMail)
     {
@@ -593,9 +593,9 @@ public class DataCollectorConfig
     }
 
     /**
-     * ƒ[ƒ‹‚ÌƒGƒ“ƒR[ƒfƒBƒ“ƒO‚ğæ“¾‚·‚éB
+     * ãƒ¡ãƒ¼ãƒ«ã®ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‡ã‚£ãƒ³ã‚°ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return ƒ[ƒ‹‚ÌƒGƒ“ƒR[ƒfƒBƒ“ƒO‚Ìİ’è
+     * @return ãƒ¡ãƒ¼ãƒ«ã®ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‡ã‚£ãƒ³ã‚°ã®è¨­å®š
      */
     public String getSmtpEncoding()
     {
@@ -603,9 +603,9 @@ public class DataCollectorConfig
     }
 
     /**
-     *@ƒ[ƒ‹‚ÌƒGƒ“ƒR[ƒfƒBƒ“ƒO‚ğİ’è‚·‚éB
+     *ã€€ãƒ¡ãƒ¼ãƒ«ã®ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‡ã‚£ãƒ³ã‚°ã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param smtpEncoding ƒ[ƒ‹‚ÌƒGƒ“ƒR[ƒfƒBƒ“ƒO‚Ìİ’è
+     * @param smtpEncoding ãƒ¡ãƒ¼ãƒ«ã®ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‡ã‚£ãƒ³ã‚°ã®è¨­å®š
      */
     public void setSmtpEncoding(final String smtpEncoding)
     {
@@ -613,9 +613,9 @@ public class DataCollectorConfig
     }
 
     /**
-     * ƒ[ƒ‹ƒT[ƒo‚ğæ“¾‚·‚éB
+     * ãƒ¡ãƒ¼ãƒ«ã‚µãƒ¼ãƒã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return ƒ[ƒ‹ƒT[ƒo‚Ìİ’è
+     * @return ãƒ¡ãƒ¼ãƒ«ã‚µãƒ¼ãƒã®è¨­å®š
      */
     public String getSmtpServer()
     {
@@ -623,9 +623,9 @@ public class DataCollectorConfig
     }
 
     /**
-     *@ƒ[ƒ‹ƒT[ƒo‚ğİ’è‚·‚éB
+     *ã€€ãƒ¡ãƒ¼ãƒ«ã‚µãƒ¼ãƒã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param smtpServer ƒ[ƒ‹ƒT[ƒo‚Ìİ’è
+     * @param smtpServer ãƒ¡ãƒ¼ãƒ«ã‚µãƒ¼ãƒã®è¨­å®š
      */
     public void setSmtpServer(final String smtpServer)
     {
@@ -633,9 +633,9 @@ public class DataCollectorConfig
     }
 
     /**
-     * ‘—MŒ³ƒ[ƒ‹ƒAƒhƒŒƒX‚ğæ“¾‚·‚éB
+     * é€ä¿¡å…ƒãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return ‘—MŒ³ƒ[ƒ‹ƒAƒhƒŒƒX‚Ìİ’è
+     * @return é€ä¿¡å…ƒãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹ã®è¨­å®š
      */
     public String getSmtpFrom()
     {
@@ -643,9 +643,9 @@ public class DataCollectorConfig
     }
 
     /**
-     *@‘—MŒ³ƒ[ƒ‹ƒAƒhƒŒƒX‚ğİ’è‚·‚éB
+     *ã€€é€ä¿¡å…ƒãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param smtpFrom ‘—MŒ³ƒ[ƒ‹ƒAƒhƒŒƒX‚Ìİ’è
+     * @param smtpFrom é€ä¿¡å…ƒãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹ã®è¨­å®š
      */
     public void setSmtpFrom(final String smtpFrom)
     {
@@ -653,9 +653,9 @@ public class DataCollectorConfig
     }
 
     /**
-     * ‘—Mæƒ[ƒ‹ƒAƒhƒŒƒX‚ğæ“¾‚·‚éB
+     * é€ä¿¡å…ˆãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return ‘—Mæƒ[ƒ‹ƒAƒhƒŒƒX‚Ìİ’è
+     * @return é€ä¿¡å…ˆãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹ã®è¨­å®š
      */
     public String getSmtpTo()
     {
@@ -663,9 +663,9 @@ public class DataCollectorConfig
     }
 
     /**
-     *@‘—Mæƒ[ƒ‹ƒAƒhƒŒƒX‚ğİ’è‚·‚éB
+     *ã€€é€ä¿¡å…ˆãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param smtpTo ‘—Mæƒ[ƒ‹ƒAƒhƒŒƒX‚Ìİ’è
+     * @param smtpTo é€ä¿¡å…ˆãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹ã®è¨­å®š
      */
     public void setSmtpTo(final String smtpTo)
     {
@@ -673,9 +673,9 @@ public class DataCollectorConfig
     }
 
     /**
-     * ƒ[ƒ‹ƒeƒ“ƒvƒŒ[ƒg(jvnƒAƒ‰[ƒ€—p)‚ğæ“¾‚·‚éB
+     * ãƒ¡ãƒ¼ãƒ«ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆ(jvnã‚¢ãƒ©ãƒ¼ãƒ ç”¨)ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return ƒ[ƒ‹ƒeƒ“ƒvƒŒ[ƒg(jvnƒAƒ‰[ƒ€—p)‚Ìİ’è
+     * @return ãƒ¡ãƒ¼ãƒ«ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆ(jvnã‚¢ãƒ©ãƒ¼ãƒ ç”¨)ã®è¨­å®š
      */
     public String getSmtpTemplateJvn()
     {
@@ -683,9 +683,9 @@ public class DataCollectorConfig
     }
 
     /**
-     *@ƒ[ƒ‹ƒeƒ“ƒvƒŒ[ƒg(jvnƒAƒ‰[ƒ€—p)‚ğİ’è‚·‚éB
+     *ã€€ãƒ¡ãƒ¼ãƒ«ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆ(jvnã‚¢ãƒ©ãƒ¼ãƒ ç”¨)ã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param smtpTemplateJvn ƒ[ƒ‹ƒeƒ“ƒvƒŒ[ƒg(jvnƒAƒ‰[ƒ€—p)‚Ìİ’è
+     * @param smtpTemplateJvn ãƒ¡ãƒ¼ãƒ«ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆ(jvnã‚¢ãƒ©ãƒ¼ãƒ ç”¨)ã®è¨­å®š
      */
     public void setSmtpTemplateJvn(final String smtpTemplateJvn)
     {
@@ -693,9 +693,9 @@ public class DataCollectorConfig
     }
 
     /**
-     * ƒ[ƒ‹ƒeƒ“ƒvƒŒ[ƒg(Œv‘ª’lƒAƒ‰[ƒ€—p)‚ğæ“¾‚·‚éB
+     * ãƒ¡ãƒ¼ãƒ«ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆ(è¨ˆæ¸¬å€¤ã‚¢ãƒ©ãƒ¼ãƒ ç”¨)ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return ƒ[ƒ‹ƒeƒ“ƒvƒŒ[ƒg(Œv‘ª’lƒAƒ‰[ƒ€—p)‚Ìİ’è
+     * @return ãƒ¡ãƒ¼ãƒ«ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆ(è¨ˆæ¸¬å€¤ã‚¢ãƒ©ãƒ¼ãƒ ç”¨)ã®è¨­å®š
      */
     public String getSmtpTemplateMeasurement()
     {
@@ -703,9 +703,9 @@ public class DataCollectorConfig
     }
 
     /**
-     *@ƒ[ƒ‹ƒeƒ“ƒvƒŒ[ƒg(Œv‘ª’lƒAƒ‰[ƒ€—p)‚ğİ’è‚·‚éB
+     *ã€€ãƒ¡ãƒ¼ãƒ«ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆ(è¨ˆæ¸¬å€¤ã‚¢ãƒ©ãƒ¼ãƒ ç”¨)ã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param smtpTemplateMeasurement ƒ[ƒ‹ƒeƒ“ƒvƒŒ[ƒg(Œv‘ª’lƒAƒ‰[ƒ€—p)‚Ìİ’è
+     * @param smtpTemplateMeasurement ãƒ¡ãƒ¼ãƒ«ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆ(è¨ˆæ¸¬å€¤ã‚¢ãƒ©ãƒ¼ãƒ ç”¨)ã®è¨­å®š
      */
     public void setSmtpTemplateMeasurement(final String smtpTemplateMeasurement)
     {
@@ -713,10 +713,10 @@ public class DataCollectorConfig
     }
 
     /**
-     * ƒ[ƒ‹ƒeƒ“ƒvƒŒ[ƒgƒtƒ@ƒCƒ‹–¼‚ğæ“¾‚·‚éB
+     * ãƒ¡ãƒ¼ãƒ«ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆãƒ•ã‚¡ã‚¤ãƒ«åã‚’å–å¾—ã™ã‚‹ã€‚
      *
-     * @param name ƒeƒ“ƒvƒŒ[ƒg–¼
-     * @return ƒeƒ“ƒvƒŒ[ƒgƒtƒ@ƒCƒ‹–¼
+     * @param name ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆå
+     * @return ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆãƒ•ã‚¡ã‚¤ãƒ«å
      */
     public MailTemplateEntity getSmtpTemplate(final String name)
     {
@@ -728,10 +728,10 @@ public class DataCollectorConfig
     }
 
     /**
-     * ƒ[ƒ‹ƒeƒ“ƒvƒŒ[ƒgƒtƒ@ƒCƒ‹–¼‚ğİ’è‚·‚éB
+     * ãƒ¡ãƒ¼ãƒ«ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆãƒ•ã‚¡ã‚¤ãƒ«åã‚’è¨­å®šã™ã‚‹ã€‚
      *
-     * @param name ƒeƒ“ƒvƒŒ[ƒg–¼
-     * @param template ƒeƒ“ƒvƒŒ[ƒgƒtƒ@ƒCƒ‹–¼
+     * @param name ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆå
+     * @param template ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆãƒ•ã‚¡ã‚¤ãƒ«å
      */
     public void setSmtpTemplate(final String name, final MailTemplateEntity template)
     {
@@ -739,9 +739,9 @@ public class DataCollectorConfig
     }
 
     /**
-     * ƒ[ƒ‹Subject‚ğæ“¾‚·‚éB
+     * ãƒ¡ãƒ¼ãƒ«Subjectã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return ƒ[ƒ‹Subject‚Ìİ’è
+     * @return ãƒ¡ãƒ¼ãƒ«Subjectã®è¨­å®š
      */
     public String getSmtpSubject()
     {
@@ -749,9 +749,9 @@ public class DataCollectorConfig
     }
 
     /**
-     *@ƒ[ƒ‹Subject‚ğİ’è‚·‚éB
+     *ã€€ãƒ¡ãƒ¼ãƒ«Subjectã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param smtpSubject ƒ[ƒ‹Subject‚Ìİ’è
+     * @param smtpSubject ãƒ¡ãƒ¼ãƒ«Subjectã®è¨­å®š
      */
     public void setSmtpSubject(final String smtpSubject)
     {
@@ -759,9 +759,9 @@ public class DataCollectorConfig
     }
 
     /**
-     * SNMPTrap‚ğ‘—M‚·‚é‚©‚Ç‚¤‚©‚ğæ“¾‚·‚éB
+     * SNMPTrapã‚’é€ä¿¡ã™ã‚‹ã‹ã©ã†ã‹ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return SNMPTrap‚ğ‘—M‚·‚é‚©‚Ç‚¤‚©
+     * @return SNMPTrapã‚’é€ä¿¡ã™ã‚‹ã‹ã©ã†ã‹
      */
     public boolean isSendTrap()
     {
@@ -769,9 +769,9 @@ public class DataCollectorConfig
     }
 
     /**
-     *@SNMPTrap‚ğ‘—M‚·‚é‚©‚Ç‚¤‚©‚ğİ’è‚·‚éB
+     *ã€€SNMPTrapã‚’é€ä¿¡ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param sendTrap SNMPTrap‚ğ‘—M‚·‚é‚©‚Ç‚¤‚©
+     * @param sendTrap SNMPTrapã‚’é€ä¿¡ã™ã‚‹ã‹ã©ã†ã‹
      */
     public void setSendTrap(final boolean sendTrap)
     {
@@ -779,9 +779,9 @@ public class DataCollectorConfig
     }
 
     /**
-     * ƒ}ƒl[ƒWƒƒƒŠƒXƒg‚ğæ“¾‚·‚éB
+     * ãƒãƒãƒ¼ã‚¸ãƒ£ãƒªã‚¹ãƒˆã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return ƒ}ƒl[ƒWƒƒƒŠƒXƒg
+     * @return ãƒãƒãƒ¼ã‚¸ãƒ£ãƒªã‚¹ãƒˆ
      */
     public String getManagers()
     {
@@ -789,9 +789,9 @@ public class DataCollectorConfig
     }
 
     /**
-     *@ƒ}ƒl[ƒWƒƒƒŠƒXƒg‚ğİ’è‚·‚éB
+     *ã€€ãƒãƒãƒ¼ã‚¸ãƒ£ãƒªã‚¹ãƒˆã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param managers ƒ}ƒl[ƒWƒƒƒŠƒXƒg
+     * @param managers ãƒãƒãƒ¼ã‚¸ãƒ£ãƒªã‚¹ãƒˆ
      */
     public void setManagers(final String managers)
     {
@@ -799,9 +799,9 @@ public class DataCollectorConfig
     }
 
     /**
-     * SNMP Trapƒ|[ƒg”Ô†‚ğæ“¾‚·‚éB
+     * SNMP Trapãƒãƒ¼ãƒˆç•ªå·ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return SNMP Trapƒ|[ƒg”Ô†
+     * @return SNMP Trapãƒãƒ¼ãƒˆç•ªå·
      */
     public int getTrapPort()
     {
@@ -809,9 +809,9 @@ public class DataCollectorConfig
     }
 
     /**
-     *@SNMP Trapƒ|[ƒg”Ô†‚ğİ’è‚·‚éB
+     *ã€€SNMP Trapãƒãƒ¼ãƒˆç•ªå·ã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param trapPort SNMP Trapƒ|[ƒg”Ô†
+     * @param trapPort SNMP Trapãƒãƒ¼ãƒˆç•ªå·
      */
     public void setTrapPort(final int trapPort)
     {
@@ -819,9 +819,9 @@ public class DataCollectorConfig
     }
 
     /**
-     * TrapƒRƒ~ƒ…ƒjƒeƒB–¼‚ğæ“¾‚·‚éB
+     * Trapã‚³ãƒŸãƒ¥ãƒ‹ãƒ†ã‚£åã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return TrapƒRƒ~ƒ…ƒjƒeƒB–¼
+     * @return Trapã‚³ãƒŸãƒ¥ãƒ‹ãƒ†ã‚£å
      */
     public String getTrapCommunity()
     {
@@ -829,9 +829,9 @@ public class DataCollectorConfig
     }
 
     /**
-     *@TrapƒRƒ~ƒ…ƒjƒeƒB–¼‚ğİ’è‚·‚éB
+     *ã€€Trapã‚³ãƒŸãƒ¥ãƒ‹ãƒ†ã‚£åã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param trapCommunity TrapƒRƒ~ƒ…ƒjƒeƒB–¼
+     * @param trapCommunity Trapã‚³ãƒŸãƒ¥ãƒ‹ãƒ†ã‚£å
      */
     public void setTrapCommunity(final String trapCommunity)
     {
@@ -839,7 +839,7 @@ public class DataCollectorConfig
     }
 
     /**
-     * SNMP Version‚ğæ“¾‚·‚éB
+     * SNMP Versionã‚’å–å¾—ã™ã‚‹ã€‚
      * 
      * @return SNMP Version
      */
@@ -849,7 +849,7 @@ public class DataCollectorConfig
     }
 
     /**
-     *@SNMP Version‚ğİ’è‚·‚éB
+     *ã€€SNMP Versionã‚’è¨­å®šã™ã‚‹ã€‚
      * 
      * @param version SNMP Version
      */
@@ -859,8 +859,8 @@ public class DataCollectorConfig
     }
 
     /**
-     * Ú‘±ƒ‚[ƒh‚ğæ“¾‚·‚éB
-     * @return connectionMode Ú‘±ƒ‚[ƒh
+     * æ¥ç¶šãƒ¢ãƒ¼ãƒ‰ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return connectionMode æ¥ç¶šãƒ¢ãƒ¼ãƒ‰
      */
     public String getConnectionMode()
     {
@@ -868,8 +868,8 @@ public class DataCollectorConfig
     }
 
     /**
-     * Ú‘±ƒ‚[ƒh‚ğİ’è‚·‚éB
-     * @param connectionMode Ú‘±ƒ‚[ƒh
+     * æ¥ç¶šãƒ¢ãƒ¼ãƒ‰ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param connectionMode æ¥ç¶šãƒ¢ãƒ¼ãƒ‰
      */
     public void setConnectionMode(final String connectionMode)
     {
@@ -877,8 +877,8 @@ public class DataCollectorConfig
     }
 
     /**
-     * ‘Ò‚¿ó‚¯ƒzƒXƒg‚ğæ“¾‚·‚éB
-     * @return acceptHost ‘Ò‚¿ó‚¯ƒzƒXƒg
+     * å¾…ã¡å—ã‘ãƒ›ã‚¹ãƒˆã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return acceptHost å¾…ã¡å—ã‘ãƒ›ã‚¹ãƒˆ
      */
     public String getAcceptHost()
     {
@@ -886,8 +886,8 @@ public class DataCollectorConfig
     }
 
     /**
-     * ‘Ò‚¿ó‚¯ƒzƒXƒg‚ğİ’è‚·‚éB
-     * @param acceptHost ‘Ò‚¿ó‚¯ƒzƒXƒg
+     * å¾…ã¡å—ã‘ãƒ›ã‚¹ãƒˆã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param acceptHost å¾…ã¡å—ã‘ãƒ›ã‚¹ãƒˆ
      */
     public void setAcceptHost(final String acceptHost)
     {
@@ -895,8 +895,8 @@ public class DataCollectorConfig
     }
 
     /**
-     * ‘Ò‚¿ó‚¯ƒ|[ƒg‚ğæ“¾‚·‚éB
-     * @return acceptPort ‘Ò‚¿ó‚¯ƒ|[ƒg
+     * å¾…ã¡å—ã‘ãƒãƒ¼ãƒˆã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return acceptPort å¾…ã¡å—ã‘ãƒãƒ¼ãƒˆ
      */
     public int getAcceptPort()
     {
@@ -904,8 +904,8 @@ public class DataCollectorConfig
     }
 
     /**
-     * ‘Ò‚¿ó‚¯ƒ|[ƒg‚ğİ’è‚·‚éB
-     * @param acceptPort ‘Ò‚¿ó‚¯ƒ|[ƒg
+     * å¾…ã¡å—ã‘ãƒãƒ¼ãƒˆã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param acceptPort å¾…ã¡å—ã‘ãƒãƒ¼ãƒˆ
      */
     public void setAcceptPort(final int acceptPort)
     {
@@ -913,8 +913,8 @@ public class DataCollectorConfig
     }
 
     /**
-     * JavelinƒƒO‚ÌÅ‘å’~ÏŠúŠÔ‚ğæ“¾‚·‚éB
-     * @return JavelinƒƒO‚ÌÅ‘å’~ÏŠúŠÔ
+     * Javelinãƒ­ã‚°ã®æœ€å¤§è“„ç©æœŸé–“ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return Javelinãƒ­ã‚°ã®æœ€å¤§è“„ç©æœŸé–“
      */
     public String getJvnLogStoragePeriod()
     {
@@ -922,8 +922,8 @@ public class DataCollectorConfig
     }
 
     /**
-     * JavelinƒƒO‚ÌÅ‘å’~ÏŠúŠÔ‚ğİ’è‚·‚éB
-     * @param jvnLogStoragePeriod JavelinƒƒO‚ÌÅ‘å’~ÏŠúŠÔ
+     * Javelinãƒ­ã‚°ã®æœ€å¤§è“„ç©æœŸé–“ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param jvnLogStoragePeriod Javelinãƒ­ã‚°ã®æœ€å¤§è“„ç©æœŸé–“
      */
     public void setJvnLogStoragePeriod(final String jvnLogStoragePeriod)
     {
@@ -931,8 +931,8 @@ public class DataCollectorConfig
     }
 
     /**
-     * Œv‘ªƒf[ƒ^‚ÌÅ‘å’~ÏŠúŠÔ‚ğæ“¾‚·‚éB
-     * @return Œv‘ªƒf[ƒ^‚ÌÅ‘å’~ÏŠúŠÔ
+     * è¨ˆæ¸¬ãƒ‡ãƒ¼ã‚¿ã®æœ€å¤§è“„ç©æœŸé–“ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return è¨ˆæ¸¬ãƒ‡ãƒ¼ã‚¿ã®æœ€å¤§è“„ç©æœŸé–“
      */
     public String getMeasurementLogStoragePeriod()
     {
@@ -940,8 +940,8 @@ public class DataCollectorConfig
     }
 
     /**
-     * Œv‘ªƒf[ƒ^‚ÌÅ‘å’~ÏŠúŠÔ‚ğİ’è‚·‚éB
-     * @param measurementLogStoragePeriod Œv‘ªƒf[ƒ^‚ÌÅ‘å’~ÏŠúŠÔ
+     * è¨ˆæ¸¬ãƒ‡ãƒ¼ã‚¿ã®æœ€å¤§è“„ç©æœŸé–“ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param measurementLogStoragePeriod è¨ˆæ¸¬ãƒ‡ãƒ¼ã‚¿ã®æœ€å¤§è“„ç©æœŸé–“
      */
     public void setMeasurementLogStoragePeriod(final String measurementLogStoragePeriod)
     {
@@ -949,9 +949,9 @@ public class DataCollectorConfig
     }
 
     /**
-     * g—pŒ¾Œê‚ğæ“¾‚·‚éB
+     * ä½¿ç”¨è¨€èªã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return g—pŒ¾Œê
+     * @return ä½¿ç”¨è¨€èª
      */
     public String getLanguage()
     {
@@ -959,9 +959,9 @@ public class DataCollectorConfig
     }
 
     /**
-     * g—pŒ¾Œê‚ğİ’è‚·‚éB
+     * ä½¿ç”¨è¨€èªã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param language g—pŒ¾Œê
+     * @param language ä½¿ç”¨è¨€èª
      */
     public void setLanguage(final String language)
     {
@@ -969,8 +969,8 @@ public class DataCollectorConfig
     }
 
     /**
-     * ƒoƒbƒ`ƒTƒCƒY‚ğæ“¾‚µ‚Ü‚·B
-     * @return ƒoƒbƒ`ƒTƒCƒY
+     * ãƒãƒƒãƒã‚µã‚¤ã‚ºã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @return ãƒãƒƒãƒã‚µã‚¤ã‚º
      */
     public int getBatchSize()
     {
@@ -978,8 +978,8 @@ public class DataCollectorConfig
     }
 
     /**
-     * ƒoƒbƒ`ƒTƒCƒY‚ğİ’è‚µ‚Ü‚·B
-     * @param batchSize ƒoƒbƒ`ƒTƒCƒY
+     * ãƒãƒƒãƒã‚µã‚¤ã‚ºã‚’è¨­å®šã—ã¾ã™ã€‚
+     * @param batchSize ãƒãƒƒãƒã‚µã‚¤ã‚º
      */
     public void setBatchSize(final int batchSize)
     {
@@ -987,8 +987,8 @@ public class DataCollectorConfig
     }
 
     /**
-     * €–ÚID‚ÌƒLƒƒƒbƒVƒ…ƒTƒCƒY‚ğæ“¾‚µ‚Ü‚·B
-     * @return ƒLƒƒƒbƒVƒ…ƒTƒCƒY
+     * é …ç›®IDã®ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚µã‚¤ã‚ºã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @return ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚µã‚¤ã‚º
      */
     public int getItemIdCacheSize()
     {
@@ -996,8 +996,8 @@ public class DataCollectorConfig
     }
 
     /**
-     * €–ÚID‚ÌƒLƒƒƒbƒVƒ…ƒTƒCƒY‚ğİ’è‚µ‚Ü‚·B
-     * @param itemIdCacheSize €–ÚID‚ÌƒLƒƒƒbƒVƒ…ƒTƒCƒY
+     * é …ç›®IDã®ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚µã‚¤ã‚ºã‚’è¨­å®šã—ã¾ã™ã€‚
+     * @param itemIdCacheSize é …ç›®IDã®ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚µã‚¤ã‚º
      */
     public void setItemIdCacheSize(final int itemIdCacheSize)
     {

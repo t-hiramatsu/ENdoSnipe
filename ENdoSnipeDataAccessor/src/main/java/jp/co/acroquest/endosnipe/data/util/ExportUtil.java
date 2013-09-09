@@ -45,13 +45,13 @@ import jp.co.acroquest.endosnipe.data.db.DBManager;
 import jp.co.acroquest.endosnipe.data.entity.JavelinLog;
 
 /**
- * ENdoSnipe‚Ìƒf[ƒ^‚ğCSVƒtƒ@ƒCƒ‹‚Éo—Í‚·‚éƒGƒNƒXƒ|[ƒgEƒ†[ƒeƒBƒŠƒeƒBB
+ * ENdoSnipeã®ãƒ‡ãƒ¼ã‚¿ã‚’CSVãƒ•ã‚¡ã‚¤ãƒ«ã«å‡ºåŠ›ã™ã‚‹ã‚¨ã‚¯ã‚¹ãƒãƒ¼ãƒˆãƒ»ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã€‚
  * 
  * @author Acroquest Technology
  */
 public class ExportUtil
 {
-    /** ŠJn^I—¹‚ğw’è‚·‚é•¶š—ñŒ`®B */
+    /** é–‹å§‹ï¼çµ‚äº†æ™‚åˆ»ã‚’æŒ‡å®šã™ã‚‹æ–‡å­—åˆ—å½¢å¼ã€‚ */
     private static final String TIME_FORMAT = "yyyyMMdd_HHmmss";
 
     private static final int ARGS_LENGTH = 5;
@@ -66,10 +66,10 @@ public class ExportUtil
     	endTime
     }
     /**
-     * ƒvƒƒOƒ‰ƒ€ƒGƒ“ƒgƒŠB
+     * ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚¨ãƒ³ãƒˆãƒªã€‚
      * 
-     * @param args ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“ˆø”B<br/>
-     *             (DBƒzƒXƒg–¼) (DBƒ|[ƒg”Ô†) (DBƒ†[ƒU–¼) (DBƒpƒXƒ[ƒh) (DB–¼) [(ŠJn) [(I—¹)]]
+     * @param args ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³å¼•æ•°ã€‚<br/>
+     *             (DBãƒ›ã‚¹ãƒˆå) (DBãƒãƒ¼ãƒˆç•ªå·) (DBãƒ¦ãƒ¼ã‚¶å) (DBãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰) (DBå) [(é–‹å§‹æ™‚åˆ») [(çµ‚äº†æ™‚åˆ»)]]
      */
     public static void main(String[] args)
     {
@@ -82,7 +82,7 @@ public class ExportUtil
             return;
         }
 
-        // DB‚Ì”İ’è‚ğæ“¾
+        // DBã®è«¸è¨­å®šã‚’å–å¾—
         String dbHost = args[ARGS.dbHost.ordinal()];
         String dbPort = args[ARGS.dbPort.ordinal()];
         String dbUser = args[ARGS.dbUser.ordinal()];
@@ -101,10 +101,10 @@ public class ExportUtil
             endTime = args[ARGS.endTime.ordinal()];
         }
 
-        // ƒŒƒ|[ƒg‚Ìo—Íæİ’è
+        // ãƒ¬ãƒãƒ¼ãƒˆã®å‡ºåŠ›å…ˆè¨­å®š
         String reportPath = "./jvn_logs";
 
-        // ƒŒƒ|[ƒgì¬‚Ég—p‚·‚éDB‚ğw’è‚·‚é
+        // ãƒ¬ãƒãƒ¼ãƒˆä½œæˆã«ä½¿ç”¨ã™ã‚‹DBã‚’æŒ‡å®šã™ã‚‹
         DBManager.updateSettings(false, "", dbHost, dbPort, dbName, dbUser, dbPass);
 
         SimpleDateFormat format = new SimpleDateFormat(TIME_FORMAT);
@@ -133,19 +133,19 @@ public class ExportUtil
             System.out.println("end time format invalid:" + args[ARGS.endTime.ordinal()]);
         }
 
-        // JavelinƒƒO‚ğo—Í‚·‚éB
+        // Javelinãƒ­ã‚°ã‚’å‡ºåŠ›ã™ã‚‹ã€‚
         outputJvnLog(dbName, start, end, reportPath);
     }
 
     /**
-     * JavelinƒƒO‚ğƒf[ƒ^ƒx[ƒX‚©‚ç“Ç‚İ‚İAƒtƒ@ƒCƒ‹o—Í‚·‚éB
+     * Javelinãƒ­ã‚°ã‚’ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‹ã‚‰èª­ã¿è¾¼ã¿ã€ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›ã™ã‚‹ã€‚
      * 
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param start ŠJn“ú
-     * @param end ŠJn“ú
-     * @param outputDir o—ÍæƒfƒBƒŒƒNƒgƒŠ
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param start é–‹å§‹æ—¥æ™‚
+     * @param end é–‹å§‹æ—¥æ™‚
+     * @param outputDir å‡ºåŠ›å…ˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
      * 
-     * @return {@code true}¬Œ÷/{@code false}¸”s
+     * @return {@code true}æˆåŠŸ/{@code false}å¤±æ•—
      */
     public static boolean outputJvnLog(String database, Timestamp start, Timestamp end,
         String outputDir)
@@ -157,7 +157,7 @@ public class ExportUtil
             boolean isSuccess = outputDirFile.mkdirs();
             if (isSuccess == false)
             {
-                System.err.println("jvnƒƒOo—ÍƒfƒBƒŒƒNƒgƒŠ‚Ìì¬‚É¸”s‚µ‚Ü‚µ‚½B");
+                System.err.println("jvnãƒ­ã‚°å‡ºåŠ›ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®ä½œæˆã«å¤±æ•—ã—ã¾ã—ãŸã€‚");
                 return false;
             }
         }
@@ -190,7 +190,7 @@ public class ExportUtil
                         boolean isSuccess = ouputSubDir.mkdirs();
                         if (isSuccess == false)
                         {
-                            System.err.println("jvnƒƒOo—ÍƒfƒBƒŒƒNƒgƒŠ‚Ìì¬‚É¸”s‚µ‚Ü‚µ‚½B");
+                            System.err.println("jvnãƒ­ã‚°å‡ºåŠ›ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®ä½œæˆã«å¤±æ•—ã—ã¾ã—ãŸã€‚");
                             return false;
                         }
                     }
@@ -202,11 +202,11 @@ public class ExportUtil
                 }
                 catch (FileNotFoundException fnfe)
                 {
-                    System.err.println("jvnƒƒOo—ÍƒfƒBƒŒƒNƒgƒŠ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB");
+                    System.err.println("jvnãƒ­ã‚°å‡ºåŠ›ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ã€‚");
                 }
                 catch (IOException ioe)
                 {
-                    System.err.println("jvnƒƒOo—Í’†‚É—áŠO‚ª”­¶‚µ‚Ü‚µ‚½B");
+                    System.err.println("jvnãƒ­ã‚°å‡ºåŠ›ä¸­ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ã¾ã—ãŸã€‚");
                 }
                 finally
                 {
@@ -218,7 +218,7 @@ public class ExportUtil
                         }
                         catch (IOException ioe)
                         {
-                            System.err.println("jvnƒƒOƒNƒ[ƒY’†‚É—áŠO‚ª”­¶‚µ‚Ü‚µ‚½B");
+                            System.err.println("jvnãƒ­ã‚°ã‚¯ãƒ­ãƒ¼ã‚ºä¸­ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ã¾ã—ãŸã€‚");
                         }
                     }
                 }
@@ -227,7 +227,7 @@ public class ExportUtil
         }
         catch (SQLException sqle)
         {
-            System.err.println("DB‚©‚ç‚ÌjvnƒƒO“Ç‚İ‚İ’†‚É—áŠO‚ª”­¶‚µ‚Ü‚µ‚½B");
+            System.err.println("DBã‹ã‚‰ã®jvnãƒ­ã‚°èª­ã¿è¾¼ã¿ä¸­ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ã¾ã—ãŸã€‚");
             return false;
         }
 
@@ -235,7 +235,7 @@ public class ExportUtil
     }
 
     /**
-     * ƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒX‚Ì‚½‚ßƒCƒ“ƒXƒ^ƒ“ƒX‰»‹Ö~B
+     * ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã®ãŸã‚ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ç¦æ­¢ã€‚
      */
     private ExportUtil()
     {

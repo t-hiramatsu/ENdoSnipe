@@ -32,16 +32,16 @@ import jp.co.acroquest.endosnipe.javelin.converter.concurrent.monitor.Concurrent
 import jp.co.acroquest.endosnipe.javelin.converter.leak.monitor.CollectionMonitor;
 
 /**
- * ConcurrentAccessMonitorACollectionMonitor‚ð–³Œø‰»‚·‚éB
+ * ConcurrentAccessMonitorã€CollectionMonitorã‚’ç„¡åŠ¹åŒ–ã™ã‚‹ã€‚
  * 
  * @author eriguchi
  */
 public class DisableMonitor implements JavelinMonitor
 {
-    /** •¡”ƒXƒŒƒbƒh‚É‚æ‚éƒAƒNƒZƒX‚Ì”»’è’†‚©‚Ç‚¤‚©‚ð•\‚·ƒtƒ‰ƒO */
+    /** è¤‡æ•°ã‚¹ãƒ¬ãƒƒãƒ‰ã«ã‚ˆã‚‹ã‚¢ã‚¯ã‚»ã‚¹ã®åˆ¤å®šä¸­ã‹ã©ã†ã‹ã‚’è¡¨ã™ãƒ•ãƒ©ã‚° */
     private static ThreadLocal<Boolean> isConcurrentAccessTracing__;
 
-    /** •¡”ƒXƒŒƒbƒh‚É‚æ‚éƒAƒNƒZƒX‚Ì”»’è’†‚©‚Ç‚¤‚©‚ð•\‚·ƒtƒ‰ƒO */
+    /** è¤‡æ•°ã‚¹ãƒ¬ãƒƒãƒ‰ã«ã‚ˆã‚‹ã‚¢ã‚¯ã‚»ã‚¹ã®åˆ¤å®šä¸­ã‹ã©ã†ã‹ã‚’è¡¨ã™ãƒ•ãƒ©ã‚° */
     private static ThreadLocal<Boolean> isCollectionTracing__;
 
     static

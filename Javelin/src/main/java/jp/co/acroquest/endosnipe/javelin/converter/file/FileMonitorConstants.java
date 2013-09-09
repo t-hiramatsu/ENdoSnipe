@@ -26,21 +26,21 @@
 package jp.co.acroquest.endosnipe.javelin.converter.file;
 
 /**
- * �t�@�C��I/O�̃��j�^�����O�Ɏg�p����萔�̏W���B
+ * ファイルI/Oのモニタリングに使用する定数の集合。
  * 
  * @author yamasaki
  */
 public interface FileMonitorConstants
 {
-    /** �X���b�h���̃l�b�g���[�N��M�ʂ�ۑ��E�Q�Ƃ���ۂ̃L�[�B */
+    /** スレッド毎のネットワーク受信量を保存・参照する際のキー。 */
     String KEY_FILE_THREAD_READ_LENGTH = "file.currentFileReadLength";
 
-    /** �X���b�h���̃l�b�g���[�N���M�ʂ�ۑ��E�Q�Ƃ���ۂ̃L�[�B */
+    /** スレッド毎のネットワーク送信量を保存・参照する際のキー。 */
     String KEY_FILE_THREAD_WRITE_LENGTH = "file.currentFileWriteLength";
 
-    /** �v���Z�X�S�̂ł̃l�b�g���[�N��M�ʂ�ۑ��E�Q�Ƃ���ۂ̃L�[�B */
+    /** プロセス全体でのネットワーク受信量を保存・参照する際のキー。 */
     String KEY_FILE_READ_LENGTH = "io.fileReadLength";
 
-    /** �v���Z�X�S�̂ł̃l�b�g���[�N���M�ʂ�ۑ��E�Q�Ƃ���ۂ̃L�[�B */
+    /** プロセス全体でのネットワーク送信量を保存・参照する際のキー。 */
     String KEY_FILE_WRITE_LENGTH = "io.fileWriteLength";
 }

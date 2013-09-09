@@ -35,34 +35,34 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
 /**
- * ƒŒƒxƒ‹‚²‚Æ‚ÌƒvƒƒpƒeƒB’è‹`ƒNƒ‰ƒXB
+ * ãƒ¬ãƒ™ãƒ«ã”ã¨ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å®šç¾©ã‚¯ãƒ©ã‚¹ã€‚
  * @author tanimoto
  *
  */
 @XmlAccessorType(XmlAccessType.NONE)
 public class RuleLevelDef implements Serializable
 {
-    /** ƒVƒŠƒAƒ‹ID */
+    /** ã‚·ãƒªã‚¢ãƒ«ID */
     private static final long serialVersionUID = 1L;
 
-    /** ƒ‹[ƒ‹‚Ì–â‘èƒŒƒxƒ‹ */
+    /** ãƒ«ãƒ¼ãƒ«ã®å•é¡Œãƒ¬ãƒ™ãƒ« */
     @XmlAttribute
     private String            level_;
 
-    /** ƒŒƒxƒ‹‚ª—LŒø‚©‚Ç‚¤‚© */
+    /** ãƒ¬ãƒ™ãƒ«ãŒæœ‰åŠ¹ã‹ã©ã†ã‹ */
     @XmlAttribute
     private String            enabled_;
 
-    /** duration‚Ìè‡’l */
+    /** durationã®é–¾å€¤ */
     @XmlAttribute
     private String            durationThreshold_;
 
-    /** ƒvƒƒpƒeƒB’è‹`ˆê—— */
+    /** ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å®šç¾©ä¸€è¦§ */
     @XmlElement(name = "property")
     private List<PropertyDef> propertyDefs_;
 
     /**
-     * ƒfƒtƒHƒ‹ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^B<br />
+     * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚<br />
      */
     public RuleLevelDef()
     {
@@ -70,9 +70,9 @@ public class RuleLevelDef implements Serializable
     }
 
     /**
-     * ƒRƒs[ƒRƒ“ƒXƒgƒ‰ƒNƒ^B<br />
+     * ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚<br />
      *
-     * @param ruleLevelDef ƒRƒs[Œ³
+     * @param ruleLevelDef ã‚³ãƒ”ãƒ¼å…ƒ
      */
     public RuleLevelDef(final RuleLevelDef ruleLevelDef)
     {
@@ -90,8 +90,8 @@ public class RuleLevelDef implements Serializable
     }
 
     /**
-     * duration‚Ìè‡’l‚ğæ“¾‚·‚éB
-     * @return duration‚Ìè‡’l
+     * durationã®é–¾å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return durationã®é–¾å€¤
      */
     public String getDurationThreshold()
     {
@@ -99,8 +99,8 @@ public class RuleLevelDef implements Serializable
     }
 
     /**
-     * duration‚Ìè‡’l‚ğİ’è‚·‚éB
-     * @param durationThreshold duration‚Ìè‡’l
+     * durationã®é–¾å€¤ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param durationThreshold durationã®é–¾å€¤
      */
     public void setDurationThreshold(final String durationThreshold)
     {
@@ -108,8 +108,8 @@ public class RuleLevelDef implements Serializable
     }
 
     /**
-     * ƒŒƒxƒ‹‚ª—LŒø‚©‚Ç‚¤‚©‚ğæ“¾‚·‚éB
-     * @return ƒŒƒxƒ‹‚ª—LŒø‚©‚Ç‚¤‚©
+     * ãƒ¬ãƒ™ãƒ«ãŒæœ‰åŠ¹ã‹ã©ã†ã‹ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ãƒ¬ãƒ™ãƒ«ãŒæœ‰åŠ¹ã‹ã©ã†ã‹
      */
     public String getEnabled()
     {
@@ -117,8 +117,8 @@ public class RuleLevelDef implements Serializable
     }
 
     /**
-     * ƒŒƒxƒ‹‚ª—LŒø‚©‚Ç‚¤‚©‚ğİ’è‚·‚éB
-     * @param enabled ƒŒƒxƒ‹‚ª—LŒø‚©‚Ç‚¤‚©
+     * ãƒ¬ãƒ™ãƒ«ãŒæœ‰åŠ¹ã‹ã©ã†ã‹ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param enabled ãƒ¬ãƒ™ãƒ«ãŒæœ‰åŠ¹ã‹ã©ã†ã‹
      */
     public void setEnabled(final String enabled)
     {
@@ -126,8 +126,8 @@ public class RuleLevelDef implements Serializable
     }
 
     /**
-     * ƒ‹[ƒ‹‚Ì–â‘èƒŒƒxƒ‹‚ğæ“¾‚·‚éB
-     * @return ƒ‹[ƒ‹‚Ì–â‘èƒŒƒxƒ‹
+     * ãƒ«ãƒ¼ãƒ«ã®å•é¡Œãƒ¬ãƒ™ãƒ«ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ãƒ«ãƒ¼ãƒ«ã®å•é¡Œãƒ¬ãƒ™ãƒ«
      */
     public String getLevel()
     {
@@ -135,8 +135,8 @@ public class RuleLevelDef implements Serializable
     }
 
     /**
-     * ƒ‹[ƒ‹‚Ì–â‘èƒŒƒxƒ‹‚ğİ’è‚·‚éB
-     * @param level ƒ‹[ƒ‹‚Ì–â‘èƒŒƒxƒ‹
+     * ãƒ«ãƒ¼ãƒ«ã®å•é¡Œãƒ¬ãƒ™ãƒ«ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param level ãƒ«ãƒ¼ãƒ«ã®å•é¡Œãƒ¬ãƒ™ãƒ«
      */
     public void setLevel(final String level)
     {
@@ -144,7 +144,7 @@ public class RuleLevelDef implements Serializable
     }
 
     /**
-     * ƒvƒƒpƒeƒB’è‹`ˆê——‚ğæ“¾‚·‚éB
+     * ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å®šç¾©ä¸€è¦§ã‚’å–å¾—ã™ã‚‹ã€‚
      * @return propertyDefs
      */
     public List<PropertyDef> getPropertyDefs()
@@ -153,8 +153,8 @@ public class RuleLevelDef implements Serializable
     }
 
     /**
-     * ƒvƒƒpƒeƒB’è‹`ˆê——‚ğİ’è‚·‚éB
-     * @param propertyDefs ƒvƒƒpƒeƒB’è‹`ˆê——
+     * ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å®šç¾©ä¸€è¦§ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param propertyDefs ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å®šç¾©ä¸€è¦§
      */
     public void setPropertyDefs(final List<PropertyDef> propertyDefs)
     {

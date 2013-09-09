@@ -32,7 +32,7 @@ import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 
 /**
- * ‹@”\ŒÄ‚Ño‚µ—v‹“d•¶óMˆ—‚ğs‚¢‚Ü‚·B<br />
+ * æ©Ÿèƒ½å‘¼ã³å‡ºã—è¦æ±‚é›»æ–‡å—ä¿¡å‡¦ç†ã‚’è¡Œã„ã¾ã™ã€‚<br />
  *
  * @author sakamoto
  */
@@ -40,10 +40,10 @@ public class FunctionCallTelegramListener implements TelegramListener, TelegramC
 {
 
     /**
-     * ‹@”\ŒÄ‚Ño‚µ—v‹“d•¶‚ğó‚¯æ‚Á‚½‚Æ‚«‚Ì‚İˆ—‚ğs‚¢‚Ü‚·B<br />
+     * æ©Ÿèƒ½å‘¼ã³å‡ºã—è¦æ±‚é›»æ–‡ã‚’å—ã‘å–ã£ãŸã¨ãã®ã¿å‡¦ç†ã‚’è¡Œã„ã¾ã™ã€‚<br />
      * 
-     * @param telegram “d•¶ƒIƒuƒWƒFƒNƒg
-     * @return í‚É <code>null</code>
+     * @param telegram é›»æ–‡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @return å¸¸ã« <code>null</code>
      */
     public Telegram receiveTelegram(final Telegram telegram)
     {
@@ -61,9 +61,9 @@ public class FunctionCallTelegramListener implements TelegramListener, TelegramC
     }
 
     /**
-     * —v‹“d•¶‚É‚æ‚èA‹@”\‚ğŒÄ‚Ñ•ª‚¯‚Ü‚·B<br />
+     * è¦æ±‚é›»æ–‡ã«ã‚ˆã‚Šã€æ©Ÿèƒ½ã‚’å‘¼ã³åˆ†ã‘ã¾ã™ã€‚<br />
      *
-     * @param bodies “d•¶–{‘Ì
+     * @param bodies é›»æ–‡æœ¬ä½“
      */
     private void sortByFunction(final Body[] bodies)
     {

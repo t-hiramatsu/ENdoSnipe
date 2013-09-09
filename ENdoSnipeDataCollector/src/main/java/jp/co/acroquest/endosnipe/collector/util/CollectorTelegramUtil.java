@@ -36,17 +36,17 @@ import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 
 /**
- * ƒf[ƒ^ƒRƒŒƒNƒ^[‚Å—p‚¢‚é“d•¶‚Ìƒ†[ƒeƒBƒŠƒeƒB
+ * ãƒ‡ãƒ¼ã‚¿ã‚³ãƒ¬ã‚¯ã‚¿ãƒ¼ã§ç”¨ã„ã‚‹é›»æ–‡ã®ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£
  * 
  * @author fujii
  */
 public class CollectorTelegramUtil
 {
-    /**  è‡’l’´‰ßƒAƒ‰[ƒ€‚Ì“d•¶–{‘Ì‚ÌƒTƒCƒY */
+    /**  é–¾å€¤è¶…éã‚¢ãƒ©ãƒ¼ãƒ ã®é›»æ–‡æœ¬ä½“ã®ã‚µã‚¤ã‚º */
     public static final int RESPONSEALARM_BODY_SIZE = 4;
 
     /**
-     * ƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğ–h~‚·‚éprivateƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Å‚·B
+     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã‚’é˜²æ­¢ã™ã‚‹privateã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§ã™ã€‚
      */
     private CollectorTelegramUtil()
     {
@@ -54,9 +54,9 @@ public class CollectorTelegramUtil
     }
 
     /**
-     * è‡’l’´‰ßƒAƒ‰[ƒ€’Ê’m“d•¶‚ğì¬‚µ‚Ü‚·B
-     * @param alarmEntryList {@link AlarmEntry}‚ÌƒŠƒXƒgƒIƒuƒWƒFƒNƒg
-     * @return è‡’l’´‰ßƒAƒ‰[ƒ€’Ê’m“d•¶
+     * é–¾å€¤è¶…éã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥é›»æ–‡ã‚’ä½œæˆã—ã¾ã™ã€‚
+     * @param alarmEntryList {@link AlarmEntry}ã®ãƒªã‚¹ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @return é–¾å€¤è¶…éã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥é›»æ–‡
      */
     public static Telegram createAlarmTelegram(final List<AlarmEntry> alarmEntryList)
     {
@@ -64,10 +64,10 @@ public class CollectorTelegramUtil
     }
 
     /**
-     * è‡’l’´‰ßƒAƒ‰[ƒ€’Ê’m“d•¶‚ğì¬‚µ‚Ü‚·B
-     * @param alarmEntryList {@link AlarmEntry}‚ÌƒŠƒXƒgƒIƒuƒWƒFƒNƒg
-     * @param requestKind ƒŠƒNƒGƒXƒg‚Ìí—Ş
-     * @return è‡’l’´‰ßƒAƒ‰[ƒ€’Ê’m“d•¶
+     * é–¾å€¤è¶…éã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥é›»æ–‡ã‚’ä½œæˆã—ã¾ã™ã€‚
+     * @param alarmEntryList {@link AlarmEntry}ã®ãƒªã‚¹ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param requestKind ãƒªã‚¯ã‚¨ã‚¹ãƒˆã®ç¨®é¡
+     * @return é–¾å€¤è¶…éã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥é›»æ–‡
      */
     public static Telegram createAlarmTelegram(final List<AlarmEntry> alarmEntryList,
             final byte requestKind)
@@ -81,7 +81,7 @@ public class CollectorTelegramUtil
         Body[] responseBodys = new Body[CollectorTelegramUtil.RESPONSEALARM_BODY_SIZE];
         int alarmEntrySize = alarmEntryList.size();
 
-        // Œv‘ªID
+        // è¨ˆæ¸¬ID
         Body measurementTypeBody = new Body();
 
         measurementTypeBody.setStrObjName(TelegramConstants.OBJECTNAME_RESOURCEALARM);
@@ -90,7 +90,7 @@ public class CollectorTelegramUtil
         measurementTypeBody.setIntLoopCount(alarmEntrySize);
         String[] measurementTypeItems = new String[alarmEntrySize];
 
-        // ƒAƒ‰[ƒ€‚ÌƒŒƒxƒ‹
+        // ã‚¢ãƒ©ãƒ¼ãƒ ã®ãƒ¬ãƒ™ãƒ«
         Body alarmLevelBody = new Body();
 
         alarmLevelBody.setStrObjName(TelegramConstants.OBJECTNAME_RESOURCEALARM);
@@ -99,7 +99,7 @@ public class CollectorTelegramUtil
         alarmLevelBody.setIntLoopCount(alarmEntrySize);
         Integer[] alarmLevelItems = new Integer[alarmEntrySize];
 
-        // ƒAƒ‰[ƒ€”­¶‚Ìè‡’ló‘Ô
+        // ã‚¢ãƒ©ãƒ¼ãƒ ç™ºç”Ÿæ™‚ã®é–¾å€¤çŠ¶æ…‹
         Body signalLevelBody = new Body();
 
         signalLevelBody.setStrObjName(TelegramConstants.OBJECTNAME_RESOURCEALARM);
@@ -108,7 +108,7 @@ public class CollectorTelegramUtil
         signalLevelBody.setIntLoopCount(alarmEntrySize);
         Integer[] signalLevel = new Integer[alarmEntrySize];
 
-        // ƒAƒ‰[ƒ€‚Ìí—Ş
+        // ã‚¢ãƒ©ãƒ¼ãƒ ã®ç¨®é¡
         Body alarmTypeBody = new Body();
 
         alarmTypeBody.setStrObjName(TelegramConstants.OBJECTNAME_RESOURCEALARM);
@@ -117,7 +117,7 @@ public class CollectorTelegramUtil
         alarmTypeBody.setIntLoopCount(alarmEntrySize);
         String[] alarmTypeItems = new String[alarmEntrySize];
 
-        // Œv‘ªIDAƒAƒ‰[ƒ€í—Ş‚ÌBody‚ÉAlarmEntry‚ÌŒ‹‰Ê‚ğŠi”[‚·‚éB
+        // è¨ˆæ¸¬IDã€ã‚¢ãƒ©ãƒ¼ãƒ ç¨®é¡ã®Bodyã«AlarmEntryã®çµæœã‚’æ ¼ç´ã™ã‚‹ã€‚
         for (int cnt = 0; cnt < alarmEntrySize; cnt++)
         {
             AlarmEntry alarmEntry = alarmEntryList.get(cnt);

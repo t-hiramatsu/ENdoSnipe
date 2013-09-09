@@ -28,39 +28,39 @@ package jp.co.acroquest.endosnipe.data;
 import jp.co.acroquest.endosnipe.common.logger.CommonLogMessageCodes;
 
 /**
- * ENdoSnipe DataAccessor ‚Ì‚½‚ß‚ÌƒƒbƒZ[ƒWƒR[ƒh‚Å‚·B<br />
+ * ENdoSnipe DataAccessor ã®ãŸã‚ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚³ãƒ¼ãƒ‰ã§ã™ã€‚<br />
  * 
  * @author y-komori
  */
 public interface LogMessageCodes extends CommonLogMessageCodes
 {
     // -------------------------------------------------------------------------
-    // ƒf[ƒ^ƒAƒNƒZƒXƒƒbƒZ[ƒWƒR[ƒh (01xx)
+    // ãƒ‡ãƒ¼ã‚¿ã‚¢ã‚¯ã‚»ã‚¹ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚³ãƒ¼ãƒ‰ (01xx)
     // -------------------------------------------------------------------------
-    /** ƒf[ƒ^ƒx[ƒX‰Šú‰» */
+    /** ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åˆæœŸåŒ– */
     String DB_INITIALIZED = "IEDA0100";
 
-    /** ƒzƒXƒg—pƒe[ƒuƒ‹‰Šú‰»Žž */
+    /** ãƒ›ã‚¹ãƒˆç”¨ãƒ†ãƒ¼ãƒ–ãƒ«åˆæœŸåŒ–æ™‚ */
     String HOST_TABLE_INITIALIZED = "IEDA0101";
 
-    /** ƒzƒXƒgî•ñ“o˜^ */
+    /** ãƒ›ã‚¹ãƒˆæƒ…å ±ç™»éŒ² */
     String HOST_REGISTERED = "IEDA0102";
 
-    /** ƒf[ƒ^ƒx[ƒXƒAƒNƒZƒXŽ¸”s */
+    /** ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚¢ã‚¯ã‚»ã‚¹å¤±æ•— */
     String DB_ACCESS_ERROR = "EEDA0103";
 
-    /** ƒRƒlƒNƒVƒ‡ƒ“Ú‘± */
+    /** ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³æŽ¥ç¶š */
     String DB_CONNECTED = "TEDA0104";
 
-    /** ƒRƒlƒNƒVƒ‡ƒ“Ø’f */
+    /** ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³åˆ‡æ–­ */
     String DB_DICONNECTED = "TEDA0105";
 
-    /** ƒRƒlƒNƒVƒ‡ƒ“‘SØ’fŽž‚ÉƒAƒNƒeƒBƒuƒRƒlƒNƒVƒ‡ƒ“‚ªŽc‚Á‚Ä‚¢‚é */
+    /** ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³å…¨åˆ‡æ–­æ™‚ã«ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ãŒæ®‹ã£ã¦ã„ã‚‹ */
     String ACTIVE_CONNECTIONS_REMAINED = "WEDA0106";
 
-    /** ƒ[ƒe[ƒg‚ðŽÀŽ{‚µ‚½ */
+    /** ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆã‚’å®Ÿæ–½ã—ãŸ */
     String ROTATE_TABLE_PERFORMED = "IEDA0107";
 
-    /** •s—v‚ÈŒn—ñî•ñ‚ðíœ‚µ‚½ */
+    /** ä¸è¦ãªç³»åˆ—æƒ…å ±ã‚’å‰Šé™¤ã—ãŸ */
     String NO_NEEDED_SERIES_REMOVED = "IEDA0108";
 }

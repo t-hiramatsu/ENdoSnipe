@@ -26,7 +26,7 @@
 package jp.co.acroquest.endosnipe.communicator.entity;
 
 /**
- * �v���d���̂��߂̃G���e�B�e�B�N���X�ł��B<br />
+ * 要求電文のためのエンティティクラスです。<br />
  * 
  * @author y-komori
  */

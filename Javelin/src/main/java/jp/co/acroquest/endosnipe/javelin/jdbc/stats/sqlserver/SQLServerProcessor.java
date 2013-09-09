@@ -39,27 +39,27 @@ import jp.co.acroquest.endosnipe.javelin.jdbc.common.JdbcJavelinMessages;
 import jp.co.acroquest.endosnipe.javelin.jdbc.stats.AbstractProcessor;
 
 /**
- * SQLServerŒÅ—L‚Ìˆ—‚ğs‚¤B
+ * SQLServerå›ºæœ‰ã®å‡¦ç†ã‚’è¡Œã†ã€‚
  * @author eriguchi
  */
 public class SQLServerProcessor extends AbstractProcessor
 {
-    /** JDBCÚ‘±URL‚ª‚±‚Ì•¶š—ñ‚Ån‚Ü‚é‚Æ‚«AÀsŒv‰æ‚ğæ“¾‚·‚é(SQL Server SQLJDBC Ver1.1ˆÈ~) */
+    /** JDBCæ¥ç¶šURLãŒã“ã®æ–‡å­—åˆ—ã§å§‹ã¾ã‚‹ã¨ãã€å®Ÿè¡Œè¨ˆç”»ã‚’å–å¾—ã™ã‚‹(SQL Server SQLJDBC Ver1.1ä»¥é™) */
     public static final String EXPLAIN_TARGET_SQLSERVER = "jdbc:sqlserver";
 
-    /** JDBCÚ‘±URL‚ª‚±‚Ì•¶š—ñ‚Ån‚Ü‚é‚Æ‚«AÀsŒv‰æ‚ğæ“¾‚·‚é(SQL Server SQLJDBC Ver1.0) */
+    /** JDBCæ¥ç¶šURLãŒã“ã®æ–‡å­—åˆ—ã§å§‹ã¾ã‚‹ã¨ãã€å®Ÿè¡Œè¨ˆç”»ã‚’å–å¾—ã™ã‚‹(SQL Server SQLJDBC Ver1.0) */
     public static final String EXPLAIN_TARGET_SQLSERVER_1_0 = "jdbc:sqljdbc";
 
-    /** SQL Server ‚ÅÀsŒv‰æ‚ğæ‚é‚½‚ß‚Ìİ’èƒRƒ}ƒ“ƒh */
+    /** SQL Server ã§å®Ÿè¡Œè¨ˆç”»ã‚’å–ã‚‹ãŸã‚ã®è¨­å®šã‚³ãƒãƒ³ãƒ‰ */
     public static final String SQLSERVER_SHOWPLAN = "SHOWPLAN_XML";
 
-    /** SQL Server ‚ÅÀsŒv‰ææ“¾‚ğŠJn‚·‚é‚½‚ß‚Ìİ’èƒRƒ}ƒ“ƒh */
+    /** SQL Server ã§å®Ÿè¡Œè¨ˆç”»å–å¾—ã‚’é–‹å§‹ã™ã‚‹ãŸã‚ã®è¨­å®šã‚³ãƒãƒ³ãƒ‰ */
     private static final String SHOWPLAN_ON = "SET " + SQLSERVER_SHOWPLAN + " ON;";
 
-    /** SQL Server ‚ÅÀsŒv‰ææ“¾‚ğI—¹‚·‚é‚½‚ß‚Ìİ’èƒRƒ}ƒ“ƒh */
+    /** SQL Server ã§å®Ÿè¡Œè¨ˆç”»å–å¾—ã‚’çµ‚äº†ã™ã‚‹ãŸã‚ã®è¨­å®šã‚³ãƒãƒ³ãƒ‰ */
     private static final String SHOWPLAN_OFF = "SET " + SQLSERVER_SHOWPLAN + " OFF;";
     
-    /** ƒƒbƒZ[ƒWæ“¾—p‚ÌƒL[ */
+    /** ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å–å¾—ç”¨ã®ã‚­ãƒ¼ */
     private static final String KEY = "javelin.jdbc.stats.sqlserver." 
                                     + "SQLServerProcessor.NoSuchFieldExceptionMessage";
 
@@ -75,18 +75,18 @@ public class SQLServerProcessor extends AbstractProcessor
     }
 
     /**
-     * SQL Server‚ÅÀsŒv‰æ‚ğæ“¾‚·‚éB
+     * SQL Serverã§å®Ÿè¡Œè¨ˆç”»ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @param stmt ƒXƒe[ƒgƒƒ“ƒg
-     * @param originalSql SQL•¶
-     * @param args ˆø”B
-     * @return ÀsŒv‰æ
-     * @throws SQLException ResultSetƒNƒ[ƒY‚ÉƒGƒ‰[‚ª”­¶‚µ‚½‚Æ‚«
+     * @param stmt ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆ
+     * @param originalSql SQLæ–‡
+     * @param args å¼•æ•°ã€‚
+     * @return å®Ÿè¡Œè¨ˆç”»
+     * @throws SQLException ResultSetã‚¯ãƒ­ãƒ¼ã‚ºæ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸã¨ã
      */
     public String getOneExecPlan(final Statement stmt, final String originalSql, final List<?> args)
         throws SQLException
     {
-        // ÀsŒv‰ææ“¾‚É¸”s‚µ‚½ê‡‚Éargs‚ÉƒZƒbƒg‚·‚é•¶š—ñ
+        // å®Ÿè¡Œè¨ˆç”»å–å¾—ã«å¤±æ•—ã—ãŸå ´åˆã«argsã«ã‚»ãƒƒãƒˆã™ã‚‹æ–‡å­—åˆ—
         StringBuffer execPlanText = new StringBuffer("EXPLAIN PLAN failed.");
 
         Statement planStmt = null;
@@ -95,16 +95,16 @@ public class SQLServerProcessor extends AbstractProcessor
         {
             planStmt = stmt.getConnection().createStatement();
 
-            // PreparedStatement‚È‚çAƒhƒ‰ƒCƒo“à•”‚ÌSQL•¶š—ñ‚ğ—p‚¢‚ÄƒLƒƒƒbƒVƒ…‚©‚çæ“¾‚ğ‚İ‚éB
-            // Statement‚È‚çAƒtƒ‰ƒO•ÏX‚ÅÀsŒv‰æ‚ğæ“¾‚·‚éB
+            // PreparedStatementãªã‚‰ã€ãƒ‰ãƒ©ã‚¤ãƒå†…éƒ¨ã®SQLæ–‡å­—åˆ—ã‚’ç”¨ã„ã¦ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‹ã‚‰å–å¾—ã‚’è©¦ã¿ã‚‹ã€‚
+            // Statementãªã‚‰ã€ãƒ•ãƒ©ã‚°å¤‰æ›´ã§å®Ÿè¡Œè¨ˆç”»ã‚’å–å¾—ã™ã‚‹ã€‚
             if (stmt instanceof PreparedStatement)
             {
                 try
                 {
-                    // SQLServerPreparedStatement#preparedSQL‚ÉASQL•¶‚Ì“à•”Œ`®‚ªŠi”[‚³‚ê‚Ä‚¢‚é
+                    // SQLServerPreparedStatement#preparedSQLã«ã€SQLæ–‡ã®å†…éƒ¨å½¢å¼ãŒæ ¼ç´ã•ã‚Œã¦ã„ã‚‹
                     Field preparedSQL = stmt.getClass().getDeclaredField("preparedSQL");
 
-                    // SQLServerPreparedStatement#preparedTypeDefinitions‚ÉA•Ï”‚ÌŒ^‚ªŠi”[‚³‚ê‚Ä‚¢‚é
+                    // SQLServerPreparedStatement#preparedTypeDefinitionsã«ã€å¤‰æ•°ã®å‹ãŒæ ¼ç´ã•ã‚Œã¦ã„ã‚‹
                     Field preparedTypeDefinitions =
                             stmt.getClass().getDeclaredField("preparedTypeDefinitions");
                     preparedSQL.setAccessible(true);
@@ -120,8 +120,8 @@ public class SQLServerProcessor extends AbstractProcessor
                     internalSQL.append((String)preparedSQL.get(stmt));
                     String internalSQLText = new String(internalSQL);
 
-                    // ƒLƒƒƒbƒVƒ…ƒe[ƒuƒ‹‚Ì’†‚©‚çASQL Handle ‚Æ Plan Handle ‚Åi‚è‚İA
-                    // “à•”Œ`®‚ÌSQL•¶‚Éˆê’v‚·‚é‚à‚Ì‚ğ’T‚·
+                    // ã‚­ãƒ£ãƒƒã‚·ãƒ¥ãƒ†ãƒ¼ãƒ–ãƒ«ã®ä¸­ã‹ã‚‰ã€SQL Handle ã¨ Plan Handle ã§çµã‚Šè¾¼ã¿ã€
+                    // å†…éƒ¨å½¢å¼ã®SQLæ–‡ã«ä¸€è‡´ã™ã‚‹ã‚‚ã®ã‚’æ¢ã™
                     String sql =
                             "SELECT query_plan " + "FROM sys.dm_exec_query_stats qs "
                                     + "CROSS APPLY sys.dm_exec_sql_text(qs.sql_handle) "
@@ -130,8 +130,8 @@ public class SQLServerProcessor extends AbstractProcessor
                     resultSet = planStmt.executeQuery(sql);
                     if (resultSet.next())
                     {
-                        // SQL•¶‚É‘Î‰‚·‚éÀsŒv‰æ‚ªŒ©‚Â‚©‚Á‚½‚çA
-                        // Å‰‚Ì‚à‚Ì‚ğæ‚èo‚·i“¯‚¶‚à‚Ì‚ª•¡”•Ô‚Á‚Ä‚­‚éê‡‚ª‚ ‚é‚Ì‚Åj
+                        // SQLæ–‡ã«å¯¾å¿œã™ã‚‹å®Ÿè¡Œè¨ˆç”»ãŒè¦‹ã¤ã‹ã£ãŸã‚‰ã€
+                        // æœ€åˆã®ã‚‚ã®ã‚’å–ã‚Šå‡ºã™ï¼ˆåŒã˜ã‚‚ã®ãŒè¤‡æ•°è¿”ã£ã¦ãã‚‹å ´åˆãŒã‚ã‚‹ã®ã§ï¼‰
                         execPlanText.setLength(0);
                         execPlanText.append(resultSet.getString("query_plan"));
                         execPlanText.append('\n');
@@ -149,43 +149,43 @@ public class SQLServerProcessor extends AbstractProcessor
                 planStmt.addBatch(SHOWPLAN_ON);
                 planStmt.executeBatch();
 
-                // ÀsŒv‰æ‚ğæ‚éSQL•¶‚Ì‘—M•ÀsŒv‰æ‚Ìæ“¾
+                // å®Ÿè¡Œè¨ˆç”»ã‚’å–ã‚‹SQLæ–‡ã®é€ä¿¡ï¼†å®Ÿè¡Œè¨ˆç”»ã®å–å¾—
                 resultSet = planStmt.executeQuery(originalSql);
 
-                // ŒŸõ‚³‚ê‚½s”•ªƒ‹[ƒv
+                // æ¤œç´¢ã•ã‚ŒãŸè¡Œæ•°åˆ†ãƒ«ãƒ¼ãƒ—
                 execPlanText.setLength(0);
                 while (resultSet.next())
                 {
-                    // ÀsŒv‰æ‚ğæ“¾
+                    // å®Ÿè¡Œè¨ˆç”»ã‚’å–å¾—
                     String planTableOutput = resultSet.getString(1);
-                    // Œ‹‡
+                    // çµåˆ
                     execPlanText.append(planTableOutput);
                     execPlanText.append('\n');
                 }
 
-                // ÀsŒv‰ææ“¾‚ğ‰ğœ‚·‚é
+                // å®Ÿè¡Œè¨ˆç”»å–å¾—ã‚’è§£é™¤ã™ã‚‹
                 planStmt.addBatch(SHOWPLAN_OFF);
                 planStmt.executeBatch();
             }
         }
         catch (SQLException sqle)
         {
-            // DBƒAƒNƒZƒXƒGƒ‰[‚ª”­¶‚µ‚½ê‡‚Í•W€ƒGƒ‰[o—Í‚Éo—Í‚µ‚Ä‚¨‚­B
+            // DBã‚¢ã‚¯ã‚»ã‚¹ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆã¯æ¨™æº–ã‚¨ãƒ©ãƒ¼å‡ºåŠ›ã«å‡ºåŠ›ã—ã¦ãŠãã€‚
             SystemLogger.getInstance().warn(sqle);
         }
         catch (IllegalAccessException iae)
         {
-            // ‘z’èŠO‚Ì—áŠO‚ª”­¶‚µ‚½ê‡‚Í•W€ƒGƒ‰[o—Í‚Éo—Í‚µ‚Ä‚¨‚­B
+            // æƒ³å®šå¤–ã®ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆã¯æ¨™æº–ã‚¨ãƒ©ãƒ¼å‡ºåŠ›ã«å‡ºåŠ›ã—ã¦ãŠãã€‚
             SystemLogger.getInstance().warn(iae);
         }
         catch (RuntimeException ex)
         {
-            // ‘z’èŠO‚Ì—áŠO‚ª”­¶‚µ‚½ê‡‚Í•W€ƒGƒ‰[o—Í‚Éo—Í‚µ‚Ä‚¨‚­B
+            // æƒ³å®šå¤–ã®ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆã¯æ¨™æº–ã‚¨ãƒ©ãƒ¼å‡ºåŠ›ã«å‡ºåŠ›ã—ã¦ãŠãã€‚
             SystemLogger.getInstance().warn(ex);
         }
         finally
         {
-            // ƒŠƒ\[ƒX‰ğ•ú
+            // ãƒªã‚½ãƒ¼ã‚¹è§£æ”¾
             try
             {
                 if (resultSet != null)

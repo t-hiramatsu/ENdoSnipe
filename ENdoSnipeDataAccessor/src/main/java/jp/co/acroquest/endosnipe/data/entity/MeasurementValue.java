@@ -28,7 +28,7 @@ package jp.co.acroquest.endosnipe.data.entity;
 import java.sql.Timestamp;
 
 /**
- * Javelin Œv‘ª’lƒe[ƒuƒ‹‚É‘Î‚·‚éƒGƒ“ƒeƒBƒeƒBƒNƒ‰ƒX‚Å‚·B<br /> 
+ * Javelin è¨ˆæ¸¬å€¤ãƒ†ãƒ¼ãƒ–ãƒ«ã«å¯¾ã™ã‚‹ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br /> 
  *
  * @author y-sakamoto
  */
@@ -36,18 +36,18 @@ public class MeasurementValue
 {
 
     /**
-     * Œv‘ªB<br />
+     * è¨ˆæ¸¬æ™‚åˆ»ã€‚<br />
      */
     public Timestamp measurementTime;
 
     /**
-     * Œv‘ª’l‚ªŒn—ñ–¼‚ğ‚Âê‡iƒRƒŒƒNƒVƒ‡ƒ“”‚È‚Çj‚ÌŒn—ñ ID B<br />
+     * è¨ˆæ¸¬å€¤ãŒç³»åˆ—åã‚’æŒã¤å ´åˆï¼ˆã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³æ•°ãªã©ï¼‰ã®ç³»åˆ— ID ã€‚<br />
      */
     public int measurementItemId;
 
     /**
-     * Œv‘ª’lB<br />
-     * ÀÛ‚ÌŒv‘ª’lB
+     * è¨ˆæ¸¬å€¤ã€‚<br />
+     * å®Ÿéš›ã®è¨ˆæ¸¬å€¤ã€‚
      */
     public String value;
 

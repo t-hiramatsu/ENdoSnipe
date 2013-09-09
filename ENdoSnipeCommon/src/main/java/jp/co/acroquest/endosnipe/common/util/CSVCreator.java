@@ -28,37 +28,37 @@ package jp.co.acroquest.endosnipe.common.util;
 import java.util.Collection;
 
 /**
- * CSV‚ğ¶¬‚·‚éƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒX‚Å‚·B<br />
+ * CSVã‚’ç”Ÿæˆã™ã‚‹ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  *
  * @author Tatsuo Suzuki
  * @author Nakamura Yuuki
  */
 public class CSVCreator
 {
-    /** ƒNƒH[ƒe[ƒVƒ‡ƒ“ */
+    /** ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ */
     private int quotation_ = CSVCreator.getDoubleQuotation();
 
-    /** null‚Ìˆµ‚¢ */
+    /** nullã®æ‰±ã„ */
     private int nullTreatment_ = CSVCreator.getNullPointerException();
 
     /**
-     * {@link CSVCreator} ‚ğ\’z‚µ‚Ü‚·B<br />
+     * {@link CSVCreator} ã‚’æ§‹ç¯‰ã—ã¾ã™ã€‚<br />
      */
     public CSVCreator()
     {
     }
 
     /**
-     * StringŒ^‚Ì”z—ñ‚ğACSVŒ`®‚Éo—Í‚·‚éB
-     * ”z—ñ‚Énull‚ªŠÜ‚Ü‚ê‚Ä‚¢‚éê‡‚Ì“®ì‚ÍAsetNullTreatment()‚É‚æ‚Á‚ÄŒˆ‚Ü‚éB
-     * ‚Ç‚ÌƒNƒH[ƒe[ƒVƒ‡ƒ“•¶š‚ğ‚·‚é‚©‚ÍAsetQuotation()‚É‚æ‚Á‚ÄŒˆ‚Ü‚éB
+     * Stringå‹ã®é…åˆ—ã‚’ã€CSVå½¢å¼ã«å‡ºåŠ›ã™ã‚‹ã€‚
+     * é…åˆ—ã«nullãŒå«ã¾ã‚Œã¦ã„ã‚‹å ´åˆã®å‹•ä½œã¯ã€setNullTreatment()ã«ã‚ˆã£ã¦æ±ºã¾ã‚‹ã€‚
+     * ã©ã®ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³æ–‡å­—ã‚’ã™ã‚‹ã‹ã¯ã€setQuotation()ã«ã‚ˆã£ã¦æ±ºã¾ã‚‹ã€‚
      *
-     * @param list StringŒ^‚Ì”z—ñ
-     * @return •ÏŠ·‚³‚ê‚½CSVŒ`®‚Ì•¶š—ñ
+     * @param list Stringå‹ã®é…åˆ—
+     * @return å¤‰æ›ã•ã‚ŒãŸCSVå½¢å¼ã®æ–‡å­—åˆ—
      */
     public String createCSVString(final String[] list)
     {
-        // Œ‹‰Êo—Í—p‚Ìƒoƒbƒtƒ@
+        // çµæœå‡ºåŠ›ç”¨ã®ãƒãƒƒãƒ•ã‚¡
         StringBuffer buffer = new StringBuffer();
 
         for (int cnt = 0; cnt < list.length; cnt++)
@@ -75,7 +75,7 @@ public class CSVCreator
                     throw new NullPointerException("list[" + cnt + "] is null");
                 }
             }
-            // ‹ó•¶š—ñ‚Å‚Í–³‚¢ê‡Aƒ_ƒuƒ‹ƒNƒH[ƒe[ƒVƒ‡ƒ“‚ÅˆÍ‚ŞB
+            // ç©ºæ–‡å­—åˆ—ã§ã¯ç„¡ã„å ´åˆã€ãƒ€ãƒ–ãƒ«ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ã§å›²ã‚€ã€‚
             if (element.length() > 0)
             {
                 if (getQuotation() == CSVCreator.getDoubleQuotation())
@@ -84,7 +84,7 @@ public class CSVCreator
                 }
             }
             buffer.append(element);
-            // ÅŒã‚Ì—v‘f‚Å–³‚¢ŒÀ‚èA","‚ğ‚Â‚¯‚éB
+            // æœ€å¾Œã®è¦ç´ ã§ç„¡ã„é™ã‚Šã€","ã‚’ã¤ã‘ã‚‹ã€‚
             if (cnt < list.length - 1)
             {
                 buffer.append(CSVCreator.SEPARATOR);
@@ -94,13 +94,13 @@ public class CSVCreator
     }
 
     /**
-     * @param element Œ³‚Ì•¶š—ñB
-     * @return ‘OŒã‚Éƒ_ƒuƒ‹ƒNƒH[ƒg•¶š‚ğ•t‰Á‚µ‚½•¶š—ñB
+     * @param element å…ƒã®æ–‡å­—åˆ—ã€‚
+     * @return å‰å¾Œã«ãƒ€ãƒ–ãƒ«ã‚¯ã‚©ãƒ¼ãƒˆæ–‡å­—ã‚’ä»˜åŠ ã—ãŸæ–‡å­—åˆ—ã€‚
      */
     private String insertDoubleQuote(final String element)
     {
-        // •¶š—ñ‚Éƒ_ƒuƒ‹ƒNƒH[ƒe[ƒVƒ‡ƒ“‚ªŠÜ‚Ü‚ê‚Ä‚¢‚½‚çAƒ_ƒuƒ‹ƒNƒH[ƒe[ƒVƒ‡ƒ“
-        // “ñ‚Â‚É’u‚«Š·‚¦‚éB
+        // æ–‡å­—åˆ—ã«ãƒ€ãƒ–ãƒ«ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ãŒå«ã¾ã‚Œã¦ã„ãŸã‚‰ã€ãƒ€ãƒ–ãƒ«ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³
+        // äºŒã¤ã«ç½®ãæ›ãˆã‚‹ã€‚
         StringBuffer tmpBuf = new StringBuffer();
         for (int cnt = 0; cnt < element.length(); cnt++)
         {
@@ -115,10 +115,10 @@ public class CSVCreator
     }
 
     /**
-     * ƒRƒŒƒNƒVƒ‡ƒ“‚ğ CSV Œ`®‚É•ÏŠ·‚µ‚Ü‚·B<br />
+     * ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã‚’ CSV å½¢å¼ã«å¤‰æ›ã—ã¾ã™ã€‚<br />
      *
-     * @param list ƒRƒŒƒNƒVƒ‡ƒ“
-     * @return ƒRƒŒƒNƒVƒ‡ƒ“‚Ì‚·‚×‚Ä‚Ì—v‘f‚ğƒJƒ“ƒ}‚ÅŒ‹‡‚µ‚½•¶š—ñ
+     * @param list ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³
+     * @return ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã®ã™ã¹ã¦ã®è¦ç´ ã‚’ã‚«ãƒ³ãƒã§çµåˆã—ãŸæ–‡å­—åˆ—
      * @see #createCSVString(String[])
      */
     public String createCSVString(final Collection<?> list)
@@ -129,29 +129,29 @@ public class CSVCreator
     //:=====================================================
 
     /**
-     * StringŒ^‚Ì”z—ñ‚ğACSVŒ`®‚Éo—Í‚·‚éB
-     * ”z—ñ‚Énull‚ªŠÜ‚Ü‚ê‚Ä‚¢‚éê‡‚ÍANullPointerException‚ª”­¶‚·‚éB
-     * ŒİŠ·«‚ÌƒeƒXƒg‚ªŠ®—¹‚µ‚½‚çA‚±‚Ìƒƒ\ƒbƒh‚ÌÀ‘•‚ğcreateCSVString(String[])‚É’u‚«Š·‚¦‚éB
+     * Stringå‹ã®é…åˆ—ã‚’ã€CSVå½¢å¼ã«å‡ºåŠ›ã™ã‚‹ã€‚
+     * é…åˆ—ã«nullãŒå«ã¾ã‚Œã¦ã„ã‚‹å ´åˆã¯ã€NullPointerExceptionãŒç™ºç”Ÿã™ã‚‹ã€‚
+     * äº’æ›æ€§ã®ãƒ†ã‚¹ãƒˆãŒå®Œäº†ã—ãŸã‚‰ã€ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã®å®Ÿè£…ã‚’createCSVString(String[])ã«ç½®ãæ›ãˆã‚‹ã€‚
      *
-     * @param list StringŒ^‚Ì”z—ñ
-     * @return •ÏŠ·‚³‚ê‚½CSVŒ`®‚Ì•¶š—ñ
+     * @param list Stringå‹ã®é…åˆ—
+     * @return å¤‰æ›ã•ã‚ŒãŸCSVå½¢å¼ã®æ–‡å­—åˆ—
      */
     public static String createCSV(final String[] list)
     {
         try
         {
-            // Œ‹‰Êo—Í—p‚Ìƒoƒbƒtƒ@
+            // çµæœå‡ºåŠ›ç”¨ã®ãƒãƒƒãƒ•ã‚¡
             StringBuffer buffer = new StringBuffer();
 
             for (int listCnt = 0; listCnt < list.length; listCnt++)
             {
                 String element = list[listCnt];
 
-                // ‹ó•¶š—ñ‚Å‚Í–³‚¢ê‡Aƒ_ƒuƒ‹ƒNƒH[ƒe[ƒVƒ‡ƒ“‚ÅˆÍ‚ŞB
+                // ç©ºæ–‡å­—åˆ—ã§ã¯ç„¡ã„å ´åˆã€ãƒ€ãƒ–ãƒ«ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ã§å›²ã‚€ã€‚
                 if (element.length() > 0)
                 {
-                    // •¶š—ñ‚Éƒ_ƒuƒ‹ƒNƒH[ƒe[ƒVƒ‡ƒ“‚ªŠÜ‚Ü‚ê‚Ä‚¢‚½‚çAƒ_ƒuƒ‹ƒNƒH[ƒe[ƒVƒ‡ƒ“
-                    // “ñ‚Â‚É’u‚«Š·‚¦‚éB
+                    // æ–‡å­—åˆ—ã«ãƒ€ãƒ–ãƒ«ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ãŒå«ã¾ã‚Œã¦ã„ãŸã‚‰ã€ãƒ€ãƒ–ãƒ«ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³
+                    // äºŒã¤ã«ç½®ãæ›ãˆã‚‹ã€‚
                     if (element.indexOf("\"") > -1)
                     {
                         StringBuffer tmpBuffer = new StringBuffer();
@@ -171,7 +171,7 @@ public class CSVCreator
                     buffer.append("\"" + element + "\"");
                 }
 
-                // ÅŒã‚Ì—v‘f‚Å–³‚¢ŒÀ‚èA","‚ğ‚Â‚¯‚éB
+                // æœ€å¾Œã®è¦ç´ ã§ç„¡ã„é™ã‚Šã€","ã‚’ã¤ã‘ã‚‹ã€‚
                 if (listCnt < list.length - 1)
                 {
                     buffer.append(",");
@@ -188,13 +188,13 @@ public class CSVCreator
     }
 
     /**
-     * Collection‚ğACSVŒ`®‚Éo—Í‚·‚éB
-     * Collection‚Énull‚ªŠÜ‚Ü‚ê‚Ä‚¢‚éê‡‚ÍANullPointerException‚ª”­¶‚·‚éB
-     * •¶š—ñŒ^‚É•ÏŠ·‚Å‚«‚È‚¢ê‡‚ÍAArrayStoreException‚ª”­¶‚·‚éB
-     * ŒİŠ·«‚ÌƒeƒXƒg‚ªŠ®—¹‚µ‚½‚çA‚±‚Ìƒƒ\ƒbƒh‚ÌÀ‘•‚ğcreateCSVString(Collection)‚É’u‚«Š·‚¦‚éB
+     * Collectionã‚’ã€CSVå½¢å¼ã«å‡ºåŠ›ã™ã‚‹ã€‚
+     * Collectionã«nullãŒå«ã¾ã‚Œã¦ã„ã‚‹å ´åˆã¯ã€NullPointerExceptionãŒç™ºç”Ÿã™ã‚‹ã€‚
+     * æ–‡å­—åˆ—å‹ã«å¤‰æ›ã§ããªã„å ´åˆã¯ã€ArrayStoreExceptionãŒç™ºç”Ÿã™ã‚‹ã€‚
+     * äº’æ›æ€§ã®ãƒ†ã‚¹ãƒˆãŒå®Œäº†ã—ãŸã‚‰ã€ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã®å®Ÿè£…ã‚’createCSVString(Collection)ã«ç½®ãæ›ãˆã‚‹ã€‚
      *
      * @param list Collection
-     * @return •ÏŠ·‚³‚ê‚½CSVŒ`®‚Ì•¶š—ñ
+     * @return å¤‰æ›ã•ã‚ŒãŸCSVå½¢å¼ã®æ–‡å­—åˆ—
      */
     public static String createCSV(final Collection<?> list)
     {
@@ -215,9 +215,9 @@ public class CSVCreator
     }
 
     /**
-     * ƒNƒH[ƒe[ƒVƒ‡ƒ“‚ğƒZƒbƒg‚µ‚Ü‚·B<br />
+     * ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ã‚’ã‚»ãƒƒãƒˆã—ã¾ã™ã€‚<br />
      *
-     * @param newQuotation ƒNƒH[ƒe[ƒVƒ‡ƒ“
+     * @param newQuotation ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³
      */
     public void setQuotation(final int newQuotation)
     {
@@ -225,11 +225,11 @@ public class CSVCreator
     }
 
     /**
-     * ƒNƒH[ƒe[ƒVƒ‡ƒ“‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ã‚’è¿”ã—ã¾ã™ã€‚<br />
      *
-     * ƒfƒtƒHƒ‹ƒg’l‚Í DOUBLE_QUOTATION B
+     * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã¯ DOUBLE_QUOTATION ã€‚
      *
-     * @return ƒNƒH[ƒe[ƒVƒ‡ƒ“
+     * @return ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³
      */
     public int getQuotation()
     {
@@ -237,8 +237,8 @@ public class CSVCreator
     }
 
     /**
-     * null‚Ìˆµ‚¢‚ğİ’è‚·‚éB
-     * @param newNullTreatment null‚Ìˆµ‚¢
+     * nullã®æ‰±ã„ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param newNullTreatment nullã®æ‰±ã„
      */
     public void setNullTreatment(final int newNullTreatment)
     {
@@ -246,8 +246,8 @@ public class CSVCreator
     }
 
     /**
-     * ƒfƒtƒHƒ‹ƒg’l‚Í NULL_POINTER_EXCEPTION
-     * @return null‚Ìˆµ‚¢
+     * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã¯ NULL_POINTER_EXCEPTION
+     * @return nullã®æ‰±ã„
      */
     public int getNullTreatment()
     {
@@ -255,8 +255,8 @@ public class CSVCreator
     }
 
     /**
-     * null‚É‘˜‹ö‚µ‚½ê‡ANullPointerException‚ğ“Š‚°‚éw¦B
-     * @return null‚É‘˜‹ö‚µ‚½ê‡ANullPointerException‚ğ“Š‚°‚éw¦
+     * nullã«é­é‡ã—ãŸå ´åˆã€NullPointerExceptionã‚’æŠ•ã’ã‚‹æŒ‡ç¤ºã€‚
+     * @return nullã«é­é‡ã—ãŸå ´åˆã€NullPointerExceptionã‚’æŠ•ã’ã‚‹æŒ‡ç¤º
      */
     public static final int getNullPointerException()
     {
@@ -264,8 +264,8 @@ public class CSVCreator
     }
 
     /**
-     * null‚É‘˜‹ö‚µ‚½ê‡A""‚Æ‚µ‚Äˆµ‚¤w¦B
-     * @return null‚É‘˜‹ö‚µ‚½ê‡A""‚Æ‚µ‚Äˆµ‚¤w¦
+     * nullã«é­é‡ã—ãŸå ´åˆã€""ã¨ã—ã¦æ‰±ã†æŒ‡ç¤ºã€‚
+     * @return nullã«é­é‡ã—ãŸå ´åˆã€""ã¨ã—ã¦æ‰±ã†æŒ‡ç¤º
      */
     public static final int getNullToEmptyString()
     {
@@ -273,13 +273,13 @@ public class CSVCreator
     }
 
     /**
-     * null‚É‘˜‹ö‚µ‚½ê‡‚Ìw¦‚Ìƒrƒbƒg”ÍˆÍB
+     * nullã«é­é‡ã—ãŸå ´åˆã®æŒ‡ç¤ºã®ãƒ“ãƒƒãƒˆç¯„å›²ã€‚
      */
     private static final int NULL_TREATMENT_GROUP = 0;
 
     /**
-     * ƒNƒH[ƒe[ƒVƒ‡ƒ“‚ğ•t‰Á‚µ‚È‚¢w¦B
-     * @return ƒNƒH[ƒe[ƒVƒ‡ƒ“‚ğ•t‰Á‚µ‚È‚¢w¦
+     * ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ã‚’ä»˜åŠ ã—ãªã„æŒ‡ç¤ºã€‚
+     * @return ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ã‚’ä»˜åŠ ã—ãªã„æŒ‡ç¤º
      */
     public static final int getNoQuotation()
     {
@@ -287,8 +287,8 @@ public class CSVCreator
     }
 
     /**
-     * ƒ_ƒuƒ‹ƒNƒH[ƒe[ƒVƒ‡ƒ“"\""‚ğ•t‰Á‚·‚éw¦B
-     * @return ƒ_ƒuƒ‹ƒNƒH[ƒe[ƒVƒ‡ƒ“"\""‚ğ•t‰Á‚·‚éw¦B
+     * ãƒ€ãƒ–ãƒ«ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³"\""ã‚’ä»˜åŠ ã™ã‚‹æŒ‡ç¤ºã€‚
+     * @return ãƒ€ãƒ–ãƒ«ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³"\""ã‚’ä»˜åŠ ã™ã‚‹æŒ‡ç¤ºã€‚
      */
     public static final int getDoubleQuotation()
     {
@@ -296,17 +296,17 @@ public class CSVCreator
     }
 
     /**
-     * ƒNƒH[ƒe[ƒVƒ‡ƒ“‚ğ•t‰Á‚·‚éw¦‚Ìƒrƒbƒg”ÍˆÍB
+     * ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ã‚’ä»˜åŠ ã™ã‚‹æŒ‡ç¤ºã®ãƒ“ãƒƒãƒˆç¯„å›²ã€‚
      */
     private static final int QUOTATION_GROUP = 4;
 
     /**
-     * CSV•¶š—ñ‚Ì‹æØ‚è•¶šB
+     * CSVæ–‡å­—åˆ—ã®åŒºåˆ‡ã‚Šæ–‡å­—ã€‚
      */
     private static final String SEPARATOR = ",";
 
     /**
-     * •¶š—ñ’†‚É‚ ‚éƒ_ƒuƒ‹ƒNƒH[ƒe[ƒVƒ‡ƒ“‚É•t‰Á‚·‚é•¶šB
+     * æ–‡å­—åˆ—ä¸­ã«ã‚ã‚‹ãƒ€ãƒ–ãƒ«ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ã«ä»˜åŠ ã™ã‚‹æ–‡å­—ã€‚
      */
     private static final char DOUBLE_QUOTE_CHAR = '\"';
 }

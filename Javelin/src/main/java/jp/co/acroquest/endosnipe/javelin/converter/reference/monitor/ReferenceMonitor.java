@@ -38,13 +38,13 @@ import jp.co.acroquest.endosnipe.javelin.event.CommonEvent;
 import jp.co.acroquest.endosnipe.javelin.util.StatsUtil;
 
 /**
- * ReferenceMonitorConverter‚É‚æ‚è•ÏŠ·‚³‚ê‚½ƒNƒ‰ƒX‚ÌƒIƒuƒWƒFƒNƒg‚ğ•Û‚·‚éƒNƒ‰ƒXB
+ * ReferenceMonitorConverterã«ã‚ˆã‚Šå¤‰æ›ã•ã‚ŒãŸã‚¯ãƒ©ã‚¹ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä¿æŒã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚
  * 
  * @author eriguchi
  */
 public class ReferenceMonitor
 {
-    /** QÆ‚ğ•Û‚·‚éƒ}ƒbƒvBƒL[‚ªƒNƒ‰ƒX–¼A’l‚ª‘ÎÛ‚ÌQÆ‚ğ‚Âƒ}ƒbƒv */
+    /** å‚ç…§ã‚’ä¿æŒã™ã‚‹ãƒãƒƒãƒ—ã€‚ã‚­ãƒ¼ãŒã‚¯ãƒ©ã‚¹åã€å€¤ãŒå¯¾è±¡ã®å‚ç…§ã‚’æŒã¤ãƒãƒƒãƒ— */
     private static Map<String, Map<Object, Object>> referenceMap__;
 
     static
@@ -53,7 +53,7 @@ public class ReferenceMonitor
     }
 
     /**
-     * ƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğ–h~‚·‚é‚½‚ß‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^B
+     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã‚’é˜²æ­¢ã™ã‚‹ãŸã‚ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
      */
     private ReferenceMonitor()
     {
@@ -61,10 +61,10 @@ public class ReferenceMonitor
     }
 
     /**
-     * ƒIƒuƒWƒFƒNƒg‚ğ’Ç‰Á‚·‚éB
+     * ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¿½åŠ ã™ã‚‹ã€‚
      * 
-     * @param className ƒNƒ‰ƒX–¼B
-     * @param obj ’Ç‰Á‚·‚éƒIƒuƒWƒFƒNƒgB
+     * @param className ã‚¯ãƒ©ã‚¹åã€‚
+     * @param obj è¿½åŠ ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚
      */
     public static void add(String className, Object obj)
     {
@@ -80,10 +80,10 @@ public class ReferenceMonitor
     }
 
     /**
-     * w’è‚µ‚½ƒNƒ‰ƒX‚ÌƒIƒuƒWƒFƒNƒg‚ÌƒŠƒXƒg‚ğæ“¾‚·‚éB
+     * æŒ‡å®šã—ãŸã‚¯ãƒ©ã‚¹ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒªã‚¹ãƒˆã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @param className ƒNƒ‰ƒX–¼B
-     * @return w’è‚µ‚½ƒNƒ‰ƒX‚ÌƒIƒuƒWƒFƒNƒg‚ÌƒŠƒXƒgB
+     * @param className ã‚¯ãƒ©ã‚¹åã€‚
+     * @return æŒ‡å®šã—ãŸã‚¯ãƒ©ã‚¹ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒªã‚¹ãƒˆã€‚
      */
     public static List<Object> get(String className)
     {
@@ -106,10 +106,10 @@ public class ReferenceMonitor
     }
 
     /**
-     * ƒIƒuƒWƒFƒNƒg‚ğíœ‚·‚éB
+     * ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å‰Šé™¤ã™ã‚‹ã€‚
      * 
-     * @param className ƒNƒ‰ƒX–¼B
-     * @param obj íœ‚·‚éƒIƒuƒWƒFƒNƒgB
+     * @param className ã‚¯ãƒ©ã‚¹åã€‚
+     * @param obj å‰Šé™¤ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚
      */
     public static void remove(String className, Object obj)
     {
@@ -125,10 +125,10 @@ public class ReferenceMonitor
     }
     
     /**
-     * QÆ‚µ‚Ä‚¢‚éƒIƒuƒWƒFƒNƒg‚Ìƒ_ƒ“ƒvƒCƒxƒ“ƒg‚ğ¶¬‚·‚éB
+     * å‚ç…§ã—ã¦ã„ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ€ãƒ³ãƒ—ã‚¤ãƒ™ãƒ³ãƒˆã‚’ç”Ÿæˆã™ã‚‹ã€‚
      *
-     * @param className ƒNƒ‰ƒX–¼
-     * @return ƒ_ƒ“ƒvƒCƒxƒ“ƒg
+     * @param className ã‚¯ãƒ©ã‚¹å
+     * @return ãƒ€ãƒ³ãƒ—ã‚¤ãƒ™ãƒ³ãƒˆ
      */
     public static CommonEvent createDumpEvent(String className)
     {
@@ -156,7 +156,7 @@ public class ReferenceMonitor
                 
                 if (isHttpSession(obj))
                 {
-                    // HttpSession‚Ìê‡‚Í‚±‚¿‚ç
+                    // HttpSessionã®å ´åˆã¯ã“ã¡ã‚‰
                     if (config.isHttpSessionDetail())
                     {
                         int detailDepth = config.getHttpSessionDetailDepth();
@@ -190,9 +190,9 @@ public class ReferenceMonitor
     }
 
     /**
-     * HttpSession‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
-     * @param obj ”»’è‘ÎÛ
-     * @return HttpSession‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚©‚Ç‚¤‚©
+     * HttpSessionã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‹ã©ã†ã‹ã‚’åˆ¤å®šã™ã‚‹ã€‚
+     * @param obj åˆ¤å®šå¯¾è±¡
+     * @return HttpSessionã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‹ã©ã†ã‹
      */
     private static boolean isHttpSession(Object obj)
     {

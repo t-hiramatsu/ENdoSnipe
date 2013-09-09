@@ -38,16 +38,16 @@ import jp.co.smg.endosnipe.javassist.Modifier;
 import jp.co.smg.endosnipe.javassist.NotFoundException;
 
 /**
- * HttpSessionŒp³ƒNƒ‰ƒX‚ğƒ‚ƒjƒ^ƒŠƒ“ƒO‚·‚éƒR[ƒh‚ğ–„‚ß‚ŞƒRƒ“ƒo[ƒ^
+ * HttpSessionç¶™æ‰¿ã‚¯ãƒ©ã‚¹ã‚’ãƒ¢ãƒ‹ã‚¿ãƒªãƒ³ã‚°ã™ã‚‹ã‚³ãƒ¼ãƒ‰ã‚’åŸ‹ã‚è¾¼ã‚€ã‚³ãƒ³ãƒãƒ¼ã‚¿
  * 
  * @author S.Kimura
  */
 public class HttpSessionMonitorConverter extends AbstractConverter
 {
-    /** ãQÆƒ‚ƒjƒ^[ƒNƒ‰ƒX–¼Ì */
+    /** å¼±å‚ç…§ãƒ¢ãƒ‹ã‚¿ãƒ¼ã‚¯ãƒ©ã‚¹åç§° */
     private static final String REFERENCE_MONITOR_NAME = ReferenceMonitor.class.getCanonicalName();
 
-    /** ƒ‚ƒjƒ^[ƒNƒ‰ƒX‚É“o˜^‚·‚éÛ‚ÌƒL[ */
+    /** ãƒ¢ãƒ‹ã‚¿ãƒ¼ã‚¯ãƒ©ã‚¹ã«ç™»éŒ²ã™ã‚‹éš›ã®ã‚­ãƒ¼ */
     public static final String HTTPSESSION_MONITORKEY = "HttpSessionMonitorConverter";
 
     /**
@@ -55,7 +55,7 @@ public class HttpSessionMonitorConverter extends AbstractConverter
      */
     public void init()
     {
-        // ‰½‚à‚µ‚È‚¢B
+        // ä½•ã‚‚ã—ãªã„ã€‚
     }
 
     /**
@@ -77,10 +77,10 @@ public class HttpSessionMonitorConverter extends AbstractConverter
     }
 
     /**
-     * ƒƒ\ƒbƒh‚ÌU‚é•‘‚¢‚ğC³‚·‚éB
+     * ãƒ¡ã‚½ãƒƒãƒ‰ã®æŒ¯ã‚‹èˆã„ã‚’ä¿®æ­£ã™ã‚‹ã€‚
      * @param ctBehavior CtBehavior
-     * @throws CannotCompileException ƒRƒ“ƒpƒCƒ‹‚Å‚«‚È‚¢ê‡
-     * @throws NotFoundException ƒNƒ‰ƒX‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡
+     * @throws CannotCompileException ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã§ããªã„å ´åˆ
+     * @throws NotFoundException ã‚¯ãƒ©ã‚¹ãŒè¦‹ã¤ã‹ã‚‰ãªã„å ´åˆ
      */
     private void convertBehavior(CtBehavior ctBehavior)
         throws CannotCompileException,
@@ -102,7 +102,7 @@ public class HttpSessionMonitorConverter extends AbstractConverter
     }
 
     /**
-     * ƒZƒbƒVƒ‡ƒ“‚ÉDumpEvent‚ğ‘—M‚µ‚Ü‚·B
+     * ã‚»ãƒƒã‚·ãƒ§ãƒ³ã«DumpEventã‚’é€ä¿¡ã—ã¾ã™ã€‚
      */
     public static void sendSessionDumpEvent()
     {

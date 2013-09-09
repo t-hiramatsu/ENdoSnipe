@@ -30,7 +30,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * ƒNƒ‰ƒX–¼Aƒƒ\ƒbƒh–¼Aˆø”‚Ì’l‚ğƒL[‚É‚µ‚Ü‚·B<br />
+ * ã‚¯ãƒ©ã‚¹åã€ãƒ¡ã‚½ãƒƒãƒ‰åã€å¼•æ•°ã®å€¤ã‚’ã‚­ãƒ¼ã«ã—ã¾ã™ã€‚<br />
  *
  * @author sakamoto
  */
@@ -40,14 +40,14 @@ class CallKeyWithArguments
 
     private final List<String> args_;
 
-    /** •s•ÏƒIƒuƒWƒFƒNƒg{‚‘¬‰»‚Ì‚½‚ßAƒnƒbƒVƒ…ƒR[ƒh‚Í‚ ‚ç‚©‚¶‚ßŒvZ‚µ‚Ä‚¨‚­ */
+    /** ä¸å¤‰ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆï¼‹é«˜é€ŸåŒ–ã®ãŸã‚ã€ãƒãƒƒã‚·ãƒ¥ã‚³ãƒ¼ãƒ‰ã¯ã‚ã‚‰ã‹ã˜ã‚è¨ˆç®—ã—ã¦ãŠã */
     private final int hashCode_;
 
     /**
-     * ƒL[‚ğ¶¬‚µ‚Ü‚·B<br />
+     * ã‚­ãƒ¼ã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
      *
-     * @param callKey ƒNƒ‰ƒX–¼‚Æƒƒ\ƒbƒh–¼
-     * @param args ˆø”‚Ì’l
+     * @param callKey ã‚¯ãƒ©ã‚¹åã¨ãƒ¡ã‚½ãƒƒãƒ‰å
+     * @param args å¼•æ•°ã®å€¤
      */
     CallKeyWithArguments(final CallKey callKey, final Object... args)
     {
@@ -64,9 +64,9 @@ class CallKeyWithArguments
     }
 
     /**
-     * ƒNƒ‰ƒX–¼‚Æƒƒ\ƒbƒh–¼‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ã‚¯ãƒ©ã‚¹åã¨ãƒ¡ã‚½ãƒƒãƒ‰åã‚’è¿”ã—ã¾ã™ã€‚<br />
      *
-     * @return ƒNƒ‰ƒX–¼‚Æƒƒ\ƒbƒh–¼
+     * @return ã‚¯ãƒ©ã‚¹åã¨ãƒ¡ã‚½ãƒƒãƒ‰å
      */
     CallKey getCallKey()
     {
@@ -74,9 +74,9 @@ class CallKeyWithArguments
     }
 
     /**
-     * ˆø”‚Ì’l‚ğ•Ô‚µ‚Ü‚·B<br />
+     * å¼•æ•°ã®å€¤ã‚’è¿”ã—ã¾ã™ã€‚<br />
      *
-     * @return ˆø”‚Ì’l
+     * @return å¼•æ•°ã®å€¤
      */
     List<String> getArgs()
     {

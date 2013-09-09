@@ -29,35 +29,35 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * Javelin‚Ì‹¤’ÊƒCƒxƒ“ƒgƒNƒ‰ƒXB
+ * Javelinã®å…±é€šã‚¤ãƒ™ãƒ³ãƒˆã‚¯ãƒ©ã‚¹ã€‚
  * 
  * @author eriguchi
  */
 public class CommonEvent
 {
-    /** ƒCƒxƒ“ƒg‚ÌŒxƒŒƒxƒ‹(INFO) */
+    /** ã‚¤ãƒ™ãƒ³ãƒˆã®è­¦å‘Šãƒ¬ãƒ™ãƒ«(INFO) */
     public static final int LEVEL_INFO = 20;
 
-    /** ƒCƒxƒ“ƒg‚ÌŒxƒŒƒxƒ‹(WARN) */
+    /** ã‚¤ãƒ™ãƒ³ãƒˆã®è­¦å‘Šãƒ¬ãƒ™ãƒ«(WARN) */
     public static final int LEVEL_WARN = 30;
 
-    /** ƒCƒxƒ“ƒg‚ÌŒxƒŒƒxƒ‹(ERROR) */
+    /** ã‚¤ãƒ™ãƒ³ãƒˆã®è­¦å‘Šãƒ¬ãƒ™ãƒ«(ERROR) */
     public static final int LEVEL_ERROR = 40;
 
-    /** ƒCƒxƒ“ƒg”­¶B */
+    /** ã‚¤ãƒ™ãƒ³ãƒˆç™ºç”Ÿæ™‚åˆ»ã€‚ */
     protected long time_;
 
-    /** ƒCƒxƒ“ƒg–¼B */
+    /** ã‚¤ãƒ™ãƒ³ãƒˆåã€‚ */
     protected String name_;
 
-    /** ƒpƒ‰ƒ[ƒ^‚Ìƒ}ƒbƒvBB */
+    /** ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®ãƒãƒƒãƒ—ã€‚ã€‚ */
     protected Map<String, String> paramMap_;
 
-    /** ƒCƒxƒ“ƒg‚ÌƒŒƒxƒ‹B */
+    /** ã‚¤ãƒ™ãƒ³ãƒˆã®ãƒ¬ãƒ™ãƒ«ã€‚ */
     protected int level_;
 
     /**
-     *@ƒCƒxƒ“ƒgo—ÍAƒCƒxƒ“ƒg–¼AƒCƒxƒ“ƒgƒŒƒxƒ‹‚ÌƒfƒtƒHƒ‹ƒg’l‚ğİ’è‚µ‚Ü‚·B<br />
+     *ã€€ã‚¤ãƒ™ãƒ³ãƒˆå‡ºåŠ›æ™‚åˆ»ã€ã‚¤ãƒ™ãƒ³ãƒˆåã€ã‚¤ãƒ™ãƒ³ãƒˆãƒ¬ãƒ™ãƒ«ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
      *
      */
     public CommonEvent()
@@ -69,9 +69,9 @@ public class CommonEvent
     }
 
     /**
-     * ƒCƒxƒ“ƒg”­¶‚ğæ“¾‚µ‚Ü‚·B<br />
+     * ã‚¤ãƒ™ãƒ³ãƒˆç™ºç”Ÿæ™‚åˆ»ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      * 
-     * @return ƒCƒxƒ“ƒg”­¶
+     * @return ã‚¤ãƒ™ãƒ³ãƒˆç™ºç”Ÿæ™‚åˆ»
      */
     public long getTime()
     {
@@ -79,9 +79,9 @@ public class CommonEvent
     }
 
     /**
-     * ƒCƒxƒ“ƒg”­¶‚ğİ’è‚µ‚Ü‚·B<br />
+     * ã‚¤ãƒ™ãƒ³ãƒˆç™ºç”Ÿæ™‚åˆ»ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
      * 
-     * @param time ƒCƒxƒ“ƒg”­¶
+     * @param time ã‚¤ãƒ™ãƒ³ãƒˆç™ºç”Ÿæ™‚åˆ»
      */
     public void setTime(long time)
     {
@@ -89,9 +89,9 @@ public class CommonEvent
     }
 
     /**
-     * ƒCƒxƒ“ƒg–¼‚ğæ“¾‚µ‚Ü‚·B<br />
+     * ã‚¤ãƒ™ãƒ³ãƒˆåã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      * 
-     * @return ƒCƒxƒ“ƒg–¼
+     * @return ã‚¤ãƒ™ãƒ³ãƒˆå
      */
     public String getName()
     {
@@ -99,9 +99,9 @@ public class CommonEvent
     }
 
     /**
-     * ƒCƒxƒ“ƒg–¼‚ğİ’è‚µ‚Ü‚·B<br />
+     * ã‚¤ãƒ™ãƒ³ãƒˆåã‚’è¨­å®šã—ã¾ã™ã€‚<br />
      * 
-     * @param name ƒCƒxƒ“ƒg–¼
+     * @param name ã‚¤ãƒ™ãƒ³ãƒˆå
      */
     public void setName(String name)
     {
@@ -109,9 +109,9 @@ public class CommonEvent
     }
 
     /**
-     * ƒCƒxƒ“ƒgƒpƒ‰ƒ[ƒ^‚ğ•Û‘¶‚·‚éƒ}ƒbƒv‚ğæ“¾‚µ‚Ü‚·B<br />
+     * ã‚¤ãƒ™ãƒ³ãƒˆãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’ä¿å­˜ã™ã‚‹ãƒãƒƒãƒ—ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      * 
-     * @return ƒCƒxƒ“ƒgƒpƒ‰ƒ[ƒ^‚ğ•Û‘¶‚·‚éƒ}ƒbƒv
+     * @return ã‚¤ãƒ™ãƒ³ãƒˆãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’ä¿å­˜ã™ã‚‹ãƒãƒƒãƒ—
      */
     public Map<String, String> getParamMap()
     {
@@ -119,10 +119,10 @@ public class CommonEvent
     }
 
     /**
-     * ƒCƒxƒ“ƒgƒpƒ‰ƒ[ƒ^‚ğİ’è‚µ‚Ü‚·B<br />
+     * ã‚¤ãƒ™ãƒ³ãƒˆãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
      * 
-     * @param key ƒL[
-     * @param value ’l
+     * @param key ã‚­ãƒ¼
+     * @param value å€¤
      */
     public void addParam(String key, String value)
     {
@@ -130,10 +130,10 @@ public class CommonEvent
     }
 
     /**
-     * ƒCƒxƒ“ƒgƒpƒ‰ƒ[ƒ^‚Ìƒ}ƒbƒv‚©‚çw’è‚µ‚½ƒL[‚É‘Î‰‚·‚é’l‚ğæ“¾‚µ‚Ü‚·B<br />
+     * ã‚¤ãƒ™ãƒ³ãƒˆãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®ãƒãƒƒãƒ—ã‹ã‚‰æŒ‡å®šã—ãŸã‚­ãƒ¼ã«å¯¾å¿œã™ã‚‹å€¤ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      * 
-     * @param key ƒL[
-     * @return w’è‚µ‚½ƒL[‚É‘Î‰‚·‚éƒCƒxƒ“ƒgƒpƒ‰ƒ[ƒ^‚Ìƒ}ƒbƒv‚©‚çæ“¾‚µ‚½’l
+     * @param key ã‚­ãƒ¼
+     * @return æŒ‡å®šã—ãŸã‚­ãƒ¼ã«å¯¾å¿œã™ã‚‹ã‚¤ãƒ™ãƒ³ãƒˆãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®ãƒãƒƒãƒ—ã‹ã‚‰å–å¾—ã—ãŸå€¤
      */
     public String getParam(String key)
     {
@@ -141,9 +141,9 @@ public class CommonEvent
     }
 
     /**
-     * ƒCƒxƒ“ƒgƒŒƒxƒ‹‚ğæ“¾‚µ‚Ü‚·B<br />
+     * ã‚¤ãƒ™ãƒ³ãƒˆãƒ¬ãƒ™ãƒ«ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      * 
-     * @return ƒCƒxƒ“ƒgƒŒƒxƒ‹
+     * @return ã‚¤ãƒ™ãƒ³ãƒˆãƒ¬ãƒ™ãƒ«
      */
     public int getLevel()
     {
@@ -151,9 +151,9 @@ public class CommonEvent
     }
 
     /**
-     * ƒCƒxƒ“ƒgƒŒƒxƒ‹‚ğİ’è‚µ‚Ü‚·B<br />
+     * ã‚¤ãƒ™ãƒ³ãƒˆãƒ¬ãƒ™ãƒ«ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
      * 
-     * @param level ƒCƒxƒ“ƒgƒŒƒxƒ‹
+     * @param level ã‚¤ãƒ™ãƒ³ãƒˆãƒ¬ãƒ™ãƒ«
      */
     public void setLevel(int level)
     {

@@ -37,30 +37,30 @@ import jp.co.acroquest.endosnipe.javelin.parser.JavelinParser;
 import jp.co.acroquest.endosnipe.perfdoctor.rule.SingleElementRule;
 
 /**
- * ƒƒ\ƒbƒh‚ÌŠJn‚©‚çI—¹‚Ü‚Å‚ÌŠÔ‚ÌCPUŠÔ‚ªAè‡’l‚ğ’´‚¦‚½‚±‚Æ‚ğŒŸo‚·‚éB</br> ƒƒ\ƒbƒhI—¹•”•ª‚ÌJavelinLogElement‚ğ‰ğÍ‚µA
- * ƒƒ\ƒbƒh‚ÌŠJn‚©‚çI—¹‚Ü‚Å‚Ég—p‚µ‚½CPUŠÔ‚ªè‡’l‚É’B‚µ‚½è‡’l(’PˆÊ:msec)ACPUŠÔ(’PˆÊ:msec)‚ğo—Í‚·‚éB<br>
+ * ãƒ¡ã‚½ãƒƒãƒ‰ã®é–‹å§‹ã‹ã‚‰çµ‚äº†ã¾ã§ã®é–“ã®CPUæ™‚é–“ãŒã€é–¾å€¤ã‚’è¶…ãˆãŸã“ã¨ã‚’æ¤œå‡ºã™ã‚‹ã€‚</br> ãƒ¡ã‚½ãƒƒãƒ‰çµ‚äº†éƒ¨åˆ†ã®JavelinLogElementã‚’è§£æã—ã€
+ * ãƒ¡ã‚½ãƒƒãƒ‰ã®é–‹å§‹ã‹ã‚‰çµ‚äº†ã¾ã§ã«ä½¿ç”¨ã—ãŸCPUæ™‚é–“ãŒé–¾å€¤ã«é”ã—ãŸé–¾å€¤(å˜ä½:msec)ã€CPUæ™‚é–“(å˜ä½:msec)ã‚’å‡ºåŠ›ã™ã‚‹ã€‚<br>
  * 
- * ”»’è“à—e</br> <li>baseInfo[ID] ‚ªuReturnv‚Å‚ ‚é‚±‚ÆB <li>detailInfo[JMXInfo] ‚Ì
- * thread.currentThreadCpuTime.delta ‚Ì’l‚ªè‡’lˆÈã‚Å‚ ‚é‚±‚ÆB
+ * åˆ¤å®šå†…å®¹</br> <li>baseInfo[ID] ãŒã€ŒReturnã€ã§ã‚ã‚‹ã“ã¨ã€‚ <li>detailInfo[JMXInfo] ã®
+ * thread.currentThreadCpuTime.delta ã®å€¤ãŒé–¾å€¤ä»¥ä¸Šã§ã‚ã‚‹ã“ã¨ã€‚
  * 
  * @author tsukano
  */
 public class MethodCpuUsageRule extends SingleElementRule implements JavelinLogConstants
 {
-    /** CPUŠÔ‚Ìè‡’l(’PˆÊ:msec) */
+    /** CPUæ™‚é–“ã®é–¾å€¤(å˜ä½:msec) */
     public long threshold;
 
-    /** CPUŠÔ‚Ìè‡’l‚ÌÅ¬’l(’PˆÊ:msec) */
+    /** CPUæ™‚é–“ã®é–¾å€¤ã®æœ€å°å€¤(å˜ä½:msec) */
     // private static final long MIN_THRESHOLD = 0;
-    /** CPUŠÔ‚Ìè‡’l‚ÌÅ‘å’l(’PˆÊ:msec) */
+    /** CPUæ™‚é–“ã®é–¾å€¤ã®æœ€å¤§å€¤(å˜ä½:msec) */
     // private static final long MAX_THRESHOLD = Long.MAX_VALUE;
-    // Œ»ƒo[ƒWƒ‡ƒ“‚Å‚Ívalidation‚Íˆµ‚í‚È‚¢B
-    // /** validateƒGƒ‰[‚ÌƒƒOƒƒbƒZ[ƒW */
+    // ç¾ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã§ã¯validationã¯æ‰±ã‚ãªã„ã€‚
+    // /** validateã‚¨ãƒ©ãƒ¼ã®ãƒ­ã‚°ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ */
     // private static final String MESSAGE_VALIDATE_ERROR
-    // = "threshold(%1d)‚ªİ’è‰Â”\”ÍˆÍ(%2d - %3d)‚Å‚·B";
-    // Œ»“_‚Å‚Íg—p‚µ‚È‚¢Bvalidate‚ğÀ‘•‚·‚éÛ‚É‚Í‚±‚ê‚ğ—p‚¢‚éB
+    // = "threshold(%1d)ãŒè¨­å®šå¯èƒ½ç¯„å›²(%2d - %3d)ã§ã™ã€‚";
+    // ç¾æ™‚ç‚¹ã§ã¯ä½¿ç”¨ã—ãªã„ã€‚validateã‚’å®Ÿè£…ã™ã‚‹éš›ã«ã¯ã“ã‚Œã‚’ç”¨ã„ã‚‹ã€‚
     /**
-     * {@inheritDoc}</br> threshold‚Éİ’è‚µ‚½’l‚Ìvalidate‚ğs‚¤B
+     * {@inheritDoc}</br> thresholdã«è¨­å®šã—ãŸå€¤ã®validateã‚’è¡Œã†ã€‚
      */
     /*
      * @Override public void validate() { if (this.threshold < MIN_THRESHOLD ||
@@ -68,7 +68,7 @@ public class MethodCpuUsageRule extends SingleElementRule implements JavelinLogC
      * String.format(MESSAGE_VALIDATE_ERROR, this.threshold, MIN_THRESHOLD,
      * MAX_THRESHOLD); log(message, null, null);
      * 
-     * // TODO:validate‚ğÀ‘•‚µ‚½Û‚ÉC³‚·‚é‚±‚ÆB addValidationError(MESSAGE_VALIDATE_ERROR,
+     * // TODO:validateã‚’å®Ÿè£…ã—ãŸéš›ã«ä¿®æ­£ã™ã‚‹ã“ã¨ã€‚ addValidationError(MESSAGE_VALIDATE_ERROR,
      * this.threshold, MIN_THRESHOLD, MAX_THRESHOLD); } }
      */
 
@@ -78,7 +78,7 @@ public class MethodCpuUsageRule extends SingleElementRule implements JavelinLogC
     @Override
     public void doJudgeElement(final JavelinLogElement element)
     {
-        // ƒƒ\ƒbƒh‚Ì–ß‚è‚Å‚È‚¢ê‡‚ÍA”»’è‚ğs‚í‚È‚¢
+        // ãƒ¡ã‚½ãƒƒãƒ‰ã®æˆ»ã‚Šã§ãªã„å ´åˆã¯ã€åˆ¤å®šã‚’è¡Œã‚ãªã„
         List<String> baseInfo = element.getBaseInfo();
         String id = baseInfo.get(JavelinLogColumnNum.ID);
         if (JavelinConstants.MSG_CALL.equals(id) == false)
@@ -86,20 +86,20 @@ public class MethodCpuUsageRule extends SingleElementRule implements JavelinLogC
             return;
         }
 
-        // SQLÀs‚ÍœŠO‚·‚é
+        // SQLå®Ÿè¡Œã¯é™¤å¤–ã™ã‚‹
         String className = baseInfo.get(JavelinLogColumnNum.CALL_CALLEE_CLASS);
         if (isSqlExec(className) == true)
         {
             return;
         }
 
-        // JMXî•ñ‚©‚çCPUŠÔ‚ğæ“¾‚·‚é
+        // JMXæƒ…å ±ã‹ã‚‰CPUæ™‚é–“ã‚’å–å¾—ã™ã‚‹
         Map<String, String> map =
                                   JavelinLogUtil.parseDetailInfo(element,
                                                                  JavelinParser.TAG_TYPE_JMXINFO);
         String cpuTimeStr = map.get(JMXPARAM_THREAD_CURRENT_THREAD_CPU_TIME_DELTA);
 
-        //CPUŠÔ‚ªæ“¾‚Å‚«‚È‚¢ê‡A”»’è‚ğs‚í‚È‚¢B
+        //CPUæ™‚é–“ãŒå–å¾—ã§ããªã„å ´åˆã€åˆ¤å®šã‚’è¡Œã‚ãªã„ã€‚
         if (cpuTimeStr == null)
         {
             return;
@@ -117,7 +117,7 @@ public class MethodCpuUsageRule extends SingleElementRule implements JavelinLogC
             return;
         }
 
-        // è‡’l‚ğ’´‚¦‚Ä‚¢‚½ê‡AƒGƒ‰[‚Æ‚·‚é
+        // é–¾å€¤ã‚’è¶…ãˆã¦ã„ãŸå ´åˆã€ã‚¨ãƒ©ãƒ¼ã¨ã™ã‚‹
         if (cpuTime >= this.threshold)
         {
             String threadName = element.getThreadName();

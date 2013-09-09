@@ -30,28 +30,28 @@ import java.util.regex.Pattern;
 import jp.co.acroquest.endosnipe.data.entity.MultipleResourceGraphDefinition;
 
 /**
- * è‡’l”»’èğŒ’è‹`î•ñDto‚Å‚·B<br />
+ * é–¾å€¤åˆ¤å®šæ¡ä»¶å®šç¾©æƒ…å ±Dtoã§ã™ã€‚<br />
  * 
  * @author fujii
  *
  */
 public class MultipleResourceGraphDefinitionDto
 {
-    /** ƒVƒOƒiƒ‹’è‹`ƒe[ƒuƒ‹‚ÌID */
+    /** ã‚·ã‚°ãƒŠãƒ«å®šç¾©ãƒ†ãƒ¼ãƒ–ãƒ«ã®ID */
     private long                 multipleResourceGraphId_;
 
-    /** ƒVƒOƒiƒ‹–¼ */
+    /** ã‚·ã‚°ãƒŠãƒ«å */
     private String               multipleResourceGraphName_;
 
-    /** ƒ}ƒbƒ`ƒ“ƒOƒpƒ^[ƒ“ */
+    /** ãƒãƒƒãƒãƒ³ã‚°ãƒ‘ã‚¿ãƒ¼ãƒ³ */
     private String               measurementItemIdList_;
 
-    /** è‡’l‚ÌƒXƒvƒŠƒbƒgƒpƒ^[ƒ“ */
+    /** é–¾å€¤ã®ã‚¹ãƒ—ãƒªãƒƒãƒˆãƒ‘ã‚¿ãƒ¼ãƒ³ */
     private static final Pattern SPLIT_PATERN = Pattern.compile(",");
 
     /**
-     * ƒVƒOƒiƒ‹’è‹`ƒe[ƒuƒ‹‚ÌID‚ğæ“¾‚·‚éB
-     * @return ƒVƒOƒiƒ‹’è‹`ƒe[ƒuƒ‹‚ÌID
+     * ã‚·ã‚°ãƒŠãƒ«å®šç¾©ãƒ†ãƒ¼ãƒ–ãƒ«ã®IDã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ã‚·ã‚°ãƒŠãƒ«å®šç¾©ãƒ†ãƒ¼ãƒ–ãƒ«ã®ID
      */
     public long getMultipleResourceGraphId()
     {
@@ -59,8 +59,8 @@ public class MultipleResourceGraphDefinitionDto
     }
 
     /**
-     * ƒVƒOƒiƒ‹’è‹`ƒe[ƒuƒ‹‚ÌID‚ğİ’è‚·‚éB
-     * @param multipleResourceGraphId ƒVƒOƒiƒ‹’è‹`ƒe[ƒuƒ‹‚ÌID
+     * ã‚·ã‚°ãƒŠãƒ«å®šç¾©ãƒ†ãƒ¼ãƒ–ãƒ«ã®IDã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param multipleResourceGraphId ã‚·ã‚°ãƒŠãƒ«å®šç¾©ãƒ†ãƒ¼ãƒ–ãƒ«ã®ID
      */
     public void setMultipleResourceGraphId(long multipleResourceGraphId)
     {
@@ -68,8 +68,8 @@ public class MultipleResourceGraphDefinitionDto
     }
 
     /**
-     * ƒVƒOƒiƒ‹–¼‚ğæ“¾‚·‚éB
-     * @return ƒVƒOƒiƒ‹–¼
+     * ã‚·ã‚°ãƒŠãƒ«åã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ã‚·ã‚°ãƒŠãƒ«å
      */
     public String getMultipleResourceGraphName()
     {
@@ -77,8 +77,8 @@ public class MultipleResourceGraphDefinitionDto
     }
 
     /**
-     * ƒVƒOƒiƒ‹–¼‚ğİ’è‚·‚éB
-     * @param multipleResourceGraphName ƒVƒOƒiƒ‹–¼
+     * ã‚·ã‚°ãƒŠãƒ«åã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param multipleResourceGraphName ã‚·ã‚°ãƒŠãƒ«å
      */
     public void setMultipleResourceGraphName(String multipleResourceGraphName)
     {
@@ -86,8 +86,8 @@ public class MultipleResourceGraphDefinitionDto
     }
 
     /**
-     * ƒ}ƒbƒ`ƒ“ƒOƒpƒ^[ƒ“‚ğæ“¾‚·‚éB
-     * @return ƒ}ƒbƒ`ƒ“ƒOƒpƒ^[ƒ“–¼
+     * ãƒãƒƒãƒãƒ³ã‚°ãƒ‘ã‚¿ãƒ¼ãƒ³ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ãƒãƒƒãƒãƒ³ã‚°ãƒ‘ã‚¿ãƒ¼ãƒ³å
      */
     public String getMeasurementItemIdList()
     {
@@ -95,8 +95,8 @@ public class MultipleResourceGraphDefinitionDto
     }
 
     /**
-     * ƒ}ƒbƒ`ƒ“ƒOƒpƒ^[ƒ“‚ğİ’è‚·‚éB
-     * @param measurementItemIdList ƒ}ƒbƒ`ƒ“ƒOƒpƒ^[ƒ“–¼
+     * ãƒãƒƒãƒãƒ³ã‚°ãƒ‘ã‚¿ãƒ¼ãƒ³ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param measurementItemIdList ãƒãƒƒãƒãƒ³ã‚°ãƒ‘ã‚¿ãƒ¼ãƒ³å
      */
     public void setMeasurementItemIdList(String measurementItemIdList)
     {
@@ -104,8 +104,8 @@ public class MultipleResourceGraphDefinitionDto
     }
 
     /**
-     * {@link MultipleResourceGraphDefinitionDto} ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‚Ü‚·B
-     * @param MultipleResourceGraphDefinition {@link MultipleResourceGraphDefinition}ƒIƒuƒWƒFƒNƒg
+     * {@link MultipleResourceGraphDefinitionDto} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã—ã¾ã™ã€‚
+     * @param MultipleResourceGraphDefinition {@link MultipleResourceGraphDefinition}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     public MultipleResourceGraphDefinitionDto(MultipleResourceGraphDefinition MultipleResourceGraphDefinition)
     {

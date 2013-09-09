@@ -32,7 +32,7 @@ import java.lang.management.MemoryUsage;
 import jp.co.acroquest.endosnipe.common.entity.ItemType;
 
 /**
- * ƒq[ƒv‚Ìƒƒ‚ƒŠÅ‘å—Ê‚ğæ“¾‚·‚éƒNƒ‰ƒXB
+ * ãƒ’ãƒ¼ãƒ—ã®ãƒ¡ãƒ¢ãƒªæœ€å¤§é‡ã‚’å–å¾—ã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚
  * 
  * @author Sakamoto
  */

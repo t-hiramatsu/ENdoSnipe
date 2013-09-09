@@ -41,7 +41,7 @@ import jp.co.acroquest.endosnipe.perfdoctor.PerfConstants;
 import jp.co.acroquest.endosnipe.perfdoctor.rule.AbstractRule;
 
 /**
- * ѓЃѓ\ѓbѓh‚МЋАЏ€—ќЋћЉФ‚МЌ‡Њv‚Єи‡’l‚р’ґ‚¦‚ЅЏкЌ‡‚ЙЊxЌђ‚р•\Ћ¦‚·‚йѓ‹Ѓ[ѓ‹ЃB
+ * гѓЎг‚Ѕгѓѓгѓ‰гЃ®е®џе‡¦зђ†ж™‚й–“гЃ®еђ€иЁ€гЃЊй–ѕеЂ¤г‚’и¶…гЃ€гЃџе ґеђ€гЃ«и­¦е‘Љг‚’иЎЁз¤єгЃ™г‚‹гѓ«гѓјгѓ«гЂ‚
  * 
  * @author tooru
  * 
@@ -49,33 +49,33 @@ import jp.co.acroquest.endosnipe.perfdoctor.rule.AbstractRule;
 public class MethodTotalElapsedTimeRule extends AbstractRule
 {
     /**
-     * ‘ЌЋАЏ€—ќЋћЉФ‚Ми‡’lЃB‚±‚М’l‚р’ґ‚¦‚ЅЌЫ‚ЙЊxЌђ‚рђ¶ђ¬‚·‚йЃB
+     * з·Џе®џе‡¦зђ†ж™‚й–“гЃ®й–ѕеЂ¤гЂ‚гЃ“гЃ®еЂ¤г‚’и¶…гЃ€гЃџйљ›гЃ«и­¦е‘Љг‚’з”џж€ђгЃ™г‚‹гЂ‚
      */
     public long threshold;
 
     /**
-     * ѓNѓ‰ѓXЃAѓЃѓ\ѓbѓhЃAѓXѓЊѓbѓhID–€‚Й‘ЌЋАЏ€—ќЋћЉФ‚рЏWЊv‚µЃA и‡’l‚р’ґ‚¦‚ЅЌЫ‚ЙЊxЌђ‚·‚йЃB
+     * г‚Їгѓ©г‚№гЂЃгѓЎг‚Ѕгѓѓгѓ‰гЂЃг‚№гѓ¬гѓѓгѓ‰IDжЇЋгЃ«з·Џе®џе‡¦зђ†ж™‚й–“г‚’й›†иЁ€гЃ—гЂЃ й–ѕеЂ¤г‚’и¶…гЃ€гЃџйљ›гЃ«и­¦е‘ЉгЃ™г‚‹гЂ‚
      * 
      * @param javelinLogElementList
-     *            ѓЌѓOѓfЃ[ѓ^ЃB
+     *            гѓ­г‚°гѓ‡гѓјг‚їгЂ‚
      */
     @Override
     public void doJudge(final List<JavelinLogElement> javelinLogElementList)
     {
 
         /**
-         * ‘ЌЋАЏ€—ќЋћЉФ‚р‹L^‚·‚йѓ}ѓbѓvЃB ѓNѓ‰ѓX–ј#ѓЃѓ\ѓbѓh–ј#ѓXѓЊѓbѓhID‚рѓLЃ[‚Ж‚µЃA‘ЌЋАЏ€—ќЋћЉФ‚р’l‚Ж‚·‚йЃB
+         * з·Џе®џе‡¦зђ†ж™‚й–“г‚’иЁйЊІгЃ™г‚‹гѓћгѓѓгѓ—гЂ‚ г‚Їгѓ©г‚№еђЌ#гѓЎг‚Ѕгѓѓгѓ‰еђЌ#г‚№гѓ¬гѓѓгѓ‰IDг‚’г‚­гѓјгЃЁгЃ—гЂЃз·Џе®џе‡¦зђ†ж™‚й–“г‚’еЂ¤гЃЁгЃ™г‚‹гЂ‚
          */
         Map<String, Double> callCountMap = new HashMap<String, Double>();
 
         /**
-         * ‘ЌЋАЏ€—ќЋћЉФ‚Єи‡’l‚р’ґ‚¦‚ЅѓЃѓ\ѓbѓh‚р‹L^‚·‚йѓ}ѓbѓvЃB
-         * ѓNѓ‰ѓX–ј#ѓЃѓ\ѓbѓh–ј#ѓXѓЊѓbѓhID‚рѓLЃ[‚Ж‚µЃAи‡’l‚р’ґ‚¦‚Ѕ‚Ж‚«‚МJavelinLogElement‚р’l‚Ж‚·‚йЃB
+         * з·Џе®џе‡¦зђ†ж™‚й–“гЃЊй–ѕеЂ¤г‚’и¶…гЃ€гЃџгѓЎг‚Ѕгѓѓгѓ‰г‚’иЁйЊІгЃ™г‚‹гѓћгѓѓгѓ—гЂ‚
+         * г‚Їгѓ©г‚№еђЌ#гѓЎг‚Ѕгѓѓгѓ‰еђЌ#г‚№гѓ¬гѓѓгѓ‰IDг‚’г‚­гѓјгЃЁгЃ—гЂЃй–ѕеЂ¤г‚’и¶…гЃ€гЃџгЃЁгЃЌгЃ®JavelinLogElementг‚’еЂ¤гЃЁгЃ™г‚‹гЂ‚
          */
         Map<String, JavelinLogElement> overThresholdMethodMap =
                                                                 new HashMap<String, JavelinLogElement>();
 
-        // JavelinLogElement–€‚ЙЉeѓЃѓ\ѓbѓh‚МЃu‘ЌЋАЏ€—ќЋћЉФЃv‚р‹L^‚·‚йЃB
+        // JavelinLogElementжЇЋгЃ«еђ„гѓЎг‚Ѕгѓѓгѓ‰гЃ®гЂЊз·Џе®џе‡¦зђ†ж™‚й–“гЂЌг‚’иЁйЊІгЃ™г‚‹гЂ‚
         for (JavelinLogElement javelinLogElement : javelinLogElementList)
         {
             try
@@ -89,17 +89,17 @@ public class MethodTotalElapsedTimeRule extends AbstractRule
             }
         }
 
-        // и‡’l‚р’ґ‚¦‚Ѕ‚а‚М‚Є‚ ‚йЏкЌ‡‚Й‚НЊxЌђ‚рЏo‚·ЃB
+        // й–ѕеЂ¤г‚’и¶…гЃ€гЃџг‚‚гЃ®гЃЊгЃ‚г‚‹е ґеђ€гЃ«гЃЇи­¦е‘Љг‚’е‡єгЃ™гЂ‚
         addErrorElements(callCountMap, overThresholdMethodMap);
     }
 
     /**
-     * и‡’l‚р’ґ‚¦‚Ѕ‚а‚М‚Є‚ ‚йЏкЌ‡‚Й‚НЊxЌђ‚рЏo‚·ЃB
+     * й–ѕеЂ¤г‚’и¶…гЃ€гЃџг‚‚гЃ®гЃЊгЃ‚г‚‹е ґеђ€гЃ«гЃЇи­¦е‘Љг‚’е‡єгЃ™гЂ‚
      * 
      * @param callCountMap
-     *            ‘ЌЋАЏ€—ќЋћЉФ‚р‹L^‚·‚йѓ}ѓbѓvЃB
+     *            з·Џе®џе‡¦зђ†ж™‚й–“г‚’иЁйЊІгЃ™г‚‹гѓћгѓѓгѓ—гЂ‚
      * @param overThresholdMethodMap
-     *            ‘ЌЋАЏ€—ќЋћЉФ‚Єи‡’l‚р’ґ‚¦‚ЅѓЃѓ\ѓbѓh‚р‹L^‚·‚йѓ}ѓbѓvЃB
+     *            з·Џе®џе‡¦зђ†ж™‚й–“гЃЊй–ѕеЂ¤г‚’и¶…гЃ€гЃџгѓЎг‚Ѕгѓѓгѓ‰г‚’иЁйЊІгЃ™г‚‹гѓћгѓѓгѓ—гЂ‚
      */
     private void addErrorElements(final Map<String, Double> callCountMap,
             final Map<String, JavelinLogElement> overThresholdMethodMap)
@@ -118,14 +118,14 @@ public class MethodTotalElapsedTimeRule extends AbstractRule
     }
 
     /**
-     * ЉeѓЃѓ\ѓbѓh‚М‘ЌЋАЏ€—ќЋћЉФ‚рѓJѓEѓ“ѓg‚·‚йЃB и‡’l‚р’ґ‚¦‚Ѕ‚а‚М‚Є‚ ‚йЏкЌ‡‚Й‚Н‹L^‚·‚йЃB
+     * еђ„гѓЎг‚Ѕгѓѓгѓ‰гЃ®з·Џе®џе‡¦зђ†ж™‚й–“г‚’г‚«г‚¦гѓігѓ€гЃ™г‚‹гЂ‚ й–ѕеЂ¤г‚’и¶…гЃ€гЃџг‚‚гЃ®гЃЊгЃ‚г‚‹е ґеђ€гЃ«гЃЇиЁйЊІгЃ™г‚‹гЂ‚
      * 
      * @param javelinLogElement
-     *            ѓЌѓOѓfЃ[ѓ^ЃB
+     *            гѓ­г‚°гѓ‡гѓјг‚їгЂ‚
      * @param callCountMap
-     *            ‘ЌЋАЏ€—ќЋћЉФ‚р‹L^‚·‚йѓ}ѓbѓvЃB
+     *            з·Џе®џе‡¦зђ†ж™‚й–“г‚’иЁйЊІгЃ™г‚‹гѓћгѓѓгѓ—гЂ‚
      * @param overThresholdMethodMap
-     *            ‘ЌЋАЏ€—ќЋћЉФ‚Єи‡’l‚р’ґ‚¦‚ЅѓЃѓ\ѓbѓh‚р‹L^‚·‚йѓ}ѓbѓvЃB
+     *            з·Џе®џе‡¦зђ†ж™‚й–“гЃЊй–ѕеЂ¤г‚’и¶…гЃ€гЃџгѓЎг‚Ѕгѓѓгѓ‰г‚’иЁйЊІгЃ™г‚‹гѓћгѓѓгѓ—гЂ‚
      */
     private void doJudgeSingleElement(final JavelinLogElement javelinLogElement,
             final Map<String, Double> callCountMap,
@@ -133,19 +133,19 @@ public class MethodTotalElapsedTimeRule extends AbstractRule
     {
         List<String> baseInfo = javelinLogElement.getBaseInfo();
 
-        // CallѓЌѓO‚М‚Э‚р‘ОЏЫ‚Ж‚·‚йЃB
+        // Callгѓ­г‚°гЃ®гЃїг‚’еЇѕи±ЎгЃЁгЃ™г‚‹гЂ‚
         String id = baseInfo.get(JavelinLogColumnNum.ID);
         if (JavelinConstants.MSG_CALL.equals(id) == false)
         {
             return;
         }
 
-        // Map‚МѓLЃ[‚рЌмђ¬‚·‚йЃB
+        // MapгЃ®г‚­гѓјг‚’дЅњж€ђгЃ™г‚‹гЂ‚
         String className = baseInfo.get(JavelinLogColumnNum.CALL_CALLEE_CLASS);
         String methodName = baseInfo.get(JavelinLogColumnNum.CALL_CALLEE_METHOD);
         String threadId = baseInfo.get(JavelinLogColumnNum.CALL_THREADID);
 
-        // SQLЋАЌs‚НЏњЉO‚·‚й
+        // SQLе®џиЎЊгЃЇй™¤е¤–гЃ™г‚‹
         if (isSqlExec(className) == true)
         {
             return;
@@ -153,14 +153,14 @@ public class MethodTotalElapsedTimeRule extends AbstractRule
 
         String key = className + "#" + methodName + "#" + threadId;
 
-        // ѓJѓEѓ“ѓg‚ЙЋАЏ€—ќЋћЉФ‚р‰Б‚¦‚йЃB
-        // ‚Ь‚ѕ€к“x‚аЋАЌs‚і‚к‚Д‚ў‚И‚ўЏкЌ‡‚Й‚НђV‚Ѕ‚ЙѓIѓuѓWѓFѓNѓg‚рЌм‚йЃB
+        // г‚«г‚¦гѓігѓ€гЃ«е®џе‡¦зђ†ж™‚й–“г‚’еЉ гЃ€г‚‹гЂ‚
+        // гЃѕгЃ дёЂеє¦г‚‚е®џиЎЊгЃ•г‚ЊгЃ¦гЃ„гЃЄгЃ„е ґеђ€гЃ«гЃЇж–°гЃџгЃ«г‚Єгѓ–г‚ёг‚§г‚Їгѓ€г‚’дЅњг‚‹гЂ‚
         Map<String, String> extraInfo =
                                         JavelinLogUtil.parseDetailInfo(javelinLogElement,
                                                                        JavelinParser.TAG_TYPE_EXTRAINFO);
         String durationString = extraInfo.get(JavelinLogConstants.EXTRAPARAM_ELAPSEDTIME);
 
-        // ЋАЏ€—ќЋћЉФ‚Є–і‚Ї‚к‚ОЋџ‚М—v‘f‚Йђi‚Ю
+        // е®џе‡¦зђ†ж™‚й–“гЃЊз„ЎгЃ‘г‚ЊгЃ°ж¬ЎгЃ®и¦Ѓзґ гЃ«йЂІг‚Ђ
         if (durationString == null)
         {
             return;
@@ -179,7 +179,7 @@ public class MethodTotalElapsedTimeRule extends AbstractRule
         }
         callCountMap.put(key, count);
 
-        // ‚а‚µѓJѓEѓ“ѓg‚Єи‡’l‚Й’B‚·‚й‚М‚Е‚ ‚к‚ОЃAoverThresholdMethodMap_‚Й‹L^‚·‚йЃB
+        // г‚‚гЃ—г‚«г‚¦гѓігѓ€гЃЊй–ѕеЂ¤гЃ«йЃ”гЃ™г‚‹гЃ®гЃ§гЃ‚г‚ЊгЃ°гЂЃoverThresholdMethodMap_гЃ«иЁйЊІгЃ™г‚‹гЂ‚
         if (overThresholdMethodMap.containsKey(key) == false
                 && count.doubleValue() >= this.threshold)
         {

@@ -33,13 +33,13 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 /**
- * DB2‚ÌÀsŒv‰æ‚Ì’²¸‚ğs‚¢‚Ü‚·B
+ * DB2ã®å®Ÿè¡Œè¨ˆç”»ã®èª¿æŸ»ã‚’è¡Œã„ã¾ã™ã€‚
  * 
  * @author ochiai
  */
 public class DB2ExecutePlanChecker extends AbstractExecutePlanChecker<Map<String, String>>
 {
-    /** ƒtƒ‹ƒXƒLƒƒƒ“‚ªs‚í‚ê‚½‚±‚Æ‚ğ¦‚·•¶š—ñB */
+    /** ãƒ•ãƒ«ã‚¹ã‚­ãƒ£ãƒ³ãŒè¡Œã‚ã‚ŒãŸã“ã¨ã‚’ç¤ºã™æ–‡å­—åˆ—ã€‚ */
     private static final String FULL_SCAN = "TBSCAN";
 
     /**
@@ -48,18 +48,18 @@ public class DB2ExecutePlanChecker extends AbstractExecutePlanChecker<Map<String
     @Override
     public Set<String> getFullScanTableNameSet(final String executePlan, final String excludeString)
     {
-        // ƒtƒ‹ƒXƒLƒƒƒ“‚ª”­¶‚µ‚½ƒe[ƒuƒ‹‚Ì–¼‘O‚ğ‚Ü‚Æ‚ß‚éSetB
+        // ãƒ•ãƒ«ã‚¹ã‚­ãƒ£ãƒ³ãŒç™ºç”Ÿã—ãŸãƒ†ãƒ¼ãƒ–ãƒ«ã®åå‰ã‚’ã¾ã¨ã‚ã‚‹Setã€‚
         Set<String> fullScanTableSet = new HashSet<String>();
 
-        // Å‰‚Éƒtƒ‹ƒXƒLƒƒƒ“‚ª”­¶‚·‚éˆÊ’u‚ğæ“¾‚·‚éB
+        // æœ€åˆã«ãƒ•ãƒ«ã‚¹ã‚­ãƒ£ãƒ³ãŒç™ºç”Ÿã™ã‚‹ä½ç½®ã‚’å–å¾—ã™ã‚‹ã€‚
         int fullAccessIndex = executePlan.indexOf(FULL_SCAN);
-        // ƒtƒ‹ƒXƒLƒƒƒ“‚ª”­¶‚·‚éŒÀ‚èƒ‹[ƒv‚·‚éB
+        // ãƒ•ãƒ«ã‚¹ã‚­ãƒ£ãƒ³ãŒç™ºç”Ÿã™ã‚‹é™ã‚Šãƒ«ãƒ¼ãƒ—ã™ã‚‹ã€‚
         while (fullAccessIndex >= 0)
         {
-            // ƒtƒ‹ƒXƒLƒƒƒ“‚ª”­¶‚µ‚½ƒe[ƒuƒ‹‚Ì–¼‘O‚ğ“o˜^‚·‚éB
+            // ãƒ•ãƒ«ã‚¹ã‚­ãƒ£ãƒ³ãŒç™ºç”Ÿã—ãŸãƒ†ãƒ¼ãƒ–ãƒ«ã®åå‰ã‚’ç™»éŒ²ã™ã‚‹ã€‚
             String tableName = getTableName(executePlan, fullAccessIndex);
 
-            // œŠO‘ÎÛ‚Å–³‚¢ê‡‚Ì‚İA•Û‘¶‚·‚éB
+            // é™¤å¤–å¯¾è±¡ã§ç„¡ã„å ´åˆã®ã¿ã€ä¿å­˜ã™ã‚‹ã€‚
             Pattern excludePattern = null;
             if (excludeString != null)
             {
@@ -70,7 +70,7 @@ public class DB2ExecutePlanChecker extends AbstractExecutePlanChecker<Map<String
                 fullScanTableSet.add(tableName);
             }
 
-            // Ÿ‚Ìƒtƒ‹ƒXƒLƒƒƒ“‚ğ’T‚·B
+            // æ¬¡ã®ãƒ•ãƒ«ã‚¹ã‚­ãƒ£ãƒ³ã‚’æ¢ã™ã€‚
             fullAccessIndex = executePlan.indexOf(FULL_SCAN, fullAccessIndex + 1);
         }
 
@@ -88,11 +88,11 @@ public class DB2ExecutePlanChecker extends AbstractExecutePlanChecker<Map<String
     }
 
     /**
-     * ƒtƒ‹ƒXƒLƒƒƒ“‚ª”­¶‚µ‚½ƒe[ƒuƒ‹–¼‚ğÀsŒv‰æ‚©‚çæ“¾‚·‚éB
+     * ãƒ•ãƒ«ã‚¹ã‚­ãƒ£ãƒ³ãŒç™ºç”Ÿã—ãŸãƒ†ãƒ¼ãƒ–ãƒ«åã‚’å®Ÿè¡Œè¨ˆç”»ã‹ã‚‰å–å¾—ã™ã‚‹ã€‚
      * 
-     * @param plan ÀsŒv‰æ‚Ì•¶š—ñB
-     * @param index "TBSCAN"•¶š—ñ‚ªŒ©‚Â‚©‚Á‚½ˆÊ’uB
-     * @return ƒe[ƒuƒ‹–¼B
+     * @param plan å®Ÿè¡Œè¨ˆç”»ã®æ–‡å­—åˆ—ã€‚
+     * @param index "TBSCAN"æ–‡å­—åˆ—ãŒè¦‹ã¤ã‹ã£ãŸä½ç½®ã€‚
+     * @return ãƒ†ãƒ¼ãƒ–ãƒ«åã€‚
      */
     private String getTableName(final String plan, final int index)
     {

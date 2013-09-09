@@ -29,23 +29,23 @@ import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 import jp.co.acroquest.endosnipe.common.entity.ItemType;
 
 /**
- * RUNNABLE‚ÈƒXƒŒƒbƒh”‚ğæ“¾‚·‚éƒNƒ‰ƒXB
+ * RUNNABLEãªã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã‚’å–å¾—ã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚
  * 
  * @author eriguchi
  */
 public class RunnableThreadCountGetter extends AbstractResourceGetter
 {
-    /** Javelin‚Ìİ’èB */
+    /** Javelinã®è¨­å®šã€‚ */
     private final JavelinConfig config_ = new JavelinConfig();
     
 
-    /** ƒXƒŒƒbƒhî•ñ‚Ìæ“¾ */
+    /** ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±ã®å–å¾— */
     private ThreadDetailInfoLoader loader_;
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
      * 
-     * @param loader ƒXƒŒƒbƒhî•ñƒ[ƒhƒIƒuƒWƒFƒNƒg
+     * @param loader ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±ãƒ­ãƒ¼ãƒ‰ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     public RunnableThreadCountGetter(ThreadDetailInfoLoader loader)
     {

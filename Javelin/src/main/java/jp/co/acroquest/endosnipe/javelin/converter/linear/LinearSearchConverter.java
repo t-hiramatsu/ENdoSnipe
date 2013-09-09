@@ -38,14 +38,14 @@ import jp.co.smg.endosnipe.javassist.expr.ExprEditor;
 import jp.co.smg.endosnipe.javassist.expr.MethodCall;
 
 /**
- * ���`���������o����R���o�[�^�ł��B<br />
+ * 線形検索を検出するコンバータです。<br />
  * 
  * @author fujii
  *
  */
 public class LinearSearchConverter extends AbstractConverter
 {
-    /** �t�@�C�����̓��j�^�̃N���X���� */
+    /** ファイル入力モニタのクラス名称 */
     private static final String LINEARSEARCH_MONITOR_NAME =
             LinearSearchMonitor.class.getCanonicalName();
 
@@ -60,7 +60,7 @@ public class LinearSearchConverter extends AbstractConverter
     {
         CtClass ctClass = getCtClass();
 
-        // Abstract�I�u�W�F�N�g�ɑ΂��ẮA�ݒ���s��Ȃ��B
+        // Abstractオブジェクトに対しては、設定を行わない。
         int modifiers = ctClass.getModifiers();
         if (Modifier.isAbstract(modifiers) || Modifier.isStatic(modifiers))
         {
@@ -121,7 +121,7 @@ public class LinearSearchConverter extends AbstractConverter
     }
 
     /**
-     * indexOf�Ăяo�������邩�ǂ������`�F�b�N���邽�߂�ExprEditor
+     * indexOf呼び出しがあるかどうかをチェックするためのExprEditor
      * 
      * @author eriguchi
      */

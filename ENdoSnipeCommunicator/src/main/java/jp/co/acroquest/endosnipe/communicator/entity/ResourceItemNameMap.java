@@ -30,13 +30,13 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * “d•¶–{‘Ì‚Ì€–Ú–¼‚©‚çŒv‘ª’lí•Ê•ÏŠ·‚·‚é‚½‚ß‚Ìƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒX‚Å‚·B<br />
+ * é›»æ–‡æœ¬ä½“ã®é …ç›®åã‹ã‚‰è¨ˆæ¸¬å€¤ç¨®åˆ¥å¤‰æ›ã™ã‚‹ãŸã‚ã®ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  * 
  * @author fujii
  */
 public class ResourceItemNameMap implements MeasurementConstants, TelegramConstants
 {
-	/** €–Ú–¼‚É‘Î‰‚·‚éŒv‘ª’lí•Ê‚ğ•Û‘¶‚µ‚Ä‚¢‚éƒ}ƒbƒv */
+	/** é …ç›®åã«å¯¾å¿œã™ã‚‹è¨ˆæ¸¬å€¤ç¨®åˆ¥ã‚’ä¿å­˜ã—ã¦ã„ã‚‹ãƒãƒƒãƒ— */
 	private static final Map<String, Integer> RESOURCE_MAP = new HashMap<String, Integer>();
 	static
 	{
@@ -173,7 +173,7 @@ public class ResourceItemNameMap implements MeasurementConstants, TelegramConsta
 		RESOURCE_MAP.put(ITEMNAME_SYSTEM_MEMORY_PHYSICAL_USED,
 				TYPE_SYS_PHYSICALMEM_USED);
 		RESOURCE_MAP.put(ITEMNAME_JMX, TYPE_JMX);
-		// HadoopAgent€–Ú
+		// HadoopAgenté …ç›®
 		RESOURCE_MAP.put(ITEMNAME_HADOOP_NAMENODE, TYPE_HADOOP_NAMENODE);
 		RESOURCE_MAP.put(ITEMNAME_HADOOP_DATANODE, TYPE_HADOOP_DATANODE);
 		RESOURCE_MAP.put(ITEMNAME_HADOOP_JOBTRACKER, TYPE_HAOOP_JOBTRACKER);
@@ -186,11 +186,11 @@ public class ResourceItemNameMap implements MeasurementConstants, TelegramConsta
 	}
 
     /**
-     * €–Ú–¼‚©‚çŒv‘ª’lí•Ê‚ğæ“¾‚µ‚Ü‚·B<br/>
-     * €–Ú–¼‚ªŠ®‘Sˆê’v‚µ‚È‚¢ê‡‚ÍAŒã•ûˆê’v‚ÅŒŸõ‚µ‚Ü‚·B
+     * é …ç›®åã‹ã‚‰è¨ˆæ¸¬å€¤ç¨®åˆ¥ã‚’å–å¾—ã—ã¾ã™ã€‚<br/>
+     * é …ç›®åãŒå®Œå…¨ä¸€è‡´ã—ãªã„å ´åˆã¯ã€å¾Œæ–¹ä¸€è‡´ã§æ¤œç´¢ã—ã¾ã™ã€‚
      * 
-     * @param itemName €–Ú–¼B
-     * @return Œv‘ª’lí•ÊBŒŸõ‚Éˆê’v‚µ‚È‚¢‚©Aˆø”‚ªnull‚Ìê‡‚Ínull‚ğ•Ô‚·B
+     * @param itemName é …ç›®åã€‚
+     * @return è¨ˆæ¸¬å€¤ç¨®åˆ¥ã€‚æ¤œç´¢ã«ä¸€è‡´ã—ãªã„ã‹ã€å¼•æ•°ãŒnullã®å ´åˆã¯nullã‚’è¿”ã™ã€‚
      */
     public static Integer getResourceType(String itemName)
     {
@@ -199,7 +199,7 @@ public class ResourceItemNameMap implements MeasurementConstants, TelegramConsta
             return null;
         }
         Integer type = RESOURCE_MAP.get(itemName);
-        // €–Ú–¼‚ÉÚ“ª«‚ª•t‚¢‚Ä‚¢‚éê‡‚Ì‘Î‰: Œ©‚Â‚©‚ç‚È‚¯‚ê‚Î––”öˆê’v‚ÅüŒ`ŒŸõ‚·‚é
+        // é …ç›®åã«æ¥é ­è¾ãŒä»˜ã„ã¦ã„ã‚‹å ´åˆã®å¯¾å¿œ: è¦‹ã¤ã‹ã‚‰ãªã‘ã‚Œã°æœ«å°¾ä¸€è‡´ã§ç·šå½¢æ¤œç´¢ã™ã‚‹
         if (type == null)
         {
             Set<Map.Entry<String, Integer>> entrySet = RESOURCE_MAP.entrySet();
@@ -218,7 +218,7 @@ public class ResourceItemNameMap implements MeasurementConstants, TelegramConsta
     }
 
     /**
-     * ƒfƒtƒHƒ‹ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Å‚·B<br />
+     * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§ã™ã€‚<br />
      */
     private ResourceItemNameMap()
     {

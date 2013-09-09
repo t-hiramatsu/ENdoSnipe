@@ -67,43 +67,43 @@ import jp.co.acroquest.endosnipe.javelin.jdbc.stats.sqlserver.SQLServerProcessor
 import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
 
 /**
- * Jdbc‚ÌƒWƒƒƒxƒŠƒ“ƒƒO‚ğ‹L˜^‚·‚é.
+ * Jdbcã®ã‚¸ãƒ£ãƒ™ãƒªãƒ³ãƒ­ã‚°ã‚’è¨˜éŒ²ã™ã‚‹.
  * @author eriguchi
  *
  */
 public class JdbcJavelinRecorder
 {
-    /** SQL‚ÌÅ‰‚ÌƒCƒ“ƒfƒbƒNƒX. */
+    /** SQLã®æœ€åˆã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹. */
     private static final int FIRST_SQL_INDEX = 0;
 
-    /** DataCollector‚É‘—‚éAÅ‘å‚ÌƒXƒ^ƒbƒNƒgƒŒ[ƒX‚Ìs”. */
+    /** DataCollectorã«é€ã‚‹ã€æœ€å¤§ã®ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®è¡Œæ•°. */
     private static final int MAX_STACKTRACE_LINE_NUM = 30;
 
-    /** SQLˆ—ŠÔ‚ÌƒvƒŒƒtƒBƒbƒNƒX. */
+    /** SQLå‡¦ç†æ™‚é–“ã®ãƒ—ãƒ¬ãƒ•ã‚£ãƒƒã‚¯ã‚¹. */
     public static final String TIME_PREFIX = "[Time] ";
 
-    /** ƒoƒCƒ“ƒh•Ï”‚ÌƒvƒŒƒtƒBƒbƒNƒX. */
+    /** ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°ã®ãƒ—ãƒ¬ãƒ•ã‚£ãƒƒã‚¯ã‚¹. */
     public static final String BIND_PREFIX = "[VALUE] ";
 
-    /** ÀsŒv‰æ‚ÌƒvƒŒƒtƒBƒbƒNƒX. */
+    /** å®Ÿè¡Œè¨ˆç”»ã®ãƒ—ãƒ¬ãƒ•ã‚£ãƒƒã‚¯ã‚¹. */
     public static final String PLAN_PREFIX = "[PLAN] ";
 
-    /** ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ÌƒvƒŒƒtƒBƒbƒNƒX. */
+    /** ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®ãƒ—ãƒ¬ãƒ•ã‚£ãƒƒã‚¯ã‚¹. */
     public static final String STACKTRACE_PREFIX = "[STACKTRACE] ";
 
     private static final String STACKTRACE_BASE = STACKTRACE_PREFIX + "Get a stacktrace." + '\n';
 
-    /** Àsƒƒ\ƒbƒh‚Ìƒpƒ‰ƒƒ^‚ÌƒvƒŒƒtƒBƒbƒNƒX. */
+    /** å®Ÿè¡Œãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒ‘ãƒ©ãƒ¡ã‚¿ã®ãƒ—ãƒ¬ãƒ•ã‚£ãƒƒã‚¯ã‚¹. */
     public static final String PARAM_PREFIX = "[ExecuteParam] ";
 
-    /** javelin.jdbc.stringLimitLength‚É‚æ‚Á‚ÄASQL•¶‚ªØ‚è‹l‚ß‚ç‚ê‚½‚É•\¦‚³‚ê‚é‹L†. */
+    /** javelin.jdbc.stringLimitLengthã«ã‚ˆã£ã¦ã€SQLæ–‡ãŒåˆ‡ã‚Šè©°ã‚ã‚‰ã‚ŒãŸæ™‚ã«è¡¨ç¤ºã•ã‚Œã‚‹è¨˜å·. */
     private static final String STRING_LIMITED_MARK = "...";
 
-    /** ÀsŒv‰ææ“¾‚É¸”s‚µ‚½ê‡‚ÌƒƒbƒZ[ƒWB */
+    /** å®Ÿè¡Œè¨ˆç”»å–å¾—ã«å¤±æ•—ã—ãŸå ´åˆã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã€‚ */
     public static final String EXPLAIN_PLAN_FAILED = JdbcJavelinMessages
         .getMessage("javelin.jdbc.stats." + "JdbcJavelinRecorder.FailExplainPlanMessage");
 
-    /** İ’è’l•ÛBean */
+    /** è¨­å®šå€¤ä¿æŒBean */
     private static JdbcJavelinConfig config__;
 
     private static JavelinConfig logArgsConfig__ = new JavelinConfig() {
@@ -113,16 +113,16 @@ public class JdbcJavelinRecorder
         }
     };
 
-    /** ‘ÎÛ•¶š—ñ‚ªŒ©‚Â‚©‚ç‚È‚¢‚Æ‚« */
+    /** å¯¾è±¡æ–‡å­—åˆ—ãŒè¦‹ã¤ã‹ã‚‰ãªã„ã¨ã */
     public static final int NOT_FOUND = -1;
 
-    /** •¡”sƒRƒƒ“ƒg‚ÌŠJn‚ğ•\‚·•¶š—ñ‚Ì’·‚³ */
+    /** è¤‡æ•°è¡Œã‚³ãƒ¡ãƒ³ãƒˆã®é–‹å§‹ã‚’è¡¨ã™æ–‡å­—åˆ—ã®é•·ã• */
     public static final int COMMENT_FOOTER_LENGTH = "*/".length();
 
-    /** •¡”sƒRƒƒ“ƒg‚ÌI—¹‚ğ•\‚·•¶š—ñ‚Ì’·‚³ */
+    /** è¤‡æ•°è¡Œã‚³ãƒ¡ãƒ³ãƒˆã®çµ‚äº†ã‚’è¡¨ã™æ–‡å­—åˆ—ã®é•·ã• */
     public static final int COMMENT_HEADER_LENGTH = "/*".length();
 
-    /** DBProcessor‚ÌƒŠƒXƒgB */
+    /** DBProcessorã®ãƒªã‚¹ãƒˆã€‚ */
     private static List<DBProcessor> processorList__;
 
     static
@@ -138,7 +138,7 @@ public class JdbcJavelinRecorder
     }
 
     /**
-     * ƒfƒtƒHƒ‹ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      */
     private JdbcJavelinRecorder()
     {
@@ -146,10 +146,10 @@ public class JdbcJavelinRecorder
     }
 
     /**
-     * ‘Oˆ—B(SQL‚ªargs‚Éw’è‚³‚ê‚Ä‚¢‚éê‡)
+     * å‰å‡¦ç†ã€‚(SQLãŒargsã«æŒ‡å®šã•ã‚Œã¦ã„ã‚‹å ´åˆ)
      * 
-     * @param stmt ‘ÎÛ‚Æ‚È‚éStatement
-     * @param args SQL‚ÌString”z—ñ
+     * @param stmt å¯¾è±¡ã¨ãªã‚‹Statement
+     * @param args SQLã®Stringé…åˆ—
      */
     public static void preProcessSQLArgs(final Statement stmt, final Object[] args)
     {
@@ -171,11 +171,11 @@ public class JdbcJavelinRecorder
     }
 
     /**
-     * ‘Oˆ—B(ƒƒ\ƒbƒh‚Ìƒpƒ‰ƒ[ƒ^‚ªargs‚Éw’è‚³‚ê‚Ä‚¢‚éê‡)
-     * Å‰‚Ìƒpƒ‰ƒ[ƒ^‚ğSQL‚Æ‚µ‚Äˆµ‚¤B
+     * å‰å‡¦ç†ã€‚(ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãŒargsã«æŒ‡å®šã•ã‚Œã¦ã„ã‚‹å ´åˆ)
+     * æœ€åˆã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’SQLã¨ã—ã¦æ‰±ã†ã€‚
      * 
-     * @param stmt ‘ÎÛ‚Æ‚È‚éStatement
-     * @param args ƒƒ\ƒbƒh‚Ìƒpƒ‰ƒ[ƒ^
+     * @param stmt å¯¾è±¡ã¨ãªã‚‹Statement
+     * @param args ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
      */
     public static void preProcessParam(final Statement stmt, final Object[] args)
     {
@@ -201,11 +201,11 @@ public class JdbcJavelinRecorder
     }
 
     /**
-     * ‘Oˆ—B
+     * å‰å‡¦ç†ã€‚
      * 
-     * @param stmt ƒXƒe[ƒgƒƒ“ƒgB
-     * @param args ˆø”B
-     * @param jdbcJvnStatus JDBC Javelin‚Ìó‘Ô
+     * @param stmt ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆã€‚
+     * @param args å¼•æ•°ã€‚
+     * @param jdbcJvnStatus JDBC Javelinã®çŠ¶æ…‹
      */
     public static void preProcess(final Statement stmt, final Object[] args,
         JdbcJvnStatus jdbcJvnStatus)
@@ -219,21 +219,21 @@ public class JdbcJavelinRecorder
 
             try
             {
-                // ˆø”‚ğŠg’£qAƒƒS‚ğ–„‚ß‚ŞB
-                // ÀsŒv‰ææ“¾’†‚Å‚ ‚ê‚ÎA‘Oˆ—EŒãˆ—‚ğŒÄ‚ñ‚Å‚Í‚¢‚¯‚È‚¢B
+                // å¼•æ•°ã‚’æ‹¡å¼µå­ã€ãƒ­ã‚´ã‚’åŸ‹ã‚è¾¼ã‚€ã€‚
+                // å®Ÿè¡Œè¨ˆç”»å–å¾—ä¸­ã§ã‚ã‚Œã°ã€å‰å‡¦ç†ãƒ»å¾Œå‡¦ç†ã‚’å‘¼ã‚“ã§ã¯ã„ã‘ãªã„ã€‚
                 if (jdbcJvnStatus.getNowExpalaining() != null)
                 {
                     return;
                 }
 
-                // JDBCŒÄo‚µd•¡o—Íƒtƒ‰ƒO‚ªOFF‚È‚ç
-                // eƒm[ƒh‚ğíœ‚µ‚Ä©•ª‚ğƒcƒŠ[‚É’Ç‰Á‚·‚éB
-                // ‚±‚ÌƒR[ƒh‚ÍAStatsJavelinRecorder#preProcess‚ğŒÄ‚Ño‚·‘O‚És‚¤B
-                // ‚»‚¤‚µ‚È‚¢‚ÆAƒ‹[ƒg‚Ìê‡‚ÉVMStatus‚ªŠi”[‚³‚ê‚È‚¢‚½‚ßB
+                // JDBCå‘¼å‡ºã—é‡è¤‡å‡ºåŠ›ãƒ•ãƒ©ã‚°ãŒOFFãªã‚‰
+                // è¦ªãƒãƒ¼ãƒ‰ã‚’å‰Šé™¤ã—ã¦è‡ªåˆ†ã‚’ãƒ„ãƒªãƒ¼ã«è¿½åŠ ã™ã‚‹ã€‚
+                // ã“ã®ã‚³ãƒ¼ãƒ‰ã¯ã€StatsJavelinRecorder#preProcessã‚’å‘¼ã³å‡ºã™å‰ã«è¡Œã†ã€‚
+                // ãã†ã—ãªã„ã¨ã€ãƒ«ãƒ¼ãƒˆã®å ´åˆã«VMStatusãŒæ ¼ç´ã•ã‚Œãªã„ãŸã‚ã€‚
                 CallTreeRecorder callTreeRecorder = jdbcJvnStatus.getCallTreeRecorder();
                 CallTree tree = callTreeRecorder.getCallTree();
 
-                // ƒZƒbƒVƒ‡ƒ“I—¹ˆ—‚É“ü‚Á‚Ä‚¢‚éê‡‚ÍAˆ—‚µ‚È‚¢B
+                // ã‚»ãƒƒã‚·ãƒ§ãƒ³çµ‚äº†å‡¦ç†ã«å…¥ã£ã¦ã„ã‚‹å ´åˆã¯ã€å‡¦ç†ã—ãªã„ã€‚
                 if (tree != null && (config__.isAllowSqlTraceForOracle() // 
                     && (tree.containsFlag(SqlTraceStatus.KEY_SESSION_CLOSING) //
                     || tree.containsFlag(SqlTraceStatus.KEY_SESSION_INITIALIZING))))
@@ -255,11 +255,11 @@ public class JdbcJavelinRecorder
     }
 
     /**
-     * ‘Oˆ—B
+     * å‰å‡¦ç†ã€‚
      * 
-     * @param stmt ƒXƒe[ƒgƒƒ“ƒgB
-     * @param args ˆø”B
-     * @param jdbcJvnStatus JDBC Javelin‚Ìó‘Ô
+     * @param stmt ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆã€‚
+     * @param args å¼•æ•°ã€‚
+     * @param jdbcJvnStatus JDBC Javelinã®çŠ¶æ…‹
      */
     public static void recordPre(final Statement stmt, final Object[] args,
         JdbcJvnStatus jdbcJvnStatus)
@@ -286,7 +286,7 @@ public class JdbcJavelinRecorder
 
             methodName = ((String)args[FIRST_SQL_INDEX]);
 
-            // SQL•¶‚ğAjavelin.jdbc.stringLimitLength‚Åİ’è‚µ‚½’·‚³‚ÉØ‚è‹l‚ß‚éB
+            // SQLæ–‡ã‚’ã€javelin.jdbc.stringLimitLengthã§è¨­å®šã—ãŸé•·ã•ã«åˆ‡ã‚Šè©°ã‚ã‚‹ã€‚
             int stringLimitLength = (int)config__.getJdbcStringLimitLength();
             if (stringLimitLength < methodName.length())
             {
@@ -316,7 +316,7 @@ public class JdbcJavelinRecorder
                 execNoDuplicateCall(jdbcJvnStatus, callTreeRecorder, callTree);
             }
 
-            // StatsJavelinRecorder‚Éˆ—‚ğˆÏ÷‚·‚é
+            // StatsJavelinRecorderã«å‡¦ç†ã‚’å§”è­²ã™ã‚‹
             StatsJavelinRecorder.preProcess(component, invocation, args, logArgsConfig__, true);
             jdbcJvnStatus.savePreprocessDepth();
 
@@ -325,7 +325,7 @@ public class JdbcJavelinRecorder
         }
         catch (Exception ex)
         {
-            // ‘z’èŠO‚Ì—áŠO‚ª”­¶‚µ‚½ê‡‚Í•W€ƒGƒ‰[o—Í‚Éo—Í‚µ‚Ä‚¨‚­B
+            // æƒ³å®šå¤–ã®ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆã¯æ¨™æº–ã‚¨ãƒ©ãƒ¼å‡ºåŠ›ã«å‡ºåŠ›ã—ã¦ãŠãã€‚
             SystemLogger.getInstance().warn(ex);
         }
     }
@@ -395,7 +395,7 @@ public class JdbcJavelinRecorder
             }
             else
             {
-                // eƒm[ƒh‚ªƒ‹[ƒg‚Ìê‡‚ÍAƒ‹[ƒg‚ğ null ‚É‚·‚é
+                // è¦ªãƒãƒ¼ãƒ‰ãŒãƒ«ãƒ¼ãƒˆã®å ´åˆã¯ã€ãƒ«ãƒ¼ãƒˆã‚’ null ã«ã™ã‚‹
                 tree.setRootNode(null);
             }
             callTreeRecorder.setCallerNode(parent);
@@ -412,16 +412,16 @@ public class JdbcJavelinRecorder
 
         CallTree tree = jdbcJvnStatus.getCallTreeRecorder().getCallTree();
 
-        // ‘ÎÛƒf[ƒ^ƒx[ƒX‚ªOracle‚ÅA
-        // SQLƒgƒŒ[ƒXƒtƒ‰ƒO‚ªİ’è‚³‚ê‚Ä‚¨‚èA
-        // ‚©‚ÂAƒZƒbƒVƒ‡ƒ“‚Å‚Í‚¶‚ß‚Ä‚ÌSQLÀs‚Å‚ ‚ê‚ÎA
-        // SQLƒgƒŒ[ƒX‚ğŠJn‚·‚éB
+        // å¯¾è±¡ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãŒOracleã§ã€
+        // SQLãƒˆãƒ¬ãƒ¼ã‚¹ãƒ•ãƒ©ã‚°ãŒè¨­å®šã•ã‚Œã¦ãŠã‚Šã€
+        // ã‹ã¤ã€ã‚»ãƒƒã‚·ãƒ§ãƒ³ã§ã¯ã˜ã‚ã¦ã®SQLå®Ÿè¡Œã§ã‚ã‚Œã°ã€
+        // SQLãƒˆãƒ¬ãƒ¼ã‚¹ã‚’é–‹å§‹ã™ã‚‹ã€‚
         if (JdbcJavelinRecorder.config__.isAllowSqlTraceForOracle()
             && processor instanceof OracleProcessor
             && tree.containsFlag(SqlTraceStatus.KEY_SESSION_INITIALIZING) == false
             && tree.containsFlag(SqlTraceStatus.KEY_SESSION_STARTED) == false)
         {
-            // uSQLƒgƒŒ[ƒX‰Šú‰»v‚É‘JˆÚ‚·‚éB
+            // ã€ŒSQLãƒˆãƒ¬ãƒ¼ã‚¹åˆæœŸåŒ–ã€ã«é·ç§»ã™ã‚‹ã€‚
             tree.removeFlag(SqlTraceStatus.KEY_SESSION_CLOSING);
             tree.removeFlag(SqlTraceStatus.KEY_SESSION_FINISHED);
             tree.setFlag(SqlTraceStatus.KEY_SESSION_INITIALIZING,
@@ -431,17 +431,17 @@ public class JdbcJavelinRecorder
             tree.addCallback(callback);
             processor.startSqlTrace(connection);
 
-            // uSQLƒgƒŒ[ƒXæ“¾’†v‚É‘JˆÚ‚·‚éB
+            // ã€ŒSQLãƒˆãƒ¬ãƒ¼ã‚¹å–å¾—ä¸­ã€ã«é·ç§»ã™ã‚‹ã€‚
             tree.removeFlag(SqlTraceStatus.KEY_SESSION_INITIALIZING);
             tree.setFlag(SqlTraceStatus.KEY_SESSION_STARTED, SqlTraceStatus.KEY_SESSION_STARTED);
         }
     }
 
     /**
-     * Œãˆ—i–{ˆ—¬Œ÷jB
+     * å¾Œå‡¦ç†ï¼ˆæœ¬å‡¦ç†æˆåŠŸæ™‚ï¼‰ã€‚
      * 
-     * @param stmt StatementƒIƒuƒWƒFƒNƒg
-     * @param paramNum ƒpƒ‰ƒ[ƒ^‚Ì”i0:ƒpƒ‰ƒ[ƒ^‚È‚µA1:ƒpƒ‰ƒ[ƒ^1ˆÈãj
+     * @param stmt Statementã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param paramNum ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®æ•°ï¼ˆ0:ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãªã—ã€1:ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1ä»¥ä¸Šï¼‰
      */
     public static void postProcessOK(final Statement stmt, final int paramNum)
     {
@@ -450,7 +450,7 @@ public class JdbcJavelinRecorder
             JdbcJvnStatus jdbcJvnStatus = JdbcJvnStatus.getInstance();
             jdbcJvnStatus.decrementCallDepth();
 
-            // ÀsŒv‰ææ“¾’†‚Å‚ ‚ê‚ÎA‘Oˆ—EŒãˆ—‚Ís‚í‚È‚¢B
+            // å®Ÿè¡Œè¨ˆç”»å–å¾—ä¸­ã§ã‚ã‚Œã°ã€å‰å‡¦ç†ãƒ»å¾Œå‡¦ç†ã¯è¡Œã‚ãªã„ã€‚
             if (jdbcJvnStatus.getNowExpalaining() != null)
             {
                 return;
@@ -476,7 +476,7 @@ public class JdbcJavelinRecorder
             }
             jdbcJvnStatus.removePreProcessDepth();
 
-            // SQLƒgƒŒ[ƒXæ“¾’†ó‘ÔˆÈŠO‚Ìê‡‚ÍAÀsŒv‰æ‚Íæ“¾‚µ‚È‚¢B
+            // SQLãƒˆãƒ¬ãƒ¼ã‚¹å–å¾—ä¸­çŠ¶æ…‹ä»¥å¤–ã®å ´åˆã¯ã€å®Ÿè¡Œè¨ˆç”»ã¯å–å¾—ã—ãªã„ã€‚
             CallTreeRecorder callTreeRecorder = jdbcJvnStatus.getCallTreeRecorder();
             CallTree tree = callTreeRecorder.getCallTree();
             if (tree == null || (config__.isAllowSqlTraceForOracle() //
@@ -497,10 +497,10 @@ public class JdbcJavelinRecorder
     }
 
     /**
-     * Œãˆ—i–{ˆ—¬Œ÷jB
+     * å¾Œå‡¦ç†ï¼ˆæœ¬å‡¦ç†æˆåŠŸæ™‚ï¼‰ã€‚
      * 
-     * @param stmt StatementƒIƒuƒWƒFƒNƒg
-     * @param paramNum ƒpƒ‰ƒ[ƒ^‚Ì”i0:ƒpƒ‰ƒ[ƒ^‚È‚µA1:ƒpƒ‰ƒ[ƒ^1ˆÈãj
+     * @param stmt Statementã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param paramNum ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®æ•°ï¼ˆ0:ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãªã—ã€1:ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1ä»¥ä¸Šï¼‰
      * @param jdbcJvnStatus jdbcJvnStatus
      */
     public static void recordPostOK(final Statement stmt, final int paramNum,
@@ -511,25 +511,25 @@ public class JdbcJavelinRecorder
         CallTreeNode node = null;
         try
         {
-            // ŒÄ‚Ño‚µŒ³î•ñæ“¾B
+            // å‘¼ã³å‡ºã—å…ƒæƒ…å ±å–å¾—ã€‚
             node = callTreeRecorder.getCallTreeNode();
 
-            // ƒIƒŠƒWƒiƒ‹‚Ìargs‚Ö‚ÌQÆ‚ğƒ[ƒJƒ‹•Ï”‚Éˆê•Û‘¶
+            // ã‚ªãƒªã‚¸ãƒŠãƒ«ã®argsã¸ã®å‚ç…§ã‚’ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°ã«ä¸€æ™‚ä¿å­˜
             String[] oldArgs = node.getArgs();
             if (oldArgs == null)
             {
                 oldArgs = new String[0];
             }
 
-            // ƒNƒGƒŠŠÔZoAargs[0]‚É“ü‚ê‚é
+            // ã‚¯ã‚¨ãƒªæ™‚é–“ç®—å‡ºã€args[0]ã«å…¥ã‚Œã‚‹
             long queryTime = calcQueryTime(stmt, paramNum, node, oldArgs);
 
-            // Ä\¬‚µ‚½args‚ğˆê“I‚É“ü‚ê‚éList
+            // å†æ§‹æˆã—ãŸargsã‚’ä¸€æ™‚çš„ã«å…¥ã‚Œã‚‹List
             List<String> tempArgs = new LinkedList<String>();
 
             tempArgs.add(TIME_PREFIX + queryTime);
 
-            // JDBCÚ‘±URLæ“¾
+            // JDBCæ¥ç¶šURLå–å¾—
             Connection connection = stmt.getConnection();
             JdbcJavelinConnection jvnConnection = null;
             if (connection != null)
@@ -537,13 +537,13 @@ public class JdbcJavelinRecorder
                 jvnConnection = (JdbcJavelinConnection)connection;
             }
 
-            // SQLŒÄ‚Ño‚µ‰ñ”‚ğroot‚ÌCallTreeNode‚É•Û‚·‚é
+            // SQLå‘¼ã³å‡ºã—å›æ•°ã‚’rootã®CallTreeNodeã«ä¿æŒã™ã‚‹
             if (config__.isSqlcountMonitor())
             {
                 RecordStrategy rs = getRecordStrategy(tree, EventConstants.NAME_SQLCOUNT);
                 if (rs != null && rs instanceof SqlCountStrategy && oldArgs.length > 0)
                 {
-                    // SQLCountStrategy‚ÌSQLŒÄ‚Ño‚µ‰ñ”‚ğ‘‰Á‚³‚¹‚é
+                    // SQLCountStrategyã®SQLå‘¼ã³å‡ºã—å›æ•°ã‚’å¢—åŠ ã•ã›ã‚‹
                     SqlCountStrategy strategy = (SqlCountStrategy)rs;
                     strategy.incrementSQLCount(oldArgs[0]);
                 }
@@ -562,21 +562,21 @@ public class JdbcJavelinRecorder
                 }
             }
 
-            // ˆÈ‰º‚Ì‚R‚Â‚ÌğŒ‚ğ–‚½‚·‚Æ‚«‚Ì‚İAƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğæ“¾‚·‚éB
-            // 1.ÀsŒv‰ææ“¾‘Î‰DB‚Å‚ ‚éB
-            // 2.ƒNƒGƒŠŠÔ‚ªè‡’l‚ğ’´‚¦‚Ä‚¢‚éB
-            // 3.ÀsŒv‰ææ“¾ƒtƒ‰ƒO‚ªON‚Å‚ ‚éB
+            // ä»¥ä¸‹ã®ï¼“ã¤ã®æ¡ä»¶ã‚’æº€ãŸã™ã¨ãã®ã¿ã€ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’å–å¾—ã™ã‚‹ã€‚
+            // 1.å®Ÿè¡Œè¨ˆç”»å–å¾—å¯¾å¿œDBã§ã‚ã‚‹ã€‚
+            // 2.ã‚¯ã‚¨ãƒªæ™‚é–“ãŒé–¾å€¤ã‚’è¶…ãˆã¦ã„ã‚‹ã€‚
+            // 3.å®Ÿè¡Œè¨ˆç”»å–å¾—ãƒ•ãƒ©ã‚°ãŒONã§ã‚ã‚‹ã€‚
             if (processor != null && queryTime >= config__.getExecPlanThreshold()
                 && config__.isRecordExecPlan())
             {
 
                 long startTime = System.currentTimeMillis();
-                // ÀsŒv‰ææ“¾
+                // å®Ÿè¡Œè¨ˆç”»å–å¾—
                 List<String> newArgs =
                     getExecPlan(tree, node, processor, jdbcUrl, oldArgs, stmt, paramNum,
                                 jdbcJvnStatus);
                 jdbcJvnStatus.setExecPlanSql(null);
-                // args‚É’Ç‰Á
+                // argsã«è¿½åŠ 
                 tempArgs.addAll(newArgs);
 
                 long endTime = System.currentTimeMillis();
@@ -584,23 +584,23 @@ public class JdbcJavelinRecorder
             }
             else
             {
-                // ÀsŒv‰ææ“¾‚µ‚È‚¢‚È‚çASQL•¶‚ÉƒvƒŒƒtƒBƒbƒNƒX‚ğ•t—^‚·‚é‚Ì‚İB
+                // å®Ÿè¡Œè¨ˆç”»å–å¾—ã—ãªã„ãªã‚‰ã€SQLæ–‡ã«ãƒ—ãƒ¬ãƒ•ã‚£ãƒƒã‚¯ã‚¹ã‚’ä»˜ä¸ã™ã‚‹ã®ã¿ã€‚
                 addPrefix(stmt, paramNum, tempArgs, oldArgs);
             }
 
-            // ƒXƒ^ƒbƒNƒgƒŒ[ƒXæ“¾ƒtƒ‰ƒO‚ªON‚Å‚ ‚éA‚©‚ÂƒNƒGƒŠŠÔ‚ªè‡’l‚ğ’´‚¦‚Ä‚¢‚é‚Æ‚«AƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğæ“¾‚·‚éB
+            // ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹å–å¾—ãƒ•ãƒ©ã‚°ãŒONã§ã‚ã‚‹ã€ã‹ã¤ã‚¯ã‚¨ãƒªæ™‚é–“ãŒé–¾å€¤ã‚’è¶…ãˆã¦ã„ã‚‹ã¨ãã€ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’å–å¾—ã™ã‚‹ã€‚
             if (config__.isRecordStackTrace()
                 && queryTime >= config__.getRecordStackTraceThreshold())
             {
                 tempArgs.add(getStackTrace());
             }
 
-            // Ä\’z‚µ‚½args‚ğnode‚ÉƒZƒbƒg
+            // å†æ§‹ç¯‰ã—ãŸargsã‚’nodeã«ã‚»ãƒƒãƒˆ
             node.setArgs(tempArgs.toArray(new String[tempArgs.size()]));
         }
         catch (Exception ex)
         {
-            // ‘z’èŠO‚Ì—áŠO‚ª”­¶‚µ‚½ê‡‚Í•W€ƒGƒ‰[o—Í‚Éo—Í‚µ‚Ä‚¨‚­B
+            // æƒ³å®šå¤–ã®ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆã¯æ¨™æº–ã‚¨ãƒ©ãƒ¼å‡ºåŠ›ã«å‡ºåŠ›ã—ã¦ãŠãã€‚
             SystemLogger.getInstance().warn(ex);
         }
         finally
@@ -612,15 +612,15 @@ public class JdbcJavelinRecorder
     }
 
     /**
-     * Full ScanƒCƒxƒ“ƒg‚ğ¶¬‚µA“o˜^‚µ‚Ü‚·B
+     * Full Scanã‚¤ãƒ™ãƒ³ãƒˆã‚’ç”Ÿæˆã—ã€ç™»éŒ²ã—ã¾ã™ã€‚
      * 
-     * @param processor DB‚²‚Æ‚ÌƒvƒƒZƒbƒT
-     * @param newArgs ÀsŒv‰æ
-     * @param stmt StatementƒIƒuƒWƒFƒNƒg
-     * @param paramNum ƒpƒ‰ƒ[ƒ^”i0:ƒpƒ‰ƒ[ƒ^‚È‚µA1:ƒpƒ‰ƒ[ƒ^1ˆÈãj
+     * @param processor DBã”ã¨ã®ãƒ—ãƒ­ã‚»ãƒƒã‚µ
+     * @param newArgs å®Ÿè¡Œè¨ˆç”»
+     * @param stmt Statementã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param paramNum ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿æ•°ï¼ˆ0:ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãªã—ã€1:ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1ä»¥ä¸Šï¼‰
      * @param node CallTreeNode
-     * @param execPlanSql SQL•¶
-     * @param resultText ÀsŒv‰æ
+     * @param execPlanSql SQLæ–‡
+     * @param resultText å®Ÿè¡Œè¨ˆç”»
      */
     private static void sendFullScanEvent(DBProcessor processor, List<String> newArgs,
         final Statement stmt, final int paramNum, final CallTreeNode node, String[] execPlanSql)
@@ -632,7 +632,7 @@ public class JdbcJavelinRecorder
             {
                 String exePlan = executeChecker.parseExecutePlan(newArgs);
 
-                // ƒtƒ‹ƒXƒLƒƒƒ“‚Ì”»’è’†‚ÍACollection‚ÌƒgƒŒ[ƒX‚ğOFF‚É‚·‚éB
+                // ãƒ•ãƒ«ã‚¹ã‚­ãƒ£ãƒ³ã®åˆ¤å®šä¸­ã¯ã€Collectionã®ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’OFFã«ã™ã‚‹ã€‚
                 Boolean prevTracing = CollectionMonitor.isTracing();
                 CollectionMonitor.setTracing(Boolean.FALSE);
                 Set<String> fullScanTableNameSet;
@@ -647,10 +647,10 @@ public class JdbcJavelinRecorder
 
                 if (0 < fullScanTableNameSet.size())
                 {
-                    // ƒCƒxƒ“ƒgƒpƒ‰ƒ[ƒ^‚ğƒZƒbƒg‚·‚éB
+                    // ã‚¤ãƒ™ãƒ³ãƒˆãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’ã‚»ãƒƒãƒˆã™ã‚‹ã€‚
                     FullScanEvent event = new FullScanEvent();
 
-                    // ƒe[ƒuƒ‹–¼‚ÆSQLÀsŠÔ‚Íí‚Éo—Í‚·‚éB
+                    // ãƒ†ãƒ¼ãƒ–ãƒ«åã¨SQLå®Ÿè¡Œæ™‚é–“ã¯å¸¸ã«å‡ºåŠ›ã™ã‚‹ã€‚
                     String fullScanTableNames = fullScanTableNameSet.toString();
                     fullScanTableNames =
                         fullScanTableNames.substring(1, fullScanTableNames.length() - 1);
@@ -664,11 +664,11 @@ public class JdbcJavelinRecorder
                     event.addParam(EventConstants.PARAM_FULL_SCAN_DURATION,
                                    String.valueOf(queryTime));
 
-                    // ƒR[ƒ‹ƒcƒŠ[‚ğg—p‚·‚éƒ‚[ƒh‚Ìê‡B
+                    // ã‚³ãƒ¼ãƒ«ãƒ„ãƒªãƒ¼ã‚’ä½¿ç”¨ã™ã‚‹ãƒ¢ãƒ¼ãƒ‰ã®å ´åˆã€‚
                     if (logArgsConfig__.isCallTreeEnabled())
                     {
-                        // ƒXƒ^ƒbƒNƒgƒŒ[ƒXæ“¾‚ğs‚í‚È‚¢ê‡A
-                        // ‚Ü‚½‚Íæ“¾‚ğs‚¤ê‡‚Å‚àA‚»‚Ìè‡’l‚É’B‚µ‚Ä‚¢‚È‚¢ê‡AƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğo—Í‚·‚éB
+                        // ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹å–å¾—ã‚’è¡Œã‚ãªã„å ´åˆã€
+                        // ã¾ãŸã¯å–å¾—ã‚’è¡Œã†å ´åˆã§ã‚‚ã€ãã®é–¾å€¤ã«é”ã—ã¦ã„ãªã„å ´åˆã€ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’å‡ºåŠ›ã™ã‚‹ã€‚
                         if (config__.isRecordStackTrace() == false
                             || config__.getRecordStackTraceThreshold() < queryTime)
                         {
@@ -677,10 +677,10 @@ public class JdbcJavelinRecorder
                                            getStackTrace());
                         }
                     }
-                    // ƒR[ƒ‹ƒcƒŠ[‚ğg—p‚µ‚È‚¢ƒ‚[ƒh‚Ìê‡B
+                    // ã‚³ãƒ¼ãƒ«ãƒ„ãƒªãƒ¼ã‚’ä½¿ç”¨ã—ãªã„ãƒ¢ãƒ¼ãƒ‰ã®å ´åˆã€‚
                     else
                     {
-                        // ÀsŒv‰æ‚Ì“à—eAƒXƒ^ƒbƒNƒgƒŒ[ƒX‚Æ‚à‚Éo—Í‚·‚éB
+                        // å®Ÿè¡Œè¨ˆç”»ã®å†…å®¹ã€ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã¨ã‚‚ã«å‡ºåŠ›ã™ã‚‹ã€‚
                         event
                             .addParam(EventConstants.PARAM_FULL_SCAN_EXEC_PLAN, newArgs.toString());
                         event.addParam(EventConstants.PARAM_FULL_SCAN_STACK_TRACE, getStackTrace());
@@ -692,7 +692,7 @@ public class JdbcJavelinRecorder
         }
         catch (Exception ex)
         {
-            // ‘z’èŠO‚Ì—áŠO‚ª”­¶‚µ‚½ê‡‚Í•W€ƒGƒ‰[o—Í‚Éo—Í‚µ‚Ä‚¨‚­B
+            // æƒ³å®šå¤–ã®ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆã¯æ¨™æº–ã‚¨ãƒ©ãƒ¼å‡ºåŠ›ã«å‡ºåŠ›ã—ã¦ãŠãã€‚
             SystemLogger.getInstance().warn(ex);
         }
     }
@@ -709,7 +709,7 @@ public class JdbcJavelinRecorder
 
         sqlPlanRecordStrategy.setExecPlan(node, execPlan);
 
-        // ÀsŒv‰æo—Í—p‚ÌSQL‚ğ•Û‘¶‚·‚éB
+        // å®Ÿè¡Œè¨ˆç”»å‡ºåŠ›ç”¨ã®SQLã‚’ä¿å­˜ã™ã‚‹ã€‚
         String sql = node.getInvocation().getMethodName();
         sqlPlanRecordStrategy.recordPlanOutputSql(sql);
     }
@@ -737,10 +737,10 @@ public class JdbcJavelinRecorder
     }
 
     /**
-     *@SQL‚ÌÀsŒv‰æ‚ğˆê“xæ“¾‚µ‚½ŒãAˆê’èŠÔŒo‰ß‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
+     *ã€€SQLã®å®Ÿè¡Œè¨ˆç”»ã‚’ä¸€åº¦å–å¾—ã—ãŸå¾Œã€ä¸€å®šæ™‚é–“çµŒéã—ãŸã‹ã©ã†ã‹ã‚’åˆ¤å®šã™ã‚‹ã€‚
      * 
-     * @param node ƒm[ƒhB
-     * @return SQL‚ÌÀsŒv‰æ‚ğˆê“xæ“¾‚µ‚½ŒãAˆê’èŠÔŒo‰ß‚µ‚½‚©‚Ç‚¤‚©B 
+     * @param node ãƒãƒ¼ãƒ‰ã€‚
+     * @return SQLã®å®Ÿè¡Œè¨ˆç”»ã‚’ä¸€åº¦å–å¾—ã—ãŸå¾Œã€ä¸€å®šæ™‚é–“çµŒéã—ãŸã‹ã©ã†ã‹ã€‚ 
      */
     private static boolean isRecordIntervalExpired(CallTreeNode node, JdbcJvnStatus jdbcJvnStatus)
     {
@@ -764,13 +764,13 @@ public class JdbcJavelinRecorder
         {
             if (EventConstants.NAME_SQLCOUNT.equals(strategyKey))
             {
-                // SQLCountStrategy‚ª“o˜^‚³‚ê‚Ä‚¢‚È‚¢ê‡‚ÍAV‹K‚É“o˜^‚·‚é
+                // SQLCountStrategyãŒç™»éŒ²ã•ã‚Œã¦ã„ãªã„å ´åˆã¯ã€æ–°è¦ã«ç™»éŒ²ã™ã‚‹
                 rs = new SqlCountStrategy();
                 callTree.addRecordStrategy(strategyKey, rs);
             }
             else if (SqlPlanStrategy.KEY.equals(strategyKey))
             {
-                // SQLPlanStrategy‚ª“o˜^‚³‚ê‚Ä‚¢‚È‚¢ê‡‚ÍAV‹K‚É“o˜^‚·‚é
+                // SQLPlanStrategyãŒç™»éŒ²ã•ã‚Œã¦ã„ãªã„å ´åˆã¯ã€æ–°è¦ã«ç™»éŒ²ã™ã‚‹
                 rs = new SqlPlanStrategy();
                 callTree.addRecordStrategy(strategyKey, rs);
             }
@@ -779,8 +779,8 @@ public class JdbcJavelinRecorder
     }
 
     /**
-     * ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğæ“¾‚·‚éB
-     * @return ƒXƒ^ƒbƒNƒgƒŒ[ƒX
+     * ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹
      */
     private static String getStackTrace()
     {
@@ -797,19 +797,19 @@ public class JdbcJavelinRecorder
     {
         long queryTime = System.currentTimeMillis() - node.getStartTime();
 
-        // ƒoƒbƒ`Às‚Ìê‡‚ÍA•½‹ÏŠÔ‚ğZo‚·‚é
+        // ãƒãƒƒãƒå®Ÿè¡Œã®å ´åˆã¯ã€å¹³å‡æ™‚é–“ã‚’ç®—å‡ºã™ã‚‹
         int addBatchCount = 1;
         if (stmt instanceof PreparedStatement)
         {
-            // PreparedStatement‚Ìê‡‚ÍAƒoƒCƒ“ƒh•Ï”‚ÌƒCƒ“ƒfƒbƒNƒX‚ğŒ³‚ÉA
-            // ƒoƒbƒ`ˆ—‚Ì”‚ğ“¾‚é
+            // PreparedStatementã®å ´åˆã¯ã€ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’å…ƒã«ã€
+            // ãƒãƒƒãƒå‡¦ç†ã®æ•°ã‚’å¾—ã‚‹
             addBatchCount = SqlUtil.getPreparedStatementAddBatchCount(stmt);
         }
         else
         {
-            // •’Ê‚ÌStatement‚Ìê‡‚Íˆø”‚ÉSQL”z—ñ‚ª“ü‚Á‚Ä‚¢‚é‚Ì‚ÅA
-            // ‚»‚±‚©‚ç”‚ğ“¾‚é
-            // iparamNum ‚ª 0 ‚È‚çƒoƒbƒ`Àsj
+            // æ™®é€šã®Statementã®å ´åˆã¯å¼•æ•°ã«SQLé…åˆ—ãŒå…¥ã£ã¦ã„ã‚‹ã®ã§ã€
+            // ãã“ã‹ã‚‰æ•°ã‚’å¾—ã‚‹
+            // ï¼ˆparamNum ãŒ 0 ãªã‚‰ãƒãƒƒãƒå®Ÿè¡Œï¼‰
             if (paramNum == 0)
             {
                 addBatchCount = oldArgs.length;
@@ -817,7 +817,7 @@ public class JdbcJavelinRecorder
         }
         if (addBatchCount >= 2)
         {
-            // •½‹ÏŠÔ‚ğŒvZ
+            // å¹³å‡æ™‚é–“ã‚’è¨ˆç®—
             queryTime /= addBatchCount;
         }
         return queryTime;
@@ -834,8 +834,8 @@ public class JdbcJavelinRecorder
         }
         else
         {
-            // JDBCŒÄo‚µd•¡o—Íƒtƒ‰ƒO‚ªOFFA‚©‚ÂÅ[ƒm[ƒh‚Å‚È‚¯‚ê‚ÎA
-            // ‰½‚à‚µ‚È‚¢B
+            // JDBCå‘¼å‡ºã—é‡è¤‡å‡ºåŠ›ãƒ•ãƒ©ã‚°ãŒOFFã€ã‹ã¤æœ€æ·±ãƒãƒ¼ãƒ‰ã§ãªã‘ã‚Œã°ã€
+            // ä½•ã‚‚ã—ãªã„ã€‚
             int depth = jdbcJvnStatus.getDepth();
             if (config__.isRecordDuplJdbcCall() == false && depth > 0)
             {
@@ -853,7 +853,7 @@ public class JdbcJavelinRecorder
     private static void addPrefix(final Statement stmt, final int paramNum,
         final List<String> tempArgs, final String[] oldArgs)
     {
-        // ƒoƒCƒ“ƒh•Ï”o—Íƒtƒ‰ƒO‚ªON‚È‚çAƒoƒCƒ“ƒh•Ï”o—Í•¶š—ñ‚ğì¬‚·‚éB
+        // ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°å‡ºåŠ›ãƒ•ãƒ©ã‚°ãŒONãªã‚‰ã€ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°å‡ºåŠ›æ–‡å­—åˆ—ã‚’ä½œæˆã™ã‚‹ã€‚
         List<?> bindList = null;
         if (config__.isRecordBindVal())
         {
@@ -874,7 +874,7 @@ public class JdbcJavelinRecorder
         }
         else
         {
-            // SQLiargs‘S‚Äj‚ÉƒvƒŒƒtƒBƒbƒNƒX‚ğ•t—^
+            // SQLï¼ˆargså…¨ã¦ï¼‰ã«ãƒ—ãƒ¬ãƒ•ã‚£ãƒƒã‚¯ã‚¹ã‚’ä»˜ä¸
             for (int count = 0; count < oldArgs.length; count++)
             {
                 String bindVals = SqlUtil.getBindValCsv(bindList, count);
@@ -888,9 +888,9 @@ public class JdbcJavelinRecorder
     }
 
     /**
-     * Œãˆ—i–{ˆ—¸”sjB
+     * å¾Œå‡¦ç†ï¼ˆæœ¬å‡¦ç†å¤±æ•—æ™‚ï¼‰ã€‚
      * 
-     * @param cause Œ´ˆö
+     * @param cause åŸå› 
      */
     public static void postProcessNG(final Throwable cause)
     {
@@ -907,13 +907,13 @@ public class JdbcJavelinRecorder
 
             jdbcJvnStatus.decrementCallDepth();
 
-            // ÀsŒv‰ææ“¾’†‚Å‚ ‚ê‚ÎA‘Oˆ—EŒãˆ—‚Ís‚í‚È‚¢B
+            // å®Ÿè¡Œè¨ˆç”»å–å¾—ä¸­ã§ã‚ã‚Œã°ã€å‰å‡¦ç†ãƒ»å¾Œå‡¦ç†ã¯è¡Œã‚ãªã„ã€‚
             if (jdbcJvnStatus.getNowExpalaining() != null)
             {
                 return;
             }
 
-            // ƒZƒbƒVƒ‡ƒ“I—¹ˆ—‚É“ü‚Á‚Ä‚¢‚éê‡‚ÍAÀsŒv‰æ‚Íæ“¾‚µ‚È‚¢B
+            // ã‚»ãƒƒã‚·ãƒ§ãƒ³çµ‚äº†å‡¦ç†ã«å…¥ã£ã¦ã„ã‚‹å ´åˆã¯ã€å®Ÿè¡Œè¨ˆç”»ã¯å–å¾—ã—ãªã„ã€‚
             if ((config__.isAllowSqlTraceForOracle() //
             && (tree.containsFlag(SqlTraceStatus.KEY_SESSION_INITIALIZING) //
                 || tree.containsFlag(SqlTraceStatus.KEY_SESSION_CLOSING) //
@@ -930,7 +930,7 @@ public class JdbcJavelinRecorder
 
             try
             {
-                // eƒm[ƒh‚ª"DB-Server"A‚©‚ÂJDBCŒÄo‚µd•¡o—Íƒtƒ‰ƒO‚ªOFF‚È‚çˆ—‚ğI—¹B
+                // è¦ªãƒãƒ¼ãƒ‰ãŒ"DB-Server"ã€ã‹ã¤JDBCå‘¼å‡ºã—é‡è¤‡å‡ºåŠ›ãƒ•ãƒ©ã‚°ãŒOFFãªã‚‰å‡¦ç†ã‚’çµ‚äº†ã€‚
                 if (ignore(jdbcJvnStatus))
                 {
                     return;
@@ -950,14 +950,14 @@ public class JdbcJavelinRecorder
     }
 
     /**
-     * Œãˆ—i–{ˆ—¸”sjB
+     * å¾Œå‡¦ç†ï¼ˆæœ¬å‡¦ç†å¤±æ•—æ™‚ï¼‰ã€‚
      * 
-     * @param cause Œ´ˆö
+     * @param cause åŸå› 
      * @param jdbcJvnStatus jdbcJvnStatus
      */
     public static void recordPostNG(final Throwable cause, JdbcJvnStatus jdbcJvnStatus)
     {
-        // JavelinRecorder‚Éˆ—ˆÏ÷
+        // JavelinRecorderã«å‡¦ç†å§”è­²
         CallTreeRecorder callTreeRecorder = jdbcJvnStatus.getCallTreeRecorder();
         CallTreeNode node = callTreeRecorder.getCallTreeNode();
         if (node != null)
@@ -968,37 +968,37 @@ public class JdbcJavelinRecorder
     }
 
     /**
-     * ÀsŒv‰ææ“¾
+     * å®Ÿè¡Œè¨ˆç”»å–å¾—
      * @param callTree CallTree
      * @param node CallTreeNode
-     * @param jdbcUrl Ú‘±URL
-     * @param args node‚ÉƒZƒbƒg‚³‚ê‚½args
-     * @param stmt StatementƒIƒuƒWƒFƒNƒg
-     * @param paramNum ƒpƒ‰ƒ[ƒ^”i0:ƒpƒ‰ƒ[ƒ^‚È‚µA1:ƒpƒ‰ƒ[ƒ^1ˆÈãj
+     * @param jdbcUrl æ¥ç¶šURL
+     * @param args nodeã«ã‚»ãƒƒãƒˆã•ã‚ŒãŸargs
+     * @param stmt Statementã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param paramNum ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿æ•°ï¼ˆ0:ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãªã—ã€1:ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1ä»¥ä¸Šï¼‰
      * 
-     * @return@SQL‚ÌÀsŒv‰æ
+     * @returnã€€SQLã®å®Ÿè¡Œè¨ˆç”»
      */
     private static List<String> getExecPlan(CallTree callTree, CallTreeNode node,
         final DBProcessor processor, final String jdbcUrl, final String[] args,
         final Statement stmt, final int paramNum, JdbcJvnStatus jdbcJvnStatus)
     {
-        // Œ‹‰ÊƒŠƒXƒginode‚É“o˜^‚µ‚È‚¨‚·argsj
+        // çµæœãƒªã‚¹ãƒˆï¼ˆnodeã«ç™»éŒ²ã—ãªãŠã™argsï¼‰
         List<String> resultText = new LinkedList<String>();
 
-        // ÀsŒv‰ææ“¾
+        // å®Ÿè¡Œè¨ˆç”»å–å¾—
         try
         {
-            // ÀsŒv‰ææ“¾’†‚Ìó‘Ô‚ğİ’è
+            // å®Ÿè¡Œè¨ˆç”»å–å¾—ä¸­ã®çŠ¶æ…‹ã‚’è¨­å®š
             jdbcJvnStatus.setNowExpalaining(stmt);
 
-            // args‚ª‚È‚¯‚ê‚Î(SQL‚ª“o˜^‚³‚ê‚Ä‚¢‚È‚¢)AÀsŒv‰æ‚Íæ“¾‚µ‚È‚¢
+            // argsãŒãªã‘ã‚Œã°(SQLãŒç™»éŒ²ã•ã‚Œã¦ã„ãªã„)ã€å®Ÿè¡Œè¨ˆç”»ã¯å–å¾—ã—ãªã„
             if (args == null || args.length == 0)
             {
                 return resultText;
             }
 
-            // ÀsŒv‰æ‚ğæ“¾‚·‚×‚«SQL•¶‚ğ”z—ñ‰»
-            // paramNum‚ª1‚È‚çargs‚Ì1‚Â‚ß‚ªSQL•¶B0‚È‚ç‚·‚×‚Ä‚ªSQL•¶B
+            // å®Ÿè¡Œè¨ˆç”»ã‚’å–å¾—ã™ã¹ãSQLæ–‡ã‚’é…åˆ—åŒ–
+            // paramNumãŒ1ãªã‚‰argsã®1ã¤ã‚ãŒSQLæ–‡ã€‚0ãªã‚‰ã™ã¹ã¦ãŒSQLæ–‡ã€‚
             String[] originalSql = null;
             String[] execPlanSql = jdbcJvnStatus.getExecPlanSql();
             if (execPlanSql == null)
@@ -1012,7 +1012,7 @@ public class JdbcJavelinRecorder
                 originalSql = execPlanSql;
             }
 
-            // ƒoƒCƒ“ƒh•Ï”æ“¾
+            // ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°å–å¾—
             List<?> bindList = null;
             if (config__.isRecordBindVal())
             {
@@ -1020,8 +1020,8 @@ public class JdbcJavelinRecorder
             }
             String bindVals = "";
 
-            // PreparedStatement‚Ìƒoƒbƒ`Às‚Ìê‡‚ÍA
-            // ƒoƒbƒ`Às‚·‚éSQL‚Ì”‚¾‚¯‚Ì”z—ñioriginalSqlj‚ğì¬‚·‚é
+            // PreparedStatementã®ãƒãƒƒãƒå®Ÿè¡Œã®å ´åˆã¯ã€
+            // ãƒãƒƒãƒå®Ÿè¡Œã™ã‚‹SQLã®æ•°ã ã‘ã®é…åˆ—ï¼ˆoriginalSqlï¼‰ã‚’ä½œæˆã™ã‚‹
             if (stmt instanceof PreparedStatement && paramNum == 0 && args.length == 1)
             {
                 originalSql = createBindValArray(stmt, originalSql, execPlanSql);
@@ -1030,17 +1030,17 @@ public class JdbcJavelinRecorder
             StringBuffer execPlanText = new StringBuffer();
             Statement planStmt = null;
             List<String> execPlans = new ArrayList<String>();
-            // SQL‚Ì”‚¾‚¯ƒ‹[ƒv
+            // SQLã®æ•°ã ã‘ãƒ«ãƒ¼ãƒ—
             boolean recordIntervalExpired = isRecordIntervalExpired(node, jdbcJvnStatus);
             String[] prevExecPlans = getPrevExecPlan(callTree, node);
             for (int count = 0; originalSql != null && count < originalSql.length; count++)
             {
                 execPlanText.setLength(0);
 
-                //ƒoƒCƒ“ƒh•Ï”æ“¾
+                //ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°å–å¾—
                 bindVals = SqlUtil.getBindValCsv(bindList, count);
 
-                // SQL‚ªDML‚Å‚Í‚È‚¢ê‡AÀsŒv‰æ‚Íæ“¾‚µ‚È‚¢B
+                // SQLãŒDMLã§ã¯ãªã„å ´åˆã€å®Ÿè¡Œè¨ˆç”»ã¯å–å¾—ã—ãªã„ã€‚
                 String originalSqlElement = appendLineBreak(originalSql[count]);
                 if (SqlUtil.checkDml(originalSqlElement) == false)
                 {
@@ -1056,11 +1056,11 @@ public class JdbcJavelinRecorder
                 {
                     if (count == 0 || (stmt instanceof PreparedStatement) == false)
                     {
-                        // PreparedStatement‚Ì‚Æ‚«‚ÍA
-                        // ƒoƒCƒ“ƒh•Ï”‚ªƒZƒbƒg‚³‚ê‚½AÀsŒv‰ææ“¾—p‚ÌPreparedStatement‚ğÀs‚·‚éB
+                        // PreparedStatementã®ã¨ãã¯ã€
+                        // ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°ãŒã‚»ãƒƒãƒˆã•ã‚ŒãŸã€å®Ÿè¡Œè¨ˆç”»å–å¾—ç”¨ã®PreparedStatementã‚’å®Ÿè¡Œã™ã‚‹ã€‚
                         String execPlanResult = null;
 
-                        // TODO ‘O‰ñ‚ÌÀsŒv‰æ‚ªæ“¾‚Å‚«‚È‚¢ê‡‚ª‚ ‚é‚Ì‚ÅAnullƒ`ƒFƒbƒN‚Åb’è‘Îˆ‚·‚éB
+                        // TODO å‰å›ã®å®Ÿè¡Œè¨ˆç”»ãŒå–å¾—ã§ããªã„å ´åˆãŒã‚ã‚‹ã®ã§ã€nullãƒã‚§ãƒƒã‚¯ã§æš«å®šå¯¾å‡¦ã™ã‚‹ã€‚
                         if (recordIntervalExpired || prevExecPlans == null)
                         {
                             planStmt = stmt.getConnection().createStatement();
@@ -1115,7 +1115,7 @@ public class JdbcJavelinRecorder
 
                         String itemName = addPrefix(pageName);
 
-                        // DataCollector‘¤‚ÅDB“o˜^‚·‚é‚½‚ß‚ÉAÀsŒv‰æ‚ÉŠÖ‚·‚éƒf[ƒ^‚ğ“d•¶‚Å‘—M‚·‚é
+                        // DataCollectorå´ã§DBç™»éŒ²ã™ã‚‹ãŸã‚ã«ã€å®Ÿè¡Œè¨ˆç”»ã«é–¢ã™ã‚‹ãƒ‡ãƒ¼ã‚¿ã‚’é›»æ–‡ã§é€ä¿¡ã™ã‚‹
                         SqlPlanTelegramSender sqlPlanTelegramSender = new SqlPlanTelegramSender();
                         sqlPlanTelegramSender.execute(itemName, originalSqlElement,
                                                       execPlanText.toString(),
@@ -1125,12 +1125,12 @@ public class JdbcJavelinRecorder
                 }
                 catch (Exception ex)
                 {
-                    // DBƒAƒNƒZƒXƒGƒ‰[/‘z’èŠO‚Ì—áŠO‚ª”­¶‚µ‚½ê‡‚ÍƒGƒ‰[ƒƒO‚Éo—Í‚µ‚Ä‚¨‚­B
+                    // DBã‚¢ã‚¯ã‚»ã‚¹ã‚¨ãƒ©ãƒ¼/æƒ³å®šå¤–ã®ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆã¯ã‚¨ãƒ©ãƒ¼ãƒ­ã‚°ã«å‡ºåŠ›ã—ã¦ãŠãã€‚
                     SystemLogger.getInstance().warn(ex);
                 }
                 finally
                 {
-                    // ƒŠƒ\[ƒX‰ğ•ú
+                    // ãƒªã‚½ãƒ¼ã‚¹è§£æ”¾
                     if (planStmt != null)
                     {
                         planStmt.close();
@@ -1139,14 +1139,14 @@ public class JdbcJavelinRecorder
 
                     if (paramNum != 1)
                     {
-                        // ÀsŒv‰æ‚ğæ“¾‚·‚×‚«SQL‚ª•¡”‚ ‚éê‡AƒoƒCƒ“ƒh•Ï”AÀsŒv‰æ‚ğ––”ö‚É’Ç‰Á
+                        // å®Ÿè¡Œè¨ˆç”»ã‚’å–å¾—ã™ã¹ãSQLãŒè¤‡æ•°ã‚ã‚‹å ´åˆã€ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°ã€å®Ÿè¡Œè¨ˆç”»ã‚’æœ«å°¾ã«è¿½åŠ 
                         if (bindVals != null)
                         {
                             resultText.add(BIND_PREFIX + bindVals);
                         }
                     }
 
-                    // ÀsŒv‰æ‚ğæ“¾‚·‚×‚«SQL‚ª1‚Â‚µ‚©‚È‚¢ê‡AÀsŒv‰æ‚ğ––”ö‚É’Ç‰Á
+                    // å®Ÿè¡Œè¨ˆç”»ã‚’å–å¾—ã™ã¹ãSQLãŒ1ã¤ã—ã‹ãªã„å ´åˆã€å®Ÿè¡Œè¨ˆç”»ã‚’æœ«å°¾ã«è¿½åŠ 
                     if (execPlanText.length() > 0)
                     {
                         resultText.add(PLAN_PREFIX + execPlanText.toString());
@@ -1154,7 +1154,7 @@ public class JdbcJavelinRecorder
                 }
             }
 
-            // ƒpƒ‰ƒ[ƒ^”1‚È‚çAƒƒ\ƒbƒhˆø”‚ğargs‚É’Ç‰Á
+            // ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿æ•°1ãªã‚‰ã€ãƒ¡ã‚½ãƒƒãƒ‰å¼•æ•°ã‚’argsã«è¿½åŠ 
             if (paramNum == 1)
             {
                 for (int count = 1; count < args.length; count++)
@@ -1168,8 +1168,8 @@ public class JdbcJavelinRecorder
                 String[] execPlanArray = execPlans.toArray(new String[execPlans.size()]);
                 saveExecPlan(node, execPlanArray, jdbcJvnStatus);
 
-                // Full ScanŠÄ‹ƒtƒ‰ƒO‚ªON‚Å‚ ‚èAÀsŒv‰ææ“¾‚ªÀ{‚³‚êAFull Scan‚ª”­¶‚µ‚Ä‚¢‚éê‡‚Ì‚İA
-                // ƒCƒxƒ“ƒg‚ğ”­¶‚³‚¹‚éB
+                // Full Scanç›£è¦–ãƒ•ãƒ©ã‚°ãŒONã§ã‚ã‚Šã€å®Ÿè¡Œè¨ˆç”»å–å¾—ãŒå®Ÿæ–½ã•ã‚Œã€Full ScanãŒç™ºç”Ÿã—ã¦ã„ã‚‹å ´åˆã®ã¿ã€
+                // ã‚¤ãƒ™ãƒ³ãƒˆã‚’ç™ºç”Ÿã•ã›ã‚‹ã€‚
                 if (config__.isFullScanMonitor())
                 {
                     sendFullScanEvent(processor, resultText, stmt, paramNum, node, execPlanSql);
@@ -1178,12 +1178,12 @@ public class JdbcJavelinRecorder
         }
         catch (Exception ex)
         {
-            // ‘z’èŠO‚Ì—áŠO‚ª”­¶‚µ‚½ê‡‚Í•W€ƒGƒ‰[o—Í‚Éo—Í‚µ‚Ä‚¨‚­B
+            // æƒ³å®šå¤–ã®ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆã¯æ¨™æº–ã‚¨ãƒ©ãƒ¼å‡ºåŠ›ã«å‡ºåŠ›ã—ã¦ãŠãã€‚
             SystemLogger.getInstance().warn(ex);
         }
         finally
         {
-            // ÀsŒv‰ææ“¾’†‚Ìó‘Ô‚ğ‰ğœ
+            // å®Ÿè¡Œè¨ˆç”»å–å¾—ä¸­ã®çŠ¶æ…‹ã‚’è§£é™¤
             jdbcJvnStatus.setNowExpalaining(null);
         }
 
@@ -1247,7 +1247,7 @@ public class JdbcJavelinRecorder
         }
         else
         {
-            // ÀsŒv‰æ‚ğæ“¾iDBMS‚Ìí—Ş‚É‚æ‚Á‚Ä•ªŠòj
+            // å®Ÿè¡Œè¨ˆç”»ã‚’å–å¾—ï¼ˆDBMSã®ç¨®é¡ã«ã‚ˆã£ã¦åˆ†å²ï¼‰
             execPlanResult = processor.execPlan(stmt, originalSqlElement, planStmt);
         }
         return execPlanResult;
@@ -1279,8 +1279,8 @@ public class JdbcJavelinRecorder
     }
 
     /**
-     * JDBCJavelin‚Ìƒpƒ‰ƒ[ƒ^‚ğİ’è‚·‚éB
-     * @param config JDBCJavelin‚Ìİ’è
+     * JDBCJavelinã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param config JDBCJavelinã®è¨­å®š
      */
     public static void setJdbcJavelinConfig(final JdbcJavelinConfig config)
     {
@@ -1288,12 +1288,12 @@ public class JdbcJavelinRecorder
     }
 
     /**
-     * ƒXƒŒƒbƒhID‚ğİ’è‚·‚é.
-     * @param threadId ƒXƒŒƒbƒhID
+     * ã‚¹ãƒ¬ãƒƒãƒ‰IDã‚’è¨­å®šã™ã‚‹.
+     * @param threadId ã‚¹ãƒ¬ãƒƒãƒ‰ID
      */
     public static void setThreadId(final String threadId)
     {
-        // JavelinRecorder‚Éˆ—ˆÏ÷
+        // JavelinRecorderã«å‡¦ç†å§”è­²
         StatsJavelinRecorder.setThreadId(threadId);
     }
 
@@ -1316,12 +1316,12 @@ public class JdbcJavelinRecorder
     }
 
     /**
-     * Connection.prepareStatementƒƒ\ƒbƒhŒÄ‚Ño‚µŒã‚ÉŒÄ‚Î‚ê‚éƒƒ\ƒbƒhB
+     * Connection.prepareStatementãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—å¾Œã«å‘¼ã°ã‚Œã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã€‚
      *
-     * @param connection Ú‘±ƒIƒuƒWƒFƒNƒg
-     * @param sql PreparedStatement•¶š—ñ
-     * @param pstmt Connection.prepareStatement()‚Ì–ß‚è’l
-     * @param methodName ƒƒ\ƒbƒh–¼
+     * @param connection æ¥ç¶šã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param sql PreparedStatementæ–‡å­—åˆ—
+     * @param pstmt Connection.prepareStatement()ã®æˆ»ã‚Šå€¤
+     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
      */
     public static void postPrepareStatement(final Connection connection, final String sql,
         final PreparedStatement pstmt, final String methodName)
@@ -1340,7 +1340,7 @@ public class JdbcJavelinRecorder
             return;
         }
 
-        // Às‚µ‚Ä‚¢‚éSQL•¶‚ğ’Ç‰Á‚·‚é
+        // å®Ÿè¡Œã—ã¦ã„ã‚‹SQLæ–‡ã‚’è¿½åŠ ã™ã‚‹
         if (pstmt != null)
         {
             try
@@ -1355,21 +1355,21 @@ public class JdbcJavelinRecorder
             }
         }
 
-        // ˆÈ‰ºAÀsŒv‰ææ“¾—pPreparedStatement‚ğì¬‚·‚é
+        // ä»¥ä¸‹ã€å®Ÿè¡Œè¨ˆç”»å–å¾—ç”¨PreparedStatementã‚’ä½œæˆã™ã‚‹
 
-        // Connection.prepareStatement()ˆÈŠO‚ÍAÀsŒv‰ææ“¾—pPreparedStatement‚ğì¬‚µ‚È‚¢
+        // Connection.prepareStatement()ä»¥å¤–ã¯ã€å®Ÿè¡Œè¨ˆç”»å–å¾—ç”¨PreparedStatementã‚’ä½œæˆã—ãªã„
         if ("prepareStatement".equals(methodName) == false)
         {
             return;
         }
 
-        // ÀsŒv‰ææ“¾—pPreparedStatement‚ğì¬’†‚Å‚ ‚ê‚ÎAŒãˆ—‚Ís‚í‚È‚¢
+        // å®Ÿè¡Œè¨ˆç”»å–å¾—ç”¨PreparedStatementã‚’ä½œæˆä¸­ã§ã‚ã‚Œã°ã€å¾Œå‡¦ç†ã¯è¡Œã‚ãªã„
         if (jdbcJvnStatus.getNowCalling() != null)
         {
             return;
         }
 
-        // ‚QdŒÄ‚Ño‚µ‚ğ‹Ö~‚·‚é
+        // ï¼’é‡å‘¼ã³å‡ºã—ã‚’ç¦æ­¢ã™ã‚‹
         jdbcJvnStatus.setNowCalling(connection);
 
         try
@@ -1399,9 +1399,9 @@ public class JdbcJavelinRecorder
     }
 
     /**
-     * İ’è‚ğæ“¾‚·‚éB
+     * è¨­å®šã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return İ’èB
+     * @return è¨­å®šã€‚
      */
     public static JdbcJavelinConfig getConfig()
     {

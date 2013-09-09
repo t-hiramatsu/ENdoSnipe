@@ -16,45 +16,45 @@ import java.sql.Timestamp;
 import java.text.MessageFormat;
 
 /**
- * PerfDoctorf’fŒ‹‰Ê—p‚ÌDtoƒNƒ‰ƒXB
+ * PerfDoctorè¨ºæ–­çµæœç”¨ã®Dtoã‚¯ãƒ©ã‚¹ã€‚
  * 
  * @author hiramatsu
  *
  */
 public class PerfDoctorResultDto
 {
-    /** ƒƒOID */
+    /** ãƒ­ã‚°ID */
     private long logId_;
 
-    /** ”­¶ */
+    /** ç™ºç”Ÿæ™‚åˆ» */
     private Timestamp occurrenceTime_;
 
-    /** ŠT—v */
+    /** æ¦‚è¦ */
     private String description_;
 
-    /** ƒŒƒxƒ‹ */
+    /** ãƒ¬ãƒ™ãƒ« */
     private String level_;
 
-    /** ƒNƒ‰ƒX–¼ */
+    /** ã‚¯ãƒ©ã‚¹å */
     private String className_;
 
-    /** ƒƒ\ƒbƒh–¼ */
+    /** ãƒ¡ã‚½ãƒƒãƒ‰å */
     private String methodName_;
 
-    /** ƒƒOƒtƒ@ƒCƒ‹–¼ */
+    /** ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«å */
     private String logFileName_;
 
-    /** Œv‘ª€–Ú–¼ */
+    /** è¨ˆæ¸¬é …ç›®å */
     private String measurementItemName_;
 
-    /** è‡’l’´‰ßE‰ñ•œ‚ÌŠT—vƒtƒH[ƒ}ƒbƒg */
+    /** é–¾å€¤è¶…éãƒ»å›å¾©æ™‚ã®æ¦‚è¦ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ */
     private static final String DESCRIPTION_FORMAT =
         "Measurement value {0} the threshold.(Threshold:{1}, DetectedValue:{2})";
 
     /**
-     * ƒƒOID‚ğæ“¾‚·‚éB
+     * ãƒ­ã‚°IDã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return ƒƒOID
+     * @return ãƒ­ã‚°ID
      */
     public long getLogId()
     {
@@ -62,9 +62,9 @@ public class PerfDoctorResultDto
     }
 
     /**
-     * ƒƒOID‚ğİ’è‚·‚éB
+     * ãƒ­ã‚°IDã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param logId ƒƒOID
+     * @param logId ãƒ­ã‚°ID
      */
     public void setLogId(long logId)
     {
@@ -72,9 +72,9 @@ public class PerfDoctorResultDto
     }
 
     /**
-     * ”­¶‚ğæ“¾‚·‚éB
+     * ç™ºç”Ÿæ™‚åˆ»ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return ”­¶
+     * @return ç™ºç”Ÿæ™‚åˆ»
      */
     public Timestamp getOccurrenceTime()
     {
@@ -82,9 +82,9 @@ public class PerfDoctorResultDto
     }
 
     /**
-     * ”­¶‚ğİ’è‚·‚éB
+     * ç™ºç”Ÿæ™‚åˆ»ã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param occurrenceTime ”­¶
+     * @param occurrenceTime ç™ºç”Ÿæ™‚åˆ»
      */
     public void setOccurrenceTime(Timestamp occurrenceTime)
     {
@@ -92,9 +92,9 @@ public class PerfDoctorResultDto
     }
 
     /**
-     * ŠT—v‚ğæ“¾‚·‚éB
+     * æ¦‚è¦ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return ŠT—v
+     * @return æ¦‚è¦
      */
     public String getDescription()
     {
@@ -102,11 +102,11 @@ public class PerfDoctorResultDto
     }
 
     /**
-     * ŠT—v‚ğİ’è‚·‚éB
+     * æ¦‚è¦ã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param alarmType ƒAƒ‰[ƒ€í•Ê
-     * @param threshold è‡’l
-     * @param detectedValue Œv‘ª’l
+     * @param alarmType ã‚¢ãƒ©ãƒ¼ãƒ ç¨®åˆ¥
+     * @param threshold é–¾å€¤
+     * @param detectedValue è¨ˆæ¸¬å€¤
      */
     public void setDescription(String alarmType, double threshold, double detectedValue)
     {
@@ -117,9 +117,9 @@ public class PerfDoctorResultDto
     }
 
     /**
-     * ŠT—v‚ğİ’è‚·‚éB
+     * æ¦‚è¦ã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param description ŠT—v
+     * @param description æ¦‚è¦
      */
     public void setDescription(String description)
     {
@@ -127,9 +127,9 @@ public class PerfDoctorResultDto
     }
 
     /**
-     * ƒŒƒxƒ‹‚ğæ“¾‚·‚éB
+     * ãƒ¬ãƒ™ãƒ«ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return ƒŒƒxƒ‹
+     * @return ãƒ¬ãƒ™ãƒ«
      */
     public String getLevel()
     {
@@ -137,9 +137,9 @@ public class PerfDoctorResultDto
     }
 
     /**
-     * ƒŒƒxƒ‹‚ğİ’è‚·‚éB
+     * ãƒ¬ãƒ™ãƒ«ã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param level ƒŒƒxƒ‹
+     * @param level ãƒ¬ãƒ™ãƒ«
      */
     public void setLevel(String level)
     {
@@ -147,9 +147,9 @@ public class PerfDoctorResultDto
     }
 
     /**
-     * Œv‘ª€–Ú–¼‚ğæ“¾‚·‚éB
+     * è¨ˆæ¸¬é …ç›®åã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return Œv‘ª€–Ú–¼
+     * @return è¨ˆæ¸¬é …ç›®å
      */
     public String getMeasurementItemName()
     {
@@ -157,9 +157,9 @@ public class PerfDoctorResultDto
     }
 
     /**
-     * Œv‘ª€–Ú–¼‚ğİ’è‚·‚éB
+     * è¨ˆæ¸¬é …ç›®åã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param measurementItemName Œv‘ª€–Ú–¼
+     * @param measurementItemName è¨ˆæ¸¬é …ç›®å
      */
     public void setMeasurementItemName(String measurementItemName)
     {
@@ -167,9 +167,9 @@ public class PerfDoctorResultDto
     }
 
     /**
-     * ƒNƒ‰ƒX–¼‚ğæ“¾‚·‚éB
+     * ã‚¯ãƒ©ã‚¹åã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return ƒNƒ‰ƒX–¼
+     * @return ã‚¯ãƒ©ã‚¹å
      */
     public String getClassName()
     {
@@ -177,9 +177,9 @@ public class PerfDoctorResultDto
     }
 
     /**
-     * ƒNƒ‰ƒX–¼‚ğİ’è‚·‚éB
+     * ã‚¯ãƒ©ã‚¹åã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param className ƒNƒ‰ƒX–¼
+     * @param className ã‚¯ãƒ©ã‚¹å
      */
     public void setClassName(String className)
     {
@@ -187,9 +187,9 @@ public class PerfDoctorResultDto
     }
 
     /**
-     * ƒƒ\ƒbƒh–¼‚ğæ“¾‚·‚éB
+     * ãƒ¡ã‚½ãƒƒãƒ‰åã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return ƒƒ\ƒbƒh–¼
+     * @return ãƒ¡ã‚½ãƒƒãƒ‰å
      */
     public String getMethodName()
     {
@@ -197,9 +197,9 @@ public class PerfDoctorResultDto
     }
 
     /**
-     * ƒƒ\ƒbƒh–¼‚ğİ’è‚·‚éB
+     * ãƒ¡ã‚½ãƒƒãƒ‰åã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param methodName ƒƒ\ƒbƒh–¼
+     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
      */
     public void setMethodName(String methodName)
     {
@@ -207,9 +207,9 @@ public class PerfDoctorResultDto
     }
     
     /**
-     * ƒƒOƒtƒ@ƒCƒ‹–¼‚ğæ“¾‚·‚éB
+     * ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«åã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return ƒƒOƒtƒ@ƒCƒ‹–¼
+     * @return ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«å
      */
     public String getLogFileName()
     {
@@ -217,9 +217,9 @@ public class PerfDoctorResultDto
     }
 
     /**
-     * ƒƒOƒtƒ@ƒCƒ‹–¼‚ğİ’è‚·‚éB
+     * ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«åã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param logFileName ƒƒOƒtƒ@ƒCƒ‹–¼
+     * @param logFileName ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«å
      */
     public void setLogFileName(String logFileName)
     {

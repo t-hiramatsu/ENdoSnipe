@@ -32,7 +32,7 @@ import jp.co.acroquest.endosnipe.perfdoctor.Messages;
 import jp.co.acroquest.endosnipe.perfdoctor.PerfConstants;
 
 /**
- * ’Pˆê‚Ì {@link JavelinLogElement} ‚ğƒ`ƒFƒbƒN‚·‚é‚½‚ß‚ÌƒVƒ“ƒvƒ‹‚Èƒ‹[ƒ‹‚Ì‚½‚ß‚ÌŠî’êƒNƒ‰ƒXB
+ * å˜ä¸€ã® {@link JavelinLogElement} ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹ãŸã‚ã®ã‚·ãƒ³ãƒ—ãƒ«ãªãƒ«ãƒ¼ãƒ«ã®ãŸã‚ã®åŸºåº•ã‚¯ãƒ©ã‚¹ã€‚
  *  
  * @author y-komori
  */
@@ -41,8 +41,8 @@ public abstract class SingleElementRule extends AbstractRule
     /**
      * @see jp.co.acroquest.endosnipe.perfdoctor.rule.AbstractRule#doJudge(java.util.List)
      * 
-     * JavelinLogElementList‚Ì—v‘f‚ğˆê‚Â‚¸‚Â”»’è‚·‚éB
-     * @param javelinLogElementList JavelinLogElement‚ÌƒŠƒXƒg
+     * JavelinLogElementListã®è¦ç´ ã‚’ä¸€ã¤ãšã¤åˆ¤å®šã™ã‚‹ã€‚
+     * @param javelinLogElementList JavelinLogElementã®ãƒªã‚¹ãƒˆ
      */
     @Override
     public void doJudge(final List<JavelinLogElement> javelinLogElementList)
@@ -65,15 +65,15 @@ public abstract class SingleElementRule extends AbstractRule
     }
 
     /**
-     * ’Pˆê‚Ì {@link JavelinLogElement} ‚É‚Â‚¢‚Ä”»’è‚ğs‚¤B
+     * å˜ä¸€ã® {@link JavelinLogElement} ã«ã¤ã„ã¦åˆ¤å®šã‚’è¡Œã†ã€‚
      * 
-     * @param element {@link JavelinLogElement} ƒIƒuƒWƒFƒNƒg
+     * @param element {@link JavelinLogElement} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     protected abstract void doJudgeElement(JavelinLogElement element);
 
     /**
-     * ‘S‚Ä‚Ì‚Ì {@link JavelinLogElement} ‚É‚Â‚¢‚Ä”»’è‚ğs‚Á‚½Œã‚ÉŒÄ‚Ño‚³‚ê‚éB
-     * ÅŒã‚És‚¢‚½‚¢ˆ—‚ğ‹Lq‚·‚éB
+     * å…¨ã¦ã®ã® {@link JavelinLogElement} ã«ã¤ã„ã¦åˆ¤å®šã‚’è¡Œã£ãŸå¾Œã«å‘¼ã³å‡ºã•ã‚Œã‚‹ã€‚
+     * æœ€å¾Œã«è¡Œã„ãŸã„å‡¦ç†ã‚’è¨˜è¿°ã™ã‚‹ã€‚
      */
     protected void doJudgeEnd()
     {

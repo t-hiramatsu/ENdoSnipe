@@ -20,26 +20,26 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 /**
- * ƒL[‚Éw’è‚µ‚½ƒIƒuƒWƒFƒNƒg‚ª¶‘¶‚µ‚Ä‚¢‚éŠÔAƒGƒ“ƒgƒŠ‚ğ•Û‚·‚éB
+ * ã‚­ãƒ¼ã«æŒ‡å®šã—ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒç”Ÿå­˜ã—ã¦ã„ã‚‹é–“ã€ã‚¨ãƒ³ãƒˆãƒªã‚’ä¿æŒã™ã‚‹ã€‚
  * 
  * @author eriguchi
  *
- * @param <T> ƒL[B
- * @param <V> ’lB
+ * @param <T> ã‚­ãƒ¼ã€‚
+ * @param <V> å€¤ã€‚
  */
 public class IdentityWeakMap<T, V>
 {
-    /** ƒNƒŠ[ƒ“ƒAƒbƒv‚ğs‚¤ŠÔŠuB */
+    /** ã‚¯ãƒªãƒ¼ãƒ³ã‚¢ãƒƒãƒ—ã‚’è¡Œã†é–“éš”ã€‚ */
     private static final int CLEANUP_INTERVAL = 10000;
 
-    /** ‘€ì‰ñ”B */
+    /** æ“ä½œå›æ•°ã€‚ */
     private int              count_;
 
-    /** ’l‚ğ•Û‚·‚éMap */
+    /** å€¤ã‚’ä¿æŒã™ã‚‹Map */
     private Map<Key<T>, V>   map_;
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
      */
     public IdentityWeakMap()
     {
@@ -47,11 +47,11 @@ public class IdentityWeakMap<T, V>
     }
 
     /**
-     * ’Ç‰Á‚·‚éB
+     * è¿½åŠ ã™ã‚‹ã€‚
      * 
-     * @param key ƒL[B
-     * @param value ’lB
-     * @return ’lB
+     * @param key ã‚­ãƒ¼ã€‚
+     * @param value å€¤ã€‚
+     * @return å€¤ã€‚
      */
     public V put(T key, V value)
     {
@@ -67,7 +67,7 @@ public class IdentityWeakMap<T, V>
     }
 
     /**
-     * ƒL[‚ªQÆ‚³‚ê‚È‚­‚È‚Á‚½ê‡‚É‚ÍAíœ‚·‚éB
+     * ã‚­ãƒ¼ãŒå‚ç…§ã•ã‚Œãªããªã£ãŸå ´åˆã«ã¯ã€å‰Šé™¤ã™ã‚‹ã€‚
      */
     private void cleanup()
     {
@@ -87,10 +87,10 @@ public class IdentityWeakMap<T, V>
     }
 
     /**
-     * ƒL[‚É‘Î‰‚·‚é’l‚ğæ“¾‚·‚éB
+     * ã‚­ãƒ¼ã«å¯¾å¿œã™ã‚‹å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @param key ƒL[B
-     * @return ’lB
+     * @param key ã‚­ãƒ¼ã€‚
+     * @return å€¤ã€‚
      */
     public V get(T key)
     {
@@ -99,17 +99,17 @@ public class IdentityWeakMap<T, V>
     }
 
     /**
-     * ƒL[‚ğ•Û‚·‚é‚½‚ß‚ÌƒNƒ‰ƒXB
+     * ã‚­ãƒ¼ã‚’ä¿æŒã™ã‚‹ãŸã‚ã®ã‚¯ãƒ©ã‚¹ã€‚
      *
-     * @param <T> ƒL[‚ÌƒNƒ‰ƒX
+     * @param <T> ã‚­ãƒ¼ã®ã‚¯ãƒ©ã‚¹
      */
     public static class Key<T> extends WeakReference<T>
     {
         
         /**
-         * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
+         * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
          * 
-         * @param referent QÆB
+         * @param referent å‚ç…§ã€‚
          */
         public Key(T referent)
         {
@@ -117,9 +117,9 @@ public class IdentityWeakMap<T, V>
         }
 
         /**
-         * ƒnƒbƒVƒ…ƒR[ƒhB
+         * ãƒãƒƒã‚·ãƒ¥ã‚³ãƒ¼ãƒ‰ã€‚
          * 
-         * @return ƒnƒbƒVƒ…ƒR[ƒhB
+         * @return ãƒãƒƒã‚·ãƒ¥ã‚³ãƒ¼ãƒ‰ã€‚
          */
         public int hashCode()
         {
@@ -128,10 +128,10 @@ public class IdentityWeakMap<T, V>
         }
 
         /**
-         * QÆ‚µ‚Ä‚¢‚éƒIƒuƒWƒFƒNƒg‚ª“¯‚¶‚Å‚ ‚ê‚ÎA“¯ˆê‚Æ‚İ‚È‚·B
+         * å‚ç…§ã—ã¦ã„ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒåŒã˜ã§ã‚ã‚Œã°ã€åŒä¸€ã¨ã¿ãªã™ã€‚
          * 
-         * @param obj ‘ÎÛB
-         * @return “¯ˆê‚©‚Ç‚¤‚©B
+         * @param obj å¯¾è±¡ã€‚
+         * @return åŒä¸€ã‹ã©ã†ã‹ã€‚
          */
         public boolean equals(Object obj)
         {
