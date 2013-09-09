@@ -26,6 +26,7 @@
 package jp.co.acroquest.endosnipe.javelin.util;
 
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
+import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 
 /**
  * 情報表示に関するユーティリティクラスです。<br />
@@ -276,6 +277,41 @@ public class StatsUtil
         }
         
         return str.substring(0, maxLength);
+    }
+
+    /**
+     * set the prefix of the node according to the starting node name
+     * @param name node name from invocation
+     * @return prefix for node
+     */
+    public static String addPrefix(String name)
+    {
+        String prefixedName = null;
+        if (name.startsWith("/"))
+        {
+            prefixedName = TelegramConstants.PREFIX_PROCESS_RESPONSE_SERVLET + name;
+        }
+        else if (name.startsWith("jdbc:"))
+        {
+            String dbmsName = null;
+            String query = null;
+            int indexOfSharp = name.indexOf('#');
+            if(indexOfSharp >= 0)
+            {
+                dbmsName = name.substring("jdbc:".length(), indexOfSharp);
+                dbmsName = dbmsName.replace("/", "&#47;");
+                if(indexOfSharp < name.length())
+                {
+                    query = name.substring(indexOfSharp + 1, name.length());
+                }
+            }
+            prefixedName = TelegramConstants.PREFIX_PROCESS_RESPONSE_JDBC + dbmsName + "/" + query;
+        }
+        else
+        {
+            prefixedName = TelegramConstants.PREFIX_PROCESS_RESPONSE_METHOD + name;
+        }
+        return prefixedName;
     }
 
 }

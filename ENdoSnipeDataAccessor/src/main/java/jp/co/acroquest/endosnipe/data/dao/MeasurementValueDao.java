@@ -439,7 +439,8 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
         "  FROM measurement_value mv, javelin_measurement_item jmi" +
         "  WHERE mv.measurement_item_id = jmi.measurement_item_id" +
         "    AND (mv.measurement_time BETWEEN ? and ?)" +
-        "    AND jmi.measurement_item_name LIKE ?" +
+        "    AND replace(replace(replace(jmi.measurement_item_name,chr(13)"
+                    + "||chr(10),' '),chr(13),' '),chr(10),' ')  LIKE ?" +
         "  ORDER BY mv.measurement_time, measurement_item_name";
 
     /**

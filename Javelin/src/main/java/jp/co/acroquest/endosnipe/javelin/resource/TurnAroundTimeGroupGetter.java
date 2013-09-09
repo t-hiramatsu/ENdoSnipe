@@ -31,8 +31,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 import jp.co.acroquest.endosnipe.common.entity.ResourceItem;
@@ -40,6 +38,7 @@ import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.javelin.RootInvocationManager;
 import jp.co.acroquest.endosnipe.javelin.bean.Invocation;
 import jp.co.acroquest.endosnipe.javelin.bean.TurnAroundTimeInfo;
+import jp.co.acroquest.endosnipe.javelin.util.StatsUtil;
 
 /**
  * Turn Around Timeのグループを取得するクラス。
@@ -50,8 +49,6 @@ public class TurnAroundTimeGroupGetter implements ResourceGroupGetter, TelegramC
 {
     /** JavelinのConfig */
     private JavelinConfig config_ = new JavelinConfig();
-
-    private String prefixedName_;
 
     /**
      * コンストラクタ
@@ -242,45 +239,11 @@ public class TurnAroundTimeGroupGetter implements ResourceGroupGetter, TelegramC
      */
     public String getTreeNodeName(String key, String postfix, String eventName)
     {
-        String name = addPrefix(key);
+        String name = StatsUtil.addPrefix(key);
         StringBuilder nodeName = new StringBuilder();
         nodeName.append(name);
         nodeName.append(postfix);
         nodeName.append(eventName);
         return nodeName.toString();
-    }
-
-    /**
-     * set the prefix of the node according to the starting node name
-     * @param name node name from invocation
-     * @return prefix for node
-     */
-    private String addPrefix(String name)
-    {
-        if (name.startsWith("/"))
-        {
-            prefixedName_ = TelegramConstants.PREFIX_PROCESS_RESPONSE_SERVLET + name;
-        }
-        else if (name.startsWith("jdbc"))
-        {
-            String regexp = "jdbc:(.+)#(.+)";
-            String dbmsName = null;
-            String query = null;
-            Pattern pattern = Pattern.compile(regexp);
-            Matcher matcher = pattern.matcher(name);
-            if (matcher.find())
-            {
-                dbmsName = matcher.group(1);
-                query = matcher.group(2);
-                dbmsName = dbmsName.replace("/", "&#47;");
-            }
-            prefixedName_ = TelegramConstants.PREFIX_PROCESS_RESPONSE_JDBC + dbmsName + "/" + query;
-        }
-
-        else
-        {
-            prefixedName_ = TelegramConstants.PREFIX_PROCESS_RESPONSE_METHOD + name;
-        }
-        return prefixedName_;
     }
 }

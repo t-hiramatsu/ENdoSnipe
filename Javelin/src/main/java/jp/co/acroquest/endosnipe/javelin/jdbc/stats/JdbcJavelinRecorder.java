@@ -35,14 +35,11 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 import jp.co.acroquest.endosnipe.common.db.AbstractExecutePlanChecker;
 import jp.co.acroquest.endosnipe.common.event.EventConstants;
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
-import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.javelin.CallTree;
 import jp.co.acroquest.endosnipe.javelin.CallTreeNode;
 import jp.co.acroquest.endosnipe.javelin.CallTreeRecorder;
@@ -64,6 +61,7 @@ import jp.co.acroquest.endosnipe.javelin.jdbc.stats.oracle.OracleProcessor;
 import jp.co.acroquest.endosnipe.javelin.jdbc.stats.oracle.OracleSessionStopCallback;
 import jp.co.acroquest.endosnipe.javelin.jdbc.stats.postgres.PostgresProcessor;
 import jp.co.acroquest.endosnipe.javelin.jdbc.stats.sqlserver.SQLServerProcessor;
+import jp.co.acroquest.endosnipe.javelin.util.StatsUtil;
 import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
 
 /**
@@ -1103,17 +1101,13 @@ public class JdbcJavelinRecorder
                         String stacktraceStr =
                             ThreadUtil.getStackTrace(stacktrace, MAX_STACKTRACE_LINE_NUM);
 
-                        String pageName = "";
-                        if (callTree != null)
+                        String invocationKey = "";
+                        if (node != null)
                         {
-                            CallTreeNode rootNode = callTree.getRootNode();
-                            if (rootNode != null)
-                            {
-                                pageName = rootNode.getInvocation().getRootInvocationManagerKey();
-                            }
+                            invocationKey = node.getInvocation().getRootInvocationManagerKey();
                         }
 
-                        String itemName = addPrefix(pageName);
+                        String itemName = StatsUtil.addPrefix(invocationKey);
 
                         // DataCollector側でDB登録するために、実行計画に関するデータを電文で送信する
                         SqlPlanTelegramSender sqlPlanTelegramSender = new SqlPlanTelegramSender();
@@ -1188,42 +1182,6 @@ public class JdbcJavelinRecorder
         }
 
         return resultText;
-    }
-
-    /**
-     * set the prefix of the node according to the starting node name
-     * @param name node name from invocation
-     * @return prefix for node
-     */
-    private static String addPrefix(String name)
-    {
-        String prefixedName = "";
-        if (name.startsWith("/"))
-        {
-            prefixedName = TelegramConstants.PREFIX_PROCESS_RESPONSE_SERVLET + name;
-        }
-        else if (name.startsWith("jdbc"))
-        {
-            String regexp = "jdbc:(.+)#(.+)";
-            String dbmsName = null;
-            String query = null;
-            Pattern pattern = Pattern.compile(regexp);
-            Matcher matcher = pattern.matcher(name);
-            if (matcher.find())
-            {
-                dbmsName = matcher.group(1);
-                query = matcher.group(2);
-                dbmsName = dbmsName.replace("/", "&#47;");
-            }
-            prefixedName = TelegramConstants.PREFIX_PROCESS_RESPONSE_JDBC + dbmsName + "/" + query;
-        }
-
-        else
-        {
-            prefixedName = TelegramConstants.PREFIX_PROCESS_RESPONSE_METHOD + name;
-        }
-
-        return prefixedName;
     }
 
     private static String appendLineBreak(String str)
