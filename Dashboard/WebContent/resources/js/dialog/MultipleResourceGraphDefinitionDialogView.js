@@ -49,7 +49,13 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 														alert("Don't use '/'or'\\' in 'Summary Graph Name'.");
 														return;
 													}
-
+													
+													var selectedOpts = $('#multipleResourceGraphLstBox2 option');
+													if(selectedOpts.length==0)
+														{
+														alert("Please select 'Multiple Resource Graph Items'.");
+														return;
+														}
 													$("#" + option.dialogId)
 															.dialog("close");
 													if (!ins.op_[okObj]) {
@@ -112,6 +118,8 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 											// true;
 											$('#multipleResourceGraphLstBox1')
 													.removeAttr("disabled");
+											$('#multipleResourceGraphLstBox2')
+											.removeAttr("disabled");
 											$('#multipleResourceGraphItems')
 													.attr("disabled", true);
 											// alert("a");

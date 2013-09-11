@@ -159,7 +159,6 @@ ENS.tree.type.SIGNAL = "signal";
 ENS.tree.type.REPORT = "report";
 ENS.tree.type.MULTIPLERESOURCEGRAPH = "mulResGraph";
 
-
 ENS.tree.contextOption = [ {
 	menu_id : ENS.tree.ADD_SIGNAL_TYPE,
 	menu_name : "Add Signal",
@@ -397,5 +396,4 @@ ENS.svg.attribute = {
 
 ENS.report = {};
 ENS.report.DOWNLOAD_URL = wgp.common.getContextPath() + "/report/download";
-
 ENS.perfDoctor = {};

@@ -110,10 +110,10 @@ ENS.treeView = wgp.TreeView
 					var idAttribute = treeModel.idAttribute;
 					var targetTag;
 					var addPlace = "";
-					
+
 					if (parentTreeId !== null && parentTreeId !== undefined) {
 						var topNodeNum = $("#tree_area > ul > li").length;
-						
+
 						// Topノードがすでにあるときに、Topノードを追加する時は、他のTopノードの後に追加する。
 						// そうでない場合は、親ノードの下にノードを作成する。
 						if (topNodeNum !== 0 && parentTreeId === "") {
@@ -121,7 +121,8 @@ ENS.treeView = wgp.TreeView
 							targetTag = $("#tree_area ul li")[topNodeNum - 1];
 						} else {
 							addPlace = "last";
-							targetTag = this.getTreeNode(parentTreeId, idAttribute);
+							targetTag = this.getTreeNode(parentTreeId,
+									idAttribute);
 						}
 					}
 
@@ -684,9 +685,9 @@ ENS.treeView = wgp.TreeView
 						.map(function() {
 							return $(this).val();
 						});
-				
+
 				measurementItem = measurementList.get(0);
-				for (var i = 1; i < measurementList.length; i++) {
+				for ( var i = 1; i < measurementList.length; i++) {
 
 					measurementItem = measurementItem + ","
 							+ measurementList.get(i);
@@ -720,7 +721,7 @@ ENS.treeView = wgp.TreeView
 						});
 
 				measurementItem = measurementList.get(0);
-				for (var i = 1; i < measurementList.length; i++) {
+				for ( var i = 1; i < measurementList.length; i++) {
 
 					measurementItem = measurementItem + ","
 							+ measurementList.get(i);
@@ -1222,7 +1223,7 @@ ENS.treeView = wgp.TreeView
 								multipleResourceGraphDefinition.multipleResourceGraphName);
 				var measurementList = multipleResourceGraphDefinition.measurementItemIdList
 						.split(",");
-				for (var i = 0; i < measurementList.length; i++) {
+				for ( var i = 0; i < measurementList.length; i++) {
 					$('#multipleResourceGraphLstBox2').append(
 							"<option value='" + measurementList[i] + "'>"
 									+ measurementList[i] + "</option>");
@@ -1402,5 +1403,4 @@ ENS.treeView = wgp.TreeView
 				if (type == wgp.constants.syncType.SEARCH) {
 					this.renderAll();
 				}
-			}
-		});
+			});
