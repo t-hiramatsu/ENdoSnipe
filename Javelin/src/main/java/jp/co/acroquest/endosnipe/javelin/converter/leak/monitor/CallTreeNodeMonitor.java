@@ -28,9 +28,9 @@ package jp.co.acroquest.endosnipe.javelin.converter.leak.monitor;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * Javelin’†‚Å•Û‚³‚ê‚Ä‚¢‚éCallTreeNode”‚ÌÅ‘å’lA•½‹Ï’l‚ğZo‚·‚éƒNƒ‰ƒX
- * CallTree‚Ì—˜—p‚ªI‚í‚Á‚½Û‚ÉCallTree‚Ì’l‚ğ•Û‚µA
- * ƒŠƒ\[ƒXæ“¾—v‹“d•¶óM‚²‚Æ‚Éæ“¾‚µ‚½’l‚ğ‘—M‚·‚éB
+ * Javelinä¸­ã§ä¿æŒã•ã‚Œã¦ã„ã‚‹CallTreeNodeæ•°ã®æœ€å¤§å€¤ã€å¹³å‡å€¤ã‚’ç®—å‡ºã™ã‚‹ã‚¯ãƒ©ã‚¹
+ * CallTreeã®åˆ©ç”¨ãŒçµ‚ã‚ã£ãŸéš›ã«CallTreeã®å€¤ã‚’ä¿æŒã—ã€
+ * ãƒªã‚½ãƒ¼ã‚¹å–å¾—è¦æ±‚é›»æ–‡å—ä¿¡ã”ã¨ã«å–å¾—ã—ãŸå€¤ã‚’é€ä¿¡ã™ã‚‹ã€‚
  * 
  * @author S.Kimura
  * @author sakamoto
@@ -45,7 +45,7 @@ public class CallTreeNodeMonitor
     private static AtomicLong allNodeCount__ = new AtomicLong();
 
     /**
-     * ƒCƒ“ƒXƒ^ƒ“ƒX‰»–h~‚Ì‚½‚ß‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–é˜²æ­¢ã®ãŸã‚ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      */
     private CallTreeNodeMonitor()
     {
@@ -53,9 +53,9 @@ public class CallTreeNodeMonitor
     }
 
     /**
-     * I—¹‚µ‚½CallTree‚ª•Û‚µ‚Ä‚¢‚½nodeCount‚ğ’Ç‰Á
+     * çµ‚äº†ã—ãŸCallTreeãŒä¿æŒã—ã¦ã„ãŸnodeCountã‚’è¿½åŠ 
      * 
-     * @param nodeCount ’Ç‰Á‚·‚énodeCount
+     * @param nodeCount è¿½åŠ ã™ã‚‹nodeCount
      */
     public static void add(long nodeCount)
     {
@@ -71,9 +71,9 @@ public class CallTreeNodeMonitor
     }
 
     /**
-     * CallTree•Û”‚ğæ“¾‚·‚é
+     * CallTreeä¿æŒæ•°ã‚’å–å¾—ã™ã‚‹
      * 
-     * @return CallTree•Û”
+     * @return CallTreeä¿æŒæ•°
      */
     public static long getCallTreeCount()
     {
@@ -81,9 +81,9 @@ public class CallTreeNodeMonitor
     }
 
     /**
-     * CallTree‚ÌÅ‘åNode•Û”‚ğæ“¾‚·‚é
+     * CallTreeã®æœ€å¤§Nodeä¿æŒæ•°ã‚’å–å¾—ã™ã‚‹
      * 
-     * @return Å‘åNode•Û”
+     * @return æœ€å¤§Nodeä¿æŒæ•°
      */
     public static long getMaxNodeCount()
     {
@@ -91,9 +91,9 @@ public class CallTreeNodeMonitor
     }
 
     /**
-     * CallTree‚Ì‘Node•Û”‚ğæ“¾‚·‚é
+     * CallTreeã®ç·Nodeä¿æŒæ•°ã‚’å–å¾—ã™ã‚‹
      * 
-     * @return ‘Node•Û”
+     * @return ç·Nodeä¿æŒæ•°
      */
     public static long getAllNodeCount()
     {
@@ -101,7 +101,7 @@ public class CallTreeNodeMonitor
     }
 
     /**
-     * •Û‚µ‚Ä‚¢‚énodeCount‚ğ‰Šú‰»
+     * ä¿æŒã—ã¦ã„ã‚‹nodeCountã‚’åˆæœŸåŒ–
      */
     public static void clear()
     {

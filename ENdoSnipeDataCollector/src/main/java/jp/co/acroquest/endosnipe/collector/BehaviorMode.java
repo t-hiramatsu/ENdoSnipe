@@ -26,18 +26,18 @@
 package jp.co.acroquest.endosnipe.collector;
 
 /**
- * DataCollector �̓��샂�[�h�B
+ * DataCollector の動作モード。
  *
  * @author sakamoto
  */
 public enum BehaviorMode
 {
-    /** �T�[�r�X���[�h�œ��삵�܂��B */
+    /** サービスモードで動作します。 */
     SERVICE_MODE,
 
-    /** �v���O�C�����[�h�œ��삵�܂��B */
+    /** プラグインモードで動作します。 */
     PLUGIN_MODE,
 
-    /** �T�[�r�X���[�h�œ��삷�� DataCollector �ɐڑ�����`�œ��삵�܂��B */
+    /** サービスモードで動作する DataCollector に接続する形で動作します。 */
     CONNECT_MODE
 }

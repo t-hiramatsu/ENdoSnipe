@@ -26,79 +26,79 @@
 package jp.co.acroquest.endosnipe.common.logger;
 
 /**
- * ���ʃ��O�̂��߂̃��b�Z�[�W�R�[�h�ł��B<br />
+ * 共通ログのためのメッセージコードです。<br />
  * 
  * @author y-komori
  */
 public interface CommonLogMessageCodes
 {
     /**
-     * ��O�����������ꍇ�̃��b�Z�[�W�R�[�h�ł��B
+     * 例外が発生した場合のメッセージコードです。
      * <dl>
-     * <dt><b>�l :</b></dt>
+     * <dt><b>値 :</b></dt>
      * <dd>{@value}</dd>
      * </dl>
      */
     String EXCEPTION_OCCURED = "EECM0000";
 
     /**
-     * ��O�����������ꍇ�̃��b�Z�[�W�R�[�h�ł��B
+     * 例外が発生した場合のメッセージコードです。
      * <dl>
-     * <dt><b>�l :</b></dt>
+     * <dt><b>値 :</b></dt>
      * <dd>{@value}</dd>
      * </dl>
      */
     String EXCEPTION_OCCURED_WITH_RESASON = "EECM0001";
 
     /**
-     * �p�����[�^�� <code>null</code> �ł����Ă͂����Ȃ��ꍇ�̃��b�Z�[�W�R�[�h�ł��B
+     * パラメータが <code>null</code> であってはいけない場合のメッセージコードです。
      * <dl>
-     * <dt><b>�l :</b></dt>
+     * <dt><b>値 :</b></dt>
      * <dd>{@value}</dd>
      * </dl>
      */
     String CANT_BE_NULL = "EECM0002";
 
     /**
-     * �p�����[�^���󕶎���ł����Ă͂����Ȃ��ꍇ�̃��b�Z�[�W�R�[�h�ł��B
+     * パラメータが空文字列であってはいけない場合のメッセージコードです。
      * <dl>
-     * <dt><b>�l :</b></dt>
+     * <dt><b>値 :</b></dt>
      * <dd>{@value}</dd>
      * </dl>
      */
     String CANT_BE_EMPTY_STRING = "EECM0003";
 
     /**
-     * �^���z�肵�Ă���^�Ɉ�v���Ȃ��ꍇ�̃��b�Z�[�W�R�[�h�ł��B
+     * 型が想定している型に一致しない場合のメッセージコードです。
      * <dl>
-     * <dt><b>�l :</b></dt>
+     * <dt><b>値 :</b></dt>
      * <dd>{@value}</dd>
      * </dl>
      */
     String TYPE_MISS_MATCH = "EECM0004";
 
     /**
-     * �\�����ʃG���[�����������ꍇ�̃��b�Z�[�W�R�[�h�ł��B
+     * 予期せぬエラーが発生した場合のメッセージコードです。
      * <dl>
-     * <dt><b>�l :</b></dt>
+     * <dt><b>値 :</b></dt>
      * <dd>{@value}</dd>
      * </dl>
      */
     String UNEXPECTED_ERROR = "EECM0005";
 
     /**
-     * Eclipse 3.4 �ȍ~���K�v�ȋ@�\��ǂݍ��񂾏ꍇ�̃��b�Z�[�W�R�[�h�ł��B
+     * Eclipse 3.4 以降が必要な機能を読み込んだ場合のメッセージコードです。
      * <dl>
-     * <dt><b>�l :</b></dt>
+     * <dt><b>値 :</b></dt>
      * <dd>{@value}</dd>
      * </dl>
      */
     String ECLIPSE_3_4_IS_REQUIRED = "WECM0011";
 
     /**
-     * �N���b�v�{�[�h�ɃR�s�[����f�[�^���傫������ꍇ�̃��b�Z�[�W�R�[�h�ł��B
+     * クリップボードにコピーするデータが大きすぎる場合のメッセージコードです。
      * <dl>
-     * <dt><b>�l :</b></dt>
+     * <dt><b>値 :</b></dt>
      * <dd>{@value}</dd>
      * </dl>
      */

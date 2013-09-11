@@ -29,7 +29,7 @@ import jp.co.acroquest.endosnipe.common.entity.ItemType;
 import jp.co.acroquest.endosnipe.javelin.bean.proc.ProcInfo;
 
 /**
- * StatInfo����V�X�e���S�̂�fd���̉񐔂��擾����B
+ * StatInfoからシステム全体のfd数の回数を取得する。
  * 
  * @author eriguchi
  */
@@ -38,7 +38,7 @@ public class SysFdCountGetter extends ProcResourceGetter
 
     /**
      * 
-     * @param procParser ���\�[�X���擾�p
+     * @param procParser リソース情報取得用
      */
     public SysFdCountGetter(ProcParser procParser)
     {

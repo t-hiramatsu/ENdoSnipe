@@ -36,20 +36,20 @@ import java.util.Map;
 import jp.co.acroquest.endosnipe.perfdoctor.WarningUnit;
 
 /**
- * •¡”‚Ìƒ‹[ƒ‹‚ğ‹¤’Ê‰»‚·‚éƒtƒBƒ‹ƒ^
+ * è¤‡æ•°ã®ãƒ«ãƒ¼ãƒ«ã‚’å…±é€šåŒ–ã™ã‚‹ãƒ•ã‚£ãƒ«ã‚¿
  * @author fujii
  *
  */
 public class UnifiedFilter
 {
-    /** ƒZƒpƒŒ[ƒ^ */
+    /** ã‚»ãƒ‘ãƒ¬ãƒ¼ã‚¿ */
     private static final String  SEPARATOR = ",";
 
-    /** “ˆê‚·‚éƒ‹[ƒ‹‚ÌƒŠƒXƒg */
+    /** çµ±ä¸€ã™ã‚‹ãƒ«ãƒ¼ãƒ«ã®ãƒªã‚¹ãƒˆ */
     private final List<String[]> unifiedRulesList_;
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^<br />
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿<br />
      * 
      */
     public UnifiedFilter()
@@ -63,9 +63,9 @@ public class UnifiedFilter
     }
 
     /**
-     * ƒtƒBƒ‹ƒ^[‚ğ‚©‚¯‚éB
-     * @param warningUnitList WarningUnit‚ÌƒŠƒXƒg
-     * @return ƒtƒBƒ‹ƒ^[Œã‚ÌŒ‹‰Ê
+     * ãƒ•ã‚£ãƒ«ã‚¿ãƒ¼ã‚’ã‹ã‘ã‚‹ã€‚
+     * @param warningUnitList WarningUnitã®ãƒªã‚¹ãƒˆ
+     * @return ãƒ•ã‚£ãƒ«ã‚¿ãƒ¼å¾Œã®çµæœ
      */
     public List<WarningUnit> doFilter(final List<WarningUnit> warningUnitList)
     {
@@ -74,7 +74,7 @@ public class UnifiedFilter
 
         Map<String, List<WarningUnit>> warningMap = new LinkedHashMap<String, List<WarningUnit>>();
 
-        // ƒ‹[ƒ‹IDAƒNƒ‰ƒX–¼Aƒƒ\ƒbƒh–¼Ad—v“x‚ğƒL[‚ÉMap‚ğì¬‚·‚éB
+        // ãƒ«ãƒ¼ãƒ«IDã€ã‚¯ãƒ©ã‚¹åã€ãƒ¡ã‚½ãƒƒãƒ‰åã€é‡è¦åº¦ã‚’ã‚­ãƒ¼ã«Mapã‚’ä½œæˆã™ã‚‹ã€‚
         for (WarningUnit warningUnit : warningUnitList)
         {
             String[] idArray = searchUnifiedId(warningUnit.getId(), this.unifiedRulesList_);
@@ -84,15 +84,15 @@ public class UnifiedFilter
             }
         }
 
-        // Map‚É“ü—Í‚³‚ê‚½WarningUnit‚ÌƒŠƒXƒg‚ğo—Í‚·‚éB
+        // Mapã«å…¥åŠ›ã•ã‚ŒãŸWarningUnitã®ãƒªã‚¹ãƒˆã‚’å‡ºåŠ›ã™ã‚‹ã€‚
         Collection<List<WarningUnit>> col = warningMap.values();
         for (List<WarningUnit> list : col)
         {
-            // —Dæ“x‚Ì‚‚¢ƒ‹[ƒ‹‚ÌID‚É‚æ‚éŒx‚ğ‚·‚×‚ÄƒŠƒXƒg‚É“ü‚êA
-            // ‚»‚Ì‚Æ‚«‚Ì‚ğMap‚É“o˜^‚·‚éB
+            // å„ªå…ˆåº¦ã®é«˜ã„ãƒ«ãƒ¼ãƒ«ã®IDã«ã‚ˆã‚‹è­¦å‘Šã‚’ã™ã¹ã¦ãƒªã‚¹ãƒˆã«å…¥ã‚Œã€
+            // ãã®ã¨ãã®æ™‚åˆ»ã‚’Mapã«ç™»éŒ²ã™ã‚‹ã€‚
             List<WarningUnit> deleteTargetList = createDeleteList(list);
 
-            // •ª—Ş‚µ‚½Œ‹‰Ê‚ğŒ‹‡‚·‚éB
+            // åˆ†é¡ã—ãŸçµæœã‚’çµåˆã™ã‚‹ã€‚
             joinList(deleteList, deleteTargetList);
         }
         copyList.removeAll(deleteList);
@@ -101,10 +101,10 @@ public class UnifiedFilter
     }
 
     /**
-     * w’è‚µ‚½WarningUnit‚ÌID‚ª“ˆê‚·‚éWarningUnit‚ÌID‚ÌƒŠƒXƒg‚Æˆê’v‚·‚é‚©”»’è‚·‚éB
-     * @param id WarningUnit‚ÌID
-     * @param unifiedList “ˆê‚·‚éWarningUnit‚ÌƒŠƒXƒg
-     * @return ˆø”‚Åw’è‚µ‚½ID‚ªŠÜ‚Ü‚ê‚Ä‚¢‚é“ˆê‚·‚éID‚Ì‘g(Œ©‚Â‚©‚ç‚È‚¢ê‡‚Ínull‚ğ•Ô‚·)
+     * æŒ‡å®šã—ãŸWarningUnitã®IDãŒçµ±ä¸€ã™ã‚‹WarningUnitã®IDã®ãƒªã‚¹ãƒˆã¨ä¸€è‡´ã™ã‚‹ã‹åˆ¤å®šã™ã‚‹ã€‚
+     * @param id WarningUnitã®ID
+     * @param unifiedList çµ±ä¸€ã™ã‚‹WarningUnitã®ãƒªã‚¹ãƒˆ
+     * @return å¼•æ•°ã§æŒ‡å®šã—ãŸIDãŒå«ã¾ã‚Œã¦ã„ã‚‹çµ±ä¸€ã™ã‚‹IDã®çµ„(è¦‹ã¤ã‹ã‚‰ãªã„å ´åˆã¯nullã‚’è¿”ã™)
      */
     private String[] searchUnifiedId(final String id, final List<String[]> unifiedList)
     {
@@ -123,10 +123,10 @@ public class UnifiedFilter
     }
 
     /**
-     * w’è‚µ‚½WarningUnit‚ÌID‚ª—Dæƒ‹[ƒ‹‚ÌID‚Å‚ ‚é‚©‚ğ”»’è‚·‚éB
-     * @param id WarningUnit‚ÌID
-     * @param unifiedList “ˆê‚·‚é‚½‚ß‚ÌWarningUnit‚ÌƒŠƒXƒg
-     * @return ˆø”‚Åw’è‚µ‚½ID‚ª—Dæƒ‹[ƒ‹‚Å‚ ‚éA‚©‚Â“¯ƒ‹[ƒ‹‚É‘Î‚·‚éƒtƒBƒ‹ƒ^ˆ—‚Å‚È‚¢B
+     * æŒ‡å®šã—ãŸWarningUnitã®IDãŒå„ªå…ˆãƒ«ãƒ¼ãƒ«ã®IDã§ã‚ã‚‹ã‹ã‚’åˆ¤å®šã™ã‚‹ã€‚
+     * @param id WarningUnitã®ID
+     * @param unifiedList çµ±ä¸€ã™ã‚‹ãŸã‚ã®WarningUnitã®ãƒªã‚¹ãƒˆ
+     * @return å¼•æ•°ã§æŒ‡å®šã—ãŸIDãŒå„ªå…ˆãƒ«ãƒ¼ãƒ«ã§ã‚ã‚‹ã€ã‹ã¤åŒãƒ«ãƒ¼ãƒ«ã«å¯¾ã™ã‚‹ãƒ•ã‚£ãƒ«ã‚¿å‡¦ç†ã§ãªã„ã€‚
      */
     private boolean containsSupperiorId(final String id, final List<String[]> unifiedList)
     {
@@ -144,17 +144,17 @@ public class UnifiedFilter
     }
 
     /**
-     * —Dæ“x‚ÉŠî‚Ã‚«AŒxƒŠƒXƒg‚©‚çíœ‚·‚éƒŠƒXƒg‚ğì¬‚·‚éB<br>
-     * ˆÈ‰º‚Ì‡‚Éˆø”‚Å—^‚¦‚½ƒŠƒXƒg‚ğœ‚­‚±‚Æ‚ÅAíœ‘ÎÛ‚ÌƒŠƒXƒg‚ğì¬‚·‚éB<br>
+     * å„ªå…ˆåº¦ã«åŸºã¥ãã€è­¦å‘Šãƒªã‚¹ãƒˆã‹ã‚‰å‰Šé™¤ã™ã‚‹ãƒªã‚¹ãƒˆã‚’ä½œæˆã™ã‚‹ã€‚<br>
+     * ä»¥ä¸‹ã®é †ã«å¼•æ•°ã§ä¸ãˆãŸãƒªã‚¹ãƒˆã‚’é™¤ãã“ã¨ã§ã€å‰Šé™¤å¯¾è±¡ã®ãƒªã‚¹ãƒˆã‚’ä½œæˆã™ã‚‹ã€‚<br>
      * <ol>
-     * <li>—Dæ“x‚Ì‚‚¢ƒ‹[ƒ‹‚É‘Î‚·‚éŒx</li>
-     * <li>ŠK‘w‚Ì[‚¢Œx</li>
+     * <li>å„ªå…ˆåº¦ã®é«˜ã„ãƒ«ãƒ¼ãƒ«ã«å¯¾ã™ã‚‹è­¦å‘Š</li>
+     * <li>éšå±¤ã®æ·±ã„è­¦å‘Š</li>
      * </ol>
-     * ‚È‚¨A—Dæ“x‚Ì’á‚¢ƒ‹[ƒ‹‚É‘Î‚·‚éŒx‚ÍA‚·‚Å‚É“o˜^‚µ‚½Œx‚ÌŠÔ‚Æd•¡‚ª”­¶‚·‚éê‡‚ÍA
-     * íœ‘ÎÛ‚ÌƒŠƒXƒg‚É‰Á‚¦‚éB<br />
+     * ãªãŠã€å„ªå…ˆåº¦ã®ä½ã„ãƒ«ãƒ¼ãƒ«ã«å¯¾ã™ã‚‹è­¦å‘Šã¯ã€ã™ã§ã«ç™»éŒ²ã—ãŸè­¦å‘Šã®æ™‚é–“ã¨é‡è¤‡ãŒç™ºç”Ÿã™ã‚‹å ´åˆã¯ã€
+     * å‰Šé™¤å¯¾è±¡ã®ãƒªã‚¹ãƒˆã«åŠ ãˆã‚‹ã€‚<br />
      * <br />
-     * @param list íœ‘O‚ÌŒx‚ÌƒŠƒXƒg
-     * @return íœ‘ÎÛ‚ÌŒx‚ÌƒŠƒXƒg
+     * @param list å‰Šé™¤å‰ã®è­¦å‘Šã®ãƒªã‚¹ãƒˆ
+     * @return å‰Šé™¤å¯¾è±¡ã®è­¦å‘Šã®ãƒªã‚¹ãƒˆ
      * 
      */
     private List<WarningUnit> createDeleteList(final List<WarningUnit> list)
@@ -162,7 +162,7 @@ public class UnifiedFilter
         List<WarningUnit> inferriorList = new ArrayList<WarningUnit>();
         List<long[]> timeList = new ArrayList<long[]>();
 
-        // —Dæ“x‚Ì‚‚¢ƒ‹[ƒ‹ID‚É‘Î‰‚·‚éŒx‚ÌƒŠƒXƒg‚Æ—Dæ“x‚Ì’á‚¢ƒ‹[ƒ‹ID‚É‘Î‰‚·‚éŒx‚ÌƒŠƒXƒg‚É•ª—Ş‚·‚éB
+        // å„ªå…ˆåº¦ã®é«˜ã„ãƒ«ãƒ¼ãƒ«IDã«å¯¾å¿œã™ã‚‹è­¦å‘Šã®ãƒªã‚¹ãƒˆã¨å„ªå…ˆåº¦ã®ä½ã„ãƒ«ãƒ¼ãƒ«IDã«å¯¾å¿œã™ã‚‹è­¦å‘Šã®ãƒªã‚¹ãƒˆã«åˆ†é¡ã™ã‚‹ã€‚
         for (WarningUnit warningUnit : list)
         {
             String ruleId = warningUnit.getId();
@@ -178,18 +178,18 @@ public class UnifiedFilter
             }
         }
 
-        // —Dæ“x‚Ì’á‚¢ƒ‹[ƒ‹ID‚É‘Î‰‚·‚éŒx‚ÌƒŠƒXƒg‚ª‹ó‚Ìê‡A‹ó‚Ì‚Ü‚Ü•Ô‚·B
+        // å„ªå…ˆåº¦ã®ä½ã„ãƒ«ãƒ¼ãƒ«IDã«å¯¾å¿œã™ã‚‹è­¦å‘Šã®ãƒªã‚¹ãƒˆãŒç©ºã®å ´åˆã€ç©ºã®ã¾ã¾è¿”ã™ã€‚
         if (inferriorList.size() == 0)
         {
             return inferriorList;
         }
 
-        // ŒŸo’l‡‚ğƒL[‚É•À‚Ñ‚©‚¦‚éB
+        // æ¤œå‡ºå€¤é †ã‚’ã‚­ãƒ¼ã«ä¸¦ã³ã‹ãˆã‚‹ã€‚
         Collections.sort(inferriorList, new FileLineComparator());
 
         List<WarningUnit> deleteList = new ArrayList<WarningUnit>();
 
-        // —Dæ“x‚Ì’á‚¢ƒŠƒXƒg‚ğŒxƒŠƒXƒg‚É‰Á‚¦‚é‚©”»’è‚·‚éB
+        // å„ªå…ˆåº¦ã®ä½ã„ãƒªã‚¹ãƒˆã‚’è­¦å‘Šãƒªã‚¹ãƒˆã«åŠ ãˆã‚‹ã‹åˆ¤å®šã™ã‚‹ã€‚
         for (WarningUnit warningUnit : inferriorList)
         {
             if (isTimeContains(warningUnit, timeList))
@@ -206,11 +206,11 @@ public class UnifiedFilter
     }
 
     /**
-     * w’è‚µ‚½Œx‚ÌŠÔ‚ª—LŒø‰»‚Ç‚¤‚©B<br />
-     * ‚·‚Å‚É“o˜^‚µ‚½Œx‚ÌŠÔ‚Æd‚È‚é‚©‚Å”»’f‚·‚éB<br />
-     * @param warningUnit Œx
-     * @param timeList ‚·‚Å‚É“o˜^‚µ‚½ŠÔ‚ÌƒŠƒXƒg
-     * @return true:‚·‚Å‚É“o˜^‚µ‚½Œx‚ÌŠÔ‚Æd‚È‚éAfalse:ŠÔ‚ªd‚È‚ç‚È‚¢B
+     * æŒ‡å®šã—ãŸè­¦å‘Šã®æ™‚é–“ãŒæœ‰åŠ¹åŒ–ã©ã†ã‹ã€‚<br />
+     * ã™ã§ã«ç™»éŒ²ã—ãŸè­¦å‘Šã®æ™‚é–“ã¨é‡ãªã‚‹ã‹ã§åˆ¤æ–­ã™ã‚‹ã€‚<br />
+     * @param warningUnit è­¦å‘Š
+     * @param timeList ã™ã§ã«ç™»éŒ²ã—ãŸæ™‚é–“ã®ãƒªã‚¹ãƒˆ
+     * @return true:ã™ã§ã«ç™»éŒ²ã—ãŸè­¦å‘Šã®æ™‚é–“ã¨é‡ãªã‚‹ã€false:æ™‚é–“ãŒé‡ãªã‚‰ãªã„ã€‚
      */
     private boolean isTimeContains(final WarningUnit warningUnit, final List<long[]> timeList)
     {
@@ -219,7 +219,7 @@ public class UnifiedFilter
 
         for (long[] time : timeList)
         {
-            // ŠJnŠÔ‚©I—¹ŠÔ‚ª¡‚Ü‚Å“o˜^‚µ‚½Œx‚ÌŠÔ“à‚ÉŠÜ‚Ü‚ê‚é‚©‚Ç‚¤‚©‚Å”»’f‚·‚éB
+            // é–‹å§‹æ™‚é–“ã‹çµ‚äº†æ™‚é–“ãŒä»Šã¾ã§ç™»éŒ²ã—ãŸè­¦å‘Šã®æ™‚é–“å†…ã«å«ã¾ã‚Œã‚‹ã‹ã©ã†ã‹ã§åˆ¤æ–­ã™ã‚‹ã€‚
             if ((time[0] <= endTime && startTime <= time[1]))
             {
                 return true;
@@ -229,23 +229,23 @@ public class UnifiedFilter
     }
 
     /**
-     * WarningUnit‚ÌƒŠƒXƒg‚©‚çA¯•Ê‚Ì‚½‚ß‚ÌMap‚ğì¬‚·‚éB<br />
-     * ƒ‹[ƒ‹IDAƒƒOƒtƒ@ƒCƒ‹–¼Ad—v“x‚ğƒL[‚ÉMap‚ğì¬‚·‚éB<br />
-     * @param warningUnitList ¯•Êî•ñ‚ğ•Û‘¶‚·‚é‘ÎÛ‚ÌwarningUnit‚ÌƒŠƒXƒg 
-     * @param idArray 2‚Â‚Ìƒ‹[ƒ‹‚ÌŒ‹‰Ê‚ğ“ˆê‚·‚é‚½‚ß‚ÌƒŠƒXƒg
-     * @param warningMap Œx‚ğŠi”[‚·‚é‚½‚ß‚ÌMap
+     * WarningUnitã®ãƒªã‚¹ãƒˆã‹ã‚‰ã€è­˜åˆ¥ã®ãŸã‚ã®Mapã‚’ä½œæˆã™ã‚‹ã€‚<br />
+     * ãƒ«ãƒ¼ãƒ«IDã€ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«åã€é‡è¦åº¦ã‚’ã‚­ãƒ¼ã«Mapã‚’ä½œæˆã™ã‚‹ã€‚<br />
+     * @param warningUnitList è­˜åˆ¥æƒ…å ±ã‚’ä¿å­˜ã™ã‚‹å¯¾è±¡ã®warningUnitã®ãƒªã‚¹ãƒˆ 
+     * @param idArray 2ã¤ã®ãƒ«ãƒ¼ãƒ«ã®çµæœã‚’çµ±ä¸€ã™ã‚‹ãŸã‚ã®ãƒªã‚¹ãƒˆ
+     * @param warningMap è­¦å‘Šã‚’æ ¼ç´ã™ã‚‹ãŸã‚ã®Map
      */
     private void createWarningMap(final WarningUnit warningUnit, final String[] idArray,
             final Map<String, List<WarningUnit>> warningMap)
     {
         List<WarningUnit> unitList;
-        // ‘S‚Ä‚ÌwarningUnit‚ğæ‚èo‚µAƒƒOƒtƒ@ƒCƒ‹–¼Ad—v“x‚ğƒL[‚ÉMap‚ğì¬‚·‚éB
+        // å…¨ã¦ã®warningUnitã‚’å–ã‚Šå‡ºã—ã€ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«åã€é‡è¦åº¦ã‚’ã‚­ãƒ¼ã«Mapã‚’ä½œæˆã™ã‚‹ã€‚
         String key =
                      idArray[0] + SEPARATOR + warningUnit.getLogFileName() + SEPARATOR
                              + warningUnit.getLevel();
         unitList = warningMap.get(key);
-        // Map‚Éw’è‚µ‚½ƒL[‚ª‘¶İ‚µ‚È‚¢‚Æ‚«AV‚µ‚­ƒŠƒXƒg‚ğì¬‚·‚éB
-        // ƒL[‚ª‘¶İ‚·‚éê‡‚ÍAƒL[‚É‘Î‰‚·‚éƒŠƒXƒg‚ÉAwarningUnit‚ğ’Ç‰Á‚·‚éB
+        // Mapã«æŒ‡å®šã—ãŸã‚­ãƒ¼ãŒå­˜åœ¨ã—ãªã„ã¨ãã€æ–°ã—ããƒªã‚¹ãƒˆã‚’ä½œæˆã™ã‚‹ã€‚
+        // ã‚­ãƒ¼ãŒå­˜åœ¨ã™ã‚‹å ´åˆã¯ã€ã‚­ãƒ¼ã«å¯¾å¿œã™ã‚‹ãƒªã‚¹ãƒˆã«ã€warningUnitã‚’è¿½åŠ ã™ã‚‹ã€‚
         if (unitList == null)
         {
             unitList = new ArrayList<WarningUnit>();
@@ -255,11 +255,11 @@ public class UnifiedFilter
     }
 
     /**
-     * 2‚Â‚ÌƒŠƒXƒg‚ğŒ‹‡‚·‚éB
-     * <code>oldList</code> ‚ª <code>null</code> ‚Ìê‡‚Í‰½‚à‚µ‚È‚¢B
+     * 2ã¤ã®ãƒªã‚¹ãƒˆã‚’çµåˆã™ã‚‹ã€‚
+     * <code>oldList</code> ãŒ <code>null</code> ã®å ´åˆã¯ä½•ã‚‚ã—ãªã„ã€‚
      *
-     * @param oldList Œ‹‡æ‚ÌƒŠƒXƒg
-     * @param unitList V‹K‚Å’Ç‰Á‚·‚éƒŠƒXƒg
+     * @param oldList çµåˆå…ˆã®ãƒªã‚¹ãƒˆ
+     * @param unitList æ–°è¦ã§è¿½åŠ ã™ã‚‹ãƒªã‚¹ãƒˆ
      */
     private void joinList(final List<WarningUnit> oldList, final List<WarningUnit> unitList)
     {

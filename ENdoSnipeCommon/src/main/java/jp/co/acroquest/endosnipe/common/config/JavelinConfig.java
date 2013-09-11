@@ -28,7 +28,7 @@ package jp.co.acroquest.endosnipe.common.config;
 import java.util.Properties;
 
 /**
- * Javelin‚Ìİ’è‚ğ•Û‚·‚é‚½‚ß‚ÌƒNƒ‰ƒX‚Å‚·B<br />
+ * Javelinã®è¨­å®šã‚’ä¿æŒã™ã‚‹ãŸã‚ã®ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  * 
  * @author eriguchi
  */
@@ -288,7 +288,7 @@ public class JavelinConfig extends JavelinConfigBase
 
     private static String itemNameNoPrefixList__;
 
-    /** Javelin‚ğ“K—p‚µ‚½ƒvƒƒZƒX‚ª‘®‚·‚éƒNƒ‰ƒXƒ^–¼ÌB */
+    /** Javelinã‚’é©ç”¨ã—ãŸãƒ—ãƒ­ã‚»ã‚¹ãŒå±ã™ã‚‹ã‚¯ãƒ©ã‚¹ã‚¿åç§°ã€‚ */
     private static String clusterName__;
 
     private static boolean collectHadoopAgentResources__;
@@ -296,9 +296,9 @@ public class JavelinConfig extends JavelinConfigBase
     private static boolean collectHBaseAgentResources__;
 
     /**
-     * {@link JavelinConfig} ‚ğ\’z‚µ‚Ü‚·B<br />
+     * {@link JavelinConfig} ã‚’æ§‹ç¯‰ã—ã¾ã™ã€‚<br />
      *
-     * @param absoluteJarDirectory Jar ‚ª‘¶İ‚·‚éâ‘ÎƒpƒX
+     * @param absoluteJarDirectory Jar ãŒå­˜åœ¨ã™ã‚‹çµ¶å¯¾ãƒ‘ã‚¹
      */
     public JavelinConfig(final String absoluteJarDirectory)
     {
@@ -307,7 +307,7 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * {@link JavelinConfig} ‚ğ\’z‚µ‚Ü‚·B<br />
+     * {@link JavelinConfig} ã‚’æ§‹ç¯‰ã—ã¾ã™ã€‚<br />
      */
     public JavelinConfig()
     {
@@ -316,7 +316,7 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * ‰Šú‰»
+     * åˆæœŸåŒ–
      */
     private void init()
     {
@@ -468,8 +468,8 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * ƒAƒNƒZƒXƒ|[ƒg‚ğİ’è‚·‚éB
-     * @param acceptPort ƒAƒNƒZƒXƒ|[ƒg
+     * ã‚¢ã‚¯ã‚»ã‚¹ãƒãƒ¼ãƒˆã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param acceptPort ã‚¢ã‚¯ã‚»ã‚¹ãƒãƒ¼ãƒˆ
      */
     public void setAcceptPort(final int acceptPort)
     {
@@ -486,8 +486,8 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * ƒAƒNƒZƒXƒ|[ƒg”ÍˆÍÅ‘å’l‚ğİ’è‚·‚éB
-     * @param acceptPortRangeMax ƒAƒNƒZƒXƒ|[ƒg”ÍˆÍÅ‘å’l
+     * ã‚¢ã‚¯ã‚»ã‚¹ãƒãƒ¼ãƒˆç¯„å›²æœ€å¤§å€¤ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param acceptPortRangeMax ã‚¢ã‚¯ã‚»ã‚¹ãƒãƒ¼ãƒˆç¯„å›²æœ€å¤§å€¤
      */
     public void setAcceptPortRangeMax(final int acceptPortRangeMax)
     {
@@ -504,8 +504,8 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * Ú‘±ƒzƒXƒg‚ğİ’è‚·‚éB
-     * @param connectHost Ú‘±ƒzƒXƒg
+     * æ¥ç¶šãƒ›ã‚¹ãƒˆã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param connectHost æ¥ç¶šãƒ›ã‚¹ãƒˆ
      */
     public void setConnectHost(final String connectHost)
     {
@@ -522,8 +522,8 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * Ú‘±ƒ|[ƒg‚ğİ’è‚·‚éB
-     * @param connectPort Ú‘±ƒ|[ƒg
+     * æ¥ç¶šãƒãƒ¼ãƒˆã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param connectPort æ¥ç¶šãƒãƒ¼ãƒˆ
      */
     public void setConnectPort(final int connectPort)
     {
@@ -540,8 +540,8 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * ƒG[ƒWƒFƒ“ƒg–¼‚ğİ’è‚·‚éB
-     * @param agentName ƒG[ƒWƒFƒ“ƒg–¼
+     * ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆåã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param agentName ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆå
      */
     public void setAgentName(final String agentName)
     {
@@ -648,7 +648,7 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * AutoExcludeThresholdCount‚ğİ’è‚·‚éB
+     * AutoExcludeThresholdCountã‚’è¨­å®šã™ã‚‹ã€‚
      * @param autoExcludeThresholdCount AutoExcludeThresholdCount
      */
     public void setAutoExcludeThresholdCount(final int autoExcludeThresholdCount)
@@ -666,7 +666,7 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * AutoExcludeThresholdTime‚ğİ’è‚·‚éB
+     * AutoExcludeThresholdTimeã‚’è¨­å®šã™ã‚‹ã€‚
      * @param autoExcludeThresholdTime AutoExcludeThresholdTime
      */
     public void setAutoExcludeThresholdTime(final int autoExcludeThresholdTime)
@@ -738,7 +738,7 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * BytecodeControlCountMax‚ğİ’è‚·‚éB
+     * BytecodeControlCountMaxã‚’è¨­å®šã™ã‚‹ã€‚
      * @param bytecodeControlCountMax BytecodeControlCountMax
      */
     public void setBytecodeControlCountMax(final int bytecodeControlCountMax)
@@ -756,7 +756,7 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * ByteCodeExcludePolicy‚ğİ’è‚·‚éB
+     * ByteCodeExcludePolicyã‚’è¨­å®šã™ã‚‹ã€‚
      * @param byteCodeExcludePolicy ByteCodeExcludePolicy
      */
     public void setByteCodeExcludePolicy(final int byteCodeExcludePolicy)
@@ -774,7 +774,7 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * BytecodeLengthMax‚ğİ’è‚·‚éB
+     * BytecodeLengthMaxã‚’è¨­å®šã™ã‚‹ã€‚
      * @param bytecodeLengthMax BytecodeLengthMax
      */
     public void setBytecodeLengthMax(final int bytecodeLengthMax)
@@ -807,7 +807,7 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * CallTreeAll‚ğİ’è‚·‚éB
+     * CallTreeAllã‚’è¨­å®šã™ã‚‹ã€‚
      * @param callTreeAll CallTreeAll
      */
     public void setCallTreeAll(final boolean callTreeAll)
@@ -822,7 +822,7 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * CallTreeEnabled‚ğİ’è‚·‚éB
+     * CallTreeEnabledã‚’è¨­å®šã™ã‚‹ã€‚
      * @param isCallTreeEnabled CallTreeEnabled
      */
     public void setCallTreeEnabled(final boolean isCallTreeEnabled)
@@ -912,7 +912,7 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * CollectionInterval‚ğİ’è‚·‚é
+     * CollectionIntervalã‚’è¨­å®šã™ã‚‹
      * @param collectionInterval CollectionInterval
      */
     public void setCollectionInterval(final int collectionInterval)
@@ -930,7 +930,7 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * CollectionLeakDetectDepth‚ğİ’è‚·‚éB
+     * CollectionLeakDetectDepthã‚’è¨­å®šã™ã‚‹ã€‚
      * @param collectionLeakDetectDepth CollectionLeakDetectDepth
      */
     public void setCollectionLeakDetectDepth(final int collectionLeakDetectDepth)
@@ -966,7 +966,7 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * CollectionTraceMax‚ğİ’è‚·‚éB
+     * CollectionTraceMaxã‚’è¨­å®šã™ã‚‹ã€‚
      * @param collectionTraceMax CollectionTraceMax
      */
     public void setCollectionTraceMax(final int collectionTraceMax)
@@ -984,7 +984,7 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * Detach‚ğİ’è‚·‚éB
+     * Detachã‚’è¨­å®šã™ã‚‹ã€‚
      * @param detach
      */
     public void setDetach(final boolean detach)
@@ -1020,7 +1020,7 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * EventInterval‚ğİ’è‚·‚éB
+     * EventIntervalã‚’è¨­å®šã™ã‚‹ã€‚
      * @param eventInterval EventInterval
      */
     public void setEventInterval(final long eventInterval)
@@ -1056,7 +1056,7 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * Exclude‚ğİ’è‚·‚éB
+     * Excludeã‚’è¨­å®šã™ã‚‹ã€‚
      * @param exclude Exclude
      */
     public void setExclude(final String exclude)
@@ -1074,7 +1074,7 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * FullGCList‚ğİ’è‚·‚éB
+     * FullGCListã‚’è¨­å®šã™ã‚‹ã€‚
      * @param fullGCList FullGCList
      */
     public void setFullGCList(final String fullGCList)
@@ -1110,7 +1110,7 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * HeapDumpDir‚ğİ’è‚·‚éB
+     * HeapDumpDirã‚’è¨­å®šã™ã‚‹ã€‚
      * @param heapDumpDir HeapDumpDir
      */
     public void setHeapDumpDir(final String heapDumpDir)
@@ -1128,7 +1128,7 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * Include‚ğİ’è‚·‚éB
+     * Includeã‚’è¨­å®šã™ã‚‹ã€‚
      * @param include
      */
     public void setInclude(final String include)
@@ -1146,7 +1146,7 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * InheritanceDepth‚ğİ’è‚·‚éB
+     * InheritanceDepthã‚’è¨­å®šã™ã‚‹ã€‚
      * @param inheritanceDepth InheritanceDepth
      */
     public void setInheritanceDepth(final int inheritanceDepth)
@@ -1272,7 +1272,7 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * LicensePath‚ğİ’è‚·‚éB
+     * LicensePathã‚’è¨­å®šã™ã‚‹ã€‚
      * @param licensePath LicensePath
      */
     public void setLicensePath(final String licensePath)
@@ -1344,7 +1344,7 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * LogJvnMax‚ğİ’è‚·‚éB
+     * LogJvnMaxã‚’è¨­å®šã™ã‚‹ã€‚
      * @param logJvnMax LogJvnMax
      */
     public void setLogJvnMax(final int logJvnMax)
@@ -1362,7 +1362,7 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * LogZipMax‚ğİ’è‚·‚éB
+     * LogZipMaxã‚’è¨­å®šã™ã‚‹ã€‚
      * @param logZipMax LogZipMax
      */
     public void setLogZipMax(final int logZipMax)
@@ -1398,7 +1398,7 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * RecordStrategy‚ğİ’è‚·‚éB
+     * RecordStrategyã‚’è¨­å®šã™ã‚‹ã€‚
      * @param recordStrategy RecordStrategy
      */
     public void setRecordStrategy(final String recordStrategy)
@@ -1452,7 +1452,7 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * SerializeFile‚ğİ’è‚·‚éB
+     * SerializeFileã‚’è¨­å®šã™ã‚‹ã€‚
      * @param serializeFile SerializeFile
      */
     public void setSerializeFile(final String serializeFile)
@@ -1524,7 +1524,7 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * SystemLogLevel‚ğİ’è‚·‚éB
+     * SystemLogLevelã‚’è¨­å®šã™ã‚‹ã€‚
      * @param systemLogLevel SystemLogLevel
      */
     public void setSystemLogLevel(final String systemLogLevel)
@@ -1542,7 +1542,7 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * SystemLogNumMax‚ğİ’è‚·‚éB
+     * SystemLogNumMaxã‚’è¨­å®šã™ã‚‹ã€‚
      * @param systemLogNumMax SystemLogNumMax
      */
     public void setSystemLogNumMax(final int systemLogNumMax)
@@ -1560,7 +1560,7 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * SystemLogSizeMax‚ğİ’è‚·‚éB
+     * SystemLogSizeMaxã‚’è¨­å®šã™ã‚‹ã€‚
      * @param systemLogSizeMax SystemLogSizeMax
      */
     public void setSystemLogSizeMax(final int systemLogSizeMax)
@@ -1614,7 +1614,7 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * TelegramListeners‚ğİ’è‚·‚éB
+     * TelegramListenersã‚’è¨­å®šã™ã‚‹ã€‚
      * @param telegramListeners TelegramListeners
      */
     public void setTelegramListeners(final String telegramListeners)
@@ -1848,7 +1848,7 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * TraceDepth‚ğİ’è‚·‚éB
+     * TraceDepthã‚’è¨­å®šã™ã‚‹ã€‚
      * @param traceDepth TraceDepth
      */
     public void setTraceDepth(final int traceDepth)
@@ -1866,7 +1866,7 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * AcceptPortIsRange‚ğİ’è‚·‚éB
+     * AcceptPortIsRangeã‚’è¨­å®šã™ã‚‹ã€‚
      * @param isAcceptPortIsRange AcceptPortIsRange
      */
     public void setAcceptPortIsRange(final boolean isAcceptPortIsRange)
@@ -1920,7 +1920,7 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * ClassNameSimplify‚ğİ’è‚·‚éB
+     * ClassNameSimplifyã‚’è¨­å®šã™ã‚‹ã€‚
      * @param isClassNameSimplify
      */
     public void setClassNameSimplify(final boolean isClassNameSimplify)
@@ -2262,7 +2262,7 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * LogZipMax‚ğİ’è‚·‚éB
+     * LogZipMaxã‚’è¨­å®šã™ã‚‹ã€‚
      * @param isLogZipMax
      */
     public void setLogZipMax(final boolean isLogZipMax)
@@ -2334,7 +2334,7 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * RecordStrategy‚ğİ’è‚·‚éB
+     * RecordStrategyã‚’è¨­å®šã™ã‚‹ã€‚
      * @param isRecordStrategy RecordStrategy
      */
     public void setRecordStrategy(final boolean isRecordStrategy)
@@ -2406,7 +2406,7 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * ThreadContentionMonitor‚ğİ’è‚·‚éB
+     * ThreadContentionMonitorã‚’è¨­å®šã™ã‚‹ã€‚
      * @param isThreadContentionMonitor ThreadContentionMonitor
      */
     public void setThreadContentionMonitor(final boolean isThreadContentionMonitor)
@@ -2424,7 +2424,7 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * ThreadDump‚ğİ’è‚·‚éB
+     * ThreadDumpã‚’è¨­å®šã™ã‚‹ã€‚
      * @param isThreadDump ThreadDump
      */
     public void setThreadDump(final boolean isThreadDump)
@@ -2669,7 +2669,7 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * CpuTimeUnit‚ğİ’è‚·‚éB
+     * CpuTimeUnitã‚’è¨­å®šã™ã‚‹ã€‚
      * @param cpuTimeUnit CpuTimeUnit
      */
     public void setCpuTimeUnit(final int cpuTimeUnit)
@@ -2855,7 +2855,7 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * @param itemNamePrefix ƒZƒbƒg‚·‚é itemNamePrefix
+     * @param itemNamePrefix ã‚»ãƒƒãƒˆã™ã‚‹ itemNamePrefix
      */
     public void setItemNamePrefix(final String itemNamePrefix)
     {
@@ -2872,7 +2872,7 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * @param itemNameNoPrefixList ƒZƒbƒg‚·‚é itemNameNoPrefixList
+     * @param itemNameNoPrefixList ã‚»ãƒƒãƒˆã™ã‚‹ itemNameNoPrefixList
      */
     public void setItemNameNoPrefixList(final String itemNameNoPrefixList)
     {
@@ -2889,7 +2889,7 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * @param clusterName ƒZƒbƒg‚·‚é clusterName
+     * @param clusterName ã‚»ãƒƒãƒˆã™ã‚‹ clusterName
      */
     public void setClusterName(final String clusterName)
     {
@@ -2906,7 +2906,7 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * @param collectHadoopAgentResources ƒZƒbƒg‚·‚é collectHadoopAgentResources
+     * @param collectHadoopAgentResources ã‚»ãƒƒãƒˆã™ã‚‹ collectHadoopAgentResources
      */
     public void setCollectHadoopAgentResources(final boolean collectHadoopAgentResources)
     {
@@ -2923,7 +2923,7 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * @param collectHadoopAgentResources ƒZƒbƒg‚·‚é collectHadoopAgentResources
+     * @param collectHadoopAgentResources ã‚»ãƒƒãƒˆã™ã‚‹ collectHadoopAgentResources
      */
     public void setCollectHBaseAgentResources(final boolean collectHadoopAgentResources)
     {
@@ -2937,7 +2937,7 @@ public class JavelinConfig extends JavelinConfigBase
     }
 
     /**
-     * InvocationNameLimitLength‚ğİ’è‚·‚éB
+     * InvocationNameLimitLengthã‚’è¨­å®šã™ã‚‹ã€‚
      * @param invocationNameLimitLength InvocationNameLimitLength
      */
     public void setInvocationNameLimitLength(final int invocationNameLimitLength)

@@ -28,16 +28,16 @@ package jp.co.acroquest.endosnipe.perfdoctor.rule;
 import jp.co.acroquest.endosnipe.javelin.parser.JavelinLogElement;
 
 /**
- * JavelinLogElement‚©‚çAdurationè‡’l‚Æ‚µ‚Ä—˜—p‚·‚é•¶š—ñ‚ğ’Šo‚·‚éB
+ * JavelinLogElementã‹ã‚‰ã€durationé–¾å€¤ã¨ã—ã¦åˆ©ç”¨ã™ã‚‹æ–‡å­—åˆ—ã‚’æŠ½å‡ºã™ã‚‹ã€‚
  * @author eriguchi
  */
 public interface ThresholdStrategy
 {
     /**
-     * JavelinLogElement‚©‚çAdurationè‡’l‚Æ‚µ‚Ä—˜—p‚·‚é•¶š—ñ‚ğ’Šo‚·‚éB
+     * JavelinLogElementã‹ã‚‰ã€durationé–¾å€¤ã¨ã—ã¦åˆ©ç”¨ã™ã‚‹æ–‡å­—åˆ—ã‚’æŠ½å‡ºã™ã‚‹ã€‚
      * 
-     * @param javelinLogElement ’l‚Ì’ŠoŒ³B
-     * @return durationè‡’l•¶š—ñB
+     * @param javelinLogElement å€¤ã®æŠ½å‡ºå…ƒã€‚
+     * @return durationé–¾å€¤æ–‡å­—åˆ—ã€‚
      */
     String extractDurationThreshold(JavelinLogElement javelinLogElement);
 }

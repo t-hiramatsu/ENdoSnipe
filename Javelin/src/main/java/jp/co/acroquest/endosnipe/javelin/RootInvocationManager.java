@@ -32,20 +32,20 @@ import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 import jp.co.acroquest.endosnipe.javelin.bean.Invocation;
 
 /**
- * root‚Æ‚È‚éInvocation‚ğŠÇ—‚·‚éƒNƒ‰ƒXB</br>
+ * rootã¨ãªã‚‹Invocationã‚’ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚</br>
  * 
  * @author tsukano
  */
 public class RootInvocationManager
 {
-    /** ƒ‹[ƒg‚ÌInvocation‚ğ“o˜^‚µ‚½ƒ}ƒbƒvB */
+    /** ãƒ«ãƒ¼ãƒˆã®Invocationã‚’ç™»éŒ²ã—ãŸãƒãƒƒãƒ—ã€‚ */
     private static Map<String, Invocation> rootInvocationMap__ = new HashMap<String, Invocation>();
 
-    /** İ’è */
+    /** è¨­å®š */
     private static JavelinConfig javelinConfig__ = new JavelinConfig();
 
     /**
-     * ƒCƒ“ƒXƒ^ƒ“ƒX‚Í¶¬‚µ‚È‚¢B
+     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã¯ç”Ÿæˆã—ãªã„ã€‚
      */
     private RootInvocationManager()
     {
@@ -53,8 +53,8 @@ public class RootInvocationManager
     }
 
     /**
-     * root‚ÌInvocation‚ÌƒŠƒXƒg‚ğ•Ô‚·B
-     * @return root‚ÌInvocation‚ÌƒŠƒXƒg
+     * rootã®Invocationã®ãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚
+     * @return rootã®Invocationã®ãƒªã‚¹ãƒˆ
      */
     public static Invocation[] getAllRootInvocations()
     {
@@ -67,8 +67,8 @@ public class RootInvocationManager
     }
 
     /**
-     * w’è‚³‚ê‚½Invocation‚ğroot‚Æ‚µ‚ÄŠÇ—‚·‚éB
-     * @param invocation root‚Æ‚µ‚ÄŠÇ—‚·‚éInvocation
+     * æŒ‡å®šã•ã‚ŒãŸInvocationã‚’rootã¨ã—ã¦ç®¡ç†ã™ã‚‹ã€‚
+     * @param invocation rootã¨ã—ã¦ç®¡ç†ã™ã‚‹Invocation
      */
     public static void addRootInvocation(final Invocation invocation)
     {
@@ -77,9 +77,9 @@ public class RootInvocationManager
     }
 
     /**
-     * w’è‚³‚ê‚½ {@link Invocation} ‚ğŠÇ—‚µ‚Ü‚·B<br />
+     * æŒ‡å®šã•ã‚ŒãŸ {@link Invocation} ã‚’ç®¡ç†ã—ã¾ã™ã€‚<br />
      *
-     * @param invocation ŠÇ—‚·‚é {@link Invocation}
+     * @param invocation ç®¡ç†ã™ã‚‹ {@link Invocation}
      */
     public static void addInvocation(final Invocation invocation)
     {
@@ -96,9 +96,9 @@ public class RootInvocationManager
     }
 
     /**
-     * w’è‚³‚ê‚½ {@link Invocation} ‚ğŠÇ—‘ÎÛ‚©‚çœŠO‚µ‚Ü‚·B<br />
+     * æŒ‡å®šã•ã‚ŒãŸ {@link Invocation} ã‚’ç®¡ç†å¯¾è±¡ã‹ã‚‰é™¤å¤–ã—ã¾ã™ã€‚<br />
      *
-     * @param invocation œŠO‚·‚é {@link Invocation}
+     * @param invocation é™¤å¤–ã™ã‚‹ {@link Invocation}
      */
     public static void removeInvocation(final Invocation invocation)
     {
@@ -110,9 +110,9 @@ public class RootInvocationManager
     }
 
     /**
-     * –{ƒNƒ‰ƒX‚ªŠÇ—‚·‚éInvocation‚ÉTurn Around Time‚ğŒv‘ª‚·‚é‚©‚Ç‚¤‚©‚ğİ’è‚·‚éB
+     * æœ¬ã‚¯ãƒ©ã‚¹ãŒç®¡ç†ã™ã‚‹Invocationã«Turn Around Timeã‚’è¨ˆæ¸¬ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¨­å®šã™ã‚‹ã€‚
      *
-     * @param tatEnabled Turn Around Time‚ğŒv‘ª‚·‚é‚È‚çtrue
+     * @param tatEnabled Turn Around Timeã‚’è¨ˆæ¸¬ã™ã‚‹ãªã‚‰true
      */
     public static void setTatEnabled(final boolean tatEnabled)
     {
@@ -126,9 +126,9 @@ public class RootInvocationManager
     }
 
     /**
-     * –{ƒNƒ‰ƒX‚ªŠÇ—‚·‚éInvocation‚ÉTurn Around Time‚Ì•ÛŠúŠÔ‚ğƒZƒbƒg‚·‚éB
+     * æœ¬ã‚¯ãƒ©ã‚¹ãŒç®¡ç†ã™ã‚‹Invocationã«Turn Around Timeã®ä¿æŒæœŸé–“ã‚’ã‚»ãƒƒãƒˆã™ã‚‹ã€‚
      *
-     * @param tatKeepTime Turn Around Time‚Ì•ÛŠúŠÔ
+     * @param tatKeepTime Turn Around Timeã®ä¿æŒæœŸé–“
      */
     public static void setTatKeepTime(final long tatKeepTime)
     {

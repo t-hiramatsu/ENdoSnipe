@@ -3,23 +3,23 @@ package jp.co.acroquest.endosnipe.report.entity;
 import java.sql.Timestamp;
 
 /**
- * �u�I�u�W�F�N�g���v�^�u�́uSet�v�̃O���t�̃f�[�^��
- * 1�ێ�����N���X�ł��B
+ * ・ｽu・ｽI・ｽu・ｽW・ｽF・ｽN・ｽg・ｽ・ｽ・ｽv・ｽ^・ｽu・ｽﾌ「Set・ｽv・ｽﾌグ・ｽ・ｽ・ｽt・ｽﾌデ・ｽ[・ｽ^・ｽ・ｽ
+ * 1・ｽﾂ保趣ｿｽ・ｽ・ｽ・ｽ・ｽN・ｽ・ｽ・ｽX・ｽﾅゑｿｽ・ｽB
  * 
  * @author acroquest
  */
 public class SetSizeRecord
 {
-	/** �v������ */
+	/** ・ｽv・ｽ・ｽ・ｽ・ｽ・ｽ・ｽ */
     private Timestamp measurementTime_;
     
-    /** Set�̃T�C�Y[�v�f��]�i��Ԋ�ԕ��ρj */
+    /** Set・ｽﾌサ・ｽC・ｽY[・ｽv・ｽf・ｽ・ｽ]・ｽi・ｽ・ｽﾔ奇ｿｽﾔ包ｿｽ・ｽﾏ） */
     private long      setSize_;
     
-    /** Set�̃T�C�Y[�v�f��]�i��Ԋ�ԍő�j */
+    /** Set・ｽﾌサ・ｽC・ｽY[・ｽv・ｽf・ｽ・ｽ]・ｽi・ｽ・ｽﾔ奇ｿｽﾔ最托ｿｽj */
     private long      setSizeMax_;
     
-    /** Set�̃T�C�Y[�v�f��]�i��Ԋ�ԍŏ��j */
+    /** Set・ｽﾌサ・ｽC・ｽY[・ｽv・ｽf・ｽ・ｽ]・ｽi・ｽ・ｽﾔ奇ｿｽﾔ最擾ｿｽ・ｽj */
     private long      setSizeMin_;
     
     /**

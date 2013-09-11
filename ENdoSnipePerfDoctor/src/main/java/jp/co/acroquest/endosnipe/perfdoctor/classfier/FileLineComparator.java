@@ -31,21 +31,21 @@ import java.util.Comparator;
 import jp.co.acroquest.endosnipe.perfdoctor.WarningUnit;
 
 /**
- * ƒƒ\ƒbƒh‚ÌŠJnAI—¹‚ğŠî‚É•À‚Ñ•Ï‚¦‚éB
+ * ãƒ¡ã‚½ãƒƒãƒ‰ã®é–‹å§‹æ™‚åˆ»ã€çµ‚äº†æ™‚åˆ»ã‚’åŸºã«ä¸¦ã³å¤‰ãˆã‚‹ã€‚
  * @author fujii
  *
  */
 public class FileLineComparator implements Comparator<WarningUnit>, Serializable
 {
-    /** ƒVƒŠƒAƒ‹ID */
+    /** ã‚·ãƒªã‚¢ãƒ«ID */
     private static final long serialVersionUID = 1L;
 
     /**
-     * ƒtƒ@ƒCƒ‹‚Ìs”‚ğ”äŠr‚µAs”‚ª’x‚¢‚à‚Ì‚ğ—Dæ‚·‚éB
-     * @param unit1 ”äŠr‘ÎÛ‚ÌWarningUnit
-     * @param unit2 ”äŠr‘ÎÛ‚ÌWarningUnit
-     * @return 1:2”Ô–Ú‚ÌŒxƒ‹[ƒ‹‚Ìƒtƒ@ƒCƒ‹s”‚ª‘å‚«‚¢A-1:1”Ô–Ú‚ÌŒxƒ‹[ƒ‹‚Ìƒtƒ@ƒCƒ‹s”‚ª‘å‚«‚¢A
-     *         0:ƒtƒ@ƒCƒ‹s”‚ª“¯‚¶B
+     * ãƒ•ã‚¡ã‚¤ãƒ«ã®è¡Œæ•°ã‚’æ¯”è¼ƒã—ã€è¡Œæ•°ãŒé…ã„ã‚‚ã®ã‚’å„ªå…ˆã™ã‚‹ã€‚
+     * @param unit1 æ¯”è¼ƒå¯¾è±¡ã®WarningUnit
+     * @param unit2 æ¯”è¼ƒå¯¾è±¡ã®WarningUnit
+     * @return 1:2ç•ªç›®ã®è­¦å‘Šãƒ«ãƒ¼ãƒ«ã®ãƒ•ã‚¡ã‚¤ãƒ«è¡Œæ•°ãŒå¤§ãã„ã€-1:1ç•ªç›®ã®è­¦å‘Šãƒ«ãƒ¼ãƒ«ã®ãƒ•ã‚¡ã‚¤ãƒ«è¡Œæ•°ãŒå¤§ãã„ã€
+     *         0:ãƒ•ã‚¡ã‚¤ãƒ«è¡Œæ•°ãŒåŒã˜ã€‚
      */
     public int compare(final WarningUnit unit1, final WarningUnit unit2)
     {

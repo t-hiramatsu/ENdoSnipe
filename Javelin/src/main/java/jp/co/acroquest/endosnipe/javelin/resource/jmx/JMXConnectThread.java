@@ -43,23 +43,23 @@ import javax.management.remote.JMXServiceURL;
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 
 /**
- * JMX‚ÌÚ‘±‚ğs‚¤‚½‚ß‚ÌƒXƒŒƒbƒhƒNƒ‰ƒX‚Å‚·B
+ * JMXã®æ¥ç¶šã‚’è¡Œã†ãŸã‚ã®ã‚¹ãƒ¬ãƒƒãƒ‰ã‚¯ãƒ©ã‚¹ã§ã™ã€‚
  * @author fujii
  *
  */
 public class JMXConnectThread extends Thread
 {
-    /** ÄÚ‘±ˆ—‚ğs‚¤‚Ü‚Å‚ÌƒXƒŠ[ƒvŠÔ */
+    /** å†æ¥ç¶šå‡¦ç†ã‚’è¡Œã†ã¾ã§ã®ã‚¹ãƒªãƒ¼ãƒ—æ™‚é–“ */
     private static final long             SLEEP_TIME    = 60 * 1000;
 
     private Map<String, JMXConnectEntity> resourceMap_  =
                                                           new ConcurrentHashMap<String, JMXConnectEntity>();
 
-    /** ƒ‹[ƒv‚ğŒp‘±‚·‚é‚©‚Ç‚¤‚©‚ğ•\‚·ƒtƒ‰ƒO */
+    /** ãƒ«ãƒ¼ãƒ—ã‚’ç¶™ç¶šã™ã‚‹ã‹ã©ã†ã‹ã‚’è¡¨ã™ãƒ•ãƒ©ã‚° */
     private boolean                       continueFlag_ = true;
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Å‚·B
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§ã™ã€‚
      */
     public JMXConnectThread()
     {
@@ -106,9 +106,9 @@ public class JMXConnectThread extends Thread
     }
 
     /**
-     * ÄÚ‘±ˆ—‚ğs‚¤B
-     * @param entity {@link JMXConnectEntity}ƒIƒuƒWƒFƒNƒg
-     * @return ÄÚ‘±ˆ—‚É¬Œ÷‚µ‚½ê‡‚ÍtrueA¸”s‚µ‚½ê‡‚Ífalse‚ğ•Ô‚·B
+     * å†æ¥ç¶šå‡¦ç†ã‚’è¡Œã†ã€‚
+     * @param entity {@link JMXConnectEntity}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @return å†æ¥ç¶šå‡¦ç†ã«æˆåŠŸã—ãŸå ´åˆã¯trueã€å¤±æ•—ã—ãŸå ´åˆã¯falseã‚’è¿”ã™ã€‚
      */
     private boolean reconnect(JMXConnectEntity entity)
     {
@@ -134,7 +134,7 @@ public class JMXConnectThread extends Thread
         catch (MalformedURLException ex)
         {
             SystemLogger.getInstance().warn(ex);
-            // URL‚ª•s³‚Èê‡‚ÍÄÚ‘±‚Å‚«‚È‚¢‚½‚ßAˆÈ~‚Ìˆ—‚ğs‚í‚È‚¢‚æ‚¤‚Étrue‚ğ•Ô‚·B
+            // URLãŒä¸æ­£ãªå ´åˆã¯å†æ¥ç¶šã§ããªã„ãŸã‚ã€ä»¥é™ã®å‡¦ç†ã‚’è¡Œã‚ãªã„ã‚ˆã†ã«trueã‚’è¿”ã™ã€‚
             return true;
         }
         catch (IOException ex)
@@ -146,8 +146,8 @@ public class JMXConnectThread extends Thread
     }
 
     /**
-     * Ú‘±‘ÎÛ‚ğ’Ç‰Á‚·‚éB
-     * @param entity JMXÚ‘±‘ÎÛ
+     * æ¥ç¶šå¯¾è±¡ã‚’è¿½åŠ ã™ã‚‹ã€‚
+     * @param entity JMXæ¥ç¶šå¯¾è±¡
      */
     public void addConnectEntity(JMXConnectEntity entity)
     {

@@ -30,9 +30,9 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * “Á’è‚ÌƒOƒ‰ƒt‚ÌƒŠƒ\[ƒX’l‚ğ•\‚·ƒNƒ‰ƒXB<br />
+ * ç‰¹å®šã®ã‚°ãƒ©ãƒ•ã®ãƒªã‚½ãƒ¼ã‚¹å€¤ã‚’è¡¨ã™ã‚¯ãƒ©ã‚¹ã€‚<br />
  *
- * ƒOƒ‰ƒt“à‚ÌŒn—ñ‚Ì’l‚ğ‚·‚×‚Ä‚¿‚Ü‚·B<br />
+ * ã‚°ãƒ©ãƒ•å†…ã®ç³»åˆ—ã®å€¤ã‚’ã™ã¹ã¦æŒã¡ã¾ã™ã€‚<br />
  *
  * @author sakamoto
  */
@@ -45,9 +45,9 @@ public class GraphResource implements Iterable<GraphSeriesResource>
     private Number maxValue_;
 
     /**
-     * “Á’è‚ÌƒOƒ‰ƒt“à‚Ì‚·‚×‚Ä‚Ì’l‚ğ‚ÂƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‚Ü‚·B<br />
+     * ç‰¹å®šã®ã‚°ãƒ©ãƒ•å†…ã®ã™ã¹ã¦ã®å€¤ã‚’æŒã¤ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
      *
-     * @param graphName ƒOƒ‰ƒt–¼
+     * @param graphName ã‚°ãƒ©ãƒ•å
      */
     public GraphResource(final String graphName)
     {
@@ -57,9 +57,9 @@ public class GraphResource implements Iterable<GraphSeriesResource>
     }
 
     /**
-     * ƒOƒ‰ƒt‚Ì–¼‘O‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ã‚°ãƒ©ãƒ•ã®åå‰ã‚’è¿”ã—ã¾ã™ã€‚<br />
      *
-     * @return ƒOƒ‰ƒt‚Ì–¼‘O
+     * @return ã‚°ãƒ©ãƒ•ã®åå‰
      */
     public String getGraphName()
     {
@@ -67,9 +67,9 @@ public class GraphResource implements Iterable<GraphSeriesResource>
     }
 
     /**
-     * c²‚ÌÅ‘å’l‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ç¸¦è»¸ã®æœ€å¤§å€¤ã‚’è¿”ã—ã¾ã™ã€‚<br />
      *
-     * @return c²‚ÌÅ‘å’l
+     * @return ç¸¦è»¸ã®æœ€å¤§å€¤
      */
     public Number getMaxValue()
     {
@@ -77,9 +77,9 @@ public class GraphResource implements Iterable<GraphSeriesResource>
     }
 
     /**
-     * c²‚ÌÅ‘å’l‚ğƒZƒbƒg‚µ‚Ü‚·B<br />
+     * ç¸¦è»¸ã®æœ€å¤§å€¤ã‚’ã‚»ãƒƒãƒˆã—ã¾ã™ã€‚<br />
      *
-     * @param maxValue c²‚ÌÅ‘å’l
+     * @param maxValue ç¸¦è»¸ã®æœ€å¤§å€¤
      */
     public void setMaxValue(final Number maxValue)
     {
@@ -87,9 +87,9 @@ public class GraphResource implements Iterable<GraphSeriesResource>
     }
 
     /**
-     * Œn—ñ”‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ç³»åˆ—æ•°ã‚’è¿”ã—ã¾ã™ã€‚<br />
      *
-     * @return Œn—ñ”
+     * @return ç³»åˆ—æ•°
      */
     public int getSeriesCount()
     {
@@ -97,10 +97,10 @@ public class GraphResource implements Iterable<GraphSeriesResource>
     }
 
     /**
-     * ƒOƒ‰ƒt‚É’l‚ğ’Ç‰Á‚µ‚Ü‚·B<br />
+     * ã‚°ãƒ©ãƒ•ã«å€¤ã‚’è¿½åŠ ã—ã¾ã™ã€‚<br />
      *
-     * @param seriesName Œn—ñ–¼
-     * @param entry ’Ç‰Á‚·‚é’l
+     * @param seriesName ç³»åˆ—å
+     * @param entry è¿½åŠ ã™ã‚‹å€¤
      */
     public void addGraphResourceEntry(final String seriesName, final GraphResourceEntry entry)
     {
@@ -114,10 +114,10 @@ public class GraphResource implements Iterable<GraphSeriesResource>
     }
 
     /**
-     * w’è‚³‚ê‚½Œn—ñ‚ÌƒOƒ‰ƒt‚É’l‚ğ’Ç‰Á‚µ‚Ü‚·B<br />
+     * æŒ‡å®šã•ã‚ŒãŸç³»åˆ—ã®ã‚°ãƒ©ãƒ•ã«å€¤ã‚’è¿½åŠ ã—ã¾ã™ã€‚<br />
      *
-     * @param seriesIndex Œn—ñ”Ô†iŒn—ñ”Ô†‚ªŒn—ñ”ˆÈã‚Ìê‡AŠÔ‚É‹ó‚ÌŒn—ñ‚ğ‘}“ü‚·‚éj
-     * @param entry ’Ç‰Á‚·‚é’l
+     * @param seriesIndex ç³»åˆ—ç•ªå·ï¼ˆç³»åˆ—ç•ªå·ãŒç³»åˆ—æ•°ä»¥ä¸Šã®å ´åˆã€é–“ã«ç©ºã®ç³»åˆ—ã‚’æŒ¿å…¥ã™ã‚‹ï¼‰
+     * @param entry è¿½åŠ ã™ã‚‹å€¤
      */
     public void addGraphResourceEntry(final int seriesIndex, final GraphResourceEntry entry)
     {
@@ -130,9 +130,9 @@ public class GraphResource implements Iterable<GraphSeriesResource>
     }
 
     /**
-     * Œn—ñ‚ğ’Ç‰Á‚µ‚Ü‚·B<br />
+     * ç³»åˆ—ã‚’è¿½åŠ ã—ã¾ã™ã€‚<br />
      *
-     * @param series Œn—ñ
+     * @param series ç³»åˆ—
      */
     public void addSeries(final GraphSeriesResource series)
     {
@@ -140,10 +140,10 @@ public class GraphResource implements Iterable<GraphSeriesResource>
     }
 
     /**
-     * Œn—ñ‚Ì’l‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ç³»åˆ—ã®å€¤ã‚’è¿”ã—ã¾ã™ã€‚<br />
      *
-     * @param seriesName Œn—ñ–¼
-     * @return Œn—ñ‚Ì’liw’è‚³‚ê‚½Œn—ñ‚ª‘¶İ‚µ‚È‚¢ê‡‚Í <code>null</code> j
+     * @param seriesName ç³»åˆ—å
+     * @return ç³»åˆ—ã®å€¤ï¼ˆæŒ‡å®šã•ã‚ŒãŸç³»åˆ—ãŒå­˜åœ¨ã—ãªã„å ´åˆã¯ <code>null</code> ï¼‰
      */
     public GraphSeriesResource getSeries(final String seriesName)
     {
@@ -165,10 +165,10 @@ public class GraphResource implements Iterable<GraphSeriesResource>
     }
 
     /**
-     * ƒCƒ“ƒfƒbƒNƒX‚ğw’è‚µ‚ÄŒn—ñ‚Ì’l‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’æŒ‡å®šã—ã¦ç³»åˆ—ã®å€¤ã‚’è¿”ã—ã¾ã™ã€‚<br />
      *
-     * @param index ƒCƒ“ƒfƒbƒNƒX
-     * @return ÅV‚Ìƒf[ƒ^‚Ì
+     * @param index ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+     * @return æœ€æ–°ã®ãƒ‡ãƒ¼ã‚¿ã®æ™‚åˆ»
      */
     public GraphSeriesResource getSeries(final int index)
     {

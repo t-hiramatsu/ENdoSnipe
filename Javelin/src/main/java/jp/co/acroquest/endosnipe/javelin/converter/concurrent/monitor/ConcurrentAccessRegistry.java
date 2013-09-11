@@ -33,23 +33,23 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 /**
- * ConcurrentMonitorObject‚Ì’Ç‰ÁAQÆAíœ‚ğs‚¤ƒNƒ‰ƒX‚Å‚·B
+ * ConcurrentMonitorObjectã®è¿½åŠ ã€å‚ç…§ã€å‰Šé™¤ã‚’è¡Œã†ã‚¯ãƒ©ã‚¹ã§ã™ã€‚
  * 
  * @author eriguchi
  */
 public class ConcurrentAccessRegistry
 {
-    /** ƒNƒŠ[ƒ“ƒAƒbƒv‚ğs‚¤ŠÔŠuB */
+    /** ã‚¯ãƒªãƒ¼ãƒ³ã‚¢ãƒƒãƒ—ã‚’è¡Œã†é–“éš”ã€‚ */
     private static final int                     CLEANUP_INTERVAL = 10000;
 
-    /** ‘€ì‰ñ”B */
+    /** æ“ä½œå›æ•°ã€‚ */
     private int                                  count_;
 
-    /** ƒL[‚ªƒIƒuƒWƒFƒNƒg¯•ÊqA’l‚ªConcurrentMonitorObject‚Ìƒ}ƒbƒvB */
+    /** ã‚­ãƒ¼ãŒã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆè­˜åˆ¥å­ã€å€¤ãŒConcurrentMonitorObjectã®ãƒãƒƒãƒ—ã€‚ */
     private Map<Object, ConcurrentMonitorObject> entryMap_;
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
      */
     public ConcurrentAccessRegistry()
     {
@@ -59,9 +59,9 @@ public class ConcurrentAccessRegistry
     }
 
     /**
-     * ConcurrentMonitorObject‚ğ’Ç‰Á‚µ‚Ü‚·B
+     * ConcurrentMonitorObjectã‚’è¿½åŠ ã—ã¾ã™ã€‚
      * 
-     * @param newEntry ConcurrentMonitorObjectB
+     * @param newEntry ConcurrentMonitorObjectã€‚
      */
     public synchronized void add(ConcurrentMonitorObject newEntry)
     {
@@ -80,7 +80,7 @@ public class ConcurrentAccessRegistry
     }
 
     /**
-     * QÆ‚ª‚È‚­‚È‚Á‚½ƒGƒ“ƒgƒŠ‚ğíœ‚·‚éB
+     * å‚ç…§ãŒãªããªã£ãŸã‚¨ãƒ³ãƒˆãƒªã‚’å‰Šé™¤ã™ã‚‹ã€‚
      */
     private void cleanup()
     {
@@ -101,9 +101,9 @@ public class ConcurrentAccessRegistry
     }
 
     /**
-     * ConcurrentMonitorObject‚ğíœ‚µ‚Ü‚·B
+     * ConcurrentMonitorObjectã‚’å‰Šé™¤ã—ã¾ã™ã€‚
      * 
-     * @param identifier ŠÄ‹‘ÎÛƒIƒuƒWƒFƒNƒgB
+     * @param identifier ç›£è¦–å¯¾è±¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚
      */
     public synchronized void remove(String identifier)
     {
@@ -113,10 +113,10 @@ public class ConcurrentAccessRegistry
     }
 
     /**
-     * ConcurrentMonitorObject‚ğæ“¾‚µ‚Ü‚·B
+     * ConcurrentMonitorObjectã‚’å–å¾—ã—ã¾ã™ã€‚
      * 
-     * @param identifier ŠÄ‹‘ÎÛƒIƒuƒWƒFƒNƒgB
-     * @return ConcurrentMonitorObjectB
+     * @param identifier ç›£è¦–å¯¾è±¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚
+     * @return ConcurrentMonitorObjectã€‚
      */
     public ConcurrentMonitorObject get(String identifier)
     {

@@ -28,7 +28,7 @@ package jp.co.acroquest.endosnipe.data.entity;
 import java.sql.Timestamp;
 
 /**
- * Javelin Œv‘ªƒƒOƒe[ƒuƒ‹‚É‘Î‚·‚éƒGƒ“ƒeƒBƒeƒBƒNƒ‰ƒX‚Å‚·B<br />
+ * Javelin è¨ˆæ¸¬ãƒ­ã‚°ãƒ†ãƒ¼ãƒ–ãƒ«ã«å¯¾ã™ã‚‹ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  *
  * @author y-sakamoto
  */
@@ -36,21 +36,21 @@ public class JavelinMeasurement
 {
 
     /**
-     * Œv‘ª’lŒQ‚ğˆêˆÓ‚É¯•Ê‚·‚é ID B<br />
+     * è¨ˆæ¸¬å€¤ç¾¤ã‚’ä¸€æ„ã«è­˜åˆ¥ã™ã‚‹ ID ã€‚<br />
      *
-     * ID ‚ÍƒV[ƒPƒ“ƒXuSEQ_MESUREMENT_IDv‚É‚æ‚Á‚Ä”­s‚µ‚Ü‚·B
+     * ID ã¯ã‚·ãƒ¼ã‚±ãƒ³ã‚¹ã€ŒSEQ_MESUREMENT_IDã€ã«ã‚ˆã£ã¦ç™ºè¡Œã—ã¾ã™ã€‚
      */
     public long measurementId;
 
     /**
-     * Œv‘ªB<br />
+     * è¨ˆæ¸¬æ™‚åˆ»ã€‚<br />
      */
     public Timestamp measurementTime;
 
     /**
-     * Œv‘ª‘ÎÛ‚ªƒA[ƒJƒCƒu‰»‚³‚ê‚Ä‚¢‚éê‡‚Í <code>true</code> B<br />
+     * è¨ˆæ¸¬å¯¾è±¡ãŒã‚¢ãƒ¼ã‚«ã‚¤ãƒ–åŒ–ã•ã‚Œã¦ã„ã‚‹å ´åˆã¯ <code>true</code> ã€‚<br />
      *
-     * ƒA[ƒJƒCƒu‰»‚³‚ê‚½Œv‘ªƒf[ƒ^‚ÍA ARCHIVED_VALUE ƒe[ƒuƒ‹‚ÖŠi”[‚³‚ê‚Ü‚·B
+     * ã‚¢ãƒ¼ã‚«ã‚¤ãƒ–åŒ–ã•ã‚ŒãŸè¨ˆæ¸¬ãƒ‡ãƒ¼ã‚¿ã¯ã€ ARCHIVED_VALUE ãƒ†ãƒ¼ãƒ–ãƒ«ã¸æ ¼ç´ã•ã‚Œã¾ã™ã€‚
      */
     public boolean isArchived;
 

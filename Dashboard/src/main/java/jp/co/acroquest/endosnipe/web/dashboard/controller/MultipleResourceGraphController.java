@@ -67,7 +67,7 @@ public class MultipleResourceGraphController
     @Autowired
     protected ResourceSender resourceSender_;
 
-    /** シグナル定義のサービスクラスのオブジェクト。 */
+    /** 複数グラフ定義のサービスクラスのオブジェクト。 */
     @Autowired
     protected MultipleResourceGraphService multipleResourceGraphService_;
 
@@ -123,11 +123,11 @@ public class MultipleResourceGraphController
     }
 
     /**
-     * 閾値判定の定義を新規に追加する。
+     * 複数グラフの定義を新規に追加する。
      *
      * @param mulResGraphDefinition
-     *            閾値判定の定義のJSONデータ
-     * @return 追加した閾値判定の定義
+     *            複数グラフの定義のJSONデータ
+     * @return 追加した複数グラフの定義
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
@@ -163,9 +163,9 @@ public class MultipleResourceGraphController
     }
 
     /**
-     * 閾値判定の定義を取得する。
-     * @param multipleResourceGraphName 閾値判定の定義を一意に取得するためのシグナル名
-     * @return 閾値判定の定義
+     * 複数グラフの定義を取得する。
+     * @param multipleResourceGraphName 複数グラフ名
+     * @return 複数グラフの定義
      */
     @RequestMapping(value = "/getDefinition", method = RequestMethod.POST)
     @ResponseBody
@@ -178,11 +178,11 @@ public class MultipleResourceGraphController
     }
 
     /**
-     * 閾値判定の定義を編集する。
+     * 複数グラフの定義を編集する。
      *
      * @param mulResGraphDefinition
-     *            閾値判定の定義のJSONデータ
-     * @return 編集後の閾値判定の定義
+     *            複数グラフの定義のJSONデータ
+     * @return 編集後の複数グラフの定義
      */
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     @ResponseBody
@@ -206,11 +206,11 @@ public class MultipleResourceGraphController
     }
 
     /**
-     * 閾値判定のシグナルを削除する。
+     * 複数グラフを削除する。
      *
      * @param multipleResourceGraphName
-     *            閾値判定のシグナル名
-     * @return 削除した閾値判定のシグナル名
+     *            複数グラフ
+     * @return 削除した複数グラフ
      */
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody

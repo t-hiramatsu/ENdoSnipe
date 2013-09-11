@@ -3,33 +3,33 @@ package jp.co.acroquest.endosnipe.report.entity;
 import java.sql.Timestamp;
 
 /**
- * uƒAƒvƒŠƒP[ƒVƒ‡ƒ“vƒ^ƒu‚ÌuAPƒT[ƒo‚Ìƒ[ƒJƒXƒŒƒbƒh”v‚ÌƒŒƒ|[ƒg‚É‚¨‚¢‚ÄA
- * o—Í‚³‚ê‚éî•ñ‚Ì’†‚Ì1ƒŒƒR[ƒh•ª‚ð•ÛŽ‚·‚éƒGƒ“ƒeƒBƒeƒB‚Å‚·B
+ * ã€Œã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã€ã‚¿ãƒ–ã®ã€ŒAPã‚µãƒ¼ãƒã®ãƒ¯ãƒ¼ã‚«ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã€ã®ãƒ¬ãƒãƒ¼ãƒˆã«ãŠã„ã¦ã€
+ * å‡ºåŠ›ã•ã‚Œã‚‹æƒ…å ±ã®ä¸­ã®1ãƒ¬ã‚³ãƒ¼ãƒ‰åˆ†ã‚’ä¿æŒã™ã‚‹ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã§ã™ã€‚
  * 
  * @author T. Iida
  */
 public class WorkerThreadNumRecord
 {
-    /** Œv‘ªŽž */
+    /** è¨ˆæ¸¬æ™‚åˆ» */
     private Timestamp measurementTime_;
 
-    /** APƒT[ƒo‚Ìƒ[ƒJƒXƒŒƒbƒh”‚ÌÅ‘å’l[ƒXƒŒƒbƒh”] */
+    /** APã‚µãƒ¼ãƒã®ãƒ¯ãƒ¼ã‚«ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã®æœ€å¤§å€¤[ã‚¹ãƒ¬ãƒƒãƒ‰æ•°] */
     private long      maxWorkerThreadNum_;
 
-    /** APƒT[ƒo‚Ìƒ[ƒJƒXƒŒƒbƒh”[ƒXƒŒƒbƒh”]i•âŠÔŠúŠÔ•½‹Ïj */
+    /** APã‚µãƒ¼ãƒã®ãƒ¯ãƒ¼ã‚«ã‚¹ãƒ¬ãƒƒãƒ‰æ•°[ã‚¹ãƒ¬ãƒƒãƒ‰æ•°]ï¼ˆè£œé–“æœŸé–“å¹³å‡ï¼‰ */
     private long      workerThreadNum_;
 
-    /** APƒT[ƒo‚Ìƒ[ƒJƒXƒŒƒbƒh”[ƒXƒŒƒbƒh”]i•âŠÔŠúŠÔÅ‘åj */
+    /** APã‚µãƒ¼ãƒã®ãƒ¯ãƒ¼ã‚«ã‚¹ãƒ¬ãƒƒãƒ‰æ•°[ã‚¹ãƒ¬ãƒƒãƒ‰æ•°]ï¼ˆè£œé–“æœŸé–“æœ€å¤§ï¼‰ */
     private long      workerThreadNumMax_;
 
-    /** APƒT[ƒo‚Ìƒ[ƒJƒXƒŒƒbƒh”[ƒXƒŒƒbƒh”]i•âŠÔŠúŠÔÅ¬j */
+    /** APã‚µãƒ¼ãƒã®ãƒ¯ãƒ¼ã‚«ã‚¹ãƒ¬ãƒƒãƒ‰æ•°[ã‚¹ãƒ¬ãƒƒãƒ‰æ•°]ï¼ˆè£œé–“æœŸé–“æœ€å°ï¼‰ */
     private long      workerThreadNumMin_;
 
-    /** APƒT[ƒo‚Ìƒ[ƒJƒXƒŒƒbƒh”iwaitj[ƒXƒŒƒbƒh”] */
+    /** APã‚µãƒ¼ãƒã®ãƒ¯ãƒ¼ã‚«ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ï¼ˆwaitï¼‰[ã‚¹ãƒ¬ãƒƒãƒ‰æ•°] */
     private long      waitWorkerThreadNum_;
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      */
     public WorkerThreadNumRecord()
     {

@@ -29,19 +29,19 @@ import jp.co.acroquest.endosnipe.common.event.EventConstants;
 import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
 
 /**
- * HttpStatusEventƒNƒ‰ƒX
+ * HttpStatusEventã‚¯ãƒ©ã‚¹
  * @author acroquest
  *
  */
 public class HttpStatusEvent extends AbstractNameAndParamCheckEvent
 {
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
-     * @param contextPath ƒRƒ“ƒeƒLƒXƒgƒpƒX
-     * @param servletPath ƒT[ƒuƒŒƒbƒgƒpƒX
-     * @param status ƒXƒe[ƒ^ƒX
-     * @param throwable —áŠO
-     * @param stackTraceDepth stacktrace‚Ì[‚³
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+     * @param contextPath ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆãƒ‘ã‚¹
+     * @param servletPath ã‚µãƒ¼ãƒ–ãƒ¬ãƒƒãƒˆãƒ‘ã‚¹
+     * @param status ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
+     * @param throwable ä¾‹å¤–
+     * @param stackTraceDepth stacktraceã®æ·±ã•
      */
     public HttpStatusEvent(String contextPath, String servletPath, int status,
             Throwable throwable, int stackTraceDepth)

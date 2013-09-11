@@ -26,33 +26,33 @@
 package jp.co.acroquest.endosnipe.data.entity;
 
 /**
- * ƒVƒOƒiƒ‹’è‹`ƒe[ƒuƒ‹‚É‘Î‚·‚éƒGƒ“ƒeƒBƒeƒBƒNƒ‰ƒX‚Å‚·B<br />
+ * ã‚·ã‚°ãƒŠãƒ«å®šç¾©ãƒ†ãƒ¼ãƒ–ãƒ«ã«å¯¾ã™ã‚‹ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  * 
  * @author miyasaka
  *
  */
 public class SignalDefinition
 {
-    /** ƒVƒOƒiƒ‹’è‹`ƒe[ƒuƒ‹‚ÌID */
+    /** ã‚·ã‚°ãƒŠãƒ«å®šç¾©ãƒ†ãƒ¼ãƒ–ãƒ«ã®ID */
     public long   signalId;
 
-    /** ƒVƒOƒiƒ‹–¼ */
+    /** ã‚·ã‚°ãƒŠãƒ«å */
     public String signalName;
 
-    /** ƒ}ƒbƒ`ƒ“ƒOƒpƒ^[ƒ“ */
+    /** ãƒãƒƒãƒãƒ³ã‚°ãƒ‘ã‚¿ãƒ¼ãƒ³ */
     public String matchingPattern;
 
-    /** İ’è‚Å‚«‚éè‡’l‚ÌãŒÀƒŒƒxƒ‹ */
+    /** è¨­å®šã§ãã‚‹é–¾å€¤ã®ä¸Šé™ãƒ¬ãƒ™ãƒ« */
     public int    level;
 
-    /** ƒŒƒxƒ‹‚²‚Æ‚Ìè‡’l(ƒJƒ“ƒ}‹æØ‚è) */
+    /** ãƒ¬ãƒ™ãƒ«ã”ã¨ã®é–¾å€¤(ã‚«ãƒ³ãƒåŒºåˆ‡ã‚Š) */
     public String patternValue;
 
-    /** ƒGƒXƒJƒŒ[ƒVƒ‡ƒ“ŠúŠÔB */
+    /** ã‚¨ã‚¹ã‚«ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³æœŸé–“ã€‚ */
     public double escalationPeriod;
 
     /**
-     * {@link SignalDefinition} ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‚Ü‚·B<br />
+     * {@link SignalDefinition} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
      */
     public SignalDefinition()
     {

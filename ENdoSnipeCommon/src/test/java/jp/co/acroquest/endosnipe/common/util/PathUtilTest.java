@@ -28,7 +28,7 @@ package jp.co.acroquest.endosnipe.common.util;
 import junit.framework.TestCase;
 
 /**
- * {@link PathUtil} のためのテストクラスです。<br />
+ * {@link PathUtil} 縺ｮ縺溘ａ縺ｮ繝�繧ｹ繝医け繝ｩ繧ｹ縺ｧ縺吶�<br />
  * 
  * @author y-komori
  */

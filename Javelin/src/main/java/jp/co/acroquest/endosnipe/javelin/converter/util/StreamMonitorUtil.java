@@ -32,7 +32,7 @@ import jp.co.acroquest.endosnipe.javelin.CallTreeRecorder;
 import jp.co.acroquest.endosnipe.javelin.SystemStatusManager;
 
 /**
- * ƒXƒgƒŠ[ƒ€‚ÌóM—Ê^‘—M—ÊŠÄ‹—p‚Ìƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒX
+ * ã‚¹ãƒˆãƒªãƒ¼ãƒ ã®å—ä¿¡é‡ï¼é€ä¿¡é‡ç›£è¦–ç”¨ã®ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹
  * 
  * @author kimura
  *
@@ -40,7 +40,7 @@ import jp.co.acroquest.endosnipe.javelin.SystemStatusManager;
 public class StreamMonitorUtil
 {
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      */
     private StreamMonitorUtil()
     {
@@ -48,12 +48,12 @@ public class StreamMonitorUtil
     }
 
     /**
-     * ’~Ï‘ÎÛ‚Ì¯•Êq‚Æ‰ÁZ—Ê‚ğw’è‚µA—İZ‚·‚éB
-     * —İZ‘ÎÛ‚ÍƒXƒŒƒbƒh“à‚Å‚Ì’l‚ÆAƒvƒƒZƒX‘S‘Ì‚Æ‚µ‚Ä‚Ì’l‚Ì‚Q‚ÂB
+     * è“„ç©å¯¾è±¡ã®è­˜åˆ¥å­ã¨åŠ ç®—é‡ã‚’æŒ‡å®šã—ã€ç´¯ç®—ã™ã‚‹ã€‚
+     * ç´¯ç®—å¯¾è±¡ã¯ã‚¹ãƒ¬ãƒƒãƒ‰å†…ã§ã®å€¤ã¨ã€ãƒ—ãƒ­ã‚»ã‚¹å…¨ä½“ã¨ã—ã¦ã®å€¤ã®ï¼’ã¤ã€‚
      * 
-     * @param recordAmount          ‰ÁZ‚³‚ê‚é’l
-     * @param recordTargetThreadKey ƒXƒŒƒbƒh‚Ì—İZ’l‚É‰ÁZ‚·‚éÛ‚Ì¯•Êq
-     * @param recordTargetKey       ƒvƒƒZƒX‘S‘Ì‚Ì—İZ’l‚É‰ÁZ‚·‚éÛ‚Ì¯•Êq
+     * @param recordAmount          åŠ ç®—ã•ã‚Œã‚‹å€¤
+     * @param recordTargetThreadKey ã‚¹ãƒ¬ãƒƒãƒ‰ã®ç´¯ç®—å€¤ã«åŠ ç®—ã™ã‚‹éš›ã®è­˜åˆ¥å­
+     * @param recordTargetKey       ãƒ—ãƒ­ã‚»ã‚¹å…¨ä½“ã®ç´¯ç®—å€¤ã«åŠ ç®—ã™ã‚‹éš›ã®è­˜åˆ¥å­
      */
     public static void recordStreamAmount(final long recordAmount,
             final String recordTargetThreadKey, final String recordTargetKey)

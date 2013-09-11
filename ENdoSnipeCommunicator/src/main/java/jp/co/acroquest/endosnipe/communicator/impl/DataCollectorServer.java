@@ -46,80 +46,80 @@ import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.impl.DataCollectorClient.DataCollectorClientListener;
 
 /**
- * ƒNƒ‰ƒCƒAƒ“ƒg‚©‚ç‚ÌÚ‘±‚ğ‘Ò‚¿ó‚¯‚éDataCollectorƒT[ƒoB<br />
+ * ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‹ã‚‰ã®æ¥ç¶šã‚’å¾…ã¡å—ã‘ã‚‹DataCollectorã‚µãƒ¼ãƒã€‚<br />
  * 
  * @author matsuoka
  */
 public class DataCollectorServer implements CommunicationServer, Runnable
 {
-    /** ƒoƒCƒ“ƒhŠÔŠu‚ÌƒfƒtƒHƒ‹ƒg’l (msec) */
+    /** ãƒã‚¤ãƒ³ãƒ‰é–“éš”ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ (msec) */
     private static final int DEFAULT_BIND_INTERVAL = 5 * 1000;
 
-    /** Ú‘±‘Ò‚¿ó‚¯ƒXƒŒƒbƒh–¼ */
+    /** æ¥ç¶šå¾…ã¡å—ã‘ã‚¹ãƒ¬ãƒƒãƒ‰å */
     private static final String ACCEPT_THREAD_NAME = "JavelinServerThread";
 
-    /** ƒNƒ‰ƒCƒAƒ“ƒgƒXƒŒƒbƒhƒOƒ‹[ƒv–¼ */
+    /** ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚¹ãƒ¬ãƒƒãƒ‰ã‚°ãƒ«ãƒ¼ãƒ—å */
     private static final String CLIENT_THREAD_GROUP_NAME = "JavelinClientThreadGroup";
 
-    /** ƒNƒ‰ƒCƒAƒ“ƒgƒXƒŒƒbƒh–¼ */
+    /** ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚¹ãƒ¬ãƒƒãƒ‰å */
     private static final String CLIENT_THREAD_NAME = "JavelinClientThread";
 
-    /** Javelin/BottleneckEye‚ğ‘Ò‚¿ó‚¯‚éƒ|[ƒg”Ô† */
+    /** Javelin/BottleneckEyeã‚’å¾…ã¡å—ã‘ã‚‹ãƒãƒ¼ãƒˆç•ªå· */
     private int port_;
 
-    /** ƒT[ƒoƒ\ƒPƒbƒg */
+    /** ã‚µãƒ¼ãƒã‚½ã‚±ãƒƒãƒˆ */
     private ServerSocket serverSocket_ = null;
 
-    /** ƒNƒ‰ƒCƒAƒ“ƒgID‚ğƒL[‚Æ‚µ‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒŠƒXƒg */
+    /** ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆIDã‚’ã‚­ãƒ¼ã¨ã—ãŸã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã®ãƒªã‚¹ãƒˆ */
     protected Map<String, DataCollectorClient> clientList_ =
             new HashMap<String, DataCollectorClient>();
 
-    /** ƒXƒŒƒbƒhˆ—’†‚©‚Ç‚¤‚©‚ğ•\‚·ƒtƒ‰ƒO */
+    /** ã‚¹ãƒ¬ãƒƒãƒ‰å‡¦ç†ä¸­ã‹ã©ã†ã‹ã‚’è¡¨ã™ãƒ•ãƒ©ã‚° */
     boolean isRunning_ = false;
 
-    /** ƒ|[ƒgƒŠƒXƒjƒ“ƒO’†‚©‚Ç‚¤‚©‚ğ•\‚·ƒtƒ‰ƒO */
+    /** ãƒãƒ¼ãƒˆãƒªã‚¹ãƒ‹ãƒ³ã‚°ä¸­ã‹ã©ã†ã‹ã‚’è¡¨ã™ãƒ•ãƒ©ã‚° */
     boolean isListening_ = false;
 
-    /** ’ÊM—pƒXƒŒƒbƒh */
+    /** é€šä¿¡ç”¨ã‚¹ãƒ¬ãƒƒãƒ‰ */
     private Thread acceptThread_;
 
-    /** Bind¸”s‚ÌÄsŠÔŠu */
+    /** Bindå¤±æ•—æ™‚ã®å†è©¦è¡Œé–“éš” */
     private int bindInterval_;
 
-    /** JavelinƒNƒ‰ƒCƒAƒ“ƒg‚ÌDB–¼‚²‚Æ‚ÌƒV[ƒPƒ“ƒX”Ô†ƒ}ƒbƒv */
+    /** Javelinã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã®DBåã”ã¨ã®ã‚·ãƒ¼ã‚±ãƒ³ã‚¹ç•ªå·ãƒãƒƒãƒ— */
     private Map<String, Set<Integer>> javelinSeqMap_ = new HashMap<String, Set<Integer>>();
 
-    /** ƒNƒ‰ƒCƒAƒ“ƒgIDƒV[ƒPƒ“ƒX”Ô† */
+    /** ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆIDã‚·ãƒ¼ã‚±ãƒ³ã‚¹ç•ªå· */
     private BigInteger seqClientId_ = BigInteger.ZERO;
 
-    /** ƒNƒ‰ƒCƒAƒ“ƒgó‘Ô‚ª•Ï‰»‚µ‚½‚ÌƒŠƒXƒi */
+    /** ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆçŠ¶æ…‹ãŒå¤‰åŒ–ã—ãŸæ™‚ã®ãƒªã‚¹ãƒŠ */
     private List<ClientNotifyListener> clientNotifyListenerList_ =
             new ArrayList<ClientNotifyListener>();
 
-    /** JavelinƒNƒ‰ƒCƒAƒ“ƒg‚Ì“d•¶‚ğˆ—‚·‚éƒŠƒXƒi */
+    /** Javelinã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã®é›»æ–‡ã‚’å‡¦ç†ã™ã‚‹ãƒªã‚¹ãƒŠ */
     private List<TelegramListener> javelinClientTelegramListener_ =
             new ArrayList<TelegramListener>();
 
-    /** §ŒäƒNƒ‰ƒCƒAƒ“ƒg‚Ì“d•¶‚ğˆ—‚·‚éƒŠƒXƒi */
+    /** åˆ¶å¾¡ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã®é›»æ–‡ã‚’å‡¦ç†ã™ã‚‹ãƒªã‚¹ãƒŠ */
     private List<TelegramListener> controlClientTelegramListener_ =
             new ArrayList<TelegramListener>();
 
     /**
-     * ƒNƒ‰ƒCƒAƒ“ƒg‚©‚ç‚ÌÚ‘±EØ’f‚ğˆ—‚·‚é‚½‚ß‚ÌƒŠƒXƒiB
+     * ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‹ã‚‰ã®æ¥ç¶šãƒ»åˆ‡æ–­ã‚’å‡¦ç†ã™ã‚‹ãŸã‚ã®ãƒªã‚¹ãƒŠã€‚
      * @author matsuoka
      */
     public interface ClientNotifyListener
     {
         /**
-         * ƒNƒ‰ƒCƒAƒ“ƒg‚Æ‚ÌÚ‘±‚ªŠm—§‚µ‚½‚Æ‚«‚ÉƒR[ƒ‹‚³‚ê‚éB
-         * @param client ƒNƒ‰ƒCƒAƒ“ƒg
+         * ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã¨ã®æ¥ç¶šãŒç¢ºç«‹ã—ãŸã¨ãã«ã‚³ãƒ¼ãƒ«ã•ã‚Œã‚‹ã€‚
+         * @param client ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆ
          */
         void clientConnected(DataCollectorClient client);
 
         /**
-         * ƒNƒ‰ƒCƒAƒ“ƒg‚Æ‚ÌÚ‘±‚ªØ’f‚³‚ê‚½‚Æ‚«‚ÉƒR[ƒ‹‚³‚ê‚éB
-         * @param client ƒNƒ‰ƒCƒAƒ“ƒg
-         * @param forceDisconnected ‹­§Ø’f‚³‚ê‚½ê‡‚Í <code>true</code>
+         * ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã¨ã®æ¥ç¶šãŒåˆ‡æ–­ã•ã‚ŒãŸã¨ãã«ã‚³ãƒ¼ãƒ«ã•ã‚Œã‚‹ã€‚
+         * @param client ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆ
+         * @param forceDisconnected å¼·åˆ¶åˆ‡æ–­ã•ã‚ŒãŸå ´åˆã¯ <code>true</code>
          */
         void clientDisconnected(DataCollectorClient client, boolean forceDisconnected);
     }
@@ -129,7 +129,7 @@ public class DataCollectorServer implements CommunicationServer, Runnable
      */
     public void init()
     {
-        // ‰½‚à‚µ‚È‚¢
+        // ä½•ã‚‚ã—ãªã„
     }
 
     /**
@@ -141,9 +141,9 @@ public class DataCollectorServer implements CommunicationServer, Runnable
     }
 
     /**
-     * ƒT[ƒo‚ğŠJn‚·‚éB
-     * @param port ƒ|[ƒg”Ô†
-     * @param bindInterval Bind¸”s‚ÌÄsŠÔŠu
+     * ã‚µãƒ¼ãƒã‚’é–‹å§‹ã™ã‚‹ã€‚
+     * @param port ãƒãƒ¼ãƒˆç•ªå·
+     * @param bindInterval Bindå¤±æ•—æ™‚ã®å†è©¦è¡Œé–“éš”
      */
     public void start(final int port, final int bindInterval)
     {
@@ -159,14 +159,14 @@ public class DataCollectorServer implements CommunicationServer, Runnable
             return;
         }
 
-        // ƒNƒ‰ƒCƒAƒ“ƒgÚ‘±‚Ìó•t‚ğŠJn‚·‚éB
+        // ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆæ¥ç¶šã®å—ä»˜ã‚’é–‹å§‹ã™ã‚‹ã€‚
         acceptThread_ = new Thread(this, ACCEPT_THREAD_NAME);
         acceptThread_.setDaemon(true);
         acceptThread_.start();
     }
 
     /**
-     * Ú‘±‘Ò‚¿ó‚¯‚ÌƒƒCƒ“ˆ—B
+     * æ¥ç¶šå¾…ã¡å—ã‘ã®ãƒ¡ã‚¤ãƒ³å‡¦ç†ã€‚
      */
     public void run()
     {
@@ -188,7 +188,7 @@ public class DataCollectorServer implements CommunicationServer, Runnable
             catch (Throwable th)
             {
                 // CHECKSTYLE:OFF
-                ; // ‰½‚à‚µ‚È‚¢
+                ; // ä½•ã‚‚ã—ãªã„
                   // CHECKSTYLE:ON
             }
         }
@@ -211,14 +211,14 @@ public class DataCollectorServer implements CommunicationServer, Runnable
         catch (IOException e)
         {
             // CHECKSTYLE:OFF
-            ; // ‰½‚à‚µ‚È‚¢
+            ; // ä½•ã‚‚ã—ãªã„
               // CHECKSTYLE:ON
         }
     }
 
     /**
-     * ƒT[ƒoƒ\ƒPƒbƒg‚ğì¬‚·‚éB
-     * @return ì¬‚µ‚½ƒT[ƒoƒ\ƒPƒbƒg‚ğ•Ô‚·B
+     * ã‚µãƒ¼ãƒã‚½ã‚±ãƒƒãƒˆã‚’ä½œæˆã™ã‚‹ã€‚
+     * @return ä½œæˆã—ãŸã‚µãƒ¼ãƒã‚½ã‚±ãƒƒãƒˆã‚’è¿”ã™ã€‚
      */
     private ServerSocket createServerSocket()
     {
@@ -233,7 +233,7 @@ public class DataCollectorServer implements CommunicationServer, Runnable
             }
             catch (IOException e)
             {
-                // ƒ\ƒPƒbƒg‚Ìì¬‚É¸”s‚µ‚½‚çAw’èŠÔŠuƒXƒŠ[ƒv‚µ‚Ä‚©‚çÄs‚·‚éB
+                // ã‚½ã‚±ãƒƒãƒˆã®ä½œæˆã«å¤±æ•—ã—ãŸã‚‰ã€æŒ‡å®šé–“éš”ã‚¹ãƒªãƒ¼ãƒ—ã—ã¦ã‹ã‚‰å†è©¦è¡Œã™ã‚‹ã€‚
                 try
                 {
                     Thread.sleep(bindInterval_);
@@ -241,7 +241,7 @@ public class DataCollectorServer implements CommunicationServer, Runnable
                 catch (InterruptedException iex)
                 {
                     // CHECKSTYLE:OFF
-                    ; // ‰½‚à‚µ‚È‚¢
+                    ; // ä½•ã‚‚ã—ãªã„
                       // CHECKSTYLE:ON
                 }
             }
@@ -262,7 +262,7 @@ public class DataCollectorServer implements CommunicationServer, Runnable
         }
         catch (SocketException e)
         {
-            // stop()‚Åƒ\ƒPƒbƒg‚ğ•Â‚¶‚½ê‡‚ÉSocketException‚ª”­¶‚·‚éB
+            // stop()ã§ã‚½ã‚±ãƒƒãƒˆã‚’é–‰ã˜ãŸå ´åˆã«SocketExceptionãŒç™ºç”Ÿã™ã‚‹ã€‚
             throw e;
         }
         catch (IOException e)
@@ -272,7 +272,7 @@ public class DataCollectorServer implements CommunicationServer, Runnable
 
         sweepClient();
 
-        // ƒNƒ‰ƒCƒAƒ“ƒg‚©‚ç‚Ì—v‹ó•t—p‚ÉAˆ—ƒXƒŒƒbƒh‚ğ‹N“®‚·‚éB
+        // ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‹ã‚‰ã®è¦æ±‚å—ä»˜ç”¨ã«ã€å‡¦ç†ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’èµ·å‹•ã™ã‚‹ã€‚
         DataCollectorClient clientRunnable;
         try
         {
@@ -283,7 +283,7 @@ public class DataCollectorServer implements CommunicationServer, Runnable
             objHandleThread.setDaemon(true);
             objHandleThread.start();
 
-            // ’Ê’m‚Ì‚½‚ß‚ÌƒNƒ‰ƒCƒAƒ“ƒgƒŠƒXƒg‚É’Ç‰Á‚·‚éB
+            // é€šçŸ¥ã®ãŸã‚ã®ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆãƒªã‚¹ãƒˆã«è¿½åŠ ã™ã‚‹ã€‚
             synchronized (this.clientList_)
             {
                 this.clientList_.put(clientId, clientRunnable);
@@ -306,7 +306,7 @@ public class DataCollectorServer implements CommunicationServer, Runnable
         {
             try
             {
-                //@’ÊM—pƒ|[ƒgBind‘Ò‚¿ó‘Ô‚Ì‚½‚ß‚ÉAŠ„‚è‚İ‚ğs‚¤
+                //ã€€é€šä¿¡ç”¨ãƒãƒ¼ãƒˆBindå¾…ã¡çŠ¶æ…‹ã®ãŸã‚ã«ã€å‰²ã‚Šè¾¼ã¿ã‚’è¡Œã†
                 Thread acceptThread = this.acceptThread_;
                 if (acceptThread != null)
                 {
@@ -323,8 +323,8 @@ public class DataCollectorServer implements CommunicationServer, Runnable
 
         if (this.isListening_)
         {
-            // ‘Ò‚¿ó‚¯ƒ\ƒPƒbƒg‚ğ•Â‚¶‚é‚±‚Æ‚É‚æ‚èAaccept()‚ÅSocketException‚ª
-            // ”­¶‚µA‘Ò‚¿ó‚¯ƒXƒŒƒbƒh‚ª’â~‚·‚éB
+            // å¾…ã¡å—ã‘ã‚½ã‚±ãƒƒãƒˆã‚’é–‰ã˜ã‚‹ã“ã¨ã«ã‚ˆã‚Šã€accept()ã§SocketExceptionãŒ
+            // ç™ºç”Ÿã—ã€å¾…ã¡å—ã‘ã‚¹ãƒ¬ãƒƒãƒ‰ãŒåœæ­¢ã™ã‚‹ã€‚
             if (this.serverSocket_ != null)
             {
                 try
@@ -369,7 +369,7 @@ public class DataCollectorServer implements CommunicationServer, Runnable
      */
     public void addCommunicatorListener(final CommunicatorListener listener)
     {
-        // ‰½‚à‚µ‚È‚¢
+        // ä½•ã‚‚ã—ãªã„
     }
 
     /**
@@ -377,7 +377,7 @@ public class DataCollectorServer implements CommunicationServer, Runnable
      */
     public void sendTelegram(final Telegram telegram)
     {
-        // ‰½‚à‚µ‚È‚¢
+        // ä½•ã‚‚ã—ãªã„
     }
 
     /**
@@ -385,11 +385,11 @@ public class DataCollectorServer implements CommunicationServer, Runnable
      */
     public void addTelegramListener(final TelegramListener listener)
     {
-        // ‰½‚à‚µ‚È‚¢
+        // ä½•ã‚‚ã—ãªã„
     }
 
     /**
-     * Ú‘±‚ªØ‚ê‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ğ‘|œ‚·‚éB
+     * æ¥ç¶šãŒåˆ‡ã‚ŒãŸã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚’æƒé™¤ã™ã‚‹ã€‚
      * @return
      */
     private int sweepClient()
@@ -416,12 +416,12 @@ public class DataCollectorServer implements CommunicationServer, Runnable
     }
 
     /**
-     * JavelinClientƒRƒlƒNƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‚Ü‚·B
+     * JavelinClientã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã—ã¾ã™ã€‚
      *
-     * @param clientSocket ƒ\ƒPƒbƒg
-     * @param clientId ƒNƒ‰ƒCƒAƒ“ƒgID
-     * @return JavelinClientƒRƒlƒNƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg
-     * @throws IOException “üo—Í—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param clientSocket ã‚½ã‚±ãƒƒãƒˆ
+     * @param clientId ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆID
+     * @return JavelinClientã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @throws IOException å…¥å‡ºåŠ›ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     protected DataCollectorClient createClientThread(final Socket clientSocket, String clientId)
         throws IOException
@@ -448,7 +448,7 @@ public class DataCollectorServer implements CommunicationServer, Runnable
                     break;
                 }
 
-                // ƒNƒ‰ƒCƒAƒ“ƒg‚ªØ’f‚³‚ê‚½‚çA“o˜^‚³‚ê‚Ä‚¢‚éƒŠƒXƒi‚É’Ê’m‚·‚éB
+                // ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆãŒåˆ‡æ–­ã•ã‚ŒãŸã‚‰ã€ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹ãƒªã‚¹ãƒŠã«é€šçŸ¥ã™ã‚‹ã€‚
                 for (ClientNotifyListener listener : clientNotifyListenerList_)
                 {
                     listener.clientDisconnected(client, forceDisconnected);
@@ -475,7 +475,7 @@ public class DataCollectorServer implements CommunicationServer, Runnable
                         break;
                     case ConnectNotifyData.PURPOSE_GET_DATABASE:
                     default :
-                        // ˆ—‚È‚µ
+                        // å‡¦ç†ãªã—
                         break;
                     
                     }
@@ -486,10 +486,10 @@ public class DataCollectorServer implements CommunicationServer, Runnable
                     break;
                 }
 
-                // ƒNƒ‰ƒCƒAƒ“ƒg‚ğ—LŒø‰»‚·‚éB
+                // ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚’æœ‰åŠ¹åŒ–ã™ã‚‹ã€‚
                 client.setEnabled(true);
 
-                // “o˜^‚³‚ê‚Ä‚¢‚éƒŠƒXƒi‚É’Ê’m‚·‚éB
+                // ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹ãƒªã‚¹ãƒŠã«é€šçŸ¥ã™ã‚‹ã€‚
                 for (ClientNotifyListener listener : clientNotifyListenerList_)
                 {
                     listener.clientConnected(client);
@@ -502,8 +502,8 @@ public class DataCollectorServer implements CommunicationServer, Runnable
     }
 
     /**
-     * ƒNƒ‰ƒCƒAƒ“ƒgó‘Ô•ÏŠ·’Ê’m—p‚ÌƒŠƒXƒi‚ğ“o˜^‚·‚éB
-     * @param listener ƒŠƒXƒi
+     * ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆçŠ¶æ…‹å¤‰æ›é€šçŸ¥ç”¨ã®ãƒªã‚¹ãƒŠã‚’ç™»éŒ²ã™ã‚‹ã€‚
+     * @param listener ãƒªã‚¹ãƒŠ
      */
     public void addClientNotifyListener(final ClientNotifyListener listener)
     {
@@ -511,8 +511,8 @@ public class DataCollectorServer implements CommunicationServer, Runnable
     }
 
     /**
-     * JavelinƒNƒ‰ƒCƒAƒ“ƒg—p‚Ì“d•¶ƒŠƒXƒi‚ğ“o˜^‚·‚éB
-     * @param listener ƒŠƒXƒi
+     * Javelinã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆç”¨ã®é›»æ–‡ãƒªã‚¹ãƒŠã‚’ç™»éŒ²ã™ã‚‹ã€‚
+     * @param listener ãƒªã‚¹ãƒŠ
      */
     public void addJavelinClientTelegramListener(TelegramListener listener)
     {
@@ -520,8 +520,8 @@ public class DataCollectorServer implements CommunicationServer, Runnable
     }
 
     /**
-     * §ŒäƒNƒ‰ƒCƒAƒ“ƒg—p‚Ì“d•¶ƒŠƒXƒi‚ğ“o˜^‚·‚éB
-     * @param listener ƒŠƒXƒi
+     * åˆ¶å¾¡ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆç”¨ã®é›»æ–‡ãƒªã‚¹ãƒŠã‚’ç™»éŒ²ã™ã‚‹ã€‚
+     * @param listener ãƒªã‚¹ãƒŠ
      */
     public void addControlClientTelegramListener(TelegramListener listener)
     {
@@ -529,9 +529,9 @@ public class DataCollectorServer implements CommunicationServer, Runnable
     }
 
     /**
-     * ƒNƒ‰ƒCƒAƒ“ƒgID‚ğƒL[‚Æ‚µ‚ÄƒNƒ‰ƒCƒAƒ“ƒg‚ğæ“¾‚·‚éB
-     * @param clientId ƒL[‚Æ‚È‚éƒNƒ‰ƒCƒAƒ“ƒgID
-     * @return w’è‚³‚ê‚½ƒNƒ‰ƒCƒAƒ“ƒgID‚ÌƒNƒ‰ƒCƒAƒ“ƒg‚ğ•Ô‚·B
+     * ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆIDã‚’ã‚­ãƒ¼ã¨ã—ã¦ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚’å–å¾—ã™ã‚‹ã€‚
+     * @param clientId ã‚­ãƒ¼ã¨ãªã‚‹ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆID
+     * @return æŒ‡å®šã•ã‚ŒãŸã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆIDã®ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚’è¿”ã™ã€‚
      */
     public DataCollectorClient getClient(String clientId)
     {
@@ -584,8 +584,8 @@ public class DataCollectorServer implements CommunicationServer, Runnable
     }
 
     /**
-     * ƒNƒ‰ƒCƒAƒ“ƒgID‚ğ•Ô‚·B
-     * @return Ì”Ô‚³‚ê‚½ƒNƒ‰ƒCƒAƒ“ƒgID
+     * ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆIDã‚’è¿”ã™ã€‚
+     * @return æ¡ç•ªã•ã‚ŒãŸã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆID
      */
     private String getClientId()
     {

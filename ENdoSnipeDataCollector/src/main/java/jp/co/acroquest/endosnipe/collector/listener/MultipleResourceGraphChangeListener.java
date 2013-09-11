@@ -37,7 +37,7 @@ import jp.co.acroquest.endosnipe.data.dto.MultipleResourceGraphDefinitionDto;
 import jp.co.acroquest.endosnipe.data.entity.MultipleResourceGraphDefinition;
 
 /**
- * ƒVƒOƒiƒ‹’è‹`•ÏX—v‹“d•¶‚ğóM‚·‚é‚½‚ß‚ÌƒNƒ‰ƒX‚Å‚·B<br />
+ * ã‚·ã‚°ãƒŠãƒ«å®šç¾©å¤‰æ›´è¦æ±‚é›»æ–‡ã‚’å—ä¿¡ã™ã‚‹ãŸã‚ã®ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  * 
  * @author pin
  */
@@ -64,15 +64,15 @@ public class MultipleResourceGraphChangeListener extends AbstractTelegramListene
             LOGGER.log(MULTIPLE_RESOURCE_GRAPH_DEFINITION_CHANGE_NOTIFY_RECEIVED);
         }
 
-        // “d•¶‚ğ‰ğÍ‚µAƒVƒOƒiƒ‹’è‹`î•ñ‚ğXV‚·‚éB
+        // é›»æ–‡ã‚’è§£æã—ã€ã‚·ã‚°ãƒŠãƒ«å®šç¾©æƒ…å ±ã‚’æ›´æ–°ã™ã‚‹ã€‚
         updateMultipleResourceGraphDefinition(telegram);
 
         return null;
     }
 
     /**
-     * è‡’l’è‹`î•ñ‚ğXV‚·‚éB
-     * @param telegram è‡’l’è‹`î•ñ“d•¶ˆê——
+     * é–¾å€¤å®šç¾©æƒ…å ±ã‚’æ›´æ–°ã™ã‚‹ã€‚
+     * @param telegram é–¾å€¤å®šç¾©æƒ…å ±é›»æ–‡ä¸€è¦§
      */
     private void updateMultipleResourceGraphDefinition(final Telegram telegram)
     {
@@ -96,8 +96,8 @@ public class MultipleResourceGraphChangeListener extends AbstractTelegramListene
 
     /**
      * 
-     * @param body {@link Body}ƒIƒuƒWƒFƒNƒg
-     * @param itemName €–Ú–¼
+     * @param body {@link Body}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param itemName é …ç›®å
      */
     private void setMultipleResourceGraphDefinition(final Body body, final String itemName)
     {
@@ -138,14 +138,14 @@ public class MultipleResourceGraphChangeListener extends AbstractTelegramListene
         }
         catch (NumberFormatException ex)
         {
-            // ƒVƒOƒiƒ‹’è‹`î•ñ‚Ì’Ç‰Á‚É¸”s
+            // ã‚·ã‚°ãƒŠãƒ«å®šç¾©æƒ…å ±ã®è¿½åŠ ã«å¤±æ•—
         }
     }
 
     /**
      * 
-     * @param body {@link Body}ƒIƒuƒWƒFƒNƒg
-     * @param itemName €–Ú–¼
+     * @param body {@link Body}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param itemName é …ç›®å
      */
     private void deleteMultipleResourceGraphDefinition(final Body body)
     {
@@ -165,7 +165,7 @@ public class MultipleResourceGraphChangeListener extends AbstractTelegramListene
         }
         catch (NumberFormatException ex)
         {
-            // ƒVƒOƒiƒ‹’è‹`î•ñ‚Ì’Ç‰Á‚É¸”s
+            // ã‚·ã‚°ãƒŠãƒ«å®šç¾©æƒ…å ±ã®è¿½åŠ ã«å¤±æ•—
         }
     }
 

@@ -13,26 +13,26 @@
 package jp.co.acroquest.endosnipe.report.entity;
 
 /**
- * ���X�|���X�^�C�����|�[�g�ɏo�͂���P���R�[�h���̃f�[�^�������G���e�B�e�B�N���X�B
+ * レスポンスタイムレポートに出力する１レコード分のデータを示すエンティティクラス。
  * 
  * @author M.Yoshida
  */
 public class ResponseTimeRecord
 {
 
-    /** �A�N�Z�X�Ώۂ�URL/���\�b�h�� */
+    /** アクセス対象のURL/メソッド名 */
     private String accessTarget_;
 
-    /** �Ώ�URL/���\�b�h�ɃA�N�Z�X������ */
+    /** 対象URL/メソッドにアクセスした回数 */
     private long   accessCount_;
 
-    /** �o�͊��ԓ��̍ŏ����X�|���X�^�C��[ms] */
+    /** 出力期間内の最小レスポンスタイム[ms] */
     private long   minResponseTime_;
 
-    /** �o�͊��ԓ��̕��σ��X�|���X�^�C��[ms] */
+    /** 出力期間内の平均レスポンスタイム[ms] */
     private long   aveResponseTime_;
 
-    /** �o�͊��ԓ��̍ő僌�X�|���X�^�C��[ms] */
+    /** 出力期間内の最大レスポンスタイム[ms] */
     private long   maxResponseTime_;
 
     /**

@@ -31,23 +31,23 @@ import jp.co.acroquest.endosnipe.javelin.CallTreeNode;
 import jp.co.acroquest.endosnipe.javelin.converter.wait.monitor.WaitMonitor;
 
 /**
- * wait‚ªŒp‘±‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
+ * waitãŒç¶™ç¶šã—ã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’åˆ¤å®šã™ã‚‹ã€‚
  * 
  * @author eriguchi
  */
 public class WaitContinueTask implements ThreadMonitorTask
 {
 
-    /** wai‚µ‚Ä‚¢‚½ƒXƒŒƒbƒh‚ÌƒL[B */
+    /** waiã—ã¦ã„ãŸã‚¹ãƒ¬ãƒƒãƒ‰ã®ã‚­ãƒ¼ã€‚ */
     private static final String KEY_THREAD_WAIT_THREAD = "thread.wait.thread";
 
     /**
-     * wait‚ªŒp‘±‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
+     * waitãŒç¶™ç¶šã—ã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’åˆ¤å®šã™ã‚‹ã€‚
      * 
      * 
-     * @param prevThreadInfo ‘O‰ñ‚ÌƒXƒŒƒbƒhî•ñB
-     * @param threadInfo Œ»İ‚ÌƒXƒŒƒbƒhî•ñB
-     * @return wait‚ªŒp‘±‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©B
+     * @param prevThreadInfo å‰å›ã®ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±ã€‚
+     * @param threadInfo ç¾åœ¨ã®ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±ã€‚
+     * @return waitãŒç¶™ç¶šã—ã¦ã„ã‚‹ã‹ã©ã†ã‹ã€‚
      */
     public boolean isTarget(final ThreadInfo prevThreadInfo, final ThreadInfo threadInfo)
     {
@@ -56,12 +56,12 @@ public class WaitContinueTask implements ThreadMonitorTask
     }
 
     /**
-     * w’è‚µ‚½node‚Éwait‚Ìó‹µ‚ğ’Ç‰Á‚·‚éB
+     * æŒ‡å®šã—ãŸnodeã«waitã®çŠ¶æ³ã‚’è¿½åŠ ã™ã‚‹ã€‚
      * 
-     * @param node ‘ÎÛ‚ÌCallTreeNodeB
-     * @param threadInfo Œ»İ‚ÌƒXƒŒƒbƒhî•ñB
-     * @param prevThreadInfo ‘O‰ñ‚ÌƒXƒŒƒbƒhî•ñB
-     * @param maxDepth æ“¾‚·‚éƒXƒ^ƒbƒNƒgƒŒ[ƒX‚Ì[‚³B
+     * @param node å¯¾è±¡ã®CallTreeNodeã€‚
+     * @param threadInfo ç¾åœ¨ã®ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±ã€‚
+     * @param prevThreadInfo å‰å›ã®ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±ã€‚
+     * @param maxDepth å–å¾—ã™ã‚‹ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®æ·±ã•ã€‚
      */
     public void updateNode(final CallTreeNode node, final ThreadInfo threadInfo,
             final ThreadInfo prevThreadInfo, final int maxDepth)
@@ -81,7 +81,7 @@ public class WaitContinueTask implements ThreadMonitorTask
     public void sendEvent(final Long threadId, ThreadInfo threadInfo, ThreadInfo prevThreadInfo,
             int maxDepth)
     {
-        //Œ»ó‚Í‰½‚à‚µ‚È‚¢
+        //ç¾çŠ¶ã¯ä½•ã‚‚ã—ãªã„
         return;
     }
 
@@ -90,7 +90,7 @@ public class WaitContinueTask implements ThreadMonitorTask
      */
     public void updateInfo(final Long threadId, ThreadInfo prevThreadInfo)
     {
-        //Œ»ó‚Í‰½‚à‚µ‚È‚¢
+        //ç¾çŠ¶ã¯ä½•ã‚‚ã—ãªã„
         return;
     }
 
@@ -99,7 +99,7 @@ public class WaitContinueTask implements ThreadMonitorTask
      */
     public void clearInfo(Long threadId)
     {
-        //Œ»ó‚Í‰½‚à‚µ‚È‚¢
+        //ç¾çŠ¶ã¯ä½•ã‚‚ã—ãªã„
         return;
     }
 }

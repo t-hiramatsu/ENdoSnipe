@@ -32,30 +32,30 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * ƒIƒuƒWƒFƒNƒg‚ÌƒnƒbƒVƒ…ƒR[ƒh‚ÆƒXƒŒƒbƒhID‚ÌŠÖŒW‚ğ•Û‚·‚éƒGƒ“ƒgƒŠ
+ * ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒãƒƒã‚·ãƒ¥ã‚³ãƒ¼ãƒ‰ã¨ã‚¹ãƒ¬ãƒƒãƒ‰IDã®é–¢ä¿‚ã‚’ä¿æŒã™ã‚‹ã‚¨ãƒ³ãƒˆãƒª
  * @author fujii
  */
 public class ConcurrentMonitorObject
 {
-    /** ŠÄ‹‘ÎÛ‚ÌƒIƒuƒWƒFƒNƒgB */
+    /** ç›£è¦–å¯¾è±¡ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚ */
     private WeakReference<Object> ref_;
 
-    /** ƒnƒbƒVƒ…ƒR[ƒh */
+    /** ãƒãƒƒã‚·ãƒ¥ã‚³ãƒ¼ãƒ‰ */
     private int hashCode_;
 
-    /** ¯•ÊqB */
+    /** è­˜åˆ¥å­ã€‚ */
     private String identifier_;
 
-    /** ‘O‰ñ‚ÌƒXƒŒƒbƒhID */
+    /** å‰å›ã®ã‚¹ãƒ¬ãƒƒãƒ‰ID */
     private long prevThreadId_;
 
-    /** Še€–ÚB */
+    /** å„é …ç›®ã€‚ */
     private List<ConcurrentMonitorItem> itemList_;
 
-    /** ƒƒbƒNƒIƒuƒWƒFƒNƒg‚ÌƒŠƒXƒgB */
+    /** ãƒ­ãƒƒã‚¯ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒªã‚¹ãƒˆã€‚ */
     private List<String> lockedObjectList_;
 
-    /** ƒXƒŒƒbƒh”Ô†‡‚ÌƒRƒ“ƒpƒŒ[ƒ^B */
+    /** ã‚¹ãƒ¬ãƒƒãƒ‰ç•ªå·é †ã®ã‚³ãƒ³ãƒ‘ãƒ¬ãƒ¼ã‚¿ã€‚ */
     private Comparator<? super ConcurrentMonitorItem> comparator_ =
             new Comparator<ConcurrentMonitorItem>() {
                 public int compare(ConcurrentMonitorItem o1, ConcurrentMonitorItem o2)
@@ -82,14 +82,14 @@ public class ConcurrentMonitorObject
                 }
             };
 
-    /** •Û‘¶‚·‚éƒƒbƒZ[ƒW‚ÌÅ‘å” */
+    /** ä¿å­˜ã™ã‚‹ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®æœ€å¤§æ•° */
     private static final int MAX_MESSAGE_NUM = 50;
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
      * 
-     * @param obj ‘ÎÛ‚ÌƒIƒuƒWƒFƒNƒgB
-     * @param identifier ¯•Êq
+     * @param obj å¯¾è±¡ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚
+     * @param identifier è­˜åˆ¥å­
      */
     public ConcurrentMonitorObject(final Object obj, final String identifier)
     {
@@ -100,8 +100,8 @@ public class ConcurrentMonitorObject
     }
 
     /**
-     * ƒnƒbƒVƒ…ƒR[ƒh‚ğæ“¾‚·‚éB
-     * @return ƒnƒbƒVƒ…ƒR[ƒh
+     * ãƒãƒƒã‚·ãƒ¥ã‚³ãƒ¼ãƒ‰ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ãƒãƒƒã‚·ãƒ¥ã‚³ãƒ¼ãƒ‰
      */
     public int getHashCode()
     {
@@ -109,10 +109,10 @@ public class ConcurrentMonitorObject
     }
 
     /**
-     * ƒXƒŒƒbƒhID‚ªŠÜ‚Ü‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğæ“¾‚·‚éB
+     * ã‚¹ãƒ¬ãƒƒãƒ‰IDãŒå«ã¾ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @param threadId ƒXƒŒƒbƒh‚h‚cB
-     * @return ƒXƒŒƒbƒhID‚ªŠÜ‚Ü‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©B
+     * @param threadId ã‚¹ãƒ¬ãƒƒãƒ‰ï¼©ï¼¤ã€‚
+     * @return ã‚¹ãƒ¬ãƒƒãƒ‰IDãŒå«ã¾ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹ã€‚
      */
     public boolean containsThreadId(long threadId)
     {
@@ -132,17 +132,17 @@ public class ConcurrentMonitorObject
     }
 
     /**
-     * ƒXƒŒƒbƒhƒAƒNƒZƒXî•ñ‚ğ•Û‘¶‚·‚éB
+     * ã‚¹ãƒ¬ãƒƒãƒ‰ã‚¢ã‚¯ã‚»ã‚¹æƒ…å ±ã‚’ä¿å­˜ã™ã‚‹ã€‚
      * 
-     * @param threadId ƒXƒŒƒbƒhIDB
-     * @param stackTrace ƒXƒ^ƒbƒNƒgƒŒ[ƒX
-     * @param lockeObjectList ƒƒbƒN‚µ‚Ä‚¢‚éƒIƒuƒWƒFƒNƒg‚ÌƒŠƒXƒgB
+     * @param threadId ã‚¹ãƒ¬ãƒƒãƒ‰IDã€‚
+     * @param stackTrace ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹
+     * @param lockeObjectList ãƒ­ãƒƒã‚¯ã—ã¦ã„ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒªã‚¹ãƒˆã€‚
      * 
      */
     public void addTrace(final long threadId, final String stackTrace,
             final List<String> lockeObjectList)
     {
-        // •Û‘¶‚·‚éƒƒbƒZ[ƒW‚Ì”‚ªÅ‘å’l‚É’B‚µ‚Ä‚¢‚éê‡‚ÍA–³‹‚·‚éB
+        // ä¿å­˜ã™ã‚‹ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®æ•°ãŒæœ€å¤§å€¤ã«é”ã—ã¦ã„ã‚‹å ´åˆã¯ã€ç„¡è¦–ã™ã‚‹ã€‚
         if (this.itemList_.size() >= MAX_MESSAGE_NUM)
         {
             return;

@@ -38,7 +38,7 @@ import jp.co.acroquest.endosnipe.data.dto.SignalDefinitionDto;
 import jp.co.acroquest.endosnipe.data.entity.SignalDefinition;
 
 /**
- * ƒVƒOƒiƒ‹’è‹`•ÏX—v‹“d•¶‚ğóM‚·‚é‚½‚ß‚ÌƒNƒ‰ƒX‚Å‚·B<br />
+ * ã‚·ã‚°ãƒŠãƒ«å®šç¾©å¤‰æ›´è¦æ±‚é›»æ–‡ã‚’å—ä¿¡ã™ã‚‹ãŸã‚ã®ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  * 
  * @author fujii
  */
@@ -71,14 +71,14 @@ public class SignalChangeListener extends AbstractTelegramListener implements Te
             LOGGER.log(SIGNAL_DEFINITION_CHANGE_NOTIFY_RECEIVED);
         }
 
-        // “d•¶‚ğ‰ğÍ‚µAƒVƒOƒiƒ‹’è‹`î•ñ‚ğXV‚·‚éB
+        // é›»æ–‡ã‚’è§£æã—ã€ã‚·ã‚°ãƒŠãƒ«å®šç¾©æƒ…å ±ã‚’æ›´æ–°ã™ã‚‹ã€‚
         updateSignalDefinition(telegram);
         return null;
     }
 
     /**
-     * è‡’l’è‹`î•ñ‚ğXV‚·‚éB
-     * @param telegram è‡’l’è‹`î•ñ“d•¶ˆê——
+     * é–¾å€¤å®šç¾©æƒ…å ±ã‚’æ›´æ–°ã™ã‚‹ã€‚
+     * @param telegram é–¾å€¤å®šç¾©æƒ…å ±é›»æ–‡ä¸€è¦§
      */
     private void updateSignalDefinition(final Telegram telegram)
     {
@@ -102,8 +102,8 @@ public class SignalChangeListener extends AbstractTelegramListener implements Te
 
     /**
      * 
-     * @param body {@link Body}ƒIƒuƒWƒFƒNƒg
-     * @param itemName €–Ú–¼
+     * @param body {@link Body}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param itemName é …ç›®å
      */
     private void setSignalDefinition(final Body body, final String itemName)
     {
@@ -143,14 +143,14 @@ public class SignalChangeListener extends AbstractTelegramListener implements Te
         }
         catch (NumberFormatException ex)
         {
-            // ƒVƒOƒiƒ‹’è‹`î•ñ‚Ì’Ç‰Á‚É¸”s
+            // ã‚·ã‚°ãƒŠãƒ«å®šç¾©æƒ…å ±ã®è¿½åŠ ã«å¤±æ•—
         }
     }
 
     /**
      * 
-     * @param body {@link Body}ƒIƒuƒWƒFƒNƒg
-     * @param itemName €–Ú–¼
+     * @param body {@link Body}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param itemName é …ç›®å
      */
     private void deleteSignalDefinition(final Body body)
     {
@@ -168,7 +168,7 @@ public class SignalChangeListener extends AbstractTelegramListener implements Te
         }
         catch (NumberFormatException ex)
         {
-            // ƒVƒOƒiƒ‹’è‹`î•ñ‚Ì’Ç‰Á‚É¸”s
+            // ã‚·ã‚°ãƒŠãƒ«å®šç¾©æƒ…å ±ã®è¿½åŠ ã«å¤±æ•—
         }
     }
 

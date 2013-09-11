@@ -33,27 +33,27 @@ import jp.co.acroquest.endosnipe.javelin.parser.JavelinLogElement;
 import jp.co.acroquest.endosnipe.javelin.parser.JavelinParser;
 
 /**
- * JavelinLogElement‚©‚çAExtraInfo‚Ìduration‚ğdurationè‡’l‚Æ‚µ‚Ä’Šo‚·‚éB
+ * JavelinLogElementã‹ã‚‰ã€ExtraInfoã®durationã‚’durationé–¾å€¤ã¨ã—ã¦æŠ½å‡ºã™ã‚‹ã€‚
  * 
  * @author eriguchi
  */
 public class DefaultThresholdStrategy implements ThresholdStrategy
 {
     /**
-     * JavelinLogElement‚©‚çAdurationè‡’l‚Æ‚µ‚Ä—˜—p‚·‚é•¶š—ñ‚ğ’Šo‚·‚éB
+     * JavelinLogElementã‹ã‚‰ã€durationé–¾å€¤ã¨ã—ã¦åˆ©ç”¨ã™ã‚‹æ–‡å­—åˆ—ã‚’æŠ½å‡ºã™ã‚‹ã€‚
      * 
      * @param javelinLogElement
-     *            ’l‚Ì’ŠoŒ³B
-     * @return durationè‡’l•¶š—ñB
+     *            å€¤ã®æŠ½å‡ºå…ƒã€‚
+     * @return durationé–¾å€¤æ–‡å­—åˆ—ã€‚
      */
     public String extractDurationThreshold(final JavelinLogElement javelinLogElement)
     {
-        // ExtraInfo‚Ì“à—e‚ğ•\‚·Map‚ğæ“¾‚·‚éB
+        // ExtraInfoã®å†…å®¹ã‚’è¡¨ã™Mapã‚’å–å¾—ã™ã‚‹ã€‚
         Map<String, String> map =
                                   JavelinLogUtil.parseDetailInfo(javelinLogElement,
                                                                  JavelinParser.TAG_TYPE_EXTRAINFO);
 
-        // ƒƒ\ƒbƒh‚ÌTAT‚Ì’l‚ğ“¾‚éB
+        // ãƒ¡ã‚½ãƒƒãƒ‰ã®TATã®å€¤ã‚’å¾—ã‚‹ã€‚
         String durationString = map.get(JavelinLogConstants.EXTRAPARAM_DURATION);
         return durationString;
     }

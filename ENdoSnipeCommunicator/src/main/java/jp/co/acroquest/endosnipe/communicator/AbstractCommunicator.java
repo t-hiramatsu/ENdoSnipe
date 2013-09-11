@@ -26,16 +26,16 @@
 package jp.co.acroquest.endosnipe.communicator;
 
 /**
- * ƒRƒ~ƒ…ƒjƒP[ƒVƒ‡ƒ“ƒNƒ‰ƒCƒAƒ“ƒgEƒT[ƒo‚Ì‚½‚ß‚Ì‹¤’ÊƒCƒ“ƒ^[ƒtƒF[ƒX‚Å‚·B<br />
+ * ã‚³ãƒŸãƒ¥ãƒ‹ã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆãƒ»ã‚µãƒ¼ãƒã®ãŸã‚ã®å…±é€šã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã§ã™ã€‚<br />
  * 
  * @author matsuoka
  */
 public interface AbstractCommunicator extends TelegramSender, TelegramReceiver
 {
     /**
-     * {@link AbstractCommunicator} ‚Ìó‘Ô•Ï‰»‚ğóM‚·‚é‚½‚ß‚ÌƒIƒuƒWƒFƒNƒg‚ğ’Ç‰Á‚µ‚Ü‚·B<br />
+     * {@link AbstractCommunicator} ã®çŠ¶æ…‹å¤‰åŒ–ã‚’å—ä¿¡ã™ã‚‹ãŸã‚ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¿½åŠ ã—ã¾ã™ã€‚<br />
      * 
-     * @param listener {@link CommunicatorListener} ƒIƒuƒWƒFƒNƒg
+     * @param listener {@link CommunicatorListener} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     void addCommunicatorListener(CommunicatorListener listener);
 }

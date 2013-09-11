@@ -28,29 +28,29 @@ package jp.co.acroquest.endosnipe.javelin.bean;
 import java.io.Serializable;
 
 /**
- * ƒƒ\ƒbƒh‚Ì“Œvî•ñ
+ * ãƒ¡ã‚½ãƒƒãƒ‰ã®çµ±è¨ˆæƒ…å ±
  * @author eriguchi
  *
  */
 public class InvocationInterval implements Serializable
 {
-    /** ƒVƒŠƒAƒ‹ID */
+    /** ã‚·ãƒªã‚¢ãƒ«ID */
     private static final long serialVersionUID = 7855547784390235717L;
 
-    /** ‰Šú’l */
+    /** åˆæœŸå€¤ */
     private static final long INITIAL = -1;
 
-    /** ƒƒ\ƒbƒh‚ÌŠÔ */
+    /** ãƒ¡ã‚½ãƒƒãƒ‰ã®æ™‚åˆ»æ™‚é–“ */
     private long interval_;
 
-    /** ƒƒ\ƒbƒh‚ÌCPUŠÔ */
+    /** ãƒ¡ã‚½ãƒƒãƒ‰ã®CPUæ™‚é–“ */
     private long cpuInterval_;
 
-    /** ƒƒ\ƒbƒh‚Ìƒ†[ƒUŠÔ */
+    /** ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒ¦ãƒ¼ã‚¶æ™‚é–“ */
     private long userInterval_;
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      */
     public InvocationInterval()
     {
@@ -60,8 +60,8 @@ public class InvocationInterval implements Serializable
     }
 
     /**
-     * ƒƒ\ƒbƒh‚ÌÀsŠÔ‚ğæ“¾‚·‚éB
-     * @return ƒƒ\ƒbƒh‚ÌÀsŠÔ
+     * ãƒ¡ã‚½ãƒƒãƒ‰ã®å®Ÿè¡Œæ™‚é–“ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ãƒ¡ã‚½ãƒƒãƒ‰ã®å®Ÿè¡Œæ™‚é–“
      */
     public long getInterval()
     {
@@ -69,8 +69,8 @@ public class InvocationInterval implements Serializable
     }
 
     /**
-     * ƒƒ\ƒbƒh‚ÌÀsŠÔ‚ğİ’è‚·‚éB
-     * @param interval ƒƒ\ƒbƒh‚ÌÀsŠÔ
+     * ãƒ¡ã‚½ãƒƒãƒ‰ã®å®Ÿè¡Œæ™‚é–“ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param interval ãƒ¡ã‚½ãƒƒãƒ‰ã®å®Ÿè¡Œæ™‚é–“
      */
     public void setInterval(final long interval)
     {
@@ -78,8 +78,8 @@ public class InvocationInterval implements Serializable
     }
 
     /**
-     * ƒƒ\ƒbƒh‚ÌCPUŠÔ‚ğæ“¾‚·‚éB
-     * @return ƒƒ\ƒbƒh‚ÌCPUŠÔ
+     * ãƒ¡ã‚½ãƒƒãƒ‰ã®CPUæ™‚é–“ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ãƒ¡ã‚½ãƒƒãƒ‰ã®CPUæ™‚é–“
      */
     public long getCpuInterval()
     {
@@ -87,8 +87,8 @@ public class InvocationInterval implements Serializable
     }
 
     /**
-     * ƒƒ\ƒbƒh‚ÌCPUŠÔ‚ğİ’è‚·‚éB
-     * @param cpuInterval ƒƒ\ƒbƒh‚ÌCPUŠÔ
+     * ãƒ¡ã‚½ãƒƒãƒ‰ã®CPUæ™‚é–“ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param cpuInterval ãƒ¡ã‚½ãƒƒãƒ‰ã®CPUæ™‚é–“
      */
     public void setCpuInterval(final long cpuInterval)
     {
@@ -96,8 +96,8 @@ public class InvocationInterval implements Serializable
     }
 
     /**
-     * ƒƒ\ƒbƒh‚Ìƒ†[ƒUŠÔ‚ğæ“¾‚·‚éB
-     * @return ƒƒ\ƒbƒh‚Ìƒ†[ƒUŠÔ
+     * ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒ¦ãƒ¼ã‚¶æ™‚é–“ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒ¦ãƒ¼ã‚¶æ™‚é–“
      */
     public long getUserInterval()
     {
@@ -105,8 +105,8 @@ public class InvocationInterval implements Serializable
     }
 
     /**
-     * ƒƒ\ƒbƒh‚Ìƒ†[ƒUŠÔ‚ğİ’è‚·‚éB
-     * @param userInterval ƒƒ\ƒbƒh‚Ìƒ†[ƒUŠÔ
+     * ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒ¦ãƒ¼ã‚¶æ™‚é–“ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param userInterval ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒ¦ãƒ¼ã‚¶æ™‚é–“
      */
     public void setUserInterval(final long userInterval)
     {
@@ -114,10 +114,10 @@ public class InvocationInterval implements Serializable
     }
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
-     * @param interval ƒƒ\ƒbƒh‚ÌÀsŠÔ
-     * @param cpuInterval ƒƒ\ƒbƒh‚ÌCPUŠÔ
-     * @param userInterval ƒƒ\ƒbƒh‚Ìƒ†[ƒUŠÔ
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+     * @param interval ãƒ¡ã‚½ãƒƒãƒ‰ã®å®Ÿè¡Œæ™‚é–“
+     * @param cpuInterval ãƒ¡ã‚½ãƒƒãƒ‰ã®CPUæ™‚é–“
+     * @param userInterval ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒ¦ãƒ¼ã‚¶æ™‚é–“
      */
     public InvocationInterval(final long interval, final long cpuInterval, final long userInterval)
     {

@@ -35,7 +35,7 @@ import jp.co.acroquest.endosnipe.common.entity.series.GraphResource;
 import jp.co.acroquest.endosnipe.common.entity.series.GraphResourceEntry;
 
 /**
- * CPUg—pŠÔ‚©‚çACPUg—p—¦‚ğZo‚·‚éƒtƒBƒ‹ƒ^B<br/>
+ * CPUä½¿ç”¨æ™‚é–“ã‹ã‚‰ã€CPUä½¿ç”¨ç‡ã‚’ç®—å‡ºã™ã‚‹ãƒ•ã‚£ãƒ«ã‚¿ã€‚<br/>
  *
  * @author akiba
  */
@@ -52,7 +52,7 @@ public class CpuDataFilter // extends GraphDataFilter
     private long prevUpTime_ = VALUE_NOT_SET;
 
     /**
-     * CPU g—p—¦‚ğˆµ‚¤ƒtƒBƒ‹ƒ^‚ğ¶¬‚µ‚Ü‚·B<br />
+     * CPU ä½¿ç”¨ç‡ã‚’æ‰±ã†ãƒ•ã‚£ãƒ«ã‚¿ã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
      */
     public CpuDataFilter()
     {
@@ -60,10 +60,10 @@ public class CpuDataFilter // extends GraphDataFilter
     }
 
     /**
-     * MeasurementData‚©‚ç’l‚ğ•ÏŠ·‚·‚éB
+     * MeasurementDataã‹ã‚‰å€¤ã‚’å¤‰æ›ã™ã‚‹ã€‚
      * 
-     * @param valuesMap •ÏŠ·‘ÎÛ‚ÌŒv‘ªƒf[ƒ^B
-     * @return •ÏŠ·Œã‚Ìƒf[ƒ^B
+     * @param valuesMap å¤‰æ›å¯¾è±¡ã®è¨ˆæ¸¬ãƒ‡ãƒ¼ã‚¿ã€‚
+     * @return å¤‰æ›å¾Œã®ãƒ‡ãƒ¼ã‚¿ã€‚
      */
     public GraphResource filter(final List<MeasurementData> valuesMap)
     {
@@ -119,7 +119,7 @@ public class CpuDataFilter // extends GraphDataFilter
     }
 
     /**
-     * ’l‚ğƒNƒŠƒA‚·‚éB
+     * å€¤ã‚’ã‚¯ãƒªã‚¢ã™ã‚‹ã€‚
      */
     public void clear()
     {

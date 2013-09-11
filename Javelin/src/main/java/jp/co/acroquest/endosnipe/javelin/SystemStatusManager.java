@@ -30,19 +30,19 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * ƒVƒXƒeƒ€‚Ìó‘Ô‚ğŠÇ—‚·‚éƒNƒ‰ƒX‚Å‚·B<br />
+ * ã‚·ã‚¹ãƒ†ãƒ ã®çŠ¶æ…‹ã‚’ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  * 
  * @author fujii
  *
  */
 public class SystemStatusManager
 {
-    /** ƒVƒXƒeƒ€‚Ìó‘Ô‚ğŠÇ—‚·‚éMap */
+    /** ã‚·ã‚¹ãƒ†ãƒ ã®çŠ¶æ…‹ã‚’ç®¡ç†ã™ã‚‹Map */
     private static Map<String, AtomicLong> statusMap__ =
         new ConcurrentHashMap<String, AtomicLong>();
 
     /**
-     * ƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğ‘j~‚·‚éprivateƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Å‚·B<br />
+     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã‚’é˜»æ­¢ã™ã‚‹privateã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§ã™ã€‚<br />
      */
     private SystemStatusManager()
     {
@@ -50,10 +50,10 @@ public class SystemStatusManager
     }
 
     /**
-     * ƒVƒXƒeƒ€‚Ìó‘Ô‚ğæ“¾‚µ‚Ü‚·B<br />
+     * ã‚·ã‚¹ãƒ†ãƒ ã®çŠ¶æ…‹ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      * 
-     * @param key ƒL[
-     * @return w’è‚³‚ê‚½ƒL[‚É‘Î‰‚·‚éó‘Ô
+     * @param key ã‚­ãƒ¼
+     * @return æŒ‡å®šã•ã‚ŒãŸã‚­ãƒ¼ã«å¯¾å¿œã™ã‚‹çŠ¶æ…‹
      */
     public static AtomicLong getValue(final String key)
     {

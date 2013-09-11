@@ -78,48 +78,48 @@ import jp.co.acroquest.endosnipe.javelin.resource.sun.SwapSpaceFreeGetter;
 import jp.co.acroquest.endosnipe.javelin.resource.sun.VirutalMemorySizeGetter;
 
 /**
- * ƒŠƒ\[ƒXî•ñ‚ğûW‚·‚éƒNƒ‰ƒXB
+ * ãƒªã‚½ãƒ¼ã‚¹æƒ…å ±ã‚’åé›†ã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚
  * 
- * getMultiResourcegetterMapAgetResourceGroupGetterList‚ÍA ƒŠƒtƒ@ƒNƒ^‚µA‚»‚Ì‚Ü‚ÜŒöŠJ‚µ‚È‚¢—l‚É‚·‚é‚×‚«‚Å‚·‚ªA–¢‘Î‰‚Å‚·B
+ * getMultiResourcegetterMapã€getResourceGroupGetterListã¯ã€ ãƒªãƒ•ã‚¡ã‚¯ã‚¿ã—ã€ãã®ã¾ã¾å…¬é–‹ã—ãªã„æ§˜ã«ã™ã‚‹ã¹ãã§ã™ãŒã€æœªå¯¾å¿œã§ã™ã€‚
  * 
  * @author eriguchi
  * @author ochiai
  */
 public class ResourceCollector implements TelegramConstants
 {
-	/** ƒxƒ“ƒ_[‚ªIBM‚Å‚ ‚é‚±‚Æ‚ğ•\‚·•¶š—ñ */
+	/** ãƒ™ãƒ³ãƒ€ãƒ¼ãŒIBMã§ã‚ã‚‹ã“ã¨ã‚’è¡¨ã™æ–‡å­—åˆ— */
 	public static final String VENDER_IBM = "IBM";
 
-	/** ƒxƒ“ƒ_[‚ªBEA‚Å‚ ‚é‚±‚Æ‚ğ•\‚·•¶š—ñ */
+	/** ãƒ™ãƒ³ãƒ€ãƒ¼ãŒBEAã§ã‚ã‚‹ã“ã¨ã‚’è¡¨ã™æ–‡å­—åˆ— */
 	public static final String VENDER_BEA = "BEA";
 
-	/** OS‚ªLinux‚Å‚ ‚é‚±‚Æ‚ğ•\‚·•¶š—ñ */
+	/** OSãŒLinuxã§ã‚ã‚‹ã“ã¨ã‚’è¡¨ã™æ–‡å­—åˆ— */
 	private static final String OS_LINUX = "Linux";
 
-	/** ƒxƒ“ƒ_[‚ªOracle‚Å‚ ‚é‚±‚Æ‚ğ•\‚·•¶š—ñ */
+	/** ãƒ™ãƒ³ãƒ€ãƒ¼ãŒOracleã§ã‚ã‚‹ã“ã¨ã‚’è¡¨ã™æ–‡å­—åˆ— */
 	public static final String VENDER_ORACLE = "Oracle";
 
-	/** OS‚ªWindows‚Å‚ ‚é‚±‚Æ‚ğ•\‚·•¶š—ñ */
+	/** OSãŒWindowsã§ã‚ã‚‹ã“ã¨ã‚’è¡¨ã™æ–‡å­—åˆ— */
 	private static final String OS_WINDOWS = "Windows";
 
-	/** OS‚ªSolaris‚Å‚ ‚é‚±‚Æ‚ğ•\‚·•¶š—ñ */
+	/** OSãŒSolarisã§ã‚ã‚‹ã“ã¨ã‚’è¡¨ã™æ–‡å­—åˆ— */
 	private static final String OS_SOLARIS = "SunOS";
 
-	/** ƒŠƒ\[ƒXæ“¾ƒIƒuƒWƒFƒNƒg‚Ìƒ}ƒbƒv */
+	/** ãƒªã‚½ãƒ¼ã‚¹å–å¾—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒãƒƒãƒ— */
 	private final Map<String, ResourceGetter> resourceGetterMap_;
 
-    /** ƒŠƒ\[ƒXæ“¾ƒIƒuƒWƒFƒNƒg‚Ìƒ}ƒbƒv */
+    /** ãƒªã‚½ãƒ¼ã‚¹å–å¾—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒãƒƒãƒ— */
     private final Set<ResourceLoader> resoureInfoLoaderSet_;
 
-	/** ƒŠƒ\[ƒXæ“¾ƒIƒuƒWƒFƒNƒg‚Ìƒ}ƒbƒv */
+	/** ãƒªã‚½ãƒ¼ã‚¹å–å¾—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒãƒƒãƒ— */
 	private final Map<String, MultiResourceGetter> multiResourceGetterMap_;
 
-	/** ƒOƒ‹[ƒv‰»‚³‚ê‚½•¡”ƒŠƒ\[ƒXæ“¾ƒIƒuƒWƒFƒNƒg‚ÌƒŠƒXƒg */
+	/** ã‚°ãƒ«ãƒ¼ãƒ—åŒ–ã•ã‚ŒãŸè¤‡æ•°ãƒªã‚½ãƒ¼ã‚¹å–å¾—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒªã‚¹ãƒˆ */
 	private final List<ResourceGroupGetter> resourceGroupGetterList_;
 
 	private static ResourceCollector instance__ = new ResourceCollector();
 
-	/** Windows ‚Ü‚½‚Í Linux ‚ÅƒŠƒ\[ƒXî•ñ‚ğæ“¾‚·‚é‚½‚ß‚É—p‚¢‚é */
+	/** Windows ã¾ãŸã¯ Linux ã§ãƒªã‚½ãƒ¼ã‚¹æƒ…å ±ã‚’å–å¾—ã™ã‚‹ãŸã‚ã«ç”¨ã„ã‚‹ */
 	private ProcParser procParser_ = null;
 
 	private ResourceCollector()
@@ -152,9 +152,9 @@ public class ResourceCollector implements TelegramConstants
 	}
 
 	/**
-	 * {@link ProcParser} ƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬‚µ‚Ü‚·B
+	 * {@link ProcParser} ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆã—ã¾ã™ã€‚
 	 * 
-	 * @return ¬Œ÷‚µ‚½ê‡‚ÍƒCƒ“ƒXƒ^ƒ“ƒXA‘Î‰‚µ‚Ä‚¢‚È‚¢OS‚Ìê‡‚Í <code>null</code>
+	 * @return æˆåŠŸã—ãŸå ´åˆã¯ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã€å¯¾å¿œã—ã¦ã„ãªã„OSã®å ´åˆã¯ <code>null</code>
 	 */
 	public static ProcParser createProcParser()
 	{
@@ -180,15 +180,15 @@ public class ResourceCollector implements TelegramConstants
 	}
 
 	    /**
-     * ƒŠƒ\[ƒXæ“¾ƒCƒ“ƒXƒ^ƒ“ƒX‚ğƒ}ƒbƒv‚É“o˜^‚µ‚Ü‚·B
+     * ãƒªã‚½ãƒ¼ã‚¹å–å¾—ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ãƒãƒƒãƒ—ã«ç™»éŒ²ã—ã¾ã™ã€‚
      * 
      * @param resourceMap
-     *            ƒŠƒ\[ƒXæ“¾ƒCƒ“ƒXƒ^ƒ“ƒX‚ğ“o˜^‚·‚éƒ}ƒbƒv
+     *            ãƒªã‚½ãƒ¼ã‚¹å–å¾—ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç™»éŒ²ã™ã‚‹ãƒãƒƒãƒ—
      * @param multiResourceMap
-     *            ƒŠƒ\[ƒXæ“¾ƒCƒ“ƒXƒ^ƒ“ƒX‚ğ“o˜^‚·‚éƒ}ƒbƒvi‰Â•ÏŒn—ñ—pj
+     *            ãƒªã‚½ãƒ¼ã‚¹å–å¾—ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç™»éŒ²ã™ã‚‹ãƒãƒƒãƒ—ï¼ˆå¯å¤‰ç³»åˆ—ç”¨ï¼‰
      * @param procParser
-     *            ƒŠƒ\[ƒXæ“¾ƒx[ƒXƒCƒ“ƒXƒ^ƒ“ƒX
-     * @param resoureInfoLoaderSet ƒŠƒ\[ƒXæ“¾ƒIƒuƒWƒFƒNƒgB
+     *            ãƒªã‚½ãƒ¼ã‚¹å–å¾—ãƒ™ãƒ¼ã‚¹ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+     * @param resoureInfoLoaderSet ãƒªã‚½ãƒ¼ã‚¹å–å¾—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚
      */
     public static void setResouceGetters(Map<String, ResourceGetter> resourceMap,
         Map<String, MultiResourceGetter> multiResourceMap, ProcParser procParser,
@@ -257,7 +257,7 @@ public class ResourceCollector implements TelegramConstants
 			initProcParserGetter(resourceMap, multiResourceMap, procParser);
 		}
 
-		// JMX‚ÌƒŠƒ\[ƒXƒf[ƒ^‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©
+		// JMXã®ãƒªã‚½ãƒ¼ã‚¹ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹
 		JavelinConfig config = new JavelinConfig();
 		if (config.getCollectJmxResources())
 		{
@@ -292,14 +292,14 @@ public class ResourceCollector implements TelegramConstants
 	}
 
     /**
-     * ProcParserŒn‚ÌGetter‚ğ‰Šú‰»‚·‚éB
+     * ProcParserç³»ã®Getterã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
      * 
      * @param resourceMap
-     *            ƒŠƒ\[ƒXæ“¾ƒCƒ“ƒXƒ^ƒ“ƒX‚ğ“o˜^‚·‚éƒ}ƒbƒv
+     *            ãƒªã‚½ãƒ¼ã‚¹å–å¾—ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç™»éŒ²ã™ã‚‹ãƒãƒƒãƒ—
      * @param multiResourceMap
-     *            ƒŠƒ\[ƒXæ“¾ƒCƒ“ƒXƒ^ƒ“ƒX‚ğ“o˜^‚·‚éƒ}ƒbƒvi‰Â•ÏŒn—ñ—pj
+     *            ãƒªã‚½ãƒ¼ã‚¹å–å¾—ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç™»éŒ²ã™ã‚‹ãƒãƒƒãƒ—ï¼ˆå¯å¤‰ç³»åˆ—ç”¨ï¼‰
      * @param procParser
-     *            ƒŠƒ\[ƒXæ“¾ƒx[ƒXƒCƒ“ƒXƒ^ƒ“ƒX
+     *            ãƒªã‚½ãƒ¼ã‚¹å–å¾—ãƒ™ãƒ¼ã‚¹ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
      */
     private static void initProcParserGetter(Map<String, ResourceGetter> resourceMap,
         Map<String, MultiResourceGetter> multiResourceMap, ProcParser procParser)
@@ -338,12 +338,12 @@ public class ResourceCollector implements TelegramConstants
     }
 
 	/**
-	 * •¡”‚ÌƒŠƒ\[ƒX‚ğ’Ç‰Á‚µ‚Ü‚·B
+	 * è¤‡æ•°ã®ãƒªã‚½ãƒ¼ã‚¹ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	 * 
 	 * @param itemName
-	 *            €–Ú–¼
+	 *            é …ç›®å
 	 * @param multiResourceGetter
-	 *            ƒ}ƒ‹ƒ`ƒŠƒ\[ƒXƒQƒbƒ^[
+	 *            ãƒãƒ«ãƒãƒªã‚½ãƒ¼ã‚¹ã‚²ãƒƒã‚¿ãƒ¼
 	 */
 	public void addMultiResource(String itemName, MultiResourceGetter multiResourceGetter)
 	{
@@ -354,12 +354,12 @@ public class ResourceCollector implements TelegramConstants
 	}
 
 	/**
-	 * ’P‘Ì‚ÌƒŠƒ\[ƒX‚ğ’Ç‰Á‚µ‚Ü‚·B
+	 * å˜ä½“ã®ãƒªã‚½ãƒ¼ã‚¹ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	 * 
 	 * @param itemName
-	 *            €–Ú–¼
+	 *            é …ç›®å
 	 * @param resourceGetter
-	 *            ƒŠƒ\[ƒXƒQƒbƒ^[
+	 *            ãƒªã‚½ãƒ¼ã‚¹ã‚²ãƒƒã‚¿ãƒ¼
 	 */
 	public void addSingleResource(String itemName, ResourceGetter resourceGetter)
 	{
@@ -370,9 +370,9 @@ public class ResourceCollector implements TelegramConstants
 	}
 
 	/**
-	 * ƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚µ‚Ü‚·B
+	 * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã—ã¾ã™ã€‚
 	 * 
-	 * @return ƒCƒ“ƒXƒ^ƒ“ƒXB
+	 * @return ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã€‚
 	 */
 	public static ResourceCollector getInstance()
 	{
@@ -380,11 +380,11 @@ public class ResourceCollector implements TelegramConstants
 	}
 
     /**
-     * w’è‚µ‚½ƒŠƒ\[ƒXî•ñ‚ğæ“¾‚µ‚Ü‚·B
+     * æŒ‡å®šã—ãŸãƒªã‚½ãƒ¼ã‚¹æƒ…å ±ã‚’å–å¾—ã—ã¾ã™ã€‚
      * 
      * @param itemName
-     *            ƒŠƒ\[ƒX‚Ì–¼ÌB
-     * @return ƒŠƒ\[ƒXî•ñB
+     *            ãƒªã‚½ãƒ¼ã‚¹ã®åç§°ã€‚
+     * @return ãƒªã‚½ãƒ¼ã‚¹æƒ…å ±ã€‚
      */
     public List<ResourceItem> getMultiResources(String itemName)
     {
@@ -405,11 +405,11 @@ public class ResourceCollector implements TelegramConstants
         return value;
     }	
 	/**
-	 * w’è‚µ‚½ƒŠƒ\[ƒXî•ñ‚ğæ“¾‚µ‚Ü‚·B
+	 * æŒ‡å®šã—ãŸãƒªã‚½ãƒ¼ã‚¹æƒ…å ±ã‚’å–å¾—ã—ã¾ã™ã€‚
 	 * 
 	 * @param itemName
-	 *            ƒŠƒ\[ƒX‚Ì–¼ÌB
-	 * @return ƒŠƒ\[ƒXî•ñB
+	 *            ãƒªã‚½ãƒ¼ã‚¹ã®åç§°ã€‚
+	 * @return ãƒªã‚½ãƒ¼ã‚¹æƒ…å ±ã€‚
 	 */
 	public Number getResource(String itemName)
 	{
@@ -431,9 +431,9 @@ public class ResourceCollector implements TelegramConstants
 	}
 
 	/**
-	 * ƒŠƒ\[ƒXæ“¾ƒIƒuƒWƒFƒNƒg‚Ìƒ}ƒbƒv‚ğæ“¾‚·‚éB
+	 * ãƒªã‚½ãƒ¼ã‚¹å–å¾—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒãƒƒãƒ—ã‚’å–å¾—ã™ã‚‹ã€‚
 	 * 
-	 * @return ƒŠƒ\[ƒXæ“¾ƒIƒuƒWƒFƒNƒg‚Ìƒ}ƒbƒv
+	 * @return ãƒªã‚½ãƒ¼ã‚¹å–å¾—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒãƒƒãƒ—
 	 */
 	public Map<String, ResourceGetter> getResourceGetterMap()
 	{
@@ -441,9 +441,9 @@ public class ResourceCollector implements TelegramConstants
 	}
 
 	/**
-	 * ƒŠƒ\[ƒXæ“¾ƒIƒuƒWƒFƒNƒg‚Ìƒ}ƒbƒv‚ğæ“¾‚µ‚Ü‚·B
+	 * ãƒªã‚½ãƒ¼ã‚¹å–å¾—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒãƒƒãƒ—ã‚’å–å¾—ã—ã¾ã™ã€‚
 	 * 
-	 * @return ƒŠƒ\[ƒXæ“¾ƒIƒuƒWƒFƒNƒg‚Ìƒ}ƒbƒvB
+	 * @return ãƒªã‚½ãƒ¼ã‚¹å–å¾—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒãƒƒãƒ—ã€‚
 	 */
 	public Map<String, MultiResourceGetter> getMultiResourceGetterMap()
 	{
@@ -451,9 +451,9 @@ public class ResourceCollector implements TelegramConstants
 	}
 
 	/**
-	 * ƒŠƒ\[ƒXæ“¾ƒIƒuƒWƒFƒNƒg‚ÌƒŠƒXƒg‚ğæ“¾‚µ‚Ü‚·B
+	 * ãƒªã‚½ãƒ¼ã‚¹å–å¾—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒªã‚¹ãƒˆã‚’å–å¾—ã—ã¾ã™ã€‚
 	 * 
-	 * @return ƒŠƒ\[ƒXæ“¾ƒIƒuƒWƒFƒNƒg‚Ìƒ}ƒbƒvB
+	 * @return ãƒªã‚½ãƒ¼ã‚¹å–å¾—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒãƒƒãƒ—ã€‚
 	 */
 	public List<ResourceGroupGetter> getResourceGroupGetterList()
 	{
@@ -461,11 +461,11 @@ public class ResourceCollector implements TelegramConstants
 	}
 
 	/**
-	 * í•Ê‚ğæ“¾‚µ‚Ü‚·B
+	 * ç¨®åˆ¥ã‚’å–å¾—ã—ã¾ã™ã€‚
 	 * 
 	 * @param itemName
-	 *            ƒŠƒ\[ƒX‚Ì–¼ÌB
-	 * @return í•ÊB
+	 *            ãƒªã‚½ãƒ¼ã‚¹ã®åç§°ã€‚
+	 * @return ç¨®åˆ¥ã€‚
 	 */
 	public ItemType getResourceType(String itemName)
 	{
@@ -478,11 +478,11 @@ public class ResourceCollector implements TelegramConstants
 	}
 
 	/**
-	 * •¡”Œn—ñ‚Ìí•Ê‚ğæ“¾‚µ‚Ü‚·B
+	 * è¤‡æ•°ç³»åˆ—ã®ç¨®åˆ¥ã‚’å–å¾—ã—ã¾ã™ã€‚
 	 * 
 	 * @param itemName
-	 *            ƒŠƒ\[ƒX‚Ì–¼ÌB
-	 * @return í•ÊB
+	 *            ãƒªã‚½ãƒ¼ã‚¹ã®åç§°ã€‚
+	 * @return ç¨®åˆ¥ã€‚
 	 */
 	public ItemType getMultiResourceType(String itemName)
 	{
@@ -495,9 +495,9 @@ public class ResourceCollector implements TelegramConstants
 	}
 
 	/**
-	 * •¡”Œn—ñ‚ÌitemID‚ğæ“¾‚µ‚Ü‚·B
+	 * è¤‡æ•°ç³»åˆ—ã®itemIDã‚’å–å¾—ã—ã¾ã™ã€‚
 	 * 
-	 * @return •¡”Œn—ñ‚ÌitemIDB
+	 * @return è¤‡æ•°ç³»åˆ—ã®itemIDã€‚
 	 */
 	public Set<String> getMultiResourceItemId()
 	{
@@ -505,9 +505,9 @@ public class ResourceCollector implements TelegramConstants
 	}
 
 	/**
-	 * Œn—ñ‚ÌitemID‚ğæ“¾‚µ‚Ü‚·B
+	 * ç³»åˆ—ã®itemIDã‚’å–å¾—ã—ã¾ã™ã€‚
 	 * 
-	 * @return Œn—ñ‚ÌitemIDB
+	 * @return ç³»åˆ—ã®itemIDã€‚
 	 */
 	public Set<String> getResourceItemId()
 	{
@@ -515,7 +515,7 @@ public class ResourceCollector implements TelegramConstants
 	}
 
 	/**
-	 * procParser ‚Ì load() ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚Ä‰Šú‰»‚·‚é
+	 * procParser ã® load() ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã³å‡ºã—ã¦åˆæœŸåŒ–ã™ã‚‹
 	 */
 	public void load()
 	{

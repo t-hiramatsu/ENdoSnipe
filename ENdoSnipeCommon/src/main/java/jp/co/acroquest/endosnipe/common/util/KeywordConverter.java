@@ -30,26 +30,26 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * •¶š—ñ‚ÉŠÜ‚Ü‚ê‚éƒL[ƒ[ƒh‚ğ•ÏŠ·‚·‚éƒNƒ‰ƒXB</br>
- * ƒL[ƒ[ƒh‚ÌPrefixASuffix‚ğw’è‚·‚é‚±‚Æ‚ª‚Å‚«‚éB
- * addConverterƒƒ\ƒbƒh‚ğ—˜—p‚µ‚ÄƒL[ƒ[ƒh‚Ì’uŠ·•¶š—ñ‚ğw’è‚µA
- * convertƒƒ\ƒbƒh‚Å’uŠ·‚·‚éB
+ * æ–‡å­—åˆ—ã«å«ã¾ã‚Œã‚‹ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã‚’å¤‰æ›ã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚</br>
+ * ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã®Prefixã€Suffixã‚’æŒ‡å®šã™ã‚‹ã“ã¨ãŒã§ãã‚‹ã€‚
+ * addConverterãƒ¡ã‚½ãƒƒãƒ‰ã‚’åˆ©ç”¨ã—ã¦ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã®ç½®æ›æ–‡å­—åˆ—ã‚’æŒ‡å®šã—ã€
+ * convertãƒ¡ã‚½ãƒƒãƒ‰ã§ç½®æ›ã™ã‚‹ã€‚
  * 
  * @author tsukano
  */
 public class KeywordConverter
 {
-    /** ƒL[ƒ[ƒh‚ÌPrefix */
+    /** ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã®Prefix */
     private final String keywordPrefix_;
 
-    /** ƒL[ƒ[ƒh‚ÌSuffix */
+    /** ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã®Suffix */
     private final String keywordSuffix_;
 
-    /** ƒL[ƒ[ƒh‚ğ•ÏŠ·‚·‚é•¶š—ñ‚ğ’è‹`‚µ‚½ƒŠƒXƒg */
+    /** ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã‚’å¤‰æ›ã™ã‚‹æ–‡å­—åˆ—ã‚’å®šç¾©ã—ãŸãƒªã‚¹ãƒˆ */
     private final Map<String, String> converterMap_ = new LinkedHashMap<String, String>();
 
     /**
-     * PrefixASuffix‚È‚µ‚Ì•ÏŠ·ƒNƒ‰ƒX‚ğ¶¬‚·‚éB</br>
+     * Prefixã€Suffixãªã—ã®å¤‰æ›ã‚¯ãƒ©ã‚¹ã‚’ç”Ÿæˆã™ã‚‹ã€‚</br>
      */
     public KeywordConverter()
     {
@@ -58,10 +58,10 @@ public class KeywordConverter
     }
 
     /**
-     * PrefixASuffix‚ğw’è‚µ‚Ä•ÏŠ·ƒNƒ‰ƒX‚ğ¶¬‚·‚éB</br>
+     * Prefixã€Suffixã‚’æŒ‡å®šã—ã¦å¤‰æ›ã‚¯ãƒ©ã‚¹ã‚’ç”Ÿæˆã™ã‚‹ã€‚</br>
      * 
-     * @param keywordPrefix ƒL[ƒ[ƒh‚ÌPrefix
-     * @param keywordSuffix ƒL[ƒ[ƒh‚ÌSuffix
+     * @param keywordPrefix ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã®Prefix
+     * @param keywordSuffix ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã®Suffix
      */
     public KeywordConverter(final String keywordPrefix, final String keywordSuffix)
     {
@@ -70,10 +70,10 @@ public class KeywordConverter
     }
 
     /**
-     * ƒL[ƒ[ƒh‚Æ’uŠ·•¶š—ñ‚ğ’Ç‰Á‚·‚éB</br>
+     * ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã¨ç½®æ›æ–‡å­—åˆ—ã‚’è¿½åŠ ã™ã‚‹ã€‚</br>
      * 
-     * @param keyword ƒL[ƒ[ƒh
-     * @param convertedString ƒL[ƒ[ƒh‚Ì’uŠ·•¶š—ñ
+     * @param keyword ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰
+     * @param convertedString ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã®ç½®æ›æ–‡å­—åˆ—
      */
     public void addConverter(final String keyword, final String convertedString)
     {
@@ -81,11 +81,11 @@ public class KeywordConverter
     }
 
     /**
-     * ƒL[ƒ[ƒh‚Æ’uŠ·•¶š—ñ‚ğ’Ç‰Á‚·‚éB</br>
-     * ’uŠ·•¶š—ñ‚Éint’l‚ğİ’è‚·‚éˆ×‚ÌŠÈˆÕƒƒ\ƒbƒhB
+     * ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã¨ç½®æ›æ–‡å­—åˆ—ã‚’è¿½åŠ ã™ã‚‹ã€‚</br>
+     * ç½®æ›æ–‡å­—åˆ—ã«intå€¤ã‚’è¨­å®šã™ã‚‹ç‚ºã®ç°¡æ˜“ãƒ¡ã‚½ãƒƒãƒ‰ã€‚
      * 
-     * @param keyword ƒL[ƒ[ƒh
-     * @param convertedValue ƒL[ƒ[ƒh‚Ì’uŠ·•¶š—ñ(int’l)
+     * @param keyword ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰
+     * @param convertedValue ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã®ç½®æ›æ–‡å­—åˆ—(intå€¤)
      */
     public void addConverter(final String keyword, final int convertedValue)
     {
@@ -93,11 +93,11 @@ public class KeywordConverter
     }
 
     /**
-     * ƒL[ƒ[ƒh‚Æ’uŠ·•¶š—ñ‚ğ’Ç‰Á‚·‚éB</br>
-     * ’uŠ·•¶š—ñ‚Élong’l‚ğİ’è‚·‚éˆ×‚ÌŠÈˆÕƒƒ\ƒbƒhB
+     * ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã¨ç½®æ›æ–‡å­—åˆ—ã‚’è¿½åŠ ã™ã‚‹ã€‚</br>
+     * ç½®æ›æ–‡å­—åˆ—ã«longå€¤ã‚’è¨­å®šã™ã‚‹ç‚ºã®ç°¡æ˜“ãƒ¡ã‚½ãƒƒãƒ‰ã€‚
      * 
-     * @param keyword ƒL[ƒ[ƒh
-     * @param convertedValue ƒL[ƒ[ƒh‚Ì’uŠ·•¶š—ñ(long’l)
+     * @param keyword ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰
+     * @param convertedValue ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã®ç½®æ›æ–‡å­—åˆ—(longå€¤)
      */
     public void addConverter(final String keyword, final long convertedValue)
     {
@@ -105,12 +105,12 @@ public class KeywordConverter
     }
 
     /**
-     * ƒL[ƒ[ƒh‚Æ’uŠ·•¶š—ñ‚ğ’Ç‰Á‚·‚éB</br>
-     * ’uŠ·•¶š—ñ‚ÉObject‚Ì•¶š—ñ‚ğİ’è‚·‚éˆ×‚ÌŠÈˆÕƒƒ\ƒbƒhB
-     * toString()‚ğÀ‘•‚µ‚Ä‚¢‚éObject‚È‚ç‚Î‚»‚Ìo—Í‚Å’uŠ·‚·‚éB
+     * ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã¨ç½®æ›æ–‡å­—åˆ—ã‚’è¿½åŠ ã™ã‚‹ã€‚</br>
+     * ç½®æ›æ–‡å­—åˆ—ã«Objectã®æ–‡å­—åˆ—ã‚’è¨­å®šã™ã‚‹ç‚ºã®ç°¡æ˜“ãƒ¡ã‚½ãƒƒãƒ‰ã€‚
+     * toString()ã‚’å®Ÿè£…ã—ã¦ã„ã‚‹Objectãªã‚‰ã°ãã®å‡ºåŠ›ã§ç½®æ›ã™ã‚‹ã€‚
      * 
-     * @param keyword ƒL[ƒ[ƒh
-     * @param convertedValue ƒL[ƒ[ƒh‚Ì’uŠ·•¶š—ñ(Object)
+     * @param keyword ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰
+     * @param convertedValue ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã®ç½®æ›æ–‡å­—åˆ—(Object)
      */
     public void addConverter(final String keyword, final Object convertedValue)
     {
@@ -118,16 +118,16 @@ public class KeywordConverter
     }
 
     /**
-     * “o˜^‚µ‚½’uŠ·•¶š—ñ‚ÉƒL[ƒ[ƒh‚ğ’uŠ·‚·‚éB</br>
+     * ç™»éŒ²ã—ãŸç½®æ›æ–‡å­—åˆ—ã«ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã‚’ç½®æ›ã™ã‚‹ã€‚</br>
      * 
-     * @param source ’uŠ·‘O‚Ì•¶š—ñ
-     * @return ’uŠ·Œã‚Ì•¶š—ñ
+     * @param source ç½®æ›å‰ã®æ–‡å­—åˆ—
+     * @return ç½®æ›å¾Œã®æ–‡å­—åˆ—
      */
     public String convert(final String source)
     {
         String retValue = source;
 
-        // “o˜^‚µ‚Ä‚ ‚éî•ñ‚ğ—˜—p‚µ‚Ä’uŠ·‚·‚é
+        // ç™»éŒ²ã—ã¦ã‚ã‚‹æƒ…å ±ã‚’åˆ©ç”¨ã—ã¦ç½®æ›ã™ã‚‹
         Set<Map.Entry<String, String>> entries = converterMap_.entrySet();
         for (Map.Entry<String, String> entry : entries)
         {
@@ -141,7 +141,7 @@ public class KeywordConverter
             }
         }
 
-        // ’uŠ·Œã‚Ì•¶š—ñ‚ğ•Ô‚·
+        // ç½®æ›å¾Œã®æ–‡å­—åˆ—ã‚’è¿”ã™
         return retValue;
     }
 }

@@ -923,7 +923,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 						var graph = this.hiddenGraph[i] + "_ensgraph";
 						$("#" + graph).show();
 						var ins = ENS.nodeinfo.viewList[this.siblingNode[startValue
-								+ i]];
+								+ i].itemName];
 						ins.entity.resize(ins.width, ins.graphHeight);
 						if ($("#" + ins.maximumButton).length <= 0) {
 							var childElem2 = $("#" + graph + "")

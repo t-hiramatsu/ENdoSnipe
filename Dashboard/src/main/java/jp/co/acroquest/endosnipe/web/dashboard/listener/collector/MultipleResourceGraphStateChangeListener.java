@@ -39,7 +39,7 @@ import jp.co.acroquest.endosnipe.web.dashboard.manager.ResourceSender;
 import org.wgp.manager.WgpDataManager;
 
 /**
- * DataCollectorからシグナル状態通知電文
+ * DataCollectorからの複数グラフの状態通知電文を受信するクラス。
  * @author pin
  *
  */
@@ -65,7 +65,6 @@ public class MultipleResourceGraphStateChangeListener extends AbstractTelegramLi
         // DataCollectorから送信された電文から、
         // Dashboardのクライアントに通知するためのイベントを作成する。
         String[] treeIds = null;
-        // String[] alarmTypes = null;
 
         for (Body body : resourceAlarmBodys)
         {
@@ -82,13 +81,6 @@ public class MultipleResourceGraphStateChangeListener extends AbstractTelegramLi
             {
                 treeIds = getStringValues(loopCount, measurementItemValues);
             }
-
-            // アラーム種類の項目に対する処理
-            //else if (TelegramConstants.ITEMNAME_ALARM_TYPE.equals(itemNameInTelegram))
-            //{
-            //　アラームの種別（現状は使用しない）
-            // alarmTypes = getStringValues(loopCount, measurementItemValues);
-            //}
         }
 
         for (int cnt = 0; cnt < treeIds.length; cnt++)
@@ -103,7 +95,7 @@ public class MultipleResourceGraphStateChangeListener extends AbstractTelegramLi
 
         }
 
-        // シグナルの状態更新を通知する。
+        // 複数グラフの状態更新を通知する。
         EventManager eventManager = EventManager.getInstance();
         WgpDataManager dataManager = eventManager.getWgpDataManager();
         ResourceSender resourceSender = eventManager.getResourceSender();
@@ -134,27 +126,6 @@ public class MultipleResourceGraphStateChangeListener extends AbstractTelegramLi
             }
             String alarmType = (String)telegramValuesOfobject[cnt];
             telegramValues[cnt] = alarmType;
-        }
-        return telegramValues;
-    }
-
-    /**
-     * 電文の配列をInteger型にして返します。
-     * @param loopCount ループ回数
-     * @param telegramValuesOfobject 電文の値オブジェクト
-     * @return Integer型の電文の値配列
-     */
-    private int[] getIntValues(final int loopCount, final Object[] telegramValuesOfobject)
-    {
-        int[] telegramValues = new int[loopCount];
-        for (int cnt = 0; cnt < telegramValuesOfobject.length; cnt++)
-        {
-            if (cnt >= loopCount)
-            {
-                break;
-            }
-            Integer value = (Integer)telegramValuesOfobject[cnt];
-            telegramValues[cnt] = value.intValue();
         }
         return telegramValues;
     }

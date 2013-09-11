@@ -51,47 +51,47 @@ import jp.co.acroquest.endosnipe.data.entity.JavelinMeasurementItem;
 import jp.co.acroquest.endosnipe.data.entity.MeasurementValue;
 
 /**
- * ƒf[ƒ^ƒx[ƒX‚ÌŒv‘ª’lî•ñ‚ğ {@link ResourceData} ‚Å‚â‚è‚Æ‚è‚·‚é‚½‚ß‚Ìƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒXB
+ * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®è¨ˆæ¸¬å€¤æƒ…å ±ã‚’ {@link ResourceData} ã§ã‚„ã‚Šã¨ã‚Šã™ã‚‹ãŸã‚ã®ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã€‚
  *
  * @author sakamoto
  */
 public class ResourceDataDaoUtil
 {
-    /** ƒƒK[ */
+    /** ãƒ­ã‚¬ãƒ¼ */
     private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
         .getLogger(ResourceDataDaoUtil.class);
 
-    /** ƒf[ƒ^ƒx[ƒX–¼‚ğƒL[‚Æ‚·‚éA‘O‰ñƒf[ƒ^‚ğ‘}“ü‚µ‚½ƒe[ƒuƒ‹ƒCƒ“ƒfƒbƒNƒX‚ğ•Û‚·‚éƒ}ƒbƒv */
+    /** ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã‚’ã‚­ãƒ¼ã¨ã™ã‚‹ã€å‰å›ãƒ‡ãƒ¼ã‚¿ã‚’æŒ¿å…¥ã—ãŸãƒ†ãƒ¼ãƒ–ãƒ«ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’ä¿æŒã™ã‚‹ãƒãƒƒãƒ— */
     private static Map<String, Integer> prevTableIndexMap__ =
         new ConcurrentHashMap<String, Integer>();
 
-    /** ƒf[ƒ^ƒx[ƒX–¼‚ğƒL[‚Æ‚·‚éAŒn—ñ”Ô†‚Æ‚»‚ÌÅI‘}“ü‚Ìƒ}ƒbƒv‚ğ•Û‚·‚éƒ}ƒbƒv */
+    /** ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã‚’ã‚­ãƒ¼ã¨ã™ã‚‹ã€ç³»åˆ—ç•ªå·ã¨ãã®æœ€çµ‚æŒ¿å…¥æ™‚åˆ»ã®ãƒãƒƒãƒ—ã‚’ä¿æŒã™ã‚‹ãƒãƒƒãƒ— */
     private static Map<String, Map<Integer, Timestamp>> measurementItemUpdatedMap__ =
         new ConcurrentHashMap<String, Map<Integer, Timestamp>>();
 
-    /** ƒf[ƒ^ƒx[ƒX–¼‚ğƒL[‚Æ‚·‚éAmeasurement_type‚Æitem_name‚ğ":"‚Å‹æØ‚Á‚Ä˜AŒ‹‚µ‚½•¶š—ñ‚ğƒL[‚Æ‚·‚éAitem_id‚Ìƒ}ƒbƒv‚ğ•Û‚·‚éƒ}ƒbƒv*/
+    /** ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã‚’ã‚­ãƒ¼ã¨ã™ã‚‹ã€measurement_typeã¨item_nameã‚’":"ã§åŒºåˆ‡ã£ã¦é€£çµã—ãŸæ–‡å­—åˆ—ã‚’ã‚­ãƒ¼ã¨ã™ã‚‹ã€item_idã®ãƒãƒƒãƒ—ã‚’ä¿æŒã™ã‚‹ãƒãƒƒãƒ—*/
     private static Map<String, Map<String, Integer>> measurementItemIdMap__ =
         new ConcurrentHashMap<String, Map<String, Integer>>();
 
-    /** ‚PTŠÔ‚Ì“ú” */
+    /** ï¼‘é€±é–“ã®æ—¥æ•° */
     public static final int DAY_OF_WEEK = 7;
 
-    /** ‚P”NŠÔ‚ÌÅ‘å“ú” */
+    /** ï¼‘å¹´é–“ã®æœ€å¤§æ—¥æ•° */
     private static final int DAY_OF_YEAR_MAX = 366;
 
-    /** ƒp[ƒeƒBƒVƒ‡ƒjƒ“ƒO‚³‚ê‚½ƒe[ƒuƒ‹‚Ì”iÅŒã‚Ìƒe[ƒuƒ‹‚Í7“úˆÈã‚Ìƒf[ƒ^‚ª“ü‚éj */
+    /** ãƒ‘ãƒ¼ãƒ†ã‚£ã‚·ãƒ§ãƒ‹ãƒ³ã‚°ã•ã‚ŒãŸãƒ†ãƒ¼ãƒ–ãƒ«ã®æ•°ï¼ˆæœ€å¾Œã®ãƒ†ãƒ¼ãƒ–ãƒ«ã¯7æ—¥ä»¥ä¸Šã®ãƒ‡ãƒ¼ã‚¿ãŒå…¥ã‚‹ï¼‰ */
     public static final int PARTITION_TABLE_COUNT = DAY_OF_YEAR_MAX / DAY_OF_WEEK;
 
-    /** JAVELIN_MEASUREMENT_ITEMƒe[ƒuƒ‹‚ÌLAST_INSERTEDƒtƒB[ƒ‹ƒh‚ğXV‚·‚éŠÔŠuiƒ~ƒŠ•bj */
+    /** JAVELIN_MEASUREMENT_ITEMãƒ†ãƒ¼ãƒ–ãƒ«ã®LAST_INSERTEDãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã‚’æ›´æ–°ã™ã‚‹é–“éš”ï¼ˆãƒŸãƒªç§’ï¼‰ */
     private static final int ITEM_UPDATE_INTERVAL = 24 * 60 * 60 * 1000;
 
-    /** ƒoƒbƒ`‚ÌƒTƒCƒY */
+    /** ãƒãƒƒãƒã®ã‚µã‚¤ã‚º */
     private static final int DEF_BATCH_SIZE = 100;
 
-    /** itemId‚ÌƒLƒƒƒbƒVƒ…ƒTƒCƒY */
+    /** itemIdã®ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚µã‚¤ã‚º */
     private static final int DEF_ITEMID_CACHE_SIZE = 50000;
 
-    /** MEASUREMENT_VALUE ƒe[ƒuƒ‹‚ğ truncate ‚·‚éƒR[ƒ‹ƒoƒbƒNƒƒ\ƒbƒh */
+    /** MEASUREMENT_VALUE ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ truncate ã™ã‚‹ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ãƒ¡ã‚½ãƒƒãƒ‰ */
     private static final RotateCallback MEASUREMENT_ROTATE_CALLBACK = new RotateCallback() {
         /**
          * {@inheritDoc}
@@ -112,7 +112,7 @@ public class ResourceDataDaoUtil
     };
 
     /**
-     * ƒfƒtƒHƒ‹ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ğ‰B•Á‚µ‚Ü‚·B
+     * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã‚’éš è”½ã—ã¾ã™ã€‚
      */
     private ResourceDataDaoUtil()
     {
@@ -120,11 +120,11 @@ public class ResourceDataDaoUtil
     }
 
     /**
-     * ƒf[ƒ^‚ğ‘}“ü‚·‚éƒe[ƒuƒ‹‚Ì–¼‘O‚ğ•Ô‚µ‚Ü‚·B
+     * ãƒ‡ãƒ¼ã‚¿ã‚’æŒ¿å…¥ã™ã‚‹ãƒ†ãƒ¼ãƒ–ãƒ«ã®åå‰ã‚’è¿”ã—ã¾ã™ã€‚
      *
-     * @param date ‘}“ü‚·‚éƒf[ƒ^‚Ì“ú•t
-     * @param tableNameBase ƒe[ƒuƒ‹–¼‚Ìƒx[ƒX
-     * @return ƒe[ƒuƒ‹–¼
+     * @param date æŒ¿å…¥ã™ã‚‹ãƒ‡ãƒ¼ã‚¿ã®æ—¥ä»˜
+     * @param tableNameBase ãƒ†ãƒ¼ãƒ–ãƒ«åã®ãƒ™ãƒ¼ã‚¹
+     * @return ãƒ†ãƒ¼ãƒ–ãƒ«å
      */
     public static String getTableNameToInsert(final Date date, final String tableNameBase)
     {
@@ -135,7 +135,7 @@ public class ResourceDataDaoUtil
         }
         else
         {
-            // H2ˆÈŠO‚Ìƒf[ƒ^ƒx[ƒX‚Ìê‡‚ÍAƒp[ƒeƒBƒVƒ‡ƒjƒ“ƒOˆ—‚ğs‚¤
+            // H2ä»¥å¤–ã®ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®å ´åˆã¯ã€ãƒ‘ãƒ¼ãƒ†ã‚£ã‚·ãƒ§ãƒ‹ãƒ³ã‚°å‡¦ç†ã‚’è¡Œã†
             int weekOfYear = getTableIndexToInsert(date);
             tableName = getTableName(tableNameBase, weekOfYear);
         }
@@ -143,11 +143,11 @@ public class ResourceDataDaoUtil
     }
 
     /**
-     * Àƒe[ƒuƒ‹‚Ì–¼‘O‚ğ•Ô‚µ‚Ü‚·B
+     * å®Ÿãƒ†ãƒ¼ãƒ–ãƒ«ã®åå‰ã‚’è¿”ã—ã¾ã™ã€‚
      *
-     * @param tableNameBase ƒe[ƒuƒ‹–¼‚Ìƒx[ƒX
-     * @param index ƒe[ƒuƒ‹ƒCƒ“ƒfƒbƒNƒX
-     * @return Àƒe[ƒuƒ‹‚Ì–¼‘O
+     * @param tableNameBase ãƒ†ãƒ¼ãƒ–ãƒ«åã®ãƒ™ãƒ¼ã‚¹
+     * @param index ãƒ†ãƒ¼ãƒ–ãƒ«ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+     * @return å®Ÿãƒ†ãƒ¼ãƒ–ãƒ«ã®åå‰
      */
     public static String getTableName(final String tableNameBase, final int index)
     {
@@ -156,10 +156,10 @@ public class ResourceDataDaoUtil
     }
 
     /**
-     * ƒf[ƒ^‚ğ‘}“ü‚·‚éƒe[ƒuƒ‹‚ÌƒCƒ“ƒfƒbƒNƒX‚ğ•Ô‚µ‚Ü‚·B
+     * ãƒ‡ãƒ¼ã‚¿ã‚’æŒ¿å…¥ã™ã‚‹ãƒ†ãƒ¼ãƒ–ãƒ«ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’è¿”ã—ã¾ã™ã€‚
      *
-     * @param date ‘}“ü‚·‚éƒf[ƒ^‚Ì“ú•ti <code>null</code> ‚Ìê‡‚ÍŒ»İ‚Ì“ú•tj
-     * @return ƒe[ƒuƒ‹ƒCƒ“ƒfƒbƒNƒX
+     * @param date æŒ¿å…¥ã™ã‚‹ãƒ‡ãƒ¼ã‚¿ã®æ—¥ä»˜ï¼ˆ <code>null</code> ã®å ´åˆã¯ç¾åœ¨ã®æ—¥ä»˜ï¼‰
+     * @return ãƒ†ãƒ¼ãƒ–ãƒ«ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
      */
     public static int getTableIndexToInsert(final Date date)
     {
@@ -177,24 +177,24 @@ public class ResourceDataDaoUtil
     }
 
     /**
-     * {@link ResourceData} ‚ğƒf[ƒ^ƒx[ƒX‚É“o˜^‚µ‚Ü‚·B<br />
+     * {@link ResourceData} ã‚’ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã«ç™»éŒ²ã—ã¾ã™ã€‚<br />
      *
-     * {@link ResourceData} ‚ª•Û‚·‚éƒzƒXƒgî•ñ‚ªŒv‘ª‘ÎÛƒzƒXƒgî•ñƒe[ƒuƒ‹‚É‘¶İ‚µ‚È‚¢ê‡‚ÍA
-     * ƒf[ƒ^ƒx[ƒX‚É“o˜^‚¹‚¸AƒGƒ‰[ƒƒO‚ğo—Í‚µ‚Ü‚·B<br />
+     * {@link ResourceData} ãŒä¿æŒã™ã‚‹ãƒ›ã‚¹ãƒˆæƒ…å ±ãŒè¨ˆæ¸¬å¯¾è±¡ãƒ›ã‚¹ãƒˆæƒ…å ±ãƒ†ãƒ¼ãƒ–ãƒ«ã«å­˜åœ¨ã—ãªã„å ´åˆã¯ã€
+     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã«ç™»éŒ²ã›ãšã€ã‚¨ãƒ©ãƒ¼ãƒ­ã‚°ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
      *
-     *@ŠY“–‚·‚éŒv‘ª’l‚Ì€–ÚiŒn—ñj‚ª Javelin Œv‘ª€–Úƒe[ƒuƒ‹‚É‘¶İ‚µ‚È‚¢ê‡‚ÍA
-     * ŠY“–‚·‚éƒŒƒR[ƒh‚ğ Javelin Œv‘ª€–Úƒe[ƒuƒ‹‚É‘}“ü‚µ‚Ü‚·B<br />
+     *ã€€è©²å½“ã™ã‚‹è¨ˆæ¸¬å€¤ã®é …ç›®ï¼ˆç³»åˆ—ï¼‰ãŒ Javelin è¨ˆæ¸¬é …ç›®ãƒ†ãƒ¼ãƒ–ãƒ«ã«å­˜åœ¨ã—ãªã„å ´åˆã¯ã€
+     * è©²å½“ã™ã‚‹ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’ Javelin è¨ˆæ¸¬é …ç›®ãƒ†ãƒ¼ãƒ–ãƒ«ã«æŒ¿å…¥ã—ã¾ã™ã€‚<br />
      *
-     *@Œv‘ª’lí•Ê‚ªŒv‘ª’lî•ñƒe[ƒuƒ‹‚É‘¶İ‚µ‚È‚¢ê‡‚ÍA
-     * ŠY“–‚·‚éƒŒƒR[ƒh‚ğŒv‘ª’lî•ñƒe[ƒuƒ‹‚É‘}“ü‚µ‚Ü‚·B<br />
+     *ã€€è¨ˆæ¸¬å€¤ç¨®åˆ¥ãŒè¨ˆæ¸¬å€¤æƒ…å ±ãƒ†ãƒ¼ãƒ–ãƒ«ã«å­˜åœ¨ã—ãªã„å ´åˆã¯ã€
+     * è©²å½“ã™ã‚‹ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’è¨ˆæ¸¬å€¤æƒ…å ±ãƒ†ãƒ¼ãƒ–ãƒ«ã«æŒ¿å…¥ã—ã¾ã™ã€‚<br />
      *
-     * ‘}“ü‘ÎÛ‚Ìƒe[ƒuƒ‹‚ª‘O‰ñ‘}“ü‚©‚ç•Ï‚í‚Á‚½ê‡Aƒ[ƒe[ƒgˆ—‚ğs‚¢‚Ü‚·B
+     * æŒ¿å…¥å¯¾è±¡ã®ãƒ†ãƒ¼ãƒ–ãƒ«ãŒå‰å›æŒ¿å…¥æ™‚ã‹ã‚‰å¤‰ã‚ã£ãŸå ´åˆã€ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆå‡¦ç†ã‚’è¡Œã„ã¾ã™ã€‚
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param resourceData “o˜^‚·‚éƒf[ƒ^
-     * @param rotatePeriod ƒ[ƒe[ƒgŠúŠÔ
-     * @param rotatePeriodUnit ƒ[ƒe[ƒgŠúŠÔ‚Ì’PˆÊi Calendar ƒNƒ‰ƒX‚Ì DAY ‚Ü‚½‚Í MONTH ‚Ì’lj
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param resourceData ç™»éŒ²ã™ã‚‹ãƒ‡ãƒ¼ã‚¿
+     * @param rotatePeriod ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆæœŸé–“
+     * @param rotatePeriodUnit ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆæœŸé–“ã®å˜ä½ï¼ˆ Calendar ã‚¯ãƒ©ã‚¹ã® DAY ã¾ãŸã¯ MONTH ã®å€¤ï¼‰
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static void insert(final String database, final ResourceData resourceData,
         final int rotatePeriod, final int rotatePeriodUnit)
@@ -205,25 +205,25 @@ public class ResourceDataDaoUtil
     }
 
     /**
-     * {@link ResourceData} ‚ğƒf[ƒ^ƒx[ƒX‚É“o˜^‚µ‚Ü‚·B<br />
+     * {@link ResourceData} ã‚’ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã«ç™»éŒ²ã—ã¾ã™ã€‚<br />
      *
-     * {@link ResourceData} ‚ª•Û‚·‚éƒzƒXƒgî•ñ‚ªŒv‘ª‘ÎÛƒzƒXƒgî•ñƒe[ƒuƒ‹‚É‘¶İ‚µ‚È‚¢ê‡‚ÍA
-     * ƒf[ƒ^ƒx[ƒX‚É“o˜^‚¹‚¸AƒGƒ‰[ƒƒO‚ğo—Í‚µ‚Ü‚·B<br />
+     * {@link ResourceData} ãŒä¿æŒã™ã‚‹ãƒ›ã‚¹ãƒˆæƒ…å ±ãŒè¨ˆæ¸¬å¯¾è±¡ãƒ›ã‚¹ãƒˆæƒ…å ±ãƒ†ãƒ¼ãƒ–ãƒ«ã«å­˜åœ¨ã—ãªã„å ´åˆã¯ã€
+     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã«ç™»éŒ²ã›ãšã€ã‚¨ãƒ©ãƒ¼ãƒ­ã‚°ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
      *
-     *@ŠY“–‚·‚éŒv‘ª’l‚Ì€–ÚiŒn—ñj‚ª Javelin Œv‘ª€–Úƒe[ƒuƒ‹‚É‘¶İ‚µ‚È‚¢ê‡‚ÍA
-     * ŠY“–‚·‚éƒŒƒR[ƒh‚ğ Javelin Œv‘ª€–Úƒe[ƒuƒ‹‚É‘}“ü‚µ‚Ü‚·B<br />
+     *ã€€è©²å½“ã™ã‚‹è¨ˆæ¸¬å€¤ã®é …ç›®ï¼ˆç³»åˆ—ï¼‰ãŒ Javelin è¨ˆæ¸¬é …ç›®ãƒ†ãƒ¼ãƒ–ãƒ«ã«å­˜åœ¨ã—ãªã„å ´åˆã¯ã€
+     * è©²å½“ã™ã‚‹ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’ Javelin è¨ˆæ¸¬é …ç›®ãƒ†ãƒ¼ãƒ–ãƒ«ã«æŒ¿å…¥ã—ã¾ã™ã€‚<br />
      *
-     *@Œv‘ª’lí•Ê‚ªŒv‘ª’lî•ñƒe[ƒuƒ‹‚É‘¶İ‚µ‚È‚¢ê‡‚ÍA
-     * ŠY“–‚·‚éƒŒƒR[ƒh‚ğŒv‘ª’lî•ñƒe[ƒuƒ‹‚É‘}“ü‚µ‚Ü‚·B<br />
+     *ã€€è¨ˆæ¸¬å€¤ç¨®åˆ¥ãŒè¨ˆæ¸¬å€¤æƒ…å ±ãƒ†ãƒ¼ãƒ–ãƒ«ã«å­˜åœ¨ã—ãªã„å ´åˆã¯ã€
+     * è©²å½“ã™ã‚‹ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’è¨ˆæ¸¬å€¤æƒ…å ±ãƒ†ãƒ¼ãƒ–ãƒ«ã«æŒ¿å…¥ã—ã¾ã™ã€‚<br />
      *
-     * ‘}“ü‘ÎÛ‚Ìƒe[ƒuƒ‹‚ª‘O‰ñ‘}“ü‚©‚ç•Ï‚í‚Á‚½ê‡Aƒ[ƒe[ƒgˆ—‚ğs‚¢‚Ü‚·B
+     * æŒ¿å…¥å¯¾è±¡ã®ãƒ†ãƒ¼ãƒ–ãƒ«ãŒå‰å›æŒ¿å…¥æ™‚ã‹ã‚‰å¤‰ã‚ã£ãŸå ´åˆã€ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆå‡¦ç†ã‚’è¡Œã„ã¾ã™ã€‚
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param resourceData “o˜^‚·‚éƒf[ƒ^
-     * @param rotatePeriod ƒ[ƒe[ƒgŠúŠÔ
-     * @param rotatePeriodUnit ƒ[ƒe[ƒgŠúŠÔ‚Ì’PˆÊi Calendar ƒNƒ‰ƒX‚Ì DAY ‚Ü‚½‚Í MONTH ‚Ì’lj
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param resourceData ç™»éŒ²ã™ã‚‹ãƒ‡ãƒ¼ã‚¿
+     * @param rotatePeriod ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆæœŸé–“
+     * @param rotatePeriodUnit ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆæœŸé–“ã®å˜ä½ï¼ˆ Calendar ã‚¯ãƒ©ã‚¹ã® DAY ã¾ãŸã¯ MONTH ã®å€¤ï¼‰
      * @param insertUnit insertUnit
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static void insert(final String database, final ResourceData resourceData,
         final int rotatePeriod, final int rotatePeriodUnit, final int insertUnit)
@@ -234,27 +234,27 @@ public class ResourceDataDaoUtil
     }
 
     /**
-     * {@link ResourceData} ‚ğƒf[ƒ^ƒx[ƒX‚É“o˜^‚µ‚Ü‚·B<br />
+     * {@link ResourceData} ã‚’ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã«ç™»éŒ²ã—ã¾ã™ã€‚<br />
      *
-     * {@link ResourceData} ‚ª•Û‚·‚éƒzƒXƒgî•ñ‚ªŒv‘ª‘ÎÛƒzƒXƒgî•ñƒe[ƒuƒ‹‚É‘¶İ‚µ‚È‚¢ê‡‚ÍA
-     * ƒf[ƒ^ƒx[ƒX‚É“o˜^‚¹‚¸AƒGƒ‰[ƒƒO‚ğo—Í‚µ‚Ü‚·B<br />
+     * {@link ResourceData} ãŒä¿æŒã™ã‚‹ãƒ›ã‚¹ãƒˆæƒ…å ±ãŒè¨ˆæ¸¬å¯¾è±¡ãƒ›ã‚¹ãƒˆæƒ…å ±ãƒ†ãƒ¼ãƒ–ãƒ«ã«å­˜åœ¨ã—ãªã„å ´åˆã¯ã€
+     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã«ç™»éŒ²ã›ãšã€ã‚¨ãƒ©ãƒ¼ãƒ­ã‚°ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
      *
-     *@ŠY“–‚·‚éŒv‘ª’l‚Ì€–ÚiŒn—ñj‚ª Javelin Œv‘ª€–Úƒe[ƒuƒ‹‚É‘¶İ‚µ‚È‚¢ê‡‚ÍA
-     * ŠY“–‚·‚éƒŒƒR[ƒh‚ğ Javelin Œv‘ª€–Úƒe[ƒuƒ‹‚É‘}“ü‚µ‚Ü‚·B<br />
+     *ã€€è©²å½“ã™ã‚‹è¨ˆæ¸¬å€¤ã®é …ç›®ï¼ˆç³»åˆ—ï¼‰ãŒ Javelin è¨ˆæ¸¬é …ç›®ãƒ†ãƒ¼ãƒ–ãƒ«ã«å­˜åœ¨ã—ãªã„å ´åˆã¯ã€
+     * è©²å½“ã™ã‚‹ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’ Javelin è¨ˆæ¸¬é …ç›®ãƒ†ãƒ¼ãƒ–ãƒ«ã«æŒ¿å…¥ã—ã¾ã™ã€‚<br />
      *
-     *@Œv‘ª’lí•Ê‚ªŒv‘ª’lî•ñƒe[ƒuƒ‹‚É‘¶İ‚µ‚È‚¢ê‡‚ÍA
-     * ŠY“–‚·‚éƒŒƒR[ƒh‚ğŒv‘ª’lî•ñƒe[ƒuƒ‹‚É‘}“ü‚µ‚Ü‚·B<br />
+     *ã€€è¨ˆæ¸¬å€¤ç¨®åˆ¥ãŒè¨ˆæ¸¬å€¤æƒ…å ±ãƒ†ãƒ¼ãƒ–ãƒ«ã«å­˜åœ¨ã—ãªã„å ´åˆã¯ã€
+     * è©²å½“ã™ã‚‹ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’è¨ˆæ¸¬å€¤æƒ…å ±ãƒ†ãƒ¼ãƒ–ãƒ«ã«æŒ¿å…¥ã—ã¾ã™ã€‚<br />
      *
-     * ‘}“ü‘ÎÛ‚Ìƒe[ƒuƒ‹‚ª‘O‰ñ‘}“ü‚©‚ç•Ï‚í‚Á‚½ê‡Aƒ[ƒe[ƒgˆ—‚ğs‚¢‚Ü‚·B
+     * æŒ¿å…¥å¯¾è±¡ã®ãƒ†ãƒ¼ãƒ–ãƒ«ãŒå‰å›æŒ¿å…¥æ™‚ã‹ã‚‰å¤‰ã‚ã£ãŸå ´åˆã€ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆå‡¦ç†ã‚’è¡Œã„ã¾ã™ã€‚
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param resourceData “o˜^‚·‚éƒf[ƒ^
-     * @param rotatePeriod ƒ[ƒe[ƒgŠúŠÔ
-     * @param rotatePeriodUnit ƒ[ƒe[ƒgŠúŠÔ‚Ì’PˆÊi Calendar ƒNƒ‰ƒX‚Ì DAY ‚Ü‚½‚Í MONTH ‚Ì’lj
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param resourceData ç™»éŒ²ã™ã‚‹ãƒ‡ãƒ¼ã‚¿
+     * @param rotatePeriod ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆæœŸé–“
+     * @param rotatePeriodUnit ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆæœŸé–“ã®å˜ä½ï¼ˆ Calendar ã‚¯ãƒ©ã‚¹ã® DAY ã¾ãŸã¯ MONTH ã®å€¤ï¼‰
      * @param batchUnit batchUnit
      * @param itemIdCacheSize itemIdCacheSize
-     * @return ƒCƒ“ƒT[ƒgŒ‹‰Ê
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @return ã‚¤ãƒ³ã‚µãƒ¼ãƒˆçµæœ
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static InsertResult insert(final String database, final ResourceData resourceData,
         final int rotatePeriod, final int rotatePeriodUnit, final int batchUnit,
@@ -270,7 +270,7 @@ public class ResourceDataDaoUtil
 
         if (DBManager.isDefaultDb() == false)
         {
-            // H2ˆÈŠO‚Ìƒf[ƒ^ƒx[ƒX‚Ìê‡‚ÍAƒp[ƒeƒBƒVƒ‡ƒjƒ“ƒOˆ—‚ğs‚¤
+            // H2ä»¥å¤–ã®ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®å ´åˆã¯ã€ãƒ‘ãƒ¼ãƒ†ã‚£ã‚·ãƒ§ãƒ‹ãƒ³ã‚°å‡¦ç†ã‚’è¡Œã†
             deleteItemIdList =
                 partitioning(database, rotatePeriod, rotatePeriodUnit, batchUnit,
                              baseMeasurementValue);
@@ -324,7 +324,7 @@ public class ResourceDataDaoUtil
                 {
                     result.setCacheMissCount(result.getCacheMissCount() + 1);
 
-                    // Œn—ñ‚ª Javelin Œv‘ª€–Úƒe[ƒuƒ‹‚É“o˜^‚³‚ê‚Ä‚¢‚È‚¢ê‡‚Í’Ç‰Á‚·‚é
+                    // ç³»åˆ—ãŒ Javelin è¨ˆæ¸¬é …ç›®ãƒ†ãƒ¼ãƒ–ãƒ«ã«ç™»éŒ²ã•ã‚Œã¦ã„ãªã„å ´åˆã¯è¿½åŠ ã™ã‚‹
                     measurementValue.measurementItemId =
                         insertJavelinMeasurementItem(database, measurementItemName,
                                                      measurementValue.measurementTime);
@@ -353,8 +353,8 @@ public class ResourceDataDaoUtil
 
                 updateValueList.add(measurementValue);
 
-                // ‘O‰ñJAVELIN_MEASUREMENT_ITEMƒe[ƒuƒ‹‚ÌLAST_INSERTEDƒtƒB[ƒ‹ƒhXV‚©‚ç
-                // ˆê’èŠúŠÔ‚ªŒo‰ß‚µ‚½ê‡‚ÉALAST_INSERTEDƒtƒB[ƒ‹ƒh‚ğXV‚·‚é‘ÎÛ‚ÉŠÜ‚ß‚éB
+                // å‰å›JAVELIN_MEASUREMENT_ITEMãƒ†ãƒ¼ãƒ–ãƒ«ã®LAST_INSERTEDãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰æ›´æ–°ã‹ã‚‰
+                // ä¸€å®šæœŸé–“ãŒçµŒéã—ãŸå ´åˆã«ã€LAST_INSERTEDãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã‚’æ›´æ–°ã™ã‚‹å¯¾è±¡ã«å«ã‚ã‚‹ã€‚
                 Timestamp beforeTime = updatedMap.get(measurementValue.measurementItemId);
                 updatedMap
                     .put(measurementValue.measurementItemId, measurementValue.measurementTime);
@@ -376,7 +376,7 @@ public class ResourceDataDaoUtil
             result.setInsertCount(result.getInsertCount() + insertCount);
         }
 
-        // LAST_INSERTEDƒtƒB[ƒ‹ƒh‚ğXV‚·‚é•K—v‚ª‚ ‚éŒn—ñ‚É‘Î‚µ‚ÄXV‚ğÀ{‚·‚éB
+        // LAST_INSERTEDãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã‚’æ›´æ–°ã™ã‚‹å¿…è¦ãŒã‚ã‚‹ç³»åˆ—ã«å¯¾ã—ã¦æ›´æ–°ã‚’å®Ÿæ–½ã™ã‚‹ã€‚
         if (updateTargetMap.size() > 0)
         {
             JavelinMeasurementItemDao.updateLastInserted(database, updateTargetMap);
@@ -420,8 +420,8 @@ public class ResourceDataDaoUtil
             if (range.length == 2
                 && (range[1] == null || range[1].before(baseMeasurementValue.measurementTime)))
             {
-                // ‘O‰ñ‚Ì‘}“üƒf[ƒ^‚Æ¡‰ñ‚Ì‘}“üƒf[ƒ^‚Å‘}“üæƒe[ƒuƒ‹‚ªˆÙ‚È‚éê‡‚ÉAƒ[ƒe[ƒgˆ—‚ğs‚¤
-                // ‚½‚¾‚µA‚·‚Å‚ÉDB‚É“ü‚Á‚Ä‚¢‚éƒf[ƒ^‚Ì‚¤‚¿AÅV‚Ìƒf[ƒ^‚æ‚è‚àŒÃ‚¢ƒf[ƒ^‚ª“ü‚Á‚Ä‚«‚½ê‡‚Íƒ[ƒe[ƒgˆ—‚µ‚È‚¢
+                // å‰å›ã®æŒ¿å…¥ãƒ‡ãƒ¼ã‚¿ã¨ä»Šå›ã®æŒ¿å…¥ãƒ‡ãƒ¼ã‚¿ã§æŒ¿å…¥å…ˆãƒ†ãƒ¼ãƒ–ãƒ«ãŒç•°ãªã‚‹å ´åˆã«ã€ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆå‡¦ç†ã‚’è¡Œã†
+                // ãŸã ã—ã€ã™ã§ã«DBã«å…¥ã£ã¦ã„ã‚‹ãƒ‡ãƒ¼ã‚¿ã®ã†ã¡ã€æœ€æ–°ã®ãƒ‡ãƒ¼ã‚¿ã‚ˆã‚Šã‚‚å¤ã„ãƒ‡ãƒ¼ã‚¿ãŒå…¥ã£ã¦ããŸå ´åˆã¯ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆå‡¦ç†ã—ãªã„
                 boolean truncateCurrent = (prevTableIndex != null);
                 rotateTable(database, tableIndex, baseMeasurementValue.measurementTime,
                             rotatePeriod, rotatePeriodUnit, truncateCurrent,
@@ -466,8 +466,8 @@ public class ResourceDataDaoUtil
             {
                 String displayName = itemMapKey;
 
-                // ‚·‚Å‚ÉŒv‘ª€–Ú‚ªƒe[ƒuƒ‹‚É“o˜^‚³‚ê‚Ä‚¢‚é‚©Šm”F‚·‚éB
-                // ”äŠr‚·‚éÛ‚ÍA‰üs‚ğ”¼ŠpƒXƒy[ƒX‚É•ÏŠ·‚µ‚½ó‘Ô‚Å”äŠr‚·‚éB
+                // ã™ã§ã«è¨ˆæ¸¬é …ç›®ãŒãƒ†ãƒ¼ãƒ–ãƒ«ã«ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹ã‹ç¢ºèªã™ã‚‹ã€‚
+                // æ¯”è¼ƒã™ã‚‹éš›ã¯ã€æ”¹è¡Œã‚’åŠè§’ã‚¹ãƒšãƒ¼ã‚¹ã«å¤‰æ›ã—ãŸçŠ¶æ…‹ã§æ¯”è¼ƒã™ã‚‹ã€‚
                 displayName = displayName.replaceAll("\\r\\n", " ");
                 displayName = displayName.replaceAll("\\r", " ");
                 displayName = displayName.replaceAll("\\n", " ");
@@ -481,12 +481,12 @@ public class ResourceDataDaoUtil
     }
 
     /**
-     * measurement_item_id‚ğæ“¾‚·‚éB
+     * measurement_item_idã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @param database ƒf[ƒ^ƒx[ƒX–¼B
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã€‚
      * @param itemName measurent_item_name
-     * @param itemIdCacheSize ƒLƒƒƒbƒVƒ…ƒTƒCƒYB
-     * @return measurement_item_idB
+     * @param itemIdCacheSize ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚µã‚¤ã‚ºã€‚
+     * @return measurement_item_idã€‚
      */
     public static int getItemId(final String database, String itemName, int itemIdCacheSize)
     {
@@ -513,7 +513,7 @@ public class ResourceDataDaoUtil
             {
                 overflowCount = 1;
 
-                // Å‰‚Ì—v‘f‚ğíœ‚·‚éB
+                // æœ€åˆã®è¦ç´ ã‚’å‰Šé™¤ã™ã‚‹ã€‚
                 Iterator<Entry<String, Integer>> iterator = itemMap.entrySet().iterator();
                 if (iterator.hasNext())
                 {
@@ -526,16 +526,16 @@ public class ResourceDataDaoUtil
     }
 
     /**
-     * ƒ[ƒe[ƒg‚ğÀ{‚µ‚Ü‚·B
+     * ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆã‚’å®Ÿæ–½ã—ã¾ã™ã€‚
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param tableIndex ƒf[ƒ^‚ª‘}“ü‚³‚ê‚½ƒe[ƒuƒ‹ƒCƒ“ƒfƒbƒNƒX
-     * @param date ‘}“ü‚·‚éƒf[ƒ^‚Ì
-     * @param rotatePeriod ƒ[ƒe[ƒgŠúŠÔ
-     * @param rotatePeriodUnit ƒ[ƒe[ƒgŠúŠÔ‚Ì’PˆÊiCalendar.DATE or Calendar.MONTHj
-     * @param truncateCurrent Œ»İ‚Ìƒf[ƒ^‚Ì‘}“ü‘ÎÛ‚ğ truncate ‚·‚éê‡‚Í <code>true</code>
-     * @param rotateCallback truncate ˆ—‚ğs‚¤ƒR[ƒ‹ƒoƒbƒNƒƒ\ƒbƒh
-     * @throws SQLException truncate Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param tableIndex ãƒ‡ãƒ¼ã‚¿ãŒæŒ¿å…¥ã•ã‚ŒãŸãƒ†ãƒ¼ãƒ–ãƒ«ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+     * @param date æŒ¿å…¥ã™ã‚‹ãƒ‡ãƒ¼ã‚¿ã®æ™‚åˆ»
+     * @param rotatePeriod ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆæœŸé–“
+     * @param rotatePeriodUnit ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆæœŸé–“ã®å˜ä½ï¼ˆCalendar.DATE or Calendar.MONTHï¼‰
+     * @param truncateCurrent ç¾åœ¨ã®ãƒ‡ãƒ¼ã‚¿ã®æŒ¿å…¥å¯¾è±¡ã‚’ truncate ã™ã‚‹å ´åˆã¯ <code>true</code>
+     * @param rotateCallback truncate å‡¦ç†ã‚’è¡Œã†ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ãƒ¡ã‚½ãƒƒãƒ‰
+     * @throws SQLException truncate å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static void rotateTable(final String database, final Integer tableIndex,
         final Timestamp date, final int rotatePeriod, final int rotatePeriodUnit,
@@ -552,19 +552,19 @@ public class ResourceDataDaoUtil
         }
 
         Calendar deleteTime = getBeforeDate(date, rotatePeriod, rotatePeriodUnit);
-        // remainStartIndexˆÈ~i‚±‚Ì’l‚ğŠÜ‚Şj‚ÌƒCƒ“ƒfƒbƒNƒX‚Ìƒe[ƒuƒ‹‚Ítruncate‚µ‚È‚¢
+        // remainStartIndexä»¥é™ï¼ˆã“ã®å€¤ã‚’å«ã‚€ï¼‰ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã®ãƒ†ãƒ¼ãƒ–ãƒ«ã¯truncateã—ãªã„
         int remainStartIndex = getTableIndexToInsert(deleteTime.getTime());
         if (remainStartIndex <= tableIndex)
         {
-            // ƒe[ƒuƒ‹ƒCƒ“ƒfƒbƒNƒX‚ª“™‚µ‚¢ê‡A
-            // ƒ[ƒe[ƒgŠúŠÔ‚ª1TŠÔ–¢–‚Ìê‡‚Æ–ñ1”N‚Ìê‡‚Ì2ƒpƒ^[ƒ“‚ ‚éB
-            // ‚»‚ê‚¼‚ê‚É‚æ‚Á‚Äˆ—‚ªˆÙ‚È‚éB
-            // ƒ[ƒe[ƒgŠúŠÔ‚ª1TŠÔ–¢–‚Ìê‡‚ÍA‘}“üƒe[ƒuƒ‹ˆÈŠO‚Ìƒe[ƒuƒ‹‚ğtruncate‚µ‚Ä‚æ‚¢‚ªA
-            // ƒ[ƒe[ƒgŠúŠÔ‚ª–ñ1”N‚Ìê‡‚ÍA‘¼‚Ìƒe[ƒuƒ‹‚ğtruncate‚µ‚Ä‚Í‚¢‚¯‚È‚¢B
+            // ãƒ†ãƒ¼ãƒ–ãƒ«ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãŒç­‰ã—ã„å ´åˆã€
+            // ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆæœŸé–“ãŒ1é€±é–“æœªæº€ã®å ´åˆã¨ç´„1å¹´ã®å ´åˆã®2ãƒ‘ã‚¿ãƒ¼ãƒ³ã‚ã‚‹ã€‚
+            // ãã‚Œãã‚Œã«ã‚ˆã£ã¦å‡¦ç†ãŒç•°ãªã‚‹ã€‚
+            // ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆæœŸé–“ãŒ1é€±é–“æœªæº€ã®å ´åˆã¯ã€æŒ¿å…¥ãƒ†ãƒ¼ãƒ–ãƒ«ä»¥å¤–ã®ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’truncateã—ã¦ã‚ˆã„ãŒã€
+            // ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆæœŸé–“ãŒç´„1å¹´ã®å ´åˆã¯ã€ä»–ã®ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’truncateã—ã¦ã¯ã„ã‘ãªã„ã€‚
             if (remainStartIndex < tableIndex
                 || isShorterThanOneWeek(rotatePeriod, rotatePeriodUnit))
             {
-                // remainStartIndex‚æ‚è‘OA‚à‚µ‚­‚ÍtableIndex‚æ‚èŒã‚Ìƒe[ƒuƒ‹‚ğtruncate‚·‚é
+                // remainStartIndexã‚ˆã‚Šå‰ã€ã‚‚ã—ãã¯tableIndexã‚ˆã‚Šå¾Œã®ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’truncateã™ã‚‹
                 for (int index = 1; index < remainStartIndex; index++)
                 {
                     rotateCallback.truncate(database, index, yearToInsert + 1);
@@ -591,11 +591,11 @@ public class ResourceDataDaoUtil
     }
 
     /**
-     * ƒ[ƒe[ƒgŠúŠÔ‚ª1TŠÔ–¢–‚©‚Ç‚¤‚©‚ğ”»’è‚µ‚Ü‚·B
+     * ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆæœŸé–“ãŒ1é€±é–“æœªæº€ã‹ã©ã†ã‹ã‚’åˆ¤å®šã—ã¾ã™ã€‚
      *
-     * @param rotatePeriod ƒ[ƒe[ƒgŠúŠÔ
-     * @param rotatePeriodUnit ƒ[ƒe[ƒgŠúŠÔ‚Ì’PˆÊ
-     * @return 1TŠÔi7“új–¢–‚Ìê‡‚Í <code>true</code> A1TŠÔˆÈã‚Ìê‡‚Í <code>false</code>
+     * @param rotatePeriod ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆæœŸé–“
+     * @param rotatePeriodUnit ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆæœŸé–“ã®å˜ä½
+     * @return 1é€±é–“ï¼ˆ7æ—¥ï¼‰æœªæº€ã®å ´åˆã¯ <code>true</code> ã€1é€±é–“ä»¥ä¸Šã®å ´åˆã¯ <code>false</code>
      */
     private static boolean isShorterThanOneWeek(final int rotatePeriod, final int rotatePeriodUnit)
     {
@@ -612,12 +612,12 @@ public class ResourceDataDaoUtil
     }
 
     /**
-     * ŒÃ‚¢Œn—ñî•ñiITEMj‚ğíœ‚µ‚Ü‚·B
+     * å¤ã„ç³»åˆ—æƒ…å ±ï¼ˆITEMï¼‰ã‚’å‰Šé™¤ã—ã¾ã™ã€‚
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param date ‘}“ü‚·‚éƒf[ƒ^‚Ì
-     * @param rotatePeriod ƒ[ƒe[ƒgŠúŠÔ
-     * @param rotatePeriodUnit ƒ[ƒe[ƒgŠúŠÔ‚Ì’PˆÊiCalendar.DATE or Calendar.MONTHj
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param date æŒ¿å…¥ã™ã‚‹ãƒ‡ãƒ¼ã‚¿ã®æ™‚åˆ»
+     * @param rotatePeriod ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆæœŸé–“
+     * @param rotatePeriodUnit ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆæœŸé–“ã®å˜ä½ï¼ˆCalendar.DATE or Calendar.MONTHï¼‰
      */
     private static List<Integer> deleteOldMeasurementItems(final String database,
         final Timestamp date, final int rotatePeriod, final int rotatePeriodUnit,
@@ -634,8 +634,8 @@ public class ResourceDataDaoUtil
             Map.Entry<Integer, Timestamp> entry = iterator.next();
             if (entry.getValue().getTime() < deleteTime)
             {
-                // ÅIXV‚ªƒ[ƒe[ƒgŠúŠÔ‚æ‚è‘O‚Ìê‡‚ÍA
-                // ‚»‚ÌMEASUREMENT_ITEM‚ğíœ‚·‚é
+                // æœ€çµ‚æ›´æ–°æ™‚åˆ»ãŒãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆæœŸé–“ã‚ˆã‚Šå‰ã®å ´åˆã¯ã€
+                // ãã®MEASUREMENT_ITEMã‚’å‰Šé™¤ã™ã‚‹
                 deleteIdList.add(entry.getKey());
 
                 if (deleteIdList.size() >= insertUnit)
@@ -648,8 +648,8 @@ public class ResourceDataDaoUtil
                     }
                     catch (SQLException ex)
                     {
-                        // íœ‚É¸”s‚µ‚½ê‡‚Í‚Ü‚¾ITEM‚ªg—p‚³‚ê‚Ä‚¢‚é‚½‚ßA
-                        // Map‚©‚ç‚àíœ‚µ‚È‚¢
+                        // å‰Šé™¤ã«å¤±æ•—ã—ãŸå ´åˆã¯ã¾ã ITEMãŒä½¿ç”¨ã•ã‚Œã¦ã„ã‚‹ãŸã‚ã€
+                        // Mapã‹ã‚‰ã‚‚å‰Šé™¤ã—ãªã„
                         if (LOGGER.isDebugEnabled())
                         {
                             LOGGER.log("EEDA0103", ex);
@@ -667,8 +667,8 @@ public class ResourceDataDaoUtil
             }
             catch (SQLException ex)
             {
-                // íœ‚É¸”s‚µ‚½ê‡‚Í‚Ü‚¾ITEM‚ªg—p‚³‚ê‚Ä‚¢‚é‚½‚ßA
-                // Map‚©‚ç‚àíœ‚µ‚È‚¢
+                // å‰Šé™¤ã«å¤±æ•—ã—ãŸå ´åˆã¯ã¾ã ITEMãŒä½¿ç”¨ã•ã‚Œã¦ã„ã‚‹ãŸã‚ã€
+                // Mapã‹ã‚‰ã‚‚å‰Šé™¤ã—ãªã„
                 if (LOGGER.isDebugEnabled())
                 {
                     LOGGER.log("EEDA0103", ex);
@@ -686,12 +686,12 @@ public class ResourceDataDaoUtil
     }
 
     /**
-     * w’è‚³‚ê‚½‚©‚çAw’è‚µ‚½ŠÔ‚¾‚¯‘O‚Ì‚ğ•Ô‚µ‚Ü‚·B
+     * æŒ‡å®šã•ã‚ŒãŸæ™‚åˆ»ã‹ã‚‰ã€æŒ‡å®šã—ãŸæ™‚é–“ã ã‘å‰ã®æ™‚åˆ»ã‚’è¿”ã—ã¾ã™ã€‚
      *
-     * @param baseTime 
-     * @param period ŠúŠÔi³‚Ì’lj
-     * @param unit ’PˆÊiCalendarƒNƒ‰ƒX‚ÌƒCƒ“ƒfƒbƒNƒXj
-     * @return CalendarƒCƒ“ƒXƒ^ƒ“ƒX
+     * @param baseTime æ™‚åˆ»
+     * @param period æœŸé–“ï¼ˆæ­£ã®å€¤ï¼‰
+     * @param unit å˜ä½ï¼ˆCalendarã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ï¼‰
+     * @return Calendarã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
      */
     private static Calendar
         getBeforeDate(final Timestamp baseTime, final int period, final int unit)
@@ -703,14 +703,14 @@ public class ResourceDataDaoUtil
     }
 
     /**
-     * Javelin Œv‘ª€–Úƒe[ƒuƒ‹‚ÉƒŒƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B<br />
+     * Javelin è¨ˆæ¸¬é …ç›®ãƒ†ãƒ¼ãƒ–ãƒ«ã«ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚<br />
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param measurementType Œv‘ª’lí•Ê
-     * @param itemName €–Ú–¼Ì
-     * @param lastInserted Œv‘ªƒf[ƒ^ÅI‘}“ü
-     * @return ‘}“ü‚µ‚½ƒŒƒR[ƒh‚ÌŒv‘ª€–Ú ID
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param measurementType è¨ˆæ¸¬å€¤ç¨®åˆ¥
+     * @param itemName é …ç›®åç§°
+     * @param lastInserted è¨ˆæ¸¬ãƒ‡ãƒ¼ã‚¿æœ€çµ‚æŒ¿å…¥æ™‚åˆ»
+     * @return æŒ¿å…¥ã—ãŸãƒ¬ã‚³ãƒ¼ãƒ‰ã®è¨ˆæ¸¬é …ç›® ID
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     private static int insertJavelinMeasurementItem(final String database, final String itemName,
         final Timestamp lastInserted)
@@ -721,8 +721,8 @@ public class ResourceDataDaoUtil
         item.lastInserted = lastInserted;
         JavelinMeasurementItemDao.insert(database, item);
 
-        // ‘}“ü‚µ‚½ƒŒƒR[ƒh‚ÌŒv‘ª€–Ú ID‚ğŒŸõ‚·‚éÛAŒv‘ª€–Ú‚É‰üs‚ª“ü‚Á‚Ä‚¢‚éê‡‚ÍA
-        // ‰üs‚ğ”¼ŠpƒXƒy[ƒX‚É•ÏX‚µ‚Ä‚©‚çŒŸõ‚·‚é
+        // æŒ¿å…¥ã—ãŸãƒ¬ã‚³ãƒ¼ãƒ‰ã®è¨ˆæ¸¬é …ç›® IDã‚’æ¤œç´¢ã™ã‚‹éš›ã€è¨ˆæ¸¬é …ç›®ã«æ”¹è¡ŒãŒå…¥ã£ã¦ã„ã‚‹å ´åˆã¯ã€
+        // æ”¹è¡Œã‚’åŠè§’ã‚¹ãƒšãƒ¼ã‚¹ã«å¤‰æ›´ã—ã¦ã‹ã‚‰æ¤œç´¢ã™ã‚‹
         String parsedItemName = itemName.replaceAll("\\r\\n", " ");
         parsedItemName = parsedItemName.replaceAll("\\r", " ");
         parsedItemName = parsedItemName.replaceAll("\\n", " ");
@@ -733,13 +733,13 @@ public class ResourceDataDaoUtil
     }
 
     /**
-     * w’è‚³‚ê‚½ƒf[ƒ^ƒx[ƒX‚É‘Î‰‚·‚éAŒn—ñ–ˆ‚ÌÅIXV‚Ìƒ}ƒbƒv‚ğ•Ô‚µ‚Ü‚·B<br />
+     * æŒ‡å®šã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã«å¯¾å¿œã™ã‚‹ã€ç³»åˆ—æ¯ã®æœ€çµ‚æ›´æ–°æ™‚åˆ»ã®ãƒãƒƒãƒ—ã‚’è¿”ã—ã¾ã™ã€‚<br />
      *
-     * ‚à‚µƒ}ƒbƒv‚ª‘¶İ‚µ‚È‚¢ê‡‚ÍV‚½‚Éì¬‚µ‚Ü‚·B
-     * ‚±‚Ì‚Æ‚«Aƒf[ƒ^ƒx[ƒX‚É‘¶İ‚·‚éŒn—ñ–ˆ‚ÌÅIXVî•ñ‚ğæ“¾‚µ‚Ü‚·B
+     * ã‚‚ã—ãƒãƒƒãƒ—ãŒå­˜åœ¨ã—ãªã„å ´åˆã¯æ–°ãŸã«ä½œæˆã—ã¾ã™ã€‚
+     * ã“ã®ã¨ãã€ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã«å­˜åœ¨ã™ã‚‹ç³»åˆ—æ¯ã®æœ€çµ‚æ›´æ–°æ™‚åˆ»æƒ…å ±ã‚’å–å¾—ã—ã¾ã™ã€‚
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @return Œn—ñ–ˆ‚ÌÅIXV‚Ìƒ}ƒbƒv
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @return ç³»åˆ—æ¯ã®æœ€çµ‚æ›´æ–°æ™‚åˆ»ã®ãƒãƒƒãƒ—
      */
     private static Map<Integer, Timestamp> getUpdatedMap(String database)
     {
@@ -749,7 +749,7 @@ public class ResourceDataDaoUtil
             updatedMap = new ConcurrentHashMap<Integer, Timestamp>();
             measurementItemUpdatedMap__.put(database, updatedMap);
 
-            // ƒf[ƒ^ƒx[ƒX‚É‘¶İ‚·‚éŒn—ñ–ˆ‚ÌÅIXVî•ñ‚ğæ“¾‚·‚é
+            // ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã«å­˜åœ¨ã™ã‚‹ç³»åˆ—æ¯ã®æœ€çµ‚æ›´æ–°æ™‚åˆ»æƒ…å ±ã‚’å–å¾—ã™ã‚‹
             try
             {
                 List<JavelinMeasurementItem> itemList =

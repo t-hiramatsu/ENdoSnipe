@@ -36,14 +36,14 @@ import jp.co.acroquest.endosnipe.javelin.parser.JavelinParser;
 import jp.co.acroquest.endosnipe.perfdoctor.rule.SingleElementRule;
 
 /**
- * ArrowVision‚ÌƒCƒxƒ“ƒg‚É‘Î‰‚µ‚½APerformanceDoctor‚Ì”CˆÓ‚Ìƒ‹[ƒ‹‚ğ•\Œ»‚·‚éƒNƒ‰ƒX‚Å‚·B<br>
- * JavelinƒƒO‚É"Event"‚Æo—Í‚³‚ê‚é‚à‚Ì‚É‘Î‰‚µ‚Ä‚¢‚Ü‚·B<br>
+ * ArrowVisionã®ã‚¤ãƒ™ãƒ³ãƒˆã«å¯¾å¿œã—ãŸã€PerformanceDoctorã®ä»»æ„ã®ãƒ«ãƒ¼ãƒ«ã‚’è¡¨ç¾ã™ã‚‹ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br>
+ * Javelinãƒ­ã‚°ã«"Event"ã¨å‡ºåŠ›ã•ã‚Œã‚‹ã‚‚ã®ã«å¯¾å¿œã—ã¦ã„ã¾ã™ã€‚<br>
  * 
  * @author iida
  */
 public class EventCommonRule extends SingleElementRule
 {
-    /** ŠeƒCƒ“ƒXƒ^ƒ“ƒX‚ª•\‚·ƒ‹[ƒ‹‚É‘Î‰‚µ‚½AArrowVision‚ÌƒCƒxƒ“ƒg–¼B */
+    /** å„ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ãŒè¡¨ã™ãƒ«ãƒ¼ãƒ«ã«å¯¾å¿œã—ãŸã€ArrowVisionã®ã‚¤ãƒ™ãƒ³ãƒˆåã€‚ */
     public String eventName;
 
     /**

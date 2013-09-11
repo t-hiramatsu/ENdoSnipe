@@ -26,7 +26,7 @@
 package jp.co.acroquest.endosnipe.data.entity;
 
 /**
- * Œv‘ª’lî•ñƒe[ƒuƒ‹‚É‘Î‚·‚éƒCƒ~ƒ…[ƒ^ƒuƒ‹‚ÈƒGƒ“ƒeƒBƒeƒBƒNƒ‰ƒX‚Å‚·B<br />
+ * è¨ˆæ¸¬å€¤æƒ…å ±ãƒ†ãƒ¼ãƒ–ãƒ«ã«å¯¾ã™ã‚‹ã‚¤ãƒŸãƒ¥ãƒ¼ã‚¿ãƒ–ãƒ«ãªã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  *
  * @author y-sakamoto
  */
@@ -34,38 +34,38 @@ public class MeasurementInfo
 {
 
     /**
-     * Œv‘ª’lí•Ê‚ğ•\‚· ID B<br />
+     * è¨ˆæ¸¬å€¤ç¨®åˆ¥ã‚’è¡¨ã™ ID ã€‚<br />
      *
-     * JAVELIN_MESUREMENT ƒe[ƒuƒ‹‚Ì MESUREMENT_TYPE ƒJƒ‰ƒ€‚É—˜—p‚³‚ê‚é’lB
+     * JAVELIN_MESUREMENT ãƒ†ãƒ¼ãƒ–ãƒ«ã® MESUREMENT_TYPE ã‚«ãƒ©ãƒ ã«åˆ©ç”¨ã•ã‚Œã‚‹å€¤ã€‚
      */
     private final long measurementType_;
 
     /**
-     * ƒŠƒ\[ƒX’Ê’m“d•¶‚Ì€–Ú–¼B<br />
+     * ãƒªã‚½ãƒ¼ã‚¹é€šçŸ¥é›»æ–‡ã®é …ç›®åã€‚<br />
      */
     private final String itemName_;
 
     /**
-     * Œv‘ª’l‚Ì•\¦–¼ÌB<br />
+     * è¨ˆæ¸¬å€¤ã®è¡¨ç¤ºåç§°ã€‚<br />
      *
-     * BottleneckEye ‚È‚Ç‚Ì‰ğÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Å•\¦‚·‚é‚Æ‚«‚É—˜—p‚µ‚Ü‚·B
+     * BottleneckEye ãªã©ã®è§£æã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã§è¡¨ç¤ºã™ã‚‹ã¨ãã«åˆ©ç”¨ã—ã¾ã™ã€‚
      */
     private final String displayName_;
 
     /**
-     * Œv‘ª’l‚ÉŠÖ‚·‚éà–¾B<br />
+     * è¨ˆæ¸¬å€¤ã«é–¢ã™ã‚‹èª¬æ˜ã€‚<br />
      *
-     * ‰ğÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÅŒv‘ª’l‚ÌÚ×à–¾‚ğ•\¦‚·‚é‚Æ‚«‚É—˜—p‚µ‚Ü‚·B
+     * è§£æã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã§è¨ˆæ¸¬å€¤ã®è©³ç´°èª¬æ˜ã‚’è¡¨ç¤ºã™ã‚‹ã¨ãã«åˆ©ç”¨ã—ã¾ã™ã€‚
      */
     private final String description_;
 
     /**
-     * Œv‘ª’lî•ñƒe[ƒuƒ‹‚É‘Î‚·‚éƒGƒ“ƒeƒBƒeƒBƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‚Ü‚·B<br />
+     * è¨ˆæ¸¬å€¤æƒ…å ±ãƒ†ãƒ¼ãƒ–ãƒ«ã«å¯¾ã™ã‚‹ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
      *
-     * @param measurementType Œv‘ª’lí•Ê
-     * @param itemName ƒŠƒ\[ƒX’Ê’m“d•¶‚Ì€–Ú–¼
-     * @param displayName Œv‘ª’l‚Ì•\¦–¼Ì
-     * @param description Œv‘ª’l‚ÉŠÖ‚·‚éà–¾
+     * @param measurementType è¨ˆæ¸¬å€¤ç¨®åˆ¥
+     * @param itemName ãƒªã‚½ãƒ¼ã‚¹é€šçŸ¥é›»æ–‡ã®é …ç›®å
+     * @param displayName è¨ˆæ¸¬å€¤ã®è¡¨ç¤ºåç§°
+     * @param description è¨ˆæ¸¬å€¤ã«é–¢ã™ã‚‹èª¬æ˜
      */
     public MeasurementInfo(final long measurementType, final String itemName,
             final String displayName, final String description)
@@ -77,9 +77,9 @@ public class MeasurementInfo
     }
 
     /**
-     * Œv‘ª’lí•Ê‚ğ•Ô‚µ‚Ü‚·B<br />
+     * è¨ˆæ¸¬å€¤ç¨®åˆ¥ã‚’è¿”ã—ã¾ã™ã€‚<br />
      *
-     * @return Œv‘ª’lí•Ê
+     * @return è¨ˆæ¸¬å€¤ç¨®åˆ¥
      */
     public long getMeasurementType()
     {
@@ -87,9 +87,9 @@ public class MeasurementInfo
     }
 
     /**
-     * ƒŠƒ\[ƒX’Ê’m“d•¶‚Ì€–Ú–¼‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ãƒªã‚½ãƒ¼ã‚¹é€šçŸ¥é›»æ–‡ã®é …ç›®åã‚’è¿”ã—ã¾ã™ã€‚<br />
      *
-     * @return ƒŠƒ\[ƒX’Ê’m“d•¶‚Ì€–Ú–¼
+     * @return ãƒªã‚½ãƒ¼ã‚¹é€šçŸ¥é›»æ–‡ã®é …ç›®å
      */
     public String getItemName()
     {
@@ -97,9 +97,9 @@ public class MeasurementInfo
     }
 
     /**
-     * Œv‘ª’l‚Ì•\¦–¼Ì‚ğ•Ô‚µ‚Ü‚·B<br />
+     * è¨ˆæ¸¬å€¤ã®è¡¨ç¤ºåç§°ã‚’è¿”ã—ã¾ã™ã€‚<br />
      *
-     * @return Œv‘ª’l‚Ì•\¦–¼Ì
+     * @return è¨ˆæ¸¬å€¤ã®è¡¨ç¤ºåç§°
      */
     public String getDisplayName()
     {
@@ -107,9 +107,9 @@ public class MeasurementInfo
     }
 
     /**
-     * Œv‘ª’l‚ÉŠÖ‚·‚éà–¾‚ğ•Ô‚µ‚Ü‚·B<br />
+     * è¨ˆæ¸¬å€¤ã«é–¢ã™ã‚‹èª¬æ˜ã‚’è¿”ã—ã¾ã™ã€‚<br />
      *
-     * @return Œv‘ª’l‚ÉŠÖ‚·‚éà–¾
+     * @return è¨ˆæ¸¬å€¤ã«é–¢ã™ã‚‹èª¬æ˜
      */
     public String getDescription()
     {

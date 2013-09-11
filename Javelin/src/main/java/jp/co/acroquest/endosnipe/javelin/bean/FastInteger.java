@@ -27,9 +27,9 @@ package jp.co.acroquest.endosnipe.javelin.bean;
 
 
 /**
- * ƒRƒŒƒNƒVƒ‡ƒ“‚ÉŠi”[‚·‚é‚½‚ß‚Ì Integer ƒNƒ‰ƒXB<br />
+ * ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã«æ ¼ç´ã™ã‚‹ãŸã‚ã® Integer ã‚¯ãƒ©ã‚¹ã€‚<br />
  *
- * “¯Šú‰»‚µ‚È‚¢‚½‚ßA AtomicInteger ‚æ‚è‚à‚‘¬‚Å‚·B<br />
+ * åŒæœŸåŒ–ã—ãªã„ãŸã‚ã€ AtomicInteger ã‚ˆã‚Šã‚‚é«˜é€Ÿã§ã™ã€‚<br />
  *
  * @author sakamoto
  */
@@ -39,7 +39,7 @@ public class FastInteger
     private int value_;
 
     /**
-     * ’l‚ğ 0 o‰Šú‰»‚µ‚½ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‚Ü‚·B<br />
+     * å€¤ã‚’ 0 å‡ºåˆæœŸåŒ–ã—ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
      */
     public FastInteger()
     {
@@ -47,9 +47,9 @@ public class FastInteger
     }
 
     /**
-     * w’è‚³‚ê‚½’l‚Å‰Šú‰»‚µ‚½ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‚Ü‚·B<br />
+     * æŒ‡å®šã•ã‚ŒãŸå€¤ã§åˆæœŸåŒ–ã—ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
      *
-     * @param value ’l
+     * @param value å€¤
      */
     public FastInteger(final int value)
     {
@@ -57,9 +57,9 @@ public class FastInteger
     }
 
     /**
-     * ’l‚ğƒZƒbƒg‚µ‚Ü‚·B<br />
+     * å€¤ã‚’ã‚»ãƒƒãƒˆã—ã¾ã™ã€‚<br />
      *
-     * @param value ’l
+     * @param value å€¤
      */
     public void setValue(final int value)
     {
@@ -67,7 +67,7 @@ public class FastInteger
     }
 
     /**
-     * ’l‚ğ <code>1</code> ‘‚â‚µ‚Ü‚·B<br />
+     * å€¤ã‚’ <code>1</code> å¢—ã‚„ã—ã¾ã™ã€‚<br />
      */
     public void increment()
     {
@@ -75,7 +75,7 @@ public class FastInteger
     }
 
     /**
-     * ’l‚ğ <code>1</code> Œ¸‚ç‚µ‚Ü‚·B<br />
+     * å€¤ã‚’ <code>1</code> æ¸›ã‚‰ã—ã¾ã™ã€‚<br />
      */
     public void decrement()
     {
@@ -83,9 +83,9 @@ public class FastInteger
     }
 
     /**
-     * ’l‚ğ‰ÁZ‚µ‚Ü‚·B<br />
+     * å€¤ã‚’åŠ ç®—ã—ã¾ã™ã€‚<br />
      *
-     * @param addValue ‰ÁZ‚·‚é’l
+     * @param addValue åŠ ç®—ã™ã‚‹å€¤
      */
     public void add(final int addValue)
     {
@@ -93,9 +93,9 @@ public class FastInteger
     }
 
     /**
-     * ’l‚ğŒ¸Z‚µ‚Ü‚·B<br />
+     * å€¤ã‚’æ¸›ç®—ã—ã¾ã™ã€‚<br />
      *
-     * @param subValue Œ¸Z‚·‚é’l
+     * @param subValue æ¸›ç®—ã™ã‚‹å€¤
      */
     public void subtract(final int subValue)
     {
@@ -103,9 +103,9 @@ public class FastInteger
     }
 
     /**
-     * ’l‚ğæ“¾‚µ‚Ü‚·B<br />
+     * å€¤ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      *
-     * @return ’l
+     * @return å€¤
      */
     public int getValue()
     {

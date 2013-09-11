@@ -31,8 +31,8 @@ import java.io.IOException;
 import jp.co.acroquest.endosnipe.javelin.common.AttachUtil;
 
 /**
- * Attach API‚ğ—p‚¢‚ÄƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€‚ğæ“¾‚·‚éB
- * æ“¾‚µ‚½ƒqƒXƒgƒOƒ‰ƒ€‚ÍˆÈ‰º‚ÌŒ`®‚Åæ“¾‚Å‚«‚é‚½‚ßAƒp[ƒXˆ—‚ğs‚¢A
+ * Attach APIã‚’ç”¨ã„ã¦ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã‚’å–å¾—ã™ã‚‹ã€‚
+ * å–å¾—ã—ãŸãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã¯ä»¥ä¸‹ã®å½¢å¼ã§å–å¾—ã§ãã‚‹ãŸã‚ã€ãƒ‘ãƒ¼ã‚¹å‡¦ç†ã‚’è¡Œã„ã€
  * 
  * <pre>
  * num   #instances    #bytes  class name
@@ -53,24 +53,24 @@ import jp.co.acroquest.endosnipe.javelin.common.AttachUtil;
  */
 public class SunClassHistogramMonitor extends ClassHistogramMonitor
 {
-    /** ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€’†‚ÌAƒCƒ“ƒXƒ^ƒ“ƒX”‚ÌƒCƒ“ƒfƒbƒNƒXB */
+    /** ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ä¸­ã®ã€ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ•°ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€‚ */
     private static final int INDEX_INSTANCES = 1;
 
-    /** ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€’†‚ÌAƒTƒCƒY(byte)‚ÌƒCƒ“ƒfƒbƒNƒXB */
+    /** ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ä¸­ã®ã€ã‚µã‚¤ã‚º(byte)ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€‚ */
     private static final int INDEX_BYTES = 2;
 
-    /** ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€’†‚ÌAƒNƒ‰ƒX–¼‚ÌƒCƒ“ƒfƒbƒNƒXB */
+    /** ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ä¸­ã®ã€ã‚¯ãƒ©ã‚¹åã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€‚ */
     private static final int INDEX_CLASSNAME = 3;
 
-    /** ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€‚ÌƒJƒ‰ƒ€”B */
+    /** ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã®ã‚«ãƒ©ãƒ æ•°ã€‚ */
     private static final int CLASS_HISTOGRAM_COLUMNS = 4;
 
     /**
-     * ƒqƒXƒgƒOƒ‰ƒ€‚Ì•¶š—ñ‚ğ“Ç‚İ‚ŞReader‚ğ¶¬‚·‚éB
+     * ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã®æ–‡å­—åˆ—ã‚’èª­ã¿è¾¼ã‚€Readerã‚’ç”Ÿæˆã™ã‚‹ã€‚
      * 
-     * @param classHistoGC ƒqƒXƒgƒOƒ‰ƒ€æ“¾‚ÉGC‚·‚é‚©‚Ç‚¤‚©
-     * @return@ƒqƒXƒgƒOƒ‰ƒ€‚Ì•¶š—ñ‚ğ“Ç‚İ‚ŞReaderB
-     * @throws IOException ƒqƒXƒgƒOƒ‰ƒ€æ“¾‚ÉIOƒGƒ‰[‚ª”­¶
+     * @param classHistoGC ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ å–å¾—æ™‚ã«GCã™ã‚‹ã‹ã©ã†ã‹
+     * @returnã€€ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã®æ–‡å­—åˆ—ã‚’èª­ã¿è¾¼ã‚€Readerã€‚
+     * @throws IOException ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ å–å¾—æ™‚ã«IOã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿ
      */
     public BufferedReader newReader(boolean classHistoGC)
         throws IOException
@@ -79,9 +79,9 @@ public class SunClassHistogramMonitor extends ClassHistogramMonitor
     }
 
     /**
-     * 1s‚ğƒp[ƒX‚µ‚ÄAClassHistogramEntry‚ğ¶¬‚·‚éB
-     * @param splitLine 1s
-     * @return ClassHistogramEntryAƒp[ƒX‚É¸”s‚µ‚½ê‡‚Ínull
+     * 1è¡Œã‚’ãƒ‘ãƒ¼ã‚¹ã—ã¦ã€ClassHistogramEntryã‚’ç”Ÿæˆã™ã‚‹ã€‚
+     * @param splitLine 1è¡Œ
+     * @return ClassHistogramEntryã€ãƒ‘ãƒ¼ã‚¹ã«å¤±æ•—ã—ãŸå ´åˆã¯null
      */
     public ClassHistogramEntry parseEntry(final String[] splitLine)
     {

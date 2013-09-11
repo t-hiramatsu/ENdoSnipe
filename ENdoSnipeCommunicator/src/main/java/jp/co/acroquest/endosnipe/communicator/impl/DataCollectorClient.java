@@ -43,12 +43,12 @@ import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 
 /**
- * DataCollector‚ªƒNƒ‰ƒCƒAƒ“ƒg‚©‚çÚ‘±‚³‚ê‚½‚Æ‚«‚É‹N“®‚³‚ê‚éƒNƒ‰ƒCƒAƒ“ƒgƒXƒŒƒbƒhB
- * <p>–{ƒXƒŒƒbƒh‚ğ‹N“®‚·‚é‚ÆAÚ‘±î•ñ’Ê’m“d•¶‚ÌóM‘Ò‚¿ó‘Ô‚Æ‚È‚éBƒNƒ‰ƒCƒAƒ“ƒg
- * ‚©‚ç‚ÌÅ‰‚Ì“d•¶‚ÍÚ‘±î•ñ’Ê’m‚Å‚È‚¯‚ê‚Î‚È‚ç‚¸A‚»‚êˆÈŠO‚Ì“d•¶‚ğóM‚µ‚Ä‚à
- * ‚·‚×‚Ä”jŠü‚·‚éB‚Ü‚½AÚ‘±î•ñ’Ê’m“d•¶‚ğóM‚µ‚½Œã‚ÍA
- * {@link DataCollectorClient#setEnabled(boolean)}‚ªƒR[ƒ‹‚³‚ê‚ÄÚ‘±ó‘Ô‚ª
- * —LŒø‚Æ‚È‚é‚Ü‚ÅA“d•¶‚ğóM‚¹‚¸‚É‘Ø—¯‚³‚¹‚éB</p>
+ * DataCollectorãŒã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‹ã‚‰æ¥ç¶šã•ã‚ŒãŸã¨ãã«èµ·å‹•ã•ã‚Œã‚‹ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚¹ãƒ¬ãƒƒãƒ‰ã€‚
+ * <p>æœ¬ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’èµ·å‹•ã™ã‚‹ã¨ã€æ¥ç¶šæƒ…å ±é€šçŸ¥é›»æ–‡ã®å—ä¿¡å¾…ã¡çŠ¶æ…‹ã¨ãªã‚‹ã€‚ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆ
+ * ã‹ã‚‰ã®æœ€åˆã®é›»æ–‡ã¯æ¥ç¶šæƒ…å ±é€šçŸ¥ã§ãªã‘ã‚Œã°ãªã‚‰ãšã€ãã‚Œä»¥å¤–ã®é›»æ–‡ã‚’å—ä¿¡ã—ã¦ã‚‚
+ * ã™ã¹ã¦ç ´æ£„ã™ã‚‹ã€‚ã¾ãŸã€æ¥ç¶šæƒ…å ±é€šçŸ¥é›»æ–‡ã‚’å—ä¿¡ã—ãŸå¾Œã¯ã€
+ * {@link DataCollectorClient#setEnabled(boolean)}ãŒã‚³ãƒ¼ãƒ«ã•ã‚Œã¦æ¥ç¶šçŠ¶æ…‹ãŒ
+ * æœ‰åŠ¹ã¨ãªã‚‹ã¾ã§ã€é›»æ–‡ã‚’å—ä¿¡ã›ãšã«æ»ç•™ã•ã›ã‚‹ã€‚</p>
  * 
  * @author matsuoka
  *
@@ -75,53 +75,53 @@ public class DataCollectorClient implements Runnable, TelegramSender
 
     private String clientId_;
 
-    /** DB–¼’PˆÊ‚Åƒ†ƒj[ƒN‚ÈDB”Ô† */
+    /** DBåå˜ä½ã§ãƒ¦ãƒ‹ãƒ¼ã‚¯ãªDBç•ªå· */
     private int dbNo_ = 0;
     
-    /** DB–¼ */
+    /** DBå */
     private String agentName_ = null;
 
-    /** “d•¶ˆ—ƒNƒ‰ƒX‚ÌƒŠƒXƒg */
+    /** é›»æ–‡å‡¦ç†ã‚¯ãƒ©ã‚¹ã®ãƒªã‚¹ãƒˆ */
     private final List<TelegramListener> telegramListenerList_ = new ArrayList<TelegramListener>();
 
-    /** JavelinClientThread‚Ìó‘Ô•Ï‰»‚ğ’Ê’m‚·‚éƒŠƒXƒi */
+    /** JavelinClientThreadã®çŠ¶æ…‹å¤‰åŒ–ã‚’é€šçŸ¥ã™ã‚‹ãƒªã‚¹ãƒŠ */
     private DataCollectorClientListener clientListener_;
 
     /**
-     * {@link DataCollectorClient}‚Ìó‘Ô•Ï‰»‚ğ’Ê’m‚·‚éƒŠƒXƒiB
+     * {@link DataCollectorClient}ã®çŠ¶æ…‹å¤‰åŒ–ã‚’é€šçŸ¥ã™ã‚‹ãƒªã‚¹ãƒŠã€‚
      * 
-     * <p>”Ä—p«‚Ì‚È‚¢ {@link DataCollectorClient} ê—p‚ÌƒR[ƒ‹ƒoƒbƒNƒCƒ“ƒ^[ƒtƒFƒCƒX
-     * ‚Å‚ ‚é‚½‚ßA“à•”ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Æ‚µ‚Ä’è‹`‚·‚éB</p>
+     * <p>æ±ç”¨æ€§ã®ãªã„ {@link DataCollectorClient} å°‚ç”¨ã®ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹
+     * ã§ã‚ã‚‹ãŸã‚ã€å†…éƒ¨ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹ã¨ã—ã¦å®šç¾©ã™ã‚‹ã€‚</p>
      * 
      * @author matsuoka
      */
     interface DataCollectorClientListener
     {
         /**
-         * Ú‘±î•ñ’Ê’m‚ğóM‚µ‚½‚ÉƒR[ƒ‹‚³‚ê‚éB
-         * <p>À‘•ƒƒ\ƒbƒh‚Å‚ÍAÚ‘±î•ñ’Ê’m‚ÌÚ×‚ğŠm”F‚µ‚Ä
-         * {@link DataCollectorClient#setEnabled(boolean)}‚©
-         * {@link DataCollectorClient#stop()}‚ğƒR[ƒ‹‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B</p>
+         * æ¥ç¶šæƒ…å ±é€šçŸ¥ã‚’å—ä¿¡ã—ãŸæ™‚ã«ã‚³ãƒ¼ãƒ«ã•ã‚Œã‚‹ã€‚
+         * <p>å®Ÿè£…ãƒ¡ã‚½ãƒƒãƒ‰ã§ã¯ã€æ¥ç¶šæƒ…å ±é€šçŸ¥ã®è©³ç´°ã‚’ç¢ºèªã—ã¦
+         * {@link DataCollectorClient#setEnabled(boolean)}ã‹
+         * {@link DataCollectorClient#stop()}ã‚’ã‚³ãƒ¼ãƒ«ã—ãªã‘ã‚Œã°ãªã‚‰ãªã„ã€‚</p>
          * 
-         * @param client ƒNƒ‰ƒCƒAƒ“ƒgƒCƒ“ƒXƒ^ƒ“ƒX
+         * @param client ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
          */
         void receiveConnectNotify(DataCollectorClient client);
 
         /**
-         * ’ÊMØ’f‚ÉƒR[ƒ‹‚³‚ê‚éB
-         * @param client ƒNƒ‰ƒCƒAƒ“ƒgƒCƒ“ƒXƒ^ƒ“ƒX
-         * @param forceDisconnected ‹­§Ø’f‚³‚ê‚½ê‡‚Í <code>true</code>
+         * é€šä¿¡åˆ‡æ–­æ™‚ã«ã‚³ãƒ¼ãƒ«ã•ã‚Œã‚‹ã€‚
+         * @param client ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+         * @param forceDisconnected å¼·åˆ¶åˆ‡æ–­ã•ã‚ŒãŸå ´åˆã¯ <code>true</code>
          */
         void disconnected(DataCollectorClient client, boolean forceDisconnected);
     }
 
     /**
-     * JavelinClientƒRƒlƒNƒVƒ‡ƒ“‚ÌŠJn‚Æ“d•¶ƒNƒ‰ƒX‚Ì“o˜^‚ğs‚¢‚Ü‚·B<br />
+     * JavelinClientã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ã®é–‹å§‹ã¨é›»æ–‡ã‚¯ãƒ©ã‚¹ã®ç™»éŒ²ã‚’è¡Œã„ã¾ã™ã€‚<br />
      * 
-     * @param objSocket ƒ\ƒPƒbƒg
+     * @param objSocket ã‚½ã‚±ãƒƒãƒˆ
      * @param discard discard
-     * @param clientId ƒNƒ‰ƒCƒAƒ“ƒgID
-     * @throws IOException “üo—Í—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param clientId ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆID
+     * @throws IOException å…¥å‡ºåŠ›ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public DataCollectorClient(final Socket objSocket, final boolean discard, String clientId)
         throws IOException
@@ -142,7 +142,7 @@ public class DataCollectorClient implements Runnable, TelegramSender
     {
         try
         {
-            // ‘—MƒXƒŒƒbƒh‚ğŠJn‚·‚éB
+            // é€ä¿¡ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’é–‹å§‹ã™ã‚‹ã€‚
             startSendThread();
 
             isRunning_ = true;
@@ -152,16 +152,16 @@ public class DataCollectorClient implements Runnable, TelegramSender
                 {
                     while (isWaitForConnectNotify_ && clientConnection_.isConnected())
                     {
-                        // Ú‘±î•ñ’Ê’m“d•¶‚ğóM‚µ‚½Œã‚ÍAsetEnabled()‚ª
-                        // ƒR[ƒ‹‚³‚ê‚é‚Ü‚Åsleep‚·‚éB
+                        // æ¥ç¶šæƒ…å ±é€šçŸ¥é›»æ–‡ã‚’å—ä¿¡ã—ãŸå¾Œã¯ã€setEnabled()ãŒ
+                        // ã‚³ãƒ¼ãƒ«ã•ã‚Œã‚‹ã¾ã§sleepã™ã‚‹ã€‚
                         Thread.sleep(WAIT_FOR_CONNECT_NOTIFY_SLEEP_TIME);
                     }
 
-                    // —v‹‚ğóM‚·‚éB
+                    // è¦æ±‚ã‚’å—ä¿¡ã™ã‚‹ã€‚
                     byte[] byteInputArr = null;
                     byteInputArr = clientConnection_.recvRequest();
 
-                    // byte—ñ‚ğTelegram‚É•ÏŠ·‚·‚éB
+                    // byteåˆ—ã‚’Telegramã«å¤‰æ›ã™ã‚‹ã€‚
                     Telegram request = TelegramUtil.recoveryTelegram(byteInputArr);
 
                     if (request == null)
@@ -215,9 +215,9 @@ public class DataCollectorClient implements Runnable, TelegramSender
     }
 
     /**
-     * “d•¶ˆ—‚É—˜—p‚·‚éTelegramListener‚ğ“o˜^‚·‚é
+     * é›»æ–‡å‡¦ç†ã«åˆ©ç”¨ã™ã‚‹TelegramListenerã‚’ç™»éŒ²ã™ã‚‹
      * 
-     * @param listenerList “d•¶ˆ—‚É—˜—p‚·‚éTelegramListener‚ÌƒŠƒXƒg
+     * @param listenerList é›»æ–‡å‡¦ç†ã«åˆ©ç”¨ã™ã‚‹TelegramListenerã®ãƒªã‚¹ãƒˆ
      */
     public void setTelegramListener(final List<TelegramListener> listenerList)
     {
@@ -228,9 +228,9 @@ public class DataCollectorClient implements Runnable, TelegramSender
     }
 
     /**
-     * “d•¶ˆ—‚É—˜—p‚·‚éTelegramListener‚ğ“o˜^‚·‚é
+     * é›»æ–‡å‡¦ç†ã«åˆ©ç”¨ã™ã‚‹TelegramListenerã‚’ç™»éŒ²ã™ã‚‹
      * 
-     * @param listener “d•¶ˆ—‚É—˜—p‚·‚éTelegramListener
+     * @param listener é›»æ–‡å‡¦ç†ã«åˆ©ç”¨ã™ã‚‹TelegramListener
      */
     public void addTelegramListener(final TelegramListener listener)
     {
@@ -241,15 +241,15 @@ public class DataCollectorClient implements Runnable, TelegramSender
     }
 
     /**
-     * “d•¶‚ğóM‚µA‰“š“d•¶‚ª‚ ‚é‚Æ‚«‚Ì‚İ“d•¶‚ğ‘—M‚µ‚Ü‚·B<br />
+     * é›»æ–‡ã‚’å—ä¿¡ã—ã€å¿œç­”é›»æ–‡ãŒã‚ã‚‹ã¨ãã®ã¿é›»æ–‡ã‚’é€ä¿¡ã—ã¾ã™ã€‚<br />
      * 
-     * @param request æ“¾“d•¶
+     * @param request å–å¾—é›»æ–‡
      */
     protected void receiveTelegram(final Telegram request)
     {
         if (!isEnabled_)
         {
-            // ƒRƒlƒNƒVƒ‡ƒ“‚ª—LŒø‚Æ‚È‚é‘O‚Ìˆ—
+            // ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ãŒæœ‰åŠ¹ã¨ãªã‚‹å‰ã®å‡¦ç†
             boolean result = processConnectNotify(request);
             if (result)
             {
@@ -259,14 +259,14 @@ public class DataCollectorClient implements Runnable, TelegramSender
             return;
         }
 
-        // ŠeTelegramListener‚Åˆ—‚ğs‚¤
+        // å„TelegramListenerã§å‡¦ç†ã‚’è¡Œã†
         for (TelegramListener listener : this.telegramListenerList_)
         {
             try
             {
                 Telegram response = listener.receiveTelegram(request);
 
-                // ‰“š“d•¶‚ª‚ ‚éê‡‚Ì‚İA‰“š‚ğ•Ô‚·
+                // å¿œç­”é›»æ–‡ãŒã‚ã‚‹å ´åˆã®ã¿ã€å¿œç­”ã‚’è¿”ã™
                 if (response == null)
                 {
                     continue;
@@ -289,14 +289,14 @@ public class DataCollectorClient implements Runnable, TelegramSender
     }
 
     /**
-     * Ú‘±î•ñ’Ê’m‚ğˆ—‚·‚éB
-     * <p>óM‚µ‚½“d•¶‚ªÚ‘±î•ñ’Ê’m‚Å‚ ‚ê‚ÎA
-     * {@link DataCollectorClientListener#receiveConnectNotify(ConnectNotifyData)}‚ğ
-     * ƒR[ƒ‹‚µA<code>true</code>‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ì“d•¶‚Å‚ ‚ê‚Î
-     * <code>false</code>‚ğ•Ô‚·B</p>
+     * æ¥ç¶šæƒ…å ±é€šçŸ¥ã‚’å‡¦ç†ã™ã‚‹ã€‚
+     * <p>å—ä¿¡ã—ãŸé›»æ–‡ãŒæ¥ç¶šæƒ…å ±é€šçŸ¥ã§ã‚ã‚Œã°ã€
+     * {@link DataCollectorClientListener#receiveConnectNotify(ConnectNotifyData)}ã‚’
+     * ã‚³ãƒ¼ãƒ«ã—ã€<code>true</code>ã‚’è¿”ã™ã€‚ãã‚Œä»¥å¤–ã®é›»æ–‡ã§ã‚ã‚Œã°
+     * <code>false</code>ã‚’è¿”ã™ã€‚</p>
      * 
-     * @param request óM‚µ‚½“d•¶
-     * @return óM‚µ‚½“d•¶‚ğˆ—‚Å‚«‚½‚ç<code>true</code>‚ğ•Ô‚·B
+     * @param request å—ä¿¡ã—ãŸé›»æ–‡
+     * @return å—ä¿¡ã—ãŸé›»æ–‡ã‚’å‡¦ç†ã§ããŸã‚‰<code>true</code>ã‚’è¿”ã™ã€‚
      */
     private boolean processConnectNotify(Telegram request)
     {
@@ -316,7 +316,7 @@ public class DataCollectorClient implements Runnable, TelegramSender
     }
 
     /**
-     * ƒXƒŒƒbƒh‚ğ’â~‚·‚éB
+     * ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’åœæ­¢ã™ã‚‹ã€‚
      */
     public void stop()
     {
@@ -324,9 +324,9 @@ public class DataCollectorClient implements Runnable, TelegramSender
     }
 
     /**
-     * ’ÊM‚ªƒNƒ[ƒY‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ•Ô‚µ‚Ü‚·B<br />
+     * é€šä¿¡ãŒã‚¯ãƒ­ãƒ¼ã‚ºã—ã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’è¿”ã—ã¾ã™ã€‚<br />
      * 
-     * @return ’ÊM‚ªƒNƒ[ƒY‚µ‚Ä‚¢‚éê‡A<code>true</code>
+     * @return é€šä¿¡ãŒã‚¯ãƒ­ãƒ¼ã‚ºã—ã¦ã„ã‚‹å ´åˆã€<code>true</code>
      */
     public boolean isClosed()
     {
@@ -334,9 +334,9 @@ public class DataCollectorClient implements Runnable, TelegramSender
     }
 
     /**
-     * ƒAƒ‰[ƒ€‚ğ‘—M‚µ‚Ü‚·B<br />
+     * ã‚¢ãƒ©ãƒ¼ãƒ ã‚’é€ä¿¡ã—ã¾ã™ã€‚<br />
      * 
-     * @param bytes “d•¶‚ÌƒoƒCƒg—ñ
+     * @param bytes é›»æ–‡ã®ãƒã‚¤ãƒˆåˆ—
      */
     public void sendAlarm(final byte[] bytes)
     {
@@ -344,10 +344,10 @@ public class DataCollectorClient implements Runnable, TelegramSender
     }
 
     /**
-     * “d•¶‚ÌƒƒO‚ğƒfƒoƒbƒOƒŒƒxƒ‹‚Å•\¦‚µ‚Ü‚·B<br />
+     * é›»æ–‡ã®ãƒ­ã‚°ã‚’ãƒ‡ãƒãƒƒã‚°ãƒ¬ãƒ™ãƒ«ã§è¡¨ç¤ºã—ã¾ã™ã€‚<br />
      * 
-     * @param telegram “d•¶
-     * @param bytes ƒoƒCƒg—ñ
+     * @param telegram é›»æ–‡
+     * @param bytes ãƒã‚¤ãƒˆåˆ—
      */
     public void logTelegram(final Telegram telegram, final byte[] bytes)
     {
@@ -356,10 +356,10 @@ public class DataCollectorClient implements Runnable, TelegramSender
     }
 
     /**
-     * óM“d•¶‚ÌƒƒO‚ğƒfƒoƒbƒOƒŒƒxƒ‹‚Å•\¦‚µ‚Ü‚·B<br />
+     * å—ä¿¡é›»æ–‡ã®ãƒ­ã‚°ã‚’ãƒ‡ãƒãƒƒã‚°ãƒ¬ãƒ™ãƒ«ã§è¡¨ç¤ºã—ã¾ã™ã€‚<br />
      * 
-     * @param telegram “d•¶
-     * @param bytes ƒoƒCƒg—ñ
+     * @param telegram é›»æ–‡
+     * @param bytes ãƒã‚¤ãƒˆåˆ—
      */
     public void logReceiveTelegram(final Telegram telegram, final byte[] bytes)
     {
@@ -394,8 +394,8 @@ public class DataCollectorClient implements Runnable, TelegramSender
     }
 
     /**
-     * Ú‘±‚Ìó‘Ô‚ğ‚ğ•Ô‚·B
-     * @return Ú‘±‚ª—LŒø‚Å‚ ‚ê‚Î<code>true</code>‚ğ•Ô‚·B
+     * æ¥ç¶šã®çŠ¶æ…‹ã‚’ã‚’è¿”ã™ã€‚
+     * @return æ¥ç¶šãŒæœ‰åŠ¹ã§ã‚ã‚Œã°<code>true</code>ã‚’è¿”ã™ã€‚
      */
     public boolean isEnabled()
     {
@@ -403,8 +403,8 @@ public class DataCollectorClient implements Runnable, TelegramSender
     }
 
     /**
-     * Ú‘±‚Ìó‘Ô‚ğİ’è‚·‚éB
-     * @param enabled Ú‘±‚Ìó‘Ô
+     * æ¥ç¶šã®çŠ¶æ…‹ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param enabled æ¥ç¶šã®çŠ¶æ…‹
      */
     public void setEnabled(boolean enabled)
     {
@@ -413,8 +413,8 @@ public class DataCollectorClient implements Runnable, TelegramSender
     }
 
     /**
-     * {@link DataCollectorClient}‚Ìó‘Ô•Ï‰»‚ğ’Ê’m‚·‚é‚½‚ß‚ÌƒŠƒXƒi‚ğ“o˜^‚·‚éB
-     * @param listener “o˜^‚·‚éƒŠƒXƒi
+     * {@link DataCollectorClient}ã®çŠ¶æ…‹å¤‰åŒ–ã‚’é€šçŸ¥ã™ã‚‹ãŸã‚ã®ãƒªã‚¹ãƒŠã‚’ç™»éŒ²ã™ã‚‹ã€‚
+     * @param listener ç™»éŒ²ã™ã‚‹ãƒªã‚¹ãƒŠ
      */
     public void setClientListener(DataCollectorClientListener listener)
     {
@@ -422,8 +422,8 @@ public class DataCollectorClient implements Runnable, TelegramSender
     }
 
     /**
-     * Ú‘±’Ê’mî•ñ‚ğæ“¾‚·‚éB
-     * @return Ú‘±’Ê’mî•ñ‚ğ•Ô‚·B
+     * æ¥ç¶šé€šçŸ¥æƒ…å ±ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return æ¥ç¶šé€šçŸ¥æƒ…å ±ã‚’è¿”ã™ã€‚
      */
     public ConnectNotifyData getConnectNotifyData()
     {
@@ -432,8 +432,8 @@ public class DataCollectorClient implements Runnable, TelegramSender
 
 
     /**
-     * DB”Ô†‚ğæ“¾‚·‚éB
-     * @return dbNo DB”Ô†
+     * DBç•ªå·ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return dbNo DBç•ªå·
      */
     public int getDbNo()
     {
@@ -441,8 +441,8 @@ public class DataCollectorClient implements Runnable, TelegramSender
     }
 
     /**
-     * DB”Ô†‚ğİ’è‚·‚éA
-     * @param dbNo DB”Ô†
+     * DBç•ªå·ã‚’è¨­å®šã™ã‚‹ã€
+     * @param dbNo DBç•ªå·
      */
     public void setDbNo(int dbNo)
     {
@@ -450,8 +450,8 @@ public class DataCollectorClient implements Runnable, TelegramSender
     }
 
     /**
-     * DB–¼‚ğæ“¾‚·‚éB
-     * @return DB–¼
+     * DBåã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return DBå
      */
     public String getAgentName()
     {
@@ -459,8 +459,8 @@ public class DataCollectorClient implements Runnable, TelegramSender
     }
 
     /**
-     * IPƒAƒhƒŒƒX‚ğæ“¾‚·‚éB
-     * @return ipAddr IPƒAƒhƒŒƒX
+     * IPã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ipAddr IPã‚¢ãƒ‰ãƒ¬ã‚¹
      */
     public String getIpAddr()
     {
@@ -468,8 +468,8 @@ public class DataCollectorClient implements Runnable, TelegramSender
     }
 
     /**
-     * ƒzƒXƒg–¼‚ğæ“¾‚·‚éB
-     * @return hostName ƒzƒXƒg–¼
+     * ãƒ›ã‚¹ãƒˆåã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return hostName ãƒ›ã‚¹ãƒˆå
      */
     public String getHostName()
     {
@@ -477,8 +477,8 @@ public class DataCollectorClient implements Runnable, TelegramSender
     }
 
     /**
-     * ƒ|[ƒg”Ô†‚ğæ“¾‚·‚éB
-     * @return port ƒ|[ƒg”Ô†
+     * ãƒãƒ¼ãƒˆç•ªå·ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return port ãƒãƒ¼ãƒˆç•ªå·
      */
     public int getPort()
     {
@@ -486,8 +486,8 @@ public class DataCollectorClient implements Runnable, TelegramSender
     }
 
     /**
-     * ƒNƒ‰ƒCƒAƒ“ƒgID‚ğæ“¾‚·‚éB
-     * @return clientId ƒNƒ‰ƒCƒAƒ“ƒgID
+     * ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆIDã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return clientId ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆID
      */
     public String getClientId()
     {
@@ -495,9 +495,9 @@ public class DataCollectorClient implements Runnable, TelegramSender
     }
 
     /**
-     * DB–¼‚ğİ’è‚·‚éB
+     * DBåã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param dbName DB–¼
+     * @param dbName DBå
      */
     public void setAgentName(String dbName)
     {

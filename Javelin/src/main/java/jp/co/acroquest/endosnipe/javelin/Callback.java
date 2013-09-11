@@ -26,14 +26,14 @@
 package jp.co.acroquest.endosnipe.javelin;
 
 /**
- * CallBackインターフェースです。<br />
+ * CallBack繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ縺ｧ縺吶�<br />
  * @author eriguchi
  *
  */
 public interface Callback
 {
     /**
-     * CallBackを実行します。<br />
+     * CallBack繧貞ｮ溯｡後＠縺ｾ縺吶�<br />
      * 
      */
     void execute();

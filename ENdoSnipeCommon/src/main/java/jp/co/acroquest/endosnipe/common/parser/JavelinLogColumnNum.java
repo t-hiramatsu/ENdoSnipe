@@ -26,153 +26,153 @@
 package jp.co.acroquest.endosnipe.common.parser;
 
 /**
- * ���샍�O�̊e���ʎq�ɂ������{����\���萔�C���^�[�t�F�[�X�ł��B<br />
+ * 動作ログの各識別子における基本情報を表す定数インターフェースです。<br />
  * 
  * @author kameda
  */
 public interface JavelinLogColumnNum
 {
-    /** ���ʎq */
+    /** 識別子 */
     int ID = 0;
 
-    /** CALL���O�̃��O�o�͎��� */
+    /** CALLログのログ出力時刻 */
     int CALL_TIME = 1;
 
-    /** CALL���O�̌Ăяo���惁�\�b�h�� */
+    /** CALLログの呼び出し先メソッド名 */
     int CALL_CALLEE_METHOD = 2;
 
-    /** CALL���O�̌Ăяo����N���X�� */
+    /** CALLログの呼び出し先クラス名 */
     int CALL_CALLEE_CLASS = 3;
 
-    /** CALL���O�̌Ăяo����I�u�W�F�N�gID */
+    /** CALLログの呼び出し先オブジェクトID */
     int CALL_CALLEE_OBJECTID = 4;
 
-    /** CALL���O�̌Ăяo�������\�b�h�� */
+    /** CALLログの呼び出し元メソッド名 */
     int CALL_CALLER_METHOD = 5;
 
-    /** CALL���O�̌Ăяo�����N���X�� */
+    /** CALLログの呼び出し元クラス名 */
     int CALL_CALLER_CLASS = 6;
 
-    /** CALL���O�̌Ăяo�����I�u�W�F�N�gID */
+    /** CALLログの呼び出し元オブジェクトID */
     int CALL_CALLER_OBJECTID = 7;
 
-    /** CALL���O�̌Ăяo���惁�\�b�h�̃��f�B�t�@�C�A */
+    /** CALLログの呼び出し先メソッドのモディファイア */
     int CALL_CALLEE_METHOD_MODIFIER = 8;
 
-    /** CALL���O�̃X���b�hID */
+    /** CALLログのスレッドID */
     int CALL_THREADID = 9;
 
-    /** RETURN���O�̃��O�o�͎��� */
+    /** RETURNログのログ出力時刻 */
     int RETURN_TIME = 1;
 
-    /** RETURN���O�̌Ăяo���惁�\�b�h�� */
+    /** RETURNログの呼び出し先メソッド名 */
     int RETURN_CALLEE_METHOD = 2;
 
-    /** RETURN���O�̌Ăяo����N���X�� */
+    /** RETURNログの呼び出し先クラス名 */
     int RETURN_CALLEE_CLASS = 3;
 
-    /** RETURN���O�̌Ăяo����I�u�W�F�N�gID */
+    /** RETURNログの呼び出し先オブジェクトID */
     int RETURN_CALLEE_OBJECTID = 4;
 
-    /** RETURN���O�̌Ăяo�������\�b�h�� */
+    /** RETURNログの呼び出し元メソッド名 */
     int RETURN_CALLER_METHOD = 5;
 
-    /** RETURN���O�̌Ăяo�����N���X�� */
+    /** RETURNログの呼び出し元クラス名 */
     int RETURN_CALLER_CLASS = 6;
 
-    /** RETURN���O�̌Ăяo�����I�u�W�F�N�gID */
+    /** RETURNログの呼び出し元オブジェクトID */
     int RETURN_CALLER_OBJECTID = 7;
 
-    /** RETURN���O�̌Ăяo���惁�\�b�h�̃��f�B�t�@�C�A */
+    /** RETURNログの呼び出し先メソッドのモディファイア */
     int RETURN_CALLEE_METHOD_MODIFIER = 8;
 
-    /** RETURN���O�̃X���b�hID */
+    /** RETURNログのスレッドID */
     int RETURN_THREADID = 9;
 
-    /** THROW���O�̃��O�o�͎��� */
+    /** THROWログのログ出力時刻 */
     int THROW_TIME = 1;
 
-    /** THROW���O�̗�O�N���X�� */
+    /** THROWログの例外クラス名 */
     int THROW_EX_CLASS = 2;
 
-    /** THROW���O�̗�O�I�u�W�F�N�gID */
+    /** THROWログの例外オブジェクトID */
     int THROW_EX_OBJECTID = 3;
 
-    /** THROW���O��throw�����\�b�h�� */
+    /** THROWログのthrow元メソッド名 */
     int THROW_THROWER_METHOD = 4;
 
-    /** THROW���O��throw���N���X�� */
+    /** THROWログのthrow元クラス名 */
     int THROW_THROWER_CLASS = 5;
 
-    /** THROW���O��throw���I�u�W�F�N�gID */
+    /** THROWログのthrow元オブジェクトID */
     int THROW_THROWER_OBJECTID = 6;
 
-    /** THROW���O�̃X���b�hID */
+    /** THROWログのスレッドID */
     int THROW_THREADID = 7;
 
-    /** CATCH���O�̃��O�o�͎��� */
+    /** CATCHログのログ出力時刻 */
     int CATCH_TIME = 1;
 
-    /** CATCH���O�̗�O�N���X�� */
+    /** CATCHログの例外クラス名 */
     int CATCH_EX_CLASS = 2;
 
-    /** CATCH���O�̗�O�I�u�W�F�N�gID */
+    /** CATCHログの例外オブジェクトID */
     int CATCH_EX_OBJECTID = 3;
 
-    /** CATCH���O��catch�惁�\�b�h�� */
+    /** CATCHログのcatch先メソッド名 */
     int CATCH_CATCHER_METHOD = 4;
 
-    /** CATCH���O��catch��N���X�� */
+    /** CATCHログのcatch先クラス名 */
     int CATCH_CATCHER_CLASS = 5;
 
-    /** CATCH���O��catch��I�u�W�F�N�gID */
+    /** CATCHログのcatch先オブジェクトID */
     int CATCH_CATCHER_OBJECTID = 6;
 
-    /** CATCH���O�̃X���b�hID */
+    /** CATCHログのスレッドID */
     int CATCH_THREADID = 7;
 
-    /** READ,WRITE���O�̃��O�o�͎��� */
+    /** READ,WRITEログのログ出力時刻 */
     int READ_WRITE_TIME = 1;
 
-    /** READ,WRITE���O�̃A�N�Z�X��t�B�[���h�� */
+    /** READ,WRITEログのアクセス先フィールド名 */
     int READ_WRITE_ACCESSEE_FIELD = 2;
 
-    /** READ,WRITE���O�̃A�N�Z�X��N���X�� */
+    /** READ,WRITEログのアクセス先クラス名 */
     int READ_WRITE_ACCESSEE_CLASS = 3;
 
-    /** READ,WRITE���O�̃A�N�Z�X��I�u�W�F�N�gID */
+    /** READ,WRITEログのアクセス先オブジェクトID */
     int READ_WRITE_ACCESSEE_OBJECTID = 4;
 
-    /** READ,WRITE���O�̃A�N�Z�X�����\�b�h�� */
+    /** READ,WRITEログのアクセス元メソッド名 */
     int READ_WRITE_ACCESSOR_METHOD = 5;
 
-    /** READ,WRITE���O�̃A�N�Z�X���N���X�� */
+    /** READ,WRITEログのアクセス元クラス名 */
     int READ_WRITE_ACCESSOR_CLASS = 6;
 
-    /** READ,WRITE���O�̃A�N�Z�X���I�u�W�F�N�gID */
+    /** READ,WRITEログのアクセス元オブジェクトID */
     int READ_WRITE_ACCESSOR_OBJECTID = 7;
 
-    /** READ,WRITE���O�̃A�N�Z�X��t�B�[���h�̌^ */
+    /** READ,WRITEログのアクセス先フィールドの型 */
     int READ_WRITE_CALLEE_METHOD_MODIFIER = 8;
 
-    /** READ,WRITE���O�̃X���b�hID */
+    /** READ,WRITEログのスレッドID */
     int READ_WRITE_THREADID = 9;
 
-    /** EVENT���O�̃��O�o�͎��� */
+    /** EVENTログのログ出力時刻 */
     int EVENT_TIME = 1;
 
-    /** EVENT���O�̃C�x���g�� */
+    /** EVENTログのイベント名 */
     int EVENT_NAME = 2;
 
-    /** EVENT���O�̔����������\�b�h�� */
+    /** EVENTログの発生したメソッド名 */
     int EVENT_METHOD = 3;
 
-    /** EVENT���O�̔��������N���X�� */
+    /** EVENTログの発生したクラス名 */
     int EVENT_CLASS = 4;
 
-    /** EVENT���O�̔��������N���X�� */
+    /** EVENTログの発生したクラス名 */
     int EVENT_LEVEL = 5;
 
-    /** EVENT���O�̃X���b�hID */
+    /** EVENTログのスレッドID */
     int EVENT_THREADID = 6;
 }

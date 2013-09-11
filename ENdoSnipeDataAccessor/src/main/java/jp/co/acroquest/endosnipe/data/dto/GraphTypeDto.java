@@ -26,7 +26,7 @@
 package jp.co.acroquest.endosnipe.data.dto;
 
 /**
- * �?��ーメニューのDTOクラス�?
+ * 繝?Μ繝ｼ繝｡繝九Η繝ｼ縺ｮDTO繧ｯ繝ｩ繧ｹ縲?
  * 
  * @author pin
  *
@@ -40,7 +40,7 @@ public class GraphTypeDto
     private String itemType_;
 
     /**
-     * コンストラクタ�?
+     * 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ縲?
      */
     public GraphTypeDto()
     {
@@ -55,9 +55,9 @@ public class GraphTypeDto
     }
 
     /**
-     * 表示名を取得する�?
+     * 陦ｨ遉ｺ蜷阪ｒ蜿門ｾ励☆繧九?
      * 
-     * @return 表示�?
+     * @return 陦ｨ遉ｺ蜷?
      */
     public String getItemName()
     {
@@ -65,9 +65,9 @@ public class GraphTypeDto
     }
 
     /**
-     * 表示名を設定する�?
+     * 陦ｨ遉ｺ蜷阪ｒ險ｭ螳壹☆繧九?
      * 
-     * @param itemName 表示�?
+     * @param itemName 陦ｨ遉ｺ蜷?
      */
     public void setItemName(final String itemName)
     {
@@ -75,9 +75,9 @@ public class GraphTypeDto
     }
 
     /**
-     * �?��ーIDを取得する�?
+     * 繝?Μ繝ｼID繧貞叙蠕励☆繧九?
      * 
-     * @return �?��ーID
+     * @return 繝?Μ繝ｼID
      */
     public String getItemType()
     {
@@ -85,9 +85,9 @@ public class GraphTypeDto
     }
 
     /**
-     * �?��ーIDを設定する�?
+     * 繝?Μ繝ｼID繧定ｨｭ螳壹☆繧九?
      * 
-     * @param itemType �?��ーID
+     * @param itemType 繝?Μ繝ｼID
      */
     public void setItemType(final String itemType)
     {

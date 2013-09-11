@@ -34,7 +34,7 @@ import jp.co.acroquest.endosnipe.common.entity.ResourceItem;
 import jp.co.acroquest.endosnipe.javelin.resource.MultiResourceGetter;
 
 /**
- * •¡”‚ÌMBeanValueGetter‚ğŠÇ—‚·‚éƒNƒ‰ƒXB
+ * è¤‡æ•°ã®MBeanValueGetterã‚’ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚
  * @author tsukano
  */
 public class MBeanMultiResourceGetter implements MultiResourceGetter
@@ -43,8 +43,8 @@ public class MBeanMultiResourceGetter implements MultiResourceGetter
     private List<MBeanValueGetter> getterList_ = new ArrayList<MBeanValueGetter>(1);
 
     /**
-     * –{ƒNƒ‰ƒX‚ªŠÇ—‚·‚éŒv‘ªƒNƒ‰ƒX‚ğ’Ç‰Á‚·‚éB
-     * @param getter Œv‘ªƒNƒ‰ƒX
+     * æœ¬ã‚¯ãƒ©ã‚¹ãŒç®¡ç†ã™ã‚‹è¨ˆæ¸¬ã‚¯ãƒ©ã‚¹ã‚’è¿½åŠ ã™ã‚‹ã€‚
+     * @param getter è¨ˆæ¸¬ã‚¯ãƒ©ã‚¹
      */
     public void addMBeanValueGetter(MBeanValueGetter getter)
     {
@@ -52,12 +52,12 @@ public class MBeanMultiResourceGetter implements MultiResourceGetter
     }
 
     /**
-     * ŠeŒv‘ª’l‚ğæ“¾‚µAResourceItem‚ÌƒŠƒXƒg‚Æ‚µ‚Ä•Ô‹p‚·‚é
-     * @return ResourceItem‚ÌƒŠƒXƒg
+     * å„è¨ˆæ¸¬å€¤ã‚’å–å¾—ã—ã€ResourceItemã®ãƒªã‚¹ãƒˆã¨ã—ã¦è¿”å´ã™ã‚‹
+     * @return ResourceItemã®ãƒªã‚¹ãƒˆ
      */
     public List<ResourceItem> getValues()
     {
-        // ŠeŒv‘ª’l‚ğæ“¾‚µAResourceItem‚ÌƒŠƒXƒg‚Æ‚µ‚Ä•Ô‹p‚·‚é
+        // å„è¨ˆæ¸¬å€¤ã‚’å–å¾—ã—ã€ResourceItemã®ãƒªã‚¹ãƒˆã¨ã—ã¦è¿”å´ã™ã‚‹
         List<ResourceItem> resourceItemList = null;
         for (MBeanValueGetter getter : this.getterList_)
         {

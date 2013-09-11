@@ -3,23 +3,23 @@ package jp.co.acroquest.endosnipe.report.entity;
 import java.sql.Timestamp;
 
 /**
- * �u�f�[�^��o�́v�^�u�́u�t�@�C����o�́v�̃O���t�́A
- * �u�t�@�C����͗ʁv�̃f�[�^��1�ێ�����N���X�ł��B
+ * ・ｽu・ｽf・ｽ[・ｽ^・ｽ・ｽo・ｽﾍ」・ｽ^・ｽu・ｽﾌ「・ｽt・ｽ@・ｽC・ｽ・ｽ・ｽ・ｽo・ｽﾍ」・ｽﾌグ・ｽ・ｽ・ｽt・ｽﾌ、
+ * ・ｽu・ｽt・ｽ@・ｽC・ｽ・ｽ・ｽ・ｽﾍ量」・ｽﾌデ・ｽ[・ｽ^・ｽ・ｽ1・ｽﾂ保趣ｿｽ・ｽ・ｽ・ｽ・ｽN・ｽ・ｽ・ｽX・ｽﾅゑｿｽ・ｽB
  * 
  * @author acroquest
  */
 public class FileInputRecord
 {
-	/** �v������ */
+	/** ・ｽv・ｽ・ｽ・ｽ・ｽ・ｽ・ｽ */
     private Timestamp measurementTime_;
     
-	/** �t�@�C����o�͗ʂ̃O���t�́A�t�@�C����͗�[�T�C�Y(Bytes)]�i��Ԋ�ԕ��ρj */
+	/** ・ｽt・ｽ@・ｽC・ｽ・ｽ・ｽ・ｽo・ｽﾍ量のグ・ｽ・ｽ・ｽt・ｽﾌ、・ｽt・ｽ@・ｽC・ｽ・ｽ・ｽ・ｽﾍ暦ｿｽ[・ｽT・ｽC・ｽY(Bytes)]・ｽi・ｽ・ｽﾔ奇ｿｽﾔ包ｿｽ・ｽﾏ） */
     private long fileInput_;
     
-    /** �t�@�C����o�͗ʂ̃O���t�́A�t�@�C����͗�[�T�C�Y(Bytes)]�i��Ԋ�ԍő�j */
+    /** ・ｽt・ｽ@・ｽC・ｽ・ｽ・ｽ・ｽo・ｽﾍ量のグ・ｽ・ｽ・ｽt・ｽﾌ、・ｽt・ｽ@・ｽC・ｽ・ｽ・ｽ・ｽﾍ暦ｿｽ[・ｽT・ｽC・ｽY(Bytes)]・ｽi・ｽ・ｽﾔ奇ｿｽﾔ最托ｿｽj */
     private long fileInputMax_;
     
-    /** �t�@�C����o�͗ʂ̃O���t�́A�t�@�C����͗�[�T�C�Y(Bytes)]�i��Ԋ�ԍŏ��j */
+    /** ・ｽt・ｽ@・ｽC・ｽ・ｽ・ｽ・ｽo・ｽﾍ量のグ・ｽ・ｽ・ｽt・ｽﾌ、・ｽt・ｽ@・ｽC・ｽ・ｽ・ｽ・ｽﾍ暦ｿｽ[・ｽT・ｽC・ｽY(Bytes)]・ｽi・ｽ・ｽﾔ奇ｿｽﾔ最擾ｿｽ・ｽj */
     private long fileInputMin_;
     
     /**
@@ -44,7 +44,7 @@ public class FileInputRecord
 	}
 
 	/**
-	 * @param fileInput�@the fileInput_ to set
+	 * @param fileInput・ｽ@the fileInput_ to set
 	 */
 	public void setFileInput(long fileInput) {
 		this.fileInput_ = fileInput;

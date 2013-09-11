@@ -28,38 +28,38 @@ package jp.co.acroquest.endosnipe.collector.data;
 import java.io.File;
 
 /**
- * Javelin ƒƒO‚ğ•\‚· {@link JavelinData} ‚Å‚·B<br />
- * Javelin ƒƒO‚Í {@link String} ƒIƒuƒWƒFƒNƒg‚ÅƒIƒ“ƒƒ‚ƒŠ‚É•Û‚·‚é‚©A
- * •Û‘¶‚³‚ê‚½ˆêƒtƒ@ƒCƒ‹ {@link File} ƒIƒuƒWƒFƒNƒg‚Æ‚µ‚Ä•Û‚µ‚Ü‚·B<br />
+ * Javelin ãƒ­ã‚°ã‚’è¡¨ã™ {@link JavelinData} ã§ã™ã€‚<br />
+ * Javelin ãƒ­ã‚°ã¯ {@link String} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã§ã‚ªãƒ³ãƒ¡ãƒ¢ãƒªã«ä¿æŒã™ã‚‹ã‹ã€
+ * ä¿å­˜ã•ã‚ŒãŸä¸€æ™‚ãƒ•ã‚¡ã‚¤ãƒ« {@link File} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¨ã—ã¦ä¿æŒã—ã¾ã™ã€‚<br />
  * 
  * @author y-komori
  */
 public class JavelinLogData extends AbstractJavelinData
 {
-    /** ƒfƒtƒHƒ‹ƒg‚ÌStringBuilder‚ÌƒTƒCƒY */
+    /** ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®StringBuilderã®ã‚µã‚¤ã‚º */
     private static final int DEFAULT_STRING_BUILDER_SIZE = 64;
 
-    /** ƒƒOƒtƒ@ƒCƒ‹–¼ */
+    /** ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«å */
     private String logFileName_;
 
-    /** ƒtƒ@ƒCƒ‹ */
+    /** ãƒ•ã‚¡ã‚¤ãƒ« */
     private File   file_;
 
-    /** “à—e */
+    /** å†…å®¹ */
     private String contents_;
     
     private String agentName_;
 
-    /** ƒAƒ‰[ƒ€è‡’l */
+    /** ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ */
     private long   alarmThreshold_;
 
-    /** ƒAƒ‰[ƒ€CPUè‡’l */
+    /** ã‚¢ãƒ©ãƒ¼ãƒ CPUé–¾å€¤ */
     private long   cpuAlarmThreshold_;
 
     /**
-     * ƒƒO“à—e‚ğ“n‚µ‚Ä {@link JavelinLogData} ‚ğ\’z‚µ‚Ü‚·B<br />
+     * ãƒ­ã‚°å†…å®¹ã‚’æ¸¡ã—ã¦ {@link JavelinLogData} ã‚’æ§‹ç¯‰ã—ã¾ã™ã€‚<br />
      * 
-     * @param contents ƒƒO“à—e
+     * @param contents ãƒ­ã‚°å†…å®¹
      */
     public JavelinLogData(final String contents)
     {
@@ -72,9 +72,9 @@ public class JavelinLogData extends AbstractJavelinData
     }
 
     /**
-     * ƒƒOƒtƒ@ƒCƒ‹‚ğ {@link JavelinLogData} ‚ğ\’z‚µ‚Ü‚·B<br />
+     * ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ {@link JavelinLogData} ã‚’æ§‹ç¯‰ã—ã¾ã™ã€‚<br />
      * 
-     * @param file Javelin ƒƒOƒtƒ@ƒCƒ‹‚ğ•\‚· {@link File} ƒIƒuƒWƒFƒNƒg
+     * @param file Javelin ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã‚’è¡¨ã™ {@link File} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     public JavelinLogData(final File file)
     {
@@ -87,9 +87,9 @@ public class JavelinLogData extends AbstractJavelinData
     }
 
     /**
-     * ƒƒO•Û‘¶æ‚Ì {@link File} ƒIƒuƒWƒFƒNƒg‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ãƒ­ã‚°ä¿å­˜å…ˆã® {@link File} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¿”ã—ã¾ã™ã€‚<br />
      * 
-     * @return ƒƒO•Û‘¶æ‚Ì {@link File} ƒIƒuƒWƒFƒNƒg
+     * @return ãƒ­ã‚°ä¿å­˜å…ˆã® {@link File} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     public File getFile()
     {
@@ -97,9 +97,9 @@ public class JavelinLogData extends AbstractJavelinData
     }
 
     /**
-     * •Û‚µ‚Ä‚¢‚éˆêƒtƒ@ƒCƒ‹‚ğíœ‚µ‚Ü‚·B<br />
+     * ä¿æŒã—ã¦ã„ã‚‹ä¸€æ™‚ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å‰Šé™¤ã—ã¾ã™ã€‚<br />
      * 
-     * @return íœ‚É¬Œ÷‚µ‚½ê‡‚Í <code>true</code>
+     * @return å‰Šé™¤ã«æˆåŠŸã—ãŸå ´åˆã¯ <code>true</code>
      */
     public boolean deleteFile()
     {
@@ -115,9 +115,9 @@ public class JavelinLogData extends AbstractJavelinData
     }
 
     /**
-     * ƒƒO“à—e‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ãƒ­ã‚°å†…å®¹ã‚’è¿”ã—ã¾ã™ã€‚<br />
      * 
-     * @return ƒƒO“à—e
+     * @return ãƒ­ã‚°å†…å®¹
      */
     public String getContents()
     {
@@ -125,9 +125,9 @@ public class JavelinLogData extends AbstractJavelinData
     }
 
     /**
-     * ƒƒOƒtƒ@ƒCƒ‹–¼‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«åã‚’è¿”ã—ã¾ã™ã€‚<br />
      * 
-     * @return ƒƒOƒtƒ@ƒCƒ‹–¼
+     * @return ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«å
      */
     public String getLogFileName()
     {
@@ -135,9 +135,9 @@ public class JavelinLogData extends AbstractJavelinData
     }
 
     /**
-     * ƒƒOƒtƒ@ƒCƒ‹–¼‚ğİ’è‚µ‚Ü‚·B<br />
+     * ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«åã‚’è¨­å®šã—ã¾ã™ã€‚<br />
      * 
-     * @param logFileName ƒƒOƒtƒ@ƒCƒ‹–¼
+     * @param logFileName ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«å
      */
     public void setLogFileName(final String logFileName)
     {
@@ -145,8 +145,8 @@ public class JavelinLogData extends AbstractJavelinData
     }
 
     /**
-     * ƒAƒ‰[ƒ€è‡’l‚ğæ“¾‚µ‚Ü‚·B
-     * @return ƒAƒ‰[ƒ€è‡’l
+     * ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @return ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤
      */
     public long getAlarmThreshold()
     {
@@ -154,8 +154,8 @@ public class JavelinLogData extends AbstractJavelinData
     }
 
     /**
-     * ƒAƒ‰[ƒ€è‡’l‚ğİ’è‚µ‚Ü‚·B
-     * @param alarmThreshold ƒAƒ‰[ƒ€è‡’l
+     * ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ã‚’è¨­å®šã—ã¾ã™ã€‚
+     * @param alarmThreshold ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤
      */
     public void setAlarmThreshold(final long alarmThreshold)
     {
@@ -163,8 +163,8 @@ public class JavelinLogData extends AbstractJavelinData
     }
 
     /**
-     * ƒAƒ‰[ƒ€CPUè‡’l‚ğæ“¾‚µ‚Ü‚·B
-     * @return ƒAƒ‰[ƒ€CPUè‡’l
+     * ã‚¢ãƒ©ãƒ¼ãƒ CPUé–¾å€¤ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @return ã‚¢ãƒ©ãƒ¼ãƒ CPUé–¾å€¤
      */
     public long getCpuAlarmThreshold()
     {
@@ -172,8 +172,8 @@ public class JavelinLogData extends AbstractJavelinData
     }
 
     /**
-     * ƒAƒ‰[ƒ€CPUè‡’l‚ğİ’è‚µ‚Ü‚·B
-     * @param cpuAlarmThreshold ƒAƒ‰[ƒ€CPUè‡’l
+     * ã‚¢ãƒ©ãƒ¼ãƒ CPUé–¾å€¤ã‚’è¨­å®šã—ã¾ã™ã€‚
+     * @param cpuAlarmThreshold ã‚¢ãƒ©ãƒ¼ãƒ CPUé–¾å€¤
      */
     public void setCpuAlarmThreshold(final long cpuAlarmThreshold)
     {
@@ -200,8 +200,8 @@ public class JavelinLogData extends AbstractJavelinData
     }
 
     /**
-     * ƒG[ƒWƒFƒ“ƒg–¼‚ğæ“¾‚µ‚Ü‚·B
-     * @return ƒG[ƒWƒFƒ“ƒg–¼ 
+     * ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆåã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @return ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆå 
      */
 	public String getAgentName() 
 	{
@@ -209,8 +209,8 @@ public class JavelinLogData extends AbstractJavelinData
 	}
 
 	/**
-	 * ƒG[ƒWƒFƒ“ƒg–¼‚ğİ’è‚µ‚Ü‚·B
-	 * @param agentName ƒG[ƒWƒFƒ“ƒg–¼
+	 * ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆåã‚’è¨­å®šã—ã¾ã™ã€‚
+	 * @param agentName ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆå
 	 */
 	public void setAgentName(String agentName) 
 	{

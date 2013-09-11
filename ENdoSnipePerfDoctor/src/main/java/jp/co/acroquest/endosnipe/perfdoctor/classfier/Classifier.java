@@ -30,16 +30,16 @@ import java.util.List;
 import jp.co.acroquest.endosnipe.perfdoctor.WarningUnit;
 
 /**
- * •ª—ŞŠí‚ÌƒCƒ“ƒ^[ƒtƒF[ƒXB
+ * åˆ†é¡å™¨ã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã€‚
  * @author fujii
  *
  */
 public interface Classifier
 {
     /**
-     * WariningUnit‚ÌƒŠƒXƒg‚ğ•ª—Ş‚·‚éB
-     * @param warningUnitList WarningUnit‚ÌƒŠƒXƒg
-     * @return •ª—ŞŒã‚ÌƒŠƒXƒg
+     * WariningUnitã®ãƒªã‚¹ãƒˆã‚’åˆ†é¡ã™ã‚‹ã€‚
+     * @param warningUnitList WarningUnitã®ãƒªã‚¹ãƒˆ
+     * @return åˆ†é¡å¾Œã®ãƒªã‚¹ãƒˆ
      */
     List<WarningUnit> classify(List<WarningUnit> warningUnitList);
 }

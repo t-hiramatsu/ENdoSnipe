@@ -30,29 +30,29 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 /**
- * PostgreSQL‚ÌPreparedStatement‚ÌÀsŒv‰æ‚ğæ‚é‚½‚ß‚Ég—p‚·‚éƒNƒ‰ƒXB
+ * PostgreSQLã®PreparedStatementã®å®Ÿè¡Œè¨ˆç”»ã‚’å–ã‚‹ãŸã‚ã«ä½¿ç”¨ã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚
  *
  * @author sakamoto
  */
 public class PreparedStatementPair
 {
 
-    /** ÀsŒv‰ææ“¾—pPreparedStatement */
+    /** å®Ÿè¡Œè¨ˆç”»å–å¾—ç”¨PreparedStatement */
     private final PreparedStatement pstmtForPlan_;
 
-    /** ƒoƒCƒ“ƒh•Ï”‚Ì” */
+    /** ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°ã®æ•° */
     private final int bindValCount_;
 
-    /** DML‚È‚ç<code>true</code> */
+    /** DMLãªã‚‰<code>true</code> */
     private final boolean isDml_;
 
     /**
-     * ÀsŒv‰ææ“¾—pPreparedStatement‚ğì¬‚·‚éB
+     * å®Ÿè¡Œè¨ˆç”»å–å¾—ç”¨PreparedStatementã‚’ä½œæˆã™ã‚‹ã€‚
      *
-     * @param connect DBƒRƒlƒNƒVƒ‡ƒ“
-     * @param sql SQL•¶
-     * @param isDml w’è‚µ‚½SQL•¶‚ªDML‚È‚ç<code>true</code>
-     * @throws SQLException SQL•¶‚ÉƒGƒ‰[‚ª‚ ‚Á‚½‚Æ‚«
+     * @param connect DBã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³
+     * @param sql SQLæ–‡
+     * @param isDml æŒ‡å®šã—ãŸSQLæ–‡ãŒDMLãªã‚‰<code>true</code>
+     * @throws SQLException SQLæ–‡ã«ã‚¨ãƒ©ãƒ¼ãŒã‚ã£ãŸã¨ã
      */
     public PreparedStatementPair(final Connection connect, final String sql, final boolean isDml)
         throws SQLException
@@ -63,9 +63,9 @@ public class PreparedStatementPair
     }
 
     /**
-     * ÀsŒv‰ææ“¾—pPreparedStatement‚ğ•Ô‚·B
+     * å®Ÿè¡Œè¨ˆç”»å–å¾—ç”¨PreparedStatementã‚’è¿”ã™ã€‚
      *
-     * @return ÀsŒv‰ææ“¾—pPreparedStatement
+     * @return å®Ÿè¡Œè¨ˆç”»å–å¾—ç”¨PreparedStatement
      */
     public PreparedStatement getPreparedStatement()
     {
@@ -73,9 +73,9 @@ public class PreparedStatementPair
     }
 
     /**
-     * ÀsŒv‰ææ“¾—pPreparedStatement‚Ég‚í‚ê‚éƒoƒCƒ“ƒh•Ï”‚Ì”‚ğ•Ô‚·B
+     * å®Ÿè¡Œè¨ˆç”»å–å¾—ç”¨PreparedStatementã«ä½¿ã‚ã‚Œã‚‹ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°ã®æ•°ã‚’è¿”ã™ã€‚
      *
-     * @return ƒoƒCƒ“ƒh•Ï”‚Ì”
+     * @return ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°ã®æ•°
      */
     public int getBindValCount()
     {
@@ -83,9 +83,9 @@ public class PreparedStatementPair
     }
 
     /**
-     * DML‚©‚Ç‚¤‚©‚ğ•Ô‚·B
+     * DMLã‹ã©ã†ã‹ã‚’è¿”ã™ã€‚
      *
-     * @return DML‚È‚ç<code>true</code>
+     * @return DMLãªã‚‰<code>true</code>
      */
     public boolean isDml()
     {
@@ -93,18 +93,18 @@ public class PreparedStatementPair
     }
 
     /**
-     * w’è‚³‚ê‚½SQL•¶‚ÌƒoƒCƒ“ƒh•Ï”‚Ì”‚ğ”‚¦‚éB
+     * æŒ‡å®šã•ã‚ŒãŸSQLæ–‡ã®ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°ã®æ•°ã‚’æ•°ãˆã‚‹ã€‚
      *
-     * @param sql SQL•¶
-     * @return ƒoƒCƒ“ƒh•Ï”‚Ì”
+     * @param sql SQLæ–‡
+     * @return ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°ã®æ•°
      */
     private int countBindVal(final String sql)
     {
-        // ƒoƒCƒ“ƒh•Ï”‚Ì”
+        // ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°ã®æ•°
         int count = 0;
-        // ƒVƒ“ƒOƒ‹ƒNƒH[ƒe[ƒVƒ‡ƒ“‚Ì’†‚É‚¢‚é‚Ítrue
+        // ã‚·ãƒ³ã‚°ãƒ«ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ã®ä¸­ã«ã„ã‚‹ã¯true
         boolean singlequoteFlag = false;
-        // ƒ_ƒuƒ‹ƒNƒH[ƒe[ƒVƒ‡ƒ“‚Ì’†‚É‚¢‚éê‡‚Ítrue
+        // ãƒ€ãƒ–ãƒ«ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ã®ä¸­ã«ã„ã‚‹å ´åˆã¯true
         boolean doublequoteFlag = false;
 
         for (int index = 0; index < sql.length(); index++)
@@ -113,9 +113,9 @@ public class PreparedStatementPair
 
             if (checkchar == '\'')
             {
-                // ƒVƒ“ƒOƒ‹ƒNƒH[ƒe[ƒVƒ‡ƒ“‚ª‚«‚½‚Æ‚«‚ÍA
-                // ƒ_ƒuƒ‹ƒNƒH[ƒe[ƒVƒ‡ƒ“‚Ì’†‚Å‚È‚¯‚ê‚Î
-                // ƒVƒ“ƒOƒ‹ƒNƒH[ƒe[ƒVƒ‡ƒ“ƒtƒ‰ƒO‚ğØ‚è‘Ö‚¦‚éB
+                // ã‚·ãƒ³ã‚°ãƒ«ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ãŒããŸã¨ãã¯ã€
+                // ãƒ€ãƒ–ãƒ«ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ã®ä¸­ã§ãªã‘ã‚Œã°
+                // ã‚·ãƒ³ã‚°ãƒ«ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ãƒ•ãƒ©ã‚°ã‚’åˆ‡ã‚Šæ›¿ãˆã‚‹ã€‚
                 if (doublequoteFlag == false)
                 {
                     singlequoteFlag = !singlequoteFlag;
@@ -123,9 +123,9 @@ public class PreparedStatementPair
             }
             else if (checkchar == '"')
             {
-                // ƒ_ƒuƒ‹ƒNƒH[ƒe[ƒVƒ‡ƒ“‚ª‚«‚½‚Æ‚«‚ÍA
-                // ƒVƒ“ƒOƒ‹ƒNƒH[ƒe[ƒVƒ‡ƒ“‚Ì’†‚Å‚È‚¯‚ê‚Î
-                // ƒ_ƒuƒ‹ƒNƒH[ƒe[ƒVƒ‡ƒ“ƒtƒ‰ƒO‚ğØ‚è‘Ö‚¦‚éB
+                // ãƒ€ãƒ–ãƒ«ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ãŒããŸã¨ãã¯ã€
+                // ã‚·ãƒ³ã‚°ãƒ«ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ã®ä¸­ã§ãªã‘ã‚Œã°
+                // ãƒ€ãƒ–ãƒ«ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ãƒ•ãƒ©ã‚°ã‚’åˆ‡ã‚Šæ›¿ãˆã‚‹ã€‚
                 if (singlequoteFlag == false)
                 {
                     doublequoteFlag = !doublequoteFlag;
@@ -133,9 +133,9 @@ public class PreparedStatementPair
             }
             else if (checkchar == '?')
             {
-                // ƒNƒGƒXƒ`ƒ‡ƒ“‚ª‚«‚½‚Æ‚«‚ÍA
-                // ƒVƒ“ƒOƒ‹ƒNƒH[ƒe[ƒVƒ‡ƒ“‚Ì’†‚Å‚àƒ_ƒuƒ‹ƒNƒH[ƒe[ƒVƒ‡ƒ“‚Ì’†‚Å‚à‚È‚¢ê‡‚É
-                // ƒJƒEƒ“ƒg‚·‚éB
+                // ã‚¯ã‚¨ã‚¹ãƒãƒ§ãƒ³ãŒããŸã¨ãã¯ã€
+                // ã‚·ãƒ³ã‚°ãƒ«ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ã®ä¸­ã§ã‚‚ãƒ€ãƒ–ãƒ«ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ã®ä¸­ã§ã‚‚ãªã„å ´åˆã«
+                // ã‚«ã‚¦ãƒ³ãƒˆã™ã‚‹ã€‚
                 if (singlequoteFlag == false && doublequoteFlag == false)
                 {
                     count++;

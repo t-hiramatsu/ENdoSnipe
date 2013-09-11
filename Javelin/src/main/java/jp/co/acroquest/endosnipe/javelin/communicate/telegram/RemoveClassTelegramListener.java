@@ -36,7 +36,7 @@ import jp.co.acroquest.endosnipe.javelin.bean.Component;
 import jp.co.acroquest.endosnipe.javelin.bean.Invocation;
 
 /**
- * ƒNƒ‰ƒXíœ—v‹“d•¶‚ğˆ—‚·‚éƒNƒ‰ƒXB<br />
+ * ã‚¯ãƒ©ã‚¹å‰Šé™¤è¦æ±‚é›»æ–‡ã‚’å‡¦ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚<br />
  *
  * @author sakamoto
  */
@@ -69,11 +69,11 @@ public class RemoveClassTelegramListener implements TelegramListener, TelegramCo
     }
 
     /**
-     * w’è‚³‚ê‚½ƒNƒ‰ƒX‚Ì Invocation ‚ğíœ‚µ‚Ü‚·B<br />
+     * æŒ‡å®šã•ã‚ŒãŸã‚¯ãƒ©ã‚¹ã® Invocation ã‚’å‰Šé™¤ã—ã¾ã™ã€‚<br />
      *
-     * Invocation ‚ªƒ‹[ƒg‚ÅŠÇ—‚³‚ê‚Ä‚¢‚éê‡‚ÍA‚»‚ê‚àíœ‚µ‚Ü‚·B<br />
+     * Invocation ãŒãƒ«ãƒ¼ãƒˆã§ç®¡ç†ã•ã‚Œã¦ã„ã‚‹å ´åˆã¯ã€ãã‚Œã‚‚å‰Šé™¤ã—ã¾ã™ã€‚<br />
      *
-     * @param className íœ‚·‚éƒNƒ‰ƒX
+     * @param className å‰Šé™¤ã™ã‚‹ã‚¯ãƒ©ã‚¹
      */
     private void removeClass(String className)
     {

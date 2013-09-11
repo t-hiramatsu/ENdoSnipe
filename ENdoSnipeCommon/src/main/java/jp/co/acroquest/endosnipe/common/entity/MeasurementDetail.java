@@ -26,47 +26,47 @@
 package jp.co.acroquest.endosnipe.common.entity;
 
 /**
- * �v���f�[�^���i�[���邽�߂̃G���e�B�e�B�ł��B
+ * 計測データを格納するためのエンティティです。
  * 
  * @author fujii
  */
 public class MeasurementDetail implements Cloneable
 {
-	/** �v���l */
+	/** 計測値 */
 	public String value;
 
-	/** �n��̕\���� */
+	/** 系列の表示名 */
 	public String displayName;
 
-	/** �v���l���n�񖼂����ꍇ�i�R���N�V�������Ȃǁj�̌n�� ID �B */
+	/** 計測値が系列名を持つ場合（コレクション数など）の系列 ID 。 */
 	public int itemId;
 
-	/** �v���l�n�񖼏́B */
+	/** 計測値系列名称。 */
 	public String itemName;
 
-	/** �v���l�̕\���^ */
+	/** 計測値の表示型 */
 	public int displayType;
 
 	/**
-	 * �v�� No.�B<br/>
-	 * �����Ɍv�����ꂽ�v���l�Q��R�Â��邽�߂� ID �B<br/>
-	 * �����Ɍv�����ꂽ�v���l�� MESUREMENT_ID �������l�ƂȂ�܂��B
+	 * 計測 No.。<br/>
+	 * 同時に計測された計測値群を紐づけるための ID 。<br/>
+	 * 同時に計測された計測値は MESUREMENT_ID が同じ値となります。
 	 */
 	public long itemNum;
 
 	/**
-	 * �v���l��ʁB<br/>
-	 * �v���l�̎�ʂ�\���l�B<br/>
-	 * �v���l�̕\�����̂ɂ��Ă� MESUREMENT_INFO �e�[�u�����Q�Ƃ��܂��B
+	 * 計測値種別。<br/>
+	 * 計測値の種別を表す値。<br/>
+	 * 計測値の表示名称については MESUREMENT_INFO テーブルを参照します。
 	 */
 	public int type;
 
-	/** �v���l�n�񖼏́B */
+	/** 計測値系列名称。 */
 	public String typeItemName;
 
 	/**
-	 * �v���l ID �B<br/>
-	 * �v���l����ӂɎ��ʂ��� ID �B
+	 * 計測値 ID 。<br/>
+	 * 計測値を一意に識別する ID 。
 	 */
 	public long valueId;
 

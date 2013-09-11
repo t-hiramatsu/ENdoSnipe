@@ -31,21 +31,21 @@ import java.io.InputStream;
 import junit.framework.TestCase;
 
 /**
- * Javelin‚ÌƒR[ƒh–„‚ß‚İİ’è‚æ‚¤ƒeƒXƒgƒNƒ‰ƒXB
- * ¡‰ñ‚ÍExclude‘ÎÛ‚ÌŠm”F‚Ì‚İB
+ * Javelinã®ã‚³ãƒ¼ãƒ‰åŸ‹ã‚è¾¼ã¿è¨­å®šã‚ˆã†ãƒ†ã‚¹ãƒˆã‚¯ãƒ©ã‚¹ã€‚
+ * ä»Šå›ã¯Excludeå¯¾è±¡ã®ç¢ºèªã®ã¿ã€‚
  * @author tooru
  *
  */
 public class JavelinTransformConfigTest extends TestCase
 {
     /**
-     * [€”Ô] 1-2-1
-     * @throws IOException İ’èƒtƒ@ƒCƒ‹‚ª“Ç‚İ‚ß‚È‚¢ê‡
+     * [é …ç•ª] 1-2-1
+     * @throws IOException è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ãŒèª­ã¿è¾¼ã‚ãªã„å ´åˆ
      */
     public void testLogExcludeSingle()
         throws IOException
     {
-        // €”õ
+        // æº–å‚™
         String includePath = "include.conf";
         String excludePath = "exclude1.conf";
 
@@ -58,10 +58,10 @@ public class JavelinTransformConfigTest extends TestCase
             includeStream = getClass().getResourceAsStream(includePath);
             excludeStream = getClass().getResourceAsStream(excludePath);
 
-            // Às
+            // å®Ÿè¡Œ
             config.readConfig(includeStream, excludeStream);
 
-            // ŒŸØ
+            // æ¤œè¨¼
             boolean result =
                     config.isExcludeClass("jp.co.acroquest.endosnipe.javelin.conf.TestExcludeClass1");
             assertTrue(result);
@@ -80,13 +80,13 @@ public class JavelinTransformConfigTest extends TestCase
     }
 
     /**
-     * [€”Ô] 1-2-2
-     * @throws IOException İ’èƒtƒ@ƒCƒ‹‚ª“Ç‚İ‚ß‚È‚¢ê‡
+     * [é …ç•ª] 1-2-2
+     * @throws IOException è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ãŒèª­ã¿è¾¼ã‚ãªã„å ´åˆ
      */
     public void testLogExcludeMulti()
         throws IOException
     {
-        // €”õ
+        // æº–å‚™
         String includePath = "include.conf";
         String excludePath = "exclude2.conf";
 
@@ -99,10 +99,10 @@ public class JavelinTransformConfigTest extends TestCase
             includeStream = getClass().getResourceAsStream(includePath);
             excludeStream = getClass().getResourceAsStream(excludePath);
 
-            // Às
+            // å®Ÿè¡Œ
             config.readConfig(includeStream, excludeStream);
 
-            // ŒŸØ
+            // æ¤œè¨¼
             boolean result =
                     config.isExcludeClass("jp.co.acroquest.endosnipe.javelin.conf.TestExcludeClass2");
             assertTrue(result);
@@ -121,13 +121,13 @@ public class JavelinTransformConfigTest extends TestCase
     }
 
     /**
-     * [€”Ô] 1-2-3
-     * @throws IOException İ’èƒtƒ@ƒCƒ‹‚ª“Ç‚İ‚ß‚È‚¢ê‡
+     * [é …ç•ª] 1-2-3
+     * @throws IOException è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ãŒèª­ã¿è¾¼ã‚ãªã„å ´åˆ
      */
     public void testLogExcludeMethod()
         throws IOException
     {
-        // €”õ
+        // æº–å‚™
         String includePath = "include.conf";
         String excludePath = "exclude3.conf";
 
@@ -140,10 +140,10 @@ public class JavelinTransformConfigTest extends TestCase
             includeStream = getClass().getResourceAsStream(includePath);
             excludeStream = getClass().getResourceAsStream(excludePath);
 
-            // Às
+            // å®Ÿè¡Œ
             config.readConfig(includeStream, excludeStream);
 
-            // ŒŸØ
+            // æ¤œè¨¼
             boolean result = config.isExcludeClass("jp.co.acroquest.endosnipe.javelin.conf.TestExcludeClass");
             assertFalse(result);
         }
@@ -161,13 +161,13 @@ public class JavelinTransformConfigTest extends TestCase
     }
 
     /**
-     * [€”Ô] 1-2-4
-     * @throws IOException İ’èƒtƒ@ƒCƒ‹‚ª“Ç‚İ‚ß‚È‚¢ê‡
+     * [é …ç•ª] 1-2-4
+     * @throws IOException è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ãŒèª­ã¿è¾¼ã‚ãªã„å ´åˆ
      */
     public void testLogExcludeNoClass()
         throws IOException
     {
-        // €”õ
+        // æº–å‚™
         String includePath = "include.conf";
         String excludePath = "exclude4.conf";
 
@@ -180,10 +180,10 @@ public class JavelinTransformConfigTest extends TestCase
             includeStream = getClass().getResourceAsStream(includePath);
             excludeStream = getClass().getResourceAsStream(excludePath);
 
-            // Às
+            // å®Ÿè¡Œ
             config.readConfig(includeStream, excludeStream);
 
-            // ŒŸØ
+            // æ¤œè¨¼
             boolean result =
                     config.isExcludeClass("jp.co.acroquest.endosnipe.javelin.conf.TestExcludeClass1");
             assertFalse(result);

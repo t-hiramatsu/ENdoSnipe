@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 public class ServerPoolRecord
 {
-    /** Œv‘ª */
+    /** è¨ˆæ¸¬æ™‚åˆ» */
     private Timestamp measurementTime_;
     
     private long serverPoolMax_;

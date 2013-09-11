@@ -39,7 +39,7 @@ import jp.co.acroquest.endosnipe.perfdoctor.exception.RuleNotFoundException;
 import jp.co.acroquest.endosnipe.perfdoctor.rule.RuleManager;
 
 /**
- * ƒpƒtƒH[ƒ}ƒ“ƒXƒhƒNƒ^[
+ * ãƒ‘ãƒ•ã‚©ãƒ¼ãƒãƒ³ã‚¹ãƒ‰ã‚¯ã‚¿ãƒ¼
  * 
  * @author eriguchi
  */
@@ -48,12 +48,12 @@ public class PerfDoctor
     private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(PerfDoctor.class);
 
     /**
-     * ƒpƒtƒH[ƒ}ƒ“ƒX‚Ì”»’è‚ğÀ{‚·‚éƒ‹[ƒ‹‚ÌƒŠƒXƒgB
+     * ãƒ‘ãƒ•ã‚©ãƒ¼ãƒãƒ³ã‚¹ã®åˆ¤å®šã‚’å®Ÿæ–½ã™ã‚‹ãƒ«ãƒ¼ãƒ«ã®ãƒªã‚¹ãƒˆã€‚
      */
     private List<PerformanceRule>        ruleList_;
 
     /**
-     * ƒfƒtƒHƒ‹ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^B
+     * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
      */
     public PerfDoctor()
     {
@@ -61,10 +61,10 @@ public class PerfDoctor
     }
 
     /**
-     * ƒIƒuƒWƒFƒNƒg‚ğ‰Šú‰»‚µ‚Ü‚·B<br />
+     * ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’åˆæœŸåŒ–ã—ã¾ã™ã€‚<br />
      *
-     * @throws RuleNotFoundException ƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡
-     * @throws RuleCreateException ƒ‹[ƒ‹‚Ì“Ç‚İ‚İ‚É¸”s‚µ‚½ê‡
+     * @throws RuleNotFoundException ãƒ•ã‚¡ã‚¤ãƒ«ãŒè¦‹ã¤ã‹ã‚‰ãªã„å ´åˆ
+     * @throws RuleCreateException ãƒ«ãƒ¼ãƒ«ã®èª­ã¿è¾¼ã¿ã«å¤±æ•—ã—ãŸå ´åˆ
      */
     public void init()
         throws RuleNotFoundException,
@@ -74,9 +74,9 @@ public class PerfDoctor
     }
 
     /**
-     * ƒ‹[ƒ‹‚ÌŒÂ”‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ãƒ«ãƒ¼ãƒ«ã®å€‹æ•°ã‚’è¿”ã—ã¾ã™ã€‚<br />
      *
-     * @return ƒ‹[ƒ‹‚ÌŒÂ”
+     * @return ãƒ«ãƒ¼ãƒ«ã®å€‹æ•°
      */
     public int getRuleCount()
     {
@@ -88,11 +88,11 @@ public class PerfDoctor
     }
 
     /**
-     * ƒAƒNƒeƒBƒu‚Èƒ‹[ƒ‹‚ÉƒfƒtƒHƒ‹ƒgƒ‹[ƒ‹‚ğƒRƒs[‚µ‚Äƒtƒ@ƒCƒ‹‚ğì¬‚µA
-     * ƒIƒuƒWƒFƒNƒg‚ğ‰Šú‰»‚µ‚Ü‚·B<br />
+     * ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ãªãƒ«ãƒ¼ãƒ«ã«ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆãƒ«ãƒ¼ãƒ«ã‚’ã‚³ãƒ”ãƒ¼ã—ã¦ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä½œæˆã—ã€
+     * ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’åˆæœŸåŒ–ã—ã¾ã™ã€‚<br />
      *
-     * @throws RuleNotFoundException ƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡
-     * @throws RuleCreateException ƒ‹[ƒ‹‚Ì“Ç‚İ‚İ‚É¸”s‚µ‚½ê‡
+     * @throws RuleNotFoundException ãƒ•ã‚¡ã‚¤ãƒ«ãŒè¦‹ã¤ã‹ã‚‰ãªã„å ´åˆ
+     * @throws RuleCreateException ãƒ«ãƒ¼ãƒ«ã®èª­ã¿è¾¼ã¿ã«å¤±æ•—ã—ãŸå ´åˆ
      */
     public void copyDefaultToActiveRule()
         throws RuleNotFoundException,
@@ -104,12 +104,12 @@ public class PerfDoctor
     }
 
     /**
-     * w’è‚µ‚½JavelinƒƒOƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚İA
-     * ‰ğÍ‚ğs‚¤B
-     * ‰ğÍ‚µ‚½Œ‹‰ÊAŒx‚Æ‚È‚Á‚½‚à‚Ì‚ğ•Ô‚·B
+     * æŒ‡å®šã—ãŸJavelinãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã¿ã€
+     * è§£æã‚’è¡Œã†ã€‚
+     * è§£æã—ãŸçµæœã€è­¦å‘Šã¨ãªã£ãŸã‚‚ã®ã‚’è¿”ã™ã€‚
      * 
-     * @param elementList ƒƒOƒtƒ@ƒCƒ‹‚Ì“à—e
-     * @return Œx‚Æ‚È‚Á‚½Œ‹‰Ê‚Ì—v‘f‚ÌƒŠƒXƒg
+     * @param elementList ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã®å†…å®¹
+     * @return è­¦å‘Šã¨ãªã£ãŸçµæœã®è¦ç´ ã®ãƒªã‚¹ãƒˆ
      */
     @SuppressWarnings("deprecation")
     public List<WarningUnit> judgeJavelinLog(final List<JavelinLogElement> elementList)
@@ -142,10 +142,10 @@ public class PerfDoctor
     }
 
     /**
-     * ƒƒOƒtƒ@ƒCƒ‹‚ğ {@link JavelinLogElement} ‚ÌƒŠƒXƒg‚É•ÏŠ·‚µ‚Ü‚·B<br />
+     * ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ {@link JavelinLogElement} ã®ãƒªã‚¹ãƒˆã«å¤‰æ›ã—ã¾ã™ã€‚<br />
      *
-     * @param logAccessor Javelin ƒƒOƒf[ƒ^æ“¾ƒIƒuƒWƒFƒNƒg
-     * @return •ÏŠ·‚µ‚½ƒŠƒXƒg
+     * @param logAccessor Javelin ãƒ­ã‚°ãƒ‡ãƒ¼ã‚¿å–å¾—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @return å¤‰æ›ã—ãŸãƒªã‚¹ãƒˆ
      */
     public List<JavelinLogElement> parseJavelinLogFile(final JavelinLogAccessor logAccessor)
     {
@@ -154,10 +154,10 @@ public class PerfDoctor
     }
 
     /**
-     * ƒƒOƒtƒ@ƒCƒ‹‚ğ {@link JavelinLogElement} ‚ÌƒŠƒXƒg‚É•ÏŠ·‚µ‚Ü‚·B<br />
+     * ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ {@link JavelinLogElement} ã®ãƒªã‚¹ãƒˆã«å¤‰æ›ã—ã¾ã™ã€‚<br />
      *
-     * @param javelinParser Javelin ƒƒOƒp[ƒT
-     * @return •ÏŠ·‚µ‚½ƒŠƒXƒg
+     * @param javelinParser Javelin ãƒ­ã‚°ãƒ‘ãƒ¼ã‚µ
+     * @return å¤‰æ›ã—ãŸãƒªã‚¹ãƒˆ
      */
     @SuppressWarnings("deprecation")
     private List<JavelinLogElement> parseJavelinLogFileInternal(final JavelinParser javelinParser)
@@ -165,11 +165,11 @@ public class PerfDoctor
         List<JavelinLogElement> elementList = null;
         try
         {
-            // ƒp[ƒT‚ğ‰Šú‰»‚·‚éB
+            // ãƒ‘ãƒ¼ã‚µã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
             javelinParser.init();
 
-            // ˆê—v‘f‚¸‚Âæ“¾‚µAƒpƒtƒH[ƒ}ƒ“ƒX‚Ìƒ‹[ƒ‹ˆá”½‚ğ
-            // ƒŠƒXƒg‚ÉŠi”[‚·‚éB
+            // ä¸€è¦ç´ ãšã¤å–å¾—ã—ã€ãƒ‘ãƒ•ã‚©ãƒ¼ãƒãƒ³ã‚¹ã®ãƒ«ãƒ¼ãƒ«é•åã‚’
+            // ãƒªã‚¹ãƒˆã«æ ¼ç´ã™ã‚‹ã€‚
             elementList = new ArrayList<JavelinLogElement>();
             JavelinLogElement javelinLogElement;
             while ((javelinLogElement = javelinParser.nextElement()) != null)

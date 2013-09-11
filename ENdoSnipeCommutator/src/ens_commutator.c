@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
     struct prop_st properties;
 
     if(2 != argc){
-        printf("usage : sudo stap stapjavelin.stp | ./stapjavelin <path of javelin.properties>\n");
+        printf("usage : sudo stap <path of javelin_XXX.stp> | ./ens_commutator <path of commutator.properties>\n");
         return(ERROR_RTN);
     }
 

@@ -6,7 +6,7 @@ all : ens_commutator
 
 CC=gcc
 LDFLAGS=
-CFLAGS=-O2 -I.
+CFLAGS= -I.
 LDLIBS=
 
 %.o: %.c

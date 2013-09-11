@@ -34,39 +34,39 @@ public class PerfCounterTest extends TestCase
 {
     private static final String BASE_DIR = ".";
     
-    /** Javelin‚Ìİ’èƒtƒ@ƒCƒ‹ */
+    /** Javelinã®è¨­å®šãƒ•ã‚¡ã‚¤ãƒ« */
     private JavelinConfig config_;
     
-    /** ƒeƒXƒg‚Åƒ‹[ƒv‚³‚¹‚é‰ñ” */
+    /** ãƒ†ã‚¹ãƒˆã§ãƒ«ãƒ¼ãƒ—ã•ã›ã‚‹å›æ•° */
     private static int loopCount = 5;
 
-    /** ƒeƒXƒg‚Åƒ‹[ƒv‚³‚¹‚éŠÔŠuimsj */
+    /** ãƒ†ã‚¹ãƒˆã§ãƒ«ãƒ¼ãƒ—ã•ã›ã‚‹é–“éš”ï¼ˆmsï¼‰ */
     private static int loopInterval = 1000;
 
     public void setUp()
     {
-        // ƒIƒvƒVƒ‡ƒ“ƒtƒ@ƒCƒ‹‚©‚çAƒIƒvƒVƒ‡ƒ“İ’è‚ğ“Ç‚İ‚ŞB
+        // ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ã€ã‚ªãƒ—ã‚·ãƒ§ãƒ³è¨­å®šã‚’èª­ã¿è¾¼ã‚€ã€‚
         this.config_ = new JavelinConfig(BASE_DIR + "/lib");
         this.config_.setJavelinFileDir(BASE_DIR);
     }
     
     public void testGetPerfData()
     {
-        // €”õ
+        // æº–å‚™
         PerfCounter perfCounter = new PerfCounter();
         perfCounter.init();
 
-        // À{
+        // å®Ÿæ–½
         Map<String, Double> perfData = perfCounter.getPerfData();
 
-        // ŒŸØ
+        // æ¤œè¨¼
         Object processorTime = perfData.get(PerfCounter.PROCESSOR_TOTAL_PROCESSOR_TIME);
         System.out.println(processorTime);
     }
 
     public void testGetPerfDataLoop()
     {
-        // €”õ
+        // æº–å‚™
         PerfCounter perfCounter = new PerfCounter();
         perfCounter.init();
 
@@ -80,10 +80,10 @@ public class PerfCounterTest extends TestCase
             {
                 ex.printStackTrace();
             }
-            // À{
+            // å®Ÿæ–½
             Map<String, Double> perfData = perfCounter.getPerfData();
 
-            // ŒŸØ
+            // æ¤œè¨¼
             Object processorTime = perfData.get(PerfCounter.PROCESSOR_TOTAL_PRIVILEGED_TIME);
             Object userTime = perfData.get(PerfCounter.PROCESSOR_TOTAL_USER_TIME);
             System.out.println(processorTime);

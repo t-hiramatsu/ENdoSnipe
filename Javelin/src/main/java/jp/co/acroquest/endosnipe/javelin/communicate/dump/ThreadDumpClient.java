@@ -18,20 +18,20 @@ import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.javelin.communicate.SimpleENdoSnipeClient;
 
 /**
- * ƒXƒŒƒbƒhƒ_ƒ“ƒvæ“¾ƒNƒ‰ƒCƒAƒ“ƒg
+ * ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å–å¾—ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆ
  * 
  * @author eriguchi
  */
 public class ThreadDumpClient extends SimpleENdoSnipeClient
 {
-    /** ƒfƒtƒHƒ‹ƒg‚ÌƒCƒ“ƒ^[ƒoƒ‹ */
+    /** ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒãƒ« */
     private static final int DEFAULT_INTERVAL = 1000;
     
-    /** JvnƒƒOæ“¾‰“š */
+    /** Jvnãƒ­ã‚°å–å¾—å¿œç­” */
     private JvnFileNotifyListener listener_;
 
     /**
-     * ƒXƒŒƒbƒhƒ_ƒ“ƒvƒNƒ‰ƒCƒAƒ“ƒgB
+     * ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã€‚
      */
     public ThreadDumpClient()
     {
@@ -41,7 +41,7 @@ public class ThreadDumpClient extends SimpleENdoSnipeClient
     }
 
     /**
-     * ƒGƒ“ƒgƒŠƒ|ƒCƒ“ƒgB
+     * ã‚¨ãƒ³ãƒˆãƒªãƒã‚¤ãƒ³ãƒˆã€‚
      * 
      * @param args <host> <port> [interval(msec)] [count]
      */
@@ -114,9 +114,9 @@ public class ThreadDumpClient extends SimpleENdoSnipeClient
     }
 
     /**
-     * w’è‚µ‚½‰ñ”AThreadDump‚ğ—v‹‚·‚éB
-     * @param countMax ‰ñ”B
-     * @param interval ŠÔŠu(msec)
+     * æŒ‡å®šã—ãŸå›æ•°ã€ThreadDumpã‚’è¦æ±‚ã™ã‚‹ã€‚
+     * @param countMax å›æ•°ã€‚
+     * @param interval é–“éš”(msec)
      */
     private void dump(int countMax, long interval)
     {
@@ -144,14 +144,14 @@ public class ThreadDumpClient extends SimpleENdoSnipeClient
     }
 
     /**
-     * ƒ_ƒ“ƒv‚ğ1‰ñÀs‚·‚éB
+     * ãƒ€ãƒ³ãƒ—ã‚’1å›å®Ÿè¡Œã™ã‚‹ã€‚
      */
     private void dump()
     {
         Telegram telegram = TelegramCreator.createThreadDumpRequestTelegram();
         this.client_.sendTelegram(telegram);
 
-        // ‰“š‚ğ‘Ò‚ÂB
+        // å¿œç­”ã‚’å¾…ã¤ã€‚
         if (listener_.getEntries() == null)
         {
             try

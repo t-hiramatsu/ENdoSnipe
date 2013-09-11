@@ -28,7 +28,7 @@ package jp.co.acroquest.endosnipe.data.entity;
 import java.sql.Timestamp;
 
 /**
- * Javelin Œv‘ª€–Úƒe[ƒuƒ‹‚É‘Î‚·‚éƒGƒ“ƒeƒBƒeƒBƒNƒ‰ƒX‚Å‚·B<br />
+ * Javelin è¨ˆæ¸¬é …ç›®ãƒ†ãƒ¼ãƒ–ãƒ«ã«å¯¾ã™ã‚‹ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  *
  * @author y-sakamoto
  */
@@ -36,24 +36,24 @@ public class JavelinMeasurementItem
 {
 
     /**
-     * Œv‘ª€–Ú‚ğˆêˆÓ‚É¯•Ê‚·‚é ID B<br />
+     * è¨ˆæ¸¬é …ç›®ã‚’ä¸€æ„ã«è­˜åˆ¥ã™ã‚‹ ID ã€‚<br />
      */
     public int measurementItemId;
 
 //    /**
-//     * Œv‘ª’l‚Ìí•Ê‚ğ•\‚·’lB<br />
+//     * è¨ˆæ¸¬å€¤ã®ç¨®åˆ¥ã‚’è¡¨ã™å€¤ã€‚<br />
 //     *
-//     * Œv‘ª’l‚Ì•\¦–¼Ì‚É‚Â‚¢‚Ä‚Í MESUREMENT_INFO ƒe[ƒuƒ‹‚ğQÆ‚µ‚Ü‚·B
+//     * è¨ˆæ¸¬å€¤ã®è¡¨ç¤ºåç§°ã«ã¤ã„ã¦ã¯ MESUREMENT_INFO ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’å‚ç…§ã—ã¾ã™ã€‚
 //     */
 //    public int measurementType;
 
     /**
-     * Œv‘ª’l‚Ì€–ÚiŒn—ñj–¼ÌB<br />
+     * è¨ˆæ¸¬å€¤ã®é …ç›®ï¼ˆç³»åˆ—ï¼‰åç§°ã€‚<br />
      */
     public String itemName;
 
     /**
-     * ‚±‚ÌŒn—ñ‚Ìƒf[ƒ^‚ª‘}“ü‚³‚ê‚½ÅVB<br />
+     * ã“ã®ç³»åˆ—ã®ãƒ‡ãƒ¼ã‚¿ãŒæŒ¿å…¥ã•ã‚ŒãŸæœ€æ–°æ™‚åˆ»ã€‚<br />
      */
     public Timestamp lastInserted;
 }

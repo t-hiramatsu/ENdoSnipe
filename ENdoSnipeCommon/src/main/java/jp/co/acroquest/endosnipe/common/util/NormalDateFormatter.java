@@ -30,7 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * ˆê”Ê“I‚ÈŒ`®‚Ì“ú•t•¶š—ñ‚ÆlongŒ^‚Ì’l‚ğ‘ŠŒİ•ÏŠ·‚·‚éƒ†[ƒeƒBƒŠƒeƒBB
+ * ä¸€èˆ¬çš„ãªå½¢å¼ã®æ—¥ä»˜æ–‡å­—åˆ—ã¨longå‹ã®æ™‚åˆ»å€¤ã‚’ç›¸äº’å¤‰æ›ã™ã‚‹ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã€‚
  * @author hayakawa
  */
 public class NormalDateFormatter
@@ -46,7 +46,7 @@ public class NormalDateFormatter
     private static Date syncTmpDateObject__ = new Date();
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      */
     private NormalDateFormatter()
     {
@@ -54,13 +54,13 @@ public class NormalDateFormatter
     }
 
     /**
-     * long’l‚Å“n‚³‚ê‚½‚Ì’l‚ğA"yyyy/MM/dd HH:mm:ss.SSS"
-     * ‚Æ‚¢‚¤Œ`®‚Ì•¶š—ñ‚É•ÏŠ·‚·‚éB
-     * “¯Šú‰»‚µ‚Ä‚¢‚È‚¢‚½‚ßA•¡”ƒXƒŒƒbƒh‚©‚ç‚ÌƒAƒNƒZƒX‚É‘Î‚·‚é
-     * ŒÄ‚Ño‚µ‚ª‚ ‚Á‚½ê‡‚ÍAŒ‹‰Ê‚ğ•ÛØ‚µ‚È‚¢B
+     * longå€¤ã§æ¸¡ã•ã‚ŒãŸæ™‚åˆ»ã®å€¤ã‚’ã€"yyyy/MM/dd HH:mm:ss.SSS"
+     * ã¨ã„ã†å½¢å¼ã®æ–‡å­—åˆ—ã«å¤‰æ›ã™ã‚‹ã€‚
+     * åŒæœŸåŒ–ã—ã¦ã„ãªã„ãŸã‚ã€è¤‡æ•°ã‚¹ãƒ¬ãƒƒãƒ‰ã‹ã‚‰ã®ã‚¢ã‚¯ã‚»ã‚¹ã«å¯¾ã™ã‚‹
+     * å‘¼ã³å‡ºã—ãŒã‚ã£ãŸå ´åˆã¯ã€çµæœã‚’ä¿è¨¼ã—ãªã„ã€‚
      * 
-     * @param time 
-     * @return ƒtƒH[ƒ}ƒbƒg‚µ‚½‚Ì•¶š—ñ
+     * @param time æ™‚åˆ»
+     * @return ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã—ãŸæ™‚åˆ»ã®æ–‡å­—åˆ—
      */
     public static String format(final long time)
     {
@@ -69,13 +69,13 @@ public class NormalDateFormatter
     }
 
     /**
-     * long’l‚Å“n‚³‚ê‚½‚Ì’l‚ğA"yyyy/MM/dd HH:mm:ss.SSS"
-     * ‚Æ‚¢‚¤Œ`®‚Ì•¶š—ñ‚É•ÏŠ·‚·‚éB
-     * “¯Šú‰»‚µ‚Ä‚¢‚é‚½‚ßA•¡”ƒXƒŒƒbƒh‚©‚ç‚ÌƒAƒNƒZƒX‚É‘Î‰‰Â”\‚Å‚ ‚éB
-     * ‚½‚¾‚µAƒƒbƒNæ“¾‚É‚æ‚éƒpƒtƒH[ƒ}ƒ“ƒX‚Ì—ò‰»‚É—¯ˆÓ‚·‚é‚±‚ÆB
+     * longå€¤ã§æ¸¡ã•ã‚ŒãŸæ™‚åˆ»ã®å€¤ã‚’ã€"yyyy/MM/dd HH:mm:ss.SSS"
+     * ã¨ã„ã†å½¢å¼ã®æ–‡å­—åˆ—ã«å¤‰æ›ã™ã‚‹ã€‚
+     * åŒæœŸåŒ–ã—ã¦ã„ã‚‹ãŸã‚ã€è¤‡æ•°ã‚¹ãƒ¬ãƒƒãƒ‰ã‹ã‚‰ã®ã‚¢ã‚¯ã‚»ã‚¹ã«å¯¾å¿œå¯èƒ½ã§ã‚ã‚‹ã€‚
+     * ãŸã ã—ã€ãƒ­ãƒƒã‚¯å–å¾—ã«ã‚ˆã‚‹ãƒ‘ãƒ•ã‚©ãƒ¼ãƒãƒ³ã‚¹ã®åŠ£åŒ–ã«ç•™æ„ã™ã‚‹ã“ã¨ã€‚
      * 
-     * @param time 
-     * @return ƒtƒH[ƒ}ƒbƒg‚µ‚½‚Ì•¶š—ñ
+     * @param time æ™‚åˆ»
+     * @return ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã—ãŸæ™‚åˆ»ã®æ–‡å­—åˆ—
      */
     public static synchronized  String formatSync(final long time)
     {
@@ -84,11 +84,11 @@ public class NormalDateFormatter
     }
 
 	/**
-	 * •¶š—ñ‚ğ“ú•t‚É•ÏŠ·‚·‚éB
+	 * æ–‡å­—åˆ—ã‚’æ—¥ä»˜ã«å¤‰æ›ã™ã‚‹ã€‚
 	 * 
-	 * @param dateString “ú•t•¶š—ñ
-	 * @return •ÏŠ·Œ‹‰ÊB
-	 * @throws ParseException ‰ğÍ—áŠO
+	 * @param dateString æ—¥ä»˜æ–‡å­—åˆ—
+	 * @return å¤‰æ›çµæœã€‚
+	 * @throws ParseException è§£æä¾‹å¤–
 	 */
 	public static Date parse(final String dateString) throws ParseException
 	{

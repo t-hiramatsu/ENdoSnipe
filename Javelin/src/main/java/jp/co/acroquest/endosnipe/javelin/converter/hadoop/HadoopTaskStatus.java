@@ -29,33 +29,33 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * ƒ^ƒXƒN‚Ìó‘Ô‚ğ•Û‚·‚éƒNƒ‰ƒX
+ * ã‚¿ã‚¹ã‚¯ã®çŠ¶æ…‹ã‚’ä¿æŒã™ã‚‹ã‚¯ãƒ©ã‚¹
  *
  * @author y_asazuma
  *
  */
 public class HadoopTaskStatus
 {
-    /** ƒ^ƒXƒNƒtƒF[ƒY‚Ì—ñ‹“‘Ì */
+    /** ã‚¿ã‚¹ã‚¯ãƒ•ã‚§ãƒ¼ã‚ºã®åˆ—æŒ™ä½“ */
     public static enum Phase{STARTING, MAP, SHUFFLE, SORT, REDUCE, CLEANUP}
 
-    /** ƒ^ƒXƒNƒXƒe[ƒ^ƒX‚Ì—ñ‹“‘Ì */
+    /** ã‚¿ã‚¹ã‚¯ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã®åˆ—æŒ™ä½“ */
     public static enum State {RUNNING, SUCCEEDED, FAILED, UNASSIGNED, KILLED,
                               COMMIT_PENDING, FAILED_UNCLEAN, KILLED_UNCLEAN}
 
-    /** ƒWƒ‡ƒuID */
+    /** ã‚¸ãƒ§ãƒ–ID */
     private String jobID_;
 
-    /** ƒ^ƒXƒNsID */
+    /** ã‚¿ã‚¹ã‚¯è©¦è¡ŒID */
     private String taskID_;
 
-    /** ƒ^ƒXƒNƒtƒF[ƒY */
+    /** ã‚¿ã‚¹ã‚¯ãƒ•ã‚§ãƒ¼ã‚º */
     private Phase phase_;
 
-    /** ƒ^ƒXƒNƒXƒe[ƒ^ƒX */
+    /** ã‚¿ã‚¹ã‚¯ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ */
     private State state_;
 
-    /** ƒ^ƒXƒNƒtƒF[ƒYƒ}ƒbƒv */
+    /** ã‚¿ã‚¹ã‚¯ãƒ•ã‚§ãƒ¼ã‚ºãƒãƒƒãƒ— */
     private static final Map<String, Phase> PHASE_MAP = new HashMap<String, Phase>() {
         {
             put("STARTING", Phase.STARTING);
@@ -67,7 +67,7 @@ public class HadoopTaskStatus
         }
     };
 
-    /** ƒ^ƒXƒNƒXƒe[ƒ^ƒXƒ}ƒbƒv */
+    /** ã‚¿ã‚¹ã‚¯ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ãƒãƒƒãƒ— */
     private static final Map<String, State> STATE_MAP = new HashMap<String, State>() {
         {
             put("RUNNING", State.RUNNING);
@@ -82,20 +82,20 @@ public class HadoopTaskStatus
     };
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      */
     public HadoopTaskStatus()
     {
-        // ‰½‚à‚µ‚È‚¢
+        // ä½•ã‚‚ã—ãªã„
     }
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      *
-     * @param jobID ƒWƒ‡ƒuID
-     * @param taskID ƒ^ƒXƒNID
-     * @param phase ƒ^ƒXƒNƒtƒF[ƒY
-     * @param state ƒ^ƒXƒNƒXƒe[ƒ^ƒX
+     * @param jobID ã‚¸ãƒ§ãƒ–ID
+     * @param taskID ã‚¿ã‚¹ã‚¯ID
+     * @param phase ã‚¿ã‚¹ã‚¯ãƒ•ã‚§ãƒ¼ã‚º
+     * @param state ã‚¿ã‚¹ã‚¯ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
      */
     public HadoopTaskStatus(String jobID,
                             String taskID,
@@ -109,9 +109,9 @@ public class HadoopTaskStatus
     }
 
     /**
-     * ƒWƒ‡ƒuID‚ğæ“¾‚·‚éB
+     * ã‚¸ãƒ§ãƒ–IDã‚’å–å¾—ã™ã‚‹ã€‚
      *
-     * @return ƒWƒ‡ƒuID
+     * @return ã‚¸ãƒ§ãƒ–ID
      */
     public String getJobID()
     {
@@ -119,9 +119,9 @@ public class HadoopTaskStatus
     }
 
     /**
-     * ƒ^ƒXƒNID‚ğæ“¾‚·‚éB
+     * ã‚¿ã‚¹ã‚¯IDã‚’å–å¾—ã™ã‚‹ã€‚
      *
-     * @return ƒ^ƒXƒNID
+     * @return ã‚¿ã‚¹ã‚¯ID
      */
     public String getTaskID()
     {
@@ -129,9 +129,9 @@ public class HadoopTaskStatus
     }
 
     /**
-     * ƒ^ƒXƒN‚ÌƒtƒF[ƒY‚ğæ“¾‚·‚éB
+     * ã‚¿ã‚¹ã‚¯ã®ãƒ•ã‚§ãƒ¼ã‚ºã‚’å–å¾—ã™ã‚‹ã€‚
      *
-     * @return ƒ^ƒXƒNƒtƒF[ƒY
+     * @return ã‚¿ã‚¹ã‚¯ãƒ•ã‚§ãƒ¼ã‚º
      */
     public Phase getPhase()
     {
@@ -139,9 +139,9 @@ public class HadoopTaskStatus
     }
 
     /**
-     * ƒ^ƒXƒN‚ÌƒXƒe[ƒ^ƒX‚ğæ“¾‚·‚éB
+     * ã‚¿ã‚¹ã‚¯ã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚’å–å¾—ã™ã‚‹ã€‚
      *
-     * @return ƒ^ƒXƒNƒXƒe[ƒ^ƒX
+     * @return ã‚¿ã‚¹ã‚¯ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
      */
     public State getState()
     {
@@ -149,9 +149,9 @@ public class HadoopTaskStatus
     }
 
     /**
-     * ƒWƒ‡ƒusID‚ğİ’è‚·‚éB
+     * ã‚¸ãƒ§ãƒ–è©¦è¡ŒIDã‚’è¨­å®šã™ã‚‹ã€‚
      *
-     * @param taskID ƒWƒ‡ƒuID
+     * @param taskID ã‚¸ãƒ§ãƒ–ID
      */
     public void setJobID(String jobID)
     {
@@ -159,9 +159,9 @@ public class HadoopTaskStatus
     }
 
     /**
-     * ƒ^ƒXƒNsID‚ğİ’è‚·‚éB
+     * ã‚¿ã‚¹ã‚¯è©¦è¡ŒIDã‚’è¨­å®šã™ã‚‹ã€‚
      *
-     * @param taskID ƒ^ƒXƒNID
+     * @param taskID ã‚¿ã‚¹ã‚¯ID
      */
     public void setTaskID(String taskID)
     {
@@ -169,9 +169,9 @@ public class HadoopTaskStatus
     }
 
     /**
-     * ƒ^ƒXƒN‚ÌƒtƒF[ƒY‚ğİ’è‚·‚éB
+     * ã‚¿ã‚¹ã‚¯ã®ãƒ•ã‚§ãƒ¼ã‚ºã‚’è¨­å®šã™ã‚‹ã€‚
      *
-     * @param phase ƒ^ƒXƒNƒtƒF[ƒY
+     * @param phase ã‚¿ã‚¹ã‚¯ãƒ•ã‚§ãƒ¼ã‚º
      */
     public void setPhase(Phase phase)
     {
@@ -179,9 +179,9 @@ public class HadoopTaskStatus
     }
 
     /**
-     * ƒ^ƒXƒN‚ÌƒtƒF[ƒY‚ğİ’è‚·‚éB
+     * ã‚¿ã‚¹ã‚¯ã®ãƒ•ã‚§ãƒ¼ã‚ºã‚’è¨­å®šã™ã‚‹ã€‚
      *
-     * @param phase ƒ^ƒXƒNƒtƒF[ƒY
+     * @param phase ã‚¿ã‚¹ã‚¯ãƒ•ã‚§ãƒ¼ã‚º
      */
     public void setPhase(String phase)
     {
@@ -189,9 +189,9 @@ public class HadoopTaskStatus
     }
 
     /**
-     * ƒ^ƒXƒN‚ÌƒXƒe[ƒ^ƒX‚ğİ’è‚·‚éB
+     * ã‚¿ã‚¹ã‚¯ã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚’è¨­å®šã™ã‚‹ã€‚
      *
-     * @param state ƒ^ƒXƒNƒXƒe[ƒ^ƒX
+     * @param state ã‚¿ã‚¹ã‚¯ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
      */
     public void setState(State state)
     {
@@ -199,9 +199,9 @@ public class HadoopTaskStatus
     }
 
     /**
-     * ƒ^ƒXƒN‚ÌƒXƒe[ƒ^ƒX‚ğİ’è‚·‚éB
+     * ã‚¿ã‚¹ã‚¯ã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚’è¨­å®šã™ã‚‹ã€‚
      *
-     * @param state ƒ^ƒXƒNƒXƒe[ƒ^ƒX
+     * @param state ã‚¿ã‚¹ã‚¯ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
      */
     public void setState(String state)
     {

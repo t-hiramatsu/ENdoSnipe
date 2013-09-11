@@ -26,25 +26,25 @@
 package jp.co.acroquest.endosnipe.javelin.converter.leak.monitor;
 
 /**
- * ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€‚Ìˆê—v‘fB
+ * ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã®ä¸€è¦ç´ ã€‚
  * 
  * @author eriguchi
  */
 public class ClassHistogramEntry
 {
-    /** ƒCƒ“ƒXƒ^ƒ“ƒX”B */
+    /** ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ•°ã€‚ */
     private int instances_;
 
-    /** ƒTƒCƒY(byte)B */
+    /** ã‚µã‚¤ã‚º(byte)ã€‚ */
     private int bytes_;
 
-    /** ƒNƒ‰ƒX–¼B */
+    /** ã‚¯ãƒ©ã‚¹åã€‚ */
     private String className_;
 
     /**
-     * ƒCƒ“ƒXƒ^ƒ“ƒX”‚ğæ“¾‚·‚éB
+     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ•°ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return ƒCƒ“ƒXƒ^ƒ“ƒX”B
+     * @return ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ•°ã€‚
      */
     public int getInstances()
     {
@@ -52,9 +52,9 @@ public class ClassHistogramEntry
     }
 
     /**
-     * ƒCƒ“ƒXƒ^ƒ“ƒX”‚ğİ’è‚·‚éB
+     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ•°ã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param instances ƒCƒ“ƒXƒ^ƒ“ƒX”B
+     * @param instances ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ•°ã€‚
      */
     public void setInstances(final int instances)
     {
@@ -62,9 +62,9 @@ public class ClassHistogramEntry
     }
 
     /**
-     * ƒTƒCƒY(byte)‚ğæ“¾‚·‚éB
+     * ã‚µã‚¤ã‚º(byte)ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return ƒTƒCƒY(byte)B
+     * @return ã‚µã‚¤ã‚º(byte)ã€‚
      */
     public int getBytes()
     {
@@ -72,9 +72,9 @@ public class ClassHistogramEntry
     }
 
     /**
-     * ƒTƒCƒY(byte)‚ğİ’è‚·‚éB
+     * ã‚µã‚¤ã‚º(byte)ã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param bytes ƒTƒCƒY(byte)B
+     * @param bytes ã‚µã‚¤ã‚º(byte)ã€‚
      */
     public void setBytes(final int bytes)
     {
@@ -82,9 +82,9 @@ public class ClassHistogramEntry
     }
 
     /**
-     * ƒNƒ‰ƒX–¼‚ğæ“¾‚·‚éB
+     * ã‚¯ãƒ©ã‚¹åã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return ƒNƒ‰ƒX–¼B
+     * @return ã‚¯ãƒ©ã‚¹åã€‚
      */
     public String getClassName()
     {
@@ -92,9 +92,9 @@ public class ClassHistogramEntry
     }
 
     /**
-     * ƒNƒ‰ƒX–¼‚ğİ’è‚·‚éB
+     * ã‚¯ãƒ©ã‚¹åã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param className ƒNƒ‰ƒX–¼B
+     * @param className ã‚¯ãƒ©ã‚¹åã€‚
      */
     public void setClassName(final String className)
     {

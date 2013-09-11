@@ -13,25 +13,25 @@
 package jp.co.acroquest.endosnipe.javelin.converter.thread.monitor;
 
 /**
- * CPUg—p—¦B
+ * CPUä½¿ç”¨ç‡ã€‚
  * 
  * @author eriguchi
  */
 public class CpuUsage
 {
-    /** CPUƒ†[ƒU */
+    /** CPUãƒ¦ãƒ¼ã‚¶ */
     private double cpuUser_;
 
-    /** CPUƒVƒXƒeƒ€ */
+    /** CPUã‚·ã‚¹ãƒ†ãƒ  */
     private double cpuSystem_;
 
-    /** CPU@I/O‘Ò‹@ŠÔ */
+    /** CPUã€€I/Oå¾…æ©Ÿæ™‚é–“ */
     private double cpuIoWait_;
 
     /**
-     * CPUg—p—¦‚Ì‡Œv‚ğæ“¾‚·‚éB
+     * CPUä½¿ç”¨ç‡ã®åˆè¨ˆã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return CPUg—p—¦‚Ì‡Œv
+     * @return CPUä½¿ç”¨ç‡ã®åˆè¨ˆ
      */
     public double getCpuTotal()
     {
@@ -39,9 +39,9 @@ public class CpuUsage
     }
 
     /**
-     * CPUƒ†[ƒU‚ğæ“¾‚·‚éB
+     * CPUãƒ¦ãƒ¼ã‚¶ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return CPUƒ†[ƒUB
+     * @return CPUãƒ¦ãƒ¼ã‚¶ã€‚
      */
     public double getCpuUser()
     {
@@ -49,9 +49,9 @@ public class CpuUsage
     }
 
     /**
-     * CPUƒ†[ƒU‚ğİ’è‚·‚éB
+     * CPUãƒ¦ãƒ¼ã‚¶ã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param cpuUser CPUƒ†[ƒUB
+     * @param cpuUser CPUãƒ¦ãƒ¼ã‚¶ã€‚
      */
     public void setCpuUser(double cpuUser)
     {
@@ -59,9 +59,9 @@ public class CpuUsage
     }
 
     /**
-     * CPUƒ†[ƒU‚ğæ“¾‚·‚éB
+     * CPUãƒ¦ãƒ¼ã‚¶ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return CPUƒ†[ƒUB
+     * @return CPUãƒ¦ãƒ¼ã‚¶ã€‚
      */
     public double getCpuSystem()
     {
@@ -69,9 +69,9 @@ public class CpuUsage
     }
 
     /**
-     * CPUƒ†[ƒU‚ğİ’è‚·‚éB
+     * CPUãƒ¦ãƒ¼ã‚¶ã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param cpuSystem CPUƒ†[ƒUB
+     * @param cpuSystem CPUãƒ¦ãƒ¼ã‚¶ã€‚
      */
     public void setCpuSystem(double cpuSystem)
     {
@@ -79,9 +79,9 @@ public class CpuUsage
     }
 
     /**
-     * CPUƒ†[ƒU‚ğæ“¾‚·‚éB
+     * CPUãƒ¦ãƒ¼ã‚¶ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return CPUƒ†[ƒUB
+     * @return CPUãƒ¦ãƒ¼ã‚¶ã€‚
      */
     public double getCpuIoWait()
     {
@@ -89,9 +89,9 @@ public class CpuUsage
     }
 
     /**
-     * CPUƒ†[ƒU‚ğİ’è‚·‚éB
+     * CPUãƒ¦ãƒ¼ã‚¶ã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param cpuIoWait CPUƒ†[ƒUB
+     * @param cpuIoWait CPUãƒ¦ãƒ¼ã‚¶ã€‚
      */
     public void setCpuIoWait(double cpuIoWait)
     {

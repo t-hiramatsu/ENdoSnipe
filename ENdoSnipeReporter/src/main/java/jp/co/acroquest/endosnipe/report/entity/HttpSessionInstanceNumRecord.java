@@ -3,23 +3,23 @@ package jp.co.acroquest.endosnipe.report.entity;
 import java.sql.Timestamp;
 
 /**
- * uƒAƒvƒŠƒP[ƒVƒ‡ƒ“vƒ^ƒu‚ÌuHttpSession‚ÌƒCƒ“ƒXƒ^ƒ“ƒX”v‚ÌƒŒƒ|[ƒg‚É‚¨‚¢‚ÄA
- * o—Í‚³‚ê‚éî•ñ‚Ì’†‚Ì1ƒŒƒR[ƒh•ª‚ğ•Û‚·‚éƒGƒ“ƒeƒBƒeƒB‚Å‚·B
+ * ã€Œã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã€ã‚¿ãƒ–ã®ã€ŒHttpSessionã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ•°ã€ã®ãƒ¬ãƒãƒ¼ãƒˆã«ãŠã„ã¦ã€
+ * å‡ºåŠ›ã•ã‚Œã‚‹æƒ…å ±ã®ä¸­ã®1ãƒ¬ã‚³ãƒ¼ãƒ‰åˆ†ã‚’ä¿æŒã™ã‚‹ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã§ã™ã€‚
  * 
  * @author T. Iida
  */
 public class HttpSessionInstanceNumRecord
 {
-	/** Œv‘ª */
+	/** è¨ˆæ¸¬æ™‚åˆ» */
     private Timestamp measurementTime_;
     
-	/** HttpSession‚ÌƒCƒ“ƒXƒ^ƒ“ƒX”[”]i•âŠÔŠúŠÔ•½‹Ïj */
+	/** HttpSessionã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ•°[æ•°]ï¼ˆè£œé–“æœŸé–“å¹³å‡ï¼‰ */
     private long      httpSessionInstanceNum_;
     
-    /** HttpSession‚ÌƒCƒ“ƒXƒ^ƒ“ƒX”[”]i•âŠÔŠúŠÔÅ‘åj */
+    /** HttpSessionã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ•°[æ•°]ï¼ˆè£œé–“æœŸé–“æœ€å¤§ï¼‰ */
     private long      httpSessionInstanceNumMax_;
     
-    /** HttpSession‚ÌƒCƒ“ƒXƒ^ƒ“ƒX”[”]i•âŠÔŠúŠÔÅ¬j */
+    /** HttpSessionã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ•°[æ•°]ï¼ˆè£œé–“æœŸé–“æœ€å°ï¼‰ */
     private long      httpSessionInstanceNumMin_;
 
 	/**

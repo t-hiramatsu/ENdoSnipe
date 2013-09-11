@@ -26,92 +26,92 @@
 package jp.co.acroquest.endosnipe.javelin.bean;
 
 /**
- * Invocation‚МBean
+ * InvocationгЃ®Bean
  * @author eriguchi
  *
  */
 public interface InvocationMBean
 {
     /**
-     * ѓNѓ‰ѓX–ј‚рЋж“ѕ‚·‚йЃB
-     * @return ѓNѓ‰ѓX–ј
+     * г‚Їгѓ©г‚№еђЌг‚’еЏ–еѕ—гЃ™г‚‹гЂ‚
+     * @return г‚Їгѓ©г‚№еђЌ
      */
     String getClassName();
 
     /**
-     * ѓЃѓ\ѓbѓh–ј‚рЋж“ѕ‚·‚йЃB
-     * @return ѓЃѓ\ѓbѓh–ј
+     * гѓЎг‚Ѕгѓѓгѓ‰еђЌг‚’еЏ–еѕ—гЃ™г‚‹гЂ‚
+     * @return гѓЎг‚Ѕгѓѓгѓ‰еђЌ
      */
     String getMethodName();
 
     /**
-     * ЊД‚СЏo‚µ‰сђ”‚рЋж“ѕ‚·‚йЃB
-     * @return ЊД‚СЏo‚µ‰сђ”
+     * е‘јгЃіе‡єгЃ—е›ћж•°г‚’еЏ–еѕ—гЃ™г‚‹гЂ‚
+     * @return е‘јгЃіе‡єгЃ—е›ћж•°
      */
     long getCount();
 
     /**
-     * ЌЕЏ¬’l‚рЋж“ѕ‚·‚йЃB
-     * @return ЌЕЏ¬’l
+     * жњЂе°ЏеЂ¤г‚’еЏ–еѕ—гЃ™г‚‹гЂ‚
+     * @return жњЂе°ЏеЂ¤
      */
     long getMinimum();
 
     /**
-     * ЌЕ‘е’l‚рЋж“ѕ‚·‚йЃB
-     * @return ЌЕ‘е’l
+     * жњЂе¤§еЂ¤г‚’еЏ–еѕ—гЃ™г‚‹гЂ‚
+     * @return жњЂе¤§еЂ¤
      */
     long getMaximum();
 
     /**
-     * •Ѕ‹П’l‚рЋж“ѕ‚·‚йЃB
-     * @return •Ѕ‹П’l
+     * е№іеќ‡еЂ¤г‚’еЏ–еѕ—гЃ™г‚‹гЂ‚
+     * @return е№іеќ‡еЂ¤
      */
     long getAverage();
 
     /**
-     * CPUЋћЉФ‚МЌЕЏ¬’l‚рЋж“ѕ‚·‚йЃB
-     * @return CPUЋћЉФ‚МЌЕЏ¬’l
+     * CPUж™‚й–“гЃ®жњЂе°ЏеЂ¤г‚’еЏ–еѕ—гЃ™г‚‹гЂ‚
+     * @return CPUж™‚й–“гЃ®жњЂе°ЏеЂ¤
      */
     long getCpuMinimum();
 
     /**
-     * CPUЋћЉФ‚МЌЕ‘е’l‚рЋж“ѕ‚·‚йЃB
-     * @return CPUЋћЉФ‚МЌЕ‘е’l
+     * CPUж™‚й–“гЃ®жњЂе¤§еЂ¤г‚’еЏ–еѕ—гЃ™г‚‹гЂ‚
+     * @return CPUж™‚й–“гЃ®жњЂе¤§еЂ¤
      */
     long getCpuMaximum();
 
     /**
-     * CPUЋћЉФ‚М•Ѕ‹П’l‚рЋж“ѕ‚·‚йЃB
-     * @return CPUЋћЉФ‚М•Ѕ‹П’l
+     * CPUж™‚й–“гЃ®е№іеќ‡еЂ¤г‚’еЏ–еѕ—гЃ™г‚‹гЂ‚
+     * @return CPUж™‚й–“гЃ®е№іеќ‡еЂ¤
      */
     long getCpuAverage();
 
     /**
-     * —бЉO”­ђ¶‰сђ”‚рЋж“ѕ‚·‚йЃB
-     * @return —бЉO”­ђ¶‰сђ”
+     * дѕ‹е¤–з™єз”џе›ћж•°г‚’еЏ–еѕ—гЃ™г‚‹гЂ‚
+     * @return дѕ‹е¤–з™єз”џе›ћж•°
      */
     long getThrowableCount();
 
     /**
-     * ЌЕЏIЌXђVЋћЌЏ‚рЋж“ѕ‚·‚йЃB
-     * @return ЌЕЏIЌXђVЋћЌЏ
+     * жњЂзµ‚ж›ґж–°ж™‚е€»г‚’еЏ–еѕ—гЃ™г‚‹гЂ‚
+     * @return жњЂзµ‚ж›ґж–°ж™‚е€»
      */
     long getLastUpdatedTime();
 
     /**
-     * ѓAѓ‰Ѓ[ѓЂ”­ђ¶”»’и‚М‚Ѕ‚Я‚Ми‡’l‚р•Ф‚·ЃB
-     * @return ѓAѓ‰Ѓ[ѓЂ”­ђ¶”»’и‚М‚Ѕ‚Я‚Ми‡’l
+     * г‚ўгѓ©гѓјгѓ з™єз”џе€¤е®љгЃ®гЃџг‚ЃгЃ®й–ѕеЂ¤г‚’иї”гЃ™гЂ‚
+     * @return г‚ўгѓ©гѓјгѓ з™єз”џе€¤е®љгЃ®гЃџг‚ЃгЃ®й–ѕеЂ¤
      */
     long getAlarmThreshold();
 
     /**
-     * ѓAѓ‰Ѓ[ѓЂ”­ђ¶”»’и‚М‚Ѕ‚Я‚Ми‡’l‚р•Ф‚·ЃB
-     * @param alarmThreshold ѓAѓ‰Ѓ[ѓЂ”­ђ¶”»’и‚М‚Ѕ‚Я‚Ми‡’l
+     * г‚ўгѓ©гѓјгѓ з™єз”џе€¤е®љгЃ®гЃџг‚ЃгЃ®й–ѕеЂ¤г‚’иї”гЃ™гЂ‚
+     * @param alarmThreshold г‚ўгѓ©гѓјгѓ з™єз”џе€¤е®љгЃ®гЃџг‚ЃгЃ®й–ѕеЂ¤
      */
     void setAlarmThreshold(long alarmThreshold);
 
     /**
-     * ѓЉѓZѓbѓg‚·‚йЃB
+     * гѓЄг‚»гѓѓгѓ€гЃ™г‚‹гЂ‚
      */
     void reset();
 }

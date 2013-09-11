@@ -28,45 +28,45 @@ package jp.co.acroquest.endosnipe.communicator;
 import jp.co.acroquest.endosnipe.communicator.entity.ConnectNotifyData;
 
 /**
- * ƒRƒ~ƒ…ƒjƒP[ƒVƒ‡ƒ“ƒNƒ‰ƒCƒAƒ“ƒg‚Ì‚½‚ß‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX‚Å‚·B<br />
+ * ã‚³ãƒŸãƒ¥ãƒ‹ã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã®ãŸã‚ã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã§ã™ã€‚<br />
  * 
  * @author y-komori
  */
 public interface CommunicationClient extends AbstractCommunicator
 {
     /**
-     * ƒRƒ~ƒ…ƒjƒP[ƒVƒ‡ƒ“ƒNƒ‰ƒCƒAƒ“ƒg‚ğ‰Šú‰»‚µ‚Ü‚·B<br />
+     * ã‚³ãƒŸãƒ¥ãƒ‹ã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚’åˆæœŸåŒ–ã—ã¾ã™ã€‚<br />
      * 
-     * @param hostName Ú‘±æƒzƒXƒg–¼‚Ü‚½‚ÍIPƒAƒhƒŒƒX
-     * @param port Ú‘±æƒ|[ƒg”Ô†
+     * @param hostName æ¥ç¶šå…ˆãƒ›ã‚¹ãƒˆåã¾ãŸã¯IPã‚¢ãƒ‰ãƒ¬ã‚¹
+     * @param port æ¥ç¶šå…ˆãƒãƒ¼ãƒˆç•ªå·
      */
     void init(String hostName, int port);
 
     /**
-     * ƒT[ƒo‚ÖÚ‘±‚µ‚Ü‚·B<br />
+     * ã‚µãƒ¼ãƒã¸æ¥ç¶šã—ã¾ã™ã€‚<br />
      * 
-     * –{ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·‘O‚ÉA{@link #init(String, int)} ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢B<br />
+     * æœ¬ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã³å‡ºã™å‰ã«ã€{@link #init(String, int)} ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„ã€‚<br />
      * 
-     * @param connectNotify Ú‘±Š®—¹Œã‚É‘—M‚·‚éÚ‘±’Ê’m
+     * @param connectNotify æ¥ç¶šå®Œäº†å¾Œã«é€ä¿¡ã™ã‚‹æ¥ç¶šé€šçŸ¥
      */
     void connect(ConnectNotifyData connectNotify);
 
     /**
-     * ƒT[ƒo‚©‚çØ’f‚µ‚Ü‚·B<br />
+     * ã‚µãƒ¼ãƒã‹ã‚‰åˆ‡æ–­ã—ã¾ã™ã€‚<br />
      */
     void disconnect();
 
     /**
-     * ƒRƒ~ƒ…ƒjƒP[ƒVƒ‡ƒ“ƒNƒ‰ƒCƒAƒ“ƒg‚ğI—¹‚µ‚Ü‚·B<br />
+     * ã‚³ãƒŸãƒ¥ãƒ‹ã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚’çµ‚äº†ã—ã¾ã™ã€‚<br />
      * 
-     * –{ƒƒ\ƒbƒh‚ÍA{@link #disconnect()} ƒƒ\ƒbƒh‚ÌŒã‚ÉŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢B<br />
+     * æœ¬ãƒ¡ã‚½ãƒƒãƒ‰ã¯ã€{@link #disconnect()} ãƒ¡ã‚½ãƒƒãƒ‰ã®å¾Œã«å‘¼ã³å‡ºã—ã¦ãã ã•ã„ã€‚<br />
      */
     void shutdown();
 
     /**
-     * Ú‘±æ IP ƒAƒhƒŒƒX‚ğ•Ô‚µ‚Ü‚·B<br />
+     * æ¥ç¶šå…ˆ IP ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’è¿”ã—ã¾ã™ã€‚<br />
      *
-     * @return Ú‘±æ IP ƒAƒhƒŒƒX
+     * @return æ¥ç¶šå…ˆ IP ã‚¢ãƒ‰ãƒ¬ã‚¹
      */
     String getIpAddress();
 }

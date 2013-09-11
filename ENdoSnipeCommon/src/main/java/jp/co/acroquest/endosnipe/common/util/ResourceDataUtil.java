@@ -37,27 +37,27 @@ import jp.co.acroquest.endosnipe.common.entity.MeasurementDetail;
 import jp.co.acroquest.endosnipe.common.entity.ResourceData;
 
 /**
- * ƒVƒXƒeƒ€ƒŠƒ\[ƒX‚ğˆµ‚¤‚½‚ß‚Ìƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒX<br />
+ * ã‚·ã‚¹ãƒ†ãƒ ãƒªã‚½ãƒ¼ã‚¹ã‚’æ‰±ã†ãŸã‚ã®ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹<br />
  * 
  * @author ochiai
  */
 public class ResourceDataUtil
 {
-    /** ƒp[ƒZƒ“ƒg‚É‚·‚é‚½‚ß‚Ì’è”:100 */
+    /** ãƒ‘ãƒ¼ã‚»ãƒ³ãƒˆã«ã™ã‚‹ãŸã‚ã®å®šæ•°:100 */
     public static final int PERCENT_CONST = 100;
 
-    /** nano ‚Æ mili ‚Ì•ÏŠ·‚Ì‚½‚ß‚Ì’è”F1000*1000 */
+    /** nano ã¨ mili ã®å¤‰æ›ã®ãŸã‚ã®å®šæ•°ï¼š1000*1000 */
     public static final int NANO_TO_MILI = 1000 * 1000;
 
-    /** CPUg—p—¦i“j‚ÌÅ‘å’l */
+    /** CPUä½¿ç”¨ç‡ï¼ˆï¼…ï¼‰ã®æœ€å¤§å€¤ */
     public static final double MAX_CPU_RATE = 100.0;
 
-    /** CPUg—p—¦i“j‚ÌÅ¬’l */
+    /** CPUä½¿ç”¨ç‡ï¼ˆï¼…ï¼‰ã®æœ€å°å€¤ */
     public static final double MIN_CPU_RATE = 0.0;
 
     /**
-     * Š„‡‚ğ•\‚·ƒf[ƒ^’l‚ğDB‚É“ü‚ê‚é‚ÉŠ|‚¯‚é’lB<br />
-     * DB‚É“ü‚ê‚ç‚ê‚é‚Ì‚Í®”’l‚È‚Ì‚ÅA¬”“_ˆÈ‰º‚à•Û‚·‚é‚½‚ß‚ÉA‚±‚Ì’l‚ğŠ|‚¯‚éB<br />
+     * å‰²åˆã‚’è¡¨ã™ãƒ‡ãƒ¼ã‚¿å€¤ã‚’DBã«å…¥ã‚Œã‚‹æ™‚ã«æ›ã‘ã‚‹å€¤ã€‚<br />
+     * DBã«å…¥ã‚Œã‚‰ã‚Œã‚‹ã®ã¯æ•´æ•°å€¤ãªã®ã§ã€å°æ•°ç‚¹ä»¥ä¸‹ã‚‚ä¿æŒã™ã‚‹ãŸã‚ã«ã€ã“ã®å€¤ã‚’æ›ã‘ã‚‹ã€‚<br />
      */
     public static final int PERCENTAGE_DATA_MAGNIFICATION = 1000;
 
@@ -67,11 +67,11 @@ public class ResourceDataUtil
     }
 
     /**
-     * w’è‚³‚ê‚½ƒf[ƒ^‚ğŠî‚É‚µAŒv‘ª’l‚ğ‘S‚Ä0‚ÉAŒv‘ª‚ğw’è‚³‚ê‚½‚à‚Ì‚É•ÏX‚µ‚½A•Ê‚Ìƒf[ƒ^‚ğ¶¬‚µA•Ô‚µ‚Ü‚·B<br>
-     * @param srcData Œ³‚Ìƒf[ƒ^
-     * @param measurementTime •ÏXŒã‚ÌŒv‘ª
-     * @param connected Ú‘±‚©‚Ç‚¤‚©
-     * @return Œv‘ª’l‚ğ0‚É‚µAŒv‘ª‚ğ•ÏX‚µ‚½ƒf[ƒ^
+     * æŒ‡å®šã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ã‚’åŸºã«ã—ã€è¨ˆæ¸¬å€¤ã‚’å…¨ã¦0ã«ã€è¨ˆæ¸¬æ™‚åˆ»ã‚’æŒ‡å®šã•ã‚ŒãŸã‚‚ã®ã«å¤‰æ›´ã—ãŸã€åˆ¥ã®ãƒ‡ãƒ¼ã‚¿ã‚’ç”Ÿæˆã—ã€è¿”ã—ã¾ã™ã€‚<br>
+     * @param srcData å…ƒã®ãƒ‡ãƒ¼ã‚¿
+     * @param measurementTime å¤‰æ›´å¾Œã®è¨ˆæ¸¬æ™‚åˆ»
+     * @param connected æ¥ç¶šæ™‚ã‹ã©ã†ã‹
+     * @return è¨ˆæ¸¬å€¤ã‚’0ã«ã—ã€è¨ˆæ¸¬æ™‚åˆ»ã‚’å¤‰æ›´ã—ãŸãƒ‡ãƒ¼ã‚¿
      */
     public static ResourceData createAllZeroResourceData(final ResourceData srcData,
         final long measurementTime, final boolean connected)
@@ -101,7 +101,7 @@ public class ResourceDataUtil
             {
                 MeasurementDetail srcMeasurementDetail = measurementDetailMapEntry.getValue();
                 MeasurementDetail dstMeasurementDetail = new MeasurementDetail();
-                // JavaUpTime‚Ìê‡A0‚Å‚Í‚È‚­1‚ğƒZƒbƒg‚·‚éB
+                // JavaUpTimeã®å ´åˆã€0ã§ã¯ãªã1ã‚’ã‚»ãƒƒãƒˆã™ã‚‹ã€‚
                 if (Constants.ITEMNAME_JAVAUPTIME.equals(dstMeasurementData.itemName))
                 {
                     if (connected == true)
@@ -134,17 +134,17 @@ public class ResourceDataUtil
     }
 
     /**
-     * w’è‚³‚ê‚½A˜A‘±2‰ñ‚Ìƒf[ƒ^‚ğ”ä‚×A‰Â•Ï”Œn—ñ‚É‚Â‚¢‚ÄAŒã‚Ì‚à‚Ì‚É‚µ‚©–³‚¢‚à‚Ì‚ğ’T‚µ‚Ü‚·B<br>
-     * ‚»‚ê‚ç‚É‚Â‚¢‚ÄAƒOƒ‰ƒt‚Ìn‚Ü‚è‚ğ•\‚·‚½‚ß‚É’Ç‰Á‚·‚×‚«ƒf[ƒ^i’l‚ª0‚Ì‚à‚Ìj‚ğì¬‚µA•Ô‚µ‚Ü‚·B<br>
-     * @param prevData ‘O‰ñ‚Ìƒf[ƒ^
-     * @param currData ¡‰ñ‚Ìƒf[ƒ^
-     * @return ƒOƒ‰ƒt‚Ìn‚Ü‚è‚ğ•\‚·‚½‚ß‚É’Ç‰Á‚·‚×‚«ƒf[ƒ^B
+     * æŒ‡å®šã•ã‚ŒãŸã€é€£ç¶š2å›ã®ãƒ‡ãƒ¼ã‚¿ã‚’æ¯”ã¹ã€å¯å¤‰æ•°ç³»åˆ—ã«ã¤ã„ã¦ã€å¾Œã®ã‚‚ã®ã«ã—ã‹ç„¡ã„ã‚‚ã®ã‚’æ¢ã—ã¾ã™ã€‚<br>
+     * ãã‚Œã‚‰ã«ã¤ã„ã¦ã€ã‚°ãƒ©ãƒ•ã®å§‹ã¾ã‚Šã‚’è¡¨ã™ãŸã‚ã«è¿½åŠ ã™ã¹ããƒ‡ãƒ¼ã‚¿ï¼ˆå€¤ãŒ0ã®ã‚‚ã®ï¼‰ã‚’ä½œæˆã—ã€è¿”ã—ã¾ã™ã€‚<br>
+     * @param prevData å‰å›ã®ãƒ‡ãƒ¼ã‚¿
+     * @param currData ä»Šå›ã®ãƒ‡ãƒ¼ã‚¿
+     * @return ã‚°ãƒ©ãƒ•ã®å§‹ã¾ã‚Šã‚’è¡¨ã™ãŸã‚ã«è¿½åŠ ã™ã¹ããƒ‡ãƒ¼ã‚¿ã€‚
      */
     public static ResourceData createAdditionalPreviousData(final ResourceData prevData,
         final ResourceData currData)
     {
         ResourceData additionalData = new ResourceData();
-        // ‚Í‘O‰ñ‚Ì‚à‚Ì‚ğ—p‚¢‚éB
+        // æ™‚åˆ»ã¯å‰å›ã®ã‚‚ã®ã‚’ç”¨ã„ã‚‹ã€‚
         additionalData.measurementTime = prevData.measurementTime;
         additionalData.clientId = currData.clientId;
         additionalData.hostName = currData.hostName;
@@ -166,7 +166,7 @@ public class ResourceDataUtil
             MeasurementData additionalMeasurementData = new MeasurementData();
             additionalMeasurementData.measurementType = currMeasurementData.measurementType;
             additionalMeasurementData.itemName = currMeasurementData.itemName;
-            // ‚Í‘O‰ñ‚Ì‚à‚Ì‚ğ—p‚¢‚éB
+            // æ™‚åˆ»ã¯å‰å›ã®ã‚‚ã®ã‚’ç”¨ã„ã‚‹ã€‚
             additionalMeasurementData.measurementTime = new Timestamp(prevData.measurementTime);
             additionalMeasurementData.valueType =
                 ItemType.getItemTypeNumber(ItemType.ITEMTYPE_STRING);
@@ -184,7 +184,7 @@ public class ResourceDataUtil
                 if (prevMeasurementDetail == null)
                 {
                     MeasurementDetail addtionalMeasurementDetail = new MeasurementDetail();
-                    // ’l‚Í0‚ğ“ü‚ê‚éB
+                    // å€¤ã¯0ã‚’å…¥ã‚Œã‚‹ã€‚
                     addtionalMeasurementDetail.value = "0";
                     addtionalMeasurementDetail.displayName = currMeasurementDetail.displayName;
                     addtionalMeasurementDetail.itemId = currMeasurementDetail.itemId;
@@ -204,11 +204,11 @@ public class ResourceDataUtil
     }
 
     /**
-     * CPUg—p—¦‚ğŒvZ‚·‚é
-     * @param cpuTime Œv‘ªŠúŠÔ’†‚ÌCPUŠÔiƒiƒm•bj
-     * @param measurementInterval Œv‘ªŠÔŠu(ƒ~ƒŠ•b)
-     * @param processorCount ƒvƒƒZƒbƒT”
-     * @return CPUg—p—¦
+     * CPUä½¿ç”¨ç‡ã‚’è¨ˆç®—ã™ã‚‹
+     * @param cpuTime è¨ˆæ¸¬æœŸé–“ä¸­ã®CPUæ™‚é–“ï¼ˆãƒŠãƒç§’ï¼‰
+     * @param measurementInterval è¨ˆæ¸¬é–“éš”(ãƒŸãƒªç§’)
+     * @param processorCount ãƒ—ãƒ­ã‚»ãƒƒã‚µæ•°
+     * @return CPUä½¿ç”¨ç‡
      */
     public static double calcCPUUsage(final long cpuTime, final long measurementInterval,
         final long processorCount)
@@ -219,8 +219,8 @@ public class ResourceDataUtil
             cpuUsage =
                 (double)cpuTime / (measurementInterval * NANO_TO_MILI * processorCount)
                     * PERCENT_CONST;
-            // ƒpƒtƒH[ƒ}ƒ“ƒXƒJƒEƒ“ƒ^‚Ìd—lãACPUg—p—¦‚ª100“‚ğ’´‚¦‚é‚±‚Æ‚ª‚ ‚é‚½‚ßA
-            // Å‘å100“‚ÉŠÛ‚ß‚éBi#2006j
+            // ãƒ‘ãƒ•ã‚©ãƒ¼ãƒãƒ³ã‚¹ã‚«ã‚¦ãƒ³ã‚¿ã®ä»•æ§˜ä¸Šã€CPUä½¿ç”¨ç‡ãŒ100ï¼…ã‚’è¶…ãˆã‚‹ã“ã¨ãŒã‚ã‚‹ãŸã‚ã€
+            // æœ€å¤§100ï¼…ã«ä¸¸ã‚ã‚‹ã€‚ï¼ˆ#2006ï¼‰
             cpuUsage = Math.min(cpuUsage, MAX_CPU_RATE);
         }
         return cpuUsage;

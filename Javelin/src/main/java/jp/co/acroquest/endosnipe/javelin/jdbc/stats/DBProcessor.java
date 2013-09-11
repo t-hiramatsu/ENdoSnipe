@@ -35,7 +35,7 @@ import java.util.Set;
 import jp.co.acroquest.endosnipe.common.db.AbstractExecutePlanChecker;
 
 /**
- * DB‚²‚Æ‚ÉˆÙ‚È‚éˆ—‚ğÀ{‚·‚éB
+ * DBã”ã¨ã«ç•°ãªã‚‹å‡¦ç†ã‚’å®Ÿæ–½ã™ã‚‹ã€‚
  * 
  * @author eriguchi
  *
@@ -43,86 +43,86 @@ import jp.co.acroquest.endosnipe.common.db.AbstractExecutePlanChecker;
 public interface DBProcessor
 {
     /**
-     * ˆ—‘ÎÛ‚ÌDB‚Ö‚ÌÚ‘±‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
+     * å‡¦ç†å¯¾è±¡ã®DBã¸ã®æ¥ç¶šã‹ã©ã†ã‹ã‚’åˆ¤å®šã™ã‚‹ã€‚
      * 
-     * @param jdbcUrl DBÚ‘±•¶š—ñB
-     * @return ˆ—‘ÎÛ‚ÌDB‚Ö‚ÌÚ‘±‚©‚Ç‚¤‚©B
+     * @param jdbcUrl DBæ¥ç¶šæ–‡å­—åˆ—ã€‚
+     * @return å‡¦ç†å¯¾è±¡ã®DBã¸ã®æ¥ç¶šã‹ã©ã†ã‹ã€‚
      */
     boolean isTarget(String jdbcUrl);
 
     /**
-     * PreparedStatement‚ÌÀsŒv‰æ‚ğæ“¾‚·‚éB
+     * PreparedStatementã®å®Ÿè¡Œè¨ˆç”»ã‚’å–å¾—ã™ã‚‹ã€‚
      *
-     * @param stmt ƒXƒe[ƒgƒƒ“ƒg
-     * @param originalSql SQL•¶
+     * @param stmt ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆ
+     * @param originalSql SQLæ–‡
      * @param args TODO
-     * @return ÀsŒv‰æ
+     * @return å®Ÿè¡Œè¨ˆç”»
      * 
-     * @throws SQLException ÀsŒv‰ææ“¾‚ÉƒGƒ‰[‚ª”­¶‚µ‚½ê‡B
+     * @throws SQLException å®Ÿè¡Œè¨ˆç”»å–å¾—æ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆã€‚
      */
     String getExecPlanPrepared(Statement stmt, String originalSql, List<?> args)
         throws SQLException;
 
     /**
-     * Statement‚ÌÀsŒv‰æ‚ğæ“¾‚·‚éB
+     * Statementã®å®Ÿè¡Œè¨ˆç”»ã‚’å–å¾—ã™ã‚‹ã€‚
      *
-     * @param stmt ƒXƒe[ƒgƒƒ“ƒg
-     * @param originalSql SQL•¶
+     * @param stmt ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆ
+     * @param originalSql SQLæ–‡
      * @param args TODO
-     * @return ÀsŒv‰æ
+     * @return å®Ÿè¡Œè¨ˆç”»
      * 
-     * @throws SQLException ResultSetƒNƒ[ƒY‚ÉƒGƒ‰[‚ª”­¶‚µ‚½‚Æ‚«
+     * @throws SQLException ResultSetã‚¯ãƒ­ãƒ¼ã‚ºæ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸã¨ã
      */
     String getOneExecPlan(Statement stmt, String originalSql, List<?> args)
         throws SQLException;
 
     /**
-     * Statement‚ÌÀsŒv‰æ‚ğæ“¾‚·‚éB
+     * Statementã®å®Ÿè¡Œè¨ˆç”»ã‚’å–å¾—ã™ã‚‹ã€‚
      *
-     * @param stmt ƒXƒe[ƒgƒƒ“ƒg
-     * @param originalSqlElement SQL•¶
-     * @param planStmt ÀsŒv‰ææ“¾—pƒXƒe[ƒgƒƒ“ƒg
-     * @return ÀsŒv‰æ
-     * @throws SQLException ResultSetƒNƒ[ƒY‚ÉƒGƒ‰[‚ª”­¶‚µ‚½‚Æ‚«
+     * @param stmt ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆ
+     * @param originalSqlElement SQLæ–‡
+     * @param planStmt å®Ÿè¡Œè¨ˆç”»å–å¾—ç”¨ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆ
+     * @return å®Ÿè¡Œè¨ˆç”»
+     * @throws SQLException ResultSetã‚¯ãƒ­ãƒ¼ã‚ºæ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸã¨ã
      */
     String execPlan(Statement stmt, String originalSqlElement, Statement planStmt)
         throws SQLException;
 
     /**
-     * SQLƒgƒŒ[ƒXæ“¾—pSQL‚ğ”­s‚·‚éB
-     * @param connection ƒRƒlƒNƒVƒ‡ƒ“
+     * SQLãƒˆãƒ¬ãƒ¼ã‚¹å–å¾—ç”¨SQLã‚’ç™ºè¡Œã™ã‚‹ã€‚
+     * @param connection ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³
      */
     void startSqlTrace(Connection connection);
 
     /**
-     * Connection.prepareStatementƒƒ\ƒbƒhŒÄ‚Ño‚µŒã‚ÉŒÄ‚Î‚ê‚éƒƒ\ƒbƒhB
+     * Connection.prepareStatementãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—å¾Œã«å‘¼ã°ã‚Œã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã€‚
      *
-     * @param sql PreparedStatement•¶š—ñ
-     * @param pstmt Connection.prepareStatement()‚Ì–ß‚è’l
+     * @param sql PreparedStatementæ–‡å­—åˆ—
+     * @param pstmt Connection.prepareStatement()ã®æˆ»ã‚Šå€¤
      * 
-     * @throws SQLException ResultSetƒNƒ[ƒY‚ÉƒGƒ‰[‚ª”­¶‚µ‚½‚Æ‚«
+     * @throws SQLException ResultSetã‚¯ãƒ­ãƒ¼ã‚ºæ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸã¨ã
      */
     void postPrepareStatement(String sql, PreparedStatement pstmt)
         throws SQLException;
     
     /**
-     * DB‚²‚Æ‚ÌÀsŒv‰æ‚Ì’²¸‚·‚éƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ•Ô‚µ‚Ü‚·B<br>
-     * @return ÀsŒv‰æ’²¸ƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
+     * DBã”ã¨ã®å®Ÿè¡Œè¨ˆç”»ã®èª¿æŸ»ã™ã‚‹ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’è¿”ã—ã¾ã™ã€‚<br>
+     * @return å®Ÿè¡Œè¨ˆç”»èª¿æŸ»ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
      */
     AbstractExecutePlanChecker<?> getExecutePlanChecker();
     
     /**
-     * SQL‚ÅFull Scan‚ğs‚Á‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ’²¸‚µA<br>
-     * s‚Á‚Ä‚¢‚éƒe[ƒuƒ‹–¼‚ÌƒZƒbƒg‚ğì¬‚µ‚Ä•Ô‚·B
-     * @param executePlan ÀsŒv‰æ‚Ì•¶š—ñ
-     * @return Full Scan‚ğs‚Á‚Ä‚¢‚éƒe[ƒuƒ‹–¼‚ÌƒZƒbƒg
+     * SQLã§Full Scanã‚’è¡Œã£ã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’èª¿æŸ»ã—ã€<br>
+     * è¡Œã£ã¦ã„ã‚‹ãƒ†ãƒ¼ãƒ–ãƒ«åã®ã‚»ãƒƒãƒˆã‚’ä½œæˆã—ã¦è¿”ã™ã€‚
+     * @param executePlan å®Ÿè¡Œè¨ˆç”»ã®æ–‡å­—åˆ—
+     * @return Full Scanã‚’è¡Œã£ã¦ã„ã‚‹ãƒ†ãƒ¼ãƒ–ãƒ«åã®ã‚»ãƒƒãƒˆ
      */
     Set<String> checkFullScan(String executePlan);
 
     /**
-     * ÀsŒv‰ææ“¾‚ÉƒƒbƒN‚·‚é•K—v‚ª‚ ‚é‚©‚Ç‚¤‚©B
+     * å®Ÿè¡Œè¨ˆç”»å–å¾—æ™‚ã«ãƒ­ãƒƒã‚¯ã™ã‚‹å¿…è¦ãŒã‚ã‚‹ã‹ã©ã†ã‹ã€‚
      * 
-     * @return ÀsŒv‰ææ“¾‚ÉƒƒbƒN‚·‚é•K—v‚ª‚ ‚é‚©‚Ç‚¤‚©
+     * @return å®Ÿè¡Œè¨ˆç”»å–å¾—æ™‚ã«ãƒ­ãƒƒã‚¯ã™ã‚‹å¿…è¦ãŒã‚ã‚‹ã‹ã©ã†ã‹
      */
     boolean needsLock();
 }

@@ -26,16 +26,16 @@
 package jp.co.acroquest.endosnipe.perfdoctor;
 
 /**
- * ŒxƒŒƒxƒ‹
+ * è­¦å‘Šãƒ¬ãƒ™ãƒ«
  * @author eriguchi
  *
  */
 public enum Level
 {
-    /** uî•ñv */
+    /** ã€Œæƒ…å ±ã€ */
     INFO,
-    /** uŒxv */
+    /** ã€Œè­¦å‘Šã€ */
     WARN,
-    /** uƒGƒ‰[v */
+    /** ã€Œã‚¨ãƒ©ãƒ¼ã€ */
     ERROR
 }

@@ -35,13 +35,13 @@ import jp.co.smg.endosnipe.javassist.CtMethod;
 import jp.co.smg.endosnipe.javassist.NotFoundException;
 
 /**
- * Log4J‚ÌƒƒOo—ÍAƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğo—Í‚·‚éƒRƒ“ƒo[ƒ^
+ * Log4Jã®ãƒ­ã‚°å‡ºåŠ›æ™‚ã€ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’å‡ºåŠ›ã™ã‚‹ã‚³ãƒ³ãƒãƒ¼ã‚¿
  * 
  * @author S.Kimura
  */
 public class Log4JConverter extends AbstractConverter
 {
-    /** ƒƒOo—ÍƒNƒ‰ƒX‚Ì–¼Ì */
+    /** ãƒ­ã‚°å‡ºåŠ›ã‚¯ãƒ©ã‚¹ã®åç§° */
     public static final String LOG4JMONITOR_NAME = Log4JMonitor.class.getCanonicalName();
     
     /**
@@ -72,16 +72,16 @@ public class Log4JConverter extends AbstractConverter
     }
     
     /**
-     * forcedLogƒƒ\ƒbƒh‚ÉƒR[ƒh–„‚ß‚İ‚ğs‚¤B
+     * forcedLogãƒ¡ã‚½ãƒƒãƒ‰ã«ã‚³ãƒ¼ãƒ‰åŸ‹ã‚è¾¼ã¿ã‚’è¡Œã†ã€‚
      * 
      * @param ctMethod CtMethod
-     * @throws CannotCompileException ƒRƒ“ƒpƒCƒ‹‚ªo—ˆ‚È‚¢ê‡
+     * @throws CannotCompileException ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ãŒå‡ºæ¥ãªã„å ´åˆ
      */
     private void convertForcedLogMethod(final CtMethod ctMethod)
         throws CannotCompileException
     {
         ctMethod.insertBefore("{ " + LOG4JMONITOR_NAME + ".printLog4JStackTrace($2,$3,$4); }");
-        // ˆ—Œ‹‰Ê‚ğƒƒO‚Éo—Í‚·‚éB
+        // å‡¦ç†çµæœã‚’ãƒ­ã‚°ã«å‡ºåŠ›ã™ã‚‹ã€‚
         logModifiedMethod("Log4JConverter", ctMethod);
     }
 

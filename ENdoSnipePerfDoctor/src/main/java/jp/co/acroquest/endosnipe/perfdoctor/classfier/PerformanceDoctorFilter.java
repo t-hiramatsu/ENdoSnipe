@@ -34,66 +34,66 @@ import java.util.Map;
 import jp.co.acroquest.endosnipe.perfdoctor.WarningUnit;
 
 /**
- * ŒxƒŠƒXƒg‚Ì’†‚©‚çAƒ‹[ƒ‹ID,ƒNƒ‰ƒX–¼Aƒƒ\ƒbƒh–¼Ad—v“x‚ª“¯‚¶Œx‚É‘Î‚µ‚ÄAƒtƒBƒ‹ƒ^[‚ğ‚©‚¯‚éB
+ * è­¦å‘Šãƒªã‚¹ãƒˆã®ä¸­ã‹ã‚‰ã€ãƒ«ãƒ¼ãƒ«ID,ã‚¯ãƒ©ã‚¹åã€ãƒ¡ã‚½ãƒƒãƒ‰åã€é‡è¦åº¦ãŒåŒã˜è­¦å‘Šã«å¯¾ã—ã¦ã€ãƒ•ã‚£ãƒ«ã‚¿ãƒ¼ã‚’ã‹ã‘ã‚‹ã€‚
  * @author fujii
  *
  */
 public class PerformanceDoctorFilter
 {
-    /** ƒZƒpƒŒ[ƒ^ */
+    /** ã‚»ãƒ‘ãƒ¬ãƒ¼ã‚¿ */
     private static final String SEPARATOR          = ",";
 
-    /** ŒxƒƒbƒZ[ƒW‚Ìargs’†‚É‚ ‚éAŒŸo’l‚Ìindex */
+    /** è­¦å‘Šãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®argsä¸­ã«ã‚ã‚‹ã€æ¤œå‡ºå€¤ã®index */
     public static final int     TARGET_VALUE_INDEX = 1;
 
-    /** ”äŠr‚·‚éƒXƒ^ƒbƒNƒgƒŒ[ƒX‚Ì’·‚³ */
+    /** æ¯”è¼ƒã™ã‚‹ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®é•·ã• */
     private static final int    COMPARE_LENGTH     = 200;
 
     /**
-     * PerformanceDoctor‚ÌŒ‹‰Ê‚ğƒtƒBƒ‹ƒ^ƒŠƒ“ƒO‚µ‚Ü‚·B<br />
+     * PerformanceDoctorã®çµæœã‚’ãƒ•ã‚£ãƒ«ã‚¿ãƒªãƒ³ã‚°ã—ã¾ã™ã€‚<br />
      * 
-     * @param warningUnitList WarningUnit‚ÌƒŠƒXƒg
-     * @return ƒtƒBƒ‹ƒ^[Œã‚ÌŒ‹‰Ê
+     * @param warningUnitList WarningUnitã®ãƒªã‚¹ãƒˆ
+     * @return ãƒ•ã‚£ãƒ«ã‚¿ãƒ¼å¾Œã®çµæœ
      */
     public List<WarningUnit> doFilter(final List<WarningUnit> warningUnitList)
     {
-        // ƒ‹[ƒ‹IDAƒNƒ‰ƒX–¼Aƒƒ\ƒbƒh–¼Ad—v“x‚ğƒL[‚ÉMap‚ğì¬‚·‚éB
+        // ãƒ«ãƒ¼ãƒ«IDã€ã‚¯ãƒ©ã‚¹åã€ãƒ¡ã‚½ãƒƒãƒ‰åã€é‡è¦åº¦ã‚’ã‚­ãƒ¼ã«Mapã‚’ä½œæˆã™ã‚‹ã€‚
         Map<String, List<WarningUnit>> warningMap = makeMap(warningUnitList);
         List<WarningUnit> resultList = new ArrayList<WarningUnit>();
 
-        // Map‚É“ü—Í‚³‚ê‚½WarningUnit‚ÌƒŠƒXƒg‚ğo—Í‚·‚éB
+        // Mapã«å…¥åŠ›ã•ã‚ŒãŸWarningUnitã®ãƒªã‚¹ãƒˆã‚’å‡ºåŠ›ã™ã‚‹ã€‚
         Collection<List<WarningUnit>> col = warningMap.values();
         for (List<WarningUnit> list : col)
         {
-            // WarningUnit‚ÌƒŠƒXƒgƒTƒCƒY‚ªFILTER_THRESHOLDˆÈ‰º‚Ì‚Æ‚«A
-            // SimpleClassifier‚ğ—˜—p‚µ‚Ä•ª—Ş‚·‚éB
-            // ‚»‚êˆÈŠO‚Ì‚Æ‚«‚ÍAKMeans–@‚ğ—˜—p‚µ‚Ä•ª—Ş‚·‚éB
+            // WarningUnitã®ãƒªã‚¹ãƒˆã‚µã‚¤ã‚ºãŒFILTER_THRESHOLDä»¥ä¸‹ã®ã¨ãã€
+            // SimpleClassifierã‚’åˆ©ç”¨ã—ã¦åˆ†é¡ã™ã‚‹ã€‚
+            // ãã‚Œä»¥å¤–ã®ã¨ãã¯ã€KMeansæ³•ã‚’åˆ©ç”¨ã—ã¦åˆ†é¡ã™ã‚‹ã€‚
             Classifier classifier = ClassifierFactory.getInstance().getClassifier(list);
             List<WarningUnit> unitList = classifier.classify(list);
 
-            // •ª—Ş‚µ‚½Œ‹‰Ê‚ğŒ‹‡‚·‚éB
+            // åˆ†é¡ã—ãŸçµæœã‚’çµåˆã™ã‚‹ã€‚
             joinList(resultList, unitList);
         }
         return resultList;
     }
 
     /**
-     * WarningUnit‚ÌƒŠƒXƒg‚©‚çA¯•Ê‚Ì‚½‚ß‚Ìƒ}ƒbƒv‚ğì¬‚·‚éB
-     * @param warningUnitList ¯•Êî•ñ‚ğ•Û‘¶‚·‚é‘ÎÛ‚ÌwarningUnit‚ÌƒŠƒXƒg 
-     * @return î•ñ‚ğ•Û‘¶‚µ‚½Map
+     * WarningUnitã®ãƒªã‚¹ãƒˆã‹ã‚‰ã€è­˜åˆ¥ã®ãŸã‚ã®ãƒãƒƒãƒ—ã‚’ä½œæˆã™ã‚‹ã€‚
+     * @param warningUnitList è­˜åˆ¥æƒ…å ±ã‚’ä¿å­˜ã™ã‚‹å¯¾è±¡ã®warningUnitã®ãƒªã‚¹ãƒˆ 
+     * @return æƒ…å ±ã‚’ä¿å­˜ã—ãŸMap
      */
     private Map<String, List<WarningUnit>> makeMap(final List<WarningUnit> warningUnitList)
     {
         Map<String, List<WarningUnit>> map = new LinkedHashMap<String, List<WarningUnit>>();
         List<WarningUnit> unitList;
-        // ‘S‚Ä‚ÌwarningUnit‚ğæ‚èo‚µAƒ‹[ƒ‹IDAƒNƒ‰ƒX–¼Aƒƒ\ƒbƒh–¼Ad—v“x‚ğƒL[‚É
-        // Map‚ğì¬‚·‚éB
+        // å…¨ã¦ã®warningUnitã‚’å–ã‚Šå‡ºã—ã€ãƒ«ãƒ¼ãƒ«IDã€ã‚¯ãƒ©ã‚¹åã€ãƒ¡ã‚½ãƒƒãƒ‰åã€é‡è¦åº¦ã‚’ã‚­ãƒ¼ã«
+        // Mapã‚’ä½œæˆã™ã‚‹ã€‚
         for (WarningUnit warningUnit : warningUnitList)
         {
             String key =
                          warningUnit.getId() + SEPARATOR + warningUnit.getClassName() + SEPARATOR
                                  + warningUnit.getMethodName() + SEPARATOR + warningUnit.getLevel();
-            // ƒCƒxƒ“ƒg‚É‚æ‚éŒx‚Ìê‡AƒXƒ^ƒbƒNƒgƒŒ[ƒX‚à”äŠr‘ÎÛ‚Æ‚·‚éB
+            // ã‚¤ãƒ™ãƒ³ãƒˆã«ã‚ˆã‚‹è­¦å‘Šã®å ´åˆã€ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚‚æ¯”è¼ƒå¯¾è±¡ã¨ã™ã‚‹ã€‚
             if (warningUnit.isEvent())
             {
                 String stackTrace = warningUnit.getStackTrace();
@@ -105,8 +105,8 @@ public class PerformanceDoctorFilter
                 }
             }
             unitList = map.get(key);
-            // Map‚Éw’è‚µ‚½ƒL[‚ª‘¶İ‚µ‚È‚¢‚Æ‚«AV‚µ‚­ƒŠƒXƒg‚ğì¬‚·‚éB
-            // ƒL[‚ª‘¶İ‚·‚éê‡‚ÍAƒL[‚É‘Î‰‚·‚éƒŠƒXƒg‚ÉAwarningUnit‚ğ’Ç‰Á‚·‚éB
+            // Mapã«æŒ‡å®šã—ãŸã‚­ãƒ¼ãŒå­˜åœ¨ã—ãªã„ã¨ãã€æ–°ã—ããƒªã‚¹ãƒˆã‚’ä½œæˆã™ã‚‹ã€‚
+            // ã‚­ãƒ¼ãŒå­˜åœ¨ã™ã‚‹å ´åˆã¯ã€ã‚­ãƒ¼ã«å¯¾å¿œã™ã‚‹ãƒªã‚¹ãƒˆã«ã€warningUnitã‚’è¿½åŠ ã™ã‚‹ã€‚
             if (unitList == null)
             {
                 unitList = new ArrayList<WarningUnit>();
@@ -118,11 +118,11 @@ public class PerformanceDoctorFilter
     }
 
     /**
-     * 2‚Â‚ÌƒŠƒXƒg‚ğŒ‹‡‚·‚éB
-     * <code>oldList</code> ‚ª <code>null</code> ‚Ìê‡‚Í‰½‚à‚µ‚È‚¢B
+     * 2ã¤ã®ãƒªã‚¹ãƒˆã‚’çµåˆã™ã‚‹ã€‚
+     * <code>oldList</code> ãŒ <code>null</code> ã®å ´åˆã¯ä½•ã‚‚ã—ãªã„ã€‚
      *
-     * @param oldList Œ‹‡æ‚ÌƒŠƒXƒg
-     * @param unitList V‹K‚Å’Ç‰Á‚·‚éƒŠƒXƒg
+     * @param oldList çµåˆå…ˆã®ãƒªã‚¹ãƒˆ
+     * @param unitList æ–°è¦ã§è¿½åŠ ã™ã‚‹ãƒªã‚¹ãƒˆ
      */
     public void joinList(final List<WarningUnit> oldList, final List<WarningUnit> unitList)
     {

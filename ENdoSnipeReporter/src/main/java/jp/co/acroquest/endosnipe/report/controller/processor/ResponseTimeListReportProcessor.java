@@ -24,22 +24,22 @@ import jp.co.acroquest.endosnipe.report.output.RecordReporter;
 import jp.co.acroquest.endosnipe.report.util.ReporterConfigAccessor;
 
 /**
- * ResponseTime‚ÌSummary‚ğì¬‚·‚éƒvƒƒZƒbƒT
+ * ResponseTimeã®Summaryã‚’ä½œæˆã™ã‚‹ãƒ—ãƒ­ã‚»ãƒƒã‚µ
  * 
  * @author kimura
  * 
  */
 public class ResponseTimeListReportProcessor extends ReportPublishProcessorBase
 {
-    /** ƒƒK[ */
+    /** ãƒ­ã‚¬ãƒ¼ */
     private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(
             ResponseTimeListReportProcessor.class);
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 * 
 	 * @param type
-	 *            ƒŒƒ|[ƒgí•Ê
+	 *            ãƒ¬ãƒãƒ¼ãƒˆç¨®åˆ¥
 	 */
 	public ResponseTimeListReportProcessor(ReportType type)
 	{
@@ -53,12 +53,12 @@ public class ResponseTimeListReportProcessor extends ReportPublishProcessorBase
 	protected Object getReportPlotData(ReportSearchCondition cond,
 			ReportProcessReturnContainer reportContainer)
 	{
-		// ŒŸõğŒ‚Ìæ“¾
+		// æ¤œç´¢æ¡ä»¶ã®å–å¾—
 		String database = cond.getDatabases().get(0);
 		Timestamp startTime = cond.getStartDate();
 		Timestamp endTime = cond.getEndDate();
 
-		// DB‚©‚çŒŸõ
+		// DBã‹ã‚‰æ¤œç´¢
 		List<ItemData> tatData = null;
 		List<ItemData> tatMinData = null;
 		List<ItemData> tatMaxData = null;
@@ -103,7 +103,7 @@ public class ResponseTimeListReportProcessor extends ReportPublishProcessorBase
 		}
         		
 
-		// æ“¾‚µ‚½ƒf[ƒ^‚ğmap‚É‚Ü‚Æ‚ß‚ÄƒŠƒ^[ƒ“‚·‚é
+		// å–å¾—ã—ãŸãƒ‡ãƒ¼ã‚¿ã‚’mapã«ã¾ã¨ã‚ã¦ãƒªã‚¿ãƒ¼ãƒ³ã™ã‚‹
 		Map<String, List<? extends Object>> data = new HashMap<String, List<? extends Object>>();
 		data.put(Constants.ITEMNAME_PROCESS_RESPONSE_TIME_AVERAGE, tatData);
 		data.put(Constants.ITEMNAME_PROCESS_RESPONSE_TIME_MIN, tatMinData);
@@ -125,7 +125,7 @@ public class ResponseTimeListReportProcessor extends ReportPublishProcessorBase
 			ReportSearchCondition cond,
 			ReportProcessReturnContainer reportContainer)
 	{
-		// map ‚Ìƒf[ƒ^‚ğ6ƒOƒ‰ƒt‚ÌŒÂ•Ê‚Ìƒf[ƒ^‚É•ª‚¯‚é
+		// map ã®ãƒ‡ãƒ¼ã‚¿ã‚’6ã‚°ãƒ©ãƒ•ã®å€‹åˆ¥ã®ãƒ‡ãƒ¼ã‚¿ã«åˆ†ã‘ã‚‹
 		return (Map<String, List<? extends Object>>) rawData;
 	}
 
@@ -137,7 +137,7 @@ public class ResponseTimeListReportProcessor extends ReportPublishProcessorBase
 			ReportSearchCondition cond,
 			ReportProcessReturnContainer reportContainer)
 	{
-		// map ‚Ìƒf[ƒ^‚ğ6ƒOƒ‰ƒt‚ÌŒÂ•Ê‚Ìƒf[ƒ^‚É•ª‚¯‚é
+		// map ã®ãƒ‡ãƒ¼ã‚¿ã‚’6ã‚°ãƒ©ãƒ•ã®å€‹åˆ¥ã®ãƒ‡ãƒ¼ã‚¿ã«åˆ†ã‘ã‚‹
 		Map<String, List<? extends Object>> data = (Map<String, List<? extends Object>>) convertedData;
 
 		List<ItemData> tatDataList = (List<ItemData>) data
@@ -160,7 +160,7 @@ public class ResponseTimeListReportProcessor extends ReportPublishProcessorBase
 		
 		
 
-		// o—Í‚·‚éƒŒƒ|[ƒg‚Ìí—Ş‚É‚ ‚í‚¹‚Äƒeƒ“ƒvƒŒ[ƒg‚Ìƒtƒ@ƒCƒ‹ƒpƒX‚ğæ“¾‚·‚é
+		// å‡ºåŠ›ã™ã‚‹ãƒ¬ãƒãƒ¼ãƒˆã®ç¨®é¡ã«ã‚ã‚ã›ã¦ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã®ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã‚’å–å¾—ã™ã‚‹
 		String templateFilePath;
 		try
 		{
@@ -173,7 +173,7 @@ public class ResponseTimeListReportProcessor extends ReportPublishProcessorBase
 			return;
 		}
 
-		// ƒŒƒ|[ƒgo—Í‚Ìˆø”î•ñ‚ğæ“¾‚·‚é
+		// ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã®å¼•æ•°æƒ…å ±ã‚’å–å¾—ã™ã‚‹
 		String outputFolderPath = getOutputFolderName()
 				+ File.separator
 				+ ReporterConfigAccessor.getProperty(super.getReportType()
@@ -182,7 +182,7 @@ public class ResponseTimeListReportProcessor extends ReportPublishProcessorBase
 		Timestamp startTime = cond.getStartDate();
 		Timestamp endTime = cond.getEndDate();
 
-		// ƒŒƒ|[ƒgo—Í‚ğÀs‚·‚é
+		// ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã‚’å®Ÿè¡Œã™ã‚‹
 		RecordReporter<ObjectRecord> reporter = new RecordReporter<ObjectRecord>(
 				getReportType());
 		

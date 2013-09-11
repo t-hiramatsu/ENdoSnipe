@@ -34,7 +34,7 @@ import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.javelin.common.ConfigUpdater;
 
 /**
- * ƒT[ƒoƒvƒƒpƒeƒBXV—v‹ˆ—ƒNƒ‰ƒXB
+ * ã‚µãƒ¼ãƒãƒ—ãƒ­ãƒ‘ãƒ†ã‚£æ›´æ–°è¦æ±‚å‡¦ç†ã‚¯ãƒ©ã‚¹ã€‚
  * 
  * @author tsukano
  */
@@ -50,7 +50,7 @@ public class UpdateRequestTelegramListener implements TelegramListener, Telegram
         if (header.getByteTelegramKind() == property
                 && header.getByteRequestKind() == BYTE_REQUEST_KIND_REQUEST)
         {
-            // ƒT[ƒoİ’è‚ğXV‚·‚é
+            // ã‚µãƒ¼ãƒè¨­å®šã‚’æ›´æ–°ã™ã‚‹
             Body[] bodyList = telegram.getObjBody();
             for (Body body : bodyList)
             {
@@ -74,11 +74,11 @@ public class UpdateRequestTelegramListener implements TelegramListener, Telegram
                 }
                 catch (NumberFormatException nfex)
                 {
-                    // ƒ†[ƒU‚ª•s³‚È’l‚ğ“ü—Í‚µ‚½ê‡
+                    // ãƒ¦ãƒ¼ã‚¶ãŒä¸æ­£ãªå€¤ã‚’å…¥åŠ›ã—ãŸå ´åˆ
                     SystemLogger.getInstance().warn(nfex);
                 }
             }
-            // ‰“š“d•¶‚ğì¬‚·‚é
+            // å¿œç­”é›»æ–‡ã‚’ä½œæˆã™ã‚‹
             Telegram response = GetPropertyRequestTelegramListener.createPropertyResponse(
                     header.getId(), property);
             return response;

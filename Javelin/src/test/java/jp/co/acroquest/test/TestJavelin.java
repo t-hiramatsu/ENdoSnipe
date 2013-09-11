@@ -26,15 +26,15 @@
 package jp.co.acroquest.test;
 
 /**
- * S2JavelinƒƒO–„‚ß‚İ‘ÎÛƒR[ƒh
+ * S2Javelinãƒ­ã‚°åŸ‹ã‚è¾¼ã¿å¯¾è±¡ã‚³ãƒ¼ãƒ‰
  * @author fujii
  *
  */
 public class TestJavelin
 {
     /**
-     * ƒƒCƒ“ƒNƒ‰ƒX
-     * @param args —˜—p‚µ‚È‚¢
+     * ãƒ¡ã‚¤ãƒ³ã‚¯ãƒ©ã‚¹
+     * @param args åˆ©ç”¨ã—ãªã„
      */
     public static void main(final String[] args)
     {
@@ -43,7 +43,7 @@ public class TestJavelin
     }
 
     /**
-     * ƒƒOo—Í‘ÎÛƒƒ\ƒbƒhB
+     * ãƒ­ã‚°å‡ºåŠ›å¯¾è±¡ãƒ¡ã‚½ãƒƒãƒ‰ã€‚
      */
     public void test()
     {

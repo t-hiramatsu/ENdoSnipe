@@ -30,42 +30,42 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * ŠeƒOƒ‰ƒt‚ÌŒv‘ªƒf[ƒ^‚ğŠi”[‚·‚é‚½‚ß‚ÌƒGƒ“ƒeƒBƒeƒB‚Å‚·B
+ * å„ã‚°ãƒ©ãƒ•ã®è¨ˆæ¸¬ãƒ‡ãƒ¼ã‚¿ã‚’æ ¼ç´ã™ã‚‹ãŸã‚ã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã§ã™ã€‚
  * @author fujii
  *
  */
 public class MeasurementData implements Cloneable
 {
-    /** measurementDetailMap_‚É‚¨‚¯‚éA’P”Œn—ñ‚Ìƒf[ƒ^‚ÌƒL[B */
+    /** measurementDetailMap_ã«ãŠã‘ã‚‹ã€å˜æ•°ç³»åˆ—ã®ãƒ‡ãƒ¼ã‚¿ã®ã‚­ãƒ¼ã€‚ */
     public static final String SINGLE_DETAIL_KEY = "";
 
     /**
-     * Œv‘ª’lí•Ê‚ğ•\‚· ID B<br />
+     * è¨ˆæ¸¬å€¤ç¨®åˆ¥ã‚’è¡¨ã™ ID ã€‚<br />
      *
-     * JAVELIN_MESUREMENT ƒe[ƒuƒ‹‚Ì MESUREMENT_TYPE ƒJƒ‰ƒ€‚É—˜—p‚³‚ê‚é’lB
+     * JAVELIN_MESUREMENT ãƒ†ãƒ¼ãƒ–ãƒ«ã® MESUREMENT_TYPE ã‚«ãƒ©ãƒ ã«åˆ©ç”¨ã•ã‚Œã‚‹å€¤ã€‚
      */
     public int measurementType;
 
-    /** ƒŠƒ\[ƒX’Ê’m“d•¶‚Ì€–Ú–¼ */
+    /** ãƒªã‚½ãƒ¼ã‚¹é€šçŸ¥é›»æ–‡ã®é …ç›®å */
     public String itemName;
 
-    /** ƒIƒuƒWƒFƒNƒg‚Ì•\¦–¼ */
+    /** ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®è¡¨ç¤ºå */
     public String displayName;
 
-    /** Œv‘ªB */
+    /** è¨ˆæ¸¬æ™‚åˆ»ã€‚ */
     public Timestamp measurementTime;
 
-    /** Œv‘ªƒf[ƒ^‚Ìƒ}ƒbƒv(Œn—ñ–¼AŒn—ñî•ñ) */
+    /** è¨ˆæ¸¬ãƒ‡ãƒ¼ã‚¿ã®ãƒãƒƒãƒ—(ç³»åˆ—åã€ç³»åˆ—æƒ…å ±) */
     private final Map<String, MeasurementDetail> measurementDetailMap_ =
             new LinkedHashMap<String, MeasurementDetail>();
 
-    /** Œv‘ª’l‚ÌŒ^ */
+    /** è¨ˆæ¸¬å€¤ã®å‹ */
     public byte valueType;
 
     /**
-     * {@link MeasurementDetail}ƒIƒuƒWƒFƒNƒg‚ğ•Û‘¶‚µ‚Ä‚¢‚éƒ}ƒbƒv‚ğæ“¾‚µ‚Ü‚·B<br />
+     * {@link MeasurementDetail}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä¿å­˜ã—ã¦ã„ã‚‹ãƒãƒƒãƒ—ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      * 
-     * @return {@link MeasurementDetail}ƒIƒuƒWƒFƒNƒg‚ğ•Û‘¶‚µ‚Ä‚¢‚éƒ}ƒbƒv
+     * @return {@link MeasurementDetail}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä¿å­˜ã—ã¦ã„ã‚‹ãƒãƒƒãƒ—
      */
     public Map<String, MeasurementDetail> getMeasurementDetailMap()
     {
@@ -73,9 +73,9 @@ public class MeasurementData implements Cloneable
     }
 
     /**
-     * Œv‘ª’l‚ğ•Û‘¶‚·‚éƒGƒ“ƒeƒBƒeƒB‚ğ•Û‘¶‚µ‚Ü‚·B<br />
+     * è¨ˆæ¸¬å€¤ã‚’ä¿å­˜ã™ã‚‹ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚’ä¿å­˜ã—ã¾ã™ã€‚<br />
      * 
-     * @param measurementDetail {@link MeasurementDetail}ƒIƒuƒWƒFƒNƒg
+     * @param measurementDetail {@link MeasurementDetail}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     public void addMeasurementDetail(final MeasurementDetail measurementDetail)
     {

@@ -31,47 +31,47 @@ import java.util.Map;
 import jp.co.acroquest.endosnipe.common.entity.MeasurementData;
 
 /**
- * Javelin‚©‚ç‚ÌÚ‘±‚ ‚é‚¢‚ÍØ’f‚ÌƒCƒxƒ“ƒg‚ğ•\‚· {@link JavelinData} ‚Å‚·B<br />
+ * Javelinã‹ã‚‰ã®æ¥ç¶šã‚ã‚‹ã„ã¯åˆ‡æ–­ã®ã‚¤ãƒ™ãƒ³ãƒˆã‚’è¡¨ã™ {@link JavelinData} ã§ã™ã€‚<br />
  * 
  * @author iida
  */
 public class JavelinConnectionData extends AbstractJavelinData
 {
-    /** Ú‘±‚Ìƒ^ƒCƒv */
+    /** æ¥ç¶šã®ã‚¿ã‚¤ãƒ— */
     public static final boolean TYPE_CONNECTION    = true;
 
-    /** Ø’f‚Ìƒ^ƒCƒv */
+    /** åˆ‡æ–­ã®ã‚¿ã‚¤ãƒ— */
     public static final boolean TYPE_DISCONNECTION = false;
 
-    /** ‚±‚Ìƒf[ƒ^‚ªÚ‘±‚ÌƒCƒxƒ“ƒg‚ğ•\‚·‚©‚Ç‚¤‚©B */
+    /** ã“ã®ãƒ‡ãƒ¼ã‚¿ãŒæ¥ç¶šã®ã‚¤ãƒ™ãƒ³ãƒˆã‚’è¡¨ã™ã‹ã©ã†ã‹ã€‚ */
     private final boolean       connectionData_;
 
-    /** Œv‘ª */
+    /** è¨ˆæ¸¬æ™‚åˆ» */
     public long                 measurementTime;
 
-    /** ƒzƒXƒg–¼ */
+    /** ãƒ›ã‚¹ãƒˆå */
     public String               hostName;
 
-    /** ƒ|[ƒg”Ô† */
+    /** ãƒãƒ¼ãƒˆç•ªå· */
     public int                  portNum;
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
      * 
-     * @param type ‚±‚Ìƒf[ƒ^‚Ìí—ŞiÚ‘±‚©Ø’f‚©j
+     * @param type ã“ã®ãƒ‡ãƒ¼ã‚¿ã®ç¨®é¡ï¼ˆæ¥ç¶šã‹åˆ‡æ–­ã‹ï¼‰
      */
     public JavelinConnectionData(final boolean type)
     {
         this.connectionData_ = type;
     }
 
-    /** ƒOƒ‰ƒt‚ÌŒv‘ªƒf[ƒ^‚ğŠi”[‚·‚éƒ}ƒbƒv(Œv‘ª’lí•ÊAƒOƒ‰ƒt‚ÌŒv‘ªƒf[ƒ^) */
+    /** ã‚°ãƒ©ãƒ•ã®è¨ˆæ¸¬ãƒ‡ãƒ¼ã‚¿ã‚’æ ¼ç´ã™ã‚‹ãƒãƒƒãƒ—(è¨ˆæ¸¬å€¤ç¨®åˆ¥ã€ã‚°ãƒ©ãƒ•ã®è¨ˆæ¸¬ãƒ‡ãƒ¼ã‚¿) */
     private final Map<Integer, MeasurementData> measurementMap_ 
                     = new LinkedHashMap<Integer, MeasurementData>();
 
     /**
-     * Œv‘ªƒf[ƒ^‚ğ’Ç‰Á‚µ‚Ü‚·B 
-     * @param mData Œv‘ªƒf[ƒ^
+     * è¨ˆæ¸¬ãƒ‡ãƒ¼ã‚¿ã‚’è¿½åŠ ã—ã¾ã™ã€‚ 
+     * @param mData è¨ˆæ¸¬ãƒ‡ãƒ¼ã‚¿
      */
     public void addMeasurementData(final MeasurementData mData)
     {
@@ -79,8 +79,8 @@ public class JavelinConnectionData extends AbstractJavelinData
     }
 
     /**
-     * Œv‘ªƒf[ƒ^‚ğŠi”[‚·‚éƒ}ƒbƒv‚ğæ“¾‚µ‚Ü‚·B
-     * @return Œv‘ªƒf[ƒ^‚ğŠi”[‚·‚éƒ}ƒbƒv
+     * è¨ˆæ¸¬ãƒ‡ãƒ¼ã‚¿ã‚’æ ¼ç´ã™ã‚‹ãƒãƒƒãƒ—ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @return è¨ˆæ¸¬ãƒ‡ãƒ¼ã‚¿ã‚’æ ¼ç´ã™ã‚‹ãƒãƒƒãƒ—
      */
     public Map<Integer, MeasurementData> getMeasuermentMap()
     {
@@ -88,9 +88,9 @@ public class JavelinConnectionData extends AbstractJavelinData
     }
 
     /**
-     * ‚±‚Ìƒf[ƒ^‚ªÚ‘±‚ÌƒCƒxƒ“ƒg‚ğ•\‚·‚©‚Ç‚¤‚©‚ğ•Ô‚µ‚Ü‚·B<br>
+     * ã“ã®ãƒ‡ãƒ¼ã‚¿ãŒæ¥ç¶šã®ã‚¤ãƒ™ãƒ³ãƒˆã‚’è¡¨ã™ã‹ã©ã†ã‹ã‚’è¿”ã—ã¾ã™ã€‚<br>
      * 
-     * @return Ú‘±ƒCƒxƒ“ƒg‚È‚ç‚ÎtrueAØ’fƒCƒxƒ“ƒg‚È‚ç‚Îfalse
+     * @return æ¥ç¶šã‚¤ãƒ™ãƒ³ãƒˆãªã‚‰ã°trueã€åˆ‡æ–­ã‚¤ãƒ™ãƒ³ãƒˆãªã‚‰ã°false
      */
     public boolean isConnectionData()
     {

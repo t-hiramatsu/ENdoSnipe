@@ -23,30 +23,30 @@ import jp.co.acroquest.endosnipe.report.entity.ItemData;
 import jp.co.acroquest.endosnipe.report.entity.ItemRecord;
 
 /**
- * •¡”Œn—ñ‚ÌƒOƒ‰ƒt‚É‘Î‚µ‚ÄAconverter ‚ğ“K—p‚·‚éƒNƒ‰ƒX
+ * è¤‡æ•°ç³»åˆ—ã®ã‚°ãƒ©ãƒ•ã«å¯¾ã—ã¦ã€converter ã‚’é©ç”¨ã™ã‚‹ã‚¯ãƒ©ã‚¹
  * 
  * @author ochiai
  */
 public class ItemConvertUtil
 {
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 */
 	private ItemConvertUtil()
 	{
 	}
 
 	/**
-	 * Œn—ñƒf[ƒ^AŠúŠÔ‚ğw’è‚µA‚»‚ÌŠúŠÔ“à‚Å‚Ì<br/>
-	 * ƒf[ƒ^‚ğæ“¾‚·‚éB
+	 * ç³»åˆ—ãƒ‡ãƒ¼ã‚¿ã€æœŸé–“ã‚’æŒ‡å®šã—ã€ãã®æœŸé–“å†…ã§ã®<br/>
+	 * ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã€‚
 	 * 
 	 * @param itemData
-	 *            Œn—ñƒf[ƒ^B
+	 *            ç³»åˆ—ãƒ‡ãƒ¼ã‚¿ã€‚
 	 * @param startTime
-	 *            ŒŸõğŒ(ŠJn)B
+	 *            æ¤œç´¢æ¡ä»¶(é–‹å§‹æ™‚åˆ»)ã€‚
 	 * @param endTime
-	 *            ŒŸõğŒ(I—¹)B
-	 * @return w’è‚µ‚½ƒOƒ‰ƒt‚Ìƒf[ƒ^B
+	 *            æ¤œç´¢æ¡ä»¶(çµ‚äº†æ™‚åˆ»)ã€‚
+	 * @return æŒ‡å®šã—ãŸã‚°ãƒ©ãƒ•ã®ãƒ‡ãƒ¼ã‚¿ã€‚
 	 */
 	public static ItemData convertItemData(
 			ItemData itemData, Timestamp startTime, Timestamp endTime)
@@ -54,7 +54,7 @@ public class ItemConvertUtil
 		ItemData convertedData = new ItemData();
 		List<ItemRecord> convertedRecords = new ArrayList<ItemRecord>();
 
-		// ˆ³k‘O‚Ìƒf[ƒ^
+		// åœ§ç¸®å‰ã®ãƒ‡ãƒ¼ã‚¿
 		List<ItemRecord> rawRecords = itemData.getRecords();
 
 		SamplingCompressor compresser = new SamplingCompressor();
@@ -63,7 +63,7 @@ public class ItemConvertUtil
 
 		List<CompressOperation> operation = new ArrayList<CompressOperation>();
 
-		// Å‘åAÅ¬‚ğ‹‚ß‚éˆ³k•û–@
+		// æœ€å¤§ã€æœ€å°ã‚’æ±‚ã‚ã‚‹åœ§ç¸®æ–¹æ³•
 		operation.add(new CompressOperation("value",
 				itemData.getOperator()));
 
@@ -78,7 +78,7 @@ public class ItemConvertUtil
 			throw new RuntimeException(e);
 		}
 
-		// ItemRecord‚Ì”z—ñ‚É•ÏŠ·‚·‚é
+		// ItemRecordã®é…åˆ—ã«å¤‰æ›ã™ã‚‹
 		for (int index = 0; index < compressedRecords.size(); index++)
 		{
 			ItemRecord itemRecord = (ItemRecord) compressedRecords.get(index);
@@ -92,16 +92,16 @@ public class ItemConvertUtil
 	}
 
 	/**
-	 * Œn—ñƒf[ƒ^‚ÌƒŠƒXƒgAŠúŠÔ‚ğw’è‚µA<br/>
-	 * ‚»‚ÌŠúŠÔ“à‚Å‚Ìƒf[ƒ^‚ğæ“¾‚·‚éB
+	 * ç³»åˆ—ãƒ‡ãƒ¼ã‚¿ã®ãƒªã‚¹ãƒˆã€æœŸé–“ã‚’æŒ‡å®šã—ã€<br/>
+	 * ãã®æœŸé–“å†…ã§ã®ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã€‚
 	 * 
 	 * @param itemDataList
-	 *            Œn—ñƒf[ƒ^‚ÌƒŠƒXƒgB
+	 *            ç³»åˆ—ãƒ‡ãƒ¼ã‚¿ã®ãƒªã‚¹ãƒˆã€‚
 	 * @param startTime
-	 *            ŒŸõğŒ(ŠJn)B
+	 *            æ¤œç´¢æ¡ä»¶(é–‹å§‹æ™‚åˆ»)ã€‚
 	 * @param endTime
-	 *            ŒŸõğŒ(I—¹)B
-	 * @return w’è‚µ‚½ƒOƒ‰ƒt‚Ìƒf[ƒ^B
+	 *            æ¤œç´¢æ¡ä»¶(çµ‚äº†æ™‚åˆ»)ã€‚
+	 * @return æŒ‡å®šã—ãŸã‚°ãƒ©ãƒ•ã®ãƒ‡ãƒ¼ã‚¿ã€‚
 	 */
 	public static List<ItemData> convertItemDataList(
 			List<ItemData> itemDataList, Timestamp startTime, Timestamp endTime)

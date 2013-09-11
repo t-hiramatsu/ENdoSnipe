@@ -38,7 +38,7 @@ import jp.co.acroquest.test.util.JavelinTestUtil;
 import junit.framework.TestCase;
 
 /**
- * JVNƒƒOƒ_ƒEƒ“ƒ[ƒh‹@”\‚ÌƒeƒXƒgƒR[ƒh
+ * JVNãƒ­ã‚°ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰æ©Ÿèƒ½ã®ãƒ†ã‚¹ãƒˆã‚³ãƒ¼ãƒ‰
  * @author fujii
  *
  */
@@ -47,18 +47,18 @@ public class JvnLogDownloadTelegramListenerTest extends TestCase implements Tele
     private static final String CONF_PATH = "/telegram/conf/javelin.properties";
     private static final String LOGS_PATH = "/telegram/logs";
     
-    /** Javelin‚Ìİ’èƒtƒ@ƒCƒ‹ */
+    /** Javelinã®è¨­å®šãƒ•ã‚¡ã‚¤ãƒ« */
     private JavelinConfig config_;
 
     /**
-     * ‰Šú‰»ƒƒ\ƒbƒh<br />
-     * ƒVƒXƒeƒ€ƒƒO‚Ì‰Šú‰»‚ğs‚¤B
+     * åˆæœŸåŒ–ãƒ¡ã‚½ãƒƒãƒ‰<br />
+     * ã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ã®åˆæœŸåŒ–ã‚’è¡Œã†ã€‚
      */
     @Override
     public void setUp() throws Exception
     {
         super.setUp();
-        // ƒIƒvƒVƒ‡ƒ“ƒtƒ@ƒCƒ‹‚©‚çAƒIƒvƒVƒ‡ƒ“İ’è‚ğ“Ç‚İ‚ŞB
+        // ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ã€ã‚ªãƒ—ã‚·ãƒ§ãƒ³è¨­å®šã‚’èª­ã¿è¾¼ã‚€ã€‚
         JavelinTestUtil.camouflageJavelinConfig(getClass(), CONF_PATH);
         String logDir = JavelinTestUtil.getAbsolutePath(getClass(), LOGS_PATH);
         this.config_ = new JavelinConfig();
@@ -67,16 +67,16 @@ public class JvnLogDownloadTelegramListenerTest extends TestCase implements Tele
     }
 
     /**
-     * [€”Ô] 3-1-5 receiveTelegram‚ÌƒeƒXƒgB <br />
-     * EJVNƒƒOƒ_ƒEƒ“ƒ[ƒhæ“¾—p‚Ì“d•¶‚ğóM‚·‚éB
-     * ¨ì¬‚µ‚½“d•¶‚ªw’è‚µ‚½‚à‚Ì‚É‚È‚Á‚Ä‚¢‚éB<br />
+     * [é …ç•ª] 3-1-5 receiveTelegramã®ãƒ†ã‚¹ãƒˆã€‚ <br />
+     * ãƒ»JVNãƒ­ã‚°ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰å–å¾—ç”¨ã®é›»æ–‡ã‚’å—ä¿¡ã™ã‚‹ã€‚
+     * â†’ä½œæˆã—ãŸé›»æ–‡ãŒæŒ‡å®šã—ãŸã‚‚ã®ã«ãªã£ã¦ã„ã‚‹ã€‚<br />
      * 
-     * @throws Exception —áŠO‚ª”­¶‚µ‚½ê‡
+     * @throws Exception ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public void testReceiveTelegram_FileNum1()
         throws Exception
     {
-        // €”õ
+        // æº–å‚™
         Header sendHeader =
                 CreateTelegramUtil.createHeader(BYTE_REQUEST_KIND_REQUEST,
                                                 BYTE_TELEGRAM_KIND_JVN_FILE);
@@ -89,21 +89,21 @@ public class JvnLogDownloadTelegramListenerTest extends TestCase implements Tele
         Telegram sendTelegram = CreateTelegramUtil.createTelegram(sendHeader, sendBodies);
         JvnLogDownloadTelegramListener listener = new JvnLogDownloadTelegramListener();
 
-        // Às
+        // å®Ÿè¡Œ
         Telegram receiveTelegram = listener.receiveTelegram(sendTelegram);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         Header receiveHeader = receiveTelegram.getObjHeader();
         Body[] receiveBody = receiveTelegram.getObjBody();
 
-        // ƒwƒbƒ_‚ÌŒŸØ
+        // ãƒ˜ãƒƒãƒ€ã®æ¤œè¨¼
         assertEquals(BYTE_TELEGRAM_KIND_JVN_FILE, receiveHeader.getByteTelegramKind());
         assertEquals(BYTE_REQUEST_KIND_RESPONSE, receiveHeader.getByteRequestKind());
 
         String[] detail1 = {"file1.jvn"};
         String[] detail2 = {"contentOfFirstJavelinFile"};
 
-        // 1”Ô–Ú‚ÌBody‚ÌŒŸØ
+        // 1ç•ªç›®ã®Bodyã®æ¤œè¨¼
         AssertUtil.assertTelegram("jvnFile", "jvnFileName", BYTE_ITEMMODE_KIND_STRING, 1, detail1,
                                   receiveBody[0]);
         AssertUtil.assertTelegram("jvnFile", "jvnFileContent", BYTE_ITEMMODE_KIND_STRING, 1,
@@ -111,12 +111,12 @@ public class JvnLogDownloadTelegramListenerTest extends TestCase implements Tele
     }
 
     /**
-     * [€”Ô] 3-1-6 receiveTelegram‚ÌƒeƒXƒgB <br />
-     * E“d•¶í•Ê‚ğJVNƒƒOo—Í’Ê’mˆÈŠO{1,2,3,4,5,7,8,9}‚É‚µ‚ÄA
-     *  JVNƒƒOƒ_ƒEƒ“ƒ[ƒhæ“¾—p‚Ì“d•¶‚ğóM‚·‚éB
-     * ¨ì¬‚µ‚½“d•¶‚ª‘S‚Änull‚É‚È‚Á‚Ä‚¢‚éB<br />
+     * [é …ç•ª] 3-1-6 receiveTelegramã®ãƒ†ã‚¹ãƒˆã€‚ <br />
+     * ãƒ»é›»æ–‡ç¨®åˆ¥ã‚’JVNãƒ­ã‚°å‡ºåŠ›é€šçŸ¥ä»¥å¤–{1,2,3,4,5,7,8,9}ã«ã—ã¦ã€
+     *  JVNãƒ­ã‚°ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰å–å¾—ç”¨ã®é›»æ–‡ã‚’å—ä¿¡ã™ã‚‹ã€‚
+     * â†’ä½œæˆã—ãŸé›»æ–‡ãŒå…¨ã¦nullã«ãªã£ã¦ã„ã‚‹ã€‚<br />
      * 
-     * @throws Exception —áŠO‚ª”­¶‚µ‚½ê‡
+     * @throws Exception ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public void testReceiveTelegram_RequestKindOthers()
         throws Exception
@@ -126,7 +126,7 @@ public class JvnLogDownloadTelegramListenerTest extends TestCase implements Tele
         for (byte requestKind : requestKinds)
         {
 
-            // €”õ
+            // æº–å‚™
             Header sendHeader =
                     CreateTelegramUtil.createHeader(BYTE_REQUEST_KIND_REQUEST, requestKind);
             String[] inputDetail = {"file1.jvn"};
@@ -138,21 +138,21 @@ public class JvnLogDownloadTelegramListenerTest extends TestCase implements Tele
             Telegram sendTelegram = CreateTelegramUtil.createTelegram(sendHeader, sendBodies);
             JvnLogDownloadTelegramListener listener = new JvnLogDownloadTelegramListener();
 
-            // Às
+            // å®Ÿè¡Œ
             Telegram receiveTelegram = listener.receiveTelegram(sendTelegram);
 
-            // ŒŸØ
+            // æ¤œè¨¼
             assertNull(receiveTelegram);
         }
     }
 
     /**
-     * [€”Ô] 3-1-7 receiveTelegram‚ÌƒeƒXƒgB <br />
-     * E“d•¶‰“ší•Ê‚ğ—v‹ˆÈŠO{0,2}‚É‚µ‚ÄA
-     *  JVNƒƒOƒ_ƒEƒ“ƒ[ƒhæ“¾—p‚Ì“d•¶‚ğóM‚·‚éB
-     * ¨ì¬‚µ‚½“d•¶‚ª‘S‚Änull‚É‚È‚Á‚Ä‚¢‚éB<br />
+     * [é …ç•ª] 3-1-7 receiveTelegramã®ãƒ†ã‚¹ãƒˆã€‚ <br />
+     * ãƒ»é›»æ–‡å¿œç­”ç¨®åˆ¥ã‚’è¦æ±‚ä»¥å¤–{0,2}ã«ã—ã¦ã€
+     *  JVNãƒ­ã‚°ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰å–å¾—ç”¨ã®é›»æ–‡ã‚’å—ä¿¡ã™ã‚‹ã€‚
+     * â†’ä½œæˆã—ãŸé›»æ–‡ãŒå…¨ã¦nullã«ãªã£ã¦ã„ã‚‹ã€‚<br />
      * 
-     * @throws Exception —áŠO‚ª”­¶‚µ‚½ê‡
+     * @throws Exception ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public void testReceiveTelegram_TelegramKindOthers()
         throws Exception
@@ -162,7 +162,7 @@ public class JvnLogDownloadTelegramListenerTest extends TestCase implements Tele
         for (byte telegramKind : telegramKinds)
         {
 
-            // €”õ
+            // æº–å‚™
             Header sendHeader =
                     CreateTelegramUtil.createHeader(telegramKind, BYTE_TELEGRAM_KIND_JVN_FILE);
             String[] inputDetail = {"file1.jvn"};
@@ -174,25 +174,25 @@ public class JvnLogDownloadTelegramListenerTest extends TestCase implements Tele
             Telegram sendTelegram = CreateTelegramUtil.createTelegram(sendHeader, sendBodies);
             JvnLogDownloadTelegramListener listener = new JvnLogDownloadTelegramListener();
 
-            // Às
+            // å®Ÿè¡Œ
             Telegram receiveTelegram = listener.receiveTelegram(sendTelegram);
 
-            // ŒŸØ
+            // æ¤œè¨¼
             assertNull(receiveTelegram);
         }
     }
 
     /**
-     * [€”Ô] 3-1-8 receiveTelegram‚ÌƒeƒXƒgB <br />
-     * EƒIƒuƒWƒFƒNƒg–¼‚ğ"test"‚É‚µ‚ÄAJVNƒƒOƒ_ƒEƒ“ƒ[ƒhæ“¾—p‚Ì“d•¶‚ğóM‚·‚éB
-     * ¨ì¬‚µ‚½“d•¶‚ªnull‚É‚È‚Á‚Ä‚¢‚éB<br />
+     * [é …ç•ª] 3-1-8 receiveTelegramã®ãƒ†ã‚¹ãƒˆã€‚ <br />
+     * ãƒ»ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆåã‚’"test"ã«ã—ã¦ã€JVNãƒ­ã‚°ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰å–å¾—ç”¨ã®é›»æ–‡ã‚’å—ä¿¡ã™ã‚‹ã€‚
+     * â†’ä½œæˆã—ãŸé›»æ–‡ãŒnullã«ãªã£ã¦ã„ã‚‹ã€‚<br />
      * 
-     * @throws Exception —áŠO‚ª”­¶‚µ‚½ê‡
+     * @throws Exception ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public void testReceiveTelegram_ObjNameOther()
         throws Exception
     {
-        // €”õ
+        // æº–å‚™
         Header sendHeader =
                 CreateTelegramUtil.createHeader(BYTE_REQUEST_KIND_REQUEST,
                                                 BYTE_TELEGRAM_KIND_JVN_FILE);
@@ -205,24 +205,24 @@ public class JvnLogDownloadTelegramListenerTest extends TestCase implements Tele
         Telegram sendTelegram = CreateTelegramUtil.createTelegram(sendHeader, sendBodies);
         JvnLogDownloadTelegramListener listener = new JvnLogDownloadTelegramListener();
 
-        // Às
+        // å®Ÿè¡Œ
         Telegram receiveTelegram = listener.receiveTelegram(sendTelegram);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertNull(receiveTelegram);
     }
 
     /**
-     * [€”Ô] 3-1-9 receiveTelegram‚ÌƒeƒXƒgB <br />
-     * E€–Ú–¼‚ğ"testItem"‚É‚µ‚ÄAJVNƒƒOƒ_ƒEƒ“ƒ[ƒhæ“¾—p‚Ì“d•¶‚ğóM‚·‚éB
-     * ¨ì¬‚µ‚½“d•¶‚ªnull‚É‚È‚Á‚Ä‚¢‚éB<br />
+     * [é …ç•ª] 3-1-9 receiveTelegramã®ãƒ†ã‚¹ãƒˆã€‚ <br />
+     * ãƒ»é …ç›®åã‚’"testItem"ã«ã—ã¦ã€JVNãƒ­ã‚°ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰å–å¾—ç”¨ã®é›»æ–‡ã‚’å—ä¿¡ã™ã‚‹ã€‚
+     * â†’ä½œæˆã—ãŸé›»æ–‡ãŒnullã«ãªã£ã¦ã„ã‚‹ã€‚<br />
      * 
-     * @throws Exception —áŠO‚ª”­¶‚µ‚½ê‡
+     * @throws Exception ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public void testReceiveTelegram_ItemNameOther()
         throws Exception
     {
-        // €”õ
+        // æº–å‚™
         Header sendHeader =
                 CreateTelegramUtil.createHeader(BYTE_REQUEST_KIND_REQUEST,
                                                 BYTE_TELEGRAM_KIND_JVN_FILE);
@@ -235,24 +235,24 @@ public class JvnLogDownloadTelegramListenerTest extends TestCase implements Tele
         Telegram sendTelegram = CreateTelegramUtil.createTelegram(sendHeader, sendBodies);
         JvnLogDownloadTelegramListener listener = new JvnLogDownloadTelegramListener();
 
-        // Às
+        // å®Ÿè¡Œ
         Telegram receiveTelegram = listener.receiveTelegram(sendTelegram);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertNull(receiveTelegram);
     }
 
     /**
-     * [€”Ô] 3-1-10 receiveTelegram‚ÌƒeƒXƒgB <br />
-     * EÚ×‚ğ‹ó‚É‚µ‚ÄAJVNƒƒOƒ_ƒEƒ“ƒ[ƒhæ“¾—p‚Ì“d•¶‚ğóM‚·‚éB
-     * ¨ì¬‚µ‚½“d•¶‚ªnull‚É‚È‚Á‚Ä‚¢‚éB<br />
+     * [é …ç•ª] 3-1-10 receiveTelegramã®ãƒ†ã‚¹ãƒˆã€‚ <br />
+     * ãƒ»è©³ç´°ã‚’ç©ºã«ã—ã¦ã€JVNãƒ­ã‚°ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰å–å¾—ç”¨ã®é›»æ–‡ã‚’å—ä¿¡ã™ã‚‹ã€‚
+     * â†’ä½œæˆã—ãŸé›»æ–‡ãŒnullã«ãªã£ã¦ã„ã‚‹ã€‚<br />
      * 
-     * @throws Exception —áŠO‚ª”­¶‚µ‚½ê‡
+     * @throws Exception ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public void testReceiveTelegram_DetailEmpty()
         throws Exception
     {
-        // €”õ
+        // æº–å‚™
         Header sendHeader =
                 CreateTelegramUtil.createHeader(BYTE_REQUEST_KIND_REQUEST,
                                                 BYTE_TELEGRAM_KIND_JVN_FILE);
@@ -265,10 +265,10 @@ public class JvnLogDownloadTelegramListenerTest extends TestCase implements Tele
         Telegram sendTelegram = CreateTelegramUtil.createTelegram(sendHeader, sendBodies);
         JvnLogDownloadTelegramListener listener = new JvnLogDownloadTelegramListener();
 
-        // Às
+        // å®Ÿè¡Œ
         Telegram receiveTelegram = listener.receiveTelegram(sendTelegram);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertNull(receiveTelegram);
     }
 

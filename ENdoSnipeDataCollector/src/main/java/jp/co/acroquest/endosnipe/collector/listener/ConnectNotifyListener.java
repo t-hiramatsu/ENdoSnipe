@@ -34,7 +34,7 @@ import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 
 /**
- * ‰“š“d•¶‚ğˆ—‚·‚éƒNƒ‰ƒXB
+ * å¿œç­”é›»æ–‡ã‚’å‡¦ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚
  *
  * @author eriguchi
  */
@@ -45,7 +45,7 @@ public class ConnectNotifyListener extends AbstractTelegramListener
     private final ArrayList<AgentNameListener> listenerList_;
 
     /**
-     * ‰“š“d•¶‚ğˆ—‚·‚éƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‚Ü‚·B
+     * å¿œç­”é›»æ–‡ã‚’å‡¦ç†ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã—ã¾ã™ã€‚
      *
      */
     public ConnectNotifyListener(final int no)
@@ -88,9 +88,9 @@ public class ConnectNotifyListener extends AbstractTelegramListener
     }
 
     /**
-     * Agent–¼•ÏX‚ğó‚¯æ‚éƒŠƒXƒi‚ğ’Ç‰Á‚·‚éB
+     * Agentåå¤‰æ›´ã‚’å—ã‘å–ã‚‹ãƒªã‚¹ãƒŠã‚’è¿½åŠ ã™ã‚‹ã€‚
      * 
-     * @param listener Agent–¼•ÏX‚ğó‚¯æ‚éƒŠƒXƒiB
+     * @param listener Agentåå¤‰æ›´ã‚’å—ã‘å–ã‚‹ãƒªã‚¹ãƒŠã€‚
      */
     public void addAgentNameListener(final AgentNameListener listener)
     {

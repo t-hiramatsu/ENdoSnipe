@@ -30,22 +30,22 @@ import jp.co.acroquest.endosnipe.javelin.S2DefaultRecordStrategy;
 import jp.co.acroquest.endosnipe.javelin.log.JavelinLogCallback;
 
 /**
- * seasar‚ÌDefaultRecordStrategy‚ÉA JavelinƒƒO’Ê’m“d•¶‚Ì‘—Mˆ—‚ğ’Ç‰Á‚µ‚½ƒXƒgƒ‰ƒeƒW[B
+ * seasarã®DefaultRecordStrategyã«ã€ Javelinãƒ­ã‚°é€šçŸ¥é›»æ–‡ã®é€ä¿¡å‡¦ç†ã‚’è¿½åŠ ã—ãŸã‚¹ãƒˆãƒ©ãƒ†ã‚¸ãƒ¼ã€‚
  * 
  * @author eriguchi
  */
 public class DefaultRecordStrategy extends S2DefaultRecordStrategy
 {
     /**
-     * JavelinƒƒO’Ê’m“d•¶‚ğ‘—M‚·‚éƒR[ƒ‹ƒoƒbƒNƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
+     * Javelinãƒ­ã‚°é€šçŸ¥é›»æ–‡ã‚’é€ä¿¡ã™ã‚‹ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆã™ã‚‹ã€‚
      * 
      * @param node CallTreeNode
-     * @return JavelinƒƒO‚ÌCallBack
+     * @return Javelinãƒ­ã‚°ã®CallBack
      */
     @Override
     public JavelinLogCallback createCallback(final CallTreeNode node)
     {
-        // ƒAƒ‰[ƒ€è‡’l‚ğ’´‚¦‚Ä‚¢‚½ê‡‚Ì‚İJavelinƒƒO’Ê’m“d•¶‚ğ‘—M‚·‚éB
+        // ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ã‚’è¶…ãˆã¦ã„ãŸå ´åˆã®ã¿Javelinãƒ­ã‚°é€šçŸ¥é›»æ–‡ã‚’é€ä¿¡ã™ã‚‹ã€‚
         if (this.judgeSendExceedThresholdAlarm(node) == false)
         {
             return null;
@@ -55,9 +55,9 @@ public class DefaultRecordStrategy extends S2DefaultRecordStrategy
     }
 
     /**
-     * JavelinƒƒO’Ê’m“d•¶‚ğ‘—M‚·‚éƒR[ƒ‹ƒoƒbƒNƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
+     * Javelinãƒ­ã‚°é€šçŸ¥é›»æ–‡ã‚’é€ä¿¡ã™ã‚‹ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆã™ã‚‹ã€‚
      * 
-     * @return ƒR[ƒ‹ƒoƒbƒN
+     * @return ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯
      */
     @Override
     public JavelinLogCallback createCallback()

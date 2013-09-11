@@ -25,28 +25,28 @@ import jp.co.acroquest.endosnipe.data.dao.MeasurementValueDao;
 import jp.co.acroquest.endosnipe.data.dto.MeasurementValueDto;
 
 /**
- * •¡”ƒe[ƒuƒ‹‚ğŒ‹‡‚µ‚Äƒf[ƒ^‚ğæ“¾‚·‚é‚½‚ß‚Ìƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒX
+ * è¤‡æ•°ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’çµåˆã—ã¦ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ãŸã‚ã®ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹
  * 
  * @author M.Yoshida
  */
 public class JoinDataAccessUtil
 {
     /**
-     * ƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğ–h~‚·‚é‚½‚ß‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã‚’é˜²æ­¢ã™ã‚‹ãŸã‚ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      */
     private JoinDataAccessUtil()
     {
     }
 
     /**
-     * ƒf[ƒ^‚Ì€–Ú–¼‚ÆŒv‘ªŠúŠÔ‚ğw’è‚µ‚ÄAŠY“–‚·‚é•½‹ÏƒŒƒXƒ|ƒ“ƒXƒ^ƒCƒ€‚ğæ“¾‚·‚éBB
+     * ãƒ‡ãƒ¼ã‚¿ã®é …ç›®åã¨è¨ˆæ¸¬æœŸé–“ã‚’æŒ‡å®šã—ã¦ã€è©²å½“ã™ã‚‹å¹³å‡ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚¿ã‚¤ãƒ ã‚’å–å¾—ã™ã‚‹ã€‚ã€‚
      * 
-     * @param database   ƒAƒNƒZƒX‘ÎÛ‚Ìƒf[ƒ^ƒx[ƒX–¼
-     * @param start      ŒŸõğŒiŠJnj
-     * @param end        ŒŸõğŒiI—¹j
-     * @param cntSumList ‡ŒvÀs‰ñ”‚ª‹L˜^‚³‚ê‚Ä‚¢‚éƒf[ƒ^ƒŠƒXƒg
-     * @return ğŒ‚É‡’v‚µ‚½ƒf[ƒ^‚ÌƒŠƒXƒgBw’è‚µ‚½€–Ú–¼‚ª‘¶İ‚µ‚È‚¢ê‡‚ÍnullBğŒ‚É‡’v‚·‚éŒv‘ª’l‚ª‘¶İ‚µ‚È‚¢ê‡‚Í‹óƒŠƒXƒg‚ğ•Ô‚·B
-     * @throws SQLException ƒf[ƒ^ƒx[ƒXƒGƒ‰[”­¶
+     * @param database   ã‚¢ã‚¯ã‚»ã‚¹å¯¾è±¡ã®ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param start      æ¤œç´¢æ¡ä»¶ï¼ˆé–‹å§‹æ™‚åˆ»ï¼‰
+     * @param end        æ¤œç´¢æ¡ä»¶ï¼ˆçµ‚äº†æ™‚åˆ»ï¼‰
+     * @param cntSumList åˆè¨ˆå®Ÿè¡Œå›æ•°ãŒè¨˜éŒ²ã•ã‚Œã¦ã„ã‚‹ãƒ‡ãƒ¼ã‚¿ãƒªã‚¹ãƒˆ
+     * @return æ¡ä»¶ã«åˆè‡´ã—ãŸãƒ‡ãƒ¼ã‚¿ã®ãƒªã‚¹ãƒˆã€‚æŒ‡å®šã—ãŸé …ç›®åãŒå­˜åœ¨ã—ãªã„å ´åˆã¯nullã€‚æ¡ä»¶ã«åˆè‡´ã™ã‚‹è¨ˆæ¸¬å€¤ãŒå­˜åœ¨ã—ãªã„å ´åˆã¯ç©ºãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚
+     * @throws SQLException ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚¨ãƒ©ãƒ¼ç™ºç”Ÿæ™‚
      */
     public static List<MeasurementValueDto> getMearsumentValueAverageList(String database,
             Timestamp start, Timestamp end, List<MeasurementValueDto> cntSumList)
@@ -103,10 +103,10 @@ public class JoinDataAccessUtil
     }
 
     /**
-     * ƒf[ƒ^ƒŠƒXƒg‚©‚çAŒn—ñ–¼AŒv‘ª”Ô†‚ğƒL[‚Æ‚·‚éƒ}ƒbƒv‚É•ÏŠ·‚·‚éB
+     * ãƒ‡ãƒ¼ã‚¿ãƒªã‚¹ãƒˆã‹ã‚‰ã€ç³»åˆ—åã€è¨ˆæ¸¬ç•ªå·ã‚’ã‚­ãƒ¼ã¨ã™ã‚‹ãƒãƒƒãƒ—ã«å¤‰æ›ã™ã‚‹ã€‚
      * 
-     * @param dataList ƒf[ƒ^ƒŠƒXƒg
-     * @return •ÏŠ·‚³‚ê‚½ƒ}ƒbƒv
+     * @param dataList ãƒ‡ãƒ¼ã‚¿ãƒªã‚¹ãƒˆ
+     * @return å¤‰æ›ã•ã‚ŒãŸãƒãƒƒãƒ—
      */
     private static Map<String, Map<Long, MeasurementValueDto>> classifiedItemMapFromList(
             List<MeasurementValueDto> dataList)

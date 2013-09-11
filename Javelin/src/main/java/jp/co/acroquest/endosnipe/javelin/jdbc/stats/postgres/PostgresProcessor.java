@@ -42,13 +42,13 @@ import jp.co.acroquest.endosnipe.javelin.jdbc.stats.JdbcJavelinRecorder;
 import jp.co.acroquest.endosnipe.javelin.jdbc.stats.JdbcJavelinStatement;
 
 /**
- * PostgresŒÅ—L‚Ìˆ—‚ğs‚¤B
+ * Postgreså›ºæœ‰ã®å‡¦ç†ã‚’è¡Œã†ã€‚
  * @author eriguchi
  */
 public class PostgresProcessor extends AbstractProcessor
 {
 
-    /** JDBCÚ‘±URL‚ª‚±‚Ì•¶š—ñ‚Ån‚Ü‚é‚Æ‚«AÀsŒv‰æ‚ğæ“¾‚·‚é(PostgreSQL) */
+    /** JDBCæ¥ç¶šURLãŒã“ã®æ–‡å­—åˆ—ã§å§‹ã¾ã‚‹ã¨ãã€å®Ÿè¡Œè¨ˆç”»ã‚’å–å¾—ã™ã‚‹(PostgreSQL) */
     public static final String EXPLAIN_TARGET_POSTGRE = "jdbc:postgresql";
 
     /**
@@ -60,24 +60,24 @@ public class PostgresProcessor extends AbstractProcessor
     }
 
     /**
-     * PostgreSQL‚ÅPreparedStatement‚ÌÀsŒv‰æ‚ğæ“¾‚·‚éB
+     * PostgreSQLã§PreparedStatementã®å®Ÿè¡Œè¨ˆç”»ã‚’å–å¾—ã™ã‚‹ã€‚
      *
-     * @param stmt ƒXƒe[ƒgƒƒ“ƒg
-     * @param sql SQL•¶
-     * @param args ˆø”B
-     * @return ÀsŒv‰æ
+     * @param stmt ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆ
+     * @param sql SQLæ–‡
+     * @param args å¼•æ•°ã€‚
+     * @return å®Ÿè¡Œè¨ˆç”»
      */
     @Override
     public String getExecPlanPrepared(final Statement stmt, final String sql, final List<?> args)
     {
-        // ÀsŒv‰æ‚ğŠi”[‚·‚éƒoƒbƒtƒ@
+        // å®Ÿè¡Œè¨ˆç”»ã‚’æ ¼ç´ã™ã‚‹ãƒãƒƒãƒ•ã‚¡
         StringBuffer execPlanText = new StringBuffer();
 
         try
         {
             if(stmt instanceof JdbcJavelinStatement)
             {
-                // ÀsŒv‰ææ“¾—p‚É€”õ‚³‚ê‚½PreparedStatement‚ğÀs‚·‚é
+                // å®Ÿè¡Œè¨ˆç”»å–å¾—ç”¨ã«æº–å‚™ã•ã‚ŒãŸPreparedStatementã‚’å®Ÿè¡Œã™ã‚‹
                 JdbcJavelinStatement jdbcJavelinStatement = (JdbcJavelinStatement)stmt;
                 PreparedStatementPair[] pstmtList = jdbcJavelinStatement.getStmtForPlan();
                 if (pstmtList != null)
@@ -92,12 +92,12 @@ public class PostgresProcessor extends AbstractProcessor
                         ResultSet resultSet = pstmt.executeQuery();
                         if (resultSet != null)
                         {
-                            // ŒŸõ‚³‚ê‚½s”•ªƒ‹[ƒv
+                            // æ¤œç´¢ã•ã‚ŒãŸè¡Œæ•°åˆ†ãƒ«ãƒ¼ãƒ—
                             while (resultSet.next())
                             {
-                                // ÀsŒv‰æ‚ğæ“¾
+                                // å®Ÿè¡Œè¨ˆç”»ã‚’å–å¾—
                                 String planTableOutput = resultSet.getString(1);
-                                // Œ‹‡
+                                // çµåˆ
                                 execPlanText.append(planTableOutput);
                                 execPlanText.append("\n");
                             }
@@ -122,20 +122,20 @@ public class PostgresProcessor extends AbstractProcessor
     }
 
     /**
-     * PostgreSQL‚ÅStatement‚ÌÀsŒv‰æ‚ğæ“¾‚·‚éB
+     * PostgreSQLã§Statementã®å®Ÿè¡Œè¨ˆç”»ã‚’å–å¾—ã™ã‚‹ã€‚
      *
-     * @param stmt ƒXƒe[ƒgƒƒ“ƒg
-     * @param originalSql SQL•¶
-     * @param args ˆø”B
-     * @return ÀsŒv‰æ
-     * @throws SQLException ResultSetƒNƒ[ƒY‚ÉƒGƒ‰[‚ª”­¶‚µ‚½‚Æ‚«
+     * @param stmt ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆ
+     * @param originalSql SQLæ–‡
+     * @param args å¼•æ•°ã€‚
+     * @return å®Ÿè¡Œè¨ˆç”»
+     * @throws SQLException ResultSetã‚¯ãƒ­ãƒ¼ã‚ºæ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸã¨ã
      */
     public String getOneExecPlan(final Statement stmt, final String originalSql, final List<?> args)
         throws SQLException
     {
         ResultSet resultSet = null;
 
-        // ÀsŒv‰ææ“¾‚É¸”s‚µ‚½ê‡‚Éargs‚ÉƒZƒbƒg‚·‚é•¶š—ñ
+        // å®Ÿè¡Œè¨ˆç”»å–å¾—ã«å¤±æ•—ã—ãŸå ´åˆã«argsã«ã‚»ãƒƒãƒˆã™ã‚‹æ–‡å­—åˆ—
         StringBuffer execPlanText = new StringBuffer("EXPLAIN PLAN failed.");
 
         Statement planStmt = null;
@@ -154,13 +154,13 @@ public class PostgresProcessor extends AbstractProcessor
 
             if (resultSet != null)
             {
-                // ŒŸõ‚³‚ê‚½s”•ªƒ‹[ƒv
+                // æ¤œç´¢ã•ã‚ŒãŸè¡Œæ•°åˆ†ãƒ«ãƒ¼ãƒ—
                 execPlanText.setLength(0);
                 while (resultSet.next())
                 {
-                    // ÀsŒv‰æ‚ğæ“¾
+                    // å®Ÿè¡Œè¨ˆç”»ã‚’å–å¾—
                     String planTableOutput = resultSet.getString(1);
-                    // Œ‹‡
+                    // çµåˆ
                     execPlanText.append(planTableOutput);
                     execPlanText.append('\n');
                 }
@@ -168,12 +168,12 @@ public class PostgresProcessor extends AbstractProcessor
         }
         catch (Exception ex)
         {
-            // ©“®¶¬‚³‚ê‚½ catch ƒuƒƒbƒN
+            // è‡ªå‹•ç”Ÿæˆã•ã‚ŒãŸ catch ãƒ–ãƒ­ãƒƒã‚¯
             SystemLogger.getInstance().warn(ex);
         }
         finally
         {
-            // ƒŠƒ\[ƒX‰ğ•ú
+            // ãƒªã‚½ãƒ¼ã‚¹è§£æ”¾
             try
             {
                 if (resultSet != null)
@@ -201,11 +201,11 @@ public class PostgresProcessor extends AbstractProcessor
         throws SQLException
     {
         Connection connection = pstmt.getConnection();
-        // PostgresSQL ‚©‚Â ÀsŒv‰ææ“¾İ’è‚ªON ‚È‚ç
-        // ÀsŒv‰ææ“¾—pPreparedStatement‚ğì¬‚·‚é
+        // PostgresSQL ã‹ã¤ å®Ÿè¡Œè¨ˆç”»å–å¾—è¨­å®šãŒON ãªã‚‰
+        // å®Ÿè¡Œè¨ˆç”»å–å¾—ç”¨PreparedStatementã‚’ä½œæˆã™ã‚‹
 
-        // ƒZƒ~ƒRƒƒ“‚Å‹æØ‚ç‚ê‚½•¡”‚ÌStatement‚ğ•ªŠ„‚µ‚ÄA
-        // ‚»‚ê‚¼‚êPreparedStatement‚ğì¬‚·‚éB
+        // ã‚»ãƒŸã‚³ãƒ­ãƒ³ã§åŒºåˆ‡ã‚‰ã‚ŒãŸè¤‡æ•°ã®Statementã‚’åˆ†å‰²ã—ã¦ã€
+        // ãã‚Œãã‚ŒPreparedStatementã‚’ä½œæˆã™ã‚‹ã€‚
         List<String> sqlList = SqlUtil.splitSqlStatement(sql);
         int sqlListSize = sqlList.size();
         PreparedStatementPair[] pstmtList = new PreparedStatementPair[sqlListSize];
@@ -218,7 +218,7 @@ public class PostgresProcessor extends AbstractProcessor
                                               isDml);
         }
 
-        // ì¬‚µ‚½PreparedStatement‚ğƒtƒB[ƒ‹ƒh‚É“o˜^‚·‚é
+        // ä½œæˆã—ãŸPreparedStatementã‚’ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã«ç™»éŒ²ã™ã‚‹
         try
         {
             JdbcJavelinStatement jdbcJavelinStatement = (JdbcJavelinStatement)pstmt;

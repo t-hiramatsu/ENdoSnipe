@@ -33,32 +33,32 @@ import jp.co.acroquest.endosnipe.perfdoctor.rule.def.RuleSetConfig;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * Eclipse‚æ‚èƒ‹[ƒ‹İ’è‚ğæ“¾‚·‚éƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒXB
- * TODO İ’è‚Ì‰i‘±‰»
+ * Eclipseã‚ˆã‚Šãƒ«ãƒ¼ãƒ«è¨­å®šã‚’å–å¾—ã™ã‚‹ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã€‚
+ * TODO è¨­å®šã®æ°¸ç¶šåŒ–
  * 
  * @author tanimoto
  *
  */
 public class RulePreferenceUtil
 {
-    /** ƒ‹[ƒ‹ƒZƒbƒg‚ÌID‚ğ•\‚·€–Ú‚Ì–¼‘OB */
+    /** ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆã®IDã‚’è¡¨ã™é …ç›®ã®åå‰ã€‚ */
     private static final String        CONFIG_RULESET_IDS         = "perfdoctor.ruleSetIds";
 
-    /** ƒ‹[ƒ‹ƒZƒbƒg–¼‚ğ•\‚·€–Ú‚Ì–¼‘OB */
+    /** ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆåã‚’è¡¨ã™é …ç›®ã®åå‰ã€‚ */
     private static final String        CONFIG_RULESET_NAME_PREFIX = "perfdoctor.ruleSetName_";
 
-    /** ƒ‹[ƒ‹ƒZƒbƒg’è‹`ƒtƒ@ƒCƒ‹‚Ì–¼‘O‚ğ•\‚·€–Ú‚Ì–¼‘OB */
+    /** ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆå®šç¾©ãƒ•ã‚¡ã‚¤ãƒ«ã®åå‰ã‚’è¡¨ã™é …ç›®ã®åå‰ã€‚ */
     private static final String        CONFIG_RULESET_FILE_PREFIX = "perfdoctor.ruleSetFile_";
 
-    /** —LŒø‚Èƒ‹[ƒ‹ƒZƒbƒg‚ğ•\‚·€–Ú‚Ì–¼‘OB */
+    /** æœ‰åŠ¹ãªãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆã‚’è¡¨ã™é …ç›®ã®åå‰ã€‚ */
     private static final String        CONFIG_ACTIVE_RULESET_ID   = "perfdoctor.activeRuleSetId";
 
     private static Map<String, String> preferenceMap__            = new HashMap<String, String>();
 
     /**
-     * ƒvƒŠƒtƒ@ƒŒƒ“ƒXƒXƒgƒA‚©‚çƒ‹[ƒ‹ƒZƒbƒg’è‹`(RuleSetConfigƒCƒ“ƒXƒ^ƒ“ƒX)‚ğæ“¾‚·‚éB
-     * @param ruleSetId ƒ‹[ƒ‹ƒZƒbƒgID
-     * @return ƒ‹[ƒ‹ƒZƒbƒg’è‹`B’è‹`‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡‚Å‚àAƒ‹[ƒ‹ƒZƒbƒg’è‹`‚ğ•Ô‚·B
+     * ãƒ—ãƒªãƒ•ã‚¡ãƒ¬ãƒ³ã‚¹ã‚¹ãƒˆã‚¢ã‹ã‚‰ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆå®šç¾©(RuleSetConfigã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹)ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @param ruleSetId ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆID
+     * @return ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆå®šç¾©ã€‚å®šç¾©ãŒè¦‹ã¤ã‹ã‚‰ãªã„å ´åˆã§ã‚‚ã€ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆå®šç¾©ã‚’è¿”ã™ã€‚
      */
     public static RuleSetConfig loadRuleSet(final String ruleSetId)
     {
@@ -74,8 +74,8 @@ public class RulePreferenceUtil
     }
 
     /**
-     * ƒvƒŠƒtƒ@ƒŒƒ“ƒXƒXƒgƒA‚Éƒ‹[ƒ‹ƒZƒbƒg’è‹`‚ğ•Û‘¶‚·‚éB
-     * @param config ƒ‹[ƒ‹ƒZƒbƒg’è‹`
+     * ãƒ—ãƒªãƒ•ã‚¡ãƒ¬ãƒ³ã‚¹ã‚¹ãƒˆã‚¢ã«ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆå®šç¾©ã‚’ä¿å­˜ã™ã‚‹ã€‚
+     * @param config ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆå®šç¾©
      */
     public static void saveRuleSet(final RuleSetConfig config)
     {
@@ -86,8 +86,8 @@ public class RulePreferenceUtil
     }
 
     /**
-     * ƒvƒŠƒtƒ@ƒŒƒ“ƒXƒXƒgƒA‚©‚çƒ‹[ƒ‹ƒZƒbƒgIDˆê——‚ğæ“¾‚·‚éB
-     * @return ƒ‹[ƒ‹ƒZƒbƒgIDˆê——BŒ©‚Â‚©‚ç‚È‚¢ê‡‚ÍA’·‚³0‚Ì”z—ñ‚ğ•Ô‚·B
+     * ãƒ—ãƒªãƒ•ã‚¡ãƒ¬ãƒ³ã‚¹ã‚¹ãƒˆã‚¢ã‹ã‚‰ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆIDä¸€è¦§ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆIDä¸€è¦§ã€‚è¦‹ã¤ã‹ã‚‰ãªã„å ´åˆã¯ã€é•·ã•0ã®é…åˆ—ã‚’è¿”ã™ã€‚
      */
     public static String[] loadRuleSetIds()
     {
@@ -103,8 +103,8 @@ public class RulePreferenceUtil
     }
 
     /**
-     * ƒvƒŠƒtƒ@ƒŒƒ“ƒXƒXƒgƒA‚Éƒ‹[ƒ‹ƒZƒbƒgIDˆê——‚ğ•Û‘¶‚·‚éB
-     * @param ruleSetIds ƒ‹[ƒ‹ƒZƒbƒgIDˆê——
+     * ãƒ—ãƒªãƒ•ã‚¡ãƒ¬ãƒ³ã‚¹ã‚¹ãƒˆã‚¢ã«ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆIDä¸€è¦§ã‚’ä¿å­˜ã™ã‚‹ã€‚
+     * @param ruleSetIds ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆIDä¸€è¦§
      */
     public static void saveRuleSetIds(final String[] ruleSetIds)
     {
@@ -113,8 +113,8 @@ public class RulePreferenceUtil
     }
 
     /**
-     * ƒvƒŠƒtƒ@ƒŒƒ“ƒXƒXƒgƒA‚©‚çƒAƒNƒeƒBƒu‚Èƒ‹[ƒ‹ƒZƒbƒgID‚ğæ“¾‚·‚éB
-     * @return ƒ‹[ƒ‹ƒZƒbƒgIDBŒ©‚Â‚©‚ç‚È‚¢ê‡‚ÍA‹ó‚Ì•¶š—ñ‚ğ•Ô‚·B
+     * ãƒ—ãƒªãƒ•ã‚¡ãƒ¬ãƒ³ã‚¹ã‚¹ãƒˆã‚¢ã‹ã‚‰ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ãªãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆIDã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆIDã€‚è¦‹ã¤ã‹ã‚‰ãªã„å ´åˆã¯ã€ç©ºã®æ–‡å­—åˆ—ã‚’è¿”ã™ã€‚
      */
     public static String loadActiveRuleSetId()
     {
@@ -124,8 +124,8 @@ public class RulePreferenceUtil
     }
 
     /**
-     * ƒvƒŠƒtƒ@ƒŒƒ“ƒXƒXƒgƒA‚ÉƒAƒNƒeƒBƒu‚Èƒ‹[ƒ‹ƒZƒbƒgID‚ğ•Û‘¶‚·‚éB
-     * @param ruleSetId ƒ‹[ƒ‹ƒZƒbƒgID
+     * ãƒ—ãƒªãƒ•ã‚¡ãƒ¬ãƒ³ã‚¹ã‚¹ãƒˆã‚¢ã«ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ãªãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆIDã‚’ä¿å­˜ã™ã‚‹ã€‚
+     * @param ruleSetId ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆID
      */
     public static void saveActiveRuleSetId(final String ruleSetId)
     {

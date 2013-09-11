@@ -26,7 +26,7 @@
 package jp.co.acroquest.endosnipe.common.util;
 
 /**
- * ƒlƒbƒgƒ[ƒNŒn‚Ìƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒXB<br />
+ * ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ç³»ã®ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã€‚<br />
  *
  * @author sakamoto
  */
@@ -38,10 +38,10 @@ public class NetworkUtil
     }
 
     /**
-     * w’è‚³‚ê‚½•¶š—ñ‚ª IP ƒAƒhƒŒƒX‚ğ•\‚·‚©‚Ç‚¤‚©‚ğ”»’è‚µ‚Ü‚·B<br />
+     * æŒ‡å®šã•ã‚ŒãŸæ–‡å­—åˆ—ãŒ IP ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’è¡¨ã™ã‹ã©ã†ã‹ã‚’åˆ¤å®šã—ã¾ã™ã€‚<br />
      *
-     * @param text •¶š—ñ
-     * @return IP ƒAƒhƒŒƒX‚Ìê‡‚Í <code>true</code> A IP ƒAƒhƒŒƒX‚Å‚È‚¢ê‡‚Í <code>false/code>
+     * @param text æ–‡å­—åˆ—
+     * @return IP ã‚¢ãƒ‰ãƒ¬ã‚¹ã®å ´åˆã¯ <code>true</code> ã€ IP ã‚¢ãƒ‰ãƒ¬ã‚¹ã§ãªã„å ´åˆã¯ <code>false/code>
      */
     public static boolean isIpAddress(final String text)
     {

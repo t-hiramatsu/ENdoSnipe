@@ -28,16 +28,16 @@ package jp.co.acroquest.endosnipe.javelin.bean;
 import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 
 /**
- * Њv‘Є‘ОЏЫ‚©‚зЏњЉO‚·‚йѓNѓ‰ѓXЃAѓЃѓ\ѓbѓh‚рЉДЋ‹‚·‚йѓNѓ‰ѓX‚Е‚·ЃB<br />
+ * иЁ€жё¬еЇѕи±ЎгЃ‹г‚‰й™¤е¤–гЃ™г‚‹г‚Їгѓ©г‚№гЂЃгѓЎг‚Ѕгѓѓгѓ‰г‚’з›Ји¦–гЃ™г‚‹г‚Їгѓ©г‚№гЃ§гЃ™гЂ‚<br />
  * @author fujii
  *
  */
 public class ExcludeMonitor
 {
-    /** Њv‘Є‘ОЏЫЏњЉO‚©‚З‚¤‚©”»’и‚·‚й‚Ѕ‚Я‚М‰сђ”‚Ми‡’l */
+    /** иЁ€жё¬еЇѕи±Ўй™¤е¤–гЃ‹гЃ©гЃ†гЃ‹е€¤е®љгЃ™г‚‹гЃџг‚ЃгЃ®е›ћж•°гЃ®й–ѕеЂ¤ */
     private static int autoExcludeThresholdCount__;
 
-    /** Њv‘Є‘ОЏЫЏњЉO‚©‚З‚¤‚©”»’и‚·‚й‚Ѕ‚Я‚МЋћЉФ‚Ми‡’l */
+    /** иЁ€жё¬еЇѕи±Ўй™¤е¤–гЃ‹гЃ©гЃ†гЃ‹е€¤е®љгЃ™г‚‹гЃџг‚ЃгЃ®ж™‚й–“гЃ®й–ѕеЂ¤ */
     private static int autoExcludeThresholdTime__;
 
     static
@@ -48,7 +48,7 @@ public class ExcludeMonitor
     }
 
     /**
-     * ѓCѓ“ѓXѓ^ѓ“ѓX‰»‚р–h‚®ЃAѓvѓ‰ѓCѓxЃ[ѓgѓRѓ“ѓXѓgѓ‰ѓNѓ^‚Е‚·ЃB<br />
+     * г‚¤гѓіг‚№г‚їгѓіг‚№еЊ–г‚’йІгЃђгЂЃгѓ—гѓ©г‚¤гѓ™гѓјгѓ€г‚ігѓіг‚№гѓ€гѓ©г‚Їг‚їгЃ§гЃ™гЂ‚<br />
      */
     private ExcludeMonitor()
     {
@@ -56,10 +56,10 @@ public class ExcludeMonitor
     }
 
     /**
-     * €шђ”‚Е—^‚¦‚з‚к‚ЅѓNѓ‰ѓX–јЃAѓЃѓ\ѓbѓh–ј‚ЄЋ©“®‚ЕЊv‘Є‘ОЏЫ‚©‚зЏњЉO‚і‚к‚Д‚ў‚й‚©”»’и‚µ‚Ь‚·ЃB<br />
+     * еј•ж•°гЃ§дёЋгЃ€г‚‰г‚ЊгЃџг‚Їгѓ©г‚№еђЌгЂЃгѓЎг‚Ѕгѓѓгѓ‰еђЌгЃЊи‡Єе‹•гЃ§иЁ€жё¬еЇѕи±ЎгЃ‹г‚‰й™¤е¤–гЃ•г‚ЊгЃ¦гЃ„г‚‹гЃ‹е€¤е®љгЃ—гЃѕгЃ™гЂ‚<br />
      * 
-     * @param invocation {@link Invocation}ѓIѓuѓWѓFѓNѓg
-     * @return Ћ©“®Џ€—ќ‚Й‚ж‚иЊv‘Є‘ОЏЫ‚©‚зЏњЉO‚і‚к‚Д‚ў‚йЏкЌ‡ЃA<code>true</code>
+     * @param invocation {@link Invocation}г‚Єгѓ–г‚ёг‚§г‚Їгѓ€
+     * @return и‡Єе‹•е‡¦зђ†гЃ«г‚€г‚ЉиЁ€жё¬еЇѕи±ЎгЃ‹г‚‰й™¤е¤–гЃ•г‚ЊгЃ¦гЃ„г‚‹е ґеђ€гЂЃ<code>true</code>
      */
     public static boolean isExcludePreffered(final Invocation invocation)
     {
@@ -72,10 +72,10 @@ public class ExcludeMonitor
     }
 
     /**
-     * €шђ”‚Е—^‚¦‚з‚к‚ЅInvocation‚ЕЋ¦‚і‚к‚йЊД‚СЏo‚µ‚рЃA
-     * Ћ©“®“I‚ЙЋыЏW‚µ‚ЅЊv‘Є‘ОЏЫЏњЉOѓЉѓXѓg‚Й’З‰Б‚µ‚Ь‚·ЃB<br />
+     * еј•ж•°гЃ§дёЋгЃ€г‚‰г‚ЊгЃџInvocationгЃ§з¤єгЃ•г‚Њг‚‹е‘јгЃіе‡єгЃ—г‚’гЂЃ
+     * и‡Єе‹•зљ„гЃ«еЏЋй›†гЃ—гЃџиЁ€жё¬еЇѕи±Ўй™¤е¤–гѓЄг‚№гѓ€гЃ«иїЅеЉ гЃ—гЃѕгЃ™гЂ‚<br />
      * 
-     * @param invocation {@link Invocation}ѓIѓuѓWѓFѓNѓg
+     * @param invocation {@link Invocation}г‚Єгѓ–г‚ёг‚§г‚Їгѓ€
      */
     public static void addExcludePreffered(final Invocation invocation)
     {
@@ -88,10 +88,10 @@ public class ExcludeMonitor
     }
 
     /**
-     * €шђ”‚Е—^‚¦‚з‚к‚ЅInvocation‚ЕЋ¦‚і‚к‚йЊД‚СЏo‚µ‚рЃA
-     * Ћ©“®“I‚ЙЋыЏW‚µ‚ЅЊv‘Є‘ОЏЫЏњЉOѓЉѓXѓg‚©‚зЌнЏњ‚µ‚Ь‚·ЃB<br />
+     * еј•ж•°гЃ§дёЋгЃ€г‚‰г‚ЊгЃџInvocationгЃ§з¤єгЃ•г‚Њг‚‹е‘јгЃіе‡єгЃ—г‚’гЂЃ
+     * и‡Єе‹•зљ„гЃ«еЏЋй›†гЃ—гЃџиЁ€жё¬еЇѕи±Ўй™¤е¤–гѓЄг‚№гѓ€гЃ‹г‚‰е‰Љй™¤гЃ—гЃѕгЃ™гЂ‚<br />
      * 
-     * @param invocation {@link Invocation}ѓIѓuѓWѓFѓNѓg
+     * @param invocation {@link Invocation}г‚Єгѓ–г‚ёг‚§г‚Їгѓ€
      */
     public static void removeExcludePreferred(Invocation invocation)
     {
@@ -104,9 +104,9 @@ public class ExcludeMonitor
     }
 
     /**
-     * CallTreeMeasurement‚рѓЌѓOЏo—Н‘ОЏЫ‚©‚зЏњЉO‚·‚й‚©‚З‚¤‚©”»’и‚µ‚Ь‚·ЃB<br />
+     * CallTreeMeasurementг‚’гѓ­г‚°е‡єеЉ›еЇѕи±ЎгЃ‹г‚‰й™¤е¤–гЃ™г‚‹гЃ‹гЃ©гЃ†гЃ‹е€¤е®љгЃ—гЃѕгЃ™гЂ‚<br />
      * 
-     * @param invocation {@link Invocation}ѓIѓuѓWѓFѓNѓg
+     * @param invocation {@link Invocation}г‚Єгѓ–г‚ёг‚§г‚Їгѓ€
      */
     public static void judgeExclude(final Invocation invocation)
     {
@@ -120,10 +120,10 @@ public class ExcludeMonitor
     }
 
     /**
-     * €шђ”‚Е—^‚¦‚з‚к‚ЅѓNѓ‰ѓX–јЃAѓЃѓ\ѓbѓh–ј‚ЄЋ©“®“I‚ЙЋыЏW‚µ‚ЅЊv‘Є‘ОЏЫ‚Е‚ ‚й‚©‚р”»’и‚µ‚Ь‚·ЃB<br />
+     * еј•ж•°гЃ§дёЋгЃ€г‚‰г‚ЊгЃџг‚Їгѓ©г‚№еђЌгЂЃгѓЎг‚Ѕгѓѓгѓ‰еђЌгЃЊи‡Єе‹•зљ„гЃ«еЏЋй›†гЃ—гЃџиЁ€жё¬еЇѕи±ЎгЃ§гЃ‚г‚‹гЃ‹г‚’е€¤е®љгЃ—гЃѕгЃ™гЂ‚<br />
      * 
-     * @param invocation {@link Invocation}ѓIѓuѓWѓFѓNѓg
-     * @return ѓЌѓOЏo—Н‚©‚зЏњЉO‚і‚к‚Д‚ў‚йЏкЌ‡ЃA<code>true</code>
+     * @param invocation {@link Invocation}г‚Єгѓ–г‚ёг‚§г‚Їгѓ€
+     * @return гѓ­г‚°е‡єеЉ›гЃ‹г‚‰й™¤е¤–гЃ•г‚ЊгЃ¦гЃ„г‚‹е ґеђ€гЂЃ<code>true</code>
      */
     public static boolean isTargetPreferred(final Invocation invocation)
     {
@@ -136,8 +136,8 @@ public class ExcludeMonitor
     }
 
     /**
-     * €шђ”‚Е—^‚¦‚з‚к‚ЅѓNѓ‰ѓX–јЃAѓЃѓ\ѓbѓh–ј‚рЋ©“®“I‚ЙЋыЏW‚µ‚ЅЊv‘Є‘ОЏЫѓЉѓXѓg‚Й’З‰Б‚µ‚Ь‚·ЃB<br />
-     * @param invocation {@link Invocation}ѓIѓuѓWѓFѓNѓg
+     * еј•ж•°гЃ§дёЋгЃ€г‚‰г‚ЊгЃџг‚Їгѓ©г‚№еђЌгЂЃгѓЎг‚Ѕгѓѓгѓ‰еђЌг‚’и‡Єе‹•зљ„гЃ«еЏЋй›†гЃ—гЃџиЁ€жё¬еЇѕи±ЎгѓЄг‚№гѓ€гЃ«иїЅеЉ гЃ—гЃѕгЃ™гЂ‚<br />
+     * @param invocation {@link Invocation}г‚Єгѓ–г‚ёг‚§г‚Їгѓ€
      */
     public static void addTargetPreferred(final Invocation invocation)
     {
@@ -150,8 +150,8 @@ public class ExcludeMonitor
     }
 
     /**
-     * €шђ”‚Е—^‚¦‚з‚к‚ЅѓNѓ‰ѓX–јЃAѓЃѓ\ѓbѓh–ј‚рЋ©“®“I‚ЙЋыЏW‚µ‚ЅЊv‘Є‘ОЏЫ‚©‚зЏњЉO‚µ‚Ь‚·ЃB<br />
-     * @param invocation {@link Invocation}ѓIѓuѓWѓFѓNѓg
+     * еј•ж•°гЃ§дёЋгЃ€г‚‰г‚ЊгЃџг‚Їгѓ©г‚№еђЌгЂЃгѓЎг‚Ѕгѓѓгѓ‰еђЌг‚’и‡Єе‹•зљ„гЃ«еЏЋй›†гЃ—гЃџиЁ€жё¬еЇѕи±ЎгЃ‹г‚‰й™¤е¤–гЃ—гЃѕгЃ™гЂ‚<br />
+     * @param invocation {@link Invocation}г‚Єгѓ–г‚ёг‚§г‚Їгѓ€
      */
     public static void removeTargetPreferred(final Invocation invocation)
     {
@@ -164,10 +164,10 @@ public class ExcludeMonitor
     }
 
     /**
-     * €шђ”‚Е—^‚¦‚з‚к‚ЅѓNѓ‰ѓX–јЃAѓЃѓ\ѓbѓh–ј‚ЄЊv‘Є‘ОЏЫ‚©‚зЏњЉO‚·‚й‚©‚З‚¤‚©‚р”»’и‚µ‚Ь‚·ЃB<br />
+     * еј•ж•°гЃ§дёЋгЃ€г‚‰г‚ЊгЃџг‚Їгѓ©г‚№еђЌгЂЃгѓЎг‚Ѕгѓѓгѓ‰еђЌгЃЊиЁ€жё¬еЇѕи±ЎгЃ‹г‚‰й™¤е¤–гЃ™г‚‹гЃ‹гЃ©гЃ†гЃ‹г‚’е€¤е®љгЃ—гЃѕгЃ™гЂ‚<br />
      * 
-     * @param invocation {@link Invocation}ѓIѓuѓWѓFѓNѓg
-     * @return ѓЌѓOЏo—Н‚©‚зЏњЉO‚і‚к‚Д‚ў‚йЏкЌ‡ЃA<code>true</code>
+     * @param invocation {@link Invocation}г‚Єгѓ–г‚ёг‚§г‚Їгѓ€
+     * @return гѓ­г‚°е‡єеЉ›гЃ‹г‚‰й™¤е¤–гЃ•г‚ЊгЃ¦гЃ„г‚‹е ґеђ€гЂЃ<code>true</code>
      */
     public static boolean isExclude(final Invocation invocation)
     {
@@ -180,8 +180,8 @@ public class ExcludeMonitor
     }
 
     /**
-     * €шђ”‚Е—^‚¦‚з‚к‚ЅѓNѓ‰ѓX–јЃAѓЃѓ\ѓbѓh–ј‚рЊv‘Є‘ОЏЫЏњЉOѓЉѓXѓg‚Й’З‰Б‚µ‚Ь‚·ЃB<br />
-     * @param invocation {@link Invocation}ѓIѓuѓWѓFѓNѓg
+     * еј•ж•°гЃ§дёЋгЃ€г‚‰г‚ЊгЃџг‚Їгѓ©г‚№еђЌгЂЃгѓЎг‚Ѕгѓѓгѓ‰еђЌг‚’иЁ€жё¬еЇѕи±Ўй™¤е¤–гѓЄг‚№гѓ€гЃ«иїЅеЉ гЃ—гЃѕгЃ™гЂ‚<br />
+     * @param invocation {@link Invocation}г‚Єгѓ–г‚ёг‚§г‚Їгѓ€
      */
     public static void addExclude(final Invocation invocation)
     {
@@ -194,8 +194,8 @@ public class ExcludeMonitor
     }
 
     /**
-     * €шђ”‚Е—^‚¦‚з‚к‚ЅѓNѓ‰ѓX–јЃAѓЃѓ\ѓbѓh–ј‚рЊv‘Є‘ОЏЫЏњЉOѓЉѓXѓg‚©‚зЏњЉO‚µ‚Ь‚·ЃB<br />
-     * @param invocation {@link Invocation}ѓIѓuѓWѓFѓNѓg
+     * еј•ж•°гЃ§дёЋгЃ€г‚‰г‚ЊгЃџг‚Їгѓ©г‚№еђЌгЂЃгѓЎг‚Ѕгѓѓгѓ‰еђЌг‚’иЁ€жё¬еЇѕи±Ўй™¤е¤–гѓЄг‚№гѓ€гЃ‹г‚‰й™¤е¤–гЃ—гЃѕгЃ™гЂ‚<br />
+     * @param invocation {@link Invocation}г‚Єгѓ–г‚ёг‚§г‚Їгѓ€
      */
     public static void removeExclude(final Invocation invocation)
     {
@@ -208,10 +208,10 @@ public class ExcludeMonitor
     }
     
     /**
-     * €шђ”‚Е—^‚¦‚з‚к‚ЅInvocation‚ЕЋ¦‚і‚к‚йЊД‚СЏo‚µ‚ЄЃAЊv‘Є‘ОЏЫ‚Е‚ ‚й‚©‚р”»’и‚µ‚Ь‚·ЃB<br />
+     * еј•ж•°гЃ§дёЋгЃ€г‚‰г‚ЊгЃџInvocationгЃ§з¤єгЃ•г‚Њг‚‹е‘јгЃіе‡єгЃ—гЃЊгЂЃиЁ€жё¬еЇѕи±ЎгЃ§гЃ‚г‚‹гЃ‹г‚’е€¤е®љгЃ—гЃѕгЃ™гЂ‚<br />
      * 
-     * @param invocation {@link Invocation}ѓIѓuѓWѓFѓNѓg
-     * @return ѓЌѓOЏo—Н‚©‚зЏњЉO‚і‚к‚Д‚ў‚йЏкЌ‡ЃA<code>true</code>
+     * @param invocation {@link Invocation}г‚Єгѓ–г‚ёг‚§г‚Їгѓ€
+     * @return гѓ­г‚°е‡єеЉ›гЃ‹г‚‰й™¤е¤–гЃ•г‚ЊгЃ¦гЃ„г‚‹е ґеђ€гЂЃ<code>true</code>
      */
     public static boolean isTarget(final Invocation invocation)
     {
@@ -225,8 +225,8 @@ public class ExcludeMonitor
 
 
     /**
-     * €шђ”‚Е—^‚¦‚з‚к‚ЅѓNѓ‰ѓX–јЃAѓЃѓ\ѓbѓh–ј‚рЊv‘Є‘ОЏЫѓЉѓXѓg‚Й’З‰Б‚µ‚Ь‚·ЃB<br />
-     * @param invocation {@link Invocation}ѓIѓuѓWѓFѓNѓg
+     * еј•ж•°гЃ§дёЋгЃ€г‚‰г‚ЊгЃџг‚Їгѓ©г‚№еђЌгЂЃгѓЎг‚Ѕгѓѓгѓ‰еђЌг‚’иЁ€жё¬еЇѕи±ЎгѓЄг‚№гѓ€гЃ«иїЅеЉ гЃ—гЃѕгЃ™гЂ‚<br />
+     * @param invocation {@link Invocation}г‚Єгѓ–г‚ёг‚§г‚Їгѓ€
      */
     public static void addTarget(final Invocation invocation)
     {
@@ -239,8 +239,8 @@ public class ExcludeMonitor
     }
 
     /**
-     * €шђ”‚Е—^‚¦‚з‚к‚ЅѓNѓ‰ѓX–јЃAѓЃѓ\ѓbѓh–ј‚рЊv‘Є‘ОЏЫ‚©‚зЏњЉO‚µ‚Ь‚·ЃB<br />
-     * @param invocation {@link Invocation}ѓIѓuѓWѓFѓNѓg
+     * еј•ж•°гЃ§дёЋгЃ€г‚‰г‚ЊгЃџг‚Їгѓ©г‚№еђЌгЂЃгѓЎг‚Ѕгѓѓгѓ‰еђЌг‚’иЁ€жё¬еЇѕи±ЎгЃ‹г‚‰й™¤е¤–гЃ—гЃѕгЃ™гЂ‚<br />
+     * @param invocation {@link Invocation}г‚Єгѓ–г‚ёг‚§г‚Їгѓ€
      */
     public static void removeTarget(final Invocation invocation)
     {
@@ -253,12 +253,12 @@ public class ExcludeMonitor
     }
 
     /**
-     * €шђ”‚Е—^‚¦‚з‚к‚ЅѓNѓ‰ѓX‚МѓЃѓ\ѓbѓh‚ЄЊv‘Є‘ОЏЫ‚©”Ы‚©‚р•Ф‚µ‚Ь‚·ЃB<br />
+     * еј•ж•°гЃ§дёЋгЃ€г‚‰г‚ЊгЃџг‚Їгѓ©г‚№гЃ®гѓЎг‚Ѕгѓѓгѓ‰гЃЊиЁ€жё¬еЇѕи±ЎгЃ‹еђ¦гЃ‹г‚’иї”гЃ—гЃѕгЃ™гЂ‚<br />
      *
-     * Њv‘Є‘ОЏЫ‚ЖЋw’и‚і‚к‚Д‚ў‚йЃA‚Ь‚Ѕ‚Н
+     * иЁ€жё¬еЇѕи±ЎгЃЁжЊ‡е®љгЃ•г‚ЊгЃ¦гЃ„г‚‹гЂЃгЃѕгЃџгЃЇ
      *
-     * @param invocation {@link Invocation}ѓIѓuѓWѓFѓNѓg
-     * @return Њv‘Є‘ОЏЫ‚МЏкЌ‡‚Н <code>true</code> ЃAЊv‘Є‘ОЏЫ‚Е‚И‚ўЏкЌ‡‚Н <code>false</code>
+     * @param invocation {@link Invocation}г‚Єгѓ–г‚ёг‚§г‚Їгѓ€
+     * @return иЁ€жё¬еЇѕи±ЎгЃ®е ґеђ€гЃЇ <code>true</code> гЂЃиЁ€жё¬еЇѕи±ЎгЃ§гЃЄгЃ„е ґеђ€гЃЇ <code>false</code>
      */
     public static boolean isMeasurementTarget(final Invocation invocation)
     {

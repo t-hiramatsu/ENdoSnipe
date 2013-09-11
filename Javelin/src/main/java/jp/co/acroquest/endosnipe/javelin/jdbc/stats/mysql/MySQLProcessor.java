@@ -38,20 +38,20 @@ import jp.co.acroquest.endosnipe.javelin.jdbc.common.SqlUtil;
 import jp.co.acroquest.endosnipe.javelin.jdbc.stats.AbstractProcessor;
 
 /**
- * MySQL—p
+ * MySQLç”¨
  * @author eriguchi
  */
 public class MySQLProcessor extends AbstractProcessor
 {
-    /** ÀsŒv‰æŒ‹‰Ê‚Ì—ñ”B */
+    /** å®Ÿè¡Œè¨ˆç”»çµæœã®åˆ—æ•°ã€‚ */
     private static final int COLUMN_MAX = 10;
 
-    /** æ“¾‚µ‚½ÀsŒv‰æ‚Ìæ“ª‚É‚Â‚¯‚éƒwƒbƒ_B */
+    /** å–å¾—ã—ãŸå®Ÿè¡Œè¨ˆç”»ã®å…ˆé ­ã«ã¤ã‘ã‚‹ãƒ˜ãƒƒãƒ€ã€‚ */
     private static final String EXEC_PLAN_HEADER =
             "MySQL Explain Plan:" + "\nid,select_type,table,type" + ",possible_keys,key,key_len,"
                     + "ref,rows,Extra\n";
 
-    /** JDBCÚ‘±URL‚ª‚±‚Ì•¶š—ñ‚Ån‚Ü‚é‚Æ‚«AÀsŒv‰æ‚ğæ“¾‚·‚é(MySQL) */
+    /** JDBCæ¥ç¶šURLãŒã“ã®æ–‡å­—åˆ—ã§å§‹ã¾ã‚‹ã¨ãã€å®Ÿè¡Œè¨ˆç”»ã‚’å–å¾—ã™ã‚‹(MySQL) */
     public static final String EXPLAIN_TARGET = "jdbc:mysql";
 
     /**
@@ -63,13 +63,13 @@ public class MySQLProcessor extends AbstractProcessor
     }
 
     /**
-     * MySQL‚ÅÀsŒv‰æ‚ğæ“¾‚·‚éB
+     * MySQLã§å®Ÿè¡Œè¨ˆç”»ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @param stmt ƒXƒe[ƒgƒƒ“ƒg
-     * @param originalSql SQL•¶
-     * @param args ˆø”B
-     * @return ÀsŒv‰æ
-     * @throws SQLException StatementƒNƒ[ƒY‚ÉƒGƒ‰[‚ª”­¶‚µ‚½‚Æ‚«
+     * @param stmt ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆ
+     * @param originalSql SQLæ–‡
+     * @param args å¼•æ•°ã€‚
+     * @return å®Ÿè¡Œè¨ˆç”»
+     * @throws SQLException Statementã‚¯ãƒ­ãƒ¼ã‚ºæ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸã¨ã
      */
     public String getOneExecPlan(final Statement stmt, final String originalSql, List<?> args)
         throws SQLException

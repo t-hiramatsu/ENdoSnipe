@@ -21,8 +21,8 @@ import jp.co.acroquest.endosnipe.report.controller.dispatcher.ReportPublishProce
 import jp.co.acroquest.endosnipe.report.util.ReporterConfigAccessor;
 
 /**
- * ƒŒƒ|[ƒgo—ÍƒvƒƒZƒbƒT‚Ìƒx[ƒXƒNƒ‰ƒXB
- * ŠeƒŒƒ|[ƒgƒ^ƒCƒv‚É‘Î‰‚·‚éƒŒƒ|[ƒgo—ÍƒvƒƒZƒbƒT‚ÍA–{ƒNƒ‰ƒX‚ğŒp³‚µ‚Äì¬‚·‚é‚±‚ÆB
+ * ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ãƒ—ãƒ­ã‚»ãƒƒã‚µã®ãƒ™ãƒ¼ã‚¹ã‚¯ãƒ©ã‚¹ã€‚
+ * å„ãƒ¬ãƒãƒ¼ãƒˆã‚¿ã‚¤ãƒ—ã«å¯¾å¿œã™ã‚‹ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ãƒ—ãƒ­ã‚»ãƒƒã‚µã¯ã€æœ¬ã‚¯ãƒ©ã‚¹ã‚’ç¶™æ‰¿ã—ã¦ä½œæˆã™ã‚‹ã“ã¨ã€‚
  * 
  * 
  * @author M.Yoshida
@@ -30,7 +30,7 @@ import jp.co.acroquest.endosnipe.report.util.ReporterConfigAccessor;
  */
 public abstract class ReportPublishProcessorBase implements ReportPublishProcessor
 {
-    /** ƒŒƒ|[ƒgƒvƒƒZƒbƒT‚ÌH’ö‚Ì” */
+    /** ãƒ¬ãƒãƒ¼ãƒˆãƒ—ãƒ­ã‚»ãƒƒã‚µã®å·¥ç¨‹ã®æ•° */
     public static final int     PROCESS_PHASE_NUM      = 3;
 
     /**  */
@@ -42,16 +42,16 @@ public abstract class ReportPublishProcessorBase implements ReportPublishProcess
     /**  */
     private static final String OUTPUT_DATA_PHASE_KEY  = "reporter.report.progress.detail.output";
 
-    /** ƒŒƒ|[ƒgí•Ê */
+    /** ãƒ¬ãƒãƒ¼ãƒˆç¨®åˆ¥ */
     private ReportType          rType_;
 
-    /** o—ÍæƒfƒBƒŒƒNƒgƒŠ–¼ */
+    /** å‡ºåŠ›å…ˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªå */
     private String              outputDir_;
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
      * 
-     * @param type ƒŒƒ|[ƒgí•Ê
+     * @param type ãƒ¬ãƒãƒ¼ãƒˆç¨®åˆ¥
      */
     public ReportPublishProcessorBase(ReportType type)
     {
@@ -59,9 +59,9 @@ public abstract class ReportPublishProcessorBase implements ReportPublishProcess
     }
 
     /**
-     * ©•ª‚ªˆ—‚·‚éƒŒƒ|[ƒgí•Ê‚ğæ“¾‚·‚éB
+     * è‡ªåˆ†ãŒå‡¦ç†ã™ã‚‹ãƒ¬ãƒãƒ¼ãƒˆç¨®åˆ¥ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return ƒŒƒ|[ƒgí•Ê
+     * @return ãƒ¬ãƒãƒ¼ãƒˆç¨®åˆ¥
      */
     protected ReportType getReportType()
     {
@@ -69,9 +69,9 @@ public abstract class ReportPublishProcessorBase implements ReportPublishProcess
     }
 
     /**
-     * o—Íæƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹–¼‚ğæ“¾‚·‚éiŠg’£q–³‚µj
+     * å‡ºåŠ›å…ˆãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ•ã‚¡ã‚¤ãƒ«åã‚’å–å¾—ã™ã‚‹ï¼ˆæ‹¡å¼µå­ç„¡ã—ï¼‰
      * 
-     * @return o—Íæƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹–¼
+     * @return å‡ºåŠ›å…ˆãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ•ã‚¡ã‚¤ãƒ«å
      */
     protected String getOutputFileName()
     {
@@ -80,9 +80,9 @@ public abstract class ReportPublishProcessorBase implements ReportPublishProcess
     }
 
     /**
-     * o—ÍæƒtƒHƒ‹ƒ_‚ÌƒpƒX‚ğæ“¾‚·‚é
+     * å‡ºåŠ›å…ˆãƒ•ã‚©ãƒ«ãƒ€ã®ãƒ‘ã‚¹ã‚’å–å¾—ã™ã‚‹
      * 
-     * @return o—ÍæƒtƒHƒ‹ƒ_‚ÌƒpƒX
+     * @return å‡ºåŠ›å…ˆãƒ•ã‚©ãƒ«ãƒ€ã®ãƒ‘ã‚¹
      */
     protected String getOutputFolderName()
     {
@@ -114,23 +114,23 @@ public abstract class ReportPublishProcessorBase implements ReportPublishProcess
     }
 
     /**
-     * DB‚È‚Ç‚ÌƒGƒ“ƒeƒBƒeƒB‚©‚çAƒŒƒ|[ƒg‚Éo—Í‚·‚éƒf[ƒ^‚ğæ“¾‚·‚éB
+     * DBãªã©ã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‹ã‚‰ã€ãƒ¬ãƒãƒ¼ãƒˆã«å‡ºåŠ›ã™ã‚‹ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @param cond            ƒf[ƒ^æ“¾ğŒ
-     * @param reportContainer •Ô‚è’l‚È‚Ç‚ğ“n‚·‚½‚ß‚ÌƒRƒ“ƒeƒi
-     * @return æ“¾‚µ‚½ƒŒƒ|[ƒg‚Ìƒf[ƒ^
+     * @param cond            ãƒ‡ãƒ¼ã‚¿å–å¾—æ¡ä»¶
+     * @param reportContainer è¿”ã‚Šå€¤ãªã©ã‚’æ¸¡ã™ãŸã‚ã®ã‚³ãƒ³ãƒ†ãƒŠ
+     * @return å–å¾—ã—ãŸãƒ¬ãƒãƒ¼ãƒˆã®ãƒ‡ãƒ¼ã‚¿
      */
     protected abstract Object getReportPlotData(ReportSearchCondition cond,
             ReportProcessReturnContainer reportContainer);
 
     /**
-     * ƒGƒ“ƒeƒBƒeƒB‚©‚çæ“¾‚µ‚½ƒf[ƒ^‚ğAÀÛ‚Ì•\¦‚ÌŒ^‚É•ÏŠ·‚·‚éB
-     * –{ƒƒ\ƒbƒh‚ÍA•ÏŠ·‚ğs‚í‚È‚¢ê‡‚ÍAƒI[ƒo[ƒ‰ƒCƒh•s—vB
+     * ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‹ã‚‰å–å¾—ã—ãŸãƒ‡ãƒ¼ã‚¿ã‚’ã€å®Ÿéš›ã®è¡¨ç¤ºã®å‹ã«å¤‰æ›ã™ã‚‹ã€‚
+     * æœ¬ãƒ¡ã‚½ãƒƒãƒ‰ã¯ã€å¤‰æ›ã‚’è¡Œã‚ãªã„å ´åˆã¯ã€ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ä¸è¦ã€‚
      * 
-     * @param rawData         ƒGƒ“ƒeƒBƒeƒB‚©‚çæ“¾‚µ‚½Œ³ƒf[ƒ^
-     * @param cond            ƒf[ƒ^æ“¾^•ÏŠ·ğŒ
-     * @param reportContainer •Ô‚è’l‚È‚Ç‚ğ“n‚·‚½‚ß‚ÌƒRƒ“ƒeƒi
-     * @return •ÏŠ·Œã‚Ìƒf[ƒ^
+     * @param rawData         ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‹ã‚‰å–å¾—ã—ãŸå…ƒãƒ‡ãƒ¼ã‚¿
+     * @param cond            ãƒ‡ãƒ¼ã‚¿å–å¾—ï¼å¤‰æ›æ¡ä»¶
+     * @param reportContainer è¿”ã‚Šå€¤ãªã©ã‚’æ¸¡ã™ãŸã‚ã®ã‚³ãƒ³ãƒ†ãƒŠ
+     * @return å¤‰æ›å¾Œã®ãƒ‡ãƒ¼ã‚¿
      */
     protected Object convertPlotData(Object rawData, ReportSearchCondition cond,
             ReportProcessReturnContainer reportContainer)
@@ -139,11 +139,11 @@ public abstract class ReportPublishProcessorBase implements ReportPublishProcess
     }
 
     /**
-     * ƒf[ƒ^‚ğƒŒƒ|[ƒg‚Éo—Í‚·‚éB
+     * ãƒ‡ãƒ¼ã‚¿ã‚’ãƒ¬ãƒãƒ¼ãƒˆã«å‡ºåŠ›ã™ã‚‹ã€‚
      * 
-     * @param plotData        ƒŒƒ|[ƒg‚Éo—Í‚·‚éƒf[ƒ^
-     * @param cond            ƒf[ƒ^o—ÍğŒ
-     * @param reportContainer •Ô‚è’l‚È‚Ç‚ğ“n‚·‚½‚ß‚ÌƒRƒ“ƒeƒi
+     * @param plotData        ãƒ¬ãƒãƒ¼ãƒˆã«å‡ºåŠ›ã™ã‚‹ãƒ‡ãƒ¼ã‚¿
+     * @param cond            ãƒ‡ãƒ¼ã‚¿å‡ºåŠ›æ¡ä»¶
+     * @param reportContainer è¿”ã‚Šå€¤ãªã©ã‚’æ¸¡ã™ãŸã‚ã®ã‚³ãƒ³ãƒ†ãƒŠ
      */
     protected abstract void outputReport(Object plotData, ReportSearchCondition cond,
             ReportProcessReturnContainer reportContainer);

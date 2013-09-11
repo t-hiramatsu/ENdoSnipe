@@ -72,6 +72,7 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-lang-2.4.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/ENdoSnipePerfDoctor.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/runtime_registry_compatibility.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/blancosqlformatter-0.1.1_pzc.jar"/>
 	<classpathentry kind="var" path="TOMCAT_HOME/lib/servlet-api.jar"/>
 	<classpathentry kind="var" path="TOMCAT_HOME/lib/jasper.jar"/>
 	<classpathentry kind="var" path="TOMCAT_HOME/lib/jsp-api.jar"/>

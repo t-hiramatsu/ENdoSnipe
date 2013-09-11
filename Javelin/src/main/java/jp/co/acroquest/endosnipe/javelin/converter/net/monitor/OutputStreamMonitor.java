@@ -35,22 +35,22 @@ import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 import jp.co.acroquest.endosnipe.javelin.converter.util.StreamMonitorUtil;
 
 /**
- * ƒlƒbƒgƒ[ƒNI/O‚Ì—¬—Ê‚ğƒ‚ƒjƒ^ƒŠƒ“ƒO‚·‚éB
+ * ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯I/Oã®æµé‡ã‚’ãƒ¢ãƒ‹ã‚¿ãƒªãƒ³ã‚°ã™ã‚‹ã€‚
  * 
  * @author yamasaki
  */
 public class OutputStreamMonitor extends OutputStream
 {
-    /** ˆÏ÷ƒNƒ‰ƒX */
+    /** å§”è­²ã‚¯ãƒ©ã‚¹ */
     private final OutputStream delegated_;
 
-    /** ƒƒ\ƒbƒh‚ÌÀs‚ğ•\‚·ƒtƒ‰ƒO */
+    /** ãƒ¡ã‚½ãƒƒãƒ‰ã®å®Ÿè¡Œã‚’è¡¨ã™ãƒ•ãƒ©ã‚° */
     private boolean inProcess_;
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      * 
-     * @param delegated ˆÏ÷ƒNƒ‰ƒX
+     * @param delegated å§”è­²ã‚¯ãƒ©ã‚¹
      */
     public OutputStreamMonitor(final OutputStream delegated)
     {
@@ -58,10 +58,10 @@ public class OutputStreamMonitor extends OutputStream
     }
 
     /**
-     * ƒf[ƒ^‚ğ‘—M‚µAƒlƒbƒgƒ[ƒN‚Ì‘—M—Ê‚ğ•Û‘¶‚·‚éB
+     * ãƒ‡ãƒ¼ã‚¿ã‚’é€ä¿¡ã—ã€ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ã®é€ä¿¡é‡ã‚’ä¿å­˜ã™ã‚‹ã€‚
      * 
-     * @param b ƒlƒbƒgƒ[ƒN‚Ì‘—M—Ê
-     * @throws IOException “üo—Í—áŠO
+     * @param b ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ã®é€ä¿¡é‡
+     * @throws IOException å…¥å‡ºåŠ›ä¾‹å¤–
      */
     @Override
     public void write(final int b)
@@ -92,12 +92,12 @@ public class OutputStreamMonitor extends OutputStream
     }
 
     /**
-     * ƒf[ƒ^‚ğ‘—M‚µAƒlƒbƒgƒ[ƒN‚Ì‘—M—Ê‚ğ•Û‘¶‚·‚éB
+     * ãƒ‡ãƒ¼ã‚¿ã‚’é€ä¿¡ã—ã€ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ã®é€ä¿¡é‡ã‚’ä¿å­˜ã™ã‚‹ã€‚
      * 
-     * @param b ƒf[ƒ^‚ÌƒoƒCƒg—ñ
-     * @param off ƒIƒtƒZƒbƒg
-     * @param len ƒf[ƒ^’·
-     * @throws IOException “üo—Í—áŠO
+     * @param b ãƒ‡ãƒ¼ã‚¿ã®ãƒã‚¤ãƒˆåˆ—
+     * @param off ã‚ªãƒ•ã‚»ãƒƒãƒˆ
+     * @param len ãƒ‡ãƒ¼ã‚¿é•·
+     * @throws IOException å…¥å‡ºåŠ›ä¾‹å¤–
      */
     @Override
     public void write(final byte[] b, final int off, final int len)
@@ -128,10 +128,10 @@ public class OutputStreamMonitor extends OutputStream
     }
 
     /**
-     * ƒf[ƒ^‚ğ‘—M‚µAƒlƒbƒgƒ[ƒN‚Ì‘—M—Ê‚ğ•Û‘¶‚·‚éB
+     * ãƒ‡ãƒ¼ã‚¿ã‚’é€ä¿¡ã—ã€ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ã®é€ä¿¡é‡ã‚’ä¿å­˜ã™ã‚‹ã€‚
      * 
-     * @param b ƒf[ƒ^‚ÌƒoƒCƒg—ñ
-     * @throws IOException “üo—Í—áŠO
+     * @param b ãƒ‡ãƒ¼ã‚¿ã®ãƒã‚¤ãƒˆåˆ—
+     * @throws IOException å…¥å‡ºåŠ›ä¾‹å¤–
      */
     @Override
     public void write(final byte[] b)

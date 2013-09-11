@@ -31,15 +31,15 @@ import jp.co.acroquest.endosnipe.javelin.parser.JavelinLogElement;
 import jp.co.acroquest.endosnipe.perfdoctor.PerformanceRuleTestCase;
 
 /**
- * ENdoSnipeVer.4.0‚ÌVƒ‹[ƒ‹‚Å‚·B<br/>
- * ƒƒ‚ƒŠƒŠ[ƒNŒŸo‚Ìƒ‹[ƒ‹‚ÌƒeƒXƒg‚ğ‚µ‚Ü‚·B<br/>
+ * ENdoSnipeVer.4.0ã®æ–°ãƒ«ãƒ¼ãƒ«ã§ã™ã€‚<br/>
+ * ãƒ¡ãƒ¢ãƒªãƒªãƒ¼ã‚¯æ¤œå‡ºã®ãƒ«ãƒ¼ãƒ«ã®ãƒ†ã‚¹ãƒˆã‚’ã—ã¾ã™ã€‚<br/>
  * @author akita
  *
  */
 public class LeakDetectedRuleTest extends PerformanceRuleTestCase
 {
     /**
-     * LeakDetectedRule‚ğ¶¬‚µ‚Ü‚·B<br/>
+     * LeakDetectedRuleã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br/>
      * @return LeakDetectedRule
      */
     private LeakDetectedRule createRule()
@@ -53,11 +53,11 @@ public class LeakDetectedRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [€”Ô] 3-13-1<br/>
+     * [é …ç•ª] 3-13-1<br/>
      * <br/>
-     * doJudge‚ÌƒeƒXƒg‚Å‚·B<br/>
-     * Ew’è‚³‚ê‚½’l‚ª•¶š—ñ‚Å‚ ‚éê‡B<br/>
-     * ¨Œx‚ª”­¶‚µ‚Ü‚·B<br/>
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã§ã™ã€‚<br/>
+     * ãƒ»æŒ‡å®šã•ã‚ŒãŸå€¤ãŒæ–‡å­—åˆ—ã§ã‚ã‚‹å ´åˆã€‚<br/>
+     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ã¾ã™ã€‚<br/>
      */
     public void testDoJudge_10()
     {
@@ -76,11 +76,11 @@ public class LeakDetectedRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [€”Ô] 3-13-2<br/>
+     * [é …ç•ª] 3-13-2<br/>
      * <br/>
-     * doJudge‚ÌƒeƒXƒg‚Å‚·B<br/>
-     * w’è‚³‚ê‚½’l‚ª‹ó”’‚Ìê‡B<br/>
-     * ¨Œx‚ª”­¶‚µ‚Ü‚¹‚ñB<br/>
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã§ã™ã€‚<br/>
+     * æŒ‡å®šã•ã‚ŒãŸå€¤ãŒç©ºç™½ã®å ´åˆã€‚<br/>
+     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ã¾ã›ã‚“ã€‚<br/>
      */
     public void testDoJudge_11()
     {
@@ -94,16 +94,16 @@ public class LeakDetectedRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶‚µ‚Ü‚·B");
+            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¾ã™ã€‚");
         }
     }
 
     /**
-     * [€”Ô] 3-13-3<br/>
+     * [é …ç•ª] 3-13-3<br/>
      * <br/>
-     * doJudge‚ÌƒeƒXƒg‚Å‚·B<br/>
-     *@w’è‚³‚ê‚½ƒpƒ‰ƒ[ƒ^‚ª‚È‚¢iƒuƒƒbƒN‚Ìƒpƒ‰ƒ[ƒ^‚ª–³‚¢ê‡j<br/>
-     * ¨Œx‚ğ•\¦‚µ‚Ü‚¹‚ñB<br/>
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã§ã™ã€‚<br/>
+     *ã€€æŒ‡å®šã•ã‚ŒãŸãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãŒãªã„ï¼ˆãƒ–ãƒ­ãƒƒã‚¯ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãŒç„¡ã„å ´åˆï¼‰<br/>
+     * â†’è­¦å‘Šã‚’è¡¨ç¤ºã—ã¾ã›ã‚“ã€‚<br/>
      */
     public void testDoJudge_12()
     {
@@ -118,16 +118,16 @@ public class LeakDetectedRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶‚µ‚Ü‚·B");
+            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¾ã™ã€‚");
         }
     }
 
     /**
-     * [€”Ô] 3-13-4<br/>
+     * [é …ç•ª] 3-13-4<br/>
      * <br/>
-     * doJudge‚ÌƒeƒXƒg‚Å‚·B<br/>
-     * EEventInfo‚ª‚È‚¢ê‡B<br/>
-     * ¨Œx‚ğ•\¦‚µ‚Ü‚¹‚ñB<br/>
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã§ã™ã€‚<br/>
+     * ãƒ»EventInfoãŒãªã„å ´åˆã€‚<br/>
+     * â†’è­¦å‘Šã‚’è¡¨ç¤ºã—ã¾ã›ã‚“ã€‚<br/>
      */
     public void testDoJudge_14()
     {
@@ -141,16 +141,16 @@ public class LeakDetectedRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶‚µ‚Ü‚·B");
+            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¾ã™ã€‚");
         }
     }
 
     /**
-     * [€”Ô] 3-13-5<br/>
+     * [é …ç•ª] 3-13-5<br/>
      * <br/>
-     * doJudge‚ÌƒeƒXƒg‚Å‚·BB<br/>
-     * EEVENT‚ª‚È‚¢ê‡B<br/>
-     * ¨Œx‚ğ•\¦‚µ‚Ü‚¹‚ñB<br/>
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã§ã™ã€‚ã€‚<br/>
+     * ãƒ»EVENTãŒãªã„å ´åˆã€‚<br/>
+     * â†’è­¦å‘Šã‚’è¡¨ç¤ºã—ã¾ã›ã‚“ã€‚<br/>
      */
     public void testDoJudge_15()
     {
@@ -164,15 +164,15 @@ public class LeakDetectedRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶‚µ‚Ü‚·B");
+            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¾ã™ã€‚");
         }
     }
 
     /**
-     * [€”Ô] 3-13-6<br/>
+     * [é …ç•ª] 3-13-6<br/>
      * <br/>
-     * doJudge‚ÌƒeƒXƒg‚Å‚·B<br/>
-     * E•¡”‚ÌJavelinLogElement‚ÅŒx‚ªo‚Ü‚·B<br/>
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã§ã™ã€‚<br/>
+     * ãƒ»è¤‡æ•°ã®JavelinLogElementã§è­¦å‘ŠãŒå‡ºã¾ã™ã€‚<br/>
      */
     public void testDoJudge_26()
     {
@@ -190,11 +190,11 @@ public class LeakDetectedRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [€”Ô] 3-13-7<br/>
+     * [é …ç•ª] 3-13-7<br/>
      * <br/>
-     * doJudge‚ÌƒeƒXƒg‚Å‚·B<br/>
-     * E‚ ‚éJavelinLogElement‚ÅÀs—áŠO‚ª”­¶‚µ‚Ü‚·B<br/>
-     * ¨‚»‚ÌJavelinLogElement‚ÍƒXƒLƒbƒv‚µ‚Äˆ—‚µ‚Ü‚·B<br/>
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã§ã™ã€‚<br/>
+     * ãƒ»ã‚ã‚‹JavelinLogElementã§å®Ÿè¡Œæ™‚ä¾‹å¤–ãŒç™ºç”Ÿã—ã¾ã™ã€‚<br/>
+     * â†’ãã®JavelinLogElementã¯ã‚¹ã‚­ãƒƒãƒ—ã—ã¦å‡¦ç†ã—ã¾ã™ã€‚<br/>
      */
     public void testDoJudge_RuntimeException()
     {

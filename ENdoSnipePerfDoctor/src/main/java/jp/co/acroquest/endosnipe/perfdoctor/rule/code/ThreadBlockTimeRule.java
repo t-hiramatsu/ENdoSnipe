@@ -28,16 +28,16 @@ package jp.co.acroquest.endosnipe.perfdoctor.rule.code;
 import jp.co.acroquest.endosnipe.common.parser.JavelinLogConstants;
 
 /**
- * ˆ—‚ÌŠJn‚©‚çI—¹‚Ü‚Å‚ÌŠÔ‚É‚»‚ÌƒXƒŒƒbƒh‚ªsynchronized‘Ò‚¿‚Å‚ ‚Á‚½ŠÔ‚ªAè‡’l‚ğ’´‚¦‚½‚±‚Æ‚ğŒŸo‚·‚éRuleB
+ * å‡¦ç†ã®é–‹å§‹ã‹ã‚‰çµ‚äº†ã¾ã§ã®é–“ã«ãã®ã‚¹ãƒ¬ãƒƒãƒ‰ãŒsynchronizedå¾…ã¡ã§ã‚ã£ãŸæ™‚é–“ãŒã€é–¾å€¤ã‚’è¶…ãˆãŸã“ã¨ã‚’æ¤œå‡ºã™ã‚‹Ruleã€‚
  * 
  * @author hayakawa
  */
 public class ThreadBlockTimeRule extends AbstractThreadInfoRule
 {
     /**
-     * synchronized‘Ò‚¿‚Å‚ ‚Á‚½ŠÔ‚ğ¦‚·ƒpƒ‰ƒ[ƒ^‚Ì–¼Ì‚ğ•Ô‚·B
+     * synchronizedå¾…ã¡ã§ã‚ã£ãŸæ™‚é–“ã‚’ç¤ºã™ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®åç§°ã‚’è¿”ã™ã€‚
      * 
-     * @return ƒpƒ‰ƒ[ƒ^–¼
+     * @return ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿å
      */
     @Override
     protected String getCheckParamName()

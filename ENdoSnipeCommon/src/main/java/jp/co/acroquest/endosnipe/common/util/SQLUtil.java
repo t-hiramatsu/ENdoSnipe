@@ -31,7 +31,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- * SQL ‚ÉŠÖ‚·‚éƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒX‚Å‚·B<br />
+ * SQL ã«é–¢ã™ã‚‹ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  * 
  * @author y-komori
  */
@@ -43,10 +43,10 @@ public class SQLUtil
     }
 
     /**
-     * {@link ResultSet} ‚ğƒNƒ[ƒY‚µ‚Ü‚·B<br />
-     * ˆø”‚ª <code>null</code> ‚Ìê‡‚Í‰½‚às‚¢‚Ü‚¹‚ñB
+     * {@link ResultSet} ã‚’ã‚¯ãƒ­ãƒ¼ã‚ºã—ã¾ã™ã€‚<br />
+     * å¼•æ•°ãŒ <code>null</code> ã®å ´åˆã¯ä½•ã‚‚è¡Œã„ã¾ã›ã‚“ã€‚
      * 
-     * @param rs {@link ResultSet} ƒIƒuƒWƒFƒNƒg
+     * @param rs {@link ResultSet} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     public static void closeResultSet(final ResultSet rs)
     {
@@ -66,10 +66,10 @@ public class SQLUtil
     }
 
     /**
-     * {@link Statement} ‚ğƒNƒ[ƒY‚µ‚Ü‚·B<br />
-     * ˆø”‚ª <code>null</code> ‚Ìê‡‚Í‰½‚às‚¢‚Ü‚¹‚ñB
+     * {@link Statement} ã‚’ã‚¯ãƒ­ãƒ¼ã‚ºã—ã¾ã™ã€‚<br />
+     * å¼•æ•°ãŒ <code>null</code> ã®å ´åˆã¯ä½•ã‚‚è¡Œã„ã¾ã›ã‚“ã€‚
      * 
-     * @param statement {@link Statement} ƒIƒuƒWƒFƒNƒg
+     * @param statement {@link Statement} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     public static void closeStatement(final Statement statement)
     {
@@ -89,10 +89,10 @@ public class SQLUtil
     }
 
     /**
-     * {@link Connection} ‚ğƒNƒ[ƒY‚µ‚Ü‚·B<br />
-     * ˆø”‚ª <code>null</code> ‚Ìê‡‚Í‰½‚às‚¢‚Ü‚¹‚ñB
+     * {@link Connection} ã‚’ã‚¯ãƒ­ãƒ¼ã‚ºã—ã¾ã™ã€‚<br />
+     * å¼•æ•°ãŒ <code>null</code> ã®å ´åˆã¯ä½•ã‚‚è¡Œã„ã¾ã›ã‚“ã€‚
      * 
-     * @param connection {@link Connection} ƒIƒuƒWƒFƒNƒg
+     * @param connection {@link Connection} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     public static void closeConnection(final Connection connection)
     {

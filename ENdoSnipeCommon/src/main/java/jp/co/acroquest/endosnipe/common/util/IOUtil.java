@@ -43,7 +43,7 @@ import java.util.zip.ZipOutputStream;
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 
 /**
- * ƒtƒ@ƒCƒ‹ I/O ‚ÉŠÖ‚·‚éƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒX‚Å‚·B<br />
+ * ãƒ•ã‚¡ã‚¤ãƒ« I/O ã«é–¢ã™ã‚‹ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  * 
  * @author y-komori
  */
@@ -56,12 +56,12 @@ public class IOUtil
     }
 
     /**
-     * “ü—ÍƒXƒgƒŠ[ƒ€‚©‚ço—ÍƒXƒgƒŠ[ƒ€‚ÖƒRƒs[‚µ‚Ü‚·B<br />
+     * å…¥åŠ›ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‹ã‚‰å‡ºåŠ›ã‚¹ãƒˆãƒªãƒ¼ãƒ ã¸ã‚³ãƒ”ãƒ¼ã—ã¾ã™ã€‚<br />
      * 
-     * @param input “ü—ÍƒXƒgƒŠ[ƒ€
-     * @param output o—ÍƒXƒgƒŠ[ƒ€
-     * @return ƒRƒs[‚µ‚½ƒoƒCƒg”
-     * @throws IOException “üo—ÍƒGƒ‰[‚ª”­¶‚µ‚½ê‡
+     * @param input å…¥åŠ›ã‚¹ãƒˆãƒªãƒ¼ãƒ 
+     * @param output å‡ºåŠ›ã‚¹ãƒˆãƒªãƒ¼ãƒ 
+     * @return ã‚³ãƒ”ãƒ¼ã—ãŸãƒã‚¤ãƒˆæ•°
+     * @throws IOException å…¥å‡ºåŠ›ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static long copy(final InputStream input, final OutputStream output)
         throws IOException
@@ -78,12 +78,12 @@ public class IOUtil
     }
 
     /**
-     * {@link Reader} ‚©‚ç {@link Writer} ‚ÖƒRƒs[‚µ‚Ü‚·B<br />
+     * {@link Reader} ã‹ã‚‰ {@link Writer} ã¸ã‚³ãƒ”ãƒ¼ã—ã¾ã™ã€‚<br />
      * 
-     * @param input {@link Reader} ƒIƒuƒWƒFƒNƒg
-     * @param output {@link Writer} ƒIƒuƒWƒFƒNƒg
-     * @return ƒRƒs[‚µ‚½ƒoƒCƒg”
-     * @throws IOException “üo—ÍƒGƒ‰[‚ª”­¶‚µ‚½ê‡
+     * @param input {@link Reader} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param output {@link Writer} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @return ã‚³ãƒ”ãƒ¼ã—ãŸãƒã‚¤ãƒˆæ•°
+     * @throws IOException å…¥å‡ºåŠ›ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static long copy(final Reader input, final Writer output)
         throws IOException
@@ -92,13 +92,13 @@ public class IOUtil
     }
 
     /**
-     * {@link Reader} ‚©‚ç {@link Writer} ‚ÖÅ‘åƒTƒCƒY‚ğw’è‚µ‚ÄƒRƒs[‚µ‚Ü‚·B<br />
+     * {@link Reader} ã‹ã‚‰ {@link Writer} ã¸æœ€å¤§ã‚µã‚¤ã‚ºã‚’æŒ‡å®šã—ã¦ã‚³ãƒ”ãƒ¼ã—ã¾ã™ã€‚<br />
      * 
-     * @param input {@link Reader} ƒIƒuƒWƒFƒNƒg
-     * @param output {@link Writer} ƒIƒuƒWƒFƒNƒg
-     * @param maxBytes Å‘åƒoƒCƒg”
-     * @return ƒRƒs[‚µ‚½ƒoƒCƒg”
-     * @throws IOException “üo—ÍƒGƒ‰[‚ª”­¶‚µ‚½ê‡
+     * @param input {@link Reader} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param output {@link Writer} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param maxBytes æœ€å¤§ãƒã‚¤ãƒˆæ•°
+     * @return ã‚³ãƒ”ãƒ¼ã—ãŸãƒã‚¤ãƒˆæ•°
+     * @throws IOException å…¥å‡ºåŠ›ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static long copy(final Reader input, final Writer output, final int maxBytes)
         throws IOException
@@ -121,10 +121,10 @@ public class IOUtil
     }
 
     /**
-     * ƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚ñ‚Å•¶š—ñ‚Å•Ô‚µ‚Ü‚·B<br />
+     * ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚“ã§æ–‡å­—åˆ—ã§è¿”ã—ã¾ã™ã€‚<br />
      * 
-     * @param fileName ƒtƒ@ƒCƒ‹–¼
-     * @return “Ç‚İ‚ñ‚¾•¶š—ñ
+     * @param fileName ãƒ•ã‚¡ã‚¤ãƒ«å
+     * @return èª­ã¿è¾¼ã‚“ã æ–‡å­—åˆ—
      */
     public static String readFileToString(final String fileName)
     {
@@ -132,11 +132,11 @@ public class IOUtil
     }
 
     /**
-     * Å‘åƒoƒCƒg”‚ğw’è‚µ‚Äƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚İA•¶š—ñ‚Å•Ô‚µ‚Ü‚·B<br />
+     * æœ€å¤§ãƒã‚¤ãƒˆæ•°ã‚’æŒ‡å®šã—ã¦ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã¿ã€æ–‡å­—åˆ—ã§è¿”ã—ã¾ã™ã€‚<br />
      * 
-     * @param fileName ƒtƒ@ƒCƒ‹–¼
-     * @param maxBytes Å‘åƒoƒCƒg”
-     * @return “Ç‚İ‚ñ‚¾•¶š—ñ
+     * @param fileName ãƒ•ã‚¡ã‚¤ãƒ«å
+     * @param maxBytes æœ€å¤§ãƒã‚¤ãƒˆæ•°
+     * @return èª­ã¿è¾¼ã‚“ã æ–‡å­—åˆ—
      */
     public static String readFileToString(final String fileName, final int maxBytes)
     {
@@ -180,11 +180,11 @@ public class IOUtil
     }
 
     /**
-     * ƒfƒBƒŒƒNƒgƒŠ‚ğì¬‚µ‚Ü‚·B<br />
-     * eƒfƒBƒŒƒNƒgƒŠ‚ª‘¶İ‚µ‚È‚¢ê‡A“¯‚Éì¬‚µ‚Ü‚·B<br />
+     * ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’ä½œæˆã—ã¾ã™ã€‚<br />
+     * è¦ªãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãŒå­˜åœ¨ã—ãªã„å ´åˆã€åŒæ™‚ã«ä½œæˆã—ã¾ã™ã€‚<br />
      * 
-     * @param dirPath ì¬‚·‚éƒfƒBƒŒƒNƒgƒŠ‚ÌƒpƒX
-     * @return ¬Œ÷‚µ‚½ê‡‚Í <code>true</code>A¸”s‚µ‚½ê‡‚Í <code>false</code>
+     * @param dirPath ä½œæˆã™ã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®ãƒ‘ã‚¹
+     * @return æˆåŠŸã—ãŸå ´åˆã¯ <code>true</code>ã€å¤±æ•—ã—ãŸå ´åˆã¯ <code>false</code>
      */
     public static boolean createDirs(final String dirPath)
     {
@@ -198,11 +198,11 @@ public class IOUtil
     }
 
     /**
-     * Šg’£q‚ğw’è‚µ‚ÄƒfƒBƒŒƒNƒgƒŠ”z‰º‚Ìƒtƒ@ƒCƒ‹‚ğ—ñ‹“‚µ‚Ü‚·B<br />
+     * æ‹¡å¼µå­ã‚’æŒ‡å®šã—ã¦ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªé…ä¸‹ã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’åˆ—æŒ™ã—ã¾ã™ã€‚<br />
      * 
-     * @param dirPath ƒfƒBƒŒƒNƒgƒŠ‚ÌƒpƒX
-     * @param extention Šg’£q
-     * @return —ñ‹“‚µ‚½ƒtƒ@ƒCƒ‹B‘¶İ‚µ‚È‚¢ê‡‚Í <code>null</code>B
+     * @param dirPath ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®ãƒ‘ã‚¹
+     * @param extention æ‹¡å¼µå­
+     * @return åˆ—æŒ™ã—ãŸãƒ•ã‚¡ã‚¤ãƒ«ã€‚å­˜åœ¨ã—ãªã„å ´åˆã¯ <code>null</code>ã€‚
      */
     public static File[] listFile(final String dirPath, final String extention)
     {
@@ -228,13 +228,13 @@ public class IOUtil
     }
 
     /**
-     * w’è‚µ‚½ƒfƒBƒŒƒNƒgƒŠ”z‰º‚É‚¨‚¯‚éw’è‚µ‚½Šg’£q‚Ìƒtƒ@ƒCƒ‹‚ğƒ`ƒFƒbƒN‚µA
-     * Å‘å”‚ğ’´‚¦‚Ä‚¢‚éê‡‚Ííœ‚µ‚Ü‚·B<br />
+     * æŒ‡å®šã—ãŸãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªé…ä¸‹ã«ãŠã‘ã‚‹æŒ‡å®šã—ãŸæ‹¡å¼µå­ã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ãƒã‚§ãƒƒã‚¯ã—ã€
+     * æœ€å¤§æ•°ã‚’è¶…ãˆã¦ã„ã‚‹å ´åˆã¯å‰Šé™¤ã—ã¾ã™ã€‚<br />
      * 
-     * @param maxFileCount Å‘åƒtƒ@ƒCƒ‹”
-     * @param dirPath ƒfƒBƒŒƒNƒgƒŠ‚ÌƒpƒX
-     * @param extention Šg’£q
-     * @return íœ‚É¬Œ÷‚µ‚½ê‡true
+     * @param maxFileCount æœ€å¤§ãƒ•ã‚¡ã‚¤ãƒ«æ•°
+     * @param dirPath ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®ãƒ‘ã‚¹
+     * @param extention æ‹¡å¼µå­
+     * @return å‰Šé™¤ã«æˆåŠŸã—ãŸå ´åˆtrue
      */
     public static boolean removeFiles(final int maxFileCount, final String dirPath,
             final String extention)
@@ -256,11 +256,11 @@ public class IOUtil
     }
 
     /**
-     * w’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ğ ZIP ˆ³k‚µ‚Ü‚·B<br />
+     * æŒ‡å®šã•ã‚ŒãŸãƒ•ã‚¡ã‚¤ãƒ«ã‚’ ZIP åœ§ç¸®ã—ã¾ã™ã€‚<br />
      * 
-     * @param zStream o—ÍæƒXƒgƒŠ[ƒ€
-     * @param file ˆ³k‚·‚éƒtƒ@ƒCƒ‹
-     * @throws IOException “üo—ÍƒGƒ‰[‚ª”­¶‚µ‚½ê‡
+     * @param zStream å‡ºåŠ›å…ˆã‚¹ãƒˆãƒªãƒ¼ãƒ 
+     * @param file åœ§ç¸®ã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«
+     * @throws IOException å…¥å‡ºåŠ›ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static void zipFile(final ZipOutputStream zStream, final File file)
         throws IOException
@@ -286,10 +286,10 @@ public class IOUtil
     }
 
     /**
-     * OS •W€‚Ìƒeƒ“ƒ|ƒ‰ƒŠƒfƒBƒŒƒNƒgƒŠ‚ğ•\‚· {@link File} ƒIƒuƒWƒFƒNƒg‚ğ•Ô‚µ‚Ü‚·B<br />
-     * ƒeƒ“ƒ|ƒ‰ƒŠƒfƒBƒŒƒNƒgƒŠ‚ª‘¶İ‚µ‚È‚¢ê‡‚ÍA©“®“I‚Éì¬‚µ‚Ü‚·B<br />
+     * OS æ¨™æº–ã®ãƒ†ãƒ³ãƒãƒ©ãƒªãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’è¡¨ã™ {@link File} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ãƒ†ãƒ³ãƒãƒ©ãƒªãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãŒå­˜åœ¨ã—ãªã„å ´åˆã¯ã€è‡ªå‹•çš„ã«ä½œæˆã—ã¾ã™ã€‚<br />
      * 
-     * @return ƒeƒ“ƒ|ƒ‰ƒŠƒfƒBƒŒƒNƒgƒŠ‚ğ•\‚· {@link File} ƒIƒuƒWƒFƒNƒg
+     * @return ãƒ†ãƒ³ãƒãƒ©ãƒªãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’è¡¨ã™ {@link File} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     public static File getTmpDirFile()
     {

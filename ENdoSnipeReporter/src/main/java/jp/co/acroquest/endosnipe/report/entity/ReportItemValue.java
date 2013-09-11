@@ -15,49 +15,49 @@ package jp.co.acroquest.endosnipe.report.entity;
 import java.sql.Timestamp;
 
 /**
- * ƒŒƒ|[ƒgo—Í—p‚ÌƒGƒ“ƒeƒBƒeƒB<br /> 
+ * ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ç”¨ã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£<br /> 
  *
  * @author eriguchi
  */
 public class ReportItemValue
 {
     /**
-     * Œv‘ªB<br />
+     * è¨ˆæ¸¬æ™‚åˆ»ã€‚<br />
      */
     public Timestamp measurementTime;
 
     /**
-     * Œn—ñ–¼<br />
+     * ç³»åˆ—å<br />
      */
     public String    itemName;
 
     /**
-     * Œv‘ª’l(ãŒÀ’l)B
+     * è¨ˆæ¸¬å€¤(ä¸Šé™å€¤)ã€‚
      */
     public Number    limitValue;
 
     /**
-     * Œv‘ª’l(ƒTƒ}ƒŠ)B
+     * è¨ˆæ¸¬å€¤(ã‚µãƒãƒª)ã€‚
      */
     public Number    summaryValue;
 
     /**
-     * Œv‘ª’l(Å‘å)B
+     * è¨ˆæ¸¬å€¤(æœ€å¤§)ã€‚
      */
     public Number    maxValue;
 
     /**
-     * Œv‘ª’l(Å¬)B
+     * è¨ˆæ¸¬å€¤(æœ€å°)ã€‚
      */
     public Number    minValue;
 
     /**
-     * Œv‘ª’l‚ÌƒCƒ“ƒfƒbƒNƒX
+     * è¨ˆæ¸¬å€¤ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
      */
     public int       index;
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      */
     public ReportItemValue()
     {

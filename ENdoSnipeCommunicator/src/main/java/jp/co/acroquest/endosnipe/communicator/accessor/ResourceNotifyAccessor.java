@@ -49,34 +49,34 @@ import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import org.apache.log4j.Logger;
 
 /**
- * ƒŠƒ\[ƒX’Ê’m“d•¶‚Ì‚½‚ß‚ÌƒAƒNƒZƒTƒNƒ‰ƒX‚Å‚·B<br />
+ * ãƒªã‚½ãƒ¼ã‚¹é€šçŸ¥é›»æ–‡ã®ãŸã‚ã®ã‚¢ã‚¯ã‚»ã‚µã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  * @author fujii
  */
 public class ResourceNotifyAccessor implements TelegramConstants, MeasurementConstants
 {
-    /** ƒOƒ‰ƒt‚ÌŒn—ñ‚ª‚P‚Â */
+    /** ã‚°ãƒ©ãƒ•ã®ç³»åˆ—ãŒï¼‘ã¤ */
     private static final int           SINGLE_RESOURCE        = 1;
 
-    /** ƒOƒ‰ƒt‚ÌŒn—ñ‚ª‚Q‚ÂˆÈã */
+    /** ã‚°ãƒ©ãƒ•ã®ç³»åˆ—ãŒï¼’ã¤ä»¥ä¸Š */
     private static final int           MULTI_RESOURCE         = 2;
 
-    /** ƒOƒ‰ƒtŒn—ñ‚Ì“d•¶‚ğ•\‚·€–Ú–¼‚ÌÚ”ö« */
+    /** ã‚°ãƒ©ãƒ•ç³»åˆ—ã®é›»æ–‡ã‚’è¡¨ã™é …ç›®åã®æ¥å°¾è¾ */
     private static final String        NAME_POSTFIX           = "-name";
 
-    /** Javelin‚Ìİ’èB */
+    /** Javelinã®è¨­å®šã€‚ */
     private static final JavelinConfig CONFIG                 = new JavelinConfig();
 
-    /** •\¦–¼•ÏŠ·ƒ}ƒbƒv */
+    /** è¡¨ç¤ºåå¤‰æ›ãƒãƒƒãƒ— */
     private static Map<String, String> convMap__              = new HashMap<String, String>(0);
 
-    /** ’uŠ·•Ï”‚ğ“Á’è‚·‚é‚½‚ß‚Ì³‹K•\Œ»•¶š—ñB */
+    /** ç½®æ›å¤‰æ•°ã‚’ç‰¹å®šã™ã‚‹ãŸã‚ã®æ­£è¦è¡¨ç¾æ–‡å­—åˆ—ã€‚ */
     private static final Pattern       VAR_PATTERN            =
                                            Pattern.compile("\\$\\{[A-z0-9][A-z0-9_.-]*\\}");
 
-    /** Œv‘ª€–Ú–¼(ID)‚ÌÚ“ª«B’è‹`ƒtƒ@ƒCƒ‹‚©‚çæ“¾‚µ‚½•¶š—ñB */
+    /** è¨ˆæ¸¬é …ç›®å(ID)ã®æ¥é ­è¾ã€‚å®šç¾©ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰å–å¾—ã—ãŸæ–‡å­—åˆ—ã€‚ */
     private static String              prefixTemplate__;
 
-    /** Œv‘ª€–Ú–¼(ID)‚ÉÚ“ª«‚ğ•t—^‚µ‚È‚¢€–Ú‚Ì‘O•ûˆê’vƒpƒ^[ƒ“ƒŠƒXƒgB */
+    /** è¨ˆæ¸¬é …ç›®å(ID)ã«æ¥é ­è¾ã‚’ä»˜ä¸ã—ãªã„é …ç›®ã®å‰æ–¹ä¸€è‡´ãƒ‘ã‚¿ãƒ¼ãƒ³ãƒªã‚¹ãƒˆã€‚ */
     private static List<String>        noPrefixPatternList__  = new ArrayList<String>();
 
     static
@@ -88,7 +88,7 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
             String[] tmpNoPrefixPatternArr = tmpNoPrefixPatternStr.split(",");
             for (String pattern : tmpNoPrefixPatternArr)
             {
-                // ‹ó•¶š—ñA‹ó”’‚Ì‚İ‚ÍœŠO‚·‚é
+                // ç©ºæ–‡å­—åˆ—ã€ç©ºç™½ã®ã¿ã¯é™¤å¤–ã™ã‚‹
                 if (pattern.trim().length() == 0)
                 {
                     continue;
@@ -99,7 +99,7 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
     }
 
     /**
-     * ƒvƒ‰ƒCƒx[ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      */
     private ResourceNotifyAccessor()
     {
@@ -107,16 +107,16 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
     }
 
     /**
-     * {@link ResourceData}ƒIƒuƒWƒFƒNƒg‚©‚çƒŠƒ\[ƒX’Ê’m‚Ì“d•¶‚ğì¬‚µ‚Ü‚·B<br />
+     * {@link ResourceData}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‹ã‚‰ãƒªã‚½ãƒ¼ã‚¹é€šçŸ¥ã®é›»æ–‡ã‚’ä½œæˆã—ã¾ã™ã€‚<br />
      *
-     * @param resourceData {@link ResourceData}ƒIƒuƒWƒFƒNƒg
-     * @return “d•¶“à—e
+     * @param resourceData {@link ResourceData}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @return é›»æ–‡å†…å®¹
      */
     public static Telegram getResourceTelgram(final ResourceData resourceData)
     {
         List<Body> responseBodyList = new ArrayList<Body>();
 
-        // ‚ğ’Ç‰Á‚·‚éB
+        // æ™‚åˆ»ã‚’è¿½åŠ ã™ã‚‹ã€‚
         Long currentTime = resourceData.measurementTime;
         ResponseBody timeBody = makeTimeBody(currentTime);
         responseBodyList.add(timeBody);
@@ -127,7 +127,7 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
             String itemName = measurementData.itemName;
             byte itemType = measurementData.valueType;
 
-            // measurementData‚ÌÚ×‚ğ’Ç‰Á‚·‚éB
+            // measurementDataã®è©³ç´°ã‚’è¿½åŠ ã™ã‚‹ã€‚
             Map<String, MeasurementDetail> measurementDetailMap =
                     measurementData.getMeasurementDetailMap();
 
@@ -156,11 +156,11 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
                                                  ItemType.getItemType(itemType));
                 responseBodyList.add(valueBody);
 
-                // DisplayName‘Î‰
+                // DisplayNameå¯¾å¿œ
                 List<String> convNameList = new ArrayList<String>(nameList.size());
                 for (String name : nameList)
                 {
-                    // DisplayName‚ªŒÂ•Êİ’è‚³‚ê‚Ä‚¢‚½‚ç“K—p
+                    // DisplayNameãŒå€‹åˆ¥è¨­å®šã•ã‚Œã¦ã„ãŸã‚‰é©ç”¨
                     if (convMap__.containsKey(name))
                     {
                         convNameList.add(convMap__.get(name));
@@ -186,7 +186,7 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
     private static ResponseBody makeResourceResponseBody(String itemName, List<?> nameList,
             ItemType itemType)
     {
-        // ’l‚ğ’Ç‰Á‚·‚éB
+        // å€¤ã‚’è¿½åŠ ã™ã‚‹ã€‚
         ResponseBody valueBody = new ResponseBody();
         valueBody.setStrObjName(OBJECTNAME_RESOURCE);
         valueBody.setStrItemName(itemName);
@@ -194,7 +194,7 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
         valueBody.setByteItemMode(itemType);
         valueBody.setObjItemValueArr(nameList.toArray(new Object[nameList.size()]));
 
-        // DisplayName‚ªŒÂ•Êİ’è‚³‚ê‚Ä‚¢‚½‚ç“K—p
+        // DisplayNameãŒå€‹åˆ¥è¨­å®šã•ã‚Œã¦ã„ãŸã‚‰é©ç”¨
         if (convMap__.containsKey(itemName))
         {
             valueBody.setStrObjDispName(convMap__.get(itemName));
@@ -204,15 +204,15 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
     }
 
     /**
-     * óM‚µ‚½“d•¶‚©‚çƒŠƒ\[ƒXƒf[ƒ^‚ğì¬‚µ‚Ü‚·B<br />
-     * “d•¶í•Ê‚ªƒŠƒ\[ƒX’Ê’m“d•¶‚Å‚È‚¢ê‡‚âA—v‹‰“ší•Ê‚ª‰“š‚Å‚È‚¢ê‡A<br />
-     * “à—e‚ª•s³‚Å‚ ‚éê‡‚Í<code>null</code>‚ğ•Ô‚µ‚Ü‚·B<br />
+     * å—ä¿¡ã—ãŸé›»æ–‡ã‹ã‚‰ãƒªã‚½ãƒ¼ã‚¹ãƒ‡ãƒ¼ã‚¿ã‚’ä½œæˆã—ã¾ã™ã€‚<br />
+     * é›»æ–‡ç¨®åˆ¥ãŒãƒªã‚½ãƒ¼ã‚¹é€šçŸ¥é›»æ–‡ã§ãªã„å ´åˆã‚„ã€è¦æ±‚å¿œç­”ç¨®åˆ¥ãŒå¿œç­”ã§ãªã„å ´åˆã€<br />
+     * å†…å®¹ãŒä¸æ­£ã§ã‚ã‚‹å ´åˆã¯<code>null</code>ã‚’è¿”ã—ã¾ã™ã€‚<br />
      *
-     * @param telegram ƒŠƒ\[ƒX’Ê’m“d•¶
-     * @param dbName ƒf[ƒ^ƒx[ƒX–¼
-     * @param agentName ƒG[ƒWƒFƒ“ƒg–¼
+     * @param telegram ãƒªã‚½ãƒ¼ã‚¹é€šçŸ¥é›»æ–‡
+     * @param dbName ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param agentName ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆå
      *
-     * @return “d•¶‚©‚çì¬‚µ‚½{@link ResourceData}ƒIƒuƒWƒFƒNƒg
+     * @return é›»æ–‡ã‹ã‚‰ä½œæˆã—ãŸ{@link ResourceData}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     public static ResourceData createResourceData(final Telegram telegram, 
             String dbName, String agentName)
@@ -237,9 +237,9 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
             String itemName = body.getStrItemName();
             if (TIME_RESOURCE.equals(objectName))
             {
-                // €–Ú–¼‚ª‚Ìê‡‚É‚Í‚ğİ’è‚µAƒzƒXƒgID‚Ì‚É‚ÍƒzƒXƒgID‚ğİ’è‚·‚éB
-                // ‚»‚êˆÈŠO‚Ìê‡‚É‚ÍAŒv‘ª’lî•ñ‚ğ•\‚·‚Æ‚µ‚ÄAResourceData‚É’l‚ğİ’è‚·‚éB
-                // ¦Ú“ª«‚ª•t‚­ê‡‚ğ‘z’è‚µ‚ÄAŒã•ûˆê’v‚ÅŠm”F‚µ‚Ä‚¢‚é
+                // é …ç›®åãŒæ™‚åˆ»ã®å ´åˆã«ã¯æ™‚åˆ»ã‚’è¨­å®šã—ã€ãƒ›ã‚¹ãƒˆIDã®æ™‚ã«ã¯ãƒ›ã‚¹ãƒˆIDã‚’è¨­å®šã™ã‚‹ã€‚
+                // ãã‚Œä»¥å¤–ã®å ´åˆã«ã¯ã€è¨ˆæ¸¬å€¤æƒ…å ±ã‚’è¡¨ã™ã¨ã—ã¦ã€ResourceDataã«å€¤ã‚’è¨­å®šã™ã‚‹ã€‚
+                // â€»æ¥é ­è¾ãŒä»˜ãå ´åˆã‚’æƒ³å®šã—ã¦ã€å¾Œæ–¹ä¸€è‡´ã§ç¢ºèªã—ã¦ã„ã‚‹
                 if (itemName != null && itemName.endsWith(ITEMNAME_TIME))
                 {
                     if (body.getIntLoopCount() != 1)
@@ -247,13 +247,13 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
                         return null;
                     }
 
-                    // ƒNƒ‰ƒCƒAƒ“ƒg‚Ì‚ÅƒOƒ‰ƒt‚Ìƒf[ƒ^‚ğ•Û‘¶‚·‚éB
+                    // ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã®æ™‚åˆ»ã§ã‚°ãƒ©ãƒ•ã®ãƒ‡ãƒ¼ã‚¿ã‚’ä¿å­˜ã™ã‚‹ã€‚
                     Date date = new Date();
                     long now = date.getTime();
                     resourceData.measurementTime = now;
                 }
 
-                // ŠÔ‚Ì€–Ú‚ª—ˆ‚È‚¢‚Æ–³ŒÀƒ‹[ƒv‚É‚È‚é‚Ì‚ÅA‚Ç‚¿‚ç‚É‚µ‚Ä‚àƒJƒEƒ“ƒgƒAƒbƒv‚·‚é
+                // æ™‚é–“ã®é …ç›®ãŒæ¥ãªã„ã¨ç„¡é™ãƒ«ãƒ¼ãƒ—ã«ãªã‚‹ã®ã§ã€ã©ã¡ã‚‰ã«ã—ã¦ã‚‚ã‚«ã‚¦ãƒ³ãƒˆã‚¢ãƒƒãƒ—ã™ã‚‹
                 bodyCnt++;
             }
             else if (OBJECTNAME_RESOURCE.equals(objectName))
@@ -279,14 +279,14 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
     }
 
     /**
-     * {@link ResourceData}ƒIƒuƒWƒFƒNƒg‚ÉŒv‘ªî•ñ‚ğ’Ç‰Á‚µ‚Ü‚·B<br />
+     * {@link ResourceData}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«è¨ˆæ¸¬æƒ…å ±ã‚’è¿½åŠ ã—ã¾ã™ã€‚<br />
      *
-     * @param resourceData {@link ResourceData}ƒIƒuƒWƒFƒNƒg
-     * @param bodies “d•¶–{‘Ì‚Ì”z—ñ
-     * @param cnt “Ç’†‚Ì“d•¶ˆÊ’u
-     * @param dbName ƒf[ƒ^ƒx[ƒX–¼
+     * @param resourceData {@link ResourceData}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param bodies é›»æ–‡æœ¬ä½“ã®é…åˆ—
+     * @param cnt èª­è¾¼ä¸­ã®é›»æ–‡ä½ç½®
+     * @param dbName ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
      *
-     * @return Ÿ‚Ì“d•¶ˆÊ’u
+     * @return æ¬¡ã®é›»æ–‡ä½ç½®
      */
     private static int addMeasurementData(ResourceData resourceData, Body[] bodies, int cnt,
             String dbName, String agentName)
@@ -295,14 +295,14 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
 
         MeasurementData data = new MeasurementData();
 
-        // Œv‘ª’lî•ñ‚ğ’Ç‰Á
+        // è¨ˆæ¸¬å€¤æƒ…å ±ã‚’è¿½åŠ 
         Body measurementBody = bodies[cnt];
         String measurementObjName = measurementBody.getStrObjName();
         String measuremnetItemName = agentName + measurementBody.getStrItemName();
 
         if (OBJECTNAME_RESOURCE.equals(measurementObjName))
         {
-            // Œv‘ª’lî•ñ‚ğŒˆ’è‚·‚éB
+            // è¨ˆæ¸¬å€¤æƒ…å ±ã‚’æ±ºå®šã™ã‚‹ã€‚
             data.measurementType = 0;
             data.itemName = measuremnetItemName;
             data.valueType = ItemType.getItemTypeNumber(measurementBody.getByteItemMode());
@@ -333,7 +333,7 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
             }
             else
             {
-                // Œv‘ª’lÚ×(Œv‘ª’lA•\¦–¼)‚ğ’Ç‰Á
+                // è¨ˆæ¸¬å€¤è©³ç´°(è¨ˆæ¸¬å€¤ã€è¡¨ç¤ºå)ã‚’è¿½åŠ 
                 Body nameBody = bodies[cnt + 1];
 
                 Object[] valueArr = measurementBody.getObjItemValueArr();
@@ -371,21 +371,21 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
     }
 
     /**
-     * “Ç’†‚Ì“d•¶ƒ^‚ªA’Pˆê‚Ìƒf[ƒ^Œn—ñ‚ğ‚ ‚ç‚í‚·‚©A•¡”‚Ìƒf[ƒ^Œn—ñ‚ğ‚ ‚ç‚í‚·‚©B<br />
-     * ’Pˆêƒf[ƒ^Œn—ñ‚Å‚ ‚éê‡‚ÍAˆÈ‰º‚Ì‚¢‚¸‚ê‚©‚ğ–‚½‚µ‚Ü‚·B<br />
+     * èª­è¾¼ä¸­ã®é›»æ–‡ã‚¿ãŒã€å˜ä¸€ã®ãƒ‡ãƒ¼ã‚¿ç³»åˆ—ã‚’ã‚ã‚‰ã‚ã™ã‹ã€è¤‡æ•°ã®ãƒ‡ãƒ¼ã‚¿ç³»åˆ—ã‚’ã‚ã‚‰ã‚ã™ã‹ã€‚<br />
+     * å˜ä¸€ãƒ‡ãƒ¼ã‚¿ç³»åˆ—ã§ã‚ã‚‹å ´åˆã¯ã€ä»¥ä¸‹ã®ã„ãšã‚Œã‹ã‚’æº€ãŸã—ã¾ã™ã€‚<br />
      * <ul>
-     * <li>“Ç’†‚Ì“d•¶–{‘Ì‚ªA”z—ñ‚ÌÅŒã‚Å‚ ‚éB</li>
-     * <li>“Ç’†‚Ì“d•¶‚ÌŸ‚Ì“d•¶‚ÌƒIƒuƒWƒFƒNƒg–¼‚ª"resources"‚Å‚È‚¢B</li>
-     * <li>“Ç’†‚Ì“d•¶‚ÌŸ‚Ì“d•¶‚Ì€–Ú–¼‚ªA"&lt;“Ç’†“d•¶‚Ì€–Ú–¼&gt;-name"‚Å‚È‚¢B</li>
+     * <li>èª­è¾¼ä¸­ã®é›»æ–‡æœ¬ä½“ãŒã€é…åˆ—ã®æœ€å¾Œã§ã‚ã‚‹ã€‚</li>
+     * <li>èª­è¾¼ä¸­ã®é›»æ–‡ã®æ¬¡ã®é›»æ–‡ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆåãŒ"resources"ã§ãªã„ã€‚</li>
+     * <li>èª­è¾¼ä¸­ã®é›»æ–‡ã®æ¬¡ã®é›»æ–‡ã®é …ç›®åãŒã€"&lt;èª­è¾¼ä¸­é›»æ–‡ã®é …ç›®å&gt;-name"ã§ãªã„ã€‚</li>
      * </ul>
      *
-     * @param bodies “d•¶–{‘Ì‚Ì”z—ñ
-     * @param cnt “Ç‚İ‚İ’†‚Ì“d•¶‚Ì”Ô†
-     * @return ’Pˆêƒf[ƒ^Œn—ñ‚Å‚ ‚ê‚ÎA<code>true</code>
+     * @param bodies é›»æ–‡æœ¬ä½“ã®é…åˆ—
+     * @param cnt èª­ã¿è¾¼ã¿ä¸­ã®é›»æ–‡ã®ç•ªå·
+     * @return å˜ä¸€ãƒ‡ãƒ¼ã‚¿ç³»åˆ—ã§ã‚ã‚Œã°ã€<code>true</code>
      */
     private static boolean isSingleResource(Body[] bodies, int cnt)
     {
-        // “Ç’†‚Ì“d•¶–{‘Ì‚ªA”z—ñ‚ÌÅŒã‚Å‚ ‚éê‡
+        // èª­è¾¼ä¸­ã®é›»æ–‡æœ¬ä½“ãŒã€é…åˆ—ã®æœ€å¾Œã§ã‚ã‚‹å ´åˆ
         if (bodies.length <= (cnt + 1))
         {
             return true;
@@ -393,8 +393,8 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
         Body valueBody = bodies[cnt];
         Body nameBody = bodies[cnt + 1];
 
-        // “Ç’†‚Ì“d•¶‚ÌŸ‚Ì“d•¶‚ÌƒIƒuƒWƒFƒNƒg–¼‚ª"resources"‚Å‚ ‚èA
-        // “Ç’†‚Ì“d•¶‚ÌŸ‚Ì“d•¶‚Ì€–Ú–¼‚ªA"<“Ç’†“d•¶‚Ì€–Ú–¼>-name"‚Å‚ ‚éê‡
+        // èª­è¾¼ä¸­ã®é›»æ–‡ã®æ¬¡ã®é›»æ–‡ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆåãŒ"resources"ã§ã‚ã‚Šã€
+        // èª­è¾¼ä¸­ã®é›»æ–‡ã®æ¬¡ã®é›»æ–‡ã®é …ç›®åãŒã€"<èª­è¾¼ä¸­é›»æ–‡ã®é …ç›®å>-name"ã§ã‚ã‚‹å ´åˆ
         if (OBJECTNAME_RESOURCE.equals(nameBody.getStrObjName()))
         {
             String valueItemName = valueBody.getStrItemName();
@@ -408,10 +408,10 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
     }
 
     /**
-     * “d•¶í•Ê‚ªƒŠƒ\[ƒX’Ê’m‚Å‚ ‚é‚©‚Ç‚¤‚©<br />
+     * é›»æ–‡ç¨®åˆ¥ãŒãƒªã‚½ãƒ¼ã‚¹é€šçŸ¥ã§ã‚ã‚‹ã‹ã©ã†ã‹<br />
      *
-     * @param telegram “d•¶
-     * @return ƒŠƒ\[ƒX’Ê’m“d•¶‚Å‚ ‚éê‡A<code>true</code>
+     * @param telegram é›»æ–‡
+     * @return ãƒªã‚½ãƒ¼ã‚¹é€šçŸ¥é›»æ–‡ã§ã‚ã‚‹å ´åˆã€<code>true</code>
      */
     private static boolean checkTelegramKind(final Telegram telegram)
     {
@@ -424,9 +424,9 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
     }
 
     /**
-     * —v‹‰“ší•Ê‚ª‰“š‚Å‚ ‚é‚©‚Ç‚¤‚©
-     * @param telegram “d•¶
-     * @return true:—v‹‰“ší•Ê‚ª‰“š‚Å‚ ‚éAfalse:—v‹‰“ší•Ê‚ª‰“š‚Å‚È‚¢B
+     * è¦æ±‚å¿œç­”ç¨®åˆ¥ãŒå¿œç­”ã§ã‚ã‚‹ã‹ã©ã†ã‹
+     * @param telegram é›»æ–‡
+     * @return true:è¦æ±‚å¿œç­”ç¨®åˆ¥ãŒå¿œç­”ã§ã‚ã‚‹ã€false:è¦æ±‚å¿œç­”ç¨®åˆ¥ãŒå¿œç­”ã§ãªã„ã€‚
      */
     private static boolean checkResponseKind(final Telegram telegram)
     {
@@ -439,10 +439,10 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
     }
 
     /**
-     * —v‹–{‘Ì‚ğì¬‚·‚éB
+     * è¦æ±‚æœ¬ä½“ã‚’ä½œæˆã™ã‚‹ã€‚
      *
-     * @param itemName €–Ú–¼
-     * @return —v‹–{‘Ì
+     * @param itemName é …ç›®å
+     * @return è¦æ±‚æœ¬ä½“
      */
     public static RequestBody makeResourceRequestBody(final String itemName)
     {
@@ -453,12 +453,12 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
     }
 
     /**
-     * ‰“š–{‘Ì‚ğì¬‚·‚éB
+     * å¿œç­”æœ¬ä½“ã‚’ä½œæˆã™ã‚‹ã€‚
      *
-     * @param itemName €–Ú–¼
-     * @param value ’l
-     * @param itemType €–Ú‚ÌŒ^
-     * @return —v‹–{‘Ì
+     * @param itemName é …ç›®å
+     * @param value å€¤
+     * @param itemType é …ç›®ã®å‹
+     * @return è¦æ±‚æœ¬ä½“
      */
     public static ResponseBody makeResourceResponseBody(String itemName, Object value,
             ItemType itemType)
@@ -470,7 +470,7 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
         responseBody.setByteItemMode(itemType);
         responseBody.setObjItemValueArr(new Object[]{value});
 
-        // DisplayName‚ªŒÂ•Êİ’è‚³‚ê‚Ä‚¢‚½‚ç“K—p
+        // DisplayNameãŒå€‹åˆ¥è¨­å®šã•ã‚Œã¦ã„ãŸã‚‰é©ç”¨
         if (convMap__.containsKey(itemName))
         {
             responseBody.setStrObjDispName(convMap__.get(itemName));
@@ -480,10 +480,10 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
     }
 
     /**
-     * ‰“š“d•¶‚ğì¬‚·‚éB
+     * å¿œç­”é›»æ–‡ã‚’ä½œæˆã™ã‚‹ã€‚
      * 
-     * @param responseBodyList ‰“š“d•¶‚É‹l‚ß‚éBody‚ÌƒŠƒXƒgB
-     * @return ì¬‚µ‚½‰“š“d•¶(Telegram)B
+     * @param responseBodyList å¿œç­”é›»æ–‡ã«è©°ã‚ã‚‹Bodyã®ãƒªã‚¹ãƒˆã€‚
+     * @return ä½œæˆã—ãŸå¿œç­”é›»æ–‡(Telegram)ã€‚
      */
     public static Telegram makeResponseTelegram(List<Body> responseBodyList)
     {
@@ -496,10 +496,10 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
 
         Body[] objBodies = responseBodyList.toArray(new Body[responseBodyList.size()]);
 
-        // strItemName‚ÉAƒzƒXƒg–¼‚È‚Ç‚ÌÚ“ª«‚ğ•t—^‚·‚é
-        //  - ƒNƒ‰ƒXƒ^–¼‚Í‹­§“I‚É•t—^‚·‚éB
-        //  - œŠO‘ÎÛ‚Æ‚È‚é•¶š—ñ‚Ån‚Ü‚é‚à‚Ì‚É‚Í•t—^‚µ‚È‚¢
-        //  - •t—^‚·‚éÚ“ª«‚ÍƒtƒH[ƒ}ƒbƒg‚ğ’è‹`‚Å‚«‚é
+        // strItemNameã«ã€ãƒ›ã‚¹ãƒˆåãªã©ã®æ¥é ­è¾ã‚’ä»˜ä¸ã™ã‚‹
+        //  - ã‚¯ãƒ©ã‚¹ã‚¿åã¯å¼·åˆ¶çš„ã«ä»˜ä¸ã™ã‚‹ã€‚
+        //  - é™¤å¤–å¯¾è±¡ã¨ãªã‚‹æ–‡å­—åˆ—ã§å§‹ã¾ã‚‹ã‚‚ã®ã«ã¯ä»˜ä¸ã—ãªã„
+        //  - ä»˜ä¸ã™ã‚‹æ¥é ­è¾ã¯ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã‚’å®šç¾©ã§ãã‚‹
 
         String prefix = getPrefixStr();
 
@@ -511,12 +511,12 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
             {
                 String concreteItemName = appendPrefix(prefix, itemName);
                 
-                // Ú“ª«‚Æ€–Ú–¼‚ÌŠÔ‚ÉƒXƒ‰ƒbƒVƒ…‚ª“ü‚ç‚È‚¢ƒP[ƒX‚ğ‰ñ”ğ‚·‚é
+                // æ¥é ­è¾ã¨é …ç›®åã®é–“ã«ã‚¹ãƒ©ãƒƒã‚·ãƒ¥ãŒå…¥ã‚‰ãªã„ã‚±ãƒ¼ã‚¹ã‚’å›é¿ã™ã‚‹
                 body.setStrItemName(concreteItemName);
             }
             else
             {
-                // Ú“ª«‚Æ€–Ú–¼‚ÌŠÔ‚ÉƒXƒ‰ƒbƒVƒ…‚ª“ü‚ç‚È‚¢ƒP[ƒX‚ğ‰ñ”ğ‚·‚é
+                // æ¥é ­è¾ã¨é …ç›®åã®é–“ã«ã‚¹ãƒ©ãƒƒã‚·ãƒ¥ãŒå…¥ã‚‰ãªã„ã‚±ãƒ¼ã‚¹ã‚’å›é¿ã™ã‚‹
                 body.setStrItemName(itemName);
             }
         }
@@ -540,12 +540,12 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
     }
 
     /**
-     * Ú“ª«‚ğ•t—^‚·‚é•K—v‚ª‚ ‚é‚©‚Ç‚¤‚©”»’è‚·‚éB<br/>
-     * javelin.properties‚É’è‹`‚µ‚½AœŠO‘ÎÛ‚ÌItemName‚É‘O•ûˆê’v‚·‚éê‡‚ÍA
-     * Ú“ª«‚ğ•t—^‚µ‚È‚¢B
+     * æ¥é ­è¾ã‚’ä»˜ä¸ã™ã‚‹å¿…è¦ãŒã‚ã‚‹ã‹ã©ã†ã‹åˆ¤å®šã™ã‚‹ã€‚<br/>
+     * javelin.propertiesã«å®šç¾©ã—ãŸã€é™¤å¤–å¯¾è±¡ã®ItemNameã«å‰æ–¹ä¸€è‡´ã™ã‚‹å ´åˆã¯ã€
+     * æ¥é ­è¾ã‚’ä»˜ä¸ã—ãªã„ã€‚
      * 
-     * @param itemName ”»’è‘ÎÛ‚Ì€–Ú–¼ÌB
-     * @return Ú“ª«‚ğ•t—^‚·‚éê‡‚ÍtrueA•t—^‚µ‚È‚¢ê‡‚ÍfalseB
+     * @param itemName åˆ¤å®šå¯¾è±¡ã®é …ç›®åç§°ã€‚
+     * @return æ¥é ­è¾ã‚’ä»˜ä¸ã™ã‚‹å ´åˆã¯trueã€ä»˜ä¸ã—ãªã„å ´åˆã¯falseã€‚
      */
     private static boolean isPrefixNeeded(String itemName)
     {
@@ -567,23 +567,23 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
     }
 
     /**
-     * ’è‹`‚©‚çæ“¾‚µ‚½•¶š—ñ‚ğŒ³‚ÉAÚ“ª«‚Æ‚È‚é•¶š—ñ‚ğ¶¬‚·‚éB<br/>
+     * å®šç¾©ã‹ã‚‰å–å¾—ã—ãŸæ–‡å­—åˆ—ã‚’å…ƒã«ã€æ¥é ­è¾ã¨ãªã‚‹æ–‡å­—åˆ—ã‚’ç”Ÿæˆã™ã‚‹ã€‚<br/>
      * <p>
-     * ’è‹`‚ÍAjavelin.properties “à javelin.resource.itemName.prefix ‚É‹Lq‚·‚éB
+     * å®šç¾©ã¯ã€javelin.properties å†… javelin.resource.itemName.prefix ã«è¨˜è¿°ã™ã‚‹ã€‚
      * </p>
      * <p>
-     * ’è‹`’†‚É‚Í’uŠ·•Ï”‚ğŠÜ‚ß‚é‚±‚Æ‚ª‚Å‚«‚éB<br/>
-     * ’uŠ·•Ï”‚Ì‘®‚Í ${(ƒVƒXƒeƒ€ƒvƒƒpƒeƒB–¼)} ‚Å‚ ‚éB
-     * ‚½‚¾‚µAƒVƒXƒeƒ€ƒvƒƒpƒeƒB–¼‚Éw’è‚Å‚«‚é•¶š‚Í‰p”šA
-     * ”¼ŠpƒnƒCƒtƒ“A”¼ŠpƒAƒ“ƒ_[ƒXƒRƒAA”¼ŠpƒsƒŠƒIƒh‚Ì‚İ‚Æ‚·‚éB
+     * å®šç¾©ä¸­ã«ã¯ç½®æ›å¤‰æ•°ã‚’å«ã‚ã‚‹ã“ã¨ãŒã§ãã‚‹ã€‚<br/>
+     * ç½®æ›å¤‰æ•°ã®æ›¸å¼ã¯ ${(ã‚·ã‚¹ãƒ†ãƒ ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å)} ã§ã‚ã‚‹ã€‚
+     * ãŸã ã—ã€ã‚·ã‚¹ãƒ†ãƒ ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£åã«æŒ‡å®šã§ãã‚‹æ–‡å­—ã¯è‹±æ•°å­—ã€
+     * åŠè§’ãƒã‚¤ãƒ•ãƒ³ã€åŠè§’ã‚¢ãƒ³ãƒ€ãƒ¼ã‚¹ã‚³ã‚¢ã€åŠè§’ãƒ”ãƒªã‚ªãƒ‰ã®ã¿ã¨ã™ã‚‹ã€‚
      * 
-     * @return ¶¬‚µ‚½Ú“ª«B
+     * @return ç”Ÿæˆã—ãŸæ¥é ­è¾ã€‚
      */
     private static String getPrefixStr()
     {
         Matcher varMatcher = VAR_PATTERN.matcher(prefixTemplate__);
 
-        // ’è‹`‚©‚çæ“¾‚µ‚½•¶š—ñ’†‚ÉA•Ï”‚ª‘¶İ‚·‚éê‡‚Í’Šo‚·‚é
+        // å®šç¾©ã‹ã‚‰å–å¾—ã—ãŸæ–‡å­—åˆ—ä¸­ã«ã€å¤‰æ•°ãŒå­˜åœ¨ã™ã‚‹å ´åˆã¯æŠ½å‡ºã™ã‚‹
         List<String> varList = new ArrayList<String>();
         int startIndex = 0;
         while (varMatcher.find(startIndex))
@@ -600,13 +600,13 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
             startIndex = endIndex;
         }
 
-        // •Ï”‚ª‚È‚¯‚ê‚Î‚»‚Ì‚Ü‚Ü‚Ì•¶š—ñ‚ğ•Ô‚·
+        // å¤‰æ•°ãŒãªã‘ã‚Œã°ãã®ã¾ã¾ã®æ–‡å­—åˆ—ã‚’è¿”ã™
         if (varList.size() == 0)
         {
             return prefixTemplate__;
         }
 
-        // •Ï”•”•ª‚ÍAƒVƒXƒeƒ€ƒvƒƒpƒeƒB‚©‚ç’l‚ğæ“¾‚µ‚Ä’uŠ·‚·‚é
+        // å¤‰æ•°éƒ¨åˆ†ã¯ã€ã‚·ã‚¹ãƒ†ãƒ ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‹ã‚‰å€¤ã‚’å–å¾—ã—ã¦ç½®æ›ã™ã‚‹
         String tempPrefix = prefixTemplate__;
         for (String propName : varList)
         {
@@ -621,10 +621,10 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
     }
 
     /**
-     * ŠÔ€–Ú‚ÌBody‚ğì¬‚µ‚Ü‚·B
+     * æ™‚é–“é …ç›®ã®Bodyã‚’ä½œæˆã—ã¾ã™ã€‚
      * 
-     * @param time B
-     * @return ì¬‚µ‚½BodyB
+     * @param time æ™‚åˆ»ã€‚
+     * @return ä½œæˆã—ãŸBodyã€‚
      */
     public static ResponseBody makeTimeBody(long time)
     {
@@ -640,9 +640,9 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
 
 
     /**
-     * •\¦–¼•ÏŠ·ƒ}ƒbƒv‚ğİ’è‚µ‚Ü‚·B
+     * è¡¨ç¤ºåå¤‰æ›ãƒãƒƒãƒ—ã‚’è¨­å®šã—ã¾ã™ã€‚
      *
-     * @param convMap •\¦–¼•ÏŠ·ƒ}ƒbƒv
+     * @param convMap è¡¨ç¤ºåå¤‰æ›ãƒãƒƒãƒ—
      */
     public static void setConvMap(Map<String, String> convMap)
     {

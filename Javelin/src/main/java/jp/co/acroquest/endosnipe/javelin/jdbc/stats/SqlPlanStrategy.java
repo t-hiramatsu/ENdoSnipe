@@ -35,38 +35,38 @@ import jp.co.acroquest.endosnipe.javelin.RecordStrategy;
 import jp.co.acroquest.endosnipe.javelin.log.JavelinLogCallback;
 
 /**
- * “¯ˆêSQL‚ÌÀsŒv‰æo—Í‚©‚çˆê’èŠÔ’´‚¦‚½ê‡‚ÉAÀsŒv‰æ‚Ì‹L˜^E’Ê’m‚ğs‚¤RecordStrategyB
- * è‡’l‚Íjavelin.jdbc.planInterval‚Åw’è‚·‚éB
+ * åŒä¸€SQLã®å®Ÿè¡Œè¨ˆç”»å‡ºåŠ›ã‹ã‚‰ä¸€å®šæ™‚é–“è¶…ãˆãŸå ´åˆã«ã€å®Ÿè¡Œè¨ˆç”»ã®è¨˜éŒ²ãƒ»é€šçŸ¥ã‚’è¡Œã†RecordStrategyã€‚
+ * é–¾å€¤ã¯javelin.jdbc.planIntervalã§æŒ‡å®šã™ã‚‹ã€‚
  * 
  * @author tsukano
  */
 public class SqlPlanStrategy implements RecordStrategy
 {
-    /** ÀssŒv‰æ‚ğ•Û‘¶‚·‚éÛ‚ÌƒL[ */
+    /** å®Ÿè¡Œsè¨ˆç”»ã‚’ä¿å­˜ã™ã‚‹éš›ã®ã‚­ãƒ¼ */
     private static final String JDBC_PLAN_KEY = "jdbc.plan";
 
-    /** “¯ˆêSQL‚ÌÀsŒv‰æo—Í‚ğƒAƒ‰[ƒ€‚É‚·‚éè‡’l */
+    /** åŒä¸€SQLã®å®Ÿè¡Œè¨ˆç”»å‡ºåŠ›ã‚’ã‚¢ãƒ©ãƒ¼ãƒ ã«ã™ã‚‹é–¾å€¤ */
     private long threshold_;
 
-    /** è‡’l‚ğ•\‚·ƒvƒƒpƒeƒB–¼ */
+    /** é–¾å€¤ã‚’è¡¨ã™ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å */
     private static final String PLAN_INTERVAL_KEY =
             JavelinConfig.JAVELIN_PREFIX + "jdbc.planInterval";
 
-    /** è‡’l‚ÌƒfƒtƒHƒ‹ƒg(1“ú) */
+    /** é–¾å€¤ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ(1æ—¥) */
     private static final int DEFAULT_PLAN_INTERVAL = 60000 * 60 * 24;
 
-    /** CallTreeNode‚É“o˜^‚·‚éÛ‚ÌƒL[ */
+    /** CallTreeNodeã«ç™»éŒ²ã™ã‚‹éš›ã®ã‚­ãƒ¼ */
     public static final String KEY = "SqlPlanStrategy";
 
     /**
-     * ÀsŒv‰æ‚ÌÅIo—Í“ú‚ğ•Û‚·‚éƒ}ƒbƒvB
-     * ‘Sƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚É‚Ü‚½‚ª‚Á‚Ä•Û‚µ‚Ä‚¢‚éB
-     * key=SQL•¶‚ÌhashCodeAvalue=ÀsŒv‰æ‚ÌÅIo—Í“ú
+     * å®Ÿè¡Œè¨ˆç”»ã®æœ€çµ‚å‡ºåŠ›æ—¥æ™‚ã‚’ä¿æŒã™ã‚‹ãƒãƒƒãƒ—ã€‚
+     * å…¨ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã«ã¾ãŸãŒã£ã¦ä¿æŒã—ã¦ã„ã‚‹ã€‚
+     * key=SQLæ–‡ã®hashCodeã€value=å®Ÿè¡Œè¨ˆç”»ã®æœ€çµ‚å‡ºåŠ›æ—¥æ™‚
      */
     private static Map<Integer, Long> sqlPlanMap__ = new ConcurrentHashMap<Integer, Long>();
 
     /**
-     * ƒvƒƒpƒeƒB‚©‚çplanInterval‚ğ“Ç‚İ‚ŞB
+     * ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‹ã‚‰planIntervalã‚’èª­ã¿è¾¼ã‚€ã€‚
      */
     public SqlPlanStrategy()
     {
@@ -75,11 +75,11 @@ public class SqlPlanStrategy implements RecordStrategy
     }
 
     /**
-     * SQL‚ÌÀsŒv‰æo—Í—p‚ÌSQL‚ª‚ ‚é‚©”»’è‚µ‚Ü‚·B<br />
+     * SQLã®å®Ÿè¡Œè¨ˆç”»å‡ºåŠ›ç”¨ã®SQLãŒã‚ã‚‹ã‹åˆ¤å®šã—ã¾ã™ã€‚<br />
      * 
-     * @param sql ÀsŒv‰æo—ÍŠÔ‚ğ‹L˜^‚·‚éSQL
+     * @param sql å®Ÿè¡Œè¨ˆç”»å‡ºåŠ›æ™‚é–“ã‚’è¨˜éŒ²ã™ã‚‹SQL
      * 
-     * @return ÀsŒv‰æo—Í—p‚ÌSQL‚ª“o˜^‚³‚ê‚Ä‚¨‚èA‚©‚ÂŠúŒÀ‚ªØ‚ê‚Ä‚¢‚È‚¢ê‡‚Í <code>true</code>
+     * @return å®Ÿè¡Œè¨ˆç”»å‡ºåŠ›ç”¨ã®SQLãŒç™»éŒ²ã•ã‚Œã¦ãŠã‚Šã€ã‹ã¤æœŸé™ãŒåˆ‡ã‚Œã¦ã„ãªã„å ´åˆã¯ <code>true</code>
      */
     public boolean existPlanOutputSql(String sql)
     {
@@ -106,9 +106,9 @@ public class SqlPlanStrategy implements RecordStrategy
     }
 
     /**
-     * SQL‚ÌÀsŒv‰æo—Í—p‚ÌSQL‚ğ“o˜^‚µ‚Ü‚·B<br />
+     * SQLã®å®Ÿè¡Œè¨ˆç”»å‡ºåŠ›ç”¨ã®SQLã‚’ç™»éŒ²ã—ã¾ã™ã€‚<br />
      * 
-     * @param sql ÀsŒv‰æo—Í—p‚ÌSQL
+     * @param sql å®Ÿè¡Œè¨ˆç”»å‡ºåŠ›ç”¨ã®SQL
      */
     public void recordPlanOutputSql(String sql)
     {
@@ -123,11 +123,11 @@ public class SqlPlanStrategy implements RecordStrategy
     }
 
     /**
-     * JavelilnƒƒO‚Ío—Í‚µ‚È‚¢B
-     * •Û‘¶‚µ‚Ä‚¢‚éSQL‚ª‘½‚­‚È‚Á‚½ê‡‚Éíœ‚·‚éB
+     * Javelilnãƒ­ã‚°ã¯å‡ºåŠ›ã—ãªã„ã€‚
+     * ä¿å­˜ã—ã¦ã„ã‚‹SQLãŒå¤šããªã£ãŸå ´åˆã«å‰Šé™¤ã™ã‚‹ã€‚
      * 
-     * @param node ƒm[ƒhB
-     * @return JavelinƒƒOƒtƒ@ƒCƒ‹‚ğo—Í‚·‚é‚©‚Ç‚¤‚©B
+     * @param node ãƒãƒ¼ãƒ‰ã€‚
+     * @return Javelinãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã€‚
      */
     public boolean judgeGenerateJaveinFile(CallTreeNode node)
     {
@@ -140,9 +140,9 @@ public class SqlPlanStrategy implements RecordStrategy
     }
 
     /**
-     * ÀsŒv‰æ‚ğİ’è‚·‚éB
-     * @param node ƒm[ƒh
-     * @param execPlan ÀsŒv‰æ
+     * å®Ÿè¡Œè¨ˆç”»ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param node ãƒãƒ¼ãƒ‰
+     * @param execPlan å®Ÿè¡Œè¨ˆç”»
      */
     public void setExecPlan(CallTreeNode node, String[] execPlan)
     {
@@ -150,9 +150,9 @@ public class SqlPlanStrategy implements RecordStrategy
     }
 
     /**
-     * ÀsŒv‰æ‚ğæ“¾‚·‚éB
-     * @param node ƒm[ƒh
-     * @return ÀsŒv‰æ
+     * å®Ÿè¡Œè¨ˆç”»ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @param node ãƒãƒ¼ãƒ‰
+     * @return å®Ÿè¡Œè¨ˆç”»
      */
     public String[] getExecPlan(CallTreeNode node)
     {
@@ -168,7 +168,7 @@ public class SqlPlanStrategy implements RecordStrategy
     }
 
     /**
-     * ‰½‚à‚µ‚È‚¢B
+     * ä½•ã‚‚ã—ãªã„ã€‚
      */
     public void postJudge()
     {
@@ -176,7 +176,7 @@ public class SqlPlanStrategy implements RecordStrategy
     }
 
     /**
-     * ‰½‚à‚µ‚È‚¢B
+     * ä½•ã‚‚ã—ãªã„ã€‚
      * @param node CallTreeNode
      * @return null
      */
@@ -187,7 +187,7 @@ public class SqlPlanStrategy implements RecordStrategy
     }
 
     /**
-     * ‰½‚à‚µ‚È‚¢B
+     * ä½•ã‚‚ã—ãªã„ã€‚
      * @return null
      */
     public JavelinLogCallback createCallback()

@@ -3,23 +3,23 @@ package jp.co.acroquest.endosnipe.report.entity;
 import java.sql.Timestamp;
 
 /**
- * �uJavelin�v�^�u�́u�ϊ����\�b�h���v�̃O���t�̃f�[�^��
- * 1�ێ�����N���X�ł��B
+ * ・ｽuJavelin・ｽv・ｽ^・ｽu・ｽﾌ「・ｽﾏ奇ｿｽ・ｽ・ｽ・ｽ\・ｽb・ｽh・ｽ・ｽ・ｽv・ｽﾌグ・ｽ・ｽ・ｽt・ｽﾌデ・ｽ[・ｽ^・ｽ・ｽ
+ * 1・ｽﾂ保趣ｿｽ・ｽ・ｽ・ｽ・ｽN・ｽ・ｽ・ｽX・ｽﾅゑｿｽ・ｽB
  * 
  * @author acroquest
  */
 public class ConvertedMethodNumRecord
 {
-	/** �v������ */
+	/** ・ｽv・ｽ・ｽ・ｽ・ｽ・ｽ・ｽ */
     private Timestamp measurementTime_;
     
-    /** �ϊ����\�b�h���̃O���t�́AJavelinConverter�ϊ����\�b�h��[��] */
+    /** ・ｽﾏ奇ｿｽ・ｽ・ｽ・ｽ\・ｽb・ｽh・ｽ・ｽ・ｽﾌグ・ｽ・ｽ・ｽt・ｽﾌ、JavelinConverter・ｽﾏ奇ｿｽ・ｽ・ｽ・ｽ\・ｽb・ｽh・ｽ・ｽ[・ｽ・ｽ] */
     private long javelinConverterMethodNum_;
     
-    /** �ϊ����\�b�h���̃O���t�́AJavelinConverter�ϊ����O���\�b�h��[��] */
+    /** ・ｽﾏ奇ｿｽ・ｽ・ｽ・ｽ\・ｽb・ｽh・ｽ・ｽ・ｽﾌグ・ｽ・ｽ・ｽt・ｽﾌ、JavelinConverter・ｽﾏ奇ｿｽ・ｽ・ｽ・ｽO・ｽ・ｽ・ｽ\・ｽb・ｽh・ｽ・ｽ[・ｽ・ｽ] */
     private long javelinConverterExcludedMethodNum_;
     
-    /** �ϊ����\�b�h���̃O���t�́A���s���\�b�h��[��] */
+    /** ・ｽﾏ奇ｿｽ・ｽ・ｽ・ｽ\・ｽb・ｽh・ｽ・ｽ・ｽﾌグ・ｽ・ｽ・ｽt・ｽﾌ、・ｽ・ｽ・ｽs・ｽ・ｽ・ｽ\・ｽb・ｽh・ｽ・ｽ[・ｽ・ｽ] */
     private long executedMethodNum_;
 
 	/**

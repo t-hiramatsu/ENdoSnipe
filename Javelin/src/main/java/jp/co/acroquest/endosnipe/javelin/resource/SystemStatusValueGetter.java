@@ -31,19 +31,19 @@ import jp.co.acroquest.endosnipe.common.entity.ItemType;
 import jp.co.acroquest.endosnipe.javelin.SystemStatusManager;
 
 /**
- * ƒvƒƒZƒX‘S‘Ì‚Ìƒlƒbƒgƒ[ƒNƒf[ƒ^óM—Ê‚ğæ“¾‚·‚éƒNƒ‰ƒXB
+ * ãƒ—ãƒ­ã‚»ã‚¹å…¨ä½“ã®ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ãƒ‡ãƒ¼ã‚¿å—ä¿¡é‡ã‚’å–å¾—ã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚
  * 
  * @author Sakamoto
  */
 public class SystemStatusValueGetter extends AbstractResourceGetter
 {
-    /** ƒf[ƒ^‚ğæ“¾‚·‚é‚½‚ß‚ÌƒL[ */
+    /** ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ãŸã‚ã®ã‚­ãƒ¼ */
     private String key_;
 
     /**
-     * SystemStatusManager‚©‚çƒf[ƒ^‚ğæ“¾‚·‚é‚½‚ß‚ÌƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
+     * SystemStatusManagerã‹ã‚‰ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ãŸã‚ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã™ã‚‹ã€‚
      * 
-     * @param key ƒf[ƒ^‚ğæ“¾‚·‚é‚½‚ß‚ÌƒL[
+     * @param key ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ãŸã‚ã®ã‚­ãƒ¼
      */
     public SystemStatusValueGetter(String key)
     {

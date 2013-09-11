@@ -26,20 +26,20 @@
 package jp.co.acroquest.endosnipe.collector.listener;
 
 /**
- * ƒG[ƒWƒFƒ“ƒg–¼‚Ì•ÏX’Ê’m‚ğó‚¯‚éB
+ * ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆåã®å¤‰æ›´é€šçŸ¥ã‚’å—ã‘ã‚‹ã€‚
  */
 public interface AgentNameListener
 {
 
     /**
-     * ƒG[ƒWƒFƒ“ƒg–¼‚ğæ“¾‚µ‚Ü‚·B
-     * @return ƒG[ƒWƒFƒ“ƒg–¼
+     * ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆåã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @return ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆå
      */
     public abstract String getAgentName();
 
     /**
-     * ƒG[ƒWƒFƒ“ƒg–¼‚ğİ’è‚µ‚Ü‚·B
-     * @param agentName ƒG[ƒWƒFƒ“ƒg–¼
+     * ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆåã‚’è¨­å®šã—ã¾ã™ã€‚
+     * @param agentName ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆå
      */
     public abstract void setAgentName(String agentName);
 

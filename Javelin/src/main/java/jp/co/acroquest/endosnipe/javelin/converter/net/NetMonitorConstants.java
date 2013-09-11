@@ -26,21 +26,21 @@
 package jp.co.acroquest.endosnipe.javelin.converter.net;
 
 /**
- * �l�b�g���[�NI/O�̃��j�^�����O�Ɏg�p����萔�̏W���B
+ * ネットワークI/Oのモニタリングに使用する定数の集合。
  * 
  * @author yamasaki
  */
 public interface NetMonitorConstants
 {
-    /** �X���b�h���̃l�b�g���[�N��M�ʂ�ۑ��E�Q�Ƃ���ۂ̃L�[�B */
+    /** スレッド毎のネットワーク受信量を保存・参照する際のキー。 */
     String KEY_NETWORK_THREAD_READ_LENGTH = "net.currentThreadReadLength";
 
-    /** �X���b�h���̃l�b�g���[�N���M�ʂ�ۑ��E�Q�Ƃ���ۂ̃L�[�B */
+    /** スレッド毎のネットワーク送信量を保存・参照する際のキー。 */
     String KEY_NETWORK_THREAD_WRITE_LENGTH = "net.currentThreadWriteLength";
 
-    /** �v���Z�X�S�̂ł̃l�b�g���[�N��M�ʂ�ۑ��E�Q�Ƃ���ۂ̃L�[�B */
+    /** プロセス全体でのネットワーク受信量を保存・参照する際のキー。 */
     String KEY_NETWORK_READ_LENGTH = "net.readLength";
 
-    /** �v���Z�X�S�̂ł̃l�b�g���[�N���M�ʂ�ۑ��E�Q�Ƃ���ۂ̃L�[�B */
+    /** プロセス全体でのネットワーク送信量を保存・参照する際のキー。 */
     String KEY_NETWORK_WRITE_LENGTH = "net.writeLength";
 }

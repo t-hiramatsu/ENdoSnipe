@@ -38,40 +38,40 @@ import jp.co.acroquest.endosnipe.javelin.util.StatsUtil;
 import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
 
 /**
- * ђьЊ`ЊџЌх‚рЊџЏo‚·‚йѓ‚ѓjѓ^ѓNѓ‰ѓX‚Е‚·ЃB<br />
+ * з·љеЅўж¤њзґўг‚’ж¤ње‡єгЃ™г‚‹гѓўгѓ‹г‚їг‚Їгѓ©г‚№гЃ§гЃ™гЂ‚<br />
  * 
  * @author fujii
  *
  */
 public class LinearSearchMonitor
 {
-    /** ѓIѓuѓWѓFѓNѓg‚Є‘O‰сЋw’и‚µ‚ЅѓCѓ“ѓfѓbѓNѓX‚р•Ы‘¶‚·‚йѓ}ѓbѓv */
+    /** г‚Єгѓ–г‚ёг‚§г‚Їгѓ€гЃЊе‰Ќе›ћжЊ‡е®љгЃ—гЃџг‚¤гѓігѓ‡гѓѓг‚Їг‚№г‚’дїќе­гЃ™г‚‹гѓћгѓѓгѓ— */
     private static ThreadLocal<IdentityWeakMap<Object, Integer>> lastIndexMap__;
 
-    /** ђьЊ`ЊџЌхѓCѓxѓ“ѓgЊџЏo‚р•Ы‘¶‚·‚йѓ}ѓbѓv */
+    /** з·љеЅўж¤њзґўг‚¤гѓ™гѓігѓ€ж¤ње‡єг‚’дїќе­гЃ™г‚‹гѓћгѓѓгѓ— */
     private static IdentityWeakMap<Object, AtomicInteger> searchCountMap__ =
             new IdentityWeakMap<Object, AtomicInteger>();
 
-    /** LinkedList#indexOf() ЊД‚СЏo‚µ‰сђ”‚р•Ы‘¶‚·‚йѓ}ѓbѓv */
+    /** LinkedList#indexOf() е‘јгЃіе‡єгЃ—е›ћж•°г‚’дїќе­гЃ™г‚‹гѓћгѓѓгѓ— */
     private static IdentityWeakMap<Object, AtomicInteger> indexOfMap__ =
             new IdentityWeakMap<Object, AtomicInteger>();
 
-    /** Javelin‚МђЭ’и’l */
+    /** JavelinгЃ®иЁ­е®љеЂ¤ */
     private static JavelinConfig config__ = new JavelinConfig();
 
-    /** ђьЊ`ЊџЌхЊџЏo‚М”»’и’†‚©‚З‚¤‚©‚р•\‚·ѓtѓ‰ѓO */
+    /** з·љеЅўж¤њзґўж¤ње‡єгЃ®е€¤е®љдё­гЃ‹гЃ©гЃ†гЃ‹г‚’иЎЁгЃ™гѓ•гѓ©г‚° */
     private static ThreadLocal<Boolean> isTracing__;
 
-    /** ђьЊ`ЊџЌхЊџЏo‚М”»’и‘ОЏЫ */
+    /** з·љеЅўж¤њзґўж¤ње‡єгЃ®е€¤е®љеЇѕи±Ў */
     private static ThreadLocal<Object> target__;
 
-    /** ђьЊ`ЊџЌхЊџЏo‚рЌs‚¤‚©‚З‚¤‚©‚р•\‚·ѓtѓ‰ѓO */
+    /** з·љеЅўж¤њзґўж¤ње‡єг‚’иЎЊгЃ†гЃ‹гЃ©гЃ†гЃ‹г‚’иЎЁгЃ™гѓ•гѓ©г‚° */
     private static boolean isMonitor__;
 
-    /** ђьЊ`ЊџЌх‘ОЏЫ‚Ж‚И‚йѓЉѓXѓg‚МѓTѓCѓY‚Ми‡’l */
+    /** з·љеЅўж¤њзґўеЇѕи±ЎгЃЁгЃЄг‚‹гѓЄг‚№гѓ€гЃ®г‚µг‚¤г‚єгЃ®й–ѕеЂ¤ */
     private static int linearSearchlistSize__;
 
-    /** ђьЊ`ЊџЌх‘ОЏЫ‚Ж‚И‚йЃAѓЉѓXѓg‚Й‘О‚·‚йђьЊ`ѓAѓNѓZѓX‰сђ”‚МЉ„Ќ‡‚Ми‡’l */
+    /** з·љеЅўж¤њзґўеЇѕи±ЎгЃЁгЃЄг‚‹гЂЃгѓЄг‚№гѓ€гЃ«еЇѕгЃ™г‚‹з·љеЅўг‚ўг‚Їг‚»г‚№е›ћж•°гЃ®е‰Іеђ€гЃ®й–ѕеЂ¤ */
     private static double listRatio__;
 
     static
@@ -98,7 +98,7 @@ public class LinearSearchMonitor
     }
 
     /**
-     * ѓIѓuѓWѓFѓNѓg‚МѓCѓ“ѓXѓ^ѓ“ѓX‰»‚р‘jЋ~‚·‚йѓvѓ‰ѓCѓxЃ[ѓgѓRѓ“ѓXѓgѓ‰ѓNѓ^‚Е‚·ЃB<br />
+     * г‚Єгѓ–г‚ёг‚§г‚Їгѓ€гЃ®г‚¤гѓіг‚№г‚їгѓіг‚№еЊ–г‚’й»ж­ўгЃ™г‚‹гѓ—гѓ©г‚¤гѓ™гѓјгѓ€г‚ігѓіг‚№гѓ€гѓ©г‚Їг‚їгЃ§гЃ™гЂ‚<br />
      */
     private LinearSearchMonitor()
     {
@@ -106,13 +106,13 @@ public class LinearSearchMonitor
     }
 
     /**
-     * ђьЊ`ЊџЌх‚р‚µ‚Д‚ў‚й‚©‚З‚¤‚©‚рЊџЏo‚µ‚Ь‚·ЃBЃi get() ‚ЄЋАЌs‚і‚к‚й‚ЖЊД‚О‚к‚Ь‚·ЃBЃj<br />
-     * @param obj ѓIѓuѓWѓFѓNѓg
-     * @param index ѓCѓ“ѓfѓbѓNѓX
+     * з·љеЅўж¤њзґўг‚’гЃ—гЃ¦гЃ„г‚‹гЃ‹гЃ©гЃ†гЃ‹г‚’ж¤ње‡єгЃ—гЃѕгЃ™гЂ‚пј€ get() гЃЊе®џиЎЊгЃ•г‚Њг‚‹гЃЁе‘јгЃ°г‚ЊгЃѕгЃ™гЂ‚пј‰<br />
+     * @param obj г‚Єгѓ–г‚ёг‚§г‚Їгѓ€
+     * @param index г‚¤гѓігѓ‡гѓѓг‚Їг‚№
      */
     public static void postProcess(Object obj, int index)
     {
-        // ђьЊ`ЊџЌхЊџЏoѓtѓ‰ѓO‚ЄOFF‚Й‚И‚Б‚Д‚ў‚йЏкЌ‡‚НЏ€—ќ‚рЌs‚н‚И‚ўЃB
+        // з·љеЅўж¤њзґўж¤ње‡єгѓ•гѓ©г‚°гЃЊOFFгЃ«гЃЄгЃЈгЃ¦гЃ„г‚‹е ґеђ€гЃЇе‡¦зђ†г‚’иЎЊг‚ЏгЃЄгЃ„гЂ‚
         if (isMonitor__ == false)
         {
             return;
@@ -141,10 +141,10 @@ public class LinearSearchMonitor
     }
 
     /**
-     * ђьЊ`ЊџЌх‚МЊџЏo‚МѓЃѓCѓ“Џ€—ќ‚рЌs‚¤ЃB
+     * з·љеЅўж¤њзґўгЃ®ж¤ње‡єгЃ®гѓЎг‚¤гѓіе‡¦зђ†г‚’иЎЊгЃ†гЂ‚
      * 
-     * @param obj ЊџЏo‘ОЏЫЃB
-     * @param index ѓCѓ“ѓfѓbѓNѓXЃB
+     * @param obj ж¤ње‡єеЇѕи±ЎгЂ‚
+     * @param index г‚¤гѓігѓ‡гѓѓг‚Їг‚№гЂ‚
      */
     private static void detect(Object obj, int index)
     {
@@ -170,7 +170,7 @@ public class LinearSearchMonitor
 
     public static void preProcess(Object obj)
     {
-        // ђьЊ`ЊџЌхЊџЏoѓtѓ‰ѓO‚ЄOFF‚Й‚И‚Б‚Д‚ў‚йЏкЌ‡‚НЏ€—ќ‚рЌs‚н‚И‚ўЃB
+        // з·љеЅўж¤њзґўж¤ње‡єгѓ•гѓ©г‚°гЃЊOFFгЃ«гЃЄгЃЈгЃ¦гЃ„г‚‹е ґеђ€гЃЇе‡¦зђ†г‚’иЎЊг‚ЏгЃЄгЃ„гЂ‚
         if (isMonitor__ == false)
         {
             return;
@@ -183,15 +183,15 @@ public class LinearSearchMonitor
     }
     
     /**
-     * ђьЊ`ЊџЌх‚р‚µ‚Д‚ў‚й‚©‚З‚¤‚©‚рЊџЏo‚µ‚Ь‚·ЃBЃi indexOf() ‚ЄЋАЌs‚і‚к‚й‚ЖЊД‚О‚к‚Ь‚·ЃBЃj<br />
+     * з·љеЅўж¤њзґўг‚’гЃ—гЃ¦гЃ„г‚‹гЃ‹гЃ©гЃ†гЃ‹г‚’ж¤ње‡єгЃ—гЃѕгЃ™гЂ‚пј€ indexOf() гЃЊе®џиЎЊгЃ•г‚Њг‚‹гЃЁе‘јгЃ°г‚ЊгЃѕгЃ™гЂ‚пј‰<br />
      *
-     * @param obj ѓIѓuѓWѓFѓNѓg
-     * @param search ЊџЌх‚µ‚ЅѓIѓuѓWѓFѓNѓg
-     * @param index indexOf() ‚М–Я‚и’l
+     * @param obj г‚Єгѓ–г‚ёг‚§г‚Їгѓ€
+     * @param search ж¤њзґўгЃ—гЃџг‚Єгѓ–г‚ёг‚§г‚Їгѓ€
+     * @param index indexOf() гЃ®ж€»г‚ЉеЂ¤
      */
     public static void postProcessIndexOf(Object obj, Object search, int index)
     {
-        // ђьЊ`ЊџЌхЊџЏoѓtѓ‰ѓO‚ЄOFF‚Й‚И‚Б‚Д‚ў‚йЏкЌ‡‚НЏ€—ќ‚рЌs‚н‚И‚ўЃB
+        // з·љеЅўж¤њзґўж¤ње‡єгѓ•гѓ©г‚°гЃЊOFFгЃ«гЃЄгЃЈгЃ¦гЃ„г‚‹е ґеђ€гЃЇе‡¦зђ†г‚’иЎЊг‚ЏгЃЄгЃ„гЂ‚
         if (isMonitor__ == false)
         {
             return;
@@ -227,14 +227,14 @@ public class LinearSearchMonitor
     }
 
     /**
-     * ђьЊ`ЊџЌх‚рЊџЏo‚µ‚Ь‚·ЃBЃi get() ”ЕЃj<br />
-     * €И‰є‚МЏрЊЏ‚р–ћ‚Ѕ‚·ЏкЌ‡ЃAђьЊ`ЊџЌх‚Ж‚µ‚ДЊџЏo‚µ‚Ь‚·ЃB
-     * <li>ѓCѓ“ѓfѓbѓNѓX‚М’l‚ЄѓЉѓXѓgѓTѓCѓY‚Й‘О‚µ‚Д€к’и€ИЏг‚МЉ„Ќ‡(javelin.properties‚Й‚ж‚иђЭ’и)‚ж‚и‚P‘е‚«‚ў(Џ¬‚і‚ў)ЃB</li>
-     * <li>ѓЉѓXѓg‚ЙЋw’и‚µ‚ЅѓCѓ“ѓfѓbѓNѓX‚ЄЃA‘O‰сЋw’и‚µ‚ЅѓCѓ“ѓfѓbѓNѓX‚ж‚и‚P‘е‚«‚ў(Џ¬‚і‚ў)ЃB</li>
-     * <li>ѓIѓuѓWѓFѓNѓg‚Й‘О‚·‚йђьЊ`ЊџЌх‚Є–ўЊџЏo‚Е‚ ‚йЃB</li>
+     * з·љеЅўж¤њзґўг‚’ж¤ње‡єгЃ—гЃѕгЃ™гЂ‚пј€ get() з‰€пј‰<br />
+     * д»Ґдё‹гЃ®жќЎд»¶г‚’жєЂгЃџгЃ™е ґеђ€гЂЃз·љеЅўж¤њзґўгЃЁгЃ—гЃ¦ж¤ње‡єгЃ—гЃѕгЃ™гЂ‚
+     * <li>г‚¤гѓігѓ‡гѓѓг‚Їг‚№гЃ®еЂ¤гЃЊгѓЄг‚№гѓ€г‚µг‚¤г‚єгЃ«еЇѕгЃ—гЃ¦дёЂе®љд»ҐдёЉгЃ®е‰Іеђ€(javelin.propertiesгЃ«г‚€г‚ЉиЁ­е®љ)г‚€г‚Љпј‘е¤§гЃЌгЃ„(е°ЏгЃ•гЃ„)гЂ‚</li>
+     * <li>гѓЄг‚№гѓ€гЃ«жЊ‡е®љгЃ—гЃџг‚¤гѓігѓ‡гѓѓг‚Їг‚№гЃЊгЂЃе‰Ќе›ћжЊ‡е®љгЃ—гЃџг‚¤гѓігѓ‡гѓѓг‚Їг‚№г‚€г‚Љпј‘е¤§гЃЌгЃ„(е°ЏгЃ•гЃ„)гЂ‚</li>
+     * <li>г‚Єгѓ–г‚ёг‚§г‚Їгѓ€гЃ«еЇѕгЃ™г‚‹з·љеЅўж¤њзґўгЃЊжњЄж¤ње‡єгЃ§гЃ‚г‚‹гЂ‚</li>
      * 
-     * @param list ђьЊ`ЊџЌхЊџЏo‘ОЏЫ‚Ж‚И‚йѓЉѓXѓg
-     * @param index ѓCѓ“ѓfѓbѓNѓX
+     * @param list з·љеЅўж¤њзґўж¤ње‡єеЇѕи±ЎгЃЁгЃЄг‚‹гѓЄг‚№гѓ€
+     * @param index г‚¤гѓігѓ‡гѓѓг‚Їг‚№
      */
     public static void detect(List<?> list, int index)
     {
@@ -264,22 +264,22 @@ public class LinearSearchMonitor
                 }
                 if (searchCount == (int)((listSize - 1) * listRatio__))
                 {
-                    // ”с“ЇЉъ•Ўђ”ѓXѓЊѓbѓhѓAѓNѓZѓXѓCѓxѓ“ѓg‚р”­ђ¶‚і‚№‚й
+                    // йќћеђЊжњџи¤‡ж•°г‚№гѓ¬гѓѓгѓ‰г‚ўг‚Їг‚»г‚№г‚¤гѓ™гѓігѓ€г‚’з™єз”џгЃ•гЃ›г‚‹
                     CommonEvent event = createDetectedEvent(list, searchCountObj);
                     StatsJavelinRecorder.addEvent(event);
                 }
             }
         }
-        // ЊџЏo€К’u‚р•Ы‘¶‚·‚йЃB
+        // ж¤ње‡єдЅЌзЅ®г‚’дїќе­гЃ™г‚‹гЂ‚
         lastIndexMap.put(list, Integer.valueOf(index));
     }
 
     /**
-     * ђьЊ`ЊџЌх‚Е‚ ‚й‚©‚З‚¤‚©‚р”»’и‚µ‚Ь‚·ЃB<br />
+     * з·љеЅўж¤њзґўгЃ§гЃ‚г‚‹гЃ‹гЃ©гЃ†гЃ‹г‚’е€¤е®љгЃ—гЃѕгЃ™гЂ‚<br />
      * 
-     * @param index ЊџЌх’†‚МѓЉѓXѓg‚МѓCѓ“ѓfѓbѓNѓX
-     * @param lastIndex ‘O‰сѓAѓNѓZѓX‚µ‚ЅѓЉѓXѓg‚МѓCѓ“ѓfѓbѓNѓX
-     * @return ђьЊ`ЊџЌх‚Е‚ ‚йЏкЌ‡ЃA<code>true</code>
+     * @param index ж¤њзґўдё­гЃ®гѓЄг‚№гѓ€гЃ®г‚¤гѓігѓ‡гѓѓг‚Їг‚№
+     * @param lastIndex е‰Ќе›ћг‚ўг‚Їг‚»г‚№гЃ—гЃџгѓЄг‚№гѓ€гЃ®г‚¤гѓігѓ‡гѓѓг‚Їг‚№
+     * @return з·љеЅўж¤њзґўгЃ§гЃ‚г‚‹е ґеђ€гЂЃ<code>true</code>
      */
     private static boolean detectLinearSearch(int listSize, int index, int lastIndex)
     {
@@ -295,10 +295,10 @@ public class LinearSearchMonitor
     }
 
     /**
-     * ђьЊ`ЊџЌх‚рЊџЏo‚µ‚Ь‚·ЃBЃi indexOf() ”ЕЃj<br />
+     * з·љеЅўж¤њзґўг‚’ж¤ње‡єгЃ—гЃѕгЃ™гЂ‚пј€ indexOf() з‰€пј‰<br />
      *
-     * @param list ђьЊ`ЊџЌхЊџЏo‘ОЏЫ‚Ж‚И‚йѓЉѓXѓg
-     * @param index ѓCѓ“ѓfѓbѓNѓX
+     * @param list з·љеЅўж¤њзґўж¤ње‡єеЇѕи±ЎгЃЁгЃЄг‚‹гѓЄг‚№гѓ€
+     * @param index г‚¤гѓігѓ‡гѓѓг‚Їг‚№
      */
     private static void detectIndexOf(List<?> list, int index)
     {
@@ -319,27 +319,27 @@ public class LinearSearchMonitor
         }
         if (searchCount == (int)listRatio__)
         {
-            // ”с“ЇЉъ•Ўђ”ѓXѓЊѓbѓhѓAѓNѓZѓXѓCѓxѓ“ѓg‚р”­ђ¶‚і‚№‚й
+            // йќћеђЊжњџи¤‡ж•°г‚№гѓ¬гѓѓгѓ‰г‚ўг‚Їг‚»г‚№г‚¤гѓ™гѓігѓ€г‚’з™єз”џгЃ•гЃ›г‚‹
             CommonEvent event = createDetectedEvent(list, indexOfMap__.get(list));
             StatsJavelinRecorder.addEvent(event);
         }
     }
 
     /**
-     * ђьЊ`ЊџЌхЊџЏoѓCѓxѓ“ѓg‚рЌмђ¬‚µ‚Ь‚·ЃB<br />
-     * [Џo—Н“а—e]<br />
-     * ЃЎѓCѓxѓ“ѓg–ј<br />
-     * LinearSearchDetected : ђьЊ`ЊџЌхЊџЋћ‚МѓCѓxѓ“ѓg–ј<br />
+     * з·љеЅўж¤њзґўж¤ње‡єг‚¤гѓ™гѓігѓ€г‚’дЅњж€ђгЃ—гЃѕгЃ™гЂ‚<br />
+     * [е‡єеЉ›е†…е®№]<br />
+     * в– г‚¤гѓ™гѓігѓ€еђЌ<br />
+     * LinearSearchDetected : з·љеЅўж¤њзґўж¤њж™‚гЃ®г‚¤гѓ™гѓігѓ€еђЌ<br />
      * <br />
-     * ЃЎѓpѓ‰ѓЃЃ[ѓ^<br />
-     * linearsearch.size : ђьЊ`ЊџЌхЊџЏo‚µ‚ЅѓЉѓXѓg‚МѓTѓCѓY<br />
-     * linearsearch.count : ђьЊ`ѓAѓNѓZѓX‰сђ”<br />
-     * linearsearch.objectID : ђьЊ`ЊџЌхЊџЏo‚µ‚ЅѓЉѓXѓg‚МѓIѓuѓWѓFѓNѓgID<br />
-     * linearsearch.stackTrace : ђьЊ`ЊџЌхЊџЏoЋћ‚МѓXѓ^ѓbѓNѓgѓЊЃ[ѓX<br />
+     * в– гѓ‘гѓ©гѓЎгѓјг‚ї<br />
+     * linearsearch.size : з·љеЅўж¤њзґўж¤ње‡єгЃ—гЃџгѓЄг‚№гѓ€гЃ®г‚µг‚¤г‚є<br />
+     * linearsearch.count : з·љеЅўг‚ўг‚Їг‚»г‚№е›ћж•°<br />
+     * linearsearch.objectID : з·љеЅўж¤њзґўж¤ње‡єгЃ—гЃџгѓЄг‚№гѓ€гЃ®г‚Єгѓ–г‚ёг‚§г‚Їгѓ€ID<br />
+     * linearsearch.stackTrace : з·љеЅўж¤њзґўж¤ње‡єж™‚гЃ®г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№<br />
      * 
-     * @param list ђьЊ`ЊџЌх‚рЊџЏo‚µ‚ЅѓЉѓXѓg
-     * @param countObj ђьЊ`ЊџЌх‚рЌs‚Б‚Ѕ‰сђ”
-     * @return ђьЊ`ЊџЌхЊџЏoѓCѓxѓ“ѓg
+     * @param list з·љеЅўж¤њзґўг‚’ж¤ње‡єгЃ—гЃџгѓЄг‚№гѓ€
+     * @param countObj з·љеЅўж¤њзґўг‚’иЎЊгЃЈгЃџе›ћж•°
+     * @return з·љеЅўж¤њзґўж¤ње‡єг‚¤гѓ™гѓігѓ€
      */
     public static CommonEvent createDetectedEvent(final List<?> list, final AtomicInteger countObj)
     {
@@ -365,9 +365,9 @@ public class LinearSearchMonitor
     }
 
     /**
-     * ђьЊ`ЊџЌхЊџЏo‚рЌs‚¤‚©‚З‚¤‚©‚рђЭ’и‚µ‚Ь‚·ЃB<br />
+     * з·љеЅўж¤њзґўж¤ње‡єг‚’иЎЊгЃ†гЃ‹гЃ©гЃ†гЃ‹г‚’иЁ­е®љгЃ—гЃѕгЃ™гЂ‚<br />
      * 
-     * @param isMonitor ђьЊ`ЊџЌхЊџЏo‚рЌs‚¤ЏкЌ‡‚НЃA<code>true</code>
+     * @param isMonitor з·љеЅўж¤њзґўж¤ње‡єг‚’иЎЊгЃ†е ґеђ€гЃЇгЂЃ<code>true</code>
      */
     public static void setMonitor(boolean isMonitor)
     {
@@ -375,9 +375,9 @@ public class LinearSearchMonitor
     }
 
     /**
-     * ђьЊ`ЊџЌхЊџЏo‚рЌs‚¤ѓЉѓXѓg‚Ми‡’l‚рђЭ’и‚µ‚Ь‚·ЃB<br />
+     * з·љеЅўж¤њзґўж¤ње‡єг‚’иЎЊгЃ†гѓЄг‚№гѓ€гЃ®й–ѕеЂ¤г‚’иЁ­е®љгЃ—гЃѕгЃ™гЂ‚<br />
      * 
-     * @param listSize ђьЊ`ЊџЌхЊџЏo‚рЌs‚¤ѓЉѓXѓg‚Ми‡’l
+     * @param listSize з·љеЅўж¤њзґўж¤ње‡єг‚’иЎЊгЃ†гѓЄг‚№гѓ€гЃ®й–ѕеЂ¤
      */
     public static void setLinearSearchListSize(int listSize)
     {
@@ -385,9 +385,9 @@ public class LinearSearchMonitor
     }
 
     /**
-     * ђьЊ`ЊџЌх‘ОЏЫ‚Ж‚И‚йЃAѓЉѓXѓg‚Й‘О‚·‚йђьЊ`ѓAѓNѓZѓX‰сђ”‚МЉ„Ќ‡‚Ми‡’l‚рђЭ’и‚µ‚Ь‚·ЃB
+     * з·љеЅўж¤њзґўеЇѕи±ЎгЃЁгЃЄг‚‹гЂЃгѓЄг‚№гѓ€гЃ«еЇѕгЃ™г‚‹з·љеЅўг‚ўг‚Їг‚»г‚№е›ћж•°гЃ®е‰Іеђ€гЃ®й–ѕеЂ¤г‚’иЁ­е®љгЃ—гЃѕгЃ™гЂ‚
      * 
-     * @param listRatio ђьЊ`ЊџЌх‘ОЏЫ‚Ж‚И‚йЃAѓЉѓXѓg‚Й‘О‚·‚йђьЊ`ѓAѓNѓZѓX‰сђ”‚МЉ„Ќ‡‚Ми‡’l
+     * @param listRatio з·љеЅўж¤њзґўеЇѕи±ЎгЃЁгЃЄг‚‹гЂЃгѓЄг‚№гѓ€гЃ«еЇѕгЃ™г‚‹з·љеЅўг‚ўг‚Їг‚»г‚№е›ћж•°гЃ®е‰Іеђ€гЃ®й–ѕеЂ¤
      */
     public static void setListRatio(double listRatio)
     {

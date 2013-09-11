@@ -4,40 +4,40 @@ import java.sql.Timestamp;
 
 public class JavelinRecord
 {
-	/** Œv‘ª */
+	/** è¨ˆæ¸¬æ™‚åˆ» */
     private Timestamp measurementTime_;
 
-    /** CallTreeNode¶¬”‚ÌƒOƒ‰ƒt‚ÌAÅ‘å[”] */
+    /** CallTreeNodeç”Ÿæˆæ•°ã®ã‚°ãƒ©ãƒ•ã®ã€æœ€å¤§[æ•°] */
     private long callTreeNodeNumMax_;
     
-    /** CallTreeNode¶¬”‚ÌƒOƒ‰ƒt‚ÌA•½‹Ï[”] */
+    /** CallTreeNodeç”Ÿæˆæ•°ã®ã‚°ãƒ©ãƒ•ã®ã€å¹³å‡[æ•°] */
     private double callTreeNodeNumAverage_;
     
-    /** •ÏŠ·ƒƒ\ƒbƒh”‚ÌƒOƒ‰ƒt‚ÌAJavelinConverter•ÏŠ·ƒƒ\ƒbƒh”[”] */
+    /** å¤‰æ›ãƒ¡ã‚½ãƒƒãƒ‰æ•°ã®ã‚°ãƒ©ãƒ•ã®ã€JavelinConverterå¤‰æ›ãƒ¡ã‚½ãƒƒãƒ‰æ•°[æ•°] */
     private long javelinConverterMethodNum_;
     
-    /** •ÏŠ·ƒƒ\ƒbƒh”‚ÌƒOƒ‰ƒt‚ÌAJavelinConverter•ÏŠ·œŠOƒƒ\ƒbƒh”[”] */
+    /** å¤‰æ›ãƒ¡ã‚½ãƒƒãƒ‰æ•°ã®ã‚°ãƒ©ãƒ•ã®ã€JavelinConverterå¤‰æ›é™¤å¤–ãƒ¡ã‚½ãƒƒãƒ‰æ•°[æ•°] */
     private long javelinConverterExcludedMethodNum_;
     
-    /** •ÏŠ·ƒƒ\ƒbƒh”‚ÌƒOƒ‰ƒt‚ÌAÀsƒƒ\ƒbƒh”[”] */
+    /** å¤‰æ›ãƒ¡ã‚½ãƒƒãƒ‰æ•°ã®ã‚°ãƒ©ãƒ•ã®ã€å®Ÿè¡Œãƒ¡ã‚½ãƒƒãƒ‰æ•°[æ•°] */
     private long executedMethodNum_;
     
-    /** ƒJƒoƒŒƒbƒW[%]i•âŠÔŠúŠÔ•½‹Ïj */
+    /** ã‚«ãƒãƒ¬ãƒƒã‚¸[%]ï¼ˆè£œé–“æœŸé–“å¹³å‡ï¼‰ */
     private double coverage_;
     
-    /** ƒJƒoƒŒƒbƒW[%]i•âŠÔŠúŠÔÅ‘åj */
+    /** ã‚«ãƒãƒ¬ãƒƒã‚¸[%]ï¼ˆè£œé–“æœŸé–“æœ€å¤§ï¼‰ */
     private double coverageMax_;
     
-    /** ƒJƒoƒŒƒbƒW[%]i•âŠÔŠúŠÔÅ¬j */
+    /** ã‚«ãƒãƒ¬ãƒƒã‚¸[%]ï¼ˆè£œé–“æœŸé–“æœ€å°ï¼‰ */
     private double coverageMin_;
     
-    /** ƒCƒxƒ“ƒg”iÅ‘åj */
+    /** ã‚¤ãƒ™ãƒ³ãƒˆæ•°ï¼ˆæœ€å¤§ï¼‰ */
     private long eventMax_;
     
-    /** ƒCƒxƒ“ƒg”(Å¬) */
+    /** ã‚¤ãƒ™ãƒ³ãƒˆæ•°(æœ€å°) */
     private long eventMin_;
     
-    /** ƒCƒxƒ“ƒg” */
+    /** ã‚¤ãƒ™ãƒ³ãƒˆæ•° */
     private long event_;
 
 	/**

@@ -1,4 +1,4 @@
-var raphaelMapManager = function(mapView) {
+function raphaelMapManager(mapView) {
 
 	/**
 	 * 関連するマップビュー

@@ -28,38 +28,38 @@ package jp.co.acroquest.endosnipe.javelin;
 import jp.co.acroquest.endosnipe.javelin.log.JavelinLogCallback;
 
 /**
- * StatsJavelinRecorder‚ÅˆÈ‰º‚Ìˆ—‚ğs‚¤‚©‚Ç‚¤‚©”»’è‚·‚éStrategyƒCƒ“ƒ^ƒtƒF[ƒXB</br>
- * <li>JavelinƒƒO</li>
- * <li>ƒAƒ‰[ƒ€’Ê’m</li>
+ * StatsJavelinRecorderã§ä»¥ä¸‹ã®å‡¦ç†ã‚’è¡Œã†ã‹ã©ã†ã‹åˆ¤å®šã™ã‚‹Strategyã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹ã€‚</br>
+ * <li>Javelinãƒ­ã‚°</li>
+ * <li>ã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥</li>
  * 
  * @author tsukano
  */
 public interface RecordStrategy
 {
     /**
-     * ƒAƒ‰[ƒ€‚ğ’Ê’m‚·‚é‚©‚Ç‚¤‚©”»’è‚·‚éB
-     * @param node {@link CallTreeNode}ƒIƒuƒWƒFƒNƒg
-     * @return true:’Ê’m‚·‚éAfalse:’Ê’m‚µ‚È‚¢
+     * ã‚¢ãƒ©ãƒ¼ãƒ ã‚’é€šçŸ¥ã™ã‚‹ã‹ã©ã†ã‹åˆ¤å®šã™ã‚‹ã€‚
+     * @param node {@link CallTreeNode}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @return true:é€šçŸ¥ã™ã‚‹ã€false:é€šçŸ¥ã—ãªã„
      */
     boolean judgeSendExceedThresholdAlarm(CallTreeNode node);
 
     /**
-     * ”»’èŒã‚ÉŒãˆ—‚ğs‚¤B
+     * åˆ¤å®šå¾Œã«å¾Œå‡¦ç†ã‚’è¡Œã†ã€‚
      */
     void postJudge();
 
     /**
-     * ƒR[ƒ‹ƒoƒbƒNƒIƒuƒWƒFƒNƒg‚ğ•Ô‚·B
+     * ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¿”ã™ã€‚
      * 
-     * @param node {@link CallTreeNode}ƒIƒuƒWƒFƒNƒg
-     * @return ƒR[ƒ‹ƒoƒbƒNƒIƒuƒWƒFƒNƒgB
+     * @param node {@link CallTreeNode}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @return ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚
      */
     JavelinLogCallback createCallback(CallTreeNode node);
 
     /**
-     * ƒR[ƒ‹ƒoƒbƒNƒIƒuƒWƒFƒNƒg‚ğ•Ô‚·B
+     * ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¿”ã™ã€‚
      * 
-     * @return ƒR[ƒ‹ƒoƒbƒNƒIƒuƒWƒFƒNƒgB
+     * @return ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚
      */
     JavelinLogCallback createCallback();
 }

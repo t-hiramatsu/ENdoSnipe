@@ -28,7 +28,7 @@ package jp.co.acroquest.endosnipe.perfdoctor.exception;
 import jp.co.acroquest.endosnipe.perfdoctor.Messages;
 
 /**
- * ƒ‹[ƒ‹‚Ìì¬¸”s—áŠOB
+ * ãƒ«ãƒ¼ãƒ«ã®ä½œæˆå¤±æ•—ä¾‹å¤–ã€‚
  * @author tanimoto
  *
  */
@@ -39,9 +39,9 @@ public class RuleCreateException extends Exception
     private String[]          messages_;
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
-     * @param messageId ƒƒbƒZ[ƒWID
-     * @param args ƒƒbƒZ[ƒWˆø”
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
+     * @param messageId ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ID
+     * @param args ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å¼•æ•°
      */
     public RuleCreateException(final String messageId, final Object[] args)
     {
@@ -49,11 +49,11 @@ public class RuleCreateException extends Exception
     }
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
-     * •¡”‚ÌƒƒbƒZ[ƒW‚ğ’Ê’m‚·‚é‚±‚Æ‚ª‚Å‚«‚éB
-     * @param messageId ƒƒbƒZ[ƒWID
-     * @param args ƒƒbƒZ[ƒWˆø”
-     * @param messages ãˆÊ‚É“`’B‚·‚éƒƒbƒZ[ƒWˆê——
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
+     * è¤‡æ•°ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’é€šçŸ¥ã™ã‚‹ã“ã¨ãŒã§ãã‚‹ã€‚
+     * @param messageId ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ID
+     * @param args ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å¼•æ•°
+     * @param messages ä¸Šä½ã«ä¼é”ã™ã‚‹ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ä¸€è¦§
      */
     public RuleCreateException(final String messageId, final Object[] args, final String[] messages)
     {
@@ -69,8 +69,8 @@ public class RuleCreateException extends Exception
     }
 
     /**
-     * ƒƒbƒZ[ƒWˆê——‚ğæ“¾‚·‚éB
-     * @return ƒƒbƒZ[ƒWˆê——
+     * ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ä¸€è¦§ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ä¸€è¦§
      */
     public String[] getMessages()
     {

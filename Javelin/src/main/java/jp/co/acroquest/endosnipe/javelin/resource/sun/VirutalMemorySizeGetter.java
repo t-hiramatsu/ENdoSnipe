@@ -33,7 +33,7 @@ import jp.co.acroquest.endosnipe.javelin.resource.AbstractResourceGetter;
 import com.sun.management.OperatingSystemMXBean;
 
 /**
- * ‰¼‘z‹L‰¯—e—Ê‚ğæ“¾‚·‚éƒNƒ‰ƒXB
+ * ä»®æƒ³è¨˜æ†¶å®¹é‡ã‚’å–å¾—ã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚
  * 
  * @author Sakamoto
  */

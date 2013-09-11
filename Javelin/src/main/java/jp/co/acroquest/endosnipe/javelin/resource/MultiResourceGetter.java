@@ -32,23 +32,23 @@ import jp.co.acroquest.endosnipe.common.entity.ResourceItem;
 
 
 /**
- * ƒŠƒ\[ƒX’l‚ğæ“¾‚·‚é‚½‚ß‚ÌƒCƒ“ƒ^ƒtƒF[ƒXB
+ * ãƒªã‚½ãƒ¼ã‚¹å€¤ã‚’å–å¾—ã™ã‚‹ãŸã‚ã®ã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹ã€‚
  * 
  * @author eriguchi
  */
 public interface MultiResourceGetter
 {
     /**
-     * ƒŠƒ\[ƒX’l‚ğæ“¾‚·‚éB
+     * ãƒªã‚½ãƒ¼ã‚¹å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return ’l
+     * @return å€¤
      */
     List<ResourceItem> getValues();
 
     /**
-     * ƒŠƒ\[ƒX’l‚ÌŒ^‚ğ•Ô‚·B
+     * ãƒªã‚½ãƒ¼ã‚¹å€¤ã®å‹ã‚’è¿”ã™ã€‚
      * 
-     * @return Œ^”Ô†
+     * @return å‹ç•ªå·
      */
     ItemType getItemType();
 

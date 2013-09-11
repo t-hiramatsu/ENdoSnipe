@@ -26,14 +26,14 @@
 package jp.co.acroquest.endosnipe.data.db;
 
 /**
- * DataSource�쐬�p�̒��ۃN���X�ł��B<br />
+ * DataSource作成用の抽象クラスです。<br />
  * 
  * @author fujii
  *
  */
 abstract class AbstractDataSourceCreator implements DataSourceCreator
 {
-    /** �x�[�X�f�B���N�g�� */
+    /** ベースディレクトリ */
     protected String baseDir_;
 
     /**

@@ -26,7 +26,7 @@
 package jp.co.acroquest.endosnipe.javelin.event;
 
 /**
- * ƒCƒxƒ“ƒg–¼‚É‚æ‚Á‚ÄA—}§‚ğs‚¤ƒCƒxƒ“ƒgƒNƒ‰ƒX‚Å‚·B<br />
+ * ã‚¤ãƒ™ãƒ³ãƒˆåã«ã‚ˆã£ã¦ã€æŠ‘åˆ¶ã‚’è¡Œã†ã‚¤ãƒ™ãƒ³ãƒˆã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  * 
  * @author fujii
  *
@@ -34,9 +34,9 @@ package jp.co.acroquest.endosnipe.javelin.event;
 abstract class AbstractNameCheckEvent extends CommonEvent
 {
     /**
-     * –¼‘O‚ÅƒnƒbƒVƒ…ƒR[ƒh‚ğŒvZ‚·‚éB
+     * åå‰ã§ãƒãƒƒã‚·ãƒ¥ã‚³ãƒ¼ãƒ‰ã‚’è¨ˆç®—ã™ã‚‹ã€‚
      * 
-     * @return ƒnƒbƒVƒ…ƒR[ƒhB
+     * @return ãƒãƒƒã‚·ãƒ¥ã‚³ãƒ¼ãƒ‰ã€‚
      */
     public int hashCode()
     {
@@ -47,10 +47,10 @@ abstract class AbstractNameCheckEvent extends CommonEvent
     }
 
     /**
-     * –¼‘O‚Å”äŠr‚·‚éB
+     * åå‰ã§æ¯”è¼ƒã™ã‚‹ã€‚
      * 
-     * @param obj ”äŠr‘ÎÛB
-     * @return ”äŠrŒ‹‰ÊB
+     * @param obj æ¯”è¼ƒå¯¾è±¡ã€‚
+     * @return æ¯”è¼ƒçµæœã€‚
      */
     public boolean equals(Object obj)
     {

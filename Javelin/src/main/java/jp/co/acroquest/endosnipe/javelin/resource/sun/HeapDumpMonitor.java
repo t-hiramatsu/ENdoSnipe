@@ -41,36 +41,36 @@ import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 import jp.co.acroquest.endosnipe.common.util.IOUtil;
 
 /**
- * HeapDump‚ğƒtƒ@ƒCƒ‹o—Í‚·‚éƒNƒ‰ƒX‚Å‚·B<br />
+ * HeapDumpã‚’ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›ã™ã‚‹ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  * 
  * @author fujii
  *
  */
 public class HeapDumpMonitor
 {
-    /** Javelin‚Ìİ’è*/
+    /** Javelinã®è¨­å®š*/
     private static JavelinConfig config__ = new JavelinConfig();
 
-    /** HotSpotDiagnosticMXBean‚ğ“o˜^‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©B */
+    /** HotSpotDiagnosticMXBeanã‚’ç™»éŒ²ã—ã¦ã„ã‚‹ã‹ã©ã†ã‹ã€‚ */
     private static boolean isSearch__ = false;
 
-    /** ƒtƒ@ƒCƒ‹‚É‚Â‚¯‚éƒV[ƒPƒ“ƒXƒiƒ“ƒo[ */
+    /** ãƒ•ã‚¡ã‚¤ãƒ«ã«ã¤ã‘ã‚‹ã‚·ãƒ¼ã‚±ãƒ³ã‚¹ãƒŠãƒ³ãƒãƒ¼ */
     private static int sequenceNumber__ = 0;
 
-    /** ƒq[ƒvƒ_ƒ“ƒvƒtƒ@ƒCƒ‹‚ÌŠg’£q */
+    /** ãƒ’ãƒ¼ãƒ—ãƒ€ãƒ³ãƒ—ãƒ•ã‚¡ã‚¤ãƒ«ã®æ‹¡å¼µå­ */
     private static final String EXTENTION_LOG = ".hprof";
 
-    /** ƒq[ƒvƒ_ƒ“ƒvƒtƒ@ƒCƒ‹–¼‚ÌƒtƒH[ƒ}ƒbƒg(“ú•tƒtƒH[ƒ}ƒbƒg(ƒ~ƒŠ(sec)‚Ü‚Å•\¦) */
+    /** ãƒ’ãƒ¼ãƒ—ãƒ€ãƒ³ãƒ—ãƒ•ã‚¡ã‚¤ãƒ«åã®ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ(æ—¥ä»˜ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ(ãƒŸãƒª(sec)ã¾ã§è¡¨ç¤º) */
     private static final String HEAPDUMP_FILE_FORMAT =
             "heapdump_{0,date,yyyy_MM_dd_HHmmss_SSS}_{1,number,00000}" + EXTENTION_LOG;
 
-    /** HeapDump‚ğæ“¾‚·‚éHotSpotDiagnosticMXBean‚ÌƒIƒuƒWƒFƒNƒg–¼ */
+    /** HeapDumpã‚’å–å¾—ã™ã‚‹HotSpotDiagnosticMXBeanã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå */
     private static final String OBJECT_NAME = "com.sun.management:type=HotSpotDiagnostic";
 
-    /** HotSpotDiagnosticƒIƒuƒWƒFƒNƒg */
+    /** HotSpotDiagnosticã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     private static Object mxBeanInstance__;
 
-    /** com.sun.management.HotSpotDiagnosticMXBean#dumpHeap@‚ÌÀ‘•ƒƒ\ƒbƒh */
+    /** com.sun.management.HotSpotDiagnosticMXBean#dumpHeapã€€ã®å®Ÿè£…ãƒ¡ã‚½ãƒƒãƒ‰ */
     private static Method dumpHeapMethod__ = null;
 
     static
@@ -102,7 +102,7 @@ public class HeapDumpMonitor
     }
 
     /**
-     * ƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğ‘j~‚·‚éƒvƒ‰ƒCƒx[ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Å‚·B<br />
+     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã‚’é˜»æ­¢ã™ã‚‹ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§ã™ã€‚<br />
      */
     private HeapDumpMonitor()
     {
@@ -110,7 +110,7 @@ public class HeapDumpMonitor
     }
 
     /**
-     * ƒq[ƒvƒ_ƒ“ƒv‚ğì¬‚µ‚Ü‚·B<br />
+     * ãƒ’ãƒ¼ãƒ—ãƒ€ãƒ³ãƒ—ã‚’ä½œæˆã—ã¾ã™ã€‚<br />
      * 
      */
     public static void createHeapDump()
@@ -148,14 +148,14 @@ public class HeapDumpMonitor
     }
 
     /**
-     * ì¬‚·‚éƒq[ƒvƒ_ƒ“ƒvƒtƒ@ƒCƒ‹‚Ìâ‘ÎƒpƒX‚ğæ“¾‚µ‚Ü‚·B<br />
+     * ä½œæˆã™ã‚‹ãƒ’ãƒ¼ãƒ—ãƒ€ãƒ³ãƒ—ãƒ•ã‚¡ã‚¤ãƒ«ã®çµ¶å¯¾ãƒ‘ã‚¹ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      * 
      * @return
      */
     private static String getDumpFilePath()
     {
         String folderPath = config__.getHeapDumpDir();
-        // eƒfƒBƒŒƒNƒgƒŠ‚ğì¬‚·‚éB
+        // è¦ªãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’ä½œæˆã™ã‚‹ã€‚
         IOUtil.createDirs(folderPath);
         Date date = new Date();
         String fileName = MessageFormat.format(HEAPDUMP_FILE_FORMAT, date, (sequenceNumber__++));
@@ -164,7 +164,7 @@ public class HeapDumpMonitor
     }
 
     /**
-     * MBeanServer‚ğæ“¾‚·‚éB
+     * MBeanServerã‚’å–å¾—ã™ã‚‹ã€‚
      * @return MBeanServer
      */
     private static synchronized ObjectName getMBeanServer()

@@ -34,7 +34,7 @@ import jp.co.acroquest.endosnipe.data.dao.HostInfoDao;
 import jp.co.acroquest.endosnipe.data.entity.HostInfo;
 
 /**
- * ƒzƒXƒgî•ñŠÇ—‹@”\‚É‘Î‚·‚éƒeƒXƒgƒNƒ‰ƒX
+ * ãƒ›ã‚¹ãƒˆæƒ…å ±ç®¡ç†æ©Ÿèƒ½ã«å¯¾ã™ã‚‹ãƒ†ã‚¹ãƒˆã‚¯ãƒ©ã‚¹
  * 
  * @author M.Yoshida
  *
@@ -51,31 +51,31 @@ public class HostInfoManagerTest extends AbstractDaoTest
     
     public void testGetHostInfo1()
     {
-        // ğŒ
-        // <-- DB‚Éƒf[ƒ^‚ª–³‚¢ -->
+        // æ¡ä»¶
+        // <-- DBã«ãƒ‡ãƒ¼ã‚¿ãŒç„¡ã„ -->
         
-        // À{
+        // å®Ÿæ–½
         HostInfo result = HostInfoManager.getHostInfo(DB_NAME, true);
         
-        // Œ‹‰ÊŠm”F
+        // çµæœç¢ºèª
         assertNull(result);
         
         assertCalled(ENdoSnipeLogger.class, "log");
         int logCalled = getCallCount(ENdoSnipeLogger.class, "log");
         
-        // ƒGƒ‰[ƒƒO‚ªo—Í‚³‚ê‚È‚¢‚±‚Æ‚ğŠm”F‚·‚éB
+        // ã‚¨ãƒ©ãƒ¼ãƒ­ã‚°ãŒå‡ºåŠ›ã•ã‚Œãªã„ã“ã¨ã‚’ç¢ºèªã™ã‚‹ã€‚
         assertFalse(getArgument(ENdoSnipeLogger.class, "log", logCalled - 1, 1) instanceof SQLException);
     }
 
     public void testGetHostInfo2()
     {
-        // ğŒ
-        // <-- DB‚Éƒf[ƒ^‚ª–³‚¢ -->
+        // æ¡ä»¶
+        // <-- DBã«ãƒ‡ãƒ¼ã‚¿ãŒç„¡ã„ -->
         
-        // À{
+        // å®Ÿæ–½
         HostInfo result = HostInfoManager.getHostInfo(DB_NAME, false);
         
-        // Œ‹‰ÊŠm”F
+        // çµæœç¢ºèª
         assertNull(result);
 
         assertCalled(ENdoSnipeLogger.class, "log");
@@ -86,26 +86,26 @@ public class HostInfoManagerTest extends AbstractDaoTest
 
     public void testGetHostInfo3()
     {
-        // ğŒ
+        // æ¡ä»¶
         try
         {
-            initializeHostInfoTable(new String[]{"mica, 192.168.252.22, 15002, •â‘«‚P‚Q"});
+            initializeHostInfoTable(new String[]{"mica, 192.168.252.22, 15002, è£œè¶³ï¼‘ï¼’"});
         }
         catch (SQLException ex)
         {
             fail(ex.getMessage());
         }
         
-        // À{
+        // å®Ÿæ–½
         HostInfo result = HostInfoManager.getHostInfo(DB_NAME, true);
         
-        // Œ‹‰ÊŠm”F
+        // çµæœç¢ºèª
         assertNotNull(result);
         
         assertEquals("mica", result.hostName);
         assertEquals("192.168.252.22", result.ipAddress);
         assertEquals(15002, result.port);
-        assertEquals("•â‘«‚P‚Q", result.description);
+        assertEquals("è£œè¶³ï¼‘ï¼’", result.description);
 
         assertCalled(ENdoSnipeLogger.class, "log");
         int logCalled = getCallCount(ENdoSnipeLogger.class, "log");
@@ -115,26 +115,26 @@ public class HostInfoManagerTest extends AbstractDaoTest
 
     public void testGetHostInfo4()
     {
-        // ğŒ
+        // æ¡ä»¶
         try
         {
-            initializeHostInfoTable(new String[]{"mica, 192.168.252.22, 15002, •â‘«‚P‚Q"});
+            initializeHostInfoTable(new String[]{"mica, 192.168.252.22, 15002, è£œè¶³ï¼‘ï¼’"});
         }
         catch (SQLException ex)
         {
             fail(ex.getMessage());
         }
         
-        // À{
+        // å®Ÿæ–½
         HostInfo result = HostInfoManager.getHostInfo(DB_NAME, false);
         
-        // Œ‹‰ÊŠm”F
+        // çµæœç¢ºèª
         assertNotNull(result);
         
         assertEquals("mica", result.hostName);
         assertEquals("192.168.252.22", result.ipAddress);
         assertEquals(15002, result.port);
-        assertEquals("•â‘«‚P‚Q", result.description);
+        assertEquals("è£œè¶³ï¼‘ï¼’", result.description);
 
         assertCalled(ENdoSnipeLogger.class, "log");
         int logCalled = getCallCount(ENdoSnipeLogger.class, "log");
@@ -144,43 +144,43 @@ public class HostInfoManagerTest extends AbstractDaoTest
     
     public void testRegisterHostInfo1()
     {
-        // ğŒ
-        // <-- ƒzƒXƒgî•ñ–³‚µ -->
+        // æ¡ä»¶
+        // <-- ãƒ›ã‚¹ãƒˆæƒ…å ±ç„¡ã— -->
         
-        // À{
-        HostInfoManager.registerHostInfo(DB_NAME, "mica", "192.168.252.22", 15002, "•â‘«‚P‚Q");
+        // å®Ÿæ–½
+        HostInfoManager.registerHostInfo(DB_NAME, "mica", "192.168.252.22", 15002, "è£œè¶³ï¼‘ï¼’");
         
-        // Œ‹‰ÊŠm”F
+        // çµæœç¢ºèª
         HostInfo expected = new HostInfo();
         expected.hostName = "mica";
         expected.ipAddress = "192.168.252.22";
         expected.port = 15002;
-        expected.description = "•â‘«‚P‚Q";
+        expected.description = "è£œè¶³ï¼‘ï¼’";
         
         assertRegistedDataEqual(expected);
     }
 
     public void testRegisterHostInfo2()
     {
-        // ğŒ
+        // æ¡ä»¶
         try
         {
-            initializeHostInfoTable(new String[]{"mica, 192.168.252.22, 15002, •â‘«‚P‚Q"});
+            initializeHostInfoTable(new String[]{"mica, 192.168.252.22, 15002, è£œè¶³ï¼‘ï¼’"});
         }
         catch (SQLException ex)
         {
             fail(ex.getMessage());
         }
         
-        // À{
-        HostInfoManager.registerHostInfo(DB_NAME, "mica", "192.168.252.22", 15002, "•â‘«‚P‚Q");
+        // å®Ÿæ–½
+        HostInfoManager.registerHostInfo(DB_NAME, "mica", "192.168.252.22", 15002, "è£œè¶³ï¼‘ï¼’");
         
-        // Œ‹‰ÊŠm”F
+        // çµæœç¢ºèª
         HostInfo expected = new HostInfo();
         expected.hostName = "mica";
         expected.ipAddress = "192.168.252.22";
         expected.port = 15002;
-        expected.description = "•â‘«‚P‚Q";
+        expected.description = "è£œè¶³ï¼‘ï¼’";
         
         assertRegistedDataEqual(expected);
         
@@ -189,25 +189,25 @@ public class HostInfoManagerTest extends AbstractDaoTest
     
     public void testRegisterHostInfo3()
     {
-        // ğŒ
+        // æ¡ä»¶
         try
         {
-            initializeHostInfoTable(new String[]{"mica, 192.168.252.22, 15002, •â‘«‚P‚Q"});
+            initializeHostInfoTable(new String[]{"mica, 192.168.252.22, 15002, è£œè¶³ï¼‘ï¼’"});
         }
         catch (SQLException ex)
         {
             fail(ex.getMessage());
         }
         
-        // À{
-        HostInfoManager.registerHostInfo(DB_NAME, "garnet", "192.168.252.22", 15002, "•â‘«‚P‚Q");
+        // å®Ÿæ–½
+        HostInfoManager.registerHostInfo(DB_NAME, "garnet", "192.168.252.22", 15002, "è£œè¶³ï¼‘ï¼’");
         
-        // Œ‹‰ÊŠm”F
+        // çµæœç¢ºèª
         HostInfo expected = new HostInfo();
         expected.hostName = "garnet";
         expected.ipAddress = "192.168.252.22";
         expected.port = 15002;
-        expected.description = "•â‘«‚P‚Q";
+        expected.description = "è£œè¶³ï¼‘ï¼’";
         
         assertRegistedDataEqual(expected);
         
@@ -216,25 +216,25 @@ public class HostInfoManagerTest extends AbstractDaoTest
 
     public void testRegisterHostInfo4()
     {
-        // ğŒ
+        // æ¡ä»¶
         try
         {
-            initializeHostInfoTable(new String[]{"mica, 192.168.252.22, 15002, •â‘«‚P‚Q"});
+            initializeHostInfoTable(new String[]{"mica, 192.168.252.22, 15002, è£œè¶³ï¼‘ï¼’"});
         }
         catch (SQLException ex)
         {
             fail(ex.getMessage());
         }
         
-        // À{
-        HostInfoManager.registerHostInfo(DB_NAME, "mica", "212.168.252.22", 15002, "•â‘«‚P‚Q");
+        // å®Ÿæ–½
+        HostInfoManager.registerHostInfo(DB_NAME, "mica", "212.168.252.22", 15002, "è£œè¶³ï¼‘ï¼’");
         
-        // Œ‹‰ÊŠm”F
+        // çµæœç¢ºèª
         HostInfo expected = new HostInfo();
         expected.hostName = "mica";
         expected.ipAddress = "212.168.252.22";
         expected.port = 15002;
-        expected.description = "•â‘«‚P‚Q";
+        expected.description = "è£œè¶³ï¼‘ï¼’";
         
         assertRegistedDataEqual(expected);
         
@@ -243,25 +243,25 @@ public class HostInfoManagerTest extends AbstractDaoTest
 
     public void testRegisterHostInfo5()
     {
-        // ğŒ
+        // æ¡ä»¶
         try
         {
-            initializeHostInfoTable(new String[]{"mica, 192.168.252.22, 15002, •â‘«‚P‚Q"});
+            initializeHostInfoTable(new String[]{"mica, 192.168.252.22, 15002, è£œè¶³ï¼‘ï¼’"});
         }
         catch (SQLException ex)
         {
             fail(ex.getMessage());
         }
         
-        // À{
-        HostInfoManager.registerHostInfo(DB_NAME, "mica", "192.168.252.22", 15432, "•â‘«‚P‚Q");
+        // å®Ÿæ–½
+        HostInfoManager.registerHostInfo(DB_NAME, "mica", "192.168.252.22", 15432, "è£œè¶³ï¼‘ï¼’");
         
-        // Œ‹‰ÊŠm”F
+        // çµæœç¢ºèª
         HostInfo expected = new HostInfo();
         expected.hostName = "mica";
         expected.ipAddress = "192.168.252.22";
         expected.port = 15432;
-        expected.description = "•â‘«‚P‚Q";
+        expected.description = "è£œè¶³ï¼‘ï¼’";
         
         assertRegistedDataEqual(expected);
         
@@ -270,25 +270,25 @@ public class HostInfoManagerTest extends AbstractDaoTest
     
     public void testRegisterHostInfo6()
     {
-        // ğŒ
+        // æ¡ä»¶
         try
         {
-            initializeHostInfoTable(new String[]{"mica, 192.168.252.22, 15002, •â‘«‚P‚Q"});
+            initializeHostInfoTable(new String[]{"mica, 192.168.252.22, 15002, è£œè¶³ï¼‘ï¼’"});
         }
         catch (SQLException ex)
         {
             fail(ex.getMessage());
         }
         
-        // À{
-        HostInfoManager.registerHostInfo(DB_NAME, "mica", "192.168.252.22", 15002, "à–¾‚R‚X");
+        // å®Ÿæ–½
+        HostInfoManager.registerHostInfo(DB_NAME, "mica", "192.168.252.22", 15002, "èª¬æ˜ï¼“ï¼™");
         
-        // Œ‹‰ÊŠm”F
+        // çµæœç¢ºèª
         HostInfo expected = new HostInfo();
         expected.hostName = "mica";
         expected.ipAddress = "192.168.252.22";
         expected.port = 15002;
-        expected.description = "à–¾‚R‚X";
+        expected.description = "èª¬æ˜ï¼“ï¼™";
         
         assertRegistedDataEqual(expected);
         
@@ -297,25 +297,25 @@ public class HostInfoManagerTest extends AbstractDaoTest
 
     public void testRegisterHostInfo7()
     {
-        // ğŒ
+        // æ¡ä»¶
         try
         {
-            initializeHostInfoTable(new String[]{"mica, 192.168.252.22, 15002, •â‘«‚P‚Q"});
+            initializeHostInfoTable(new String[]{"mica, 192.168.252.22, 15002, è£œè¶³ï¼‘ï¼’"});
         }
         catch (SQLException ex)
         {
             fail(ex.getMessage());
         }
         
-        // À{
-        HostInfoManager.registerHostInfo(DB_NAME, "", "192.168.252.22", 15002, "à–¾‚P‚Q");
+        // å®Ÿæ–½
+        HostInfoManager.registerHostInfo(DB_NAME, "", "192.168.252.22", 15002, "èª¬æ˜ï¼‘ï¼’");
         
-        // Œ‹‰ÊŠm”F
+        // çµæœç¢ºèª
         HostInfo expected = new HostInfo();
         expected.hostName = "";
         expected.ipAddress = "192.168.252.22";
         expected.port = 15002;
-        expected.description = "à–¾‚P‚Q";
+        expected.description = "èª¬æ˜ï¼‘ï¼’";
         
         assertRegistedDataEqual(expected);
         
@@ -324,25 +324,25 @@ public class HostInfoManagerTest extends AbstractDaoTest
 
     public void testRegisterHostInfo8()
     {
-        // ğŒ
+        // æ¡ä»¶
         try
         {
-            initializeHostInfoTable(new String[]{"mica, 192.168.252.22, 15002, •â‘«‚P‚Q"});
+            initializeHostInfoTable(new String[]{"mica, 192.168.252.22, 15002, è£œè¶³ï¼‘ï¼’"});
         }
         catch (SQLException ex)
         {
             fail(ex.getMessage());
         }
         
-        // À{
-        HostInfoManager.registerHostInfo(DB_NAME, "mica", "", 15002, "à–¾‚P‚Q");
+        // å®Ÿæ–½
+        HostInfoManager.registerHostInfo(DB_NAME, "mica", "", 15002, "èª¬æ˜ï¼‘ï¼’");
         
-        // Œ‹‰ÊŠm”F
+        // çµæœç¢ºèª
         HostInfo expected = new HostInfo();
         expected.hostName = "mica";
         expected.ipAddress = "";
         expected.port = 15002;
-        expected.description = "à–¾‚P‚Q";
+        expected.description = "èª¬æ˜ï¼‘ï¼’";
         
         assertRegistedDataEqual(expected);
         
@@ -351,25 +351,25 @@ public class HostInfoManagerTest extends AbstractDaoTest
 
     public void testRegisterHostInfo9()
     {
-        // ğŒ
+        // æ¡ä»¶
         try
         {
-            initializeHostInfoTable(new String[]{", 192.168.252.22, 15002, •â‘«‚P‚Q"});
+            initializeHostInfoTable(new String[]{", 192.168.252.22, 15002, è£œè¶³ï¼‘ï¼’"});
         }
         catch (SQLException ex)
         {
             fail(ex.getMessage());
         }
         
-        // À{
-        HostInfoManager.registerHostInfo(DB_NAME, "mica", "192.168.252.22", 15002, "•â‘«‚P‚Q");
+        // å®Ÿæ–½
+        HostInfoManager.registerHostInfo(DB_NAME, "mica", "192.168.252.22", 15002, "è£œè¶³ï¼‘ï¼’");
         
-        // Œ‹‰ÊŠm”F
+        // çµæœç¢ºèª
         HostInfo expected = new HostInfo();
         expected.hostName = "mica";
         expected.ipAddress = "192.168.252.22";
         expected.port = 15002;
-        expected.description = "•â‘«‚P‚Q";
+        expected.description = "è£œè¶³ï¼‘ï¼’";
         
         assertRegistedDataEqual(expected);
         
@@ -378,25 +378,25 @@ public class HostInfoManagerTest extends AbstractDaoTest
     
     public void testRegisterHostInfo10()
     {
-        // ğŒ
+        // æ¡ä»¶
         try
         {
-            initializeHostInfoTable(new String[]{"mica, 192.168.252.22, 15002, •â‘«‚P‚Q"});
+            initializeHostInfoTable(new String[]{"mica, 192.168.252.22, 15002, è£œè¶³ï¼‘ï¼’"});
         }
         catch (SQLException ex)
         {
             fail(ex.getMessage());
         }
         
-        // À{
-        HostInfoManager.registerHostInfo(DB_NAME, "", "192.168.252.22", 15002, "•â‘«‚P‚Q");
+        // å®Ÿæ–½
+        HostInfoManager.registerHostInfo(DB_NAME, "", "192.168.252.22", 15002, "è£œè¶³ï¼‘ï¼’");
         
-        // Œ‹‰ÊŠm”F
+        // çµæœç¢ºèª
         HostInfo expected = new HostInfo();
         expected.hostName = "";
         expected.ipAddress = "192.168.252.22";
         expected.port = 15002;
-        expected.description = "•â‘«‚P‚Q";
+        expected.description = "è£œè¶³ï¼‘ï¼’";
         
         assertRegistedDataEqual(expected);
         

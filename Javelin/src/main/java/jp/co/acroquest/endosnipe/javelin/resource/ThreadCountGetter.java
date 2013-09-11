@@ -31,7 +31,7 @@ import java.lang.management.ThreadMXBean;
 import jp.co.acroquest.endosnipe.common.entity.ItemType;
 
 /**
- * ƒXƒŒƒbƒh”‚ğæ“¾‚·‚éƒNƒ‰ƒXB
+ * ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã‚’å–å¾—ã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚
  * 
  * @author Sakamoto
  */

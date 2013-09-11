@@ -39,6 +39,7 @@ import jp.co.acroquest.endosnipe.collector.listener.CommonResponseListener;
 import jp.co.acroquest.endosnipe.collector.listener.JvnFileNotifyListener;
 import jp.co.acroquest.endosnipe.collector.listener.SignalChangeListener;
 import jp.co.acroquest.endosnipe.collector.listener.SignalStateListener;
+import jp.co.acroquest.endosnipe.collector.listener.SqlPlanNotifyListener;
 import jp.co.acroquest.endosnipe.collector.listener.SystemResourceListener;
 import jp.co.acroquest.endosnipe.collector.listener.TelegramNotifyListener;
 import jp.co.acroquest.endosnipe.communicator.TelegramListener;
@@ -55,53 +56,53 @@ import jp.co.acroquest.endosnipe.communicator.impl.DataCollectorServer.ClientNot
 import jp.co.acroquest.endosnipe.data.service.HostInfoManager;
 
 /**
- * Javelin ‚©‚çƒf[ƒ^‚ğóM‚·‚é‚½‚ß‚ÌƒT[ƒo‚Å‚·B<br />
+ * Javelin ã‹ã‚‰ãƒ‡ãƒ¼ã‚¿ã‚’å—ä¿¡ã™ã‚‹ãŸã‚ã®ã‚µãƒ¼ãƒã§ã™ã€‚<br />
  * 
  * @author matsuoka
  */
 public class JavelinServer implements TelegramSender
 {
-    /** ƒT[ƒoƒCƒ“ƒXƒ^ƒ“ƒX */
+    /** ã‚µãƒ¼ãƒã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ */
     private final DataCollectorServer server_ = new DataCollectorServer();
 
-    /** DB–¼‚ğƒL[‚Æ‚µ‚½JavelinƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒŠƒXƒg */
+    /** DBåã‚’ã‚­ãƒ¼ã¨ã—ãŸJavelinã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã®ãƒªã‚¹ãƒˆ */
     private final Map<String, DataCollectorClient> javelinClientList_ =
         new HashMap<String, DataCollectorClient>();
 
-    /** DB–¼‚ğƒL[‚Æ‚µ‚½§ŒäƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒŠƒXƒg */
+    /** DBåã‚’ã‚­ãƒ¼ã¨ã—ãŸåˆ¶å¾¡ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã®ãƒªã‚¹ãƒˆ */
     private final Map<String, Set<DataCollectorClient>> controlClientList_ =
         new HashMap<String, Set<DataCollectorClient>>();
 
-    /** DB–¼‚Ì‘Œ¸‚ğ’Ê’m‚·‚éƒNƒ‰ƒCƒAƒ“ƒg */
+    /** DBåã®å¢—æ¸›ã‚’é€šçŸ¥ã™ã‚‹ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆ */
     private DataCollectorClient databaseAdminClient_ = null;
 
-    /** ƒLƒ…[ */
+    /** ã‚­ãƒ¥ãƒ¼ */
     private JavelinDataQueue queue_;
 
-    /** DB–¼‚ğƒL[‚Æ‚µ‚½’Ê’mƒŠƒXƒi‚Ìƒ}ƒbƒv */
+    /** DBåã‚’ã‚­ãƒ¼ã¨ã—ãŸé€šçŸ¥ãƒªã‚¹ãƒŠã®ãƒãƒƒãƒ— */
     private Map<String, List<TelegramNotifyListener>> notifyListenerMap_ =
         new HashMap<String, List<TelegramNotifyListener>>();
 
-    /** ƒŠƒ\[ƒXæ“¾ */
+    /** ãƒªã‚½ãƒ¼ã‚¹å–å¾— */
     private SystemResourceGetter resourceGetter_;
 
-    /** “®ìƒ‚[ƒh */
+    /** å‹•ä½œãƒ¢ãƒ¼ãƒ‰ */
     private BehaviorMode behaviorMode_;
 
-    /** JavelinƒNƒ‰ƒCƒAƒ“ƒg‚Æ‚ÌÚ‘±‚ªŠm—§‚·‚é‚Ü‚Å“d•¶‚ğ‘Ø—¯‚³‚¹‚Ä‚¨‚­‚½‚ß‚ÌƒŠƒXƒg */
+    /** Javelinã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã¨ã®æ¥ç¶šãŒç¢ºç«‹ã™ã‚‹ã¾ã§é›»æ–‡ã‚’æ»ç•™ã•ã›ã¦ãŠããŸã‚ã®ãƒªã‚¹ãƒˆ */
     private final List<Telegram> waitingTelegramList_ = new ArrayList<Telegram>();
 
-    /** Ú‘±‚·‚éƒf[ƒ^ƒx[ƒX–¼B */
+    /** æ¥ç¶šã™ã‚‹ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã€‚ */
     private String dbName_;
 
     /**
-     * ƒT[ƒo‚ğŠJn‚·‚éB
+     * ã‚µãƒ¼ãƒã‚’é–‹å§‹ã™ã‚‹ã€‚
      * 
-     * @param port ƒ|[ƒg”Ô†
-     * @param queue ƒf[ƒ^ƒLƒ…[
-     * @param dbName Ú‘±‚·‚éƒf[ƒ^ƒx[ƒX–¼B
-     * @param resourceGetter ƒVƒXƒeƒ€ƒŠƒ\[ƒXæ“¾
-     * @param behaviorMode DataCollector‚Ì“®ìƒ‚[ƒh
+     * @param port ãƒãƒ¼ãƒˆç•ªå·
+     * @param queue ãƒ‡ãƒ¼ã‚¿ã‚­ãƒ¥ãƒ¼
+     * @param dbName æ¥ç¶šã™ã‚‹ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã€‚
+     * @param resourceGetter ã‚·ã‚¹ãƒ†ãƒ ãƒªã‚½ãƒ¼ã‚¹å–å¾—
+     * @param behaviorMode DataCollectorã®å‹•ä½œãƒ¢ãƒ¼ãƒ‰
      */
     public void start(final int port, final JavelinDataQueue queue, final String dbName,
         final SystemResourceGetter resourceGetter, final BehaviorMode behaviorMode)
@@ -181,7 +182,7 @@ public class JavelinServer implements TelegramSender
     }
 
     /**
-     * ƒT[ƒo‚ğ’â~‚·‚éB
+     * ã‚µãƒ¼ãƒã‚’åœæ­¢ã™ã‚‹ã€‚
      */
     public void stop()
     {
@@ -189,9 +190,9 @@ public class JavelinServer implements TelegramSender
     }
 
     /**
-     * ƒNƒ‰ƒCƒAƒ“ƒg‚É’Ê’m‚·‚é‚½‚ß‚ÌƒŠƒXƒi‚ğ“o˜^‚µ‚Ü‚·B
+     * ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã«é€šçŸ¥ã™ã‚‹ãŸã‚ã®ãƒªã‚¹ãƒŠã‚’ç™»éŒ²ã—ã¾ã™ã€‚
      *
-     * @param notifyListenerList ƒNƒ‰ƒCƒAƒ“ƒg‚É’Ê’m‚·‚é‚½‚ß‚ÌƒŠƒXƒi
+     * @param notifyListenerList ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã«é€šçŸ¥ã™ã‚‹ãŸã‚ã®ãƒªã‚¹ãƒŠ
      */
     public void setTelegramNotifyListener(
         final Map<String, List<TelegramNotifyListener>> notifyListenerList)
@@ -200,8 +201,8 @@ public class JavelinServer implements TelegramSender
         {
             notifyListenerMap_ = notifyListenerList;
 
-            // –{ƒƒ\ƒbƒh‚ÌƒR[ƒ‹‚É‚ÍA‚Ü‚¾ƒNƒ‰ƒCƒAƒ“ƒg‚ÆÚ‘±‚³‚ê‚Ä‚¢‚È‚¢B
-            // ‚»‚Ì‚½‚ßA’Ê’mƒŠƒXƒi‚Ì‘—Mæ‚Éƒ_ƒ~[‚ğİ’è‚·‚éB
+            // æœ¬ãƒ¡ã‚½ãƒƒãƒ‰ã®ã‚³ãƒ¼ãƒ«æ™‚ã«ã¯ã€ã¾ã ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã¨æ¥ç¶šã•ã‚Œã¦ã„ãªã„ã€‚
+            // ãã®ãŸã‚ã€é€šçŸ¥ãƒªã‚¹ãƒŠã®é€ä¿¡å…ˆã«ãƒ€ãƒŸãƒ¼ã‚’è¨­å®šã™ã‚‹ã€‚
             setDummyTelegramSenders();
         }
         else
@@ -211,9 +212,9 @@ public class JavelinServer implements TelegramSender
     }
 
     /**
-     * w’è‚³‚ê‚½ƒNƒ‰ƒCƒAƒ“ƒgID‚ÌƒNƒ‰ƒCƒAƒ“ƒg‚ğæ“¾‚·‚éB
-     * @param clientId ƒL[‚Æ‚È‚éƒNƒ‰ƒCƒAƒ“ƒgID
-     * @return w’è‚³‚ê‚½ƒNƒ‰ƒCƒAƒ“ƒgID‚ÌƒNƒ‰ƒCƒAƒ“ƒg‚ğ•Ô‚·B
+     * æŒ‡å®šã•ã‚ŒãŸã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆIDã®ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚’å–å¾—ã™ã‚‹ã€‚
+     * @param clientId ã‚­ãƒ¼ã¨ãªã‚‹ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆID
+     * @return æŒ‡å®šã•ã‚ŒãŸã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆIDã®ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚’è¿”ã™ã€‚
      */
     public DataCollectorClient getClient(final String clientId)
     {
@@ -221,9 +222,9 @@ public class JavelinServer implements TelegramSender
     }
 
     /**
-     * JavelinƒNƒ‰ƒCƒAƒ“ƒg‚É•R•t‚­§ŒäƒNƒ‰ƒCƒAƒ“ƒg‚É“d•¶‚ğ‘—M‚·‚éB
-     * @param clientId JavelinƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒNƒ‰ƒCƒAƒ“ƒgID
-     * @param telegram ‘—M‚·‚é“d•¶
+     * Javelinã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã«ç´ä»˜ãåˆ¶å¾¡ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã«é›»æ–‡ã‚’é€ä¿¡ã™ã‚‹ã€‚
+     * @param clientId Javelinã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã®ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆID
+     * @param telegram é€ä¿¡ã™ã‚‹é›»æ–‡
      */
     public void sendTelegramToControlClient(final String clientId, final Telegram telegram)
     {
@@ -244,7 +245,7 @@ public class JavelinServer implements TelegramSender
 
         if (behaviorMode_.equals(BehaviorMode.PLUGIN_MODE))
         {
-            // ƒvƒ‰ƒOƒCƒ“ƒ‚[ƒh‚Å“®ì‚µ‚Ä‚¢‚é‚È‚çAƒŠƒXƒi‚É’Ê’m‚·‚éB
+            // ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ãƒ¢ãƒ¼ãƒ‰ã§å‹•ä½œã—ã¦ã„ã‚‹ãªã‚‰ã€ãƒªã‚¹ãƒŠã«é€šçŸ¥ã™ã‚‹ã€‚
             String dbName = dbName_;
             List<TelegramNotifyListener> notifyListenerList = notifyListenerMap_.get(dbName);
             if (notifyListenerList != null)
@@ -260,8 +261,8 @@ public class JavelinServer implements TelegramSender
         }
         else
         {
-            // ƒT[ƒrƒXƒ‚[ƒh‚Å“®ì‚µ‚Ä‚¢‚é‚È‚çAÚ‘±‚³‚ê‚Ä‚¢‚é§ŒäƒNƒ‰ƒCƒAƒ“ƒg‚É
-            // “d•¶‚ğ‘—M‚·‚éB
+            // ã‚µãƒ¼ãƒ“ã‚¹ãƒ¢ãƒ¼ãƒ‰ã§å‹•ä½œã—ã¦ã„ã‚‹ãªã‚‰ã€æ¥ç¶šã•ã‚Œã¦ã„ã‚‹åˆ¶å¾¡ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã«
+            // é›»æ–‡ã‚’é€ä¿¡ã™ã‚‹ã€‚
             Set<DataCollectorClient> controlClientSet = getControlClient(dbName_);
             if (controlClientSet != null)
             {
@@ -284,18 +285,18 @@ public class JavelinServer implements TelegramSender
     }
 
     /**
-     * Javelin‚ªÚ‘±‚³‚ê‚é‚Ü‚Å‚Ìƒ_ƒ~[‚Ì“d•¶‘—Mˆ—B
-     * @param telegram ‘—M“d•¶
+     * JavelinãŒæ¥ç¶šã•ã‚Œã‚‹ã¾ã§ã®ãƒ€ãƒŸãƒ¼ã®é›»æ–‡é€ä¿¡å‡¦ç†ã€‚
+     * @param telegram é€ä¿¡é›»æ–‡
      */
     public void sendTelegram(final Telegram telegram)
     {
-        // “d•¶‚ğ‘Ø—¯‚³‚¹‚éB
+        // é›»æ–‡ã‚’æ»ç•™ã•ã›ã‚‹ã€‚
         waitingTelegramList_.add(telegram);
     }
 
     /**
-     * javelin‚Ì‘‰Á‚ğ’Ê’m‚·‚é
-     * @param databaseName DB–¼
+     * javelinã®å¢—åŠ ã‚’é€šçŸ¥ã™ã‚‹
+     * @param databaseName DBå
      */
     private void notifyAddJavelin(final String databaseName)
     {
@@ -309,8 +310,8 @@ public class JavelinServer implements TelegramSender
     }
 
     /**
-     * javelin‚ÌŒ¸­‚ğ’Ê’m‚·‚é
-     * @param databaseName DB–¼
+     * javelinã®æ¸›å°‘ã‚’é€šçŸ¥ã™ã‚‹
+     * @param databaseName DBå
      */
     private void notifyDelJavelin(final String databaseName)
     {
@@ -324,8 +325,8 @@ public class JavelinServer implements TelegramSender
     }
 
     /**
-     * Ú‘±‚³‚ê‚½JavelinƒNƒ‰ƒCƒAƒ“ƒg‚ğ‰Šú‰»‚·‚éB
-     * @param client JavelinƒNƒ‰ƒCƒAƒ“ƒg
+     * æ¥ç¶šã•ã‚ŒãŸJavelinã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
+     * @param client Javelinã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆ
      */
     private void initializeJavelinClient(final DataCollectorClient client)
     {
@@ -358,6 +359,9 @@ public class JavelinServer implements TelegramSender
             client
                 .addTelegramListener(createResponseTelegramListener(TelegramConstants.BYTE_TELEGRAM_KIND_UPDATE_PROPERTY));
 
+            client.addTelegramListener(createSqlPlanNotifyListener(hostName, agentName, port,
+                                                                   dbName));
+
             HostInfoManager.registerHostInfo(dbName, hostName, ipAddress, port, null);
 
             notifyJavelinConnected(dbName, hostName, ipAddress, port);
@@ -365,14 +369,11 @@ public class JavelinServer implements TelegramSender
 
         SignalStateListener signalStateListener = new SignalStateListener();
         SignalChangeListener signalChangeListener = new SignalChangeListener();
-        /*   MultipleResourceGraphChangeListener multipleResourceGraphChangeListener =
-               new MultipleResourceGraphChangeListener();
-        */
+
         client.addTelegramListener(signalStateListener);
         client.addTelegramListener(signalChangeListener);
-        //  client.addTelegramListener(multipleResourceGraphChangeListener);
 
-        // §ŒäƒNƒ‰ƒCƒAƒ“ƒg‚ª‘¶İ‚·‚é‚È‚çAJavelinƒNƒ‰ƒCƒAƒ“ƒg‚Æ•R•t‚¯‚éB
+        // åˆ¶å¾¡ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆãŒå­˜åœ¨ã™ã‚‹ãªã‚‰ã€Javelinã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã¨ç´ä»˜ã‘ã‚‹ã€‚
         Set<DataCollectorClient> controlClientSet = getControlClient(dbName);
         if (controlClientSet != null)
         {
@@ -386,11 +387,11 @@ public class JavelinServer implements TelegramSender
     }
 
     /**
-     * §ŒäƒNƒ‰ƒCƒAƒ“ƒg‚ÉJavelin‚ªÚ‘±‚³‚ê‚½‚±‚Æ‚ğ’Ê’m‚·‚éB
-     * @param dbName ƒf[ƒ^ƒx[ƒX–¼
-     * @param hostName Javelin‚ÌƒzƒXƒg–¼
-     * @param ipAddress Javelin‚ÌIPƒAƒhƒŒƒX
-     * @param port Javelin‚Ìƒ|[ƒg”Ô†
+     * åˆ¶å¾¡ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã«JavelinãŒæ¥ç¶šã•ã‚ŒãŸã“ã¨ã‚’é€šçŸ¥ã™ã‚‹ã€‚
+     * @param dbName ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param hostName Javelinã®ãƒ›ã‚¹ãƒˆå
+     * @param ipAddress Javelinã®IPã‚¢ãƒ‰ãƒ¬ã‚¹
+     * @param port Javelinã®ãƒãƒ¼ãƒˆç•ªå·
      */
     private void notifyJavelinConnected(final String dbName, final String hostName,
         final String ipAddress, final int port)
@@ -404,7 +405,7 @@ public class JavelinServer implements TelegramSender
             }
         }
 
-        // Ú‘±‚ğ•\‚·ƒf[ƒ^‚ğƒLƒ…[‚É’Ç‰Á‚·‚é
+        // æ¥ç¶šã‚’è¡¨ã™ãƒ‡ãƒ¼ã‚¿ã‚’ã‚­ãƒ¥ãƒ¼ã«è¿½åŠ ã™ã‚‹
         Date currentDate = new Date();
         long currentTime = currentDate.getTime();
         JavelinConnectionData connectionData =
@@ -418,15 +419,15 @@ public class JavelinServer implements TelegramSender
     }
 
     /**
-     * §ŒäƒNƒ‰ƒCƒAƒ“ƒg‚ÉJavelin‚ªØ’f‚³‚ê‚½‚±‚Æ‚ğ’Ê’m‚·‚éB
-     * @param dbName ƒf[ƒ^ƒx[ƒX–¼
-     * @param forceDisconnected ‹­§Ø’f‚È‚ç<code>true</code>
+     * åˆ¶å¾¡ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã«JavelinãŒåˆ‡æ–­ã•ã‚ŒãŸã“ã¨ã‚’é€šçŸ¥ã™ã‚‹ã€‚
+     * @param dbName ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param forceDisconnected å¼·åˆ¶åˆ‡æ–­ãªã‚‰<code>true</code>
      */
     private void notifyJavelinDisconnected(final String dbName, final boolean forceDisconnected)
     {
         if (forceDisconnected)
         {
-            // Ø’f‚ğ•\‚·ƒf[ƒ^‚ğƒLƒ…[‚É’Ç‰Á‚·‚éi‹­§Ø’f‚³‚ê‚½ê‡j
+            // åˆ‡æ–­ã‚’è¡¨ã™ãƒ‡ãƒ¼ã‚¿ã‚’ã‚­ãƒ¥ãƒ¼ã«è¿½åŠ ã™ã‚‹ï¼ˆå¼·åˆ¶åˆ‡æ–­ã•ã‚ŒãŸå ´åˆï¼‰
             Date currentDate = new Date();
             long currentTime = currentDate.getTime();
             JavelinConnectionData disconnectionData =
@@ -450,8 +451,8 @@ public class JavelinServer implements TelegramSender
     }
 
     /**
-     * ƒT[ƒrƒXƒ‚[ƒh‚Ì‰Šú‰»ˆ—B
-     * @param alarmRepository ƒAƒ‰[ƒ€
+     * ã‚µãƒ¼ãƒ“ã‚¹ãƒ¢ãƒ¼ãƒ‰æ™‚ã®åˆæœŸåŒ–å‡¦ç†ã€‚
+     * @param alarmRepository ã‚¢ãƒ©ãƒ¼ãƒ 
      */
     private synchronized void initializeControlClient(final DataCollectorClient client)
     {
@@ -463,9 +464,9 @@ public class JavelinServer implements TelegramSender
     }
 
     /**
-     * Javelin‚Æ§ŒäƒNƒ‰ƒCƒAƒ“ƒg‚ğ•R•t‚¯‚éB
-     * @param javelinClient JavelinƒNƒ‰ƒCƒAƒ“ƒg
-     * @param controlClient §ŒäƒNƒ‰ƒCƒAƒ“ƒg
+     * Javelinã¨åˆ¶å¾¡ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚’ç´ä»˜ã‘ã‚‹ã€‚
+     * @param javelinClient Javelinã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆ
+     * @param controlClient åˆ¶å¾¡ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆ
      */
     private void bindJavelinAndControlClient(final DataCollectorClient javelinClient,
         final DataCollectorClient controlClient)
@@ -481,7 +482,6 @@ public class JavelinServer implements TelegramSender
 
         controlClient.addTelegramListener(new SignalStateListener());
         controlClient.addTelegramListener(new SignalChangeListener());
-        // controlClient.addTelegramListener(new MultipleResourceGraphChangeListener());
 
         // Javelin->DataCollector->BottleneckEye
         javelinClient.addTelegramListener(new TelegramListener() {
@@ -504,14 +504,14 @@ public class JavelinServer implements TelegramSender
     }
 
     /**
-     * JVNƒƒO’Ê’m‚ğˆ—‚·‚éƒŠƒXƒiì¬‚·‚éB
+     * JVNãƒ­ã‚°é€šçŸ¥ã‚’å‡¦ç†ã™ã‚‹ãƒªã‚¹ãƒŠä½œæˆã™ã‚‹ã€‚
      * 
-     * @param dbName ƒf[ƒ^ƒx[ƒX–¼
-     * @param hostName Ú‘±æ‚ÌƒzƒXƒg–¼
-     * @param ipAddress Ú‘±æ‚ÌIPƒAƒhƒŒƒX
-     * @param port Ú‘±æ‚Ìƒ|[ƒg”Ô†
-     * @param clientId ƒNƒ‰ƒCƒAƒ“ƒgID
-     * @return ì¬‚µ‚½JvnFileNotifyListener
+     * @param dbName ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param hostName æ¥ç¶šå…ˆã®ãƒ›ã‚¹ãƒˆå
+     * @param ipAddress æ¥ç¶šå…ˆã®IPã‚¢ãƒ‰ãƒ¬ã‚¹
+     * @param port æ¥ç¶šå…ˆã®ãƒãƒ¼ãƒˆç•ªå·
+     * @param clientId ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆID
+     * @return ä½œæˆã—ãŸJvnFileNotifyListener
      */
     private JvnFileNotifyListener createJvnFileNotifyListener(final String dbName,
         final String hostName, final String ipAddress, final int port, final String clientId,
@@ -532,14 +532,14 @@ public class JavelinServer implements TelegramSender
     }
 
     /**
-     * ƒŠƒ\[ƒX’Ê’m‚ğˆ—‚·‚éƒŠƒXƒi‚ğì¬‚·‚éB
+     * ãƒªã‚½ãƒ¼ã‚¹é€šçŸ¥ã‚’å‡¦ç†ã™ã‚‹ãƒªã‚¹ãƒŠã‚’ä½œæˆã™ã‚‹ã€‚
      * 
-     * @param dbName ƒf[ƒ^ƒx[ƒX–¼
-     * @param hostName Ú‘±æ‚ÌƒzƒXƒg–¼
-     * @param ipAddress Ú‘±æ‚ÌIPƒAƒhƒŒƒX
-     * @param port Ú‘±æ‚Ìƒ|[ƒg”Ô†
-     * @param clientId ƒNƒ‰ƒCƒAƒ“ƒgID
-     * @return ì¬‚µ‚½SystemResourceListener
+     * @param dbName ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param hostName æ¥ç¶šå…ˆã®ãƒ›ã‚¹ãƒˆå
+     * @param ipAddress æ¥ç¶šå…ˆã®IPã‚¢ãƒ‰ãƒ¬ã‚¹
+     * @param port æ¥ç¶šå…ˆã®ãƒãƒ¼ãƒˆç•ªå·
+     * @param clientId ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆID
+     * @return ä½œæˆã—ãŸSystemResourceListener
      */
     private SystemResourceListener createSystemResourceListener(final String dbName,
         final String hostName, final String ipAddress, final int port, final String clientId,
@@ -560,9 +560,29 @@ public class JavelinServer implements TelegramSender
     }
 
     /**
-     * ‰“š“d•¶‚ğˆ—‚·‚éƒŠƒXƒi‚ğì¬‚·‚éB
-     * @param telegramKind “d•¶í•Ê
-     * @return ì¬‚µ‚½ƒŠƒXƒi‚ğ•Ô‚·B
+     * SqlPlanNotifyListenerã‚’ä½œæˆã—ã¾ã™ã€‚
+     * 
+     * @param hostName æ¥ç¶šå…ˆã®ãƒ›ã‚¹ãƒˆå
+     * @param agentName Agentå
+     * @param port æ¥ç¶šå…ˆã®ãƒãƒ¼ãƒˆç•ªå·
+     * @param dbName ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @return SqlPlanNotifyListenerã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     */
+    private SqlPlanNotifyListener createSqlPlanNotifyListener(final String hostName,
+        final String agentName, final int port, final String dbName)
+    {
+        SqlPlanNotifyListener notifyListener = new SqlPlanNotifyListener();
+
+        notifyListener.setAgentName(agentName);
+        notifyListener.setDatabaseName(dbName);
+
+        return notifyListener;
+    }
+
+    /**
+     * å¿œç­”é›»æ–‡ã‚’å‡¦ç†ã™ã‚‹ãƒªã‚¹ãƒŠã‚’ä½œæˆã™ã‚‹ã€‚
+     * @param telegramKind é›»æ–‡ç¨®åˆ¥
+     * @return ä½œæˆã—ãŸãƒªã‚¹ãƒŠã‚’è¿”ã™ã€‚
      */
     private CommonResponseListener createResponseTelegramListener(final byte telegramKind)
     {
@@ -570,7 +590,7 @@ public class JavelinServer implements TelegramSender
     }
 
     /**
-     * Javelin‚Æ‚ÌÚ‘±‚ªŠm—§‚·‚é‚Ü‚Å‚Ìƒ_ƒ~[‘—Mæ‚ğİ’è‚·‚éB
+     * Javelinã¨ã®æ¥ç¶šãŒç¢ºç«‹ã™ã‚‹ã¾ã§ã®ãƒ€ãƒŸãƒ¼é€ä¿¡å…ˆã‚’è¨­å®šã™ã‚‹ã€‚
      */
     private void setDummyTelegramSenders()
     {
@@ -587,7 +607,7 @@ public class JavelinServer implements TelegramSender
     }
 
     /**
-     * “d•¶‘—Mæ‚ğİ’è‚·‚éB
+     * é›»æ–‡é€ä¿¡å…ˆã‚’è¨­å®šã™ã‚‹ã€‚
      */
     private void setTelegramSenders()
     {
@@ -608,8 +628,8 @@ public class JavelinServer implements TelegramSender
     }
 
     /**
-     * JavelinƒNƒ‰ƒCƒAƒ“ƒg‚ğƒŠƒXƒg‚É“o˜^‚·‚éB
-     * @param client “o˜^‚·‚éJavelinƒNƒ‰ƒCƒAƒ“ƒg
+     * Javelinã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚’ãƒªã‚¹ãƒˆã«ç™»éŒ²ã™ã‚‹ã€‚
+     * @param client ç™»éŒ²ã™ã‚‹Javelinã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆ
      */
     private void addJavelinClient(final DataCollectorClient client)
     {
@@ -620,8 +640,8 @@ public class JavelinServer implements TelegramSender
     }
 
     /**
-     * JavelinƒNƒ‰ƒCƒAƒ“ƒg‚ğƒŠƒXƒg‚©‚çíœ‚·‚éB
-     * @param dbName ƒL[‚Æ‚È‚éDB–¼
+     * Javelinã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚’ãƒªã‚¹ãƒˆã‹ã‚‰å‰Šé™¤ã™ã‚‹ã€‚
+     * @param dbName ã‚­ãƒ¼ã¨ãªã‚‹DBå
      */
     private void removeJavelinClient(final String dbName)
     {
@@ -632,9 +652,9 @@ public class JavelinServer implements TelegramSender
     }
 
     /**
-     * DB–¼‚ğƒL[‚Æ‚µ‚ÄJavelinƒNƒ‰ƒCƒAƒ“ƒg‚ğæ“¾‚·‚éB
-     * @param dbName ƒL[‚Æ‚È‚éDB–¼
-     * @return JavelinƒNƒ‰ƒCƒAƒ“ƒg‚ğ•Ô‚·B
+     * DBåã‚’ã‚­ãƒ¼ã¨ã—ã¦Javelinã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚’å–å¾—ã™ã‚‹ã€‚
+     * @param dbName ã‚­ãƒ¼ã¨ãªã‚‹DBå
+     * @return Javelinã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚’è¿”ã™ã€‚
      */
     private DataCollectorClient getJavelinClient(final String dbName)
     {
@@ -645,8 +665,8 @@ public class JavelinServer implements TelegramSender
     }
 
     /**
-     * §ŒäƒNƒ‰ƒCƒAƒ“ƒg‚ğ’Ç‰Á‚·‚éB
-     * @param client §ŒäƒNƒ‰ƒCƒAƒ“ƒg
+     * åˆ¶å¾¡ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚’è¿½åŠ ã™ã‚‹ã€‚
+     * @param client åˆ¶å¾¡ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆ
      */
     private void addControlClient(final DataCollectorClient client)
     {
@@ -667,8 +687,8 @@ public class JavelinServer implements TelegramSender
     }
 
     /**
-     * JavelinƒNƒ‰ƒCƒAƒ“ƒg‚ğƒŠƒXƒg‚©‚çíœ‚·‚éB
-     * @param dbName ƒL[‚Æ‚È‚éDB–¼
+     * Javelinã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚’ãƒªã‚¹ãƒˆã‹ã‚‰å‰Šé™¤ã™ã‚‹ã€‚
+     * @param dbName ã‚­ãƒ¼ã¨ãªã‚‹DBå
      */
     private void removeControlClient(final String dbName)
     {
@@ -679,9 +699,9 @@ public class JavelinServer implements TelegramSender
     }
 
     /**
-     * DB–¼‚ğƒL[‚Æ‚µ‚Ä§ŒäƒNƒ‰ƒCƒAƒ“ƒg‚ğæ“¾‚·‚éB
-     * @param dbName ƒL[‚Æ‚È‚éDB–¼
-     * @return §ŒäƒNƒ‰ƒCƒAƒ“ƒg
+     * DBåã‚’ã‚­ãƒ¼ã¨ã—ã¦åˆ¶å¾¡ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚’å–å¾—ã™ã‚‹ã€‚
+     * @param dbName ã‚­ãƒ¼ã¨ãªã‚‹DBå
+     * @return åˆ¶å¾¡ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆ
      */
     private Set<DataCollectorClient> getControlClient(final String dbName)
     {
@@ -692,7 +712,7 @@ public class JavelinServer implements TelegramSender
     }
 
     /**
-     * ‘Ø—¯‚³‚¹‚Ä‚¢‚½“d•¶‚ğ‚·‚×‚Ä‘—M‚·‚éB
+     * æ»ç•™ã•ã›ã¦ã„ãŸé›»æ–‡ã‚’ã™ã¹ã¦é€ä¿¡ã™ã‚‹ã€‚
      */
     private void sendWaitingTelegram(final DataCollectorClient client)
     {
@@ -704,7 +724,7 @@ public class JavelinServer implements TelegramSender
     }
 
     /**
-     * Ú‘±‚µ‚Ä‚¢‚éDB–¼ŠÇ—ƒNƒ‰ƒCƒAƒ“ƒg‚É’Ç‰Á‚µ‚½Javelin‚ÌDB–¼‚ğ‘—M‚µ‚Ü‚·B
+     * æ¥ç¶šã—ã¦ã„ã‚‹DBåç®¡ç†ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã«è¿½åŠ ã—ãŸJavelinã®DBåã‚’é€ä¿¡ã—ã¾ã™ã€‚
      */
     private void sendDatabaseName()
     {
@@ -717,8 +737,8 @@ public class JavelinServer implements TelegramSender
     }
 
     /**
-     * DB–¼ŠÇ—ƒNƒ‰ƒCƒAƒ“ƒg‚ğæ“¾‚µ‚Ü‚·B
-     * @return DB–¼ŠÇ—ƒNƒ‰ƒCƒAƒ“ƒg
+     * DBåç®¡ç†ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @return DBåç®¡ç†ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆ
      */
     public DataCollectorClient getDatabaseAdminClient()
     {
@@ -726,8 +746,8 @@ public class JavelinServer implements TelegramSender
     }
 
     /**
-     * DB–¼ŠÇ—ƒNƒ‰ƒCƒAƒ“ƒg‚ğİ’è‚µ‚Ü‚·B
-     * @param databaseAdminClient DB–¼ŠÇ—ƒNƒ‰ƒCƒAƒ“ƒg
+     * DBåç®¡ç†ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚’è¨­å®šã—ã¾ã™ã€‚
+     * @param databaseAdminClient DBåç®¡ç†ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆ
      */
     public void setDatabaseAdminClient(final DataCollectorClient databaseAdminClient)
     {

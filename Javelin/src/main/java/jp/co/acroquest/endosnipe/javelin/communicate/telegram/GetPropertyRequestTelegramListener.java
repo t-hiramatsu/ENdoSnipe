@@ -39,7 +39,7 @@ import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.javelin.common.ConfigUpdater;
 
 /**
- * ƒT[ƒoƒvƒƒpƒeƒBæ“¾—v‹ˆ—ƒNƒ‰ƒXB
+ * ã‚µãƒ¼ãƒãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å–å¾—è¦æ±‚å‡¦ç†ã‚¯ãƒ©ã‚¹ã€‚
  * 
  * @author tsukano
  */
@@ -62,25 +62,25 @@ public class GetPropertyRequestTelegramListener implements TelegramListener, Tel
     }
 
     /**
-     * w’è‚³‚ê‚½“d•¶í•Ê‚ğ—p‚¢‚ÄA–{‘Ì‚ÉXV‰Â”\‚Èİ’è’lˆê——‚ğ‚Â‰“š“d•¶‚ğì¬‚·‚é
+     * æŒ‡å®šã•ã‚ŒãŸé›»æ–‡ç¨®åˆ¥ã‚’ç”¨ã„ã¦ã€æœ¬ä½“ã«æ›´æ–°å¯èƒ½ãªè¨­å®šå€¤ä¸€è¦§ã‚’æŒã¤å¿œç­”é›»æ–‡ã‚’ä½œæˆã™ã‚‹
      *
-     * @param telegramId “d•¶ ID
-     * @param telegramKind “d•¶í•Ê
-     * @return w’è‚³‚ê‚½“d•¶í•Ê‚É‘Î‰‚µA–{‘Ì‚ÉXV‰Â”\‚Èİ’è’lˆê——‚ğ‚Â‰“š“d•¶
+     * @param telegramId é›»æ–‡ ID
+     * @param telegramKind é›»æ–‡ç¨®åˆ¥
+     * @return æŒ‡å®šã•ã‚ŒãŸé›»æ–‡ç¨®åˆ¥ã«å¯¾å¿œã—ã€æœ¬ä½“ã«æ›´æ–°å¯èƒ½ãªè¨­å®šå€¤ä¸€è¦§ã‚’æŒã¤å¿œç­”é›»æ–‡
      */
     public static Telegram createPropertyResponse(final long telegramId, final byte telegramKind)
     {
-        // ‰“š“d•¶
+        // å¿œç­”é›»æ–‡
         Telegram telegram = new Telegram();
 
-        // ‰“š“d•¶‚Ìƒwƒbƒ_‚ğì¬‚·‚é
+        // å¿œç­”é›»æ–‡ã®ãƒ˜ãƒƒãƒ€ã‚’ä½œæˆã™ã‚‹
         Header header = new Header();
         header.setId(telegramId);
         header.setByteTelegramKind(telegramKind);
         header.setByteRequestKind(BYTE_REQUEST_KIND_RESPONSE);
         telegram.setObjHeader(header);
 
-        // ‰“š“d•¶‚É“ü‚ê‚éƒ{ƒfƒB‚ÌƒŠƒXƒg‚ğì¬‚·‚é
+        // å¿œç­”é›»æ–‡ã«å…¥ã‚Œã‚‹ãƒœãƒ‡ã‚£ã®ãƒªã‚¹ãƒˆã‚’ä½œæˆã™ã‚‹
         List<Body> list = new ArrayList<Body>();
         Map<String, String> map = ConfigUpdater.getUpdatableConfig();
         Set<Map.Entry<String, String>> entries = map.entrySet();

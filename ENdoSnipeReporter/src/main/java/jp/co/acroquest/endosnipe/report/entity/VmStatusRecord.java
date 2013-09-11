@@ -15,76 +15,76 @@ package jp.co.acroquest.endosnipe.report.entity;
 import java.sql.Timestamp;
 
 /**
- * VMó‘ÔƒŒƒ|[ƒg‚Éo—Í‚·‚é‚PƒŒƒR[ƒh•ª‚Ìî•ñ‚ğ•Û‚·‚éƒGƒ“ƒeƒBƒeƒBB
+ * VMçŠ¶æ…‹ãƒ¬ãƒãƒ¼ãƒˆã«å‡ºåŠ›ã™ã‚‹ï¼‘ãƒ¬ã‚³ãƒ¼ãƒ‰åˆ†ã®æƒ…å ±ã‚’ä¿æŒã™ã‚‹ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã€‚
  * 
  * @author akiba
  */
 public class VmStatusRecord
 {
-    /** Œv‘ª */
+    /** è¨ˆæ¸¬æ™‚åˆ» */
     private Timestamp measurementTime_;
     
-    /** ƒXƒŒƒbƒh”(Native)(•½‹Ï) */
+    /** ã‚¹ãƒ¬ãƒƒãƒ‰æ•°(Native)(å¹³å‡) */
     private double    nativeThreadNum_;
 
-    /** ƒXƒŒƒbƒh”(Native)(Å‘å) */
+    /** ã‚¹ãƒ¬ãƒƒãƒ‰æ•°(Native)(æœ€å¤§) */
     private double    nativeThreadNumMax_;
 
-    /** ƒXƒŒƒbƒh”(Native)(Å¬) */
+    /** ã‚¹ãƒ¬ãƒƒãƒ‰æ•°(Native)(æœ€å°) */
     private double    nativeThreadNumMin_;
 
-    /** ƒXƒŒƒbƒh”(Java)(•½‹Ï) */
+    /** ã‚¹ãƒ¬ãƒƒãƒ‰æ•°(Java)(å¹³å‡) */
     private double    threadNum_;
 
-    /** ƒXƒŒƒbƒh”(Java)(Å‘å) */
+    /** ã‚¹ãƒ¬ãƒƒãƒ‰æ•°(Java)(æœ€å¤§) */
     private double    threadNumMax_;
 
-    /** ƒXƒŒƒbƒh”(Java)(Å¬) */
+    /** ã‚¹ãƒ¬ãƒƒãƒ‰æ•°(Java)(æœ€å°) */
     private double    threadNumMin_;
 
-    /** GC’â~ŠÔ(•½‹Ï) */
+    /** GCåœæ­¢æ™‚é–“(å¹³å‡) */
     private double    gcStopTime_;
 
-    /** GC’â~ŠÔ(Å‘å) */
+    /** GCåœæ­¢æ™‚é–“(æœ€å¤§) */
     private double    gcStopTimeMax_;
 
-    /** GC’â~ŠÔ(Å¬) */
+    /** GCåœæ­¢æ™‚é–“(æœ€å°) */
     private double    gcStopTimeMin_;
 
-    /** VMƒXƒ‹[ƒvƒbƒg(•½‹Ï) */
+    /** VMã‚¹ãƒ«ãƒ¼ãƒ—ãƒƒãƒˆ(å¹³å‡) */
     private double    vmThroughput_;
 
-    /** VMƒXƒ‹[ƒvƒbƒg(Å‘å) */
+    /** VMã‚¹ãƒ«ãƒ¼ãƒ—ãƒƒãƒˆ(æœ€å¤§) */
     private double    vmThroughputMax_;
 
-    /** VMƒXƒ‹[ƒvƒbƒg(Å¬) */
+    /** VMã‚¹ãƒ«ãƒ¼ãƒ—ãƒƒãƒˆ(æœ€å°) */
     private double    vmThroughputMin_;
 
-    /** ƒtƒ@ƒCƒiƒ‰ƒCƒY‘Ò‚¿ƒIƒuƒWƒFƒNƒg”(•½‹Ï) */
+    /** ãƒ•ã‚¡ã‚¤ãƒŠãƒ©ã‚¤ã‚ºå¾…ã¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ•°(å¹³å‡) */
     private double    finalizeObjNum_;
 
-    /** ƒtƒ@ƒCƒiƒ‰ƒCƒY‘Ò‚¿ƒIƒuƒWƒFƒNƒg”(Å‘å) */
+    /** ãƒ•ã‚¡ã‚¤ãƒŠãƒ©ã‚¤ã‚ºå¾…ã¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ•°(æœ€å¤§) */
     private double    finalizeObjNumMax_;
 
-    /** ƒtƒ@ƒCƒiƒ‰ƒCƒY‘Ò‚¿ƒIƒuƒWƒFƒNƒg”(Å¬) */
+    /** ãƒ•ã‚¡ã‚¤ãƒŠãƒ©ã‚¤ã‚ºå¾…ã¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ•°(æœ€å°) */
     private double    finalizeObjNumMin_;
     
-    /** ƒ[ƒh‚³‚ê‚½ƒNƒ‰ƒX‚Ì‡Œv”(•½‹Ï) */
+    /** ãƒ­ãƒ¼ãƒ‰ã•ã‚ŒãŸã‚¯ãƒ©ã‚¹ã®åˆè¨ˆæ•°(å¹³å‡) */
     private double    totalLoadedClassNum_;
     
-    /** ƒ[ƒh‚³‚ê‚½ƒNƒ‰ƒX‚Ì‡Œv”(Å‘å) */
+    /** ãƒ­ãƒ¼ãƒ‰ã•ã‚ŒãŸã‚¯ãƒ©ã‚¹ã®åˆè¨ˆæ•°(æœ€å¤§) */
     private double    totalLoadedClassNumMax_;
     
-    /** ƒ[ƒh‚³‚ê‚½ƒNƒ‰ƒX‚Ì‡Œv”(Å¬) */
+    /** ãƒ­ãƒ¼ãƒ‰ã•ã‚ŒãŸã‚¯ãƒ©ã‚¹ã®åˆè¨ˆæ•°(æœ€å°) */
     private double    totalLoadedClassNumMin_;
 
-    /** Œ»İƒ[ƒh‚³‚ê‚Ä‚¢‚éƒNƒ‰ƒX‚Ì” */
+    /** ç¾åœ¨ãƒ­ãƒ¼ãƒ‰ã•ã‚Œã¦ã„ã‚‹ã‚¯ãƒ©ã‚¹ã®æ•° */
     private double    loadedClassNum_;
     
-    /** Œ»İƒ[ƒh‚³‚ê‚Ä‚¢‚éƒNƒ‰ƒX‚Ì”(Å‘å) */
+    /** ç¾åœ¨ãƒ­ãƒ¼ãƒ‰ã•ã‚Œã¦ã„ã‚‹ã‚¯ãƒ©ã‚¹ã®æ•°(æœ€å¤§) */
     private double    loadedClassNumMax_;
     
-    /** Œ»İƒ[ƒh‚³‚ê‚Ä‚¢‚éƒNƒ‰ƒX‚Ì”(Å¬) */
+    /** ç¾åœ¨ãƒ­ãƒ¼ãƒ‰ã•ã‚Œã¦ã„ã‚‹ã‚¯ãƒ©ã‚¹ã®æ•°(æœ€å°) */
     private double    loadedClassNumMin_;
     
     /**

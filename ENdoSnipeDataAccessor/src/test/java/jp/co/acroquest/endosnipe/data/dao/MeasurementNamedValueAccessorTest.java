@@ -144,12 +144,12 @@ public class MeasurementNamedValueAccessorTest extends AbstractDaoTest
     
     private static final String[] MEASUREMENT_INFO_DATA = 
     {
-        "31, process.response.time.average, 平均レスポンスタイム, TATの平均値",
-        "32, process.response.total.count, アクセス数, アクセス回数",
-        "38, process.response.time.max, 最大レスポンスタイム, TATの最大値",
-        "39, process.response.time.min, 最小レスポンスタイム, TATの最小値",
-        "40, callTreeNodeCount, CallTreeノード数, CallTreeのノード数",
-        "41, convertedMethodCount, 変換メソッド数, Javelinが変換したメソッドの数"
+        "31, process.response.time.average, 蟷ｳ蝮�繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝, TAT縺ｮ蟷ｳ蝮�蛟､",
+        "32, process.response.total.count, 繧｢繧ｯ繧ｻ繧ｹ謨ｰ, 繧｢繧ｯ繧ｻ繧ｹ蝗樊焚",
+        "38, process.response.time.max, 譛螟ｧ繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝, TAT縺ｮ譛螟ｧ蛟､",
+        "39, process.response.time.min, 譛蟆上Ξ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝, TAT縺ｮ譛蟆丞､",
+        "40, callTreeNodeCount, CallTree繝弱�ｼ繝画焚, CallTree縺ｮ繝弱�ｼ繝画焚",
+        "41, convertedMethodCount, 螟画鋤繝｡繧ｽ繝�繝画焚, Javelin縺悟､画鋤縺励◆繝｡繧ｽ繝�繝峨�ｮ謨ｰ"
     };
     
     private void initDataBase()
@@ -179,21 +179,21 @@ public class MeasurementNamedValueAccessorTest extends AbstractDaoTest
             "process.response.total.count", 
             new String[] 
             {
-                "14, 1, 2009/08/04 21:13:23, 32, 9, 3, process.response.total.count, レスポンス回数, jp.co.acroquest.gms.journal.JournalManager#onEvent", 
-                "40, 2, 2009/08/04 21:13:29, 32, 9, 10, process.response.total.count, レスポンス回数, jp.co.acroquest.gms.journal.JournalManager#onEvent, 2010/10/9 11:23:56", 
-                "62, 3, 2009/08/04 21:13:41, 32, 9, 2, process.response.total.count, レスポンス回数, jp.co.acroquest.gms.journal.JournalManager#onEvent, 2010/10/9 11:23:56", 
-                "18, 1, 2009/08/04 21:13:23, 32, 10, 1, process.response.total.count, レスポンス回数, jp.co.acroquest.gms.nameconv.NamingConverter#convert, 2010/10/9 11:23:56", 
-                "44, 2, 2009/08/04 21:13:29, 32, 10, 1, process.response.total.count, レスポンス回数, jp.co.acroquest.gms.nameconv.NamingConverter#convert, 2010/10/9 11:23:56", 
-                "6, 1, 2009/08/04 21:13:23, 32, 7, 5, process.response.total.count, レスポンス回数, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish, 2010/10/9 11:23:56", 
-                "32, 2, 2009/08/04 21:13:29, 32, 7, 4, process.response.total.count, レスポンス回数, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish, 2010/10/9 11:23:56", 
-                "54, 3, 2009/08/04 21:13:41, 32, 7, 8, process.response.total.count, レスポンス回数, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish, 2010/10/9 11:23:56", 
-                "70, 4, 2009/08/04 21:13:47, 32, 7, 1, process.response.total.count, レスポンス回数, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish, 2010/10/9 11:23:56", 
-                "10, 1, 2009/08/04 21:13:23, 32, 8, 2, process.response.total.count, レスポンス回数, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process, 2010/10/9 11:23:56", 
-                "36, 2, 2009/08/04 21:13:29, 32, 8, 8, process.response.total.count, レスポンス回数, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process, 2010/10/9 11:23:56", 
-                "58, 3, 2009/08/04 21:13:41, 32, 8, 4, process.response.total.count, レスポンス回数, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process, 2010/10/9 11:23:56", 
-                "2, 1, 2009/08/04 21:13:23, 32, 6, 7, process.response.total.count, レスポンス回数, jp.co.acroquest.mc.event.io.ListIOStream#print, 2010/10/9 11:23:56", 
-                "28, 2, 2009/08/04 21:13:29, 32, 6, 9, process.response.total.count, レスポンス回数, jp.co.acroquest.mc.event.io.ListIOStream#print, 2010/10/9 11:23:56", 
-                "66, 4, 2009/08/04 21:13:47, 32, 6, 4, process.response.total.count, レスポンス回数, jp.co.acroquest.mc.event.io.ListIOStream#print, 2010/10/9 11:23:56"
+                "14, 1, 2009/08/04 21:13:23, 32, 9, 3, process.response.total.count, 繝ｬ繧ｹ繝昴Φ繧ｹ蝗樊焚, jp.co.acroquest.gms.journal.JournalManager#onEvent", 
+                "40, 2, 2009/08/04 21:13:29, 32, 9, 10, process.response.total.count, 繝ｬ繧ｹ繝昴Φ繧ｹ蝗樊焚, jp.co.acroquest.gms.journal.JournalManager#onEvent, 2010/10/9 11:23:56", 
+                "62, 3, 2009/08/04 21:13:41, 32, 9, 2, process.response.total.count, 繝ｬ繧ｹ繝昴Φ繧ｹ蝗樊焚, jp.co.acroquest.gms.journal.JournalManager#onEvent, 2010/10/9 11:23:56", 
+                "18, 1, 2009/08/04 21:13:23, 32, 10, 1, process.response.total.count, 繝ｬ繧ｹ繝昴Φ繧ｹ蝗樊焚, jp.co.acroquest.gms.nameconv.NamingConverter#convert, 2010/10/9 11:23:56", 
+                "44, 2, 2009/08/04 21:13:29, 32, 10, 1, process.response.total.count, 繝ｬ繧ｹ繝昴Φ繧ｹ蝗樊焚, jp.co.acroquest.gms.nameconv.NamingConverter#convert, 2010/10/9 11:23:56", 
+                "6, 1, 2009/08/04 21:13:23, 32, 7, 5, process.response.total.count, 繝ｬ繧ｹ繝昴Φ繧ｹ蝗樊焚, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish, 2010/10/9 11:23:56", 
+                "32, 2, 2009/08/04 21:13:29, 32, 7, 4, process.response.total.count, 繝ｬ繧ｹ繝昴Φ繧ｹ蝗樊焚, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish, 2010/10/9 11:23:56", 
+                "54, 3, 2009/08/04 21:13:41, 32, 7, 8, process.response.total.count, 繝ｬ繧ｹ繝昴Φ繧ｹ蝗樊焚, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish, 2010/10/9 11:23:56", 
+                "70, 4, 2009/08/04 21:13:47, 32, 7, 1, process.response.total.count, 繝ｬ繧ｹ繝昴Φ繧ｹ蝗樊焚, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish, 2010/10/9 11:23:56", 
+                "10, 1, 2009/08/04 21:13:23, 32, 8, 2, process.response.total.count, 繝ｬ繧ｹ繝昴Φ繧ｹ蝗樊焚, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process, 2010/10/9 11:23:56", 
+                "36, 2, 2009/08/04 21:13:29, 32, 8, 8, process.response.total.count, 繝ｬ繧ｹ繝昴Φ繧ｹ蝗樊焚, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process, 2010/10/9 11:23:56", 
+                "58, 3, 2009/08/04 21:13:41, 32, 8, 4, process.response.total.count, 繝ｬ繧ｹ繝昴Φ繧ｹ蝗樊焚, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process, 2010/10/9 11:23:56", 
+                "2, 1, 2009/08/04 21:13:23, 32, 6, 7, process.response.total.count, 繝ｬ繧ｹ繝昴Φ繧ｹ蝗樊焚, jp.co.acroquest.mc.event.io.ListIOStream#print, 2010/10/9 11:23:56", 
+                "28, 2, 2009/08/04 21:13:29, 32, 6, 9, process.response.total.count, 繝ｬ繧ｹ繝昴Φ繧ｹ蝗樊焚, jp.co.acroquest.mc.event.io.ListIOStream#print, 2010/10/9 11:23:56", 
+                "66, 4, 2009/08/04 21:13:47, 32, 6, 4, process.response.total.count, 繝ｬ繧ｹ繝昴Φ繧ｹ蝗樊焚, jp.co.acroquest.mc.event.io.ListIOStream#print, 2010/10/9 11:23:56"
             }
         );
     }
@@ -206,14 +206,14 @@ public class MeasurementNamedValueAccessorTest extends AbstractDaoTest
             "process.response.total.count", 
             new String[] 
             {
-                "40, 2, 2009/08/04 21:13:29, 32, 9, 10, process.response.total.count, レスポンス回数, jp.co.acroquest.gms.journal.JournalManager#onEvent", 
-                "62, 3, 2009/08/04 21:13:41, 32, 9, 2, process.response.total.count, レスポンス回数, jp.co.acroquest.gms.journal.JournalManager#onEvent", 
-                "44, 2, 2009/08/04 21:13:29, 32, 10, 1, process.response.total.count, レスポンス回数, jp.co.acroquest.gms.nameconv.NamingConverter#convert", 
-                "32, 2, 2009/08/04 21:13:29, 32, 7, 4, process.response.total.count, レスポンス回数, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish", 
-                "54, 3, 2009/08/04 21:13:41, 32, 7, 8, process.response.total.count, レスポンス回数, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish", 
-                "36, 2, 2009/08/04 21:13:29, 32, 8, 8, process.response.total.count, レスポンス回数, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process", 
-                "58, 3, 2009/08/04 21:13:41, 32, 8, 4, process.response.total.count, レスポンス回数, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process", 
-                "28, 2, 2009/08/04 21:13:29, 32, 6, 9, process.response.total.count, レスポンス回数, jp.co.acroquest.mc.event.io.ListIOStream#print" 
+                "40, 2, 2009/08/04 21:13:29, 32, 9, 10, process.response.total.count, 繝ｬ繧ｹ繝昴Φ繧ｹ蝗樊焚, jp.co.acroquest.gms.journal.JournalManager#onEvent", 
+                "62, 3, 2009/08/04 21:13:41, 32, 9, 2, process.response.total.count, 繝ｬ繧ｹ繝昴Φ繧ｹ蝗樊焚, jp.co.acroquest.gms.journal.JournalManager#onEvent", 
+                "44, 2, 2009/08/04 21:13:29, 32, 10, 1, process.response.total.count, 繝ｬ繧ｹ繝昴Φ繧ｹ蝗樊焚, jp.co.acroquest.gms.nameconv.NamingConverter#convert", 
+                "32, 2, 2009/08/04 21:13:29, 32, 7, 4, process.response.total.count, 繝ｬ繧ｹ繝昴Φ繧ｹ蝗樊焚, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish", 
+                "54, 3, 2009/08/04 21:13:41, 32, 7, 8, process.response.total.count, 繝ｬ繧ｹ繝昴Φ繧ｹ蝗樊焚, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish", 
+                "36, 2, 2009/08/04 21:13:29, 32, 8, 8, process.response.total.count, 繝ｬ繧ｹ繝昴Φ繧ｹ蝗樊焚, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process", 
+                "58, 3, 2009/08/04 21:13:41, 32, 8, 4, process.response.total.count, 繝ｬ繧ｹ繝昴Φ繧ｹ蝗樊焚, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process", 
+                "28, 2, 2009/08/04 21:13:29, 32, 6, 9, process.response.total.count, 繝ｬ繧ｹ繝昴Φ繧ｹ蝗樊焚, jp.co.acroquest.mc.event.io.ListIOStream#print" 
             }
         );
     }
@@ -226,14 +226,14 @@ public class MeasurementNamedValueAccessorTest extends AbstractDaoTest
             "process.response.total.count", 
             new String[] 
             {
-                "40, 2, 2009/08/04 21:13:29, 32, 9, 10, process.response.total.count, レスポンス回数, jp.co.acroquest.gms.journal.JournalManager#onEvent", 
-                "62, 3, 2009/08/04 21:13:41, 32, 9, 2, process.response.total.count, レスポンス回数, jp.co.acroquest.gms.journal.JournalManager#onEvent", 
-                "44, 2, 2009/08/04 21:13:29, 32, 10, 1, process.response.total.count, レスポンス回数, jp.co.acroquest.gms.nameconv.NamingConverter#convert", 
-                "32, 2, 2009/08/04 21:13:29, 32, 7, 4, process.response.total.count, レスポンス回数, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish", 
-                "54, 3, 2009/08/04 21:13:41, 32, 7, 8, process.response.total.count, レスポンス回数, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish", 
-                "36, 2, 2009/08/04 21:13:29, 32, 8, 8, process.response.total.count, レスポンス回数, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process", 
-                "58, 3, 2009/08/04 21:13:41, 32, 8, 4, process.response.total.count, レスポンス回数, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process", 
-                "28, 2, 2009/08/04 21:13:29, 32, 6, 9, process.response.total.count, レスポンス回数, jp.co.acroquest.mc.event.io.ListIOStream#print" 
+                "40, 2, 2009/08/04 21:13:29, 32, 9, 10, process.response.total.count, 繝ｬ繧ｹ繝昴Φ繧ｹ蝗樊焚, jp.co.acroquest.gms.journal.JournalManager#onEvent", 
+                "62, 3, 2009/08/04 21:13:41, 32, 9, 2, process.response.total.count, 繝ｬ繧ｹ繝昴Φ繧ｹ蝗樊焚, jp.co.acroquest.gms.journal.JournalManager#onEvent", 
+                "44, 2, 2009/08/04 21:13:29, 32, 10, 1, process.response.total.count, 繝ｬ繧ｹ繝昴Φ繧ｹ蝗樊焚, jp.co.acroquest.gms.nameconv.NamingConverter#convert", 
+                "32, 2, 2009/08/04 21:13:29, 32, 7, 4, process.response.total.count, 繝ｬ繧ｹ繝昴Φ繧ｹ蝗樊焚, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish", 
+                "54, 3, 2009/08/04 21:13:41, 32, 7, 8, process.response.total.count, 繝ｬ繧ｹ繝昴Φ繧ｹ蝗樊焚, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish", 
+                "36, 2, 2009/08/04 21:13:29, 32, 8, 8, process.response.total.count, 繝ｬ繧ｹ繝昴Φ繧ｹ蝗樊焚, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process", 
+                "58, 3, 2009/08/04 21:13:41, 32, 8, 4, process.response.total.count, 繝ｬ繧ｹ繝昴Φ繧ｹ蝗樊焚, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process", 
+                "28, 2, 2009/08/04 21:13:29, 32, 6, 9, process.response.total.count, 繝ｬ繧ｹ繝昴Φ繧ｹ蝗樊焚, jp.co.acroquest.mc.event.io.ListIOStream#print" 
             }
         );
     }
@@ -256,21 +256,21 @@ public class MeasurementNamedValueAccessorTest extends AbstractDaoTest
             "process.response.time.min", 
             new String[] 
             {
-                "16, 1, 2009/08/04 21:13:23, 39, 19, 320, process.response.time.min, レスポンスタイムの最小値, jp.co.acroquest.gms.journal.JournalManager#onEvent", 
-                "42, 2, 2009/08/04 21:13:29, 39, 19, 40, process.response.time.min, レスポンスタイムの最小値, jp.co.acroquest.gms.journal.JournalManager#onEvent", 
-                "64, 3, 2009/08/04 21:13:41, 39, 19, 420, process.response.time.min, レスポンスタイムの最小値, jp.co.acroquest.gms.journal.JournalManager#onEvent", 
-                "20, 1, 2009/08/04 21:13:23, 39, 20, 600, process.response.time.min, レスポンスタイムの最小値, jp.co.acroquest.gms.nameconv.NamingConverter#convert", 
-                "46, 2, 2009/08/04 21:13:29, 39, 20, 800, process.response.time.min, レスポンスタイムの最小値, jp.co.acroquest.gms.nameconv.NamingConverter#convert", 
-                "8, 1, 2009/08/04 21:13:23, 39, 17, 100, process.response.time.min, レスポンスタイムの最小値, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish", 
-                "34, 2, 2009/08/04 21:13:29, 39, 17, 40, process.response.time.min, レスポンスタイムの最小値, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish", 
-                "56, 3, 2009/08/04 21:13:41, 39, 17, 80, process.response.time.min, レスポンスタイムの最小値, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish", 
-                "72, 4, 2009/08/04 21:13:47, 39, 17, 700, process.response.time.min, レスポンスタイムの最小値, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish", 
-                "12, 1, 2009/08/04 21:13:23, 39, 18, 300, process.response.time.min, レスポンスタイムの最小値, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process", 
-                "38, 2, 2009/08/04 21:13:29, 39, 18, 490, process.response.time.min, レスポンスタイムの最小値, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process", 
-                "60, 3, 2009/08/04 21:13:41, 39, 18, 110, process.response.time.min, レスポンスタイムの最小値, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process", 
-                "4, 1, 2009/08/04 21:13:23, 39, 16, 25, process.response.time.min, レスポンスタイムの最小値, jp.co.acroquest.mc.event.io.ListIOStream#print", 
-                "30, 2, 2009/08/04 21:13:29, 39, 16, 30, process.response.time.min, レスポンスタイムの最小値, jp.co.acroquest.mc.event.io.ListIOStream#print", 
-                "68, 4, 2009/08/04 21:13:47, 39, 16, 200, process.response.time.min, レスポンスタイムの最小値, jp.co.acroquest.mc.event.io.ListIOStream#print"
+                "16, 1, 2009/08/04 21:13:23, 39, 19, 320, process.response.time.min, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛蟆丞､, jp.co.acroquest.gms.journal.JournalManager#onEvent", 
+                "42, 2, 2009/08/04 21:13:29, 39, 19, 40, process.response.time.min, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛蟆丞､, jp.co.acroquest.gms.journal.JournalManager#onEvent", 
+                "64, 3, 2009/08/04 21:13:41, 39, 19, 420, process.response.time.min, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛蟆丞､, jp.co.acroquest.gms.journal.JournalManager#onEvent", 
+                "20, 1, 2009/08/04 21:13:23, 39, 20, 600, process.response.time.min, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛蟆丞､, jp.co.acroquest.gms.nameconv.NamingConverter#convert", 
+                "46, 2, 2009/08/04 21:13:29, 39, 20, 800, process.response.time.min, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛蟆丞､, jp.co.acroquest.gms.nameconv.NamingConverter#convert", 
+                "8, 1, 2009/08/04 21:13:23, 39, 17, 100, process.response.time.min, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛蟆丞､, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish", 
+                "34, 2, 2009/08/04 21:13:29, 39, 17, 40, process.response.time.min, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛蟆丞､, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish", 
+                "56, 3, 2009/08/04 21:13:41, 39, 17, 80, process.response.time.min, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛蟆丞､, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish", 
+                "72, 4, 2009/08/04 21:13:47, 39, 17, 700, process.response.time.min, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛蟆丞､, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish", 
+                "12, 1, 2009/08/04 21:13:23, 39, 18, 300, process.response.time.min, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛蟆丞､, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process", 
+                "38, 2, 2009/08/04 21:13:29, 39, 18, 490, process.response.time.min, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛蟆丞､, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process", 
+                "60, 3, 2009/08/04 21:13:41, 39, 18, 110, process.response.time.min, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛蟆丞､, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process", 
+                "4, 1, 2009/08/04 21:13:23, 39, 16, 25, process.response.time.min, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛蟆丞､, jp.co.acroquest.mc.event.io.ListIOStream#print", 
+                "30, 2, 2009/08/04 21:13:29, 39, 16, 30, process.response.time.min, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛蟆丞､, jp.co.acroquest.mc.event.io.ListIOStream#print", 
+                "68, 4, 2009/08/04 21:13:47, 39, 16, 200, process.response.time.min, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛蟆丞､, jp.co.acroquest.mc.event.io.ListIOStream#print"
             }
         );
     }
@@ -283,11 +283,11 @@ public class MeasurementNamedValueAccessorTest extends AbstractDaoTest
             "process.response.time.max",
             new String[]
             {
-                "15, 1, 2009/08/04 21:13:23, 38, 14, 890, process.response.time.max, レスポンスタイムの最大値, jp.co.acroquest.gms.journal.JournalManager#onEvent", 
-                "45, 2, 2009/08/04 21:13:29, 38, 15, 800, process.response.time.max, レスポンスタイムの最大値, jp.co.acroquest.gms.nameconv.NamingConverter#convert", 
-                "33, 2, 2009/08/04 21:13:29, 38, 12, 3200, process.response.time.max, レスポンスタイムの最大値, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish", 
-                "11, 1, 2009/08/04 21:13:23, 38, 13, 1500, process.response.time.max, レスポンスタイムの最大値, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process", 
-                "67, 4, 2009/08/04 21:13:47, 38, 11, 900, process.response.time.max, レスポンスタイムの最大値, jp.co.acroquest.mc.event.io.ListIOStream#print"
+                "15, 1, 2009/08/04 21:13:23, 38, 14, 890, process.response.time.max, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛螟ｧ蛟､, jp.co.acroquest.gms.journal.JournalManager#onEvent", 
+                "45, 2, 2009/08/04 21:13:29, 38, 15, 800, process.response.time.max, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛螟ｧ蛟､, jp.co.acroquest.gms.nameconv.NamingConverter#convert", 
+                "33, 2, 2009/08/04 21:13:29, 38, 12, 3200, process.response.time.max, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛螟ｧ蛟､, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish", 
+                "11, 1, 2009/08/04 21:13:23, 38, 13, 1500, process.response.time.max, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛螟ｧ蛟､, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process", 
+                "67, 4, 2009/08/04 21:13:47, 38, 11, 900, process.response.time.max, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛螟ｧ蛟､, jp.co.acroquest.mc.event.io.ListIOStream#print"
             }
         );
     }
@@ -300,11 +300,11 @@ public class MeasurementNamedValueAccessorTest extends AbstractDaoTest
             "process.response.time.max",
             new String[]
             {
-                "63, 3, 2009/08/04 21:13:41, 38, 14, 720, process.response.time.max, レスポンスタイムの最大値, jp.co.acroquest.gms.journal.JournalManager#onEvent", 
-                "45, 2, 2009/08/04 21:13:29, 38, 15, 800, process.response.time.max, レスポンスタイムの最大値, jp.co.acroquest.gms.nameconv.NamingConverter#convert", 
-                "33, 2, 2009/08/04 21:13:29, 38, 12, 3200, process.response.time.max, レスポンスタイムの最大値, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish", 
-                "37, 2, 2009/08/04 21:13:29, 38, 13, 1200, process.response.time.max, レスポンスタイムの最大値, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process", 
-                "29, 2, 2009/08/04 21:13:29, 38, 11, 60, process.response.time.max, レスポンスタイムの最大値, jp.co.acroquest.mc.event.io.ListIOStream#print"
+                "63, 3, 2009/08/04 21:13:41, 38, 14, 720, process.response.time.max, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛螟ｧ蛟､, jp.co.acroquest.gms.journal.JournalManager#onEvent", 
+                "45, 2, 2009/08/04 21:13:29, 38, 15, 800, process.response.time.max, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛螟ｧ蛟､, jp.co.acroquest.gms.nameconv.NamingConverter#convert", 
+                "33, 2, 2009/08/04 21:13:29, 38, 12, 3200, process.response.time.max, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛螟ｧ蛟､, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish", 
+                "37, 2, 2009/08/04 21:13:29, 38, 13, 1200, process.response.time.max, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛螟ｧ蛟､, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process", 
+                "29, 2, 2009/08/04 21:13:29, 38, 11, 60, process.response.time.max, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛螟ｧ蛟､, jp.co.acroquest.mc.event.io.ListIOStream#print"
             }
         );
     }
@@ -317,10 +317,10 @@ public class MeasurementNamedValueAccessorTest extends AbstractDaoTest
             "process.response.time.max",
             new String[]
             {
-                "63, 3, 2009/08/04 21:13:41, 38, 14, 720, process.response.time.max, レスポンスタイムの最大値, jp.co.acroquest.gms.journal.JournalManager#onEvent", 
-                "71, 4, 2009/08/04 21:13:47, 38, 12, 700, process.response.time.max, レスポンスタイムの最大値, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish", 
-                "59, 3, 2009/08/04 21:13:41, 38, 13, 230, process.response.time.max, レスポンスタイムの最大値, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process", 
-                "67, 4, 2009/08/04 21:13:47, 38, 11, 900, process.response.time.max, レスポンスタイムの最大値, jp.co.acroquest.mc.event.io.ListIOStream#print" 
+                "63, 3, 2009/08/04 21:13:41, 38, 14, 720, process.response.time.max, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛螟ｧ蛟､, jp.co.acroquest.gms.journal.JournalManager#onEvent", 
+                "71, 4, 2009/08/04 21:13:47, 38, 12, 700, process.response.time.max, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛螟ｧ蛟､, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish", 
+                "59, 3, 2009/08/04 21:13:41, 38, 13, 230, process.response.time.max, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛螟ｧ蛟､, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process", 
+                "67, 4, 2009/08/04 21:13:47, 38, 11, 900, process.response.time.max, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛螟ｧ蛟､, jp.co.acroquest.mc.event.io.ListIOStream#print" 
             }
         );
     }
@@ -343,11 +343,11 @@ public class MeasurementNamedValueAccessorTest extends AbstractDaoTest
             "process.response.time.min",
             new String[]
             {
-                "64, 3, 2009/08/04 21:13:41, 39, 19, 420, process.response.time.min, レスポンスタイムの最小値, jp.co.acroquest.gms.journal.JournalManager#onEvent", 
-                "46, 2, 2009/08/04 21:13:29, 39, 20, 800, process.response.time.min, レスポンスタイムの最小値, jp.co.acroquest.gms.nameconv.NamingConverter#convert", 
-                "72, 4, 2009/08/04 21:13:47, 39, 17, 700, process.response.time.min, レスポンスタイムの最小値, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish", 
-                "38, 2, 2009/08/04 21:13:29, 39, 18, 490, process.response.time.min, レスポンスタイムの最小値, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process", 
-                "68, 4, 2009/08/04 21:13:47, 39, 16, 200, process.response.time.min, レスポンスタイムの最小値, jp.co.acroquest.mc.event.io.ListIOStream#print" 
+                "64, 3, 2009/08/04 21:13:41, 39, 19, 420, process.response.time.min, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛蟆丞､, jp.co.acroquest.gms.journal.JournalManager#onEvent", 
+                "46, 2, 2009/08/04 21:13:29, 39, 20, 800, process.response.time.min, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛蟆丞､, jp.co.acroquest.gms.nameconv.NamingConverter#convert", 
+                "72, 4, 2009/08/04 21:13:47, 39, 17, 700, process.response.time.min, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛蟆丞､, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish", 
+                "38, 2, 2009/08/04 21:13:29, 39, 18, 490, process.response.time.min, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛蟆丞､, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process", 
+                "68, 4, 2009/08/04 21:13:47, 39, 16, 200, process.response.time.min, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛蟆丞､, jp.co.acroquest.mc.event.io.ListIOStream#print" 
             }
         );
     }
@@ -360,11 +360,11 @@ public class MeasurementNamedValueAccessorTest extends AbstractDaoTest
              "process.response.time.min",
              new String[]
              {
-                 "42, 2, 2009/08/04 21:13:29, 39, 19, 40, process.response.time.min, レスポンスタイムの最小値, jp.co.acroquest.gms.journal.JournalManager#onEvent", 
-                 "20, 1, 2009/08/04 21:13:23, 39, 20, 600, process.response.time.min, レスポンスタイムの最小値, jp.co.acroquest.gms.nameconv.NamingConverter#convert", 
-                 "34, 2, 2009/08/04 21:13:29, 39, 17, 40, process.response.time.min, レスポンスタイムの最小値, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish", 
-                 "60, 3, 2009/08/04 21:13:41, 39, 18, 110, process.response.time.min, レスポンスタイムの最小値, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process", 
-                 "4, 1, 2009/08/04 21:13:23, 39, 16, 25, process.response.time.min, レスポンスタイムの最小値, jp.co.acroquest.mc.event.io.ListIOStream#print", 
+                 "42, 2, 2009/08/04 21:13:29, 39, 19, 40, process.response.time.min, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛蟆丞､, jp.co.acroquest.gms.journal.JournalManager#onEvent", 
+                 "20, 1, 2009/08/04 21:13:23, 39, 20, 600, process.response.time.min, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛蟆丞､, jp.co.acroquest.gms.nameconv.NamingConverter#convert", 
+                 "34, 2, 2009/08/04 21:13:29, 39, 17, 40, process.response.time.min, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛蟆丞､, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish", 
+                 "60, 3, 2009/08/04 21:13:41, 39, 18, 110, process.response.time.min, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛蟆丞､, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process", 
+                 "4, 1, 2009/08/04 21:13:23, 39, 16, 25, process.response.time.min, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛蟆丞､, jp.co.acroquest.mc.event.io.ListIOStream#print", 
              }
         );
     }
@@ -377,11 +377,11 @@ public class MeasurementNamedValueAccessorTest extends AbstractDaoTest
              "process.response.time.min",
              new String[]
              {
-                 "42, 2, 2009/08/04 21:13:29, 39, 19, 40, process.response.time.min, レスポンスタイムの最小値, jp.co.acroquest.gms.journal.JournalManager#onEvent", 
-                 "46, 2, 2009/08/04 21:13:29, 39, 20, 800, process.response.time.min, レスポンスタイムの最小値, jp.co.acroquest.gms.nameconv.NamingConverter#convert", 
-                 "34, 2, 2009/08/04 21:13:29, 39, 17, 40, process.response.time.min, レスポンスタイムの最小値, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish", 
-                 "60, 3, 2009/08/04 21:13:41, 39, 18, 110, process.response.time.min, レスポンスタイムの最小値, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process", 
-                 "30, 2, 2009/08/04 21:13:29, 39, 16, 30, process.response.time.min, レスポンスタイムの最小値, jp.co.acroquest.mc.event.io.ListIOStream#print" 
+                 "42, 2, 2009/08/04 21:13:29, 39, 19, 40, process.response.time.min, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛蟆丞､, jp.co.acroquest.gms.journal.JournalManager#onEvent", 
+                 "46, 2, 2009/08/04 21:13:29, 39, 20, 800, process.response.time.min, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛蟆丞､, jp.co.acroquest.gms.nameconv.NamingConverter#convert", 
+                 "34, 2, 2009/08/04 21:13:29, 39, 17, 40, process.response.time.min, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛蟆丞､, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish", 
+                 "60, 3, 2009/08/04 21:13:41, 39, 18, 110, process.response.time.min, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛蟆丞､, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process", 
+                 "30, 2, 2009/08/04 21:13:29, 39, 16, 30, process.response.time.min, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛蟆丞､, jp.co.acroquest.mc.event.io.ListIOStream#print" 
              }
         );
     }
@@ -394,10 +394,10 @@ public class MeasurementNamedValueAccessorTest extends AbstractDaoTest
              "process.response.time.min",
              new String[]
              {
-                 "64, 3, 2009/08/04 21:13:41, 39, 19, 420, process.response.time.min, レスポンスタイムの最小値, jp.co.acroquest.gms.journal.JournalManager#onEvent", 
-                 "56, 3, 2009/08/04 21:13:41, 39, 17, 80, process.response.time.min, レスポンスタイムの最小値, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish", 
-                 "60, 3, 2009/08/04 21:13:41, 39, 18, 110, process.response.time.min, レスポンスタイムの最小値, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process", 
-                 "68, 4, 2009/08/04 21:13:47, 39, 16, 200, process.response.time.min, レスポンスタイムの最小値, jp.co.acroquest.mc.event.io.ListIOStream#print" 
+                 "64, 3, 2009/08/04 21:13:41, 39, 19, 420, process.response.time.min, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛蟆丞､, jp.co.acroquest.gms.journal.JournalManager#onEvent", 
+                 "56, 3, 2009/08/04 21:13:41, 39, 17, 80, process.response.time.min, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛蟆丞､, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish", 
+                 "60, 3, 2009/08/04 21:13:41, 39, 18, 110, process.response.time.min, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛蟆丞､, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process", 
+                 "68, 4, 2009/08/04 21:13:47, 39, 16, 200, process.response.time.min, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛蟆丞､, jp.co.acroquest.mc.event.io.ListIOStream#print" 
              }
         );
     }
@@ -420,11 +420,11 @@ public class MeasurementNamedValueAccessorTest extends AbstractDaoTest
              "process.response.time.average",
              new String[]
              {
-                 "39, 2, 2009/08/04 21:13:29, 31, 4, 75, process.response.time.average, レスポンスタイムの平均値, jp.co.acroquest.gms.journal.JournalManager#onEvent", 
-                 "17, 1, 2009/08/04 21:13:23, 31, 5, 600, process.response.time.average, レスポンスタイムの平均値, jp.co.acroquest.gms.nameconv.NamingConverter#convert", 
-                 "53, 3, 2009/08/04 21:13:41, 31, 2, 120, process.response.time.average, レスポンスタイムの平均値, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish", 
-                 "57, 3, 2009/08/04 21:13:41, 31, 3, 180, process.response.time.average, レスポンスタイムの平均値, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process", 
-                 "27, 2, 2009/08/04 21:13:29, 31, 1, 50, process.response.time.average, レスポンスタイムの平均値, jp.co.acroquest.mc.event.io.ListIOStream#print" 
+                 "39, 2, 2009/08/04 21:13:29, 31, 4, 75, process.response.time.average, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ蟷ｳ蝮�蛟､, jp.co.acroquest.gms.journal.JournalManager#onEvent", 
+                 "17, 1, 2009/08/04 21:13:23, 31, 5, 600, process.response.time.average, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ蟷ｳ蝮�蛟､, jp.co.acroquest.gms.nameconv.NamingConverter#convert", 
+                 "53, 3, 2009/08/04 21:13:41, 31, 2, 120, process.response.time.average, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ蟷ｳ蝮�蛟､, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish", 
+                 "57, 3, 2009/08/04 21:13:41, 31, 3, 180, process.response.time.average, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ蟷ｳ蝮�蛟､, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process", 
+                 "27, 2, 2009/08/04 21:13:29, 31, 1, 50, process.response.time.average, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ蟷ｳ蝮�蛟､, jp.co.acroquest.mc.event.io.ListIOStream#print" 
              }
         );
     }
@@ -437,11 +437,11 @@ public class MeasurementNamedValueAccessorTest extends AbstractDaoTest
              "process.response.total.count",
              new String[]
              {
-                 "62, 3, 2009/08/04 21:13:41, 32, 9, 15, process.response.total.count, レスポンス回数, jp.co.acroquest.gms.journal.JournalManager#onEvent", 
-                 "18, 1, 2009/08/04 21:13:23, 32, 10, 2, process.response.total.count, レスポンス回数, jp.co.acroquest.gms.nameconv.NamingConverter#convert", 
-                 "70, 4, 2009/08/04 21:13:47, 32, 7, 18, process.response.total.count, レスポンス回数, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish", 
-                 "10, 1, 2009/08/04 21:13:23, 32, 8, 14, process.response.total.count, レスポンス回数, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process", 
-                 "66, 4, 2009/08/04 21:13:47, 32, 6, 20, process.response.total.count, レスポンス回数, jp.co.acroquest.mc.event.io.ListIOStream#print" 
+                 "62, 3, 2009/08/04 21:13:41, 32, 9, 15, process.response.total.count, 繝ｬ繧ｹ繝昴Φ繧ｹ蝗樊焚, jp.co.acroquest.gms.journal.JournalManager#onEvent", 
+                 "18, 1, 2009/08/04 21:13:23, 32, 10, 2, process.response.total.count, 繝ｬ繧ｹ繝昴Φ繧ｹ蝗樊焚, jp.co.acroquest.gms.nameconv.NamingConverter#convert", 
+                 "70, 4, 2009/08/04 21:13:47, 32, 7, 18, process.response.total.count, 繝ｬ繧ｹ繝昴Φ繧ｹ蝗樊焚, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish", 
+                 "10, 1, 2009/08/04 21:13:23, 32, 8, 14, process.response.total.count, 繝ｬ繧ｹ繝昴Φ繧ｹ蝗樊焚, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process", 
+                 "66, 4, 2009/08/04 21:13:47, 32, 6, 20, process.response.total.count, 繝ｬ繧ｹ繝昴Φ繧ｹ蝗樊焚, jp.co.acroquest.mc.event.io.ListIOStream#print" 
              }
         );
     }
@@ -454,11 +454,11 @@ public class MeasurementNamedValueAccessorTest extends AbstractDaoTest
              "process.response.total.count",
              new String[]
              {
-                 "62, 3, 2009/08/04 21:13:41, 32, 9, 12, process.response.total.count, レスポンス回数, jp.co.acroquest.gms.journal.JournalManager#onEvent", 
-                 "44, 2, 2009/08/04 21:13:29, 32, 10, 1, process.response.total.count, レスポンス回数, jp.co.acroquest.gms.nameconv.NamingConverter#convert", 
-                 "32, 2, 2009/08/04 21:13:29, 32, 7, 12, process.response.total.count, レスポンス回数, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish", 
-                 "58, 3, 2009/08/04 21:13:41, 32, 8, 12, process.response.total.count, レスポンス回数, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process", 
-                 "28, 2, 2009/08/04 21:13:29, 32, 6, 9, process.response.total.count, レスポンス回数, jp.co.acroquest.mc.event.io.ListIOStream#print", 
+                 "62, 3, 2009/08/04 21:13:41, 32, 9, 12, process.response.total.count, 繝ｬ繧ｹ繝昴Φ繧ｹ蝗樊焚, jp.co.acroquest.gms.journal.JournalManager#onEvent", 
+                 "44, 2, 2009/08/04 21:13:29, 32, 10, 1, process.response.total.count, 繝ｬ繧ｹ繝昴Φ繧ｹ蝗樊焚, jp.co.acroquest.gms.nameconv.NamingConverter#convert", 
+                 "32, 2, 2009/08/04 21:13:29, 32, 7, 12, process.response.total.count, 繝ｬ繧ｹ繝昴Φ繧ｹ蝗樊焚, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish", 
+                 "58, 3, 2009/08/04 21:13:41, 32, 8, 12, process.response.total.count, 繝ｬ繧ｹ繝昴Φ繧ｹ蝗樊焚, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process", 
+                 "28, 2, 2009/08/04 21:13:29, 32, 6, 9, process.response.total.count, 繝ｬ繧ｹ繝昴Φ繧ｹ蝗樊焚, jp.co.acroquest.mc.event.io.ListIOStream#print", 
              }
         );
     }
@@ -471,10 +471,10 @@ public class MeasurementNamedValueAccessorTest extends AbstractDaoTest
              "process.response.total.count",
              new String[]
              {
-                 "62, 3, 2009/08/04 21:13:41, 32, 9, 2, process.response.total.count, レスポンス回数, jp.co.acroquest.gms.journal.JournalManager#onEvent", 
-                 "70, 4, 2009/08/04 21:13:47, 32, 7, 9, process.response.total.count, レスポンス回数, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish", 
-                 "58, 3, 2009/08/04 21:13:41, 32, 8, 4, process.response.total.count, レスポンス回数, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process", 
-                 "66, 4, 2009/08/04 21:13:47, 32, 6, 4, process.response.total.count, レスポンス回数, jp.co.acroquest.mc.event.io.ListIOStream#print", 
+                 "62, 3, 2009/08/04 21:13:41, 32, 9, 2, process.response.total.count, 繝ｬ繧ｹ繝昴Φ繧ｹ蝗樊焚, jp.co.acroquest.gms.journal.JournalManager#onEvent", 
+                 "70, 4, 2009/08/04 21:13:47, 32, 7, 9, process.response.total.count, 繝ｬ繧ｹ繝昴Φ繧ｹ蝗樊焚, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish", 
+                 "58, 3, 2009/08/04 21:13:41, 32, 8, 4, process.response.total.count, 繝ｬ繧ｹ繝昴Φ繧ｹ蝗樊焚, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process", 
+                 "66, 4, 2009/08/04 21:13:47, 32, 6, 4, process.response.total.count, 繝ｬ繧ｹ繝昴Φ繧ｹ蝗樊焚, jp.co.acroquest.mc.event.io.ListIOStream#print", 
              }
         );
     }
@@ -497,11 +497,11 @@ public class MeasurementNamedValueAccessorTest extends AbstractDaoTest
              "process.response.time.max",
              new String[]
              {
-                 "41, 2, 2009/08/04 21:13:29, 38, 14, 1810, process.response.time.max, レスポンスタイムの最大値, jp.co.acroquest.gms.journal.JournalManager#onEvent", 
-                 "19, 1, 2009/08/04 21:13:23, 38, 15, 1400, process.response.time.max, レスポンスタイムの最大値, jp.co.acroquest.gms.nameconv.NamingConverter#convert", 
-                 "55, 3, 2009/08/04 21:13:41, 38, 12, 6310, process.response.time.max, レスポンスタイムの最大値, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish", 
-                 "59, 3, 2009/08/04 21:13:41, 38, 13, 2930, process.response.time.max, レスポンスタイムの最大値, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process", 
-                 "29, 2, 2009/08/04 21:13:29, 38, 11, 1160, process.response.time.max, レスポンスタイムの最大値, jp.co.acroquest.mc.event.io.ListIOStream#print", 
+                 "41, 2, 2009/08/04 21:13:29, 38, 14, 1810, process.response.time.max, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛螟ｧ蛟､, jp.co.acroquest.gms.journal.JournalManager#onEvent", 
+                 "19, 1, 2009/08/04 21:13:23, 38, 15, 1400, process.response.time.max, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛螟ｧ蛟､, jp.co.acroquest.gms.nameconv.NamingConverter#convert", 
+                 "55, 3, 2009/08/04 21:13:41, 38, 12, 6310, process.response.time.max, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛螟ｧ蛟､, jp.co.acroquest.gms.ncligw.buffer.DataBuffer#publish", 
+                 "59, 3, 2009/08/04 21:13:41, 38, 13, 2930, process.response.time.max, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛螟ｧ蛟､, jp.co.acroquest.gms.snmpgw.dataaccessor.GetRequestProcessor#process", 
+                 "29, 2, 2009/08/04 21:13:29, 38, 11, 1160, process.response.time.max, 繝ｬ繧ｹ繝昴Φ繧ｹ繧ｿ繧､繝縺ｮ譛螟ｧ蛟､, jp.co.acroquest.mc.event.io.ListIOStream#print", 
              }
         );
     }
@@ -510,13 +510,13 @@ public class MeasurementNamedValueAccessorTest extends AbstractDaoTest
     private void commonTestSelectByTermAndMeasurementTypeWithName(
             String startTime, String endTime, String valueType, String[] expectDataList)
     {
-        // 条件
-        // --> DB登録済みデータ
+        // 譚｡莉ｶ
+        // --> DB逋ｻ骭ｲ貂医∩繝�繝ｼ繧ｿ
         initDataBase();
 
         List<MeasurementValueDto> selectResult = null;
 
-        // 実施
+        // 螳滓命
         try
         {
             selectResult = 
@@ -531,7 +531,7 @@ public class MeasurementNamedValueAccessorTest extends AbstractDaoTest
             fail(ex1.getMessage());
         }
         
-        // 検証
+        // 讀懆ｨｼ
         List<Object> expectData
             = DataAccessorTestUtil.createMeasurementValueDtoEntities(expectDataList);
             
@@ -548,13 +548,13 @@ public class MeasurementNamedValueAccessorTest extends AbstractDaoTest
     private void commonTestSelectMaxValueByTermAndMeasurementTypeWithName(
             String startTime, String endTime, String valueType, String[] expectDataList)
     {
-        // 条件
-        // --> DB登録済みデータ
+        // 譚｡莉ｶ
+        // --> DB逋ｻ骭ｲ貂医∩繝�繝ｼ繧ｿ
         initDataBase();
 
         List<MeasurementValueDto> selectResult = null;
 
-        // 実施
+        // 螳滓命
         try
         {
             selectResult = 
@@ -569,7 +569,7 @@ public class MeasurementNamedValueAccessorTest extends AbstractDaoTest
             fail(ex1.getMessage());
         }
         
-        // 検証
+        // 讀懆ｨｼ
         List<Object> expectData
             = DataAccessorTestUtil.createMeasurementValueDtoEntities(expectDataList);
             
@@ -586,13 +586,13 @@ public class MeasurementNamedValueAccessorTest extends AbstractDaoTest
     private void commonTestSelectMinValueByTermAndMeasurementTypeWithName(
             String startTime, String endTime, String valueType, String[] expectDataList)
     {
-        // 条件
-        // --> DB登録済みデータ
+        // 譚｡莉ｶ
+        // --> DB逋ｻ骭ｲ貂医∩繝�繝ｼ繧ｿ
         initDataBase();
 
         List<MeasurementValueDto> selectResult = null;
 
-        // 実施
+        // 螳滓命
         try
         {
             selectResult = 
@@ -607,7 +607,7 @@ public class MeasurementNamedValueAccessorTest extends AbstractDaoTest
             fail(ex1.getMessage());
         }
         
-        // 検証
+        // 讀懆ｨｼ
         List<Object> expectData
             = DataAccessorTestUtil.createMeasurementValueDtoEntities(expectDataList);
             
@@ -624,13 +624,13 @@ public class MeasurementNamedValueAccessorTest extends AbstractDaoTest
     private void commonTestSelectSumValueByTermAndMeasurementTypeWithName(
             String startTime, String endTime, String valueType, String[] expectDataList)
     {
-        // 条件
-        // --> DB登録済みデータ
+        // 譚｡莉ｶ
+        // --> DB逋ｻ骭ｲ貂医∩繝�繝ｼ繧ｿ
         initDataBase();
 
         List<MeasurementValueDto> selectResult = null;
 
-        // 実施
+        // 螳滓命
         try
         {
             selectResult = 
@@ -645,7 +645,7 @@ public class MeasurementNamedValueAccessorTest extends AbstractDaoTest
             fail(ex1.getMessage());
         }
         
-        // 検証
+        // 讀懆ｨｼ
         List<Object> expectData
             = DataAccessorTestUtil.createMeasurementValueDtoEntities(expectDataList);
             
