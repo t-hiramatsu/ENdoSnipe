@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /*******************************************************************************
  * ENdoSnipe 5.0 - (https://github.com/endosnipe)
  *
@@ -807,6 +806,4 @@ ENS.svg.attribute = {
 
 ENS.report = {};
 ENS.report.DOWNLOAD_URL = wgp.common.getContextPath() + "/report/download";
-
->>>>>>> fa297f1d77ff6485734c1c61a3545584dbd4d886
 ENS.perfDoctor = {};
