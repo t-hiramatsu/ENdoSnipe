@@ -1400,4 +1400,5 @@ ENS.treeView = wgp.TreeView
 				if (type == wgp.constants.syncType.SEARCH) {
 					this.renderAll();
 				}
-			});
+			}
+		});
