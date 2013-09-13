@@ -422,9 +422,7 @@ ENS.treeView = wgp.TreeView
 								/\s+/g, "");
 						$("#multipleResourceGraphName").val(
 								targetNodeName + " Graph");
-						// Matching Patternにデフォルトのツリー階層を入力する
 
-						// 編集の場合は事前に値を設定する。
 					} else if (id == ENS.tree.EDIT_MULTIPLE_RESOURCE_GRAPH_TYPE) {
 						$('#multipleResourceGraphName').attr("disabled", true);
 						$('#multipleResourceGraphLstBox2').empty();
@@ -624,7 +622,7 @@ ENS.treeView = wgp.TreeView
 			},
 			mulResGraphPushOkFunction : function(event, option) {
 
-				// add tree data for signal
+				// add tree data for multipleResourceGraph
 				var treeId = option.treeId;
 				var mulResGraphDispalyName = $("#multipleResourceGraphName")
 						.val();
@@ -859,7 +857,7 @@ ENS.treeView = wgp.TreeView
 				ajaxHandler.requestServerAsync(settings);
 			},
 			getAllMulResGraph_ : function() {
-				// シグナル定義を取得する
+				// multipleResourceGraph定義を取得する
 				// Ajax通信用の設定
 
 				var settings = {

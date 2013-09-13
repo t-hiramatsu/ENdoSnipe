@@ -164,15 +164,12 @@ public class ResourceSender
                             singleData.setMeasurementItemName(measurementItemName);
                             singleData.setMeasurementTime(measurementTime);
                             singleData.setMeasurementValue(value);
-
-                            // singleDataMap.put(observateGroupId, singleData);
                             singleDataMap.put(matchData, singleData);
                         }
                         singleData.setMeasurementValue(value);
                     }
                     else
                     {
-                        // MultipleMeasurementValueDto multiData = multiDataMap.get(observateGroupId);
                         MultipleMeasurementValueDto multiData = multiDataMap.get(observateGroupId);
                         if (multiData == null)
                         {
@@ -218,30 +215,11 @@ public class ResourceSender
         }
     }
 
-    //    /**
-    //     * シグナル状態をWGP用のデータに変換し、送信する。
-    //     *
-    //     * @param signalTreeMenuDtoList 送信するデータ元
-    //     * @param dataManager WGPオブジェクト
-    //     * @param inbound クライアント
-    //     */
-    //    private void sendWgpSignalData(final List<SignalTreeMenuDto> signalTreeMenuDtoList,
-    //            final WgpDataManager dataManager, final WgpMessageInbound inbound, final String type)
-    //    {
-    //        for (SignalTreeMenuDto signalTreeMenuDto : signalTreeMenuDtoList)
-    //        {
-    //            String signalId = signalTreeMenuDto.getId();
-    //
-    //            dataManager.updateData("tree", signalId, signalTreeMenuDto);
-    //        }
-    //    }
-
     /**
      * ツリー状態をWGP用のデータに変換し、送信する。
      *
      * @param treeMenuDtoList 送信するデータ元
      * @param dataManager WGPオブジェクト
-     * @param inbound クライアント
      * @param type データ送信の種類(追加:add, 更新:update)
      */
     private void sendWgpTreeData(final List<TreeMenuDto> treeMenuDtoList,

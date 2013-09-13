@@ -180,8 +180,6 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
 
         Map<Long, SignalDefinitionDto> signalDefinitionMap = null;
 
-        //Map<Long, MultipleResourceGraphDefinitionDto> multipleResourceGraphDefinitionMap = null;
-
         this.behaviorMode_ = behaviorMode;
         if (config_ != null)
         {
@@ -206,8 +204,6 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
             }
 
             signalDefinitionMap = createSignalDefinition(databaseName);
-            /* multipleResourceGraphDefinitionMap =
-                 createmultipleResourceGraphDefinitionDefinition(databaseName);*/
         }
 
         // JavelinDataLogger の開始
@@ -271,36 +267,6 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
         }
         return signalDefinitionMap;
     }
-
-    /**
-     * 閾値判定定義情報のマップを作成する。
-     * @param databaseName データベース名 
-     * @return 閾値判定定義情報のマップ
-     */
-    /*    private Map<Long, MultipleResourceGraphDefinitionDto>
-            createmultipleResourceGraphDefinitionDefinition(final String databaseName)
-        {
-            Map<Long, MultipleResourceGraphDefinitionDto> multipleResourceGraphDefinitionMap =
-                new ConcurrentHashMap<Long, MultipleResourceGraphDefinitionDto>();
-            try
-            {
-                List<MultipleResourceGraphDefinition> multipleResourceGraphDefinitionList =
-                    MultipleResourceGraphDefinitionDao.selectAll(databaseName);
-                for (MultipleResourceGraphDefinition multipleResourceGraphDefinition : multipleResourceGraphDefinitionList)
-                {
-                    MultipleResourceGraphDefinitionDto multipleResourceGraphDefinitionDto =
-                        new MultipleResourceGraphDefinitionDto(multipleResourceGraphDefinition);
-                    multipleResourceGraphDefinitionMap
-                        .put(multipleResourceGraphDefinition.multipleResourceGraphId,
-                             multipleResourceGraphDefinitionDto);
-                }
-            }
-            catch (SQLException ex)
-            {
-                LOGGER.log(FAIL_READ_SIGNAL_DEFINITION, ex, ex.getMessage());
-            }
-            return multipleResourceGraphDefinitionMap;
-        }*/
 
     /**
      * DataCollectorが終了するまで、スレッドをブロックします。<br />

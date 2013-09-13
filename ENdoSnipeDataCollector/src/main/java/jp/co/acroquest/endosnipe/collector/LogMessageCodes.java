@@ -97,9 +97,6 @@ public interface LogMessageCodes extends CommonLogMessageCodes
     /** シグナル定義変更要求電文受信 */
     String SIGNAL_DEFINITION_CHANGE_NOTIFY_RECEIVED = "DEDC0104";
 
-    /** シグナル定義変更要求電文受信 */
-    String MULTIPLE_RESOURCE_GRAPH_DEFINITION_CHANGE_NOTIFY_RECEIVED = "DEDC0104";
-
     // -------------------------------------------------------------------------
     // キュー関連メッセージコード (02xx)
     // -------------------------------------------------------------------------

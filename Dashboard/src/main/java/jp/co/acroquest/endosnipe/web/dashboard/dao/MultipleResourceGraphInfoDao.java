@@ -39,65 +39,64 @@ public interface MultipleResourceGraphInfoDao
 {
 
     /**
-     * 指定されたデータベースのシグナル定義を全て取得します。<br />
-     *
-     * シグナル定義が登録されていない場合は空のリストを返します。<br />
-     *
-     * @return シグナル定義のリスト
+     * Get the all data of MultipleResourceGraph.<br />
+     * @return MultipleResourceGraphのリスト
      */
     List<MultipleResourceGraphInfo> selectAll();
 
     /**
-     * シグナル定義情報を取得する。
+     * Get the MultipleResourceGraph by Id.
      *
-     * @param MultipleResourceGraphId
-     *            シグナルID
-     * @return シグナル定義
+     * @param multipleResourceGraphId
+     *            MultipleResourceGraph's ID
+     * @return MultipleResourceGraph's data
      */
-    MultipleResourceGraphInfo selectById(long MultipleResourceGraphId);
+    MultipleResourceGraphInfo selectById(long multipleResourceGraphId);
 
     /**
-     * シグナル定義情報を取得する。
-     * @param MultipleResourceGraphName シグナル名
-     * @return シグナル定義
+     * Get the MultipleResourceGraph by Name.
+     *
+     * @param multipleResourceGraphName
+     *            MultipleResourceGraph's Name
+     * @return MultipleResourceGraph's data
      */
-    MultipleResourceGraphInfo selectByName(String MultipleResourceGraphName);
+    MultipleResourceGraphInfo selectByName(String multipleResourceGraphName);
 
     /**
      * {@link MultipleResourceGraphInfo} オブジェクトを挿入します。<br />
      *
-     * @param MultipleResourceGraphInfo
-     *            対象オジェクト
+     * @param multipleResourceGraphInfo
+     *            Object to insert
      */
     void insert(final MultipleResourceGraphInfo multipleResourceGraphInfo);
 
     /**
-     * シグナル定義を更新する。
+     * Update the multipleResourceGraph.
      *
      * @param multipleResourceGraphInfo
-     *            シグナル定義
+     *            Object to update
      */
     void update(final MultipleResourceGraphInfo multipleResourceGraphInfo);
 
     /**
-     * 指定されたシグナル名に該当するシグナル情報をDBから削除する。
+     * Delete the multipleResourceGraph.
      *
      * @param multipleResourceGraphName
-     *            シグナル名
+     *            Object to delete
      */
     void delete(final String multipleResourceGraphName);
 
     /**
-     * すべてのレコードを削除します。<br />
+     * Delete all of data of multipleResourceGraph.<br />
      */
     void deleteAll();
 
     /**
-     * 直前のシーケンス情報を取得する。<br />
+     * Get the sequence number of multipleResourceGraph.<br />
      * 
      * @param multipleResourceGraphInfo
-     *            シグナル情報
-     * @return 直前のシーケンス番号
+     *           Object of multipleResourceGraph
+     * @return sequence no of multipleResourceGraph
      */
     int selectSequenceNum(final MultipleResourceGraphInfo multipleResourceGraphInfo);
 }

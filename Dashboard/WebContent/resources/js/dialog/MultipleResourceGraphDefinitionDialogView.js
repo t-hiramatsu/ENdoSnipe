@@ -30,7 +30,7 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 												text : "OK",
 												click : function(event) {
 
-													// シグナル名が空の時はアラートを表示し、再入力を求める。
+													// multipleResourceGraphNameが空の時はアラートを表示し、再入力を求める。
 													var multipleResourceGraphName = $(
 															"#multipleResourceGraphName")
 															.val();
@@ -42,13 +42,12 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 														alert("Don't use '/'or'\\' in 'Summary Graph Name'.");
 														return;
 													}
-													
+
 													var selectedOpts = $('#multipleResourceGraphLstBox2 option');
-													if(selectedOpts.length==0)
-														{
+													if (selectedOpts.length === 0) {
 														alert("Please select 'Multiple Resource Graph Items'.");
 														return;
-														}
+													}
 													$("#" + option.dialogId)
 															.dialog("close");
 													if (!ins.op_[okObj]) {
@@ -64,6 +63,9 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 											{
 												text : "Cancel",
 												click : function(event) {
+													$("#multipleResourceGraphId").val("");
+													$("#multipleResourceGraphName").val("");
+													$("#multipleResourceGraphLstBox2").empty();
 													$("#" + option.dialogId)
 															.dialog("close");
 													if (!ins.op_[cObj]) {
@@ -85,7 +87,7 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 				$('#multipleResourceGraphLstBox1').removeAttr("disabled");
 				$('#multipleResourceGraphLstBox2').removeAttr("disabled");
 				$('#multipleResourceGraphItems').attr("disabled", true);
-				
+
 				if (ENS.multipleResourceGraphDialog.isFirst === true) {
 
 					$(
@@ -98,7 +100,7 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 											$('#multipleResourceGraphLstBox1')
 													.removeAttr("disabled");
 											$('#multipleResourceGraphLstBox2')
-											.removeAttr("disabled");
+													.removeAttr("disabled");
 											$('#multipleResourceGraphItems')
 													.attr("disabled", true);
 										}
@@ -170,7 +172,7 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 			},
 
 			getAllMeasurement_ : function() {
-				// シグナル定義を取得する
+				// measurementItem List 定義を取得する
 				// Ajax通信用の設定
 				var settings = {
 					url : ENS.tree.MEASUREMENT_ITEM_SELECT_ALL_URL
@@ -252,8 +254,7 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 					items : "[alt]",
 					tooltipClass : "tooltip"
 				});
-				$(
-				"#multipleResourceGraphItems").val("");
+				$("#multipleResourceGraphItems").val("");
 			},
 			pagingGraph : function(measurementDefinitionList) {
 
@@ -269,10 +270,11 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 			},
 			pageselectCallback : function(page_index, jq) {
 
-				 var items_per_page = this.items_per_page;  
-				    var offset = page_index * items_per_page;   
-				    var new_content = $('#hiddenIdList option').slice(offset, offset + items_per_page).clone();  
-				    
+				var items_per_page = this.items_per_page;
+				var offset = page_index * items_per_page;
+				var new_content = $('#hiddenIdList option').slice(offset,
+						offset + items_per_page).clone();
+
 				$('#multipleResourceGraphLstBox1').empty().append(new_content);
 
 				return false;

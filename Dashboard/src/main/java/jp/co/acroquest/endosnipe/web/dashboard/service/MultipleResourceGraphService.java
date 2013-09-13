@@ -46,7 +46,7 @@ public class MultipleResourceGraphService
     private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(MapService.class);
 
     /**
-     * 複数グラフ情報Dao
+     * 複数グラフ情報Dao。
      */
     @Autowired
     protected MultipleResourceGraphInfoDao multipleResourceGraphDao;
@@ -91,8 +91,6 @@ public class MultipleResourceGraphService
         {
             MultipleResourceGraphDefinitionDto multipleResourceGraphDto =
                     this.convertmultipleResourceGraphDto(multipleResourceGraphInfo);
-            // 初期状態にはデフォルト値を設定とする。
-            // signalDto.setSignalValue(DEFAULT_SIGNAL_STATE);
             definitionDtoList.add(multipleResourceGraphDto);
         }
 
@@ -133,7 +131,6 @@ public class MultipleResourceGraphService
 
         Header requestHeader = new Header();
         requestHeader.setByteTelegramKind(TelegramConstants.BYTE_TELEGRAM_KIND_MUL_RES_GRAPH_DEFINITION);
-        //  requestHeader.setByteTelegramKind(TelegramConstants.BYTE_TELEGRAM_KIND_ADD_MUL_RES_GRAPH_DEFINITION);
         requestHeader.setByteRequestKind(TelegramConstants.BYTE_REQUEST_KIND_REQUEST);
 
         int dtoCount = multipleResourceGraphInfoList.size();
@@ -158,9 +155,9 @@ public class MultipleResourceGraphService
         {
             MultipleResourceGraphInfo multipleResourceGraphInfo =
                     multipleResourceGraphInfoList.get(cnt);
-            multipleResourceGraphNames[cnt] = multipleResourceGraphInfo.multipleResourceGraphName;
+            multipleResourceGraphNames[cnt] = multipleResourceGraphInfo.multipleResourceGraphName_;
             multipleResourceGraphIds[cnt] =
-                    Long.valueOf(multipleResourceGraphInfo.multipleResourceGraphId);
+                    Long.valueOf(multipleResourceGraphInfo.multipleResourceGraphId_);
         }
         multipleResourceGraphIdBody.setObjItemValueArr(multipleResourceGraphIds);
         multipleResourceGraphNameBody.setObjItemValueArr(multipleResourceGraphNames);
@@ -302,33 +299,33 @@ public class MultipleResourceGraphService
     }
 
     /**
-     * SignalDefinitionDtoオブジェクトをSignalInfoオブジェクトに変換する。
+     * MultipleResourceGraphDefinitionDtoオブジェクトをMultipleResourceGraphInfoオブジェクトに変換する。
      * 
      * @param definitionDto
-     *            SignalDefinitionDtoオブジェクト
+     *            MultipleResourceGraphDefinitionDtoオブジェクト
      * 
-     * @return SignalInfoオブジェクト
+     * @return MultipleResourceGraphInfo data of MultipleResourceGraph
      */
     public MultipleResourceGraphInfo convertMultipleResourceGraphInfo(
             final MultipleResourceGraphDefinitionDto definitionDto)
     {
         MultipleResourceGraphInfo multipleResourceGraphInfo = new MultipleResourceGraphInfo();
 
-        multipleResourceGraphInfo.multipleResourceGraphId =
+        multipleResourceGraphInfo.multipleResourceGraphId_ =
                 definitionDto.getMultipleResourceGraphId();
-        multipleResourceGraphInfo.multipleResourceGraphName =
+        multipleResourceGraphInfo.multipleResourceGraphName_ =
                 definitionDto.getMultipleResourceGraphName();
-        multipleResourceGraphInfo.measurementItemIdList = definitionDto.getMeasurementItemIdList();
+        multipleResourceGraphInfo.measurementItemIdList_ = definitionDto.getMeasurementItemIdList();
 
         return multipleResourceGraphInfo;
     }
 
     /**
-     * SignalInfoオブジェクトをSignalDefinitionDtoオブジェクトに変換する。
+     * multipleResourceGraphInfoオブジェクトをMultipleResourceGraphDefinitionDtoオブジェクトに変換する。
      * 
      * @param multipleResourceGraphInfo
-     *            SignalInfoオブジェクト
-     * @return SignalDefinitionDtoオブジェクト
+     *            multipleResourceGraphInfoオブジェクト
+     * @return MultipleResourceGraphDefinitionDtoオブジェクト
      */
     private MultipleResourceGraphDefinitionDto convertmultipleResourceGraphDto(
             final MultipleResourceGraphInfo multipleResourceGraphInfo)
@@ -336,9 +333,9 @@ public class MultipleResourceGraphService
 
         MultipleResourceGraphDefinitionDto definitionDto = new MultipleResourceGraphDefinitionDto();
 
-        definitionDto.setMultipleResourceGraphId(multipleResourceGraphInfo.multipleResourceGraphId);
-        definitionDto.setMultipleResourceGraphName(multipleResourceGraphInfo.multipleResourceGraphName);
-        definitionDto.setMeasurementItemIdList(multipleResourceGraphInfo.measurementItemIdList);
+        definitionDto.setMultipleResourceGraphId(multipleResourceGraphInfo.multipleResourceGraphId_);
+        definitionDto.setMultipleResourceGraphName(multipleResourceGraphInfo.multipleResourceGraphName_);
+        definitionDto.setMeasurementItemIdList(multipleResourceGraphInfo.measurementItemIdList_);
 
         return definitionDto;
     }
@@ -413,7 +410,7 @@ public class MultipleResourceGraphService
             // 同一複数グラフ名を持つ複数グラフ定義情報が存在しない場合
             return false;
         }
-        else if (multipleResourceGraphInfo.multipleResourceGraphId == multipleResourceGraphId)
+        else if (multipleResourceGraphInfo.multipleResourceGraphId_ == multipleResourceGraphId)
         {
             // 複数グラフ名が一致する複数グラフ定義情報が更新対象自身の場合
             return false;

@@ -12,30 +12,36 @@
  */
 package jp.co.acroquest.endosnipe.web.dashboard.entity;
 
+/**
+ * MultipleResourceGraphのentityクラス。
+ * 
+ * @author pin
+ * 
+ */
 public class MultipleResourceGraphInfo
 {
-    /** シグナル定義テーブルのID。 */
-    public long multipleResourceGraphId;
+    /** multipleResourceGraphのID。*/
+    public long multipleResourceGraphId_;
 
-    /** シグナル名。 */
-    public String multipleResourceGraphName;
+    /** multipleResourceGraphのID。 */
+    public String multipleResourceGraphName_;
 
-    /** マッチングパターン。 */
-    public String measurementItemIdList;
+    /** measurementItemId's list. */
+    public String measurementItemIdList_;
 
     /**
-     * {@link MultipleResourceGraphInfo} オブジェクトを生成します。<br />
+     * {@link MultipleResourceGraphInfo} MultipleResourceGraphトを生成します。<br />
      */
     public MultipleResourceGraphInfo()
     {
-        this.multipleResourceGraphId = -1;
+        this.multipleResourceGraphId_ = -1;
     }
 
     @Override
     public String toString()
     {
         return String.format("MultipleResourceGraphID%d MultipleResourceGraphName:%s MeasurementItemIdList_:%s",
-                             multipleResourceGraphId, multipleResourceGraphName,
-                             measurementItemIdList);
+                             multipleResourceGraphId_, multipleResourceGraphName_,
+                             measurementItemIdList_);
     }
 }

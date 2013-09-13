@@ -26,27 +26,33 @@
 package jp.co.acroquest.endosnipe.data.dto;
 
 /**
- * 繝?Μ繝ｼ繝｡繝九Η繝ｼ縺ｮDTO繧ｯ繝ｩ繧ｹ縲?
+ * Dto class of to classify the GraphType. 
  * 
  * @author pin
  *
  */
 public class GraphTypeDto
 {
-    /**  */
+    /**  Graph Item Name*/
     private String itemName_;
 
-    /** */
+    /** Graph Type : mulResGraph or graph*/
     private String itemType_;
 
     /**
-     * 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ縲?
+     * Constructor.
      */
     public GraphTypeDto()
     {
 
     }
 
+    /**
+     * two argument Constructor.
+     * @param itemName name of graph
+     * @param itemType type of graph
+     * 
+     */
     public GraphTypeDto(final String itemName, final String itemType)
     {
         super();
@@ -55,9 +61,9 @@ public class GraphTypeDto
     }
 
     /**
-     * 陦ｨ遉ｺ蜷阪ｒ蜿門ｾ励☆繧九?
+     * Get the name of item.
      * 
-     * @return 陦ｨ遉ｺ蜷?
+     * @return itemName of graph
      */
     public String getItemName()
     {
@@ -65,9 +71,9 @@ public class GraphTypeDto
     }
 
     /**
-     * 陦ｨ遉ｺ蜷阪ｒ險ｭ螳壹☆繧九?
+     * Set the itemName of graph.
      * 
-     * @param itemName 陦ｨ遉ｺ蜷?
+     * @param itemName itemName of graph
      */
     public void setItemName(final String itemName)
     {
@@ -75,9 +81,9 @@ public class GraphTypeDto
     }
 
     /**
-     * 繝?Μ繝ｼID繧貞叙蠕励☆繧九?
+     * Get the type of item.
      * 
-     * @return 繝?Μ繝ｼID
+     * @return itemType of graph
      */
     public String getItemType()
     {
@@ -85,9 +91,9 @@ public class GraphTypeDto
     }
 
     /**
-     * 繝?Μ繝ｼID繧定ｨｭ螳壹☆繧九?
+     * Set the itemType of graph.
      * 
-     * @param itemType 繝?Μ繝ｼID
+     * @param itemType itemType of graph
      */
     public void setItemType(final String itemType)
     {
