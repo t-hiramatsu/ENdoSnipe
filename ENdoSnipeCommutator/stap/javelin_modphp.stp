@@ -118,8 +118,8 @@ function print_period()
     }
     delete utime
     delete stime
-    printf("/commutator/process/cpu/time/total,%ld\n", utimemerged + stimemerged)
-    printf("/commutator/system/cpu/time/user,%ld\n", utimemerged)
+    printf("process/cpu/time/total,%ld\n", utimemerged + stimemerged)
+    printf("/system/cpu/time/user,%ld\n", utimemerged)
 }
 
 function init_count()
