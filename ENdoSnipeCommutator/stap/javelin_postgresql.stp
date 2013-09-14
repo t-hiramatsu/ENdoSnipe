@@ -354,48 +354,48 @@ function print_period()
     }
     delete utime
     delete stime
-    printf("/javelin/process/cpu/time/total,%ld\n", utimemerged + stimemerged)
-    printf("/javelin/system/cpu/time/user,%ld\n", utimemerged)
+    printf("/process/cpu/time/total,%ld\n", utimemerged + stimemerged)
+    printf("/system/cpu/time/user,%ld\n", utimemerged)
 }
 
 function print_use_memory()
 {
-    printf("/javelin/process/memory/physical/used:bytes,%ld\n", proc_mem_rss_pid(target()) * mem_page_size())
+    printf("/process/memory/physical/used:bytes,%ld\n", proc_mem_rss_pid(target()) * mem_page_size())
 }
 
 function print_vfs_read()
 {
-    printf("/javelin/system/file/read:bytes,%ld\n",file_read)
+    printf("/system/file/read:bytes,%ld\n",file_read)
     delete file_read
 }
 
 function print_vfs_write()
 {
-    printf("/javelin/system/file/write:bytes,%ld\n",file_write)
+    printf("/system/file/write:bytes,%ld\n",file_write)
     delete file_write
 }
 
 function print_net_receive()
 {
-    printf("/javelin/proc/network/input/used:bytes,%ld\n",net_receive)
+    printf("/proc/network/input/used:bytes,%ld\n",net_receive)
     delete net_receive
 }
 
 function print_net_transmit()
 {
-    printf("/javelin/proc/network/output/used:bytes,%ld\n",net_transmit)
+    printf("/proc/network/output/used:bytes,%ld\n",net_transmit)
     delete net_transmit
 }
 
 function print_nanosleep()
 {
-    printf("/javelin/process/cpu/sleep/total,%ld\n", sleep_time)
+    printf("/process/cpu/sleep/total,%ld\n", sleep_time)
     delete sleep_time
 }
 
 function print_lockwait()
 {
-    printf("/javelin/process/wait/lock/total,%ld\n", lock_wait)
+    printf("/process/wait/lock/total,%ld\n", lock_wait)
     delete lock_wait
     delete lock_start
     lock_num = 10
