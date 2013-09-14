@@ -77,9 +77,6 @@ public class TreeMenuService
     /** アイコン：ターゲット。 */
     private static final String TARGET_ICON = "leaf";
 
-    /** アイコン：ターゲット。 */
-    private static final String MUL_GRAPH_ICON = "graph";
-
     /**
      * コンストラクタ
      */

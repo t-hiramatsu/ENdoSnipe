@@ -6,9 +6,9 @@
 <mapper namespace="jp.co.acroquest.endosnipe.web.dashboard.dao.MultipleResourceGraphInfoDao">
 	<resultMap id="MultipleResourceGraphInfoMap"
 		type="jp.co.acroquest.endosnipe.web.dashboard.entity.MultipleResourceGraphInfo">
-		<id property="multipleResourceGraphId" column="MULTIPLE_RESOURCE_GRAPH_ID" />
-		<result property="multipleResourceGraphName" column="MULTIPLE_RESOURCE_GRAPH_NAME" />
-		<result property="measurementItemIdList" column="MEASUREMENT_ITEM_ID_LIST" />
+		<id property="multipleResourceGraphId_" column="MULTIPLE_RESOURCE_GRAPH_ID" />
+		<result property="multipleResourceGraphName_" column="MULTIPLE_RESOURCE_GRAPH_NAME" />
+		<result property="measurementItemIdList_" column="MEASUREMENT_ITEM_ID_LIST" />
 	</resultMap>
 
 	<select id="selectAll" resultMap="MultipleResourceGraphInfoMap">
@@ -19,14 +19,14 @@
 		SELECT * FROM
 		MULTIPLE_RESOURCE_GRAPH
 		where MULTIPLE_RESOURCE_GRAPH_ID
-		= #{multipleResourceGraphId}
+		= #{multipleResourceGraphId_}
 	</select>
 
 	<select id="selectByName" resultMap="MultipleResourceGraphInfoMap">
 		SELECT * FROM
 		MULTIPLE_RESOURCE_GRAPH
 		where MULTIPLE_RESOURCE_GRAPH_NAME
-		= #{selectByName}
+		= #{multipleResourceGraphName_}
 	</select>
 
 	<insert id="insert"
@@ -34,22 +34,22 @@
 		insert into MULTIPLE_RESOURCE_GRAPH
 		(MULTIPLE_RESOURCE_GRAPH_NAME,MEASUREMENT_ITEM_ID_LIST)
 		values
-		(#{multipleResourceGraphName},#{measurementItemIdList})
+		(#{multipleResourceGraphName_},#{measurementItemIdList_})
 	</insert>
 
 	<update id="update"
 		parameterType="jp.co.acroquest.endosnipe.web.dashboard.entity.MultipleResourceGraphInfo">
 		update MULTIPLE_RESOURCE_GRAPH set
-		MULTIPLE_RESOURCE_GRAPH_NAME = #{multipleResourceGraphName},
-		MEASUREMENT_ITEM_ID_LIST = #{measurementItemIdList}
+		MULTIPLE_RESOURCE_GRAPH_NAME = #{multipleResourceGraphName_},
+		MEASUREMENT_ITEM_ID_LIST = #{measurementItemIdList_}
 		where MULTIPLE_RESOURCE_GRAPH_NAME
-		= #{multipleResourceGraphName}
+		= #{multipleResourceGraphName_}
 	</update>
 
 	<delete id="delete">
 		delete from MULTIPLE_RESOURCE_GRAPH
 		where MULTIPLE_RESOURCE_GRAPH_NAME =
-		#{multipleResourceGraphName}
+		#{multipleResourceGraphName_}
 	</delete>
 
 	<delete id="deleteAll"
@@ -61,6 +61,6 @@
 		SELECT MULTIPLE_RESOURCE_GRAPH_ID FROM
 		MULTIPLE_RESOURCE_GRAPH
 		where MULTIPLE_RESOURCE_GRAPH_NAME
-		= #{multipleResourceGraphName}
+		= #{multipleResourceGraphName_}
 	</select>
 </mapper>

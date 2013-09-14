@@ -43,10 +43,10 @@ import jp.co.acroquest.endosnipe.data.entity.SignalDefinition;
  * @author fujii
  */
 public class SignalChangeListener extends AbstractTelegramListener implements TelegramListener,
-        LogMessageCodes
+    LogMessageCodes
 {
-    private static final ENdoSnipeLogger LOGGER =
-                                                  ENdoSnipeLogger.getLogger(SignalChangeListener.class);
+    private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
+        .getLogger(SignalChangeListener.class);
 
     private static final int ITEM_VALUE_SIGNAL_ID = 0;
 
@@ -73,7 +73,6 @@ public class SignalChangeListener extends AbstractTelegramListener implements Te
 
         // 電文を解析し、シグナル定義情報を更新する。
         updateSignalDefinition(telegram);
-
         return null;
     }
 
@@ -89,7 +88,7 @@ public class SignalChangeListener extends AbstractTelegramListener implements Te
         {
             String itemName = body.getStrItemName();
             if (TelegramConstants.ITEMNAME_SIGNAL_ADD.equals(itemName)
-                    || TelegramConstants.ITEMNAME_SIGNAL_UPDATE.equals(itemName))
+                || TelegramConstants.ITEMNAME_SIGNAL_UPDATE.equals(itemName))
             {
                 setSignalDefinition(body, itemName);
             }

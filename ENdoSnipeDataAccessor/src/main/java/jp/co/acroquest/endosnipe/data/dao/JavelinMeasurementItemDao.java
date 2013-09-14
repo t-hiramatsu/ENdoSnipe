@@ -191,11 +191,11 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
     }
 
     /**
-     * 指定されたItemName配下の計測項目名の一覧を取得します。<br />
+     * Get the mulipleGraphNameList by parentItemName.<br />
      *
      * @param database データベース名
      * @param measurementItemName 計測項目名
-     * @return 計測項目名の一覧
+     * @return GraphTypeDtoの一覧
      * @throws SQLException SQL 実行時に例外が発生した場合
      */
     public static List<GraphTypeDto> selectMulGrapNameListByParentItemName(final String database,

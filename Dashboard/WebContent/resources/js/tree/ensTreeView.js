@@ -110,10 +110,10 @@ ENS.treeView = wgp.TreeView
 					var idAttribute = treeModel.idAttribute;
 					var targetTag;
 					var addPlace = "";
-					
+
 					if (parentTreeId !== null && parentTreeId !== undefined) {
 						var topNodeNum = $("#tree_area > ul > li").length;
-						
+
 						// Topノードがすでにあるときに、Topノードを追加する時は、他のTopノードの後に追加する。
 						// そうでない場合は、親ノードの下にノードを作成する。
 						if (topNodeNum !== 0 && parentTreeId === "") {
@@ -121,7 +121,8 @@ ENS.treeView = wgp.TreeView
 							targetTag = $("#tree_area ul li")[topNodeNum - 1];
 						} else {
 							addPlace = "last";
-							targetTag = this.getTreeNode(parentTreeId, idAttribute);
+							targetTag = this.getTreeNode(parentTreeId,
+									idAttribute);
 						}
 					}
 
@@ -421,9 +422,7 @@ ENS.treeView = wgp.TreeView
 								/\s+/g, "");
 						$("#multipleResourceGraphName").val(
 								targetNodeName + " Graph");
-						// Matching Patternにデフォルトのツリー階層を入力する
 
-						// 編集の場合は事前に値を設定する。
 					} else if (id == ENS.tree.EDIT_MULTIPLE_RESOURCE_GRAPH_TYPE) {
 						$('#multipleResourceGraphName').attr("disabled", true);
 						$('#multipleResourceGraphLstBox2').empty();
@@ -623,7 +622,7 @@ ENS.treeView = wgp.TreeView
 			},
 			mulResGraphPushOkFunction : function(event, option) {
 
-				// add tree data for signal
+				// add tree data for multipleResourceGraph
 				var treeId = option.treeId;
 				var mulResGraphDispalyName = $("#multipleResourceGraphName")
 						.val();
@@ -682,9 +681,9 @@ ENS.treeView = wgp.TreeView
 						.map(function() {
 							return $(this).val();
 						});
-				
+
 				measurementItem = measurementList.get(0);
-				for (var i = 1; i < measurementList.length; i++) {
+				for ( var i = 1; i < measurementList.length; i++) {
 
 					measurementItem = measurementItem + ","
 							+ measurementList.get(i);
@@ -718,7 +717,7 @@ ENS.treeView = wgp.TreeView
 						});
 
 				measurementItem = measurementList.get(0);
-				for (var i = 1; i < measurementList.length; i++) {
+				for ( var i = 1; i < measurementList.length; i++) {
 
 					measurementItem = measurementItem + ","
 							+ measurementList.get(i);
@@ -858,7 +857,7 @@ ENS.treeView = wgp.TreeView
 				ajaxHandler.requestServerAsync(settings);
 			},
 			getAllMulResGraph_ : function() {
-				// シグナル定義を取得する
+				// multipleResourceGraph定義を取得する
 				// Ajax通信用の設定
 
 				var settings = {
@@ -1219,7 +1218,7 @@ ENS.treeView = wgp.TreeView
 								multipleResourceGraphDefinition.multipleResourceGraphName);
 				var measurementList = multipleResourceGraphDefinition.measurementItemIdList
 						.split(",");
-				for (var i = 0; i < measurementList.length; i++) {
+				for ( var i = 0; i < measurementList.length; i++) {
 					$('#multipleResourceGraphLstBox2').append(
 							"<option value='" + measurementList[i] + "'>"
 									+ measurementList[i] + "</option>");

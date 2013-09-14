@@ -1,20 +1,20 @@
 /*******************************************************************************
  * ENdoSnipe 5.0 - (https://github.com/endosnipe)
- *
+ * 
  * The MIT License (MIT)
- *
+ * 
  * Copyright (c) 2012 Acroquest Technology Co.,Ltd.
- *
+ * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * 
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -107,7 +107,7 @@ ENS.tree.EDIT_SIGNAL_TYPE = "editSignal";
 ENS.tree.DELETE_SIGNAL_TYPE = "deleteSignal";
 ENS.tree.OUTPUT_REPORT_TYPE = "outputReport";
 ENS.tree.DELETE_REPORT_TYPE = "deleteReport";
-ENS.tree.ADD_MULTIPLE_RESOURCE_GRAPH_TYPE = "addMultipleResourceGraph";
+ENS.tree.ADD_MULTIPLE_RESOURCE_GRAPH_TYPE = "addMulResGraph";
 ENS.tree.EDIT_MULTIPLE_RESOURCE_GRAPH_TYPE = "editMultipleResourceGraph";
 ENS.tree.DELETE_MULTIPLE_RESOURCE_GRAPH_TYPE = "deleteMultipleResourceGraph";
 
@@ -119,20 +119,19 @@ ENS.tree.SIGNAL_DELETE_URL = wgp.common.getContextPath() + "/signal/delete";
 ENS.tree.SIGNAL_SELECT_ALL_URL = wgp.common.getContextPath()
 		+ "/signal/getAllDefinition";
 
-ENS.tree.ADD_MULTIPLE_RESOURCE_GRAPH_TYPE = "addMulResGraph";
 ENS.tree.MULTIPLE_RESOURCE_GRAPH_PREFIX_ID = "/mulResGraphNode-";
 ENS.tree.MULTIPLE_RESOURCE_GRAPH_SELECT_ALL_URL = wgp.common.getContextPath()
-+ "/multipleResourceGraph/getAllDefinition";
-ENS.tree.MULTIPLE_RESOURCE_GRAPH_ADD_URL = wgp.common.getContextPath() + "/multipleResourceGraph/add";
-ENS.tree.MULTIPLE_RESOURCE_GRAPH_GET_URL = wgp.common.getContextPath() + "/multipleResourceGraph/getDefinition";
-ENS.tree.MULTIPLE_RESOURCE_GRAPH_EDIT_URL = wgp.common.getContextPath() + "/multipleResourceGraph/edit";
-ENS.tree.MULTIPLE_RESOURCE_GRAPH_DELETE_URL = wgp.common.getContextPath() + "/multipleResourceGraph/delete";
+		+ "/multipleResourceGraph/getAllDefinition";
+ENS.tree.MULTIPLE_RESOURCE_GRAPH_ADD_URL = wgp.common.getContextPath()
+		+ "/multipleResourceGraph/add";
+ENS.tree.MULTIPLE_RESOURCE_GRAPH_GET_URL = wgp.common.getContextPath()
+		+ "/multipleResourceGraph/getDefinition";
+ENS.tree.MULTIPLE_RESOURCE_GRAPH_EDIT_URL = wgp.common.getContextPath()
+		+ "/multipleResourceGraph/edit";
+ENS.tree.MULTIPLE_RESOURCE_GRAPH_DELETE_URL = wgp.common.getContextPath()
+		+ "/multipleResourceGraph/delete";
 ENS.tree.MEASUREMENT_ITEM_SELECT_ALL_URL = wgp.common.getContextPath()
-+ "/multipleResourceGraph/getAllMeasurementList";
-ENS.tree.MEASUREMENT_ITEM_SELECT_EXP_URL = wgp.common.getContextPath()
-+ "/multipleResourceGraph/getAllMeasurementListByExp";
-
-ENS.tree.MEASUREMENT_ITEM_SELECT_BY_REG_EXP = wgp.common.getContextPath() + "/multipleResourceGraph/getMeasurementByRegExp";
+		+ "/multipleResourceGraph/getAllMeasurementList";
 
 ENS.tree.REPORT_ADD_URL = wgp.common.getContextPath() + "/report/add";
 ENS.tree.SIGNAL_NAME = "signalName";
@@ -145,13 +144,17 @@ ENS.tree.REPORT_SELECT_ALL_URL = wgp.common.getContextPath()
 		+ "/report/getAllDefinition";
 ENS.tree.REPORT_SELECT_BY_REPORT_NAME_URL = wgp.common.getContextPath()
 		+ "/report/getDefinitionByReportName";
-ENS.tree.REPORT_DELETE_BY_NAME_URL = wgp.common.getContextPath() + "/report/deleteByName";
-ENS.tree.REPORT_DELETE_BY_ID_URL = wgp.common.getContextPath() + "/report/deleteById";
-ENS.tree.GET_DIRECT_CHILDLEN_NODE = wgp.common.getContextPath() + "/tree/getDirectlChildNodes";
+ENS.tree.REPORT_DELETE_BY_NAME_URL = wgp.common.getContextPath()
+		+ "/report/deleteByName";
+ENS.tree.REPORT_DELETE_BY_ID_URL = wgp.common.getContextPath()
+		+ "/report/deleteById";
+ENS.tree.GET_DIRECT_CHILDLEN_NODE = wgp.common.getContextPath()
+		+ "/tree/getDirectlChildNodes";
 ENS.tree.GET_TOP_NODES = wgp.common.getContextPath() + "/tree/getTopNodes";
-ENS.tree.GET_CHILD_TARGET_NODES = wgp.common.getContextPath() + "/tree/getChildTargetNodes";
-ENS.tree.GET_ALL_CHILD_NODES = wgp.common.getContextPath() + "/tree/getAllChildNodes";
-ENS.tree.GET_SQL_PLAN = wgp.common.getContextPath() + "/sqlPlan/getSqlPlan";
+ENS.tree.GET_CHILD_TARGET_NODES = wgp.common.getContextPath()
+		+ "/tree/getChildTargetNodes";
+ENS.tree.GET_ALL_CHILD_NODES = wgp.common.getContextPath()
+		+ "/tree/getAllChildNodes";
 
 ENS.tree.type = {};
 ENS.tree.type.GROUP = "group";
@@ -159,10 +162,6 @@ ENS.tree.type.TARGET = "target";
 ENS.tree.type.SIGNAL = "signal";
 ENS.tree.type.REPORT = "report";
 ENS.tree.type.MULTIPLERESOURCEGRAPH = "mulResGraph";
-
-ENS.tree.types = {};
-ENS.tree.types.GRAPH = [ENS.tree.type.TARGET, ENS.tree.type.MULTIPLERESOURCEGRAPH];
-
 
 ENS.tree.contextOption = [ {
 	menu_id : ENS.tree.ADD_SIGNAL_TYPE,
@@ -214,7 +213,7 @@ ENS.tree.contextOption = [ {
 		signalType : ENS.tree.DELETE_REPORT_TYPE
 	},
 	children : []
-} , {
+}, {
 	menu_id : ENS.tree.ADD_MULTIPLE_RESOURCE_GRAPH_TYPE,
 	menu_name : "Add Multiple Resource Graph",
 	executeClass : "ENS.MultipleResourceGraphDefinitionDialogView",
@@ -244,7 +243,7 @@ ENS.tree.contextOption = [ {
 		signalType : ENS.tree.DELETE_MULTIPLE_RESOURCE_GRAPH_TYPE
 	},
 	children : []
-}];
+} ];
 ENS.tree.SIGNAL_ICON_STOP = "signal_-1";
 ENS.tree.SIGNAL_ICON_0 = "signal_0";
 ENS.tree.SIGNAL_ICON_1 = "signal_1";
@@ -264,13 +263,13 @@ ENS.map.mode.OPERATE = "OPERATE";
 ENS.map.mode.EDIT = "EDIT";
 ENS.map.fontSize = 16;
 ENS.map.fontColor = "#F58400";
-ENS.map.MIN_GRAPH_WIDTH = 260;ENS.map.MIN_GRAPH_HEIGHT = 200;ENS.map.extraMapSize = 10;
+ENS.map.MIN_GRAPH_WIDTH = 260;
+ENS.map.MIN_GRAPH_HEIGHT = 200;
+ENS.map.extraMapSize = 10;
 ENS.map.moveSpan = 16;
-ENS.map.resizeSpan = 16;
 ENS.map.backgroundSetting = {
 	objectId : "background",
 	objectName : "ENS.BackgroundElementView",
-	objectType : raphaelMapConstants.POLYGON_TYPE_NAME,
 	pointX : 0,
 	pointY : 0,
 	width : 1000,
@@ -278,20 +277,20 @@ ENS.map.backgroundSetting = {
 	shapeName : raphaelMapConstants.RECTANGLE_ELEMENT_NAME,
 	shapeType : raphaelMapConstants.POLYGON_TYPE_NAME,
 	zIndex : 0,
-	elementAttrList : [{
+	elementAttrList : [ {
 		fill : "#FFFFFF",
 		stroke : "#000000",
 		strokeDasharray : "",
 		strokeWidth : 1
-	}]
+	} ]
 };
 ENS.svg = {};
 ENS.svg.attribute = {
-//	arrowEnd : "arrow-end",
-//	clipRect : "clip-rect",
-//	cursor : "cursor",
-//	cx : "cx",
-//	cy : "cy",
+	// arrowEnd : "arrow-end",
+	// clipRect : "clip-rect",
+	// cursor : "cursor",
+	// cx : "cx",
+	// cy : "cy",
 	fill : {
 		name : "fill",
 		type : "color",
@@ -303,7 +302,7 @@ ENS.svg.attribute = {
 		display : "Transparency",
 		unit : "%"
 	},
-//	font : "font",
+	// font : "font",
 	fontFamily : {
 		name : "font-family",
 		type : "select",
@@ -351,11 +350,7 @@ ENS.svg.attribute = {
 	r : "r",
 	rx : "rx",
 	ry : "ry",
-	src : {
-		name : "src",
-		type : "url",
-		display : "Image src"
-	},
+	src : "src",
 	stroke : {
 		name : "stroke",
 		type : "color",
@@ -404,8 +399,6 @@ ENS.svg.attribute = {
 	y : "y"
 };
 
-
 ENS.report = {};
 ENS.report.DOWNLOAD_URL = wgp.common.getContextPath() + "/report/download";
-
 ENS.perfDoctor = {};

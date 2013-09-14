@@ -100,13 +100,13 @@ public interface TelegramConstants
 
     /** 電文種別(ツリー定義更新) */
     byte BYTE_TELEGRAM_KIND_MUL_RES_GRAPH_DEFINITION = 25;
-    
+
     /** 電文種別(ツリー定義更新) */
     byte BYTE_TELEGRAM_KIND_ADD_MUL_RES_GRAPH_DEFINITION = 27;
-    
+
     /** 電文種別(SQL実行計画取得通知) */
     byte BYTE_TELEGRAM_KIND_SQL_PLAN = 28;
-    
+
     /** 最後の電文以外 */
     byte HALFWAY_TELEGRAM = 0;
 
@@ -148,10 +148,7 @@ public interface TelegramConstants
 
     /** オブジェクト名(シグナル定義変更) */
     String OBJECTNAME_SIGNAL_CHANGE = "signalDefinitionChange";
-    
-    /** オブジェクト名(シグナル定義変更) */
-    String OBJECTNAME_MUL_RES_GRAPH_CHANGE = "multipleResourceGraphDefinitionChange";
-    
+
     /** オブジェクト名(ツリー定義変更) */
     String OBJECTNAME_TREE_CHANGE = "treeDefinitionChange";
 
@@ -163,16 +160,16 @@ public interface TelegramConstants
 
     /** オブジェクト名(DB名) */
     String OBJECTnAME_DATABASE_NAME = "databaseName";
-    
+
     /** オブジェクト名(SQL文) */
     String OBJECTNAME_SQL_STATEMENT = "sqlplan";
-    
+
     /** オブジェクト名(SQL実行計画) */
     String OBJECTNAME_SQL_EXECUTION_PLAN = "sqlexecution";
-    
+
     /** オブジェクト名(SQL実行計画取得時間) */
     String OBJECTNAME_GETTING_PLAN_TIME = "gettingplantime";
-    
+
     /** オブジェクト名(スタックとレース) */
     String OBJECTNAME_STACK_TRACE = "stacktrace";
 
@@ -400,7 +397,7 @@ public interface TelegramConstants
 
     /** stalled */
     String POSTFIX_STALLED = "/stalled";
-    
+
     // -----------------------------------------------------
     // プロセス項目: メモリ(算出値)
 
@@ -738,20 +735,19 @@ public interface TelegramConstants
 
     /** 項目名（計測単位） */
     String ITEMNAME_TREE_MEASUREMENTUNIT = "measurementUnit";
-    
+
     /** 項目名（閾値判定定義情報のID） */
     String ITEMNAME_MUL_RES_GRAPH_ID = "mulResourceGraphId";
-    
+
     /** 項目名(シグナル定義追加) */
     String ITEMNAME_MUL_RES_GRAPH_ADD = "mulResourceGraphAdd";
 
     /** 項目名(シグナル定義更新) */
-    String ITEMNAME_MUL_RES_GRAPH_UPDATE= "mulResourceGraphUpdate";
+    String ITEMNAME_MUL_RES_GRAPH_UPDATE = "mulResourceGraphUpdate";
 
     /** 項目名(シグナル定義削除) */
     String ITEMNAME_MUL_RES_GRAPH_DELETE = "mulResourceGraphDelete";
-    
-    
+
     /** int ⇔ byte[] 変換時に対応するバイト数 */
     int INT_BYTE_SWITCH_LENGTH = 4;
 

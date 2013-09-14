@@ -663,7 +663,7 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				}
 
 				for ( var keyIndex3 = 0; keyIndex3 < top; keyIndex3++) {
-					var value = dataValue[ENS.tree.previousKey[keyIndex3]]/* .slice() */;
+					var value = dataValue[ENS.tree.previousKey[keyIndex3]];
 
 					_.each(value, function(valueData, index) {
 						var valueD = valueData;

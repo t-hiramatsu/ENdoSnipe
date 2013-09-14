@@ -186,67 +186,6 @@ ENS.ResourceMapView = wgp.MapView.extend({
 		});
 
 		return view;
-	},/*,
-	_addMulResGraphDivision : function(model) {
-		var objectId = model.get("objectId");
-		var graphId = model.get("resourceId");
-		var width = model.get("width");
-		var height = model.get("height");
-
-		var tempId = graphId.split("/");
-		var dataId = tempId[tempId.length - 1];
-		var treeSettings = {
-			data : dataId,
-			id : graphId,
-			measurementUnit : "",
-			parentTreeId : "",
-			treeId : ""
-		};
-		var viewAttribute = {
-			id : graphId,
-			cid : model.cid,
-			rootView : this,
-			graphId : graphId,
-			title : dataId,
-			noTermData : false,
-			term : 1800 * 2,
-			width : width,
-			height : height,
-			dateWindow : [ new Date() - 60 * 60 * 1000, new Date() ],
-			attributes : {
-				xlabel : "Time",
-				ylabel : "value",
-				labels : [ "time", "PC1", "PC2" ]
-			}
-		};
-
-		var newDivAreaId = this.$el.attr("id") + "_" + model.cid;
-		var newDivArea = $("<div id='" + newDivAreaId + "'></div>");
-		newDivArea.css("position","absolute");
-
-		$("#" + this.$el.attr("id")).append(newDivArea);
-		newDivArea.width(model.get("width"));
-		newDivArea.height(model.get("height"));
-
-		$.extend(true, viewAttribute, {
-			id : newDivAreaId
-		});
-		var view =
-			new ENS.MulResGraphElementView(viewAttribute, treeSettings);
-		view.model = model;
-
-		// cidを設定
-		$("#" + view.$el.attr("id")).attr("cid", model.cid);
-
-		// 後で移動する。
-		var parentOffset = newDivArea.parent().offset();
-		newDivArea.offset({
-			top : parentOffset["top"]  + model.get("pointY"),
-			left :parentOffset["left"] + model.get("pointX")
-		});
-
-		return view;
-	}*/
 	_addStateElement : function(model){
 		var argument = {
 			paper : this.paper,
