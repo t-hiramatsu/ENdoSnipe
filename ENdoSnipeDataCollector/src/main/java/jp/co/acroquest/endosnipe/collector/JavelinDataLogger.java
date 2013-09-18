@@ -171,6 +171,9 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
     /** measurement_item_nameをスラッシュ区切りした際に、エージェント名が入るIndex番号。 */
     private static final int AGENT_INDEX = 3;
 
+    /** 性能情報のキーの区切り文字 */
+    private static final String KEY_SEPARETOR = "/";
+
     /** JAVELIN_LOG テーブルを truncate するコールバックメソッド */
     private final RotateCallback javelinRotateCallback_ = new RotateCallback() {
         /**
@@ -999,12 +1002,27 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         Map<Long, SignalDefinitionDto> signalDefinitionMap =
             signalStateManager.getSignalDeifinitionMap();
 
+        // クラスタ名、IPアドレス、エージェント名を取得する。
+        // クラスタ名、IPアドレス、エージェント名が取得できない場合は閾値判定ができないため、処理を終了する。
+        String domain = getDomain(currentResourceData);
+        if (domain == null)
+        {
+            return;
+        }
+
         for (Entry<Long, SignalDefinitionDto> signalDefinitionEntry : signalDefinitionMap
             .entrySet())
         {
             SignalDefinitionDto signalDefinition = signalDefinitionEntry.getValue();
             String itemName = signalDefinition.getMatchingPattern();
             String signalName = signalDefinition.getSignalName();
+
+            // 異なるドメイン（クラスタ名、IPアドレス、エージェント名）のリソース情報から閾値判定を行うと、
+            // 正常状態に戻すため、判定対象としない。
+            if (!itemName.startsWith(domain))
+            {
+                continue;
+            }
 
             //現在のアラーム通知状況を取得
             AlarmData currentAlarmData = signalStateManager.getAlarmData(signalName);
@@ -1057,6 +1075,52 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
                 addSignalStateChangeEvent(alarmEntry);
             }
         }
+    }
+
+    /**
+     * リソース情報からエージェントの監視対象のクラスタ名、IPアドレス、エージェント名を取得する。<br />
+     * クラスタ名、IPアドレス、エージェント名はスラッシュ区切りとする。
+     * @param resourceData リソース情報
+     * @return リソース情報から取得したエージェントの監視対象のクラスタ名、IPアドレス、エージェント名(スラッシュ区切り)
+     */
+    private String getDomain(final ResourceData resourceData)
+    {
+        if (resourceData == null)
+        {
+            return null;
+        }
+        Map<String, MeasurementData> resourceMap = resourceData.getMeasurementMap();
+        if (resourceMap.size() == 0)
+        {
+            return null;
+        }
+        for (String key : resourceMap.keySet())
+        {
+            int firstKeyPosition = key.indexOf(KEY_SEPARETOR);
+            if (firstKeyPosition < 0)
+            {
+                break;
+            }
+            int secondKeyPosition = key.indexOf(KEY_SEPARETOR, firstKeyPosition + 1);
+            if (secondKeyPosition < 0)
+            {
+                break;
+            }
+            int thirdKeyPosition = key.indexOf(KEY_SEPARETOR, secondKeyPosition + 1);
+            if (thirdKeyPosition < 0)
+            {
+                break;
+            }
+            int forthKeyPosition = key.indexOf(KEY_SEPARETOR, thirdKeyPosition + 1);
+            if (forthKeyPosition < 0)
+            {
+                break;
+            }
+            String domain = key.substring(0, forthKeyPosition + 1);
+            return domain;
+        }
+
+        return null;
     }
 
     /**
