@@ -4,26 +4,86 @@
  *
  * Copyright (C) Acroquest Technology, Co.LTD
  */
-global function_entry
 
-probe begin
+%{
+#include <linux/sched.h>
+#include <string.h>
+%}
+
+function local_clock:long()
+%{
+    THIS->__retvalue = local_clock();
+%}
+
+global utime, stime
+global function_entry
+global function_start_time
+global function_times
+
+probe _ens.sched_switch = kernel.trace("sched_switch")
 {
-  function_entry = 0
+    utime[tid()] = task_utime()
+    stime[tid()] = task_stime()
 }
 
+function print_period()
+{
+    printf("/common/fundamental/time/current,%ld\n",gettimeofday_ms())
+
+    foreach ([tid] in utime) {
+        utimemerged += utime[tid]
+    }
+    foreach ([tid] in stime) {
+        stimemerged += stime[tid]
+    }
+    delete utime
+    delete stime
+    printf("/process/cpu/time/total,%ld\n", utimemerged + stimemerged)
+    printf("/system/cpu/time/user,%ld\n", utimemerged)
+}
+
+// 1
 probe python.function.entry
 {
-  function_entry++
+    //printf("Function entry: File %s, Function name %s\n", user_string($arg1), user_string($arg2));
+    idstr = sprintf("%s-%d",funcname,tid())
+    function_entry[funcname]++
+    function_start_time[idstr] = local_clock()
+}
+
+// 2
+probe python.function.return
+{
+    idstr = sprintf("%s-%d",funcname,tid())
+    start_clock = function_start_time[idstr]; delete function_start_time[idstr]
+    if(start_clock){
+        function_time = local_clock() - start_clock
+        function_times[funcname] += function_time
+    }
 }
 
 function print_function_entry()
 {
-  printf("/python/function_entry, %d\n", function_entry);
+    foreach([funcname] in function_times)
+    {
+        printf("/python/function_entry/%s, %d\n", funcname, function_entry[funcname]);
+        printf("/python/function_time/%s, %d\n", funcname, function_times[funcname]);
+    }
+    delete function_entry
+    delete function_times
 }
+
+probe _ens.sched_switch{}
 
 probe timer.ms(15000)
 {
-  print_function_entry()
-  printf(".\n");
+    print_period()
+    print_function_entry()
+    printf(".\n")
 }
+
+
+//probe end
+//{
+//}
 

@@ -34,16 +34,16 @@ import java.util.List;
 import jp.co.acroquest.endosnipe.data.entity.JavelinLog;
 
 /**
- * {@link JavelinLogDao} ƒNƒ‰ƒX‚ÌƒeƒXƒgƒP[ƒXB<br />
+ * {@link JavelinLogDao} ã‚¯ãƒ©ã‚¹ã®ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹ã€‚<br />
  *
  * @author sakamoto
  */
 public class JavelinLogDaoTest extends AbstractDaoTest
 {
-    /** JavelinƒƒO‚Ìƒtƒ@ƒCƒ‹–¼ */
+    /** Javelinãƒ­ã‚°ã®ãƒ•ã‚¡ã‚¤ãƒ«å */
     private static final String JVN_FILENAME = "JavelinLogFile.jvn";
 
-    /** JavelinƒƒOƒf[ƒ^ */
+    /** Javelinãƒ­ã‚°ãƒ‡ãƒ¼ã‚¿ */
     private static final byte[] JAVELIN_DATA = "1234567890abcdefg".getBytes();
 
     /**
@@ -57,113 +57,113 @@ public class JavelinLogDaoTest extends AbstractDaoTest
     }
 
     /**
-     * @test ‹ó‚Ìƒe[ƒuƒ‹‚É‘Î‚µ‚ÄA insert() ‚ğÀs‚µ‚Ü‚·B<br />
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @test ç©ºã®ãƒ†ãƒ¼ãƒ–ãƒ«ã«å¯¾ã—ã¦ã€ insert() ã‚’å®Ÿè¡Œã—ã¾ã™ã€‚<br />
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public void testInsert_one()
         throws SQLException
     {
-        // €”õ
+        // æº–å‚™
         Timestamp time = new Timestamp(System.currentTimeMillis());
         JavelinLog javelinLog = createJavelinLog(0, time, time);
 
-        // Às
+        // å®Ÿè¡Œ
         JavelinLogDao.insert(DB_NAME, javelinLog);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         List<JavelinLog> actual = JavelinLogDao.selectByTerm(DB_NAME, time, time);
         assertEquals(1, actual.size());
     }
 
     /**
-     * @test ‘¶İ‚µ‚È‚¢ Javelin ƒƒO‚ğæ“¾‚µ‚Ü‚·B<br />
-     * @throws Exception —áŠO
+     * @test å­˜åœ¨ã—ãªã„ Javelin ãƒ­ã‚°ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * @throws Exception ä¾‹å¤–
      */
     public void testSelectJavelinLogByLogId_notExist()
         throws Exception
     {
-        // €”õ
+        // æº–å‚™
         Timestamp time = new Timestamp(System.currentTimeMillis());
         JavelinLog javelinLog = createJavelinLog(0, time, time);
         JavelinLogDao.insert(DB_NAME, javelinLog);
 
-        // Às
+        // å®Ÿè¡Œ
         InputStream actual = JavelinLogDao.selectJavelinLogByLogId(DB_NAME, -1);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertNull(actual);
     }
 
     /**
      * @target {@link JavelinLogDao#selectByLogFileName(String, String)}
      * 
-     * @test DB‚©‚ç‘¶İ‚·‚éƒtƒ@ƒCƒ‹–¼‚ÅJavelinƒƒO‚ğŒŸõ‚·‚éB
-     * @condition <li>DB‚É"JavelinLogFile.jvn"‚Æ‚¢‚¤–¼‘O‚ÌƒƒO‚ğinsert‚·‚éB</li>
-     * <li>DB‚©‚ç"JavelinLogFile.jvn"‚Æ‚¢‚¤–¼‘O‚Åƒtƒ@ƒCƒ‹‚ğŒŸõ‚·‚éB
+     * @test DBã‹ã‚‰å­˜åœ¨ã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«åã§Javelinãƒ­ã‚°ã‚’æ¤œç´¢ã™ã‚‹ã€‚
+     * @condition <li>DBã«"JavelinLogFile.jvn"ã¨ã„ã†åå‰ã®ãƒ­ã‚°ã‚’insertã™ã‚‹ã€‚</li>
+     * <li>DBã‹ã‚‰"JavelinLogFile.jvn"ã¨ã„ã†åå‰ã§ãƒ•ã‚¡ã‚¤ãƒ«ã‚’æ¤œç´¢ã™ã‚‹ã€‚
      * 
-     * @result ŒŸõŒ‹‰Ê‚ªnull ‚Å‚È‚¢‚±‚ÆB
+     * @result æ¤œç´¢çµæœãŒnull ã§ãªã„ã“ã¨ã€‚
      * 
-     * @throws Exception —áŠO‚ª”­¶‚µ‚½ê‡
+     * @throws Exception ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public void testSelectByLogFileName_existFile()
         throws Exception
     {
-        // €”õ
+        // æº–å‚™
         Timestamp time = new Timestamp(System.currentTimeMillis());
         JavelinLog javelinLog = createJavelinLog(0, time, time);
         JavelinLogDao.insert(DB_NAME, javelinLog);
 
-        // JavelinƒƒOƒtƒ@ƒCƒ‹–¼
+        // Javelinãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«å
         String jvnFileName = JVN_FILENAME;
 
-        // Às
+        // å®Ÿè¡Œ
         JavelinLog jvnLog = JavelinLogDao.selectByLogFileName(DB_NAME, jvnFileName);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertNotNull(jvnLog);
     }
 
     /**
      * @target {@link JavelinLogDao#selectByLogFileName(String, String)}
      * 
-     * @test DB‚©‚ç‘¶İ‚µ‚È‚¢ƒtƒ@ƒCƒ‹–¼‚ÅJavelinƒƒO‚ğŒŸõ‚·‚éB
-     * @condition <li>DB‚É"JavelinLogFile.jvn"‚Æ‚¢‚¤–¼‘O‚ÌƒƒO‚ğinsert‚·‚éB</li>
-     * <li>DB‚©‚ç"NotExist.jvn"‚Æ‚¢‚¤–¼‘O‚Åƒtƒ@ƒCƒ‹‚ğŒŸõ‚·‚éB
+     * @test DBã‹ã‚‰å­˜åœ¨ã—ãªã„ãƒ•ã‚¡ã‚¤ãƒ«åã§Javelinãƒ­ã‚°ã‚’æ¤œç´¢ã™ã‚‹ã€‚
+     * @condition <li>DBã«"JavelinLogFile.jvn"ã¨ã„ã†åå‰ã®ãƒ­ã‚°ã‚’insertã™ã‚‹ã€‚</li>
+     * <li>DBã‹ã‚‰"NotExist.jvn"ã¨ã„ã†åå‰ã§ãƒ•ã‚¡ã‚¤ãƒ«ã‚’æ¤œç´¢ã™ã‚‹ã€‚
      * 
-     * @result ŒŸõŒ‹‰Ê‚ªnull ‚Å‚ ‚é‚±‚ÆB
+     * @result æ¤œç´¢çµæœãŒnull ã§ã‚ã‚‹ã“ã¨ã€‚
      * 
-     * @throws Exception —áŠO‚ª”­¶‚µ‚½ê‡
+     * @throws Exception ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public void testSelectByLogFileName_notExist()
         throws Exception
     {
-        // €”õ
+        // æº–å‚™
         Timestamp time = new Timestamp(System.currentTimeMillis());
         JavelinLog javelinLog = createJavelinLog(0, time, time);
         JavelinLogDao.insert(DB_NAME, javelinLog);
 
-        // JavelinƒƒOƒtƒ@ƒCƒ‹–¼
+        // Javelinãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«å
         String jvnFileName = "NotExist.jvn";
 
-        // Às
+        // å®Ÿè¡Œ
         JavelinLog jvnLog = JavelinLogDao.selectByLogFileName(DB_NAME, jvnFileName);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertNull(jvnLog);
     }
 
     /**
-     * ”ÍˆÍ“à‚Ì Javelin ƒƒO‚ğæ“¾‚µ‚Ü‚·B<br />
+     * ç¯„å›²å†…ã® Javelin ãƒ­ã‚°ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      *
-     * Javelin ƒƒO‚ÌŠJn‚ÆAw’èŠJn‚ªˆê’v‚µA
-     * Javelin ƒƒO‚ÌI—¹‚ÆAw’èI—¹‚ªˆê’v‚·‚éŒ±‚Å‚·B
+     * Javelin ãƒ­ã‚°ã®é–‹å§‹æ™‚åˆ»ã¨ã€æŒ‡å®šé–‹å§‹æ™‚åˆ»ãŒä¸€è‡´ã—ã€
+     * Javelin ãƒ­ã‚°ã®çµ‚äº†æ™‚åˆ»ã¨ã€æŒ‡å®šçµ‚äº†æ™‚åˆ»ãŒä¸€è‡´ã™ã‚‹è©¦é¨“ã§ã™ã€‚
      *
-     * @throws Exception —áŠO
+     * @throws Exception ä¾‹å¤–
      */
     public void testSelectByTerm_inJustRange()
         throws Exception
     {
-        // €”õ
+        // æº–å‚™
         long time = System.currentTimeMillis();
         Timestamp timeStart1 = new Timestamp(time);
         Timestamp timeEnd1 = new Timestamp(time + 1000);
@@ -182,26 +182,26 @@ public class JavelinLogDaoTest extends AbstractDaoTest
         javelinLog = createJavelinLog(3, timeStart4, timeEnd4);
         JavelinLogDao.insert(DB_NAME, javelinLog);
 
-        // Às
+        // å®Ÿè¡Œ
         List<JavelinLog> actual = JavelinLogDao.selectByTerm(DB_NAME, timeStart3, timeEnd3);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(1, actual.size());
         assertJavelinLog(timeStart3, timeEnd3, actual.get(0));
     }
 
     /**
-     * ”ÍˆÍ“à‚Ì Javelin ƒƒO‚ğæ“¾‚µ‚Ü‚·B<br />
+     * ç¯„å›²å†…ã® Javelin ãƒ­ã‚°ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      *
-     * Javelin ƒƒO‚ÌŠJn‚ÆAw’èŠJn‚ªˆê’v‚¹‚¸A
-     * Javelin ƒƒO‚ÌI—¹‚ÆAw’èI—¹‚ªˆê’v‚µ‚È‚¢Œ±‚Å‚·B
+     * Javelin ãƒ­ã‚°ã®é–‹å§‹æ™‚åˆ»ã¨ã€æŒ‡å®šé–‹å§‹æ™‚åˆ»ãŒä¸€è‡´ã›ãšã€
+     * Javelin ãƒ­ã‚°ã®çµ‚äº†æ™‚åˆ»ã¨ã€æŒ‡å®šçµ‚äº†æ™‚åˆ»ãŒä¸€è‡´ã—ãªã„è©¦é¨“ã§ã™ã€‚
      *
-     * @throws Exception —áŠO
+     * @throws Exception ä¾‹å¤–
      */
     public void testSelectByTerm_inRange()
         throws Exception
     {
-        // €”õ
+        // æº–å‚™
         long time = System.currentTimeMillis();
         Timestamp timeStart1 = new Timestamp(time);
         Timestamp timeEnd1 = new Timestamp(time + 1000);
@@ -220,10 +220,10 @@ public class JavelinLogDaoTest extends AbstractDaoTest
         javelinLog = createJavelinLog(3, timeStart4, timeEnd4);
         JavelinLogDao.insert(DB_NAME, javelinLog);
 
-        // Às
+        // å®Ÿè¡Œ
         List<JavelinLog> actual = JavelinLogDao.selectByTerm(DB_NAME, timeEnd1, timeStart4);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(2, actual.size());
         
         assertJavelinLog(timeStart3, timeEnd3, actual.get(0));
@@ -231,16 +231,16 @@ public class JavelinLogDaoTest extends AbstractDaoTest
     }
 
     /**
-     * ”ÍˆÍ“à‚Ì Javelin ƒƒO‚ğæ“¾‚µ‚Ü‚·B<br />
+     * ç¯„å›²å†…ã® Javelin ãƒ­ã‚°ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      *
-     * ”ÍˆÍ“à‚É Javelin ƒƒO‚ª‘¶İ‚µ‚È‚¢Œ±‚Å‚·B
+     * ç¯„å›²å†…ã« Javelin ãƒ­ã‚°ãŒå­˜åœ¨ã—ãªã„è©¦é¨“ã§ã™ã€‚
      *
-     * @throws Exception —áŠO
+     * @throws Exception ä¾‹å¤–
      */
     public void testSelectByTerm_outOfRange()
         throws Exception
     {
-        // €”õ
+        // æº–å‚™
         long time = System.currentTimeMillis();
         Timestamp timeStart1 = new Timestamp(time);
         Timestamp timeEnd1 = new Timestamp(time + 1000);
@@ -259,63 +259,63 @@ public class JavelinLogDaoTest extends AbstractDaoTest
         javelinLog = createJavelinLog(3, timeStart4, timeEnd4);
         JavelinLogDao.insert(DB_NAME, javelinLog);
 
-        // Às
+        // å®Ÿè¡Œ
         List<JavelinLog> actual = JavelinLogDao.selectByTerm(DB_NAME, timeEnd2, timeStart3);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(0, actual.size());
     }
 
     /**
-     * ƒŒƒR[ƒh‚ªŠi”[‚³‚ê‚Ä‚¢‚È‚¢ƒe[ƒuƒ‹‚Ì Javelin ƒƒO‚Ì”ÍˆÍ‚ğæ“¾‚µ‚Ü‚·B<br />
+     * ãƒ¬ã‚³ãƒ¼ãƒ‰ãŒæ ¼ç´ã•ã‚Œã¦ã„ãªã„ãƒ†ãƒ¼ãƒ–ãƒ«ã® Javelin ãƒ­ã‚°ã®ç¯„å›²ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      *
-     * @throws Exception —áŠO
+     * @throws Exception ä¾‹å¤–
      */
     public void testGetLogTerm_empty()
         throws Exception
     {
-        // Às
+        // å®Ÿè¡Œ
         Timestamp[] actual = JavelinLogDao.getLogTerm(DB_NAME);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(2, actual.length);
         assertNull(actual[0]);
         assertNull(actual[1]);
     }
 
     /**
-     * 1 ƒŒƒR[ƒh‚ªŠi”[‚³‚ê‚Ä‚¢‚éƒe[ƒuƒ‹‚Ì Javelin ƒƒO‚Ì”ÍˆÍ‚ğæ“¾‚µ‚Ü‚·B<br />
+     * 1 ãƒ¬ã‚³ãƒ¼ãƒ‰ãŒæ ¼ç´ã•ã‚Œã¦ã„ã‚‹ãƒ†ãƒ¼ãƒ–ãƒ«ã® Javelin ãƒ­ã‚°ã®ç¯„å›²ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      *
-     * @throws Exception —áŠO
+     * @throws Exception ä¾‹å¤–
      */
     public void testGetLogTerm_one()
         throws Exception
     {
-        // €”õ
+        // æº–å‚™
         long time = System.currentTimeMillis();
         Timestamp timeStart1 = new Timestamp(time);
         Timestamp timeEnd1 = new Timestamp(time + 1000);
         JavelinLog javelinLog = createJavelinLog(0, timeStart1, timeEnd1);
         JavelinLogDao.insert(DB_NAME, javelinLog);
 
-        // Às
+        // å®Ÿè¡Œ
         Timestamp[] actual = JavelinLogDao.getLogTerm(DB_NAME);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(2, actual.length);
         assertEquals(timeStart1, actual[0]);
         assertEquals(timeEnd1, actual[1]);
     }
 
     /**
-     * 2 ƒŒƒR[ƒh‚ªŠi”[‚³‚ê‚Ä‚¢‚éƒe[ƒuƒ‹‚Ì Javelin ƒƒO‚Ì”ÍˆÍ‚ğæ“¾‚µ‚Ü‚·B<br />
+     * 2 ãƒ¬ã‚³ãƒ¼ãƒ‰ãŒæ ¼ç´ã•ã‚Œã¦ã„ã‚‹ãƒ†ãƒ¼ãƒ–ãƒ«ã® Javelin ãƒ­ã‚°ã®ç¯„å›²ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      *
-     * @throws Exception —áŠO
+     * @throws Exception ä¾‹å¤–
      */
     public void testGetLogTerm_two()
         throws Exception
     {
-        // €”õ
+        // æº–å‚™
         long time = System.currentTimeMillis();
         Timestamp timeStart1 = new Timestamp(time);
         Timestamp timeEnd1 = new Timestamp(time + 1000);
@@ -326,59 +326,59 @@ public class JavelinLogDaoTest extends AbstractDaoTest
         javelinLog = createJavelinLog(1, timeStart2, timeEnd2);
         JavelinLogDao.insert(DB_NAME, javelinLog);
 
-        // Às
+        // å®Ÿè¡Œ
         Timestamp[] actual = JavelinLogDao.getLogTerm(DB_NAME);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(2, actual.length);
         assertEquals(timeStart1, actual[0]);
         assertEquals(timeEnd2, actual[1]);
     }
 
     /**
-     * ƒŒƒR[ƒh‚ªŠi”[‚³‚ê‚Ä‚¢‚È‚¢ƒe[ƒuƒ‹‚ÌƒŒƒR[ƒh”‚ğæ“¾‚µ‚Ü‚·B<br />
+     * ãƒ¬ã‚³ãƒ¼ãƒ‰ãŒæ ¼ç´ã•ã‚Œã¦ã„ãªã„ãƒ†ãƒ¼ãƒ–ãƒ«ã®ãƒ¬ã‚³ãƒ¼ãƒ‰æ•°ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      *
-     * @throws Exception —áŠO
+     * @throws Exception ä¾‹å¤–
      */
     public void testCount_empty()
         throws Exception
     {
-        // Às
+        // å®Ÿè¡Œ
         int actual = JavelinLogDao.count(DB_NAME);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(0, actual);
     }
 
     /**
-     * ƒŒƒR[ƒh‚ªŠi”[‚³‚ê‚Ä‚¢‚éƒe[ƒuƒ‹‚ÌƒŒƒR[ƒh”‚ğæ“¾‚µ‚Ü‚·B<br />
+     * ãƒ¬ã‚³ãƒ¼ãƒ‰ãŒæ ¼ç´ã•ã‚Œã¦ã„ã‚‹ãƒ†ãƒ¼ãƒ–ãƒ«ã®ãƒ¬ã‚³ãƒ¼ãƒ‰æ•°ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      *
-     * @throws Exception —áŠO
+     * @throws Exception ä¾‹å¤–
      */
     public void testCount_one()
         throws Exception
     {
-        // €”õ
+        // æº–å‚™
         long time = System.currentTimeMillis();
         Timestamp timeStart1 = new Timestamp(time);
         Timestamp timeEnd1 = new Timestamp(time + 1000);
         JavelinLog javelinLog = createJavelinLog(0, timeStart1, timeEnd1);
         JavelinLogDao.insert(DB_NAME, javelinLog);
 
-        // Às
+        // å®Ÿè¡Œ
         int actual = JavelinLogDao.count(DB_NAME);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(1, actual);
     }
 
     /**
-     * Javelin ƒƒOƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‚Ü‚·B<br />
+     * Javelin ãƒ­ã‚°ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
      *
-     * @param logId ƒƒO ID
-     * @param start ŠJn
-     * @param end I—¹
-     * @return Javelin ƒƒOƒIƒuƒWƒFƒNƒg
+     * @param logId ãƒ­ã‚° ID
+     * @param start é–‹å§‹æ™‚åˆ»
+     * @param end çµ‚äº†æ™‚åˆ»
+     * @return Javelin ãƒ­ã‚°ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     private JavelinLog createJavelinLog(final long logId, final Timestamp start, final Timestamp end)
     {
@@ -409,13 +409,13 @@ public class JavelinLogDaoTest extends AbstractDaoTest
     }
 
     /**
-     * Javelin ƒIƒuƒWƒFƒNƒg‚ğƒ`ƒFƒbƒN‚µ‚Ü‚·B<br />
+     * Javelin ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ãƒã‚§ãƒƒã‚¯ã—ã¾ã™ã€‚<br />
      *
-     * ƒƒO ID ‚Æ Javelin ƒƒO‚Íƒ`ƒFƒbƒN‚µ‚Ü‚¹‚ñB
+     * ãƒ­ã‚° ID ã¨ Javelin ãƒ­ã‚°ã¯ãƒã‚§ãƒƒã‚¯ã—ã¾ã›ã‚“ã€‚
      *
-     * @param start ŠJn
-     * @param end I—¹
-     * @param actual æ“¾‚µ‚½ Javelin ƒƒOƒIƒuƒWƒFƒNƒg
+     * @param start é–‹å§‹æ™‚åˆ»
+     * @param end çµ‚äº†æ™‚åˆ»
+     * @param actual å–å¾—ã—ãŸ Javelin ãƒ­ã‚°ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     private void assertJavelinLog(final Timestamp start, final Timestamp end,
             final JavelinLog actual)

@@ -26,40 +26,40 @@
 package jp.co.acroquest.endosnipe.javelin;
 
 /**
- * VM‚Ìó‘Ô‚ğ•\‚·ƒNƒ‰ƒX
+ * VMã®çŠ¶æ…‹ã‚’è¡¨ã™ã‚¯ãƒ©ã‚¹
  * @author eriguchi
  */
 public class VMStatus
 {
-    /** ‹ó‚ÌƒXƒe[ƒ^ƒX */
+    /** ç©ºã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ */
     public static final VMStatus EMPTY_STATUS = new VMStatus();
     
-    /** CPUŠÔ */
+    /** CPUæ™‚é–“ */
     private long cpuTime_;
 
-    /** ƒ†[ƒUŠÔ */
+    /** ãƒ¦ãƒ¼ã‚¶æ™‚é–“ */
     private long userTime_;
 
-    /** ƒuƒƒbƒNŠÔ */
+    /** ãƒ–ãƒ­ãƒƒã‚¯æ™‚é–“ */
     private long blockedTime_;
 
-    /** waitŠÔ */
+    /** waitæ™‚é–“ */
     private long waitedTime_;
 
-    /** GCÀsŠÔ */
+    /** GCå®Ÿè¡Œæ™‚é–“ */
     private long collectionTime_;
 
-    /** ƒuƒƒbƒN‰ñ” */
+    /** ãƒ–ãƒ­ãƒƒã‚¯å›æ•° */
     private long blockedCount_;
 
-    /** wait‰ñ” */
+    /** waitå›æ•° */
     private long waitedCount_;
 
-    /** GC‰ñ” */
+    /** GCå›æ•° */
     private long collectionCount_;
 
     /**
-     * EMPTY_STATUS¶¬—pƒRƒ“ƒXƒgƒ‰ƒNƒ^B
+     * EMPTY_STATUSç”Ÿæˆç”¨ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
      */
     public VMStatus()
     {
@@ -67,16 +67,16 @@ public class VMStatus
     }
     
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
      * 
-     * @param cpuTime CPUŠÔ
-     * @param userTime ƒ†[ƒUŠÔ
-     * @param blockedCount ƒuƒƒbƒN‰ñ”
-     * @param blockedTime ƒuƒƒbƒNŠÔ
-     * @param waitedCount ƒEƒFƒCƒg‰ñ”
-     * @param waitedTime ƒEƒFƒCƒgŠÔ
-     * @param collectionCount GCÀs‰ñ”
-     * @param collectionTime GCÀsŠÔ
+     * @param cpuTime CPUæ™‚é–“
+     * @param userTime ãƒ¦ãƒ¼ã‚¶æ™‚é–“
+     * @param blockedCount ãƒ–ãƒ­ãƒƒã‚¯å›æ•°
+     * @param blockedTime ãƒ–ãƒ­ãƒƒã‚¯æ™‚é–“
+     * @param waitedCount ã‚¦ã‚§ã‚¤ãƒˆå›æ•°
+     * @param waitedTime ã‚¦ã‚§ã‚¤ãƒˆæ™‚é–“
+     * @param collectionCount GCå®Ÿè¡Œå›æ•°
+     * @param collectionTime GCå®Ÿè¡Œæ™‚é–“
      */
     public VMStatus(
             long cpuTime, 
@@ -99,8 +99,8 @@ public class VMStatus
     }
     
     /**
-     * ƒuƒƒbƒNŠÔ‚ğæ“¾‚·‚éB
-     * @return ƒuƒƒbƒNŠÔ
+     * ãƒ–ãƒ­ãƒƒã‚¯æ™‚é–“ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ãƒ–ãƒ­ãƒƒã‚¯æ™‚é–“
      */
     public long getBlockedTime()
     {
@@ -108,8 +108,8 @@ public class VMStatus
     }
 
     /**
-     * ƒuƒƒbƒNŠÔ‚ğİ’è‚·‚éB
-     * @param blockedTime ƒuƒƒbƒNŠÔ
+     * ãƒ–ãƒ­ãƒƒã‚¯æ™‚é–“ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param blockedTime ãƒ–ãƒ­ãƒƒã‚¯æ™‚é–“
      */
 //    public void setBlockedTime(final long blockedTime)
 //    {
@@ -117,8 +117,8 @@ public class VMStatus
 //    }
 
     /**
-     * CPUŠÔ‚ğæ“¾‚·‚éB
-     * @return CPUŠÔ
+     * CPUæ™‚é–“ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return CPUæ™‚é–“
      */
     public long getCpuTime()
     {
@@ -126,8 +126,8 @@ public class VMStatus
     }
 
     /**
-     * CPUŠÔ‚ğİ’è‚·‚éB
-     * @param cpuTime CPUŠÔ
+     * CPUæ™‚é–“ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param cpuTime CPUæ™‚é–“
      */
 //    public void setCpuTime(final long cpuTime)
 //    {
@@ -135,8 +135,8 @@ public class VMStatus
 //    }
 
     /**
-     * ƒ†[ƒUŠÔ‚ğæ“¾‚·‚éB
-     * @return ƒ†[ƒUŠÔ
+     * ãƒ¦ãƒ¼ã‚¶æ™‚é–“ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ãƒ¦ãƒ¼ã‚¶æ™‚é–“
      */
     public long getUserTime()
     {
@@ -144,8 +144,8 @@ public class VMStatus
     }
 
     /**
-     * ƒ†[ƒUŠÔ‚ğİ’è‚·‚éB
-     * @param userTime ƒ†[ƒUŠÔ
+     * ãƒ¦ãƒ¼ã‚¶æ™‚é–“ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param userTime ãƒ¦ãƒ¼ã‚¶æ™‚é–“
      */
 //    public void setUserTime(final long userTime)
 //    {
@@ -153,8 +153,8 @@ public class VMStatus
 //    }
 
     /**
-     * waitŠÔ‚ğæ“¾‚·‚éB
-     * @return waitŠÔ
+     * waitæ™‚é–“ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return waitæ™‚é–“
      */
     public long getWaitedTime()
     {
@@ -162,8 +162,8 @@ public class VMStatus
     }
 
     /**
-     * waitŠÔ‚ğİ’è‚·‚éB
-     * @param waitedTime waitŠÔ
+     * waitæ™‚é–“ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param waitedTime waitæ™‚é–“
      */
 //    public void setWaitedTime(final long waitedTime)
 //    {
@@ -171,8 +171,8 @@ public class VMStatus
 //    }
 
     /**
-     * GCÀsŠÔ‚ğæ“¾‚·‚éB
-     * @return GCÀsŠÔ
+     * GCå®Ÿè¡Œæ™‚é–“ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return GCå®Ÿè¡Œæ™‚é–“
      */
     public long getCollectionTime()
     {
@@ -180,8 +180,8 @@ public class VMStatus
     }
 
     /**
-     * GCÀsŠÔ‚ğİ’è‚·‚éB
-     * @param collectionTime GCÀsŠÔ
+     * GCå®Ÿè¡Œæ™‚é–“ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param collectionTime GCå®Ÿè¡Œæ™‚é–“
      */
 //    public void setCollectionTime(final long collectionTime)
 //    {
@@ -189,8 +189,8 @@ public class VMStatus
 //    }
 
     /**
-     * ƒuƒƒbƒN‰ñ”‚ğæ“¾‚·‚éB
-     * @return ƒuƒƒbƒN‰ñ”
+     * ãƒ–ãƒ­ãƒƒã‚¯å›æ•°ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ãƒ–ãƒ­ãƒƒã‚¯å›æ•°
      */
     public long getBlockedCount()
     {
@@ -198,8 +198,8 @@ public class VMStatus
     }
 
     /**
-     * ƒuƒƒbƒN‰ñ”‚ğİ’è‚·‚éB
-     * @param blockedCount ƒuƒƒbƒN‰ñ”
+     * ãƒ–ãƒ­ãƒƒã‚¯å›æ•°ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param blockedCount ãƒ–ãƒ­ãƒƒã‚¯å›æ•°
      */
 //    public void setBlockedCount(final long blockedCount)
 //    {
@@ -207,8 +207,8 @@ public class VMStatus
 //    }
 
     /**
-     * wait‰ñ”‚ğæ“¾‚·‚éB
-     * @return wait‰ñ”
+     * waitå›æ•°ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return waitå›æ•°
      */
     public long getWaitedCount()
     {
@@ -216,8 +216,8 @@ public class VMStatus
     }
 
     /**
-     * wait‰ñ”‚ğİ’è‚·‚éB
-     * @param waitedCount wait‰ñ”
+     * waitå›æ•°ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param waitedCount waitå›æ•°
      */
 //    public void setWaitedCount(final long waitedCount)
 //    {
@@ -225,8 +225,8 @@ public class VMStatus
 //    }
 
     /**
-     * GC‰ñ”‚ğæ“¾‚·‚éB
-     * @return GC‰ñ”
+     * GCå›æ•°ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return GCå›æ•°
      */
     public long getCollectionCount()
     {
@@ -234,8 +234,8 @@ public class VMStatus
     }
 
     /**
-     * GC‰ñ”‚ğİ’è‚·‚éB
-     * @param collectionCount GC‰ñ”
+     * GCå›æ•°ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param collectionCount GCå›æ•°
      */
 //    public void setCollectionCount(final long collectionCount)
 //    {

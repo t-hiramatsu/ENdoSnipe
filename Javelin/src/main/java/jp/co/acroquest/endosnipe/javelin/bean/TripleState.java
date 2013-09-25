@@ -26,7 +26,7 @@
 package jp.co.acroquest.endosnipe.javelin.bean;
 
 /**
- * { ON, OFF, w’è‚³‚ê‚Ä‚¢‚È‚¢ } ‚Ì 3 ‚Â‚Ìó‘Ô‚ğ¦‚·—ñ‹“‘ÌB<br />
+ * { ON, OFF, æŒ‡å®šã•ã‚Œã¦ã„ãªã„ } ã® 3 ã¤ã®çŠ¶æ…‹ã‚’ç¤ºã™åˆ—æŒ™ä½“ã€‚<br />
  *
  * @author sakamoto
  */
@@ -38,6 +38,6 @@ public enum TripleState
     /** OFF */
     OFF,
 
-    /** –¢w’è */
+    /** æœªæŒ‡å®š */
     NOT_SPECIFIED
 }

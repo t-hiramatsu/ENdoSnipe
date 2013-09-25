@@ -34,26 +34,26 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * ƒ[ƒh‚³‚ê‚½ƒNƒ‰ƒX‚ğ•Û‘¶‚µ‚Ä‚¨‚­ƒNƒ‰ƒX
+ * ãƒ­ãƒ¼ãƒ‰ã•ã‚ŒãŸã‚¯ãƒ©ã‚¹ã‚’ä¿å­˜ã—ã¦ãŠãã‚¯ãƒ©ã‚¹
  * 
  * @author eriguchi
  *
  */
 public class ClassReserveTransformer implements ClassFileTransformer
 {
-    /** ƒ[ƒh‚³‚ê‚½ƒNƒ‰ƒXB */
+    /** ãƒ­ãƒ¼ãƒ‰ã•ã‚ŒãŸã‚¯ãƒ©ã‚¹ã€‚ */
     private Map<String, Class<?>> classMap_ = new ConcurrentHashMap<String, Class<?>>();
 
     /**
-     * ƒ[ƒh‚³‚ê‚½ƒNƒ‰ƒX‚ğ•Û‘¶‚·‚éB
+     * ãƒ­ãƒ¼ãƒ‰ã•ã‚ŒãŸã‚¯ãƒ©ã‚¹ã‚’ä¿å­˜ã™ã‚‹ã€‚
      * @param loader loader
      * @param className className
      * @param classBeingRedefined classBeingRedefined
      * @param protectionDomain protectionDomain
      * @param classfileBuffer classfileBuffer
      * 
-     * @return í‚Énull‚ğ•Ô‚·B
-     * @throws IllegalClassFormatException ”­¶‚µ‚È‚¢
+     * @return å¸¸ã«nullã‚’è¿”ã™ã€‚
+     * @throws IllegalClassFormatException ç™ºç”Ÿã—ãªã„
      * 
      */
     public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined,
@@ -65,9 +65,9 @@ public class ClassReserveTransformer implements ClassFileTransformer
     }
 
     /**
-     * ƒ[ƒh‚³‚ê‚½ƒNƒ‰ƒX‚ğæ“¾‚·‚éB
+     * ãƒ­ãƒ¼ãƒ‰ã•ã‚ŒãŸã‚¯ãƒ©ã‚¹ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return ƒ[ƒh‚³‚ê‚½ƒNƒ‰ƒX‚Ì”z—ñB
+     * @return ãƒ­ãƒ¼ãƒ‰ã•ã‚ŒãŸã‚¯ãƒ©ã‚¹ã®é…åˆ—ã€‚
      */
     public Class<?>[] getLoadedClasses()
     {

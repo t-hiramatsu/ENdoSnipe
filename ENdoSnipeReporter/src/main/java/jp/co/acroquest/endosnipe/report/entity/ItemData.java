@@ -18,20 +18,20 @@ import jp.co.acroquest.endosnipe.report.converter.compressor.CompressOperator;
 import jp.co.acroquest.endosnipe.report.entity.ItemRecord;
 
 /**
- * Œn—ñ‚²‚Æ‚ÉƒOƒ‰ƒt‚ğo—Í‚·‚éê‡‚Ìƒf[ƒ^‚ğ
- * •Û‚·‚éƒNƒ‰ƒX‚Å‚·B
+ * ç³»åˆ—ã”ã¨ã«ã‚°ãƒ©ãƒ•ã‚’å‡ºåŠ›ã™ã‚‹å ´åˆã®ãƒ‡ãƒ¼ã‚¿ã‚’
+ * ä¿æŒã™ã‚‹ã‚¯ãƒ©ã‚¹ã§ã™ã€‚
  * 
  * @author ochiai
  */
 public class ItemData
 {
-	/** Œn—ñ–¼ */
+	/** ç³»åˆ—å */
     private String itemName_;
     
-	/** ˆ³k•û–@ */
+	/** åœ§ç¸®æ–¹æ³• */
     private CompressOperator operator_;
     
-    /** •âŠÔŠúŠÔ•½‹Ï@*/
+    /** è£œé–“æœŸé–“å¹³å‡ã€€*/
     private List<ItemRecord> records_;
     
     /**

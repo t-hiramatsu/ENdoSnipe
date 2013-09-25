@@ -33,14 +33,14 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlValue;
 
 /**
- * ƒvƒƒpƒeƒB’è‹`ƒNƒ‰ƒXB
+ * ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å®šç¾©ã‚¯ãƒ©ã‚¹ã€‚
  * @author tanimoto
  *
  */
 @XmlAccessorType(XmlAccessType.NONE)
 public class PropertyDef implements Serializable
 {
-    /** ƒVƒŠƒAƒ‹ID */
+    /** ã‚·ãƒªã‚¢ãƒ«ID */
     private static final long serialVersionUID = 1L;
 
     @XmlAttribute
@@ -50,7 +50,7 @@ public class PropertyDef implements Serializable
     private String            value_;
 
     /**
-     * ƒfƒtƒHƒ‹ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^B<br />
+     * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚<br />
      */
     public PropertyDef()
     {
@@ -58,9 +58,9 @@ public class PropertyDef implements Serializable
     }
 
     /**
-     * ƒRƒs[ƒRƒ“ƒXƒgƒ‰ƒNƒ^B<br />
+     * ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚<br />
      *
-     * @param propertyDef ƒRƒs[Œ³
+     * @param propertyDef ã‚³ãƒ”ãƒ¼å…ƒ
      */
     public PropertyDef(final PropertyDef propertyDef)
     {
@@ -69,8 +69,8 @@ public class PropertyDef implements Serializable
     }
 
     /**
-     * ƒvƒƒpƒeƒB–¼‚ğæ“¾‚·‚éB
-     * @return ƒvƒƒpƒeƒB–¼
+     * ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£åã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å
      */
     public String getName()
     {
@@ -78,8 +78,8 @@ public class PropertyDef implements Serializable
     }
 
     /**
-     * ƒvƒƒpƒeƒB–¼‚ğİ’è‚·‚éB
-     * @param name ƒvƒƒpƒeƒB–¼
+     * ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£åã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param name ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å
      */
     public void setName(final String name)
     {
@@ -87,8 +87,8 @@ public class PropertyDef implements Serializable
     }
 
     /**
-     * ’l‚ğæ“¾‚·‚éB
-     * @return ’l
+     * å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return å€¤
      */
     public String getValue()
     {
@@ -96,8 +96,8 @@ public class PropertyDef implements Serializable
     }
 
     /**
-     * ’l‚ğİ’è‚·‚éB
-     * @param value ’l
+     * å€¤ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param value å€¤
      */
     public void setValue(final String value)
     {

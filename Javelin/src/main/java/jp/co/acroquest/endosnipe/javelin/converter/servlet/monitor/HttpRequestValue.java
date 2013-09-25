@@ -27,43 +27,43 @@ package jp.co.acroquest.endosnipe.javelin.converter.servlet.monitor;
 import java.util.Map;
 
 /**
- * HttpRequestValueƒNƒ‰ƒX
+ * HttpRequestValueã‚¯ãƒ©ã‚¹
  * @author acroquest
  *
  */
 public class HttpRequestValue
 {
-    /** ƒpƒXî•ñ */
+    /** ãƒ‘ã‚¹æƒ…å ± */
     private String pathInfo_;
     
-    /** ƒRƒ“ƒeƒLƒXƒgƒpƒX */
+    /** ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆãƒ‘ã‚¹ */
     private String contextPath_;
     
-    /** ƒT[ƒuƒŒƒbƒgƒpƒX */
+    /** ã‚µãƒ¼ãƒ–ãƒ¬ãƒƒãƒˆãƒ‘ã‚¹ */
     private String servletPath_;
 
-    /** ƒŠƒ‚[ƒgƒzƒXƒg */
+    /** ãƒªãƒ¢ãƒ¼ãƒˆãƒ›ã‚¹ãƒˆ */
     private String remoteHost_;
     
-    /** ƒŠƒ‚[ƒgƒ|[ƒg */
+    /** ãƒªãƒ¢ãƒ¼ãƒˆãƒãƒ¼ãƒˆ */
     private int    remotePort_;
     
-    /** ƒƒ\ƒbƒh–¼ */
+    /** ãƒ¡ã‚½ãƒƒãƒ‰å */
     private String method_;
     
-    /** ƒNƒGƒŠƒXƒgƒŠƒ“ƒO */
+    /** ã‚¯ã‚¨ãƒªã‚¹ãƒˆãƒªãƒ³ã‚° */
     private String queryString_;
     
-    /** ƒGƒ“ƒR[ƒh•¶š—ñ */
+    /** ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰æ–‡å­—åˆ— */
     private String characterEncoding_;
     
-    /** ƒpƒ‰ƒ[ƒ^‚ÌMap */
+    /** ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®Map */
     @SuppressWarnings("rawtypes")
     private Map    parameterMap_;
     
     /**
-     * ƒpƒXî•ñ‚ğæ“¾‚µ‚Ü‚·B
-     * @return ƒpƒXî•ñ
+     * ãƒ‘ã‚¹æƒ…å ±ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @return ãƒ‘ã‚¹æƒ…å ±
      */
     public String getPathInfo()
     {
@@ -71,8 +71,8 @@ public class HttpRequestValue
     }
     
     /**
-     * ƒpƒXî•ñ‚ğİ’è‚µ‚Ü‚·B
-     * @param pathInfo ƒpƒXî•ñ
+     * ãƒ‘ã‚¹æƒ…å ±ã‚’è¨­å®šã—ã¾ã™ã€‚
+     * @param pathInfo ãƒ‘ã‚¹æƒ…å ±
      */
     public void setPathInfo(String pathInfo)
     {
@@ -80,8 +80,8 @@ public class HttpRequestValue
     }
     
     /**
-     * ƒRƒ“ƒeƒLƒXƒgƒpƒX‚ğæ“¾‚µ‚Ü‚·B
-     * @return ƒRƒ“ƒeƒLƒXƒgƒpƒX
+     * ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆãƒ‘ã‚¹ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @return ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆãƒ‘ã‚¹
      */
     public String getContextPath()
     {
@@ -89,8 +89,8 @@ public class HttpRequestValue
     }
     
     /**
-     * ƒRƒ“ƒeƒLƒXƒgƒpƒX‚ğİ’è‚µ‚Ü‚·B
-     * @param contextPath ƒRƒ“ƒeƒLƒXƒgƒpƒX
+     * ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆãƒ‘ã‚¹ã‚’è¨­å®šã—ã¾ã™ã€‚
+     * @param contextPath ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆãƒ‘ã‚¹
      */
     public void setContextPath(String contextPath)
     {
@@ -98,8 +98,8 @@ public class HttpRequestValue
     }
     
     /**
-     * ƒT[ƒuƒŒƒbƒgƒpƒX‚ğæ“¾‚µ‚Ü‚·B
-     * @return ƒT[ƒuƒŒƒbƒgƒpƒX
+     * ã‚µãƒ¼ãƒ–ãƒ¬ãƒƒãƒˆãƒ‘ã‚¹ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @return ã‚µãƒ¼ãƒ–ãƒ¬ãƒƒãƒˆãƒ‘ã‚¹
      */
     public String getServletPath()
     {
@@ -107,8 +107,8 @@ public class HttpRequestValue
     }
     
     /**
-     * ƒT[ƒuƒŒƒbƒgƒpƒX‚ğİ’è‚µ‚Ü‚·B
-     * @param servletPath ƒT[ƒuƒŒƒbƒgƒpƒX
+     * ã‚µãƒ¼ãƒ–ãƒ¬ãƒƒãƒˆãƒ‘ã‚¹ã‚’è¨­å®šã—ã¾ã™ã€‚
+     * @param servletPath ã‚µãƒ¼ãƒ–ãƒ¬ãƒƒãƒˆãƒ‘ã‚¹
      */
     public void setServletPath(String servletPath)
     {
@@ -116,8 +116,8 @@ public class HttpRequestValue
     }
 
     /**
-     * ƒŠƒ‚[ƒgƒzƒXƒg–¼‚ğæ“¾‚µ‚Ü‚·B
-     * @return ƒŠƒ‚[ƒgƒzƒXƒg–¼
+     * ãƒªãƒ¢ãƒ¼ãƒˆãƒ›ã‚¹ãƒˆåã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @return ãƒªãƒ¢ãƒ¼ãƒˆãƒ›ã‚¹ãƒˆå
      */
     public String getRemoteHost()
     {
@@ -125,8 +125,8 @@ public class HttpRequestValue
     }
     
     /**
-     * ƒŠƒ‚[ƒgƒzƒXƒg–¼‚ğİ’è‚µ‚Ü‚·B
-     * @param remoteHost ƒŠƒ‚[ƒgƒzƒXƒg–¼
+     * ãƒªãƒ¢ãƒ¼ãƒˆãƒ›ã‚¹ãƒˆåã‚’è¨­å®šã—ã¾ã™ã€‚
+     * @param remoteHost ãƒªãƒ¢ãƒ¼ãƒˆãƒ›ã‚¹ãƒˆå
      */
     public void setRemoteHost(String remoteHost)
     {
@@ -134,8 +134,8 @@ public class HttpRequestValue
     }
 
     /**
-     * ƒŠƒ‚[ƒgƒ|[ƒg”Ô†‚ğæ“¾‚µ‚Ü‚·B
-     * @return ƒŠƒ‚[ƒgƒ|[ƒg”Ô†
+     * ãƒªãƒ¢ãƒ¼ãƒˆãƒãƒ¼ãƒˆç•ªå·ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @return ãƒªãƒ¢ãƒ¼ãƒˆãƒãƒ¼ãƒˆç•ªå·
      */
     public int getRemotePort()
     {
@@ -143,8 +143,8 @@ public class HttpRequestValue
     }
     
     /**
-     * ƒŠƒ‚[ƒgƒ|[ƒg”Ô†‚ğİ’è‚µ‚Ü‚·B
-     * @param remotePort ƒŠƒ‚[ƒgƒ|[ƒg”Ô†
+     * ãƒªãƒ¢ãƒ¼ãƒˆãƒãƒ¼ãƒˆç•ªå·ã‚’è¨­å®šã—ã¾ã™ã€‚
+     * @param remotePort ãƒªãƒ¢ãƒ¼ãƒˆãƒãƒ¼ãƒˆç•ªå·
      */
     public void setRemotePort(int remotePort)
     {
@@ -152,8 +152,8 @@ public class HttpRequestValue
     }
     
     /**
-     * ƒƒ\ƒbƒh–¼‚ğæ“¾‚µ‚Ü‚·B
-     * @return ƒƒ\ƒbƒh–¼
+     * ãƒ¡ã‚½ãƒƒãƒ‰åã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @return ãƒ¡ã‚½ãƒƒãƒ‰å
      */
     public String getMethod()
     {
@@ -161,8 +161,8 @@ public class HttpRequestValue
     }
     
     /**
-     * ƒƒ\ƒbƒh–¼‚ğİ’è‚µ‚Ü‚·B
-     * @param method ƒƒ\ƒbƒh–¼
+     * ãƒ¡ã‚½ãƒƒãƒ‰åã‚’è¨­å®šã—ã¾ã™ã€‚
+     * @param method ãƒ¡ã‚½ãƒƒãƒ‰å
      */
     public void setMethod(String method)
     {
@@ -170,8 +170,8 @@ public class HttpRequestValue
     }
     
     /**
-     * ƒNƒGƒŠƒXƒgƒŠƒ“ƒO‚ğæ“¾‚µ‚Ü‚·B
-     * @return ƒNƒGƒŠƒXƒgƒŠƒ“ƒO
+     * ã‚¯ã‚¨ãƒªã‚¹ãƒˆãƒªãƒ³ã‚°ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @return ã‚¯ã‚¨ãƒªã‚¹ãƒˆãƒªãƒ³ã‚°
      */
     public String getQueryString()
     {
@@ -179,8 +179,8 @@ public class HttpRequestValue
     }
     
     /**
-     * ƒNƒGƒŠƒXƒgƒŠƒ“ƒO‚ğİ’è‚µ‚Ü‚·B
-     * @param queryString ƒNƒGƒŠƒXƒgƒŠƒ“ƒO
+     * ã‚¯ã‚¨ãƒªã‚¹ãƒˆãƒªãƒ³ã‚°ã‚’è¨­å®šã—ã¾ã™ã€‚
+     * @param queryString ã‚¯ã‚¨ãƒªã‚¹ãƒˆãƒªãƒ³ã‚°
      */
     public void setQueryString(String queryString)
     {
@@ -188,8 +188,8 @@ public class HttpRequestValue
     }
     
     /**
-     * ƒGƒ“ƒR[ƒh•¶š—ñ‚ğæ“¾‚µ‚Ü‚·B
-     * @return ƒGƒ“ƒR[ƒh•¶š—ñ
+     * ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰æ–‡å­—åˆ—ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @return ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰æ–‡å­—åˆ—
      */
     public String getCharacterEncoding()
     {
@@ -197,8 +197,8 @@ public class HttpRequestValue
     }
     
     /**
-     * ƒGƒ“ƒR[ƒh•¶š—ñ‚ğİ’è‚µ‚Ü‚·B
-     * @param characterEncoding ƒGƒ“ƒR[ƒh•¶š—ñ
+     * ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰æ–‡å­—åˆ—ã‚’è¨­å®šã—ã¾ã™ã€‚
+     * @param characterEncoding ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰æ–‡å­—åˆ—
      */
     public void setCharacterEncoding(String characterEncoding)
     {
@@ -206,8 +206,8 @@ public class HttpRequestValue
     }
     
     /**
-     * ƒpƒ‰ƒ[ƒ^‚ÌMap‚ğæ“¾‚µ‚Ü‚·B
-     * @return ƒpƒ‰ƒ[ƒ^‚ÌMap
+     * ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®Mapã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @return ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®Map
      */
     @SuppressWarnings("rawtypes")
     public Map getParameterMap()
@@ -216,8 +216,8 @@ public class HttpRequestValue
     }
     
     /**
-     * ƒpƒ‰ƒ[ƒ^‚ÌMap‚ğİ’è‚µ‚Ü‚·B
-     * @param parameterMap ƒpƒ‰ƒ[ƒ^‚ÌMap
+     * ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®Mapã‚’è¨­å®šã—ã¾ã™ã€‚
+     * @param parameterMap ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®Map
      */
     @SuppressWarnings("rawtypes")
     public void setParameterMap(Map parameterMap)

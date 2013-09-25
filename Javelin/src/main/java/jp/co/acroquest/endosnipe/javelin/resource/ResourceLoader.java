@@ -13,14 +13,14 @@
 package jp.co.acroquest.endosnipe.javelin.resource;
 
 /**
- * ResourceCollector‚É“o˜^‚µAƒŠƒ\[ƒXŽæ“¾‚Ìƒ^ƒCƒ~ƒ“ƒO‚ÅƒŠƒ\[ƒXî•ñ‚ðƒ[ƒh‚·‚éB
+ * ResourceCollectorã«ç™»éŒ²ã—ã€ãƒªã‚½ãƒ¼ã‚¹å–å¾—ã®ã‚¿ã‚¤ãƒŸãƒ³ã‚°ã§ãƒªã‚½ãƒ¼ã‚¹æƒ…å ±ã‚’ãƒ­ãƒ¼ãƒ‰ã™ã‚‹ã€‚
  * @author eriguchi
  *
  */
 public interface ResourceLoader
 {
     /**
-     * ƒ[ƒhB
+     * ãƒ­ãƒ¼ãƒ‰ã€‚
      */
     void load();
 }

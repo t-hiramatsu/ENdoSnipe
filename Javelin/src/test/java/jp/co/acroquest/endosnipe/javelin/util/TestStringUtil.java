@@ -26,13 +26,13 @@
 package jp.co.acroquest.endosnipe.javelin.util;
 
 /**
- * Œ±—p‚Ì•¶š’è”
+ * è©¦é¨“ç”¨ã®æ–‡å­—å®šæ•°
  * @author fujii
  *
  */
 public interface TestStringUtil
 {
-    /** Œ±—p‚Ì”¼Šp•¶š */
+    /** è©¦é¨“ç”¨ã®åŠè§’æ–‡å­— */
     String HALF_SIZE_CHARACTER = "!\\\"#$%&'()-=^~\\|@`[{}];+:*,<>.";
 
 }

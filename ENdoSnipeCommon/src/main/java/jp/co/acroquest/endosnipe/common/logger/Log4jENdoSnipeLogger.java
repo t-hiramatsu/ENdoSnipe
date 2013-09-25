@@ -29,7 +29,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Log4j ���g�p���ďo�͂��邽�߂� {@link ENdoSnipeLogger} �ł��B<br />
+ * Log4j を使用して出力するための {@link ENdoSnipeLogger} です。<br />
  * 
  * @author y-komori
  */
@@ -38,7 +38,7 @@ public class Log4jENdoSnipeLogger extends ENdoSnipeLogger
     private final Log log_;
 
     /**
-     * Log�I�u�W�F�N�g���\�z���܂��B<br />
+     * Logオブジェクトを構築します。<br />
      * 
      * @param clazz Class
      */

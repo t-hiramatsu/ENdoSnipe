@@ -35,25 +35,25 @@ import jp.co.acroquest.endosnipe.common.entity.ResourceData;
 import jp.co.acroquest.endosnipe.data.dto.SignalDefinitionDto;
 
 /**
- * Ћw’и‚і‚к‚Ѕи‡’l‚р’ґ‚¦‚Ѕ‚Ж‚«‚ЙѓAѓ‰Ѓ[ѓЂ‚р”­ђ¶‚і‚№‚йЃB
+ * жЊ‡е®љгЃ•г‚ЊгЃџй–ѕеЂ¤г‚’и¶…гЃ€гЃџгЃЁгЃЌгЃ«г‚ўгѓ©гѓјгѓ г‚’з™єз”џгЃ•гЃ›г‚‹гЂ‚
  * @author fujii
  *
  */
 public class AlarmThresholdProcessor implements AlarmProcessor
 {
     /**
-     * Ћw’и‚і‚к‚Ѕи‡’l‚Й‘О‚·‚йѓAѓ‰Ѓ[ѓЂЏ€—ќ
-     * @param currentResourceData Њ»ЌЭ‚МѓЉѓ\Ѓ[ѓXѓfЃ[ѓ^
-     * @param prevResourceData €к‚В‘O‚МѓЉѓ\Ѓ[ѓXѓfЃ[ѓ^
-     * @param signalDefinition ѓAѓ‰Ѓ[ѓЂ’К’m‚МђЭ’иЃiи‡’l‚И‚ЗЃj
-     * @param alarmData ѓAѓ‰Ѓ[ѓЂ’К’m‚М—L–і‚рЊvЋZ‚·‚й‚Ѕ‚Я‚МѓfЃ[ѓ^ЃB‚±‚МѓЃѓ\ѓbѓh‚М’†‚ЕЌXђV‚·‚й
-     * @return ѓAѓ‰Ѓ[ѓЂ’К’m‚М—L–і‚ЖЃA’К’m‚·‚йѓAѓ‰Ѓ[ѓЂ‚Й•\Ћ¦‚і‚№‚йЏо•с‚р“ь‚к‚ЅAlarmEntry
+     * жЊ‡е®љгЃ•г‚ЊгЃџй–ѕеЂ¤гЃ«еЇѕгЃ™г‚‹г‚ўгѓ©гѓјгѓ е‡¦зђ†
+     * @param currentResourceData зЏѕењЁгЃ®гѓЄг‚Ѕгѓјг‚№гѓ‡гѓјг‚ї
+     * @param prevResourceData дёЂгЃ¤е‰ЌгЃ®гѓЄг‚Ѕгѓјг‚№гѓ‡гѓјг‚ї
+     * @param signalDefinition г‚ўгѓ©гѓјгѓ йЂљзџҐгЃ®иЁ­е®љпј€й–ѕеЂ¤гЃЄгЃ©пј‰
+     * @param alarmData г‚ўгѓ©гѓјгѓ йЂљзџҐгЃ®жњ‰з„Ўг‚’иЁ€з®—гЃ™г‚‹гЃџг‚ЃгЃ®гѓ‡гѓјг‚їгЂ‚гЃ“гЃ®гѓЎг‚Ѕгѓѓгѓ‰гЃ®дё­гЃ§ж›ґж–°гЃ™г‚‹
+     * @return г‚ўгѓ©гѓјгѓ йЂљзџҐгЃ®жњ‰з„ЎгЃЁгЂЃйЂљзџҐгЃ™г‚‹г‚ўгѓ©гѓјгѓ гЃ«иЎЁз¤єгЃ•гЃ›г‚‹жѓ…е ±г‚’е…Ґг‚ЊгЃџAlarmEntry
      */
     public AlarmEntry calculateAlarmLevel(final ResourceData currentResourceData,
             final ResourceData prevResourceData, final SignalDefinitionDto signalDefinition,
             final AlarmData alarmData)
     {
-        // Џ‰ЉъЏу‘Ф
+        // е€ќжњџзЉ¶ж…‹
         if (currentResourceData == null)
         {
             AlarmEntry alarmEntry = new AlarmEntry();
@@ -78,7 +78,7 @@ public class AlarmThresholdProcessor implements AlarmProcessor
             {
                 return null;
             }
-            // ‰В•ПѓOѓ‰ѓt‚Е‚НЉДЋ‹‚µ‚Д‚ў‚И‚ўЏу‘Ф‚Е‚Н’l‚ЄЋж‚к‚И‚­‚И‚й‚Ѕ‚ЯЃA•њ‹ЊѓAѓ‰Ѓ[ѓЂ‚р”­ђ¶‚і‚№‚й‚ж‚¤‚Й‚·‚йЃB
+            // еЏЇе¤‰г‚°гѓ©гѓ•гЃ§гЃЇз›Ји¦–гЃ—гЃ¦гЃ„гЃЄгЃ„зЉ¶ж…‹гЃ§гЃЇеЂ¤гЃЊеЏ–г‚ЊгЃЄгЃЏгЃЄг‚‹гЃџг‚ЃгЂЃеѕ©ж—§г‚ўгѓ©гѓјгѓ г‚’з™єз”џгЃ•гЃ›г‚‹г‚€гЃ†гЃ«гЃ™г‚‹гЂ‚
             itemValueNumber = Double.valueOf(0);
         }
         double itemValue = itemValueNumber.doubleValue();
@@ -99,7 +99,7 @@ public class AlarmThresholdProcessor implements AlarmProcessor
     private AlarmEntry createAlarmEntry(final long measurementTime, final double value,
             final AlarmData alarmData, final SignalDefinitionDto signalDefinition)
     {
-        // •Ф‚и’l‚Ж‚И‚й AlarmEntry ‚МЏ‰Љъ‰»
+        // иї”г‚ЉеЂ¤гЃЁгЃЄг‚‹ AlarmEntry гЃ®е€ќжњџеЊ–
         AlarmEntry entry = null;
         Map<Integer, Double> thresholdMaping = signalDefinition.getThresholdMaping();
 
@@ -117,9 +117,9 @@ public class AlarmThresholdProcessor implements AlarmProcessor
 
         if (tmpLevel < currentLevel)
         {
-            // •s—v‚Й‚И‚йѓAѓ‰Ѓ[ѓЂ‚рЌнЏњ‚·‚йЃB
-            // Њ»ЌЭ‚Ми‡’lѓЊѓxѓ‹‚ж‚и‚а‰є‰с‚Б‚ЅЏкЌ‡‚Н’ґ‰ЯѓAѓ‰Ѓ[ѓЂ‚р‘S‚ДЌнЏњ‚·‚йЃB
-            // Њ»ЌЭ‚Ми‡’lѓЊѓxѓ‹‚ж‚и‚аЌ‚‚ўи‡’lѓЊѓxѓ‹‚рЋќ‚В•њ‹ЊѓAѓ‰Ѓ[ѓЂ‚р‘S‚ДЌнЏњ‚·‚йЃB
+            // дёЌи¦ЃгЃ«гЃЄг‚‹г‚ўгѓ©гѓјгѓ г‚’е‰Љй™¤гЃ™г‚‹гЂ‚
+            // зЏѕењЁгЃ®й–ѕеЂ¤гѓ¬гѓ™гѓ«г‚€г‚Љг‚‚дё‹е›ћгЃЈгЃџе ґеђ€гЃЇи¶…йЃЋг‚ўгѓ©гѓјгѓ г‚’е…ЁгЃ¦е‰Љй™¤гЃ™г‚‹гЂ‚
+            // зЏѕењЁгЃ®й–ѕеЂ¤гѓ¬гѓ™гѓ«г‚€г‚Љг‚‚й«гЃ„й–ѕеЂ¤гѓ¬гѓ™гѓ«г‚’жЊЃгЃ¤еѕ©ж—§г‚ўгѓ©гѓјгѓ г‚’е…ЁгЃ¦е‰Љй™¤гЃ™г‚‹гЂ‚
             alarmData.clearStartExceedance();
             alarmData.clearRecoverTimeMap(tmpLevel);
             Long stopExceedanceTime = alarmData.getRecoverTime(tmpLevel);
@@ -131,9 +131,9 @@ public class AlarmThresholdProcessor implements AlarmProcessor
         }
         else if (tmpLevel > currentLevel)
         {
-            // •s—v‚Й‚И‚йѓAѓ‰Ѓ[ѓЂ‚рЌнЏњ‚·‚йЃB
-            // Њ»ЌЭ‚Ми‡’lѓЊѓxѓ‹‚ж‚и‚а‰є‰с‚Б‚ЅЏкЌ‡‚Н•њ‹ЊѓAѓ‰Ѓ[ѓЂ‚р‘S‚Д‚·‚йЃB
-            // Њ»ЌЭ‚Ми‡’lѓЊѓxѓ‹‚ж‚и‚аЌ‚‚ўи‡’lѓЊѓxѓ‹‚рЋќ‚В’ґ‰ЯѓAѓ‰Ѓ[ѓЂ‚р‘S‚ДЌнЏњ‚·‚йЃB
+            // дёЌи¦ЃгЃ«гЃЄг‚‹г‚ўгѓ©гѓјгѓ г‚’е‰Љй™¤гЃ™г‚‹гЂ‚
+            // зЏѕењЁгЃ®й–ѕеЂ¤гѓ¬гѓ™гѓ«г‚€г‚Љг‚‚дё‹е›ћгЃЈгЃџе ґеђ€гЃЇеѕ©ж—§г‚ўгѓ©гѓјгѓ г‚’е…ЁгЃ¦гЃ™г‚‹гЂ‚
+            // зЏѕењЁгЃ®й–ѕеЂ¤гѓ¬гѓ™гѓ«г‚€г‚Љг‚‚й«гЃ„й–ѕеЂ¤гѓ¬гѓ™гѓ«г‚’жЊЃгЃ¤и¶…йЃЋг‚ўгѓ©гѓјгѓ г‚’е…ЁгЃ¦е‰Љй™¤гЃ™г‚‹гЂ‚
             alarmData.clearRecoverExceedance();
             alarmData.clearStartExceedance(tmpLevel);
             Long startExceedanceTime = alarmData.getStartExceedanceTime(tmpLevel);
@@ -152,9 +152,9 @@ public class AlarmThresholdProcessor implements AlarmProcessor
     }
 
     /**
-     * Њ»ЌЭ‚Ми‡’l‚Й‘О‰ћ‚·‚й’ґ‰ЯЉJЋnЋћЌЏ‚рђЭ’и‚·‚йЃB
-     * @param alarmData и‡’l”»’иѓfЃ[ѓ^
-     * @param level и‡’lѓЊѓxѓ‹
+     * зЏѕењЁгЃ®й–ѕеЂ¤гЃ«еЇѕеїњгЃ™г‚‹и¶…йЃЋй–‹е§‹ж™‚е€»г‚’иЁ­е®љгЃ™г‚‹гЂ‚
+     * @param alarmData й–ѕеЂ¤е€¤е®љгѓ‡гѓјг‚ї
+     * @param level й–ѕеЂ¤гѓ¬гѓ™гѓ«
      */
     private void addStartExceedanceTime(final AlarmData alarmData, final int level)
     {
@@ -167,9 +167,9 @@ public class AlarmThresholdProcessor implements AlarmProcessor
     }
 
     /**
-     * Њ»ЌЭ‚Ми‡’l‚Й‘О‰ћ‚·‚й•њ‹ЊЉJЋnЋћЌЏ‚рђЭ’и‚·‚йЃB
-     * @param alarmData и‡’l”»’иѓfЃ[ѓ^
-     * @param level и‡’lѓЊѓxѓ‹
+     * зЏѕењЁгЃ®й–ѕеЂ¤гЃ«еЇѕеїњгЃ™г‚‹еѕ©ж—§й–‹е§‹ж™‚е€»г‚’иЁ­е®љгЃ™г‚‹гЂ‚
+     * @param alarmData й–ѕеЂ¤е€¤е®љгѓ‡гѓјг‚ї
+     * @param level й–ѕеЂ¤гѓ¬гѓ™гѓ«
      */
     private void addStopExceedanceTime(final AlarmData alarmData, final int level)
     {

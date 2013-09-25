@@ -32,28 +32,28 @@ import jp.co.acroquest.endosnipe.javelin.bean.Invocation;
 import jp.co.acroquest.endosnipe.javelin.log.JavelinLogCallback;
 
 /**
- * CPUŠÔA‚à‚µ‚­‚ÍTAT‚Ìè‡’l‚Åo—Í‚·‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éƒNƒ‰ƒX
+ * CPUæ™‚é–“ã€ã‚‚ã—ãã¯TATã®é–¾å€¤ã§å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã‚’åˆ¤å®šã™ã‚‹ã‚¯ãƒ©ã‚¹
  * 
  * @author fujii
  * 
  */
 public class CpuTimeRecordStrategy implements RecordStrategy
 {
-    /** ’PˆÊ‚ğƒ}ƒCƒNƒ•b‚©‚ç•b‚É•Ï‚¦‚é‚½‚ß‚Ì’l */
+    /** å˜ä½ã‚’ãƒã‚¤ã‚¯ãƒ­ç§’ã‹ã‚‰ç§’ã«å¤‰ãˆã‚‹ãŸã‚ã®å€¤ */
     private static final int NANO_TO_MILLI = 1000000;
 
-    /** Javelin‚Ìİ’è’l */
+    /** Javelinã®è¨­å®šå€¤ */
     private final JavelinConfig config_ = new JavelinConfig();
     
-    /** İ’è‚³‚ê‚Ä‚¢‚½ÛAío—Í‚µ‚È‚¢A‚Æ”»’è‚·‚éThreshold */
+    /** è¨­å®šã•ã‚Œã¦ã„ãŸéš›ã€å¸¸æ™‚å‡ºåŠ›ã—ãªã„ã€ã¨åˆ¤å®šã™ã‚‹Threshold */
     private static final long ALWAYS_FALSE_THRESHOLD = -1;
 
     /**
-     * ƒAƒ‰[ƒ€‚ğ’Ê’m‚·‚é‚©‚Ç‚¤‚©”»’è‚·‚é</br>
-     * CpuTime‚ªjavelin.alarmCpuThreshold‚Éİ’è‚µ‚½’lˆÈã‚Ì‚Æ‚«‚Éo—Í‚·‚éB
+     * ã‚¢ãƒ©ãƒ¼ãƒ ã‚’é€šçŸ¥ã™ã‚‹ã‹ã©ã†ã‹åˆ¤å®šã™ã‚‹</br>
+     * CpuTimeãŒjavelin.alarmCpuThresholdã«è¨­å®šã—ãŸå€¤ä»¥ä¸Šã®ã¨ãã«å‡ºåŠ›ã™ã‚‹ã€‚
      * 
-     * @param node CallTreeƒm[ƒh
-     * @return true:ƒƒO’Ê’m‚·‚éAfalse:ƒƒO’Ê’m‚µ‚È‚¢B
+     * @param node CallTreeãƒãƒ¼ãƒ‰
+     * @return true:ãƒ­ã‚°é€šçŸ¥ã™ã‚‹ã€false:ãƒ­ã‚°é€šçŸ¥ã—ãªã„ã€‚
      */
     public boolean judgeSendExceedThresholdAlarm(final CallTreeNode node)
     {
@@ -68,17 +68,17 @@ public class CpuTimeRecordStrategy implements RecordStrategy
     }
 
     /**
-     * İ’è‚µ‚½Œx”­¶‚ÌCPUŠÔ‚Ìè‡’l‚ğ’´‚¦‚Ä‚¢‚é‚©”»’è‚·‚éB
+     * è¨­å®šã—ãŸè­¦å‘Šç™ºç”Ÿã®CPUæ™‚é–“ã®é–¾å€¤ã‚’è¶…ãˆã¦ã„ã‚‹ã‹åˆ¤å®šã™ã‚‹ã€‚
      * 
-     * @param node CallTreeƒm[ƒh
-     * @return İ’è‚µ‚½CPUŠÔ‚ğ’´‚¦‚Ä‚¢‚éB
+     * @param node CallTreeãƒãƒ¼ãƒ‰
+     * @return è¨­å®šã—ãŸCPUæ™‚é–“ã‚’è¶…ãˆã¦ã„ã‚‹ã€‚
      */
     private boolean isAlarmCpuThresold(final CallTreeNode node)
     {
         long alarmCpuThreshold = node.getInvocation().getAlarmCpuThreshold();
         if (alarmCpuThreshold == Invocation.THRESHOLD_NOT_SPECIFIED)
         {
-            //JavelinConfig‚Ìè‡’l‚ª-1‚Æİ’è‚³‚ê‚Ä‚¢‚½ê‡A–{”»’è‚É‚æ‚éƒƒOo—Í‚Ís‚í‚È‚¢
+            //JavelinConfigã®é–¾å€¤ãŒ-1ã¨è¨­å®šã•ã‚Œã¦ã„ãŸå ´åˆã€æœ¬åˆ¤å®šã«ã‚ˆã‚‹ãƒ­ã‚°å‡ºåŠ›ã¯è¡Œã‚ãªã„
             if(this.config_.getAlarmCpuThreashold() == ALWAYS_FALSE_THRESHOLD)
             {
                 return false;
@@ -93,17 +93,17 @@ public class CpuTimeRecordStrategy implements RecordStrategy
     }
 
     /**
-     * İ’è‚µ‚½Œx”­¶‚ÌŠÔ‚Ìè‡’l‚ğ’´‚¦‚Ä‚¢‚é‚©”»’è‚·‚éB
+     * è¨­å®šã—ãŸè­¦å‘Šç™ºç”Ÿã®æ™‚é–“ã®é–¾å€¤ã‚’è¶…ãˆã¦ã„ã‚‹ã‹åˆ¤å®šã™ã‚‹ã€‚
      * 
-     * @param node CallTreeƒm[ƒh
-     * @return İ’è‚µ‚½Œx”­¶è‡’l‚ğ’´‚¦‚Ä‚¢‚éB
+     * @param node CallTreeãƒãƒ¼ãƒ‰
+     * @return è¨­å®šã—ãŸè­¦å‘Šç™ºç”Ÿé–¾å€¤ã‚’è¶…ãˆã¦ã„ã‚‹ã€‚
      */
     private boolean isAlarmThreshold(final CallTreeNode node)
     {
         long alarmThreshold = node.getInvocation().getAlarmThreshold();
         if (alarmThreshold == Invocation.THRESHOLD_NOT_SPECIFIED)
         {
-            //JavelinConfig‚Ìè‡’l‚ª-1‚Æİ’è‚³‚ê‚Ä‚¢‚½ê‡A–{”»’è‚É‚æ‚éƒƒOo—Í‚Ís‚í‚È‚¢
+            //JavelinConfigã®é–¾å€¤ãŒ-1ã¨è¨­å®šã•ã‚Œã¦ã„ãŸå ´åˆã€æœ¬åˆ¤å®šã«ã‚ˆã‚‹ãƒ­ã‚°å‡ºåŠ›ã¯è¡Œã‚ãªã„
             if(this.config_.getAlarmThreshold() == ALWAYS_FALSE_THRESHOLD)
             {
                 return false;
@@ -119,7 +119,7 @@ public class CpuTimeRecordStrategy implements RecordStrategy
 
 
     /**
-     * ‰½‚à‚µ‚È‚¢B
+     * ä½•ã‚‚ã—ãªã„ã€‚
      */
     public void postJudge()
     {
@@ -127,14 +127,14 @@ public class CpuTimeRecordStrategy implements RecordStrategy
     }
 
     /**
-     * JavelinƒƒO’Ê’m“d•¶‚ğ‘—M‚·‚éƒR[ƒ‹ƒoƒbƒNƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
+     * Javelinãƒ­ã‚°é€šçŸ¥é›»æ–‡ã‚’é€ä¿¡ã™ã‚‹ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆã™ã‚‹ã€‚
      * 
-     * @param node CallTreeƒm[ƒh
-     * @return ƒR[ƒ‹ƒoƒbƒN
+     * @param node CallTreeãƒãƒ¼ãƒ‰
+     * @return ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯
      */
     public JavelinLogCallback createCallback(final CallTreeNode node)
     {
-        // ƒAƒ‰[ƒ€è‡’l‚ğ’´‚¦‚Ä‚¢‚½ê‡‚Ì‚İJavelinƒƒO’Ê’m“d•¶‚ğ‘—M‚·‚éB
+        // ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ã‚’è¶…ãˆã¦ã„ãŸå ´åˆã®ã¿Javelinãƒ­ã‚°é€šçŸ¥é›»æ–‡ã‚’é€ä¿¡ã™ã‚‹ã€‚
         if (this.judgeSendExceedThresholdAlarm(node) == false)
         {
             return null;
@@ -144,9 +144,9 @@ public class CpuTimeRecordStrategy implements RecordStrategy
     }
 
     /**
-     * JavelinƒƒO’Ê’m“d•¶‚ğ‘—M‚·‚éƒR[ƒ‹ƒoƒbƒNƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
+     * Javelinãƒ­ã‚°é€šçŸ¥é›»æ–‡ã‚’é€ä¿¡ã™ã‚‹ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆã™ã‚‹ã€‚
      * 
-     * @return ƒR[ƒ‹ƒoƒbƒN
+     * @return ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯
      */
     public JavelinLogCallback createCallback()
     {

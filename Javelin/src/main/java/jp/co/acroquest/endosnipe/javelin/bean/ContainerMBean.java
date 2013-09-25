@@ -26,14 +26,14 @@
 package jp.co.acroquest.endosnipe.javelin.bean;
 
 /**
- * ContainerMBeanインターフェース
+ * ContainerMBean繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ
  * @author acroquest
  *
  */
 public interface ContainerMBean
 {
     /**
-     * リセットを行います。
+     * 繝ｪ繧ｻ繝�繝医ｒ陦後＞縺ｾ縺吶�
      */
     void reset();
 }

@@ -23,7 +23,7 @@ import jp.co.acroquest.endosnipe.data.TableNames;
 import jp.co.acroquest.endosnipe.data.entity.SqlPlan;
 
 /**
- * {@link SqlPlan} ‚Ì‚½‚ß‚Ì DAO ‚Å‚·B
+ * {@link SqlPlan} ã®ãŸã‚ã® DAO ã§ã™ã€‚
  * 
  * @author miyasaka
  *
@@ -31,11 +31,11 @@ import jp.co.acroquest.endosnipe.data.entity.SqlPlan;
 public class SqlPlanDao extends AbstractDao implements TableNames
 {
     /**
-     * SQLÀsŒv‰æ‚ÌƒŒƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B<br />
+     * SQLå®Ÿè¡Œè¨ˆç”»ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚<br />
      * 
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param sqlPlan ‘}“ü‚·‚éSQLÀsŒv‰æ
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param sqlPlan æŒ¿å…¥ã™ã‚‹SQLå®Ÿè¡Œè¨ˆç”»
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static void insert(final String database, final SqlPlan sqlPlan)
         throws SQLException

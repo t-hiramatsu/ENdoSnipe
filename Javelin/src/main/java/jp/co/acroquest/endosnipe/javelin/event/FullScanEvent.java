@@ -28,13 +28,13 @@ package jp.co.acroquest.endosnipe.javelin.event;
 import jp.co.acroquest.endosnipe.common.event.EventConstants;
 
 /**
- * SQL‚ÌFull ScanƒCƒxƒ“ƒgB
+ * SQLã®Full Scanã‚¤ãƒ™ãƒ³ãƒˆã€‚
  * 
  * @author iida
  */
 public class FullScanEvent extends CommonEvent
 {
-    /** Full Scan‚ğs‚Á‚Ä‚¢‚éƒe[ƒuƒ‹–¼‚ÌƒZƒbƒg‚Ì•¶š—ñ•\Œ» */
+    /** Full Scanã‚’è¡Œã£ã¦ã„ã‚‹ãƒ†ãƒ¼ãƒ–ãƒ«åã®ã‚»ãƒƒãƒˆã®æ–‡å­—åˆ—è¡¨ç¾ */
     protected String tableNames_;
 
     /**
@@ -51,7 +51,7 @@ public class FullScanEvent extends CommonEvent
     }
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
      */
     public FullScanEvent()
     {
@@ -60,9 +60,9 @@ public class FullScanEvent extends CommonEvent
     }
     
     /**
-     * Full Scan‚ğs‚Á‚Ä‚¢‚éƒe[ƒuƒ‹–¼‚ÌƒZƒbƒg‚ğƒZƒbƒg‚µ‚Ü‚·B
+     * Full Scanã‚’è¡Œã£ã¦ã„ã‚‹ãƒ†ãƒ¼ãƒ–ãƒ«åã®ã‚»ãƒƒãƒˆã‚’ã‚»ãƒƒãƒˆã—ã¾ã™ã€‚
      * 
-     * @param tableNames ƒe[ƒuƒ‹–¼‚ÌƒZƒbƒg
+     * @param tableNames ãƒ†ãƒ¼ãƒ–ãƒ«åã®ã‚»ãƒƒãƒˆ
      */
     private void setTableNames(String tableNames)
     {

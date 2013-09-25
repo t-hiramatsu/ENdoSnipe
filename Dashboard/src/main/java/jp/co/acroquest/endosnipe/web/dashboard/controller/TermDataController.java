@@ -89,6 +89,7 @@ public class TermDataController
     @Autowired
     protected SignalService signalService;
 
+    /** Service Object of MultipleResourceGraph. */
     @Autowired
     MultipleResourceGraphService service = new MultipleResourceGraphService();
 
@@ -147,7 +148,6 @@ public class TermDataController
                 {
                     measurementDataList.add(dataId);
                 }
-                //  measurementDataList.add(dataId);
             }
             for (int index = 0; index < measurementDataList.size(); index++)
             {

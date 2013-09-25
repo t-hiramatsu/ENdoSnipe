@@ -26,16 +26,16 @@
 package jp.co.acroquest.endosnipe.javelin.parser;
 
 /**
- * ParseExceptionƒNƒ‰ƒX
+ * ParseExceptionã‚¯ãƒ©ã‚¹
  * @author hayakawa
  */
 public class ParseException extends Exception
 {
-    /** ƒVƒŠƒAƒ‹ƒo[ƒWƒ‡ƒ“ID */
+    /** ã‚·ãƒªã‚¢ãƒ«ãƒãƒ¼ã‚¸ãƒ§ãƒ³ID */
     private static final long serialVersionUID = 1L;
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      */
     public ParseException()
     {
@@ -43,8 +43,8 @@ public class ParseException extends Exception
     }
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
-     * @param message ƒƒbƒZ[ƒW
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+     * @param message ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
      */
     public ParseException(final String message)
     {
@@ -52,8 +52,8 @@ public class ParseException extends Exception
     }
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
-     * @param cause —áŠO‚ÌŒ´ˆö
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+     * @param cause ä¾‹å¤–ã®åŽŸå› 
      */
     public ParseException(final Throwable cause)
     {
@@ -61,9 +61,9 @@ public class ParseException extends Exception
     }
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
-     * @param message ƒƒbƒZ[ƒW
-     * @param cause —áŠO‚ÌŒ´ˆö
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+     * @param message ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
+     * @param cause ä¾‹å¤–ã®åŽŸå› 
      */
     public ParseException(final String message, final Throwable cause)
     {

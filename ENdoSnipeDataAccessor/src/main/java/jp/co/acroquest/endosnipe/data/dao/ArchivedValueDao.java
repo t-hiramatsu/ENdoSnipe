@@ -38,26 +38,26 @@ import jp.co.acroquest.endosnipe.common.util.SQLUtil;
 import jp.co.acroquest.endosnipe.data.entity.ArchivedValue;
 
 /**
- * {@link ArchivedValue} ‚Ì‚½‚ß‚Ì DAO ‚Å‚·B
+ * {@link ArchivedValue} ã®ãŸã‚ã® DAO ã§ã™ã€‚
  *
  * @author y-sakamoto
  */
 public class ArchivedValueDao extends AbstractDao
 {
-    /** ARCHIVED_VALUE ƒe[ƒuƒ‹–¼B */
+    /** ARCHIVED_VALUE ãƒ†ãƒ¼ãƒ–ãƒ«åã€‚ */
     private static final String ARCHIVED_VALUE_TABLE = "ARCHIVED_VALUE";
 
-    /** Œv‘ª No. ‚Ì’l‚ğ¶¬‚·‚éƒV[ƒPƒ“ƒX–¼B */
+    /** è¨ˆæ¸¬ No. ã®å€¤ã‚’ç”Ÿæˆã™ã‚‹ã‚·ãƒ¼ã‚±ãƒ³ã‚¹åã€‚ */
     private static final String SEQ_MEASUREMENT_NUM = "SEQ_MEASUREMENT_NUM";
 
     /**
-     * ƒŒƒR[ƒh‚ğ‘}“ü‚µ‚Ü‚·B<br />
+     * ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’æŒ¿å…¥ã—ã¾ã™ã€‚<br />
      *
-     * {@link ArchivedValue#measurementValueId} ‚Íg—p‚³‚ê‚Ü‚¹‚ñB
+     * {@link ArchivedValue#measurementValueId} ã¯ä½¿ç”¨ã•ã‚Œã¾ã›ã‚“ã€‚
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param measurementValue ‘}“ü‚·‚é’l
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param measurementValue æŒ¿å…¥ã™ã‚‹å€¤
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static void insert(final String database, ArchivedValue measurementValue)
         throws SQLException
@@ -90,11 +90,11 @@ public class ArchivedValueDao extends AbstractDao
     }
 
     /**
-     * ‚·‚×‚Ä‚ÌƒŒƒR[ƒh‚ğæ“¾‚µ‚Ü‚·B<br />
+     * ã™ã¹ã¦ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @return {@link ArchivedValue} ƒIƒuƒWƒFƒNƒg‚ÌƒŠƒXƒg
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @return {@link ArchivedValue} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒªã‚¹ãƒˆ
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static List<ArchivedValue> selectAll(final String database)
         throws SQLException
@@ -122,15 +122,15 @@ public class ArchivedValueDao extends AbstractDao
     }
 
     /**
-     * ŠúŠÔ‚ğw’è‚µ‚ÄƒŒƒR[ƒh‚ğæ“¾‚µ‚Ü‚·B<br />
+     * æœŸé–“ã‚’æŒ‡å®šã—ã¦ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      *
-     * ƒŒƒR[ƒh‚Í‚Å¸‡‚É•À‚×‘Ö‚¦‚Ä•Ô‚µ‚Ü‚·B
+     * ãƒ¬ã‚³ãƒ¼ãƒ‰ã¯æ™‚åˆ»ã§æ˜‡é †ã«ä¸¦ã¹æ›¿ãˆã¦è¿”ã—ã¾ã™ã€‚
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param start ŠJn
-     * @param end I—¹
-     * @return {@link ArchivedValue} ‚ÌƒŠƒXƒg
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param start é–‹å§‹æ™‚åˆ»
+     * @param end çµ‚äº†æ™‚åˆ»
+     * @return {@link ArchivedValue} ã®ãƒªã‚¹ãƒˆ
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static List<ArchivedValue> selectByTerm(final String database, final Timestamp start,
             final Timestamp end)
@@ -164,11 +164,11 @@ public class ArchivedValueDao extends AbstractDao
     }
 
     /**
-     * {@link ResultSet} ‚©‚ç {@link ArchivedValue} ‚ÌƒŠƒXƒg‚ğì¬‚µ‚Ü‚·B<br />
+     * {@link ResultSet} ã‹ã‚‰ {@link ArchivedValue} ã®ãƒªã‚¹ãƒˆã‚’ä½œæˆã—ã¾ã™ã€‚<br />
      *
-     * @param result {@link ArchivedValue} ƒIƒuƒWƒFƒNƒg‚ÌŠi”[æ
+     * @param result {@link ArchivedValue} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ ¼ç´å…ˆ
      * @param rs {@link ResultSet}
-     * @throws SQLException SQL ÀsŒ‹‰Êæ“¾‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @throws SQLException SQL å®Ÿè¡Œçµæœå–å¾—æ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     private static void getMeasurementValuesFromResultSet(List<ArchivedValue> result, ResultSet rs)
         throws SQLException
@@ -190,12 +190,12 @@ public class ArchivedValueDao extends AbstractDao
     }
 
     /**
-     * Javelin Œv‘ª’lƒe[ƒuƒ‹‚É“o˜^‚³‚ê‚Ä‚¢‚éƒf[ƒ^‚ÌÅ¬‚ÆÅ‘å‚ğ•Ô‚µ‚Ü‚·B<br />
+     * Javelin è¨ˆæ¸¬å€¤ãƒ†ãƒ¼ãƒ–ãƒ«ã«ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹ãƒ‡ãƒ¼ã‚¿ã®æœ€å°æ™‚åˆ»ã¨æœ€å¤§æ™‚åˆ»ã‚’è¿”ã—ã¾ã™ã€‚<br />
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @return Javelin Œv‘ª’lƒe[ƒuƒ‹‚É“o˜^‚³‚ê‚Ä‚¢‚éƒf[ƒ^‚Ì (Å¬, Å‘å) ‚ğ•\‚·”z—ñ
-     *         i¸”s‚µ‚½ê‡A‚»‚ê‚¼‚ê‚Ì—v‘f‚Í <code>null</code> j
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @return Javelin è¨ˆæ¸¬å€¤ãƒ†ãƒ¼ãƒ–ãƒ«ã«ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹ãƒ‡ãƒ¼ã‚¿ã® (æœ€å°æ™‚åˆ», æœ€å¤§æ™‚åˆ») ã‚’è¡¨ã™é…åˆ—
+     *         ï¼ˆå¤±æ•—ã—ãŸå ´åˆã€ãã‚Œãã‚Œã®è¦ç´ ã¯ <code>null</code> ï¼‰
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static Timestamp[] getTerm(final String database)
         throws SQLException
@@ -229,13 +229,13 @@ public class ArchivedValueDao extends AbstractDao
     }
     
     /**
-     * ‚ğw’è‚µ‚ÄA‚»‚ê‚æ‚èŒÃ‚¢ƒŒƒR[ƒh‚ğíœ‚µ‚Ü‚·B
-     * íœŠúŒÀ‚ÌƒL[‚Æ‚µ‚Ä‚ÍAŒv‘ª‚ğŠî€‚Æ‚µ‚Ü‚·B
+     * æ™‚åˆ»ã‚’æŒ‡å®šã—ã¦ã€ãã‚Œã‚ˆã‚Šå¤ã„ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å‰Šé™¤ã—ã¾ã™ã€‚
+     * å‰Šé™¤æœŸé™æ™‚åˆ»ã®ã‚­ãƒ¼ã¨ã—ã¦ã¯ã€è¨ˆæ¸¬æ™‚åˆ»ã‚’åŸºæº–ã¨ã—ã¾ã™ã€‚
      * 
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param deleteLimit íœŠúŒÀ
-     * @param hostId ƒzƒXƒgID
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param deleteLimit å‰Šé™¤æœŸé™æ™‚åˆ»
+     * @param hostId ãƒ›ã‚¹ãƒˆID
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static void deleteOldRecordByTime(final String database, final Timestamp deleteLimit,
             final int hostId)
@@ -260,10 +260,10 @@ public class ArchivedValueDao extends AbstractDao
     }
 
     /**
-     * ‚·‚×‚Ä‚ÌƒŒƒR[ƒh‚ğíœ‚µ‚Ü‚·B<br />
+     * ã™ã¹ã¦ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å‰Šé™¤ã—ã¾ã™ã€‚<br />
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static void deleteAll(final String database)
         throws SQLException
@@ -272,11 +272,11 @@ public class ArchivedValueDao extends AbstractDao
     }
 
     /**
-     * ƒŒƒR[ƒh‚Ì”‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ãƒ¬ã‚³ãƒ¼ãƒ‰ã®æ•°ã‚’è¿”ã—ã¾ã™ã€‚<br />
      * 
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @return ƒŒƒR[ƒh‚Ì”
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @return ãƒ¬ã‚³ãƒ¼ãƒ‰ã®æ•°
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static int count(final String database)
         throws SQLException
@@ -286,11 +286,11 @@ public class ArchivedValueDao extends AbstractDao
     }
 
     /**
-     * Œv‘ª No. ‚Ì’l‚ğ¶¬‚µ‚Ü‚·B <br />
+     * è¨ˆæ¸¬ No. ã®å€¤ã‚’ç”Ÿæˆã—ã¾ã™ã€‚ <br />
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @return Œv‘ª No. ‚Ì’l
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @return è¨ˆæ¸¬ No. ã®å€¤
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static int createMeasurementNum(final String database)
         throws SQLException

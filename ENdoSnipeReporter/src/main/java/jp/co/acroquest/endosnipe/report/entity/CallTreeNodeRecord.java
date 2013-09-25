@@ -3,20 +3,20 @@ package jp.co.acroquest.endosnipe.report.entity;
 import java.sql.Timestamp;
 
 /**
- * �uJavelin�v�^�u�́uCallTreeNode�������v�̃O���t�̃f�[�^��
- * 1�ێ�����N���X�ł��B
+ * ・ｽuJavelin・ｽv・ｽ^・ｽu・ｽﾌ「CallTreeNode・ｽ・ｽ・ｽ・ｽ・ｽ・ｽ・ｽv・ｽﾌグ・ｽ・ｽ・ｽt・ｽﾌデ・ｽ[・ｽ^・ｽ・ｽ
+ * 1・ｽﾂ保趣ｿｽ・ｽ・ｽ・ｽ・ｽN・ｽ・ｽ・ｽX・ｽﾅゑｿｽ・ｽB
  * 
  * @author acroquest
  */
 public class CallTreeNodeRecord
 {
-	/** �v������ */
+	/** ・ｽv・ｽ・ｽ・ｽ・ｽ・ｽ・ｽ */
     private Timestamp measurementTime_;
 
-    /** CallTreeNode�������̃O���t�́A�ő�[��] */
+    /** CallTreeNode・ｽ・ｽ・ｽ・ｽ・ｽ・ｽ・ｽﾌグ・ｽ・ｽ・ｽt・ｽﾌ、・ｽﾅ托ｿｽ[・ｽ・ｽ] */
     private long callTreeNodeNumMax_;
     
-    /** CallTreeNode�������̃O���t�́A����[��] */
+    /** CallTreeNode・ｽ・ｽ・ｽ・ｽ・ｽ・ｽ・ｽﾌグ・ｽ・ｽ・ｽt・ｽﾌ、・ｽ・ｽ・ｽ・ｽ[・ｽ・ｽ] */
     private long callTreeNodeNumAverage_;
     
 	/**

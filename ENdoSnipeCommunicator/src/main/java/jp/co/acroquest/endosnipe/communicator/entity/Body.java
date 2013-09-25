@@ -30,34 +30,34 @@ import java.util.Arrays;
 import jp.co.acroquest.endosnipe.common.entity.ItemType;
 
 /**
- * “d•¶–{‘Ì‚Ì‚½‚ß‚ÌƒGƒ“ƒeƒBƒeƒBƒNƒ‰ƒX‚Å‚·B<br />
+ * é›»æ–‡æœ¬ä½“ã®ãŸã‚ã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  * 
  * @author y-komori
  */
 public class Body
 {
-    /** ƒIƒuƒWƒFƒNƒg–¼ */
+    /** ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå */
     private String strObjName_ = "";
 
-    /** ƒIƒuƒWƒFƒNƒg‚Ì•\¦–¼ */
+    /** ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®è¡¨ç¤ºå */
     private String strObjDispName_ = "";
 
-    /** €–Ú–¼ */
+    /** é …ç›®å */
     private String strItemName_ = "";
 
-    /** €–ÚŒ^ */
+    /** é …ç›®å‹ */
     private ItemType byteItemType_ = ItemType.ITEMTYPE_BYTE;
 
-    /** ŒJ‚è•Ô‚µ‰ñ” */
+    /** ç¹°ã‚Šè¿”ã—å›æ•° */
     private int intLoopCount_ = 0;
 
-    /** à–¾ */
+    /** èª¬æ˜ */
     private Object[] objItemValueArr_ = null;
 
     /**
-     * ƒIƒuƒWƒFƒNƒg–¼‚ğæ“¾‚µ‚Ü‚·B<br />
+     * ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆåã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      * 
-     * @return ƒIƒuƒWƒFƒNƒg–¼
+     * @return ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå
      */
     public String getStrObjName()
     {
@@ -65,9 +65,9 @@ public class Body
     }
 
     /**
-     * ƒIƒuƒWƒFƒNƒg–¼‚ğİ’è‚µ‚Ü‚·B<br />
+     * ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆåã‚’è¨­å®šã—ã¾ã™ã€‚<br />
      * 
-     * @param strObjName ƒIƒuƒWƒFƒNƒg–¼
+     * @param strObjName ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå
      */
     public void setStrObjName(final String strObjName)
     {
@@ -75,9 +75,9 @@ public class Body
     }
 
     /**
-     * €–Ú–¼‚ğæ“¾‚µ‚Ü‚·B<br />
+     * é …ç›®åã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      * 
-     * @return €–Ú–¼
+     * @return é …ç›®å
      */
     public String getStrItemName()
     {
@@ -85,9 +85,9 @@ public class Body
     }
 
     /**
-     * €–Ú–¼‚ğİ’è‚µ‚Ü‚·B<br />
+     * é …ç›®åã‚’è¨­å®šã—ã¾ã™ã€‚<br />
      * 
-     * @param strItemName €–Ú–¼
+     * @param strItemName é …ç›®å
      */
     public void setStrItemName(final String strItemName)
     {
@@ -95,9 +95,9 @@ public class Body
     }
 
     /**
-     * €–ÚŒ^‚ğæ“¾‚µ‚Ü‚·B<br />
+     * é …ç›®å‹ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      * 
-     * @return €–ÚŒ^
+     * @return é …ç›®å‹
      */
     public ItemType getByteItemMode()
     {
@@ -105,9 +105,9 @@ public class Body
     }
 
     /**
-     * €–ÚŒ^‚ğİ’è‚µ‚Ü‚·B<br />
+     * é …ç›®å‹ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
      * 
-     * @param byteItemMode €–ÚŒ^
+     * @param byteItemMode é …ç›®å‹
      */
     public void setByteItemMode(final ItemType byteItemMode)
     {
@@ -115,9 +115,9 @@ public class Body
     }
 
     /**
-     * ŒJ‚è•Ô‚µ‰ñ”‚ğæ“¾‚µ‚Ü‚·B<br />
+     * ç¹°ã‚Šè¿”ã—å›æ•°ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      * 
-     * @return ŒJ‚è•Ô‚µ‰ñ”
+     * @return ç¹°ã‚Šè¿”ã—å›æ•°
      */
     public int getIntLoopCount()
     {
@@ -125,9 +125,9 @@ public class Body
     }
 
     /**
-     * ŒJ‚è•Ô‚µ‰ñ”‚ğİ’è‚µ‚Ü‚·B<br />
+     * ç¹°ã‚Šè¿”ã—å›æ•°ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
      * 
-     * @param intLoopCount ŒJ‚è•Ô‚µ‰ñ”
+     * @param intLoopCount ç¹°ã‚Šè¿”ã—å›æ•°
      */
     public void setIntLoopCount(final int intLoopCount)
     {
@@ -135,9 +135,9 @@ public class Body
     }
 
     /**
-     * à–¾‚ğæ“¾‚µ‚Ü‚·B<br />
+     * èª¬æ˜ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      * 
-     * @return à–¾
+     * @return èª¬æ˜
      */
     public Object[] getObjItemValueArr()
     {
@@ -145,9 +145,9 @@ public class Body
     }
 
     /**
-     * à–¾‚ğİ’è‚µ‚Ü‚·B<br />
+     * èª¬æ˜ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
      * 
-     * @param objItemValueArr à–¾
+     * @param objItemValueArr èª¬æ˜
      */
     public void setObjItemValueArr(final Object[] objItemValueArr)
     {
@@ -155,9 +155,9 @@ public class Body
     }
 
     /**
-     * ƒIƒuƒWƒFƒNƒg‚Ì•\¦–¼‚ğæ“¾‚µ‚Ü‚·B
+     * ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®è¡¨ç¤ºåã‚’å–å¾—ã—ã¾ã™ã€‚
      * 
-     * @return ƒIƒuƒWƒFƒNƒg‚Ì•\¦–¼
+     * @return ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®è¡¨ç¤ºå
      */
     public String getStrObjDispName()
     {
@@ -165,9 +165,9 @@ public class Body
     }
 
     /**
-     * ƒIƒuƒWƒFƒNƒg‚Ì•\¦–¼‚ğİ’è‚µ‚Ü‚·B
+     * ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®è¡¨ç¤ºåã‚’è¨­å®šã—ã¾ã™ã€‚
      * 
-     * @param strObjDispName ƒIƒuƒWƒFƒNƒg‚Ì•\¦–¼
+     * @param strObjDispName ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®è¡¨ç¤ºå
      */
     public void setStrObjDispName(String strObjDispName)
     {

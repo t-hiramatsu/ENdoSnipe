@@ -22,18 +22,18 @@ import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.javelin.communicate.SimpleENdoSnipeClient;
 
 /**
- * İ’è•ÏXƒNƒ‰ƒCƒAƒ“ƒg
+ * è¨­å®šå¤‰æ›´ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆ
  * 
  * @author eriguchi
  */
 public class ConfigUpdateClient extends SimpleENdoSnipeClient
 {
 
-    /** ‰“š‚Ì‘Ò‚¿ó‚¯ƒŠƒXƒiB */
+    /** å¿œç­”ã®å¾…ã¡å—ã‘ãƒªã‚¹ãƒŠã€‚ */
     protected UpdatePropertyResponseListener listener_;
 
-    /** ƒRƒ“ƒXƒgƒ‰ƒNƒ^ 
-     * @param threadName ƒXƒŒƒbƒh–¼
+    /** ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ 
+     * @param threadName ã‚¹ãƒ¬ãƒƒãƒ‰å
      */
     public ConfigUpdateClient(String threadName)
     {
@@ -43,18 +43,18 @@ public class ConfigUpdateClient extends SimpleENdoSnipeClient
     }
 
     /**
-     * XV‚ğÀs‚·‚éB
-     * ÀsŒ‹‰Ê‚Í•W€o—Í‚Éo—Í‚·‚éBˆø”‚ª‹ó‚ÌƒŠƒXƒg‚Ìê‡‚ÍA
-     * ‘SƒvƒƒpƒeƒBî•ñ‚ğƒT[ƒo‚©‚çæ“¾‚µ‚Ä•W€o—Í‚Éo—Í‚·‚éB
+     * æ›´æ–°ã‚’å®Ÿè¡Œã™ã‚‹ã€‚
+     * å®Ÿè¡Œçµæœã¯æ¨™æº–å‡ºåŠ›ã«å‡ºåŠ›ã™ã‚‹ã€‚å¼•æ•°ãŒç©ºã®ãƒªã‚¹ãƒˆã®å ´åˆã¯ã€
+     * å…¨ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£æƒ…å ±ã‚’ã‚µãƒ¼ãƒã‹ã‚‰å–å¾—ã—ã¦æ¨™æº–å‡ºåŠ›ã«å‡ºåŠ›ã™ã‚‹ã€‚
      * 
-     * @param list XV‘ÎÛ‚ÌƒvƒƒpƒeƒB‚ÌƒŠƒXƒgB
+     * @param list æ›´æ–°å¯¾è±¡ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã®ãƒªã‚¹ãƒˆã€‚
      */
     public void update(List<PropertyEntry> list)
     {
         Telegram updateRequest = createUpdateTelegram(list);
         client_.sendTelegram(updateRequest);
 
-        // ‰“š‚ğ‘Ò‚ÂB
+        // å¿œç­”ã‚’å¾…ã¤ã€‚
         if (listener_.getPropertyInfoList() == null)
         {
             try
@@ -89,9 +89,9 @@ public class ConfigUpdateClient extends SimpleENdoSnipeClient
     }
 
     /**
-     * XV‚ÌÀsŒ‹‰Ê‚ğ•W€o—Í‚Éo—Í‚·‚éB
+     * æ›´æ–°ã®å®Ÿè¡Œçµæœã‚’æ¨™æº–å‡ºåŠ›ã«å‡ºåŠ›ã™ã‚‹ã€‚
      * 
-     * @param propertyInfoList ÀsŒ‹‰Ê
+     * @param propertyInfoList å®Ÿè¡Œçµæœ
      */
     private void printResult(List<PropertyEntry> propertyInfoList)
     {
@@ -102,10 +102,10 @@ public class ConfigUpdateClient extends SimpleENdoSnipeClient
     }
 
     /**
-     * ÀsŒ‹‰Ê‚ªAŠú‘Ò’Ê‚è‚©‚ğŠm”F‚·‚éB
+     * å®Ÿè¡ŒçµæœãŒã€æœŸå¾…é€šã‚Šã‹ã‚’ç¢ºèªã™ã‚‹ã€‚
      * 
-     * @param expectedList Šú‘ÒŒ‹‰Ê 
-     * @param acturalList ÀÛ‚ÌŒ‹‰Ê
+     * @param expectedList æœŸå¾…çµæœ 
+     * @param acturalList å®Ÿéš›ã®çµæœ
      */
     private void checkResult(List<PropertyEntry> expectedList, List<PropertyEntry> acturalList)
     {
@@ -132,10 +132,10 @@ public class ConfigUpdateClient extends SimpleENdoSnipeClient
     }
 
     /**
-     * ƒT[ƒoƒvƒƒpƒeƒBİ’èXV“d•¶‚ğì¬‚·‚éB
+     * ã‚µãƒ¼ãƒãƒ—ãƒ­ãƒ‘ãƒ†ã‚£è¨­å®šæ›´æ–°é›»æ–‡ã‚’ä½œæˆã™ã‚‹ã€‚
      * 
-     * @param propertyList İ’è•ÏX‚µ‚½‚¢ƒvƒƒpƒeƒB‚ÌƒŠƒXƒgB
-     * @return@ƒT[ƒoƒvƒƒpƒeƒBİ’èXV“d•¶B
+     * @param propertyList è¨­å®šå¤‰æ›´ã—ãŸã„ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã®ãƒªã‚¹ãƒˆã€‚
+     * @returnã€€ã‚µãƒ¼ãƒãƒ—ãƒ­ãƒ‘ãƒ†ã‚£è¨­å®šæ›´æ–°é›»æ–‡ã€‚
      */
     private static Telegram createUpdateTelegram(List<PropertyEntry> propertyList)
     {
@@ -172,7 +172,7 @@ public class ConfigUpdateClient extends SimpleENdoSnipeClient
     }
 
     /**
-     * ƒGƒ“ƒgƒŠƒ|ƒCƒ“ƒgB
+     * ã‚¨ãƒ³ãƒˆãƒªãƒã‚¤ãƒ³ãƒˆã€‚
      * 
      * @param args <host> <port> [<propertyKey>=<propertyValue]
      */

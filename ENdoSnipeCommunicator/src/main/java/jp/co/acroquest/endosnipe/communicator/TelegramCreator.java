@@ -41,7 +41,7 @@ import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 
 /**
- * “d•¶‚ğ¶¬‚·‚é‚½‚ß‚Ìƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒX‚Å‚·B<br />
+ * é›»æ–‡ã‚’ç”Ÿæˆã™ã‚‹ãŸã‚ã®ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  * 
  * @author y-komori
  */
@@ -55,13 +55,13 @@ public final class TelegramCreator implements TelegramConstants
     }
 
     /**
-     * ‹ó‚Ì‰“š“d•¶‚ğ¶¬‚µ‚Ü‚·B<br />
+     * ç©ºã®å¿œç­”é›»æ–‡ã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
      * 
      * @param telegramKind
-     *			“d•¶í•Ê
+     *			é›»æ–‡ç¨®åˆ¥
      * @param requestKind
-     *			—v‹‰“ší•Ê
-     * @return “d•¶
+     *			è¦æ±‚å¿œç­”ç¨®åˆ¥
+     * @return é›»æ–‡
      */
     public static Telegram createEmptyTelegram(final byte telegramKind, final byte requestKind)
     {
@@ -76,18 +76,18 @@ public final class TelegramCreator implements TelegramConstants
     }
 
     /**
-     * JavelinƒƒO’Ê’m“d•¶‚ğ¶¬‚µ‚Ü‚·B<br />
-     * JavelinƒƒO‚»‚Ì‚à‚Ì‚ğ“d•¶‚É“Y•t‚µ‚Ü‚·B
+     * Javelinãƒ­ã‚°é€šçŸ¥é›»æ–‡ã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
+     * Javelinãƒ­ã‚°ãã®ã‚‚ã®ã‚’é›»æ–‡ã«æ·»ä»˜ã—ã¾ã™ã€‚
      * 
      * @param jvnFileName
-     *			JavelinƒƒOƒtƒ@ƒCƒ‹–¼
+     *			Javelinãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«å
      * @param javelinLogContent
-     *			JavelinƒƒO
+     *			Javelinãƒ­ã‚°
      * @param telegramId
-     *			“d•¶ ID
+     *			é›»æ–‡ ID
      * @param itemName
-     *          €–Ú–¼
-     * @return ƒƒO’Ê’m“d•¶
+     *          é …ç›®å
+     * @return ãƒ­ã‚°é€šçŸ¥é›»æ–‡
      */
     public static Telegram createJvnFileNotifyTelegram(final String jvnFileName,
         final String javelinLogContent, final long telegramId, final String itemName)
@@ -100,38 +100,38 @@ public final class TelegramCreator implements TelegramConstants
     }
 
     /**
-     * SQLÀsŒv‰æ’Ê’m“d•¶‚ğì¬‚·‚éB
+     * SQLå®Ÿè¡Œè¨ˆç”»é€šçŸ¥é›»æ–‡ã‚’ä½œæˆã™ã‚‹ã€‚
      * 
-     * @param measurementItemName €–Ú–¼
-     * @param sqlStatement SQL•¶
-     * @param executionPlan ÀsŒv‰æ
-     * @param gettingPlanTime ÀsŒv‰ææ“¾ŠÔ
-     * @param stackTrace ƒXƒ^ƒbƒNƒgƒŒ[ƒX
+     * @param measurementItemName é …ç›®å
+     * @param sqlStatement SQLæ–‡
+     * @param executionPlan å®Ÿè¡Œè¨ˆç”»
+     * @param gettingPlanTime å®Ÿè¡Œè¨ˆç”»å–å¾—æ™‚é–“
+     * @param stackTrace ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹
      * 
-     * @return SQLÀsŒv‰æ’Ê’m“d•¶
+     * @return SQLå®Ÿè¡Œè¨ˆç”»é€šçŸ¥é›»æ–‡
      */
     public static Telegram createSqlPlanTelegram(final String measurementItemName,
         final String sqlStatement, final String executionPlan, final Timestamp gettingPlanTime,
         final String stackTrace)
     {
-        // “d•¶ƒwƒbƒ_‚ğì‚é
+        // é›»æ–‡ãƒ˜ãƒƒãƒ€ã‚’ä½œã‚‹
         Header objHeader = new Header();
         objHeader.setByteRequestKind(BYTE_REQUEST_KIND_NOTIFY);
         objHeader.setByteTelegramKind(BYTE_TELEGRAM_KIND_SQL_PLAN);
 
-        // SQL•¶‚ÌBody‚ğì‚é
+        // SQLæ–‡ã®Bodyã‚’ä½œã‚‹
         String[] sqlStatementArr = {sqlStatement};
         ResponseBody sqlStatementBody =
             TelegramUtil.createResponseBody(OBJECTNAME_SQL_STATEMENT, measurementItemName,
                                             ItemType.ITEMTYPE_STRING, sqlStatementArr);
 
-        // SQLÀsŒv‰æ‚ÌBody‚ğì‚é
+        // SQLå®Ÿè¡Œè¨ˆç”»ã®Bodyã‚’ä½œã‚‹
         String[] executionPlanArr = {executionPlan};
         ResponseBody executionPlanBody =
             TelegramUtil.createResponseBody(OBJECTNAME_SQL_EXECUTION_PLAN, measurementItemName,
                                             ItemType.ITEMTYPE_STRING, executionPlanArr);
 
-        // SQLÀsŒv‰ææ“¾ŠÔ‚ÌBody‚ğì¬‚·‚é
+        // SQLå®Ÿè¡Œè¨ˆç”»å–å¾—æ™‚é–“ã®Bodyã‚’ä½œæˆã™ã‚‹
         String gettingPlanTimeStr =
             new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(gettingPlanTime);
         String[] gettingPlanTimeArr = {gettingPlanTimeStr};
@@ -139,13 +139,13 @@ public final class TelegramCreator implements TelegramConstants
             TelegramUtil.createResponseBody(OBJECTNAME_GETTING_PLAN_TIME, measurementItemName,
                                             ItemType.ITEMTYPE_STRING, gettingPlanTimeArr);
 
-        // ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ÌBody‚ğì¬‚·‚é
+        // ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®Bodyã‚’ä½œæˆã™ã‚‹
         String[] stackTraceArr = {stackTrace};
         ResponseBody stackTraceBody =
             TelegramUtil.createResponseBody(OBJECTNAME_STACK_TRACE, measurementItemName,
                                             ItemType.ITEMTYPE_STRING, stackTraceArr);
 
-        // “d•¶ƒIƒuƒWƒFƒNƒg‚ğİ’è‚·‚é
+        // é›»æ–‡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¨­å®šã™ã‚‹
         Telegram objTelegram = new Telegram();
         objTelegram.setObjHeader(objHeader);
         objTelegram.setObjBody(new ResponseBody[]{sqlStatementBody, executionPlanBody,
@@ -156,13 +156,13 @@ public final class TelegramCreator implements TelegramConstants
     }
 
     /**
-     * JVNƒƒO“d•¶‚ğ¶¬‚µ‚Ü‚·B<br />
+     * JVNãƒ­ã‚°é›»æ–‡ã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
      * 
      * @param requestKind
-     *			—v‹‰“ší•Ê
+     *			è¦æ±‚å¿œç­”ç¨®åˆ¥
      * @param jvnFileNames
-     *			JavelinƒƒOƒtƒ@ƒCƒ‹–¼
-     * @return JVNƒƒO“d•¶
+     *			Javelinãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«å
+     * @return JVNãƒ­ã‚°é›»æ–‡
      */
     public static Telegram createJvnLogDownloadTelegram(final byte requestKind,
         final Object[] jvnFileNames)
@@ -171,20 +171,20 @@ public final class TelegramCreator implements TelegramConstants
     }
 
     /**
-     * JVNƒƒO“d•¶‚ğ¶¬‚µ‚Ü‚·B<br />
-     * ƒƒOƒtƒ@ƒCƒ‹‚Ì“à—e‚ªnull‚Ìê‡‚Íƒtƒ@ƒCƒ‹‚©‚ç“Ç‚İ‚İ‚Ü‚·B
+     * JVNãƒ­ã‚°é›»æ–‡ã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
+     * ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã®å†…å®¹ãŒnullã®å ´åˆã¯ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰èª­ã¿è¾¼ã¿ã¾ã™ã€‚
      * 
      * @param requestKind
-     *			—v‹‰“ší•Ê
+     *			è¦æ±‚å¿œç­”ç¨®åˆ¥
      * @param jvnFileNames
-     *			JavelinƒƒOƒtƒ@ƒCƒ‹–¼
+     *			Javelinãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«å
      * @param jvnFileContents
-     *			JavelinƒƒOƒtƒ@ƒCƒ‹‚Ì“à—e
+     *			Javelinãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã®å†…å®¹
      * @param telegramId
-     *			“d•¶ ID
+     *			é›»æ–‡ ID
      * @param itemName
-     *          €–Ú–¼
-     * @return JVNƒƒO“d•¶
+     *          é …ç›®å
+     * @return JVNãƒ­ã‚°é›»æ–‡
      */
     public static Telegram createJvnLogDownloadTelegram(final byte requestKind,
         final Object[] jvnFileNames, Object[] jvnFileContents, final long telegramId,
@@ -192,13 +192,13 @@ public final class TelegramCreator implements TelegramConstants
     {
         final JavelinConfig JAVELINCONFIG = new JavelinConfig();
 
-        // “d•¶ƒwƒbƒ_‚ğì‚é
+        // é›»æ–‡ãƒ˜ãƒƒãƒ€ã‚’ä½œã‚‹
         Header objHeader = new Header();
         objHeader.setId(telegramId);
         objHeader.setByteRequestKind(requestKind);
         objHeader.setByteTelegramKind(BYTE_TELEGRAM_KIND_JVN_FILE);
 
-        // “d•¶–{‘Ì‚ğì‚é
+        // é›»æ–‡æœ¬ä½“ã‚’ä½œã‚‹
         ResponseBody jvnFileNameBody =
             TelegramUtil.createResponseBody(OBJECTNAME_JVN_FILE, ITEMNAME_JVN_FILE_NAME,
                                             ItemType.ITEMTYPE_STRING, jvnFileNames);
@@ -242,7 +242,7 @@ public final class TelegramCreator implements TelegramConstants
             TelegramUtil.createResponseBody(OBJECTNAME_JVN_FILE, ITEMNAME_JVN_ITEM_NAME,
                                             ItemType.ITEMTYPE_STRING, itemNames);
 
-        // è‡’lİ’è‚ğ“d•¶‚É’Ç‰Á‚·‚éB
+        // é–¾å€¤è¨­å®šã‚’é›»æ–‡ã«è¿½åŠ ã™ã‚‹ã€‚
         ResponseBody thresholdBody =
             TelegramUtil.createResponseBody(OBJECTNAME_JVN_FILE, ITEMNAME_ALARM_THRESHOLD,
                                             ItemType.ITEMTYPE_LONG,
@@ -253,7 +253,7 @@ public final class TelegramCreator implements TelegramConstants
                                             ItemType.ITEMTYPE_LONG,
                                             new Long[]{javelinConfig__.getAlarmCpuThreashold()});
 
-        // “d•¶ƒIƒuƒWƒFƒNƒg‚ğİ’è‚·‚é
+        // é›»æ–‡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¨­å®šã™ã‚‹
         Telegram objTelegram = new Telegram();
         objTelegram.setObjHeader(objHeader);
         objTelegram.setObjBody(new ResponseBody[]{jvnFileNameBody, jvnFileContentBody,
@@ -263,31 +263,31 @@ public final class TelegramCreator implements TelegramConstants
     }
 
     /**
-     * JVNƒƒOæ“¾‰“š“d•¶‚ğ¶¬‚µ‚Ü‚·B<br />
+     * JVNãƒ­ã‚°å–å¾—å¿œç­”é›»æ–‡ã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
      * 
      * @param jvnFileNames
-     *			JVNƒƒOƒtƒ@ƒCƒ‹–¼‚ÌƒŠƒXƒg (<code>null</code> ‚Ìê‡‚Í
-     *         <code>null</code> ‚ğ•Ô‚·)
-     * @return “d•¶ƒIƒuƒWƒFƒNƒg
+     *			JVNãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«åã®ãƒªã‚¹ãƒˆ (<code>null</code> ã®å ´åˆã¯
+     *         <code>null</code> ã‚’è¿”ã™)
+     * @return é›»æ–‡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     public static Telegram createJvnLogListTelegram(final String[] jvnFileNames)
     {
-        // ƒtƒ@ƒCƒ‹–¼‚ÌƒŠƒXƒg‚ªnull‚Ì‚Æ‚«Anull‚ğ•Ô‚·B
+        // ãƒ•ã‚¡ã‚¤ãƒ«åã®ãƒªã‚¹ãƒˆãŒnullã®ã¨ãã€nullã‚’è¿”ã™ã€‚
         if (jvnFileNames == null)
         {
             return null;
         }
-        // “d•¶ƒwƒbƒ_‚ğì‚é
+        // é›»æ–‡ãƒ˜ãƒƒãƒ€ã‚’ä½œã‚‹
         Header objHeader = new Header();
         objHeader.setByteRequestKind(BYTE_REQUEST_KIND_RESPONSE);
         objHeader.setByteTelegramKind(BYTE_TELEGRAM_KIND_JVN_FILE_LIST);
 
-        // “d•¶–{‘Ì‚ğì‚é
+        // é›»æ–‡æœ¬ä½“ã‚’ä½œã‚‹
         ResponseBody body =
             TelegramUtil.createResponseBody("jvnFile", "jvnFileName", ItemType.ITEMTYPE_STRING,
                                             jvnFileNames);
 
-        // “d•¶ƒIƒuƒWƒFƒNƒg‚ğİ’è‚·‚é
+        // é›»æ–‡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¨­å®šã™ã‚‹
         Telegram objTelegram = new Telegram();
         objTelegram.setObjHeader(objHeader);
         objTelegram.setObjBody(new ResponseBody[]{body});
@@ -296,11 +296,11 @@ public final class TelegramCreator implements TelegramConstants
     }
 
     /**
-     * ƒNƒ‰ƒXíœ—v‹“d•¶‚ğ¶¬‚µ‚Ü‚·B<br />
+     * ã‚¯ãƒ©ã‚¹å‰Šé™¤è¦æ±‚é›»æ–‡ã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
      * 
      * @param classNameList
-     *			ƒNƒ‰ƒX–¼‚ÌƒŠƒXƒg
-     * @return “d•¶ƒIƒuƒWƒFƒNƒg
+     *			ã‚¯ãƒ©ã‚¹åã®ãƒªã‚¹ãƒˆ
+     * @return é›»æ–‡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     public static Telegram createRemoveClassTelegram(final List<String> classNameList)
     {
@@ -331,11 +331,11 @@ public final class TelegramCreator implements TelegramConstants
     }
 
     /**
-     * Invocation ‚ğXV‚·‚é‚½‚ß‚Ì“d•¶‚ğ¶¬‚µ‚Ü‚·B<br />
+     * Invocation ã‚’æ›´æ–°ã™ã‚‹ãŸã‚ã®é›»æ–‡ã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
      * 
      * @param invocationParamArray
-     *			Invocation ‚ğXV‚·‚é“à—e
-     * @return “d•¶ƒIƒuƒWƒFƒNƒg
+     *			Invocation ã‚’æ›´æ–°ã™ã‚‹å†…å®¹
+     * @return é›»æ–‡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     public static Telegram createUpdateInvocationTelegram(
         final UpdateInvocationParam[] invocationParamArray)
@@ -349,7 +349,7 @@ public final class TelegramCreator implements TelegramConstants
 
         List<Body> bodies = new ArrayList<Body>();
 
-        // “d•¶–{‘Ì‚ğİ’è‚·‚é
+        // é›»æ–‡æœ¬ä½“ã‚’è¨­å®šã™ã‚‹
         if (invocationParamArray != null)
         {
             for (UpdateInvocationParam invocation : invocationParamArray)
@@ -417,7 +417,7 @@ public final class TelegramCreator implements TelegramConstants
     }
 
     /**
-     * Invocation ‚ğXV‚·‚é‚½‚ß‚Ìƒpƒ‰ƒƒ^ƒNƒ‰ƒXB<br />
+     * Invocation ã‚’æ›´æ–°ã™ã‚‹ãŸã‚ã®ãƒ‘ãƒ©ãƒ¡ã‚¿ã‚¯ãƒ©ã‚¹ã€‚<br />
      * 
      * @author sakamoto
      */
@@ -436,21 +436,21 @@ public final class TelegramCreator implements TelegramConstants
         private final Long alarmCpuThreshold_;
 
         /**
-         * Invocation ‚ğXV‚·‚é‚½‚ß‚Ìƒpƒ‰ƒƒ^ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‚Ü‚·B<br />
+         * Invocation ã‚’æ›´æ–°ã™ã‚‹ãŸã‚ã®ãƒ‘ãƒ©ãƒ¡ã‚¿ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
          * 
          * @param className
-         *			ƒNƒ‰ƒX–¼
+         *			ã‚¯ãƒ©ã‚¹å
          * @param methodName
-         *			ƒƒ\ƒbƒh–¼
+         *			ãƒ¡ã‚½ãƒƒãƒ‰å
          * @param transactionGraph
-         *			ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒOƒ‰ƒt‚ğo—Í‚·‚é‚©”Û‚©
-         *            i <code>null</code> ‚È‚çİ’è‚µ‚È‚¢j
+         *			ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚°ãƒ©ãƒ•ã‚’å‡ºåŠ›ã™ã‚‹ã‹å¦ã‹
+         *            ï¼ˆ <code>null</code> ãªã‚‰è¨­å®šã—ãªã„ï¼‰
          * @param target
-         *			Œv‘ª‘ÎÛ‚É‚·‚é‚©”Û‚©i <code>null</code> ‚È‚çİ’è‚µ‚È‚¢j
+         *			è¨ˆæ¸¬å¯¾è±¡ã«ã™ã‚‹ã‹å¦ã‹ï¼ˆ <code>null</code> ãªã‚‰è¨­å®šã—ãªã„ï¼‰
          * @param alarmThreshold
-         *			ƒAƒ‰[ƒ€è‡’li <code>null</code> ‚È‚çİ’è‚µ‚È‚¢j
+         *			ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ï¼ˆ <code>null</code> ãªã‚‰è¨­å®šã—ãªã„ï¼‰
          * @param alarmCpuThreshold
-         *			CPUƒAƒ‰[ƒ€è‡’li <code>null</code> ‚È‚çİ’è‚µ‚È‚¢j
+         *			CPUã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ï¼ˆ <code>null</code> ãªã‚‰è¨­å®šã—ãªã„ï¼‰
          */
         public UpdateInvocationParam(String className, String methodName, Boolean transactionGraph,
             Boolean target, Long alarmThreshold, Long alarmCpuThreshold)
@@ -464,9 +464,9 @@ public final class TelegramCreator implements TelegramConstants
         }
 
         /**
-         * ƒNƒ‰ƒX–¼‚ğ•Ô‚µ‚Ü‚·B<br />
+         * ã‚¯ãƒ©ã‚¹åã‚’è¿”ã—ã¾ã™ã€‚<br />
          * 
-         * @return ƒNƒ‰ƒX–¼
+         * @return ã‚¯ãƒ©ã‚¹å
          */
         public String getClassName()
         {
@@ -474,9 +474,9 @@ public final class TelegramCreator implements TelegramConstants
         }
 
         /**
-         * ƒƒ\ƒbƒh–¼‚ğ•Ô‚µ‚Ü‚·B<br />
+         * ãƒ¡ã‚½ãƒƒãƒ‰åã‚’è¿”ã—ã¾ã™ã€‚<br />
          * 
-         * @return ƒƒ\ƒbƒh–¼
+         * @return ãƒ¡ã‚½ãƒƒãƒ‰å
          */
         public String getMethodName()
         {
@@ -484,11 +484,11 @@ public final class TelegramCreator implements TelegramConstants
         }
 
         /**
-         * ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒOƒ‰ƒt‚ğ•\¦‚·‚é‚©”Û‚©‚ğ•Ô‚µ‚Ü‚·B<br />
+         * ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚°ãƒ©ãƒ•ã‚’è¡¨ç¤ºã™ã‚‹ã‹å¦ã‹ã‚’è¿”ã—ã¾ã™ã€‚<br />
          * 
-         * İ’è‚µ‚È‚¢ê‡‚Í <code>null</code> ‚ğ•Ô‚µ‚Ü‚·B<br />
+         * è¨­å®šã—ãªã„å ´åˆã¯ <code>null</code> ã‚’è¿”ã—ã¾ã™ã€‚<br />
          * 
-         * @return ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒOƒ‰ƒt‚ğ•\¦‚·‚éê‡‚Í <code>true</code>
+         * @return ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚°ãƒ©ãƒ•ã‚’è¡¨ç¤ºã™ã‚‹å ´åˆã¯ <code>true</code>
          */
         public Boolean isTransactionGraphOutput()
         {
@@ -496,11 +496,11 @@ public final class TelegramCreator implements TelegramConstants
         }
 
         /**
-         * Œv‘ª‘ÎÛ‚É‚·‚é‚©”Û‚©‚ğ•Ô‚µ‚Ü‚·B<br />
+         * è¨ˆæ¸¬å¯¾è±¡ã«ã™ã‚‹ã‹å¦ã‹ã‚’è¿”ã—ã¾ã™ã€‚<br />
          * 
-         * İ’è‚µ‚È‚¢ê‡‚Í <code>null</code> ‚ğ•Ô‚µ‚Ü‚·B<br />
+         * è¨­å®šã—ãªã„å ´åˆã¯ <code>null</code> ã‚’è¿”ã—ã¾ã™ã€‚<br />
          * 
-         * @return Œv‘ª‘ÎÛ‚É‚·‚éê‡‚Í <code>true</code>
+         * @return è¨ˆæ¸¬å¯¾è±¡ã«ã™ã‚‹å ´åˆã¯ <code>true</code>
          */
         public Boolean isTarget()
         {
@@ -508,11 +508,11 @@ public final class TelegramCreator implements TelegramConstants
         }
 
         /**
-         * ƒAƒ‰[ƒ€è‡’l‚ğ•Ô‚µ‚Ü‚·B<br />
+         * ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ã‚’è¿”ã—ã¾ã™ã€‚<br />
          * 
-         * İ’è‚µ‚È‚¢ê‡‚Í <code>null</code> ‚ğ•Ô‚µ‚Ü‚·B<br />
+         * è¨­å®šã—ãªã„å ´åˆã¯ <code>null</code> ã‚’è¿”ã—ã¾ã™ã€‚<br />
          * 
-         * @return ƒAƒ‰[ƒ€è‡’liƒ~ƒŠ•bj
+         * @return ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ï¼ˆãƒŸãƒªç§’ï¼‰
          */
         public Long getAlarmThreshold()
         {
@@ -520,11 +520,11 @@ public final class TelegramCreator implements TelegramConstants
         }
 
         /**
-         * CPUƒAƒ‰[ƒ€è‡’l‚ğ•Ô‚µ‚Ü‚·B<br />
+         * CPUã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ã‚’è¿”ã—ã¾ã™ã€‚<br />
          * 
-         * İ’è‚µ‚È‚¢ê‡‚Í <code>null</code> ‚ğ•Ô‚µ‚Ü‚·B<br />
+         * è¨­å®šã—ãªã„å ´åˆã¯ <code>null</code> ã‚’è¿”ã—ã¾ã™ã€‚<br />
          * 
-         * @return CPUƒAƒ‰[ƒ€è‡’l
+         * @return CPUã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤
          */
         public Long getAlarmCpuThreshold()
         {
@@ -548,13 +548,13 @@ public final class TelegramCreator implements TelegramConstants
     }
 
     /**
-     * JVNƒƒOæ“¾“d•¶‚ğì¬‚·‚éB
+     * JVNãƒ­ã‚°å–å¾—é›»æ–‡ã‚’ä½œæˆã™ã‚‹ã€‚
      * 
      * @param requestKind
-     *			“d•¶—v‹‰“ší•ÊB
+     *			é›»æ–‡è¦æ±‚å¿œç­”ç¨®åˆ¥ã€‚
      * @param jvnFileNames
-     *			JVNƒƒOƒtƒ@ƒCƒ‹–¼B
-     * @return JVNƒƒOæ“¾“d•¶B
+     *			JVNãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«åã€‚
+     * @return JVNãƒ­ã‚°å–å¾—é›»æ–‡ã€‚
      */
     public static Telegram createJvnLogTelegram(final byte requestKind,
         final List<String> jvnFileNames)
@@ -568,9 +568,9 @@ public final class TelegramCreator implements TelegramConstants
     }
 
     /**
-     * ƒXƒŒƒbƒhƒ_ƒ“ƒvæ“¾—v‹“d•¶‚ğì¬‚µ‚Ü‚·B
+     * ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å–å¾—è¦æ±‚é›»æ–‡ã‚’ä½œæˆã—ã¾ã™ã€‚
      * 
-     * @return ƒXƒŒƒbƒhƒ_ƒ“ƒvæ“¾—v‹“d•¶
+     * @return ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å–å¾—è¦æ±‚é›»æ–‡
      */
     public static Telegram createThreadDumpRequestTelegram()
     {
@@ -588,9 +588,9 @@ public final class TelegramCreator implements TelegramConstants
     }
 
     /**
-     * ƒq[ƒvƒ_ƒ“ƒvæ“¾—v‹“d•¶‚ğì¬‚µ‚Ü‚·B
+     * ãƒ’ãƒ¼ãƒ—ãƒ€ãƒ³ãƒ—å–å¾—è¦æ±‚é›»æ–‡ã‚’ä½œæˆã—ã¾ã™ã€‚
      * 
-     * @return ƒq[ƒvƒ_ƒ“ƒvæ“¾—v‹“d•¶
+     * @return ãƒ’ãƒ¼ãƒ—ãƒ€ãƒ³ãƒ—å–å¾—è¦æ±‚é›»æ–‡
      */
     public static Telegram createHeapDumpRequestTelegram()
     {
@@ -607,11 +607,11 @@ public final class TelegramCreator implements TelegramConstants
     }
 
     /**
-     * ƒq[ƒvƒ_ƒ“ƒvæ“¾‰“š“d•¶‚ğì¬‚µ‚Ü‚·B
+     * ãƒ’ãƒ¼ãƒ—ãƒ€ãƒ³ãƒ—å–å¾—å¿œç­”é›»æ–‡ã‚’ä½œæˆã—ã¾ã™ã€‚
      * 
      * @param telegramId
-     *			“d•¶ ID
-     * @return ƒq[ƒvƒ_ƒ“ƒvæ“¾‰“š“d•¶
+     *			é›»æ–‡ ID
+     * @return ãƒ’ãƒ¼ãƒ—ãƒ€ãƒ³ãƒ—å–å¾—å¿œç­”é›»æ–‡
      */
     public static Telegram createHeapDumpResponseTelegram(final long telegramId)
     {
@@ -628,9 +628,9 @@ public final class TelegramCreator implements TelegramConstants
     }
 
     /**
-     * ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€æ“¾—v‹“d•¶‚ğì¬‚µ‚Ü‚·B
+     * ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ å–å¾—è¦æ±‚é›»æ–‡ã‚’ä½œæˆã—ã¾ã™ã€‚
      * 
-     * @return ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€æ“¾—v‹“d•¶
+     * @return ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ å–å¾—è¦æ±‚é›»æ–‡
      */
     public static Telegram createClassHistogramRequestTelegram()
     {
@@ -648,11 +648,11 @@ public final class TelegramCreator implements TelegramConstants
     }
 
     /**
-     * ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€æ“¾‰“š“d•¶‚ğì¬‚µ‚Ü‚·B
+     * ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ å–å¾—å¿œç­”é›»æ–‡ã‚’ä½œæˆã—ã¾ã™ã€‚
      * 
      * @param telegramId
-     *			“d•¶ ID
-     * @return ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€æ“¾‰“š“d•¶
+     *			é›»æ–‡ ID
+     * @return ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ å–å¾—å¿œç­”é›»æ–‡
      */
     public static Telegram createClassHistogramResponseTelegram(final long telegramId)
     {

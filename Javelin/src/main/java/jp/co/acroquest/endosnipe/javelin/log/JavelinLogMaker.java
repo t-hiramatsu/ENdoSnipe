@@ -48,24 +48,24 @@ import jp.co.acroquest.endosnipe.javelin.util.StatsUtil;
 import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
 
 /**
- * JavelinƒƒO‚Ìˆê—v‘fì¬‚·‚éƒNƒ‰ƒXB
+ * Javelinãƒ­ã‚°ã®ä¸€è¦ç´ ä½œæˆã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚
  *
  * @author eriguchi
  */
 public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
 {
-    /** ƒ_ƒuƒ‹ƒNƒH[ƒe[ƒVƒ‡ƒ“‚ğ•\‚·ƒpƒ^[ƒ“B */
+    /** ãƒ€ãƒ–ãƒ«ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ã‚’è¡¨ã™ãƒ‘ã‚¿ãƒ¼ãƒ³ã€‚ */
     private static final Pattern DOUBLE_QUOTATION_PATTERN = Pattern.compile("\"");
 
     /**
-     * ƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğ‘j~‚·‚éƒvƒ‰ƒCƒx[ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^B
+     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã‚’é˜»æ­¢ã™ã‚‹ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
      */
     protected JavelinLogMaker()
     {
         // Do Nothing.
     }
 
-    /** ’PˆÊ•ÏŠ·’è”(ƒiƒm ¨ ƒ~ƒŠ) */
+    /** å˜ä½å¤‰æ›å®šæ•°(ãƒŠãƒ â†’ ãƒŸãƒª) */
     private static final int NANO_TO_MILLI = 1000000;
 
     private static final String[] MESSAGE_TYPES =
@@ -75,12 +75,12 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
     private static final String NEW_LINE = "\r\n";
 
     /**
-     * ƒCƒxƒ“ƒgƒƒO•¶š—ñ‚ğì¬‚µ‚Ü‚·B
+     * ã‚¤ãƒ™ãƒ³ãƒˆãƒ­ã‚°æ–‡å­—åˆ—ã‚’ä½œæˆã—ã¾ã™ã€‚
      *
-     * @param event ƒCƒxƒ“ƒgB
-     * @param tree ƒR[ƒ‹ƒcƒŠ[B
-     * @param node ƒm[ƒhB
-     * @return ƒCƒxƒ“ƒgƒƒO•¶š—ñB
+     * @param event ã‚¤ãƒ™ãƒ³ãƒˆã€‚
+     * @param tree ã‚³ãƒ¼ãƒ«ãƒ„ãƒªãƒ¼ã€‚
+     * @param node ãƒãƒ¼ãƒ‰ã€‚
+     * @return ã‚¤ãƒ™ãƒ³ãƒˆãƒ­ã‚°æ–‡å­—åˆ—ã€‚
      */
     public static String createEventLog(final CommonEvent event, final CallTree tree,
             final CallTreeNode node)
@@ -109,28 +109,28 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
         jvnBuffer.append(",");
         jvnBuffer.append(dateFormat.format(time));
 
-        // ƒCƒxƒ“ƒg–¼
+        // ã‚¤ãƒ™ãƒ³ãƒˆå
         addToJvnBuffer(event.getName(), jvnBuffer);
 
-        // ƒƒ\ƒbƒh–¼
+        // ãƒ¡ã‚½ãƒƒãƒ‰å
         addToJvnBuffer(getValidMethodName(callee), jvnBuffer);
 
-        // ƒNƒ‰ƒX–¼
+        // ã‚¯ãƒ©ã‚¹å
         addToJvnBuffer(callee.getClassName(), jvnBuffer);
 
         String levelStr = createLevelStr(event);
 
-        // ŒxƒŒƒxƒ‹
+        // è­¦å‘Šãƒ¬ãƒ™ãƒ«
         addToJvnBuffer(levelStr, jvnBuffer);
 
-        // ƒXƒŒƒbƒhID
+        // ã‚¹ãƒ¬ãƒƒãƒ‰ID
         addToJvnBuffer(tree.getThreadID(), jvnBuffer);
         jvnBuffer.append(NEW_LINE);
 
         jvnBuffer.append(JAVELIN_EVENTINFO_START);
         jvnBuffer.append(NEW_LINE);
 
-        // ƒpƒ‰ƒ[ƒ^‚ğo—Í‚·‚éB
+        // ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’å‡ºåŠ›ã™ã‚‹ã€‚
         for (Map.Entry<String, String> entry : event.getParamMap().entrySet())
         {
             String key = entry.getKey();
@@ -146,8 +146,8 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
     }
 
     /**
-     * ƒƒ\ƒbƒh–¼‚Éƒ_ƒuƒ‹ƒNƒH[ƒe[ƒVƒ‡ƒ“‚ª‚ ‚éê‡‚ÍA‚»‚ê‚ğ2‚Â‚Ìƒ_ƒuƒ‹ƒNƒH[ƒe[ƒVƒ‡ƒ“‚É’u‚«Š·‚¦A
-     * ‰üs‚ª‚ ‚éê‡‚Í‰üs‚ğíœ‚µ‚Äo—Í‚·‚éB
+     * ãƒ¡ã‚½ãƒƒãƒ‰åã«ãƒ€ãƒ–ãƒ«ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ãŒã‚ã‚‹å ´åˆã¯ã€ãã‚Œã‚’2ã¤ã®ãƒ€ãƒ–ãƒ«ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ã«ç½®ãæ›ãˆã€
+     * æ”¹è¡ŒãŒã‚ã‚‹å ´åˆã¯æ”¹è¡Œã‚’å‰Šé™¤ã—ã¦å‡ºåŠ›ã™ã‚‹ã€‚
      *
      * @param invocation
      * @return
@@ -180,11 +180,11 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
 
     /**
      *
-     * @param messageType ƒƒbƒZ[ƒWƒ^ƒCƒv
-     * @param time 
-     * @param tree {@link CallTree}ƒIƒuƒWƒFƒNƒg
-     * @param node {@link CallTreeNode}ƒIƒuƒWƒFƒNƒg
-     * @return JavelinƒƒO‚Ì“à—e
+     * @param messageType ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚¿ã‚¤ãƒ—
+     * @param time æ™‚åˆ»
+     * @param tree {@link CallTree}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param node {@link CallTreeNode}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @return Javelinãƒ­ã‚°ã®å†…å®¹
      */
     public static String createJavelinLog(final int messageType, final long time,
             final CallTree tree, final CallTreeNode node)
@@ -228,52 +228,52 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
         Throwable throwable = node.getThrowable();
         if (messageType == ID_THROW)
         {
-            // —áŠOƒNƒ‰ƒX–¼
+            // ä¾‹å¤–ã‚¯ãƒ©ã‚¹å
             addToJvnBuffer(throwable.getClass().getName(), jvnBuffer);
 
-            // —áŠOƒIƒuƒWƒFƒNƒgID
+            // ä¾‹å¤–ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆID
             addToJvnBuffer(StatsUtil.getObjectID(throwable), jvnBuffer);
         }
 
-        // ŒÄ‚Ño‚µæƒƒ\ƒbƒh–¼
+        // å‘¼ã³å‡ºã—å…ˆãƒ¡ã‚½ãƒƒãƒ‰å
         addToJvnBuffer(getValidMethodName(callee), jvnBuffer);
 
-        // ŒÄ‚Ño‚µæƒNƒ‰ƒX–¼
+        // å‘¼ã³å‡ºã—å…ˆã‚¯ãƒ©ã‚¹å
         addToJvnBuffer(callee.getClassName(), jvnBuffer);
 
-        // ŒÄ‚Ño‚µæƒIƒuƒWƒFƒNƒgID
+        // å‘¼ã³å‡ºã—å…ˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆID
         addToJvnBuffer("unknown", jvnBuffer);
 
         if (messageType == ID_FIELD_READ || messageType == ID_FIELD_WRITE)
         {
-            // ƒAƒNƒZƒXŒ³ƒƒ\ƒbƒh–¼
+            // ã‚¢ã‚¯ã‚»ã‚¹å…ƒãƒ¡ã‚½ãƒƒãƒ‰å
             addToJvnBuffer("", jvnBuffer);
 
-            // ƒAƒNƒZƒXŒ³ƒNƒ‰ƒX–¼
+            // ã‚¢ã‚¯ã‚»ã‚¹å…ƒã‚¯ãƒ©ã‚¹å
             addToJvnBuffer("", jvnBuffer);
 
-            // ƒAƒNƒZƒXŒ³ƒIƒuƒWƒFƒNƒgID
+            // ã‚¢ã‚¯ã‚»ã‚¹å…ƒã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆID
             addToJvnBuffer("", jvnBuffer);
 
-            // ƒAƒNƒZƒXæƒtƒB[ƒ‹ƒh‚ÌŒ^
+            // ã‚¢ã‚¯ã‚»ã‚¹å…ˆãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®å‹
             addToJvnBuffer("", jvnBuffer);
         }
         else if (messageType == ID_CALL || messageType == ID_RETURN)
         {
-            // ŒÄ‚Ño‚µŒ³ƒƒ\ƒbƒh–¼
+            // å‘¼ã³å‡ºã—å…ƒãƒ¡ã‚½ãƒƒãƒ‰å
             addToJvnBuffer(getValidMethodName(caller), jvnBuffer);
 
-            // ŒÄ‚Ño‚µŒ³ƒNƒ‰ƒX–¼
+            // å‘¼ã³å‡ºã—å…ƒã‚¯ãƒ©ã‚¹å
             addToJvnBuffer(caller.getClassName(), jvnBuffer);
 
-            // ŒÄ‚Ño‚µŒ³ƒIƒuƒWƒFƒNƒgID
+            // å‘¼ã³å‡ºã—å…ƒã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆID
             addToJvnBuffer("unknown", jvnBuffer);
 
-            // ƒ‚ƒfƒBƒtƒ@ƒCƒA
+            // ãƒ¢ãƒ‡ã‚£ãƒ•ã‚¡ã‚¤ã‚¢
             addToJvnBuffer("", jvnBuffer);
         }
 
-        // ƒXƒŒƒbƒhID
+        // ã‚¹ãƒ¬ãƒƒãƒ‰ID
         addToJvnBuffer(tree.getThreadID(), jvnBuffer);
         jvnBuffer.append(NEW_LINE);
 
@@ -297,7 +297,7 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
         {
             if (messageType == ID_CALL)
             {
-                // VMÀsî•ñ
+                // VMå®Ÿè¡Œæƒ…å ±
                 VMStatus startStatus = node.getStartVmStatus();
                 VMStatus endStatus = node.getEndVmStatus();
 
@@ -403,7 +403,7 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
             jvnBuffer.append(i);
             jvnBuffer.append("] = ");
 
-            // ÀsŒv‰æi[PLAN] ‚Ån‚Ü‚éj‚ÍŒ‹‰Ê‚Ì•¶š—ñ‚ğ’Zk‚µ‚È‚¢
+            // å®Ÿè¡Œè¨ˆç”»ï¼ˆ[PLAN] ã§å§‹ã¾ã‚‹ï¼‰ã¯çµæœã®æ–‡å­—åˆ—ã‚’çŸ­ç¸®ã—ãªã„
             if (args[i] != null && args[i].startsWith("[PLAN]"))
             {
                 jvnBuffer.append(args[i]);
@@ -490,21 +490,21 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
     
 
     /**
-     * Hadoop‚Ìƒm[ƒhŠÔƒpƒ‰ƒ[ƒ^‚É‘Î‰‚µ‚½ƒƒbƒZ[ƒW‚ğì¬‚·‚éB
+     * Hadoopã®ãƒãƒ¼ãƒ‰é–“ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã«å¯¾å¿œã—ãŸãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’ä½œæˆã™ã‚‹ã€‚
      *
-     * @param messageType ƒƒbƒZ[ƒWƒ^ƒCƒv
-     * @param time 
-     * @param tree {@link CallTree}ƒIƒuƒWƒFƒNƒg
-     * @param node {@link CallTreeNode}ƒIƒuƒWƒFƒNƒg
+     * @param messageType ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚¿ã‚¤ãƒ—
+     * @param time æ™‚åˆ»
+     * @param tree {@link CallTree}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param node {@link CallTreeNode}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      *
-     * @return JavelinƒƒO‚Ì“à—e
+     * @return Javelinãƒ­ã‚°ã®å†…å®¹
      */
     static private String createHadoopLog(final int messageType,
                                           final long time,
                                           final CallTree tree,
                                           final CallTreeNode node)
     {
-        // TODO "Call"‚Æ"Return"ˆÈŠO‚Í–¢‘Î‰
+        // TODO "Call"ã¨"Return"ä»¥å¤–ã¯æœªå¯¾å¿œ
         if ( !(messageType == ID_CALL) && !(messageType == ID_RETURN) )
                 return null;
         if (!(node.hasHadoopInfo()))
@@ -517,7 +517,7 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
 
         Invocation callee = node.getInvocation();
 
-        // RPC‚È‚Ì‚ÅŒÄ‚Ño‚µŒ³‚Í•K‚¸NULL‚É‚È‚é
+        // RPCãªã®ã§å‘¼ã³å‡ºã—å…ƒã¯å¿…ãšNULLã«ãªã‚‹
         if (parent != null)
         {
             return null;
@@ -528,10 +528,10 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
             return null;
         }
 
-        // ‚±‚±‚©‚çƒƒbƒZ[ƒWì¬ŠJn
+        // ã“ã“ã‹ã‚‰ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ä½œæˆé–‹å§‹
         if (node.getHadoopInfo().hasActions() || node.getHadoopInfo().hasStatuses())
         {
-            // heartbeat()‚ÍCall‚ÆReturn‚ğ‹t“]‚³‚¹‚Ä•\¦‚·‚é
+            // heartbeat()ã¯Callã¨Returnã‚’é€†è»¢ã•ã›ã¦è¡¨ç¤ºã™ã‚‹
             if (messageType == ID_CALL)
             {
                 if (!node.getHadoopInfo().hasStatuses())
@@ -551,33 +551,33 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
             jvnBuffer.append(",");
             jvnBuffer.append(dateFormat.format(time));
 
-            // TODO —áŠO‚Ì‘‚«o‚µ‚Íl—¶‚µ‚È‚¢
+            // TODO ä¾‹å¤–ã®æ›¸ãå‡ºã—ã¯è€ƒæ…®ã—ãªã„
 
             // Phase
             addToJvnBuffer(getType(node.getHadoopInfo(), messageType), jvnBuffer);
 
-            // ŒÄ‚Ño‚µŒ³ƒzƒXƒg–¼
+            // å‘¼ã³å‡ºã—å…ƒãƒ›ã‚¹ãƒˆå
             addToJvnBuffer(node.getHadoopInfo().getHost(), jvnBuffer);
 
-            // ŒÄ‚Ño‚µæƒIƒuƒWƒFƒNƒgID
+            // å‘¼ã³å‡ºã—å…ˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆID
             addToJvnBuffer("", jvnBuffer);
 
-            // ŒÄ‚Ño‚µŒ³IP
+            // å‘¼ã³å‡ºã—å…ƒIP
             addToJvnBuffer("", jvnBuffer);
 
             // "JobTracker"
             addToJvnBuffer("JobTracker", jvnBuffer);
 
-            // ŒÄ‚Ño‚µŒ³ƒIƒuƒWƒFƒNƒgID
+            // å‘¼ã³å‡ºã—å…ƒã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆID
             addToJvnBuffer("", jvnBuffer);
 
-            // ƒ‚ƒfƒBƒtƒ@ƒCƒA
+            // ãƒ¢ãƒ‡ã‚£ãƒ•ã‚¡ã‚¤ã‚¢
             addToJvnBuffer("", jvnBuffer);
 
-            // TT->JT‚Ìê‡
+            // TT->JTã®å ´åˆ
             if (messageType == ID_CALL)
             {
-                // ƒXƒŒƒbƒhID‚ÉÅ‰‚ÉŒ©‚Â‚©‚Á‚½ƒWƒ‡ƒuID‚ğİ’è
+                // ã‚¹ãƒ¬ãƒƒãƒ‰IDã«æœ€åˆã«è¦‹ã¤ã‹ã£ãŸã‚¸ãƒ§ãƒ–IDã‚’è¨­å®š
                 for (HadoopTaskStatus stat : node.getHadoopInfo().getTaskStatuses())
                 {
                     addToJvnBuffer(stat.getJobID(), jvnBuffer);
@@ -585,11 +585,11 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
                     break;
                 }
 
-                // –ß‚è’lo—Í‚ªİ’è‚³‚ê‚Ä‚¢‚éê‡
+                // æˆ»ã‚Šå€¤å‡ºåŠ›ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹å ´åˆ
                 if (config.isLogReturn())
                 {
                     String retVal = makeTaskStatus(node.getHadoopInfo().getTaskStatuses());
-                    // o—Í‘ÎÛ‚ÌƒƒbƒZ[ƒW‚ª–³‚¢ê‡‚Ínull‚ğ•Ô‚·
+                    // å‡ºåŠ›å¯¾è±¡ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãŒç„¡ã„å ´åˆã¯nullã‚’è¿”ã™
                     if (null == retVal)
                         return null;
                     jvnBuffer.append(retVal);
@@ -597,7 +597,7 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
             }
             if (messageType == ID_RETURN)
             {
-                // ƒXƒŒƒbƒhID‚ÉÅ‰‚ÉŒ©‚Â‚©‚Á‚½ƒWƒ‡ƒuID‚ğİ’è
+                // ã‚¹ãƒ¬ãƒƒãƒ‰IDã«æœ€åˆã«è¦‹ã¤ã‹ã£ãŸã‚¸ãƒ§ãƒ–IDã‚’è¨­å®š
                 for (HadoopAction action : node.getHadoopInfo().getTaskTrackerActions())
                 {
                     addToJvnBuffer(action.getJobID(), jvnBuffer);
@@ -605,25 +605,25 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
                     break;
                 }
 
-                // ˆø”o—Í‚ªİ’è‚³‚ê‚Ä‚¢‚éê‡
+                // å¼•æ•°å‡ºåŠ›ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹å ´åˆ
                 if (config.isLogArgs())
                 {
                     String retVal = makeHeartbeatResponse(node.getHadoopInfo().getTaskTrackerActions());
-                    // o—Í‘ÎÛ‚ÌƒƒbƒZ[ƒW‚ª–³‚¢ê‡‚Ínull‚ğ•Ô‚·
+                    // å‡ºåŠ›å¯¾è±¡ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãŒç„¡ã„å ´åˆã¯nullã‚’è¿”ã™
                     if (null == retVal)
                         return null;
                     jvnBuffer.append(retVal);
                 }
             }
         }
-        // ƒWƒ‡ƒu“Š“üAŠ®—¹A’â~‚Ìê‡
+        // ã‚¸ãƒ§ãƒ–æŠ•å…¥ã€å®Œäº†ã€åœæ­¢ã®å ´åˆ
         else if (node.getHadoopInfo().hasSubmitInfo() ||
                  node.getHadoopInfo().hasCompleteInfo() ||
                  node.getHadoopInfo().hasKilledInfo())
         {
             String command = "";
 
-            // submitJob()‚ÌƒŠƒ^[ƒ“‚Ío—Í‚µ‚È‚¢
+            // submitJob()ã®ãƒªã‚¿ãƒ¼ãƒ³ã¯å‡ºåŠ›ã—ãªã„
             if (node.getHadoopInfo().hasSubmitInfo())
             {
                 if (messageType == ID_RETURN)
@@ -631,7 +631,7 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
                 else
                     command = "SubmitJob";
             }
-            // completedInfo‚ÌƒR[ƒ‹‚Ío—Í‚µ‚È‚¢
+            // completedInfoã®ã‚³ãƒ¼ãƒ«ã¯å‡ºåŠ›ã—ãªã„
             if (node.getHadoopInfo().hasCompleteInfo())
             {
                 if (messageType == ID_CALL)
@@ -639,7 +639,7 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
                 else
                     command = "JobCompleted";
             }
-            // killedInfo‚ÌƒŠƒ^[ƒ“‚Ío—Í‚µ‚È‚¢
+            // killedInfoã®ãƒªã‚¿ãƒ¼ãƒ³ã¯å‡ºåŠ›ã—ãªã„
             if (node.getHadoopInfo().hasKilledInfo())
             {
                 if (messageType == ID_RETURN)
@@ -654,30 +654,30 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
             jvnBuffer.append(",");
             jvnBuffer.append(dateFormat.format(time));
 
-            // TODO —áŠO‚Ì‘‚«o‚µ‚Íl—¶‚µ‚È‚¢
+            // TODO ä¾‹å¤–ã®æ›¸ãå‡ºã—ã¯è€ƒæ…®ã—ãªã„
 
-            // ŒÄ‚Ño‚µæ
+            // å‘¼ã³å‡ºã—å…ˆ
             addToJvnBuffer(command, jvnBuffer);
 
             // "JobTracker"
             addToJvnBuffer("JobTracker", jvnBuffer);
 
-            // ŒÄ‚Ño‚µæƒIƒuƒWƒFƒNƒgID
+            // å‘¼ã³å‡ºã—å…ˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆID
             addToJvnBuffer("", jvnBuffer);
 
-            // ŒÄ‚Ño‚µŒ³IP?
+            // å‘¼ã³å‡ºã—å…ƒIP?
             addToJvnBuffer("", jvnBuffer);
 
-            // ŒÄ‚Ño‚µŒ³ƒzƒXƒg–¼
+            // å‘¼ã³å‡ºã—å…ƒãƒ›ã‚¹ãƒˆå
             addToJvnBuffer("root", jvnBuffer);
 
-            // ŒÄ‚Ño‚µŒ³ƒIƒuƒWƒFƒNƒgID
+            // å‘¼ã³å‡ºã—å…ƒã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆID
             addToJvnBuffer("", jvnBuffer);
 
-            // ƒ‚ƒfƒBƒtƒ@ƒCƒA
+            // ãƒ¢ãƒ‡ã‚£ãƒ•ã‚¡ã‚¤ã‚¢
             addToJvnBuffer("", jvnBuffer);
 
-            // ƒWƒ‡ƒuID
+            // ã‚¸ãƒ§ãƒ–ID
             String jobID;
             if (node.getHadoopInfo().hasSubmitInfo())
                 jobID = node.getHadoopInfo().getSubmitJobID();
@@ -689,13 +689,13 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
 
             jvnBuffer.append(NEW_LINE);
 
-            // HadoopŒÅ—Lî•ñ‚ğ‘‚«o‚µ
+            // Hadoopå›ºæœ‰æƒ…å ±ã‚’æ›¸ãå‡ºã—
             if (messageType == ID_CALL)
             {
-                // ˆø”o—Í‚ªİ’è‚³‚ê‚Ä‚éê‡
+                // å¼•æ•°å‡ºåŠ›ãŒè¨­å®šã•ã‚Œã¦ã‚‹å ´åˆ
                 if (config.isLogArgs())
                 {
-                    // ƒWƒ‡ƒuID‚ğo—Í
+                    // ã‚¸ãƒ§ãƒ–IDã‚’å‡ºåŠ›
                     jvnBuffer.append(JAVELIN_ARGS_START);
                     jvnBuffer.append(NEW_LINE);
                     jvnBuffer.append("JobID : " + jobID);
@@ -706,10 +706,10 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
             }
             else if (messageType == ID_RETURN)
             {
-                // –ß‚è’lo—Í‚ªİ’è‚³‚ê‚Ä‚éê‡
+                // æˆ»ã‚Šå€¤å‡ºåŠ›ãŒè¨­å®šã•ã‚Œã¦ã‚‹å ´åˆ
                 if (config.isLogReturn())
                 {
-                    // ƒWƒ‡ƒuID‚ğo—Í
+                    // ã‚¸ãƒ§ãƒ–IDã‚’å‡ºåŠ›
                     jvnBuffer.append(JAVELIN_RETURN_START);
                     jvnBuffer.append(NEW_LINE);
                     jvnBuffer.append("JobID : " + jobID);
@@ -724,7 +724,7 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
         {
             if (messageType == ID_CALL)
             {
-                // VMÀsî•ñ
+                // VMå®Ÿè¡Œæƒ…å ±
                 VMStatus startStatus = node.getStartVmStatus();
                 VMStatus endStatus = node.getEndVmStatus();
 
@@ -777,11 +777,11 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
     }
 
     /**
-     * Hadoop‚ÌTaskTracker‚Ìƒ^ƒXƒNó‘Ô‚ÌƒƒbƒZ[ƒW‚ğì¬‚µ‚Ü‚·B
+     * Hadoopã®TaskTrackerã®ã‚¿ã‚¹ã‚¯çŠ¶æ…‹ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’ä½œæˆã—ã¾ã™ã€‚
      *
-     * @param taskStatusList ƒ^ƒXƒNó‘Ô‚ÌƒŠƒXƒg
+     * @param taskStatusList ã‚¿ã‚¹ã‚¯çŠ¶æ…‹ã®ãƒªã‚¹ãƒˆ
      *
-     * @return ƒ^ƒXƒNó‘Ô‚ÌƒƒbƒZ[ƒW^{@code null}‚Ío—Í‘ÎÛ‚Ìî•ñ‚È‚µ
+     * @return ã‚¿ã‚¹ã‚¯çŠ¶æ…‹ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ï¼{@code null}ã¯å‡ºåŠ›å¯¾è±¡ã®æƒ…å ±ãªã—
      */
     private static String makeTaskStatus(final ArrayList<HadoopTaskStatus> taskStatusList)
     {
@@ -794,11 +794,11 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
         buf.append(JAVELIN_RETURN_START);
         buf.append(NEW_LINE);
 
-        // ‚»‚ê‚¼‚ê‚Ìƒ^ƒXƒNî•ñ‚ğ‘‚«o‚µ
+        // ãã‚Œãã‚Œã®ã‚¿ã‚¹ã‚¯æƒ…å ±ã‚’æ›¸ãå‡ºã—
         int index = 1;
         for (HadoopTaskStatus taskStatus : taskStatusList)
         {
-            // ƒ^ƒXƒNÀs’†‚Ío—Í‚µ‚È‚¢
+            // ã‚¿ã‚¹ã‚¯å®Ÿè¡Œä¸­ã¯å‡ºåŠ›ã—ãªã„
             if (taskStatus.getState() == State.RUNNING)
                 continue;
 
@@ -830,11 +830,11 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
 
 
     /**
-     * Hadoop‚Ìƒn[ƒgƒr[ƒg•ÔM‚ÌƒƒbƒZ[ƒW‚ğì¬‚µ‚Ü‚·B
+     * Hadoopã®ãƒãƒ¼ãƒˆãƒ“ãƒ¼ãƒˆè¿”ä¿¡ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’ä½œæˆã—ã¾ã™ã€‚
      *
-     * @param taskTrackerActions ƒAƒNƒVƒ‡ƒ“î•ñ‚ÌƒŠƒXƒg
+     * @param taskTrackerActions ã‚¢ã‚¯ã‚·ãƒ§ãƒ³æƒ…å ±ã®ãƒªã‚¹ãƒˆ
      *
-     * @return ƒn[ƒgƒr[ƒg•ÔM‚ÌƒƒbƒZ[ƒW^{@code null}‚Ío—Í‘ÎÛ‚Ìî•ñ‚È‚µ
+     * @return ãƒãƒ¼ãƒˆãƒ“ãƒ¼ãƒˆè¿”ä¿¡ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ï¼{@code null}ã¯å‡ºåŠ›å¯¾è±¡ã®æƒ…å ±ãªã—
      */
     private static String makeHeartbeatResponse(final ArrayList<HadoopAction> taskTrackerActions)
     {
@@ -847,7 +847,7 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
         buf.append(JAVELIN_ARGS_START);
         buf.append(NEW_LINE);
 
-        // ƒAƒNƒVƒ‡ƒ“‚²‚Æ‚Éî•ñ‚ğ‘‚«o‚µ
+        // ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã”ã¨ã«æƒ…å ±ã‚’æ›¸ãå‡ºã—
         int index = 1;
         for(HadoopAction action : taskTrackerActions)
         {
@@ -884,18 +884,18 @@ public class JavelinLogMaker implements JavelinConstants, JavelinLogConstants
     }
 
     /**
-     * Hadoopî•ñ‚©‚çŒ»İ‚Ìƒ^ƒXƒNí•Ê‚ğæ“¾‚·‚éB
+     * Hadoopæƒ…å ±ã‹ã‚‰ç¾åœ¨ã®ã‚¿ã‚¹ã‚¯ç¨®åˆ¥ã‚’å–å¾—ã™ã‚‹ã€‚
      *
-     * @param hadoopInfo Hadoopî•ñ
-     * @param messageType Call‚Ü‚½‚ÍReturn
+     * @param hadoopInfo Hadoopæƒ…å ±
+     * @param messageType Callã¾ãŸã¯Return
      *
-     * @return Map‚©Reduce‚Ì•¶š—ñ
+     * @return Mapã‹Reduceã®æ–‡å­—åˆ—
      */
     private static String getType(HadoopInfo hadoopInfo, int messageType)
     {
-        // messageType‚ªCall‚Ì‚ÍTaskStatusA
-        // messageType‚ªReturn‚Ì‚ÍTaskTrackerAction‚©‚ç
-        // ƒ^ƒXƒNí•Ê‚ğæ“¾‚·‚éB
+        // messageTypeãŒCallã®æ™‚ã¯TaskStatusã€
+        // messageTypeãŒReturnã®æ™‚ã¯TaskTrackerActionã‹ã‚‰
+        // ã‚¿ã‚¹ã‚¯ç¨®åˆ¥ã‚’å–å¾—ã™ã‚‹ã€‚
         ArrayList<HadoopTaskStatus> taskStatuses = hadoopInfo.getTaskStatuses();
         if (ID_CALL == messageType)
         {

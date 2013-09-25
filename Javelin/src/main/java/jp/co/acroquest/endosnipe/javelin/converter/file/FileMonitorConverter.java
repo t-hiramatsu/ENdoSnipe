@@ -35,17 +35,17 @@ import jp.co.smg.endosnipe.javassist.CtClass;
 import jp.co.smg.endosnipe.javassist.CtMethod;
 
 /**
- * ƒtƒ@ƒCƒ‹‚Ì“üo—Íƒf[ƒ^‚ğ‘—M‚·‚é‚½‚ß‚ÌƒRƒ“ƒo[ƒ^
+ * ãƒ•ã‚¡ã‚¤ãƒ«ã®å…¥å‡ºåŠ›ãƒ‡ãƒ¼ã‚¿ã‚’é€ä¿¡ã™ã‚‹ãŸã‚ã®ã‚³ãƒ³ãƒãƒ¼ã‚¿
  * 
  * @author yamasaki
  */
 public class FileMonitorConverter extends AbstractConverter
 {
-    /** ƒtƒ@ƒCƒ‹“ü—Íƒ‚ƒjƒ^‚ÌƒNƒ‰ƒX–¼Ì */
+    /** ãƒ•ã‚¡ã‚¤ãƒ«å…¥åŠ›ãƒ¢ãƒ‹ã‚¿ã®ã‚¯ãƒ©ã‚¹åç§° */
     private static final String INPUSTREAM_MONITOR_NAME =
             FileInputStreamMonitor.class.getCanonicalName();
 
-    /** ƒtƒ@ƒCƒ‹o—Íƒ‚ƒjƒ^‚ÌƒNƒ‰ƒX–¼Ì */
+    /** ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›ãƒ¢ãƒ‹ã‚¿ã®ã‚¯ãƒ©ã‚¹åç§° */
     private static final String OUTPUSTREAM_MONITOR_NAME =
             FileOutputStreamMonitor.class.getCanonicalName();
 
@@ -54,15 +54,15 @@ public class FileMonitorConverter extends AbstractConverter
      */
     public void init()
     {
-        // ‰½‚à‚µ‚È‚¢B
+        // ä½•ã‚‚ã—ãªã„ã€‚
     }
 
     /**
-     * java.io.FileInputStream#read ‚Æ java.io.FileOutputStream#write ‚É
-     * ƒtƒ@ƒCƒ‹“üo—Í—Êæ“¾ƒR[ƒh‚ğ–„‚ß‚ŞB
+     * java.io.FileInputStream#read ã¨ java.io.FileOutputStream#write ã«
+     * ãƒ•ã‚¡ã‚¤ãƒ«å…¥å‡ºåŠ›é‡å–å¾—ã‚³ãƒ¼ãƒ‰ã‚’åŸ‹ã‚è¾¼ã‚€ã€‚
      * 
-     * @throws CannotCompileException ƒRƒ“ƒpƒCƒ‹—áŠO
-     * @throws IOException ƒtƒ@ƒCƒ‹“üo—Í‚Ì—áŠO
+     * @throws CannotCompileException ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«æ™‚ä¾‹å¤–
+     * @throws IOException ãƒ•ã‚¡ã‚¤ãƒ«å…¥å‡ºåŠ›æ™‚ã®ä¾‹å¤–
      */
     @Override
     public void convertImpl()
@@ -96,14 +96,14 @@ public class FileMonitorConverter extends AbstractConverter
     }
 
     /**
-     * java.io.FileInputStream ‚ÉC³‚ğ‰Á‚¦‚é‚©‚Ç‚¤‚©”»’è‚·‚éB
+     * java.io.FileInputStream ã«ä¿®æ­£ã‚’åŠ ãˆã‚‹ã‹ã©ã†ã‹åˆ¤å®šã™ã‚‹ã€‚
      * 
-     * @param method ƒƒ\ƒbƒh
-     * @return true:ƒƒ\ƒbƒh‚ğC³‚·‚éAfalse:ƒƒ\ƒbƒh‚ğC³‚µ‚È‚¢
+     * @param method ãƒ¡ã‚½ãƒƒãƒ‰
+     * @return true:ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ä¿®æ­£ã™ã‚‹ã€false:ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ä¿®æ­£ã—ãªã„
      */
     private boolean judgeModifyReadMethod(final CtMethod method)
     {
-        // read(byte[]), read(byte[], int, int) ‚Ì‚Æ‚«‚ÉAmodifyWriteMethod()‚ğŒÄ‚Ño‚·
+        // read(byte[]), read(byte[], int, int) ã®ã¨ãã«ã€modifyWriteMethod()ã‚’å‘¼ã³å‡ºã™
         String methodName = method.getName();
         boolean judge = false;
         if ("read".equals(methodName))
@@ -117,16 +117,16 @@ public class FileMonitorConverter extends AbstractConverter
     }
 
     /**
-     * java.io.FileOutputStream ‚ÉC³‚ğ‰Á‚¦‚é‚©‚Ç‚¤‚©”»’è‚·‚éB
+     * java.io.FileOutputStream ã«ä¿®æ­£ã‚’åŠ ãˆã‚‹ã‹ã©ã†ã‹åˆ¤å®šã™ã‚‹ã€‚
      * 
-     * @param method ƒƒ\ƒbƒh
-     * @throws CannotCompileException ƒRƒ“ƒpƒCƒ‹‚Ì—áŠO
+     * @param method ãƒ¡ã‚½ãƒƒãƒ‰
+     * @throws CannotCompileException ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«æ™‚ã®ä¾‹å¤–
      */
     private void judgeModifyWriteMethod(final CtMethod method)
         throws CannotCompileException
     {
-        // write(byte[]) ‚Ì‚Æ‚«‚É‚ÍAmodifyWriteMethod()‚ğŒÄ‚Ño‚µA
-        // write(byte[], int, int) ‚Ì‚Æ‚«‚É‚ÍAmodifyWriteMethod2()‚ğŒÄ‚Ño‚·
+        // write(byte[]) ã®ã¨ãã«ã¯ã€modifyWriteMethod()ã‚’å‘¼ã³å‡ºã—ã€
+        // write(byte[], int, int) ã®ã¨ãã«ã¯ã€modifyWriteMethod2()ã‚’å‘¼ã³å‡ºã™
         String methodName = method.getName();
         if ("write".equals(methodName))
         {
@@ -144,12 +144,12 @@ public class FileMonitorConverter extends AbstractConverter
     }
 
     /**
-     * read ƒƒ\ƒbƒh‚ªŒÄ‚Ño‚³‚ê‚½Œã‚ÉA
-     * FileInputStreamMonitor#postProcess ‚ğŒÄ‚Ño‚·‚æ‚¤‚ÉA
-     * ƒR[ƒh‚ÉC³‚ğ‰Á‚¦‚éB
+     * read ãƒ¡ã‚½ãƒƒãƒ‰ãŒå‘¼ã³å‡ºã•ã‚ŒãŸå¾Œã«ã€
+     * FileInputStreamMonitor#postProcess ã‚’å‘¼ã³å‡ºã™ã‚ˆã†ã«ã€
+     * ã‚³ãƒ¼ãƒ‰ã«ä¿®æ­£ã‚’åŠ ãˆã‚‹ã€‚
      * 
-     * @param method ƒƒ\ƒbƒh
-     * @throws CannotCompileException ƒRƒ“ƒpƒCƒ‹‚Ì—áŠO
+     * @param method ãƒ¡ã‚½ãƒƒãƒ‰
+     * @throws CannotCompileException ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«æ™‚ã®ä¾‹å¤–
      */
     private void modifyReadMethod(final CtMethod method)
         throws CannotCompileException
@@ -158,12 +158,12 @@ public class FileMonitorConverter extends AbstractConverter
     }
 
     /**
-     * read ƒƒ\ƒbƒh‚ªŒÄ‚Ño‚³‚ê‚½Œã‚ÉA
-     * FileOutputStreamMonitor#postProcess ‚ğŒÄ‚Ño‚·‚æ‚¤‚ÉA
-     * ƒR[ƒh‚ÉC³‚ğ‰Á‚¦‚éB
+     * read ãƒ¡ã‚½ãƒƒãƒ‰ãŒå‘¼ã³å‡ºã•ã‚ŒãŸå¾Œã«ã€
+     * FileOutputStreamMonitor#postProcess ã‚’å‘¼ã³å‡ºã™ã‚ˆã†ã«ã€
+     * ã‚³ãƒ¼ãƒ‰ã«ä¿®æ­£ã‚’åŠ ãˆã‚‹ã€‚
      * 
-     * @param method ƒƒ\ƒbƒh
-     * @throws CannotCompileException ƒRƒ“ƒpƒCƒ‹‚Ì—áŠO
+     * @param method ãƒ¡ã‚½ãƒƒãƒ‰
+     * @throws CannotCompileException ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«æ™‚ã®ä¾‹å¤–
      * 
      */
     private void modifyWriteMethod(final CtMethod method)
@@ -173,10 +173,10 @@ public class FileMonitorConverter extends AbstractConverter
     }
 
     /**
-     * FileOutputStreamMonitor ‚ÉC³‚ğ‰Á‚¦‚éB
+     * FileOutputStreamMonitor ã«ä¿®æ­£ã‚’åŠ ãˆã‚‹ã€‚
      * 
-     * @param method ƒƒ\ƒbƒh
-     * @throws CannotCompileException ƒRƒ“ƒpƒCƒ‹‚Ì—áŠO
+     * @param method ãƒ¡ã‚½ãƒƒãƒ‰
+     * @throws CannotCompileException ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«æ™‚ã®ä¾‹å¤–
      * 
      */
     private void modifyWriteMethod2(final CtMethod method)

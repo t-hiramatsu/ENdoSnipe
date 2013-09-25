@@ -1,8 +1,8 @@
 ENS.sqlPlanView = wgp.AbstractView
 		.extend({
 			tableColNamesList : {
-				"sqlStatement" : [ "SQL Statement" ],
-				"sqlExecutePlan" : [ "Get Time", "Execution Plan" ],
+				"sqlStatement" : [ "Query" ],
+				"sqlExecutePlan" : [ "Get Time", "Query Plan" ],
 				"stackTrace" : [ "Stack Trace" ]
 			},
 			initialize : function(argument, treeSettings) {
@@ -59,10 +59,10 @@ ENS.sqlPlanView = wgp.AbstractView
 					} ],
 					"sqlExecutePlan" : [ {
 						name : "gettingPlanTime",
-						width : 80
+						width : 70
 					}, {
 						name : "executePlan",
-						width : this.tableWidth - 120
+						width : this.tableWidth - 110
 					} ],
 					"stackTrace" : [ {
 						name : "stackTrace",
@@ -78,11 +78,12 @@ ENS.sqlPlanView = wgp.AbstractView
 					data : "",
 					colModel : this.tableColModelsList["sqlStatement"],
 					colNames : this.tableColNamesList["sqlStatement"],
-					caption : "SQL Statement",
+					caption : "Query",
 					height : "auto",
 					width : this.tableWidth,
 					shrinkToFit : false,
-					cellEdit : true
+					cellEdit : true,
+					cmTemplate: { title: false }
 				});
 
 				$("#gbox_sqlStatementTable").css({
@@ -102,9 +103,10 @@ ENS.sqlPlanView = wgp.AbstractView
 					data : "",
 					colModel : this.tableColModelsList["sqlExecutePlan"],
 					colNames : this.tableColNamesList["sqlExecutePlan"],
-					caption : "SQL Execute Plan",
+					caption : "Query Plan",
 					pager : "sqlExecutePlanPager",
-					rowList : [ 1, 3, 5 ],
+					rowNum : 5,
+					rowList : [ 5, 3, 1 ],
 					pgbuttons : true,
 					pginput : true,
 					height : "auto",
@@ -114,7 +116,8 @@ ENS.sqlPlanView = wgp.AbstractView
 					viewrecords : true,
 					rownumbers : true,
 					shrinkToFit : false,
-					cellEdit : true
+					cellEdit : true,
+					cmTemplate: { title: false }
 				});
 
 				$("#gbox_sqlExecutePlanTable").css({
@@ -136,7 +139,8 @@ ENS.sqlPlanView = wgp.AbstractView
 					colNames : this.tableColNamesList["stackTrace"],
 					caption : "Stack Trace",
 					pager : "stackTracePager",
-					rowList : [ 1, 3, 5 ],
+					rowNum : 5,
+					rowList : [ 5, 3, 1 ],
 					pgbuttons : true,
 					pginput : true,
 					height : "auto",
@@ -146,7 +150,8 @@ ENS.sqlPlanView = wgp.AbstractView
 					viewrecords : true,
 					rownumbers : true,
 					shrinkToFit : false,
-					cellEdit : true
+					cellEdit : true,
+					cmTemplate: { title: false }
 				});
 
 				$("#gbox_stackTraceTable").css({

@@ -26,33 +26,33 @@
 package jp.co.acroquest.endosnipe.javelin.jdbc.stats;
 
 /**
- * JdbcJavelinConnection�C���^�[�t�F�[�X
+ * JdbcJavelinConnectionインターフェース
  * @author acroquest
  *
  */
 public interface JdbcJavelinConnection
 {
     /**
-     * JDBC��URL���擾���܂��B
-     * @return JDBC��URL
+     * JDBCのURLを取得します。
+     * @return JDBCのURL
      */
     String getJdbcUrl();
     
     /**
-     * JDBC��URL��ݒ肵�܂��B
-     * @param jdbcUrl JDBC��URL
+     * JDBCのURLを設定します。
+     * @param jdbcUrl JDBCのURL
      */
     void setJdbcUrl(String jdbcUrl);
     
     /**
-     * Javelin�̃v���Z�b�T���擾���܂��B
-     * @return Javelin�̃v���Z�b�T
+     * Javelinのプロセッサを取得します。
+     * @return Javelinのプロセッサ
      */
     DBProcessor getJdbcJavelinProcessor();
     
     /**
-     * Javelin�̃v���Z�b�T��ݒ肵�܂��B
-     * @param dbProcessor Javelin�̃v���Z�b�T
+     * Javelinのプロセッサを設定します。
+     * @param dbProcessor Javelinのプロセッサ
      */
     void setJdbcJavelinProcessor(DBProcessor dbProcessor);
 }

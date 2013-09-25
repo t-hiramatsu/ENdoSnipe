@@ -29,174 +29,174 @@ import java.io.InputStream;
 import java.sql.Timestamp;
 
 /**
- * Javelin ���O�e�[�u���ɑ΂���G���e�B�e�B�N���X�ł��B<br />
+ * Javelin ログテーブルに対するエンティティクラスです。<br />
  * 
  * @author y-komori
  */
 public class JavelinLog
 {
     /**
-     * ���O����ӂɎ��ʂ��� ID �B<br/ >
+     * ログを一意に識別する ID 。<br/ >
      *
-     * ID �̓V�[�P���X�uSEQ_JAVELIN_LOG�v�ɂ���Ĕ��s���܂��B
+     * ID はシーケンス「SEQ_JAVELIN_LOG」によって発行します。
      */
     public long logId;
 
     /**
-     * �Z�b�V��������ӂɎ��ʂ���ID�B<br />
+     * セッションを一意に識別するID。<br />
      *
-     * ���O�t�@�C���𕡐����R�[�h�ɕ������Ċi�[����ꍇ�A���� SESSION_ID �����蓖�Ă��܂��B
-     * ID �̓V�[�P���X�uSEQ_JAVELIN_SESSION�v�ɂ���Ĕ��s���܂��B
+     * ログファイルを複数レコードに分割して格納する場合、同じ SESSION_ID が割り当てられます。
+     * ID はシーケンス「SEQ_JAVELIN_SESSION」によって発行します。
      */
     public long sessionId;
 
     /**
-     * ���O�t�@�C���𕡐����R�[�h�ɕ������Ċi�[����ꍇ�A���Ԃ����ʂ��邽�߂̒l�B<br />
+     * ログファイルを複数レコードに分割して格納する場合、順番を識別するための値。<br />
      *
-     * 1 ����n�܂�ʔԂƂ��܂��B<br />
-     * �������R�[�h�ɕ������Ȃ��ꍇ�� 1 �ŌŒ�Ƃ��܂��B
+     * 1 から始まる通番とします。<br />
+     * 複数レコードに分割しない場合は 1 で固定とします。
      */
     public int sequenceId;
 
     /**
-     * Javelin ���O�{�́B<br />
+     * Javelin ログ本体。<br />
      */
     public InputStream javelinLog;
 
     /**
-     * Javelin ���O�̃t�@�C�����B<br />
+     * Javelin ログのファイル名。<br />
      */
     public String logFileName;
 
     /**
-     * �Z�b�V�����̊J�n�����B<br />
+     * セッションの開始時刻。<br />
      */
     public Timestamp startTime;
 
     /**
-     * �Z�b�V�����̏I�������B<br />
+     * セッションの終了時刻。<br />
      */
     public Timestamp endTime;
 
     /**
-     * �Z�b�V�����Ɋւ���ڍא����B<br />
+     * セッションに関する詳細説明。<br />
      *
-     * ��͎��ɃZ�b�V�����֐����������邱�Ƃ�z��B
+     * 解析時にセッションへ説明を加えることを想定。
      */
     public String sessionDesc;
 
     /**
-     * Javelin�̃��O��ʂ�\�����l�B<br />
+     * Javelinのログ種別を表す数値。<br />
      *
-     * 1�FCALL<br />
-     * 2�FRETURN<br />
-     * 3�FREAD<br />
-     * 4�FWRITE<br />
-     * 5�FTHROW<br />
-     * 6�FCATCH
+     * 1：CALL<br />
+     * 2：RETURN<br />
+     * 3：READ<br />
+     * 4：WRITE<br />
+     * 5：THROW<br />
+     * 6：CATCH
      */
     public int logType;
 
     /**
-     * CALL, RETURN �F�Ăяo���ꂽ���\�b�h�̖��O�B<br />
-     * READ, WRITE �F�A�N�Z�X���ꂽ�t�B�[���h�̖��O�B
+     * CALL, RETURN ：呼び出されたメソッドの名前。<br />
+     * READ, WRITE ：アクセスされたフィールドの名前。
      */
     public String calleeName;
 
     /**
-     * CALL, RETURN �F�Ăяo���ꂽ���\�b�h�̃V�O�l�`���B<br />
-     * READ, WRITE �F�A�N�Z�X���ꂽ�t�B�[���h�̃V�O�l�`���B
+     * CALL, RETURN ：呼び出されたメソッドのシグネチャ。<br />
+     * READ, WRITE ：アクセスされたフィールドのシグネチャ。
      */
     public String calleeSignature;
 
     /**
-     * Call, Return �F�Ăяo���ꂽ�N���X�̖��O�B<br />
-     * Read, Write �F�A�N�Z�X���ꂽ�N���X�̖��O�B<br />
-     * Throw, Catch �F�X���[���ꂽ��O�̃N���X���B<br />
-     * �N���X���̓p�b�P�[�W���܂߂����̂Ƃ��܂��B
+     * Call, Return ：呼び出されたクラスの名前。<br />
+     * Read, Write ：アクセスされたクラスの名前。<br />
+     * Throw, Catch ：スローされた例外のクラス名。<br />
+     * クラス名はパッケージも含めた名称とします。
      */
     public String calleeClass;
 
     /**
-     * �A�N�Z�X��t�B�[���h�̌^�B<br />
+     * アクセス先フィールドの型。<br />
      *
-     * �N���X���̓p�b�P�[�W���܂߂����̂Ƃ��܂��B
+     * クラス名はパッケージも含めた名称とします。
      */
     public String calleeFieldType;
 
     /**
-     * Call, Return �F�Ăяo���ꂽ�I�u�W�F�N�g�̎��ʎq�B<br />
-     * Read, Write �F�A�N�Z�X���ꂽ�I�u�W�F�N�g�̎��ʎq�B<br />
-     * Throw, Catch �F throw ���ꂽ��O�̃I�u�W�F�N�g�̎��ʎq�B
+     * Call, Return ：呼び出されたオブジェクトの識別子。<br />
+     * Read, Write ：アクセスされたオブジェクトの識別子。<br />
+     * Throw, Catch ： throw された例外のオブジェクトの識別子。
      */
     public int calleeObjectId;
 
     /**
-     * Call, Return �F�Ăяo�����̃��\�b�h�̖��O�B<br />
-     * Read, Write �F�A�N�Z�X�����\�b�h�̖��O�B<br />
-     * Throw �F��O�� throw �������\�b�h�̖��O�B<br />
-     * Catch �F��O�� catch �������\�b�h�̖��O�B
+     * Call, Return ：呼び出し元のメソッドの名前。<br />
+     * Read, Write ：アクセス元メソッドの名前。<br />
+     * Throw ：例外を throw したメソッドの名前。<br />
+     * Catch ：例外を catch したメソッドの名前。
      */
     public String callerName;
 
     /**
-     * Call, Return �F�Ăяo�����̃��\�b�h�̃V�O�l�`���B<br />
-     * Read, Write �F�A�N�Z�X�����\�b�h�̃V�O�l�`���B<br />
-     * Throw �F��O�� throw �������\�b�h�̃V�O�l�`���B<br />
-     * Catch �F��O�� catch �������\�b�h�̃V�O�l�`���B
+     * Call, Return ：呼び出し元のメソッドのシグネチャ。<br />
+     * Read, Write ：アクセス元メソッドのシグネチャ。<br />
+     * Throw ：例外を throw したメソッドのシグネチャ。<br />
+     * Catch ：例外を catch したメソッドのシグネチャ。
      */
     public String callerSignature;
 
     /**
-     * Call, Return �F���\�b�h���Ăяo�����N���X�̖��O�B<br />
-     * Read, Write �F�t�B�[���h�ɃA�N�Z�X�����N���X�̖��O�B<br />
-     * Throw �F��O���X���[�����N���X�̖��O�B<br />
-     * Catch �F��O���L���b�`�����N���X�̖��O�B<br />
-     * �N���X���̓p�b�P�[�W���܂߂����̂Ƃ��܂��B
+     * Call, Return ：メソッドを呼び出したクラスの名前。<br />
+     * Read, Write ：フィールドにアクセスしたクラスの名前。<br />
+     * Throw ：例外をスローしたクラスの名前。<br />
+     * Catch ：例外をキャッチしたクラスの名前。<br />
+     * クラス名はパッケージも含めた名称とします。
      */
     public String callerClass;
 
     /**
-     * Call, Return �F���\�b�h���Ăяo�����I�u�W�F�N�g�̎��ʎq�B<br />
-     * Read, Write �F�A�N�Z�X���I�u�W�F�N�g�̎��ʎq�B<br />
-     * Throw �F��O���X���[�����I�u�W�F�N�g�̎��ʎq�B<br />
-     * Catch �F��O���L���b�`�����I�u�W�F�N�g�̎��ʎq�B
+     * Call, Return ：メソッドを呼び出したオブジェクトの識別子。<br />
+     * Read, Write ：アクセス元オブジェクトの識別子。<br />
+     * Throw ：例外をスローしたオブジェクトの識別子。<br />
+     * Catch ：例外をキャッチしたオブジェクトの識別子。
      */
     public int callerObjectId;
 
     /**
-     * �C�x���g�̌x�����x���B�ȉ��̒l�Ƃ���B<br />
-     * INFO�F20�AWARN:30�AERROR:40
+     * イベントの警告レベル。以下の値とする。<br />
+     * INFO：20、WARN:30、ERROR:40
      */
     public int eventLevel;
 
     /**
-     * ���\�b�h�̎��s�ɂ����������ԁB<br />
+     * メソッドの実行にかかった時間。<br />
      */
     public long elapsedTime;
 
     /**
-     * �Ăяo���惁�\�b�h�̃��f�B�t�@�C�A�𕶎���Ŋi�[���܂��B<br />
+     * 呼び出し先メソッドのモディファイアを文字列で格納します。<br />
      */
     public String modifier;
 
     /**
-     * ���O�o�͂��Ă���X���b�h�̖��́B<br />
+     * ログ出力しているスレッドの名称。<br />
      */
     public String threadName;
 
     /**
-     * ���O�o�͂��Ă��� Thread �I�u�W�F�N�g�̃p�b�P�[�W�����܂߂��N���X���B<br />
+     * ログ出力している Thread オブジェクトのパッケージ名を含めたクラス名。<br />
      */
     public String threadClass;
 
     /**
-     * ���O�o�͂��Ă���X���b�h�̃I�u�W�F�N�g ID �B<br />
+     * ログ出力しているスレッドのオブジェクト ID 。<br />
      */
     public int threadObjectId;
     
     /**
-     * �v�����ڂ̖��O�B<br />
+     * 計測項目の名前。<br />
      */
     public String measurementItemName;
 

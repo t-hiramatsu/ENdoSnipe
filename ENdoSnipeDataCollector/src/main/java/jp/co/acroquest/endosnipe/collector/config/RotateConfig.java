@@ -28,26 +28,26 @@ package jp.co.acroquest.endosnipe.collector.config;
 import jp.co.acroquest.endosnipe.collector.rotate.RotateUtil;
 
 /**
- * ƒtƒ@ƒCƒ‹ƒ[ƒe[ƒg‚É—p‚¢‚éİ’è
+ * ãƒ•ã‚¡ã‚¤ãƒ«ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆã«ç”¨ã„ã‚‹è¨­å®š
  * 
  * @author S.Kimura
  *
  */
 public class RotateConfig
 {
-    /** ƒf[ƒ^ƒx[ƒX–¼Ì */
+    /** ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åç§° */
     private String database_;
 
-    /** JavelinƒƒO•ÛŠúŒÀ‚Ì’l */
+    /** Javelinãƒ­ã‚°ä¿æŒæœŸé™ã®å€¤ */
     private int javelinRotatePeriod_;
 
-    /** JavelinƒƒO•ÛŠúŒÀ‚Ì’PˆÊí•Ê */
+    /** Javelinãƒ­ã‚°ä¿æŒæœŸé™ã®å˜ä½ç¨®åˆ¥ */
     private PeriodUnit javelinRotatePeriodUnit_ = PeriodUnit.DAY;
 
-    /** Œv‘ªƒf[ƒ^•ÛŠúŒÀ‚Ì’l */
+    /** è¨ˆæ¸¬ãƒ‡ãƒ¼ã‚¿ä¿æŒæœŸé™ã®å€¤ */
     private int measureRotatePeriod_;
 
-    /** Œv‘ªƒf[ƒ^•ÛŠúŒÀ‚Ì’PˆÊí•Ê */
+    /** è¨ˆæ¸¬ãƒ‡ãƒ¼ã‚¿ä¿æŒæœŸé™ã®å˜ä½ç¨®åˆ¥ */
     private PeriodUnit measureRotatePeriodUnit_ = PeriodUnit.DAY;
 
     /**
@@ -59,7 +59,7 @@ public class RotateConfig
     }
 
     /**
-     * @param javelinRotatePeriod ƒZƒbƒg‚·‚é javelinRotatePeriod
+     * @param javelinRotatePeriod ã‚»ãƒƒãƒˆã™ã‚‹ javelinRotatePeriod
      */
     public void setJavelinRotatePeriod(final int javelinRotatePeriod)
     {
@@ -67,7 +67,7 @@ public class RotateConfig
     }
 
     /**
-     * @param javelinRotatePeriodUnit ƒZƒbƒg‚·‚é javelinRotatePeriodUnit
+     * @param javelinRotatePeriodUnit ã‚»ãƒƒãƒˆã™ã‚‹ javelinRotatePeriodUnit
      */
     public void setJavelinRotatePeriodUnit(final PeriodUnit javelinRotatePeriodUnit)
     {
@@ -75,7 +75,7 @@ public class RotateConfig
     }
 
     /**
-     * @param measureRotatePeriod ƒZƒbƒg‚·‚é measureRotatePeriod
+     * @param measureRotatePeriod ã‚»ãƒƒãƒˆã™ã‚‹ measureRotatePeriod
      */
     public void setMeasureRotatePeriod(final int measureRotatePeriod)
     {
@@ -91,7 +91,7 @@ public class RotateConfig
     }
 
     /**
-     * @param measureRotatePeriodUnit ƒZƒbƒg‚·‚é measureRotatePeriodUnit
+     * @param measureRotatePeriodUnit ã‚»ãƒƒãƒˆã™ã‚‹ measureRotatePeriodUnit
      */
     public void setMeasureRotatePeriodUnit(final PeriodUnit measureRotatePeriodUnit)
     {
@@ -99,10 +99,10 @@ public class RotateConfig
     }
 
     /**
-     * JavelinƒƒO•ÛŠúŒÀ‚Ì’PˆÊ‚ğ
-     * CalendarƒNƒ‰ƒX‚ÌƒCƒ“ƒfƒbƒNƒX‚Æ‚µ‚Äæ“¾
+     * Javelinãƒ­ã‚°ä¿æŒæœŸé™ã®å˜ä½ã‚’
+     * Calendarã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã¨ã—ã¦å–å¾—
      * 
-     * @return JavelinƒƒO•ÛŠúŒÀ‚Ì’PˆÊ
+     * @return Javelinãƒ­ã‚°ä¿æŒæœŸé™ã®å˜ä½
      */
     public int getJavelinUnitByCalendar()
     {
@@ -110,10 +110,10 @@ public class RotateConfig
     }
 
     /**
-     * Œv‘ªƒf[ƒ^•ÛŠúŒÀ‚Ì’PˆÊ‚ğ
-     * CalendarƒNƒ‰ƒX‚ÌƒCƒ“ƒfƒbƒNƒX‚Æ‚µ‚Äæ“¾
+     * è¨ˆæ¸¬ãƒ‡ãƒ¼ã‚¿ä¿æŒæœŸé™ã®å˜ä½ã‚’
+     * Calendarã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã¨ã—ã¦å–å¾—
      * 
-     * @return JavelinƒƒO•ÛŠúŒÀ‚Ì’PˆÊ
+     * @return Javelinãƒ­ã‚°ä¿æŒæœŸé™ã®å˜ä½
      */
     public int getMeasureUnitByCalendar()
     {
@@ -121,10 +121,10 @@ public class RotateConfig
     }
 
     /**
-     * •ÛŠúŠÔ‚Ì’PˆÊ‚ğCalendarƒNƒ‰ƒX‚ÌƒCƒ“ƒfƒbƒNƒX‚É•ÏŠ·
+     * ä¿æŒæœŸé–“ã®å˜ä½ã‚’Calendarã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã«å¤‰æ›
      * 
-     * @param unit •ÛŠúŠÔ‚Ì’PˆÊ
-     * @return CalendarƒNƒ‰ƒX‚ÌƒCƒ“ƒfƒbƒNƒX
+     * @param unit ä¿æŒæœŸé–“ã®å˜ä½
+     * @return Calendarã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
      */
     private int convertUnit(final PeriodUnit unit)
     {
@@ -141,7 +141,7 @@ public class RotateConfig
     }
 
     /**
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
      */
     public void setDatabase(final String database)
     {

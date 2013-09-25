@@ -32,37 +32,37 @@ import java.util.regex.Pattern;
 import jp.co.acroquest.endosnipe.data.entity.SignalDefinition;
 
 /**
- * è‡’l”»’èğŒ’è‹`î•ñDto‚Å‚·B<br />
+ * é–¾å€¤åˆ¤å®šæ¡ä»¶å®šç¾©æƒ…å ±Dtoã§ã™ã€‚<br />
  * 
  * @author fujii
  *
  */
 public class SignalDefinitionDto
 {
-    /** ƒVƒOƒiƒ‹’è‹`ƒe[ƒuƒ‹‚ÌID */
+    /** ã‚·ã‚°ãƒŠãƒ«å®šç¾©ãƒ†ãƒ¼ãƒ–ãƒ«ã®ID */
     private long                 signalId_;
 
-    /** ƒVƒOƒiƒ‹–¼ */
+    /** ã‚·ã‚°ãƒŠãƒ«å */
     private String               signalName_;
 
-    /** ƒ}ƒbƒ`ƒ“ƒOƒpƒ^[ƒ“ */
+    /** ãƒãƒƒãƒãƒ³ã‚°ãƒ‘ã‚¿ãƒ¼ãƒ³ */
     private String               matchingPattern_;
 
-    /** İ’è‚Å‚«‚éè‡’l‚ÌãŒÀƒŒƒxƒ‹ */
+    /** è¨­å®šã§ãã‚‹é–¾å€¤ã®ä¸Šé™ãƒ¬ãƒ™ãƒ« */
     private int                  level_;
 
-    /** ƒŒƒxƒ‹‚²‚Æ‚Ìè‡’l */
+    /** ãƒ¬ãƒ™ãƒ«ã”ã¨ã®é–¾å€¤ */
     private Map<Integer, Double> thresholdMaping_;
 
-    /** ƒGƒXƒJƒŒ[ƒVƒ‡ƒ“ŠúŠÔ */
+    /** ã‚¨ã‚¹ã‚«ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³æœŸé–“ */
     private double               escalationPeriod_;
 
-    /** è‡’l‚ÌƒXƒvƒŠƒbƒgƒpƒ^[ƒ“ */
+    /** é–¾å€¤ã®ã‚¹ãƒ—ãƒªãƒƒãƒˆãƒ‘ã‚¿ãƒ¼ãƒ³ */
     private static final Pattern SPLIT_PATERN = Pattern.compile(",");
 
     /**
-     * ƒVƒOƒiƒ‹’è‹`ƒe[ƒuƒ‹‚ÌID‚ğæ“¾‚·‚éB
-     * @return ƒVƒOƒiƒ‹’è‹`ƒe[ƒuƒ‹‚ÌID
+     * ã‚·ã‚°ãƒŠãƒ«å®šç¾©ãƒ†ãƒ¼ãƒ–ãƒ«ã®IDã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ã‚·ã‚°ãƒŠãƒ«å®šç¾©ãƒ†ãƒ¼ãƒ–ãƒ«ã®ID
      */
     public long getSignalId()
     {
@@ -70,8 +70,8 @@ public class SignalDefinitionDto
     }
 
     /**
-     * ƒVƒOƒiƒ‹’è‹`ƒe[ƒuƒ‹‚ÌID‚ğİ’è‚·‚éB
-     * @param signalId ƒVƒOƒiƒ‹’è‹`ƒe[ƒuƒ‹‚ÌID
+     * ã‚·ã‚°ãƒŠãƒ«å®šç¾©ãƒ†ãƒ¼ãƒ–ãƒ«ã®IDã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param signalId ã‚·ã‚°ãƒŠãƒ«å®šç¾©ãƒ†ãƒ¼ãƒ–ãƒ«ã®ID
      */
     public void setSignalId(long signalId)
     {
@@ -79,8 +79,8 @@ public class SignalDefinitionDto
     }
 
     /**
-     * ƒVƒOƒiƒ‹–¼‚ğæ“¾‚·‚éB
-     * @return ƒVƒOƒiƒ‹–¼
+     * ã‚·ã‚°ãƒŠãƒ«åã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ã‚·ã‚°ãƒŠãƒ«å
      */
     public String getSignalName()
     {
@@ -88,8 +88,8 @@ public class SignalDefinitionDto
     }
 
     /**
-     * ƒVƒOƒiƒ‹–¼‚ğİ’è‚·‚éB
-     * @param signalName ƒVƒOƒiƒ‹–¼
+     * ã‚·ã‚°ãƒŠãƒ«åã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param signalName ã‚·ã‚°ãƒŠãƒ«å
      */
     public void setSignalName(String signalName)
     {
@@ -97,8 +97,8 @@ public class SignalDefinitionDto
     }
 
     /**
-     * ƒ}ƒbƒ`ƒ“ƒOƒpƒ^[ƒ“‚ğæ“¾‚·‚éB
-     * @return ƒ}ƒbƒ`ƒ“ƒOƒpƒ^[ƒ“–¼
+     * ãƒãƒƒãƒãƒ³ã‚°ãƒ‘ã‚¿ãƒ¼ãƒ³ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ãƒãƒƒãƒãƒ³ã‚°ãƒ‘ã‚¿ãƒ¼ãƒ³å
      */
     public String getMatchingPattern()
     {
@@ -106,8 +106,8 @@ public class SignalDefinitionDto
     }
 
     /**
-     * ƒ}ƒbƒ`ƒ“ƒOƒpƒ^[ƒ“‚ğİ’è‚·‚éB
-     * @param matchingPattern ƒ}ƒbƒ`ƒ“ƒOƒpƒ^[ƒ“–¼
+     * ãƒãƒƒãƒãƒ³ã‚°ãƒ‘ã‚¿ãƒ¼ãƒ³ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param matchingPattern ãƒãƒƒãƒãƒ³ã‚°ãƒ‘ã‚¿ãƒ¼ãƒ³å
      */
     public void setMatchingPattern(String matchingPattern)
     {
@@ -115,8 +115,8 @@ public class SignalDefinitionDto
     }
 
     /**
-     * İ’è‚Å‚«‚éè‡’l‚ÌãŒÀƒŒƒxƒ‹‚ğæ“¾‚·‚éB
-     * @return İ’è‚Å‚«‚éè‡’l‚ÌãŒÀƒŒƒxƒ‹
+     * è¨­å®šã§ãã‚‹é–¾å€¤ã®ä¸Šé™ãƒ¬ãƒ™ãƒ«ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return è¨­å®šã§ãã‚‹é–¾å€¤ã®ä¸Šé™ãƒ¬ãƒ™ãƒ«
      */
     public int getLevel()
     {
@@ -124,8 +124,8 @@ public class SignalDefinitionDto
     }
 
     /**
-     * İ’è‚Å‚«‚éè‡’l‚ÌãŒÀƒŒƒxƒ‹‚ğİ’è‚·‚éB
-     * @param level İ’è‚Å‚«‚éè‡’l‚ÌãŒÀƒŒƒxƒ‹
+     * è¨­å®šã§ãã‚‹é–¾å€¤ã®ä¸Šé™ãƒ¬ãƒ™ãƒ«ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param level è¨­å®šã§ãã‚‹é–¾å€¤ã®ä¸Šé™ãƒ¬ãƒ™ãƒ«
      */
     public void setLevel(int level)
     {
@@ -133,8 +133,8 @@ public class SignalDefinitionDto
     }
 
     /**
-     * ƒŒƒxƒ‹‚²‚Æ‚Ìè‡’l‚ğæ“¾‚·‚éB
-     * @return ƒŒƒxƒ‹‚²‚Æ‚Ìè‡’l
+     * ãƒ¬ãƒ™ãƒ«ã”ã¨ã®é–¾å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ãƒ¬ãƒ™ãƒ«ã”ã¨ã®é–¾å€¤
      */
     public Map<Integer, Double> getThresholdMaping()
     {
@@ -142,8 +142,8 @@ public class SignalDefinitionDto
     }
 
     /**
-     * ƒŒƒxƒ‹‚²‚Æ‚Ìè‡’l‚ğİ’è‚·‚éB
-     * @param thresholdMaping ƒŒƒxƒ‹‚²‚Æ‚Ìè‡’l
+     * ãƒ¬ãƒ™ãƒ«ã”ã¨ã®é–¾å€¤ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param thresholdMaping ãƒ¬ãƒ™ãƒ«ã”ã¨ã®é–¾å€¤
      */
     public void setThresholdMaping(Map<Integer, Double> thresholdMaping)
     {
@@ -151,8 +151,8 @@ public class SignalDefinitionDto
     }
 
     /**
-     * ƒGƒXƒJƒŒ[ƒVƒ‡ƒ“ŠúŠÔ‚ğæ“¾‚·‚éB
-     * @return ƒGƒXƒJƒŒ[ƒVƒ‡ƒ“ŠúŠÔ
+     * ã‚¨ã‚¹ã‚«ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³æœŸé–“ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return ã‚¨ã‚¹ã‚«ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³æœŸé–“
      */
     public double getEscalationPeriod()
     {
@@ -160,8 +160,8 @@ public class SignalDefinitionDto
     }
 
     /**
-     * ƒGƒXƒJƒŒ[ƒVƒ‡ƒ“ŠúŠÔ‚ğİ’è‚·‚éB
-     * @param escalationPeriod ƒGƒXƒJƒŒ[ƒVƒ‡ƒ“ŠúŠÔ
+     * ã‚¨ã‚¹ã‚«ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³æœŸé–“ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param escalationPeriod ã‚¨ã‚¹ã‚«ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³æœŸé–“
      */
     public void setEscalationPeriod(double escalationPeriod)
     {
@@ -169,8 +169,8 @@ public class SignalDefinitionDto
     }
 
     /**
-     * {@link SignalDefinitionDto} ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‚Ü‚·B
-     * @param signalDefinition {@link SignalDefinition}ƒIƒuƒWƒFƒNƒg
+     * {@link SignalDefinitionDto} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã—ã¾ã™ã€‚
+     * @param signalDefinition {@link SignalDefinition}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     public SignalDefinitionDto(SignalDefinition signalDefinition)
     {

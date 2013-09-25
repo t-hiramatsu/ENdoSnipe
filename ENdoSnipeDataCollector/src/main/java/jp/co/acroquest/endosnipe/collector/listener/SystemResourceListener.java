@@ -39,8 +39,8 @@ import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 
 /**
- * ƒŠƒ\[ƒX’Ê’m‰“š“d•¶óM—p‚ÌƒŠƒXƒiƒNƒ‰ƒX‚Å‚·B<br />
- * óM‚µ‚½ƒŠƒ\[ƒXî•ñ‚ğƒf[ƒ^ƒx[ƒXŠi”[—p‚ÌƒLƒ…[‚Ö’Ç‰Á‚µ‚Ü‚·B<br />
+ * ãƒªã‚½ãƒ¼ã‚¹é€šçŸ¥å¿œç­”é›»æ–‡å—ä¿¡ç”¨ã®ãƒªã‚¹ãƒŠã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+ * å—ä¿¡ã—ãŸãƒªã‚½ãƒ¼ã‚¹æƒ…å ±ã‚’ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹æ ¼ç´ç”¨ã®ã‚­ãƒ¥ãƒ¼ã¸è¿½åŠ ã—ã¾ã™ã€‚<br />
  * 
  * @author fujii
  * @author nagai
@@ -49,37 +49,37 @@ import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 public class SystemResourceListener extends AbstractTelegramListener implements TelegramListener,
         LogMessageCodes, CommonLogMessageCodes, AgentNameListener
 {
-    /** ƒƒK[ */
+    /** ãƒ­ã‚¬ãƒ¼ */
     private static final ENdoSnipeLogger LOGGER;
     static
     {
         LOGGER = ENdoSnipeLogger.getLogger(SystemResourceListener.class);
     }
 
-    /** ƒf[ƒ^ƒx[ƒX–¼B<br /> */
+    /** ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã€‚<br /> */
     private String databaseName_;
 
-    /** Ú‘±æƒzƒXƒg–¼B<br /> */
+    /** æ¥ç¶šå…ˆãƒ›ã‚¹ãƒˆåã€‚<br /> */
     private String hostName_;
 
-    /** Ú‘±æƒzƒXƒg‚Ì IP ƒAƒhƒŒƒXB<br /> */
+    /** æ¥ç¶šå…ˆãƒ›ã‚¹ãƒˆã® IP ã‚¢ãƒ‰ãƒ¬ã‚¹ã€‚<br /> */
     private String ipAddress_;
 
-    /** Ú‘±æƒ|[ƒg”Ô†B<br /> */
+    /** æ¥ç¶šå…ˆãƒãƒ¼ãƒˆç•ªå·ã€‚<br /> */
     private int port_;
 
-    /** Ú‘±æ‚ÌƒNƒ‰ƒCƒAƒ“ƒgID */
+    /** æ¥ç¶šå…ˆã®ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆID */
     private String clientId_;
 
-    /** óMƒf[ƒ^Ši”[—pƒLƒ…[ */
+    /** å—ä¿¡ãƒ‡ãƒ¼ã‚¿æ ¼ç´ç”¨ã‚­ãƒ¥ãƒ¼ */
     private final JavelinDataQueue queue_;
 
-    /** ƒG[ƒWƒFƒ“ƒg–¼ */
+    /** ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆå */
     private String agentName_;
 
     /**
-     * {@link SystemResourceListener} ‚ğ\’z‚µ‚Ü‚·B<br />
-     * @param queue ƒLƒ…[
+     * {@link SystemResourceListener} ã‚’æ§‹ç¯‰ã—ã¾ã™ã€‚<br />
+     * @param queue ã‚­ãƒ¥ãƒ¼
      */
     public SystemResourceListener(final JavelinDataQueue queue)
     {
@@ -107,7 +107,7 @@ public class SystemResourceListener extends AbstractTelegramListener implements 
                        resourceData.portNum);
         }
 
-        // Œv‘ª’lƒf[ƒ^‚ğƒLƒ…[‚ÖŠi”[‚·‚é
+        // è¨ˆæ¸¬å€¤ãƒ‡ãƒ¼ã‚¿ã‚’ã‚­ãƒ¥ãƒ¼ã¸æ ¼ç´ã™ã‚‹
         JavelinMeasurementData measurementData = new JavelinMeasurementData(resourceData);
         setProperties(measurementData, telegram.getObjHeader().getId());
         queue_.offer(measurementData);
@@ -141,9 +141,9 @@ public class SystemResourceListener extends AbstractTelegramListener implements 
     }
 
     /**
-     * ƒf[ƒ^ƒx[ƒX–¼‚ğƒZƒbƒg‚µ‚Ü‚·B<br />
+     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã‚’ã‚»ãƒƒãƒˆã—ã¾ã™ã€‚<br />
      *
-     * @param databaseName ƒf[ƒ^ƒx[ƒX–¼
+     * @param databaseName ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
      */
     public void setDatabaseName(final String databaseName)
     {
@@ -151,9 +151,9 @@ public class SystemResourceListener extends AbstractTelegramListener implements 
     }
 
     /**
-     * Ú‘±æƒzƒXƒg–¼‚ğƒZƒbƒg‚µ‚Ü‚·B<br />
+     * æ¥ç¶šå…ˆãƒ›ã‚¹ãƒˆåã‚’ã‚»ãƒƒãƒˆã—ã¾ã™ã€‚<br />
      *
-     * @param hostName Ú‘±æƒzƒXƒg–¼
+     * @param hostName æ¥ç¶šå…ˆãƒ›ã‚¹ãƒˆå
      */
     public void setHostName(final String hostName)
     {
@@ -161,9 +161,9 @@ public class SystemResourceListener extends AbstractTelegramListener implements 
     }
 
     /**
-     * Ú‘±æƒzƒXƒg‚Ì IP ƒAƒhƒŒƒX‚ğƒZƒbƒg‚µ‚Ü‚·B<br />
+     * æ¥ç¶šå…ˆãƒ›ã‚¹ãƒˆã® IP ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’ã‚»ãƒƒãƒˆã—ã¾ã™ã€‚<br />
      *
-     * @param ipAddress IP ƒAƒhƒŒƒX
+     * @param ipAddress IP ã‚¢ãƒ‰ãƒ¬ã‚¹
      */
     public void setIpAddress(final String ipAddress)
     {
@@ -171,9 +171,9 @@ public class SystemResourceListener extends AbstractTelegramListener implements 
     }
 
     /**
-     * Ú‘±æƒ|[ƒg”Ô†‚ğƒZƒbƒg‚µ‚Ü‚·B<br />
+     * æ¥ç¶šå…ˆãƒãƒ¼ãƒˆç•ªå·ã‚’ã‚»ãƒƒãƒˆã—ã¾ã™ã€‚<br />
      *
-     * @param port ƒ|[ƒg”Ô†
+     * @param port ãƒãƒ¼ãƒˆç•ªå·
      */
     public void setPort(final int port)
     {
@@ -181,8 +181,8 @@ public class SystemResourceListener extends AbstractTelegramListener implements 
     }
 
     /**
-     * Ú‘±æ‚ÌƒNƒ‰ƒCƒAƒ“ƒgID‚ğİ’è‚µ‚Ü‚·B
-     * @param clientId ƒNƒ‰ƒCƒAƒ“ƒgID
+     * æ¥ç¶šå…ˆã®ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆIDã‚’è¨­å®šã—ã¾ã™ã€‚
+     * @param clientId ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆID
      */
     public void setClientId(final String clientId)
     {

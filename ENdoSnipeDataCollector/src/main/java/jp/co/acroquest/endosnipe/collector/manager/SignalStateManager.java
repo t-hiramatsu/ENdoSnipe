@@ -32,23 +32,23 @@ import jp.co.acroquest.endosnipe.collector.processor.AlarmData;
 import jp.co.acroquest.endosnipe.data.dto.SignalDefinitionDto;
 
 /**
- * ƒVƒOƒiƒ‹‚Ìó‘Ô‚ğ•Û‚·‚éƒNƒ‰ƒX
+ * ã‚·ã‚°ãƒŠãƒ«ã®çŠ¶æ…‹ã‚’ä¿æŒã™ã‚‹ã‚¯ãƒ©ã‚¹
  * @author fujii
  *
  */
 public class SignalStateManager
 {
-    /** SignalStateManagerƒCƒ“ƒXƒ^ƒ“ƒX */
+    /** SignalStateManagerã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ */
     public static SignalStateManager instance__ = new SignalStateManager();
 
-    /** ƒAƒ‰[ƒ€‚ğo‚·‚©‚Ç‚¤‚©”»’è‚·‚é‚½‚ß‚É•Û‚µ‘±‚¯‚éƒf[ƒ^ */
+    /** ã‚¢ãƒ©ãƒ¼ãƒ ã‚’å‡ºã™ã‹ã©ã†ã‹åˆ¤å®šã™ã‚‹ãŸã‚ã«ä¿æŒã—ç¶šã‘ã‚‹ãƒ‡ãƒ¼ã‚¿ */
     private final Map<String, AlarmData> alarmDataMap_ = new ConcurrentHashMap<String, AlarmData>();
 
-    /** ƒVƒOƒiƒ‹’è‹`‚ğ•Û‚·‚éƒ}ƒbƒv */
+    /** ã‚·ã‚°ãƒŠãƒ«å®šç¾©ã‚’ä¿æŒã™ã‚‹ãƒãƒƒãƒ— */
     private Map<Long, SignalDefinitionDto> signalDefinitionMap_ = null;
 
     /**
-     * ƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğ‘j~‚·‚éprivateƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Å‚·B
+     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã‚’é˜»æ­¢ã™ã‚‹privateã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§ã™ã€‚
      */
     private SignalStateManager()
     {
@@ -56,8 +56,8 @@ public class SignalStateManager
     }
 
     /**
-     * {@link SignalStateManager}ƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚·‚éB
-     * @return {@link SignalStateManager}ƒCƒ“ƒXƒ^ƒ“ƒX
+     * {@link SignalStateManager}ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @return {@link SignalStateManager}ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
      */
     public static SignalStateManager getInstance()
     {
@@ -65,9 +65,9 @@ public class SignalStateManager
     }
 
     /**
-     * è‡’lî•ñ‚ğæ“¾‚·‚éB
-     * @param signalId ƒVƒOƒiƒ‹‚ğˆêˆÓ‚É‚·‚é–¼Ì
-     * @return signalId‚Éˆê’v‚·‚éè‡’lî•ñ
+     * é–¾å€¤æƒ…å ±ã‚’å–å¾—ã™ã‚‹ã€‚
+     * @param signalId ã‚·ã‚°ãƒŠãƒ«ã‚’ä¸€æ„ã«ã™ã‚‹åç§°
+     * @return signalIdã«ä¸€è‡´ã™ã‚‹é–¾å€¤æƒ…å ±
      */
     public AlarmData getAlarmData(final String signalId)
     {
@@ -75,9 +75,9 @@ public class SignalStateManager
     }
 
     /**
-     * è‡’lî•ñ‚ğ“o˜^‚·‚éB
-     * @param signalId ƒVƒOƒiƒ‹‚ğˆêˆÓ‚É‚·‚é–¼Ì
-     * @param alarmData è‡’lî•ñ
+     * é–¾å€¤æƒ…å ±ã‚’ç™»éŒ²ã™ã‚‹ã€‚
+     * @param signalId ã‚·ã‚°ãƒŠãƒ«ã‚’ä¸€æ„ã«ã™ã‚‹åç§°
+     * @param alarmData é–¾å€¤æƒ…å ±
      */
     public void addAlarmData(final String signalId, final AlarmData alarmData)
     {
@@ -85,8 +85,8 @@ public class SignalStateManager
     }
 
     /**
-     * è‡’lî•ñ‚ğíœ‚·‚éB
-     * @param signalId ƒVƒOƒiƒ‹‚ğˆêˆÓ‚É‚·‚é–¼Ì
+     * é–¾å€¤æƒ…å ±ã‚’å‰Šé™¤ã™ã‚‹ã€‚
+     * @param signalId ã‚·ã‚°ãƒŠãƒ«ã‚’ä¸€æ„ã«ã™ã‚‹åç§°
      */
     public void removeAlarmData(final String signalId)
     {
@@ -94,8 +94,8 @@ public class SignalStateManager
     }
 
     /**
-     * ƒVƒOƒiƒ‹’è‹`î•ñ‚Ìƒ}ƒbƒv‚ğ•Ô‹p‚·‚éB
-     * @return ƒVƒOƒiƒ‹’è‹`î•ñ‚Ìƒ}ƒbƒv
+     * ã‚·ã‚°ãƒŠãƒ«å®šç¾©æƒ…å ±ã®ãƒãƒƒãƒ—ã‚’è¿”å´ã™ã‚‹ã€‚
+     * @return ã‚·ã‚°ãƒŠãƒ«å®šç¾©æƒ…å ±ã®ãƒãƒƒãƒ—
      */
     public Map<Long, SignalDefinitionDto> getSignalDeifinitionMap()
     {
@@ -103,8 +103,8 @@ public class SignalStateManager
     }
 
     /**
-     * ƒVƒOƒiƒ‹’è‹`î•ñ‚Ìƒ}ƒbƒv‚ğİ’è‚·‚éB
-     * @param signalDefinitionMap ƒVƒOƒiƒ‹’è‹`î•ñ‚Ìƒ}ƒbƒv
+     * ã‚·ã‚°ãƒŠãƒ«å®šç¾©æƒ…å ±ã®ãƒãƒƒãƒ—ã‚’è¨­å®šã™ã‚‹ã€‚
+     * @param signalDefinitionMap ã‚·ã‚°ãƒŠãƒ«å®šç¾©æƒ…å ±ã®ãƒãƒƒãƒ—
      */
     public void setSignalDeifinitionMap(final Map<Long, SignalDefinitionDto> signalDefinitionMap)
     {
@@ -112,9 +112,9 @@ public class SignalStateManager
     }
 
     /**
-     * ƒVƒOƒiƒ‹’è‹`î•ñ‚ğ’Ç‰Á‚·‚éB
-     * @param signalId ƒVƒOƒiƒ‹ID
-     * @param signalDefinitionDto ƒVƒOƒiƒ‹’è‹`î•ñ
+     * ã‚·ã‚°ãƒŠãƒ«å®šç¾©æƒ…å ±ã‚’è¿½åŠ ã™ã‚‹ã€‚
+     * @param signalId ã‚·ã‚°ãƒŠãƒ«ID
+     * @param signalDefinitionDto ã‚·ã‚°ãƒŠãƒ«å®šç¾©æƒ…å ±
      * 
      */
     public void addSignalDefinition(final Long signalId,
@@ -128,10 +128,10 @@ public class SignalStateManager
     }
 
     /**
-     * ƒVƒOƒiƒ‹’è‹`î•ñ‚ğíœ‚·‚éB
-     * @param signalId ƒVƒOƒiƒ‹ID
+     * ã‚·ã‚°ãƒŠãƒ«å®šç¾©æƒ…å ±ã‚’å‰Šé™¤ã™ã‚‹ã€‚
+     * @param signalId ã‚·ã‚°ãƒŠãƒ«ID
      * 
-     * @return íœ‚µ‚½ƒVƒOƒiƒ‹’è‹`î•ñ
+     * @return å‰Šé™¤ã—ãŸã‚·ã‚°ãƒŠãƒ«å®šç¾©æƒ…å ±
      * 
      */
     public SignalDefinitionDto removeSignalDefinition(final Long signalId)

@@ -30,17 +30,17 @@ import jp.co.acroquest.endosnipe.javelin.RecordStrategy;
 import jp.co.acroquest.endosnipe.javelin.log.JavelinLogCallback;
 
 /**
- * •K‚¸o—Í‚·‚éƒXƒgƒ‰ƒeƒW[B
+ * å¿…ãšå‡ºåŠ›ã™ã‚‹ã‚¹ãƒˆãƒ©ãƒ†ã‚¸ãƒ¼ã€‚
  * 
  * @author eriguchi
  */
 public class AllRecordStrategy implements RecordStrategy
 {
     /**
-     * •K‚¸JavelinƒƒO’Ê’m‚ğs‚¢‚Ü‚·B
+     * å¿…ãšJavelinãƒ­ã‚°é€šçŸ¥ã‚’è¡Œã„ã¾ã™ã€‚
      * 
-     * @param node g—p‚µ‚È‚¢B
-     * @return JavelinƒƒO’Ê’mB
+     * @param node ä½¿ç”¨ã—ãªã„ã€‚
+     * @return Javelinãƒ­ã‚°é€šçŸ¥ã€‚
      */
     public JavelinLogCallback createCallback(CallTreeNode node)
     {
@@ -48,9 +48,9 @@ public class AllRecordStrategy implements RecordStrategy
     }
 
     /**
-     * •K‚¸JavelinƒƒO’Ê’m‚ğs‚¢‚Ü‚·B
+     * å¿…ãšJavelinãƒ­ã‚°é€šçŸ¥ã‚’è¡Œã„ã¾ã™ã€‚
      * 
-     * @return JavelinƒƒO’Ê’mB
+     * @return Javelinãƒ­ã‚°é€šçŸ¥ã€‚
      */
     public JavelinLogCallback createCallback()
     {
@@ -58,9 +58,9 @@ public class AllRecordStrategy implements RecordStrategy
     }
 
     /**
-     * í‚Étrue‚ğ•Ô‚µ‚Ü‚·B
+     * å¸¸ã«trueã‚’è¿”ã—ã¾ã™ã€‚
      * 
-     * @param node g—p‚µ‚È‚¢B
+     * @param node ä½¿ç”¨ã—ãªã„ã€‚
      * @return true
      */
     public boolean judgeSendExceedThresholdAlarm(CallTreeNode node)
@@ -69,7 +69,7 @@ public class AllRecordStrategy implements RecordStrategy
     }
 
     /**
-     * ‰½‚à‚µ‚Ü‚¹‚ñB
+     * ä½•ã‚‚ã—ã¾ã›ã‚“ã€‚
      */
     public void postJudge()
     {

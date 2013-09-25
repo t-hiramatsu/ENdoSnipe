@@ -28,7 +28,7 @@ package jp.co.acroquest.endosnipe.javelin.event;
 import jp.co.acroquest.endosnipe.common.event.EventConstants;
 
 /**
- * SQLÀs‰ñ”’´‰ßƒCƒxƒ“ƒgB
+ * SQLå®Ÿè¡Œå›æ•°è¶…éã‚¤ãƒ™ãƒ³ãƒˆã€‚
  * 
  * @author eriguchi
  */
@@ -37,7 +37,7 @@ public class SqlCountOverEvent extends CommonEvent
     /** SQL */
     protected String sql_;
 
-    /** ƒCƒxƒ“ƒg–¼‚ÆƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ÌƒZƒpƒŒ[ƒ^ */
+    /** ã‚¤ãƒ™ãƒ³ãƒˆåã¨ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®ã‚»ãƒ‘ãƒ¬ãƒ¼ã‚¿ */
     private static final char SEPARATOR = '#';
 
     /**
@@ -54,7 +54,7 @@ public class SqlCountOverEvent extends CommonEvent
     }
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
      */
     public SqlCountOverEvent()
     {
@@ -63,7 +63,7 @@ public class SqlCountOverEvent extends CommonEvent
     }
 
     /**
-     * ”äŠr—pSQL‚ğİ’è‚·‚éB
+     * æ¯”è¼ƒç”¨SQLã‚’è¨­å®šã™ã‚‹ã€‚
      * 
      * @param sql SQL
      */
@@ -73,9 +73,9 @@ public class SqlCountOverEvent extends CommonEvent
     }
 
     /**
-     * ƒCƒxƒ“ƒg–¼‚ÆSQL‚ÅƒnƒbƒVƒ…ƒR[ƒh‚ğŒvZ‚·‚éB
+     * ã‚¤ãƒ™ãƒ³ãƒˆåã¨SQLã§ãƒãƒƒã‚·ãƒ¥ã‚³ãƒ¼ãƒ‰ã‚’è¨ˆç®—ã™ã‚‹ã€‚
      * 
-     * @return ƒnƒbƒVƒ…ƒR[ƒhB
+     * @return ãƒãƒƒã‚·ãƒ¥ã‚³ãƒ¼ãƒ‰ã€‚
      */
     public int hashCode()
     {
@@ -88,10 +88,10 @@ public class SqlCountOverEvent extends CommonEvent
     }
 
     /**
-     * ƒCƒxƒ“ƒg–¼‚ÆSQL‚Å”äŠr‚·‚éB
+     * ã‚¤ãƒ™ãƒ³ãƒˆåã¨SQLã§æ¯”è¼ƒã™ã‚‹ã€‚
      * 
-     * @param obj ”äŠr‘ÎÛB
-     * @return ”äŠrŒ‹‰ÊB
+     * @param obj æ¯”è¼ƒå¯¾è±¡ã€‚
+     * @return æ¯”è¼ƒçµæœã€‚
      */
     public boolean equals(Object obj)
     {

@@ -30,7 +30,7 @@ import java.util.Calendar;
 import jp.co.acroquest.endosnipe.common.entity.ItemType;
 
 /**
- * ƒŠƒ\[ƒX‚ğæ“¾‚·‚é‚ğ•Ô‚·ƒNƒ‰ƒXB
+ * ãƒªã‚½ãƒ¼ã‚¹ã‚’å–å¾—ã™ã‚‹æ™‚åˆ»ã‚’è¿”ã™ã‚¯ãƒ©ã‚¹ã€‚
  * 
  * @author Sakamoto
  */

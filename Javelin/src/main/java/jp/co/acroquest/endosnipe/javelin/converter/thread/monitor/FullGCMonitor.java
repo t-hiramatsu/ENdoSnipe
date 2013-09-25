@@ -42,32 +42,32 @@ import jp.co.acroquest.endosnipe.javelin.event.CommonEvent;
 import jp.co.acroquest.endosnipe.javelin.resource.ResourceCollector;
 
 /**
- * ƒtƒ‹GC‚ğŠÄ‹‚·‚éƒ‚ƒjƒ^ƒNƒ‰ƒX‚Å‚·B<br />
+ * ãƒ•ãƒ«GCã‚’ç›£è¦–ã™ã‚‹ãƒ¢ãƒ‹ã‚¿ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  * 
  * @author fujii
  *
  */
 public class FullGCMonitor implements Runnable
 {
-    /** GC”­¶‰ñ”‚ğ•Û‘¶‚·‚éMap */
+    /** GCç™ºç”Ÿå›æ•°ã‚’ä¿å­˜ã™ã‚‹Map */
     private Map<String, Long> gcCountMap_ = new HashMap<String, Long>();
 
-    /** GCÀsŠÔ‚ğ•Û‘¶‚·‚éMap */
+    /** GCå®Ÿè¡Œæ™‚é–“ã‚’ä¿å­˜ã™ã‚‹Map */
     private Map<String, Long> gcTimeMap_ = new HashMap<String, Long>();
 
-    /** ƒtƒ‹GC‚ğ”­¶‚³‚¹‚éGarbageCollector‚Ì–¼‘O‚ÌƒŠƒXƒg */
+    /** ãƒ•ãƒ«GCã‚’ç™ºç”Ÿã•ã›ã‚‹GarbageCollectorã®åå‰ã®ãƒªã‚¹ãƒˆ */
     private static final List<String> FULLGC_NAME_LIST;
 
-    /** Javelin‚Ìİ’èB */
+    /** Javelinã®è¨­å®šã€‚ */
     private static JavelinConfig config__ = new JavelinConfig();
 
-    /** ƒŠƒ\[ƒXî•ñæ“¾—pƒIƒuƒWƒFƒNƒg */
+    /** ãƒªã‚½ãƒ¼ã‚¹æƒ…å ±å–å¾—ç”¨ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     private static ResourceCollector collector__;
 
-    /** SingletonƒCƒ“ƒXƒ^ƒ“ƒX */
+    /** Singletonã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ */
     private static FullGCMonitor instance__ = new FullGCMonitor();
 
-    /** ƒXƒŠ[ƒvŠÔ */
+    /** ã‚¹ãƒªãƒ¼ãƒ—æ™‚é–“ */
     private static final int SLEEP_TIME = 5000;
 
     static
@@ -78,7 +78,7 @@ public class FullGCMonitor implements Runnable
     }
 
     /**
-     * ƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğ‘j~‚·‚éƒvƒ‰ƒCƒx[ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã‚’é˜»æ­¢ã™ã‚‹ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      */
     private FullGCMonitor()
     {
@@ -86,9 +86,9 @@ public class FullGCMonitor implements Runnable
     }
 
     /**
-     * ƒtƒ‹GCæ“¾ƒ‚ƒjƒ^‚ğæ“¾‚µ‚Ü‚·B<br />
+     * ãƒ•ãƒ«GCå–å¾—ãƒ¢ãƒ‹ã‚¿ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      * 
-     * @return {@link FullGCMonitor}ƒIƒuƒWƒFƒNƒg
+     * @return {@link FullGCMonitor}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     public static FullGCMonitor getInstance()
     {
@@ -96,8 +96,8 @@ public class FullGCMonitor implements Runnable
     }
 
     /**
-     * ƒtƒ‹GC‚ª”­¶‚µ‚Ä‚¢‚é‚©A5•b‚²‚Æ‚Éƒ`ƒFƒbƒN‚µ‚Ü‚·B<br />
-     * ƒtƒ‹GC‚ª”­¶‚µ‚Ä‚¢‚éê‡AƒCƒxƒ“ƒg‚ğì¬‚µA‘—M‚µ‚Ü‚·B
+     * ãƒ•ãƒ«GCãŒç™ºç”Ÿã—ã¦ã„ã‚‹ã‹ã€5ç§’ã”ã¨ã«ãƒã‚§ãƒƒã‚¯ã—ã¾ã™ã€‚<br />
+     * ãƒ•ãƒ«GCãŒç™ºç”Ÿã—ã¦ã„ã‚‹å ´åˆã€ã‚¤ãƒ™ãƒ³ãƒˆã‚’ä½œæˆã—ã€é€ä¿¡ã—ã¾ã™ã€‚
      */
     public void run()
     {
@@ -138,21 +138,21 @@ public class FullGCMonitor implements Runnable
     }
 
     /**
-     * ƒtƒ‹GC‚ÌŒŸo‚ğs‚¢‚Ü‚·B<br />
-     * [ğŒ]<br />
-     *@EGC‚ÌÀs‰ñ”‚ª‘O‰ñ‚æ‚è‚à‘‚¦‚Ä‚¢‚é‚Æ‚«B<br />
-     * EGC‚ÌÀsŠÔ‚ªè‡’l‚ğ‰z‚¦‚Ä‚¢‚é‚Æ‚«B
+     * ãƒ•ãƒ«GCã®æ¤œå‡ºã‚’è¡Œã„ã¾ã™ã€‚<br />
+     * [æ¡ä»¶]<br />
+     *ã€€ãƒ»GCã®å®Ÿè¡Œå›æ•°ãŒå‰å›æ™‚ã‚ˆã‚Šã‚‚å¢—ãˆã¦ã„ã‚‹ã¨ãã€‚<br />
+     * ãƒ»GCã®å®Ÿè¡Œæ™‚é–“ãŒé–¾å€¤ã‚’è¶Šãˆã¦ã„ã‚‹ã¨ãã€‚
      * 
-     * @param gcBean {@link GarbageCollectorMXBean}ƒIƒuƒWƒFƒNƒg
-     * @param gcName GarbageCollector–¼
+     * @param gcBean {@link GarbageCollectorMXBean}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param gcName GarbageCollectorå
      */
     private void detect(GarbageCollectorMXBean gcBean, String gcName)
     {
         Long lastGCCount = this.gcCountMap_.get(gcName);
         long gcCount = gcBean.getCollectionCount();
 
-        // ‚P‰ñ–Ú‚ÍAGC‰ñ”‚ª1‰ñˆÈã‚Ì‚Æ‚«‚Ì‚İAƒtƒ‹GCƒCƒxƒ“ƒg‚ğ”­¶‚³‚¹‚éB
-        // ‚Q‰ñ–ÚˆÈ~‚ÍAGC”­¶‰ñ”‚ª‘‚¦‚Ä‚¢‚½‚Æ‚«‚Ì‚İAƒtƒ‹GCƒCƒxƒ“ƒg‚ğ”­¶‚³‚¹‚éB
+        // ï¼‘å›ç›®ã¯ã€GCå›æ•°ãŒ1å›ä»¥ä¸Šã®ã¨ãã®ã¿ã€ãƒ•ãƒ«GCã‚¤ãƒ™ãƒ³ãƒˆã‚’ç™ºç”Ÿã•ã›ã‚‹ã€‚
+        // ï¼’å›ç›®ä»¥é™ã¯ã€GCç™ºç”Ÿå›æ•°ãŒå¢—ãˆã¦ã„ãŸã¨ãã®ã¿ã€ãƒ•ãƒ«GCã‚¤ãƒ™ãƒ³ãƒˆã‚’ç™ºç”Ÿã•ã›ã‚‹ã€‚
         if (lastGCCount == null)
         {
             this.gcCountMap_.put(gcName, gcCount);
@@ -186,18 +186,18 @@ public class FullGCMonitor implements Runnable
     }
 
     /**
-     * FullGC”­¶ƒCƒxƒ“ƒg‚ğì¬‚µ‚Ü‚·B<br />
-     * [ƒCƒxƒ“ƒgŒ`®]<br />
-     * ¡ƒCƒxƒ“ƒg–¼<br />
+     * FullGCç™ºç”Ÿã‚¤ãƒ™ãƒ³ãƒˆã‚’ä½œæˆã—ã¾ã™ã€‚<br />
+     * [ã‚¤ãƒ™ãƒ³ãƒˆå½¢å¼]<br />
+     * â– ã‚¤ãƒ™ãƒ³ãƒˆå<br />
      *  FullGCDetected<br />
-     * ¡ƒpƒ‰ƒ[ƒ^<br />
-     *  javelin.fullgc.count=&lt;ƒtƒ‹GC”­¶‰ñ”&gt;<br />
-     *  javelin.fullgc.time=&lt;ƒtƒ‹GCÀsŠÔ(5•bˆÈ“à‚Å”­¶‚µ‚½GCŠÔ‚Ì‡Œv’l)&gt;<br />
-     *  javelin.fullgc.heapMemory=&lt;Œ»İ‚Ìƒq[ƒvƒƒ‚ƒŠ&gt;<br />
+     * â– ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿<br />
+     *  javelin.fullgc.count=&lt;ãƒ•ãƒ«GCç™ºç”Ÿå›æ•°&gt;<br />
+     *  javelin.fullgc.time=&lt;ãƒ•ãƒ«GCå®Ÿè¡Œæ™‚é–“(5ç§’ä»¥å†…ã§ç™ºç”Ÿã—ãŸGCæ™‚é–“ã®åˆè¨ˆå€¤)&gt;<br />
+     *  javelin.fullgc.heapMemory=&lt;ç¾åœ¨ã®ãƒ’ãƒ¼ãƒ—ãƒ¡ãƒ¢ãƒª&gt;<br />
      * 
-     * @param count ƒtƒ‹GC‚Ì”­¶‰ñ”
-     * @param time ƒtƒ‹GC‚ÌÀsŠÔ
-     * @return FullGC”­¶ƒCƒxƒ“ƒg
+     * @param count ãƒ•ãƒ«GCã®ç™ºç”Ÿå›æ•°
+     * @param time ãƒ•ãƒ«GCã®å®Ÿè¡Œæ™‚é–“
+     * @return FullGCç™ºç”Ÿã‚¤ãƒ™ãƒ³ãƒˆ
      */
     public CommonEvent createFullGCEvent(final long count, final long time)
     {

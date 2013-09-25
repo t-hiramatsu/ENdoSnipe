@@ -17,20 +17,20 @@ import jp.co.acroquest.endosnipe.report.output.RecordReporter;
 import jp.co.acroquest.endosnipe.report.util.ReporterConfigAccessor;
 
 /**
- * ResponseTime‚ÌSummary‚ğì¬‚·‚éƒvƒƒZƒbƒT
+ * ResponseTimeã®Summaryã‚’ä½œæˆã™ã‚‹ãƒ—ãƒ­ã‚»ãƒƒã‚µ
  * 
  * @author kimura
  *
  */
 public class ResponseTimeSummaryReportProcessor extends ReportPublishProcessorBase
 {
-    /** ƒƒK[ */
+    /** ãƒ­ã‚¬ãƒ¼ */
     private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(
             ResponseTimeSummaryReportProcessor.class);
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
-     * @param type ƒŒƒ|[ƒgí•Ê
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+     * @param type ãƒ¬ãƒãƒ¼ãƒˆç¨®åˆ¥
      */
     public ResponseTimeSummaryReportProcessor(ReportType type)
     {
@@ -87,7 +87,7 @@ public class ResponseTimeSummaryReportProcessor extends ReportPublishProcessorBa
             return;
         }
 
-        // o—Í‚·‚éƒŒƒ|[ƒg‚Ìí—Ş‚É‚ ‚í‚¹‚Äƒeƒ“ƒvƒŒ[ƒg‚Ìƒtƒ@ƒCƒ‹ƒpƒX‚ğæ“¾‚·‚é
+        // å‡ºåŠ›ã™ã‚‹ãƒ¬ãƒãƒ¼ãƒˆã®ç¨®é¡ã«ã‚ã‚ã›ã¦ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã®ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã‚’å–å¾—ã™ã‚‹
         String templateFilePath;
         try
         {
@@ -99,13 +99,13 @@ public class ResponseTimeSummaryReportProcessor extends ReportPublishProcessorBa
             return;
         }
 
-        // ƒŒƒ|[ƒgo—Í‚Ìˆø”î•ñ‚ğæ“¾‚·‚é
+        // ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã®å¼•æ•°æƒ…å ±ã‚’å–å¾—ã™ã‚‹
         ResponseTimeSummaryRecord[] records = (ResponseTimeSummaryRecord[])plotData;
         String outputFilePath = getOutputFileName();
         Timestamp startTime = cond.getStartDate();
         Timestamp endTime = cond.getEndDate();
 
-        // ƒŒƒ|[ƒgo—Í‚ğÀs‚·‚é
+        // ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã‚’å®Ÿè¡Œã™ã‚‹
         RecordReporter<ResponseTimeSummaryRecord> reporter =
                                                              new RecordReporter<ResponseTimeSummaryRecord>(
                                                                                                            getReportType());

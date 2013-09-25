@@ -56,7 +56,7 @@
     <target name="compile" depends="prepare, compileENdoSnipeCommon, compileENdoSnipeDataAccessor">
         <copy file="${endosnipe-common.jar}" todir="${lib.dir}" failonerror="yes" />
         <!-- コンパイル実行 -->
-        <javac srcdir="${src.dir}" destdir="${classes.dir}" fork="false" debug="true">
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" fork="false" debug="true" encoding="UTF-8">
             <classpath refid="compile.classpath" />
         </javac>
 
@@ -73,7 +73,7 @@
 
     <!-- テストソースのコンパイル -->
     <target name="compile-test" depends="compile" description="テストソースをコンパイルする">
-        <javac srcdir="${src.test.dir}" destdir="${classes.test.dir}" debug="on">
+        <javac srcdir="${src.test.dir}" destdir="${classes.test.dir}" debug="on" encoding="UTF-8">
             <classpath>
                 <path refid="compile.test.classpath" />
             </classpath>

@@ -8,15 +8,15 @@ import jp.co.acroquest.endosnipe.perfdoctor.PerformanceRuleTestCase;
 import jp.co.acroquest.endosnipe.perfdoctor.WarningUnit;
 
 /**
- * MethodTotalElapsedTimeRule‚ÌƒeƒXƒgƒNƒ‰ƒXB
+ * MethodTotalElapsedTimeRuleã®ãƒ†ã‚¹ãƒˆã‚¯ãƒ©ã‚¹ã€‚
  * @author tooru
  *
  */
 public class OneSqlExecTimeRuleTest extends PerformanceRuleTestCase
 {
     /**
-     * è‡’l‚ğw’è‚µ‚ÄMethodTotalElapsedTimeRuleTest‚ğ¶¬‚·‚éB<br>
-     * @param threshold è‡’l
+     * é–¾å€¤ã‚’æŒ‡å®šã—ã¦MethodTotalElapsedTimeRuleTestã‚’ç”Ÿæˆã™ã‚‹ã€‚<br>
+     * @param threshold é–¾å€¤
      * @return MethodTotalElapsedTimeRuleTest
      */
     private OneSqlExecTimeRule createRule(long threshold)
@@ -31,9 +31,9 @@ public class OneSqlExecTimeRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [€”Ô] 2-2-1<br>
+     * [é …ç•ª] 2-2-1<br>
      * <br>
-     * doJudge‚ÌƒeƒXƒgB<br>
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
      */
     public void testDoJudge_th100000_call99999()
     {
@@ -50,9 +50,9 @@ public class OneSqlExecTimeRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [€”Ô] 2-2-2<br>
+     * [é …ç•ª] 2-2-2<br>
      * <br>
-     * doJudge‚ÌƒeƒXƒgB<br>
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
      */
     public void testDoJudge_th100000_call100000()
     {
@@ -67,14 +67,14 @@ public class OneSqlExecTimeRuleTest extends PerformanceRuleTestCase
         assertErrorOccurred(elementList.get(0), rule.threshold, 100000L, 1,
                             "/employee/employeeSearch.html");
         assertEquals(
-                     "“¯ˆêSQL‚Ì‘ÀsŠÔ‚ªè‡’l‚ğ’´‚¦‚Ä‚¢‚Ü‚·B(è‡’l:100,000msecAŒŸo’l:100,000msecAˆø”ƒpƒ^[ƒ“”F1AƒXƒŒƒbƒh:/employee/employeeSearch.html)",
+                     "åŒä¸€SQLã®ç·å®Ÿè¡Œæ™‚é–“ãŒé–¾å€¤ã‚’è¶…ãˆã¦ã„ã¾ã™ã€‚(é–¾å€¤:100,000msecã€æ¤œå‡ºå€¤:100,000msecã€å¼•æ•°ãƒ‘ã‚¿ãƒ¼ãƒ³æ•°ï¼š1ã€ã‚¹ãƒ¬ãƒƒãƒ‰:/employee/employeeSearch.html)",
                      list.get(0).getDescription());
     }
 
     /**
-     * [€”Ô] 2-2-3<br>
+     * [é …ç•ª] 2-2-3<br>
      * <br>
-     * doJudge‚ÌƒeƒXƒgB<br>
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
      */
     public void testDoJudge_th100000_call100001()
     {
@@ -89,14 +89,14 @@ public class OneSqlExecTimeRuleTest extends PerformanceRuleTestCase
         assertErrorOccurred(elementList.get(0), rule.threshold, 100001L, 1,
                             "/employee/employeeSearch.html");
         assertEquals(
-                     "“¯ˆêSQL‚Ì‘ÀsŠÔ‚ªè‡’l‚ğ’´‚¦‚Ä‚¢‚Ü‚·B(è‡’l:100,000msecAŒŸo’l:100,001msecAˆø”ƒpƒ^[ƒ“”F1AƒXƒŒƒbƒh:/employee/employeeSearch.html)",
+                     "åŒä¸€SQLã®ç·å®Ÿè¡Œæ™‚é–“ãŒé–¾å€¤ã‚’è¶…ãˆã¦ã„ã¾ã™ã€‚(é–¾å€¤:100,000msecã€æ¤œå‡ºå€¤:100,001msecã€å¼•æ•°ãƒ‘ã‚¿ãƒ¼ãƒ³æ•°ï¼š1ã€ã‚¹ãƒ¬ãƒƒãƒ‰:/employee/employeeSearch.html)",
                      list.get(0).getDescription());
     }
 
     /**
-     * [€”Ô] 2-2-4<br>
+     * [é …ç•ª] 2-2-4<br>
      * <br>
-     * doJudge‚ÌƒeƒXƒgB<br>
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
      */
     public void testDoJudge_th5000_call5000()
     {
@@ -111,14 +111,14 @@ public class OneSqlExecTimeRuleTest extends PerformanceRuleTestCase
         assertErrorOccurred(elementList.get(0), rule.threshold, 5000L, 1,
                             "/employee/employeeSearch.html");
         assertEquals(
-                     "“¯ˆêSQL‚Ì‘ÀsŠÔ‚ªè‡’l‚ğ’´‚¦‚Ä‚¢‚Ü‚·B(è‡’l:5,000msecAŒŸo’l:5,000msecAˆø”ƒpƒ^[ƒ“”F1AƒXƒŒƒbƒh:/employee/employeeSearch.html)",
+                     "åŒä¸€SQLã®ç·å®Ÿè¡Œæ™‚é–“ãŒé–¾å€¤ã‚’è¶…ãˆã¦ã„ã¾ã™ã€‚(é–¾å€¤:5,000msecã€æ¤œå‡ºå€¤:5,000msecã€å¼•æ•°ãƒ‘ã‚¿ãƒ¼ãƒ³æ•°ï¼š1ã€ã‚¹ãƒ¬ãƒƒãƒ‰:/employee/employeeSearch.html)",
                      list.get(0).getDescription());
     }
 
     /**
-     * [€”Ô] 2-2-5<br>
+     * [é …ç•ª] 2-2-5<br>
      * <br>
-     * doJudge‚ÌƒeƒXƒgB<br>
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
 
      */
     public void testDoJudge_40000_times_4()
@@ -134,14 +134,14 @@ public class OneSqlExecTimeRuleTest extends PerformanceRuleTestCase
         assertErrorOccurred(elementList.get(2), rule.threshold, 160000L, 1,
                             "/employee/employeeSearch.html");
         assertEquals(
-                     "“¯ˆêSQL‚Ì‘ÀsŠÔ‚ªè‡’l‚ğ’´‚¦‚Ä‚¢‚Ü‚·B(è‡’l:100,000msecAŒŸo’l:160,000msecAˆø”ƒpƒ^[ƒ“”F1AƒXƒŒƒbƒh:/employee/employeeSearch.html)",
+                     "åŒä¸€SQLã®ç·å®Ÿè¡Œæ™‚é–“ãŒé–¾å€¤ã‚’è¶…ãˆã¦ã„ã¾ã™ã€‚(é–¾å€¤:100,000msecã€æ¤œå‡ºå€¤:160,000msecã€å¼•æ•°ãƒ‘ã‚¿ãƒ¼ãƒ³æ•°ï¼š1ã€ã‚¹ãƒ¬ãƒƒãƒ‰:/employee/employeeSearch.html)",
                      list.get(0).getDescription());
     }
 
     /**
-     * [€”Ô] 2-2-6<br>
+     * [é …ç•ª] 2-2-6<br>
      * <br>
-     * doJudge‚ÌƒeƒXƒgB<br>
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
      */
     public void testDoJudge_empty_SQL()
     {
@@ -156,14 +156,14 @@ public class OneSqlExecTimeRuleTest extends PerformanceRuleTestCase
         assertErrorOccurred(elementList.get(0), rule.threshold, 100000L, 1,
                             "/employee/employeeSearch.html");
         assertEquals(
-                     "“¯ˆêSQL‚Ì‘ÀsŠÔ‚ªè‡’l‚ğ’´‚¦‚Ä‚¢‚Ü‚·B(è‡’l:100,000msecAŒŸo’l:100,000msecAˆø”ƒpƒ^[ƒ“”F1AƒXƒŒƒbƒh:/employee/employeeSearch.html)",
+                     "åŒä¸€SQLã®ç·å®Ÿè¡Œæ™‚é–“ãŒé–¾å€¤ã‚’è¶…ãˆã¦ã„ã¾ã™ã€‚(é–¾å€¤:100,000msecã€æ¤œå‡ºå€¤:100,000msecã€å¼•æ•°ãƒ‘ã‚¿ãƒ¼ãƒ³æ•°ï¼š1ã€ã‚¹ãƒ¬ãƒƒãƒ‰:/employee/employeeSearch.html)",
                      list.get(0).getDescription());
     }
 
     /**
-     * [€”Ô] 2-2-7<br>
+     * [é …ç•ª] 2-2-7<br>
      * <br>
-     * doJudge‚ÌƒeƒXƒgB<br>
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
      */
     public void testDoJudge_empty_Time()
     {
@@ -180,9 +180,9 @@ public class OneSqlExecTimeRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [€”Ô] 2-2-8<br>
+     * [é …ç•ª] 2-2-8<br>
      * <br>
-     * doJudge‚ÌƒeƒXƒgB<br>
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
      */
     public void testDoJudge_no_call()
     {
@@ -199,9 +199,9 @@ public class OneSqlExecTimeRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [€”Ô] 2-2-9<br>
+     * [é …ç•ª] 2-2-9<br>
      * <br>
-     * doJudge‚ÌƒeƒXƒgB<br>
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
      */
     public void testDoJudge_different_thread()
     {
@@ -221,9 +221,9 @@ public class OneSqlExecTimeRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [€”Ô] 3-1-10<br>
+     * [é …ç•ª] 3-1-10<br>
      * <br>
-     * doJudge‚ÌƒeƒXƒgB<br>
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
      */
     public void testDoJudge_different_thread_multi()
     {
@@ -260,26 +260,26 @@ public class OneSqlExecTimeRuleTest extends PerformanceRuleTestCase
 
         sortWarningUnit(list);
         assertEquals(
-                     "“¯ˆêSQL‚Ì‘ÀsŠÔ‚ªè‡’l‚ğ’´‚¦‚Ä‚¢‚Ü‚·B(è‡’l:100,000msecAŒŸo’l:100,001msecAˆø”ƒpƒ^[ƒ“”F1AƒXƒŒƒbƒh:/employee/employeeSearch1.html)",
+                     "åŒä¸€SQLã®ç·å®Ÿè¡Œæ™‚é–“ãŒé–¾å€¤ã‚’è¶…ãˆã¦ã„ã¾ã™ã€‚(é–¾å€¤:100,000msecã€æ¤œå‡ºå€¤:100,001msecã€å¼•æ•°ãƒ‘ã‚¿ãƒ¼ãƒ³æ•°ï¼š1ã€ã‚¹ãƒ¬ãƒƒãƒ‰:/employee/employeeSearch1.html)",
                      list.get(0).getDescription());
         assertEquals(
-                     "“¯ˆêSQL‚Ì‘ÀsŠÔ‚ªè‡’l‚ğ’´‚¦‚Ä‚¢‚Ü‚·B(è‡’l:100,000msecAŒŸo’l:100,002msecAˆø”ƒpƒ^[ƒ“”F1AƒXƒŒƒbƒh:/employee/employeeSearch2.html)",
+                     "åŒä¸€SQLã®ç·å®Ÿè¡Œæ™‚é–“ãŒé–¾å€¤ã‚’è¶…ãˆã¦ã„ã¾ã™ã€‚(é–¾å€¤:100,000msecã€æ¤œå‡ºå€¤:100,002msecã€å¼•æ•°ãƒ‘ã‚¿ãƒ¼ãƒ³æ•°ï¼š1ã€ã‚¹ãƒ¬ãƒƒãƒ‰:/employee/employeeSearch2.html)",
                      list.get(1).getDescription());
         assertEquals(
-                     "“¯ˆêSQL‚Ì‘ÀsŠÔ‚ªè‡’l‚ğ’´‚¦‚Ä‚¢‚Ü‚·B(è‡’l:100,000msecAŒŸo’l:100,003msecAˆø”ƒpƒ^[ƒ“”F1AƒXƒŒƒbƒh:/employee/employeeSearch3.html)",
+                     "åŒä¸€SQLã®ç·å®Ÿè¡Œæ™‚é–“ãŒé–¾å€¤ã‚’è¶…ãˆã¦ã„ã¾ã™ã€‚(é–¾å€¤:100,000msecã€æ¤œå‡ºå€¤:100,003msecã€å¼•æ•°ãƒ‘ã‚¿ãƒ¼ãƒ³æ•°ï¼š1ã€ã‚¹ãƒ¬ãƒƒãƒ‰:/employee/employeeSearch3.html)",
                      list.get(2).getDescription());
         assertEquals(
-                     "“¯ˆêSQL‚Ì‘ÀsŠÔ‚ªè‡’l‚ğ’´‚¦‚Ä‚¢‚Ü‚·B(è‡’l:100,000msecAŒŸo’l:100,004msecAˆø”ƒpƒ^[ƒ“”F1AƒXƒŒƒbƒh:/employee/employeeSearch4.html)",
+                     "åŒä¸€SQLã®ç·å®Ÿè¡Œæ™‚é–“ãŒé–¾å€¤ã‚’è¶…ãˆã¦ã„ã¾ã™ã€‚(é–¾å€¤:100,000msecã€æ¤œå‡ºå€¤:100,004msecã€å¼•æ•°ãƒ‘ã‚¿ãƒ¼ãƒ³æ•°ï¼š1ã€ã‚¹ãƒ¬ãƒƒãƒ‰:/employee/employeeSearch4.html)",
                      list.get(3).getDescription());
         assertEquals(
-                     "“¯ˆêSQL‚Ì‘ÀsŠÔ‚ªè‡’l‚ğ’´‚¦‚Ä‚¢‚Ü‚·B(è‡’l:100,000msecAŒŸo’l:100,005msecAˆø”ƒpƒ^[ƒ“”F1AƒXƒŒƒbƒh:/employee/employeeSearch5.html)",
+                     "åŒä¸€SQLã®ç·å®Ÿè¡Œæ™‚é–“ãŒé–¾å€¤ã‚’è¶…ãˆã¦ã„ã¾ã™ã€‚(é–¾å€¤:100,000msecã€æ¤œå‡ºå€¤:100,005msecã€å¼•æ•°ãƒ‘ã‚¿ãƒ¼ãƒ³æ•°ï¼š1ã€ã‚¹ãƒ¬ãƒƒãƒ‰:/employee/employeeSearch5.html)",
                      list.get(4).getDescription());
     }
 
     /**
-     * [€”Ô] 2-2-11<br>
+     * [é …ç•ª] 2-2-11<br>
      * <br>
-     * doJudge‚ÌƒeƒXƒgB<br>
+     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
      */
     public void testDoJudge_two_sqls()
     {
@@ -294,12 +294,12 @@ public class OneSqlExecTimeRuleTest extends PerformanceRuleTestCase
         assertErrorOccurred(elementList.get(2), rule.threshold, 120000L, 1,
                             "/employee/employeeSearch.html");
         assertEquals(
-                     "“¯ˆêSQL‚Ì‘ÀsŠÔ‚ªè‡’l‚ğ’´‚¦‚Ä‚¢‚Ü‚·B(è‡’l:100,000msecAŒŸo’l:120,000msecAˆø”ƒpƒ^[ƒ“”F1AƒXƒŒƒbƒh:/employee/employeeSearch.html)",
+                     "åŒä¸€SQLã®ç·å®Ÿè¡Œæ™‚é–“ãŒé–¾å€¤ã‚’è¶…ãˆã¦ã„ã¾ã™ã€‚(é–¾å€¤:100,000msecã€æ¤œå‡ºå€¤:120,000msecã€å¼•æ•°ãƒ‘ã‚¿ãƒ¼ãƒ³æ•°ï¼š1ã€ã‚¹ãƒ¬ãƒƒãƒ‰:/employee/employeeSearch.html)",
                      list.get(1).getDescription());
         assertErrorOccurred(elementList.get(3), rule.threshold, 140000L, 1,
                             "/employee/employeeSearch.html");
         assertEquals(
-                     "“¯ˆêSQL‚Ì‘ÀsŠÔ‚ªè‡’l‚ğ’´‚¦‚Ä‚¢‚Ü‚·B(è‡’l:100,000msecAŒŸo’l:140,000msecAˆø”ƒpƒ^[ƒ“”F1AƒXƒŒƒbƒh:/employee/employeeSearch.html)",
+                     "åŒä¸€SQLã®ç·å®Ÿè¡Œæ™‚é–“ãŒé–¾å€¤ã‚’è¶…ãˆã¦ã„ã¾ã™ã€‚(é–¾å€¤:100,000msecã€æ¤œå‡ºå€¤:140,000msecã€å¼•æ•°ãƒ‘ã‚¿ãƒ¼ãƒ³æ•°ï¼š1ã€ã‚¹ãƒ¬ãƒƒãƒ‰:/employee/employeeSearch.html)",
                      list.get(0).getDescription());
     }
 }

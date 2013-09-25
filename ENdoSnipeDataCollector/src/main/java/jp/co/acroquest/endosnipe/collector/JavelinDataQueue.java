@@ -34,19 +34,19 @@ import jp.co.acroquest.endosnipe.common.logger.CommonLogMessageCodes;
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
 
 /**
- * Javelin ƒƒO‚ğƒLƒ…[ƒCƒ“ƒO‚·‚é‚½‚ß‚ÌƒLƒ…[‚Å‚·B<br />
+ * Javelin ãƒ­ã‚°ã‚’ã‚­ãƒ¥ãƒ¼ã‚¤ãƒ³ã‚°ã™ã‚‹ãŸã‚ã®ã‚­ãƒ¥ãƒ¼ã§ã™ã€‚<br />
  * 
  * @author y-komori
  */
 public class JavelinDataQueue implements LogMessageCodes, CommonLogMessageCodes
 {
-    /** ƒLƒ…[‚ÌÅ‘å—v‘f” */
+    /** ã‚­ãƒ¥ãƒ¼ã®æœ€å¤§è¦ç´ æ•° */
     private static final int QUEUE_SIZE = 100;
 
-    /** ƒLƒ…[‚Öƒf[ƒ^‚ğ“Š“ü‚·‚éÛ‚Ìƒ^ƒCƒ€ƒAƒEƒgŠÔ(ƒ~ƒŠ•b) */
+    /** ã‚­ãƒ¥ãƒ¼ã¸ãƒ‡ãƒ¼ã‚¿ã‚’æŠ•å…¥ã™ã‚‹éš›ã®ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆæ™‚é–“(ãƒŸãƒªç§’) */
     private static final int OFFERING_TIMEOUT = 10000;
 
-    /** ƒLƒ…[‚©‚çƒf[ƒ^‚ğæ‚èo‚·Û‚Ìƒ^ƒCƒ€ƒAƒEƒgŠÔ(ƒ~ƒŠ•b) */
+    /** ã‚­ãƒ¥ãƒ¼ã‹ã‚‰ãƒ‡ãƒ¼ã‚¿ã‚’å–ã‚Šå‡ºã™éš›ã®ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆæ™‚é–“(ãƒŸãƒªç§’) */
     private static final int TAKING_TIMEOUT = 1000;
 
     private static ENdoSnipeLogger logger__ = ENdoSnipeLogger.getLogger(JavelinDataQueue.class);
@@ -56,9 +56,9 @@ public class JavelinDataQueue implements LogMessageCodes, CommonLogMessageCodes
                                                                                           QUEUE_SIZE);
 
     /**
-     * ƒLƒ…[‚É {@link JavelinData} ‚ğ’Ç‰Á‚µ‚Ü‚·B<br />
+     * ã‚­ãƒ¥ãƒ¼ã« {@link JavelinData} ã‚’è¿½åŠ ã—ã¾ã™ã€‚<br />
      * 
-     * @param data {@link JavelinData} ƒIƒuƒWƒFƒNƒg
+     * @param data {@link JavelinData} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     public void offer(final JavelinData data)
     {
@@ -80,11 +80,11 @@ public class JavelinDataQueue implements LogMessageCodes, CommonLogMessageCodes
     }
 
     /**
-     * ƒLƒ…[‚©‚ç {@link JavelinData} ‚ğæ‚èo‚µ‚Ü‚·B<br />
+     * ã‚­ãƒ¥ãƒ¼ã‹ã‚‰ {@link JavelinData} ã‚’å–ã‚Šå‡ºã—ã¾ã™ã€‚<br />
      * 
-     * ƒLƒ…[‚Éƒf[ƒ^‚ª‘¶İ‚µ‚È‚¢ê‡AƒXƒŒƒbƒh‚ÍƒuƒƒbƒN‚µ‚Ü‚·B<br />
+     * ã‚­ãƒ¥ãƒ¼ã«ãƒ‡ãƒ¼ã‚¿ãŒå­˜åœ¨ã—ãªã„å ´åˆã€ã‚¹ãƒ¬ãƒƒãƒ‰ã¯ãƒ–ãƒ­ãƒƒã‚¯ã—ã¾ã™ã€‚<br />
      * 
-     * @return {@link JavelinData} ƒIƒuƒWƒFƒNƒg
+     * @return {@link JavelinData} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     public JavelinData take()
     {
@@ -105,9 +105,9 @@ public class JavelinDataQueue implements LogMessageCodes, CommonLogMessageCodes
     }
 
     /**
-     * ƒLƒ…[‚Éc‚Á‚Ä‚¢‚éƒf[ƒ^‚Ì”‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ã‚­ãƒ¥ãƒ¼ã«æ®‹ã£ã¦ã„ã‚‹ãƒ‡ãƒ¼ã‚¿ã®æ•°ã‚’è¿”ã—ã¾ã™ã€‚<br />
      * 
-     * @return ƒf[ƒ^‚Ì”
+     * @return ãƒ‡ãƒ¼ã‚¿ã®æ•°
      */
     public int size()
     {

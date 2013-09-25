@@ -22,29 +22,29 @@ import jp.co.acroquest.endosnipe.report.controller.dispatcher.ReportPublishDispa
 import jp.co.acroquest.endosnipe.report.controller.dispatcher.ReportPublishProcessor;
 
 /**
- * ŠeƒŒƒ|[ƒg‚Ìˆ—ƒNƒ‰ƒX‚ÌÀs‚ÌU‚è•ª‚¯‚ğs‚¤ƒfƒBƒXƒpƒbƒ`ƒƒ
+ * å„ãƒ¬ãƒãƒ¼ãƒˆã®å‡¦ç†ã‚¯ãƒ©ã‚¹ã®å®Ÿè¡Œã®æŒ¯ã‚Šåˆ†ã‘ã‚’è¡Œã†ãƒ‡ã‚£ã‚¹ãƒ‘ãƒƒãƒãƒ£
  * 
  * @author M.Yoshida
  */
 public class ReportPublishDispatcher
 {
-    /** ƒƒK[ */
+    /** ãƒ­ã‚¬ãƒ¼ */
     private static final ENdoSnipeLogger   LOGGER     =
                                                         ENdoSnipeLogger.getLogger(
                                                                                   ReportPublishDispatcher.class);
 
-    /** ƒCƒ“ƒXƒ^ƒ“ƒX•Û—pƒtƒB[ƒ‹ƒh */
+    /** ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ä¿æŒç”¨ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ */
     private static ReportPublishDispatcher instance__ = null;
 
-    /** ƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğ–h~‚·‚é‚½‚ß‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^ */
+    /** ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã‚’é˜²æ­¢ã™ã‚‹ãŸã‚ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ */
     private ReportPublishDispatcher()
     {
     }
 
     /**
-     * ƒfƒBƒXƒpƒbƒ`ƒƒ‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚·‚éB
+     * ãƒ‡ã‚£ã‚¹ãƒ‘ãƒƒãƒãƒ£ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return ƒCƒ“ƒXƒ^ƒ“ƒX
+     * @return ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
      */
     public static ReportPublishDispatcher getInstance()
     {
@@ -56,11 +56,11 @@ public class ReportPublishDispatcher
     }
 
     /**
-     * w’è‚µ‚½ƒŒƒ|[ƒgƒ^ƒCƒv‚ÌƒŒƒ|[ƒg‚ğo—Í‚·‚éƒvƒƒZƒbƒT‚ğŒÄ‚Ño‚·B
+     * æŒ‡å®šã—ãŸãƒ¬ãƒãƒ¼ãƒˆã‚¿ã‚¤ãƒ—ã®ãƒ¬ãƒãƒ¼ãƒˆã‚’å‡ºåŠ›ã™ã‚‹ãƒ—ãƒ­ã‚»ãƒƒã‚µã‚’å‘¼ã³å‡ºã™ã€‚
      * 
-     * @param rType ƒŒƒ|[ƒgƒ^ƒCƒv
-     * @param cond  ƒvƒƒZƒbƒT‚É“n‚·i‚İğŒ
-     * @return ƒŒƒ|[ƒgo—Íˆ—‚ÌŒ‹‰Ê
+     * @param rType ãƒ¬ãƒãƒ¼ãƒˆã‚¿ã‚¤ãƒ—
+     * @param cond  ãƒ—ãƒ­ã‚»ãƒƒã‚µã«æ¸¡ã™çµè¾¼ã¿æ¡ä»¶
+     * @return ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›å‡¦ç†ã®çµæœ
      */
     public ReportProcessReturnContainer dispatch(ReportType rType, ReportSearchCondition cond)
     {

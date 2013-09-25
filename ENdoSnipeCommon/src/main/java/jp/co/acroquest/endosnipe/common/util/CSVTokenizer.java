@@ -29,38 +29,38 @@ import java.util.Enumeration;
 import java.util.NoSuchElementException;
 
 /**
- * 1�s��CSV�`���̃f�[�^����͂��A���ꂼ��̍��ڂɕ�������N���X�B
- * CSV�`���ɑΉ����� java.util.StringTokenizer �̂悤�Ȃ��́B
+ * 1行のCSV形式のデータを解析し、それぞれの項目に分解するクラス。
+ * CSV形式に対応した java.util.StringTokenizer のようなもの。
  *
- *�|�|�|�|�|�|�|�|�|�|�|�|�|�d�l�|�|�|�|�|�|�|�|�|�|�|�|�|�|�|�|�|
- *�@�E�Z�p���[�^�́A���p�J���}(,)��p����B
+ *－－－－－－－－－－－－－仕様－－－－－－－－－－－－－－－－－
+ *　・セパレータは、半角カンマ(,)を用いる。
  *
- *�@�E�e�v�f�́A���p�̃_�u���N�H�[�e�[�V����(")�ň͂�ł��͂܂Ȃ��Ă��ǂ��B
- *�@�@�������A
- *�@�@�@���@�v�f���ɔ��p�J���}���܂ޏꍇ�́A�_�u���N�H�[�e�[�V������
- *�@�@�@�@�@�͂܂Ȃ��Ă͂Ȃ�Ȃ��B
+ *　・各要素は、半角のダブルクォーテーション(")で囲んでも囲まなくても良い。
+ *　　ただし、
+ *　　　→　要素内に半角カンマを含む場合は、ダブルクォーテーションで
+ *　　　　　囲まなくてはならない。
  *
- *�@�E�_�u���N�H�[�e�[�V�����𕶎���̈ꕔ�Ƃ��ĔF��������ꍇ�́A
- *�@�@�A�������_�u���N�H�[�e�[�V������p����B
- *�@�@�P�Ƃ̃_�u���N�H�[�e�[�V�������������ꍇ�̓���͕ۏ؂��Ȃ��B
+ *　・ダブルクォーテーションを文字列の一部として認識させる場合は、
+ *　　連続したダブルクォーテーションを用いる。
+ *　　単独のダブルクォーテーションがあった場合の動作は保証しない。
  *
- *�@�E�Z�p���[�^�̗����ɂ́A�X�y�[�X����ꂽ�ꍇ�́A
- *�@�@�X�y�[�X�Ƃ��ĔF�������B
+ *　・セパレータの両側には、スペースを入れた場合は、
+ *　　スペースとして認識される。
  * @author unknown
  */
 public class CSVTokenizer implements Enumeration<String>
 {
-    private final String source_; // �ΏۂƂȂ镶����
+    private final String source_; // 対象となる文字列
 
-    private int currentPosition_; // ���̓ǂݏo���ʒu
+    private int currentPosition_; // 次の読み出し位置
 
     private final int maxPosition_;
 
     /**
-     * CSV �`���� line ����͂��� CSVTokenizer �̃C���X�^���X��
-     * �쐬����B
+     * CSV 形式の line を解析する CSVTokenizer のインスタンスを
+     * 作成する。
      *
-     * @param line CSV�`���̕�����  ���s�R�[�h���܂܂Ȃ��B
+     * @param line CSV形式の文字列  改行コードを含まない。
      */
     public CSVTokenizer(final String line)
     {
@@ -70,13 +70,13 @@ public class CSVTokenizer implements Enumeration<String>
     }
 
     /**
-     * ���̃J���}������ʒu��Ԃ��B
-     * �J���}���c���Ă��Ȃ��ꍇ�� nextComma() == maxPosition �ƂȂ�B
-     * �܂��Ō�̍��ڂ���̏ꍇ�� nextComma() == maxPosition �ƂȂ�B
+     * 次のカンマがある位置を返す。
+     * カンマが残っていない場合は nextComma() == maxPosition となる。
+     * また最後の項目が空の場合も nextComma() == maxPosition となる。
      *
-     * @param ind �������J�n����ʒu
-     * @return ���̃J���}������ʒu�B�J���}���Ȃ��ꍇ�́A�������
-     * �����̒l�ƂȂ�B
+     * @param ind 検索を開始する位置
+     * @return 次のカンマがある位置。カンマがない場合は、文字列の
+     * 長さの値となる。
      */
     private int nextComma(int ind)
     {
@@ -90,7 +90,7 @@ public class CSVTokenizer implements Enumeration<String>
             }
             else if ('"' == ch)
             {
-                inquote = !inquote; // ""�̏����������OK
+                inquote = !inquote; // ""の処理もこれでOK
             }
             ind++;
         }
@@ -98,9 +98,9 @@ public class CSVTokenizer implements Enumeration<String>
     }
 
     /**
-     * �܂܂�Ă��鍀�ڂ̐���Ԃ��B
+     * 含まれている項目の数を返す。
      *
-     * @return �܂܂�Ă��鍀�ڂ̐�
+     * @return 含まれている項目の数
      */
     public int countTokens()
     {
@@ -115,15 +115,15 @@ public class CSVTokenizer implements Enumeration<String>
     }
 
     /**
-     * ���̍��ڂ̕������Ԃ��B
+     * 次の項目の文字列を返す。
      *
-     * @return ���̍���
+     * @return 次の項目
      */
     public String nextToken()
     {
-        // ">=" �ł͖����̍��ڂ𐳂��������ł��Ȃ��B
-        // �����̍��ڂ���i�J���}��1�s���I���j�ꍇ�A��O����������
-        // ���܂��̂ŁB
+        // ">=" では末尾の項目を正しく処理できない。
+        // 末尾の項目が空（カンマで1行が終わる）場合、例外が発生して
+        // しまうので。
         if (currentPosition_ > maxPosition_)
         {
             throw new NoSuchElementException(toString() + "#nextToken");
@@ -140,19 +140,19 @@ public class CSVTokenizer implements Enumeration<String>
             char ch = source_.charAt(st++);
             if (ch == '"')
             {
-                // quote�̊O�ł���΁A���ł�quote�̒��ɓ���
+                // quoteの外であれば、いつでもquoteの中に入る
                 if (inquote == false)
                 {
                     inquote = true;
                 }
-                // quote���ł���A���̎��̕�����"�ł���΁A1��������"�Ƃ��Ĉ���
-                // "���P�ƂŌ��ꂽ�Ƃ��͉������Ȃ�
+                // quote内であり、その次の文字も"であれば、1文字分の"として扱う
+                // "が単独で現れたときは何もしない
                 else if ((st < currentPosition_) && (source_.charAt(st) == '"'))
                 {
                     strb.append(ch);
                     st++;
                 }
-                // ����ȊO�ł����quote���o��B
+                // それ以外であればquoteを出る。
                 else
                 {
                     inquote = false;
@@ -168,13 +168,13 @@ public class CSVTokenizer implements Enumeration<String>
     }
 
     /**
-     * <code>nextToken</code>���\�b�h�Ɠ����ŁA
-     * ���̍��ڂ̕������Ԃ��B<br>
-     * �������Ԓl�́AString�^�ł͂Ȃ��AObject�^�ł���B<br>
-     * java.util.Enumeration���������Ă��邽�߁A���̃��\�b�h��
-     * ����B
+     * <code>nextToken</code>メソッドと同じで、
+     * 次の項目の文字列を返す。<br>
+     * ただし返値は、String型ではなく、Object型である。<br>
+     * java.util.Enumerationを実装しているため、このメソッドが
+     * ある。
      *
-     * @return ���̍���
+     * @return 次の項目
      * @see java.util.Enumeration
      */
     public String nextElement()
@@ -183,23 +183,23 @@ public class CSVTokenizer implements Enumeration<String>
     }
 
     /**
-     * �܂����ڂ��c���Ă��邩�ǂ������ׂ�B
+     * まだ項目が残っているかどうか調べる。
      *
-     * @return �܂����ڂ��̂����Ă���Ȃ�true
+     * @return まだ項目がのこっているならtrue
      */
     public boolean hasMoreTokens()
     {
-        // "<=" �łȂ��A"<" ���Ɩ����̍��ڂ𐳂��������ł��Ȃ��B
+        // "<=" でなく、"<" だと末尾の項目を正しく処理できない。
         return (nextComma(currentPosition_) <= maxPosition_);
     }
 
     /**
-     * <code>hasMoreTokens</code>���\�b�h�Ɠ����ŁA
-     * �܂����ڂ��c���Ă��邩�ǂ������ׂ�B<br>
-     * java.util.Enumeration���������Ă��邽�߁A���̃��\�b�h��
-     * ����B
+     * <code>hasMoreTokens</code>メソッドと同じで、
+     * まだ項目が残っているかどうか調べる。<br>
+     * java.util.Enumerationを実装しているため、このメソッドが
+     * ある。
      *
-     * @return �܂����ڂ��̂����Ă���Ȃ�true
+     * @return まだ項目がのこっているならtrue
      * @see java.util.Enumeration
      */
     public boolean hasMoreElements()
@@ -208,9 +208,9 @@ public class CSVTokenizer implements Enumeration<String>
     }
 
     /**
-     * �C���X�^���X�̕�����\����Ԃ��B
+     * インスタンスの文字列表現を返す。
      *
-     * @return �C���X�^���X�̕�����\���B
+     * @return インスタンスの文字列表現。
      */
     @Override
     public String toString()

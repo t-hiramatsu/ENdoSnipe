@@ -1,23 +1,23 @@
 package jp.co.acroquest.endosnipe.perfdoctor;
 
 /**
- * WarningUnit‚ğì¬‚·‚é‚½‚ß‚ÌƒNƒ‰ƒXB
+ * WarningUnitã‚’ä½œæˆã™ã‚‹ãŸã‚ã®ã‚¯ãƒ©ã‚¹ã€‚
  * @author fujii
  *
  */
 public class WarningUnitGetter
 {
     /**
-     * WarningUnit‚ğì¬‚·‚éB
-     * @param unitId Œx‚ÌID
-     * @param id ƒ‹[ƒ‹‚ÌID
-     * @param description Œx‚Ìà–¾B
-     * @param className ƒNƒ‰ƒX–¼B
-     * @param methodName ƒƒ\ƒbƒh–¼B
-     * @param level d—v“x
-     * @param logFileName ƒƒOƒtƒ@ƒCƒ‹–¼B
-     * @param logFileLineNumber s”Ô†B
-     * @param args è‡’lAŒŸo’l‚È‚Ç‚Ìˆø”B
+     * WarningUnitã‚’ä½œæˆã™ã‚‹ã€‚
+     * @param unitId è­¦å‘Šã®ID
+     * @param id ãƒ«ãƒ¼ãƒ«ã®ID
+     * @param description è­¦å‘Šã®èª¬æ˜ã€‚
+     * @param className ã‚¯ãƒ©ã‚¹åã€‚
+     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰åã€‚
+     * @param level é‡è¦åº¦
+     * @param logFileName ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«åã€‚
+     * @param logFileLineNumber è¡Œç•ªå·ã€‚
+     * @param args é–¾å€¤ã€æ¤œå‡ºå€¤ãªã©ã®å¼•æ•°ã€‚
      * @return WarnignUnit WarningUnit
      */
     public static WarningUnit createWarningUnit(final String unitId, final String id,
@@ -30,18 +30,18 @@ public class WarningUnitGetter
     }
 
     /**
-     * WarningUnit‚ğì¬‚·‚éB
-     * @param unitId Œx‚ÌID
-     * @param id ƒ‹[ƒ‹‚ÌID
-     * @param description Œx‚Ìà–¾B
-     * @param className ƒNƒ‰ƒX–¼B
-     * @param methodName ƒƒ\ƒbƒh–¼B
-     * @param level d—v“x
-     * @param logFileName ƒƒOƒtƒ@ƒCƒ‹–¼B
-     * @param logFileLineNumber s”Ô†B
-     * @param isEvent ƒCƒxƒ“ƒg‚Å‚ ‚é‚©‚Ç‚¤‚©B
-     * @param stackTrace ƒXƒ^ƒbƒNƒgƒŒ[ƒX
-     * @param args è‡’lAŒŸo’l‚È‚Ç‚Ìˆø”B
+     * WarningUnitã‚’ä½œæˆã™ã‚‹ã€‚
+     * @param unitId è­¦å‘Šã®ID
+     * @param id ãƒ«ãƒ¼ãƒ«ã®ID
+     * @param description è­¦å‘Šã®èª¬æ˜ã€‚
+     * @param className ã‚¯ãƒ©ã‚¹åã€‚
+     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰åã€‚
+     * @param level é‡è¦åº¦
+     * @param logFileName ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«åã€‚
+     * @param logFileLineNumber è¡Œç•ªå·ã€‚
+     * @param isEvent ã‚¤ãƒ™ãƒ³ãƒˆã§ã‚ã‚‹ã‹ã©ã†ã‹ã€‚
+     * @param stackTrace ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹
+     * @param args é–¾å€¤ã€æ¤œå‡ºå€¤ãªã©ã®å¼•æ•°ã€‚
      * @return WarnignUnit WarningUnit
      */
     public static WarningUnit createWarningUnit(final String unitId, final String id,

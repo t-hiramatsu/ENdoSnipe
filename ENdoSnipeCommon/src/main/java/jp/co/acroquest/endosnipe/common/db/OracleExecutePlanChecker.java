@@ -34,19 +34,19 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 /**
- * Oracle‚ÌÀsŒv‰æ‚Ì’²¸‚ğs‚¢‚Ü‚·B
+ * Oracleã®å®Ÿè¡Œè¨ˆç”»ã®èª¿æŸ»ã‚’è¡Œã„ã¾ã™ã€‚
  * 
  * @author iida
  */
 public class OracleExecutePlanChecker extends AbstractExecutePlanChecker<Map<String, String>>
 {
-    /** ƒtƒ‹ƒXƒLƒƒƒ“‚ªs‚í‚ê‚½‚±‚Æ‚ğ¦‚·•¶š—ñ */
+    /** ãƒ•ãƒ«ã‚¹ã‚­ãƒ£ãƒ³ãŒè¡Œã‚ã‚ŒãŸã“ã¨ã‚’ç¤ºã™æ–‡å­—åˆ— */
     private static final String FULL_SCAN = "TABLE ACCESS FULL";
 
-    /** ÀsŒv‰æ’†‚Ì–½—ß‚ğ•\‚·—ñ‚Ìƒwƒbƒ_[ */
+    /** å®Ÿè¡Œè¨ˆç”»ä¸­ã®å‘½ä»¤ã‚’è¡¨ã™åˆ—ã®ãƒ˜ãƒƒãƒ€ãƒ¼ */
     private static final String OPERATION = "Operation";
 
-    /** ƒe[ƒuƒ‹–¼‚ğ•\‚·—ñ‚Ìƒwƒbƒ_[ */
+    /** ãƒ†ãƒ¼ãƒ–ãƒ«åã‚’è¡¨ã™åˆ—ã®ãƒ˜ãƒƒãƒ€ãƒ¼ */
     private static final String TABLE_NAME = "Name";
 
     /**
@@ -63,10 +63,10 @@ public class OracleExecutePlanChecker extends AbstractExecutePlanChecker<Map<Str
             return mapList;
         }
 
-        // ‰üs‚Å‹æØ‚é
+        // æ”¹è¡Œã§åŒºåˆ‡ã‚‹
         String[] lines = executePlan.split("[\r\n]{1,}");
 
-        // ƒwƒbƒ_s‚Ì‰ğÍ¨Map‚ÌƒL[‚ğæ“¾‚·‚é
+        // ãƒ˜ãƒƒãƒ€è¡Œã®è§£æâ†’Mapã®ã‚­ãƒ¼ã‚’å–å¾—ã™ã‚‹
         List<String> header = new ArrayList<String>();
         String line;
         int index = 0;
@@ -92,21 +92,21 @@ public class OracleExecutePlanChecker extends AbstractExecutePlanChecker<Map<Str
 
         if (index >= lines.length)
         {
-            // ƒwƒbƒ_‚ªŒ©‚Â‚©‚ç‚È‚©‚Á‚½
+            // ãƒ˜ãƒƒãƒ€ãŒè¦‹ã¤ã‹ã‚‰ãªã‹ã£ãŸ
             return mapList;
         }
 
-        // ƒf[ƒ^•”‚ÌŒŸõ¨ƒŠƒXƒg‚Ö‚Ì’Ç‰Á
+        // ãƒ‡ãƒ¼ã‚¿éƒ¨ã®æ¤œç´¢â†’ãƒªã‚¹ãƒˆã¸ã®è¿½åŠ 
         for (int dataIndex = index + 1; dataIndex < lines.length; dataIndex++)
         {
             String dataLine = lines[dataIndex];
             if (dataLine.contains("|"))
             {
-                // ƒwƒbƒ_•¶š—ñ‚É‘Î‰‚·‚éMap‚ğì¬‚µAƒŠƒXƒg‚É’Ç‰Á‚·‚é
+                // ãƒ˜ãƒƒãƒ€æ–‡å­—åˆ—ã«å¯¾å¿œã™ã‚‹Mapã‚’ä½œæˆã—ã€ãƒªã‚¹ãƒˆã«è¿½åŠ ã™ã‚‹
                 Map<String, String> map = new HashMap<String, String>();
                 String[] columns = dataLine.split("\\|");
-                // TODO StringUtils#split‚ğg—p‚µ‚Ä‚¢‚½ˆ—‚ğAString#split‚É•ÏX‚µ‚½B
-                // –{—ˆ‚ÌˆÓ}’Ê‚è‚Æ‚È‚Á‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğŠm”F‚·‚é•K—v—L‚èB
+                // TODO StringUtils#splitã‚’ä½¿ç”¨ã—ã¦ã„ãŸå‡¦ç†ã‚’ã€String#splitã«å¤‰æ›´ã—ãŸã€‚
+                // æœ¬æ¥ã®æ„å›³é€šã‚Šã¨ãªã£ã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’ç¢ºèªã™ã‚‹å¿…è¦æœ‰ã‚Šã€‚
                 for (int colIndex = 0, listIndex = 0; colIndex < columns.length; colIndex++)
                 {
                     if (columns[colIndex] == null)
@@ -147,12 +147,12 @@ public class OracleExecutePlanChecker extends AbstractExecutePlanChecker<Map<Str
             String operation = map.get(OPERATION);
             if (operation == null)
             {
-                // ³í‚È“®ì‚ğ‚·‚éŒÀ‚è‚±‚±‚É‚Í“’B‚µ‚È‚¢B
+                // æ­£å¸¸ãªå‹•ä½œã‚’ã™ã‚‹é™ã‚Šã“ã“ã«ã¯åˆ°é”ã—ãªã„ã€‚
                 return fullScanTableSet;
             }
 
             int fullAccessIndex = operation.indexOf(FULL_SCAN);
-            // FULL_SCAN‚ÌƒL[ƒ[ƒh‚ğŠÜ‚Ü‚È‚¢ê‡
+            // FULL_SCANã®ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã‚’å«ã¾ãªã„å ´åˆ
             if (fullAccessIndex < 0)
             {
                 continue;
@@ -160,7 +160,7 @@ public class OracleExecutePlanChecker extends AbstractExecutePlanChecker<Map<Str
 
             String tableName = map.get(TABLE_NAME);
 
-            // œŠO‘ÎÛ‚Å–³‚¢ê‡‚Ì‚İA•Û‘¶‚·‚éB
+            // é™¤å¤–å¯¾è±¡ã§ç„¡ã„å ´åˆã®ã¿ã€ä¿å­˜ã™ã‚‹ã€‚
             Pattern excludePattern = null;
             if (excludeString != null)
             {

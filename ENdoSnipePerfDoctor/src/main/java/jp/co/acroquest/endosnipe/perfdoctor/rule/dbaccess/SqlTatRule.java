@@ -29,16 +29,16 @@ import jp.co.acroquest.endosnipe.javelin.JavelinLogUtil;
 import jp.co.acroquest.endosnipe.javelin.parser.JavelinLogElement;
 
 /**
- * SQLのTATを判定するルール
+ * SQL縺ｮTAT繧貞愛螳壹☆繧九Ν繝ｼ繝ｫ
  * 
  * @author y-komori
  */
 public class SqlTatRule extends AbstractDbAccessRule
 {
-    /** SQL実行時間の開始タグ */
+    /** SQL螳溯｡梧凾髢薙�ｮ髢句ｧ九ち繧ｰ */
     private static final String TIME_TAG = "[Time]";
 
-    /** 警告と判断するSQL実行時間の閾値 */
+    /** 隴ｦ蜻翫→蛻､譁ｭ縺吶ｋSQL螳溯｡梧凾髢薙�ｮ髢ｾ蛟､ */
     public long                 threshold;
 
     /**

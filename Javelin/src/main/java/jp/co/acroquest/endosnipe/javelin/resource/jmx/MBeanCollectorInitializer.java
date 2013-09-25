@@ -48,49 +48,49 @@ import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.javelin.resource.MultiResourceGetter;
 
 /**
- * JMXŒv‘ª’l‚ğæ“¾‚·‚é‚½‚ß‚ÌƒNƒ‰ƒX‚ğ‰Â•ÏŒn—ñ—pƒ}ƒbƒv‚É“o˜^‚µ‚Ü‚·B
+ * JMXè¨ˆæ¸¬å€¤ã‚’å–å¾—ã™ã‚‹ãŸã‚ã®ã‚¯ãƒ©ã‚¹ã‚’å¯å¤‰ç³»åˆ—ç”¨ãƒãƒƒãƒ—ã«ç™»éŒ²ã—ã¾ã™ã€‚
  *
  * @author y_asazuma
  */
 public class MBeanCollectorInitializer
 {
-    /** JMXÚ‘±—pƒXƒŒƒbƒh */
+    /** JMXæ¥ç¶šç”¨ã‚¹ãƒ¬ãƒƒãƒ‰ */
     private static JMXConnectThread              jmxConnectThread__;
 
-    /** Javelin‚ÅŠÄ‹‚·‚éJMX‚Ìİ’èƒtƒ@ƒCƒ‹ */
+    /** Javelinã§ç›£è¦–ã™ã‚‹JMXã®è¨­å®šãƒ•ã‚¡ã‚¤ãƒ« */
     private static final String                  JMX_PROP                   =
                                                                               "../conf/jmx.properties";
 
-    /** İ’èƒtƒ@ƒCƒ‹‚ÌObjectName‚ğ•\‚·ƒL[ */
+    /** è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã®ObjectNameã‚’è¡¨ã™ã‚­ãƒ¼ */
     private static final String                  PREFIX_OBJECTNAME          = "objectName.";
 
-    /** İ’èƒtƒ@ƒCƒ‹‚Ìattribute‚ğ•\‚·ƒL[ */
+    /** è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã®attributeã‚’è¡¨ã™ã‚­ãƒ¼ */
     private static final String                  PREFIX_ATTRIBUTE           = "attribute.";
 
-    /** JMX‚ÌƒŠƒ‚[ƒgÚ‘±‚ğs‚¤‚©‚Ç‚¤‚©‚ğ•\‚·ƒL[ */
+    /** JMXã®ãƒªãƒ¢ãƒ¼ãƒˆæ¥ç¶šã‚’è¡Œã†ã‹ã©ã†ã‹ã‚’è¡¨ã™ã‚­ãƒ¼ */
     private static final String                  PREFIX_JMX_ENABLE          = "jmx.remote.enable.";
 
-    /** JMX‚ÌƒŠƒ‚[ƒgÚ‘±æURL‚ğ•\‚·ƒL[ */
+    /** JMXã®ãƒªãƒ¢ãƒ¼ãƒˆæ¥ç¶šå…ˆURLã‚’è¡¨ã™ã‚­ãƒ¼ */
     private static final String                  PREFIX_JMX_REMOTE_URL      = "jmx.remote.url.";
 
-    /** JMX‚ÌƒŠƒ‚[ƒgƒ†[ƒU‚ğ•\‚·ƒL[ */
+    /** JMXã®ãƒªãƒ¢ãƒ¼ãƒˆãƒ¦ãƒ¼ã‚¶ã‚’è¡¨ã™ã‚­ãƒ¼ */
     private static final String                  PREFIX_JMX_REMOTE_USER     = "jmx.remote.user.";
 
-    /** JMX‚ÌƒŠƒ‚[ƒgƒpƒXƒ[ƒh
-     * ‚ğ•\‚·ƒL[ */
+    /** JMXã®ãƒªãƒ¢ãƒ¼ãƒˆãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰
+     * ã‚’è¡¨ã™ã‚­ãƒ¼ */
     private static final String                  PREFIX_JMX_REMOTE_PASSWORD =
                                                                               "jmx.remote.password.";
 
-    /** JMX‚ÌƒŠƒ‚[ƒgÚ‘±ƒIƒuƒWƒFƒNƒg‚ğ•Û‚·‚éMap */
+    /** JMXã®ãƒªãƒ¢ãƒ¼ãƒˆæ¥ç¶šã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä¿æŒã™ã‚‹Map */
     private static Map<String, JMXConnector>     jmxConnectorMap__          =
                                                                               new ConcurrentHashMap<String, JMXConnector>();
 
-    /** JMX‚ÌƒŠƒ‚[ƒgÚ‘±î•ñ‚ğ•Û‚·‚éMap */
+    /** JMXã®ãƒªãƒ¢ãƒ¼ãƒˆæ¥ç¶šæƒ…å ±ã‚’ä¿æŒã™ã‚‹Map */
     private static Map<String, JMXConnectEntity> jmxConnectEntityMap__      =
                                                                               new ConcurrentHashMap<String, JMXConnectEntity>();
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      */
     private MBeanCollectorInitializer()
     {
@@ -98,9 +98,9 @@ public class MBeanCollectorInitializer
     };
 
     /**
-     * ƒŠƒ\[ƒXæ“¾ƒCƒ“ƒXƒ^ƒ“ƒX‚ğƒ}ƒbƒv‚É“o˜^‚µ‚Ü‚·B
+     * ãƒªã‚½ãƒ¼ã‚¹å–å¾—ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ãƒãƒƒãƒ—ã«ç™»éŒ²ã—ã¾ã™ã€‚
      *
-     * @param multiResourceMap ƒŠƒ\[ƒXæ“¾ƒCƒ“ƒXƒ^ƒ“ƒX‚ğ“o˜^‚·‚éƒ}ƒbƒvi‰Â•ÏŒn—ñ—pj
+     * @param multiResourceMap ãƒªã‚½ãƒ¼ã‚¹å–å¾—ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç™»éŒ²ã™ã‚‹ãƒãƒƒãƒ—ï¼ˆå¯å¤‰ç³»åˆ—ç”¨ï¼‰
      */
     public static void init(Map<String, MultiResourceGetter> multiResourceMap)
     {
@@ -121,13 +121,13 @@ public class MBeanCollectorInitializer
             String propKey = (String)enumetarion.nextElement();
             String objectStr = properties.getProperty(propKey);
 
-            // PREFIX‚ª"objectName."‚Å‚È‚¢ê‡‚Í“Ç‚İ”ò‚Î‚·
+            // PREFIXãŒ"objectName."ã§ãªã„å ´åˆã¯èª­ã¿é£›ã°ã™
             if (propKey.startsWith(PREFIX_OBJECTNAME) == false)
             {
                 continue;
             }
 
-            // İ’èƒtƒ@ƒCƒ‹‚©‚çƒIƒuƒWƒFƒNƒg‚Ì’è‹`‚ğæ“¾‚·‚é
+            // è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å®šç¾©ã‚’å–å¾—ã™ã‚‹
             String objectName = objectStr;
 
             String id = propKey.substring(PREFIX_OBJECTNAME.length());
@@ -162,13 +162,13 @@ public class MBeanCollectorInitializer
                 }
                 catch (MalformedURLException muex)
                 {
-                    // JMX‚ÌURL•s³‚Ìê‡‚ÍÄÚ‘±‚Å‚«‚È‚¢‚½‚ßAŸ‚Ì—v‘f‚Éˆ—‚ğ‚¤‚Â‚éB
+                    // JMXã®URLä¸æ­£ã®å ´åˆã¯å†æ¥ç¶šã§ããªã„ãŸã‚ã€æ¬¡ã®è¦ç´ ã«å‡¦ç†ã‚’ã†ã¤ã‚‹ã€‚
                     SystemLogger.getInstance().warn(muex);
                     continue;
                 }
                 catch (IOException ioex)
                 {
-                    // Ú‘±¸”s‚Ìê‡‚ÍÄÚ‘±ˆ—‚ğ‚¨‚±‚È‚¤‚½‚ßAˆ—‚ÍŒp‘±‚·‚éB
+                    // æ¥ç¶šå¤±æ•—ã®å ´åˆã¯å†æ¥ç¶šå‡¦ç†ã‚’ãŠã“ãªã†ãŸã‚ã€å‡¦ç†ã¯ç¶™ç¶šã™ã‚‹ã€‚
                     reconnect(entity);
                     SystemLogger.getInstance().warn(ioex);
                 }
@@ -177,15 +177,15 @@ public class MBeanCollectorInitializer
             {
                 mbeanServer = ManagementFactory.getPlatformMBeanServer();
             }
-            // İ’èƒtƒ@ƒCƒ‹‚©‚ç‘®«‚Ì’è‹`‚ğæ“¾‚·‚é
-            // •Ï”attrListStr‚Ì’†g‚ÍˆÈ‰º‚ÌŒ`®‚É‚È‚Á‚Ä‚¢‚é
+            // è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰å±æ€§ã®å®šç¾©ã‚’å–å¾—ã™ã‚‹
+            // å¤‰æ•°attrListStrã®ä¸­èº«ã¯ä»¥ä¸‹ã®å½¢å¼ã«ãªã£ã¦ã„ã‚‹
             //   <attribute n1>,<attribute n2>,...
             String[] attrList = attrListStr.split(",");
             for (String attrStr : attrList)
             {
                 String attrName = attrStr;
 
-                // æ“¾‚·‚éJMX‚ÌŒv‘ª’l‚Ìİ’èî•ñ‚ğo—Í‚·‚é
+                // å–å¾—ã™ã‚‹JMXã®è¨ˆæ¸¬å€¤ã®è¨­å®šæƒ…å ±ã‚’å‡ºåŠ›ã™ã‚‹
                 StringBuilder sb = new StringBuilder();
                 sb.append("(JMX mesuerment) ");
                 sb.append("ObjectName[").append(objectName).append("] ");
@@ -194,7 +194,7 @@ public class MBeanCollectorInitializer
 
                 try
                 {
-                    // JMX‚ÌŒv‘ª’l‚ğæ“¾‚·‚éƒNƒ‰ƒX‚ğ‰Šú‰»‚µ‚Ä’Ç‰Á‚·‚é
+                    // JMXã®è¨ˆæ¸¬å€¤ã‚’å–å¾—ã™ã‚‹ã‚¯ãƒ©ã‚¹ã‚’åˆæœŸåŒ–ã—ã¦è¿½åŠ ã™ã‚‹
                     MBeanValueGetter getter =
                                               new MBeanValueGetter(mbeanServer,
                                                                    mbeanServerConnection,
@@ -214,14 +214,14 @@ public class MBeanCollectorInitializer
             }
         }
 
-        // ‰Â•ÏŒn—ñ—p‚ÌƒŠƒ\[ƒXæ“¾‚Æ‚µ‚ÄJMX‚ÌŒv‘ª’l‚ğ“o˜^‚·‚é
+        // å¯å¤‰ç³»åˆ—ç”¨ã®ãƒªã‚½ãƒ¼ã‚¹å–å¾—ã¨ã—ã¦JMXã®è¨ˆæ¸¬å€¤ã‚’ç™»éŒ²ã™ã‚‹
         multiResourceMap.put(TelegramConstants.ITEMNAME_JMX, getters);
     }
 
     /**
-     * JMXÚ‘±ƒIƒuƒWƒFƒNƒg‚ğ’Ç‰Á‚·‚éB
+     * JMXæ¥ç¶šã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¿½åŠ ã™ã‚‹ã€‚
      * @param id ID
-     * @param connector {@link JMXConnector}ƒIƒuƒWƒFƒNƒg
+     * @param connector {@link JMXConnector}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     public static void addConnector(String id, JMXConnector connector)
     {
@@ -229,8 +229,8 @@ public class MBeanCollectorInitializer
     }
 
     /**
-     * w’è‚µ‚½ID‚É‘Î‰‚·‚éJMX‚ÌÄÚ‘±—v‹‚ğs‚¤B
-     * @param id ÄÚ‘±—v‹‚ğs‚¤Entity‚ÌID
+     * æŒ‡å®šã—ãŸIDã«å¯¾å¿œã™ã‚‹JMXã®å†æ¥ç¶šè¦æ±‚ã‚’è¡Œã†ã€‚
+     * @param id å†æ¥ç¶šè¦æ±‚ã‚’è¡Œã†Entityã®ID
      */
     public static void recconect(String id)
     {
@@ -242,8 +242,8 @@ public class MBeanCollectorInitializer
     }
 
     /**
-     * JMX‚ÌÄÚ‘±—v‹‚ğs‚¤B
-     * @param entity JMX‚ÌÄÚ‘±—v‹
+     * JMXã®å†æ¥ç¶šè¦æ±‚ã‚’è¡Œã†ã€‚
+     * @param entity JMXã®å†æ¥ç¶šè¦æ±‚
      */
     public static void reconnect(JMXConnectEntity entity)
     {
@@ -255,7 +255,7 @@ public class MBeanCollectorInitializer
     }
 
     /**
-     * JMX‚ÌØ’fˆ—‚ğs‚¤B
+     * JMXã®åˆ‡æ–­å‡¦ç†ã‚’è¡Œã†ã€‚
      */
     public static void close()
     {

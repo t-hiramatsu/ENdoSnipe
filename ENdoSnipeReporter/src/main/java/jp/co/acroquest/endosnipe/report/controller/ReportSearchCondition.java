@@ -16,31 +16,31 @@ import java.sql.Timestamp;
 import java.util.List;
 
 /**
- * ƒŒƒ|[ƒgo—Í‚Ìi‚İğŒ‚ğ¦‚·ƒIƒuƒWƒFƒNƒgB
+ * ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›æ™‚ã®çµè¾¼ã¿æ¡ä»¶ã‚’ç¤ºã™ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚
  * 
  * @author M.Yoshida
  */
 public class ReportSearchCondition {
 
-	/** ‘ÎÛƒf[ƒ^ƒx[ƒXƒŠƒXƒg */
+	/** å¯¾è±¡ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒªã‚¹ãƒˆ */
 	private List<String> databases_;
 
-	/** ŠJn“ú */
+	/** é–‹å§‹æ—¥æ™‚ */
 	private Timestamp startDate_;
 
-	/** I—¹“ú */
+	/** çµ‚äº†æ—¥æ™‚ */
 	private Timestamp endDate_;
 
-	/** o—ÍƒpƒX */
+	/** å‡ºåŠ›ãƒ‘ã‚¹ */
 	private String outputFilePath_;
 
-	/** ƒŒƒ|[ƒgo—Í‘ÎÛ‚ÌŒv‘ª€–Ú‚Ìe‚Ì€–Ú–¼ */
+	/** ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›å¯¾è±¡ã®è¨ˆæ¸¬é …ç›®ã®è¦ªã®é …ç›®å */
 	private String targetItemName_;
 
-	/** PerformanceDoctorƒŒƒ|[ƒgo—Í‚ÅA“¯ˆêŒ´ˆö‚ği‚è‚Ş‚©‚Ç‚¤‚© */
+	/** PerformanceDoctorãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã§ã€åŒä¸€åŸå› ã‚’çµã‚Šè¾¼ã‚€ã‹ã©ã†ã‹ */
 	private boolean limitSameCause_;
 
-	/** PerformanceDoctorƒŒƒ|[ƒgo—Í‚ÅA“¯ˆêƒ‹[ƒ‹‚Åi‚è‚Ş‚©‚Ç‚¤‚© */
+	/** PerformanceDoctorãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã§ã€åŒä¸€ãƒ«ãƒ¼ãƒ«ã§çµã‚Šè¾¼ã‚€ã‹ã©ã†ã‹ */
 	private boolean limitBySameRule_;
 
 
@@ -135,19 +135,19 @@ public class ReportSearchCondition {
 	}
 
 	/**
-	 * ƒŒƒ|[ƒgo—Í‘ÎÛ‚ÌŒv‘ª€–Ú‚Ìe‚Ì€–Ú–¼‚ğæ“¾‚·‚éB
+	 * ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›å¯¾è±¡ã®è¨ˆæ¸¬é …ç›®ã®è¦ªã®é …ç›®åã‚’å–å¾—ã™ã‚‹ã€‚
 	 * 
-	 * @return ƒŒƒ|[ƒgo—Í‘ÎÛ‚ÌŒv‘ª€–Ú‚Ìe‚Ì€–Ú–¼
+	 * @return ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›å¯¾è±¡ã®è¨ˆæ¸¬é …ç›®ã®è¦ªã®é …ç›®å
 	 */
 	public String getTargetItemName() {
 		return targetItemName_;
 	}
 
 	/**
-	 * ƒŒƒ|[ƒgo—Í‘ÎÛ‚ÌŒv‘ª€–Ú‚Ìe‚Ì€–Ú–¼‚ğİ’è‚·‚éB
+	 * ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›å¯¾è±¡ã®è¨ˆæ¸¬é …ç›®ã®è¦ªã®é …ç›®åã‚’è¨­å®šã™ã‚‹ã€‚
 	 * 
 	 * @param targetItemName
-	 *            ƒŒƒ|[ƒgo—Í‘ÎÛ‚ÌŒv‘ª€–Ú‚Ìe‚Ì€–Ú–¼
+	 *            ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›å¯¾è±¡ã®è¨ˆæ¸¬é …ç›®ã®è¦ªã®é …ç›®å
 	 */
 	public void setTargetItemName(String targetItemName) {
 		this.targetItemName_ = targetItemName;

@@ -29,16 +29,16 @@ import java.io.File;
 import java.net.URL;
 
 /**
- * �p�X���������߂̃��[�e�B���e�B�N���X�ł��B<br />
+ * パスを扱うためのユーティリティクラスです。<br />
  * 
  * @author y-komori
  */
 public class PathUtil
 {
-    /** Excel �œǂݍ��߂�t�@�C���p�X�̍ő咷 */
+    /** Excel で読み込めるファイルパスの最大長 */
     public static final int MAX_PATH_LENGTH = 218;
 
-    /** �t�@�C���p�X�̍ő咷�𒴂����Ƃ��ɁA�c���p�X�̒����i�g���q���܂ށj */
+    /** ファイルパスの最大長を超えたときに、残すパスの長さ（拡張子を含む） */
     public static final int CUT_PATH_LENGTH = 209;
 
     private PathUtil()
@@ -47,11 +47,11 @@ public class PathUtil
     }
 
     /**
-     * �N���X�p�X�z���ɂ��郊�\�[�X�̃p�X�𐶐����܂��B<br />
+     * クラスパス配下にあるリソースのパスを生成します。<br />
      * 
-     * @param clazz ���\�[�X�Ɠ����p�b�P�[�W�ɑ��݂���N���X�� {@link Class} �I�u�W�F�N�g
-     * @param path ���\�[�X��
-     * @return ���\�[�X�p�X
+     * @param clazz リソースと同じパッケージに存在するクラスの {@link Class} オブジェクト
+     * @param path リソース名
+     * @return リソースパス
      */
     public static String convertPath(final Class<?> clazz, final String path)
     {
@@ -65,28 +65,28 @@ public class PathUtil
     }
 
     /**
-     * �w�肳�ꂽ�p�X�����΃p�X�ł��邩�ǂ����𒲂ׂ܂��B<br />
-     * ���΃p�X�ł��邩�ǂ����́A�ȉ��̂悤�ɂ��Ē��ׂ܂��B<br />
-     * �Ȃ��A�w�肳�ꂽ�p�X���� \ �L���� / �ɕϊ�������Œ��ׂ܂��B<br />
+     * 指定されたパスが相対パスであるかどうかを調べます。<br />
+     * 相対パスであるかどうかは、以下のようにして調べます。<br />
+     * なお、指定されたパス中の \ 記号は / に変換した上で調べます。<br />
      * <ul>
-     * <li>Windows���̏ꍇ
+     * <li>Windows環境の場合
      *   <ul>
-     *     <li>�ŏ���3������ [A-Za-z]:/ �Ɉ�v���Ă���ΐ�΃p�X
-     *     <li>�ŏ���2������ // �Ɉ�v���Ă���ΐ�΃p�X(UNC�p�X�̏ꍇ)
-     *     <li>����ȊO�͑��΃p�X
+     *     <li>最初の3文字が [A-Za-z]:/ に一致していれば絶対パス
+     *     <li>最初の2文字が // に一致していれば絶対パス(UNCパスの場合)
+     *     <li>それ以外は相対パス
      *   </ul>
      * </li>
-     * <li>Windows���ȊO�̏ꍇ
+     * <li>Windows環境以外の場合
      *   <ul>
-     *     <li>�ŏ���1������ / �ł���ΐ�΃p�X
-     *     <li>�ŏ���1������ ~ �ł���ΐ�΃p�X
-     *     <li>����ȊO�͑��΃p�X
+     *     <li>最初の1文字が / であれば絶対パス
+     *     <li>最初の1文字が ~ であれば絶対パス
+     *     <li>それ以外は相対パス
      *   </ul>
      * </li>
      * </ul>
      * 
-     * @param path �p�X
-     * @return ���΃p�X�ł���ꍇ�� <code>true</code>
+     * @param path パス
+     * @return 相対パスである場合は <code>true</code>
      */
     public static boolean isRelativePath(final String path)
     {
@@ -98,32 +98,32 @@ public class PathUtil
         String normalizedPath = path.replace('\\', '/');
         if (OSUtil.isWindows())
         {
-            // Windows ���̏ꍇ
+            // Windows 環境の場合
             char drive = normalizedPath.charAt(0);
             if ((('A' <= drive && drive <= 'Z') || ('a' <= drive && drive <= 'z'))
                     && normalizedPath.charAt(1) == ':' && normalizedPath.charAt(2) == '/')
             {
-                // �p�X�̐擪�Ƀh���C�u���^�[�����݂���ꍇ
+                // パスの先頭にドライブレターが存在する場合
                 return false;
             }
             if (normalizedPath.startsWith("//"))
             {
-                // UNC �p�X�̏ꍇ
+                // UNC パスの場合
                 return false;
             }
             return true;
         }
         else
         {
-            // Windows �ȊO�̏ꍇ
+            // Windows 以外の場合
             if (normalizedPath.charAt(0) == '/')
             {
-                // �p�X�� / ����n�܂�ꍇ
+                // パスが / から始まる場合
                 return false;
             }
             if (normalizedPath.charAt(0) == '~')
             {
-                // �p�X�� ~ ����n�܂�ꍇ
+                // パスが ~ から始まる場合
                 return false;
             }
             return true;
@@ -131,11 +131,11 @@ public class PathUtil
     }
 
     /**
-     * �w�肳�ꂽ�N���X���܂܂�Ă��� Jar �t�@�C���̑��݂���f�B���N�g����Ԃ��܂��B<br />
-     * �w��N���X�� Jar �t�@�C���Ɋ܂܂�Ă��Ȃ��ꍇ�A�󕶎����Ԃ��܂��B<br />
+     * 指定されたクラスが含まれている Jar ファイルの存在するディレクトリを返します。<br />
+     * 指定クラスが Jar ファイルに含まれていない場合、空文字列を返します。<br />
      * 
-     * @param clazz �����ΏۃN���X�� {@link Class} �I�u�W�F�N�g
-     * @return �f�B���N�g���̃p�X
+     * @param clazz 調査対象クラスの {@link Class} オブジェクト
+     * @return ディレクトリのパス
      */
     public static String getJarDir(final Class<?> clazz)
     {
@@ -159,29 +159,29 @@ public class PathUtil
     }
 
     /**
-     * �p�X��������g�p����OS�ɍ��킹�Đ��K�����܂��B<br />
-     * Windows �ł̓p�X�̍ŏ��� / �����邽�߁A���O���܂��B<br />
+     * パス文字列を使用中のOSに合わせて正規化します。<br />
+     * Windows ではパスの最初に / が入るため、除外します。<br />
      * 
-     * @param path �p�X������
-     * @return ���K������
+     * @param path パス文字列
+     * @return 正規化結果
      */
     private static String normalizeUrlPath(final String path)
     {
         int startPos = 0;
         if (OSUtil.isWindows())
         {
-            // Windows �ł̓p�X�̍ŏ��� / �����邽�߁A���O����
+            // Windows ではパスの最初に / が入るため、除外する
             startPos = 1;
         }
         return path.substring(startPos);
     }
 
     /**
-     * �w�肳�ꂽ�t�@�C������L���ȃt�@�C�����ɂ���B<br />
-     * "\", "/", ":" , ",", "*", "?", """, "<", ">", "|", "(", ")","\n" �� "_"�ɒu������B<br />
+     * 指定されたファイル名を有効なファイル名にする。<br />
+     * "\", "/", ":" , ",", "*", "?", """, "<", ">", "|", "(", ")","\n" を "_"に置換する。<br />
      * 
-     * @param fileName �t�@�C����
-     * @return �L���ȃt�@�C����
+     * @param fileName ファイル名
+     * @return 有効なファイル名
      */
     public static String getValidFileName(String fileName)
     {
@@ -192,15 +192,15 @@ public class PathUtil
     }
 
     /**
-     * �w�肳�ꂽ�t�@�C���̐�΃p�X�̒�����L���Ȓ����ɒ��߂��܂��B<br />
+     * 指定されたファイルの絶対パスの長さを有効な長さに調節します。<br />
      *
-     * �p�X�̒����� 218 �o�C�g�𒴂����ꍇ�́A
-     * �p�X�̑O�� 209 �o�C�g�� "_" �ƃn�b�V���R�[�h��ǉ����܂��B<br />
+     * パスの長さが 218 バイトを超えた場合は、
+     * パスの前半 209 バイトに "_" とハッシュコードを追加します。<br />
      *
-     * �t�@�C���������ɑS�p���������݂���ꍇ�́A�t�@�C�����������������N�����\��������܂��B
+     * ファイル名部分に全角文字が存在する場合は、ファイル名が文字化けを起こす可能性があります。
      *
-     * @param absolutePath ��΃p�X
-     * @return �������߂��s�����t�@�C����
+     * @param absolutePath 絶対パス
+     * @return 長さ調節を行ったファイル名
      */
     public static String getValidLengthPath(final String absolutePath)
     {
@@ -208,16 +208,16 @@ public class PathUtil
     }
 
     /**
-     * �w�肳�ꂽ�t�@�C���̐�΃p�X�̒�����L���Ȓ����ɒ��߂��܂��B<br />
+     * 指定されたファイルの絶対パスの長さを有効な長さに調節します。<br />
      *
-     * �p�X�̒����� 218 �o�C�g�𒴂����ꍇ�́A
-     * �p�X�̑O�� 209 �o�C�g�� "_" �ƃn�b�V���R�[�h��ǉ����܂��B<br />
+     * パスの長さが 218 バイトを超えた場合は、
+     * パスの前半 209 バイトに "_" とハッシュコードを追加します。<br />
      *
-     * �t�@�C���������ɑS�p���������݂���ꍇ�́A�t�@�C�����������������N�����\��������܂��B
+     * ファイル名部分に全角文字が存在する場合は、ファイル名が文字化けを起こす可能性があります。
      *
-     * @param absolutePath ��΃p�X
-     * @param addition �ǉ�������
-     * @return �������߂��s�����t�@�C����
+     * @param absolutePath 絶対パス
+     * @param addition 追加文字列
+     * @return 長さ調節を行ったファイル名
      */
     public static String getValidLengthPath(final String absolutePath, final String addition)
     {
@@ -228,7 +228,7 @@ public class PathUtil
         int absolutePathLength = absolutePath.getBytes().length;
         if (absolutePathLength > MAX_PATH_LENGTH)
         {
-            // �g���q���擾����
+            // 拡張子を取得する
             int extensionPos = fileName.lastIndexOf('.');
             String extension = "";
             String fileNameWithoutExtension = fileName;
@@ -238,7 +238,7 @@ public class PathUtil
                 fileNameWithoutExtension = fileName.substring(0, extensionPos);
             }
 
-            // �t�@�C�����Ƃ��Ďc�������i�g���q�͏����j���v�Z����
+            // ファイル名として残す長さ（拡張子は除く）を計算する
             int folderLength = absolutePathLength - fileNameWithoutExtension.length();
             int remainLength = CUT_PATH_LENGTH - folderLength;
 

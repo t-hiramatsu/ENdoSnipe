@@ -26,27 +26,33 @@
 package jp.co.acroquest.endosnipe.data.dto;
 
 /**
- * �?��ーメニューのDTOクラス�?
+ * Dto class of to classify the GraphType. 
  * 
  * @author pin
  *
  */
 public class GraphTypeDto
 {
-    /**  */
+    /**  Graph Item Name*/
     private String itemName_;
 
-    /** */
+    /** Graph Type : mulResGraph or graph*/
     private String itemType_;
 
     /**
-     * コンストラクタ�?
+     * Constructor.
      */
     public GraphTypeDto()
     {
 
     }
 
+    /**
+     * two argument Constructor.
+     * @param itemName name of graph
+     * @param itemType type of graph
+     * 
+     */
     public GraphTypeDto(final String itemName, final String itemType)
     {
         super();
@@ -55,9 +61,9 @@ public class GraphTypeDto
     }
 
     /**
-     * 表示名を取得する�?
+     * Get the name of item.
      * 
-     * @return 表示�?
+     * @return itemName of graph
      */
     public String getItemName()
     {
@@ -65,9 +71,9 @@ public class GraphTypeDto
     }
 
     /**
-     * 表示名を設定する�?
+     * Set the itemName of graph.
      * 
-     * @param itemName 表示�?
+     * @param itemName itemName of graph
      */
     public void setItemName(final String itemName)
     {
@@ -75,9 +81,9 @@ public class GraphTypeDto
     }
 
     /**
-     * �?��ーIDを取得する�?
+     * Get the type of item.
      * 
-     * @return �?��ーID
+     * @return itemType of graph
      */
     public String getItemType()
     {
@@ -85,9 +91,9 @@ public class GraphTypeDto
     }
 
     /**
-     * �?��ーIDを設定する�?
+     * Set the itemType of graph.
      * 
-     * @param itemType �?��ーID
+     * @param itemType itemType of graph
      */
     public void setItemType(final String itemType)
     {

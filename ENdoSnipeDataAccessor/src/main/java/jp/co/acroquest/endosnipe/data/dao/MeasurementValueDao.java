@@ -45,13 +45,13 @@ import jp.co.acroquest.endosnipe.util.ResourceDataDaoUtil;
 import org.apache.log4j.Logger;
 
 /**
- * {@link MeasurementValue} ‚Ì‚½‚ß‚Ì DAO ‚Å‚·B
+ * {@link MeasurementValue} ã®ãŸã‚ã® DAO ã§ã™ã€‚
  *
  * @author sakamoto
  */
 public class MeasurementValueDao extends AbstractDao implements TableNames
 {
-    /** ‚Åƒ\[ƒg‚·‚éSQL */
+    /** æ™‚åˆ»ã§ã‚½ãƒ¼ãƒˆã™ã‚‹SQL */
     private static final String WITH_NAME_ACCESS_SQL_TIME_ORDER =
             "SELECT mv.measurement_value_id measurement_value_id," +
             " mv.measurement_num measurement_num," +
@@ -81,7 +81,7 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
             " mv.measurement_time, mi.item_name, mi.display_name," +
             " ji.item_name ORDER BY mv.measurement_time";
 
-    /** €–Ú–¼‚Åƒ\[ƒg‚·‚éSQL */
+    /** é …ç›®åã§ã‚½ãƒ¼ãƒˆã™ã‚‹SQL */
     private static final String WITH_NAME_ACCESS_SQL =
             "SELECT mv.measurement_value_id measurement_value_id," +
             " mv.measurement_num measurement_num," +
@@ -132,7 +132,7 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
             " mi.display_name, ji.item_name" +
             " ORDER BY ji.item_name";
 
-    /** Œn—ñ–¼ˆê——‚ğæ“¾‚·‚éSQL */
+    /** ç³»åˆ—åä¸€è¦§ã‚’å–å¾—ã™ã‚‹SQL */
     private static final String WITH_NAME_ITEM_NAME =
         "SELECT 0 measurement_value_id, 0 measurement_num, '1970-01-01' measurement_time," +
         " 0 measurement_type, 0 measurement_item_id, 0 resultvalue, '0' measurement_type_name," +
@@ -141,8 +141,8 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
         " WHERE mi.item_name = ? AND ji.measurement_type = mi.measurement_type";
 
     /**
-     * ‚Åƒ\[ƒg‚·‚éSQL
-     * Œn—ñ–¼‚àw’è‚·‚é
+     * æ™‚åˆ»ã§ã‚½ãƒ¼ãƒˆã™ã‚‹SQL
+     * ç³»åˆ—åã‚‚æŒ‡å®šã™ã‚‹
      */
     private static final String WITH_ITEM_NAME_ACCESS_SQL_TIME_ORDER =
             "SELECT mv.measurement_value_id measurement_value_id," +
@@ -156,19 +156,19 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
             " AND ji.item_name = ? AND mv.measurement_item_id = ji.measurement_item_id" +
             " AND ( mv.measurement_time BETWEEN ? AND ? ) ORDER BY mv.measurement_time";
 
-    /** ’~ÏŠúŠÔ‚ğæ“¾‚·‚é SQL */
+    /** è“„ç©æœŸé–“ã‚’å–å¾—ã™ã‚‹ SQL */
     private static final String GET_TERM_SQL_PARTIOTION = createGetTermSql();
 
-    /** ’~ÏŠúŠÔ‚ğæ“¾‚·‚é SQL */
+    /** è“„ç©æœŸé–“ã‚’å–å¾—ã™ã‚‹ SQL */
     private static final String GET_TERM_SQL =
     	"select min(MEASUREMENT_TIME) MIN_TIME, max(MEASUREMENT_TIME) MAX_TIME from " +
         MEASUREMENT_VALUE;
 
     /**
-     * ƒf[ƒ^‚ğ‘}“ü‚·‚éƒe[ƒuƒ‹‚Ì–¼‘O‚ğ•Ô‚µ‚Ü‚·B
+     * ãƒ‡ãƒ¼ã‚¿ã‚’æŒ¿å…¥ã™ã‚‹ãƒ†ãƒ¼ãƒ–ãƒ«ã®åå‰ã‚’è¿”ã—ã¾ã™ã€‚
      *
-     * @param date ‘}“ü‚·‚éƒf[ƒ^‚Ì“ú•t
-     * @return ƒe[ƒuƒ‹–¼
+     * @param date æŒ¿å…¥ã™ã‚‹ãƒ‡ãƒ¼ã‚¿ã®æ—¥ä»˜
+     * @return ãƒ†ãƒ¼ãƒ–ãƒ«å
      */
     public static String getTableNameToInsert(final Date date)
     {
@@ -177,11 +177,11 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
     }
 
     /**
-     * ƒŒƒR[ƒh‚ğ‘}“ü‚µ‚Ü‚·B<br />
+     * ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’æŒ¿å…¥ã—ã¾ã™ã€‚<br />
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param measurementValue ‘}“ü‚·‚é’l
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param measurementValue æŒ¿å…¥ã™ã‚‹å€¤
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static void insert(final String database, final MeasurementValue measurementValue)
         throws SQLException
@@ -221,12 +221,12 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
     }
 
     /**
-     * w’è‚µ‚½ƒCƒ“ƒfƒbƒNƒX‚Ìƒe[ƒuƒ‹‚ğ truncate ‚µ‚Ü‚·B
+     * æŒ‡å®šã—ãŸã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã®ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ truncate ã—ã¾ã™ã€‚
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param tableIndex ƒe[ƒuƒ‹ƒCƒ“ƒfƒbƒNƒX
-     * @param year Ÿ‚É‚±‚Ìƒe[ƒuƒ‹‚É“ü‚ê‚éƒf[ƒ^‚Ì”N
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param tableIndex ãƒ†ãƒ¼ãƒ–ãƒ«ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+     * @param year æ¬¡ã«ã“ã®ãƒ†ãƒ¼ãƒ–ãƒ«ã«å…¥ã‚Œã‚‹ãƒ‡ãƒ¼ã‚¿ã®å¹´
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static void truncate(final String database, final int tableIndex, final int year)
         throws SQLException
@@ -237,11 +237,11 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
     }
 
     /**
-     * ‚·‚×‚Ä‚ÌƒŒƒR[ƒh‚ğæ“¾‚µ‚Ü‚·B<br />
+     * ã™ã¹ã¦ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @return {@link MeasurementValue} ƒIƒuƒWƒFƒNƒg‚ÌƒŠƒXƒg
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @return {@link MeasurementValue} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒªã‚¹ãƒˆ
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static List<MeasurementValue> selectAll(final String database)
         throws SQLException
@@ -270,15 +270,15 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
     }
 
     /**
-     * ŠúŠÔ‚ğw’è‚µ‚ÄƒŒƒR[ƒh‚ğæ“¾‚µ‚Ü‚·B<br />
+     * æœŸé–“ã‚’æŒ‡å®šã—ã¦ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      *
-     * ƒŒƒR[ƒh‚Í‚Å¸‡‚É•À‚×‘Ö‚¦‚Ä•Ô‚µ‚Ü‚·B
+     * ãƒ¬ã‚³ãƒ¼ãƒ‰ã¯æ™‚åˆ»ã§æ˜‡é †ã«ä¸¦ã¹æ›¿ãˆã¦è¿”ã—ã¾ã™ã€‚
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param start ŠJn
-     * @param end I—¹
-     * @return {@link MeasurementValue} ‚ÌƒŠƒXƒg
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param start é–‹å§‹æ™‚åˆ»
+     * @param end çµ‚äº†æ™‚åˆ»
+     * @return {@link MeasurementValue} ã®ãƒªã‚¹ãƒˆ
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static List<MeasurementValue> selectByTerm(final String database, final Timestamp start,
             final Timestamp end)
@@ -314,16 +314,16 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
     }
 
     /**
-     * ŠúŠÔ‚ğw’è‚µ‚ÄA“Á’è‚ÌƒOƒ‰ƒt‚ÌƒŒƒR[ƒh‚ğæ“¾‚µ‚Ü‚·B<br />
+     * æœŸé–“ã‚’æŒ‡å®šã—ã¦ã€ç‰¹å®šã®ã‚°ãƒ©ãƒ•ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      *
-     * ƒŒƒR[ƒh‚Í‚Å¸‡‚É•À‚×‘Ö‚¦‚Ä•Ô‚µ‚Ü‚·B
+     * ãƒ¬ã‚³ãƒ¼ãƒ‰ã¯æ™‚åˆ»ã§æ˜‡é †ã«ä¸¦ã¹æ›¿ãˆã¦è¿”ã—ã¾ã™ã€‚
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param start ŠJn
-     * @param end I—¹
-     * @param measurementType Œv‘ª’lí•Ê
-     * @return {@link MeasurementValue} ‚ÌƒŠƒXƒg
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param start é–‹å§‹æ™‚åˆ»
+     * @param end çµ‚äº†æ™‚åˆ»
+     * @param measurementType è¨ˆæ¸¬å€¤ç¨®åˆ¥
+     * @return {@link MeasurementValue} ã®ãƒªã‚¹ãƒˆ
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static List<MeasurementValueDto> selectByTermAndMeasurementType(final String database,
             final Timestamp start, final Timestamp end, final long measurementType)
@@ -369,17 +369,17 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
     }
 
     /**
-     * ŠúŠÔ‚ÆŒn—ñ–¼‚ğw’è‚µ‚ÄA“Á’è‚ÌƒOƒ‰ƒt‚ÌƒŒƒR[ƒh‚ğæ“¾‚µ‚Ü‚·B<br />
-     * JMXƒpƒ‰ƒ[ƒ^‚ğ•\¦‚·‚é‚½‚ß‚Ìê—pƒƒ\ƒbƒh‚Å‚·B
+     * æœŸé–“ã¨ç³»åˆ—åã‚’æŒ‡å®šã—ã¦ã€ç‰¹å®šã®ã‚°ãƒ©ãƒ•ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * JMXãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’è¡¨ç¤ºã™ã‚‹ãŸã‚ã®å°‚ç”¨ãƒ¡ã‚½ãƒƒãƒ‰ã§ã™ã€‚
      *
-     * ƒŒƒR[ƒh‚Í‚Å¸‡‚É•À‚×‘Ö‚¦‚Ä•Ô‚µ‚Ü‚·B
+     * ãƒ¬ã‚³ãƒ¼ãƒ‰ã¯æ™‚åˆ»ã§æ˜‡é †ã«ä¸¦ã¹æ›¿ãˆã¦è¿”ã—ã¾ã™ã€‚
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param start ŠJn
-     * @param end I—¹
-     * @param itemName €–Ú–¼
-     * @return {@link MeasurementValue} ‚ÌƒŠƒXƒg
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param start é–‹å§‹æ™‚åˆ»
+     * @param end çµ‚äº†æ™‚åˆ»
+     * @param itemName é …ç›®å
+     * @return {@link MeasurementValue} ã®ãƒªã‚¹ãƒˆ
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static List<MeasurementValueDto> selectByTermAndJMXItemName(final String database,
             final Timestamp start, final Timestamp end, final String itemName)
@@ -430,7 +430,7 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
         return result;
     }
 
-    /** ŠúŠÔ‚Æ€–Ú–¼‚ğw’è‚µ‚ÄŒv‘ª’l‚ÌŒn—ñ‚ğæ“¾‚·‚éSQLB */
+    /** æœŸé–“ã¨é …ç›®åã‚’æŒ‡å®šã—ã¦è¨ˆæ¸¬å€¤ã®ç³»åˆ—ã‚’å–å¾—ã™ã‚‹SQLã€‚ */
     private static final String SQL_SELECT_BY_TERM_AND_MEASUREMENT_ITEM_NAME =
         "SELECT jmi.measurement_item_name," +
         "       mv.measurement_item_id," +
@@ -439,19 +439,20 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
         "  FROM measurement_value mv, javelin_measurement_item jmi" +
         "  WHERE mv.measurement_item_id = jmi.measurement_item_id" +
         "    AND (mv.measurement_time BETWEEN ? and ?)" +
-        "    AND jmi.measurement_item_name LIKE ?" +
+        "    AND replace(replace(replace(jmi.measurement_item_name,chr(13)"
+                    + "||chr(10),' '),chr(13),' '),chr(10),' ')  LIKE ?" +
         "  ORDER BY mv.measurement_time, measurement_item_name";
 
     /**
-     * ŠúŠÔ‚Æ€–Ú–¼‚ğw’è‚µ‚ÄA“Á’è‚ÌƒOƒ‰ƒt‚ÌƒŒƒR[ƒh‚ğæ“¾‚µ‚Ü‚·B<br />
-     * ƒŒƒR[ƒh‚Í‚Å¸‡‚É•À‚×‘Ö‚¦‚Ä•Ô‚µ‚Ü‚·B
+     * æœŸé–“ã¨é …ç›®åã‚’æŒ‡å®šã—ã¦ã€ç‰¹å®šã®ã‚°ãƒ©ãƒ•ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * ãƒ¬ã‚³ãƒ¼ãƒ‰ã¯æ™‚åˆ»ã§æ˜‡é †ã«ä¸¦ã¹æ›¿ãˆã¦è¿”ã—ã¾ã™ã€‚
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼B
-     * @param start ŠJnB
-     * @param end I—¹B
-     * @param measurementItemName Œv‘ª€–Ú–¼B
-     * @return {@link MeasurementValueDto} ‚ÌƒŠƒXƒg
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã€‚
+     * @param start é–‹å§‹æ™‚åˆ»ã€‚
+     * @param end çµ‚äº†æ™‚åˆ»ã€‚
+     * @param measurementItemName è¨ˆæ¸¬é …ç›®åã€‚
+     * @return {@link MeasurementValueDto} ã®ãƒªã‚¹ãƒˆ
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static List<MeasurementValueDto> selectByTermAndMeasurementItemName(String database,
             Date start, Date end, String measurementItemName)
@@ -459,7 +460,7 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
     {
         List<MeasurementValueDto> result = null;
         
-        // Date ¨ Timestamp‚Ö‚Ì•ÏŠ·
+        // Date â†’ Timestampã¸ã®å¤‰æ›
         Timestamp tsStart = new Timestamp(start.getTime());
         Timestamp tsEnd   = new Timestamp(end.getTime());
 
@@ -489,16 +490,16 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
     }
 
     /**
-     * ‚Ì”ÍˆÍ‚ğw’è‚µ‚ÄA“Á’è‚ÌƒOƒ‰ƒt‚ÌƒŒƒR[ƒh‚ğæ“¾‚µ‚Ü‚·B<br />
+     * æ™‚åˆ»ã®ç¯„å›²ã‚’æŒ‡å®šã—ã¦ã€ç‰¹å®šã®ã‚°ãƒ©ãƒ•ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      *
-     * ƒŒƒR[ƒh‚Í‚Å¸‡‚É•À‚×‘Ö‚¦‚Ä•Ô‚µ‚Ü‚·B
+     * ãƒ¬ã‚³ãƒ¼ãƒ‰ã¯æ™‚åˆ»ã§æ˜‡é †ã«ä¸¦ã¹æ›¿ãˆã¦è¿”ã—ã¾ã™ã€‚
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param startTime ŠJn
-     * @param endTime I—¹
-     * @param measurementType Œv‘ª’lí•Ê
-     * @return {@link MeasurementValue} ‚ÌƒŠƒXƒg
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param startTime é–‹å§‹æ™‚åˆ»
+     * @param endTime çµ‚äº†æ™‚åˆ»
+     * @param measurementType è¨ˆæ¸¬å€¤ç¨®åˆ¥
+     * @return {@link MeasurementValue} ã®ãƒªã‚¹ãƒˆ
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static List<MeasurementValueDto> selectByTimeAndMeasurementType(final String database,
             final Timestamp startTime, final Timestamp endTime, final long measurementType)
@@ -549,17 +550,17 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
     }
 
     /**
-     * ŠúŠÔA‚¨‚æ‚ÑŒv‘ª’lí•Ê–¼‚ğw’è‚µ‚ÄAŒv‘ª’l‚ğæ“¾‚µ‚Ü‚·B<br/>
-     * æ“¾‚µ‚½Œ‹‰Ê‚É‚ÍAŒv‘ª’lí•Ê–¼AŒv‘ª’lŒn—ñ–¼‚ğ•t‰Á‚µ‚Ü‚·B
+     * æœŸé–“ã€ãŠã‚ˆã³è¨ˆæ¸¬å€¤ç¨®åˆ¥åã‚’æŒ‡å®šã—ã¦ã€è¨ˆæ¸¬å€¤ã‚’å–å¾—ã—ã¾ã™ã€‚<br/>
+     * å–å¾—ã—ãŸçµæœã«ã¯ã€è¨ˆæ¸¬å€¤ç¨®åˆ¥åã€è¨ˆæ¸¬å€¤ç³»åˆ—åã‚’ä»˜åŠ ã—ã¾ã™ã€‚
      *
-     * @deprecated measurement_infoƒe[ƒuƒ‹‚Í”p~‚³‚ê‚Ü‚µ‚½B
+     * @deprecated measurement_infoãƒ†ãƒ¼ãƒ–ãƒ«ã¯å»ƒæ­¢ã•ã‚Œã¾ã—ãŸã€‚
      * 
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param start    ŒŸõğŒiŠJnj
-     * @param end      ŒŸõğŒiI—¹j
-     * @param typeName ŒŸõğŒiŒv‘ª’lí•Ê–¼j
-     * @return ŒŸõğŒ‚É‡’v‚µ‚½ƒf[ƒ^‚ÌƒŠƒXƒg
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param start    æ¤œç´¢æ¡ä»¶ï¼ˆé–‹å§‹æ™‚åˆ»ï¼‰
+     * @param end      æ¤œç´¢æ¡ä»¶ï¼ˆçµ‚äº†æ™‚åˆ»ï¼‰
+     * @param typeName æ¤œç´¢æ¡ä»¶ï¼ˆè¨ˆæ¸¬å€¤ç¨®åˆ¥åï¼‰
+     * @return æ¤œç´¢æ¡ä»¶ã«åˆè‡´ã—ãŸãƒ‡ãƒ¼ã‚¿ã®ãƒªã‚¹ãƒˆ
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static List<MeasurementValueDto> selectByTermAndMeasurementTypeWithName(String database,
             Timestamp start, Timestamp end, String typeName)
@@ -574,14 +575,14 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
     }
     
     /**
-     * Œv‘ª’lí•Ê–¼‚ğw’è‚µ‚ÄŒn—ñ–¼ˆê——‚ğæ“¾‚µ‚Ü‚·B
+     * è¨ˆæ¸¬å€¤ç¨®åˆ¥åã‚’æŒ‡å®šã—ã¦ç³»åˆ—åä¸€è¦§ã‚’å–å¾—ã—ã¾ã™ã€‚
      *
-     * @deprecated measurement_infoƒe[ƒuƒ‹‚Í”p~‚³‚ê‚Ü‚µ‚½B
+     * @deprecated measurement_infoãƒ†ãƒ¼ãƒ–ãƒ«ã¯å»ƒæ­¢ã•ã‚Œã¾ã—ãŸã€‚
      * 
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param typeName ŒŸõğŒiŒv‘ª’lí•Ê–¼j
-     * @return ŒŸõğŒ‚É‡’v‚µ‚½ƒf[ƒ^‚ÌƒŠƒXƒg
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param typeName æ¤œç´¢æ¡ä»¶ï¼ˆè¨ˆæ¸¬å€¤ç¨®åˆ¥åï¼‰
+     * @return æ¤œç´¢æ¡ä»¶ã«åˆè‡´ã—ãŸãƒ‡ãƒ¼ã‚¿ã®ãƒªã‚¹ãƒˆ
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static List<MeasurementValueDto> selectByMeasurementTypeWithName(String database,
             String typeName)
@@ -594,17 +595,17 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
     }
 
     /**
-     * ŠúŠÔA‚¨‚æ‚ÑŒv‘ª’lí•Ê–¼‚ğw’è‚µ‚ÄAŒn—ñ‚Åƒ\[ƒg‚µ‚½Œv‘ª’l‚ğæ“¾‚µ‚Ü‚·B<br/>
-     * æ“¾‚µ‚½Œ‹‰Ê‚É‚ÍAŒv‘ª’lí•Ê–¼AŒv‘ª’lŒn—ñ–¼‚ğ•t‰Á‚µ‚Ü‚·B
+     * æœŸé–“ã€ãŠã‚ˆã³è¨ˆæ¸¬å€¤ç¨®åˆ¥åã‚’æŒ‡å®šã—ã¦ã€æ™‚ç³»åˆ—ã§ã‚½ãƒ¼ãƒˆã—ãŸè¨ˆæ¸¬å€¤ã‚’å–å¾—ã—ã¾ã™ã€‚<br/>
+     * å–å¾—ã—ãŸçµæœã«ã¯ã€è¨ˆæ¸¬å€¤ç¨®åˆ¥åã€è¨ˆæ¸¬å€¤ç³»åˆ—åã‚’ä»˜åŠ ã—ã¾ã™ã€‚
      *
-     * @deprecated measurement_infoƒe[ƒuƒ‹‚Í”p~‚³‚ê‚Ü‚µ‚½B
+     * @deprecated measurement_infoãƒ†ãƒ¼ãƒ–ãƒ«ã¯å»ƒæ­¢ã•ã‚Œã¾ã—ãŸã€‚
      * 
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param start    ŒŸõğŒiŠJnj
-     * @param end      ŒŸõğŒiI—¹j
-     * @param typeName ŒŸõğŒiŒv‘ª’lí•Ê–¼j
-     * @return ŒŸõğŒ‚É‡’v‚µ‚½ƒf[ƒ^‚ÌƒŠƒXƒg
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param start    æ¤œç´¢æ¡ä»¶ï¼ˆé–‹å§‹æ™‚åˆ»ï¼‰
+     * @param end      æ¤œç´¢æ¡ä»¶ï¼ˆçµ‚äº†æ™‚åˆ»ï¼‰
+     * @param typeName æ¤œç´¢æ¡ä»¶ï¼ˆè¨ˆæ¸¬å€¤ç¨®åˆ¥åï¼‰
+     * @return æ¤œç´¢æ¡ä»¶ã«åˆè‡´ã—ãŸãƒ‡ãƒ¼ã‚¿ã®ãƒªã‚¹ãƒˆ
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static List<MeasurementValueDto> selectByTermAndMeasurementTypeWithNameOrderByTime(
             String database, Timestamp start, Timestamp end, String typeName)
@@ -619,18 +620,18 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
     }
 
     /**
-     * ŠúŠÔA‚¨‚æ‚ÑŒv‘ª’lí•Ê–¼‚ğw’è‚µ‚ÄAŒn—ñ‚Åƒ\[ƒg‚µ‚½Œv‘ª’l‚ğæ“¾‚µ‚Ü‚·B<br/>
-     * æ“¾‚µ‚½Œ‹‰Ê‚É‚ÍAŒv‘ª’lí•Ê–¼AŒv‘ª’lŒn—ñ–¼‚ğ•t‰Á‚µ‚Ü‚·B
+     * æœŸé–“ã€ãŠã‚ˆã³è¨ˆæ¸¬å€¤ç¨®åˆ¥åã‚’æŒ‡å®šã—ã¦ã€æ™‚ç³»åˆ—ã§ã‚½ãƒ¼ãƒˆã—ãŸè¨ˆæ¸¬å€¤ã‚’å–å¾—ã—ã¾ã™ã€‚<br/>
+     * å–å¾—ã—ãŸçµæœã«ã¯ã€è¨ˆæ¸¬å€¤ç¨®åˆ¥åã€è¨ˆæ¸¬å€¤ç³»åˆ—åã‚’ä»˜åŠ ã—ã¾ã™ã€‚
      *
-     * @deprecated measurement_infoƒe[ƒuƒ‹‚Í”p~‚³‚ê‚Ü‚µ‚½B
+     * @deprecated measurement_infoãƒ†ãƒ¼ãƒ–ãƒ«ã¯å»ƒæ­¢ã•ã‚Œã¾ã—ãŸã€‚
      * 
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param start    ŒŸõğŒiŠJnj
-     * @param end      ŒŸõğŒiI—¹j
-     * @param typeName ŒŸõğŒiŒv‘ª’lí•Ê–¼j
-     * @param itemName ŒŸõğŒiŒn—ñ–¼j
-     * @return ŒŸõğŒ‚É‡’v‚µ‚½ƒf[ƒ^‚ÌƒŠƒXƒg
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param start    æ¤œç´¢æ¡ä»¶ï¼ˆé–‹å§‹æ™‚åˆ»ï¼‰
+     * @param end      æ¤œç´¢æ¡ä»¶ï¼ˆçµ‚äº†æ™‚åˆ»ï¼‰
+     * @param typeName æ¤œç´¢æ¡ä»¶ï¼ˆè¨ˆæ¸¬å€¤ç¨®åˆ¥åï¼‰
+     * @param itemName æ¤œç´¢æ¡ä»¶ï¼ˆç³»åˆ—åï¼‰
+     * @return æ¤œç´¢æ¡ä»¶ã«åˆè‡´ã—ãŸãƒ‡ãƒ¼ã‚¿ã®ãƒªã‚¹ãƒˆ
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static List<MeasurementValueDto> selectByTermAndMeasurementTypeWithItemNameOrderByTime(
             String database, Timestamp start, Timestamp end, String typeName, String itemName)
@@ -646,17 +647,17 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
     }
 
     /**
-     * ŠúŠÔA‚¨‚æ‚ÑŒv‘ª’lí•Ê–¼‚ğw’è‚µ‚ÄAŒv‘ª’l‚ÌŒn—ñ–ˆ‚ÌÅ‘å’l‚ğæ“¾‚µ‚Ü‚·B
-     * æ“¾‚µ‚½Œ‹‰Ê‚É‚ÍAŒv‘ª’lí•Ê–¼AŒv‘ª’lŒn—ñ–¼‚ğ•t‰Á‚µ‚Ü‚·B
+     * æœŸé–“ã€ãŠã‚ˆã³è¨ˆæ¸¬å€¤ç¨®åˆ¥åã‚’æŒ‡å®šã—ã¦ã€è¨ˆæ¸¬å€¤ã®ç³»åˆ—æ¯ã®æœ€å¤§å€¤ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * å–å¾—ã—ãŸçµæœã«ã¯ã€è¨ˆæ¸¬å€¤ç¨®åˆ¥åã€è¨ˆæ¸¬å€¤ç³»åˆ—åã‚’ä»˜åŠ ã—ã¾ã™ã€‚
      *
-     * @deprecated measurement_infoƒe[ƒuƒ‹‚Í”p~‚³‚ê‚Ü‚µ‚½B
+     * @deprecated measurement_infoãƒ†ãƒ¼ãƒ–ãƒ«ã¯å»ƒæ­¢ã•ã‚Œã¾ã—ãŸã€‚
      * 
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param start    ŒŸõğŒiŠJnj
-     * @param end      ŒŸõğŒiI—¹j
-     * @param typeName ŒŸõğŒiŒv‘ª’lí•Ê–¼j
-     * @return ŒŸõğŒ‚É‡’v‚µ‚½ƒf[ƒ^‚ÌƒŠƒXƒg
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param start    æ¤œç´¢æ¡ä»¶ï¼ˆé–‹å§‹æ™‚åˆ»ï¼‰
+     * @param end      æ¤œç´¢æ¡ä»¶ï¼ˆçµ‚äº†æ™‚åˆ»ï¼‰
+     * @param typeName æ¤œç´¢æ¡ä»¶ï¼ˆè¨ˆæ¸¬å€¤ç¨®åˆ¥åï¼‰
+     * @return æ¤œç´¢æ¡ä»¶ã«åˆè‡´ã—ãŸãƒ‡ãƒ¼ã‚¿ã®ãƒªã‚¹ãƒˆ
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static List<MeasurementValueDto> selectMaxValueByTermAndMeasurementTypeWithName(
             String database, Timestamp start, Timestamp end, String typeName)
@@ -671,17 +672,17 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
     }
 
     /**
-     * ŠúŠÔA‚¨‚æ‚ÑŒv‘ª’lí•Ê–¼‚ğw’è‚µ‚ÄAŒv‘ª’l‚ÌŒn—ñ–ˆ‚ÌÅ¬’l‚ğæ“¾‚µ‚Ü‚·B
-     * æ“¾‚µ‚½Œ‹‰Ê‚É‚ÍAŒv‘ª’lí•Ê–¼AŒv‘ª’lŒn—ñ–¼‚ğ•t‰Á‚µ‚Ü‚·B
+     * æœŸé–“ã€ãŠã‚ˆã³è¨ˆæ¸¬å€¤ç¨®åˆ¥åã‚’æŒ‡å®šã—ã¦ã€è¨ˆæ¸¬å€¤ã®ç³»åˆ—æ¯ã®æœ€å°å€¤ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * å–å¾—ã—ãŸçµæœã«ã¯ã€è¨ˆæ¸¬å€¤ç¨®åˆ¥åã€è¨ˆæ¸¬å€¤ç³»åˆ—åã‚’ä»˜åŠ ã—ã¾ã™ã€‚
      *
-     * @deprecated measurement_infoƒe[ƒuƒ‹‚Í”p~‚³‚ê‚Ü‚µ‚½B
+     * @deprecated measurement_infoãƒ†ãƒ¼ãƒ–ãƒ«ã¯å»ƒæ­¢ã•ã‚Œã¾ã—ãŸã€‚
      * 
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param start    ŒŸõğŒiŠJnj
-     * @param end      ŒŸõğŒiI—¹j
-     * @param typeName ŒŸõğŒiŒv‘ª’lí•Ê–¼j
-     * @return ŒŸõğŒ‚É‡’v‚µ‚½ƒf[ƒ^‚ÌƒŠƒXƒg
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param start    æ¤œç´¢æ¡ä»¶ï¼ˆé–‹å§‹æ™‚åˆ»ï¼‰
+     * @param end      æ¤œç´¢æ¡ä»¶ï¼ˆçµ‚äº†æ™‚åˆ»ï¼‰
+     * @param typeName æ¤œç´¢æ¡ä»¶ï¼ˆè¨ˆæ¸¬å€¤ç¨®åˆ¥åï¼‰
+     * @return æ¤œç´¢æ¡ä»¶ã«åˆè‡´ã—ãŸãƒ‡ãƒ¼ã‚¿ã®ãƒªã‚¹ãƒˆ
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static List<MeasurementValueDto> selectMinValueByTermAndMeasurementTypeWithName(
             String database, Timestamp start, Timestamp end, String typeName)
@@ -696,18 +697,18 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
     }
 
     /**
-     * ŠúŠÔA‚¨‚æ‚ÑŒv‘ª’lí•Ê–¼‚ğw’è‚µ‚ÄAŒv‘ª’l‚ÌŒn—ñ–ˆ‚Ì‡Œv’l‚ğæ“¾‚µ‚Ü‚·B
-     * æ“¾‚µ‚½Œ‹‰Ê‚É‚ÍAŒv‘ª’lí•Ê–¼AŒv‘ª’lŒn—ñ–¼‚ğ•t‰Á‚µ‚Ü‚·B
-     * ‡Œv’lZo‚ÌŠî€‚ÍuŒn—ñ–¼v‚É‚È‚è‚Ü‚·B
+     * æœŸé–“ã€ãŠã‚ˆã³è¨ˆæ¸¬å€¤ç¨®åˆ¥åã‚’æŒ‡å®šã—ã¦ã€è¨ˆæ¸¬å€¤ã®ç³»åˆ—æ¯ã®åˆè¨ˆå€¤ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * å–å¾—ã—ãŸçµæœã«ã¯ã€è¨ˆæ¸¬å€¤ç¨®åˆ¥åã€è¨ˆæ¸¬å€¤ç³»åˆ—åã‚’ä»˜åŠ ã—ã¾ã™ã€‚
+     * åˆè¨ˆå€¤ç®—å‡ºã®åŸºæº–ã¯ã€Œç³»åˆ—åã€ã«ãªã‚Šã¾ã™ã€‚
      *
-     * @deprecated measurement_infoƒe[ƒuƒ‹‚Í”p~‚³‚ê‚Ü‚µ‚½B
+     * @deprecated measurement_infoãƒ†ãƒ¼ãƒ–ãƒ«ã¯å»ƒæ­¢ã•ã‚Œã¾ã—ãŸã€‚
      * 
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param start    ŒŸõğŒiŠJnj
-     * @param end      ŒŸõğŒiI—¹j
-     * @param typeName ŒŸõğŒiŒv‘ª’lí•Ê–¼j
-     * @return ŒŸõğŒ‚É‡’v‚µ‚½ƒf[ƒ^‚ÌƒŠƒXƒg
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param start    æ¤œç´¢æ¡ä»¶ï¼ˆé–‹å§‹æ™‚åˆ»ï¼‰
+     * @param end      æ¤œç´¢æ¡ä»¶ï¼ˆçµ‚äº†æ™‚åˆ»ï¼‰
+     * @param typeName æ¤œç´¢æ¡ä»¶ï¼ˆè¨ˆæ¸¬å€¤ç¨®åˆ¥åï¼‰
+     * @return æ¤œç´¢æ¡ä»¶ã«åˆè‡´ã—ãŸãƒ‡ãƒ¼ã‚¿ã®ãƒªã‚¹ãƒˆ
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static List<MeasurementValueDto> selectSumValueByTermAndMeasurementTypeWithName(
             String database, Timestamp start, Timestamp end, String typeName)
@@ -722,18 +723,18 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
     }
 
     /**
-     * ŠúŠÔA‚¨‚æ‚ÑŒv‘ª’lí•Ê–¼‚ğw’è‚µ‚ÄAŒv‘ª’l‚ÌŒn—ñ–ˆ‚Ì‡Œv’l‚ğæ“¾‚µ‚Ü‚·B
-     * æ“¾‚µ‚½Œ‹‰Ê‚É‚ÍAŒv‘ª’lí•Ê–¼AŒv‘ª’lŒn—ñ–¼‚ğ•t‰Á‚µ‚Ü‚·B
-     * ‡Œv’lZo‚ÌŠî€‚ÍuŒv‘ªv‚É‚È‚è‚Ü‚·B
+     * æœŸé–“ã€ãŠã‚ˆã³è¨ˆæ¸¬å€¤ç¨®åˆ¥åã‚’æŒ‡å®šã—ã¦ã€è¨ˆæ¸¬å€¤ã®ç³»åˆ—æ¯ã®åˆè¨ˆå€¤ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * å–å¾—ã—ãŸçµæœã«ã¯ã€è¨ˆæ¸¬å€¤ç¨®åˆ¥åã€è¨ˆæ¸¬å€¤ç³»åˆ—åã‚’ä»˜åŠ ã—ã¾ã™ã€‚
+     * åˆè¨ˆå€¤ç®—å‡ºã®åŸºæº–ã¯ã€Œè¨ˆæ¸¬æ™‚åˆ»ã€ã«ãªã‚Šã¾ã™ã€‚
      *
-     * @deprecated measurement_infoƒe[ƒuƒ‹‚Í”p~‚³‚ê‚Ü‚µ‚½B
+     * @deprecated measurement_infoãƒ†ãƒ¼ãƒ–ãƒ«ã¯å»ƒæ­¢ã•ã‚Œã¾ã—ãŸã€‚
      * 
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param start    ŒŸõğŒiŠJnj
-     * @param end      ŒŸõğŒiI—¹j
-     * @param typeName ŒŸõğŒiŒv‘ª’lí•Ê–¼j
-     * @return ŒŸõğŒ‚É‡’v‚µ‚½ƒf[ƒ^‚ÌƒŠƒXƒg
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param start    æ¤œç´¢æ¡ä»¶ï¼ˆé–‹å§‹æ™‚åˆ»ï¼‰
+     * @param end      æ¤œç´¢æ¡ä»¶ï¼ˆçµ‚äº†æ™‚åˆ»ï¼‰
+     * @param typeName æ¤œç´¢æ¡ä»¶ï¼ˆè¨ˆæ¸¬å€¤ç¨®åˆ¥åï¼‰
+     * @return æ¤œç´¢æ¡ä»¶ã«åˆè‡´ã—ãŸãƒ‡ãƒ¼ã‚¿ã®ãƒªã‚¹ãƒˆ
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static List<MeasurementValueDto> selectSumValueByTermAndMeasurementTypeGroupingTime(
             String database, Timestamp start, Timestamp end, String typeName)
@@ -749,16 +750,16 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
     }
 
     /**
-     * ŠúŠÔA‚¨‚æ‚ÑŒv‘ª’lí•Ê–¼A‚¨‚æ‚ÑSQLƒNƒGƒŠ‚ğw’è‚µ‚ÄAŒv‘ª’l‚ğæ“¾‚µ‚Ü‚·B
-     * æ“¾‚µ‚½Œ‹‰Ê‚É‚ÍAŒv‘ª’lí•Ê–¼AŒv‘ª’lŒn—ñ–¼‚ğ•t‰Á‚µ‚Ü‚·B
+     * æœŸé–“ã€ãŠã‚ˆã³è¨ˆæ¸¬å€¤ç¨®åˆ¥åã€ãŠã‚ˆã³SQLã‚¯ã‚¨ãƒªã‚’æŒ‡å®šã—ã¦ã€è¨ˆæ¸¬å€¤ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * å–å¾—ã—ãŸçµæœã«ã¯ã€è¨ˆæ¸¬å€¤ç¨®åˆ¥åã€è¨ˆæ¸¬å€¤ç³»åˆ—åã‚’ä»˜åŠ ã—ã¾ã™ã€‚
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param start    ŒŸõğŒiŠJnj
-     * @param end      ŒŸõğŒiI—¹j
-     * @param typeName ŒŸõğŒiŒv‘ª’lí•Ê–¼j
-     * @param sqlBase  ”­s‚·‚éSQLƒNƒGƒŠ
-     * @return ŒŸõğŒ‚É‡’v‚µ‚½ƒf[ƒ^‚ÌƒŠƒXƒg
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param start    æ¤œç´¢æ¡ä»¶ï¼ˆé–‹å§‹æ™‚åˆ»ï¼‰
+     * @param end      æ¤œç´¢æ¡ä»¶ï¼ˆçµ‚äº†æ™‚åˆ»ï¼‰
+     * @param typeName æ¤œç´¢æ¡ä»¶ï¼ˆè¨ˆæ¸¬å€¤ç¨®åˆ¥åï¼‰
+     * @param sqlBase  ç™ºè¡Œã™ã‚‹SQLã‚¯ã‚¨ãƒª
+     * @return æ¤œç´¢æ¡ä»¶ã«åˆè‡´ã—ãŸãƒ‡ãƒ¼ã‚¿ã®ãƒªã‚¹ãƒˆ
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     private static List<MeasurementValueDto> selectByTermAndMeasurementTypeWithNameBase(
             String database, Timestamp start, Timestamp end, String typeName, String sqlBase)
@@ -792,17 +793,17 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
     }
 
     /**
-     * ŠúŠÔAŒv‘ª’lí•Ê–¼AŒn—ñ–¼‚¨‚æ‚ÑSQLƒNƒGƒŠ‚ğw’è‚µ‚ÄAŒv‘ª’l‚ğæ“¾‚µ‚Ü‚·B
-     * æ“¾‚µ‚½Œ‹‰Ê‚É‚ÍAŒv‘ª’lí•Ê–¼AŒv‘ª’lŒn—ñ–¼‚ğ•t‰Á‚µ‚Ü‚·B
+     * æœŸé–“ã€è¨ˆæ¸¬å€¤ç¨®åˆ¥åã€ç³»åˆ—åãŠã‚ˆã³SQLã‚¯ã‚¨ãƒªã‚’æŒ‡å®šã—ã¦ã€è¨ˆæ¸¬å€¤ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * å–å¾—ã—ãŸçµæœã«ã¯ã€è¨ˆæ¸¬å€¤ç¨®åˆ¥åã€è¨ˆæ¸¬å€¤ç³»åˆ—åã‚’ä»˜åŠ ã—ã¾ã™ã€‚
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param start    ŒŸõğŒiŠJnj
-     * @param end      ŒŸõğŒiI—¹j
-     * @param typeName ŒŸõğŒiŒv‘ª’lí•Ê–¼j
-     * @param typeName ŒŸõğŒiŒn—ñ–¼j
-     * @param sqlBase  ”­s‚·‚éSQLƒNƒGƒŠ
-     * @return ŒŸõğŒ‚É‡’v‚µ‚½ƒf[ƒ^‚ÌƒŠƒXƒg
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param start    æ¤œç´¢æ¡ä»¶ï¼ˆé–‹å§‹æ™‚åˆ»ï¼‰
+     * @param end      æ¤œç´¢æ¡ä»¶ï¼ˆçµ‚äº†æ™‚åˆ»ï¼‰
+     * @param typeName æ¤œç´¢æ¡ä»¶ï¼ˆè¨ˆæ¸¬å€¤ç¨®åˆ¥åï¼‰
+     * @param typeName æ¤œç´¢æ¡ä»¶ï¼ˆç³»åˆ—åï¼‰
+     * @param sqlBase  ç™ºè¡Œã™ã‚‹SQLã‚¯ã‚¨ãƒª
+     * @return æ¤œç´¢æ¡ä»¶ã«åˆè‡´ã—ãŸãƒ‡ãƒ¼ã‚¿ã®ãƒªã‚¹ãƒˆ
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     private static List<MeasurementValueDto> selectByTermAndMeasurementTypeWithItemNameBase(
             String database, Timestamp start, Timestamp end,
@@ -838,13 +839,13 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
     }
 
     /**
-     * Œv‘ª’lí•Ê–¼A‚¨‚æ‚ÑSQLƒNƒGƒŠ‚ğw’è‚µ‚ÄAŒn—ñ–¼‚ğæ“¾‚µ‚Ü‚·B
+     * è¨ˆæ¸¬å€¤ç¨®åˆ¥åã€ãŠã‚ˆã³SQLã‚¯ã‚¨ãƒªã‚’æŒ‡å®šã—ã¦ã€ç³»åˆ—åã‚’å–å¾—ã—ã¾ã™ã€‚
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param typeName ŒŸõğŒiŒv‘ª’lí•Ê–¼j
-     * @param sqlBase  ”­s‚·‚éSQLƒNƒGƒŠ
-     * @return ŒŸõğŒ‚É‡’v‚µ‚½ƒf[ƒ^‚ÌƒŠƒXƒg
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param typeName æ¤œç´¢æ¡ä»¶ï¼ˆè¨ˆæ¸¬å€¤ç¨®åˆ¥åï¼‰
+     * @param sqlBase  ç™ºè¡Œã™ã‚‹SQLã‚¯ã‚¨ãƒª
+     * @return æ¤œç´¢æ¡ä»¶ã«åˆè‡´ã—ãŸãƒ‡ãƒ¼ã‚¿ã®ãƒªã‚¹ãƒˆ
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     private static List<MeasurementValueDto> selectByMeasurementTypeWithNameBase(
             String database, String typeName, String sqlBase)
@@ -876,11 +877,11 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
     }
 
     /**
-     * {@link ResultSet} ‚©‚ç {@link MeasurementValue} ‚ÌƒŠƒXƒg‚ğì¬‚µ‚Ü‚·B<br />
+     * {@link ResultSet} ã‹ã‚‰ {@link MeasurementValue} ã®ãƒªã‚¹ãƒˆã‚’ä½œæˆã—ã¾ã™ã€‚<br />
      *
      * @param rs {@link ResultSet}
-     * @throws SQLException SQL ÀsŒ‹‰Êæ“¾‚É—áŠO‚ª”­¶‚µ‚½ê‡
-     * @return ¶¬Œ‹‰Ê
+     * @throws SQLException SQL å®Ÿè¡Œçµæœå–å¾—æ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @return ç”Ÿæˆçµæœ
      */
     private static List<MeasurementValue> getMeasurementValuesFromResultSet(final ResultSet rs)
         throws SQLException
@@ -901,10 +902,10 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
     }
 
     /**
-     * {@link ResultSet}ƒCƒ“ƒXƒ^ƒ“ƒX‚©‚çA{@link MeasurementValueDto}‚ÌƒŠƒXƒg‚ğ¶¬‚µ‚Ü‚·B
+     * {@link ResultSet}ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‹ã‚‰ã€{@link MeasurementValueDto}ã®ãƒªã‚¹ãƒˆã‚’ç”Ÿæˆã—ã¾ã™ã€‚
      *
-     * @param rs ƒf[ƒ^‚ªŠÜ‚Ü‚ê‚Ä‚¢‚é{@link ResultSet} ƒCƒ“ƒXƒ^ƒ“ƒX
-     * @throws SQLException SQL ÀsŒ‹‰Êæ“¾‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param rs ãƒ‡ãƒ¼ã‚¿ãŒå«ã¾ã‚Œã¦ã„ã‚‹{@link ResultSet} ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+     * @throws SQLException SQL å®Ÿè¡Œçµæœå–å¾—æ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     private static List<MeasurementValueDto>
     	getMeasurementValueDtosFromResultSet(final ResultSet rs)
@@ -934,12 +935,12 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
     }
 
     /**
-     * Javelin Œv‘ª’lƒe[ƒuƒ‹‚É“o˜^‚³‚ê‚Ä‚¢‚éƒf[ƒ^‚ÌÅ¬‚ÆÅ‘å‚ğ•Ô‚µ‚Ü‚·B<br />
+     * Javelin è¨ˆæ¸¬å€¤ãƒ†ãƒ¼ãƒ–ãƒ«ã«ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹ãƒ‡ãƒ¼ã‚¿ã®æœ€å°æ™‚åˆ»ã¨æœ€å¤§æ™‚åˆ»ã‚’è¿”ã—ã¾ã™ã€‚<br />
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @return Javelin Œv‘ª’lƒe[ƒuƒ‹‚É“o˜^‚³‚ê‚Ä‚¢‚éƒf[ƒ^‚Ì (Å¬, Å‘å) ‚ğ•\‚·”z—ñ
-     *         i¸”s‚µ‚½ê‡‚Í‹ó‚Ì”z—ñj
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @return Javelin è¨ˆæ¸¬å€¤ãƒ†ãƒ¼ãƒ–ãƒ«ã«ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹ãƒ‡ãƒ¼ã‚¿ã® (æœ€å°æ™‚åˆ», æœ€å¤§æ™‚åˆ») ã‚’è¡¨ã™é…åˆ—
+     *         ï¼ˆå¤±æ•—ã—ãŸå ´åˆã¯ç©ºã®é…åˆ—ï¼‰
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static Timestamp[] getTerm(final String database)
         throws SQLException
@@ -971,8 +972,8 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
     }
 
     /**
-     * ŠúŠÔ‚ğæ“¾‚·‚éSQL‚ğæ“¾‚·‚éB
-     * @return@ŠúŠÔ‚ğæ“¾‚·‚éSQL
+     * æœŸé–“ã‚’å–å¾—ã™ã‚‹SQLã‚’å–å¾—ã™ã‚‹ã€‚
+     * @returnã€€æœŸé–“ã‚’å–å¾—ã™ã‚‹SQL
      */
     private static String getTermSql()
     {
@@ -984,12 +985,12 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
     }
 
     /**
-     * ‚ğw’è‚µ‚ÄA‚»‚ê‚æ‚èŒÃ‚¢ƒŒƒR[ƒh‚ğíœ‚µ‚Ü‚·B
-     * íœŠúŒÀ‚ÌƒL[‚Æ‚µ‚Ä‚ÍAŒv‘ª‚ğŠî€‚Æ‚µ‚Ü‚·B
+     * æ™‚åˆ»ã‚’æŒ‡å®šã—ã¦ã€ãã‚Œã‚ˆã‚Šå¤ã„ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å‰Šé™¤ã—ã¾ã™ã€‚
+     * å‰Šé™¤æœŸé™æ™‚åˆ»ã®ã‚­ãƒ¼ã¨ã—ã¦ã¯ã€è¨ˆæ¸¬æ™‚åˆ»ã‚’åŸºæº–ã¨ã—ã¾ã™ã€‚
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param deleteLimit íœŠúŒÀ
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param deleteLimit å‰Šé™¤æœŸé™æ™‚åˆ»
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static void deleteOldRecordByTime(final String database,
             final Timestamp deleteLimit)
@@ -1015,10 +1016,10 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
     }
 
     /**
-     * ‚·‚×‚Ä‚ÌƒŒƒR[ƒh‚ğíœ‚µ‚Ü‚·B<br />
+     * ã™ã¹ã¦ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å‰Šé™¤ã—ã¾ã™ã€‚<br />
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static void deleteAll(final String database)
         throws SQLException
@@ -1027,11 +1028,11 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
     }
 
     /**
-     * ƒŒƒR[ƒh‚Ì”‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ãƒ¬ã‚³ãƒ¼ãƒ‰ã®æ•°ã‚’è¿”ã—ã¾ã™ã€‚<br />
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @return ƒŒƒR[ƒh‚Ì”
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @return ãƒ¬ã‚³ãƒ¼ãƒ‰ã®æ•°
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static int count(final String database)
         throws SQLException
@@ -1041,11 +1042,11 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
     }
 
     /**
-     * Œv‘ª No. ‚Ì’l‚ğ¶¬‚µ‚Ü‚·B <br />
+     * è¨ˆæ¸¬ No. ã®å€¤ã‚’ç”Ÿæˆã—ã¾ã™ã€‚ <br />
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @return Œv‘ª No. ‚Ì’l
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @return è¨ˆæ¸¬ No. ã®å€¤
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static int createMeasurementNum(final String database)
         throws SQLException
@@ -1055,7 +1056,7 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
     }
 
     /**
-     * ’~ÏŠúŠÔ‚ğæ“¾‚·‚é SQL ‚ğ¶¬‚µ‚Ü‚·B
+     * è“„ç©æœŸé–“ã‚’å–å¾—ã™ã‚‹ SQL ã‚’ç”Ÿæˆã—ã¾ã™ã€‚
      *
      * @return SQL
      */
@@ -1077,13 +1078,13 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
     }
 
     /**
-     * ƒŒƒR[ƒh‚ğ‘}“ü‚µ‚Ü‚·B<br />
+     * ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’æŒ¿å…¥ã—ã¾ã™ã€‚<br />
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @param tableName ƒe[ƒuƒ‹–¼
-     * @param updateValueList ‘}“ü‚·‚é’l
-     * @return ‘}“üƒŒƒR[ƒh
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param tableName ãƒ†ãƒ¼ãƒ–ãƒ«å
+     * @param updateValueList æŒ¿å…¥ã™ã‚‹å€¤
+     * @return æŒ¿å…¥ãƒ¬ã‚³ãƒ¼ãƒ‰
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static int insertBatch(String database, String tableName,
         List<MeasurementValue> updateValueList) throws SQLException

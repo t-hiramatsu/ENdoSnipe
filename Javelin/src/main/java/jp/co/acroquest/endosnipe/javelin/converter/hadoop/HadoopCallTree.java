@@ -32,17 +32,17 @@ import jp.co.acroquest.endosnipe.javelin.CallTree;
 
 
 /**
- * Hadoop—p‚ÌƒR[ƒ‹ƒcƒŠ[B
+ * Hadoopç”¨ã®ã‚³ãƒ¼ãƒ«ãƒ„ãƒªãƒ¼ã€‚
  *
  * @author matsuoka
  */
 public class HadoopCallTree extends CallTree
 {
-    /** ƒR[ƒ‹ƒcƒŠ[‚ÌƒŠƒXƒg */
+    /** ã‚³ãƒ¼ãƒ«ãƒ„ãƒªãƒ¼ã®ãƒªã‚¹ãƒˆ */
     private List<CallTree> children_ = new ArrayList<CallTree>();
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
      */
     public HadoopCallTree()
     {
@@ -50,8 +50,8 @@ public class HadoopCallTree extends CallTree
     }
 
     /**
-     * ƒRƒs[ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
-     * @param tree ƒRƒs[Œ³
+     * ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
+     * @param tree ã‚³ãƒ”ãƒ¼å…ƒ
      */
     public HadoopCallTree(HadoopCallTree tree)
     {
@@ -69,8 +69,8 @@ public class HadoopCallTree extends CallTree
     }
 
     /**
-     * •Û‚µ‚Ä‚¢‚éƒR[ƒ‹ƒcƒŠ[‚ÌƒŠƒXƒg‚ğ•Ô‚·B
-     * @return •Û‚µ‚Ä‚¢‚éƒR[ƒ‹ƒcƒŠ[‚ÌƒŠƒXƒgB
+     * ä¿æŒã—ã¦ã„ã‚‹ã‚³ãƒ¼ãƒ«ãƒ„ãƒªãƒ¼ã®ãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚
+     * @return ä¿æŒã—ã¦ã„ã‚‹ã‚³ãƒ¼ãƒ«ãƒ„ãƒªãƒ¼ã®ãƒªã‚¹ãƒˆã€‚
      */
     public List<CallTree> getChildren()
     {
@@ -78,8 +78,8 @@ public class HadoopCallTree extends CallTree
     }
 
     /**
-     * ƒŠƒXƒg‚ÉƒR[ƒ‹ƒcƒŠ[‚ğ’Ç‰Á‚·‚éB
-     * @param tree ’Ç‰Á‚·‚éƒR[ƒ‹ƒcƒŠ[
+     * ãƒªã‚¹ãƒˆã«ã‚³ãƒ¼ãƒ«ãƒ„ãƒªãƒ¼ã‚’è¿½åŠ ã™ã‚‹ã€‚
+     * @param tree è¿½åŠ ã™ã‚‹ã‚³ãƒ¼ãƒ«ãƒ„ãƒªãƒ¼
      */
     public void addChild(CallTree tree)
     {

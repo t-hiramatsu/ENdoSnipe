@@ -28,7 +28,7 @@ package jp.co.acroquest.endosnipe.collector;
 import jp.co.acroquest.endosnipe.collector.data.JavelinData;
 
 /**
- * {@link JavelinData}ƒIƒuƒWƒFƒNƒg‚ÌMockƒNƒ‰ƒX
+ * {@link JavelinData}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®Mockã‚¯ãƒ©ã‚¹
  * @author fujii
  *
  */
@@ -87,13 +87,13 @@ public class MockJavelinData implements JavelinData
 
     public String getClientId()
     {
-        // TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
+        // TODO è‡ªå‹•ç”Ÿæˆã•ã‚ŒãŸãƒ¡ã‚½ãƒƒãƒ‰ãƒ»ã‚¹ã‚¿ãƒ–
         return null;
     }
 
     public void setClientId(final String clientId)
     {
-        // TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
+        // TODO è‡ªå‹•ç”Ÿæˆã•ã‚ŒãŸãƒ¡ã‚½ãƒƒãƒ‰ãƒ»ã‚¹ã‚¿ãƒ–
 
     }
 }

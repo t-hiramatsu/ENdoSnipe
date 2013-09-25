@@ -23,28 +23,28 @@ import jp.co.acroquest.endosnipe.report.entity.ApplicationRecord;
 import jp.co.acroquest.endosnipe.report.entity.ReportItemValue;
 
 /**
- * ƒAƒvƒŠƒP[ƒVƒ‡ƒ“î•ñ‚ğDB‚©‚çæ“¾‚·‚éƒAƒNƒZƒTƒNƒ‰ƒXB
+ * ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³æƒ…å ±ã‚’DBã‹ã‚‰å–å¾—ã™ã‚‹ã‚¢ã‚¯ã‚»ã‚µã‚¯ãƒ©ã‚¹ã€‚
  * 
  * @author akiba
  */
 public class ApplicationRecordAccessor
 {
-    /** ƒƒK[ */
+    /** ãƒ­ã‚¬ãƒ¼ */
     private static final ENdoSnipeLogger LOGGER     = ENdoSnipeLogger.getLogger(
                                                             ApplicationRecordAccessor.class);
 
-    /** Å‘åŒ” */
+    /** æœ€å¤§ä»¶æ•° */
     public static final int              ITEM_COUNT = 200;
 
     /**
-     * ŠúŠÔ‚ğw’è‚µA‚»‚ÌŠúŠÔ“à‚Å‚Ì<br/>
-     * ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒŒƒ|[ƒgƒf[ƒ^‚ğæ“¾‚·‚éB
+     * æœŸé–“ã‚’æŒ‡å®šã—ã€ãã®æœŸé–“å†…ã§ã®<br/>
+     * ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã®ãƒ¬ãƒãƒ¼ãƒˆãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @param database ƒf[ƒ^ƒx[ƒX–¼B
-     * @param startTime ŒŸõğŒ(ŠJn)B
-     * @param endTime ŒŸõğŒ(I—¹)B
-     * @return ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒŒƒ|[ƒgƒf[ƒ^B
-     * @throws SQLException ƒf[ƒ^æ“¾‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã€‚
+     * @param startTime æ¤œç´¢æ¡ä»¶(é–‹å§‹æ™‚åˆ»)ã€‚
+     * @param endTime æ¤œç´¢æ¡ä»¶(çµ‚äº†æ™‚åˆ»)ã€‚
+     * @return ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã®ãƒ¬ãƒãƒ¼ãƒˆãƒ‡ãƒ¼ã‚¿ã€‚
+     * @throws SQLException ãƒ‡ãƒ¼ã‚¿å–å¾—æ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public List<ApplicationRecord> findApplicationStaticsByTerm(
             String database, Timestamp startTime, Timestamp endTime)
@@ -52,7 +52,7 @@ public class ApplicationRecordAccessor
     {
         List<ApplicationRecord> result = new ArrayList<ApplicationRecord>();
 
-        // ƒf[ƒ^ƒx[ƒX‚©‚ç’l‚ğæ“¾‚·‚é
+        // ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‹ã‚‰å€¤ã‚’å–å¾—ã™ã‚‹
         List<ReportItemValue> httpSessionInstanceNumValues;
         List<ReportItemValue> httpSessionObjectSizeValues;
 

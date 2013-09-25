@@ -27,7 +27,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 
 /**
- * ‘½”‚ÌƒTƒ“ƒvƒŠƒ“ƒOƒf[ƒ^‚ðˆ³k‚µAExcel‚É•\Ž¦‰Â”\‚Èƒf[ƒ^‚É•ÏŠ·‚·‚éƒNƒ‰ƒXB
+ * å¤šæ•°ã®ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°ãƒ‡ãƒ¼ã‚¿ã‚’åœ§ç¸®ã—ã€Excelã«è¡¨ç¤ºå¯èƒ½ãªãƒ‡ãƒ¼ã‚¿ã«å¤‰æ›ã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚
  * 
  * @author M.Yoshida
  */
@@ -40,22 +40,22 @@ public class SamplingCompressor
 	
 	private static final String SAMPLING_MAX_NUM_KEY_      = "reporter.report.maxSamples";
 	
-	/** ƒTƒ“ƒvƒŠƒ“ƒOƒOƒ‹[ƒv‚ð¶¬‚·‚éÛ‚ÌÅ¬Œv‘ªŽžŠÔ */
+	/** ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°ã‚°ãƒ«ãƒ¼ãƒ—ã‚’ç”Ÿæˆã™ã‚‹éš›ã®æœ€å°è¨ˆæ¸¬æ™‚é–“ */
 	private long minLimitSamplingTerm_ = 5000;
 
-	/** ¶ƒf[ƒ^‚ÌƒTƒ“ƒvƒŠƒ“ƒOŽüŠú[sec] */
+	/** ç”Ÿãƒ‡ãƒ¼ã‚¿ã®ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°å‘¨æœŸ[sec] */
 	private long rawSamplingTerm_ = 5;
 	
-	/** ˆ³kŒã‚ÌƒTƒ“ƒvƒŠƒ“ƒO”‚ÌÅ‘å” */
+	/** åœ§ç¸®å¾Œã®ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°æ•°ã®æœ€å¤§æ•° */
 	private long samplingMax_ = 0;
 	
 	private static long SEC_PER_MILLIS = 1000;
 	
-	/** ƒfƒtƒHƒ‹ƒg‚Ìˆ³kŒãƒTƒ“ƒvƒŠƒ“ƒO” */
+	/** ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®åœ§ç¸®å¾Œã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°æ•° */
 	private static long DEFAULT_SAMPLING_MAX = 200;
 	
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^iƒfƒtƒHƒ‹ƒgj
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ï¼ˆãƒ‡ãƒ•ã‚©ãƒ«ãƒˆï¼‰
 	 */
 	public SamplingCompressor()
 	{
@@ -70,9 +70,9 @@ public class SamplingCompressor
 	}
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 * 
-	 * @param minTerm ƒTƒ“ƒvƒŠƒ“ƒOƒOƒ‹[ƒv¶¬‚ÌÛ‚ÌÅ¬Œv‘ªŽžŠÔ
+	 * @param minTerm ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°ã‚°ãƒ«ãƒ¼ãƒ—ç”Ÿæˆã®éš›ã®æœ€å°è¨ˆæ¸¬æ™‚é–“
 	 */
 	public SamplingCompressor(long minTerm)
 	{
@@ -81,19 +81,19 @@ public class SamplingCompressor
 	}
 	
 	/**
-	 * Žw’è‚ÌƒTƒ“ƒvƒŠƒ“ƒOƒf[ƒ^‚ðAˆê’è”ˆÈ‰º‚É‚È‚é‚æ‚¤ˆ³k‚·‚éB
-	 * Žw’è‚µ‚½ƒtƒB[ƒ‹ƒh‚ÉŠÖ‚µ‚Ä‚ÍAˆ³k‚µ‚½ƒf[ƒ^‚æ‚èAÅ‘åAÅ¬A•½‹Ï’l‚ðŽZoE•âŠ®Ý’è‚·‚éB
+	 * æŒ‡å®šã®ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°ãƒ‡ãƒ¼ã‚¿ã‚’ã€ä¸€å®šæ•°ä»¥ä¸‹ã«ãªã‚‹ã‚ˆã†åœ§ç¸®ã™ã‚‹ã€‚
+	 * æŒ‡å®šã—ãŸãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã«é–¢ã—ã¦ã¯ã€åœ§ç¸®ã—ãŸãƒ‡ãƒ¼ã‚¿ã‚ˆã‚Šã€æœ€å¤§ã€æœ€å°ã€å¹³å‡å€¤ã‚’ç®—å‡ºãƒ»è£œå®Œè¨­å®šã™ã‚‹ã€‚
 	 * 
-	 * @param samplingList     ƒTƒ“ƒvƒŠƒ“ƒOƒf[ƒ^BmeasureTimeField‚ÅŽw’è‚µ‚½ƒtƒB[ƒ‹ƒh‚É‚æ‚èƒ\[ƒg‚³‚ê‚Ä‚¢‚é‚±‚Æ‚ð‘O’ñ‚Æ‚·‚éB
-	 * @param startTime        ˆ³kŽž‚ÌŒv‘ªŠJŽnŽž
-	 * @param endTime          ˆ³kŽž‚ÌŒv‘ªI—¹Žž
-	 * @param measureTimeField Œv‘ªŽž‚ðŠi”[‚µ‚Ä‚¢‚éƒtƒB[ƒ‹ƒh
-	 * @param operation        ˆ³kŽž‚Ì‘€ì
-	 * @param clazz            ƒTƒ“ƒvƒŠƒ“ƒOƒf[ƒ^‚ÌClassî•ñ
-	 * @return ˆ³k‚µ‚½ƒTƒ“ƒvƒŠƒ“ƒOƒf[ƒ^‚ÌƒŠƒXƒg
-	 * @throws IllegalAccessException ƒAƒNƒZƒX‚Å‚«‚È‚¢ƒtƒB[ƒ‹ƒh‚ÉƒAƒNƒZƒX‚µ‚½ê‡
-	 * @throws InvocationTargetException —\Šú‚µ‚È‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ðŽw’è‚µ‚½ê‡
-	 * @throws NoSuchMethodException Žw’è‚ÌƒtƒB[ƒ‹ƒh‚ª‘¶Ý‚µ‚È‚¢ê‡
+	 * @param samplingList     ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°ãƒ‡ãƒ¼ã‚¿ã€‚measureTimeFieldã§æŒ‡å®šã—ãŸãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã«ã‚ˆã‚Šã‚½ãƒ¼ãƒˆã•ã‚Œã¦ã„ã‚‹ã“ã¨ã‚’å‰æã¨ã™ã‚‹ã€‚
+	 * @param startTime        åœ§ç¸®æ™‚ã®è¨ˆæ¸¬é–‹å§‹æ™‚åˆ»
+	 * @param endTime          åœ§ç¸®æ™‚ã®è¨ˆæ¸¬çµ‚äº†æ™‚åˆ»
+	 * @param measureTimeField è¨ˆæ¸¬æ™‚åˆ»ã‚’æ ¼ç´ã—ã¦ã„ã‚‹ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰
+	 * @param operation        åœ§ç¸®æ™‚ã®æ“ä½œ
+	 * @param clazz            ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°ãƒ‡ãƒ¼ã‚¿ã®Classæƒ…å ±
+	 * @return åœ§ç¸®ã—ãŸã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°ãƒ‡ãƒ¼ã‚¿ã®ãƒªã‚¹ãƒˆ
+	 * @throws IllegalAccessException ã‚¢ã‚¯ã‚»ã‚¹ã§ããªã„ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã«ã‚¢ã‚¯ã‚»ã‚¹ã—ãŸå ´åˆ
+	 * @throws InvocationTargetException äºˆæœŸã—ãªã„ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’æŒ‡å®šã—ãŸå ´åˆ
+	 * @throws NoSuchMethodException æŒ‡å®šã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ãŒå­˜åœ¨ã—ãªã„å ´åˆ
 	 * @throws NoSuchFieldException 
 	 * @throws InstantiationException 
 	 * @throws SecurityException 
@@ -107,8 +107,8 @@ public class SamplingCompressor
 			Class     clazz)
 		throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, SecurityException, InstantiationException, NoSuchFieldException
 	{
-		// ƒTƒ“ƒvƒŠƒ“ƒOƒOƒ‹[ƒv‚ðì‚éÛ‚Ì1ƒOƒ‹[ƒv“–‚½‚è‚ÌuŒv‘ªŠúŠÔv‚ðŽZo‚·‚éB
-		// ŽZo‚µ‚½Œ‹‰Ê‚ªAŒv‘ªŽžŠÔ‚ªuÅ¬Œv‘ªŽžŠÔv‚ð‰º‰ñ‚Á‚½ê‡‚ÍAuÅ¬Œv‘ªŽžŠÔv‚É‡‚í‚¹‚éB
+		// ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°ã‚°ãƒ«ãƒ¼ãƒ—ã‚’ä½œã‚‹éš›ã®1ã‚°ãƒ«ãƒ¼ãƒ—å½“ãŸã‚Šã®ã€Œè¨ˆæ¸¬æœŸé–“ã€ã‚’ç®—å‡ºã™ã‚‹ã€‚
+		// ç®—å‡ºã—ãŸçµæžœãŒã€è¨ˆæ¸¬æ™‚é–“ãŒã€Œæœ€å°è¨ˆæ¸¬æ™‚é–“ã€ã‚’ä¸‹å›žã£ãŸå ´åˆã¯ã€ã€Œæœ€å°è¨ˆæ¸¬æ™‚é–“ã€ã«åˆã‚ã›ã‚‹ã€‚
 		long samplingTerm = (endTime.getTime() - startTime.getTime()) / this.samplingMax_;
 		
 		if(samplingTerm < this.minLimitSamplingTerm_)
@@ -123,7 +123,7 @@ public class SamplingCompressor
 		
 		while(nowStartTime < endTime.getTime())
 		{
-			// Œ»Œv‘ªŠúŠÔ“à‚Éˆ—‚·‚éƒTƒ“ƒvƒ‹ƒf[ƒ^‚ð’Šo‚·‚éB
+			// ç¾è¨ˆæ¸¬æœŸé–“å†…ã«å‡¦ç†ã™ã‚‹ã‚µãƒ³ãƒ—ãƒ«ãƒ‡ãƒ¼ã‚¿ã‚’æŠ½å‡ºã™ã‚‹ã€‚
 			List samplingGroup = new ArrayList();
 			for(int cnt = sampleIndex ; cnt < samplingList.size(); cnt ++)
 			{
@@ -145,7 +145,7 @@ public class SamplingCompressor
 				samplingGroup.add(sampleData);
 			}
 			
-			// ˆ³kƒf[ƒ^‚ð¶¬‚·‚éB
+			// åœ§ç¸®ãƒ‡ãƒ¼ã‚¿ã‚’ç”Ÿæˆã™ã‚‹ã€‚
 			Object compressedData 
 				= createCompressedSample(
 						samplingGroup,
@@ -164,15 +164,15 @@ public class SamplingCompressor
 	}
 	
 	/**
-	 * Žw’è‚ÌƒTƒ“ƒvƒŠƒ“ƒOƒf[ƒ^‚ðˆ³k‚µA‚Ð‚Æ‚Â‚ÌƒTƒ“ƒvƒŠƒ“ƒOƒf[ƒ^‚É•ÏŠ·‚·‚éB
-	 * Žw’è‚µ‚½ƒtƒB[ƒ‹ƒh‚ÉŠÖ‚µ‚Ä‚ÍAˆ³k‚µ‚½ƒf[ƒ^‚æ‚èAÅ‘åAÅ¬A•½‹Ï’l‚ðŽZoE•âŠ®Ý’è‚·‚éB
+	 * æŒ‡å®šã®ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°ãƒ‡ãƒ¼ã‚¿ã‚’åœ§ç¸®ã—ã€ã²ã¨ã¤ã®ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°ãƒ‡ãƒ¼ã‚¿ã«å¤‰æ›ã™ã‚‹ã€‚
+	 * æŒ‡å®šã—ãŸãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã«é–¢ã—ã¦ã¯ã€åœ§ç¸®ã—ãŸãƒ‡ãƒ¼ã‚¿ã‚ˆã‚Šã€æœ€å¤§ã€æœ€å°ã€å¹³å‡å€¤ã‚’ç®—å‡ºãƒ»è£œå®Œè¨­å®šã™ã‚‹ã€‚
 	 * 
-	 * @param rawSamples   ƒTƒ“ƒvƒŠƒ“ƒOƒf[ƒ^
-	 * @param targetFields •âŠ®‚ðs‚¤ƒtƒB[ƒ‹ƒh
-	 * @return ˆ³k‚ðs‚Á‚½ƒTƒ“ƒvƒŠƒ“ƒOƒf[ƒ^
-	 * @throws IllegalAccessException ƒAƒNƒZƒX‚Å‚«‚È‚¢ƒtƒB[ƒ‹ƒh‚ÉƒAƒNƒZƒX‚µ‚½ê‡
-	 * @throws InvocationTargetException —\Šú‚µ‚È‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ðŽw’è‚µ‚½ê‡
-	 * @throws NoSuchMethodException Žw’è‚ÌƒtƒB[ƒ‹ƒh‚ª‘¶Ý‚µ‚È‚¢ê‡
+	 * @param rawSamples   ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°ãƒ‡ãƒ¼ã‚¿
+	 * @param targetFields è£œå®Œã‚’è¡Œã†ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰
+	 * @return åœ§ç¸®ã‚’è¡Œã£ãŸã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°ãƒ‡ãƒ¼ã‚¿
+	 * @throws IllegalAccessException ã‚¢ã‚¯ã‚»ã‚¹ã§ããªã„ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã«ã‚¢ã‚¯ã‚»ã‚¹ã—ãŸå ´åˆ
+	 * @throws InvocationTargetException äºˆæœŸã—ãªã„ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’æŒ‡å®šã—ãŸå ´åˆ
+	 * @throws NoSuchMethodException æŒ‡å®šã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ãŒå­˜åœ¨ã—ãªã„å ´åˆ
 	 * @throws InstantiationException 
 	 * @throws NoSuchFieldException 
 	 * @throws SecurityException 
@@ -221,14 +221,14 @@ public class SamplingCompressor
 	}
 
 	/**
-	 * ƒTƒ“ƒvƒŠƒ“ƒOƒf[ƒ^‚ÌƒŠƒXƒg‚©‚çAŽw’è‚µ‚½ƒtƒB[ƒ‹ƒh‚ÌuÅ‘å’lv‚ðŽZo‚·‚éB
+	 * ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°ãƒ‡ãƒ¼ã‚¿ã®ãƒªã‚¹ãƒˆã‹ã‚‰ã€æŒ‡å®šã—ãŸãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®ã€Œæœ€å¤§å€¤ã€ã‚’ç®—å‡ºã™ã‚‹ã€‚
 	 * 
-	 * @param rawSamples  ƒTƒ“ƒvƒŠƒ“ƒOƒf[ƒ^‚ÌƒŠƒXƒg
-	 * @param targetField Å‘å’l‚ð‹‚ß‚éƒtƒB[ƒ‹ƒh
-	 * @return ŽZo‚µ‚½Å‘å’l
-	 * @throws IllegalAccessException ƒAƒNƒZƒX‚Å‚«‚È‚¢ƒtƒB[ƒ‹ƒh‚ÉƒAƒNƒZƒX‚µ‚½ê‡
-	 * @throws InvocationTargetException —\Šú‚µ‚È‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ðŽw’è‚µ‚½ê‡
-	 * @throws NoSuchMethodException Žw’è‚ÌƒtƒB[ƒ‹ƒh‚ª‘¶Ý‚µ‚È‚¢ê‡
+	 * @param rawSamples  ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°ãƒ‡ãƒ¼ã‚¿ã®ãƒªã‚¹ãƒˆ
+	 * @param targetField æœ€å¤§å€¤ã‚’æ±‚ã‚ã‚‹ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰
+	 * @return ç®—å‡ºã—ãŸæœ€å¤§å€¤
+	 * @throws IllegalAccessException ã‚¢ã‚¯ã‚»ã‚¹ã§ããªã„ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã«ã‚¢ã‚¯ã‚»ã‚¹ã—ãŸå ´åˆ
+	 * @throws InvocationTargetException äºˆæœŸã—ãªã„ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’æŒ‡å®šã—ãŸå ´åˆ
+	 * @throws NoSuchMethodException æŒ‡å®šã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ãŒå­˜åœ¨ã—ãªã„å ´åˆ
 	 * @throws NoSuchFieldException 
 	 * @throws SecurityException 
 	 * @throws InstantiationException 
@@ -263,14 +263,14 @@ public class SamplingCompressor
 	}
 	
 	/**
-	 * ƒTƒ“ƒvƒŠƒ“ƒOƒf[ƒ^‚ÌƒŠƒXƒg‚©‚çAŽw’è‚µ‚½ƒtƒB[ƒ‹ƒh‚ÌuÅ¬’lv‚ðŽZo‚·‚éB
+	 * ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°ãƒ‡ãƒ¼ã‚¿ã®ãƒªã‚¹ãƒˆã‹ã‚‰ã€æŒ‡å®šã—ãŸãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®ã€Œæœ€å°å€¤ã€ã‚’ç®—å‡ºã™ã‚‹ã€‚
 	 * 
-	 * @param rawSamples  ƒTƒ“ƒvƒŠƒ“ƒOƒf[ƒ^‚ÌƒŠƒXƒg
-	 * @param targetField Å¬’l‚ð‹‚ß‚éƒtƒB[ƒ‹ƒh
-	 * @return ŽZo‚µ‚½Å¬’l
-	 * @throws IllegalAccessException ƒAƒNƒZƒX‚Å‚«‚È‚¢ƒtƒB[ƒ‹ƒh‚ÉƒAƒNƒZƒX‚µ‚½ê‡
-	 * @throws InvocationTargetException —\Šú‚µ‚È‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ðŽw’è‚µ‚½ê‡
-	 * @throws NoSuchMethodException Žw’è‚ÌƒtƒB[ƒ‹ƒh‚ª‘¶Ý‚µ‚È‚¢ê‡
+	 * @param rawSamples  ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°ãƒ‡ãƒ¼ã‚¿ã®ãƒªã‚¹ãƒˆ
+	 * @param targetField æœ€å°å€¤ã‚’æ±‚ã‚ã‚‹ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰
+	 * @return ç®—å‡ºã—ãŸæœ€å°å€¤
+	 * @throws IllegalAccessException ã‚¢ã‚¯ã‚»ã‚¹ã§ããªã„ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã«ã‚¢ã‚¯ã‚»ã‚¹ã—ãŸå ´åˆ
+	 * @throws InvocationTargetException äºˆæœŸã—ãªã„ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’æŒ‡å®šã—ãŸå ´åˆ
+	 * @throws NoSuchMethodException æŒ‡å®šã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ãŒå­˜åœ¨ã—ãªã„å ´åˆ
 	 * @throws NoSuchFieldException 
 	 * @throws SecurityException 
 	 * @throws InstantiationException 
@@ -305,13 +305,13 @@ public class SamplingCompressor
 	}
 	
 	/**
-	 * Žw’è‚µ‚½ƒf[ƒ^ƒŠƒXƒg‚©‚çuˆ³k’lv‚ð‹‚ß‚é
+	 * æŒ‡å®šã—ãŸãƒ‡ãƒ¼ã‚¿ãƒªã‚¹ãƒˆã‹ã‚‰ã€Œåœ§ç¸®å€¤ã€ã‚’æ±‚ã‚ã‚‹
 	 * 
-	 * @param rawSamples     ƒTƒ“ƒvƒŠƒ“ƒO‚³‚ê‚½Œ³ƒf[ƒ^
-	 * @param operation      ˆ³k’l‚ð‹‚ß‚éÛ‚Ì‰‰ŽZî•ñ      
-	 * @param clazz          Œ³ƒf[ƒ^‚ÌƒNƒ‰ƒXî•ñ
-	 * @param compressedTerm ˆ³k‚·‚éƒf[ƒ^‚ÌŒv‘ªŠúŠÔ
-	 * @return ŽZo‚³‚ê‚½ˆ³k’l
+	 * @param rawSamples     ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°ã•ã‚ŒãŸå…ƒãƒ‡ãƒ¼ã‚¿
+	 * @param operation      åœ§ç¸®å€¤ã‚’æ±‚ã‚ã‚‹éš›ã®æ¼”ç®—æƒ…å ±      
+	 * @param clazz          å…ƒãƒ‡ãƒ¼ã‚¿ã®ã‚¯ãƒ©ã‚¹æƒ…å ±
+	 * @param compressedTerm åœ§ç¸®ã™ã‚‹ãƒ‡ãƒ¼ã‚¿ã®è¨ˆæ¸¬æœŸé–“
+	 * @return ç®—å‡ºã•ã‚ŒãŸåœ§ç¸®å€¤
 	 * @throws SecurityException
 	 * @throws NoSuchFieldException
 	 * @throws IllegalAccessException
@@ -350,11 +350,11 @@ public class SamplingCompressor
 	}
 	
 	/**
-	 * Žw’è‚µ‚½ƒf[ƒ^‚ÌƒŠƒXƒg‚©‚çu‡Œv’lv‚ð‹‚ß‚é
+	 * æŒ‡å®šã—ãŸãƒ‡ãƒ¼ã‚¿ã®ãƒªã‚¹ãƒˆã‹ã‚‰ã€Œåˆè¨ˆå€¤ã€ã‚’æ±‚ã‚ã‚‹
 	 * 
-	 * @param values ƒf[ƒ^‚ÌƒŠƒXƒg
-	 * @param calculator ŒvŽZ‹@ƒNƒ‰ƒX
-	 * @return ‡Œv’l
+	 * @param values ãƒ‡ãƒ¼ã‚¿ã®ãƒªã‚¹ãƒˆ
+	 * @param calculator è¨ˆç®—æ©Ÿã‚¯ãƒ©ã‚¹
+	 * @return åˆè¨ˆå€¤
 	 */
 	private Object calcTotal(List values, Calculator calculator)
 	{
@@ -379,12 +379,12 @@ public class SamplingCompressor
 	}
 
 	/**
-	 * Žw’è‚µ‚½ƒf[ƒ^‚ÌƒŠƒXƒg‚©‚çAŒÅ’è‚Ì”{”‚ð‚©‚¯‚½uÏ˜avŒ‹‰Ê‚ð‹‚ß‚é
+	 * æŒ‡å®šã—ãŸãƒ‡ãƒ¼ã‚¿ã®ãƒªã‚¹ãƒˆã‹ã‚‰ã€å›ºå®šã®å€æ•°ã‚’ã‹ã‘ãŸã€Œç©å’Œã€çµæžœã‚’æ±‚ã‚ã‚‹
 	 * 
-	 * @param values    ƒf[ƒ^‚ÌƒŠƒXƒg
-	 * @param multipler Ï‚ð‹‚ß‚é‚Æ‚«‚É—p‚¢‚é”{”
-	 * @param calculator ŒvŽZ‹@ƒNƒ‰ƒX
-	 * @return Ï˜aŒ‹‰Ê
+	 * @param values    ãƒ‡ãƒ¼ã‚¿ã®ãƒªã‚¹ãƒˆ
+	 * @param multipler ç©ã‚’æ±‚ã‚ã‚‹ã¨ãã«ç”¨ã„ã‚‹å€æ•°
+	 * @param calculator è¨ˆç®—æ©Ÿã‚¯ãƒ©ã‚¹
+	 * @return ç©å’Œçµæžœ
 	 */
 	private Object calcProductSum(List values, Object multipler, Calculator calculator)
 	{
@@ -411,15 +411,15 @@ public class SamplingCompressor
 	
 	
 	/**
-	 * Žw’è‚ÌJavaBean‚ð—v‘f‚Æ‚µ‚ÄŽ‚ÂƒŠƒXƒg‚©‚çAŽw’è‚ÌƒtƒB[ƒ‹ƒh‚Ìƒf[ƒ^‚Ì‚Ý‚ð”²‚«o‚µ‚½
-	 * ƒŠƒXƒg‚ð¶¬‚·‚éB
+	 * æŒ‡å®šã®JavaBeanã‚’è¦ç´ ã¨ã—ã¦æŒã¤ãƒªã‚¹ãƒˆã‹ã‚‰ã€æŒ‡å®šã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®ãƒ‡ãƒ¼ã‚¿ã®ã¿ã‚’æŠœãå‡ºã—ãŸ
+	 * ãƒªã‚¹ãƒˆã‚’ç”Ÿæˆã™ã‚‹ã€‚
 	 * 
-	 * @param rawSamples  JavaBean‚ª“ü‚Á‚½ƒŠƒXƒg
-	 * @param targetField ”²‚«o‚·ƒtƒB[ƒ‹ƒh‚ÌƒtƒB[ƒ‹ƒh–¼
-	 * @return ”²‚«o‚µ‚½ƒf[ƒ^‚ÌƒŠƒXƒg
-	 * @throws IllegalAccessException ƒAƒNƒZƒX‚Å‚«‚È‚¢ƒtƒB[ƒ‹ƒh‚ÉƒAƒNƒZƒX‚µ‚½ê‡
-	 * @throws InvocationTargetException —\Šú‚µ‚È‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ðŽw’è‚µ‚½ê‡
-	 * @throws NoSuchMethodException Žw’è‚ÌƒtƒB[ƒ‹ƒh‚ª‘¶Ý‚µ‚È‚¢ê‡
+	 * @param rawSamples  JavaBeanãŒå…¥ã£ãŸãƒªã‚¹ãƒˆ
+	 * @param targetField æŠœãå‡ºã™ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰å
+	 * @return æŠœãå‡ºã—ãŸãƒ‡ãƒ¼ã‚¿ã®ãƒªã‚¹ãƒˆ
+	 * @throws IllegalAccessException ã‚¢ã‚¯ã‚»ã‚¹ã§ããªã„ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã«ã‚¢ã‚¯ã‚»ã‚¹ã—ãŸå ´åˆ
+	 * @throws InvocationTargetException äºˆæœŸã—ãªã„ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’æŒ‡å®šã—ãŸå ´åˆ
+	 * @throws NoSuchMethodException æŒ‡å®šã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ãŒå­˜åœ¨ã—ãªã„å ´åˆ
 	 */
 	private List getValuesByFieldName(List rawSamples, String targetField) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException
 	{
@@ -434,18 +434,18 @@ public class SamplingCompressor
 	}
 	
 	/**
-	 * Žw’èƒNƒ‰ƒX‚ÌƒtƒB[ƒ‹ƒh‚Ì’l‚ðŒvŽZ‚·‚é‚½‚ß‚ÌŒvŽZ‹@ƒNƒ‰ƒXƒCƒ“ƒXƒ^ƒ“ƒX‚ðŽæ“¾‚·‚éB
+	 * æŒ‡å®šã‚¯ãƒ©ã‚¹ã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®å€¤ã‚’è¨ˆç®—ã™ã‚‹ãŸã‚ã®è¨ˆç®—æ©Ÿã‚¯ãƒ©ã‚¹ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã™ã‚‹ã€‚
 	 * 
-	 * @param clazz     ƒtƒB[ƒ‹ƒh‚ª‘®‚·‚éƒNƒ‰ƒX
-	 * @param fieldName ƒtƒB[ƒ‹ƒh‚Ì–¼Ì
-	 * @return ƒtƒB[ƒ‹ƒh‚Ì’l‚ðŒvŽZ‚·‚é‚½‚ß‚ÌŒvŽZ‹@ƒNƒ‰ƒX
+	 * @param clazz     ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ãŒå±žã™ã‚‹ã‚¯ãƒ©ã‚¹
+	 * @param fieldName ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®åç§°
+	 * @return ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®å€¤ã‚’è¨ˆç®—ã™ã‚‹ãŸã‚ã®è¨ˆç®—æ©Ÿã‚¯ãƒ©ã‚¹
 	 * @throws NoSuchFieldException 
 	 * @throws SecurityException 
 	 * @throws IllegalAccessException 
 	 * @throws InstantiationException 
 	 * @throws NoSuchMethodException 
 	 * @throws InvocationTargetException 
-	 * @throws Exception Žw’è‚ÌƒtƒB[ƒ‹ƒh‚ªƒNƒ‰ƒX‚É‘¶Ý‚µ‚È‚¢‚È‚Ç‚ÌƒGƒ‰[
+	 * @throws Exception æŒ‡å®šã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ãŒã‚¯ãƒ©ã‚¹ã«å­˜åœ¨ã—ãªã„ãªã©ã®ã‚¨ãƒ©ãƒ¼
 	 */
 	private Calculator getFieldCalculator(Class clazz, String fieldName) throws SecurityException, NoSuchFieldException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException 
 	{

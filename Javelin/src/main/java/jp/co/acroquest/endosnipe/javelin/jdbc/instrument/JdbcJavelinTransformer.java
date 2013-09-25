@@ -53,111 +53,111 @@ import jp.co.smg.endosnipe.javassist.Modifier;
 import jp.co.smg.endosnipe.javassist.NotFoundException;
 
 /**
- * Java Instrumentation API‚É‚æ‚èAjavaagent‚Æ‚µ‚ÄƒNƒ‰ƒX‚Ì•ÏŠ·‚ğs‚¤.
+ * Java Instrumentation APIã«ã‚ˆã‚Šã€javaagentã¨ã—ã¦ã‚¯ãƒ©ã‚¹ã®å¤‰æ›ã‚’è¡Œã†.
  *
  * @author acroquest
  */
 public class JdbcJavelinTransformer implements ClassFileTransformer
 {
-    /** •s‰Â‚Ìpool‚ÌMap */
+    /** ä¸å¯ã®poolã®Map */
     private static Map<ClassLoader, ClassPool> loaderPoolMap__ =
             new HashMap<ClassLoader, ClassPool>();
 
-    /** ÀsŒv‰ææ“¾—pPreparedStatementƒtƒB[ƒ‹ƒh–¼. */
+    /** å®Ÿè¡Œè¨ˆç”»å–å¾—ç”¨PreparedStatementãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰å. */
     public static final String STMTFORPLAN_FIELD_NAME = "stmtForPlan_";
 
-    /** ÀsŒv‰ææ“¾—pPreparedStatementƒtƒB[ƒ‹ƒhéŒ¾. */
+    /** å®Ÿè¡Œè¨ˆç”»å–å¾—ç”¨PreparedStatementãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰å®£è¨€. */
     private static final String STMTFORPLAN_FIELD_DEF =
             "public jp.co.acroquest.endosnipe.javelin.jdbc.instrument.PreparedStatementPair[] "
                     + STMTFORPLAN_FIELD_NAME + ";";
 
-    /** ÀsŒv‰ææ“¾—pƒR[ƒh. */
+    /** å®Ÿè¡Œè¨ˆç”»å–å¾—ç”¨ã‚³ãƒ¼ãƒ‰. */
     private static final String STMTFORPLAN_GETTER_METHOD_DEF =
             "public jp.co.acroquest.endosnipe.javelin."
             + "jdbc.instrument.PreparedStatementPair[] getStmtForPlan() " 
             + "{return this." 
             + STMTFORPLAN_FIELD_NAME + "; }";
     
-    /** ÀsŒv‰æİ’è—pƒR[ƒh. */
+    /** å®Ÿè¡Œè¨ˆç”»è¨­å®šç”¨ã‚³ãƒ¼ãƒ‰. */
     private static final String STMTFORPLAN_SETTER_METHOD_DEF =
               "public void setStmtForPlan("
             + "jp.co.acroquest.endosnipe.javelin.jdbc.instrument.PreparedStatementPair[] stmts) " 
             + "{this." 
             + STMTFORPLAN_FIELD_NAME + " = stmts;}";
 
-    /** ÀsŒv‰ææ“¾—pPreparedStatementƒpƒ‰ƒƒ^İ’èI—¹ƒtƒ‰ƒOƒtƒB[ƒ‹ƒh–¼. */
+    /** å®Ÿè¡Œè¨ˆç”»å–å¾—ç”¨PreparedStatementãƒ‘ãƒ©ãƒ¡ã‚¿è¨­å®šçµ‚äº†ãƒ•ãƒ©ã‚°ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰å. */
     protected static final String FLAGFORPLANSTMT_FIELD_NAME = "flagForPlanStmt_";
 
-    /** ÀsŒv‰ææ“¾—pPreparedStatementƒpƒ‰ƒƒ^İ’èI—¹ƒtƒ‰ƒOƒtƒB[ƒ‹ƒhéŒ¾. */
+    /** å®Ÿè¡Œè¨ˆç”»å–å¾—ç”¨PreparedStatementãƒ‘ãƒ©ãƒ¡ã‚¿è¨­å®šçµ‚äº†ãƒ•ãƒ©ã‚°ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰å®£è¨€. */
     private static final String FLAGFORPLANSTMT_FIELD_DEF =
             "private boolean " + FLAGFORPLANSTMT_FIELD_NAME + " = false;";
 
-    /** SQLæ“¾—pƒR[ƒh. */
+    /** SQLå–å¾—ç”¨ã‚³ãƒ¼ãƒ‰. */
     private static final String SQL_GETTER_METHOD_DEF =
             "public java.util.List getJdbcJavelinSql() " + "{return this.jdbcJavelinSql_;}";
 
-    /** SQLæ“¾—pƒR[ƒh */
+    /** SQLå–å¾—ç”¨ã‚³ãƒ¼ãƒ‰ */
     private static final String SQL_GETTER_INTERFACE_DEF =
             "public java.util.List getJdbcJavelinSql();";
 
-    /** ”­s‚µ‚½SQL‚ğ•Û‘¶‚·‚é. */
+    /** ç™ºè¡Œã—ãŸSQLã‚’ä¿å­˜ã™ã‚‹. */
     public static final String SQL_FIELD_NAME = "jdbcJavelinSql_";
 
-    /** ”­s‚µ‚½SQL‚ğ•Û‘¶‚·‚éƒtƒB[ƒ‹ƒh‚Ì’è‹`. */
+    /** ç™ºè¡Œã—ãŸSQLã‚’ä¿å­˜ã™ã‚‹ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®å®šç¾©. */
     private static final String SQL_FIELD_DEF =
             "public java.util.List " + SQL_FIELD_NAME + " = new java.util.ArrayList();";
 
-    /** ƒoƒCƒ“ƒh•Ï”æ“¾—pƒR[ƒh */
+    /** ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°å–å¾—ç”¨ã‚³ãƒ¼ãƒ‰ */
     private static final String BINDVAL_GETTER_INTERFACE_DEF =
             "public java.util.List getJdbcJavelinBindVal();";
 
-    /** ƒoƒCƒ“ƒh•Ï”æ“¾—pƒR[ƒh. */
+    /** ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°å–å¾—ç”¨ã‚³ãƒ¼ãƒ‰. */
     private static final String BINDVAL_GETTER_METHOD_DEF =
             "public java.util.List getJdbcJavelinBindVal()" + "{return this.jdbcJavelinBindVal_;}";
 
-    /** ƒoƒCƒ“ƒh•Ï”‚ğ•Û‘¶‚·‚éƒtƒB[ƒ‹ƒh. */
+    /** ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°ã‚’ä¿å­˜ã™ã‚‹ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰. */
     private static final String BINDVAL_FIELD_NAME = "jdbcJavelinBindVal_";
 
-    /** ƒoƒCƒ“ƒh•Ï”‚ğ•Û‘¶‚·‚éƒtƒB[ƒ‹ƒh‚Ì’è‹`. */
+    /** ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°ã‚’ä¿å­˜ã™ã‚‹ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®å®šç¾©. */
     private static final String BINDVAL_FIELD_DEF =
             "public java.util.List jdbcJavelinBindVal_ = " + "new java.util.ArrayList();";
 
 
-    /** ƒoƒCƒ“ƒh•Ï”æ“¾—pƒR[ƒh. */
+    /** ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°å–å¾—ç”¨ã‚³ãƒ¼ãƒ‰. */
     private static final String BINDVAL_INDEX_GETTER_METHOD_DEF =
             "public int getJdbcJavelinBindIndex()" + "{return this.jdbcJavelinBindValIndex_;}";
 
-    /** ƒoƒCƒ“ƒh•Ï”index–¼ */
+    /** ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°indexå */
     public static final String BINDVAL_IDX_FIELD_NAME = "jdbcJavelinBindValIndex_";
 
-    /** ƒoƒCƒ“ƒh•Ï”index’è‹` */
+    /** ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°indexå®šç¾© */
     private static final String BINDVAL_IDX_FIELD_DEF = "public int jdbcJavelinBindValIndex_ = 0;";
 
-    /** ƒƒ\ƒbƒh‚Ìƒpƒ‰ƒƒ^‚ÌŒ^‚ğæ‚èœ‚­‚½‚ß‚Ì³‹K•\Œ» */
+    /** ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒ‘ãƒ©ãƒ¡ã‚¿ã®å‹ã‚’å–ã‚Šé™¤ããŸã‚ã®æ­£è¦è¡¨ç¾ */
     private static final Pattern PARAM_TYPE_PATTERN = Pattern.compile("[A-Za-z\\.]+[\\[\\]]* ()");
 
-    /** substringŠJnˆÊ’u */
+    /** substringé–‹å§‹ä½ç½® */
     private static final int SUBSTRING_BEGIN_INDEX = 5;
     
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^.
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿.
      */
     public JdbcJavelinTransformer()
     {
-        // ‰½‚à‚µ‚È‚¢
+        // ä½•ã‚‚ã—ãªã„
     }
 
     /**
-     * ‰Šú‰»‚·‚é.
-     * İ’è‚ğ“Ç‚İ‚Ş.
+     * åˆæœŸåŒ–ã™ã‚‹.
+     * è¨­å®šã‚’èª­ã¿è¾¼ã‚€.
      */
     public void init()
     {
-        // JdbcJavelinŠÖ˜A‚Ìİ’è’l‚ğjavelin.confƒtƒ@ƒCƒ‹‚©‚ç“Ç‚Ş
+        // JdbcJaveliné–¢é€£ã®è¨­å®šå€¤ã‚’javelin.confãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰èª­è¾¼ã‚€
         JdbcJavelinConfig config = new JdbcJavelinConfig();
         JdbcJavelinRecorder.setJdbcJavelinConfig(config);
 
-        // JDBC‚Ìİ’è’l‚ğæ“¾‚·‚é
+        // JDBCã®è¨­å®šå€¤ã‚’å–å¾—ã™ã‚‹
         boolean recordExecPlan = config.isRecordExecPlan();
         boolean fullScanMonitor = config.isFullScanMonitor();
         boolean recordDuplJdbcCall = config.isRecordDuplJdbcCall();
@@ -170,7 +170,7 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
         boolean recordStackTrace = config.isRecordStackTrace();
         int recordStackTraceThreshold = config.getRecordStackTraceThreshold();
 
-        // JDBC‚Ìİ’è’l‚ğ•W€o—Í‚·‚é
+        // JDBCã®è¨­å®šå€¤ã‚’æ¨™æº–å‡ºåŠ›ã™ã‚‹
         PrintStream out = System.out;
         String key =
                 "javelin.jdbc.instrument.JdbcJavelinTransformer.PropertiesRelatedWithJDBCJavelin";
@@ -191,23 +191,23 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
     }
 
     /**
-     * ƒR[ƒh–„‚ß‚İ‘ÎÛƒNƒ‰ƒX‚©‚Ç‚¤‚©‚ğ”»’è‚µA
-     * ‘ÎÛƒNƒ‰ƒX‚É‘Î‚µ‚ÄƒR[ƒh‚ğ–„‚ß‚ŞB
-     * @param loader ƒNƒ‰ƒXƒ[ƒ_
-     * @param className ƒNƒ‰ƒX–¼
-     * @param classBeingRedefined Ä’è‹`‚µ‚½ƒNƒ‰ƒX
-     * @param protectionDomain •ÛŒì—Ìˆæ
-     * @param classfileBuffer ƒNƒ‰ƒXƒtƒ@ƒCƒ‹‚Ìƒoƒbƒtƒ@
-     * @throws IllegalClassFormatException •s³‚ÈƒNƒ‰ƒX‚ÌƒtƒH[ƒ}ƒbƒg
-     * @return •ÏŠ·Œã‚ÌƒNƒ‰ƒX
+     * ã‚³ãƒ¼ãƒ‰åŸ‹ã‚è¾¼ã¿å¯¾è±¡ã‚¯ãƒ©ã‚¹ã‹ã©ã†ã‹ã‚’åˆ¤å®šã—ã€
+     * å¯¾è±¡ã‚¯ãƒ©ã‚¹ã«å¯¾ã—ã¦ã‚³ãƒ¼ãƒ‰ã‚’åŸ‹ã‚è¾¼ã‚€ã€‚
+     * @param loader ã‚¯ãƒ©ã‚¹ãƒ­ãƒ¼ãƒ€
+     * @param className ã‚¯ãƒ©ã‚¹å
+     * @param classBeingRedefined å†å®šç¾©ã—ãŸã‚¯ãƒ©ã‚¹
+     * @param protectionDomain ä¿è­·é ˜åŸŸ
+     * @param classfileBuffer ã‚¯ãƒ©ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒãƒƒãƒ•ã‚¡
+     * @throws IllegalClassFormatException ä¸æ­£ãªã‚¯ãƒ©ã‚¹ã®ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ
+     * @return å¤‰æ›å¾Œã®ã‚¯ãƒ©ã‚¹
      */
     public byte[] transform(final ClassLoader loader, final String className,
             final Class<?> classBeingRedefined, final ProtectionDomain protectionDomain,
             final byte[] classfileBuffer)
         throws IllegalClassFormatException
     {
-        // ƒNƒ‰ƒX‚ª–„‚ß‚ß‚È‚¢Œ`®‚Å‚ ‚éê‡‚Í
-        // IllegalClassFormatException‚ğ“Š‚°‚é
+        // ã‚¯ãƒ©ã‚¹ãŒåŸ‹ã‚è¾¼ã‚ãªã„å½¢å¼ã§ã‚ã‚‹å ´åˆã¯
+        // IllegalClassFormatExceptionã‚’æŠ•ã’ã‚‹
         try
         {
             ClassPool pool;
@@ -227,33 +227,33 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
                 pool = ClassPool.getDefault();
             }
 
-            // Interface‚ÌuStatementv‚ğ“]Š·‚·‚é
+            // Interfaceã®ã€ŒStatementã€ã‚’è»¢æ›ã™ã‚‹
             CtClass statement = createModifiedStatement(pool);
             if ("java/sql/Statement".equals(className))
             {
                 return statement.toBytecode();
             }
 
-            // ƒoƒCƒ“ƒh•Ï”o—Í‘Î‰
-            // Interface‚ÌuPreparedStatementStatementv‚ğ“]Š·‚·‚é
+            // ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°å‡ºåŠ›å¯¾å¿œ
+            // Interfaceã®ã€ŒPreparedStatementStatementã€ã‚’è»¢æ›ã™ã‚‹
             CtClass pStatement = createModifiedPreparedStatement(pool);
             if ("java/sql/PreparedStatement".equals(className))
             {
                 return pStatement.toBytecode();
             }
 
-            // Œv‘ª‘ÎÛ‚©‚çA“]Š·ƒNƒ‰ƒX‚ğì‚é
+            // è¨ˆæ¸¬å¯¾è±¡ã‹ã‚‰ã€è»¢æ›ã‚¯ãƒ©ã‚¹ã‚’ä½œã‚‹
             ByteArrayInputStream stream = new ByteArrayInputStream(classfileBuffer);
 
-            // CtClassæ“¾‚ÌŒˆ‚Ü‚è‚²‚ÆB
-            // ƒNƒ‰ƒX‚Éƒƒ\ƒbƒh‚ğ–„‚ß‚ß‚é‚æ‚¤‚É‚·‚éB
-            // ‚à‚µƒNƒ‰ƒX–¼‚ªŠ®‘SCü–¼‚Å‚È‚©‚Á‚½ê‡‚ÍA
-            // ƒoƒCƒg”z—ñ‚©‚çCtClass‚ğì¬‚·‚éB
+            // CtClasså–å¾—ã®æ±ºã¾ã‚Šã”ã¨ã€‚
+            // ã‚¯ãƒ©ã‚¹ã«ãƒ¡ã‚½ãƒƒãƒ‰ã‚’åŸ‹ã‚è¾¼ã‚ã‚‹ã‚ˆã†ã«ã™ã‚‹ã€‚
+            // ã‚‚ã—ã‚¯ãƒ©ã‚¹åãŒå®Œå…¨ä¿®é£¾åã§ãªã‹ã£ãŸå ´åˆã¯ã€
+            // ãƒã‚¤ãƒˆé…åˆ—ã‹ã‚‰CtClassã‚’ä½œæˆã™ã‚‹ã€‚
             CtClass ctClass = null;
             try
             {
-                // ClassPool‚ªŠÇ—‚·‚éƒNƒ‰ƒX–¼‚ÌƒZƒpƒŒ[ƒ^‚ğ
-                // Java‚ÌŠ®‘SCü–¼—p‚É•ÏŠ·‚·‚é
+                // ClassPoolãŒç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹åã®ã‚»ãƒ‘ãƒ¬ãƒ¼ã‚¿ã‚’
+                // Javaã®å®Œå…¨ä¿®é£¾åç”¨ã«å¤‰æ›ã™ã‚‹
                 ctClass = pool.get(className.replaceAll("/", "."));
                 if (ctClass.isFrozen() == true)
                 {
@@ -267,7 +267,7 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
             }
             catch (Exception ex)
             {
-                // ‰½‚à‚µ‚È‚¢
+                // ä½•ã‚‚ã—ãªã„
                 SystemLogger.getInstance().warn(ex);
             }
             if (ctClass == null)
@@ -289,9 +289,9 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
     }
 
     /**
-     * ƒNƒ‰ƒXƒpƒX‚ğ’Ç‰Á‚·‚é.
-     * @param pool ƒNƒ‰ƒXƒv[ƒ‹
-     * @param loader ƒNƒ‰ƒXƒ[ƒ_
+     * ã‚¯ãƒ©ã‚¹ãƒ‘ã‚¹ã‚’è¿½åŠ ã™ã‚‹.
+     * @param pool ã‚¯ãƒ©ã‚¹ãƒ—ãƒ¼ãƒ«
+     * @param loader ã‚¯ãƒ©ã‚¹ãƒ­ãƒ¼ãƒ€
      */
     private void appendLoaderClassPath(final ClassPool pool, final URLClassLoader loader)
     {
@@ -321,14 +321,14 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
 
     /**
      * 
-     * @param className ƒNƒ‰ƒX–¼
-     * @param classfileBuffer ƒNƒ‰ƒXƒtƒ@ƒCƒ‹ƒoƒbƒtƒ@
-     * @param pool ƒNƒ‰ƒXƒv[ƒ‹
-     * @param ctClass ‚ƒ‚”ƒNƒ‰ƒX
-     * @return •ÏŠ·Œã‚ÌƒNƒ‰ƒX
-     * @throws IllegalClassFormatException •s³‚ÈƒNƒ‰ƒXƒtƒH[ƒ}ƒbƒg
-     * @throws NotFoundException ƒNƒ‰ƒX‚ªŒ©‚Â‚©‚ç‚È‚¢
-     * @throws CannotCompileException ƒRƒ“ƒpƒCƒ‹‚Å‚«‚È‚¢
+     * @param className ã‚¯ãƒ©ã‚¹å
+     * @param classfileBuffer ã‚¯ãƒ©ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ãƒãƒƒãƒ•ã‚¡
+     * @param pool ã‚¯ãƒ©ã‚¹ãƒ—ãƒ¼ãƒ«
+     * @param ctClass ï½ƒï½”ã‚¯ãƒ©ã‚¹
+     * @return å¤‰æ›å¾Œã®ã‚¯ãƒ©ã‚¹
+     * @throws IllegalClassFormatException ä¸æ­£ãªã‚¯ãƒ©ã‚¹ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ
+     * @throws NotFoundException ã‚¯ãƒ©ã‚¹ãŒè¦‹ã¤ã‹ã‚‰ãªã„
+     * @throws CannotCompileException ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã§ããªã„
      */
     public byte[] transform(final String className, final byte[] classfileBuffer,
             final ClassPool pool, CtClass ctClass)
@@ -336,7 +336,7 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
             NotFoundException,
             CannotCompileException
     {
-        // Interface‚ğ”ğ‚¯‚é
+        // Interfaceã‚’é¿ã‘ã‚‹
         if (ctClass.isInterface())
         {
             return null;
@@ -355,21 +355,21 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
             }
         }
 
-        // JDBCJavelin‚ÌBCI‘ÎÛˆÈŠOƒNƒ‰ƒX‚ğ”ğ‚¯‚é
+        // JDBCJavelinã®BCIå¯¾è±¡ä»¥å¤–ã‚¯ãƒ©ã‚¹ã‚’é¿ã‘ã‚‹
         boolean inheritedStatement = JavassistUtil.isInherited(ctClass, pool, "java.sql.Statement");
         if (inheritedStatement == false)
         {
             return null;
         }
 
-        // BCI‘ÎÛStatement‚É‘Î‚·‚éA•ÏŠ·‚ğs‚¤
+        // BCIå¯¾è±¡Statementã«å¯¾ã™ã‚‹ã€å¤‰æ›ã‚’è¡Œã†
         boolean inheritedPreparedStatement = 
                 JavassistUtil.isInherited(ctClass,
                                           pool,
                                           "java.sql.PreparedStatement");
         if (inheritedPreparedStatement)
         {
-            // ƒoƒCƒ“ƒh•Ï”o—Í‚Ì‚½‚ß’Ç‰Á
+            // ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°å‡ºåŠ›ã®ãŸã‚è¿½åŠ 
             ctClass = createModifiedInheritedPreparedStatement(className, pool);
         }
         else
@@ -377,7 +377,7 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
             ctClass = createModifiedInheritedStatement(className, pool);
         }
 
-        // •ÏŠ·Œ‹‰Ê‚ğ–ß‚·
+        // å¤‰æ›çµæœã‚’æˆ»ã™
         String tagKey = "javelin.jdbc.instrument.JdbcJavelinConverter.JDBCJavelinTag";
         String jdbcJavelinTag = JdbcJavelinMessages.getMessage(tagKey);
         String messageKey = "javelin.jdbc.instrument.JdbcJavelinTransformer.BCIClassNameLabel";
@@ -388,8 +388,8 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
         for (int index = 0; index < behaviors.length; index++)
         {
             CtBehavior behaviour = behaviors[index];
-            // ƒƒ\ƒbƒh‚Ì’è‹`‚ª‚È‚¢ê‡A‚ ‚é‚¢‚Ípublic‚Å‚È‚¢
-            // (->ƒCƒ“ƒ^[ƒtƒF[ƒX‚É’è‹`‚³‚ê‚Ä‚¢‚È‚¢)ê‡‚ÍÀs‚µ‚È‚¢B
+            // ãƒ¡ã‚½ãƒƒãƒ‰ã®å®šç¾©ãŒãªã„å ´åˆã€ã‚ã‚‹ã„ã¯publicã§ãªã„
+            // (->ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã«å®šç¾©ã•ã‚Œã¦ã„ãªã„)å ´åˆã¯å®Ÿè¡Œã—ãªã„ã€‚
             final int MODIFER = behaviour.getModifiers();
             if (Modifier.isAbstract(MODIFER) || !Modifier.isPublic(MODIFER))
             {
@@ -412,13 +412,13 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
     }
 
     /**
-     * StatementÀ‘•ƒNƒ‰ƒX—p‚ÌBCIˆ—B
+     * Statementå®Ÿè£…ã‚¯ãƒ©ã‚¹ç”¨ã®BCIå‡¦ç†ã€‚
      *
-     * @param className PreparedStatementÀ‘•ƒNƒ‰ƒX
-     * @param pool ƒNƒ‰ƒXƒv[ƒ‹
-     * @return •ÏX‚µ‚½PreparedStatementÀ‘•ƒNƒ‰ƒX
-     * @throws NotFoundException className‚Åw’è‚³‚ê‚½ƒNƒ‰ƒX‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡
-     * @throws CannotCompileException ƒƒ\ƒbƒh‚ğ’Ç‰Á‚Å‚«‚È‚¢ê‡
+     * @param className PreparedStatementå®Ÿè£…ã‚¯ãƒ©ã‚¹
+     * @param pool ã‚¯ãƒ©ã‚¹ãƒ—ãƒ¼ãƒ«
+     * @return å¤‰æ›´ã—ãŸPreparedStatementå®Ÿè£…ã‚¯ãƒ©ã‚¹
+     * @throws NotFoundException classNameã§æŒ‡å®šã•ã‚ŒãŸã‚¯ãƒ©ã‚¹ãŒè¦‹ã¤ã‹ã‚‰ãªã„å ´åˆ
+     * @throws CannotCompileException ãƒ¡ã‚½ãƒƒãƒ‰ã‚’è¿½åŠ ã§ããªã„å ´åˆ
      */
     private CtClass createModifiedInheritedStatement(String className, final ClassPool pool)
         throws NotFoundException,
@@ -438,9 +438,9 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
             }
             catch (NotFoundException nofExp)
             {
-                // field‚ğì‚é
+                // fieldã‚’ä½œã‚‹
                 ctSQLField = CtField.make(SQL_FIELD_DEF, ctClassStatement);
-                // field‚ğ’Ç‰Á‚·‚é
+                // fieldã‚’è¿½åŠ ã™ã‚‹
                 ctClassStatement.addField(ctSQLField);
 
                 try
@@ -449,9 +449,9 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
                 }
                 catch (NotFoundException nfe)
                 {
-                    // Mehtod‚ğì‚é
+                    // Mehtodã‚’ä½œã‚‹
                     ctGetSQLField = CtMethod.make(SQL_GETTER_METHOD_DEF, ctClassStatement);
-                    // Method‚ğ’Ç‰Á‚·‚é
+                    // Methodã‚’è¿½åŠ ã™ã‚‹
                     ctClassStatement.addMethod(ctGetSQLField);
 
                     String tagKey = "javelin.jdbc.instrument.JdbcJavelinConverter.JDBCJavelinTag";
@@ -464,10 +464,10 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
             }
         }
 
-        // ‚à‚µStatementƒCƒ“ƒ^ƒtƒF[ƒXÀ‘•ƒNƒ‰ƒX‚É
-        // addBatch()AclearBatch()Aexecute()AexecuteQury()A
-        // executeBatch()AexecuteUpdate‚ªÀ‘•‚³‚ê‚Ä‚¢‚È‚¯‚ê‚ÎA
-        // ‚»‚ê‚¼‚êƒƒ\ƒbƒh‚ğ’Ç‰Á‚µAƒI[ƒo[ƒ‰ƒCƒh‚·‚éB
+        // ã‚‚ã—Statementã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹å®Ÿè£…ã‚¯ãƒ©ã‚¹ã«
+        // addBatch()ã€clearBatch()ã€execute()ã€executeQury()ã€
+        // executeBatch()ã€executeUpdateãŒå®Ÿè£…ã•ã‚Œã¦ã„ãªã‘ã‚Œã°ã€
+        // ãã‚Œãã‚Œãƒ¡ã‚½ãƒƒãƒ‰ã‚’è¿½åŠ ã—ã€ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã™ã‚‹ã€‚
         addAddBatchMethodOfStatement(pool, className);
         addClearBatchMethod(pool, className, "");
         addExecuteMethodOfStatement(pool, className);
@@ -479,13 +479,13 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
     }
 
     /**
-     * PreparedStatementÀ‘•ƒNƒ‰ƒX—p‚ÌBCIˆ—B
+     * PreparedStatementå®Ÿè£…ã‚¯ãƒ©ã‚¹ç”¨ã®BCIå‡¦ç†ã€‚
      *
-     * @param className PreparedStatementÀ‘•ƒNƒ‰ƒX
-     * @param pool ƒNƒ‰ƒXƒv[ƒ‹
-     * @return •ÏX‚µ‚½PreparedStatementÀ‘•ƒNƒ‰ƒX
-     * @throws NotFoundException className‚Åw’è‚³‚ê‚½ƒNƒ‰ƒX‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡
-     * @throws CannotCompileException ƒƒ\ƒbƒh‚ğ’Ç‰Á‚Å‚«‚È‚¢ê‡
+     * @param className PreparedStatementå®Ÿè£…ã‚¯ãƒ©ã‚¹
+     * @param pool ã‚¯ãƒ©ã‚¹ãƒ—ãƒ¼ãƒ«
+     * @return å¤‰æ›´ã—ãŸPreparedStatementå®Ÿè£…ã‚¯ãƒ©ã‚¹
+     * @throws NotFoundException classNameã§æŒ‡å®šã•ã‚ŒãŸã‚¯ãƒ©ã‚¹ãŒè¦‹ã¤ã‹ã‚‰ãªã„å ´åˆ
+     * @throws CannotCompileException ãƒ¡ã‚½ãƒƒãƒ‰ã‚’è¿½åŠ ã§ããªã„å ´åˆ
      */
     private CtClass createModifiedInheritedPreparedStatement(String className, final ClassPool pool)
         throws NotFoundException,
@@ -505,9 +505,9 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
             }
             catch (NotFoundException nofExp)
             {
-                // field‚ğì‚é
+                // fieldã‚’ä½œã‚‹
                 ctSQLField = CtField.make(SQL_FIELD_DEF, ctClassStatement);
-                // field‚ğ’Ç‰Á‚·‚é
+                // fieldã‚’è¿½åŠ ã™ã‚‹
                 ctClassStatement.addField(ctSQLField);
 
                 try
@@ -516,9 +516,9 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
                 }
                 catch (NotFoundException nfe)
                 {
-                    // Mehtod‚ğì‚é
+                    // Mehtodã‚’ä½œã‚‹
                     ctGetSQLField = CtMethod.make(SQL_GETTER_METHOD_DEF, ctClassStatement);
-                    // Method‚ğ’Ç‰Á‚·‚é
+                    // Methodã‚’è¿½åŠ ã™ã‚‹
                     ctClassStatement.addMethod(ctGetSQLField);
 
                     String tagKey = "javelin.jdbc.instrument.JdbcJavelinConverter.JDBCJavelinTag";
@@ -536,13 +536,13 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
             }
             catch (NotFoundException nofExp)
             {
-                // field‚ğì‚é
+                // fieldã‚’ä½œã‚‹
                 ctSQLField = CtField.make(BINDVAL_FIELD_DEF, ctClassStatement);
-                // field‚ğ’Ç‰Á‚·‚é
+                // fieldã‚’è¿½åŠ ã™ã‚‹
                 ctClassStatement.addField(ctSQLField);
 
                 ctSQLField = CtField.make(BINDVAL_IDX_FIELD_DEF, ctClassStatement);
-                // field‚ğ’Ç‰Á‚·‚é
+                // fieldã‚’è¿½åŠ ã™ã‚‹
                 ctClassStatement.addField(ctSQLField);
                 
                 try
@@ -551,7 +551,7 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
                 }
                 catch (NotFoundException nfe)
                 {
-                    // Mehtod‚ğì‚é
+                    // Mehtodã‚’ä½œã‚‹
                     CtMethod sqlIndexField =
                                              CtMethod.make(BINDVAL_INDEX_GETTER_METHOD_DEF,
                                                            ctClassStatement);
@@ -565,9 +565,9 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
                 }
                 catch (NotFoundException nfe)
                 {
-                    // Mehtod‚ğì‚é
+                    // Mehtodã‚’ä½œã‚‹
                     ctGetSQLField = CtMethod.make(BINDVAL_GETTER_METHOD_DEF, ctClassStatement);
-                    // Method‚ğ’Ç‰Á‚·‚é
+                    // Methodã‚’è¿½åŠ ã™ã‚‹
                     ctClassStatement.addMethod(ctGetSQLField);
 
                     String tagKey = "javelin.jdbc.instrument.JdbcJavelinConverter.JDBCJavelinTag";
@@ -585,14 +585,14 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
             }
             catch (NotFoundException nofExp)
             {
-                // field‚ğì‚é
+                // fieldã‚’ä½œã‚‹
                 ctSQLField = CtField.make(STMTFORPLAN_FIELD_DEF, ctClassStatement);
-                // field‚ğ’Ç‰Á‚·‚é
+                // fieldã‚’è¿½åŠ ã™ã‚‹
                 ctClassStatement.addField(ctSQLField);
 
-                // field‚ğì‚é
+                // fieldã‚’ä½œã‚‹
                 ctSQLField = CtField.make(FLAGFORPLANSTMT_FIELD_DEF, ctClassStatement);
-                // field‚ğ’Ç‰Á‚·‚é
+                // fieldã‚’è¿½åŠ ã™ã‚‹
                 ctClassStatement.addField(ctSQLField);
                 
                 try
@@ -601,7 +601,7 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
                 }
                 catch (NotFoundException ex)
                 {
-                    // æ“¾—p‚Ìƒƒ\ƒbƒh‚ğì¬‚·‚éB
+                    // å–å¾—ç”¨ã®ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ä½œæˆã™ã‚‹ã€‚
                     CtMethod getterMethod = CtMethod.make(STMTFORPLAN_GETTER_METHOD_DEF, 
                                                           ctClassStatement);
                     ctClassStatement.addMethod(getterMethod);
@@ -622,8 +622,8 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
                 SystemLogger.getInstance().info(jdbcJavelinTag + message);
             }
 
-            // ‚à‚µPreparedStatementƒCƒ“ƒ^ƒtƒF[ƒXÀ‘•ƒNƒ‰ƒX‚ÉsetXXXƒƒ\ƒbƒh‚ªÀ‘•‚³‚ê‚Ä‚¢‚È‚¯‚ê‚ÎA
-            // setXXXƒƒ\ƒbƒh‚ğ’Ç‰Á‚µAƒI[ƒo[ƒ‰ƒCƒh‚·‚éB
+            // ã‚‚ã—PreparedStatementã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹å®Ÿè£…ã‚¯ãƒ©ã‚¹ã«setXXXãƒ¡ã‚½ãƒƒãƒ‰ãŒå®Ÿè£…ã•ã‚Œã¦ã„ãªã‘ã‚Œã°ã€
+            // setXXXãƒ¡ã‚½ãƒƒãƒ‰ã‚’è¿½åŠ ã—ã€ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã™ã‚‹ã€‚
             String[] setMethodA =
                     new String[]{"setString(int parameterIndex, java.lang.String x)",
                             "setObject(int parameterIndex, java.lang.Object x)",
@@ -669,7 +669,7 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
                     new String[]{"setCharacterStream("
                                 + "int parameterIndex, java.io.Reader reader, int length)", };
 
-            // setƒƒ\ƒbƒh‚Ésuper‚ğŒÄ‚Ño‚·ƒR[ƒh‚ğ–„‚ß‚Ş
+            // setãƒ¡ã‚½ãƒƒãƒ‰ã«superã‚’å‘¼ã³å‡ºã™ã‚³ãƒ¼ãƒ‰ã‚’åŸ‹ã‚è¾¼ã‚€
             addSetMethodLoop(pool, className, setMethodA);
             addSetMethodLoop(pool, className, setMethodB);
             addSetMethodLoop(pool, className, setMethodC);
@@ -679,9 +679,9 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
             addSetMethodLoop(pool, className, setMethodG);
             addSetMethodLoop(pool, className, setMethodH);
 
-            // ‚à‚µPreparedStatementƒCƒ“ƒ^ƒtƒF[ƒXÀ‘•ƒNƒ‰ƒX‚É
-            // addBatch()Aclose()‚ªÀ‘•‚³‚ê‚Ä‚¢‚È‚¯‚ê‚ÎA
-            // ‚»‚ê‚¼‚êƒƒ\ƒbƒh‚ğ’Ç‰Á‚µAƒI[ƒo[ƒ‰ƒCƒh‚·‚éB
+            // ã‚‚ã—PreparedStatementã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹å®Ÿè£…ã‚¯ãƒ©ã‚¹ã«
+            // addBatch()ã€close()ãŒå®Ÿè£…ã•ã‚Œã¦ã„ãªã‘ã‚Œã°ã€
+            // ãã‚Œãã‚Œãƒ¡ã‚½ãƒƒãƒ‰ã‚’è¿½åŠ ã—ã€ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã™ã‚‹ã€‚
             addAddBatchMethodOfPreparedStatement(pool, className);
             addNonParamMethod(pool, className, "clearBatch",
                               JdbcJavelinConverter.BCI_METHOD_CLEAR_BATCH
@@ -695,9 +695,9 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
     }
 
     /**
-     * JdbcJavelinStatement‚ÌƒCƒ“ƒ^ƒtƒF[ƒX‚ğ’Ç‰Á‚·‚éB
+     * JdbcJavelinStatementã®ã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹ã‚’è¿½åŠ ã™ã‚‹ã€‚
      * 
-     * @param ctClassStatement ’Ç‰Á‘ÎÛ
+     * @param ctClassStatement è¿½åŠ å¯¾è±¡
      */
     private void addJvnStatementInterface(CtClass ctClassStatement)
     {
@@ -722,12 +722,12 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
     }
 
     /**
-     * Statement‚ÉƒoƒCƒ“ƒh•Ï”æ“¾ƒƒ\ƒbƒh‚ğ’Ç‰Á‚·‚éB
+     * Statementã«ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°å–å¾—ãƒ¡ã‚½ãƒƒãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã€‚
      *
-     * @param pool ƒNƒ‰ƒXƒv[ƒ‹
-     * @return •ÏX‚µ‚½StatementƒCƒ“ƒ^ƒtƒF[ƒX
-     * @throws NotFoundException java.sql.Statement‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡
-     * @throws CannotCompileException ƒƒ\ƒbƒh‚ğ’Ç‰Á‚Å‚«‚È‚¢ê‡
+     * @param pool ã‚¯ãƒ©ã‚¹ãƒ—ãƒ¼ãƒ«
+     * @return å¤‰æ›´ã—ãŸStatementã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹
+     * @throws NotFoundException java.sql.StatementãŒè¦‹ã¤ã‹ã‚‰ãªã„å ´åˆ
+     * @throws CannotCompileException ãƒ¡ã‚½ãƒƒãƒ‰ã‚’è¿½åŠ ã§ããªã„å ´åˆ
      */
     private CtClass createModifiedStatement(final ClassPool pool)
         throws NotFoundException,
@@ -743,9 +743,9 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
         }
         catch (NotFoundException nofExp)
         {
-            // Mehtod‚ğì‚é
+            // Mehtodã‚’ä½œã‚‹
             ctGetSQLField = CtMethod.make(SQL_GETTER_INTERFACE_DEF, ctClassStatement);
-            // Method‚ğ’Ç‰Á‚·‚é
+            // Methodã‚’è¿½åŠ ã™ã‚‹
             ctClassStatement.addMethod(ctGetSQLField);
 
             String tagKey = "javelin.jdbc.instrument.JdbcJavelinConverter.JDBCJavelinTag";
@@ -759,12 +759,12 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
     }
 
     /**
-     * PreparedStatement‚ÉƒoƒCƒ“ƒh•Ï”æ“¾ƒƒ\ƒbƒh‚ğ’Ç‰Á‚·‚éB
+     * PreparedStatementã«ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°å–å¾—ãƒ¡ã‚½ãƒƒãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã€‚
      *
-     * @param pool ƒNƒ‰ƒXƒv[ƒ‹
-     * @return •ÏX‚µ‚½PreparedStatementƒCƒ“ƒ^ƒtƒF[ƒX
-     * @throws NotFoundException java.sql.PreparedStatement‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡
-     * @throws CannotCompileException ƒƒ\ƒbƒh‚ğ’Ç‰Á‚Å‚«‚È‚¢ê‡
+     * @param pool ã‚¯ãƒ©ã‚¹ãƒ—ãƒ¼ãƒ«
+     * @return å¤‰æ›´ã—ãŸPreparedStatementã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹
+     * @throws NotFoundException java.sql.PreparedStatementãŒè¦‹ã¤ã‹ã‚‰ãªã„å ´åˆ
+     * @throws CannotCompileException ãƒ¡ã‚½ãƒƒãƒ‰ã‚’è¿½åŠ ã§ããªã„å ´åˆ
      */
     private CtClass createModifiedPreparedStatement(final ClassPool pool)
         throws NotFoundException,
@@ -780,9 +780,9 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
         }
         catch (NotFoundException nofExp)
         {
-            // Mehtod‚ğì‚é
+            // Mehtodã‚’ä½œã‚‹
             ctGetSQLField = CtMethod.make(BINDVAL_GETTER_INTERFACE_DEF, ctClassStatement);
-            // Method‚ğ’Ç‰Á‚·‚é
+            // Methodã‚’è¿½åŠ ã™ã‚‹
             ctClassStatement.addMethod(ctGetSQLField);
 
             String tagKey = "javelin.jdbc.instrument.JdbcJavelinConverter.JDBCJavelinTag";
@@ -797,12 +797,12 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
     }
 
     /**
-     * ‚ ‚éƒ^ƒCƒv‚Ìsetƒƒ\ƒbƒh‚ğ–„‚ß‚ŞB
-     * @param pool ƒNƒ‰ƒXƒv[ƒ‹
-     * @param className ƒNƒ‰ƒX–¼
-     * @param setMethods setƒƒ\ƒbƒhˆê——
-     * @throws NotFoundException ƒƒ\ƒbƒh‚ªŒ©‚Â‚©‚ç‚È‚¢‚Æ‚«
-     * @throws CannotCompileException ƒRƒ“ƒpƒCƒ‹‚Å‚«‚È‚¢‚Æ‚«
+     * ã‚ã‚‹ã‚¿ã‚¤ãƒ—ã®setãƒ¡ã‚½ãƒƒãƒ‰ã‚’åŸ‹ã‚è¾¼ã‚€ã€‚
+     * @param pool ã‚¯ãƒ©ã‚¹ãƒ—ãƒ¼ãƒ«
+     * @param className ã‚¯ãƒ©ã‚¹å
+     * @param setMethods setãƒ¡ã‚½ãƒƒãƒ‰ä¸€è¦§
+     * @throws NotFoundException ãƒ¡ã‚½ãƒƒãƒ‰ãŒè¦‹ã¤ã‹ã‚‰ãªã„ã¨ã
+     * @throws CannotCompileException ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã§ããªã„ã¨ã
      */
     private void addSetMethodLoop(final ClassPool pool, final String className,
             final String[] setMethods)
@@ -816,12 +816,12 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
     }
 
     /**
-     * w’è‚³‚ê‚½setƒƒ\ƒbƒh‚ğ–„‚ß‚ŞB
-     * @param pool ƒNƒ‰ƒXƒv[ƒ‹
-     * @param className ƒNƒ‰ƒX–¼
-     * @param method setƒƒ\ƒbƒh
-     * @throws NotFoundException ƒƒ\ƒbƒh‚ªŒ©‚Â‚©‚ç‚È‚¢‚Æ‚«
-     * @throws CannotCompileException ƒRƒ“ƒpƒCƒ‹‚Å‚«‚È‚¢‚Æ‚«     */
+     * æŒ‡å®šã•ã‚ŒãŸsetãƒ¡ã‚½ãƒƒãƒ‰ã‚’åŸ‹ã‚è¾¼ã‚€ã€‚
+     * @param pool ã‚¯ãƒ©ã‚¹ãƒ—ãƒ¼ãƒ«
+     * @param className ã‚¯ãƒ©ã‚¹å
+     * @param method setãƒ¡ã‚½ãƒƒãƒ‰
+     * @throws NotFoundException ãƒ¡ã‚½ãƒƒãƒ‰ãŒè¦‹ã¤ã‹ã‚‰ãªã„ã¨ã
+     * @throws CannotCompileException ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã§ããªã„ã¨ã     */
     private void addSetMethod(final ClassPool pool, final String className, final String method)
         throws NotFoundException,
             CannotCompileException
@@ -830,17 +830,17 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
 
         int bracketIndex = method.indexOf('(');
 
-        // ƒƒ\ƒbƒh‚Ìˆø”
+        // ãƒ¡ã‚½ãƒƒãƒ‰ã®å¼•æ•°
         String paramsAll = method.substring(bracketIndex + 1, method.length() - 1);
 
-        // ƒƒ\ƒbƒh‚Ìˆø”‚ÌŒ^‚ğæ‚èœ‚­
+        // ãƒ¡ã‚½ãƒƒãƒ‰ã®å¼•æ•°ã®å‹ã‚’å–ã‚Šé™¤ã
         Matcher matcher = PARAM_TYPE_PATTERN.matcher(method);
         String params = matcher.replaceAll("");
 
-        // ƒƒ\ƒbƒh‚Ì–¼‘O‚ğæ‚èo‚·
+        // ãƒ¡ã‚½ãƒƒãƒ‰ã®åå‰ã‚’å–ã‚Šå‡ºã™
         String methodName = method.substring(0, bracketIndex);
 
-        // ƒƒ\ƒbƒh‚ÌŒ^‚ğæ‚èo‚·
+        // ãƒ¡ã‚½ãƒƒãƒ‰ã®å‹ã‚’å–ã‚Šå‡ºã™
         String[] param = paramsAll.split(",[ \\t\\n]*");
         CtClass[] paramClass = new CtClass[param.length];
         for (int index = 0; index < param.length; index++)
@@ -855,7 +855,7 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
         }
         catch (NotFoundException nfe)
         {
-            // Mehtod‚ğì‚é
+            // Mehtodã‚’ä½œã‚‹
             StringBuffer methodDef = new StringBuffer();
             methodDef.append("public void ");
             methodDef.append(method);
@@ -864,7 +864,7 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
             methodDef.append(params);
             methodDef.append(";};\n");
             CtMethod ctSetMethod = CtMethod.make(methodDef.toString(), ctClassStatement);
-            // Method‚ğ’Ç‰Á‚·‚é
+            // Methodã‚’è¿½åŠ ã™ã‚‹
             ctClassStatement.addMethod(ctSetMethod);
 
             String tagKey = "javelin.jdbc.instrument.JdbcJavelinConverter.JDBCJavelinTag";
@@ -877,13 +877,13 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
     }
 
     /**
-     * ˆø”‚ª‚È‚¢ƒƒ\ƒbƒh‚ğ–„‚ß‚ŞB
-     * @param pool ƒNƒ‰ƒXƒv[ƒ‹
-     * @param className ƒNƒ‰ƒX–¼
-     * @param methodName ƒƒ\ƒbƒh–¼
-     * @param code –„‚ß‚ŞƒR[ƒh
-     * @throws NotFoundException ƒƒ\ƒbƒh‚ªŒ©‚Â‚©‚ç‚È‚¢‚Æ‚«
-     * @throws CannotCompileException ƒRƒ“ƒpƒCƒ‹‚Å‚«‚È‚¢‚Æ‚«
+     * å¼•æ•°ãŒãªã„ãƒ¡ã‚½ãƒƒãƒ‰ã‚’åŸ‹ã‚è¾¼ã‚€ã€‚
+     * @param pool ã‚¯ãƒ©ã‚¹ãƒ—ãƒ¼ãƒ«
+     * @param className ã‚¯ãƒ©ã‚¹å
+     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
+     * @param code åŸ‹ã‚è¾¼ã‚€ã‚³ãƒ¼ãƒ‰
+     * @throws NotFoundException ãƒ¡ã‚½ãƒƒãƒ‰ãŒè¦‹ã¤ã‹ã‚‰ãªã„ã¨ã
+     * @throws CannotCompileException ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã§ããªã„ã¨ã
      */
     private void addNonParamMethod(final ClassPool pool, final String className,
             final String methodName, final String code)
@@ -898,7 +898,7 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
         }
         catch (NotFoundException nfe)
         {
-            // Mehtod‚ğì‚é
+            // Mehtodã‚’ä½œã‚‹
             StringBuffer methodDef = new StringBuffer();
             methodDef.append("public void ");
             methodDef.append(methodName);
@@ -907,7 +907,7 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
             methodDef.append(code);
             methodDef.append("}\n");
             CtMethod ctSetMethod = CtMethod.make(methodDef.toString(), ctClassStatement);
-            // Method‚ğ’Ç‰Á‚·‚é
+            // Methodã‚’è¿½åŠ ã™ã‚‹
             ctClassStatement.addMethod(ctSetMethod);
 
             String tagKey = "javelin.jdbc.instrument.JdbcJavelinConverter.JDBCJavelinTag";
@@ -920,11 +920,11 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
     }
 
     /**
-     * Statement‚ğÀ‘•‚·‚éƒNƒ‰ƒX‚ÉaddBatchƒƒ\ƒbƒh‚ğ–„‚ß‚ŞB
-     * @param pool ƒNƒ‰ƒXƒv[ƒ‹
-     * @param className ƒNƒ‰ƒX–¼
-     * @throws NotFoundException ƒƒ\ƒbƒh‚ªŒ©‚Â‚©‚ç‚È‚¢‚Æ‚«
-     * @throws CannotCompileException ƒRƒ“ƒpƒCƒ‹‚Å‚«‚È‚¢‚Æ‚«
+     * Statementã‚’å®Ÿè£…ã™ã‚‹ã‚¯ãƒ©ã‚¹ã«addBatchãƒ¡ã‚½ãƒƒãƒ‰ã‚’åŸ‹ã‚è¾¼ã‚€ã€‚
+     * @param pool ã‚¯ãƒ©ã‚¹ãƒ—ãƒ¼ãƒ«
+     * @param className ã‚¯ãƒ©ã‚¹å
+     * @throws NotFoundException ãƒ¡ã‚½ãƒƒãƒ‰ãŒè¦‹ã¤ã‹ã‚‰ãªã„ã¨ã
+     * @throws CannotCompileException ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã§ããªã„ã¨ã
      */
     private void addAddBatchMethodOfStatement(final ClassPool pool, final String className)
         throws NotFoundException,
@@ -932,19 +932,19 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
     {
         CtClass ctClassStatement = pool.get(className);
 
-        // ‚à‚µaddbatchƒƒ\ƒbƒh‚ª‚È‚¯‚ê‚Î’Ç‰Á‚·‚é
+        // ã‚‚ã—addbatchãƒ¡ã‚½ãƒƒãƒ‰ãŒãªã‘ã‚Œã°è¿½åŠ ã™ã‚‹
         try
         {
             ctClassStatement.getDeclaredMethod("addBatch");
         }
         catch (NotFoundException nfe)
         {
-            // Mehtod‚ğì‚é
+            // Mehtodã‚’ä½œã‚‹
             StringBuilder methodDef = new StringBuilder();
             methodDef.append("public void addBatch(java.lang.String sql)"
                     + " throws java.sql.SQLException {\n" + "    super.addBatch(sql);\n}\n");
             CtMethod ctSetMethod = CtMethod.make(methodDef.toString(), ctClassStatement);
-            // Method‚ğ’Ç‰Á‚·‚é
+            // Methodã‚’è¿½åŠ ã™ã‚‹
             ctClassStatement.addMethod(ctSetMethod);
 
             String tagKey = "javelin.jdbc.instrument.JdbcJavelinConverter.JDBCJavelinTag";
@@ -957,11 +957,11 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
     }
 
     /**
-     * PreparedStatement‚ğÀ‘•‚·‚éƒNƒ‰ƒX‚ÉaddBatchƒƒ\ƒbƒh‚ğ–„‚ß‚ŞB
-     * @param pool ƒNƒ‰ƒXƒv[ƒ‹
-     * @param className ƒNƒ‰ƒX–¼
-     * @throws NotFoundException ƒƒ\ƒbƒh‚ªŒ©‚Â‚©‚ç‚È‚¢‚Æ‚«
-     * @throws CannotCompileException ƒRƒ“ƒpƒCƒ‹‚Å‚«‚È‚¢‚Æ‚«
+     * PreparedStatementã‚’å®Ÿè£…ã™ã‚‹ã‚¯ãƒ©ã‚¹ã«addBatchãƒ¡ã‚½ãƒƒãƒ‰ã‚’åŸ‹ã‚è¾¼ã‚€ã€‚
+     * @param pool ã‚¯ãƒ©ã‚¹ãƒ—ãƒ¼ãƒ«
+     * @param className ã‚¯ãƒ©ã‚¹å
+     * @throws NotFoundException ãƒ¡ã‚½ãƒƒãƒ‰ãŒè¦‹ã¤ã‹ã‚‰ãªã„ã¨ã
+     * @throws CannotCompileException ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã§ããªã„ã¨ã
      */
     private void addAddBatchMethodOfPreparedStatement(final ClassPool pool, final String className)
         throws NotFoundException,
@@ -976,11 +976,11 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
     }
 
     /**
-     * Statement‚ğÀ‘•‚·‚éƒNƒ‰ƒX‚Éexecuteƒƒ\ƒbƒh‚ğ–„‚ß‚ŞB
-     * @param pool ƒNƒ‰ƒXƒv[ƒ‹
-     * @param className ƒNƒ‰ƒX–¼
-     * @throws NotFoundException execute‚ªÀ‘•‚³‚ê‚Ä‚¢‚È‚¢‚Æ‚«B
-     * @throws CannotCompileException ƒRƒ“ƒpƒCƒ‹‚Å‚«‚È‚¢‚Æ‚«
+     * Statementã‚’å®Ÿè£…ã™ã‚‹ã‚¯ãƒ©ã‚¹ã«executeãƒ¡ã‚½ãƒƒãƒ‰ã‚’åŸ‹ã‚è¾¼ã‚€ã€‚
+     * @param pool ã‚¯ãƒ©ã‚¹ãƒ—ãƒ¼ãƒ«
+     * @param className ã‚¯ãƒ©ã‚¹å
+     * @throws NotFoundException executeãŒå®Ÿè£…ã•ã‚Œã¦ã„ãªã„ã¨ãã€‚
+     * @throws CannotCompileException ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã§ããªã„ã¨ã
      */
     private void addExecuteMethodOfStatement(final ClassPool pool, final String className)
         throws NotFoundException,
@@ -988,20 +988,20 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
     {
         CtClass ctClassStatement = pool.get(className);
 
-        // ‚à‚µexecuteƒƒ\ƒbƒh‚ª‚È‚¯‚ê‚Î’Ç‰Á‚·‚é
+        // ã‚‚ã—executeãƒ¡ã‚½ãƒƒãƒ‰ãŒãªã‘ã‚Œã°è¿½åŠ ã™ã‚‹
         try
         {
             ctClassStatement.getDeclaredMethod("execute");
         }
         catch (NotFoundException nfe)
         {
-            // Mehtod‚ğì‚é
+            // Mehtodã‚’ä½œã‚‹
             StringBuffer methodDef = new StringBuffer();
             methodDef.append("public boolean execute(java.lang.String sql)"
                     + " throws java.sql.SQLException {\n" + "    return super.execute(sql);\n");
             methodDef.append("}\n");
             CtMethod ctSetMethod = CtMethod.make(methodDef.toString(), ctClassStatement);
-            // Method‚ğ’Ç‰Á‚·‚é
+            // Methodã‚’è¿½åŠ ã™ã‚‹
             ctClassStatement.addMethod(ctSetMethod);
 
             String tagKey = "javelin.jdbc.instrument.JdbcJavelinConverter.JDBCJavelinTag";
@@ -1014,11 +1014,11 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
     }
 
     /**
-     * Statement‚ğÀ‘•‚·‚éƒNƒ‰ƒX‚ÉexecuteQueryƒƒ\ƒbƒh‚ğ–„‚ß‚ŞB
-     * @param pool ƒNƒ‰ƒXƒv[ƒ‹
-     * @param className ƒNƒ‰ƒX–¼
-     * @throws NotFoundException executeQuery‚ªÀ‘•‚³‚ê‚Ä‚¢‚È‚¢‚Æ‚«B
-     * @throws CannotCompileException ƒRƒ“ƒpƒCƒ‹‚Å‚«‚È‚¢‚Æ‚«
+     * Statementã‚’å®Ÿè£…ã™ã‚‹ã‚¯ãƒ©ã‚¹ã«executeQueryãƒ¡ã‚½ãƒƒãƒ‰ã‚’åŸ‹ã‚è¾¼ã‚€ã€‚
+     * @param pool ã‚¯ãƒ©ã‚¹ãƒ—ãƒ¼ãƒ«
+     * @param className ã‚¯ãƒ©ã‚¹å
+     * @throws NotFoundException executeQueryãŒå®Ÿè£…ã•ã‚Œã¦ã„ãªã„ã¨ãã€‚
+     * @throws CannotCompileException ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã§ããªã„ã¨ã
      */
     private void addExecuteQueryMethodOfStatement(final ClassPool pool, final String className)
         throws NotFoundException,
@@ -1026,14 +1026,14 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
     {
         CtClass ctClassStatement = pool.get(className);
 
-        // ‚à‚µexecuteQueryƒƒ\ƒbƒh‚ª‚È‚¯‚ê‚Î’Ç‰Á‚·‚é
+        // ã‚‚ã—executeQueryãƒ¡ã‚½ãƒƒãƒ‰ãŒãªã‘ã‚Œã°è¿½åŠ ã™ã‚‹
         try
         {
             ctClassStatement.getDeclaredMethod("executeQuery");
         }
         catch (NotFoundException nfe)
         {
-            // Mehtod‚ğì‚é
+            // Mehtodã‚’ä½œã‚‹
             StringBuffer methodDef = new StringBuffer();
             methodDef.append("public java.sql.ResultSet executeQuery(java.lang.String sql)"
                     + " throws java.sql.SQLException {\n" 
@@ -1041,7 +1041,7 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
             methodDef.append("}\n");
 
             CtMethod ctSetMethod = CtMethod.make(methodDef.toString(), ctClassStatement);
-            // Method‚ğ’Ç‰Á‚·‚é
+            // Methodã‚’è¿½åŠ ã™ã‚‹
 
             ctClassStatement.addMethod(ctSetMethod);
 
@@ -1055,11 +1055,11 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
     }
 
     /**
-     * Statement‚ğÀ‘•‚·‚éƒNƒ‰ƒX‚ÉexecuteUpdateƒƒ\ƒbƒh‚ğ–„‚ß‚ŞB
-     * @param pool ƒNƒ‰ƒXƒv[ƒ‹
-     * @param className ƒNƒ‰ƒX–¼
-     * @throws NotFoundException executeUpdate‚ªÀ‘•‚³‚ê‚Ä‚¢‚È‚¢‚Æ‚«B
-     * @throws CannotCompileException ƒRƒ“ƒpƒCƒ‹‚Å‚«‚È‚¢‚Æ‚«
+     * Statementã‚’å®Ÿè£…ã™ã‚‹ã‚¯ãƒ©ã‚¹ã«executeUpdateãƒ¡ã‚½ãƒƒãƒ‰ã‚’åŸ‹ã‚è¾¼ã‚€ã€‚
+     * @param pool ã‚¯ãƒ©ã‚¹ãƒ—ãƒ¼ãƒ«
+     * @param className ã‚¯ãƒ©ã‚¹å
+     * @throws NotFoundException executeUpdateãŒå®Ÿè£…ã•ã‚Œã¦ã„ãªã„ã¨ãã€‚
+     * @throws CannotCompileException ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã§ããªã„ã¨ã
      */
     private void addExecuteUpdateMethodOfStatement(final ClassPool pool, final String className)
         throws NotFoundException,
@@ -1067,21 +1067,21 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
     {
         CtClass ctClassStatement = pool.get(className);
 
-        // ‚à‚µexecuteUpdateƒƒ\ƒbƒh‚ª‚È‚¯‚ê‚Î’Ç‰Á‚·‚é
+        // ã‚‚ã—executeUpdateãƒ¡ã‚½ãƒƒãƒ‰ãŒãªã‘ã‚Œã°è¿½åŠ ã™ã‚‹
         try
         {
             ctClassStatement.getDeclaredMethod("executeUpdate");
         }
         catch (NotFoundException nfe)
         {
-            // Mehtod‚ğì‚é
+            // Mehtodã‚’ä½œã‚‹
             StringBuffer methodDef = new StringBuffer();
             methodDef.append("public int executeUpdate(java.lang.String sql)"
                     + " throws java.sql.SQLException {\n"
                     + "    return super.executeUpdate(sql);\n");
             methodDef.append("}\n");
             CtMethod ctSetMethod = CtMethod.make(methodDef.toString(), ctClassStatement);
-            // Method‚ğ’Ç‰Á‚·‚é
+            // Methodã‚’è¿½åŠ ã™ã‚‹
             ctClassStatement.addMethod(ctSetMethod);
 
             String tagKey = "javelin.jdbc.instrument.JdbcJavelinConverter.JDBCJavelinTag";
@@ -1094,11 +1094,11 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
     }
 
     /**
-     * Statement‚ğÀ‘•‚·‚éƒNƒ‰ƒX‚ÉexecuteBatchƒƒ\ƒbƒh‚ğ–„‚ß‚ŞB
-     * @param pool ƒNƒ‰ƒXƒv[ƒ‹
-     * @param className ƒNƒ‰ƒX–¼
-     * @throws NotFoundException executeBatch‚ªÀ‘•‚³‚ê‚Ä‚¢‚È‚¢‚Æ‚«B
-     * @throws CannotCompileException ƒRƒ“ƒpƒCƒ‹‚Å‚«‚È‚¢‚Æ‚«
+     * Statementã‚’å®Ÿè£…ã™ã‚‹ã‚¯ãƒ©ã‚¹ã«executeBatchãƒ¡ã‚½ãƒƒãƒ‰ã‚’åŸ‹ã‚è¾¼ã‚€ã€‚
+     * @param pool ã‚¯ãƒ©ã‚¹ãƒ—ãƒ¼ãƒ«
+     * @param className ã‚¯ãƒ©ã‚¹å
+     * @throws NotFoundException executeBatchãŒå®Ÿè£…ã•ã‚Œã¦ã„ãªã„ã¨ãã€‚
+     * @throws CannotCompileException ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã§ããªã„ã¨ã
      */
     private void addExecuteBatchMethodOfStatement(final ClassPool pool, final String className)
         throws NotFoundException,
@@ -1106,20 +1106,20 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
     {
         CtClass ctClassStatement = pool.get(className);
 
-        // ‚à‚µexecuteBatchƒƒ\ƒbƒh‚ª‚È‚¯‚ê‚Î’Ç‰Á‚·‚é
+        // ã‚‚ã—executeBatchãƒ¡ã‚½ãƒƒãƒ‰ãŒãªã‘ã‚Œã°è¿½åŠ ã™ã‚‹
         try
         {
             ctClassStatement.getDeclaredMethod("executeBatch");
         }
         catch (NotFoundException nfe)
         {
-            // Mehtod‚ğì‚é
+            // Mehtodã‚’ä½œã‚‹
             StringBuffer methodDef = new StringBuffer();
             methodDef.append("public int[] executeBatch()" + " throws java.sql.SQLException {\n"
                     + "    return super.executeBatch();\n");
             methodDef.append("}\n");
             CtMethod ctSetMethod = CtMethod.make(methodDef.toString(), ctClassStatement);
-            // Method‚ğ’Ç‰Á‚·‚é
+            // Methodã‚’è¿½åŠ ã™ã‚‹
             ctClassStatement.addMethod(ctSetMethod);
 
             String tagKey = "javelin.jdbc.instrument.JdbcJavelinConverter.JDBCJavelinTag";
@@ -1132,12 +1132,12 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
     }
 
     /**
-     * clearBatchƒƒ\ƒbƒh‚ğ–„‚ß‚ŞB
-     * @param pool ƒNƒ‰ƒXƒv[ƒ‹
-     * @param className ƒNƒ‰ƒX–¼
-     * @param code ƒR[ƒh
-     * @throws NotFoundException clearBatch‚ªÀ‘•‚³‚ê‚Ä‚¢‚È‚¢‚Æ‚«B
-     * @throws CannotCompileException ƒRƒ“ƒpƒCƒ‹‚Å‚«‚È‚¢‚Æ‚«
+     * clearBatchãƒ¡ã‚½ãƒƒãƒ‰ã‚’åŸ‹ã‚è¾¼ã‚€ã€‚
+     * @param pool ã‚¯ãƒ©ã‚¹ãƒ—ãƒ¼ãƒ«
+     * @param className ã‚¯ãƒ©ã‚¹å
+     * @param code ã‚³ãƒ¼ãƒ‰
+     * @throws NotFoundException clearBatchãŒå®Ÿè£…ã•ã‚Œã¦ã„ãªã„ã¨ãã€‚
+     * @throws CannotCompileException ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã§ããªã„ã¨ã
      */
     private void addClearBatchMethod(final ClassPool pool, final String className, final String code)
         throws NotFoundException,
@@ -1150,11 +1150,11 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
     }
 
     /**
-     * closeƒƒ\ƒbƒh‚ğ–„‚ß‚ŞB
-     * @param pool ƒNƒ‰ƒXƒv[ƒ‹
-     * @param className ƒNƒ‰ƒX–¼
-     * @throws NotFoundException close‚ªÀ‘•‚³‚ê‚Ä‚¢‚È‚¢‚Æ‚«B
-     * @throws CannotCompileException ƒRƒ“ƒpƒCƒ‹‚Å‚«‚È‚¢‚Æ‚«
+     * closeãƒ¡ã‚½ãƒƒãƒ‰ã‚’åŸ‹ã‚è¾¼ã‚€ã€‚
+     * @param pool ã‚¯ãƒ©ã‚¹ãƒ—ãƒ¼ãƒ«
+     * @param className ã‚¯ãƒ©ã‚¹å
+     * @throws NotFoundException closeãŒå®Ÿè£…ã•ã‚Œã¦ã„ãªã„ã¨ãã€‚
+     * @throws CannotCompileException ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã§ããªã„ã¨ã
      */
     private void addCloseMethod(final ClassPool pool, final String className)
         throws NotFoundException,

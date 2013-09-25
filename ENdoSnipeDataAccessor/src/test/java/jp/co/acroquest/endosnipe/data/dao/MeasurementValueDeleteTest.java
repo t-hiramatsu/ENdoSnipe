@@ -61,11 +61,11 @@ public class MeasurementValueDeleteTest extends AbstractDaoTest
 
     public void testDeleteOldRecord1()
     {
-        // ğŒ
-        // --> DB“o˜^Ï‚İƒf[ƒ^
+        // æ¡ä»¶
+        // --> DBç™»éŒ²æ¸ˆã¿ãƒ‡ãƒ¼ã‚¿
         initDatabase();
         
-        // À{
+        // å®Ÿæ–½
         try
         {
             SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -81,7 +81,7 @@ public class MeasurementValueDeleteTest extends AbstractDaoTest
             fail(ex1.getMessage());
         }
         
-        // ŒŸØ
+        // æ¤œè¨¼
         List<Object> actualList = new ArrayList<Object>();
         try
         {
@@ -103,11 +103,11 @@ public class MeasurementValueDeleteTest extends AbstractDaoTest
     
     public void testDeleteOldRecord2()
     {
-        // ğŒ
-        // --> DB“o˜^Ï‚İƒf[ƒ^
+        // æ¡ä»¶
+        // --> DBç™»éŒ²æ¸ˆã¿ãƒ‡ãƒ¼ã‚¿
         initDatabase();
         
-        // À{
+        // å®Ÿæ–½
         try
         {
             SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -123,7 +123,7 @@ public class MeasurementValueDeleteTest extends AbstractDaoTest
             fail(ex1.getMessage());
         }
         
-        // ŒŸØ
+        // æ¤œè¨¼
         List<Object> actualList = new ArrayList<Object>();
         try
         {
@@ -142,9 +142,9 @@ public class MeasurementValueDeleteTest extends AbstractDaoTest
 
     public void testDeleteOldRecord3()
     {
-        // ğŒ
+        // æ¡ä»¶
         
-        // À{
+        // å®Ÿæ–½
         try
         {
             SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -160,7 +160,7 @@ public class MeasurementValueDeleteTest extends AbstractDaoTest
             fail(ex1.getMessage());
         }
         
-        // ŒŸØ
+        // æ¤œè¨¼
         List<Object> actualList = new ArrayList<Object>();
         try
         {
@@ -176,11 +176,11 @@ public class MeasurementValueDeleteTest extends AbstractDaoTest
     
     public void testDeleteAll1()
     {
-        // ğŒ
-        // --> DB“o˜^Ï‚İƒf[ƒ^
+        // æ¡ä»¶
+        // --> DBç™»éŒ²æ¸ˆã¿ãƒ‡ãƒ¼ã‚¿
         initDatabase();
         
-        // À{
+        // å®Ÿæ–½
         try
         {
             MeasurementValueDao.deleteAll(DB_NAME);
@@ -190,7 +190,7 @@ public class MeasurementValueDeleteTest extends AbstractDaoTest
             fail(ex1.getMessage());
         }
         
-        // ŒŸØ
+        // æ¤œè¨¼
         List<Object> actualList = new ArrayList<Object>();
         try
         {
@@ -206,9 +206,9 @@ public class MeasurementValueDeleteTest extends AbstractDaoTest
     
     public void testDeleteAll2()
     {
-        // ğŒ
+        // æ¡ä»¶
         
-        // À{
+        // å®Ÿæ–½
         try
         {
             MeasurementValueDao.deleteAll(DB_NAME);
@@ -218,7 +218,7 @@ public class MeasurementValueDeleteTest extends AbstractDaoTest
             fail(ex1.getMessage());
         }
         
-        // ŒŸØ
+        // æ¤œè¨¼
         List<Object> actualList = new ArrayList<Object>();
         try
         {

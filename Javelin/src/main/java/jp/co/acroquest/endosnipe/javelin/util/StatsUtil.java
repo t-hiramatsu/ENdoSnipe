@@ -26,33 +26,34 @@
 package jp.co.acroquest.endosnipe.javelin.util;
 
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
+import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 
 /**
- * î•ñ•\¦‚ÉŠÖ‚·‚éƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒX‚Å‚·B<br />
+ * æƒ…å ±è¡¨ç¤ºã«é–¢ã™ã‚‹ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  * 
  * @author eriguchi
  */
 public class StatsUtil
 {
-    /** •ÏŠ·ƒtƒH[ƒ}ƒbƒg */
+    /** å¤‰æ›ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ */
     private static final int EXCHANGE_FORMAT = 0xFF;
     
-    /** ƒJƒEƒ“ƒg‚ÌÅ‘å” */
+    /** ã‚«ã‚¦ãƒ³ãƒˆã®æœ€å¤§æ•° */
     private static final int MAX_COUNT = 8;
     
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      */
     private StatsUtil()
     {
     }
 
     /**
-     * ƒXƒŒƒbƒh‚ğ¯•Ê‚·‚é‚½‚ß‚Ì•¶š—ñ‚ğo—Í‚·‚éB <br>
-     * ƒtƒH[ƒ}ƒbƒgFƒXƒŒƒbƒh–¼@ƒXƒŒƒbƒhƒNƒ‰ƒX–¼@ƒXƒŒƒbƒhƒIƒuƒWƒFƒNƒg‚ÌID<br>
+     * ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’è­˜åˆ¥ã™ã‚‹ãŸã‚ã®æ–‡å­—åˆ—ã‚’å‡ºåŠ›ã™ã‚‹ã€‚ <br>
+     * ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆï¼šã‚¹ãƒ¬ãƒƒãƒ‰å@ã‚¹ãƒ¬ãƒƒãƒ‰ã‚¯ãƒ©ã‚¹å@ã‚¹ãƒ¬ãƒƒãƒ‰ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ID<br>
      * 
-     * @param currentThread ƒAƒNƒZƒX’†‚ÌƒXƒŒƒbƒh
-     * @return ƒXƒŒƒbƒh‚ğ¯•Ê‚·‚é‚½‚ß‚Ì•¶š—ñ
+     * @param currentThread ã‚¢ã‚¯ã‚»ã‚¹ä¸­ã®ã‚¹ãƒ¬ãƒƒãƒ‰
+     * @return ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’è­˜åˆ¥ã™ã‚‹ãŸã‚ã®æ–‡å­—åˆ—
      */
     public static String createThreadIDText(final Thread currentThread)
     {
@@ -69,10 +70,10 @@ public class StatsUtil
     }
 
     /**
-     * ƒXƒŒƒbƒh‚ğ¯•Ê‚·‚é‚½‚ß‚Ì•¶š—ñ‚ğo—Í‚·‚éB 
-     * ƒtƒH[ƒ}ƒbƒgFƒXƒŒƒbƒh–¼@ƒXƒŒƒbƒhƒNƒ‰ƒX–¼@ƒXƒŒƒbƒhƒIƒuƒWƒFƒNƒg‚ÌID
+     * ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’è­˜åˆ¥ã™ã‚‹ãŸã‚ã®æ–‡å­—åˆ—ã‚’å‡ºåŠ›ã™ã‚‹ã€‚ 
+     * ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆï¼šã‚¹ãƒ¬ãƒƒãƒ‰å@ã‚¹ãƒ¬ãƒƒãƒ‰ã‚¯ãƒ©ã‚¹å@ã‚¹ãƒ¬ãƒƒãƒ‰ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ID
      * 
-     * @return ƒXƒŒƒbƒh‚ğ¯•Ê‚·‚é‚½‚ß‚Ì•¶š—ñ
+     * @return ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’è­˜åˆ¥ã™ã‚‹ãŸã‚ã®æ–‡å­—åˆ—
      */
     public static String createThreadIDText()
     {
@@ -81,14 +82,14 @@ public class StatsUtil
     }
 
     /**
-     * ƒIƒuƒWƒFƒNƒgID‚ğ16iŒ`®‚Ì•¶š—ñ‚Æ‚µ‚Äæ“¾‚·‚éB
+     * ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆIDã‚’16é€²å½¢å¼ã®æ–‡å­—åˆ—ã¨ã—ã¦å–å¾—ã™ã‚‹ã€‚
      * 
-     * @param object ƒIƒuƒWƒFƒNƒgID‚ğæ“¾ƒIƒuƒWƒFƒNƒgB
-     * @return ƒIƒuƒWƒFƒNƒgIDB
+     * @param object ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆIDã‚’å–å¾—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚
+     * @return ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆIDã€‚
      */
     public static String getObjectID(final Object object)
     {
-        // ˆø”‚ªnull‚Ìê‡‚Í"null"‚ğ•Ô‚·B
+        // å¼•æ•°ãŒnullã®å ´åˆã¯"null"ã‚’è¿”ã™ã€‚
         if (object == null)
         {
             return "null";
@@ -98,9 +99,9 @@ public class StatsUtil
     }
 
     /**
-     * ƒIƒuƒWƒFƒNƒg‚Ì¯•Êq‚ğì¬‚·‚éB
-     * @param obj ƒIƒuƒWƒFƒNƒg
-     * @return ƒIƒuƒWƒFƒNƒg‚Ì¯•Êq
+     * ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®è­˜åˆ¥å­ã‚’ä½œæˆã™ã‚‹ã€‚
+     * @param obj ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @return ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®è­˜åˆ¥å­
      */
     public static String createIdentifier(final Object obj)
     {
@@ -108,18 +109,18 @@ public class StatsUtil
     }
 
     /**
-     * object‚ğtoString‚Å•¶š—ñ‚É•ÏŠ·‚·‚éB
+     * objectã‚’toStringã§æ–‡å­—åˆ—ã«å¤‰æ›ã™ã‚‹ã€‚
      * 
-     * toString‚Å—áŠO‚ª”­¶‚µ‚½ê‡‚ÍA
-     * •W€ƒGƒ‰[o—Í‚Éobject‚ÌƒNƒ‰ƒX–¼‚ÆƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğo—Í‚µA
-     * ƒNƒ‰ƒX–¼@ƒIƒuƒWƒFƒNƒgID‚ğ•Ô‚·B
+     * toStringã§ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆã¯ã€
+     * æ¨™æº–ã‚¨ãƒ©ãƒ¼å‡ºåŠ›ã«objectã®ã‚¯ãƒ©ã‚¹åã¨ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’å‡ºåŠ›ã—ã€
+     * ã‚¯ãƒ©ã‚¹å@ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆIDã‚’è¿”ã™ã€‚
      * 
-     * @param object ƒIƒuƒWƒFƒNƒg
-     * @return toString‚Åobject‚ğ•¶š—ñ‰»‚µ‚½‚à‚ÌB
+     * @param object ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @return toStringã§objectã‚’æ–‡å­—åˆ—åŒ–ã—ãŸã‚‚ã®ã€‚
      */
     public static String toStr(final Object object)
     {
-        // ˆø”‚ªnull‚Ìê‡‚Í"null"‚ğ•Ô‚·B
+        // å¼•æ•°ãŒnullã®å ´åˆã¯"null"ã‚’è¿”ã™ã€‚
         if (object == null)
         {
             return "null";
@@ -141,20 +142,20 @@ public class StatsUtil
     }
 
     /**
-     * object‚ğtoString‚Å•¶š—ñ‚É•ÏŠ·Aw’è’·‚ÅØ‚éB
+     * objectã‚’toStringã§æ–‡å­—åˆ—ã«å¤‰æ›ã€æŒ‡å®šé•·ã§åˆ‡ã‚‹ã€‚
      * 
-     * toString‚Å—áŠO‚ª”­¶‚µ‚½ê‡‚ÍA
-     * •W€ƒGƒ‰[o—Í‚Éobject‚ÌƒNƒ‰ƒX–¼‚ÆƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğo—Í‚µA
-     * ƒNƒ‰ƒX–¼@ƒIƒuƒWƒFƒNƒgID‚ğ•Ô‚·B
-     * w’è’·‚ğ’´‚¦‚Ä‚¢‚éê‡‚Íw’è’·‚ÅØ‚èA"..."‚ğ•t—^‚·‚éB
+     * toStringã§ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆã¯ã€
+     * æ¨™æº–ã‚¨ãƒ©ãƒ¼å‡ºåŠ›ã«objectã®ã‚¯ãƒ©ã‚¹åã¨ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’å‡ºåŠ›ã—ã€
+     * ã‚¯ãƒ©ã‚¹å@ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆIDã‚’è¿”ã™ã€‚
+     * æŒ‡å®šé•·ã‚’è¶…ãˆã¦ã„ã‚‹å ´åˆã¯æŒ‡å®šé•·ã§åˆ‡ã‚Šã€"..."ã‚’ä»˜ä¸ã™ã‚‹ã€‚
      * 
-     * @param object •¶š—ñ‰»‘ÎÛƒIƒuƒWƒFƒNƒg
-     * @param length •¶š—ñw’è’·(•‰‚Ì’l‚ªw’è‚³‚ê‚½ê‡‚Íw’è’·‚ÅØ‚éˆ—‚ğs‚í‚È‚¢)
-     * @return toString‚Å•¶š—ñ‚É•ÏŠ·‚µAw’è’·‚ÅØ‚Á‚½‚à‚ÌB
+     * @param object æ–‡å­—åˆ—åŒ–å¯¾è±¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param length æ–‡å­—åˆ—æŒ‡å®šé•·(è² ã®å€¤ãŒæŒ‡å®šã•ã‚ŒãŸå ´åˆã¯æŒ‡å®šé•·ã§åˆ‡ã‚‹å‡¦ç†ã‚’è¡Œã‚ãªã„)
+     * @return toStringã§æ–‡å­—åˆ—ã«å¤‰æ›ã—ã€æŒ‡å®šé•·ã§åˆ‡ã£ãŸã‚‚ã®ã€‚
      */
     public static String toStr(final Object object, final int length)
     {
-        // ˆø”‚ªnull‚Ìê‡‚Í"null"‚ğ•Ô‚·B
+        // å¼•æ•°ãŒnullã®å ´åˆã¯"null"ã‚’è¿”ã™ã€‚
         if (object == null)
         {
             return "null";
@@ -185,10 +186,10 @@ public class StatsUtil
     }
 
     /**
-     * ƒoƒCƒg—ñ‚ğbyte[length]:FFFF...Œ`®‚É•ÏŠ·Aw’è’·‚ÅØ‚éB
+     * ãƒã‚¤ãƒˆåˆ—ã‚’byte[length]:FFFF...å½¢å¼ã«å¤‰æ›ã€æŒ‡å®šé•·ã§åˆ‡ã‚‹ã€‚
      * 
-     * @param binary ƒoƒCƒiƒŠ
-     * @return ƒoƒCƒg—ñ‚ğbyte[length]:FFFF...Œ`®‚É•ÏŠ·Aw’è’·‚ÅØ‚Á‚½‚à‚ÌB
+     * @param binary ãƒã‚¤ãƒŠãƒª
+     * @return ãƒã‚¤ãƒˆåˆ—ã‚’byte[length]:FFFF...å½¢å¼ã«å¤‰æ›ã€æŒ‡å®šé•·ã§åˆ‡ã£ãŸã‚‚ã®ã€‚
      */
     public static String toStr(final byte binary)
     {
@@ -198,14 +199,14 @@ public class StatsUtil
     }
 
     /**
-     * ƒoƒCƒg—ñ‚ğbyte[length]:FFFF...Œ`®‚É•ÏŠ·(Å‘å‚Åæ“ª8ƒoƒCƒg‚ğ16io—Í)B
+     * ãƒã‚¤ãƒˆåˆ—ã‚’byte[length]:FFFF...å½¢å¼ã«å¤‰æ›(æœ€å¤§ã§å…ˆé ­8ãƒã‚¤ãƒˆã‚’16é€²å‡ºåŠ›)ã€‚
      * 
-     * @param binary ƒoƒCƒiƒŠ
-     * @return ƒoƒCƒg—ñ‚ğbyte[length]:FFFF...Œ`®‚É•ÏŠ·(Å‘å‚Åæ“ª8ƒoƒCƒg‚ğ16io—Í)‚µ‚½‚à‚ÌB
+     * @param binary ãƒã‚¤ãƒŠãƒª
+     * @return ãƒã‚¤ãƒˆåˆ—ã‚’byte[length]:FFFF...å½¢å¼ã«å¤‰æ›(æœ€å¤§ã§å…ˆé ­8ãƒã‚¤ãƒˆã‚’16é€²å‡ºåŠ›)ã—ãŸã‚‚ã®ã€‚
      */
     public static String toStr(final byte[] binary)
     {
-        // ˆø”‚ªnull‚Ìê‡‚Í"null"‚ğ•Ô‚·B
+        // å¼•æ•°ãŒnullã®å ´åˆã¯"null"ã‚’è¿”ã™ã€‚
         if (binary == null)
         {
             return "null";
@@ -232,12 +233,12 @@ public class StatsUtil
     }
 
     /**
-     * Object‚Ìî•ño—Í‚ğs‚¤
-     * o—Í[“x‚É‚ ‚í‚¹AƒtƒB[ƒ‹ƒh‚ğ’H‚é‚©‚»‚Ìê‚Åo—Í‚·‚é‚©”»’è‚·‚é
+     * Objectã®æƒ…å ±å‡ºåŠ›ã‚’è¡Œã†
+     * å‡ºåŠ›æ·±åº¦ã«ã‚ã‚ã›ã€ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã‚’è¾¿ã‚‹ã‹ãã®å ´ã§å‡ºåŠ›ã™ã‚‹ã‹åˆ¤å®šã™ã‚‹
      * 
-     * @param object       o—Í‘ÎÛƒIƒuƒWƒFƒNƒg
-     * @param detailDepth  o—Í[“x
-     * @return             o—ÍŒ‹‰Ê
+     * @param object       å‡ºåŠ›å¯¾è±¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param detailDepth  å‡ºåŠ›æ·±åº¦
+     * @return             å‡ºåŠ›çµæœ
      */
     public static String buildDetailString(final Object object, final int detailDepth)
     {
@@ -245,23 +246,23 @@ public class StatsUtil
     }
 
     /**
-     * ToString‚ÌŒ‹‰Ê‚ğ•Ô‚·
+     * ToStringã®çµæœã‚’è¿”ã™
      * 
-     * @param object •ÏŠ·‘ÎÛ
-     * @return       ToString‚ÌŒ‹‰Ê
+     * @param object å¤‰æ›å¯¾è±¡
+     * @return       ToStringã®çµæœ
      */
     public static String buildString(final Object object)
     {
-        //toString‚Í—áŠO‚ğ”­¶‚³‚¹‚é‚±‚Æ‚ª‚ ‚é‚½‚ßA”­¶‚Í
-        //"????"‚Æ‚¢‚¤•¶š—ñ‚ğ•Ô‚·‚æ‚¤‚É‚·‚éB
+        //toStringã¯ä¾‹å¤–ã‚’ç™ºç”Ÿã•ã›ã‚‹ã“ã¨ãŒã‚ã‚‹ãŸã‚ã€ç™ºç”Ÿæ™‚ã¯
+        //"????"ã¨ã„ã†æ–‡å­—åˆ—ã‚’è¿”ã™ã‚ˆã†ã«ã™ã‚‹ã€‚
         return DetailStringBuilder.buildString(object);
     }
 
     /**
-     * w’è‚µ‚½•¶š—ñ‚Ìw’è‚µ‚½’·‚³‚Ü‚Å‚Ì•¶š—ñ‚ğæ“¾‚µ‚Ü‚·B
-     * @param str •¶š—ñ
-     * @param maxLength ’·‚³
-     * @return ŠY“–•¶š—ñ
+     * æŒ‡å®šã—ãŸæ–‡å­—åˆ—ã®æŒ‡å®šã—ãŸé•·ã•ã¾ã§ã®æ–‡å­—åˆ—ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @param str æ–‡å­—åˆ—
+     * @param maxLength é•·ã•
+     * @return è©²å½“æ–‡å­—åˆ—
      */
     public static String substring(String str, int maxLength)
     {
@@ -276,6 +277,41 @@ public class StatsUtil
         }
         
         return str.substring(0, maxLength);
+    }
+
+    /**
+     * set the prefix of the node according to the starting node name
+     * @param name node name from invocation
+     * @return prefix for node
+     */
+    public static String addPrefix(String name)
+    {
+        String prefixedName = null;
+        if (name.startsWith("/"))
+        {
+            prefixedName = TelegramConstants.PREFIX_PROCESS_RESPONSE_SERVLET + name;
+        }
+        else if (name.startsWith("jdbc:"))
+        {
+            String dbmsName = null;
+            String query = null;
+            int indexOfSharp = name.indexOf('#');
+            if(indexOfSharp >= 0)
+            {
+                dbmsName = name.substring("jdbc:".length(), indexOfSharp);
+                dbmsName = dbmsName.replace("/", "&#47;");
+                if(indexOfSharp < name.length())
+                {
+                    query = name.substring(indexOfSharp + 1, name.length());
+                }
+            }
+            prefixedName = TelegramConstants.PREFIX_PROCESS_RESPONSE_JDBC + dbmsName + "/" + query;
+        }
+        else
+        {
+            prefixedName = TelegramConstants.PREFIX_PROCESS_RESPONSE_METHOD + name;
+        }
+        return prefixedName;
     }
 
 }

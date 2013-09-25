@@ -110,10 +110,10 @@ ENS.treeView = wgp.TreeView
 					var idAttribute = treeModel.idAttribute;
 					var targetTag;
 					var addPlace = "";
-					
+
 					if (parentTreeId !== null && parentTreeId !== undefined) {
 						var topNodeNum = $("#tree_area > ul > li").length;
-						
+
 						// Topノードがすでにあるときに、Topノードを追加する時は、他のTopノードの後に追加する。
 						// そうでない場合は、親ノードの下にノードを作成する。
 						if (topNodeNum !== 0 && parentTreeId === "") {
@@ -121,7 +121,8 @@ ENS.treeView = wgp.TreeView
 							targetTag = $("#tree_area ul li")[topNodeNum - 1];
 						} else {
 							addPlace = "last";
-							targetTag = this.getTreeNode(parentTreeId, idAttribute);
+							targetTag = this.getTreeNode(parentTreeId,
+									idAttribute);
 						}
 					}
 
@@ -421,9 +422,7 @@ ENS.treeView = wgp.TreeView
 								/\s+/g, "");
 						$("#multipleResourceGraphName").val(
 								targetNodeName + " Graph");
-						// Matching Patternにデフォルトのツリー階層を入力する
 
-						// 編集の場合は事前に値を設定する。
 					} else if (id == ENS.tree.EDIT_MULTIPLE_RESOURCE_GRAPH_TYPE) {
 						$('#multipleResourceGraphName').attr("disabled", true);
 						$('#multipleResourceGraphLstBox2').empty();
@@ -623,7 +622,7 @@ ENS.treeView = wgp.TreeView
 			},
 			mulResGraphPushOkFunction : function(event, option) {
 
-				// add tree data for signal
+				// add tree data for multipleResourceGraph
 				var treeId = option.treeId;
 				var mulResGraphDispalyName = $("#multipleResourceGraphName")
 						.val();
@@ -636,14 +635,12 @@ ENS.treeView = wgp.TreeView
 				// サーバに送信するデータ
 				var sendData;
 				// Ajax通信のコールバック関数と送信先URLを追加か編集かによって決める
-				// シグナル追加時
 				if (option.signalType == ENS.tree.ADD_MULTIPLE_RESOURCE_GRAPH_TYPE) {
 					sendData = this
 							.createSendAddMulResGraphData_(mulResGraphName);
 					callbackFunction = "callbackAddMulResGraph_";
 					url = ENS.tree.MULTIPLE_RESOURCE_GRAPH_ADD_URL;
 
-					// シグナル編集時
 				} else if (option.signalType == ENS.tree.EDIT_MULTIPLE_RESOURCE_GRAPH_TYPE) {
 
 					sendData = this
@@ -664,7 +661,7 @@ ENS.treeView = wgp.TreeView
 				settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = callbackFunction;
 				ajaxHandler.requestServerAsync(settings);
 
-				// 閾値判定定義の入力内容をクリアする。
+				// 複数グラフ定義の入力内容をクリアする。
 				this.clearMulResGraphDialog_();
 			},
 			/** 閾値判定の定義を入力をキャンセルした場合に実行するメソッド */
@@ -674,7 +671,7 @@ ENS.treeView = wgp.TreeView
 				this.clearMulResGraphDialog_();
 			},
 			/**
-			 * シグナル新規追加時の送信データを生成する。
+			 * 複数グラフ新規追加時の送信データを生成する。
 			 */
 			createSendAddMulResGraphData_ : function(mulResGraphName) {
 				// 入力された秒をミリ秒に変換する
@@ -684,16 +681,16 @@ ENS.treeView = wgp.TreeView
 						.map(function() {
 							return $(this).val();
 						});
-				
+
 				measurementItem = measurementList.get(0);
-				for (var i = 1; i < measurementList.length; i++) {
+				for ( var i = 1; i < measurementList.length; i++) {
 
 					measurementItem = measurementItem + ","
 							+ measurementList.get(i);
 
 				}
 
-				// シグナル定義を作成する
+				// 複数グラフ定義を作成する
 				var mulResGraphDefinition = {
 					multipleResourceGraphId : $("#mulResGraphId").val(),
 					multipleResourceGraphName : mulResGraphName,
@@ -708,7 +705,7 @@ ENS.treeView = wgp.TreeView
 				return sendData;
 			},
 			/**
-			 * シグナル編集時の送信データを生成する。
+			 * 複数グラフ編集時の送信データを生成する。
 			 */
 			createSendEditMulResGraphData_ : function(mulResGraphName) {
 
@@ -720,14 +717,14 @@ ENS.treeView = wgp.TreeView
 						});
 
 				measurementItem = measurementList.get(0);
-				for (var i = 1; i < measurementList.length; i++) {
+				for ( var i = 1; i < measurementList.length; i++) {
 
 					measurementItem = measurementItem + ","
 							+ measurementList.get(i);
 
 				}
 
-				// シグナル定義を作成する
+				// 複数グラフ定義を作成する
 				var mulResGraphDefinition = {
 					multipleResourceGraphId : $("#mulResGraphId").val(),
 					multipleResourceGraphName : mulResGraphName,
@@ -860,7 +857,7 @@ ENS.treeView = wgp.TreeView
 				ajaxHandler.requestServerAsync(settings);
 			},
 			getAllMulResGraph_ : function() {
-				// シグナル定義を取得する
+				// multipleResourceGraph定義を取得する
 				// Ajax通信用の設定
 
 				var settings = {
@@ -908,7 +905,9 @@ ENS.treeView = wgp.TreeView
 				// renderのADDを実行する権限を与える
 				ENS.tree.doRender = true;
 			},
-
+			callbackAddMulResGraph_ : function() {
+				// Do nothing
+			},
 			callbackGetAllMulResGraph_ : function(mulResGraphDefinitionList) {
 				var instance = this;
 				var addOptionList = [];
@@ -1023,9 +1022,6 @@ ENS.treeView = wgp.TreeView
 			callbackAddReport_ : function(reportDefinition) {
 				// TODO レポート一覧テーブルが表示されているときはリロードする
 			},
-			/**
-			 * シグナル編集操作の結果を表示する。
-			 */
 			callbackEditMulResGraph_ : function(responseDto) {
 				var result = responseDto.result;
 
@@ -1222,7 +1218,7 @@ ENS.treeView = wgp.TreeView
 								multipleResourceGraphDefinition.multipleResourceGraphName);
 				var measurementList = multipleResourceGraphDefinition.measurementItemIdList
 						.split(",");
-				for (var i = 0; i < measurementList.length; i++) {
+				for ( var i = 0; i < measurementList.length; i++) {
 					$('#multipleResourceGraphLstBox2').append(
 							"<option value='" + measurementList[i] + "'>"
 									+ measurementList[i] + "</option>");

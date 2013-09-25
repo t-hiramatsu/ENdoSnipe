@@ -38,7 +38,7 @@ import jp.co.acroquest.endosnipe.javelin.bean.FastInteger;
 import jp.co.acroquest.endosnipe.javelin.resource.TurnAroundTimeGroupGetter;
 
 /**
- * ƒCƒxƒ“ƒgí•Ê–ˆ‚ÌƒCƒxƒ“ƒg”­¶”‚ğ”‚¦‚éƒNƒ‰ƒXB<br />
+ * ã‚¤ãƒ™ãƒ³ãƒˆç¨®åˆ¥æ¯ã®ã‚¤ãƒ™ãƒ³ãƒˆç™ºç”Ÿæ•°ã‚’æ•°ãˆã‚‹ã‚¯ãƒ©ã‚¹ã€‚<br />
  * 
  * @author Sakamoto
  */
@@ -46,7 +46,7 @@ public class JavelinEventCounter implements JavelinConstants
 {
     private long poolStorePeriod_;
 
-    /** ƒCƒxƒ“ƒg–¼‚ğƒL[‚É‚µ‚½ƒCƒxƒ“ƒg”­¶‰ñ”‚Ìƒ}ƒbƒv */
+    /** ã‚¤ãƒ™ãƒ³ãƒˆåã‚’ã‚­ãƒ¼ã«ã—ãŸã‚¤ãƒ™ãƒ³ãƒˆç™ºç”Ÿå›æ•°ã®ãƒãƒƒãƒ— */
     private Map<String, FastInteger> eventCountMap_;
 
     private Map<String, FastInteger> prevEventCountMap_;
@@ -60,7 +60,7 @@ public class JavelinEventCounter implements JavelinConstants
     private TurnAroundTimeGroupGetter turnAroundTimeGroupGetter = new TurnAroundTimeGroupGetter();
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ğ‰B•Á‚µ‚Ü‚·B<br />
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã‚’éš è”½ã—ã¾ã™ã€‚<br />
      */
     private JavelinEventCounter()
     {
@@ -72,9 +72,9 @@ public class JavelinEventCounter implements JavelinConstants
     }
 
     /**
-     * ‚±‚ÌƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ã“ã®ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’è¿”ã—ã¾ã™ã€‚<br />
      * 
-     * @return ƒCƒ“ƒXƒ^ƒ“ƒX
+     * @return ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
      */
     public static JavelinEventCounter getInstance()
     {
@@ -82,12 +82,12 @@ public class JavelinEventCounter implements JavelinConstants
     }
 
     /**
-     * ƒCƒxƒ“ƒg’~ÏŠúŠÔ‚ğƒZƒbƒg‚µ‚Ü‚·B<br />
+     * ã‚¤ãƒ™ãƒ³ãƒˆè“„ç©æœŸé–“ã‚’ã‚»ãƒƒãƒˆã—ã¾ã™ã€‚<br />
      * 
-     * ƒCƒxƒ“ƒg’Ç‰Á‚ÉA‚·‚Å‚É‚±‚Ì’l‚ğ’´‚¦‚ÄƒCƒxƒ“ƒg‚ğ’~Ï‚³‚ê‚Ä‚¢‚½ê‡A ’~Ï‚µ‚½ƒCƒxƒ“ƒg”­¶”‚ğƒNƒŠƒA‚µ‚Ü‚·B<br />
+     * ã‚¤ãƒ™ãƒ³ãƒˆè¿½åŠ æ™‚ã«ã€ã™ã§ã«ã“ã®å€¤ã‚’è¶…ãˆã¦ã‚¤ãƒ™ãƒ³ãƒˆã‚’è“„ç©ã•ã‚Œã¦ã„ãŸå ´åˆã€ è“„ç©ã—ãŸã‚¤ãƒ™ãƒ³ãƒˆç™ºç”Ÿæ•°ã‚’ã‚¯ãƒªã‚¢ã—ã¾ã™ã€‚<br />
      * 
      * @param period
-     *            ŠúŠÔiƒ~ƒŠ•bj
+     *            æœŸé–“ï¼ˆãƒŸãƒªç§’ï¼‰
      */
     public void setPoolStorePeriod(final long period)
     {
@@ -95,12 +95,12 @@ public class JavelinEventCounter implements JavelinConstants
     }
 
     /**
-     * ƒCƒxƒ“ƒg‚ğ’Ç‰Á‚µ‚Ü‚·B<br />
+     * ã‚¤ãƒ™ãƒ³ãƒˆã‚’è¿½åŠ ã—ã¾ã™ã€‚<br />
      * 
-     * ‘O‰ñƒv[ƒ‹‚ğƒNƒŠƒA‚µ‚½‚©‚çƒCƒxƒ“ƒg’~ÏŠúŠÔ‚ª‰ß‚¬‚Ä‚¢‚éê‡‚ÍA ƒv[ƒ‹‚ğƒNƒŠƒA‚µ‚½Œã‚ÉƒCƒxƒ“ƒg‚ğ’Ç‰Á‚µ‚Ü‚·B<br />
+     * å‰å›ãƒ—ãƒ¼ãƒ«ã‚’ã‚¯ãƒªã‚¢ã—ãŸæ™‚åˆ»ã‹ã‚‰ã‚¤ãƒ™ãƒ³ãƒˆè“„ç©æœŸé–“ãŒéãã¦ã„ã‚‹å ´åˆã¯ã€ ãƒ—ãƒ¼ãƒ«ã‚’ã‚¯ãƒªã‚¢ã—ãŸå¾Œã«ã‚¤ãƒ™ãƒ³ãƒˆã‚’è¿½åŠ ã—ã¾ã™ã€‚<br />
      * 
      * @param event
-     *            Javelin ƒCƒxƒ“ƒg
+     *            Javelin ã‚¤ãƒ™ãƒ³ãƒˆ
      */
     public synchronized void addEvent(final CommonEvent event)
     {
@@ -138,11 +138,11 @@ public class JavelinEventCounter implements JavelinConstants
     }
 
     /**
-     * ƒCƒxƒ“ƒgí•Ê–ˆ‚ÌƒCƒxƒ“ƒg”­¶”‚ğæ“¾‚µ‚Ü‚·B<br />
+     * ã‚¤ãƒ™ãƒ³ãƒˆç¨®åˆ¥æ¯ã®ã‚¤ãƒ™ãƒ³ãƒˆç™ºç”Ÿæ•°ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      * 
-     * æ“¾ŒãAƒCƒxƒ“ƒg”­¶”‚ÍƒNƒŠƒA‚³‚ê‚Ü‚·B<br />
+     * å–å¾—å¾Œã€ã‚¤ãƒ™ãƒ³ãƒˆç™ºç”Ÿæ•°ã¯ã‚¯ãƒªã‚¢ã•ã‚Œã¾ã™ã€‚<br />
      * 
-     * @return ƒCƒxƒ“ƒg”­¶”‚Ìƒ}ƒbƒv
+     * @return ã‚¤ãƒ™ãƒ³ãƒˆç™ºç”Ÿæ•°ã®ãƒãƒƒãƒ—
      */
     public synchronized Map<String, FastInteger> takeEventCount()
     {
@@ -156,13 +156,13 @@ public class JavelinEventCounter implements JavelinConstants
     }
 
     /**
-     * ‘O‰ñ”­¶‚µ‚Ä‚¢‚½ƒCƒxƒ“ƒg‚Ì‚¤‚¿A¡‰ñ‚Í”­¶‚µ‚È‚©‚Á‚½ƒCƒxƒ“ƒg‚Ì”­¶”‚ğ <code>0</code> ‚É‚µ‚Ü‚·B<br />
+     * å‰å›ç™ºç”Ÿã—ã¦ã„ãŸã‚¤ãƒ™ãƒ³ãƒˆã®ã†ã¡ã€ä»Šå›ã¯ç™ºç”Ÿã—ãªã‹ã£ãŸã‚¤ãƒ™ãƒ³ãƒˆã®ç™ºç”Ÿæ•°ã‚’ <code>0</code> ã«ã—ã¾ã™ã€‚<br />
      * 
-     * ƒCƒxƒ“ƒg‚ª”­¶‚µ‚È‚©‚Á‚½ê‡‚ÍƒNƒ‰ƒCƒAƒ“ƒg‘¤‚É”­¶”‚ğ’Ê’m‚µ‚Ü‚¹‚ñ‚ªA ‘O‰ñƒCƒxƒ“ƒg‚ª”­¶‚µ‚Ä‚¢‚½ê‡A <code>0</code> ‚ğ’Ç‰Á‚·‚é‚±‚Æ‚É‚æ‚èA ƒOƒ‰ƒt•\¦‚Å
-     * <code>0</code> ‚ğ•\Œ»‚Å‚«‚é‚æ‚¤‚É‚È‚è‚Ü‚·B<br />
+     * ã‚¤ãƒ™ãƒ³ãƒˆãŒç™ºç”Ÿã—ãªã‹ã£ãŸå ´åˆã¯ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆå´ã«ç™ºç”Ÿæ•°ã‚’é€šçŸ¥ã—ã¾ã›ã‚“ãŒã€ å‰å›ã‚¤ãƒ™ãƒ³ãƒˆãŒç™ºç”Ÿã—ã¦ã„ãŸå ´åˆã€ <code>0</code> ã‚’è¿½åŠ ã™ã‚‹ã“ã¨ã«ã‚ˆã‚Šã€ ã‚°ãƒ©ãƒ•è¡¨ç¤ºã§
+     * <code>0</code> ã‚’è¡¨ç¾ã§ãã‚‹ã‚ˆã†ã«ãªã‚Šã¾ã™ã€‚<br />
      * 
      * @param currentCount
-     *            Œ»İ‚Ì”­¶”
+     *            ç¾åœ¨ã®ç™ºç”Ÿæ•°
      */
     private void addZeroCount(Map<String, FastInteger> currentCount)
     {
@@ -170,14 +170,14 @@ public class JavelinEventCounter implements JavelinConstants
         {
             if (!currentCount.containsKey(entry.getKey()) && entry.getValue().getValue() != 0)
             {
-                // ”­¶” 0 ‚ğ’Ç‰Á‚·‚é
+                // ç™ºç”Ÿæ•° 0 ã‚’è¿½åŠ ã™ã‚‹
                 currentCount.put(entry.getKey(), new FastInteger());
             }
         }
     }
 
     /**
-     * ƒCƒxƒ“ƒg’~ÏŠúŠÔ‚ğ’´‚¦‚½ƒCƒxƒ“ƒg‚ğƒNƒŠƒA‚µ‚Ü‚·B<br />
+     * ã‚¤ãƒ™ãƒ³ãƒˆè“„ç©æœŸé–“ã‚’è¶…ãˆãŸã‚¤ãƒ™ãƒ³ãƒˆã‚’ã‚¯ãƒªã‚¢ã—ã¾ã™ã€‚<br />
      */
     private void clearOldEvents()
     {

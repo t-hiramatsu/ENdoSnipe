@@ -28,18 +28,18 @@ package jp.co.acroquest.endosnipe.communicator;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 
 /**
- * “d•¶ˆ—ƒNƒ‰ƒX‚Ì‚½‚ß‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX‚Å‚·B<br />
+ * é›»æ–‡å‡¦ç†ã‚¯ãƒ©ã‚¹ã®ãŸã‚ã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã§ã™ã€‚<br />
  * 
  * @author y-komori
  */
 public interface TelegramListener
 {
     /**
-     * óM“d•¶‚ğˆ—‚µA‰“š“d•¶‚ğ•Ô‚µ‚Ü‚·B</br>
-     * ‰“š‚ğ•Ô‚³‚È‚¢ê‡A<code>null</code> ‚ğ•Ô‚µ‚Ü‚·B<br />
+     * å—ä¿¡é›»æ–‡ã‚’å‡¦ç†ã—ã€å¿œç­”é›»æ–‡ã‚’è¿”ã—ã¾ã™ã€‚</br>
+     * å¿œç­”ã‚’è¿”ã•ãªã„å ´åˆã€<code>null</code> ã‚’è¿”ã—ã¾ã™ã€‚<br />
      * 
-     * @param telegram óM“d•¶ 
-     * @return ‰“š“d•¶
+     * @param telegram å—ä¿¡é›»æ–‡ 
+     * @return å¿œç­”é›»æ–‡
      */
     Telegram receiveTelegram(Telegram telegram);
 }

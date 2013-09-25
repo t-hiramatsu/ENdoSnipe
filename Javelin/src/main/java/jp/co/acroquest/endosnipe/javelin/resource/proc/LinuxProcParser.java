@@ -44,7 +44,7 @@ import jp.co.acroquest.endosnipe.javelin.bean.proc.SelfStatInfo;
 import jp.co.acroquest.endosnipe.javelin.bean.proc.StatInfo;
 
 /**
- * Linux‚Ì/proc‚ğ“Ç‚İ‚ŞProcParserB
+ * Linuxã®/procã‚’èª­ã¿è¾¼ã‚€ProcParserã€‚
  * 
  * @author eriguchi
  * @author iida
@@ -53,106 +53,106 @@ import jp.co.acroquest.endosnipe.javelin.bean.proc.StatInfo;
  */
 public class LinuxProcParser implements ProcParser
 {
-    /** /proc/self/stat‚ÌƒpƒXB */
+    /** /proc/self/statã®ãƒ‘ã‚¹ã€‚ */
     private static final String PROC_SELF_STAT_PATH = "/proc/self/stat";
 
-    /** /proc/self/fd‚ÌƒpƒXB */
+    /** /proc/self/fdã®ãƒ‘ã‚¹ã€‚ */
     private static final String PROC_SELF_FD_PATH = "/proc/self/fd";
 
-    /** /proc/sys/fs/file-nr‚ÌƒpƒXB */
+    /** /proc/sys/fs/file-nrã®ãƒ‘ã‚¹ã€‚ */
     private static final String PROC_SYS_FS_FILENR = "/proc/sys/fs/file-nr";
 
-    /** /proc/meminfo‚ÌƒpƒXB */
+    /** /proc/meminfoã®ãƒ‘ã‚¹ã€‚ */
     private static final String PROC_MEMINFO_PATH = "/proc/meminfo";
 
-    /** /proc/statƒtƒ@ƒCƒ‹‚ÌƒpƒX */
+    /** /proc/statãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹ */
     private static final String PROC_STAT_PATH = "/proc/stat";
 
-    /** /proc/vmstatƒtƒ@ƒCƒ‹‚ÌƒpƒX */
+    /** /proc/vmstatãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹ */
     private static final String PROC_VMSTAT_PATH = "/proc/vmstat";
 
-    /** /proc/diskstats‚ÌƒpƒXB */
+    /** /proc/diskstatsã®ãƒ‘ã‚¹ã€‚ */
     private static final String PROC_DISKSTATS_PATH = "/proc/diskstats";
 
-    // parseStatInfo‚Å—p‚¢‚é’è”B
-    // Šeƒpƒ‰ƒ[ƒ^‚ª•\¦‚³‚ê‚és‚Ìæ“ª‚Ì•¶š—ñ‚ğ¦‚·B
-    //CPU‚²‚Æ‚Ì•‰‰×‚ÌƒL[ƒ[ƒh‚Í"cpu"‚ğ—˜—p‚µA‚»‚ÌŒã‚É‚O‚©‚ç‚Ì˜A”Ô‚ğ‚Â‚¯‚éB(cpu0,cpu1,EEE)
+    // parseStatInfoã§ç”¨ã„ã‚‹å®šæ•°ã€‚
+    // å„ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãŒè¡¨ç¤ºã•ã‚Œã‚‹è¡Œã®å…ˆé ­ã®æ–‡å­—åˆ—ã‚’ç¤ºã™ã€‚
+    //CPUã”ã¨ã®è² è·ã®ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã¯"cpu"ã‚’åˆ©ç”¨ã—ã€ãã®å¾Œã«ï¼ã‹ã‚‰ã®é€£ç•ªã‚’ã¤ã‘ã‚‹ã€‚(cpu0,cpu1,ãƒ»ãƒ»ãƒ»)
 
-    /** statƒtƒ@ƒCƒ‹’†‚Ìcpu‚ÌƒL[ƒ[ƒh */
+    /** statãƒ•ã‚¡ã‚¤ãƒ«ä¸­ã®cpuã®ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ */
     private static final String CPU_VALUE_KEY = "cpu";
 
-    /** vmstatƒtƒ@ƒCƒ‹’†‚Ìƒy[ƒWƒCƒ“‚ÌƒL[ƒ[ƒh */
+    /** vmstatãƒ•ã‚¡ã‚¤ãƒ«ä¸­ã®ãƒšãƒ¼ã‚¸ã‚¤ãƒ³ã®ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ */
     private static final String PAGEIN_VALUE_KEY = "pgpgin";
 
-    /** vmstatƒtƒ@ƒCƒ‹’†‚Ìƒy[ƒWƒAƒEƒg‚ÌƒL[ƒ[ƒh */
+    /** vmstatãƒ•ã‚¡ã‚¤ãƒ«ä¸­ã®ãƒšãƒ¼ã‚¸ã‚¢ã‚¦ãƒˆã®ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ */
     private static final String PAGEOUT_VALUE_KEY = "pgpgout";
 
-    // parseSelfStatInfo‚Å—p‚¢‚é’è”B
-    // Šeƒpƒ‰ƒ[ƒ^’l‚ª‰½”Ô–Ú‚É•\¦‚³‚ê‚Ä‚¢‚é‚Ì‚©‚ğ¦‚·Bi‚½‚¾‚µA”Ô†‚Í0‚©‚çn‚Ü‚éBj
-    // ‚±‚ê‚ç‚Ì”Ô†‚ÍAˆÈ‰º‚Ìƒy[ƒW‚ÉŒfÚ‚³‚ê‚Ä‚¢‚éƒ\[ƒXƒR[ƒh‚©‚ç’²‚×‚½‚à‚Ì‚Å‚ ‚éB
+    // parseSelfStatInfoã§ç”¨ã„ã‚‹å®šæ•°ã€‚
+    // å„ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿å€¤ãŒä½•ç•ªç›®ã«è¡¨ç¤ºã•ã‚Œã¦ã„ã‚‹ã®ã‹ã‚’ç¤ºã™ã€‚ï¼ˆãŸã ã—ã€ç•ªå·ã¯0ã‹ã‚‰å§‹ã¾ã‚‹ã€‚ï¼‰
+    // ã“ã‚Œã‚‰ã®ç•ªå·ã¯ã€ä»¥ä¸‹ã®ãƒšãƒ¼ã‚¸ã«æ²è¼‰ã•ã‚Œã¦ã„ã‚‹ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ã‹ã‚‰èª¿ã¹ãŸã‚‚ã®ã§ã‚ã‚‹ã€‚
     // http://lxr.linux.no/linux+v2.6.18/fs/proc/array.c
 
-    /** /proc/self/stat‚Åutime‚ªo—Í‚³‚ê‚é‡”ÔB */
+    /** /proc/self/statã§utimeãŒå‡ºåŠ›ã•ã‚Œã‚‹é †ç•ªã€‚ */
     private static final int UTIME_INDEX = 13;
 
-    /** /proc/self/stat‚Åstime‚ªo—Í‚³‚ê‚é‡”ÔB */
+    /** /proc/self/statã§stimeãŒå‡ºåŠ›ã•ã‚Œã‚‹é †ç•ªã€‚ */
     private static final int STIME_INDEX = 14;
 
-    /** /proc/self/stat‚Åvsize‚ªo—Í‚³‚ê‚é‡”ÔBi"0"‚æ‚èŒã‚ë‚É‚ ‚éBj */
+    /** /proc/self/statã§vsizeãŒå‡ºåŠ›ã•ã‚Œã‚‹é †ç•ªã€‚ï¼ˆ"0"ã‚ˆã‚Šå¾Œã‚ã«ã‚ã‚‹ã€‚ï¼‰ */
     private static final int VSIZE_INDEX = 22;
 
-    /** /proc/self/stat‚Årss‚ªo—Í‚³‚ê‚é‡”ÔBi"0"‚æ‚èŒã‚ë‚É‚ ‚éBj */
+    /** /proc/self/statã§rssãŒå‡ºåŠ›ã•ã‚Œã‚‹é †ç•ªã€‚ï¼ˆ"0"ã‚ˆã‚Šå¾Œã‚ã«ã‚ã‚‹ã€‚ï¼‰ */
     private static final int RSS_INDEX = 23;
 
-    /** /proc/self/stat‚ÅnumThread‚ªo—Í‚³‚ê‚é‡”Ô */
+    /** /proc/self/statã§numThreadãŒå‡ºåŠ›ã•ã‚Œã‚‹é †ç•ª */
     private static final int NUM_THREADS_INDEX = 19;
 
-    /** /proc/self/stat‚Åmajflt‚ªo—Í‚³‚ê‚é‡”Ô */
+    /** /proc/self/statã§majfltãŒå‡ºåŠ›ã•ã‚Œã‚‹é †ç•ª */
     private static final int MAJFLT_INDEX = 11;
 
-    /** cpu‚Ì’PˆÊ•ÏŠ·i1/100sec¨nsecj‚É—p‚¢‚éB */
+    /** cpuã®å˜ä½å¤‰æ›ï¼ˆ1/100secâ†’nsecï¼‰ã«ç”¨ã„ã‚‹ã€‚ */
     private static final int JIFFY_TO_NANO = 10000000;
 
-    /** rss‚Ì’l•ÏŠ·‚É—p‚¢‚éB */
+    /** rssã®å€¤å¤‰æ›ã«ç”¨ã„ã‚‹ã€‚ */
     private static final int CONVERT_RSS = 4096;
 
-    /** ƒƒ‚ƒŠ,ƒXƒƒbƒv‚Ìkilobyte‚ğbyte‚É’PˆÊ•ÏŠ·ikilobyte¨bytej‚·‚éB */
+    /** ãƒ¡ãƒ¢ãƒª,ã‚¹ãƒ¯ãƒƒãƒ—ã®kilobyteã‚’byteã«å˜ä½å¤‰æ›ï¼ˆkilobyteâ†’byteï¼‰ã™ã‚‹ã€‚ */
     private static final int KILOBYTE_TO_BYTE = 1024;
 
 
-    // parseMemInfo‚Å—p‚¢‚é’è”B
-    // Šeƒpƒ‰ƒ[ƒ^‚ª•\¦‚³‚ê‚és‚Ìæ“ª‚Ì•¶š—ñ‚ğ¦‚·B
+    // parseMemInfoã§ç”¨ã„ã‚‹å®šæ•°ã€‚
+    // å„ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãŒè¡¨ç¤ºã•ã‚Œã‚‹è¡Œã®å…ˆé ­ã®æ–‡å­—åˆ—ã‚’ç¤ºã™ã€‚
 
-    /** /proc/meminfo‚ÅMemTotal‚ğ¦‚·•¶š—ñB */
+    /** /proc/meminfoã§MemTotalã‚’ç¤ºã™æ–‡å­—åˆ—ã€‚ */
     private static final String MEM_TOTAL = "MemTotal:";
 
-    /** /proc/meminfo‚ÅMemFree‚ğ¦‚·•¶š—ñB */
+    /** /proc/meminfoã§MemFreeã‚’ç¤ºã™æ–‡å­—åˆ—ã€‚ */
     private static final String MEM_FREE = "MemFree:";
 
-    /** /proc/meminfo‚ÅBuffers‚ğ¦‚·•¶š—ñB */
+    /** /proc/meminfoã§Buffersã‚’ç¤ºã™æ–‡å­—åˆ—ã€‚ */
     private static final String BUFFERS = "Buffers:";
 
-    /** /proc/meminfo‚ÅCached‚ğ¦‚·•¶š—ñB */
+    /** /proc/meminfoã§Cachedã‚’ç¤ºã™æ–‡å­—åˆ—ã€‚ */
     private static final String CACHED = "Cached:";
 
-    /** /proc/meminfo‚ÅSwapTotal‚ğ¦‚·•¶š—ñB */
+    /** /proc/meminfoã§SwapTotalã‚’ç¤ºã™æ–‡å­—åˆ—ã€‚ */
     private static final String SWAP_TOTAL = "SwapTotal:";
 
-    /** /proc/meminfo‚ÅSwapFree‚ğ¦‚·•¶š—ñB */
+    /** /proc/meminfoã§SwapFreeã‚’ç¤ºã™æ–‡å­—åˆ—ã€‚ */
     private static final String SWAP_FREE = "SwapFree:";
 
     private static final int BLOCK_TO_BYTE = 512;
 
-    /**proc/diskstats‚Å“Ç‚İo‚·‚×‚«—ñ‚Ìƒg[ƒNƒ“” */
+    /**proc/diskstatsã§èª­ã¿å‡ºã™ã¹ãåˆ—ã®ãƒˆãƒ¼ã‚¯ãƒ³æ•° */
     private static final int DISKSTATS_TOKEN_MAX = 10;
 
-    /** æ“¾‚µ‚½ƒŠƒ\[ƒX’l */
+    /** å–å¾—ã—ãŸãƒªã‚½ãƒ¼ã‚¹å€¤ */
     private ProcInfo procInfo_;
 
     /**
-     * ‰Šú‰»‚ğs‚¤B
+     * åˆæœŸåŒ–ã‚’è¡Œã†ã€‚
      * 
-     * @return ¬Œ÷‚µ‚½ê‡‚É‚Ì‚İtrue
+     * @return æˆåŠŸã—ãŸå ´åˆã«ã®ã¿true
      */
     public boolean init()
     {
@@ -160,8 +160,8 @@ public class LinuxProcParser implements ProcParser
     }
 
     /**
-     * /proc/meminfoA/proc/statA/proc/self/stat‚©‚ç“Ç‚İ‚İA
-     * ProcInfo‚ÉŠi”[‚·‚éB
+     * /proc/meminfoã€/proc/statã€/proc/self/statã‹ã‚‰èª­ã¿è¾¼ã¿ã€
+     * ProcInfoã«æ ¼ç´ã™ã‚‹ã€‚
      */
     public void load()
     {
@@ -180,7 +180,7 @@ public class LinuxProcParser implements ProcParser
     }
 
     /**
-     * /proc/self/stat‚ÌˆÈ‰º‚Ìî•ñ‚ğSelfStatInfo‚ÉƒZƒbƒg‚µA•Ô‚·B<br>
+     * /proc/self/statã®ä»¥ä¸‹ã®æƒ…å ±ã‚’SelfStatInfoã«ã‚»ãƒƒãƒˆã—ã€è¿”ã™ã€‚<br>
      * <ul>
      *   <li>utime</li>
      *   <li>stime</li>
@@ -189,7 +189,7 @@ public class LinuxProcParser implements ProcParser
      *   <li>numThreads</li>
      *   <li>majflt</li>
      * </ul>
-     * @return SelfStatInfo /proc/self/stat‚Ìî•ñ
+     * @return SelfStatInfo /proc/self/statã®æƒ…å ±
      */
     private SelfStatInfo parseSelfStatInfo()
     {
@@ -282,14 +282,14 @@ public class LinuxProcParser implements ProcParser
     }
 
     /**
-     * /proc/stat‚ÌˆÈ‰º‚Ìî•ñ‚ğStatInfo‚ÉƒZƒbƒg‚µA•Ô‚·B<br>
+     * /proc/statã®ä»¥ä¸‹ã®æƒ…å ±ã‚’StatInfoã«ã‚»ãƒƒãƒˆã—ã€è¿”ã™ã€‚<br>
      * <ul>
-     *   <li>cpu(nano•b)</li>
-     *   <li>cpu0,cpu1,cpu2,EEE(nano•b)</li>
+     *   <li>cpu(nanoç§’)</li>
+     *   <li>cpu0,cpu1,cpu2,ãƒ»ãƒ»ãƒ»(nanoç§’)</li>
      *   <li>pgpgin(byte)</li>
      *   <li>pgpgout(byte)</li>
      * </ul>
-     * @return StatInfo /proc/stat,/proc/vmstat,/proc/sys/fs/file-nr‚Ìî•ñ
+     * @return StatInfo /proc/stat,/proc/vmstat,/proc/sys/fs/file-nrã®æƒ…å ±
      */
     private StatInfo parseStatInfo()
     {
@@ -397,10 +397,10 @@ public class LinuxProcParser implements ProcParser
         String cpuLoadParamKey = CPU_VALUE_KEY + cpuNo;
         List<CpuCoreInfo> coreList = new ArrayList<CpuCoreInfo>();
 
-        // s‚Ì1—ñ–Ú‚ÌƒL[ƒ[ƒh‚©‚ç‚»‚ê‚¼‚ê‚Ì’l‚ğ”»•Ê‚·‚éB
-        // cpu: ƒ†[ƒUƒ‚[ƒh‚ÌCPUg—p—ÊAƒVƒXƒeƒ€ƒ‚[ƒh‚Å‚ÌCPUg—p—ÊA
-        // ƒ^ƒXƒN‘Ò‚¿‚Å‚ÌCPUg—p—Ê
-        // cpu0-x: cpu–ˆ‚ÌCPUg—p—Ê
+        // è¡Œã®1åˆ—ç›®ã®ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã‹ã‚‰ãã‚Œãã‚Œã®å€¤ã‚’åˆ¤åˆ¥ã™ã‚‹ã€‚
+        // cpu: ãƒ¦ãƒ¼ã‚¶ãƒ¢ãƒ¼ãƒ‰ã®CPUä½¿ç”¨é‡ã€ã‚·ã‚¹ãƒ†ãƒ ãƒ¢ãƒ¼ãƒ‰ã§ã®CPUä½¿ç”¨é‡ã€
+        // ã‚¿ã‚¹ã‚¯å¾…ã¡ã§ã®CPUä½¿ç”¨é‡
+        // cpu0-x: cpuæ¯ã®CPUä½¿ç”¨é‡
         try
         {
             while ((str = br.readLine()) != null)
@@ -506,8 +506,8 @@ public class LinuxProcParser implements ProcParser
             return;
         }
 
-        // vmstatƒtƒ@ƒCƒ‹‚©‚ç“Ç‚İ‚ñ‚¾ƒf[ƒ^‚Ì‰ğÍ
-        // page: page‚Ì“üo—Í—Ê
+        // vmstatãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰èª­ã¿è¾¼ã‚“ã ãƒ‡ãƒ¼ã‚¿ã®è§£æ
+        // page: pageã®å…¥å‡ºåŠ›é‡
         try
         {
             String str2;
@@ -557,17 +557,17 @@ public class LinuxProcParser implements ProcParser
     }
 
     /**
-     * /proc/meminfo‚ÌˆÈ‰º‚Ìî•ñ‚ğMemInfo‚ÉƒZƒbƒg‚µA•Ô‚·B<br>
+     * /proc/meminfoã®ä»¥ä¸‹ã®æƒ…å ±ã‚’MemInfoã«ã‚»ãƒƒãƒˆã—ã€è¿”ã™ã€‚<br>
      * <ul>
-     *   <li>ƒVƒXƒeƒ€‘S‘Ì‚Ìƒƒ‚ƒŠÅ‘å’lF MemTotal‚Ì’l(byte)</li>
-     *   <li>ƒVƒXƒeƒ€‘S‘Ì‚Ì‹ó‚«ƒƒ‚ƒŠF MemFree‚Ì’l(byte)</li>
-     *   <li>ƒVƒXƒeƒ€‘S‘Ì‚Ìƒoƒbƒtƒ@F Buffers‚Ì’l(byte)</li>
-     *   <li>ƒVƒXƒeƒ€‘S‘Ì‚ÌƒLƒƒƒbƒVƒ…F Cached‚Ì’l(byte)</li>
-     *   <li>ƒVƒXƒeƒ€‘S‘Ì‚ÌƒXƒƒbƒvÅ‘å—ÊF SwapTotal‚Ì’l(byte)</li>
-     *   <li>ƒVƒXƒeƒ€‘S‘Ì‚ÌƒXƒƒbƒv‹ó‚«—e—ÊF SwapFree‚Ì’l(byte)</li>
-     *   <li>ƒVƒXƒeƒ€‘S‘Ì‚Ì‰¼‘zƒƒ‚ƒŠg—p—ÊF VmallocTotal‚Ì’l(byte)</li>
+     *   <li>ã‚·ã‚¹ãƒ†ãƒ å…¨ä½“ã®ãƒ¡ãƒ¢ãƒªæœ€å¤§å€¤ï¼š MemTotalã®å€¤(byte)</li>
+     *   <li>ã‚·ã‚¹ãƒ†ãƒ å…¨ä½“ã®ç©ºããƒ¡ãƒ¢ãƒªï¼š MemFreeã®å€¤(byte)</li>
+     *   <li>ã‚·ã‚¹ãƒ†ãƒ å…¨ä½“ã®ãƒãƒƒãƒ•ã‚¡ï¼š Buffersã®å€¤(byte)</li>
+     *   <li>ã‚·ã‚¹ãƒ†ãƒ å…¨ä½“ã®ã‚­ãƒ£ãƒƒã‚·ãƒ¥ï¼š Cachedã®å€¤(byte)</li>
+     *   <li>ã‚·ã‚¹ãƒ†ãƒ å…¨ä½“ã®ã‚¹ãƒ¯ãƒƒãƒ—æœ€å¤§é‡ï¼š SwapTotalã®å€¤(byte)</li>
+     *   <li>ã‚·ã‚¹ãƒ†ãƒ å…¨ä½“ã®ã‚¹ãƒ¯ãƒƒãƒ—ç©ºãå®¹é‡ï¼š SwapFreeã®å€¤(byte)</li>
+     *   <li>ã‚·ã‚¹ãƒ†ãƒ å…¨ä½“ã®ä»®æƒ³ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡ï¼š VmallocTotalã®å€¤(byte)</li>
      * </ul>
-     * @return MemInfo /proc/meminfo‚Ìî•ñ
+     * @return MemInfo /proc/meminfoã®æƒ…å ±
      */
     private MemInfo parseMemInfo()
     {
@@ -650,12 +650,12 @@ public class LinuxProcParser implements ProcParser
     }
 
     /**
-     * /proc/diskstats‚ÌˆÈ‰º‚Ìî•ñ‚ğDiskStats‚ÉƒZƒbƒg‚µA•Ô‚·B<br>
+     * /proc/diskstatsã®ä»¥ä¸‹ã®æƒ…å ±ã‚’DiskStatsã«ã‚»ãƒƒãƒˆã—ã€è¿”ã™ã€‚<br>
      * <ul>
-     *   <li>ƒtƒ@ƒCƒ‹“ü—Í—ÊF</li>
-     *   <li>ƒtƒ@ƒCƒ‹o—Í—ÊF</li>
+     *   <li>ãƒ•ã‚¡ã‚¤ãƒ«å…¥åŠ›é‡ï¼š</li>
+     *   <li>ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›é‡ï¼š</li>
      * </ul>
-     * @return MemInfo /proc/meminfo‚Ìî•ñ
+     * @return MemInfo /proc/meminfoã®æƒ…å ±
      */
     private DiskStats parseDiskStats()
     {
@@ -730,7 +730,7 @@ public class LinuxProcParser implements ProcParser
     }
 
     /** 
-     * ƒŠƒ\[ƒXg—pó‹µ‚Ìƒf[ƒ^ procInfo ‚ğ•Ô‚·
+     * ãƒªã‚½ãƒ¼ã‚¹ä½¿ç”¨çŠ¶æ³ã®ãƒ‡ãƒ¼ã‚¿ procInfo ã‚’è¿”ã™
      * @return procInfo
      */
     public ProcInfo getProcInfo()

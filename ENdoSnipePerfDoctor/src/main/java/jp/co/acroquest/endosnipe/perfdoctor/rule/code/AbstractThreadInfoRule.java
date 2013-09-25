@@ -38,20 +38,20 @@ import jp.co.acroquest.endosnipe.perfdoctor.PerfConstants;
 import jp.co.acroquest.endosnipe.perfdoctor.rule.AbstractRule;
 
 /**
- * ƒƒO“à‚ÌJMXî•ñ‚©‚çƒXƒŒƒbƒh‚ÉŠÖ‚·‚é’l‚ğæ“¾‚µAè‡’l‚ğƒI[ƒo[‚µ‚Ä‚¢‚é‚© ŒŸo‚·‚éƒ‹[ƒ‹B
+ * ãƒ­ã‚°å†…ã®JMXæƒ…å ±ã‹ã‚‰ã‚¹ãƒ¬ãƒƒãƒ‰ã«é–¢ã™ã‚‹å€¤ã‚’å–å¾—ã—ã€é–¾å€¤ã‚’ã‚ªãƒ¼ãƒãƒ¼ã—ã¦ã„ã‚‹ã‹ æ¤œå‡ºã™ã‚‹ãƒ«ãƒ¼ãƒ«ã€‚
  * 
  * @author hayakawa
  */
 public abstract class AbstractThreadInfoRule extends AbstractRule
 {
-    /** è‡’l */
+    /** é–¾å€¤ */
     public long threshold;
 
     /**
      * (non-Javadoc)
      * 
      * @param javelinLogElementList
-     *            “®ìƒƒOƒtƒ@ƒCƒ‹‚©‚çØ‚èo‚µ‚½ˆê—v‘f•ª‚ÌƒƒO
+     *            å‹•ä½œãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰åˆ‡ã‚Šå‡ºã—ãŸä¸€è¦ç´ åˆ†ã®ãƒ­ã‚°
      * @see jp.co.acroquest.endosnipe.perfdoctor.rule.AbstractRule#doJudge(java.util.List)
      */
     @Override
@@ -61,7 +61,7 @@ public abstract class AbstractThreadInfoRule extends AbstractRule
         {
             try
             {
-                // í•Ê‚ğƒ`ƒFƒbƒN‚·‚éBReturnˆÈŠO‚Å‚ ‚ê‚ÎŸ‚Ì—v‘f‚ÖB
+                // ç¨®åˆ¥ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã€‚Returnä»¥å¤–ã§ã‚ã‚Œã°æ¬¡ã®è¦ç´ ã¸ã€‚
                 String type = element.getBaseInfo().get(JavelinLogColumnNum.ID);
 
                 boolean callOrReturn = JavelinConstants.MSG_CALL.equals(type);
@@ -70,13 +70,13 @@ public abstract class AbstractThreadInfoRule extends AbstractRule
                     continue;
                 }
 
-                // ƒXƒŒƒbƒh–¼‚ğæ“¾‚·‚éB
+                // ã‚¹ãƒ¬ãƒƒãƒ‰åã‚’å–å¾—ã™ã‚‹ã€‚
                 String threadName = element.getThreadName();
 
-                // ƒpƒ‰ƒ[ƒ^‚Ì’l‚Ìæ“¾
+                // ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®å€¤ã®å–å¾—
                 long value = getParamValueLong(element);
 
-                // ƒpƒ‰ƒ[ƒ^‚Ì’l‚ªè‡’l‚ğ’´‚¦‚½ê‡‚É‚ÍƒGƒ‰[‚ğ”­¶‚³‚¹‚é
+                // ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®å€¤ãŒé–¾å€¤ã‚’è¶…ãˆãŸå ´åˆã«ã¯ã‚¨ãƒ©ãƒ¼ã‚’ç™ºç”Ÿã•ã›ã‚‹
                 if (value >= this.threshold)
                 {
                     addError(element, this.threshold, value, threadName);
@@ -90,11 +90,11 @@ public abstract class AbstractThreadInfoRule extends AbstractRule
     }
 
     /**
-     * ƒpƒ‰ƒ[ƒ^‚Ì’l‚ğ•\‚·long‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ•Ô‚·B
+     * ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®å€¤ã‚’è¡¨ã™longã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’è¿”ã™ã€‚
      * 
      * @param element
-     *            ƒpƒ‰ƒ[ƒ^‚ÌŒŸõ‘ÎÛ‚ÌJavelinLogElement
-     * @return ƒpƒ‰ƒ[ƒ^‚Ì’l
+     *            ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®æ¤œç´¢å¯¾è±¡ã®JavelinLogElement
+     * @return ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®å€¤
      */
     protected long getParamValueLong(final JavelinLogElement element)
     {
@@ -123,16 +123,16 @@ public abstract class AbstractThreadInfoRule extends AbstractRule
     }
 
     /**
-     * ‚±‚Ìƒ‹[ƒ‹‚Åƒ`ƒFƒbƒN‚·‚×‚«JMXî•ñ“à‚Ìƒpƒ‰ƒ[ƒ^–¼‚ğ•Ô‚·B
+     * ã“ã®ãƒ«ãƒ¼ãƒ«ã§ãƒã‚§ãƒƒã‚¯ã™ã¹ãJMXæƒ…å ±å†…ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿åã‚’è¿”ã™ã€‚
      * 
-     * @return ƒpƒ‰ƒ[ƒ^–¼
+     * @return ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿å
      */
     protected abstract String getCheckParamName();
 
     /**
-     * ’PˆÊ•ÏŠ·‚ğs‚¤B
+     * å˜ä½å¤‰æ›ã‚’è¡Œã†ã€‚
      * 
-     * @return •ÏŠ·‚É•K—v‚È’lB
+     * @return å¤‰æ›ã«å¿…è¦ãªå€¤ã€‚
      */
     protected int conversionValue()
     {

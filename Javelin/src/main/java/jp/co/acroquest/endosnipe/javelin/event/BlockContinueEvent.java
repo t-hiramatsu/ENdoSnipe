@@ -29,17 +29,17 @@ import jp.co.acroquest.endosnipe.common.event.EventConstants;
 import jp.co.acroquest.endosnipe.javelin.util.StatsUtil;
 
 /**
- * ƒXƒŒƒbƒh‚Ì”íƒuƒƒbƒNŠÔ’´‰ßŒŸoƒCƒxƒ“ƒg
+ * ã‚¹ãƒ¬ãƒƒãƒ‰ã®è¢«ãƒ–ãƒ­ãƒƒã‚¯æ™‚é–“è¶…éæ¤œå‡ºã‚¤ãƒ™ãƒ³ãƒˆ
  * 
  * @author S.Kimura
  */
 public class BlockContinueEvent extends AbstractStackTraceCheckEvent
 {
-    /** equalsÀs‚É”äŠr‚É—p‚¢‚éB */
+    /** equalså®Ÿè¡Œæ™‚ã«æ¯”è¼ƒã«ç”¨ã„ã‚‹ã€‚ */
     private static final int EQUALS_LENGTH = 1000;
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
      */
     public BlockContinueEvent()
     {
@@ -48,9 +48,9 @@ public class BlockContinueEvent extends AbstractStackTraceCheckEvent
     }
 
     /**
-     * ”äŠr—pƒXƒ^ƒbƒNƒgƒŒ[ƒX’l‚ğİ’è‚·‚éB
+     * æ¯”è¼ƒç”¨ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹å€¤ã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param stackTrace ƒXƒ^ƒbƒNƒgƒŒ[ƒX
+     * @param stackTrace ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹
      */
     public void setStackTraceCompare(String stackTrace)
     {

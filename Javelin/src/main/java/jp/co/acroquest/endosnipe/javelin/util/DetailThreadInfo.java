@@ -13,22 +13,22 @@
 package jp.co.acroquest.endosnipe.javelin.util;
 
 /**
- * ƒXƒŒƒbƒhî•ñ‚ğ•Û‚·‚éB
+ * ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±ã‚’ä¿æŒã™ã‚‹ã€‚
  * 
  * @author eriguchi
  */
 public class DetailThreadInfo
 {
-    /** RUNNABLE‚ÌƒXƒŒƒbƒh‚Ì” */
+    /** RUNNABLEã®ã‚¹ãƒ¬ãƒƒãƒ‰ã®æ•° */
     private int runnableCount_;
 
-    /** BLOCKED‚ÌƒXƒŒƒbƒh‚Ì” */
+    /** BLOCKEDã®ã‚¹ãƒ¬ãƒƒãƒ‰ã®æ•° */
     private int blockedCount_;
 
     /**
-     * RUNNABLE‚ÌƒXƒŒƒbƒh‚Ì”‚ğæ“¾‚·‚éB
+     * RUNNABLEã®ã‚¹ãƒ¬ãƒƒãƒ‰ã®æ•°ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return RUNNABLE‚ÌƒXƒŒƒbƒh‚Ì”
+     * @return RUNNABLEã®ã‚¹ãƒ¬ãƒƒãƒ‰ã®æ•°
      */
     public int getRunnableCount()
     {
@@ -36,9 +36,9 @@ public class DetailThreadInfo
     }
 
     /**
-     * RUNNABLE‚ÌƒXƒŒƒbƒh‚Ì”‚ğİ’è‚·‚éB
+     * RUNNABLEã®ã‚¹ãƒ¬ãƒƒãƒ‰ã®æ•°ã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param runnableCount RUNNABLE‚ÌƒXƒŒƒbƒh‚Ì”
+     * @param runnableCount RUNNABLEã®ã‚¹ãƒ¬ãƒƒãƒ‰ã®æ•°
      */
     public void setRunnableCount(int runnableCount)
     {
@@ -46,9 +46,9 @@ public class DetailThreadInfo
     }
 
     /**
-     * BLOCKED‚ÌƒXƒŒƒbƒh‚Ì”‚ğæ“¾‚·‚éB
+     * BLOCKEDã®ã‚¹ãƒ¬ãƒƒãƒ‰ã®æ•°ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return BLOCKED‚ÌƒXƒŒƒbƒh‚Ì”
+     * @return BLOCKEDã®ã‚¹ãƒ¬ãƒƒãƒ‰ã®æ•°
      */
     public int getBlockedCount()
     {
@@ -56,9 +56,9 @@ public class DetailThreadInfo
     }
 
     /**
-     * BLOCKED‚ÌƒXƒŒƒbƒh‚Ì”‚ğİ’è‚·‚éB
+     * BLOCKEDã®ã‚¹ãƒ¬ãƒƒãƒ‰ã®æ•°ã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param blockedCount BLOCKED‚ÌƒXƒŒƒbƒh‚Ì”
+     * @param blockedCount BLOCKEDã®ã‚¹ãƒ¬ãƒƒãƒ‰ã®æ•°
      */
     public void setBlockedCount(int blockedCount)
     {

@@ -50,7 +50,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.wgp.manager.WgpDataManager;
 
 /**
- * 期間データを取り扱うコントローラークラス。
+ * Controller of MultipleResourceGraph.
  *
  * @author pin
  *
@@ -67,7 +67,7 @@ public class MultipleResourceGraphController
     @Autowired
     protected ResourceSender resourceSender_;
 
-    /** シグナル定義のサービスクラスのオブジェクト。 */
+    /** Service Object of MultipleResourceGraph. */
     @Autowired
     protected MultipleResourceGraphService multipleResourceGraphService_;
 
@@ -80,13 +80,13 @@ public class MultipleResourceGraphController
     }
 
     /**
-     * 機関データを取得する。
+     * Get the measurementList of multiple Resource Graph.
      *
-     * @return 期間データ
+     * @return JavelinMeasurementItem List
      */
     @RequestMapping(value = "/getAllMeasurementList", method = RequestMethod.POST)
     @ResponseBody
-    public List<JavelinMeasurementItem> getTermData()
+    public List<JavelinMeasurementItem> getAllMeasurementList()
     {
 
         List<JavelinMeasurementItem> measurementValueDtoList;
@@ -98,7 +98,7 @@ public class MultipleResourceGraphController
         }
         catch (SQLException ex)
         {
-            // TODO 自動生成された catch ブロック
+
             ex.printStackTrace();
             return new ArrayList<JavelinMeasurementItem>();
         }
@@ -106,9 +106,9 @@ public class MultipleResourceGraphController
     }
 
     /**
-     * 全ての複数グラフの定義を取得する。
+     * Get All multipleResourceGraph Data.
      * 
-     * @return 全ての複数グラフの定義
+     * @return MultipleResourceGraph List
      */
     @RequestMapping(value = "/getAllDefinition", method = RequestMethod.POST)
     @ResponseBody
@@ -123,11 +123,11 @@ public class MultipleResourceGraphController
     }
 
     /**
-     * 閾値判定の定義を新規に追加する。
+     * Add the new multipleResourceGraph.
      *
      * @param mulResGraphDefinition
-     *            閾値判定の定義のJSONデータ
-     * @return 追加した閾値判定の定義
+     *            JSON data of multipleResourceGraph
+     * @return data of new multipleResourceGraph
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
@@ -163,9 +163,10 @@ public class MultipleResourceGraphController
     }
 
     /**
-     * 閾値判定の定義を取得する。
-     * @param multipleResourceGraphName 閾値判定の定義を一意に取得するためのシグナル名
-     * @return 閾値判定の定義
+     * Get the selected multipleResourceGraph data.
+     * 
+     * @param multipleResourceGraphName : Name of multipleResourceGraph
+     * @return data of updated multipleResourceGraph
      */
     @RequestMapping(value = "/getDefinition", method = RequestMethod.POST)
     @ResponseBody
@@ -178,11 +179,11 @@ public class MultipleResourceGraphController
     }
 
     /**
-     * 閾値判定の定義を編集する。
+     * Edit the selected multipleResourceGraph.
      *
      * @param mulResGraphDefinition
-     *            閾値判定の定義のJSONデータ
-     * @return 編集後の閾値判定の定義
+     *            JSON data of multipleResourceGraph
+     * @return data of updated multipleResourceGraph
      */
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     @ResponseBody
@@ -206,11 +207,11 @@ public class MultipleResourceGraphController
     }
 
     /**
-     * 閾値判定のシグナルを削除する。
+     * Delete the selected multipleResourceGraph.
      *
      * @param multipleResourceGraphName
-     *            閾値判定のシグナル名
-     * @return 削除した閾値判定のシグナル名
+     *            JSON name of multipleResourceGraph
+     * @return data of deleted multipleResourceGraph
      */
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody

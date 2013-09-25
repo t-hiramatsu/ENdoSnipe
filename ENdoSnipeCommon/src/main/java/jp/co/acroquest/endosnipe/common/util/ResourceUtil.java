@@ -34,7 +34,7 @@ import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 
 /**
- * ƒŠƒ\[ƒX‚ğˆµ‚¤‚½‚ß‚Ìƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒX‚Å‚·B<br />
+ * ãƒªã‚½ãƒ¼ã‚¹ã‚’æ‰±ã†ãŸã‚ã®ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  * 
  * @author y-komori
  */
@@ -46,10 +46,10 @@ public class ResourceUtil
     }
 
     /**
-     * w’è‚³‚ê‚½ƒNƒ‰ƒX‚ÌƒpƒbƒP[ƒW‚ğ•\‚·ƒŠƒ\[ƒXƒpƒX‚ğ•Ô‚µ‚Ü‚·B<br />
+     * æŒ‡å®šã•ã‚ŒãŸã‚¯ãƒ©ã‚¹ã®ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸ã‚’è¡¨ã™ãƒªã‚½ãƒ¼ã‚¹ãƒ‘ã‚¹ã‚’è¿”ã—ã¾ã™ã€‚<br />
      * 
-     * @param clazz ƒpƒbƒP[ƒW‚ÌƒŠƒ\[ƒXƒpƒX‚ğæ“¾‚·‚éƒNƒ‰ƒX
-     * @return ƒŠƒ\[ƒXƒpƒX
+     * @param clazz ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸ã®ãƒªã‚½ãƒ¼ã‚¹ãƒ‘ã‚¹ã‚’å–å¾—ã™ã‚‹ã‚¯ãƒ©ã‚¹
+     * @return ãƒªã‚½ãƒ¼ã‚¹ãƒ‘ã‚¹
      */
     public static String getPackagePath(final Class<?> clazz)
     {
@@ -57,11 +57,11 @@ public class ResourceUtil
     }
 
     /**
-     * w’è‚³‚ê‚½ƒNƒ‰ƒX‚Æ“¯‚¶ƒpƒbƒP[ƒW‚É‚ ‚éƒŠƒ\[ƒX‚Ìâ‘ÎƒpƒX‚ğ•Ô‚µ‚Ü‚·B<br />
+     * æŒ‡å®šã•ã‚ŒãŸã‚¯ãƒ©ã‚¹ã¨åŒã˜ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸ã«ã‚ã‚‹ãƒªã‚½ãƒ¼ã‚¹ã®çµ¶å¯¾ãƒ‘ã‚¹ã‚’è¿”ã—ã¾ã™ã€‚<br />
      * 
-     * @param clazz ƒNƒ‰ƒX
-     * @param name ƒŠƒ\[ƒX–¼
-     * @return â‘ÎƒpƒX
+     * @param clazz ã‚¯ãƒ©ã‚¹
+     * @param name ãƒªã‚½ãƒ¼ã‚¹å
+     * @return çµ¶å¯¾ãƒ‘ã‚¹
      */
     public static String getAbsolutePath(final Class<?> clazz, final String name)
     {
@@ -70,11 +70,11 @@ public class ResourceUtil
     }
 
     /**
-     * ƒŠƒ\[ƒX‚ğ {@link File} ƒIƒuƒWƒFƒNƒg‚Æ‚µ‚Äæ“¾‚µ‚Ü‚·B<br />
+     * ãƒªã‚½ãƒ¼ã‚¹ã‚’ {@link File} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¨ã—ã¦å–å¾—ã—ã¾ã™ã€‚<br />
      * 
-     * @param clazz ƒŠƒ\[ƒX‚Æ“¯‚¶ƒpƒbƒP[ƒW‚ÌƒNƒ‰ƒXƒIƒuƒWƒFƒNƒg
-     * @param name ƒŠƒ\[ƒX–¼
-     * @return {@link File} ƒIƒuƒWƒFƒNƒg
+     * @param clazz ãƒªã‚½ãƒ¼ã‚¹ã¨åŒã˜ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸ã®ã‚¯ãƒ©ã‚¹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param name ãƒªã‚½ãƒ¼ã‚¹å
+     * @return {@link File} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     public static File getResourceAsFile(final Class<?> clazz, final String name)
     {
@@ -98,14 +98,14 @@ public class ResourceUtil
     }
 
     /**
-     * JAR ƒtƒ@ƒCƒ‹‚Ì MANIFEST.MF ‚©‚çAƒo[ƒWƒ‡ƒ“‚ğæ“¾‚µ‚Ü‚·B
+     * JAR ãƒ•ã‚¡ã‚¤ãƒ«ã® MANIFEST.MF ã‹ã‚‰ã€ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã‚’å–å¾—ã—ã¾ã™ã€‚
      *
-     * @param clazz JAR ƒtƒ@ƒCƒ‹“à‚É‘¶İ‚·‚éƒNƒ‰ƒX
-     * @return ƒo[ƒWƒ‡ƒ“Bƒo[ƒWƒ‡ƒ“‚ªæ“¾‚Å‚«‚È‚¢ê‡‚Í "(Unknown version)"
+     * @param clazz JAR ãƒ•ã‚¡ã‚¤ãƒ«å†…ã«å­˜åœ¨ã™ã‚‹ã‚¯ãƒ©ã‚¹
+     * @return ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã€‚ãƒãƒ¼ã‚¸ãƒ§ãƒ³ãŒå–å¾—ã§ããªã„å ´åˆã¯ "(Unknown version)"
      */
     public static String getJarVersion(final Class<?> clazz)
     {
-        // Javelin‚Ìƒo[ƒWƒ‡ƒ“‚ğæ“¾‚·‚é
+        // Javelinã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã‚’å–å¾—ã™ã‚‹
         String version = null;
         try
         {
@@ -129,25 +129,25 @@ public class ResourceUtil
     }
 
     /**
-     * JAR ƒtƒ@ƒCƒ‹‚Ì MANIFEST.MF ‚©‚çAƒo[ƒWƒ‡ƒ“‚ğæ“¾‚µ‚Ü‚·B
+     * JAR ãƒ•ã‚¡ã‚¤ãƒ«ã® MANIFEST.MF ã‹ã‚‰ã€ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã‚’å–å¾—ã—ã¾ã™ã€‚
      *
-     * @param clazz JAR ƒtƒ@ƒCƒ‹“à‚É‘¶İ‚·‚éƒNƒ‰ƒX
-     * @return ƒo[ƒWƒ‡ƒ“
-     * @throws IOException MANIFEST.MF ‚Ì“Ç‚İ‚İ‚É¸”s‚µ‚½ê‡ 
+     * @param clazz JAR ãƒ•ã‚¡ã‚¤ãƒ«å†…ã«å­˜åœ¨ã™ã‚‹ã‚¯ãƒ©ã‚¹
+     * @return ãƒãƒ¼ã‚¸ãƒ§ãƒ³
+     * @throws IOException MANIFEST.MF ã®èª­ã¿è¾¼ã¿ã«å¤±æ•—ã—ãŸå ´åˆ 
      */
     private static String getVersionFromManifest(final Class<?> clazz)
         throws IOException
     {
-        // ‚±‚ÌƒNƒ‰ƒX‚ªJARƒtƒ@ƒCƒ‹‚ÉŠÜ‚Ü‚ê‚é‚à‚Ì‚Æ‰¼’è‚µAJARƒtƒ@ƒCƒ‹‚ÌƒpƒX‚ğŠÜ‚Ş‚±‚ÌƒNƒ‰ƒX‚Ìâ‘ÎƒpƒX‚ğæ“¾‚·‚é;
+        // ã“ã®ã‚¯ãƒ©ã‚¹ãŒJARãƒ•ã‚¡ã‚¤ãƒ«ã«å«ã¾ã‚Œã‚‹ã‚‚ã®ã¨ä»®å®šã—ã€JARãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹ã‚’å«ã‚€ã“ã®ã‚¯ãƒ©ã‚¹ã®çµ¶å¯¾ãƒ‘ã‚¹ã‚’å–å¾—ã™ã‚‹;
         URL classUrl = clazz.getResource(clazz.getSimpleName() + ".class");
         String fullPath = classUrl.toExternalForm();
 
-        // jarƒtƒ@ƒCƒ‹“à‚Ì‚±‚ÌƒNƒ‰ƒXw’è‚ğAƒ}ƒjƒtƒFƒXƒgƒtƒ@ƒCƒ‹w’è‚É·‚µ‘Ö‚¦‚é
+        // jarãƒ•ã‚¡ã‚¤ãƒ«å†…ã®ã“ã®ã‚¯ãƒ©ã‚¹æŒ‡å®šã‚’ã€ãƒãƒ‹ãƒ•ã‚§ã‚¹ãƒˆãƒ•ã‚¡ã‚¤ãƒ«æŒ‡å®šã«å·®ã—æ›¿ãˆã‚‹
         String packagePath = clazz.getPackage().getName().replace('.', '/');
         String jar = fullPath.substring(0, fullPath.lastIndexOf(packagePath));
         URL manifestUrl = new URL(jar + "META-INF/MANIFEST.MF");
 
-        // MANIFEST.MF‚ğŠJ‚«A "Version: " ‚Ì’l‚ğæ“¾‚·‚é
+        // MANIFEST.MFã‚’é–‹ãã€ "Version: " ã®å€¤ã‚’å–å¾—ã™ã‚‹
         InputStream is = null;
         Manifest mf = null;
         try

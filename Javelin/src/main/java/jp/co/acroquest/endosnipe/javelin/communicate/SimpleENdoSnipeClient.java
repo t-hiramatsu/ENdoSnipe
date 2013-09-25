@@ -17,23 +17,23 @@ import jp.co.acroquest.endosnipe.communicator.CommunicatorListener;
 import jp.co.acroquest.endosnipe.communicator.impl.CommunicationClientImpl;
 
 /**
- * Javelin/DataCollector‚ÉÚ‘±‚µ‚Ä“d•¶‘—M‚·‚éƒNƒ‰ƒCƒAƒ“ƒgB
+ * Javelin/DataCollectorã«æ¥ç¶šã—ã¦é›»æ–‡é€ä¿¡ã™ã‚‹ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã€‚
  * 
  * @author eriguchi
  */
 public class SimpleENdoSnipeClient
 {
-    /** ƒ^ƒCƒ€ƒAƒEƒgŠÔ */
+    /** ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆæ™‚é–“ */
     protected static final int TIMEOUT_MILLIS = 5000;
 
-    /** ’ÊM—pƒNƒ‰ƒCƒAƒ“ƒgB */
+    /** é€šä¿¡ç”¨ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã€‚ */
     protected CommunicationClient client_;
 
-    /** ƒ^ƒCƒ€ƒAƒEƒg‚Ég—p‚·‚éƒIƒuƒWƒFƒNƒgB */
+    /** ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆã«ä½¿ç”¨ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚ */
     protected Object timeoutObject_;
 
-    /** ƒRƒ“ƒXƒgƒ‰ƒNƒ^ 
-     * @param threadName ƒXƒŒƒbƒh–¼
+    /** ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ 
+     * @param threadName ã‚¹ãƒ¬ãƒƒãƒ‰å
      */
     public SimpleENdoSnipeClient(String threadName)
     {
@@ -42,12 +42,12 @@ public class SimpleENdoSnipeClient
     }
 
     /**
-     * w’è‚µ‚½ƒzƒXƒgAƒ|[ƒg‚ÌJavelin‚ÉÚ‘±‚·‚éB
+     * æŒ‡å®šã—ãŸãƒ›ã‚¹ãƒˆã€ãƒãƒ¼ãƒˆã®Javelinã«æ¥ç¶šã™ã‚‹ã€‚
      * 
-     * @param host ƒzƒXƒg–¼B
-     * @param port ƒ|[ƒg”Ô†B
+     * @param host ãƒ›ã‚¹ãƒˆåã€‚
+     * @param port ãƒãƒ¼ãƒˆç•ªå·ã€‚
      * 
-     * @return Ú‘±‚É¬Œ÷‚µ‚½‚©A¸”s‚µ‚½‚©B
+     * @return æ¥ç¶šã«æˆåŠŸã—ãŸã‹ã€å¤±æ•—ã—ãŸã‹ã€‚
      */
     public boolean connect(String host, int port)
     {
@@ -59,7 +59,7 @@ public class SimpleENdoSnipeClient
     
             public void clientDisconnected(boolean forceDisconnected)
             {
-                // ‰½‚à‚µ‚È‚¢B
+                // ä½•ã‚‚ã—ãªã„ã€‚
             }
     
             public void clientConnected(String hostName, String ipAddress, int port)
@@ -98,7 +98,7 @@ public class SimpleENdoSnipeClient
     }
 
     /**
-     * Ø’f‚·‚éB
+     * åˆ‡æ–­ã™ã‚‹ã€‚
      */
     public void disconnect()
     {

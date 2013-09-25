@@ -80,7 +80,7 @@ ENS.nodeSqlPlantView = {
 ENS.nodeTabView = {
 	viewClassName : "wgp.TabView",
 	rootView : appView,
-	collection : [ ENS.nodeInfoField, ENS.nodePerfDoctorParentView ]
+	collection : [ ENS.nodeInfoField, ENS.nodePerfDoctorParentView]
 };
 
 ENS.sqlPlanTabView = {

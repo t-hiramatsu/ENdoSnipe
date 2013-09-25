@@ -24,7 +24,7 @@ import jp.co.acroquest.endosnipe.data.TableNames;
 import jp.co.acroquest.endosnipe.data.entity.SignalDefinition;
 
 /**
- * {@link SignalDefinition} ‚Ì‚½‚ß‚Ì DAO ‚Å‚·B
+ * {@link SignalDefinition} ã®ãŸã‚ã® DAO ã§ã™ã€‚
  * 
  * @author miyasaka
  *
@@ -32,13 +32,13 @@ import jp.co.acroquest.endosnipe.data.entity.SignalDefinition;
 public class SignalDefinitionDao extends AbstractDao implements TableNames
 {
     /**
-     * w’è‚³‚ê‚½ƒf[ƒ^ƒx[ƒX‚ÌƒVƒOƒiƒ‹’è‹`‚ğ‘S‚Äæ“¾‚µ‚Ü‚·B<br />
+     * æŒ‡å®šã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®ã‚·ã‚°ãƒŠãƒ«å®šç¾©ã‚’å…¨ã¦å–å¾—ã—ã¾ã™ã€‚<br />
      *
-     * ƒVƒOƒiƒ‹’è‹`‚ª“o˜^‚³‚ê‚Ä‚¢‚È‚¢ê‡‚Í‹ó‚ÌƒŠƒXƒg‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ã‚·ã‚°ãƒŠãƒ«å®šç¾©ãŒç™»éŒ²ã•ã‚Œã¦ã„ãªã„å ´åˆã¯ç©ºã®ãƒªã‚¹ãƒˆã‚’è¿”ã—ã¾ã™ã€‚<br />
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @return ƒVƒOƒiƒ‹’è‹`‚ÌƒŠƒXƒg
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @return ã‚·ã‚°ãƒŠãƒ«å®šç¾©ã®ãƒªã‚¹ãƒˆ
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static List<SignalDefinition> selectAll(final String database)
         throws SQLException
@@ -78,10 +78,10 @@ public class SignalDefinitionDao extends AbstractDao implements TableNames
     }
 
     /**
-     * ‚·‚×‚Ä‚ÌƒŒƒR[ƒh‚ğíœ‚µ‚Ü‚·B<br />
+     * ã™ã¹ã¦ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å‰Šé™¤ã—ã¾ã™ã€‚<br />
      *
-     * @param database ƒf[ƒ^ƒx[ƒX–¼
-     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public static void deleteAll(final String database)
         throws SQLException

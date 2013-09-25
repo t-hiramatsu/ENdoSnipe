@@ -39,7 +39,7 @@ import jp.co.acroquest.endosnipe.data.dao.SqlPlanDao;
 import jp.co.acroquest.endosnipe.data.entity.SqlPlan;
 
 /**
- * SQLÀsŒv‰æ’Ê’m“d•¶‚ğóM‚·‚é‚½‚ß‚ÌƒNƒ‰ƒX‚Å‚·B<br />
+ * SQLå®Ÿè¡Œè¨ˆç”»é€šçŸ¥é›»æ–‡ã‚’å—ä¿¡ã™ã‚‹ãŸã‚ã®ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  * 
  * @author miyasaka
  *
@@ -47,14 +47,14 @@ import jp.co.acroquest.endosnipe.data.entity.SqlPlan;
 public class SqlPlanNotifyListener extends AbstractTelegramListener implements TelegramListener,
     LogMessageCodes, AgentNameListener
 {
-    /** ƒƒK[B */
+    /** ãƒ­ã‚¬ãƒ¼ã€‚ */
     private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
         .getLogger(JvnFileNotifyListener.class);
 
-    /** DB–¼B */
+    /** DBåã€‚ */
     private String databaseName_ = "";
 
-    /** ƒG[ƒWƒFƒ“ƒg–¼B */
+    /** ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆåã€‚ */
     private String agentName_ = null;
 
     @Override
@@ -100,9 +100,9 @@ public class SqlPlanNotifyListener extends AbstractTelegramListener implements T
     }
 
     /**
-     * Agent–¼‚ğæ“¾‚·‚éB
+     * Agentåã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return Agent–¼
+     * @return Agentå
      */
     public String getAgentName()
     {
@@ -110,9 +110,9 @@ public class SqlPlanNotifyListener extends AbstractTelegramListener implements T
     }
 
     /**
-     *  Agent–¼‚ğİ’è‚·‚éB
+     *  Agentåã‚’è¨­å®šã™ã‚‹ã€‚
      *  
-     *  @param agentName Agent–¼
+     *  @param agentName Agentå
      */
     public void setAgentName(final String agentName)
     {
@@ -120,9 +120,9 @@ public class SqlPlanNotifyListener extends AbstractTelegramListener implements T
     }
 
     /**
-      * DB–¼‚ğİ’è‚·‚éB
+      * DBåã‚’è¨­å®šã™ã‚‹ã€‚
       * 
-      * @param databaseName DB–¼
+      * @param databaseName DBå
       */
     public void setDatabaseName(final String databaseName)
     {
@@ -130,10 +130,10 @@ public class SqlPlanNotifyListener extends AbstractTelegramListener implements T
     }
 
     /**
-     * SqlPlanEntryƒIƒuƒWƒFƒNƒg‚ğSqlPlanƒIƒuƒWƒFƒNƒg‚É•ÏX‚·‚éB
+     * SqlPlanEntryã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’SqlPlanã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«å¤‰æ›´ã™ã‚‹ã€‚
      * 
-     * @param entry •ÏŠ·‘ÎÛ‚ÌSqlPlanEntryƒIƒuƒWƒFƒNƒg
-     * @return SqlPlanƒIƒuƒWƒFƒNƒg
+     * @param entry å¤‰æ›å¯¾è±¡ã®SqlPlanEntryã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @return SqlPlanã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     private SqlPlan convertSqlPlan(final SqlPlanEntry entry)
     {

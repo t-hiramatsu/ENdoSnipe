@@ -9,47 +9,47 @@ import jp.co.acroquest.endosnipe.perfdoctor.classfier.SimpleClassifier;
 import junit.framework.TestCase;
 
 /**
- * SimpleClassifier‚ÌƒeƒXƒgƒf[ƒ^
+ * SimpleClassifierã®ãƒ†ã‚¹ãƒˆãƒ‡ãƒ¼ã‚¿
  * @author fujii
  *
  */
 public class SimpleClassifierTest extends TestCase
 {
     /**
-     * [€”Ô] 1-1-1 convert‚ÌƒeƒXƒgB <br />
-     * Eƒf[ƒ^‚ªˆê‚Â‚ÌWarningUnit‚ÌƒŠƒXƒg‚É‘Î‚µ‚ÄA
-     *  SimpleClassifier‚ğ“K—p‚·‚éB<br />
+     * [é …ç•ª] 1-1-1 convertã®ãƒ†ã‚¹ãƒˆã€‚ <br />
+     * ãƒ»ãƒ‡ãƒ¼ã‚¿ãŒä¸€ã¤ã®WarningUnitã®ãƒªã‚¹ãƒˆã«å¯¾ã—ã¦ã€
+     *  SimpleClassifierã‚’é©ç”¨ã™ã‚‹ã€‚<br />
      * 
-     * ¨ƒŠƒXƒg‚Ìƒf[ƒ^‚ª‚»‚Ì‚Ü‚Ü•Ô‚Á‚Ä‚­‚é‚±‚ÆB
+     * â†’ãƒªã‚¹ãƒˆã®ãƒ‡ãƒ¼ã‚¿ãŒãã®ã¾ã¾è¿”ã£ã¦ãã‚‹ã“ã¨ã€‚
      * 
      */
     public void testClassify_OneData()
     {
-        // €”õ
+        // æº–å‚™
         Classifier classifier = createClassifier();
         List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
 
         WarningUnit unit = ClassifierUtil.createDefaultWarningUnit(new Integer[]{5, 10});
         warningUnitList.add(unit);
 
-        // Às
+        // å®Ÿè¡Œ
         List<WarningUnit> resultList = classifier.classify(warningUnitList);
         
-        // ŒŸØ
+        // æ¤œè¨¼
         ClassifierUtil.assertWarningUnitList(unit, resultList.get(0));
     }
 
     /**
-     * [€”Ô] 1-1-2 convert‚ÌƒeƒXƒgB <br />
-     * E10ŒÂ‚ÌWarningUnit‚Ì—v‘f‚©‚ç‚È‚éƒŠƒXƒg‚É‘Î‚µ‚ÄA
-     *  SimpleClassifier‚ğ“K—p‚·‚éB<br />
+     * [é …ç•ª] 1-1-2 convertã®ãƒ†ã‚¹ãƒˆã€‚ <br />
+     * ãƒ»10å€‹ã®WarningUnitã®è¦ç´ ã‹ã‚‰ãªã‚‹ãƒªã‚¹ãƒˆã«å¯¾ã—ã¦ã€
+     *  SimpleClassifierã‚’é©ç”¨ã™ã‚‹ã€‚<br />
      * 
-     * ¨ƒtƒBƒ‹ƒ^[‚ª‚©‚©‚Á‚ÄAƒŠƒXƒg‚ª•Ô‚Á‚Ä‚­‚é‚±‚Æ(‚±‚±‚Å‚ÍA2s–ÚA6s–ÚA10s–Ú)B
+     * â†’ãƒ•ã‚£ãƒ«ã‚¿ãƒ¼ãŒã‹ã‹ã£ã¦ã€ãƒªã‚¹ãƒˆãŒè¿”ã£ã¦ãã‚‹ã“ã¨(ã“ã“ã§ã¯ã€2è¡Œç›®ã€6è¡Œç›®ã€10è¡Œç›®)ã€‚
      * 
      */
     public void testClassify_TenData()
     {
-        // €”õ
+        // æº–å‚™
         Classifier classifier = createClassifier();
         List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
 
@@ -75,10 +75,10 @@ public class SimpleClassifierTest extends TestCase
         warningUnitList.add(unit9);
         warningUnitList.add(unit10);
 
-        // Às
+        // å®Ÿè¡Œ
         List<WarningUnit> resultList = classifier.classify(warningUnitList);
         
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(3, resultList.size());
         ClassifierUtil.assertWarningUnitList(unit2, resultList.get(0));
         ClassifierUtil.assertWarningUnitList(unit6, resultList.get(1));
@@ -86,16 +86,16 @@ public class SimpleClassifierTest extends TestCase
     }
 
     /**
-     * [€”Ô] 1-1-3 convert‚ÌƒeƒXƒgB <br />
-     * Eargs‚Ì’l‚É0‚ğŠÜ‚ñ‚Å‚¢‚éWarningUnit‚Ì—v‘f‚ğ‚ÂƒŠƒXƒg‚É‘Î‚µ‚ÄA
-     *  SimpleClassifier‚ğ“K—p‚·‚éB<br />
+     * [é …ç•ª] 1-1-3 convertã®ãƒ†ã‚¹ãƒˆã€‚ <br />
+     * ãƒ»argsã®å€¤ã«0ã‚’å«ã‚“ã§ã„ã‚‹WarningUnitã®è¦ç´ ã‚’æŒã¤ãƒªã‚¹ãƒˆã«å¯¾ã—ã¦ã€
+     *  SimpleClassifierã‚’é©ç”¨ã™ã‚‹ã€‚<br />
      * 
-     * ¨1s–Ú‚Ìƒf[ƒ^‚ª•Ô‚Á‚Ä‚­‚éB
+     * â†’1è¡Œç›®ã®ãƒ‡ãƒ¼ã‚¿ãŒè¿”ã£ã¦ãã‚‹ã€‚
      * 
      */
     public void testClassify_ContainsZero()
     {
-        // €”õ
+        // æº–å‚™
         Classifier classifier = createClassifier();
         List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
 
@@ -111,25 +111,25 @@ public class SimpleClassifierTest extends TestCase
         warningUnitList.add(unit4);
         warningUnitList.add(unit5);
 
-        // Às
+        // å®Ÿè¡Œ
         List<WarningUnit> resultList = classifier.classify(warningUnitList);
         
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(1, resultList.size());
         ClassifierUtil.assertWarningUnitList(unit1, resultList.get(0));
     }
 
     /**
-     * [€”Ô] 1-1-4 convert‚ÌƒeƒXƒgB <br />
-     * Eargs‚Ì’l‚É•¶š—ñ‚ğŠÜ‚ñ‚Å‚¢‚éWarningUnit‚Ì—v‘f‚ğ‚ÂƒŠƒXƒg‚É‘Î‚µ‚ÄA
-     *  SimpleClassifier‚ğ“K—p‚·‚éB<br />
+     * [é …ç•ª] 1-1-4 convertã®ãƒ†ã‚¹ãƒˆã€‚ <br />
+     * ãƒ»argsã®å€¤ã«æ–‡å­—åˆ—ã‚’å«ã‚“ã§ã„ã‚‹WarningUnitã®è¦ç´ ã‚’æŒã¤ãƒªã‚¹ãƒˆã«å¯¾ã—ã¦ã€
+     *  SimpleClassifierã‚’é©ç”¨ã™ã‚‹ã€‚<br />
      * 
-     * ¨1s–Ú‚Ìƒf[ƒ^‚ª•Ô‚Á‚Ä‚­‚éB
+     * â†’1è¡Œç›®ã®ãƒ‡ãƒ¼ã‚¿ãŒè¿”ã£ã¦ãã‚‹ã€‚
      * 
      */
     public void testClassify_ContainsString()
     {
-        // €”õ
+        // æº–å‚™
         Classifier classifier = createClassifier();
         List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
 
@@ -145,25 +145,25 @@ public class SimpleClassifierTest extends TestCase
         warningUnitList.add(unit4);
         warningUnitList.add(unit5);
 
-        // Às
+        // å®Ÿè¡Œ
         List<WarningUnit> resultList = classifier.classify(warningUnitList);
         
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(1, resultList.size());
         ClassifierUtil.assertWarningUnitList(unit1, resultList.get(0));
     }
 
     /**
-     * [€”Ô] 1-1-26 convert‚ÌƒeƒXƒgB <br />
-     * Eargs‚Ì’l‚É-5‚ğŠÜ‚ñ‚Å‚¢‚éWarningUnit‚Ì—v‘f‚ğ‚ÂƒŠƒXƒg‚É‘Î‚µ‚ÄA
-     *  SimpleClassifier‚ğ“K—p‚·‚éB<br />
+     * [é …ç•ª] 1-1-26 convertã®ãƒ†ã‚¹ãƒˆã€‚ <br />
+     * ãƒ»argsã®å€¤ã«-5ã‚’å«ã‚“ã§ã„ã‚‹WarningUnitã®è¦ç´ ã‚’æŒã¤ãƒªã‚¹ãƒˆã«å¯¾ã—ã¦ã€
+     *  SimpleClassifierã‚’é©ç”¨ã™ã‚‹ã€‚<br />
      * 
-     * ¨1s–Ú‚Ìƒf[ƒ^‚ª•Ô‚Á‚Ä‚­‚éB
+     * â†’1è¡Œç›®ã®ãƒ‡ãƒ¼ã‚¿ãŒè¿”ã£ã¦ãã‚‹ã€‚
      * 
      */
     public void testClassify_ContainsMinus()
     {
-        // €”õ
+        // æº–å‚™
         Classifier classifier = createClassifier();
         List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
 
@@ -179,25 +179,25 @@ public class SimpleClassifierTest extends TestCase
         warningUnitList.add(unit4);
         warningUnitList.add(unit5);
 
-        // Às
+        // å®Ÿè¡Œ
         List<WarningUnit> resultList = classifier.classify(warningUnitList);
         
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(1, resultList.size());
         ClassifierUtil.assertWarningUnitList(unit1, resultList.get(0));
     }
 
     /**
-     * [€”Ô] 1-1-27 convert‚ÌƒeƒXƒgB <br />
-     * Eargs‚Ì’·‚³‚ª1‚Å‚ ‚é‚æ‚¤‚ÈWarningUnit‚Ì—v‘f‚ğ‚ÂƒŠƒXƒg‚É‘Î‚µ‚ÄA
-     *  SimpleClassifier‚ğ“K—p‚·‚éB<br />
+     * [é …ç•ª] 1-1-27 convertã®ãƒ†ã‚¹ãƒˆã€‚ <br />
+     * ãƒ»argsã®é•·ã•ãŒ1ã§ã‚ã‚‹ã‚ˆã†ãªWarningUnitã®è¦ç´ ã‚’æŒã¤ãƒªã‚¹ãƒˆã«å¯¾ã—ã¦ã€
+     *  SimpleClassifierã‚’é©ç”¨ã™ã‚‹ã€‚<br />
      * 
-     * ¨1s–Ú‚Ìƒf[ƒ^‚ª•Ô‚Á‚Ä‚­‚éB
+     * â†’1è¡Œç›®ã®ãƒ‡ãƒ¼ã‚¿ãŒè¿”ã£ã¦ãã‚‹ã€‚
      * 
      */
     public void testClassify_argsLengthOne()
     {
-        // €”õ
+        // æº–å‚™
         Classifier classifier = createClassifier();
         List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
 
@@ -213,25 +213,25 @@ public class SimpleClassifierTest extends TestCase
         warningUnitList.add(unit4);
         warningUnitList.add(unit5);
 
-        // Às
+        // å®Ÿè¡Œ
         List<WarningUnit> resultList = classifier.classify(warningUnitList);
         
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(1, resultList.size());
         ClassifierUtil.assertWarningUnitList(unit1, resultList.get(0));
     }
 
     /**
-     * [€”Ô] 1-1-30 convert‚ÌƒeƒXƒgB <br />
-     * Eargs‚Ì’l‚É0‚ğŠÜ‚ñ‚Å‚¢‚éWarningUnit‚Ì—v‘f‚ğ‚ÂƒŠƒXƒg‚É‘Î‚µ‚ÄA
-     *  SimpleClassifier‚ğ“K—p‚·‚éB<br />
+     * [é …ç•ª] 1-1-30 convertã®ãƒ†ã‚¹ãƒˆã€‚ <br />
+     * ãƒ»argsã®å€¤ã«0ã‚’å«ã‚“ã§ã„ã‚‹WarningUnitã®è¦ç´ ã‚’æŒã¤ãƒªã‚¹ãƒˆã«å¯¾ã—ã¦ã€
+     *  SimpleClassifierã‚’é©ç”¨ã™ã‚‹ã€‚<br />
      * 
-     * ¨21s–Ú‚Ìƒf[ƒ^‚ª•Ô‚Á‚Ä‚­‚éB
+     * â†’21è¡Œç›®ã®ãƒ‡ãƒ¼ã‚¿ãŒè¿”ã£ã¦ãã‚‹ã€‚
      * 
      */
     public void testClassify_ContainsZero_AnotherOrder()
     {
-        // €”õ
+        // æº–å‚™
         Classifier classifier = createClassifier();
         List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
 
@@ -247,25 +247,25 @@ public class SimpleClassifierTest extends TestCase
         warningUnitList.add(unit3);
         warningUnitList.add(unit4);
 
-        // Às
+        // å®Ÿè¡Œ
         List<WarningUnit> resultList = classifier.classify(warningUnitList);
         
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(1, resultList.size());
         ClassifierUtil.assertWarningUnitList(unit5, resultList.get(0));
     }
 
     /**
-     * [€”Ô] 1-1-31 convert‚ÌƒeƒXƒgB <br />
-     * Eargs‚Ì’l‚É•¶š—ñ‚ğŠÜ‚ñ‚Å‚¢‚éWarningUnit‚Ì—v‘f‚ğ‚ÂƒŠƒXƒg‚É‘Î‚µ‚ÄA
-     *  SimpleClassifier‚ğ“K—p‚·‚éB<br />
+     * [é …ç•ª] 1-1-31 convertã®ãƒ†ã‚¹ãƒˆã€‚ <br />
+     * ãƒ»argsã®å€¤ã«æ–‡å­—åˆ—ã‚’å«ã‚“ã§ã„ã‚‹WarningUnitã®è¦ç´ ã‚’æŒã¤ãƒªã‚¹ãƒˆã«å¯¾ã—ã¦ã€
+     *  SimpleClassifierã‚’é©ç”¨ã™ã‚‹ã€‚<br />
      * 
-     * ¨22s–Ú‚Ìƒf[ƒ^‚ª•Ô‚Á‚Ä‚­‚éB
+     * â†’22è¡Œç›®ã®ãƒ‡ãƒ¼ã‚¿ãŒè¿”ã£ã¦ãã‚‹ã€‚
      * 
      */
     public void testClassify_ContainsString_AnotherOrder()
     {
-        // €”õ
+        // æº–å‚™
         Classifier classifier = createClassifier();
         List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
 
@@ -281,26 +281,26 @@ public class SimpleClassifierTest extends TestCase
         warningUnitList.add(unit3);
         warningUnitList.add(unit4);
 
-        // Às
+        // å®Ÿè¡Œ
         List<WarningUnit> resultList = classifier.classify(warningUnitList);
         
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(1, resultList.size());
         ClassifierUtil.assertWarningUnitList(unit5, resultList.get(0));
     }
     
     
     /**
-     * [€”Ô] 1-1-34 convert‚ÌƒeƒXƒgB <br />
-     * Eargs‚Ì’l‚É-5‚ğŠÜ‚ñ‚Å‚¢‚éWarningUnit‚Ì—v‘f‚ğ‚ÂƒŠƒXƒg‚É‘Î‚µ‚ÄA
-     *  SimpleClassifier‚ğ“K—p‚·‚éB<br />
+     * [é …ç•ª] 1-1-34 convertã®ãƒ†ã‚¹ãƒˆã€‚ <br />
+     * ãƒ»argsã®å€¤ã«-5ã‚’å«ã‚“ã§ã„ã‚‹WarningUnitã®è¦ç´ ã‚’æŒã¤ãƒªã‚¹ãƒˆã«å¯¾ã—ã¦ã€
+     *  SimpleClassifierã‚’é©ç”¨ã™ã‚‹ã€‚<br />
      * 
-     * ¨48s–Ú‚Ìƒf[ƒ^‚ª•Ô‚Á‚Ä‚­‚éB
+     * â†’48è¡Œç›®ã®ãƒ‡ãƒ¼ã‚¿ãŒè¿”ã£ã¦ãã‚‹ã€‚
      * 
      */
     public void testClassify_ContainsMinus_AnotherOrder()
     {
-        // €”õ
+        // æº–å‚™
         Classifier classifier = createClassifier();
         List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
 
@@ -316,25 +316,25 @@ public class SimpleClassifierTest extends TestCase
         warningUnitList.add(unit3);
         warningUnitList.add(unit4);
 
-        // Às
+        // å®Ÿè¡Œ
         List<WarningUnit> resultList = classifier.classify(warningUnitList);
         
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(1, resultList.size());
         ClassifierUtil.assertWarningUnitList(unit5, resultList.get(0));
     }
 
     /**
-     * [€”Ô] 1-1-35 convert‚ÌƒeƒXƒgB <br />
-     * Eargs‚Ì’·‚³‚ª1‚Å‚ ‚é‚æ‚¤‚ÈWarningUnit‚Ì—v‘f‚ğ‚ÂƒŠƒXƒg‚É‘Î‚µ‚ÄA
-     *  SimpleClassifier‚ğ“K—p‚·‚éB<br />
+     * [é …ç•ª] 1-1-35 convertã®ãƒ†ã‚¹ãƒˆã€‚ <br />
+     * ãƒ»argsã®é•·ã•ãŒ1ã§ã‚ã‚‹ã‚ˆã†ãªWarningUnitã®è¦ç´ ã‚’æŒã¤ãƒªã‚¹ãƒˆã«å¯¾ã—ã¦ã€
+     *  SimpleClassifierã‚’é©ç”¨ã™ã‚‹ã€‚<br />
      * 
-     * ¨47s–Ú‚Ìƒf[ƒ^‚ª•Ô‚Á‚Ä‚­‚éB
+     * â†’47è¡Œç›®ã®ãƒ‡ãƒ¼ã‚¿ãŒè¿”ã£ã¦ãã‚‹ã€‚
      * 
      */
     public void testClassify_argsLengthOne_AnotherOrder()
     {
-        // €”õ
+        // æº–å‚™
         Classifier classifier = createClassifier();
         List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
 
@@ -350,17 +350,17 @@ public class SimpleClassifierTest extends TestCase
         warningUnitList.add(unit3);
         warningUnitList.add(unit4);
 
-        // Às
+        // å®Ÿè¡Œ
         List<WarningUnit> resultList = classifier.classify(warningUnitList);
         
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(1, resultList.size());
         ClassifierUtil.assertWarningUnitList(unit5, resultList.get(0));
     }
 
     
     /**
-     * SimpleClassifier‚ğì¬‚·‚éB
+     * SimpleClassifierã‚’ä½œæˆã™ã‚‹ã€‚
      * @return SimpleClassifier
      */
     public Classifier createClassifier()

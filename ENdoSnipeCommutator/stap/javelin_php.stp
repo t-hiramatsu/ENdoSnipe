@@ -4,27 +4,164 @@
  *
  * Copyright (C) Acroquest Technology, Co.LTD
  */
-global function_entry
+%{
+#include <linux/sched.h>
+#include <string.h>
+%}
+
+function local_clock:long()
+%{
+    THIS->__retvalue = local_clock();
+%}
+
+global utime, stime
+global function_entry, error_count, exception_caught_count, exception_thrown_count
+global compile_start_time, execute_start_time, request_start_time
+global compile_file_times, execute_times, request_times
 
 probe begin
 {
   function_entry = 0
+  init_count();
 }
 
+// 1
+probe process("/usr/local/php-5.5.1/bin/php").mark("compile__file__entry")
+{
+    compile_start_time[tid()] = local_clock() 
+}
+
+// 2
+probe process("/usr/local/php-5.5.1/bin/php").mark("compile__file__return")
+{
+    start_clock = compile_start_time[tid()]; delete compile_start_time[tid()]
+    if(start_clock){
+        compile_file_time = local_clock() - start_clock
+        compile_file_times += compile_file_time
+    }
+}
+
+// 3
+probe process("/usr/local/php-5.5.1/bin/php").mark("error")
+{
+//    printf("%s\n%s\n%s\n",user_string($arg1),user_string($arg2),user_string($arg3))
+    error_count++
+}
+
+// 4
+probe process("/usr/local/php-5.5.1/bin/php").mark("exception__caught")
+{
+    exception_caught_count++
+}
+
+// 5
+probe process("/usr/local/php-5.5.1/bin/php").mark("exception__thrown")
+{
+    exception_thrown_count++
+}
+
+// 6
+probe process("/usr/local/php-5.5.1/bin/php").mark("execute__entry")
+{
+    execute_start_time[tid()] = local_clock() 
+}
+
+// 7
+probe process("/usr/local/php-5.5.1/bin/php").mark("execute__return")
+{
+    start_clock = execute_start_time[tid()]; delete execute_start_time[tid()]
+    if(start_clock){
+        execute_time = local_clock() - start_clock
+        execute_times += execute_time
+    }
+}
+
+// 8
 probe process("/usr/local/php-5.5.1/bin/php").mark("function__entry")
 {
     //printf("Function entry: File %s, Class %s, Function name %s\n", user_string($arg2), user_string($arg4), user_string($arg1));
-  function_entry++
+    function_entry++
 }
 
-function print_function_entry()
+// 11
+probe process("/usr/local/php-5.5.1/bin/php").mark("request__startup")
 {
-  printf("/php/function_entry, %d\n", function_entry);
+    request_start_time[tid()] = local_clock() 
 }
+
+// 10
+probe process("/usr/local/php-5.5.1/bin/php").mark("request__shutdown")
+{
+    start_clock = request_start_time[tid()]; delete request_start_time[tid()]
+    if(start_clock){
+        request_time = local_clock() - start_clock
+        request_times += request_time
+    }
+}
+
+
+probe _ens.sched_switch = kernel.trace("sched_switch")
+{
+    utime[tid()] = task_utime()
+    stime[tid()] = task_stime()
+}
+
+function print_period()
+{
+    printf("/common/fundamental/time/current,%ld\n",gettimeofday_ms())
+
+    foreach ([tid] in utime) {
+        utimemerged += utime[tid]
+    }
+    foreach ([tid] in stime) {
+        stimemerged += stime[tid]
+    }
+    delete utime
+    delete stime
+    printf("/process/cpu/time/total,%ld\n", utimemerged + stimemerged)
+    printf("/system/cpu/time/user,%ld\n", utimemerged)
+}
+
+function init_count()
+{
+    function_entry = 0
+    error_count = 0
+    exception_caught_count = 0
+    exception_thrown_count = 0
+    compile_file_times = 0
+    execute_times = 0
+    request_times = 0
+}
+
+function print_entry_time()
+{
+    printf("/php/time/compile,%ld\n", compile_file_times)
+    printf("/php/time/execute,%ld\n", execute_times)
+    printf("/php/time/request,%ld\n", request_times)
+}
+
+function print_entry_count()
+{
+  printf("/php/count/function_entry,%d\n", function_entry);
+  printf("/php/count/error, %d\n",error_count);
+  printf("/php/count/exception/caught,%d\n", exception_caught_count);
+  printf("/php/count/exception/thrown,%d\n", exception_thrown_count);
+}
+
+
+probe _ens.sched_switch{}
 
 probe timer.ms(15000)
 {
-  print_function_entry()
-  printf(".\n");
+    print_period()
+    print_entry_count()
+    print_entry_time()
+    printf(".\n")
+    init_count()
 }
+
+
+//probe end
+//{
+//}
 

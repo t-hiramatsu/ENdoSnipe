@@ -58,7 +58,7 @@ import jp.co.acroquest.endosnipe.data.dto.SignalDefinitionDto;
 import jp.co.acroquest.endosnipe.data.entity.SignalDefinition;
 
 /**
- * ENdoSnipe DataCollector ‚ÌƒƒCƒ“ƒNƒ‰ƒX‚Å‚·B<br />
+ * ENdoSnipe DataCollector ã®ãƒ¡ã‚¤ãƒ³ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  * 
  * @author y-komori
  */
@@ -67,36 +67,36 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
     private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
         .getLogger(ENdoSnipeDataCollector.class);
 
-    /** JavelinDataLogger ‚ÌƒXƒŒƒbƒh–¼Ì */
+    /** JavelinDataLogger ã®ã‚¹ãƒ¬ãƒƒãƒ‰åç§° */
     private static final String LOGGER_THREAD_NAME = "JavelinDataLoggerThread";
 
-    /** ƒ[ƒe[ƒg—pƒXƒŒƒbƒh‚Ì–¼Ì */
+    /** ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆç”¨ã‚¹ãƒ¬ãƒƒãƒ‰ã®åç§° */
     private static final String ROTATE_THREAD_NAME = "JavelinDataCollectorRotateThread";
 
     private static final String RESOURCE_GETTER_THREAD_NAME = "ResourceGetterThread";
 
-    /** ƒ~ƒŠ‚ğ•\‚·’PˆÊ */
+    /** ãƒŸãƒªã‚’è¡¨ã™å˜ä½ */
     private static final int MILLI_UNIT = 1000;
 
     private DataCollectorConfig config_;
 
-    /** ƒ[ƒe[ƒg—pİ’èƒŠƒXƒg */
+    /** ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆç”¨è¨­å®šãƒªã‚¹ãƒˆ */
     private final List<RotateConfig> rotateConfigList_ = new ArrayList<RotateConfig>();
 
-    /** ƒfƒtƒHƒ‹ƒg‚Ìƒ[ƒe[ƒgİ’è */
+    /** ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆè¨­å®š */
     private RotateConfig defaultRotateConfig_;
 
-    /** ƒƒOƒ[ƒe[ƒgƒ^ƒXƒN */
+    /** ãƒ­ã‚°ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆã‚¿ã‚¹ã‚¯ */
     private LogRotator logRotator_;
 
-    /** ƒƒOƒ[ƒe[ƒg—pƒXƒŒƒbƒh */
+    /** ãƒ­ã‚°ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆç”¨ã‚¹ãƒ¬ãƒƒãƒ‰ */
     private Thread rotateThread_;
 
     private volatile Thread javelinDataLoggerThread_;
 
     private JavelinDataLogger javelinDataLogger_;
 
-    /** DB–¼‚ğƒL[‚É‚µ‚½AƒNƒ‰ƒCƒAƒ“ƒg‚É’Ê’m‚·‚é‚½‚ß‚ÌƒŠƒXƒi‚ÌƒŠƒXƒg */
+    /** DBåã‚’ã‚­ãƒ¼ã«ã—ãŸã€ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã«é€šçŸ¥ã™ã‚‹ãŸã‚ã®ãƒªã‚¹ãƒŠã®ãƒªã‚¹ãƒˆ */
     private final Map<String, List<TelegramNotifyListener>> telegramNotifyListenersMap_ =
         new HashMap<String, List<TelegramNotifyListener>>();
 
@@ -104,22 +104,22 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
 
     private volatile boolean isRunning_;
 
-    /** ƒŠƒ\[ƒX‚ğæ“¾‚·‚éƒXƒŒƒbƒh */
+    /** ãƒªã‚½ãƒ¼ã‚¹ã‚’å–å¾—ã™ã‚‹ã‚¹ãƒ¬ãƒƒãƒ‰ */
     private Timer timer_;
 
-    /** ƒŠƒ\[ƒX‚ğæ“¾‚·‚éƒ^ƒCƒ}[ƒ^ƒXƒN */
+    /** ãƒªã‚½ãƒ¼ã‚¹ã‚’å–å¾—ã™ã‚‹ã‚¿ã‚¤ãƒãƒ¼ã‚¿ã‚¹ã‚¯ */
     private SystemResourceGetter resourceGetterTask_;
 
-    /** ƒT[ƒrƒXƒ‚[ƒh‚©‚Ç‚¤‚© */
+    /** ã‚µãƒ¼ãƒ“ã‚¹ãƒ¢ãƒ¼ãƒ‰ã‹ã©ã†ã‹ */
     private BehaviorMode behaviorMode_ = BehaviorMode.SERVICE_MODE;
 
-    /** Javelin‚©‚ç‚ÌÚ‘±‚ğ‘Ò‚¿ó‚¯‚éƒT[ƒoƒCƒ“ƒXƒ^ƒ“ƒX */
+    /** Javelinã‹ã‚‰ã®æ¥ç¶šã‚’å¾…ã¡å—ã‘ã‚‹ã‚µãƒ¼ãƒã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ */
     private JavelinServer server_;
 
     /**
-     * {@link ENdoSnipeDataCollector} ‚Ìİ’è‚ğs‚¢‚Ü‚·B<br />
+     * {@link ENdoSnipeDataCollector} ã®è¨­å®šã‚’è¡Œã„ã¾ã™ã€‚<br />
      * 
-     * @param config İ’èƒIƒuƒWƒFƒNƒg
+     * @param config è¨­å®šã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     public void init(final DataCollectorConfig config)
     {
@@ -127,10 +127,10 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
     }
 
     /**
-     * ƒNƒ‰ƒCƒAƒ“ƒg‚É’Ê’m‚·‚é‚½‚ß‚ÌƒŠƒXƒi‚ğ“o˜^‚µ‚Ü‚·B
+     * ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã«é€šçŸ¥ã™ã‚‹ãŸã‚ã®ãƒªã‚¹ãƒŠã‚’ç™»éŒ²ã—ã¾ã™ã€‚
      * 
-     * @param dbName DB–¼
-     * @param notifyListener ƒNƒ‰ƒCƒAƒ“ƒg‚É’Ê’m‚·‚é‚½‚ß‚ÌƒŠƒXƒi
+     * @param dbName DBå
+     * @param notifyListener ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã«é€šçŸ¥ã™ã‚‹ãŸã‚ã®ãƒªã‚¹ãƒŠ
      */
     public void addTelegramNotifyListener(final String dbName,
         final TelegramNotifyListener notifyListener)
@@ -146,7 +146,7 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
     }
 
     /**
-     * ƒvƒ‰ƒOƒCƒ“ƒ‚[ƒh‚Å DataCollector ‚ğÀs‚µ‚Ü‚·B
+     * ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ãƒ¢ãƒ¼ãƒ‰ã§ DataCollector ã‚’å®Ÿè¡Œã—ã¾ã™ã€‚
      */
     public void startPluginMode()
     {
@@ -154,7 +154,7 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
     }
 
     /**
-     * ƒT[ƒrƒXƒ‚[ƒh‚Å DataCollector ‚ğÀs‚µ‚Ü‚·B
+     * ã‚µãƒ¼ãƒ“ã‚¹ãƒ¢ãƒ¼ãƒ‰ã§ DataCollector ã‚’å®Ÿè¡Œã—ã¾ã™ã€‚
      */
     public void startService()
     {
@@ -162,11 +162,11 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
     }
 
     /**
-     * {@link ENdoSnipeDataCollector} ‚ğŠJn‚µ‚Ü‚·B<br />
-     * ƒƒOƒ[ƒe[ƒg‚ğs‚¤ê‡‚ÍA{@link #addRotateConfig(RotateConfig)}‚ğ—p‚¢‚Ä
-     * ƒ[ƒe[ƒg—p‚Ìİ’è‚ğ’Ç‰Á‚µ‚½Œã‚É–{ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢B
+     * {@link ENdoSnipeDataCollector} ã‚’é–‹å§‹ã—ã¾ã™ã€‚<br />
+     * ãƒ­ã‚°ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆã‚’è¡Œã†å ´åˆã¯ã€{@link #addRotateConfig(RotateConfig)}ã‚’ç”¨ã„ã¦
+     * ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆç”¨ã®è¨­å®šã‚’è¿½åŠ ã—ãŸå¾Œã«æœ¬ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„ã€‚
      * 
-     * @param behaviorMode ƒT[ƒrƒXƒ‚[ƒh‚Ìê‡‚Í <code>true</code> Aƒvƒ‰ƒOƒCƒ“ƒ‚[ƒh‚Ìê‡‚Í
+     * @param behaviorMode ã‚µãƒ¼ãƒ“ã‚¹ãƒ¢ãƒ¼ãƒ‰ã®å ´åˆã¯ <code>true</code> ã€ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ãƒ¢ãƒ¼ãƒ‰ã®å ´åˆã¯
      *            <code>false</code>
      */
     public synchronized void start(final BehaviorMode behaviorMode)
@@ -179,8 +179,6 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
         javelinConfig.setClusterName("");
 
         Map<Long, SignalDefinitionDto> signalDefinitionMap = null;
-
-        //Map<Long, MultipleResourceGraphDefinitionDto> multipleResourceGraphDefinitionMap = null;
 
         this.behaviorMode_ = behaviorMode;
         if (config_ != null)
@@ -206,11 +204,9 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
             }
 
             signalDefinitionMap = createSignalDefinition(databaseName);
-            /* multipleResourceGraphDefinitionMap =
-                 createmultipleResourceGraphDefinitionDefinition(databaseName);*/
         }
 
-        // JavelinDataLogger ‚ÌŠJn
+        // JavelinDataLogger ã®é–‹å§‹
         if (javelinDataLogger_ != null)
         {
             javelinDataLogger_.stop();
@@ -229,7 +225,7 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
         {
             javelinDataLoggerThread_.setDaemon(true);
 
-            // BottleneckEye‚Ö’Ê’m‚·‚é•\¦–¼‚Ì•ÏŠ·ƒ}ƒbƒv‚ğ“o˜^
+            // BottleneckEyeã¸é€šçŸ¥ã™ã‚‹è¡¨ç¤ºåã®å¤‰æ›ãƒãƒƒãƒ—ã‚’ç™»éŒ²
             ResourceNotifyAccessor.setConvMap(DisplayNameManager.getManager().getConvMap());
         }
 
@@ -247,9 +243,9 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
     }
 
     /**
-     * è‡’l”»’è’è‹`î•ñ‚Ìƒ}ƒbƒv‚ğì¬‚·‚éB
-     * @param databaseName ƒf[ƒ^ƒx[ƒX–¼ 
-     * @return è‡’l”»’è’è‹`î•ñ‚Ìƒ}ƒbƒv
+     * é–¾å€¤åˆ¤å®šå®šç¾©æƒ…å ±ã®ãƒãƒƒãƒ—ã‚’ä½œæˆã™ã‚‹ã€‚
+     * @param databaseName ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å 
+     * @return é–¾å€¤åˆ¤å®šå®šç¾©æƒ…å ±ã®ãƒãƒƒãƒ—
      */
     private Map<Long, SignalDefinitionDto> createSignalDefinition(final String databaseName)
     {
@@ -273,37 +269,7 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
     }
 
     /**
-     * è‡’l”»’è’è‹`î•ñ‚Ìƒ}ƒbƒv‚ğì¬‚·‚éB
-     * @param databaseName ƒf[ƒ^ƒx[ƒX–¼ 
-     * @return è‡’l”»’è’è‹`î•ñ‚Ìƒ}ƒbƒv
-     */
-    /*    private Map<Long, MultipleResourceGraphDefinitionDto>
-            createmultipleResourceGraphDefinitionDefinition(final String databaseName)
-        {
-            Map<Long, MultipleResourceGraphDefinitionDto> multipleResourceGraphDefinitionMap =
-                new ConcurrentHashMap<Long, MultipleResourceGraphDefinitionDto>();
-            try
-            {
-                List<MultipleResourceGraphDefinition> multipleResourceGraphDefinitionList =
-                    MultipleResourceGraphDefinitionDao.selectAll(databaseName);
-                for (MultipleResourceGraphDefinition multipleResourceGraphDefinition : multipleResourceGraphDefinitionList)
-                {
-                    MultipleResourceGraphDefinitionDto multipleResourceGraphDefinitionDto =
-                        new MultipleResourceGraphDefinitionDto(multipleResourceGraphDefinition);
-                    multipleResourceGraphDefinitionMap
-                        .put(multipleResourceGraphDefinition.multipleResourceGraphId,
-                             multipleResourceGraphDefinitionDto);
-                }
-            }
-            catch (SQLException ex)
-            {
-                LOGGER.log(FAIL_READ_SIGNAL_DEFINITION, ex, ex.getMessage());
-            }
-            return multipleResourceGraphDefinitionMap;
-        }*/
-
-    /**
-     * DataCollector‚ªI—¹‚·‚é‚Ü‚ÅAƒXƒŒƒbƒh‚ğƒuƒƒbƒN‚µ‚Ü‚·B<br />
+     * DataCollectorãŒçµ‚äº†ã™ã‚‹ã¾ã§ã€ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’ãƒ–ãƒ­ãƒƒã‚¯ã—ã¾ã™ã€‚<br />
      */
     public void blockTillStop()
     {
@@ -322,11 +288,11 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
     }
 
     /**
-     * ƒVƒXƒeƒ€ƒŠƒ\[ƒXî•ñæ“¾‚Ìƒ^ƒCƒ}[ƒ^ƒXƒN‚ğAinterval(’PˆÊ:ms)‚²‚Æ‚ÉÀs‚·‚éB
-     * Šù‚Éƒ^ƒCƒ}[ƒ^ƒXƒN‚ª‚ ‚ê‚ÎAƒLƒƒƒ“ƒZƒ‹‚µ‚½ŒãV‚½‚Éƒ^ƒCƒ}[ƒ^ƒXƒN‚ğì¬‚·‚éB
+     * ã‚·ã‚¹ãƒ†ãƒ ãƒªã‚½ãƒ¼ã‚¹æƒ…å ±å–å¾—ã®ã‚¿ã‚¤ãƒãƒ¼ã‚¿ã‚¹ã‚¯ã‚’ã€interval(å˜ä½:ms)ã”ã¨ã«å®Ÿè¡Œã™ã‚‹ã€‚
+     * æ—¢ã«ã‚¿ã‚¤ãƒãƒ¼ã‚¿ã‚¹ã‚¯ãŒã‚ã‚Œã°ã€ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã—ãŸå¾Œæ–°ãŸã«ã‚¿ã‚¤ãƒãƒ¼ã‚¿ã‚¹ã‚¯ã‚’ä½œæˆã™ã‚‹ã€‚
      * 
-     * @param interval ƒVƒXƒeƒ€ƒŠƒ\[ƒXî•ñæ“¾‚ÌŠÔŠu(’PˆÊ:ms)
-     * @param behaviorMode {@link BehaviorMode.SERVICE_MODE} ‚Ìê‡AƒXƒŒƒbƒh‚ğƒf[ƒ‚ƒ“‰»‚·‚éB
+     * @param interval ã‚·ã‚¹ãƒ†ãƒ ãƒªã‚½ãƒ¼ã‚¹æƒ…å ±å–å¾—ã®é–“éš”(å˜ä½:ms)
+     * @param behaviorMode {@link BehaviorMode.SERVICE_MODE} ã®å ´åˆã€ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’ãƒ‡ãƒ¼ãƒ¢ãƒ³åŒ–ã™ã‚‹ã€‚
      */
     private void startTimer(final long interval, final BehaviorMode behaviorMode)
     {
@@ -352,20 +318,20 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
 
     private synchronized void stopTimer()
     {
-        // ƒVƒXƒeƒ€ƒŠƒ\[ƒXæ“¾ƒXƒŒƒbƒh‚Ì’â~
+        // ã‚·ã‚¹ãƒ†ãƒ ãƒªã‚½ãƒ¼ã‚¹å–å¾—ã‚¹ãƒ¬ãƒƒãƒ‰ã®åœæ­¢
         if (this.resourceGetterTask_ != null)
         {
             this.resourceGetterTask_.cancel();
         }
 
-        // ƒVƒXƒeƒ€ƒŠƒ\[ƒXæ“¾—pƒ^ƒCƒ}[‚Ì’â~
+        // ã‚·ã‚¹ãƒ†ãƒ ãƒªã‚½ãƒ¼ã‚¹å–å¾—ç”¨ã‚¿ã‚¤ãƒãƒ¼ã®åœæ­¢
         this.timer_.cancel();
     }
 
     /**
-     * ƒƒOƒ[ƒe[ƒg—pƒXƒŒƒbƒh‚ğŠJn‚·‚éB
+     * ãƒ­ã‚°ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆç”¨ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’é–‹å§‹ã™ã‚‹ã€‚
      * 
-     * @param daemon <code>true</code> ‚Ìê‡AƒXƒŒƒbƒh‚ğƒf[ƒ‚ƒ“‰»‚·‚éB
+     * @param daemon <code>true</code> ã®å ´åˆã€ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’ãƒ‡ãƒ¼ãƒ¢ãƒ³åŒ–ã™ã‚‹ã€‚
      */
     private void startLogRotate(final boolean daemon)
     {
@@ -374,7 +340,7 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
             return;
         }
 
-        // H2‚ğg—p‚µ‚Ä‚¢‚é‚Æ‚«‚Ì‚İAƒ[ƒe[ƒg—pƒXƒŒƒbƒh‚ğŠJn‚·‚é
+        // H2ã‚’ä½¿ç”¨ã—ã¦ã„ã‚‹ã¨ãã®ã¿ã€ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆç”¨ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’é–‹å§‹ã™ã‚‹
         this.logRotator_ = new LogRotator();
         this.logRotator_.setConfig(this.rotateConfigList_);
 
@@ -389,7 +355,7 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
     }
 
     /**
-     * {@link ENdoSnipeDataCollector} ‚ğI—¹‚µ‚Ü‚·B<br />
+     * {@link ENdoSnipeDataCollector} ã‚’çµ‚äº†ã—ã¾ã™ã€‚<br />
      */
     public synchronized void stop()
     {
@@ -399,7 +365,7 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
         }
         LOGGER.log(ENDOSNIPE_DATA_COLLECTOR_STOPPING);
 
-        // ƒƒOƒ[ƒe[ƒg‹@”\‚ÌI—¹
+        // ãƒ­ã‚°ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆæ©Ÿèƒ½ã®çµ‚äº†
         if (this.logRotator_ != null)
         {
             this.logRotator_.stop();
@@ -407,21 +373,21 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
         }
         this.rotateConfigList_.clear();
 
-        // ƒŠƒ\[ƒXæ“¾ƒ^ƒCƒ}‚ÌI—¹
+        // ãƒªã‚½ãƒ¼ã‚¹å–å¾—ã‚¿ã‚¤ãƒã®çµ‚äº†
         stopTimer();
 
-        // JavelinClient ‚ÌI—¹
+        // JavelinClient ã®çµ‚äº†
         disconnectAll();
 
-        // JavelinDataLogger ‚ÌI—¹
+        // JavelinDataLogger ã®çµ‚äº†
         javelinDataLogger_.stop();
 
         LOGGER.log(ENDOSNIPE_DATA_COLLECTOR_STOPPED);
     }
 
     /**
-     * ƒNƒ‰ƒCƒAƒ“ƒg‚©‚ç‚ÌÚ‘±‚ğ‘Ò‚¿ó‚¯‚éƒT[ƒo‚ğŠJn‚·‚éB
-     * @throws InitializeException ‰Šú‰»‚É¸”s
+     * ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‹ã‚‰ã®æ¥ç¶šã‚’å¾…ã¡å—ã‘ã‚‹ã‚µãƒ¼ãƒã‚’é–‹å§‹ã™ã‚‹ã€‚
+     * @throws InitializeException åˆæœŸåŒ–ã«å¤±æ•—
      */
     public void startServer()
         throws InitializeException
@@ -438,8 +404,8 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
     }
 
     /**
-     * ƒ|[ƒg”Ô†‚ğw’è‚µ‚ÄƒNƒ‰ƒCƒAƒ“ƒg‚©‚ç‚ÌÚ‘±‚ğ‘Ò‚¿ó‚¯‚éƒT[ƒo‚ğŠJn‚·‚éB
-     * @param port ‘Ò‚¿ó‚¯ƒ|[ƒg”Ô†
+     * ãƒãƒ¼ãƒˆç•ªå·ã‚’æŒ‡å®šã—ã¦ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‹ã‚‰ã®æ¥ç¶šã‚’å¾…ã¡å—ã‘ã‚‹ã‚µãƒ¼ãƒã‚’é–‹å§‹ã™ã‚‹ã€‚
+     * @param port å¾…ã¡å—ã‘ãƒãƒ¼ãƒˆç•ªå·
      */
     public void startServer(final int port)
     {
@@ -452,11 +418,11 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
     }
 
     /**
-     * İ’è‚É‹Lq‚³‚ê‚½‚·‚×‚Ä‚Ì Javelin ƒG[ƒWƒFƒ“ƒg‚ÉÚ‘±‚µ‚Ü‚·B<br />
-     * {@link #init(DataCollectorConfig) init()} ƒƒ\ƒbƒh‚Å“n‚³‚ê‚½
-     * {@link DataCollectorConfig} ƒIƒuƒWƒFƒNƒg‚É]‚Á‚ÄAÚ‘±‚ğs‚¢‚Ü‚·B<br />
-     * –{ƒƒ\ƒbƒh‚Í {@link #startPluginMode()} ƒƒ\ƒbƒh‚ğŒÄ‚ñ‚¾‚ ‚Æ‚ÉÀs‚µ‚Ä‚­‚¾‚³‚¢B<br />
-     * @throws InitializeException ‰Šú‰»—áŠO
+     * è¨­å®šã«è¨˜è¿°ã•ã‚ŒãŸã™ã¹ã¦ã® Javelin ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆã«æ¥ç¶šã—ã¾ã™ã€‚<br />
+     * {@link #init(DataCollectorConfig) init()} ãƒ¡ã‚½ãƒƒãƒ‰ã§æ¸¡ã•ã‚ŒãŸ
+     * {@link DataCollectorConfig} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«å¾“ã£ã¦ã€æ¥ç¶šã‚’è¡Œã„ã¾ã™ã€‚<br />
+     * æœ¬ãƒ¡ã‚½ãƒƒãƒ‰ã¯ {@link #startPluginMode()} ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã‚“ã ã‚ã¨ã«å®Ÿè¡Œã—ã¦ãã ã•ã„ã€‚<br />
+     * @throws InitializeException åˆæœŸåŒ–ä¾‹å¤–
      */
     public void connectAll()
         throws InitializeException
@@ -474,8 +440,8 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
             String databaseName = agentSetting.databaseName;
             if (databaseName == null || databaseName.length() == 0)
             {
-                // ƒf[ƒ^ƒx[ƒX–¼‚ªw’è‚³‚ê‚Ä‚¢‚È‚¯‚ê‚ÎA
-                // endosnipedb_(javelin.host.n‚Ì’l)_(javelin.port.n‚Ì’l) ‚É‚·‚é
+                // ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åãŒæŒ‡å®šã•ã‚Œã¦ã„ãªã‘ã‚Œã°ã€
+                // endosnipedb_(javelin.host.nã®å€¤)_(javelin.port.nã®å€¤) ã«ã™ã‚‹
                 databaseName = "endosnipedb_" + agentSetting.hostName + "_" + agentSetting.port;
                 agentSetting.databaseName = databaseName;
             }
@@ -494,17 +460,17 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
     }
 
     /**
-     * Javelin ƒG[ƒWƒFƒ“ƒg‚ÉÚ‘±‚µ‚Ü‚·B<br />
-     * –{ƒƒ\ƒbƒh‚Í {@link #startPluginMode()} ƒƒ\ƒbƒh‚ğŒÄ‚ñ‚¾‚ ‚Æ‚ÉÀs‚µ‚Ä‚­‚¾‚³‚¢B<br />
+     * Javelin ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆã«æ¥ç¶šã—ã¾ã™ã€‚<br />
+     * æœ¬ãƒ¡ã‚½ãƒƒãƒ‰ã¯ {@link #startPluginMode()} ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã‚“ã ã‚ã¨ã«å®Ÿè¡Œã—ã¦ãã ã•ã„ã€‚<br />
      *
-     * ‚·‚Å‚É“¯‚¶ƒf[ƒ^ƒx[ƒX‚ğQÆ‚µ‚ÄÚ‘±‚µ‚Ä‚¢‚é‚à‚Ì‚ª‘¶İ‚µ‚½ê‡‚ÍA
-     * Ú‘±‚¹‚¸‚É <code>null</code> ‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ã™ã§ã«åŒã˜ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚’å‚ç…§ã—ã¦æ¥ç¶šã—ã¦ã„ã‚‹ã‚‚ã®ãŒå­˜åœ¨ã—ãŸå ´åˆã¯ã€
+     * æ¥ç¶šã›ãšã« <code>null</code> ã‚’è¿”ã—ã¾ã™ã€‚<br />
      *
-     * @param dbName ƒf[ƒ^ƒx[ƒX–¼
-     * @param javelinHost Ú‘±æ Javelin ‚ÌƒzƒXƒg–¼‚Ü‚½‚Í IP ƒAƒhƒŒƒX
-     * @param javelinPort Ú‘±æ Javelin ‚Ìƒ|[ƒg”Ô†
-     * @param acceptPort BottleneckEye ‚©‚ç‚ÌÚ‘±‘Ò‚¿ó‚¯ƒ|[ƒg”Ô†
-     * @return ƒNƒ‰ƒCƒAƒ“ƒg ID
+     * @param dbName ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param javelinHost æ¥ç¶šå…ˆ Javelin ã®ãƒ›ã‚¹ãƒˆåã¾ãŸã¯ IP ã‚¢ãƒ‰ãƒ¬ã‚¹
+     * @param javelinPort æ¥ç¶šå…ˆ Javelin ã®ãƒãƒ¼ãƒˆç•ªå·
+     * @param acceptPort BottleneckEye ã‹ã‚‰ã®æ¥ç¶šå¾…ã¡å—ã‘ãƒãƒ¼ãƒˆç•ªå·
+     * @return ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆ ID
      */
     public String connect(final String dbName, final String javelinHost, final int javelinPort,
         final int acceptPort)
@@ -513,18 +479,18 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
     }
 
     /**
-     * Javelin ƒG[ƒWƒFƒ“ƒg‚ÉÚ‘±‚µ‚Ü‚·B<br />
-     * –{ƒƒ\ƒbƒh‚Í {@link #startPluginMode()} ƒƒ\ƒbƒh‚ğŒÄ‚ñ‚¾‚ ‚Æ‚ÉÀs‚µ‚Ä‚­‚¾‚³‚¢B<br />
+     * Javelin ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆã«æ¥ç¶šã—ã¾ã™ã€‚<br />
+     * æœ¬ãƒ¡ã‚½ãƒƒãƒ‰ã¯ {@link #startPluginMode()} ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã‚“ã ã‚ã¨ã«å®Ÿè¡Œã—ã¦ãã ã•ã„ã€‚<br />
      *
-     * ‚·‚Å‚É“¯‚¶ƒf[ƒ^ƒx[ƒX‚ğQÆ‚µ‚ÄÚ‘±‚µ‚Ä‚¢‚é‚à‚Ì‚ª‘¶İ‚µ‚½ê‡‚ÍA
-     * Ú‘±‚¹‚¸‚É <code>null</code> ‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ã™ã§ã«åŒã˜ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚’å‚ç…§ã—ã¦æ¥ç¶šã—ã¦ã„ã‚‹ã‚‚ã®ãŒå­˜åœ¨ã—ãŸå ´åˆã¯ã€
+     * æ¥ç¶šã›ãšã« <code>null</code> ã‚’è¿”ã—ã¾ã™ã€‚<br />
      *
-     * @param dbName ƒf[ƒ^ƒx[ƒX–¼
-     * @param javelinHost Ú‘±æ Javelin ‚ÌƒzƒXƒg–¼‚Ü‚½‚Í IP ƒAƒhƒŒƒX
-     * @param javelinPort Ú‘±æ Javelin ‚Ìƒ|[ƒg”Ô†
-     * @param acceptPort BottleneckEye ‚©‚ç‚ÌÚ‘±‘Ò‚¿ó‚¯ƒ|[ƒg”Ô†
-     * @param agentId ƒG[ƒWƒFƒ“ƒgID
-     * @return ƒNƒ‰ƒCƒAƒ“ƒg ID
+     * @param dbName ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param javelinHost æ¥ç¶šå…ˆ Javelin ã®ãƒ›ã‚¹ãƒˆåã¾ãŸã¯ IP ã‚¢ãƒ‰ãƒ¬ã‚¹
+     * @param javelinPort æ¥ç¶šå…ˆ Javelin ã®ãƒãƒ¼ãƒˆç•ªå·
+     * @param acceptPort BottleneckEye ã‹ã‚‰ã®æ¥ç¶šå¾…ã¡å—ã‘ãƒãƒ¼ãƒˆç•ªå·
+     * @param agentId ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆID
+     * @return ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆ ID
      */
     private synchronized String connect(final String dbName, final String javelinHost,
         final int javelinPort, final int acceptPort, final int agentId)
@@ -537,7 +503,7 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
         JavelinDataQueue queue = this.javelinDataLogger_.getQueue();
         if (javelinClient == null)
         {
-            // Šù‚ÉƒNƒ‰ƒCƒAƒ“ƒg‚ª‘¶İ‚µ‚È‚¢ê‡‚ÍV‚½‚É¶¬‚·‚é
+            // æ—¢ã«ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆãŒå­˜åœ¨ã—ãªã„å ´åˆã¯æ–°ãŸã«ç”Ÿæˆã™ã‚‹
             javelinClient = new JavelinClient();
             javelinClient.init(dbName, javelinHost, javelinPort, acceptPort);
             javelinClient.setTelegramNotifyListener(this.telegramNotifyListenersMap_.get(dbName));
@@ -549,7 +515,7 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
         {
             javelinClient.setTelegramNotifyListener(this.telegramNotifyListenersMap_.get(clientId));
 
-            // Šù‚ÉƒNƒ‰ƒCƒAƒ“ƒg‚ª‘¶İ‚µA–¢Ú‘±‚Ìê‡‚ÍÚ‘±‚·‚é
+            // æ—¢ã«ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆãŒå­˜åœ¨ã—ã€æœªæ¥ç¶šã®å ´åˆã¯æ¥ç¶šã™ã‚‹
             if (javelinClient.isConnected() == false)
             {
                 javelinClient.connect(queue, this.behaviorMode_, null, agentId);
@@ -560,9 +526,9 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
     }
 
     /**
-     * w’è‚³‚ê‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ğ Javelin ‚©‚çØ’f‚µ‚Ü‚·B<br />
+     * æŒ‡å®šã•ã‚ŒãŸã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚’ Javelin ã‹ã‚‰åˆ‡æ–­ã—ã¾ã™ã€‚<br />
      * 
-     * @param clientId ƒNƒ‰ƒCƒAƒ“ƒg ID
+     * @param clientId ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆ ID
      */
     public synchronized void disconnect(final String clientId)
     {
@@ -575,7 +541,7 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
     }
 
     /**
-     * ‚·‚×‚Ä‚Ì Javelin ‚©‚çØ’f‚µ‚Ü‚·B<br />
+     * ã™ã¹ã¦ã® Javelin ã‹ã‚‰åˆ‡æ–­ã—ã¾ã™ã€‚<br />
      */
     public synchronized void disconnectAll()
     {
@@ -591,9 +557,9 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
     }
 
     /**
-     * {@link ENdoSnipeDataCollector} ‚ªÀs’†‚Å‚ ‚é‚©‚Ç‚¤‚©‚ğ•Ô‚µ‚Ü‚·B<br />
+     * {@link ENdoSnipeDataCollector} ãŒå®Ÿè¡Œä¸­ã§ã‚ã‚‹ã‹ã©ã†ã‹ã‚’è¿”ã—ã¾ã™ã€‚<br />
      * 
-     * @return Às’†‚Ìê‡‚Í <code>true</code>
+     * @return å®Ÿè¡Œä¸­ã®å ´åˆã¯ <code>true</code>
      */
     public boolean isRunning()
     {
@@ -609,10 +575,10 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
     }
 
     /**
-     * w’è‚³‚ê‚½ƒNƒ‰ƒCƒAƒ“ƒg ID ‚Ì {@link JavelinClient} ƒCƒ“ƒXƒ^ƒ“ƒX‚ğ•Ô‚µ‚Ü‚·B
+     * æŒ‡å®šã•ã‚ŒãŸã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆ ID ã® {@link JavelinClient} ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’è¿”ã—ã¾ã™ã€‚
      *
-     * @param clientId ƒNƒ‰ƒCƒAƒ“ƒg ID
-     * @return ‘¶İ‚·‚éê‡‚Í {@link JavelinClient} ‚ÌƒCƒ“ƒXƒ^ƒ“ƒXA‘¶İ‚µ‚È‚¢ê‡‚Í <code>null</code>
+     * @param clientId ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆ ID
+     * @return å­˜åœ¨ã™ã‚‹å ´åˆã¯ {@link JavelinClient} ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã€å­˜åœ¨ã—ãªã„å ´åˆã¯ <code>null</code>
      */
     private JavelinClient findJavelinClient(final String clientId)
     {
@@ -673,9 +639,9 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
     }
 
     /**
-     * ƒƒOƒ[ƒe[ƒg—pİ’è‚ğ’Ç‰Á
+     * ãƒ­ã‚°ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆç”¨è¨­å®šã‚’è¿½åŠ 
      * 
-     * @param config ƒƒOƒ[ƒe[ƒgİ’è
+     * @param config ãƒ­ã‚°ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆè¨­å®š
      */
     public void addRotateConfig(final RotateConfig config)
     {
@@ -693,9 +659,9 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
     }
 
     /**
-     * ƒfƒtƒHƒ‹ƒg‚ÌƒƒOƒ[ƒe[ƒg—pİ’è‚ğ’Ç‰Á
+     * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ãƒ­ã‚°ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆç”¨è¨­å®šã‚’è¿½åŠ 
      * 
-     * @param config ƒƒOƒ[ƒe[ƒgİ’è
+     * @param config ãƒ­ã‚°ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆè¨­å®š
      */
     public void setDefaultRotateConfig(final RotateConfig config)
     {
@@ -717,9 +683,9 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
     }
 
     /**
-     * ƒƒOƒ[ƒe[ƒgİ’è‚ğ¶¬‚µ‚Ü‚·B<br />
+     * ãƒ­ã‚°ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆè¨­å®šã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
      * 
-     * @param agentSetting ŠeƒG[ƒWƒFƒ“ƒg‚Ìİ’è
+     * @param agentSetting å„ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆã®è¨­å®š
      */
     private RotateConfig createRotateConfig(final AgentSetting agentSetting)
         throws InitializeException

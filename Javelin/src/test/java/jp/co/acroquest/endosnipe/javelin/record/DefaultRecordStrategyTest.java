@@ -33,100 +33,100 @@ import jp.co.acroquest.endosnipe.javelin.log.JavelinLogCallback;
 import junit.framework.TestCase;
 
 /**
- * TATŠÔ‚Åè‡’l”»’è‚·‚éƒNƒ‰ƒX‚ÌƒeƒXƒgB
+ * TATæ™‚é–“ã§é–¾å€¤åˆ¤å®šã™ã‚‹ã‚¯ãƒ©ã‚¹ã®ãƒ†ã‚¹ãƒˆã€‚
  * @author fujii
  *
  */
 public class DefaultRecordStrategyTest extends TestCase
 {
-    /** Javelinİ’èƒtƒ@ƒCƒ‹‚ÌƒpƒX */
+    /** Javelinè¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹ */
     private static final String JAVELIN_CONFIG_PATH = "test/strategy/conf";
 
     /**
-     * ‰Šú‰»ƒƒ\ƒbƒh<br />
-     * ƒVƒXƒeƒ€ƒƒO‚Ì‰Šú‰»‚ğs‚¤B
+     * åˆæœŸåŒ–ãƒ¡ã‚½ãƒƒãƒ‰<br />
+     * ã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ã®åˆæœŸåŒ–ã‚’è¡Œã†ã€‚
      */
     @Override
     public void setUp()
         throws Exception
     {
         super.setUp();
-        // ƒIƒvƒVƒ‡ƒ“ƒtƒ@ƒCƒ‹‚©‚çAƒIƒvƒVƒ‡ƒ“İ’è‚ğ“Ç‚İ‚ŞB
+        // ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ã€ã‚ªãƒ—ã‚·ãƒ§ãƒ³è¨­å®šã‚’èª­ã¿è¾¼ã‚€ã€‚
         JavelinConfig config = new JavelinConfig(JAVELIN_CONFIG_PATH);
         SystemLogger.initSystemLog(config);
     }
 
     /**
     /**
-     * [€”Ô] 4-2-9 createCallback‚ÌƒeƒXƒgB <br />
-     * ETATŠÔF1000(ƒ~ƒŠ•b)ATAT‚ÌƒAƒ‰[ƒ€è‡’lF2000(ƒ~ƒŠ•b)‚ÅA<br />
-     *  createCallback‚ğŒÄ‚ÔB<br />
-     * ¨null‚ª•Ô‚éB
+     * [é …ç•ª] 4-2-9 createCallbackã®ãƒ†ã‚¹ãƒˆã€‚ <br />
+     * ãƒ»TATæ™‚é–“ï¼š1000(ãƒŸãƒªç§’)ã€TATã®ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ï¼š2000(ãƒŸãƒªç§’)ã§ã€<br />
+     *  createCallbackã‚’å‘¼ã¶ã€‚<br />
+     * â†’nullãŒè¿”ã‚‹ã€‚
      * 
-     * @throws Exception —áŠO
+     * @throws Exception ä¾‹å¤–
      */
     public void testCreateCallback_Under()
         throws Exception
     {
-        // €”õ
+        // æº–å‚™
         CallTreeNode node = createCallTreeNode();
 
-        // TAT‚ÌƒAƒ‰[ƒ€è‡’l‚ğİ’è‚·‚éB
+        // TATã®ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ã‚’è¨­å®šã™ã‚‹ã€‚
         node.getInvocation().setAlarmThreshold(2000);
 
-        // TATŠÔ‚ğİ’è‚·‚éB
+        // TATæ™‚é–“ã‚’è¨­å®šã™ã‚‹ã€‚
         node.setStartTime(0);
         node.setEndTime(1000);
 
         CpuTimeRecordStrategy strategy = new CpuTimeRecordStrategy();
 
-        // Às
+        // å®Ÿè¡Œ
         JavelinLogCallback callback = strategy.createCallback(node);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertNull(callback);
     }
 
     /**
     /**
-     * [€”Ô] 4-2-10 createCallback‚ÌƒeƒXƒgB <br />
-     * ETATŠÔF5000(ƒ~ƒŠ•b)ATAT‚ÌƒAƒ‰[ƒ€è‡’lF2000(ƒ~ƒŠ•b)‚ÅA<br />
-     *  createCallback‚ğŒÄ‚ÔB<br />
-     * ¨JavelinLogCallbackƒIƒuƒWƒFƒNƒg‚ª•Ô‚éB
+     * [é …ç•ª] 4-2-10 createCallbackã®ãƒ†ã‚¹ãƒˆã€‚ <br />
+     * ãƒ»TATæ™‚é–“ï¼š5000(ãƒŸãƒªç§’)ã€TATã®ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ï¼š2000(ãƒŸãƒªç§’)ã§ã€<br />
+     *  createCallbackã‚’å‘¼ã¶ã€‚<br />
+     * â†’JavelinLogCallbackã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒè¿”ã‚‹ã€‚
      * 
-     * @throws Exception —áŠO
+     * @throws Exception ä¾‹å¤–
      */
     public void testCreateCallback_Over()
         throws Exception
     {
-        // €”õ
+        // æº–å‚™
         CallTreeNode node = createCallTreeNode();
 
-        // TAT‚ÌƒAƒ‰[ƒ€è‡’l‚ğİ’è‚·‚éB
+        // TATã®ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ã‚’è¨­å®šã™ã‚‹ã€‚
         node.getInvocation().setAlarmThreshold(2000);
 
-        // TATŠÔ‚ğİ’è‚É‚·‚éB
+        // TATæ™‚é–“ã‚’è¨­å®šã«ã™ã‚‹ã€‚
         node.setStartTime(0);
         node.setEndTime(5000);
 
         CpuTimeRecordStrategy strategy = new CpuTimeRecordStrategy();
 
-        // Às
+        // å®Ÿè¡Œ
         JavelinLogCallback callback = strategy.createCallback(node);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertNotNull(callback);
     }
 
     /**
-     * ƒfƒtƒHƒ‹ƒg‚ÌCallTreeNode‚ğì¬‚·‚éB
+     * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®CallTreeNodeã‚’ä½œæˆã™ã‚‹ã€‚
      * @return CallTreeNode
-     * @throws Exception@—áŠO
+     * @throws Exceptionã€€ä¾‹å¤–
      */
     private CallTreeNode createCallTreeNode()
         throws Exception
     {
-        // Invocationİ’è
+        // Invocationè¨­å®š
         Invocation invocation =
                 new Invocation("pid@host", "RootCallerName", "callerMethod", 0);
         CallTreeNode node = new CallTreeNode();

@@ -40,19 +40,19 @@ import jp.co.acroquest.endosnipe.javelin.converter.linear.monitor.LinearSearchMo
 import jp.co.acroquest.endosnipe.javelin.event.JavelinEventCounter;
 import jp.co.acroquest.endosnipe.javelin.jdbc.common.JdbcJavelinConfig;
 /**
- * ѓЉѓ‚Ѓ[ѓgђЭ’и‹@”\‚©‚зЊ»ЌЭ‚МђЭ’и’l‚рЌXђV‚·‚йѓAѓ_ѓvѓ^
+ * гѓЄгѓўгѓјгѓ€иЁ­е®љж©џиѓЅгЃ‹г‚‰зЏѕењЁгЃ®иЁ­е®љеЂ¤г‚’ж›ґж–°гЃ™г‚‹г‚ўгѓЂгѓ—г‚ї
  * 
  * @author kimura
  */
 public class ConfigUpdater
 {
-    /** ѓЌѓOѓЊѓxѓ‹‚Ж‚µ‚Д‹–—e‚·‚й•¶Ћљ—с */
+    /** гѓ­г‚°гѓ¬гѓ™гѓ«гЃЁгЃ—гЃ¦иЁ±е®№гЃ™г‚‹ж–‡е­—е€— */
     private static final Set<String> LOGLEVELS = new HashSet<String>();
 
-    /** ѓCѓxѓ“ѓgѓЊѓxѓ‹‚Ж‚µ‚Д‹–—e‚·‚й•¶Ћљ—с */
+    /** г‚¤гѓ™гѓігѓ€гѓ¬гѓ™гѓ«гЃЁгЃ—гЃ¦иЁ±е®№гЃ™г‚‹ж–‡е­—е€— */
     private static final Set<String>                EVENTLEVELS      = new HashSet<String>();
 
-    /** ЌXђVЊг‚МMap */
+    /** ж›ґж–°еѕЊгЃ®Map */
     private static Map<String, ConfigUpdateRequest> updateLaterMap__ =
                                                        new HashMap<String, ConfigUpdateRequest>();
 
@@ -71,7 +71,7 @@ public class ConfigUpdater
     }
 
     /**
-     * ѓfѓtѓHѓ‹ѓgѓRѓ“ѓXѓgѓ‰ѓNѓ^
+     * гѓ‡гѓ•г‚©гѓ«гѓ€г‚ігѓіг‚№гѓ€гѓ©г‚Їг‚ї
      */
     private ConfigUpdater()
     {
@@ -79,130 +79,130 @@ public class ConfigUpdater
     }
 
     /**
-     * ЌXђV‰В”\‚ИђЭ’и’l‚рЋж“ѕ‚·‚й
+     * ж›ґж–°еЏЇиѓЅгЃЄиЁ­е®љеЂ¤г‚’еЏ–еѕ—гЃ™г‚‹
      * 
-     * @return ЌXђV‰В”\‚ИђЭ’и’l‚МMap
+     * @return ж›ґж–°еЏЇиѓЅгЃЄиЁ­е®љеЂ¤гЃ®Map
      */
     public static Map<String, String> getUpdatableConfig()
     {
         Map<String, String> properties = new LinkedHashMap<String, String>();
 
         JavelinConfig config = new JavelinConfig();
-        // ЊД‚СЏo‚µЏо•с‚рѓAѓ‰Ѓ[ѓЂ‚Ж‚µ‚ДЏo—Н‚·‚йЌЫ‚Ми‡’l
+        // е‘јгЃіе‡єгЃ—жѓ…е ±г‚’г‚ўгѓ©гѓјгѓ гЃЁгЃ—гЃ¦е‡єеЉ›гЃ™г‚‹йљ›гЃ®й–ѕеЂ¤
         properties.put(JavelinConfig.ALARMTHRESHOLD_KEY, 
                        String.valueOf(config.getAlarmThreshold()));
-        // ЊxЌђ‚р”­ђ¶‚і‚№‚йЌЫ‚МCPUЋћЉФ‚Ми‡’l
+        // и­¦е‘Љг‚’з™єз”џгЃ•гЃ›г‚‹йљ›гЃ®CPUж™‚й–“гЃ®й–ѕеЂ¤
         properties.put(JavelinConfig.ALARM_CPUTHRESHOLD,
                        String.valueOf(config.getAlarmCpuThreashold()));
-        // —бЉO‚рѓAѓ‰Ѓ[ѓЂ’К’m‚·‚й‚©‚Мѓtѓ‰ѓO
+        // дѕ‹е¤–г‚’г‚ўгѓ©гѓјгѓ йЂљзџҐгЃ™г‚‹гЃ‹гЃ®гѓ•гѓ©г‚°
         properties.put(JavelinConfig.ALARM_EXCEPTION_KEY, 
                        String.valueOf(config.isAlarmException()));
-        // HTTPѓXѓeЃ[ѓ^ѓXѓGѓ‰Ѓ[‚р’К’m‚·‚й‚©‚Мѓtѓ‰ѓO
+        // HTTPг‚№гѓ†гѓјг‚їг‚№г‚Ёгѓ©гѓјг‚’йЂљзџҐгЃ™г‚‹гЃ‹гЃ®гѓ•гѓ©г‚°
         properties.put(JavelinConfig.HTTP_STATUS_ERROR_KEY,
                        String.valueOf(config.isHttpStatusError()));
-        // €шђ”‚рѓtѓ@ѓCѓ‹‚ЙЏo—Н‚·‚й‚©‚Мѓtѓ‰ѓO
+        // еј•ж•°г‚’гѓ•г‚Ўг‚¤гѓ«гЃ«е‡єеЉ›гЃ™г‚‹гЃ‹гЃ®гѓ•гѓ©г‚°
         properties.put(JavelinConfig.LOG_ARGS_KEY, String.valueOf(config.isLogArgs()));
-        // €шђ”ЏЪЌЧ‚рЏo—Н‚·‚й‚©‚Мѓtѓ‰ѓO
+        // еј•ж•°и©ізґ°г‚’е‡єеЉ›гЃ™г‚‹гЃ‹гЃ®гѓ•гѓ©г‚°
         properties.put(JavelinConfig.ARGS_DETAIL_KEY, String.valueOf(config.isArgsDetail()));
-        // €шђ”ЏЪЌЧЏo—НЋћ‚Мђ[“x
+        // еј•ж•°и©ізґ°е‡єеЉ›ж™‚гЃ®ж·±еє¦
         properties.put(JavelinConfig.ARGS_DETAIL_DEPTH_KEY,
                        String.valueOf(config.getArgsDetailDepth()));
 
-        // •Ф‚и’l‚рѓtѓ@ѓCѓ‹‚ЙЏo—Н‚·‚й‚©‚Мѓtѓ‰ѓO
+        // иї”г‚ЉеЂ¤г‚’гѓ•г‚Ўг‚¤гѓ«гЃ«е‡єеЉ›гЃ™г‚‹гЃ‹гЃ®гѓ•гѓ©г‚°
         properties.put(JavelinConfig.LOG_RETURN_KEY, String.valueOf(config.isLogReturn()));
-        // •Ф‚и’lЏЪЌЧ‚рЏo—Н‚·‚й‚©‚Мѓtѓ‰ѓO
+        // иї”г‚ЉеЂ¤и©ізґ°г‚’е‡єеЉ›гЃ™г‚‹гЃ‹гЃ®гѓ•гѓ©г‚°
         properties.put(JavelinConfig.RETURN_DETAIL_KEY, String.valueOf(config.isReturnDetail()));
-        // •Ф‚и’lЏЪЌЧЏo—НЋћ‚Мђ[“x
+        // иї”г‚ЉеЂ¤и©ізґ°е‡єеЉ›ж™‚гЃ®ж·±еє¦
         properties.put(JavelinConfig.RETURN_DETAIL_DEPTH_KEY,
                        String.valueOf(config.getReturnDetailDepth()));
 
-        // ѓXѓ^ѓbѓNѓgѓЊЃ[ѓX‚рѓtѓ@ѓCѓ‹‚ЙЏo—Н‚·‚й‚©‚Мѓtѓ‰ѓO
+        // г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№г‚’гѓ•г‚Ўг‚¤гѓ«гЃ«е‡єеЉ›гЃ™г‚‹гЃ‹гЃ®гѓ•гѓ©г‚°
         properties.put(JavelinConfig.LOG_STACKTRACE_KEY, String.valueOf(config.isLogStacktrace()));
 
-        // HTTPѓZѓbѓVѓ‡ѓ“‚рѓtѓ@ѓCѓ‹‚ЙЏo—Н‚·‚й‚©‚Мѓtѓ‰ѓO
+        // HTTPг‚»гѓѓг‚·гѓ§гѓіг‚’гѓ•г‚Ўг‚¤гѓ«гЃ«е‡єеЉ›гЃ™г‚‹гЃ‹гЃ®гѓ•гѓ©г‚°
         properties.put(JavelinConfig.LOG_HTTP_SESSION_KEY,
                        String.valueOf(config.isLogHttpSession()));
-        // HTTPѓZѓbѓVѓ‡ѓ“ЏЪЌЧ‚рЏo—Н‚·‚й‚©‚Мѓtѓ‰ѓO
+        // HTTPг‚»гѓѓг‚·гѓ§гѓіи©ізґ°г‚’е‡єеЉ›гЃ™г‚‹гЃ‹гЃ®гѓ•гѓ©г‚°
         properties.put(JavelinConfig.HTTP_SESSION_DETAIL_KEY,
                        String.valueOf(config.isHttpSessionDetail()));
-        // HTTPѓZѓbѓVѓ‡ѓ“ЏЪЌЧЏo—НЋћ‚Мђ[“x
+        // HTTPг‚»гѓѓг‚·гѓ§гѓіи©ізґ°е‡єеЉ›ж™‚гЃ®ж·±еє¦
         properties.put(JavelinConfig.HTTP_SESSION_DETAIL_DEPTH_KEY,
                        String.valueOf(config.getHttpSessionDetailDepth()));
 
-        // JMXЏо•с‚рѓtѓ@ѓCѓ‹‚ЙЏo—Н‚·‚й‚©‚Мѓtѓ‰ѓO
+        // JMXжѓ…е ±г‚’гѓ•г‚Ўг‚¤гѓ«гЃ«е‡єеЉ›гЃ™г‚‹гЃ‹гЃ®гѓ•гѓ©г‚°
         properties.put(JavelinConfig.LOG_MBEANINFO_KEY, String.valueOf(config.isLogMBeanInfo()));
-        // JMXЏо•с‚рѓtѓ@ѓCѓ‹‚ЙЏo—Н‚·‚й‚©‚Мѓtѓ‰ѓO
+        // JMXжѓ…е ±г‚’гѓ•г‚Ўг‚¤гѓ«гЃ«е‡єеЉ›гЃ™г‚‹гЃ‹гЃ®гѓ•гѓ©г‚°
         properties.put(JavelinConfig.LOG_MBEANINFO_ROOT_KEY,
                        String.valueOf(config.isLogMBeanInfoRoot()));
-        // ѓCѓxѓ“ѓgѓЊѓxѓ‹
+        // г‚¤гѓ™гѓігѓ€гѓ¬гѓ™гѓ«
         properties.put(JavelinConfig.EVENT_LEVEL_KEY, config.getEventLevel());
 
-        // ѓXѓЊѓbѓhѓ‚ѓfѓ‹’и‹`
+        // г‚№гѓ¬гѓѓгѓ‰гѓўгѓ‡гѓ«е®љзѕ©
         properties.put(JavelinConfig.THREADMODEL_KEY, String.valueOf(config.getThreadModel()));
-        // Collection‚МѓЃѓ‚ѓЉѓЉЃ[ѓNЊџЏo‚рЌs‚¤‚©‚З‚¤‚©
+        // CollectionгЃ®гѓЎгѓўгѓЄгѓЄгѓјг‚Їж¤ње‡єг‚’иЎЊгЃ†гЃ‹гЃ©гЃ†гЃ‹
         properties.put(JavelinConfig.COLLECTION_MONITOR,
                        String.valueOf(config.isCollectionMonitor()));
-        // ѓЃѓ‚ѓЉѓЉЃ[ѓNи‡’l
+        // гѓЎгѓўгѓЄгѓЄгѓјг‚Їй–ѕеЂ¤
         properties.put(JavelinConfig.COLLECTION_SIZE_THRESHOLD,
-                       String.valueOf(config.getCollectionSizeThreshold())); // ѓЃѓ‚ѓЉѓЉЃ[ѓNи‡’l
-        // ѓNѓ‰ѓXѓqѓXѓgѓOѓ‰ѓЂ‚рЋж“ѕ‚·‚й‚©‚З‚¤‚©Ѓ@
+                       String.valueOf(config.getCollectionSizeThreshold())); // гѓЎгѓўгѓЄгѓЄгѓјг‚Їй–ѕеЂ¤
+        // г‚Їгѓ©г‚№гѓ’г‚№гѓ€г‚°гѓ©гѓ г‚’еЏ–еѕ—гЃ™г‚‹гЃ‹гЃ©гЃ†гЃ‹гЂЂ
         properties.put(JavelinConfig.CLASS_HISTO, String.valueOf(config.getClassHisto()));
-        // ѓNѓ‰ѓXѓqѓXѓgѓOѓ‰ѓЂЋж“ѕЉФЉu(ѓ~ѓЉ•b) 
+        // г‚Їгѓ©г‚№гѓ’г‚№гѓ€г‚°гѓ©гѓ еЏ–еѕ—й–“йљ”(гѓџгѓЄз§’) 
         properties.put(JavelinConfig.CLASS_HISTO_INTERVAL,
                        String.valueOf(config.getClassHistoInterval()));
-        // ѓNѓ‰ѓXѓqѓXѓgѓOѓ‰ѓЂ‚МЏг€К‰ЅЊЏ‚рЋж“ѕ‚·‚й‚© Ѓ@
+        // г‚Їгѓ©г‚№гѓ’г‚№гѓ€г‚°гѓ©гѓ гЃ®дёЉдЅЌдЅ•д»¶г‚’еЏ–еѕ—гЃ™г‚‹гЃ‹ гЂЂ
         properties.put(JavelinConfig.CLASS_HISTO_MAX, String.valueOf(config.getClassHistoMax()));
-        // ѓNѓ‰ѓXѓqѓXѓgѓOѓ‰ѓЂ‚рЋж“ѕ‚·‚йЌЫ‚ЙЃAGC‚рЌs‚¤‚©‚З‚¤‚©
+        // г‚Їгѓ©г‚№гѓ’г‚№гѓ€г‚°гѓ©гѓ г‚’еЏ–еѕ—гЃ™г‚‹йљ›гЃ«гЂЃGCг‚’иЎЊгЃ†гЃ‹гЃ©гЃ†гЃ‹
         properties.put(JavelinConfig.CLASS_HISTO_GC, String.valueOf(config.getClassHistoGC()));
-        // ђьЊ`ЊџЌх‚рЌs‚¤‚©‚З‚¤‚©
+        // з·љеЅўж¤њзґўг‚’иЎЊгЃ†гЃ‹гЃ©гЃ†гЃ‹
         properties.put(JavelinConfig.LINEARSEARCH_ENABLED_KEY,
                        String.valueOf(config.isLinearSearchMonitor()));
-        // ђьЊ`ЊџЌхЊџЏo‚рЌs‚¤ѓЉѓXѓgѓTѓCѓY‚Ми‡’l
+        // з·љеЅўж¤њзґўж¤ње‡єг‚’иЎЊгЃ†гѓЄг‚№гѓ€г‚µг‚¤г‚єгЃ®й–ѕеЂ¤
         properties.put(JavelinConfig.LINEARSEARCH_SIZE,
                        String.valueOf(config.getLinearSearchListSize()));
-        // ђьЊ`ЊџЌхЊџЏo‚рЌs‚¤ђьЊ`ѓAѓNѓZѓX‰сђ”‚МЉ„Ќ‡‚Ми‡’l
+        // з·љеЅўж¤њзґўж¤ње‡єг‚’иЎЊгЃ†з·љеЅўг‚ўг‚Їг‚»г‚№е›ћж•°гЃ®е‰Іеђ€гЃ®й–ѕеЂ¤
         properties.put(JavelinConfig.LINEARSEARCH_RATIO,
                        String.valueOf(config.getLinearSearchListRatio()));
-        // ѓlѓbѓgѓЏЃ[ѓN“ь—Н—К‚рЋж“ѕ‚·‚й‚©
+        // гѓЌгѓѓгѓ€гѓЇгѓјг‚Їе…ҐеЉ›й‡Џг‚’еЏ–еѕ—гЃ™г‚‹гЃ‹
         properties.put(JavelinConfig.NET_INPUT_MONITOR, String.valueOf(config.isNetInputMonitor()));
-        // ѓlѓbѓgѓЏЃ[ѓNЏo—Н—К‚рЋж“ѕ‚·‚й‚©
+        // гѓЌгѓѓгѓ€гѓЇгѓјг‚Їе‡єеЉ›й‡Џг‚’еЏ–еѕ—гЃ™г‚‹гЃ‹
         properties.put(JavelinConfig.NET_OUTPUT_MONITOR,
                        String.valueOf(config.isNetOutputMonitor()));
-        // ѓtѓ@ѓCѓ‹“ь—Н—К‚рЋж“ѕ‚·‚й‚©
+        // гѓ•г‚Ўг‚¤гѓ«е…ҐеЉ›й‡Џг‚’еЏ–еѕ—гЃ™г‚‹гЃ‹
         properties.put(JavelinConfig.FILE_INPUT_MONITOR,
                        String.valueOf(config.isFileInputMonitor()));
-        // ѓtѓ@ѓCѓ‹Џo—Н—К‚рЋж“ѕ‚·‚й‚©
+        // гѓ•г‚Ўг‚¤гѓ«е‡єеЉ›й‡Џг‚’еЏ–еѕ—гЃ™г‚‹гЃ‹
         properties.put(JavelinConfig.FILE_OUTPUT_MONITOR,
                        String.valueOf(config.isFileOutputMonitor()));
-        // ѓtѓ@ѓCѓiѓ‰ѓCѓY‘Т‚їѓIѓuѓWѓFѓNѓgђ”‚рЋж“ѕ‚·‚й‚©
+        // гѓ•г‚Ўг‚¤гѓЉгѓ©г‚¤г‚єеѕ…гЃЎг‚Єгѓ–г‚ёг‚§г‚Їгѓ€ж•°г‚’еЏ–еѕ—гЃ™г‚‹гЃ‹
         properties.put(JavelinConfig.FINALIZATION_COUNT_MONITOR,
                        String.valueOf(config.isFinalizationCount()));
-        // ѓЃѓ\ѓbѓhЊД‚СЏo‚µЉФЉu’ґ‰Я‚рЉДЋ‹‚·‚й‚©
+        // гѓЎг‚Ѕгѓѓгѓ‰е‘јгЃіе‡єгЃ—й–“йљ”и¶…йЃЋг‚’з›Ји¦–гЃ™г‚‹гЃ‹
         properties.put(JavelinConfig.INTERVAL_ERROR_MONITOR,
                        String.valueOf(config.isIntervalMonitor()));
-        // ѓXѓЊѓbѓhЉДЋ‹‚рЌs‚¤‚©‚З‚¤‚©
+        // г‚№гѓ¬гѓѓгѓ‰з›Ји¦–г‚’иЎЊгЃ†гЃ‹гЃ©гЃ†гЃ‹
         properties.put(JavelinConfig.THREAD_MONITOR, String.valueOf(config.getThreadMonitor()));
-        // ѓXѓЊѓbѓhЉДЋ‹‚рЌs‚¤ЋьЉъ(ѓ~ѓЉ•b)
+        // г‚№гѓ¬гѓѓгѓ‰з›Ји¦–г‚’иЎЊгЃ†е‘Ёжњџ(гѓџгѓЄз§’)
         properties.put(JavelinConfig.THREAD_MONITOR_INTERVAL,
                        String.valueOf(config.getThreadMonitorInterval()));
-        // ѓXѓЊѓbѓhЉДЋ‹‚МЌЫ‚ЙЏo—Н‚·‚йѓXѓ^ѓbѓNѓgѓЊЃ[ѓX‚Мђ[‚і
+        // г‚№гѓ¬гѓѓгѓ‰з›Ји¦–гЃ®йљ›гЃ«е‡єеЉ›гЃ™г‚‹г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№гЃ®ж·±гЃ•
         properties.put(JavelinConfig.THREAD_MONITOR_DEPTH,
                        String.valueOf(config.getThreadMonitorDepth()));
-        // ѓuѓЌѓbѓNЊp‘±ѓCѓxѓ“ѓg‚рЏo—Н‚·‚йЌЫ‚МѓuѓЌѓbѓN‰сђ”‚Ми‡’l
+        // гѓ–гѓ­гѓѓг‚Їз¶™з¶љг‚¤гѓ™гѓігѓ€г‚’е‡єеЉ›гЃ™г‚‹йљ›гЃ®гѓ–гѓ­гѓѓг‚Їе›ћж•°гЃ®й–ѕеЂ¤
         properties.put(JavelinConfig.THREAD_BLOCK_THRESHOLD,
                        String.valueOf(config.getBlockThreshold()));
-        // ѓuѓЌѓbѓNЊp‘±ѓCѓxѓ“ѓg‚рЏo—Н‚·‚йЌЫ‚МѓuѓЌѓbѓNЊp‘±ЋћЉФ‚Ми‡’l
+        // гѓ–гѓ­гѓѓг‚Їз¶™з¶љг‚¤гѓ™гѓігѓ€г‚’е‡єеЉ›гЃ™г‚‹йљ›гЃ®гѓ–гѓ­гѓѓг‚Їз¶™з¶љж™‚й–“гЃ®й–ѕеЂ¤
         properties.put(JavelinConfig.THREAD_BLOCKTIME_THRESHOLD,
                        String.valueOf(config.getBlockTimeThreshold()));
-        // ѓtѓ‹ѓXѓЊѓbѓhѓ_ѓ“ѓv‚рЏo—Н‚·‚й‚©‚З‚¤‚©
+        // гѓ•гѓ«г‚№гѓ¬гѓѓгѓ‰гѓЂгѓігѓ—г‚’е‡єеЉ›гЃ™г‚‹гЃ‹гЃ©гЃ†гЃ‹
         properties.put(JavelinConfig.THREAD_DUMP_MONITOR, String.valueOf(config.isThreadDump()));
-        // ѓtѓ‹ѓXѓЊѓbѓhѓ_ѓ“ѓvЏo—Н”»’и‚рЌs‚¤ЋьЉъ(ѓ~ѓЉ•b)
+        // гѓ•гѓ«г‚№гѓ¬гѓѓгѓ‰гѓЂгѓігѓ—е‡єеЉ›е€¤е®љг‚’иЎЊгЃ†е‘Ёжњџ(гѓџгѓЄз§’)
         properties.put(JavelinConfig.THREAD_DUMP_INTERVAL,
                        String.valueOf(config.getThreadDumpInterval()));
-        // ѓtѓ‹ѓXѓЊѓbѓhѓ_ѓ“ѓvЏo—Н‚МѓXѓЊѓbѓhђ”‚Ми‡’l
+        // гѓ•гѓ«г‚№гѓ¬гѓѓгѓ‰гѓЂгѓігѓ—е‡єеЉ›гЃ®г‚№гѓ¬гѓѓгѓ‰ж•°гЃ®й–ѕеЂ¤
         properties.put(JavelinConfig.THREAD_DUMP_THREAD,
                        String.valueOf(config.getThreadDumpThreadNum()));
-        // ѓtѓ‹ѓXѓЊѓbѓhѓ_ѓ“ѓvЏo—Н‚МCPUЋg—p—¦‚Ми‡’l
+        // гѓ•гѓ«г‚№гѓ¬гѓѓгѓ‰гѓЂгѓігѓ—е‡єеЉ›гЃ®CPUдЅїз”ЁзЋ‡гЃ®й–ѕеЂ¤
         properties.put(JavelinConfig.THREAD_DUMP_CPU, String.valueOf(config.getThreadDumpCpu()));
         
         properties.put(JavelinConfig.THREAD_DUMP_CPU_SYS,
@@ -219,88 +219,88 @@ public class ConfigUpdater
             properties.put(JavelinConfig.THREAD_DUMP_THRESHOLD + itemName,
                            String.valueOf(threshold));
         }
-        // ѓtѓ‹GC‚рЊџЏo‚·‚й‚©‚З‚¤‚©
+        // гѓ•гѓ«GCг‚’ж¤ње‡єгЃ™г‚‹гЃ‹гЃ©гЃ†гЃ‹
         properties.put(JavelinConfig.FULLGC_MONITOR, String.valueOf(config.isFullGCMonitor()));
-        // ѓtѓ‹GCЊџЏo‚МGCЋћЉФ‚Ми‡’l
+        // гѓ•гѓ«GCж¤ње‡єгЃ®GCж™‚й–“гЃ®й–ѕеЂ¤
         properties.put(JavelinConfig.FULLGC_THREASHOLD, 
                        String.valueOf(config.getFullGCThreshold()));
-        // Java6€ИЌ~‚ЕѓfѓbѓhѓЌѓbѓNЉДЋ‹‚рЌs‚¤‚©‚З‚¤‚©
+        // Java6д»Ґй™ЌгЃ§гѓ‡гѓѓгѓ‰гѓ­гѓѓг‚Їз›Ји¦–г‚’иЎЊгЃ†гЃ‹гЃ©гЃ†гЃ‹
         properties.put(JavelinConfig.THREAD_DEADLOCK_MONITOR,
                        String.valueOf(config.isDeadLockMonitor()));
-        // ѓAѓ‰Ѓ[ѓЂ‘—ђMЉФЉu‚МЌЕЏ¬’l
+        // г‚ўгѓ©гѓјгѓ йЂЃдїЎй–“йљ”гЃ®жњЂе°ЏеЂ¤
         properties.put(JavelinConfig.ALARM_MINIMUM_INTERVAL_KEY,
                        String.valueOf(config.getAlarmMinimumInterval()));
-        // Turn Around Time‚рЊv‘Є‚·‚й‚©‚З‚¤‚©ЃB
+        // Turn Around Timeг‚’иЁ€жё¬гЃ™г‚‹гЃ‹гЃ©гЃ†гЃ‹гЂ‚
         properties.put(JavelinConfig.TAT_ENABLED_KEY, String.valueOf(config.isTatEnabled()));
-        // Turn Around Time‚М•ЫЋќЉъЉФЃB
+        // Turn Around TimeгЃ®дїќжЊЃжњџй–“гЂ‚
         properties.put(JavelinConfig.TAT_KEEP_TIME_KEY, String.valueOf(config.getTatKeepTime()));
-        // HttpSession‚МѓCѓ“ѓXѓ^ѓ“ѓXђ”‚рЋж“ѕ‚·‚й‚©
+        // HttpSessionгЃ®г‚¤гѓіг‚№г‚їгѓіг‚№ж•°г‚’еЏ–еѕ—гЃ™г‚‹гЃ‹
         properties.put(JavelinConfig.HTTP_SESSION_COUNT_MONITOR,
                        String.valueOf(config.isHttpSessionCount()));
-        // HttpSession‚Ц‚М“o^ѓIѓuѓWѓFѓNѓg‘ЌѓTѓCѓY‚рЋж“ѕ‚·‚й‚©
+        // HttpSessionгЃёгЃ®з™»йЊІг‚Єгѓ–г‚ёг‚§г‚Їгѓ€з·Џг‚µг‚¤г‚єг‚’еЏ–еѕ—гЃ™г‚‹гЃ‹
         properties.put(JavelinConfig.HTTP_SESSION_SIZE_MONITOR,
                        String.valueOf(config.isHttpSessionSize()));
-        // •Ўђ”ѓXѓЊѓbѓhѓAѓNѓZѓX‚рЉДЋ‹‚·‚й‚©‚З‚¤‚©ЃB
+        // и¤‡ж•°г‚№гѓ¬гѓѓгѓ‰г‚ўг‚Їг‚»г‚№г‚’з›Ји¦–гЃ™г‚‹гЃ‹гЃ©гЃ†гЃ‹гЂ‚
         properties.put(JavelinConfig.CONCURRENT_ENABLED_KEY,
                        String.valueOf(config.isConcurrentAccessMonitored()));
-        // ѓ^ѓCѓЂѓAѓEѓg’lђЭ’и‚МЉДЋ‹‚рЌs‚¤‚©‚З‚¤‚©ЃB
+        // г‚їг‚¤гѓ г‚ўг‚¦гѓ€еЂ¤иЁ­е®љгЃ®з›Ји¦–г‚’иЎЊгЃ†гЃ‹гЃ©гЃ†гЃ‹гЂ‚
         properties.put(JavelinConfig.TIMEOUT_MONITOR, String.valueOf(config.isTimeoutMonitor()));
-        // Log4j‚МѓXѓ^ѓbѓNѓgѓЊЃ[ѓX‚рЌs‚¤ѓЌѓOѓЊѓxѓ‹‚Ми‡’l
+        // Log4jгЃ®г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№г‚’иЎЊгЃ†гѓ­г‚°гѓ¬гѓ™гѓ«гЃ®й–ѕеЂ¤
         properties.put(JavelinConfig.LOG4J_PRINTSTACK_LEVEL, config.getLog4jPrintStackLevel());
-        // CallTreeѓTѓCѓY‚МЌЕ‘е’lЃB
+        // CallTreeг‚µг‚¤г‚єгЃ®жњЂе¤§еЂ¤гЂ‚
         properties.put(JavelinConfig.CALL_TREE_ENABLE_KEY,
                        String.valueOf(config.isCallTreeEnabled()));
-        // CallTreeѓTѓCѓY‚МЌЕ‘е’lЃB
+        // CallTreeг‚µг‚¤г‚єгЃ®жњЂе¤§еЂ¤гЂ‚
         properties.put(JavelinConfig.CALL_TREE_MAX_KEY, String.valueOf(config.getCallTreeMax()));
-        // JvnѓЌѓOѓtѓ@ѓCѓ‹‚рЏo—Н‚·‚й‚©‚З‚¤‚©ЃB
+        // Jvnгѓ­г‚°гѓ•г‚Ўг‚¤гѓ«г‚’е‡єеЉ›гЃ™г‚‹гЃ‹гЃ©гЃ†гЃ‹гЂ‚
         properties.put(JavelinConfig.LOG_JVN_FILE, String.valueOf(config.isLogJvnFile()));
-        // ѓVѓXѓeѓЂ‚МѓЉѓ\Ѓ[ѓXѓfЃ[ѓ^‚рЋж“ѕ‚·‚й‚©‚З‚¤‚©ЃB
+        // г‚·г‚№гѓ†гѓ гЃ®гѓЄг‚Ѕгѓјг‚№гѓ‡гѓјг‚їг‚’еЏ–еѕ—гЃ™г‚‹гЃ‹гЃ©гЃ†гЃ‹гЂ‚
         properties.put(JavelinConfig.COLLECT_SYSTEM_RESOURCES,
                        String.valueOf(config.getCollectSystemResources())); 
-        // ѓtѓ‹ѓXѓЊѓbѓhѓ_ѓ“ѓvЏo—Н‚МCPUЋg—p—¦‚Ми‡’l
+        // гѓ•гѓ«г‚№гѓ¬гѓѓгѓ‰гѓЂгѓігѓ—е‡єеЉ›гЃ®CPUдЅїз”ЁзЋ‡гЃ®й–ѕеЂ¤
         properties.put(JavelinConfig.RESOURCE_THREAD_RUNNABLE,
                        String.valueOf(config.isResourceThreadRunnable()));
 
-        // InvocationFullEvent‚р‘—ђM‚·‚й‚©‚З‚¤‚©ЃB
+        // InvocationFullEventг‚’йЂЃдїЎгЃ™г‚‹гЃ‹гЃ©гЃ†гЃ‹гЂ‚
         properties.put(JavelinConfig.SEND_INVOCATION_FULL_EVENT,
                        String.valueOf(config.getSendInvocationFullEvent()));
 
-        /** JdbcJavelinConfig‚©‚зЋж“ѕ‰В”\‚ИђЭ’и‚рЋж“ѕ‚·‚й */
+        /** JdbcJavelinConfigгЃ‹г‚‰еЏ–еѕ—еЏЇиѓЅгЃЄиЁ­е®љг‚’еЏ–еѕ—гЃ™г‚‹ */
         JdbcJavelinConfig jdbcConfig = new JdbcJavelinConfig();
 
-        // JDBCJavelin‚р—LЊш‚Й‚·‚й‚©‚З‚¤‚©
+        // JDBCJavelinг‚’жњ‰еЉ№гЃ«гЃ™г‚‹гЃ‹гЃ©гЃ†гЃ‹
         properties.put(JdbcJavelinConfig.JDBC_JAVELIN_ENABLED_KEY,
                        String.valueOf(jdbcConfig.isJdbcJavelinEnabled()));
-        // ЋАЌsЊv‰жЋж“ѕѓtѓ‰ѓO
+        // е®џиЎЊиЁ€з”»еЏ–еѕ—гѓ•гѓ©г‚°
         properties.put(JdbcJavelinConfig.RECORDEXECPLAN_KEY,
                        String.valueOf(jdbcConfig.isRecordExecPlan()));
-        // SQL‚МЋАЌsЊv‰ж‚р‹L^‚·‚йЌЫ‚Ми‡’l
+        // SQLгЃ®е®џиЎЊиЁ€з”»г‚’иЁйЊІгЃ™г‚‹йљ›гЃ®й–ѕеЂ¤
         properties.put(JdbcJavelinConfig.EXECPLANTHRESHOLD_KEY,
                        String.valueOf(jdbcConfig.getExecPlanThreshold()));
-        // JDBCЊДЏo‚µЏd•ЎЏo—Нѓtѓ‰ѓO
+        // JDBCе‘је‡єгЃ—й‡Ќи¤‡е‡єеЉ›гѓ•гѓ©г‚°
         properties.put(JdbcJavelinConfig.RECORDDUPLJDBCCALL_KEY,
                        String.valueOf(jdbcConfig.isRecordDuplJdbcCall()));
-        // ѓoѓCѓ“ѓh•Пђ”Џo—Нѓtѓ‰ѓO
+        // гѓђг‚¤гѓігѓ‰е¤‰ж•°е‡єеЉ›гѓ•гѓ©г‚°
         properties.put(JdbcJavelinConfig.RECORDBINDVAL_KEY,
                        String.valueOf(jdbcConfig.isRecordBindVal()));
-        // ѓoѓCѓ“ѓh•Пђ”Џo—Н‚Й‚Ё‚Ї‚й•¶Ћљ—с’·ђ§ЊА
+        // гѓђг‚¤гѓігѓ‰е¤‰ж•°е‡єеЉ›гЃ«гЃЉгЃ‘г‚‹ж–‡е­—е€—й•·е€¶й™ђ
         properties.put(JdbcJavelinConfig.STRINGLIMITLENGTH_KEY,
                        String.valueOf(jdbcConfig.getJdbcStringLimitLength()));
-        // “Ї€кѓgѓ‰ѓ“ѓUѓNѓVѓ‡ѓ““а‚М“Ї€кSQLЊД‚СЏo‚µ‰сђ”’ґ‰Я‚Ми‡’l‚рЉДЋ‹‚·‚й‚©”Ы‚©
+        // еђЊдёЂгѓ€гѓ©гѓіг‚¶г‚Їг‚·гѓ§гѓіе†…гЃ®еђЊдёЂSQLе‘јгЃіе‡єгЃ—е›ћж•°и¶…йЃЋгЃ®й–ѕеЂ¤г‚’з›Ји¦–гЃ™г‚‹гЃ‹еђ¦гЃ‹
         properties.put(JdbcJavelinConfig.SQLCOUNT_MONITOR_KEY,
                        String.valueOf(jdbcConfig.isSqlcountMonitor()));
-        // “Ї€кѓgѓ‰ѓ“ѓUѓNѓVѓ‡ѓ““а‚М“Ї€кSQLЊД‚СЏo‚µ‰сђ”’ґ‰Я‚Ми‡’l
+        // еђЊдёЂгѓ€гѓ©гѓіг‚¶г‚Їг‚·гѓ§гѓіе†…гЃ®еђЊдёЂSQLе‘јгЃіе‡єгЃ—е›ћж•°и¶…йЃЋгЃ®й–ѕеЂ¤
         properties.put(JdbcJavelinConfig.SQLCOUNT_KEY, String.valueOf(jdbcConfig.getSqlcount()));
-        // Oracle‚Й‘О‚·‚йSQLѓgѓЊЃ[ѓX‚МЏo—НЋwЋ¦ѓtѓ‰ѓO
+        // OracleгЃ«еЇѕгЃ™г‚‹SQLгѓ€гѓ¬гѓјг‚№гЃ®е‡єеЉ›жЊ‡з¤єгѓ•гѓ©г‚°
         properties.put(JdbcJavelinConfig.ORACLE_ALLOW_SQL_TRACE_KEY,
                        String.valueOf(jdbcConfig.isAllowSqlTraceForOracle()));
-        // PostgreSQL‚Й‘О‚·‚йЋАЌsЊv‰жЏЪЌЧЋж“ѕѓtѓ‰ѓO
+        // PostgreSQLгЃ«еЇѕгЃ™г‚‹е®џиЎЊиЁ€з”»и©ізґ°еЏ–еѕ—гѓ•гѓ©г‚°
         properties.put(JdbcJavelinConfig.POSTGRES_VERBOSE_PLAN_KEY,
                        String.valueOf(jdbcConfig.isVerbosePlanForPostgres()));
-        // JDBCJavelin‚ЕѓXѓ^ѓbѓNѓgѓЊЃ[ѓX‚рЏo—Н‚·‚й‚Ѕ‚Я‚Мѓtѓ‰ѓO
+        // JDBCJavelinгЃ§г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№г‚’е‡єеЉ›гЃ™г‚‹гЃџг‚ЃгЃ®гѓ•гѓ©г‚°
         properties.put(JdbcJavelinConfig.RECORD_STACKTRACE_KEY,
                        String.valueOf(jdbcConfig.isRecordStackTrace()));
-        // JDBCJavelin‚ЕѓXѓ^ѓbѓNѓgѓЊЃ[ѓX‚рЏo—Н‚·‚й‚Ѕ‚Я‚МSQLЋАЌsЋћЉФ‚Ми‡’l
+        // JDBCJavelinгЃ§г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№г‚’е‡єеЉ›гЃ™г‚‹гЃџг‚ЃгЃ®SQLе®џиЎЊж™‚й–“гЃ®й–ѕеЂ¤
         properties.put(JdbcJavelinConfig.RECORD_STACKTRACE_THREADHOLD_KEY,
                        String.valueOf(jdbcConfig.getRecordStackTraceThreshold()));
 
@@ -309,9 +309,9 @@ public class ConfigUpdater
     }
 
     /**
-     * ЊД‚СЏo‚µЏо•с‚р‹L^‚·‚йЌЫ‚Ми‡’l‚рЌXђV‚·‚й
+     * е‘јгЃіе‡єгЃ—жѓ…е ±г‚’иЁйЊІгЃ™г‚‹йљ›гЃ®й–ѕеЂ¤г‚’ж›ґж–°гЃ™г‚‹
      * 
-     * @param alarmThreshold и‡’lЃiѓ~ѓЉ•bЃj
+     * @param alarmThreshold й–ѕеЂ¤пј€гѓџгѓЄз§’пј‰
      */
     public static void updateAlarmThreshold(final long alarmThreshold)
     {
@@ -320,9 +320,9 @@ public class ConfigUpdater
     }
 
     /**
-     * ѓЌѓO‚рЋж“ѕ‚·‚йЌЫ‚МCPUЋћЉФ‚Ми‡’l‚рЌXђV‚·‚й
+     * гѓ­г‚°г‚’еЏ–еѕ—гЃ™г‚‹йљ›гЃ®CPUж™‚й–“гЃ®й–ѕеЂ¤г‚’ж›ґж–°гЃ™г‚‹
      * 
-     * @param alarmCpuThreshold CPUЋћЉФ‚Ми‡’lЃiѓ~ѓЉ•bЃj
+     * @param alarmCpuThreshold CPUж™‚й–“гЃ®й–ѕеЂ¤пј€гѓџгѓЄз§’пј‰
      */
     public static void updateAlarmCpuThreshold(final long alarmCpuThreshold)
     {
@@ -331,9 +331,9 @@ public class ConfigUpdater
     }
 
     /**
-     * ѓXѓ^ѓbѓNѓgѓЊЃ[ѓX‚рѓtѓ@ѓCѓ‹‚ЙЏo—Н‚·‚й‚©‚Мѓtѓ‰ѓO‚рЌXђV‚·‚й
+     * г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№г‚’гѓ•г‚Ўг‚¤гѓ«гЃ«е‡єеЉ›гЃ™г‚‹гЃ‹гЃ®гѓ•гѓ©г‚°г‚’ж›ґж–°гЃ™г‚‹
      * 
-     * @param isLogStacktrace ѓXѓ^ѓbѓNѓgѓЊЃ[ѓX‚рѓtѓ@ѓCѓ‹‚ЙЏo—Н‚·‚й‚©‚Мѓtѓ‰ѓO
+     * @param isLogStacktrace г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№г‚’гѓ•г‚Ўг‚¤гѓ«гЃ«е‡єеЉ›гЃ™г‚‹гЃ‹гЃ®гѓ•гѓ©г‚°
      */
     public static void updateLogStacktrace(final boolean isLogStacktrace)
     {
@@ -342,9 +342,9 @@ public class ConfigUpdater
     }
 
     /**
-     * ѓAѓvѓЉѓPЃ[ѓVѓ‡ѓ“—бЉOЋћ‚ЙѓAѓ‰Ѓ[ѓЂ’К’m‚·‚й‚©‚Мѓtѓ‰ѓO‚рЌXђV‚·‚й
+     * г‚ўгѓ—гѓЄг‚±гѓјг‚·гѓ§гѓідѕ‹е¤–ж™‚гЃ«г‚ўгѓ©гѓјгѓ йЂљзџҐгЃ™г‚‹гЃ‹гЃ®гѓ•гѓ©г‚°г‚’ж›ґж–°гЃ™г‚‹
      * 
-     * @param isAlarmException ѓAѓ‰Ѓ[ѓЂ’К’m‚·‚й‚©‚Мѓtѓ‰ѓO
+     * @param isAlarmException г‚ўгѓ©гѓјгѓ йЂљзџҐгЃ™г‚‹гЃ‹гЃ®гѓ•гѓ©г‚°
      */
     public static void updateAlarmException(final boolean isAlarmException)
     {
@@ -353,9 +353,9 @@ public class ConfigUpdater
     }
 
     /**
-     * HTTPѓXѓeЃ[ѓ^ѓXѓGѓ‰Ѓ[”­ђ¶Ћћ‚ЙѓAѓ‰Ѓ[ѓЂ’К’m‚·‚й‚©‚Мѓtѓ‰ѓO‚рЌXђV‚·‚й
+     * HTTPг‚№гѓ†гѓјг‚їг‚№г‚Ёгѓ©гѓјз™єз”џж™‚гЃ«г‚ўгѓ©гѓјгѓ йЂљзџҐгЃ™г‚‹гЃ‹гЃ®гѓ•гѓ©г‚°г‚’ж›ґж–°гЃ™г‚‹
      * 
-     * @param isHttpStatusError ѓAѓ‰Ѓ[ѓЂ’К’m‚·‚й‚©‚Мѓtѓ‰ѓO
+     * @param isHttpStatusError г‚ўгѓ©гѓјгѓ йЂљзџҐгЃ™г‚‹гЃ‹гЃ®гѓ•гѓ©г‚°
      */
     public static void updateHttpStatusError(final boolean isHttpStatusError)
     {
@@ -364,9 +364,9 @@ public class ConfigUpdater
     }
 
     /**
-     * €шђ”‚рѓtѓ@ѓCѓ‹‚ЙЏo—Н‚·‚й‚©‚Мѓtѓ‰ѓO‚рЌXђV‚·‚й
+     * еј•ж•°г‚’гѓ•г‚Ўг‚¤гѓ«гЃ«е‡єеЉ›гЃ™г‚‹гЃ‹гЃ®гѓ•гѓ©г‚°г‚’ж›ґж–°гЃ™г‚‹
      * 
-     * @param isLogArgs €шђ”‚рѓtѓ@ѓCѓ‹‚ЙЏo—Н‚·‚й‚©‚Мѓtѓ‰ѓO
+     * @param isLogArgs еј•ж•°г‚’гѓ•г‚Ўг‚¤гѓ«гЃ«е‡єеЉ›гЃ™г‚‹гЃ‹гЃ®гѓ•гѓ©г‚°
      */
     public static void updateLogArgs(final boolean isLogArgs)
     {
@@ -375,9 +375,9 @@ public class ConfigUpdater
     }
 
     /**
-     * •Ф‚и’l‚рѓtѓ@ѓCѓ‹‚ЙЏo—Н‚·‚й‚©‚Мѓtѓ‰ѓO‚рЌXђV‚·‚й
+     * иї”г‚ЉеЂ¤г‚’гѓ•г‚Ўг‚¤гѓ«гЃ«е‡єеЉ›гЃ™г‚‹гЃ‹гЃ®гѓ•гѓ©г‚°г‚’ж›ґж–°гЃ™г‚‹
      * 
-     * @param isLogReturn •Ф‚и’l‚рѓtѓ@ѓCѓ‹‚ЙЏo—Н‚·‚й‚©‚Мѓtѓ‰ѓO
+     * @param isLogReturn иї”г‚ЉеЂ¤г‚’гѓ•г‚Ўг‚¤гѓ«гЃ«е‡єеЉ›гЃ™г‚‹гЃ‹гЃ®гѓ•гѓ©г‚°
      */
     public static void updateLogReturn(final boolean isLogReturn)
     {
@@ -386,9 +386,9 @@ public class ConfigUpdater
     }
 
     /**
-     * €шђ”‚рѓtѓ@ѓCѓ‹‚ЙЏo—Н‚·‚й‚©‚Мѓtѓ‰ѓO‚рЌXђV‚·‚й
+     * еј•ж•°г‚’гѓ•г‚Ўг‚¤гѓ«гЃ«е‡єеЉ›гЃ™г‚‹гЃ‹гЃ®гѓ•гѓ©г‚°г‚’ж›ґж–°гЃ™г‚‹
      * 
-     * @param isLogArgs €шђ”‚рѓtѓ@ѓCѓ‹‚ЙЏo—Н‚·‚й‚©‚Мѓtѓ‰ѓO
+     * @param isLogArgs еј•ж•°г‚’гѓ•г‚Ўг‚¤гѓ«гЃ«е‡єеЉ›гЃ™г‚‹гЃ‹гЃ®гѓ•гѓ©г‚°
      */
     public static void updateLogHttpSession(final boolean isLogArgs)
     {
@@ -397,9 +397,9 @@ public class ConfigUpdater
     }
 
     /**
-     * MBeanЏо•с‚рѓtѓ@ѓCѓ‹‚ЙЏo—Н‚·‚й‚©‚Мѓtѓ‰ѓO‚рЌXђV‚·‚й
+     * MBeanжѓ…е ±г‚’гѓ•г‚Ўг‚¤гѓ«гЃ«е‡єеЉ›гЃ™г‚‹гЃ‹гЃ®гѓ•гѓ©г‚°г‚’ж›ґж–°гЃ™г‚‹
      * 
-     * @param isLogMBeanInfo MBeanЏо•с‚рѓtѓ@ѓCѓ‹‚ЙЏo—Н‚·‚й‚©‚Мѓtѓ‰ѓO
+     * @param isLogMBeanInfo MBeanжѓ…е ±г‚’гѓ•г‚Ўг‚¤гѓ«гЃ«е‡єеЉ›гЃ™г‚‹гЃ‹гЃ®гѓ•гѓ©г‚°
      */
     public static void updateLogMBeanInfo(final boolean isLogMBeanInfo)
     {
@@ -408,9 +408,9 @@ public class ConfigUpdater
     }
 
     /**
-     * MBeanЏо•с‚рѓtѓ@ѓCѓ‹‚ЙЏo—Н‚·‚й‚©‚Мѓtѓ‰ѓO‚рЌXђV‚·‚й
+     * MBeanжѓ…е ±г‚’гѓ•г‚Ўг‚¤гѓ«гЃ«е‡єеЉ›гЃ™г‚‹гЃ‹гЃ®гѓ•гѓ©г‚°г‚’ж›ґж–°гЃ™г‚‹
      * 
-     * @param isLogMBeanInfo MBeanЏо•с‚рѓtѓ@ѓCѓ‹‚ЙЏo—Н‚·‚й‚©‚Мѓtѓ‰ѓO
+     * @param isLogMBeanInfo MBeanжѓ…е ±г‚’гѓ•г‚Ўг‚¤гѓ«гЃ«е‡єеЉ›гЃ™г‚‹гЃ‹гЃ®гѓ•гѓ©г‚°
      */
     public static void updateLogMBeanInfoRoot(final boolean isLogMBeanInfo)
     {
@@ -419,9 +419,9 @@ public class ConfigUpdater
     }
 
     /**
-     * €шђ”ЏЪЌЧ‚рЏo—Н‚·‚й‚©‚Мѓtѓ‰ѓO‚рЌXђV‚·‚й
+     * еј•ж•°и©ізґ°г‚’е‡єеЉ›гЃ™г‚‹гЃ‹гЃ®гѓ•гѓ©г‚°г‚’ж›ґж–°гЃ™г‚‹
      * 
-     * @param isArgsDetail €шђ”ЏЪЌЧ‚рЏo—Н‚·‚й‚©‚Мѓtѓ‰ѓO
+     * @param isArgsDetail еј•ж•°и©ізґ°г‚’е‡єеЉ›гЃ™г‚‹гЃ‹гЃ®гѓ•гѓ©г‚°
      */
     public static void updateArgsDetail(final boolean isArgsDetail)
     {
@@ -430,9 +430,9 @@ public class ConfigUpdater
     }
 
     /**
-     * €шђ”ЏЪЌЧЏo—НЋћ‚Мђ[“x‚рЌXђV‚·‚й
+     * еј•ж•°и©ізґ°е‡єеЉ›ж™‚гЃ®ж·±еє¦г‚’ж›ґж–°гЃ™г‚‹
      * 
-     * @param argsDetailDepth €шђ”ЏЪЌЧЏo—НЋћ‚Мђ[“x
+     * @param argsDetailDepth еј•ж•°и©ізґ°е‡єеЉ›ж™‚гЃ®ж·±еє¦
      */
     public static void updateArgsDetailDepth(final int argsDetailDepth)
     {
@@ -441,9 +441,9 @@ public class ConfigUpdater
     }
 
     /**
-     * •Ф‚и’lЏЪЌЧ‚рЏo—Н‚·‚й‚©‚Мѓtѓ‰ѓO‚рЌXђV‚·‚й
+     * иї”г‚ЉеЂ¤и©ізґ°г‚’е‡єеЉ›гЃ™г‚‹гЃ‹гЃ®гѓ•гѓ©г‚°г‚’ж›ґж–°гЃ™г‚‹
      * 
-     * @param isReturnDetail •Ф‚и’lЏЪЌЧ‚рЏo—Н‚·‚й‚©‚Мѓtѓ‰ѓO
+     * @param isReturnDetail иї”г‚ЉеЂ¤и©ізґ°г‚’е‡єеЉ›гЃ™г‚‹гЃ‹гЃ®гѓ•гѓ©г‚°
      */
     public static void updateReturnDetail(final boolean isReturnDetail)
     {
@@ -452,9 +452,9 @@ public class ConfigUpdater
     }
 
     /**
-     * •Ф‚и’lЏЪЌЧЏo—НЋћ‚Мђ[“x
+     * иї”г‚ЉеЂ¤и©ізґ°е‡єеЉ›ж™‚гЃ®ж·±еє¦
      * 
-     * @param returnDetailDepth •Ф‚и’lЏЪЌЧЏo—НЋћ‚Мђ[“x
+     * @param returnDetailDepth иї”г‚ЉеЂ¤и©ізґ°е‡єеЉ›ж™‚гЃ®ж·±еє¦
      */
     public static void updateReturnDetailDepth(final int returnDetailDepth)
     {
@@ -463,9 +463,9 @@ public class ConfigUpdater
     }
 
     /**
-     * HTTPѓZѓbѓVѓ‡ѓ“ЏЪЌЧ‚рЏo—Н‚·‚й‚©‚Мѓtѓ‰ѓO‚рЌXђV‚·‚й
+     * HTTPг‚»гѓѓг‚·гѓ§гѓіи©ізґ°г‚’е‡єеЉ›гЃ™г‚‹гЃ‹гЃ®гѓ•гѓ©г‚°г‚’ж›ґж–°гЃ™г‚‹
      * 
-     * @param isHttpSessionDetail HTTPѓZѓbѓVѓ‡ѓ“ЏЪЌЧ‚рЏo—Н‚·‚й‚©‚Мѓtѓ‰ѓO
+     * @param isHttpSessionDetail HTTPг‚»гѓѓг‚·гѓ§гѓіи©ізґ°г‚’е‡єеЉ›гЃ™г‚‹гЃ‹гЃ®гѓ•гѓ©г‚°
      */
     public static void updateHttpSessionDetail(final boolean isHttpSessionDetail)
     {
@@ -474,9 +474,9 @@ public class ConfigUpdater
     }
 
     /**
-     * HTTPѓZѓbѓVѓ‡ѓ“ЏЪЌЧЏo—НЋћ‚Мђ[“x‚рЌXђV‚·‚й
+     * HTTPг‚»гѓѓг‚·гѓ§гѓіи©ізґ°е‡єеЉ›ж™‚гЃ®ж·±еє¦г‚’ж›ґж–°гЃ™г‚‹
      * 
-     * @param httpSessionDetailDepth HTTPѓZѓbѓVѓ‡ѓ“ЏЪЌЧЏo—НЋћ‚Мђ[“x
+     * @param httpSessionDetailDepth HTTPг‚»гѓѓг‚·гѓ§гѓіи©ізґ°е‡єеЉ›ж™‚гЃ®ж·±еє¦
      */
     public static void updateHttpSessionDetailDepth(final int httpSessionDetailDepth)
     {
@@ -485,9 +485,9 @@ public class ConfigUpdater
     }
 
     /**
-     * ѓXѓЊѓbѓhѓ‚ѓfѓ‹’и‹`‚рЌXђV‚·‚й
+     * г‚№гѓ¬гѓѓгѓ‰гѓўгѓ‡гѓ«е®љзѕ©г‚’ж›ґж–°гЃ™г‚‹
      * 
-     * @param threadModel ѓXѓЊѓbѓhѓ‚ѓfѓ‹’и‹`
+     * @param threadModel г‚№гѓ¬гѓѓгѓ‰гѓўгѓ‡гѓ«е®љзѕ©
      */
     public static void updateThreadModel(final int threadModel)
     {
@@ -496,9 +496,9 @@ public class ConfigUpdater
     }
 
     /**
-     * JDBC Javelin‚М—LЊш/–іЊшѓtѓ‰ѓO‚рЌXђV‚·‚й
+     * JDBC JavelinгЃ®жњ‰еЉ№/з„ЎеЉ№гѓ•гѓ©г‚°г‚’ж›ґж–°гЃ™г‚‹
      * 
-     * @param isJdbcEnabled JDBC Javelin‚М—LЊш/–іЊшѓtѓ‰ѓO
+     * @param isJdbcEnabled JDBC JavelinгЃ®жњ‰еЉ№/з„ЎеЉ№гѓ•гѓ©г‚°
      */
     public static void updateJdbcEnabled(final boolean isJdbcEnabled)
     {
@@ -507,9 +507,9 @@ public class ConfigUpdater
     }
 
     /**
-     * ЋАЌsЊv‰жЋж“ѕѓtѓ‰ѓO‚рЌXђV‚·‚й
+     * е®џиЎЊиЁ€з”»еЏ–еѕ—гѓ•гѓ©г‚°г‚’ж›ґж–°гЃ™г‚‹
      * 
-     * @param isRecordExecPlan SQL‚МЋАЌsЊv‰ж‚р‹L^‚·‚йЌЫ‚Ми‡’l
+     * @param isRecordExecPlan SQLгЃ®е®џиЎЊиЁ€з”»г‚’иЁйЊІгЃ™г‚‹йљ›гЃ®й–ѕеЂ¤
      */
     public static void updateRecordExecPlan(final boolean isRecordExecPlan)
     {
@@ -518,9 +518,9 @@ public class ConfigUpdater
     }
 
     /**
-     * SQL‚МЋАЌsЊv‰ж‚р‹L^‚·‚йЌЫ‚Ми‡’l‚рЌXђV‚·‚й
+     * SQLгЃ®е®џиЎЊиЁ€з”»г‚’иЁйЊІгЃ™г‚‹йљ›гЃ®й–ѕеЂ¤г‚’ж›ґж–°гЃ™г‚‹
      * 
-     * @param execPlanThreshold SQL‚МЋАЌsЊv‰ж‚р‹L^‚·‚йЌЫ‚Ми‡’l
+     * @param execPlanThreshold SQLгЃ®е®џиЎЊиЁ€з”»г‚’иЁйЊІгЃ™г‚‹йљ›гЃ®й–ѕеЂ¤
      */
     public static void updateExecPlanThreshold(final long execPlanThreshold)
     {
@@ -529,9 +529,9 @@ public class ConfigUpdater
     }
 
     /**
-     * JDBCЊДЏo‚µЏd•ЎЏo—Нѓtѓ‰ѓO‚рЌXђV‚·‚й
+     * JDBCе‘је‡єгЃ—й‡Ќи¤‡е‡єеЉ›гѓ•гѓ©г‚°г‚’ж›ґж–°гЃ™г‚‹
      * 
-     * @param isRecordDuplJdbcCall JDBCЊДЏo‚µЏd•ЎЏo—Нѓtѓ‰ѓO
+     * @param isRecordDuplJdbcCall JDBCе‘је‡єгЃ—й‡Ќи¤‡е‡єеЉ›гѓ•гѓ©г‚°
      */
     public static void updateRecordDuplJdbcCall(final boolean isRecordDuplJdbcCall)
     {
@@ -540,9 +540,9 @@ public class ConfigUpdater
     }
 
     /**
-     * ѓoѓCѓ“ѓh•Пђ”Џo—Нѓtѓ‰ѓO‚рЌXђV‚·‚й
+     * гѓђг‚¤гѓігѓ‰е¤‰ж•°е‡єеЉ›гѓ•гѓ©г‚°г‚’ж›ґж–°гЃ™г‚‹
      * 
-     * @param isRecordBindVal ѓoѓCѓ“ѓh•Пђ”Џo—Нѓtѓ‰ѓO
+     * @param isRecordBindVal гѓђг‚¤гѓігѓ‰е¤‰ж•°е‡єеЉ›гѓ•гѓ©г‚°
      */
     public static void updateRecordBindVal(final boolean isRecordBindVal)
     {
@@ -551,9 +551,9 @@ public class ConfigUpdater
     }
 
     /**
-     * “Ї€кѓgѓ‰ѓ“ѓUѓNѓVѓ‡ѓ““а‚М“Ї€кSQLЊД‚СЏo‚µ‰сђ”’ґ‰Я‚Ми‡’l‚рЉДЋ‹‚·‚й‚©”Ы‚©‚рЌXђV‚·‚й
+     * еђЊдёЂгѓ€гѓ©гѓіг‚¶г‚Їг‚·гѓ§гѓіе†…гЃ®еђЊдёЂSQLе‘јгЃіе‡єгЃ—е›ћж•°и¶…йЃЋгЃ®й–ѕеЂ¤г‚’з›Ји¦–гЃ™г‚‹гЃ‹еђ¦гЃ‹г‚’ж›ґж–°гЃ™г‚‹
      * 
-     * @param isSqlcountMonitor “Ї€кѓgѓ‰ѓ“ѓUѓNѓVѓ‡ѓ““а‚М“Ї€кSQLЊД‚СЏo‚µ‰сђ”’ґ‰Я‚Ми‡’l‚рЉДЋ‹‚·‚й‚©”Ы‚©
+     * @param isSqlcountMonitor еђЊдёЂгѓ€гѓ©гѓіг‚¶г‚Їг‚·гѓ§гѓіе†…гЃ®еђЊдёЂSQLе‘јгЃіе‡єгЃ—е›ћж•°и¶…йЃЋгЃ®й–ѕеЂ¤г‚’з›Ји¦–гЃ™г‚‹гЃ‹еђ¦гЃ‹
      */
     public static void updateSqlcountMonitor(final boolean isSqlcountMonitor)
     {
@@ -562,9 +562,9 @@ public class ConfigUpdater
     }
 
     /**
-     * “Ї€кѓgѓ‰ѓ“ѓUѓNѓVѓ‡ѓ““а‚М“Ї€кSQLЊД‚СЏo‚µ‰сђ”’ґ‰Я‚Ми‡’l‚рЌXђV‚·‚й
+     * еђЊдёЂгѓ€гѓ©гѓіг‚¶г‚Їг‚·гѓ§гѓіе†…гЃ®еђЊдёЂSQLе‘јгЃіе‡єгЃ—е›ћж•°и¶…йЃЋгЃ®й–ѕеЂ¤г‚’ж›ґж–°гЃ™г‚‹
      * 
-     * @param sqlCount “Ї€кѓgѓ‰ѓ“ѓUѓNѓVѓ‡ѓ““а‚М“Ї€кSQLЊД‚СЏo‚µ‰сђ”’ґ‰Я‚Ми‡’l
+     * @param sqlCount еђЊдёЂгѓ€гѓ©гѓіг‚¶г‚Їг‚·гѓ§гѓіе†…гЃ®еђЊдёЂSQLе‘јгЃіе‡єгЃ—е›ћж•°и¶…йЃЋгЃ®й–ѕеЂ¤
      */
     public static void updateSqlcount(final long sqlCount)
     {
@@ -573,9 +573,9 @@ public class ConfigUpdater
     }
 
     /**
-     * ѓoѓCѓ“ѓh•Пђ”Џo—Н‚Й‚Ё‚Ї‚й•¶Ћљ—с’·ђ§ЊА‚рЌXђV‚·‚й
+     * гѓђг‚¤гѓігѓ‰е¤‰ж•°е‡єеЉ›гЃ«гЃЉгЃ‘г‚‹ж–‡е­—е€—й•·е€¶й™ђг‚’ж›ґж–°гЃ™г‚‹
      * 
-     * @param jdbcStringLimitLength ѓoѓCѓ“ѓh•Пђ”Џo—Н‚Й‚Ё‚Ї‚й•¶Ћљ—с’·ђ§ЊА
+     * @param jdbcStringLimitLength гѓђг‚¤гѓігѓ‰е¤‰ж•°е‡єеЉ›гЃ«гЃЉгЃ‘г‚‹ж–‡е­—е€—й•·е€¶й™ђ
      */
     public static void updateJdbcStringLimitLength(final long jdbcStringLimitLength)
     {
@@ -584,9 +584,9 @@ public class ConfigUpdater
     }
 
     /**
-     * Oracle‚Й‘О‚·‚йSQLѓgѓЊЃ[ѓX‚МЏo—НЋwЋ¦ѓtѓ‰ѓO‚рЌXђV‚·‚й
+     * OracleгЃ«еЇѕгЃ™г‚‹SQLгѓ€гѓ¬гѓјг‚№гЃ®е‡єеЉ›жЊ‡з¤єгѓ•гѓ©г‚°г‚’ж›ґж–°гЃ™г‚‹
      * 
-     * @param isAllowSqlTraceForOracle Oracle‚Й‘О‚·‚йSQLѓgѓЊЃ[ѓX‚МЏo—НЋwЋ¦ѓtѓ‰ѓO
+     * @param isAllowSqlTraceForOracle OracleгЃ«еЇѕгЃ™г‚‹SQLгѓ€гѓ¬гѓјг‚№гЃ®е‡єеЉ›жЊ‡з¤єгѓ•гѓ©г‚°
      */
     public static void updateAllowSqlTraceForOracle(final boolean isAllowSqlTraceForOracle)
     {
@@ -595,9 +595,9 @@ public class ConfigUpdater
     }
 
     /**
-     * PostgreSQL‚Й‘О‚·‚йЋАЌsЊv‰жЏЪЌЧЋж“ѕѓtѓ‰ѓO‚рЌXђV‚·‚й
+     * PostgreSQLгЃ«еЇѕгЃ™г‚‹е®џиЎЊиЁ€з”»и©ізґ°еЏ–еѕ—гѓ•гѓ©г‚°г‚’ж›ґж–°гЃ™г‚‹
      * 
-     * @param isVerbosePlanForPostgres PostgreSQL‚Й‘О‚·‚йЋАЌsЊv‰жЏЪЌЧЋж“ѕѓtѓ‰ѓO
+     * @param isVerbosePlanForPostgres PostgreSQLгЃ«еЇѕгЃ™г‚‹е®џиЎЊиЁ€з”»и©ізґ°еЏ–еѕ—гѓ•гѓ©г‚°
      */
     public static void updateVerbosePlanForPostgres(final boolean isVerbosePlanForPostgres)
     {
@@ -606,9 +606,9 @@ public class ConfigUpdater
     }
 
     /**
-     * JDBCJavelinѓXѓ^ѓbѓNѓgѓЊЃ[ѓXЋж“ѕѓtѓ‰ѓO‚рЌXђV‚·‚й
+     * JDBCJavelinг‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№еЏ–еѕ—гѓ•гѓ©г‚°г‚’ж›ґж–°гЃ™г‚‹
      * 
-     * @param recordStackTrace JDBCJavelinѓXѓ^ѓbѓNѓgѓЊЃ[ѓXЋж“ѕѓtѓ‰ѓO
+     * @param recordStackTrace JDBCJavelinг‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№еЏ–еѕ—гѓ•гѓ©г‚°
      */
     public static void updateRecordStackTrace(final boolean recordStackTrace)
     {
@@ -617,9 +617,9 @@ public class ConfigUpdater
     }
 
     /**
-     * JDBCJavelinѓXѓ^ѓbѓNѓgѓЊЃ[ѓXЋж“ѕѓtѓ‰ѓO‚рЌXђV‚·‚й
+     * JDBCJavelinг‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№еЏ–еѕ—гѓ•гѓ©г‚°г‚’ж›ґж–°гЃ™г‚‹
      * 
-     * @param stackTraceThreshold JDBCJavelin‚ЕѓXѓ^ѓbѓNѓgѓЊЃ[ѓX‚рЋж“ѕ‚·‚й‚Ѕ‚Я‚Ми‡’l
+     * @param stackTraceThreshold JDBCJavelinгЃ§г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№г‚’еЏ–еѕ—гЃ™г‚‹гЃџг‚ЃгЃ®й–ѕеЂ¤
      */
     public static void updateRecordStackTraceThreshold(final int stackTraceThreshold)
     {
@@ -628,9 +628,9 @@ public class ConfigUpdater
     }
 
     /**
-     * JDBC Javelin‚рЋg—p‚·‚й‚©‚З‚¤‚©‚рђЭ’и‚·‚йЃB
+     * JDBC Javelinг‚’дЅїз”ЁгЃ™г‚‹гЃ‹гЃ©гЃ†гЃ‹г‚’иЁ­е®љгЃ™г‚‹гЂ‚
      * 
-     * @param isJdbcJavelinEnabled JDBC Javelin‚рЋg—p‚·‚й‚©‚З‚¤‚©
+     * @param isJdbcJavelinEnabled JDBC Javelinг‚’дЅїз”ЁгЃ™г‚‹гЃ‹гЃ©гЃ†гЃ‹
      */
     public static void updateJdbcJavelinEnabled(final boolean isJdbcJavelinEnabled)
     {
@@ -639,9 +639,9 @@ public class ConfigUpdater
     }
 
     /**
-     * Collection‚МѓЃѓ‚ѓЉѓЉЃ[ѓNЊџЏo‚рЌs‚¤‚©‚З‚¤‚©‚рЌXђV‚µ‚Ь‚·ЃB<br />
+     * CollectionгЃ®гѓЎгѓўгѓЄгѓЄгѓјг‚Їж¤ње‡єг‚’иЎЊгЃ†гЃ‹гЃ©гЃ†гЃ‹г‚’ж›ґж–°гЃ—гЃѕгЃ™гЂ‚<br />
      * 
-     * @param collectionMonitor Collection‚МѓЃѓ‚ѓЉѓЉЃ[ѓNЊџЏo‚рЌs‚¤ЏкЌ‡ЃA<code>true</code>
+     * @param collectionMonitor CollectionгЃ®гѓЎгѓўгѓЄгѓЄгѓјг‚Їж¤ње‡єг‚’иЎЊгЃ†е ґеђ€гЂЃ<code>true</code>
      */
     public static void updateCollectionMonitor(final boolean collectionMonitor)
     {
@@ -650,9 +650,9 @@ public class ConfigUpdater
     }
 
     /**
-     * •Ы‘¶‚·‚йѓRѓЊѓNѓVѓ‡ѓ“ѓIѓuѓWѓFѓNѓg‚МѓTѓCѓY‚Ми‡’l‚рЌXђV‚·‚йЃB
+     * дїќе­гЃ™г‚‹г‚ігѓ¬г‚Їг‚·гѓ§гѓіг‚Єгѓ–г‚ёг‚§г‚Їгѓ€гЃ®г‚µг‚¤г‚єгЃ®й–ѕеЂ¤г‚’ж›ґж–°гЃ™г‚‹гЂ‚
      * 
-     * @param collectionSizeThreshold •Ы‘¶‚·‚йѓRѓЊѓNѓVѓ‡ѓ“ѓIѓuѓWѓFѓNѓg‚МѓTѓCѓY
+     * @param collectionSizeThreshold дїќе­гЃ™г‚‹г‚ігѓ¬г‚Їг‚·гѓ§гѓіг‚Єгѓ–г‚ёг‚§г‚Їгѓ€гЃ®г‚µг‚¤г‚є
      */
     public static void updateCollectionSizesThreshold(final int collectionSizeThreshold)
     {
@@ -661,9 +661,9 @@ public class ConfigUpdater
     }
 
     /**
-     * ѓNѓ‰ѓXѓqѓXѓgѓOѓ‰ѓЂ‚рЋж“ѕ‚·‚йЌЫ‚ЙЃAGC‚рЌs‚¤‚©‚З‚¤‚©‚рђЭ’и‚·‚йЃB
+     * г‚Їгѓ©г‚№гѓ’г‚№гѓ€г‚°гѓ©гѓ г‚’еЏ–еѕ—гЃ™г‚‹йљ›гЃ«гЂЃGCг‚’иЎЊгЃ†гЃ‹гЃ©гЃ†гЃ‹г‚’иЁ­е®љгЃ™г‚‹гЂ‚
      * 
-     * @param classHistoGC ѓNѓ‰ѓXѓqѓXѓgѓOѓ‰ѓЂ‚рЋж“ѕ‚·‚йЌЫ‚ЙЃAGC‚рЌs‚¤‚©‚З‚¤‚©ЃB
+     * @param classHistoGC г‚Їгѓ©г‚№гѓ’г‚№гѓ€г‚°гѓ©гѓ г‚’еЏ–еѕ—гЃ™г‚‹йљ›гЃ«гЂЃGCг‚’иЎЊгЃ†гЃ‹гЃ©гЃ†гЃ‹гЂ‚
      */
     public static void updateClassHistoGC(final boolean classHistoGC)
     {
@@ -672,9 +672,9 @@ public class ConfigUpdater
     }
 
     /**
-     * ѓNѓ‰ѓXѓqѓXѓgѓOѓ‰ѓЂЋж“ѕЉФЉu(ѓ~ѓЉ•b)‚рђЭ’и‚·‚йЃB
+     * г‚Їгѓ©г‚№гѓ’г‚№гѓ€г‚°гѓ©гѓ еЏ–еѕ—й–“йљ”(гѓџгѓЄз§’)г‚’иЁ­е®љгЃ™г‚‹гЂ‚
      * 
-     * @param classHistoInterval ѓNѓ‰ѓXѓqѓXѓgѓOѓ‰ѓЂЋж“ѕЉФЉu(ѓ~ѓЉ•b)ЃB
+     * @param classHistoInterval г‚Їгѓ©г‚№гѓ’г‚№гѓ€г‚°гѓ©гѓ еЏ–еѕ—й–“йљ”(гѓџгѓЄз§’)гЂ‚
      */
     public static void updateClassHistoInterval(final int classHistoInterval)
     {
@@ -683,9 +683,9 @@ public class ConfigUpdater
     }
 
     /**
-     * ѓNѓ‰ѓXѓqѓXѓgѓOѓ‰ѓЂ‚МЏг€К‰ЅЊЏ‚рЋж“ѕ‚·‚й‚©‚рђЭ’и‚·‚йЃB
+     * г‚Їгѓ©г‚№гѓ’г‚№гѓ€г‚°гѓ©гѓ гЃ®дёЉдЅЌдЅ•д»¶г‚’еЏ–еѕ—гЃ™г‚‹гЃ‹г‚’иЁ­е®љгЃ™г‚‹гЂ‚
      * 
-     * @param classHistoMax ѓNѓ‰ѓXѓqѓXѓgѓOѓ‰ѓЂ‚МЏг€К‰ЅЊЏ‚рЋж“ѕ‚·‚й‚©ЃB
+     * @param classHistoMax г‚Їгѓ©г‚№гѓ’г‚№гѓ€г‚°гѓ©гѓ гЃ®дёЉдЅЌдЅ•д»¶г‚’еЏ–еѕ—гЃ™г‚‹гЃ‹гЂ‚
      */
     public static void updateClassHistoMax(final int classHistoMax)
     {
@@ -694,9 +694,9 @@ public class ConfigUpdater
     }
 
     /**
-     * ѓNѓ‰ѓXѓqѓXѓgѓOѓ‰ѓЂ‚рЋж“ѕ‚·‚й‚©‚З‚¤‚©‚рђЭ’и‚·‚йЃB
+     * г‚Їгѓ©г‚№гѓ’г‚№гѓ€г‚°гѓ©гѓ г‚’еЏ–еѕ—гЃ™г‚‹гЃ‹гЃ©гЃ†гЃ‹г‚’иЁ­е®љгЃ™г‚‹гЂ‚
      * 
-     * @param classHisto ѓNѓ‰ѓXѓqѓXѓgѓOѓ‰ѓЂ‚рЋж“ѕ‚·‚й‚©‚З‚¤‚©ЃB
+     * @param classHisto г‚Їгѓ©г‚№гѓ’г‚№гѓ€г‚°гѓ©гѓ г‚’еЏ–еѕ—гЃ™г‚‹гЃ‹гЃ©гЃ†гЃ‹гЂ‚
      */
     public static void updateClassHisto(final boolean classHisto)
     {
@@ -705,9 +705,9 @@ public class ConfigUpdater
     }
 
     /**
-     * ђьЊ`ЊџЌхЊџЏo‚рЌs‚¤‚©‚З‚¤‚©‚рђЭ’и‚µ‚Ь‚·ЃB<br />
+     * з·љеЅўж¤њзґўж¤ње‡єг‚’иЎЊгЃ†гЃ‹гЃ©гЃ†гЃ‹г‚’иЁ­е®љгЃ—гЃѕгЃ™гЂ‚<br />
      * 
-     * @param isLinearSearchMonitor ђьЊ`ЊџЌхЊџЏo‚рЌs‚¤‚©‚З‚¤‚©
+     * @param isLinearSearchMonitor з·љеЅўж¤њзґўж¤ње‡єг‚’иЎЊгЃ†гЃ‹гЃ©гЃ†гЃ‹
      */
     public static void updateLinearSearchMonitor(final boolean isLinearSearchMonitor)
     {
@@ -716,9 +716,9 @@ public class ConfigUpdater
     }
 
     /**
-     * ђьЊ`ЊџЌх‘ОЏЫ‚Ж‚И‚йѓЉѓXѓgѓTѓCѓY‚Ми‡’l‚рђЭ’и‚µ‚Ь‚·ЃB
+     * з·љеЅўж¤њзґўеЇѕи±ЎгЃЁгЃЄг‚‹гѓЄг‚№гѓ€г‚µг‚¤г‚єгЃ®й–ѕеЂ¤г‚’иЁ­е®љгЃ—гЃѕгЃ™гЂ‚
      * 
-     * @param size ђьЊ`ЊџЌх‘ОЏЫ‚Ж‚И‚йѓЉѓXѓgѓTѓCѓY‚Ми‡’l
+     * @param size з·љеЅўж¤њзґўеЇѕи±ЎгЃЁгЃЄг‚‹гѓЄг‚№гѓ€г‚µг‚¤г‚єгЃ®й–ѕеЂ¤
      */
     public static void updateLinearSearchSize(final int size)
     {
@@ -727,9 +727,9 @@ public class ConfigUpdater
     }
 
     /**
-     * ѓЉѓXѓgѓTѓCѓY‚Й‘О‚·‚йђьЊ`ѓAѓNѓZѓX‰сђ”‚МЉ„Ќ‡‚Ми‡’l‚рђЭ’и‚µ‚Ь‚·ЃB
+     * гѓЄг‚№гѓ€г‚µг‚¤г‚єгЃ«еЇѕгЃ™г‚‹з·љеЅўг‚ўг‚Їг‚»г‚№е›ћж•°гЃ®е‰Іеђ€гЃ®й–ѕеЂ¤г‚’иЁ­е®љгЃ—гЃѕгЃ™гЂ‚
      * 
-     * @param ratio ѓЉѓXѓgѓTѓCѓY‚Й‘О‚·‚йђьЊ`ѓAѓNѓZѓX‰сђ”‚МЉ„Ќ‡
+     * @param ratio гѓЄг‚№гѓ€г‚µг‚¤г‚єгЃ«еЇѕгЃ™г‚‹з·љеЅўг‚ўг‚Їг‚»г‚№е›ћж•°гЃ®е‰Іеђ€
      */
     public static void updateLinearSearchRatio(final double ratio)
     {
@@ -738,9 +738,9 @@ public class ConfigUpdater
     }
 
     /**
-     * ѓlѓbѓgѓЏЃ[ѓN“ь—Н—К‚рЋж“ѕ‚·‚й‚©‚рђЭ’и‚·‚йЃB
+     * гѓЌгѓѓгѓ€гѓЇгѓјг‚Їе…ҐеЉ›й‡Џг‚’еЏ–еѕ—гЃ™г‚‹гЃ‹г‚’иЁ­е®љгЃ™г‚‹гЂ‚
      * 
-     * @param isNetInputMonitor ѓNѓ‰ѓXѓqѓXѓgѓOѓ‰ѓЂ‚МЏг€К‰ЅЊЏ‚рЋж“ѕ‚·‚й‚©ЃB
+     * @param isNetInputMonitor г‚Їгѓ©г‚№гѓ’г‚№гѓ€г‚°гѓ©гѓ гЃ®дёЉдЅЌдЅ•д»¶г‚’еЏ–еѕ—гЃ™г‚‹гЃ‹гЂ‚
      */
     public static void updateNetInputMonitor(final boolean isNetInputMonitor)
     {
@@ -749,9 +749,9 @@ public class ConfigUpdater
     }
 
     /**
-     * ѓlѓbѓgѓЏЃ[ѓNЏo—Н—К‚рЋж“ѕ‚·‚й‚©‚рђЭ’и‚·‚й
+     * гѓЌгѓѓгѓ€гѓЇгѓјг‚Їе‡єеЉ›й‡Џг‚’еЏ–еѕ—гЃ™г‚‹гЃ‹г‚’иЁ­е®љгЃ™г‚‹
      * 
-     * @param isNetOutputMonitor ѓlѓbѓgѓЏЃ[ѓNЏo—Н—К‚рЋж“ѕ‚·‚й‚©
+     * @param isNetOutputMonitor гѓЌгѓѓгѓ€гѓЇгѓјг‚Їе‡єеЉ›й‡Џг‚’еЏ–еѕ—гЃ™г‚‹гЃ‹
      */
     public static void updateNetOutputMonitor(final boolean isNetOutputMonitor)
     {
@@ -760,9 +760,9 @@ public class ConfigUpdater
     }
 
     /**
-     * ѓtѓ@ѓCѓ‹“ь—Н—К‚рЋж“ѕ‚·‚й‚©‚рђЭ’и‚·‚й
+     * гѓ•г‚Ўг‚¤гѓ«е…ҐеЉ›й‡Џг‚’еЏ–еѕ—гЃ™г‚‹гЃ‹г‚’иЁ­е®љгЃ™г‚‹
      * 
-     * @param isFileInputMonitor ѓtѓ@ѓCѓ‹“ь—Н—К‚рЋж“ѕ‚·‚й‚©
+     * @param isFileInputMonitor гѓ•г‚Ўг‚¤гѓ«е…ҐеЉ›й‡Џг‚’еЏ–еѕ—гЃ™г‚‹гЃ‹
      */
     public static void updateFileInputMonitor(final boolean isFileInputMonitor)
     {
@@ -771,9 +771,9 @@ public class ConfigUpdater
     }
 
     /**
-     * ѓtѓ@ѓCѓ‹Џo—Н—К‚рЋж“ѕ‚·‚й‚©‚рђЭ’и‚·‚й
+     * гѓ•г‚Ўг‚¤гѓ«е‡єеЉ›й‡Џг‚’еЏ–еѕ—гЃ™г‚‹гЃ‹г‚’иЁ­е®љгЃ™г‚‹
      * 
-     * @param isFileOutputMonitor ѓtѓ@ѓCѓ‹Џo—Н—К‚рЋж“ѕ‚·‚й‚©
+     * @param isFileOutputMonitor гѓ•г‚Ўг‚¤гѓ«е‡єеЉ›й‡Џг‚’еЏ–еѕ—гЃ™г‚‹гЃ‹
      */
     public static void updateFileOutputMonitor(final boolean isFileOutputMonitor)
     {
@@ -782,9 +782,9 @@ public class ConfigUpdater
     }
 
     /**
-     * ѓtѓ@ѓCѓiѓ‰ѓCѓY‘Т‚їѓIѓuѓWѓFѓNѓgђ”‚рЋж“ѕ‚·‚й‚©‚рђЭ’и‚·‚й
+     * гѓ•г‚Ўг‚¤гѓЉгѓ©г‚¤г‚єеѕ…гЃЎг‚Єгѓ–г‚ёг‚§г‚Їгѓ€ж•°г‚’еЏ–еѕ—гЃ™г‚‹гЃ‹г‚’иЁ­е®љгЃ™г‚‹
      * 
-     * @param isFinalizationCount ѓtѓ@ѓCѓiѓ‰ѓCѓY‘Т‚їѓIѓuѓWѓFѓNѓgђ”‚рЋж“ѕ‚·‚й‚©
+     * @param isFinalizationCount гѓ•г‚Ўг‚¤гѓЉгѓ©г‚¤г‚єеѕ…гЃЎг‚Єгѓ–г‚ёг‚§г‚Їгѓ€ж•°г‚’еЏ–еѕ—гЃ™г‚‹гЃ‹
      */
     public static void updateFinalizationCount(final boolean isFinalizationCount)
     {
@@ -793,9 +793,9 @@ public class ConfigUpdater
     }
 
     /**
-     * ѓЃѓ\ѓbѓhЊД‚СЏo‚µЉФЉu’ґ‰Я‚рЉДЋ‹‚·‚й‚©‚рђЭ’и‚·‚й
+     * гѓЎг‚Ѕгѓѓгѓ‰е‘јгЃіе‡єгЃ—й–“йљ”и¶…йЃЋг‚’з›Ји¦–гЃ™г‚‹гЃ‹г‚’иЁ­е®љгЃ™г‚‹
      * 
-     * @param isIntervalMonitor ѓЃѓ\ѓbѓhЊД‚СЏo‚µЉФЉu’ґ‰Я‚рЉДЋ‹‚·‚й‚©
+     * @param isIntervalMonitor гѓЎг‚Ѕгѓѓгѓ‰е‘јгЃіе‡єгЃ—й–“йљ”и¶…йЃЋг‚’з›Ји¦–гЃ™г‚‹гЃ‹
      */
     public static void updateIntervalMonitor(final boolean isIntervalMonitor)
     {
@@ -804,9 +804,9 @@ public class ConfigUpdater
     }
 
     /**
-     * HttpSession‚МѓCѓ“ѓXѓ^ѓ“ѓXђ”‚рЉДЋ‹‚·‚й‚©‚рђЭ’и‚·‚й
+     * HttpSessionгЃ®г‚¤гѓіг‚№г‚їгѓіг‚№ж•°г‚’з›Ји¦–гЃ™г‚‹гЃ‹г‚’иЁ­е®љгЃ™г‚‹
      * 
-     * @param isHttpSessionCount HttpSession‚МѓCѓ“ѓXѓ^ѓ“ѓXђ”‚рЉДЋ‹‚·‚й‚©
+     * @param isHttpSessionCount HttpSessionгЃ®г‚¤гѓіг‚№г‚їгѓіг‚№ж•°г‚’з›Ји¦–гЃ™г‚‹гЃ‹
      */
     public static void updateHttpSessionCount(final boolean isHttpSessionCount)
     {
@@ -815,9 +815,9 @@ public class ConfigUpdater
     }
 
     /**
-     * HttpSession‚Ц‚М“o^ѓIѓuѓWѓFѓNѓg‘ЌѓTѓCѓY‚рЉДЋ‹‚·‚й‚©‚рђЭ’и‚·‚й
+     * HttpSessionгЃёгЃ®з™»йЊІг‚Єгѓ–г‚ёг‚§г‚Їгѓ€з·Џг‚µг‚¤г‚єг‚’з›Ји¦–гЃ™г‚‹гЃ‹г‚’иЁ­е®љгЃ™г‚‹
      * 
-     * @param isHttpSessionSize HttpSession‚Ц‚М“o^ѓIѓuѓWѓFѓNѓg‘ЌѓTѓCѓY‚рЉДЋ‹‚·‚й‚©
+     * @param isHttpSessionSize HttpSessionгЃёгЃ®з™»йЊІг‚Єгѓ–г‚ёг‚§г‚Їгѓ€з·Џг‚µг‚¤г‚єг‚’з›Ји¦–гЃ™г‚‹гЃ‹
      */
     public static void updateHttpSessionSize(final boolean isHttpSessionSize)
     {
@@ -826,9 +826,9 @@ public class ConfigUpdater
     }
 
     /**
-     * ѓXѓЊѓbѓhЉДЋ‹‚рЌs‚¤‚©‚З‚¤‚©‚рђЭ’и‚·‚йЃB
+     * г‚№гѓ¬гѓѓгѓ‰з›Ји¦–г‚’иЎЊгЃ†гЃ‹гЃ©гЃ†гЃ‹г‚’иЁ­е®љгЃ™г‚‹гЂ‚
      * 
-     * @param threadMonitor ѓXѓЊѓbѓhЉДЋ‹‚рЌs‚¤ЏкЌ‡‚НtrueЃB
+     * @param threadMonitor г‚№гѓ¬гѓѓгѓ‰з›Ји¦–г‚’иЎЊгЃ†е ґеђ€гЃЇtrueгЂ‚
      */
     public static void updateThreadMonitor(final boolean threadMonitor)
     {
@@ -837,9 +837,9 @@ public class ConfigUpdater
     }
 
     /**
-     * ѓXѓЊѓbѓhЉДЋ‹‚рЌs‚¤ЉФЉu(ѓ~ѓЉ•b)‚рђЭ’и‚·‚йЃB
+     * г‚№гѓ¬гѓѓгѓ‰з›Ји¦–г‚’иЎЊгЃ†й–“йљ”(гѓџгѓЄз§’)г‚’иЁ­е®љгЃ™г‚‹гЂ‚
      * 
-     * @param threadMonitorInterval ѓXѓЊѓbѓhЉДЋ‹‚рЌs‚¤ЉФЉu(ѓ~ѓЉ•b)ЃB
+     * @param threadMonitorInterval г‚№гѓ¬гѓѓгѓ‰з›Ји¦–г‚’иЎЊгЃ†й–“йљ”(гѓџгѓЄз§’)гЂ‚
      */
     public static void updateThreadMonitorInterval(final long threadMonitorInterval)
     {
@@ -848,9 +848,9 @@ public class ConfigUpdater
     }
 
     /**
-     * ѓXѓЊѓbѓhЉДЋ‹‚МЌЫ‚ЙЏo—Н‚·‚йѓXѓ^ѓbѓNѓgѓЊЃ[ѓX‚Мђ[‚і‚рЋж“ѕ‚·‚йЃB
+     * г‚№гѓ¬гѓѓгѓ‰з›Ји¦–гЃ®йљ›гЃ«е‡єеЉ›гЃ™г‚‹г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№гЃ®ж·±гЃ•г‚’еЏ–еѕ—гЃ™г‚‹гЂ‚
      * 
-     * @param threadMonitorDepth ѓXѓЊѓbѓhЉДЋ‹‚МЌЫ‚ЙЏo—Н‚·‚йѓXѓ^ѓbѓNѓgѓЊЃ[ѓX‚Мђ[‚іЃB
+     * @param threadMonitorDepth г‚№гѓ¬гѓѓгѓ‰з›Ји¦–гЃ®йљ›гЃ«е‡єеЉ›гЃ™г‚‹г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№гЃ®ж·±гЃ•гЂ‚
      */
     public static void updateThreadMonitorDepth(final int threadMonitorDepth)
     {
@@ -859,9 +859,9 @@ public class ConfigUpdater
     }
 
     /**
-     * ѓuѓЌѓbѓN‰сђ”‚Є‘Ѕ‚·‚¬‚й‚©‚З‚¤‚©‚Ми‡’l‚рЌXђV‚·‚йЃB
+     * гѓ–гѓ­гѓѓг‚Їе›ћж•°гЃЊе¤љгЃ™гЃЋг‚‹гЃ‹гЃ©гЃ†гЃ‹гЃ®й–ѕеЂ¤г‚’ж›ґж–°гЃ™г‚‹гЂ‚
      * 
-     * @param blockThreshold ѓuѓЌѓbѓN‰сђ”‚Є‘Ѕ‚·‚¬‚й‚©‚З‚¤‚©‚Ми‡’lЃB
+     * @param blockThreshold гѓ–гѓ­гѓѓг‚Їе›ћж•°гЃЊе¤љгЃ™гЃЋг‚‹гЃ‹гЃ©гЃ†гЃ‹гЃ®й–ѕеЂ¤гЂ‚
      */
     public static void updateBlockThreshold(final long blockThreshold)
     {
@@ -870,9 +870,9 @@ public class ConfigUpdater
     }
 
     /**
-     * ѓuѓЌѓbѓNЊp‘±ѓCѓxѓ“ѓg‚рЏo—Н‚·‚йЌЫ‚МѓuѓЌѓbѓNЊp‘±ЋћЉФ‚Ми‡’l‚рЌXђV‚·‚йЃB
+     * гѓ–гѓ­гѓѓг‚Їз¶™з¶љг‚¤гѓ™гѓігѓ€г‚’е‡єеЉ›гЃ™г‚‹йљ›гЃ®гѓ–гѓ­гѓѓг‚Їз¶™з¶љж™‚й–“гЃ®й–ѕеЂ¤г‚’ж›ґж–°гЃ™г‚‹гЂ‚
      * 
-     * @param blockTimeThreshold ѓuѓЌѓbѓNЊp‘±ѓCѓxѓ“ѓg‚рЏo—Н‚·‚йЌЫ‚МѓuѓЌѓbѓNЊp‘±ЋћЉФ‚Ми‡’lЃB
+     * @param blockTimeThreshold гѓ–гѓ­гѓѓг‚Їз¶™з¶љг‚¤гѓ™гѓігѓ€г‚’е‡єеЉ›гЃ™г‚‹йљ›гЃ®гѓ–гѓ­гѓѓг‚Їз¶™з¶љж™‚й–“гЃ®й–ѕеЂ¤гЂ‚
      */
     public static void updateBlockTimeThreshold(final long blockTimeThreshold)
     {
@@ -881,9 +881,9 @@ public class ConfigUpdater
     }
 
     /**
-     * ѓuѓЌѓbѓN‰сђ”‚Єи‡’l‚р’ґ‚¦‚ЅЌЫ‚ЙЋж“ѕ‚·‚йѓXѓЊѓbѓhЏо•с‚Мђ”‚рЌXђV‚·‚йЃB
+     * гѓ–гѓ­гѓѓг‚Їе›ћж•°гЃЊй–ѕеЂ¤г‚’и¶…гЃ€гЃџйљ›гЃ«еЏ–еѕ—гЃ™г‚‹г‚№гѓ¬гѓѓгѓ‰жѓ…е ±гЃ®ж•°г‚’ж›ґж–°гЃ™г‚‹гЂ‚
      * 
-     * @param blockThreadInfoNum ѓuѓЌѓbѓN‰сђ”‚Єи‡’l‚р’ґ‚¦‚ЅЌЫ‚ЙЋж“ѕ‚·‚йѓXѓЊѓbѓhЏо•с‚Мђ”ЃB
+     * @param blockThreadInfoNum гѓ–гѓ­гѓѓг‚Їе›ћж•°гЃЊй–ѕеЂ¤г‚’и¶…гЃ€гЃџйљ›гЃ«еЏ–еѕ—гЃ™г‚‹г‚№гѓ¬гѓѓгѓ‰жѓ…е ±гЃ®ж•°гЂ‚
      */
     public static void updateBlockThreadInfoNum(final int blockThreadInfoNum)
     {
@@ -892,9 +892,9 @@ public class ConfigUpdater
     }
 
     /**
-     * ѓtѓ‹ѓXѓЊѓbѓhѓ_ѓ“ѓv‚МЏo—Н‚рЌs‚¤‚©‚З‚¤‚©‚рЌXђV‚·‚йЃB
+     * гѓ•гѓ«г‚№гѓ¬гѓѓгѓ‰гѓЂгѓігѓ—гЃ®е‡єеЉ›г‚’иЎЊгЃ†гЃ‹гЃ©гЃ†гЃ‹г‚’ж›ґж–°гЃ™г‚‹гЂ‚
      * 
-     * @param threadDumpMonitor ѓtѓ‹ѓXѓЊѓbѓhѓ_ѓ“ѓv‚рЏo—Н‚·‚й‚©‚З‚¤‚©
+     * @param threadDumpMonitor гѓ•гѓ«г‚№гѓ¬гѓѓгѓ‰гѓЂгѓігѓ—г‚’е‡єеЉ›гЃ™г‚‹гЃ‹гЃ©гЃ†гЃ‹
      */
     public static void updateThreadDumpMonitor(final boolean threadDumpMonitor)
     {
@@ -903,9 +903,9 @@ public class ConfigUpdater
     }
 
     /**
-     * ѓtѓ‹ѓXѓЊѓbѓhѓ_ѓ“ѓvЏo—Н”»’и‚МЉФЉu‚рЌXђV‚µ‚Ь‚·ЃB
+     * гѓ•гѓ«г‚№гѓ¬гѓѓгѓ‰гѓЂгѓігѓ—е‡єеЉ›е€¤е®љгЃ®й–“йљ”г‚’ж›ґж–°гЃ—гЃѕгЃ™гЂ‚
      * 
-     * @param threadDumpInterval ѓtѓ‹ѓXѓЊѓbѓhѓ_ѓ“ѓvЏo—Н”»’и‚МЉФЉu
+     * @param threadDumpInterval гѓ•гѓ«г‚№гѓ¬гѓѓгѓ‰гѓЂгѓігѓ—е‡єеЉ›е€¤е®љгЃ®й–“йљ”
      */
     public static void updateThreadDumpInterval(final int threadDumpInterval)
     {
@@ -914,9 +914,9 @@ public class ConfigUpdater
     }
 
     /**
-     * ѓtѓ‹ѓXѓЊѓbѓhѓ_ѓ“ѓvЏo—Н‚МѓXѓЊѓbѓhђ”‚Ми‡’l‚рЌXђV‚µ‚Ь‚·ЃB
+     * гѓ•гѓ«г‚№гѓ¬гѓѓгѓ‰гѓЂгѓігѓ—е‡єеЉ›гЃ®г‚№гѓ¬гѓѓгѓ‰ж•°гЃ®й–ѕеЂ¤г‚’ж›ґж–°гЃ—гЃѕгЃ™гЂ‚
      * 
-     * @param threadDumpNum ѓtѓ‹ѓXѓЊѓbѓhѓ_ѓ“ѓvЏo—Н‚МѓXѓЊѓbѓhђ”‚Ми‡’l
+     * @param threadDumpNum гѓ•гѓ«г‚№гѓ¬гѓѓгѓ‰гѓЂгѓігѓ—е‡єеЉ›гЃ®г‚№гѓ¬гѓѓгѓ‰ж•°гЃ®й–ѕеЂ¤
      */
     public static void updateThreadDumpNum(final int threadDumpNum)
     {
@@ -925,9 +925,9 @@ public class ConfigUpdater
     }
 
     /**
-     * ѓtѓ‹ѓXѓЊѓbѓhѓ_ѓ“ѓvЏo—Н‚МѓXѓЊѓbѓhђ”‚Ми‡’l‚рЌXђV‚µ‚Ь‚·ЃB
+     * гѓ•гѓ«г‚№гѓ¬гѓѓгѓ‰гѓЂгѓігѓ—е‡єеЉ›гЃ®г‚№гѓ¬гѓѓгѓ‰ж•°гЃ®й–ѕеЂ¤г‚’ж›ґж–°гЃ—гЃѕгЃ™гЂ‚
      * 
-     * @param threadDumpNum ѓtѓ‹ѓXѓЊѓbѓhѓ_ѓ“ѓvЏo—Н‚МѓXѓЊѓbѓhђ”‚Ми‡’l
+     * @param threadDumpNum гѓ•гѓ«г‚№гѓ¬гѓѓгѓ‰гѓЂгѓігѓ—е‡єеЉ›гЃ®г‚№гѓ¬гѓѓгѓ‰ж•°гЃ®й–ѕеЂ¤
      */
     public static void updateThreadDumpNumRunnable(final boolean threadDumpNum)
     {
@@ -936,9 +936,9 @@ public class ConfigUpdater
     }
 
     /**
-     * ѓtѓ‹ѓXѓЊѓbѓhѓ_ѓ“ѓvЏo—Н‚МCPUЋg—p—¦‚Ми‡’l‚рЌXђV‚µ‚Ь‚·ЃB
+     * гѓ•гѓ«г‚№гѓ¬гѓѓгѓ‰гѓЂгѓігѓ—е‡єеЉ›гЃ®CPUдЅїз”ЁзЋ‡гЃ®й–ѕеЂ¤г‚’ж›ґж–°гЃ—гЃѕгЃ™гЂ‚
      * 
-     * @param threadDumpCpu ѓtѓ‹ѓXѓЊѓbѓhѓ_ѓ“ѓvЏo—Н‚МCPUЋg—p—¦‚Ми‡’l
+     * @param threadDumpCpu гѓ•гѓ«г‚№гѓ¬гѓѓгѓ‰гѓЂгѓігѓ—е‡єеЉ›гЃ®CPUдЅїз”ЁзЋ‡гЃ®й–ѕеЂ¤
      */
     public static void updateThreadDumpCpu(final int threadDumpCpu)
     {
@@ -948,9 +948,9 @@ public class ConfigUpdater
 
 
     /**
-     * ѓtѓ‹ѓXѓЊѓbѓhѓ_ѓ“ѓvЏo—Н‚МCPUЋg—p—¦‚Ми‡’l‚рЌXђV‚µ‚Ь‚·ЃB
+     * гѓ•гѓ«г‚№гѓ¬гѓѓгѓ‰гѓЂгѓігѓ—е‡єеЉ›гЃ®CPUдЅїз”ЁзЋ‡гЃ®й–ѕеЂ¤г‚’ж›ґж–°гЃ—гЃѕгЃ™гЂ‚
      * 
-     * @param threadDumpCpu ѓtѓ‹ѓXѓЊѓbѓhѓ_ѓ“ѓvЏo—Н‚МCPUЋg—p—¦‚Ми‡’l
+     * @param threadDumpCpu гѓ•гѓ«г‚№гѓ¬гѓѓгѓ‰гѓЂгѓігѓ—е‡єеЉ›гЃ®CPUдЅїз”ЁзЋ‡гЃ®й–ѕеЂ¤
      */
     public static void updateThreadDumpCpuSys(final int threadDumpCpu)
     {
@@ -960,9 +960,9 @@ public class ConfigUpdater
 
 
     /**
-     * ѓtѓ‹ѓXѓЊѓbѓhѓ_ѓ“ѓvЏo—Н‚МCPUЋg—p—¦‚Ми‡’l‚рЌXђV‚µ‚Ь‚·ЃB
+     * гѓ•гѓ«г‚№гѓ¬гѓѓгѓ‰гѓЂгѓігѓ—е‡єеЉ›гЃ®CPUдЅїз”ЁзЋ‡гЃ®й–ѕеЂ¤г‚’ж›ґж–°гЃ—гЃѕгЃ™гЂ‚
      * 
-     * @param threadDumpCpu ѓtѓ‹ѓXѓЊѓbѓhѓ_ѓ“ѓvЏo—Н‚МCPUЋg—p—¦‚Ми‡’l
+     * @param threadDumpCpu гѓ•гѓ«г‚№гѓ¬гѓѓгѓ‰гѓЂгѓігѓ—е‡єеЉ›гЃ®CPUдЅїз”ЁзЋ‡гЃ®й–ѕеЂ¤
      */
     public static void updateThreadDumpCpuUser(final int threadDumpCpu)
     {
@@ -971,9 +971,9 @@ public class ConfigUpdater
     }
 
     /**
-     * ѓtѓ‹GC‚МЊџЏo‚рЌs‚¤‚©‚З‚¤‚©‚рЌXђV‚·‚йЃB
+     * гѓ•гѓ«GCгЃ®ж¤ње‡єг‚’иЎЊгЃ†гЃ‹гЃ©гЃ†гЃ‹г‚’ж›ґж–°гЃ™г‚‹гЂ‚
      * 
-     * @param fullGCMonitor ѓtѓ‹GC‚МЊџЏo‚рЌs‚¤‚©‚З‚¤‚©
+     * @param fullGCMonitor гѓ•гѓ«GCгЃ®ж¤ње‡єг‚’иЎЊгЃ†гЃ‹гЃ©гЃ†гЃ‹
      */
     public static void updateFullGCMonitor(final boolean fullGCMonitor)
     {
@@ -982,9 +982,9 @@ public class ConfigUpdater
     }
 
     /**
-     * ѓtѓ‹GCЋАЌsЋћЉФ‚Ми‡’l‚рЌXђV‚·‚йЃB
+     * гѓ•гѓ«GCе®џиЎЊж™‚й–“гЃ®й–ѕеЂ¤г‚’ж›ґж–°гЃ™г‚‹гЂ‚
      * 
-     * @param threshold ѓtѓ‹GCЋАЌsЋћЉФ‚Ми‡’l
+     * @param threshold гѓ•гѓ«GCе®џиЎЊж™‚й–“гЃ®й–ѕеЂ¤
      */
     public static void updateFullGCThreshold(final int threshold)
     {
@@ -993,9 +993,9 @@ public class ConfigUpdater
     }
 
     /**
-     * Java6€ИЌ~‚ЕѓfѓbѓhѓЌѓbѓNЉДЋ‹‚рЌs‚¤‚©‚З‚¤‚©‚рЌXђV‚·‚йЃB
+     * Java6д»Ґй™ЌгЃ§гѓ‡гѓѓгѓ‰гѓ­гѓѓг‚Їз›Ји¦–г‚’иЎЊгЃ†гЃ‹гЃ©гЃ†гЃ‹г‚’ж›ґж–°гЃ™г‚‹гЂ‚
      * 
-     * @param deadLockMonitor Java6€ИЌ~‚ЕѓfѓbѓhѓЌѓbѓNЉДЋ‹‚рЌs‚¤‚©‚З‚¤‚©
+     * @param deadLockMonitor Java6д»Ґй™ЌгЃ§гѓ‡гѓѓгѓ‰гѓ­гѓѓг‚Їз›Ји¦–г‚’иЎЊгЃ†гЃ‹гЃ©гЃ†гЃ‹
      */
     public static void updateDeadLockMonitor(final boolean deadLockMonitor)
     {
@@ -1004,11 +1004,11 @@ public class ConfigUpdater
     }
 
     /**
-     * ѓAѓ‰Ѓ[ѓЂ‘—ђMЉФЉu‚МЌЕЏ¬’l‚рђЭ’и‚·‚йЃB
+     * г‚ўгѓ©гѓјгѓ йЂЃдїЎй–“йљ”гЃ®жњЂе°ЏеЂ¤г‚’иЁ­е®љгЃ™г‚‹гЂ‚
      * 
-     * ‘O‰сѓAѓ‰Ѓ[ѓЂ‘—ђMЃEJavelinѓЌѓOЏo—Н‚рЌs‚Б‚ЅЌЫ‚©‚з Њo‰Я‚µ‚ЅЋћЉФ‚Є‚±‚М’l‚р’ґ‚¦‚Д‚ў‚ЅЏкЌ‡‚М‚ЭЃAѓAѓ‰Ѓ[ѓЂ‘—ђMЃEJavelinѓЌѓOЏo—Н‚рЌs‚¤ЃB
+     * е‰Ќе›ћг‚ўгѓ©гѓјгѓ йЂЃдїЎгѓ»Javelinгѓ­г‚°е‡єеЉ›г‚’иЎЊгЃЈгЃџйљ›гЃ‹г‚‰ зµЊйЃЋгЃ—гЃџж™‚й–“гЃЊгЃ“гЃ®еЂ¤г‚’и¶…гЃ€гЃ¦гЃ„гЃџе ґеђ€гЃ®гЃїгЂЃг‚ўгѓ©гѓјгѓ йЂЃдїЎгѓ»Javelinгѓ­г‚°е‡єеЉ›г‚’иЎЊгЃ†гЂ‚
      * 
-     * @param alarmMinimumInterval и‡’lЃB
+     * @param alarmMinimumInterval й–ѕеЂ¤гЂ‚
      */
     public static void updateAlarmMinimumInterval(final long alarmMinimumInterval)
     {
@@ -1017,9 +1017,9 @@ public class ConfigUpdater
     }
 
     /**
-     * Turn Around Time‚рЊv‘Є‚·‚й‚©‚З‚¤‚©‚рЌXђV‚·‚йЃB
+     * Turn Around Timeг‚’иЁ€жё¬гЃ™г‚‹гЃ‹гЃ©гЃ†гЃ‹г‚’ж›ґж–°гЃ™г‚‹гЂ‚
      * 
-     * @param tatEnabled Turn Around Time‚рЊv‘Є‚·‚йЏкЌ‡‚НtrueЃB
+     * @param tatEnabled Turn Around Timeг‚’иЁ€жё¬гЃ™г‚‹е ґеђ€гЃЇtrueгЂ‚
      */
     public static void updateTatEnabled(final boolean tatEnabled)
     {
@@ -1029,9 +1029,9 @@ public class ConfigUpdater
     }
 
     /**
-     * Turn Around Time‚М•ЫЋќЉъЉФ‚рЌXђV‚·‚йЃB
+     * Turn Around TimeгЃ®дїќжЊЃжњџй–“г‚’ж›ґж–°гЃ™г‚‹гЂ‚
      * 
-     * @param tatKeepTime Turn Around Time‚М•ЫЋќЉъЉФ
+     * @param tatKeepTime Turn Around TimeгЃ®дїќжЊЃжњџй–“
      */
     public static void updateTatKeepTime(final long tatKeepTime)
     {
@@ -1042,9 +1042,9 @@ public class ConfigUpdater
     }
 
     /**
-     * •Ўђ”ѓXѓЊѓbѓhѓAѓNѓZѓX‚рЉДЋ‹‚·‚й‚©‚З‚¤‚©‚рЌXђV‚µ‚Ь‚·ЃB<br />
+     * и¤‡ж•°г‚№гѓ¬гѓѓгѓ‰г‚ўг‚Їг‚»г‚№г‚’з›Ји¦–гЃ™г‚‹гЃ‹гЃ©гЃ†гЃ‹г‚’ж›ґж–°гЃ—гЃѕгЃ™гЂ‚<br />
      * 
-     * @param concurrentMonitored •Ўђ”ѓXѓЊѓbѓhѓAѓNѓZѓX‚рЉДЋ‹‚·‚йЏкЌ‡‚НtrueЃB
+     * @param concurrentMonitored и¤‡ж•°г‚№гѓ¬гѓѓгѓ‰г‚ўг‚Їг‚»г‚№г‚’з›Ји¦–гЃ™г‚‹е ґеђ€гЃЇtrueгЂ‚
      */
     public static void updateConcurrentAccessMonitor(final boolean concurrentMonitored)
     {
@@ -1053,9 +1053,9 @@ public class ConfigUpdater
     }
 
     /**
-     * ѓ^ѓCѓЂѓAѓEѓg’l‚МђЭ’и‚ЄЌs‚н‚к‚Д‚ў‚й‚©‚З‚¤‚©‚рЌXђV‚µ‚Ь‚·ЃB<br />
+     * г‚їг‚¤гѓ г‚ўг‚¦гѓ€еЂ¤гЃ®иЁ­е®љгЃЊиЎЊг‚Џг‚ЊгЃ¦гЃ„г‚‹гЃ‹гЃ©гЃ†гЃ‹г‚’ж›ґж–°гЃ—гЃѕгЃ™гЂ‚<br />
      * 
-     * @param timeoutMonitor ѓ^ѓCѓЂѓAѓEѓg’l‚МђЭ’и‚МЉДЋ‹‚рЌs‚¤ЏкЌ‡ЃA<code>true</code>
+     * @param timeoutMonitor г‚їг‚¤гѓ г‚ўг‚¦гѓ€еЂ¤гЃ®иЁ­е®љгЃ®з›Ји¦–г‚’иЎЊгЃ†е ґеђ€гЂЃ<code>true</code>
      */
     public static void updateTimeoutMonitor(final boolean timeoutMonitor)
     {
@@ -1064,8 +1064,8 @@ public class ConfigUpdater
     }
 
     /**
-     * ѓRЃ[ѓ‹ѓcѓЉЃ[‚М—LЊш/–іЊшѓtѓ‰ѓO‚рЌXђV‚µ‚Ь‚·ЃB
-     * @param isCallTreeEnabled ѓRЃ[ѓ‹ѓcѓЉЃ[‚М—LЊш/–іЊшѓtѓ‰ѓO
+     * г‚ігѓјгѓ«гѓ„гѓЄгѓјгЃ®жњ‰еЉ№/з„ЎеЉ№гѓ•гѓ©г‚°г‚’ж›ґж–°гЃ—гЃѕгЃ™гЂ‚
+     * @param isCallTreeEnabled г‚ігѓјгѓ«гѓ„гѓЄгѓјгЃ®жњ‰еЉ№/з„ЎеЉ№гѓ•гѓ©г‚°
      */
     public static void updateCallTreeEnabled(final boolean isCallTreeEnabled)
     {
@@ -1074,9 +1074,9 @@ public class ConfigUpdater
     }
 
     /**
-     * CallTreeѓTѓCѓY‚МЌЕ‘е’l‚рЌXђV‚µ‚Ь‚·ЃB<br />
+     * CallTreeг‚µг‚¤г‚єгЃ®жњЂе¤§еЂ¤г‚’ж›ґж–°гЃ—гЃѕгЃ™гЂ‚<br />
      * 
-     * @param callTreeMax CallTreeѓTѓCѓY‚МЌЕ‘е’l
+     * @param callTreeMax CallTreeг‚µг‚¤г‚єгЃ®жњЂе¤§еЂ¤
      */
     public static void updateCallTreeMaxSize(final int callTreeMax)
     {
@@ -1085,8 +1085,8 @@ public class ConfigUpdater
     }
 
     /**
-     * JvnѓЌѓOѓtѓ@ѓCѓ‹‚рЏo—Н‚·‚й‚©‚З‚¤‚©‚рЌXђV‚µ‚Ь‚·ЃB
-     * @param logJvnFile ѓЌѓOѓtѓ@ѓCѓ‹‚рЏo—Н‚·‚й‚©‚З‚¤‚©
+     * Jvnгѓ­г‚°гѓ•г‚Ўг‚¤гѓ«г‚’е‡єеЉ›гЃ™г‚‹гЃ‹гЃ©гЃ†гЃ‹г‚’ж›ґж–°гЃ—гЃѕгЃ™гЂ‚
+     * @param logJvnFile гѓ­г‚°гѓ•г‚Ўг‚¤гѓ«г‚’е‡єеЉ›гЃ™г‚‹гЃ‹гЃ©гЃ†гЃ‹
      */
     public static void updateLogJvnFile(final boolean logJvnFile)
     {
@@ -1095,9 +1095,9 @@ public class ConfigUpdater
     }
 
     /**
-     * Log4j‚МѓXѓ^ѓbѓNѓgѓЊЃ[ѓX‚рЌs‚¤ѓЌѓOѓЊѓxѓ‹‚Ми‡’l‚рЌXђV‚µ‚Ь‚·ЃB<br />
+     * Log4jгЃ®г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№г‚’иЎЊгЃ†гѓ­г‚°гѓ¬гѓ™гѓ«гЃ®й–ѕеЂ¤г‚’ж›ґж–°гЃ—гЃѕгЃ™гЂ‚<br />
      * 
-     * @param log4jPrintStackLevel Log4j‚МѓXѓ^ѓbѓNѓgѓЊЃ[ѓX‚рЌs‚¤ѓЌѓOѓЊѓxѓ‹‚Ми‡’l
+     * @param log4jPrintStackLevel Log4jгЃ®г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№г‚’иЎЊгЃ†гѓ­г‚°гѓ¬гѓ™гѓ«гЃ®й–ѕеЂ¤
      */
     public static void updateLog4jPrintStackLevel(final String log4jPrintStackLevel)
     {
@@ -1111,9 +1111,9 @@ public class ConfigUpdater
     }
 
     /**
-     * Javelin‚МѓCѓxѓ“ѓgѓЊѓxѓ‹‚рЌXђV‚µ‚Ь‚·ЃB<br />
+     * JavelinгЃ®г‚¤гѓ™гѓігѓ€гѓ¬гѓ™гѓ«г‚’ж›ґж–°гЃ—гЃѕгЃ™гЂ‚<br />
      * 
-     * @param eventLevel Javelin‚МѓCѓxѓ“ѓgѓЊѓxѓ‹ 
+     * @param eventLevel JavelinгЃ®г‚¤гѓ™гѓігѓ€гѓ¬гѓ™гѓ« 
      */
     public static void updateEventLevel(final String eventLevel)
     {
@@ -1127,9 +1127,9 @@ public class ConfigUpdater
     }
 
     /**
-     * ѓVѓXѓeѓЂ‚МѓЉѓ\Ѓ[ѓXѓfЃ[ѓ^‚рЋж“ѕ‚·‚й‚©‚З‚¤‚©‚МђЭ’и‚рЌXђV‚µ‚Ь‚·ЃB<br />
+     * г‚·г‚№гѓ†гѓ гЃ®гѓЄг‚Ѕгѓјг‚№гѓ‡гѓјг‚їг‚’еЏ–еѕ—гЃ™г‚‹гЃ‹гЃ©гЃ†гЃ‹гЃ®иЁ­е®љг‚’ж›ґж–°гЃ—гЃѕгЃ™гЂ‚<br />
      * 
-     * @param collectSystemResources ѓVѓXѓeѓЂ‚МѓЉѓ\Ѓ[ѓXѓfЃ[ѓ^‚рЋж“ѕ‚·‚й‚©‚З‚¤‚©
+     * @param collectSystemResources г‚·г‚№гѓ†гѓ гЃ®гѓЄг‚Ѕгѓјг‚№гѓ‡гѓјг‚їг‚’еЏ–еѕ—гЃ™г‚‹гЃ‹гЃ©гЃ†гЃ‹
      */
     public static void updateCollectSystemResources(final boolean collectSystemResources)
     {
@@ -1138,9 +1138,9 @@ public class ConfigUpdater
     }
 
     /**
-     * InvocationFullEvent‚р‘—ђM‚·‚й‚©‚З‚¤‚©‚МђЭ’и‚рЌXђV‚µ‚Ь‚·ЃB<br />
+     * InvocationFullEventг‚’йЂЃдїЎгЃ™г‚‹гЃ‹гЃ©гЃ†гЃ‹гЃ®иЁ­е®љг‚’ж›ґж–°гЃ—гЃѕгЃ™гЂ‚<br />
      * 
-     * @param sendInvocationFullEvent InvocationFullEvent‚р‘—ђM‚·‚й‚©‚З‚¤‚©
+     * @param sendInvocationFullEvent InvocationFullEventг‚’йЂЃдїЎгЃ™г‚‹гЃ‹гЃ©гЃ†гЃ‹
      */
     public static void updateSendInvocationFullEvent(final boolean sendInvocationFullEvent)
     {
@@ -1149,11 +1149,11 @@ public class ConfigUpdater
     }
 
     /**
-     * Ћw’и‚µ‚ЅЋћЉФЊг‚ЙђЭ’и‚рЌXђV‚·‚йЃB
+     * жЊ‡е®љгЃ—гЃџж™‚й–“еѕЊгЃ«иЁ­е®љг‚’ж›ґж–°гЃ™г‚‹гЂ‚
      * 
-     * @param key ѓLЃ[
-     * @param value ’l
-     * @param delay ЋћЉФ(ms)
+     * @param key г‚­гѓј
+     * @param value еЂ¤
+     * @param delay ж™‚й–“(ms)
      */
     public static void updateLater(final String key, final String value, long delay)
     {
@@ -1165,9 +1165,9 @@ public class ConfigUpdater
     }
 
     /**
-     * и‡’l‚рђЭ’и‚·‚йЃB
-     * @param itemName и‡’l‚МitemName
-     * @param value и‡’l
+     * й–ѕеЂ¤г‚’иЁ­е®љгЃ™г‚‹гЂ‚
+     * @param itemName й–ѕеЂ¤гЃ®itemName
+     * @param value й–ѕеЂ¤
      */
     public static void updateThreadDumpResourceTreshold(final String itemName, final Double value)
     {
@@ -1176,15 +1176,15 @@ public class ConfigUpdater
     }
 
     /**
-     * ђЭ’и‚рЌXђV‚·‚йЃB
+     * иЁ­е®љг‚’ж›ґж–°гЃ™г‚‹гЂ‚
      * 
-     * @param key ѓLЃ[
-     * @param value ’l
+     * @param key г‚­гѓј
+     * @param value еЂ¤
      */
     public static void update(String key, String value)
     {
-        // JavelinConfig‚ЄЋќ‚ВђЭ’и‚МЌXђV
-        // JavelinConfig‚ЄЋќ‚ВђЭ’и‚МЌXђV
+        // JavelinConfigгЃЊжЊЃгЃ¤иЁ­е®љгЃ®ж›ґж–°
+        // JavelinConfigгЃЊжЊЃгЃ¤иЁ­е®љгЃ®ж›ґж–°
         if (JavelinConfig.ALARMTHRESHOLD_KEY.equals(key))
         {
             ConfigUpdater.updateAlarmThreshold(Long.parseLong(value));
@@ -1435,7 +1435,7 @@ public class ConfigUpdater
         {
             ConfigUpdater.updateSendInvocationFullEvent(Boolean.parseBoolean(value));
         }
-        // JdbcJavelin‚ЄЋќ‚ВђЭ’и‚МЌXђV
+        // JdbcJavelinгЃЊжЊЃгЃ¤иЁ­е®љгЃ®ж›ґж–°
         else if (JdbcJavelinConfig.JDBC_JAVELIN_ENABLED_KEY.equals(key))
         {
             ConfigUpdater.updateJdbcEnabled(Boolean.parseBoolean(value));
@@ -1500,7 +1500,7 @@ public class ConfigUpdater
     }
 
     /**
-     * ЌXђVЋћЌЏ‚р’ґ‚¦‚Д‚ў‚йЌXђV—v‹Ѓ‚рЋАЌs‚·‚йЃB
+     * ж›ґж–°ж™‚е€»г‚’и¶…гЃ€гЃ¦гЃ„г‚‹ж›ґж–°и¦Ѓж±‚г‚’е®џиЎЊгЃ™г‚‹гЂ‚
      */
     public static void executeScheduledRequest()
     {

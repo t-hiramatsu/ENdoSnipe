@@ -28,7 +28,7 @@ package jp.co.acroquest.endosnipe.javelin.event;
 import java.util.Map;
 
 /**
- * ƒCƒxƒ“ƒg–¼‹y‚Ñƒpƒ‰ƒ[ƒ^‚É‚æ‚Á‚ÄA—}§‚ğs‚¤ƒCƒxƒ“ƒgƒNƒ‰ƒX‚Å‚·B<br />
+ * ã‚¤ãƒ™ãƒ³ãƒˆååŠã³ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã«ã‚ˆã£ã¦ã€æŠ‘åˆ¶ã‚’è¡Œã†ã‚¤ãƒ™ãƒ³ãƒˆã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  * 
  * @author kajiwara
  *
@@ -36,9 +36,9 @@ import java.util.Map;
 public class AbstractNameAndParamCheckEvent extends CommonEvent
 {
     /**
-     * –¼‘O‚ÅƒnƒbƒVƒ…ƒR[ƒh‚ğŒvZ‚·‚éB
+     * åå‰ã§ãƒãƒƒã‚·ãƒ¥ã‚³ãƒ¼ãƒ‰ã‚’è¨ˆç®—ã™ã‚‹ã€‚
      * 
-     * @return ƒnƒbƒVƒ…ƒR[ƒhB
+     * @return ãƒãƒƒã‚·ãƒ¥ã‚³ãƒ¼ãƒ‰ã€‚
      */
     public int hashCode()
     {
@@ -49,10 +49,10 @@ public class AbstractNameAndParamCheckEvent extends CommonEvent
     }
 
     /**
-     * –¼‘O‹y‚Ñƒpƒ‰ƒ[ƒ^”äŠr‚·‚éB
+     * åå‰åŠã³ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿æ¯”è¼ƒã™ã‚‹ã€‚
      * 
-     * @param obj ”äŠr‘ÎÛB
-     * @return ”äŠrŒ‹‰ÊB
+     * @param obj æ¯”è¼ƒå¯¾è±¡ã€‚
+     * @return æ¯”è¼ƒçµæœã€‚
      */
     public boolean equals(Object obj)
     {
@@ -90,9 +90,9 @@ public class AbstractNameAndParamCheckEvent extends CommonEvent
     }
     
     /**
-     * ƒCƒxƒ“ƒg‚Ìƒpƒ‰ƒ[ƒ^‚ğ‚P‚Â‚ÉŒq‚°‚Ä•Ô‚·
-     * @param eventDescription •ÏŠ·‘ÎÛ‚ÌƒCƒxƒ“ƒg
-     * @return ƒCƒxƒ“ƒgƒpƒ‰ƒ[ƒ^
+     * ã‚¤ãƒ™ãƒ³ãƒˆã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’ï¼‘ã¤ã«ç¹‹ã’ã¦è¿”ã™
+     * @param eventDescription å¤‰æ›å¯¾è±¡ã®ã‚¤ãƒ™ãƒ³ãƒˆ
+     * @return ã‚¤ãƒ™ãƒ³ãƒˆãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
      */
     private String concatEventDescription(Map<String, String> eventDescription)
     {

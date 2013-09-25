@@ -3,23 +3,23 @@ package jp.co.acroquest.endosnipe.report.entity;
 import java.sql.Timestamp;
 
 /**
- * �u�f�[�^��o�́v�^�u�́u�l�b�g���[�N�o�R�ł̃f�[�^����M�ʁv�̃O���t�́A
- * �u�f�[�^���M�ʁv�̃f�[�^��1�ێ�����N���X�ł��B
+ * ・ｽu・ｽf・ｽ[・ｽ^・ｽ・ｽo・ｽﾍ」・ｽ^・ｽu・ｽﾌ「・ｽl・ｽb・ｽg・ｽ・ｽ・ｽ[・ｽN・ｽo・ｽR・ｽﾅのデ・ｽ[・ｽ^・ｽ・ｽ・ｽ・ｽM・ｽﾊ」・ｽﾌグ・ｽ・ｽ・ｽt・ｽﾌ、
+ * ・ｽu・ｽf・ｽ[・ｽ^・ｽ・ｽ・ｽM・ｽﾊ」・ｽﾌデ・ｽ[・ｽ^・ｽ・ｽ1・ｽﾂ保趣ｿｽ・ｽ・ｽ・ｽ・ｽN・ｽ・ｽ・ｽX・ｽﾅゑｿｽ・ｽB
  * 
  * @author acroquest
  */
 public class DataTransmitRecord
 {
-	/** �v������ */
+	/** ・ｽv・ｽ・ｽ・ｽ・ｽ・ｽ・ｽ */
     private Timestamp measurementTime_;
 
-    /** �l�b�g���[�N�o�R�ł̃f�[�^����M�ʂ̃O���t�́A�f�[�^���M��[�T�C�Y(Bytes)]�i��Ԋ�ԕ��ρj */
+    /** ・ｽl・ｽb・ｽg・ｽ・ｽ・ｽ[・ｽN・ｽo・ｽR・ｽﾅのデ・ｽ[・ｽ^・ｽ・ｽ・ｽ・ｽM・ｽﾊのグ・ｽ・ｽ・ｽt・ｽﾌ、・ｽf・ｽ[・ｽ^・ｽ・ｽ・ｽM・ｽ・ｽ[・ｽT・ｽC・ｽY(Bytes)]・ｽi・ｽ・ｽﾔ奇ｿｽﾔ包ｿｽ・ｽﾏ） */
     private long dataTransmit_;
     
-    /** �l�b�g���[�N�o�R�ł̃f�[�^����M�ʂ̃O���t�́A�f�[�^���M��[�T�C�Y(Bytes)]�i��Ԋ�ԍő�j */
+    /** ・ｽl・ｽb・ｽg・ｽ・ｽ・ｽ[・ｽN・ｽo・ｽR・ｽﾅのデ・ｽ[・ｽ^・ｽ・ｽ・ｽ・ｽM・ｽﾊのグ・ｽ・ｽ・ｽt・ｽﾌ、・ｽf・ｽ[・ｽ^・ｽ・ｽ・ｽM・ｽ・ｽ[・ｽT・ｽC・ｽY(Bytes)]・ｽi・ｽ・ｽﾔ奇ｿｽﾔ最托ｿｽj */
     private long dataTransmitMax_;
     
-    /** �l�b�g���[�N�o�R�ł̃f�[�^����M�ʂ̃O���t�́A�f�[�^���M��[�T�C�Y(Bytes)]�i��Ԋ�ԍŏ��j */
+    /** ・ｽl・ｽb・ｽg・ｽ・ｽ・ｽ[・ｽN・ｽo・ｽR・ｽﾅのデ・ｽ[・ｽ^・ｽ・ｽ・ｽ・ｽM・ｽﾊのグ・ｽ・ｽ・ｽt・ｽﾌ、・ｽf・ｽ[・ｽ^・ｽ・ｽ・ｽM・ｽ・ｽ[・ｽT・ｽC・ｽY(Bytes)]・ｽi・ｽ・ｽﾔ奇ｿｽﾔ最擾ｿｽ・ｽj */
     private long dataTransmitMin_;
     /**
 	 * @return the measurementTime_

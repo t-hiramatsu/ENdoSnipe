@@ -44,24 +44,24 @@ import jp.co.acroquest.endosnipe.javelin.communicate.telegram.util.CreateTelegra
 import junit.framework.TestCase;
 
 /**
- * ƒVƒXƒeƒ€ƒŠƒ\[ƒXæ“¾‚ÌƒeƒXƒgƒNƒ‰ƒXB
+ * ã‚·ã‚¹ãƒ†ãƒ ãƒªã‚½ãƒ¼ã‚¹å–å¾—ã®ãƒ†ã‚¹ãƒˆã‚¯ãƒ©ã‚¹ã€‚
  * @author fujii
  */
 public class SystemResourceTelegramListenerTest extends TestCase implements TelegramConstants
 {
     private static final String BASE_DIR = ".";
     
-    /** Javelin‚Ìİ’èƒtƒ@ƒCƒ‹ */
+    /** Javelinã®è¨­å®šãƒ•ã‚¡ã‚¤ãƒ« */
     private JavelinConfig config_;
 
     /**
-     * @test ƒŠƒ\[ƒX’Ê’m‰“š“d•¶-ƒŠƒ\[ƒX’Ê’m—v‹ŠO“d•¶‚Ìˆ—(€–Ú:2-1-1)
+     * @test ãƒªã‚½ãƒ¼ã‚¹é€šçŸ¥å¿œç­”é›»æ–‡-ãƒªã‚½ãƒ¼ã‚¹é€šçŸ¥è¦æ±‚å¤–é›»æ–‡ã®å‡¦ç†(é …ç›®:2-1-1)
      * @condition 
      * @result
      */
     public void testCreate_NotResource()
     {
-        // €”õ
+        // æº–å‚™
         List<Invocation> invocations = new ArrayList<Invocation>();
         invocations.add(new Invocation("processName", "className", "methodName", 3000));
         List<Long> accumulatedTimes = null;
@@ -69,54 +69,54 @@ public class SystemResourceTelegramListenerTest extends TestCase implements Tele
         byte requestKind = TelegramConstants.BYTE_REQUEST_KIND_REQUEST;
         SystemResourceTelegramListener telegramListener = new SystemResourceTelegramListener();
 
-        // À{
+        // å®Ÿæ–½
         Telegram telegram =
                 JavelinTelegramCreator.create(invocations, accumulatedTimes, telegramKind,
                                               requestKind);
 
         Telegram resourceTelegram = telegramListener.receiveTelegram(telegram);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertNull(resourceTelegram);
     }
 
     /**
-     * @test ƒŠƒ\[ƒX’Ê’m‰“š“d•¶-ƒIƒuƒWƒFƒNƒg’P”(€–Ú:2-1-2)
+     * @test ãƒªã‚½ãƒ¼ã‚¹é€šçŸ¥å¿œç­”é›»æ–‡-ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå˜æ•°(é …ç›®:2-1-2)
      * @condition 
      * @result
      */
     public void testCreate_SingleItem()
     {
-        // €”õ
+        // æº–å‚™
         byte telegramKind = TelegramConstants.BYTE_TELEGRAM_KIND_RESOURCENOTIFY;
         byte requestKind = TelegramConstants.BYTE_REQUEST_KIND_REQUEST;
         SystemResourceTelegramListener telegramListener = new SystemResourceTelegramListener();
         Telegram request = createRequestTelegram(telegramKind, requestKind, ITEMNAME_PROCESS_CPU_TOTAL_TIME);
 
-        // Šú‘Ò’l
+        // æœŸå¾…å€¤
         byte expectedTelegramKind = telegramKind;
         byte expectedRequestKind = TelegramConstants.BYTE_REQUEST_KIND_RESPONSE;
         String[] expectedItemNames = new String[]{ITEMNAME_PROCESS_CPU_TOTAL_TIME};
         byte[] expectedItemModes = new byte[]{BYTE_ITEMMODE_KIND_8BYTE_INT};
         int[] expectedLoopCounts = new int[]{1};
 
-        // À{
+        // å®Ÿæ–½
         Telegram response = telegramListener.receiveTelegram(request);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertResourceTelegram(expectedTelegramKind, expectedRequestKind, expectedItemNames,
                                expectedItemModes, expectedLoopCounts, response);
 
     }
 
     /**
-     * @test ƒŠƒ\[ƒX’Ê’m‰“š“d•¶-ƒIƒuƒWƒFƒNƒg•¡”(€–Ú:2-1-3)
+     * @test ãƒªã‚½ãƒ¼ã‚¹é€šçŸ¥å¿œç­”é›»æ–‡-ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆè¤‡æ•°(é …ç›®:2-1-3)
      * @condition 
      * @result
      */
     public void testCreate_MultiItem()
     {
-        // €”õ
+        // æº–å‚™
         byte telegramKind = TelegramConstants.BYTE_TELEGRAM_KIND_RESOURCENOTIFY;
         byte requestKind = TelegramConstants.BYTE_REQUEST_KIND_REQUEST;
         SystemResourceTelegramListener telegramListener = new SystemResourceTelegramListener();
@@ -124,7 +124,7 @@ public class SystemResourceTelegramListenerTest extends TestCase implements Tele
                 createRequestTelegram(telegramKind, requestKind, ITEMNAME_PROCESS_CPU_TOTAL_TIME,
                                       ITEMNAME_JAVAUPTIME, ITEMNAME_JAVAPROCESS_THREAD_TOTAL_COUNT);
 
-        // Šú‘Ò’l
+        // æœŸå¾…å€¤
         byte expectedTelegramKind = telegramKind;
         byte expectedRequestKind = TelegramConstants.BYTE_REQUEST_KIND_RESPONSE;
         String[] expectedItemNames =
@@ -134,22 +134,22 @@ public class SystemResourceTelegramListenerTest extends TestCase implements Tele
                         BYTE_ITEMMODE_KIND_4BYTE_INT};
         int[] expectedLoopCounts = new int[]{1, 1, 1};
 
-        // À{
+        // å®Ÿæ–½
         Telegram response = telegramListener.receiveTelegram(request);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertResourceTelegram(expectedTelegramKind, expectedRequestKind, expectedItemNames,
                                expectedItemModes, expectedLoopCounts, response);
     }
 
     /**
-     * @test ƒŠƒ\[ƒX’Ê’m‰“š“d•¶-‘SƒIƒuƒWƒFƒNƒg(€–Ú:2-1-4)
+     * @test ãƒªã‚½ãƒ¼ã‚¹é€šçŸ¥å¿œç­”é›»æ–‡-å…¨ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ(é …ç›®:2-1-4)
      * @condition 
      * @result
      */
     public void testCreate_AllItem()
     {
-        // €”õ
+        // æº–å‚™
         byte telegramKind = TelegramConstants.BYTE_TELEGRAM_KIND_RESOURCENOTIFY;
         byte requestKind = TelegramConstants.BYTE_REQUEST_KIND_REQUEST;
         String[] itemNames =
@@ -179,7 +179,7 @@ public class SystemResourceTelegramListenerTest extends TestCase implements Tele
         SystemResourceTelegramListener telegramListener = new SystemResourceTelegramListener();
         Telegram request = createRequestTelegram(telegramKind, requestKind, itemNames);
 
-        // Šú‘Ò’l
+        // æœŸå¾…å€¤
         byte expectedTelegramKind = telegramKind;
         byte expectedRequestKind = TelegramConstants.BYTE_REQUEST_KIND_RESPONSE;
         String[] expectedItemNames = itemNames;
@@ -200,48 +200,48 @@ public class SystemResourceTelegramListenerTest extends TestCase implements Tele
                 new int[]{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
                         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
 
-        // À{
+        // å®Ÿæ–½
         Telegram response = telegramListener.receiveTelegram(request);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertResourceTelegram(expectedTelegramKind, expectedRequestKind, expectedItemNames,
                                expectedItemModes, expectedLoopCounts, response);
     }
 
     /**
-     * @test ƒŠƒ\[ƒX’Ê’m‰“š“d•¶-initializew’èF‘¼ƒIƒuƒWƒFƒNƒg–³‚µ(€–Ú:2-1-5)
+     * @test ãƒªã‚½ãƒ¼ã‚¹é€šçŸ¥å¿œç­”é›»æ–‡-initializeæŒ‡å®šï¼šä»–ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç„¡ã—(é …ç›®:2-1-5)
      * @condition 
      * @result
      */
     public void testCreate_InitializeOnly()
     {
-        // €”õ
+        // æº–å‚™
         byte telegramKind = TelegramConstants.BYTE_TELEGRAM_KIND_RESOURCENOTIFY;
         byte requestKind = TelegramConstants.BYTE_REQUEST_KIND_REQUEST;
         SystemResourceTelegramListener telegramListener = new SystemResourceTelegramListener();
         Telegram request = createRequestTelegram(telegramKind, requestKind, ITEMNAME_INITIALIZE);
 
-        // Šú‘Ò’l
+        // æœŸå¾…å€¤
         byte expectedTelegramKind = telegramKind;
         byte expectedRequestKind = TelegramConstants.BYTE_REQUEST_KIND_RESPONSE;
 
-        // À{
+        // å®Ÿæ–½
         Telegram response = telegramListener.receiveTelegram(request);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         TelegramAssertionUtil.assertHeader(expectedTelegramKind, expectedRequestKind,
                                            response.getObjHeader());
         assertEquals(0, response.getObjBody().length);
     }
 
     /**
-     * @test ƒŠƒ\[ƒX’Ê’m‰“š“d•¶-initializew’èF‘¼ƒIƒuƒWƒFƒNƒg—L‚è(€–Ú:2-1-6)
+     * @test ãƒªã‚½ãƒ¼ã‚¹é€šçŸ¥å¿œç­”é›»æ–‡-initializeæŒ‡å®šï¼šä»–ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæœ‰ã‚Š(é …ç›®:2-1-6)
      * @condition 
      * @result
      */
     public void testCreate_Initialize()
     {
-        // €”õ
+        // æº–å‚™
         byte telegramKind = TelegramConstants.BYTE_TELEGRAM_KIND_RESOURCENOTIFY;
         byte requestKind = TelegramConstants.BYTE_REQUEST_KIND_REQUEST;
         SystemResourceTelegramListener telegramListener = new SystemResourceTelegramListener();
@@ -249,33 +249,33 @@ public class SystemResourceTelegramListenerTest extends TestCase implements Tele
                 createRequestTelegram(telegramKind, requestKind, ITEMNAME_INITIALIZE,
                                       ITEMNAME_CALLTREECOUNT, ITEMNAME_JAVAPROCESS_CLASSLOADER_CLASS_CURRENT);
 
-        // Šú‘Ò’l
+        // æœŸå¾…å€¤
         byte expectedTelegramKind = telegramKind;
         byte expectedRequestKind = TelegramConstants.BYTE_REQUEST_KIND_RESPONSE;
 
-        // À{
+        // å®Ÿæ–½
         Telegram response = telegramListener.receiveTelegram(request);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         TelegramAssertionUtil.assertHeader(expectedTelegramKind, expectedRequestKind,
                                            response.getObjHeader());
         assertEquals(0, response.getObjBody().length);
     }
 
     /**
-     * @test ƒŠƒ\[ƒX’Ê’m‰“š“d•¶-Œn—ñƒf[ƒ^İ’èF‚È‚µ(€–Ú:2-1-6)
+     * @test ãƒªã‚½ãƒ¼ã‚¹é€šçŸ¥å¿œç­”é›»æ–‡-ç³»åˆ—ãƒ‡ãƒ¼ã‚¿è¨­å®šï¼šãªã—(é …ç›®:2-1-6)
      * @condition 
      * @result
      */
     public void testCreate_NoSeries()
     {
-        // €”õ
+        // æº–å‚™
         byte telegramKind = TelegramConstants.BYTE_TELEGRAM_KIND_RESOURCENOTIFY;
         byte requestKind = TelegramConstants.BYTE_REQUEST_KIND_REQUEST;
         SystemResourceTelegramListener telegramListener = new SystemResourceTelegramListener();
         Telegram request = createRequestTelegram(telegramKind, requestKind, ITEMNAME_JAVAPROCESS_COLLECTION_LIST_COUNT);
 
-        // Šú‘Ò’l
+        // æœŸå¾…å€¤
         byte expectedTelegramKind = telegramKind;
         byte expectedRequestKind = TelegramConstants.BYTE_REQUEST_KIND_RESPONSE;
         String[] expectedItemNames = new String[]{ITEMNAME_JAVAPROCESS_COLLECTION_LIST_COUNT, ITEMNAME_JAVAPROCESS_COLLECTION_LIST_COUNT + "-name"};
@@ -283,28 +283,28 @@ public class SystemResourceTelegramListenerTest extends TestCase implements Tele
                 new byte[]{BYTE_ITEMMODE_KIND_4BYTE_INT, BYTE_ITEMMODE_KIND_STRING};
         int[] expectedLoopCounts = new int[]{0, 0};
 
-        // À{
+        // å®Ÿæ–½
         Telegram response = telegramListener.receiveTelegram(request);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertResourceTelegram(expectedTelegramKind, expectedRequestKind, expectedItemNames,
                                expectedItemModes, expectedLoopCounts, response);
     }
 
     /**
-     * @test ƒŠƒ\[ƒX’Ê’m‰“š“d•¶-Œn—ñƒf[ƒ^İ’èF’P”(€–Ú:2-1-7)
+     * @test ãƒªã‚½ãƒ¼ã‚¹é€šçŸ¥å¿œç­”é›»æ–‡-ç³»åˆ—ãƒ‡ãƒ¼ã‚¿è¨­å®šï¼šå˜æ•°(é …ç›®:2-1-7)
      * @condition 
      * @result
      */
     public void testCreate_SingleSeries() throws Exception
     {
-        // €”õ
+        // æº–å‚™
         byte telegramKind = TelegramConstants.BYTE_TELEGRAM_KIND_RESOURCENOTIFY;
         byte requestKind = TelegramConstants.BYTE_REQUEST_KIND_REQUEST;
         SystemResourceTelegramListener telegramListener = new SystemResourceTelegramListener();
         Telegram request = createRequestTelegram(telegramKind, requestKind, ITEMNAME_JAVAPROCESS_COLLECTION_LIST_COUNT);
 
-        // Šú‘Ò’l
+        // æœŸå¾…å€¤
         byte expectedTelegramKind = telegramKind;
         byte expectedRequestKind = TelegramConstants.BYTE_REQUEST_KIND_RESPONSE;
         String[] expectedItemNames = new String[]{ITEMNAME_JAVAPROCESS_COLLECTION_LIST_COUNT, ITEMNAME_JAVAPROCESS_COLLECTION_LIST_COUNT + "-name"};
@@ -312,22 +312,22 @@ public class SystemResourceTelegramListenerTest extends TestCase implements Tele
                 new byte[]{BYTE_ITEMMODE_KIND_4BYTE_INT, BYTE_ITEMMODE_KIND_STRING};
         int[] expectedLoopCounts = new int[]{1, 1};
 
-        // À{
+        // å®Ÿæ–½
         Telegram response = telegramListener.receiveTelegram(request);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertResourceTelegram(expectedTelegramKind, expectedRequestKind, expectedItemNames,
                                expectedItemModes, expectedLoopCounts, response);
     }
 
     /**
-     * @test ƒŠƒ\[ƒX’Ê’m‰“š“d•¶-Œn—ñƒf[ƒ^İ’èF•¡”(€–Ú:2-1-8)
+     * @test ãƒªã‚½ãƒ¼ã‚¹é€šçŸ¥å¿œç­”é›»æ–‡-ç³»åˆ—ãƒ‡ãƒ¼ã‚¿è¨­å®šï¼šè¤‡æ•°(é …ç›®:2-1-8)
      * @condition 
      * @result
      */
     public void testCreate_Multieries() throws Exception
     {
-        // €”õ
+        // æº–å‚™
         byte telegramKind = TelegramConstants.BYTE_TELEGRAM_KIND_RESOURCENOTIFY;
         byte requestKind = TelegramConstants.BYTE_REQUEST_KIND_REQUEST;
         SystemResourceTelegramListener telegramListener = new SystemResourceTelegramListener();
@@ -335,7 +335,7 @@ public class SystemResourceTelegramListenerTest extends TestCase implements Tele
         List<String> largeList = createLargeList();
         List<String> largeList2 = createLargeList();
 
-        // Šú‘Ò’l
+        // æœŸå¾…å€¤
         byte expectedTelegramKind = telegramKind;
         byte expectedRequestKind = TelegramConstants.BYTE_REQUEST_KIND_RESPONSE;
         String[] expectedItemNames = new String[]{ITEMNAME_JAVAPROCESS_COLLECTION_LIST_COUNT, ITEMNAME_JAVAPROCESS_COLLECTION_LIST_COUNT + "-name"};
@@ -343,10 +343,10 @@ public class SystemResourceTelegramListenerTest extends TestCase implements Tele
                 new byte[]{BYTE_ITEMMODE_KIND_4BYTE_INT, BYTE_ITEMMODE_KIND_STRING};
         int[] expectedLoopCounts = new int[]{2, 2};
 
-        // À{
+        // å®Ÿæ–½
         Telegram response = telegramListener.receiveTelegram(request);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertResourceTelegram(expectedTelegramKind, expectedRequestKind, expectedItemNames,
                                expectedItemModes, expectedLoopCounts, response);
     }
@@ -364,11 +364,11 @@ public class SystemResourceTelegramListenerTest extends TestCase implements Tele
     private void assertResourceTelegram(byte expectedTelegramKind, byte expectedRequestKind,
             String[] itemNames, byte[] expectedItemModes, int[] loopCounts, Telegram response)
     {
-        // ƒwƒbƒ_‚ÌŒŸØ
+        // ãƒ˜ãƒƒãƒ€ã®æ¤œè¨¼
         TelegramAssertionUtil.assertHeader(expectedTelegramKind, expectedRequestKind,
                                            response.getObjHeader());
 
-        // Body‚ÌŒŸØ
+        // Bodyã®æ¤œè¨¼
         int bodyIndex = 0;
         TelegramAssertionUtil.assertResourceTelegram(
                                                      TelegramConstants.TIME_RESOURCE,
@@ -409,28 +409,28 @@ public class SystemResourceTelegramListenerTest extends TestCase implements Tele
     }
 
     /**
-     * ‰Šú‰»ƒƒ\ƒbƒh<br />
-     * ƒVƒXƒeƒ€ƒƒO‚Ì‰Šú‰»‚ğs‚¤B<br />
+     * åˆæœŸåŒ–ãƒ¡ã‚½ãƒƒãƒ‰<br />
+     * ã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ã®åˆæœŸåŒ–ã‚’è¡Œã†ã€‚<br />
      */
     @Override
     public void setUp()
     {
-        // ƒIƒvƒVƒ‡ƒ“ƒtƒ@ƒCƒ‹‚©‚çAƒIƒvƒVƒ‡ƒ“İ’è‚ğ“Ç‚İ‚ŞB
+        // ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ã€ã‚ªãƒ—ã‚·ãƒ§ãƒ³è¨­å®šã‚’èª­ã¿è¾¼ã‚€ã€‚
         this.config_ = new JavelinConfig(BASE_DIR + "/lib");
         this.config_.setJavelinFileDir(BASE_DIR);
         SystemLogger.initSystemLog(this.config_);
     }
 
     /**
-     * [€”Ô] 3-5-1 ` 3-5-17, 3-5-22, 3-5-23<br />
-     * receiveTelegram‚ÌƒeƒXƒgB <br />
-     * EƒVƒXƒeƒ€ƒŠƒ\[ƒX‚Ìæ“¾B<br />
-     * ¨ì¬‚µ‚½“d•¶‚ªw’è‚µ‚½‚à‚Ì‚É‚È‚Á‚Ä‚¢‚éB<br />
-     * ¨ŠeƒVƒXƒeƒ€ƒŠƒ\[ƒX‚ªnull‚Å‚È‚¢B<br />
+     * [é …ç•ª] 3-5-1 ï½ 3-5-17, 3-5-22, 3-5-23<br />
+     * receiveTelegramã®ãƒ†ã‚¹ãƒˆã€‚ <br />
+     * ãƒ»ã‚·ã‚¹ãƒ†ãƒ ãƒªã‚½ãƒ¼ã‚¹ã®å–å¾—ã€‚<br />
+     * â†’ä½œæˆã—ãŸé›»æ–‡ãŒæŒ‡å®šã—ãŸã‚‚ã®ã«ãªã£ã¦ã„ã‚‹ã€‚<br />
+     * â†’å„ã‚·ã‚¹ãƒ†ãƒ ãƒªã‚½ãƒ¼ã‚¹ãŒnullã§ãªã„ã€‚<br />
      */
     public void testReceiveTelegram_ResourceGet()
     {
-        // €”õ
+        // æº–å‚™
         String[] resultItem =
                               new String[]{
                                       TelegramConstants.ITEMNAME_ACQUIREDTIME,
@@ -470,18 +470,18 @@ public class SystemResourceTelegramListenerTest extends TestCase implements Tele
         Telegram sendTelegram = CreateTelegramUtil.createTelegram(sendHeader, sendBodies);
         SystemResourceTelegramListener listener = new SystemResourceTelegramListener();
 
-        // Às
+        // å®Ÿè¡Œ
         Telegram receiveTelegram = listener.receiveTelegram(sendTelegram);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         Header receiveHeader = receiveTelegram.getObjHeader();
         Body[] receiveBody = receiveTelegram.getObjBody();
 
-        // ƒwƒbƒ_‚ÌŒŸØ
+        // ãƒ˜ãƒƒãƒ€ã®æ¤œè¨¼
         assertEquals(BYTE_TELEGRAM_KIND_RESOURCENOTIFY, receiveHeader.getByteTelegramKind());
         assertEquals(BYTE_REQUEST_KIND_RESPONSE, receiveHeader.getByteRequestKind());
 
-        // Body‚ÌŒŸØ
+        // Bodyã®æ¤œè¨¼
         for (int num = 1; num < receiveBody.length; num++)
         {
             AssertUtil.assertResourceTelegram("resources", resultItem[num - 1], resultItemKind[num - 1], 1,
@@ -491,16 +491,16 @@ public class SystemResourceTelegramListenerTest extends TestCase implements Tele
     }
 
     /**
-     * [€”Ô] 3-5-18, 3-5-19<br />
-     * receiveTelegram‚ÌƒeƒXƒgB <br />
-     * Eƒlƒbƒgƒ[ƒNóM—Ê‚ğ1Aƒlƒbƒgƒ[ƒN‘—M—Ê‚ğ2‚Éİ’è‚µ‚ÄA<br />
-     *  receiveTelegramƒƒ\ƒbƒh‚ğ—˜—p‚µ‚ÄAƒlƒbƒgƒ[ƒNóM—ÊA‘—M—Ê‚ğæ“¾‚·‚éB<br />
-     * ¨ì¬‚µ‚½“d•¶‚ªw’è‚µ‚½‚à‚Ì‚É‚È‚Á‚Ä‚¢‚éB<br />
-     * ¨ƒlƒbƒgƒ[ƒNóM—Ê‚ª1Aƒlƒbƒgƒ[ƒN‘—M—Ê‚ª2‚É‚È‚Á‚Ä‚¢‚éB
+     * [é …ç•ª] 3-5-18, 3-5-19<br />
+     * receiveTelegramã®ãƒ†ã‚¹ãƒˆã€‚ <br />
+     * ãƒ»ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯å—ä¿¡é‡ã‚’1ã€ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯é€ä¿¡é‡ã‚’2ã«è¨­å®šã—ã¦ã€<br />
+     *  receiveTelegramãƒ¡ã‚½ãƒƒãƒ‰ã‚’åˆ©ç”¨ã—ã¦ã€ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯å—ä¿¡é‡ã€é€ä¿¡é‡ã‚’å–å¾—ã™ã‚‹ã€‚<br />
+     * â†’ä½œæˆã—ãŸé›»æ–‡ãŒæŒ‡å®šã—ãŸã‚‚ã®ã«ãªã£ã¦ã„ã‚‹ã€‚<br />
+     * â†’ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯å—ä¿¡é‡ãŒ1ã€ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯é€ä¿¡é‡ãŒ2ã«ãªã£ã¦ã„ã‚‹ã€‚
      */
     public void testReceiveTelegram_NetWork()
     {
-        // €”õ
+        // æº–å‚™
         String[] resultItem = {TelegramConstants.ITEMNAME_NETWORKINPUTSIZEOFPROCESS,
                 TelegramConstants.ITEMNAME_NETWORKOUTPUTSIZEOFPROCESS};
 
@@ -521,18 +521,18 @@ public class SystemResourceTelegramListenerTest extends TestCase implements Tele
         Telegram sendTelegram = CreateTelegramUtil.createTelegram(sendHeader, sendBodies);
         SystemResourceTelegramListener listener = new SystemResourceTelegramListener();
 
-        // Às
+        // å®Ÿè¡Œ
         Telegram receiveTelegram = listener.receiveTelegram(sendTelegram);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         Header receiveHeader = receiveTelegram.getObjHeader();
         Body[] receiveBody = receiveTelegram.getObjBody();
 
-        // ƒwƒbƒ_‚ÌŒŸØ
+        // ãƒ˜ãƒƒãƒ€ã®æ¤œè¨¼
         assertEquals(BYTE_TELEGRAM_KIND_RESOURCENOTIFY, receiveHeader.getByteTelegramKind());
         assertEquals(BYTE_REQUEST_KIND_RESPONSE, receiveHeader.getByteRequestKind());
 
-        // Body‚ÌŒŸØ
+        // Bodyã®æ¤œè¨¼
         Long[] inputDetail1 = {(long)1};
         Long[] inputDetail2 = {(long)2};
 
@@ -543,16 +543,16 @@ public class SystemResourceTelegramListenerTest extends TestCase implements Tele
     }
 
     /**
-     * [€”Ô] 3-5-20, 3-5-21<br />
-     * receiveTelegram‚ÌƒeƒXƒgB <br />
-     * Eƒtƒ@ƒCƒ‹“ü—Í—Ê‚ğ3Aƒtƒ@ƒCƒ‹o—Í—Ê‚ğ4‚Éİ’è‚µ‚ÄA<br />
-     *  receiveTelegramƒƒ\ƒbƒh‚ğ—˜—p‚µ‚ÄAƒtƒ@ƒCƒ‹“ü—Í—ÊAo—Í—Ê‚ğæ“¾‚·‚éB<br />
-     * ¨ì¬‚µ‚½“d•¶‚ªw’è‚µ‚½‚à‚Ì‚É‚È‚Á‚Ä‚¢‚éB<br />
-     * ¨ƒtƒ@ƒCƒ‹“ü—Í—Ê‚ª3Aƒtƒ@ƒCƒ‹o—Í—Ê‚ª4‚É‚È‚Á‚Ä‚¢‚éB
+     * [é …ç•ª] 3-5-20, 3-5-21<br />
+     * receiveTelegramã®ãƒ†ã‚¹ãƒˆã€‚ <br />
+     * ãƒ»ãƒ•ã‚¡ã‚¤ãƒ«å…¥åŠ›é‡ã‚’3ã€ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›é‡ã‚’4ã«è¨­å®šã—ã¦ã€<br />
+     *  receiveTelegramãƒ¡ã‚½ãƒƒãƒ‰ã‚’åˆ©ç”¨ã—ã¦ã€ãƒ•ã‚¡ã‚¤ãƒ«å…¥åŠ›é‡ã€å‡ºåŠ›é‡ã‚’å–å¾—ã™ã‚‹ã€‚<br />
+     * â†’ä½œæˆã—ãŸé›»æ–‡ãŒæŒ‡å®šã—ãŸã‚‚ã®ã«ãªã£ã¦ã„ã‚‹ã€‚<br />
+     * â†’ãƒ•ã‚¡ã‚¤ãƒ«å…¥åŠ›é‡ãŒ3ã€ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›é‡ãŒ4ã«ãªã£ã¦ã„ã‚‹ã€‚
      */
     public void testReceiveTelegram_File()
     {
-        // €”õ
+        // æº–å‚™
         String[] resultItem = {TelegramConstants.ITEMNAME_FILEINPUTSIZEOFPROCESS,
                 TelegramConstants.ITEMNAME_FILEOUTPUTSIZEOFPROCESS};
 
@@ -573,18 +573,18 @@ public class SystemResourceTelegramListenerTest extends TestCase implements Tele
         Telegram sendTelegram = CreateTelegramUtil.createTelegram(sendHeader, sendBodies);
         SystemResourceTelegramListener listener = new SystemResourceTelegramListener();
 
-        // Às
+        // å®Ÿè¡Œ
         Telegram receiveTelegram = listener.receiveTelegram(sendTelegram);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         Header receiveHeader = receiveTelegram.getObjHeader();
         Body[] receiveBody = receiveTelegram.getObjBody();
 
-        // ƒwƒbƒ_‚ÌŒŸØ
+        // ãƒ˜ãƒƒãƒ€ã®æ¤œè¨¼
         assertEquals(BYTE_TELEGRAM_KIND_RESOURCENOTIFY, receiveHeader.getByteTelegramKind());
         assertEquals(BYTE_REQUEST_KIND_RESPONSE, receiveHeader.getByteRequestKind());
 
-        // Body‚ÌŒŸØ
+        // Bodyã®æ¤œè¨¼
         Long[] inputDetail1 = {(long)3};
         Long[] inputDetail2 = {(long)4};
 
@@ -595,14 +595,14 @@ public class SystemResourceTelegramListenerTest extends TestCase implements Tele
     }
 
     /**
-     * [€”Ô] 3-5-24<br />
-     * receiveTelegram‚ÌƒeƒXƒgB <br />
-     * E–³Œø‚ÈBody‚Æ—LŒø‚ÈBody‚ğ‚Â“d•¶‚ğì¬‚µAreceiveTelegramƒƒ\ƒbƒh‚ğŒÄ‚ÔB<br />
-     * ¨ì¬‚µ‚½“d•¶‚ªw’è‚µ‚½‚à‚Ì‚É‚È‚Á‚Ä‚¢‚éB<br />
+     * [é …ç•ª] 3-5-24<br />
+     * receiveTelegramã®ãƒ†ã‚¹ãƒˆã€‚ <br />
+     * ãƒ»ç„¡åŠ¹ãªBodyã¨æœ‰åŠ¹ãªBodyã‚’æŒã¤é›»æ–‡ã‚’ä½œæˆã—ã€receiveTelegramãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã¶ã€‚<br />
+     * â†’ä½œæˆã—ãŸé›»æ–‡ãŒæŒ‡å®šã—ãŸã‚‚ã®ã«ãªã£ã¦ã„ã‚‹ã€‚<br />
      */
     public void testReceiveTelegram_OneInvalid_OneValidBody()
     {
-        // €”õ
+        // æº–å‚™
         Header sendHeader =
                 CreateTelegramUtil.createHeader(BYTE_REQUEST_KIND_REQUEST,
                                                 BYTE_TELEGRAM_KIND_RESOURCENOTIFY);
@@ -618,31 +618,31 @@ public class SystemResourceTelegramListenerTest extends TestCase implements Tele
         Telegram sendTelegram = CreateTelegramUtil.createTelegram(sendHeader, sendBodies);
         SystemResourceTelegramListener listener = new SystemResourceTelegramListener();
 
-        // Às
+        // å®Ÿè¡Œ
         Telegram receiveTelegram = listener.receiveTelegram(sendTelegram);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         Header receiveHeader = receiveTelegram.getObjHeader();
         Body[] receiveBody = receiveTelegram.getObjBody();
 
-        // ƒwƒbƒ_‚ÌŒŸØ
+        // ãƒ˜ãƒƒãƒ€ã®æ¤œè¨¼
         assertEquals(BYTE_TELEGRAM_KIND_RESOURCENOTIFY, receiveHeader.getByteTelegramKind());
         assertEquals(BYTE_REQUEST_KIND_RESPONSE, receiveHeader.getByteRequestKind());
 
-        // Body‚ÌŒŸØ
+        // Bodyã®æ¤œè¨¼
         AssertUtil.assertResourceTelegram("resources", "acquiredTime", (byte)3, 1, receiveBody[1]);
         assertNotNull(receiveBody[0].getObjItemValueArr());
     }
 
     /**
-     * [€”Ô] 3-5-25<br />
-     * receiveTelegram‚ÌƒeƒXƒgB <br />
-     * E—LŒø‚ÈBodyA–³Œø‚ÈBodyA—LŒø‚ÈBody‚ğ‚Â“d•¶‚ğì¬‚µAreceiveTelegramƒƒ\ƒbƒh‚ğŒÄ‚ÔB<br />
-     * ¨ì¬‚µ‚½“d•¶‚ªw’è‚µ‚½‚à‚Ì‚É‚È‚Á‚Ä‚¢‚éB<br />
+     * [é …ç•ª] 3-5-25<br />
+     * receiveTelegramã®ãƒ†ã‚¹ãƒˆã€‚ <br />
+     * ãƒ»æœ‰åŠ¹ãªBodyã€ç„¡åŠ¹ãªBodyã€æœ‰åŠ¹ãªBodyã‚’æŒã¤é›»æ–‡ã‚’ä½œæˆã—ã€receiveTelegramãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã¶ã€‚<br />
+     * â†’ä½œæˆã—ãŸé›»æ–‡ãŒæŒ‡å®šã—ãŸã‚‚ã®ã«ãªã£ã¦ã„ã‚‹ã€‚<br />
      */
     public void testReceiveTelegram_TwoValid_OneInvalidBody()
     {
-        // €”õ
+        // æº–å‚™
         Header sendHeader =
                 CreateTelegramUtil.createHeader(BYTE_REQUEST_KIND_REQUEST,
                                                 BYTE_TELEGRAM_KIND_RESOURCENOTIFY);
@@ -663,18 +663,18 @@ public class SystemResourceTelegramListenerTest extends TestCase implements Tele
         Telegram sendTelegram = CreateTelegramUtil.createTelegram(sendHeader, sendBodies);
         SystemResourceTelegramListener listener = new SystemResourceTelegramListener();
 
-        // Às
+        // å®Ÿè¡Œ
         Telegram receiveTelegram = listener.receiveTelegram(sendTelegram);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         Header receiveHeader = receiveTelegram.getObjHeader();
         Body[] receiveBody = receiveTelegram.getObjBody();
 
-        // ƒwƒbƒ_‚ÌŒŸØ
+        // ãƒ˜ãƒƒãƒ€ã®æ¤œè¨¼
         assertEquals(BYTE_TELEGRAM_KIND_RESOURCENOTIFY, receiveHeader.getByteTelegramKind());
         assertEquals(BYTE_REQUEST_KIND_RESPONSE, receiveHeader.getByteRequestKind());
 
-        // Body‚ÌŒŸØ
+        // Bodyã®æ¤œè¨¼
         AssertUtil.assertResourceTelegram("resources", TelegramConstants.ITEMNAME_ACQUIREDTIME,
                                           (byte)3, 1, receiveBody[1]);
         assertNotNull(receiveBody[0].getObjItemValueArr());
@@ -685,14 +685,14 @@ public class SystemResourceTelegramListenerTest extends TestCase implements Tele
     }
 
     /**
-     * [€”Ô] 3-5-26<br />
-     * receiveTelegram‚ÌƒeƒXƒgB <br />
-     * E—LŒø‚ÈBody‚ğ3‚Â‚Â“d•¶‚ğì¬‚µAreceiveTelegramƒƒ\ƒbƒh‚ğŒÄ‚ÔB<br />
-     * ¨ì¬‚µ‚½“d•¶‚ªw’è‚µ‚½‚à‚Ì‚É‚È‚Á‚Ä‚¢‚éB<br />
+     * [é …ç•ª] 3-5-26<br />
+     * receiveTelegramã®ãƒ†ã‚¹ãƒˆã€‚ <br />
+     * ãƒ»æœ‰åŠ¹ãªBodyã‚’3ã¤æŒã¤é›»æ–‡ã‚’ä½œæˆã—ã€receiveTelegramãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã¶ã€‚<br />
+     * â†’ä½œæˆã—ãŸé›»æ–‡ãŒæŒ‡å®šã—ãŸã‚‚ã®ã«ãªã£ã¦ã„ã‚‹ã€‚<br />
      */
     public void testReceiveTelegram_ThreeValidBody()
     {
-        // €”õ
+        // æº–å‚™
         String[] resultItem =
                               {TelegramConstants.ITEMNAME_ACQUIREDTIME,
                                       TelegramConstants.ITEMNAME_PROCESS_CPU_TOTAL_TIME,
@@ -715,18 +715,18 @@ public class SystemResourceTelegramListenerTest extends TestCase implements Tele
         Telegram sendTelegram = CreateTelegramUtil.createTelegram(sendHeader, sendBodies);
         SystemResourceTelegramListener listener = new SystemResourceTelegramListener();
 
-        // Às
+        // å®Ÿè¡Œ
         Telegram receiveTelegram = listener.receiveTelegram(sendTelegram);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         Header receiveHeader = receiveTelegram.getObjHeader();
         Body[] receiveBody = receiveTelegram.getObjBody();
 
-        // ƒwƒbƒ_‚ÌŒŸØ
+        // ãƒ˜ãƒƒãƒ€ã®æ¤œè¨¼
         assertEquals(BYTE_TELEGRAM_KIND_RESOURCENOTIFY, receiveHeader.getByteTelegramKind());
         assertEquals(BYTE_REQUEST_KIND_RESPONSE, receiveHeader.getByteRequestKind());
 
-        // Body‚ÌŒŸØ
+        // Bodyã®æ¤œè¨¼
         for (int num = 1; num < receiveBody.length; num++)
         {
             AssertUtil.assertResourceTelegram("resources", resultItem[num - 1],
@@ -736,13 +736,13 @@ public class SystemResourceTelegramListenerTest extends TestCase implements Tele
     }
 
     /**
-     * [€”Ô] 3-5-27 receiveTelegram‚ÌƒeƒXƒgB <br />
-     * E“d•¶í•Ê‚ªƒŠƒ\[ƒX’Ê’m‚Å‚È‚¢‚Æ‚«‚ÉAreceiveTeleramƒƒ\ƒbƒh‚ğŒÄ‚ÔB<br />
-     * ¨ì¬‚µ‚½“d•¶‚ª‘S‚Änull‚É‚È‚Á‚Ä‚¢‚éB<br />
+     * [é …ç•ª] 3-5-27 receiveTelegramã®ãƒ†ã‚¹ãƒˆã€‚ <br />
+     * ãƒ»é›»æ–‡ç¨®åˆ¥ãŒãƒªã‚½ãƒ¼ã‚¹é€šçŸ¥ã§ãªã„ã¨ãã«ã€receiveTeleramãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã¶ã€‚<br />
+     * â†’ä½œæˆã—ãŸé›»æ–‡ãŒå…¨ã¦nullã«ãªã£ã¦ã„ã‚‹ã€‚<br />
      */
     public void testReceiveTelegram_RequestKindOthers()
     {
-        // €”õ
+        // æº–å‚™
         byte[] requestKinds = {1, 2, 4, 5, 6, 7, 8, 9};
 
         for (byte requestKind : requestKinds)
@@ -757,22 +757,22 @@ public class SystemResourceTelegramListenerTest extends TestCase implements Tele
             Telegram sendTelegram = CreateTelegramUtil.createTelegram(sendHeader, sendBodies);
             SystemResourceTelegramListener listener = new SystemResourceTelegramListener();
 
-            // Às
+            // å®Ÿè¡Œ
             Telegram receiveTelegram = listener.receiveTelegram(sendTelegram);
 
-            // ŒŸØ
+            // æ¤œè¨¼
             assertNull(receiveTelegram);
         }
     }
 
     /**
-     * [€”Ô] 3-5-28 receiveTelegram‚ÌƒeƒXƒgB <br />
-     * E“d•¶‰“ší•Ê‚ª—v‹‚Å‚È‚¢‚Æ‚«‚ÉAreceiveTeleramƒƒ\ƒbƒh‚ğŒÄ‚ÔB<br />
-     * ¨ì¬‚µ‚½“d•¶‚ª‘S‚Änull‚É‚È‚Á‚Ä‚¢‚éB<br />
+     * [é …ç•ª] 3-5-28 receiveTelegramã®ãƒ†ã‚¹ãƒˆã€‚ <br />
+     * ãƒ»é›»æ–‡å¿œç­”ç¨®åˆ¥ãŒè¦æ±‚ã§ãªã„ã¨ãã«ã€receiveTeleramãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã¶ã€‚<br />
+     * â†’ä½œæˆã—ãŸé›»æ–‡ãŒå…¨ã¦nullã«ãªã£ã¦ã„ã‚‹ã€‚<br />
      */
     public void testReceiveTelegram_TelegramKindOthers()
     {
-        // €”õ
+        // æº–å‚™
         byte[] telegramKinds = {0, 2};
 
         for (byte telegramKind : telegramKinds)
@@ -787,18 +787,18 @@ public class SystemResourceTelegramListenerTest extends TestCase implements Tele
             Telegram sendTelegram = CreateTelegramUtil.createTelegram(sendHeader, sendBodies);
             SystemResourceTelegramListener listener = new SystemResourceTelegramListener();
 
-            // Às
+            // å®Ÿè¡Œ
             Telegram receiveTelegram = listener.receiveTelegram(sendTelegram);
 
-            // ŒŸØ
+            // æ¤œè¨¼
             assertNull(receiveTelegram);
         }
     }
 
     /**
-     * [€”Ô] 3-5-29 receiveTelegram‚ÌƒeƒXƒgB <br />
-     * EƒIƒuƒWƒFƒNƒg–¼‚ª"resources"‚Å‚È‚¢‚Æ‚«AreceiveTeleramƒƒ\ƒbƒh‚ğŒÄ‚ÔB<br />
-     * ¨ì¬‚µ‚½“d•¶‚ÌBody‚ª‹ó‚Å‚ ‚éB<br />
+     * [é …ç•ª] 3-5-29 receiveTelegramã®ãƒ†ã‚¹ãƒˆã€‚ <br />
+     * ãƒ»ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆåãŒ"resources"ã§ãªã„ã¨ãã€receiveTeleramãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã¶ã€‚<br />
+     * â†’ä½œæˆã—ãŸé›»æ–‡ã®BodyãŒç©ºã§ã‚ã‚‹ã€‚<br />
      */
     public void testReceiveTelegram_ObjNameOther()
     {
@@ -813,14 +813,14 @@ public class SystemResourceTelegramListenerTest extends TestCase implements Tele
         Telegram sendTelegram = CreateTelegramUtil.createTelegram(sendHeader, sendBodies);
         SystemResourceTelegramListener listener = new SystemResourceTelegramListener();
 
-        // Às
+        // å®Ÿè¡Œ
         Telegram receiveTelegram = listener.receiveTelegram(sendTelegram);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         Header receiveHeader = receiveTelegram.getObjHeader();
         Body[] receiveBody = receiveTelegram.getObjBody();
 
-        // ƒwƒbƒ_‚ÌŒŸØ
+        // ãƒ˜ãƒƒãƒ€ã®æ¤œè¨¼
         assertEquals(BYTE_TELEGRAM_KIND_RESOURCENOTIFY, receiveHeader.getByteTelegramKind());
         assertEquals(BYTE_REQUEST_KIND_RESPONSE, receiveHeader.getByteRequestKind());
 
@@ -828,9 +828,9 @@ public class SystemResourceTelegramListenerTest extends TestCase implements Tele
     }
 
     /**
-     * [€”Ô] 3-5-30 receiveTelegram‚ÌƒeƒXƒgB <br />
-     * E€–Ú–¼‚ª‘¶İ‚µ‚È‚¢€–Ú–¼‚Ì‚Æ‚«AreceiveTeleramƒƒ\ƒbƒh‚ğŒÄ‚ÔB<br />
-     * ¨ì¬‚µ‚½“d•¶‚ÌBody‚ª‹ó‚Å‚ ‚éB<br />
+     * [é …ç•ª] 3-5-30 receiveTelegramã®ãƒ†ã‚¹ãƒˆã€‚ <br />
+     * ãƒ»é …ç›®åãŒå­˜åœ¨ã—ãªã„é …ç›®åã®ã¨ãã€receiveTeleramãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã¶ã€‚<br />
+     * â†’ä½œæˆã—ãŸé›»æ–‡ã®BodyãŒç©ºã§ã‚ã‚‹ã€‚<br />
      */
     public void testReceiveTelegram_ItemNameOther()
     {
@@ -845,14 +845,14 @@ public class SystemResourceTelegramListenerTest extends TestCase implements Tele
         Telegram sendTelegram = CreateTelegramUtil.createTelegram(sendHeader, sendBodies);
         SystemResourceTelegramListener listener = new SystemResourceTelegramListener();
 
-        // Às
+        // å®Ÿè¡Œ
         Telegram receiveTelegram = listener.receiveTelegram(sendTelegram);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         Header receiveHeader = receiveTelegram.getObjHeader();
         Body[] receiveBody = receiveTelegram.getObjBody();
 
-        // ƒwƒbƒ_‚ÌŒŸØ
+        // ãƒ˜ãƒƒãƒ€ã®æ¤œè¨¼
         assertEquals(BYTE_TELEGRAM_KIND_RESOURCENOTIFY, receiveHeader.getByteTelegramKind());
         assertEquals(BYTE_REQUEST_KIND_RESPONSE, receiveHeader.getByteRequestKind());
 
@@ -860,10 +860,10 @@ public class SystemResourceTelegramListenerTest extends TestCase implements Tele
     }
 
     /**
-     * —v‹–{‘Ì‚ğì¬‚·‚éB
+     * è¦æ±‚æœ¬ä½“ã‚’ä½œæˆã™ã‚‹ã€‚
      *
-     * @param itemName €–Ú–¼
-     * @return —v‹–{‘Ì
+     * @param itemName é …ç›®å
+     * @return è¦æ±‚æœ¬ä½“
      */
     private RequestBody makeResourceRequestBody(final String itemName)
     {

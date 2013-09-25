@@ -13,32 +13,32 @@ import java.util.concurrent.ConcurrentHashMap;
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 
 /**
- * mapreduceƒWƒ‡ƒuAƒ^ƒXƒN‚Ìî•ñ‚ğæ“¾‚·‚éB
+ * mapreduceã‚¸ãƒ§ãƒ–ã€ã‚¿ã‚¹ã‚¯ã®æƒ…å ±ã‚’å–å¾—ã™ã‚‹ã€‚
  * 
  * @author hiramatsu
  *
  */
 public class MapReduceTaskMonitor
 {
-    /**@ƒWƒ‡ƒuî•ñ‚ğ•Û‚·‚éƒ}ƒbƒv@*/
+    /**ã€€ã‚¸ãƒ§ãƒ–æƒ…å ±ã‚’ä¿æŒã™ã‚‹ãƒãƒƒãƒ—ã€€*/
     private static Map<String, JobInfo>  jobInfoMap__  = new ConcurrentHashMap<String, JobInfo>();
 
-    /**@ƒ^ƒXƒNî•ñ‚ğ•Û‚·‚éƒ}ƒbƒv@*/
+    /**ã€€ã‚¿ã‚¹ã‚¯æƒ…å ±ã‚’ä¿æŒã™ã‚‹ãƒãƒƒãƒ—ã€€*/
     private static Map<String, TaskInfo> taskInfoMap__ = new ConcurrentHashMap<String, TaskInfo>();
 
-    /**@ÅŒã‚ÌƒWƒ‡ƒu‚ªÀs‚³‚ê‚½@*/
+    /**ã€€æœ€å¾Œã®ã‚¸ãƒ§ãƒ–ãŒå®Ÿè¡Œã•ã‚ŒãŸæ™‚åˆ»ã€€*/
     private static String                previousDate__;
 
-    /**@Œ»İ‚ÌiyyyyMMddHHmmj’†‚ÉÀs‚³‚ê‚½ƒWƒ‡ƒu‚ÌŒÂ”@*/
+    /**ã€€ç¾åœ¨ã®æ™‚åˆ»ï¼ˆyyyyMMddHHmmï¼‰ä¸­ã«å®Ÿè¡Œã•ã‚ŒãŸã‚¸ãƒ§ãƒ–ã®å€‹æ•°ã€€*/
     private static int                   num__;
 
     private MapReduceTaskMonitor()
     {}
 
     /**
-     * ƒWƒ‡ƒuŠJn‘O‚Ìˆ—‚ğs‚¤B
+     * ã‚¸ãƒ§ãƒ–é–‹å§‹å‰ã®å‡¦ç†ã‚’è¡Œã†ã€‚
      * 
-     * @param accessor ‘ÎÛ‚ÌƒWƒ‡ƒu
+     * @param accessor å¯¾è±¡ã®ã‚¸ãƒ§ãƒ–
      */
     public static void preProcess(MapReduceTaskAccessor accessor)
     {
@@ -72,9 +72,9 @@ public class MapReduceTaskMonitor
     }
 
     /**
-     * ƒWƒ‡ƒuI—¹‚Ìˆ—‚ğs‚¤B
+     * ã‚¸ãƒ§ãƒ–çµ‚äº†æ™‚ã®å‡¦ç†ã‚’è¡Œã†ã€‚
      * 
-     * @param accessor ‘ÎÛ‚ÌƒWƒ‡ƒu
+     * @param accessor å¯¾è±¡ã®ã‚¸ãƒ§ãƒ–
      */
     public static void postProcess(MapReduceTaskAccessor accessor)
     {
@@ -91,10 +91,10 @@ public class MapReduceTaskMonitor
     }
 
     /**
-     * ƒWƒ‡ƒu¸”s‚Ìˆ—‚ğs‚¤B
+     * ã‚¸ãƒ§ãƒ–å¤±æ•—æ™‚ã®å‡¦ç†ã‚’è¡Œã†ã€‚
      * 
-     * @param accessor ‘ÎÛ‚ÌƒWƒ‡ƒu
-     * @param throwable ƒ^ƒXƒN¸”sŒ´ˆö‚Ì—áŠO
+     * @param accessor å¯¾è±¡ã®ã‚¸ãƒ§ãƒ–
+     * @param throwable ã‚¿ã‚¹ã‚¯å¤±æ•—åŸå› ã®ä¾‹å¤–
      */
     public static void postProcessNG(MapReduceTaskAccessor accessor,
             Throwable throwable)
@@ -112,10 +112,10 @@ public class MapReduceTaskMonitor
     }
 
     /**
-     * ƒ^ƒXƒNŠJn‘O‚Ìˆ—‚ğs‚¤B
+     * ã‚¿ã‚¹ã‚¯é–‹å§‹å‰ã®å‡¦ç†ã‚’è¡Œã†ã€‚
      * 
-     * @param accessor ‘ÎÛ‚Ìƒ^ƒXƒN
-     * @param address ƒ^ƒXƒN‚ÌÀs‚³‚ê‚éƒAƒhƒŒƒX
+     * @param accessor å¯¾è±¡ã®ã‚¿ã‚¹ã‚¯
+     * @param address ã‚¿ã‚¹ã‚¯ã®å®Ÿè¡Œã•ã‚Œã‚‹ã‚¢ãƒ‰ãƒ¬ã‚¹
      */
     public static void preProcessTask(MapReduceTaskAccessor accessor,
             String address)
@@ -135,10 +135,10 @@ public class MapReduceTaskMonitor
     }
 
     /**
-     * org.infinispan.remoting.rpc.RpcManager.invokeRemotelyŠJn‘O‚Ìˆ—‚ğs‚¤B
+     * org.infinispan.remoting.rpc.RpcManager.invokeRemotelyé–‹å§‹å‰ã®å‡¦ç†ã‚’è¡Œã†ã€‚
      * 
-     * @param accessor ‘ÎÛ‚Ìƒ^ƒXƒN
-     * @param address ƒ^ƒXƒN‚ÌÀs‚³‚ê‚éƒAƒhƒŒƒX
+     * @param accessor å¯¾è±¡ã®ã‚¿ã‚¹ã‚¯
+     * @param address ã‚¿ã‚¹ã‚¯ã®å®Ÿè¡Œã•ã‚Œã‚‹ã‚¢ãƒ‰ãƒ¬ã‚¹
      */
     public static void preProcessTaskForInvokeRemotely(
             MapReduceTaskAccessor accessor, String address)
@@ -156,10 +156,10 @@ public class MapReduceTaskMonitor
     }
 
     /**
-     * org.infinispan.remoting.rpc.RpcManager.invokeRemotelyInFutureŠJn‘O‚Ìˆ—‚ğs‚¤B
+     * org.infinispan.remoting.rpc.RpcManager.invokeRemotelyInFutureé–‹å§‹å‰ã®å‡¦ç†ã‚’è¡Œã†ã€‚
      * 
-     * @param accessor ‘ÎÛ‚Ìƒ^ƒXƒN
-     * @param address ƒ^ƒXƒN‚ÌÀs‚³‚ê‚éƒAƒhƒŒƒX
+     * @param accessor å¯¾è±¡ã®ã‚¿ã‚¹ã‚¯
+     * @param address ã‚¿ã‚¹ã‚¯ã®å®Ÿè¡Œã•ã‚Œã‚‹ã‚¢ãƒ‰ãƒ¬ã‚¹
      */
     public static void preProcessTaskForInvokeRemotelyInFuture(
             MapReduceTaskAccessor accessor, String address)
@@ -180,9 +180,9 @@ public class MapReduceTaskMonitor
     }
 
     /**
-     * ƒ^ƒXƒNI—¹‚Ìˆ—‚ğs‚¤B
+     * ã‚¿ã‚¹ã‚¯çµ‚äº†æ™‚ã®å‡¦ç†ã‚’è¡Œã†ã€‚
      * 
-     * @param accessor ‘ÎÛ‚Ìƒ^ƒXƒN
+     * @param accessor å¯¾è±¡ã®ã‚¿ã‚¹ã‚¯
      */
     public static void postProcessTask(MapReduceTaskAccessor accessor)
     {
@@ -197,10 +197,10 @@ public class MapReduceTaskMonitor
     }
 
     /**
-     * org.infinispan.remoting.rpc.RpcManager.invokeRemotelyI—¹Œã‚Ìˆ—‚ğs‚¤B
+     * org.infinispan.remoting.rpc.RpcManager.invokeRemotelyçµ‚äº†å¾Œã®å‡¦ç†ã‚’è¡Œã†ã€‚
      * 
-     * @param accessor ‘ÎÛ‚Ìƒ^ƒXƒN
-     * @param map ƒ^ƒXƒN‚ÌÀs‚³‚ê‚½ƒAƒhƒŒƒX‚ÆI—¹ó‘Ô‚Ìƒ}ƒbƒv
+     * @param accessor å¯¾è±¡ã®ã‚¿ã‚¹ã‚¯
+     * @param map ã‚¿ã‚¹ã‚¯ã®å®Ÿè¡Œã•ã‚ŒãŸã‚¢ãƒ‰ãƒ¬ã‚¹ã¨çµ‚äº†çŠ¶æ…‹ã®ãƒãƒƒãƒ—
      */
     public static void postProcessTaskForInvokeRemotely(
             MapReduceTaskAccessor accessor, Map<String, Boolean> map)
@@ -234,9 +234,9 @@ public class MapReduceTaskMonitor
     }
 
     /**
-     * ƒ^ƒXƒN¸”s‚Ìˆ—‚ğs‚¤B
+     * ã‚¿ã‚¹ã‚¯å¤±æ•—æ™‚ã®å‡¦ç†ã‚’è¡Œã†ã€‚
      * 
-     * @param accessor ‘ÎÛ‚Ìƒ^ƒXƒN
+     * @param accessor å¯¾è±¡ã®ã‚¿ã‚¹ã‚¯
      */
     public static void postProcessNGTask(MapReduceTaskAccessor accessor)
     {
@@ -251,9 +251,9 @@ public class MapReduceTaskMonitor
     }
 
     /**
-     * ƒWƒ‡ƒuî•ñ‚ğ•Û‘¶‚·‚éB
+     * ã‚¸ãƒ§ãƒ–æƒ…å ±ã‚’ä¿å­˜ã™ã‚‹ã€‚
      * 
-     * @param jobInfo “o˜^‚·‚éƒWƒ‡ƒu‚Ìî•ñ
+     * @param jobInfo ç™»éŒ²ã™ã‚‹ã‚¸ãƒ§ãƒ–ã®æƒ…å ±
      */
     public static void saveJobInfo(JobInfo jobInfo)
     {
@@ -262,9 +262,9 @@ public class MapReduceTaskMonitor
     }
 
     /**
-     * ƒ^ƒXƒNî•ñ‚ğ•Û‘¶‚·‚éB
+     * ã‚¿ã‚¹ã‚¯æƒ…å ±ã‚’ä¿å­˜ã™ã‚‹ã€‚
      * 
-     * @param taskInfo “o˜^‚·‚éƒ^ƒXƒN‚Ìî•ñ
+     * @param taskInfo ç™»éŒ²ã™ã‚‹ã‚¿ã‚¹ã‚¯ã®æƒ…å ±
      */
     public static void saveTaskInfo(TaskInfo taskInfo)
     {
@@ -273,9 +273,9 @@ public class MapReduceTaskMonitor
     }
 
     /**
-     * I—¹‚µ‚½ƒWƒ‡ƒu‚ğƒ}ƒbƒv‚©‚çæ‚èœ‚«AƒRƒŒƒNƒVƒ‡ƒ“‚Æ‚µ‚Ä•Ô‚·B
+     * çµ‚äº†ã—ãŸã‚¸ãƒ§ãƒ–ã‚’ãƒãƒƒãƒ—ã‹ã‚‰å–ã‚Šé™¤ãã€ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã¨ã—ã¦è¿”ã™ã€‚
      * 
-     * @return I—¹‚µ‚½ƒWƒ‡ƒu‚ÌƒRƒŒƒNƒVƒ‡ƒ“
+     * @return çµ‚äº†ã—ãŸã‚¸ãƒ§ãƒ–ã®ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³
      */
     public static Collection<JobInfo> cloneJobInfoMapAsCollection()
     {
@@ -298,9 +298,9 @@ public class MapReduceTaskMonitor
     }
 
     /**
-     * I—¹‚µ‚½ƒ^ƒXƒN‚ğƒ}ƒbƒv‚©‚çæ‚èœ‚«AƒRƒŒƒNƒVƒ‡ƒ“‚Æ‚µ‚Ä•Ô‚·B
+     * çµ‚äº†ã—ãŸã‚¿ã‚¹ã‚¯ã‚’ãƒãƒƒãƒ—ã‹ã‚‰å–ã‚Šé™¤ãã€ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã¨ã—ã¦è¿”ã™ã€‚
      * 
-     * @return I—¹‚µ‚½ƒ^ƒXƒN‚ÌƒRƒŒƒNƒVƒ‡ƒ“
+     * @return çµ‚äº†ã—ãŸã‚¿ã‚¹ã‚¯ã®ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³
      */
     public static Collection<TaskInfo> cloneTaskInfoMapAsCollection()
     {

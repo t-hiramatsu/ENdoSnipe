@@ -30,7 +30,7 @@ import jp.co.acroquest.endosnipe.javelin.bean.proc.ProcInfo;
 import jp.co.acroquest.endosnipe.javelin.bean.proc.SelfStatInfo;
 
 /**
- * SelfStatInfo‚©‚çƒvƒƒZƒX–ˆ‚ÌƒXƒŒƒbƒh”‚ðŽæ“¾‚·‚éB
+ * SelfStatInfoã‹ã‚‰ãƒ—ãƒ­ã‚»ã‚¹æ¯Žã®ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã‚’å–å¾—ã™ã‚‹ã€‚
  * 
  * @author akita
  */
@@ -39,7 +39,7 @@ public class LinuxNumThreadsGetter extends ProcResourceGetter
 
     /**
      * 
-     * @param procParser ƒŠƒ\[ƒXî•ñŽæ“¾—p
+     * @param procParser ãƒªã‚½ãƒ¼ã‚¹æƒ…å ±å–å¾—ç”¨
      */
     public LinuxNumThreadsGetter(ProcParser procParser)
     {

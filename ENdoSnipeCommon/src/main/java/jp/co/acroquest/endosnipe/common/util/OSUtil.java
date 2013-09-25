@@ -26,7 +26,7 @@
 package jp.co.acroquest.endosnipe.common.util;
 
 /**
- * OS ‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚é‚½‚ß‚Ìƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒX‚Å‚·B<br />
+ * OS ã«é–¢ã™ã‚‹æƒ…å ±ã‚’å–å¾—ã™ã‚‹ãŸã‚ã®ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  * 
  * @author y-komori
  */
@@ -38,9 +38,9 @@ public class OSUtil
     }
 
     /**
-     * OS ‚ª Windows Œn‚Ì OS ‚©‚Ç‚¤‚©‚ğ•Ô‚µ‚Ü‚·B<br />
+     * OS ãŒ Windows ç³»ã® OS ã‹ã©ã†ã‹ã‚’è¿”ã—ã¾ã™ã€‚<br />
      * 
-     * @return Windows Œn OS ‚Å‚ ‚éê‡‚Í <code>true</code>
+     * @return Windows ç³» OS ã§ã‚ã‚‹å ´åˆã¯ <code>true</code>
      */
     public static boolean isWindows()
     {
@@ -48,9 +48,9 @@ public class OSUtil
     }
 
     /**
-     * OS ‚ª Linux Œn‚Ì OS ‚©‚Ç‚¤‚©‚ğ•Ô‚µ‚Ü‚·B<br />
+     * OS ãŒ Linux ç³»ã® OS ã‹ã©ã†ã‹ã‚’è¿”ã—ã¾ã™ã€‚<br />
      * 
-     * @return Linux Œn OS ‚Å‚ ‚éê‡‚Í <code>true</code>
+     * @return Linux ç³» OS ã§ã‚ã‚‹å ´åˆã¯ <code>true</code>
      */
     public static boolean isLinux()
     {

@@ -39,21 +39,21 @@ import jp.co.acroquest.endosnipe.report.util.ReporterConfigAccessor;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * Commons Pool‚ÌƒTƒCƒY‚ÌƒŒƒ|[ƒg‚ğ¶¬‚·‚éƒŒƒ|[ƒgƒvƒƒZƒbƒTB
+ * Commons Poolã®ã‚µã‚¤ã‚ºã®ãƒ¬ãƒãƒ¼ãƒˆã‚’ç”Ÿæˆã™ã‚‹ãƒ¬ãƒãƒ¼ãƒˆãƒ—ãƒ­ã‚»ãƒƒã‚µã€‚
  * 
  * @author iida
  */
 public class ServerPoolReportProcessor extends ReportPublishProcessorBase
 {
-    /** ƒƒK[ */
+    /** ãƒ­ã‚¬ãƒ¼ */
     private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(
             ServerPoolReportProcessor.class);
 
     /**
-     * ReportProcessor‚ğ¶¬‚·‚éB<br>
+     * ReportProcessorã‚’ç”Ÿæˆã™ã‚‹ã€‚<br>
      * 
      * @param type
-     *            ƒŒƒ|[ƒgí•Ê
+     *            ãƒ¬ãƒãƒ¼ãƒˆç¨®åˆ¥
      */
     public ServerPoolReportProcessor(ReportType type)
     {
@@ -69,12 +69,12 @@ public class ServerPoolReportProcessor extends ReportPublishProcessorBase
     protected Object getReportPlotData(ReportSearchCondition cond,
             ReportProcessReturnContainer reportContainer)
     {
-        // ŒŸõğŒ‚ğæ“¾‚·‚éB
+        // æ¤œç´¢æ¡ä»¶ã‚’å–å¾—ã™ã‚‹ã€‚
         String database = cond.getDatabases().get(0);
         Timestamp startTime = cond.getStartDate();
         Timestamp endTime = cond.getEndDate();
 
-        // DB‚©‚çƒf[ƒ^‚ğŒŸõ‚·‚éB
+        // DBã‹ã‚‰ãƒ‡ãƒ¼ã‚¿ã‚’æ¤œç´¢ã™ã‚‹ã€‚
         List<ItemData> commonsPoolSizeData = null;
         try
         {
@@ -103,7 +103,7 @@ public class ServerPoolReportProcessor extends ReportPublishProcessorBase
             ReportSearchCondition cond,
             ReportProcessReturnContainer reportContainer)
     {
-        // ƒf[ƒ^•ÏŠ·‚Í“Á‚És‚¢‚Ü‚¹‚ñB
+        // ãƒ‡ãƒ¼ã‚¿å¤‰æ›ã¯ç‰¹ã«è¡Œã„ã¾ã›ã‚“ã€‚
         return rawData;
     }
 
@@ -120,8 +120,8 @@ public class ServerPoolReportProcessor extends ReportPublishProcessorBase
     {
         List<ItemData> commonsPoolSizeData = (List<ItemData>) plotData;
         
-        // €–Ú–¼‚ª"Max:ConnectionPoolImpl@56ff3d","Num:ConnectionPoolImpl@56ff3d"‚Æ‚È‚Á‚Ä‚¢‚é‚Ì‚ÅA
-        // ":"‚ÌŒã‚ª“™‚µ‚¢‚à‚Ì‚ğ‚Ü‚Æ‚ßA“¯ˆê‚ÌƒOƒ‰ƒt‚Éo—Í‚·‚éB
+        // é …ç›®åãŒ"Max:ConnectionPoolImpl@56ff3d","Num:ConnectionPoolImpl@56ff3d"ã¨ãªã£ã¦ã„ã‚‹ã®ã§ã€
+        // ":"ã®å¾ŒãŒç­‰ã—ã„ã‚‚ã®ã‚’ã¾ã¨ã‚ã€åŒä¸€ã®ã‚°ãƒ©ãƒ•ã«å‡ºåŠ›ã™ã‚‹ã€‚
         Map<String, List<ServerPoolRecord>> serverPoolRecordMap = new HashMap<String, List<ServerPoolRecord>>();
         for (ItemData itemData : commonsPoolSizeData) {
             String[] itemName = StringUtils.split(itemData.getItemName(), ":");
@@ -145,7 +145,7 @@ public class ServerPoolReportProcessor extends ReportPublishProcessorBase
             }
         }
 
-        // o—Í‚·‚éƒŒƒ|[ƒg‚Ìí—Ş‚É‰‚¶‚ÄAƒeƒ“ƒvƒŒ[ƒg‚Ìƒtƒ@ƒCƒ‹ƒpƒX‚ğæ“¾‚·‚éB
+        // å‡ºåŠ›ã™ã‚‹ãƒ¬ãƒãƒ¼ãƒˆã®ç¨®é¡ã«å¿œã˜ã¦ã€ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã®ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã‚’å–å¾—ã™ã‚‹ã€‚
         String templateFilePath;
         try
         {
@@ -158,7 +158,7 @@ public class ServerPoolReportProcessor extends ReportPublishProcessorBase
             return;
         }
 
-        // ƒŒƒ|[ƒgo—Í‚Ìˆø”î•ñ‚ğæ“¾‚·‚éB
+        // ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã®å¼•æ•°æƒ…å ±ã‚’å–å¾—ã™ã‚‹ã€‚
         String outputFolderPath = getOutputFolderName()
                 + File.separator
                 + ReporterConfigAccessor.getProperty(super.getReportType()
@@ -167,7 +167,7 @@ public class ServerPoolReportProcessor extends ReportPublishProcessorBase
         Timestamp startTime = cond.getStartDate();
         Timestamp endTime = cond.getEndDate();
 
-        // ƒŒƒ|[ƒgo—Í‚ğÀs‚·‚éB
+        // ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã‚’å®Ÿè¡Œã™ã‚‹ã€‚
         RecordReporter<ServerPoolRecord> reporter = new RecordReporter<ServerPoolRecord>(
                 getReportType());
         
@@ -177,7 +177,7 @@ public class ServerPoolReportProcessor extends ReportPublishProcessorBase
                     new ServerPoolRecord[] {});
             String itemName = serverPoolRecordEntry.getKey();
             String[] graphTitles =
-            { "Commons Pool‚ÌƒTƒCƒYi" + itemName + "j" };
+            { "Commons Poolã®ã‚µã‚¤ã‚ºï¼ˆ" + itemName + "ï¼‰" };
             reporter.outputReport(templateFilePath, outputFolderPath, itemName,
                     graphTitles, records, startTime, endTime);
         }

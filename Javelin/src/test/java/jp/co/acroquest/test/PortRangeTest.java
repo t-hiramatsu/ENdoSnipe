@@ -26,12 +26,12 @@
 package jp.co.acroquest.test;
 
 /**
- * ƒ|[ƒg”ÍˆÍw’è‹@”\‚Ì“®ìŠm”FƒvƒƒOƒ‰ƒ€B
+ * ãƒãƒ¼ãƒˆç¯„å›²æŒ‡å®šæ©Ÿèƒ½ã®å‹•ä½œç¢ºèªãƒ—ãƒ­ã‚°ãƒ©ãƒ ã€‚
  *
  *  javelin.acceptPort.isRange=true
  *  javelin.acceptPort.rangeMax=18002
  *
- * ‚È‚Çİ’è‚·‚é‚±‚ÆB
+ * ãªã©è¨­å®šã™ã‚‹ã“ã¨ã€‚
  *
  * @author hashimoto
  */
@@ -39,8 +39,8 @@ public class PortRangeTest
 {
   public static void main(String[] args) throws InterruptedException 
   {
-    System.out.println("–³ŒÀƒ‹[ƒv‚·‚é‚¾‚¯‚ÌƒvƒƒOƒ‰ƒ€‚Å‚·B");
-    System.out.println("Ctrl + C‚ÅI—¹‚µ‚Ä‚­‚¾‚³‚¢B");
+    System.out.println("ç„¡é™ãƒ«ãƒ¼ãƒ—ã™ã‚‹ã ã‘ã®ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã§ã™ã€‚");
+    System.out.println("Ctrl + Cã§çµ‚äº†ã—ã¦ãã ã•ã„ã€‚");
 
     while (true)
     {

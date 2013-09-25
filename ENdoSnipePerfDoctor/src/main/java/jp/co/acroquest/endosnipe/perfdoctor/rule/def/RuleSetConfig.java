@@ -28,26 +28,26 @@ package jp.co.acroquest.endosnipe.perfdoctor.rule.def;
 import java.io.Serializable;
 
 /**
- * ƒ‹[ƒ‹ƒZƒbƒgİ’èƒNƒ‰ƒXB<br>
+ * ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆè¨­å®šã‚¯ãƒ©ã‚¹ã€‚<br>
  * @author tanimoto
  *
  */
 public class RuleSetConfig implements Serializable
 {
-    /** ƒVƒŠƒAƒ‹ID */
+    /** ã‚·ãƒªã‚¢ãƒ«ID */
     private static final long serialVersionUID = 1L;
 
-    /** ƒ‹[ƒ‹ƒZƒbƒg‚ÌIDB */
+    /** ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆã®IDã€‚ */
     private String            id_;
 
-    /** ƒ‹[ƒ‹ƒZƒbƒg–¼B */
+    /** ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆåã€‚ */
     private String            name_;
 
-    /** ƒ‹[ƒ‹ƒZƒbƒg’è‹`‚Ìƒtƒ@ƒCƒ‹–¼B */
+    /** ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆå®šç¾©ã®ãƒ•ã‚¡ã‚¤ãƒ«åã€‚ */
     private String            fileName_;
 
     /**
-     * fileName_‚ğæ“¾‚·‚éB
+     * fileName_ã‚’å–å¾—ã™ã‚‹ã€‚
      * @return fileName
      */
     public String getFileName()
@@ -56,7 +56,7 @@ public class RuleSetConfig implements Serializable
     }
 
     /**
-     * fileName‚ğİ’è‚·‚éB
+     * fileNameã‚’è¨­å®šã™ã‚‹ã€‚
      * @param fileName fileName
      */
     public void setFileName(final String fileName)
@@ -65,7 +65,7 @@ public class RuleSetConfig implements Serializable
     }
 
     /**
-     * id_‚ğæ“¾‚·‚éB
+     * id_ã‚’å–å¾—ã™ã‚‹ã€‚
      * @return id
      */
     public String getId()
@@ -74,7 +74,7 @@ public class RuleSetConfig implements Serializable
     }
 
     /**
-     * id‚ğİ’è‚·‚éB
+     * idã‚’è¨­å®šã™ã‚‹ã€‚
      * @param id id
      */
     public void setId(final String id)
@@ -83,7 +83,7 @@ public class RuleSetConfig implements Serializable
     }
 
     /**
-     * name_‚ğæ“¾‚·‚éB
+     * name_ã‚’å–å¾—ã™ã‚‹ã€‚
      * @return name
      */
     public String getName()
@@ -92,7 +92,7 @@ public class RuleSetConfig implements Serializable
     }
 
     /**
-     * name‚ğİ’è‚·‚éB
+     * nameã‚’è¨­å®šã™ã‚‹ã€‚
      * @param name name
      */
     public void setName(final String name)

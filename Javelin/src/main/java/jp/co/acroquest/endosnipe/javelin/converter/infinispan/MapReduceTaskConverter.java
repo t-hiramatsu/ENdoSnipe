@@ -22,7 +22,7 @@ import jp.co.smg.endosnipe.javassist.expr.ExprEditor;
 import jp.co.smg.endosnipe.javassist.expr.MethodCall;
 
 /**
- * mapreduce‚ÌƒWƒ‡ƒuAƒ^ƒXƒNî•ñ‚ğæ“¾‚·‚é‚½‚ß‚ÌƒR[ƒh‚ğ–„‚ß‚Ş
+ * mapreduceã®ã‚¸ãƒ§ãƒ–ã€ã‚¿ã‚¹ã‚¯æƒ…å ±ã‚’å–å¾—ã™ã‚‹ãŸã‚ã®ã‚³ãƒ¼ãƒ‰ã‚’åŸ‹ã‚è¾¼ã‚€
  * 
  * @author hiramatsu
  *
@@ -85,23 +85,23 @@ public class MapReduceTaskConverter extends AbstractConverter
 
         insertProcessesForJob(ctMethod);
 
-        // ƒ^ƒXƒNI—¹Œãˆ—i¸”sj
+        // ã‚¿ã‚¹ã‚¯çµ‚äº†å¾Œå‡¦ç†ï¼ˆå¤±æ•—æ™‚ï¼‰
         insertPostProcessTaskNG(ctMethod);
 
-        // ƒ^ƒXƒNŠJn‘Oˆ—
+        // ã‚¿ã‚¹ã‚¯é–‹å§‹å‰å‡¦ç†
         insertPreProcessTask(ctMethod);
 
-        // ƒ^ƒXƒNI—¹Œãˆ—
+        // ã‚¿ã‚¹ã‚¯çµ‚äº†å¾Œå‡¦ç†
         insertPostProcess(ctMethod);
 
-        // ˆ—Œ‹‰Ê‚ğƒƒO‚Éo—Í‚·‚éB
+        // å‡¦ç†çµæœã‚’ãƒ­ã‚°ã«å‡ºåŠ›ã™ã‚‹ã€‚
         logModifiedMethod("MapReduceTaskConverter", ctMethod);
     }
 
     /**
-     * ƒWƒ‡ƒuI—¹Œã‚Ìˆ—‚ğ–„‚ß‚Ş
+     * ã‚¸ãƒ§ãƒ–çµ‚äº†å¾Œã®å‡¦ç†ã‚’åŸ‹ã‚è¾¼ã‚€
      * 
-     * @param ctMethod –„‚ß‚Ş‘ÎÛ‚Ìƒƒ\ƒbƒh
+     * @param ctMethod åŸ‹ã‚è¾¼ã‚€å¯¾è±¡ã®ãƒ¡ã‚½ãƒƒãƒ‰
      * @throws CannotCompileException
      */
     private void insertPostProcess(final CtBehavior ctMethod)
@@ -148,9 +148,9 @@ public class MapReduceTaskConverter extends AbstractConverter
     }
 
     /**
-     * ƒ^ƒXƒNŠJn‘O‚Ìˆ—‚ğ–„‚ß‚ŞB
+     * ã‚¿ã‚¹ã‚¯é–‹å§‹å‰ã®å‡¦ç†ã‚’åŸ‹ã‚è¾¼ã‚€ã€‚
      * 
-     * @param ctMethod –„‚ß‚İ‘ÎÛ‚Ìƒƒ\ƒbƒh
+     * @param ctMethod åŸ‹ã‚è¾¼ã¿å¯¾è±¡ã®ãƒ¡ã‚½ãƒƒãƒ‰
      * @throws CannotCompileException
      */
     private void insertPreProcessTask(final CtBehavior ctMethod)
@@ -193,9 +193,9 @@ public class MapReduceTaskConverter extends AbstractConverter
     }
 
     /**
-     * ƒ^ƒXƒNI—¹‚Ìˆ—‚ğ–„‚ß‚ŞB
+     * ã‚¿ã‚¹ã‚¯çµ‚äº†æ™‚ã®å‡¦ç†ã‚’åŸ‹ã‚è¾¼ã‚€ã€‚
      *
-     * @param ctMethod –„‚ß‚İ‘ÎÛ‚Ìƒƒ\ƒbƒh
+     * @param ctMethod åŸ‹ã‚è¾¼ã¿å¯¾è±¡ã®ãƒ¡ã‚½ãƒƒãƒ‰
      * @throws CannotCompileException
      */
     private void insertPostProcessTaskNG(final CtBehavior ctMethod)
@@ -226,9 +226,9 @@ public class MapReduceTaskConverter extends AbstractConverter
     }
 
     /**
-     * ƒWƒ‡ƒuŠJnAI—¹A¸”s‚Ìˆ—‚ğ–„‚ß‚ŞB
+     * ã‚¸ãƒ§ãƒ–é–‹å§‹æ™‚ã€çµ‚äº†æ™‚ã€å¤±æ•—æ™‚ã®å‡¦ç†ã‚’åŸ‹ã‚è¾¼ã‚€ã€‚
      * 
-     * @param ctMethod –„‚ß‚İ‘ÎÛ‚Ìƒƒ\ƒbƒh
+     * @param ctMethod åŸ‹ã‚è¾¼ã¿å¯¾è±¡ã®ãƒ¡ã‚½ãƒƒãƒ‰
      * @throws CannotCompileException
      */
     private void insertProcessesForJob(final CtBehavior ctMethod)
@@ -255,7 +255,7 @@ public class MapReduceTaskConverter extends AbstractConverter
         }
         catch (NotFoundException nfe)
         {
-            // ”­¶‚µ‚È‚¢B
+            // ç™ºç”Ÿã—ãªã„ã€‚
             SystemLogger.getInstance().warn(nfe);
         }
         ResourceCollector.getInstance().addMultiResource(

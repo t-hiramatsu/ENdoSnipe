@@ -29,22 +29,22 @@ import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 import jp.co.acroquest.endosnipe.common.entity.ItemType;
 
 /**
- * BLOCKED‚ÈƒXƒŒƒbƒh”‚ğæ“¾‚·‚éƒNƒ‰ƒXB
+ * BLOCKEDãªã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã‚’å–å¾—ã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚
  * 
  * @author eriguchi
  */
 public class BlockedThreadCountGetter extends AbstractResourceGetter
 {
-    /** Javelin‚Ìİ’èB */
+    /** Javelinã®è¨­å®šã€‚ */
     private final JavelinConfig config_ = new JavelinConfig();
 
-    /** ƒXƒŒƒbƒhî•ñ‚Ìæ“¾ */
+    /** ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±ã®å–å¾— */
     private ThreadDetailInfoLoader loader_;
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
      * 
-     * @param loader ƒXƒŒƒbƒhî•ñƒ[ƒhƒIƒuƒWƒFƒNƒg
+     * @param loader ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±ãƒ­ãƒ¼ãƒ‰ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     public BlockedThreadCountGetter(ThreadDetailInfoLoader loader)
     {

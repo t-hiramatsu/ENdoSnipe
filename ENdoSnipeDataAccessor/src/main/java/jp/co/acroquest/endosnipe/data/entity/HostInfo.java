@@ -26,7 +26,7 @@
 package jp.co.acroquest.endosnipe.data.entity;
 
 /**
- * �v���Ώۃz�X�g���A�[�J�C�u�e�[�u���ɑ΂���G���e�B�e�B�N���X�ł��B<br />
+ * 計測対象ホスト情報アーカイブテーブルに対するエンティティクラスです。<br />
  *
  * @author y-sakamoto
  */
@@ -34,36 +34,36 @@ public class HostInfo
 {
 
     /**
-     * �z�X�g�������ʂ��� ID �B<br />
+     * ホスト名を識別する ID 。<br />
      */
     public int hostId;
 
     /**
-     * �v���Ώۃz�X�g���B<br />
+     * 計測対象ホスト名。<br />
      */
     public String hostName;
 
     /**
-     * �z�X�g�� IP �A�h���X�B<br />
+     * ホストの IP アドレス。<br />
      */
     public String ipAddress;
 
     /**
-     * �ڑ��� Javelin �̑҂��󂯃|�[�g�ԍ��B<br />
+     * 接続先 Javelin の待ち受けポート番号。<br />
      *
-     * ����z�X�g��ŕ����� Javelin �����삵�Ă���ꍇ�Ɏ��ʂ��邽�߂ɗp���܂��B
+     * 同一ホスト上で複数の Javelin が動作している場合に識別するために用います。
      */
     public int port;
 
     /**
-     * �z�X�g�Ɋւ�������B<br />
+     * ホストに関する説明。<br />
      *
-     * ��͎��Ƀ��[�U�����͂��邱�Ƃ�z��B
+     * 解析時にユーザが入力することを想定。
      */
     public String description;
 
     /**
-     * {@link HostInfo} �I�u�W�F�N�g�𐶐����܂��B<br />
+     * {@link HostInfo} オブジェクトを生成します。<br />
      */
     public HostInfo()
     {

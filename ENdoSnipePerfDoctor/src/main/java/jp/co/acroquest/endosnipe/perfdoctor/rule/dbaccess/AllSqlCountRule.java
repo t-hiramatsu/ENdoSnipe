@@ -33,21 +33,21 @@ import java.util.Map;
 import jp.co.acroquest.endosnipe.javelin.parser.JavelinLogElement;
 
 /**
- * SQL ‚Ì”­s‰ñ”‚ğƒJƒEƒ“ƒg‚·‚éƒ‹[ƒ‹B
+ * SQL ã®ç™ºè¡Œå›æ•°ã‚’ã‚«ã‚¦ãƒ³ãƒˆã™ã‚‹ãƒ«ãƒ¼ãƒ«ã€‚
  * 
  * @author y-komori
  */
 public class AllSqlCountRule extends AbstractDbAccessRule
 {
-    /** SQL‚ÌŠJnƒ^ƒO */
+    /** SQLã®é–‹å§‹ã‚¿ã‚° */
     private static final String           SQL_TAG           = "[SQL]";
 
     private final Map<String, Integer>    sqlCounts_        = new HashMap<String, Integer>();
 
-    /** Œx‚Æ”»’f‚·‚é SQL Às‰ñ”‚Ìè‡’l */
+    /** è­¦å‘Šã¨åˆ¤æ–­ã™ã‚‹ SQL å®Ÿè¡Œå›æ•°ã®é–¾å€¤ */
     public int                            threshold;
 
-    /** ”­s‰ñ”‚ğÅ‰‚É’´‚¦‚½JavelinLogElement */
+    /** ç™ºè¡Œå›æ•°ã‚’æœ€åˆã«è¶…ãˆãŸJavelinLogElement */
     private final List<JavelinLogElement> errorElementList_ = new ArrayList<JavelinLogElement>();
 
     /**

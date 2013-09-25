@@ -6,17 +6,17 @@ import jp.co.acroquest.endosnipe.javelin.parser.JavelinLogElement;
 import jp.co.acroquest.endosnipe.perfdoctor.PerformanceRuleTestCase;
 
 /**
- * GCÀsŠÔ”»’èƒ‹[ƒ‹—p‚ÌƒeƒXƒgƒP[ƒX<br>
- * ver3.3SCR‘Î‰—p‚ÌƒeƒXƒgƒR[ƒh‚Æ‚µ‚Äì¬‚µ‚½<br>
- * Œ±d—l‘‚Í ENdoSnipeƒNƒ‰ƒCƒAƒ“ƒg ’P‘ÌŒ±d—l‘.xls<br>
+ * GCå®Ÿè¡Œæ™‚é–“åˆ¤å®šãƒ«ãƒ¼ãƒ«ç”¨ã®ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹<br>
+ * ver3.3SCRå¯¾å¿œç”¨ã®ãƒ†ã‚¹ãƒˆã‚³ãƒ¼ãƒ‰ã¨ã—ã¦ä½œæˆã—ãŸ<br>
+ * è©¦é¨“ä»•æ§˜æ›¸ã¯ ENdoSnipeã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆ å˜ä½“è©¦é¨“ä»•æ§˜æ›¸.xls<br>
  * @author SUZUKI TOORU
  */
 public class GCTimeRuleTest extends PerformanceRuleTestCase
 {
 
     /**
-     * è‡’l‚ğw’è‚µ‚ÄGCTimeRule‚ğ¶¬‚·‚éB<br>
-     * @param threshold è‡’l
+     * é–¾å€¤ã‚’æŒ‡å®šã—ã¦GCTimeRuleã‚’ç”Ÿæˆã™ã‚‹ã€‚<br>
+     * @param threshold é–¾å€¤
      * @return GCTimeRule
      */
     private GCTimeRule createRule(double threshold)
@@ -31,249 +31,249 @@ public class GCTimeRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [€”Ô] 1-2-1<br>
+     * [é …ç•ª] 1-2-1<br>
      * <br>
-     * judge‚ÌƒeƒXƒgB<br>
-     * EŒŸo’l‚ª0B<br>
-     * Eè‡’l‚ª1B<br>
-     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br>
+     * judgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
+     * ãƒ»æ¤œå‡ºå€¤ãŒ0ã€‚<br>
+     * ãƒ»é–¾å€¤ãŒ1ã€‚<br>
+     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br>
      */
     public void testDoJudge_01()
     {
-        // €”õ
+        // æº–å‚™
         String jvnFile = "GCTimeRule_testDoJudge_00.jvn";
         List<JavelinLogElement> elementList = createJavelinLogElement(jvnFile);
 
-        // Às
+        // å®Ÿè¡Œ
         GCTimeRule rule = createRule(1);
         rule.judge(elementList);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         List<JavelinLogElement> errorList = getErrorJavelinLogElements();
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
+            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
         }
 
     }
 
     /**
-     * [€”Ô] 1-2-2<br>
+     * [é …ç•ª] 1-2-2<br>
      * <br>
-     * judge‚ÌƒeƒXƒgB<br>
-     * EŒŸo’l‚ª1B<br>
-     * Eè‡’l‚ª1B<br>
-     * ¨Œx‚ª”­¶‚·‚éB<br>
+     * judgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
+     * ãƒ»æ¤œå‡ºå€¤ãŒ1ã€‚<br>
+     * ãƒ»é–¾å€¤ãŒ1ã€‚<br>
+     * â†’è­¦å‘ŠãŒç™ºç”Ÿã™ã‚‹ã€‚<br>
      */
     public void testDoJudge_02()
     {
-        // €”õ
+        // æº–å‚™
         String jvnFile = "GCTimeRule_testDoJudge_01.jvn";
         List<JavelinLogElement> elementList = createJavelinLogElement(jvnFile);
 
-        // Às
+        // å®Ÿè¡Œ
         GCTimeRule rule = createRule(1);
         rule.judge(elementList);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(1, getErrorJavelinLogElements().size());
         assertErrorOccurred(elementList.get(0), 1.0, 1.0, 3.0);
     }
 
     /**
-     * [€”Ô] 1-2-3<br>
+     * [é …ç•ª] 1-2-3<br>
      * <br>
-     * judge‚ÌƒeƒXƒgB<br>
-     * EŒŸo’l‚ª2B<br>
-     * Eè‡’l‚ª1B<br>
-     * ¨Œx‚ª”­¶‚·‚éB<br>
+     * judgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
+     * ãƒ»æ¤œå‡ºå€¤ãŒ2ã€‚<br>
+     * ãƒ»é–¾å€¤ãŒ1ã€‚<br>
+     * â†’è­¦å‘ŠãŒç™ºç”Ÿã™ã‚‹ã€‚<br>
      */
     public void testDoJudge_03()
     {
-        // €”õ
+        // æº–å‚™
         String jvnFile = "GCTimeRule_testDoJudge_02.jvn";
         List<JavelinLogElement> elementList = createJavelinLogElement(jvnFile);
 
-        // Às
+        // å®Ÿè¡Œ
         GCTimeRule rule = createRule(1);
         rule.judge(elementList);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(1, getErrorJavelinLogElements().size());
         assertErrorOccurred(elementList.get(0), 1.0, 2.0, 3.0);
     }
 
     /**
-     * [€”Ô] 1-2-4<br>
+     * [é …ç•ª] 1-2-4<br>
      * <br>
-     * judge‚ÌƒeƒXƒgB<br>
-     * EŒŸo’l‚ª20B<br>
-     * Eè‡’l‚ª20B<br>
-     * ¨Œx‚ª”­¶‚·‚éB<br>
+     * judgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
+     * ãƒ»æ¤œå‡ºå€¤ãŒ20ã€‚<br>
+     * ãƒ»é–¾å€¤ãŒ20ã€‚<br>
+     * â†’è­¦å‘ŠãŒç™ºç”Ÿã™ã‚‹ã€‚<br>
      */
     public void testDoJudge_05()
     {
-        // €”õ
+        // æº–å‚™
         String jvnFile = "GCTimeRule_testDoJudge_20.jvn";
         List<JavelinLogElement> elementList = createJavelinLogElement(jvnFile);
 
-        // Às
+        // å®Ÿè¡Œ
         GCTimeRule rule = createRule(20);
         rule.judge(elementList);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(1, getErrorJavelinLogElements().size());
         assertErrorOccurred(elementList.get(0), 20.0, 20.0, 3.0);
     }
 
     /**
-     * [€”Ô] 1-2-5<br>
+     * [é …ç•ª] 1-2-5<br>
      * <br>
-     * judge‚ÌƒeƒXƒgB<br>
-     * EGC‰ñ”‚Ì’l‚ª”’l‚Å‚Í‚È‚¢B<br>
-     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br>
+     * judgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
+     * ãƒ»GCå›æ•°ã®å€¤ãŒæ•°å€¤ã§ã¯ãªã„ã€‚<br>
+     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br>
      */
     public void testDoJudge_10()
     {
-        // €”õ
+        // æº–å‚™
         String jvnFile = "GCTimeRule_testDoJudge_invalid.jvn";
         List<JavelinLogElement> elementList = createJavelinLogElement(jvnFile);
 
-        // Às
+        // å®Ÿè¡Œ
         GCTimeRule rule = createRule(5);
         rule.judge(elementList);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         List<JavelinLogElement> errorList = getErrorJavelinLogElements();
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
+            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
         }
     }
 
     /**
-     * [€”Ô] 1-2-6<br>
+     * [é …ç•ª] 1-2-6<br>
      * <br>
-     * judge‚ÌƒeƒXƒgB<br>
-     * EGC‰ñ”‚Ì’l‚ª‹ó”’B<br>
-     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br>
+     * judgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
+     * ãƒ»GCå›æ•°ã®å€¤ãŒç©ºç™½ã€‚<br>
+     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br>
      */
     public void testDoJudge_11()
     {
-        // €”õ
+        // æº–å‚™
         String jvnFile = "GCTimeRule_testDoJudge_empty.jvn";
         List<JavelinLogElement> elementList = createJavelinLogElement(jvnFile);
 
-        // Às
+        // å®Ÿè¡Œ
         GCTimeRule rule = createRule(5);
         rule.judge(elementList);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         List<JavelinLogElement> errorList = getErrorJavelinLogElements();
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
+            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
         }
     }
 
     /**
-     * [€”Ô] 1-2-7<br>
+     * [é …ç•ª] 1-2-7<br>
      * <br>
-     * ˆÙíƒƒO<br>
-     * ƒƒO“à‚Éƒpƒ‰ƒ[ƒ^‚ª–³‚¢B<br>
-     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br>
+     * ç•°å¸¸ãƒ­ã‚°<br>
+     * ãƒ­ã‚°å†…ã«ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãŒç„¡ã„ã€‚<br>
+     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br>
      */
     public void testDoJudge_12()
     {
-        // €”õ
+        // æº–å‚™
         GCTimeRule rule = createRule(5);
         String jvnFile = "GCTimeRule_testDoJudge_no_param.jvn";
         List<JavelinLogElement> elementList = createJavelinLogElement(jvnFile);
 
-        // Às
+        // å®Ÿè¡Œ
         rule.judge(elementList);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         List<JavelinLogElement> errorList = getErrorJavelinLogElements();
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
+            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
         }
     }
 
     /**
-     * [€”Ô] 1-2-8<br>
+     * [é …ç•ª] 1-2-8<br>
      * <br>
-     * judge‚ÌƒeƒXƒgB<br>
-     * EdetailInfo‚ª‚È‚¢B<br>
-     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br>
+     * judgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
+     * ãƒ»detailInfoãŒãªã„ã€‚<br>
+     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br>
      */
     public void testDoJudge_14()
     {
-        // €”õ
+        // æº–å‚™
         String jvnFile = "GCTimeRule_testDoJudge_no_detailInfo.jvn";
         List<JavelinLogElement> elementList = createJavelinLogElement(jvnFile);
 
-        // Às
+        // å®Ÿè¡Œ
         GCTimeRule rule = createRule(5);
         rule.judge(elementList);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         List<JavelinLogElement> errorList = getErrorJavelinLogElements();
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
+            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
         }
     }
 
     /**
-     * [€”Ô] 1-2-9<br>
+     * [é …ç•ª] 1-2-9<br>
      * <br>
-     * judge‚ÌƒeƒXƒgB<br>
-     * ECALL‚ª‚È‚¢B<br>
-     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br>
+     * judgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
+     * ãƒ»CALLãŒãªã„ã€‚<br>
+     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br>
      */
     public void testDoJudge_15()
     {
-        // €”õ
+        // æº–å‚™
         String jvnFile = "GCTimeRule_testDoJudge_no_call.jvn";
         List<JavelinLogElement> elementList = createJavelinLogElement(jvnFile);
 
-        // Às
+        // å®Ÿè¡Œ
         GCTimeRule rule = createRule(5);
         rule.judge(elementList);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         List<JavelinLogElement> errorList = getErrorJavelinLogElements();
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
+            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
         }
     }
 
     /**
-     * [€”Ô] 1-2-10<br>
+     * [é …ç•ª] 1-2-10<br>
      * <br>
-     * judge‚ÌƒeƒXƒgB<br>
-     * E•¡”‚ÌJavelinLogElement‚ÅŒx‚ªo‚éB<br>
+     * judgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
+     * ãƒ»è¤‡æ•°ã®JavelinLogElementã§è­¦å‘ŠãŒå‡ºã‚‹ã€‚<br>
      */
     public void testDoJudge_26()
     {
-        // €”õ
+        // æº–å‚™
         String jvnFile = "GCTimeRule_testDoJudge_multi.jvn";
         List<JavelinLogElement> elementList = createJavelinLogElement(jvnFile);
 
-        // Às
+        // å®Ÿè¡Œ
         GCTimeRule rule = createRule(1);
         rule.judge(elementList);
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(2, getErrorJavelinLogElements().size());
         assertErrorOccurred(elementList.get(0), 1.0, 2.0, 3.0);
         assertErrorOccurred(elementList.get(4), 1.0, 2.0, 3.0);

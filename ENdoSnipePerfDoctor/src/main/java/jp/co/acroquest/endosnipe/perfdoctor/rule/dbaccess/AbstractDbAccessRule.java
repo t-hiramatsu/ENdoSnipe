@@ -35,14 +35,14 @@ import jp.co.acroquest.endosnipe.perfdoctor.rule.SQLThresholdStrategy;
 import jp.co.acroquest.endosnipe.perfdoctor.rule.SingleElementRule;
 
 /**
- * DB ƒAƒNƒZƒX‚ÉŠÖ‚·‚é”»’è‚ğs‚¤‚½‚ß‚ÌŠî’êƒNƒ‰ƒXB
+ * DB ã‚¢ã‚¯ã‚»ã‚¹ã«é–¢ã™ã‚‹åˆ¤å®šã‚’è¡Œã†ãŸã‚ã®åŸºåº•ã‚¯ãƒ©ã‚¹ã€‚
  * 
  * @author y-komori
  */
 public abstract class AbstractDbAccessRule extends SingleElementRule
 {
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
      */
     public AbstractDbAccessRule()
     {
@@ -59,15 +59,15 @@ public abstract class AbstractDbAccessRule extends SingleElementRule
     {
         List<String> baseInfoList = element.getBaseInfo();
 
-        // ƒNƒ‰ƒX–¼‚ÉASQL”­s‚ğ•\‚·•¶š—ñ‚ª‘‚©‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ’²‚×‚éB
-        // ‘‚©‚ê‚Ä‚¢‚È‚¢ê‡Aˆ—‚ğI—¹‚·‚éB
+        // ã‚¯ãƒ©ã‚¹åã«ã€SQLç™ºè¡Œã‚’è¡¨ã™æ–‡å­—åˆ—ãŒæ›¸ã‹ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’èª¿ã¹ã‚‹ã€‚
+        // æ›¸ã‹ã‚Œã¦ã„ãªã„å ´åˆã€å‡¦ç†ã‚’çµ‚äº†ã™ã‚‹ã€‚
         String className = baseInfoList.get(JavelinLogColumnNum.CALL_CALLEE_CLASS);
         if (!super.isSqlExec(className))
         {
             return;
         }
 
-        // ƒƒO‚Ìí•Ê‚ğƒ`ƒFƒbƒN‚·‚éBCallˆÈŠO‚Å‚ ‚ê‚Îˆ—‚ğI—¹‚·‚éB
+        // ãƒ­ã‚°ã®ç¨®åˆ¥ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã€‚Callä»¥å¤–ã§ã‚ã‚Œã°å‡¦ç†ã‚’çµ‚äº†ã™ã‚‹ã€‚
         String type = baseInfoList.get(JavelinLogColumnNum.ID);
         boolean isCall = JavelinConstants.MSG_CALL.equals(type);
 
@@ -76,11 +76,11 @@ public abstract class AbstractDbAccessRule extends SingleElementRule
             return;
         }
 
-        // JavelinLogElement‚Ì–`“ª‚©‚çSQL‚ğæ“¾‚·‚éB
+        // JavelinLogElementã®å†’é ­ã‹ã‚‰SQLã‚’å–å¾—ã™ã‚‹ã€‚
         String sqlStatement = baseInfoList.get(JavelinLogColumnNum.CALL_CALLEE_METHOD);
 
-        // SQL‚Ì”»’è‚ğs‚¤B
-        // args‚Ì’†‚É[VALUE]‚ª‚ ‚éê‡‚ÍA‚»‚Ì’l‚à—p‚¢‚éB
+        // SQLã®åˆ¤å®šã‚’è¡Œã†ã€‚
+        // argsã®ä¸­ã«[VALUE]ãŒã‚ã‚‹å ´åˆã¯ã€ãã®å€¤ã‚‚ç”¨ã„ã‚‹ã€‚
         String[] args = JavelinLogUtil.getArgs(element);
         String bindVal = null;
         for (int i = 0; i < args.length; i++)
@@ -100,21 +100,21 @@ public abstract class AbstractDbAccessRule extends SingleElementRule
     }
 
     /**
-     * ƒRƒ“ƒeƒ“ƒg‚Ì”»’è‚ğs‚¤B<br />
-     * {@link #getTagName()} ƒƒ\ƒbƒh‚Ì•Ô‚·ƒ^ƒO‚Éˆê’v‚·‚éƒRƒ“ƒeƒ“ƒg‚Ì”»’è‚ğs‚¤B
+     * ã‚³ãƒ³ãƒ†ãƒ³ãƒˆã®åˆ¤å®šã‚’è¡Œã†ã€‚<br />
+     * {@link #getTagName()} ãƒ¡ã‚½ãƒƒãƒ‰ã®è¿”ã™ã‚¿ã‚°ã«ä¸€è‡´ã™ã‚‹ã‚³ãƒ³ãƒ†ãƒ³ãƒˆã®åˆ¤å®šã‚’è¡Œã†ã€‚
      * 
-     * @param element {@link JavelinLogElement} ƒIƒuƒWƒFƒNƒg
-     * @param content ƒRƒ“ƒeƒ“ƒg
-     * @param bindVal ˆø”
+     * @param element {@link JavelinLogElement} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param content ã‚³ãƒ³ãƒ†ãƒ³ãƒˆ
+     * @param bindVal å¼•æ•°
      */
     protected abstract void doJudgeContent(JavelinLogElement element, String content, String bindVal);
 
     /**
-     * ƒ^ƒO–¼Ì‚ğ•Ô‚·B<br />
-     * <code>[Time]</code> ‚ÌŒ`®‚Åƒ^ƒO–¼Ì‚ğ•Ô‚·B<br />
-     * ƒTƒuƒNƒ‰ƒX‚ÅÀ‘•‚µ‚Ä‚­‚¾‚³‚¢B
+     * ã‚¿ã‚°åç§°ã‚’è¿”ã™ã€‚<br />
+     * <code>[Time]</code> ã®å½¢å¼ã§ã‚¿ã‚°åç§°ã‚’è¿”ã™ã€‚<br />
+     * ã‚µãƒ–ã‚¯ãƒ©ã‚¹ã§å®Ÿè£…ã—ã¦ãã ã•ã„ã€‚
      * 
-     * @return ƒ^ƒO–¼Ì
+     * @return ã‚¿ã‚°åç§°
      */
     protected abstract String getTagName();
 }

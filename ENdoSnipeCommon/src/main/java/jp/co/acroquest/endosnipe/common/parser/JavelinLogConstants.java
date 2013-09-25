@@ -26,246 +26,246 @@
 package jp.co.acroquest.endosnipe.common.parser;
 
 /**
- * Javelin ���O�̂��߂̒萔�C���^�[�t�F�[�X�ł��B<br />
+ * Javelin ログのための定数インターフェースです。<br />
  * 
  * @author y-komori
  */
 public interface JavelinLogConstants
 {
     /**
-     * �ڍ׏��擾�L�[:ThreadMXBean#getCurrentThreadCpuTime�p�����[�^
-     * ���݂̃X���b�h�̍��v CPU ���Ԃ��i�m�b�P�ʂŕԂ��܂��B
+     * 詳細情報取得キー:ThreadMXBean#getCurrentThreadCpuTimeパラメータ
+     * 現在のスレッドの合計 CPU 時間をナノ秒単位で返します。
      */
     String JMXPARAM_THREAD_CURRENT_THREAD_CPU_TIME = "thread.currentThreadCpuTime";
 
     /**
-     * �ڍ׏��擾�L�[:ThreadMXBean#getCurrentThreadCpuTime�p�����[�^�̍���
-     * ���݂̃X���b�h�̍��v CPU ���Ԃ̍������i�m�b�P�ʂŕԂ��܂��B
+     * 詳細情報取得キー:ThreadMXBean#getCurrentThreadCpuTimeパラメータの差分
+     * 現在のスレッドの合計 CPU 時間の差分をナノ秒単位で返します。
      */
     String JMXPARAM_THREAD_CURRENT_THREAD_CPU_TIME_DELTA = "thread.currentThreadCpuTime.delta";
 
     /** 
-     * �ڍ׏��擾�L�[:ThreadMXBean#getCurrentThreadUserTime�p�����[�^
-     * ���݂̃X���b�h�����[�U���[�h�Ŏ��s���� CPU ���� (�i�m�b�P��) ��Ԃ��܂��B
+     * 詳細情報取得キー:ThreadMXBean#getCurrentThreadUserTimeパラメータ
+     * 現在のスレッドがユーザモードで実行した CPU 時間 (ナノ秒単位) を返します。
      */
     String JMXPARAM_THREAD_CURRENT_THREAD_USER_TIME = "thread.currentThreadUserTime";
 
     /** 
-     * �ڍ׏��擾�L�[:ThreadMXBean#getCurrentThreadUserTime�p�����[�^�̍���
-     * ���݂̃X���b�h�����[�U���[�h�Ŏ��s���� CPU ���� (�i�m�b�P��) �̍�����Ԃ��܂��B
+     * 詳細情報取得キー:ThreadMXBean#getCurrentThreadUserTimeパラメータの差分
+     * 現在のスレッドがユーザモードで実行した CPU 時間 (ナノ秒単位) の差分を返します。
      */
     String JMXPARAM_THREAD_CURRENT_THREAD_USER_TIME_DELTA = "thread.currentThreadUserTime.delta";
 
     /** 
-     * �ڍ׏��擾�L�[:ThreadMXBean#getThreadInfo#getBlockedCount�p�����[�^
-     * ���� ThreadInfo �Ɋ֘A����X���b�h���A���j�^�[�ɓ��邩�A�ē�����̂��u���b�N�������v�񐔂�Ԃ��܂��B
+     * 詳細情報取得キー:ThreadMXBean#getThreadInfo#getBlockedCountパラメータ
+     * この ThreadInfo に関連するスレッドが、モニターに入るか、再入するのをブロックした合計回数を返します。
      */
     String JMXPARAM_THREAD_THREADINFO_BLOCKED_COUNT = "thread.threadInfo.blockedCount";
 
     /** 
-     * �ڍ׏��擾�L�[:ThreadMXBean#getThreadInfo#getBlockedCount�p�����[�^�̍���
-     * ���� ThreadInfo �Ɋ֘A����X���b�h���A���j�^�[�ɓ��邩�A�ē�����̂��u���b�N�������v�񐔂̍�����Ԃ��܂��B
+     * 詳細情報取得キー:ThreadMXBean#getThreadInfo#getBlockedCountパラメータの差分
+     * この ThreadInfo に関連するスレッドが、モニターに入るか、再入するのをブロックした合計回数の差分を返します。
      */
     String JMXPARAM_THREAD_THREADINFO_BLOCKED_COUNT_DELTA = "thread.threadInfo.blockedCount.delta";
 
     /** 
-     * �ڍ׏��擾�L�[:ThreadMXBean#getThreadInfo#getBlockedTime�p�����[�^
-     * �X���b�h�R���e���V�����Ď����L���ɂȂ��Ă���A���� ThreadInfo �Ɋ֘A����X���b�h�����j�^�[�ɓ��邩
-     * �ē�����̂��u���b�N�������悻�̗ݐόo�ߎ��� (�~���b�P��) ��Ԃ��܂��B
+     * 詳細情報取得キー:ThreadMXBean#getThreadInfo#getBlockedTimeパラメータ
+     * スレッドコンテンション監視が有効になってから、この ThreadInfo に関連するスレッドがモニターに入るか
+     * 再入するのをブロックしたおよその累積経過時間 (ミリ秒単位) を返します。
      */
     String JMXPARAM_THREAD_THREADINFO_BLOCKED_TIME = "thread.threadInfo.blockedTime";
 
     /** 
-     * �ڍ׏��擾�L�[:ThreadMXBean#getThreadInfo#getBlockedTime�p�����[�^�̍���
-     * �X���b�h�R���e���V�����Ď����L���ɂȂ��Ă���A���� ThreadInfo �Ɋ֘A����X���b�h�����j�^�[�ɓ��邩
-     * �ē�����̂��u���b�N�������悻�̗ݐόo�ߎ��� (�~���b�P��) �̍�����Ԃ��܂��B
+     * 詳細情報取得キー:ThreadMXBean#getThreadInfo#getBlockedTimeパラメータの差分
+     * スレッドコンテンション監視が有効になってから、この ThreadInfo に関連するスレッドがモニターに入るか
+     * 再入するのをブロックしたおよその累積経過時間 (ミリ秒単位) の差分を返します。
      */
     String JMXPARAM_THREAD_THREADINFO_BLOCKED_TIME_DELTA = "thread.threadInfo.blockedTime.delta";
 
     /** 
-     * �ڍ׏��擾�L�[:ThreadMXBean#getThreadInfo#getWaitedCount�p�����[�^
-     * ���� ThreadInfo �Ɋ֘A����X���b�h���ʒm��ҋ@�������v�񐔂�Ԃ��܂��B
+     * 詳細情報取得キー:ThreadMXBean#getThreadInfo#getWaitedCountパラメータ
+     * この ThreadInfo に関連するスレッドが通知を待機した合計回数を返します。
      */
     String JMXPARAM_THREAD_THREADINFO_WAITED_COUNT = "thread.threadInfo.waitedCount";
 
     /** 
-     * �ڍ׏��擾�L�[:ThreadMXBean#getThreadInfo#getWaitedCount�p�����[�^�̍���
-     * ���� ThreadInfo �Ɋ֘A����X���b�h���ʒm��ҋ@�������v�񐔂̍�����Ԃ��܂��B
+     * 詳細情報取得キー:ThreadMXBean#getThreadInfo#getWaitedCountパラメータの差分
+     * この ThreadInfo に関連するスレッドが通知を待機した合計回数の差分を返します。
      */
     String JMXPARAM_THREAD_THREADINFO_WAITED_COUNT_DELTA = "thread.threadInfo.waitedCount.delta";
 
     /** 
-     * �ڍ׏��擾�L�[:ThreadMXBean#getThreadInfo#getWaitedTime�p�����[�^
-     * �X���b�h�R���e���V�����Ď����L���ɂȂ��Ă���A���� ThreadInfo �Ɋ֘A����X���b�h���ʒm��ҋ@����
-     * ���悻�̗ݐόo�ߎ��� (�~���b�P��) ��Ԃ��܂��B
+     * 詳細情報取得キー:ThreadMXBean#getThreadInfo#getWaitedTimeパラメータ
+     * スレッドコンテンション監視が有効になってから、この ThreadInfo に関連するスレッドが通知を待機した
+     * およその累積経過時間 (ミリ秒単位) を返します。
      */
     String JMXPARAM_THREAD_THREADINFO_WAITED_TIME = "thread.threadInfo.waitedTime";
 
     /** 
-     * �ڍ׏��擾�L�[:ThreadMXBean#getThreadInfo#getWaitedTime�p�����[�^�̍���
-     * �X���b�h�R���e���V�����Ď����L���ɂȂ��Ă���A���� ThreadInfo �Ɋ֘A����X���b�h���ʒm��ҋ@����
-     * ���悻�̗ݐόo�ߎ��� (�~���b�P��) �̍�����Ԃ��܂��B
+     * 詳細情報取得キー:ThreadMXBean#getThreadInfo#getWaitedTimeパラメータの差分
+     * スレッドコンテンション監視が有効になってから、この ThreadInfo に関連するスレッドが通知を待機した
+     * およその累積経過時間 (ミリ秒単位) の差分を返します。
      */
     String JMXPARAM_THREAD_THREADINFO_WAITED_TIME_DELTA = "thread.threadInfo.waitedTime.delta";
 
     /** 
-     * �ڍ׏��擾�L�[:GarbageCollectorMXBean#getCollectionCount�p�����[�^
-     *���������R���N�V�����̍��v����Ԃ��܂��B
+     * 詳細情報取得キー:GarbageCollectorMXBean#getCollectionCountパラメータ
+     *発生したコレクションの合計数を返します。
      */
     String JMXPARAM_GARBAGECOLLECTOR_COLLECTION_COUNT = "garbageCollector.collectionCount";
 
     /** 
-     * �ڍ׏��擾�L�[:GarbageCollectorMXBean#getCollectionCount�p�����[�^�̍���
-     * ���������R���N�V�����̍��v����Ԃ��܂��B
+     * 詳細情報取得キー:GarbageCollectorMXBean#getCollectionCountパラメータの差分
+     * 発生したコレクションの合計数を返します。
      */
     String JMXPARAM_GARBAGECOLLECTOR_COLLECTION_COUNT_DELTA =
             "garbageCollector.collectionCount.delta";
 
     /** 
-     * �ڍ׏��擾�L�[:GarbageCollectorMXBean#getCollectionTime�p�����[�^
-     * �R���N�V�����̂��悻�̗ݐόo�ߎ��� (�~���b�P��) ��Ԃ��܂��B
+     * 詳細情報取得キー:GarbageCollectorMXBean#getCollectionTimeパラメータ
+     * コレクションのおよその累積経過時間 (ミリ秒単位) を返します。
      */
     String JMXPARAM_GARBAGECOLLECTOR_COLLECTION_TIME = "garbageCollector.collectionTime";
 
     /** 
-     * �ڍ׏��擾�L�[:GarbageCollectorMXBean#getCollectionTime�p�����[�^�̍���
-     * �R���N�V�����̂��悻�̗ݐόo�ߎ��� (�~���b�P��) ��Ԃ��܂��B
+     * 詳細情報取得キー:GarbageCollectorMXBean#getCollectionTimeパラメータの差分
+     * コレクションのおよその累積経過時間 (ミリ秒単位) を返します。
      */
     String JMXPARAM_GARBAGECOLLECTOR_COLLECTION_TIME_DELTA =
             "garbageCollector.collectionTime.delta";
 
     /** 
-     * �ڍ׏��擾�L�[:MemoryPoolMXBean#getPeakUsage#getUsage�p�����[�^
-     * Java ���z�}�V�����N������Ă���A�܂��̓s�[�N�����Z�b�g����Ă���́A���̃������v�[���̃s�[�N�������g�p�ʂ�Ԃ��܂�
+     * 詳細情報取得キー:MemoryPoolMXBean#getPeakUsage#getUsageパラメータ
+     * Java 仮想マシンが起動されてから、またはピークがリセットされてからの、このメモリプールのピークメモリ使用量を返します
      */
     String JMXPARAM_MEMORYPOOL_PEAKUSAGE_USAGE = "memoryPool.peakUsage.usage";
 
     /** 
-     * �ڍ׏��擾�L�[:MemoryPoolMXBean#getPeakUsage#getUsage�p�����[�^�̍���
-     * Java ���z�}�V�����N������Ă���A�܂��̓s�[�N�����Z�b�g����Ă���́A���̃������v�[���̃s�[�N�������g�p�ʂ�Ԃ��܂�
+     * 詳細情報取得キー:MemoryPoolMXBean#getPeakUsage#getUsageパラメータの差分
+     * Java 仮想マシンが起動されてから、またはピークがリセットされてからの、このメモリプールのピークメモリ使用量を返します
      */
     String JMXPARAM_MEMORYPOOL_PEAKUSAGE_USAGE_DELTA = "memoryPool.peakUsage.usage.delta";
 
     /** 
-     * �ڍ׏��擾�L�[:MemoryMXBean#getHeapMemoryUsage�p�����[�^
-     * ���\�b�h�Ăяo�����̃q�[�v�������g�p�ʂ��擾���܂��B
+     * 詳細情報取得キー:MemoryMXBean#getHeapMemoryUsageパラメータ
+     * メソッド呼び出し時のヒープメモリ使用量を取得します。
      */
     String JMXPARAM_MEMORY_HEAPMEMORYUSAGE_START = "memory.heapMemoryUsage.start";
 
     /** 
-     * �ڍ׏��擾�L�[:MemoryMXBean#getHeapMemoryUsage�p�����[�^
-     * ���\�b�h�I�����̃q�[�v�������g�p�ʂ��擾���܂��B
+     * 詳細情報取得キー:MemoryMXBean#getHeapMemoryUsageパラメータ
+     * メソッド終了時のヒープメモリ使用量を取得します。
      */
     String JMXPARAM_MEMORY_HEAPMEMORYUSAGE_END = "memory.heapMemoryUsage.end";
 
     /** 
-     * �ڍ׏��擾�L�[:���\�b�h��TAT
+     * 詳細情報取得キー:メソッドのTAT
      */
     String EXTRAPARAM_DURATION = "duration";
 
     /**
-     * �ڍ׏��擾�L�[�F���\�b�h�̏���ԁi�q���\�b�h�Ăяo�����Ԃ��������������\�b�h���s���ԁj
+     * 詳細情報取得キー：メソッドの消費時間（子メソッド呼び出し時間を差し引いたメソッド実行時間）
      */
     String EXTRAPARAM_ELAPSEDTIME = "elapsedTime";
 
     /** 
-     * �ڍ׏��擾�L�[:���\�b�h��CPU���ԁi�q���\�b�h�Ăяo��CPU���Ԃ��������������\�b�hCPU���ԁj
+     * 詳細情報取得キー:メソッドのCPU時間（子メソッド呼び出しCPU時間を差し引いたメソッドCPU時間）
      */
     String EXTRAPARAM_PURECPUTIME = "pureCpuTimeDelta";
 
     /** 
-     * �ڍ׏��擾�L�[:���\�b�h��Wait���ԁi�q���\�b�h�Ăяo��Wait���Ԃ��������������\�b�hCPU���ԁj
+     * 詳細情報取得キー:メソッドのWait時間（子メソッド呼び出しWait時間を差し引いたメソッドCPU時間）
      */
     String EXTRAPARAM_PUREWAITEDTIME = "pureWaitedTimeDelta";
 
     /** 
-     * �ڍ׏��擾�L�[:���\�b�h��USER���ԁi�q���\�b�h�Ăяo��USER���Ԃ��������������\�b�hUSER���ԁj
+     * 詳細情報取得キー:メソッドのUSER時間（子メソッド呼び出しUSER時間を差し引いたメソッドUSER時間）
      */
     String EXTRAPARAM_PUREUSERTIME = "pureUserTimeDelta";
 
     /** 
-     * �ڍ׏��擾�L�[:CPU�̃A�C�h�����ԁi���s���Ԃ���CPU���Ԃ����������ԁj
+     * 詳細情報取得キー:CPUのアイドル時間（実行時間からCPU時間を引いた時間）
      */
     String EXTRAPARAM_IDLETIME = "IdleTime";
 
     /** 
-     * �ڍ׏��擾�L�[:�������{���̃t�@�C�����͗�
+     * 詳細情報取得キー:処理実施中のファイル入力量
      */
     String IOPARAM_DISK_INPUT = "file.currentFileReadLength";
 
     /** 
-     * �ڍ׏��擾�L�[:�������{���̃t�@�C���o�͗�
+     * 詳細情報取得キー:処理実施中のファイル出力量
      */
     String IOPARAM_DISK_OUTPUT = "file.currentFileWriteLength";
 
     /** 
-     * �ڍ׏��擾�L�[:�������{���̃l�b�g���[�N���͗�
+     * 詳細情報取得キー:処理実施中のネットワーク入力量
      */
     String IOPARAM_NETWORK_INPUT = "net.currentThreadReadLength";
 
     /** 
-     * �ڍ׏��擾�L�[:�������{���̃l�b�g���[�N�o�͗�
+     * 詳細情報取得キー:処理実施中のネットワーク出力量
      */
     String IOPARAM_NETWORK_OUTPUT = "net.currentThreadWriteLength";
 
-    /** ��O�����^�O�B*/
+    /** 例外生成タグ。*/
     String JAVELIN_EXCEPTION = "<<javelin.Exception>>";
 
-    /** �X�^�b�N�g���[�X�o�͂̊J�n�^�O�B*/
+    /** スタックトレース出力の開始タグ。*/
     String JAVELIN_STACKTRACE_START = "<<javelin.StackTrace_START>>";
 
-    /** �X�^�b�N�g���[�X�o�͂̏I���^�O�B*/
+    /** スタックトレース出力の終了タグ。*/
     String JAVELIN_STACKTRACE_END = "<<javelin.StackTrace_END>>";
 
-    /** �t�B�[���h�l�o�͂̊J�n�^�O�B*/
+    /** フィールド値出力の開始タグ。*/
     String JAVELIN_FIELDVALUE_START = "<<javelin.FieldValue_START>>";
 
-    /** �t�B�[���h�l�o�͂̏I���^�O�B*/
+    /** フィールド値出力の終了タグ。*/
     String JAVELIN_FIELDVALUE_END = "<<javelin.FieldValue_END>>";
 
-    /** �߂�l�o�͂̊J�n�^�O�B*/
+    /** 戻り値出力の開始タグ。*/
     String JAVELIN_RETURN_START = "<<javelin.Return_START>>";
 
-    /** �߂�l�o�͂̏I���^�O�B*/
+    /** 戻り値出力の終了タグ。*/
     String JAVELIN_RETURN_END = "<<javelin.Return_END>>";
 
-    /** �����o�͂̊J�n�^�O�B*/
+    /** 引数出力の開始タグ。*/
     String JAVELIN_ARGS_START = "<<javelin.Args_START>>";
 
-    /** �����o�͂̏I���^�O�B*/
+    /** 引数出力の終了タグ。*/
     String JAVELIN_ARGS_END = "<<javelin.Args_END>>";
 
-    /** JMX�ɂ��擾����VM�̏�ԏo�͂̊J�n�^�O�B*/
+    /** JMXにより取得したVMの状態出力の開始タグ。*/
     String JAVELIN_JMXINFO_START = "<<javelin.JMXInfo_START>>";
 
-    /** JMX�ɂ��擾����VM�̏�ԏo�͂̏I���^�O�B*/
+    /** JMXにより取得したVMの状態出力の終了タグ。*/
     String JAVELIN_JMXINFO_END = "<<javelin.JMXInfo_END>>";
 
-    /** �ǉ����o�͂̊J�n�^�O�B*/
+    /** 追加情報出力の開始タグ。*/
     String JAVELIN_EXTRAINFO_START = "<<javelin.ExtraInfo_START>>";
 
-    /** �ǉ����o�͂̏I���^�O�B*/
+    /** 追加情報出力の終了タグ。*/
     String JAVELIN_EXTRAINFO_END = "<<javelin.ExtraInfo_END>>";
 
-    /** �C�x���g�p�����[�^�o�͂̊J�n�^�O�B*/
+    /** イベントパラメータ出力の開始タグ。*/
     String JAVELIN_EVENTINFO_START = "<<javelin.EventInfo_START>>";
 
-    /** �C�x���g�p�����[�^�o�͂̏I���^�O�B*/
+    /** イベントパラメータ出力の終了タグ。*/
     String JAVELIN_EVENTINFO_END = "<<javelin.EventInfo_END>>";
 
-    /** ���샍�O�o�͓����̃t�H�[�}�b�g�B*/
+    /** 動作ログ出力日時のフォーマット。*/
     String DATE_PATTERN = "yyyy/MM/dd HH:mm:ss.SSS";
 
-    /** �C�x���g�̌x�����x���FInfo */
+    /** イベントの警告レベル：Info */
     String EVENT_INFO = "INFO";
 
-    /** �C�x���g�̌x�����x���FWarn */
+    /** イベントの警告レベル：Warn */
     String EVENT_WARN = "WARN";
 
-    /** �C�x���g�̌x�����x���FWarn */
+    /** イベントの警告レベル：Warn */
     String EVENT_ERROR = "ERROR";
 
-    /** ���O�o�͎��AparentNode�����݂��Ȃ��ꍇ�̃f�t�H���g���\�b�h���� */
+    /** ログ出力時、parentNodeが存在しない場合のデフォルトメソッド名称 */
     String DEFAULT_LOGMETHOD = "unknown";
 
 }

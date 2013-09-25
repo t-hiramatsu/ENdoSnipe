@@ -27,25 +27,25 @@ package jp.co.acroquest.endosnipe.communicator;
 
 
 /**
- * {@link AbstractCommunicator} ‚Ìó‘Ô•Ï‰»‚ğóM‚·‚é‚½‚ß‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX‚Å‚·B<br />
+ * {@link AbstractCommunicator} ã®çŠ¶æ…‹å¤‰åŒ–ã‚’å—ä¿¡ã™ã‚‹ãŸã‚ã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã§ã™ã€‚<br />
  * 
  * @author matsuoka
  */
 public interface CommunicatorListener
 {
     /**
-     * ƒNƒ‰ƒCƒAƒ“ƒg‚ªƒT[ƒo‚ÖÚ‘±‚µ‚½‚Æ‚«‚ÉŒÄ‚Ño‚³‚ê‚éƒƒ\ƒbƒh‚Å‚·B<br />
+     * ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆãŒã‚µãƒ¼ãƒã¸æ¥ç¶šã—ãŸã¨ãã«å‘¼ã³å‡ºã•ã‚Œã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã§ã™ã€‚<br />
      *
-     * @param hostName ƒzƒXƒg–¼i <code>null</code> ‚Ì‰Â”\«‚ ‚èj
-     * @param ipAddress IP ƒAƒhƒŒƒX
-     * @param port ƒ|[ƒg”Ô†
+     * @param hostName ãƒ›ã‚¹ãƒˆåï¼ˆ <code>null</code> ã®å¯èƒ½æ€§ã‚ã‚Šï¼‰
+     * @param ipAddress IP ã‚¢ãƒ‰ãƒ¬ã‚¹
+     * @param port ãƒãƒ¼ãƒˆç•ªå·
      */
     void clientConnected(String hostName, String ipAddress, int port);
 
     /**
-     * ƒNƒ‰ƒCƒAƒ“ƒg‚ªƒT[ƒo‚©‚çØ’f‚µ‚½‚Æ‚«‚ÉŒÄ‚Ño‚³‚ê‚éƒƒ\ƒbƒh‚Å‚·B<br />
+     * ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆãŒã‚µãƒ¼ãƒã‹ã‚‰åˆ‡æ–­ã—ãŸã¨ãã«å‘¼ã³å‡ºã•ã‚Œã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã§ã™ã€‚<br />
      *
-     * @param forceDisconnected ‹­§Ø’f‚³‚ê‚½ê‡‚Í <code>true</code>
+     * @param forceDisconnected å¼·åˆ¶åˆ‡æ–­ã•ã‚ŒãŸå ´åˆã¯ <code>true</code>
      */
     void clientDisconnected(boolean forceDisconnected);
 }

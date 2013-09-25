@@ -46,29 +46,29 @@ import org.apache.commons.pool.impl.StackObjectPool;
 import org.seasar.framework.util.StringUtil;
 
 /**
- * ƒf[ƒ^ƒx[ƒXƒRƒlƒNƒVƒ‡ƒ“‚ğŠÇ—‚·‚é‚½‚ß‚ÌƒNƒ‰ƒX‚Å‚·B<br />
+ * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ã‚’ç®¡ç†ã™ã‚‹ãŸã‚ã®ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  * 
  * @author y-komori
  */
 public class ConnectionManager implements LogMessageCodes
 {
-    /** ƒƒK[ */
+    /** ãƒ­ã‚¬ãƒ¼ */
     private static final ENdoSnipeLogger   LOGGER = ENdoSnipeLogger.getLogger(
                                                 ConnectionManager.class);
 
-    /** ConnectionManagerƒCƒ“ƒXƒ^ƒ“ƒX•Û—p•Ï” */
+    /** ConnectionManagerã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ä¿æŒç”¨å¤‰æ•° */
     private static ConnectionManager       instance__;
 
-    /** ŠÇ—‰º‚É“ü‚Á‚Ä‚¢‚éDataSource‚ÌƒŠƒXƒg */
+    /** ç®¡ç†ä¸‹ã«å…¥ã£ã¦ã„ã‚‹DataSourceã®ãƒªã‚¹ãƒˆ */
     private final List<DataSourceEntry>    dataSourceList_;
 
-    /** ƒf[ƒ^ƒx[ƒX–¼‚ğƒL[‚É‚µ‚½ƒRƒlƒNƒVƒ‡ƒ“ƒv[ƒ‹ƒIƒuƒWƒFƒNƒg‚Ìƒ}ƒbƒv */
+    /** ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã‚’ã‚­ãƒ¼ã«ã—ãŸã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ãƒ—ãƒ¼ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒãƒƒãƒ— */
     private final Map<String, ObjectPool>  connectionPoolMap_;
 
-    /** ‰Šú‰»Ï‚İ‚Ìƒf[ƒ^ƒ\[ƒX */
+    /** åˆæœŸåŒ–æ¸ˆã¿ã®ãƒ‡ãƒ¼ã‚¿ã‚½ãƒ¼ã‚¹ */
     private final Set<String>  initializedDatabaseSet_;
     
-    /** ƒf[ƒ^ƒ\[ƒX‚ÌƒŠƒXƒg */
+    /** ãƒ‡ãƒ¼ã‚¿ã‚½ãƒ¼ã‚¹ã®ãƒªã‚¹ãƒˆ */
     private static List<DataSourceCreator> dataSouceCreatorList__;
 
     static
@@ -79,7 +79,7 @@ public class ConnectionManager implements LogMessageCodes
     }
 
     /**
-     * ƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğ–h~‚·‚é‚½‚ß‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã‚’é˜²æ­¢ã™ã‚‹ãŸã‚ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      */
     private ConnectionManager()
     {
@@ -89,9 +89,9 @@ public class ConnectionManager implements LogMessageCodes
     }
 
     /**
-     * {@link ConnectionManager} ‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ•Ô‚µ‚Ü‚·B<br />
+     * {@link ConnectionManager} ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’è¿”ã—ã¾ã™ã€‚<br />
      * 
-     * @return ƒCƒ“ƒXƒ^ƒ“ƒX
+     * @return ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
      */
     public static synchronized ConnectionManager getInstance()
     {
@@ -110,13 +110,13 @@ public class ConnectionManager implements LogMessageCodes
     }
 
     /**
-     * ƒf[ƒ^ƒx[ƒXƒRƒlƒNƒVƒ‡ƒ“‚ğæ“¾‚µ‚Ü‚·B<br />
+     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      * 
-     * @param dbname ƒf[ƒ^ƒx[ƒX–¼
-     * @param connectOnlyExists ƒf[ƒ^ƒx[ƒX‚ª‘¶İ‚·‚é‚Æ‚«‚Ì‚İÚ‘±‚·‚éê‡‚Í <code>true</code> A
-     *                          ‘¶İ‚µ‚È‚¢‚Æ‚«‚Éƒf[ƒ^ƒx[ƒX‚ğ¶¬‚·‚éê‡‚Í <code>false</code>
-     * @return {@link Connection} ƒIƒuƒWƒFƒNƒg
-     * @throws SQLException ƒRƒlƒNƒVƒ‡ƒ“‚ªæ“¾‚Å‚«‚È‚©‚Á‚½ê‡
+     * @param dbname ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param connectOnlyExists ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãŒå­˜åœ¨ã™ã‚‹ã¨ãã®ã¿æ¥ç¶šã™ã‚‹å ´åˆã¯ <code>true</code> ã€
+     *                          å­˜åœ¨ã—ãªã„ã¨ãã«ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚’ç”Ÿæˆã™ã‚‹å ´åˆã¯ <code>false</code>
+     * @return {@link Connection} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @throws SQLException ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ãŒå–å¾—ã§ããªã‹ã£ãŸå ´åˆ
      */
     public synchronized Connection getConnection(final String dbname,
             final boolean connectOnlyExists)
@@ -126,14 +126,14 @@ public class ConnectionManager implements LogMessageCodes
     }
     
     /**
-     * ƒf[ƒ^ƒx[ƒXƒRƒlƒNƒVƒ‡ƒ“‚ğæ“¾‚µ‚Ü‚·B<br />
+     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      * 
-     * @param dbname ƒf[ƒ^ƒx[ƒX–¼
-     * @param connectOnlyExists ƒf[ƒ^ƒx[ƒX‚ª‘¶İ‚·‚é‚Æ‚«‚Ì‚İÚ‘±‚·‚éê‡‚Í <code>true</code> A
-     *                          ‘¶İ‚µ‚È‚¢‚Æ‚«‚Éƒf[ƒ^ƒx[ƒX‚ğ¶¬‚·‚éê‡‚Í <code>false</code>
-     * @param initialize        ƒf[ƒ^ƒx[ƒX‚ğ‰Šú‰»‚·‚é‚©‚Ç‚¤‚©B
-     * @return {@link Connection} ƒIƒuƒWƒFƒNƒg
-     * @throws SQLException ƒRƒlƒNƒVƒ‡ƒ“‚ªæ“¾‚Å‚«‚È‚©‚Á‚½ê‡
+     * @param dbname ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param connectOnlyExists ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãŒå­˜åœ¨ã™ã‚‹ã¨ãã®ã¿æ¥ç¶šã™ã‚‹å ´åˆã¯ <code>true</code> ã€
+     *                          å­˜åœ¨ã—ãªã„ã¨ãã«ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚’ç”Ÿæˆã™ã‚‹å ´åˆã¯ <code>false</code>
+     * @param initialize        ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚’åˆæœŸåŒ–ã™ã‚‹ã‹ã©ã†ã‹ã€‚
+     * @return {@link Connection} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @throws SQLException ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ãŒå–å¾—ã§ããªã‹ã£ãŸå ´åˆ
      */
     public synchronized Connection getConnection(final String dbname,
         final boolean connectOnlyExists, final boolean initialize)
@@ -159,7 +159,7 @@ public class ConnectionManager implements LogMessageCodes
 
         Connection conn = getConnection(ds, dbname);
 
-        // ƒRƒlƒNƒVƒ‡ƒ“æ“¾‚É¬Œ÷‚·‚ê‚ÎA DataSource ‚ğ“o˜^‚·‚é
+        // ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³å–å¾—ã«æˆåŠŸã™ã‚Œã°ã€ DataSource ã‚’ç™»éŒ²ã™ã‚‹
         registDataSource(dbname, ds);
         
         initialize(dbname, initialize, conn);
@@ -172,7 +172,7 @@ public class ConnectionManager implements LogMessageCodes
     {
         try
         {
-            // •K—v‚É‰‚¶‚Äƒf[ƒ^ƒx[ƒX‚Ì‰Šú‰»‚ğs‚¤
+            // å¿…è¦ã«å¿œã˜ã¦ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®åˆæœŸåŒ–ã‚’è¡Œã†
             boolean isInitialized = DBInitializer.isInitialized(conn);
             if (isInitialized)
             {
@@ -197,11 +197,11 @@ public class ConnectionManager implements LogMessageCodes
     }
 
     /**
-     * ƒf[ƒ^ƒx[ƒX‚Ìƒx[ƒXƒfƒBƒŒƒNƒgƒŠ‚ğİ’è‚µ‚Ü‚·B<br />
+     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®ãƒ™ãƒ¼ã‚¹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’è¨­å®šã—ã¾ã™ã€‚<br />
      *
-     * ƒf[ƒ^ƒx[ƒX‚ª•ÏX‚³‚ê‚½ê‡‚ÍAƒRƒlƒNƒVƒ‡ƒ“ƒv[ƒ‹‚ğƒNƒŠƒA‚µ‚Ü‚·B<br />
+     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãŒå¤‰æ›´ã•ã‚ŒãŸå ´åˆã¯ã€ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ãƒ—ãƒ¼ãƒ«ã‚’ã‚¯ãƒªã‚¢ã—ã¾ã™ã€‚<br />
      *
-     * @param baseDir ƒx[ƒXƒfƒBƒŒƒNƒgƒŠB <code>null</code> ‚ğw’è‚µ‚½ê‡‚Í ~iƒz[ƒ€ƒfƒBƒŒƒNƒgƒŠj
+     * @param baseDir ãƒ™ãƒ¼ã‚¹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã€‚ <code>null</code> ã‚’æŒ‡å®šã—ãŸå ´åˆã¯ ~ï¼ˆãƒ›ãƒ¼ãƒ ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªï¼‰
      */
     public synchronized void setBaseDir(final String baseDir)
     {
@@ -227,14 +227,14 @@ public class ConnectionManager implements LogMessageCodes
     }
 
     /**
-     * ƒf[ƒ^ƒx[ƒX‚ª‘¶İ‚·‚é‚©‚Ç‚¤‚©‚ğ’²‚×‚Ü‚·B<br />
+     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãŒå­˜åœ¨ã™ã‚‹ã‹ã©ã†ã‹ã‚’èª¿ã¹ã¾ã™ã€‚<br />
      *
-     * @param dbname ƒf[ƒ^ƒx[ƒX–¼
-     * @return ƒf[ƒ^ƒx[ƒX‚ª‘¶İ‚·‚éê‡‚Í <code>true</code> A‘¶İ‚µ‚È‚¢ê‡‚Í <code>false</code>
+     * @param dbname ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @return ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãŒå­˜åœ¨ã™ã‚‹å ´åˆã¯ <code>true</code> ã€å­˜åœ¨ã—ãªã„å ´åˆã¯ <code>false</code>
      */
     public boolean existsDatabase(final String dbname)
     {
-        // ƒRƒlƒNƒVƒ‡ƒ“‚ªæ‚ê‚é‚©‚Ç‚¤‚©‚ÅADB‚Ì‘¶İ‚ğ”»’f‚·‚é
+        // ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ãŒå–ã‚Œã‚‹ã‹ã©ã†ã‹ã§ã€DBã®å­˜åœ¨ã‚’åˆ¤æ–­ã™ã‚‹
         Connection con = null;
         boolean exist = false;
         try
@@ -254,8 +254,8 @@ public class ConnectionManager implements LogMessageCodes
     }
 
     /**
-     * ƒAƒCƒhƒ‹’†‚ÌƒRƒlƒNƒVƒ‡ƒ“‚ğ‚·‚×‚ÄƒNƒ[ƒY‚µ‚Ü‚·B<br />
-     * g—p’†‚ÌƒRƒlƒNƒVƒ‡ƒ“‚ÍƒNƒ[ƒY‚³‚ê‚Ü‚¹‚ñ‚Ì‚Å’ˆÓ‚µ‚Ä‚­‚¾‚³‚¢B
+     * ã‚¢ã‚¤ãƒ‰ãƒ«ä¸­ã®ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ã‚’ã™ã¹ã¦ã‚¯ãƒ­ãƒ¼ã‚ºã—ã¾ã™ã€‚<br />
+     * ä½¿ç”¨ä¸­ã®ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ã¯ã‚¯ãƒ­ãƒ¼ã‚ºã•ã‚Œã¾ã›ã‚“ã®ã§æ³¨æ„ã—ã¦ãã ã•ã„ã€‚
      */
     public void closeAll()
     {
@@ -280,12 +280,12 @@ public class ConnectionManager implements LogMessageCodes
     }
 
     /**
-     * ƒRƒlƒNƒVƒ‡ƒ“‚ğæ“¾‚µ‚Ü‚·B<br />
+     * ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      *
-     * @param dataSource ƒf[ƒ^ƒ\[ƒX
-     * @param dbName {@link ConnectionWrapper} ‚Éİ’è‚·‚éƒf[ƒ^ƒx[ƒX–¼
-     * @return {@link Connection} ƒIƒuƒWƒFƒNƒg
-     * @throws SQLException ƒRƒlƒNƒVƒ‡ƒ“‚ªæ“¾‚Å‚«‚È‚©‚Á‚½ê‡
+     * @param dataSource ãƒ‡ãƒ¼ã‚¿ã‚½ãƒ¼ã‚¹
+     * @param dbName {@link ConnectionWrapper} ã«è¨­å®šã™ã‚‹ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @return {@link Connection} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @throws SQLException ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ãŒå–å¾—ã§ããªã‹ã£ãŸå ´åˆ
      */
     protected Connection getConnection(final DataSource dataSource, final String dbName)
         throws SQLException
@@ -297,10 +297,10 @@ public class ConnectionManager implements LogMessageCodes
     }
 
     /**
-     * w’è‚³‚ê‚½ƒf[ƒ^ƒx[ƒX‚Ìƒf[ƒ^ƒ\[ƒX‚ğæ“¾‚µ‚Ü‚·B<br />
+     * æŒ‡å®šã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®ãƒ‡ãƒ¼ã‚¿ã‚½ãƒ¼ã‚¹ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      *
-     * @param dbname ƒf[ƒ^ƒx[ƒX–¼
-     * @return ƒf[ƒ^ƒ\[ƒX
+     * @param dbname ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @return ãƒ‡ãƒ¼ã‚¿ã‚½ãƒ¼ã‚¹
      */
     protected DataSource getDataSource(final String dbname)
     {
@@ -315,10 +315,10 @@ public class ConnectionManager implements LogMessageCodes
     }
 
     /**
-     * ƒf[ƒ^ƒ\[ƒX‚ğƒŠƒXƒg‚É“o˜^‚µ‚Ü‚·B<br />
+     * ãƒ‡ãƒ¼ã‚¿ã‚½ãƒ¼ã‚¹ã‚’ãƒªã‚¹ãƒˆã«ç™»éŒ²ã—ã¾ã™ã€‚<br />
      *
-     * @param dbname ƒf[ƒ^ƒx[ƒX–¼
-     * @param dataSource ƒf[ƒ^ƒ\[ƒX
+     * @param dbname ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param dataSource ãƒ‡ãƒ¼ã‚¿ã‚½ãƒ¼ã‚¹
      */
     protected void registDataSource(final String dbname, final DataSource dataSource)
     {
@@ -330,13 +330,13 @@ public class ConnectionManager implements LogMessageCodes
     }
 
     /**
-     * {@link DataSource} ‚ğì¬‚µ‚Ü‚·B<br />
+     * {@link DataSource} ã‚’ä½œæˆã—ã¾ã™ã€‚<br />
      *
-     * @param dbname ƒf[ƒ^ƒx[ƒX–¼
-     * @param connectOnlyExists ƒf[ƒ^ƒx[ƒX‚ª‘¶İ‚·‚é‚Æ‚«‚Ì‚İÚ‘±‚·‚éê‡‚Í <code>true</code> A
-     *                          ‘¶İ‚µ‚È‚¢‚Æ‚«‚Éƒf[ƒ^ƒx[ƒX‚ğ¶¬‚·‚éê‡‚Í <code>false</code>
+     * @param dbname ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param connectOnlyExists ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãŒå­˜åœ¨ã™ã‚‹ã¨ãã®ã¿æ¥ç¶šã™ã‚‹å ´åˆã¯ <code>true</code> ã€
+     *                          å­˜åœ¨ã—ãªã„ã¨ãã«ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚’ç”Ÿæˆã™ã‚‹å ´åˆã¯ <code>false</code>
      * @return {@link DataSource}
-     * @throws SQLException ƒf[ƒ^ƒ\[ƒXì¬‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     * @throws SQLException ãƒ‡ãƒ¼ã‚¿ã‚½ãƒ¼ã‚¹ä½œæˆæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     protected DataSource createPoolingDataSource(final String dbname,
         final boolean connectOnlyExists)
@@ -347,7 +347,7 @@ public class ConnectionManager implements LogMessageCodes
     }
 
     /**
-     * ƒf[ƒ^ƒx[ƒX–¼‚Æ {@link DataSource} ‚ğ•R‚Ã‚¯‚ÄŠÇ—‚·‚é‚½‚ß‚ÌƒGƒ“ƒgƒŠƒNƒ‰ƒX‚Å‚·B<br />
+     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã¨ {@link DataSource} ã‚’ç´ã¥ã‘ã¦ç®¡ç†ã™ã‚‹ãŸã‚ã®ã‚¨ãƒ³ãƒˆãƒªã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
      * 
      * @author y-komori
      */
@@ -358,11 +358,11 @@ public class ConnectionManager implements LogMessageCodes
         private final DataSource dataSource_;
 
         /**
-         * {@link DataSourceEntry} ‚ğ\’z‚µ‚Ü‚·B<br />
+         * {@link DataSourceEntry} ã‚’æ§‹ç¯‰ã—ã¾ã™ã€‚<br />
          * 
-         * @param dbname ƒf[ƒ^ƒx[ƒX–¼
+         * @param dbname ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
 
-         * @param dataSource {@link DataSource} ƒIƒuƒWƒFƒNƒg
+         * @param dataSource {@link DataSource} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
          */
         public DataSourceEntry(final String dbname, final DataSource dataSource)
         {
@@ -371,9 +371,9 @@ public class ConnectionManager implements LogMessageCodes
         }
 
         /**
-         * ƒf[ƒ^ƒx[ƒX–¼‚ğ•Ô‚µ‚Ü‚·B<br />
+         * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã‚’è¿”ã—ã¾ã™ã€‚<br />
          * 
-         * @return ƒf[ƒ^ƒx[ƒX–¼
+         * @return ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
 
          */
         public String getDbname()
@@ -382,9 +382,9 @@ public class ConnectionManager implements LogMessageCodes
         }
 
         /**
-         * ƒf[ƒ^ƒ\[ƒX‚ğ•Ô‚µ‚Ü‚·B<br />
+         * ãƒ‡ãƒ¼ã‚¿ã‚½ãƒ¼ã‚¹ã‚’è¿”ã—ã¾ã™ã€‚<br />
          * 
-         * @return ƒf[ƒ^ƒ\[ƒX
+         * @return ãƒ‡ãƒ¼ã‚¿ã‚½ãƒ¼ã‚¹
          */
         public DataSource getDataSource()
         {
@@ -393,9 +393,9 @@ public class ConnectionManager implements LogMessageCodes
     }
 
     /**
-     * ƒv[ƒ‹‚Ì’†‚©‚çg—p‚µ‚Ä‚¢‚éƒIƒuƒWƒFƒNƒg‚Ì”‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ãƒ—ãƒ¼ãƒ«ã®ä¸­ã‹ã‚‰ä½¿ç”¨ã—ã¦ã„ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ•°ã‚’è¿”ã—ã¾ã™ã€‚<br />
      *
-     * @return g—p‚µ‚Ä‚¢‚éƒIƒuƒWƒFƒNƒg‚Ì”
+     * @return ä½¿ç”¨ã—ã¦ã„ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ•°
      */
     private int getNumActive()
     {
@@ -408,9 +408,9 @@ public class ConnectionManager implements LogMessageCodes
     }
 
     /**
-     * ƒRƒlƒNƒVƒ‡ƒ“ƒv[ƒ‹‚©‚çæ“¾‚µ‚Ü‚·B
-     * @param key ƒL[
-     * @return ƒRƒlƒNƒVƒ‡ƒ“ƒv[ƒ‹
+     * ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ãƒ—ãƒ¼ãƒ«ã‹ã‚‰å–å¾—ã—ã¾ã™ã€‚
+     * @param key ã‚­ãƒ¼
+     * @return ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ãƒ—ãƒ¼ãƒ«
      */
     public ObjectPool getConnectionPool(final String key)
     {
@@ -418,9 +418,9 @@ public class ConnectionManager implements LogMessageCodes
     }
 
     /**
-     * ƒRƒlƒNƒVƒ‡ƒ“ƒv[ƒ‹‚©‚çV‹Kì¬‚µ‚Ü‚·B
-     * @param key ƒL[
-     * @return ƒRƒlƒNƒVƒ‡ƒ“ƒv[ƒ‹
+     * ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ãƒ—ãƒ¼ãƒ«ã‹ã‚‰æ–°è¦ä½œæˆã—ã¾ã™ã€‚
+     * @param key ã‚­ãƒ¼
+     * @return ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ãƒ—ãƒ¼ãƒ«
      */
     public ObjectPool createNewConnectionPool(String key)
     {
@@ -434,9 +434,9 @@ public class ConnectionManager implements LogMessageCodes
     }
 
     /**
-     * ƒf[ƒ^ƒ\[ƒXì¬ƒIƒuƒWƒFƒNƒg‚ğæ“¾‚µ‚Ü‚·B<br />
+     * ãƒ‡ãƒ¼ã‚¿ã‚½ãƒ¼ã‚¹ä½œæˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      * 
-     * @return ƒf[ƒ^ƒ\[ƒXì¬ƒIƒuƒWƒFƒNƒg
+     * @return ãƒ‡ãƒ¼ã‚¿ã‚½ãƒ¼ã‚¹ä½œæˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     public synchronized DataSourceCreator getDataSourceCreator()
     {
@@ -451,9 +451,9 @@ public class ConnectionManager implements LogMessageCodes
     }
 
     /**
-     * ƒV[ƒPƒ“ƒX”Ô†‚ğæ“¾‚·‚éSQL‚ğæ“¾‚µ‚Ü‚·B
-     * @param sequenceName ƒV[ƒPƒ“ƒX”Ô†
-     * @return ƒV[ƒPƒ“ƒX”Ô†æ“¾SQL
+     * ã‚·ãƒ¼ã‚±ãƒ³ã‚¹ç•ªå·ã‚’å–å¾—ã™ã‚‹SQLã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @param sequenceName ã‚·ãƒ¼ã‚±ãƒ³ã‚¹ç•ªå·
+     * @return ã‚·ãƒ¼ã‚±ãƒ³ã‚¹ç•ªå·å–å¾—SQL
      */
     public String getSequenceSql(String sequenceName)
     {

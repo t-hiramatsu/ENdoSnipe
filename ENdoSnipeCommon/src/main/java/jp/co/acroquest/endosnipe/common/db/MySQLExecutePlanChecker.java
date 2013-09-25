@@ -38,13 +38,13 @@ import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 import jp.co.acroquest.endosnipe.common.util.CSVTokenizer;
 
 /**
- * MySQL‚ÌÀsŒv‰æ‚Ì’²¸‚ğs‚¢‚Ü‚·B
+ * MySQLã®å®Ÿè¡Œè¨ˆç”»ã®èª¿æŸ»ã‚’è¡Œã„ã¾ã™ã€‚
  * 
  * @author iida
  */
 public class MySQLExecutePlanChecker extends AbstractExecutePlanChecker<MySQLExplainEntry>
 {
-    /** ƒtƒ‹ƒXƒLƒƒƒ“‚ªs‚í‚ê‚½‚±‚Æ‚ğ¦‚·•¶š—ñB */
+    /** ãƒ•ãƒ«ã‚¹ã‚­ãƒ£ãƒ³ãŒè¡Œã‚ã‚ŒãŸã“ã¨ã‚’ç¤ºã™æ–‡å­—åˆ—ã€‚ */
     private static final String FULL_SCAN = "ALL";
 
     private static final int INDEX_ID = 0;
@@ -67,7 +67,7 @@ public class MySQLExecutePlanChecker extends AbstractExecutePlanChecker<MySQLExp
 
     private static final int INDEX_EXTRA = 9;
 
-    /** ÀsŒv‰æ‚Ì—ñ”B */
+    /** å®Ÿè¡Œè¨ˆç”»ã®åˆ—æ•°ã€‚ */
     private static final int EXPLAIN_PLAN_COLNUM = 10;
 
     /**
@@ -83,10 +83,10 @@ public class MySQLExecutePlanChecker extends AbstractExecutePlanChecker<MySQLExp
         {
             if (FULL_SCAN.equals(entry.getType()))
             {
-                // ƒtƒ‹ƒXƒLƒƒƒ“‚ª”­¶‚µ‚½ƒe[ƒuƒ‹‚Ì–¼‘O‚ğ“o˜^‚·‚éB
+                // ãƒ•ãƒ«ã‚¹ã‚­ãƒ£ãƒ³ãŒç™ºç”Ÿã—ãŸãƒ†ãƒ¼ãƒ–ãƒ«ã®åå‰ã‚’ç™»éŒ²ã™ã‚‹ã€‚
                 String tableName = entry.getTable();
 
-                // œŠO‘ÎÛ‚Å–³‚¢ê‡‚Ì‚İA•Û‘¶‚·‚éB
+                // é™¤å¤–å¯¾è±¡ã§ç„¡ã„å ´åˆã®ã¿ã€ä¿å­˜ã™ã‚‹ã€‚
                 Pattern excludePattern = null;
                 if (excludeString != null)
                 {
@@ -115,8 +115,8 @@ public class MySQLExecutePlanChecker extends AbstractExecutePlanChecker<MySQLExp
         String line;
         try
         {
-            // 1s–Ú‚Éƒ^ƒCƒgƒ‹A2s–Ú‚É—ñ–¼‚ª‹Lq‚³‚ê‚Ä‚¢‚éB
-            // 3s–Ú‚Éƒpƒ‰ƒ[ƒ^‚ª“ü‚Á‚Ä‚¢‚é‚Ì‚ÅA‘O‚Ì2s‚Í“Ç‚İ”ò‚Î‚·B
+            // 1è¡Œç›®ã«ã‚¿ã‚¤ãƒˆãƒ«ã€2è¡Œç›®ã«åˆ—åãŒè¨˜è¿°ã•ã‚Œã¦ã„ã‚‹ã€‚
+            // 3è¡Œç›®ã«ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãŒå…¥ã£ã¦ã„ã‚‹ã®ã§ã€å‰ã®2è¡Œã¯èª­ã¿é£›ã°ã™ã€‚
             reader.readLine();
             reader.readLine();
 
@@ -157,7 +157,7 @@ public class MySQLExecutePlanChecker extends AbstractExecutePlanChecker<MySQLExp
         }
         catch (IOException ioe)
         {
-            // •¶š—ñ‚©‚ç‚Ì“Ç‚İ‚İ‚Ì‚½‚ßA”­¶‚µ‚È‚¢B
+            // æ–‡å­—åˆ—ã‹ã‚‰ã®èª­ã¿è¾¼ã¿ã®ãŸã‚ã€ç™ºç”Ÿã—ãªã„ã€‚
             SystemLogger.getInstance().warn(ioe);
         }
 
@@ -187,7 +187,7 @@ public class MySQLExecutePlanChecker extends AbstractExecutePlanChecker<MySQLExp
     }
 
     /**
-     * 1s‚ğToken‚É•ª‚¯‚éB
+     * 1è¡Œã‚’Tokenã«åˆ†ã‘ã‚‹ã€‚
      * 
      * @param line
      * @return

@@ -58,14 +58,12 @@
 	src="<%=request.getContextPath()%>/resources/js/map/view/nodeInfoParentView.js">
 </script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/map/view/mulResNodeInfoParentView.js">
-</script>
-<script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/map/view/resourceGraphView.js">
 </script>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/map/view/MulResGraphView.js">
 </script>
+
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/map/model/resourceGraphModel.js">	
 </script>

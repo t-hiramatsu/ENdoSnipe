@@ -32,23 +32,23 @@ import jp.co.acroquest.endosnipe.javelin.JavelinLogUtil;
 import jp.co.acroquest.endosnipe.javelin.parser.JavelinLogElement;
 
 /**
- * “¯ˆêSQL‚Ì‘ÀsŠÔ‚ğƒJƒEƒ“ƒg‚·‚éƒ‹[ƒ‹B
+ * åŒä¸€SQLã®ç·å®Ÿè¡Œæ™‚é–“ã‚’ã‚«ã‚¦ãƒ³ãƒˆã™ã‚‹ãƒ«ãƒ¼ãƒ«ã€‚
  * 
  * @author tooru
  */
 public class OneSqlExecTimeRule extends AbstractDbAccessRule
 {
-    /** SQL‚ÌŠJnƒ^ƒO */
+    /** SQLã®é–‹å§‹ã‚¿ã‚° */
     private static final String                SQL_TAG = "[SQL]";
 
-    /** Œx‚Æ”»’f‚·‚é SQL Às‰ñ”‚Ìè‡’l */
+    /** è­¦å‘Šã¨åˆ¤æ–­ã™ã‚‹ SQL å®Ÿè¡Œå›æ•°ã®é–¾å€¤ */
     public long                                threshold;
 
-    /** “¯ˆêSQL•¶‚Ì‘ÀsŠÔ‚ğ‹L˜^‚·‚éMap */
+    /** åŒä¸€SQLæ–‡ã®ç·å®Ÿè¡Œæ™‚é–“ã‚’è¨˜éŒ²ã™ã‚‹Map */
     private final Map<SqlEntry, SqlCountEntry> sqlCounts_;
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
      */
     public OneSqlExecTimeRule()
     {
@@ -63,7 +63,7 @@ public class OneSqlExecTimeRule extends AbstractDbAccessRule
     protected void doJudgeContent(final JavelinLogElement element, final String content,
             final String bindVal)
     {
-        // TODO validation‚ğÀ‘•‚·‚éÛ‚É‚Í‚»‚¿‚ç‚Åƒ`ƒFƒbƒN‚·‚é‚æ‚¤‚É‚·‚é
+        // TODO validationã‚’å®Ÿè£…ã™ã‚‹éš›ã«ã¯ãã¡ã‚‰ã§ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã‚ˆã†ã«ã™ã‚‹
         if (this.threshold < 1)
         {
             this.threshold = 1;
@@ -131,19 +131,19 @@ public class OneSqlExecTimeRule extends AbstractDbAccessRule
     }
 
     /**
-     * ƒXƒŒƒbƒh‚²‚Æ‚ÌSQL
+     * ã‚¹ãƒ¬ãƒƒãƒ‰ã”ã¨ã®SQL
      */
     private static class SqlEntry
     {
-        /** ƒXƒŒƒbƒh–¼Ì */
+        /** ã‚¹ãƒ¬ãƒƒãƒ‰åç§° */
         private final String threadName_;
 
-        /** SQL ‚Ì“à—e */
+        /** SQL ã®å†…å®¹ */
         private final String sql_;
 
         /**
-         * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
-         * @param threadName ƒXƒŒƒbƒh–¼
+         * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
+         * @param threadName ã‚¹ãƒ¬ãƒƒãƒ‰å
          * @param sql SQL
          */
         public SqlEntry(final String threadName, final String sql)
@@ -153,8 +153,8 @@ public class OneSqlExecTimeRule extends AbstractDbAccessRule
         }
 
         /**
-         * SQL‚Ì“à—e‚ğ•Ô‚·B
-         * @return SQL•¶
+         * SQLã®å†…å®¹ã‚’è¿”ã™ã€‚
+         * @return SQLæ–‡
          */
         public String getSql()
         {

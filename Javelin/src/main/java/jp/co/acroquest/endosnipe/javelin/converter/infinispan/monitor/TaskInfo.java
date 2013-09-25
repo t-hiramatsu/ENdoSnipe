@@ -7,51 +7,51 @@ import jp.co.acroquest.jsonic.JSON;
 
 
 /**
- * ƒ^ƒXƒNî•ñ
+ * ã‚¿ã‚¹ã‚¯æƒ…å ±
  * @author hiramatsu
  */
 public class TaskInfo
 {
-    /**@ƒ^ƒXƒNI—¹ó‘Ô@*/
+    /**ã€€ã‚¿ã‚¹ã‚¯çµ‚äº†çŠ¶æ…‹ã€€*/
     private String              status_;
 
-    /**@ƒ^ƒXƒNŠJn@*/
+    /**ã€€ã‚¿ã‚¹ã‚¯é–‹å§‹æ™‚åˆ»ã€€*/
     private long                startTime_;
 
-    /**@ƒ^ƒXƒNI—¹@*/
+    /**ã€€ã‚¿ã‚¹ã‚¯çµ‚äº†æ™‚åˆ»ã€€*/
     private long                finishTime_;
 
-    /**@ƒWƒ‡ƒuID@*/
+    /**ã€€ã‚¸ãƒ§ãƒ–IDã€€*/
     private String              jobID_;
 
-    /**@ƒ^ƒXƒNID@*/
+    /**ã€€ã‚¿ã‚¹ã‚¯IDã€€*/
     private String              taskAttemptID_;
 
-    /**@ƒzƒXƒgƒT[ƒo–¼@*/
+    /**ã€€ãƒ›ã‚¹ãƒˆã‚µãƒ¼ãƒåã€€*/
     private String              hostName_;
 
-    /** jobID ‚Ì JSONƒL[  */
+    /** jobID ã® JSONã‚­ãƒ¼  */
     private static final String JOB_ID          = "JobID";
 
-    /** startTime ‚Ì JSONƒL[  */
+    /** startTime ã® JSONã‚­ãƒ¼  */
     private static final String START_TIME      = "StartTime";
 
-    /** finishTime ‚Ì JSONƒL[  */
+    /** finishTime ã® JSONã‚­ãƒ¼  */
     private static final String FINISH_TIME     = "FinishTime";
 
-    /** status ‚Ì JSONƒL[  */
+    /** status ã® JSONã‚­ãƒ¼  */
     private static final String STATUS          = "Status";
 
-    /** taskAttemptId ‚Ì JSONƒL[  */
+    /** taskAttemptId ã® JSONã‚­ãƒ¼  */
     private static final String TASK_ATTEMPT_ID = "TaskAttemptID";
 
-    /** status ‚Ì JSONƒL[  */
+    /** status ã® JSONã‚­ãƒ¼  */
     private static final String HOST_NAME       = "Hostname";
 
     /**
-     * ƒ^ƒXƒNI—¹ó‘Ô‚ğæ“¾‚·‚éB
+     * ã‚¿ã‚¹ã‚¯çµ‚äº†æ™‚çŠ¶æ…‹ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return I—¹ó‘Ô
+     * @return çµ‚äº†æ™‚çŠ¶æ…‹
      */
     public String getStatus()
     {
@@ -59,9 +59,9 @@ public class TaskInfo
     }
 
     /**
-     * ƒ^ƒXƒNI—¹ó‘Ô‚ğİ’è‚·‚éB
+     * ã‚¿ã‚¹ã‚¯çµ‚äº†æ™‚çŠ¶æ…‹ã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param status İ’è‚·‚éI—¹ó‘Ô
+     * @param status è¨­å®šã™ã‚‹çµ‚äº†çŠ¶æ…‹
      */
     public void setStatus(String status)
     {
@@ -69,9 +69,9 @@ public class TaskInfo
     }
 
     /**
-     * ƒ^ƒXƒNŠJn‚ğæ“¾‚·‚éB
+     * ã‚¿ã‚¹ã‚¯é–‹å§‹æ™‚åˆ»ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return ƒ^ƒXƒNŠJn
+     * @return ã‚¿ã‚¹ã‚¯é–‹å§‹æ™‚åˆ»
      */
     public long getStartTime()
     {
@@ -79,9 +79,9 @@ public class TaskInfo
     }
 
     /**
-     * ƒ^ƒXƒNŠJn‚ğİ’è‚·‚éB
+     * ã‚¿ã‚¹ã‚¯é–‹å§‹æ™‚åˆ»ã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param startTime İ’è‚·‚éƒ^ƒXƒNŠJn
+     * @param startTime è¨­å®šã™ã‚‹ã‚¿ã‚¹ã‚¯é–‹å§‹æ™‚åˆ»
      */
     public void setStartTime(long startTime)
     {
@@ -89,9 +89,9 @@ public class TaskInfo
     }
 
     /**
-     * ƒ^ƒXƒNI—¹‚ğæ“¾‚·‚éB
+     * ã‚¿ã‚¹ã‚¯çµ‚äº†æ™‚åˆ»ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return ƒ^ƒXƒNI—¹
+     * @return ã‚¿ã‚¹ã‚¯çµ‚äº†æ™‚åˆ»
      */
     public long getFinishTime()
     {
@@ -99,9 +99,9 @@ public class TaskInfo
     }
 
     /**
-     * ƒ^ƒXƒNI—¹‚ğİ’è‚·‚éB
+     * ã‚¿ã‚¹ã‚¯çµ‚äº†æ™‚åˆ»ã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param finishTime İ’è‚·‚éƒ^ƒXƒNI—¹
+     * @param finishTime è¨­å®šã™ã‚‹ã‚¿ã‚¹ã‚¯çµ‚äº†æ™‚åˆ»
      */
     public void setFinishTime(long finishTime)
     {
@@ -109,9 +109,9 @@ public class TaskInfo
     }
 
     /**
-     * ‘Î‰‚·‚éƒWƒ‡ƒu‚ÌID‚ğæ“¾‚·‚éB
+     * å¯¾å¿œã™ã‚‹ã‚¸ãƒ§ãƒ–ã®IDã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return ‘Î‰‚·‚éƒWƒ‡ƒu‚ÌID
+     * @return å¯¾å¿œã™ã‚‹ã‚¸ãƒ§ãƒ–ã®ID
      */
     public String getJobID()
     {
@@ -119,9 +119,9 @@ public class TaskInfo
     }
 
     /**
-     * ‘Î‰‚·‚éƒWƒ‡ƒu‚ÌID‚ğİ’è‚·‚éB
+     * å¯¾å¿œã™ã‚‹ã‚¸ãƒ§ãƒ–ã®IDã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param jobID İ’è‚·‚é‘Î‰‚·‚éƒWƒ‡ƒu‚ÌID
+     * @param jobID è¨­å®šã™ã‚‹å¯¾å¿œã™ã‚‹ã‚¸ãƒ§ãƒ–ã®ID
      */
     public void setJobID(String jobID)
     {
@@ -129,9 +129,9 @@ public class TaskInfo
     }
 
     /**
-     * ƒ^ƒXƒNID‚ğæ“¾‚·‚éB
+     * ã‚¿ã‚¹ã‚¯IDã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return ƒ^ƒXƒNID
+     * @return ã‚¿ã‚¹ã‚¯ID
      */
     public String getTaskAttemptID()
     {
@@ -139,9 +139,9 @@ public class TaskInfo
     }
 
     /**
-     * ƒ^ƒXƒNID‚ğİ’è‚·‚éB
+     * ã‚¿ã‚¹ã‚¯IDã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param taskAttemptID İ’è‚·‚éƒ^ƒXƒNID
+     * @param taskAttemptID è¨­å®šã™ã‚‹ã‚¿ã‚¹ã‚¯ID
      */
     public void setTaskAttemptID(String taskAttemptID)
     {
@@ -149,9 +149,9 @@ public class TaskInfo
     }
 
     /**
-     * ƒzƒXƒgƒT[ƒo–¼‚ğæ“¾‚·‚éB
+     * ãƒ›ã‚¹ãƒˆã‚µãƒ¼ãƒåã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @return ƒzƒXƒgƒT[ƒo–¼
+     * @return ãƒ›ã‚¹ãƒˆã‚µãƒ¼ãƒå
      */
     public String getHostName()
     {
@@ -159,9 +159,9 @@ public class TaskInfo
     }
 
     /**
-     * ƒzƒXƒgƒT[ƒo–¼‚ğİ’è‚·‚éB
+     * ãƒ›ã‚¹ãƒˆã‚µãƒ¼ãƒåã‚’è¨­å®šã™ã‚‹ã€‚
      * 
-     * @param hostName İ’è‚·‚éƒzƒXƒgƒT[ƒo–¼
+     * @param hostName è¨­å®šã™ã‚‹ãƒ›ã‚¹ãƒˆã‚µãƒ¼ãƒå
      */
     public void setHostName(String hostName)
     {
@@ -178,9 +178,9 @@ public class TaskInfo
     }
 
     /**
-     * jsonŒ`®‚Ìƒ^ƒXƒNî•ñ‚ğ•Ô‚·B
+     * jsonå½¢å¼ã®ã‚¿ã‚¹ã‚¯æƒ…å ±ã‚’è¿”ã™ã€‚
      * 
-     * @return jsonŒ`®‚Ìƒ^ƒXƒNî•ñ
+     * @return jsonå½¢å¼ã®ã‚¿ã‚¹ã‚¯æƒ…å ±
      */
     public String getJson()
     {

@@ -3,8 +3,8 @@ package jp.co.acroquest.endosnipe.report.entity;
 import jp.co.acroquest.endosnipe.perfdoctor.WarningUnit;
 
 /**
- * PerformanceDoctorƒŒƒ|[ƒg‚Éo—Í‚·‚éƒf[ƒ^‚Ì’†‚ÌA
- * 1ƒŒƒR[ƒh•ª‚Ìî•ñ‚ğ•Û‚·‚éƒGƒ“ƒeƒBƒeƒB‚Å‚·B
+ * PerformanceDoctorãƒ¬ãƒãƒ¼ãƒˆã«å‡ºåŠ›ã™ã‚‹ãƒ‡ãƒ¼ã‚¿ã®ä¸­ã®ã€
+ * 1ãƒ¬ã‚³ãƒ¼ãƒ‰åˆ†ã®æƒ…å ±ã‚’ä¿æŒã™ã‚‹ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã§ã™ã€‚
  * 
  * @author T. Iida
  */
@@ -13,34 +13,34 @@ public class PerfDoctorRecord
     /** ID */
     private String id_ = "default id";
     
-    /** ŠT—v */
+    /** æ¦‚è¦ */
     private String description_ = "default description";
     
-    /** d—v“x */
+    /** é‡è¦åº¦ */
     private String level_ = "default level";
     
-    /** ƒNƒ‰ƒX */
+    /** ã‚¯ãƒ©ã‚¹ */
     private String className_ = "default className";
     
-    /** ƒƒ\ƒbƒh */
+    /** ãƒ¡ã‚½ãƒƒãƒ‰ */
     private String methodName_ = "default methodName";
     
-    /** ƒtƒ@ƒCƒ‹–¼ */
+    /** ãƒ•ã‚¡ã‚¤ãƒ«å */
     private String logFileName_ = "default logFileName";
     
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Å‚·B
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§ã™ã€‚
      */
     public PerfDoctorRecord()
     {
-        // ‰½‚à‚µ‚È‚¢
+        // ä½•ã‚‚ã—ãªã„
     }
     
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Å‚·B
-     * w’è‚³‚ê‚½WarningUnit‚ÅAƒtƒB[ƒ‹ƒh‚ğ‰Šú‰»‚µ‚Ü‚·B
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§ã™ã€‚
+     * æŒ‡å®šã•ã‚ŒãŸWarningUnitã§ã€ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã‚’åˆæœŸåŒ–ã—ã¾ã™ã€‚
      * 
-     * @param warningUnit w’è‚³‚ê‚½WarningUnit
+     * @param warningUnit æŒ‡å®šã•ã‚ŒãŸWarningUnit
      */
     public PerfDoctorRecord(WarningUnit warningUnit)
     {

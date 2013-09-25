@@ -35,7 +35,7 @@ import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 
 /**
- * JVNƒƒOƒtƒ@ƒCƒ‹ˆê——æ“¾
+ * JVNãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ä¸€è¦§å–å¾—
  * 
  * @author eriguchi
  */

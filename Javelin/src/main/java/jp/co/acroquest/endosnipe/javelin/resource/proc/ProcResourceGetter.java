@@ -28,18 +28,18 @@ package jp.co.acroquest.endosnipe.javelin.resource.proc;
 import jp.co.acroquest.endosnipe.javelin.resource.AbstractResourceGetter;
 
 /**
- * Windows/Linux リソースのゲッターの親クラス
+ * Windows/Linux 繝ｪ繧ｽ繝ｼ繧ｹ縺ｮ繧ｲ繝�繧ｿ繝ｼ縺ｮ隕ｪ繧ｯ繝ｩ繧ｹ
  * 
  * @author ochiai
  */
 public abstract class ProcResourceGetter extends AbstractResourceGetter
 {
-    /** Windows/Linux の ProcParser */
+    /** Windows/Linux 縺ｮ ProcParser */
     private ProcParser procParser_;
     
     /**
      * 
-     * @param procParser Windows/Linux の ProcParser
+     * @param procParser Windows/Linux 縺ｮ ProcParser
      */
     public ProcResourceGetter(ProcParser procParser)
     {
@@ -48,7 +48,7 @@ public abstract class ProcResourceGetter extends AbstractResourceGetter
 
     /**
      * 
-     * @return procParser Windows/Linux の ProcParser
+     * @return procParser Windows/Linux 縺ｮ ProcParser
      */
     public ProcParser getProcParser()
     {

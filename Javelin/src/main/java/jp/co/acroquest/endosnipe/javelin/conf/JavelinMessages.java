@@ -30,32 +30,32 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 /**
- * Javelin‚ÌƒƒbƒZ[ƒW‚ğæ“¾‚·‚é‚½‚ß‚ÌƒNƒ‰ƒX‚Å‚·B<br />
+ * Javelinã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å–å¾—ã™ã‚‹ãŸã‚ã®ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  * 
  * @author tooru
  */
 public final class JavelinMessages
 {
-    /** ƒƒbƒZ[ƒWƒvƒƒpƒeƒBƒtƒ@ƒCƒ‹‚Ì–¼Ì */
+    /** ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãƒ•ã‚¡ã‚¤ãƒ«ã®åç§° */
     private static final String BUNDLE_NAME = "JavelinMessages";
 
-    /** ƒŠƒ\[ƒXƒoƒ“ƒhƒ‹ */
+    /** ãƒªã‚½ãƒ¼ã‚¹ãƒãƒ³ãƒ‰ãƒ« */
     private static ResourceBundle bundle__ = ResourceBundle.getBundle(BUNDLE_NAME);
 
     /**
-     * ƒfƒtƒHƒ‹ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      */
     private JavelinMessages()
     {
-        //‰½‚à‚µ‚È‚¢
+        //ä½•ã‚‚ã—ãªã„
     }
 
     /**
-     * ƒŠƒ\[ƒXƒoƒ“ƒhƒ‹‚æ‚èƒƒbƒZ[ƒW‚ğæ“¾‚µ‚Ü‚·B<br />
+     * ãƒªã‚½ãƒ¼ã‚¹ãƒãƒ³ãƒ‰ãƒ«ã‚ˆã‚Šãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
      * 
-     * @param messageId ƒƒbƒZ[ƒWID
-     * @param args ƒƒbƒZ[ƒW‚Ìˆø”
-     * @return ƒƒbƒZ[ƒW
+     * @param messageId ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ID
+     * @param args ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®å¼•æ•°
+     * @return ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
      */
     public static String getMessage(final String messageId, final Object... args)
     {
@@ -68,7 +68,7 @@ public final class JavelinMessages
         catch (MissingResourceException mre)
         // CHECKSTYLE:OFF
         {
-            // –³‹‚·‚éB
+            // ç„¡è¦–ã™ã‚‹ã€‚
         }
         // CHECKSTYLE:ON
         return message;

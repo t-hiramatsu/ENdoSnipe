@@ -35,7 +35,7 @@ import jp.co.acroquest.endosnipe.common.entity.ResourceData;
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
 
 /**
- * ƒVƒXƒeƒ€ƒŠƒ\[ƒX‚Ìè‡’l”»’è—pƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒX
+ * ã‚·ã‚¹ãƒ†ãƒ ãƒªã‚½ãƒ¼ã‚¹ã®é–¾å€¤åˆ¤å®šç”¨ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹
  * @author fujii
  *
  */
@@ -50,11 +50,11 @@ public class AlarmThresholdUtil implements LogMessageCodes
     }
 
     /**
-     * ResourceData ‚©‚çAw’è‚µ‚½itemName ‚Ì’l‚ğæ“¾‚·‚é
-     * @param resourceData ƒf[ƒ^‚Ì“ü‚Á‚Ä‚¢‚éresourceData
-     * @param itemName w’è‚·‚ékey
+     * ResourceData ã‹ã‚‰ã€æŒ‡å®šã—ãŸitemName ã®å€¤ã‚’å–å¾—ã™ã‚‹
+     * @param resourceData ãƒ‡ãƒ¼ã‚¿ã®å…¥ã£ã¦ã„ã‚‹resourceData
+     * @param itemName æŒ‡å®šã™ã‚‹key
      * 
-     * @return w’è‚µ‚½itemName ‚Ì’l‚ª‚È‚¢ê‡Anull‚ğ•Ô‚·
+     * @return æŒ‡å®šã—ãŸitemName ã®å€¤ãŒãªã„å ´åˆã€nullã‚’è¿”ã™
      */
     public static Number getNumberFromResourceData(final ResourceData resourceData,
             final String itemName)
@@ -78,8 +78,8 @@ public class AlarmThresholdUtil implements LogMessageCodes
             {
                 return null;
             }
-            // ’Pˆê‚Ìƒf[ƒ^Œn—ñ‚Ì‚Æ‚«‚ÍA‹ó•¶š‚ğƒL[‚ÉAˆê‚Â‚Ì’l‚Ì‚İ‚ª“ü‚Á‚Ä‚¨‚èA
-            // ‰Â•Ïƒf[ƒ^Œn—ñ‚ÍƒzƒXƒg–¼AƒG[ƒWƒFƒ“ƒg–¼‚ğœ‚¢‚½ƒL[‚Å’l‚ªŠi”[‚³‚ê‚é‚½‚ßA‚»‚êˆÈŠO‚Í–³‹‚·‚éB
+            // å˜ä¸€ã®ãƒ‡ãƒ¼ã‚¿ç³»åˆ—ã®ã¨ãã¯ã€ç©ºæ–‡å­—ã‚’ã‚­ãƒ¼ã«ã€ä¸€ã¤ã®å€¤ã®ã¿ãŒå…¥ã£ã¦ãŠã‚Šã€
+            // å¯å¤‰ãƒ‡ãƒ¼ã‚¿ç³»åˆ—ã¯ãƒ›ã‚¹ãƒˆåã€ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆåã‚’é™¤ã„ãŸã‚­ãƒ¼ã§å€¤ãŒæ ¼ç´ã•ã‚Œã‚‹ãŸã‚ã€ãã‚Œä»¥å¤–ã¯ç„¡è¦–ã™ã‚‹ã€‚
             if (!"".equals(key) && !itemName.endsWith(key))
             {
                 continue;

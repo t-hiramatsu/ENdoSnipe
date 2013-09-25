@@ -39,7 +39,7 @@ import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * ƒ‹[ƒ‹‚ÌƒCƒ“ƒXƒ^ƒ“ƒX¶¬‚ğs‚¤ƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒXB
+ * ãƒ«ãƒ¼ãƒ«ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ç”Ÿæˆã‚’è¡Œã†ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã€‚
  * @author tanimoto
  *
  */
@@ -52,13 +52,13 @@ public class RuleInstanceUtil
     private static final String INFO  = "INFO";
 
     /**
-     * ƒ‹[ƒ‹‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚µAƒvƒƒpƒeƒB‚ğİ’è‚·‚éB<br>
-     * ’è‹`‚³‚ê‚½ƒŒƒxƒ‹‚Ì”‚¾‚¯ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
-     * ruleDef’†‚É‚ ‚éƒ‹[ƒ‹–¼‚ª•s³‚Å‚ ‚é‚½‚ß‚ÉA
-     * ƒCƒ“ƒXƒ^ƒ“ƒX¶¬‚É¸”s‚µ‚½ê‡‚É‚ÍARuleCreateException‚ğƒXƒ[‚·‚éB
-     * @param ruleDef ƒ‹[ƒ‹’è‹`
-     * @return ƒ‹[ƒ‹‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
-     * @throws RuleCreateException ƒ‹[ƒ‹‚ÌƒCƒ“ƒXƒ^ƒ“ƒXì¬‚©A’l‚Ìİ’è‚É¸”s‚µ‚½ê‡‚É”­¶‚·‚éB
+     * ãƒ«ãƒ¼ãƒ«ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ä½œæˆã—ã€ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’è¨­å®šã™ã‚‹ã€‚<br>
+     * å®šç¾©ã•ã‚ŒãŸãƒ¬ãƒ™ãƒ«ã®æ•°ã ã‘ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ä½œæˆã™ã‚‹ã€‚
+     * ruleDefä¸­ã«ã‚ã‚‹ãƒ«ãƒ¼ãƒ«åãŒä¸æ­£ã§ã‚ã‚‹ãŸã‚ã«ã€
+     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ç”Ÿæˆã«å¤±æ•—ã—ãŸå ´åˆã«ã¯ã€RuleCreateExceptionã‚’ã‚¹ãƒ­ãƒ¼ã™ã‚‹ã€‚
+     * @param ruleDef ãƒ«ãƒ¼ãƒ«å®šç¾©
+     * @return ãƒ«ãƒ¼ãƒ«ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+     * @throws RuleCreateException ãƒ«ãƒ¼ãƒ«ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ä½œæˆã‹ã€å€¤ã®è¨­å®šã«å¤±æ•—ã—ãŸå ´åˆã«ç™ºç”Ÿã™ã‚‹ã€‚
      */
     public static PerformanceRule createRuleInstance(final RuleDef ruleDef)
         throws RuleCreateException
@@ -80,10 +80,10 @@ public class RuleInstanceUtil
     }
 
     /**
-     * ƒ‹[ƒ‹‚Ìƒtƒ@ƒT[ƒh‚ğì¬‚·‚éB<br>
-     * @param ruleDef ƒ‹[ƒ‹’è‹`
-     * @return ƒ‹[ƒ‹‚Ìƒtƒ@ƒT[ƒh
-     * @throws RuleCreateException ƒ‹[ƒ‹‚ÌƒCƒ“ƒXƒ^ƒ“ƒXì¬‚©A’l‚Ìİ’è‚É¸”s‚µ‚½ê‡‚É”­¶‚·‚éB
+     * ãƒ«ãƒ¼ãƒ«ã®ãƒ•ã‚¡ã‚µãƒ¼ãƒ‰ã‚’ä½œæˆã™ã‚‹ã€‚<br>
+     * @param ruleDef ãƒ«ãƒ¼ãƒ«å®šç¾©
+     * @return ãƒ«ãƒ¼ãƒ«ã®ãƒ•ã‚¡ã‚µãƒ¼ãƒ‰
+     * @throws RuleCreateException ãƒ«ãƒ¼ãƒ«ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ä½œæˆã‹ã€å€¤ã®è¨­å®šã«å¤±æ•—ã—ãŸå ´åˆã«ç™ºç”Ÿã™ã‚‹ã€‚
      */
     protected static PerformanceRule createRuleFacade(final RuleDef ruleDef)
         throws RuleCreateException
@@ -136,12 +136,12 @@ public class RuleInstanceUtil
     }
 
     /**
-     * ˆø”‚Ì’l‚ªutruev‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB<br>
-     * org.apache.commons.beanUtils.ConvertUtils‚ÌƒfƒtƒHƒ‹ƒg•ÏŠ·ƒ‹[ƒ‹‚É]‚Á‚ÄA<br>
-     * •¶š—ñ‚ğBoolean‚É•ÏŠ·‚µA‚»‚ÌŒ‹‰Ê‚ğ•Ô‚·B<br>
-     * ‚½‚¾‚µAƒfƒtƒHƒ‹ƒg’l‚ğtrue‚Æ‚µ‚Ä”»’f‚·‚é‚½‚ßAˆø”‚Ì’l‚ª‹ó‚©null‚Ìê‡‚àtrue‚ğ•Ô‚·B<br>
-     * @param value •¶š—ñ
-     * @return •¶š—ñ‚ªtrue‚©‚Ç‚¤‚©‚ğ•Ô‚·B
+     * å¼•æ•°ã®å€¤ãŒã€Œtrueã€ã‹ã©ã†ã‹ã‚’åˆ¤å®šã™ã‚‹ã€‚<br>
+     * org.apache.commons.beanUtils.ConvertUtilsã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå¤‰æ›ãƒ«ãƒ¼ãƒ«ã«å¾“ã£ã¦ã€<br>
+     * æ–‡å­—åˆ—ã‚’Booleanã«å¤‰æ›ã—ã€ãã®çµæœã‚’è¿”ã™ã€‚<br>
+     * ãŸã ã—ã€ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’trueã¨ã—ã¦åˆ¤æ–­ã™ã‚‹ãŸã‚ã€å¼•æ•°ã®å€¤ãŒç©ºã‹nullã®å ´åˆã‚‚trueã‚’è¿”ã™ã€‚<br>
+     * @param value æ–‡å­—åˆ—
+     * @return æ–‡å­—åˆ—ãŒtrueã‹ã©ã†ã‹ã‚’è¿”ã™ã€‚
      */
     protected static boolean checkEnabled(final String value)
     {
@@ -155,12 +155,12 @@ public class RuleInstanceUtil
     }
 
     /**
-     * ƒ‹[ƒ‹ƒNƒ‰ƒX‚Ì–¼‘O‚©‚çƒ‹[ƒ‹‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬‚·‚éB
-     * ƒNƒ‰ƒX‚ªŒ©‚Â‚©‚ç‚È‚¢Aˆø”‚ª•\‚·ƒNƒ‰ƒX‚ªƒ‹[ƒ‹ƒNƒ‰ƒX‚Å‚È‚¢‚È‚Ç‚Ì——R‚Å
-     * —áŠO‚ª”­¶‚µ‚½ê‡‚É‚ÍARuleCreateException‚ğƒXƒ[‚·‚éB
-     * @param className ƒNƒ‰ƒX–¼
-     * @return ƒ‹[ƒ‹‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
-     * @throws RuleCreateException ƒCƒ“ƒXƒ^ƒ“ƒX‚Ì¶¬‚É¸”s‚µ‚½ê‡‚É”­¶‚·‚éB
+     * ãƒ«ãƒ¼ãƒ«ã‚¯ãƒ©ã‚¹ã®åå‰ã‹ã‚‰ãƒ«ãƒ¼ãƒ«ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆã™ã‚‹ã€‚
+     * ã‚¯ãƒ©ã‚¹ãŒè¦‹ã¤ã‹ã‚‰ãªã„ã€å¼•æ•°ãŒè¡¨ã™ã‚¯ãƒ©ã‚¹ãŒãƒ«ãƒ¼ãƒ«ã‚¯ãƒ©ã‚¹ã§ãªã„ãªã©ã®ç†ç”±ã§
+     * ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆã«ã¯ã€RuleCreateExceptionã‚’ã‚¹ãƒ­ãƒ¼ã™ã‚‹ã€‚
+     * @param className ã‚¯ãƒ©ã‚¹å
+     * @return ãƒ«ãƒ¼ãƒ«ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+     * @throws RuleCreateException ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®ç”Ÿæˆã«å¤±æ•—ã—ãŸå ´åˆã«ç™ºç”Ÿã™ã‚‹ã€‚
      */
     protected static PerformanceRule createNewInstance(final String className)
         throws RuleCreateException
@@ -169,7 +169,7 @@ public class RuleInstanceUtil
         try
         {
             Class<?> clazz = Class.forName(className);
-            // PerformanceRule‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Å‚È‚¯‚ê‚ÎAClassCastException‚Æ“¯—l‚Ìˆ—‚ğs‚¤B
+            // PerformanceRuleã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã§ãªã‘ã‚Œã°ã€ClassCastExceptionã¨åŒæ§˜ã®å‡¦ç†ã‚’è¡Œã†ã€‚
             if (PerformanceRule.class.isAssignableFrom(clazz) == false)
             {
                 throw new RuleCreateException(PerfConstants.CLASS_TYPE_ERROR,
@@ -198,11 +198,11 @@ public class RuleInstanceUtil
     }
 
     /**
-     * ’l‚Ìİ’è‚ğs‚¤B
-     * @param obj İ’è‘ÎÛ‚ÌƒIƒuƒWƒFƒNƒg
-     * @param fieldName ƒtƒB[ƒ‹ƒh–¼
-     * @param value ’l
-     * @throws RuleCreateException ’l‚Ìİ’è‚É¸”s‚µ‚½ê‡‚É”­¶‚·‚éB
+     * å€¤ã®è¨­å®šã‚’è¡Œã†ã€‚
+     * @param obj è¨­å®šå¯¾è±¡ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param fieldName ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰å
+     * @param value å€¤
+     * @throws RuleCreateException å€¤ã®è¨­å®šã«å¤±æ•—ã—ãŸå ´åˆã«ç™ºç”Ÿã™ã‚‹ã€‚
      */
     protected static void setValue(final Object obj, final String fieldName, final String value)
         throws RuleCreateException
@@ -236,9 +236,9 @@ public class RuleInstanceUtil
     }
 
     /**
-     * ƒŒƒxƒ‹‚ª‘I‘ğˆ(ERRORAWARNAINFO)‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©Šm”F‚·‚éB
-     * @param level ƒŒƒxƒ‹
-     * @return ‘I‘ğˆ‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚ê‚ÎtrueA‚»‚¤‚Å‚È‚¢ê‡‚Ífalse‚ğ•Ô‚·B
+     * ãƒ¬ãƒ™ãƒ«ãŒé¸æŠè‚¢(ERRORã€WARNã€INFO)ã«å«ã¾ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹ç¢ºèªã™ã‚‹ã€‚
+     * @param level ãƒ¬ãƒ™ãƒ«
+     * @return é¸æŠè‚¢ã«å«ã¾ã‚Œã¦ã„ã‚Œã°trueã€ãã†ã§ãªã„å ´åˆã¯falseã‚’è¿”ã™ã€‚
      */
     protected static boolean isValidLevel(final String level)
     {

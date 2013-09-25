@@ -32,21 +32,21 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Zip;
 
 /**
- * BottleneckEye‚ğ‹N“®‚¹‚¸‚ÉAƒŒƒ|[ƒgì¬‚ğs‚¤‚½‚ß‚ÌƒNƒ‰ƒX‚Å‚·B<br>
+ * BottleneckEyeã‚’èµ·å‹•ã›ãšã«ã€ãƒ¬ãƒãƒ¼ãƒˆä½œæˆã‚’è¡Œã†ãŸã‚ã®ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br>
  * 
  * @author iida
  */
 public class Reporter
 {
 
-    /** ŠJn^I—¹‚ğw’è‚·‚é•¶š—ñŒ`®B */
+    /** é–‹å§‹ï¼çµ‚äº†æ™‚åˆ»ã‚’æŒ‡å®šã™ã‚‹æ–‡å­—åˆ—å½¢å¼ã€‚ */
     public static final String           TIME_FORMAT = "yyyyMMdd_HHmmss";
 
-    /** ƒƒK[ */
+    /** ãƒ­ã‚¬ãƒ¼ */
     private static final ENdoSnipeLogger LOGGER      = ENdoSnipeLogger.getLogger(ReportPublishDispatcher.class);
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
      */
     public Reporter()
     {
@@ -54,30 +54,30 @@ public class Reporter
     }
 
     /**
-     * ƒŒƒ|[ƒgì¬‚ğs‚¢‚Ü‚·B<br/>
+     * ãƒ¬ãƒãƒ¼ãƒˆä½œæˆã‚’è¡Œã„ã¾ã™ã€‚<br/>
      * 
      * @param config
-     *            DataCollector‚Ìİ’è/’è”‚ğ•Û‚·‚éƒIƒuƒWƒFƒNƒg
+     *            DataCollectorã®è¨­å®š/å®šæ•°ã‚’ä¿æŒã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      * @param fmTime
-     *            ŠJn
+     *            é–‹å§‹æ™‚åˆ»
      * @param toTime
-     *            I—¹
+     *            çµ‚äº†æ™‚åˆ»
      * @param reportPath
-     *            o—ÍæƒfƒBƒŒƒNƒgƒŠ
+     *            å‡ºåŠ›å…ˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
      * @param targetItemName
-     *            ƒŒƒ|[ƒgo—Í‘ÎÛ‚Ìe‚Ì€–Ú–¼
+     *            ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›å¯¾è±¡ã®è¦ªã®é …ç›®å
      * @param reportName
-     *            ƒŒƒ|[ƒg–¼
+     *            ãƒ¬ãƒãƒ¼ãƒˆå
      */
     public void createReport(DataCollectorConfig config, Calendar fmTime,
             Calendar toTime, String reportPath, String targetItemName,
             String reportName)
     {
 
-        // ŠJn‚ªI—¹‚æ‚è–¢—ˆ‚ğw‚µ‚Ä‚¢‚½ê‡‚ÍƒGƒ‰[
+        // é–‹å§‹æ™‚åˆ»ãŒçµ‚äº†æ™‚åˆ»ã‚ˆã‚Šæœªæ¥ã‚’æŒ‡ã—ã¦ã„ãŸå ´åˆã¯ã‚¨ãƒ©ãƒ¼
         if (fmTime.compareTo(toTime) > 0)
         {
-            System.err.println("ŠJn‚ªI—¹‚æ‚è–¢—ˆ‚ğw‚µ‚Ä‚¢‚Ü‚·B");
+            System.err.println("é–‹å§‹æ™‚åˆ»ãŒçµ‚äº†æ™‚åˆ»ã‚ˆã‚Šæœªæ¥ã‚’æŒ‡ã—ã¦ã„ã¾ã™ã€‚");
             return;
         }
 
@@ -86,25 +86,25 @@ public class Reporter
             return;
         }
 
-        // DB‚Ì”İ’è‚ğæ“¾
+        // DBã®è«¸è¨­å®šã‚’å–å¾—
         String dbName = config.getDatabaseName();
         String dbHost = config.getDatabaseHost();
         String dbPort = config.getDatabasePort();
         String dbUser = config.getDatabaseUserName();
         String dbPass = config.getDatabasePassword();
 
-        // ƒŒƒ|[ƒgì¬‚Ég—p‚·‚éDB‚ğw’è‚·‚é
+        // ãƒ¬ãƒãƒ¼ãƒˆä½œæˆã«ä½¿ç”¨ã™ã‚‹DBã‚’æŒ‡å®šã™ã‚‹
         DBManager.updateSettings(false, "", dbHost, dbPort, dbName, dbUser,
                 dbPass);
 
-        // ƒŒƒ|[ƒgì¬‚ÌŠeİ’è‚ğs‚¤
+        // ãƒ¬ãƒãƒ¼ãƒˆä½œæˆæ™‚ã®å„è¨­å®šã‚’è¡Œã†
         ReportType[] outputReportTypes = new ReportType[]
         { ReportType.OBJECT, ReportType.PERF_DOCTOR };
 
         Runnable callback = null;
 
-        // ƒŒƒ|[ƒgo—ÍƒfƒBƒŒƒNƒgƒŠ‚ğŒˆ’è‚µA‘¶İ‚µ‚È‚¯‚ê‚Îì¬‚·‚é
-        // ƒŒƒ|[ƒgo—ÍæƒfƒBƒŒƒNƒgƒŠF
+        // ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’æ±ºå®šã—ã€å­˜åœ¨ã—ãªã‘ã‚Œã°ä½œæˆã™ã‚‹
+        // ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›å…ˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªï¼š
         // <current-dir>/reports/<db-name>/<from>-<to>/
         SimpleDateFormat format = new SimpleDateFormat(TIME_FORMAT);
         String start = format.format(fmTime.getTime());
@@ -120,11 +120,11 @@ public class Reporter
             outputDir.mkdirs();
         }
 
-        // TODO i‚è‚İ‚Ìƒ‹[ƒ‹‚ğİ’è‚·‚é
+        // TODO çµã‚Šè¾¼ã¿ã®ãƒ«ãƒ¼ãƒ«ã‚’è¨­å®šã™ã‚‹
         boolean limitSameCause = false;
         boolean limitBySameRule = false;
 
-        // ƒŒƒ|[ƒgo—ÍŠúŠÔ‚ÌğŒ‚ğİ’è‚·‚é
+        // ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›æœŸé–“ã®æ¡ä»¶ã‚’è¨­å®šã™ã‚‹
         ReportSearchCondition searchCondition = new ReportSearchCondition();
         searchCondition.setDatabases(Arrays.asList(dbName));
         searchCondition.setStartDate(new Timestamp(fmTime.getTimeInMillis()));
@@ -133,24 +133,24 @@ public class Reporter
         searchCondition.setLimitSameCause(limitSameCause);
         searchCondition.setLimitBySameRule(limitBySameRule);
 
-        // â‘ÎƒpƒX‚ğæ“¾
+        // çµ¶å¯¾ãƒ‘ã‚¹ã‚’å–å¾—
         File currentDirectory = new File(".");
 
         String outputDirFullPath = currentDirectory.getAbsolutePath()
                 + File.separator + reportPath + File.separator + dbName
                 + File.separator;
 
-        // ƒŒƒ|[ƒgî•ñ‚ğƒƒO‚Éo—Í‚·‚é
+        // ãƒ¬ãƒãƒ¼ãƒˆæƒ…å ±ã‚’ãƒ­ã‚°ã«å‡ºåŠ›ã™ã‚‹
         LOGGER.log(LogIdConstants.OUTPUT_REPORT_INFO, outputDirFullPath,
                 leafDirectoryName, targetItemName);
 
-        // ReportPublishTask‚ğÀs‚µAƒŒƒ|[ƒgì¬‚ğs‚¤
+        // ReportPublishTaskã‚’å®Ÿè¡Œã—ã€ãƒ¬ãƒãƒ¼ãƒˆä½œæˆã‚’è¡Œã†
         try
         {
             ReportPublishTask reportTask = new ReportPublishTask(
                     searchCondition, outputReportTypes, callback);
 
-            // ƒŒƒ|[ƒg‚ğo—Í‚·‚é
+            // ãƒ¬ãƒãƒ¼ãƒˆã‚’å‡ºåŠ›ã™ã‚‹
             reportTask.createReport(targetItemName);
         }
         catch (Exception e)
@@ -160,7 +160,7 @@ public class Reporter
             return;
         }
 
-        // zipˆ³k‚·‚é
+        // zipåœ§ç¸®ã™ã‚‹
         Project project = new Project();
         project.init();
 
@@ -175,7 +175,7 @@ public class Reporter
             zipper.setBasedir(baseDir);
             zipper.execute();
 
-            // zip‰»‚É¬Œ÷‚µ‚½‚çŒ³‚ÌƒfƒBƒŒƒNƒgƒŠ‚Ííœ‚·‚é
+            // zipåŒ–ã«æˆåŠŸã—ãŸã‚‰å…ƒã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã¯å‰Šé™¤ã™ã‚‹
             boolean deleted = deleteDir(baseDir);
             if (deleted == false)
             {
@@ -191,11 +191,11 @@ public class Reporter
     }
 
     /**
-     * w’è‚µ‚½ƒfƒBƒŒƒNƒgƒŠ‚²‚Æíœ‚·‚éB
+     * æŒ‡å®šã—ãŸãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã”ã¨å‰Šé™¤ã™ã‚‹ã€‚
      * 
      * @param dir
-     *            íœ‚·‚éƒfƒBƒŒƒNƒgƒŠB
-     * @return ƒfƒBƒŒƒNƒgƒŠ‚Ìíœ‚É¸”s‚µ‚½ê‡B
+     *            å‰Šé™¤ã™ã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã€‚
+     * @return ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®å‰Šé™¤ã«å¤±æ•—ã—ãŸå ´åˆã€‚
      */
     private static boolean deleteDir(File dir)
     {
@@ -205,7 +205,7 @@ public class Reporter
         {
             if (child.isDirectory() == true)
             {
-                // ƒfƒBƒŒƒNƒgƒŠ‚ÍÄ‹A‚µ‚Äíœ‚ğs‚¤
+                // ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã¯å†å¸°ã—ã¦å‰Šé™¤ã‚’è¡Œã†
                 result = deleteDir(child);
                 if (result == false)
                 {
@@ -214,7 +214,7 @@ public class Reporter
             }
             else
             {
-                // ƒtƒ@ƒCƒ‹‚Í’P‚Éíœ‚ğs‚¤
+                // ãƒ•ã‚¡ã‚¤ãƒ«ã¯å˜ã«å‰Šé™¤ã‚’è¡Œã†
                 result = child.delete();
                 if (result == false)
                 {
@@ -223,7 +223,7 @@ public class Reporter
             }
         }
 
-        // ‘S‚Ä‚Ìíœ‚É¬Œ÷‚µ‚Ä‚¢‚ê‚Î’†g‚Í‹ó‚È‚Ì‚ÅA©•ª‚ÌƒfƒBƒŒƒNƒgƒŠ‚ğíœ‚·‚é
+        // å…¨ã¦ã®å‰Šé™¤ã«æˆåŠŸã—ã¦ã„ã‚Œã°ä¸­èº«ã¯ç©ºãªã®ã§ã€è‡ªåˆ†ã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’å‰Šé™¤ã™ã‚‹
         if (result == true)
         {
             result = dir.delete();

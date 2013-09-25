@@ -35,7 +35,7 @@ import jp.co.acroquest.endosnipe.javelin.bean.proc.StatInfo;
 import jp.co.acroquest.endosnipe.javelin.resource.ProcessorCountGetter;
 
 /**
- * Solaris‚Ì/proc‚ğ“Ç‚İ‚ŞProcParserB
+ * Solarisã®/procã‚’èª­ã¿è¾¼ã‚€ProcParserã€‚
  * 
  * @author eriguchi
  * @author iida
@@ -43,40 +43,40 @@ import jp.co.acroquest.endosnipe.javelin.resource.ProcessorCountGetter;
  */
 public class SolarisProcParser implements ProcParser
 {
-    /** /proc/self/fd‚ÌƒpƒXB */
+    /** /proc/self/fdã®ãƒ‘ã‚¹ã€‚ */
     private static final String PROC_SELF_FD_PATH = "/proc/self/fd";
 
-	/** æ“¾‚µ‚½ƒŠƒ\[ƒX’l */
+	/** å–å¾—ã—ãŸãƒªã‚½ãƒ¼ã‚¹å€¤ */
     private ProcInfo procInfo_;
 
-    /** ƒŠƒ\[ƒX’l‚Ìæ“¾ */
+    /** ãƒªã‚½ãƒ¼ã‚¹å€¤ã®å–å¾— */
     private SolarisResourceReader resourceReader_ = null;
 
-    /** CPUƒRƒA” */
+    /** CPUã‚³ã‚¢æ•° */
     private int processors_ = new ProcessorCountGetter().getValue().intValue();
 
     /**
-     * ‰Šú‰»‚ğs‚¤B
+     * åˆæœŸåŒ–ã‚’è¡Œã†ã€‚
      * 
-     * @return ¬Œ÷‚µ‚½ê‡‚É‚Ì‚İtrue
+     * @return æˆåŠŸã—ãŸå ´åˆã«ã®ã¿true
      */
     public boolean init()
     {
-        // €”õ
+        // æº–å‚™
         this.resourceReader_ = new SolarisResourceReader();
         return this.resourceReader_.init();
     }
     
     
     /**
-     * /proc/meminfoA/proc/statA/proc/self/stat‚©‚ç“Ç‚İ‚İA
-     * ProcInfo‚ÉŠi”[‚·‚éB
+     * /proc/meminfoã€/proc/statã€/proc/self/statã‹ã‚‰èª­ã¿è¾¼ã¿ã€
+     * ProcInfoã«æ ¼ç´ã™ã‚‹ã€‚
      */
     public void load()
     {
         if (this.resourceReader_ == null)
         {
-            // €”õ
+            // æº–å‚™
             this.resourceReader_ = new SolarisResourceReader();
             this.resourceReader_.init();
         }
@@ -99,7 +99,7 @@ public class SolarisProcParser implements ProcParser
     }
 
     /**
-     * /proc/self/stat‚ÌˆÈ‰º‚Ìî•ñ‚ğSelfStatInfo‚ÉƒZƒbƒg‚µA•Ô‚·B<br>
+     * /proc/self/statã®ä»¥ä¸‹ã®æƒ…å ±ã‚’SelfStatInfoã«ã‚»ãƒƒãƒˆã—ã€è¿”ã™ã€‚<br>
      * <ul>
      *   <li>utime</li>
      *   <li>stime</li>
@@ -108,7 +108,7 @@ public class SolarisProcParser implements ProcParser
      *   <li>numThreads</li>
      *   <li>majflt</li>
      * </ul>
-     * @return SelfStatInfo /proc/self/stat‚Ìî•ñ
+     * @return SelfStatInfo /proc/self/statã®æƒ…å ±
      */
     private SelfStatInfo parseSelfStatInfo()
     {
@@ -133,14 +133,14 @@ public class SolarisProcParser implements ProcParser
     }
 
     /**
-     * /proc/stat‚ÌˆÈ‰º‚Ìî•ñ‚ğStatInfo‚ÉƒZƒbƒg‚µA•Ô‚·B<br>
+     * /proc/statã®ä»¥ä¸‹ã®æƒ…å ±ã‚’StatInfoã«ã‚»ãƒƒãƒˆã—ã€è¿”ã™ã€‚<br>
      * <ul>
-     *   <li>cpu(nano•b)</li>
-     *   <li>cpu0,cpu1,cpu2,EEE(nano•b)</li>
+     *   <li>cpu(nanoç§’)</li>
+     *   <li>cpu0,cpu1,cpu2,ãƒ»ãƒ»ãƒ»(nanoç§’)</li>
      *   <li>pgpgin(byte)</li>
      *   <li>pgpgout(byte)</li>
      * </ul>
-     * @return SelfStatInfo /proc/stat,/proc/vmstat‚Ìî•ñ
+     * @return SelfStatInfo /proc/stat,/proc/vmstatã®æƒ…å ±
      */
     private StatInfo parseStatInfo()
     {
@@ -157,17 +157,17 @@ public class SolarisProcParser implements ProcParser
     }
 
     /**
-     * /proc/meminfo‚ÌˆÈ‰º‚Ìî•ñ‚ğMemInfo‚ÉƒZƒbƒg‚µA•Ô‚·B<br>
+     * /proc/meminfoã®ä»¥ä¸‹ã®æƒ…å ±ã‚’MemInfoã«ã‚»ãƒƒãƒˆã—ã€è¿”ã™ã€‚<br>
      * <ul>
-     *   <li>ƒVƒXƒeƒ€‘S‘Ì‚Ìƒƒ‚ƒŠÅ‘å’lF MemTotal‚Ì’l(byte)</li>
-     *   <li>ƒVƒXƒeƒ€‘S‘Ì‚Ì‹ó‚«ƒƒ‚ƒŠF MemFree‚Ì’l(byte)</li>
-     *   <li>ƒVƒXƒeƒ€‘S‘Ì‚Ìƒoƒbƒtƒ@F Buffers‚Ì’l(byte)</li>
-     *   <li>ƒVƒXƒeƒ€‘S‘Ì‚ÌƒLƒƒƒbƒVƒ…F Cached‚Ì’l(byte)</li>
-     *   <li>ƒVƒXƒeƒ€‘S‘Ì‚ÌƒXƒƒbƒvÅ‘å—ÊF SwapTotal‚Ì’l(byte)</li>
-     *   <li>ƒVƒXƒeƒ€‘S‘Ì‚ÌƒXƒƒbƒv‹ó‚«—e—ÊF SwapFree‚Ì’l(byte)</li>
-     *   <li>ƒVƒXƒeƒ€‘S‘Ì‚Ì‰¼‘zƒƒ‚ƒŠg—p—ÊF VmallocTotal‚Ì’l(byte)</li>
+     *   <li>ã‚·ã‚¹ãƒ†ãƒ å…¨ä½“ã®ãƒ¡ãƒ¢ãƒªæœ€å¤§å€¤ï¼š MemTotalã®å€¤(byte)</li>
+     *   <li>ã‚·ã‚¹ãƒ†ãƒ å…¨ä½“ã®ç©ºããƒ¡ãƒ¢ãƒªï¼š MemFreeã®å€¤(byte)</li>
+     *   <li>ã‚·ã‚¹ãƒ†ãƒ å…¨ä½“ã®ãƒãƒƒãƒ•ã‚¡ï¼š Buffersã®å€¤(byte)</li>
+     *   <li>ã‚·ã‚¹ãƒ†ãƒ å…¨ä½“ã®ã‚­ãƒ£ãƒƒã‚·ãƒ¥ï¼š Cachedã®å€¤(byte)</li>
+     *   <li>ã‚·ã‚¹ãƒ†ãƒ å…¨ä½“ã®ã‚¹ãƒ¯ãƒƒãƒ—æœ€å¤§é‡ï¼š SwapTotalã®å€¤(byte)</li>
+     *   <li>ã‚·ã‚¹ãƒ†ãƒ å…¨ä½“ã®ã‚¹ãƒ¯ãƒƒãƒ—ç©ºãå®¹é‡ï¼š SwapFreeã®å€¤(byte)</li>
+     *   <li>ã‚·ã‚¹ãƒ†ãƒ å…¨ä½“ã®ä»®æƒ³ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡ï¼š VmallocTotalã®å€¤(byte)</li>
      * </ul>
-     * @return MemInfo /proc/meminfo‚Ìî•ñ
+     * @return MemInfo /proc/meminfoã®æƒ…å ±
      */
     private MemInfo parseMemInfo()
     {
@@ -185,7 +185,7 @@ public class SolarisProcParser implements ProcParser
     }
 
     /**
-     * ƒŠƒ\[ƒXg—pó‹µ‚Ìƒf[ƒ^ procInfo ‚ğ•Ô‚·B
+     * ãƒªã‚½ãƒ¼ã‚¹ä½¿ç”¨çŠ¶æ³ã®ãƒ‡ãƒ¼ã‚¿ procInfo ã‚’è¿”ã™ã€‚
      *
      * @return procInfo
      */

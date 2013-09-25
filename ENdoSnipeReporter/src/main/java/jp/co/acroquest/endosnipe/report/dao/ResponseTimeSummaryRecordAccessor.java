@@ -24,20 +24,20 @@ import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.report.dao.ReportDao;
 
 /**
- * ƒŒƒXƒ|ƒ“ƒXƒ^ƒCƒ€‚ÌŒv‘ª“_‚Å‚ÌƒTƒ}ƒŠ‚ğæ“¾‚·‚éƒf[ƒ^ƒAƒNƒZƒT
+ * ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚¿ã‚¤ãƒ ã®è¨ˆæ¸¬æ™‚åˆ»æ™‚ç‚¹ã§ã®ã‚µãƒãƒªã‚’å–å¾—ã™ã‚‹ãƒ‡ãƒ¼ã‚¿ã‚¢ã‚¯ã‚»ã‚µ
  * 
  * @author M.Yoshida
  */
 public class ResponseTimeSummaryRecordAccessor
 {    
     /**
-     * ŠúŠÔ‚ğw’è‚µA‚»‚ÌŠúŠÔ“à‚Å‚ÌƒŒƒXƒ|ƒ“ƒXƒ^ƒCƒ€ƒŒƒ|[ƒg‚Ìƒf[ƒ^‚ğæ“¾‚·‚éB
+     * æœŸé–“ã‚’æŒ‡å®šã—ã€ãã®æœŸé–“å†…ã§ã®ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚¿ã‚¤ãƒ ãƒ¬ãƒãƒ¼ãƒˆã®ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã€‚
      * 
-     * @param database  ƒf[ƒ^ƒx[ƒX–¼
-     * @param startTime ŒŸõğŒ(ŠJn)
-     * @param endTime   ŒŸõğŒ(I—¹)
-     * @return ƒŒƒXƒ|ƒ“ƒXƒ^ƒCƒ€ƒŒƒ|[ƒg‚Ìƒf[ƒ^
-     * @throws SQLException ƒf[ƒ^æ“¾‚ÉƒGƒ‰[‚ª”­¶‚µ‚½ê‡
+     * @param database  ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param startTime æ¤œç´¢æ¡ä»¶(é–‹å§‹æ™‚åˆ»)
+     * @param endTime   æ¤œç´¢æ¡ä»¶(çµ‚äº†æ™‚åˆ»)
+     * @return ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚¿ã‚¤ãƒ ãƒ¬ãƒãƒ¼ãƒˆã®ãƒ‡ãƒ¼ã‚¿
+     * @throws SQLException ãƒ‡ãƒ¼ã‚¿å–å¾—æ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
      */
     public List<ResponseTimeSummaryRecord> findResponseStatisticsByTerm(String database,
             Timestamp startTime, Timestamp endTime) throws SQLException
@@ -132,15 +132,15 @@ public class ResponseTimeSummaryRecordAccessor
     }
 
     /**
-     * Œv‘ª’l‚Ì¶ƒf[ƒ^‚©‚çAƒTƒ}ƒŠƒf[ƒ^‚ğ¶¬‚·‚éB
+     * è¨ˆæ¸¬å€¤ã®ç”Ÿãƒ‡ãƒ¼ã‚¿ã‹ã‚‰ã€ã‚µãƒãƒªãƒ‡ãƒ¼ã‚¿ã‚’ç”Ÿæˆã™ã‚‹ã€‚
      *
-     * @param minValue Å¬’lƒf[ƒ^
-     * @param maxValue Å‘å’lƒf[ƒ^
-     * @param cntValue ƒAƒNƒZƒX‰ñ”ƒf[ƒ^
-     * @param aveValue •½‹Ï’lƒf[ƒ^
-     * @param exceptionValue —áŠOƒf[ƒ^ 
-     * @param stallValue ƒXƒg[ƒ‹ƒf[ƒ^
-     * @return ƒTƒ}ƒŠƒf[ƒ^
+     * @param minValue æœ€å°å€¤ãƒ‡ãƒ¼ã‚¿
+     * @param maxValue æœ€å¤§å€¤ãƒ‡ãƒ¼ã‚¿
+     * @param cntValue ã‚¢ã‚¯ã‚»ã‚¹å›æ•°ãƒ‡ãƒ¼ã‚¿
+     * @param aveValue å¹³å‡å€¤ãƒ‡ãƒ¼ã‚¿
+     * @param exceptionValue ä¾‹å¤–ãƒ‡ãƒ¼ã‚¿ 
+     * @param stallValue ã‚¹ãƒˆãƒ¼ãƒ«ãƒ‡ãƒ¼ã‚¿
+     * @return ã‚µãƒãƒªãƒ‡ãƒ¼ã‚¿
      */
     private ResponseTimeSummaryRecord updateResponseTimeSummaryRecord(
 			ResponseTimeSummaryRecord record,

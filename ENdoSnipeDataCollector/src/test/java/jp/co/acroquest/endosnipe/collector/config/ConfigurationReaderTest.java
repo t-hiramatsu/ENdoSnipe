@@ -33,14 +33,14 @@ import jp.co.acroquest.endosnipe.common.util.ResourceUtil;
 import junit.framework.TestCase;
 
 /**
- * {@link ConfigurationReader} ‚Ì‚½‚ß‚ÌƒeƒXƒgƒNƒ‰ƒX‚Å‚·B<br />
+ * {@link ConfigurationReader} ã®ãŸã‚ã®ãƒ†ã‚¹ãƒˆã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
  * 
  * @author y-komori
  */
 public class ConfigurationReaderTest extends TestCase
 {
     /**
-     * {@link ConfigurationReader#load(String)} ƒƒ\ƒbƒh‚ÌƒeƒXƒgƒNƒ‰ƒX‚Å‚·B<br />
+     * {@link ConfigurationReader#load(String)} ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒ†ã‚¹ãƒˆã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
      */
     public void testLoad()
         throws InitializeException,
@@ -58,10 +58,10 @@ public class ConfigurationReaderTest extends TestCase
     }
 
     /**
-     * {@link ConfigurationReader#load(String)} ƒƒ\ƒbƒh‚ÌƒeƒXƒgƒNƒ‰ƒX‚Å‚·B<br />
-     * ƒ[ƒ‹’Ê’m‚Ìİ’è (SMTP settings) ‚É‚Â‚¢‚ÄA<br />
-     * collector.properties ‚ª–¢İ’è‚Ìê‡‚ÌƒfƒtƒHƒ‹ƒg’l‚ğŠm”F‚µ‚Ü‚·B<br />
-     * Šm”F‚·‚é‚Ì‚ÍˆÈ‰º‚Ìƒpƒ‰ƒ[ƒ^‚Å‚·B<br />
+     * {@link ConfigurationReader#load(String)} ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒ†ã‚¹ãƒˆã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+     * ãƒ¡ãƒ¼ãƒ«é€šçŸ¥ã®è¨­å®š (SMTP settings) ã«ã¤ã„ã¦ã€<br />
+     * collector.properties ãŒæœªè¨­å®šã®å ´åˆã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’ç¢ºèªã—ã¾ã™ã€‚<br />
+     * ç¢ºèªã™ã‚‹ã®ã¯ä»¥ä¸‹ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã§ã™ã€‚<br />
      * <ul>
      * <li>collector.smtp.sendMail</li>
      * <li>collector.smtp.server</li>
@@ -75,13 +75,13 @@ public class ConfigurationReaderTest extends TestCase
         throws InitializeException,
             IOException
     {
-        // €”õ
+        // æº–å‚™
         File file = ResourceUtil.getResourceAsFile(getClass(), "collector_NotDefined.properties");
 
-        // À{
+        // å®Ÿæ–½
         DataCollectorConfig config = ConfigurationReader.load(file.getAbsolutePath());
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(config.isSendMail(), false);
         assertEquals(config.getSmtpServer(), "mail.example.com");
         assertEquals(config.getSmtpEncoding(), "iso-2022-jp");
@@ -91,10 +91,10 @@ public class ConfigurationReaderTest extends TestCase
     }
 
     /**
-     * {@link ConfigurationReader#load(String)} ƒƒ\ƒbƒh‚ÌƒeƒXƒgƒNƒ‰ƒX‚Å‚·B<br />
-     * ƒ[ƒ‹’Ê’m‚Ìİ’è (SMTP settings) ‚É‚Â‚¢‚ÄA<br />
-     * collector.properties ‚É•s³’l‚ª‹Lq‚³‚ê‚Ä‚¢‚½ê‡‚Ì’l‚ğŠm”F‚µ‚Ü‚·B<br />
-     * Šm”F‚·‚é‚Ì‚ÍˆÈ‰º‚Ìƒpƒ‰ƒ[ƒ^‚Å‚·B<br />
+     * {@link ConfigurationReader#load(String)} ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒ†ã‚¹ãƒˆã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+     * ãƒ¡ãƒ¼ãƒ«é€šçŸ¥ã®è¨­å®š (SMTP settings) ã«ã¤ã„ã¦ã€<br />
+     * collector.properties ã«ä¸æ­£å€¤ãŒè¨˜è¿°ã•ã‚Œã¦ã„ãŸå ´åˆã®å€¤ã‚’ç¢ºèªã—ã¾ã™ã€‚<br />
+     * ç¢ºèªã™ã‚‹ã®ã¯ä»¥ä¸‹ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã§ã™ã€‚<br />
      * <ul>
      * <li>collector.smtp.sendMail</li>
      * </ul>
@@ -103,21 +103,21 @@ public class ConfigurationReaderTest extends TestCase
         throws InitializeException,
             IOException
     {
-        // €”õ
+        // æº–å‚™
         File file = ResourceUtil.getResourceAsFile(getClass(), "collector_WrongDefine.properties");
 
-        // À{
+        // å®Ÿæ–½
         DataCollectorConfig config = ConfigurationReader.load(file.getAbsolutePath());
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(config.isSendMail(), false);
     }
 
     /**
-     * {@link ConfigurationReader#load(String)} ƒƒ\ƒbƒh‚ÌƒeƒXƒgƒNƒ‰ƒX‚Å‚·B<br />
-     * ƒgƒ‰ƒbƒv‘—M‚Ìİ’è (SNMP settings) ‚É‚Â‚¢‚ÄA<br />
-     * collector.properties ‚ª–¢İ’è‚Ìê‡‚ÌƒfƒtƒHƒ‹ƒg’l‚ğŠm”F‚µ‚Ü‚·B<br />
-     * Šm”F‚·‚é‚Ì‚ÍˆÈ‰º‚Ìƒpƒ‰ƒ[ƒ^‚Å‚·B<br />
+     * {@link ConfigurationReader#load(String)} ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒ†ã‚¹ãƒˆã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+     * ãƒˆãƒ©ãƒƒãƒ—é€ä¿¡ã®è¨­å®š (SNMP settings) ã«ã¤ã„ã¦ã€<br />
+     * collector.properties ãŒæœªè¨­å®šã®å ´åˆã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’ç¢ºèªã—ã¾ã™ã€‚<br />
+     * ç¢ºèªã™ã‚‹ã®ã¯ä»¥ä¸‹ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã§ã™ã€‚<br />
      * <ul>
      * <li>collector.snmp.sendTrap</li>
      * <li>collector.snmp.managers</li>
@@ -130,13 +130,13 @@ public class ConfigurationReaderTest extends TestCase
         throws InitializeException,
             IOException
     {
-        // €”õ
+        // æº–å‚™
         File file = ResourceUtil.getResourceAsFile(getClass(), "collector_NotDefined.properties");
 
-        // À{
+        // å®Ÿæ–½
         DataCollectorConfig config = ConfigurationReader.load(file.getAbsolutePath());
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(config.isSendTrap(), false);
         assertEquals(config.getManagers(), "localhost");
         assertEquals(config.getTrapPort(), 162);
@@ -145,10 +145,10 @@ public class ConfigurationReaderTest extends TestCase
     }
 
     /**
-     * {@link ConfigurationReader#load(String)} ƒƒ\ƒbƒh‚ÌƒeƒXƒgƒNƒ‰ƒX‚Å‚·B<br />
-     * ƒgƒ‰ƒbƒv‘—M‚Ìİ’è (SNMP settings) ‚É‚Â‚¢‚ÄA<br />
-     * collector.properties ‚É•s³’l‚ª‹Lq‚³‚ê‚Ä‚¢‚½ê‡‚Ì’l‚ğŠm”F‚µ‚Ü‚·B<br />
-     * Šm”F‚·‚é‚Ì‚ÍˆÈ‰º‚Ìƒpƒ‰ƒ[ƒ^‚Å‚·B<br />
+     * {@link ConfigurationReader#load(String)} ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒ†ã‚¹ãƒˆã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+     * ãƒˆãƒ©ãƒƒãƒ—é€ä¿¡ã®è¨­å®š (SNMP settings) ã«ã¤ã„ã¦ã€<br />
+     * collector.properties ã«ä¸æ­£å€¤ãŒè¨˜è¿°ã•ã‚Œã¦ã„ãŸå ´åˆã®å€¤ã‚’ç¢ºèªã—ã¾ã™ã€‚<br />
+     * ç¢ºèªã™ã‚‹ã®ã¯ä»¥ä¸‹ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã§ã™ã€‚<br />
      * <ul>
      * <li>collector.snmp.sendTrap</li>
      * </ul>
@@ -157,13 +157,13 @@ public class ConfigurationReaderTest extends TestCase
         throws InitializeException,
             IOException
     {
-        // €”õ
+        // æº–å‚™
         File file = ResourceUtil.getResourceAsFile(getClass(), "collector_WrongDefine.properties");
 
-        // À{
+        // å®Ÿæ–½
         DataCollectorConfig config = ConfigurationReader.load(file.getAbsolutePath());
 
-        // ŒŸØ
+        // æ¤œè¨¼
         assertEquals(config.isSendTrap(), false);
     }
 }

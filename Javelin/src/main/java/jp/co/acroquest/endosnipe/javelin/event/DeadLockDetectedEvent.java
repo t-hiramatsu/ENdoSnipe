@@ -29,17 +29,17 @@ import jp.co.acroquest.endosnipe.common.event.EventConstants;
 import jp.co.acroquest.endosnipe.javelin.util.StatsUtil;
 
 /**
- * ƒfƒbƒhƒƒbƒNŒŸo—p‚ÌƒCƒxƒ“ƒg
+ * ãƒ‡ãƒƒãƒ‰ãƒ­ãƒƒã‚¯æ¤œå‡ºç”¨ã®ã‚¤ãƒ™ãƒ³ãƒˆ
  * 
  * @author S.Kimura
  */
 public class DeadLockDetectedEvent extends AbstractStackTraceCheckEvent
 {
-    /** equalsÀs‚É”äŠr‚É—p‚¢‚éB */
+    /** equalså®Ÿè¡Œæ™‚ã«æ¯”è¼ƒã«ç”¨ã„ã‚‹ã€‚ */
     private static final int EQUALS_LENGTH = 1000;
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
      */
     public DeadLockDetectedEvent()
     {
