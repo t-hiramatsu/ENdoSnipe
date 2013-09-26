@@ -8,6 +8,10 @@ ENS.reportView = wgp.AbstractView
 				var treeId = treeSettings.id;
 				appView.addView(this, treeId + ENS.URL.PERFDOCTOR_POSTFIX_ID);
 
+				this.tableMargin = 20;
+				this.tableWidth = parseInt($("#" + this.id).width()
+						- this.tableMargin * 4);
+
 				// 空のテーブルを作成
 				this.createTabelColModel();
 				this.render();
@@ -41,10 +45,10 @@ ENS.reportView = wgp.AbstractView
 							pgbuttons : true,
 							pginput : true,
 							height : height,
-							width : 875,
-							sortname : "reportName", 
+							width : this.tableWidth,
+							sortname : "reportName",
 							sortorder : "desc",
-							viewrecords : true, 
+							viewrecords : true,
 							rownumbers : true,
 							shrinkToFit : false,
 							cellEdit : true,
@@ -82,19 +86,19 @@ ENS.reportView = wgp.AbstractView
 					hidden : true
 				}, {
 					name : "reportName",
-					width : 180
+					width : parseInt(this.tableWidth * 0.2)
 				}, {
 					name : "targetMeasurementName",
-					width : 380
+					width : parseInt(this.tableWidth * 0.43)
 				}, {
 					name : "reportTermFrom",
-					width : 90
+					width : parseInt(this.tableWidth * 0.11)
 				}, {
 					name : "reportTermTo",
-					width : 90
+					width : parseInt(this.tableWidth * 0.11)
 				}, {
 					name : "download",
-					width : 80,
+					width : parseInt(this.tableWidth * 0.092),
 					formatter : ENS.Utility.makeAnchor,
 					editoptions : {
 						"onclick" : "ENS.report.download",
