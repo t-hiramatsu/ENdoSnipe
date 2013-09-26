@@ -3,6 +3,9 @@ ENS.perfDoctorView = wgp.AbstractView.extend({
 			"Method Name", "Detail", "Download", "Logfile", "detailResult" ],
 	initialize : function(argument, treeSettings) {
 
+		this.tableMargin = 20;
+		this.tableWidth = parseInt($("#" + this.id).width() - this.tableMargin
+				* 4);
 		this.tableColModel = this.createTableColModel();
 
 		var appView = new ENS.AppView();
@@ -59,7 +62,7 @@ ENS.perfDoctorView = wgp.AbstractView.extend({
 			pgbuttons : true,
 			pginput : true,
 			height : height,
-			width : 880,
+			width : this.tableWidth,
 			sortname : "date",
 			sortorder : "desc",
 			viewrecords : true,
@@ -107,23 +110,23 @@ ENS.perfDoctorView = wgp.AbstractView.extend({
 	createTableColModel : function() {
 		var tableColModel = [ {
 			name : "date",
-			width : 85
+			width : parseInt(this.tableWidth * 0.09)
 		}, {
 			name : "description",
-			width : 310
+			width : parseInt(this.tableWidth * 0.38)
 		}, {
 			name : "level",
-			width : 55
+			width : parseInt(this.tableWidth * 0.06)
 		}, {
 			name : "className",
-			width : 120
+			width : parseInt(this.tableWidth * 0.12)
 		}, {
 			name : "methodName",
-			width : 120
+			width : parseInt(this.tableWidth * 0.12)
 		}, {
 			name : "detailInfo",
 			// width : 140,
-			width : 50,
+			width : parseInt(this.tableWidth * 0.07),
 			formatter : ENS.Utility.makeAnchor,
 			editoptions : {
 				"onclick" : "ENS.perfDoctor.dialog",
@@ -131,7 +134,7 @@ ENS.perfDoctorView = wgp.AbstractView.extend({
 			}
 		}, {
 			name : "detail",
-			width : 80,
+			width : parseInt(this.tableWidth * 0.1),
 			formatter : ENS.Utility.makeAnchor,
 			editoptions : {
 				"onclick" : "ENS.perfDoctor.download",
@@ -168,7 +171,7 @@ ENS.perfDoctor.download = function(id) {
 
 ENS.perfDoctor.dialog = function(id) {
 	var rowData = $("#journalTable").getRowData(id);
-	
+
 	$("#perDocTime").empty();
 	$("#perDocTime").append(rowData.date);
 
