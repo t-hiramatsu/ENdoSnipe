@@ -667,6 +667,7 @@ function print_query_counts()
     printf("/mysql/sql/update,%d\n", update_count)
     printf("/mysql/sql/delete,%d\n", delete_count)
     printf("/mysql/sql/other,%d\n", other_count)
+    printf("/mysql/sql/sql_over_threshold_count,%d\n", sql_over_threshold_count)
 
     printf("/mysql/sql_time/command,%d\n", command_times)
     printf("/mysql/sql_time/connection,%d\n", connection_times)
@@ -732,6 +733,7 @@ function init_counter()
     update_count = 0
     delete_count = 0
     other_count = 0
+    sql_over_threshold_count = 0
     command_times = 0
     connection_times = 0
     delete_times = 0
@@ -775,5 +777,6 @@ probe timer.ms(15000)
     print_lockwait()
     print_query_counts()
     printf(".\n")
+    init_counter()
 }
 
