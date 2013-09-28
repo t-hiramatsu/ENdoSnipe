@@ -26,22 +26,36 @@ global lock_num
 
 global select_count, insert_count, update_count, delete_count, other_count
 global query_parse, query_plan, query_rewrite, query_execute
+global query_start, query_times, query_cnt
 global sql_exec_times
 global sql_exec_time_threshold
 global sql_over_threshold_count
 
 global transaction_commit_count
+global transaction_abort_count
 global transaction_start
 global transaction_time
 
 global buffer_cp, clog_cp, multixact_cp, subtrans_cp, twophase_cp
-global checkpoint_times
+global buffer_cp_sync_start
+global buffer_flush_cnt, buffer_flush_start, buffer_flush_times
+global buffer_read_cnt, buffer_read_start, buffer_read_times
+global buffer_sync_cnt, buffer_sync_start, buffer_sync_times
+global buffer_write_dirty_cnt, buffer_write_dirty_start, buffer_write_dirty_times
+global buffer_sync_written_cnt
+global checkpoint_times, checkpoint_start, checkpoint_count
+global deadlock_found_cnt
 
-global wal_write_start
-global wal_write_time
+global wal_write_count, wal_write_start, wal_write_time
 
-global lock_wait_start
-global lock_wait_time
+global lock_wait_start, lock_wait_times, lock_wait_count
+global lwlock_acquire_cnt, lwlock_condacquire_cnt, lwlock_condacquire_fail_cnt
+global lwlock_release_cnt, lwlock_wait_cnt, lwlock_wait_start, lwlock_wait_times
+global lwlock_wait_until_free_cnt, lwlock_wait_until_free_fail_cnt
+global smgr_md_read_count, smgr_md_read_start, smgr_md_read_times
+global smgr_md_write_count, smgr_md_write_start, smgr_md_write_times
+global sort_count, sort_start, sort_times
+global statement_status_count, xlog_insert_count, xlog_switch_count
 
 probe begin
 {
@@ -53,16 +67,340 @@ probe begin
     update_count = 0
     delete_count = 0
     other_count = 0
-    transaction_commit_count = 0
     sql_exec_time_threshold = 1	//SQL実行時間の閾値(この時間をオーバーしたクエリの実行回数が出力される)
     sql_over_threshold_count = 0
     init_sql_exec_times()
+    init_sql_exec_cnt()
     init_transaction_time()
     init_checkpoint_times()
+    init_checkpoint_count()
     init_wal_write_time()
     init_lock_wait_time()
+    buffer_cp_sync_start = 0
+    buffer_flush_cnt = 0
+    buffer_flush_times = 0
+    buffer_read_cnt = 0
+    buffer_read_times = 0
+    buffer_sync_cnt = 0
+    buffer_sync_times = 0
+    buffer_sync_written_cnt = 0
+    buffer_write_dirty_cnt = 0
+    buffer_write_dirty_times = 0
+    deadlock_found_cnt = 0
+    init_lwlock()
+    smgr_md_read_count = 0
+    smgr_md_read_times = 0
+    smgr_md_write_count = 0
+    smgr_md_write_times = 0
+    sort_count = 0
+    sort_times = 0
+    statement_status_count = 0
+    xlog_insert_count = 0
+    xlog_switch_count = 0
+
 }
 
+// 1
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("buffer__checkpoint__done")
+{
+    start_clock = buffer_cp[tid()]; delete buffer_cp[tid()]
+    if(start_clock){
+        checkpoint_times["buffer"] += local_clock() - start_clock
+    }
+}
+
+// 2
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("buffer__checkpoint__start")
+{
+    buffer_cp[tid()] = local_clock()
+    checkpoint_count["buffer"]++
+}
+
+// 3
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("buffer__checkpoint__sync__start")
+{
+    buffer_cp_sync_start++
+}
+
+// 4
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("buffer__flush__done")
+{
+    start_clock = buffer_flush_start[tid()]; delete buffer_flush_start[tid()]
+    if(start_clock){
+        buffer_flush_time = local_clock() - start_clock
+        buffer_flush_times += buffer_flush_time
+    }
+}
+
+// 5
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("buffer__flush__start")
+{
+    buffer_flush_start[tid()] = local_clock()
+    buffer_flush_cnt++
+}
+
+
+// 6
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("buffer__read__done")
+{
+    start_clock = buffer_read_start[tid()]; delete buffer_read_start[tid()]
+    if(start_clock){
+        buffer_read_time = local_clock() - start_clock
+        buffer_read_times += buffer_read_time
+    }
+}
+
+// 7
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("buffer__read__start")
+{
+    buffer_read_start[tid()] = local_clock()
+    buffer_read_cnt++
+}
+
+// 8
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("buffer__sync__done")
+{
+    start_clock = buffer_sync_start[tid()]; delete buffer_sync_start[tid()]
+    if(start_clock){
+        buffer_sync_time = local_clock() - start_clock
+        buffer_sync_times += buffer_sync_time
+    }
+}
+
+// 9
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("buffer__sync__start")
+{
+    buffer_sync_start[tid()] = local_clock()
+    buffer_sync_cnt++
+}
+
+// 10
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("buffer__sync__written")
+{
+    buffer_sync_written_cnt++
+}
+
+// 11
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("buffer__write__dirty__done")
+{
+    start_clock = buffer_write_dirty_start[tid()]; delete buffer_write_dirty_start[tid()]
+    if(start_clock){
+        buffer_write_dirty_time = local_clock() - start_clock
+        buffer_write_dirty_times += buffer_write_dirty_time
+    }
+}
+
+// 12
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("buffer__write__dirty__start")
+{
+    buffer_write_dirty_start[tid()] = local_clock()
+    buffer_write_dirty_cnt++
+}
+
+// 13
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("checkpoint__done")
+{
+    start_clock = checkpoint_start[tid()]; delete checkpoint_start[tid()]
+    if(start_clock){
+        checkpoint_times["checkpoint"] += (local_clock() - start_clock)
+    }
+}
+
+// 14
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("checkpoint__start")
+{
+    checkpoint_start[tid()] = local_clock()
+    checkpoint_count["checkpoint"]++
+}
+
+// 15
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("clog__checkpoint__done")
+{
+    start_clock = clog_cp[tid()]; delete clog_cp[tid()]
+    if(start_clock){
+        checkpoint_times["clog"] += (local_clock() - start_clock)
+    }
+}
+
+// 16
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("clog__checkpoint__start")
+{
+    clog_cp[tid()] = local_clock()
+    checkpoint_count["clog"]++
+}
+
+// 17
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("deadlock__found")
+{
+    deadlock_found_count++
+}
+
+// 18
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("lock__wait__done")
+{
+    start_clock = lock_wait_start[tid()]; delete lock_wait_start[tid()]
+    if(start_clock){
+        lock_wait_times += (local_clock() - start_clock)
+    }
+}
+
+// 19
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("lock__wait__start")
+{
+    lock_wait_start[tid()] = local_clock()
+    lock_wait_count++
+}
+
+// 20
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("lwlock__acquire")
+{
+    lwlock_acquire_cnt++
+}
+
+// 21
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("lwlock__condacquire")
+{
+    lwlock_condacquire_cnt++
+}
+
+// 22
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("lwlock__condacquire__fail")
+{
+    lwlock_condacquire_fail_cnt++
+}
+
+// 23
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("lwlock__release")
+{
+    lwlock_release_cnt++
+}
+
+// 24
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("lwlock__wait__done")
+{
+    start_clock = lwlock_wait_start[tid()]; delete lwlock_wait_start[tid()]
+    if(start_clock){
+        lwlock_wait_times += (local_clock() - start_clock)
+    }
+}
+
+// 25
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("lwlock__wait__start")
+{
+    lwlock_wait_start[tid()] = local_clock()
+    lwlock_wait_count++
+}
+
+// 26
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("lwlock__wait__until__free")
+{
+    lwlock_wait_until_free_cnt++
+}
+
+// 27
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("lwlock__wait__until__free__fail")
+{
+    lwlock_wait_until_free_fail_cnt++
+}
+
+// 28
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("multixact__checkpoint__done")
+{
+    start_clock = multixact_cp[tid()]; delete multixact_cp[tid()]
+    if(start_clock){
+        checkpoint_times["multixact"] += (local_clock() - start_clock)
+    }
+}
+
+// 29
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("multixact__checkpoint__start")
+{
+    multixact_cp[tid()] = local_clock()
+    checkpoint_count["multixact"]++
+}
+
+// 30
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("query__done")
+{
+    start_clock = query_start[tid()]; delete query_start[tid()]
+    if(start_clock){
+        query_times += (local_clock() - start_clock)
+    }
+}
+
+// 31
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("query__execute__done")
+{
+    start_clock = query_execute[tid()]; delete query_execute[tid()]
+    if(start_clock){
+        sql_exec_time = local_clock() - start_clock
+        sql_exec_times["execute"] += sql_exec_time
+        check_sql_exec_time(sql_exec_time)
+    }
+}
+
+// 32
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("query__execute__start")
+{
+    query_execute[tid()] = local_clock()
+    query_cnt["execute"]++
+}
+
+// 33
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("query__parse__done")
+{
+    start_clock = query_parse[tid()]; delete query_parse[tid()]
+    if(start_clock){
+        sql_exec_time = local_clock() - start_clock
+        sql_exec_times["parse"] += sql_exec_time
+        check_sql_exec_time(sql_exec_time)
+    }
+}
+
+// 34
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("query__parse__start")
+{
+    query_parse[tid()] = local_clock()
+    query_cnt["parse"]++
+}
+
+// 35
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("query__plan__done")
+{
+    start_clock = query_plan[tid()]; delete query_plan[tid()]
+    if(start_clock){
+        sql_exec_time = local_clock() - start_clock
+        sql_exec_times["plan"] += sql_exec_time
+        check_sql_exec_time(sql_exec_time)
+    }
+}
+
+// 36
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("query__plan__start")
+{
+    query_plan[tid()] = local_clock()
+    query_cnt["plan"]++
+}
+
+// 37
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("query__rewrite__done")
+{
+    start_clock = query_rewrite[tid()]; delete query_rewrite[tid()]
+    if(start_clock){
+        sql_exec_time = local_clock() - start_clock
+        sql_exec_times["rewrite"] += sql_exec_time
+        check_sql_exec_time(sql_exec_time)
+    }
+}
+
+// 38
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("query__rewrite__start")
+{
+    query_rewrite[tid()] = local_clock()
+    query_cnt["rewrite"]++
+}
+
+// 39
 probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("query__start")
 {
     query = user_string($arg1)
@@ -77,182 +415,156 @@ probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("query__start")
     }else{
         other_count++
     }
+    query_start[tid()] = local_clock()
 }
 
-probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("query__parse__start")
+// 40
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("smgr__md__read__done")
 {
-    query_parse[tid()] = local_clock() 
+    smgr_md_read_start[tid()] = local_clock()
+    smgr_md_read_count++
 }
 
-probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("query__parse__done")
+// 41
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("smgr__md__read__start")
 {
-    start_clock = query_parse[tid()]; delete query_parse[tid()]
+    start_clock = smgr_md_read_start[tid()]; delete smgr_md_read_start[tid()]
     if(start_clock){
-        sql_exec_time = local_clock() - start_clock
-        sql_exec_times["parse"] += sql_exec_time
-        check_sql_exec_time(sql_exec_time)
+        smgr_md_read_time = local_clock() - start_clock
+        smgr_md_read_times += smgr_md_read_time
     }
 }
 
-probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("query__plan__start")
+// 42
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("smgr__md__write__done")
 {
-    query_plan[tid()] = local_clock()
+    smgr_md_write_start[tid()] = local_clock()
+    smgr_md_write_count++
 }
 
-probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("query__plan__done")
+// 43
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("smgr__md__write__start")
 {
-    start_clock = query_plan[tid()]; delete query_plan[tid()]
+    start_clock = smgr_md_write_start[tid()]; delete smgr_md_write_start[tid()]
     if(start_clock){
-        sql_exec_time = local_clock() - start_clock
-        sql_exec_times["plan"] += sql_exec_time
-        check_sql_exec_time(sql_exec_time)
+        smgr_md_write_time = local_clock() - start_clock
+        smgr_md_write_times += smgr_md_write_time
     }
 }
 
-probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("query__rewrite__start")
+// 44
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("sort__done")
 {
-    query_rewrite[tid()] = local_clock()
+    sort_start[tid()] = local_clock()
+    sort_count++
 }
 
-probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("query__rewrite__done")
+// 45
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("sort__start")
 {
-    start_clock = query_rewrite[tid()]; delete query_rewrite[tid()]
+    start_clock = sort_start[tid()]; delete sort_start[tid()]
     if(start_clock){
-        sql_exec_time = local_clock() - start_clock
-        sql_exec_times["rewrite"] += sql_exec_time
-        check_sql_exec_time(sql_exec_time)
+        sort_time = local_clock() - start_clock
+        sort_times += sort_time
     }
 }
 
-probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("query__execute__start")
+// 46
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("statement__status")
 {
-    query_execute[tid()] = local_clock()
+    statement_status_count++
 }
 
-probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("query__execute__done")
+// 47
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("subtrans__checkpoint__done")
 {
-    start_clock = query_execute[tid()]; delete query_execute[tid()]
+    start_clock = subtrans_cp[tid()]; delete subtrans_cp[tid()]
     if(start_clock){
-        sql_exec_time = local_clock() - start_clock
-        sql_exec_times["execute"] += sql_exec_time
-        check_sql_exec_time(sql_exec_time)
+        checkpoint_times["subtrans"] += (local_clock() - start_clock)
     }
 }
 
-probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("transaction__start")
+// 48
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("subtrans__checkpoint__start")
 {
-    transaction_start[tid()] = local_clock()
+    subtrans_cp[tid()] = local_clock()
+    checkpoint_count["subtrans"]++
 }
 
+// 49
 probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("transaction__abort")
 {
+    transaction_abort_count++
+
     start_clock = transaction_start[tid()]; delete transaction_start[tid()]
     if(start_clock){
-        transaction_time += local_clock() - start_clock
+        transaction_time += (local_clock() - start_clock)
     }
 }
 
+// 50
 probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("transaction__commit")
 {
     transaction_commit_count++
 
     start_clock = transaction_start[tid()]; delete transaction_start[tid()]
     if(start_clock){
-        transaction_time += local_clock() - start_clock
+        transaction_time += (local_clock() - start_clock)
     }
 
 }
 
-probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("buffer__checkpoint__start")
+// 51
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("transaction__start")
 {
-    buffer_cp[tid()] = local_clock()
+    transaction_start[tid()] = local_clock()
 }
 
-probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("buffer__checkpoint__done")
-{
-    start_clock = buffer_cp[tid()]; delete buffer_cp[tid()]
-    if(start_clock){
-        checkpoint_times["buffer"] += local_clock() - start_clock
-    }
-}
-
-probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("clog__checkpoint__start")
-{
-    clog_cp[tid()] = local_clock()
-}
-
-probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("clog__checkpoint__done")
-{
-    start_clock = clog_cp[tid()]; delete clog_cp[tid()]
-    if(start_clock){
-        checkpoint_times["clog"] += local_clock() - start_clock
-    }
-}
-
-probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("multixact__checkpoint__start")
-{
-    multixact_cp[tid()] = local_clock()
-}
-
-probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("multixact__checkpoint__done")
-{
-    start_clock = multixact_cp[tid()]; delete multixact_cp[tid()]
-    if(start_clock){
-        checkpoint_times["multixact"] += local_clock() - start_clock
-    }
-}
-
-probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("subtrans__checkpoint__start")
-{
-    subtrans_cp[tid()] = local_clock()
-}
-
-probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("subtrans__checkpoint__done")
-{
-    start_clock = subtrans_cp[tid()]; delete subtrans_cp[tid()]
-    if(start_clock){
-        checkpoint_times["subtrans"] += local_clock() - start_clock
-    }
-}
-
-probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("twophase__checkpoint__start")
-{
-    twophase_cp[tid()] = local_clock()
-}
-
+// 52
 probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("twophase__checkpoint__done")
 {
     start_clock = twophase_cp[tid()]; delete twophase_cp[tid()]
     if(start_clock){
-        checkpoint_times["twophase"] += local_clock() - start_clock
+        checkpoint_times["twophase"] += (local_clock() - start_clock)
     }
 }
 
-probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("wal__buffer__write__dirty__start")
+// 53
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("twophase__checkpoint__start")
 {
-    wal_write_start[tid()] = local_clock()
+    twophase_cp[tid()] = local_clock()
+    checkpoint_count["twophase"]++
 }
 
+// 54
 probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("wal__buffer__write__dirty__done")
 {
     start_clock = wal_write_start[tid()]; delete wal_write_start[tid()]
     if(start_clock){
-        wal_write_time += local_clock() - start_clock
+        wal_write_time += (local_clock() - start_clock)
     }
 }
 
-probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("lock__wait__start")
+// 55
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("wal__buffer__write__dirty__start")
 {
-    lock_wait_start[tid()] = local_clock()
+    wal_write_start[tid()] = local_clock()
+    wal_write_count++
 }
 
-probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("lock__wait__done")
+
+// 56
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("xlog__insert")
 {
-    start_clock = lock_wait_start[tid()]; delete lock_wait_start[tid()]
-    if(start_clock){
-        lock_wait_time += local_clock() - start_clock
-    }
+    xlog_insert_count++
 }
+
+// 57
+probe process("/usr/local/pgsql-9.2.4/bin/postgres").mark("xlog__switch")
+{
+    xlog_switch_count++
+}
+
 
 probe _ens.vfs_read.return = kernel.function("vfs_read").return
 {
@@ -396,33 +708,45 @@ function print_nanosleep()
 function print_lockwait()
 {
     printf("/process/wait/lock/total,%ld\n", lock_wait)
+    printf("/process/wait/lock/count,%ld\n", lock_wait_cnt)
     delete lock_wait
     delete lock_start
+    lock_wait_cnt = 0
     lock_num = 10
 }
 
 function print_query_counts()
 {
     query_count = select_count + insert_count + update_count + delete_count + other_count
-    printf("/postgresql/sql,%d\n", query_count)
+    printf("/postgresql/sql/all,%d\n", query_count)
     printf("/postgresql/sql/select,%d\n", select_count)
     printf("/postgresql/sql/insert,%d\n", insert_count)
     printf("/postgresql/sql/update,%d\n", update_count)
     printf("/postgresql/sql/delete,%d\n", delete_count)
     printf("/postgresql/sql/other,%d\n", other_count)
+    printf("/postgresql/sql/time,%ld\n", query_times)
+}
+
+function print_query_cnt()
+{
+    printf("/postgresql/sqlcount/execute,%d\n", query_cnt["execute"]);
+    printf("/postgresql/sqlcount/parse,%d\n", query_cnt["parse"]);
+    printf("/postgresql/sqlcount/plan,%d\n", query_cnt["plan"]);
+    printf("/postgresql/sqlcount/rewrite,%d\n", query_cnt["rewrite"]);
 }
 
 function print_transaction_count()
 {
-    printf("/postgresql/transaction/count,%d\n", transaction_commit_count)
+    printf("/postgresql/transaction/count/commt,%d\n", transaction_commit_count)
+    printf("/postgresql/transaction/count/abort,%d\n", transaction_abort_count)
 }
 
 function print_sql_exec_times()
 {
-    printf("/postgresql/sql_time/parse,%ld\n", sql_exec_times["parse"])
-    printf("/postgresql/sql_time/plan,%ld\n", sql_exec_times["plan"])
-    printf("/postgresql/sql_time/rewrite,%ld\n", sql_exec_times["rewrite"])
-    printf("/postgresql/sql_time/execute,%ld\n", sql_exec_times["execute"])
+    printf("/postgresql/sqltime/parse,%ld\n", sql_exec_times["parse"])
+    printf("/postgresql/sqltime/plan,%ld\n", sql_exec_times["plan"])
+    printf("/postgresql/sqltime/rewrite,%ld\n", sql_exec_times["rewrite"])
+    printf("/postgresql/sqltime/execute,%ld\n", sql_exec_times["execute"])
 }
 
 function print_transaction_time()
@@ -437,21 +761,142 @@ function print_checkpoint_times()
     printf("/postgresql/checkpoint_time/multixact,%ld\n", checkpoint_times["multixact"])
     printf("/postgresql/checkpoint_time/subtrans,%ld\n", checkpoint_times["subtrans"])
     printf("/postgresql/checkpoint_time/twophase,%ld\n", checkpoint_times["twophase"])
+    printf("/postgresql/checkpoint_time/checkpoint,%ld\n", checkpoint_times["checkpoint"])
+}
+
+function print_checkpoint_count()
+{
+    printf("/postgresql/checkpoint_count/buffer,%ld\n", checkpoint_count["buffer"])
+    printf("/postgresql/checkpoint_count/clog,%ld\n", checkpoint_count["clog"])
+    printf("/postgresql/checkpoint_count/multixact,%ld\n", checkpoint_count["multixact"])
+    printf("/postgresql/checkpoint_count/subtrans,%ld\n", checkpoint_count["subtrans"])
+    printf("/postgresql/checkpoint_count/twophase,%ld\n", checkpoint_count["twophase"])
+    printf("/postgresql/checkpoint_count/checkpoint,%ld\n", checkpoint_count["checkpoint"])
 }
 
 function print_wal_write_time()
 {
+    printf("/postgresql/wal_write_count,%ld\n", wal_write_count)
     printf("/postgresql/wal_write_time,%ld\n", wal_write_time)
 }
 
 function print_sql_over_threshold_count()
 {
     printf("/postgresql/sql_over_threshold,%ld\n", sql_over_threshold_count)
+    sql_over_threshold_count = 0
 }
 
 function print_lock_wait_time()
 {
-    printf("/postgresql/lock_wait_time,%ld\n", lock_wait_time)
+    printf("/postgresql/lock_wait_time,%ld\n", lock_wait_times)
+}
+
+function print_checkpoint_sync_start_count()
+{
+    printf("/postgresql/buffer_checkpoint_sync_start_count,%ld\n", buffer_cp_sync_start)
+    buffer_cp_sync_start = 0
+}
+
+function print_buffer_flush()
+{
+    printf("/postgresql/buffer_flush_count,%ld\n", buffer_flush_cnt)
+    printf("/postgresql/buffer_flush_time, %ld\n", buffer_flush_times)
+    buffer_flush_cnt = 0
+    buffer_flush_times = 0
+}
+
+function print_buffer_read()
+{
+    printf("/postgresql/buffer_read_count,%ld\n", buffer_read_cnt)
+    printf("/postgresql/buffer_read_time,%ld\n", buffer_read_times)
+    buffer_read_cnt = 0
+    buffer_read_times = 0
+}
+
+function print_buffer_sync()
+{
+    printf("/postgresql/buffer_sync_count,%ld\n", buffer_sync_cnt)
+    printf("/postgresql/buffer_sync_time,%ld\n", buffer_sync_times)
+    buffer_sync_cnt = 0
+    buffer_sync_times = 0
+}
+
+function print_buffer_sync_written_count()
+{
+    printf("/postgresql/buffer_sync_written_count,%ld\n", buffer_sync_written_cnt)
+    buffer_sync_written_cnt = 0
+}
+
+function print_buffer_write_dirty()
+{
+    printf("/postgresql/buffer_write_dirty_count,%ld\n", buffer_write_dirty_cnt)
+    printf("/postgresql/buffer_write_dirty_time, %ld\n", buffer_write_dirty_times)
+    buffer_write_dirty_cnt = 0
+    buffer_write_dirty_times = 0
+}
+
+function print_deadlock_found_count()
+{
+    printf("/postgresql/deadlock_found_count,%ld\n", deadlock_found_cnt)
+    deadlock_found_cnt = 0
+}
+
+function print_lwlock()
+{
+    printf("/postgresql/lwlock/acquire/count,%ld\n", lwlock_acquire_cnt)
+    printf("/postgresql/lwlock/condacquire/count,%ld\n", lwlock_condacquire_cnt)
+    printf("/postgresql/lwlock/condacquire/fail/count,%ld\n", lwlock_condacquire_fail_cnt)
+    printf("/postgresql/lwlock/release/count,%ld\n", lwlock_release_cnt)
+    printf("/postgresql/lwlock/wait/count,%ld\n", lwlock_wait_cnt)
+    printf("/postgresql/lwlock/wait/time,%ld\n", lwlock_wait_times)
+    printf("/postgresql/lwlock/wait/until_free/cnt,%ld\n", lwlock_wait_until_free_cnt)
+    printf("/postgresql/lwlock/wait/until_free_fail/cnt,%ld\n", lwlock_wait_until_free_fail_cnt)
+}
+
+function print_smgr()
+{
+    printf("/postgresql/smgr_md/count/read,%ld\n", smgr_md_read_count)
+    printf("/postgresql/smgr_md/count/write,%ld\n", smgr_md_write_count)
+    printf("/postgresql/smgr_md/time/read,%ld\n", smgr_md_read_times)
+    printf("/postgresql/smgr_md/time/write,%ld\n", smgr_md_write_times)
+    smgr_md_read_count = 0
+    smgr_md_write_count = 0
+    smgr_md_read_times = 0
+    smgr_md_write_times = 0
+}
+
+function print_sort()
+{
+    printf("/postgresql/sort/count,%ld\n", sort_count)
+    printf("/postgresql/sort/time,%ld\n", sort_times)
+    sort_count = 0
+    sort_times = 0
+}
+
+function print_statement_status()
+{
+    printf("/postgresql/statement_status/count,%ld\n", statement_status_count)
+    statement_status_count = 0
+}
+
+function print_xlog()
+{
+    printf("/postgresql/xlog/insert,%ld\n", xlog_insert_count)
+    printf("/postgresql/xlog/switch,%ld\n", xlog_switch_count)
+    xlog_insert_count = 0
+    xlog_switch_count = 0
+}
+
+function init_lwlock()
+{
+    lwlock_acquire_cnt = 0
+    lwlock_condacquire_cnt = 0
+    lwlock_condacquire_fail_cnt = 0
+    lwlock_release_cnt = 0
+    lwlock_wait_cnt = 0
+    lwlock_wait_times = 0
+    lwlock_wait_until_free_cnt = 0
+    lwlock_wait_until_free_fail_cnt = 0
 }
 
 function init_sql_exec_times()
@@ -462,9 +907,25 @@ function init_sql_exec_times()
     sql_exec_times["execute"] = 0
 }
 
+function init_sql_exec_cnt()
+{
+    select_count = 0
+    insert_count = 0
+    update_count = 0
+    delete_count = 0
+    other_count = 0
+    query_times = 0
+    query_cnt["execute"] = 0
+    query_cnt["parse"] = 0
+    query_cnt["plan"] = 0
+    query_cnt["rewrite"] = 0
+}
+
 function init_transaction_time()
 {
     transaction_time = 0
+    transaction_commit_count = 0
+    transaction_abort_count = 0
 }
 
 function init_checkpoint_times()
@@ -474,16 +935,29 @@ function init_checkpoint_times()
     checkpoint_times["multixact"] = 0
     checkpoint_times["subtrans"] = 0
     checkpoint_times["twophase"] = 0
+    checkpoint_times["checkpoint"] = 0
 }
+
+function init_checkpoint_count()
+{
+    checkpoint_count["buffer"] = 0
+    checkpoint_count["clog"] = 0
+    checkpoint_count["multixact"] = 0
+    checkpoint_count["subtrans"] = 0
+    checkpoint_count["twophase"] = 0
+    checkpoint_count["checkpoint"] = 0
+}
+
 
 function init_wal_write_time()
 {
     wal_write_time = 0
+    wal_write_count = 0
 }
 
 function init_lock_wait_time()
 {
-    lock_wait_time = 0
+    lock_wait_times = 0
 }
 
 function check_sql_exec_time(s1: long)
@@ -521,17 +995,35 @@ probe timer.ms(15000)
     print_nanosleep()
     print_lockwait()
     print_query_counts()
+    print_query_cnt()
     print_sql_exec_times()
     print_transaction_count()
     print_transaction_time()
     print_checkpoint_times()
+    print_checkpoint_count()
     print_wal_write_time()
     print_sql_over_threshold_count()
     print_lock_wait_time()
+    print_checkpoint_sync_start_count()
+    print_buffer_flush()
+    print_buffer_read()
+    print_buffer_sync()
+    print_buffer_sync_written_count()
+    print_buffer_write_dirty()
+    print_deadlock_found_count()
+    print_lwlock()
+    print_smgr()
+    print_sort()
+    print_statement_status()
+    print_xlog()
     init_sql_exec_times()
+    init_sql_exec_cnt()
     init_transaction_time()
     init_checkpoint_times()
+    init_checkpoint_count()
     init_wal_write_time()
+    init_lwlock()
+    init_lock_wait_time()
     printf(".\n");
 }
 
