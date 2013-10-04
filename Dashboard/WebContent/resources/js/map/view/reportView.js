@@ -1,7 +1,6 @@
 ENS.reportView = wgp.AbstractView
 		.extend({
-			tableColNames : [ "Id", "Report Name", "Report Target",
-					"Start Time", "Finish Time", "Download" ],
+			tableColNames : [ "Id", "Start Time", "Finish Time", "Download" ],
 			initialize : function(argument, treeSettings) {
 				var appView = new ENS.AppView();
 				this.treeSettings = treeSettings;
@@ -52,7 +51,9 @@ ENS.reportView = wgp.AbstractView
 							rownumbers : true,
 							shrinkToFit : false,
 							cellEdit : true,
-							cmTemplate: { title: false }
+							cmTemplate : {
+								title : false
+							}
 						});
 				$("#reportTable").filterToolbar({
 					defaultSearch : 'cn'
@@ -85,17 +86,11 @@ ENS.reportView = wgp.AbstractView
 					width : 0,
 					hidden : true
 				}, {
-					name : "reportName",
-					width : parseInt(this.tableWidth * 0.2)
-				}, {
-					name : "targetMeasurementName",
+					name : "reportTermFrom",
 					width : parseInt(this.tableWidth * 0.43)
 				}, {
-					name : "reportTermFrom",
-					width : parseInt(this.tableWidth * 0.11)
-				}, {
 					name : "reportTermTo",
-					width : parseInt(this.tableWidth * 0.11)
+					width : parseInt(this.tableWidth * 0.43)
 				}, {
 					name : "download",
 					width : parseInt(this.tableWidth * 0.092),
