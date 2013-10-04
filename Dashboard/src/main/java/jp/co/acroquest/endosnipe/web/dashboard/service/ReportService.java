@@ -485,4 +485,33 @@ public class ReportService
         return filePath;
     }
 
+    /**
+     * check report name and report term exist or not in Database
+     * @param reportDefinitionDto get the report data
+     * from controller class
+     * @return true or false
+     */
+    public boolean checkReportName(final ReportDefinitionDto reportDefinitionDto)
+    {
+        ReportDefinition reportDefinition = null;
+        String reportName = reportDefinitionDto.getReportName();
+        Calendar fmTimeCal = reportDefinitionDto.getReportTermFrom();
+        Calendar toTimeCal = reportDefinitionDto.getReportTermTo();
+
+        DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
+
+        String startTime = dateFormat.format(fmTimeCal.getTime());
+        String endTime = dateFormat.format(toTimeCal.getTime());
+        reportDefinition = reportDefinitionDao.selectName(reportName, startTime, endTime);
+        if (reportDefinition != null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
+    }
+
 }

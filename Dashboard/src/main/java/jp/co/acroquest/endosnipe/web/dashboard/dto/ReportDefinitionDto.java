@@ -38,6 +38,11 @@ public class ReportDefinitionDto
     private Calendar reportTermTo_;
 
     /**
+     * to check report duplicat or not
+     */
+    public String messge;
+
+    /**
      * コンストラクタ。
      */
     public ReportDefinitionDto()
