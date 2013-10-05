@@ -16,6 +16,8 @@ import java.util.List;
 
 import jp.co.acroquest.endosnipe.web.dashboard.entity.ReportDefinition;
 
+import org.apache.ibatis.annotations.Param;
+
 /**
  * {@link ReportDefinition} のための DAO のインターフェースです。
  * 
@@ -100,4 +102,15 @@ public interface ReportDefinitionDao
      * @return 直前のシーケンス番号
      */
     int selectSequenceNum(final ReportDefinition reportDefinition);
+
+    /**
+     * to check report Name and report term exist or not 
+     * in dataBase
+     * @param reportName is report name
+     * @param startTime is start time of report
+     * @param endTime is end time of report
+     * @return reportDefinition 
+     */
+    ReportDefinition selectName(@Param("reportName") String reportName,
+            @Param("fmTime") String startTime, @Param("toTime") String endTime);
 }

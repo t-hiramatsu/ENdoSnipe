@@ -134,6 +134,8 @@ ENS.tree.MEASUREMENT_ITEM_SELECT_ALL_URL = wgp.common.getContextPath()
 		+ "/multipleResourceGraph/getAllMeasurementList";
 
 ENS.tree.REPORT_ADD_URL = wgp.common.getContextPath() + "/report/add";
+ENS.tree.REPORT_ADD_DUPLICATE_URL = wgp.common.getContextPath()
+		+ "/report/addDuplicateReport";
 ENS.tree.SIGNAL_NAME = "signalName";
 ENS.tree.SIGNAL_VALUE = "signalValue";
 ENS.tree.SIGNAL_DIALOG = "signalDialog";

@@ -82,4 +82,14 @@
 		where REPORT_NAME
 		= #{reportName_}
 	</select>
+	
+	<select id="selectName" resultMap="ReportDefinitionMap">
+		SELECT * FROM
+		REPORT_DEFINITION
+		where REPORT_NAME = #{reportName}
+		AND
+		FM_TIME =
+		#{fmTime} AND
+		TO_TIME = #{toTime}
+	</select>
 </mapper>

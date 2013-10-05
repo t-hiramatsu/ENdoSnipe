@@ -1020,7 +1020,43 @@ ENS.treeView = wgp.TreeView
 				});
 			},
 			callbackAddReport_ : function(reportDefinition) {
-				// TODO レポート一覧テーブルが表示されているときはリロードする
+				if (reportDefinition.messge === "duplicate") {
+					$('<div></div>')
+							.appendTo('body')
+							.html(
+									'<div><h6>This report is already exsit. Do you override it?</h6></div>')
+							.dialog(
+									{
+										modal : true,
+										title : 'message',
+										zIndex : 10000,
+										autoOpen : true,
+										width : 'auto',
+										resizable : true,
+										buttons : {
+											Yes : function() {
+												var url = ENS.tree.REPORT_ADD_DUPLICATE_URL;
+												var settings = {
+													data : {
+														reportDefinitionDto : JSON
+																.stringify(reportDefinition)
+													},
+													url : url
+												};
+												var ajaxHandler = new wgp.AjaxHandler();
+												ajaxHandler
+														.requestServerAsync(settings);
+												$(this).dialog("close");
+											},
+											No : function() {
+												$(this).dialog("close");
+											}
+										},
+										close : function(event, ui) {
+											$(this).remove();
+										}
+									});
+				}
 			},
 			callbackEditMulResGraph_ : function(responseDto) {
 				var result = responseDto.result;
