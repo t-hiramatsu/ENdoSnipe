@@ -186,6 +186,7 @@ ENS.ResourceMapView = wgp.MapView.extend({
 		});
 
 		return view;
+	},
 	_addStateElement : function(model){
 		var argument = {
 			paper : this.paper,
