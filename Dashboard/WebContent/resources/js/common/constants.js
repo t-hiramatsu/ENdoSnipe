@@ -38,6 +38,9 @@ ENS.URL = {};
 ENS.URL.TERM_PERFDOCTOR_DATA_URL = "/performanceDoctor/getPerfDoctor";
 ENS.URL.PERFDOCTOR_POSTFIX_ID = "/performanceDoctor";
 
+ENS.URL.TERM_THREADDUMP_DATA_URL = "/threadDump/getThreadDump";
+ENS.URL.THREADDUMP_POSTFIX_ID = "/threadDump";
+
 ENS.common = {};
 ENS.common.dualslider = {};
 ENS.common.dualslider.scaleUnitStrings = 'hours';// for many hours

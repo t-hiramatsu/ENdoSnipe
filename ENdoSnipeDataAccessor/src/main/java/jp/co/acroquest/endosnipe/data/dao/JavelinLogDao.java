@@ -959,4 +959,68 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
         sql.append(") MERGED_TIME");
         return sql.toString();
     }
-}
+    public static List<JavelinLog> selectThreadDumpByTermAndName(String database, Timestamp start,
+                                                                 Timestamp end, String name, boolean outputLog, boolean removeDiagnosed)
+                                                                 throws SQLException
+                                                             {
+                                                                 List<JavelinLog> result = new ArrayList<JavelinLog>();
+                                                                 Connection conn = null;
+                                                                 PreparedStatement pstmt = null;
+                                                                 ResultSet rs = null;
+                                                                 try
+                                                                 {
+
+                                                                     conn = getConnection(database, true);
+                                                                     String sql =
+                                                                         createThreadDumpSelectSqlByTermAndName(JAVELIN_LOG, start, end, name, true);
+                                                                     pstmt = conn.prepareStatement(sql);
+                                                                     PreparedStatement delegated = getDelegatingStatement(pstmt);
+                                                                     setTimestampByTerm(delegated, start, end);
+                                                                     rs = delegated.executeQuery();
+
+                                                                     // 結果をリストに１つずつ格納する
+                                                                     while (rs.next() == true)
+                                                                     {
+                                                                         JavelinLog log = new JavelinLog();
+                                                                         setJavelinLogFromResultSet(log, rs, outputLog);
+                                                                         result.add(log);
+                                                                     }
+                                                                 }
+                                                                 finally
+                                                                 {
+                                                                     SQLUtil.closeResultSet(rs);
+                                                                     SQLUtil.closeStatement(pstmt);
+                                                                     SQLUtil.closeConnection(conn);
+                                                                 }
+
+                                                                 return result;
+                                                             }
+
+                                                             private static String createThreadDumpSelectSqlByTermAndName(String tableName, Timestamp start,
+                                                                 Timestamp end, String name, boolean removeDiagnosed)
+                                                             {
+                                                                 String sql = "select * from " + tableName + "where CALLEE_CLASS = FULLThreadDump";
+                                                                 if (start != null && end != null)
+                                                                 {
+                                                                     sql += " and ? <= START_TIME and END_TIME <= ?";
+                                                                 }
+                                                                 else if (start != null && end == null)
+                                                                 {
+                                                                     sql += " and ? <= START_TIME";
+                                                                 }
+                                                                 else if (start == null && end != null)
+                                                                 {
+                                                                     sql += " and END_TIME <= ?";
+                                                                 }
+                                                                 if (name != null)
+                                                                 {
+                                                                     sql += " and MEASUREMENT_ITEM_NAME like '" + name + "%'";
+                                                                 }
+                                                                 if (removeDiagnosed)
+                                                                 {
+                                                                     sql += "and NOT DIAGNOSED";
+                                                                 }
+                                                                 sql += " order by START_TIME desc";
+                                                                 return sql;
+                                                             }
+                                                         }

@@ -81,6 +81,11 @@
 	src="<%=request.getContextPath()%>/resources/js/map/view/perfDoctorView.js">	
 </script>
 
+<%-- ThreadDump --%>
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/resources/js/map/view/threadDumpView.js">	
+</script>
+
 <%-- Report view --%>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/map/view/reportView.js">	
