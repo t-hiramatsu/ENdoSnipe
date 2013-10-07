@@ -1,6 +1,6 @@
 ENS.reportView = wgp.AbstractView
 		.extend({
-			tableColNames : [ "Id", "Start Time", "Finish Time", "Download" ],
+			tableColNames : [ "Id", "Start Time", "Finish Time", "Download","" ],
 			initialize : function(argument, treeSettings) {
 				var appView = new ENS.AppView();
 				this.treeSettings = treeSettings;
@@ -98,6 +98,14 @@ ENS.reportView = wgp.AbstractView
 					editoptions : {
 						"onclick" : "ENS.report.download",
 						"linkName" : "Download"
+					}
+				},{
+					name : "Delete",
+					width : parseInt(this.tableWidth * 0.092),
+					formatter : ENS.Utility.makeAnchor,
+					editoptions : {
+						"onclick" : "ENS.tree.DELETE_REPORT_TYPE",
+						"linkName" : "Delete"
 					}
 				} ];
 			},
@@ -201,4 +209,19 @@ ENS.report.download = function(id) {
 
 ENS.report.callbackDownload = function(response) {
 	alert(response);
+};
+ENS.tree.DELETE_REPORT_TYPE = function(id) {
+	var rowData = $("#reportTable").getRowData(id);
+	var ids = rowData.reportId;
+	$("#reportTable").jqGrid("delRowData", id);
+	var url = ENS.tree.REPORT_DELETE_BY_ID_URL;
+
+	var settings = {
+		data : {
+			reportId : ids
+		},
+		url : url
+	};
+	var ajaxHandler = new wgp.AjaxHandler();
+	ajaxHandler.requestServerAsync(settings);
 };
