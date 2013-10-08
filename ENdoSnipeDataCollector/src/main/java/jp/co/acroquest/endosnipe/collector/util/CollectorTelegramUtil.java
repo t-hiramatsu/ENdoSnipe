@@ -45,6 +45,8 @@ public class CollectorTelegramUtil
     /**  閾値超過アラームの電文本体のサイズ */
     public static final int RESPONSEALARM_BODY_SIZE = 4;
 
+    public static final int RESPONSEALARM_BODY_ADD_SUMMARY_SIGNAL_SIZE = 6;
+
     /**
      * インスタンス化を防止するprivateコンストラクタです。
      */
@@ -70,7 +72,7 @@ public class CollectorTelegramUtil
      * @return 閾値超過アラーム通知電文
      */
     public static Telegram createAlarmTelegram(final List<AlarmEntry> alarmEntryList,
-            final byte requestKind)
+        final byte requestKind)
     {
         Header responseHeader = new Header();
         responseHeader.setByteTelegramKind(TelegramConstants.BYTE_TELEGRAM_SIGNAL_STATE_CHANGE);

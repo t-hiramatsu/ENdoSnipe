@@ -49,6 +49,7 @@ import jp.co.acroquest.endosnipe.collector.data.JavelinLogData;
 import jp.co.acroquest.endosnipe.collector.data.JavelinMeasurementData;
 import jp.co.acroquest.endosnipe.collector.log.JavelinLogUtil;
 import jp.co.acroquest.endosnipe.collector.manager.SignalStateManager;
+import jp.co.acroquest.endosnipe.collector.manager.SummarySignalStateManager;
 import jp.co.acroquest.endosnipe.collector.notification.AlarmEntry;
 import jp.co.acroquest.endosnipe.collector.processor.AlarmData;
 import jp.co.acroquest.endosnipe.collector.processor.AlarmProcessor;
@@ -78,6 +79,7 @@ import jp.co.acroquest.endosnipe.data.db.DBManager;
 import jp.co.acroquest.endosnipe.data.dto.MeasurementValueDto;
 import jp.co.acroquest.endosnipe.data.dto.PerfDoctorResultDto;
 import jp.co.acroquest.endosnipe.data.dto.SignalDefinitionDto;
+import jp.co.acroquest.endosnipe.data.dto.SummarySignalDefinitionDto;
 import jp.co.acroquest.endosnipe.data.entity.JavelinLog;
 import jp.co.acroquest.endosnipe.data.entity.JavelinMeasurementItem;
 import jp.co.acroquest.endosnipe.data.util.AccumulatedValuesDefinition;
@@ -193,6 +195,33 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             JavelinLogDao.truncate(database, tableIndex, year);
         }
     };
+
+    /**
+     * 初期化を行います。
+     *
+     * @param config {@link DataCollectorConfig} オブジェクト
+     * @param clientRepository {@link CommunicationClientRepository} オブジェクト
+     * @param signalDefinitionMap 閾値判定定義情報のマップ
+     */
+    public JavelinDataLogger(final DataCollectorConfig config,
+        final CommunicationClientRepository clientRepository,
+        final Map<Long, SignalDefinitionDto> signalDefinitionMap,
+        final Map<Long, SummarySignalDefinitionDto> summarySignalDefinitionMap)
+    {
+        this.rotateConfigMap_ = new HashMap<String, RotateConfig>();
+        this.config_ = config;
+        this.clientRepository_ = clientRepository;
+        SignalStateManager signalStateManager = SignalStateManager.getInstance();
+        signalStateManager.setSignalDeifinitionMap(signalDefinitionMap);
+
+        SummarySignalStateManager summarySignalStateManager =
+            SummarySignalStateManager.getInstance();
+
+        String dataBase = config_.getDatabaseName();
+        summarySignalStateManager.setDataBaseName(dataBase);
+        summarySignalStateManager.setSummarySignalDefinitionMap(summarySignalDefinitionMap);
+        summarySignalStateManager.createAllSummarySignalMapValue();
+    }
 
     /**
      * 初期化を行います。

@@ -25,8 +25,11 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.collector.listener;
 
+import java.sql.SQLException;
+
 import jp.co.acroquest.endosnipe.collector.LogMessageCodes;
 import jp.co.acroquest.endosnipe.collector.manager.SignalStateManager;
+import jp.co.acroquest.endosnipe.collector.manager.SummarySignalStateManager;
 import jp.co.acroquest.endosnipe.collector.processor.AlarmData;
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
 import jp.co.acroquest.endosnipe.communicator.AbstractTelegramListener;
@@ -164,11 +167,17 @@ public class SignalChangeListener extends AbstractTelegramListener implements Te
         {
             long signalId = Long.parseLong(signalIdStr);
             signalStateManager.removeSignalDefinition(signalId);
+            SummarySignalStateManager.getInstance().CheckDeleteNode(signalName);
             signalStateManager.removeAlarmData(signalName);
         }
         catch (NumberFormatException ex)
         {
             // シグナル定義情報の追加に失敗
+        }
+        catch (SQLException ex)
+        {
+            // TODO 自動生成された catch ブロック
+            ex.printStackTrace();
         }
     }
 

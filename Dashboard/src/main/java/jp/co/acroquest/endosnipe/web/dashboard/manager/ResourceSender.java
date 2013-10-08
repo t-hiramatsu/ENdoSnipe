@@ -257,7 +257,9 @@ public class ResourceSender
         for (String groupId : listeners)
         {
             String[] measurementArray = null;
-            if (groupId.indexOf("|") != -1 || groupId.indexOf("(") != groupId.lastIndexOf("("))
+            if (groupId.indexOf("|") != -1 || groupId.indexOf("(") != groupId.lastIndexOf("(")
+                    && (groupId.charAt(0) == '(')
+                    && (groupId.charAt((groupId.length() - 1)) == ')'))
             {
                 measurementArray =
                         (groupId.substring(groupId.indexOf("(") + 1, groupId.lastIndexOf(")"))).split("\\|");
