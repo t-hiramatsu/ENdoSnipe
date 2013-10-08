@@ -70,6 +70,21 @@ ENS.nodePerfDoctorParentView = {
 	collection : [ ENS.nodePerfDoctorParentElem ]
 };
 
+ENS.schedulingReportParentElem = {
+		viewClassName : "ENS.schedulingReportView",
+		viewAttribute : {
+			term : 1800,
+			maxLineNum : 20
+		}
+	};
+
+ENS.schedulingReportParentView = {
+		viewClassName : "wgp.MultiAreaView",
+		rootView : appView,
+		tabTitle : "Scheduling Report",
+		collection : [ ENS.schedulingReportParentElem ]
+	};
+
 ENS.nodeSqlPlantView = {
 	viewClassName : "wgp.MultiAreaView",
 	rootView : appView,
@@ -80,13 +95,13 @@ ENS.nodeSqlPlantView = {
 ENS.nodeTabView = {
 	viewClassName : "wgp.TabView",
 	rootView : appView,
-	collection : [ ENS.nodeInfoField, ENS.nodePerfDoctorParentView]
+	collection : [ ENS.nodeInfoField, ENS.nodePerfDoctorParentView ,ENS.schedulingReportParentView]
 };
 
 ENS.sqlPlanTabView = {
 	viewClassName : "wgp.TabView",
 	rootView : appView,
-	collection : [ ENS.nodeInfoField, ENS.nodePerfDoctorParentView,
+	collection : [ ENS.nodeInfoField, ENS.nodePerfDoctorParentView,ENS.schedulingReportParentView,
 			ENS.nodeSqlPlantView ]
 };
 

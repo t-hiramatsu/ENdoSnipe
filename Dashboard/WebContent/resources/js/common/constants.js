@@ -163,7 +163,22 @@ ENS.tree.type.GROUP = "group";
 ENS.tree.type.TARGET = "target";
 ENS.tree.type.SIGNAL = "signal";
 ENS.tree.type.REPORT = "report";
-ENS.tree.type.MULTIPLERESOURCEGRAPH = "mulResGraph";
+/*ENS.tree.type.MULTIPLERESOURCEGRAPH = "mulResGraph";*/
+
+ENS.tree.OUTPUT_REPORT_SCHEDULE_TYPE = "outputScheduleReport";
+ENS.tree.EDIT_SCHEDULE_TYPE = "editScheduling";
+ENS.tree.DELETE_REPORT_SCHEDULE_TYPE = "deleteScheduleReport";
+ENS.tree.SCHEDULING_REPORT_ADD_URL = wgp.common.getContextPath() + "/report/addscheduling";
+ENS.tree.SCHEDULING_EDIT_URL = wgp.common.getContextPath() + "/report/edit";
+ENS.tree.REPORT_SCHEDULE_DIALOG = "schedulingReportDialog";
+ENS.tree.SCHEDULING_REPORT_SELECT_ALL_URL = wgp.common.getContextPath()
++ "/report//getAllScheduleDefinition";
+/*ENS.tree.REPORT_SELECT_BY_SCHEDULING_REPORT_NAME_URL = wgp.common.getContextPath()
++ "/report/getSchedulingDefinition";*/
+ENS.tree.SCHEDULE_EDIT_URL = wgp.common.getContextPath() + "/report/schedulingEdit";
+ENS.tree.REPORT_SCHEDULE_DELETE_BY_NAME_URL = wgp.common.getContextPath() + "/report/deleteScheduleByName";
+ENS.tree.REPORT_SCHEDULE_DELETE_BY_ID_URL = wgp.common.getContextPath() + "/report/deleteScheduleById";
+ENS.tree.type.REPORT_SCHEDULE = "reportSchedule";
 
 ENS.tree.contextOption = [ {
 	menu_id : ENS.tree.ADD_SIGNAL_TYPE,
@@ -245,7 +260,37 @@ ENS.tree.contextOption = [ {
 		signalType : ENS.tree.DELETE_MULTIPLE_RESOURCE_GRAPH_TYPE
 	},
 	children : []
-} ];
+}, {
+	menu_id : ENS.tree.OUTPUT_REPORT_SCHEDULE_TYPE,
+	menu_name : "Scheduling Report",
+	executeClass : "ENS.SchedulingReportDialogView",
+	showTreeTypes : [ ENS.tree.type.GROUP, ENS.tree.type.TARGET ],
+	executeOption : {
+		dialogId : ENS.tree.REPORT_SCHEDULE_DIALOG,
+		signalType : ENS.tree.OUTPUT_REPORT_SCHEDULE_TYPE
+	},
+	children : []
+},{
+	menu_id : ENS.tree.EDIT_SCHEDULE_TYPE,
+	menu_name : "Edit Scheduling",
+	executeClass : "ENS.SchedulingReportDialogView",
+	showTreeTypes : [ ENS.tree.type.REPORT_SCHEDULE ],
+	executeOption : {
+		dialogId : ENS.tree.REPORT_SCHEDULE_DIALOG,
+		signalType : ENS.tree.EDIT_SCHEDULE_TYPE
+	},
+	children : []
+},{
+	menu_id : ENS.tree.DELETE_REPORT_SCHEDULE_TYPE,
+	menu_name : "Delete Scheduling Report",
+	executeClass : "",
+	showTreeTypes : [ ENS.tree.type.REPORT_SCHEDULE ],
+	executeOption : {
+		dialogId : ENS.tree.REPORT_SCHEDULE_DIALOG,
+		signalType : ENS.tree.DELETE_REPORT_SCHEDULE_TYPE
+	},
+	children : []
+}];
 ENS.tree.SIGNAL_ICON_STOP = "signal_-1";
 ENS.tree.SIGNAL_ICON_0 = "signal_0";
 ENS.tree.SIGNAL_ICON_1 = "signal_1";
@@ -403,4 +448,6 @@ ENS.svg.attribute = {
 
 ENS.report = {};
 ENS.report.DOWNLOAD_URL = wgp.common.getContextPath() + "/report/download";
+ENS.report.SCHEDULINGREPROT_URL = wgp.common.getContextPath() + "/report/updateSchedulingReport";
 ENS.perfDoctor = {};
+ENS.schedulingReportDialog = {};

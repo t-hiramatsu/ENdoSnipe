@@ -22,9 +22,14 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import jp.co.acroquest.endosnipe.common.util.MessageUtil;
 import jp.co.acroquest.endosnipe.report.Reporter;
+import jp.co.acroquest.endosnipe.web.dashboard.constants.ResponseConstants;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.ReportDefinitionDto;
+import jp.co.acroquest.endosnipe.web.dashboard.dto.ResponseDto;
+import jp.co.acroquest.endosnipe.web.dashboard.dto.SchedulingReportDefinitionDto;
 import jp.co.acroquest.endosnipe.web.dashboard.entity.ReportDefinition;
+import jp.co.acroquest.endosnipe.web.dashboard.entity.SchedulingReportDefinition;
 import jp.co.acroquest.endosnipe.web.dashboard.service.ReportService;
 import net.arnx.jsonic.JSON;
 
@@ -70,6 +75,17 @@ public class ReportController
 
         reportDefinitionDtos = this.reportService.getAllReport();
 
+        return reportDefinitionDtos;
+    }
+
+    @RequestMapping(value = "/getAllScheduleDefinition", method = RequestMethod.POST)
+    @ResponseBody
+    public List<SchedulingReportDefinitionDto> getAllSchedulingDefinition()
+    {
+        List<SchedulingReportDefinitionDto> reportDefinitionDtos =
+                new ArrayList<SchedulingReportDefinitionDto>();
+
+        reportDefinitionDtos = this.reportService.getAllSchedule();
         return reportDefinitionDtos;
     }
 
@@ -253,4 +269,83 @@ public class ReportController
         return fileName;
     }
 
+    /**
+    * 
+    * @param schedulingReportDefinition is used
+    * @return is used
+    */
+    @RequestMapping(value = "/addscheduling", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseDto addSchedulingReport(
+            @RequestParam(value = "schedulingReportDefinition") final String schedulingReportDefinition)
+    {
+        ResponseDto responseDto = new ResponseDto();
+        SchedulingReportDefinitionDto schedulingReportDefinitionDto =
+                JSON.decode(schedulingReportDefinition, SchedulingReportDefinitionDto.class);
+
+        long reportId = schedulingReportDefinitionDto.getReportId();
+        System.out.println("controller id:" + reportId);
+        String reportName = schedulingReportDefinitionDto.getReportName();
+        boolean hasSameSignalName = this.reportService.hasSameSignalName(reportId, reportName);
+        if (hasSameSignalName)
+        {
+            String errorMessage = MessageUtil.getMessage("WEWD0141", reportName);
+            responseDto.setResult(ResponseConstants.RESULT_FAIL);
+            responseDto.setMessage(errorMessage);
+            return responseDto;
+        }
+
+        SchedulingReportDefinition schedulingDefinition =
+                this.reportService.convertSchedulingReportDefinition(schedulingReportDefinitionDto);
+
+        // DBに追加する
+        SchedulingReportDefinitionDto addedDefinitionDto =
+                this.reportService.insertSchedulingReport(schedulingDefinition);
+
+        responseDto.setData(addedDefinitionDto);
+        responseDto.setResult(ResponseConstants.RESULT_SUCCESS);
+        return responseDto;
+    }
+
+    @RequestMapping(value = "/deleteScheduleById", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> gett(@RequestParam(value = "reportId") final int reportId)
+    {
+        this.reportService.deleteSchduleReportById(reportId);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("reportId", reportId);
+        return map;
+    }
+
+    @RequestMapping(value = "/schedulingEdit", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseDto schedulingEdit(
+            @RequestParam(value = "schedulingReportDefinition") final String schedulingReportDefinition)
+    {
+        ResponseDto responseDto = new ResponseDto();
+        SchedulingReportDefinitionDto schedulingReportDefinitionDto =
+                JSON.decode(schedulingReportDefinition, SchedulingReportDefinitionDto.class);
+
+        long signalId = schedulingReportDefinitionDto.getReportId();
+        System.out.println("controller id:" + signalId);
+        String reportName = schedulingReportDefinitionDto.getReportName();
+        boolean hasSameSignalName = this.reportService.hasSameSignalName(signalId, reportName);
+        if (hasSameSignalName)
+        {
+            String errorMessage = MessageUtil.getMessage("WEWD0141", reportName);
+            responseDto.setResult(ResponseConstants.RESULT_FAIL);
+            responseDto.setMessage(errorMessage);
+            return responseDto;
+        }
+        SchedulingReportDefinition signalInfo =
+                this.reportService.convertSchedulingReportDefinition(schedulingReportDefinitionDto);
+
+        // DBに登録されている定義を更新する
+        SchedulingReportDefinitionDto updatedDefinitionDto =
+                this.reportService.updateSchedulingInfo(signalInfo);
+        responseDto.setResult(ResponseConstants.RESULT_SUCCESS);
+        responseDto.setData(updatedDefinitionDto);
+
+        return responseDto;
+    }
 }

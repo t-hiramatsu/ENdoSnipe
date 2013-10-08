@@ -94,6 +94,11 @@
 			value="jp.co.acroquest.endosnipe.web.dashboard.dao.ReportDefinitionDao" />
 		<beans:property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</beans:bean>
+	<beans:bean id="schedulingReportDefinitionDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<beans:property name="mapperInterface"
+			value="jp.co.acroquest.endosnipe.web.dashboard.dao.SchedulingReportDefinitionDao" />
+		<beans:property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</beans:bean>
 
 	<beans:bean id="sqlPlanDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
 		<beans:property name="mapperInterface"

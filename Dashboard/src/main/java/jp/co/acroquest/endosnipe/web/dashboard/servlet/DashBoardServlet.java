@@ -46,6 +46,9 @@ import jp.co.acroquest.endosnipe.web.dashboard.listener.javelin.JavelinNotifyLis
 import jp.co.acroquest.endosnipe.web.dashboard.manager.ConnectionClient;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.DatabaseManager;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 /**
  * WebDashボードの通信を行うサーブレットです。
  * @author s_fujii
@@ -98,6 +101,9 @@ public class DashBoardServlet extends HttpServlet
                 LOGGER.log(LogMessageCodes.FAIL_READ_DB_SETTING, SLEEP_TIME);
             }
         }
+        String springConfig =
+                "jp/co/acroquest/endosnipe/web/dashboard/quartz/propertySetting-quartz.xml";
+        ApplicationContext context = new ClassPathXmlApplicationContext(springConfig);
         // client modeの場合、設定ファイルのエージェントごとに、threadを作成する
         if ("client".equals(dbConfig.getConnectionMode()))
         {
