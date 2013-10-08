@@ -36,8 +36,18 @@ ENS.ResourceMapListView = wgp.TreeView
 					}
 
 					var target = event.target;
+					var treeId = null;
+
+					// ツリーのアンカータグクリック時
 					if ("A" == target.tagName) {
-						var treeId = $(target).attr("id");
+						treeId = $(target).attr("id");
+
+					// ツリーのアイコンタグクリック時
+					}else if("INS" == target.tagName){
+						treeId = $(target).parent().attr("id");
+					}
+
+					if(treeId){
 						var treeModel = instance.collection.get(treeId);
 						instance.clickModel(treeModel);
 					}
@@ -262,6 +272,10 @@ ENS.ResourceMapListView = wgp.TreeView
 			 */
 			saveOperation : function(){
 				var instance = this;
+				if(!instance.childView){
+					return;
+				}
+
 				var changedFlag = instance.childView.changedFlag;
 
 				if(changedFlag)
