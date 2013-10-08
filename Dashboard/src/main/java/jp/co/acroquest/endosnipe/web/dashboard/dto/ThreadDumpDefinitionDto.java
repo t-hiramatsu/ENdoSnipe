@@ -14,14 +14,23 @@ package jp.co.acroquest.endosnipe.web.dashboard.dto;
 
 public class ThreadDumpDefinitionDto
 {
-
-    public long threadId;
+    public String threadId;
 
     public String date;
 
     public String threadDumpInfo;
 
     private String logFileName_;
+
+    public String getThreadId()
+    {
+        return threadId;
+    }
+
+    public void setThreadId(final String threadId)
+    {
+        this.threadId = threadId;
+    }
 
     public String getLogFileName()
     {
@@ -31,16 +40,6 @@ public class ThreadDumpDefinitionDto
     public void setLogFileName(final String logFileName)
     {
         logFileName_ = logFileName;
-    }
-
-    public long getThreadId()
-    {
-        return threadId;
-    }
-
-    public void setThreadId(final long threadId)
-    {
-        this.threadId = threadId;
     }
 
     public String getDate()

@@ -58,16 +58,7 @@ public class ThreadDumpService
             }
 
         }
-        for (JavelinLog result : list)
-        {
-            ThreadDumpDefinitionDto threadDumpDefinitionDto = new ThreadDumpDefinitionDto();
-            StringBuffer stringBuffer = new StringBuffer();
-            threadDumpDefinitionDto.threadId = result.logId;
-            threadDumpDefinitionDto.date = result.startTime.toString();
-            //  threadDumpDefinitionDto.setLogFileName()
-            //  threadDumpDefinitionDto.setLogFileName(result.getLogFileName());
 
-        }
         return null;
     }
 
