@@ -12,33 +12,93 @@
  */
 package jp.co.acroquest.endosnipe.web.dashboard.service;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
+import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 import jp.co.acroquest.endosnipe.data.dao.JavelinLogDao;
 import jp.co.acroquest.endosnipe.data.entity.JavelinLog;
+import jp.co.acroquest.endosnipe.web.dashboard.config.ConfigurationReader;
+import jp.co.acroquest.endosnipe.web.dashboard.constants.LogMessageCodes;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.ThreadDumpDefinitionDto;
-import jp.co.acroquest.endosnipe.web.dashboard.form.ThreadDumpDataForm;
+import jp.co.acroquest.endosnipe.web.dashboard.form.TermDataForm;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.DatabaseManager;
+import jp.co.acroquest.endosnipe.web.dashboard.util.DaoUtil;
 
 public class ThreadDumpService
 {
+    private static final ENdoSnipeLogger LOGGER =
+            ENdoSnipeLogger.getLogger(ConfigurationReader.class);
 
-    public List<ThreadDumpDefinitionDto> getTermThreadDumpData(final ThreadDumpDataForm termDataForm)
+    public List<ThreadDumpDefinitionDto> getTermThreadDumpData(final TermDataForm termDataForm)
     {
         List<String> dataGroupIdList = termDataForm.getDataGroupIdList();
         DatabaseManager dbManager = DatabaseManager.getInstance();
         String dbName = dbManager.getDataBaseName(1);
+        List<JavelinLog> list = new ArrayList<JavelinLog>();
         for (String dataGroupId : dataGroupIdList)
         {
-            List<JavelinLog> list = new ArrayList<JavelinLog>();
             Timestamp start = new Timestamp(Long.valueOf(termDataForm.getStartTime()));
             Timestamp end = new Timestamp(Long.valueOf(termDataForm.getEndTime()));
-            list =
-                    JavelinLogDao.selectThreadDumpByTermAndName(dbName, start, end, dataGroupId,
-                                                                true, true);
+            try
+            {
+                list =
+                        JavelinLogDao.selectThreadDumpByTermAndName(dbName, start, end,
+                                                                    dataGroupId, true, true);
+            }
+            catch (SQLException ex)
+            {
+                LOGGER.log(ex);
+            }
+
+        }
+        for (JavelinLog result : list)
+        {
+            ThreadDumpDefinitionDto threadDumpDefinitionDto = new ThreadDumpDefinitionDto();
+            StringBuffer stringBuffer = new StringBuffer();
+            threadDumpDefinitionDto.threadId = result.logId;
+            threadDumpDefinitionDto.date = result.startTime.toString();
+            //  threadDumpDefinitionDto.setLogFileName()
+            //  threadDumpDefinitionDto.setLogFileName(result.getLogFileName());
+
         }
         return null;
+    }
+
+    public String getThreadDumpDetailData(final String fileName)
+    {
+        StringBuffer detailData = new StringBuffer();
+
+        try
+        {
+
+            JavelinLog jvnLog = DaoUtil.getJavelinLog("1", fileName);
+            if (jvnLog == null)
+            {
+                LOGGER.log(LogMessageCodes.FAIL_GET_JVNLOG);
+                return null;
+            }
+            BufferedReader reader = new BufferedReader(new InputStreamReader(jvnLog.javelinLog));
+            String line;
+            while ((line = reader.readLine()) != null)
+            {
+                detailData.append(line + "%");
+            }
+
+            reader.close();
+
+        }
+        catch (IOException ex)
+        {
+            // Do Nothing.
+            SystemLogger.getInstance().warn(ex);
+        }
+        return detailData.toString();
     }
 }

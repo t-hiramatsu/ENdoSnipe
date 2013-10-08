@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import jp.co.acroquest.endosnipe.web.dashboard.dto.ThreadDumpDefinitionDto;
-import jp.co.acroquest.endosnipe.web.dashboard.form.ThreadDumpDataForm;
+import jp.co.acroquest.endosnipe.web.dashboard.form.TermDataForm;
 import jp.co.acroquest.endosnipe.web.dashboard.service.ThreadDumpService;
 import net.arnx.jsonic.JSON;
 
@@ -55,7 +55,7 @@ public class ThreadDumpController
         //  DatabaseManager dbManager = DatabaseManager.getInstance();
         //  String dbName = dbManager.getDataBaseName(1);
 
-        ThreadDumpDataForm termDataForm = JSON.decode(data, ThreadDumpDataForm.class);
+        TermDataForm termDataForm = JSON.decode(data, TermDataForm.class);
         // List<String> dataGroupIdList = termDataForm.getDataGroupIdList();
         List<ThreadDumpDefinitionDto> threadDump =
                 threadDumpService_.getTermThreadDumpData(termDataForm);
