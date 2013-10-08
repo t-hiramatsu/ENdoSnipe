@@ -87,10 +87,10 @@ ENS.reportView = wgp.AbstractView
 					hidden : true
 				}, {
 					name : "reportTermFrom",
-					width : parseInt(this.tableWidth * 0.43)
+					width : parseInt(this.tableWidth * 0.38)
 				}, {
 					name : "reportTermTo",
-					width : parseInt(this.tableWidth * 0.43)
+					width : parseInt(this.tableWidth * 0.38)
 				}, {
 					name : "download",
 					width : parseInt(this.tableWidth * 0.092),
