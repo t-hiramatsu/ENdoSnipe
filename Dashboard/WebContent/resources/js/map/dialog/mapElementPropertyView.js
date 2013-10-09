@@ -186,7 +186,7 @@ ENS.MapElementPropertyView = Backbone.View.extend({
 		}
 
 		_.each(this.propertyViews, function(propertyView, index){
-			if(propertyView.validation() == false){
+			if(propertyView && propertyView.validation() == false){
 				result = false;
 			}
 		});
