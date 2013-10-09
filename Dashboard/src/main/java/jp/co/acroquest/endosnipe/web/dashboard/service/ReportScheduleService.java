@@ -39,7 +39,7 @@ public class ReportScheduleService
     {
     }
 
-    public void startSchedulingReport()
+    public void run()
     {
         java.util.Date date = new java.util.Date();
         Timestamp currentTime = new Timestamp(Calendar.getInstance().getTimeInMillis());

@@ -746,6 +746,7 @@ public class ReportService
         }
 
         schedulingDefinitionDto.setTime(time);
+        /*System.out.println("string:" + schedulingDefinitionDto.getTime());*/
         schedulingDefinitionDto.setTime(lastExportedTime);
 
         return schedulingDefinitionDto;

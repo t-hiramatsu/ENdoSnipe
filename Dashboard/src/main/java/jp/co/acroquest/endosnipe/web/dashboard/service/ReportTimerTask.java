@@ -37,7 +37,7 @@ public class ReportTimerTask extends QuartzJobBean
         throws JobExecutionException
     {
 
-        runMeTask.startSchedulingReport();
+        runMeTask.run();
 
     }
 }
