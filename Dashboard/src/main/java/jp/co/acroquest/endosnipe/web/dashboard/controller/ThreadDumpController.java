@@ -52,14 +52,11 @@ public class ThreadDumpController
     {
         Map<String, List<ThreadDumpDefinitionDto>> responceDataList =
                 new HashMap<String, List<ThreadDumpDefinitionDto>>();
-        //  DatabaseManager dbManager = DatabaseManager.getInstance();
-        //  String dbName = dbManager.getDataBaseName(1);
 
         TermDataForm termDataForm = JSON.decode(data, TermDataForm.class);
-        // List<String> dataGroupIdList = termDataForm.getDataGroupIdList();
-        List<ThreadDumpDefinitionDto> threadDump =
+        Map<String, List<ThreadDumpDefinitionDto>> responseDataList =
                 threadDumpService_.getTermThreadDumpData(termDataForm);
 
-        return null;
+        return responseDataList;
     }
 }

@@ -77,7 +77,13 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 		});
 		$("#threadDumpDiv").css('font-size', '0.8em');
 		$("#button").on("click", function(){
-			alert("this is table");
+			//this.reloadTable();
+			/*appView.addView(this, treeSettings.treeId
+					+ ENS.URL.THREADDUMP_POSTFIX_ID);*/
+			/*$("#threadDumpTable").clearGridData().setGridParam({
+				data : tableViewData
+			}).trigger("reloadGrid");*/
+		
 		/*	$("#"+id).append('<div id="threadDumpDiv"></div>');
 			$("#threadDumpDiv").css({
 				"margin-left" : 5
@@ -144,7 +150,6 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 	},
 	_parseModel : function(model) {
 		var tableData = model.attributes;
-
 		return tableData;
 	},
 	onAdd : function(element) {
@@ -168,8 +173,8 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 		_.each(this.collection.models, function(model, index) {
 			tableViewData.push(instance._parseModel(model));
 		});
-
-		$("#journalTable").clearGridData().setGridParam({
+		
+		$("#threadDumpTable").clearGridData().setGridParam({
 			data : tableViewData
 		}).trigger("reloadGrid");
 	},
@@ -178,7 +183,7 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 			name : "date",
 			width : 200
 		}, {
-			name : "threadDump",
+			name : "threadDumpInfo",
 			width : 680
 		}];
 

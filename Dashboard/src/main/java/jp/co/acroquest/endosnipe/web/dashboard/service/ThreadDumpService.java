@@ -18,7 +18,9 @@ import java.io.InputStreamReader;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
@@ -31,17 +33,31 @@ import jp.co.acroquest.endosnipe.web.dashboard.form.TermDataForm;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.DatabaseManager;
 import jp.co.acroquest.endosnipe.web.dashboard.util.DaoUtil;
 
+import org.springframework.stereotype.Service;
+
+/**
+ * 
+ * @author khinewai
+ *
+ */
+@Service
 public class ThreadDumpService
 {
+    private static final String THREADDUMP_POSTFIX_ID = "/threadDump";
+
     private static final ENdoSnipeLogger LOGGER =
             ENdoSnipeLogger.getLogger(ConfigurationReader.class);
 
-    public List<ThreadDumpDefinitionDto> getTermThreadDumpData(final TermDataForm termDataForm)
+    public Map<String, List<ThreadDumpDefinitionDto>> getTermThreadDumpData(
+            final TermDataForm termDataForm)
     {
         List<String> dataGroupIdList = termDataForm.getDataGroupIdList();
         DatabaseManager dbManager = DatabaseManager.getInstance();
         String dbName = dbManager.getDataBaseName(1);
         List<JavelinLog> list = new ArrayList<JavelinLog>();
+        List<ThreadDumpDefinitionDto> displayList = new ArrayList<ThreadDumpDefinitionDto>();
+        Map<String, List<ThreadDumpDefinitionDto>> dataList =
+                new HashMap<String, List<ThreadDumpDefinitionDto>>();
         for (String dataGroupId : dataGroupIdList)
         {
             Timestamp start = new Timestamp(Long.valueOf(termDataForm.getStartTime()));
@@ -56,10 +72,27 @@ public class ThreadDumpService
             {
                 LOGGER.log(ex);
             }
+            for (JavelinLog table : list)
+            {
+                ThreadDumpDefinitionDto result = new ThreadDumpDefinitionDto();
+                result.threadId = table.getLogId();
+                result.date = table.getStartTime().toString();
+                String name = table.getLogFileName();
+                result.threadDumpInfo = this.getThreadDumpDetailData(name);
+                displayList.add(result);
 
+            }
+            list.clear();
+
+            ThreadDumpDefinitionDto result = new ThreadDumpDefinitionDto();
+            result.threadId = 1;
+            result.date = "2013/10/09 03:00";
+            result.threadDumpInfo = "this is testing";
+            displayList.add(result);
+            dataList.put(dataGroupId + THREADDUMP_POSTFIX_ID, displayList);
         }
 
-        return null;
+        return dataList;
     }
 
     public String getThreadDumpDetailData(final String fileName)

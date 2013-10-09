@@ -1000,7 +1000,7 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
     private static String createThreadDumpSelectSqlByTermAndName(String tableName, Timestamp start,
         Timestamp end, String name, boolean removeDiagnosed)
     {
-        String sql = "select * from " + tableName + "where CALLEE_CLASS = FULLThreadDump";
+        String sql = "select * from " + tableName + " where CALLEE_CLASS = FULLThreadDump";
         if (start != null && end != null)
         {
             sql += " and ? <= START_TIME and END_TIME <= ?";
@@ -1019,7 +1019,7 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
         }
         if (removeDiagnosed)
         {
-            sql += "and NOT DIAGNOSED";
+            sql += " and NOT DIAGNOSED";
         }
         sql += " order by START_TIME desc";
         return sql;
