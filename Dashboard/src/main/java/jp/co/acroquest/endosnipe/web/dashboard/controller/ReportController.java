@@ -284,7 +284,6 @@ public class ReportController
                 JSON.decode(schedulingReportDefinition, SchedulingReportDefinitionDto.class);
 
         long reportId = schedulingReportDefinitionDto.getReportId();
-        System.out.println("controller id:" + reportId);
         String reportName = schedulingReportDefinitionDto.getReportName();
         boolean hasSameSignalName = this.reportService.hasSameSignalName(reportId, reportName);
         if (hasSameSignalName)

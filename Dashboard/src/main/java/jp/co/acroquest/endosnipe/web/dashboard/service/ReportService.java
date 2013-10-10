@@ -674,14 +674,28 @@ public class ReportService
         schedulingReportDefinition.term_ = schedulingDefinitionDto.getTerm();
         schedulingReportDefinition.day_ = schedulingDefinitionDto.getDay();
         Calendar time = schedulingDefinitionDto.getTime();
+        /*time.HOUR_OF_DAY
+        time.MINUTE*/
+        System.out.println("Now useful:000" + time);
         DateFormat timeFormat = new SimpleDateFormat(TIME_FORMAT);
         schedulingReportDefinition.time_ = timeFormat.format(time.getTime());
         schedulingReportDefinition.date_ = schedulingDefinitionDto.getDate();
-        schedulingReportDefinition.date_ = schedulingDefinitionDto.getDate();
-        schedulingReportDefinition.lastExportedTime_ =
-                new Timestamp(Calendar.getInstance().getTimeInMillis());
-        System.out.println("Last export Time:" + schedulingReportDefinition.lastExportedTime_);
+        /* schedulingReportDefinition.lastExportedTime_ =
+                 new Timestamp(Calendar.getInstance().getTimeInMillis());*/
 
+        //        java.util.Date date = new java.util.Date();
+        //        Timestamp lastExportedTime = new Timestamp(date.getTime());
+        //        lastExportedTime.setHours(time.HOUR_OF_DAY);
+        Calendar lastExportedCalendar = Calendar.getInstance();
+        lastExportedCalendar.set(Calendar.HOUR_OF_DAY, time.HOUR_OF_DAY);
+        lastExportedCalendar.set(Calendar.MINUTE, time.MINUTE);
+        System.out.println();
+
+        Timestamp lastExportedTime = new Timestamp(lastExportedCalendar.getTimeInMillis());
+
+        /*chedulingReportDefinition.lastExportedTime_ =
+                schedulingDefinitionDto.getLastExportedTime();*/
+        System.out.println("Real new last export time:" + lastExportedTime);
         return schedulingReportDefinition;
     }
 
@@ -731,14 +745,13 @@ public class ReportService
         schedulingDefinitionDto.setDate(schedulingReportDefinition.date_);
 
         DateFormat timeFormat = new SimpleDateFormat(TIME_FORMAT);
+        java.util.Date date = new java.util.Date();
+        Timestamp lastExportedTime = new Timestamp(date.getTime());
 
         Calendar time = Calendar.getInstance();
-        Calendar lastExportedTime = Calendar.getInstance();
-
         try
         {
             time.setTime(timeFormat.parse(schedulingReportDefinition.time_));
-            lastExportedTime.setTime(timeFormat.parse(schedulingReportDefinition.time_));
         }
         catch (ParseException ex)
         {
@@ -746,8 +759,9 @@ public class ReportService
         }
 
         schedulingDefinitionDto.setTime(time);
-        /*System.out.println("string:" + schedulingDefinitionDto.getTime());*/
-        schedulingDefinitionDto.setTime(lastExportedTime);
+        /*schedulingDefinitionDto.setLastExportedTime(lastExportedTime);
+        System.out.println("last export time from Dto:"
+                + schedulingDefinitionDto.getLastExportedTime());*/
 
         return schedulingDefinitionDto;
     }
