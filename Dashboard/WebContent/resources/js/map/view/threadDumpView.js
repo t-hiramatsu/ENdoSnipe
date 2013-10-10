@@ -5,7 +5,9 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 		this.tableColModel = this.createTableColModel();
 
 		var appView = new ENS.AppView();
+		this.appView = appView;
 		this.treeSettings = treeSettings;
+		this.argument = argument;
 		appView.addView(this, treeSettings.treeId
 				+ ENS.URL.THREADDUMP_POSTFIX_ID);
 
@@ -21,31 +23,33 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 
 		// 空のテーブルを作成
 		this.render();
-
-		var startTime = new Date(new Date().getTime() - argument.term * 1000);
-		var endTime = new Date();
-		appView.getTermThreadDumpData([ treeSettings.treeId ], startTime,
-				endTime, argument.maxLineNum);
-
 		this.id = argument.id;
+		this.argument.term = argument.term;
 
-		
-		this.dualSliderView.setScaleMovedEvent(function(from, to) {
-			var appView = new ENS.AppView();
-			var startTime = new Date(new Date().getTime() - from);
-			var endTime = new Date(new Date().getTime() - to);
-			appView.getTermThreadDumpData([ treeSettings.treeId ], startTime,
-					endTime, 100);
-		});
+		/*
+		 * var startTime = new Date(new Date().getTime() - argument.term *
+		 * 1000); var endTime = new Date(); appView.getTermThreadDumpData([
+		 * treeSettings.treeId ], startTime, endTime, argument.maxLineNum);
+		 * 
+		 * this.id = argument.id;
+		 * 
+		 * 
+		 * this.dualSliderView.setScaleMovedEvent(function(from, to) { var
+		 * appView = new ENS.AppView(); var startTime = new Date(new
+		 * Date().getTime() - from); var endTime = new Date(new Date().getTime() -
+		 * to); appView.getTermThreadDumpData([ treeSettings.treeId ],
+		 * startTime, endTime, 100); });
+		 */
 	},
 	render : function() {
-		var id= this.id;
-		$("#"+this.id).append("<input type='button' id='button' value='get Thread Dump'>");
+		var id = this.id;
+		$("#" + this.id).append(
+				"<input type='button' id='button' value='get Thread Dump'>");
 		$("#button").css({
-			"margin-left":750,
-			"width": 150
+			"margin-left" : 750,
+			"width" : 150
 		});
-		$("#"+id).append('<div id="threadDumpDiv"></div>');
+		$("#" + id).append('<div id="threadDumpDiv"></div>');
 		$("#threadDumpDiv").css({
 			"margin-left" : 5
 		});
@@ -60,15 +64,15 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 			colNames : this.tableColNames,
 			caption : "Diagnosis of " + this.treeSettings.id,
 			pager : "threadDumpPager",
-			rowNum : 20,
-			rowList : [ 20, 50, 100 ],
+			rowNum : 1,
+			rowList : [ 1 ],
 			pgbuttons : true,
 			pginput : true,
 			height : height,
 			width : 880,
-			sortname : "date", 
+			sortname : "date",
 			sortorder : "desc",
-			viewrecords : true, 
+			viewrecords : true,
 			rownumbers : true,
 			shrinkToFit : false
 		});
@@ -76,77 +80,35 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 			defaultSearch : 'cn'
 		});
 		$("#threadDumpDiv").css('font-size', '0.8em');
-		$("#button").on("click", function(){
-			//this.reloadTable();
-			/*appView.addView(this, treeSettings.treeId
-					+ ENS.URL.THREADDUMP_POSTFIX_ID);*/
-			/*$("#threadDumpTable").clearGridData().setGridParam({
-				data : tableViewData
-			}).trigger("reloadGrid");*/
-		
-		/*	$("#"+id).append('<div id="threadDumpDiv"></div>');
-			$("#threadDumpDiv").css({
-				"margin-left" : 5
-			});
-			$("#threadDumpDiv").append('<table id="threadDumpTable"></table>');
-			$("#threadDumpDiv").append('<div id="threadDumpPager"></table>');
-			var height = "auto";
+		var term = this.argument.term;
+		var treeId = this.treeSettings.treeId;
+		var maxLineNum = this.argument.maxLineNum;
+		$("#button")
+				.on(
+						"click",
+						function() {
+							var startTime = new Date(new Date().getTime()
+									- term * 1000);
+							var endTime = new Date();
+							var appView = new ENS.AppView();
 
-			$("#threadDumpTable").jqGrid({
-				datatype : "local",
-				data : "",
-				colModel : this.tableColModel,
-				colNames : this.tableColNames,
-				caption : "Diagnosis of " + this.treeSettings.id,
-				pager : "threadDumpPager",
-				rowNum : 20,
-				rowList : [ 20, 50, 100 ],
-				pgbuttons : true,
-				pginput : true,
-				height : height,
-				width : 880,
-				sortname : "date", 
-				sortorder : "desc",
-				viewrecords : true, 
-				rownumbers : true,
-				shrinkToFit : false
-			});
-			$("#threadDumpTable").filterToolbar({
-				defaultSearch : 'cn'
-			});
-			$("#threadDumpDiv").css('font-size', '0.8em');*/
-		})
-	/*	$("#" + this.id).append('<div id="threadDumpDiv"></div>');
-		$("#threadDumpDiv").css({
-			"margin-left" : 5
-		});
-		$("#threadDumpDiv").append('<table id="threadDumpTable"></table>');
-		$("#threadDumpDiv").append('<div id="threadDumpPager"></table>');
-		var height = "auto";
+							appView.getTermThreadDumpData([ treeId ],
+									startTime, endTime,
+									maxLineNum);
 
-		$("#threadDumpTable").jqGrid({
-			datatype : "local",
-			data : "",
-			colModel : this.tableColModel,
-			colNames : this.tableColNames,
-			caption : "Diagnosis of " + this.treeSettings.id,
-			pager : "threadDumpPager",
-			rowNum : 20,
-			rowList : [ 20, 50, 100 ],
-			pgbuttons : true,
-			pginput : true,
-			height : height,
-			width : 880,
-			sortname : "date", 
-			sortorder : "desc",
-			viewrecords : true, 
-			rownumbers : true,
-			shrinkToFit : false
-		});
-		$("#threadDumpTable").filterToolbar({
-			defaultSearch : 'cn'
-		});
-		$("#threadDumpDiv").css('font-size', '0.8em');*/
+							this.dualSliderView.setScaleMovedEvent(function(
+									from, to) {
+								var appView = new ENS.AppView();
+								var startTime = new Date(new Date().getTime()
+										- from);
+								var endTime = new Date(new Date().getTime()
+										- to);
+								appView.getTermThreadDumpData(
+										[ treeId ],
+										startTime, endTime, 100);
+							});
+						});
+
 	},
 	_parseModel : function(model) {
 		var tableData = model.attributes;
@@ -173,7 +135,7 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 		_.each(this.collection.models, function(model, index) {
 			tableViewData.push(instance._parseModel(model));
 		});
-		
+
 		$("#threadDumpTable").clearGridData().setGridParam({
 			data : tableViewData
 		}).trigger("reloadGrid");
@@ -185,7 +147,7 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 		}, {
 			name : "threadDumpInfo",
 			width : 680
-		}];
+		} ];
 
 		return tableColModel;
 	},
@@ -195,6 +157,6 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 		var rowId = options.rowId;
 		var onclick = selectValueList.onclick;
 		return '<a href="javascript:void(0)" onclick="'
-		+ selectValueList.onclick + ';">' + 'DL' + '</a>';
+				+ selectValueList.onclick + ';">' + 'DL' + '</a>';
 	}
 });
