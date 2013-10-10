@@ -45,11 +45,12 @@ public class ThreadDumpController
     protected ThreadDumpService threadDumpService_;
 
     @SuppressWarnings("deprecation")
-    @RequestMapping(value = "getThreadDump", method = RequestMethod.POST)
+    @RequestMapping(value = "/getThreadDump", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, List<ThreadDumpDefinitionDto>> getThreadDumpData(
             @RequestParam(value = "data") final String data)
     {
+        System.out.println(data);
         Map<String, List<ThreadDumpDefinitionDto>> responceDataList =
                 new HashMap<String, List<ThreadDumpDefinitionDto>>();
 

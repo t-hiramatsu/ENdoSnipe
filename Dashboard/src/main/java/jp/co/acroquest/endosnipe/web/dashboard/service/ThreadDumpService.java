@@ -84,12 +84,15 @@ public class ThreadDumpService
             }
             list.clear();
 
-            ThreadDumpDefinitionDto result = new ThreadDumpDefinitionDto();
-            result.threadId = 1;
-            result.date = "2013/10/09 03:00";
-            result.threadDumpInfo = "this is testing";
-            displayList.add(result);
-            dataList.put(dataGroupId + THREADDUMP_POSTFIX_ID, displayList);
+            for (int count = 1; count <= 5; count++)
+            {
+                ThreadDumpDefinitionDto result = new ThreadDumpDefinitionDto();
+                result.threadId = count;
+                result.date = "2013/10/09 03:00";
+                result.threadDumpInfo = "this is testing";
+                displayList.add(result);
+                dataList.put(dataGroupId + THREADDUMP_POSTFIX_ID, displayList);
+            }
         }
 
         return dataList;
