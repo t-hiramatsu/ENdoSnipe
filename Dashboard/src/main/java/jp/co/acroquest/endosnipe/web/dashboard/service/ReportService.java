@@ -674,28 +674,21 @@ public class ReportService
         schedulingReportDefinition.term_ = schedulingDefinitionDto.getTerm();
         schedulingReportDefinition.day_ = schedulingDefinitionDto.getDay();
         Calendar time = schedulingDefinitionDto.getTime();
-        /*time.HOUR_OF_DAY
-        time.MINUTE*/
-        System.out.println("Now useful:000" + time);
+
         DateFormat timeFormat = new SimpleDateFormat(TIME_FORMAT);
         schedulingReportDefinition.time_ = timeFormat.format(time.getTime());
         schedulingReportDefinition.date_ = schedulingDefinitionDto.getDate();
-        /* schedulingReportDefinition.lastExportedTime_ =
-                 new Timestamp(Calendar.getInstance().getTimeInMillis());*/
 
-        //        java.util.Date date = new java.util.Date();
-        //        Timestamp lastExportedTime = new Timestamp(date.getTime());
-        //        lastExportedTime.setHours(time.HOUR_OF_DAY);
         Calendar lastExportedCalendar = Calendar.getInstance();
-        lastExportedCalendar.set(Calendar.HOUR_OF_DAY, time.HOUR_OF_DAY);
-        lastExportedCalendar.set(Calendar.MINUTE, time.MINUTE);
-        System.out.println();
+        System.out.println("Day of week:" + time.get(Calendar.DAY_OF_WEEK));
+
+        lastExportedCalendar.set(Calendar.HOUR_OF_DAY, time.get(Calendar.HOUR_OF_DAY));
+        lastExportedCalendar.set(Calendar.MINUTE, time.get(Calendar.MINUTE));
 
         Timestamp lastExportedTime = new Timestamp(lastExportedCalendar.getTimeInMillis());
+        schedulingReportDefinition.lastExportedTime_ = lastExportedTime;
 
-        /*chedulingReportDefinition.lastExportedTime_ =
-                schedulingDefinitionDto.getLastExportedTime();*/
-        System.out.println("Real new last export time:" + lastExportedTime);
+        System.out.println("after last export time:" + schedulingReportDefinition.lastExportedTime_);
         return schedulingReportDefinition;
     }
 
