@@ -60,8 +60,13 @@ public class ThreadDumpService
                 new HashMap<String, List<ThreadDumpDefinitionDto>>();
         for (String dataGroupId : dataGroupIdList)
         {
-            Timestamp start = new Timestamp(Long.valueOf(termDataForm.getStartTime()));
-            Timestamp end = new Timestamp(Long.valueOf(termDataForm.getEndTime()));
+            //Timestamp starts = new Timestamp(Long.valueOf(termDataForm.getStartTime()));
+            // Timestamp ends = new Timestamp(Long.valueOf(termDataForm.getEndTime()));
+            String startTime = "1281468362337";
+            String endTime = "3381468362337";
+            Timestamp start = new Timestamp(Long.valueOf(startTime));
+            Timestamp end = new Timestamp(Long.valueOf(endTime));
+
             try
             {
                 list =
@@ -80,19 +85,20 @@ public class ThreadDumpService
                 String name = table.getLogFileName();
                 result.threadDumpInfo = this.getThreadDumpDetailData(name);
                 displayList.add(result);
+                dataList.put(dataGroupId + THREADDUMP_POSTFIX_ID, displayList);
 
             }
             list.clear();
-
-            for (int count = 1; count <= 5; count++)
-            {
-                ThreadDumpDefinitionDto result = new ThreadDumpDefinitionDto();
-                result.threadId = count;
-                result.date = "2013/10/09 03:00";
-                result.threadDumpInfo = "this is testing";
-                displayList.add(result);
-                dataList.put(dataGroupId + THREADDUMP_POSTFIX_ID, displayList);
-            }
+            /*
+                        for (int count = 1; count <= 10; count++)
+                        {
+                            ThreadDumpDefinitionDto result = new ThreadDumpDefinitionDto();
+                            result.threadId = count;
+                            result.date = "2013/" + count + "/09 03:00";
+                            result.threadDumpInfo = "this is testing";
+                            displayList.add(result);
+                            dataList.put(dataGroupId + THREADDUMP_POSTFIX_ID, displayList);
+                        }*/
         }
 
         return dataList;
