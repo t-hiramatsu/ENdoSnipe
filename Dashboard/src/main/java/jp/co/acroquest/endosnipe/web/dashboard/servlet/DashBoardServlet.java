@@ -25,6 +25,7 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.web.dashboard.servlet;
 
+import java.io.File;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -80,6 +81,8 @@ public class DashBoardServlet extends HttpServlet
     {
         //　通信用オブジェクトの作成
         DataBaseConfig dbConfig = null;
+        String tempDirectory = System.getProperty("java.io.tmpdir");
+        this.deleteTempFile(tempDirectory);
         // DBの設定が行われるのを待ち続ける。
         while (true)
         {
@@ -166,6 +169,28 @@ public class DashBoardServlet extends HttpServlet
     public static String createClientId(final String host, final int port)
     {
         return host + ":" + port;
+    }
+
+    /**
+     * 
+     * @param tempDirectory get temp file
+     */
+    private void deleteTempFile(final String tempDirectory)
+    {
+        File directory = new File(tempDirectory);
+        File[] files = directory.listFiles();
+        for (File file : files)
+        {
+            if (file.isFile())
+            {
+                String fileName = file.getAbsolutePath();
+                if (fileName.endsWith(".xls"))
+                {
+                    file.delete();
+                }
+            }
+        }
+
     }
 
 }
