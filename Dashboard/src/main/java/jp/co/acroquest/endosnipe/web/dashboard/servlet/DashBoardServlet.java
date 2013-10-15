@@ -172,6 +172,7 @@ public class DashBoardServlet extends HttpServlet
     }
 
     /**
+     * This function is delete temp file in the temp directory
      * 
      * @param tempDirectory get temp file
      */
