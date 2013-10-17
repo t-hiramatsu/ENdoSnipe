@@ -33,6 +33,8 @@ import java.util.TreeSet;
 
 import jp.co.acroquest.endosnipe.collector.data.SignalStateNode;
 import jp.co.acroquest.endosnipe.collector.manager.SummarySignalStateManager;
+import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
+import jp.co.acroquest.endosnipe.data.dto.SummarySignalDefinitionDto;
 
 public class SignalSummarizer
 {
@@ -52,7 +54,8 @@ public class SignalSummarizer
         instance__ = instance;
     }
 
-    public void calculateSummarySignalState(final List<String> alarmDataList)
+    public List<SummarySignalDefinitionDto> calculateSummarySignalState(
+        final List<String> alarmDataList)
     {
 
         Set<String> summarySignalDefinitionDtoList = new TreeSet<String>();
@@ -61,12 +64,17 @@ public class SignalSummarizer
 
         for (String changeNode : alarmDataList)
         {
-            parentListSet.addAll(parChildMap.get(changeNode).getParentListSet());
+            if (parChildMap.get(changeNode) != null
+                && parChildMap.get(changeNode).getParentListSet() != null
+                && parChildMap.get(changeNode).getParentListSet().size() > 0)
+            {
+                parentListSet.addAll(parChildMap.get(changeNode).getParentListSet());
+            }
         }
-        Set<String> smalletPriorityParent = getSmalletPriorityParent(parentListSet);
 
         while (parentListSet.size() != 0)
         {
+            Set<String> smalletPriorityParent = getSmalletPriorityParent(parentListSet);
             Set<String> changeSummarySignalList = new TreeSet<String>();
             for (String parent : smalletPriorityParent)
             {
@@ -74,6 +82,10 @@ public class SignalSummarizer
                 {
                     //OR cause
                     parChildMap.get(parent).setCurrentStatus(1);
+                    SummarySignalStateManager.getInstance().addSummaryAlarmData(parent);
+                    SummarySignalStateManager.getInstance().getSummarySignalDefinitionMap()
+                        .get(parChildMap.get(parent).nodeId).summarySignalStatus = 1;
+                    summarySignalDefinitionDtoList.add(parent);
                     changeSummarySignalList.add(parent);
                     parentListSet.remove(parent);
 
@@ -86,8 +98,11 @@ public class SignalSummarizer
                     boolean flagAnd = true;
                     for (String child : childList)
                     {
+
                         if (!alarmDataList.contains(child)
-                            && !changeSummarySignalList.contains(child))
+                            && !changeSummarySignalList.contains(child)
+                            && !SummarySignalStateManager.getInstance().getAlarmSummaryList()
+                                .contains(child))
                         {
                             flagAnd = false;
                             break;
@@ -97,19 +112,48 @@ public class SignalSummarizer
                     if (flagAnd)
                     {
                         parChildMap.get(parent).setCurrentStatus(1);
+                        SummarySignalStateManager.getInstance().addSummaryAlarmData(parent);
+                        SummarySignalStateManager.getInstance().getSummarySignalDefinitionMap()
+                            .get(parChildMap.get(parent).nodeId).summarySignalStatus = 1;
+                        summarySignalDefinitionDtoList.add(parent);
                         changeSummarySignalList.add(parent);
                         parentListSet.remove(parent);
                     }
+                    else
+                    {
+                        parentListSet.remove(parent);
+                    }
                 }
+                parentListSet.clear();
                 for (String changeNode : changeSummarySignalList)
                 {
-                    parentListSet.clear();
-                    parentListSet.addAll(changeSummarySignalList);
+
+                    parentListSet.addAll(parChildMap.get(changeNode).parentListSet);
                 }
 
             }
         }
+        return createAlarmSummarySignalList(summarySignalDefinitionDtoList);
+    }
 
+    public List<SummarySignalDefinitionDto> createAlarmSummarySignalList(
+        final Set<String> summarySignalDefinitionDtoList)
+    {
+        List<SummarySignalDefinitionDto> summarySignalList =
+            new ArrayList<SummarySignalDefinitionDto>();
+
+        for (String name : summarySignalDefinitionDtoList)
+        {
+            SummarySignalDefinitionDto summaryDto = new SummarySignalDefinitionDto();
+            SignalStateNode nodeData = parChildMap.get(name);
+            summaryDto.setSummarySignalName(nodeData.getName());
+            summaryDto.setSummarySignalId(nodeData.getNodeId());
+            summaryDto.setSummarySignalStatus(nodeData.getCurrentStatus());
+            summaryDto.setSignalList(nodeData.getChildList());
+            summaryDto.setErrorMessage("");
+            summarySignalList.add(summaryDto);
+        }
+        return summarySignalList;
     }
 
     public Set<String> getSmalletPriorityParent(final Set<String> parentListSet)
@@ -146,5 +190,261 @@ public class SignalSummarizer
         }
 
         return min;
+    }
+
+    public List<SummarySignalDefinitionDto> calculateChangeSummarySignalState(
+        final List<SummarySignalDefinitionDto> summarySignalDefinitionList, final String process)
+    {
+
+        Set<String> summarySignalDefinitionDtoList = new TreeSet<String>();
+        parChildMap = SummarySignalStateManager.getInstance().getParChildMap();
+        Set<String> parentListSet = new TreeSet<String>();
+
+        Set<String> parentUpdate = new TreeSet<String>();
+        for (SummarySignalDefinitionDto summarySignal : summarySignalDefinitionList)
+        {
+
+            boolean changeFlag = false;
+            if (SummarySignalStateManager.getInstance().getAlarmSummaryList()
+                .contains(summarySignal.getSummarySignalName()))
+            {
+                changeFlag = true;
+            }
+            SummarySignalStateManager.getInstance().getAlarmSummaryList()
+                .remove(summarySignal.summarySignalName);
+            List<String> childList =
+                parChildMap.get(summarySignal.getSummarySignalName()).childList;
+
+            for (String changeNode : childList)
+            {
+                if (SummarySignalStateManager.getInstance().getAlarmSummaryList()
+                    .contains(changeNode)
+                    || SummarySignalStateManager.getInstance().getAlarmChildList()
+                        .contains(changeNode))
+                {
+                    parentListSet.add(summarySignal.getSummarySignalName());
+                }
+            }
+
+            while (parentListSet.size() != 0)
+            {
+                Set<String> smalletPriorityParent = getSmalletPriorityParent(parentListSet);
+                System.out.println("smallest parent " + smalletPriorityParent);
+                System.out.println("parentlist " + parentListSet);
+                //System.out.println("parentlist " + parentListSet);
+                Set<String> changeSummarySignalList = new TreeSet<String>();
+                for (String parent : smalletPriorityParent)
+                {
+                    SummarySignalStateManager.getInstance().getAlarmSummaryList().remove(parent);
+                    parChildMap.get(parent).setCurrentStatus(-1);
+                    SummarySignalStateManager.getInstance().getSummarySignalDefinitionMap()
+                        .get(parChildMap.get(parent).nodeId).summarySignalStatus = -1;
+
+                    if (parChildMap.get(parent).getSignalType() == 1)
+                    {
+                        //OR cause
+                        parChildMap.get(parent).setCurrentStatus(1);
+                        summarySignal.setSummarySignalStatus(1);
+                        SummarySignalStateManager.getInstance().getAlarmSummaryList().add(parent);
+                        SummarySignalStateManager.getInstance().addSummaryAlarmData(parent);
+                        SummarySignalStateManager.getInstance().getSummarySignalDefinitionMap()
+                            .get(parChildMap.get(parent).nodeId).summarySignalStatus = 1;
+                        summarySignalDefinitionDtoList.add(parent);
+                        changeSummarySignalList.add(parent);
+                        parentListSet.remove(parent);
+
+                    }
+                    else if (parChildMap.get(parent).getSignalType() == 0)
+                    {
+                        //AND cause
+                        List<String> childDataList = parChildMap.get(parent).childList;
+
+                        boolean flagAnd = true;
+                        for (String child : childDataList)
+                        {
+
+                            if (!SummarySignalStateManager.getInstance().getAlarmSummaryList()
+                                .contains(child)
+                                && !changeSummarySignalList.contains(child)
+                                && !SummarySignalStateManager.getInstance().getAlarmChildList()
+                                    .contains(child))
+                            {
+                                flagAnd = false;
+                                break;
+                            }
+                        }
+
+                        if (flagAnd)
+                        {
+                            parChildMap.get(parent).setCurrentStatus(1);
+                            summarySignal.setSummarySignalStatus(1);
+                            SummarySignalStateManager.getInstance().addSummaryAlarmData(parent);
+                            SummarySignalStateManager.getInstance().getSummarySignalDefinitionMap()
+                                .get(parChildMap.get(parent).nodeId).summarySignalStatus = 1;
+                            SummarySignalStateManager.getInstance().addSummaryAlarmData(parent);
+                            summarySignalDefinitionDtoList.add(parent);
+                            changeSummarySignalList.add(parent);
+                            parentListSet.remove(parent);
+                        }
+                        else
+                        {
+                            parentListSet.remove(parent);
+                        }
+                    }
+                    parentListSet.clear();
+                    if (parent.equals(summarySignal.summarySignalName)
+                        && !changeSummarySignalList.contains(summarySignal.summarySignalName)
+                        && changeFlag)
+                    {
+                        summarySignalDefinitionDtoList.add(parent);
+                        changeSummarySignalList.add(summarySignal.summarySignalName);
+                    }
+                    for (String changeNode : changeSummarySignalList)
+                    {
+
+                        parentListSet.addAll(parChildMap.get(changeNode).parentListSet);
+                    }
+
+                    parentUpdate.add(parent);
+
+                }
+
+            }
+            if (parentUpdate.contains(summarySignal.getSummarySignalName()))
+            {
+                parentUpdate.remove(summarySignal.getSummarySignalName());
+            }
+        }
+
+        if (process.equals(TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_UPDATE))
+        {
+            summarySignalDefinitionList.addAll(createAlarmSummarySignalList(parentUpdate));
+        }
+        return summarySignalDefinitionList;
+    }
+
+    public List<SummarySignalDefinitionDto> calculateChangeParentSummarySignalState(
+        final List<SummarySignalDefinitionDto> summarySignalDefinitionList)
+    {
+
+        Set<String> summarySignalDefinitionDtoList = new TreeSet<String>();
+        parChildMap = SummarySignalStateManager.getInstance().getParChildMap();
+        Set<String> parentListSet = new TreeSet<String>();
+        Set<String> parentUpdate = new TreeSet<String>();
+        for (SummarySignalDefinitionDto summarySignal : summarySignalDefinitionList)
+        {
+
+            boolean changeFlag = false;
+            if (SummarySignalStateManager.getInstance().getAlarmSummaryList()
+                .contains(summarySignal.getSummarySignalName()))
+            {
+                changeFlag = true;
+
+                parentListSet
+                    .addAll(parChildMap.get(summarySignal.getSummarySignalName()).parentListSet);
+            }
+            while (parentListSet.size() != 0)
+            {
+                Set<String> smalletPriorityParent = getSmalletPriorityParent(parentListSet);
+                System.out.println("smallest parent " + smalletPriorityParent);
+                System.out.println("parentlist " + parentListSet);
+                //System.out.println("parentlist " + parentListSet);
+                Set<String> changeSummarySignalList = new TreeSet<String>();
+                for (String parent : smalletPriorityParent)
+                {
+                    SummarySignalStateManager.getInstance().getAlarmSummaryList().remove(parent);
+                    parChildMap.get(parent).setCurrentStatus(-1);
+                    SummarySignalStateManager.getInstance().getSummarySignalDefinitionMap()
+                        .get(parChildMap.get(parent).nodeId).summarySignalStatus = -1;
+
+                    if (parChildMap.get(parent).getSignalType() == 1)
+                    {
+                        //OR cause
+                        List<String> childList = parChildMap.get(parent).childList;
+
+                        for (String changeNode : childList)
+                        {
+                            if (SummarySignalStateManager.getInstance().getAlarmSummaryList()
+                                .contains(changeNode)
+                                || SummarySignalStateManager.getInstance().getAlarmChildList()
+                                    .contains(changeNode))
+                            {
+                                parChildMap.get(parent).setCurrentStatus(1);
+                                summarySignal.setSummarySignalStatus(1);
+                                SummarySignalStateManager.getInstance().getAlarmSummaryList()
+                                    .add(parent);
+                                SummarySignalStateManager.getInstance().addSummaryAlarmData(parent);
+                                SummarySignalStateManager.getInstance()
+                                    .getSummarySignalDefinitionMap()
+                                    .get(parChildMap.get(parent).nodeId).summarySignalStatus = 1;
+                                summarySignalDefinitionDtoList.add(parent);
+                                changeSummarySignalList.add(parent);
+                                break;
+                            }
+                        }
+
+                        parentListSet.remove(parent);
+
+                    }
+                    else if (parChildMap.get(parent).getSignalType() == 0)
+                    {
+                        //AND cause
+                        List<String> childDataList = parChildMap.get(parent).childList;
+
+                        boolean flagAnd = true;
+                        for (String child : childDataList)
+                        {
+
+                            if (!SummarySignalStateManager.getInstance().getAlarmSummaryList()
+                                .contains(child)
+                                && !changeSummarySignalList.contains(child)
+                                && !SummarySignalStateManager.getInstance().getAlarmChildList()
+                                    .contains(child))
+                            {
+                                flagAnd = false;
+                                break;
+                            }
+                        }
+
+                        if (flagAnd)
+                        {
+                            parChildMap.get(parent).setCurrentStatus(1);
+                            summarySignal.setSummarySignalStatus(1);
+                            SummarySignalStateManager.getInstance().addSummaryAlarmData(parent);
+                            SummarySignalStateManager.getInstance().getSummarySignalDefinitionMap()
+                                .get(parChildMap.get(parent).nodeId).summarySignalStatus = 1;
+                            SummarySignalStateManager.getInstance().addSummaryAlarmData(parent);
+                            summarySignalDefinitionDtoList.add(parent);
+                            changeSummarySignalList.add(parent);
+                            parentListSet.remove(parent);
+                        }
+                        else
+                        {
+                            parentListSet.remove(parent);
+                        }
+                    }
+                    parentListSet.clear();
+                    if (changeFlag)
+                    {
+                        summarySignalDefinitionDtoList.add(parent);
+                        // changeSummarySignalList.add(parent);
+                    }
+                    for (String changeNode : changeSummarySignalList)
+                    {
+
+                        parentListSet.addAll(parChildMap.get(changeNode).parentListSet);
+                    }
+
+                }
+
+            }
+            SummarySignalStateManager.getInstance()
+                .removeSummarySignalDefinition((int)summarySignal.getSummarySignalId());
+            SummarySignalStateManager.getInstance().createAllSummarySignalMapValue();
+            SummarySignalStateManager.getInstance().getAlarmSummaryList()
+                .remove(summarySignal.getSummarySignalName());
+        }
+
+        return createAlarmSummarySignalList(summarySignalDefinitionDtoList);
     }
 }

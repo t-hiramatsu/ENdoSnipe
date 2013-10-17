@@ -33,6 +33,7 @@ import java.util.Map;
 import jp.co.acroquest.endosnipe.collector.LogMessageCodes;
 import jp.co.acroquest.endosnipe.collector.manager.SummarySignalStateManager;
 import jp.co.acroquest.endosnipe.collector.util.CollectorTelegramUtil;
+import jp.co.acroquest.endosnipe.collector.util.SignalSummarizer;
 import jp.co.acroquest.endosnipe.common.entity.ItemType;
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
 import jp.co.acroquest.endosnipe.communicator.AbstractTelegramListener;
@@ -56,7 +57,7 @@ public class SummarySignalChangeListener extends AbstractTelegramListener implem
 
     private static final int ITEM_VALUE_SUMMARY_SIGNAL_TYPE = 2;
 
-    private String summaryProcess = null;
+    private String summaryProcess = "";
 
     @Override
     protected Telegram doReceiveTelegram(final Telegram telegram)
@@ -76,13 +77,23 @@ public class SummarySignalChangeListener extends AbstractTelegramListener implem
         {
             // �d������͂��A�V�O�i����`�����X�V����B
             summarySignalDefinitionDto = updateSummarySignalDefinition(telegram);
+            if (!bodys[0].getStrItemName().equals(TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_DELETE))
+            {
+                summarySignalDefinitionDto =
+                    SignalSummarizer.getInstance()
+                        .calculateChangeSummarySignalState(summarySignalDefinitionDto,
+                                                           bodys[0].getStrItemName());
+            }
         }
+
+        //        SignalSummarizer.getInstance()
+        //            .calculateChangeSummarySignalState(summarySignalDefinitionDto);
         Telegram responseTelegram = createResponseTelegram(summarySignalDefinitionDto);
 
         return responseTelegram;
     }
 
-    private Telegram createResponseTelegram(
+    public Telegram createResponseTelegram(
         final List<SummarySignalDefinitionDto> summarySignalDefinitionList)
     {
         Header responseHeader = new Header();
@@ -196,7 +207,7 @@ public class SummarySignalChangeListener extends AbstractTelegramListener implem
         responseBodys[5] = errorMessageBody;
 
         responseTelegram.setObjBody(responseBodys);
-
+        summaryProcess = "";
         return responseTelegram;
     }
 

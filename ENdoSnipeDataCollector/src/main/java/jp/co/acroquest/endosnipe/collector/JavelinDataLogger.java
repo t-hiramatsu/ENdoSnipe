@@ -57,6 +57,7 @@ import jp.co.acroquest.endosnipe.collector.processor.AlarmThresholdProcessor;
 import jp.co.acroquest.endosnipe.collector.processor.AlarmType;
 import jp.co.acroquest.endosnipe.collector.request.CommunicationClientRepository;
 import jp.co.acroquest.endosnipe.collector.util.CollectorTelegramUtil;
+import jp.co.acroquest.endosnipe.collector.util.SignalSummarizer;
 import jp.co.acroquest.endosnipe.common.Constants;
 import jp.co.acroquest.endosnipe.common.entity.ItemType;
 import jp.co.acroquest.endosnipe.common.entity.MeasurementData;
@@ -1039,6 +1040,7 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             return;
         }
 
+        List<String> alarmSignalList = new ArrayList<String>();
         for (Entry<Long, SignalDefinitionDto> signalDefinitionEntry : signalDefinitionMap
             .entrySet())
         {
@@ -1083,6 +1085,8 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             if (alarmEntry.isSendAlarm())
             {
                 alarmEntryList.add(alarmEntry);
+                alarmSignalList.add(signalName);
+                SummarySignalStateManager.getInstance().addChildAlarmData(signalName);
             }
         }
 
@@ -1096,9 +1100,15 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
                     JavelinClient.createClientId(currentResourceData.ipAddress,
                                                  currentResourceData.portNum);
             }
+            System.out.println("alarm " + alarmEntryList);
             Telegram alarmTelegram = CollectorTelegramUtil.createAlarmTelegram(alarmEntryList);
             this.clientRepository_.sendTelegramToClient(clientId, alarmTelegram);
-
+            List<SummarySignalDefinitionDto> alarmSummarySignal =
+                SignalSummarizer.getInstance().calculateSummarySignalState(alarmSignalList);
+            Telegram alarmSummaryTelegram =
+                CollectorTelegramUtil.createResponseTelegram(alarmSummarySignal);
+            this.clientRepository_.sendTelegramToClient(clientId, alarmSummaryTelegram);
+            System.out.println("summary " + alarmSummarySignal);
             for (AlarmEntry alarmEntry : alarmEntryList)
             {
                 addSignalStateChangeEvent(alarmEntry);

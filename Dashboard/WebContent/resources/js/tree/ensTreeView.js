@@ -1166,11 +1166,16 @@ ENS.treeView = wgp.TreeView
 					reportTreeId += nameSplit;
 				}
 
+				var summaryIcon = ENS.tree.SIGNAL_ICON_0;
+				if(summarySignalDefinition.summarySignalStatus==1)
+				{
+					summaryIcon ="signal_4";
+				}
 				var treeOption = {
 					id : summarySignalName,
 					data : showName,
-					parentTreeId : targetTreeId,
-					icon : ENS.tree.SIGNAL_ICON_0,
+					parentTreeId : targetTreeId,					
+					icon : summaryIcon,
 					type : ENS.tree.type.SUMMARYSIGNAL
 				};
 
@@ -1513,7 +1518,7 @@ ENS.treeView = wgp.TreeView
 				var treeType = treeModel.get("type");
 
 				// シグナルの場合はリアルタイム更新開始処理を行う。
-				if (ENS.tree.type.SIGNAL == treeType) {
+				if (ENS.tree.type.SIGNAL == treeType || ENS.tree.type.SUMMARYSIGNAL == treeType) {
 					appView.syncData([ treeModel.get("id") ]);
 				}
 
@@ -1534,7 +1539,7 @@ ENS.treeView = wgp.TreeView
 				treeTag.attr("id", treeId);
 
 				// シグナルの場合は状態を変更する。
-				if (ENS.tree.type.SIGNAL == treeType) {
+				if (ENS.tree.type.SIGNAL == treeType || ENS.tree.type.SUMMARYSIGNAL == treeType) {
 					var treeIcon = treeModel.get("icon");
 					var iconTag = treeTag.find("ins");
 
@@ -1567,7 +1572,7 @@ ENS.treeView = wgp.TreeView
 				var treeType = treeModel.get("type");
 
 				// シグナルの場合はリアルタイム更新開始処理を行う。
-				if (ENS.tree.type.SIGNAL == treeType) {
+				if (ENS.tree.type.SIGNAL == treeType  || ENS.tree.type.SUMMARYSIGNAL == treeType) {
 					appView.stopSyncData([ treeModel.get("id") ]);
 				}
 

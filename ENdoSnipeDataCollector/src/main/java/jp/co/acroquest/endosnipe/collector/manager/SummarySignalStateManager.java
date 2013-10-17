@@ -33,10 +33,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 
 import jp.co.acroquest.endosnipe.collector.config.DataCollectorConfig;
 import jp.co.acroquest.endosnipe.collector.data.SignalStateNode;
+import jp.co.acroquest.endosnipe.collector.util.SignalSummarizer;
 import jp.co.acroquest.endosnipe.data.dao.SummarySignalDefinitionDao;
 import jp.co.acroquest.endosnipe.data.dto.SummarySignalDefinitionDto;
 import jp.co.acroquest.endosnipe.data.entity.SummarySignalDefinition;
@@ -48,10 +50,17 @@ public class SummarySignalStateManager
     private Map<Long, SummarySignalDefinitionDto> summarySignalDefinitionMap_ =
         new ConcurrentHashMap<Long, SummarySignalDefinitionDto>();
 
-    private final Map<String, SignalStateNode> parChildMap = new HashMap<String, SignalStateNode>();
+    private static Map<String, SignalStateNode> parChildMap =
+        new HashMap<String, SignalStateNode>();
 
     protected SummarySignalDefinitionDao summarySignalDefinitionDao =
         new SummarySignalDefinitionDao();
+
+    /** アラームを出すかどうか判定するために保持し続けるデータ */
+    private final Set<String> alarmChildList_ = new TreeSet<String>();
+
+    /** アラームを出すかどうか判定するために保持し続けるデータ */
+    private final Set<String> alarmSummaryList_ = new TreeSet<String>();
 
     private Set changeSummarySignalListSet;
 
@@ -80,9 +89,29 @@ public class SummarySignalStateManager
         instance__ = instance;
     }
 
+    public void addChildAlarmData(final String signalId)
+    {
+        this.alarmChildList_.add(signalId);
+    }
+
+    public void addSummaryAlarmData(final String summarySignalId)
+    {
+        this.alarmSummaryList_.add(summarySignalId);
+    }
+
     public Map<String, SignalStateNode> getParChildMap()
     {
         return parChildMap;
+    }
+
+    public Set<String> getAlarmSummaryList()
+    {
+        return alarmSummaryList_;
+    }
+
+    public Set<String> getAlarmChildList()
+    {
+        return alarmChildList_;
     }
 
     public void addSignalDefinition(final long summarySignalId,
@@ -129,6 +158,8 @@ public class SummarySignalStateManager
 
         long summarySignalId = 0;
         String summarySignalName = summarySignalDefinitionDto.getSummarySignalName();
+
+        summarySignalDefinitionDto.setSummarySignalStatus(-1);
         // this.createAllSummarySignalMapValue();
         boolean isDuplicate = this.checkDuplicate(summarySignalName);
         summarySignalDefinitionDto.summarySignalStatus = 0;
@@ -395,8 +426,9 @@ public class SummarySignalStateManager
 
     public SummarySignalDefinitionDto deleteSummarySignalDefinition(final String summarySignalName)
     {
+        List<SummarySignalDefinitionDto> sumList = new ArrayList<SummarySignalDefinitionDto>();
         SummarySignalDefinition sumDef = new SummarySignalDefinition();
-        SummarySignalDefinitionDto sumDefDto;
+        SummarySignalDefinitionDto sumDefDto = null;
         try
         {
             int summarySignalId = -1;
@@ -407,17 +439,26 @@ public class SummarySignalStateManager
             //                summarySignalDefinitionDao.selectSequenceNum(this.dataBaseName, sumDef);
             //            
             summarySignalId = (int)parChildMap.get(summarySignalName).nodeId;
+            sumDef.setSummarySignalId(summarySignalId);
             if (summarySignalId != -1)
             {
 
                 summarySignalDefinitionDao.delete(this.dataBaseName, summarySignalName);
-
                 sumDef.errorMessage = "";
             }
 
-            removeSummarySignalDefinition(summarySignalId);
-            createAllSummarySignalMapValue();
+            //  removeSummarySignalDefinition(summarySignalId);
+            //   createAllSummarySignalMapValue();
             CheckDeleteNode(summarySignalName);
+            sumDefDto = new SummarySignalDefinitionDto(sumDef);
+            sumList.add(sumDefDto);
+            sumList =
+                SignalSummarizer.getInstance().calculateChangeParentSummarySignalState(sumList);
+            //  sumList.add(sumDefDto);
+            removeSummarySignalDefinition((int)sumDefDto.getSummarySignalId());
+            createAllSummarySignalMapValue();
+            alarmSummaryList_.remove(summarySignalName);
+            //   alarmSummaryList_.remove(summarySignalName);
         }
         catch (SQLException ex)
         {
@@ -427,7 +468,11 @@ public class SummarySignalStateManager
         }
         finally
         {
-            sumDefDto = new SummarySignalDefinitionDto(sumDef);
+            if (sumDefDto == null)
+            {
+                sumDefDto = new SummarySignalDefinitionDto(sumDef);
+                // sumList.add(sumDefDto);
+            }
 
         }
         return sumDefDto;
@@ -436,6 +481,11 @@ public class SummarySignalStateManager
     public void CheckDeleteNode(final String summarySignalName)
         throws SQLException
     {
+
+        if (this.alarmChildList_.contains(summarySignalName))
+        {
+            this.alarmChildList_.remove(summarySignalName);
+        }
         for (Entry<Long, SummarySignalDefinitionDto> summarySignalDtoList : summarySignalDefinitionMap_
             .entrySet())
         {
@@ -459,19 +509,23 @@ public class SummarySignalStateManager
         {
             SignalStateNode summarySignalDto = summarySignalDtoList.getValue();
 
-            if (summarySignalDto.getParentListSet().contains(summarySignalName))
+            if (summarySignalDto.getParentListSet() != null
+                && summarySignalDto.getParentListSet().contains(summarySignalName))
             {
                 summarySignalDto.getParentListSet().remove(summarySignalName);
 
             }
 
-            if (summarySignalDto.getChildList().contains(summarySignalName))
+            if (summarySignalDto.getChildList() != null
+                && summarySignalDto.getChildList().contains(summarySignalName))
             {
                 summarySignalDto.getChildList().remove(summarySignalName);
 
             }
 
-            if (summarySignalDto.getParentListSet().size() == 0
+            if (summarySignalDto.getParentListSet() != null
+                && summarySignalDto.getChildList() != null
+                && summarySignalDto.getParentListSet().size() == 0
                 && summarySignalDto.childList.size() == 0
                 && !summarySignalDefinitionMap_.containsKey(summarySignalDto.nodeId))
             {
@@ -497,6 +551,8 @@ public class SummarySignalStateManager
             //            SummarySignalDefinition sumDef = new SummarySignalDefinition();
             //            sumDef.summarySignalName = summarySignalDefinitionDto.getSummarySignalName();
             //    long id = summarySignalDefinitionDao.selectSequenceNum(dataBaseName, sumDef);
+
+            summarySignalDefinitionDto.setSummarySignalStatus(-1);
 
             long id =
                 parChildMap.get(summarySignalDefinitionDto.getSummarySignalName()).getNodeId();
@@ -588,4 +644,5 @@ public class SummarySignalStateManager
         return false;
 
     }
+
 }

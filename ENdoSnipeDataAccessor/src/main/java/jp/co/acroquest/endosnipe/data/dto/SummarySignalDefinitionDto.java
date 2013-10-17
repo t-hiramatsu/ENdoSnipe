@@ -124,5 +124,10 @@ public class SummarySignalDefinitionDto
         this.priority=summarySignalDefinition.priority;
 
     }
+    
+    public SummarySignalDefinitionDto()
+    {
+        
+    }
 
 }

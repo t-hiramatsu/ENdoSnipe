@@ -136,8 +136,13 @@ public class SummarySignalStateChangeListener extends AbstractTelegramListener
             treeMenu.setData(summarySignalDisplayName);
             treeMenu.setType(TreeMenuConstants.TREE_MENU_TYPE_SUMMARY_SIGNAL);
             treeMenu.setIcon(SignalConstants.SIGNAL_ICON_STOP);
-            summarySignalTreeMenuDtoList.add(treeMenu);
+            //  if (type[0].equals(TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_CHANGE_STATE))
+            if (summarySignalState[cnt] == 1)
+            {
+                treeMenu.setIcon("signal_4");
+            }
 
+            summarySignalTreeMenuDtoList.add(treeMenu);
             //            SummarySignalDefinition sumDto = new SummarySignalDefinition();
             //            sumDto.setSummarySignalId(summarySignalId[0]);
             //            sumDto.setSummarySignalName(treeId);
@@ -186,7 +191,8 @@ public class SummarySignalStateChangeListener extends AbstractTelegramListener
             {
                 resourceSender.send(summarySignalTreeMenuDtoList, "delete");
             }
-            else if (type[0].equals(TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_UPDATE))
+            else if (type[0].equals(TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_UPDATE)
+                    || type[0].equals(TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_CHANGE_STATE))
             {
                 resourceSender.send(summarySignalTreeMenuDtoList, "update");
             }
