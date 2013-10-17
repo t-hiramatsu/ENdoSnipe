@@ -25,7 +25,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -89,11 +91,20 @@ public class ReportService
     @Autowired
     protected SchedulingReportDefinitionDao schedulingReportDefinitionDao;
 
+    private final Map<String, Integer> dayMap_ = new HashMap<String, Integer>();
+
     /**
      * デフォルトコンストラクタ。
      */
     public ReportService()
     {
+        this.dayMap_.put("Sunday", Calendar.SUNDAY);
+        this.dayMap_.put("Monday", Calendar.MONDAY);
+        this.dayMap_.put("Tuesday", Calendar.TUESDAY);
+        this.dayMap_.put("Wednesday", Calendar.WEDNESDAY);
+        this.dayMap_.put("Thursday", Calendar.THURSDAY);
+        this.dayMap_.put("Friday", Calendar.FRIDAY);
+        this.dayMap_.put("Saturday", Calendar.SATURDAY);
     }
 
     /**
@@ -673,22 +684,59 @@ public class ReportService
                 schedulingDefinitionDto.getTargetMeasurementName();
         schedulingReportDefinition.term_ = schedulingDefinitionDto.getTerm();
         schedulingReportDefinition.day_ = schedulingDefinitionDto.getDay();
+        System.out.println("Day:" + schedulingReportDefinition.day_);
         Calendar time = schedulingDefinitionDto.getTime();
-
+        /* Calendar date = schedulingDefinitionDto.getDate();
+        */
         DateFormat timeFormat = new SimpleDateFormat(TIME_FORMAT);
         schedulingReportDefinition.time_ = timeFormat.format(time.getTime());
         schedulingReportDefinition.date_ = schedulingDefinitionDto.getDate();
 
         Calendar lastExportedCalendar = Calendar.getInstance();
-        System.out.println("Day of week:" + time.get(Calendar.DAY_OF_WEEK));
-
+        Calendar currentTimeCalendar = Calendar.getInstance();
         lastExportedCalendar.set(Calendar.HOUR_OF_DAY, time.get(Calendar.HOUR_OF_DAY));
         lastExportedCalendar.set(Calendar.MINUTE, time.get(Calendar.MINUTE));
+        System.out.println("Value of day:" + schedulingReportDefinition.day_);
 
+        System.out.println("Before Last Export Calendar:" + lastExportedCalendar);
+        System.out.println("CurrentTime Calendar:" + currentTimeCalendar);
+        if (schedulingReportDefinition.day_ != null)
+        {
+            dayMap_.get(schedulingReportDefinition.day_);
+            int lastExportedDay =
+                    (dayMap_.get(schedulingReportDefinition.day_))
+                            - lastExportedCalendar.get(Calendar.DAY_OF_WEEK);
+            lastExportedCalendar.add(Calendar.DAY_OF_MONTH, lastExportedDay);
+            long lastExportedLong = lastExportedCalendar.getTimeInMillis();
+            long currentTimeLong = currentTimeCalendar.getTimeInMillis();
+
+            if (lastExportedLong <= currentTimeLong)
+            {
+                lastExportedCalendar.add(Calendar.DAY_OF_MONTH, 7);
+            }
+            /*lastExportedCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);*/
+        }
+
+        if (schedulingReportDefinition.date_ != null)
+        {
+            int date = Integer.parseInt(schedulingReportDefinition.date_);
+            System.out.println("ssssss" + date);
+            lastExportedCalendar.set(Calendar.HOUR_OF_DAY, date);
+            long lastExportedLong = lastExportedCalendar.getTimeInMillis();
+            long currentTimeLong = currentTimeCalendar.getTimeInMillis();
+
+            if (lastExportedLong <= currentTimeLong)
+            {
+                lastExportedCalendar.add(Calendar.MONTH, 1);
+            }
+            /*lastExportedCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);*/
+        }
+
+        System.out.println("After Last Export Calendar:" + lastExportedCalendar);
         Timestamp lastExportedTime = new Timestamp(lastExportedCalendar.getTimeInMillis());
         schedulingReportDefinition.lastExportedTime_ = lastExportedTime;
+        /*System.out.println("after last export time:" + schedulingReportDefinition.lastExportedTime_);*/
 
-        System.out.println("after last export time:" + schedulingReportDefinition.lastExportedTime_);
         return schedulingReportDefinition;
     }
 
