@@ -60,13 +60,8 @@ public class ThreadDumpService
                 new HashMap<String, List<ThreadDumpDefinitionDto>>();
         for (String dataGroupId : dataGroupIdList)
         {
-            //Timestamp starts = new Timestamp(Long.valueOf(termDataForm.getStartTime()));
-            // Timestamp ends = new Timestamp(Long.valueOf(termDataForm.getEndTime()));
-            String startTime = "1281468362337";
-            String endTime = "3381468362337";
-            Timestamp start = new Timestamp(Long.valueOf(startTime));
-            Timestamp end = new Timestamp(Long.valueOf(endTime));
-
+            Timestamp start = new Timestamp(Long.valueOf(termDataForm.getStartTime()));
+            Timestamp end = new Timestamp(Long.valueOf(termDataForm.getEndTime()));
             try
             {
                 list =
