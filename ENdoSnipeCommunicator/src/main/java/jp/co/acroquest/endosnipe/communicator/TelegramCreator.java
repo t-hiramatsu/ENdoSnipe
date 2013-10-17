@@ -49,7 +49,7 @@ public final class TelegramCreator implements TelegramConstants
 {
     private static JavelinConfig javelinConfig__ = new JavelinConfig();
 
-    private TelegramCreator()
+    public TelegramCreator()
     {
         // Do nothing.
     }

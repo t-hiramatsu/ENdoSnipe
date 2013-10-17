@@ -58,6 +58,7 @@ public class ThreadDumpController
         Map<String, List<ThreadDumpDefinitionDto>> responseDataList =
                 threadDumpService_.getTermThreadDumpData(termDataForm);
 
+        threadDumpService_.createThreadDump();
         return responseDataList;
     }
 }

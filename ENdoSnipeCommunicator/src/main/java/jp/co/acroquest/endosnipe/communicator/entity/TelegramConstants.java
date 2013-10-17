@@ -106,6 +106,10 @@ public interface TelegramConstants
 
     /** 電文種別(SQL実行計画取得通知) */
     byte BYTE_TELEGRAM_KIND_SQL_PLAN = 28;
+    /**
+     * threadDump response telegram
+     */
+    byte BYTE_TELEGRAM_KIND_THREAD_DUMP= 29;
 
     /** 最後の電文以外 */
     byte HALFWAY_TELEGRAM = 0;

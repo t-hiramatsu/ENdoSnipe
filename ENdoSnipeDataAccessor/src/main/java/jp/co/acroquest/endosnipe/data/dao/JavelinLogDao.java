@@ -959,7 +959,17 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
         sql.append(") MERGED_TIME");
         return sql.toString();
     }
-
+    /**
+     * 
+     * @param database
+     * @param start
+     * @param end
+     * @param name
+     * @param outputLog
+     * @param removeDiagnosed
+     * @return
+     * @throws SQLException
+     */
     public static List<JavelinLog> selectThreadDumpByTermAndName(String database, Timestamp start,
         Timestamp end, String name, boolean outputLog, boolean removeDiagnosed)
         throws SQLException
@@ -1023,5 +1033,11 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
         }
         sql += " order by START_TIME desc";
         return sql;
+    }
+
+    public static List<JavelinLog> selectAllThreadDump(String dbName)
+    {
+       return null;
+        
     }
 }

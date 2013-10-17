@@ -24,12 +24,16 @@ import java.util.Map;
 
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
+import jp.co.acroquest.endosnipe.communicator.CommunicationClient;
+import jp.co.acroquest.endosnipe.communicator.TelegramCreator;
+import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.data.dao.JavelinLogDao;
 import jp.co.acroquest.endosnipe.data.entity.JavelinLog;
 import jp.co.acroquest.endosnipe.web.dashboard.config.ConfigurationReader;
 import jp.co.acroquest.endosnipe.web.dashboard.constants.LogMessageCodes;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.ThreadDumpDefinitionDto;
 import jp.co.acroquest.endosnipe.web.dashboard.form.TermDataForm;
+import jp.co.acroquest.endosnipe.web.dashboard.manager.ConnectionClient;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.DatabaseManager;
 import jp.co.acroquest.endosnipe.web.dashboard.util.DaoUtil;
 
@@ -128,5 +132,18 @@ public class ThreadDumpService
             SystemLogger.getInstance().warn(ex);
         }
         return detailData.toString();
+    }
+
+    public void createThreadDump()
+    {
+        TelegramCreator telegramCreator = new TelegramCreator();
+        ConnectionClient connectionClient = ConnectionClient.getInstance();
+        List<CommunicationClient> clientList = connectionClient.getClientList();
+        for (CommunicationClient communicationClient : clientList)
+        {
+            Telegram telegram = telegramCreator.createThreadDumpRequestTelegram();
+            communicationClient.sendTelegram(telegram);
+        }
+
     }
 }
