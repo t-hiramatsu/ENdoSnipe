@@ -76,31 +76,27 @@ public class ThreadDumpService
             {
                 LOGGER.log(ex);
             }
-            for (JavelinLog table : list)
-            {
-                ThreadDumpDefinitionDto result = new ThreadDumpDefinitionDto();
-                result.threadId = table.getLogId();
-                result.date = table.getStartTime().toString();
-                String name = table.getLogFileName();
-                result.threadDumpInfo = this.getThreadDumpDetailData(name);
-                displayList.add(result);
-                dataList.put(dataGroupId + THREADDUMP_POSTFIX_ID, displayList);
-
-            }
+            displayList = this.createThreadDumpDefinitionDto(list);
+            dataList.put(dataGroupId + THREADDUMP_POSTFIX_ID, displayList);
             list.clear();
-            /*
-                        for (int count = 1; count <= 10; count++)
-                        {
-                            ThreadDumpDefinitionDto result = new ThreadDumpDefinitionDto();
-                            result.threadId = count;
-                            result.date = "2013/" + count + "/09 03:00";
-                            result.threadDumpInfo = "this is testing";
-                            displayList.add(result);
-                            dataList.put(dataGroupId + THREADDUMP_POSTFIX_ID, displayList);
-                        }*/
         }
 
         return dataList;
+    }
+
+    public List<ThreadDumpDefinitionDto> createThreadDumpDefinitionDto(final List<JavelinLog> list)
+    {
+        List<ThreadDumpDefinitionDto> displayList = new ArrayList<ThreadDumpDefinitionDto>();
+        for (JavelinLog table : list)
+        {
+            ThreadDumpDefinitionDto result = new ThreadDumpDefinitionDto();
+            result.threadId = table.getLogId();
+            result.date = table.getStartTime().toString();
+            String name = table.getLogFileName();
+            result.threadDumpInfo = this.getThreadDumpDetailData(name);
+            displayList.add(result);
+        }
+        return displayList;
     }
 
     public String getThreadDumpDetailData(final String fileName)

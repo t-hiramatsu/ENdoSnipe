@@ -42,6 +42,7 @@ import jp.co.acroquest.endosnipe.collector.listener.SignalStateListener;
 import jp.co.acroquest.endosnipe.collector.listener.SqlPlanNotifyListener;
 import jp.co.acroquest.endosnipe.collector.listener.SystemResourceListener;
 import jp.co.acroquest.endosnipe.collector.listener.TelegramNotifyListener;
+import jp.co.acroquest.endosnipe.collector.listener.ThreadDumpNotifyListener;
 import jp.co.acroquest.endosnipe.communicator.TelegramListener;
 import jp.co.acroquest.endosnipe.communicator.TelegramSender;
 import jp.co.acroquest.endosnipe.communicator.accessor.ConnectNotifyAccessor;
@@ -373,6 +374,9 @@ public class JavelinServer implements TelegramSender
         client.addTelegramListener(signalStateListener);
         client.addTelegramListener(signalChangeListener);
 
+        ThreadDumpNotifyListener threadDumpNotifyListener = new ThreadDumpNotifyListener();
+        client.addTelegramListener(threadDumpNotifyListener);
+
         // 制御クライアントが存在するなら、Javelinクライアントと紐付ける。
         Set<DataCollectorClient> controlClientSet = getControlClient(dbName);
         if (controlClientSet != null)
@@ -482,6 +486,7 @@ public class JavelinServer implements TelegramSender
 
         controlClient.addTelegramListener(new SignalStateListener());
         controlClient.addTelegramListener(new SignalChangeListener());
+        controlClient.addTelegramListener(new ThreadDumpNotifyListener());
 
         // Javelin->DataCollector->BottleneckEye
         javelinClient.addTelegramListener(new TelegramListener() {

@@ -12,15 +12,14 @@
  */
 package jp.co.acroquest.endosnipe.web.dashboard.listener.collector;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 import jp.co.acroquest.endosnipe.communicator.AbstractTelegramListener;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
-import jp.co.acroquest.endosnipe.data.dao.JavelinLogDao;
-import jp.co.acroquest.endosnipe.data.entity.JavelinLog;
-import jp.co.acroquest.endosnipe.web.dashboard.manager.DatabaseManager;
+import jp.co.acroquest.endosnipe.web.dashboard.manager.EventManager;
+
+import org.wgp.manager.WgpDataManager;
 
 /**
  * To receive telegram for thread dump
@@ -37,10 +36,36 @@ public class AlarmThreadDumpNotifyListener extends AbstractTelegramListener
     @Override
     protected Telegram doReceiveTelegram(final Telegram telegram)
     {
-        List<JavelinLog> javelinLog = new ArrayList<JavelinLog>();
-        DatabaseManager dbManager = DatabaseManager.getInstance();
-        String dbName = dbManager.getDataBaseName(1);
-        javelinLog = JavelinLogDao.selectAllThreadDump(dbName);
+        /* List<JavelinLog> javelinLog = new ArrayList<JavelinLog>();
+         ThreadDumpService threadDumpService = new ThreadDumpService();
+         DatabaseManager dbManager = DatabaseManager.getInstance();
+         String dbName = dbManager.getDataBaseName(1);
+         try
+         {
+             javelinLog = JavelinLogDao.selectAllThreadDump(dbName);
+         }
+         catch (SQLException ex)
+         {
+             ex.printStackTrace();
+         }
+         List<ThreadDumpDefinitionDto> definitionDto =
+                 threadDumpService.createThreadDumpDefinitionDto(javelinLog);
+         EventManager eventManager = EventManager.getInstance();
+         WgpDataManager dataManager = eventManager.getWgpDataManager();
+         ResourceSender resourceSender = eventManager.getResourceSender();
+         if (dataManager == null || resourceSender == null)
+         {
+             return null;
+         }
+        */
+        //   resourceSender.send(definitionDto);
+        EventManager eventManager = EventManager.getInstance();
+        WgpDataManager dataManager = eventManager.getWgpDataManager();
+        //  dataManager.setData("JvnLog_Notify", new Date(), null);
+        Object wgpData = null;
+        String date = new Date().toString();
+        dataManager.setData("JvnLog_Notify", date, wgpData);
+
         return null;
     }
 

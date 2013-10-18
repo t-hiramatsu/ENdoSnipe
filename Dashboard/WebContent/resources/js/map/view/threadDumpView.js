@@ -8,6 +8,7 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 		this.appView = appView;
 		this.treeSettings = treeSettings;
 		this.argument = argument;
+		//appView.addView(this,"JvnLog_Notify");
 		appView.addView(this, treeSettings.treeId
 				+ ENS.URL.THREADDUMP_POSTFIX_ID);
 
@@ -26,20 +27,21 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 		this.id = argument.id;
 		this.argument.term = argument.term;
 
-		/*
-		 * var startTime = new Date(new Date().getTime() - argument.term *
-		 * 1000); var endTime = new Date(); appView.getTermThreadDumpData([
-		 * treeSettings.treeId ], startTime, endTime, argument.maxLineNum);
-		 * 
-		 * this.id = argument.id;
-		 * 
-		 * 
-		 * this.dualSliderView.setScaleMovedEvent(function(from, to) { var
-		 * appView = new ENS.AppView(); var startTime = new Date(new
-		 * Date().getTime() - from); var endTime = new Date(new Date().getTime() -
-		 * to); appView.getTermThreadDumpData([ treeSettings.treeId ],
-		 * startTime, endTime, 100); });
-		 */
+		var startTime = new Date(new Date().getTime() - argument.term * 1000);
+		var endTime = new Date();
+		appView.getTermThreadDumpData([ treeSettings.treeId ], startTime,
+				endTime, argument.maxLineNum);
+
+		this.id = argument.id;
+
+		this.dualSliderView.setScaleMovedEvent(function(from, to) {
+			var appView = new ENS.AppView();
+			var startTime = new Date(new Date().getTime() - from);
+			var endTime = new Date(new Date().getTime() - to);
+			appView.getTermThreadDumpData([ treeSettings.treeId ], startTime,
+					endTime, 100);
+		});
+
 	},
 	render : function() {
 		var id = this.id;
@@ -87,14 +89,24 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 				.on(
 						"click",
 						function() {
-							var startTime = new Date(new Date().getTime()
+							var settings = {
+									data : 
+										{
+										data: ""
+										},
+									url : ENS.URL.THREAD_DUMP_CLICK
+								};
+							alert(JSON.stringify(settings));
+								// 非同期通信でシグナル削除依頼電文を送信する。
+								var ajaxHandler = new wgp.AjaxHandler();
+								ajaxHandler.requestServerAsync(settings);
+							/*var startTime = new Date(new Date().getTime()
 									- term * 1000);
 							var endTime = new Date();
 							var appView = new ENS.AppView();
 
 							appView.getTermThreadDumpData([ treeId ],
-									startTime, endTime,
-									maxLineNum);
+									startTime, endTime, maxLineNum);
 
 							this.dualSliderView.setScaleMovedEvent(function(
 									from, to) {
@@ -103,10 +115,9 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 										- from);
 								var endTime = new Date(new Date().getTime()
 										- to);
-								appView.getTermThreadDumpData(
-										[ treeId ],
+								appView.getTermThreadDumpData([ treeId ],
 										startTime, endTime, 100);
-							});
+							});*/
 						});
 
 	},

@@ -1035,9 +1035,35 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
         return sql;
     }
 
-    public static List<JavelinLog> selectAllThreadDump(String dbName)
+    public static List<JavelinLog> selectAllThreadDump(String dbName) throws SQLException
     {
-       return null;
+        List<JavelinLog> result = new ArrayList<JavelinLog>();
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        try
+        {
+            conn = getConnection(dbName, true);
+
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery("select * from " + JAVELIN_LOG);
+
+            // 結果をリストに１つずつ格納する
+            while (rs.next())
+            {
+                JavelinLog log = new JavelinLog();
+                setJavelinLogFromResultSet(log, rs);
+                result.add(log);
+            }
+        }
+        finally
+        {
+            SQLUtil.closeResultSet(rs);
+            SQLUtil.closeStatement(stmt);
+            SQLUtil.closeConnection(conn);
+        }
+
+        return result;
         
     }
 }
