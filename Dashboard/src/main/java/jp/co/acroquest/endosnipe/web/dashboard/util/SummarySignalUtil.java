@@ -56,11 +56,6 @@ public class SummarySignalUtil
                     }
                 }
             }
-            /* for (String signalLists : summarySignalDefinitionDto.getSignalList())
-             {
-                
-                 signalList += signalLists;
-             }*/
 
             int summarySignalType = summarySignalDefinitionDto.getSummarySignalType();
 
@@ -92,21 +87,6 @@ public class SummarySignalUtil
         summarySignalBody.setByteItemMode(ItemType.ITEMTYPE_STRING);
 
         String summarySignalName = summarySignalDefinitionDto.getSummarySignalName();
-        // String signalList = "";
-        /*  for (int count = 0; count < summarySignalDefinitionDto.getSignalList().size(); count++)
-          {
-              signalList += summarySignalDefinitionDto.getSignalList().get(count);
-              if (count != summarySignalDefinitionDto.getSignalList().size() - 1)
-              {
-                  signalList += ",";
-              }
-          }
-           for (String signalLists : summarySignalDefinitionDto.getSignalList())
-           {
-              
-               signalList += signalLists;
-           }
-          int summarySignalType = summarySignalDefinitionDto.getSummarySignalType();*/
         int dtoCount = SUMMARY_SIGNAL_DELETE_COUNT;
         summarySignalBody.setIntLoopCount(dtoCount);
         String[] summarySignalDefObj = { String.valueOf(summarySignalName) };

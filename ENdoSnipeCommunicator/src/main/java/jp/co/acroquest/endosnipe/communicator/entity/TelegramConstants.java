@@ -108,14 +108,11 @@ public interface TelegramConstants
     byte BYTE_TELEGRAM_KIND_SQL_PLAN = 28;
 
     /** Summary Signal */
-    byte BYTE_TELEGRAM_KIND_SUMMARYSIGNAL_STATE = 33;
+
+    byte BYTE_TELEGRAM_KIND_SUMMARYSIGNAL_DEFINITION = 29;
 
     /** Summary Signal */
-
-    byte BYTE_TELEGRAM_KIND_SUMMARYSIGNAL_DEFINITION = 40;
-
-    /** Summary Signal */
-    byte BYTE_TELEGRAM_KIND_ADD_STATE_CHANGE_SUMMARYSIGNAL_DEFINITION = 36;
+    byte BYTE_TELEGRAM_KIND_ADD_STATE_CHANGE_SUMMARYSIGNAL_DEFINITION = 30;
 
     /** 最後の電文以外 */
     byte HALFWAY_TELEGRAM = 0;

@@ -232,30 +232,12 @@ public class SummarySignalChangeListener extends AbstractTelegramListener implem
 
         List<SummarySignalDefinitionDto> summarySignalDefinitionList =
             new ArrayList<SummarySignalDefinitionDto>();
-        /*Body[] bodys = telegram.getObjBody();
-        Long[] summarySignalIds = null;
-
-        Body body = bodys[0];
-        String objectNameInTelegram = body.getStrObjName();
-        String itemNameInTelegram = body.getStrItemName();
-        if (TelegramConstants.OBJECTNAME_RESOURCEALARM.equals(objectNameInTelegram) == false)
-        {
-            return summarySignalDefinitionList;
-        }
-        if (TelegramConstants.ITEMNAME_SIGNAL_ID.equals(itemNameInTelegram) == false)
-        {
-            return summarySignalDefinitionList;
-        }
-        Object[] measurementItemValues = body.getObjItemValueArr();
-        int loopCount = body.getIntLoopCount();
-        summarySignalIds = getLongValues(loopCount, measurementItemValues);*/
 
         SummarySignalStateManager summarySignalStateManager =
             SummarySignalStateManager.getInstance();
         Map<Long, SummarySignalDefinitionDto> summarySignalMap =
             summarySignalStateManager.getSummarySignalDefinitionMap();
 
-        // �Ď��Ώۂ�臒l�����`�����擾����B
         for (SummarySignalDefinitionDto summarySignalDefinitionDto : summarySignalMap.values())
         {
 
@@ -285,8 +267,6 @@ public class SummarySignalChangeListener extends AbstractTelegramListener implem
                 summarySignalDefinitionDto = deleteSignalDefinition(body);
             }
             summaryProcess = itemName;
-            //This is for all get Process
-            //  this.getAllSummarySignalDefinition();
         }
         summaryDefinitionDtoList.add(summarySignalDefinitionDto);
         return summaryDefinitionDtoList;
@@ -343,8 +323,8 @@ public class SummarySignalChangeListener extends AbstractTelegramListener implem
 
     /**
      * 
-     * @param body {@link Body}�I�u�W�F�N�g
-     * @param itemName ���ږ�
+     * @param body {@link Body}
+     * @param itemName
      */
     private SummarySignalDefinitionDto deleteSignalDefinition(final Body body)
     {

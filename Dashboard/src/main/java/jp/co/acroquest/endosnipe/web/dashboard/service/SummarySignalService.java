@@ -72,7 +72,6 @@ public class SummarySignalService
     public List<SummarySignalDefinitionDto> getAllSummarySignals()
     {
         getAllSummarySignalDefinition(null);
-        //  sendGetAllStateRequest();
         return null;
     }
 
@@ -80,10 +79,6 @@ public class SummarySignalService
     {
         SignalDefinitionDto definitionDto = new SignalDefinitionDto();
         definitionDto.setSignalName(summarySignalInfo.summarySignalName);
-
-        //definitionDto.setSummarySignalId(summarySignalInfo.summarySignalId);
-        // definitionDto.setSummarySignalName(summarySignalInfo.summarySignalName);
-        // definitionDto.setSummarySignalType(summarySignalInfo.summarySignalType);
 
         return definitionDto;
     }
@@ -116,12 +111,6 @@ public class SummarySignalService
         definitionDto.setMessage(summarySignalInfo.errorMessage);
         definitionDto.setSignalList(summarySignalList);
         return definitionDto;
-    }
-
-    private void add(final String string)
-    {
-        // TODO 自動生成されたメソッド・スタブ
-
     }
 
     private void sendSummarySignalDefinitionRequest(
@@ -193,30 +182,11 @@ public class SummarySignalService
         summarySignalInfo.summarySignalName = definitionDto.getSummarySignalName();
         summarySignalInfo.summarySignalType = definitionDto.getSummarySignalType();
         summarySignalInfo.priorityNo = definitionDto.getPriorityNo();
-        /* String targetId = definitionDto.signalList.get(0);
-         for (int index = 0; index < definitionDto.signalList.size() - 1; index++)
-         {
-             for (String signalList : definitionDto.signalList)
-             {
-                 targetId += signalList;
-             }
-         }*/
-        /* {
-             summarySignalInfo.targetSignalId = signalList;
-         }*/
         summarySignalInfo.targetSignalId = definitionDto.signalList.toString();
         summarySignalInfo.errorMessage = definitionDto.getMessage();
         return summarySignalInfo;
     }
 
-    /*
-        public boolean hasSameSignalName(final String summarySignalName)
-        {
-            SummarySignalInfo summarySignalInfo =
-                    this.summarySignalInfoDao.selectByName(summarySignalName);
-            return false;
-        }
-    */
     public boolean checkDuplicate(final long summarySignalId, final String summarySignalName)
     {
         SummarySignalInfo summarySignalInfo =
@@ -296,38 +266,6 @@ public class SummarySignalService
         Header requestHeader = new Header();
         requestHeader.setByteTelegramKind(TelegramConstants.BYTE_TELEGRAM_KIND_SUMMARYSIGNAL_DEFINITION);
         requestHeader.setByteRequestKind(TelegramConstants.BYTE_REQUEST_KIND_NOTIFY);
-
-        /* Body summarySignalBody = new Body();
-         summarySignalBody.setStrObjName(TelegramConstants.OBJECTNAME_SUMMARY_SIGNAL_CHANGE);
-         summarySignalBody.setStrItemName(TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_GETALL);
-         summarySignalBody.setByteItemMode(ItemType.ITEMTYPE_STRING);*/
-
-        /*        int dtoCount = summarySignalList.size();
-
-                // 閾値判定定義情報のID
-                Body summarySignalIdBody = new Body();
-                summarySignalIdBody.setStrObjName(TelegramConstants.OBJECTNAME_RESOURCEALARM);
-                summarySignalIdBody.setStrItemName(TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_ID);
-                summarySignalIdBody.setByteItemMode(ItemType.ITEMTYPE_LONG);
-                summarySignalIdBody.setIntLoopCount(dtoCount);
-                Long[] summarySignalIds = new Long[dtoCount];
-
-                // 閾値判定定義情報名
-                Body summarySignalNameBody = new Body();
-                summarySignalNameBody.setStrObjName(TelegramConstants.OBJECTNAME_RESOURCEALARM);
-                summarySignalNameBody.setStrItemName(TelegramConstants.ITEMNAME_ALARM_ID);
-                summarySignalNameBody.setByteItemMode(ItemType.ITEMTYPE_STRING);
-                summarySignalNameBody.setIntLoopCount(dtoCount);
-                String[] summarySignalNames = new String[dtoCount];
-
-                for (int cnt = 0; cnt < dtoCount; cnt++)
-                {
-                    SummarySignalInfo summarySignalInfo = summarySignalList.get(cnt);
-                    summarySignalNames[cnt] = summarySignalInfo.summarySignalName;
-                    summarySignalIds[cnt] = Long.valueOf(summarySignalInfo.summarySignalId);
-                }
-                summarySignalIdBody.setObjItemValueArr(summarySignalIds);
-                summarySignalNameBody.setObjItemValueArr(summarySignalNames);*/
 
         Body[] requestBodys = {};
 

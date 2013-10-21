@@ -21,7 +21,6 @@ public interface SummarySignalInfoDao
 
     public List<SummarySignalInfo> selectAll();
 
-    //  void insert(final SignalInfo signalInfo);
     void insert(final SummarySignalInfo summarySignalInfo);
 
     int selectSequenceNum(final SummarySignalInfo SummarySignalInfo);
