@@ -12,20 +12,28 @@
  */
 package jp.co.acroquest.endosnipe.web.dashboard.constants;
 
+/**
+ * constants usage for Summary Signal.<br />
+ * 
+ * @author pin
+ */
+
 public class SummarySignalConstants
 {
-    public static final String SUMMARY_SIGNAL_ICON_PREFIX = "summarySignal_";
 
-    public static final String SUMMARY_SIGNAL_ICON_STOP = "summarySignal_-1";
-
+    /** for add operation*/
     public static final String OPERATION_TYPE_ADD = "add";
 
+    /**for update operation */
     public static final String OPERATION_TYPE_UPDATE = "update";
 
+    /** for delete operation */
     public static final String OPERATION_TYPE_DELETE = "delete";
 
+    /** for get all data operation */
     public static final String OPERATION_TYPE_GETALL = "getAll";
 
+    /** constructor */
     private SummarySignalConstants()
     {
 

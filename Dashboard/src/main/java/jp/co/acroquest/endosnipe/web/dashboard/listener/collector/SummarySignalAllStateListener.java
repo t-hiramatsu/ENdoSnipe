@@ -153,7 +153,7 @@ public class SummarySignalAllStateListener extends AbstractTelegramListener
             responseDto.setData(sumDto);
             responseDto.setResult(ResponseConstants.RESULT_SUCCESS);
 
-            SummarySignalController.responseData_ = responseDto;
+            SummarySignalController.responseData__ = responseDto;
             if (!errorMessage[0].equals(""))
             {
                 return null;

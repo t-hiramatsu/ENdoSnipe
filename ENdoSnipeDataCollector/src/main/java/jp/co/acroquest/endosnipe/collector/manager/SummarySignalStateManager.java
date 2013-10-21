@@ -440,7 +440,7 @@ public class SummarySignalStateManager
             //                summarySignalDefinitionDao.selectSequenceNum(this.dataBaseName, sumDef);
             //            
             summarySignalId = (int)parChildMap.get(summarySignalName).nodeId;
-            sumDef.setSummarySignalId(summarySignalId);
+            sumDef.summarySignalId = summarySignalId;
             if (summarySignalId != -1)
             {
 

@@ -164,7 +164,7 @@ public class SummarySignalStateChangeListener extends AbstractTelegramListener
                 responseDto.setData(sumDto);
                 responseDto.setResult(ResponseConstants.RESULT_SUCCESS);
 
-                SummarySignalController.responseData_ = responseDto;
+                SummarySignalController.responseData__ = responseDto;
                 if (!errorMessage[cnt].equals(""))
                 {
                     return null;
@@ -211,7 +211,7 @@ public class SummarySignalStateChangeListener extends AbstractTelegramListener
             }
             else if (type[0].equals(TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_ALL))
             {
-                SummarySignalController.summarySignalDefinitionDto_ = summarySignalDtoList;
+                SummarySignalController.summarySignalDefinitionDto__ = summarySignalDtoList;
                 resourceSender.send(summarySignalTreeMenuDtoList, "add");
             }
         }

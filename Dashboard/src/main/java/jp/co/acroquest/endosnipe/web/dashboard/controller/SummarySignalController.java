@@ -49,21 +49,25 @@ public class SummarySignalController
     @Autowired
     protected ResourceSender resourceSender_;
 
+    /** service of summary signal*/
     @Autowired
     protected SummarySignalService summarySignalService_;
 
     @Autowired
     protected SignalService signalService_;
 
-    public static ResponseDto responseData_ = null;
+    /**response data for summary signal data */
+    public static ResponseDto responseData__ = null;
 
-    public static List<SummarySignalDefinitionDto> summarySignalDefinitionDto_ =
+    /** response data for summary signal as the list*/
+    public static List<SummarySignalDefinitionDto> summarySignalDefinitionDto__ =
             new ArrayList<SummarySignalDefinitionDto>();
 
-    public static SummarySignalController summarySignal__;
+    /** controller of summary signal */
+    public SummarySignalController summarySignal__;
 
     /**
-    * コンストラクタ。
+    * constructor
     */
     public SummarySignalController()
     {
@@ -71,13 +75,13 @@ public class SummarySignalController
     }
 
     /**
-     * 機関データを取得する。
+     * get all data of signal data and summary signal data to display in List box
      *
-     * @return 期間データ
+     * @return List<SignalDefinitionDto> data of signals
      */
     @RequestMapping(value = "/getAllDefinition", method = RequestMethod.POST)
     @ResponseBody
-    public List<SignalDefinitionDto> getTermData()
+    public List<SignalDefinitionDto> getAllSummarySigAndSigData()
     {
 
         List<SignalDefinitionDto> summarySignalAllList;
@@ -89,9 +93,9 @@ public class SummarySignalController
     }
 
     /**
-     * 機関データを取得する。
+     * get all data of summary signals to show on the tree node
      *
-     * @return 期間データ
+     * @return  List<SummarySignalDefinitionDto> summary signal list
      */
     @RequestMapping(value = "/getAllDefinitions", method = RequestMethod.POST)
     @ResponseBody
@@ -102,12 +106,14 @@ public class SummarySignalController
                 new ArrayList<SummarySignalDefinitionDto>();
         summarySignalService_.getAllSummarySignals();
 
-        while (summarySignalDefinitionDto_.size() == 0)
+        while (summarySignalDefinitionDto__.size() == 0)
         {
             //
         }
-        summarySignalDefinitionDto.addAll(summarySignalDefinitionDto_);
-        SummarySignalController.summarySignalDefinitionDto_.clear();
+
+        summarySignalDefinitionDto.addAll(summarySignalDefinitionDto__);
+        SummarySignalController.summarySignalDefinitionDto__.clear();
+        System.out.println(summarySignalDefinitionDto.size());
         return summarySignalDefinitionDto;
 
     }
@@ -122,12 +128,12 @@ public class SummarySignalController
                 JSON.decode(summarySignalDefinition, SummarySignalDefinitionDto.class);
         this.summarySignalService_.insertSummarySignalDefinition(summarySignalDefinitionDto);
 
-        while (responseData_ == null)
+        while (responseData__ == null)
         {
             //
         }
-        responseDto = responseData_;
-        responseData_ = null;
+        responseDto = responseData__;
+        responseData__ = null;
         return responseDto;
     }
 
@@ -136,19 +142,14 @@ public class SummarySignalController
     public ResponseDto delete(
             @RequestParam(value = "summarySignalName") final String summarySignalName)
     {
-        //        System.out.println(summarySignalNames);
-        //        String summarySignalName =
-        //                "/default/127.0.0.1/agent_000/process/thread/native/native summary signal";
         this.summarySignalService_.deleteSummarySignalDefinition(summarySignalName);
         ResponseDto responseDto = new ResponseDto();
-        while (responseData_ == null)
+        while (responseData__ == null)
         {
             //
         }
-        responseDto = responseData_;
-        responseData_ = null;
-        // responseData_.setData(summarySignalDefinitionDto);
-        //responseData_.setResult(ResponseConstants.RESULT_SUCCESS);
+        responseDto = responseData__;
+        responseData__ = null;
         return responseDto;
 
     }
@@ -178,15 +179,13 @@ public class SummarySignalController
         SummarySignalInfo summarySignalInfo =
                 this.summarySignalService_.convertSummarySignalInfo(summarySignalDefinitionDto);
 
-        // DBに登録されている定義を更新する
-        /*  SignalDefinitionDto updatedDefinitionDto =*/
         this.summarySignalService_.updateSummarySignalDefinition(summarySignalDefinitionDto);
-        while (responseData_ == null)
+        while (responseData__ == null)
         {
             //
         }
-        responseDto = responseData_;
-        responseData_ = null;
+        responseDto = responseData__;
+        responseData__ = null;
         return responseDto;
     }
 }

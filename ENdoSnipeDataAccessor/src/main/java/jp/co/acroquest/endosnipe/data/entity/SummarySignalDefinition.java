@@ -16,114 +16,108 @@ import java.util.List;
 
 /**
  * 
- * @author khinewai
+ * @author pin
  *
  */
 public class SummarySignalDefinition
 {
-
+    /**  Id of summarySignal */
     public long summarySignalId;
 
+    /**  Name of summarySignal */
     public String summarySignalName;
 
+    /**  Type of summarySignal */
     public int summarySignalType;
 
+    /**  childList of summarySignal */
     public List<String> signalList;
 
+    /**  Status of summarySignal */
     public int summarySignalStatus;
 
+    /**  errorMessage of summarySignal */
     public String errorMessage;
 
+    /**  priority of summarySignal */
     public int priority;
 
-    public List<String> getSignalList()
-    {
-        return signalList;
-    }
-
-    public void setSignalList(List<String> signalList)
-    {
-        this.signalList = signalList;
-    }
-
-    public String getErrorMessage()
-    {
-        return errorMessage;
-    }
-
-    public void setErrorMessage(String errorMessage)
-    {
-        this.errorMessage = errorMessage;
-    }
-
-    public void setSummarySignalId(long summarySignalId)
-    {
-        this.summarySignalId = summarySignalId;
-    }
-
-    public int getPriority()
-    {
-        return priority;
-    }
-
-    public void setPriority(int priority)
-    {
-        this.priority = priority;
-    }
-
+    /**
+     * constructor
+     */
     public SummarySignalDefinition()
     {
         this.summarySignalId = -1;
     }
-
+    
+    /**
+     * get the childList of summary Signal
+     *
+     * @return childList of summary signal
+     */
+    
+    public List<String> getSignalList()
+    {
+        return signalList;
+    }
+   
+    /**
+     * get the errorMessage of process
+     *
+     * @return errorMessage of process
+     */
+    public String getErrorMessage()
+    {
+        return errorMessage;
+    }
+   
+   /**
+     * get the priority of summary Signal
+     *
+     * @return priority of summary signal
+     */
+    public int getPriority()
+    {
+        return priority;
+    }
+   
+    /**
+     * get the Id of summary Signal
+     *
+     * @return Id of summary signal
+     */
     public long getSummarySignalId()
     {
         return summarySignalId;
     }
-
-    public void setSummarySignalId(int summarySignalId)
-    {
-        this.summarySignalId = summarySignalId;
-    }
-
+   /**
+     * get the signal name of summary Signal
+     *
+     * @return signal name of summary signal
+     */
     public String getSummarySignalName()
     {
         return summarySignalName;
     }
-
-    public void setSummarySignalName(String summarySignalName)
-    {
-        this.summarySignalName = summarySignalName;
-    }
-
+  /**
+     * get the signal type of summary Signal
+     *
+     * @return signal type of summary signal
+     */
     public int getSummarySignalType()
     {
         return summarySignalType;
     }
-
-    public void setSummarySignalType(int summarySignalType)
-    {
-        this.summarySignalType = summarySignalType;
-    }
-
+    /**
+     * get the status of summary Signal
+     *
+     * @return status of summary signal
+     */
     public int getSummarySignalStatus()
     {
         return summarySignalStatus;
     }
 
-    public void setSummarySignalStatus(int summarySignalStatus)
-    {
-        this.summarySignalStatus = summarySignalStatus;
-    }
-
-    /* public String getErrorMessage()
-     {
-         return errorMessage;
-     }
-
-     public void setErrorMessage(String errorMessage)
-     {
-         this.errorMessage = errorMessage;
-     }*/
-
+    
+    
 }
