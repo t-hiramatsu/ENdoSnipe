@@ -156,7 +156,6 @@ ENS.treeView = wgp.TreeView
 								function(event, data) {
 									var childModel = data.args[2].data[0];
 									var icon = childModel.icon;
-
 									var id = childModel.attr.Id;
 									var elem = document.getElementById(id);
 
@@ -222,6 +221,7 @@ ENS.treeView = wgp.TreeView
 				return returnData;
 			},
 			addOtherNodes : function(childNodeId) {
+				
 				var otherNodes = this.collection.where({
 					parentTreeId : childNodeId
 				});
@@ -889,13 +889,21 @@ ENS.treeView = wgp.TreeView
 			callbackGetAllReport_ : function(reportDefinitionList) {
 				var instance = this;
 				var addOptionList = [];
+				var addOptionListSecond = [];
 
 				// 追加するツリーノードのオプションを作成する
 				_.each(reportDefinitionList, function(reportDefinition,
 						reportIndex) {
 					var treeOption = instance
 							.createReportTreeOption_(reportDefinition);
-					addOptionList.push(treeOption);
+					if(treeOption.id.split("/").length <= 3)
+						{
+						addOptionListSecond.push(treeOption);
+						}
+					else
+						{
+						addOptionList.push(treeOption);
+						}
 				});
 
 				// renderのADDを実行する権限を無くす
@@ -904,6 +912,7 @@ ENS.treeView = wgp.TreeView
 				this.collection.add(addOptionList);
 				// renderのADDを実行する権限を与える
 				ENS.tree.doRender = true;
+				this.collection.add(addOptionListSecond);
 			},
 			callbackAddMulResGraph_ : function() {
 				// Do nothing
