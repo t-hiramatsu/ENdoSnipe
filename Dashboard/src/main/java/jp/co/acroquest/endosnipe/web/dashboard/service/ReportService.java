@@ -538,6 +538,7 @@ public class ReportService
         try
         {
             reportList = schedulingReportDefinitionDao.selectAll();
+            System.out.println("reportList:" + reportList);
         }
         catch (PersistenceException pEx)
         {
