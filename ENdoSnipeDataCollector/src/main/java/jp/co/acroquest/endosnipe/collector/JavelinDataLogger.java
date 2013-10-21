@@ -1106,7 +1106,9 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             List<SummarySignalDefinitionDto> alarmSummarySignal =
                 SignalSummarizer.getInstance().calculateSummarySignalState(alarmSignalList);
             Telegram alarmSummaryTelegram =
-                CollectorTelegramUtil.createResponseTelegram(alarmSummarySignal);
+                CollectorTelegramUtil
+                    .createResponseTelegram(alarmSummarySignal,
+                                            TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_CHANGE_STATE);
             this.clientRepository_.sendTelegramToClient(clientId, alarmSummaryTelegram);
             System.out.println("summary " + alarmSummarySignal);
             for (AlarmEntry alarmEntry : alarmEntryList)

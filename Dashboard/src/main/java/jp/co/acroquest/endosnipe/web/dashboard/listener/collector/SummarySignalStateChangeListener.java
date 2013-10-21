@@ -189,7 +189,20 @@ public class SummarySignalStateChangeListener extends AbstractTelegramListener
             }
             else if (type[0].equals(TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_DELETE))
             {
-                resourceSender.send(summarySignalTreeMenuDtoList, "delete");
+                if (summarySignalTreeMenuDtoList.size() > 1)
+                {
+                    List<TreeMenuDto> deleteSummarySignalTreeMenuDtoList =
+                            new ArrayList<TreeMenuDto>();
+                    deleteSummarySignalTreeMenuDtoList.add(summarySignalTreeMenuDtoList.get(0));
+
+                    resourceSender.send(deleteSummarySignalTreeMenuDtoList, "delete");
+                    summarySignalTreeMenuDtoList.remove(0);
+                    resourceSender.send(summarySignalTreeMenuDtoList, "update");
+                }
+                else
+                {
+                    resourceSender.send(summarySignalTreeMenuDtoList, "delete");
+                }
             }
             else if (type[0].equals(TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_UPDATE)
                     || type[0].equals(TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_CHANGE_STATE))
@@ -199,6 +212,7 @@ public class SummarySignalStateChangeListener extends AbstractTelegramListener
             else if (type[0].equals(TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_ALL))
             {
                 SummarySignalController.summarySignalDefinitionDto_ = summarySignalDtoList;
+                resourceSender.send(summarySignalTreeMenuDtoList, "add");
             }
         }
         return null;

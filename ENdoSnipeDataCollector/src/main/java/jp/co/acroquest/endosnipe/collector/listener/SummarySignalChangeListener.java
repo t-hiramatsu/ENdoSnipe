@@ -77,19 +77,34 @@ public class SummarySignalChangeListener extends AbstractTelegramListener implem
         {
             // �d������͂��A�V�O�i����`�����X�V����B
             summarySignalDefinitionDto = updateSummarySignalDefinition(telegram);
-            if (!bodys[0].getStrItemName().equals(TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_DELETE))
+            if (summarySignalDefinitionDto.get(0).getErrorMessage().equals(""))
             {
-                summarySignalDefinitionDto =
-                    SignalSummarizer.getInstance()
-                        .calculateChangeSummarySignalState(summarySignalDefinitionDto,
-                                                           bodys[0].getStrItemName());
+                if (!bodys[0].getStrItemName()
+                    .equals(TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_DELETE))
+                {
+                    summarySignalDefinitionDto =
+                        SignalSummarizer.getInstance()
+                            .calculateChangeSummarySignalState(summarySignalDefinitionDto,
+                                                               bodys[0].getStrItemName());
+                }
+                else if (bodys[0].getStrItemName()
+                    .equals(TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_DELETE))
+                {
+                    summarySignalDefinitionDto
+                        .addAll(SignalSummarizer
+                            .getInstance()
+                            .calculateChangeSummarySignalState(summarySignalDefinitionDto,
+                                                               TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_DELETE));
+                }
             }
         }
 
         //        SignalSummarizer.getInstance()
         //            .calculateChangeSummarySignalState(summarySignalDefinitionDto);
-        Telegram responseTelegram = createResponseTelegram(summarySignalDefinitionDto);
-
+        Telegram responseTelegram =
+            CollectorTelegramUtil
+                .createResponseTelegram(summarySignalDefinitionDto, summaryProcess);
+        summaryProcess = "";
         return responseTelegram;
     }
 

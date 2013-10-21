@@ -95,6 +95,10 @@ ENS.SummarySignalDefinitionDialogView = ENS.DialogView
 					e.preventDefault();
 				}
 				$('#summarySignalList2Box').append($(selectedOpts).clone());
+				$("select option").attr("title", "");
+				$("select option").each(function(i) {
+					this.title = this.value;
+				});
 				$(selectedOpts).remove();
 				e.preventDefault();
 			},
@@ -131,7 +135,10 @@ ENS.SummarySignalDefinitionDialogView = ENS.DialogView
 									+ signalSubName + "</option>");
 
 				});
-
+				$("select option").attr("title", "");
+				$("select option").each(function(i) {
+					this.title = this.value;
+				});
 				/*
 				 * $("select option").attr("title", ""); $("select
 				 * option").each(function(i) { this.title = this.text; });

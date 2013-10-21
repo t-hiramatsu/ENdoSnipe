@@ -954,11 +954,14 @@ ENS.treeView = wgp.TreeView
 			callbackGetAllSummarySignal_ : function(summarySignalDefinitionList) {
 				var instance = this;
 				var addOptionList = [];
-				_.each(summarySignalDefinitionList, function(sumamrySignalDefinition, index) {
-					var treeOption = instance
-							.createSummarySignalTreeOption_(sumamrySignalDefinition);
-					addOptionList.push(treeOption);
-				});
+				_
+						.each(
+								summarySignalDefinitionList,
+								function(sumamrySignalDefinition, index) {
+									var treeOption = instance
+											.createSummarySignalTreeOption_(sumamrySignalDefinition);
+									addOptionList.push(treeOption);
+								});
 
 				// renderのADDを実行する権限を無くす
 				ENS.tree.doRender = false;
@@ -992,7 +995,6 @@ ENS.treeView = wgp.TreeView
 						reportIndex) {
 					var treeOption = instance
 							.createReportTreeOption_(reportDefinition);
-					addOptionList.push(treeOption);
 				});
 
 				// renderのADDを実行する権限を無くす
@@ -1008,13 +1010,19 @@ ENS.treeView = wgp.TreeView
 			callbackGetAllMulResGraph_ : function(mulResGraphDefinitionList) {
 				var instance = this;
 				var addOptionList = [];
+				var addTopOptionList = [];
 				_
 						.each(
 								mulResGraphDefinitionList,
 								function(mulResGraphDefinition, index) {
 									var treeOption = instance
 											.createMulResGraphSignalTreeOption_(mulResGraphDefinition);
-									addOptionList.push(treeOption);
+									// addOptionList.push(treeOption);
+									if (treeOption.id.split("/").length <= 3) {
+										addTopOptionList.push(treeOption);
+									} else {
+										addOptionList.push(treeOption);
+									}
 								});
 
 				// renderのADDを実行する権限を無くす
@@ -1023,6 +1031,8 @@ ENS.treeView = wgp.TreeView
 				this.collection.add(addOptionList);
 				// renderのADDを実行する権限を与える
 				ENS.tree.doRender = true;
+
+				this.collection.add(addTopOptionList);
 			},
 			deleteMulResGraph_ : function(executeOption) {
 				// リアルタイム通信を止める
@@ -1167,14 +1177,13 @@ ENS.treeView = wgp.TreeView
 				}
 
 				var summaryIcon = ENS.tree.SIGNAL_ICON_0;
-				if(summarySignalDefinition.summarySignalStatus==1)
-				{
-					summaryIcon ="signal_4";
+				if (summarySignalDefinition.summarySignalStatus == 1) {
+					summaryIcon = "signal_4";
 				}
 				var treeOption = {
 					id : summarySignalName,
 					data : showName,
-					parentTreeId : targetTreeId,					
+					parentTreeId : targetTreeId,
 					icon : summaryIcon,
 					type : ENS.tree.type.SUMMARYSIGNAL
 				};
@@ -1518,7 +1527,8 @@ ENS.treeView = wgp.TreeView
 				var treeType = treeModel.get("type");
 
 				// シグナルの場合はリアルタイム更新開始処理を行う。
-				if (ENS.tree.type.SIGNAL == treeType || ENS.tree.type.SUMMARYSIGNAL == treeType) {
+				if (ENS.tree.type.SIGNAL == treeType
+						|| ENS.tree.type.SUMMARYSIGNAL == treeType) {
 					appView.syncData([ treeModel.get("id") ]);
 				}
 
@@ -1539,7 +1549,8 @@ ENS.treeView = wgp.TreeView
 				treeTag.attr("id", treeId);
 
 				// シグナルの場合は状態を変更する。
-				if (ENS.tree.type.SIGNAL == treeType || ENS.tree.type.SUMMARYSIGNAL == treeType) {
+				if (ENS.tree.type.SIGNAL == treeType
+						|| ENS.tree.type.SUMMARYSIGNAL == treeType) {
 					var treeIcon = treeModel.get("icon");
 					var iconTag = treeTag.find("ins");
 
@@ -1572,7 +1583,8 @@ ENS.treeView = wgp.TreeView
 				var treeType = treeModel.get("type");
 
 				// シグナルの場合はリアルタイム更新開始処理を行う。
-				if (ENS.tree.type.SIGNAL == treeType  || ENS.tree.type.SUMMARYSIGNAL == treeType) {
+				if (ENS.tree.type.SIGNAL == treeType
+						|| ENS.tree.type.SUMMARYSIGNAL == treeType) {
 					appView.stopSyncData([ treeModel.get("id") ]);
 				}
 

@@ -153,7 +153,7 @@ public class CollectorTelegramUtil
     }
 
     public static Telegram createResponseTelegram(
-        final List<SummarySignalDefinitionDto> summarySignalDefinitionList)
+        final List<SummarySignalDefinitionDto> summarySignalDefinitionList, final String process)
     {
         Header responseHeader = new Header();
         responseHeader
@@ -241,7 +241,7 @@ public class CollectorTelegramUtil
             }
             // AlarmData alarmData = manager.getAlarmData(summarySignalName);
 
-            summarySignalProcess[cnt] = TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_CHANGE_STATE;
+            summarySignalProcess[cnt] = process;
             summarySignalID[cnt] = summarySignalId;
             summarySignalNameList[cnt] = summarySignalName;
             summarySignalState[cnt] = summarySignalStatus;

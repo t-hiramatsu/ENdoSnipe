@@ -39,6 +39,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import jp.co.acroquest.endosnipe.collector.config.DataCollectorConfig;
 import jp.co.acroquest.endosnipe.collector.data.SignalStateNode;
 import jp.co.acroquest.endosnipe.collector.util.SignalSummarizer;
+import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.data.dao.SummarySignalDefinitionDao;
 import jp.co.acroquest.endosnipe.data.dto.SummarySignalDefinitionDto;
 import jp.co.acroquest.endosnipe.data.entity.SummarySignalDefinition;
@@ -449,15 +450,24 @@ public class SummarySignalStateManager
 
             //  removeSummarySignalDefinition(summarySignalId);
             //   createAllSummarySignalMapValue();
-            CheckDeleteNode(summarySignalName);
+            CheckDeleteNode(summarySignalName, false);
             sumDefDto = new SummarySignalDefinitionDto(sumDef);
-            sumList.add(sumDefDto);
-            sumList =
-                SignalSummarizer.getInstance().calculateChangeParentSummarySignalState(sumList);
+            //            sumList.add(sumDefDto);
+            //            sumList =
+            //                SignalSummarizer
+            //                    .getInstance()
+            //                    .calculateChangeSummarySignalState(sumList,
+            //                                                       TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_DELETE);
             //  sumList.add(sumDefDto);
-            removeSummarySignalDefinition((int)sumDefDto.getSummarySignalId());
-            createAllSummarySignalMapValue();
-            alarmSummaryList_.remove(summarySignalName);
+            //            removeSummarySignalDefinition((int)sumDefDto.getSummarySignalId());
+            //            createAllSummarySignalMapValue();
+            //            alarmSummaryList_.remove(summarySignalName);
+
+            //            Telegram telegram =
+            //                CollectorTelegramUtil
+            //                    .createResponseTelegram(sumList,
+            //                                            TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_UPDATE);
+
             //   alarmSummaryList_.remove(summarySignalName);
         }
         catch (SQLException ex)
@@ -478,7 +488,8 @@ public class SummarySignalStateManager
         return sumDefDto;
     }
 
-    public void CheckDeleteNode(final String summarySignalName)
+    public List<SummarySignalDefinitionDto> CheckDeleteNode(final String summarySignalName,
+        final boolean flag)
         throws SQLException
     {
 
@@ -540,7 +551,24 @@ public class SummarySignalStateManager
                 parChildMap.remove(name);
             }
         }
+        if (flag)
+        {
+            Set<String> parentSummary = parChildMap.get(summarySignalName).getParentListSet();
+            List<SummarySignalDefinitionDto> summaryDtoList =
+                new ArrayList<SummarySignalDefinitionDto>();
+            for (String summary : parentSummary)
+            {
+                summaryDtoList.add(this.summarySignalDefinitionMap_.get(parChildMap.get(summary)
+                    .getNodeId()));
+            }
+
+            return SignalSummarizer
+                .getInstance()
+                .calculateChangeSummarySignalState(summaryDtoList,
+                                                   TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_UPDATE);
+        }
         System.out.println(parChildMap);
+        return null;
     }
 
     public SummarySignalDefinitionDto updateSummarySignalDefinition(
@@ -619,7 +647,8 @@ public class SummarySignalStateManager
         {
             if (!updatedSummarySignal.equals(targetSignal))
             {
-                if (parChildMap.get(targetSignal).childList == null
+                if (parChildMap.get(targetSignal) == null
+                    || parChildMap.get(targetSignal).childList == null
                     || parChildMap.get(targetSignal).childList.size() == 0)
                 {
                     //  return false;
