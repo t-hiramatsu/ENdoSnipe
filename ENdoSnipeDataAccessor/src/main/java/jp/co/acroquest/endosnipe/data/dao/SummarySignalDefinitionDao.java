@@ -27,15 +27,34 @@ import jp.co.acroquest.endosnipe.data.TableNames;
 import jp.co.acroquest.endosnipe.data.dto.SummarySignalDefinitionDto;
 import jp.co.acroquest.endosnipe.data.entity.SummarySignalDefinition;
 
+/**
+ * {@link SummarySignalDefinition} のための DAO です。
+ * 
+ * @author pin
+ *
+ */
 public class SummarySignalDefinitionDao extends AbstractDao implements TableNames
 {
     private static final String SUMMARY_SIGNAL_DEFINITION = "SUMMARY_SIGNAL_DEFINITION";
+    
+    private static final int SUMMARY_SIGNAL_INDEX1 = 3;
+    
+    private static final int SUMMARY_SIGNAL_INDEX2 = 4;
 
+    /**
+     * 指定されたデータベースのSummarySignal定義を全て取得します。<br />
+     *
+     * SummarySignal定義が登録されていない場合はerrorMessageにmessageを入れます。<br />
+     *
+     * @param databaseName データベース名
+     * @return SummarySignalDefinitionのリスト
+     * @throws SQLException SQL 実行時に例外が発生した場合
+     */
     public static List<SummarySignalDefinition> selectAll(String databaseName)
         throws SQLException
     {
         List<SummarySignalDefinition> result = new ArrayList<SummarySignalDefinition>();
-        
+
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
@@ -63,7 +82,6 @@ public class SummarySignalDefinitionDao extends AbstractDao implements TableName
                 summarySignalInfo.signalList = summarySignalList;
                 summarySignalInfo.summarySignalType = rs.getInt(4);
                 summarySignalInfo.priority = rs.getInt(5);
-                // CHECKSTYLE:ON
                 result.add(summarySignalInfo);
             }
         }
@@ -73,60 +91,40 @@ public class SummarySignalDefinitionDao extends AbstractDao implements TableName
             SQLUtil.closeStatement(stmt);
             SQLUtil.closeConnection(conn);
         }
-
         return result;
-
     }
 
-    public static List<String> getMinSummaryList(String databaseName)
-        throws SQLException
-    {
-        List<String> result = new ArrayList<String>();
-        
-        Connection conn = null;
-        Statement stmt = null;
-        ResultSet rs = null;
-        String summarySignal;
-        try
-        {
-            conn = getConnection(databaseName, false);
-            stmt = conn.createStatement();
-            String sql = "select summary_signal_name from " + SUMMARY_SIGNAL_DEFINITION + " where priority_no = (select min(priority_no) from "+ SUMMARY_SIGNAL_DEFINITION +" ) ";
-            rs = stmt.executeQuery(sql);
-            while (rs.next() == true)
-            {
-               
-                result.add(rs.getString(1));
-            }
-        }
-        finally
-        {
-            SQLUtil.closeResultSet(rs);
-            SQLUtil.closeStatement(stmt);
-            SQLUtil.closeConnection(conn);
-        }
-
-        return result;
-
-    }
-    
+    /**
+     * Get the SummarySignalDefinition List according to the selected name.<br/>
+     *
+     * @param dbName データベース名
+     * @param summarySignalName SummarySignal名
+     * @return SummarySignalDefinitionのリスト
+     * @throws SQLException SQL 実行時に例外が発生した場合
+     */
     public List<SummarySignalDefinition> selectByName(String dbName, String summarySignalName)
         throws SQLException
     {
         List<SummarySignalDefinition> result = new ArrayList<SummarySignalDefinition>();
         List<String> summarySignalList = new ArrayList<String>();
         Connection conn = null;
-        Statement stmt = null;
+        PreparedStatement pstmt = null;
+        //  Statement stmt = null;
         ResultSet rs = null;
         String summarySignal;
         try
         {
             conn = getConnection(dbName, false);
-            stmt = conn.createStatement();
+            //   stmt = conn.createStatement();
+            //            String sql =
+            //                "select * from " + SUMMARY_SIGNAL_DEFINITION + " where SUMMARY_SIGNAL_NAME='"
+            //                    + summarySignalName + "'";
             String sql =
-                "select * from " + SUMMARY_SIGNAL_DEFINITION + " where SUMMARY_SIGNAL_NAME='"
-                    + summarySignalName + "'";
-            rs = stmt.executeQuery(sql);
+                "select * from " + SUMMARY_SIGNAL_DEFINITION + " where SUMMARY_SIGNAL_NAME=?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, summarySignalName);
+            rs = pstmt.executeQuery();
+            // rs = stmt.executeQuery(sql);
             while (rs.next() == true)
             {
                 // CHECKSTYLE:OFF
@@ -150,14 +148,21 @@ public class SummarySignalDefinitionDao extends AbstractDao implements TableName
         finally
         {
             SQLUtil.closeResultSet(rs);
-            SQLUtil.closeStatement(stmt);
+            //  SQLUtil.closeStatement(stmt);
+            SQLUtil.closeStatement(pstmt);
             SQLUtil.closeConnection(conn);
         }
 
         return result;
 
     }
-
+    /**
+     * Insert new Summary Signal Data
+     *
+     * @param dataBaseName データベース名
+     * @param summarySignalDefinition summarySignalDefinition
+     * @throws SQLException SQL 実行時に例外が発生した場合
+     */
     public static void insert(String dataBaseName, SummarySignalDefinition summarySignalDefinition)
         throws SQLException
     {
@@ -171,7 +176,6 @@ public class SummarySignalDefinitionDao extends AbstractDao implements TableName
                     + "(SUMMARY_SIGNAL_NAME, TARGET_SIGNAL_ID,SIGNAL_TYPE, PRIORITY_NO)"
                     + " values (?, ?, ?, ?)";
             pstmt = conn.prepareStatement(sql);
-            // CHECKSTYLE:OFF
             pstmt.setString(1, summarySignalDefinition.getSummarySignalName());
 
             String signalList = "";
@@ -189,9 +193,8 @@ public class SummarySignalDefinitionDao extends AbstractDao implements TableName
             }
 
             pstmt.setString(2, signalList);
-            pstmt.setInt(3, summarySignalDefinition.getSummarySignalType());
-            pstmt.setInt(4, summarySignalDefinition.getPriority());
-            // CHECKSTYLE:ON
+            pstmt.setInt(SUMMARY_SIGNAL_INDEX1, summarySignalDefinition.getSummarySignalType());
+            pstmt.setInt(SUMMARY_SIGNAL_INDEX2, summarySignalDefinition.getPriority());
             pstmt.execute();
         }
         finally
@@ -201,25 +204,38 @@ public class SummarySignalDefinitionDao extends AbstractDao implements TableName
         }
     }
 
+    /**
+     * Get the SummarySignalDefinition sequence id num. <br/>
+     *
+     * @param dataBaseName データベース名
+     * @param summarySignalDefinition summarySignal
+     * @return SummarySignalDefinitionのID
+     * @throws SQLException SQL 実行時に例外が発生した場合
+     */
     public int selectSequenceNum(String dataBaseName,
         SummarySignalDefinition summarySignalDefinition)
         throws SQLException
     {
         int result = 0;
-        List<String> summarySignalList = new ArrayList<String>();
         String summarySignalName = summarySignalDefinition.getSummarySignalName();
         Connection conn = null;
-        Statement stmt = null;
+        PreparedStatement pstmt = null;
+        //  Statement stmt = null;
         ResultSet rs = null;
-        String summarySignal;
         try
         {
             conn = getConnection(dataBaseName, false);
-            stmt = conn.createStatement();
+
+            //  stmt = conn.createStatement();
             String sql =
+            //                "select SUMMARY_SIGNAL_ID from " + SUMMARY_SIGNAL_DEFINITION
+            //                    + " where SUMMARY_SIGNAL_NAME='" + summarySignalName + "'";
                 "select SUMMARY_SIGNAL_ID from " + SUMMARY_SIGNAL_DEFINITION
-                    + " where SUMMARY_SIGNAL_NAME='" + summarySignalName + "'";
-            rs = stmt.executeQuery(sql);
+                    + " where SUMMARY_SIGNAL_NAME=?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, summarySignalName);
+            //    rs = stmt.executeQuery(sql);
+            rs = pstmt.executeQuery();
             while (rs.next() == true)
             {
                 int summarySignalId = rs.getInt(1);
@@ -229,8 +245,9 @@ public class SummarySignalDefinitionDao extends AbstractDao implements TableName
         }
         finally
         {
-            // SQLUtil.closeResultSet(rs);
-            SQLUtil.closeStatement(stmt);
+            SQLUtil.closeResultSet(rs);
+            //    SQLUtil.closeStatement(stmt);
+            SQLUtil.closeStatement(pstmt);
             SQLUtil.closeConnection(conn);
         }
 
@@ -238,11 +255,18 @@ public class SummarySignalDefinitionDao extends AbstractDao implements TableName
 
     }
 
+    /**
+     * Get the SummarySignalDefinition List by ordering the priority.<br/>
+     *
+     * @param dataBaseName データベース名
+     * @return SummarySignalDefinitionのリスト
+     * @throws SQLException SQL 実行時に例外が発生した場合
+     */
     public List<SummarySignalDefinition> selectAllByPriority(String dataBaseName)
         throws SQLException
     {
         List<SummarySignalDefinition> result = new ArrayList<SummarySignalDefinition>();
-       
+
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
@@ -271,7 +295,6 @@ public class SummarySignalDefinitionDao extends AbstractDao implements TableName
                 summarySignalInfo.signalList = summarySignalList;
                 summarySignalInfo.summarySignalType = rs.getInt(4);
                 summarySignalInfo.priority = rs.getInt(5);
-                // CHECKSTYLE:ON
                 result.add(summarySignalInfo);
             }
         }
@@ -285,31 +308,50 @@ public class SummarySignalDefinitionDao extends AbstractDao implements TableName
         return result;
     }
 
+    /**
+     * Delete the summary signal data according to the name.<br/>
+     *
+     * @param dataBaseName データベース名
+     * @param summarySignalName summarySignalのname
+     * @throws SQLException SQL 実行時に例外が発生した場合
+     */
     public void delete(String dataBaseName, String summarySignalName)
         throws SQLException
     {
         Connection conn = null;
-        Statement stmt = null;
-        boolean result = false;
-
+        //  Statement stmt = null;
+        PreparedStatement pstmt = null;
         try
         {
             conn = getConnection(dataBaseName, false);
-            stmt = conn.createStatement();
+            //  stmt = conn.createStatement();
+            //            String sql =
+            //                "delete from " + SUMMARY_SIGNAL_DEFINITION + " where SUMMARY_SIGNAL_NAME='"
+            //                    + summarySignalName + "'";
             String sql =
-                "delete from " + SUMMARY_SIGNAL_DEFINITION + " where SUMMARY_SIGNAL_NAME='"
-                    + summarySignalName + "'";
-            stmt.execute(sql);
+                "delete from " + SUMMARY_SIGNAL_DEFINITION + " where SUMMARY_SIGNAL_NAME=?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, summarySignalName);
+            //   stmt.execute(sql);
+            pstmt.execute();
         }
 
         finally
         {
-            SQLUtil.closeStatement(stmt);
+            //  SQLUtil.closeStatement(stmt);
+            SQLUtil.closeStatement(pstmt);
             SQLUtil.closeConnection(conn);
 
         }
     }
 
+    /**
+     * Get all summary signal name
+     *
+     * @param dataBaseName データベース名
+     * @return summary signal definition map
+     * @throws SQLException SQL 実行時に例外が発生した場合
+     */
     public Map<String, SummarySignalDefinition> selectAllSignalName(String dataBaseName)
         throws SQLException
     {
@@ -328,7 +370,6 @@ public class SummarySignalDefinitionDao extends AbstractDao implements TableName
             rs = stmt.executeQuery(sql);
             while (rs.next() == true)
             {
-                // CHECKSTYLE:OFF
                 SummarySignalDefinition summarySignalInfo = new SummarySignalDefinition();
                 summarySignalInfo.summarySignalId = rs.getLong(1);
                 summarySignalInfo.summarySignalName = rs.getString(2);
@@ -342,7 +383,6 @@ public class SummarySignalDefinitionDao extends AbstractDao implements TableName
                 summarySignalInfo.signalList = summarySignalList;
                 summarySignalInfo.summarySignalType = rs.getInt(4);
                 summarySignalInfo.priority = rs.getInt(5);
-                // CHECKSTYLE:ON
                 result.put(summarySignalInfo.summarySignalName, summarySignalInfo);
             }
         }
@@ -356,24 +396,27 @@ public class SummarySignalDefinitionDao extends AbstractDao implements TableName
         return result;
     }
 
+    /**
+     * update the summary signal Information by matching the name<br/>
+     *
+     * @param dataBaseName データベース名
+     * @param summarySignalId summary signal のid
+     * @param summarySignalDefinitionDto summarySignalのDto
+     * @param priorityFlag flag to update all data or not
+     * @throws SQLException SQL 実行時に例外が発生した場合
+     */
     public void update(String dataBaseName, long summarySignalId,
-        SummarySignalDefinitionDto summarySignalDefinitionDto,boolean priorityFlag)
+        SummarySignalDefinitionDto summarySignalDefinitionDto, boolean priorityFlag)
         throws SQLException
     {
 
         Connection conn = null;
         PreparedStatement pstmt = null;
-        String sql =null;
+        String sql = null;
         try
         {
             conn = getConnection(dataBaseName);
-//            String sql =
-//                "update " + SUMMARY_SIGNAL_DEFINITION
-//                    + "(SUMMARY_SIGNAL_NAME, TARGET_SIGNAL_ID,SIGNAL_TYPE, PRIORITY_NO)"
-//                    + " values (?, ?, ?, ?) where SUMMARY_SIGNAL_NAME='"
-//                    + summarySignalDefinitionDto.summarySignalName + "'";
-//            
-            if(priorityFlag)
+            if (priorityFlag)
             {
                 sql =
                     "update " + SUMMARY_SIGNAL_DEFINITION
@@ -381,45 +424,40 @@ public class SummarySignalDefinitionDao extends AbstractDao implements TableName
                 pstmt = conn.prepareStatement(sql);
                 pstmt.setInt(1, summarySignalDefinitionDto.getPriority());
                 pstmt.setString(2, summarySignalDefinitionDto.getSummarySignalName());
-           
+
             }
             else
             {
-            sql =
-                "update " + SUMMARY_SIGNAL_DEFINITION
-                    + " SET SUMMARY_SIGNAL_NAME=?, TARGET_SIGNAL_ID=?,SIGNAL_TYPE=?, PRIORITY_NO=? where SUMMARY_SIGNAL_NAME=?";
-            
-            pstmt = conn.prepareStatement(sql);
-            // CHECKSTYLE:OFF
-            
-            
-            pstmt.setString(1, summarySignalDefinitionDto.getSummarySignalName());
-            String signalList = "";
-            if (summarySignalDefinitionDto.getSignalList() != null
-                && summarySignalDefinitionDto.getSignalList().size() > 0)
-            {
-                for (int count = 0; count < summarySignalDefinitionDto.getSignalList().size(); count++)
+                sql =
+                    "update "
+                        + SUMMARY_SIGNAL_DEFINITION
+                        + " SET SUMMARY_SIGNAL_NAME=?, TARGET_SIGNAL_ID=?,SIGNAL_TYPE=?, PRIORITY_NO=? where SUMMARY_SIGNAL_NAME=?";
+
+                pstmt = conn.prepareStatement(sql);
+
+                pstmt.setString(1, summarySignalDefinitionDto.getSummarySignalName());
+                String signalList = "";
+                if (summarySignalDefinitionDto.getSignalList() != null
+                    && summarySignalDefinitionDto.getSignalList().size() > 0)
                 {
-                    signalList += summarySignalDefinitionDto.getSignalList().get(count);
-                    if (count != summarySignalDefinitionDto.getSignalList().size() - 1)
+                    for (int count = 0; count < summarySignalDefinitionDto.getSignalList().size(); count++)
                     {
-                        signalList += ",";
+                        signalList += summarySignalDefinitionDto.getSignalList().get(count);
+                        if (count != summarySignalDefinitionDto.getSignalList().size() - 1)
+                        {
+                            signalList += ",";
+                        }
                     }
                 }
+
+                pstmt.setString(2, signalList);
+                pstmt.setInt(3, summarySignalDefinitionDto.getSummmarySignalType());
+                pstmt.setInt(4, summarySignalDefinitionDto.getPriority());
+                pstmt.setString(5, summarySignalDefinitionDto.getSummarySignalName());
+
             }
 
-            pstmt.setString(2, signalList);
-            pstmt.setInt(3, summarySignalDefinitionDto.getSummmarySignalType());
-            pstmt.setInt(4, summarySignalDefinitionDto.getPriority());
-            pstmt.setString(5, summarySignalDefinitionDto.getSummarySignalName());
-            
-            }
-           
-            
-          
-            
-            // CHECKSTYLE:ON
-            pstmt.executeUpdate();//xecute();
+            pstmt.executeUpdate();
         }
         finally
         {

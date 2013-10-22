@@ -18,7 +18,6 @@ import java.util.List;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.ResponseDto;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.SignalDefinitionDto;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.SummarySignalDefinitionDto;
-import jp.co.acroquest.endosnipe.web.dashboard.entity.SummarySignalInfo;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.ResourceSender;
 import jp.co.acroquest.endosnipe.web.dashboard.service.SignalService;
 import jp.co.acroquest.endosnipe.web.dashboard.service.SummarySignalService;
@@ -33,8 +32,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.wgp.manager.WgpDataManager;
 
 /**
- * /summarySignal/getAllDefinition
- * @author khinewai
+ * Controller of Summary Signal
+ * @author pin
  *
  */
 @Controller
@@ -53,6 +52,7 @@ public class SummarySignalController
     @Autowired
     protected SummarySignalService summarySignalService_;
 
+    /** service of signal*/
     @Autowired
     protected SignalService signalService_;
 
@@ -64,14 +64,14 @@ public class SummarySignalController
             new ArrayList<SummarySignalDefinitionDto>();
 
     /** controller of summary signal */
-    public SummarySignalController summarySignal__;
+    public SummarySignalController summarySignal_;
 
     /**
     * constructor
     */
     public SummarySignalController()
     {
-        summarySignal__ = this;
+        summarySignal_ = this;
     }
 
     /**
@@ -108,16 +108,22 @@ public class SummarySignalController
 
         while (summarySignalDefinitionDto__.size() == 0)
         {
-            //
+            System.out.print("");
         }
 
         summarySignalDefinitionDto.addAll(summarySignalDefinitionDto__);
         SummarySignalController.summarySignalDefinitionDto__.clear();
-        System.out.println(summarySignalDefinitionDto.size());
         return summarySignalDefinitionDto;
 
     }
 
+    /**
+     * Add the new summarySignal.
+     *
+     * @param summarySignalDefinition
+     *            JSON data of summarySignalDefinition
+     * @return data of new summarySignalDefinition
+     */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
     public ResponseDto add(
@@ -130,13 +136,20 @@ public class SummarySignalController
 
         while (responseData__ == null)
         {
-            //
+            System.out.print("");
         }
         responseDto = responseData__;
         responseData__ = null;
         return responseDto;
     }
 
+    /**
+     * Delete the selected summarySignal.
+     *
+     * @param summarySignalName
+     *            JSON name of summarySignal
+     * @return data of deleted summarySignal
+     */
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
     public ResponseDto delete(
@@ -146,7 +159,7 @@ public class SummarySignalController
         ResponseDto responseDto = new ResponseDto();
         while (responseData__ == null)
         {
-            //
+            System.out.print("");
         }
         responseDto = responseData__;
         responseData__ = null;
@@ -154,6 +167,12 @@ public class SummarySignalController
 
     }
 
+    /**
+     * Get the selected SummarySignal data.
+     * 
+     * @param summarySignalName : Name of SummarySignal
+     * @return data of updated SummarySignal
+     */
     @RequestMapping(value = "/getDefinition", method = RequestMethod.POST)
     @ResponseBody
     public SummarySignalDefinitionDto get(
@@ -165,6 +184,13 @@ public class SummarySignalController
         return summarySignalDefinition;
     }
 
+    /**
+     * Edit the selected summarySignal.
+     *
+     * @param summarySignalDefinition
+     *            JSON data of summarySignal
+     * @return data of updated summarySignal
+     */
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     @ResponseBody
     public ResponseDto edit(
@@ -174,15 +200,10 @@ public class SummarySignalController
         SummarySignalDefinitionDto summarySignalDefinitionDto =
                 JSON.decode(summarySignalDefinition, SummarySignalDefinitionDto.class);
 
-        long summarySignalId = summarySignalDefinitionDto.getSummarySignalId();
-        String summarySignalName = summarySignalDefinitionDto.getSummarySignalName();
-        SummarySignalInfo summarySignalInfo =
-                this.summarySignalService_.convertSummarySignalInfo(summarySignalDefinitionDto);
-
         this.summarySignalService_.updateSummarySignalDefinition(summarySignalDefinitionDto);
         while (responseData__ == null)
         {
-            //
+            System.out.print("");
         }
         responseDto = responseData__;
         responseData__ = null;

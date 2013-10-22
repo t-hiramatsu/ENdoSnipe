@@ -287,6 +287,7 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
                 SummarySignalDefinitionDao.selectAll(databaseName);
             for (SummarySignalDefinition summarySignalDefinition : summarySignalDefinitionList)
             {
+                summarySignalDefinition.errorMessage = "";
                 SummarySignalDefinitionDto summarySignalDefinitionDto =
                     new SummarySignalDefinitionDto(summarySignalDefinition);
                 summarySignalDefinitionMap.put(summarySignalDefinition.summarySignalId,

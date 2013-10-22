@@ -231,6 +231,7 @@ public class ResourceSender
             if ("add".equals(type))
             {
                 dataManager.setData("tree", signalId, treeMenuDto);
+
             }
             else if ("update".equals(type))
             {

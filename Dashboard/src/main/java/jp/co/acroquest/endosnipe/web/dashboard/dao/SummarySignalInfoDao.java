@@ -16,15 +16,44 @@ import java.util.List;
 
 import jp.co.acroquest.endosnipe.web.dashboard.entity.SummarySignalInfo;
 
+/**
+ * {@link SummarySignalInfo} のための DAO のインターフェースです。
+ *
+ * @author pin
+ *
+ */
 public interface SummarySignalInfoDao
 {
+    /**
+     * Get the all data of SummarySignal.<br />
+     * @return SummarySignalのリスト
+     */
+    List<SummarySignalInfo> selectAll();
 
-    public List<SummarySignalInfo> selectAll();
-
+    /**
+     * {@link SummarySignalInfo} オブジェクトを挿入します。<br />
+     *
+     * @param summarySignalInfo
+     *            Object to insert
+     */
     void insert(final SummarySignalInfo summarySignalInfo);
 
-    int selectSequenceNum(final SummarySignalInfo SummarySignalInfo);
+    /**
+     * Get the sequence number of summarySignal.<br />
+     * 
+     * @param summarySignalInfo
+     *           Object of SummarySignal
+     * @return sequence no of SummarySignal
+     */
+    int selectSequenceNum(final SummarySignalInfo summarySignalInfo);
 
+    /**
+     * Get the SummarySignalInfo by Name.
+     *
+     * @param summarySignalName
+     *            summarySignal's Name
+     * @return summarySignal's data
+     */
     SummarySignalInfo selectByName(String summarySignalName);
 
 }

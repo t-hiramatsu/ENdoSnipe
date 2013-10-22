@@ -18,10 +18,9 @@ import java.util.List;
 
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
 import jp.co.acroquest.endosnipe.communicator.CommunicationClient;
-import jp.co.acroquest.endosnipe.communicator.entity.Body;
-import jp.co.acroquest.endosnipe.communicator.entity.Header;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
+import jp.co.acroquest.endosnipe.web.dashboard.constants.LogMessageCodes;
 import jp.co.acroquest.endosnipe.web.dashboard.constants.SummarySignalConstants;
 import jp.co.acroquest.endosnipe.web.dashboard.dao.SummarySignalInfoDao;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.SignalDefinitionDto;
@@ -34,15 +33,37 @@ import org.apache.ibatis.exceptions.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service of Summary Signal
+ * 
+ * @author Khine Wai, Pin
+ * 
+ */
 @Service
 public class SummarySignalService
 {
+    /**
+     * SummarySignalのDao。
+     */
     @Autowired
     protected SummarySignalInfoDao summarySignalInfoDao;
 
     /** ロガー。 */
     private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(MapService.class);
 
+    /**
+     * コンストラクタ
+     */
+    public SummarySignalService()
+    {
+
+    }
+
+    /**
+     * Get all summary signal data to show on the select box of dialog box
+     * 
+     * @return SignalDefinitionDto List
+     */
     public List<SignalDefinitionDto> getAllSummarySignal()
     {
         List<SummarySignalInfo> summarySignalList = null;
@@ -56,8 +77,9 @@ public class SummarySignalService
             if (cause instanceof SQLException)
             {
                 SQLException sqlEx = (SQLException)cause;
+                LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx, sqlEx.getMessage());
             }
-
+            LOGGER.log(LogMessageCodes.SQL_EXCEPTION, pEx, pEx.getMessage());
             return new ArrayList<SignalDefinitionDto>();
         }
         List<SignalDefinitionDto> definitionDtoList = new ArrayList<SignalDefinitionDto>();
@@ -69,12 +91,24 @@ public class SummarySignalService
         return definitionDtoList;
     }
 
+    /**
+     * Get all summary signal data to by using telegram
+     * 
+     * @return SummarySignalDefinitionDto List
+     */
     public List<SummarySignalDefinitionDto> getAllSummarySignals()
     {
         getAllSummarySignalDefinition(null);
         return null;
     }
 
+    /**
+     * summarySignalInfoオブジェクトをSignalDefinitionDtoオブジェクトに変換する。
+     * 
+     * @param summarySignalInfo
+     *            summarySignalInfoオブジェクト
+     * @return SignalDefinitionDtoオブジェクト
+     */
     public SignalDefinitionDto convertSummarySignalDto(final SummarySignalInfo summarySignalInfo)
     {
         SignalDefinitionDto definitionDto = new SignalDefinitionDto();
@@ -83,6 +117,13 @@ public class SummarySignalService
         return definitionDto;
     }
 
+    /**
+     * SummarySignalDefinitionグラフ定義をDBに登録する。
+     * 
+     * @param summarySignalDefinitionDto
+     *           SummarySignalグラフ定義
+     * @return SummarySignal定義のDTOオブジェクト
+     */
     public SummarySignalDefinitionDto insertSummarySignalDefinition(
             final SummarySignalDefinitionDto summarySignalDefinitionDto)
     {
@@ -92,6 +133,13 @@ public class SummarySignalService
 
     }
 
+    /**
+     * summarySignalInfoオブジェクトをSummarySignalDefinitionDtoオブジェクトに変換する。
+     * 
+     * @param summarySignalInfo
+     *            summarySignalInfoオブジェクト
+     * @return SummarySignalDefinitionDtoオブジェクト
+     */
     private SummarySignalDefinitionDto convertSummarySignalDtos(
             final SummarySignalInfo summarySignalInfo)
     {
@@ -113,6 +161,11 @@ public class SummarySignalService
         return definitionDto;
     }
 
+    /**
+     * SummarySignalグラフ定義情報の追加・更新・削除を各クライアントに送信する。
+     * @param summarySignalDefinitionDto Summary Signalグラフ定義情報
+     * @param type 送信タイプ(add:追加 update:変更 delete:削除 getAll)
+     */
     private void sendSummarySignalDefinitionRequest(
             final SummarySignalDefinitionDto summarySignalDefinitionDto, final String type)
     {
@@ -146,6 +199,11 @@ public class SummarySignalService
 
     }
 
+    /**
+     * create telegram for summary Signal Definition for add process
+     * @param summarySignalDefinitionDto Summary Signalグラフ定義情報
+     * @return telegram of summary signal
+     */
     private Telegram createAddSummarySignalTelegram(
             final SummarySignalDefinitionDto summarySignalDefinitionDto)
     {
@@ -153,6 +211,11 @@ public class SummarySignalService
                                                                   TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_ADD);
     }
 
+    /**
+     * create telegram for summary Signal Definition for delete process
+     * @param summarySignalDefinitionDto Summary Signalグラフ定義情報
+     * @return telegram of summary signal
+     */
     private Telegram createDeleteSummarySignalTelegram(
             final SummarySignalDefinitionDto summarySignalDefinitionDto)
     {
@@ -160,6 +223,11 @@ public class SummarySignalService
                                                                   TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_DELETE);
     }
 
+    /**
+     * create telegram for summary Signal Definition for getAll data process
+     * @param summarySignalDefinitionDto Summary Signalグラフ定義情報
+     * @return telegram of summary signal
+     */
     private Telegram createGetAllSummarySignalTelegram(
             final SummarySignalDefinitionDto summarySignalDefinitionDto)
     {
@@ -167,24 +235,16 @@ public class SummarySignalService
                                                                   TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_ALL);
     }
 
+    /**
+     * create telegram for summary Signal Definition for update process
+     * @param summarySignalDefinitionDto Summary Signalグラフ定義情報
+     * @return telegram of summary signal
+     */
     private Telegram createUpdateSummarySignalTelegram(
             final SummarySignalDefinitionDto summarySignalDefinitionDto)
     {
         return SummarySignalUtil.createAddSummarySignalDefinition(summarySignalDefinitionDto,
                                                                   TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_UPDATE);
-    }
-
-    public SummarySignalInfo convertSummarySignalInfo(final SummarySignalDefinitionDto definitionDto)
-    {
-        SummarySignalInfo summarySignalInfo = new SummarySignalInfo();
-
-        summarySignalInfo.summarySignalId = definitionDto.getSummarySignalId();
-        summarySignalInfo.summarySignalName = definitionDto.getSummarySignalName();
-        summarySignalInfo.summarySignalType = definitionDto.getSummarySignalType();
-        summarySignalInfo.priorityNo = definitionDto.getPriorityNo();
-        summarySignalInfo.targetSignalId = definitionDto.signalList.toString();
-        summarySignalInfo.errorMessage = definitionDto.getMessage();
-        return summarySignalInfo;
     }
 
     public boolean checkDuplicate(final long summarySignalId, final String summarySignalName)
@@ -199,29 +259,10 @@ public class SummarySignalService
         return false;
     }
 
-    public void calculatePriority(final SummarySignalDefinitionDto summarySignalDefinitionDto,
-            final List<String> signalList)
-    {
-        List<SummarySignalInfo> summarySignalList = null;
-        int childMaxPriority = 0;
-        for (String signalName : signalList)
-        {
-            if (signalName.contains("summary signal"))
-            {
-                summarySignalList = this.getAllSummarySignalList();
-                childMaxPriority = summarySignalList.get(0).getPriorityNo();
-                for (int index = 1; index < summarySignalList.size() - 1; index++)
-                {
-                    if (childMaxPriority < summarySignalList.get(index).getPriorityNo())
-                    {
-                        childMaxPriority = summarySignalList.get(index).getPriorityNo();
-                    }
-                }
-            }
-        }
-        summarySignalDefinitionDto.setPriorityNo(childMaxPriority);
-    }
-
+    /**
+     * get all summary signal list from the table
+     *@return SummarySignalInfo List
+     */
     public List<SummarySignalInfo> getAllSummarySignalList()
     {
         List<SummarySignalInfo> summarySignalList = null;
@@ -235,8 +276,9 @@ public class SummarySignalService
             if (cause instanceof SQLException)
             {
                 SQLException sqlEx = (SQLException)cause;
+                LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx, sqlEx.getMessage());
             }
-
+            LOGGER.log(LogMessageCodes.SQL_EXCEPTION, pEx, pEx.getMessage());
             return new ArrayList<SummarySignalInfo>();
         }
         List<SummarySignalInfo> definitionDtoList = new ArrayList<SummarySignalInfo>();
@@ -247,34 +289,12 @@ public class SummarySignalService
         return definitionDtoList;
     }
 
-    private void sendGetAllStateRequest()
-    {
-        ConnectionClient connectionClient = ConnectionClient.getInstance();
-        List<CommunicationClient> clientList = connectionClient.getClientList();
-        for (CommunicationClient communicationClient : clientList)
-        {
-            Telegram telegram = createAllStateTelegram();
-            communicationClient.sendTelegram(telegram);
-        }
-
-    }
-
-    private Telegram createAllStateTelegram()
-    {
-        Telegram telegram = new Telegram();
-
-        Header requestHeader = new Header();
-        requestHeader.setByteTelegramKind(TelegramConstants.BYTE_TELEGRAM_KIND_SUMMARYSIGNAL_DEFINITION);
-        requestHeader.setByteRequestKind(TelegramConstants.BYTE_REQUEST_KIND_NOTIFY);
-
-        Body[] requestBodys = {};
-
-        telegram.setObjHeader(requestHeader);
-        telegram.setObjBody(requestBodys);
-
-        return telegram;
-    }
-
+    /**
+     * SummarySignalグラフ名に該当する複数グラフ定義をDBから削除する。
+     *
+     * @param summarySignalName
+     *            Summary Signalグラフ名
+     */
     public void deleteSummarySignalDefinition(final String summarySignalName)
     {
         SummarySignalDefinitionDto summarySignalDefinitionDto = new SummarySignalDefinitionDto();
@@ -283,6 +303,11 @@ public class SummarySignalService
                                            SummarySignalConstants.OPERATION_TYPE_DELETE);
     }
 
+    /**
+     * Summary Signalグラフ定義をDBから取得する。
+     * @param summarySignalName Summary Signalグラフ名
+     * @return SummarySignalDefinitionグラフ定義のDTOオブジェクト
+     */
     public SummarySignalDefinitionDto getSummarySignalDefinition(final String summarySignalName)
     {
         SummarySignalInfo summarySignalInfo = new SummarySignalInfo();
@@ -294,6 +319,12 @@ public class SummarySignalService
 
     }
 
+    /**
+     * SummarySignalグラフ定義を更新する。
+     * 
+     * @param summarySignalDefinition
+     *            SummarySignalグラフ定義
+     */
     public void updateSummarySignalDefinition(
             final SummarySignalDefinitionDto summarySignalDefinition)
     {
@@ -302,6 +333,12 @@ public class SummarySignalService
 
     }
 
+    /**
+     *get All summary signal definition data
+     *
+     *@param summarySignalDefinition
+     *            SummarySignalグラフ定義    
+     */
     public void getAllSummarySignalDefinition(
             final SummarySignalDefinitionDto summarySignalDefinition)
     {

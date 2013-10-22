@@ -203,6 +203,7 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
      * @param config {@link DataCollectorConfig} オブジェクト
      * @param clientRepository {@link CommunicationClientRepository} オブジェクト
      * @param signalDefinitionMap 閾値判定定義情報のマップ
+     * @param summarySignalDefinitionMap data of summary signal
      */
     public JavelinDataLogger(final DataCollectorConfig config,
         final CommunicationClientRepository clientRepository,
@@ -1100,17 +1101,15 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
                     JavelinClient.createClientId(currentResourceData.ipAddress,
                                                  currentResourceData.portNum);
             }
-            System.out.println("alarm " + alarmEntryList);
             Telegram alarmTelegram = CollectorTelegramUtil.createAlarmTelegram(alarmEntryList);
             this.clientRepository_.sendTelegramToClient(clientId, alarmTelegram);
             List<SummarySignalDefinitionDto> alarmSummarySignal =
                 SignalSummarizer.getInstance().calculateSummarySignalState(alarmSignalList);
             Telegram alarmSummaryTelegram =
                 CollectorTelegramUtil
-                    .createResponseTelegram(alarmSummarySignal,
-                                            TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_CHANGE_STATE);
+                    .createSummarySignalResponseTelegram(alarmSummarySignal,
+                                                         TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_CHANGE_STATE);
             this.clientRepository_.sendTelegramToClient(clientId, alarmSummaryTelegram);
-            System.out.println("summary " + alarmSummarySignal);
             for (AlarmEntry alarmEntry : alarmEntryList)
             {
                 addSignalStateChangeEvent(alarmEntry);

@@ -46,7 +46,17 @@ public class CollectorTelegramUtil
     /**  閾値超過アラームの電文本体のサイズ */
     public static final int RESPONSEALARM_BODY_SIZE = 4;
 
+    /** size of telegram for summary signal */
     public static final int RESPONSEALARM_BODY_ADD_SUMMARY_SIGNAL_SIZE = 6;
+
+    /** index for telegram of summary signal */
+    public static final int SUMMARY_SIGNAL_INDEX1 = 3;
+
+    /** index for telegram of summary signal */
+    public static final int SUMMARY_SIGNAL_INDEX2 = 4;
+
+    /** index for telegram of summary signal */
+    public static final int SUMMARY_SIGNAL_INDEX3 = 5;
 
     /**
      * インスタンス化を防止するprivateコンストラクタです。
@@ -145,14 +155,20 @@ public class CollectorTelegramUtil
         responseBodys[0] = measurementTypeBody;
         responseBodys[1] = alarmLevelBody;
         responseBodys[2] = signalLevelBody;
-        responseBodys[3] = alarmTypeBody;
+        responseBodys[SUMMARY_SIGNAL_INDEX1] = alarmTypeBody;
 
         responseTelegram.setObjBody(responseBodys);
 
         return responseTelegram;
     }
 
-    public static Telegram createResponseTelegram(
+    /**
+     * create response telegram for summary signal data
+     * @param summarySignalDefinitionList list of summary signal data
+     * @param process kind of telegram
+     * @return telegram of summarysignal
+     */
+    public static Telegram createSummarySignalResponseTelegram(
         final List<SummarySignalDefinitionDto> summarySignalDefinitionList, final String process)
     {
         Header responseHeader = new Header();
@@ -239,8 +255,6 @@ public class CollectorTelegramUtil
             {
                 errorMessage = "";
             }
-            // AlarmData alarmData = manager.getAlarmData(summarySignalName);
-
             summarySignalProcess[cnt] = process;
             summarySignalID[cnt] = summarySignalId;
             summarySignalNameList[cnt] = summarySignalName;
@@ -261,12 +275,11 @@ public class CollectorTelegramUtil
         responseBodys[0] = summarySignalProcessBody;
         responseBodys[1] = summarySignalIDBody;
         responseBodys[2] = summarySignalNameBody;
-        responseBodys[3] = signalListBody;
-        responseBodys[4] = summarySignalStateBody;
-        responseBodys[5] = errorMessageBody;
+        responseBodys[SUMMARY_SIGNAL_INDEX1] = signalListBody;
+        responseBodys[SUMMARY_SIGNAL_INDEX2] = summarySignalStateBody;
+        responseBodys[SUMMARY_SIGNAL_INDEX3] = errorMessageBody;
 
         responseTelegram.setObjBody(responseBodys);
         return responseTelegram;
     }
-
 }

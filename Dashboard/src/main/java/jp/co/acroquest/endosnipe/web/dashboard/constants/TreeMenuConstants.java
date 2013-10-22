@@ -44,6 +44,6 @@ public interface TreeMenuConstants
     /** ツリーメニューのタイプ:MultipleResourceGraph */
     String TREE_MENU_TYPE_MUL_RESOURCE_GRAPH = "mulResGraph";
 
-    /** ツリーメニューのタイプ:MultipleResourceGraph */
+    /** Tree menu type: SummarySignal */
     String TREE_MENU_TYPE_SUMMARY_SIGNAL = "summarySignal";
 }

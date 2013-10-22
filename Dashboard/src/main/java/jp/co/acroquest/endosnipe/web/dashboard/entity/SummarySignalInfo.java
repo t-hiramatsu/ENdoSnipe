@@ -12,87 +12,39 @@
  */
 package jp.co.acroquest.endosnipe.web.dashboard.entity;
 
+/**
+ * SummarySignalのentityクラス。
+ * 
+ * @author pin
+ * 
+ */
 public class SummarySignalInfo
 {
+    /** SummarySignalのID。 */
     public int summarySignalId;
 
+    /** SummarySignalのName。 */
     public String summarySignalName;
 
+    /** SummarySignalのsignalList。 */
     public static String targetSignalId;
 
+    /** SummarySignalのType。 */
     public int summarySignalType;
 
+    /** SummarySignalのpriorityNo。 */
     public int priorityNo;
 
+    /** SummarySignalのmessage。 */
     public String errorMessage;
 
     /**
-     * {@link SignalInfo} オブジェクトを生成します。<br />
+     * {@link SummarySignalInfo} SummarySignalを生成します。<br />
      */
 
     public SummarySignalInfo()
     {
         this.summarySignalId = -1;
-    }
-
-    public String getErrorMessage()
-    {
-        return errorMessage;
-    }
-
-    public void setErrorMessage(final String errorMessage)
-    {
-        this.errorMessage = errorMessage;
-    }
-
-    public String getTargetSignalId()
-    {
-        return targetSignalId;
-    }
-
-    public void setTargetSignalId(final String targetSignalId)
-    {
-        this.targetSignalId = targetSignalId;
-    }
-
-    public int getSummarySignalId()
-    {
-        return summarySignalId;
-    }
-
-    public void setSummarySignalId(final int summarySignalId)
-    {
-        this.summarySignalId = summarySignalId;
-    }
-
-    public String getSummarySignalName()
-    {
-        return summarySignalName;
-    }
-
-    public void setSummarySignalName(final String summarySignalName)
-    {
-        this.summarySignalName = summarySignalName;
-    }
-
-    public int getSummarySignalType()
-    {
-        return summarySignalType;
-    }
-
-    public void setSummarySignalType(final int summarySignalType)
-    {
-        this.summarySignalType = summarySignalType;
-    }
-
-    public int getPriorityNo()
-    {
-        return priorityNo;
-    }
-
-    public void setPriorityNo(final int priorityNo)
-    {
-        this.priorityNo = priorityNo;
     }
 
     @Override

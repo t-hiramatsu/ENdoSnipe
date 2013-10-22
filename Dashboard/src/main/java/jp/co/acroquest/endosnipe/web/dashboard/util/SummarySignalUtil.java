@@ -19,13 +19,36 @@ import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.SummarySignalDefinitionDto;
 
+/**
+ * SummarySignalのUtilクラスです。
+ * @author khine wai, pin
+ *
+ */
 public class SummarySignalUtil
 {
 
+    /** Count for summary signal add and update process */
     private static final int SUMMARY_SIGNAL_ARGUMENT_COUNT = 3;
 
+    /** Count for summary signal delete process */
     private static final int SUMMARY_SIGNAL_DELETE_COUNT = 1;
 
+    /**
+     * インスタンス化を阻止するprivateコンストラクタです。
+     */
+    private SummarySignalUtil()
+    {
+        // Do Nothing.
+    }
+
+    /**
+     * For telegram add and update process
+     * 閾値判定定義情報の追加を通知する電文を作成する。
+     * 
+     * @param summarySignalDefinitionDto summarySignal定義情報のリスト
+     * @param itemName 項目名
+     * @return 全閾値情報を取得する電文
+     */
     public static Telegram createAddSummarySignalDefinition(
             final SummarySignalDefinitionDto summarySignalDefinitionDto, final String itemName)
     {
@@ -73,6 +96,14 @@ public class SummarySignalUtil
         return telegram;
     }
 
+    /**
+     * For telegram delete process
+     * 閾値判定定義情報の追加を通知する電文を作成する。
+     * 
+     * @param summarySignalDefinitionDto summarySignal定義情報のリスト
+     * @param itemName 項目名
+     * @return 全閾値情報を取得する電文
+     */
     public static Telegram createDeleteSummarySignalDefinition(
             final SummarySignalDefinitionDto summarySignalDefinitionDto, final String itemName)
     {

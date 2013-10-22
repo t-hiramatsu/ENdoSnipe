@@ -14,98 +14,197 @@ package jp.co.acroquest.endosnipe.web.dashboard.dto;
 
 import java.util.List;
 
+/**
+ * SummarySignalのDTOクラス。
+ * 
+ * @author pin
+ * 
+ */
 public class SummarySignalDefinitionDto
 {
-    public int summarySignalId;
+    /** SummarySignalのID。 */
+    public int summarySignalId_;
 
-    public String summarySignalName;
+    /** SummarySignalのName。 */
+    public String summarySignalName_;
 
-    public int summarySignalType = -1;
+    /** SummarySignalのType。 */
+    public int summarySignalType_ = -1;
 
-    public List<String> signalList;
+    /** SummarySignalのsignalList。 */
+    public List<String> signalList_;
 
-    private int summarySignalStatus;
+    /** SummarySignalのStatus。 */
+    private int summarySignalStatus_;
 
-    private int priorityNo;
+    /** SummarySignalのpriorityNo。 */
+    private int priorityNo_;
 
-    private String message;
+    /** SummarySignalのmessage。 */
+    private String message_;
 
+    /**
+     * コンストラクタ。
+     */
+    public SummarySignalDefinitionDto()
+    {
+        //nothing
+    }
+
+    /**
+     * SummarySignalのpriorityNoを取得する。
+     * 
+     * @return SummarySignalのpriorityNo
+     */
     public int getPriorityNo()
     {
-        return priorityNo;
+        return priorityNo_;
     }
 
+    /**
+     * SummarySignalのpriorityNoを設定する。
+     * 
+     * @param priorityNo
+     *            SummarySignalのpriorityNo
+     */
     public void setPriorityNo(final int priorityNo)
     {
-        this.priorityNo = priorityNo;
+        this.priorityNo_ = priorityNo;
     }
 
+    /**
+     * SummarySignalのIdを取得する。
+     * 
+     * @return SummarySignalのId
+     */
     public int getSummarySignalId()
     {
-        return summarySignalId;
+        return summarySignalId_;
     }
 
+    /**
+     * SummarySignalのIdを設定する。
+     * 
+     * @param summarySignalId
+     *            SummarySignalのId
+     */
     public void setSummarySignalId(final int summarySignalId)
     {
-        this.summarySignalId = summarySignalId;
+        this.summarySignalId_ = summarySignalId;
     }
 
+    /**
+     * SummarySignalのNameを取得する。
+     * 
+     * @return SummarySignalのName
+     */
     public String getSummarySignalName()
     {
-        return summarySignalName;
+        return summarySignalName_;
     }
 
+    /**
+     * SummarySignalのNameを設定する。
+     * 
+     * @param summarySignalName
+     *            SummarySignalのName
+     */
     public void setSummarySignalName(final String summarySignalName)
     {
-        this.summarySignalName = summarySignalName;
+        this.summarySignalName_ = summarySignalName;
     }
 
+    /**
+     * SummarySignalのTypeを取得する。
+     * 
+     * @return SummarySignalのType
+     */
     public int getSummarySignalType()
     {
-        return summarySignalType;
+        return summarySignalType_;
     }
 
+    /**
+     * SummarySignalのTypeを設定する。
+     * 
+     * @param summarySignalType
+     *            SummarySignalのType
+     */
     public void setSummarySignalType(final int summarySignalType)
     {
-        this.summarySignalType = summarySignalType;
+        this.summarySignalType_ = summarySignalType;
     }
 
+    /**
+     * SummarySignalのSignalListを取得する。
+     * 
+     * @return SummarySignalのSignalList
+     */
     public List<String> getSignalList()
     {
-        return signalList;
+        return signalList_;
     }
 
+    /**
+     * SummarySignalのSignalListを設定する。
+     * 
+     * @param signalList
+     *            SummarySignalのSignalList
+     */
     public void setSignalList(final List<String> signalList)
     {
-        this.signalList = signalList;
+        this.signalList_ = signalList;
     }
 
+    /**
+     * SummarySignalのStatusを取得する。
+     * 
+     * @return SummarySignalのStatus
+     */
     public int getSummarySignalStatus()
     {
-        return summarySignalStatus;
+        return summarySignalStatus_;
     }
 
+    /**
+     * SummarySignalのStatusを設定する。
+     * 
+     * @param summarySignalStatus
+     *            SummarySignalのStatus
+     */
     public void setSummarySignalStatus(final int summarySignalStatus)
     {
-        this.summarySignalStatus = summarySignalStatus;
+        this.summarySignalStatus_ = summarySignalStatus;
     }
 
+    /**
+     * SummarySignalのMessageを取得する。
+     * 
+     * @return SummarySignalのMessage
+     */
     public String getMessage()
     {
-        return message;
+        return message_;
     }
 
+    /**
+     * SummarySignalのMessageを設定する。
+     * 
+     * @param message
+     *            SummarySignalのmessage
+     */
     public void setMessage(final String message)
     {
-        this.message = message;
+        this.message_ = message;
     }
 
     @Override
     public String toString()
     {
-        return "SummarySignalDefinitionDto [summarySignalId=" + summarySignalId
-                + ", summarySignalName=" + summarySignalName + ", summarySignalType="
-                + summarySignalType + ", signalList=" + signalList + ", summarySignalStatus="
-                + summarySignalStatus + ", priorityNo=" + priorityNo + ", message=" + message + "]";
+        return "SummarySignalDefinitionDto [summarySignalId=" + summarySignalId_
+                + ", summarySignalName=" + summarySignalName_ + ", summarySignalType="
+                + summarySignalType_ + ", signalList=" + signalList_ + ", summarySignalStatus="
+                + summarySignalStatus_ + ", priorityNo=" + priorityNo_ + ", message=" + message_
+                + "]";
     }
 }

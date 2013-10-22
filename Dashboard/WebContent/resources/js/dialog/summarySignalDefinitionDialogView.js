@@ -1,4 +1,7 @@
+ENS.SummarySignalDialog = {};
 ENS.tree.summarySignalDefinitionList = [];
+ENS.SummarySignalDialog.isFirst = true;
+
 ENS.SummarySignalDefinitionDialogView = ENS.DialogView
 		.extend({
 			initialize : function(option) {
@@ -20,10 +23,6 @@ ENS.SummarySignalDefinitionDialogView = ENS.DialogView
 				if (this.summarySignalType == ENS.tree.ADD_SUMMARYSIGNAL_TYPE) {
 					$("#summarySignalName").prop("disabled", false);
 				} else {
-					//var summarySignalName = $("#summarySignalName").val();
-					//alert(summarySignalName);
-					//var signalName = $("#summarySignalName").val();
-					//alert(signalName);
 					$("#summarySignalName").prop("disabled", true);
 				}
 				$("#" + option.dialogId).dialog({
@@ -42,7 +41,11 @@ ENS.SummarySignalDefinitionDialogView = ENS.DialogView
 							}
 
 							// マッチングパターンが空の時はアラーとを表示し、再入力を求める。
-
+							var selectedOpts = $('#summarySignalList2Box option');
+							if (selectedOpts.length === 0) {
+								alert("Please select 'Summary Signal or Signal '.");
+								return;
+							}
 							if (!ins.op_[okObj]) {
 								$("#" + option.dialogId).dialog("close");
 								return;
@@ -81,12 +84,17 @@ ENS.SummarySignalDefinitionDialogView = ENS.DialogView
 					width : 450
 				});
 				var instance = this;
+				if (ENS.SummarySignalDialog.isFirst === true) {
+
 				$("#btnAdd").click(function(e) {
 					instance.addList(e);
 				});
 				$("#btnRemove").click(function(e) {
 					instance.removeList(e);
 				});
+				ENS.SummarySignalDialog.isFirst = false;
+				}
+				
 			},
 			addList : function(e) {
 				var selectedOpts = $('#summarySignalList1Box option:selected');

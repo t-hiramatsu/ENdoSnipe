@@ -1605,19 +1605,10 @@ ENS.treeView = wgp.TreeView
 				}
 			},
 			summarySignalPushOkFunction : function(event, option) {
-				// alert("thank");
 
 				// add tree data for signal
 				var treeId = option.treeId;
 				var summarySignalDispalyName = $("#summarySignalName").val();
-				/*
-				 * var type = $("#summarySignalValueType").val(); alert(type);
-				 */
-				// var inputtype =
-				// $("input[name='summarySignal_type']:checked").val();
-				// var inputtype=$('#radio_button :checked').val();
-				// var
-				// inputtype=$("input[@name='summarySignal_type']:checked").val();
 				var summarySignalName = treeId + "/" + summarySignalDispalyName;
 
 				// Ajax通信のコールバック関数名
@@ -1637,7 +1628,6 @@ ENS.treeView = wgp.TreeView
 
 					// シグナル編集時
 				} else if (option.summarySignalType == ENS.tree.EDIT_SUMMARYSIGNAL_TYPE) {
-					alert("this is edit summary signal");
 					sendData = this
 							.createSendSummarySignalData_(summarySignalName);
 					// sendData = this.createSendEditSignalData_(signalName);
@@ -1695,7 +1685,6 @@ ENS.treeView = wgp.TreeView
 					summarySignalDefinition : JSON
 							.stringify(summarySignalDefinition)
 				};
-				alert(JSON.stringify(sendData));
 				return sendData;
 
 			},
@@ -1732,7 +1721,6 @@ ENS.treeView = wgp.TreeView
 					url : url
 				};
 
-				alert(JSON.stringify(settings));
 				// 非同期通信でシグナル削除依頼電文を送信する。
 				var ajaxHandler = new wgp.AjaxHandler();
 				// settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] =

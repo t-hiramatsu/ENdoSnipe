@@ -28,7 +28,6 @@ package jp.co.acroquest.endosnipe.collector.manager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -36,7 +35,6 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 
-import jp.co.acroquest.endosnipe.collector.config.DataCollectorConfig;
 import jp.co.acroquest.endosnipe.collector.data.SignalStateNode;
 import jp.co.acroquest.endosnipe.collector.util.SignalSummarizer;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
@@ -44,6 +42,11 @@ import jp.co.acroquest.endosnipe.data.dao.SummarySignalDefinitionDao;
 import jp.co.acroquest.endosnipe.data.dto.SummarySignalDefinitionDto;
 import jp.co.acroquest.endosnipe.data.entity.SummarySignalDefinition;
 
+/**
+ * SummarySignalの状態を保持するクラス
+ * @author pin
+ *
+ */
 public class SummarySignalStateManager
 {
     private static SummarySignalStateManager instance__ = new SummarySignalStateManager();
@@ -51,81 +54,100 @@ public class SummarySignalStateManager
     private Map<Long, SummarySignalDefinitionDto> summarySignalDefinitionMap_ =
         new ConcurrentHashMap<Long, SummarySignalDefinitionDto>();
 
-    private static Map<String, SignalStateNode> parChildMap =
+    private static Map<String, SignalStateNode> parChildMap__ =
         new HashMap<String, SignalStateNode>();
 
-    protected SummarySignalDefinitionDao summarySignalDefinitionDao =
+    /** SummarySignalDefinition の　Dao*/
+    protected SummarySignalDefinitionDao summarySignalDefinitionDao_ =
         new SummarySignalDefinitionDao();
 
-    /** アラームを出すかどうか判定するために保持し続けるデータ */
+    /** signal Child List that change the state*/
     private final Set<String> alarmChildList_ = new TreeSet<String>();
 
-    /** アラームを出すかどうか判定するために保持し続けるデータ */
+    /** Sumamry signal Child List that change the state*/
     private final Set<String> alarmSummaryList_ = new TreeSet<String>();
 
-    private Set changeSummarySignalListSet;
-
-    private DataCollectorConfig config_;
-
+    /** Database name to be access*/
     public String dataBaseName;
 
+    /**
+     * {@link SummarySignalStateManager}インスタンスを取得する。
+     * @return {@link SummarySignalStateManager}インスタンス
+     */
+    public static SummarySignalStateManager getInstance()
+    {
+        return instance__;
+    }
+
+    /**
+     *SummarySignal定義情報のマップを返却する。
+     * @return SummarySignal定義情報のマップ
+     */
+    public Map<Long, SummarySignalDefinitionDto> getSummarySignalDefinitionMap()
+    {
+        return summarySignalDefinitionMap_;
+    }
+
+    /**
+     * SummarySignal定義情報のマップを設定する。
+     * @param summarySignalDefinitionMap SummarySignal定義情報のマップ
+     */
     public void setSummarySignalDefinitionMap(
         final Map<Long, SummarySignalDefinitionDto> summarySignalDefinitionMap)
     {
         summarySignalDefinitionMap_ = summarySignalDefinitionMap;
     }
 
-    public static SummarySignalStateManager getInstance()
-    {
-        return instance__;
-    }
-
-    public Map<Long, SummarySignalDefinitionDto> getSummarySignalDefinitionMap()
-    {
-        return summarySignalDefinitionMap_;
-    }
-
-    public static void setInstance(final SummarySignalStateManager instance)
-    {
-        instance__ = instance;
-    }
-
+    /**
+     * Child alarm dataを登録する。
+     * @param signalId シグナルを一意にする名称
+     */
     public void addChildAlarmData(final String signalId)
     {
         this.alarmChildList_.add(signalId);
     }
 
+    /**
+     *Summary Signal Alarm dataを登録する。
+     * @param summarySignalId SummarySignalを一意にする名称
+     */
     public void addSummaryAlarmData(final String summarySignalId)
     {
         this.alarmSummaryList_.add(summarySignalId);
     }
 
+    /**
+     * get the parChild Map
+     * @return data of pair of child and parent
+     */
     public Map<String, SignalStateNode> getParChildMap()
     {
-        return parChildMap;
+        return parChildMap__;
     }
 
+    /**
+     * get the summary alarm data
+     * @return list of summary signal
+     */
     public Set<String> getAlarmSummaryList()
     {
         return alarmSummaryList_;
     }
 
+    /**
+     * get the child alarm data
+     * @return list of signal
+     */
     public Set<String> getAlarmChildList()
     {
         return alarmChildList_;
     }
 
-    public void addSignalDefinition(final long summarySignalId,
-        final SummarySignalDefinitionDto summarySignalDefinition)
-    {
-        if (this.summarySignalDefinitionMap_ == null)
-        {
-            this.summarySignalDefinitionMap_ =
-                new ConcurrentHashMap<Long, SummarySignalDefinitionDto>();
-        }
-        this.summarySignalDefinitionMap_.put(summarySignalId, summarySignalDefinition);
-    }
-
+    /**
+     * remove the summary signal data from the map
+     * @param summarySignalId of summary signal
+     * @return removed summary signal data
+     */
     public SummarySignalDefinitionDto removeSummarySignalDefinition(final int summarySignalId)
     {
         if (this.summarySignalDefinitionMap_ == null)
@@ -135,24 +157,10 @@ public class SummarySignalStateManager
         return this.summarySignalDefinitionMap_.remove(summarySignalId);
     }
 
-    // getSummarySignalDefinitionMap
-
-    // pulic Map<SummarySignalDefinition> summarySignalDefinitionMap()
-    /*   public Map<Long, SummarySignalDefinitionDto> SummarySignalDefinitionMap()
-       {
-           String databaseName = config_.getDatabaseName();
-           try
-           {
-               List<SummarySignalDefinition> summarSignalDefinition =
-                   summarySignalDefinitionDao.selectAll(databaseName);
-           }
-           catch (SQLException ex)
-           {
-               ex.printStackTrace();
-           }
-           return null;
-       }*/
-
+    /**
+     * add summary signal definition to the database and map
+     * @param summarySignalDefinitionDto of summary signal
+     */
     public void addSummarySignalDefinition(
         final SummarySignalDefinitionDto summarySignalDefinitionDto)
     {
@@ -163,11 +171,11 @@ public class SummarySignalStateManager
         summarySignalDefinitionDto.setSummarySignalStatus(-1);
         // this.createAllSummarySignalMapValue();
         boolean isDuplicate = this.checkDuplicate(summarySignalName);
-        summarySignalDefinitionDto.summarySignalStatus = 0;
-        summarySignalDefinitionDto.errorMessage = "";
+        summarySignalDefinitionDto.summarySignalStatus_ = 0;
+        summarySignalDefinitionDto.errorMessage_ = "";
         if (isDuplicate == true)
         {
-            summarySignalDefinitionDto.errorMessage = "Summary signal name cannot be duplicate";
+            summarySignalDefinitionDto.errorMessage_ = "Summary signal name cannot be duplicate";
         }
         else
         {
@@ -179,40 +187,40 @@ public class SummarySignalStateManager
                 SummarySignalDefinition summarySignalDefinition =
                     this.convertSummarySignalDefinition(summarySignalDefinitionDto);
 
-                summarySignalDefinitionDao.insert(this.dataBaseName, summarySignalDefinition);
+                SummarySignalDefinitionDao.insert(this.dataBaseName, summarySignalDefinition);
                 summarySignalId =
-                    summarySignalDefinitionDao.selectSequenceNum(this.dataBaseName,
-                                                                 summarySignalDefinition);
-                summarySignalDefinitionDto.summarySignalId = summarySignalId;
+                    summarySignalDefinitionDao_.selectSequenceNum(this.dataBaseName,
+                                                                  summarySignalDefinition);
+                summarySignalDefinitionDto.summarySignalId_ = summarySignalId;
                 this.summarySignalDefinitionMap_.put(summarySignalId, summarySignalDefinitionDto);
-                // return summarySignalDefinitionDto;
                 createAllSummarySignalMapValue();
 
             }
             catch (SQLException ex)
             {
-                // TODO �����������ꂽ catch �u���b�N
                 ex.printStackTrace();
             }
-            // return summarySignalDefinitionDto;
         }
     }
 
+    /**
+     * calculate the priority for add or update summary signal
+     * @param summarySignalDefinitionDto Summary Signalグラフ定義情報
+     * @param signalList Summary SignalグラフのchildList 
+     */
     private void calculatePriority(final SummarySignalDefinitionDto summarySignalDefinitionDto,
         final List<String> signalList)
         throws SQLException
     {
-        List<SummarySignalDefinition> summarySignalList = null;
         Map<String, SummarySignalDefinition> summarySignalDefinition = null;
         SummarySignalDefinition summaryDefinition = new SummarySignalDefinition();
         int childMaxPriority = 0;
         try
         {
-            summarySignalDefinition = summarySignalDefinitionDao.selectAllSignalName(dataBaseName);
+            summarySignalDefinition = summarySignalDefinitionDao_.selectAllSignalName(dataBaseName);
         }
         catch (SQLException ex)
         {
-            // TODO �����������ꂽ catch �u���b�N
             ex.printStackTrace();
         }
 
@@ -228,24 +236,20 @@ public class SummarySignalStateManager
                     {
                         childMaxPriority = priority;
                     }
-                    System.out.println(priority);
                 }
             }
         }
         if (childMaxPriority >= summarySignalDefinitionDto.getPriority())
         {
-            summarySignalDefinitionDto.priority = childMaxPriority + 1;
+            summarySignalDefinitionDto.priority_ = childMaxPriority + 1;
         }
-        //        String summarySignalName = summarySignalDefinitionDto.getSummarySignalName();
-        //        SignalStateNode signalStateNode = new SignalStateNode();
-        //        signalStateNode = parChildMap.get(summarySignalName);
-        //        if (signalStateNode != null && signalStateNode.getParentListSet() != null
-        //            && signalStateNode.getParentListSet().size() > 0)
-        //        {
-        //            this.reCalculatePriority(summarySignalDefinitionDto, signalStateNode.getParentListSet());
-        //        }
     }
 
+    /**
+     * recalculate the priority for add or update summary signal
+     * @param childName that change the priority
+     * @param parentListSet of changed child
+     */
     private void reCalculatePriority(final SummarySignalDefinitionDto childName,
         final Set<String> parentListSet)
         throws SQLException
@@ -258,35 +262,33 @@ public class SummarySignalStateManager
         {
             for (String parentSummarySignal : parentListSet)
             {
-                // if(childName.getPriority() >= parentSummarySignal.)
-                if (childName.priority >= parChildMap.get(parentSummarySignal).priority)
+                if (childName.priority_ >= parChildMap__.get(parentSummarySignal).priority)
                 {
-                    parChildMap.get(parentSummarySignal).priority = childName.priority + 1;
-                    System.out.println("parent priority "
-                        + parChildMap.get(parentSummarySignal).priority);
+                    parChildMap__.get(parentSummarySignal).priority = childName.priority_ + 1;
                     SummarySignalDefinition parentDef = new SummarySignalDefinition();
                     parentDef.summarySignalName = parentSummarySignal;
                     parentDef.summarySignalId =
-                        parChildMap.get(parentDef.summarySignalName).getNodeId();
+                        parChildMap__.get(parentDef.summarySignalName).getNodeId();
 
-                    parentDef.priority = parChildMap.get(parentSummarySignal).priority;
+                    parentDef.priority = parChildMap__.get(parentSummarySignal).priority;
                     SummarySignalDefinitionDto parendDto =
                         new SummarySignalDefinitionDto(parentDef);
-                    summarySignalDefinitionDao.update(dataBaseName, parendDto.summarySignalId,
-                                                      parendDto, true);
-                    //                    long parentId =
-                    //                        summarySignalDefinitionDao
-                    //                            .selectSequenceNum(parentSummarySignal, parentDef);
-                    this.summarySignalDefinitionMap_.get(parendDto.summarySignalId).priority =
-                        parendDto.priority;
+                    summarySignalDefinitionDao_.update(dataBaseName, parendDto.summarySignalId_,
+                                                       parendDto, true);
+                    this.summarySignalDefinitionMap_.get(parendDto.summarySignalId_).priority_ =
+                        parendDto.priority_;
                     reCalculatePriority(parendDto,
-                                        parChildMap.get(parentSummarySignal).parentListSet);
+                                        parChildMap__.get(parentSummarySignal).parentListSet);
                 }
             }
         }
-
     }
 
+    /**
+     * convert from SummarySignalDefinitionDto to SummarySignalDefinition
+     * @param definitionDto SummarySignalDefinitionDto
+     * @return SummarySignal Definition
+     */
     private SummarySignalDefinition convertSummarySignalDefinition(
         final SummarySignalDefinitionDto definitionDto)
     {
@@ -299,23 +301,25 @@ public class SummarySignalStateManager
         summarySignalInfo.errorMessage = definitionDto.getErrorMessage();
         summarySignalInfo.priority = definitionDto.getPriority();
         summarySignalInfo.summarySignalStatus = definitionDto.getSummarySignalStatus();
-        //summarySignalInfo.priority = 1;
-        //   summarySignalInfo.errorMessage = definitionDto.getErrorMessage();
         return summarySignalInfo;
     }
 
+    /**
+     * check the data is duplicate or not
+     * @param summarySignalName Name of Summary Signal
+     * @return true or false depend on duplicate or not
+     */
     private boolean checkDuplicate(final String summarySignalName)
     {
         List<SummarySignalDefinition> summarySignalDefinition = null;
         try
         {
             summarySignalDefinition =
-                summarySignalDefinitionDao.selectByName(this.dataBaseName, summarySignalName);
+                summarySignalDefinitionDao_.selectByName(this.dataBaseName, summarySignalName);
         }
         catch (SQLException ex)
         {
-            // TODO �����������ꂽ catch �u���b�N
-            // ex.printStackTrace();
+            ex.printStackTrace();
         }
         if (summarySignalDefinition != null && summarySignalDefinition.size() > 0)
         {
@@ -325,27 +329,32 @@ public class SummarySignalStateManager
         return false;
     }
 
+    /**
+     * Set the database name 
+     * @param dataBase Database Name
+     */
     public void setDataBaseName(final String dataBase)
     {
-        System.out.println(dataBase);
         this.dataBaseName = dataBase;
     }
 
+    /**
+     * create Summary Signal Map that is the pair of parents and child
+     */
     public void createAllSummarySignalMapValue()
     {
-        parChildMap.clear();
+        parChildMap__.clear();
         List<String> childData = new ArrayList<String>();
-        //  List<String> childDataList = new ArrayList<String>();
         try
         {
             List<SummarySignalDefinition> summarySignalList =
-                summarySignalDefinitionDao.selectAllByPriority(this.dataBaseName);
+                summarySignalDefinitionDao_.selectAllByPriority(this.dataBaseName);
             for (SummarySignalDefinition summarySignal : summarySignalList)
             {
                 childData = summarySignal.getSignalList();
                 String currentSignalName = summarySignal.getSummarySignalName();
 
-                if (!parChildMap.containsKey(currentSignalName))
+                if (!parChildMap__.containsKey(currentSignalName))
                 {
                     SignalStateNode signalStateNode = new SignalStateNode();
                     signalStateNode.name = summarySignal.getSummarySignalName();
@@ -353,21 +362,22 @@ public class SummarySignalStateManager
                     signalStateNode.childList = summarySignal.getSignalList();
                     signalStateNode.signalType = summarySignal.getSummarySignalType();
                     signalStateNode.nodeId = summarySignal.getSummarySignalId();
-                    parChildMap.put(currentSignalName, signalStateNode);
+                    parChildMap__.put(currentSignalName, signalStateNode);
                 }
                 else
                 {
-                    parChildMap.get(currentSignalName).name = summarySignal.getSummarySignalName();
-                    parChildMap.get(currentSignalName).priority = summarySignal.getPriority();
-                    parChildMap.get(currentSignalName).childList = summarySignal.getSignalList();
-                    parChildMap.get(currentSignalName).nodeId = summarySignal.getSummarySignalId();
-                    parChildMap.get(currentSignalName).signalType =
+                    parChildMap__.get(currentSignalName).name =
+                        summarySignal.getSummarySignalName();
+                    parChildMap__.get(currentSignalName).priority = summarySignal.getPriority();
+                    parChildMap__.get(currentSignalName).childList = summarySignal.getSignalList();
+                    parChildMap__.get(currentSignalName).nodeId =
+                        summarySignal.getSummarySignalId();
+                    parChildMap__.get(currentSignalName).signalType =
                         summarySignal.getSummarySignalType();
-                    // parChildMap.get(currentSignalName).getParentListSet().add(currentSignalName);
                 }
                 for (String child : childData)
                 {
-                    if (!parChildMap.containsKey(child))
+                    if (!parChildMap__.containsKey(child))
                     {
                         SignalStateNode signalState = new SignalStateNode();
                         signalState.name = child;
@@ -375,59 +385,29 @@ public class SummarySignalStateManager
                         signalState.parentListSet.add(currentSignalName);
                         signalState.signalType = -1;
                         signalState.nodeId = -1;
-                        parChildMap.put(child, signalState);
+                        parChildMap__.put(child, signalState);
                     }
                     else
                     {
-                        SignalStateNode signalStateNodes = new SignalStateNode();
-                        parChildMap.get(child).getParentListSet().add(currentSignalName);
-                        //   signalStateNodes = parChildMap.get(child);
-                        //  signalStateNode.parentListSet.add()
-                        //  parChildMap.put(currentSignalName, signalStateNode);
+                        parChildMap__.get(child).getParentListSet().add(currentSignalName);
                     }
                 }
             }
 
-            /////////////tempory
-
-            System.out.println("//////////////////size of map : " + parChildMap.size());
-            Set<String> datakey = parChildMap.keySet();
-            Iterator<String> node = datakey.iterator();
-            while (node.hasNext())
-            {
-                String st = node.next();
-                SignalStateNode nodedata = parChildMap.get(st);
-                System.out.println(st);
-                System.out.println(nodedata.toString());
-                System.out.println();
-            }
-            /////////////tempory
-
-        }
-        catch (SQLException ex)
-        {
-            // TODO �����������ꂽ catch �u���b�N
-            ex.printStackTrace();
-        }
-    }
-
-    public List<SummarySignalDefinition> getAllSummarySignalDefinition()
-    {
-        List<SummarySignalDefinition> summarySignalList = new ArrayList<SummarySignalDefinition>();
-        try
-        {
-            summarySignalList = summarySignalDefinitionDao.selectAll(this.dataBaseName);
         }
         catch (SQLException ex)
         {
             ex.printStackTrace();
         }
-        return summarySignalList;
     }
 
+    /**
+     * delete the summarysignal definition by matching name
+     * @param summarySignalName summarySignal's Name
+     * @return SummarySignalDefinitionのDto
+     */
     public SummarySignalDefinitionDto deleteSummarySignalDefinition(final String summarySignalName)
     {
-        List<SummarySignalDefinitionDto> sumList = new ArrayList<SummarySignalDefinitionDto>();
         SummarySignalDefinition sumDef = new SummarySignalDefinition();
         SummarySignalDefinitionDto sumDefDto = null;
         try
@@ -436,43 +416,20 @@ public class SummarySignalStateManager
 
             sumDef.summarySignalName = summarySignalName;
             sumDef.errorMessage = "Cannot Delete";
-            //            summarySignalId =
-            //                summarySignalDefinitionDao.selectSequenceNum(this.dataBaseName, sumDef);
-            //            
-            summarySignalId = (int)parChildMap.get(summarySignalName).nodeId;
+            summarySignalId = (int)parChildMap__.get(summarySignalName).nodeId;
             sumDef.summarySignalId = summarySignalId;
             if (summarySignalId != -1)
             {
 
-                summarySignalDefinitionDao.delete(this.dataBaseName, summarySignalName);
+                summarySignalDefinitionDao_.delete(this.dataBaseName, summarySignalName);
                 sumDef.errorMessage = "";
             }
 
-            //  removeSummarySignalDefinition(summarySignalId);
-            //   createAllSummarySignalMapValue();
-            CheckDeleteNode(summarySignalName, false);
+            checkDeleteNode(summarySignalName, false);
             sumDefDto = new SummarySignalDefinitionDto(sumDef);
-            //            sumList.add(sumDefDto);
-            //            sumList =
-            //                SignalSummarizer
-            //                    .getInstance()
-            //                    .calculateChangeSummarySignalState(sumList,
-            //                                                       TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_DELETE);
-            //  sumList.add(sumDefDto);
-            //            removeSummarySignalDefinition((int)sumDefDto.getSummarySignalId());
-            //            createAllSummarySignalMapValue();
-            //            alarmSummaryList_.remove(summarySignalName);
-
-            //            Telegram telegram =
-            //                CollectorTelegramUtil
-            //                    .createResponseTelegram(sumList,
-            //                                            TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_UPDATE);
-
-            //   alarmSummaryList_.remove(summarySignalName);
         }
         catch (SQLException ex)
         {
-            // TODO �����������ꂽ catch �u���b�N
             ex.printStackTrace();
 
         }
@@ -481,14 +438,19 @@ public class SummarySignalStateManager
             if (sumDefDto == null)
             {
                 sumDefDto = new SummarySignalDefinitionDto(sumDef);
-                // sumList.add(sumDefDto);
             }
-
         }
         return sumDefDto;
     }
 
-    public List<SummarySignalDefinitionDto> CheckDeleteNode(final String summarySignalName,
+    /**
+     * check the deleted node and delete on the parent or child list
+     * @param summarySignalName summarySignal's Name
+     * @param flag for separate the summary signal or signal
+     * @return SummarySignalDefinitionのDto list
+     * @throws SQLException for sql 
+     */
+    public List<SummarySignalDefinitionDto> checkDeleteNode(final String summarySignalName,
         final boolean flag)
         throws SQLException
     {
@@ -507,16 +469,16 @@ public class SummarySignalStateManager
                 summarySignalDto.getSignalList().remove(summarySignalName);
                 summarySignalDefinitionMap_.put(summarySignalDto.getSummarySignalId(),
                                                 summarySignalDto);
-                summarySignalDefinitionDao.update(dataBaseName,
-                                                  summarySignalDto.getSummarySignalId(),
-                                                  summarySignalDto, false);
+                summarySignalDefinitionDao_.update(dataBaseName,
+                                                   summarySignalDto.getSummarySignalId(),
+                                                   summarySignalDto, false);
 
             }
 
         }
 
         List<String> removeSignal = new ArrayList<String>();
-        for (Entry<String, SignalStateNode> summarySignalDtoList : parChildMap.entrySet())
+        for (Entry<String, SignalStateNode> summarySignalDtoList : parChildMap__.entrySet())
         {
             SignalStateNode summarySignalDto = summarySignalDtoList.getValue();
 
@@ -548,17 +510,17 @@ public class SummarySignalStateManager
         {
             for (String name : removeSignal)
             {
-                parChildMap.remove(name);
+                parChildMap__.remove(name);
             }
         }
         if (flag)
         {
-            Set<String> parentSummary = parChildMap.get(summarySignalName).getParentListSet();
+            Set<String> parentSummary = parChildMap__.get(summarySignalName).getParentListSet();
             List<SummarySignalDefinitionDto> summaryDtoList =
                 new ArrayList<SummarySignalDefinitionDto>();
             for (String summary : parentSummary)
             {
-                summaryDtoList.add(this.summarySignalDefinitionMap_.get(parChildMap.get(summary)
+                summaryDtoList.add(this.summarySignalDefinitionMap_.get(parChildMap__.get(summary)
                     .getNodeId()));
             }
 
@@ -567,26 +529,24 @@ public class SummarySignalStateManager
                 .calculateChangeSummarySignalState(summaryDtoList,
                                                    TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_UPDATE);
         }
-        System.out.println(parChildMap);
         return null;
     }
 
+    /**
+     * update the summarysignal definition by matching name
+     * @param summarySignalDefinitionDto SummarySignalDefinitionのDto
+     * @return SummarySignalDefinitionのDto
+     */
     public SummarySignalDefinitionDto updateSummarySignalDefinition(
         final SummarySignalDefinitionDto summarySignalDefinitionDto)
     {
         try
         {
-            //            SummarySignalDefinition sumDef = new SummarySignalDefinition();
-            //            sumDef.summarySignalName = summarySignalDefinitionDto.getSummarySignalName();
-            //    long id = summarySignalDefinitionDao.selectSequenceNum(dataBaseName, sumDef);
-
             summarySignalDefinitionDto.setSummarySignalStatus(-1);
-
             long id =
-                parChildMap.get(summarySignalDefinitionDto.getSummarySignalName()).getNodeId();
-
-            summarySignalDefinitionDto.summarySignalId = id;
-            summarySignalDefinitionDto.priority = summarySignalDefinitionMap_.get(id).priority;
+                parChildMap__.get(summarySignalDefinitionDto.getSummarySignalName()).getNodeId();
+            summarySignalDefinitionDto.summarySignalId_ = id;
+            summarySignalDefinitionDto.priority_ = summarySignalDefinitionMap_.get(id).priority_;
 
             boolean isLoop =
                 this.checkLoop(summarySignalDefinitionDto.getSummarySignalName(),
@@ -594,35 +554,21 @@ public class SummarySignalStateManager
                                summarySignalDefinitionDto.getSignalList());
             if (isLoop == true)
             {
-                summarySignalDefinitionDto.errorMessage = "It cannot be happen loop";
-                // summarySignalDefinitionDto.summarySignalStatus = 2;
+                summarySignalDefinitionDto.errorMessage_ = "It cannot be happen loop";
             }
             else
             {
                 this.calculatePriority(summarySignalDefinitionDto,
                                        summarySignalDefinitionDto.getSignalList());
-                summarySignalDefinitionDao.update(dataBaseName,
-                                                  summarySignalDefinitionDto.getSummarySignalId(),
-                                                  summarySignalDefinitionDto, false);
+                summarySignalDefinitionDao_.update(dataBaseName,
+                                                   summarySignalDefinitionDto.getSummarySignalId(),
+                                                   summarySignalDefinitionDto, false);
                 this.summarySignalDefinitionMap_.put(summarySignalDefinitionDto
                     .getSummarySignalId(), summarySignalDefinitionDto);
-                /*long summarySignalId = 0;
-                String summarySignalName = summarySignalDefinitionDto.getSummarySignalName();
-
-                boolean isDuplicate = this.checkDuplicate(summarySignalName);
-                if (isDuplicate == true)
-                {
-                    summarySignalDefinitionDto.summarySignalStatus = 1;
-                    summarySignalDefinitionDto.errorMessage = "Summary signal name cannot be duplicate";
-                }
-
-                SummarySignalDefinition summarySignalDefinition =
-                    this.convertSummarySignalDefinition(summarySignalDefinitionDto);
-                return null;*/
                 createAllSummarySignalMapValue();
                 String summarySignalName = summarySignalDefinitionDto.getSummarySignalName();
                 SignalStateNode signalStateNode = new SignalStateNode();
-                signalStateNode = parChildMap.get(summarySignalName);
+                signalStateNode = parChildMap__.get(summarySignalName);
                 if (signalStateNode != null && signalStateNode.getParentListSet() != null
                     && signalStateNode.getParentListSet().size() > 0)
                 {
@@ -640,6 +586,12 @@ public class SummarySignalStateManager
         return null;
     }
 
+    /**
+     * Check loop is occur or not for update prent or child
+     * @param updatedSummarySignal summarysignal that was update
+     * @param parentSummarySignalName that is the parent of updated child
+     * @param signalList childList of updated summary signal
+     */
     private boolean checkLoop(final String updatedSummarySignal,
         final String parentSummarySignalName, final List<String> signalList)
     {
@@ -647,18 +599,17 @@ public class SummarySignalStateManager
         {
             if (!updatedSummarySignal.equals(targetSignal))
             {
-                if (parChildMap.get(targetSignal) == null
-                    || parChildMap.get(targetSignal).childList == null
-                    || parChildMap.get(targetSignal).childList.size() == 0)
+                if (parChildMap__.get(targetSignal) == null
+                    || parChildMap__.get(targetSignal).childList == null
+                    || parChildMap__.get(targetSignal).childList.size() == 0)
                 {
-                    //  return false;
                     continue;
                 }
                 else
                 {
                     boolean result =
                         checkLoop(updatedSummarySignal, targetSignal,
-                                  parChildMap.get(targetSignal).childList);
+                                  parChildMap__.get(targetSignal).childList);
                     if (result)
                     {
                         return true;
@@ -671,7 +622,5 @@ public class SummarySignalStateManager
             }
         }
         return false;
-
     }
-
 }

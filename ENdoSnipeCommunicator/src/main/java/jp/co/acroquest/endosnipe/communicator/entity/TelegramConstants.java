@@ -107,11 +107,11 @@ public interface TelegramConstants
     /** 電文種別(SQL実行計画取得通知) */
     byte BYTE_TELEGRAM_KIND_SQL_PLAN = 28;
 
-    /** Summary Signal */
+    /** Summary Signal の　telegram kind*/
 
     byte BYTE_TELEGRAM_KIND_SUMMARYSIGNAL_DEFINITION = 29;
 
-    /** Summary Signal */
+    /** Summary Signal の　telegram kind*/
     byte BYTE_TELEGRAM_KIND_ADD_STATE_CHANGE_SUMMARYSIGNAL_DEFINITION = 30;
 
     /** 最後の電文以外 */
@@ -155,12 +155,11 @@ public interface TelegramConstants
 
     /** オブジェクト名(シグナル定義変更) */
     String OBJECTNAME_SIGNAL_CHANGE = "signalDefinitionChange";
-    
-    String OBJECTNAME_SUMMARY_SIGNAL_AllSTATE = "summarySignalDefinitionAllState";
 
+    /** Summary Signal Telegram object name to notify change state*/
     String OBJECTNAME_SUMMARY_SIGNAL_CHANGE = "summarySignalDefinitionChange";
-    
-      /** オブジェクト名(ツリー定義変更) */
+
+    /** オブジェクト名(ツリー定義変更) */
     String OBJECTNAME_TREE_CHANGE = "treeDefinitionChange";
 
     /** オブジェクト名（接続情報通知での接続情報） */
@@ -720,32 +719,38 @@ public interface TelegramConstants
     /** 項目名(シグナル定義削除) */
     String ITEMNAME_SIGNAL_DELETE = "signalDelete";
 
+    /** Summary Signal Error Message for process*/
     String ITEMNAME_SUMMARY_SIGNAL_ERROR = "summarySignalErrorMessage";
 
+    /** Summary Signal Status */
     String ITEMNAME_SUMMARY_SIGNAL_STATUS = "summarySignalStatus";
 
+    /** Summary Signal child list */
     String ITEMNAME_SUMMARY_SIGNAL_CHILDLIST = "summarySignalChildList";
 
+    /** Summary Signal Name */
     String ITEMNAME_SUMMARY_SIGNAL_NAME = "summarySignalName";
 
+    /** Summary Signal Id */
     String ITEMNAME_SUMMARY_SIGNAL_ID = "summarySignalId";
 
-    /** 項目名(シグナル定義追加) */
+    /** Summary Signal Type */
+    String ITEMNAME_SUMMARY_SIGNAL_TYPE = "summarySignalDefinitionType";
+
+    /**Summary Signal Add Process*/
     String ITEMNAME_SUMMARY_SIGNAL_ADD = "summarySignalAdd";
 
-    /** 項目名(シグナル定義更新) */
+    /** Summary Signal Update Process**/
     String ITEMNAME_SUMMARY_SIGNAL_UPDATE = "summarySignalUpdate";
 
-    /** 項目名(シグナル定義削除) */
+    /** Summary Signal Delete Process* */
     String ITEMNAME_SUMMARY_SIGNAL_DELETE = "summarySignalDelete";
-    
-    /** 項目名(シグナル定義削除) */
+
+    /** Summary Signal Get All Process**/
     String ITEMNAME_SUMMARY_SIGNAL_ALL = "summarySignalAll";
-    
-    /** 項目名(シグナル定義削除) */
+
+    /** Summary Signal Change State Notification* */
     String ITEMNAME_SUMMARY_SIGNAL_CHANGE_STATE = "summarySignalChangeState";
-    
-    String  ITEMNAME_SUMMARY_SIGNAL_TYPE = "summarySignalDefinitionType";
 
     /** 項目名(ツリー定義追加) */
     String ITEMNAME_TREE_ADD = "treeAdd";

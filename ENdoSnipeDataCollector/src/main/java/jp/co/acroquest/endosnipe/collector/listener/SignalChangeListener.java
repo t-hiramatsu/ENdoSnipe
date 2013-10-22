@@ -67,7 +67,10 @@ public class SignalChangeListener extends AbstractTelegramListener implements Te
 
     private static final int ITEM_VALUE_PATTERN_VALUE = 5;
 
-    private static List<SummarySignalDefinitionDto> summaryDtoList_ = null;
+    /**
+     * Summary Signal List
+     */
+    private static List<SummarySignalDefinitionDto> summaryDtoList__ = null;
 
     /**
      * {@inheritDoc}
@@ -87,12 +90,12 @@ public class SignalChangeListener extends AbstractTelegramListener implements Te
         {
             List<SummarySignalDefinitionDto> summaryList =
                 new ArrayList<SummarySignalDefinitionDto>();
-            summaryList.addAll(summaryDtoList_);
+            summaryList.addAll(summaryDtoList__);
             Telegram responseSummaryTelegram =
                 CollectorTelegramUtil
-                    .createResponseTelegram(summaryList,
+                    .createSummarySignalResponseTelegram(summaryList,
                                             TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_UPDATE);
-            summaryDtoList_ = null;
+            summaryDtoList__ = null;
             return responseSummaryTelegram;
         }
         return null;
@@ -186,8 +189,8 @@ public class SignalChangeListener extends AbstractTelegramListener implements Te
         {
             long signalId = Long.parseLong(signalIdStr);
             signalStateManager.removeSignalDefinition(signalId);
-            summaryDtoList_ =
-                SummarySignalStateManager.getInstance().CheckDeleteNode(signalName, true);
+            summaryDtoList__ =
+                SummarySignalStateManager.getInstance().checkDeleteNode(signalName, true);
             signalStateManager.removeAlarmData(signalName);
         }
         catch (NumberFormatException ex)
