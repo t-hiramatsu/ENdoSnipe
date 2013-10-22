@@ -56,8 +56,6 @@ public class ThreadDumpController
         TermDataForm termDataForm = JSON.decode(data, TermDataForm.class);
         Map<String, List<ThreadDumpDefinitionDto>> responseDataList =
                 threadDumpService_.getTermThreadDumpData(termDataForm);
-        threadDumpService_.createThreadDump();
-
         return responseDataList;
     }
 
@@ -65,7 +63,6 @@ public class ThreadDumpController
     @ResponseBody
     public void addThreadDumpData(@RequestParam(value = "threadDump") final String data)
     {
-        System.out.println("this is testing");
         threadDumpService_.createThreadDump();
     }
 }

@@ -40,7 +40,8 @@ ENS.URL.PERFDOCTOR_POSTFIX_ID = "/performanceDoctor";
 
 ENS.URL.TERM_THREADDUMP_DATA_URL = "/threadDump/getThreadDump";
 ENS.URL.THREADDUMP_POSTFIX_ID = "/threadDump";
-ENS.URL.THREAD_DUMP_CLICK ="/threadDump/addThreadDump"
+ENS.URL.THREAD_DUMP_CLICK ="/Dashboard/threadDump/addThreadDump";
+ENS.URL.JVN_LOG_NOTIFY_POSTFIX_ID="JvnLog_Notify";
 
 ENS.common = {};
 ENS.common.dualslider = {};

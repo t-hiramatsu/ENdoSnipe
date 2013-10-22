@@ -36,35 +36,13 @@ public class AlarmThreadDumpNotifyListener extends AbstractTelegramListener
     @Override
     protected Telegram doReceiveTelegram(final Telegram telegram)
     {
-        /* List<JavelinLog> javelinLog = new ArrayList<JavelinLog>();
-         ThreadDumpService threadDumpService = new ThreadDumpService();
-         DatabaseManager dbManager = DatabaseManager.getInstance();
-         String dbName = dbManager.getDataBaseName(1);
-         try
-         {
-             javelinLog = JavelinLogDao.selectAllThreadDump(dbName);
-         }
-         catch (SQLException ex)
-         {
-             ex.printStackTrace();
-         }
-         List<ThreadDumpDefinitionDto> definitionDto =
-                 threadDumpService.createThreadDumpDefinitionDto(javelinLog);
-         EventManager eventManager = EventManager.getInstance();
-         WgpDataManager dataManager = eventManager.getWgpDataManager();
-         ResourceSender resourceSender = eventManager.getResourceSender();
-         if (dataManager == null || resourceSender == null)
-         {
-             return null;
-         }
-        */
-        //   resourceSender.send(definitionDto);
         EventManager eventManager = EventManager.getInstance();
         WgpDataManager dataManager = eventManager.getWgpDataManager();
-        //  dataManager.setData("JvnLog_Notify", new Date(), null);
-        Object wgpData = null;
-        String date = new Date().toString();
-        dataManager.setData("JvnLog_Notify", date, wgpData);
+        Object wgpData = new Object();
+        wgpData = null;
+        Date date = new Date();
+        String data = date.toString();
+        dataManager.setData("JvnLog_Notify", data, wgpData);
 
         return null;
     }

@@ -8,9 +8,13 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 		this.appView = appView;
 		this.treeSettings = treeSettings;
 		this.argument = argument;
-		//appView.addView(this,"JvnLog_Notify");
 		appView.addView(this, treeSettings.treeId
-				+ ENS.URL.THREADDUMP_POSTFIX_ID);
+				+ ENS.URL.JVN_LOG_NOTIFY_POSTFIX_ID);
+
+		/*
+		 * appView.addView(this, treeSettings.treeId +
+		 * ENS.URL.THREADDUMP_POSTFIX_ID);
+		 */
 
 		var dualSliderId = this.id + "_dualSlider";
 		// dual slider area (add div and css, and make slider)
@@ -40,6 +44,17 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 			var endTime = new Date(new Date().getTime() - to);
 			appView.getTermThreadDumpData([ treeSettings.treeId ], startTime,
 					endTime, 100);
+		});
+		$("#button").on("click", function() {
+			var settings = {
+				data : {
+					threadDump : ""
+				},
+				url : ENS.URL.THREAD_DUMP_CLICK
+			};
+			// 非同期通信でシグナル削除依頼電文を送信する。
+			var ajaxHandler = new wgp.AjaxHandler();
+			ajaxHandler.requestServerAsync(settings);
 		});
 
 	},
@@ -85,40 +100,31 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 		var term = this.argument.term;
 		var treeId = this.treeSettings.treeId;
 		var maxLineNum = this.argument.maxLineNum;
-		$("#button")
-				.on(
-						"click",
-						function() {
-							var settings = {
-									data : 
-										{
-										data: ""
-										},
-									url : ENS.URL.THREAD_DUMP_CLICK
-								};
-							alert(JSON.stringify(settings));
-								// 非同期通信でシグナル削除依頼電文を送信する。
-								var ajaxHandler = new wgp.AjaxHandler();
-								ajaxHandler.requestServerAsync(settings);
-							/*var startTime = new Date(new Date().getTime()
-									- term * 1000);
-							var endTime = new Date();
-							var appView = new ENS.AppView();
-
-							appView.getTermThreadDumpData([ treeId ],
-									startTime, endTime, maxLineNum);
-
-							this.dualSliderView.setScaleMovedEvent(function(
-									from, to) {
-								var appView = new ENS.AppView();
-								var startTime = new Date(new Date().getTime()
-										- from);
-								var endTime = new Date(new Date().getTime()
-										- to);
-								appView.getTermThreadDumpData([ treeId ],
-										startTime, endTime, 100);
-							});*/
-						});
+		/*$("#button").on("click", function() {
+			var settings = {
+				data : {
+					threadDump : ""
+				},
+				url : ENS.URL.THREAD_DUMP_CLICK
+			};
+			alert(JSON.stringify(settings));
+			// 非同期通信でシグナル削除依頼電文を送信する。
+			var ajaxHandler = new wgp.AjaxHandler();
+			ajaxHandler.requestServerAsync(settings);
+			
+			 * var startTime = new Date(new Date().getTime() - term * 1000); var
+			 * endTime = new Date(); var appView = new ENS.AppView();
+			 * 
+			 * appView.getTermThreadDumpData([ treeId ], startTime, endTime,
+			 * maxLineNum);
+			 * 
+			 * this.dualSliderView.setScaleMovedEvent(function( from, to) { var
+			 * appView = new ENS.AppView(); var startTime = new Date(new
+			 * Date().getTime() - from); var endTime = new Date(new
+			 * Date().getTime() - to); appView.getTermThreadDumpData([ treeId ],
+			 * startTime, endTime, 100); });
+			 
+		});*/
 
 	},
 	_parseModel : function(model) {
