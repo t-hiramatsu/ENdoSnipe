@@ -188,7 +188,7 @@ public interface TelegramConstants
     String ITEMNAME_HEAPDUMP = "/heapDump";
 
     /** 項目名(スレッドダンプ取得) */
-    String ITEMNAME_THREADDUMP = "/threadDump";
+    String ITEMNAME_THREADDUMP = "threadDump";
 
     /** 項目名(クラスヒストグラム取得) */
     String ITEMNAME_CLASSHISTOGRAM = "classHistogramDump";

@@ -31,6 +31,13 @@ import jp.co.acroquest.endosnipe.communicator.TelegramListener;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 
+/**
+ *
+ * 
+ * @author khinewai
+ *
+ */
+
 public class ThreadDumpNotifyListener extends AbstractTelegramListener implements TelegramListener,
     LogMessageCodes
 {
