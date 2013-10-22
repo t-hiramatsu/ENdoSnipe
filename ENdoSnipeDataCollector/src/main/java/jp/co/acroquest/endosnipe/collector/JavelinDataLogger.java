@@ -1268,9 +1268,8 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
     {
         Header responseHeader = new Header();
 
-        responseHeader
-            .setByteTelegramKind(TelegramConstants.BYTE_TELEGRAM_KIND_TREE_ADD_DEFINITION);
-        responseHeader.setByteRequestKind(TelegramConstants.BYTE_TELEGRAM_KIND_THREAD_DUMP);
+        responseHeader.setByteTelegramKind(TelegramConstants.BYTE_TELEGRAM_KIND_THREAD_DUMP);
+        responseHeader.setByteRequestKind(TelegramConstants.BYTE_REQUEST_KIND_NOTIFY);
 
         Telegram responseTelegram = new Telegram();
 
