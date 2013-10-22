@@ -221,7 +221,7 @@ ENS.treeView = wgp.TreeView
 				return returnData;
 			},
 			addOtherNodes : function(childNodeId) {
-				
+
 				var otherNodes = this.collection.where({
 					parentTreeId : childNodeId
 				});
@@ -896,14 +896,11 @@ ENS.treeView = wgp.TreeView
 						reportIndex) {
 					var treeOption = instance
 							.createReportTreeOption_(reportDefinition);
-					if(treeOption.id.split("/").length <= 3)
-						{
+					if (treeOption.id.split("/").length <= 3) {
 						addOptionListSecond.push(treeOption);
-						}
-					else
-						{
+					} else {
 						addOptionList.push(treeOption);
-						}
+					}
 				});
 
 				// renderのADDを実行する権限を無くす
