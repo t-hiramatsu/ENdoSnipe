@@ -1,5 +1,5 @@
 ENS.threadDumpView = wgp.AbstractView.extend({
-	tableColNames : [ "Time", "Thread Dump", "Detail" ],
+	tableColNames : [ "Time", "Thread Dump" ],
 	initialize : function(argument, treeSettings) {
 
 		this.tableColModel = this.createTableColModel();
@@ -57,7 +57,7 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 			//settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] = this;
 			//settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = "callbackGetThreadDumpData";
 			ajaxHandler.requestServerAsync(settings);
-			appView.getTermThreadDumpData([ treeSettings.treeId ], startTime,
+			/*appView.getTermThreadDumpData([ treeSettings.treeId ], startTime,
 					endTime, argument.maxLineNum);
 			this.dualSliderView.setScaleMovedEvent(function(from, to) {
 				var appView = new ENS.AppView();
@@ -65,7 +65,7 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 				var endTime = new Date(new Date().getTime() - to);
 				appView.getTermThreadDumpData([ treeSettings.treeId ], startTime,
 						endTime, 100);
-			});
+			});*/
 			//var ajaxHandler = new wgp.AjaxHandler();
 			//ajaxHandler.requestServerAsync(settings);
 		});
@@ -110,6 +110,7 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 			defaultSearch : 'cn'
 		});
 		$("#threadDumpDiv").css('font-size', '0.8em');
+		$("#threadDumpDiv").css("padding-bottom","0px");
 		var term = this.argument.term;
 		var treeId = this.treeSettings.treeId;
 		var maxLineNum = this.argument.maxLineNum;
@@ -141,6 +142,9 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 
 	},
 	_parseModel : function(model) {
+		var instance = this;
+		var threadInfoData=instance.changedData(model.attributes.threadDumpInfo);
+		model.attributes.threadDumpInfo = threadInfoData;
 		var tableData = model.attributes;
 		return tableData;
 	},
@@ -177,41 +181,15 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 		}, {
 			name : "threadDumpInfo",
 			width : 680
-		} , {
-			name : "detail",
-			// width : 140,
-			width : parseInt(this.tableWidth * 0.07),
-			formatter : ENS.Utility.makeAnchor,
-			editoptions : {
-				"onclick" : "ENS.threadDump.dialog",
-				"linkName" : "Detail"
-		}
-		}];
+		} ];
 
 		return tableColModel;
 	},
-	makeAnchor : function(cellValue, options, rowObject) {
-		var selectValueList = options.colModel.editoptions;
-		var val = rowObject.value;
-		var rowId = options.rowId;
-		var onclick = selectValueList.onclick;
-		return '<a href="javascript:void(0)" onclick="'
-				+ selectValueList.onclick + ';">' + 'DL' + '</a>';
+	changedData: function (threadDumpInfo)
+	{
+		var changed = threadDumpInfo;
+		changed = changed.replace(/>/g, "&gt;").replace(/</g, "&lt;");
+		changed = changed.replace(/%/gi, "<br/>");
+		return changed;
 	}
 });
-ENS.threadDump.dialog = function(id) {
-	var rowData = $("#threadDumpTable").getRowData(id);
-	$("#threadDumpTime").empty();
-	$("#threadDumpTime").append(rowData.date);
-
-	var changed = rowData.threadDumpInfo;
-	changed = changed.replace(/>/g, "&gt;").replace(/</g, "&lt;");
-	changed = changed.replace(/%/gi, "<br/>");
-	$("#threadDumpInfo").empty();
-	$("#threadDumpInfo").append(changed);
-	$("#threadDumpDialog").dialog({
-		modal : true,
-		width : 1200,
-		height : 800
-	});
-};
