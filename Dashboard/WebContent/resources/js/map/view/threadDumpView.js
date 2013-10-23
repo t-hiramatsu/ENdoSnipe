@@ -1,5 +1,5 @@
 ENS.threadDumpView = wgp.AbstractView.extend({
-	tableColNames : [ "Time", "Thread Dump" ],
+	tableColNames : [ "Time", "Thread Dump", "Detail" ],
 	initialize : function(argument, treeSettings) {
 
 		this.tableColModel = this.createTableColModel();
@@ -52,9 +52,22 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 				},
 				url : ENS.URL.THREAD_DUMP_CLICK
 			};
-			// 非同期通信でシグナル削除依頼電文を送信する。
+			
 			var ajaxHandler = new wgp.AjaxHandler();
+			//settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] = this;
+			//settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = "callbackGetThreadDumpData";
 			ajaxHandler.requestServerAsync(settings);
+			appView.getTermThreadDumpData([ treeSettings.treeId ], startTime,
+					endTime, argument.maxLineNum);
+			this.dualSliderView.setScaleMovedEvent(function(from, to) {
+				var appView = new ENS.AppView();
+				var startTime = new Date(new Date().getTime() - from);
+				var endTime = new Date(new Date().getTime() - to);
+				appView.getTermThreadDumpData([ treeSettings.treeId ], startTime,
+						endTime, 100);
+			});
+			//var ajaxHandler = new wgp.AjaxHandler();
+			//ajaxHandler.requestServerAsync(settings);
 		});
 
 	},
@@ -164,7 +177,16 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 		}, {
 			name : "threadDumpInfo",
 			width : 680
-		} ];
+		} , {
+			name : "detail",
+			// width : 140,
+			width : parseInt(this.tableWidth * 0.07),
+			formatter : ENS.Utility.makeAnchor,
+			editoptions : {
+				"onclick" : "ENS.threadDump.dialog",
+				"linkName" : "Detail"
+		}
+		}];
 
 		return tableColModel;
 	},
@@ -177,3 +199,19 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 				+ selectValueList.onclick + ';">' + 'DL' + '</a>';
 	}
 });
+ENS.threadDump.dialog = function(id) {
+	var rowData = $("#threadDumpTable").getRowData(id);
+	$("#threadDumpTime").empty();
+	$("#threadDumpTime").append(rowData.date);
+
+	var changed = rowData.threadDumpInfo;
+	changed = changed.replace(/>/g, "&gt;").replace(/</g, "&lt;");
+	changed = changed.replace(/%/gi, "<br/>");
+	$("#threadDumpInfo").empty();
+	$("#threadDumpInfo").append(changed);
+	$("#threadDumpDialog").dialog({
+		modal : true,
+		width : 1200,
+		height : 800
+	});
+};

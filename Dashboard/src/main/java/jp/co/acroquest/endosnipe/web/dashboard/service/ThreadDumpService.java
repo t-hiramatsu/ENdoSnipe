@@ -47,7 +47,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ThreadDumpService
 {
-    private static final String THREADDUMP_POSTFIX_ID = "/JVN_LOG_NOTIFY";
+    private static final String THREADDUMP_POSTFIX_ID = "/JvnLog_Notify";
 
     private static final ENdoSnipeLogger LOGGER =
             ENdoSnipeLogger.getLogger(ConfigurationReader.class);
