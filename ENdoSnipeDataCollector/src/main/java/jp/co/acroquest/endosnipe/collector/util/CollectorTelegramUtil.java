@@ -211,7 +211,7 @@ public class CollectorTelegramUtil
         signalListBody.setStrItemName(TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_CHILDLIST);
         signalListBody.setByteItemMode(ItemType.ITEMTYPE_STRING);
         signalListBody.setIntLoopCount(summarySignalCount);
-        String[] childList = new String[summarySignalCount];//{signalList};
+        String[] childList = new String[summarySignalCount];
 
         Body summarySignalStateBody = new Body();
         summarySignalStateBody.setStrObjName(TelegramConstants.OBJECTNAME_SUMMARY_SIGNAL_CHANGE);

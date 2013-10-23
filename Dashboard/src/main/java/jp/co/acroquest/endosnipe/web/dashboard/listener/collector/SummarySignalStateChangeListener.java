@@ -177,7 +177,7 @@ public class SummarySignalStateChangeListener extends AbstractTelegramListener
             else if (type[0].equals(TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_ALL))
             {
                 SummarySignalController.summarySignalDefinitionDto__ = summarySignalDtoList;
-                resourceSender.send(summarySignalTreeMenuDtoList, "add");
+
             }
         }
         return null;

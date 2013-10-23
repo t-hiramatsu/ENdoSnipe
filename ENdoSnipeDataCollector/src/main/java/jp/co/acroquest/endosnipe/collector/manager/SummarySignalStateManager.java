@@ -169,7 +169,6 @@ public class SummarySignalStateManager
         String summarySignalName = summarySignalDefinitionDto.getSummarySignalName();
 
         summarySignalDefinitionDto.setSummarySignalStatus(-1);
-        // this.createAllSummarySignalMapValue();
         boolean isDuplicate = this.checkDuplicate(summarySignalName);
         summarySignalDefinitionDto.summarySignalStatus_ = 0;
         summarySignalDefinitionDto.errorMessage_ = "";

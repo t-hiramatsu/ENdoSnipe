@@ -1334,7 +1334,7 @@ ENS.treeView = wgp.TreeView
 			clearMulResGraphDialog_ : function() {
 				$("#multipleResourceGraphId").val("");
 				$("#multipleResourceGraphName").val("");
-				$("#summarySignalList2Box").empty();
+				$("#multipleResourceGraphLstBox2").empty();
 
 			},
 
@@ -1395,11 +1395,9 @@ ENS.treeView = wgp.TreeView
 				var result = ajaxHandler.requestServerSync(settings);
 				var summarySignalDefinition = JSON.parse(result);
 
-				// 各入力項目を入力する
 				$("#summarySignalId").val(
 						summarySignalDefinition.summarySignalId);
 
-				// シグナル名の表示名称は自身より親のツリー構造を除外した値を指定する。
 				$("#summarySignalName")
 						.val(
 								this
@@ -1606,7 +1604,7 @@ ENS.treeView = wgp.TreeView
 			},
 			summarySignalPushOkFunction : function(event, option) {
 
-				// add tree data for signal
+				// add tree data for SummarySignal
 				var treeId = option.treeId;
 				var summarySignalDispalyName = $("#summarySignalName").val();
 				var summarySignalName = treeId + "/" + summarySignalDispalyName;
@@ -1618,7 +1616,7 @@ ENS.treeView = wgp.TreeView
 				// サーバに送信するデータ
 				var sendData;
 				// Ajax通信のコールバック関数と送信先URLを追加か編集かによって決める
-				// シグナル追加時
+				// SummarySignal追加時
 				if (option.summarySignalType == ENS.tree.ADD_SUMMARYSIGNAL_TYPE) {
 
 					sendData = this
@@ -1626,11 +1624,10 @@ ENS.treeView = wgp.TreeView
 					callbackFunction = "callbackSummarySignal_";
 					url = ENS.tree.SUMMARYSIGNAL_ADD_URL;
 
-					// シグナル編集時
+					// SummarySignal編集時
 				} else if (option.summarySignalType == ENS.tree.EDIT_SUMMARYSIGNAL_TYPE) {
 					sendData = this
 							.createSendSummarySignalData_(summarySignalName);
-					// sendData = this.createSendEditSignalData_(signalName);
 					callbackFunction = "callbackSummarySignal_";
 					url = ENS.tree.SUMMARYSIGNAL_EDIT_URL;
 				}
@@ -1645,10 +1642,6 @@ ENS.treeView = wgp.TreeView
 				var ajaxHandler = new wgp.AjaxHandler();
 				settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] = this;
 				settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = callbackFunction;
-				// settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] =
-				// this;
-				// settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] =
-				// callbackFunction;
 				ajaxHandler.requestServerAsync(settings);
 
 				// 閾値判定定義の入力内容をクリアする。
@@ -1710,7 +1703,7 @@ ENS.treeView = wgp.TreeView
 				appView.stopSyncData([ executeOption.treeId ]);
 
 				// Ajax通信の送信先URL
-				var callbackFunction = "callbackDeleteSummarySignal_";
+				var callbackFunction = "callbackSummarySignal_";
 				var url = ENS.tree.SUMMARYSIGNAL_DELETE_URL;
 
 				// Ajax通信用の設定
@@ -1723,10 +1716,8 @@ ENS.treeView = wgp.TreeView
 
 				// 非同期通信でシグナル削除依頼電文を送信する。
 				var ajaxHandler = new wgp.AjaxHandler();
-				// settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] =
-				// this;
-				// settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] =
-				// callbackFunction;
+				settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] = this;
+				settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = callbackFunction;
 				ajaxHandler.requestServerAsync(settings);
 			},
 			editSummarySignalFunction_ : function(event, target, menuId,
@@ -1743,6 +1734,7 @@ ENS.treeView = wgp.TreeView
 						"");
 				var url = ENS.tree.SUMMARYSIGNAL_EDIT_URL
 
+				
 				var settings = {
 					data : {
 						summarySignalName : summarySignalNames

@@ -19,82 +19,95 @@ ENS.SummarySignalDefinitionDialogView = ENS.DialogView
 				$("#summarySignalList1Box").empty();
 				this.getAllSignalData_();
 
-				// シグナル追加時のみシグナル名の変更を許可する。
+				// SummarySignal追加時のみSummarySignal名の変更を許可する。
 				if (this.summarySignalType == ENS.tree.ADD_SUMMARYSIGNAL_TYPE) {
 					$("#summarySignalName").prop("disabled", false);
 				} else {
 					$("#summarySignalName").prop("disabled", true);
 				}
-				$("#" + option.dialogId).dialog({
-					buttons : [ {
-						text : "OK",
-						click : function(event) {
+				$("#" + option.dialogId)
+						.dialog(
+								{
+									buttons : [
+											{
+												text : "OK",
+												click : function(event) {
 
-							// シグナル名が空の時はアラートを表示し、再入力を求める。
-							var signalName = $("#summarySignalName").val();
-							if (signalName === "") {
-								alert("Please input 'Summary Signal Name'.");
-								return;
-							} else if (signalName.match(/[\\\/]/)) {
-								alert("Don't use '/'or'\\' in 'Summary Signal Name'.");
-								return;
-							}
+													// SummarySignal名が空の時はアラートを表示し、再入力を求める。
+													var signalName = $(
+															"#summarySignalName")
+															.val();
+													if (signalName === "") {
+														alert("Please input 'Summary Signal Name'.");
+														return;
+													} else if (signalName
+															.match(/[\\\/]/)) {
+														alert("Don't use '/'or'\\' in 'Summary Signal Name'.");
+														return;
+													}
 
-							// マッチングパターンが空の時はアラーとを表示し、再入力を求める。
-							var selectedOpts = $('#summarySignalList2Box option');
-							if (selectedOpts.length === 0) {
-								alert("Please select 'Summary Signal or Signal '.");
-								return;
-							}
-							if (!ins.op_[okObj]) {
-								$("#" + option.dialogId).dialog("close");
-								return;
-							}
-							if (!ins.op_[okObj][ins.op_[okName]]) {
-								$("#" + option.dialogId).dialog("close");
-								return;
-							}
-							ins.op_[okObj][ins.op_[okName]](event, ins.op_);
+													var selectedOpts = $('#summarySignalList2Box option');
+													if (selectedOpts.length === 0) {
+														alert("Please select 'Summary Signal or Signal '.");
+														return;
+													}
+													if (!ins.op_[okObj]) {
+														$("#" + option.dialogId)
+																.dialog("close");
+														return;
+													}
+													if (!ins.op_[okObj][ins.op_[okName]]) {
+														$("#" + option.dialogId)
+																.dialog("close");
+														return;
+													}
+													ins.op_[okObj][ins.op_[okName]]
+															(event, ins.op_);
 
-							$("#" + option.dialogId).dialog("close");
-						}
-					}, {
-						text : "Cancel",
-						click : function(event) {
-							$("#" + option.dialogId).dialog("close");
-							if (!ins.op_[cObj]) {
-								return;
-							}
-							if (!ins.op_[cObj][ins.op_[cName]]) {
-								return;
-							}
-							ins.op_[cObj][ins.op_[cName]](event, ins.op_);
-						}
-					} ],
-					close : function(event) {
-						if (!ins.op_[cObj]) {
-							return;
-						}
-						if (!ins.op_[cObj][ins.op_[cName]]) {
-							return;
-						}
-						ins.op_[cObj][ins.op_[cName]](event, ins.op_);
-					},
-					modal : true,
-					width : 450
-				});
+													$("#" + option.dialogId)
+															.dialog("close");
+												}
+											},
+											{
+												text : "Cancel",
+												click : function(event) {
+													$("#" + option.dialogId)
+															.dialog("close");
+													if (!ins.op_[cObj]) {
+														return;
+													}
+													if (!ins.op_[cObj][ins.op_[cName]]) {
+														return;
+													}
+													ins.op_[cObj][ins.op_[cName]]
+															(event, ins.op_);
+												}
+											} ],
+									close : function(event) {
+										if (!ins.op_[cObj]) {
+											return;
+										}
+										if (!ins.op_[cObj][ins.op_[cName]]) {
+											return;
+										}
+										ins.op_[cObj][ins.op_[cName]](event,
+												ins.op_);
+									},
+									modal : true,
+									width : 450
+								});
 				var instance = this;
 				if (ENS.SummarySignalDialog.isFirst === true) {
 
-				$("#btnAdd").click(function(e) {
-					instance.addList(e);
-				});
-				$("#btnRemove").click(function(e) {
-					instance.removeList(e);
-				});
-				ENS.SummarySignalDialog.isFirst = false;
+					$("#btnAdd").click(function(e) {
+						instance.addList(e);
+					});
+					$("#btnRemove").click(function(e) {
+						instance.removeList(e);
+					});
+					ENS.SummarySignalDialog.isFirst = false;
 				}
-				
+
 			},
 			addList : function(e) {
 				var selectedOpts = $('#summarySignalList1Box option:selected');
@@ -147,11 +160,5 @@ ENS.SummarySignalDefinitionDialogView = ENS.DialogView
 				$("select option").each(function(i) {
 					this.title = this.value;
 				});
-				/*
-				 * $("select option").attr("title", ""); $("select
-				 * option").each(function(i) { this.title = this.text; });
-				 */
-
-				// Attach a tooltip to select elements
 			}
 		});

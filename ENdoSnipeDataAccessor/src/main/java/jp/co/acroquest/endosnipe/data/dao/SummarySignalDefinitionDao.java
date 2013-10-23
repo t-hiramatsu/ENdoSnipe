@@ -36,9 +36,9 @@ import jp.co.acroquest.endosnipe.data.entity.SummarySignalDefinition;
 public class SummarySignalDefinitionDao extends AbstractDao implements TableNames
 {
     private static final String SUMMARY_SIGNAL_DEFINITION = "SUMMARY_SIGNAL_DEFINITION";
-    
+
     private static final int SUMMARY_SIGNAL_INDEX1 = 3;
-    
+
     private static final int SUMMARY_SIGNAL_INDEX2 = 4;
 
     /**
@@ -109,22 +109,16 @@ public class SummarySignalDefinitionDao extends AbstractDao implements TableName
         List<String> summarySignalList = new ArrayList<String>();
         Connection conn = null;
         PreparedStatement pstmt = null;
-        //  Statement stmt = null;
         ResultSet rs = null;
         String summarySignal;
         try
         {
             conn = getConnection(dbName, false);
-            //   stmt = conn.createStatement();
-            //            String sql =
-            //                "select * from " + SUMMARY_SIGNAL_DEFINITION + " where SUMMARY_SIGNAL_NAME='"
-            //                    + summarySignalName + "'";
             String sql =
                 "select * from " + SUMMARY_SIGNAL_DEFINITION + " where SUMMARY_SIGNAL_NAME=?";
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, summarySignalName);
             rs = pstmt.executeQuery();
-            // rs = stmt.executeQuery(sql);
             while (rs.next() == true)
             {
                 // CHECKSTYLE:OFF
@@ -148,7 +142,6 @@ public class SummarySignalDefinitionDao extends AbstractDao implements TableName
         finally
         {
             SQLUtil.closeResultSet(rs);
-            //  SQLUtil.closeStatement(stmt);
             SQLUtil.closeStatement(pstmt);
             SQLUtil.closeConnection(conn);
         }
@@ -156,6 +149,7 @@ public class SummarySignalDefinitionDao extends AbstractDao implements TableName
         return result;
 
     }
+
     /**
      * Insert new Summary Signal Data
      *
@@ -220,21 +214,16 @@ public class SummarySignalDefinitionDao extends AbstractDao implements TableName
         String summarySignalName = summarySignalDefinition.getSummarySignalName();
         Connection conn = null;
         PreparedStatement pstmt = null;
-        //  Statement stmt = null;
         ResultSet rs = null;
         try
         {
             conn = getConnection(dataBaseName, false);
 
-            //  stmt = conn.createStatement();
             String sql =
-            //                "select SUMMARY_SIGNAL_ID from " + SUMMARY_SIGNAL_DEFINITION
-            //                    + " where SUMMARY_SIGNAL_NAME='" + summarySignalName + "'";
                 "select SUMMARY_SIGNAL_ID from " + SUMMARY_SIGNAL_DEFINITION
                     + " where SUMMARY_SIGNAL_NAME=?";
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, summarySignalName);
-            //    rs = stmt.executeQuery(sql);
             rs = pstmt.executeQuery();
             while (rs.next() == true)
             {
@@ -246,7 +235,6 @@ public class SummarySignalDefinitionDao extends AbstractDao implements TableName
         finally
         {
             SQLUtil.closeResultSet(rs);
-            //    SQLUtil.closeStatement(stmt);
             SQLUtil.closeStatement(pstmt);
             SQLUtil.closeConnection(conn);
         }
@@ -319,26 +307,19 @@ public class SummarySignalDefinitionDao extends AbstractDao implements TableName
         throws SQLException
     {
         Connection conn = null;
-        //  Statement stmt = null;
         PreparedStatement pstmt = null;
         try
         {
             conn = getConnection(dataBaseName, false);
-            //  stmt = conn.createStatement();
-            //            String sql =
-            //                "delete from " + SUMMARY_SIGNAL_DEFINITION + " where SUMMARY_SIGNAL_NAME='"
-            //                    + summarySignalName + "'";
             String sql =
                 "delete from " + SUMMARY_SIGNAL_DEFINITION + " where SUMMARY_SIGNAL_NAME=?";
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, summarySignalName);
-            //   stmt.execute(sql);
             pstmt.execute();
         }
 
         finally
         {
-            //  SQLUtil.closeStatement(stmt);
             SQLUtil.closeStatement(pstmt);
             SQLUtil.closeConnection(conn);
 

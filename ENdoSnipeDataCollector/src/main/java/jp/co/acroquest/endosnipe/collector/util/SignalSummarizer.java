@@ -111,7 +111,8 @@ public class SignalSummarizer
                     for (String child : childList)
                     {
 
-                        if (!alarmDataList.contains(child)
+                        if (!SummarySignalStateManager.getInstance().getAlarmChildList()
+                            .contains(child)
                             && !changeSummarySignalList.contains(child)
                             && !SummarySignalStateManager.getInstance().getAlarmSummaryList()
                                 .contains(child))
@@ -136,7 +137,6 @@ public class SignalSummarizer
                         parentListSet.remove(parent);
                     }
                 }
-                // parentListSet.clear();
                 for (String changeNode : changeSummarySignalList)
                 {
 
@@ -145,16 +145,18 @@ public class SignalSummarizer
 
             }
         }
-        return createAlarmSummarySignalList(summarySignalDefinitionDtoList);
+        return createAlarmSummarySignalList(summarySignalDefinitionDtoList, null);
     }
 
     /**
      * create summary signal definition name list to object list
      * @param summarySignalDefinitionDtoList name list
+     * @param currentSignal current change summary signal
      * @return SummarySignalDefinitionDto list
      */
     public List<SummarySignalDefinitionDto> createAlarmSummarySignalList(
-        final Set<String> summarySignalDefinitionDtoList)
+        final Set<String> summarySignalDefinitionDtoList,
+        final SummarySignalDefinitionDto currentSignal)
     {
         List<SummarySignalDefinitionDto> summarySignalList =
             new ArrayList<SummarySignalDefinitionDto>();
@@ -167,7 +169,14 @@ public class SignalSummarizer
             summaryDto.setSummarySignalId(nodeData.getNodeId());
             summaryDto.setSummarySignalStatus(nodeData.getCurrentStatus());
             summaryDto.setSignalList(nodeData.getChildList());
-            summaryDto.setErrorMessage("");
+            if (currentSignal != null && name.equals(currentSignal.getSummarySignalName()))
+            {
+                summaryDto.setErrorMessage(currentSignal.getErrorMessage());
+            }
+            else
+            {
+                summaryDto.setErrorMessage("");
+            }
             summarySignalList.add(summaryDto);
         }
         return summarySignalList;
@@ -248,7 +257,12 @@ public class SignalSummarizer
                         .addAll(parChildMap__.get(summarySignal.getSummarySignalName()).parentListSet);
                 }
             }
-            if (!TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_DELETE.equals(process))
+            if (TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_ADD.equals(process))
+            {
+                parentListSet.add(summarySignal.getSummarySignalName());
+            }
+
+            if (TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_UPDATE.equals(process))
             {
                 List<String> childList =
                     parChildMap__.get(summarySignal.getSummarySignalName()).childList;
@@ -341,14 +355,9 @@ public class SignalSummarizer
                             SummarySignalStateManager.getInstance().addSummaryAlarmData(parent);
                             summarySignalDefinitionDtoList.add(parent);
                             changeSummarySignalList.add(parent);
-                            //parentListSet.remove(parent);
                         }
-                        //                        else
-                        //                        {
                         parentListSet.remove(parent);
-                        // }
                     }
-                    //  parentListSet.clear();
                     if ((parChildMap__.get(parent).getCurrentStatus() == -1) && changeFlag)
                     {
                         summarySignalDefinitionDtoList.add(parent);
@@ -377,7 +386,9 @@ public class SignalSummarizer
             }
 
         }
-        return createAlarmSummarySignalList(summarySignalDefinitionDtoList);
+
+        return createAlarmSummarySignalList(summarySignalDefinitionDtoList,
+                                            summarySignalDefinitionList.get(0));
     }
 
 }

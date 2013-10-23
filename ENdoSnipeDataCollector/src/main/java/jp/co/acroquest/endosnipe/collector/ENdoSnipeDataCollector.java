@@ -216,6 +216,10 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
             javelinDataLogger_.stop();
         }
         // javelinDataLogger_ = new JavelinDataLogger(config_, this, signalDefinitionMap);
+
+        /*need to change to test in the JUnit testcase class because in the test case it is 
+        using only three argument constructor for creating JavelinDataLogger*/
+
         javelinDataLogger_ =
             new JavelinDataLogger(config_, this, signalDefinitionMap, summarySignalDefinitionMap);
 
