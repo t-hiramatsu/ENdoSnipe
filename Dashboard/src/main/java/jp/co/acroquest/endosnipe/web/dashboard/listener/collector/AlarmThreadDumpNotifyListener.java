@@ -19,6 +19,7 @@ import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.EventManager;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.wgp.manager.WgpDataManager;
 
 /**
@@ -33,6 +34,10 @@ public class AlarmThreadDumpNotifyListener extends AbstractTelegramListener
 
     }
 
+    /** WgpDataManager */
+    @Autowired
+    private WgpDataManager wgpDataManager;
+
     @Override
     protected Telegram doReceiveTelegram(final Telegram telegram)
     {
@@ -41,7 +46,7 @@ public class AlarmThreadDumpNotifyListener extends AbstractTelegramListener
         Object wgpData = new Object();
         Date date = new Date();
         String data = date.toString();
-        dataManager.setData("JvnLog_Notify", data, wgpData);
+        dataManager.setData("JvnLog_Notify", data, this.wgpDataManager);
 
         return null;
     }

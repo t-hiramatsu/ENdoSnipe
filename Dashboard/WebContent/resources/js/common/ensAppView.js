@@ -65,6 +65,15 @@ ENS.AppView = wgp.AppView.extend({
 		};
 		this.onSearch(settings);
 	},
+	threadDumpClick : function (){
+		var settings = {
+				data : {
+					threadDump : ""
+				},
+				url : ENS.URL.THREAD_DUMP_CLICK
+			};
+			this.onSearch(settings);
+	},
 	_add : function(addCollection, addData) {
 		if (addCollection.get(addData.id) != null) {
 			console.log('Collection already Exists');

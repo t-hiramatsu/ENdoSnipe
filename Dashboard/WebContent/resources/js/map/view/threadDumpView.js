@@ -8,6 +8,9 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 		this.appView = appView;
 		this.treeSettings = treeSettings;
 		this.argument = argument;
+
+		appView.addView(this, "JvnLog_Notify");
+
 		appView.addView(this, treeSettings.treeId
 				+ ENS.URL.JVN_LOG_NOTIFY_POSTFIX_ID);
 
@@ -46,28 +49,39 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 					endTime, 100);
 		});
 		$("#button").on("click", function() {
-			var settings = {
-				data : {
-					threadDump : ""
-				},
-				url : ENS.URL.THREAD_DUMP_CLICK
-			};
+			var appView = new ENS.AppView();
+			appView.threadDumpClick();
 			
-			var ajaxHandler = new wgp.AjaxHandler();
-			//settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] = this;
-			//settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = "callbackGetThreadDumpData";
-			ajaxHandler.requestServerAsync(settings);
-			/*appView.getTermThreadDumpData([ treeSettings.treeId ], startTime,
+			var startTime = new Date(new Date().getTime() - argument.term * 1000);
+			var endTime = new Date();
+			appView.getTermThreadDumpData([ treeSettings.treeId ], startTime,
 					endTime, argument.maxLineNum);
+
+			this.id = argument.id;
+
 			this.dualSliderView.setScaleMovedEvent(function(from, to) {
 				var appView = new ENS.AppView();
 				var startTime = new Date(new Date().getTime() - from);
 				var endTime = new Date(new Date().getTime() - to);
 				appView.getTermThreadDumpData([ treeSettings.treeId ], startTime,
 						endTime, 100);
-			});*/
+			});
 			//var ajaxHandler = new wgp.AjaxHandler();
+			// settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] = this;
+			// settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] =
+			// "callbackGetThreadDumpData";
 			//ajaxHandler.requestServerAsync(settings);
+			/*
+			 * appView.getTermThreadDumpData([ treeSettings.treeId ], startTime,
+			 * endTime, argument.maxLineNum);
+			 * this.dualSliderView.setScaleMovedEvent(function(from, to) { var
+			 * appView = new ENS.AppView(); var startTime = new Date(new
+			 * Date().getTime() - from); var endTime = new Date(new
+			 * Date().getTime() - to); appView.getTermThreadDumpData([
+			 * treeSettings.treeId ], startTime, endTime, 100); });
+			 */
+			// var ajaxHandler = new wgp.AjaxHandler();
+			// ajaxHandler.requestServerAsync(settings);
 		});
 
 	},
@@ -110,45 +124,43 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 			defaultSearch : 'cn'
 		});
 		$("#threadDumpDiv").css('font-size', '0.8em');
-		$("#threadDumpDiv").css("padding-bottom","0px");
+		$("#threadDumpDiv").css("padding-bottom", "0px");
 		var term = this.argument.term;
 		var treeId = this.treeSettings.treeId;
 		var maxLineNum = this.argument.maxLineNum;
-		/*$("#button").on("click", function() {
-			var settings = {
-				data : {
-					threadDump : ""
-				},
-				url : ENS.URL.THREAD_DUMP_CLICK
-			};
-			alert(JSON.stringify(settings));
-			// 非同期通信でシグナル削除依頼電文を送信する。
-			var ajaxHandler = new wgp.AjaxHandler();
-			ajaxHandler.requestServerAsync(settings);
-			
-			 * var startTime = new Date(new Date().getTime() - term * 1000); var
-			 * endTime = new Date(); var appView = new ENS.AppView();
-			 * 
-			 * appView.getTermThreadDumpData([ treeId ], startTime, endTime,
-			 * maxLineNum);
-			 * 
-			 * this.dualSliderView.setScaleMovedEvent(function( from, to) { var
-			 * appView = new ENS.AppView(); var startTime = new Date(new
-			 * Date().getTime() - from); var endTime = new Date(new
-			 * Date().getTime() - to); appView.getTermThreadDumpData([ treeId ],
-			 * startTime, endTime, 100); });
-			 
-		});*/
+		/*
+		 * $("#button").on("click", function() { var settings = { data : {
+		 * threadDump : "" }, url : ENS.URL.THREAD_DUMP_CLICK };
+		 * alert(JSON.stringify(settings)); // 非同期通信でシグナル削除依頼電文を送信する。 var
+		 * ajaxHandler = new wgp.AjaxHandler();
+		 * ajaxHandler.requestServerAsync(settings);
+		 * 
+		 * var startTime = new Date(new Date().getTime() - term * 1000); var
+		 * endTime = new Date(); var appView = new ENS.AppView();
+		 * 
+		 * appView.getTermThreadDumpData([ treeId ], startTime, endTime,
+		 * maxLineNum);
+		 * 
+		 * this.dualSliderView.setScaleMovedEvent(function( from, to) { var
+		 * appView = new ENS.AppView(); var startTime = new Date(new
+		 * Date().getTime() - from); var endTime = new Date(new Date().getTime() -
+		 * to); appView.getTermThreadDumpData([ treeId ], startTime, endTime,
+		 * 100); });
+		 * 
+		 * });
+		 */
 
 	},
 	_parseModel : function(model) {
 		var instance = this;
-		var threadInfoData=instance.changedData(model.attributes.threadDumpInfo);
+		var threadInfoData = instance
+				.changedData(model.attributes.threadDumpInfo);
 		model.attributes.threadDumpInfo = threadInfoData;
 		var tableData = model.attributes;
 		return tableData;
 	},
 	onAdd : function(element) {
+		alert(JSON.stringify(element));
 		console.log('call onAdd');
 	},
 	onChange : function(element) {
@@ -185,11 +197,13 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 
 		return tableColModel;
 	},
-	changedData: function (threadDumpInfo)
-	{
+	changedData : function(threadDumpInfo) {
+
 		var changed = threadDumpInfo;
-		changed = changed.replace(/>/g, "&gt;").replace(/</g, "&lt;");
-		changed = changed.replace(/%/gi, "<br/>");
+		if (changed != null) {
+			changed = changed.replace(/>/g, "&gt;").replace(/</g, "&lt;");
+			changed = changed.replace(/%/gi, "<br/>");
+		}
 		return changed;
 	}
 });

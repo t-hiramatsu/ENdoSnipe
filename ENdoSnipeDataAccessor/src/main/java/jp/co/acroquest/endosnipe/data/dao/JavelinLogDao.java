@@ -960,15 +960,16 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
         return sql.toString();
     }
     /**
+     * getting threadDump data  from database
      * 
-     * @param database
-     * @param start
-     * @param end
-     * @param name
-     * @param outputLog
-     * @param removeDiagnosed
-     * @return
-     * @throws SQLException
+     * @param database is databaseName
+     * @param start is startTime
+     * @param end is endTime
+     * @param name is name
+     * @param outputLog is boolean
+     * @param removeDiagnosed is boolean
+     * @return return threadDump data
+     * @throws SQLException SQLException
      */
     public static List<JavelinLog> selectThreadDumpByTermAndName(String database, Timestamp start,
         Timestamp end, String name, boolean outputLog, boolean removeDiagnosed)
@@ -1029,7 +1030,7 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
         }
         if (removeDiagnosed)
         {
-            sql += " and NOT DIAGNOSED";
+            sql += " and DIAGNOSED";
         }
         sql += " order by START_TIME desc";
         return sql;

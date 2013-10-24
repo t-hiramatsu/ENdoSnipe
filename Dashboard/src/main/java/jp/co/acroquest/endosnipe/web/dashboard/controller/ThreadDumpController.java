@@ -29,6 +29,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
+ * This is controller class for
+ * threadDump
  * 
  * @author khinewai
  *
@@ -37,10 +39,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/threadDump")
 public class ThreadDumpController
 {
+    /**
+     * this is default constructor class
+     */
     public ThreadDumpController()
     {
     }
 
+    /**
+     * connection with threadDumpService
+     */
     @Autowired
     protected ThreadDumpService threadDumpService_;
 
