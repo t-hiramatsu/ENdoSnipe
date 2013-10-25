@@ -49,10 +49,20 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 					endTime, 100);
 		});
 		$("#button").on("click", function() {
-			var appView = new ENS.AppView();
-			appView.threadDumpClick();
+			var settings = {
+					data : {
+						threadDump : ""
+					},
+					url : ENS.URL.THREAD_DUMP_CLICK
+				};
+			var ajaxHandler = new wgp.AjaxHandler();
+			settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] = this;
+			settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = "callbackThreadDumpList";
+		    ajaxHandler.requestServerAsync(settings);
+			/*var appView = new ENS.AppView();
+			appView.threadDumpClick();*/
 			
-			var startTime = new Date(new Date().getTime() - argument.term * 1000);
+			/*var startTime = new Date(new Date().getTime() - argument.term * 1000);
 			var endTime = new Date();
 			appView.getTermThreadDumpData([ treeSettings.treeId ], startTime,
 					endTime, argument.maxLineNum);
@@ -67,7 +77,7 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 						endTime, 100);
 			});
 			//var ajaxHandler = new wgp.AjaxHandler();
-			// settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] = this;
+*/			// settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] = this;
 			// settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] =
 			// "callbackGetThreadDumpData";
 			//ajaxHandler.requestServerAsync(settings);
@@ -84,6 +94,10 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 			// ajaxHandler.requestServerAsync(settings);
 		});
 
+	},
+	callbackThreadDumpList : function ()
+	{
+		
 	},
 	render : function() {
 		var id = this.id;
@@ -161,7 +175,10 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 	},
 	onAdd : function(element) {
 		alert(JSON.stringify(element));
-		console.log('call onAdd');
+		var data = this.getData();
+		this.reloadTable();
+		//alert("data"+JSON.stringify(data));
+		//console.log('call onAdd');
 	},
 	onChange : function(element) {
 		console.log('called changeModel');
