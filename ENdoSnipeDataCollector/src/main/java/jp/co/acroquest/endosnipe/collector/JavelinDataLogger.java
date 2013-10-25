@@ -1086,8 +1086,12 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             if (alarmEntry.isSendAlarm())
             {
                 alarmEntryList.add(alarmEntry);
-                alarmSignalList.add(signalName);
-                SummarySignalStateManager.getInstance().addChildAlarmData(signalName);
+                if (calcualteSignalIcon(alarmEntry.getAlarmState(), alarmEntry.getSignalLevel())
+                    .equals("signal_4"))
+                {
+                    alarmSignalList.add(signalName);
+                    SummarySignalStateManager.getInstance().addChildAlarmData(signalName);
+                }
             }
         }
 
@@ -1103,13 +1107,16 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             }
             Telegram alarmTelegram = CollectorTelegramUtil.createAlarmTelegram(alarmEntryList);
             this.clientRepository_.sendTelegramToClient(clientId, alarmTelegram);
-            List<SummarySignalDefinitionDto> alarmSummarySignal =
-                SignalSummarizer.getInstance().calculateSummarySignalState(alarmSignalList);
-            Telegram alarmSummaryTelegram =
-                CollectorTelegramUtil
-                    .createSummarySignalResponseTelegram(alarmSummarySignal,
-                                                         TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_CHANGE_STATE);
-            this.clientRepository_.sendTelegramToClient(clientId, alarmSummaryTelegram);
+            if (alarmSignalList != null && alarmSignalList.size() > 0)
+            {
+                List<SummarySignalDefinitionDto> alarmSummarySignal =
+                    SignalSummarizer.getInstance().calculateSummarySignalState(alarmSignalList);
+                Telegram alarmSummaryTelegram =
+                    CollectorTelegramUtil
+                        .createSummarySignalResponseTelegram(alarmSummarySignal,
+                                                             TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_CHANGE_STATE);
+                this.clientRepository_.sendTelegramToClient(clientId, alarmSummaryTelegram);
+            }
             for (AlarmEntry alarmEntry : alarmEntryList)
             {
                 addSignalStateChangeEvent(alarmEntry);
@@ -1494,4 +1501,36 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         return prevMeasurementValue;
     }
 
+    private static String calcualteSignalIcon(final int signalValue, final int level)
+    {
+        String icon = "";
+        if (level == SIGNAL_LEVEL_3)
+        {
+            if (0 <= signalValue && signalValue < SIGNAL_LEVEL_3)
+            {
+                icon = "signal_" + 2 * signalValue;
+            }
+            else
+            {
+                icon = "signal_-1";
+            }
+        }
+        else if (level == SIGNAL_LEVEL_3)
+        {
+            if (0 <= signalValue && signalValue < SIGNAL_LEVEL_5)
+            {
+                icon = "signal_" + signalValue;
+            }
+            else
+            {
+                icon = "signal_-1";
+            }
+        }
+        else
+        {
+            icon = "signal_-1";
+        }
+
+        return icon;
+    }
 }

@@ -954,13 +954,18 @@ ENS.treeView = wgp.TreeView
 			callbackGetAllSummarySignal_ : function(summarySignalDefinitionList) {
 				var instance = this;
 				var addOptionList = [];
+				var addTopOptionList = [];
 				_
 						.each(
 								summarySignalDefinitionList,
 								function(sumamrySignalDefinition, index) {
 									var treeOption = instance
 											.createSummarySignalTreeOption_(sumamrySignalDefinition);
-									addOptionList.push(treeOption);
+									if (treeOption.id.split("/").length <= 3) {
+										addTopOptionList.push(treeOption);
+									} else {
+										addOptionList.push(treeOption);
+									}
 								});
 
 				// renderのADDを実行する権限を無くす
@@ -969,6 +974,7 @@ ENS.treeView = wgp.TreeView
 				this.collection.add(addOptionList);
 				// renderのADDを実行する権限を与える
 				ENS.tree.doRender = true;
+				this.collection.add(addTopOptionList);
 			},
 			callbackGetAllSignal_ : function(signalDefinitionList) {
 				var instance = this;
@@ -1414,15 +1420,16 @@ ENS.treeView = wgp.TreeView
 						summarySignalDefinition.summarySignalName);
 				var measurementList = summarySignalDefinition.signalList;
 				for ( var i = 0; i < measurementList.length; i++) {
-					$('#summarySignalList2Box')
-							.append(
-									"<option value='"
-											+ measurementList[i]
-											+ "'>"
-											+ instance
-													.getSignalDisplayName_(measurementList[i])
-											+ "</option>");
-
+					if (measurementList[i] != "") {
+						$('#summarySignalList2Box')
+								.append(
+										"<option value='"
+												+ measurementList[i]
+												+ "'>"
+												+ instance
+														.getSignalDisplayName_(measurementList[i])
+												+ "</option>");
+					}
 				}
 			},
 			inputSignalDialog_ : function(treeModel) {
@@ -1734,7 +1741,6 @@ ENS.treeView = wgp.TreeView
 						"");
 				var url = ENS.tree.SUMMARYSIGNAL_EDIT_URL
 
-				
 				var settings = {
 					data : {
 						summarySignalName : summarySignalNames

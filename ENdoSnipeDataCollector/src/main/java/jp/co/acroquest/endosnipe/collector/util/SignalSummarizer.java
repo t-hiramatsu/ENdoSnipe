@@ -267,6 +267,21 @@ public class SignalSummarizer
                 List<String> childList =
                     parChildMap__.get(summarySignal.getSummarySignalName()).childList;
 
+                if (childList != null && childList.size() == 0)
+                {
+                    if (changeFlag)
+                    {
+                        summarySignalDefinitionDtoList.add(summarySignal.getSummarySignalName());
+                        SummarySignalStateManager.getInstance().getAlarmSummaryList()
+                            .remove(summarySignal.getSummarySignalName());
+                        parChildMap__.get(summarySignal.getSummarySignalName())
+                            .setCurrentStatus(-1);
+                        SummarySignalStateManager.getInstance().getSummarySignalDefinitionMap()
+                            .get(parChildMap__.get(summarySignal.getSummarySignalName()).nodeId).summarySignalStatus_ =
+                            -1;
+                        changeFlag = false;
+                    }
+                }
                 for (String changeNode : childList)
                 {
                     if (SummarySignalStateManager.getInstance().getAlarmSummaryList()
