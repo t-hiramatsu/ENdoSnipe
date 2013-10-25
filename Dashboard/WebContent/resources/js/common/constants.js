@@ -272,7 +272,7 @@ ENS.tree.contextOption = [ {
 	menu_id : ENS.tree.ADD_SUMMARYSIGNAL_TYPE,
 	menu_name : "Add Summary Signal",
 	executeClass : "ENS.SummarySignalDefinitionDialogView",
-	showTreeTypes : [ ENS.tree.type.TARGET ],
+	showTreeTypes : [  ENS.tree.type.GROUP, ENS.tree.type.TARGET ],
 	executeOption : {
 		dialogId : ENS.tree.SUMMARYSIGNAL_DIALOG,
 		summarySignalType : ENS.tree.ADD_SUMMARYSIGNAL_TYPE
