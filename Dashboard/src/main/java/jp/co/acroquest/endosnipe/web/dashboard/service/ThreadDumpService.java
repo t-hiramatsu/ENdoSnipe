@@ -47,10 +47,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class ThreadDumpService
 {
-    private static final String THREADDUMP_POSTFIX_ID = "/JvnLog_Notify";
+    private static final String          THREADDUMP_POSTFIX_ID = "/JvnLog_Notify";
 
-    private static final ENdoSnipeLogger LOGGER =
-            ENdoSnipeLogger.getLogger(ConfigurationReader.class);
+    private static final ENdoSnipeLogger LOGGER                = ENdoSnipeLogger.getLogger(ConfigurationReader.class);
 
     public Map<String, List<ThreadDumpDefinitionDto>> getTermThreadDumpData(
             final TermDataForm termDataForm)
@@ -60,17 +59,17 @@ public class ThreadDumpService
         String dbName = dbManager.getDataBaseName(1);
         List<JavelinLog> list = new ArrayList<JavelinLog>();
         List<ThreadDumpDefinitionDto> displayList = new ArrayList<ThreadDumpDefinitionDto>();
-        Map<String, List<ThreadDumpDefinitionDto>> dataList =
-                new HashMap<String, List<ThreadDumpDefinitionDto>>();
+        Map<String, List<ThreadDumpDefinitionDto>> dataList = new HashMap<String, List<ThreadDumpDefinitionDto>>();
         for (String dataGroupId : dataGroupIdList)
         {
-            Timestamp start = new Timestamp(Long.valueOf(termDataForm.getStartTime()));
-            Timestamp end = new Timestamp(Long.valueOf(termDataForm.getEndTime()));
+            Timestamp start = new Timestamp(
+                    Long.valueOf(termDataForm.getStartTime()));
+            Timestamp end = new Timestamp(
+                    Long.valueOf(termDataForm.getEndTime()));
             try
             {
-                list =
-                        JavelinLogDao.selectThreadDumpByTermAndName(dbName, start, end,
-                                                                    dataGroupId, true, true);
+                list = JavelinLogDao.selectThreadDumpByTermAndName(dbName,
+                        start, end, dataGroupId, true, true);
             }
             catch (SQLException ex)
             {
@@ -84,7 +83,8 @@ public class ThreadDumpService
         return dataList;
     }
 
-    public List<ThreadDumpDefinitionDto> createThreadDumpDefinitionDto(final List<JavelinLog> list)
+    public List<ThreadDumpDefinitionDto> createThreadDumpDefinitionDto(
+            final List<JavelinLog> list)
     {
         List<ThreadDumpDefinitionDto> displayList = new ArrayList<ThreadDumpDefinitionDto>();
         for (JavelinLog table : list)
@@ -112,7 +112,8 @@ public class ThreadDumpService
                 LOGGER.log(LogMessageCodes.FAIL_GET_JVNLOG);
                 return null;
             }
-            BufferedReader reader = new BufferedReader(new InputStreamReader(jvnLog.javelinLog));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(
+                    jvnLog.javelinLog));
             String line;
             while ((line = reader.readLine()) != null)
             {
@@ -141,5 +142,26 @@ public class ThreadDumpService
             communicationClient.sendTelegram(telegram);
         }
 
+    }
+
+    public List<ThreadDumpDefinitionDto> getAllAgentData(
+            final String measurementItem)
+    {
+        List<JavelinLog> list = new ArrayList<JavelinLog>();
+        DatabaseManager dbManager = DatabaseManager.getInstance();
+        String dbName = dbManager.getDataBaseName(1);
+        List<ThreadDumpDefinitionDto> displayList = new ArrayList<ThreadDumpDefinitionDto>();
+        try
+        {
+            list = JavelinLogDao.selectAllThreadDumpByMeasurementItem(dbName,
+                    measurementItem);
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+        displayList = this.createThreadDumpDefinitionDto(list);
+
+        return displayList;
     }
 }

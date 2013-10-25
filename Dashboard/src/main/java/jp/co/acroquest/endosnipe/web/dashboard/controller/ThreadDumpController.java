@@ -12,6 +12,7 @@
  */
 package jp.co.acroquest.endosnipe.web.dashboard.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,8 +44,7 @@ public class ThreadDumpController
      * this is default constructor class
      */
     public ThreadDumpController()
-    {
-    }
+    {}
 
     /**
      * connection with threadDumpService
@@ -58,19 +58,28 @@ public class ThreadDumpController
     public Map<String, List<ThreadDumpDefinitionDto>> getThreadDumpData(
             @RequestParam(value = "data") final String data)
     {
-        Map<String, List<ThreadDumpDefinitionDto>> responceDataList =
-                new HashMap<String, List<ThreadDumpDefinitionDto>>();
+        Map<String, List<ThreadDumpDefinitionDto>> responceDataList = new HashMap<String, List<ThreadDumpDefinitionDto>>();
 
         TermDataForm termDataForm = JSON.decode(data, TermDataForm.class);
-        Map<String, List<ThreadDumpDefinitionDto>> responseDataList =
-                threadDumpService_.getTermThreadDumpData(termDataForm);
+        Map<String, List<ThreadDumpDefinitionDto>> responseDataList = threadDumpService_.getTermThreadDumpData(termDataForm);
         return responseDataList;
     }
 
     @RequestMapping(value = "/addThreadDump", method = RequestMethod.POST)
     @ResponseBody
-    public void addThreadDumpData(@RequestParam(value = "threadDump") final String data)
+    public void addThreadDumpData(
+            @RequestParam(value = "threadDump") final String data)
     {
         threadDumpService_.createThreadDump();
+    }
+
+    @RequestMapping(value = "/selectAllAgent", method = RequestMethod.POST)
+    @ResponseBody
+    public List<ThreadDumpDefinitionDto> getAllAgent(
+            @RequestParam(value = "threadDump") final String data)
+    {
+        List<ThreadDumpDefinitionDto> result = new ArrayList<ThreadDumpDefinitionDto>();
+        result = threadDumpService_.getAllAgentData(data);
+        return result;
     }
 }

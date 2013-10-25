@@ -959,6 +959,7 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
         sql.append(") MERGED_TIME");
         return sql.toString();
     }
+
     /**
      * getting threadDump data  from database
      * 
@@ -1036,7 +1037,8 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
         return sql;
     }
 
-    public static List<JavelinLog> selectAllThreadDump(String dbName) throws SQLException
+    public static List<JavelinLog> selectAllThreadDump(String dbName)
+        throws SQLException
     {
         List<JavelinLog> result = new ArrayList<JavelinLog>();
         Connection conn = null;
@@ -1065,6 +1067,43 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
         }
 
         return result;
-        
+
+    }
+
+    public static List<JavelinLog> selectAllThreadDumpByMeasurementItem(String dbName,
+        String measurementItem)
+        throws SQLException
+    {
+
+        List<JavelinLog> result = new ArrayList<JavelinLog>();
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        try
+        {
+            conn = getConnection(dbName, true);
+
+            stmt = conn.createStatement();
+            rs =
+                stmt.executeQuery("select * from " + JAVELIN_LOG
+                    + " where CALLEE_CLASS = 'FullThreadDump' and MEASUREMENT_ITEM_NAME like '"
+                    + measurementItem + "%'");
+
+            // 結果をリストに１つずつ格納する
+            while (rs.next())
+            {
+                JavelinLog log = new JavelinLog();
+                setJavelinLogFromResultSet(log, rs);
+                result.add(log);
+            }
+        }
+        finally
+        {
+            SQLUtil.closeResultSet(rs);
+            SQLUtil.closeStatement(stmt);
+            SQLUtil.closeConnection(conn);
+        }
+
+        return result;
     }
 }
