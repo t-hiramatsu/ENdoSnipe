@@ -17,53 +17,221 @@ public class ScheduleRowMapper implements RowMapper<List<SchedulingReportDefinit
 {
     private static final String TIME_FORMAT = "HH:mm";
 
+    public ScheduleRowMapper()
+    {
+
+    }
+
     public List<SchedulingReportDefinitionDto> mapRow(final ResultSet rs, final int rowNum)
-        throws SQLException
     {
         List<SchedulingReportDefinitionDto> schedulingReportDefinitionDtos =
                 new ArrayList<SchedulingReportDefinitionDto>();
         SchedulingReportDefinitionDto schedulingReportDefinitionDto =
                 new SchedulingReportDefinitionDto();
-        while (rs.next())
+        try
+        {
+            while (rs.next())
+            {
+                if ("DAILY".equals(rs.getString("schedule_term")))
+                {
+                    this.createDaily(rs);
+                }
+                if ("WEEKLY".equals(rs.getString("schedule_term")))
+                {
+                    this.createWeekly(rs);
+                }
+                if ("MONTHLY".equals(rs.getString("schedule_term")))
+                {
+                    this.createMonthly(rs);
+                }
+            }
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+        return null;
+        // return schedulingReportDefinitionDtos;
+    }
+
+    private void createDaily(final ResultSet rs)
+    {
+        Calendar time = Calendar.getInstance();
+        Calendar currentTime = Calendar.getInstance();
+        DateFormat timeFormat = new SimpleDateFormat("HH:mm");
+        try
+        {
+            time.setTime(timeFormat.parse(rs.getString("schedule_time")));
+        }
+        catch (ParseException ex)
+        {
+            ex.printStackTrace();
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+        if (time.get(Calendar.HOUR_OF_DAY) == currentTime.get(Calendar.HOUR_OF_DAY)
+                && time.get(Calendar.MINUTE) == currentTime.get(Calendar.MINUTE))
+        {
+            this.createReport(rs);
+        }
+    }
+
+    private void createReport(final ResultSet rs)
+    {
+        List<SchedulingReportDefinitionDto> schedulingReportDefinitionDtos =
+                new ArrayList<SchedulingReportDefinitionDto>();
+        SchedulingReportDefinitionDto schedulingReportDefinitionDto =
+                new SchedulingReportDefinitionDto();
+        try
         {
             schedulingReportDefinitionDto.setReportId(rs.getInt("report_id"));
+        }
+        catch (SQLException ex1)
+        {
+            ex1.printStackTrace();
+        }
+        try
+        {
             schedulingReportDefinitionDto.setReportName(rs.getString("report_name"));
+        }
+        catch (SQLException ex1)
+        {
+            ex1.printStackTrace();
+        }
+        try
+        {
             schedulingReportDefinitionDto.setTargetMeasurementName(rs.getString("target_measurement_name"));
+        }
+        catch (SQLException ex1)
+        {
+            ex1.printStackTrace();
+        }
+        try
+        {
             schedulingReportDefinitionDto.setTerm(rs.getString("schedule_term"));
+        }
+        catch (SQLException ex1)
+        {
+            ex1.printStackTrace();
+        }
 
-            DateFormat timeFormat = new SimpleDateFormat(TIME_FORMAT);
+        DateFormat timeFormat = new SimpleDateFormat(TIME_FORMAT);
 
-            Calendar time = Calendar.getInstance();
+        Calendar time = Calendar.getInstance();
+        try
+        {
             try
             {
                 time.setTime(timeFormat.parse(rs.getString("schedule_time")));
             }
-            catch (ParseException ex)
+            catch (SQLException ex)
             {
-                // TODO 自動生成された catch ブロック
                 ex.printStackTrace();
             }
-            schedulingReportDefinitionDto.setTime(time);
+        }
+        catch (ParseException ex)
+        {
+            ex.printStackTrace();
+        }
+        schedulingReportDefinitionDto.setTime(time);
+        try
+        {
             schedulingReportDefinitionDto.setLastExportedTime(rs.getTimestamp("last_export_report_time"));
-
-            schedulingReportDefinitionDto.setDay(rs.getString("schedule_day"));
-            schedulingReportDefinitionDto.setDate(rs.getString("schedule_date"));
-
-            System.out.println("value of reportId:" + schedulingReportDefinitionDto.getReportId());
-            System.out.println("value of reportName:"
-                    + schedulingReportDefinitionDto.getReportName());
-            System.out.println("value of TargetMeasurementName:"
-                    + schedulingReportDefinitionDto.getTargetMeasurementName());
-            System.out.println("value of Term:" + schedulingReportDefinitionDto.getTerm());
-            System.out.println("value of Time:" + schedulingReportDefinitionDto.getTime());
-            System.out.println("value of Day:" + schedulingReportDefinitionDto.getDay());
-            System.out.println("value of Date:" + schedulingReportDefinitionDto.getDate());
-            System.out.println("value of Last Export Time:"
-                    + schedulingReportDefinitionDto.getLastExportedTime());
-
-            schedulingReportDefinitionDtos.add(schedulingReportDefinitionDto);
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
         }
 
-        return schedulingReportDefinitionDtos;
+        try
+        {
+            schedulingReportDefinitionDto.setDay(rs.getString("schedule_day"));
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+        try
+        {
+            schedulingReportDefinitionDto.setDate(rs.getString("schedule_date"));
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+
+        schedulingReportDefinitionDtos.add(schedulingReportDefinitionDto);
+
+    }
+
+    private void createWeekly(final ResultSet rs)
+    {
+        Calendar calendar = Calendar.getInstance();
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        String weekDay = "";
+        if (Calendar.MONDAY == dayOfWeek)
+        {
+            weekDay = "Monday";
+        }
+        else if (Calendar.TUESDAY == dayOfWeek)
+        {
+            weekDay = "Tuesday";
+        }
+        else if (Calendar.WEDNESDAY == dayOfWeek)
+        {
+            weekDay = "Wednesday";
+        }
+        else if (Calendar.THURSDAY == dayOfWeek)
+        {
+            weekDay = "Thursday";
+        }
+        else if (Calendar.FRIDAY == dayOfWeek)
+        {
+            weekDay = "Friday";
+        }
+        else if (Calendar.SATURDAY == dayOfWeek)
+        {
+            weekDay = "Saturday";
+        }
+        else if (Calendar.SUNDAY == dayOfWeek)
+        {
+            weekDay = "Sunday";
+        }
+        try
+        {
+            if (weekDay.equals(rs.getString("schedule_day")))
+            {
+                this.createDaily(rs);
+            }
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+    }
+
+    private void createMonthly(final ResultSet rs)
+    {
+        Calendar calendar = Calendar.getInstance();
+        int scheduleDate = 0;
+        try
+        {
+            scheduleDate = Integer.parseInt(rs.getString("schedule_date"));
+        }
+        catch (NumberFormatException ex)
+        {
+            ex.printStackTrace();
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+
+        if (calendar.get(Calendar.DAY_OF_MONTH) == scheduleDate)
+        {
+            this.createDaily(rs);
+        }
     }
 }
