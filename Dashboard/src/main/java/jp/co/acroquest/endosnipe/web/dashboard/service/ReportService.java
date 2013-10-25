@@ -687,8 +687,6 @@ public class ReportService
         schedulingReportDefinition.day_ = schedulingDefinitionDto.getDay();
         System.out.println("Day:" + schedulingReportDefinition.day_);
         Calendar time = schedulingDefinitionDto.getTime();
-        /* Calendar date = schedulingDefinitionDto.getDate();
-        */
         DateFormat timeFormat = new SimpleDateFormat(TIME_FORMAT);
         schedulingReportDefinition.time_ = timeFormat.format(time.getTime());
         schedulingReportDefinition.date_ = schedulingDefinitionDto.getDate();
@@ -697,10 +695,7 @@ public class ReportService
         Calendar currentTimeCalendar = Calendar.getInstance();
         lastExportedCalendar.set(Calendar.HOUR_OF_DAY, time.get(Calendar.HOUR_OF_DAY));
         lastExportedCalendar.set(Calendar.MINUTE, time.get(Calendar.MINUTE));
-        System.out.println("Value of day:" + schedulingReportDefinition.day_);
 
-        System.out.println("Before Last Export Calendar:" + lastExportedCalendar);
-        System.out.println("CurrentTime Calendar:" + currentTimeCalendar);
         if (schedulingReportDefinition.day_ != null)
         {
             dayMap_.get(schedulingReportDefinition.day_);
@@ -708,36 +703,18 @@ public class ReportService
                     (dayMap_.get(schedulingReportDefinition.day_))
                             - lastExportedCalendar.get(Calendar.DAY_OF_WEEK);
             lastExportedCalendar.add(Calendar.DAY_OF_MONTH, lastExportedDay);
-            long lastExportedLong = lastExportedCalendar.getTimeInMillis();
-            long currentTimeLong = currentTimeCalendar.getTimeInMillis();
 
-            if (lastExportedLong <= currentTimeLong)
-            {
-                lastExportedCalendar.add(Calendar.DAY_OF_MONTH, 7);
-            }
-            /*lastExportedCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);*/
         }
 
         if (schedulingReportDefinition.date_ != null)
         {
             int date = Integer.parseInt(schedulingReportDefinition.date_);
-            System.out.println("ssssss" + date);
-            lastExportedCalendar.set(Calendar.HOUR_OF_DAY, date);
-            long lastExportedLong = lastExportedCalendar.getTimeInMillis();
-            long currentTimeLong = currentTimeCalendar.getTimeInMillis();
+            int newDate = date - lastExportedCalendar.get(Calendar.DAY_OF_MONTH);
+            lastExportedCalendar.add(Calendar.DAY_OF_MONTH, newDate);
 
-            if (lastExportedLong <= currentTimeLong)
-            {
-                lastExportedCalendar.add(Calendar.MONTH, 1);
-            }
-            /*lastExportedCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);*/
         }
-
-        System.out.println("After Last Export Calendar:" + lastExportedCalendar);
         Timestamp lastExportedTime = new Timestamp(lastExportedCalendar.getTimeInMillis());
         schedulingReportDefinition.lastExportedTime_ = lastExportedTime;
-        /*System.out.println("after last export time:" + schedulingReportDefinition.lastExportedTime_);*/
-
         return schedulingReportDefinition;
     }
 
