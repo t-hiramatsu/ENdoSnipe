@@ -148,6 +148,7 @@ public class ThreadDumpService
             final String measurementItem)
     {
         List<JavelinLog> list = new ArrayList<JavelinLog>();
+        Map<String, List<ThreadDumpDefinitionDto>> dataList = new HashMap<String, List<ThreadDumpDefinitionDto>>();
         DatabaseManager dbManager = DatabaseManager.getInstance();
         String dbName = dbManager.getDataBaseName(1);
         List<ThreadDumpDefinitionDto> displayList = new ArrayList<ThreadDumpDefinitionDto>();
@@ -161,6 +162,7 @@ public class ThreadDumpService
             ex.printStackTrace();
         }
         displayList = this.createThreadDumpDefinitionDto(list);
+        //dataList.put(measurementItem + THREADDUMP_POSTFIX_ID, displayList);
 
         return displayList;
     }

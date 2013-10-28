@@ -8,7 +8,6 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 		this.appView = appView;
 		this.treeSettings = treeSettings;
 		this.argument = argument;
-
 		appView.addView(this, "JvnLog_Notify");
 
 		appView.addView(this, treeSettings.treeId
@@ -43,6 +42,7 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 					endTime, 100);
 		});
 		$("#button").on("click", function() {
+			
 			var settings = {
 				data : {
 					threadDump : ""
@@ -93,6 +93,10 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 			defaultSearch : 'cn'
 		});
 		$("#threadDumpDiv").css('font-size', '0.8em');
+		//$("#threadDumpDiv .ui-jqgrid tr.ui-row-ltr td").css('text-align', 'top !important');
+		//ui-widget-content jqgrow ui-row-ltr
+		$("#threadDumpDiv .ui-jqgrid tr.jqgrow td").css('vertical-align', 'top');
+		//$("#threadDumpDiv ui-widget-content jqgrow ui-row-ltr").css('vertical-align', 'top');
 	},
 	_parseModel : function(model) {
 		var instance = this;
@@ -103,18 +107,19 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 		return tableData;
 	},
 	onAdd : function(element) {
+		var agentName = this.treeSettings.treeId;
 		var instance = this;
-		var agent = "/default/127.0.0.1/agent_000";
+		//var agent = "/default/127.0.0.1/agent_000";
 		var settings = {
 			data : {
-				threadDump : agent
+				threadDump : agentName
 			},
 			url : ENS.tree.THREADDUMP_AGENT_SELECT_ALL_URL
 		};
 		var ajaxHandler = new wgp.AjaxHandler();
-		var result = ajaxHandler.requestServerSync(settings);
-		var threadDumpDtoList = JSON.parse(result);
-		instance.createTable(threadDumpDtoList);
+		settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] = this;
+		settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = "callbackThreadDumpList";
+		ajaxHandler.requestServerAsync(settings);
 	},
 	onChange : function(element) {
 		console.log('called changeModel');
@@ -134,7 +139,6 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 		_.each(this.collection.models, function(model, index) {
 			tableViewData.push(instance._parseModel(model));
 		});
-
 		$("#threadDumpTable").clearGridData().setGridParam({
 			data : tableViewData
 		}).trigger("reloadGrid");
@@ -142,7 +146,7 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 	createTableColModel : function() {
 		var tableColModel = [ {
 			name : "date",
-			width : 200
+			width : 200,
 		}, {
 			name : "threadDumpInfo",
 			width : 680
@@ -158,18 +162,7 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 		}
 		return changed;
 	},
-	createTable : function(threadDumpDtoList) {
-		var tableViewData = [];
-		var instance = this;
-		_.each(threadDumpDtoList, function(threadDump, index) {
-			tableViewData.push(instance._removeTag(threadDump));
-		});
-		$("#threadDumpTable").clearGridData().setGridParam({
-			data : tableViewData
-		}).trigger("reloadGrid");
-		
-	},
-	_removeTag : function (threadDump)
+	removeTag : function (threadDump)
 	{
 		var instance = this;
 		var threadInfoData = instance
@@ -177,5 +170,17 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 		threadDump.threadDumpInfo= threadInfoData;
 		var tableData = threadDump;
 		return tableData;
+	},
+	callbackThreadDumpList: function (threadDumpList)
+	{
+		var tableViewData = [];
+		var instance = this;
+		_.each(threadDumpList, function(threadDump, index) {
+			tableViewData.push(instance.removeTag(threadDump));
+		});
+		$("#threadDumpDiv .ui-jqgrid tr.jqgrow td").css('vertical-align', 'top');
+		$("#threadDumpTable").clearGridData().setGridParam({
+			data : tableViewData
+		}).trigger("reloadGrid");
 	}
 });
