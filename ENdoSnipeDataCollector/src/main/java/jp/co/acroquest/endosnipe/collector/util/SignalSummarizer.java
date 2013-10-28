@@ -249,10 +249,14 @@ public class SignalSummarizer
             {
                 changeFlag = true;
 
-                if (TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_DELETE.equals(process))
+            }
+            if (TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_DELETE.equals(process))
+            {
+
+                SummarySignalStateManager.getInstance().getAlarmSummaryList()
+                    .remove(summarySignal.summarySignalName_);
+                if (changeFlag)
                 {
-                    SummarySignalStateManager.getInstance().getAlarmSummaryList()
-                        .remove(summarySignal.summarySignalName_);
                     parentListSet
                         .addAll(parChildMap__.get(summarySignal.getSummarySignalName()).parentListSet);
                 }
