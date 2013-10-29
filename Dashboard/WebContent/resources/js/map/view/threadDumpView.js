@@ -94,8 +94,8 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 		});
 		$("#threadDumpDiv").css('font-size', '0.8em');
 		//$("#threadDumpDiv .ui-jqgrid tr.ui-row-ltr td").css('text-align', 'top !important');
-		//ui-widget-content jqgrow ui-row-ltr
-		$("#threadDumpDiv .ui-jqgrid tr.jqgrow td").css('vertical-align', 'top');
+		//ui-widget-content jqgrow ui-row-ltr .ui-jqgrid tr.jqgrow td
+		$(".ui-widget-content jqgrow ui-row-ltr").css('vertical-align', 'top');
 		//$("#threadDumpDiv ui-widget-content jqgrow ui-row-ltr").css('vertical-align', 'top');
 	},
 	_parseModel : function(model) {
