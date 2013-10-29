@@ -1,7 +1,6 @@
 ENS.reportView = wgp.AbstractView
 		.extend({
-			tableColNames : [ "Id", "Report Name", "Report Target",
-					"Start Time", "Finish Time", "Download" ],
+			tableColNames : [ "Id", "Start Time", "Finish Time", "Download","" ],
 			initialize : function(argument, treeSettings) {
 				var appView = new ENS.AppView();
 				this.treeSettings = treeSettings;
@@ -46,13 +45,15 @@ ENS.reportView = wgp.AbstractView
 							pginput : true,
 							height : height,
 							width : this.tableWidth,
-							sortname : "reportName",
-							sortorder : "desc",
+							sortname : "reportTermFrom",
+							sortorder : "asc",
 							viewrecords : true,
 							rownumbers : true,
 							shrinkToFit : false,
 							cellEdit : true,
-							cmTemplate: { title: false }
+							cmTemplate : {
+								title : false
+							}
 						});
 				$("#reportTable").filterToolbar({
 					defaultSearch : 'cn'
@@ -85,17 +86,11 @@ ENS.reportView = wgp.AbstractView
 					width : 0,
 					hidden : true
 				}, {
-					name : "reportName",
-					width : parseInt(this.tableWidth * 0.2)
-				}, {
-					name : "targetMeasurementName",
-					width : parseInt(this.tableWidth * 0.43)
-				}, {
 					name : "reportTermFrom",
-					width : parseInt(this.tableWidth * 0.11)
+					width : parseInt(this.tableWidth * 0.38)
 				}, {
 					name : "reportTermTo",
-					width : parseInt(this.tableWidth * 0.11)
+					width : parseInt(this.tableWidth * 0.38)
 				}, {
 					name : "download",
 					width : parseInt(this.tableWidth * 0.092),
@@ -103,6 +98,14 @@ ENS.reportView = wgp.AbstractView
 					editoptions : {
 						"onclick" : "ENS.report.download",
 						"linkName" : "Download"
+					}
+				},{
+					name : "Delete",
+					width : parseInt(this.tableWidth * 0.092),
+					formatter : ENS.Utility.makeAnchor,
+					editoptions : {
+						"onclick" : "ENS.tree.DELETE_REPORT_TYPE",
+						"linkName" : "Delete"
 					}
 				} ];
 			},
@@ -206,4 +209,19 @@ ENS.report.download = function(id) {
 
 ENS.report.callbackDownload = function(response) {
 	alert(response);
+};
+ENS.tree.DELETE_REPORT_TYPE = function(id) {
+	var rowData = $("#reportTable").getRowData(id);
+	var ids = rowData.reportId;
+	$("#reportTable").jqGrid("delRowData", id);
+	var url = ENS.tree.REPORT_DELETE_BY_ID_URL;
+
+	var settings = {
+		data : {
+			reportId : ids
+		},
+		url : url
+	};
+	var ajaxHandler = new wgp.AjaxHandler();
+	ajaxHandler.requestServerAsync(settings);
 };

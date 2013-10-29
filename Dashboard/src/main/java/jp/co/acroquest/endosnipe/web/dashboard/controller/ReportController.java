@@ -103,17 +103,43 @@ public class ReportController
         ReportDefinitionDto reportDefinitionDto =
                 JSON.decode(reportDefinition, ReportDefinitionDto.class);
 
-        // レポートを生成する
+        boolean isExist = this.reportService.checkReportName(reportDefinitionDto);
+        if (isExist == true)
+        {
+            reportDefinitionDto.messge = "duplicate";
+            return reportDefinitionDto;
+        }
+        else
+        {
+            this.reportService.createReport(reportDefinitionDto);
+
+            ReportDefinition definition =
+                    this.reportService.convertReportDefinition(reportDefinitionDto);
+
+            // レポート定義をDBに登録する
+            ReportDefinitionDto addedDefinitionDto =
+                    this.reportService.insertReportDefinition(definition);
+            return addedDefinitionDto;
+        }
+
+    }
+
+    /**
+     * This function is to overide previous report
+     * @param reportDefinition
+     *            レポート出力定義のJSONデータ
+     * @return 追加したレポート出力の定義
+     */
+    @RequestMapping(value = "/addDuplicateReport", method = RequestMethod.POST)
+    @ResponseBody
+    public ReportDefinitionDto addDuplicateReportReportDefinition(
+            @RequestParam(value = "reportDefinitionDto") final String reportDefinition)
+    {
+        ReportDefinitionDto reportDefinitionDto =
+                JSON.decode(reportDefinition, ReportDefinitionDto.class);
         this.reportService.createReport(reportDefinitionDto);
+        return reportDefinitionDto;
 
-        ReportDefinition definition =
-                this.reportService.convertReportDefinition(reportDefinitionDto);
-
-        // レポート定義をDBに登録する
-        ReportDefinitionDto addedDefinitionDto =
-                this.reportService.insertReportDefinition(definition);
-
-        return addedDefinitionDto;
     }
 
     /**

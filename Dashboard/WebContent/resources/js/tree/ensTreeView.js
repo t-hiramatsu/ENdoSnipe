@@ -158,7 +158,6 @@ ENS.treeView = wgp.TreeView
 								function(event, data) {
 									var childModel = data.args[2].data[0];
 									var icon = childModel.icon;
-
 									var id = childModel.attr.Id;
 									var elem = document.getElementById(id);
 
@@ -225,6 +224,7 @@ ENS.treeView = wgp.TreeView
 				return returnData;
 			},
 			addOtherNodes : function(childNodeId) {
+
 				var otherNodes = this.collection.where({
 					parentTreeId : childNodeId
 				});
@@ -995,12 +995,21 @@ ENS.treeView = wgp.TreeView
 			callbackGetAllReport_ : function(reportDefinitionList) {
 				var instance = this;
 				var addOptionList = [];
+				var addOptionListSecond = [];
 
 				// 追加するツリーノードのオプションを作成する
 				_.each(reportDefinitionList, function(reportDefinition,
 						reportIndex) {
 					var treeOption = instance
 							.createReportTreeOption_(reportDefinition);
+<<<<<<< HEAD
+=======
+					if (treeOption.id.split("/").length <= 3) {
+						addOptionListSecond.push(treeOption);
+					} else {
+						addOptionList.push(treeOption);
+					}
+>>>>>>> 2121671834d4c715cbd313acefe7abd7f9df59a9
 				});
 
 				// renderのADDを実行する権限を無くす
@@ -1009,6 +1018,7 @@ ENS.treeView = wgp.TreeView
 				this.collection.add(addOptionList);
 				// renderのADDを実行する権限を与える
 				ENS.tree.doRender = true;
+				this.collection.add(addOptionListSecond);
 			},
 			callbackAddMulResGraph_ : function() {
 				// Do nothing
@@ -1133,7 +1143,43 @@ ENS.treeView = wgp.TreeView
 				});
 			},
 			callbackAddReport_ : function(reportDefinition) {
-				// TODO レポート一覧テーブルが表示されているときはリロードする
+				if (reportDefinition.messge === "duplicate") {
+					$('<div></div>')
+							.appendTo('body')
+							.html(
+									'<div><h6>This report is already exsit. Do you override it?</h6></div>')
+							.dialog(
+									{
+										modal : true,
+										title : 'message',
+										zIndex : 10000,
+										autoOpen : true,
+										width : 'auto',
+										resizable : true,
+										buttons : {
+											Yes : function() {
+												var url = ENS.tree.REPORT_ADD_DUPLICATE_URL;
+												var settings = {
+													data : {
+														reportDefinitionDto : JSON
+																.stringify(reportDefinition)
+													},
+													url : url
+												};
+												var ajaxHandler = new wgp.AjaxHandler();
+												ajaxHandler
+														.requestServerAsync(settings);
+												$(this).dialog("close");
+											},
+											No : function() {
+												$(this).dialog("close");
+											}
+										},
+										close : function(event, ui) {
+											$(this).remove();
+										}
+									});
+				}
 			},
 			callbackEditMulResGraph_ : function(responseDto) {
 				var result = responseDto.result;

@@ -195,9 +195,11 @@ public class ReportService
 
         DataBaseConfig dataBaseConfig = dbMmanager.getDataBaseConfig();
         DataCollectorConfig dataCollecterConfig = this.convertDataCollectorConfig(dataBaseConfig);
-
+        String tempDirectory = System.getProperty("java.io.tmpdir");
+        this.deleteTempFile(tempDirectory);
         reporter.createReport(dataCollecterConfig, fmTime, toTime, REPORT_PATH, targetItemName,
                               reportName);
+        this.deleteTempFile(tempDirectory);
     }
 
     /**
@@ -483,6 +485,58 @@ public class ReportService
                         + FOLDER_SEPARATOR + fileName;
 
         return filePath;
+    }
+
+    /**
+     * check report name and report term exist or not in Database
+     * @param reportDefinitionDto get the report data
+     * from controller class
+     * @return true or false
+     */
+    public boolean checkReportName(final ReportDefinitionDto reportDefinitionDto)
+    {
+        ReportDefinition reportDefinition = null;
+        String reportName = reportDefinitionDto.getReportName();
+        Calendar fmTimeCal = reportDefinitionDto.getReportTermFrom();
+        Calendar toTimeCal = reportDefinitionDto.getReportTermTo();
+
+        DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
+
+        String startTime = dateFormat.format(fmTimeCal.getTime());
+        String endTime = dateFormat.format(toTimeCal.getTime());
+        reportDefinition = reportDefinitionDao.selectName(reportName, startTime, endTime);
+        if (reportDefinition != null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
+    }
+
+    /**
+     * This function is delete temp file in the temp directory
+     * 
+     * @param tempDirectory get temp file
+     */
+    private void deleteTempFile(final String tempDirectory)
+    {
+        File directory = new File(tempDirectory);
+        File[] files = directory.listFiles();
+        for (File file : files)
+        {
+            if (file.isFile())
+            {
+                String fileName = file.getAbsolutePath();
+                if (fileName.endsWith(".xls"))
+                {
+                    file.delete();
+                }
+            }
+        }
+
     }
 
 }

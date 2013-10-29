@@ -122,6 +122,7 @@ ENS.tree.SIGNAL_EDIT_URL = wgp.common.getContextPath() + "/signal/edit";
 ENS.tree.SIGNAL_DELETE_URL = wgp.common.getContextPath() + "/signal/delete";
 ENS.tree.SIGNAL_SELECT_ALL_URL = wgp.common.getContextPath()
 		+ "/signal/getAllDefinition";
+ENS.tree.GET_SQL_PLAN = wgp.common.getContextPath() + "/sqlPlan/getSqlPlan";
 
 ENS.tree.MULTIPLE_RESOURCE_GRAPH_PREFIX_ID = "/mulResGraphNode-";
 ENS.tree.MULTIPLE_RESOURCE_GRAPH_SELECT_ALL_URL = wgp.common.getContextPath()
@@ -153,6 +154,8 @@ ENS.tree.SUMMARY_SIGNAL_SELECT_ALL_URL = wgp.common.getContextPath()
 + "/summarySignal/getAllDefinitions";
 
 ENS.tree.REPORT_ADD_URL = wgp.common.getContextPath() + "/report/add";
+ENS.tree.REPORT_ADD_DUPLICATE_URL = wgp.common.getContextPath()
+		+ "/report/addDuplicateReport";
 ENS.tree.SIGNAL_NAME = "signalName";
 ENS.tree.SIGNAL_VALUE = "signalValue";
 ENS.tree.SIGNAL_DIALOG = "signalDialog";
@@ -322,6 +325,7 @@ ENS.map.MIN_GRAPH_WIDTH = 260;
 ENS.map.MIN_GRAPH_HEIGHT = 200;
 ENS.map.extraMapSize = 10;
 ENS.map.moveSpan = 16;
+ENS.map.resizeSpan = 16;
 ENS.map.backgroundSetting = {
 	objectId : "background",
 	objectName : "ENS.BackgroundElementView",

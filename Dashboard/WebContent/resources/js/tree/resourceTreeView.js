@@ -62,7 +62,8 @@ ENS.ResourceTreeView = ENS.treeManager
 									.show();
 
 							// グラフの場合
-						} else if ( _.contains(ENS.tree.types.GRAPH, treeType)) {
+						} else if (ENS.tree.type.TARGET == treeType ||
+								ENS.tree.type.MULTIPLERESOURCEGRAPH == treeType) {
 							$("#" + instance.contextMenuId + " #addGraph")
 									.show();
 							$("#" + instance.contextMenuId + " #addSignal")
