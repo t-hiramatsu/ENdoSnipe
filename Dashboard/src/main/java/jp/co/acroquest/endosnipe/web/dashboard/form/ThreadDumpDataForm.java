@@ -15,58 +15,105 @@ package jp.co.acroquest.endosnipe.web.dashboard.form;
 import java.util.List;
 
 /**
- * 
+ * ThreadDump data getting class
  * @author khinewai
  *
  */
 public class ThreadDumpDataForm
 {
+    /**　starting time　*/
+    private String       startTime_;
 
-    private String startTime_;
+    /** ending time */
+    private String       endTime_;
 
-    private String endTime_;
-
+    /**　data id　*/
     private List<String> dataGroupList_;
 
-    private String maxLineNum;
+    /**　maximum line number　*/
+    private String       maxLineNum_;
 
+    /**
+     * this is default constructor
+     */
+    public ThreadDumpDataForm()
+    {
+
+    }
+
+    /**
+     * starting time
+     * 
+     * @return start time
+     */
     public String getStartTime()
     {
         return startTime_;
     }
 
+    /**
+     * set starting time
+     * 
+     * @param startTime data
+     */
     public void setStartTime(final String startTime)
     {
         startTime_ = startTime;
     }
 
+    /**
+     * end time
+     * 
+     * @return end time
+     */
     public String getEndTime()
     {
         return endTime_;
     }
 
+    /**
+     * end time
+     * 
+     * @param endTime data
+     */
     public void setEndTime(final String endTime)
     {
         endTime_ = endTime;
     }
 
+    /**
+     * data id
+     * @return data id
+     */
     public List<String> getDataGroupList()
     {
         return dataGroupList_;
     }
 
+    /**
+     * adding data id
+     * @param dataGroupList id
+     */
     public void setDataGroupList(final List<String> dataGroupList)
     {
         dataGroupList_ = dataGroupList;
     }
 
+    /**
+     * maximum line
+     * @return maximum line data
+     */
     public String getMaxLineNum()
     {
-        return maxLineNum;
+        return maxLineNum_;
     }
 
+    /**
+     * maximum line 
+     * @param maxLineNum line data
+     */
     public void setMaxLineNum(final String maxLineNum)
     {
-        this.maxLineNum = maxLineNum;
+        this.maxLineNum_ = maxLineNum;
     }
 }

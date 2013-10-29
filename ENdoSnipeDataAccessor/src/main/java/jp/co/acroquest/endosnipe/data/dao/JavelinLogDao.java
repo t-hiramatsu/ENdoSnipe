@@ -1009,6 +1009,15 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
         return result;
     }
 
+    /**
+     * this is sql statement for javelin data
+     * @param tableName is tableName
+     * @param start is startDate
+     * @param end is end data
+     * @param name is measurement name
+     * @param removeDiagnosed is boolean
+     * @return sql statement
+     */
     private static String createThreadDumpSelectSqlByTermAndName(String tableName, Timestamp start,
         Timestamp end, String name, boolean removeDiagnosed)
     {
@@ -1037,6 +1046,12 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
         return sql;
     }
 
+    /**
+     * select all threadDump data
+     * @param dbName is data base name
+     * @return javelin data
+     * @throws SQLException is sql exception
+     */
     public static List<JavelinLog> selectAllThreadDump(String dbName)
         throws SQLException
     {
@@ -1070,6 +1085,13 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
 
     }
 
+    /**
+     * get all javelin data related with agent
+     * @param dbName is data base name
+     * @param measurementItem is agent name
+     * @return threadDump data
+     * @throws SQLException is SQL exception
+     */
     public static List<JavelinLog> selectAllThreadDumpByMeasurementItem(String dbName,
         String measurementItem)
         throws SQLException

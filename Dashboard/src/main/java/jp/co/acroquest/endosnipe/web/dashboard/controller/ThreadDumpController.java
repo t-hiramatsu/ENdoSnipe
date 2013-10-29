@@ -13,7 +13,6 @@
 package jp.co.acroquest.endosnipe.web.dashboard.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -44,7 +43,9 @@ public class ThreadDumpController
      * this is default constructor class
      */
     public ThreadDumpController()
-    {}
+    {
+
+    }
 
     /**
      * connection with threadDumpService
@@ -52,19 +53,28 @@ public class ThreadDumpController
     @Autowired
     protected ThreadDumpService threadDumpService_;
 
+    /**
+     *  This mapping is work when user click  tree node
+     * 
+     * @param data get threadDump data from client side
+     * @return threadDump data get from dataBase
+     */
     @SuppressWarnings("deprecation")
     @RequestMapping(value = "/getThreadDump", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, List<ThreadDumpDefinitionDto>> getThreadDumpData(
             @RequestParam(value = "data") final String data)
     {
-        Map<String, List<ThreadDumpDefinitionDto>> responceDataList = new HashMap<String, List<ThreadDumpDefinitionDto>>();
-
         TermDataForm termDataForm = JSON.decode(data, TermDataForm.class);
         Map<String, List<ThreadDumpDefinitionDto>> responseDataList = threadDumpService_.getTermThreadDumpData(termDataForm);
         return responseDataList;
     }
 
+    /**
+     * This mapping is work when user click 
+     * "get Thread Dump " button
+     * @param data from client side
+     */
     @RequestMapping(value = "/addThreadDump", method = RequestMethod.POST)
     @ResponseBody
     public void addThreadDumpData(
@@ -73,6 +83,12 @@ public class ThreadDumpController
         threadDumpService_.createThreadDump();
     }
 
+    /**
+     * This mapping is work when user get 
+     * notifying message from telegram
+     * @param data is agent name get from client side
+     * @return threadDump data related with agent
+     */
     @RequestMapping(value = "/selectAllAgent", method = RequestMethod.POST)
     @ResponseBody
     public List<ThreadDumpDefinitionDto> getAllAgent(

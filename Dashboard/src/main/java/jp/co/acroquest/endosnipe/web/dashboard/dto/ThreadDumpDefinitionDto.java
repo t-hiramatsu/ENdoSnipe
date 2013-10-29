@@ -12,54 +12,103 @@
  */
 package jp.co.acroquest.endosnipe.web.dashboard.dto;
 
+/**
+ * This is threadDumpDefinitionDto class
+ * @author khinewai
+ *
+ */
 public class ThreadDumpDefinitionDto
 {
 
-    public long threadId;
+    /** threadDump Id */
+    public long    threadId_;
 
-    public String date;
+    /** threadDump date */
+    public String  date_;
 
-    public String threadDumpInfo;
+    /** threadDump Info */
+    public String  threadDumpInfo_;
 
+    /** threadDump log file Name */
     private String logFileName_;
 
+    /**
+     * this is default constructor
+     */
+    public ThreadDumpDefinitionDto()
+    {
+
+    }
+
+    /**
+     * Javelin log file name
+     * @return logFileName
+     */
     public String getLogFileName()
     {
         return logFileName_;
     }
 
+    /**
+     * Javelin log file name
+     * @param logFileName get file name from Javelin
+     */
     public void setLogFileName(final String logFileName)
     {
         logFileName_ = logFileName;
     }
 
+    /**
+     * starting time from dataBase
+     * @return date
+     */
     public String getDate()
     {
-        return date;
+        return date_;
     }
 
+    /**
+     * starting time from dataBase
+     * @param date is return
+     */
     public void setDate(final String date)
     {
-        this.date = date;
+        this.date_ = date;
     }
 
+    /**
+     * threadDump Info
+     * @return threadDump Info data
+     */
     public String getThreadDumpInfo()
     {
-        return threadDumpInfo;
+        return threadDumpInfo_;
     }
 
+    /**
+     * threadDump Info
+     * @param threadDumpInfo data 
+     */
     public void setThreadDumpInfo(final String threadDumpInfo)
     {
-        this.threadDumpInfo = threadDumpInfo;
+        this.threadDumpInfo_ = threadDumpInfo;
     }
 
+    /**
+     * get ThreadDump Id
+     * @return threadDump Id
+     */
     public long getThreadId()
     {
-        return threadId;
+        return threadId_;
     }
 
+    /**
+     * threadDump Id
+     * @param threadId data
+     */
     public void setThreadId(final long threadId)
     {
-        this.threadId = threadId;
+        this.threadId_ = threadId;
     }
 }

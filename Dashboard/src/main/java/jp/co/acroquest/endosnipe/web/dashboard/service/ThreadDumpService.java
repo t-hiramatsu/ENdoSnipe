@@ -40,6 +40,7 @@ import jp.co.acroquest.endosnipe.web.dashboard.util.DaoUtil;
 import org.springframework.stereotype.Service;
 
 /**
+ * This is service class for threadDump
  * 
  * @author khinewai
  *
@@ -47,10 +48,28 @@ import org.springframework.stereotype.Service;
 @Service
 public class ThreadDumpService
 {
+    /**
+     * this is mapping for threadDump node
+     */
     private static final String          THREADDUMP_POSTFIX_ID = "/JvnLog_Notify";
 
+    /** ロガー */
     private static final ENdoSnipeLogger LOGGER                = ENdoSnipeLogger.getLogger(ConfigurationReader.class);
 
+    /**
+     * This is default constructor
+     */
+    public ThreadDumpService()
+    {
+
+    }
+
+    /**
+     * This function is to get all data from 
+     * database by connection with JavelinDao class
+     * @param termDataForm pass value from controller class
+     * @return threadDump data
+     */
     public Map<String, List<ThreadDumpDefinitionDto>> getTermThreadDumpData(
             final TermDataForm termDataForm)
     {
@@ -83,6 +102,12 @@ public class ThreadDumpService
         return dataList;
     }
 
+    /**
+     * This function is to convert all JavelinLog data to 
+     * threadDump data
+     * @param list is javelinLog data
+     * @return threadDump data 
+     */
     public List<ThreadDumpDefinitionDto> createThreadDumpDefinitionDto(
             final List<JavelinLog> list)
     {
@@ -90,15 +115,20 @@ public class ThreadDumpService
         for (JavelinLog table : list)
         {
             ThreadDumpDefinitionDto result = new ThreadDumpDefinitionDto();
-            result.threadId = table.getLogId();
-            result.date = table.getStartTime().toString();
+            result.threadId_ = table.getLogId();
+            result.date_ = table.getStartTime().toString();
             String name = table.getLogFileName();
-            result.threadDumpInfo = this.getThreadDumpDetailData(name);
+            result.threadDumpInfo_ = this.getThreadDumpDetailData(name);
             displayList.add(result);
         }
         return displayList;
     }
 
+    /**
+     * This function is to convert byte data to string data
+     * @param fileName is JavelinLog file name
+     * @return threadDumpInfo data
+     */
     public String getThreadDumpDetailData(final String fileName)
     {
         StringBuffer detailData = new StringBuffer();
@@ -131,6 +161,9 @@ public class ThreadDumpService
         return detailData.toString();
     }
 
+    /**
+     * This function to connect telegram
+     */
     public void createThreadDump()
     {
         TelegramCreator telegramCreator = new TelegramCreator();
@@ -144,11 +177,15 @@ public class ThreadDumpService
 
     }
 
+    /**
+     * to get all of threadDump data related with agent
+     * @param measurementItem is agent name
+     * @return threadDump Data
+     */
     public List<ThreadDumpDefinitionDto> getAllAgentData(
             final String measurementItem)
     {
         List<JavelinLog> list = new ArrayList<JavelinLog>();
-        Map<String, List<ThreadDumpDefinitionDto>> dataList = new HashMap<String, List<ThreadDumpDefinitionDto>>();
         DatabaseManager dbManager = DatabaseManager.getInstance();
         String dbName = dbManager.getDataBaseName(1);
         List<ThreadDumpDefinitionDto> displayList = new ArrayList<ThreadDumpDefinitionDto>();
@@ -162,8 +199,6 @@ public class ThreadDumpService
             ex.printStackTrace();
         }
         displayList = this.createThreadDumpDefinitionDto(list);
-        //dataList.put(measurementItem + THREADDUMP_POSTFIX_ID, displayList);
-
         return displayList;
     }
 }

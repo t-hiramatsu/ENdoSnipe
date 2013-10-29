@@ -93,10 +93,7 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 			defaultSearch : 'cn'
 		});
 		$("#threadDumpDiv").css('font-size', '0.8em');
-		//$("#threadDumpDiv .ui-jqgrid tr.ui-row-ltr td").css('text-align', 'top !important');
-		//ui-widget-content jqgrow ui-row-ltr .ui-jqgrid tr.jqgrow td
 		$(".ui-widget-content jqgrow ui-row-ltr").css('vertical-align', 'top');
-		//$("#threadDumpDiv ui-widget-content jqgrow ui-row-ltr").css('vertical-align', 'top');
 	},
 	_parseModel : function(model) {
 		var instance = this;
@@ -109,7 +106,6 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 	onAdd : function(element) {
 		var agentName = this.treeSettings.treeId;
 		var instance = this;
-		//var agent = "/default/127.0.0.1/agent_000";
 		var settings = {
 			data : {
 				threadDump : agentName
