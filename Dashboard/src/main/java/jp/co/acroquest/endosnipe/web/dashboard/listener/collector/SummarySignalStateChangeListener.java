@@ -21,7 +21,6 @@ import jp.co.acroquest.endosnipe.communicator.entity.Body;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.web.dashboard.constants.ResponseConstants;
-import jp.co.acroquest.endosnipe.web.dashboard.constants.SignalConstants;
 import jp.co.acroquest.endosnipe.web.dashboard.constants.TreeMenuConstants;
 import jp.co.acroquest.endosnipe.web.dashboard.controller.SummarySignalController;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.ResponseDto;
@@ -113,7 +112,7 @@ public class SummarySignalStateChangeListener extends AbstractTelegramListener
             treeMenu.setParentTreeId(parentTreeId);
             treeMenu.setData(summarySignalDisplayName);
             treeMenu.setType(TreeMenuConstants.TREE_MENU_TYPE_SUMMARY_SIGNAL);
-            treeMenu.setIcon(SignalConstants.SIGNAL_ICON_STOP);
+            treeMenu.setIcon("signal_0");
             if (summarySignalState[cnt] == 1)
             {
                 treeMenu.setIcon("signal_4");
