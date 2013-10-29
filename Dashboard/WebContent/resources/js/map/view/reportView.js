@@ -104,7 +104,7 @@ ENS.reportView = wgp.AbstractView
 					width : parseInt(this.tableWidth * 0.092),
 					formatter : ENS.Utility.makeAnchor,
 					editoptions : {
-						"onclick" : "ENS.tree.DELETE_REPORT_DATA",
+						"onclick" : "ENS.report.deleteReportData",
 						"linkName" : "Delete"
 					}
 				} ];
@@ -210,7 +210,7 @@ ENS.report.download = function(id) {
 ENS.report.callbackDownload = function(response) {
 	alert(response);
 };
-ENS.tree.DELETE_REPORT_DATA = function(id) {
+ENS.report.deleteReportData = function(id) {
 	var rowData = $("#reportTable").getRowData(id);
 	var ids = rowData.reportId;
 	$("#reportTable").jqGrid("delRowData", id);
