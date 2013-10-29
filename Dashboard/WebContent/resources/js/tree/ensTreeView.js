@@ -1002,14 +1002,11 @@ ENS.treeView = wgp.TreeView
 						reportIndex) {
 					var treeOption = instance
 							.createReportTreeOption_(reportDefinition);
-<<<<<<< HEAD
-=======
 					if (treeOption.id.split("/").length <= 3) {
 						addOptionListSecond.push(treeOption);
 					} else {
 						addOptionList.push(treeOption);
 					}
->>>>>>> 2121671834d4c715cbd313acefe7abd7f9df59a9
 				});
 
 				// renderのADDを実行する権限を無くす
