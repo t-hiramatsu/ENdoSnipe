@@ -241,9 +241,11 @@ public class ReportService
 
         DataBaseConfig dataBaseConfig = dbMmanager.getDataBaseConfig();
         DataCollectorConfig dataCollecterConfig = this.convertDataCollectorConfig(dataBaseConfig);
-
+        String tempDirectory = System.getProperty("java.io.tmpdir");
+        this.deleteTempFile(tempDirectory);
         reporter.createReport(dataCollecterConfig, fmTime, toTime, REPORT_PATH, targetItemName,
                               reportName);
+        this.deleteTempFile(tempDirectory);
     }
 
     /**
@@ -805,7 +807,27 @@ public class ReportService
                 LOGGER.log(LogMessageCodes.SQL_EXCEPTION, pEx, pEx.getMessage());
             }
         }
+    }
 
+    /**
+     * This function is delete temp file in the temp directory
+     * @param tempDirectory get temp file
+     */
+    private void deleteTempFile(final String tempDirectory)
+    {
+        File directory = new File(tempDirectory);
+        File[] files = directory.listFiles();
+        for (File file : files)
+        {
+            if (file.isFile())
+            {
+                String fileName = file.getAbsolutePath();
+                if (fileName.endsWith(".xls"))
+                {
+                    file.delete();
+                }
+            }
+        }
     }
 
     private void sendSignalDefinition(final SchedulingReportDefinitionDto schedulingDefinitionDto,
@@ -831,5 +853,4 @@ public class ReportService
 
         JavelinMeasurementItemDao.updateMeasurementItemName(dbName, beforeItemName, afterItemName);
     }
-
 }

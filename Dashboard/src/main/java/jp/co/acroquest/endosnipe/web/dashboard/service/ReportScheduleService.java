@@ -13,7 +13,6 @@
 package jp.co.acroquest.endosnipe.web.dashboard.service;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
@@ -24,7 +23,6 @@ import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.dao.InvalidDataAccessResourceUsageException;
 import org.springframework.stereotype.Service;
 
 /**
@@ -75,20 +73,4 @@ public class ReportScheduleService
         System.out.println("Get data for every 5 seconds");
     }
 
-    /**
-     * Check the result set is in synch with the currentRow attribute. This is
-     * important to ensure that the user hasn't modified the current row.
-     */
-    protected void verifyCursorPosition(final long expectedCurrentRow)
-        throws SQLException
-    {
-        if (verifyCursorPosition)
-        {
-            if (expectedCurrentRow != this.rs.getRow())
-            {
-                throw new InvalidDataAccessResourceUsageException(
-                                                                  "Unexpected cursor position change.");
-            }
-        }
-    }
 }
