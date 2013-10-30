@@ -143,18 +143,27 @@ ENS.SummarySignalDefinitionDialogView = ENS.DialogView
 				ajaxHandler.requestServerAsync(settings);
 			},
 			callbackGetAllSummarySignal_ : function(summarySignalDefinitionList) {
+
+				var summarySignalList = $("#summarySignalList2Box>option").map(
+						function() {
+							return $(this).val();
+
+						});
+
 				var instance = this;
 				var addOptionList = [];
 				_.each(summarySignalDefinitionList, function(
 						summarySignalDefinition, index) {
-					var signalName = summarySignalDefinition.signalName
-					var lastIndexOf = signalName.lastIndexOf("/");
-					var signalSubName = signalName.substr(lastIndexOf + 1);
-					$('#summarySignalList1Box').append(
-							"<option value='"
-									+ summarySignalDefinition.signalName + "'>"
-									+ signalSubName + "</option>");
-
+					var signalName = summarySignalDefinition.signalName;
+					var index = $.inArray(signalName, summarySignalList);
+					if (index == -1) {
+						var lastIndexOf = signalName.lastIndexOf("/");
+						var signalSubName = signalName.substr(lastIndexOf + 1);
+						$('#summarySignalList1Box').append(
+								"<option value='"
+										+ summarySignalDefinition.signalName
+										+ "'>" + signalSubName + "</option>");
+					}
 				});
 				$("select option").attr("title", "");
 				$("select option").each(function(i) {

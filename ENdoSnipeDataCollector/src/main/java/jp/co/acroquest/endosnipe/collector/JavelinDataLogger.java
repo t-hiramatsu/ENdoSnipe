@@ -1092,6 +1092,16 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
                     alarmSignalList.add(signalName);
                     SummarySignalStateManager.getInstance().addChildAlarmData(signalName);
                 }
+                else
+                {
+                    if (SummarySignalStateManager.getInstance().getAlarmChildList()
+                        .contains(signalName))
+                    {
+                        alarmSignalList.add(signalName);
+                        SummarySignalStateManager.getInstance().getAlarmChildList()
+                            .remove(signalName);
+                    }
+                }
             }
         }
 
@@ -1515,7 +1525,7 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
                 icon = "signal_-1";
             }
         }
-        else if (level == SIGNAL_LEVEL_3)
+        else if (level == SIGNAL_LEVEL_5)
         {
             if (0 <= signalValue && signalValue < SIGNAL_LEVEL_5)
             {

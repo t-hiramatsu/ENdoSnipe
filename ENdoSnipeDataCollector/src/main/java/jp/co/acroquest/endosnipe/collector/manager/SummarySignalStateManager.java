@@ -95,7 +95,7 @@ public class SummarySignalStateManager
     public void setSummarySignalDefinitionMap(
         final Map<Long, SummarySignalDefinitionDto> summarySignalDefinitionMap)
     {
-        summarySignalDefinitionMap__ = summarySignalDefinitionMap;
+        summarySignalDefinitionMap__.putAll(summarySignalDefinitionMap);
     }
 
     /**
@@ -191,7 +191,7 @@ public class SummarySignalStateManager
                     summarySignalDefinitionDao_.selectSequenceNum(this.dataBaseName,
                                                                   summarySignalDefinition);
                 summarySignalDefinitionDto.summarySignalId_ = summarySignalId;
-                this.summarySignalDefinitionMap__.put(summarySignalId, summarySignalDefinitionDto);
+                summarySignalDefinitionMap__.put(summarySignalId, summarySignalDefinitionDto);
                 createAllSummarySignalMapValue();
 
             }
@@ -274,7 +274,7 @@ public class SummarySignalStateManager
                         new SummarySignalDefinitionDto(parentDef);
                     summarySignalDefinitionDao_.update(dataBaseName, parendDto.summarySignalId_,
                                                        parendDto, true);
-                    this.summarySignalDefinitionMap__.get(parendDto.summarySignalId_).priority_ =
+                    summarySignalDefinitionMap__.get(parendDto.summarySignalId_).priority_ =
                         parendDto.priority_;
                     reCalculatePriority(parendDto,
                                         parChildMap__.get(parentSummarySignal).parentListSet);
@@ -519,7 +519,7 @@ public class SummarySignalStateManager
                 new ArrayList<SummarySignalDefinitionDto>();
             for (String summary : parentSummary)
             {
-                summaryDtoList.add(this.summarySignalDefinitionMap__.get(parChildMap__.get(summary)
+                summaryDtoList.add(summarySignalDefinitionMap__.get(parChildMap__.get(summary)
                     .getNodeId()));
             }
 
@@ -562,8 +562,8 @@ public class SummarySignalStateManager
                 summarySignalDefinitionDao_.update(dataBaseName,
                                                    summarySignalDefinitionDto.getSummarySignalId(),
                                                    summarySignalDefinitionDto, false);
-                this.summarySignalDefinitionMap__.put(summarySignalDefinitionDto
-                    .getSummarySignalId(), summarySignalDefinitionDto);
+                summarySignalDefinitionMap__.put(summarySignalDefinitionDto.getSummarySignalId(),
+                                                 summarySignalDefinitionDto);
                 createAllSummarySignalMapValue();
                 String summarySignalName = summarySignalDefinitionDto.getSummarySignalName();
                 SignalStateNode signalStateNode = new SignalStateNode();
@@ -579,7 +579,6 @@ public class SummarySignalStateManager
         }
         catch (SQLException ex)
         {
-            // TODO 自動生成された catch ブロック
             ex.printStackTrace();
         }
         return null;
