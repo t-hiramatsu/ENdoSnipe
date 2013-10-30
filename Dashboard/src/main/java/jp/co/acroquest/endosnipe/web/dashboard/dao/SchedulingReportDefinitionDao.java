@@ -18,49 +18,54 @@ import java.util.List;
 import jp.co.acroquest.endosnipe.web.dashboard.entity.SchedulingReportDefinition;
 
 /**
- * 
+ * Scheduling report to connect with database.
  * @author khinlay
  *
  */
 public interface SchedulingReportDefinitionDao
 {
     /**
-     * 
+     * select all data from database.
      * @return is used
      */
     List<SchedulingReportDefinition> selectAll();
 
     /**
-     * 
+     * select data by using id.
      * @param reportId is used
      * @return is used
      */
     SchedulingReportDefinition selectById(int reportId);
 
     /**
-     * 
+     * select data by using report name.
      * @param reportName is used
      * @return is used
      */
     SchedulingReportDefinition selectByName(String reportName);
 
     /**
-     * 
+     * select data by using target name.
      * @param targetMeasurementName is used
      * @return is used
      */
     List<SchedulingReportDefinition> selectByTargetName(String targetMeasurementName);
 
+    /**
+     * select data by using schedule
+     * @param currentTime timestamp
+     * @return scheduling report definition
+     */
     List<SchedulingReportDefinition> selectBySchedule(Timestamp currentTime);
 
     /**
-     * 
+     * insert into database.
      * @param schedulingReportDefinition is used
      */
     void insert(final SchedulingReportDefinition schedulingReportDefinition);
 
     /**
-     * 
+     * update scheduling report.
      * @param schedulingReportDefinition is used
      */
     void update(SchedulingReportDefinition schedulingReportDefinition);
@@ -86,7 +91,7 @@ public interface SchedulingReportDefinitionDao
     void deleteAll();
 
     /**
-     * 
+     * select sequence number.
      * @param schedulingReportDefinition is used
      * @return is used
      */

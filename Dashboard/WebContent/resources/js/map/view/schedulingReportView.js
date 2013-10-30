@@ -144,7 +144,6 @@ ENS.schedulingReportView = wgp.AbstractView
 				ajaxHandler.requestServerAsync(settings);
 			},
 			callbackGetAllScheReportList_ : function(reportList) {
-				alert(JSON.stringify(reportList));
 				var tableViewData = [];
 				var instance = this;
 				_.each(reportList, function(report, index) {
@@ -186,7 +185,6 @@ ENS.schedulingReportView = wgp.AbstractView
 				ajaxHandler.requestServerAsync(settings);
 			},
 			callbackGetReportList : function(reportList) {
-				alert(JSON.stringify(reportList));
 				var tableViewData = [];
 				var instance = this;
 				_.each(reportList, function(report, index) {
@@ -222,17 +220,7 @@ ENS.schedulingReportView = wgp.AbstractView
 
 				return hour + ":" + minute;
 			}
-		/*
-		 * makeAnchor : function(cellValue, options, rowObject) {
-		 * alert(rowObject); var selectValueList = options.colModel.editoptions;
-		 * var val = rowObject.value; var rowId = options.rowId; var onclick =
-		 * selectValueList.onclick; var linkName = selectValueList.linkName; var
-		 * onclick1 = selectValueList.onclick1; var linkName1 =
-		 * selectValueList.linkName1; return '<a href="javascript:void(0)"
-		 * onclick="' + onclick + '(\'' + rowId + '\');">' + linkName + '</a>' + '<br>' + '<a
-		 * href="javascript:void(0)" onclick1="' + onclick1 + '(\'' + rowId +
-		 * '\');">' + linkName1 + '</a>'; }
-		 */
+
 		});
 
 ENS.report.updateSchedulingReport = function(rowId) {
@@ -289,7 +277,6 @@ ENS.report.updateSchedulingReport = function(rowId) {
 
 };
 ENS.report.deleteSchedulingReport = function(rowId) {
-	alert(rowId);
 	var grid = $("#reportTable");
 	var rowData = $("#reportTable").jqGrid('getRowData', rowId);
 	grid.delRowData(rowId);

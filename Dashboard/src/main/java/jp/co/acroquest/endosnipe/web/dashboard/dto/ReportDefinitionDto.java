@@ -23,13 +23,13 @@ import java.util.Calendar;
 public class ReportDefinitionDto
 {
     /** レポート出力定義のID。 */
-    private int reportId_;
+    public int reportId_;
 
     /** レポート名。 */
-    private String reportName_;
+    public String reportName_;
 
     /** レポート出力の対象の計測対象名。 */
-    private String targetMeasurementName_;
+    public String targetMeasurementName_;
 
     /** 期間の始まりの日時。 */
     private Calendar reportTermFrom_;

@@ -91,6 +91,9 @@ public class ReportService
     @Autowired
     protected SchedulingReportDefinitionDao schedulingReportDefinitionDao;
 
+    /**
+     * Set day into schedulingdto
+     */
     private final Map<String, Integer> dayMap_ = new HashMap<String, Integer>();
 
     /**
@@ -203,6 +206,12 @@ public class ReportService
         return reportDefinitionDto;
     }
 
+    /**
+     * Check same report Name
+     * @param reportId got from database
+     * @param reportName got from database
+     * @return duplicate or not.
+     */
     public boolean hasSameSignalName(final long reportId, final String reportName)
     {
         SchedulingReportDefinition schedulingReportDefinition =
@@ -533,6 +542,10 @@ public class ReportService
         return filePath;
     }
 
+    /**
+     * get all schedule data.
+     * @return all schedule data
+     */
     public List<SchedulingReportDefinitionDto> getAllSchedule()
     {
 
@@ -540,7 +553,6 @@ public class ReportService
         try
         {
             reportList = schedulingReportDefinitionDao.selectAll();
-            System.out.println("reportList:" + reportList);
         }
         catch (PersistenceException pEx)
         {
@@ -568,7 +580,7 @@ public class ReportService
     }
 
     /**
-     * 
+     * insert scheuling report.
      * @param schedulingReportDefinition is used
      * @return is used
      */
@@ -591,9 +603,13 @@ public class ReportService
         return schedulingReportDefinitionDto;
     }
 
+    /**
+     * get scheduling info.
+     * @param reportId got from database
+     * @return schedulingreport
+     */
     public SchedulingReportDefinitionDto getSchedulingInfo(final int reportId)
     {
-        System.out.println("service report name:" + reportId);
         SchedulingReportDefinition schedulingReportDefinition =
                 schedulingReportDefinitionDao.selectById(reportId);
         SchedulingReportDefinitionDto schedulingReportDefinitionDto =
@@ -601,6 +617,11 @@ public class ReportService
         return schedulingReportDefinitionDto;
     }
 
+    /**
+     * update scheduling data
+     * @param schedulingReportDefinition got from database
+     * @return scheduling report
+     */
     public SchedulingReportDefinitionDto updateSchedulingInfo(
             final SchedulingReportDefinition schedulingReportDefinition)
     {
@@ -643,33 +664,10 @@ public class ReportService
 
         SchedulingReportDefinitionDto signalDefinitionDto =
                 this.convertSchedulingReportDifinitionDto(schedulingReportDefinition);
-        /* signalDefinitionDto.setSignalValue(-1);
-         sendSignalDefinitionRequest(signalDefinitionDto, SignalConstants.OPERATION_TYPE_UPDATE);*/
         // 各クライアントにシグナル定義の変更を送信する。
         sendSignalDefinition(signalDefinitionDto, "update");
 
         return signalDefinitionDto;
-    }
-
-    public void createSchedulingReport(final SchedulingReportDefinitionDto reportDefinitionDto)
-    {
-        Reporter reporter = new Reporter();
-
-        DatabaseManager dbMmanager = DatabaseManager.getInstance();
-        Calendar time = reportDefinitionDto.getTime();
-        String targetItemName = reportDefinitionDto.getTargetMeasurementName();
-        String reportNamePath = reportDefinitionDto.getReportName();
-        String day = reportDefinitionDto.getDay();
-        String term = reportDefinitionDto.getTerm();
-        String[] reportNameSplitList = reportNamePath.split("/");
-        int reportNameSplitLength = reportNameSplitList.length;
-        String reportName = reportNameSplitList[reportNameSplitLength - 1];
-
-        DataBaseConfig dataBaseConfig = dbMmanager.getDataBaseConfig();
-        DataCollectorConfig dataCollecterConfig = this.convertDataCollectorConfig(dataBaseConfig);
-
-        //reporter.createReport(dataCollecterConfig, date, time, REPORT_PATH, targetItemName,
-        //reportName);
     }
 
     /**
@@ -687,34 +685,13 @@ public class ReportService
                 schedulingDefinitionDto.getTargetMeasurementName();
         schedulingReportDefinition.term_ = schedulingDefinitionDto.getTerm();
         schedulingReportDefinition.day_ = schedulingDefinitionDto.getDay();
-        System.out.println("Day:" + schedulingReportDefinition.day_);
         Calendar time = schedulingDefinitionDto.getTime();
         DateFormat timeFormat = new SimpleDateFormat(TIME_FORMAT);
         schedulingReportDefinition.time_ = timeFormat.format(time.getTime());
         schedulingReportDefinition.date_ = schedulingDefinitionDto.getDate();
 
         Calendar lastExportedCalendar = Calendar.getInstance();
-        Calendar currentTimeCalendar = Calendar.getInstance();
-        lastExportedCalendar.set(Calendar.HOUR_OF_DAY, time.get(Calendar.HOUR_OF_DAY));
-        lastExportedCalendar.set(Calendar.MINUTE, time.get(Calendar.MINUTE));
 
-        if (schedulingReportDefinition.day_ != null)
-        {
-            dayMap_.get(schedulingReportDefinition.day_);
-            int lastExportedDay =
-                    (dayMap_.get(schedulingReportDefinition.day_))
-                            - lastExportedCalendar.get(Calendar.DAY_OF_WEEK);
-            lastExportedCalendar.add(Calendar.DAY_OF_MONTH, lastExportedDay);
-
-        }
-
-        if (schedulingReportDefinition.date_ != null)
-        {
-            int date = Integer.parseInt(schedulingReportDefinition.date_);
-            int newDate = date - lastExportedCalendar.get(Calendar.DAY_OF_MONTH);
-            lastExportedCalendar.add(Calendar.DAY_OF_MONTH, newDate);
-
-        }
         Timestamp lastExportedTime = new Timestamp(lastExportedCalendar.getTimeInMillis());
         schedulingReportDefinition.lastExportedTime_ = lastExportedTime;
         return schedulingReportDefinition;
@@ -742,15 +719,13 @@ public class ReportService
         {
             return true;
         }
-        else
-        {
-            return false;
-        }
+
+        return false;
 
     }
 
     /**
-    * 
+    * convert into scheduling report dto.
     * @param schedulingReportDefinition is used
     * @return is used
     */
@@ -766,8 +741,6 @@ public class ReportService
         schedulingDefinitionDto.setDate(schedulingReportDefinition.date_);
 
         DateFormat timeFormat = new SimpleDateFormat(TIME_FORMAT);
-        java.util.Date date = new java.util.Date();
-        Timestamp lastExportedTime = new Timestamp(date.getTime());
 
         Calendar time = Calendar.getInstance();
         try
@@ -780,13 +753,14 @@ public class ReportService
         }
 
         schedulingDefinitionDto.setTime(time);
-        /*schedulingDefinitionDto.setLastExportedTime(lastExportedTime);
-        System.out.println("last export time from Dto:"
-                + schedulingDefinitionDto.getLastExportedTime());*/
 
         return schedulingDefinitionDto;
     }
 
+    /**
+     * delete scheduling report.
+     * @param reportId got from database
+     */
     public void deleteSchduleReportById(final int reportId)
     {
         try
@@ -830,6 +804,11 @@ public class ReportService
         }
     }
 
+    /**
+     * send signal definition.
+     * @param schedulingDefinitionDto got from database
+     * @param type is used
+     */
     private void sendSignalDefinition(final SchedulingReportDefinitionDto schedulingDefinitionDto,
             final String type)
     {
@@ -840,11 +819,16 @@ public class ReportService
         if (dataManager != null && resourceSender != null)
         {
             List<TreeMenuDto> treeMenuDtoList = new ArrayList<TreeMenuDto>();
-            /*treeMenuDtoList.add(this.convertSignalTreeMenu(signalDefinitionDto));*/
             resourceSender.send(treeMenuDtoList, type);
         }
     }
 
+    /**
+     * update measurement item.
+     * @param beforeItemName before item
+     * @param afterItemName after item
+     * @throws SQLException is used
+     */
     private void updateMeasurementItemName(final String beforeItemName, final String afterItemName)
         throws SQLException
     {

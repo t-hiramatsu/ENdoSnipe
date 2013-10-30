@@ -12,12 +12,10 @@
  */
 package jp.co.acroquest.endosnipe.web.dashboard.service;
 
-import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
 import org.springframework.batch.core.Job;
-import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.launch.JobLauncher;
@@ -33,9 +31,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class ReportScheduleService
 {
-    private final boolean verifyCursorPosition = true;
-
-    private ResultSet rs;
 
     /**
      * デフォルトコンストラクタ。
@@ -44,9 +39,11 @@ public class ReportScheduleService
     {
     }
 
+    /**
+     * Thread excuting.
+     */
     public void run()
     {
-        java.util.Date date = new java.util.Date();
         Timestamp currentTime = new Timestamp(Calendar.getInstance().getTimeInMillis());
 
         String[] springConfig = { "spring/batch/jobs/job-extract-users.xml" };
@@ -61,16 +58,14 @@ public class ReportScheduleService
 
             JobParameters param =
                     new JobParametersBuilder().addString("currentTime", currentTime.toString()).toJobParameters();
-            JobExecution execution = jobLauncher.run(job, param);
-            System.out.println("\nExit Status : " + execution.getStatus());
+            jobLauncher.run(job, param);
+
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            e.printStackTrace();
+            ex.printStackTrace();
 
         }
-
-        System.out.println("Get data for every 5 seconds");
     }
 
 }

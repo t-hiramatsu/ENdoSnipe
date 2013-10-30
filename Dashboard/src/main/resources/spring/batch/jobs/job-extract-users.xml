@@ -23,7 +23,7 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="selectClause" value="select REPORT_ID,REPORT_NAME,TARGET_MEASUREMENT_NAME,SCHEDULE_TERM,SCHEDULE_TIME,SCHEDULE_DAY,SCHEDULE_DATE,LAST_EXPORT_REPORT_TIME" />
 		<property name="fromClause" value="from SCHEDULING_REPORT_DEFINITION" />
-		<property name="whereClause" value="where last_export_report_time &lt;=:time" />
+		<property name="whereClause" value="where to_char(last_export_report_time, 'YYYY-MM-DD HH24:MI:SS') &lt;=:time" />
 		<property name="sortKey" value="report_id" />
 	  </bean>
 	</property>
@@ -47,11 +47,6 @@
 		</step>
 	</job>
 
-	<!-- <bean id="itemWriter" class="org.springframework.batch.item.xml.StaxEventItemWriter">
-		<property name="resource" value="file:xml/outputs/users.xml" />
-		<property name="marshaller" ref="userUnmarshaller" />
-		<property name="rootTagName" value="users" />
-	</bean> -->
 	<bean id="itemWriter" class="org.springframework.batch.item.database.JdbcBatchItemWriter">
     <property name="dataSource" ref="dataSource"/>
     <property name="sql" value="update SCHEDULING_REPORT_DEFINITION set LAST_EXPORT_REPORT_TIME = :value where REPORT_NAME = :reportName"/>

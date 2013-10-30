@@ -16,7 +16,7 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 
 /**
- * 
+ * scheduling report definition dto
  * @author khinlay
  *
  */
@@ -46,16 +46,6 @@ public class SchedulingReportDefinitionDto
     /** HouCalendarMinute*/
     private Timestamp lastExportedTime_;
 
-    public Timestamp getLastExportedTime()
-    {
-        return lastExportedTime_;
-    }
-
-    public void setLastExportedTime(final Timestamp lastExportedTime)
-    {
-        lastExportedTime_ = lastExportedTime;
-    }
-
     /**
      * コンストラクタ。
      */
@@ -64,11 +54,37 @@ public class SchedulingReportDefinitionDto
 
     }
 
+    /**
+     * get last exported time
+     * @return last export time
+     */
+    public Timestamp getLastExportedTime()
+    {
+        return lastExportedTime_;
+    }
+
+    /**
+     * set last exported time
+     * @param lastExportedTime last exported
+     */
+    public void setLastExportedTime(final Timestamp lastExportedTime)
+    {
+        lastExportedTime_ = lastExportedTime;
+    }
+
+    /**
+     * get report id
+     * @return report id
+     */
     public int getReportId()
     {
         return reportId_;
     }
 
+    /**
+     * set report id
+     * @param reportId reportid
+     */
     public void setReportId(final int reportId)
     {
         reportId_ = reportId;
@@ -150,16 +166,28 @@ public class SchedulingReportDefinitionDto
         day_ = day;
     }
 
+    /**
+     * get date.
+     * @return date
+     */
     public String getDate()
     {
         return date_;
     }
 
+    /**
+     * get calendar time.
+     * @return time
+     */
     public Calendar getTime()
     {
         return time_;
     }
 
+    /**
+     * set calendar time
+     * @param time time
+     */
     public void setTime(final Calendar time)
     {
         time_ = time;

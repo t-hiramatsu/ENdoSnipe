@@ -1513,7 +1513,6 @@ ENS.treeView = wgp.TreeView
 				return schedulingReportDefinition;
 			},
 			callbackAddSchedulingReport_ : function(responseDto) {
-				alert("addSchedulingReport");
 				var result = responseDto.result;
 
 				// 追加操作に失敗した場合はメッセージを表示する。

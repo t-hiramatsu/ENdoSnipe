@@ -78,6 +78,10 @@ public class ReportController
         return reportDefinitionDtos;
     }
 
+    /**
+     * get all scheduling definition data
+     * @return report definition dto
+     */
     @RequestMapping(value = "/getAllScheduleDefinition", method = RequestMethod.POST)
     @ResponseBody
     public List<SchedulingReportDefinitionDto> getAllSchedulingDefinition()
@@ -306,6 +310,11 @@ public class ReportController
         return responseDto;
     }
 
+    /**
+     * delete data by using id.
+     * @param reportId get from database
+     * @return map
+     */
     @RequestMapping(value = "/deleteScheduleById", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> gett(@RequestParam(value = "reportId") final int reportId)
@@ -316,6 +325,11 @@ public class ReportController
         return map;
     }
 
+    /**
+     * Edit scheduling data.
+     * @param schedulingReportDefinition get from database.
+     * @return response dto.
+     */
     @RequestMapping(value = "/schedulingEdit", method = RequestMethod.POST)
     @ResponseBody
     public ResponseDto schedulingEdit(
@@ -326,7 +340,6 @@ public class ReportController
                 JSON.decode(schedulingReportDefinition, SchedulingReportDefinitionDto.class);
 
         long signalId = schedulingReportDefinitionDto.getReportId();
-        System.out.println("controller id:" + signalId);
         String reportName = schedulingReportDefinitionDto.getReportName();
         boolean hasSameSignalName = this.reportService.hasSameSignalName(signalId, reportName);
         if (hasSameSignalName)

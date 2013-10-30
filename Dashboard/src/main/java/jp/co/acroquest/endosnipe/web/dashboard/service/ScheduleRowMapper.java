@@ -12,15 +12,42 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.sql.DataSource;
+
+import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
+import jp.co.acroquest.endosnipe.web.dashboard.dto.ReportDefinitionDto;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.SchedulingReportDefinitionDto;
+import jp.co.acroquest.endosnipe.web.dashboard.entity.ReportDefinition;
 import jp.co.acroquest.endosnipe.web.dashboard.entity.SchedulingReportDefinition;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
+/**
+ * Getting scheduling data 
+ * @author khinlay
+ *
+ */
 public class ScheduleRowMapper implements RowMapper<SchedulingReportDefinitionDto>
 {
+    /**
+     * time format for hour and minute.
+     */
     private static final String TIME_FORMAT = "HH:mm";
 
+    /**
+     * date format
+     */
+    private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+
+    /** ロガー。 */
+    private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(MapService.class);
+
+    /**
+     * used for day
+     */
     private final Map<String, Integer> dayMap_ = new HashMap<String, Integer>();
 
     public ScheduleRowMapper()
@@ -34,13 +61,16 @@ public class ScheduleRowMapper implements RowMapper<SchedulingReportDefinitionDt
         this.dayMap_.put("Saturday", Calendar.SATURDAY);
     }
 
+    /**
+     * get scheduling data
+     * @param rs got scheduling data
+     * @param rowNum row number
+     * @return null
+     */
     public SchedulingReportDefinitionDto mapRow(final ResultSet rs, final int rowNum)
         throws SQLException
     {
-        List<SchedulingReportDefinitionDto> schedulingReportDefinitionDtos =
-                new ArrayList<SchedulingReportDefinitionDto>();
-        SchedulingReportDefinitionDto schedulingReportDefinitionDto =
-                new SchedulingReportDefinitionDto();
+
         try
         {
             System.out.println(rs.getString("report_name"));
@@ -63,9 +93,12 @@ public class ScheduleRowMapper implements RowMapper<SchedulingReportDefinitionDt
             ex.printStackTrace();
         }
         return null;
-        // return schedulingReportDefinitionDtos;
     }
 
+    /**
+     * create daily.
+     * @param rs scheduling data
+     */
     private void createDaily(final ResultSet rs)
     {
         Calendar time = Calendar.getInstance();
@@ -90,6 +123,10 @@ public class ScheduleRowMapper implements RowMapper<SchedulingReportDefinitionDt
         }
     }
 
+    /**
+     * create report.
+     * @param rs scheduling data
+     */
     private void createReport(final ResultSet rs)
     {
         List<SchedulingReportDefinitionDto> schedulingReportDefinitionDtos =
@@ -175,15 +212,16 @@ public class ScheduleRowMapper implements RowMapper<SchedulingReportDefinitionDt
         }
 
         schedulingReportDefinitionDtos.add(schedulingReportDefinitionDto);
-        System.out.println("sss:"+schedulingReportDefinitionDtos);
+        String reportName = "";
+        for (int index = 0; index < schedulingReportDefinitionDtos.size(); index++)
+        {
+            SchedulingReportDefinitionDto scheduling = schedulingReportDefinitionDtos.get(index);
+            ReportDefinition definition = this.convertScheduleToReport(scheduling);
+            ReportDefinitionDto definitionDto = this.convertReportDifinitionDto(definition);
+            reportName = definitionDto.getReportName();
+        }
 
         SchedulingReportDefinition schedulingReportDefinition = new SchedulingReportDefinition();
-        /*schedulingReportDefinition.reportId_ = Integer.parseInt(rs.getString("report_id"));
-        schedulingReportDefinition.reportName_ = rs.getString("report_name");
-        schedulingReportDefinition.targetMeasurementName_ =
-                rs.getString("target_measurement_name");
-        schedulingReportDefinition.term_ = rs.getString("schedule_term");
-        schedulingReportDefinition.day_ = rs.getString("schedule_day");*/
 
         DateFormat scheduleTimeFormat = new SimpleDateFormat(TIME_FORMAT);
         Calendar scheduleTime = Calendar.getInstance();
@@ -192,8 +230,6 @@ public class ScheduleRowMapper implements RowMapper<SchedulingReportDefinitionDt
         {
             scheduleTime.setTime(scheduleTimeFormat.parse(rs.getString("schedule_time")));
             schedulingReportDefinition.time_ = timeFormat.format(time.getTime());
-
-            /*schedulingReportDefinition.date_ = rs.getString("schedule_date");*/
 
             Calendar lastExportedCalendar = Calendar.getInstance();
             Calendar currentTimeCalendar = Calendar.getInstance();
@@ -225,7 +261,6 @@ public class ScheduleRowMapper implements RowMapper<SchedulingReportDefinitionDt
                 {
                     lastExportedCalendar.add(Calendar.DAY_OF_MONTH, 7);
                 }
-                /*lastExportedCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);*/
             }
 
             if (rs.getString("schedule_date") != null)
@@ -239,11 +274,18 @@ public class ScheduleRowMapper implements RowMapper<SchedulingReportDefinitionDt
                 {
                     lastExportedCalendar.add(Calendar.MONTH, 1);
                 }
-                /*lastExportedCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);*/
             }
             Timestamp lastExportedTime = new Timestamp(lastExportedCalendar.getTimeInMillis());
             schedulingReportDefinition.lastExportedTime_ = lastExportedTime;
-            //rs.getString("last_export_report_time");
+
+            String[] springConfig = { "spring/batch/jobs/job-extract-users.xml" };
+
+            ApplicationContext context = new ClassPathXmlApplicationContext(springConfig);
+            DataSource source = (DataSource)context.getBean("dataSource");
+            JdbcTemplate jt = new JdbcTemplate(source);
+            jt.batchUpdate(new String[] { "update SCHEDULING_REPORT_DEFINITION set LAST_EXPORT_REPORT_TIME = '"
+                    + lastExportedTime + "' where REPORT_NAME =" + "'" + reportName + "'" });
+
         }
         catch (ParseException ex)
         {
@@ -302,6 +344,10 @@ public class ScheduleRowMapper implements RowMapper<SchedulingReportDefinitionDt
         }
     }
 
+    /**
+     * create monthly data.
+     * @param rs scheduling data
+     */
     private void createMonthly(final ResultSet rs)
     {
         Calendar calendar = Calendar.getInstance();
@@ -323,5 +369,38 @@ public class ScheduleRowMapper implements RowMapper<SchedulingReportDefinitionDt
         {
             this.createDaily(rs);
         }
+    }
+
+    /**
+     * convert to report definition.
+     * @param scheduling scheduling report dto
+     * @return definiton
+     */
+    private ReportDefinition convertScheduleToReport(final SchedulingReportDefinitionDto scheduling)
+    {
+        ReportDefinition definition = new ReportDefinition();
+        definition.reportId_ = scheduling.getReportId();
+        definition.reportName_ = scheduling.getReportName();
+        definition.targetMeasurementName_ = scheduling.getTargetMeasurementName();
+        return definition;
+
+    }
+
+    /**
+      * ReportDefinitionオブジェクトをReportDefinitionDtoオブジェクトに変換する。
+      * 
+      * @param reportDefinition
+      *            ReportDefinitionオブジェクト
+      * @return ReportDefinitionDtoオブジェクト
+      */
+    private ReportDefinitionDto convertReportDifinitionDto(final ReportDefinition reportDefinition)
+    {
+
+        ReportDefinitionDto definitionDto = new ReportDefinitionDto();
+        definitionDto.setReportId(reportDefinition.reportId_);
+        definitionDto.setReportName(reportDefinition.reportName_);
+        definitionDto.setTargetMeasurementName(reportDefinition.targetMeasurementName_);
+
+        return definitionDto;
     }
 }

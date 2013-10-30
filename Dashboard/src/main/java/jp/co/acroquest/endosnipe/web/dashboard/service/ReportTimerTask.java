@@ -18,15 +18,22 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.stereotype.Service;
 
 /**
- * 
+ * Report timer task for time interval.
  * @author khinlay
  *
  */
 @Service
 public class ReportTimerTask extends QuartzJobBean
 {
+    /**
+     * report schedule service
+     */
     private ReportScheduleService runMeTask;
 
+    /**
+     * run time.
+     * @param runMeTask runMetask
+     */
     public void setRunMeTask(final ReportScheduleService runMeTask)
     {
         this.runMeTask = runMeTask;
