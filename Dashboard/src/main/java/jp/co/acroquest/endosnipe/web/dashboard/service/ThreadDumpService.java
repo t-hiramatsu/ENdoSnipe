@@ -29,7 +29,6 @@ import jp.co.acroquest.endosnipe.communicator.TelegramCreator;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.data.dao.JavelinLogDao;
 import jp.co.acroquest.endosnipe.data.entity.JavelinLog;
-import jp.co.acroquest.endosnipe.web.dashboard.config.ConfigurationReader;
 import jp.co.acroquest.endosnipe.web.dashboard.constants.LogMessageCodes;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.ThreadDumpDefinitionDto;
 import jp.co.acroquest.endosnipe.web.dashboard.form.TermDataForm;
@@ -54,7 +53,7 @@ public class ThreadDumpService
     private static final String          THREADDUMP_POSTFIX_ID = "/JvnLog_Notify";
 
     /** ロガー */
-    private static final ENdoSnipeLogger LOGGER                = ENdoSnipeLogger.getLogger(ConfigurationReader.class);
+    private static final ENdoSnipeLogger LOGGER                = ENdoSnipeLogger.getLogger(ThreadDumpService.class);
 
     /**
      * This is default constructor

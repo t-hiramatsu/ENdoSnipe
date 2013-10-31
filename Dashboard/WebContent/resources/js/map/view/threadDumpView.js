@@ -87,13 +87,13 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 			sortorder : "desc",
 			viewrecords : true,
 			rownumbers : true,
-			shrinkToFit : false
+			shrinkToFit : false,
+			scrollerbar:true
 		});
 		$("#threadDumpTable").filterToolbar({
 			defaultSearch : 'cn'
 		});
 		$("#threadDumpDiv").css('font-size', '0.8em');
-		$(".ui-widget-content jqgrow ui-row-ltr").css('vertical-align', 'top');
 	},
 	_parseModel : function(model) {
 		var instance = this;
@@ -151,6 +151,7 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 		return tableColModel;
 	},
 	changedData : function(threadDumpInfo) {
+		$("#threadDumpTable").jqGrid("setGridHeight",500);
 		var changed = threadDumpInfo;
 		if (changed != null) {
 			changed = changed.replace(/>/g, "&gt;").replace(/</g, "&lt;");
@@ -174,7 +175,6 @@ ENS.threadDumpView = wgp.AbstractView.extend({
 		_.each(threadDumpList, function(threadDump, index) {
 			tableViewData.push(instance.removeTag(threadDump));
 		});
-		$("#threadDumpDiv .ui-jqgrid tr.jqgrow td").css('vertical-align', 'top');
 		$("#threadDumpTable").clearGridData().setGridParam({
 			data : tableViewData
 		}).trigger("reloadGrid");
