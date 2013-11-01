@@ -165,12 +165,11 @@ public class ThreadDumpService
      */
     public void createThreadDump()
     {
-        TelegramCreator telegramCreator = new TelegramCreator();
         ConnectionClient connectionClient = ConnectionClient.getInstance();
         List<CommunicationClient> clientList = connectionClient.getClientList();
         for (CommunicationClient communicationClient : clientList)
         {
-            Telegram telegram = telegramCreator.createThreadDumpRequestTelegram();
+            Telegram telegram = TelegramCreator.createThreadDumpRequestTelegram();
             communicationClient.sendTelegram(telegram);
         }
 

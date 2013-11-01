@@ -19,7 +19,6 @@ import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.EventManager;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.wgp.manager.WgpDataManager;
 
 /**
@@ -29,15 +28,18 @@ import org.wgp.manager.WgpDataManager;
  */
 public class AlarmThreadDumpNotifyListener extends AbstractTelegramListener
 {
+    /**
+     * this is default constructor
+     */
     public AlarmThreadDumpNotifyListener()
     {
 
     }
 
-    /** WgpDataManager */
-    @Autowired
-    private WgpDataManager wgpDataManager;
-
+    /**
+     * this function access telegram from
+     * Dashboard for thread dump
+     */
     @Override
     protected Telegram doReceiveTelegram(final Telegram telegram)
     {
@@ -51,12 +53,18 @@ public class AlarmThreadDumpNotifyListener extends AbstractTelegramListener
         return null;
     }
 
+    /**
+     * this is threadDump kind
+     */
     @Override
     protected byte getByteRequestKind()
     {
         return TelegramConstants.BYTE_REQUEST_KIND_NOTIFY;
     }
 
+    /**
+     * this is threadDump number
+     */
     @Override
     protected byte getByteTelegramKind()
     {
