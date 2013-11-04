@@ -230,6 +230,29 @@ public class ReportService
     }
 
     /**
+     * Check same report Name
+     * @param reportId got from database
+     * @param reportName got from database
+     * @return duplicate or not.
+     */
+    public boolean hasSameReportName(final long reportId, final String reportName)
+    {
+        SchedulingReportDefinition schedulingReportDefinition =
+                this.schedulingReportDefinitionDao.selectByName(reportName);
+        if (schedulingReportDefinition == null)
+        {
+            // 同一シグナル名を持つ閾値判定定義情報が存在しない場合
+            return true;
+        }
+        /* else if (schedulingReportDefinition.reportId_ == reportId)
+         {
+             // シグナル名が一致する閾値判定定義情報が更新対象自身の場合
+             return false;
+         }*/
+        return false;
+    }
+
+    /**
      * レポートを作成する。
      * 
      * @param reportDefinitionDto レポート出力の定義
@@ -691,7 +714,26 @@ public class ReportService
         schedulingReportDefinition.date_ = schedulingDefinitionDto.getDate();
 
         Calendar lastExportedCalendar = Calendar.getInstance();
+        lastExportedCalendar.set(Calendar.HOUR_OF_DAY, time.get(Calendar.HOUR_OF_DAY));
+        lastExportedCalendar.set(Calendar.MINUTE, time.get(Calendar.MINUTE));
 
+        if (schedulingReportDefinition.day_ != null)
+        {
+            dayMap_.get(schedulingReportDefinition.day_);
+            int lastExportedDay =
+                    (dayMap_.get(schedulingReportDefinition.day_))
+                            - lastExportedCalendar.get(Calendar.DAY_OF_WEEK);
+            lastExportedCalendar.add(Calendar.DAY_OF_MONTH, lastExportedDay);
+
+        }
+
+        if (schedulingReportDefinition.date_ != null)
+        {
+            int date = Integer.parseInt(schedulingReportDefinition.date_);
+            int newDate = date - lastExportedCalendar.get(Calendar.DAY_OF_MONTH);
+            lastExportedCalendar.add(Calendar.DAY_OF_MONTH, newDate);
+
+        }
         Timestamp lastExportedTime = new Timestamp(lastExportedCalendar.getTimeInMillis());
         schedulingReportDefinition.lastExportedTime_ = lastExportedTime;
         return schedulingReportDefinition;

@@ -66,7 +66,7 @@ ENS.SchedulingReportDialogView = ENS.DialogView
 																	.val()
 														};
 														var callbackFunction = "";
-														// Ajax’ÊM‚Ì‘—MæURL
+														// Ajaxï¿½ÊMï¿½Ì‘ï¿½ï¿½Mï¿½ï¿½URL
 														var url = "";
 														var sendData = {
 															schedulingReportDefinition : JSON
@@ -80,7 +80,7 @@ ENS.SchedulingReportDialogView = ENS.DialogView
 														};
 														/* alert(url); */
 														/* alert(JSON.stringify(sendData)); */
-														// ”ñ“¯Šú’ÊM‚Åƒf[ƒ^‚ğ‘—M‚·‚é
+														// ï¿½ñ“¯Šï¿½ÊMï¿½Åƒfï¿½[ï¿½^ï¿½ğ‘—Mï¿½ï¿½ï¿½ï¿½
 														var ajaxHandler = new wgp.AjaxHandler();
 														settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] = this;
 														settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = callbackFunction;
@@ -92,12 +92,27 @@ ENS.SchedulingReportDialogView = ENS.DialogView
 																.jqGrid(
 																		'getRowData',
 																		ENS.schedulingReportDialog.rowId);
+														
+														rowData.term = schedulingReportDefinition.term;
 														rowData.reportName = schedulingReportDefinition.reportName;
 														rowData.targetMeasurementName = schedulingReportDefinition.targetMeasurementName;
-														rowData.term = schedulingReportDefinition.term;
 														rowData.time = schedulingReportDefinition.time;
-														rowData.day = schedulingReportDefinition.day;
-														rowData.date = schedulingReportDefinition.date;
+														if(rowData.term == "WEEKLY")
+															{
+															rowData.date = "";
+															rowData.day = schedulingReportDefinition.day;
+															
+															}
+														else if(rowData.term == "MONTHLY")
+															{
+															rowData.day = "";
+															rowData.date = schedulingReportDefinition.date;
+															}
+														else if(rowData.term == "DAILY")
+															{
+															rowData.day = "";
+															rowData.date = "";
+															}											
 														$("#reportTable")
 																.jqGrid(
 																		'setRowData',
@@ -264,7 +279,7 @@ ENS.SchedulingReportDialogView = ENS.DialogView
 				alert("addSchedulingReport");
 				var result = responseDto.result;
 
-				// ’Ç‰Á‘€ì‚É¸”s‚µ‚½ê‡‚ÍƒƒbƒZ[ƒW‚ğ•\¦‚·‚éB
+				// ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½Éï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Íƒï¿½ï¿½bï¿½Zï¿½[ï¿½Wï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
 				if (result === "fail") {
 					var message = responseDto.message;
 					alert(message);

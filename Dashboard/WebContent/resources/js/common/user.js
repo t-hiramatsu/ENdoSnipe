@@ -119,6 +119,20 @@ ENS.reportParentView = {
 	collection : [ ENS.reportParentElem ]
 };
 
+ENS.schedulingReportNodeParentElem = {
+		viewClassName : "ENS.schedulingReportView",
+		viewAttribute : {
+			term : 1800,
+			maxLineNum : 20
+		}
+	};
+
+ENS.schedulingReportNodeParentView = {
+		viewClassName : "wgp.MultiAreaView",
+		rootView : appView,
+		tabTitle : "Scheduling Report",
+		collection : [ ENS.schedulingReportParentElem ]
+	};
 ENS.ResourceMapField = {
 	viewClassName : "ENS.ResourceMapView",
 	rootView : appView,
@@ -130,6 +144,7 @@ if (!wgp.constants.VIEW_SETTINGS) {
 }
 wgp.constants.VIEW_SETTINGS = $.extend(wgp.constants.VIEW_SETTINGS, {
 	"reportNode-" : ENS.reportParentView,
+	"schedulingReportNode-" : ENS.schedulingReportNodeParentView,
 	"/jdbc/[^/]+/[^/]+/[^/]+" : ENS.nodeTabView,
 	"/jdbc/[^/]+/[^/]+" : ENS.sqlPlanTabView,
 	"default" : ENS.nodeTabView,

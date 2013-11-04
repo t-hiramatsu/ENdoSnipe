@@ -143,6 +143,7 @@ ENS.tree.SIGNAL_DIALOG = "signalDialog";
 ENS.tree.REPORT_DIALOG = "reportDialog";
 ENS.tree.MULTIPLE_RESOURCE_GRAPH_DIALOG = "multipleResourceGraphDialog";
 ENS.tree.REPORT_PREFIX_ID = "/reportNode-";
+ENS.tree.SCHEDULE_REPORT_PREFIX_ID = "/schedulingReportNode-";
 ENS.tree.REPORT_SELECT_ALL_URL = wgp.common.getContextPath()
 		+ "/report/getAllDefinition";
 ENS.tree.REPORT_SELECT_BY_REPORT_NAME_URL = wgp.common.getContextPath()
@@ -164,6 +165,7 @@ ENS.tree.type.GROUP = "group";
 ENS.tree.type.TARGET = "target";
 ENS.tree.type.SIGNAL = "signal";
 ENS.tree.type.REPORT = "report";
+ENS.tree.type.SCHEDULINGREPORT = "schedulingReport";
 /*ENS.tree.type.MULTIPLERESOURCEGRAPH = "mulResGraph";*/
 
 ENS.tree.OUTPUT_REPORT_SCHEDULE_TYPE = "outputScheduleReport";

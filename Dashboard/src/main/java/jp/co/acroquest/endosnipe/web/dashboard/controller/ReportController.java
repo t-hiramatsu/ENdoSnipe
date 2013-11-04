@@ -341,7 +341,7 @@ public class ReportController
 
         long signalId = schedulingReportDefinitionDto.getReportId();
         String reportName = schedulingReportDefinitionDto.getReportName();
-        boolean hasSameSignalName = this.reportService.hasSameSignalName(signalId, reportName);
+        boolean hasSameSignalName = this.reportService.hasSameReportName(signalId, reportName);
         if (hasSameSignalName)
         {
             String errorMessage = MessageUtil.getMessage("WEWD0141", reportName);

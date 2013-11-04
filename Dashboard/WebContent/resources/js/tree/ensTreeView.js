@@ -1571,7 +1571,7 @@ ENS.treeView = wgp.TreeView
 					if (id == ENS.tree.OUTPUT_REPORT_SCHEDULE_TYPE) {
 					// デフォルトのレポート名にレポート出力対象のノード名を入れる(空白を削除する処理を入れている)
 						var targetNodeName = executeOption.displayName.replace(/\s+/g, ""); 
-						$("#schedulingReportName").val(targetNodeName + " report");
+						$("#schedulingReportName").val(targetNodeName + " scheduling report");
 						// Target Measurement Nameにツリー階層を入力する
 						$("#schedulingReportTargetName").val(executeOption.treeId);
 					}
