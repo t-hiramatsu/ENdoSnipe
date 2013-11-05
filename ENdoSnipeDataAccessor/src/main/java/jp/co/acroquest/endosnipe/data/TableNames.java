@@ -73,4 +73,7 @@ public interface TableNames
     
     /** SQL実行計画テーブル。 */
     String SQL_PLAN = "SQL_PLAN";
+    
+    /** SummarySignalテーブル。 */
+    String SUMMARY_SIGNAL_DEFINITION        = "SUMMARY_SIGNAL_DEFINITION";
 }

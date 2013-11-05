@@ -1,5 +1,5 @@
 /**********************************/
-/* ƒe[ƒuƒ‹–¼: JavelinƒƒO */
+/* ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½: Javelinï¿½ï¿½ï¿½O */
 /**********************************/
 CREATE TABLE JAVELIN_LOG(
   LOG_ID BIGINT DEFAULT NEXTVAL('SEQ_LOG_ID') NOT NULL,
@@ -31,7 +31,7 @@ CREATE TABLE JAVELIN_LOG(
 );
 
 /**********************************/
-/* ƒe[ƒuƒ‹–¼: JavelinŒv‘ª€–Ú */
+/* ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½: Javelinï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 /**********************************/
 CREATE TABLE JAVELIN_MEASUREMENT_ITEM(
   MEASUREMENT_ITEM_ID INT DEFAULT NEXTVAL('SEQ_MEASUREMENT_ITEM_ID') NOT NULL,
@@ -40,7 +40,7 @@ CREATE TABLE JAVELIN_MEASUREMENT_ITEM(
 );
 
 /**********************************/
-/* ƒe[ƒuƒ‹–¼: Javelin Œv‘ª’l */
+/* ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½: Javelin ï¿½vï¿½ï¿½ï¿½l */
 /**********************************/
 CREATE TABLE MEASUREMENT_VALUE(
   MEASUREMENT_TIME TIMESTAMP NOT NULL,
@@ -49,7 +49,7 @@ CREATE TABLE MEASUREMENT_VALUE(
 );
 
 /**********************************/
-/* ƒe[ƒuƒ‹–¼: Œv‘ª‘ÎÛƒzƒXƒgî•ñ */
+/* ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½: ï¿½vï¿½ï¿½ï¿½ÎÛƒzï¿½Xï¿½gï¿½ï¿½ï¿½ */
 /**********************************/
 CREATE TABLE HOST_INFO(
   HOST_ID INT DEFAULT NEXTVAL('SEQ_HOST_ID') NOT NULL,
@@ -60,7 +60,7 @@ CREATE TABLE HOST_INFO(
 );
 
 /**********************************/
-/* ƒe[ƒuƒ‹–¼: ƒVƒOƒiƒ‹’è‹`ƒe[ƒuƒ‹ */
+/* ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½: ï¿½Vï¿½Oï¿½iï¿½ï¿½ï¿½ï¿½`ï¿½eï¿½[ï¿½uï¿½ï¿½ */
 /**********************************/
 CREATE TABLE SIGNAL_DEFINITION(
   SIGNAL_ID serial NOT NULL,
@@ -72,7 +72,7 @@ CREATE TABLE SIGNAL_DEFINITION(
 );
 
 /**********************************/
-/* ƒe[ƒuƒ‹–¼: ƒ}ƒbƒvƒe[ƒuƒ‹ */
+/* ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½: ï¿½}ï¿½bï¿½vï¿½eï¿½[ï¿½uï¿½ï¿½ */
 /**********************************/
 CREATE TABLE MAP_INFO(
  MAP_ID SERIAL NOT NULL,
@@ -82,7 +82,7 @@ CREATE TABLE MAP_INFO(
 );
 
 /**********************************/
-/* ƒe[ƒuƒ‹–¼: ƒpƒtƒH[ƒ}ƒ“ƒXƒhƒNƒ^[f’fŒ‹‰Ê’~Ïƒe[ƒuƒ‹ */
+/* ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½: ï¿½pï¿½tï¿½Hï¿½[ï¿½}ï¿½ï¿½ï¿½Xï¿½hï¿½Nï¿½^ï¿½[ï¿½fï¿½fï¿½ï¿½ï¿½Ê’~ï¿½Ïƒeï¿½[ï¿½uï¿½ï¿½ */
 /**********************************/
 CREATE TABLE PERFDOCTOR_RESULT(
   LOG_ID BIGINT DEFAULT NEXTVAL('SEQ_LOG_ID') NOT NULL,
@@ -96,7 +96,7 @@ CREATE TABLE PERFDOCTOR_RESULT(
 );
 
 /**********************************/
-/* ƒe[ƒuƒ‹–¼: ƒŒƒ|[ƒg’è‹`ƒe[ƒuƒ‹ */
+/* ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½: ï¿½ï¿½ï¿½|ï¿½[ï¿½gï¿½ï¿½`ï¿½eï¿½[ï¿½uï¿½ï¿½ */
 /**********************************/
 CREATE TABLE REPORT_DEFINITION(
   REPORT_ID SERIAL NOT NULL,
@@ -107,7 +107,7 @@ CREATE TABLE REPORT_DEFINITION(
 );
 
 /**********************************/
-/* ƒe[ƒuƒ‹–¼: MULTIPLE_RESOURCE_GRAPH */
+/* ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½: MULTIPLE_RESOURCE_GRAPH */
 /**********************************/
 CREATE TABLE MULTIPLE_RESOURCE_GRAPH(
   MULTIPLE_RESOURCE_GRAPH_ID SERIAL NOT NULL,
@@ -116,7 +116,7 @@ CREATE TABLE MULTIPLE_RESOURCE_GRAPH(
 );
 
 /**********************************/
-/* ƒe[ƒuƒ‹–¼: SQL_PLAN */
+/* ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½: SQL_PLAN */
 /**********************************/
 CREATE TABLE SQL_PLAN(
   MEASUREMENt_ITEM_NAME VARCHAR NOT NULL,
@@ -126,6 +126,17 @@ CREATE TABLE SQL_PLAN(
   STACK_TRACE TEXT NOT NULL,
   UNIQUE(MEASUREMENt_ITEM_NAME, EXECUTION_PLAN),
   UNIQUE(MEASUREMENt_ITEM_NAME, STACK_TRACE)
+);
+
+/**********************************/
+/* ãƒ†ãƒ¼ãƒ–ãƒ«å: SUMMARY_SIGNAL_DEFINITION */
+/**********************************/
+CREATE TABLE SUMMARY_SIGNAL_DEFINITION(
+  SUMMARY_SIGNAL_ID SERIAL NOT NULL,
+  SUMMARY_SIGNAL_NAME VARCHAR NOT NULL UNIQUE,
+  TARGET_SIGNAL_ID VARCHAR NOT NULL,
+  SIGNAL_TYPE INT NOT NULL,
+  PRIORITY_NO INT NOT NULL
 );
 
 ALTER TABLE JAVELIN_LOG ADD PRIMARY KEY (LOG_ID);

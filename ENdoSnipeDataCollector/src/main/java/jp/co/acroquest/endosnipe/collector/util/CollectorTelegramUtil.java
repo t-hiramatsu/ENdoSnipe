@@ -34,6 +34,7 @@ import jp.co.acroquest.endosnipe.communicator.entity.Body;
 import jp.co.acroquest.endosnipe.communicator.entity.Header;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
+import jp.co.acroquest.endosnipe.data.dto.SummarySignalDefinitionDto;
 
 /**
  * データコレクターで用いる電文のユーティリティ
@@ -44,6 +45,18 @@ public class CollectorTelegramUtil
 {
     /**  閾値超過アラームの電文本体のサイズ */
     public static final int RESPONSEALARM_BODY_SIZE = 4;
+
+    /** size of telegram for summary signal */
+    public static final int RESPONSEALARM_BODY_ADD_SUMMARY_SIGNAL_SIZE = 6;
+
+    /** index for telegram of summary signal */
+    public static final int SUMMARY_SIGNAL_INDEX1 = 3;
+
+    /** index for telegram of summary signal */
+    public static final int SUMMARY_SIGNAL_INDEX2 = 4;
+
+    /** index for telegram of summary signal */
+    public static final int SUMMARY_SIGNAL_INDEX3 = 5;
 
     /**
      * インスタンス化を防止するprivateコンストラクタです。
@@ -70,7 +83,7 @@ public class CollectorTelegramUtil
      * @return 閾値超過アラーム通知電文
      */
     public static Telegram createAlarmTelegram(final List<AlarmEntry> alarmEntryList,
-            final byte requestKind)
+        final byte requestKind)
     {
         Header responseHeader = new Header();
         responseHeader.setByteTelegramKind(TelegramConstants.BYTE_TELEGRAM_SIGNAL_STATE_CHANGE);
@@ -142,11 +155,131 @@ public class CollectorTelegramUtil
         responseBodys[0] = measurementTypeBody;
         responseBodys[1] = alarmLevelBody;
         responseBodys[2] = signalLevelBody;
-        responseBodys[3] = alarmTypeBody;
+        responseBodys[SUMMARY_SIGNAL_INDEX1] = alarmTypeBody;
 
         responseTelegram.setObjBody(responseBodys);
 
         return responseTelegram;
     }
 
+    /**
+     * create response telegram for summary signal data
+     * @param summarySignalDefinitionList list of summary signal data
+     * @param process kind of telegram
+     * @return telegram of summarysignal
+     */
+    public static Telegram createSummarySignalResponseTelegram(
+        final List<SummarySignalDefinitionDto> summarySignalDefinitionList, final String process)
+    {
+        Header responseHeader = new Header();
+        responseHeader
+            .setByteTelegramKind(TelegramConstants.BYTE_TELEGRAM_KIND_ADD_STATE_CHANGE_SUMMARYSIGNAL_DEFINITION);
+        responseHeader.setByteRequestKind(TelegramConstants.BYTE_REQUEST_KIND_NOTIFY);
+
+        int summarySignalCount = summarySignalDefinitionList.size();
+        Telegram responseTelegram = new Telegram();
+
+        Body[] responseBodys =
+            new Body[CollectorTelegramUtil.RESPONSEALARM_BODY_ADD_SUMMARY_SIGNAL_SIZE];
+
+        Body summarySignalProcessBody = new Body();
+        summarySignalProcessBody.setStrObjName(TelegramConstants.OBJECTNAME_SUMMARY_SIGNAL_CHANGE);
+        summarySignalProcessBody.setStrItemName(TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_TYPE);
+        summarySignalProcessBody.setByteItemMode(ItemType.ITEMTYPE_STRING);
+        summarySignalProcessBody.setIntLoopCount(summarySignalCount);
+        String[] summarySignalProcess = new String[summarySignalCount];//{summaryProcess};
+
+        Body summarySignalIDBody = new Body();
+
+        summarySignalIDBody.setStrObjName(TelegramConstants.OBJECTNAME_SUMMARY_SIGNAL_CHANGE);
+        summarySignalIDBody.setStrItemName(TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_ID);
+        summarySignalIDBody.setByteItemMode(ItemType.ITEMTYPE_LONG);
+        summarySignalIDBody.setIntLoopCount(summarySignalCount);
+        Long[] summarySignalID = new Long[summarySignalCount];
+
+        Body summarySignalNameBody = new Body();
+
+        summarySignalNameBody.setStrObjName(TelegramConstants.OBJECTNAME_SUMMARY_SIGNAL_CHANGE);
+        summarySignalNameBody.setStrItemName(TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_NAME);
+        summarySignalNameBody.setByteItemMode(ItemType.ITEMTYPE_STRING);
+        summarySignalNameBody.setIntLoopCount(summarySignalCount);
+        String[] summarySignalNameList = new String[summarySignalCount];
+
+        Body signalListBody = new Body();
+
+        signalListBody.setStrObjName(TelegramConstants.OBJECTNAME_SUMMARY_SIGNAL_CHANGE);
+        signalListBody.setStrItemName(TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_CHILDLIST);
+        signalListBody.setByteItemMode(ItemType.ITEMTYPE_STRING);
+        signalListBody.setIntLoopCount(summarySignalCount);
+        String[] childList = new String[summarySignalCount];
+
+        Body summarySignalStateBody = new Body();
+        summarySignalStateBody.setStrObjName(TelegramConstants.OBJECTNAME_SUMMARY_SIGNAL_CHANGE);
+        summarySignalStateBody.setStrItemName(TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_STATUS);
+        summarySignalStateBody.setByteItemMode(ItemType.ITEMTYPE_INT);
+        summarySignalStateBody.setIntLoopCount(summarySignalCount);
+        Integer[] summarySignalState = new Integer[summarySignalCount];
+
+        Body errorMessageBody = new Body();
+
+        errorMessageBody.setStrObjName(TelegramConstants.OBJECTNAME_SUMMARY_SIGNAL_CHANGE);
+        errorMessageBody.setStrItemName(TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_ERROR);
+        errorMessageBody.setByteItemMode(ItemType.ITEMTYPE_STRING);
+        errorMessageBody.setIntLoopCount(summarySignalCount);
+        String[] errorMessages = new String[summarySignalCount];
+
+        for (int cnt = 0; cnt < summarySignalCount; cnt++)
+        {
+            SummarySignalDefinitionDto summarySignalDefinition =
+                summarySignalDefinitionList.get(cnt);
+            Long summarySignalId = summarySignalDefinition.getSummarySignalId();
+            String summarySignalName = summarySignalDefinition.getSummarySignalName();
+
+            String summarySignalList = "";
+            if (summarySignalDefinition.getSignalList() != null
+                && summarySignalDefinition.getSignalList().size() > 0)
+            {
+                for (int count = 0; count < summarySignalDefinition.getSignalList().size(); count++)
+                {
+                    summarySignalList += summarySignalDefinition.getSignalList().get(count);
+                    if (count != summarySignalDefinition.getSignalList().size() - 1)
+                    {
+                        summarySignalList += ",";
+                    }
+                }
+            }
+
+            int summarySignalStatus = summarySignalDefinition.getSummarySignalStatus();
+            String errorMessage = summarySignalDefinition.getErrorMessage();
+            if (errorMessage == null)
+            {
+                errorMessage = "";
+            }
+            summarySignalProcess[cnt] = process;
+            summarySignalID[cnt] = summarySignalId;
+            summarySignalNameList[cnt] = summarySignalName;
+            summarySignalState[cnt] = summarySignalStatus;
+            childList[cnt] = summarySignalList;
+            errorMessages[cnt] = errorMessage;
+        }
+
+        summarySignalProcessBody.setObjItemValueArr(summarySignalProcess);
+        summarySignalIDBody.setObjItemValueArr(summarySignalID);
+        summarySignalNameBody.setObjItemValueArr(summarySignalNameList);
+        signalListBody.setObjItemValueArr(childList);
+        summarySignalStateBody.setObjItemValueArr(summarySignalState);
+        errorMessageBody.setObjItemValueArr(errorMessages);
+
+        responseTelegram.setObjHeader(responseHeader);
+
+        responseBodys[0] = summarySignalProcessBody;
+        responseBodys[1] = summarySignalIDBody;
+        responseBodys[2] = summarySignalNameBody;
+        responseBodys[SUMMARY_SIGNAL_INDEX1] = signalListBody;
+        responseBodys[SUMMARY_SIGNAL_INDEX2] = summarySignalStateBody;
+        responseBodys[SUMMARY_SIGNAL_INDEX3] = errorMessageBody;
+
+        responseTelegram.setObjBody(responseBodys);
+        return responseTelegram;
+    }
 }

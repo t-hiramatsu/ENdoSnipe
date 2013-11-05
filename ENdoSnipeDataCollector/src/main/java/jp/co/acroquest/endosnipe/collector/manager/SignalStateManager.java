@@ -118,7 +118,7 @@ public class SignalStateManager
      * 
      */
     public void addSignalDefinition(final Long signalId,
-            final SignalDefinitionDto signalDefinitionDto)
+        final SignalDefinitionDto signalDefinitionDto)
     {
         if (this.signalDefinitionMap_ == null)
         {
