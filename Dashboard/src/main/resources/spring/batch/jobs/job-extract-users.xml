@@ -27,6 +27,8 @@
 		<property name="sortKey" value="report_id" />
 	  </bean>
 	</property>
+	<!-- <if test="time.equals('DAILY')">
+	</if> -->
 	<property name="parameterValues">
 	   <map>
 		<entry key="time" value="#{jobParameters['currentTime']}" />

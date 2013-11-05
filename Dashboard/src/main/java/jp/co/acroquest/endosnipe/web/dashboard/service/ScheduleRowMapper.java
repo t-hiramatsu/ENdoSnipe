@@ -73,7 +73,11 @@ public class ScheduleRowMapper implements RowMapper<SchedulingReportDefinitionDt
 
         try
         {
-            System.out.println(rs.getString("report_name"));
+            /* System.out.println(rs.getString("report_name"));*/
+            Calendar calendar = Calendar.getInstance();
+            System.out.println("Current day:" + calendar.get(Calendar.DAY_OF_MONTH));
+            System.out.println("last date:"
+                    + Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH));
             if ("DAILY".equals(rs.getString("schedule_term")))
             {
                 this.createDaily(rs);
@@ -220,7 +224,7 @@ public class ScheduleRowMapper implements RowMapper<SchedulingReportDefinitionDt
             ReportDefinitionDto definitionDto = this.convertReportDifinitionDto(definition);
             reportName = definitionDto.getReportName();
         }
-
+        //export report(upper)
         SchedulingReportDefinition schedulingReportDefinition = new SchedulingReportDefinition();
 
         DateFormat scheduleTimeFormat = new SimpleDateFormat(TIME_FORMAT);
@@ -366,6 +370,10 @@ public class ScheduleRowMapper implements RowMapper<SchedulingReportDefinitionDt
         }
 
         if (calendar.get(Calendar.DAY_OF_MONTH) == scheduleDate)
+        {
+            this.createDaily(rs);
+        }
+        else if (calendar.get(Calendar.DAY_OF_MONTH) == Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH))
         {
             this.createDaily(rs);
         }

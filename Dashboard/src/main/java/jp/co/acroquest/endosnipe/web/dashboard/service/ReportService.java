@@ -734,6 +734,7 @@ public class ReportService
             lastExportedCalendar.add(Calendar.DAY_OF_MONTH, newDate);
 
         }
+
         Timestamp lastExportedTime = new Timestamp(lastExportedCalendar.getTimeInMillis());
         schedulingReportDefinition.lastExportedTime_ = lastExportedTime;
         return schedulingReportDefinition;
