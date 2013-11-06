@@ -51,11 +51,14 @@ import jp.co.acroquest.endosnipe.communicator.accessor.SystemResourceGetter;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.impl.DataCollectorClient;
 import jp.co.acroquest.endosnipe.data.dao.SignalDefinitionDao;
+import jp.co.acroquest.endosnipe.data.dao.SummarySignalDefinitionDao;
 import jp.co.acroquest.endosnipe.data.db.ConnectionManager;
 import jp.co.acroquest.endosnipe.data.db.DBManager;
 import jp.co.acroquest.endosnipe.data.db.DatabaseType;
 import jp.co.acroquest.endosnipe.data.dto.SignalDefinitionDto;
+import jp.co.acroquest.endosnipe.data.dto.SummarySignalDefinitionDto;
 import jp.co.acroquest.endosnipe.data.entity.SignalDefinition;
+import jp.co.acroquest.endosnipe.data.entity.SummarySignalDefinition;
 
 /**
  * ENdoSnipe DataCollector のメインクラスです。<br />
@@ -179,7 +182,7 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
         javelinConfig.setClusterName("");
 
         Map<Long, SignalDefinitionDto> signalDefinitionMap = null;
-
+        Map<Long, SummarySignalDefinitionDto> summarySignalDefinitionMap = null;
         this.behaviorMode_ = behaviorMode;
         if (config_ != null)
         {
@@ -204,6 +207,7 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
             }
 
             signalDefinitionMap = createSignalDefinition(databaseName);
+            summarySignalDefinitionMap = createSummarySignalDefinition(databaseName);
         }
 
         // JavelinDataLogger の開始
@@ -211,7 +215,14 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
         {
             javelinDataLogger_.stop();
         }
-        javelinDataLogger_ = new JavelinDataLogger(config_, this, signalDefinitionMap);
+        // javelinDataLogger_ = new JavelinDataLogger(config_, this, signalDefinitionMap);
+
+        /*need to change to test in the JUnit testcase class because in the test case it is 
+        using only three argument constructor for creating JavelinDataLogger*/
+
+        javelinDataLogger_ =
+            new JavelinDataLogger(config_, this, signalDefinitionMap, summarySignalDefinitionMap);
+
         javelinDataLogger_.init(this.rotateConfigList_);
         if (defaultRotateConfig_ != null)
         {
@@ -266,6 +277,32 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
             LOGGER.log(FAIL_READ_SIGNAL_DEFINITION, ex, ex.getMessage());
         }
         return signalDefinitionMap;
+    }
+
+    private Map<Long, SummarySignalDefinitionDto> createSummarySignalDefinition(
+        final String databaseName)
+    {
+
+        Map<Long, SummarySignalDefinitionDto> summarySignalDefinitionMap =
+            new ConcurrentHashMap<Long, SummarySignalDefinitionDto>();
+        try
+        {
+            List<SummarySignalDefinition> summarySignalDefinitionList =
+                SummarySignalDefinitionDao.selectAll(databaseName);
+            for (SummarySignalDefinition summarySignalDefinition : summarySignalDefinitionList)
+            {
+                summarySignalDefinition.errorMessage = "";
+                SummarySignalDefinitionDto summarySignalDefinitionDto =
+                    new SummarySignalDefinitionDto(summarySignalDefinition);
+                summarySignalDefinitionMap.put(summarySignalDefinition.summarySignalId,
+                                               summarySignalDefinitionDto);
+            }
+        }
+        catch (SQLException ex)
+        {
+            LOGGER.log(FAIL_READ_SIGNAL_DEFINITION, ex, ex.getMessage());
+        }
+        return summarySignalDefinitionMap;
     }
 
     /**
