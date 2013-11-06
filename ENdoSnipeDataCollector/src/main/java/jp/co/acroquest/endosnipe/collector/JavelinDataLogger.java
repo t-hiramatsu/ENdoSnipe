@@ -49,6 +49,7 @@ import jp.co.acroquest.endosnipe.collector.data.JavelinLogData;
 import jp.co.acroquest.endosnipe.collector.data.JavelinMeasurementData;
 import jp.co.acroquest.endosnipe.collector.log.JavelinLogUtil;
 import jp.co.acroquest.endosnipe.collector.manager.SignalStateManager;
+import jp.co.acroquest.endosnipe.collector.manager.SummarySignalStateManager;
 import jp.co.acroquest.endosnipe.collector.notification.AlarmEntry;
 import jp.co.acroquest.endosnipe.collector.processor.AlarmData;
 import jp.co.acroquest.endosnipe.collector.processor.AlarmProcessor;
@@ -56,6 +57,7 @@ import jp.co.acroquest.endosnipe.collector.processor.AlarmThresholdProcessor;
 import jp.co.acroquest.endosnipe.collector.processor.AlarmType;
 import jp.co.acroquest.endosnipe.collector.request.CommunicationClientRepository;
 import jp.co.acroquest.endosnipe.collector.util.CollectorTelegramUtil;
+import jp.co.acroquest.endosnipe.collector.util.SignalSummarizer;
 import jp.co.acroquest.endosnipe.common.Constants;
 import jp.co.acroquest.endosnipe.common.entity.ItemType;
 import jp.co.acroquest.endosnipe.common.entity.MeasurementData;
@@ -78,6 +80,7 @@ import jp.co.acroquest.endosnipe.data.db.DBManager;
 import jp.co.acroquest.endosnipe.data.dto.MeasurementValueDto;
 import jp.co.acroquest.endosnipe.data.dto.PerfDoctorResultDto;
 import jp.co.acroquest.endosnipe.data.dto.SignalDefinitionDto;
+import jp.co.acroquest.endosnipe.data.dto.SummarySignalDefinitionDto;
 import jp.co.acroquest.endosnipe.data.entity.JavelinLog;
 import jp.co.acroquest.endosnipe.data.entity.JavelinMeasurementItem;
 import jp.co.acroquest.endosnipe.data.util.AccumulatedValuesDefinition;
@@ -193,6 +196,34 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             JavelinLogDao.truncate(database, tableIndex, year);
         }
     };
+
+    /**
+     * 初期化を行います。
+     *
+     * @param config {@link DataCollectorConfig} オブジェクト
+     * @param clientRepository {@link CommunicationClientRepository} オブジェクト
+     * @param signalDefinitionMap 閾値判定定義情報のマップ
+     * @param summarySignalDefinitionMap data of summary signal
+     */
+    public JavelinDataLogger(final DataCollectorConfig config,
+        final CommunicationClientRepository clientRepository,
+        final Map<Long, SignalDefinitionDto> signalDefinitionMap,
+        final Map<Long, SummarySignalDefinitionDto> summarySignalDefinitionMap)
+    {
+        this.rotateConfigMap_ = new HashMap<String, RotateConfig>();
+        this.config_ = config;
+        this.clientRepository_ = clientRepository;
+        SignalStateManager signalStateManager = SignalStateManager.getInstance();
+        signalStateManager.setSignalDeifinitionMap(signalDefinitionMap);
+
+        SummarySignalStateManager summarySignalStateManager =
+            SummarySignalStateManager.getInstance();
+
+        String dataBase = config_.getDatabaseName();
+        summarySignalStateManager.setDataBaseName(dataBase);
+        summarySignalStateManager.setSummarySignalDefinitionMap(summarySignalDefinitionMap);
+        summarySignalStateManager.createAllSummarySignalMapValue();
+    }
 
     /**
      * 初期化を行います。
@@ -1010,6 +1041,7 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             return;
         }
 
+        List<String> alarmSignalList = new ArrayList<String>();
         for (Entry<Long, SignalDefinitionDto> signalDefinitionEntry : signalDefinitionMap
             .entrySet())
         {
@@ -1054,6 +1086,22 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             if (alarmEntry.isSendAlarm())
             {
                 alarmEntryList.add(alarmEntry);
+                if (calcualteSignalIcon(alarmEntry.getAlarmState(), alarmEntry.getSignalLevel())
+                    .equals("signal_4"))
+                {
+                    alarmSignalList.add(signalName);
+                    SummarySignalStateManager.getInstance().addChildAlarmData(signalName);
+                }
+                else
+                {
+                    if (SummarySignalStateManager.getInstance().getAlarmChildList()
+                        .contains(signalName))
+                    {
+                        alarmSignalList.add(signalName);
+                        SummarySignalStateManager.getInstance().getAlarmChildList()
+                            .remove(signalName);
+                    }
+                }
             }
         }
 
@@ -1069,7 +1117,16 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             }
             Telegram alarmTelegram = CollectorTelegramUtil.createAlarmTelegram(alarmEntryList);
             this.clientRepository_.sendTelegramToClient(clientId, alarmTelegram);
-
+            if (alarmSignalList != null && alarmSignalList.size() > 0)
+            {
+                List<SummarySignalDefinitionDto> alarmSummarySignal =
+                    SignalSummarizer.getInstance().calculateSummarySignalState(alarmSignalList);
+                Telegram alarmSummaryTelegram =
+                    CollectorTelegramUtil
+                        .createSummarySignalResponseTelegram(alarmSummarySignal,
+                                                             TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_CHANGE_STATE);
+                this.clientRepository_.sendTelegramToClient(clientId, alarmSummaryTelegram);
+            }
             for (AlarmEntry alarmEntry : alarmEntryList)
             {
                 addSignalStateChangeEvent(alarmEntry);
@@ -1454,4 +1511,36 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         return prevMeasurementValue;
     }
 
+    private static String calcualteSignalIcon(final int signalValue, final int level)
+    {
+        String icon = "";
+        if (level == SIGNAL_LEVEL_3)
+        {
+            if (0 <= signalValue && signalValue < SIGNAL_LEVEL_3)
+            {
+                icon = "signal_" + 2 * signalValue;
+            }
+            else
+            {
+                icon = "signal_-1";
+            }
+        }
+        else if (level == SIGNAL_LEVEL_5)
+        {
+            if (0 <= signalValue && signalValue < SIGNAL_LEVEL_5)
+            {
+                icon = "signal_" + signalValue;
+            }
+            else
+            {
+                icon = "signal_-1";
+            }
+        }
+        else
+        {
+            icon = "signal_-1";
+        }
+
+        return icon;
+    }
 }
