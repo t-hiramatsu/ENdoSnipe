@@ -602,7 +602,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 						var afterWidth = $(e.target).width();
 						var afterHeight = $(e.target).height();
 
-						// グラフ分のマップエリア拡張
+						// グラフ分のダッシュボードエリア拡張
 						resourceDashboardListView.childView.enlargeDashboardArea(
 								positionLeft, positionTop, afterWidth,
 								afterHeight + 10);
@@ -668,7 +668,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 						if (afterHeight < ENS.dashboard.MIN_GRAPH_HEIGHT) {
 							$(e.target).height(ENS.dashboard.MIN_GRAPH_HEIGHT);
 						}
-						// グラフ分のマップエリア拡張
+						// グラフ分のダッシュボードエリア拡張
 						resourceDashboardListView.childView.enlargeDashboardArea(
 								positionLeft, positionTop, afterWidth,
 								afterHeight + 10);
@@ -1049,16 +1049,16 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				// TODO
 			},
 			_addAllSignalData : function(model, data, signalCount) {
-				var signalDashboard = model.get("signalDashboard");
+				var signalMap = model.get("signalMap");
 				// Websocket通信時にJSON文字列に変換されるため、再変換する。
-				if ((typeof signalDashboard) === "string") {
-					signalDashboard = $.parseJSON(signalDashboard);
+				if ((typeof signalMap) === "string") {
+					signalMap = $.parseJSON(signalMap);
 				}
 
 				var instance = this;
 				var level = model.get("level");
 				// 閾値のマップの値をグラフデータに追加する。
-				_.each(signalDashboard,
+				_.each(signalMap,
 						function(value, signalLevel) {
 							_.each(data, function(columnData, dataIndex) {
 								var addPosition = ENS.graph.INIT_SIGNAL_POSTION

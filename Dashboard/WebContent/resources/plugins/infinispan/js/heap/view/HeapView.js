@@ -1007,15 +1007,15 @@ infinispan.HeapView = wgp.AbstractView
 				this._setHeapDataList();
 
 				var localHeapLastData = this.heapDataList_[this.lastMeasurementTime_];
-				var mapSize = 0;
-				var mapId = "";
+				var dashboardSize = 0;
+				var dashboardId = "";
 				_.each(localHeapLastData, function(value, id) {
-					mapId = id;
-					mapSize++;
+					dashboardId = id;
+					dashboardSize++;
 				});
 
-				if (mapSize == 1
-						&& mapId == infinispan.heap.constants.agentnameAll) {
+				if (dashboardSize == 1
+						&& dashboardId == infinispan.heap.constants.agentnameAll) {
 					return;
 				}
 

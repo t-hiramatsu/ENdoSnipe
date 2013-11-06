@@ -17,7 +17,7 @@ ENS.dashboardElementPropertyTab["ENS.BackgroundElementView"] = ["Background"];
 ENS.dashboardElementPropertyTab["ENS.ResourceGraphElementView"] = [];
 
 /**
- * マップ要素のプロパティを表示する。
+ * ダッシュボード要素のプロパティを表示する。
  */
 ENS.DashboardElementPropertyView = Backbone.View.extend({
 	initialize : function(dashboardElementView){
@@ -62,7 +62,7 @@ ENS.DashboardElementPropertyView = Backbone.View.extend({
 
 		this.addTabView(this.basicPropertyView);
 
-		// マップの要素ごとに決められたタブを追加する。
+		// ダッシュボードの要素ごとに決められたタブを追加する。
 		this.addPropertyView(this.model.get("objectName"));
 
 		this.tabDiv.tabs();
@@ -107,7 +107,7 @@ ENS.DashboardElementPropertyView = Backbone.View.extend({
 		return div;
 	},
 	createDiv : function(){
-		var div = $("<div class='mapProperty' id='"+ this.cid +"', title='Property Setting'></div>");
+		var div = $("<div class='dashboardProperty' id='"+ this.cid +"', title='Property Setting'></div>");
 		this.tabDiv = $("<div class='tab' id='"+ this.cid +"_tab'></div>");
 		this.tabUl = $("<ul id='"+ this.cid +"'_ul></ul>");
 		this.tabDiv.append(this.tabUl);
@@ -653,7 +653,7 @@ ENS.DashboardElementPropertyTextTab = ENS.DashboardElementPropertyTab.extend({
 				fontAttribute.type,
 				this.property.fontFamily,
 				fontAttribute.selection);
-		var fontRow = $("<div class='mapPropertyFontItem'></div>");
+		var fontRow = $("<div class='dashboardPropertyFontItem'></div>");
 		fontRow.append(fontSpan).append(fontSizeSelect);
 		parentDiv.append(fontRow);
 

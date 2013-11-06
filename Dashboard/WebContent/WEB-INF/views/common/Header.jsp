@@ -21,7 +21,7 @@
 <script>
 	$(".headerTable a").button();
 	$(".ui-button-text").click(function(){
-				if($("#mapMode").val() == ENS.dashboard.mode.EDIT){
+				if($("#dashboardMode").val() == ENS.dashboard.mode.EDIT){
 					window.resourceDashboardListView.saveOperation();
 				}
 			});

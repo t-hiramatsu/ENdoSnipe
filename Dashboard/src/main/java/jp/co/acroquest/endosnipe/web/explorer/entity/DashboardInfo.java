@@ -35,12 +35,12 @@ public class DashboardInfo
 {
 
     /**
-     * マップID
+     * ダッシュボードID
      */
-    public long mapId;
+    public long dashboardId;
 
     /**
-     * マップ名
+     * ダッシュボード名
      */
     public String name;
 
@@ -55,11 +55,11 @@ public class DashboardInfo
     public Timestamp lastUpdate;
 
     /**
-     * {@link DashboardInfo}　マップ情報<br />
+     * {@link DashboardInfo}　ダッシュボード情報<br />
      */
     public DashboardInfo()
     {
-        this.mapId = -1L;
+        this.dashboardId = -1L;
     }
 
     /**
@@ -68,7 +68,7 @@ public class DashboardInfo
     @Override
     public String toString()
     {
-        return String.format("MapID:%d Name:%s Data:%s LastUpadate%s", mapId, name, data,
-                             lastUpdate);
+        return String.format("DashboardId:%d Name:%s Data:%s LastUpadate%s", dashboardId, name,
+                             data, lastUpdate);
     }
 }

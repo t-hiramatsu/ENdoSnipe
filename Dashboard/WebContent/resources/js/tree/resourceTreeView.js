@@ -79,7 +79,7 @@ ENS.ResourceTreeView = ENS.treeManager
 						var treeId = clickTarget.attr("id");
 						var treeModel = instance.ensTreeView.collection.get(treeId);
 
-						// TODO マップが選択されていない場合はメッセージを表示して処理を中止する。
+						// TODO ダッシュボードが選択されていない場合はメッセージを表示して処理を中止する。
 						if (!window.resourceDashboardListView.childView) {
 							return;
 						}
@@ -93,7 +93,7 @@ ENS.ResourceTreeView = ENS.treeManager
 						// グラフを追加する場合
 						if (event.currentTarget.id == "addGraph") {
 
-							// 同一グラフが既にマップ上に存在する場合
+							// 同一グラフが既にダッシュボード上に存在する場合
 							var graphModel = window.resourceDashboardListView.childView.collection.get(treeId);
 							if(graphModel != null){
 								alert("Cannot add the graph. Because the graph has already existed in the dashboard.");
@@ -130,7 +130,7 @@ ENS.ResourceTreeView = ENS.treeManager
 
 							var signalModel = window.resourceDashboardListView.childView.collection
 									.get(treeId);
-							// 同一シグナルが既にマップ上に存在する場合
+							// 同一シグナルが既にダッシュボード上に存在する場合
 							if (signalModel != null) {
 								alert("Cannot add the signal. Because the signal has already existed in the dashboard.");
 								return false;
@@ -181,7 +181,7 @@ ENS.ResourceTreeView = ENS.treeManager
 
 					var dashboardElementModel = childView.collection.where({resourceId : treeModel.id});
 
-					// 伝搬対象のビューがマップに存在しなければ処理終了
+					// 伝搬対象のビューがダッシュボードに存在しなければ処理終了
 					if (!dashboardElementModel){
 						return;
 					}

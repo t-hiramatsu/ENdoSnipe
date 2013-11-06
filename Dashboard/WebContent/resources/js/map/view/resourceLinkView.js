@@ -42,7 +42,7 @@ ENS.ResourceLinkElementView = ENS.ShapeElementView.extend({
 			var linkUrl = instance.model.get("linkUrl");
 			var linkType = instance.model.get("linkType");
 
-			// マップリンクの場合はリンク先が存在する場合に遷移を行う。
+			// ダッシュボードリンクの場合はリンク先が存在する場合に遷移を行う。
 			if (linkType == "dashboardLinkURL") {
 				var targetDashboardLink = resourceDashboardListView.collection.get(linkUrl);
 

@@ -6,31 +6,31 @@
 <mapper namespace="jp.co.acroquest.endosnipe.web.explorer.dao.DashboardInfoDao">
 	<resultMap id="DashboardInfoMap"
 		type="jp.co.acroquest.endosnipe.web.explorer.entity.DashboardInfo">
-		<id property="mapId" column="MAP_ID" />
+		<id property="dashboardId" column="DASHBOARD_ID" />
 		<result property="name" column="NAME" />
 		<result property="data" column="DATA" />
 		<result property="lastUpdate" column="LAST_UPDATE" />
 	</resultMap>
 
 	<select id="selectAll" resultMap="DashboardInfoMap">
-		select * from MAP_INFO order by MAP_ID
+		select * from DASHBOARD_INFO order by DASHBOARD_ID
 	</select>
 
 	<select id="selectById" resultMap="DashboardInfoMap">
-		select * from MAP_INFO
-		where MAP_ID
-		= #{mapId}
+		select * from DASHBOARD_INFO
+		where DASHBOARD_ID
+		= #{dashboardId}
 	</select>
 
 	<select id="selectByName" resultMap="DashboardInfoMap">
-		select * from MAP_INFO
+		select * from DASHBOARD_INFO
 		where NAME
 		= #{name}
 	</select>
 
 	<insert id="insert"
 		parameterType="jp.co.acroquest.endosnipe.web.explorer.entity.DashboardInfo">
-		insert into MAP_INFO
+		insert into DASHBOARD_INFO
 		(NAME,DATA,LAST_UPDATE)
 		values
 		(#{name},#{data},#{lastUpdate})
@@ -38,26 +38,26 @@
 
 	<update id="update"
 		parameterType="jp.co.acroquest.endosnipe.web.explorer.entity.DashboardInfo">
-		update MAP_INFO set
+		update DASHBOARD_INFO set
 		NAME = #{name},
 		DATA = #{data},
 		LAST_UPDATE = #{lastUpdate}
-		where MAP_ID
-		= #{mapId}
+		where DASHBOARD_ID
+		= #{dashboardId}
 	</update>
 
 	<delete id="deleteById">
-		delete from MAP_INFO
-		where MAP_ID =
-		#{mapId}
+		delete from DASHBOARD_INFO
+		where DASHBOARD_ID =
+		#{dashboardId}
 	</delete>
 
 	<delete id="deleteAll"
 		parameterType="jp.co.acroquest.endosnipe.web.explorer.entity.DashboardInfo">
-		delete from MAP_INFO
+		delete from DASHBOARD_INFO
 	</delete>
 
 	<select id="selectSequenceNum" resultType="long">
-		select MAX(MAP_ID) from MAP_INFO
+		select MAX(DASHBOARD_ID) from DASHBOARD_INFO
 	</select>
 </mapper>

@@ -15,8 +15,8 @@
 	<div id="persArea"></div>
 	<input id="treeData" type="hidden" value='${treeData}' />
 	<form:form modelAttribute="dashboardListForm">
-		<!-- マップモード(運用or編集) -->
-		<form:hidden path="mapMode" />
+		<!-- ダッシュボードモード(運用or編集) -->
+		<form:hidden path="dashboardMode" />
 
 		<!-- ResourceTreeViewの展開状態 -->
 		<form:hidden path="treeViewOpenNodeData" />
@@ -36,21 +36,21 @@
 	<script src="<%=request.getContextPath()%>/resources/js/common/user.js" type="text/javaScript"></script>
 	<script type="text/javascript">
 
-		// マップモードの取得。
+		// ダッシュボードモードの取得。
 		var dashboardMode = "";
-		if($("#mapMode").val() == ENS.dashboard.mode.OPERATE){
-			mapMode = ENS.dashboard.mode.OPERATE;
+		if($("#dashboardMode").val() == ENS.dashboard.mode.OPERATE){
+			dashboardMode = ENS.dashboard.mode.OPERATE;
 		}else{
-			mapMode = ENS.dashboard.mode.EDIT;
-			$("#mapMode").attr("value", ENS.dashboard.mode.EDIT);
+			dashboardMode = ENS.dashboard.mode.EDIT;
+			$("#dashboardMode").attr("value", ENS.dashboard.mode.EDIT);
 		}
 
 		var perspectiveView
 
 		// 運用モード
-		// ・マップエリア
+		// ・ダッシュボードエリア
 		// メニューエリア
-		if(mapMode == ENS.dashboard.mode.OPERATE){
+		if(dashboardMode == ENS.dashboard.mode.OPERATE){
 
 			var viewArea1 = {
 				width : 1200,
@@ -80,7 +80,7 @@
 
 			perspectiveView.dropView("persArea_drop_0_0", "contents_area", "DashboardView");
 
-			// リソースリスト・マップリスト用の領域を別に用意する。
+			// リソースリスト・ダッシュボードリスト用の領域を別に用意する。
 			var treeArea = $("<div id='tree_area'></div>");
 			treeArea.appendTo("body");
 			treeArea.hide();
@@ -90,8 +90,8 @@
 			listArea.hide();
 
 		// 編集モード
-		// ・ツリーエリア(リソースリスト、マップリスト)
-		// ・マップエリア
+		// ・ツリーエリア(リソースリスト、ダッシュボードリスト)
+		// ・ダッシュボードエリア
 		// ・メニューエリア
 		}else {
 
@@ -136,7 +136,7 @@
 		// リソースツリーの生成
 		var resourceTreeView = new ENS.ResourceTreeView();
 
-		if(mapMode == ENS.dashboard.mode.EDIT){
+		if(dashboardMode == ENS.dashboard.mode.EDIT){
 			resourceTreeView.setEditFunction();
 
 			$("#tree_area")
@@ -173,7 +173,7 @@
 
 		}
 
-		// マップ一覧ツリーの生成
+		// ダッシュボード一覧ツリーの生成
 		var resourceDashboardListView = new ENS.ResourceDashboardListView({
 			id : "list_area",
 			targetId : "contents_area",
@@ -181,22 +181,22 @@
 			+ "/resources/css/jsTree/style.css"
 		});
 
-		// マップ一覧ツリーの選択状態の復元用データを取得
+		// ダッシュボード一覧ツリーの選択状態の復元用データを取得
 		var resourceDashboardListSelect = null;
 		var resourceDashboardListSelectStr = $("#selectedDashboardListId").val();
 		if(resourceDashboardListSelectStr.length > 0){
 			resourceDashboardListSelect = resourceDashboardListSelectStr;
 		}
 
-		// マップ一覧ツリー構築後の処理をバインド
+		// ダッシュボード一覧ツリー構築後の処理をバインド
 		$("#" + resourceDashboardListView.$el.attr("id")).bind("loaded.jstree", function(){
 			resourceDashboardListView.restoreDisplayState(resourceDashboardListSelect, null);
 		});
 
-		// マップ一覧のモード毎の固有処理を設定
+		// ダッシュボード一覧のモード毎の固有処理を設定
 		// ・編集モードの場合は編集イベントを設定する。
 		// ・運用モードの場合はダイアログを生成する。
-		if(ENS.dashboard.mode.EDIT == mapMode){
+		if(ENS.dashboard.mode.EDIT == dashboardMode){
 			resourceDashboardListView.setEditFunction();
 
 		}else {
@@ -227,7 +227,7 @@
 		var menuModelArray = [];
 
 		var changeModeMenuModel;
-		if(mapMode == ENS.dashboard.mode.OPERATE){
+		if(dashboardMode == ENS.dashboard.mode.OPERATE){
 			changeModeMenuModel = new ENS.dashboardMenuModel({
 				width : 25,
 				height : 25,
@@ -235,14 +235,14 @@
 				src : '<%=request.getContextPath()%>/resources/images/map/operateModeIcon.png',
 				alt : 'This is the current operation mode. Please click if you want to edit the dashboard.',
 				onclick : (function(event){
-					$("#mapMode").val(ENS.dashboard.mode.EDIT);
+					$("#dashboardMode").val(ENS.dashboard.mode.EDIT);
 					$("#dashboardListForm").attr("action", "<%=request.getContextPath()%>/dashboard/dashboardList");
 					saveDisplayState();
 					$("#dashboardListForm").submit();
 				})
 			});
 
-		}else if(mapMode == ENS.dashboard.mode.EDIT){
+		}else if(dashboardMode == ENS.dashboard.mode.EDIT){
 			changeModeMenuModel = new ENS.dashboardMenuModel({
 				width : 25,
 				height : 25,
@@ -250,7 +250,7 @@
 				src : '<%=request.getContextPath()%>/resources/images/map/editModeIcon.png',
 				alt : 'This is the current edit mode. Please click to go back to the operation mode.',
 				onclick : (function(event){
-					$("#mapMode").val(ENS.dashboard.mode.OPERATE);
+					$("#dashboardMode").val(ENS.dashboard.mode.OPERATE);
 					$("#dashboardListForm").attr("action", "<%=request.getContextPath()%>/dashboard/dashboardList");
 					saveDisplayState();
 					this.resourceDashboardListView.saveOperation();
@@ -261,7 +261,7 @@
 		menuModelArray.push(changeModeMenuModel);
 
 		// 編集モード用のメニューアイコンの設定を行う。
-		if(mapMode == ENS.dashboard.mode.EDIT){
+		if(dashboardMode == ENS.dashboard.mode.EDIT){
 
 			var createDashboardMenuModel = new ENS.dashboardMenuModel({
 				width : 25,
@@ -415,7 +415,7 @@
 		$("#selectedDashboardListId").val(selectedDashboardListId);
 	}
 
-	// リソース一覧又はマップ一覧タブの選択状態があれば選択する。
+	// リソース一覧又はダッシュボード一覧タブの選択状態があれば選択する。
 	var displayTreeArea = $("#displayTreeArea").val();
 	$("#persArea_drop_0_0").find(".tab_menu").find("[href='"+ displayTreeArea +"']").click();
 

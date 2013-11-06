@@ -1,7 +1,7 @@
 function raphaelDashboardManager(dashboardView) {
 
 	/**
-	 * 関連するマップビュー
+	 * 関連するダッシュボードビュー
 	 */
 	this.dashboardView_ = dashboardView;
 
@@ -34,7 +34,7 @@ function raphaelDashboardManager(dashboardView) {
 	this.IS_NOT_INTERVAL = -1;
 
 	/**
-	 * マップに対する編集可否フラグ
+	 * ダッシュボードに対する編集可否フラグ
 	 */
 	this.CAN_EDITE_FLAG = true;
 

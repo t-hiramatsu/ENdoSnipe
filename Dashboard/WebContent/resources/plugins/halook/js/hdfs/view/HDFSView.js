@@ -859,14 +859,14 @@ halook.HDFSView = wgp.AbstractView
 				this._setHdfsDataList();
 
 				var localHdfsLastData = this.hdfsDataList_[this.lastMeasurementTime_];
-				var mapSize = 0;
-				var mapId = "";
+				var dashboardSize = 0;
+				var dashboardId = "";
 				_.each(localHdfsLastData, function(value, id) {
-					mapId = id;
-					mapSize++;
+					dashboardId = id;
+					dashboardSize++;
 				});
 
-				if (mapSize == 1 && mapId == halook.hdfs.constants.hostnameAll) {
+				if (dashboardSize == 1 && dashboardId == halook.hdfs.constants.hostnameAll) {
 					return;
 				}
 

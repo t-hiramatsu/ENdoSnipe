@@ -49,7 +49,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.wgp.manager.WgpDataManager;
 
 /**
- * マップ機能のコントローラークラス。
+ * ダッシュボード機能のコントローラークラス。
  *
  * @author miyasaka
  *
@@ -69,8 +69,8 @@ public class DashboardController
     @Autowired
     protected ServletContext servletContext;
 
-    /** マップを表すID */
-    private static final String MAP_DATA_ID = "dashboard";
+    /** ダッシュボードを表すID */
+    private static final String DASHBOARD_DATA_ID = "dashboard";
 
     /** 運用モード */
     private static final String OPERATE_MODE = "OPERATE";
@@ -78,7 +78,7 @@ public class DashboardController
     /** 背景画像パス */
     private static final String BACKGROUND_IMAGE_PATH = "resources/images/user";
 
-    /** マップ機能のサービスクラス。 */
+    /** ダッシュボード機能のサービスクラス。 */
     @Autowired
     protected DashboardService dashboardService_;
 
@@ -91,33 +91,33 @@ public class DashboardController
     }
 
     /**
-     * Get Map List.
+     * Get Dashboard List.
      *
      * @param request HTTPサーブレットリクエスト
-     * @param dashboardListForm マップ情報
+     * @param dashboardListForm ダッシュボード情報
      * @return 表示するjspファイルの名前
      */
     @RequestMapping(value = "/dashboardList")
-    public String initializeMapList(final HttpServletRequest request,
+    public String initializeDashboardList(final HttpServletRequest request,
             @ModelAttribute("dashboardListForm") final DashboardListForm dashboardListForm)
     {
         EventManager eventManager = EventManager.getInstance();
         eventManager.setWgpDataManager(wgpDataManager);
         eventManager.setResourceSender(resourceSender);
 
-        // マップモードが設定されていない場合は運用モードを設定する。
-        String mapMode = dashboardListForm.getMapMode();
-        if (mapMode == null || mapMode.length() == 0)
+        // ダッシュボードモードが設定されていない場合は運用モードを設定する。
+        String dashboardMode = dashboardListForm.getDashboardMode();
+        if (dashboardMode == null || dashboardMode.length() == 0)
         {
-            dashboardListForm.setMapMode(OPERATE_MODE);
+            dashboardListForm.setDashboardMode(OPERATE_MODE);
         }
         return "DashboardList";
     }
 
     /**
-     * Get All map Data for Tree.
+     * Get All Dashboard Data for Tree.
      *
-     * @return 全てのマップ情報
+     * @return 全てのダッシュボード情報
      */
     @RequestMapping(value = "/getAll", method = RequestMethod.POST)
     @ResponseBody
@@ -125,16 +125,16 @@ public class DashboardController
     {
         Map<String, List<Map<String, String>>> resultMap =
                 new HashMap<String, List<Map<String, String>>>();
-        List<Map<String, String>> resultList = this.dashboardService_.getAllMap();
-        resultMap.put(MAP_DATA_ID, resultList);
+        List<Map<String, String>> resultList = this.dashboardService_.getAllDashboard();
+        resultMap.put(DASHBOARD_DATA_ID, resultList);
         return resultMap;
     }
 
     /**
-     * Insert Map.
+     * Insert Dashboard.
      *
-     * @param data 登録するマップのデータ
-     * @param name 登録するマップ名
+     * @param data 登録するダッシュボードのデータ
+     * @param name 登録するダッシュボード名
      * @return 登録結果
      */
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
@@ -142,56 +142,56 @@ public class DashboardController
     public ResponseDto insert(@RequestParam(value = "data") final String data,
             @RequestParam(value = "name") final String name)
     {
-        DashboardInfo mapInfo = new DashboardInfo();
-        mapInfo.data = data;
-        mapInfo.name = name;
-        return this.dashboardService_.insert(mapInfo);
+        DashboardInfo dashboardInfo = new DashboardInfo();
+        dashboardInfo.data = data;
+        dashboardInfo.name = name;
+        return this.dashboardService_.insert(dashboardInfo);
     }
 
     /**
-     * Update Map.
+     * Update Dashboard.
      *
-     * @param mapId 更新するマップのID
-     * @param data 更新するマップのデータ
-     * @param name 更新するマップ名
+     * @param dashboardId 更新するダッシュボードのID
+     * @param data 更新するダッシュボードのデータ
+     * @param name 更新するダッシュボード名
      * @return 更新結果
      */
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseDto update(@RequestParam(value = "mapId") final String mapId,
+    public ResponseDto update(@RequestParam(value = "dashboardId") final String dashboardId,
             @RequestParam(value = "data") final String data,
             @RequestParam(value = "name") final String name)
     {
         DashboardInfo dashboardInfo = new DashboardInfo();
-        dashboardInfo.mapId = Long.valueOf(mapId);
+        dashboardInfo.dashboardId = Long.valueOf(dashboardId);
         dashboardInfo.data = data;
         dashboardInfo.name = name;
         return this.dashboardService_.update(dashboardInfo);
     }
 
     /**
-     * Get Map.
+     * Get Dashboard.
      *
-     * @param mapId 取得するマップのID
-     * @return 取得結果
+     * @param dashboardId 取得するダッシュボードのID
+     * @retudashboardId結果
      */
     @RequestMapping(value = "/getById", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseDto getById(@RequestParam(value = "mapId") final String mapId)
+    public ResponseDto getById(@RequestParam(value = "dashboardId") final String dashboardId)
     {
-        return this.dashboardService_.getById(Long.valueOf(mapId));
+        return this.dashboardService_.getById(Long.valueOf(dashboardId));
     }
 
     /**
-     * Remove Map
-     * @param mapId Target remove mapId
+     * Remove Dashboard
+     * @param dashboardId Target remove dashboardId
      * @return 削除結果
      */
     @RequestMapping(value = "/removeById", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseDto removeById(@RequestParam(value = "mapId") final String mapId)
+    public ResponseDto removeById(@RequestParam(value = "dashboardId") final String dashboardId)
     {
-        return this.dashboardService_.removeMapById(Long.valueOf(mapId));
+        return this.dashboardService_.removeDashboardById(Long.valueOf(dashboardId));
     }
 
     /**
