@@ -911,8 +911,16 @@ ENS.treeView = wgp.TreeView
 				ENS.tree.doRender = true;
 				this.collection.add(addOptionListSecond);
 			},
-			callbackAddMulResGraph_ : function() {
+			callbackAddMulResGraph_ : function(responseDto) {
 				// Do nothing
+				var result = responseDto.result;
+
+				// 編集操作に失敗した場合はメッセージを表示する。
+				if (result === "fail") {
+					var message = responseDto.message;
+					alert(message);
+					return;
+				}
 			},
 			callbackGetAllMulResGraph_ : function(mulResGraphDefinitionList) {
 				var instance = this;
@@ -923,7 +931,7 @@ ENS.treeView = wgp.TreeView
 								function(mulResGraphDefinition, index) {
 									var treeOption = instance
 											.createMulResGraphSignalTreeOption_(mulResGraphDefinition);
-									addOptionList.push(treeOption);
+										addOptionList.push(treeOption);
 								});
 
 				// renderのADDを実行する権限を無くす

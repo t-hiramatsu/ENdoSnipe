@@ -144,7 +144,7 @@ public class MultipleResourceGraphController
                 this.multipleResourceGraphService_.hasSamemultipleResourceGraphName(multipleResourceGraphName);
         if (hasSameMulResGraphName)
         {
-            String errorMessage = MessageUtil.getMessage("WEWD0131", multipleResourceGraphName);
+            String errorMessage = MessageUtil.getMessage("WEWD0141", multipleResourceGraphName);
             responseDto.setResult(ResponseConstants.RESULT_FAIL);
             responseDto.setMessage(errorMessage);
             return responseDto;
