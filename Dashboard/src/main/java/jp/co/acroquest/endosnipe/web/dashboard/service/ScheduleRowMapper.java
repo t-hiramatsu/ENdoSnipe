@@ -73,7 +73,7 @@ public class ScheduleRowMapper implements RowMapper<SchedulingReportDefinitionDt
 
         try
         {
-            /* System.out.println(rs.getString("report_name"));*/
+            System.out.println(rs.getString("report_name"));
             Calendar calendar = Calendar.getInstance();
             System.out.println("Current day:" + calendar.get(Calendar.DAY_OF_MONTH));
             System.out.println("last date:"
