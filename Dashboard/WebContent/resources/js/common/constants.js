@@ -111,6 +111,10 @@ ENS.tree.ADD_MULTIPLE_RESOURCE_GRAPH_TYPE = "addMulResGraph";
 ENS.tree.EDIT_MULTIPLE_RESOURCE_GRAPH_TYPE = "editMultipleResourceGraph";
 ENS.tree.DELETE_MULTIPLE_RESOURCE_GRAPH_TYPE = "deleteMultipleResourceGraph";
 
+ENS.tree.ADD_SUMMARYSIGNAL_TYPE = "addSummarySignal";
+ENS.tree.EDIT_SUMMARYSIGNAL_TYPE = "editSummarySignal";
+ENS.tree.DELETE_SUMMARYSIGNAL_TYPE = "deleteSummarySignal";
+
 ENS.tree.SIGNAL_PREFIX_ID = "/singalNode-";
 ENS.tree.SIGNAL_ADD_URL = wgp.common.getContextPath() + "/signal/add";
 ENS.tree.SIGNAL_GET_URL = wgp.common.getContextPath() + "/signal/getDefinition";
@@ -134,6 +138,21 @@ ENS.tree.MULTIPLE_RESOURCE_GRAPH_DELETE_URL = wgp.common.getContextPath()
 ENS.tree.MEASUREMENT_ITEM_SELECT_ALL_URL = wgp.common.getContextPath()
 		+ "/multipleResourceGraph/getAllMeasurementList";
 
+ENS.tree.SUMMARYSIGNAL_ITEM_SELECT_ALL_URL = wgp.common.getContextPath()
++ "/summarySignal/getAllDefinition";
+ENS.tree.SUMMARYSIGNAL_ADD_URL = wgp.common.getContextPath()
++ "/summarySignal/add";
+ENS.tree.SUMMARYSIGNAL_GET_URL = wgp.common.getContextPath()
++ "/summarySignal/getDefinition";
+ENS.tree.SUMMARYSIGNAL_EDIT_URL = wgp.common.getContextPath()
++ "/summarySignal/edit";
+ENS.tree.SUMMARYSIGNAL_DELETE_URL = wgp.common.getContextPath()
++ "/summarySignal/delete";
+ENS.tree.SUMMARYSIGNAL_SELECT_ALL_URL = wgp.common.getContextPath()
++ "/summarySignal/getAllDefinition";
+ENS.tree.SUMMARY_SIGNAL_SELECT_ALL_URL = wgp.common.getContextPath()
++ "/summarySignal/getAllDefinitions";
+
 ENS.tree.REPORT_ADD_URL = wgp.common.getContextPath() + "/report/add";
 ENS.tree.REPORT_ADD_DUPLICATE_URL = wgp.common.getContextPath()
 		+ "/report/addDuplicateReport";
@@ -142,6 +161,11 @@ ENS.tree.SIGNAL_VALUE = "signalValue";
 ENS.tree.SIGNAL_DIALOG = "signalDialog";
 ENS.tree.REPORT_DIALOG = "reportDialog";
 ENS.tree.MULTIPLE_RESOURCE_GRAPH_DIALOG = "multipleResourceGraphDialog";
+
+ENS.tree.SUMMARYSIGNAL_NAME = "summarySignalName";
+ENS.tree.SUMMARYSIGNAL_VALUE = "summarySignalValue";
+ENS.tree.SUMMARYSIGNAL_DIALOG = "summarySignalDialog";
+
 ENS.tree.REPORT_PREFIX_ID = "/reportNode-";
 ENS.tree.SCHEDULE_REPORT_PREFIX_ID = "/schedulingReportNode-";
 ENS.tree.REPORT_SELECT_ALL_URL = wgp.common.getContextPath()
@@ -165,6 +189,9 @@ ENS.tree.type.GROUP = "group";
 ENS.tree.type.TARGET = "target";
 ENS.tree.type.SIGNAL = "signal";
 ENS.tree.type.REPORT = "report";
+ENS.tree.type.REPORT_SCHEDULE = "reportSchedule";
+ENS.tree.type.MULTIPLERESOURCEGRAPH = "mulResGraph";
+ENS.tree.type.SUMMARYSIGNAL = "summarySignal";
 ENS.tree.type.SCHEDULINGREPORT = "schedulingReport";
 /*ENS.tree.type.MULTIPLERESOURCEGRAPH = "mulResGraph";*/
 
@@ -261,6 +288,36 @@ ENS.tree.contextOption = [ {
 	executeOption : {
 		dialogId : ENS.tree.MULTIPLE_RESOURCE_GRAPH_DIALOG,
 		signalType : ENS.tree.DELETE_MULTIPLE_RESOURCE_GRAPH_TYPE
+	},
+	children : []
+} , {
+	menu_id : ENS.tree.ADD_SUMMARYSIGNAL_TYPE,
+	menu_name : "Add Summary Signal",
+	executeClass : "ENS.SummarySignalDefinitionDialogView",
+	showTreeTypes : [  ENS.tree.type.GROUP, ENS.tree.type.TARGET ],
+	executeOption : {
+		dialogId : ENS.tree.SUMMARYSIGNAL_DIALOG,
+		summarySignalType : ENS.tree.ADD_SUMMARYSIGNAL_TYPE
+	},
+	children : []
+}, {
+	menu_id : ENS.tree.EDIT_SUMMARYSIGNAL_TYPE,
+	menu_name : "Edit Summary Signal",
+	executeClass : "ENS.SummarySignalDefinitionDialogView",
+	showTreeTypes : [ ENS.tree.type.SUMMARYSIGNAL ],
+	executeOption : {
+		dialogId : ENS.tree.SUMMARYSIGNAL_DIALOG,
+		summarySignalType : ENS.tree.EDIT_SUMMARYSIGNAL_TYPE
+	},
+	children : []
+}, {
+	menu_id : ENS.tree.DELETE_SUMMARYSIGNAL_TYPE,
+	menu_name : "Delete Summary Signal",
+	executeClass : "",
+	showTreeTypes : [ ENS.tree.type.SUMMARYSIGNAL ],
+	executeOption : {
+		dialogId : ENS.tree.SUMMARYSIGNAL_DIALOG,
+		summarySignalType : ENS.tree.DELETE_SUMMARYSIGNAL_TYPE
 	},
 	children : []
 }, {

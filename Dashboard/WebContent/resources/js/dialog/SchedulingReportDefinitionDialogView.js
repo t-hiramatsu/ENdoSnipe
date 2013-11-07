@@ -130,6 +130,8 @@ ENS.SchedulingReportDialogView = ENS.DialogView
 													}
 													ins.op_[okObj][ins.op_[okName]]
 															(event, ins.op_);
+													$("#" + option.dialogId)
+													.dialog("close");
 													/*
 													 * var
 													 * schedulingReportSelectedTimeMinuteId = $(

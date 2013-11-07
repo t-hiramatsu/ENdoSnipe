@@ -41,7 +41,9 @@ ENS.treeView = wgp.TreeView
 				if (ENS.tree.type.SIGNAL == treeModel.get("type")) {
 					return;
 				}
-
+				if (ENS.tree.type.SUMMARYSIGNAL == treeModel.get("type")) {
+					return;
+				}
 				if (this.childView) {
 					var tmpAppView = new wgp.AppView();
 					tmpAppView.removeView(this.childView);
@@ -181,6 +183,7 @@ ENS.treeView = wgp.TreeView
 
 				this.getAllReport_();
 				this.getAllSignal_();
+				this.getAllSummarySignal_();
 				this.getAllMulResGraph_();
 			},
 			/**
@@ -288,11 +291,13 @@ ENS.treeView = wgp.TreeView
 						} else if (dialogId == ENS.tree.MULTIPLE_RESOURCE_GRAPH_DIALOG) {
 							instance.multipleResourceGraphOnSelect_(event,
 									target, menuId, tmpClickTarget);
+						} else if (dialogId == ENS.tree.SUMMARYSIGNAL_DIALOG) {
+							instance.summarySignalOnSelect_(event, target,
+									menuId, tmpClickTarget)
 						} else if (dialogId == ENS.tree.REPORT_SCHEDULE_DIALOG) {
 							instance.reportScheduleOnSelect_(event, target,
 									menuId, tmpClickTarget);
 						}
-
 					}
 				};
 				contextMenuCreator.initializeContextMenu(menuId, contextOption);
@@ -447,6 +452,54 @@ ENS.treeView = wgp.TreeView
 					eval("new " + executeClass + "(executeOption)");
 				}
 			},
+			summarySignalOnSelect_ : function(event, target, menuId,
+					tmpClickTarget) {
+				var clickTarget = event.target;
+				var id = $(clickTarget).attr("id");
+				var targetOption = this.getContextOption_(id);
+
+				var executeOption = targetOption.get("executeOption");
+				executeOption.treeId = $(tmpClickTarget).attr("id");
+				executeOption.displayName = $(tmpClickTarget).text();
+
+				// 削除が選択された場合はそのノードを削除する
+				if (id == ENS.tree.DELETE_SUMMARYSIGNAL_TYPE) {
+					if (confirm("Are you sure you want to delete it?")) {
+						this.deleteSummarySignal_(executeOption);
+					}
+					return;
+				}
+
+				// 開くViewのクラス
+				var executeClass = targetOption.get("executeClass");
+				if (executeClass) {
+					if (id == ENS.tree.ADD_SUMMARYSIGNAL_TYPE) {
+						var targetNodeName = executeOption.displayName.replace(
+								/\s+/g, "");
+						$("#summarySignalName").val(
+								targetNodeName + " summary signal");
+
+					} else if (id == ENS.tree.EDIT_SUMMARYSIGNAL_TYPE) {
+						$('#summarySignalName').attr("disabled", true);
+						$('#summarySignalList2Box').empty();
+						var treeModel = this.collection
+								.get(executeOption.treeId);
+						this.inputSummarySignalDialog_(treeModel);
+
+						// 追加時と同様に扱うため、親ツリーのIDを設定する。
+						executeOption.treeId = this
+								.getSignalParentTreeId_(executeOption.treeId);
+					}
+
+					// set execute class and function, if push ok
+					// button.
+					executeOption.okObject = this;
+					executeOption.okFunctionName = "summarySignalPushOkFunction";
+					executeOption.cancelObject = this;
+					executeOption.cancelFunctionName = "summarySignalPushCancelFunction";
+					eval("new " + executeClass + "(executeOption)");
+				}
+			},
 
 			/** 閾値判定の定義を入力した後に実行するメソッド。 */
 			signalPushOkFunction : function(event, option) {
@@ -496,6 +549,11 @@ ENS.treeView = wgp.TreeView
 
 				// 閾値判定定義の入力内容をクリアする。
 				this.clearSignalDialog_();
+			},
+			summarySignalPushCancelFunction : function(event, option) {
+
+				// 閾値判定定義の入力内容をクリアする。
+				this.clearSummarySignalDialog_();
 			},
 			/**
 			 * シグナル新規追加時の送信データを生成する。
@@ -740,7 +798,17 @@ ENS.treeView = wgp.TreeView
 
 				return sendData;
 			},
-
+			extractNameSignal_ : function(signalNames) {
+				// Ajax通信用の送信先URL
+				var settings = {
+					url : ENS.tree.SUMMARYSIGNAL_ADD_URL,
+					data : {
+						signalName : signalNames
+					}
+				};
+				var ajaxHandler = new wgp.AjaxHandler();
+				var result = ajaxHandler.requestServerSync(settings);
+			},
 			checkShowContext_ : function(treeModel) {
 				$.each(this.contextCollection.models, function(index, value) {
 					var menuId = value.get("menu_id");
@@ -859,6 +927,19 @@ ENS.treeView = wgp.TreeView
 				settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = "callbackGetAllReport_";
 				ajaxHandler.requestServerAsync(settings);
 			},
+			getAllSchedulingReport_ : function() {
+				// レポート出力定義を取得する
+				// Ajax通信用の設定
+				var settings = {
+					url : ENS.tree.SCHEDULING_REPORT_SELECT_ALL_URL
+				};
+
+				// 非同期通信でデータを送信する
+				var ajaxHandler = new wgp.AjaxHandler();
+				settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] = this;
+				settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = "callbackGetAllSchedulingReport_";
+				ajaxHandler.requestServerAsync(settings);
+			},
 			getAllMulResGraph_ : function() {
 				// multipleResourceGraph定義を取得する
 				// Ajax通信用の設定
@@ -872,6 +953,44 @@ ENS.treeView = wgp.TreeView
 				settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] = this;
 				settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = "callbackGetAllMulResGraph_";
 				ajaxHandler.requestServerAsync(settings);
+			},
+			getAllSummarySignal_ : function() {
+				// シグナル定義を取得する
+				// Ajax通信用の設定
+				var settings = {
+					url : ENS.tree.SUMMARY_SIGNAL_SELECT_ALL_URL
+				};
+
+				// 非同期通信でデータを送信する
+				var ajaxHandler = new wgp.AjaxHandler();
+				settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] = this;
+				settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = "callbackGetAllSummarySignal_";
+				ajaxHandler.requestServerAsync(settings);
+			},
+			callbackGetAllSummarySignal_ : function(summarySignalDefinitionList) {
+				var instance = this;
+				var addOptionList = [];
+				var addTopOptionList = [];
+				_
+						.each(
+								summarySignalDefinitionList,
+								function(sumamrySignalDefinition, index) {
+									var treeOption = instance
+											.createSummarySignalTreeOption_(sumamrySignalDefinition);
+									if (treeOption.id.split("/").length <= 3) {
+										addTopOptionList.push(treeOption);
+									} else {
+										addOptionList.push(treeOption);
+									}
+								});
+
+				// renderのADDを実行する権限を無くす
+				ENS.tree.doRender = false;
+				// ツリーノードに追加する
+				this.collection.add(addOptionList);
+				// renderのADDを実行する権限を与える
+				ENS.tree.doRender = true;
+				this.collection.add(addTopOptionList);
 			},
 			callbackGetAllSignal_ : function(signalDefinitionList) {
 				var instance = this;
@@ -920,13 +1039,19 @@ ENS.treeView = wgp.TreeView
 			callbackGetAllMulResGraph_ : function(mulResGraphDefinitionList) {
 				var instance = this;
 				var addOptionList = [];
+				var addTopOptionList = [];
 				_
 						.each(
 								mulResGraphDefinitionList,
 								function(mulResGraphDefinition, index) {
 									var treeOption = instance
 											.createMulResGraphSignalTreeOption_(mulResGraphDefinition);
-									addOptionList.push(treeOption);
+									// addOptionList.push(treeOption);
+									if (treeOption.id.split("/").length <= 3) {
+										addTopOptionList.push(treeOption);
+									} else {
+										addOptionList.push(treeOption);
+									}
 								});
 
 				// renderのADDを実行する権限を無くす
@@ -935,6 +1060,8 @@ ENS.treeView = wgp.TreeView
 				this.collection.add(addOptionList);
 				// renderのADDを実行する権限を与える
 				ENS.tree.doRender = true;
+
+				this.collection.add(addTopOptionList);
 			},
 			deleteMulResGraph_ : function(executeOption) {
 				// リアルタイム通信を止める
@@ -1088,6 +1215,46 @@ ENS.treeView = wgp.TreeView
 					return;
 				}
 			},
+			createSummarySignalTreeOption_ : function(summarySignalDefinition) {
+				var summarySignalName = summarySignalDefinition.summarySignalName;
+
+				var nameSplitList = summarySignalName.split("/");
+				var nameSplitListLength = nameSplitList.length;
+
+				var showName = nameSplitList[nameSplitListLength - 1];
+				// 親ノードのパス
+				var targetTreeId = "";
+				// 新規ノードのパス
+				var reportTreeId = "";
+				// 親ノードへのパスと、新規ノードのパスを作成する
+				for ( var index = 1; index < nameSplitListLength; index++) {
+					var nameSplit = nameSplitList[index];
+
+					if (index == nameSplitListLength - 1) {
+						reportTreeId += ENS.tree.REPORT_PREFIX_ID;
+					} else {
+						targetTreeId += "/";
+						targetTreeId += nameSplit;
+
+						reportTreeId += "/";
+					}
+					reportTreeId += nameSplit;
+				}
+
+				var summaryIcon = ENS.tree.SIGNAL_ICON_0;
+				if (summarySignalDefinition.summarySignalStatus == 1) {
+					summaryIcon = "signal_4";
+				}
+				var treeOption = {
+					id : summarySignalName,
+					data : showName,
+					parentTreeId : targetTreeId,
+					icon : summaryIcon,
+					type : ENS.tree.type.SUMMARYSIGNAL
+				};
+
+				return treeOption;
+			},
 			createSignalTreeOption_ : function(signalDefinition) {
 				var signalName = signalDefinition.signalName;
 
@@ -1235,6 +1402,14 @@ ENS.treeView = wgp.TreeView
 				$("#multipleResourceGraphLstBox2").empty();
 
 			},
+
+			clearSummarySignalDialog_ : function() {
+				$("#summarySignalId").val("");
+				$("#summarySignalName").val("");
+				$("#summarySignalList2Box").empty();
+				$("#and").attr('checked', 'checked');
+
+			},
 			inputMulResGraphDialog_ : function(treeModel) {
 				// Ajax通信用の送信先URL
 				var settings = {
@@ -1268,6 +1443,52 @@ ENS.treeView = wgp.TreeView
 							"<option value='" + measurementList[i] + "'>"
 									+ measurementList[i] + "</option>");
 
+				}
+			},
+
+			inputSummarySignalDialog_ : function(treeModel) {
+				var instance = this;
+				// Ajax通信用の送信先URL
+				var settings = {
+					url : ENS.tree.SUMMARYSIGNAL_GET_URL,
+					data : {
+						summarySignalName : treeModel.get("id")
+					}
+				};
+
+				var ajaxHandler = new wgp.AjaxHandler();
+				var result = ajaxHandler.requestServerSync(settings);
+				var summarySignalDefinition = JSON.parse(result);
+
+				$("#summarySignalId").val(
+						summarySignalDefinition.summarySignalId);
+
+				$("#summarySignalName")
+						.val(
+								this
+										.getSignalDisplayName_(summarySignalDefinition.summarySignalName));
+				var type = summarySignalDefinition.summarySignalType;
+
+				if (type == 0) {
+					$("#and").attr('checked', 'checked');
+				} else {
+					$("#or").attr('checked', 'checked');
+				}
+
+				$("#beforesummarySignalName").val(
+						summarySignalDefinition.summarySignalName);
+				var measurementList = summarySignalDefinition.signalList;
+				for ( var i = 0; i < measurementList.length; i++) {
+					if (measurementList[i] != "") {
+						$('#summarySignalList2Box')
+								.append(
+										"<option value='"
+												+ measurementList[i]
+												+ "'>"
+												+ instance
+														.getSignalDisplayName_(measurementList[i])
+												+ "</option>");
+					}
 				}
 			},
 			inputSignalDialog_ : function(treeModel) {
@@ -1370,7 +1591,8 @@ ENS.treeView = wgp.TreeView
 				var treeType = treeModel.get("type");
 
 				// シグナルの場合はリアルタイム更新開始処理を行う。
-				if (ENS.tree.type.SIGNAL == treeType) {
+				if (ENS.tree.type.SIGNAL == treeType
+						|| ENS.tree.type.SUMMARYSIGNAL == treeType) {
 					appView.syncData([ treeModel.get("id") ]);
 				}
 
@@ -1391,7 +1613,8 @@ ENS.treeView = wgp.TreeView
 				treeTag.attr("id", treeId);
 
 				// シグナルの場合は状態を変更する。
-				if (ENS.tree.type.SIGNAL == treeType) {
+				if (ENS.tree.type.SIGNAL == treeType
+						|| ENS.tree.type.SUMMARYSIGNAL == treeType) {
 					var treeIcon = treeModel.get("icon");
 					var iconTag = treeTag.find("ins");
 
@@ -1424,7 +1647,8 @@ ENS.treeView = wgp.TreeView
 				var treeType = treeModel.get("type");
 
 				// シグナルの場合はリアルタイム更新開始処理を行う。
-				if (ENS.tree.type.SIGNAL == treeType) {
+				if (ENS.tree.type.SIGNAL == treeType
+						|| ENS.tree.type.SUMMARYSIGNAL == treeType) {
 					appView.stopSyncData([ treeModel.get("id") ]);
 				}
 
@@ -1444,75 +1668,86 @@ ENS.treeView = wgp.TreeView
 					this.renderAll();
 				}
 			},
-			schedulingReportPushOkFunction : function(event, option) {
+			summarySignalPushOkFunction : function(event, option) {
+
+				// add tree data for SummarySignal
+				var treeId = option.treeId;
+				var summarySignalDispalyName = $("#summarySignalName").val();
+				var summarySignalName = treeId + "/" + summarySignalDispalyName;
+
 				// Ajax通信のコールバック関数名
 				var callbackFunction = "";
 				// Ajax通信の送信先URL
 				var url = "";
-				// レポート出力定義
-				var schedulingReportDefinition;
 				// サーバに送信するデータ
 				var sendData;
-				// Ajax通信のコールバック関数と送信先URLをシグナルタイプによって決める
-				if (option.signalType == ENS.tree.OUTPUT_REPORT_SCHEDULE_TYPE) {
-					schedulingReportDefinition = this
-							.createSchedulingReportDefinition_(option);
-					sendData = {
-						schedulingReportDefinition : JSON
-								.stringify(schedulingReportDefinition)
-					};
-					callbackFunction = "callbackAddSchedulingReport_";
-					url = ENS.tree.SCHEDULING_REPORT_ADD_URL;
+				// Ajax通信のコールバック関数と送信先URLを追加か編集かによって決める
+				// SummarySignal追加時
+				if (option.summarySignalType == ENS.tree.ADD_SUMMARYSIGNAL_TYPE) {
 
-				} 
+					sendData = this
+							.createSendSummarySignalData_(summarySignalName);
+					callbackFunction = "callbackSummarySignal_";
+					url = ENS.tree.SUMMARYSIGNAL_ADD_URL;
+
+					// SummarySignal編集時
+				} else if (option.summarySignalType == ENS.tree.EDIT_SUMMARYSIGNAL_TYPE) {
+					sendData = this
+							.createSendSummarySignalData_(summarySignalName);
+					callbackFunction = "callbackSummarySignal_";
+					url = ENS.tree.SUMMARYSIGNAL_EDIT_URL;
+				}
+
 				// Ajax通信用の設定
 				var settings = {
 					data : sendData,
 					url : url
 				};
-				/* alert(url); */
-				/* alert(JSON.stringify(sendData)); */
+
 				// 非同期通信でデータを送信する
 				var ajaxHandler = new wgp.AjaxHandler();
 				settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] = this;
 				settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = callbackFunction;
 				ajaxHandler.requestServerAsync(settings);
 
-				// レポート出力ダイアログの入力内容をクリアする。
-				this.clearReportDialog_();
-
-				// ツリーノードを追加する
-				var treeOption = this
-						.createReportTreeOption_(schedulingReportDefinition);
-				this.collection.add([ treeOption ]);
+				// 閾値判定定義の入力内容をクリアする。
+				this.clearSummarySignalDialog_();
 			},
-			schedulingReportPushCancelFunction : function(event, option) {
+			createSendSummarySignalData_ : function(summarySignal) {
+				var summarySignalList;
+				var summarySignalItem;
+				summarySignalList = $("#summarySignalList2Box>option").map(
+						function() {
+							return $(this).val();
 
-				// レポート出力ダイアログの入力内容をクリアする。
-				this.clearReportDialog_();
-			},
-			createSchedulingReportDefinition_ : function(option) {
-				var treeId = option.treeId;
-				var schedulingReportName = $("#schedulingReportName").val();
-				var reportFullName = treeId + "/" + schedulingReportName;
+						});
+				summarySignalItem = summarySignalList.get(0);
+				for ( var i = 1; i < summarySignalList.length; i++) {
+					summarySignalItem = summarySignalItem + ","
+							+ summarySignalList.get(i);
+				}
+				summarySignalType = $(
+						"input[name='summarySignal_type']:checked").val();
+				if (summarySignalType == "and") {
+					summarySignalType = 0;
+				} else {
+					summarySignalType = 1;
+				}
 
-				// レポート出力定義を作成する
-				var schedulingReportDefinition = {
-					reportId : $("#reportId").val(),
-					reportName : reportFullName,
-					targetMeasurementName : $("#schedulingReportTargetName")
-							.val(),
-					term : $('input[name=scheduling_report_type]:checked')
-							.val(),
-					time : $("#schedulingReportSelectedTimeId").val() + ":"
-							+ $("#schedulingReportSelectedTimeMinuteId").val(),
-					day : $("#schedulingReportSelectedWeeklyId").val(),
-					date : $("#schedulingReportSelectedMonthlyId").val()
+				var summarySignalDefinition = {
+					summarySignalId : $("#summarySignalId").val(),
+					summarySignalName : summarySignal,
+					summarySignalType : summarySignalType,
+					signalList : summarySignalItem
 				};
+				var sendData = {
+					summarySignalDefinition : JSON
+							.stringify(summarySignalDefinition)
+				};
+				return sendData;
 
-				return schedulingReportDefinition;
 			},
-			callbackAddSchedulingReport_ : function(responseDto) {
+			callbackSummarySignal_ : function(responseDto) {
 				var result = responseDto.result;
 
 				// 追加操作に失敗した場合はメッセージを表示する。
@@ -1521,68 +1756,200 @@ ENS.treeView = wgp.TreeView
 					alert(message);
 					return;
 				}
-				var schedulingReportDefinition = responseDto.data;
-				var reportId = schedulingReportDefinition.reportId;
-				/*if (reportId === 0) {
-					alert("This Report Name already exists."
-							+ "\nPlease change report name and try again.");
-					return;
-				}*/
-			},
-
-			clearSchedulingReportDialog_ : function() {
-				$("#reportId").val("");
-				$("#reportName").val("");
-				$("#targetName").val("");
-				$('input[name=scheduling_report_type]:checked').val("");
-				$("#schedulingReportSelectedTimeId").val("") + ":"
-						+ $("#schedulingReportSelectedTimeMinuteId").val("");
-				$("#schedulingReportSelectedWeeklyId").val("");
-				$("#schedulingReportSelectedMonthlyId").val("");
-			},
-			getSchedulingParentId_ : function(reportName) {
-				var lastIndexOf = reportName.lastIndexOf("/");
-				return reportName.substr(0, lastIndexOf);
-			},
-			reportScheduleOnSelect_ : function(event, target, menuId, tmpClickTarget) {
-				var clickTarget = event.target;
-				var id = $(clickTarget).attr("id");
-				
-				var targetOption = this.getContextOption_(id);
-				if (targetOption == null) {
+				var summarySignalDefinition = responseDto.data;
+				var message = summarySignalDefinition.message;
+				if (message != "") {
+					alert(message);
 					return;
 				}
+			},
+			deleteSummarySignal_ : function(executeOption) {
+
+				// リアルタイム通信を止める
+				appView.stopSyncData([ executeOption.treeId ]);
+
+				// Ajax通信の送信先URL
+				var callbackFunction = "callbackSummarySignal_";
+				var url = ENS.tree.SUMMARYSIGNAL_DELETE_URL;
+
+				// Ajax通信用の設定
+				var settings = {
+					data : {
+						summarySignalName : executeOption.treeId
+					},
+					url : url
+				};
+
+				// 非同期通信でシグナル削除依頼電文を送信する。
+				var ajaxHandler = new wgp.AjaxHandler();
+				settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] = this;
+				settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = callbackFunction;
+				ajaxHandler.requestServerAsync(settings);
+			},
+			editSummarySignalFunction_ : function(event, target, menuId,
+					tmpClickTarget, summarySignalNames) {
+
+				var clickTarget = event.target;
+				var id = $(clickTarget).attr("id");
+				var targetOption = this.getContextOption_(id);
 
 				var executeOption = targetOption.get("executeOption");
 				executeOption.treeId = $(tmpClickTarget).attr("id");
 				executeOption.displayName = $(tmpClickTarget).text();
+				var targetNodeName = executeOption.displayName.replace(/\s+/g,
+						"");
+				var url = ENS.tree.SUMMARYSIGNAL_EDIT_URL
 
-				// 削除が選択された場合はそのノードを削除する
-				if (id == ENS.tree.DELETE_REPORT_TYPE) {
-					if (confirm("Are you sure you want to delete it?")) {
-						this.deleteReport_(executeOption);
-					}
-					return;
-				}
+				var settings = {
+					data : {
+						summarySignalName : summarySignalNames
+					},
+					url : url
+				};
+				var ajaxHandler = new wgp.AjaxHandler();
+				ajaxHandler.requestServerAsync(settings);
+			
 
-				// 開くViewのクラス
-				var executeClass = targetOption.get("executeClass");
-				if (executeClass) {
-					if (id == ENS.tree.OUTPUT_REPORT_SCHEDULE_TYPE) {
-					// デフォルトのレポート名にレポート出力対象のノード名を入れる(空白を削除する処理を入れている)
-						var targetNodeName = executeOption.displayName.replace(/\s+/g, ""); 
-						$("#schedulingReportName").val(targetNodeName + " scheduling report");
-						// Target Measurement Nameにツリー階層を入力する
-						$("#schedulingReportTargetName").val(executeOption.treeId);
-					}
-					
-					// set execute class and function, if push ok
-					// button.
-					executeOption.okObject = this;
-					executeOption.okFunctionName = "schedulingReportPushOkFunction";
-					executeOption.cancelObject = this;
-					executeOption.cancelFunctionName = "schedulingReportPushCancelFunction";
-					eval("new " + executeClass + "(executeOption)");
-				}
+		},
+		schedulingReportPushOkFunction : function(event, option) {
+			// Ajax通信のコールバック関数名
+			var callbackFunction = "";
+			// Ajax通信の送信先URL
+			var url = "";
+			// レポート出力定義
+			var schedulingReportDefinition;
+			// サーバに送信するデータ
+			var sendData;
+			// Ajax通信のコールバック関数と送信先URLをシグナルタイプによって決める
+			if (option.signalType == ENS.tree.OUTPUT_REPORT_SCHEDULE_TYPE) {
+				schedulingReportDefinition = this
+						.createSchedulingReportDefinition_(option);
+				sendData = {
+					schedulingReportDefinition : JSON
+							.stringify(schedulingReportDefinition)
+				};
+				callbackFunction = "callbackAddSchedulingReport_";
+				url = ENS.tree.SCHEDULING_REPORT_ADD_URL;
+
+			} 
+			// Ajax通信用の設定
+			var settings = {
+				data : sendData,
+				url : url
+			};
+			/* alert(url); */
+			/* alert(JSON.stringify(sendData)); */
+			// 非同期通信でデータを送信する
+			var ajaxHandler = new wgp.AjaxHandler();
+			settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] = this;
+			settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = callbackFunction;
+			ajaxHandler.requestServerAsync(settings);
+
+			// レポート出力ダイアログの入力内容をクリアする。
+			this.clearReportDialog_();
+
+			// ツリーノードを追加する
+			var treeOption = this
+					.createReportTreeOption_(schedulingReportDefinition);
+			this.collection.add([ treeOption ]);
+		},
+		schedulingReportPushCancelFunction : function(event, option) {
+
+			// レポート出力ダイアログの入力内容をクリアする。
+			this.clearReportDialog_();
+		},
+		createSchedulingReportDefinition_ : function(option) {
+			var treeId = option.treeId;
+			var schedulingReportName = $("#schedulingReportName").val();
+			var reportFullName = treeId + "/" + schedulingReportName;
+
+			// レポート出力定義を作成する
+			var schedulingReportDefinition = {
+				reportId : $("#reportId").val(),
+				reportName : reportFullName,
+				targetMeasurementName : $("#schedulingReportTargetName")
+						.val(),
+				term : $('input[name=scheduling_report_type]:checked')
+						.val(),
+				time : $("#schedulingReportSelectedTimeId").val() + ":"
+						+ $("#schedulingReportSelectedTimeMinuteId").val(),
+				day : $("#schedulingReportSelectedWeeklyId").val(),
+				date : $("#schedulingReportSelectedMonthlyId").val()
+			};
+
+			return schedulingReportDefinition;
+		},
+		callbackAddSchedulingReport_ : function(responseDto) {
+			var result = responseDto.result;
+
+			// 追加操作に失敗した場合はメッセージを表示する。
+			if (result === "fail") {
+				var message = responseDto.message;
+				alert(message);
+				return;
 			}
-		});
+			var schedulingReportDefinition = responseDto.data;
+			var reportId = schedulingReportDefinition.reportId;
+			/*if (reportId === 0) {
+				alert("This Report Name already exists."
+						+ "\nPlease change report name and try again.");
+				return;
+			}*/
+		},
+
+		clearSchedulingReportDialog_ : function() {
+			$("#reportId").val("");
+			$("#reportName").val("");
+			$("#targetName").val("");
+			$('input[name=scheduling_report_type]:checked').val("");
+			$("#schedulingReportSelectedTimeId").val("") + ":"
+					+ $("#schedulingReportSelectedTimeMinuteId").val("");
+			$("#schedulingReportSelectedWeeklyId").val("");
+			$("#schedulingReportSelectedMonthlyId").val("");
+		},
+		getSchedulingParentId_ : function(reportName) {
+			var lastIndexOf = reportName.lastIndexOf("/");
+			return reportName.substr(0, lastIndexOf);
+		},
+		reportScheduleOnSelect_ : function(event, target, menuId, tmpClickTarget) {
+			var clickTarget = event.target;
+			var id = $(clickTarget).attr("id");
+			
+			var targetOption = this.getContextOption_(id);
+			if (targetOption == null) {
+				return;
+			}
+
+			var executeOption = targetOption.get("executeOption");
+			executeOption.treeId = $(tmpClickTarget).attr("id");
+			executeOption.displayName = $(tmpClickTarget).text();
+
+			// 削除が選択された場合はそのノードを削除する
+			if (id == ENS.tree.DELETE_REPORT_TYPE) {
+				if (confirm("Are you sure you want to delete it?")) {
+					this.deleteReport_(executeOption);
+				}
+				return;
+			}
+
+			// 開くViewのクラス
+			var executeClass = targetOption.get("executeClass");
+			if (executeClass) {
+				if (id == ENS.tree.OUTPUT_REPORT_SCHEDULE_TYPE) {
+				// デフォルトのレポート名にレポート出力対象のノード名を入れる(空白を削除する処理を入れている)
+					var targetNodeName = executeOption.displayName.replace(/\s+/g, ""); 
+					$("#schedulingReportName").val(targetNodeName + " scheduling report");
+					// Target Measurement Nameにツリー階層を入力する
+					$("#schedulingReportTargetName").val(executeOption.treeId);
+				}
+				
+				// set execute class and function, if push ok
+				// button.
+				executeOption.okObject = this;
+				executeOption.okFunctionName = "schedulingReportPushOkFunction";
+				executeOption.cancelObject = this;
+				executeOption.cancelFunctionName = "schedulingReportPushCancelFunction";
+				eval("new " + executeClass + "(executeOption)");
+			}
+		}
+	});
