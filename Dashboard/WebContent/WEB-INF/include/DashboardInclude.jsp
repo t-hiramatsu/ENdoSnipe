@@ -62,9 +62,16 @@
 
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/dialog/SchedulingReportDefinitionDialogView.js">	
+
 </script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/dialog/reportDialogView.js">	
+	src="<%=request.getContextPath()%>/resources/js/dialog/summarySignalDefinitionDialogView.js">
+	
+</script>
+
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/resources/js/dialog/reportDialogView.js">
+	
 </script>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/dialog/MultipleResourceGraphDefinitionDialogView.js">
@@ -82,10 +89,11 @@
 </script>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/map/view/MulResGraphView.js">
-	
+
 </script>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/map/view/schedulingReportView.js">
+
 </script>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/map/model/resourceGraphModel.js">

@@ -10,6 +10,7 @@
 <%@ include file="dialog/SchedulingReportDialog.jsp"%>
 <%@ include file="dialog/ReportDialog.jsp"%>
 <%@ include file="dialog/PerformanceDoctorDialog.jsp"%>
+<%@ include file="dialog/SummarySignalDialog.jsp"%>
 
 <title>ENdoSnipe Dashboard</title>
 </head>

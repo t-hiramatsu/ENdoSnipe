@@ -1808,8 +1808,6 @@ ENS.treeView = wgp.TreeView
 				};
 				var ajaxHandler = new wgp.AjaxHandler();
 				ajaxHandler.requestServerAsync(settings);
-			
-
 		},
 		schedulingReportPushOkFunction : function(event, option) {
 			// Ajax通信のコールバック関数名
@@ -1953,3 +1951,4 @@ ENS.treeView = wgp.TreeView
 			}
 		}
 	});
+

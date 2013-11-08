@@ -76,7 +76,13 @@
 			value="jp.co.acroquest.endosnipe.web.dashboard.dao.SignalInfoDao" />
 		<beans:property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</beans:bean>
-
+	
+	<beans:bean id="summarySignalInfoDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<beans:property name="mapperInterface"
+			value="jp.co.acroquest.endosnipe.web.dashboard.dao.SummarySignalInfoDao" />
+		<beans:property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</beans:bean>
+	
 	<beans:bean id="multipleResourceGraphInfoDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
 		<beans:property name="mapperInterface"
 			value="jp.co.acroquest.endosnipe.web.dashboard.dao.MultipleResourceGraphInfoDao" />
