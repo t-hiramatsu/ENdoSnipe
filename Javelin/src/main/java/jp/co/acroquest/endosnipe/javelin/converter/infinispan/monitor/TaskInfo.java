@@ -5,7 +5,6 @@ import java.util.Map;
 
 import jp.co.acroquest.jsonic.JSON;
 
-
 /**
  * タスク情報
  * @author hiramatsu
@@ -13,40 +12,46 @@ import jp.co.acroquest.jsonic.JSON;
 public class TaskInfo
 {
     /**　タスク終了状態　*/
-    private String              status_;
+    private String status_;
 
     /**　タスク開始時刻　*/
-    private long                startTime_;
+    private long startTime_;
 
     /**　タスク終了時刻　*/
-    private long                finishTime_;
+    private long finishTime_;
 
     /**　ジョブID　*/
-    private String              jobID_;
+    private String jobID_;
 
     /**　タスクID　*/
-    private String              taskAttemptID_;
+    private String taskAttemptID_;
 
     /**　ホストサーバ名　*/
-    private String              hostName_;
+    private String hostName_;
+
+    /** タスク種別 */
+    private String taskType_;
 
     /** jobID の JSONキー  */
-    private static final String JOB_ID          = "JobID";
+    private static final String JOB_ID = "JobID";
 
     /** startTime の JSONキー  */
-    private static final String START_TIME      = "StartTime";
+    private static final String START_TIME = "StartTime";
 
     /** finishTime の JSONキー  */
-    private static final String FINISH_TIME     = "FinishTime";
+    private static final String FINISH_TIME = "FinishTime";
 
     /** status の JSONキー  */
-    private static final String STATUS          = "Status";
+    private static final String STATUS = "Status";
 
     /** taskAttemptId の JSONキー  */
     private static final String TASK_ATTEMPT_ID = "TaskAttemptID";
 
     /** status の JSONキー  */
-    private static final String HOST_NAME       = "Hostname";
+    private static final String HOST_NAME = "Hostname";
+    
+    /** taskType の JSONキー  */
+    private static final String TASK_TYPE = "TaskType";
 
     /**
      * タスク終了時状態を取得する。
@@ -168,13 +173,32 @@ public class TaskInfo
         this.hostName_ = hostName;
     }
 
+    /**
+     * タスク種別を取得する。
+     * 
+     * @return タスク種別
+     */
+    public String getTaskType()
+    {
+        return taskType_;
+    }
+
+    /**
+     * タスク種別を設定する。
+     * 
+     * @param taskType 設定するタスク種別名
+     */
+    public void setTaskType(String taskType)
+    {
+        this.taskType_ = taskType;
+    }
+    
     @Override
     public String toString()
     {
-        return "TaskInfo [status_=" + status_ + ", startTime_=" + startTime_
-                + ", finishTime_=" + finishTime_ + ", jobID_=" + jobID_
-                + ", taskAttemptID_=" + taskAttemptID_ + ", hostName_="
-                + hostName_ + "]";
+        return "TaskInfo [status_=" + status_ + ", startTime_=" + startTime_ + ", finishTime_="
+            + finishTime_ + ", jobID_=" + jobID_ + ", taskAttemptID_=" + taskAttemptID_
+            + ", hostName_=" + hostName_ + ", taskType_=" + taskType_ + "]";
     }
 
     /**
@@ -191,6 +215,7 @@ public class TaskInfo
         taskStatusMap.put(TASK_ATTEMPT_ID, this.taskAttemptID_);
         taskStatusMap.put(HOST_NAME, this.hostName_);
         taskStatusMap.put(STATUS, this.status_);
+        taskStatusMap.put(TASK_TYPE, this.taskType_);
 
         String jsonString = JSON.encode(taskStatusMap);
 
