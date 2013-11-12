@@ -189,10 +189,9 @@ ENS.tree.type.GROUP = "group";
 ENS.tree.type.TARGET = "target";
 ENS.tree.type.SIGNAL = "signal";
 ENS.tree.type.REPORT = "report";
-ENS.tree.type.REPORT_SCHEDULE = "reportSchedule";
+ENS.tree.type.REPORT_SCHEDULE = "schedulingReport";
 ENS.tree.type.MULTIPLERESOURCEGRAPH = "mulResGraph";
 ENS.tree.type.SUMMARYSIGNAL = "summarySignal";
-ENS.tree.type.SCHEDULINGREPORT = "schedulingReport";
 /*ENS.tree.type.MULTIPLERESOURCEGRAPH = "mulResGraph";*/
 
 ENS.tree.OUTPUT_REPORT_SCHEDULE_TYPE = "outputScheduleReport";
@@ -202,7 +201,7 @@ ENS.tree.SCHEDULING_REPORT_ADD_URL = wgp.common.getContextPath() + "/report/adds
 ENS.tree.SCHEDULING_EDIT_URL = wgp.common.getContextPath() + "/report/edit";
 ENS.tree.REPORT_SCHEDULE_DIALOG = "schedulingReportDialog";
 ENS.tree.SCHEDULING_REPORT_SELECT_ALL_URL = wgp.common.getContextPath()
-+ "/report//getAllScheduleDefinition";
++ "/report/getAllScheduleDefinition";
 /*ENS.tree.REPORT_SELECT_BY_SCHEDULING_REPORT_NAME_URL = wgp.common.getContextPath()
 + "/report/getSchedulingDefinition";*/
 ENS.tree.SCHEDULE_EDIT_URL = wgp.common.getContextPath() + "/report/schedulingEdit";

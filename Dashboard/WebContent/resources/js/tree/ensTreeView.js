@@ -182,6 +182,7 @@ ENS.treeView = wgp.TreeView
 								});
 
 				this.getAllReport_();
+				this.getAllScheduleReport_();
 				this.getAllSignal_();
 				this.getAllSummarySignal_();
 				this.getAllMulResGraph_();
@@ -927,19 +928,23 @@ ENS.treeView = wgp.TreeView
 				settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = "callbackGetAllReport_";
 				ajaxHandler.requestServerAsync(settings);
 			},
-			getAllSchedulingReport_ : function() {
-				// レポート出力定義を取得する
-				// Ajax通信用の設定
-				var settings = {
-					url : ENS.tree.SCHEDULING_REPORT_SELECT_ALL_URL
-				};
+			getAllScheduleReport_ : function() {
 
-				// 非同期通信でデータを送信する
-				var ajaxHandler = new wgp.AjaxHandler();
-				settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] = this;
-				settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = "callbackGetAllSchedulingReport_";
-				ajaxHandler.requestServerAsync(settings);
-			},
+			    // レポート出力定義を取得する
+			    // Ajax通信用の設定
+			    var settings = {
+
+			        url : ENS.tree.SCHEDULING_REPORT_SELECT_ALL_URL
+
+			    };
+
+			    // 非同期通信でデータを送信する
+			    var ajaxHandler = new wgp.AjaxHandler();
+			    settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] = this;
+			    settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = "callbackGetAllReport_";
+			    ajaxHandler.requestServerAsync(settings);
+
+			    },
 			getAllMulResGraph_ : function() {
 				// multipleResourceGraph定義を取得する
 				// Ajax通信用の設定
@@ -1808,6 +1813,8 @@ ENS.treeView = wgp.TreeView
 				};
 				var ajaxHandler = new wgp.AjaxHandler();
 				ajaxHandler.requestServerAsync(settings);
+			
+
 		},
 		schedulingReportPushOkFunction : function(event, option) {
 			// Ajax通信のコールバック関数名
@@ -1951,4 +1958,3 @@ ENS.treeView = wgp.TreeView
 			}
 		}
 	});
-

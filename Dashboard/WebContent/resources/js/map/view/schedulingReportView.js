@@ -34,11 +34,11 @@ ENS.schedulingReportView = wgp.AbstractView
 					"margin-top" : 20,
 					"margin-left" : 15
 				});
-				$("#reportDiv").append('<table id="reportTable"></table>');
+				$("#reportDiv").append('<table id="scheduleReportTable"></table>');
 				$("#reportDiv").append('<div id="reportPager"></table>');
 				var height = "auto";
 
-				$("#reportTable").jqGrid(
+				$("#scheduleReportTable").jqGrid(
 						{
 							datatype : "local",
 							data : "",
@@ -55,7 +55,7 @@ ENS.schedulingReportView = wgp.AbstractView
 							viewrecords : true,
 							rownumbers : true
 						});
-				$("#reportTable").filterToolbar({
+				$("#scheduleReportTable").filterToolbar({
 					defaultSearch : 'cn'
 				});
 				$("#reportDiv").css('font-size', '0.8em');
@@ -125,7 +125,7 @@ ENS.schedulingReportView = wgp.AbstractView
 					tableViewData.push(instance._parseModel(model));
 				});
 
-				$("#reportTable").clearGridData().setGridParam({
+				$("#scheduleReportTable").clearGridData().setGridParam({
 					data : tableViewData
 				}).trigger("reloadGrid");
 			},
@@ -162,7 +162,7 @@ ENS.schedulingReportView = wgp.AbstractView
 					tableViewData.push(report);
 				});
 
-				$("#reportTable").clearGridData().setGridParam({
+				$("#scheduleReportTable").clearGridData().setGridParam({
 					data : tableViewData
 				}).trigger("reloadGrid");
 			},
@@ -203,7 +203,7 @@ ENS.schedulingReportView = wgp.AbstractView
 					tableViewData.push(report);
 				});
 
-				$("#reportTable").clearGridData().setGridParam({
+				$("#scheduleReportTable").clearGridData().setGridParam({
 					data : tableViewData
 				}).trigger("reloadGrid");
 			},
@@ -225,7 +225,7 @@ ENS.schedulingReportView = wgp.AbstractView
 
 ENS.report.updateSchedulingReport = function(rowId) {
 
-	var rowData = $("#reportTable").jqGrid('getRowData', rowId);
+	var rowData = $("#scheduleReportTable").jqGrid('getRowData', rowId);
 	ENS.schedulingReportDialog.rowId = rowId;
 	var term = rowData.term;
 	var timeSplit = rowData.time.split(":");
@@ -277,8 +277,8 @@ ENS.report.updateSchedulingReport = function(rowId) {
 
 };
 ENS.report.deleteSchedulingReport = function(rowId) {
-	var grid = $("#reportTable");
-	var rowData = $("#reportTable").jqGrid('getRowData', rowId);
+	var grid = $("#scheduleReportTable");
+	var rowData = $("#scheduleReportTable").jqGrid('getRowData', rowId);
 	grid.delRowData(rowId);
 	var settings = {
 		
