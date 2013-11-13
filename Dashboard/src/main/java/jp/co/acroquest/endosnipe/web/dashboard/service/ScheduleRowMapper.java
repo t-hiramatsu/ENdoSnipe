@@ -8,6 +8,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,63 +69,10 @@ public class ScheduleRowMapper implements RowMapper<SchedulingReportDefinitionDt
      * @return null
      */
     public SchedulingReportDefinitionDto mapRow(final ResultSet rs, final int rowNum)
-        throws SQLException
     {
 
-        try
-        {
-            System.out.println(rs.getString("report_name"));
-            Calendar calendar = Calendar.getInstance();
-            System.out.println("Current day:" + calendar.get(Calendar.DAY_OF_MONTH));
-            System.out.println("last date:"
-                    + Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH));
-            if ("DAILY".equals(rs.getString("schedule_term")))
-            {
-                this.createDaily(rs);
-            }
-            if ("WEEKLY".equals(rs.getString("schedule_term")))
-            {
-                this.createWeekly(rs);
-            }
-            if ("MONTHLY".equals(rs.getString("schedule_term")))
-            {
-                this.createMonthly(rs);
-            }
-
-        }
-        catch (SQLException ex)
-        {
-            ex.printStackTrace();
-        }
+        this.createReport(rs);
         return null;
-    }
-
-    /**
-     * create daily.
-     * @param rs scheduling data
-     */
-    private void createDaily(final ResultSet rs)
-    {
-        Calendar time = Calendar.getInstance();
-        Calendar currentTime = Calendar.getInstance();
-        DateFormat timeFormat = new SimpleDateFormat("HH:mm");
-        try
-        {
-            time.setTime(timeFormat.parse(rs.getString("schedule_time")));
-        }
-        catch (ParseException ex)
-        {
-            ex.printStackTrace();
-        }
-        catch (SQLException ex)
-        {
-            ex.printStackTrace();
-        }
-        if (time.get(Calendar.HOUR_OF_DAY) == currentTime.get(Calendar.HOUR_OF_DAY)
-                && time.get(Calendar.MINUTE) == currentTime.get(Calendar.MINUTE))
-        {
-            this.createReport(rs);
-        }
     }
 
     /**
@@ -267,9 +215,10 @@ public class ScheduleRowMapper implements RowMapper<SchedulingReportDefinitionDt
                 }
             }
 
+            int date = Integer.parseInt(rs.getString("schedule_date"));
             if (rs.getString("schedule_date") != null)
             {
-                int date = Integer.parseInt(rs.getString("schedule_date"));
+
                 lastExportedCalendar.set(Calendar.DAY_OF_MONTH, date);
                 long lastExportedLong = lastExportedCalendar.getTimeInMillis();
                 long currentTimeLong = currentTimeCalendar.getTimeInMillis();
@@ -278,6 +227,15 @@ public class ScheduleRowMapper implements RowMapper<SchedulingReportDefinitionDt
                 {
                     lastExportedCalendar.add(Calendar.MONTH, 1);
                 }
+            }
+
+            if (date > lastExportedCalendar.get(Calendar.DAY_OF_MONTH)
+                    && (lastExportedCalendar.getActualMaximum(Calendar.DAY_OF_MONTH)) >= date)
+
+            {
+
+                lastExportedCalendar.set(Calendar.DAY_OF_MONTH, date);
+
             }
             Timestamp lastExportedTime = new Timestamp(lastExportedCalendar.getTimeInMillis());
             schedulingReportDefinition.lastExportedTime_ = lastExportedTime;
@@ -302,83 +260,6 @@ public class ScheduleRowMapper implements RowMapper<SchedulingReportDefinitionDt
 
     }
 
-    private void createWeekly(final ResultSet rs)
-    {
-        Calendar calendar = Calendar.getInstance();
-        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-        String weekDay = "";
-        if (Calendar.MONDAY == dayOfWeek)
-        {
-            weekDay = "Monday";
-        }
-        else if (Calendar.TUESDAY == dayOfWeek)
-        {
-            weekDay = "Tuesday";
-        }
-        else if (Calendar.WEDNESDAY == dayOfWeek)
-        {
-            weekDay = "Wednesday";
-        }
-        else if (Calendar.THURSDAY == dayOfWeek)
-        {
-            weekDay = "Thursday";
-        }
-        else if (Calendar.FRIDAY == dayOfWeek)
-        {
-            weekDay = "Friday";
-        }
-        else if (Calendar.SATURDAY == dayOfWeek)
-        {
-            weekDay = "Saturday";
-        }
-        else if (Calendar.SUNDAY == dayOfWeek)
-        {
-            weekDay = "Sunday";
-        }
-        try
-        {
-            if (weekDay.equals(rs.getString("schedule_day")))
-            {
-                this.createDaily(rs);
-            }
-        }
-        catch (SQLException ex)
-        {
-            ex.printStackTrace();
-        }
-    }
-
-    /**
-     * create monthly data.
-     * @param rs scheduling data
-     */
-    private void createMonthly(final ResultSet rs)
-    {
-        Calendar calendar = Calendar.getInstance();
-        int scheduleDate = 0;
-        try
-        {
-            scheduleDate = Integer.parseInt(rs.getString("schedule_date"));
-        }
-        catch (NumberFormatException ex)
-        {
-            ex.printStackTrace();
-        }
-        catch (SQLException ex)
-        {
-            ex.printStackTrace();
-        }
-
-        if (calendar.get(Calendar.DAY_OF_MONTH) == scheduleDate)
-        {
-            this.createDaily(rs);
-        }
-        else if (calendar.get(Calendar.DAY_OF_MONTH) == Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH))
-        {
-            this.createDaily(rs);
-        }
-    }
-
     /**
      * convert to report definition.
      * @param scheduling scheduling report dto
@@ -390,6 +271,29 @@ public class ScheduleRowMapper implements RowMapper<SchedulingReportDefinitionDt
         definition.reportId_ = scheduling.getReportId();
         definition.reportName_ = scheduling.getReportName();
         definition.targetMeasurementName_ = scheduling.getTargetMeasurementName();
+
+        Timestamp lastExportedTime = scheduling.getLastExportedTime();
+        Calendar fromCalendar = Calendar.getInstance();
+        fromCalendar.setTimeInMillis(lastExportedTime.getTime());
+
+        if ("DAILY".equals(scheduling.getTerm()))
+        {
+            fromCalendar.add(Calendar.DAY_OF_MONTH, -1);
+        }
+        else if ("WEEKLY".equals(scheduling.getTerm()))
+        {
+            fromCalendar.add(Calendar.DAY_OF_MONTH, -7);
+        }
+        else
+        {
+            fromCalendar.add(Calendar.MONTH, -1);
+        }
+
+        Date date = new Date(lastExportedTime.getTime());
+        DateFormat format = new SimpleDateFormat(DATE_FORMAT);
+        definition.toTime_ = format.format(date);
+        definition.fmTime_ = format.format(fromCalendar.getTime());
+
         return definition;
 
     }
