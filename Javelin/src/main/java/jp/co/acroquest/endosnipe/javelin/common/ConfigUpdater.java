@@ -39,6 +39,7 @@ import jp.co.acroquest.endosnipe.javelin.RootInvocationManager;
 import jp.co.acroquest.endosnipe.javelin.converter.linear.monitor.LinearSearchMonitor;
 import jp.co.acroquest.endosnipe.javelin.event.JavelinEventCounter;
 import jp.co.acroquest.endosnipe.javelin.jdbc.common.JdbcJavelinConfig;
+
 /**
  * リモート設定機能から現在の設定値を更新するアダプタ
  * 
@@ -271,6 +272,9 @@ public class ConfigUpdater
         // JDBCJavelinを有効にするかどうか
         properties.put(JdbcJavelinConfig.JDBC_JAVELIN_ENABLED_KEY,
                        String.valueOf(jdbcConfig.isJdbcJavelinEnabled()));
+        // JDBCJavelinをLightweightモードで動作させるかどうか
+        properties.put(JdbcJavelinConfig.JDBC_JAVELIN_LIGHTWEIGHT_KEY,
+                       String.valueOf(jdbcConfig.isJdbcJavelinLightweightMode()));
         // 実行計画取得フラグ
         properties.put(JdbcJavelinConfig.RECORDEXECPLAN_KEY,
                        String.valueOf(jdbcConfig.isRecordExecPlan()));
@@ -304,7 +308,6 @@ public class ConfigUpdater
         properties.put(JdbcJavelinConfig.RECORD_STACKTRACE_THREADHOLD_KEY,
                        String.valueOf(jdbcConfig.getRecordStackTraceThreshold()));
 
-        
         return properties;
     }
 
@@ -946,7 +949,6 @@ public class ConfigUpdater
         config.setThreadDumpCpu(threadDumpCpu);
     }
 
-
     /**
      * フルスレッドダンプ出力のCPU使用率の閾値を更新します。
      * 
@@ -957,7 +959,6 @@ public class ConfigUpdater
         JavelinConfig config = new JavelinConfig();
         config.setThreadDumpCpuSys(threadDumpCpu);
     }
-
 
     /**
      * フルスレッドダンプ出力のCPU使用率の閾値を更新します。

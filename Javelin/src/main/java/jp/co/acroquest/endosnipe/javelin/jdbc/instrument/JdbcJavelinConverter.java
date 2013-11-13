@@ -25,11 +25,13 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.javelin.jdbc.instrument;
 
+import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 import jp.co.acroquest.endosnipe.javelin.jdbc.common.JdbcJavelinMessages;
 import jp.co.acroquest.endosnipe.javelin.jdbc.stats.DBProcessor;
 import jp.co.acroquest.endosnipe.javelin.jdbc.stats.JdbcJavelinConnection;
 import jp.co.acroquest.endosnipe.javelin.jdbc.stats.JdbcJavelinRecorder;
+import jp.co.acroquest.endosnipe.javelin.jdbc.stats.LightweightJdbcJavelinRecorder;
 import jp.co.smg.endosnipe.javassist.CannotCompileException;
 import jp.co.smg.endosnipe.javassist.ClassPool;
 import jp.co.smg.endosnipe.javassist.CtBehavior;
@@ -261,6 +263,8 @@ public class JdbcJavelinConverter
     /** 設定値保持Bean */
     private static final String JAVELIN_RECORDER_NAME = JdbcJavelinRecorder.class.getName();
     
+    private static final String JAVELIN_LIGHTWEIGHT_RECORDER_NAME = LightweightJdbcJavelinRecorder.class.getName();
+
     /** 引数の数 */
     private static final int ARGS = 3;
     
@@ -327,8 +331,6 @@ public class JdbcJavelinConverter
             return null;
         }
 
-        
-        
         CtBehavior[] behaviors = ctClass.getDeclaredBehaviors();
         for (int index = 0; index < behaviors.length; index++)
         {
@@ -367,8 +369,9 @@ public class JdbcJavelinConverter
         {
             SystemLogger.getInstance().warn(ex);
             return null;
-        }        
+        }
     }
+
     /**
      * Statementのメソッドに対して計測コードを埋め込む。
      *
@@ -674,52 +677,107 @@ public class JdbcJavelinConverter
     {
         // 前処理ログコードを作る
         StringBuffer callPreProcessCodeBuffer = new StringBuffer();
-        callPreProcessCodeBuffer.append(JAVELIN_RECORDER_NAME);
-        CtClass[] parameterTypes = null;
-        boolean paramZero = false;
-        try
-        {
-            parameterTypes = method.getParameterTypes();
-        }
-        catch (NotFoundException ex)
-        {
-            SystemLogger.getInstance().warn("", ex);
-        }
-        if (parameterTypes != null && (parameterTypes.length > 0))
-        {
-            callPreProcessCodeBuffer.append(".preProcessParam(");
-            callPreProcessCodeBuffer.append("$0");
-            callPreProcessCodeBuffer.append(", $args);");
-        }
-        else
-        {
-            callPreProcessCodeBuffer.append(".preProcessSQLArgs(");
-            callPreProcessCodeBuffer.append("$0");
-            callPreProcessCodeBuffer.append(", this.getJdbcJavelinSql().toArray());");
-            paramZero = true;
-        }
-        String callPreProcessCode;
-        callPreProcessCode = callPreProcessCodeBuffer.toString();
-
         // 後処理ログコードを作る
         StringBuffer callPostProcessCodeBuffer = new StringBuffer();
-        callPostProcessCodeBuffer.append(JAVELIN_RECORDER_NAME);
-        // Recorderにて実行計画取得にStatemen、クラス名、メソッド名が必要
-        callPostProcessCodeBuffer.append(".postProcessOK($0");
-        if (paramZero == false)
-        { // 引数の数をpostProcessOKに渡す
-            callPostProcessCodeBuffer.append(", 1"); // 引数1以上
+
+        String className = ctClass.getName();
+        
+        JavelinConfig config = new JavelinConfig();
+        boolean lightweight = config.isJdbcjavelinLightweightMode();
+        if (lightweight == true)
+        {
+            if (SystemLogger.getInstance().isDebugEnabled())
+            {
+                String tegKey = "javelin.jdbc.instrument.JdbcJavelinConverter.JDBCJavelinTag";
+                String jdbcJavelinTag = JdbcJavelinMessages.getMessage(tegKey);
+                String logMessage = "adding JDBC instruments as lightweight mode for " + className;
+                SystemLogger.getInstance().debug(jdbcJavelinTag + logMessage);
+            }
+            
+            if (hasStatementInterface(ctClass))
+            {
+                callPreProcessCodeBuffer.append(JAVELIN_LIGHTWEIGHT_RECORDER_NAME);
+                callPreProcessCodeBuffer.append(".preProcess($0);");
+
+                callPostProcessCodeBuffer.append(JAVELIN_LIGHTWEIGHT_RECORDER_NAME);
+                callPostProcessCodeBuffer.append(".postProcessOK();");
+                
+                if (SystemLogger.getInstance().isDebugEnabled())
+                {
+                    String tegKey = "javelin.jdbc.instrument.JdbcJavelinConverter.JDBCJavelinTag";
+                    String jdbcJavelinTag = JdbcJavelinMessages.getMessage(tegKey);
+                    String logMessage = "added to pre/post Statement: " + className + "." + method.getName();
+                    SystemLogger.getInstance().debug(jdbcJavelinTag + logMessage);
+                }
+            }
+            else
+            {
+                if (SystemLogger.getInstance().isDebugEnabled())
+                {
+                    String tegKey = "javelin.jdbc.instrument.JdbcJavelinConverter.JDBCJavelinTag";
+                    String jdbcJavelinTag = JdbcJavelinMessages.getMessage(tegKey);
+                    String logMessage = "not added to pre/post Statement: " + className + "." + method.getName();
+                    SystemLogger.getInstance().debug(jdbcJavelinTag + logMessage);
+                }
+                return;
+            }
         }
         else
         {
-            callPostProcessCodeBuffer.append(", 0"); // 引数0
-        }
+            if (SystemLogger.getInstance().isDebugEnabled())
+            {
+                String tegKey = "javelin.jdbc.instrument.JdbcJavelinConverter.JDBCJavelinTag";
+                String jdbcJavelinTag = JdbcJavelinMessages.getMessage(tegKey);
+                String logMessage = "adding JDBC instruments as normal mode for " + className;
+                SystemLogger.getInstance().debug(jdbcJavelinTag + logMessage);
+            }
+            
+            boolean paramZero = false;
+            callPreProcessCodeBuffer.append(JAVELIN_RECORDER_NAME);
+            CtClass[] parameterTypes = null;
+            try
+            {
+                parameterTypes = method.getParameterTypes();
+            }
+            catch (NotFoundException ex)
+            {
+                SystemLogger.getInstance().warn("", ex);
+            }
+            if (parameterTypes != null && (parameterTypes.length > 0))
+            {
+                callPreProcessCodeBuffer.append(".preProcessParam(");
+                callPreProcessCodeBuffer.append("$0");
+                callPreProcessCodeBuffer.append(", $args);");
+            }
+            else
+            {
+                callPreProcessCodeBuffer.append(".preProcessSQLArgs(");
+                callPreProcessCodeBuffer.append("$0");
+                callPreProcessCodeBuffer.append(", this.getJdbcJavelinSql().toArray());");
+                paramZero = true;
+            }
 
-        callPostProcessCodeBuffer.append(");");
+            callPostProcessCodeBuffer.append(JAVELIN_RECORDER_NAME);
+            // Recorderにて実行計画取得にStatemen、クラス名、メソッド名が必要
+            callPostProcessCodeBuffer.append(".postProcessOK($0");
+            if (paramZero == false)
+            { // 引数の数をpostProcessOKに渡す
+                callPostProcessCodeBuffer.append(", 1"); // 引数1以上
+            }
+            else
+            {
+                callPostProcessCodeBuffer.append(", 0"); // 引数0
+            }
+
+            callPostProcessCodeBuffer.append(");");
+        }
+        //      JavelinErrorLogger.getInstance().log("modified class:" + className);
+        String callPreProcessCode = callPreProcessCodeBuffer.toString();
         String returnPostProcessCode = callPostProcessCodeBuffer.toString();
-        //		JavelinErrorLogger.getInstance().log("modified class:" + className);
+
         method.insertBefore(callPreProcessCode);
         method.insertAfter(returnPostProcessCode);
+
     }
 
     private static void addSqlToFieldCon(final CtClass ctClass, final CtBehavior method)
@@ -820,22 +878,65 @@ public class JdbcJavelinConverter
             // JavelinLogger#writeExceptionLogの呼び出しコードを作成する。
             StringBuffer code = new StringBuffer();
 
-            // 後処理（例外場合）
-            code.append(JAVELIN_RECORDER_NAME);
-            code.append(".postProcessNG(");
-            code.append("$e");
-            code.append(");");
+            JavelinConfig config = new JavelinConfig();
+            boolean lightweight = config.isJdbcjavelinLightweightMode();
+            if (lightweight == false || hasStatementInterface(ctClass))
+            {
+                // 後処理（例外場合）
+                code.append(JAVELIN_LIGHTWEIGHT_RECORDER_NAME);
+                code.append(".postProcessNG(");
+                code.append("$e");
+                code.append(");");
+                // 例外を再throwする。
+                code.append("throw $e;");
 
-            // 例外を再throwする。
-            code.append("throw $e;");
-
-            // ログ取得コードをThrowableのcatch節として追加する。
-            behaviour.addCatch(code.toString(), throwable);
+                // ログ取得コードをThrowableのcatch節として追加する。
+                behaviour.addCatch(code.toString(), throwable);
+            }
         }
         catch (NotFoundException nfe)
         {
             SystemLogger.getInstance().warn(nfe);
         }
+    }
+
+    /**
+     * 指定したクラスが、<code>java.sql.Statement</code>または<code>java.sql.PreparedStatement</code>
+     * を実装しているか判定する。
+     * @param ctClass 判定する対象クラス。
+     * @return 特定のStatementインタフェースを実装している場合はtrue、そうでない場合はfalse。
+     */
+    private static boolean hasStatementInterface(final CtClass ctClass)
+    {
+        boolean isSqlStatement = false;
+        CtClass[] interfaces;
+        try
+        {
+            interfaces = ctClass.getInterfaces();
+            for (CtClass ifClass : interfaces)
+            {
+                String ifClassName = ifClass.getName();
+                if (SystemLogger.getInstance().isDebugEnabled())
+                {
+                    String tegKey = "javelin.jdbc.instrument.JdbcJavelinConverter.JDBCJavelinTag";
+                    String jdbcJavelinTag = JdbcJavelinMessages.getMessage(tegKey);
+                    String logMessage = "interface: " + ifClassName;
+                    SystemLogger.getInstance().debug(jdbcJavelinTag + logMessage);
+                }
+                
+                if (ifClassName.equals("java.sql.Statement") || ifClassName.equals("java.sql.PreparedStatement"))
+                {
+                    isSqlStatement = true;
+                    break;
+                }
+            }
+        }
+        catch (NotFoundException ex)
+        {
+            // 例外がスローされた場合はインタフェースを実装していない(Statementではない)ことを意味する
+        }
+        
+        return isSqlStatement;
     }
 
     /**
