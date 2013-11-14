@@ -102,7 +102,7 @@ public class JdbcJavelinRecorder
         .getMessage("javelin.jdbc.stats." + "JdbcJavelinRecorder.FailExplainPlanMessage");
 
     /** 設定値保持Bean */
-    private static JdbcJavelinConfig config__;
+    static JdbcJavelinConfig config__;
 
     private static JavelinConfig logArgsConfig__ = new JavelinConfig() {
         public boolean isLogArgs()
