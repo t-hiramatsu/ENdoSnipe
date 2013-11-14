@@ -83,6 +83,7 @@ public class DashBoardServlet extends HttpServlet
         // DBの設定が行われるのを待ち続ける。
         while (true)
         {
+
             DatabaseManager manager = DatabaseManager.getInstance();
             dbConfig = manager.getDataBaseConfig();
             if (dbConfig != null)

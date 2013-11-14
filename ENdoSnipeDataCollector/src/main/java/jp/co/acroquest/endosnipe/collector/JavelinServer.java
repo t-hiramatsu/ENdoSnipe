@@ -41,6 +41,7 @@ import jp.co.acroquest.endosnipe.collector.listener.SignalChangeListener;
 import jp.co.acroquest.endosnipe.collector.listener.SignalStateListener;
 import jp.co.acroquest.endosnipe.collector.listener.SqlPlanNotifyListener;
 import jp.co.acroquest.endosnipe.collector.listener.SystemResourceListener;
+import jp.co.acroquest.endosnipe.collector.listener.SystemResourceNotifyListener;
 import jp.co.acroquest.endosnipe.collector.listener.TelegramNotifyListener;
 import jp.co.acroquest.endosnipe.communicator.TelegramListener;
 import jp.co.acroquest.endosnipe.communicator.TelegramSender;
@@ -60,7 +61,7 @@ import jp.co.acroquest.endosnipe.data.service.HostInfoManager;
  * 
  * @author matsuoka
  */
-public class JavelinServer implements TelegramSender
+public class JavelinServer implements TelegramSender, TelegramConstants
 {
     /** サーバインスタンス */
     private final DataCollectorServer server_ = new DataCollectorServer();
@@ -168,6 +169,10 @@ public class JavelinServer implements TelegramSender
                     case ConnectNotifyData.PURPOSE_GET_DATABASE:
                         setDatabaseAdminClient(client);
                         sendDatabaseName();
+                        break;
+                    default:
+                        addControlClient(client);
+                        initializeControlClient(client);
                         break;
                     }
                     break;
@@ -348,16 +353,22 @@ public class JavelinServer implements TelegramSender
             createJvnFileNotifyListener(dbName, hostName, ipAddress, port, clientId, agentName);
         SystemResourceListener systemResourceListener =
             createSystemResourceListener(dbName, hostName, ipAddress, port, clientId, agentName);
+        SystemResourceListener systemResourceNotifyListener =
+            createSystemResourceNotifyListener(dbName, hostName, ipAddress, port, clientId,
+                                               agentName);
 
         if (queue_ != null)
         {
             client.addTelegramListener(jvnFileNotifyListener);
             client.addTelegramListener(systemResourceListener);
+            client.addTelegramListener(systemResourceNotifyListener);
 
-            client
-                .addTelegramListener(createResponseTelegramListener(TelegramConstants.BYTE_TELEGRAM_KIND_GET_DUMP));
-            client
-                .addTelegramListener(createResponseTelegramListener(TelegramConstants.BYTE_TELEGRAM_KIND_UPDATE_PROPERTY));
+            CommonResponseListener dumpTelegramListener =
+                createResponseTelegramListener(BYTE_TELEGRAM_KIND_GET_DUMP);
+            client.addTelegramListener(dumpTelegramListener);
+            CommonResponseListener updatePropertyListener =
+                createResponseTelegramListener(BYTE_TELEGRAM_KIND_UPDATE_PROPERTY);
+            client.addTelegramListener(updatePropertyListener);
 
             client.addTelegramListener(createSqlPlanNotifyListener(hostName, agentName, port,
                                                                    dbName));
@@ -491,8 +502,8 @@ public class JavelinServer implements TelegramSender
                 byte telKind = header.getByteTelegramKind();
                 byte reqKind = header.getByteRequestKind();
 
-                if (telKind == TelegramConstants.BYTE_TELEGRAM_KIND_RESOURCENOTIFY
-                    && reqKind == TelegramConstants.BYTE_REQUEST_KIND_RESPONSE)
+                if (telKind == BYTE_TELEGRAM_KIND_RESOURCENOTIFY
+                    && reqKind == BYTE_REQUEST_KIND_RESPONSE)
                 {
                     return null;
                 }
@@ -576,6 +587,34 @@ public class JavelinServer implements TelegramSender
         notifyListener.setAgentName(agentName);
         notifyListener.setDatabaseName(dbName);
 
+        return notifyListener;
+    }
+
+    /**
+     * リソース通知を処理するリスナを作成する。
+     * 
+     * @param dbName データベース名
+     * @param hostName 接続先のホスト名
+     * @param ipAddress 接続先のIPアドレス
+     * @param port 接続先のポート番号
+     * @param clientId クライアントID
+     * @return 作成したSystemResourceListener
+     */
+    private SystemResourceListener createSystemResourceNotifyListener(final String dbName,
+        final String hostName, final String ipAddress, final int port, final String clientId,
+        final String agentName)
+    {
+        SystemResourceListener notifyListener = null;
+        if (queue_ != null)
+        {
+            notifyListener = new SystemResourceNotifyListener(queue_);
+            notifyListener.setDatabaseName(dbName);
+            notifyListener.setHostName(hostName);
+            notifyListener.setIpAddress(ipAddress);
+            notifyListener.setPort(port);
+            notifyListener.setClientId(clientId);
+            notifyListener.setAgentName(agentName);
+        }
         return notifyListener;
     }
 

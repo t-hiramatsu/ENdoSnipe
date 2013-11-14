@@ -40,6 +40,7 @@ import jp.co.acroquest.endosnipe.collector.listener.SignalChangeListener;
 import jp.co.acroquest.endosnipe.collector.listener.SignalStateListener;
 import jp.co.acroquest.endosnipe.collector.listener.SqlPlanNotifyListener;
 import jp.co.acroquest.endosnipe.collector.listener.SystemResourceListener;
+import jp.co.acroquest.endosnipe.collector.listener.SystemResourceNotifyListener;
 import jp.co.acroquest.endosnipe.collector.listener.TelegramNotifyListener;
 import jp.co.acroquest.endosnipe.collector.transfer.JavelinTransferServerThread;
 import jp.co.acroquest.endosnipe.common.logger.CommonLogMessageCodes;
@@ -49,9 +50,11 @@ import jp.co.acroquest.endosnipe.communicator.AbstractCommunicator;
 import jp.co.acroquest.endosnipe.communicator.CommunicationClient;
 import jp.co.acroquest.endosnipe.communicator.CommunicationFactory;
 import jp.co.acroquest.endosnipe.communicator.CommunicatorListener;
+import jp.co.acroquest.endosnipe.communicator.TelegramListener;
 import jp.co.acroquest.endosnipe.communicator.TelegramReceiver;
 import jp.co.acroquest.endosnipe.communicator.TelegramSender;
 import jp.co.acroquest.endosnipe.communicator.entity.ConnectNotifyData;
+import jp.co.acroquest.endosnipe.communicator.entity.Header;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.data.service.HostInfoManager;
@@ -411,6 +414,10 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
             createJvnFileNotifyListener(queue, hostName);
         final SystemResourceListener SYSTEM_RESOURCE_LISTENER =
             createSystemResourceListener(queue, hostName, agentName);
+        final SystemResourceNotifyListener SYSTEM_RESOURCE_NOTIFY_LISTENER =
+                createSystemResourceNotifyListener(queue,
+                                                   hostName,
+                                                   agentName);
 
         final SignalStateListener SIGNAL_STATE_LISTENER = new SignalStateListener();
         final SignalChangeListener SIGNAL_CHANGE_LISTENER = new SignalChangeListener();
@@ -421,6 +428,7 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
         {
             receiver.addTelegramListener(JVN_FILE_NOTIFY_LISTENER);
             receiver.addTelegramListener(SYSTEM_RESOURCE_LISTENER);
+            receiver.addTelegramListener(SYSTEM_RESOURCE_NOTIFY_LISTENER);
             receiver.addTelegramListener(SIGNAL_STATE_LISTENER);
             receiver.addTelegramListener(SIGNAL_CHANGE_LISTENER);
             receiver.addTelegramListener(SQL_PLAN_NOTIFY_LISTENER);
@@ -555,6 +563,7 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
         return notifyListener;
     }
 
+
     /**
      * SqlPlanNotifyListenerを作成します。
      * 
@@ -571,6 +580,28 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
         notifyListener.setAgentName(agentName);
         notifyListener.setDatabaseName(this.databaseName_);
 
+        return notifyListener;
+    }
+
+    /**
+     * SystemResourceListenerを作成します。
+     * 
+     * @param queue データを蓄積するためのキュー
+     * @param hostName 接続先のホスト名
+     * @return 作成したSystemResourceListener
+     */
+    private SystemResourceNotifyListener createSystemResourceNotifyListener(
+            final JavelinDataQueue queue, final String hostName, final String agentName)
+    {
+        SystemResourceNotifyListener notifyListener = null;
+        if (queue != null)
+        {
+            notifyListener = new SystemResourceNotifyListener(queue);
+            notifyListener.setDatabaseName(this.databaseName_);
+            notifyListener.setHostName(hostName);
+            notifyListener.setPort(this.javelinPort_);
+            notifyListener.setAgentName(agentName);
+        }
         return notifyListener;
     }
 
