@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.servlet.http.HttpServletResponse;
 
 import jp.co.acroquest.endosnipe.common.util.MessageUtil;
@@ -60,6 +62,23 @@ public class ReportController
     public ReportController()
     {
         //  new ReportData();
+
+    }
+
+    /**
+     * 
+     */
+    @PostConstruct
+    public void init()
+    {
+        reportService.runThread();
+    }
+
+    @PreDestroy
+    public void destroy()
+    {
+        reportService.stopThread();
+
     }
 
     /**
@@ -131,6 +150,7 @@ public class ReportController
         }
         else
         {
+            reportDefinitionDto.setStatus("Creating");
             this.reportService.createReport(reportDefinitionDto);
 
             ReportDefinition definition =

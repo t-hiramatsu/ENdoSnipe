@@ -84,6 +84,7 @@ public class DashBoardServlet extends HttpServlet
     {
         //　通信用オブジェクトの作成
         DataBaseConfig dbConfig = null;
+
         // DBの設定が行われるのを待ち続ける。
         while (true)
         {
@@ -175,4 +176,5 @@ public class DashBoardServlet extends HttpServlet
     {
         return host + ":" + port;
     }
+
 }

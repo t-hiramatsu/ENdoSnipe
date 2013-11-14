@@ -20,6 +20,7 @@ import jp.co.acroquest.endosnipe.web.dashboard.dto.ReportDefinitionDto;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.SchedulingReportDefinitionDto;
 import jp.co.acroquest.endosnipe.web.dashboard.entity.ReportDefinition;
 import jp.co.acroquest.endosnipe.web.dashboard.entity.SchedulingReportDefinition;
+import jp.co.acroquest.endosnipe.web.dashboard.util.ReportUtil;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -129,7 +130,21 @@ public class ScheduleRowMapper implements RowMapper<SchedulingReportDefinitionDt
 
         String reportName = "";
         ReportDefinition definition = this.convertScheduleToReport(schedulingReportDefinitionDto);
-        ReportDefinitionDto definitionDto = this.convertReportDifinitionDto(definition);
+        definition.status_ = "creating";
+
+        ReportDefinitionDto definitionDto = ReportUtil.convertReportDifinitionDto(definition);
+        //put the report to the queue for export
+        ReportUtil.createReport(definitionDto);
+        String sql =
+
+                "insert into REPORT_EXPORT_RESULT (REPORT_NAME,TARGET_MEASUREMENT_NAME,FM_TIME,TO_TIME, STATUS)"
+
+                + " values (" + "'" + definition.reportName_ + "'," + "'"
+                        + definition.targetMeasurementName_ + "', " + "'" + definition.fmTime_
+                        + "', " + "'" + definition.toTime_ + "'," + "'" + definition.status_ + "')";
+
+        jTemplate.execute(sql);
+
         reportName = definitionDto.getReportName();
 
         SchedulingReportDefinition schedulingReportDefinition = new SchedulingReportDefinition();

@@ -34,19 +34,22 @@ import javax.servlet.http.HttpServletResponse;
 import jp.co.acroquest.endosnipe.collector.config.DataCollectorConfig;
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
 import jp.co.acroquest.endosnipe.data.dao.JavelinMeasurementItemDao;
-import jp.co.acroquest.endosnipe.report.Reporter;
+import jp.co.acroquest.endosnipe.report.ReporterThread;
 import jp.co.acroquest.endosnipe.web.dashboard.config.DataBaseConfig;
 import jp.co.acroquest.endosnipe.web.dashboard.constants.LogMessageCodes;
+import jp.co.acroquest.endosnipe.web.dashboard.dao.PropertySettingDao;
 import jp.co.acroquest.endosnipe.web.dashboard.dao.ReportDefinitionDao;
 import jp.co.acroquest.endosnipe.web.dashboard.dao.SchedulingReportDefinitionDao;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.ReportDefinitionDto;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.SchedulingReportDefinitionDto;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.TreeMenuDto;
+import jp.co.acroquest.endosnipe.web.dashboard.entity.PropertySettingDefinition;
 import jp.co.acroquest.endosnipe.web.dashboard.entity.ReportDefinition;
 import jp.co.acroquest.endosnipe.web.dashboard.entity.SchedulingReportDefinition;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.DatabaseManager;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.EventManager;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.ResourceSender;
+import jp.co.acroquest.endosnipe.web.dashboard.util.ReportUtil;
 
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,10 +94,20 @@ public class ReportService
     @Autowired
     protected SchedulingReportDefinitionDao schedulingReportDefinitionDao;
 
+    /** Property Setting Dao */
+    @Autowired
+    protected PropertySettingDao propertySettingDao;
+
     /**
      * Set day into schedulingdto
      */
     private final Map<String, Integer> dayMap_ = new HashMap<String, Integer>();
+
+    /**
+     * declare thread List
+     */
+
+    private final List<ReporterThread> reportThreadList_ = new ArrayList<ReporterThread>();
 
     /**
      * デフォルトコンストラクタ。
@@ -108,6 +121,78 @@ public class ReportService
         this.dayMap_.put("Thursday", Calendar.THURSDAY);
         this.dayMap_.put("Friday", Calendar.FRIDAY);
         this.dayMap_.put("Saturday", Calendar.SATURDAY);
+    }
+
+    /**
+     * Run Thread to export report
+     */
+    public void runThread()
+    {
+        PropertySettingDefinition simulExecution =
+                propertySettingDao.selectByKey("simulExecutionNum");
+        int simulExecutionNum = 0;
+        if (simulExecution != null && simulExecution.value != null)
+        {
+            simulExecutionNum = Integer.parseInt(simulExecution.value);
+        }
+        DatabaseManager manager = DatabaseManager.getInstance();
+        DataBaseConfig dbConfig = manager.getDataBaseConfig();
+
+        if (simulExecutionNum == 0)
+        {
+            simulExecutionNum = 1;
+        }
+        if (simulExecutionNum > 0)
+        {
+            DataCollectorConfig dataCollectorConfig = this.convertDataCollectorConfig(dbConfig);
+            for (int threadNum = 0; threadNum < simulExecutionNum; threadNum++)
+            {
+                ReporterThread report = new ReporterThread();
+                Thread reportThread = new Thread(new ReporterThread(dataCollectorConfig));
+                reportThreadList_.add(report);
+                report.isRunningThread = true;
+                reportThread.start();
+            }
+        }
+    }
+
+    public void stopThread()
+    {
+        for (int indexThread = 0; indexThread < reportThreadList_.size(); indexThread++)
+        {
+            reportThreadList_.get(indexThread).stopThread();
+        }
+    }
+
+    /**
+     * レポートを作成する。
+     * 
+     * @param reportDefinitionDto レポート出力の定義
+     */
+    public static void createReport(final ReportDefinitionDto reportDefinitionDto)
+    {
+
+        ReportUtil.createReport(reportDefinitionDto);
+
+    }
+
+    /**
+     * 
+     * @param dataBaseConfig configuration for database
+     * @return DataCollectorConfig
+     */
+
+    private DataCollectorConfig convertDataCollectorConfig(final DataBaseConfig dataBaseConfig)
+    {
+        DataCollectorConfig dataCollectorConfig = new DataCollectorConfig();
+        dataCollectorConfig.setDatabaseHost(dataBaseConfig.getDatabaseHost());
+        dataCollectorConfig.setDatabaseName(dataBaseConfig.getDatabaseName());
+        dataCollectorConfig.setDatabasePassword(dataBaseConfig.getDatabasePassword());
+        dataCollectorConfig.setDatabasePort(dataBaseConfig.getDatabasePort());
+        dataCollectorConfig.setDatabaseType(dataBaseConfig.getDatabaseType());
+        dataCollectorConfig.setDatabaseUserName(dataBaseConfig.getDatabaseUserName());
+
+        return dataCollectorConfig;
     }
 
     /**
@@ -139,7 +224,8 @@ public class ReportService
 
         for (ReportDefinition reportDefinitioin : reportList)
         {
-            ReportDefinitionDto reportDto = this.convertReportDifinitionDto(reportDefinitioin);
+            ReportDefinitionDto reportDto =
+                    ReportUtil.convertReportDifinitionDto(reportDefinitioin);
             definitionDtoList.add(reportDto);
         }
 
@@ -162,7 +248,7 @@ public class ReportService
         for (int index = 0; index < definitionDtosLength; index++)
         {
             ReportDefinition definition = definitionDtos.get(index);
-            ReportDefinitionDto definitionDto = this.convertReportDifinitionDto(definition);
+            ReportDefinitionDto definitionDto = ReportUtil.convertReportDifinitionDto(definition);
             reportDefinitionDtos.add(definitionDto);
         }
 
@@ -178,7 +264,8 @@ public class ReportService
     public ReportDefinitionDto getReportByReportId(final int reportId)
     {
         ReportDefinition reportDefinition = reportDefinitionDao.selectById(reportId);
-        ReportDefinitionDto reportDefinitionDto = this.convertReportDifinitionDto(reportDefinition);
+        ReportDefinitionDto reportDefinitionDto =
+                ReportUtil.convertReportDifinitionDto(reportDefinition);
 
         return reportDefinitionDto;
     }
@@ -201,7 +288,8 @@ public class ReportService
             return new ReportDefinitionDto();
         }
 
-        ReportDefinitionDto reportDefinitionDto = this.convertReportDifinitionDto(reportDefinition);
+        ReportDefinitionDto reportDefinitionDto =
+                ReportUtil.convertReportDifinitionDto(reportDefinition);
 
         return reportDefinitionDto;
     }
@@ -253,34 +341,6 @@ public class ReportService
     }
 
     /**
-     * レポートを作成する。
-     * 
-     * @param reportDefinitionDto レポート出力の定義
-     */
-    public void createReport(final ReportDefinitionDto reportDefinitionDto)
-    {
-
-        Reporter reporter = new Reporter();
-
-        DatabaseManager dbMmanager = DatabaseManager.getInstance();
-        Calendar fmTime = reportDefinitionDto.getReportTermFrom();
-        Calendar toTime = reportDefinitionDto.getReportTermTo();
-        String targetItemName = reportDefinitionDto.getTargetMeasurementName();
-        String reportNamePath = reportDefinitionDto.getReportName();
-        String[] reportNameSplitList = reportNamePath.split("/");
-        int reportNameSplitLength = reportNameSplitList.length;
-        String reportName = reportNameSplitList[reportNameSplitLength - 1];
-
-        DataBaseConfig dataBaseConfig = dbMmanager.getDataBaseConfig();
-        DataCollectorConfig dataCollecterConfig = this.convertDataCollectorConfig(dataBaseConfig);
-        String tempDirectory = System.getProperty("java.io.tmpdir");
-        this.deleteTempFile(tempDirectory);
-        reporter.createReport(dataCollecterConfig, fmTime, toTime, REPORT_PATH, targetItemName,
-                              reportName);
-        this.deleteTempFile(tempDirectory);
-    }
-
-    /**
      * ReportDefinitionDtoオブジェクトをReportDefinitionオブジェクトに変換する。
      * 
      * @param definitionDto
@@ -304,44 +364,8 @@ public class ReportService
 
         reportDefinition.fmTime_ = dateFormat.format(fmTimeCal.getTime());
         reportDefinition.toTime_ = dateFormat.format(toTimeCal.getTime());
-
+        reportDefinition.status_ = definitionDto.getStatus();
         return reportDefinition;
-    }
-
-    /**
-     * ReportDefinitionオブジェクトをReportDefinitionDtoオブジェクトに変換する。
-     * 
-     * @param reportDefinition
-     *            ReportDefinitionオブジェクト
-     * @return ReportDefinitionDtoオブジェクト
-     */
-    private ReportDefinitionDto convertReportDifinitionDto(final ReportDefinition reportDefinition)
-    {
-
-        ReportDefinitionDto definitionDto = new ReportDefinitionDto();
-
-        definitionDto.setReportId(reportDefinition.reportId_);
-        definitionDto.setReportName(reportDefinition.reportName_);
-        definitionDto.setTargetMeasurementName(reportDefinition.targetMeasurementName_);
-
-        DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
-
-        Calendar fmTime = Calendar.getInstance();
-        Calendar toTime = Calendar.getInstance();
-        try
-        {
-            fmTime.setTime(dateFormat.parse(reportDefinition.fmTime_));
-            toTime.setTime(dateFormat.parse(reportDefinition.toTime_));
-        }
-        catch (ParseException ex)
-        {
-            LOGGER.log(LogMessageCodes.UNSUPPORTED_REPORT_FILE_DURATION_FORMAT);
-        }
-
-        definitionDto.setReportTermFrom(fmTime);
-        definitionDto.setReportTermTo(toTime);
-
-        return definitionDto;
     }
 
     /**
@@ -525,25 +549,6 @@ public class ReportService
         {
             LOGGER.log(LogMessageCodes.UNEXPECTED_ERROR);
         }
-    }
-
-    /**
-     * DataBaseConfigオブジェクトをDataCollectorConfigオブジェクトに変換する。
-     * 
-     * @param dataBaseConfig DataBaseConfigオブジェクト
-     * @return DataCollectorConfigオブジェクト
-     */
-    private DataCollectorConfig convertDataCollectorConfig(final DataBaseConfig dataBaseConfig)
-    {
-        DataCollectorConfig dataCollectorConfig = new DataCollectorConfig();
-        dataCollectorConfig.setDatabaseHost(dataBaseConfig.getDatabaseHost());
-        dataCollectorConfig.setDatabaseName(dataBaseConfig.getDatabaseName());
-        dataCollectorConfig.setDatabasePassword(dataBaseConfig.getDatabasePassword());
-        dataCollectorConfig.setDatabasePort(dataBaseConfig.getDatabasePort());
-        dataCollectorConfig.setDatabaseType(dataBaseConfig.getDatabaseType());
-        dataCollectorConfig.setDatabaseUserName(dataBaseConfig.getDatabaseUserName());
-
-        return dataCollectorConfig;
     }
 
     /**
@@ -874,27 +879,6 @@ public class ReportService
     }
 
     /**
-     * This function is delete temp file in the temp directory
-     * @param tempDirectory get temp file
-     */
-    private void deleteTempFile(final String tempDirectory)
-    {
-        File directory = new File(tempDirectory);
-        File[] files = directory.listFiles();
-        for (File file : files)
-        {
-            if (file.isFile())
-            {
-                String fileName = file.getAbsolutePath();
-                if (fileName.endsWith(".xls"))
-                {
-                    file.delete();
-                }
-            }
-        }
-    }
-
-    /**
      * send signal definition.
      * @param schedulingDefinitionDto got from database
      * @param type is used
@@ -914,11 +898,11 @@ public class ReportService
     }
 
     /**
-     * update measurement item.
-     * @param beforeItemName before item
-     * @param afterItemName after item
-     * @throws SQLException is used
-     */
+         * update measurement item.
+         * @param beforeItemName before item
+         * @param afterItemName after item
+         * @throws SQLException is used
+         */
     private void updateMeasurementItemName(final String beforeItemName, final String afterItemName)
         throws SQLException
     {

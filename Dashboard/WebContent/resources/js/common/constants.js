@@ -511,3 +511,4 @@ ENS.report.DOWNLOAD_URL = wgp.common.getContextPath() + "/report/download";
 ENS.report.SCHEDULINGREPROT_URL = wgp.common.getContextPath() + "/report/updateSchedulingReport";
 ENS.perfDoctor = {};
 ENS.schedulingReportDialog = {};
+ENS.perfDoctor = {};
