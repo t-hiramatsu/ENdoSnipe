@@ -87,10 +87,10 @@ ENS.schedulingReportView = wgp.AbstractView
 					hidden : true
 				}, {
 					name : "reportName",
-					width : 180
+					width : 200
 				}, {
 					name : "targetMeasurementName",
-					width : 300
+					width : 430
 				}, {
 					name : "term",
 					width : 90
@@ -102,10 +102,10 @@ ENS.schedulingReportView = wgp.AbstractView
 					width : 90
 				}, {
 					name : "date",
-					width : 50
+					width : 70
 				}, {
 					name : "",
-					width : 80,
+					width : 150,
 					formatter : ENS.Utility.makeAnchor1,
 					editoptions : {
 						"onclick1" : "ENS.report.updateSchedulingReport",
