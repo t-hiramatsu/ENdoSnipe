@@ -719,7 +719,7 @@ public class ReportService
         lastExportedTimeCalendar.set(Calendar.HOUR_OF_DAY, time.get(Calendar.HOUR_OF_DAY));
         lastExportedTimeCalendar.set(Calendar.MINUTE, time.get(Calendar.MINUTE));
 
-        int date = Integer.parseInt(schedulingReportDefinition.date_);
+        int date = 0;
 
         if ("DAILY".equals(schedulingReportDefinition.term_))
         {
@@ -753,7 +753,7 @@ public class ReportService
         {
             if (schedulingReportDefinition.date_ != null)
             {
-
+                date = Integer.parseInt(schedulingReportDefinition.date_);
                 if (Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH) < date)
                 {
                     lastExportedTimeCalendar.set(Calendar.DAY_OF_MONTH,

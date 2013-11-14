@@ -49,10 +49,11 @@
 		</step>
 	</job>
 
-	<bean id="itemWriter" class="org.springframework.batch.item.database.JdbcBatchItemWriter">
-    <property name="dataSource" ref="dataSource"/>
-    <property name="sql" value="update SCHEDULING_REPORT_DEFINITION set LAST_EXPORT_REPORT_TIME = :value where REPORT_NAME = :reportName"/>
-</bean>
+	<bean id="itemWriter" class="org.springframework.batch.item.xml.StaxEventItemWriter">
+	<property name="resource" value="file:xml/outputs/users.xml" />
+	<property name="marshaller" ref="userUnmarshaller" />
+	<property name="rootTagName" value="users" />
+	</bean>
 
 	<bean id="userUnmarshaller" class="org.springframework.oxm.xstream.XStreamMarshaller">
 		<property name="aliases">

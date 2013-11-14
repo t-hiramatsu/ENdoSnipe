@@ -46,6 +46,18 @@ public class ScheduleRowMapper implements RowMapper<SchedulingReportDefinitionDt
     /** ロガー。 */
     private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(MapService.class);
 
+    /** connect with database */
+    String[] springConfig = { "spring/batch/jobs/job-extract-users.xml" };
+
+    /** create class path */
+    ApplicationContext context = new ClassPathXmlApplicationContext(springConfig);
+
+    /** create datasource */
+    DataSource source = (DataSource)context.getBean("dataSource");
+
+    /** create template */
+    JdbcTemplate jTemplate = new JdbcTemplate(source);
+
     /**
      * used for day
      */
@@ -85,94 +97,41 @@ public class ScheduleRowMapper implements RowMapper<SchedulingReportDefinitionDt
                 new ArrayList<SchedulingReportDefinitionDto>();
         SchedulingReportDefinitionDto schedulingReportDefinitionDto =
                 new SchedulingReportDefinitionDto();
-        try
-        {
-            schedulingReportDefinitionDto.setReportId(rs.getInt("report_id"));
-        }
-        catch (SQLException ex1)
-        {
-            ex1.printStackTrace();
-        }
-        try
-        {
-            schedulingReportDefinitionDto.setReportName(rs.getString("report_name"));
-        }
-        catch (SQLException ex1)
-        {
-            ex1.printStackTrace();
-        }
-        try
-        {
-            schedulingReportDefinitionDto.setTargetMeasurementName(rs.getString("target_measurement_name"));
-        }
-        catch (SQLException ex1)
-        {
-            ex1.printStackTrace();
-        }
-        try
-        {
-            schedulingReportDefinitionDto.setTerm(rs.getString("schedule_term"));
-        }
-        catch (SQLException ex1)
-        {
-            ex1.printStackTrace();
-        }
-
         DateFormat timeFormat = new SimpleDateFormat(TIME_FORMAT);
 
         Calendar time = Calendar.getInstance();
         try
         {
+            schedulingReportDefinitionDto.setReportId(rs.getInt("report_id"));
+
+            schedulingReportDefinitionDto.setReportName(rs.getString("report_name"));
+
+            schedulingReportDefinitionDto.setTargetMeasurementName(rs.getString("target_measurement_name"));
+
+            schedulingReportDefinitionDto.setTerm(rs.getString("schedule_term"));
             try
             {
                 time.setTime(timeFormat.parse(rs.getString("schedule_time")));
             }
-            catch (SQLException ex)
+            catch (ParseException ex)
             {
                 ex.printStackTrace();
             }
-        }
-        catch (ParseException ex)
-        {
-            ex.printStackTrace();
-        }
-        schedulingReportDefinitionDto.setTime(time);
-        try
-        {
+            schedulingReportDefinitionDto.setTime(time);
             schedulingReportDefinitionDto.setLastExportedTime(rs.getTimestamp("last_export_report_time"));
-        }
-        catch (SQLException ex)
-        {
-            ex.printStackTrace();
-        }
-
-        try
-        {
             schedulingReportDefinitionDto.setDay(rs.getString("schedule_day"));
-        }
-        catch (SQLException ex)
-        {
-            ex.printStackTrace();
-        }
-        try
-        {
             schedulingReportDefinitionDto.setDate(rs.getString("schedule_date"));
         }
-        catch (SQLException ex)
+        catch (SQLException ex1)
         {
-            ex.printStackTrace();
+            ex1.printStackTrace();
         }
 
-        schedulingReportDefinitionDtos.add(schedulingReportDefinitionDto);
         String reportName = "";
-        for (int index = 0; index < schedulingReportDefinitionDtos.size(); index++)
-        {
-            SchedulingReportDefinitionDto scheduling = schedulingReportDefinitionDtos.get(index);
-            ReportDefinition definition = this.convertScheduleToReport(scheduling);
-            ReportDefinitionDto definitionDto = this.convertReportDifinitionDto(definition);
-            reportName = definitionDto.getReportName();
-        }
-        //export report(upper)
+        ReportDefinition definition = this.convertScheduleToReport(schedulingReportDefinitionDto);
+        ReportDefinitionDto definitionDto = this.convertReportDifinitionDto(definition);
+        reportName = definitionDto.getReportName();
+
         SchedulingReportDefinition schedulingReportDefinition = new SchedulingReportDefinition();
 
         DateFormat scheduleTimeFormat = new SimpleDateFormat(TIME_FORMAT);
@@ -215,10 +174,10 @@ public class ScheduleRowMapper implements RowMapper<SchedulingReportDefinitionDt
                 }
             }
 
-            int date = Integer.parseInt(rs.getString("schedule_date"));
+            int date = 0;
             if (rs.getString("schedule_date") != null)
             {
-
+                date = Integer.parseInt(rs.getString("schedule_date"));
                 lastExportedCalendar.set(Calendar.DAY_OF_MONTH, date);
                 long lastExportedLong = lastExportedCalendar.getTimeInMillis();
                 long currentTimeLong = currentTimeCalendar.getTimeInMillis();
@@ -240,12 +199,7 @@ public class ScheduleRowMapper implements RowMapper<SchedulingReportDefinitionDt
             Timestamp lastExportedTime = new Timestamp(lastExportedCalendar.getTimeInMillis());
             schedulingReportDefinition.lastExportedTime_ = lastExportedTime;
 
-            String[] springConfig = { "spring/batch/jobs/job-extract-users.xml" };
-
-            ApplicationContext context = new ClassPathXmlApplicationContext(springConfig);
-            DataSource source = (DataSource)context.getBean("dataSource");
-            JdbcTemplate jt = new JdbcTemplate(source);
-            jt.batchUpdate(new String[] { "update SCHEDULING_REPORT_DEFINITION set LAST_EXPORT_REPORT_TIME = '"
+            jTemplate.batchUpdate(new String[] { "update SCHEDULING_REPORT_DEFINITION set LAST_EXPORT_REPORT_TIME = '"
                     + lastExportedTime + "' where REPORT_NAME =" + "'" + reportName + "'" });
 
         }
