@@ -160,21 +160,6 @@ public class ThreadDumpService
     }
 
     /**
-     * This function to connect telegram
-     */
-    public void createThreadDump()
-    {
-        ConnectionClient connectionClient = ConnectionClient.getInstance();
-        List<CommunicationClient> clientList = connectionClient.getClientList();
-        for (CommunicationClient communicationClient : clientList)
-        {
-            Telegram telegram = TelegramCreator.createThreadDumpRequestTelegram();
-            communicationClient.sendTelegram(telegram);
-        }
-
-    }
-
-    /**
      * to get all of threadDump data related with agent
      * @param measurementItem is agent name
      * @return threadDump Data
@@ -197,12 +182,12 @@ public class ThreadDumpService
         return displayList;
     }
 
+    /**
+     * This function to connect telegram
+     */
+
     public void createThreadDump(final String agentName)
     {
-        if (agentName.isEmpty())
-        {
-            createThreadDump();
-        }
         ConnectionClient connectionClient = ConnectionClient.getInstance();
         List<CommunicationClient> clientList = connectionClient.getClientList();
         for (CommunicationClient communicationClient : clientList)

@@ -567,25 +567,15 @@ public final class TelegramCreator implements TelegramConstants
         return telegram;
     }
 
-    /**
-     * スレッドダンプ取得要求電文を作成します。
-     * 
-     * @return スレッドダンプ取得要求電文
-     */
-    public static Telegram createThreadDumpRequestTelegram()
-    {
-        Header objHeader = new Header();
-        objHeader.setId(TelegramUtil.generateTelegramId());
-        objHeader.setByteTelegramKind(BYTE_TELEGRAM_KIND_GET_DUMP);
-        objHeader.setByteRequestKind(BYTE_REQUEST_KIND_REQUEST);
-        Body[] bodies = TelegramUtil.createEmptyRequestBody(OBJECTNAME_DUMP, ITEMNAME_THREADDUMP);
-
-        Telegram requestTelegram = new Telegram();
-        requestTelegram.setObjHeader(objHeader);
-        requestTelegram.setObjBody(bodies);
-
-        return requestTelegram;
-    }
+     /**
+         * スレッドダンプ取得要求電文を作成します。
+          * 
+         * @return スレッドダンプ取得要求電文
+         */
+       public static Telegram createThreadDumpRequestTelegram()
+        {
+             return createThreadDumpRequestTelegram(null);
+         }
 
     /**
      * ヒープダンプ取得要求電文を作成します。
@@ -669,18 +659,33 @@ public final class TelegramCreator implements TelegramConstants
         return objOutputTelegram;
     }
 
-    public static Telegram createThreadDumpRequestTelegram(String agentName)
-    {
-        Header objHeader = new Header();
-        objHeader.setId(TelegramUtil.generateTelegramId());
-        objHeader.setByteTelegramKind(BYTE_TELEGRAM_KIND_GET_DUMP);
-        objHeader.setByteRequestKind(BYTE_REQUEST_KIND_REQUEST);
-        Body[] bodies = TelegramUtil.createEmptyRequestBody(OBJECTNAME_DUMP, ITEMNAME_THREADDUMP,agentName);
-
-        Telegram requestTelegram = new Telegram();
-        requestTelegram.setObjHeader(objHeader);
-        requestTelegram.setObjBody(bodies);
-
-        return requestTelegram;
+}
+     /**
+      * スレッドダンプ取得要求電文を作成します。
+      * 
+      * @return スレッドダンプ取得要求電文
+      */
+     public static Telegram createThreadDumpRequestTelegram(String agentName)
+     {
+         Header objHeader = new Header();
+         objHeader.setId(TelegramUtil.generateTelegramId());
+         objHeader.setByteTelegramKind(BYTE_TELEGRAM_KIND_GET_DUMP);
+         objHeader.setByteRequestKind(BYTE_REQUEST_KIND_REQUEST);
+         Body[] bodies = null;
+        
+         if(agentName != null)
+         {
+             // bodyに入れる
+            bodies = TelegramUtil.createEmptyRequestBody(OBJECTNAME_DUMP, ITEMNAME_THREADDUMP,agentName);
+         }
+         else {
+            bodies = TelegramUtil.createEmptyRequestBody(OBJECTNAME_DUMP, ITEMNAME_THREADDUMP);
+        }
+            
+         
+         Telegram requestTelegram = new Telegram();
+         requestTelegram.setObjHeader(objHeader);
+         requestTelegram.setObjBody(bodies);
+         return requestTelegram;
     }
 }

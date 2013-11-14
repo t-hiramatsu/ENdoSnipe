@@ -109,7 +109,7 @@ public interface TelegramConstants
     /**
      * threadDump response telegram
      */
-    byte BYTE_TELEGRAM_KIND_THREAD_DUMP= 29;
+    byte BYTE_TELEGRAM_KIND_THREAD_DUMP= 31;
 
     /** Summary Signal の　telegram kind*/
 

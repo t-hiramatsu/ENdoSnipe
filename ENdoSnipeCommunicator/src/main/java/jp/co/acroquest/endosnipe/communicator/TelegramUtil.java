@@ -524,28 +524,6 @@ public final class TelegramUtil implements TelegramConstants
     }
 
     /**
-     * ダンプ取得要求の電文本体を作成します。
-     * 
-     * @param objName
-     *            オブジェクト名
-     * @param itemName
-     *            項目名
-     * @return ダンプ取得要求の電文本体
-     */
-    public static Body[] createEmptyRequestBody(final String objName, final String itemName)
-    {
-        Body[] bodies = new Body[1];
-        Body objBody = new Body();
-        objBody.setStrObjName(objName);
-        objBody.setStrItemName(itemName);
-        objBody.setIntLoopCount(0);
-        objBody.setByteItemMode(ItemType.ITEMTYPE_BYTE);
-        objBody.setObjItemValueArr(new Object[0]);
-        bodies[0] = objBody;
-        return bodies;
-    }
-
-    /**
      * 指定された種類の応答を作成します。<br />
      * 
      * @param objectName
@@ -733,17 +711,52 @@ public final class TelegramUtil implements TelegramConstants
         return receivedStr;
     }
 
-    public static Body[] createEmptyRequestBody(final String objName, final String itemName,
-        String agentName)
+    /**
+         * ダンプ取得要求の電文本体を作成します。
+          * 
+         * @param objName
+         *            オブジェクト名
+         * @param itemName
+       *            項目名
+          * @return ダンプ取得要求の電文本体
+          */
+    public static Body[] createEmptyRequestBody(final String objName, final String itemName)
     {
         Body[] bodies = new Body[1];
         Body objBody = new Body();
         objBody.setStrObjName(objName);
-        objBody.setStrItemName(agentName);
+        objBody.setStrItemName(itemName);
         objBody.setIntLoopCount(0);
         objBody.setByteItemMode(ItemType.ITEMTYPE_BYTE);
         objBody.setObjItemValueArr(new Object[0]);
         bodies[0] = objBody;
         return bodies;
     }
+
+    /**
+     * ダンプ取得要求の電文本体を作成します。
+    * 
+     * @param objName
+     *            オブジェクト名
+     * @param itemName
+     *            項目名
+     * @param agentName
+     *            agentName
+     * @return ダンプ取得要求の電文本体
+     */
+    public static Body[] createEmptyRequestBody(final String objName, final String itemName,
+        final String agentName)
+    {
+        Body[] bodies = new Body[2];
+        Body objBody = new Body();
+        objBody.setStrObjName(itemName);
+        objBody.setStrItemName(agentName);
+        objBody.setIntLoopCount(0);
+        objBody.setByteItemMode(ItemType.ITEMTYPE_BYTE);
+        objBody.setObjItemValueArr(new Object[0]);
+        bodies[0] = createEmptyRequestBody(objName, itemName)[0];
+        bodies[1] = objBody;
+        return bodies;
+    }
+
 }
