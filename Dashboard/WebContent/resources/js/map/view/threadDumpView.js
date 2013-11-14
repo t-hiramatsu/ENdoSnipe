@@ -1,4 +1,5 @@
-ENS.threadDumpView = wgp.AbstractView
+ ENS.tree.agentName = "/default/";
+ ENS.threadDumpView = wgp.AbstractView
 		.extend({
 			tableColNames : [ "Time", "Thread Dump" ],
 			initialize : function(argument, treeSettings) {
@@ -41,7 +42,7 @@ ENS.threadDumpView = wgp.AbstractView
 						startTime, endTime, argument.maxLineNum);
 
 				this.id = argument.id;
-
+				ENS.tree.agentName= this.treeSettings.treeId;
 				this.dualSliderView.setScaleMovedEvent(function(from, to) {
 					var appView = new ENS.AppView();
 					var startTime = new Date(new Date().getTime() - from);
@@ -49,17 +50,17 @@ ENS.threadDumpView = wgp.AbstractView
 					appView.getTermThreadDumpData([ treeSettings.treeId ],
 							startTime, endTime, 100);
 				});
-				$("#button").on("click", function() {
-
-					var settings = {
-						data : {
-							threadDump : ""
-						},
-						url : ENS.tree.THREAD_DUMP_CLICK
-					};
-					var ajaxHandler = new wgp.AjaxHandler();
-					ajaxHandler.requestServerAsync(settings);
-				});
+				 $("#button").on("click", function() {            
+					             alert(ENS.tree.agentName);
+					            var settings = {
+					                 data : {
+					                     threadDump : ENS.tree.agentName
+					                 },
+					                 url : ENS.tree.THREAD_DUMP_CLICK
+					             };
+					             var ajaxHandler = new wgp.AjaxHandler();
+					            ajaxHandler.requestServerAsync(settings);
+					        });
 
 			},
 			render : function() {

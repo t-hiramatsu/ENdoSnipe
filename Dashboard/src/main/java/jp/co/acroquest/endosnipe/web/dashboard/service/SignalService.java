@@ -381,6 +381,7 @@ public class SignalService
             LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx, sqlEx.getMessage());
         }
 
+        sendSignalDefinitionRequest(signalDefinitionDto, SignalConstants.OPERATION_TYPE_DELETE);
         // 各クライアントにシグナル定義の削除を送信する。
         sendSignalDefinition(signalDefinitionDto, "delete");
     }

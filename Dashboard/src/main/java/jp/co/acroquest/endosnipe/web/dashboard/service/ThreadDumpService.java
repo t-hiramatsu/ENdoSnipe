@@ -50,10 +50,11 @@ public class ThreadDumpService
     /**
      * this is mapping for threadDump node
      */
-    private static final String          THREADDUMP_POSTFIX_ID = "/JvnLog_Notify";
+    private static final String THREADDUMP_POSTFIX_ID = "/JvnLog_Notify";
 
     /** ロガー */
-    private static final ENdoSnipeLogger LOGGER                = ENdoSnipeLogger.getLogger(ThreadDumpService.class);
+    private static final ENdoSnipeLogger LOGGER =
+            ENdoSnipeLogger.getLogger(ThreadDumpService.class);
 
     /**
      * This is default constructor
@@ -77,17 +78,17 @@ public class ThreadDumpService
         String dbName = dbManager.getDataBaseName(1);
         List<JavelinLog> list = new ArrayList<JavelinLog>();
         List<ThreadDumpDefinitionDto> displayList = new ArrayList<ThreadDumpDefinitionDto>();
-        Map<String, List<ThreadDumpDefinitionDto>> dataList = new HashMap<String, List<ThreadDumpDefinitionDto>>();
+        Map<String, List<ThreadDumpDefinitionDto>> dataList =
+                new HashMap<String, List<ThreadDumpDefinitionDto>>();
         for (String dataGroupId : dataGroupIdList)
         {
-            Timestamp start = new Timestamp(
-                    Long.valueOf(termDataForm.getStartTime()));
-            Timestamp end = new Timestamp(
-                    Long.valueOf(termDataForm.getEndTime()));
+            Timestamp start = new Timestamp(Long.valueOf(termDataForm.getStartTime()));
+            Timestamp end = new Timestamp(Long.valueOf(termDataForm.getEndTime()));
             try
             {
-                list = JavelinLogDao.selectThreadDumpByTermAndName(dbName,
-                        start, end, dataGroupId, true, true);
+                list =
+                        JavelinLogDao.selectThreadDumpByTermAndName(dbName, start, end,
+                                                                    dataGroupId, true, true);
             }
             catch (SQLException ex)
             {
@@ -107,8 +108,7 @@ public class ThreadDumpService
      * @param list is javelinLog data
      * @return threadDump data 
      */
-    public List<ThreadDumpDefinitionDto> createThreadDumpDefinitionDto(
-            final List<JavelinLog> list)
+    public List<ThreadDumpDefinitionDto> createThreadDumpDefinitionDto(final List<JavelinLog> list)
     {
         List<ThreadDumpDefinitionDto> displayList = new ArrayList<ThreadDumpDefinitionDto>();
         for (JavelinLog table : list)
@@ -141,8 +141,7 @@ public class ThreadDumpService
                 LOGGER.log(LogMessageCodes.FAIL_GET_JVNLOG);
                 return null;
             }
-            BufferedReader reader = new BufferedReader(new InputStreamReader(
-                    jvnLog.javelinLog));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(jvnLog.javelinLog));
             String line;
             while ((line = reader.readLine()) != null)
             {
@@ -180,8 +179,7 @@ public class ThreadDumpService
      * @param measurementItem is agent name
      * @return threadDump Data
      */
-    public List<ThreadDumpDefinitionDto> getAllAgentData(
-            final String measurementItem)
+    public List<ThreadDumpDefinitionDto> getAllAgentData(final String measurementItem)
     {
         List<JavelinLog> list = new ArrayList<JavelinLog>();
         DatabaseManager dbManager = DatabaseManager.getInstance();
@@ -189,8 +187,7 @@ public class ThreadDumpService
         List<ThreadDumpDefinitionDto> displayList = new ArrayList<ThreadDumpDefinitionDto>();
         try
         {
-            list = JavelinLogDao.selectAllThreadDumpByMeasurementItem(dbName,
-                    measurementItem);
+            list = JavelinLogDao.selectAllThreadDumpByMeasurementItem(dbName, measurementItem);
         }
         catch (SQLException ex)
         {
@@ -198,5 +195,21 @@ public class ThreadDumpService
         }
         displayList = this.createThreadDumpDefinitionDto(list);
         return displayList;
+    }
+
+    public void createThreadDump(final String agentName)
+    {
+        if (agentName.isEmpty())
+        {
+            createThreadDump();
+        }
+        ConnectionClient connectionClient = ConnectionClient.getInstance();
+        List<CommunicationClient> clientList = connectionClient.getClientList();
+        for (CommunicationClient communicationClient : clientList)
+        {
+            Telegram telegram = TelegramCreator.createThreadDumpRequestTelegram(agentName);
+            communicationClient.sendTelegram(telegram);
+        }
+
     }
 }

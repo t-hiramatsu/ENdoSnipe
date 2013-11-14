@@ -103,25 +103,26 @@ public class ResourceSender
      * @param dataManager WGPオブジェクト
      * @param inbound クライアント
      */
-    private void sendWgpData(final ResourceData resourceData,
-            final WgpDataManager dataManager, final WgpMessageInbound inbound)
+    private void sendWgpData(final ResourceData resourceData, final WgpDataManager dataManager,
+            final WgpMessageInbound inbound)
     {
         Set<String> listeners = inbound.getListeners();
         Map<String, MeasurementData> measurementMap = resourceData.getMeasurementMap();
         long measurementTime = resourceData.measurementTime;
-        Map<String, MultipleMeasurementValueDto> multiDataMap = new HashMap<String, MultipleMeasurementValueDto>();
+        Map<String, MultipleMeasurementValueDto> multiDataMap =
+                new HashMap<String, MultipleMeasurementValueDto>();
         Map<String, MeasurementValueDto> singleDataMap = new HashMap<String, MeasurementValueDto>();
         for (Entry<String, MeasurementData> measurementDataEntry : measurementMap.entrySet())
         {
             MeasurementData measurementData = measurementDataEntry.getValue();
             String measurementItemName = measurementDataEntry.getKey();
-            String observateGroupId = searchObservateGroupId(listeners,
-                    measurementItemName);
+            String observateGroupId = searchObservateGroupId(listeners, measurementItemName);
             if (observateGroupId == null)
             {
                 continue;
             }
-            Map<String, MeasurementDetail> measurementDetailMap = measurementData.getMeasurementDetailMap();
+            Map<String, MeasurementDetail> measurementDetailMap =
+                    measurementData.getMeasurementDetailMap();
 
             if (measurementDetailMap.size() == 1)
             {
@@ -134,9 +135,9 @@ public class ResourceSender
                 if (observateGroupId.indexOf("|") != -1
                         || observateGroupId.indexOf("(") != observateGroupId.lastIndexOf("("))
                 {
-                    measurementArray = (observateGroupId.substring(
-                            observateGroupId.indexOf("(") + 1,
-                            observateGroupId.lastIndexOf(")"))).split("\\|");
+                    measurementArray =
+                            (observateGroupId.substring(observateGroupId.indexOf("(") + 1,
+                                                        observateGroupId.lastIndexOf(")"))).split("\\|");
                 }
                 List<String> measurementDataList = new ArrayList<String>();
                 if (measurementArray != null)
@@ -153,8 +154,7 @@ public class ResourceSender
 
                     // 完全一致する場合は、単数系列取得扱いとして、値を返す。
                     // 完全一致しない場合は、複数系列取得扱いとして、値を返す。
-                    if (matchData.equals(measurementItemName)
-                            && measurementDataList.size() == 1)
+                    if (matchData.equals(measurementItemName) && measurementDataList.size() == 1)
                     {
                         MeasurementValueDto singleData = singleDataMap.get(observateGroupId);
                         if (singleData == null)
@@ -189,8 +189,8 @@ public class ResourceSender
         for (Entry<String, MeasurementValueDto> multiDataEntry : singleDataMap.entrySet())
         {
             MeasurementValueDto valueDto = multiDataEntry.getValue();
-            dataManager.setData(valueDto.getMeasurementItemName(),
-                    String.valueOf(measurementTime), valueDto);
+            dataManager.setData(valueDto.getMeasurementItemName(), String.valueOf(measurementTime),
+                                valueDto);
         }
 
         // 複数系列の送信。
@@ -209,10 +209,8 @@ public class ResourceSender
                 valueDto.setMeasurementItemName(measurementItemName);
                 valueDto.setMeasurementTime(measurementTime);
                 valueDto.setMeasurementValue(measurementValue);
-                String dataId = String.valueOf(measurementTime) + "_"
-                        + measurementItemName;
-                dataManager.setData(multiValueDto.getSearchCondition(), dataId,
-                        valueDto);
+                String dataId = String.valueOf(measurementTime) + "_" + measurementItemName;
+                dataManager.setData(multiValueDto.getSearchCondition(), dataId, valueDto);
             }
         }
     }
@@ -233,6 +231,7 @@ public class ResourceSender
             if ("add".equals(type))
             {
                 dataManager.setData("tree", signalId, treeMenuDto);
+
             }
             else if ("update".equals(type))
             {
@@ -254,17 +253,22 @@ public class ResourceSender
      *            計測項目名
      * @return 監視対象グループに計測対象が含まれている場合true、含まれていない場合falseを返す。
      */
-    private String searchObservateGroupId(final Set<String> listeners,
-            final String itemName)
+    private String searchObservateGroupId(final Set<String> listeners, final String itemName)
     {
         for (String groupId : listeners)
         {
             String[] measurementArray = null;
-            if (groupId.indexOf("|") != -1
-                    || groupId.indexOf("(") != groupId.lastIndexOf("("))
+
+            if (groupId.indexOf("|") != -1 || groupId.indexOf("(") != groupId.lastIndexOf("("))
             {
-                measurementArray = (groupId.substring(groupId.indexOf("(") + 1,
-                        groupId.lastIndexOf(")"))).split("\\|");
+                if (groupId.indexOf("|") != -1 || groupId.indexOf("(") != groupId.lastIndexOf("(")
+                        && (groupId.charAt(0) == '(')
+                        && (groupId.charAt((groupId.length() - 1)) == ')'))
+
+                {
+                    measurementArray =
+                            (groupId.substring(groupId.indexOf("(") + 1, groupId.lastIndexOf(")"))).split("\\|");
+                }
             }
 
             List<String> measurementDataList = new ArrayList<String>();
@@ -274,11 +278,10 @@ public class ResourceSender
             }
             else
             {
-                if ((groupId.charAt(0) == '(')
-                        && (groupId.charAt((groupId.length() - 1)) == ')'))
+                if ((groupId.charAt(0) == '(') && (groupId.charAt((groupId.length() - 1)) == ')'))
                 {
-                    measurementDataList.add(groupId.substring(
-                            groupId.indexOf("(") + 1, groupId.lastIndexOf(")")));
+                    measurementDataList.add(groupId.substring(groupId.indexOf("(") + 1,
+                                                              groupId.lastIndexOf(")")));
                 }
                 else
                 {

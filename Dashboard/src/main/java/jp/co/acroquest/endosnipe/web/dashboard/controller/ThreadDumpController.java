@@ -66,7 +66,8 @@ public class ThreadDumpController
             @RequestParam(value = "data") final String data)
     {
         TermDataForm termDataForm = JSON.decode(data, TermDataForm.class);
-        Map<String, List<ThreadDumpDefinitionDto>> responseDataList = threadDumpService_.getTermThreadDumpData(termDataForm);
+        Map<String, List<ThreadDumpDefinitionDto>> responseDataList =
+                threadDumpService_.getTermThreadDumpData(termDataForm);
         return responseDataList;
     }
 
@@ -77,10 +78,10 @@ public class ThreadDumpController
      */
     @RequestMapping(value = "/addThreadDump", method = RequestMethod.POST)
     @ResponseBody
-    public void addThreadDumpData(
-            @RequestParam(value = "threadDump") final String data)
+    public void addThreadDumpData(@RequestParam(value = "threadDump") final String agentName)
     {
-        threadDumpService_.createThreadDump();
+        System.out.println("Agent name" + agentName);
+        threadDumpService_.createThreadDump(agentName);
     }
 
     /**

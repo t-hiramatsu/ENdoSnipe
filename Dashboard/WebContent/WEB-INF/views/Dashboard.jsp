@@ -11,6 +11,7 @@
 <%@ include file="dialog/ReportDialog.jsp"%>
 <%@ include file="dialog/PerformanceDoctorDialog.jsp"%>
 <%@ include file="dialog/threadDumpDialog.jsp"%>
+<%@ include file="dialog/SummarySignalDialog.jsp"%>
 
 <title>ENdoSnipe Dashboard</title>
 </head>

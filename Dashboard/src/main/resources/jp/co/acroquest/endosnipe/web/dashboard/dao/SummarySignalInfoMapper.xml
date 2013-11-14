@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="jp.co.acroquest.endosnipe.web.dashboard.dao.SummarySignalInfoDao">
+	<resultMap id="SummarySignalInfoMap"
+		type="jp.co.acroquest.endosnipe.web.dashboard.entity.SummarySignalInfo">
+		<id property="summarySignalId" column="SUMMARY_SIGNAL_ID" />
+		<result property="summarySignalName" column="SUMMARY_SIGNAL_NAME" />
+		<result property="targetSignalId" column="TARGET_SIGNAL_ID" />
+		<result property="summarySignalType" column="SIGNAL_TYPE" />
+		<result property="priorityNo" column="PRIORITY_NO" />
+	</resultMap>
+
+	<select id="selectAll" resultMap="SummarySignalInfoMap">
+		SELECT * FROM
+		SUMMARY_SIGNAL_DEFINITION
+	</select>
+	
+	<select id="selectByName" resultMap="SummarySignalInfoMap">
+		SELECT * FROM
+		SUMMARY_SIGNAL_DEFINITION
+		where SUMMARY_SIGNAL_NAME
+		= #{summarySignalName}
+	</select>
+
+	<insert id="insert"
+		parameterType="jp.co.acroquest.endosnipe.web.dashboard.entity.SummarySignalInfo">
+		insert into SUMMARY_SIGNAL_DEFINITION
+		(SUMMARY_SIGNAL_NAME,TARGET_SIGNAL_ID,SIGNAL_TYPE,PRIORITY_NO)
+		values
+		(#{summarySignalName},#{targetSignalId},#{summarySignalType},#{priorityNo})
+	</insert>
+
+	<select id="selectSequenceNum" resultType="int">
+		SELECT
+		SUMMARY_SIGNAL_ID FROM
+		SUMMARY_SIGNAL_DEFINITION
+		where
+		SUMMARY_SIGNAL_NAME
+		= #{summarySignalName}
+	</select>
+
+</mapper>

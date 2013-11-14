@@ -668,4 +668,19 @@ public final class TelegramCreator implements TelegramConstants
         objOutputTelegram.setObjBody(bodies);
         return objOutputTelegram;
     }
+
+    public static Telegram createThreadDumpRequestTelegram(String agentName)
+    {
+        Header objHeader = new Header();
+        objHeader.setId(TelegramUtil.generateTelegramId());
+        objHeader.setByteTelegramKind(BYTE_TELEGRAM_KIND_GET_DUMP);
+        objHeader.setByteRequestKind(BYTE_REQUEST_KIND_REQUEST);
+        Body[] bodies = TelegramUtil.createEmptyRequestBody(OBJECTNAME_DUMP, ITEMNAME_THREADDUMP,agentName);
+
+        Telegram requestTelegram = new Telegram();
+        requestTelegram.setObjHeader(objHeader);
+        requestTelegram.setObjBody(bodies);
+
+        return requestTelegram;
+    }
 }

@@ -49,6 +49,7 @@ import jp.co.acroquest.endosnipe.collector.data.JavelinLogData;
 import jp.co.acroquest.endosnipe.collector.data.JavelinMeasurementData;
 import jp.co.acroquest.endosnipe.collector.log.JavelinLogUtil;
 import jp.co.acroquest.endosnipe.collector.manager.SignalStateManager;
+import jp.co.acroquest.endosnipe.collector.manager.SummarySignalStateManager;
 import jp.co.acroquest.endosnipe.collector.notification.AlarmEntry;
 import jp.co.acroquest.endosnipe.collector.processor.AlarmData;
 import jp.co.acroquest.endosnipe.collector.processor.AlarmProcessor;
@@ -56,6 +57,7 @@ import jp.co.acroquest.endosnipe.collector.processor.AlarmThresholdProcessor;
 import jp.co.acroquest.endosnipe.collector.processor.AlarmType;
 import jp.co.acroquest.endosnipe.collector.request.CommunicationClientRepository;
 import jp.co.acroquest.endosnipe.collector.util.CollectorTelegramUtil;
+import jp.co.acroquest.endosnipe.collector.util.SignalSummarizer;
 import jp.co.acroquest.endosnipe.common.Constants;
 import jp.co.acroquest.endosnipe.common.entity.ItemType;
 import jp.co.acroquest.endosnipe.common.entity.MeasurementData;
@@ -78,6 +80,7 @@ import jp.co.acroquest.endosnipe.data.db.DBManager;
 import jp.co.acroquest.endosnipe.data.dto.MeasurementValueDto;
 import jp.co.acroquest.endosnipe.data.dto.PerfDoctorResultDto;
 import jp.co.acroquest.endosnipe.data.dto.SignalDefinitionDto;
+import jp.co.acroquest.endosnipe.data.dto.SummarySignalDefinitionDto;
 import jp.co.acroquest.endosnipe.data.entity.JavelinLog;
 import jp.co.acroquest.endosnipe.data.entity.JavelinMeasurementItem;
 import jp.co.acroquest.endosnipe.data.util.AccumulatedValuesDefinition;
@@ -98,102 +101,130 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
 {
 
     /** シグナルのレベル1 */
-    private static final int                    SIGNAL_LEVEL_1                = 1;
+    private static final int SIGNAL_LEVEL_1 = 1;
 
     /** シグナルのレベル2 */
-    private static final int                    SIGNAL_LEVEL_2                = 2;
+    private static final int SIGNAL_LEVEL_2 = 2;
 
     /** シグナルのレベル3 */
-    private static final int                    SIGNAL_LEVEL_3                = 3;
+    private static final int SIGNAL_LEVEL_3 = 3;
 
     /** シグナルのレベル4 */
-    private static final int                    SIGNAL_LEVEL_4                = 4;
+    private static final int SIGNAL_LEVEL_4 = 4;
 
     /** シグナルのレベル5 */
-    private static final int                    SIGNAL_LEVEL_5                = 5;
+    private static final int SIGNAL_LEVEL_5 = 5;
 
     /** ロガー */
-    private static final String                 JVN_LOG_ENCODING              = "UTF-8";
+    private static final String JVN_LOG_ENCODING = "UTF-8";
 
-    private static final ENdoSnipeLogger        LOGGER                        = ENdoSnipeLogger.getLogger(JavelinDataLogger.class);
+    private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
+        .getLogger(JavelinDataLogger.class);
 
-    private final JavelinDataQueue              queue_                        = new JavelinDataQueue();
+    private final JavelinDataQueue queue_ = new JavelinDataQueue();
 
     /** 設定 */
-    private final DataCollectorConfig           config_;
+    private final DataCollectorConfig config_;
 
     /** データベース名をキーに持つ、ローテート設定を保持するマップ */
-    private final Map<String, RotateConfig>     rotateConfigMap_;
+    private final Map<String, RotateConfig> rotateConfigMap_;
 
     /** デフォルトのローテーと設定 */
-    private RotateConfig                        defaultRotateConfig_;
+    private RotateConfig defaultRotateConfig_;
 
     private final CommunicationClientRepository clientRepository_;
 
-    private volatile boolean                    isRunnning_;
+    private volatile boolean isRunnning_;
 
     /** 前回の計測値 */
-    private final Map<String, ResourceData>     prevResourceDataMap_          = new HashMap<String, ResourceData>();
+    private final Map<String, ResourceData> prevResourceDataMap_ =
+        new HashMap<String, ResourceData>();
 
     /** 前回の計測値(積算を差分に直したもの) */
-    private final Map<String, ResourceData>     prevConvertedResourceDataMap_ = new HashMap<String, ResourceData>();
+    private final Map<String, ResourceData> prevConvertedResourceDataMap_ =
+        new HashMap<String, ResourceData>();
 
     /** データベース名をキーにした、前回データを挿入したテーブルインデックスを保持するマップ */
-    private static Map<String, Integer>         prevTableIndexMap__           = new ConcurrentHashMap<String, Integer>();
+    private static Map<String, Integer> prevTableIndexMap__ =
+        new ConcurrentHashMap<String, Integer>();
 
     /**
      * Javelinから接続されたときのイベント。
      * 接続データを受け取った時にセットされ、接続前の、全てが0のデータを書き込む際に用いられる。
      * 書き込まれた後、このフィールドはnullに戻される。
      */
-    private JavelinConnectionData               connectionData_               = null;
+    private JavelinConnectionData connectionData_ = null;
 
     /** 閾値判定処理を行う定義を保持したマップ */
-    private final Map<String, AlarmProcessor>   processorMap_                 = new ConcurrentHashMap<String, AlarmProcessor>();
+    private final Map<String, AlarmProcessor> processorMap_ =
+        new ConcurrentHashMap<String, AlarmProcessor>();
 
     /** 閾値レベル（正常） */
-    public static final int                     NORMAL_ALARM_LEVEL            = 0;
+    public static final int NORMAL_ALARM_LEVEL = 0;
 
     /** 閾値レベル（監視停止中） */
-    public static final int                     STOP_ALARM_LEVEL              = -1;
+    public static final int STOP_ALARM_LEVEL = -1;
 
     /** measurement_item_nameをスラッシュ区切りした際に、クラスタ名が入るIndex番号。 */
-    private static final int                    CLUSTER_INDEX                 = 1;
+    private static final int CLUSTER_INDEX = 1;
 
     /** measurement_item_nameをスラッシュ区切りした際に、サーバ名が入るIndex番号。 */
-    private static final int                    SERVER_INDEX                  = 2;
+    private static final int SERVER_INDEX = 2;
 
     /** measurement_item_nameをスラッシュ区切りした際に、エージェント名が入るIndex番号。 */
-    private static final int                    AGENT_INDEX                   = 3;
+    private static final int AGENT_INDEX = 3;
 
     /** 性能情報のキーの区切り文字 */
-    private static final String                 KEY_SEPARETOR                 = "/";
+    private static final String KEY_SEPARETOR = "/";
 
     /** JAVELIN_LOG テーブルを truncate するコールバックメソッド */
-    private final RotateCallback                javelinRotateCallback_        = new RotateCallback() {
-                                                                                  /**
-                                                                                   * {@inheritDoc}
-                                                                                   */
-                                                                                  public String getTableType()
-                                                                                  {
-                                                                                      return "JAVELIN_LOG";
-                                                                                  }
+    private final RotateCallback javelinRotateCallback_ = new RotateCallback() {
+        /**
+         * {@inheritDoc}
+         */
+        public String getTableType()
+        {
+            return "JAVELIN_LOG";
+        }
 
-                                                                                  /**
-                                                                                   * {@inheritDoc}
-                                                                                   */
-                                                                                  public void truncate(
-                                                                                          final String database,
-                                                                                          final int tableIndex,
-                                                                                          final int year)
-                                                                                          throws SQLException
-                                                                                  {
-                                                                                      JavelinLogDao.truncate(
-                                                                                              database,
-                                                                                              tableIndex,
-                                                                                              year);
-                                                                                  }
-                                                                              };
+        /**
+         * {@inheritDoc}
+         */
+        public void truncate(final String database, final int tableIndex, final int year)
+            throws SQLException
+        {
+            JavelinLogDao.truncate(database, tableIndex, year);
+        }
+
+    };
+
+    /**
+     * 初期化を行います。
+     *
+     * @param config {@link DataCollectorConfig} オブジェクト
+     * @param clientRepository {@link CommunicationClientRepository} オブジェクト
+     * @param signalDefinitionMap 閾値判定定義情報のマップ
+     * @param summarySignalDefinitionMap data of summary signal
+     */
+    public JavelinDataLogger(final DataCollectorConfig config,
+        final CommunicationClientRepository clientRepository,
+        final Map<Long, SignalDefinitionDto> signalDefinitionMap,
+        final Map<Long, SummarySignalDefinitionDto> summarySignalDefinitionMap)
+    {
+        this.rotateConfigMap_ = new HashMap<String, RotateConfig>();
+        this.config_ = config;
+        this.clientRepository_ = clientRepository;
+        SignalStateManager signalStateManager = SignalStateManager.getInstance();
+        signalStateManager.setSignalDeifinitionMap(signalDefinitionMap);
+
+        SummarySignalStateManager summarySignalStateManager =
+            SummarySignalStateManager.getInstance();
+
+        String dataBase = config_.getDatabaseName();
+        summarySignalStateManager.setDataBaseName(dataBase);
+        summarySignalStateManager.setSummarySignalDefinitionMap(summarySignalDefinitionMap);
+        summarySignalStateManager.createAllSummarySignalMapValue();
+    }
 
     /**
      * 初期化を行います。
@@ -203,8 +234,8 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
      * @param signalDefinitionMap 閾値判定定義情報のマップ
      */
     public JavelinDataLogger(final DataCollectorConfig config,
-            final CommunicationClientRepository clientRepository,
-            final Map<Long, SignalDefinitionDto> signalDefinitionMap)
+        final CommunicationClientRepository clientRepository,
+        final Map<Long, SignalDefinitionDto> signalDefinitionMap)
     {
         this.rotateConfigMap_ = new HashMap<String, RotateConfig>();
         this.config_ = config;
@@ -308,7 +339,7 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
     {
         if (data instanceof JavelinConnectionData)
         {
-            JavelinConnectionData connectionData = (JavelinConnectionData) data;
+            JavelinConnectionData connectionData = (JavelinConnectionData)data;
             String database = connectionData.getDatabaseName();
 
             if (connectionData.isConnectionData())
@@ -325,8 +356,9 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
                 if (resourceData != null)
                 {
                     long measurementTime = connectionData.measurementTime;
-                    ResourceData allZeroData = ResourceDataUtil.createAllZeroResourceData(
-                            resourceData, measurementTime, false);
+                    ResourceData allZeroData =
+                        ResourceDataUtil.createAllZeroResourceData(resourceData, measurementTime,
+                                                                   false);
                     logResourceData(database, allZeroData, true);
                 }
             }
@@ -334,7 +366,7 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         else if (data instanceof JavelinLogData)
         {
             // Javelin ログの場合
-            JavelinLogData logData = (JavelinLogData) data;
+            JavelinLogData logData = (JavelinLogData)data;
             String database = data.getDatabaseName();
             logJavelinLogData(database, logData);
 
@@ -344,20 +376,20 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         else if (data instanceof JavelinMeasurementData)
         {
             // 計測値データの場合
-            ResourceData resourceData = ((JavelinMeasurementData) data).getResourceData();
+            ResourceData resourceData = ((JavelinMeasurementData)data).getResourceData();
             String database = data.getDatabaseName();
 
-            if (resourceData != null
-                    && resourceData.getMeasurementMap() != null)
+            if (resourceData != null && resourceData.getMeasurementMap() != null)
             {
 
                 // 接続後の最初のデータの場合、接続を表す（計測値が全て0の）データを直前に加える。
                 if (this.connectionData_ != null
-                        && resourceData.getMeasurementMap().isEmpty() == false)
+                    && resourceData.getMeasurementMap().isEmpty() == false)
                 {
                     long measurementTime = this.connectionData_.measurementTime;
-                    ResourceData allZeroData = ResourceDataUtil.createAllZeroResourceData(
-                            resourceData, measurementTime, true);
+                    ResourceData allZeroData =
+                        ResourceDataUtil.createAllZeroResourceData(resourceData, measurementTime,
+                                                                   true);
                     logResourceData(database, allZeroData, true);
                     this.connectionData_ = null;
                 }
@@ -377,7 +409,8 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
     {
         JavelinLogAccessor accesor = new JavelinLogAccessor() {
             @Override
-            public InputStream getInputStream() throws IOException
+            public InputStream getInputStream()
+                throws IOException
             {
                 byte[] jvnLog = logData.getContents().getBytes(JVN_LOG_ENCODING);
                 return new ByteArrayInputStream(jvnLog);
@@ -416,8 +449,8 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
                 String clientId = logData.getClientId();
                 if (clientId == null || clientId.equals(""))
                 {
-                    clientId = JavelinClient.createClientId(
-                            logData.getIpAddress(), logData.getPort());
+                    clientId =
+                        JavelinClient.createClientId(logData.getIpAddress(), logData.getPort());
                 }
             }
             catch (IOException ex)
@@ -438,8 +471,7 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
      * @param database データベース名
      * @param resourceData 登録するデータ
      */
-    private void logResourceData(final String database,
-            final ResourceData resourceData)
+    private void logResourceData(final String database, final ResourceData resourceData)
     {
         this.logResourceData(database, resourceData, false);
     }
@@ -450,8 +482,8 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
      * @param resourceData 登録するデータ
      * @param isConnectionData 接続・切断データかどうか
      */
-    private void logResourceData(final String database,
-            final ResourceData resourceData, final boolean isConnectionData)
+    private void logResourceData(final String database, final ResourceData resourceData,
+        final boolean isConnectionData)
     {
         if (resourceData.getMeasurementMap().isEmpty())
         {
@@ -472,13 +504,12 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             ResourceData prevData = this.prevConvertedResourceDataMap_.get(prevDataKey);
             if (prevData != null)
             {
-                ResourceData additionalData = ResourceDataUtil.createAdditionalPreviousData(
-                        prevData, resourceData);
+                ResourceData additionalData =
+                    ResourceDataUtil.createAdditionalPreviousData(prevData, resourceData);
 
                 if (additionalData.getMeasurementMap().size() > 0)
                 {
-                    insertMeasurementData(database, additionalData,
-                            rotatePeriod, rotatePeriodUnit);
+                    insertMeasurementData(database, additionalData, rotatePeriod, rotatePeriodUnit);
                 }
             }
 
@@ -487,8 +518,7 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             {
                 // 積算値が入っている場合、差分にする
                 ResourceData prevResource = this.prevResourceDataMap_.get(prevDataKey);
-                convertedResourceData = accumulatedValueParser(prevResource,
-                        resourceData);
+                convertedResourceData = accumulatedValueParser(prevResource, resourceData);
             }
 
             // CPU使用率を計算し、データに加える。
@@ -500,20 +530,18 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             // JMXの計算を行う。
             this.convertJmxRatioData(database, convertedResourceData);
 
-            insertMeasurementData(database, convertedResourceData,
-                    rotatePeriod, rotatePeriodUnit);
+            insertMeasurementData(database, convertedResourceData, rotatePeriod, rotatePeriodUnit);
 
             alarmThresholdExceedance(database, convertedResourceData,
-                    this.prevConvertedResourceDataMap_.get(prevDataKey));
+                                     this.prevConvertedResourceDataMap_.get(prevDataKey));
 
             if (isConnectionData == false)
             {
                 if (resourceData.getMeasurementMap() != null
-                        && resourceData.getMeasurementMap().size() != 0)
+                    && resourceData.getMeasurementMap().size() != 0)
                 {
                     this.prevResourceDataMap_.put(prevDataKey, resourceData);
-                    this.prevConvertedResourceDataMap_.put(prevDataKey,
-                            convertedResourceData);
+                    this.prevConvertedResourceDataMap_.put(prevDataKey, convertedResourceData);
                 }
 
                 notifyResource(convertedResourceData);
@@ -526,14 +554,16 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         }
     }
 
-    private void insertMeasurementData(final String database,
-            final ResourceData convertedResourceData, final int rotatePeriod,
-            final int rotatePeriodUnit) throws SQLException
+    private void
+        insertMeasurementData(final String database, final ResourceData convertedResourceData,
+            final int rotatePeriod, final int rotatePeriodUnit)
+            throws SQLException
     {
         long startTime = System.currentTimeMillis();
-        InsertResult result = ResourceDataDaoUtil.insert(database,
-                convertedResourceData, rotatePeriod, rotatePeriodUnit,
-                config_.getBatchSize(), config_.getItemIdCacheSize());
+        InsertResult result =
+            ResourceDataDaoUtil.insert(database, convertedResourceData, rotatePeriod,
+                                       rotatePeriodUnit, config_.getBatchSize(),
+                                       config_.getItemIdCacheSize());
         long endTime = System.currentTimeMillis();
         long elapsedTime = endTime - startTime;
 
@@ -541,20 +571,18 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         {
             // IEDC0022=データベースに測定値を登録しました。 
             // データベース名:{0}、経過時間:{1}、登録件数:{2}、キャッシュヒット件数:{3}、キャッシュあふれ回数:{4}
-            int cacheHitCount = result.getInsertCount()
-                    - result.getCacheMissCount();
-            LOGGER.log("IEDC0022", database, elapsedTime,
-                    result.getInsertCount(), cacheHitCount,
-                    result.getCacheOverflowCount());
+            int cacheHitCount = result.getInsertCount() - result.getCacheMissCount();
+            LOGGER.log("IEDC0022", database, elapsedTime, result.getInsertCount(), cacheHitCount,
+                       result.getCacheOverflowCount());
         }
 
         String clientId = convertedResourceData.clientId;
 
         if (clientId == null || "".equals(clientId))
         {
-            clientId = JavelinClient.createClientId(
-                    convertedResourceData.ipAddress,
-                    convertedResourceData.portNum);
+            clientId =
+                JavelinClient.createClientId(convertedResourceData.ipAddress,
+                                             convertedResourceData.portNum);
         }
 
         List<MeasurementValueDto> measurementItemList = result.getMeasurementItemList();
@@ -573,12 +601,12 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
      * @param measurementItemList list of added tree node
      * @return telegram of added tree node
      */
-    private Telegram createAddTreeNodeTelegram(
-            final List<MeasurementValueDto> measurementItemList)
+    private Telegram createAddTreeNodeTelegram(final List<MeasurementValueDto> measurementItemList)
     {
         Header responseHeader = new Header();
 
-        responseHeader.setByteTelegramKind(TelegramConstants.BYTE_TELEGRAM_KIND_TREE_ADD_DEFINITION);
+        responseHeader
+            .setByteTelegramKind(TelegramConstants.BYTE_TELEGRAM_KIND_TREE_ADD_DEFINITION);
         responseHeader.setByteRequestKind(TelegramConstants.BYTE_REQUEST_KIND_NOTIFY);
 
         Telegram responseTelegram = new Telegram();
@@ -602,8 +630,7 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
 
         responseTelegram.setObjHeader(responseHeader);
 
-        Body[] responseBodys =
-        { measurementItemNameList };
+        Body[] responseBodys = {measurementItemNameList};
         responseTelegram.setObjBody(responseBodys);
 
         return responseTelegram;
@@ -617,10 +644,11 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
      * @return  telegram
      */
     public Telegram createDeleteTreeNodeTelegram(final String database,
-            final List<Integer> deleteItemList)
+        final List<Integer> deleteItemList)
     {
         Header responseHeader = new Header();
-        responseHeader.setByteTelegramKind(TelegramConstants.BYTE_TELEGRAM_KIND_TREE_DELETE_DEFINITION);
+        responseHeader
+            .setByteTelegramKind(TelegramConstants.BYTE_TELEGRAM_KIND_TREE_DELETE_DEFINITION);
         responseHeader.setByteRequestKind(TelegramConstants.BYTE_REQUEST_KIND_REQUEST);
 
         Telegram responseTelegram = new Telegram();
@@ -639,8 +667,8 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             JavelinMeasurementItem measurementItem;
             try
             {
-                measurementItem = JavelinMeasurementItemDao.selectById(
-                        database, deleteItemList.get(cnt));
+                measurementItem =
+                    JavelinMeasurementItemDao.selectById(database, deleteItemList.get(cnt));
                 String id = measurementItem.itemName;
 
                 measurementItemNames[cnt] = id;
@@ -655,8 +683,7 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         idList.setObjItemValueArr(measurementItemNames);
         responseTelegram.setObjHeader(responseHeader);
 
-        Body[] responseBodys =
-        { idList };
+        Body[] responseBodys = {idList};
 
         responseTelegram.setObjBody(responseBodys);
 
@@ -669,8 +696,8 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
      * 
      * @param resourceData 返還対象の値。
      */
-    private void convertJmxRatioData(final String database,
-            final ResourceData resourceData) throws SQLException
+    private void convertJmxRatioData(final String database, final ResourceData resourceData)
+        throws SQLException
     {
         // 変換対象の値を特定する。
         Set<String> jmxTypeSet = new HashSet<String>();
@@ -693,8 +720,7 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         // 一定値をかける。
         for (String itemName : jmxTypeSet)
         {
-            Map<String, MeasurementDetail> detailMap = getMultiDetailValue(
-                    resourceData, itemName);
+            Map<String, MeasurementDetail> detailMap = getMultiDetailValue(resourceData, itemName);
             if (detailMap == null)
             {
                 continue;
@@ -723,8 +749,8 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
                 }
 
                 MeasurementDetail detail = detailMap.get(name);
-                detail.value = String.valueOf(Double.valueOf(detail.value)
-                        * ResourceDataUtil.PERCENT_CONST
+                detail.value =
+                    String.valueOf(Double.valueOf(detail.value) * ResourceDataUtil.PERCENT_CONST
                         * ResourceDataUtil.PERCENTAGE_DATA_MAGNIFICATION);
             }
         }
@@ -732,14 +758,15 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
 
     private void notifyResource(final ResourceData convertedResourceData)
     {
-        Telegram resourceTelegram = ResourceNotifyAccessor.getResourceTelgram(convertedResourceData);
+        Telegram resourceTelegram =
+            ResourceNotifyAccessor.getResourceTelgram(convertedResourceData);
 
         String clientId = convertedResourceData.clientId;
         if (clientId == null || clientId.equals(""))
         {
-            clientId = JavelinClient.createClientId(
-                    convertedResourceData.ipAddress,
-                    convertedResourceData.portNum);
+            clientId =
+                JavelinClient.createClientId(convertedResourceData.ipAddress,
+                                             convertedResourceData.portNum);
         }
 
         this.clientRepository_.sendTelegramToClient(clientId, resourceTelegram);
@@ -752,14 +779,15 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
      * @param resourceData 登録するデータ
      * @throws SQLException
      */
-    private void calculateAndAddCoverageData(final String database,
-            final ResourceData resourceData) throws SQLException
+    private void
+        calculateAndAddCoverageData(final String database, final ResourceData resourceData)
+            throws SQLException
     {
         // カバレッジの計算に必要な値を取得する。
-        long calledMethodCount = getSingleDetailValue(resourceData,
-                Constants.ITEMNAME_CALLEDMETHODCOUNT);
-        long convertedMethodCount = getSingleDetailValue(resourceData,
-                Constants.ITEMNAME_CONVERTEDMETHOD);
+        long calledMethodCount =
+            getSingleDetailValue(resourceData, Constants.ITEMNAME_CALLEDMETHODCOUNT);
+        long convertedMethodCount =
+            getSingleDetailValue(resourceData, Constants.ITEMNAME_CONVERTEDMETHOD);
 
         // 値が取得できない場合、データの追加は行わない。
         if (calledMethodCount < 0 || convertedMethodCount < 0)
@@ -770,8 +798,8 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         double coverage = 0.0;
         if (convertedMethodCount > 0)
         {
-            coverage = (double) calledMethodCount / convertedMethodCount
-                    * ResourceDataUtil.PERCENT_CONST;
+            coverage =
+                (double)calledMethodCount / convertedMethodCount * ResourceDataUtil.PERCENT_CONST;
         }
 
         Map<String, MeasurementData> measurementMap = resourceData.getMeasurementMap();
@@ -780,19 +808,17 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         for (String key : measurementMap.keySet())
         {
             temp = key.split("/");
-            subKey = "/" + temp[CLUSTER_INDEX] + "/" + temp[SERVER_INDEX] + "/"
-                    + temp[AGENT_INDEX];
+            subKey = "/" + temp[CLUSTER_INDEX] + "/" + temp[SERVER_INDEX] + "/" + temp[AGENT_INDEX];
             break;
         }
         // カバレッジの値が入ったデータを作成する。
-        MeasurementData coverageData = calcCpuUsage(subKey
-                + Constants.ITEMNAME_COVERAGE, coverage, database);
+        MeasurementData coverageData =
+            calcCpuUsage(subKey + Constants.ITEMNAME_COVERAGE, coverage, database);
 
         // 作成したデータを、他のデータの入ったMapに追加する。
         if (!subKey.equals(""))
         {
-            measurementMap.put(subKey + Constants.ITEMNAME_COVERAGE,
-                    coverageData);
+            measurementMap.put(subKey + Constants.ITEMNAME_COVERAGE, coverageData);
         }
     }
 
@@ -803,116 +829,106 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
      * @param resourceData 登録するデータ
      * @throws SQLException
      */
-    private void calculateAndAddCpuUsageData(final String database,
-            final ResourceData resourceData) throws SQLException
+    private void
+        calculateAndAddCpuUsageData(final String database, final ResourceData resourceData)
+            throws SQLException
     {
         Map<String, MeasurementData> measurementMap = resourceData.getMeasurementMap();
         String subKey = null;
         String[] temp = null;
         // CPU使用率の計算に必要な値を取得する。
-        long processorCount = getSingleDetailValue(resourceData,
-                Constants.ITEMNAME_SYSTEM_CPU_PROCESSOR_COUNT);
+        long processorCount =
+            getSingleDetailValue(resourceData, Constants.ITEMNAME_SYSTEM_CPU_PROCESSOR_COUNT);
         for (String key : measurementMap.keySet())
         {
             temp = key.split("/");
-            subKey = "/" + temp[CLUSTER_INDEX] + "/" + temp[SERVER_INDEX] + "/"
-                    + temp[AGENT_INDEX];
+            subKey = "/" + temp[CLUSTER_INDEX] + "/" + temp[SERVER_INDEX] + "/" + temp[AGENT_INDEX];
             break;
         }
         long resourceInterval = this.config_.getResourceInterval();
         String itemName = subKey + Constants.ITEMNAME_SYSTEM_CPU_USERMODE_TIME;
         long sysCputimeUser = getSingleDetailValue(resourceData, itemName);
-        long sysCputimeSys = getSingleDetailValue(resourceData, subKey
-                + Constants.ITEMNAME_SYSTEM_CPU_SYSTEM_TIME);
-        long sysCputimeIoWait = getSingleDetailValue(resourceData, subKey
-                + Constants.ITEMNAME_SYSTEM_CPU_IOWAIT_TIME);
-        long sysCputimeTotal = sysCputimeUser + sysCputimeSys
-                + sysCputimeIoWait;
+        long sysCputimeSys =
+            getSingleDetailValue(resourceData, subKey + Constants.ITEMNAME_SYSTEM_CPU_SYSTEM_TIME);
+        long sysCputimeIoWait =
+            getSingleDetailValue(resourceData, subKey + Constants.ITEMNAME_SYSTEM_CPU_IOWAIT_TIME);
+        long sysCputimeTotal = sysCputimeUser + sysCputimeSys + sysCputimeIoWait;
 
-        long procCputimeTotal = getSingleDetailValue(resourceData, subKey
-                + Constants.ITEMNAME_PROCESS_CPU_TOTAL_TIME);
-        long procCputimeSys = getSingleDetailValue(resourceData, subKey
-                + Constants.ITEMNAME_PROCESS_CPU_SYSTEM_TIME);
-        long procCputimeIoWait = getSingleDetailValue(resourceData, subKey
-                + Constants.ITEMNAME_PROCESS_CPU_IOWAIT_TIME);
-        long procCputimeUser = procCputimeTotal - procCputimeSys
-                - procCputimeIoWait;
+        long procCputimeTotal =
+            getSingleDetailValue(resourceData, subKey + Constants.ITEMNAME_PROCESS_CPU_TOTAL_TIME);
+        long procCputimeSys =
+            getSingleDetailValue(resourceData, subKey + Constants.ITEMNAME_PROCESS_CPU_SYSTEM_TIME);
+        long procCputimeIoWait =
+            getSingleDetailValue(resourceData, subKey + Constants.ITEMNAME_PROCESS_CPU_IOWAIT_TIME);
+        long procCputimeUser = procCputimeTotal - procCputimeSys - procCputimeIoWait;
 
         if (-1 < sysCputimeUser && -1 < sysCputimeSys && -1 < processorCount)
         {
-            double sysCpuusageUser = CPUConverter.calcCPUUsage(sysCputimeUser,
-                    resourceInterval, processorCount);
-            double sysCpuusageSys = CPUConverter.calcCPUUsage(sysCputimeSys,
-                    resourceInterval, processorCount);
-            double sysCpuusageIoWait = CPUConverter.calcCPUUsage(
-                    sysCputimeIoWait, resourceInterval, processorCount);
-            double sysCpuusageTotal = CPUConverter.calcCPUUsage(
-                    sysCputimeTotal, resourceInterval, processorCount);
+            double sysCpuusageUser =
+                CPUConverter.calcCPUUsage(sysCputimeUser, resourceInterval, processorCount);
+            double sysCpuusageSys =
+                CPUConverter.calcCPUUsage(sysCputimeSys, resourceInterval, processorCount);
+            double sysCpuusageIoWait =
+                CPUConverter.calcCPUUsage(sysCputimeIoWait, resourceInterval, processorCount);
+            double sysCpuusageTotal =
+                CPUConverter.calcCPUUsage(sysCputimeTotal, resourceInterval, processorCount);
 
-            MeasurementData sysCpuusageUserData = calcCpuUsage(subKey
-                    + Constants.ITEMNAME_SYSTEM_CPU_USER_USAGE,
-                    sysCpuusageUser, database);
-            MeasurementData sysCpuusageSysData = calcCpuUsage(subKey
-                    + Constants.ITEMNAME_SYSTEM_CPU_SYSTEM_USAGE,
-                    sysCpuusageSys, database);
-            MeasurementData sysCpuusageIoWaitData = calcCpuUsage(subKey
-                    + Constants.ITEMNAME_SYSTEM_CPU_IOWAIT_USAGE,
-                    sysCpuusageIoWait, database);
-            MeasurementData sysCpuusageTotalData = calcCpuUsage(subKey
-                    + Constants.ITEMNAME_SYSTEM_CPU_TOTAL_USAGE,
-                    sysCpuusageTotal, database);
+            MeasurementData sysCpuusageUserData =
+                calcCpuUsage(subKey + Constants.ITEMNAME_SYSTEM_CPU_USER_USAGE, sysCpuusageUser,
+                             database);
+            MeasurementData sysCpuusageSysData =
+                calcCpuUsage(subKey + Constants.ITEMNAME_SYSTEM_CPU_SYSTEM_USAGE, sysCpuusageSys,
+                             database);
+            MeasurementData sysCpuusageIoWaitData =
+                calcCpuUsage(subKey + Constants.ITEMNAME_SYSTEM_CPU_IOWAIT_USAGE,
+                             sysCpuusageIoWait, database);
+            MeasurementData sysCpuusageTotalData =
+                calcCpuUsage(subKey + Constants.ITEMNAME_SYSTEM_CPU_TOTAL_USAGE, sysCpuusageTotal,
+                             database);
 
-            measurementMap.put(subKey
-                    + Constants.ITEMNAME_SYSTEM_CPU_USER_USAGE,
-                    sysCpuusageUserData);
-            measurementMap.put(subKey
-                    + Constants.ITEMNAME_SYSTEM_CPU_SYSTEM_USAGE,
-                    sysCpuusageSysData);
-            measurementMap.put(subKey
-                    + Constants.ITEMNAME_SYSTEM_CPU_IOWAIT_USAGE,
-                    sysCpuusageIoWaitData);
-            measurementMap.put(subKey
-                    + Constants.ITEMNAME_SYSTEM_CPU_TOTAL_USAGE,
-                    sysCpuusageTotalData);
+            measurementMap.put(subKey + Constants.ITEMNAME_SYSTEM_CPU_USER_USAGE,
+                               sysCpuusageUserData);
+            measurementMap.put(subKey + Constants.ITEMNAME_SYSTEM_CPU_SYSTEM_USAGE,
+                               sysCpuusageSysData);
+            measurementMap.put(subKey + Constants.ITEMNAME_SYSTEM_CPU_IOWAIT_USAGE,
+                               sysCpuusageIoWaitData);
+            measurementMap.put(subKey + Constants.ITEMNAME_SYSTEM_CPU_TOTAL_USAGE,
+                               sysCpuusageTotalData);
         }
 
         // プロセスのCPU使用率の計算に必要な値が取得できている場合、そのデータを追加する。
         if (-1 < procCputimeTotal && -1 < procCputimeSys && -1 < processorCount)
         {
-            double procCpuusageUser = CPUConverter.calcCPUUsage(
-                    procCputimeUser, resourceInterval, processorCount);
-            double procCpuusageSys = CPUConverter.calcCPUUsage(procCputimeSys,
-                    resourceInterval, processorCount);
-            double procCpuusageIoWait = CPUConverter.calcCPUUsage(
-                    procCputimeIoWait, resourceInterval, processorCount);
-            double procCpuusageTotal = CPUConverter.calcCPUUsage(
-                    procCputimeTotal, resourceInterval, processorCount);
+            double procCpuusageUser =
+                CPUConverter.calcCPUUsage(procCputimeUser, resourceInterval, processorCount);
+            double procCpuusageSys =
+                CPUConverter.calcCPUUsage(procCputimeSys, resourceInterval, processorCount);
+            double procCpuusageIoWait =
+                CPUConverter.calcCPUUsage(procCputimeIoWait, resourceInterval, processorCount);
+            double procCpuusageTotal =
+                CPUConverter.calcCPUUsage(procCputimeTotal, resourceInterval, processorCount);
 
-            MeasurementData procCpuusageUserData = calcCpuUsage(subKey
-                    + Constants.ITEMNAME_PROCESS_CPU_USER_USAGE,
-                    procCpuusageUser, database);
-            MeasurementData procCpuusageSysData = calcCpuUsage(subKey
-                    + Constants.ITEMNAME_PROCESS_CPU_SYSTEM_USAGE,
-                    procCpuusageSys, database);
-            MeasurementData procCpuusageIoWaitData = calcCpuUsage(subKey
-                    + Constants.ITEMNAME_PROCESS_CPU_IOWAIT_USAGE,
-                    procCpuusageIoWait, database);
-            MeasurementData procCpuusageTotalData = calcCpuUsage(subKey
-                    + Constants.ITEMNAME_PROCESS_CPU_TOTAL_USAGE,
-                    procCpuusageTotal, database);
+            MeasurementData procCpuusageUserData =
+                calcCpuUsage(subKey + Constants.ITEMNAME_PROCESS_CPU_USER_USAGE, procCpuusageUser,
+                             database);
+            MeasurementData procCpuusageSysData =
+                calcCpuUsage(subKey + Constants.ITEMNAME_PROCESS_CPU_SYSTEM_USAGE, procCpuusageSys,
+                             database);
+            MeasurementData procCpuusageIoWaitData =
+                calcCpuUsage(subKey + Constants.ITEMNAME_PROCESS_CPU_IOWAIT_USAGE,
+                             procCpuusageIoWait, database);
+            MeasurementData procCpuusageTotalData =
+                calcCpuUsage(subKey + Constants.ITEMNAME_PROCESS_CPU_TOTAL_USAGE,
+                             procCpuusageTotal, database);
 
-            measurementMap.put(subKey
-                    + Constants.ITEMNAME_PROCESS_CPU_USER_USAGE,
-                    procCpuusageUserData);
-            measurementMap.put(subKey
-                    + Constants.ITEMNAME_PROCESS_CPU_SYSTEM_USAGE,
-                    procCpuusageSysData);
-            measurementMap.put(subKey
-                    + Constants.ITEMNAME_PROCESS_CPU_IOWAIT_USAGE,
-                    procCpuusageIoWaitData);
-            measurementMap.put(subKey
-                    + Constants.ITEMNAME_PROCESS_CPU_TOTAL_USAGE,
-                    procCpuusageTotalData);
+            measurementMap.put(subKey + Constants.ITEMNAME_PROCESS_CPU_USER_USAGE,
+                               procCpuusageUserData);
+            measurementMap.put(subKey + Constants.ITEMNAME_PROCESS_CPU_SYSTEM_USAGE,
+                               procCpuusageSysData);
+            measurementMap.put(subKey + Constants.ITEMNAME_PROCESS_CPU_IOWAIT_USAGE,
+                               procCpuusageIoWaitData);
+            measurementMap.put(subKey + Constants.ITEMNAME_PROCESS_CPU_TOTAL_USAGE,
+                               procCpuusageTotalData);
         }
     }
 
@@ -924,8 +940,7 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
      * @param itemName itemName
      * @return 指定されたデータの値
      */
-    private long getSingleDetailValue(final ResourceData resourceData,
-            final String itemName)
+    private long getSingleDetailValue(final ResourceData resourceData, final String itemName)
     {
         long value = -1;
         Map<String, MeasurementData> measurementMap = resourceData.getMeasurementMap();
@@ -963,8 +978,8 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
      * @param itemName itemName
      * @return 指定されたデータの値
      */
-    private Map<String, MeasurementDetail> getMultiDetailValue(
-            final ResourceData resourceData, final String itemName)
+    private Map<String, MeasurementDetail> getMultiDetailValue(final ResourceData resourceData,
+        final String itemName)
     {
         Map<String, MeasurementData> measurementMap = resourceData.getMeasurementMap();
         MeasurementData measurementData = measurementMap.get(itemName);
@@ -985,8 +1000,8 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
      *
      * @return MeasurementData
      */
-    private MeasurementData calcCpuUsage(final String itemName,
-            final double cpuUsage, final String database)
+    private MeasurementData calcCpuUsage(final String itemName, final double cpuUsage,
+        final String database)
     {
         MeasurementDetail measurementDetail = new MeasurementDetail();
         // 小数点以下の値も保持するため、一定の倍率を掛ける。
@@ -995,11 +1010,11 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
 
         MeasurementData measurementData = new MeasurementData();
         measurementData.itemName = itemName;
-        measurementData.measurementType = ResourceDataDaoUtil.getItemId(
-                database, itemName, config_.getItemIdCacheSize());
+        measurementData.measurementType =
+            ResourceDataDaoUtil.getItemId(database, itemName, config_.getItemIdCacheSize());
         measurementData.valueType = TelegramConstants.BYTE_ITEMMODE_KIND_STRING;
-        measurementData.getMeasurementDetailMap().put(
-                MeasurementData.SINGLE_DETAIL_KEY, measurementDetail);
+        measurementData.getMeasurementDetailMap().put(MeasurementData.SINGLE_DETAIL_KEY,
+                                                      measurementDetail);
 
         return measurementData;
     }
@@ -1011,13 +1026,13 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
      * @param prevResourceData 前回取得したリソース値（積算値は差分値に変換済みとする）
      */
     private void alarmThresholdExceedance(final String database,
-            final ResourceData currentResourceData,
-            final ResourceData prevResourceData)
+        final ResourceData currentResourceData, final ResourceData prevResourceData)
     {
         SignalStateManager signalStateManager = SignalStateManager.getInstance();
         List<AlarmEntry> alarmEntryList = new ArrayList<AlarmEntry>();
 
-        Map<Long, SignalDefinitionDto> signalDefinitionMap = signalStateManager.getSignalDeifinitionMap();
+        Map<Long, SignalDefinitionDto> signalDefinitionMap =
+            signalStateManager.getSignalDeifinitionMap();
 
         // クラスタ名、IPアドレス、エージェント名を取得する。
         // クラスタ名、IPアドレス、エージェント名が取得できない場合は閾値判定ができないため、処理を終了する。
@@ -1027,7 +1042,10 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             return;
         }
 
-        for (Entry<Long, SignalDefinitionDto> signalDefinitionEntry : signalDefinitionMap.entrySet())
+        List<String> alarmSignalList = new ArrayList<String>();
+        for (Entry<Long, SignalDefinitionDto> signalDefinitionEntry : signalDefinitionMap
+            .entrySet())
+
         {
             SignalDefinitionDto signalDefinition = signalDefinitionEntry.getValue();
             String itemName = signalDefinition.getMatchingPattern();
@@ -1053,9 +1071,9 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             {
                 continue;
             }
-            AlarmEntry alarmEntry = processor.calculateAlarmLevel(
-                    currentResourceData, prevResourceData, signalDefinition,
-                    currentAlarmData);
+            AlarmEntry alarmEntry =
+                processor.calculateAlarmLevel(currentResourceData, prevResourceData,
+                                              signalDefinition, currentAlarmData);
             if (alarmEntry == null)
             {
                 continue;
@@ -1070,6 +1088,22 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             if (alarmEntry.isSendAlarm())
             {
                 alarmEntryList.add(alarmEntry);
+                if (calcualteSignalIcon(alarmEntry.getAlarmState(), alarmEntry.getSignalLevel())
+                    .equals("signal_4"))
+                {
+                    alarmSignalList.add(signalName);
+                    SummarySignalStateManager.getInstance().addChildAlarmData(signalName);
+                }
+                else
+                {
+                    if (SummarySignalStateManager.getInstance().getAlarmChildList()
+                        .contains(signalName))
+                    {
+                        alarmSignalList.add(signalName);
+                        SummarySignalStateManager.getInstance().getAlarmChildList()
+                            .remove(signalName);
+                    }
+                }
             }
         }
 
@@ -1079,13 +1113,22 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             String clientId = currentResourceData.clientId;
             if (clientId == null || clientId.equals(""))
             {
-                clientId = JavelinClient.createClientId(
-                        currentResourceData.ipAddress,
-                        currentResourceData.portNum);
+                clientId =
+                    JavelinClient.createClientId(currentResourceData.ipAddress,
+                                                 currentResourceData.portNum);
             }
             Telegram alarmTelegram = CollectorTelegramUtil.createAlarmTelegram(alarmEntryList);
             this.clientRepository_.sendTelegramToClient(clientId, alarmTelegram);
-
+            if (alarmSignalList != null && alarmSignalList.size() > 0)
+            {
+                List<SummarySignalDefinitionDto> alarmSummarySignal =
+                    SignalSummarizer.getInstance().calculateSummarySignalState(alarmSignalList);
+                Telegram alarmSummaryTelegram =
+                    CollectorTelegramUtil
+                        .createSummarySignalResponseTelegram(alarmSummarySignal,
+                                                             TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_CHANGE_STATE);
+                this.clientRepository_.sendTelegramToClient(clientId, alarmSummaryTelegram);
+            }
             for (AlarmEntry alarmEntry : alarmEntryList)
             {
                 addSignalStateChangeEvent(alarmEntry);
@@ -1117,20 +1160,17 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             {
                 break;
             }
-            int secondKeyPosition = key.indexOf(KEY_SEPARETOR,
-                    firstKeyPosition + 1);
+            int secondKeyPosition = key.indexOf(KEY_SEPARETOR, firstKeyPosition + 1);
             if (secondKeyPosition < 0)
             {
                 break;
             }
-            int thirdKeyPosition = key.indexOf(KEY_SEPARETOR,
-                    secondKeyPosition + 1);
+            int thirdKeyPosition = key.indexOf(KEY_SEPARETOR, secondKeyPosition + 1);
             if (thirdKeyPosition < 0)
             {
                 break;
             }
-            int forthKeyPosition = key.indexOf(KEY_SEPARETOR,
-                    thirdKeyPosition + 1);
+            int forthKeyPosition = key.indexOf(KEY_SEPARETOR, thirdKeyPosition + 1);
             if (forthKeyPosition < 0)
             {
                 break;
@@ -1156,8 +1196,8 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         {
             if (alarmEntry.getAlarmState() != 0)
             {
-                threshold = alarmEntry.getDefinition().getThresholdMaping().get(
-                        alarmEntry.getAlarmState());
+                threshold =
+                    alarmEntry.getDefinition().getThresholdMaping().get(alarmEntry.getAlarmState());
             }
             alarmType = "exceeds";
             if (alarmEntry.getSignalLevel() == SIGNAL_LEVEL_3)
@@ -1174,12 +1214,12 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             else if (alarmEntry.getSignalLevel() == SIGNAL_LEVEL_5)
             {
                 if (alarmEntry.getAlarmState() == SIGNAL_LEVEL_1
-                        || alarmEntry.getAlarmState() == SIGNAL_LEVEL_2)
+                    || alarmEntry.getAlarmState() == SIGNAL_LEVEL_2)
                 {
                     level = "WARN";
                 }
                 else if (alarmEntry.getAlarmState() == SIGNAL_LEVEL_3
-                        || alarmEntry.getAlarmState() == SIGNAL_LEVEL_4)
+                    || alarmEntry.getAlarmState() == SIGNAL_LEVEL_4)
                 {
                     level = "ERROR";
                 }
@@ -1188,21 +1228,18 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         else
         {
             // 回復した閾値の内、最も小さいものを取得
-            threshold = alarmEntry.getDefinition().getThresholdMaping().get(
-                    alarmEntry.getAlarmState() + 1);
+            threshold =
+                alarmEntry.getDefinition().getThresholdMaping().get(alarmEntry.getAlarmState() + 1);
             alarmType = "falls";
         }
         signalStateChangeEvent.setLevel(level);
-        signalStateChangeEvent.setOccurrenceTime(new Timestamp(
-                System.currentTimeMillis()));
-        signalStateChangeEvent.setDescription(alarmType, threshold,
-                alarmEntry.getAlarmValue());
+        signalStateChangeEvent.setOccurrenceTime(new Timestamp(System.currentTimeMillis()));
+        signalStateChangeEvent.setDescription(alarmType, threshold, alarmEntry.getAlarmValue());
         signalStateChangeEvent.setMeasurementItemName(alarmEntry.getAlarmID());
         signalStateChangeEvent.setClassName(alarmEntry.getAlarmID());
         try
         {
-            PerfDoctorResultDao.insert(alarmEntry.getDatabaseName(),
-                    signalStateChangeEvent);
+            PerfDoctorResultDao.insert(alarmEntry.getDatabaseName(), signalStateChangeEvent);
         }
         catch (SQLException ex)
         {
@@ -1215,8 +1252,7 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
      * @param signalDefinitionDto 閾値判定定義情報
      * @return 閾値判定処理を行うオブジェクト
      */
-    private AlarmProcessor getAlarmProcessor(
-            final SignalDefinitionDto signalDefinitionDto)
+    private AlarmProcessor getAlarmProcessor(final SignalDefinitionDto signalDefinitionDto)
     {
         // 現在は、閾値超過のアラーム判定しかないが、判定ロジックを追加するために、
         // 引数にはSignalDefinitionDtoを設定する。
@@ -1237,8 +1273,7 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
      * @param database データベース名
      * @param logData {@link JavelinLogData}オブジェクト
      */
-    private void logJavelinLogData(final String database,
-            final JavelinLogData logData)
+    private void logJavelinLogData(final String database, final JavelinLogData logData)
     {
         RotateConfig rotateConfig = this.rotateConfigMap_.get(database);
         if (rotateConfig == null)
@@ -1261,15 +1296,15 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
                 {
                     Timestamp[] range = JavelinLogDao.getLogTerm(database);
                     if (range.length == 2
-                            && (range[1] == null || range[1].before(javelinLog.endTime)))
+                        && (range[1] == null || range[1].before(javelinLog.endTime)))
                     {
                         // 前回の挿入データと今回の挿入データで挿入先テーブルが異なる場合に、ローテート処理を行う
                         // ただし、すでにDBに入っているデータのうち、最新のデータよりも古いデータが入ってきた場合はローテート処理しない
                         boolean truncateCurrent = (prevTableIndex != null);
-                        ResourceDataDaoUtil.rotateTable(database, tableIndex,
-                                javelinLog.endTime, rotatePeriod,
-                                rotatePeriodUnit, truncateCurrent,
-                                this.javelinRotateCallback_);
+                        ResourceDataDaoUtil.rotateTable(database, tableIndex, javelinLog.endTime,
+                                                        rotatePeriod, rotatePeriodUnit,
+                                                        truncateCurrent,
+                                                        this.javelinRotateCallback_);
                         prevTableIndexMap__.put(database, tableIndex);
                     }
                 }
@@ -1323,7 +1358,8 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         javelinLog.logFileName = javelinLogData.getLogFileName();
         javelinLog.javelinLog = createContentInputStream(javelinLogData);
         javelinLog.measurementItemName = javelinLogData.getAgentName();
-        BufferedReader reader = StreamUtil.getBufferedReader(createContentInputStream(javelinLogData));
+        BufferedReader reader =
+            StreamUtil.getBufferedReader(createContentInputStream(javelinLogData));
         try
         {
             String line = reader.readLine();
@@ -1336,8 +1372,7 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             while ((line = reader.readLine()) != null)
             {
                 int beginIndex = line.indexOf(JavelinLogUtil.DURATION_KEY);
-                if (beginIndex != 0
-                        || line.length() < JavelinLogUtil.DURATION_KEY.length())
+                if (beginIndex != 0 || line.length() < JavelinLogUtil.DURATION_KEY.length())
                 {
                     continue;
                 }
@@ -1364,8 +1399,7 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
      * @param javelinLogData Javelin ログ
      * @return ログ内容の {@link InputStream}
      */
-    protected InputStream createContentInputStream(
-            final JavelinLogData javelinLogData)
+    protected InputStream createContentInputStream(final JavelinLogData javelinLogData)
     {
         InputStream is = null;
         String contents = javelinLogData.getContents();
@@ -1408,8 +1442,8 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
      *
      * @return 積算値は差分値に変え、そうでな値はそのままにコピーしたResourceData
      */
-    private static ResourceData accumulatedValueParser(
-            final ResourceData prevResourceData, final ResourceData resourceData)
+    private static ResourceData accumulatedValueParser(final ResourceData prevResourceData,
+        final ResourceData resourceData)
     {
         ResourceData newResourceData = new ResourceData();
         newResourceData.measurementTime = resourceData.measurementTime;
@@ -1442,13 +1476,13 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
                 newMeasurementDetail.valueId = detail.valueId;
 
                 // 積算値は差分値に変える
-                if (AccumulatedValuesDefinition.isAccumulatedValue(
-                        measurementData.itemName, detail.displayType))
+                if (AccumulatedValuesDefinition.isAccumulatedValue(measurementData.itemName,
+                                                                   detail.displayType))
                 {
-                    long prevMeasurementValue = getPrevValue(prevResourceData,
-                            measurementData, detail);
-                    long resultValue = Long.valueOf(detail.value).longValue()
-                            - prevMeasurementValue;
+                    long prevMeasurementValue =
+                        getPrevValue(prevResourceData, measurementData, detail);
+                    long resultValue =
+                        Long.valueOf(detail.value).longValue() - prevMeasurementValue;
                     if (resultValue < 0)
                     {
                         newMeasurementDetail.value = "0";
@@ -1473,8 +1507,7 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
      * @return
      */
     private static long getPrevValue(final ResourceData prevResourceData,
-            final MeasurementData measurementData,
-            final MeasurementDetail defaultValue)
+        final MeasurementData measurementData, final MeasurementDetail defaultValue)
     {
         if (prevResourceData == null)
         {
@@ -1490,7 +1523,8 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         {
             return Long.valueOf(defaultValue.value).longValue();
         }
-        Map<String, MeasurementDetail> measurementDetailMap = prevMeasurementData.getMeasurementDetailMap();
+        Map<String, MeasurementDetail> measurementDetailMap =
+            prevMeasurementData.getMeasurementDetailMap();
         if (measurementDetailMap == null)
         {
             return Long.valueOf(defaultValue.value).longValue();
@@ -1504,4 +1538,36 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         return prevMeasurementValue;
     }
 
+    private static String calcualteSignalIcon(final int signalValue, final int level)
+    {
+        String icon = "";
+        if (level == SIGNAL_LEVEL_3)
+        {
+            if (0 <= signalValue && signalValue < SIGNAL_LEVEL_3)
+            {
+                icon = "signal_" + 2 * signalValue;
+            }
+            else
+            {
+                icon = "signal_-1";
+            }
+        }
+        else if (level == SIGNAL_LEVEL_5)
+        {
+            if (0 <= signalValue && signalValue < SIGNAL_LEVEL_5)
+            {
+                icon = "signal_" + signalValue;
+            }
+            else
+            {
+                icon = "signal_-1";
+            }
+        }
+        else
+        {
+            icon = "signal_-1";
+        }
+
+        return icon;
+    }
 }

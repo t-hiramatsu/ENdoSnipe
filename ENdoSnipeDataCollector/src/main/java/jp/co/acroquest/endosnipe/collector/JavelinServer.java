@@ -40,6 +40,7 @@ import jp.co.acroquest.endosnipe.collector.listener.JvnFileNotifyListener;
 import jp.co.acroquest.endosnipe.collector.listener.SignalChangeListener;
 import jp.co.acroquest.endosnipe.collector.listener.SignalStateListener;
 import jp.co.acroquest.endosnipe.collector.listener.SqlPlanNotifyListener;
+import jp.co.acroquest.endosnipe.collector.listener.SummarySignalChangeListener;
 import jp.co.acroquest.endosnipe.collector.listener.SystemResourceListener;
 import jp.co.acroquest.endosnipe.collector.listener.TelegramNotifyListener;
 import jp.co.acroquest.endosnipe.collector.listener.ThreadDumpNotifyListener;
@@ -371,8 +372,11 @@ public class JavelinServer implements TelegramSender
         SignalStateListener signalStateListener = new SignalStateListener();
         SignalChangeListener signalChangeListener = new SignalChangeListener();
 
+        SummarySignalChangeListener summarySignalChangeListener = new SummarySignalChangeListener();
+
         client.addTelegramListener(signalStateListener);
         client.addTelegramListener(signalChangeListener);
+        client.addTelegramListener(summarySignalChangeListener);
 
         ThreadDumpNotifyListener threadDumpNotifyListener = new ThreadDumpNotifyListener();
         client.addTelegramListener(threadDumpNotifyListener);
@@ -486,7 +490,10 @@ public class JavelinServer implements TelegramSender
 
         controlClient.addTelegramListener(new SignalStateListener());
         controlClient.addTelegramListener(new SignalChangeListener());
+
         controlClient.addTelegramListener(new ThreadDumpNotifyListener());
+
+        controlClient.addTelegramListener(new SummarySignalChangeListener());
 
         // Javelin->DataCollector->BottleneckEye
         javelinClient.addTelegramListener(new TelegramListener() {

@@ -39,6 +39,7 @@ import jp.co.acroquest.endosnipe.collector.listener.JvnFileNotifyListener;
 import jp.co.acroquest.endosnipe.collector.listener.SignalChangeListener;
 import jp.co.acroquest.endosnipe.collector.listener.SignalStateListener;
 import jp.co.acroquest.endosnipe.collector.listener.SqlPlanNotifyListener;
+import jp.co.acroquest.endosnipe.collector.listener.SummarySignalChangeListener;
 import jp.co.acroquest.endosnipe.collector.listener.SystemResourceListener;
 import jp.co.acroquest.endosnipe.collector.listener.TelegramNotifyListener;
 import jp.co.acroquest.endosnipe.collector.listener.ThreadDumpNotifyListener;
@@ -419,6 +420,9 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
         final SqlPlanNotifyListener SQL_PLAN_NOTIFY_LISTENER =
             createSqlPlanNotifyListener(hostName, agentName);
 
+        final SummarySignalChangeListener SUMMARY_SIGNAL_CHANGE_LISTENER =
+            new SummarySignalChangeListener();
+
         if (queue != null)
         {
             receiver.addTelegramListener(JVN_FILE_NOTIFY_LISTENER);
@@ -426,7 +430,11 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
             receiver.addTelegramListener(SIGNAL_STATE_LISTENER);
             receiver.addTelegramListener(SIGNAL_CHANGE_LISTENER);
             receiver.addTelegramListener(SQL_PLAN_NOTIFY_LISTENER);
+
             receiver.addTelegramListener(THREAD_DUMP_NOTIFY_LISTENER);
+
+            receiver.addTelegramListener(SUMMARY_SIGNAL_CHANGE_LISTENER);
+
             addResponseTelegramListener(TelegramConstants.BYTE_TELEGRAM_KIND_GET_DUMP);
             addResponseTelegramListener(TelegramConstants.BYTE_TELEGRAM_KIND_UPDATE_PROPERTY);
         }
