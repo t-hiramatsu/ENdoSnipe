@@ -106,10 +106,11 @@ public interface TelegramConstants
 
     /** 電文種別(SQL実行計画取得通知) */
     byte BYTE_TELEGRAM_KIND_SQL_PLAN = 28;
+
     /**
      * threadDump response telegram
      */
-    byte BYTE_TELEGRAM_KIND_THREAD_DUMP= 31;
+    byte BYTE_TELEGRAM_KIND_THREAD_DUMP = 31;
 
     /** Summary Signal の　telegram kind*/
 

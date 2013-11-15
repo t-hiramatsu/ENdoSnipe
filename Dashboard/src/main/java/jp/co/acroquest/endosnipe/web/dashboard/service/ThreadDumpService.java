@@ -84,16 +84,26 @@ public class ThreadDumpService
             Timestamp end = new Timestamp(Long.valueOf(termDataForm.getEndTime()));
             try
             {
+                String nodeName = dataGroupId;
+                if (nodeName.split("/").length > 4)
+                {
+                    String[] agentSplit = nodeName.split("/");
+                    nodeName = "/" + agentSplit[1];
+                    for (int index = 2; index < 4; index++)
+                    {
+                        nodeName += "/" + agentSplit[index];
+                    }
+                }
                 list =
-                        JavelinLogDao.selectThreadDumpByTermAndName(dbName, start, end,
-                                                                    dataGroupId, true, true);
+                        JavelinLogDao.selectThreadDumpByTermAndName(dbName, start, end, nodeName,
+                                                                    true, true);
             }
             catch (SQLException ex)
             {
                 LOGGER.log(ex);
             }
             displayList = this.createThreadDumpDefinitionDto(list);
-            dataList.put("JvnLog_Notify", displayList);
+            dataList.put(dataGroupId + THREADDUMP_POSTFIX_ID, displayList);
             list.clear();
         }
 

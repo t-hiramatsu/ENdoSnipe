@@ -59,7 +59,6 @@ public class ThreadDumpController
      * @param data get threadDump data from client side
      * @return threadDump data get from dataBase
      */
-    @SuppressWarnings("deprecation")
     @RequestMapping(value = "/getThreadDump", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, List<ThreadDumpDto>> getThreadDumpData(
@@ -74,7 +73,7 @@ public class ThreadDumpController
     /**
      * This mapping is work when user click 
      * "get Thread Dump " button
-     * @param data from client side
+     * @param agentName is for the selected tree path
      */
     @RequestMapping(value = "/addThreadDump", method = RequestMethod.POST)
     @ResponseBody
@@ -91,8 +90,7 @@ public class ThreadDumpController
      */
     @RequestMapping(value = "/selectAllAgent", method = RequestMethod.POST)
     @ResponseBody
-    public List<ThreadDumpDto> getAllAgent(
-            @RequestParam(value = "threadDump") final String data)
+    public List<ThreadDumpDto> getAllAgent(@RequestParam(value = "threadDump") final String data)
     {
         List<ThreadDumpDto> result = new ArrayList<ThreadDumpDto>();
         result = threadDumpService_.getAllAgentData(data);
