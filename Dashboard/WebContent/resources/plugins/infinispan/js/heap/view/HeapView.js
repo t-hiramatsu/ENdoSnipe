@@ -435,7 +435,7 @@ infinispan.HeapView = wgp.AbstractView
 						this.agentsList_.push(agent);
 
 						// set capacityMax
-						if (this.heapState_[agent]["max:bytes"] > this.capacityMax_) {
+						if (this.heapState_[agent]["max:bytes"] - 0 > this.capacityMax_ - 0) {
 							this.capacityMax_ = this.heapState_[agent]["max:bytes"];
 						}
 					}
