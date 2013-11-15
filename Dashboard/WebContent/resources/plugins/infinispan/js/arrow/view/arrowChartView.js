@@ -189,6 +189,12 @@ infinispan.ArrowChartView = wgp.AbstractView
 						stateString = "unassigned";
 					} else {
 						stateString = "normal";
+						if (data.TaskType == "map") {
+							stateString = "map";
+						}
+						else if (data.TaskType == "reduce") {
+							stateString = "reduce";
+						}
 					}
 					new infinispan.ArrowStateElementView({
 						model : modelDataForArrow,
