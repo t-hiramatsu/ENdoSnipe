@@ -169,6 +169,7 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
         int queryLimitCount = config.getRecordStatementNumMax();
         boolean recordStackTrace = config.isRecordStackTrace();
         int recordStackTraceThreshold = config.getRecordStackTraceThreshold();
+        boolean isLightweightMode = config.isJdbcjavelinLightweightMode();
 
         // JDBCの設定値を標準出力する
         PrintStream out = System.out;
@@ -176,6 +177,7 @@ public class JdbcJavelinTransformer implements ClassFileTransformer
                 "javelin.jdbc.instrument.JdbcJavelinTransformer.PropertiesRelatedWithJDBCJavelin";
         String message = JdbcJavelinMessages.getMessage(key);
         out.println(">>>> " + message);
+        out.println("\tjavelin.jdbc.lightweight                  : " + isLightweightMode);
         out.println("\tjavelin.jdbc.recordExecPlan               : " + recordExecPlan);
         out.println("\tjavelin.jdbc.fullScan.monitor             : " + fullScanMonitor);
         out.println("\tjavelin.jdbc.recordDuplJdbcCall           : " + recordDuplJdbcCall);

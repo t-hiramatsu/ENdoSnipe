@@ -116,6 +116,12 @@ infinispan.HeapView = wgp.AbstractView
 					tmpList[index] = this.agentsList_[agentIndex];
 				}
 
+				for (key in infinispan.Heap.capacityList){
+					infinispan.Heap.capacityList[key].remove();
+					infinispan.Heap.rackList[key].remove();
+					infinispan.Heap.usageList[key].remove();
+					$("#capacity_table").empty();
+				}
 				this.agentsList_ = tmpList;
 
 				// draw capacity bars
@@ -151,6 +157,9 @@ infinispan.HeapView = wgp.AbstractView
 					tmpList[index] = this.agentsList_[agentIndex];
 				}
 		
+				for (key in infinispan.Heap.capacityList){
+					infinispan.Heap.capacityList[key].remove();
+				}
 				this.agentsList_ = tmpList;
 		
 				// redraw capacity bars

@@ -89,6 +89,9 @@ public class JdbcJavelinConfig extends JavelinConfig
     /** JDBCJavelinを有効にするかどうかのキー */
     public static final String JDBC_JAVELIN_ENABLED_KEY = JAVELIN_PREFIX + "jdbc.enable";
 
+    /** JDBCJavelinをLightweightモードで動作させるかどうかのキー */
+    public static final String JDBC_JAVELIN_LIGHTWEIGHT_KEY = JAVELIN_PREFIX + "jdbc.lightweight";
+
     /** 実行計画出力ON/OFFフラグのデフォルト値 */
     private static final boolean DEFAULT_RECORDEXECPLAN = false;
     
@@ -130,6 +133,9 @@ public class JdbcJavelinConfig extends JavelinConfig
 
     /** JDBCJavelinを有効にするかどうかのデフォルト値 */
     private static final boolean DEF_JDBC_JAVELIN_ENABLED = true;
+
+    /** JDBCJavelinをLightweightモードで動作させるかどうかのデフォルト値 */
+    private static final boolean DEF_JDBC_JAVELIN_LIGHTWEIGHT = false;
 
     /** 実行計画を取得するか否かを設定するキー。 */
     private static boolean isRecordExecPlan__;
@@ -180,6 +186,12 @@ public class JdbcJavelinConfig extends JavelinConfig
     /** JDBC Javelinを使用するかどうか */
     private static boolean isJdbcJavelinEnabled__;
 
+    /**
+     * JDBCJavelinの記録モードをLightweightモードにするか。<br/>
+     * trueの場合、監視に必要のない実行計画等を取得しない。デフォルト値はfalse。
+     */
+    private static boolean isJdbcJavelinLightweightMode_;
+
     static
     {
         initialize();
@@ -212,10 +224,12 @@ public class JdbcJavelinConfig extends JavelinConfig
                                       DEFAULT_MAX_RECORD_STATEMENT_NUM_MAXIMUM);
         isRecordStackTrace__ = configUtil.getBoolean(RECORD_STACKTRACE_KEY, DEF_RECORD_STACKTRACE);
         recordStacktraceThreashold__ =
-                configUtil.getInteger(RECORD_STACKTRACE_THREADHOLD_KEY,
-                                      DEF_RECORD_STACKTRACE_THRESHOLD);
-        isJdbcJavelinEnabled__ = 
-                configUtil.getBoolean(JDBC_JAVELIN_ENABLED_KEY, DEF_JDBC_JAVELIN_ENABLED);
+            configUtil
+                .getInteger(RECORD_STACKTRACE_THREADHOLD_KEY, DEF_RECORD_STACKTRACE_THRESHOLD);
+        isJdbcJavelinEnabled__ =
+            configUtil.getBoolean(JDBC_JAVELIN_ENABLED_KEY, DEF_JDBC_JAVELIN_ENABLED);
+        isJdbcJavelinLightweightMode_ =
+            configUtil.getBoolean(JDBC_JAVELIN_LIGHTWEIGHT_KEY, DEF_JDBC_JAVELIN_LIGHTWEIGHT);
     }
 
     /**
@@ -530,5 +544,25 @@ public class JdbcJavelinConfig extends JavelinConfig
     public void setJdbcJavelinEnabled(boolean isJdbcJavelinEnabled)
     {
         isJdbcJavelinEnabled__ = isJdbcJavelinEnabled;
+    }
+
+    /**
+     * JDBCJavelinをLightweightモードで動作させるかどうかを取得する。
+     * 
+     * @return Lightweightモードで動作させる場合はtrue、そうでない場合はfalseを返す。
+     */
+    public boolean isJdbcJavelinLightweightMode()
+    {
+        return isJdbcJavelinLightweightMode_;
+    }
+
+    /**
+     * JDBCJavelinをLightweightモードで動作させるかどうかを取得する。
+     * 
+     * @param isJdbcJavelinLightweightMode Lightweightモードで動作させる場合はtrue、そうでない場合はfalse。
+     */
+    public void setJdbcJavelinLightweightMode(boolean isJdbcJavelinLightweightMode)
+    {
+        JdbcJavelinConfig.isJdbcJavelinLightweightMode_ = isJdbcJavelinLightweightMode;
     }
 }

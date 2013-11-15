@@ -295,6 +295,11 @@ public class JavelinConfigBase
     private static final String INVOCATION_NAME_LIMITLENGTH_KEY = JAVELIN_PREFIX
         + "invocation.name.limitLength";
 
+    private static final String JDBCJAVELIN_LIGHTWEIGHT_MODE = JAVELIN_PREFIX + "jdbc.lightweight";
+
+    /** JDBCJavelinをlightweightモードで動作させるかどうかのデフォルト値。 */
+    private static final boolean DEFAULT_JDBCJAVELIN_LIGHTWEIGHT = false;
+
     /**
      * ConcurrentAccessMonitorやCollectionMonitor動作中にクラスロードが起ったときに、
      * バイトコード変換を行うかどうかを設定するプロパティのデフォルト値 */
@@ -3505,5 +3510,15 @@ public class JavelinConfigBase
         }
         Properties properties = JavelinConfigUtil.getInstance().getProperties();
         properties.setProperty(itemName, String.valueOf(value));
+    }
+
+    public boolean isJdbcjavelinLightweightMode()
+    {
+        return CONFIGUTIL.getBoolean(JDBCJAVELIN_LIGHTWEIGHT_MODE, DEFAULT_JDBCJAVELIN_LIGHTWEIGHT);
+    }
+
+    public void setJdbcjavelinLightweightMode(final boolean jdbcjavelinLightweightMode)
+    {
+        CONFIGUTIL.setBoolean(JDBCJAVELIN_LIGHTWEIGHT_MODE, jdbcjavelinLightweightMode);
     }
 }
