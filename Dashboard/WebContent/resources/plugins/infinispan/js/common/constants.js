@@ -97,6 +97,8 @@ infinispan.constants.STATE.RUNNING = "run";
 infinispan.constants.STATE.UNASSIGNED = "unassigned";
 infinispan.constants.STATE.TASKKILLED = "killed";
 infinispan.constants.STATE.TASKFAIL = "fail";
+infinispan.constants.STATE.MAP = "map";
+infinispan.constants.STATE.REDUCE = "reduce";
 
 infinispan.constants.JOB_STATE = {};
 infinispan.constants.JOB_STATE.NORMAL = "NORMAL";
@@ -108,6 +110,8 @@ infinispan.constants.JOB_STATE.KILLED = "KILLED";
 infinispan.constants.JOB_STATE.KILLED_UNCLEAN = "KILLED_UNCLEAN";
 infinispan.constants.JOB_STATE.UNASSIGNED = "UNASSIGNED";
 infinispan.constants.JOB_STATE.SUCCESS = "SUCCESS";
+infinispan.constants.JOB_STATE.MAP = "MAP";
+infinispan.constants.JOB_STATE.REDUCE = "REDUCE";
 
 infinispan.constants.STATE_COLOR = {};
 infinispan.constants.STATE_COLOR[infinispan.constants.STATE.SUCCESS] = "#00FF00";
@@ -122,3 +126,5 @@ infinispan.constants.STATE_COLOR[infinispan.constants.STATE.KILLED] = "#777777";
 infinispan.constants.STATE_COLOR[infinispan.constants.STATE.UNASSIGNED] = "#696969";
 infinispan.constants.STATE_COLOR[infinispan.constants.STATE.TASKEFAIL] = "#FF6600";
 infinispan.constants.STATE_COLOR[infinispan.constants.STATE.TASKKILLED] = "#777777";
+infinispan.constants.STATE_COLOR[infinispan.constants.STATE.MAP] = "#008000";
+infinispan.constants.STATE_COLOR[infinispan.constants.STATE.REDUCE] = "#800000";
