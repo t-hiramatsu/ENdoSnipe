@@ -295,6 +295,8 @@ public class JavelinConfig extends JavelinConfigBase
 
     private static boolean collectHBaseAgentResources__;
 
+    private static boolean jdbcjavelinLightweightMode__;
+
     /**
      * {@link JavelinConfig} を構築します。<br />
      *
@@ -456,6 +458,8 @@ public class JavelinConfig extends JavelinConfigBase
         collectHadoopAgentResources__ = super.isCollectHadoopAgentResources();
         collectHBaseAgentResources__ = super.isCollectHBaseAgentResources();
         invocationNameLimitLength__ = super.getInvocationNameLimitLength();
+        jdbcjavelinLightweightMode__ = super.isJdbcjavelinLightweightMode();
+
     }
 
     /**
@@ -2945,4 +2949,15 @@ public class JavelinConfig extends JavelinConfigBase
         invocationNameLimitLength__ = invocationNameLimitLength;
     }
 
+    @Override
+    public boolean isJdbcjavelinLightweightMode()
+    {
+        return jdbcjavelinLightweightMode__;
+    }
+
+    @Override
+    public void setJdbcjavelinLightweightMode(final boolean jdbcjavelinLightweightMode)
+    {
+        jdbcjavelinLightweightMode__ = jdbcjavelinLightweightMode;
+    }
 }
