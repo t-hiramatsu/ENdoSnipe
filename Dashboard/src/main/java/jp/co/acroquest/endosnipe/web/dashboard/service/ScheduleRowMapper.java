@@ -6,16 +6,13 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.sql.DataSource;
 
-import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.ReportDefinitionDto;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.SchedulingReportDefinitionDto;
 import jp.co.acroquest.endosnipe.web.dashboard.entity.ReportDefinition;
@@ -44,26 +41,31 @@ public class ScheduleRowMapper implements RowMapper<SchedulingReportDefinitionDt
      */
     private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
-    /** ロガー。 */
-    private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(MapService.class);
-
     /** connect with database */
-    String[] springConfig = { "spring/batch/jobs/job-extract-users.xml" };
+    String[] springConfig_ = { "spring/batch/jobs/job-extract-users.xml" };
 
     /** create class path */
-    ApplicationContext context = new ClassPathXmlApplicationContext(springConfig);
+    ApplicationContext context_ = new ClassPathXmlApplicationContext(springConfig_);
 
     /** create datasource */
-    DataSource source = (DataSource)context.getBean("dataSource");
+    DataSource source_ = (DataSource)context_.getBean("dataSource");
 
     /** create template */
-    JdbcTemplate jTemplate = new JdbcTemplate(source);
+    JdbcTemplate jTemplate_ = new JdbcTemplate(source_);
 
     /**
      * used for day
      */
     private final Map<String, Integer> dayMap_ = new HashMap<String, Integer>();
 
+    /**
+     * used for day
+     */
+    private static final int DAY_OF_WEEK = -7;
+
+    /**
+     * Change int day to String day
+     */
     public ScheduleRowMapper()
     {
         this.dayMap_.put("Sunday", Calendar.SUNDAY);
@@ -94,8 +96,6 @@ public class ScheduleRowMapper implements RowMapper<SchedulingReportDefinitionDt
      */
     private void createReport(final ResultSet rs)
     {
-        List<SchedulingReportDefinitionDto> schedulingReportDefinitionDtos =
-                new ArrayList<SchedulingReportDefinitionDto>();
         SchedulingReportDefinitionDto schedulingReportDefinitionDto =
                 new SchedulingReportDefinitionDto();
         DateFormat timeFormat = new SimpleDateFormat(TIME_FORMAT);
@@ -143,7 +143,7 @@ public class ScheduleRowMapper implements RowMapper<SchedulingReportDefinitionDt
                         + definition.targetMeasurementName_ + "', " + "'" + definition.fmTime_
                         + "', " + "'" + definition.toTime_ + "'," + "'" + definition.status_ + "')";
 
-        jTemplate.execute(sql);
+        jTemplate_.execute(sql);
 
         reportName = definitionDto.getReportName();
 
@@ -214,7 +214,7 @@ public class ScheduleRowMapper implements RowMapper<SchedulingReportDefinitionDt
             Timestamp lastExportedTime = new Timestamp(lastExportedCalendar.getTimeInMillis());
             schedulingReportDefinition.lastExportedTime_ = lastExportedTime;
 
-            jTemplate.batchUpdate(new String[] { "update SCHEDULING_REPORT_DEFINITION set LAST_EXPORT_REPORT_TIME = '"
+            jTemplate_.batchUpdate(new String[] { "update SCHEDULING_REPORT_DEFINITION set LAST_EXPORT_REPORT_TIME = '"
                     + lastExportedTime + "' where REPORT_NAME =" + "'" + reportName + "'" });
 
         }
@@ -251,7 +251,7 @@ public class ScheduleRowMapper implements RowMapper<SchedulingReportDefinitionDt
         }
         else if ("WEEKLY".equals(scheduling.getTerm()))
         {
-            fromCalendar.add(Calendar.DAY_OF_MONTH, -7);
+            fromCalendar.add(Calendar.DAY_OF_MONTH, DAY_OF_WEEK);
         }
         else
         {
@@ -265,23 +265,5 @@ public class ScheduleRowMapper implements RowMapper<SchedulingReportDefinitionDt
 
         return definition;
 
-    }
-
-    /**
-      * ReportDefinitionオブジェクトをReportDefinitionDtoオブジェクトに変換する。
-      * 
-      * @param reportDefinition
-      *            ReportDefinitionオブジェクト
-      * @return ReportDefinitionDtoオブジェクト
-      */
-    private ReportDefinitionDto convertReportDifinitionDto(final ReportDefinition reportDefinition)
-    {
-
-        ReportDefinitionDto definitionDto = new ReportDefinitionDto();
-        definitionDto.setReportId(reportDefinition.reportId_);
-        definitionDto.setReportName(reportDefinition.reportName_);
-        definitionDto.setTargetMeasurementName(reportDefinition.targetMeasurementName_);
-
-        return definitionDto;
     }
 }

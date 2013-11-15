@@ -28,7 +28,15 @@ public class ReportTimerTask extends QuartzJobBean
     /**
      * report schedule service
      */
-    private ReportScheduleService runMeTask;
+    private ReportScheduleService runMeTask_;
+
+    /**
+     * default constructor
+     */
+    public ReportTimerTask()
+    {
+
+    }
 
     /**
      * run time.
@@ -36,7 +44,7 @@ public class ReportTimerTask extends QuartzJobBean
      */
     public void setRunMeTask(final ReportScheduleService runMeTask)
     {
-        this.runMeTask = runMeTask;
+        this.runMeTask_ = runMeTask;
     }
 
     @Override
@@ -44,7 +52,7 @@ public class ReportTimerTask extends QuartzJobBean
         throws JobExecutionException
     {
 
-        runMeTask.run();
+        runMeTask_.run();
 
     }
 }

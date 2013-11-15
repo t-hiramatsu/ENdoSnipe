@@ -16,7 +16,7 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 
 /**
- * scheduling report definition dto
+ * レポート出力定義のDtoクラス。
  * @author khinlay
  *
  */

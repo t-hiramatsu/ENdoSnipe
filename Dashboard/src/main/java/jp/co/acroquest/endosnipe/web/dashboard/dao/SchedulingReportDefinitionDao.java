@@ -18,7 +18,7 @@ import java.util.List;
 import jp.co.acroquest.endosnipe.web.dashboard.entity.SchedulingReportDefinition;
 
 /**
- * Scheduling report to connect with database.
+ * {@link SchedulingReportDefinition} のための DAO のインターフェースです。
  * @author khinlay
  *
  */

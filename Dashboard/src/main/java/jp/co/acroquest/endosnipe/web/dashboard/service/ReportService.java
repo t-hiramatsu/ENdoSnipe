@@ -156,6 +156,9 @@ public class ReportService
         }
     }
 
+    /**
+     * Stop thread to export report
+     */
     public void stopThread()
     {
         for (int indexThread = 0; indexThread < reportThreadList_.size(); indexThread++)

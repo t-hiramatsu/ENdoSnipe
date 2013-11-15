@@ -111,7 +111,16 @@
 			value="jp.co.acroquest.endosnipe.web.dashboard.dao.SqlPlanDao" />
 		<beans:property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</beans:bean>
+	
+	 <beans:bean id="PropertySettingDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
 
+    <beans:property name="mapperInterface"
+
+        value="jp.co.acroquest.endosnipe.web.dashboard.dao.PropertySettingDao" />
+
+    <beans:property name="sqlSessionFactory" ref="sqlSessionFactory" />
+
+</beans:bean>
 	<beans:bean id="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<beans:property name="dataSource" ref="dataSource" />

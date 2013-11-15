@@ -16,7 +16,7 @@ import java.sql.Timestamp;
 
 /**
  *
- * Scheduling report definition
+ * レポート定義テーブルに対するエンティティクラスです。
  * @author khinlay
  * 
  */

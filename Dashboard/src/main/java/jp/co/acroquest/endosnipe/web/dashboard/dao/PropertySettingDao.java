@@ -14,6 +14,11 @@ package jp.co.acroquest.endosnipe.web.dashboard.dao;
 
 import jp.co.acroquest.endosnipe.web.dashboard.entity.PropertySettingDefinition;
 
+/**
+ * {@link PropertySettingDefinition} のための DAO のインターフェースです。
+ * @author khinlay
+ *
+ */
 public interface PropertySettingDao
 {
     /**

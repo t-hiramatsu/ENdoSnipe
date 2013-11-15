@@ -132,16 +132,6 @@ ENS.SchedulingReportDialogView = ENS.DialogView
 															(event, ins.op_);
 													$("#" + option.dialogId)
 													.dialog("close");
-													/*
-													 * var
-													 * schedulingReportSelectedTimeMinuteId = $(
-													 * "#schedulingReportSelectedTimeMinuteId")
-													 * .val(); if
-													 * (schedulingReportSelectedTimeMinuteId
-													 * === "") { alert("Please
-													 * input 'Report Term'.");
-													 * return; } alert("hi");
-													 */
 												}
 
 											},
@@ -249,7 +239,7 @@ ENS.SchedulingReportDialogView = ENS.DialogView
 				$('#schedulingReportTime')
 						.append(
 								"Time:&nbsp;<select id=schedulingReportSelectedTimeId name=schedulingReportSelectedTimeId><option value=>Hours</option></select>");
-				for (index = 0; index < 24; index++) {
+				for (index = 1; index < 25; index++) {
 					if (index < 10) {
 						$('#schedulingReportSelectedTimeId').append(
 								"<option value='" + 0 + index + "'>" + 0

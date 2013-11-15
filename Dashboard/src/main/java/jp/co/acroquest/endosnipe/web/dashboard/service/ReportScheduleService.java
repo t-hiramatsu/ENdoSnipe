@@ -32,9 +32,11 @@ import org.springframework.stereotype.Service;
 public class ReportScheduleService
 {
 
-    String[] springConfig = { "spring/batch/jobs/job-extract-users.xml" };
+    /** connect with database */
+    String[] springConfig_ = { "spring/batch/jobs/job-extract-users.xml" };
 
-    ApplicationContext context = new ClassPathXmlApplicationContext(springConfig);
+    /** create class path */
+    ApplicationContext context_ = new ClassPathXmlApplicationContext(springConfig_);
 
     /**
      * デフォルトコンストラクタ。
@@ -50,8 +52,8 @@ public class ReportScheduleService
     {
         Timestamp currentTime = new Timestamp(Calendar.getInstance().getTimeInMillis());
 
-        JobLauncher jobLauncher = (JobLauncher)context.getBean("jobLauncher");
-        Job job = (Job)context.getBean("testJob");
+        JobLauncher jobLauncher = (JobLauncher)context_.getBean("jobLauncher");
+        Job job = (Job)context_.getBean("testJob");
 
         try
         {
