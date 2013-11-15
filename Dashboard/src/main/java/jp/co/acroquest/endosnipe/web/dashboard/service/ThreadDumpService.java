@@ -30,7 +30,7 @@ import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.data.dao.JavelinLogDao;
 import jp.co.acroquest.endosnipe.data.entity.JavelinLog;
 import jp.co.acroquest.endosnipe.web.dashboard.constants.LogMessageCodes;
-import jp.co.acroquest.endosnipe.web.dashboard.dto.ThreadDumpDefinitionDto;
+import jp.co.acroquest.endosnipe.web.dashboard.dto.ThreadDumpDto;
 import jp.co.acroquest.endosnipe.web.dashboard.form.TermDataForm;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.ConnectionClient;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.DatabaseManager;
@@ -70,16 +70,14 @@ public class ThreadDumpService
      * @param termDataForm pass value from controller class
      * @return threadDump data
      */
-    public Map<String, List<ThreadDumpDefinitionDto>> getTermThreadDumpData(
-            final TermDataForm termDataForm)
+    public Map<String, List<ThreadDumpDto>> getTermThreadDumpData(final TermDataForm termDataForm)
     {
         List<String> dataGroupIdList = termDataForm.getDataGroupIdList();
         DatabaseManager dbManager = DatabaseManager.getInstance();
         String dbName = dbManager.getDataBaseName(1);
         List<JavelinLog> list = new ArrayList<JavelinLog>();
-        List<ThreadDumpDefinitionDto> displayList = new ArrayList<ThreadDumpDefinitionDto>();
-        Map<String, List<ThreadDumpDefinitionDto>> dataList =
-                new HashMap<String, List<ThreadDumpDefinitionDto>>();
+        List<ThreadDumpDto> displayList = new ArrayList<ThreadDumpDto>();
+        Map<String, List<ThreadDumpDto>> dataList = new HashMap<String, List<ThreadDumpDto>>();
         for (String dataGroupId : dataGroupIdList)
         {
             Timestamp start = new Timestamp(Long.valueOf(termDataForm.getStartTime()));
@@ -95,7 +93,7 @@ public class ThreadDumpService
                 LOGGER.log(ex);
             }
             displayList = this.createThreadDumpDefinitionDto(list);
-            dataList.put(dataGroupId + THREADDUMP_POSTFIX_ID, displayList);
+            dataList.put("JvnLog_Notify", displayList);
             list.clear();
         }
 
@@ -108,13 +106,13 @@ public class ThreadDumpService
      * @param list is javelinLog data
      * @return threadDump data 
      */
-    public List<ThreadDumpDefinitionDto> createThreadDumpDefinitionDto(final List<JavelinLog> list)
+    public List<ThreadDumpDto> createThreadDumpDefinitionDto(final List<JavelinLog> list)
     {
-        List<ThreadDumpDefinitionDto> displayList = new ArrayList<ThreadDumpDefinitionDto>();
+        List<ThreadDumpDto> displayList = new ArrayList<ThreadDumpDto>();
         for (JavelinLog table : list)
         {
-            ThreadDumpDefinitionDto result = new ThreadDumpDefinitionDto();
-            result.threadId_ = table.getLogId();
+            ThreadDumpDto result = new ThreadDumpDto();
+            result.agentId_ = table.getLogId();
             result.date_ = table.getStartTime().toString();
             String name = table.getLogFileName();
             result.threadDumpInfo_ = this.getThreadDumpDetailData(name);
@@ -164,12 +162,12 @@ public class ThreadDumpService
      * @param measurementItem is agent name
      * @return threadDump Data
      */
-    public List<ThreadDumpDefinitionDto> getAllAgentData(final String measurementItem)
+    public List<ThreadDumpDto> getAllAgentData(final String measurementItem)
     {
         List<JavelinLog> list = new ArrayList<JavelinLog>();
         DatabaseManager dbManager = DatabaseManager.getInstance();
         String dbName = dbManager.getDataBaseName(1);
-        List<ThreadDumpDefinitionDto> displayList = new ArrayList<ThreadDumpDefinitionDto>();
+        List<ThreadDumpDto> displayList = new ArrayList<ThreadDumpDto>();
         try
         {
             list = JavelinLogDao.selectAllThreadDumpByMeasurementItem(dbName, measurementItem);

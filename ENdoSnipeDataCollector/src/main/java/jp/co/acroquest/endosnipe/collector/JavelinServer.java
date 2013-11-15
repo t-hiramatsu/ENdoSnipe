@@ -683,7 +683,7 @@ public class JavelinServer implements TelegramSender
     {
         synchronized (javelinClientList_)
         {
-            javelinClientList_.put(dbName_, client);
+            javelinClientList_.put(client.getAgentName(), client);
         }
     }
 

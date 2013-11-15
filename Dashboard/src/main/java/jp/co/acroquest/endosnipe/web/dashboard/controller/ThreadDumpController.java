@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import jp.co.acroquest.endosnipe.web.dashboard.dto.ThreadDumpDefinitionDto;
+import jp.co.acroquest.endosnipe.web.dashboard.dto.ThreadDumpDto;
 import jp.co.acroquest.endosnipe.web.dashboard.form.TermDataForm;
 import jp.co.acroquest.endosnipe.web.dashboard.service.ThreadDumpService;
 import net.arnx.jsonic.JSON;
@@ -62,11 +62,11 @@ public class ThreadDumpController
     @SuppressWarnings("deprecation")
     @RequestMapping(value = "/getThreadDump", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, List<ThreadDumpDefinitionDto>> getThreadDumpData(
+    public Map<String, List<ThreadDumpDto>> getThreadDumpData(
             @RequestParam(value = "data") final String data)
     {
         TermDataForm termDataForm = JSON.decode(data, TermDataForm.class);
-        Map<String, List<ThreadDumpDefinitionDto>> responseDataList =
+        Map<String, List<ThreadDumpDto>> responseDataList =
                 threadDumpService_.getTermThreadDumpData(termDataForm);
         return responseDataList;
     }
@@ -80,7 +80,6 @@ public class ThreadDumpController
     @ResponseBody
     public void addThreadDumpData(@RequestParam(value = "threadDump") final String agentName)
     {
-        System.out.println("Agent name" + agentName);
         threadDumpService_.createThreadDump(agentName);
     }
 
@@ -92,10 +91,10 @@ public class ThreadDumpController
      */
     @RequestMapping(value = "/selectAllAgent", method = RequestMethod.POST)
     @ResponseBody
-    public List<ThreadDumpDefinitionDto> getAllAgent(
+    public List<ThreadDumpDto> getAllAgent(
             @RequestParam(value = "threadDump") final String data)
     {
-        List<ThreadDumpDefinitionDto> result = new ArrayList<ThreadDumpDefinitionDto>();
+        List<ThreadDumpDto> result = new ArrayList<ThreadDumpDto>();
         result = threadDumpService_.getAllAgentData(data);
         return result;
     }

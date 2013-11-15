@@ -51,7 +51,6 @@
 							startTime, endTime, 100);
 				});
 				 $("#button").on("click", function() {            
-					             alert(ENS.tree.agentName);
 					            var settings = {
 					                 data : {
 					                     threadDump : ENS.tree.agentName
