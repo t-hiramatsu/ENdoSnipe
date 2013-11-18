@@ -32,44 +32,66 @@ public class MapReduceTaskConverter extends AbstractConverter
 
     private CtClass throwableClass_;
 
+    private static boolean converted__;
+
+    private static final String MAP_REDUCE_TASK = "org.infinispan.distexec.mapreduce.MapReduceTask";
+
+    private static final String RPC_MANAGER = "org.infinispan.remoting.rpc.RpcManager";
+
+    private static final String MAP_REDUCE_COMMAND =
+        "org.infinispan.commands.read.MapReduceCommand";
+
+    private static final String MAP_REDUCE_MANAGER =
+        "org.infinispan.distexec.mapreduce.MapReduceManager";
+
     @Override
-    public void convertImpl() throws CannotCompileException, NotFoundException,
+    public void convertImpl()
+        throws CannotCompileException,
+            NotFoundException,
             IOException
     {
         CtClass ctClass = getCtClass();
         ClassPool pool = getClassPool();
-
-        CtClass jobInfoIf = pool.get(MapReduceTaskAccessor.class.getName());
-        ctClass.addInterface(jobInfoIf);
-        CtField mapReduceJobId = CtField.make(
-                "java.lang.String mapReduceJobId_;", ctClass);
-        ctClass.addField(mapReduceJobId);
-        CtField mapReduceTaskIdMap = CtField.make(
-                "java.util.Map mapReduceTaskIdMap_ = "
-                        + "new "
-                        + ConcurrentHashMap.class.getName()
-                        + "();", ctClass);
-        ctClass.addField(mapReduceTaskIdMap);
-        CtMethod getJobId = CtNewMethod.make(
-                "public String getJobId() {return mapReduceJobId_;}", ctClass);
-        ctClass.addMethod(getJobId);
-        CtMethod setJobId = CtNewMethod.make(
-                "public void setJobId(String jobId){mapReduceJobId_ = jobId;}",
-                ctClass);
-        ctClass.addMethod(setJobId);
-        CtMethod getMapperName = CtNewMethod.make(
-                "public String getMapperName(){"
-                        + "return mapper.getClass().getName();}", ctClass);
-        ctClass.addMethod(getMapperName);
-        CtMethod putTaskId = CtNewMethod.make(
-                "public void putTaskId(String address, String taskId){"
-                        + "mapReduceTaskIdMap_.put(address, taskId);}", ctClass);
-        ctClass.addMethod(putTaskId);
-        CtMethod getSizeOfTaskIdMap = CtNewMethod.make(
-                "public int getSizeOfTaskIdMap(){"
-                        + "return mapReduceTaskIdMap_.size();}", ctClass);
-        ctClass.addMethod(getSizeOfTaskIdMap);
-
+        if (!converted__ && ctClass.getName().equals(MAP_REDUCE_TASK))
+        {
+            converted__ = true;
+            CtClass jobInfoIf = pool.get(MapReduceTaskAccessor.class.getName());
+            ctClass.addInterface(jobInfoIf);
+            CtField mapReduceJobId = CtField.make("java.lang.String mapReduceJobId_;", ctClass);
+            ctClass.addField(mapReduceJobId);
+            CtField taskCount = CtField.make("int taskCount_;", ctClass);
+            ctClass.addField(taskCount);
+            CtField mapReduceTaskIdMap =
+                CtField.make("java.util.Map mapReduceTaskIdMap_ = " + "new "
+                    + ConcurrentHashMap.class.getName() + "();", ctClass);
+            ctClass.addField(mapReduceTaskIdMap);
+            CtMethod getJobId =
+                CtNewMethod.make("public String getJobId() {return mapReduceJobId_;}", ctClass);
+            ctClass.addMethod(getJobId);
+            CtMethod setJobId =
+                CtNewMethod.make("public void setJobId(String jobId){mapReduceJobId_ = jobId;}",
+                                 ctClass);
+            ctClass.addMethod(setJobId);
+            CtMethod getMapperName =
+                CtNewMethod.make("public String getMapperName(){"
+                    + "return mapper.getClass().getName();}", ctClass);
+            ctClass.addMethod(getMapperName);
+            CtMethod putTaskId =
+                CtNewMethod.make("public void putTaskId(String address, String taskId){"
+                    + "mapReduceTaskIdMap_.put(address, taskId);}", ctClass);
+            ctClass.addMethod(putTaskId);
+            CtMethod getSizeOfTaskIdMap =
+                CtNewMethod.make("public int getSizeOfTaskIdMap(){"
+                    + "return mapReduceTaskIdMap_.size();}", ctClass);
+            ctClass.addMethod(getSizeOfTaskIdMap);
+            CtMethod getMapReduceTaskIdMap =
+                CtNewMethod.make("public java.util.Map getMapReduceTaskIdMap(){"
+                    + "return mapReduceTaskIdMap_;}", ctClass);
+            ctClass.addMethod(getMapReduceTaskIdMap);
+            CtMethod getTaskCount =
+                CtNewMethod.make("public int getTaskCount(){" + "return ++taskCount_;}", ctClass);
+            ctClass.addMethod(getTaskCount);
+        }
         List<CtBehavior> behaviorList = getMatcheDeclaredBehavior();
         for (CtBehavior ctBehavior : behaviorList)
         {
@@ -80,9 +102,8 @@ public class MapReduceTaskConverter extends AbstractConverter
     }
 
     private void convertMethod(final CtBehavior ctMethod)
-            throws CannotCompileException
+        throws CannotCompileException
     {
-
         insertProcessesForJob(ctMethod);
 
         // タスク終了後処理（失敗時）
@@ -105,46 +126,93 @@ public class MapReduceTaskConverter extends AbstractConverter
      * @throws CannotCompileException
      */
     private void insertPostProcess(final CtBehavior ctMethod)
-            throws CannotCompileException
+        throws CannotCompileException
     {
-        ctMethod.instrument(new ExprEditor() {
-            public void edit(MethodCall m) throws CannotCompileException
-            {
-                String className = m.getClassName();
-                String methodName = m.getMethodName();
-                if (className.equals("org.infinispan.remoting.rpc.RpcManager")
-                        && methodName.equals("invokeRemotely")
-                        || className.equals("org.infinispan.distexec.mapreduce."
-                                + "MapReduceTask.MapReduceFuture")
+        // for Infinispan 5.1
+        if (ctMethod.getDeclaringClass().getName().equals(MAP_REDUCE_TASK)
+            && ctMethod.getName().equals("execute"))
+        {
+            ctMethod.instrument(new ExprEditor() {
+                public void edit(MethodCall m)
+                    throws CannotCompileException
+                {
+                    String className = m.getClassName();
+                    String methodName = m.getMethodName();
+                    if (className.equals(RPC_MANAGER) && methodName.equals("invokeRemotely")
+                        || className.equals(MAP_REDUCE_TASK + ".MapReduceFuture")
                         && methodName.equals("get"))
-                {
-                    m.replace("{"
-                            +   "$_ = $proceed($$);"
-                            +   "java.util.Map map2 = (java.util.Map)$_;"
-                            +   "String[] keys = new String[0];"
-                            +   "java.util.Set keySet = map2.keySet();"
-                            +   "java.util.Map newMap = new java.util.HashMap();"
-                            +   "java.util.Iterator it = keySet.iterator();"
-                            +   "while (it.hasNext()) {"
-                            +     "org.infinispan.remoting.transport.Address key = "
-                            +       "(org.infinispan.remoting.transport.Address)it.next();"
-                            +     "newMap.put(key.toString(), "
-                            +       "Boolean.valueOf"
-                            +         "(((org.infinispan.remoting.responses.Response)map2.get(key))"
-                            +           ".isSuccessful()));}"
-                            +    MapReduceTaskMonitor.class.getName()
-                            +     ".postProcessTaskForInvokeRemotely(this, newMap);"
-                            +   "$_ = map2;" + "}");
-                }
-                if (className.equals("org.infinispan.commands.read.MapReduceCommand")
-                        && methodName.equals("perform"))
-                {
-                    m.replace("{" + "$_ = $proceed($$);"
-                            + MapReduceTaskMonitor.class.getName()
+                    {
+                        m.replace("{" + "$_ = $proceed($$);"
+                            + "java.util.Map map2 = (java.util.Map)$_;"
+                            + "String[] keys = new String[0];"
+                            + "java.util.Set keySet = map2.keySet();"
+                            + "java.util.Map newMap = new java.util.HashMap();"
+                            + "java.util.Iterator it = keySet.iterator();"
+                            + "while (it.hasNext()) {"
+                            + "org.infinispan.remoting.transport.Address key = "
+                            + "(org.infinispan.remoting.transport.Address)it.next();"
+                            + "newMap.put(key.toString(), " + "Boolean.valueOf"
+                            + "(((org.infinispan.remoting.responses.Response)map2.get(key))"
+                            + ".isSuccessful()));}" + MapReduceTaskMonitor.class.getName()
+                            + ".postProcessTaskForInvokeRemotely(this, newMap);" + "$_ = map2;"
+                            + "}");
+                    }
+                    if (className.equals(MAP_REDUCE_COMMAND) && methodName.equals("perform"))
+                    {
+                        m.replace("{" + "$_ = $proceed($$);" + MapReduceTaskMonitor.class.getName()
                             + ".postProcessTask(this);}");
+                    }
                 }
-            }
-        });
+            });
+        }
+
+        // for Infinispan 5.3
+        if (ctMethod.getDeclaringClass().getName()
+            .equals("org.infinispan.distexec.mapreduce.MapReduceTask$MapTaskPart")
+            || ctMethod.getDeclaringClass().getName()
+                .equals("org.infinispan.distexec.mapreduce.MapReduceTask$ReduceTaskPart")
+            || ctMethod.getDeclaringClass().getName()
+                .equals("org.infinispan.distexec.mapreduce.MapReduceTask$TaskPart"))
+        {
+            ctMethod.instrument(new ExprEditor() {
+                public void edit(MethodCall m)
+                    throws CannotCompileException
+                {
+                    String className = m.getClassName();
+                    String methodName = m.getMethodName();
+                    if (className.equals(RPC_MANAGER) && methodName.equals("invokeRemotely")
+                        || className.equals("java.util.concurrent.Future")
+                        && methodName.equals("get"))
+                    {
+                        String replaceStr =
+                            "{" + "$_ = $proceed($$);" + "java.util.Map map2 = (java.util.Map)$_;"
+                                + "java.util.Set keySet = map2.keySet();"
+                                + "java.util.Map newMap = new java.util.HashMap();"
+                                + "java.util.Iterator it = keySet.iterator();"
+                                + "while (it.hasNext()) {"
+                                + "org.infinispan.remoting.transport.Address key = "
+                                + "(org.infinispan.remoting.transport.Address)it.next();"
+                                + "newMap.put(key.toString(), " + "Boolean.valueOf"
+                                + "(((org.infinispan.remoting.responses.Response)map2.get(key))"
+                                + ".isSuccessful()));}" + MapReduceTaskMonitor.class.getName()
+                                + ".postProcessTaskForInvokeRemotely(("
+                                + MapReduceTaskAccessor.class.getName() + ")this$0, newMap);"
+                                + "$_ = map2;" + "}";
+                        SystemLogger.getInstance().warn(replaceStr);
+                        m.replace(replaceStr);
+                    }
+                    if ((methodName.equals("mapAndCombineForLocalReduction")
+                        || methodName.equals("mapAndCombineForDistributedReduction") || methodName
+                            .equals("reduce"))
+                        && className.equals("org.infinispan.distexec.mapreduce.MapReduceManager"))
+                    {
+                        m.replace("{" + "$_ = $proceed($$);" + MapReduceTaskMonitor.class.getName()
+                            + ".postProcessTask((" + MapReduceTaskAccessor.class.getName()
+                            + ")this$0);}");
+                    }
+                }
+            });
+        }
     }
 
     /**
@@ -154,42 +222,80 @@ public class MapReduceTaskConverter extends AbstractConverter
      * @throws CannotCompileException
      */
     private void insertPreProcessTask(final CtBehavior ctMethod)
-            throws CannotCompileException
+        throws CannotCompileException
     {
-        ctMethod.instrument(new ExprEditor() {
-            public void edit(MethodCall m) throws CannotCompileException
-            {
-                String methodName = m.getMethodName();
-                String className = m.getClassName();
-                if ((methodName.equals("invokeRemotely") 
-                        || methodName.equals("invokeRemotelyInFuture"))
-                        && className.equals("org.infinispan.remoting.rpc.RpcManager"))
+        // for Infinispan 5.1
+        if (ctMethod.getDeclaringClass().getName().equals(MAP_REDUCE_TASK))
+        {
+            ctMethod.instrument(new ExprEditor() {
+                public void edit(MethodCall m)
+                    throws CannotCompileException
                 {
+                    String methodName = m.getMethodName();
+                    String className = m.getClassName();
+                    if ((methodName.equals("invokeRemotely") || methodName
+                        .equals("invokeRemotelyInFuture")) && className.equals(RPC_MANAGER))
+                    {
+                        m.replace("{String address = $0.getAddress().toString();"
+                            + MapReduceTaskMonitor.class.getName()
+                            + ".preProcessTaskForInvokeRemotely(this, address, null);"
+                            + "$_ = $proceed($$);}");
+                    }
+                    else if (methodName.equals("invokeRemotelyInFuture")
+                        && className.equals(RPC_MANAGER))
+                    {
+                        m.replace("{String addressStr = address.toString();"
+                            + MapReduceTaskMonitor.class.getName()
+                            + ".preProcessTaskForInvokeRemotelyInFuture(this, addressStr, null);"
+                            + "$_ = $proceed($$);}");
+                    }
 
-                    m.replace("{String address = $0.getAddress().toString();"
+                    else if (methodName.equals("perform") && className.equals(MAP_REDUCE_COMMAND))
+                    {
+                        m.replace("{String address = rpc.getAddress().toString();"
                             + MapReduceTaskMonitor.class.getName()
-                            + ".preProcessTaskForInvokeRemotely(this, address);"
-                            + "$_ = $proceed($$);}");
+                            + ".preProcessTask(this, address, null);" + "$_ = $proceed($$);}");
+                    }
                 }
-                else if (methodName.equals("invokeRemotelyInFuture")
-                        && className.equals("org.infinispan.remoting.rpc.RpcManager"))
-                {
-                    m.replace("{String addressStr = address.toString();"
-                            + MapReduceTaskMonitor.class.getName()
-                            + ".preProcessTaskForInvokeRemotelyInFuture(this, addressStr);"
-                            + "$_ = $proceed($$);}");
-                }
+            });
+        }
 
-                else if (methodName.equals("perform")
-                        && className.equals("org.infinispan.commands.read.MapReduceCommand"))
+        // for Infinispan 5.3
+        else if (ctMethod.getDeclaringClass().getName()
+            .equals("org.infinispan.distexec.mapreduce.MapReduceTask$MapTaskPart")
+            || ctMethod.getDeclaringClass().getName()
+                .equals("org.infinispan.distexec.mapreduce.MapReduceTask$ReduceTaskPart"))
+        {
+            final boolean IS_MAP_TASK =
+                ctMethod.getDeclaringClass().getName().endsWith("MapTaskPart");
+            ctMethod.instrument(new ExprEditor() {
+                public void edit(MethodCall m)
+                    throws CannotCompileException
                 {
-                    m.replace("{String address = rpc.getAddress().toString();"
+                    String methodName = m.getMethodName();
+                    String className = m.getClassName();
+                    String taskType = IS_MAP_TASK ? "map" : "reduce";
+                    if (methodName.startsWith("invokeRemotely") && className.equals(RPC_MANAGER))
+                    {
+                        m.replace("{String address = getExecutionTarget().toString();"
                             + MapReduceTaskMonitor.class.getName()
-                            + ".preProcessTask(this, address);"
-                            + "$_ = $proceed($$);}");
+                            + ".preProcessTaskForInvokeRemotelyInFuture(("
+                            + MapReduceTaskAccessor.class.getName() + ")this$0, address, \""
+                            + taskType + "\");" + "$_ = $proceed($$);}");
+                    }
+                    else if ((methodName.equals("mapAndCombineForLocalReduction")
+                        || methodName.equals("mapAndCombineForDistributedReduction") || methodName
+                            .equals("reduce"))
+                        && className.equals("org.infinispan.distexec.mapreduce.MapReduceManager"))
+                    {
+                        m.replace("{String address = getAddress().toString();"
+                            + MapReduceTaskMonitor.class.getName() + ".preProcessTask(("
+                            + MapReduceTaskAccessor.class.getName() + ")this$0, address, \""
+                            + taskType + "\");" + "$_ = $proceed($$);}");
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     /**
@@ -199,30 +305,57 @@ public class MapReduceTaskConverter extends AbstractConverter
      * @throws CannotCompileException
      */
     private void insertPostProcessTaskNG(final CtBehavior ctMethod)
-            throws CannotCompileException
+        throws CannotCompileException
     {
-        ctMethod.instrument(new ExprEditor() {
-            public void edit(MethodCall m) throws CannotCompileException
-            {
-                if (m.getClassName().equals(
-                        "org.infinispan.remoting.rpc.RpcManager")
-                        && m.getMethodName().equals("invokeRemotelyInFuture")
-                        || m.getClassName().equals(
-                                "org.infinispan.remoting.rpc.RpcManager")
-                        && m.getMethodName().equals("invokeRemotely")
-                        || m.getClassName().equals(
-                                "org.infinispan.distexec.mapreduce.MapReduceTask.MapReduceFuture")
-                        && m.getMethodName().equals("get")
-                        || m.getClassName().equals(
-                                "org.infinispan.commands.read.MapReduceCommand")
-                        && m.getMethodName().equals("perform"))
+        // for Infinispan 5.1
+        if (ctMethod.getDeclaringClass().getName().equals(MAP_REDUCE_TASK))
+        {
+            ctMethod.instrument(new ExprEditor() {
+                public void edit(MethodCall m)
+                    throws CannotCompileException
                 {
-                    m.replace("try{$_ = $proceed($$);}catch(Exception e){"
-                            + MapReduceTaskMonitor.class.getName()
-                            + ".postProcessNGTask(this);}");
+                    String className = m.getClassName();
+                    String methodName = m.getMethodName();
+                    if (className.equals(RPC_MANAGER)
+                        && methodName.equals("invokeRemotelyInFuture")
+                        || className.equals(RPC_MANAGER) && methodName.equals("invokeRemotely")
+                        || className.equals(MAP_REDUCE_TASK + ".MapReduceFuture")
+                        && methodName.equals("get") || className.equals(MAP_REDUCE_COMMAND)
+                        && methodName.equals("perform"))
+                    {
+
+                        m.replace("try{$_ = $proceed($$);}catch(Exception e){"
+                            + MapReduceTaskMonitor.class.getName() + ".postProcessNGTask(this);}");
+                    }
                 }
-            }
-        });
+            });
+        }
+
+        // for Infinispan 5.3
+        else if (ctMethod.getDeclaringClass().getName()
+            .equals("org.infinispan.distexec.mapreduce.MapReduceTask$MapTaskPart")
+            || ctMethod.getDeclaringClass().getName()
+                .equals("org.infinispan.distexec.mapreduce.MapReduceTask$ReduceTaskPart"))
+        {
+            ctMethod.instrument(new ExprEditor() {
+                public void edit(MethodCall m)
+                    throws CannotCompileException
+                {
+                    String className = m.getClassName();
+                    String methodName = m.getMethodName();
+                    if (className.equals(MAP_REDUCE_MANAGER)
+                        && methodName.equals("mapAndCombineForLocalReduction")
+                        || className.equals(MAP_REDUCE_MANAGER)
+                        && methodName.equals("mapAndCombineForDistributedReduction")
+                        || className.equals(RPC_MANAGER) && methodName.equals("invokeRemotely"))
+                    {
+                        m.replace("try{$_ = $proceed($$);}catch(Exception e){"
+                            + MapReduceTaskMonitor.class.getName() + ".postProcessNGTask(("
+                            + MapReduceTaskAccessor.class.getName() + ")this$0);}");
+                    }
+                }
+            });
+        }
     }
 
     /**
@@ -232,15 +365,16 @@ public class MapReduceTaskConverter extends AbstractConverter
      * @throws CannotCompileException
      */
     private void insertProcessesForJob(final CtBehavior ctMethod)
-            throws CannotCompileException
+        throws CannotCompileException
     {
-        ctMethod.insertBefore(MapReduceTaskMonitor.class.getName()
-                + ".preProcess(this);");
-        ctMethod.insertAfter(MapReduceTaskMonitor.class.getName()
-                + ".postProcess(this);");
-        ctMethod.addCatch("{" + MapReduceTaskMonitor.class.getName()
-                + ".postProcessNG(this, $e); $e.printStackTrace(); throw $e;}",
-                throwableClass_);
+        if (ctMethod.getName().equals("execute")
+            && ctMethod.getDeclaringClass().getName().equals(MAP_REDUCE_TASK))
+        {
+            ctMethod.insertBefore(MapReduceTaskMonitor.class.getName() + ".preProcess(this);");
+            ctMethod.insertAfter(MapReduceTaskMonitor.class.getName() + ".postProcess(this);");
+            ctMethod.addCatch("{" + MapReduceTaskMonitor.class.getName()
+                + ".postProcessNG(this, $e); $e.printStackTrace(); throw $e;}", throwableClass_);
+        }
     }
 
     /** (non-Javadoc)
@@ -250,17 +384,16 @@ public class MapReduceTaskConverter extends AbstractConverter
     {
         try
         {
-            throwableClass_ = ClassPool.getDefault().get(
-                    Throwable.class.getCanonicalName());
+            throwableClass_ = ClassPool.getDefault().get(Throwable.class.getCanonicalName());
         }
         catch (NotFoundException nfe)
         {
             // 発生しない。
             SystemLogger.getInstance().warn(nfe);
         }
-        ResourceCollector.getInstance().addMultiResource(
-                TelegramConstants.ITEMNAME_INFINISPAN_MAPREDUCE,
-                new InfinispanJobGetter());
+        ResourceCollector.getInstance()
+            .addMultiResource(TelegramConstants.ITEMNAME_INFINISPAN_MAPREDUCE,
+                              new InfinispanJobGetter());
 
     }
 

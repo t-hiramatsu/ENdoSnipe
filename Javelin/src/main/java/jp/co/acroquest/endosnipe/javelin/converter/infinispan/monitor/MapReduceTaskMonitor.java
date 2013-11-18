@@ -21,19 +21,20 @@ import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 public class MapReduceTaskMonitor
 {
     /**　ジョブ情報を保持するマップ　*/
-    private static Map<String, JobInfo>  jobInfoMap__  = new ConcurrentHashMap<String, JobInfo>();
+    private static Map<String, JobInfo> jobInfoMap__ = new ConcurrentHashMap<String, JobInfo>();
 
     /**　タスク情報を保持するマップ　*/
     private static Map<String, TaskInfo> taskInfoMap__ = new ConcurrentHashMap<String, TaskInfo>();
 
     /**　最後のジョブが実行された時刻　*/
-    private static String                previousDate__;
+    private static String previousDate__;
 
     /**　現在の時刻（yyyyMMddHHmm）中に実行されたジョブの個数　*/
-    private static int                   num__;
+    private static int num__;
 
     private MapReduceTaskMonitor()
-    {}
+    {
+    }
 
     /**
      * ジョブ開始前の処理を行う。
@@ -49,7 +50,7 @@ public class MapReduceTaskMonitor
         if (previousDate__ == null || !previousDate__.equals(sdf.format(date)))
         {
             previousDate__ = dateString;
-            num__ = 1;
+            num__ = 0;
         }
         else
         {
@@ -64,8 +65,8 @@ public class MapReduceTaskMonitor
         String[] tmpNames = tmpName.split("\\.");
         tmpName = tmpNames[tmpNames.length - 1];
         String mapper = "Mapper";
-        jobInfo.setJobName(tmpName.endsWith(mapper) ? tmpName.substring(0,
-                tmpName.length() - mapper.length()) : tmpName);
+        jobInfo.setJobName(tmpName.endsWith(mapper) ? tmpName.substring(0, tmpName.length()
+            - mapper.length()) : tmpName);
         jobInfo.setJobId(jobId);
         accessor.setJobId(jobId);
         saveJobInfo(jobInfo);
@@ -96,8 +97,7 @@ public class MapReduceTaskMonitor
      * @param accessor 対象のジョブ
      * @param throwable タスク失敗原因の例外
      */
-    public static void postProcessNG(MapReduceTaskAccessor accessor,
-            Throwable throwable)
+    public static void postProcessNG(MapReduceTaskAccessor accessor, Throwable throwable)
     {
         long finishTime = System.currentTimeMillis();
         String jobId = accessor.getJobId();
@@ -116,20 +116,20 @@ public class MapReduceTaskMonitor
      * 
      * @param accessor 対象のタスク
      * @param address タスクの実行されるアドレス
+     * @param type タスク種別
      */
-    public static void preProcessTask(MapReduceTaskAccessor accessor,
-            String address)
+    public static void preProcessTask(MapReduceTaskAccessor accessor, String address, String type)
     {
         long startTime = System.currentTimeMillis();
         TaskInfo taskInfo = new TaskInfo();
         taskInfo.setStartTime(startTime);
         taskInfo.setJobID(accessor.getJobId());
         DecimalFormat df = new DecimalFormat("00000000");
-        String taskId = accessor.getJobId() + "_"
-                + (df.format(accessor.getSizeOfTaskIdMap() + 1));
+        String taskId = accessor.getJobId() + "_" + (df.format(accessor.getTaskCount()));
         taskInfo.setTaskAttemptID(taskId);
         accessor.putTaskId(address, taskId);
         taskInfo.setHostName(address);
+        taskInfo.setTaskType(type);
         saveTaskInfo(taskInfo);
         SystemLogger.getInstance().warn("preProcessTask:" + taskInfo);
     }
@@ -139,9 +139,10 @@ public class MapReduceTaskMonitor
      * 
      * @param accessor 対象のタスク
      * @param address タスクの実行されるアドレス
+     * @param type タスク種別
      */
-    public static void preProcessTaskForInvokeRemotely(
-            MapReduceTaskAccessor accessor, String address)
+    public static void preProcessTaskForInvokeRemotely(MapReduceTaskAccessor accessor,
+        String address, String type)
     {
         long startTime = System.currentTimeMillis();
         TaskInfo taskInfo = new TaskInfo();
@@ -150,9 +151,9 @@ public class MapReduceTaskMonitor
         taskInfo.setTaskAttemptID(accessor.getJobId());
         accessor.putTaskId(address, accessor.getJobId());
         taskInfo.setHostName(address);
+        taskInfo.setTaskType(type);
         saveTaskInfo(taskInfo);
-        SystemLogger.getInstance().warn(
-                "preProcessTaskForInvokeRemotely:" + taskInfo);
+        SystemLogger.getInstance().warn("preProcessTaskForInvokeRemotely:" + taskInfo);
     }
 
     /**
@@ -160,23 +161,23 @@ public class MapReduceTaskMonitor
      * 
      * @param accessor 対象のタスク
      * @param address タスクの実行されるアドレス
+     * @param type タスク種別
      */
-    public static void preProcessTaskForInvokeRemotelyInFuture(
-            MapReduceTaskAccessor accessor, String address)
+    public static void preProcessTaskForInvokeRemotelyInFuture(MapReduceTaskAccessor accessor,
+        String address, String type)
     {
         long startTime = System.currentTimeMillis();
         TaskInfo taskInfo = new TaskInfo();
         taskInfo.setStartTime(startTime);
         taskInfo.setJobID(accessor.getJobId());
         DecimalFormat df = new DecimalFormat("00000000");
-        String taskId = accessor.getJobId() + "_"
-                + (df.format(accessor.getSizeOfTaskIdMap() + 1));
+        String taskId = accessor.getJobId() + "_" + (df.format(accessor.getTaskCount()));
         taskInfo.setTaskAttemptID(taskId);
         accessor.putTaskId(address, taskId);
         taskInfo.setHostName(address);
+        taskInfo.setTaskType(type);
         saveTaskInfo(taskInfo);
-        SystemLogger.getInstance().warn(
-                "preProcessTaskForInvokeRemotelyInFuture:" + taskInfo);
+        SystemLogger.getInstance().warn("preProcessTaskForInvokeRemotelyInFuture:" + taskInfo);
     }
 
     /**
@@ -202,34 +203,22 @@ public class MapReduceTaskMonitor
      * @param accessor 対象のタスク
      * @param map タスクの実行されたアドレスと終了状態のマップ
      */
-    public static void postProcessTaskForInvokeRemotely(
-            MapReduceTaskAccessor accessor, Map<String, Boolean> map)
+    public static void postProcessTaskForInvokeRemotely(MapReduceTaskAccessor accessor,
+        Map<String, Boolean> map)
     {
         long finishTime = System.currentTimeMillis();
-        TaskInfo taskInfoOrg = taskInfoMap__.remove(accessor.getJobId());
-        DecimalFormat df = new DecimalFormat("00000000");
-        int index = 0;
         Set<Entry<String, Boolean>> entrySet = map.entrySet();
         for (Entry<?, ?> entry : entrySet)
         {
             String address = (String)entry.getKey();
-            TaskInfo taskInfo = new TaskInfo();
-            taskInfo.setStartTime(taskInfoOrg.getStartTime());
-            taskInfo.setFinishTime(finishTime);
-            taskInfo.setJobID(taskInfoOrg.getJobID());
-            taskInfo.setTaskAttemptID(taskInfoOrg.getTaskAttemptID() + "_"
-                    + df.format(index + 1));
-            taskInfo.setHostName(address);
-            taskInfo.setStatus(map.get(address).booleanValue() ? "SUCCEEDED" : "FAILED");
-            saveTaskInfo(taskInfo);
-            if (index > 0)
+            String taskId = (String)accessor.getMapReduceTaskIdMap().get(address);
+            TaskInfo taskInfo = taskInfoMap__.get(taskId);
+            if (taskInfo == null)
             {
-                accessor.putTaskId(taskInfo.getHostName(),
-                        taskInfo.getTaskAttemptID());
+                return;
             }
-            index++;
-            SystemLogger.getInstance().warn(
-                    "postProcessTaskForInvokeRemotely:" + taskInfo);
+            taskInfo.setFinishTime(finishTime);
+            taskInfo.setStatus(map.get(address).booleanValue() ? "SUCCEEDED" : "FAILED");
         }
     }
 
@@ -311,7 +300,7 @@ public class MapReduceTaskMonitor
         {
             if (taskInfo.getStatus() == null)
             {
-                newTaskInfoMap.put(taskInfo.getJobID(), taskInfo);
+                newTaskInfoMap.put(taskInfo.getTaskAttemptID(), taskInfo);
             }
             else
             {
