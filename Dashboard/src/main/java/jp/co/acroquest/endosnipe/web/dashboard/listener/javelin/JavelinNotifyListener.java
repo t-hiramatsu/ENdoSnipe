@@ -39,6 +39,7 @@ import jp.co.acroquest.endosnipe.communicator.entity.Header;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.web.dashboard.config.DataBaseConfig;
+import jp.co.acroquest.endosnipe.web.dashboard.listener.collector.AlarmThreadDumpNotifyListener;
 import jp.co.acroquest.endosnipe.web.dashboard.listener.collector.CollectorListener;
 import jp.co.acroquest.endosnipe.web.dashboard.listener.collector.SignalStateChangeListener;
 import jp.co.acroquest.endosnipe.web.dashboard.listener.collector.SummarySignalStateChangeListener;
@@ -127,6 +128,7 @@ public class JavelinNotifyListener implements TelegramListener
                 client.addTelegramListener(new SummarySignalStateChangeListener());
                 client.addTelegramListener(new TreeStateAddListener());
                 client.addTelegramListener(new TreeStateDeleteListener());
+                client.addTelegramListener(new AlarmThreadDumpNotifyListener());
 
                 ConnectNotifyData connectNotify = new ConnectNotifyData();
                 connectNotify.setKind(ConnectNotifyData.KIND_CONTROLLER);

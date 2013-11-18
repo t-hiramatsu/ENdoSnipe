@@ -46,6 +46,25 @@ ENS.AppView = wgp.AppView.extend({
 		};
 		this.onSearch(settings);
 	},
+	getTermThreadDumpData : function(syncIdList, startTime, endTime, maxLineNum) {
+		var instance = this;
+		this.stopSyncData(syncIdList);
+		var url = wgp.common.getContextPath()
+				+ ENS.URL.TERM_THREADDUMP_DATA_URL;
+		var dataMap = {
+			startTime : startTime.getTime(),
+			endTime : endTime.getTime(),
+			dataGroupIdList : syncIdList,
+			maxLineNum : maxLineNum
+		};
+		var settings = {
+			url : url,
+			data : {
+				data : JSON.stringify(dataMap)
+			}
+		};
+		this.onSearch(settings);
+	},
 	_add : function(addCollection, addData) {
 		if (addCollection.get(addData.id) != null) {
 			console.log('Collection already Exists');

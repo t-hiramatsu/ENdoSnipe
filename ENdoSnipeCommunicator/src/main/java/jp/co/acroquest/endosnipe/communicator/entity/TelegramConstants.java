@@ -107,6 +107,11 @@ public interface TelegramConstants
     /** 電文種別(SQL実行計画取得通知) */
     byte BYTE_TELEGRAM_KIND_SQL_PLAN = 28;
 
+    /**
+     * threadDump response telegram
+     */
+    byte BYTE_TELEGRAM_KIND_THREAD_DUMP = 31;
+
     /** Summary Signal の　telegram kind*/
 
     byte BYTE_TELEGRAM_KIND_SUMMARYSIGNAL_DEFINITION = 29;
@@ -194,7 +199,7 @@ public interface TelegramConstants
     String ITEMNAME_HEAPDUMP = "/heapDump";
 
     /** 項目名(スレッドダンプ取得) */
-    String ITEMNAME_THREADDUMP = "/threadDump";
+    String ITEMNAME_THREADDUMP = "threadDump";
 
     /** 項目名(クラスヒストグラム取得) */
     String ITEMNAME_CLASSHISTOGRAM = "classHistogramDump";
