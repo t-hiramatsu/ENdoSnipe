@@ -680,6 +680,9 @@ public interface TelegramConstants
     /** 項目名(Infinispan:mapreduce) */
     String ITEMNAME_INFINISPAN_MAPREDUCE = "/infinispan/MapReduce";
 
+    /** 項目名(追加測定項目) */
+    String ITEMNAME_OPTIONAL_RESOURCE = "/resource";
+
     /** 項目名(Hadoop:DataNode) */
     String ITEMNAME_HADOOP_DATANODE = "/hadoop/DataNode";
 

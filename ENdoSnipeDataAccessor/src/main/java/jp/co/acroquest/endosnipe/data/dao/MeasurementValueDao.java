@@ -1080,6 +1080,8 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
     /**
      * レコードを挿入します。<br />
      *
+     * {@link MeasurementValue#measurementValueId} は使用されません。
+     *
      * @param database データベース名
      * @param tableName テーブル名
      * @param updateValueList 挿入する値
@@ -1124,12 +1126,12 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
             // CHECKSTYLE:ON
             
             int[] executeCounts = pstmt.executeBatch();
+            conn.commit();
+
             for (int executeCount : executeCounts)
             {
                 insertCount += executeCount;
             }
-            
-            conn.commit();
         }
         catch(SQLException sqle)
         {

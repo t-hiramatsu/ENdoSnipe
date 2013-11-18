@@ -89,7 +89,7 @@ public class ResourceDataDaoUtil
     private static final int DEF_BATCH_SIZE = 100;
 
     /** itemIdのキャッシュサイズ */
-    private static final int DEF_ITEMID_CACHE_SIZE = 50000;
+    private static final int DEF_ITEMID_CACHE_SIZE = 2000000;
 
     /** MEASUREMENT_VALUE テーブルを truncate するコールバックメソッド */
     private static final RotateCallback MEASUREMENT_ROTATE_CALLBACK = new RotateCallback() {
@@ -249,6 +249,35 @@ public class ResourceDataDaoUtil
      *
      * @param database データベース名
      * @param resourceData 登録するデータ
+     * @param batchUnit batchUnit
+     * @param itemIdCacheSize itemIdCacheSize
+     * @return インサート結果
+     * @throws SQLException SQL 実行時に例外が発生した場合
+     */
+    public static InsertResult insertDirect(final String database, final ResourceData resourceData,final int batchUnit,
+        final int itemIdCacheSize)
+    throws SQLException
+    {
+        return insert(database, resourceData, 0, 0, batchUnit,
+                      itemIdCacheSize, false);
+    }
+    
+    /**
+     * {@link ResourceData} をデータベースに登録します。<br />
+     *
+     * {@link ResourceData} が保持するホスト情報が計測対象ホスト情報テーブルに存在しない場合は、
+     * データベースに登録せず、エラーログを出力します。<br />
+     *
+     *　該当する計測値の項目（系列）が Javelin 計測項目テーブルに存在しない場合は、
+     * 該当するレコードを Javelin 計測項目テーブルに挿入します。<br />
+     *
+     *　計測値種別が計測値情報テーブルに存在しない場合は、
+     * 該当するレコードを計測値情報テーブルに挿入します。<br />
+     *
+     * 挿入対象のテーブルが前回挿入時から変わった場合、ローテート処理を行います。
+     *
+     * @param database データベース名
+     * @param resourceData 登録するデータ
      * @param rotatePeriod ローテート期間
      * @param rotatePeriodUnit ローテート期間の単位（ Calendar クラスの DAY または MONTH の値）
      * @param batchUnit batchUnit
@@ -259,6 +288,38 @@ public class ResourceDataDaoUtil
     public static InsertResult insert(final String database, final ResourceData resourceData,
         final int rotatePeriod, final int rotatePeriodUnit, final int batchUnit,
         final int itemIdCacheSize)
+    throws SQLException
+    {
+        return insert(database, resourceData, rotatePeriod, rotatePeriodUnit, batchUnit,
+                      itemIdCacheSize, true);
+    }
+
+    /**
+     * {@link ResourceData} をデータベースに登録します。<br />
+     *
+     * {@link ResourceData} が保持するホスト情報が計測対象ホスト情報テーブルに存在しない場合は、
+     * データベースに登録せず、エラーログを出力します。<br />
+     *
+     *　該当する計測値の項目（系列）が Javelin 計測項目テーブルに存在しない場合は、
+     * 該当するレコードを Javelin 計測項目テーブルに挿入します。<br />
+     *
+     *　計測値種別が計測値情報テーブルに存在しない場合は、
+     * 該当するレコードを計測値情報テーブルに挿入します。<br />
+     *
+     * 挿入対象のテーブルが前回挿入時から変わった場合、ローテート処理を行います。
+     *
+     * @param database データベース名
+     * @param resourceData 登録するデータ
+     * @param rotatePeriod ローテート期間
+     * @param rotatePeriodUnit ローテート期間の単位（ Calendar クラスの DAY または MONTH の値）
+     * @param batchUnit batchUnit
+     * @param itemIdCacheSize itemIdCacheSize
+     * @return インサート結果
+     * @throws SQLException SQL 実行時に例外が発生した場合
+     */
+    public static InsertResult insert(final String database, final ResourceData resourceData,
+        final int rotatePeriod, final int rotatePeriodUnit, final int batchUnit,
+        final int itemIdCacheSize, boolean isRotate)
         throws SQLException
     {
         InsertResult result = new InsertResult();
@@ -268,7 +329,7 @@ public class ResourceDataDaoUtil
         MeasurementValue baseMeasurementValue = new MeasurementValue();
         baseMeasurementValue.measurementTime = new Timestamp(resourceData.measurementTime);
 
-        if (DBManager.isDefaultDb() == false)
+        if (DBManager.isDefaultDb() == false && isRotate == true)
         {
             // H2以外のデータベースの場合は、パーティショニング処理を行う
             deleteItemIdList =

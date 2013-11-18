@@ -47,6 +47,7 @@ import jp.co.acroquest.endosnipe.collector.data.JavelinConnectionData;
 import jp.co.acroquest.endosnipe.collector.data.JavelinData;
 import jp.co.acroquest.endosnipe.collector.data.JavelinLogData;
 import jp.co.acroquest.endosnipe.collector.data.JavelinMeasurementData;
+import jp.co.acroquest.endosnipe.collector.data.JavelinMeasurementNotifyData;
 import jp.co.acroquest.endosnipe.collector.log.JavelinLogUtil;
 import jp.co.acroquest.endosnipe.collector.manager.SignalStateManager;
 import jp.co.acroquest.endosnipe.collector.manager.SummarySignalStateManager;
@@ -396,6 +397,22 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
                 logResourceData(database, resourceData);
             }
         }
+        else if (data instanceof JavelinMeasurementNotifyData)
+        {
+            // 計測値データの場合
+            ResourceData resourceData = ((JavelinMeasurementNotifyData)data).getResourceData();
+            String database = data.getDatabaseName();
+
+            if (resourceData != null && resourceData.getMeasurementMap() != null)
+            {
+                this.logResourceData(database, resourceData, false, true);
+            }
+        }
+        else
+        {
+            // 何もしない。
+            "".toString();
+        }
     }
 
     /**
@@ -470,9 +487,34 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
      * @param database データベース名
      * @param resourceData 登録するデータ
      */
+    private void logResourceData(final String database, final ResourceData resourceData,
+        final boolean isConnectionData, final boolean direct)
+    {
+        if (direct)
+        {
+            try
+            {
+                this.insertMeasurementDataDirect(database, resourceData);
+            }
+            catch (SQLException ex)
+            {
+                LOGGER.log(DATABASE_ACCESS_ERROR, ex, ex.getMessage());
+            }
+        }
+        else
+        {
+            this.logResourceData(database, resourceData, isConnectionData);
+        }
+    }
+
+    /**
+     * 指定されたデータをデータベースに登録します。<br />
+     * @param database データベース名
+     * @param resourceData 登録するデータ
+     */
     private void logResourceData(final String database, final ResourceData resourceData)
     {
-        this.logResourceData(database, resourceData, false);
+        this.logResourceData(database, resourceData, false, false);
     }
 
     /**
@@ -687,6 +729,27 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         responseTelegram.setObjBody(responseBodys);
 
         return responseTelegram;
+    }
+
+    private void insertMeasurementDataDirect(final String database,
+        final ResourceData convertedResourceData)
+        throws SQLException
+    {
+        long startTime = System.currentTimeMillis();
+        InsertResult result =
+            ResourceDataDaoUtil.insertDirect(database, convertedResourceData,
+                                             config_.getBatchSize(), config_.getItemIdCacheSize());
+        long endTime = System.currentTimeMillis();
+        long elapsedTime = endTime - startTime;
+
+        if (result.getInsertCount() != 0)
+        {
+            // IEDC0022=データベースに測定値を登録しました。 
+            // データベース名:{0}、経過時間:{1}、登録件数:{2}、キャッシュヒット件数:{3}、キャッシュあふれ回数:{4}
+            int cacheHitCount = result.getInsertCount() - result.getCacheMissCount();
+            LOGGER.log("IEDC0022", database, elapsedTime, result.getInsertCount(), cacheHitCount,
+                       result.getCacheOverflowCount());
+        }
     }
 
     /**
