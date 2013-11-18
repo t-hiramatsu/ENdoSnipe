@@ -186,15 +186,24 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 				ajaxHandler.requestServerAsync(settings);
 			},
 			callbackGetAllMeasurement_ : function(measurementDefinitionList) {
+				
+				var measurementDefList = $("#multipleResourceGraphLstBox2>option").map(
+						function() {
+							return $(this).val();
 
+						});
 				var instance = this;
 				var addOptionList = [];
 				_.each(measurementDefinitionList, function(
 						javelinMeasurementItem, index) {
+					var measurementName = javelinMeasurementItem.itemName;
+					var index = $.inArray(measurementName, measurementDefList);
+					if (index == -1) {
 					$('#hiddenIdList').append(
 							"<option value='" + javelinMeasurementItem.itemName
 									+ "'>" + javelinMeasurementItem.itemName
 									+ "</option>");
+					}
 
 				});
 				instance.pagingGraph(measurementDefinitionList);
