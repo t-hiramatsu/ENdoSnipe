@@ -58,18 +58,16 @@ public class TimedResourceMonitor
     }
 
     /**
-     * バッファいした測定データを送信する。 
+     * バッファした測定データを送信する。 
      * @param time 時刻。
      */
     public static void sendAll(long time)
     {
+        // これまでの測定データをTelegramに変換する。
         List<Body> responseBodyList = new ArrayList<Body>();
-
-        // 時刻を追加する。
         long currentTime = time;
         ResponseBody timeBody = ResourceNotifyAccessor.makeTimeBody(currentTime);
         responseBodyList.add(timeBody);
-
         Map<String, String> map = valueMap__;
         valueMap__ = new ConcurrentHashMap<String, String>();
         for (Map.Entry<String, String> entry : map.entrySet())
@@ -82,11 +80,48 @@ public class TimedResourceMonitor
             responseBodyList.add(responseBody);
         }
 
+        // 測定データを送信する。
         Telegram responseTelegram = ResourceNotifyAccessor.makeNotifyTelegram(responseBodyList);
-
         JavelinAcceptThread.getInstance().sendTelegram(responseTelegram);
         JavelinConnectThread.getInstance().sendTelegram(responseTelegram);
 
-        SystemLogger.getInstance().warn("send timed resource data:" + map);
+        if (SystemLogger.getInstance().isDebugEnabled())
+        {
+            SystemLogger.getInstance().debug("send timed resource data:" + map);
+        }
+    }
+
+    /**
+     * バッファした測定データを送信する。 
+     * @param time 時刻。
+     * @param valueMap 測定データ。
+     */
+    public static void sendNow(long time,  Map<String, String> valueMap)
+    {
+        // これまでの測定データをTelegramに変換する。
+        List<Body> responseBodyList = new ArrayList<Body>();
+        long currentTime = time;
+        ResponseBody timeBody = ResourceNotifyAccessor.makeTimeBody(currentTime);
+        responseBodyList.add(timeBody);
+        Map<String, String> map = valueMap;
+        for (Map.Entry<String, String> entry : map.entrySet())
+        {
+            String itemName = entry.getKey();
+            Object value = entry.getValue();
+            ItemType itemType = ItemType.ITEMTYPE_STRING;
+            ResponseBody responseBody =
+                ResourceNotifyAccessor.makeResourceResponseBody(itemName, value, itemType);
+            responseBodyList.add(responseBody);
+        }
+
+        // 測定データを送信する。
+        Telegram responseTelegram = ResourceNotifyAccessor.makeNotifyTelegram(responseBodyList);
+        JavelinAcceptThread.getInstance().sendTelegram(responseTelegram);
+        JavelinConnectThread.getInstance().sendTelegram(responseTelegram);
+
+        if (SystemLogger.getInstance().isDebugEnabled())
+        {
+            SystemLogger.getInstance().debug("send timed resource data:" + map);
+        }
     }
 }

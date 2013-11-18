@@ -30,17 +30,33 @@ public class ResourceGetterConverter extends AbstractConverter
         List<CtBehavior> behaviorList = getMatcheDeclaredBehavior();
         for (CtBehavior ctBehavior : behaviorList)
         {
-            if (ctBehavior.getMethodInfo2().getName().equals("addValue"))
+            String methodName = ctBehavior.getMethodInfo2().getName();
+            if (methodName.equals("addValue"))
             {
                 convertMethod(ctBehavior);
             }
-            if (ctBehavior.getMethodInfo2().getName().equals("send"))
+            else if (methodName.equals("sendAll"))
             {
                 convertSendMethod(ctBehavior);
+            }
+            else if (methodName.equals("sendNow"))
+            {
+                convertSendNowMethod(ctBehavior);
             }
         }
 
         setNewClassfileBuffer(ctClass.toBytecode());
+    }
+
+    private void convertSendNowMethod(CtBehavior ctBehavior)
+        throws CannotCompileException
+    {
+        String canonicalName = TimedResourceMonitor.class.getCanonicalName();
+        String sendValueString = canonicalName + ".sendNow($1, $2);";
+        ctBehavior.insertBefore(sendValueString);
+
+        // 処理結果をログに出力する。
+        logModifiedMethod("ResourceGetterConverter", ctBehavior);
     }
 
     private void convertSendMethod(CtBehavior ctBehavior)
