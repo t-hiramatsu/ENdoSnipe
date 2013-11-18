@@ -196,6 +196,7 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         {
             JavelinLogDao.truncate(database, tableIndex, year);
         }
+
     };
 
     /**
@@ -1107,6 +1108,7 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         List<String> alarmSignalList = new ArrayList<String>();
         for (Entry<Long, SignalDefinitionDto> signalDefinitionEntry : signalDefinitionMap
             .entrySet())
+
         {
             SignalDefinitionDto signalDefinition = signalDefinitionEntry.getValue();
             String itemName = signalDefinition.getMatchingPattern();
@@ -1343,6 +1345,7 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         }
         int rotatePeriod = rotateConfig.getMeasureRotatePeriod();
         int rotatePeriodUnit = rotateConfig.getMeasureUnitByCalendar();
+        String clientId = logData.getClientId();
 
         JavelinLog javelinLog = createJavelinLog(logData);
         try
@@ -1370,6 +1373,8 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
                 }
             }
             JavelinLogDao.insert(database, javelinLog);
+            Telegram telegram = createThreadDumpResponseTelegram();
+            this.clientRepository_.sendTelegramToClient(clientId, telegram);
         }
         catch (SQLException ex)
         {
@@ -1379,6 +1384,28 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
 
         // 一時ファイルがある場合は削除しておく
         logData.deleteFile();
+    }
+
+    /**
+     * this is createTheadDumpResponseTelegram
+     * @return telegram data
+     */
+    private Telegram createThreadDumpResponseTelegram()
+    {
+        Header responseHeader = new Header();
+
+        responseHeader.setByteTelegramKind(TelegramConstants.BYTE_TELEGRAM_KIND_THREAD_DUMP);
+        responseHeader.setByteRequestKind(TelegramConstants.BYTE_REQUEST_KIND_NOTIFY);
+
+        Telegram responseTelegram = new Telegram();
+
+        responseTelegram.setObjHeader(responseHeader);
+
+        Body[] responseBodys = {};
+        responseTelegram.setObjBody(responseBodys);
+
+        return responseTelegram;
+
     }
 
     /**

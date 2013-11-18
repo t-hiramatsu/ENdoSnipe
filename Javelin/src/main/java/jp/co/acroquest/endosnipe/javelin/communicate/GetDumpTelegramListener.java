@@ -63,10 +63,10 @@ public class GetDumpTelegramListener implements TelegramListener, TelegramConsta
     {
         Telegram response = null;
         if (telegram.getObjHeader().getByteTelegramKind() == BYTE_TELEGRAM_KIND_GET_DUMP
-                && telegram.getObjHeader().getByteRequestKind() == BYTE_REQUEST_KIND_REQUEST)
+            && telegram.getObjHeader().getByteRequestKind() == BYTE_REQUEST_KIND_REQUEST)
         {
             Body[] bodies = telegram.getObjBody();
-            if (bodies != null && bodies.length == 1)
+            if (bodies != null && (bodies.length == 1 || bodies.length == 2))
             {
                 response = notifyDumpRequest(bodies, telegram.getObjHeader().getId());
             }
@@ -157,7 +157,7 @@ public class GetDumpTelegramListener implements TelegramListener, TelegramConsta
         if (vendor != null)
         {
             if (vendor.contains(ResourceCollector.VENDER_BEA) == true
-                    || vendor.contains(ResourceCollector.VENDER_ORACLE))
+                || vendor.contains(ResourceCollector.VENDER_ORACLE))
             {
                 historgramMonitor = new OracleClassHistogramMonitor();
             }
@@ -166,7 +166,7 @@ public class GetDumpTelegramListener implements TelegramListener, TelegramConsta
                 historgramMonitor = new SunClassHistogramMonitor();
             }
         }
-        
+
         if (historgramMonitor != null)
         {
             CommonEvent event = createClassHistogramDumpEvent(historgramMonitor);

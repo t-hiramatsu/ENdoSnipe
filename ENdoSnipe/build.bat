@@ -19,9 +19,8 @@ goto SETTING
 
 :64BIT
 echo 64 bit environment
-set JAVA_HOME_50=C:\Program Files (x86)\Java\jdk1.5.0_22
-set JAVA_HOME_60=C:\Program Files (x86)\Java\jdk1.6.0_38
-
+set JAVA_HOME_50=C:\Program Files\Java\jdk1.5.0_22
+set JAVA_HOME_60=C:\Program Files\Java\jdk1.6.0_39
 :SETTING
 
 

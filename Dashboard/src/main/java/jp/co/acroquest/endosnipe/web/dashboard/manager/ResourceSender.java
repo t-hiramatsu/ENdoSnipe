@@ -258,12 +258,17 @@ public class ResourceSender
         for (String groupId : listeners)
         {
             String[] measurementArray = null;
-            if (groupId.indexOf("|") != -1 || groupId.indexOf("(") != groupId.lastIndexOf("(")
-                    && (groupId.charAt(0) == '(')
-                    && (groupId.charAt((groupId.length() - 1)) == ')'))
+
+            if (groupId.indexOf("|") != -1 || groupId.indexOf("(") != groupId.lastIndexOf("("))
             {
-                measurementArray =
-                        (groupId.substring(groupId.indexOf("(") + 1, groupId.lastIndexOf(")"))).split("\\|");
+                if (groupId.indexOf("|") != -1 || groupId.indexOf("(") != groupId.lastIndexOf("(")
+                        && (groupId.charAt(0) == '(')
+                        && (groupId.charAt((groupId.length() - 1)) == ')'))
+
+                {
+                    measurementArray =
+                            (groupId.substring(groupId.indexOf("(") + 1, groupId.lastIndexOf(")"))).split("\\|");
+                }
             }
 
             List<String> measurementDataList = new ArrayList<String>();
