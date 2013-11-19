@@ -19,29 +19,43 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
 import jp.co.acroquest.endosnipe.collector.config.DataCollectorConfig;
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
-import jp.co.acroquest.endosnipe.report.Reporter;
+import jp.co.acroquest.endosnipe.data.dao.JavelinMeasurementItemDao;
+import jp.co.acroquest.endosnipe.report.ReporterThread;
 import jp.co.acroquest.endosnipe.web.dashboard.config.DataBaseConfig;
 import jp.co.acroquest.endosnipe.web.dashboard.constants.LogMessageCodes;
+import jp.co.acroquest.endosnipe.web.dashboard.dao.PropertySettingDao;
 import jp.co.acroquest.endosnipe.web.dashboard.dao.ReportDefinitionDao;
+import jp.co.acroquest.endosnipe.web.dashboard.dao.SchedulingReportDefinitionDao;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.ReportDefinitionDto;
+import jp.co.acroquest.endosnipe.web.dashboard.dto.SchedulingReportDefinitionDto;
+import jp.co.acroquest.endosnipe.web.dashboard.dto.TreeMenuDto;
+import jp.co.acroquest.endosnipe.web.dashboard.entity.PropertySettingDefinition;
 import jp.co.acroquest.endosnipe.web.dashboard.entity.ReportDefinition;
+import jp.co.acroquest.endosnipe.web.dashboard.entity.SchedulingReportDefinition;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.DatabaseManager;
+import jp.co.acroquest.endosnipe.web.dashboard.manager.EventManager;
+import jp.co.acroquest.endosnipe.web.dashboard.manager.ResourceSender;
+import jp.co.acroquest.endosnipe.web.dashboard.util.ReportUtil;
 
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+import org.wgp.manager.WgpDataManager;
 
 /**
  * レポート出力機能のサービスクラス。
@@ -72,10 +86,116 @@ public class ReportService
     private static final String FOLDER_SEPARATOR = File.separator;
 
     /**
+     * Format of Time
+     */
+    private static final String TIME_FORMAT = "HH:mm";
+
+    /** レポート情報Dao */
+    @Autowired
+    protected SchedulingReportDefinitionDao schedulingReportDefinitionDao;
+
+    /** Property Setting Dao */
+    @Autowired
+    protected PropertySettingDao propertySettingDao;
+
+    /**
+     * Set day into schedulingdto
+     */
+    private final Map<String, Integer> dayMap_ = new HashMap<String, Integer>();
+
+    /**
+     * declare thread List
+     */
+
+    private final List<ReporterThread> reportThreadList_ = new ArrayList<ReporterThread>();
+
+    /**
      * デフォルトコンストラクタ。
      */
     public ReportService()
     {
+        this.dayMap_.put("Sunday", Calendar.SUNDAY);
+        this.dayMap_.put("Monday", Calendar.MONDAY);
+        this.dayMap_.put("Tuesday", Calendar.TUESDAY);
+        this.dayMap_.put("Wednesday", Calendar.WEDNESDAY);
+        this.dayMap_.put("Thursday", Calendar.THURSDAY);
+        this.dayMap_.put("Friday", Calendar.FRIDAY);
+        this.dayMap_.put("Saturday", Calendar.SATURDAY);
+    }
+
+    /**
+     * Run Thread to export report
+     */
+    public void runThread()
+    {
+        PropertySettingDefinition simulExecution =
+                propertySettingDao.selectByKey("simulExecutionNum");
+        int simulExecutionNum = 0;
+        if (simulExecution != null && simulExecution.value != null)
+        {
+            simulExecutionNum = Integer.parseInt(simulExecution.value);
+        }
+        DatabaseManager manager = DatabaseManager.getInstance();
+        DataBaseConfig dbConfig = manager.getDataBaseConfig();
+
+        if (simulExecutionNum == 0)
+        {
+            simulExecutionNum = 1;
+        }
+        if (simulExecutionNum > 0)
+        {
+            DataCollectorConfig dataCollectorConfig = this.convertDataCollectorConfig(dbConfig);
+            for (int threadNum = 0; threadNum < simulExecutionNum; threadNum++)
+            {
+                ReporterThread report = new ReporterThread();
+                Thread reportThread = new Thread(new ReporterThread(dataCollectorConfig));
+                reportThreadList_.add(report);
+                report.isRunningThread = true;
+                reportThread.start();
+            }
+        }
+    }
+
+    /**
+     * Stop thread to export report
+     */
+    public void stopThread()
+    {
+        for (int indexThread = 0; indexThread < reportThreadList_.size(); indexThread++)
+        {
+            reportThreadList_.get(indexThread).stopThread();
+        }
+    }
+
+    /**
+     * レポートを作成する。
+     * 
+     * @param reportDefinitionDto レポート出力の定義
+     */
+    public static void createReport(final ReportDefinitionDto reportDefinitionDto)
+    {
+
+        ReportUtil.createReport(reportDefinitionDto);
+
+    }
+
+    /**
+     * 
+     * @param dataBaseConfig configuration for database
+     * @return DataCollectorConfig
+     */
+
+    private DataCollectorConfig convertDataCollectorConfig(final DataBaseConfig dataBaseConfig)
+    {
+        DataCollectorConfig dataCollectorConfig = new DataCollectorConfig();
+        dataCollectorConfig.setDatabaseHost(dataBaseConfig.getDatabaseHost());
+        dataCollectorConfig.setDatabaseName(dataBaseConfig.getDatabaseName());
+        dataCollectorConfig.setDatabasePassword(dataBaseConfig.getDatabasePassword());
+        dataCollectorConfig.setDatabasePort(dataBaseConfig.getDatabasePort());
+        dataCollectorConfig.setDatabaseType(dataBaseConfig.getDatabaseType());
+        dataCollectorConfig.setDatabaseUserName(dataBaseConfig.getDatabaseUserName());
+
+        return dataCollectorConfig;
     }
 
     /**
@@ -107,7 +227,8 @@ public class ReportService
 
         for (ReportDefinition reportDefinitioin : reportList)
         {
-            ReportDefinitionDto reportDto = this.convertReportDifinitionDto(reportDefinitioin);
+            ReportDefinitionDto reportDto =
+                    ReportUtil.convertReportDifinitionDto(reportDefinitioin);
             definitionDtoList.add(reportDto);
         }
 
@@ -130,7 +251,7 @@ public class ReportService
         for (int index = 0; index < definitionDtosLength; index++)
         {
             ReportDefinition definition = definitionDtos.get(index);
-            ReportDefinitionDto definitionDto = this.convertReportDifinitionDto(definition);
+            ReportDefinitionDto definitionDto = ReportUtil.convertReportDifinitionDto(definition);
             reportDefinitionDtos.add(definitionDto);
         }
 
@@ -146,7 +267,8 @@ public class ReportService
     public ReportDefinitionDto getReportByReportId(final int reportId)
     {
         ReportDefinition reportDefinition = reportDefinitionDao.selectById(reportId);
-        ReportDefinitionDto reportDefinitionDto = this.convertReportDifinitionDto(reportDefinition);
+        ReportDefinitionDto reportDefinitionDto =
+                ReportUtil.convertReportDifinitionDto(reportDefinition);
 
         return reportDefinitionDto;
     }
@@ -169,37 +291,56 @@ public class ReportService
             return new ReportDefinitionDto();
         }
 
-        ReportDefinitionDto reportDefinitionDto = this.convertReportDifinitionDto(reportDefinition);
+        ReportDefinitionDto reportDefinitionDto =
+                ReportUtil.convertReportDifinitionDto(reportDefinition);
 
         return reportDefinitionDto;
     }
 
     /**
-     * レポートを作成する。
-     * 
-     * @param reportDefinitionDto レポート出力の定義
+     * Check same report Name
+     * @param reportId got from database
+     * @param reportName got from database
+     * @return duplicate or not.
      */
-    public void createReport(final ReportDefinitionDto reportDefinitionDto)
+    public boolean hasSameSignalName(final long reportId, final String reportName)
     {
+        SchedulingReportDefinition schedulingReportDefinition =
+                this.schedulingReportDefinitionDao.selectByName(reportName);
+        if (schedulingReportDefinition == null)
+        {
+            // 同一シグナル名を持つ閾値判定定義情報が存在しない場合
+            return false;
+        }
+        else if (schedulingReportDefinition.reportId_ == reportId)
+        {
+            // シグナル名が一致する閾値判定定義情報が更新対象自身の場合
+            return false;
+        }
+        return true;
+    }
 
-        Reporter reporter = new Reporter();
-
-        DatabaseManager dbMmanager = DatabaseManager.getInstance();
-        Calendar fmTime = reportDefinitionDto.getReportTermFrom();
-        Calendar toTime = reportDefinitionDto.getReportTermTo();
-        String targetItemName = reportDefinitionDto.getTargetMeasurementName();
-        String reportNamePath = reportDefinitionDto.getReportName();
-        String[] reportNameSplitList = reportNamePath.split("/");
-        int reportNameSplitLength = reportNameSplitList.length;
-        String reportName = reportNameSplitList[reportNameSplitLength - 1];
-
-        DataBaseConfig dataBaseConfig = dbMmanager.getDataBaseConfig();
-        DataCollectorConfig dataCollecterConfig = this.convertDataCollectorConfig(dataBaseConfig);
-        String tempDirectory = System.getProperty("java.io.tmpdir");
-        this.deleteTempFile(tempDirectory);
-        reporter.createReport(dataCollecterConfig, fmTime, toTime, REPORT_PATH, targetItemName,
-                              reportName);
-        this.deleteTempFile(tempDirectory);
+    /**
+     * Check same report Name
+     * @param reportId got from database
+     * @param reportName got from database
+     * @return duplicate or not.
+     */
+    public boolean hasSameReportName(final long reportId, final String reportName)
+    {
+        SchedulingReportDefinition schedulingReportDefinition =
+                this.schedulingReportDefinitionDao.selectByName(reportName);
+        if (schedulingReportDefinition == null)
+        {
+            // 同一シグナル名を持つ閾値判定定義情報が存在しない場合
+            return true;
+        }
+        /* else if (schedulingReportDefinition.reportId_ == reportId)
+         {
+             // シグナル名が一致する閾値判定定義情報が更新対象自身の場合
+             return false;
+         }*/
+        return false;
     }
 
     /**
@@ -226,44 +367,8 @@ public class ReportService
 
         reportDefinition.fmTime_ = dateFormat.format(fmTimeCal.getTime());
         reportDefinition.toTime_ = dateFormat.format(toTimeCal.getTime());
-
+        reportDefinition.status_ = definitionDto.getStatus();
         return reportDefinition;
-    }
-
-    /**
-     * ReportDefinitionオブジェクトをReportDefinitionDtoオブジェクトに変換する。
-     * 
-     * @param reportDefinition
-     *            ReportDefinitionオブジェクト
-     * @return ReportDefinitionDtoオブジェクト
-     */
-    private ReportDefinitionDto convertReportDifinitionDto(final ReportDefinition reportDefinition)
-    {
-
-        ReportDefinitionDto definitionDto = new ReportDefinitionDto();
-
-        definitionDto.setReportId(reportDefinition.reportId_);
-        definitionDto.setReportName(reportDefinition.reportName_);
-        definitionDto.setTargetMeasurementName(reportDefinition.targetMeasurementName_);
-
-        DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
-
-        Calendar fmTime = Calendar.getInstance();
-        Calendar toTime = Calendar.getInstance();
-        try
-        {
-            fmTime.setTime(dateFormat.parse(reportDefinition.fmTime_));
-            toTime.setTime(dateFormat.parse(reportDefinition.toTime_));
-        }
-        catch (ParseException ex)
-        {
-            LOGGER.log(LogMessageCodes.UNSUPPORTED_REPORT_FILE_DURATION_FORMAT);
-        }
-
-        definitionDto.setReportTermFrom(fmTime);
-        definitionDto.setReportTermTo(toTime);
-
-        return definitionDto;
     }
 
     /**
@@ -450,25 +555,6 @@ public class ReportService
     }
 
     /**
-     * DataBaseConfigオブジェクトをDataCollectorConfigオブジェクトに変換する。
-     * 
-     * @param dataBaseConfig DataBaseConfigオブジェクト
-     * @return DataCollectorConfigオブジェクト
-     */
-    private DataCollectorConfig convertDataCollectorConfig(final DataBaseConfig dataBaseConfig)
-    {
-        DataCollectorConfig dataCollectorConfig = new DataCollectorConfig();
-        dataCollectorConfig.setDatabaseHost(dataBaseConfig.getDatabaseHost());
-        dataCollectorConfig.setDatabaseName(dataBaseConfig.getDatabaseName());
-        dataCollectorConfig.setDatabasePassword(dataBaseConfig.getDatabasePassword());
-        dataCollectorConfig.setDatabasePort(dataBaseConfig.getDatabasePort());
-        dataCollectorConfig.setDatabaseType(dataBaseConfig.getDatabaseType());
-        dataCollectorConfig.setDatabaseUserName(dataBaseConfig.getDatabaseUserName());
-
-        return dataCollectorConfig;
-    }
-
-    /**
      * ファイルの絶対パスを取得する。
      * 
      * @param fileName ファイル名
@@ -485,6 +571,228 @@ public class ReportService
                         + FOLDER_SEPARATOR + fileName;
 
         return filePath;
+    }
+
+    /**
+     * get all schedule data.
+     * @return all schedule data
+     */
+    public List<SchedulingReportDefinitionDto> getAllSchedule()
+    {
+
+        List<SchedulingReportDefinition> reportList = null;
+        try
+        {
+            reportList = schedulingReportDefinitionDao.selectAll();
+        }
+        catch (PersistenceException pEx)
+        {
+            Throwable cause = pEx.getCause();
+            if (cause instanceof SQLException)
+            {
+                SQLException sqlEx = (SQLException)cause;
+                LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx, sqlEx.getMessage());
+            }
+            LOGGER.log(LogMessageCodes.SQL_EXCEPTION, pEx, pEx.getMessage());
+
+            return new ArrayList<SchedulingReportDefinitionDto>();
+        }
+
+        List<SchedulingReportDefinitionDto> definitionDtoList =
+                new ArrayList<SchedulingReportDefinitionDto>();
+
+        for (SchedulingReportDefinition reportDefinitioin : reportList)
+        {
+            SchedulingReportDefinitionDto reportDto =
+                    this.convertSchedulingReportDifinitionDto(reportDefinitioin);
+            definitionDtoList.add(reportDto);
+        }
+        return definitionDtoList;
+    }
+
+    /**
+     * insert scheuling report.
+     * @param schedulingReportDefinition is used
+     * @return is used
+     */
+    public SchedulingReportDefinitionDto insertSchedulingReport(
+            final SchedulingReportDefinition schedulingReportDefinition)
+    {
+        try
+        {
+            schedulingReportDefinitionDao.insert(schedulingReportDefinition);
+        }
+        catch (DuplicateKeyException dkEx)
+        {
+            LOGGER.log(LogMessageCodes.SQL_EXCEPTION, dkEx, dkEx.getMessage());
+            return new SchedulingReportDefinitionDto();
+        }
+
+        SchedulingReportDefinitionDto schedulingReportDefinitionDto =
+                this.convertSchedulingReportDifinitionDto(schedulingReportDefinition);
+
+        return schedulingReportDefinitionDto;
+    }
+
+    /**
+     * get scheduling info.
+     * @param reportId got from database
+     * @return schedulingreport
+     */
+    public SchedulingReportDefinitionDto getSchedulingInfo(final int reportId)
+    {
+        SchedulingReportDefinition schedulingReportDefinition =
+                schedulingReportDefinitionDao.selectById(reportId);
+        SchedulingReportDefinitionDto schedulingReportDefinitionDto =
+                this.convertSchedulingReportDifinitionDto(schedulingReportDefinition);
+        return schedulingReportDefinitionDto;
+    }
+
+    /**
+     * update scheduling data
+     * @param schedulingReportDefinition got from database
+     * @return scheduling report
+     */
+    public SchedulingReportDefinitionDto updateSchedulingInfo(
+            final SchedulingReportDefinition schedulingReportDefinition)
+    {
+        try
+        {
+            SchedulingReportDefinition beforeSignalInfo =
+                    schedulingReportDefinitionDao.selectByName(schedulingReportDefinition.reportName_);
+            if (beforeSignalInfo == null)
+            {
+                return new SchedulingReportDefinitionDto();
+            }
+
+            schedulingReportDefinitionDao.update(schedulingReportDefinition);
+
+            String beforeItemName = beforeSignalInfo.reportName_;
+            String afterItemName = schedulingReportDefinition.reportName_;
+
+            this.updateMeasurementItemName(beforeItemName, afterItemName);
+        }
+        catch (PersistenceException pEx)
+        {
+            Throwable cause = pEx.getCause();
+            if (cause instanceof SQLException)
+            {
+                SQLException sqlEx = (SQLException)cause;
+                LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx, sqlEx.getMessage());
+            }
+            else
+            {
+                LOGGER.log(LogMessageCodes.SQL_EXCEPTION, pEx, pEx.getMessage());
+            }
+
+            return new SchedulingReportDefinitionDto();
+        }
+        catch (SQLException sqlEx)
+        {
+            LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx, sqlEx.getMessage());
+            return new SchedulingReportDefinitionDto();
+        }
+
+        SchedulingReportDefinitionDto signalDefinitionDto =
+                this.convertSchedulingReportDifinitionDto(schedulingReportDefinition);
+        // 各クライアントにシグナル定義の変更を送信する。
+        sendSignalDefinition(signalDefinitionDto, "update");
+
+        return signalDefinitionDto;
+    }
+
+    /**
+     * 
+     * @param schedulingDefinitionDto is used
+     * @return is used
+     */
+    public SchedulingReportDefinition convertSchedulingReportDefinition(
+            final SchedulingReportDefinitionDto schedulingDefinitionDto)
+    {
+        SchedulingReportDefinition schedulingReportDefinition = new SchedulingReportDefinition();
+        schedulingReportDefinition.reportId_ = schedulingDefinitionDto.getReportId();
+        schedulingReportDefinition.reportName_ = schedulingDefinitionDto.getReportName();
+        schedulingReportDefinition.targetMeasurementName_ =
+                schedulingDefinitionDto.getTargetMeasurementName();
+        schedulingReportDefinition.term_ = schedulingDefinitionDto.getTerm();
+        schedulingReportDefinition.day_ = schedulingDefinitionDto.getDay();
+        Calendar time = schedulingDefinitionDto.getTime();
+
+        DateFormat timeFormat = new SimpleDateFormat(TIME_FORMAT);
+        schedulingReportDefinition.time_ = timeFormat.format(time.getTime());
+        schedulingReportDefinition.date_ = schedulingDefinitionDto.getDate();
+
+        Calendar currentTimeCalendar = Calendar.getInstance();
+        Calendar lastExportedTimeCalendar = Calendar.getInstance();
+        lastExportedTimeCalendar.set(Calendar.HOUR_OF_DAY, time.get(Calendar.HOUR_OF_DAY));
+        lastExportedTimeCalendar.set(Calendar.MINUTE, time.get(Calendar.MINUTE));
+
+        int date = 0;
+
+        if ("DAILY".equals(schedulingReportDefinition.term_))
+        {
+            long scheduleTimeLong = lastExportedTimeCalendar.getTimeInMillis();
+            long currentTimeLong = currentTimeCalendar.getTimeInMillis();
+
+            if (scheduleTimeLong <= currentTimeLong)
+            {
+                lastExportedTimeCalendar.add(Calendar.DAY_OF_MONTH, 1);
+            }
+        }
+        else if ("WEEKLY".equals(schedulingReportDefinition.term_))
+        {
+            if (schedulingReportDefinition.day_ != null)
+            {
+                dayMap_.get(schedulingReportDefinition.day_);
+                int lastExportedDay =
+                        (dayMap_.get(schedulingReportDefinition.day_))
+                                - lastExportedTimeCalendar.get(Calendar.DAY_OF_WEEK);
+                lastExportedTimeCalendar.add(Calendar.DAY_OF_MONTH, lastExportedDay);
+                long scheduleTimeLong = lastExportedTimeCalendar.getTimeInMillis();
+                long currentTimeLong = currentTimeCalendar.getTimeInMillis();
+
+                if (scheduleTimeLong <= currentTimeLong)
+                {
+                    lastExportedTimeCalendar.add(Calendar.DAY_OF_MONTH, 7);
+                }
+            }
+        }
+        else if ("MONTHLY".equals(schedulingReportDefinition.term_))
+        {
+            if (schedulingReportDefinition.date_ != null)
+            {
+                date = Integer.parseInt(schedulingReportDefinition.date_);
+                if (Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH) < date)
+                {
+                    lastExportedTimeCalendar.set(Calendar.DAY_OF_MONTH,
+                                                 Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH));
+                }
+                else
+                {
+                    lastExportedTimeCalendar.set(Calendar.DAY_OF_MONTH, date);
+                }
+
+                long scheduleTimeLong = lastExportedTimeCalendar.getTimeInMillis();
+                long currentTimeLong = currentTimeCalendar.getTimeInMillis();
+                if (currentTimeLong >= scheduleTimeLong)
+                {
+                    lastExportedTimeCalendar.add(Calendar.MONTH, 1);
+                }
+            }
+        }
+
+        if (date > lastExportedTimeCalendar.get(Calendar.DAY_OF_MONTH)
+                && (lastExportedTimeCalendar.getActualMaximum(Calendar.DAY_OF_MONTH)) >= date)
+
+        {
+
+            lastExportedTimeCalendar.set(Calendar.DAY_OF_MONTH, date);
+
+        }
+
+        Timestamp lastExportedTime = new Timestamp(lastExportedTimeCalendar.getTimeInMillis());
+        schedulingReportDefinition.lastExportedTime_ = lastExportedTime;
+        return schedulingReportDefinition;
     }
 
     /**
@@ -509,34 +817,101 @@ public class ReportService
         {
             return true;
         }
-        else
-        {
-            return false;
-        }
+
+        return false;
 
     }
 
     /**
-     * This function is delete temp file in the temp directory
-     * 
-     * @param tempDirectory get temp file
-     */
-    private void deleteTempFile(final String tempDirectory)
+    * convert into scheduling report dto.
+    * @param schedulingReportDefinition is used
+    * @return is used
+    */
+    private SchedulingReportDefinitionDto convertSchedulingReportDifinitionDto(
+            final SchedulingReportDefinition schedulingReportDefinition)
     {
-        File directory = new File(tempDirectory);
-        File[] files = directory.listFiles();
-        for (File file : files)
+        SchedulingReportDefinitionDto schedulingDefinitionDto = new SchedulingReportDefinitionDto();
+        schedulingDefinitionDto.setReportId(schedulingReportDefinition.reportId_);
+        schedulingDefinitionDto.setReportName(schedulingReportDefinition.reportName_);
+        schedulingDefinitionDto.setTargetMeasurementName(schedulingReportDefinition.targetMeasurementName_);
+        schedulingDefinitionDto.setTerm(schedulingReportDefinition.term_);
+        schedulingDefinitionDto.setDay(schedulingReportDefinition.day_);
+        schedulingDefinitionDto.setDate(schedulingReportDefinition.date_);
+
+        DateFormat timeFormat = new SimpleDateFormat(TIME_FORMAT);
+
+        Calendar time = Calendar.getInstance();
+        try
         {
-            if (file.isFile())
-            {
-                String fileName = file.getAbsolutePath();
-                if (fileName.endsWith(".xls"))
-                {
-                    file.delete();
-                }
-            }
+            time.setTime(timeFormat.parse(schedulingReportDefinition.time_));
+        }
+        catch (ParseException ex)
+        {
+            LOGGER.log(LogMessageCodes.UNSUPPORTED_REPORT_FILE_DURATION_FORMAT);
         }
 
+        schedulingDefinitionDto.setTime(time);
+
+        return schedulingDefinitionDto;
     }
 
+    /**
+     * delete scheduling report.
+     * @param reportId got from database
+     */
+    public void deleteSchduleReportById(final int reportId)
+    {
+        try
+        {
+            // レポートIDに該当するレポート定義を削除する
+            schedulingReportDefinitionDao.deleteById(reportId);
+        }
+        catch (PersistenceException pEx)
+        {
+            Throwable cause = pEx.getCause();
+            if (cause instanceof SQLException)
+            {
+                SQLException sqlEx = (SQLException)cause;
+                LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx, sqlEx.getMessage());
+            }
+            else
+            {
+                LOGGER.log(LogMessageCodes.SQL_EXCEPTION, pEx, pEx.getMessage());
+            }
+        }
+    }
+
+    /**
+     * send signal definition.
+     * @param schedulingDefinitionDto got from database
+     * @param type is used
+     */
+    private void sendSignalDefinition(final SchedulingReportDefinitionDto schedulingDefinitionDto,
+            final String type)
+    {
+        // 各クライアントにシグナル定義の追加を通知する。
+        EventManager eventManager = EventManager.getInstance();
+        WgpDataManager dataManager = eventManager.getWgpDataManager();
+        ResourceSender resourceSender = eventManager.getResourceSender();
+        if (dataManager != null && resourceSender != null)
+        {
+            List<TreeMenuDto> treeMenuDtoList = new ArrayList<TreeMenuDto>();
+            resourceSender.send(treeMenuDtoList, type);
+        }
+    }
+
+    /**
+         * update measurement item.
+         * @param beforeItemName before item
+         * @param afterItemName after item
+         * @throws SQLException is used
+         */
+    private void updateMeasurementItemName(final String beforeItemName, final String afterItemName)
+        throws SQLException
+    {
+        DatabaseManager dbMmanager = DatabaseManager.getInstance();
+        String dbName = dbMmanager.getDataBaseName(1);
+
+        JavelinMeasurementItemDao.updateMeasurementItemName(dbName, beforeItemName, afterItemName);
+    }
 }

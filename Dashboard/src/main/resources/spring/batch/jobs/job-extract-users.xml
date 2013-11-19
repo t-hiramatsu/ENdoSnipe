@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:batch="http://www.springframework.org/schema/batch" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/batch 
+		http://www.springframework.org/schema/batch/spring-batch-2.2.xsd
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/util 
+		http://www.springframework.org/schema/util/spring-util-3.2.xsd
+		">
+
+	<import resource="../config/context.xml" />
+	<import resource="../config/database.xml" />
+
+<bean id="pagingItemReader"
+	class="org.springframework.batch.item.database.JdbcPagingItemReader"
+	scope="step">
+	<property name="dataSource" ref="dataSource" />
+	<property name="queryProvider">
+	  <bean
+		class="org.springframework.batch.item.database.support.SqlPagingQueryProviderFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="selectClause" value="select REPORT_ID,REPORT_NAME,TARGET_MEASUREMENT_NAME,SCHEDULE_TERM,SCHEDULE_TIME,SCHEDULE_DAY,SCHEDULE_DATE,LAST_EXPORT_REPORT_TIME" />
+		<property name="fromClause" value="from SCHEDULING_REPORT_DEFINITION" />
+		<property name="whereClause" value="where to_char(last_export_report_time, 'YYYY-MM-DD HH24:MI:SS') &lt;=:time" />
+		<property name="sortKey" value="report_id" />
+	  </bean>
+	</property>
+	<!-- <if test="time.equals('DAILY')">
+	</if> -->
+	<property name="parameterValues">
+	   <map>
+		<entry key="time" value="#{jobParameters['currentTime']}" />
+	   </map>
+	</property>
+	<property name="pageSize" value="10" />
+	<property name="rowMapper">
+		<bean class="jp.co.acroquest.endosnipe.web.dashboard.service.ScheduleRowMapper" />
+	</property>
+  </bean>
+  
+	<job id="testJob" xmlns="http://www.springframework.org/schema/batch">
+		<step id="step1">
+			<tasklet>
+				<chunk reader="pagingItemReader" writer="itemWriter"
+					commit-interval="1" />
+			</tasklet>
+		</step>
+	</job>
+
+	<bean id="itemWriter" class="org.springframework.batch.item.xml.StaxEventItemWriter">
+	<property name="resource" value="file:xml/outputs/users.xml" />
+	<property name="marshaller" ref="userUnmarshaller" />
+	<property name="rootTagName" value="users" />
+	</bean>
+
+	<bean id="userUnmarshaller" class="org.springframework.oxm.xstream.XStreamMarshaller">
+		<property name="aliases">
+			<util:map id="aliases">
+				<entry key="user"
+					value="jp.co.acroquest.endosnipe.web.dashboard.dto.SchedulingReportDefinitionDto" />
+			</util:map>
+		</property>
+	</bean>
+
+</beans>

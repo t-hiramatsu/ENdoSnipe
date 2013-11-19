@@ -35,6 +35,8 @@ public class ReportDefinition
     /** 期間の終わりの日時。 */
     public String toTime_;
 
+    public String status_;
+
     /**
      * {@link SignalInfo} オブジェクトを生成します。<br />
      */
@@ -47,8 +49,8 @@ public class ReportDefinition
     public String toString()
     {
         return String.format("ReportID%d ReportName:%s TargetMeasurementName:%s "
-                                     + "FmTime:%s ToTime:%s", reportId_, reportName_,
-                             targetMeasurementName_, fmTime_,
-                             toTime_);
+                                     + "FmTime:%s ToTime:%s Status:%s", reportId_, reportName_,
+                             targetMeasurementName_,
+                             fmTime_, toTime_, status_);
     }
 }

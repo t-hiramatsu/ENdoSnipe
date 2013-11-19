@@ -83,6 +83,21 @@ ENS.nodeThreadDumpParentView = {
 	collection : [ ENS.nodeThreadDumpParentElem ]
 };
 
+ENS.schedulingReportParentElem = {
+		viewClassName : "ENS.schedulingReportView",
+		viewAttribute : {
+			term : 1800,
+			maxLineNum : 20
+		}
+	};
+
+ENS.schedulingReportParentView = {
+		viewClassName : "wgp.MultiAreaView",
+		rootView : appView,
+		tabTitle : "Scheduling Report",
+		collection : [ ENS.schedulingReportParentElem ]
+	};
+
 ENS.nodeSqlPlantView = {
 	viewClassName : "wgp.MultiAreaView",
 	rootView : appView,
@@ -94,14 +109,14 @@ ENS.nodeTabView = {
 	viewClassName : "wgp.TabView",
 	rootView : appView,
 	collection : [ ENS.nodeInfoField, ENS.nodePerfDoctorParentView,
-			ENS.nodeThreadDumpParentView ]
+			ENS.schedulingReportParentView, ENS.nodeThreadDumpParentView ]
 };
 
 ENS.sqlPlanTabView = {
 	viewClassName : "wgp.TabView",
 	rootView : appView,
-	collection : [ ENS.nodeInfoField, ENS.nodePerfDoctorParentView,
-			ENS.nodeSqlPlantView, ENS.nodeThreadDumpParentView ]
+	collection : [ ENS.nodeInfoField, ENS.nodePerfDoctorParentView, ENS.schedulingReportParentView,
+			ENS.nodeSqlPlantView, ENS.nodeThreadDumpParentView, ]
 };
 
 ENS.reportParentElem = {
@@ -118,6 +133,20 @@ ENS.reportParentView = {
 	collection : [ ENS.reportParentElem ]
 };
 
+ENS.schedulingReportNodeParentElem = {
+		viewClassName : "ENS.schedulingReportView",
+		viewAttribute : {
+			term : 1800,
+			maxLineNum : 20
+		}
+	};
+
+ENS.schedulingReportNodeParentView = {
+		viewClassName : "wgp.MultiAreaView",
+		rootView : appView,
+		tabTitle : "Scheduling Report",
+		collection : [ ENS.schedulingReportParentElem ]
+	};
 ENS.ResourceMapField = {
 	viewClassName : "ENS.ResourceMapView",
 	rootView : appView,
@@ -129,6 +158,7 @@ if (!wgp.constants.VIEW_SETTINGS) {
 }
 wgp.constants.VIEW_SETTINGS = $.extend(wgp.constants.VIEW_SETTINGS, {
 	"reportNode-" : ENS.reportParentView,
+	"schedulingReportNode-" : ENS.schedulingReportNodeParentView,
 	"/jdbc/[^/]+/[^/]+/[^/]+" : ENS.nodeTabView,
 	"/jdbc/[^/]+/[^/]+" : ENS.sqlPlanTabView,
 	"default" : ENS.nodeTabView,
