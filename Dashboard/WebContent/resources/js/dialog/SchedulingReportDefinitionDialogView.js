@@ -33,6 +33,34 @@ ENS.SchedulingReportDialogView = ENS.DialogView
 														alert("Don't use '/'or'\\' in 'Scheduling Report Name'.");
 														return;
 													}
+													var schedulingTime = $(
+													"#schedulingReportSelectedTimeId")
+													.val();
+											if (schedulingTime === "") {
+												alert("please select hours and minutes'.");
+												return;
+											}
+											var schedulingMinuteTime = $(
+											"#schedulingReportSelectedTimeMinuteId")
+											.val();
+											if (schedulingMinuteTime === "") {
+												alert("please select hours and minutes'.");
+												return;
+											}
+											var schedulingDay = $(
+											"#schedulingReportSelectedWeeklyId")
+											.val();
+											if (schedulingDay === "") {
+												alert("please select Day for weekly'.");
+												return;
+											}
+											var schedulingDate = $(
+											"#schedulingReportSelectedMonthlyId")
+											.val();
+											if (schedulingDate === "") {
+												alert("please select date for monthly'.");
+												return;
+											}
 													if (option.signalType == ENS.tree.EDIT_SCHEDULE_TYPE) {
 
 														var reportFullName = $(

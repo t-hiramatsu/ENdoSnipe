@@ -52,11 +52,14 @@ public class Reporter {
 	public Reporter() {
 
 	}
+
 	public void createReport(DataCollectorConfig config, Calendar fmTime,
 			Calendar toTime, String reportPath, String targetItemName,
 			String reportName) {
-		createReport(config, fmTime, toTime, reportPath, targetItemName, reportName, null);
+		createReport(config, fmTime, toTime, reportPath, targetItemName,
+				reportName, null);
 	}
+
 	/**
 	 * レポート作成を行います。<br/>
 	 * 
@@ -160,12 +163,14 @@ public class Reporter {
 
 			LOGGER.log(LogIdConstants.REPORT_PUBLISH_STOPPED_WARN,
 					outputDirFullPath + leafDirectoryName);
-			reportDao.changeStatus(dbName, status, targetItemName, startTime, endTime);
+			reportDao.changeStatus(dbName, status, targetItemName, startTime,
+					endTime);
 			return;
 		}
 
 		// khine Wai Oo
-		reportDao.changeStatus(dbName, status, targetItemName, startTime, endTime);
+		reportDao.changeStatus(dbName, status, targetItemName, startTime,
+				endTime);
 		// zip圧縮する
 		Project project = new Project();
 		project.init();
@@ -190,6 +195,7 @@ public class Reporter {
 			LOGGER.log(LogIdConstants.FAIL_TO_ZIP, outputDirFullPath
 					+ leafDirectoryName);
 		}
+
 	}
 
 	/**
@@ -249,6 +255,6 @@ public class Reporter {
 		String reportName = "test";
 		String status = "failed";
 		reporter.createReport(config, fmTime, toTime, reportPath,
-				targetItemName, reportName,status);
+				targetItemName, reportName, status);
 	}
 }
