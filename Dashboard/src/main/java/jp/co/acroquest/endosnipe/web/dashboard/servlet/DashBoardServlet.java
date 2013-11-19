@@ -38,6 +38,7 @@ import jp.co.acroquest.endosnipe.web.dashboard.config.AgentSetting;
 import jp.co.acroquest.endosnipe.web.dashboard.config.DataBaseConfig;
 import jp.co.acroquest.endosnipe.web.dashboard.constants.LogMessageCodes;
 import jp.co.acroquest.endosnipe.web.dashboard.listener.collector.AlarmNotifyListener;
+import jp.co.acroquest.endosnipe.web.dashboard.listener.collector.AlarmThreadDumpNotifyListener;
 import jp.co.acroquest.endosnipe.web.dashboard.listener.collector.CollectorListener;
 import jp.co.acroquest.endosnipe.web.dashboard.listener.collector.SignalStateChangeListener;
 import jp.co.acroquest.endosnipe.web.dashboard.listener.collector.SummarySignalStateChangeListener;
@@ -84,6 +85,7 @@ public class DashBoardServlet extends HttpServlet
         // DBの設定が行われるのを待ち続ける。
         while (true)
         {
+
             DatabaseManager manager = DatabaseManager.getInstance();
             dbConfig = manager.getDataBaseConfig();
             if (dbConfig != null)
@@ -128,6 +130,7 @@ public class DashBoardServlet extends HttpServlet
                 client.addTelegramListener(new SummarySignalStateChangeListener());
                 client.addTelegramListener(new TreeStateAddListener());
                 client.addTelegramListener(new TreeStateDeleteListener());
+                client.addTelegramListener(new AlarmThreadDumpNotifyListener());
 
                 ConnectNotifyData connectNotify = new ConnectNotifyData();
                 connectNotify.setKind(ConnectNotifyData.KIND_CONTROLLER);
@@ -152,6 +155,7 @@ public class DashBoardServlet extends HttpServlet
             connectNotify.setPurpose(ConnectNotifyData.PURPOSE_GET_DATABASE);
             connectNotify.setAgentName("noDatabase");
             client.addTelegramListener(new JavelinNotifyListener());
+            client.addTelegramListener(new AlarmThreadDumpNotifyListener());
 
             client.connect(connectNotify);
             clientList.add(client);

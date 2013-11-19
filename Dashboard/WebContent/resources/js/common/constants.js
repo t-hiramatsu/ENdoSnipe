@@ -38,6 +38,11 @@ ENS.URL = {};
 ENS.URL.TERM_PERFDOCTOR_DATA_URL = "/performanceDoctor/getPerfDoctor";
 ENS.URL.PERFDOCTOR_POSTFIX_ID = "/performanceDoctor";
 
+ENS.URL.TERM_THREADDUMP_DATA_URL = "/threadDump/getThreadDump";
+ENS.URL.THREADDUMP_POSTFIX_ID = "/threadDump";
+ENS.URL.JVN_LOG_NOTIFY_POSTFIX_ID = "/JvnLog_Notify";
+
+
 ENS.common = {};
 ENS.common.dualslider = {};
 ENS.common.dualslider.scaleUnitStrings = 'hours';// for many hours
@@ -182,6 +187,9 @@ ENS.tree.GET_CHILD_TARGET_NODES = wgp.common.getContextPath()
 		+ "/tree/getChildTargetNodes";
 ENS.tree.GET_ALL_CHILD_NODES = wgp.common.getContextPath()
 		+ "/tree/getAllChildNodes";
+ENS.tree.THREADDUMP_AGENT_SELECT_ALL_URL = wgp.common.getContextPath()
+		+ "/threadDump/selectAllAgent";
+ENS.tree.THREAD_DUMP_CLICK = wgp.common.getContextPath()+"/threadDump/addThreadDump";
 
 ENS.tree.type = {};
 ENS.tree.type.GROUP = "group";
@@ -461,3 +469,4 @@ ENS.svg.attribute = {
 ENS.report = {};
 ENS.report.DOWNLOAD_URL = wgp.common.getContextPath() + "/report/download";
 ENS.perfDoctor = {};
+ENS.threadDump = {};

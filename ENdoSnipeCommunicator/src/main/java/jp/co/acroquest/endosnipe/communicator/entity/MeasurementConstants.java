@@ -304,4 +304,7 @@ public interface MeasurementConstants
 
     /** 計測値種別(スレッド数) */
     int TYPE_BLOCKED_THREADCOUNT = 91;
+    
+    /** 計測値種別(追加項目) */
+    int TYPE_OPTIONAL_RESOURCE = 92;
 }

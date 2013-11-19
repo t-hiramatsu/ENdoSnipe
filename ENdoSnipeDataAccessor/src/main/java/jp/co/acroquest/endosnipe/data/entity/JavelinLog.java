@@ -194,10 +194,260 @@ public class JavelinLog
      * ログ出力しているスレッドのオブジェクト ID 。<br />
      */
     public int threadObjectId;
-    
+
     /**
      * 計測項目の名前。<br />
      */
     public String measurementItemName;
+
+    public long getLogId()
+    {
+        return logId;
+    }
+
+    public void setLogId(long logId)
+    {
+        this.logId = logId;
+    }
+
+    public long getSessionId()
+    {
+        return sessionId;
+    }
+
+    public void setSessionId(long sessionId)
+    {
+        this.sessionId = sessionId;
+    }
+
+    public int getSequenceId()
+    {
+        return sequenceId;
+    }
+
+    public void setSequenceId(int sequenceId)
+    {
+        this.sequenceId = sequenceId;
+    }
+
+    public InputStream getJavelinLog()
+    {
+        return javelinLog;
+    }
+
+    public void setJavelinLog(InputStream javelinLog)
+    {
+        this.javelinLog = javelinLog;
+    }
+
+    public String getLogFileName()
+    {
+        return logFileName;
+    }
+
+    public void setLogFileName(String logFileName)
+    {
+        this.logFileName = logFileName;
+    }
+
+    public Timestamp getStartTime()
+    {
+        return startTime;
+    }
+
+    public void setStartTime(Timestamp startTime)
+    {
+        this.startTime = startTime;
+    }
+
+    public Timestamp getEndTime()
+    {
+        return endTime;
+    }
+
+    public void setEndTime(Timestamp endTime)
+    {
+        this.endTime = endTime;
+    }
+
+    public String getSessionDesc()
+    {
+        return sessionDesc;
+    }
+
+    public void setSessionDesc(String sessionDesc)
+    {
+        this.sessionDesc = sessionDesc;
+    }
+
+    public int getLogType()
+    {
+        return logType;
+    }
+
+    public void setLogType(int logType)
+    {
+        this.logType = logType;
+    }
+
+    public String getCalleeName()
+    {
+        return calleeName;
+    }
+
+    public void setCalleeName(String calleeName)
+    {
+        this.calleeName = calleeName;
+    }
+
+    public String getCalleeSignature()
+    {
+        return calleeSignature;
+    }
+
+    public void setCalleeSignature(String calleeSignature)
+    {
+        this.calleeSignature = calleeSignature;
+    }
+
+    public String getCalleeClass()
+    {
+        return calleeClass;
+    }
+
+    public void setCalleeClass(String calleeClass)
+    {
+        this.calleeClass = calleeClass;
+    }
+
+    public String getCalleeFieldType()
+    {
+        return calleeFieldType;
+    }
+
+    public void setCalleeFieldType(String calleeFieldType)
+    {
+        this.calleeFieldType = calleeFieldType;
+    }
+
+    public int getCalleeObjectId()
+    {
+        return calleeObjectId;
+    }
+
+    public void setCalleeObjectId(int calleeObjectId)
+    {
+        this.calleeObjectId = calleeObjectId;
+    }
+
+    public String getCallerName()
+    {
+        return callerName;
+    }
+
+    public void setCallerName(String callerName)
+    {
+        this.callerName = callerName;
+    }
+
+    public String getCallerSignature()
+    {
+        return callerSignature;
+    }
+
+    public void setCallerSignature(String callerSignature)
+    {
+        this.callerSignature = callerSignature;
+    }
+
+    public String getCallerClass()
+    {
+        return callerClass;
+    }
+
+    public void setCallerClass(String callerClass)
+    {
+        this.callerClass = callerClass;
+    }
+
+    public int getCallerObjectId()
+    {
+        return callerObjectId;
+    }
+
+    public void setCallerObjectId(int callerObjectId)
+    {
+        this.callerObjectId = callerObjectId;
+    }
+
+    public int getEventLevel()
+    {
+        return eventLevel;
+    }
+
+    public void setEventLevel(int eventLevel)
+    {
+        this.eventLevel = eventLevel;
+    }
+
+    public long getElapsedTime()
+    {
+        return elapsedTime;
+    }
+
+    public void setElapsedTime(long elapsedTime)
+    {
+        this.elapsedTime = elapsedTime;
+    }
+
+    public String getModifier()
+    {
+        return modifier;
+    }
+
+    public void setModifier(String modifier)
+    {
+        this.modifier = modifier;
+    }
+
+    public String getThreadName()
+    {
+        return threadName;
+    }
+
+    public void setThreadName(String threadName)
+    {
+        this.threadName = threadName;
+    }
+
+    public String getThreadClass()
+    {
+        return threadClass;
+    }
+
+    public void setThreadClass(String threadClass)
+    {
+        this.threadClass = threadClass;
+    }
+
+    public int getThreadObjectId()
+    {
+        return threadObjectId;
+    }
+
+    public void setThreadObjectId(int threadObjectId)
+    {
+        this.threadObjectId = threadObjectId;
+    }
+
+    public String getMeasurementItemName()
+    {
+        return measurementItemName;
+    }
+
+    public void setMeasurementItemName(String measurementItemName)
+    {
+        this.measurementItemName = measurementItemName;
+    }
 
 }

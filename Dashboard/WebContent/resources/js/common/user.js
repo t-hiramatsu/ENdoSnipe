@@ -57,7 +57,13 @@ ENS.nodePerfDoctorParentElem = {
 		maxLineNum : 20
 	}
 };
-
+ENS.nodeThreadDumpParentElem = {
+	viewClassName : "ENS.threadDumpView",
+	viewAttribute : {
+		term : 1800,
+		maxLineNum : 20
+	}
+};
 ENS.nodeSqlPlanElem = {
 	viewClassName : "ENS.sqlPlanView",
 	viewAttribute : {}
@@ -70,6 +76,13 @@ ENS.nodePerfDoctorParentView = {
 	collection : [ ENS.nodePerfDoctorParentElem ]
 };
 
+ENS.nodeThreadDumpParentView = {
+	viewClassName : "wgp.MultiAreaView",
+	rootView : appView,
+	tabTitle : "Thread Dump",
+	collection : [ ENS.nodeThreadDumpParentElem ]
+};
+
 ENS.nodeSqlPlantView = {
 	viewClassName : "wgp.MultiAreaView",
 	rootView : appView,
@@ -80,14 +93,15 @@ ENS.nodeSqlPlantView = {
 ENS.nodeTabView = {
 	viewClassName : "wgp.TabView",
 	rootView : appView,
-	collection : [ ENS.nodeInfoField, ENS.nodePerfDoctorParentView]
+	collection : [ ENS.nodeInfoField, ENS.nodePerfDoctorParentView,
+			ENS.nodeThreadDumpParentView ]
 };
 
 ENS.sqlPlanTabView = {
 	viewClassName : "wgp.TabView",
 	rootView : appView,
 	collection : [ ENS.nodeInfoField, ENS.nodePerfDoctorParentView,
-			ENS.nodeSqlPlantView ]
+			ENS.nodeSqlPlantView, ENS.nodeThreadDumpParentView ]
 };
 
 ENS.reportParentElem = {
