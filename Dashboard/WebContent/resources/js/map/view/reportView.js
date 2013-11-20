@@ -1,6 +1,7 @@
 ENS.reportView = wgp.AbstractView
 		.extend({
-			tableColNames : [ "Id", "Start Time", "Finish Time", "Download","" ],
+			tableColNames : [ "Id", "Start Time", "Finish Time", "Download",
+					"", "Status" ],
 			initialize : function(argument, treeSettings) {
 				var appView = new ENS.AppView();
 				this.treeSettings = treeSettings;
@@ -87,26 +88,29 @@ ENS.reportView = wgp.AbstractView
 					hidden : true
 				}, {
 					name : "reportTermFrom",
-					width : parseInt(this.tableWidth * 0.38)
+					width : parseInt(this.tableWidth * 0.33)
 				}, {
 					name : "reportTermTo",
-					width : parseInt(this.tableWidth * 0.38)
+					width : parseInt(this.tableWidth * 0.33)
 				}, {
 					name : "download",
-					width : parseInt(this.tableWidth * 0.092),
+					width : parseInt(this.tableWidth * 0.098),
 					formatter : ENS.Utility.makeAnchor,
 					editoptions : {
 						"onclick" : "ENS.report.download",
 						"linkName" : "Download"
 					}
-				},{
+				}, {
 					name : "Delete",
-					width : parseInt(this.tableWidth * 0.092),
+					width : parseInt(this.tableWidth * 0.097),
 					formatter : ENS.Utility.makeAnchor,
 					editoptions : {
 						"onclick" : "ENS.report.deleteNode",
 						"linkName" : "Delete"
 					}
+				}, {
+					name : "status",
+					width : parseInt(this.tableWidth * 0.1)
 				} ];
 			},
 			reloadTable : function() {
@@ -197,12 +201,19 @@ ENS.reportView = wgp.AbstractView
 		});
 
 ENS.report.download = function(id) {
+	
 	var event = {
 		"file_name" : "20130512_133200-20130514_133200.zip"
 	};
 
 	var rowData = $("#reportTable").getRowData(id);
 	var reportId = rowData.reportId;
+	var status= rowData.status;
+	if(status!="completed")
+		{
+		alert("Cannot Download yet because it does not finish to create!");
+		return;
+		}
 	$("input#reportId").val(reportId);
 	$('#btn').click();
 };

@@ -73,6 +73,16 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/ENdoSnipePerfDoctor.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/runtime_registry_compatibility.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/blancosqlformatter-0.1.1_pzc.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-batch-core-2.2.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-batch-infrastructure-2.2.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-beans-3.2.2.RELEASE.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-context-3.2.2.RELEASE.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-context-support-3.2.2.RELEASE.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-core-3.2.2.RELEASE.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-oxm-3.2.2.RELEASE.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-retry-1.0.2.RELEASE.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/xstream-1.3.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/quartz-1.8.6.jar"/>
 	<classpathentry kind="var" path="TOMCAT_HOME/lib/servlet-api.jar"/>
 	<classpathentry kind="var" path="TOMCAT_HOME/lib/jasper.jar"/>
 	<classpathentry kind="var" path="TOMCAT_HOME/lib/jsp-api.jar"/>
