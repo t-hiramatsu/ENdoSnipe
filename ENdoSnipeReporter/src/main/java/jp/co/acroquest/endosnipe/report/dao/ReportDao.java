@@ -5,17 +5,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import jp.co.acroquest.endosnipe.report.entity.ReportItemValue;
 import jp.co.acroquest.endosnipe.common.util.SQLUtil;
 import jp.co.acroquest.endosnipe.data.TableNames;
 import jp.co.acroquest.endosnipe.data.dao.AbstractDao;
 import jp.co.acroquest.endosnipe.data.db.DBManager;
+import jp.co.acroquest.endosnipe.report.entity.ReportItemValue;
 
 /**
  * レポート出力用のDao
@@ -26,6 +28,9 @@ import jp.co.acroquest.endosnipe.data.db.DBManager;
 public class ReportDao extends AbstractDao implements TableNames {
 	/** 最大件数 */
 	public static final int ITEM_COUNT = 200;
+
+	/** 日付のフォーマット。 */
+	private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
 	/** 平均値計算用のSQL */
 	private static final String SQL_AVERAGE = "SELECT"
@@ -45,13 +50,14 @@ public class ReportDao extends AbstractDao implements TableNames {
 			+ "WHERE" //
 			+ "    ji.measurement_item_name = ?" //
 			+ "    AND mv.measurement_item_id = ji.measurement_item_id"
-			+ "    AND" // 
+			+ "    AND" //
 			+ "    (" //
 			+ "        mv.measurement_time BETWEEN ?" + "        AND ?"
-			+ "    ) " + "GROUP BY measurement_index, ji.measurement_item_name "
+			+ "    ) "
+			+ "GROUP BY measurement_index, ji.measurement_item_name "
 			+ "ORDER BY" + "    ji.measurement_item_name, measurement_time";
 
-    /** 合計値計算用のSQL */
+	/** 合計値計算用のSQL */
 	private static final String SQL_SUM = "SELECT"
 			+ "    min(mv.measurement_time) measurement_time"
 			+ "    , ji.measurement_item_name item_name"
@@ -72,10 +78,11 @@ public class ReportDao extends AbstractDao implements TableNames {
 			+ "    AND" //
 			+ "    (" //
 			+ "        mv.measurement_time BETWEEN ?" + "        AND ?"
-			+ "    ) " + "GROUP BY measurement_index, ji.measurement_item_name "
+			+ "    ) "
+			+ "GROUP BY measurement_index, ji.measurement_item_name "
 			+ "ORDER BY" + "    ji.measurement_item_name, measurement_time";
 
-    /** 平均値計算用のSQL(H2) */
+	/** 平均値計算用のSQL(H2) */
 	private static final String SQL_AVERAGE_ALL_H2 = "SELECT"
 			+ "    min(mv.measurement_time) measurement_time"
 			+ "    , case when substring(ji.measurement_item_name, 0, 1) = '/' then '/' "
@@ -95,13 +102,13 @@ public class ReportDao extends AbstractDao implements TableNames {
 			+ "WHERE" //
 			+ "    ji.measurement_item_name = ?" //
 			+ "    AND mv.measurement_item_id = ji.measurement_item_id"
-			+ "    AND" // 
+			+ "    AND" //
 			+ "    (" //
 			+ "        mv.measurement_time BETWEEN ?" + "        AND ?"
 			+ "    ) " + " GROUP BY measurement_index, item_name_head"
 			+ " ORDER BY" + "    measurement_time";
 
-    /** 平均値計算用のSQL(postgres) */
+	/** 平均値計算用のSQL(postgres) */
 	private static final String SQL_AVERAGE_ALL_POSTGRES = "SELECT"
 			+ "    min(mv.measurement_time) measurement_time"
 			+ "    , case when substring(ji.measurement_item_name, 0, 2) = '/' then '/' "
@@ -121,13 +128,13 @@ public class ReportDao extends AbstractDao implements TableNames {
 			+ "WHERE" //
 			+ "    ji.measurement_item_name = ?" //
 			+ "    AND mv.measurement_item_id = ji.measurement_item_id"
-			+ "    AND" // 
+			+ "    AND" //
 			+ "    (" //
 			+ "        mv.measurement_time BETWEEN ?" + "        AND ?"
 			+ "    ) " + " GROUP BY measurement_index, item_name_head"
 			+ " ORDER BY" + "    measurement_time";
 
-    /** 合計値計算用のSQL(H2) */
+	/** 合計値計算用のSQL(H2) */
 	private static final String SQL_SUM_ALL_H2 = "SELECT"
 			+ "    min(mv.measurement_time) measurement_time"
 			+ "    , case when substring(ji.measurement_item_name, 0, 1) = '/' then '/' "
@@ -153,7 +160,7 @@ public class ReportDao extends AbstractDao implements TableNames {
 			+ "    ) " + "GROUP BY measurement_index, item_name_head " //
 			+ "ORDER BY " + "    measurement_time";
 
-    /** 合計値計算用のSQL(postgres) */
+	/** 合計値計算用のSQL(postgres) */
 	private static final String SQL_SUM_ALL_POSTGRES = "SELECT"
 			+ "    min(mv.measurement_time) measurement_time"
 			+ "    , case when substring(ji.measurement_item_name, 0, 2) = '/' then '/' "
@@ -202,10 +209,11 @@ public class ReportDao extends AbstractDao implements TableNames {
 			+ "    AND" //
 			+ "    (" //
 			+ "        mv.measurement_time BETWEEN ?" + "        AND ?"
-			+ "    ) " + "GROUP BY measurement_index, ji.measurement_item_name "
+			+ "    ) "
+			+ "GROUP BY measurement_index, ji.measurement_item_name "
 			+ "ORDER BY" + "    item_name_head, measurement_time";
 
-    /** 例外計算用のSQL(postgres) */
+	/** 例外計算用のSQL(postgres) */
 	private static final String SQL_EXCEPTION_POSTGRES = "SELECT"
 			+ "    min(mv.measurement_time) measurement_time"
 			+ "    , case when substring(ji.measurement_item_name, 0, 2) = '/' then '/' "
@@ -228,7 +236,8 @@ public class ReportDao extends AbstractDao implements TableNames {
 			+ "    AND" //
 			+ "    (" //
 			+ "        mv.measurement_time BETWEEN ?" + "        AND ?"
-			+ "    ) " + "GROUP BY measurement_index, ji.measurement_item_name "
+			+ "    ) "
+			+ "GROUP BY measurement_index, ji.measurement_item_name "
 			+ "ORDER BY" + "    item_name_head, measurement_time";
 
 	/**
@@ -251,10 +260,11 @@ public class ReportDao extends AbstractDao implements TableNames {
 			+ "WHERE" //
 			+ "    ji.measurement_item_name = ?" //
 			+ "    AND mv.measurement_item_id = ji.measurement_item_id"
-			+ "    AND" // 
+			+ "    AND" //
 			+ "    (" //
 			+ "        mv.measurement_time BETWEEN ?" + "        AND ?"
-			+ "    ) " + "GROUP BY measurement_index, ji.measurement_item_name "
+			+ "    ) "
+			+ "GROUP BY measurement_index, ji.measurement_item_name "
 			+ "ORDER BY" + "    ji.measurement_item_name, measurement_time";
 
 	/**
@@ -417,9 +427,12 @@ public class ReportDao extends AbstractDao implements TableNames {
 	/**
 	 * 値が0のMapを生成する。
 	 * 
-	 * @param startTime 開始時刻。
-	 * @param endTime 終了時刻。
-	 * @param itemName 項目名。
+	 * @param startTime
+	 *            開始時刻。
+	 * @param endTime
+	 *            終了時刻。
+	 * @param itemName
+	 *            項目名。
 	 * @return　生成したMap。
 	 */
 	private static Map<String, List<ReportItemValue>> createZeroMapData(
@@ -472,23 +485,23 @@ public class ReportDao extends AbstractDao implements TableNames {
 		return result;
 	}
 
-    /**
-     * 指定した期間から、サマリ計算を行い、結果を取得する。
-     * 
-     * サマリとして合計値を計算するSQLで問い合わせ、結果をリストにして返す。 必ず、ITEM_COUNTのサイズのリストを返す。
-     * 
-     * @param database
-     *            データベース
-     * @param startTime
-     *            開始時刻
-     * @param endTime
-     *            終了時刻
-     * @param itemName
-     *            item_name
-     * @return レポート出力に使用するReportItemValueのリスト。
-     * @throws SQLException
-     *             DBアクセス時にエラーが発生した場合
-     */
+	/**
+	 * 指定した期間から、サマリ計算を行い、結果を取得する。
+	 * 
+	 * サマリとして合計値を計算するSQLで問い合わせ、結果をリストにして返す。 必ず、ITEM_COUNTのサイズのリストを返す。
+	 * 
+	 * @param database
+	 *            データベース
+	 * @param startTime
+	 *            開始時刻
+	 * @param endTime
+	 *            終了時刻
+	 * @param itemName
+	 *            item_name
+	 * @return レポート出力に使用するReportItemValueのリスト。
+	 * @throws SQLException
+	 *             DBアクセス時にエラーが発生した場合
+	 */
 	public static Map<String, List<ReportItemValue>> selectExceptionSumMap(
 			String database, Timestamp startTime, Timestamp endTime,
 			String itemName) throws SQLException {
@@ -508,42 +521,42 @@ public class ReportDao extends AbstractDao implements TableNames {
 		return result;
 	}
 
-    /**
-     * 指定した期間から、サマリ計算を行い、結果を取得する。
-     * 
-     * サマリとして合計値を計算するSQLで問い合わせ、結果をリストにして返す。 必ず、ITEM_COUNTのサイズのリストを返す。
-     * 
-     * @param database
-     *            データベース
-     * @param startTime
-     *            開始時刻
-     * @param endTime
-     *            終了時刻
-     * @param itemName
-     *            item_name
-     * @return レポート出力に使用するReportItemValueのリスト。
-     * @throws SQLException
-     *             DBアクセス時にエラーが発生した場合
-     */
-    public static Map<String, List<ReportItemValue>> selectStallSumMap(
-            String database, Timestamp startTime, Timestamp endTime,
-            String itemName) throws SQLException {
-        Map<String, Map<Integer, ReportItemValue>> resultMap;
+	/**
+	 * 指定した期間から、サマリ計算を行い、結果を取得する。
+	 * 
+	 * サマリとして合計値を計算するSQLで問い合わせ、結果をリストにして返す。 必ず、ITEM_COUNTのサイズのリストを返す。
+	 * 
+	 * @param database
+	 *            データベース
+	 * @param startTime
+	 *            開始時刻
+	 * @param endTime
+	 *            終了時刻
+	 * @param itemName
+	 *            item_name
+	 * @return レポート出力に使用するReportItemValueのリスト。
+	 * @throws SQLException
+	 *             DBアクセス時にエラーが発生した場合
+	 */
+	public static Map<String, List<ReportItemValue>> selectStallSumMap(
+			String database, Timestamp startTime, Timestamp endTime,
+			String itemName) throws SQLException {
+		Map<String, Map<Integer, ReportItemValue>> resultMap;
 
-        // 使用するSQLは例外データと同じものを使用する。
-        if (DBManager.isDefaultDb() == true) {
-            resultMap = selectMap(database, startTime, endTime, itemName,
-                    SQL_EXCEPTION_H2);
-        } else {
-            resultMap = selectMap(database, startTime, endTime, itemName,
-                    SQL_EXCEPTION_POSTGRES);
-        }
+		// 使用するSQLは例外データと同じものを使用する。
+		if (DBManager.isDefaultDb() == true) {
+			resultMap = selectMap(database, startTime, endTime, itemName,
+					SQL_EXCEPTION_H2);
+		} else {
+			resultMap = selectMap(database, startTime, endTime, itemName,
+					SQL_EXCEPTION_POSTGRES);
+		}
 
-        Map<String, List<ReportItemValue>> result = convertToReportItemListMap(
-                startTime, endTime, resultMap);
+		Map<String, List<ReportItemValue>> result = convertToReportItemListMap(
+				startTime, endTime, resultMap);
 
-        return result;
-    }
+		return result;
+	}
 
 	/**
 	 * 指定した期間から、サマリ計算を行い、結果を取得する。
@@ -573,17 +586,23 @@ public class ReportDao extends AbstractDao implements TableNames {
 		return result;
 	}
 
-    /**
-     * 指定した期間から、指定したSQLを用いてサマリ計算を行い、結果を取得する。
-     * 
-     * @param database データベース
-     * @param startTime 開始時刻
-     * @param endTime 終了時刻
-     * @param itemName item_name
-     * @param sqlBase SQL
-     * @return レポート出力に使用するReportItemValueのリスト。
-     * @throws SQLException DBアクセス時にエラーが発生した場合
-     */
+	/**
+	 * 指定した期間から、指定したSQLを用いてサマリ計算を行い、結果を取得する。
+	 * 
+	 * @param database
+	 *            データベース
+	 * @param startTime
+	 *            開始時刻
+	 * @param endTime
+	 *            終了時刻
+	 * @param itemName
+	 *            item_name
+	 * @param sqlBase
+	 *            SQL
+	 * @return レポート出力に使用するReportItemValueのリスト。
+	 * @throws SQLException
+	 *             DBアクセス時にエラーが発生した場合
+	 */
 	public static Map<String, Map<Integer, ReportItemValue>> selectMap(
 			String database, Timestamp startTime, Timestamp endTime,
 			String itemName, String sqlBase) throws SQLException {
@@ -770,5 +789,45 @@ public class ReportDao extends AbstractDao implements TableNames {
 			map.put(reportItemValue.index, reportItemValue);
 		}
 		return result;
+	}
+
+	/**
+	 * @author khine wai
+	 * @param dbName
+	 *            dbName
+	 * @param status
+	 *            status
+	 * @param targetItemName
+	 *            targetItemName
+	 * @param fmTime
+	 *            fmTime
+	 * @param toTime
+	 *            toTime
+	 */
+	public void changeStatus(String dbName, String status,
+			String targetItemName, Timestamp fmTime, Timestamp toTime) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sqlBase = "UPDATE REPORT_EXPORT_RESULT"
+				+ " SET STATUS = ? WHERE TARGET_MEASUREMENT_NAME= ? AND FM_TIME= ? AND TO_TIME= ?";
+		DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
+		String fmTimeData = dateFormat.format(fmTime.getTime());
+		String toTimeData = dateFormat.format(toTime.getTime());
+		try {
+			conn = getConnection(dbName, true);
+			pstmt = conn.prepareStatement(sqlBase);
+			pstmt.setString(1, status);
+			pstmt.setString(2, targetItemName);
+			pstmt.setString(3, fmTimeData);
+			pstmt.setString(4, toTimeData);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			SQLUtil.closeResultSet(rs);
+			SQLUtil.closeStatement(pstmt);
+			SQLUtil.closeConnection(conn);
+		}
 	}
 }

@@ -8,6 +8,7 @@
 <%@ include file="common/Header.jsp"%>
 <%@ include file="dialog/SignalDialog.jsp"%>
 <%@ include file="dialog/MultipleResourceGraphDialog.jsp"%>
+<%@ include file="dialog/SchedulingReportDialog.jsp"%>
 <%@ include file="dialog/ReportDialog.jsp"%>
 <%@ include file="dialog/PerformanceDoctorDialog.jsp"%>
 <%@ include file="dialog/threadDumpDialog.jsp"%>
