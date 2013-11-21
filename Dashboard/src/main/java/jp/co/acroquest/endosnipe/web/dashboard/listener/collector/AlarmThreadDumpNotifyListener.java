@@ -36,10 +36,6 @@ public class AlarmThreadDumpNotifyListener extends AbstractTelegramListener
 
     }
 
-    /**
-     * this function access telegram from
-     * Dashboard for thread dump
-     */
     @Override
     protected Telegram doReceiveTelegram(final Telegram telegram)
     {
@@ -55,6 +51,7 @@ public class AlarmThreadDumpNotifyListener extends AbstractTelegramListener
 
     /**
      * this is threadDump kind
+     * @return the constant number for request kind
      */
     @Override
     protected byte getByteRequestKind()
@@ -64,6 +61,7 @@ public class AlarmThreadDumpNotifyListener extends AbstractTelegramListener
 
     /**
      * this is threadDump number
+     *  @return the constant number for telegram kind
      */
     @Override
     protected byte getByteTelegramKind()

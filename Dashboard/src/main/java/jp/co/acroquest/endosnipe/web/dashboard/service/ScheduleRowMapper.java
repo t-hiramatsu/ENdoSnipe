@@ -31,6 +31,9 @@ import org.springframework.jdbc.core.RowMapper;
  */
 public class ScheduleRowMapper implements RowMapper<SchedulingReportDefinitionDto>
 {
+    /**constants integer value is 7*/
+    private static final int NUMBER_SEVEN = 7;
+
     /**
      * time format for hour and minute.
      */
@@ -99,7 +102,6 @@ public class ScheduleRowMapper implements RowMapper<SchedulingReportDefinitionDt
         SchedulingReportDefinitionDto schedulingReportDefinitionDto =
                 new SchedulingReportDefinitionDto();
         DateFormat timeFormat = new SimpleDateFormat(TIME_FORMAT);
-
         Calendar time = Calendar.getInstance();
         try
         {
@@ -127,39 +129,29 @@ public class ScheduleRowMapper implements RowMapper<SchedulingReportDefinitionDt
         {
             ex1.printStackTrace();
         }
-
         String reportName = "";
         ReportDefinition definition = this.convertScheduleToReport(schedulingReportDefinitionDto);
         definition.status_ = "creating";
-
         ReportDefinitionDto definitionDto = ReportUtil.convertReportDifinitionDto(definition);
         //put the report to the queue for export
         ReportUtil.createReport(definitionDto);
         String sql =
-
                 "insert into REPORT_EXPORT_RESULT (REPORT_NAME,TARGET_MEASUREMENT_NAME,FM_TIME,TO_TIME, STATUS)"
 
                 + " values (" + "'" + definition.reportName_ + "'," + "'"
                         + definition.targetMeasurementName_ + "', " + "'" + definition.fmTime_
                         + "', " + "'" + definition.toTime_ + "'," + "'" + definition.status_ + "')";
-
         jTemplate_.execute(sql);
-
         reportName = definitionDto.getReportName();
-
         SchedulingReportDefinition schedulingReportDefinition = new SchedulingReportDefinition();
-
         DateFormat scheduleTimeFormat = new SimpleDateFormat(TIME_FORMAT);
         Calendar scheduleTime = Calendar.getInstance();
-
         try
         {
             scheduleTime.setTime(scheduleTimeFormat.parse(rs.getString("schedule_time")));
             schedulingReportDefinition.time_ = timeFormat.format(time.getTime());
-
             Calendar lastExportedCalendar = Calendar.getInstance();
             Calendar currentTimeCalendar = Calendar.getInstance();
-
             lastExportedCalendar.set(Calendar.HOUR_OF_DAY, time.get(Calendar.HOUR_OF_DAY));
             lastExportedCalendar.set(Calendar.MINUTE, time.get(Calendar.MINUTE));
             if (rs.getString("schedule_time") != null && rs.getString("schedule_day") == null
@@ -167,7 +159,6 @@ public class ScheduleRowMapper implements RowMapper<SchedulingReportDefinitionDt
             {
                 long lastExportedLong = lastExportedCalendar.getTimeInMillis();
                 long currentTimeLong = currentTimeCalendar.getTimeInMillis();
-
                 if (lastExportedLong <= currentTimeLong)
                 {
                     lastExportedCalendar.add(Calendar.DAY_OF_MONTH, 1);
@@ -185,10 +176,9 @@ public class ScheduleRowMapper implements RowMapper<SchedulingReportDefinitionDt
 
                 if (lastExportedLong <= currentTimeLong)
                 {
-                    lastExportedCalendar.add(Calendar.DAY_OF_MONTH, 7);
+                    lastExportedCalendar.add(Calendar.DAY_OF_MONTH, NUMBER_SEVEN);
                 }
             }
-
             int date = 0;
             if (rs.getString("schedule_date") != null)
             {
@@ -202,21 +192,15 @@ public class ScheduleRowMapper implements RowMapper<SchedulingReportDefinitionDt
                     lastExportedCalendar.add(Calendar.MONTH, 1);
                 }
             }
-
             if (date > lastExportedCalendar.get(Calendar.DAY_OF_MONTH)
                     && (lastExportedCalendar.getActualMaximum(Calendar.DAY_OF_MONTH)) >= date)
-
             {
-
                 lastExportedCalendar.set(Calendar.DAY_OF_MONTH, date);
-
             }
             Timestamp lastExportedTime = new Timestamp(lastExportedCalendar.getTimeInMillis());
             schedulingReportDefinition.lastExportedTime_ = lastExportedTime;
-
             jTemplate_.batchUpdate(new String[] { "update SCHEDULING_REPORT_DEFINITION set LAST_EXPORT_REPORT_TIME = '"
                     + lastExportedTime + "' where REPORT_NAME =" + "'" + reportName + "'" });
-
         }
         catch (ParseException ex)
         {
@@ -226,7 +210,6 @@ public class ScheduleRowMapper implements RowMapper<SchedulingReportDefinitionDt
         {
             ex.printStackTrace();
         }
-
     }
 
     /**

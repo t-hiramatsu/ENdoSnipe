@@ -1,20 +1,17 @@
- ENS.tree.agentName = "/default/";
- ENS.threadDumpView = wgp.AbstractView
+ENS.tree.agentName = "/default/";
+ENS.threadDumpView = wgp.AbstractView
 		.extend({
 			tableColNames : [ "Time", "Thread Dump" ],
 			initialize : function(argument, treeSettings) {
-
 				this.tableMargin = 20;
 				this.tableWidth = parseInt($("#" + this.id).width()
 						- this.tableMargin * 4);
 				this.tableColModel = this.createTableColModel();
-
 				var appView = new ENS.AppView();
 				this.appView = appView;
 				this.treeSettings = treeSettings;
 				this.argument = argument;
 				appView.addView(this, "JvnLog_Notify");
-
 				appView.addView(this, treeSettings.treeId
 						+ ENS.URL.JVN_LOG_NOTIFY_POSTFIX_ID);
 				var dualSliderId = this.id + "_dualSlider";
@@ -29,20 +26,17 @@
 					id : dualSliderId,
 					rootView : this
 				});
-
 				// 空のテーブルを作成
 				this.render();
 				this.id = argument.id;
 				this.argument.term = argument.term;
-
 				var startTime = new Date(new Date().getTime() - argument.term
 						* 1000);
 				var endTime = new Date();
 				appView.getTermThreadDumpData([ treeSettings.treeId ],
 						startTime, endTime, argument.maxLineNum);
-
 				this.id = argument.id;
-				ENS.tree.agentName= this.treeSettings.treeId;
+				ENS.tree.agentName = this.treeSettings.treeId;
 				this.dualSliderView.setScaleMovedEvent(function(from, to) {
 					var appView = new ENS.AppView();
 					var startTime = new Date(new Date().getTime() - from);
@@ -50,17 +44,16 @@
 					appView.getTermThreadDumpData([ treeSettings.treeId ],
 							startTime, endTime, 100);
 				});
-				 $("#button").on("click", function() {            
-					            var settings = {
-					                 data : {
-					                     threadDump : ENS.tree.agentName
-					                 },
-					                 url : ENS.tree.THREAD_DUMP_CLICK
-					             };
-					             var ajaxHandler = new wgp.AjaxHandler();
-					            ajaxHandler.requestServerAsync(settings);
-					        });
-
+				$("#button").on("click", function() {
+					var settings = {
+						data : {
+							threadDump : ENS.tree.agentName
+						},
+						url : ENS.tree.THREAD_DUMP_CLICK
+					};
+					var ajaxHandler = new wgp.AjaxHandler();
+					ajaxHandler.requestServerAsync(settings);
+				});
 			},
 			render : function() {
 				var id = this.id;
@@ -68,7 +61,7 @@
 						.append(
 								"<input type='button' id='button' value='get Thread Dump'>");
 				$("#button").css({
-					"margin-left" : 750,
+					"margin-left" : 1000,
 					"width" : 150
 				});
 				$("#" + id).append('<div id="threadDumpDiv"></div>');
@@ -80,7 +73,6 @@
 				$("#threadDumpDiv")
 						.append('<div id="threadDumpPager"></table>');
 				var height = "auto";
-
 				$("#threadDumpTable").jqGrid({
 					datatype : "local",
 					data : "",
@@ -93,7 +85,7 @@
 					pgbuttons : true,
 					pginput : true,
 					height : height,
-				    width : this.tableWidth,
+					width : this.tableWidth,
 					sortname : "date",
 					sortorder : "desc",
 					viewrecords : true,
@@ -162,7 +154,6 @@
 					name : "threadDumpInfo",
 					width : parseInt(0.93 * this.tableWidth)
 				} ];
-
 				return tableColModel;
 			},
 			changedData : function(threadDumpInfo) {

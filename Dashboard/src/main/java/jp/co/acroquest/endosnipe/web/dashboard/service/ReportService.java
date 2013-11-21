@@ -66,6 +66,9 @@ import org.wgp.manager.WgpDataManager;
 @Service
 public class ReportService
 {
+    /**constant integer value is 7*/
+    private static final int NUMBER_SEVEN = 7;
+
     /** レポートの出力先ディレクトリ名。 */
     private static final String REPORT_PATH = "report";
 
@@ -74,7 +77,7 @@ public class ReportService
 
     /** レポート情報Dao */
     @Autowired
-    protected ReportDefinitionDao reportDefinitionDao;
+    protected ReportDefinitionDao reportDefinitionDao_;
 
     /** 日付のフォーマット。 */
     private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
@@ -92,11 +95,11 @@ public class ReportService
 
     /** レポート情報Dao */
     @Autowired
-    protected SchedulingReportDefinitionDao schedulingReportDefinitionDao;
+    protected SchedulingReportDefinitionDao schedulingReportDefinitionDao_;
 
     /** Property Setting Dao */
     @Autowired
-    protected PropertySettingDao propertySettingDao;
+    protected PropertySettingDao propertySettingDao_;
 
     /**
      * Set day into schedulingdto
@@ -129,11 +132,11 @@ public class ReportService
     public void runThread()
     {
         PropertySettingDefinition simulExecution =
-                propertySettingDao.selectByKey("simulExecutionNum");
+                propertySettingDao_.selectByKey("simulExecutionNum");
         int simulExecutionNum = 0;
-        if (simulExecution != null && simulExecution.value != null)
+        if (simulExecution != null && simulExecution.value_ != null)
         {
-            simulExecutionNum = Integer.parseInt(simulExecution.value);
+            simulExecutionNum = Integer.parseInt(simulExecution.value_);
         }
         DatabaseManager manager = DatabaseManager.getInstance();
         DataBaseConfig dbConfig = manager.getDataBaseConfig();
@@ -174,7 +177,7 @@ public class ReportService
      * 
      * @param reportDefinitionDto レポート出力の定義
      */
-    public static void createReport(final ReportDefinitionDto reportDefinitionDto)
+    public void createReport(final ReportDefinitionDto reportDefinitionDto)
     {
 
         ReportUtil.createReport(reportDefinitionDto);
@@ -210,7 +213,7 @@ public class ReportService
         List<ReportDefinition> reportList = null;
         try
         {
-            reportList = reportDefinitionDao.selectAll();
+            reportList = reportDefinitionDao_.selectAll();
         }
         catch (PersistenceException pEx)
         {
@@ -246,7 +249,7 @@ public class ReportService
     public List<ReportDefinitionDto> getReportByReportName(final String reportName)
     {
         List<ReportDefinitionDto> reportDefinitionDtos = new ArrayList<ReportDefinitionDto>();
-        List<ReportDefinition> definitionDtos = reportDefinitionDao.selectByName(reportName);
+        List<ReportDefinition> definitionDtos = reportDefinitionDao_.selectByName(reportName);
 
         int definitionDtosLength = definitionDtos.size();
 
@@ -268,7 +271,7 @@ public class ReportService
      */
     public ReportDefinitionDto getReportByReportId(final int reportId)
     {
-        ReportDefinition reportDefinition = reportDefinitionDao.selectById(reportId);
+        ReportDefinition reportDefinition = reportDefinitionDao_.selectById(reportId);
         ReportDefinitionDto reportDefinitionDto =
                 ReportUtil.convertReportDifinitionDto(reportDefinition);
 
@@ -285,7 +288,7 @@ public class ReportService
     {
         try
         {
-            reportDefinitionDao.insert(reportDefinition);
+            reportDefinitionDao_.insert(reportDefinition);
         }
         catch (DuplicateKeyException dkEx)
         {
@@ -308,7 +311,7 @@ public class ReportService
     public boolean hasSameSignalName(final long reportId, final String reportName)
     {
         SchedulingReportDefinition schedulingReportDefinition =
-                this.schedulingReportDefinitionDao.selectByName(reportName);
+                this.schedulingReportDefinitionDao_.selectByName(reportName);
         if (schedulingReportDefinition == null)
         {
             // 同一シグナル名を持つ閾値判定定義情報が存在しない場合
@@ -331,7 +334,7 @@ public class ReportService
     public boolean hasSameReportName(final long reportId, final String reportName)
     {
         SchedulingReportDefinition schedulingReportDefinition =
-                this.schedulingReportDefinitionDao.selectByName(reportName);
+                this.schedulingReportDefinitionDao_.selectByName(reportName);
         if (schedulingReportDefinition == null)
         {
             // 同一シグナル名を持つ閾値判定定義情報が存在しない場合
@@ -485,7 +488,7 @@ public class ReportService
         try
         {
             // レポート名に該当するレポート定義を削除する
-            reportDefinitionDao.deleteByName(reportName);
+            reportDefinitionDao_.deleteByName(reportName);
         }
         catch (PersistenceException pEx)
         {
@@ -512,7 +515,7 @@ public class ReportService
         try
         {
             // レポートIDに該当するレポート定義を削除する
-            reportDefinitionDao.deleteById(reportId);
+            reportDefinitionDao_.deleteById(reportId);
         }
         catch (PersistenceException pEx)
         {
@@ -585,7 +588,7 @@ public class ReportService
         List<SchedulingReportDefinition> reportList = null;
         try
         {
-            reportList = schedulingReportDefinitionDao.selectAll();
+            reportList = schedulingReportDefinitionDao_.selectAll();
         }
         catch (PersistenceException pEx)
         {
@@ -622,7 +625,7 @@ public class ReportService
     {
         try
         {
-            schedulingReportDefinitionDao.insert(schedulingReportDefinition);
+            schedulingReportDefinitionDao_.insert(schedulingReportDefinition);
         }
         catch (DuplicateKeyException dkEx)
         {
@@ -644,7 +647,7 @@ public class ReportService
     public SchedulingReportDefinitionDto getSchedulingInfo(final int reportId)
     {
         SchedulingReportDefinition schedulingReportDefinition =
-                schedulingReportDefinitionDao.selectById(reportId);
+                schedulingReportDefinitionDao_.selectById(reportId);
         SchedulingReportDefinitionDto schedulingReportDefinitionDto =
                 this.convertSchedulingReportDifinitionDto(schedulingReportDefinition);
         return schedulingReportDefinitionDto;
@@ -661,13 +664,13 @@ public class ReportService
         try
         {
             SchedulingReportDefinition beforeSignalInfo =
-                    schedulingReportDefinitionDao.selectByName(schedulingReportDefinition.reportName_);
+                    schedulingReportDefinitionDao_.selectByName(schedulingReportDefinition.reportName_);
             if (beforeSignalInfo == null)
             {
                 return new SchedulingReportDefinitionDto();
             }
 
-            schedulingReportDefinitionDao.update(schedulingReportDefinition);
+            schedulingReportDefinitionDao_.update(schedulingReportDefinition);
 
             String beforeItemName = beforeSignalInfo.reportName_;
             String afterItemName = schedulingReportDefinition.reportName_;
@@ -755,7 +758,7 @@ public class ReportService
 
                 if (scheduleTimeLong <= currentTimeLong)
                 {
-                    lastExportedTimeCalendar.add(Calendar.DAY_OF_MONTH, 7);
+                    lastExportedTimeCalendar.add(Calendar.DAY_OF_MONTH, NUMBER_SEVEN);
                 }
             }
         }
@@ -814,7 +817,7 @@ public class ReportService
 
         String startTime = dateFormat.format(fmTimeCal.getTime());
         String endTime = dateFormat.format(toTimeCal.getTime());
-        reportDefinition = reportDefinitionDao.selectName(reportName, startTime, endTime);
+        reportDefinition = reportDefinitionDao_.selectName(reportName, startTime, endTime);
         if (reportDefinition != null)
         {
             return true;
@@ -866,7 +869,7 @@ public class ReportService
         try
         {
             // レポートIDに該当するレポート定義を削除する
-            schedulingReportDefinitionDao.deleteById(reportId);
+            schedulingReportDefinitionDao_.deleteById(reportId);
         }
         catch (PersistenceException pEx)
         {

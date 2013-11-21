@@ -35,6 +35,9 @@ public class ReportDefinition
     /** 期間の終わりの日時。 */
     public String toTime_;
 
+    /**
+     * for report's status
+     */
     public String status_;
 
     /**
