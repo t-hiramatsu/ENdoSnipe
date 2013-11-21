@@ -294,7 +294,7 @@ ENS.treeView = wgp.TreeView
 									target, menuId, tmpClickTarget);
 						} else if (dialogId == ENS.tree.SUMMARYSIGNAL_DIALOG) {
 							instance.summarySignalOnSelect_(event, target,
-									menuId, tmpClickTarget)
+									menuId, tmpClickTarget);
 						} else if (dialogId == ENS.tree.REPORT_SCHEDULE_DIALOG) {
 							instance.reportScheduleOnSelect_(event, target,
 									menuId, tmpClickTarget);
@@ -929,13 +929,10 @@ ENS.treeView = wgp.TreeView
 				ajaxHandler.requestServerAsync(settings);
 			},
 			getAllScheduleReport_ : function() {
-
 			    // レポート出力定義を取得する
 			    // Ajax通信用の設定
 			    var settings = {
-
 			        url : ENS.tree.SCHEDULING_REPORT_SELECT_ALL_URL
-
 			    };
 
 			    // 非同期通信でデータを送信する
@@ -960,7 +957,7 @@ ENS.treeView = wgp.TreeView
 				ajaxHandler.requestServerAsync(settings);
 			},
 			getAllSummarySignal_ : function() {
-				// シグナル定義を取得する
+				// Summaryシグナル定義を取得する
 				// Ajax通信用の設定
 				var settings = {
 					url : ENS.tree.SUMMARY_SIGNAL_SELECT_ALL_URL
@@ -1474,7 +1471,7 @@ ENS.treeView = wgp.TreeView
 										.getSignalDisplayName_(summarySignalDefinition.summarySignalName));
 				var type = summarySignalDefinition.summarySignalType;
 
-				if (type == 0) {
+				if (type === 0) {
 					$("#and").attr('checked', 'checked');
 				} else {
 					$("#or").attr('checked', 'checked');
@@ -1484,7 +1481,7 @@ ENS.treeView = wgp.TreeView
 						summarySignalDefinition.summarySignalName);
 				var measurementList = summarySignalDefinition.signalList;
 				for ( var i = 0; i < measurementList.length; i++) {
-					if (measurementList[i] != "") {
+					if (measurementList[i] !== "") {
 						$('#summarySignalList2Box')
 								.append(
 										"<option value='"
@@ -1731,7 +1728,7 @@ ENS.treeView = wgp.TreeView
 					summarySignalItem = summarySignalItem + ","
 							+ summarySignalList.get(i);
 				}
-				summarySignalType = $(
+				var summarySignalType = $(
 						"input[name='summarySignal_type']:checked").val();
 				if (summarySignalType == "and") {
 					summarySignalType = 0;
@@ -1803,7 +1800,7 @@ ENS.treeView = wgp.TreeView
 				executeOption.displayName = $(tmpClickTarget).text();
 				var targetNodeName = executeOption.displayName.replace(/\s+/g,
 						"");
-				var url = ENS.tree.SUMMARYSIGNAL_EDIT_URL
+				var url = ENS.tree.SUMMARYSIGNAL_EDIT_URL;
 
 				var settings = {
 					data : {

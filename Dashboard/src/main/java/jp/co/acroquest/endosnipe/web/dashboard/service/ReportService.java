@@ -137,21 +137,23 @@ public class ReportService
         }
         DatabaseManager manager = DatabaseManager.getInstance();
         DataBaseConfig dbConfig = manager.getDataBaseConfig();
-
-        if (simulExecutionNum == 0)
+        if (dbConfig != null)
         {
-            simulExecutionNum = 1;
-        }
-        if (simulExecutionNum > 0)
-        {
-            DataCollectorConfig dataCollectorConfig = this.convertDataCollectorConfig(dbConfig);
-            for (int threadNum = 0; threadNum < simulExecutionNum; threadNum++)
+            if (simulExecutionNum == 0)
             {
-                ReporterThread report = new ReporterThread();
-                Thread reportThread = new Thread(new ReporterThread(dataCollectorConfig));
-                reportThreadList_.add(report);
-                report.isRunningThread = true;
-                reportThread.start();
+                simulExecutionNum = 1;
+            }
+            if (simulExecutionNum > 0)
+            {
+                DataCollectorConfig dataCollectorConfig = this.convertDataCollectorConfig(dbConfig);
+                for (int threadNum = 0; threadNum < simulExecutionNum; threadNum++)
+                {
+                    ReporterThread report = new ReporterThread();
+                    Thread reportThread = new Thread(new ReporterThread(dataCollectorConfig));
+                    reportThreadList_.add(report);
+                    report.isRunningThread = true;
+                    reportThread.start();
+                }
             }
         }
     }
