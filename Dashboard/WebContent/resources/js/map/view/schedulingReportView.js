@@ -5,11 +5,14 @@ ENS.schedulingReportView = wgp.AbstractView
 			tableColNames : [ "Id", "Report Name", "Report Target", "Schedule",
 					"Time", "Day", "Date", "" ],
 			initialize : function(argument, treeSettings) {
-				this.createTabelColModel();
+			
 				var appView = new ENS.AppView();
 				this.treeSettings = treeSettings;
 				var treeId = treeSettings.id;
 				appView.addView(this, treeId + ENS.URL.PERFDOCTOR_POSTFIX_ID);
+				this.tableMargin = 20;
+				this.tableWidth = parseInt($("#" + this.id).width()
+						- this.tableMargin * 4);
 
 				// 空のテーブルを作成
 				var dualSliderId = this.id + "_dualSlider";
@@ -24,18 +27,19 @@ ENS.schedulingReportView = wgp.AbstractView
 					id : dualSliderId,
 					rootView : this
 				});
-				this.getAllScheReportList_();
+				this.createTabelColModel();
 				this.render();
+				this.getAllScheReportList_();
+				
 
 			},
 			render : function() {
-				$("#" + this.id).append('<div id="reportDiv"></div>');
-				$("#reportDiv").css({
-					"margin-top" : 20,
-					"margin-left" : 15
+				$("#" + this.id).append('<div id="scheduleReportDiv"></div>');
+				$("#scheduleReportDiv").css({
+					"margin-left" : 5
 				});
-				$("#reportDiv").append('<table id="scheduleReportTable"></table>');
-				$("#reportDiv").append('<div id="reportPager"></table>');
+				$("#scheduleReportDiv").append('<table id="scheduleReportTable"></table>');
+				$("#scheduleReportDiv").append('<div id="reportPager"></table>');
 				var height = "auto";
 
 				$("#scheduleReportTable").jqGrid(
@@ -48,17 +52,22 @@ ENS.schedulingReportView = wgp.AbstractView
 									+ this.treeSettings.parentTreeId + "/"
 									+ this.treeSettings.data,
 							pager : "reportPager",
+							rowNum : 20,
 							rowList : [ 20, 50, 100 ],
 							pgbuttons : true,
 							pginput : true,
 							height : height,
+							width : this.tableWidth,
 							viewrecords : true,
-							rownumbers : true
+							rownumbers : true,
+							shrinkToFit : false,
+							cellEdit : true,
+							cmTemplate: { title: false }
 						});
 				$("#scheduleReportTable").filterToolbar({
 					defaultSearch : 'cn'
 				});
-				$("#reportDiv").css('font-size', '0.8em');
+				$("#scheduleReportDiv").css('font-size', '0.8em');
 			},
 			_parseModel : function(model) {
 				var tableData = model.attributes;
@@ -87,25 +96,25 @@ ENS.schedulingReportView = wgp.AbstractView
 					hidden : true
 				}, {
 					name : "reportName",
-					width : 200
+					width : this.tableWidth * 0.25
 				}, {
 					name : "targetMeasurementName",
-					width : 430
+					width : this.tableWidth * 0.34
 				}, {
 					name : "term",
-					width : 90
+					width : this.tableWidth * 0.072
 				}, {
 					name : "time",
-					width : 90
+					width : this.tableWidth * 0.07
 				}, {
 					name : "day",
-					width : 90
+					width : this.tableWidth * 0.07
 				}, {
 					name : "date",
-					width : 70
+					width : this.tableWidth * 0.07
 				}, {
 					name : "",
-					width : 150,
+					width : this.tableWidth * 0.075,
 					formatter : ENS.Utility.makeAnchor1,
 					editoptions : {
 						"onclick1" : "ENS.report.updateSchedulingReport",
