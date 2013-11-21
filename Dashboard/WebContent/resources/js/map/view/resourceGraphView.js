@@ -23,6 +23,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
+ENS.graph={};
+/** 閾値の表示を開始するデータ */
+ENS.graph.INIT_SIGNAL_POSTION=51;
 ENS.ResourceGraphElementView = wgp.DygraphElementView
 		.extend({
 			initialize : function(argument, treeSettings) {
@@ -381,6 +384,20 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 						null, null, null, null, null, null, null, null, null ]);
 				_.each(this.collection.models, function(model, index) {
 					data.push(instance._parseModel(model));
+				});
+				var models = treeView.ensTreeView.collection.models;
+				var instance = this;
+				var signalCount = 0;
+				_.each(models, function(model, index){
+					// 閾値の線を追加する。
+					var type = model.get("type");
+				    if (type === "signal") {
+				    	var matchingPattern =  model.get("matchingPattern");
+				        if(instance.graphId === matchingPattern){
+				        	// 閾値をグラフに追加する。
+				        	signalCount = instance._addAllSignalData(model, data, signalCount);
+				    	}
+				    }
 				});
 				return data;
 			},
@@ -960,5 +977,25 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 			},
 			setAttributes : function(elementAttributeList){
 				//TODO
+			},
+			_addAllSignalData : function(model, data, signalCount) {
+	    		var signalMap = model.get("signalMap");
+	    		// Websocket通信時にJSON文字列に変換されるため、再変換する。
+	    		if ((typeof signalMap) === "string") {
+	    			signalMap = $.parseJSON(signalMap);	    			
+	    		}
+	    		
+	    		var instance = this;
+	    		// 閾値のマップの値をグラフデータに追加する。
+	    		_.each(signalMap, function(value, level){
+		    		_.each(data, function(columnData, dataIndex){
+		    			columnData[ENS.graph.INIT_SIGNAL_POSTION + signalCount] = value;
+		    		});
+	    			signalCount++;
+	    			if (instance.maxValue < value) {
+	    				instance.maxValue = value;
+	    			}
+	    		});
+	    		return signalCount;
 			}
 		});

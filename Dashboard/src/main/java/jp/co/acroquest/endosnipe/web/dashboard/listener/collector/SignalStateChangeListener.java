@@ -32,6 +32,7 @@ import jp.co.acroquest.endosnipe.communicator.AbstractTelegramListener;
 import jp.co.acroquest.endosnipe.communicator.entity.Body;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
+import jp.co.acroquest.endosnipe.web.dashboard.dto.SignalDefinitionDto;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.SignalTreeMenuDto;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.TreeMenuDto;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.EventManager;
@@ -67,8 +68,12 @@ public class SignalStateChangeListener extends AbstractTelegramListener
         // DataCollectorから送信された電文から、
         // Dashboardのクライアントに通知するためのイベントを作成する。
         String[] treeIds = null;
+        long[] signalIds = null;
         int[] signalValues = null;
+        double[] escalationPeriods = null;
         int[] levels = null;
+        String[] patternValues = null;
+        String[] matchingPatterns = null;
         // String[] alarmTypes = null;
 
         for (Body body : resourceAlarmBodys)
@@ -81,20 +86,40 @@ public class SignalStateChangeListener extends AbstractTelegramListener
             }
             int loopCount = body.getIntLoopCount();
             Object[] measurementItemValues = body.getObjItemValueArr();
-            // 計測IDの項目に対する処理
-            if (TelegramConstants.ITEMNAME_ALARM_ID.equals(itemNameInTelegram))
+            // 閾値判定定義情報IDの項目に対する処理
+            if (TelegramConstants.ITEMNAME_SIGNAL_ID.equals(itemNameInTelegram))
+            {
+                signalIds = getLongValues(loopCount, measurementItemValues);
+            }
+            // 計測ID(シグナル名）の項目に対する処理
+            else if (TelegramConstants.ITEMNAME_SIGNAL_NAME.equals(itemNameInTelegram))
             {
                 treeIds = getStringValues(loopCount, measurementItemValues);
             }
-            // アラームレベルの項目に対する処理
-            else if (TelegramConstants.ITEMNAME_ALARM_STATE.equals(itemNameInTelegram))
+            // 閾値超過・復旧判定する時間
+            else if (TelegramConstants.ITEMNAME_ESCALATION_PERIOD.equals(itemNameInTelegram))
             {
-                signalValues = getIntValues(loopCount, measurementItemValues);
+                escalationPeriods = getDoubleValues(loopCount, measurementItemValues);
             }
-            // アラームレベルの項目に対する処理
+            // vの項目に対する処理
             else if (TelegramConstants.ITEMNAME_SIGNAL_LEVEL.equals(itemNameInTelegram))
             {
                 levels = getIntValues(loopCount, measurementItemValues);
+            }
+            // 各レベル毎の閾値に対する処理
+            else if (TelegramConstants.ITEMNAME_PATTERN_VALUE.equals(itemNameInTelegram))
+            {
+                patternValues = getStringValues(loopCount, measurementItemValues);
+            }
+            // 閾値判定パターンに対する処理
+            else if (TelegramConstants.ITEMNAME_MATCHING_PATTERN.equals(itemNameInTelegram))
+            {
+                matchingPatterns = getStringValues(loopCount, measurementItemValues);
+            }
+            // 閾値判定結果に対する処理
+            else if (TelegramConstants.ITEMNAME_SIGNAL_VALUE.equals(itemNameInTelegram))
+            {
+                signalValues = getIntValues(loopCount, measurementItemValues);
             }
             // アラーム種類の項目に対する処理
             //else if (TelegramConstants.ITEMNAME_ALARM_TYPE.equals(itemNameInTelegram))
@@ -106,11 +131,15 @@ public class SignalStateChangeListener extends AbstractTelegramListener
 
         for (int cnt = 0; cnt < treeIds.length; cnt++)
         {
-            String treeId = treeIds[cnt];
-            int signalValue = signalValues[cnt];
-            int level = levels[cnt];
-            SignalTreeMenuDto signalTreeMenu =
-                    SignalUtil.createSignalMenu(treeId, signalValue, level);
+            SignalDefinitionDto signalDefinitionDto = new SignalDefinitionDto();
+            signalDefinitionDto.setSignalId(signalIds[cnt]);
+            signalDefinitionDto.setSignalName(treeIds[cnt]);
+            signalDefinitionDto.setEscalationPeriod(escalationPeriods[cnt]);
+            signalDefinitionDto.setLevel(levels[cnt]);
+            signalDefinitionDto.setPatternValue(patternValues[cnt]);
+            signalDefinitionDto.setMatchingPattern(matchingPatterns[cnt]);
+            signalDefinitionDto.setSignalValue(signalValues[cnt]);
+            SignalTreeMenuDto signalTreeMenu = SignalUtil.createSignalMenu(signalDefinitionDto);
 
             signalTreeMenuDtoList.add(signalTreeMenu);
         }
@@ -151,10 +180,31 @@ public class SignalStateChangeListener extends AbstractTelegramListener
     }
 
     /**
-     * 電文の配列をInteger型にして返します。
+     * 電文をlong型にして返します。
      * @param loopCount ループ回数
      * @param telegramValuesOfobject 電文の値オブジェクト
-     * @return Integer型の電文の値配列
+     * @return long型の電文の値配列
+     */
+    private long[] getLongValues(final int loopCount, final Object[] telegramValuesOfobject)
+    {
+        long[] telegramValues = new long[loopCount];
+        for (int cnt = 0; cnt < telegramValuesOfobject.length; cnt++)
+        {
+            if (cnt >= loopCount)
+            {
+                break;
+            }
+            Long value = (Long)telegramValuesOfobject[cnt];
+            telegramValues[cnt] = value.longValue();
+        }
+        return telegramValues;
+    }
+
+    /**
+     * 電文の配列をint型にして返します。
+     * @param loopCount ループ回数
+     * @param telegramValuesOfobject 電文の値オブジェクト
+     * @return int型の電文の値配列
      */
     private int[] getIntValues(final int loopCount, final Object[] telegramValuesOfobject)
     {
@@ -167,6 +217,27 @@ public class SignalStateChangeListener extends AbstractTelegramListener
             }
             Integer value = (Integer)telegramValuesOfobject[cnt];
             telegramValues[cnt] = value.intValue();
+        }
+        return telegramValues;
+    }
+
+    /**
+     * 電文の配列をdouble型にして返します。
+     * @param loopCount ループ回数
+     * @param telegramValuesOfobject 電文の値オブジェクト
+     * @return double型の電文の値配列
+     */
+    private double[] getDoubleValues(final int loopCount, final Object[] telegramValuesOfobject)
+    {
+        double[] telegramValues = new double[loopCount];
+        for (int cnt = 0; cnt < telegramValuesOfobject.length; cnt++)
+        {
+            if (cnt >= loopCount)
+            {
+                break;
+            }
+            Double value = (Double)telegramValuesOfobject[cnt];
+            telegramValues[cnt] = value.doubleValue();
         }
         return telegramValues;
     }

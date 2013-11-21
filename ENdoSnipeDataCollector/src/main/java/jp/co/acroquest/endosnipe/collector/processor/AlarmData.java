@@ -186,7 +186,7 @@ public class AlarmData
      * @return 閾値超過アラームの中でもっとも閾値レベルが高い閾値のアラーム
      */
     public AlarmEntry getExceedanceAlarmEntry(final int level,
-            final SignalDefinitionDto signalDefinition)
+        final SignalDefinitionDto signalDefinition)
     {
         double escalationPeriod = signalDefinition.getEscalationPeriod();
         long currentTime = System.currentTimeMillis();
@@ -203,8 +203,8 @@ public class AlarmData
             {
                 alarmEntry = new AlarmEntry();
                 alarmEntry.setAlarmType(AlarmType.FAILURE);
-                alarmEntry.setAlarmInterval(escalationPeriod);
-                alarmEntry.setAlarmState(targetLevel);
+                alarmEntry.setEscalationPeriod(escalationPeriod);
+                alarmEntry.setSignalValue(targetLevel);
                 alarmEntry.setSendAlarm(true);
                 alarmEntry.setSignalLevel(signalDefinition.getLevel());
                 setAlarmLevel(targetLevel.intValue());
@@ -286,7 +286,7 @@ public class AlarmData
      * @return 復旧アラームの中でもっとも閾値レベルが低い時刻
      */
     public AlarmEntry getRecoverAlarmEntry(final AlarmData alarmData, final int level,
-            final SignalDefinitionDto signalDefinition)
+        final SignalDefinitionDto signalDefinition)
     {
         double escalationPeriod = signalDefinition.getEscalationPeriod();
         long currentTime = System.currentTimeMillis();
@@ -302,8 +302,8 @@ public class AlarmData
             {
                 alarmEntry = new AlarmEntry();
                 alarmEntry.setAlarmType(AlarmType.RECOVER);
-                alarmEntry.setAlarmInterval(escalationPeriod);
-                alarmEntry.setAlarmState(targetLevel);
+                alarmEntry.setEscalationPeriod(escalationPeriod);
+                alarmEntry.setSignalValue(targetLevel);
                 alarmEntry.setSendAlarm(true);
                 alarmEntry.setSignalLevel(signalDefinition.getLevel());
                 setAlarmLevel(targetLevel.intValue());

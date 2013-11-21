@@ -42,7 +42,7 @@ public class SignalStateManager
     public static SignalStateManager instance__ = new SignalStateManager();
 
     /** アラームを出すかどうか判定するために保持し続けるデータ */
-    private final Map<String, AlarmData> alarmDataMap_ = new ConcurrentHashMap<String, AlarmData>();
+    private final Map<Long, AlarmData> alarmDataMap_ = new ConcurrentHashMap<Long, AlarmData>();
 
     /** シグナル定義を保持するマップ */
     private Map<Long, SignalDefinitionDto> signalDefinitionMap_ = null;
@@ -65,30 +65,30 @@ public class SignalStateManager
     }
 
     /**
-     * 閾値情報を取得する。
-     * @param signalId シグナルを一意にする名称
+     * 閾値判定定義情報を取得する。
+     * @param signalId 閾値判定定義ID
      * @return signalIdに一致する閾値情報
      */
-    public AlarmData getAlarmData(final String signalId)
+    public AlarmData getAlarmData(final long signalId)
     {
         return this.alarmDataMap_.get(signalId);
     }
 
     /**
-     * 閾値情報を登録する。
-     * @param signalId シグナルを一意にする名称
+     * 閾値判定定義情報を登録する。
+     * @param signalId 閾値判定定義ID
      * @param alarmData 閾値情報
      */
-    public void addAlarmData(final String signalId, final AlarmData alarmData)
+    public void addAlarmData(final long signalId, final AlarmData alarmData)
     {
         this.alarmDataMap_.put(signalId, alarmData);
     }
 
     /**
      * 閾値情報を削除する。
-     * @param signalId シグナルを一意にする名称
+     * @param signalId 閾値判定定義ID
      */
-    public void removeAlarmData(final String signalId)
+    public void removeAlarmData(final long signalId)
     {
         this.alarmDataMap_.remove(signalId);
     }
@@ -118,7 +118,7 @@ public class SignalStateManager
      * 
      */
     public void addSignalDefinition(final Long signalId,
-            final SignalDefinitionDto signalDefinitionDto)
+        final SignalDefinitionDto signalDefinitionDto)
     {
         if (this.signalDefinitionMap_ == null)
         {

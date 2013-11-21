@@ -27,13 +27,17 @@ package jp.co.acroquest.endosnipe.collector.util;
 
 import java.util.List;
 
+import jp.co.acroquest.endosnipe.collector.JavelinDataLogger;
+import jp.co.acroquest.endosnipe.collector.manager.SignalStateManager;
 import jp.co.acroquest.endosnipe.collector.notification.AlarmEntry;
+import jp.co.acroquest.endosnipe.collector.processor.AlarmData;
 import jp.co.acroquest.endosnipe.collector.processor.AlarmType;
 import jp.co.acroquest.endosnipe.common.entity.ItemType;
 import jp.co.acroquest.endosnipe.communicator.entity.Body;
 import jp.co.acroquest.endosnipe.communicator.entity.Header;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
+import jp.co.acroquest.endosnipe.data.dto.SignalDefinitionDto;
 
 /**
  * データコレクターで用いる電文のユーティリティ
@@ -43,7 +47,32 @@ import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 public class CollectorTelegramUtil
 {
     /**  閾値超過アラームの電文本体のサイズ */
-    public static final int RESPONSEALARM_BODY_SIZE = 4;
+    public static final int RESPONSEALARM_BODY_SIZE = 8;
+
+    /** 電文本体の位置(閾値判定定義ID) */
+    private static final int BODY_COUNT_SIGNAL_ID = 0;
+
+    /** 電文本体の位置() */
+    private static final int BODY_COUNT_SIGNAL_NAME = 1;
+
+    /** 電文本体の位置() */
+    private static final int BODY_COUNT_ESCALATION_PERIOD = 2;
+
+    /** 電文本体の位置() */
+    private static final int BODY_COUNT_SIGNAL_LEVEL = 3;
+
+    /** 電文本体の位置() */
+    private static final int BODY_COUNT_PATTERN_VALUE = 4;
+
+    /** 電文本体の位置() */
+    private static final int BODY_COUNT_MATCHING_PATTERN = 5;
+
+    /** 電文本体の位置() */
+
+    private static final int BODY_COUNT_SIGNAL_VALUE = 6;
+
+    /** 電文本体の位置 */
+    private static final int BODY_COUNT_ALARM_TYPE = 7;
 
     /**
      * インスタンス化を防止するprivateコンストラクタです。
@@ -70,7 +99,7 @@ public class CollectorTelegramUtil
      * @return 閾値超過アラーム通知電文
      */
     public static Telegram createAlarmTelegram(final List<AlarmEntry> alarmEntryList,
-            final byte requestKind)
+        final byte requestKind)
     {
         Header responseHeader = new Header();
         responseHeader.setByteTelegramKind(TelegramConstants.BYTE_TELEGRAM_SIGNAL_STATE_CHANGE);
@@ -81,72 +110,223 @@ public class CollectorTelegramUtil
         Body[] responseBodys = new Body[CollectorTelegramUtil.RESPONSEALARM_BODY_SIZE];
         int alarmEntrySize = alarmEntryList.size();
 
-        // 計測ID
-        Body measurementTypeBody = new Body();
+        // 閾値判定定義情報ID
+        Body signalIdsBody =
+            createBody(TelegramConstants.ITEMNAME_SIGNAL_ID, ItemType.ITEMTYPE_LONG, alarmEntrySize);
+        Long[] signalIds = new Long[alarmEntrySize];
 
-        measurementTypeBody.setStrObjName(TelegramConstants.OBJECTNAME_RESOURCEALARM);
-        measurementTypeBody.setStrItemName(TelegramConstants.ITEMNAME_ALARM_ID);
-        measurementTypeBody.setByteItemMode(ItemType.ITEMTYPE_STRING);
-        measurementTypeBody.setIntLoopCount(alarmEntrySize);
-        String[] measurementTypeItems = new String[alarmEntrySize];
+        // シグナル名
+        Body signalNamesBody =
+            createBody(TelegramConstants.ITEMNAME_SIGNAL_NAME, ItemType.ITEMTYPE_STRING,
+                       alarmEntrySize);
+        String[] signalNames = new String[alarmEntrySize];
 
-        // アラームのレベル
-        Body alarmLevelBody = new Body();
+        // 計測間隔
+        Body escalationPeriodsBody =
+            createBody(TelegramConstants.ITEMNAME_ESCALATION_PERIOD, ItemType.ITEMTYPE_DOUBLE,
+                       alarmEntrySize);
+        Double[] escalationPeriods = new Double[alarmEntrySize];
 
-        alarmLevelBody.setStrObjName(TelegramConstants.OBJECTNAME_RESOURCEALARM);
-        alarmLevelBody.setStrItemName(TelegramConstants.ITEMNAME_ALARM_STATE);
-        alarmLevelBody.setByteItemMode(ItemType.ITEMTYPE_INT);
-        alarmLevelBody.setIntLoopCount(alarmEntrySize);
-        Integer[] alarmLevelItems = new Integer[alarmEntrySize];
-
-        // アラーム発生時の閾値状態
-        Body signalLevelBody = new Body();
-
-        signalLevelBody.setStrObjName(TelegramConstants.OBJECTNAME_RESOURCEALARM);
-        signalLevelBody.setStrItemName(TelegramConstants.ITEMNAME_SIGNAL_LEVEL);
-        signalLevelBody.setByteItemMode(ItemType.ITEMTYPE_INT);
-        signalLevelBody.setIntLoopCount(alarmEntrySize);
+        // 上限レベル
+        Body signalLevelBody =
+            createBody(TelegramConstants.ITEMNAME_SIGNAL_LEVEL, ItemType.ITEMTYPE_INT,
+                       alarmEntrySize);
         Integer[] signalLevel = new Integer[alarmEntrySize];
 
-        // アラームの種類
-        Body alarmTypeBody = new Body();
+        // 各レベル毎の閾値
+        Body patternValuesBody =
+            createBody(TelegramConstants.ITEMNAME_PATTERN_VALUE, ItemType.ITEMTYPE_STRING,
+                       alarmEntrySize);
+        String[] patternValues = new String[alarmEntrySize];
 
-        alarmTypeBody.setStrObjName(TelegramConstants.OBJECTNAME_RESOURCEALARM);
-        alarmTypeBody.setStrItemName(TelegramConstants.ITEMNAME_ALARM_TYPE);
-        alarmTypeBody.setByteItemMode(ItemType.ITEMTYPE_STRING);
-        alarmTypeBody.setIntLoopCount(alarmEntrySize);
+        // 各レベル毎の閾値
+        Body matchingPatternsBody =
+            createBody(TelegramConstants.ITEMNAME_MATCHING_PATTERN, ItemType.ITEMTYPE_STRING,
+                       alarmEntrySize);
+        String[] matchingPatterns = new String[alarmEntrySize];
+
+        // 閾値判定結果
+        Body signalValueBody =
+            createBody(TelegramConstants.ITEMNAME_SIGNAL_VALUE, ItemType.ITEMTYPE_INT,
+                       alarmEntrySize);
+        Integer[] signalValues = new Integer[alarmEntrySize];
+
+        // アラームの種類
+        Body alarmTypeBody =
+            createBody(TelegramConstants.ITEMNAME_ALARM_TYPE, ItemType.ITEMTYPE_STRING,
+                       alarmEntrySize);
         String[] alarmTypeItems = new String[alarmEntrySize];
 
         // 計測ID、アラーム種類のBodyにAlarmEntryの結果を格納する。
         for (int cnt = 0; cnt < alarmEntrySize; cnt++)
         {
             AlarmEntry alarmEntry = alarmEntryList.get(cnt);
-            String itemId = alarmEntry.getAlarmID();
-            measurementTypeItems[cnt] = itemId;
+
+            signalIds[cnt] = alarmEntry.getSignalId();
+            signalNames[cnt] = alarmEntry.getSignalName();
+            escalationPeriods[cnt] = alarmEntry.getEscalationPeriod();
             signalLevel[cnt] = alarmEntry.getSignalLevel();
-
-            int alarmLevel = alarmEntry.getAlarmState();
-            alarmLevelItems[cnt] = Integer.valueOf(alarmLevel);
-
+            patternValues[cnt] = alarmEntry.getPatternValue();
+            matchingPatterns[cnt] = alarmEntry.getMatchingPattern();
+            signalValues[cnt] = alarmEntry.getSignalValue();
             AlarmType alarmType = alarmEntry.getAlarmType();
             alarmTypeItems[cnt] = String.valueOf(alarmType);
 
         }
-        measurementTypeBody.setObjItemValueArr(measurementTypeItems);
-        alarmLevelBody.setObjItemValueArr(alarmLevelItems);
+        signalIdsBody.setObjItemValueArr(signalIds);
+        signalNamesBody.setObjItemValueArr(signalNames);
+        escalationPeriodsBody.setObjItemValueArr(escalationPeriods);
         signalLevelBody.setObjItemValueArr(signalLevel);
+        patternValuesBody.setObjItemValueArr(patternValues);
+        matchingPatternsBody.setObjItemValueArr(matchingPatterns);
+        signalValueBody.setObjItemValueArr(signalValues);
         alarmTypeBody.setObjItemValueArr(alarmTypeItems);
 
         responseTelegram.setObjHeader(responseHeader);
 
-        responseBodys[0] = measurementTypeBody;
-        responseBodys[1] = alarmLevelBody;
-        responseBodys[2] = signalLevelBody;
-        responseBodys[3] = alarmTypeBody;
+        responseBodys[BODY_COUNT_SIGNAL_ID] = signalIdsBody;
+        responseBodys[BODY_COUNT_SIGNAL_NAME] = signalNamesBody;
+        responseBodys[BODY_COUNT_ESCALATION_PERIOD] = escalationPeriodsBody;
+        responseBodys[BODY_COUNT_SIGNAL_LEVEL] = signalLevelBody;
+        responseBodys[BODY_COUNT_PATTERN_VALUE] = patternValuesBody;
+        responseBodys[BODY_COUNT_MATCHING_PATTERN] = matchingPatternsBody;
+        responseBodys[BODY_COUNT_SIGNAL_VALUE] = signalValueBody;
+        responseBodys[BODY_COUNT_ALARM_TYPE] = alarmTypeBody;
 
         responseTelegram.setObjBody(responseBodys);
 
         return responseTelegram;
+    }
+
+    /**
+     * シグナル状態更新電文を生成する。
+     * @param signalDefitionList 閾値判定定義情報一覧
+     * @return シグナル状態更新電文
+     */
+    public static Telegram
+        createResponseTelegram(final List<SignalDefinitionDto> signalDefitionList)
+    {
+        Header responseHeader = new Header();
+        responseHeader.setByteTelegramKind(TelegramConstants.BYTE_TELEGRAM_SIGNAL_STATE_CHANGE);
+        responseHeader.setByteRequestKind(TelegramConstants.BYTE_REQUEST_KIND_NOTIFY);
+
+        Telegram responseTelegram = new Telegram();
+
+        Body[] responseBodys = new Body[CollectorTelegramUtil.RESPONSEALARM_BODY_SIZE];
+        int signalCount = signalDefitionList.size();
+
+        // 閾値判定定義情報ID
+        Body signalIdsBody =
+            createBody(TelegramConstants.ITEMNAME_SIGNAL_ID, ItemType.ITEMTYPE_LONG, signalCount);
+        Long[] signalIds = new Long[signalCount];
+
+        // シグナル名
+        Body signalNamesBody =
+            createBody(TelegramConstants.ITEMNAME_SIGNAL_NAME, ItemType.ITEMTYPE_STRING,
+                       signalCount);
+        String[] signalNames = new String[signalCount];
+
+        // 計測間隔
+        Body escalationPeriodsBody =
+            createBody(TelegramConstants.ITEMNAME_ESCALATION_PERIOD, ItemType.ITEMTYPE_DOUBLE,
+                       signalCount);
+        Double[] escalationPeriods = new Double[signalCount];
+
+        // 上限レベル
+        Body signalLevelBody =
+            createBody(TelegramConstants.ITEMNAME_SIGNAL_LEVEL, ItemType.ITEMTYPE_INT, signalCount);
+        Integer[] signalLevel = new Integer[signalCount];
+
+        // 各レベル毎の閾値
+        Body patternValuesBody =
+            createBody(TelegramConstants.ITEMNAME_PATTERN_VALUE, ItemType.ITEMTYPE_STRING,
+                       signalCount);
+        String[] patternValues = new String[signalCount];
+
+        // 各レベル毎の閾値
+        Body matchingPatternsBody =
+            createBody(TelegramConstants.ITEMNAME_MATCHING_PATTERN, ItemType.ITEMTYPE_STRING,
+                       signalCount);
+        String[] matchingPatterns = new String[signalCount];
+
+        // 閾値判定結果
+        Body signalValueBody =
+            createBody(TelegramConstants.ITEMNAME_SIGNAL_VALUE, ItemType.ITEMTYPE_INT, signalCount);
+        Integer[] signalValues = new Integer[signalCount];
+
+        // アラームの種類
+        Body alarmTypeBody =
+            createBody(TelegramConstants.ITEMNAME_ALARM_TYPE, ItemType.ITEMTYPE_STRING, signalCount);
+        String[] alarmTypeItems = new String[signalCount];
+
+        // 計測ID、アラーム種類のBodyにAlarmEntryの結果を格納する。
+        SignalStateManager manager = SignalStateManager.getInstance();
+        for (int cnt = 0; cnt < signalCount; cnt++)
+        {
+            SignalDefinitionDto signalDefition = signalDefitionList.get(cnt);
+            String signalName = signalDefition.getSignalName();
+            Long signalId = signalDefition.getSignalId();
+
+            AlarmData alarmData = manager.getAlarmData(signalId);
+
+            signalIds[cnt] = signalId;
+            signalNames[cnt] = signalName;
+            escalationPeriods[cnt] = signalDefition.getEscalationPeriod();
+            patternValues[cnt] = signalDefition.getPatternValue();
+            matchingPatterns[cnt] = signalDefition.getMatchingPattern();
+            if (alarmData == null)
+            {
+                signalValues[cnt] = JavelinDataLogger.STOP_ALARM_LEVEL;
+            }
+            else
+            {
+                signalValues[cnt] = alarmData.getAlarmLevel();
+            }
+
+            signalLevel[cnt] = signalDefition.getLevel();
+            alarmTypeItems[cnt] = String.valueOf(AlarmType.NONE);
+        }
+        signalIdsBody.setObjItemValueArr(signalIds);
+        signalNamesBody.setObjItemValueArr(signalNames);
+        escalationPeriodsBody.setObjItemValueArr(escalationPeriods);
+        signalLevelBody.setObjItemValueArr(signalLevel);
+        patternValuesBody.setObjItemValueArr(patternValues);
+        matchingPatternsBody.setObjItemValueArr(matchingPatterns);
+        signalValueBody.setObjItemValueArr(signalValues);
+        alarmTypeBody.setObjItemValueArr(alarmTypeItems);
+
+        responseTelegram.setObjHeader(responseHeader);
+
+        responseBodys[BODY_COUNT_SIGNAL_ID] = signalIdsBody;
+        responseBodys[BODY_COUNT_SIGNAL_NAME] = signalNamesBody;
+        responseBodys[BODY_COUNT_ESCALATION_PERIOD] = escalationPeriodsBody;
+        responseBodys[BODY_COUNT_SIGNAL_LEVEL] = signalLevelBody;
+        responseBodys[BODY_COUNT_PATTERN_VALUE] = patternValuesBody;
+        responseBodys[BODY_COUNT_MATCHING_PATTERN] = matchingPatternsBody;
+        responseBodys[BODY_COUNT_SIGNAL_VALUE] = signalValueBody;
+        responseBodys[BODY_COUNT_ALARM_TYPE] = alarmTypeBody;
+
+        responseTelegram.setObjBody(responseBodys);
+
+        return responseTelegram;
+    }
+
+    /**
+     * Bodyオブジェクトを生成する。
+     * @param itemName 項目名
+     * @param byteItemMode 項目型
+     * @param signalCount 繰り返し回数
+     * @return Bodyオブジェクト
+     */
+    private static Body createBody(final String itemName, final ItemType byteItemMode,
+        final int signalCount)
+    {
+        Body signalIdsBody = new Body();
+        signalIdsBody.setStrObjName(TelegramConstants.OBJECTNAME_RESOURCEALARM);
+        signalIdsBody.setStrItemName(itemName);
+        signalIdsBody.setByteItemMode(byteItemMode);
+        signalIdsBody.setIntLoopCount(signalCount);
+        return signalIdsBody;
     }
 
 }

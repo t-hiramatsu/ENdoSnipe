@@ -685,20 +685,29 @@ public interface TelegramConstants
     /** 項目名（計測ID） */
     String ITEMNAME_MEASUREMENT_TYPE = "measurementType";
 
-    /** 項目名（アラームの種類） */
-    String ITEMNAME_ALARM_ID = "alarmId";
-
     /** 項目名（閾値判定定義情報のID） */
     String ITEMNAME_SIGNAL_ID = "signalId";
+
+    /** 項目名（シグナル名） */
+    String ITEMNAME_SIGNAL_NAME = "signalName";
+
+    /** 項目名（閾値超過・復旧判定する時間） */
+    String ITEMNAME_ESCALATION_PERIOD = "escalationPeriod";
 
     /** 項目名（アラームの種類） */
     String ITEMNAME_ALARM_TYPE = "alarmType";
 
     /** 項目名（アラーム発生時の障害状態） */
-    String ITEMNAME_ALARM_STATE = "alarmState";
+    String ITEMNAME_SIGNAL_VALUE = "signalValue";
 
     /** 項目名（閾値判定定義情報のレベル） */
     String ITEMNAME_SIGNAL_LEVEL = "signalLevel";
+
+    /** 項目名（各レベル毎の閾値） */
+    String ITEMNAME_PATTERN_VALUE = "patternValue";
+
+    /** 項目名（閾値判定パターン） */
+    String ITEMNAME_MATCHING_PATTERN = "matchingPattern";
 
     /** 項目名(シグナル定義追加) */
     String ITEMNAME_SIGNAL_ADD = "signalAdd";

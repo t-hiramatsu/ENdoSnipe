@@ -1015,7 +1015,7 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         {
             SignalDefinitionDto signalDefinition = signalDefinitionEntry.getValue();
             String itemName = signalDefinition.getMatchingPattern();
-            String signalName = signalDefinition.getSignalName();
+            long signalId = signalDefinition.getSignalId();
 
             // 異なるドメイン（クラスタ名、IPアドレス、エージェント名）のリソース情報から閾値判定を行うと、
             // 正常状態に戻すため、判定対象としない。
@@ -1025,11 +1025,11 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             }
 
             //現在のアラーム通知状況を取得
-            AlarmData currentAlarmData = signalStateManager.getAlarmData(signalName);
+            AlarmData currentAlarmData = signalStateManager.getAlarmData(signalId);
             if (currentAlarmData == null)
             {
                 currentAlarmData = new AlarmData();
-                signalStateManager.addAlarmData(signalName, currentAlarmData);
+                signalStateManager.addAlarmData(signalId, currentAlarmData);
             }
             AlarmProcessor processor = getAlarmProcessor(signalDefinition);
 
@@ -1048,7 +1048,7 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             alarmEntry.setIpAddress(currentResourceData.ipAddress);
             alarmEntry.setPort(currentResourceData.portNum);
             alarmEntry.setDatabaseName(database);
-            signalStateManager.addAlarmData(itemName, currentAlarmData);
+            signalStateManager.addAlarmData(signalId, currentAlarmData);
             alarmEntry.setDefinition(signalDefinition);
             // アラーム通知処理
             if (alarmEntry.isSendAlarm())
@@ -1135,32 +1135,33 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         double threshold = 0;
         if (alarmEntry.getAlarmType().equals(AlarmType.FAILURE))
         {
-            if (alarmEntry.getAlarmState() != 0)
+            if (alarmEntry.getSignalValue() != 0)
             {
                 threshold =
-                    alarmEntry.getDefinition().getThresholdMaping().get(alarmEntry.getAlarmState());
+                    alarmEntry.getDefinition().getThresholdMaping()
+                        .get(alarmEntry.getSignalValue());
             }
             alarmType = "exceeds";
             if (alarmEntry.getSignalLevel() == SIGNAL_LEVEL_3)
             {
-                if (alarmEntry.getAlarmState() == SIGNAL_LEVEL_1)
+                if (alarmEntry.getSignalValue() == SIGNAL_LEVEL_1)
                 {
                     level = "WARN";
                 }
-                else if (alarmEntry.getAlarmState() == SIGNAL_LEVEL_2)
+                else if (alarmEntry.getSignalValue() == SIGNAL_LEVEL_2)
                 {
                     level = "ERROR";
                 }
             }
             else if (alarmEntry.getSignalLevel() == SIGNAL_LEVEL_5)
             {
-                if (alarmEntry.getAlarmState() == SIGNAL_LEVEL_1
-                    || alarmEntry.getAlarmState() == SIGNAL_LEVEL_2)
+                if (alarmEntry.getSignalValue() == SIGNAL_LEVEL_1
+                    || alarmEntry.getSignalValue() == SIGNAL_LEVEL_2)
                 {
                     level = "WARN";
                 }
-                else if (alarmEntry.getAlarmState() == SIGNAL_LEVEL_3
-                    || alarmEntry.getAlarmState() == SIGNAL_LEVEL_4)
+                else if (alarmEntry.getSignalValue() == SIGNAL_LEVEL_3
+                    || alarmEntry.getSignalValue() == SIGNAL_LEVEL_4)
                 {
                     level = "ERROR";
                 }
@@ -1170,14 +1171,15 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         {
             // 回復した閾値の内、最も小さいものを取得
             threshold =
-                alarmEntry.getDefinition().getThresholdMaping().get(alarmEntry.getAlarmState() + 1);
+                alarmEntry.getDefinition().getThresholdMaping()
+                    .get(alarmEntry.getSignalValue() + 1);
             alarmType = "falls";
         }
         signalStateChangeEvent.setLevel(level);
         signalStateChangeEvent.setOccurrenceTime(new Timestamp(System.currentTimeMillis()));
         signalStateChangeEvent.setDescription(alarmType, threshold, alarmEntry.getAlarmValue());
-        signalStateChangeEvent.setMeasurementItemName(alarmEntry.getAlarmID());
-        signalStateChangeEvent.setClassName(alarmEntry.getAlarmID());
+        signalStateChangeEvent.setMeasurementItemName(alarmEntry.getSignalName());
+        signalStateChangeEvent.setClassName(alarmEntry.getSignalName());
         try
         {
             PerfDoctorResultDao.insert(alarmEntry.getDatabaseName(), signalStateChangeEvent);
