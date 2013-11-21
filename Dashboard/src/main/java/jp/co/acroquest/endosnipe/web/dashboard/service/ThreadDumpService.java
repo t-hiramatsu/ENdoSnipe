@@ -47,6 +47,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class ThreadDumpService
 {
+    /**constants integer value is 4*/
+    private static final int NUMBER_FOUR = 4;
+
     /**
      * this is mapping for threadDump node
      */
@@ -85,11 +88,11 @@ public class ThreadDumpService
             try
             {
                 String nodeName = dataGroupId;
-                if (nodeName.split("/").length > 4)
+                if (nodeName.split("/").length > NUMBER_FOUR)
                 {
                     String[] agentSplit = nodeName.split("/");
                     nodeName = "/" + agentSplit[1];
-                    for (int index = 2; index < 4; index++)
+                    for (int index = 2; index < NUMBER_FOUR; index++)
                     {
                         nodeName += "/" + agentSplit[index];
                     }
@@ -192,8 +195,8 @@ public class ThreadDumpService
 
     /**
      * This function to connect telegram
+     * @param agentName is to create the thread dump by naming this parameter
      */
-
     public void createThreadDump(final String agentName)
     {
         ConnectionClient connectionClient = ConnectionClient.getInstance();

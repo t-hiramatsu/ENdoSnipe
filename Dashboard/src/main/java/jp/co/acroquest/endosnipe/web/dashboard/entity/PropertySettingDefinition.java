@@ -33,16 +33,24 @@ package jp.co.acroquest.endosnipe.web.dashboard.entity;
 public class PropertySettingDefinition
 {
 
-    /** シグナル名。 */
-    public String key;
+    /** key of PropertySetting */
+    public String key_;
 
-    /** マッチングパターン。 */
-    public String value;
+    /** value of PropertySetting */
+    public String value_;
+
+    /**
+     * default constructor
+     * do nothing
+     */
+    public PropertySettingDefinition()
+    {
+    }
 
     @Override
     public String toString()
     {
-        return "PropertySettingDefinition [key=" + key + ", value=" + value + "]";
+        return "PropertySettingDefinition [key=" + key_ + ", value=" + value_ + "]";
     }
 
 }

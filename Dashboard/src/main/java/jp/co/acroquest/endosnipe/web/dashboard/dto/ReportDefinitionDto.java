@@ -37,12 +37,13 @@ public class ReportDefinitionDto
     /** 期間の終わりの日時。 */
     private Calendar reportTermTo_;
 
+    /**the status of report*/
     private String status_;
 
     /**
-     * to check report duplicat or not
+     * to check report duplicate or not
      */
-    public String messge;
+    public String message_;
 
     /**
      * コンストラクタ。
@@ -152,11 +153,19 @@ public class ReportDefinitionDto
         reportTermTo_ = reportTermTo;
     }
 
+    /**
+     * getter methods to get the status
+     * @return its status
+     */
     public String getStatus()
     {
         return status_;
     }
 
+    /**
+     * setter methods to set the status
+     * @param status is the data to set
+     */
     public void setStatus(final String status)
     {
         status_ = status;

@@ -54,7 +54,7 @@ public class ReportController
 {
     /** シグナル定義のサービスクラスのオブジェクト。 */
     @Autowired
-    protected ReportService reportService;
+    protected ReportService reportService_;
 
     /**
      * デフォルトコンストラクタ。
@@ -66,18 +66,21 @@ public class ReportController
     }
 
     /**
-     * 
+     * to initialize thread
      */
     @PostConstruct
     public void init()
     {
-        reportService.runThread();
+        reportService_.runThread();
     }
 
+    /**
+     * to stop Thread
+     */
     @PreDestroy
     public void destroy()
     {
-        reportService.stopThread();
+        reportService_.stopThread();
 
     }
 
@@ -92,7 +95,7 @@ public class ReportController
     {
         List<ReportDefinitionDto> reportDefinitionDtos = new ArrayList<ReportDefinitionDto>();
 
-        reportDefinitionDtos = this.reportService.getAllReport();
+        reportDefinitionDtos = this.reportService_.getAllReport();
 
         return reportDefinitionDtos;
     }
@@ -108,7 +111,7 @@ public class ReportController
         List<SchedulingReportDefinitionDto> reportDefinitionDtos =
                 new ArrayList<SchedulingReportDefinitionDto>();
 
-        reportDefinitionDtos = this.reportService.getAllSchedule();
+        reportDefinitionDtos = this.reportService_.getAllSchedule();
         return reportDefinitionDtos;
     }
 
@@ -123,7 +126,7 @@ public class ReportController
             @RequestParam(value = "reportName") final String reportName)
     {
         List<ReportDefinitionDto> reportDefinitionDtos =
-                this.reportService.getReportByReportName(reportName);
+                this.reportService_.getReportByReportName(reportName);
         return reportDefinitionDtos;
     }
 
@@ -142,23 +145,23 @@ public class ReportController
         ReportDefinitionDto reportDefinitionDto =
                 JSON.decode(reportDefinition, ReportDefinitionDto.class);
 
-        boolean isExist = this.reportService.checkReportName(reportDefinitionDto);
+        boolean isExist = this.reportService_.checkReportName(reportDefinitionDto);
         if (isExist == true)
         {
-            reportDefinitionDto.messge = "duplicate";
+            reportDefinitionDto.message_ = "duplicate";
             return reportDefinitionDto;
         }
         else
         {
             reportDefinitionDto.setStatus("Creating");
-            this.reportService.createReport(reportDefinitionDto);
+            this.reportService_.createReport(reportDefinitionDto);
 
             ReportDefinition definition =
-                    this.reportService.convertReportDefinition(reportDefinitionDto);
+                    this.reportService_.convertReportDefinition(reportDefinitionDto);
 
             // レポート定義をDBに登録する
             ReportDefinitionDto addedDefinitionDto =
-                    this.reportService.insertReportDefinition(definition);
+                    this.reportService_.insertReportDefinition(definition);
             return addedDefinitionDto;
         }
 
@@ -177,7 +180,7 @@ public class ReportController
     {
         ReportDefinitionDto reportDefinitionDto =
                 JSON.decode(reportDefinition, ReportDefinitionDto.class);
-        this.reportService.createReport(reportDefinitionDto);
+        this.reportService_.createReport(reportDefinitionDto);
         return reportDefinitionDto;
 
     }
@@ -196,11 +199,11 @@ public class ReportController
             @RequestParam(value = "reportId") final int reportId)
         throws IOException
     {
-        ReportDefinitionDto reportDefinitionDto = this.reportService.getReportByReportId(reportId);
+        ReportDefinitionDto reportDefinitionDto = this.reportService_.getReportByReportId(reportId);
         // ファイル名を取得する
         String fileName = createFileNameByDefinitionDto(reportDefinitionDto);
 
-        this.reportService.doRequest(res, fileName);
+        this.reportService_.doRequest(res, fileName);
         return fileName;
     }
 
@@ -217,7 +220,7 @@ public class ReportController
             @RequestParam(value = "reportName") final String reportName)
     {
         List<ReportDefinitionDto> definitionDtoList =
-                this.reportService.getReportByReportName(reportName);
+                this.reportService_.getReportByReportName(reportName);
 
         int definitionDtosLength = definitionDtoList.size();
 
@@ -226,10 +229,10 @@ public class ReportController
             ReportDefinitionDto definitionDto = definitionDtoList.get(index);
             String fileName = this.createFileNameByDefinitionDto(definitionDto);
             // ファイルを削除する
-            this.reportService.deleteReportFile(fileName);
+            this.reportService_.deleteReportFile(fileName);
         }
 
-        this.reportService.deleteReportDefinitionByName(reportName);
+        this.reportService_.deleteReportDefinitionByName(reportName);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("reportName", reportName);
 
@@ -247,17 +250,17 @@ public class ReportController
     @ResponseBody
     public Map<String, Object> deleteById(@RequestParam(value = "reportId") final int reportId)
     {
-        ReportDefinitionDto reportDefinitionDto = this.reportService.getReportByReportId(reportId);
+        ReportDefinitionDto reportDefinitionDto = this.reportService_.getReportByReportId(reportId);
         // ファイル名を取得する
         String fileName = createFileNameByDefinitionDto(reportDefinitionDto);
         // ファイルを削除する
-        boolean isDeleteSuccess = this.reportService.deleteReportFile(fileName);
+        boolean isDeleteSuccess = this.reportService_.deleteReportFile(fileName);
 
         Map<String, Object> map = new HashMap<String, Object>();
 
         if (isDeleteSuccess)
         {
-            this.reportService.deleteReportDefinitionById(reportId);
+            this.reportService_.deleteReportDefinitionById(reportId);
         }
 
         map.put("reportId", reportId);
@@ -309,7 +312,7 @@ public class ReportController
 
         long reportId = schedulingReportDefinitionDto.getReportId();
         String reportName = schedulingReportDefinitionDto.getReportName();
-        boolean hasSameSignalName = this.reportService.hasSameSignalName(reportId, reportName);
+        boolean hasSameSignalName = this.reportService_.hasSameSignalName(reportId, reportName);
         if (hasSameSignalName)
         {
             String errorMessage = MessageUtil.getMessage("WEWD0141", reportName);
@@ -319,11 +322,11 @@ public class ReportController
         }
         /*this.reportService.createReport(reportDefinitionDto);*/
         SchedulingReportDefinition schedulingDefinition =
-                this.reportService.convertSchedulingReportDefinition(schedulingReportDefinitionDto);
+                this.reportService_.convertSchedulingReportDefinition(schedulingReportDefinitionDto);
 
         // DBに追加する
         SchedulingReportDefinitionDto addedDefinitionDto =
-                this.reportService.insertSchedulingReport(schedulingDefinition);
+                this.reportService_.insertSchedulingReport(schedulingDefinition);
 
         responseDto.setData(addedDefinitionDto);
         responseDto.setResult(ResponseConstants.RESULT_SUCCESS);
@@ -339,7 +342,7 @@ public class ReportController
     @ResponseBody
     public Map<String, Object> gett(@RequestParam(value = "reportId") final int reportId)
     {
-        this.reportService.deleteSchduleReportById(reportId);
+        this.reportService_.deleteSchduleReportById(reportId);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("reportId", reportId);
         return map;
@@ -361,7 +364,7 @@ public class ReportController
 
         long signalId = schedulingReportDefinitionDto.getReportId();
         String reportName = schedulingReportDefinitionDto.getReportName();
-        boolean hasSameSignalName = this.reportService.hasSameReportName(signalId, reportName);
+        boolean hasSameSignalName = this.reportService_.hasSameReportName(signalId, reportName);
         if (hasSameSignalName)
         {
             String errorMessage = MessageUtil.getMessage("WEWD0141", reportName);
@@ -370,11 +373,11 @@ public class ReportController
             return responseDto;
         }
         SchedulingReportDefinition signalInfo =
-                this.reportService.convertSchedulingReportDefinition(schedulingReportDefinitionDto);
+                this.reportService_.convertSchedulingReportDefinition(schedulingReportDefinitionDto);
 
         // DBに登録されている定義を更新する
         SchedulingReportDefinitionDto updatedDefinitionDto =
-                this.reportService.updateSchedulingInfo(signalInfo);
+                this.reportService_.updateSchedulingInfo(signalInfo);
         responseDto.setResult(ResponseConstants.RESULT_SUCCESS);
         responseDto.setData(updatedDefinitionDto);
 
