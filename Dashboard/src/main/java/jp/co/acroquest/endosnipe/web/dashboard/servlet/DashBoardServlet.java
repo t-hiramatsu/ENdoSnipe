@@ -105,9 +105,9 @@ public class DashBoardServlet extends HttpServlet
                 LOGGER.log(LogMessageCodes.FAIL_READ_DB_SETTING, SLEEP_TIME);
             }
         }
-        String springConfig =
-                "jp/co/acroquest/endosnipe/web/dashboard/quartz/propertySetting-quartz.xml";
-        ApplicationContext context = new ClassPathXmlApplicationContext(springConfig);
+        ApplicationContext context =
+                new ClassPathXmlApplicationContext(
+                                                   "jp/co/acroquest/endosnipe/web/dashboard/quartz/propertySetting-quartz.xml");
         // client modeの場合、設定ファイルのエージェントごとに、threadを作成する
         if ("client".equals(dbConfig.getConnectionMode()))
         {

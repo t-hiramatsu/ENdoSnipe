@@ -23,7 +23,7 @@ public interface PropertySettingDao
 {
     /**
      * レポート定義情報をレポート名をキーにして取得する。
-     * @param reportName レポート名
+     * @param key レポート名
      * @return レポート定義の配列
      */
     PropertySettingDefinition selectByKey(String key);
