@@ -111,7 +111,7 @@ ENS.SummarySignalDefinitionDialogView = ENS.DialogView
 			},
 			addList : function(e) {
 				var selectedOpts = $('#summarySignalList1Box option:selected');
-				if (selectedOpts.length == 0) {
+				if (selectedOpts.length === 0) {
 					alert("Nothing to move.");
 					e.preventDefault();
 				}
@@ -125,7 +125,7 @@ ENS.SummarySignalDefinitionDialogView = ENS.DialogView
 			},
 			removeList : function(e) {
 				var selectedOpts = $('#summarySignalList2Box option:selected');
-				if (selectedOpts.length == 0) {
+				if (selectedOpts.length === 0) {
 					alert("Nothing to move.");
 					e.preventDefault();
 				}
@@ -155,8 +155,8 @@ ENS.SummarySignalDefinitionDialogView = ENS.DialogView
 				_.each(summarySignalDefinitionList, function(
 						summarySignalDefinition, index) {
 					var signalName = summarySignalDefinition.signalName;
-					var index = $.inArray(signalName, summarySignalList);
-					if (index == -1) {
+					var indexOfList = $.inArray(signalName, summarySignalList);
+					if (indexOfList == -1) {
 						var lastIndexOf = signalName.lastIndexOf("/");
 						var signalSubName = signalName.substr(lastIndexOf + 1);
 						$('#summarySignalList1Box').append(

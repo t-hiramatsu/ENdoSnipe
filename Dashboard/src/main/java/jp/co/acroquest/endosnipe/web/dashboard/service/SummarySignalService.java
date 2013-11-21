@@ -247,6 +247,12 @@ public class SummarySignalService
                                                                   TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_UPDATE);
     }
 
+    /**
+     * check about summary signal is already exist or not
+     * @param summarySignalId  Id of summary signal
+     * @param summarySignalName  Name of summary signal
+     * @return duplicate or not
+     */
     public boolean checkDuplicate(final long summarySignalId, final String summarySignalName)
     {
         SummarySignalInfo summarySignalInfo =

@@ -269,11 +269,7 @@ public class SignalSummarizer
             {
 
                 SummarySignalStateManager.getInstance().getAlarmSummaryList().remove(sumSigName);
-                if (changeFlag)
-                {
-
-                    parentListSet.addAll(parChildMap__.get(sumSigName).parentListSet);
-                }
+                parentListSet.addAll(parChildMap__.get(sumSigName).parentListSet);
             }
             if (TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_ADD.equals(process))
             {
