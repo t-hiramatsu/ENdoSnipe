@@ -57,17 +57,23 @@ ENS.threadDumpView = wgp.AbstractView
 			},
 			render : function() {
 				var id = this.id;
-				$("#" + this.id)
-						.append(
-								"<input type='button' id='button' value='get Thread Dump'>");
-				$("#button").css({
-					"margin-left" : 1000,
-					"width" : 150
-				});
 				$("#" + id).append('<div id="threadDumpDiv"></div>');
 				$("#threadDumpDiv").css({
+
 					"margin-left" : 5
 				});
+				$("#threadDumpDiv")
+						.append(
+								"<input type='button' id='button' value='get Thread Dump'><br/><br/>");
+				$("#button").css(
+						{
+							"margin-right" : $("#contents_area_content")
+									.width()
+									- (this.tableWidth + 5),
+							"width" : 150,
+							"height" : 30,
+							"float" : "right"
+						});
 				$("#threadDumpDiv").append(
 						'<table id="threadDumpTable"></table>');
 				$("#threadDumpDiv")
