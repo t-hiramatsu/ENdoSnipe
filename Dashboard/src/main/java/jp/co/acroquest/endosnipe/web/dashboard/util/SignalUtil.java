@@ -25,6 +25,10 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.web.dashboard.util;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Pattern;
+
 import jp.co.acroquest.endosnipe.common.entity.ItemType;
 import jp.co.acroquest.endosnipe.communicator.entity.Body;
 import jp.co.acroquest.endosnipe.communicator.entity.Header;
@@ -33,6 +37,8 @@ import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.web.dashboard.constants.SignalConstants;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.SignalDefinitionDto;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.SignalTreeMenuDto;
+
+import org.springframework.beans.BeanUtils;
 
 /**
  * 閾値判定定義情報に関するUtilクラスです。
@@ -45,6 +51,9 @@ public class SignalUtil
     /** シグナルのオブジェトに設定する引数の数 */
     private static final int SIGNAL_ARGUMENT_COUNT = 6;
 
+    /** 閾値を区切るパターン */
+    private static final Pattern SIGNAL_SPLIT_PATTERN = Pattern.compile(",");
+
     /**
      * インスタンス化を阻止するprivateコンストラクタです。
      */
@@ -55,19 +64,18 @@ public class SignalUtil
 
     /**
      * 閾値判定定義情報のツリーオブジェクトを生成する。
-     * @param signalName シグナル名（ツリーのフルパスを設定する。)
-     * @param signalValue シグナルの状態値
-     * @param level 閾値判定定義のレベル
+     * @param signalDefinitionDto 閾値判定定義情報
      * @return 閾値判定定義情報のツリーオブジェクト
      */
-    public static SignalTreeMenuDto createSignalMenu(final String signalName,
-            final int signalValue, final int level)
+    public static SignalTreeMenuDto createSignalMenu(final SignalDefinitionDto signalDefinitionDto)
     {
         SignalTreeMenuDto signalTreeMenu = new SignalTreeMenuDto();
-        signalTreeMenu.setId(signalName);
-        signalTreeMenu.setTreeId(signalName);
+        BeanUtils.copyProperties(signalDefinitionDto, signalTreeMenu);
+        signalTreeMenu.setId(signalDefinitionDto.getSignalName());
+        signalTreeMenu.setTreeId(signalDefinitionDto.getSignalName());
         signalTreeMenu.setType("signal");
-        signalTreeMenu.setSignalValue(Integer.valueOf(signalValue));
+        int level = signalDefinitionDto.getLevel();
+        int signalValue = signalDefinitionDto.getSignalValue().intValue();
 
         String icon = "";
         if (level == SignalConstants.STATE_LEVEL_3)
@@ -96,8 +104,18 @@ public class SignalUtil
         {
             icon = SignalConstants.SIGNAL_ICON_STOP;
         }
-
         signalTreeMenu.setIcon(icon);
+
+        String[] valueArray = SIGNAL_SPLIT_PATTERN.split(signalDefinitionDto.getPatternValue());
+        Map<Integer, Double> signalMap = new HashMap<Integer, Double>();
+        for (int current = 0; current < valueArray.length; current++)
+        {
+            String valueStr = valueArray[current];
+            Double value = Double.valueOf(valueStr);
+            signalMap.put(current + 1, value);
+        }
+        signalTreeMenu.setSignalMap(signalMap);
+
         return signalTreeMenu;
     }
 

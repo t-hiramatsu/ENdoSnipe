@@ -146,7 +146,7 @@ public class MultipleResourceGraphService
         // 複数グラフ定義情報名
         Body multipleResourceGraphNameBody = new Body();
         multipleResourceGraphNameBody.setStrObjName(TelegramConstants.OBJECTNAME_RESOURCEALARM);
-        multipleResourceGraphNameBody.setStrItemName(TelegramConstants.ITEMNAME_ALARM_ID);
+        multipleResourceGraphNameBody.setStrItemName(TelegramConstants.ITEMNAME_SIGNAL_ID);
         multipleResourceGraphNameBody.setByteItemMode(ItemType.ITEMTYPE_STRING);
         multipleResourceGraphNameBody.setIntLoopCount(dtoCount);
         String[] multipleResourceGraphNames = new String[dtoCount];

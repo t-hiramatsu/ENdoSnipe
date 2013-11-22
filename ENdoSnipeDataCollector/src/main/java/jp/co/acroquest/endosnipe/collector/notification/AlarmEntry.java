@@ -39,26 +39,32 @@ import jp.co.acroquest.endosnipe.data.dto.SignalDefinitionDto;
  */
 public class AlarmEntry
 {
-    /** アラーム名 */
-    private String alarmID_;
+    /** 閾値判定定義情報ID */
+    private long signalId_;
 
-    /** 閾値 */
-    private Double risingThreshold_;
+    /** シグナル名 */
+    private String signalName_;
 
     /** 状態値 */
     private Double alarmValue_;
 
     /** 計測間隔(単位:ミリ秒) */
-    private double alarmInterval_;
+    private double escalationPeriod_;
 
-    /** アラームの状態値 */
-    private int alarmState_;
+    /** 閾値判定結果 */
+    private int signalValue_;
 
     /** アラームを出すかどうか */
     private boolean sendAlarm_;
 
     /** アラームの種類 */
     private AlarmType alarmType_;
+
+    /** 各レベルの閾値 */
+    private String patternValue_;
+
+    /** 閾値判定パターン */
+    private String matchingPattern_;
 
     /** JavelinのIPアドレス */
     private String ipAddress_;
@@ -86,39 +92,39 @@ public class AlarmEntry
     }
 
     /**
-     * アラーム名を取得する。
+     * 閾値判定定義IDを取得する。
      * @return アラーム名
      */
-    public String getAlarmID()
+    public long getSignalId()
     {
-        return this.alarmID_;
+        return this.signalId_;
     }
 
     /**
-     * アラーム名を設定する。
-     * @param alarmID アラーム名
+     * 閾値判定定義IDを設定する。
+     * @param signalId 閾値判定定義ID
      */
-    public void setAlarmID(final String alarmID)
+    public void setSignalId(final long signalId)
     {
-        this.alarmID_ = alarmID;
+        this.signalId_ = signalId;
     }
 
     /**
-     * 発生閾値を取得する。
-     * @return 発生閾値
+     * シグナル名を取得する。
+     * @return シグナル名
      */
-    public Double getRisingThreshold()
+    public String getSignalName()
     {
-        return this.risingThreshold_;
+        return signalName_;
     }
 
     /**
-     * 発生閾値を設定する。
-     * @param risingThreshold 発生閾値
+     * シグナル名を設定する。
+     * @param signalName シグナル名
      */
-    public void setRisingThreshold(final Double risingThreshold)
+    public void setSignalName(final String signalName)
     {
-        this.risingThreshold_ = risingThreshold;
+        signalName_ = signalName;
     }
 
     /**
@@ -140,39 +146,39 @@ public class AlarmEntry
     }
 
     /**
-     * 計測間隔(単位:ミリ秒を取得する。
+     * 計測間隔(単位:ミリ秒)を取得する。
      * @return 計測間隔(単位:ミリ秒
      */
-    public double getAlarmInterval()
+    public double getEscalationPeriod()
     {
-        return this.alarmInterval_;
+        return this.escalationPeriod_;
     }
 
     /**
-     * 計測間隔(単位:ミリ秒を設定する。
-     * @param alarmInterval 計測間隔(単位:ミリ秒
+     * エスカレーション期間(単位:ミリ秒)を設定する。
+     * @param escalationPeriod 計測間隔(単位:ミリ秒)
      */
-    public void setAlarmInterval(final double alarmInterval)
+    public void setEscalationPeriod(final double escalationPeriod)
     {
-        this.alarmInterval_ = alarmInterval;
+        this.escalationPeriod_ = escalationPeriod;
     }
 
     /**
-     * アラームの状態値を取得する。
-     * @return アラームの状態値
+     * 閾値判定結果を取得する。
+     * @return 閾値判定結果
      */
-    public int getAlarmState()
+    public int getSignalValue()
     {
-        return this.alarmState_;
+        return this.signalValue_;
     }
 
     /**
-     * アラームの状態値を設定する。
-     * @param alarmState アラームの状態値
+     * 閾値判定結果を設定する。
+     * @param signalValue 閾値判定結果
      */
-    public void setAlarmState(final int alarmState)
+    public void setSignalValue(final int signalValue)
     {
-        this.alarmState_ = alarmState;
+        this.signalValue_ = signalValue;
     }
 
     /**
@@ -315,6 +321,34 @@ public class AlarmEntry
     public SignalDefinitionDto getDefinition()
     {
         return definition_;
+    }
+
+    public String getPatternValue()
+    {
+        return patternValue_;
+    }
+
+    public void setPatternValue(final String patternValue)
+    {
+        patternValue_ = patternValue;
+    }
+
+    /**
+     * 閾値判定パターンを取得する。
+     * @return 閾値判定パターン
+     */
+    public String getMatchingPattern()
+    {
+        return matchingPattern_;
+    }
+
+    /**
+     * 閾値判定パターンを設定する。
+     * @param matchingPattern 閾値判定パターン
+     */
+    public void setMatchingPattern(final String matchingPattern)
+    {
+        matchingPattern_ = matchingPattern;
     }
 
     /**

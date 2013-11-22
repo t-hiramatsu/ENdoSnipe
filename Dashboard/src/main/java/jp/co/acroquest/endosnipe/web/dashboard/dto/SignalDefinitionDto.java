@@ -1,5 +1,8 @@
 package jp.co.acroquest.endosnipe.web.dashboard.dto;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * シグナル定義のDTOクラス。
  * 
@@ -22,6 +25,9 @@ public class SignalDefinitionDto
 
     /** 各レベルの閾値。 */
     private String patternValue_;
+
+    /** 閾値のマップ */
+    private Map<Integer, Double> signalMap_ = new HashMap<Integer, Double>();
 
     /** エスカレーション期間。 */
     private double escalationPeriod_;
@@ -182,4 +188,25 @@ public class SignalDefinitionDto
     {
         this.signalValue_ = signalValue;
     }
+
+    /**
+     * 閾値のマップを取得する。
+     * 
+     * @return 閾値のマップ
+     */
+    public Map<Integer, Double> getSignalMap()
+    {
+        return signalMap_;
+    }
+
+    /**
+     * 閾値のマップを設定する。
+     * 
+     * @param signalMap 閾値のマップ
+     */
+    public void setSignalMap(final Map<Integer, Double> signalMap)
+    {
+        this.signalMap_ = signalMap;
+    }
+
 }

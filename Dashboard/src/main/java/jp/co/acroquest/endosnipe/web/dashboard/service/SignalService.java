@@ -2,7 +2,10 @@ package jp.co.acroquest.endosnipe.web.dashboard.service;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 import jp.co.acroquest.endosnipe.common.entity.ItemType;
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
@@ -56,6 +59,9 @@ public class SignalService
      */
     @Autowired
     protected SignalInfoDao signalInfoDao;
+
+    /** 閾値を区切るパターン */
+    private static final Pattern SIGNAL_SPLIT_PATTERN = Pattern.compile(",");
 
     /**
      * コンストラクタ
@@ -184,7 +190,7 @@ public class SignalService
         // 閾値判定定義情報名
         Body signalNameBody = new Body();
         signalNameBody.setStrObjName(TelegramConstants.OBJECTNAME_RESOURCEALARM);
-        signalNameBody.setStrItemName(TelegramConstants.ITEMNAME_ALARM_ID);
+        signalNameBody.setStrItemName(TelegramConstants.ITEMNAME_SIGNAL_NAME);
         signalNameBody.setByteItemMode(ItemType.ITEMTYPE_STRING);
         signalNameBody.setIntLoopCount(dtoCount);
         String[] signalNames = new String[dtoCount];
@@ -427,6 +433,16 @@ public class SignalService
         definitionDto.setPatternValue(signalInfo.patternValue);
         definitionDto.setEscalationPeriod(signalInfo.escalationPeriod);
 
+        String[] valueArray = SIGNAL_SPLIT_PATTERN.split(signalInfo.patternValue);
+        Map<Integer, Double> signalMap = new HashMap<Integer, Double>();
+        for (int level = 0; level < valueArray.length; level++)
+        {
+            String valueStr = valueArray[level];
+            Double value = Double.valueOf(valueStr);
+            signalMap.put(level + 1, value);
+        }
+        definitionDto.setSignalMap(signalMap);
+
         return definitionDto;
     }
 
@@ -533,6 +549,7 @@ public class SignalService
         treeMenu.setSignalValue(signalDto.getSignalValue());
         treeMenu.setType(TreeMenuConstants.TREE_MENU_TYPE_SIGNAL);
         treeMenu.setIcon("signal_" + signalDto.getSignalValue());
+        treeMenu.setSignalMap(signalDto.getSignalMap());
 
         return treeMenu;
     }
