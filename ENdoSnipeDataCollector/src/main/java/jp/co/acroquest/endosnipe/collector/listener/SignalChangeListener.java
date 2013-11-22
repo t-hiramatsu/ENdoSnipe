@@ -165,7 +165,7 @@ public class SignalChangeListener extends AbstractTelegramListener implements Te
 
             if (TelegramConstants.ITEMNAME_SIGNAL_UPDATE.equals(itemName))
             {
-                AlarmData alarmData = signalStateManager.getAlarmData(signalName);
+                AlarmData alarmData = signalStateManager.getAlarmData(signalDefinition.signalId);
                 if (alarmData != null)
                 {
                     alarmData.reset();
@@ -207,7 +207,7 @@ public class SignalChangeListener extends AbstractTelegramListener implements Te
             signalStateManager.removeSignalDefinition(signalId);
             summaryDtoList__ =
                 SummarySignalStateManager.getInstance().checkDeleteNode(signalName, true);
-            signalStateManager.removeAlarmData(signalName);
+            signalStateManager.removeAlarmData(signalId);
         }
         catch (NumberFormatException ex)
         {

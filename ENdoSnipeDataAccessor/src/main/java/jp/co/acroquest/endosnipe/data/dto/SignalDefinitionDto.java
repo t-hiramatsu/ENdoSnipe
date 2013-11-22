@@ -57,6 +57,9 @@ public class SignalDefinitionDto
     /** エスカレーション期間 */
     private double               escalationPeriod_;
 
+    /** 各レベル毎の閾値 */
+    private String               patternValue_;
+
     /** 閾値のスプリットパターン */
     private static final Pattern SPLIT_PATERN = Pattern.compile(",");
 
@@ -167,6 +170,25 @@ public class SignalDefinitionDto
     {
         this.escalationPeriod_ = escalationPeriod;
     }
+    
+    
+    /**
+     * 各レベル毎の閾値を取得する。
+     * @return 各レベル毎の閾値
+     */
+    public String getPatternValue()
+    {
+        return patternValue_;
+    }
+
+    /**
+     * 各レベル毎の閾値を設定する。
+     * @param patternValue 各レベル毎の閾値
+     */
+    public void setPatternValue(String patternValue)
+    {
+        patternValue_ = patternValue;
+    }
 
     /**
      * {@link SignalDefinitionDto} オブジェクトを生成します。
@@ -180,6 +202,7 @@ public class SignalDefinitionDto
         this.level_ = signalDefinition.level;
         this.escalationPeriod_ = signalDefinition.escalationPeriod;
         this.thresholdMaping_ = new TreeMap<Integer, Double>();
+        this.patternValue_ = signalDefinition.patternValue;
 
         String[] thresholdings = SPLIT_PATERN.split(signalDefinition.patternValue);
         if (thresholdings != null)
