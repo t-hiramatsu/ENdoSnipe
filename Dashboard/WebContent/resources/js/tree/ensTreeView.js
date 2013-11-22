@@ -1288,7 +1288,9 @@ ENS.treeView = wgp.TreeView
 					data : showName,
 					parentTreeId : targetTreeId,
 					icon : ENS.tree.SIGNAL_ICON_0,
-					type : ENS.tree.type.SIGNAL
+					type : ENS.tree.type.SIGNAL,
+					matchingPattern : signalDefinition.matchingPattern,
+					signalMap : signalDefinition.signalMap
 				};
 
 				return treeOption;

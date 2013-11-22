@@ -50,23 +50,22 @@ public class AlarmThresholdProcessor implements AlarmProcessor
      * @return アラーム通知の有無と、通知するアラームに表示させる情報を入れたAlarmEntry
      */
     public AlarmEntry calculateAlarmLevel(final ResourceData currentResourceData,
-            final ResourceData prevResourceData, final SignalDefinitionDto signalDefinition,
-            final AlarmData alarmData)
+        final ResourceData prevResourceData, final SignalDefinitionDto signalDefinition,
+        final AlarmData alarmData)
     {
         // 初期状態
         if (currentResourceData == null)
         {
             AlarmEntry alarmEntry = new AlarmEntry();
             alarmEntry.setSendAlarm(false);
-            alarmEntry.setAlarmState(JavelinDataLogger.NORMAL_ALARM_LEVEL);
+            alarmEntry.setSignalValue(JavelinDataLogger.NORMAL_ALARM_LEVEL);
             alarmEntry.setSignalLevel(signalDefinition.getLevel());
             return alarmEntry;
         }
         String matchingPattern = signalDefinition.getMatchingPattern();
 
         Number itemValueNumber =
-                                 AlarmThresholdUtil.getNumberFromResourceData(currentResourceData,
-                                                                              matchingPattern);
+            AlarmThresholdUtil.getNumberFromResourceData(currentResourceData, matchingPattern);
         if (itemValueNumber == null)
         {
             if (alarmData == null)
@@ -83,8 +82,8 @@ public class AlarmThresholdProcessor implements AlarmProcessor
         }
         double itemValue = itemValueNumber.doubleValue();
         AlarmEntry alarmEntry =
-                                createAlarmEntry(currentResourceData.measurementTime, itemValue,
-                                                 alarmData, signalDefinition);
+            createAlarmEntry(currentResourceData.measurementTime, itemValue, alarmData,
+                             signalDefinition);
         return alarmEntry;
     }
 
@@ -97,7 +96,7 @@ public class AlarmThresholdProcessor implements AlarmProcessor
      * @return
      */
     private AlarmEntry createAlarmEntry(final long measurementTime, final double value,
-            final AlarmData alarmData, final SignalDefinitionDto signalDefinition)
+        final AlarmData alarmData, final SignalDefinitionDto signalDefinition)
     {
         // 返り値となる AlarmEntry の初期化
         AlarmEntry entry = null;
@@ -146,7 +145,10 @@ public class AlarmThresholdProcessor implements AlarmProcessor
         if (entry != null)
         {
             entry.setAlarmValue(value);
-            entry.setAlarmID(signalDefinition.getSignalName());
+            entry.setSignalId(signalDefinition.getSignalId());
+            entry.setSignalName(signalDefinition.getSignalName());
+            entry.setMatchingPattern(signalDefinition.getMatchingPattern());
+            entry.setPatternValue(signalDefinition.getPatternValue());
         }
         return entry;
     }
