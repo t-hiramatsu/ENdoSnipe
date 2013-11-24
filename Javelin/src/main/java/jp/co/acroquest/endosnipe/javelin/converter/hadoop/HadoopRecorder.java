@@ -30,6 +30,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
@@ -37,7 +38,9 @@ import jp.co.acroquest.endosnipe.common.event.EventConstants;
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 import jp.co.acroquest.endosnipe.javelin.CallTree;
 import jp.co.acroquest.endosnipe.javelin.CallTreeNode;
+import jp.co.acroquest.endosnipe.javelin.CallTreeNodeMonitor;
 import jp.co.acroquest.endosnipe.javelin.CallTreeRecorder;
+import jp.co.acroquest.endosnipe.javelin.HadoopJavelinFileGenerator;
 import jp.co.acroquest.endosnipe.javelin.MBeanManager;
 import jp.co.acroquest.endosnipe.javelin.RecordStrategy;
 import jp.co.acroquest.endosnipe.javelin.RootInvocationManager;
@@ -48,7 +51,6 @@ import jp.co.acroquest.endosnipe.javelin.bean.Invocation;
 import jp.co.acroquest.endosnipe.javelin.bean.TripleState;
 import jp.co.acroquest.endosnipe.javelin.communicate.AlarmListener;
 import jp.co.acroquest.endosnipe.javelin.converter.hadoop.HadoopObjectAnalyzer.HadoopJobStatus;
-import jp.co.acroquest.endosnipe.javelin.converter.leak.monitor.CallTreeNodeMonitor;
 import jp.co.acroquest.endosnipe.javelin.converter.util.ConverterUtil;
 import jp.co.acroquest.endosnipe.javelin.event.CommonEvent;
 import jp.co.acroquest.endosnipe.javelin.event.EventRepository;
@@ -66,7 +68,6 @@ import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
  * @author asazuma
  *
  */
-// TODO JobTrackerクラスのgetJobStatus()、submitJob()、heartbeat()のみ監視することを想定
 public class HadoopRecorder
 {
     /** アラームリスナのリスト */
@@ -76,7 +77,7 @@ public class HadoopRecorder
     private static boolean                 initialized__;
 
     /** Javelinログ出力クラス */
-    private static JavelinFileGenerator    generator__;
+    private static HadoopJavelinFileGenerator    generator__;
 
     /** 記録条件判定クラス */
     private static RecordStrategy          recordStrategy__;
@@ -97,8 +98,8 @@ public class HadoopRecorder
                                                = new EventRepository();
 
     /** 実行中のジョブのリスト */
-    private static List<String>            runningJobList__
-                                               = Collections.synchronizedList(new ArrayList<String>());
+    private static List<String>              runningJobList__    =
+                       Collections.synchronizedList(new ArrayList<String>());
 
     static
     {
@@ -161,7 +162,7 @@ public class HadoopRecorder
             SystemLogger.initSystemLog(config);
 
             // ログ出力クラスのインスタンス生成
-            generator__ = new JavelinFileGenerator(config);
+            generator__ = new HadoopJavelinFileGenerator(config);
 
             // AlarmListenerを登録
             registerAlarmListeners(config);
@@ -358,7 +359,7 @@ public class HadoopRecorder
             }
         }
 
-        CallTreeRecorder callTreeRecorder = CallTreeRecorder.getInstance();
+        HadoopCallTreeRecorder callTreeRecorder = HadoopCallTreeRecorder.getInstance();
 
         // Javelinのログ出力処理が呼び出されている場合、処理を行わない
         if (callTreeRecorder.isRecordMethodCalled())
@@ -407,7 +408,7 @@ public class HadoopRecorder
     private static boolean recordPreInvocation(Component component, Invocation invocation,
             final String className, final String methodName, final Object[] args,
             final StackTraceElement[] stacktrace, final boolean doExcludeProcess,
-            final boolean isResponse, CallTreeRecorder callTreeRecorder)
+            final boolean isResponse, HadoopCallTreeRecorder callTreeRecorder)
     {
 
         // 引数のcomponentとinvocationは必ずNULL
@@ -577,8 +578,8 @@ public class HadoopRecorder
                 && recordedInvocationNum >= config__.getRecordInvocationMax())
         {
             Invocation removedInvoction = component.addAndDeleteOldestInvocation(invocation);
-            sendInvocationFullEvent(component, className, recordedInvocationNum, invocation,
-                                    removedInvoction);
+            sendInvocationFullEvent(component, className, recordedInvocationNum, invocation, 
+                    removedInvoction);
         }
         else
         {
@@ -1067,7 +1068,7 @@ public class HadoopRecorder
                                           final Throwable cause,
                                           final long telegramId)
     {
-        CallTreeRecorder callTreeRecorder = CallTreeRecorder.getInstance();
+        HadoopCallTreeRecorder callTreeRecorder = HadoopCallTreeRecorder.getInstance();
 
         // Javelinのログ出力処理が呼び出されている場合、処理を行わない
         if (callTreeRecorder.isRecordMethodCalled())
@@ -1115,7 +1116,7 @@ public class HadoopRecorder
                                                 final Object returnValue,
                                                 final String methodName,
                                                 final Throwable cause,
-                                                CallTreeRecorder callTreeRecorder,
+                                                HadoopCallTreeRecorder callTreeRecorder,
                                                 long telegramId)
     {
         boolean ret = false;
@@ -1393,23 +1394,7 @@ public class HadoopRecorder
             return false;
         }
 
-        // TaskTrackerStatusをJobID毎にまとめる
-        HashMap<String, ArrayList<HadoopTaskStatus>> arrangedMap = new HashMap<String, ArrayList<HadoopTaskStatus>>();
-        for (HadoopTaskStatus status : taskStatusList)
-        {
-            String jobID = status.getJobID();
-            ArrayList<HadoopTaskStatus> temp;
-            if (arrangedMap.containsKey(jobID))
-            {
-                temp = arrangedMap.get(jobID);
-            }
-            else
-            {
-                temp = new ArrayList<HadoopTaskStatus>(1);
-            }
-            temp.add(status);
-            arrangedMap.put(jobID, temp);
-        }
+        Map<String, ArrayList<HadoopTaskStatus>> arrangedMap = getStatusListMap(taskStatusList);
 
         // ルート呼び出し時に、例外発生フラグをクリアする
         callTreeRecorder.setExceptionOccured(false);
@@ -1432,10 +1417,9 @@ public class HadoopRecorder
         {
 
             // 最初の呼び出しなので、CallTreeを初期化しておく。
-            // TODO CallTreeを勝手に作っても大丈夫？
             CallTree callTree = new CallTree();
             initCallTree(callTree, methodName, callTreeRecorder);
-            CallTreeNode newNode = CallTreeRecorder.createNode(invocation, args, stacktrace, config__);
+            HadoopCallTreeNode newNode = HadoopCallTreeRecorder.createNode(invocation, args, stacktrace, config__);
             newNode.setDepth(0);
             newNode.setTree(callTree);
             callTree.setRootNode(newNode);
@@ -1466,6 +1450,34 @@ public class HadoopRecorder
 
         return true;
     }
+
+    /**
+     * TaskStatusのリストをJobIDごとにまとめる。
+     * 
+     * @param taskStatusList TaskStatusのリスト
+     * @return　JobIDをキー、TaskStatusのリストを値としたマップ。
+     */
+	private static Map<String, ArrayList<HadoopTaskStatus>> getStatusListMap(
+			ArrayList<HadoopTaskStatus> taskStatusList) {
+		// TaskTrackerStatusをJobID毎にまとめる
+        HashMap<String, ArrayList<HadoopTaskStatus>> arrangedMap = new HashMap<String, ArrayList<HadoopTaskStatus>>();
+        for (HadoopTaskStatus status : taskStatusList)
+        {
+            String jobID = status.getJobID();
+            ArrayList<HadoopTaskStatus> temp;
+            if (arrangedMap.containsKey(jobID))
+            {
+                temp = arrangedMap.get(jobID);
+            }
+            else
+            {
+                temp = new ArrayList<HadoopTaskStatus>(1);
+            }
+            temp.add(status);
+            arrangedMap.put(jobID, temp);
+        }
+		return arrangedMap;
+	}
 
     /**
      * Heartbeat()の後処理を行う。
@@ -1524,7 +1536,7 @@ public class HadoopRecorder
 
         // TaskTrackerStatusのJobID毎にcallTreeを登録する。
         HashMap<String, CallTree> callTreeMap = recorder.takeAllCallTree();
-        HashMap<String, CallTreeNode> callTreeNodeMap = recorder.takeAllCallTreeNode();
+        HashMap<String, HadoopCallTreeNode> callTreeNodeMap = recorder.takeAllCallTreeNode();
 
         // CallTreeとCallTreeNodeのどちらか片方だけしか取得できない場合はエラー
         if (callTreeMap == null ^ callTreeNodeMap == null)
@@ -1539,26 +1551,31 @@ public class HadoopRecorder
 
             // 例外を保存したかどうかのフラグ
             boolean saveException = false;
-
+            
             Set<String> jobIDSet = callTreeMap.keySet();
             for (String jobID : jobIDSet)
             {
                 CallTree callTree = callTreeMap.get(jobID);
-                CallTreeNode node = callTreeNodeMap.get(jobID);
-
+                HadoopCallTreeNode node = callTreeNodeMap.get(jobID);
+                
                 // CallTreeNodeが取得できない場合は処理を中断する。
                 if (node == null)
                     return false;
+
+                // 状態値の更新を確認する。
+				ArrayList<HadoopTaskStatus> taskStatusList = node
+						.getHadoopInfo().getTaskStatuses();
+				HadoopObjectAnalyzer.updateTaskStatuses(thisObject, taskStatusList);
+				
+                // 計測情報の保存を行う
+                HadoopMeasurementInfo measurementInfo = HadoopMeasurementInfo.getInstance();
+                measurementInfo.addToTaskTrackerStatusList(node.getHadoopInfo());
+                SystemLogger.getInstance().debug("HadoopRecorder : node.getHadoopInfo() " + node.getHadoopInfo());
 
                 try
                 {
                     // アラーム通知処理、イベント出力処理を行う。
                     recordAndAlarmEvents(callTree, callTreeRecorder, telegramId);
-
-                    // 呼び出し元情報が取得できない場合は処理をキャンセルする。
-                    // (下位レイヤで例外が発生した場合のため。)
-                    if (node == null)
-                        continue;
 
                     node.setEndTime(System.currentTimeMillis());
 
@@ -1622,7 +1639,7 @@ public class HadoopRecorder
             // 新規作成したCallTreeNodeにTaskTrackerActionを設定して次へ
             CallTree callTree = new CallTree();
             initCallTree(callTree, methodName, callTreeRecorder);
-            CallTreeNode newNode = CallTreeRecorder.createNode(invocation, null, null, config__);
+            HadoopCallTreeNode newNode = HadoopCallTreeRecorder.createNode(invocation, null, null, config__);
             newNode.setDepth(0);
             newNode.setTree(callTree);
             callTree.setRootNode(newNode);
@@ -1647,6 +1664,7 @@ public class HadoopRecorder
         // 終了したジョブの確認
         ArrayList<String> succeededList = new ArrayList<String>(0);
         ArrayList<String> killedList = new ArrayList<String>(0);
+        
         synchronized(runningJobList__)
         {
             Iterator<String> itr = runningJobList__.iterator();
@@ -1656,15 +1674,42 @@ public class HadoopRecorder
                 {
                     String jobID = itr.next();
                     HadoopJobStatus status = HadoopObjectAnalyzer.checkJobStatus(jobID, thisObject);
+                    
                     if (status == HadoopJobStatus.SUCCEEDED)
                     {
                         succeededList.add(jobID);
                         itr.remove();
-                    }
+                        
+                        // 計測用に格納
+                        HadoopJobStatusInfo info = 
+                                HadoopObjectAnalyzer.getJobStatusInfo(jobID, thisObject);
+                        HadoopMeasurementInfo measurementInfo = HadoopMeasurementInfo.getInstance();
+                        info.setRunState(HadoopJobStatus.getNumber(status));
+                        measurementInfo.addToJobStatusList(info);
+                        SystemLogger.getInstance().debug("HadoopRecorder : JobStatus " + info);
+                     }
                     else if (status == HadoopJobStatus.KILLED)
                     {
                         killedList.add(jobID);
                         itr.remove();
+
+                        // 計測用に格納
+                        HadoopJobStatusInfo info = 
+                                HadoopObjectAnalyzer.getJobStatusInfo(jobID, thisObject);
+                        info.setRunState(HadoopJobStatus.getNumber(status));
+                        HadoopMeasurementInfo measurementInfo = HadoopMeasurementInfo.getInstance();
+                        measurementInfo.addToJobStatusList(info);
+                    }
+                    else if (status == HadoopJobStatus.FAILED)
+                    {
+                    	itr.remove();
+                    	
+                        // 計測用に格納
+                        HadoopJobStatusInfo info = 
+                                HadoopObjectAnalyzer.getJobStatusInfo(jobID, thisObject);
+                        info.setRunState(HadoopJobStatus.getNumber(status));
+                        HadoopMeasurementInfo measurementInfo = HadoopMeasurementInfo.getInstance();
+                        measurementInfo.addToJobStatusList(info);
                     }
                 }
                 catch (Exception e)
@@ -1694,14 +1739,14 @@ public class HadoopRecorder
      * 
      * @return {@code true}：成功／{@code false}：失敗
      */
-    private static boolean recordPreSubmitJob(CallTreeRecorder callTreeRecorder,
+    private static boolean recordPreSubmitJob(HadoopCallTreeRecorder callTreeRecorder,
         Component component, Invocation invocation, final String className,
         final String methodName, final Object[] args, final StackTraceElement[] stacktrace,
         final boolean isResponse)
     {
         CallTree callTree = callTreeRecorder.getCallTree();
-        CallTreeNode newNode;
-        CallTreeNode parent = callTreeRecorder.getCallTreeNode();
+        HadoopCallTreeNode newNode;
+        HadoopCallTreeNode parent = callTreeRecorder.getCallTreeNode();
 
         // JobIDを取得
         String submitJobID;
@@ -1726,7 +1771,7 @@ public class HadoopRecorder
 
         // 最初の呼び出しなので、CallTreeを初期化しておく。
         initCallTree(callTree, "submitJob", callTreeRecorder);
-        newNode = CallTreeRecorder.createNode(invocation, args, stacktrace, config__);
+        newNode = HadoopCallTreeRecorder.createNode(invocation, args, stacktrace, config__);
         newNode.setDepth(0);
         newNode.setTree(callTree);
         callTree.setRootNode(newNode);
@@ -1734,12 +1779,6 @@ public class HadoopRecorder
 
         try
         {
-            if (newNode == null)
-            {
-                newNode = CallTreeRecorder.createNode(invocation, args, stacktrace, config__);
-                newNode.setDepth(callTreeRecorder.getDepth());
-            }
-
             // CallTreeNodeを追加
             CallTreeRecorder.addCallTreeNode(parent, callTree, newNode, config__);
             // VM状態取得
@@ -1780,7 +1819,7 @@ public class HadoopRecorder
                                                final Object returnValue,
                                                final String methodName,
                                                final Throwable cause,
-                                               CallTreeRecorder callTreeRecorder,
+                                               HadoopCallTreeRecorder callTreeRecorder,
                                                long telegramId)
     {
         CallTree callTree = callTreeRecorder.getCallTree();
@@ -1791,7 +1830,7 @@ public class HadoopRecorder
             recordAndAlarmEvents(callTree, callTreeRecorder, telegramId);
 
             // 呼び出し元情報取得。
-            CallTreeNode node = callTreeRecorder.getCallTreeNode();
+            HadoopCallTreeNode node = callTreeRecorder.getCallTreeNode();
             if (node == null)
             {
                 // 呼び出し元情報が取得できない場合は処理をキャンセルする。
@@ -1910,7 +1949,7 @@ public class HadoopRecorder
         initCallTree(tree, "getJobStatus", recorder); // 便宜上、メソッド名を設定
 
         // CallTreeNodeの作成
-        CallTreeNode node = CallTreeRecorder.createNode(invocation, null, null, config__);
+        HadoopCallTreeNode node = HadoopCallTreeRecorder.createNode(invocation, null, null, config__);
         node.setDepth(0);
         node.setTree(tree);
 
@@ -1956,7 +1995,7 @@ public class HadoopRecorder
         initCallTree(tree, "killJob", recorder); // 便宜上、メソッド名を設定
 
         // CallTreeNodeの作成
-        CallTreeNode node = CallTreeRecorder.createNode(invocation, null, null, config__);
+        HadoopCallTreeNode node = HadoopCallTreeRecorder.createNode(invocation, null, null, config__);
         node.setDepth(0);
         node.setTree(tree);
 
@@ -1980,4 +2019,5 @@ public class HadoopRecorder
 
         return tree;
     }
+    
 }
