@@ -106,11 +106,6 @@ public class SummarySignalController
                 new ArrayList<SummarySignalDefinitionDto>();
         summarySignalService_.getAllSummarySignals();
 
-        while (summarySignalDefinitionDto__.size() == 0)
-        {
-            System.out.print("");
-        }
-
         summarySignalDefinitionDto.addAll(summarySignalDefinitionDto__);
         SummarySignalController.summarySignalDefinitionDto__.clear();
         return summarySignalDefinitionDto;
