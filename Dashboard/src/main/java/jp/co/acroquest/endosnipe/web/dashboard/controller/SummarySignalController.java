@@ -106,6 +106,13 @@ public class SummarySignalController
                 new ArrayList<SummarySignalDefinitionDto>();
         summarySignalService_.getAllSummarySignals();
 
+        // wait until data of summarySignal is arriving to the Dashboard from the Collector
+        // if data of summarySignal is nothing, DataCollector put the 
+        //empty summarySignal Object and send back to Dashboard
+        while (summarySignalDefinitionDto__.size() == 0)
+        {
+            System.out.print("");
+        }
         summarySignalDefinitionDto.addAll(summarySignalDefinitionDto__);
         SummarySignalController.summarySignalDefinitionDto__.clear();
         return summarySignalDefinitionDto;
@@ -128,7 +135,7 @@ public class SummarySignalController
         SummarySignalDefinitionDto summarySignalDefinitionDto =
                 JSON.decode(summarySignalDefinition, SummarySignalDefinitionDto.class);
         this.summarySignalService_.insertSummarySignalDefinition(summarySignalDefinitionDto);
-
+        // wait until data of summarySignal is arriving to the Dashboard from the Collector
         while (responseData__ == null)
         {
             System.out.print("");
@@ -152,6 +159,7 @@ public class SummarySignalController
     {
         this.summarySignalService_.deleteSummarySignalDefinition(summarySignalName);
         ResponseDto responseDto = new ResponseDto();
+        // wait until data of summarySignal is arriving to the Dashboard from the Collector
         while (responseData__ == null)
         {
             System.out.print("");
@@ -196,6 +204,7 @@ public class SummarySignalController
                 JSON.decode(summarySignalDefinition, SummarySignalDefinitionDto.class);
 
         this.summarySignalService_.updateSummarySignalDefinition(summarySignalDefinitionDto);
+        // wait until data of summarySignal is arriving to the Dashboard from the Collector
         while (responseData__ == null)
         {
             System.out.print("");
