@@ -26,11 +26,34 @@
 ENS.graph = {};
 /** 閾値の表示を開始するデータ */
 ENS.graph.INIT_SIGNAL_POSTION = 31;
+ENS.graph.SIGNAL_COLOR = {
+	"-1" : "#443043",
+	"0" : "#2869EE",
+	"1" : "#38C600",
+	"2" : "#FAC800",
+	"3" : "#FE8900",
+	"4" : "#E91717"
+};
 ENS.ResourceGraphElementView = wgp.DygraphElementView
 		.extend({
 			initialize : function(argument, treeSettings) {
 				this.isRealTime = true;
 				this._initData(argument, treeSettings);
+				// グラフの系列色
+				this.colors = [];
+				
+				// Dygraphの系列色を設定する。
+				var sat = 1.0;
+				var val = 0.5;
+				var num = ENS.graph.INIT_SIGNAL_POSTION - 1;
+				var half = Math.ceil(num / 2);
+				for ( var i = 0; i < num; i++) {
+					var idx = i % 2 ? (half + (i + 1) / 2) : Math
+							.ceil((i + 1) / 2);
+					var hue = (1.0 * idx / (1 + num));
+					colorStr = Dygraph.hsvToRGB(hue, sat, val);
+					this.colors.push(colorStr);
+				}
 
 				// %グラフのY軸の最大値
 				this.percentGraphMaxYValue = argument.percentGraphMaxYValue;
@@ -160,7 +183,8 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 					},
 					dateWindow : this.dateWindow,
 					axisLabelFontSize : 10,
-					titleHeight : 22
+					titleHeight : 22,
+					colors : this.colors
 				};
 
 				this.attributes = undefined;
@@ -310,6 +334,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 					if (this.data.length !== 0) {
 						updateOption['dateWindow'] = [ tempStart, tempEnd ];
 					}
+					updateOption['colors'] = this.colors;
 					this.entity.updateOptions(updateOption);
 
 					var graphId = this.$el.attr("id") + "_ensgraph";
@@ -1007,18 +1032,41 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				}
 
 				var instance = this;
+				var level = model.get("level");
 				// 閾値のマップの値をグラフデータに追加する。
-				_.each(signalMap, function(value, level) {
-					_.each(data,
-							function(columnData, dataIndex) {
-								columnData[ENS.graph.INIT_SIGNAL_POSTION
-										+ signalCount] = value;
+				_.each(signalMap,
+						function(value, signalLevel) {
+							_.each(data, function(columnData, dataIndex) {
+								var addPosition = ENS.graph.INIT_SIGNAL_POSTION
+										+ signalCount;
+								columnData[addPosition] = value;
 							});
-					signalCount++;
-					if (instance.maxValue < value) {
-						instance.maxValue = value;
-					}
-				});
+							instance.colors[ENS.graph.INIT_SIGNAL_POSTION
+									+ signalCount - 1] = instance._getSignalColor(
+									level, signalLevel);
+							signalCount++;
+							if (instance.maxValue < value) {
+								instance.maxValue = value;
+							}
+						});
 				return signalCount;
+			},
+			_getSignalColor : function(levelStr, signalLevelStr) {
+				var level = parseInt(levelStr, 10);
+				var signalLevel = parseInt(signalLevelStr, 10);
+				if (level == 3) {
+					if (0 <= signalLevel && signalLevel < 3) {
+						return ENS.graph.SIGNAL_COLOR[String(2 * signalLevel)];
+					} else {
+						return ENS.graph.SIGNAL_COLOR["-1"];
+					}
+				}
+				if (level == 5) {
+					if (0 <= signalLevel && signalLevel < 5) {
+						return ENS.graph.SIGNAL_COLOR[String(signalLevel)];
+					} else {
+						return ENS.graph.SIGNAL_COLOR["-1"];
+					}
+				}
 			}
 		});
