@@ -1255,6 +1255,7 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         PerfDoctorResultDto signalStateChangeEvent = new PerfDoctorResultDto();
         String alarmType;
         String level = "INFO";
+        String exceededLevel = "INFO";
         double threshold = 0;
         if (alarmEntry.getAlarmType().equals(AlarmType.FAILURE))
         {
@@ -1270,23 +1271,35 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
                 if (alarmEntry.getSignalValue() == SIGNAL_LEVEL_1)
                 {
                     level = "WARN";
+                    exceededLevel = "WARNING";
                 }
                 else if (alarmEntry.getSignalValue() == SIGNAL_LEVEL_2)
                 {
                     level = "ERROR";
+                    exceededLevel = "CRITICAL";
                 }
             }
             else if (alarmEntry.getSignalLevel() == SIGNAL_LEVEL_5)
             {
-                if (alarmEntry.getSignalValue() == SIGNAL_LEVEL_1
-                    || alarmEntry.getSignalValue() == SIGNAL_LEVEL_2)
+                if (alarmEntry.getSignalValue() == SIGNAL_LEVEL_1)
                 {
                     level = "WARN";
+                    exceededLevel = "INFO";
                 }
-                else if (alarmEntry.getSignalValue() == SIGNAL_LEVEL_3
-                    || alarmEntry.getSignalValue() == SIGNAL_LEVEL_4)
+                else if (alarmEntry.getSignalValue() == SIGNAL_LEVEL_2)
+                {
+                    level = "WARN";
+                    exceededLevel = "WARNING";
+                }
+                else if (alarmEntry.getSignalValue() == SIGNAL_LEVEL_3)
                 {
                     level = "ERROR";
+                    exceededLevel = "ERROR";
+                }
+                else if (alarmEntry.getSignalValue() == SIGNAL_LEVEL_4)
+                {
+                    level = "ERROR";
+                    exceededLevel = "CRITICAL";
                 }
             }
         }
@@ -1300,7 +1313,8 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         }
         signalStateChangeEvent.setLevel(level);
         signalStateChangeEvent.setOccurrenceTime(new Timestamp(System.currentTimeMillis()));
-        signalStateChangeEvent.setDescription(alarmType, threshold, alarmEntry.getAlarmValue());
+        signalStateChangeEvent.setDescription(alarmType, threshold, alarmEntry.getAlarmValue(),
+                                              exceededLevel);
         signalStateChangeEvent.setMeasurementItemName(alarmEntry.getSignalName());
         signalStateChangeEvent.setClassName(alarmEntry.getSignalName());
         try
