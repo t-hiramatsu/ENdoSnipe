@@ -6,7 +6,7 @@
 
 Please see [ENdoSnipe wiki](https://github.com/endosnipe/endosnipe/wiki) for details.
 
-## 概要 (Summury)
+## 概要 (Summary)
 
 ENdoSnipeは、JavaVMの内部動作を可視化し、問題点の早期発見やシステムの安定運用を支援するツールであり、[WGP](http://wgp.sourceforge.net/)を用いて開発しています。
 
@@ -16,7 +16,7 @@ And ENdoSnipe is developed by using [WGP](http://wgp.sourceforge.net/).
 ENdoSnipeはAcroquest Technologyの商用製品をリファインし、2013年にオープンソース化したものです。
 ENdoSnipeが提供する機能、導入事例については[ENdoSnipeの製品版のHP](http://www.endosnipe.com/)を参照ください。
 
-ENdoSnipe is released as OSS by refining bussiness product of Acroquest Technology.
+ENdoSnipe is released as OSS by refining business product of Acroquest Technology.
 Refer [ENdoSnipe HP](http://www.endosnipe.com/en/) about its functions and introduction examples.
 
 ## 利用手順 (How to use)
@@ -34,6 +34,6 @@ You can build ENdoSnipe from opened sources in GitHub with the following build p
 ## ライセンス (Licence)
 
 本プロジェクトは、MIT Licenseの規約に基づき、複製や再配布、改変が許可されます。
-This Project is permmited to copy, redistribution and modification under MIT License.
+This Project is permitted to copy, redistribution and modification under MIT License.
 
 Copyright(c) Acroquest Technology Co.,Ltd. All Rights Reserved.
