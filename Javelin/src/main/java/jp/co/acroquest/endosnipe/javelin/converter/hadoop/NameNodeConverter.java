@@ -96,7 +96,7 @@ public class NameNodeConverter extends AbstractConverter
             CtMethod getDfsNodeInfoMethod = CtMethod.make("" + //
             		"public java.util.Map getDfsNodeInfo() {" + //
             		"" + //
-            		"	java.util.Map info = new jp.co.acroquest.endosnipe.javelin.util.HashMap();" + //
+            		"	java.util.Map info = new java.util.HashMap();" + //
             		"	java.util.List aliveNodeList = this" + //
             		"			.getDatanodeListForReport(org.apache.hadoop.hdfs.protocol.FSConstants.DatanodeReportType.LIVE);" + //
             		"	for (java.util.Iterator iterator = aliveNodeList.iterator(); iterator.hasNext();) {" + //
