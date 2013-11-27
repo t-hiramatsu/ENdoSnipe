@@ -125,7 +125,7 @@ public class SummarySignalStateChangeListener extends AbstractTelegramListener
             sumDto.setSummarySignalStatus(summarySignalState[cnt]);
             sumDto.setMessage(errorMessage[cnt]);
             summarySignalDtoList.add(sumDto);
-            if (!type[cnt].equals(TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_ALL))
+            if (!type[cnt].equals(TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_ALL) && cnt == 0)
             {
                 ResponseDto responseDto = new ResponseDto();
                 responseDto.setData(sumDto);

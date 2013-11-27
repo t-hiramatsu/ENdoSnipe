@@ -506,6 +506,7 @@ public class JavelinServer implements TelegramSender, TelegramConstants
             public Telegram receiveTelegram(final Telegram telegram)
             {
                 Header objHeader = telegram.getObjHeader();
+
                 if (objHeader.getByteTelegramKind() == BYTE_TELEGRAM_KIND_GET_DUMP
                     && objHeader.getByteRequestKind() == BYTE_REQUEST_KIND_REQUEST)
                 {
@@ -525,6 +526,7 @@ public class JavelinServer implements TelegramSender, TelegramConstants
                             {
                                 agentName += "/" + agentSplit[index];
                             }
+                            //send ThreadDump for only related agent
                             if (agentName.equals(javelinClient.getAgentName()))
                             {
                                 javelinClient.sendTelegram(telegram);
@@ -536,6 +538,33 @@ public class JavelinServer implements TelegramSender, TelegramConstants
                         javelinClient.sendTelegram(telegram);
                     }
                 }
+                else if (objHeader.getByteTelegramKind() == BYTE_TELEGRAM_KIND_SUMMARYSIGNAL_DEFINITION
+                    && objHeader.getByteRequestKind() == BYTE_REQUEST_KIND_NOTIFY)
+                {
+                    Body[] bodies = telegram.getObjBody();
+                    // String agentName = bodies[0].getStrItemName();
+                    Object[] itemValues = bodies[0].getObjItemValueArr();
+                    String agentName = (String)itemValues[0];
+                    if (agentName.split("/").length < 4)
+                    {
+                        javelinClient.sendTelegram(telegram);
+                    }
+                    else
+                    {
+                        String[] agentSplit = agentName.split("/");
+                        agentName = "/" + agentSplit[1];
+                        for (int index = 2; index < 4; index++)
+                        {
+                            agentName += "/" + agentSplit[index];
+                        }
+                        //send ThreadDump for only related agent
+                        if (agentName.equals(javelinClient.getAgentName()))
+                        {
+                            javelinClient.sendTelegram(telegram);
+                        }
+                    }
+                }
+
                 else
                 {
                     javelinClient.sendTelegram(telegram);

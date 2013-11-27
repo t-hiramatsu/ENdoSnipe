@@ -104,6 +104,7 @@ public class SummarySignalController
 
         List<SummarySignalDefinitionDto> summarySignalDefinitionDto =
                 new ArrayList<SummarySignalDefinitionDto>();
+        summarySignalDefinitionDto__.clear();
         summarySignalService_.getAllSummarySignals();
 
         // wait until data of summarySignal is arriving to the Dashboard from the Collector
@@ -134,6 +135,7 @@ public class SummarySignalController
         ResponseDto responseDto = new ResponseDto();
         SummarySignalDefinitionDto summarySignalDefinitionDto =
                 JSON.decode(summarySignalDefinition, SummarySignalDefinitionDto.class);
+        responseData__ = null;
         this.summarySignalService_.insertSummarySignalDefinition(summarySignalDefinitionDto);
         // wait until data of summarySignal is arriving to the Dashboard from the Collector
         while (responseData__ == null)
@@ -157,6 +159,7 @@ public class SummarySignalController
     public ResponseDto delete(
             @RequestParam(value = "summarySignalName") final String summarySignalName)
     {
+        responseData__ = null;
         this.summarySignalService_.deleteSummarySignalDefinition(summarySignalName);
         ResponseDto responseDto = new ResponseDto();
         // wait until data of summarySignal is arriving to the Dashboard from the Collector
@@ -202,7 +205,7 @@ public class SummarySignalController
         ResponseDto responseDto = new ResponseDto();
         SummarySignalDefinitionDto summarySignalDefinitionDto =
                 JSON.decode(summarySignalDefinition, SummarySignalDefinitionDto.class);
-
+        responseData__ = null;
         this.summarySignalService_.updateSummarySignalDefinition(summarySignalDefinitionDto);
         // wait until data of summarySignal is arriving to the Dashboard from the Collector
         while (responseData__ == null)
