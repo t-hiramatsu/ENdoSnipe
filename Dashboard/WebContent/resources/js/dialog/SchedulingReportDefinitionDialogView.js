@@ -111,12 +111,16 @@ ENS.SchedulingReportDialogView = ENS.DialogView
 														ajaxHandler
 																.requestServerAsync(settings);
 														var rowData = $(
-																"#reportTable")
+																"#scheduleReportTable")
 																.jqGrid(
 																		'getRowData',
 																		ENS.schedulingReportDialog.rowId);
 														rowData.term = schedulingReportDefinition.term;
-														rowData.reportName = schedulingReportDefinition.reportName;
+														var reportPath = schedulingReportDefinition.reportName;
+														var reportPathSplitList = reportPath.split("/");
+														var reportPathLength = reportPathSplitList.length;
+														var reportName = reportPathSplitList[reportPathLength - 1];
+														rowData.reportName = reportName;
 														rowData.targetMeasurementName = schedulingReportDefinition.targetMeasurementName;
 														rowData.time = schedulingReportDefinition.time;
 														if (rowData.term == "WEEKLY") {
@@ -130,7 +134,7 @@ ENS.SchedulingReportDialogView = ENS.DialogView
 															rowData.day = "";
 															rowData.date = "";
 														}
-														$("#reportTable")
+														$("#scheduleReportTable")
 																.jqGrid(
 																		'setRowData',
 																		ENS.schedulingReportDialog.rowId,
