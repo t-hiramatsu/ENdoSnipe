@@ -7,8 +7,8 @@
 	namespace="jp.co.acroquest.endosnipe.web.dashboard.dao.PropertySettingDao">
 	<resultMap id="ReportDefinitionMap"
 		type="jp.co.acroquest.endosnipe.web.dashboard.entity.PropertySettingDefinition">
-		<result property="key" column="PROPERTY_SETTING_KEY" />
-		<result property="value" column="PROPERTY_SETTING_VALUE" />
+		<result property="key_" column="PROPERTY_SETTING_KEY" />
+		<result property="value_" column="PROPERTY_SETTING_VALUE" />
 	</resultMap>
 
 
@@ -16,7 +16,7 @@
 		SELECT * FROM
 		PROPERTY_SETTING_DEFINITION
 		where PROPERTY_SETTING_KEY
-		= #{key}
+		= #{key_}
 	</select>
 	
 </mapper>
