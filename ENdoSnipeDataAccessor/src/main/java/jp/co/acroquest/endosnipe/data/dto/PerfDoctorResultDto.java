@@ -49,7 +49,8 @@ public class PerfDoctorResultDto
 
     /** 閾値超過・回復時の概要フォーマット */
     private static final String DESCRIPTION_FORMAT =
-        "Measurement value {0} the threshold.(Threshold:{1}, DetectedValue:{2})";
+         "Measurement value {0} the threshold." +
+         "(Threshold:{1}, DetectedValue:{2}, ExceededSignalLevel:{3})";
 
     /**
      * ログIDを取得する。
@@ -107,12 +108,14 @@ public class PerfDoctorResultDto
      * @param alarmType アラーム種別
      * @param threshold 閾値
      * @param detectedValue 計測値
+     * @param exceededLevel 超過したシグナルレベル
      */
-    public void setDescription(String alarmType, double threshold, double detectedValue)
+    public void setDescription(String alarmType, double threshold, 
+        double detectedValue, String exceededLevel)
     {
         String description =
             MessageFormat.format(DESCRIPTION_FORMAT, new Object[]{alarmType, threshold,
-                detectedValue});
+                detectedValue, exceededLevel});
         description_ = description;
     }
 
