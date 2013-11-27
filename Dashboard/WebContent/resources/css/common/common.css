@@ -219,6 +219,9 @@ div#contents_area_content {
 	vertical-align: top;
 }
 
+.ui-jqgrid .ui-jqgrid-title {
+  word-break: break-all;
+}
 
 .dygraph-title {
 	Align: center;
