@@ -78,7 +78,8 @@
 			SCHEDULE_TERM = #{term_},
 			SCHEDULE_TIME = #{time_},
 			SCHEDULE_DATE = #{date_},
-			SCHEDULE_DAY = #{day_}
+			SCHEDULE_DAY = #{day_},
+			LAST_EXPORT_REPORT_TIME = #{lastExportedTime_}
 			where
 			REPORT_NAME
 			=
@@ -92,7 +93,8 @@
 			SCHEDULE_TERM = #{term_},
 			SCHEDULE_TIME = #{time_},
 			SCHEDULE_DATE = #{date_},
-			SCHEDULE_DAY = #{day_}
+			SCHEDULE_DAY = #{day_},
+			LAST_EXPORT_REPORT_TIME = #{lastExportedTime_}
 			where REPORT_NAME = #{reportName_}
 		</if>
 		<if test="term_.equals('MONTHLY')">
@@ -103,7 +105,8 @@
 			SCHEDULE_TERM = #{term_},
 			SCHEDULE_TIME = #{time_},
 			SCHEDULE_DATE = #{date_},
-			SCHEDULE_DAY = #{day_}
+			SCHEDULE_DAY = #{day_},
+			LAST_EXPORT_REPORT_TIME = #{lastExportedTime_}
 			where REPORT_NAME = #{reportName_}
 		</if>
 	</update>
