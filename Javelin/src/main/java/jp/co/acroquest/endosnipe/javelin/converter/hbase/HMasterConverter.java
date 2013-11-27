@@ -104,7 +104,7 @@ public class HMasterConverter extends AbstractConverter {
 					.make(""
 							+ "public java.util.Map getServerInfo(){ "
 							+ "        java.util.Map resMap ="
-							+ "                                  new jp.co.acroquest.endosnipe.javelin.util.HashMap();"
+							+ "                                  new java.util.HashMap();"
 							+ "        java.util.Map inputMap ="
 							+ "                                  this.serverManager.getOnlineServers();"
 							+ ""
@@ -185,7 +185,7 @@ public class HMasterConverter extends AbstractConverter {
 					.make(""
 							+ "    public java.util.Map getAssignments()"
 							+ "    {" //
-							+ "        java.util.Map resultMap = new jp.co.acroquest.endosnipe.javelin.util.HashMap();"
+							+ "        java.util.Map resultMap = new java.util.HashMap();"
 							+ "        java.util.Map inputMap = this.assignmentManager.getAssignments();"
 							+ "" //
 							+ "        java.util.Iterator inputIterator = inputMap.entrySet().iterator();"
