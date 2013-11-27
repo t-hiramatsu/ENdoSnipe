@@ -23,14 +23,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-ENS.graph={};
+ENS.graph = {};
 /** 閾値の表示を開始するデータ */
-ENS.graph.INIT_SIGNAL_POSTION=51;
+ENS.graph.INIT_SIGNAL_POSTION = 31;
+ENS.graph.SIGNAL_COLOR = {
+	"-1" : "#443043",
+	"0" : "#2869EE",
+	"1" : "#38C600",
+	"2" : "#FAC800",
+	"3" : "#FE8900",
+	"4" : "#E91717"
+};
 ENS.ResourceGraphElementView = wgp.DygraphElementView
 		.extend({
 			initialize : function(argument, treeSettings) {
 				this.isRealTime = true;
 				this._initData(argument, treeSettings);
+				// グラフの系列色
+				this.colors = [];
+				
+				// Dygraphの系列色を設定する。
+				var sat = 1.0;
+				var val = 0.5;
+				var num = ENS.graph.INIT_SIGNAL_POSTION - 1;
+				var half = Math.ceil(num / 2);
+				for ( var i = 0; i < num; i++) {
+					var idx = i % 2 ? (half + (i + 1) / 2) : Math
+							.ceil((i + 1) / 2);
+					var hue = (1.0 * idx / (1 + num));
+					colorStr = Dygraph.hsvToRGB(hue, sat, val);
+					this.colors.push(colorStr);
+				}
 
 				// %グラフのY軸の最大値
 				this.percentGraphMaxYValue = argument.percentGraphMaxYValue;
@@ -120,17 +143,19 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				this.normalButton = "normalization_button_" + graphId;
 
 				var contextPath = wgp.common.getContextPath();
-				
+
 				this.maximumButtonImg = "<div id ='" + this.maximumButton
 						+ "' class = '" + this.maximumButton
-						+ "' style='z-index: -10;'><img "
-						+ "src='" + contextPath + "/resources/images/maximum_button.png' "
+						+ "' style='z-index: -10;'><img " + "src='"
+						+ contextPath
+						+ "/resources/images/maximum_button.png' "
 						+ "style='width: 20px; height: 28px'></img></div>";
 
 				this.normalButtonImg = "<div id ='" + this.normalButton
 						+ "' class = '" + this.normalButton
-						+ "' style='z-index: -10;'><img "
-						+ "src='" + contextPath + "/resources/images/normalization_button.png' "
+						+ "' style='z-index: -10;'><img " + "src='"
+						+ contextPath
+						+ "/resources/images/normalization_button.png' "
 						+ "style='width: 20px; height: 28px'></img></div>";
 			},
 			render : function() {
@@ -158,7 +183,8 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 					},
 					dateWindow : this.dateWindow,
 					axisLabelFontSize : 10,
-					titleHeight : 22
+					titleHeight : 22,
+					colors : this.colors
 				};
 
 				this.attributes = undefined;
@@ -206,35 +232,33 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				$("#" + this.maximumButton).css("float", "right");
 				var minButton = this.normalButton, maxButton = this.maximumButton;
 
-				$(element)
-						.click(
-								function(e) {
-									var offsetLeft = $("#" + graphId).offset().left;
-									var offsetTop = $("#" + graphId).offset().top;
-									var position = {
-										x : Math.floor(e.clientX - offsetLeft),
-										y : Math.floor(e.clientY - offsetTop)
-									};
+				$(element).click(
+						function(e) {
+							var offsetLeft = $("#" + graphId).offset().left;
+							var offsetTop = $("#" + graphId).offset().top;
+							var position = {
+								x : Math.floor(e.clientX - offsetLeft),
+								y : Math.floor(e.clientY - offsetTop)
+							};
 
-									if (position.x > ($("#" + graphId).width() - 20)
-											&& position.x < ($("#" + graphId)
-													.width())
-											&& position.y > 0
-											&& position.y < 28) {
-										if ($("." + maxButton).length > 0) {
-											instance.addMaximizeEvent(
-													offsetLeft, offsetTop);
-										}
-									}
-								});
+							if (position.x > ($("#" + graphId).width() - 20)
+									&& position.x < ($("#" + graphId).width())
+									&& position.y > 0 && position.y < 28) {
+								if ($("." + maxButton).length > 0) {
+									instance.addMaximizeEvent(offsetLeft,
+											offsetTop);
+								}
+							}
+						});
 
 				this.getGraphObject().updateOptions({
 					dateWindow : this.dateWindow,
 					axisLabelFontSize : 10,
 					titleHeight : 22
 				});
-				
-				$(".dygraph-title").width($("#" + graphId).width() - this.titleButtonSpace);
+
+				$(".dygraph-title").width(
+						$("#" + graphId).width() - this.titleButtonSpace);
 
 				this.mouseEvent(graphId, isShort, tmpTitle, optionSettings);
 
@@ -266,10 +290,13 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				});
 
 				// ズームアウト時（ダブルクリック）のイベントを設定。
-				$("#" + graphId).dblclick(function(event) {
-					instance.zoomOut(instance.getGraphObject());
-					$(".dygraph-title").width($("#" + graphId).width() - instance.titleButtonSpace);
-				});
+				$("#" + graphId).dblclick(
+						function(event) {
+							instance.zoomOut(instance.getGraphObject());
+							$(".dygraph-title").width(
+									$("#" + graphId).width()
+											- instance.titleButtonSpace);
+						});
 			},
 			onAdd : function(graphModel) {
 
@@ -307,6 +334,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 					if (this.data.length !== 0) {
 						updateOption['dateWindow'] = [ tempStart, tempEnd ];
 					}
+					updateOption['colors'] = this.colors;
 					this.entity.updateOptions(updateOption);
 
 					var graphId = this.$el.attr("id") + "_ensgraph";
@@ -317,7 +345,8 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 						}
 
 					}
-					$(".dygraph-title").width($("#tempDiv").width() - this.titleButtonSpace);
+					$(".dygraph-title").width(
+							$("#tempDiv").width() - this.titleButtonSpace);
 				}
 			},
 			addCollection : function(dataArray) {
@@ -371,9 +400,11 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				var graphId = this.$el.attr("id") + "_ensgraph";
 
 				if ($("#tempDiv").length > 0) {
-					$(".dygraph-title").width($("#tempDiv").width() - this.titleButtonSpace);
+					$(".dygraph-title").width(
+							$("#tempDiv").width() - this.titleButtonSpace);
 				} else {
-					$(".dygraph-title").width($("#" + graphId).width() - this.titleButtonSpace);
+					$(".dygraph-title").width(
+							$("#" + graphId).width() - this.titleButtonSpace);
 				}
 			},
 			getData : function() {
@@ -381,23 +412,28 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				var data = [];
 				var instance = this;
 				data.push([ new Date(0), null, null, null, null, null, null,
-						null, null, null, null, null, null, null, null, null ]);
+						null, null, null, null, null, null, null, null, null,
+						null, null, null, null, null, null, null, null, null,
+						null, null, null, null, null, null, null, null, null,
+						null, null, null, null, null, null, null, null, null,
+						null, null, null, null, null, null, null, null ]);
 				_.each(this.collection.models, function(model, index) {
 					data.push(instance._parseModel(model));
 				});
 				var models = treeView.ensTreeView.collection.models;
 				var instance = this;
 				var signalCount = 0;
-				_.each(models, function(model, index){
+				_.each(models, function(model, index) {
 					// 閾値の線を追加する。
 					var type = model.get("type");
-				    if (type === "signal") {
-				    	var matchingPattern =  model.get("matchingPattern");
-				        if(instance.graphId === matchingPattern){
-				        	// 閾値をグラフに追加する。
-				        	signalCount = instance._addAllSignalData(model, data, signalCount);
-				    	}
-				    }
+					if (type === "signal") {
+						var matchingPattern = model.get("matchingPattern");
+						if (instance.graphId === matchingPattern) {
+							// 閾値をグラフに追加する。
+							signalCount = instance._addAllSignalData(model,
+									data, signalCount);
+						}
+					}
 				});
 				return data;
 			},
@@ -478,7 +514,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				this.destroy();
 				$("#" + this.$el.attr("id")).remove();
 			},
-			move : function(pointX, pointY){
+			move : function(pointX, pointY) {
 				var divArea = $("#" + this.$el.attr("id"));
 				var offsetParent = divArea.offsetParent().offset();
 				divArea.offset({
@@ -495,18 +531,19 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 						- ENS.nodeinfo.GRAPH_HEIGHT_MARGIN;
 				this.entity.resize(this.width, this.graphHeight);
 			},
-			setModelPosition : function(property){
+			setModelPosition : function(property) {
 
 				this.model.set({
 					pointX : property.pointX,
 					pointY : property.pointY,
-					width  : property.width,
+					width : property.width,
 					height : property.height
-				},{
+				}, {
 					silent : true
 				});
 				this.move(property.pointX, property.pointY);
-				this.resize(this.width - property.width, this.height - property.height);
+				this.resize(this.width - property.width, this.height
+						- property.height);
 			},
 			relateContextMenu : function(menuId, option) {
 				contextMenuCreator.createContextMenu(this.$el.attr("id"),
@@ -526,7 +563,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				var divArea = $("#" + this.$el.attr("id"));
 				var instance = this;
 				divArea.draggable({
-					grid : [16, 16],
+					grid : [ 16, 16 ],
 					scroll : true,
 					drag : function(e, ui) {
 						var position = ui.position;
@@ -577,7 +614,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				var beforeWidth = 0;
 				var beforeHeight = 0;
 				divArea.resizable({
-					grid : [16, 16],
+					grid : [ 16, 16 ],
 					start : function(e, ui) {
 						beforeWidth = $(e.target).width();
 						beforeHeight = $(e.target).height();
@@ -665,7 +702,8 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 																	.width(
 																			$(
 																					"#tempDiv")
-																					.width() - this.titleButtonSpace);
+																					.width()
+																					- this.titleButtonSpace);
 														} else {
 															$(".dygraph-title")
 																	.width(
@@ -674,7 +712,8 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 																							+ instance.$el
 																									.attr("id")
 																							+ "_ensgraph")
-																					.width() - this.titleButtonSpace);
+																					.width()
+																					- this.titleButtonSpace);
 														}
 													});
 								});
@@ -719,7 +758,8 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 							}
 
 							$(".dygraph-title").width(
-									$("#tempDiv").width() - this.titleButtonSpace);
+									$("#tempDiv").width()
+											- this.titleButtonSpace);
 						} else {
 
 							if ($("#" + instance.maximumButton).length <= 0) {
@@ -734,8 +774,9 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 
 							}
 
-							$(".dygraph-title").width(
-									($("#" + graphId).width() - this.titleButtonSpace));
+							$(".dygraph-title")
+									.width(
+											($("#" + graphId).width() - this.titleButtonSpace));
 						}
 					}
 				}
@@ -872,10 +913,11 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				}
 
 				this.hiddenGraph = hiddenGraph;
-				
+
 				this.tempEntity.resize(graphWidth, graphHeight);
 
-				$(".dygraph-title").width($("#tempDiv").width() - this.titleButtonSpace);
+				$(".dygraph-title").width(
+						$("#tempDiv").width() - this.titleButtonSpace);
 				var childElem = $("#tempDiv_ensgraph").children("div");
 				$(childElem).append(this.normalButtonImg);
 
@@ -895,8 +937,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 									};
 									if (position.x > ($("#tempDiv_ensgraph")
 											.width() - 20)
-											&& position.x < ($(
-													"#tempDiv_ensgraph")
+											&& position.x < ($("#tempDiv_ensgraph")
 													.width())
 											&& position.y > 0
 											&& position.y < 28) {
@@ -906,10 +947,13 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 									}
 								});
 				// ズームアウト時（ダブルクリック）のイベントを設定。
-				$("#tempDiv").dblclick(function(event) {
-					instance.zoomOut(instance.tempEntity);
-					$(".dygraph-title").width($("#tempDiv").width() - instance.titleButtonSpace);
-				});
+				$("#tempDiv").dblclick(
+						function(event) {
+							instance.zoomOut(instance.tempEntity);
+							$(".dygraph-title").width(
+									$("#tempDiv").width()
+											- instance.titleButtonSpace);
+						});
 
 			},
 			addNormalizeEvent : function() {
@@ -930,7 +974,8 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 							($("#" + graphId).width() - 20));
 				}
 
-				$(".dygraph-title").width($("#" + graphId).width() - this.titleButtonSpace);
+				$(".dygraph-title").width(
+						$("#" + graphId).width() - this.titleButtonSpace);
 
 				if (this.hiddenGraph.length > 0) {
 					var startValue = parseInt(this.hiddenGraph[0].substring(30,
@@ -950,7 +995,8 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 							$("#" + ins.maximumButton).css("padding-left",
 									($("#" + graph).width() - 20));
 						}
-						$(".dygraph-title").width($("#" + graph).width() - this.titleButtonSpace);
+						$(".dygraph-title").width(
+								$("#" + graph).width() - this.titleButtonSpace);
 					}
 				}
 			},
@@ -972,30 +1018,55 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				updateOption['dateWindow'] = [ tempStart, tempEnd ];
 				graphObj.updateOptions(updateOption);
 			},
-			isResizable : function(){
+			isResizable : function() {
 				return true;
 			},
-			setAttributes : function(elementAttributeList){
-				//TODO
+			setAttributes : function(elementAttributeList) {
+				// TODO
 			},
 			_addAllSignalData : function(model, data, signalCount) {
-	    		var signalMap = model.get("signalMap");
-	    		// Websocket通信時にJSON文字列に変換されるため、再変換する。
-	    		if ((typeof signalMap) === "string") {
-	    			signalMap = $.parseJSON(signalMap);	    			
-	    		}
-	    		
-	    		var instance = this;
-	    		// 閾値のマップの値をグラフデータに追加する。
-	    		_.each(signalMap, function(value, level){
-		    		_.each(data, function(columnData, dataIndex){
-		    			columnData[ENS.graph.INIT_SIGNAL_POSTION + signalCount] = value;
-		    		});
-	    			signalCount++;
-	    			if (instance.maxValue < value) {
-	    				instance.maxValue = value;
-	    			}
-	    		});
-	    		return signalCount;
+				var signalMap = model.get("signalMap");
+				// Websocket通信時にJSON文字列に変換されるため、再変換する。
+				if ((typeof signalMap) === "string") {
+					signalMap = $.parseJSON(signalMap);
+				}
+
+				var instance = this;
+				var level = model.get("level");
+				// 閾値のマップの値をグラフデータに追加する。
+				_.each(signalMap,
+						function(value, signalLevel) {
+							_.each(data, function(columnData, dataIndex) {
+								var addPosition = ENS.graph.INIT_SIGNAL_POSTION
+										+ signalCount;
+								columnData[addPosition] = value;
+							});
+							instance.colors[ENS.graph.INIT_SIGNAL_POSTION
+									+ signalCount - 1] = instance._getSignalColor(
+									level, signalLevel);
+							signalCount++;
+							if (instance.maxValue < value) {
+								instance.maxValue = value;
+							}
+						});
+				return signalCount;
+			},
+			_getSignalColor : function(levelStr, signalLevelStr) {
+				var level = parseInt(levelStr, 10);
+				var signalLevel = parseInt(signalLevelStr, 10);
+				if (level == 3) {
+					if (0 <= signalLevel && signalLevel < 3) {
+						return ENS.graph.SIGNAL_COLOR[String(2 * signalLevel)];
+					} else {
+						return ENS.graph.SIGNAL_COLOR["-1"];
+					}
+				}
+				if (level == 5) {
+					if (0 <= signalLevel && signalLevel < 5) {
+						return ENS.graph.SIGNAL_COLOR[String(signalLevel)];
+					} else {
+						return ENS.graph.SIGNAL_COLOR["-1"];
+					}
+				}
 			}
 		});

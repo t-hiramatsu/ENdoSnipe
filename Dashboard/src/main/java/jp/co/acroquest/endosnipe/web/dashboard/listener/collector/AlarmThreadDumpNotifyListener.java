@@ -44,7 +44,10 @@ public class AlarmThreadDumpNotifyListener extends AbstractTelegramListener
         Object wgpData = new Object();
         Date date = new Date();
         String data = date.toString();
-        dataManager.setData("JvnLog_Notify", data, wgpData);
+        if (dataManager != null)
+        {
+            dataManager.setData("JvnLog_Notify", data, wgpData);
+        }
 
         return null;
     }
