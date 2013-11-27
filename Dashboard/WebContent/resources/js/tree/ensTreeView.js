@@ -1161,7 +1161,7 @@ ENS.treeView = wgp.TreeView
 				});
 			},
 			callbackAddReport_ : function(reportDefinition) {
-				if (reportDefinition.messge === "duplicate") {
+				if (reportDefinition.message_ === "duplicate") {
 					$('<div></div>')
 							.appendTo('body')
 							.html(
