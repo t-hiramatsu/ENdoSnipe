@@ -28,10 +28,13 @@ package jp.co.acroquest.endosnipe.javelin.converter.hadoop;
 import java.util.HashMap;
 import java.util.Map;
 
+import jp.co.acroquest.jsonic.JSON;
+
 /**
  * タスクの状態を保持するクラス
  *
  * @author y_asazuma
+ * @author ochiai
  *
  */
 public class HadoopTaskStatus
@@ -42,6 +45,24 @@ public class HadoopTaskStatus
     /** タスクステータスの列挙体 */
     public static enum State {RUNNING, SUCCEEDED, FAILED, UNASSIGNED, KILLED,
                               COMMIT_PENDING, FAILED_UNCLEAN, KILLED_UNCLEAN}
+
+    /** JobID の JSONキー  */
+    private static final String JOB_ID = "JobID";
+
+    /** TaskAttemptID の JSONキー  */
+    private static final String TASK_ATTEMPT_ID = "TaskAttemptID";
+
+    /** Hostname の JSONキー  */
+    private static final String HOSTNAME = "Hostname";
+
+    /** StartTime の JSONキー  */
+    private static final String START_TIME = "StartTime";
+
+    /** FinishTime の JSONキー  */
+    private static final String FINISH_TIME = "FinishTime";
+
+    /** Status の JSONキー  */
+    private static final String STATUS = "Status";
 
     /** ジョブID */
     private String jobID_;
@@ -54,6 +75,15 @@ public class HadoopTaskStatus
 
     /** タスクステータス */
     private State state_;
+
+    /** ホスト名 */
+    private String hostname_;
+
+    /** 開始時間 */
+    private long startTime_ = System.currentTimeMillis();
+
+    /** 終了時間 */
+    private long finishTime_ = System.currentTimeMillis();
 
     /** タスクフェーズマップ */
     private static final Map<String, Phase> PHASE_MAP = new HashMap<String, Phase>() {
@@ -119,6 +149,25 @@ public class HadoopTaskStatus
     }
 
     /**
+     * TaskStatus を表すJSON形式の文字列を返す。
+     * @return TaskStatus を表す JSON 形式の文字列
+     */
+    public String getJson()
+    {
+        Map<String,Object> jobStatusMap = new HashMap<String, Object>();
+        jobStatusMap.put(JOB_ID, this.jobID_);
+        jobStatusMap.put(TASK_ATTEMPT_ID, this.taskID_);
+        jobStatusMap.put(HOSTNAME, this.hostname_);
+        jobStatusMap.put(START_TIME, this.startTime_);
+        jobStatusMap.put(FINISH_TIME, this.finishTime_);
+        jobStatusMap.put(STATUS, this.state_.toString());
+        
+        String jsonString = JSON.encode(jobStatusMap);
+        
+        return jsonString;
+    }
+
+    /**
      * タスクIDを取得する。
      *
      * @return タスクID
@@ -146,6 +195,36 @@ public class HadoopTaskStatus
     public State getState()
     {
         return this.state_;
+    }
+
+    /**
+     * ホスト名を取得する。
+     *
+     * @return ホスト名
+     */
+    public String getHostname()
+    {
+        return this.hostname_;
+    }
+
+    /**
+     * 開始時間を取得する。
+     *
+     * @return 開始時間
+     */
+    public long getStartTime()
+    {
+        return this.startTime_;
+    }
+
+    /**
+     * 終了時間を取得する。
+     *
+     * @return 終了時間
+     */
+    public long getFinishTime()
+    {
+        return this.finishTime_;
     }
 
     /**
@@ -207,4 +286,36 @@ public class HadoopTaskStatus
     {
         this.state_ = STATE_MAP.get(state);
     }
+    
+    /**
+     * ホスト名を設定する。
+     *
+     * @param hostname ホスト名
+     */
+    public void setHostname(String hostname)
+    {
+        this.hostname_ = hostname;
+    }
+    
+    /**
+     * 開始時間を設定する。
+     *
+     * @param startTime 開始時間
+     */
+    public void setStartTime(long startTime)
+    {
+        this.startTime_ = startTime;
+    }
+
+    /**
+     * 終了時間を設定する。
+     *
+     * @param finishTime 終了時間
+     */
+    public void setFinishTime(long finishTime)
+    {
+        this.finishTime_ = finishTime;
+    }
+
+
 }
