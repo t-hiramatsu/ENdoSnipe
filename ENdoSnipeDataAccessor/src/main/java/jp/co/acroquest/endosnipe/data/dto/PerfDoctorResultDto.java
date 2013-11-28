@@ -50,7 +50,7 @@ public class PerfDoctorResultDto
     /** 閾値超過・回復時の概要フォーマット */
     private static final String DESCRIPTION_FORMAT =
          "Measurement value {0} the threshold." +
-         "(Threshold:{1}, DetectedValue:{2}, ExceededSignalLevel:{3})";
+         "(Threshold:{1}, DetectedValue:{2}, SignalLevel:{3})";
 
     /**
      * ログIDを取得する。
