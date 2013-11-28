@@ -103,6 +103,8 @@ public class ScheduleRowMapper implements RowMapper<SchedulingReportDefinitionDt
                 new SchedulingReportDefinitionDto();
         DateFormat timeFormat = new SimpleDateFormat(TIME_FORMAT);
         Calendar time = Calendar.getInstance();
+        time.set(Calendar.SECOND, 0);
+        time.set(Calendar.MILLISECOND, 0);
         try
         {
             schedulingReportDefinitionDto.setReportId(rs.getInt("report_id"));
@@ -121,7 +123,7 @@ public class ScheduleRowMapper implements RowMapper<SchedulingReportDefinitionDt
                 ex.printStackTrace();
             }
             schedulingReportDefinitionDto.setTime(time);
-            schedulingReportDefinitionDto.setLastExportedTime(rs.getTimestamp("last_export_report_time"));
+            schedulingReportDefinitionDto.setPlanExportedTime(rs.getTimestamp("plan_export_report_time"));
             schedulingReportDefinitionDto.setDay(rs.getString("schedule_day"));
             schedulingReportDefinitionDto.setDate(rs.getString("schedule_date"));
         }
@@ -146,61 +148,67 @@ public class ScheduleRowMapper implements RowMapper<SchedulingReportDefinitionDt
         SchedulingReportDefinition schedulingReportDefinition = new SchedulingReportDefinition();
         DateFormat scheduleTimeFormat = new SimpleDateFormat(TIME_FORMAT);
         Calendar scheduleTime = Calendar.getInstance();
+        scheduleTime.set(Calendar.SECOND, 0);
+        scheduleTime.set(Calendar.MILLISECOND, 0);
         try
         {
             scheduleTime.setTime(scheduleTimeFormat.parse(rs.getString("schedule_time")));
             schedulingReportDefinition.time_ = timeFormat.format(time.getTime());
-            Calendar lastExportedCalendar = Calendar.getInstance();
+            Calendar planExportedCalendar = Calendar.getInstance();
+            planExportedCalendar.set(Calendar.SECOND, 0);
+            planExportedCalendar.set(Calendar.MILLISECOND, 0);
             Calendar currentTimeCalendar = Calendar.getInstance();
-            lastExportedCalendar.set(Calendar.HOUR_OF_DAY, time.get(Calendar.HOUR_OF_DAY));
-            lastExportedCalendar.set(Calendar.MINUTE, time.get(Calendar.MINUTE));
+            currentTimeCalendar.set(Calendar.SECOND, 0);
+            currentTimeCalendar.set(Calendar.MILLISECOND, 0);
+            planExportedCalendar.set(Calendar.HOUR_OF_DAY, time.get(Calendar.HOUR_OF_DAY));
+            planExportedCalendar.set(Calendar.MINUTE, time.get(Calendar.MINUTE));
             if (rs.getString("schedule_time") != null && rs.getString("schedule_day") == null
                     && rs.getString("schedule_date") == null)
             {
-                long lastExportedLong = lastExportedCalendar.getTimeInMillis();
+                long planExportedLong = planExportedCalendar.getTimeInMillis();
                 long currentTimeLong = currentTimeCalendar.getTimeInMillis();
-                if (lastExportedLong <= currentTimeLong)
+                if (planExportedLong <= currentTimeLong)
                 {
-                    lastExportedCalendar.add(Calendar.DAY_OF_MONTH, 1);
+                    planExportedCalendar.add(Calendar.DAY_OF_MONTH, 1);
                 }
             }
             if (rs.getString("schedule_day") != null)
             {
                 dayMap_.get(rs.getString("schedule_day"));
-                int lastExportedDay =
+                int planExportedDay =
                         (dayMap_.get(rs.getString("schedule_day")))
-                                - lastExportedCalendar.get(Calendar.DAY_OF_WEEK);
-                lastExportedCalendar.add(Calendar.DAY_OF_MONTH, lastExportedDay);
-                long lastExportedLong = lastExportedCalendar.getTimeInMillis();
+                                - planExportedCalendar.get(Calendar.DAY_OF_WEEK);
+                planExportedCalendar.add(Calendar.DAY_OF_MONTH, planExportedDay);
+                long planExportedLong = planExportedCalendar.getTimeInMillis();
                 long currentTimeLong = currentTimeCalendar.getTimeInMillis();
 
-                if (lastExportedLong <= currentTimeLong)
+                if (planExportedLong <= currentTimeLong)
                 {
-                    lastExportedCalendar.add(Calendar.DAY_OF_MONTH, NUMBER_SEVEN);
+                    planExportedCalendar.add(Calendar.DAY_OF_MONTH, NUMBER_SEVEN);
                 }
             }
             int date = 0;
             if (rs.getString("schedule_date") != null)
             {
                 date = Integer.parseInt(rs.getString("schedule_date"));
-                lastExportedCalendar.set(Calendar.DAY_OF_MONTH, date);
-                long lastExportedLong = lastExportedCalendar.getTimeInMillis();
+                planExportedCalendar.set(Calendar.DAY_OF_MONTH, date);
+                long planExportedLong = planExportedCalendar.getTimeInMillis();
                 long currentTimeLong = currentTimeCalendar.getTimeInMillis();
 
-                if (lastExportedLong <= currentTimeLong)
+                if (planExportedLong <= currentTimeLong)
                 {
-                    lastExportedCalendar.add(Calendar.MONTH, 1);
+                    planExportedCalendar.add(Calendar.MONTH, 1);
                 }
             }
-            if (date > lastExportedCalendar.get(Calendar.DAY_OF_MONTH)
-                    && (lastExportedCalendar.getActualMaximum(Calendar.DAY_OF_MONTH)) >= date)
+            if (date > planExportedCalendar.get(Calendar.DAY_OF_MONTH)
+                    && (planExportedCalendar.getActualMaximum(Calendar.DAY_OF_MONTH)) >= date)
             {
-                lastExportedCalendar.set(Calendar.DAY_OF_MONTH, date);
+                planExportedCalendar.set(Calendar.DAY_OF_MONTH, date);
             }
-            Timestamp lastExportedTime = new Timestamp(lastExportedCalendar.getTimeInMillis());
-            schedulingReportDefinition.lastExportedTime_ = lastExportedTime;
-            jTemplate_.batchUpdate(new String[] { "update SCHEDULING_REPORT_DEFINITION set LAST_EXPORT_REPORT_TIME = '"
-                    + lastExportedTime + "' where REPORT_NAME =" + "'" + reportName + "'" });
+            Timestamp planExportedTime = new Timestamp(planExportedCalendar.getTimeInMillis());
+            schedulingReportDefinition.planExportedTime_ = planExportedTime;
+            jTemplate_.batchUpdate(new String[] { "update SCHEDULING_REPORT_DEFINITION set PLAN_EXPORT_REPORT_TIME = '"
+                    + planExportedTime + "' where REPORT_NAME =" + "'" + reportName + "'" });
         }
         catch (ParseException ex)
         {
@@ -224,9 +232,11 @@ public class ScheduleRowMapper implements RowMapper<SchedulingReportDefinitionDt
         definition.reportName_ = scheduling.getReportName();
         definition.targetMeasurementName_ = scheduling.getTargetMeasurementName();
 
-        Timestamp lastExportedTime = scheduling.getLastExportedTime();
+        Timestamp planExportedTime = scheduling.getPlanExportedTime();
         Calendar fromCalendar = Calendar.getInstance();
-        fromCalendar.setTimeInMillis(lastExportedTime.getTime());
+        fromCalendar.set(Calendar.SECOND, 0);
+        fromCalendar.set(Calendar.MILLISECOND, 0);
+        fromCalendar.setTimeInMillis(planExportedTime.getTime());
 
         if ("DAILY".equals(scheduling.getTerm()))
         {
@@ -241,7 +251,7 @@ public class ScheduleRowMapper implements RowMapper<SchedulingReportDefinitionDt
             fromCalendar.add(Calendar.MONTH, -1);
         }
 
-        Date date = new Date(lastExportedTime.getTime());
+        Date date = new Date(planExportedTime.getTime());
         DateFormat format = new SimpleDateFormat(DATE_FORMAT);
         definition.toTime_ = format.format(date);
         definition.fmTime_ = format.format(fromCalendar.getTime());

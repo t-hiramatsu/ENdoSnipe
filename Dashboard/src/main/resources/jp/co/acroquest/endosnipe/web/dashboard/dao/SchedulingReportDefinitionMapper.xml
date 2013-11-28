@@ -14,42 +14,29 @@
 		<result property="time_" column="SCHEDULE_TIME" />
 		<result property="day_" column="SCHEDULE_DAY" />
 		<result property="date_" column="SCHEDULE_DATE" />
-		<result property="lastExportedTime_" column="LAST_EXPORT_REPORT_TIME" />
+		<result property="planExportedTime_" column="PLAN_EXPORT_REPORT_TIME" />
 	</resultMap>
-
-	<!-- <resultMap id="SchedulingReportDefinitionEMap" type="jp.co.acroquest.endosnipe.web.dashboard.entity.SchedulingReportDefinition"> 
-		<id property="reportId_" column="REPORT_ID" /> <result property="reportName_" 
-		column="REPORT_NAME" /> <result property="targetMeasurementName_" column="TARGET_MEASUREMENT_NAME" 
-		/> <result property="term_" column="SCHEDULE_TERM" /> <result property="time_" 
-		column="SCHEDULE_TIME" /> <result property="day_" column="SCHEDULE_DAY" /> 
-		<result property="date_" column="SCHEDULE_DATE" /> <result property="currentTime" 
-		column="LAST_EXPORT_REPORT_TIME" /> </resultMap> -->
-
-	<!-- <insert id="insert" parameterType="jp.co.acroquest.endosnipe.web.dashboard.entity.SchedulingReportDefinition"> 
-		insert into SCHEDULING_REPORT_DEFINITION (REPORT_NAME,TARGET_MEASUREMENT_NAME,SCHEDULE_TERM,SCHEDULE_TIME,SCHEDULE_DAY,SCHEDULE_DATE) 
-		values (#{reportName_},#{targetMeasurementName_},#{term_},#{time_},#{day_},#{date_}) 
-		</insert> -->
 
 	<insert id="insert"
 		parameterType="jp.co.acroquest.endosnipe.web.dashboard.entity.SchedulingReportDefinition">
 		<if test="term_.equals('DAILY')">
 			insert into SCHEDULING_REPORT_DEFINITION
-			(REPORT_NAME,TARGET_MEASUREMENT_NAME,SCHEDULE_TERM,SCHEDULE_TIME,LAST_EXPORT_REPORT_TIME)
+			(REPORT_NAME,TARGET_MEASUREMENT_NAME,SCHEDULE_TERM,SCHEDULE_TIME,PLAN_EXPORT_REPORT_TIME)
 			values
-			(#{reportName_},#{targetMeasurementName_},#{term_},#{time_},#{lastExportedTime_});
+			(#{reportName_},#{targetMeasurementName_},#{term_},#{time_},#{planExportedTime_});
 		</if>
 
 		<if test="term_.equals('WEEKLY')">
 			insert into SCHEDULING_REPORT_DEFINITION
-			(REPORT_NAME,TARGET_MEASUREMENT_NAME,SCHEDULE_TERM,SCHEDULE_TIME,SCHEDULE_DAY,LAST_EXPORT_REPORT_TIME)
+			(REPORT_NAME,TARGET_MEASUREMENT_NAME,SCHEDULE_TERM,SCHEDULE_TIME,SCHEDULE_DAY,PLAN_EXPORT_REPORT_TIME)
 			values
-			(#{reportName_},#{targetMeasurementName_},#{term_},#{time_},#{day_},#{lastExportedTime_});
+			(#{reportName_},#{targetMeasurementName_},#{term_},#{time_},#{day_},#{planExportedTime_});
 		</if>
 		<if test="term_.equals('MONTHLY')">
 			insert into SCHEDULING_REPORT_DEFINITION
-			(REPORT_NAME,TARGET_MEASUREMENT_NAME,SCHEDULE_TERM,SCHEDULE_TIME,SCHEDULE_DATE,LAST_EXPORT_REPORT_TIME)
+			(REPORT_NAME,TARGET_MEASUREMENT_NAME,SCHEDULE_TERM,SCHEDULE_TIME,SCHEDULE_DATE,PLAN_EXPORT_REPORT_TIME)
 			values
-			(#{reportName_},#{targetMeasurementName_},#{term_},#{time_},#{date_},#{lastExportedTime_});
+			(#{reportName_},#{targetMeasurementName_},#{term_},#{time_},#{date_},#{planExportedTime_});
 		</if>
 	</insert>
 
@@ -79,7 +66,7 @@
 			SCHEDULE_TIME = #{time_},
 			SCHEDULE_DATE = #{date_},
 			SCHEDULE_DAY = #{day_},
-			LAST_EXPORT_REPORT_TIME = #{lastExportedTime_}
+			PLAN_EXPORT_REPORT_TIME = #{planExportedTime_}
 			where
 			REPORT_NAME
 			=
@@ -94,7 +81,7 @@
 			SCHEDULE_TIME = #{time_},
 			SCHEDULE_DATE = #{date_},
 			SCHEDULE_DAY = #{day_},
-			LAST_EXPORT_REPORT_TIME = #{lastExportedTime_}
+			PLAN_EXPORT_REPORT_TIME = #{planExportedTime_}
 			where REPORT_NAME = #{reportName_}
 		</if>
 		<if test="term_.equals('MONTHLY')">
@@ -106,7 +93,7 @@
 			SCHEDULE_TIME = #{time_},
 			SCHEDULE_DATE = #{date_},
 			SCHEDULE_DAY = #{day_},
-			LAST_EXPORT_REPORT_TIME = #{lastExportedTime_}
+			PLAN_EXPORT_REPORT_TIME = #{planExportedTime_}
 			where REPORT_NAME = #{reportName_}
 		</if>
 	</update>
@@ -120,7 +107,7 @@
 		SELECT * FROM
 		SCHEDULING_REPORT_DEFINITION
 		where
-		LAST_EXPORT_REPORT_TIME
+		PLAN_EXPORT_REPORT_TIME
 		= #{currentTime}
 	</select>
 	<delete id="deleteById">
@@ -129,8 +116,4 @@
 		REPORT_ID
 		= #{reportId_}
 	</delete>
-	<!-- <insert id="selectBySchedule" parameterType="java.sql.Timestamp"> insert 
-		into SCHEDULING_REPORT_DEFINITION (LAST_EXPORT_REPORT_TIME) values( select 
-		LAST_EXPORT_REPORT_TIME from SCHEDULING_REPORT_DEFINITION where LAST_EXPORT_REPORT_TIME 
-		= #{currentTime}) </insert> -->
 </mapper>
