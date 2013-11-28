@@ -15,18 +15,6 @@ ENS.schedulingReportView = wgp.AbstractView
 						- this.tableMargin * 4);
 
 				// 空のテーブルを作成
-				var dualSliderId = this.id + "_dualSlider";
-				// dual slider area (add div and css, and make slider)
-				$("#" + this.id)
-						.append('<div id="' + dualSliderId + '"></div>');
-				$('#' + dualSliderId).css(
-						ENS.nodeinfo.parent.css.dualSliderArea);
-				$('#' + dualSliderId).css(
-						ENS.nodeinfo.parent.css.dualSliderArea);
-				this.dualSliderView = new ENS.DualSliderView({
-					id : dualSliderId,
-					rootView : this
-				});
 				this.createTabelColModel();
 				this.render();
 				this.getAllScheReportList_();
@@ -34,7 +22,7 @@ ENS.schedulingReportView = wgp.AbstractView
 
 			},
 			render : function() {
-				$("#" + this.id).append('<div id="scheduleReportDiv"></div>');
+				$("#" + this.id).append('<br/><br/><div id="scheduleReportDiv"></div>');
 				$("#scheduleReportDiv").css({
 					"margin-left" : 5
 				});
