@@ -43,8 +43,8 @@ public class SchedulingReportDefinition
     /** date */
     public String date_;
 
-    /** last export time**/
-    public Timestamp lastExportedTime_;
+    /** plan export time**/
+    public Timestamp planExportedTime_;
 
     /**
      * {@link SignalInfo} オブジェクトを生成します。<br />
@@ -58,8 +58,8 @@ public class SchedulingReportDefinition
     public String toString()
     {
         return String.format("ReportID%d ReportName:%s TargetMeasurementName:%s "
-                                     + "Term:%s Time:%s Day:%s Date:%s LastTime:%s", reportId_,
+                                     + "Term:%s Time:%s Day:%s Date:%s PlanTime:%s", reportId_,
                              reportName_,
-                             targetMeasurementName_, term_, time_, day_, date_, lastExportedTime_);
+                             targetMeasurementName_, term_, time_, day_, date_, planExportedTime_);
     }
 }
