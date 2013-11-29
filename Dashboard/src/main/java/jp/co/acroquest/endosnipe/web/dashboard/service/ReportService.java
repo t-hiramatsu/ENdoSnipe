@@ -664,7 +664,7 @@ public class ReportService
         try
         {
             SchedulingReportDefinition beforeSignalInfo =
-                    schedulingReportDefinitionDao_.selectByName(schedulingReportDefinition.reportName_);
+                    schedulingReportDefinitionDao_.selectById(schedulingReportDefinition.reportId_);
             if (beforeSignalInfo == null)
             {
                 return new SchedulingReportDefinitionDto();

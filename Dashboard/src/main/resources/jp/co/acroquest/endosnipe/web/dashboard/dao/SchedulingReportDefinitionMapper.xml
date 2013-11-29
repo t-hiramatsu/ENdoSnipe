@@ -64,13 +64,13 @@
 			TARGET_MEASUREMENT_NAME = #{targetMeasurementName_},
 			SCHEDULE_TERM = #{term_},
 			SCHEDULE_TIME = #{time_},
-			SCHEDULE_DATE = #{date_},
+			SCHEDULE_DATE =
+			#{date_},
 			SCHEDULE_DAY = #{day_},
-			PLAN_EXPORT_REPORT_TIME = #{planExportedTime_}
-			where
-			REPORT_NAME
-			=
-			#{reportName_}
+			PLAN_EXPORT_REPORT_TIME =
+			#{planExportedTime_}
+			where REPORT_ID
+			= #{reportId_}
 
 		</if>
 		<if test="term_.equals('WEEKLY')"> update SCHEDULING_REPORT_DEFINITION
@@ -79,22 +79,29 @@
 			TARGET_MEASUREMENT_NAME = #{targetMeasurementName_},
 			SCHEDULE_TERM = #{term_},
 			SCHEDULE_TIME = #{time_},
-			SCHEDULE_DATE = #{date_},
+			SCHEDULE_DATE =
+			#{date_},
 			SCHEDULE_DAY = #{day_},
-			PLAN_EXPORT_REPORT_TIME = #{planExportedTime_}
-			where REPORT_NAME = #{reportName_}
+			PLAN_EXPORT_REPORT_TIME =
+			#{planExportedTime_}
+			where REPORT_ID
+			= #{reportId_}
 		</if>
 		<if test="term_.equals('MONTHLY')">
 			update SCHEDULING_REPORT_DEFINITION set
-			REPORT_NAME = #{reportName_},
+			REPORT_NAME =
+			#{reportName_},
 			TARGET_MEASUREMENT_NAME =
 			#{targetMeasurementName_},
 			SCHEDULE_TERM = #{term_},
 			SCHEDULE_TIME = #{time_},
-			SCHEDULE_DATE = #{date_},
+			SCHEDULE_DATE =
+			#{date_},
 			SCHEDULE_DAY = #{day_},
-			PLAN_EXPORT_REPORT_TIME = #{planExportedTime_}
-			where REPORT_NAME = #{reportName_}
+			PLAN_EXPORT_REPORT_TIME =
+			#{planExportedTime_}
+			where REPORT_ID
+			= #{reportId_}
 		</if>
 	</update>
 
