@@ -1038,10 +1038,6 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
         {
             sql += " and MEASUREMENT_ITEM_NAME like '" + name + "%'";
         }
-        if (removeDiagnosed)
-        {
-            sql += " and DIAGNOSED";
-        }
         sql += " order by START_TIME desc";
         return sql;
     }
