@@ -155,6 +155,7 @@ ENS.report.updateSchedulingReport = function(rowId) {
 	var term = rowData.term;
 	var timeSplit = rowData.time.split(":");
 
+	$("#schedulingReportId").val(rowData.reportId);
 	$("#schedulingReportName").val(rowData.reportName);
 	$("#schedulingReportTargetName").val(rowData.targetMeasurementName);
 	// シグナル名の表示名称は自身より親のツリー構造を除外した値を指定する。

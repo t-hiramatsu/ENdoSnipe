@@ -362,16 +362,6 @@ public class ReportController
         SchedulingReportDefinitionDto schedulingReportDefinitionDto =
                 JSON.decode(schedulingReportDefinition, SchedulingReportDefinitionDto.class);
 
-        long signalId = schedulingReportDefinitionDto.getReportId();
-        String reportName = schedulingReportDefinitionDto.getReportName();
-        boolean hasSameSignalName = this.reportService_.hasSameReportName(signalId, reportName);
-        if (hasSameSignalName)
-        {
-            String errorMessage = MessageUtil.getMessage("WEWD0141", reportName);
-            responseDto.setResult(ResponseConstants.RESULT_FAIL);
-            responseDto.setMessage(errorMessage);
-            return responseDto;
-        }
         SchedulingReportDefinition signalInfo =
                 this.reportService_.convertSchedulingReportDefinition(schedulingReportDefinitionDto);
 
