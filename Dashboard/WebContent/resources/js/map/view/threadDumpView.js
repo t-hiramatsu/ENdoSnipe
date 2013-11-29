@@ -38,7 +38,6 @@ ENS.threadDumpView = wgp.AbstractView
 				appView.getTermThreadDumpData([ treeSettings.treeId ],
 						startTime, endTime, argument.maxLineNum);
 				this.id = argument.id;
-				// ENS.tree.agentName = this.treeSettings.treeId;
 				this.dualSliderView.setScaleMovedEvent(function(from, to) {
 					var appView = new ENS.AppView();
 					var startTime = new Date(new Date().getTime() - from);
