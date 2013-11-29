@@ -517,3 +517,4 @@ ENS.perfDoctor = {};
 ENS.threadDump = {};
 ENS.report.SCHEDULINGREPROT_URL = wgp.common.getContextPath() + "/report/updateSchedulingReport";
 ENS.schedulingReportDialog = {};
+ENS.tree.agentName = "/default/";

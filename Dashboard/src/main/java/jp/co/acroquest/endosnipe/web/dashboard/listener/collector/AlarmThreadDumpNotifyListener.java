@@ -14,11 +14,13 @@ package jp.co.acroquest.endosnipe.web.dashboard.listener.collector;
 
 import java.util.Date;
 
+import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
 import jp.co.acroquest.endosnipe.communicator.AbstractTelegramListener;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.EventManager;
 
+import org.wgp.exception.WGPRuntimeException;
 import org.wgp.manager.WgpDataManager;
 
 /**
@@ -28,6 +30,10 @@ import org.wgp.manager.WgpDataManager;
  */
 public class AlarmThreadDumpNotifyListener extends AbstractTelegramListener
 {
+    /** ロガークラス */
+    private static final ENdoSnipeLogger LOGGER =
+            ENdoSnipeLogger.getLogger(AlarmThreadDumpNotifyListener.class);
+
     /**
      * this is default constructor
      */
@@ -44,11 +50,18 @@ public class AlarmThreadDumpNotifyListener extends AbstractTelegramListener
         Object wgpData = new Object();
         Date date = new Date();
         String data = date.toString();
-        if (dataManager != null)
+        try
         {
-            dataManager.setData("JvnLog_Notify", data, wgpData);
+            if (dataManager != null)
+            {
+                dataManager.setData("JvnLog_Notify", data, wgpData);
+            }
         }
-
+        catch (WGPRuntimeException exception)
+        {
+            LOGGER.log("WECC0301", exception, exception.getMessage());
+            return null;
+        }
         return null;
     }
 
