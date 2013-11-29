@@ -9,7 +9,7 @@
 <body>
 	<div id="persArea"></div>
 	<input id="treeData" type="hidden" value='${treeData}' />
-	<div id="threadDumpDialog" title="Detail of Diagnotics Result"
+	<div id="threadDumpDialog" title="Detail of ThreadDump Result"
 		style="display: none">
 
 		<div id="threadDumpPatternValueArea" class="dialogContentArea">
@@ -23,8 +23,8 @@
 						<td id="threadDumpTime" style="word-break: break-all;"></td>
 					</tr>
 					<tr>
-						<td style='width: 150px; height:500px'><b>Thread Dump</b> <br /></td>
-						<td id="threadDumpInfo" style="word-break: break-all;"></td>
+					<td style='width: 150px;' valign="top"><b>Detail</b><br /></td>
+						<td id="threadDump" valign="top" style="word-break: break-all;"></td>
 					</tr>
 				</table>
 			</div>
