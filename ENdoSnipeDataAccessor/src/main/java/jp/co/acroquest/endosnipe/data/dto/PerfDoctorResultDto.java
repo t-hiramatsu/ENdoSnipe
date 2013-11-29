@@ -13,7 +13,6 @@
 package jp.co.acroquest.endosnipe.data.dto;
 
 import java.sql.Timestamp;
-import java.text.MessageFormat;
 
 /**
  * PerfDoctor診断結果用のDtoクラス。
@@ -100,23 +99,6 @@ public class PerfDoctorResultDto
     public String getDescription()
     {
         return description_;
-    }
-
-    /**
-     * 概要を設定する。
-     * 
-     * @param alarmType アラーム種別
-     * @param threshold 閾値
-     * @param detectedValue 計測値
-     * @param exceededLevel 超過したシグナルレベル
-     */
-    public void setDescription(String alarmType, double threshold, 
-        double detectedValue, String exceededLevel)
-    {
-        String description =
-            MessageFormat.format(DESCRIPTION_FORMAT, new Object[]{alarmType, threshold,
-                detectedValue, exceededLevel});
-        description_ = description;
     }
 
     /**

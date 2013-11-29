@@ -58,6 +58,7 @@ import jp.co.acroquest.endosnipe.collector.processor.AlarmThresholdProcessor;
 import jp.co.acroquest.endosnipe.collector.processor.AlarmType;
 import jp.co.acroquest.endosnipe.collector.request.CommunicationClientRepository;
 import jp.co.acroquest.endosnipe.collector.util.CollectorTelegramUtil;
+import jp.co.acroquest.endosnipe.collector.util.PerfDoctorMessages;
 import jp.co.acroquest.endosnipe.collector.util.SignalSummarizer;
 import jp.co.acroquest.endosnipe.common.Constants;
 import jp.co.acroquest.endosnipe.common.entity.ItemType;
@@ -177,6 +178,12 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
 
     /** 性能情報のキーの区切り文字 */
     private static final String KEY_SEPARETOR = "/";
+
+    /** 測定値の閾値超時のメッセージフォーマット */
+    private static final String EXCEEDS_TAT_MESSAGES = "APP.MTRC.EXCD_TAT_message";
+
+    /** 測定値の閾値下回り時のメッセージフォーマット */
+    private static final String FALLS_TAT_MESSAGES = "APP.MTRC.FALL_TAT_message";
 
     /** JAVELIN_LOG テーブルを truncate するコールバックメソッド */
     private final RotateCallback javelinRotateCallback_ = new RotateCallback() {
@@ -1253,10 +1260,10 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
     private void addSignalStateChangeEvent(final AlarmEntry alarmEntry)
     {
         PerfDoctorResultDto signalStateChangeEvent = new PerfDoctorResultDto();
-        String alarmType;
         String level = "INFO";
         String exceededLevel = "INFO";
         double threshold = 0;
+        String description = "";
         if (alarmEntry.getAlarmType().equals(AlarmType.FAILURE))
         {
             if (alarmEntry.getSignalValue() != 0)
@@ -1265,7 +1272,6 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
                     alarmEntry.getDefinition().getThresholdMaping()
                         .get(alarmEntry.getSignalValue());
             }
-            alarmType = "exceeds";
             if (alarmEntry.getSignalLevel() == SIGNAL_LEVEL_3)
             {
                 if (alarmEntry.getSignalValue() == SIGNAL_LEVEL_1)
@@ -1302,6 +1308,11 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
                     exceededLevel = "CRITICAL";
                 }
             }
+
+            // 警告の概要を取得
+            description =
+                PerfDoctorMessages.getMessage(EXCEEDS_TAT_MESSAGES, new Object[]{threshold,
+                    alarmEntry.getAlarmValue(), exceededLevel});
         }
         else
         {
@@ -1309,12 +1320,16 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             threshold =
                 alarmEntry.getDefinition().getThresholdMaping()
                     .get(alarmEntry.getSignalValue() + 1);
-            alarmType = "falls";
+
+            // 警告の概要を取得
+            description =
+                PerfDoctorMessages.getMessage(FALLS_TAT_MESSAGES, new Object[]{threshold,
+                    alarmEntry.getAlarmValue(), exceededLevel});
         }
+
         signalStateChangeEvent.setLevel(level);
         signalStateChangeEvent.setOccurrenceTime(new Timestamp(System.currentTimeMillis()));
-        signalStateChangeEvent.setDescription(alarmType, threshold, alarmEntry.getAlarmValue(),
-                                              exceededLevel);
+        signalStateChangeEvent.setDescription(description);
         signalStateChangeEvent.setMeasurementItemName(alarmEntry.getSignalName());
         signalStateChangeEvent.setClassName(alarmEntry.getSignalName());
         try
