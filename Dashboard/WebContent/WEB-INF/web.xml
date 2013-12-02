@@ -46,7 +46,7 @@
 		<servlet-class>jp.co.acroquest.endosnipe.web.dashboard.servlet.DashBoardNotifyServlet</servlet-class>
 		<init-param>
 			<param-name>collector.property</param-name>
-			<param-value>C:\AcroWorks\workspace\ENdoSnipe\Github\ENdoSnipe\Dashboard\conf\collector.properties</param-value>
+			<param-value>/opt/ENdoSnipe/DataCollector/conf/collector.properties</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
