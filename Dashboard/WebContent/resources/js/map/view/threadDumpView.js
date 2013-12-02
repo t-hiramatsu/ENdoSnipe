@@ -2,7 +2,7 @@ ENS.threadDump.isTrue=false;
 
 ENS.threadDumpView = wgp.AbstractView
 		.extend({
-			tableColNames : [ "Time", "Detail", "Download" ],
+			tableColNames : [ "Time", "Thread Dump" ],
 			initialize : function(argument, treeSettings) {
 				var instance = this;
 				this.tableMargin = 20;
@@ -87,10 +87,10 @@ ENS.threadDumpView = wgp.AbstractView
 					data : "",
 					colModel : this.tableColModel,
 					colNames : this.tableColNames,
-					caption : "ThreadDump of " + this.treeSettings.id,
+					caption : "Diagnosis of " + this.treeSettings.id,
 					pager : "threadDumpPager",
-					rowNum : 20,
-					rowList : [ 20, 50, 100 ],
+					rowNum : 1,
+					rowList : [ 1 ],
 					pgbuttons : true,
 					pginput : true,
 					height : height,
@@ -162,23 +162,10 @@ ENS.threadDumpView = wgp.AbstractView
 			createTableColModel : function() {
 				var tableColModel = [ {
 					name : "date",
-					width : parseInt(0.33 * this.tableWidth)
+					width : parseInt(0.13 * this.tableWidth)
 				}, {
-					name : "detail",
-					width : parseInt(0.33 * this.tableWidth),
-					formatter : ENS.Utility.makeAnchor,
-					editoptions : {
-						"onclick" : "ENS.threadDump.dialog",
-						"linkName" : "Detail"
-					}
-				}, {
-					name : "download",
-					width : parseInt(0.33 * this.tableWidth),
-					formatter : ENS.Utility.makeAnchor,
-					editoptions : {
-						"onclick" : "ENS.threadDump.download",
-						"linkName" : "Download"
-					}
+					name : "threadDumpInfo",
+					width : parseInt(0.93 * this.tableWidth)
 				} ];
 				return tableColModel;
 			},
@@ -209,38 +196,5 @@ ENS.threadDumpView = wgp.AbstractView
 				$("#threadDumpTable").clearGridData().setGridParam({
 					data : tableViewData
 				}).trigger("reloadGrid");
-			},
-			makeAnchor : function(cellValue, options, rowObject) {
-				var selectValueList = options.colModel.editoptions;
-				var val = rowObject.value;
-				var rowId = options.rowId;
-				var onclick = selectValueList.onclick;
-				return '<a href="javascript:void(0)" onclick="'
-						+ selectValueList.onclick + ';">' + 'DL' + '</a>';
 			}
 		});
-
-ENS.threadDump.download = function(id) {
-	var threadDumpData = $("#threadDumpTable").getGridParam();
-	var index = id - 1;
-	var fileName = threadDumpData.data[index].logFileName;
-	$("input#fileName").val(fileName);
-	$('#jvnLogBtn').click();
-};
-
-ENS.threadDump.dialog = function(id) {
-    var threadDumpData = $("#threadDumpTable").getGridParam();
-    var index = id - 1;
-    
-	$("#threadDumpTime").empty();
-	$("#threadDumpTime").append(threadDumpData.data[index].date);
-	
-	var changed = threadDumpData.data[index].threadDumpInfo;
-	$("#threadDump").empty();
-	$("#threadDump").append(changed);
-	$("#threadDumpDialog").dialog({
-		modal : true,
-		width : 1200,
-		height : 800,
-	});
-};

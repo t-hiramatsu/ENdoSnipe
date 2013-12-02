@@ -9,7 +9,7 @@
 <body>
 	<div id="persArea"></div>
 	<input id="treeData" type="hidden" value='${treeData}' />
-	<div id="performanceDoctorDialog" title="Detail of ThreadDump Result"
+	<div id="performanceDoctorDialog" title="Detail of Diagnotics Result"
 		style="display: none">
 
 		<div id="performanceDoctorPatternValueArea" class="dialogContentArea">
