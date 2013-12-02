@@ -128,7 +128,6 @@ public class ThreadDumpService
             result.agentId_ = table.getLogId();
             result.date_ = table.getStartTime().toString();
             String name = table.getLogFileName();
-            result.setLogFileName(name);
             result.threadDumpInfo_ = this.getThreadDumpDetailData(name);
             displayList.add(result);
         }
