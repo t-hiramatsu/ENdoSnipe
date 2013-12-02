@@ -68,9 +68,10 @@ ENS.SchedulingReportDialogView = ENS.DialogView
 																+ $(
 																		"#schedulingReportName")
 																		.val();
+
 														var schedulingReportDefinition = {
 															reportId : $(
-																	"#reportId")
+																	"#schedulingReportId")
 																	.val(),
 															reportName : reportFullName,
 															targetMeasurementName : $(
@@ -106,39 +107,18 @@ ENS.SchedulingReportDialogView = ENS.DialogView
 															url : url
 														};
 														var ajaxHandler = new wgp.AjaxHandler();
-														settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] = this;
-														settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = callbackFunction;
-														ajaxHandler
-																.requestServerAsync(settings);
-														var rowData = $(
-																"#scheduleReportTable")
-																.jqGrid(
-																		'getRowData',
-																		ENS.schedulingReportDialog.rowId);
-														rowData.term = schedulingReportDefinition.term;
-														var reportPath = schedulingReportDefinition.reportName;
-														var reportPathSplitList = reportPath.split("/");
-														var reportPathLength = reportPathSplitList.length;
-														var reportName = reportPathSplitList[reportPathLength - 1];
-														rowData.reportName = reportName;
-														rowData.targetMeasurementName = schedulingReportDefinition.targetMeasurementName;
-														rowData.time = schedulingReportDefinition.time;
-														if (rowData.term == "WEEKLY") {
-															rowData.date = "";
-															rowData.day = schedulingReportDefinition.day;
+														var responseDtoresult = ajaxHandler
+																.requestServerSync(settings);
+														if (responseDtoresult == ""
+																|| responseDtoresult == null) {
+															alert("Edit Failure!");
+														} else {
 
-														} else if (rowData.term == "MONTHLY") {
-															rowData.day = "";
-															rowData.date = schedulingReportDefinition.date;
-														} else if (rowData.term == "DAILY") {
-															rowData.day = "";
-															rowData.date = "";
+															instance
+																	.callbackEditSchedulingReport_(
+																			responseDtoresult,
+																			schedulingReportDefinition);
 														}
-														$("#scheduleReportTable")
-																.jqGrid(
-																		'setRowData',
-																		ENS.schedulingReportDialog.rowId,
-																		rowData);
 													}
 													$("#" + option.dialogId)
 															.dialog("close");
@@ -260,15 +240,36 @@ ENS.SchedulingReportDialogView = ENS.DialogView
 					}
 				}
 			},
-			callbackEditSchedulingReport_ : function(responseDto) {
-				alert("addSchedulingReport");
+			callbackEditSchedulingReport_ : function(responseDto,
+					schedulingReportDefinition) {
 				var result = responseDto.result;
 				if (result === "fail") {
 					var message = responseDto.message;
 					alert(message);
 					return;
 				}
-				var schedulingReportDefinition = responseDto.data;
-				var reportId = schedulingReportDefinition.reportId;
+				var rowData = $("#scheduleReportTable").jqGrid('getRowData',
+						ENS.schedulingReportDialog.rowId);
+				rowData.term = schedulingReportDefinition.term;
+				var reportPath = schedulingReportDefinition.reportName;
+				var reportPathSplitList = reportPath.split("/");
+				var reportPathLength = reportPathSplitList.length;
+				var reportName = reportPathSplitList[reportPathLength - 1];
+				rowData.reportName = reportName;
+				rowData.targetMeasurementName = schedulingReportDefinition.targetMeasurementName;
+				rowData.time = schedulingReportDefinition.time;
+				if (rowData.term == "WEEKLY") {
+					rowData.date = "";
+					rowData.day = schedulingReportDefinition.day;
+
+				} else if (rowData.term == "MONTHLY") {
+					rowData.day = "";
+					rowData.date = schedulingReportDefinition.date;
+				} else if (rowData.term == "DAILY") {
+					rowData.day = "";
+					rowData.date = "";
+				}
+				$("#scheduleReportTable").jqGrid('setRowData',
+						ENS.schedulingReportDialog.rowId, rowData);
 			}
 		});

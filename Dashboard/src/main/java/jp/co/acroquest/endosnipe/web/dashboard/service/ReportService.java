@@ -664,7 +664,7 @@ public class ReportService
         try
         {
             SchedulingReportDefinition beforeSignalInfo =
-                    schedulingReportDefinitionDao_.selectByName(schedulingReportDefinition.reportName_);
+                    schedulingReportDefinitionDao_.selectById(schedulingReportDefinition.reportId_);
             if (beforeSignalInfo == null)
             {
                 return new SchedulingReportDefinitionDto();
@@ -722,26 +722,31 @@ public class ReportService
         schedulingReportDefinition.term_ = schedulingDefinitionDto.getTerm();
         schedulingReportDefinition.day_ = schedulingDefinitionDto.getDay();
         Calendar time = schedulingDefinitionDto.getTime();
-
+        time.set(Calendar.SECOND, 0);
+        time.set(Calendar.MILLISECOND, 0);
         DateFormat timeFormat = new SimpleDateFormat(TIME_FORMAT);
         schedulingReportDefinition.time_ = timeFormat.format(time.getTime());
         schedulingReportDefinition.date_ = schedulingDefinitionDto.getDate();
 
         Calendar currentTimeCalendar = Calendar.getInstance();
-        Calendar lastExportedTimeCalendar = Calendar.getInstance();
-        lastExportedTimeCalendar.set(Calendar.HOUR_OF_DAY, time.get(Calendar.HOUR_OF_DAY));
-        lastExportedTimeCalendar.set(Calendar.MINUTE, time.get(Calendar.MINUTE));
+        currentTimeCalendar.set(Calendar.SECOND, 0);
+        currentTimeCalendar.set(Calendar.MILLISECOND, 0);
+        Calendar planExportedTimeCalendar = Calendar.getInstance();
+        planExportedTimeCalendar.set(Calendar.SECOND, 0);
+        planExportedTimeCalendar.set(Calendar.MILLISECOND, 0);
+        planExportedTimeCalendar.set(Calendar.HOUR_OF_DAY, time.get(Calendar.HOUR_OF_DAY));
+        planExportedTimeCalendar.set(Calendar.MINUTE, time.get(Calendar.MINUTE));
 
         int date = 0;
 
         if ("DAILY".equals(schedulingReportDefinition.term_))
         {
-            long scheduleTimeLong = lastExportedTimeCalendar.getTimeInMillis();
+            long scheduleTimeLong = planExportedTimeCalendar.getTimeInMillis();
             long currentTimeLong = currentTimeCalendar.getTimeInMillis();
 
             if (scheduleTimeLong <= currentTimeLong)
             {
-                lastExportedTimeCalendar.add(Calendar.DAY_OF_MONTH, 1);
+                planExportedTimeCalendar.add(Calendar.DAY_OF_MONTH, 1);
             }
         }
         else if ("WEEKLY".equals(schedulingReportDefinition.term_))
@@ -749,16 +754,16 @@ public class ReportService
             if (schedulingReportDefinition.day_ != null)
             {
                 dayMap_.get(schedulingReportDefinition.day_);
-                int lastExportedDay =
+                int planExportedDay =
                         (dayMap_.get(schedulingReportDefinition.day_))
-                                - lastExportedTimeCalendar.get(Calendar.DAY_OF_WEEK);
-                lastExportedTimeCalendar.add(Calendar.DAY_OF_MONTH, lastExportedDay);
-                long scheduleTimeLong = lastExportedTimeCalendar.getTimeInMillis();
+                                - planExportedTimeCalendar.get(Calendar.DAY_OF_WEEK);
+                planExportedTimeCalendar.add(Calendar.DAY_OF_MONTH, planExportedDay);
+                long scheduleTimeLong = planExportedTimeCalendar.getTimeInMillis();
                 long currentTimeLong = currentTimeCalendar.getTimeInMillis();
 
                 if (scheduleTimeLong <= currentTimeLong)
                 {
-                    lastExportedTimeCalendar.add(Calendar.DAY_OF_MONTH, NUMBER_SEVEN);
+                    planExportedTimeCalendar.add(Calendar.DAY_OF_MONTH, NUMBER_SEVEN);
                 }
             }
         }
@@ -769,34 +774,35 @@ public class ReportService
                 date = Integer.parseInt(schedulingReportDefinition.date_);
                 if (Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH) < date)
                 {
-                    lastExportedTimeCalendar.set(Calendar.DAY_OF_MONTH,
+                    planExportedTimeCalendar.set(Calendar.DAY_OF_MONTH,
                                                  Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH));
                 }
                 else
                 {
-                    lastExportedTimeCalendar.set(Calendar.DAY_OF_MONTH, date);
+                    planExportedTimeCalendar.set(Calendar.DAY_OF_MONTH, date);
                 }
 
-                long scheduleTimeLong = lastExportedTimeCalendar.getTimeInMillis();
+                long scheduleTimeLong = planExportedTimeCalendar.getTimeInMillis();
                 long currentTimeLong = currentTimeCalendar.getTimeInMillis();
                 if (currentTimeLong >= scheduleTimeLong)
                 {
-                    lastExportedTimeCalendar.add(Calendar.MONTH, 1);
+                    planExportedTimeCalendar.add(Calendar.MONTH, 1);
                 }
             }
         }
 
-        if (date > lastExportedTimeCalendar.get(Calendar.DAY_OF_MONTH)
-                && (lastExportedTimeCalendar.getActualMaximum(Calendar.DAY_OF_MONTH)) >= date)
+        if (date > planExportedTimeCalendar.get(Calendar.DAY_OF_MONTH)
+                && (planExportedTimeCalendar.getActualMaximum(Calendar.DAY_OF_MONTH)) >= date)
 
         {
 
-            lastExportedTimeCalendar.set(Calendar.DAY_OF_MONTH, date);
+            planExportedTimeCalendar.set(Calendar.DAY_OF_MONTH, date);
 
         }
 
-        Timestamp lastExportedTime = new Timestamp(lastExportedTimeCalendar.getTimeInMillis());
-        schedulingReportDefinition.lastExportedTime_ = lastExportedTime;
+        //        planExportedTimeCalendar.set(Calendar.SECOND, 0);
+        Timestamp planExportedTime = new Timestamp(planExportedTimeCalendar.getTimeInMillis());
+        schedulingReportDefinition.planExportedTime_ = planExportedTime;
         return schedulingReportDefinition;
     }
 

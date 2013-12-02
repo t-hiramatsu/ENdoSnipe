@@ -8,8 +8,6 @@ ENS.schedulingReportView = wgp.AbstractView
 			
 				var appView = new ENS.AppView();
 				this.treeSettings = treeSettings;
-				var treeId = treeSettings.id;
-				appView.addView(this, treeId + ENS.URL.PERFDOCTOR_POSTFIX_ID);
 				this.tableMargin = 20;
 				this.tableWidth = parseInt($("#" + this.id).width()
 						- this.tableMargin * 4);
@@ -18,8 +16,6 @@ ENS.schedulingReportView = wgp.AbstractView
 				this.createTabelColModel();
 				this.render();
 				this.getAllScheReportList_();
-				
-
 			},
 			render : function() {
 				$("#" + this.id).append('<br/><br/><div id="scheduleReportDiv"></div>');
@@ -62,21 +58,6 @@ ENS.schedulingReportView = wgp.AbstractView
 
 				return tableData;
 			},
-			onAdd : function(element) {
-				console.log('call onAdd');
-			},
-			onChange : function(element) {
-				console.log('called changeModel');
-			},
-			onRemove : function(element) {
-				console.log('called removeModel');
-			},
-			onComplete : function(element) {
-				if (element == wgp.constants.syncType.SEARCH) {
-					appView.syncData();
-				}
-				this.reloadTable();
-			},
 			createTabelColModel : function() {
 				this.tableColModel = [ {
 					name : "reportId",
@@ -90,16 +71,16 @@ ENS.schedulingReportView = wgp.AbstractView
 					width : this.tableWidth * 0.34
 				}, {
 					name : "term",
-					width : this.tableWidth * 0.072
+					width : this.tableWidth * 0.08
 				}, {
 					name : "time",
-					width : this.tableWidth * 0.07
+					width : this.tableWidth * 0.068
 				}, {
 					name : "day",
-					width : this.tableWidth * 0.07
+					width : this.tableWidth * 0.06
 				}, {
 					name : "date",
-					width : this.tableWidth * 0.07
+					width : this.tableWidth * 0.06
 				}, {
 					name : "",
 					width : this.tableWidth * 0.075,
@@ -113,17 +94,6 @@ ENS.schedulingReportView = wgp.AbstractView
 
 				} ];
 
-			},
-
-			reloadTable : function() {
-				var tableViewData = [];
-				var instance = this;
-				_.each(this.collection.models, function(model, index) {
-					tableViewData.push(instance._parseModel(model));
-				});
-				$("#scheduleReportTable").clearGridData().setGridParam({
-					data : tableViewData
-				}).trigger("reloadGrid");
 			},
 			getAllScheReportList_ : function() {
 
@@ -140,47 +110,6 @@ ENS.schedulingReportView = wgp.AbstractView
 				ajaxHandler.requestServerAsync(settings);
 			},
 			callbackGetAllScheReportList_ : function(reportList) {
-				var tableViewData = [];
-				var instance = this;
-				_.each(reportList, function(report, index) {
-					// レポート名についている余計なパスを除外する
-					var reportPath = report.reportName;
-					var reportPathSplitList = reportPath.split("/");
-					var reportPathLength = reportPathSplitList.length;
-					var reportName = reportPathSplitList[reportPathLength - 1];
-					report.reportName = reportName;
-
-					// 開始日と終了日のフォーマットを変更する
-					var timeDate = new Date(report.time);
-					var timeStr = instance.getDateString(timeDate);
-					report.time = timeStr;
-
-					tableViewData.push(report);
-				});
-
-				$("#scheduleReportTable").clearGridData().setGridParam({
-					data : tableViewData
-				}).trigger("reloadGrid");
-			},
-
-			getReportList : function(reportName) {
-
-				// レポート出力定義を取得する
-				// Ajax通信用の設定
-				var settings = {
-					data : {
-						reportName : reportName
-					},
-					url : ENS.tree.REPORT_SELECT_BY_SCHEDULING_URL
-				};
-
-				// 非同期通信でデータを送信する
-				var ajaxHandler = new wgp.AjaxHandler();
-				settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] = this;
-				settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = "callbackGetReportList";
-				ajaxHandler.requestServerAsync(settings);
-			},
-			callbackGetReportList : function(reportList) {
 				var tableViewData = [];
 				var instance = this;
 				_.each(reportList, function(report, index) {
@@ -226,6 +155,7 @@ ENS.report.updateSchedulingReport = function(rowId) {
 	var term = rowData.term;
 	var timeSplit = rowData.time.split(":");
 
+	$("#schedulingReportId").val(rowData.reportId);
 	$("#schedulingReportName").val(rowData.reportName);
 	$("#schedulingReportTargetName").val(rowData.targetMeasurementName);
 	// シグナル名の表示名称は自身より親のツリー構造を除外した値を指定する。

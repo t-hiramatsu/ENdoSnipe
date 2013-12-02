@@ -15,7 +15,7 @@
 		<div id="schedulingReportNameArea" class="dialogContentArea"
 			style="display: none">
 			<div id="reportIdValue" class="dialogValue">
-				<input type="text" style="width:410px" id="reportId" class="schedulingReportValue" value="" />
+				<input type="text" style="width:410px" id="schedulingReportId" class="schedulingReportValue" value="" />
 			</div>
 		</div>
 		<div id="schedulingReportNameArea" class="dialogContentArea">

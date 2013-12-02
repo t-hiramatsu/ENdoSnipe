@@ -44,7 +44,7 @@ public class SchedulingReportDefinitionDto
     private Calendar time_;
 
     /** HouCalendarMinute*/
-    private Timestamp lastExportedTime_;
+    private Timestamp planExportedTime_;
 
     /**
      * コンストラクタ。
@@ -55,21 +55,21 @@ public class SchedulingReportDefinitionDto
     }
 
     /**
-     * get last exported time
-     * @return last export time
+     * get plan exported time
+     * @return plan export time
      */
-    public Timestamp getLastExportedTime()
+    public Timestamp getPlanExportedTime()
     {
-        return lastExportedTime_;
+        return planExportedTime_;
     }
 
     /**
-     * set last exported time
-     * @param lastExportedTime last exported
+     * set plan exported time
+     * @param planExportedTime plan exported
      */
-    public void setLastExportedTime(final Timestamp lastExportedTime)
+    public void setPlanExportedTime(final Timestamp planExportedTime)
     {
-        lastExportedTime_ = lastExportedTime;
+        planExportedTime_ = planExportedTime;
     }
 
     /**

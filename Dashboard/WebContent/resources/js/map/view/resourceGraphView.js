@@ -420,6 +420,10 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				_.each(this.collection.models, function(model, index) {
 					data.push(instance._parseModel(model));
 				});
+				// リアルタイムに閾値を取得しない画面では、グラフに閾値を表示しない。
+				if (window.treeView == null) {
+					return data;
+				}
 				var models = treeView.ensTreeView.collection.models;
 				var instance = this;
 				var signalCount = 0;

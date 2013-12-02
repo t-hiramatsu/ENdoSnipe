@@ -1,8 +1,10 @@
-ENS.tree.agentName = "/default/";
+ENS.threadDump.isTrue=false;
+
 ENS.threadDumpView = wgp.AbstractView
 		.extend({
 			tableColNames : [ "Time", "Detail", "Download" ],
 			initialize : function(argument, treeSettings) {
+				var instance = this;
 				this.tableMargin = 20;
 				this.tableWidth = parseInt($("#" + this.id).width()
 						- this.tableMargin * 4);
@@ -36,7 +38,6 @@ ENS.threadDumpView = wgp.AbstractView
 				appView.getTermThreadDumpData([ treeSettings.treeId ],
 						startTime, endTime, argument.maxLineNum);
 				this.id = argument.id;
-				ENS.tree.agentName = this.treeSettings.treeId;
 				this.dualSliderView.setScaleMovedEvent(function(from, to) {
 					var appView = new ENS.AppView();
 					var startTime = new Date(new Date().getTime() - from);
@@ -45,6 +46,8 @@ ENS.threadDumpView = wgp.AbstractView
 							startTime, endTime, 100);
 				});
 				$("#button").on("click", function() {
+					ENS.threadDump.isTrue=true;
+					ENS.tree.agentName = instance.treeSettings.treeId;
 					var settings = {
 						data : {
 							threadDump : ENS.tree.agentName
@@ -117,7 +120,9 @@ ENS.threadDumpView = wgp.AbstractView
 				return tableData;
 			},
 			onAdd : function(element) {
-				var agentName = this.treeSettings.treeId;
+				if(ENS.threadDump.isTrue)
+					{
+				var agentName = ENS.tree.agentName;
 				var instance = this;
 				var settings = {
 					data : {
@@ -129,6 +134,8 @@ ENS.threadDumpView = wgp.AbstractView
 				settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] = this;
 				settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = "callbackThreadDumpList";
 				ajaxHandler.requestServerAsync(settings);
+				ENS.threadDump.isTrue=false;
+					}
 			},
 			onChange : function(element) {
 				console.log('called changeModel');
