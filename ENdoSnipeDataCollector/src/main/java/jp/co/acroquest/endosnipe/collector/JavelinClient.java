@@ -52,11 +52,9 @@ import jp.co.acroquest.endosnipe.communicator.AbstractCommunicator;
 import jp.co.acroquest.endosnipe.communicator.CommunicationClient;
 import jp.co.acroquest.endosnipe.communicator.CommunicationFactory;
 import jp.co.acroquest.endosnipe.communicator.CommunicatorListener;
-import jp.co.acroquest.endosnipe.communicator.TelegramListener;
 import jp.co.acroquest.endosnipe.communicator.TelegramReceiver;
 import jp.co.acroquest.endosnipe.communicator.TelegramSender;
 import jp.co.acroquest.endosnipe.communicator.entity.ConnectNotifyData;
-import jp.co.acroquest.endosnipe.communicator.entity.Header;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.data.service.HostInfoManager;
@@ -417,9 +415,7 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
         final SystemResourceListener SYSTEM_RESOURCE_LISTENER =
             createSystemResourceListener(queue, hostName, agentName);
         final SystemResourceNotifyListener SYSTEM_RESOURCE_NOTIFY_LISTENER =
-                createSystemResourceNotifyListener(queue,
-                                                   hostName,
-                                                   agentName);
+            createSystemResourceNotifyListener(queue, hostName, agentName);
 
         final SignalStateListener SIGNAL_STATE_LISTENER = new SignalStateListener();
         final SignalChangeListener SIGNAL_CHANGE_LISTENER = new SignalChangeListener();
@@ -547,6 +543,7 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
             notifyListener.setDatabaseName(this.databaseName_);
             notifyListener.setHostName(hostName);
             notifyListener.setPort(this.javelinPort_);
+            notifyListener.setClientId(this.clientId_);
         }
         return notifyListener;
     }
@@ -570,10 +567,10 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
             notifyListener.setHostName(hostName);
             notifyListener.setPort(this.javelinPort_);
             notifyListener.setAgentName(agentName);
+            notifyListener.setClientId(this.clientId_);
         }
         return notifyListener;
     }
-
 
     /**
      * SqlPlanNotifyListenerを作成します。
@@ -602,7 +599,7 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
      * @return 作成したSystemResourceListener
      */
     private SystemResourceNotifyListener createSystemResourceNotifyListener(
-            final JavelinDataQueue queue, final String hostName, final String agentName)
+        final JavelinDataQueue queue, final String hostName, final String agentName)
     {
         SystemResourceNotifyListener notifyListener = null;
         if (queue != null)
@@ -612,6 +609,7 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
             notifyListener.setHostName(hostName);
             notifyListener.setPort(this.javelinPort_);
             notifyListener.setAgentName(agentName);
+            notifyListener.setClientId(this.clientId_);
         }
         return notifyListener;
     }
