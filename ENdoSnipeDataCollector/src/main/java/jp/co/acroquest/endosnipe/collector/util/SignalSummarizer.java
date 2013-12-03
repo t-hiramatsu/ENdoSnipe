@@ -288,6 +288,8 @@ public class SignalSummarizer
                         summarySignalDefinitionDtoList.add(sumSigName);
                         SummarySignalStateManager.getInstance().getAlarmSummaryList()
                             .remove(sumSigName);
+                        changeStatusSumSig(sumSigName, -1);
+                        parentListSet.addAll(parChildMap__.get(sumSigName).parentListSet);
                         changeFlag = false;
                     }
 
