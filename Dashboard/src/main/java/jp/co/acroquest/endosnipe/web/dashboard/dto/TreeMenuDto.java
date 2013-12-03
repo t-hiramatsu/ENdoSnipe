@@ -54,6 +54,8 @@ public class TreeMenuDto
     /** 計測単位 */
     private String measurementUnit_;
 
+    private String message_;
+
     /**
      * コンストラクタ。
      */
@@ -184,6 +186,26 @@ public class TreeMenuDto
     }
 
     /**
+     * message for Summary Signal.
+     * 
+     * @return message
+     */
+    public String getMessage()
+    {
+        return message_;
+    }
+
+    /**
+     * message for Summary Signal
+     * 
+     * @param message to alarm error or not
+     */
+    public void setMessage(final String message)
+    {
+        message_ = message;
+    }
+
+    /**
      * タイプを取得する。
      * 
      * @return タイプ
@@ -208,7 +230,7 @@ public class TreeMenuDto
     {
         return "TreeMenuDto [data=" + data_ + ", treeId=" + treeId_ + ", parentTreeId="
                 + parentTreeId_ + ", id=" + id_ + ", type=" + type_ + ", icon=" + icon_
-                + ", measurementUnit=" + measurementUnit_ + "]";
+                + ", measurementUnit=" + measurementUnit_ + ", message=" + message_ + "]";
     }
 
     @Override
@@ -250,6 +272,11 @@ public class TreeMenuDto
         if (type_ != null)
         {
             result = PRIME * result + type_.hashCode();
+        }
+
+        if (message_ != null)
+        {
+            result = PRIME * result + message_.hashCode();
         }
 
         return result;
@@ -348,6 +375,18 @@ public class TreeMenuDto
         {
             return false;
         }
+        if (message_ == null)
+        {
+            if (other.message_ != null)
+            {
+                return false;
+            }
+        }
+        else if (!message_.equals(other.message_))
+        {
+            return false;
+        }
         return true;
     }
+
 }

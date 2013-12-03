@@ -2,6 +2,7 @@
 ENS.tree.signalDefinitionList = [];
 ENS.tree.doRender = true;
 ENS.tree.addedOtherNodes = [];
+ENS.tree.doMessage = true;
 
 ENS.treeView = wgp.TreeView
 		.extend({
@@ -481,6 +482,7 @@ ENS.treeView = wgp.TreeView
 								targetNodeName + " summary signal");
 
 					} else if (id == ENS.tree.EDIT_SUMMARYSIGNAL_TYPE) {
+						ENS.tree.doMessage = true;
 						$('#summarySignalName').attr("disabled", true);
 						$('#summarySignalList2Box').empty();
 						var treeModel = this.collection
@@ -996,6 +998,14 @@ ENS.treeView = wgp.TreeView
 				// renderのADDを実行する権限を与える
 				ENS.tree.doRender = true;
 				this.collection.add(addTopOptionList);
+				var settings = {
+					url : ENS.tree.SUMMARY_SIGNAL_CHANGE_STATE_URL
+				};
+
+				// 非同期通信でデータを送信する
+				var ajaxHandler = new wgp.AjaxHandler();
+				ajaxHandler.requestServerAsync(settings);
+
 			},
 			callbackGetAllSignal_ : function(signalDefinitionList) {
 				var instance = this;
@@ -1257,7 +1267,8 @@ ENS.treeView = wgp.TreeView
 					data : showName,
 					parentTreeId : targetTreeId,
 					icon : summaryIcon,
-					type : ENS.tree.type.SUMMARYSIGNAL
+					type : ENS.tree.type.SUMMARYSIGNAL,
+					message : summarySignalDefinition.message
 				};
 
 				return treeOption;
@@ -1594,14 +1605,20 @@ ENS.treeView = wgp.TreeView
 			 */
 			onAdd : function(treeModel) {
 
+				var treeType = treeModel.get("type");
+				if (ENS.tree.type.SUMMARYSIGNAL == treeType) {
+					var message = treeModel.get("message");
+					if (message !== "" && message != undefined) {
+						alert(message);
+						return;
+					}
+					appView.syncData([ treeModel.get("id") ]);
+				}
 				// 継承元の追加処理を実行して画面に反映する。
 				wgp.TreeView.prototype.onAdd.call(this, treeModel);
 
-				var treeType = treeModel.get("type");
-
 				// シグナルの場合はリアルタイム更新開始処理を行う。
-				if (ENS.tree.type.SIGNAL == treeType
-						|| ENS.tree.type.SUMMARYSIGNAL == treeType) {
+				if (ENS.tree.type.SIGNAL == treeType) {
 					appView.syncData([ treeModel.get("id") ]);
 				}
 
@@ -1611,19 +1628,54 @@ ENS.treeView = wgp.TreeView
 			 */
 			onChange : function(treeModel) {
 
-				// 継承元の変更処理を実行して画面に反映する。
-				wgp.TreeView.prototype.onChange.call(this, treeModel);
-
 				var treeId = treeModel.get("id");
 				var treeType = treeModel.get("type");
+				var message = treeModel.get("message");
+				if (ENS.tree.type.SUMMARYSIGNAL == treeType) {
 
-				var previousTreeId = treeModel.previousAttributes()["id"];
-				var treeTag = this.getTreeNode(previousTreeId, "id");
-				treeTag.attr("id", treeId);
+					if (ENS.tree.doMessage && message !== ""
+							&& message != undefined) {
+						alert(message);
+						ENS.tree.doMessage = false;
+						return;
+					} else if (message == "" || message == undefined) {
+						// 継承元の変更処理を実行して画面に反映する。
+						wgp.TreeView.prototype.onChange.call(this, treeModel);
 
+						var previousTreeId = treeModel.previousAttributes()["id"];
+						var treeTag = this.getTreeNode(previousTreeId, "id");
+						treeTag.attr("id", treeId);
+						var treeIcon = treeModel.get("icon");
+						var iconTag = treeTag.find("ins");
+
+						// 状態を一度クリアする。
+						iconTag.removeClass(ENS.tree.SIGNAL_ICON_0);
+						iconTag.removeClass(ENS.tree.SIGNAL_ICON_1);
+						iconTag.removeClass(ENS.tree.SIGNAL_ICON_2);
+						iconTag.removeClass(ENS.tree.SIGNAL_ICON_3);
+						iconTag.removeClass(ENS.tree.SIGNAL_ICON_4);
+						iconTag.removeClass(ENS.tree.SIGNAL_ICON_5);
+
+						// 状態を再度設定する。
+						iconTag.addClass(treeIcon);
+
+						// 前回のシグナルIDによるリアルタイム更新を停止
+						// 新しいシグナルIDによるリアルタイム更新を開始
+						appView.stopSyncData([ previousTreeId ]);
+						appView.syncData([ treeId ]);
+					}
+
+				} else {
+
+					// 継承元の変更処理を実行して画面に反映する。
+					wgp.TreeView.prototype.onChange.call(this, treeModel);
+
+					var previousTreeId = treeModel.previousAttributes()["id"];
+					var treeTag = this.getTreeNode(previousTreeId, "id");
+					treeTag.attr("id", treeId);
+				}
 				// シグナルの場合は状態を変更する。
-				if (ENS.tree.type.SIGNAL == treeType
-						|| ENS.tree.type.SUMMARYSIGNAL == treeType) {
+				if (ENS.tree.type.SIGNAL == treeType) {
 					var treeIcon = treeModel.get("icon");
 					var iconTag = treeTag.find("ins");
 
@@ -1673,6 +1725,7 @@ ENS.treeView = wgp.TreeView
 				return signalName.substr(lastIndexOf + 1);
 			},
 			onComplete : function(type) {
+
 				if (type == wgp.constants.syncType.SEARCH) {
 					this.renderAll();
 				}
@@ -1765,12 +1818,6 @@ ENS.treeView = wgp.TreeView
 					alert(message);
 					return;
 				}
-				var summarySignalDefinition = responseDto.data;
-				var message = summarySignalDefinition.message;
-				if (message != "") {
-					alert(message);
-					return;
-				}
 			},
 			deleteSummarySignal_ : function(executeOption) {
 
@@ -1845,8 +1892,6 @@ ENS.treeView = wgp.TreeView
 					data : sendData,
 					url : url
 				};
-				/* alert(url); */
-				/* alert(JSON.stringify(sendData)); */
 				// 非同期通信でデータを送信する
 				var ajaxHandler = new wgp.AjaxHandler();
 				settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] = this;
@@ -1898,11 +1943,6 @@ ENS.treeView = wgp.TreeView
 				}
 				var schedulingReportDefinition = responseDto.data;
 				var reportId = schedulingReportDefinition.reportId;
-				/*
-				 * if (reportId === 0) { alert("This Report Name already
-				 * exists." + "\nPlease change report name and try again.");
-				 * return; }
-				 */
 			},
 
 			clearSchedulingReportDialog_ : function() {
