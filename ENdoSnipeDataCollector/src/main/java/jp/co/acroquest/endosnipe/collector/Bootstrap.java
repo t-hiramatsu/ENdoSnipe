@@ -155,6 +155,7 @@ public class Bootstrap implements LogMessageCodes
             }
             else
             {
+                this.collector_.startServer();
                 this.collector_.connectAll();
             }
 
@@ -289,7 +290,7 @@ public class Bootstrap implements LogMessageCodes
     private static void printUsage()
     {
         System.err.println("Usage: java -D" + COLLECTOR_PROP_NAME
-                + "=PROPFILENAME -jar endosnipe-datacollector.jar {start|stop}");
+            + "=PROPFILENAME -jar endosnipe-datacollector.jar {start|stop}");
     }
 
     /**

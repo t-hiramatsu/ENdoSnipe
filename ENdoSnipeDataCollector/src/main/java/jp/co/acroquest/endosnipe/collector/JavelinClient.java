@@ -85,6 +85,8 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
 
     private String clientId_;
 
+    private String agentName_;
+
     private final JavelinTransferServerThread transferThread_ = new JavelinTransferServerThread();
 
     /** データを蓄積するためのキュー */
@@ -96,6 +98,24 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
     public JavelinClient()
     {
         this.telegramNotifyListenerList_ = Collections.emptyList();
+    }
+
+    /**
+     * agentName for javelinClient
+     * @return agentName
+     */
+    public String getAgentName()
+    {
+        return agentName_;
+    }
+
+    /**
+     * agentName for javelinClient
+     * @param agentName for client
+     */
+    public void setAgentName(final String agentName)
+    {
+        agentName_ = agentName;
     }
 
     /**
@@ -324,7 +344,7 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
      * 電文受信オブジェクトを取得します。
      * @return 電文受信オブジェクト
      */
-    private TelegramReceiver getTelegramReceiver()
+    public TelegramReceiver getTelegramReceiver()
     {
         return getCommunicator();
     }
@@ -382,6 +402,7 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
         if (connectNotify != null)
         {
             agentName = connectNotify.getAgentName();
+            this.agentName_ = connectNotify.getAgentName();
         }
         initializeCommon(queue, behaviorMode, hostName, agentName, agentId);
 

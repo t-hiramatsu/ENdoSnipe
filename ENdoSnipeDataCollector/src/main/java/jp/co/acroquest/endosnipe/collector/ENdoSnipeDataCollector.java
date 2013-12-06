@@ -46,9 +46,13 @@ import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 import jp.co.acroquest.endosnipe.communicator.TelegramSender;
+import jp.co.acroquest.endosnipe.communicator.accessor.ConnectNotifyAccessor;
 import jp.co.acroquest.endosnipe.communicator.accessor.ResourceNotifyAccessor;
 import jp.co.acroquest.endosnipe.communicator.accessor.SystemResourceGetter;
+import jp.co.acroquest.endosnipe.communicator.entity.Body;
+import jp.co.acroquest.endosnipe.communicator.entity.Header;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
+import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.communicator.impl.DataCollectorClient;
 import jp.co.acroquest.endosnipe.data.dao.SignalDefinitionDao;
 import jp.co.acroquest.endosnipe.data.dao.SummarySignalDefinitionDao;
@@ -65,7 +69,8 @@ import jp.co.acroquest.endosnipe.data.entity.SummarySignalDefinition;
  * 
  * @author y-komori
  */
-public class ENdoSnipeDataCollector implements CommunicationClientRepository, LogMessageCodes
+public class ENdoSnipeDataCollector implements CommunicationClientRepository, LogMessageCodes,
+    TelegramConstants
 {
     private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
         .getLogger(ENdoSnipeDataCollector.class);
@@ -103,7 +108,7 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
     private final Map<String, List<TelegramNotifyListener>> telegramNotifyListenersMap_ =
         new HashMap<String, List<TelegramNotifyListener>>();
 
-    private final List<JavelinClient> clientList_ = new ArrayList<JavelinClient>();
+    private final static List<JavelinClient> clientList_ = new ArrayList<JavelinClient>();
 
     private volatile boolean isRunning_;
 
@@ -484,6 +489,7 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
             }
             RotateConfig rotateConfig = createRotateConfig(agentSetting);
             addRotateConfig(rotateConfig);
+
             String clientId =
                 connect(databaseName, agentSetting.hostName, agentSetting.port,
                         agentSetting.acceptPort, agentSetting.agentId);
@@ -544,6 +550,8 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
             javelinClient = new JavelinClient();
             javelinClient.init(dbName, javelinHost, javelinPort, acceptPort);
             javelinClient.setTelegramNotifyListener(this.telegramNotifyListenersMap_.get(dbName));
+            String agentName = ConnectNotifyAccessor.createAgentName("agent", agentId);
+            javelinClient.setAgentName(agentName);
             javelinClient.connect(queue, this.behaviorMode_, null, agentId);
             this.clientList_.add(javelinClient);
             this.resourceGetterTask_.addTelegramSenderList(javelinClient.getTelegramSender());
@@ -560,6 +568,68 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
         }
 
         return clientId;
+    }
+
+    public static void sendJavelinClientTelegram(final Telegram telegram)
+    {
+        for (JavelinClient client : clientList_)
+        {
+            Header objHeader = telegram.getObjHeader();
+
+            if (objHeader.getByteTelegramKind() == BYTE_TELEGRAM_KIND_GET_DUMP
+                && objHeader.getByteRequestKind() == BYTE_REQUEST_KIND_REQUEST)
+            {
+                Body[] bodies = telegram.getObjBody();
+                if (bodies.length == 2)
+                {
+                    String agentName = bodies[1].getStrItemName();
+                    if (agentName.split("/").length < 4)
+                    {
+                        client.getTelegramSender().sendTelegram(telegram);
+                    }
+                    else
+                    {
+                        String[] agentSplit = agentName.split("/");
+                        agentName = agentSplit[3];
+                        //send ThreadDump for only related agent
+                        if (agentName.equals(client.getAgentName()))
+                        {
+                            client.getTelegramSender().sendTelegram(telegram);
+                        }
+                    }
+                }
+                else
+                {
+                    client.getTelegramSender().sendTelegram(telegram);
+                }
+            }
+            else if (objHeader.getByteTelegramKind() == BYTE_TELEGRAM_KIND_SUMMARYSIGNAL_DEFINITION
+                && objHeader.getByteRequestKind() == BYTE_REQUEST_KIND_NOTIFY)
+            {
+                Body[] bodies = telegram.getObjBody();
+                Object[] itemValues = bodies[0].getObjItemValueArr();
+                String agentName = (String)itemValues[0];
+                if (agentName.split("/").length < 4)
+                {
+                    client.getTelegramSender().sendTelegram(telegram);
+                }
+                else
+                {
+                    String[] agentSplit = agentName.split("/");
+                    agentName = agentSplit[3];
+                    //send ThreadDump for only related agent
+                    if (agentName.equals(client.getAgentName()))
+                    {
+                        client.getTelegramSender().sendTelegram(telegram);
+                    }
+                }
+            }
+
+            else
+            {
+                client.getTelegramSender().sendTelegram(telegram);
+            }
+        }
     }
 
     /**
@@ -627,6 +697,16 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
             }
         }
         return null;
+    }
+
+    public static void addAgentName(final String agentName)
+    {
+        for (JavelinClient javelinClient : clientList_)
+        {
+            int no = clientList_.indexOf(javelinClient);
+            String javelinAgentName = ConnectNotifyAccessor.createAgentName(agentName, no);
+            javelinClient.setAgentName(javelinAgentName);
+        }
     }
 
     /**
