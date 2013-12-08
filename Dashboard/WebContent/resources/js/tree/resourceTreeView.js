@@ -175,13 +175,9 @@ ENS.ResourceTreeView = ENS.treeManager
 			 * ツリー要素の基となるコレクションが変更された場合に、 別ペインへ状態変更を伝搬する。
 			 */
 			onChange : function(treeModel) {
-
-				// 継承元のonChangeメソッド実行
-				ENS.treeView.prototype.onChange.apply(this, [ treeModel ]);
-
-				var treeType = treeModel.get("type");
-				if (this.childView) {
-					var childView = this.childView;
+				if (window.resourceMapListView != null
+						&& resourceMapListView.childView != null) {
+					var childView = resourceMapListView.childView;
 
 					var mapElementModel = childView.collection.where({resourceId : treeModel.id});
 
@@ -190,14 +186,15 @@ ENS.ResourceTreeView = ENS.treeManager
 						return;
 					}
 
-					var mapElementView = childView.viewCollection.get(mapElementModel.id);
-					if (!mapElementView) {
-						return;
-					}
-
-					// モデルのチェンジイベントを発行する。
-					mapElementView.model
-							.trigger("change", mapElementView.model);
+					_.each(mapElementModel, function(model, index){
+						var mapElementView = childView.viewCollection[model.id];
+						if (!mapElementView) {
+							return;
+						}
+						// モデルのチェンジイベントを発行する。
+						mapElementView.model
+								.trigger("change", mapElementView.model);
+					});
 				}
 			}
 		});
