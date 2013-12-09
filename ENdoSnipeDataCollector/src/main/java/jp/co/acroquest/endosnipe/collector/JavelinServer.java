@@ -31,11 +31,13 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import jp.co.acroquest.endosnipe.collector.data.JavelinConnectionData;
 import jp.co.acroquest.endosnipe.collector.listener.AllNotifyListener;
 import jp.co.acroquest.endosnipe.collector.listener.CommonResponseListener;
+import jp.co.acroquest.endosnipe.collector.listener.JavelinClientTelegramListener;
 import jp.co.acroquest.endosnipe.collector.listener.JvnFileNotifyListener;
 import jp.co.acroquest.endosnipe.collector.listener.SignalChangeListener;
 import jp.co.acroquest.endosnipe.collector.listener.SignalStateListener;
@@ -74,7 +76,7 @@ public class JavelinServer implements TelegramSender, TelegramConstants
         new HashMap<String, DataCollectorClient>();
 
     /** DB名をキーとした制御クライアントのリスト */
-    private final Map<String, Set<DataCollectorClient>> controlClientList_ =
+    private static final Map<String, Set<DataCollectorClient>> controlClientList_ =
         new HashMap<String, Set<DataCollectorClient>>();
 
     /** DB名の増減を通知するクライアント */
@@ -193,10 +195,22 @@ public class JavelinServer implements TelegramSender, TelegramConstants
                 default:
                     break;
                 }
+
             }
         });
 
         server_.start(port);
+    }
+
+    public static void sendDataCollectorClientTelegram(final Telegram telegram)
+    {
+        for (Entry<String, Set<DataCollectorClient>> client : controlClientList_.entrySet())
+        {
+            for (DataCollectorClient dataCollectorClient : client.getValue())
+            {
+                dataCollectorClient.sendTelegram(telegram);
+            }
+        }
     }
 
     /**
@@ -246,20 +260,20 @@ public class JavelinServer implements TelegramSender, TelegramConstants
      */
     public void sendTelegramToControlClient(final String clientId, final Telegram telegram)
     {
-        DataCollectorClient javelinClient = getClient(clientId);
-        if (javelinClient == null)
-        {
-            return;
-        }
-        ConnectNotifyData notifyData = javelinClient.getConnectNotifyData();
-        if (notifyData == null)
-        {
-            return;
-        }
-        if (notifyData.getKind() != ConnectNotifyData.KIND_JAVELIN)
-        {
-            return;
-        }
+        //        DataCollectorClient javelinClient = getClient(clientId);
+        //        if (javelinClient == null)
+        //        {
+        //            return;
+        //        }
+        //        ConnectNotifyData notifyData = javelinClient.getConnectNotifyData();
+        //        if (notifyData == null)
+        //        {
+        //            return;
+        //        }
+        //        if (notifyData.getKind() != ConnectNotifyData.KIND_JAVELIN)
+        //        {
+        //            return;
+        //        }
 
         if (behaviorMode_.equals(BehaviorMode.PLUGIN_MODE))
         {
@@ -486,10 +500,29 @@ public class JavelinServer implements TelegramSender, TelegramConstants
      */
     private synchronized void initializeControlClient(final DataCollectorClient client)
     {
+        addDataCollectorClientListener(client);
         for (DataCollectorClient javelinClient : this.javelinClientList_.values())
         {
             bindJavelinAndControlClient(javelinClient, client);
+            resourceGetter_.addTelegramSenderList(client);
         }
+
+    }
+
+    private void addDataCollectorClientListener(final DataCollectorClient client)
+    {
+        client.addTelegramListener(new JavelinClientTelegramListener());
+        SignalStateListener signalStateListener = new SignalStateListener();
+        SignalChangeListener signalChangeListener = new SignalChangeListener();
+
+        SummarySignalChangeListener summarySignalChangeListener = new SummarySignalChangeListener();
+
+        client.addTelegramListener(signalStateListener);
+        client.addTelegramListener(signalChangeListener);
+        client.addTelegramListener(summarySignalChangeListener);
+
+        ThreadDumpNotifyListener threadDumpNotifyListener = new ThreadDumpNotifyListener();
+        client.addTelegramListener(threadDumpNotifyListener);
 
     }
 
