@@ -31,7 +31,8 @@ public interface SchedulingReportDefinitionDao
     List<SchedulingReportDefinition> selectAll();
 
     /**
-     * select data by using report name.
+     * select data by using targetmeasurementitem 
+     * by matching parent agentName.
      * @param agentName is used
      * @return is used
      */
