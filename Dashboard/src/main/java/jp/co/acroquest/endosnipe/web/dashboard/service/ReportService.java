@@ -112,6 +112,9 @@ public class ReportService
 
     private final List<ReporterThread> reportThreadList_ = new ArrayList<ReporterThread>();
 
+    /**constants integer value is 4*/
+    private static final int NUMBER_FOUR = 4;
+
     /**
      * デフォルトコンストラクタ。
      */
@@ -582,13 +585,21 @@ public class ReportService
      * get all schedule data.
      * @return all schedule data
      */
-    public List<SchedulingReportDefinitionDto> getAllSchedule()
+    public List<SchedulingReportDefinitionDto> getAllSchedule(final String nodeName)
     {
 
         List<SchedulingReportDefinition> reportList = null;
         try
         {
-            reportList = schedulingReportDefinitionDao_.selectAll();
+            if (nodeName != null && nodeName.trim() != "")
+            {
+                String agentName = getAgentName(nodeName) + "%";
+                reportList = schedulingReportDefinitionDao_.selectAllByAgentName(agentName);
+            }
+            else
+            {
+                reportList = schedulingReportDefinitionDao_.selectAll();
+            }
         }
         catch (PersistenceException pEx)
         {
@@ -613,6 +624,28 @@ public class ReportService
             definitionDtoList.add(reportDto);
         }
         return definitionDtoList;
+    }
+
+    /**
+     * Substract agent Name from node name
+     * @param nodeName full node path name
+     * @return agentName
+     */
+    private String getAgentName(final String nodeName)
+    {
+        String[] agentSplit = nodeName.split("/");
+
+        String agentName = nodeName;
+        if (agentSplit.length >= NUMBER_FOUR)
+        {
+            agentName = "/" + agentSplit[1];
+            for (int index = 2; index < NUMBER_FOUR; index++)
+            {
+                agentName += "/" + agentSplit[index];
+            }
+        }
+
+        return agentName;
     }
 
     /**

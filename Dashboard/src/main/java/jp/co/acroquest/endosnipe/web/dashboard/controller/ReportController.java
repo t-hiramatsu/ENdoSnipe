@@ -102,6 +102,8 @@ public class ReportController
 
     /**
      * get all scheduling definition data
+     * @param nodeName for getting schedule 
+     *        report only for related agent
      * @return report definition dto
      */
     @RequestMapping(value = "/getAllScheduleDefinition", method = RequestMethod.POST)
@@ -111,7 +113,25 @@ public class ReportController
         List<SchedulingReportDefinitionDto> reportDefinitionDtos =
                 new ArrayList<SchedulingReportDefinitionDto>();
 
-        reportDefinitionDtos = this.reportService_.getAllSchedule();
+        reportDefinitionDtos = this.reportService_.getAllSchedule(null);
+        return reportDefinitionDtos;
+    }
+
+    /**
+     * get all scheduling definition data
+     * @param nodeName for getting schedule 
+     *        report only for related agent
+     * @return report definition dto
+     */
+    @RequestMapping(value = "/getAllScheduleDefinitionByAgent", method = RequestMethod.POST)
+    @ResponseBody
+    public List<SchedulingReportDefinitionDto> getAllScheduleDefinitionByAgent(
+            @RequestParam(value = "nodeName") final String nodeName)
+    {
+        List<SchedulingReportDefinitionDto> reportDefinitionDtos =
+                new ArrayList<SchedulingReportDefinitionDto>();
+
+        reportDefinitionDtos = this.reportService_.getAllSchedule(nodeName);
         return reportDefinitionDtos;
     }
 

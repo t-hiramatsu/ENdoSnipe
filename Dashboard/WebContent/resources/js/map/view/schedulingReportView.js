@@ -15,7 +15,8 @@ ENS.schedulingReportView = wgp.AbstractView
 				// 空のテーブルを作成
 				this.createTabelColModel();
 				this.render();
-				this.getAllScheReportList_();
+				var nodeName = treeSettings.treeId;
+				this.getAllScheReportList_(nodeName);
 			},
 			render : function() {
 				$("#" + this.id).append('<br/><br/><div id="scheduleReportDiv"></div>');
@@ -95,12 +96,15 @@ ENS.schedulingReportView = wgp.AbstractView
 				} ];
 
 			},
-			getAllScheReportList_ : function() {
+			getAllScheReportList_ : function(nodeName) {
 
 				// レポート出力定義を取得する
 				// Ajax通信用の設定
 				var settings = {
-					url : ENS.tree.SCHEDULING_REPORT_SELECT_ALL_URL
+						data : {
+							nodeName : nodeName
+						},
+					url : ENS.tree.SCHEDULING_REPORT_SELECT_ALL_URL_BY_AGENT
 				};
 
 				// 非同期通信でデータを送信する

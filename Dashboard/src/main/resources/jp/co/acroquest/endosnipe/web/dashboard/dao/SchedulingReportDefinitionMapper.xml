@@ -109,6 +109,14 @@
 		SELECT * FROM
 		SCHEDULING_REPORT_DEFINITION
 	</select>
+	
+	<select id="selectAllByAgentName" resultMap="SchedulingReportDefinitionMap" parameterType="String">
+		SELECT * FROM
+		SCHEDULING_REPORT_DEFINITION
+		where target_measurement_name 
+		like #{agentName_}
+	</select>
+	
 	<select id="selectBySchedule" resultMap="SchedulingReportDefinitionMap"
 		parameterType="java.sql.Timestamp">
 		SELECT * FROM
