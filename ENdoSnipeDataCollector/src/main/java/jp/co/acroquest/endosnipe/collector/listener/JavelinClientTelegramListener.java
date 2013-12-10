@@ -29,9 +29,18 @@ import jp.co.acroquest.endosnipe.collector.ENdoSnipeDataCollector;
 import jp.co.acroquest.endosnipe.communicator.TelegramListener;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 
+/**
+ * Listener for JavelinClient<br />
+ * 
+ * @author pin
+ */
 public class JavelinClientTelegramListener implements TelegramListener
 {
-
+    /**
+     * receive telegram that pass to JavelinClient
+     * @param telegram to pass to listener
+     * @return telegram
+     */
     public Telegram receiveTelegram(final Telegram telegram)
     {
         ENdoSnipeDataCollector.sendJavelinClientTelegram(telegram);
