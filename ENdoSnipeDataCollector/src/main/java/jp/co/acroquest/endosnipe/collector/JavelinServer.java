@@ -606,11 +606,6 @@ public class JavelinServer implements TelegramSender, TelegramConstants
             }
         });
 
-        controlClient.addTelegramListener(new SignalStateListener());
-        controlClient.addTelegramListener(new SignalChangeListener());
-        controlClient.addTelegramListener(new ThreadDumpNotifyListener());
-        controlClient.addTelegramListener(new SummarySignalChangeListener());
-
         // Javelin->DataCollector->BottleneckEye
         javelinClient.addTelegramListener(new TelegramListener() {
             public Telegram receiveTelegram(final Telegram telegram)
