@@ -583,6 +583,7 @@ public class ReportService
 
     /**
      * get all schedule data.
+     * @param nodeName fullpath of nodeName
      * @return all schedule data
      */
     public List<SchedulingReportDefinitionDto> getAllSchedule(final String nodeName)
@@ -591,7 +592,7 @@ public class ReportService
         List<SchedulingReportDefinition> reportList = null;
         try
         {
-            if (nodeName != null && nodeName.trim() != "")
+            if (nodeName != null && !nodeName.trim().equals(""))
             {
                 String agentName = getAgentName(nodeName) + "%";
                 reportList = schedulingReportDefinitionDao_.selectAllByAgentName(agentName);
