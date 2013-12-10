@@ -105,7 +105,7 @@ public class JavelinClientConnection
      * 終了処理です。<br />
      * 
      */
-    void close()
+    public void close()
     {
         String key = "";
         String message = "";
@@ -186,7 +186,7 @@ public class JavelinClientConnection
      * @return byte配列
      * @throws IOException 入出力例外の発生
      */
-    byte[] recvRequest()
+    public byte[] recvRequest()
         throws IOException
     {
         this.clientSocket_.setSoTimeout(SO_TIMEOUT);
