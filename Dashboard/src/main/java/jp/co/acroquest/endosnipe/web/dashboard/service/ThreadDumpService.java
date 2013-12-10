@@ -196,7 +196,12 @@ public class ThreadDumpService
         try
         {
             //for get agentName's threadDump even selected node is subChild of agent
-            String agentName = getAgentName(measurementItem);
+            String agentName = measurementItem;
+            if (agentName.split("/").length > NUMBER_FOUR)
+            {
+                agentName = getAgentName(measurementItem);
+            }
+
             list = JavelinLogDao.selectAllThreadDumpByMeasurementItem(dbName, agentName);
         }
         catch (SQLException ex)
