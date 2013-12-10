@@ -31,9 +31,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
+import jp.co.acroquest.endosnipe.collector.DataCollectorServer.ClientNotifyListener;
 import jp.co.acroquest.endosnipe.collector.data.JavelinConnectionData;
 import jp.co.acroquest.endosnipe.collector.listener.AllNotifyListener;
 import jp.co.acroquest.endosnipe.collector.listener.CommonResponseListener;
@@ -56,9 +56,6 @@ import jp.co.acroquest.endosnipe.communicator.entity.ConnectNotifyData;
 import jp.co.acroquest.endosnipe.communicator.entity.Header;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
-import jp.co.acroquest.endosnipe.communicator.impl.DataCollectorClient;
-import jp.co.acroquest.endosnipe.communicator.impl.DataCollectorServer;
-import jp.co.acroquest.endosnipe.communicator.impl.DataCollectorServer.ClientNotifyListener;
 import jp.co.acroquest.endosnipe.data.service.HostInfoManager;
 
 /**
@@ -76,7 +73,7 @@ public class JavelinServer implements TelegramSender, TelegramConstants
         new HashMap<String, DataCollectorClient>();
 
     /** DB名をキーとした制御クライアントのリスト */
-    private static final Map<String, Set<DataCollectorClient>> controlClientList_ =
+    private final Map<String, Set<DataCollectorClient>> controlClientList_ =
         new HashMap<String, Set<DataCollectorClient>>();
 
     /** DB名の増減を通知するクライアント */
@@ -100,6 +97,8 @@ public class JavelinServer implements TelegramSender, TelegramConstants
 
     /** 接続するデータベース名。 */
     private String dbName_;
+
+    private static final int AGENTINDEX = 4;
 
     /**
      * サーバを開始する。
@@ -200,17 +199,6 @@ public class JavelinServer implements TelegramSender, TelegramConstants
         });
 
         server_.start(port);
-    }
-
-    public static void sendDataCollectorClientTelegram(final Telegram telegram)
-    {
-        for (Entry<String, Set<DataCollectorClient>> client : controlClientList_.entrySet())
-        {
-            for (DataCollectorClient dataCollectorClient : client.getValue())
-            {
-                dataCollectorClient.sendTelegram(telegram);
-            }
-        }
     }
 
     /**
@@ -547,18 +535,13 @@ public class JavelinServer implements TelegramSender, TelegramConstants
                     if (bodies.length == 2)
                     {
                         String agentName = bodies[1].getStrItemName();
-                        if (agentName.split("/").length < 4)
+                        if (agentName.split("/").length < AGENTINDEX)
                         {
                             javelinClient.sendTelegram(telegram);
                         }
                         else
                         {
-                            String[] agentSplit = agentName.split("/");
-                            agentName = "/" + agentSplit[1];
-                            for (int index = 2; index < 4; index++)
-                            {
-                                agentName += "/" + agentSplit[index];
-                            }
+                            agentName = splitAgentName(agentName);
                             //send ThreadDump for only related agent
                             if (agentName.equals(javelinClient.getAgentName()))
                             {
@@ -575,21 +558,15 @@ public class JavelinServer implements TelegramSender, TelegramConstants
                     && objHeader.getByteRequestKind() == BYTE_REQUEST_KIND_NOTIFY)
                 {
                     Body[] bodies = telegram.getObjBody();
-                    // String agentName = bodies[0].getStrItemName();
                     Object[] itemValues = bodies[0].getObjItemValueArr();
                     String agentName = (String)itemValues[0];
-                    if (agentName.split("/").length < 4)
+                    if (agentName.split("/").length < AGENTINDEX)
                     {
                         javelinClient.sendTelegram(telegram);
                     }
                     else
                     {
-                        String[] agentSplit = agentName.split("/");
-                        agentName = "/" + agentSplit[1];
-                        for (int index = 2; index < 4; index++)
-                        {
-                            agentName += "/" + agentSplit[index];
-                        }
+                        agentName = splitAgentName(agentName);
                         //send ThreadDump for only related agent
                         if (agentName.equals(javelinClient.getAgentName()))
                         {
@@ -629,6 +606,22 @@ public class JavelinServer implements TelegramSender, TelegramConstants
                 return null;
             }
         });
+    }
+
+    /**
+     * Splite agentName from selected node
+     * @param agentName
+     * @return
+     */
+    private String splitAgentName(final String agentName)
+    {
+        String[] agentSplit = agentName.split("/");
+        String spliteAgentName = "/" + agentSplit[1];
+        for (int index = 2; index < AGENTINDEX; index++)
+        {
+            spliteAgentName += "/" + agentSplit[index];
+        }
+        return spliteAgentName;
     }
 
     /**
