@@ -211,6 +211,8 @@ ENS.tree.SCHEDULING_EDIT_URL = wgp.common.getContextPath() + "/report/edit";
 ENS.tree.REPORT_SCHEDULE_DIALOG = "schedulingReportDialog";
 ENS.tree.SCHEDULING_REPORT_SELECT_ALL_URL = wgp.common.getContextPath()
 + "/report/getAllScheduleDefinition";
+ENS.tree.SCHEDULING_REPORT_SELECT_ALL_URL_BY_AGENT = wgp.common.getContextPath()
++ "/report/getAllScheduleDefinitionByAgent";
 ENS.tree.SCHEDULE_EDIT_URL = wgp.common.getContextPath() + "/report/schedulingEdit";
 ENS.tree.REPORT_SCHEDULE_DELETE_BY_NAME_URL = wgp.common.getContextPath() + "/report/deleteScheduleByName";
 ENS.tree.REPORT_SCHEDULE_DELETE_BY_ID_URL = wgp.common.getContextPath() + "/report/deleteScheduleById";
