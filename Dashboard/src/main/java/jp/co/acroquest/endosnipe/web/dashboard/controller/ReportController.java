@@ -384,7 +384,8 @@ public class ReportController
 
         // DBに登録されている定義を更新する
         SchedulingReportDefinitionDto updatedDefinitionDto =
-                this.reportService_.updateSchedulingInfo(signalInfo);
+                this.reportService_.updateSchedulingInfo(signalInfo,
+                                                         schedulingReportDefinitionDto.getBeforeReportName());
         responseDto.setResult(ResponseConstants.RESULT_SUCCESS);
         responseDto.setData(updatedDefinitionDto);
 
