@@ -250,9 +250,11 @@ ENS.SchedulingReportDialogView = ENS.DialogView
 			},
 			callbackEditSchedulingReport_ : function(responseDto,
 					schedulingReportDefinition) {
-				var result = responseDto.result;
+				
+				var responseData = JSON.parse(responseDto);
+				var result = responseData.result;
 				if (result === "fail") {
-					var message = responseDto.message;
+					var message = responseData.message;
 					alert(message);
 					return;
 				}
