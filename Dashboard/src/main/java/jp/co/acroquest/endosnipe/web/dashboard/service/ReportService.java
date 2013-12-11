@@ -690,10 +690,12 @@ public class ReportService
     /**
      * update scheduling data
      * @param schedulingReportDefinition got from database
+     * @param beforeSchedulingReportName oldSchedulingreportName
      * @return scheduling report
      */
     public SchedulingReportDefinitionDto updateSchedulingInfo(
-            final SchedulingReportDefinition schedulingReportDefinition)
+            final SchedulingReportDefinition schedulingReportDefinition,
+            final String beforeSchedulingReportName)
     {
         try
         {
@@ -732,12 +734,24 @@ public class ReportService
             return new SchedulingReportDefinitionDto();
         }
 
-        SchedulingReportDefinitionDto signalDefinitionDto =
+        SchedulingReportDefinitionDto schedulingReportDefinitionDto =
                 this.convertSchedulingReportDifinitionDto(schedulingReportDefinition);
         // 各クライアントにシグナル定義の変更を送信する。
-        sendSignalDefinition(signalDefinitionDto, "update");
+        if (!schedulingReportDefinitionDto.getReportName().equals(beforeSchedulingReportName))
+        {
+            sendSchedulingReportDefinition(schedulingReportDefinitionDto, "add");
+            List<ReportDefinitionDto> reportDefinitionDto =
+                    this.getReportByReportName(beforeSchedulingReportName);
+            if (reportDefinitionDto == null || reportDefinitionDto.size() == 0)
+            {
+                SchedulingReportDefinitionDto oldSchedule = schedulingReportDefinitionDto;
+                oldSchedule.setReportName(beforeSchedulingReportName);
+                sendSchedulingReportDefinition(oldSchedule, "delete");
+            }
 
-        return signalDefinitionDto;
+        }
+
+        return schedulingReportDefinitionDto;
     }
 
     /**
@@ -931,8 +945,8 @@ public class ReportService
      * @param schedulingDefinitionDto got from database
      * @param type is used
      */
-    private void sendSignalDefinition(final SchedulingReportDefinitionDto schedulingDefinitionDto,
-            final String type)
+    private void sendSchedulingReportDefinition(
+            final SchedulingReportDefinitionDto schedulingDefinitionDto, final String type)
     {
         // 各クライアントにシグナル定義の追加を通知する。
         EventManager eventManager = EventManager.getInstance();
@@ -941,6 +955,39 @@ public class ReportService
         if (dataManager != null && resourceSender != null)
         {
             List<TreeMenuDto> treeMenuDtoList = new ArrayList<TreeMenuDto>();
+            TreeMenuDto treeMenuDto = new TreeMenuDto();
+
+            String reportName = schedulingDefinitionDto.getReportName();
+
+            String[] nameSplitList = reportName.split("/");
+            int nameSplitListLength = nameSplitList.length;
+
+            String showName = nameSplitList[nameSplitListLength - 1];
+            String targetTreeId = "";
+            String reportTreeId = "";
+            for (int index = 1; index < nameSplitListLength; index++)
+            {
+                String nameSplit = nameSplitList[index];
+
+                if (index == nameSplitListLength - 1)
+                {
+                    reportTreeId += "/reportNode-";
+                }
+                else
+                {
+                    targetTreeId += "/";
+                    targetTreeId += nameSplit;
+
+                    reportTreeId += "/";
+                }
+                reportTreeId += nameSplit;
+            }
+            treeMenuDto.setId(reportTreeId);
+            treeMenuDto.setData(showName);
+            treeMenuDto.setParentTreeId(targetTreeId);
+            treeMenuDto.setIcon("report");
+            treeMenuDto.setType("report");
+            treeMenuDtoList.add(treeMenuDto);
             resourceSender.send(treeMenuDtoList, type);
         }
     }
