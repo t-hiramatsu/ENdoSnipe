@@ -42,20 +42,16 @@ import jp.co.acroquest.endosnipe.web.dashboard.dao.ReportDefinitionDao;
 import jp.co.acroquest.endosnipe.web.dashboard.dao.SchedulingReportDefinitionDao;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.ReportDefinitionDto;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.SchedulingReportDefinitionDto;
-import jp.co.acroquest.endosnipe.web.dashboard.dto.TreeMenuDto;
 import jp.co.acroquest.endosnipe.web.dashboard.entity.PropertySettingDefinition;
 import jp.co.acroquest.endosnipe.web.dashboard.entity.ReportDefinition;
 import jp.co.acroquest.endosnipe.web.dashboard.entity.SchedulingReportDefinition;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.DatabaseManager;
-import jp.co.acroquest.endosnipe.web.dashboard.manager.EventManager;
-import jp.co.acroquest.endosnipe.web.dashboard.manager.ResourceSender;
 import jp.co.acroquest.endosnipe.web.dashboard.util.ReportUtil;
 
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
-import org.wgp.manager.WgpDataManager;
 
 /**
  * レポート出力機能のサービスクラス。
@@ -93,7 +89,7 @@ public class ReportService
      */
     private static final String TIME_FORMAT = "HH:mm";
 
-    /** レポート情報Dao */
+    /** Scheduling レポート情報Dao */
     @Autowired
     protected SchedulingReportDefinitionDao schedulingReportDefinitionDao_;
 
@@ -311,44 +307,21 @@ public class ReportService
      * @param reportName got from database
      * @return duplicate or not.
      */
-    public boolean hasSameSignalName(final long reportId, final String reportName)
-    {
-        SchedulingReportDefinition schedulingReportDefinition =
-                this.schedulingReportDefinitionDao_.selectByName(reportName);
-        if (schedulingReportDefinition == null)
-        {
-            // 同一シグナル名を持つ閾値判定定義情報が存在しない場合
-            return false;
-        }
-        else if (schedulingReportDefinition.reportId_ == reportId)
-        {
-            // シグナル名が一致する閾値判定定義情報が更新対象自身の場合
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Check same report Name
-     * @param reportId got from database
-     * @param reportName got from database
-     * @return duplicate or not.
-     */
     public boolean hasSameReportName(final long reportId, final String reportName)
     {
         SchedulingReportDefinition schedulingReportDefinition =
                 this.schedulingReportDefinitionDao_.selectByName(reportName);
         if (schedulingReportDefinition == null)
         {
-            // 同一シグナル名を持つ閾値判定定義情報が存在しない場合
-            return true;
+            // 同一schedulingReportル名を持つ閾値判定定義情報が存在しない場合
+            return false;
         }
-        /* else if (schedulingReportDefinition.reportId_ == reportId)
-         {
-             // シグナル名が一致する閾値判定定義情報が更新対象自身の場合
-             return false;
-         }*/
-        return false;
+        else if (schedulingReportDefinition.reportId_ == reportId)
+        {
+            // schedulingReport名が一致する閾値判定定義情報が更新対象自身の場合
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -739,14 +712,12 @@ public class ReportService
         // 各クライアントにシグナル定義の変更を送信する。
         if (!schedulingReportDefinitionDto.getReportName().equals(beforeSchedulingReportName))
         {
-            sendSchedulingReportDefinition(schedulingReportDefinitionDto, "add");
-            List<ReportDefinitionDto> reportDefinitionDto =
-                    this.getReportByReportName(beforeSchedulingReportName);
-            if (reportDefinitionDto == null || reportDefinitionDto.size() == 0)
+            ReportUtil.sendSchedulingReportDefinition(schedulingReportDefinitionDto, "add");
+            if (!checkReportIsExist(beforeSchedulingReportName))
             {
                 SchedulingReportDefinitionDto oldSchedule = schedulingReportDefinitionDto;
                 oldSchedule.setReportName(beforeSchedulingReportName);
-                sendSchedulingReportDefinition(oldSchedule, "delete");
+                ReportUtil.sendSchedulingReportDefinition(oldSchedule, "delete");
             }
 
         }
@@ -922,8 +893,17 @@ public class ReportService
     {
         try
         {
+            SchedulingReportDefinition scheduleReport =
+                    schedulingReportDefinitionDao_.selectById(reportId);
             // レポートIDに該当するレポート定義を削除する
             schedulingReportDefinitionDao_.deleteById(reportId);
+            if (!checkReportIsExist(scheduleReport.reportName_))
+            {
+                SchedulingReportDefinitionDto scheduleReportDto =
+                        this.convertSchedulingReportDifinitionDto(scheduleReport);
+                ReportUtil.sendSchedulingReportDefinition(scheduleReportDto, "delete");
+            }
+
         }
         catch (PersistenceException pEx)
         {
@@ -941,58 +921,6 @@ public class ReportService
     }
 
     /**
-     * send signal definition.
-     * @param schedulingDefinitionDto got from database
-     * @param type is used
-     */
-    private void sendSchedulingReportDefinition(
-            final SchedulingReportDefinitionDto schedulingDefinitionDto, final String type)
-    {
-        // 各クライアントにシグナル定義の追加を通知する。
-        EventManager eventManager = EventManager.getInstance();
-        WgpDataManager dataManager = eventManager.getWgpDataManager();
-        ResourceSender resourceSender = eventManager.getResourceSender();
-        if (dataManager != null && resourceSender != null)
-        {
-            List<TreeMenuDto> treeMenuDtoList = new ArrayList<TreeMenuDto>();
-            TreeMenuDto treeMenuDto = new TreeMenuDto();
-
-            String reportName = schedulingDefinitionDto.getReportName();
-
-            String[] nameSplitList = reportName.split("/");
-            int nameSplitListLength = nameSplitList.length;
-
-            String showName = nameSplitList[nameSplitListLength - 1];
-            String targetTreeId = "";
-            String reportTreeId = "";
-            for (int index = 1; index < nameSplitListLength; index++)
-            {
-                String nameSplit = nameSplitList[index];
-
-                if (index == nameSplitListLength - 1)
-                {
-                    reportTreeId += "/reportNode-";
-                }
-                else
-                {
-                    targetTreeId += "/";
-                    targetTreeId += nameSplit;
-
-                    reportTreeId += "/";
-                }
-                reportTreeId += nameSplit;
-            }
-            treeMenuDto.setId(reportTreeId);
-            treeMenuDto.setData(showName);
-            treeMenuDto.setParentTreeId(targetTreeId);
-            treeMenuDto.setIcon("report");
-            treeMenuDto.setType("report");
-            treeMenuDtoList.add(treeMenuDto);
-            resourceSender.send(treeMenuDtoList, type);
-        }
-    }
-
-    /**
          * update measurement item.
          * @param beforeItemName before item
          * @param afterItemName after item
@@ -1005,5 +933,15 @@ public class ReportService
         String dbName = dbMmanager.getDataBaseName(1);
 
         JavelinMeasurementItemDao.updateMeasurementItemName(dbName, beforeItemName, afterItemName);
+    }
+
+    private boolean checkReportIsExist(final String reportName)
+    {
+        List<ReportDefinitionDto> reportDefinitionDto = this.getReportByReportName(reportName);
+        if (reportDefinitionDto != null && reportDefinitionDto.size() > 0)
+        {
+            return true;
+        }
+        return false;
     }
 }
