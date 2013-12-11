@@ -1947,8 +1947,9 @@ ENS.treeView = wgp.TreeView
 
 			clearSchedulingReportDialog_ : function() {
 				$("#schedulingReportId").val("");
+				$("#schedulingReportName").val("");
+				$("#beforeSchedulingReportName").val("");
 				$("#schedulingReportTargetName").val("");
-				$("#targetName").val("");
 				$('input[name=scheduling_report_type]:checked').val("");
 				$("#schedulingReportSelectedTimeId").val("") + ":"
 						+ $("#schedulingReportSelectedTimeMinuteId").val("");

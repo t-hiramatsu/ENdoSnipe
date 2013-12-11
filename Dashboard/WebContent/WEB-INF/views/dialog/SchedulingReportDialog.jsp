@@ -16,7 +16,10 @@
 			style="display: none">
 			<div id="reportIdValue" class="dialogValue">
 				<input type="text" style="width:410px" id="schedulingReportId" class="schedulingReportValue" value="" />
+				<input type="text" style="width:410px" id="beforeSchedulingReportName" class="beforeSchedulingReportValue"
+					value="" />
 			</div>
+			
 		</div>
 		<div id="schedulingReportNameArea" class="dialogContentArea">
 			<div id="schedulingReportNameItem" class="dialogItem">Scheduling Report Name :</div>
@@ -29,9 +32,6 @@
 			<div id="schedulingReportTargetNameItem" class="dialogItem">Target
 				Measurement Name :</div>
 			<div id="schedulingReportTargetNameValue" class="dialogValue">
-				<!-- <input type="text" id="targetName" class="schedulingReportValue" value=""
-					readonly="readonly" />
-					 -->
 					<input type="text" style="width:410px" id="schedulingReportTargetName" class="reportValue" value=""
 					readonly="readonly" disabled="disabled" /><!-- /default/127.0.0.1/agent_000/common/fundamental -->
 			</div>

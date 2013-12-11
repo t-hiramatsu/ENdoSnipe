@@ -88,9 +88,12 @@ public class ThreadDumpService
             try
             {
                 String nodeName = dataGroupId;
-                if (nodeName.split("/").length > NUMBER_FOUR)
+                if (nodeName != null)
                 {
-                    nodeName = getAgentName(nodeName);
+                    if (nodeName.split("/").length > NUMBER_FOUR)
+                    {
+                        nodeName = getAgentName(nodeName);
+                    }
                 }
                 list =
                         JavelinLogDao.selectThreadDumpByTermAndName(dbName, start, end, nodeName,

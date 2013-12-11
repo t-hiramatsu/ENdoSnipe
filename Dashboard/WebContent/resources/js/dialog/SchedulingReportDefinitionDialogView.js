@@ -69,11 +69,19 @@ ENS.SchedulingReportDialogView = ENS.DialogView
 																		"#schedulingReportName")
 																		.val();
 
+														var beforeReportFullName = $(
+																"#schedulingReportTargetName")
+																.val()
+																+ "/"
+																+ $(
+																		"#beforeSchedulingReportName")
+																		.val();
 														var schedulingReportDefinition = {
 															reportId : $(
 																	"#schedulingReportId")
 																	.val(),
 															reportName : reportFullName,
+															beforeReportName : beforeReportFullName,
 															targetMeasurementName : $(
 																	"#schedulingReportTargetName")
 																	.val(),

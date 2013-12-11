@@ -160,6 +160,7 @@ ENS.report.updateSchedulingReport = function(rowId) {
 	var timeSplit = rowData.time.split(":");
 
 	$("#schedulingReportId").val(rowData.reportId);
+	$("#beforeSchedulingReportName").val(rowData.reportName);
 	$("#schedulingReportName").val(rowData.reportName);
 	$("#schedulingReportTargetName").val(rowData.targetMeasurementName);
 	// シグナル名の表示名称は自身より親のツリー構造を除外した値を指定する。
