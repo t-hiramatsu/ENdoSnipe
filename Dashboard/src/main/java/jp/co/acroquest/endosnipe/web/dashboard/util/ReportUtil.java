@@ -15,15 +15,23 @@ package jp.co.acroquest.endosnipe.web.dashboard.util;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
 import jp.co.acroquest.endosnipe.report.ReportData;
 import jp.co.acroquest.endosnipe.report.ReportDataQueue;
 import jp.co.acroquest.endosnipe.web.dashboard.constants.LogMessageCodes;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.ReportDefinitionDto;
+import jp.co.acroquest.endosnipe.web.dashboard.dto.SchedulingReportDefinitionDto;
+import jp.co.acroquest.endosnipe.web.dashboard.dto.TreeMenuDto;
 import jp.co.acroquest.endosnipe.web.dashboard.entity.ReportDefinition;
+import jp.co.acroquest.endosnipe.web.dashboard.manager.EventManager;
+import jp.co.acroquest.endosnipe.web.dashboard.manager.ResourceSender;
 import jp.co.acroquest.endosnipe.web.dashboard.service.MapService;
+
+import org.wgp.manager.WgpDataManager;
 
 /**
  * SummarySignalのUtilクラスです。
@@ -125,4 +133,57 @@ public class ReportUtil
         definitionDto.setStatus(reportDefinition.status_);
         return definitionDto;
     }
+
+    /**
+     * send signal definition.
+     * @param schedulingDefinitionDto got from database
+     * @param type is used
+     */
+    public static void sendSchedulingReportDefinition(
+            final SchedulingReportDefinitionDto schedulingDefinitionDto, final String type)
+    {
+        // 各クライアントにシグナル定義の追加を通知する。
+        EventManager eventManager = EventManager.getInstance();
+        WgpDataManager dataManager = eventManager.getWgpDataManager();
+        ResourceSender resourceSender = eventManager.getResourceSender();
+        if (dataManager != null && resourceSender != null)
+        {
+            List<TreeMenuDto> treeMenuDtoList = new ArrayList<TreeMenuDto>();
+            TreeMenuDto treeMenuDto = new TreeMenuDto();
+
+            String reportName = schedulingDefinitionDto.getReportName();
+
+            String[] nameSplitList = reportName.split("/");
+            int nameSplitListLength = nameSplitList.length;
+
+            String showName = nameSplitList[nameSplitListLength - 1];
+            String targetTreeId = "";
+            String reportTreeId = "";
+            for (int index = 1; index < nameSplitListLength; index++)
+            {
+                String nameSplit = nameSplitList[index];
+
+                if (index == nameSplitListLength - 1)
+                {
+                    reportTreeId += "/reportNode-";
+                }
+                else
+                {
+                    targetTreeId += "/";
+                    targetTreeId += nameSplit;
+
+                    reportTreeId += "/";
+                }
+                reportTreeId += nameSplit;
+            }
+            treeMenuDto.setId(reportTreeId);
+            treeMenuDto.setData(showName);
+            treeMenuDto.setParentTreeId(targetTreeId);
+            treeMenuDto.setIcon("report");
+            treeMenuDto.setType("report");
+            treeMenuDtoList.add(treeMenuDto);
+            resourceSender.send(treeMenuDtoList, type);
+        }
+    }
+
 }

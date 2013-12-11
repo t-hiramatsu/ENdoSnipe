@@ -330,7 +330,7 @@ public class ReportController
 
         long reportId = schedulingReportDefinitionDto.getReportId();
         String reportName = schedulingReportDefinitionDto.getReportName();
-        boolean hasSameSignalName = this.reportService_.hasSameSignalName(reportId, reportName);
+        boolean hasSameSignalName = this.reportService_.hasSameReportName(reportId, reportName);
         if (hasSameSignalName)
         {
             String errorMessage = MessageUtil.getMessage("WEWD0141", reportName);
@@ -357,7 +357,8 @@ public class ReportController
      */
     @RequestMapping(value = "/deleteScheduleById", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> gett(@RequestParam(value = "reportId") final int reportId)
+    public Map<String, Object> deleteSchedulingReport(
+            @RequestParam(value = "reportId") final int reportId)
     {
         this.reportService_.deleteSchduleReportById(reportId);
         Map<String, Object> map = new HashMap<String, Object>();
@@ -378,7 +379,18 @@ public class ReportController
         ResponseDto responseDto = new ResponseDto();
         SchedulingReportDefinitionDto schedulingReportDefinitionDto =
                 JSON.decode(schedulingReportDefinition, SchedulingReportDefinitionDto.class);
-
+        boolean hasSameSignalName =
+                this.reportService_.hasSameReportName(schedulingReportDefinitionDto.getReportId(),
+                                                      schedulingReportDefinitionDto.getReportName());
+        if (hasSameSignalName)
+        {
+            String errorMessage =
+                    MessageUtil.getMessage("WEWD0141",
+                                           schedulingReportDefinitionDto.getReportName());
+            responseDto.setResult(ResponseConstants.RESULT_FAIL);
+            responseDto.setMessage(errorMessage);
+            return responseDto;
+        }
         SchedulingReportDefinition signalInfo =
                 this.reportService_.convertSchedulingReportDefinition(schedulingReportDefinitionDto);
 
