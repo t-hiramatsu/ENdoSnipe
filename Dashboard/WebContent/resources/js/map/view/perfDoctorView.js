@@ -69,7 +69,9 @@ ENS.perfDoctorView = wgp.AbstractView.extend({
 			rownumbers : true,
 			shrinkToFit : false,
 			cellEdit : true,
-			cmTemplate: { title: false }
+			cmTemplate : {
+				title : false
+			}
 		});
 		$("#journalTable").filterToolbar({
 			defaultSearch : 'cn'
@@ -127,7 +129,7 @@ ENS.perfDoctorView = wgp.AbstractView.extend({
 			name : "detailInfo",
 			// width : 140,
 			width : parseInt(this.tableWidth * 0.07),
-			formatter : ENS.Utility.makeAnchor,
+			formatter : ENS.Utility.makeAnchor2,
 			editoptions : {
 				"onclick" : "ENS.perfDoctor.dialog",
 				"linkName" : "Detail"
@@ -135,7 +137,7 @@ ENS.perfDoctorView = wgp.AbstractView.extend({
 		}, {
 			name : "detail",
 			width : parseInt(this.tableWidth * 0.1),
-			formatter : ENS.Utility.makeAnchor,
+			formatter : ENS.Utility.makeAnchor2,
 			editoptions : {
 				"onclick" : "ENS.perfDoctor.download",
 				"linkName" : "Download"
