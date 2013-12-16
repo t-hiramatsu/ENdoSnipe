@@ -37,27 +37,28 @@ import org.apache.tools.ant.taskdefs.Zip;
  * 
  * @author iida
  */
-public class Reporter {
+public class Reporter
+{
 
 	/** 開始／終了時刻を指定する文字列形式。 */
 	public static final String TIME_FORMAT = "yyyyMMdd_HHmmss";
 
 	/** ロガー */
 	private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
-			.getLogger(ReportPublishDispatcher.class);
+		.getLogger(ReportPublishDispatcher.class);
 
 	/**
 	 * コンストラクタ。
 	 */
-	public Reporter() {
+	public Reporter()
+	{
 
 	}
 
-	public void createReport(DataCollectorConfig config, Calendar fmTime,
-			Calendar toTime, String reportPath, String targetItemName,
-			String reportName) {
-		createReport(config, fmTime, toTime, reportPath, targetItemName,
-				reportName, null);
+	public void createReport(DataCollectorConfig config, Calendar fmTime, Calendar toTime,
+		String reportPath, String targetItemName, String reportName)
+	{
+		createReport(config, fmTime, toTime, reportPath, targetItemName, reportName, null);
 	}
 
 	/**
@@ -76,17 +77,19 @@ public class Reporter {
 	 * @param reportName
 	 *            レポート名
 	 */
-	public void createReport(DataCollectorConfig config, Calendar fmTime,
-			Calendar toTime, String reportPath, String targetItemName,
-			String reportName, String status) {
+	public void createReport(DataCollectorConfig config, Calendar fmTime, Calendar toTime,
+		String reportPath, String targetItemName, String reportName, String status)
+	{
 
 		// 開始時刻が終了時刻より未来を指していた場合はエラー
-		if (fmTime.compareTo(toTime) > 0) {
+		if (fmTime.compareTo(toTime) > 0)
+		{
 			System.err.println("開始時刻が終了時刻より未来を指しています。");
 			return;
 		}
 
-		if (config == null) {
+		if (config == null)
+		{
 			return;
 		}
 
@@ -98,12 +101,11 @@ public class Reporter {
 		String dbPass = config.getDatabasePassword();
 
 		// レポート作成に使用するDBを指定する
-		DBManager.updateSettings(false, "", dbHost, dbPort, dbName, dbUser,
-				dbPass);
+		DBManager.updateSettings(false, "", dbHost, dbPort, dbName, dbUser, dbPass);
 
 		// レポート作成時の各設定を行う
 		ReportType[] outputReportTypes = new ReportType[] { ReportType.OBJECT,
-				ReportType.PERF_DOCTOR };
+			ReportType.PERF_DOCTOR };
 
 		Runnable callback = null;
 
@@ -115,11 +117,12 @@ public class Reporter {
 		String end = format.format(toTime.getTime());
 		String leafDirectoryName = reportName + "_" + start + "-" + end;
 
-		String outputFilePath = reportPath + File.separator + dbName
-				+ File.separator + leafDirectoryName;
+		String outputFilePath = reportPath + File.separator + dbName + File.separator
+			+ leafDirectoryName;
 
 		File outputDir = new File(outputFilePath);
-		if (outputDir.exists() == false) {
+		if (outputDir.exists() == false)
+		{
 			outputDir.mkdirs();
 		}
 
@@ -141,41 +144,42 @@ public class Reporter {
 		// 絶対パスを取得
 		File currentDirectory = new File(".");
 
-		String outputDirFullPath = currentDirectory.getAbsolutePath()
-				+ File.separator + reportPath + File.separator + dbName
-				+ File.separator;
+		String outputDirFullPath = currentDirectory.getAbsolutePath() + File.separator + reportPath
+			+ File.separator + dbName + File.separator;
 
 		// レポート情報をログに出力する
-		LOGGER.log(LogIdConstants.OUTPUT_REPORT_INFO, outputDirFullPath,
-				leafDirectoryName, targetItemName);
+		LOGGER.log(LogIdConstants.OUTPUT_REPORT_INFO, outputDirFullPath, leafDirectoryName,
+			targetItemName);
 
 		// ReportPublishTaskを実行し、レポート作成を行う
 		ReportDao reportDao = new ReportDao();
-		try {
-			ReportPublishTask reportTask = new ReportPublishTask(
-					searchCondition, outputReportTypes, callback);
+		try
+		{
+			ReportPublishTask reportTask = new ReportPublishTask(searchCondition,
+				outputReportTypes, callback);
 			status = "completed";
 
 			// レポートを出力する
 			reportTask.createReport(targetItemName);
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			status = "failed";
 
-			LOGGER.log(LogIdConstants.REPORT_PUBLISH_STOPPED_WARN,
-					outputDirFullPath + leafDirectoryName);
-			reportDao.changeStatus(dbName, status, targetItemName, startTime,
-					endTime);
+			LOGGER.log(LogIdConstants.REPORT_PUBLISH_STOPPED_WARN, outputDirFullPath
+				+ leafDirectoryName);
+			reportDao.changeStatus(dbName, status, targetItemName, startTime, endTime);
 			return;
 		}
 
 		// khine Wai Oo
-		reportDao.changeStatus(dbName, status, targetItemName, startTime,
-				endTime);
+		reportDao.changeStatus(dbName, status, targetItemName, startTime, endTime);
 		// zip圧縮する
 		Project project = new Project();
 		project.init();
 
-		try {
+		try
+		{
 			File baseDir = new File(outputFilePath);
 			Zip zipper = new Zip();
 			zipper.setProject(project);
@@ -187,13 +191,15 @@ public class Reporter {
 
 			// zip化に成功したら元のディレクトリは削除する
 			boolean deleted = deleteDir(baseDir);
-			if (deleted == false) {
-				LOGGER.log(LogIdConstants.FAIL_TO_DELETE_DIR, outputDirFullPath
-						+ leafDirectoryName);
+			if (deleted == false)
+			{
+				LOGGER
+					.log(LogIdConstants.FAIL_TO_DELETE_DIR, outputDirFullPath + leafDirectoryName);
 			}
-		} catch (BuildException bex) {
-			LOGGER.log(LogIdConstants.FAIL_TO_ZIP, outputDirFullPath
-					+ leafDirectoryName);
+		}
+		catch (BuildException bex)
+		{
+			LOGGER.log(LogIdConstants.FAIL_TO_ZIP, outputDirFullPath + leafDirectoryName);
 		}
 
 	}
@@ -205,34 +211,43 @@ public class Reporter {
 	 *            削除するディレクトリ。
 	 * @return ディレクトリの削除に失敗した場合。
 	 */
-	private static boolean deleteDir(File dir) {
+	private static boolean deleteDir(File dir)
+	{
 		boolean result = true;
 		File[] children = dir.listFiles();
-		for (File child : children) {
-			if (child.isDirectory() == true) {
+		for (File child : children)
+		{
+			if (child.isDirectory() == true)
+			{
 				// ディレクトリは再帰して削除を行う
 				result = deleteDir(child);
-				if (result == false) {
+				if (result == false)
+				{
 					break;
 				}
-			} else {
+			}
+			else
+			{
 				// ファイルは単に削除を行う
 				result = child.delete();
-				if (result == false) {
+				if (result == false)
+				{
 					break;
 				}
 			}
 		}
 
 		// 全ての削除に成功していれば中身は空なので、自分のディレクトリを削除する
-		if (result == true) {
+		if (result == true)
+		{
 			result = dir.delete();
 		}
 
 		return result;
 	}
 
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws Exception
+	{
 		Reporter reporter = new Reporter();
 		DataCollectorConfig config = new DataCollectorConfig();
 		config.setDatabaseHost("126.0.56.101");
@@ -254,7 +269,7 @@ public class Reporter {
 		String targetItemName = "/";
 		String reportName = "test";
 		String status = "failed";
-		reporter.createReport(config, fmTime, toTime, reportPath,
-				targetItemName, reportName, status);
+		reporter.createReport(config, fmTime, toTime, reportPath, targetItemName, reportName,
+			status);
 	}
 }

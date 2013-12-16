@@ -10,7 +10,8 @@ import jp.co.acroquest.endosnipe.perfdoctor.WarningUnit;
  * 
  * @author T. Iida
  */
-public class PerfDoctorRecord {
+public class PerfDoctorRecord
+{
 	/** ID */
 	private String id_ = "default id";
 
@@ -35,7 +36,8 @@ public class PerfDoctorRecord {
 	/**
 	 * コンストラクタです。
 	 */
-	public PerfDoctorRecord() {
+	public PerfDoctorRecord()
+	{
 		// 何もしない
 	}
 
@@ -45,7 +47,8 @@ public class PerfDoctorRecord {
 	 * @param warningUnit
 	 *            指定されたWarningUnit
 	 */
-	public PerfDoctorRecord(WarningUnit warningUnit) {
+	public PerfDoctorRecord(WarningUnit warningUnit)
+	{
 		this.setId(warningUnit.getId());
 
 		// calculating long to date format
@@ -65,7 +68,8 @@ public class PerfDoctorRecord {
 	/**
 	 * @return the id
 	 */
-	public String getId() {
+	public String getId()
+	{
 		return this.id_;
 	}
 
@@ -73,14 +77,16 @@ public class PerfDoctorRecord {
 	 * @param id
 	 *            the id to set
 	 */
-	public void setId(String id) {
+	public void setId(String id)
+	{
 		this.id_ = id;
 	}
 
 	/**
 	 * @return the time
 	 */
-	public String getTime() {
+	public String getTime()
+	{
 		return time_;
 	}
 
@@ -88,14 +94,16 @@ public class PerfDoctorRecord {
 	 * @param time
 	 *            the time to set
 	 */
-	public void setTime(String time) {
+	public void setTime(String time)
+	{
 		this.time_ = time;
 	}
 
 	/**
 	 * @return the description
 	 */
-	public String getDescription() {
+	public String getDescription()
+	{
 		return this.description_;
 	}
 
@@ -103,14 +111,16 @@ public class PerfDoctorRecord {
 	 * @param description
 	 *            the description to set
 	 */
-	public void setDescription(String description) {
+	public void setDescription(String description)
+	{
 		this.description_ = description;
 	}
 
 	/**
 	 * @return the level
 	 */
-	public String getLevel() {
+	public String getLevel()
+	{
 		return this.level_;
 	}
 
@@ -118,14 +128,16 @@ public class PerfDoctorRecord {
 	 * @param level
 	 *            the level to set
 	 */
-	public void setLevel(String level) {
+	public void setLevel(String level)
+	{
 		this.level_ = level;
 	}
 
 	/**
 	 * @return the className
 	 */
-	public String getClassName() {
+	public String getClassName()
+	{
 		return this.className_;
 	}
 
@@ -133,14 +145,16 @@ public class PerfDoctorRecord {
 	 * @param className
 	 *            the className to set
 	 */
-	public void setClassName(String className) {
+	public void setClassName(String className)
+	{
 		this.className_ = className;
 	}
 
 	/**
 	 * @return the methodName
 	 */
-	public String getMethodName() {
+	public String getMethodName()
+	{
 		return this.methodName_;
 	}
 
@@ -148,14 +162,16 @@ public class PerfDoctorRecord {
 	 * @param methodName
 	 *            the methodName to set
 	 */
-	public void setMethodName(String methodName) {
+	public void setMethodName(String methodName)
+	{
 		this.methodName_ = methodName;
 	}
 
 	/**
 	 * @return the logFileName
 	 */
-	public String getLogFileName() {
+	public String getLogFileName()
+	{
 		return this.logFileName_;
 	}
 
@@ -163,7 +179,8 @@ public class PerfDoctorRecord {
 	 * @param logFileName
 	 *            the logFileName to set
 	 */
-	public void setLogFileName(String logFileName) {
+	public void setLogFileName(String logFileName)
+	{
 		this.logFileName_ = logFileName;
 	}
 }

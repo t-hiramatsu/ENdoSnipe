@@ -23,13 +23,12 @@ import jp.co.acroquest.endosnipe.report.controller.ReportSearchCondition;
  */
 public interface ReportPublishProcessor
 {
-    /**
-     * レポート出力処理を行う。
-     * 
-     * @param cond レポート出力の際の条件
-     * @throws InterruptedException 割り込み発生時
-     * @return レポート出力の結果
-     */
-    ReportProcessReturnContainer publish(ReportSearchCondition cond)
-        throws InterruptedException;
+	/**
+	 * レポート出力処理を行う。
+	 * 
+	 * @param cond レポート出力の際の条件
+	 * @throws InterruptedException 割り込み発生時
+	 * @return レポート出力の結果
+	 */
+	ReportProcessReturnContainer publish(ReportSearchCondition cond) throws InterruptedException;
 }

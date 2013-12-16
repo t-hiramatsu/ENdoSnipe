@@ -35,102 +35,102 @@ import jp.co.acroquest.endosnipe.report.util.ReporterConfigAccessor;
  */
 public class CpuMemoryReportProcessor extends ReportPublishProcessorBase
 {
-    /** ロガー */
-    private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(
-            CpuMemoryReportProcessor.class);
+	/** ロガー */
+	private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
+		.getLogger(CpuMemoryReportProcessor.class);
 
-    /**
-     * プロセッサを生成する。
-     * 
-     * @param type このプロセッサが扱うレポートの種類。
-     */
-    public CpuMemoryReportProcessor(ReportType type)
-    {
-        super(type);
-    }
+	/**
+	 * プロセッサを生成する。
+	 * 
+	 * @param type このプロセッサが扱うレポートの種類。
+	 */
+	public CpuMemoryReportProcessor(ReportType type)
+	{
+		super(type);
+	}
 
-    /**
-     * レポートデータを取得する。
-     * 
-     * @param cond 検索条件。
-     * @param reportContainer レポート出力中に発生した補足情報を格納する汎用コンテナ。
-     * @return レポートデータ
-     */
-    @Override
-    protected Object getReportPlotData(ReportSearchCondition cond,
-            ReportProcessReturnContainer reportContainer)
-    {
-        // 検索条件の取得
-        String database = cond.getDatabases().get(0);
-        Timestamp startTime = cond.getStartDate();
-        Timestamp endTime = cond.getEndDate();
+	/**
+	 * レポートデータを取得する。
+	 * 
+	 * @param cond 検索条件。
+	 * @param reportContainer レポート出力中に発生した補足情報を格納する汎用コンテナ。
+	 * @return レポートデータ
+	 */
+	@Override
+	protected Object getReportPlotData(ReportSearchCondition cond,
+		ReportProcessReturnContainer reportContainer)
+	{
+		// 検索条件の取得
+		String database = cond.getDatabases().get(0);
+		Timestamp startTime = cond.getStartDate();
+		Timestamp endTime = cond.getEndDate();
 
-        // DBから検索
-        CpuAndMemoryRecordAccessor accessor = new CpuAndMemoryRecordAccessor();
-        List<ProcessResourceRecord> data;
-        try
-        {
-            data = accessor.findSystemResourceStaticsByTerm(database, startTime, endTime);
-        }
-        catch (SQLException ex)
-        {
-            LOGGER.log(LogIdConstants.EXCEPTION_IN_READING, ex,
-                    ReporterConfigAccessor.getReportName(getReportType()));
-            return null;
-        }
+		// DBから検索
+		CpuAndMemoryRecordAccessor accessor = new CpuAndMemoryRecordAccessor();
+		List<ProcessResourceRecord> data;
+		try
+		{
+			data = accessor.findSystemResourceStaticsByTerm(database, startTime, endTime);
+		}
+		catch (SQLException ex)
+		{
+			LOGGER.log(LogIdConstants.EXCEPTION_IN_READING, ex,
+				ReporterConfigAccessor.getReportName(getReportType()));
+			return null;
+		}
 
-        return data;
-    }
+		return data;
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected Object convertPlotData(Object rawData, ReportSearchCondition cond,
-            ReportProcessReturnContainer reportContainer)
-    {
-        List<ProcessResourceRecord> data = (List<ProcessResourceRecord>)rawData;
-        return (ProcessResourceRecord[])data.toArray(new ProcessResourceRecord[data.size()]);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected Object convertPlotData(Object rawData, ReportSearchCondition cond,
+		ReportProcessReturnContainer reportContainer)
+	{
+		List<ProcessResourceRecord> data = (List<ProcessResourceRecord>) rawData;
+		return (ProcessResourceRecord[]) data.toArray(new ProcessResourceRecord[data.size()]);
+	}
 
-    /**
-     * レポートを出力する。
-     * 
-     * @param plotData レポートデータ。
-     * @param cond レポートデータを取得した際の検索条件。
-     * @param reportContainer レポート出力中に発生した補足情報を格納する汎用コンテナ。
-     */
-    @Override
-    protected void outputReport(Object plotData, ReportSearchCondition cond,
-            ReportProcessReturnContainer reportContainer)
-    {
-        if ((plotData instanceof ProcessResourceRecord[]) == false)
-        {
-            return;
-        }
+	/**
+	 * レポートを出力する。
+	 * 
+	 * @param plotData レポートデータ。
+	 * @param cond レポートデータを取得した際の検索条件。
+	 * @param reportContainer レポート出力中に発生した補足情報を格納する汎用コンテナ。
+	 */
+	@Override
+	protected void outputReport(Object plotData, ReportSearchCondition cond,
+		ReportProcessReturnContainer reportContainer)
+	{
+		if ((plotData instanceof ProcessResourceRecord[]) == false)
+		{
+			return;
+		}
 
-        // 出力するレポートの種類にあわせてテンプレートのファイルパスを取得する
-        String templateFilePath;
-        try
-        {
-            templateFilePath = TemplateFileManager.getInstance().getTemplateFile(getReportType());
-        }
-        catch (IOException exception)
-        {
-            reportContainer.setHappendedError(exception);
-            return;
-        }
+		// 出力するレポートの種類にあわせてテンプレートのファイルパスを取得する
+		String templateFilePath;
+		try
+		{
+			templateFilePath = TemplateFileManager.getInstance().getTemplateFile(getReportType());
+		}
+		catch (IOException exception)
+		{
+			reportContainer.setHappendedError(exception);
+			return;
+		}
 
-        // レポート出力の引数情報を取得する
-        ProcessResourceRecord[] records = (ProcessResourceRecord[])plotData;
-        String outputFilePath = getOutputFileName();
-        Timestamp startTime = cond.getStartDate();
-        Timestamp endTime = cond.getEndDate();
+		// レポート出力の引数情報を取得する
+		ProcessResourceRecord[] records = (ProcessResourceRecord[]) plotData;
+		String outputFilePath = getOutputFileName();
+		Timestamp startTime = cond.getStartDate();
+		Timestamp endTime = cond.getEndDate();
 
-        // レポート出力を実行する
-        ResourceReporter<ProcessResourceRecord> reporter =
-                new ResourceReporter<ProcessResourceRecord>(this.getReportType());
-        reporter.outputReport(templateFilePath, outputFilePath, records, startTime, endTime);
-    }
+		// レポート出力を実行する
+		ResourceReporter<ProcessResourceRecord> reporter = new ResourceReporter<ProcessResourceRecord>(
+			this.getReportType());
+		reporter.outputReport(templateFilePath, outputFilePath, records, startTime, endTime);
+	}
 
 }

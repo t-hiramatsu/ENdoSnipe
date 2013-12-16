@@ -5,7 +5,8 @@ package jp.co.acroquest.endosnipe.report;
  * 
  * @author kimura
  */
-public interface LogIdConstants {
+public interface LogIdConstants
+{
 	/** 例外発生時のログID */
 	String EXCEPTION_HAPPENED = "EERT0001";
 
@@ -23,10 +24,10 @@ public interface LogIdConstants {
 
 	/** レポート出力情報のログID */
 	String OUTPUT_REPORT_INFO = "DERT0006";
-	
+
 	/** レポート作成元のディレクトリ削除に失敗した際のログID */
 	String FAIL_TO_DELETE_DIR = "WERT0007";
-	
+
 	/** レポートファイルのZIP化に失敗した際のログID */
 	String FAIL_TO_ZIP = "WERT0008";
 }

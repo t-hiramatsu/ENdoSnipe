@@ -1,3 +1,16 @@
+/*
+ * Copyright (c) 2004-2013 Acroquest Technology Co., Ltd. All Rights Reserved.
+ * Please read the associated COPYRIGHTS file for more details.
+ *
+ * THE  SOFTWARE IS  PROVIDED BY  Acroquest Technology Co., Ltd., WITHOUT  WARRANTY  OF
+ * ANY KIND,  EXPRESS  OR IMPLIED,  INCLUDING BUT  NOT LIMITED  TO THE
+ * WARRANTIES OF  MERCHANTABILITY,  FITNESS FOR A  PARTICULAR  PURPOSE
+ * AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDER BE LIABLE FOR ANY
+ * CLAIM, DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING
+ * OR DISTRIBUTING THIS SOFTWARE OR ITS DERIVATIVES.
+ */
+
 package jp.co.acroquest.endosnipe.report;
 
 import java.util.concurrent.ArrayBlockingQueue;
@@ -9,23 +22,42 @@ import jp.co.acroquest.endosnipe.common.logger.CommonLogMessageCodes;
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
 
 /**
- * 
+ * Queue for putting user inputted report data
  * @author khinewai
  * 
  */
 
-public class ReportDataQueue implements LogMessageCodes, CommonLogMessageCodes {
-
+public class ReportDataQueue implements LogMessageCodes, CommonLogMessageCodes
+{
+	/**
+	 * QUEUE_SIZE for Queue
+	 */
 	private static final int QUEUE_SIZE = 100;
-	private static final int OFFERING_TIMEOUT = 10000;
-	private static final int TAKING_TIMEOUT = 1000;
-	private BlockingQueue<ReportData> queue_ = new ArrayBlockingQueue<ReportData>(
-			QUEUE_SIZE);
 
+	/**
+	 * OFFERING_TIMEOUT that put data to Queue
+	 */
+	private static final int OFFERING_TIMEOUT = 10000;
+
+	/**
+	 * TAKING_TIMEOUT that take data from Queue
+	 */
+	private static final int TAKING_TIMEOUT = 1000;
+
+	/**
+	 * queue to put data
+	 */
+	private BlockingQueue<ReportData> queue_ = new ArrayBlockingQueue<ReportData>(QUEUE_SIZE);
+
+	/**
+	 * instance object of ReportDataQueue
+	 */
 	private static ReportDataQueue instance = new ReportDataQueue();
 
-	private static ENdoSnipeLogger logger_ = ENdoSnipeLogger
-			.getLogger(ReportDataQueue.class);
+	/**
+	 * Logger 
+	 */
+	private static ENdoSnipeLogger logger_ = ENdoSnipeLogger.getLogger(ReportDataQueue.class);
 
 	/**
 	 * キューに {@link JavelinData} を追加します。<br />
@@ -34,15 +66,21 @@ public class ReportDataQueue implements LogMessageCodes, CommonLogMessageCodes {
 	 *            {@link JavelinData} オブジェクト
 	 */
 
-	public void offer(final ReportData data) {
-		if (data != null) {
-			try {
+	public void offer(final ReportData data)
+	{
+		if (data != null)
+		{
+			try
+			{
 
 				queue_.offer(data, OFFERING_TIMEOUT, TimeUnit.MILLISECONDS);
-				if (logger_.isDebugEnabled()) {
+				if (logger_.isDebugEnabled())
+				{
 					logger_.log(QUEUE_OFFERED, data.toString());
 				}
-			} catch (InterruptedException ex) {
+			}
+			catch (InterruptedException ex)
+			{
 				logger_.log(EXCEPTION_OCCURED_WITH_RESASON, ex, ex.getMessage());
 			}
 		}
@@ -55,15 +93,19 @@ public class ReportDataQueue implements LogMessageCodes, CommonLogMessageCodes {
 	 * 
 	 * @return {@link JavelinData} オブジェクト
 	 */
-	public ReportData take() {
-		try {
-			ReportData data = queue_
-					.poll(TAKING_TIMEOUT, TimeUnit.MILLISECONDS);
-			if (logger_.isDebugEnabled() && data != null) {
+	public ReportData take()
+	{
+		try
+		{
+			ReportData data = queue_.poll(TAKING_TIMEOUT, TimeUnit.MILLISECONDS);
+			if (logger_.isDebugEnabled() && data != null)
+			{
 				logger_.log(QUEUE_TAKEN, data.toString());
 			}
 			return data;
-		} catch (InterruptedException ex) {
+		}
+		catch (InterruptedException ex)
+		{
 			logger_.log(EXCEPTION_OCCURED_WITH_RESASON, ex, ex.getMessage());
 			return null;
 		}
@@ -74,19 +116,35 @@ public class ReportDataQueue implements LogMessageCodes, CommonLogMessageCodes {
 	 * 
 	 * @return データの数
 	 */
-	public int size() {
+	public int size()
+	{
 		return queue_.size();
 	}
 
-	public ReportDataQueue getReportQueue() {
+	/**
+	 * Get Queue of Report
+	 * @return reportQueue
+	 */
+	public ReportDataQueue getReportQueue()
+	{
 		return (ReportDataQueue) this.queue_;
 	}
 
-	public static ReportDataQueue getInstance() {
+	/**
+	 * get instance object of ReportDataQueue
+	 * @return
+	 */
+	public static ReportDataQueue getInstance()
+	{
 		return instance;
 	}
 
-	public static void setInstance(ReportDataQueue instance) {
+	/**
+	 * set instance object to ReportDataQueue
+	 * @param instance
+	 */
+	public static void setInstance(ReportDataQueue instance)
+	{
 		ReportDataQueue.instance = instance;
 	}
 

@@ -21,71 +21,71 @@ import java.sql.Timestamp;
  */
 public class ReportItemValue
 {
-    /**
-     * 計測時刻。<br />
-     */
-    public Timestamp measurementTime;
+	/**
+	 * 計測時刻。<br />
+	 */
+	public Timestamp measurementTime;
 
-    /**
-     * 系列名<br />
-     */
-    public String    itemName;
+	/**
+	 * 系列名<br />
+	 */
+	public String itemName;
 
-    /**
-     * 計測値(上限値)。
-     */
-    public Number    limitValue;
+	/**
+	 * 計測値(上限値)。
+	 */
+	public Number limitValue;
 
-    /**
-     * 計測値(サマリ)。
-     */
-    public Number    summaryValue;
+	/**
+	 * 計測値(サマリ)。
+	 */
+	public Number summaryValue;
 
-    /**
-     * 計測値(最大)。
-     */
-    public Number    maxValue;
+	/**
+	 * 計測値(最大)。
+	 */
+	public Number maxValue;
 
-    /**
-     * 計測値(最小)。
-     */
-    public Number    minValue;
+	/**
+	 * 計測値(最小)。
+	 */
+	public Number minValue;
 
-    /**
-     * 計測値のインデックス
-     */
-    public int       index;
+	/**
+	 * 計測値のインデックス
+	 */
+	public int index;
 
-    /**
-     * コンストラクタ
-     */
-    public ReportItemValue()
-    {
-        itemName = "";
-        limitValue = 0;
-        summaryValue = 0;
-        maxValue = 0;
-        minValue = 0;
-    }
+	/**
+	 * コンストラクタ
+	 */
+	public ReportItemValue()
+	{
+		itemName = "";
+		limitValue = 0;
+		summaryValue = 0;
+		maxValue = 0;
+		minValue = 0;
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String toString()
-    {
-        StringBuilder builder = new StringBuilder();
-        builder.append("[itemName=");
-        builder.append(this.itemName);
-        builder.append(", summaryValue=");
-        builder.append(this.summaryValue);
-        builder.append(", maxValue=");
-        builder.append(this.maxValue);
-        builder.append(", minValue=");
-        builder.append(this.minValue);
-        builder.append(", measurementTime=");
-        builder.append(this.measurementTime);
-        builder.append("]");
-        return builder.toString();
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString()
+	{
+		StringBuilder builder = new StringBuilder();
+		builder.append("[itemName=");
+		builder.append(this.itemName);
+		builder.append(", summaryValue=");
+		builder.append(this.summaryValue);
+		builder.append(", maxValue=");
+		builder.append(this.maxValue);
+		builder.append(", minValue=");
+		builder.append(this.minValue);
+		builder.append(", measurementTime=");
+		builder.append(this.measurementTime);
+		builder.append("]");
+		return builder.toString();
+	}
 }

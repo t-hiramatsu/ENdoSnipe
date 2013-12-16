@@ -20,23 +20,23 @@ package jp.co.acroquest.endosnipe.report.controller;
  */
 public class ReportProcessReturnContainer
 {
-    /** プロセッサで発生した例外 */
-    private Throwable happendedError_;
+	/** プロセッサで発生した例外 */
+	private Throwable happendedError_;
 
-    /**
-     * @return the happendedError
-     */
-    public Throwable getHappendedError()
-    {
-        return happendedError_;
-    }
+	/**
+	 * @return the happendedError
+	 */
+	public Throwable getHappendedError()
+	{
+		return happendedError_;
+	}
 
-    /**
-     * @param happendedError the happendedError to set
-     */
-    public void setHappendedError(Throwable happendedError)
-    {
-        happendedError_ = happendedError;
-    }
+	/**
+	 * @param happendedError the happendedError to set
+	 */
+	public void setHappendedError(Throwable happendedError)
+	{
+		happendedError_ = happendedError;
+	}
 
 }

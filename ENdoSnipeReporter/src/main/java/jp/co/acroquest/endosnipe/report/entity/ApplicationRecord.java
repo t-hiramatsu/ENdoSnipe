@@ -21,157 +21,155 @@ import java.sql.Timestamp;
  */
 public class ApplicationRecord
 {
-    /** 計測時刻 */
-    private Timestamp httpInstanceMeasurementTime_;
+	/** 計測時刻 */
+	private Timestamp httpInstanceMeasurementTime_;
 
-    private Timestamp httpSessionMeasurementTime_;
-    
-    /** HttpSessionのインスタンス数[数]（補間期間平均） */
-    private long      httpSessionInstanceNum_;
+	private Timestamp httpSessionMeasurementTime_;
 
-    /** HttpSessionのインスタンス数[数]（補間期間最大） */
-    private long      httpSessionInstanceNumMax_;
+	/** HttpSessionのインスタンス数[数]（補間期間平均） */
+	private long httpSessionInstanceNum_;
 
-    /** HttpSessionのインスタンス数[数]（補間期間最小） */
-    private long      httpSessionInstanceNumMin_;
+	/** HttpSessionのインスタンス数[数]（補間期間最大） */
+	private long httpSessionInstanceNumMax_;
 
-    /** HttpSessionへの登録オブジェクト総サイズ[サイズ(MB)]（補間期間平均） */
-    private long      httpSessionObjectSize_;
+	/** HttpSessionのインスタンス数[数]（補間期間最小） */
+	private long httpSessionInstanceNumMin_;
 
-    /** HttpSessionへの登録オブジェクト総サイズ[サイズ(MB)]（補間期間最大） */
-    private long      httpSessionObjectSizeMax_;
+	/** HttpSessionへの登録オブジェクト総サイズ[サイズ(MB)]（補間期間平均） */
+	private long httpSessionObjectSize_;
 
-    /** HttpSessionへの登録オブジェクト総サイズ[サイズ(MB)]（補間期間最小） */
-    private long      httpSessionObjectSizeMin_;
+	/** HttpSessionへの登録オブジェクト総サイズ[サイズ(MB)]（補間期間最大） */
+	private long httpSessionObjectSizeMax_;
 
-    /**
-     * @return the httpSessionInstanceNum_
-     */
-    public long getHttpSessionInstanceNum()
-    {
-        return httpSessionInstanceNum_;
-    }
+	/** HttpSessionへの登録オブジェクト総サイズ[サイズ(MB)]（補間期間最小） */
+	private long httpSessionObjectSizeMin_;
 
-    /**
-     * @param httpSessionInstanceNum_ the httpSessionInstanceNum_ to set
-     */
-    public void setHttpSessionInstanceNum(long httpSessionInstanceNum_)
-    {
-        this.httpSessionInstanceNum_ = httpSessionInstanceNum_;
-    }
+	/**
+	 * @return the httpSessionInstanceNum_
+	 */
+	public long getHttpSessionInstanceNum()
+	{
+		return httpSessionInstanceNum_;
+	}
 
-    /**
-     * @return the httpSessionInstanceNumMax_
-     */
-    public long getHttpSessionInstanceNumMax()
-    {
-        return httpSessionInstanceNumMax_;
-    }
+	/**
+	 * @param httpSessionInstanceNum_ the httpSessionInstanceNum_ to set
+	 */
+	public void setHttpSessionInstanceNum(long httpSessionInstanceNum_)
+	{
+		this.httpSessionInstanceNum_ = httpSessionInstanceNum_;
+	}
 
-    /**
-     * @param httpSessionInstanceNumMax_ the httpSessionInstanceNumMax_ to set
-     */
-    public void setHttpSessionInstanceNumMax(long httpSessionInstanceNumMax_)
-    {
-        this.httpSessionInstanceNumMax_ = httpSessionInstanceNumMax_;
-    }
+	/**
+	 * @return the httpSessionInstanceNumMax_
+	 */
+	public long getHttpSessionInstanceNumMax()
+	{
+		return httpSessionInstanceNumMax_;
+	}
 
-    /**
-     * @return the httpSessionInstanceNumMin_
-     */
-    public long getHttpSessionInstanceNumMin()
-    {
-        return httpSessionInstanceNumMin_;
-    }
+	/**
+	 * @param httpSessionInstanceNumMax_ the httpSessionInstanceNumMax_ to set
+	 */
+	public void setHttpSessionInstanceNumMax(long httpSessionInstanceNumMax_)
+	{
+		this.httpSessionInstanceNumMax_ = httpSessionInstanceNumMax_;
+	}
 
-    /**
-     * @param httpSessionInstanceNumMin_ the httpSessionInstanceNumMin_ to set
-     */
-    public void setHttpSessionInstanceNumMin(long httpSessionInstanceNumMin_)
-    {
-        this.httpSessionInstanceNumMin_ = httpSessionInstanceNumMin_;
-    }
+	/**
+	 * @return the httpSessionInstanceNumMin_
+	 */
+	public long getHttpSessionInstanceNumMin()
+	{
+		return httpSessionInstanceNumMin_;
+	}
 
-    /**
-     * @return the httpSessionObjectSize_
-     */
-    public long getHttpSessionObjectSize()
-    {
-        return httpSessionObjectSize_;
-    }
+	/**
+	 * @param httpSessionInstanceNumMin_ the httpSessionInstanceNumMin_ to set
+	 */
+	public void setHttpSessionInstanceNumMin(long httpSessionInstanceNumMin_)
+	{
+		this.httpSessionInstanceNumMin_ = httpSessionInstanceNumMin_;
+	}
 
-    /**
-     * @param httpSessionObjectSize_ the httpSessionObjectSize_ to set
-     */
-    public void setHttpSessionObjectSize(long httpSessionObjectSize_)
-    {
-        this.httpSessionObjectSize_ = httpSessionObjectSize_;
-    }
+	/**
+	 * @return the httpSessionObjectSize_
+	 */
+	public long getHttpSessionObjectSize()
+	{
+		return httpSessionObjectSize_;
+	}
 
-    /**
-     * @return the httpSessionObjectSizeMax_
-     */
-    public long getHttpSessionObjectSizeMax()
-    {
-        return httpSessionObjectSizeMax_;
-    }
+	/**
+	 * @param httpSessionObjectSize_ the httpSessionObjectSize_ to set
+	 */
+	public void setHttpSessionObjectSize(long httpSessionObjectSize_)
+	{
+		this.httpSessionObjectSize_ = httpSessionObjectSize_;
+	}
 
-    /**
-     * @param httpSessionObjectSizeMax_ the httpSessionObjectSizeMax_ to set
-     */
-    public void setHttpSessionObjectSizeMax(long httpSessionObjectSizeMax_)
-    {
-        this.httpSessionObjectSizeMax_ = httpSessionObjectSizeMax_;
-    }
+	/**
+	 * @return the httpSessionObjectSizeMax_
+	 */
+	public long getHttpSessionObjectSizeMax()
+	{
+		return httpSessionObjectSizeMax_;
+	}
 
-    /**
-     * @return the httpSessionObjectSizeMin_
-     */
-    public long getHttpSessionObjectSizeMin()
-    {
-        return httpSessionObjectSizeMin_;
-    }
+	/**
+	 * @param httpSessionObjectSizeMax_ the httpSessionObjectSizeMax_ to set
+	 */
+	public void setHttpSessionObjectSizeMax(long httpSessionObjectSizeMax_)
+	{
+		this.httpSessionObjectSizeMax_ = httpSessionObjectSizeMax_;
+	}
 
-    /**
-     * @param httpSessionObjectSizeMin_ the httpSessionObjectSizeMin_ to set
-     */
-    public void setHttpSessionObjectSizeMin(long httpSessionObjectSizeMin_)
-    {
-        this.httpSessionObjectSizeMin_ = httpSessionObjectSizeMin_;
-    }
+	/**
+	 * @return the httpSessionObjectSizeMin_
+	 */
+	public long getHttpSessionObjectSizeMin()
+	{
+		return httpSessionObjectSizeMin_;
+	}
 
-    /**
-     * @param httpInstanceMeasurementTime_ the httpInstanceMeasurementTime_ to set
-     */
-    public void setHttpInstanceMeasurementTime(
-            Timestamp httpInstanceMeasurementTime_)
-    {
-        this.httpInstanceMeasurementTime_ = httpInstanceMeasurementTime_;
-    }
+	/**
+	 * @param httpSessionObjectSizeMin_ the httpSessionObjectSizeMin_ to set
+	 */
+	public void setHttpSessionObjectSizeMin(long httpSessionObjectSizeMin_)
+	{
+		this.httpSessionObjectSizeMin_ = httpSessionObjectSizeMin_;
+	}
 
-    /**
-     * @return the httpInstanceMeasurementTime_
-     */
-    public Timestamp getHttpInstanceMeasurementTime()
-    {
-        return httpInstanceMeasurementTime_;
-    }
+	/**
+	 * @param httpInstanceMeasurementTime_ the httpInstanceMeasurementTime_ to set
+	 */
+	public void setHttpInstanceMeasurementTime(Timestamp httpInstanceMeasurementTime_)
+	{
+		this.httpInstanceMeasurementTime_ = httpInstanceMeasurementTime_;
+	}
 
-    /**
-     * @param httpSessionMeasurementTime_ the httpSessionMeasurementTime_ to set
-     */
-    public void setHttpSessionMeasurementTime(
-            Timestamp httpSessionMeasurementTime_)
-    {
-        this.httpSessionMeasurementTime_ = httpSessionMeasurementTime_;
-    }
+	/**
+	 * @return the httpInstanceMeasurementTime_
+	 */
+	public Timestamp getHttpInstanceMeasurementTime()
+	{
+		return httpInstanceMeasurementTime_;
+	}
 
-    /**
-     * @return the httpSessionMeasurementTime_
-     */
-    public Timestamp getHttpSessionMeasurementTime()
-    {
-        return httpSessionMeasurementTime_;
-    }
+	/**
+	 * @param httpSessionMeasurementTime_ the httpSessionMeasurementTime_ to set
+	 */
+	public void setHttpSessionMeasurementTime(Timestamp httpSessionMeasurementTime_)
+	{
+		this.httpSessionMeasurementTime_ = httpSessionMeasurementTime_;
+	}
+
+	/**
+	 * @return the httpSessionMeasurementTime_
+	 */
+	public Timestamp getHttpSessionMeasurementTime()
+	{
+		return httpSessionMeasurementTime_;
+	}
 
 }

@@ -17,7 +17,7 @@ package jp.co.acroquest.endosnipe.report.converter.util.calc;
  * 
  * @author M.Yoshida
  */
-public interface Calculator 
+public interface Calculator
 {
 	/**
 	 * 2つのデータを「加算」した結果を返す。
@@ -54,7 +54,7 @@ public interface Calculator
 	 * @return 除算結果
 	 */
 	public Object div(Object obj1, Object obj2);
-	
+
 	/**
 	 * 文字列表現で示された値を適合する型のオブジェクトに変換して返す。
 	 * 
