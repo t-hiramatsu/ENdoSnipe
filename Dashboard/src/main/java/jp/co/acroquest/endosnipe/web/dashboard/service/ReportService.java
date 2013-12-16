@@ -150,8 +150,8 @@ public class ReportService
                 DataCollectorConfig dataCollectorConfig = this.convertDataCollectorConfig(dbConfig);
                 for (int threadNum = 0; threadNum < simulExecutionNum; threadNum++)
                 {
-                    ReporterThread report = new ReporterThread();
-                    Thread reportThread = new Thread(new ReporterThread(dataCollectorConfig));
+                    ReporterThread report = new ReporterThread(dataCollectorConfig);
+                    Thread reportThread = new Thread(report);
                     reportThreadList_.add(report);
                     report.isRunningThread = true;
                     reportThread.start();

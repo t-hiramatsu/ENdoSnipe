@@ -35,9 +35,9 @@ import jp.co.acroquest.endosnipe.report.util.ReporterConfigAccessor;
  */
 public class DataIOReportProcessor extends ReportPublishProcessorBase
 {
-    /** ロガー */
-    private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(
-            DataIOReportProcessor.class);
+	/** ロガー */
+	private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
+		.getLogger(DataIOReportProcessor.class);
 
 	/**
 	 * ReportProcessorを生成する。
@@ -55,7 +55,7 @@ public class DataIOReportProcessor extends ReportPublishProcessorBase
 	 */
 	@Override
 	protected Object getReportPlotData(ReportSearchCondition cond,
-			ReportProcessReturnContainer reportContainer)
+		ReportProcessReturnContainer reportContainer)
 	{
 		// 検索条件の取得
 		String database = cond.getDatabases().get(0);
@@ -67,13 +67,13 @@ public class DataIOReportProcessor extends ReportPublishProcessorBase
 		List<DataIORecord> data;
 		try
 		{
-		    data = accessor.findDataIOStaticsByTerm(database, startTime, endTime);
+			data = accessor.findDataIOStaticsByTerm(database, startTime, endTime);
 		}
 		catch (SQLException ex)
 		{
-		    LOGGER.log(LogIdConstants.EXCEPTION_IN_READING, ex,
-                    ReporterConfigAccessor.getReportName(getReportType()));
-            return null;
+			LOGGER.log(LogIdConstants.EXCEPTION_IN_READING, ex,
+				ReporterConfigAccessor.getReportName(getReportType()));
+			return null;
 		}
 
 		return data;
@@ -83,12 +83,11 @@ public class DataIOReportProcessor extends ReportPublishProcessorBase
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected Object convertPlotData(Object rawData,
-			ReportSearchCondition cond,
-			ReportProcessReturnContainer reportContainer)
+	protected Object convertPlotData(Object rawData, ReportSearchCondition cond,
+		ReportProcessReturnContainer reportContainer)
 	{
-	    List<DataIORecord> data = (List<DataIORecord>)rawData;
-        return (DataIORecord[])data.toArray(new DataIORecord[data.size()]);
+		List<DataIORecord> data = (List<DataIORecord>) rawData;
+		return (DataIORecord[]) data.toArray(new DataIORecord[data.size()]);
 	}
 
 	/**
@@ -96,7 +95,7 @@ public class DataIOReportProcessor extends ReportPublishProcessorBase
 	 */
 	@Override
 	protected void outputReport(Object plotData, ReportSearchCondition cond,
-			ReportProcessReturnContainer reportContainer)
+		ReportProcessReturnContainer reportContainer)
 	{
 		if ((plotData instanceof DataIORecord[]) == false)
 		{
@@ -107,8 +106,7 @@ public class DataIOReportProcessor extends ReportPublishProcessorBase
 		String templateFilePath;
 		try
 		{
-			templateFilePath = TemplateFileManager.getInstance()
-					.getTemplateFile(getReportType());
+			templateFilePath = TemplateFileManager.getInstance().getTemplateFile(getReportType());
 		}
 		catch (IOException exception)
 		{
@@ -123,9 +121,7 @@ public class DataIOReportProcessor extends ReportPublishProcessorBase
 		Timestamp endTime = cond.getEndDate();
 
 		// レポート出力を実行する
-		RecordReporter<DataIORecord> reporter =
-			new RecordReporter<DataIORecord>(getReportType());
-		reporter.outputReport(templateFilePath, outputFilePath, records,
-				startTime, endTime);
+		RecordReporter<DataIORecord> reporter = new RecordReporter<DataIORecord>(getReportType());
+		reporter.outputReport(templateFilePath, outputFilePath, records, startTime, endTime);
 	}
 }

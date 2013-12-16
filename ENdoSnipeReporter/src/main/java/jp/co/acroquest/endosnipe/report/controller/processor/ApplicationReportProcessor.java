@@ -35,9 +35,9 @@ import jp.co.acroquest.endosnipe.report.util.ReporterConfigAccessor;
  */
 public class ApplicationReportProcessor extends ReportPublishProcessorBase
 {
-    /** ロガー */
-    private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(
-            ApplicationReportProcessor.class);
+	/** ロガー */
+	private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
+		.getLogger(ApplicationReportProcessor.class);
 
 	/**
 	 * ReportProcessorを生成する。
@@ -55,7 +55,7 @@ public class ApplicationReportProcessor extends ReportPublishProcessorBase
 	 */
 	@Override
 	protected Object getReportPlotData(ReportSearchCondition cond,
-			ReportProcessReturnContainer reportContainer)
+		ReportProcessReturnContainer reportContainer)
 	{
 		// 検索条件の取得
 		String database = cond.getDatabases().get(0);
@@ -71,9 +71,9 @@ public class ApplicationReportProcessor extends ReportPublishProcessorBase
 		}
 		catch (SQLException ex)
 		{
-		    LOGGER.log(LogIdConstants.EXCEPTION_IN_READING, ex,
-		            ReporterConfigAccessor.getReportName(getReportType()));
-		    return null;
+			LOGGER.log(LogIdConstants.EXCEPTION_IN_READING, ex,
+				ReporterConfigAccessor.getReportName(getReportType()));
+			return null;
 		}
 
 		return data;
@@ -83,12 +83,11 @@ public class ApplicationReportProcessor extends ReportPublishProcessorBase
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected Object convertPlotData(Object rawData,
-			ReportSearchCondition cond,
-			ReportProcessReturnContainer reportContainer)
+	protected Object convertPlotData(Object rawData, ReportSearchCondition cond,
+		ReportProcessReturnContainer reportContainer)
 	{
-		List<ApplicationRecord> data = (List<ApplicationRecord>)rawData;
-		return (ApplicationRecord[])data.toArray(new ApplicationRecord[data.size()]);
+		List<ApplicationRecord> data = (List<ApplicationRecord>) rawData;
+		return (ApplicationRecord[]) data.toArray(new ApplicationRecord[data.size()]);
 	}
 
 	/**
@@ -96,7 +95,7 @@ public class ApplicationReportProcessor extends ReportPublishProcessorBase
 	 */
 	@Override
 	protected void outputReport(Object plotData, ReportSearchCondition cond,
-			ReportProcessReturnContainer reportContainer)
+		ReportProcessReturnContainer reportContainer)
 	{
 		if ((plotData instanceof ApplicationRecord[]) == false)
 		{
@@ -107,8 +106,7 @@ public class ApplicationReportProcessor extends ReportPublishProcessorBase
 		String templateFilePath;
 		try
 		{
-			templateFilePath = TemplateFileManager.getInstance()
-					.getTemplateFile(getReportType());
+			templateFilePath = TemplateFileManager.getInstance().getTemplateFile(getReportType());
 		}
 		catch (IOException exception)
 		{
@@ -123,9 +121,8 @@ public class ApplicationReportProcessor extends ReportPublishProcessorBase
 		Timestamp endTime = cond.getEndDate();
 
 		// レポート出力を実行する
-		RecordReporter<ApplicationRecord> reporter =
-			new RecordReporter<ApplicationRecord>(getReportType());
-		reporter.outputReport(templateFilePath, outputFilePath, records,
-				startTime, endTime);
+		RecordReporter<ApplicationRecord> reporter = new RecordReporter<ApplicationRecord>(
+			getReportType());
+		reporter.outputReport(templateFilePath, outputFilePath, records, startTime, endTime);
 	}
 }

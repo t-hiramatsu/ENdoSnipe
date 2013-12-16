@@ -23,45 +23,45 @@ import org.apache.commons.beanutils.converters.BigIntegerConverter;
  * 
  * @author M.Yoshida
  */
-public class BigIntegerCalculator implements Calculator 
+public class BigIntegerCalculator implements Calculator
 {
 
-	public Object add(Object obj1, Object obj2) 
+	public Object add(Object obj1, Object obj2)
 	{
-		BigInteger integerData1 = (BigInteger)obj1;
-		BigInteger integerData2 = (BigInteger)obj2;
-		
-		return (Object)(integerData1.add(integerData2));
+		BigInteger integerData1 = (BigInteger) obj1;
+		BigInteger integerData2 = (BigInteger) obj2;
+
+		return (Object) (integerData1.add(integerData2));
 	}
 
-	public Object div(Object obj1, Object obj2) 
+	public Object div(Object obj1, Object obj2)
 	{
-		BigInteger integerData1 = (BigInteger)obj1;
-		BigInteger integerData2 = (BigInteger)obj2;
-		
-		return (Object)(integerData1.divide(integerData2));
+		BigInteger integerData1 = (BigInteger) obj1;
+		BigInteger integerData2 = (BigInteger) obj2;
+
+		return (Object) (integerData1.divide(integerData2));
 	}
 
-	public Object immediate(String str) 
+	public Object immediate(String str)
 	{
 		BigIntegerConverter converter = new BigIntegerConverter();
 		return converter.convert(BigInteger.class, str);
 	}
 
-	public Object mul(Object obj1, Object obj2) 
+	public Object mul(Object obj1, Object obj2)
 	{
-		BigInteger integerData1 = (BigInteger)obj1;
-		BigInteger integerData2 = (BigInteger)obj2;
-		
-		return (Object)(integerData1.multiply(integerData2));
+		BigInteger integerData1 = (BigInteger) obj1;
+		BigInteger integerData2 = (BigInteger) obj2;
+
+		return (Object) (integerData1.multiply(integerData2));
 	}
 
-	public Object sub(Object obj1, Object obj2) 
+	public Object sub(Object obj1, Object obj2)
 	{
-		BigInteger integerData1 = (BigInteger)obj1;
-		BigInteger integerData2 = (BigInteger)obj2;
-		
-		return (Object)(integerData1.subtract(integerData2));
+		BigInteger integerData1 = (BigInteger) obj1;
+		BigInteger integerData2 = (BigInteger) obj2;
+
+		return (Object) (integerData1.subtract(integerData2));
 	}
 
 }

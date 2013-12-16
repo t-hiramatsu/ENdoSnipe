@@ -31,50 +31,50 @@ import jp.co.acroquest.endosnipe.report.converter.util.calc.ShortCalculator;
  * @author M.Yoshida
  *
  */
-public class CalculatorFactory 
+public class CalculatorFactory
 {
 	public static Calculator createCalculator(Class<?> clazz)
 	{
-		if(byte.class.equals(clazz) || Byte.class.equals(clazz))
+		if (byte.class.equals(clazz) || Byte.class.equals(clazz))
 		{
 			return new ByteCalculator();
 		}
-		
-		if(short.class.equals(clazz) || Short.class.equals(clazz))
+
+		if (short.class.equals(clazz) || Short.class.equals(clazz))
 		{
 			return new ShortCalculator();
 		}
-		
-		if(int.class.equals(clazz) || Integer.class.equals(clazz))
+
+		if (int.class.equals(clazz) || Integer.class.equals(clazz))
 		{
 			return new IntegerCalculator();
 		}
-		
-		if(long.class.equals(clazz) || Long.class.equals(clazz))
+
+		if (long.class.equals(clazz) || Long.class.equals(clazz))
 		{
 			return new LongCalculator();
 		}
-		
-		if(float.class.equals(clazz) || Float.class.equals(clazz))
+
+		if (float.class.equals(clazz) || Float.class.equals(clazz))
 		{
 			return new FloatCalculator();
 		}
-		
-		if(double.class.equals(clazz) || Double.class.equals(clazz))
+
+		if (double.class.equals(clazz) || Double.class.equals(clazz))
 		{
 			return new DoubleCalculator();
 		}
-		
-		if(BigDecimal.class.equals(clazz))
+
+		if (BigDecimal.class.equals(clazz))
 		{
 			return new BigDecimalCalculator();
 		}
-		
-		if(BigInteger.class.equals(clazz))
+
+		if (BigInteger.class.equals(clazz))
 		{
 			return new BigIntegerCalculator();
 		}
-		
+
 		return null;
 	}
 }

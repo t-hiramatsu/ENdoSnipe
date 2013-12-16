@@ -30,68 +30,64 @@ import jp.co.acroquest.endosnipe.data.db.DBManager;
  */
 public class ShowDBList
 {
-    /**
-     * @param args コマンドライン引数は使用しない。
-     */
-    public static void main(String[] args)
-    {
-        // 引数が指定された場合はUSAGEを表示して終了
-        if (args.length != 0)
-        {
-            usage();
-            System.exit(1);
-        }
+	/**
+	 * @param args コマンドライン引数は使用しない。
+	 */
+	public static void main(String[] args)
+	{
+		// 引数が指定された場合はUSAGEを表示して終了
+		if (args.length != 0)
+		{
+			usage();
+			System.exit(1);
+		}
 
-        // 設定ファイルの読み込み
-        DataCollectorConfig config = null;
-        try
-        {
-            config = ConfigLoader.loadConfig();
-        }
-        catch (Exception e)
-        {
-            System.err.println(e);
-            System.exit(1);
-        }
+		// 設定ファイルの読み込み
+		DataCollectorConfig config = null;
+		try
+		{
+			config = ConfigLoader.loadConfig();
+		}
+		catch (Exception e)
+		{
+			System.err.println(e);
+			System.exit(1);
+		}
 
-        // 接続するDB情報の初期化
-        DBManager.updateSettings(false, "",
-                                 config.getDatabaseHost(),
-                                 config.getDatabasePort(),
-                                 config.getDatabaseName(),
-                                 config.getDatabaseUserName(),
-                                 config.getDatabasePassword());
+		// 接続するDB情報の初期化
+		DBManager.updateSettings(false, "", config.getDatabaseHost(), config.getDatabasePort(),
+			config.getDatabaseName(), config.getDatabaseUserName(), config.getDatabasePassword());
 
-        // Index毎にDB名とデータ蓄積期間を表示する
-        List<AgentSetting> settingList = config.getAgentSettingList();
-        for (AgentSetting setting : settingList)
-        {
-            // DBからデータ蓄積期間を取得
-            Timestamp[] term = null;
-            try
-            {
-                term = MeasurementValueDao.getTerm(setting.databaseName);
-            }
-            catch (SQLException e)
-            {
-                System.err.println("データベース接続で問題が発生しました。");
-                System.exit(1);
-            }
+		// Index毎にDB名とデータ蓄積期間を表示する
+		List<AgentSetting> settingList = config.getAgentSettingList();
+		for (AgentSetting setting : settingList)
+		{
+			// DBからデータ蓄積期間を取得
+			Timestamp[] term = null;
+			try
+			{
+				term = MeasurementValueDao.getTerm(setting.databaseName);
+			}
+			catch (SQLException e)
+			{
+				System.err.println("データベース接続で問題が発生しました。");
+				System.exit(1);
+			}
 
-            // インデックスとデータ名の表示
-            System.out.println("Index : " + String.valueOf(setting.agentId) +
-                               "\tDatabaseName : " + setting.databaseName);
-            // データ蓄積期間の表示
-            System.out.println("Accumulation period :\n\t" +
-                               term[0].toString() + " - " + term[1].toString() + "\n");
-        }
-    }
+			// インデックスとデータ名の表示
+			System.out.println("Index : " + String.valueOf(setting.agentId) + "\tDatabaseName : "
+				+ setting.databaseName);
+			// データ蓄積期間の表示
+			System.out.println("Accumulation period :\n\t" + term[0].toString() + " - "
+				+ term[1].toString() + "\n");
+		}
+	}
 
-    /**
-     * コマンドライン引数の使用方法を説明します。
-     */
-    private static void usage()
-    {
-        System.err.println("USAGE: ShowDBList");
-    }
+	/**
+	 * コマンドライン引数の使用方法を説明します。
+	 */
+	private static void usage()
+	{
+		System.err.println("USAGE: ShowDBList");
+	}
 }

@@ -30,7 +30,8 @@ import jp.co.acroquest.endosnipe.report.controller.ReportType;
  * 
  * @author M.Yoshida
  */
-public class ReportPublishTask  {
+public class ReportPublishTask
+{
 	/** 検索条件 */
 	private ReportSearchCondition searchCondition_;
 
@@ -41,8 +42,8 @@ public class ReportPublishTask  {
 	private Runnable callback_;
 
 	/** ロガー */
-	private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(
-			ReportPublishTask.class);
+	private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
+		.getLogger(ReportPublishTask.class);
 
 	/**
 	 * コンストラクタ
@@ -54,17 +55,17 @@ public class ReportPublishTask  {
 	 * @param callback
 	 *            コールバック
 	 */
-	public ReportPublishTask(ReportSearchCondition cond,
-			ReportType[] publishType, Runnable callback) {
+	public ReportPublishTask(ReportSearchCondition cond, ReportType[] publishType, Runnable callback)
+	{
 		List<ReportType> additionalTypes = new ArrayList<ReportType>();
 
-		for (ReportType type : publishType) {
+		for (ReportType type : publishType)
+		{
 			additionalTypes.add(type);
 		}
 
 		searchCondition_ = cond;
-		publishTypes_ = (ReportType[]) additionalTypes
-				.toArray(new ReportType[0]);
+		publishTypes_ = (ReportType[]) additionalTypes.toArray(new ReportType[0]);
 		callback_ = callback;
 	}
 
@@ -75,35 +76,37 @@ public class ReportPublishTask  {
 	 * @param targetItemName レポート出力対象の親の項目名
 	 * @return 実行完了時の状態
 	 */
-	public void createReport(String targetItemName) {
-		searchCondition_
-				.setTargetItemName(targetItemName);
+	public void createReport(String targetItemName)
+	{
+		searchCondition_.setTargetItemName(targetItemName);
 
-		ReportPublishDispatcher dispatcher = ReportPublishDispatcher
-				.getInstance();
+		ReportPublishDispatcher dispatcher = ReportPublishDispatcher.getInstance();
 
 		SummaryReportProcessor.setOutputFileTypeList(publishTypes_);
 
-		for (ReportType type : publishTypes_) {
+		for (ReportType type : publishTypes_)
+		{
 			ReportProcessReturnContainer retCont;
 			retCont = dispatcher.dispatch(type, searchCondition_);
 
-			if (retCont.getHappendedError() != null) {
-				if (retCont.getHappendedError() instanceof InterruptedException) {
+			if (retCont.getHappendedError() != null)
+			{
+				if (retCont.getHappendedError() instanceof InterruptedException)
+				{
 					return;
 				}
 
-				LOGGER.log(LogIdConstants.REPORT_PUBLISH_STOPPED_WARN,
-						retCont.getHappendedError(),
-						ReporterConfigAccessor.getReportName(type));
+				LOGGER.log(LogIdConstants.REPORT_PUBLISH_STOPPED_WARN, retCont.getHappendedError(),
+					ReporterConfigAccessor.getReportName(type));
 				continue;
 			}
 		}
 
-		if (this.callback_ != null) {
+		if (this.callback_ != null)
+		{
 			this.callback_.run();
 		}
 
-        return;
+		return;
 	}
 }

@@ -28,7 +28,7 @@ public class SystemResourceRecord
     private double    cpuUsage_;
 
     /** 合計CPU使用率[%] (補間期間最大) */
-    private double    cpuUsageMax_;
+	private double cpuUsageMax_;
 
     /** 合計CPU使用率[%] (最小) */
     private double    cpuUsageMin_;

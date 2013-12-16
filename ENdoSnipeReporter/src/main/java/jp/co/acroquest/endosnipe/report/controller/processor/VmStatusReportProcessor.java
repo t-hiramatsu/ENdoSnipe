@@ -35,94 +35,93 @@ import jp.co.acroquest.endosnipe.report.util.ReporterConfigAccessor;
  */
 public class VmStatusReportProcessor extends ReportPublishProcessorBase
 {
-    /** ロガー */
-    private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(
-            VmStatusReportProcessor.class);
+	/** ロガー */
+	private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
+		.getLogger(VmStatusReportProcessor.class);
 
-    /**
-     * ReportProcessorを生成する。
-     * 
-     * @param type レポート種別。
-     */
-    public VmStatusReportProcessor(ReportType type)
-    {
-        super(type);
-    }
+	/**
+	 * ReportProcessorを生成する。
+	 * 
+	 * @param type レポート種別。
+	 */
+	public VmStatusReportProcessor(ReportType type)
+	{
+		super(type);
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected Object getReportPlotData(ReportSearchCondition cond,
-            ReportProcessReturnContainer reportContainer)
-    {
-        // 検索条件の取得
-        String database = cond.getDatabases().get(0);
-        Timestamp startTime = cond.getStartDate();
-        Timestamp endTime = cond.getEndDate();
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected Object getReportPlotData(ReportSearchCondition cond,
+		ReportProcessReturnContainer reportContainer)
+	{
+		// 検索条件の取得
+		String database = cond.getDatabases().get(0);
+		Timestamp startTime = cond.getStartDate();
+		Timestamp endTime = cond.getEndDate();
 
-        // DBから検索
-        VmStatusRecordAccessor accessor = new VmStatusRecordAccessor();
-        List<VmStatusRecord> data;
-        try
-        {
-            data = accessor.findVmStatusStaticsByTerm(database, startTime, endTime);
-        }
-        catch (SQLException ex)
-        {
-            LOGGER.log(LogIdConstants.EXCEPTION_IN_READING, ex,
-                    ReporterConfigAccessor.getReportName(getReportType()));
-            return null;
-        }
+		// DBから検索
+		VmStatusRecordAccessor accessor = new VmStatusRecordAccessor();
+		List<VmStatusRecord> data;
+		try
+		{
+			data = accessor.findVmStatusStaticsByTerm(database, startTime, endTime);
+		}
+		catch (SQLException ex)
+		{
+			LOGGER.log(LogIdConstants.EXCEPTION_IN_READING, ex,
+				ReporterConfigAccessor.getReportName(getReportType()));
+			return null;
+		}
 
-        return data;
-    }
+		return data;
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected Object convertPlotData(Object rawData, ReportSearchCondition cond,
-            ReportProcessReturnContainer reportContainer)
-    {
-        List<VmStatusRecord> data = (List<VmStatusRecord>)rawData;
-        return (VmStatusRecord[])data.toArray(new VmStatusRecord[data.size()]);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected Object convertPlotData(Object rawData, ReportSearchCondition cond,
+		ReportProcessReturnContainer reportContainer)
+	{
+		List<VmStatusRecord> data = (List<VmStatusRecord>) rawData;
+		return (VmStatusRecord[]) data.toArray(new VmStatusRecord[data.size()]);
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void outputReport(Object plotData, ReportSearchCondition cond,
-            ReportProcessReturnContainer reportContainer)
-    {
-        if ((plotData instanceof VmStatusRecord[]) == false)
-        {
-            return;
-        }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected void outputReport(Object plotData, ReportSearchCondition cond,
+		ReportProcessReturnContainer reportContainer)
+	{
+		if ((plotData instanceof VmStatusRecord[]) == false)
+		{
+			return;
+		}
 
-        // 出力するレポートの種類にあわせてテンプレートのファイルパスを取得する
-        String templateFilePath;
-        try
-        {
-            templateFilePath = TemplateFileManager.getInstance().getTemplateFile(getReportType());
-        }
-        catch (IOException exception)
-        {
-            reportContainer.setHappendedError(exception);
-            return;
-        }
+		// 出力するレポートの種類にあわせてテンプレートのファイルパスを取得する
+		String templateFilePath;
+		try
+		{
+			templateFilePath = TemplateFileManager.getInstance().getTemplateFile(getReportType());
+		}
+		catch (IOException exception)
+		{
+			reportContainer.setHappendedError(exception);
+			return;
+		}
 
-        // レポート出力の引数情報を取得する
-        VmStatusRecord[] records = (VmStatusRecord[])plotData;
-        String outputFilePath = getOutputFileName();
-        Timestamp startTime = cond.getStartDate();
-        Timestamp endTime = cond.getEndDate();
+		// レポート出力の引数情報を取得する
+		VmStatusRecord[] records = (VmStatusRecord[]) plotData;
+		String outputFilePath = getOutputFileName();
+		Timestamp startTime = cond.getStartDate();
+		Timestamp endTime = cond.getEndDate();
 
-        // レポート出力を実行する
-        RecordReporter<VmStatusRecord> reporter =
-                                                  new RecordReporter<VmStatusRecord>(
-                                                                                     getReportType());
-        reporter.outputReport(templateFilePath, outputFilePath, records, startTime, endTime);
-    }
+		// レポート出力を実行する
+		RecordReporter<VmStatusRecord> reporter = new RecordReporter<VmStatusRecord>(
+			getReportType());
+		reporter.outputReport(templateFilePath, outputFilePath, records, startTime, endTime);
+	}
 }

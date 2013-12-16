@@ -26,15 +26,15 @@ import jp.co.acroquest.endosnipe.report.entity.ItemRecord;
 public class ItemData
 {
 	/** 系列名 */
-    private String itemName_;
-    
+	private String itemName_;
+
 	/** 圧縮方法 */
-    private CompressOperator operator_;
-    
-    /** 補間期間平均　*/
-    private List<ItemRecord> records_;
-    
-    /**
+	private CompressOperator operator_;
+
+	/** 補間期間平均　*/
+	private List<ItemRecord> records_;
+
+	/**
 	 * @return the itemName_
 	 */
 	public String getItemName()
@@ -49,8 +49,8 @@ public class ItemData
 	{
 		this.itemName_ = itemName;
 	}
-	
-    /**
+
+	/**
 	 * @return the operator_
 	 */
 	public CompressOperator getOperator()
@@ -65,7 +65,7 @@ public class ItemData
 	{
 		this.operator_ = operator;
 	}
-	
+
 	/**
 	 * @return the records_
 	 */

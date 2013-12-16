@@ -43,10 +43,11 @@ import jp.co.acroquest.endosnipe.report.util.ReporterConfigAccessor;
  * 
  * @author akiba
  */
-public class ObjectReportProcessor extends ReportPublishProcessorBase {
+public class ObjectReportProcessor extends ReportPublishProcessorBase
+{
 	/** ロガー */
 	private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
-			.getLogger(ObjectReportProcessor.class);
+		.getLogger(ObjectReportProcessor.class);
 
 	/** 積算グラフのmeasurement_item_nameに対して後方一致する文字列のリスト。 */
 	private List<String> sumGraphBackwardMatchList = new ArrayList<String>();
@@ -60,7 +61,8 @@ public class ObjectReportProcessor extends ReportPublishProcessorBase {
 	 * @param type
 	 *            レポート種別。
 	 */
-	public ObjectReportProcessor(ReportType type) {
+	public ObjectReportProcessor(ReportType type)
+	{
 		super(type);
 
 		// 積算グラフのmeasurement_item_nameに対して後方一致する文字列をリストに登録する
@@ -77,7 +79,8 @@ public class ObjectReportProcessor extends ReportPublishProcessorBase {
 	 */
 	@Override
 	protected Object getReportPlotData(ReportSearchCondition cond,
-			ReportProcessReturnContainer reportContainer) {
+		ReportProcessReturnContainer reportContainer)
+	{
 		// 検索条件の取得
 		String database = cond.getDatabases().get(0);
 		Timestamp startTime = cond.getStartDate();
@@ -85,35 +88,41 @@ public class ObjectReportProcessor extends ReportPublishProcessorBase {
 		String parentItemName = cond.getTargetItemName();
 		Map<String, List<ItemData>> itemMap = new HashMap<String, List<ItemData>>();
 
-		try {
+		try
+		{
 			List<GraphTypeDto> measurementItemNameList = GraphItemAccessUtil
-					.findChildMeasurementItems(database, parentItemName);
+				.findChildMeasurementItems(database, parentItemName);
 
 			int itemNameListLength = measurementItemNameList.size();
 
-			for (int index = 0; index < itemNameListLength; index++) {
+			for (int index = 0; index < itemNameListLength; index++)
+			{
 				GraphTypeDto graphTypeDto = measurementItemNameList.get(index);
 				String measurementItemName = graphTypeDto.getItemName();
 
 				CompressOperator compressOperator;
-				
+
 				// 積算サマリか、平均サマリかを判別し、適切なサマリ方法でサマリを実行する
 				boolean isTotalSummary = this.judgeTotalSummary(measurementItemName);
-				if (isTotalSummary) {
+				if (isTotalSummary)
+				{
 					compressOperator = CompressOperator.TOTAL;
-				} else {
+				}
+				else
+				{
 					compressOperator = CompressOperator.SIMPLE_AVERAGE;
 				}
 
-				List<ItemData> itemDataList = GraphItemAccessUtil.findItemData(
-						database, measurementItemName,
-						compressOperator, startTime, endTime);
+				List<ItemData> itemDataList = GraphItemAccessUtil.findItemData(database,
+					measurementItemName, compressOperator, startTime, endTime);
 
 				itemMap.put(measurementItemName, itemDataList);
 			}
-		} catch (SQLException ex) {
+		}
+		catch (SQLException ex)
+		{
 			LOGGER.log(LogIdConstants.EXCEPTION_IN_READING, ex,
-					ReporterConfigAccessor.getReportName(getReportType()));
+				ReporterConfigAccessor.getReportName(getReportType()));
 			return null;
 		}
 
@@ -124,9 +133,9 @@ public class ObjectReportProcessor extends ReportPublishProcessorBase {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected Object convertPlotData(Object rawData,
-			ReportSearchCondition cond,
-			ReportProcessReturnContainer reportContainer) {
+	protected Object convertPlotData(Object rawData, ReportSearchCondition cond,
+		ReportProcessReturnContainer reportContainer)
+	{
 		// データ変換は特に行いません。
 		return rawData;
 	}
@@ -135,9 +144,9 @@ public class ObjectReportProcessor extends ReportPublishProcessorBase {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected void outputReport(Object convertedData,
-			ReportSearchCondition cond,
-			ReportProcessReturnContainer reportContainer) {
+	protected void outputReport(Object convertedData, ReportSearchCondition cond,
+		ReportProcessReturnContainer reportContainer)
+	{
 		// map のデータを6グラフの個別のデータに分ける
 		Map<String, List<? extends Object>> data = (Map<String, List<? extends Object>>) convertedData;
 
@@ -147,15 +156,14 @@ public class ObjectReportProcessor extends ReportPublishProcessorBase {
 		Timestamp endTime = cond.getEndDate();
 
 		// Mapから全てのキーと値のエントリをSet型のコレクションとして取得する
-		Set<Map.Entry<String, List<? extends Object>>> entrySet = data
-				.entrySet();
+		Set<Map.Entry<String, List<? extends Object>>> entrySet = data.entrySet();
 
 		// キーと値のコレクションの反復子を取得する
-		Iterator<Entry<String, List<? extends Object>>> it = entrySet
-				.iterator();
+		Iterator<Entry<String, List<? extends Object>>> it = entrySet.iterator();
 
 		// 次の要素がまだ存在する場合はtrueが返される
-		while (it.hasNext()) {
+		while (it.hasNext())
+		{
 			// キーと値をセットを持つ、Map.Entry型のオブジェクトを取得する
 			Entry<String, List<? extends Object>> entry = it.next();
 
@@ -163,7 +171,8 @@ public class ObjectReportProcessor extends ReportPublishProcessorBase {
 			String key = entry.getKey();
 
 			// キーがnullだった場合は、レポートを出力しない。
-			if (key == null) {
+			if (key == null)
+			{
 				continue;
 			}
 
@@ -172,29 +181,34 @@ public class ObjectReportProcessor extends ReportPublishProcessorBase {
 
 			// 出力するレポートの種類にあわせてテンプレートのファイルパスを取得する
 			String templateFilePath;
-			try {
+			try
+			{
 				ReportType reportType;
 
 				// 積算サマリか、平均サマリかを判別する
 				boolean isTotalSummary = this.judgeTotalSummary(key);
-				if (isTotalSummary) {
+				if (isTotalSummary)
+				{
 					reportType = ReportType.OBJECT_TOTAL;
-				} else {
+				}
+				else
+				{
 					reportType = ReportType.OBJECT_AVERAGE;
 				}
 
-				templateFilePath = TemplateFileManager.getInstance()
-						.getTemplateFile(reportType);
-			} catch (IOException exception) {
+				templateFilePath = TemplateFileManager.getInstance().getTemplateFile(reportType);
+			}
+			catch (IOException exception)
+			{
 				reportContainer.setHappendedError(exception);
 				return;
 			}
 
 			// レポート出力を実行する
 			RecordReporter<ObjectRecord> reporter = new RecordReporter<ObjectRecord>(
-					getReportType());
-			reporter.outputReports(templateFilePath, outputFolderPath
-					+ File.separator + key, value, startTime, endTime);
+				getReportType());
+			reporter.outputReports(templateFilePath, outputFolderPath + File.separator + key,
+				value, startTime, endTime);
 		}
 	}
 
@@ -206,23 +220,29 @@ public class ObjectReportProcessor extends ReportPublishProcessorBase {
 	 *            項目名
 	 * @return 積算サマリをする項目である場合にtrue
 	 */
-	private boolean judgeTotalSummary(String itemName) {
-		if (itemName == null) {
+	private boolean judgeTotalSummary(String itemName)
+	{
+		if (itemName == null)
+		{
 			return false;
 		}
 
 		// 積算グラフのmeasurement_item_nameに対して後方一致する文字列を使って、
 		// 積算グラフかどうか確認する。
-		for (String backwardMatchStr : sumGraphBackwardMatchList) {
-			if (itemName.endsWith(backwardMatchStr)) {
+		for (String backwardMatchStr : sumGraphBackwardMatchList)
+		{
+			if (itemName.endsWith(backwardMatchStr))
+			{
 				return true;
 			}
 		}
 
 		// 積算グラフのmeasurement_item_nameに対して部分一致する正規表現を使って、
 		// 積算グラフかどうか確認する。
-		for (String particalMatchStr : sumGraphPartialMatchList) {
-			if (itemName.matches(particalMatchStr)) {
+		for (String particalMatchStr : sumGraphPartialMatchList)
+		{
+			if (itemName.matches(particalMatchStr))
+			{
 				return true;
 			}
 		}

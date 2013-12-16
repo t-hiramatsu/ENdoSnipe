@@ -21,61 +21,60 @@ package jp.co.acroquest.endosnipe.report.controller;
  */
 public enum ReportType
 {
-    /** システムリソース使用推移レポート */
-    SYSTEM("reporter.report.type.system"),
-    /** プロセスリソース使用推移レポート */
-    PROCESS("reporter.report.type.process"),
-    /** データ入出力レポート */
-    DATA_IO("reporter.report.type.dataIO"),
-    /** VM状態レポート */
-    VM_STATUS("reporter.report.type.vmStatus"),
-    /** オブジェクト数レポート */
-    OBJECT("reporter.report.type.object"),
-    /** レスポンスタイムサマリレポート */
-    RESPONSE_SUMMARY("reporter.report.type.responseSummary"),
-    /** アクセス対象別レスポンスタイムレポート */
-    RESPONSE_LIST("reporter.report.type.responseList"),
-    /** アプリケーションレポート */
-    APPLICATION("reporter.report.type.application"),
-    /** アプリケーションレポートのCommons Poolのサイズのレポート */
-    SERVER_POOL("reporter.report.type.serverPool"),
-    /** アプリケーションレポートのAPサーバのワーカスレッド数のレポート */
-    POOL_SIZE("reporter.report.type.poolSize"),
-    /** Javelinレポート */
-    JAVELIN("reporter.report.type.javelin"),
-    /** イベント種別毎のイベント発生回数レポート */
-    EVENT("reporter.report.type.javelin.event"),
-    /** PerformanceDoctorレポート */
-    PERF_DOCTOR("reporter.report.type.perfDoctor"),
-    /** レスポンスタイムサマリレポート */
-    ITEM("reporter.report.type.item"),
-    /** 平均サマリのレポート */
-    OBJECT_AVERAGE("reporter.report.type.object.average"),
-    /** 積算サマリグラフのレポート */
-    OBJECT_TOTAL("reporter.report.type.object.total"),
-    /** サマリレポート */
-    SUMMARY("reporter.report.type.summary");
+	/** システムリソース使用推移レポート */
+	SYSTEM("reporter.report.type.system"),
+	/** プロセスリソース使用推移レポート */
+	PROCESS("reporter.report.type.process"),
+	/** データ入出力レポート */
+	DATA_IO("reporter.report.type.dataIO"),
+	/** VM状態レポート */
+	VM_STATUS("reporter.report.type.vmStatus"),
+	/** オブジェクト数レポート */
+	OBJECT("reporter.report.type.object"),
+	/** レスポンスタイムサマリレポート */
+	RESPONSE_SUMMARY("reporter.report.type.responseSummary"),
+	/** アクセス対象別レスポンスタイムレポート */
+	RESPONSE_LIST("reporter.report.type.responseList"),
+	/** アプリケーションレポート */
+	APPLICATION("reporter.report.type.application"),
+	/** アプリケーションレポートのCommons Poolのサイズのレポート */
+	SERVER_POOL("reporter.report.type.serverPool"),
+	/** アプリケーションレポートのAPサーバのワーカスレッド数のレポート */
+	POOL_SIZE("reporter.report.type.poolSize"),
+	/** Javelinレポート */
+	JAVELIN("reporter.report.type.javelin"),
+	/** イベント種別毎のイベント発生回数レポート */
+	EVENT("reporter.report.type.javelin.event"),
+	/** PerformanceDoctorレポート */
+	PERF_DOCTOR("reporter.report.type.perfDoctor"),
+	/** レスポンスタイムサマリレポート */
+	ITEM("reporter.report.type.item"),
+	/** 平均サマリのレポート */
+	OBJECT_AVERAGE("reporter.report.type.object.average"),
+	/** 積算サマリグラフのレポート */
+	OBJECT_TOTAL("reporter.report.type.object.total"),
+	/** サマリレポート */
+	SUMMARY("reporter.report.type.summary");
 
+	/** ID */
+	private String id_;
 
-    /** ID */
-    private String id_;
+	/**
+	 * コンストラクタ
+	 * @param id
+	 */
+	private ReportType(String id)
+	{
+		this.id_ = id;
+	}
 
-    /**
-     * コンストラクタ
-     * @param id
-     */
-    private ReportType(String id)
-    {
-        this.id_ = id;
-    }
-
-    /**
-     * レポートの種類に対応する「ID」を取得する。
-     * 
-     * @return ID
-     */
-    public String getId()
-    {
-        return this.id_;
-    }
+	/**
+	 * レポートの種類に対応する「ID」を取得する。
+	 * 
+	 * @return ID
+	 */
+	public String getId()
+	{
+		return this.id_;
+	}
 }

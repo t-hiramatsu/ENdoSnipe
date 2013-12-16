@@ -21,45 +21,45 @@ import org.apache.commons.beanutils.converters.LongConverter;
  * 
  * @author M.Yoshida
  */
-public class LongCalculator implements Calculator 
+public class LongCalculator implements Calculator
 {
 
-	public Object add(Object obj1, Object obj2) 
+	public Object add(Object obj1, Object obj2)
 	{
-		Long longData1 = (Long)obj1;
-		Long longData2 = (Long)obj2;
-		
-		return (Object)(new Long((long)(longData1.longValue() + longData2.longValue())));
+		Long longData1 = (Long) obj1;
+		Long longData2 = (Long) obj2;
+
+		return (Object) (new Long((long) (longData1.longValue() + longData2.longValue())));
 	}
 
-	public Object div(Object obj1, Object obj2) 
+	public Object div(Object obj1, Object obj2)
 	{
-		Long longData1 = (Long)obj1;
-		Long longData2 = (Long)obj2;
-		
-		return (Object)(new Long((long)(longData1.longValue() / longData2.longValue())));
+		Long longData1 = (Long) obj1;
+		Long longData2 = (Long) obj2;
+
+		return (Object) (new Long((long) (longData1.longValue() / longData2.longValue())));
 	}
 
-	public Object immediate(String str) 
+	public Object immediate(String str)
 	{
 		LongConverter converter = new LongConverter();
 		return converter.convert(Long.class, str);
 	}
 
-	public Object mul(Object obj1, Object obj2) 
+	public Object mul(Object obj1, Object obj2)
 	{
-		Long longData1 = (Long)obj1;
-		Long longData2 = (Long)obj2;
-		
-		return (Object)(new Long((long)(longData1.longValue() * longData2.longValue())));
+		Long longData1 = (Long) obj1;
+		Long longData2 = (Long) obj2;
+
+		return (Object) (new Long((long) (longData1.longValue() * longData2.longValue())));
 	}
 
-	public Object sub(Object obj1, Object obj2) 
+	public Object sub(Object obj1, Object obj2)
 	{
-		Long longData1 = (Long)obj1;
-		Long longData2 = (Long)obj2;
-		
-		return (Object)(new Long((long)(longData1.longValue() - longData2.longValue())));
+		Long longData1 = (Long) obj1;
+		Long longData2 = (Long) obj2;
+
+		return (Object) (new Long((long) (longData1.longValue() - longData2.longValue())));
 	}
 
 }
