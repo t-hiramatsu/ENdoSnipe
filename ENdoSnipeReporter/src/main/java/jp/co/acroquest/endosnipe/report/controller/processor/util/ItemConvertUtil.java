@@ -48,8 +48,7 @@ public class ItemConvertUtil
 	 *            検索条件(終了時刻)。
 	 * @return 指定したグラフのデータ。
 	 */
-	public static ItemData convertItemData(
-			ItemData itemData, Timestamp startTime, Timestamp endTime)
+	public static ItemData convertItemData(ItemData itemData, Timestamp startTime, Timestamp endTime)
 	{
 		ItemData convertedData = new ItemData();
 		List<ItemRecord> convertedRecords = new ArrayList<ItemRecord>();
@@ -64,14 +63,12 @@ public class ItemConvertUtil
 		List<CompressOperation> operation = new ArrayList<CompressOperation>();
 
 		// 最大、最小を求める圧縮方法
-		operation.add(new CompressOperation("value",
-				itemData.getOperator()));
+		operation.add(new CompressOperation("value", itemData.getOperator()));
 
 		try
 		{
-			compressedRecords = compresser.compressSamplingList(
-					rawRecords, startTime, endTime,
-					"measurementTime", operation, ItemRecord.class);
+			compressedRecords = compresser.compressSamplingList(rawRecords, startTime, endTime,
+				"measurementTime", operation, ItemRecord.class);
 		}
 		catch (Exception e)
 		{
@@ -103,14 +100,13 @@ public class ItemConvertUtil
 	 *            検索条件(終了時刻)。
 	 * @return 指定したグラフのデータ。
 	 */
-	public static List<ItemData> convertItemDataList(
-			List<ItemData> itemDataList, Timestamp startTime, Timestamp endTime)
+	public static List<ItemData> convertItemDataList(List<ItemData> itemDataList,
+		Timestamp startTime, Timestamp endTime)
 	{
 		List<ItemData> result = new ArrayList<ItemData>();
 		for (ItemData itemData : itemDataList)
 		{
-			ItemData convertedData =
-				convertItemData(itemData, startTime, endTime);
+			ItemData convertedData = convertItemData(itemData, startTime, endTime);
 			result.add(convertedData);
 		}
 		return result;

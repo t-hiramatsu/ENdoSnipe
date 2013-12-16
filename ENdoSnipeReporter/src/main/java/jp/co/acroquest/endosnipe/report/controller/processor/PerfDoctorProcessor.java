@@ -36,10 +36,11 @@ import jp.co.acroquest.endosnipe.report.util.ReporterConfigAccessor;
  * 
  * @author iida
  */
-public class PerfDoctorProcessor extends ReportPublishProcessorBase {
+public class PerfDoctorProcessor extends ReportPublishProcessorBase
+{
 	/** ロガー */
 	private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
-			.getLogger(PerfDoctorProcessor.class);
+		.getLogger(PerfDoctorProcessor.class);
 
 	/** レポートに出力される結果の数の最大値 */
 	private static final int MAX_RECORD = 65534;
@@ -50,7 +51,8 @@ public class PerfDoctorProcessor extends ReportPublishProcessorBase {
 	 * @param type
 	 *            処理するレポートの種別
 	 */
-	public PerfDoctorProcessor(ReportType type) {
+	public PerfDoctorProcessor(ReportType type)
+	{
 		super(type);
 	}
 
@@ -66,20 +68,21 @@ public class PerfDoctorProcessor extends ReportPublishProcessorBase {
 	 */
 	@Override
 	protected Object getReportPlotData(ReportSearchCondition cond,
-			ReportProcessReturnContainer reportContainer) {
+		ReportProcessReturnContainer reportContainer)
+	{
 		// レポートに出力するデータ（このメソッドの戻り値）
 		PerfDoctorRecord[] records = null;
 
-		try {
+		try
+		{
 			String databaseName = cond.getDatabases().get(0); // データベース名
 			Timestamp start = cond.getStartDate(); // 開始時刻のタイムスタンプ
 			Timestamp end = cond.getEndDate(); // 終了時刻のタイムスタンプ
 			String itemName = cond.getTargetItemName();
 
 			// Step 1. DBから、JavelinLogインスタンスを生成する。
-			List<JavelinLog> javelinLogList = JavelinLogDao
-					.selectByTermAndName(databaseName, start, end, itemName,
-							false);
+			List<JavelinLog> javelinLogList = JavelinLogDao.selectByTermAndName(databaseName,
+				start, end, itemName, false);
 
 			List<JavelinLogElement> javelinLogElementList = new ArrayList<JavelinLogElement>();
 
@@ -87,27 +90,31 @@ public class PerfDoctorProcessor extends ReportPublishProcessorBase {
 			for (JavelinLog javelinLog : javelinLogList) // 生成した各JavelinLogについて、処理を繰り返す
 			{
 				InputStream javelinLogStream = null;
-				try {
-					javelinLogStream = JavelinLogDao.selectJavelinLogByLogId(
-							databaseName, javelinLog.logId);
+				try
+				{
+					javelinLogStream = JavelinLogDao.selectJavelinLogByLogId(databaseName,
+						javelinLog.logId);
 					JavelinLogInputStreamAccessor javelinLogMemoryAccessor = new JavelinLogInputStreamAccessor(
-							javelinLog.logFileName, javelinLogStream);
+						javelinLog.logFileName, javelinLogStream);
 
 					// Step 3.
 					// JavelinLogMemoryAccessorインスタンスからJavelinParserを生成する
-					JavelinParser javelinParser = new JavelinParser(
-							javelinLogMemoryAccessor);
+					JavelinParser javelinParser = new JavelinParser(javelinLogMemoryAccessor);
 					javelinParser.init();
 
 					// Step 4. JavelinParserインスタンスからJavelinLogElementを生成する
 					JavelinLogElement javelinLogElement;
-					while ((javelinLogElement = javelinParser.nextElement()) != null) {
+					while ((javelinLogElement = javelinParser.nextElement()) != null)
+					{
 						javelinLogElementList.add(javelinLogElement);
 					}
 
 					JavelinParser.initDetailInfo(javelinLogElementList);
-				} finally {
-					if (javelinLogStream != null) {
+				}
+				finally
+				{
+					if (javelinLogStream != null)
+					{
 						javelinLogStream.close();
 					}
 				}
@@ -116,10 +123,10 @@ public class PerfDoctorProcessor extends ReportPublishProcessorBase {
 			// Step 5. 生成したJavelinLogElementを、PerformanceDoctorに診断させる
 			PerfDoctor perfDoctor = new PerfDoctor();
 			perfDoctor.init();
-			List<WarningUnit> warningUnitList = perfDoctor
-					.judgeJavelinLog(javelinLogElementList);
+			List<WarningUnit> warningUnitList = perfDoctor.judgeJavelinLog(javelinLogElementList);
 
-			if (MAX_RECORD <= warningUnitList.size()) {
+			if (MAX_RECORD <= warningUnitList.size())
+			{
 				warningUnitList = warningUnitList.subList(0, MAX_RECORD);
 			}
 
@@ -127,7 +134,8 @@ public class PerfDoctorProcessor extends ReportPublishProcessorBase {
 			warningUnitList = this.doFilter(warningUnitList, cond);
 
 			List<PerfDoctorRecord> recordList = new ArrayList<PerfDoctorRecord>();
-			for (WarningUnit warningUnit : warningUnitList) {
+			for (WarningUnit warningUnit : warningUnitList)
+			{
 				PerfDoctorRecord record = new PerfDoctorRecord(warningUnit);
 				recordList.add(record);
 			}
@@ -135,21 +143,31 @@ public class PerfDoctorProcessor extends ReportPublishProcessorBase {
 			// 結果を配列に直す
 			records = new PerfDoctorRecord[recordList.size()];
 			recordList.toArray(records);
-		} catch (SQLException ex) {
+		}
+		catch (SQLException ex)
+		{
 			LOGGER.log(LogIdConstants.EXCEPTION_IN_READING, ex,
-					ReporterConfigAccessor.getReportName(getReportType()));
-		} catch (IOException ex) {
+				ReporterConfigAccessor.getReportName(getReportType()));
+		}
+		catch (IOException ex)
+		{
 			LOGGER.log(LogIdConstants.EXCEPTION_HAPPENED, ex,
-					ReporterConfigAccessor.getReportName(getReportType()));
-		} catch (ParseException ex) {
+				ReporterConfigAccessor.getReportName(getReportType()));
+		}
+		catch (ParseException ex)
+		{
 			LOGGER.log(LogIdConstants.EXCEPTION_HAPPENED, ex,
-					ReporterConfigAccessor.getReportName(getReportType()));
-		} catch (RuleNotFoundException ex) {
+				ReporterConfigAccessor.getReportName(getReportType()));
+		}
+		catch (RuleNotFoundException ex)
+		{
 			LOGGER.log(LogIdConstants.EXCEPTION_HAPPENED, ex,
-					ReporterConfigAccessor.getReportName(getReportType()));
-		} catch (RuleCreateException ex) {
+				ReporterConfigAccessor.getReportName(getReportType()));
+		}
+		catch (RuleCreateException ex)
+		{
 			LOGGER.log(LogIdConstants.EXCEPTION_HAPPENED, ex,
-					ReporterConfigAccessor.getReportName(getReportType()));
+				ReporterConfigAccessor.getReportName(getReportType()));
 		}
 
 		return records;
@@ -167,29 +185,34 @@ public class PerfDoctorProcessor extends ReportPublishProcessorBase {
 	 */
 	@Override
 	protected void outputReport(Object plotData, ReportSearchCondition cond,
-			ReportProcessReturnContainer reportContainer) {
-		if (plotData instanceof PerfDoctorRecord[]) {
+		ReportProcessReturnContainer reportContainer)
+	{
+		if (plotData instanceof PerfDoctorRecord[])
+		{
 			PerfDoctorRecord[] records = (PerfDoctorRecord[]) plotData;
 
 			// 出力するレポートの種類にあわせてテンプレートのファイルパスを取得する
 			String templateFilePath;
-			try {
-				templateFilePath = TemplateFileManager.getInstance()
-						.getTemplateFile(getReportType());
-			} catch (IOException exception) {
+			try
+			{
+				templateFilePath = TemplateFileManager.getInstance().getTemplateFile(
+					getReportType());
+			}
+			catch (IOException exception)
+			{
 				reportContainer.setHappendedError(exception);
 				return;
 			}
 
 			RecordReporter<PerfDoctorRecord> reporter = new RecordReporter<PerfDoctorRecord>(
-					this.getReportType());
+				this.getReportType());
 
 			String outputFilePath = getOutputFolderName() + File.separator;
-			outputFilePath += ReporterConfigAccessor.getProperty(this
-					.getReportType().getId() + ".outputFile");
+			outputFilePath += ReporterConfigAccessor.getProperty(this.getReportType().getId()
+				+ ".outputFile");
 
-			reporter.outputReport(templateFilePath, outputFilePath, records,
-					new Date(), new Date()); // この2つのDateは、特に使用しない。
+			reporter
+				.outputReport(templateFilePath, outputFilePath, records, new Date(), new Date()); // この2つのDateは、特に使用しない。
 		}
 	}
 
@@ -203,16 +226,19 @@ public class PerfDoctorProcessor extends ReportPublishProcessorBase {
 	 * @return フィルターをかけた後の、測定結果のリスト
 	 */
 	private List<WarningUnit> doFilter(final List<WarningUnit> resultList,
-			final ReportSearchCondition cond) {
+		final ReportSearchCondition cond)
+	{
 		PerformanceDoctorFilter sameFilter = new PerformanceDoctorFilter();
 		UnifiedFilter unifiedFilter = new UnifiedFilter();
 		List<WarningUnit> filteredList = resultList;
 
 		// 同要因フィルタと同種警告フィルタを設定する。
-		if (cond.getLimitSameCause()) {
+		if (cond.getLimitSameCause())
+		{
 			filteredList = unifiedFilter.doFilter(filteredList);
 		}
-		if (cond.getLimitBySameRule()) {
+		if (cond.getLimitBySameRule())
+		{
 			filteredList = sameFilter.doFilter(filteredList);
 		}
 

@@ -24,33 +24,33 @@ import jp.co.acroquest.endosnipe.common.util.ResourceDataUtil;
  */
 public class PercentageDataUtil
 {
-    /**
-     * コンストラクタを隠蔽します。<br />
-     */
-    private PercentageDataUtil()
-    {
-        // DO NOTHING
-    }
-    
-    /**
-     * 指定された、割合を表すグラフのデータを、倍率を掛けられる前のものに戻します。<br />
-     * 
-     * @param percentageValues
-     *            倍率を掛けられた後のデータ
-     * @return 倍率を掛けられる前のデータ
-     */
-    public static List<ReportItemValue> reconstitutePercentageData(
-            List<ReportItemValue> percentageValues)
-    {
-        for (ReportItemValue value : percentageValues)
-        {
-            value.maxValue = value.maxValue.intValue()
-                    / ResourceDataUtil.PERCENTAGE_DATA_MAGNIFICATION;
-            value.minValue = value.minValue.intValue()
-                    / ResourceDataUtil.PERCENTAGE_DATA_MAGNIFICATION;
-            value.summaryValue = value.summaryValue.intValue()
-                    / ResourceDataUtil.PERCENTAGE_DATA_MAGNIFICATION;
-        }
-        return percentageValues;
-    }
+	/**
+	 * コンストラクタを隠蔽します。<br />
+	 */
+	private PercentageDataUtil()
+	{
+		// DO NOTHING
+	}
+
+	/**
+	 * 指定された、割合を表すグラフのデータを、倍率を掛けられる前のものに戻します。<br />
+	 * 
+	 * @param percentageValues
+	 *            倍率を掛けられた後のデータ
+	 * @return 倍率を掛けられる前のデータ
+	 */
+	public static List<ReportItemValue> reconstitutePercentageData(
+		List<ReportItemValue> percentageValues)
+	{
+		for (ReportItemValue value : percentageValues)
+		{
+			value.maxValue = value.maxValue.intValue()
+				/ ResourceDataUtil.PERCENTAGE_DATA_MAGNIFICATION;
+			value.minValue = value.minValue.intValue()
+				/ ResourceDataUtil.PERCENTAGE_DATA_MAGNIFICATION;
+			value.summaryValue = value.summaryValue.intValue()
+				/ ResourceDataUtil.PERCENTAGE_DATA_MAGNIFICATION;
+		}
+		return percentageValues;
+	}
 }

@@ -21,44 +21,44 @@ import org.apache.commons.beanutils.converters.IntegerConverter;
  * 
  * @author M.Yoshida
  */
-public class IntegerCalculator implements Calculator 
+public class IntegerCalculator implements Calculator
 {
 
-	public Object add(Object obj1, Object obj2) 
+	public Object add(Object obj1, Object obj2)
 	{
-		Integer intData1 = (Integer)obj1;
-		Integer intData2 = (Integer)obj2;
-		
-		return (Object)(new Integer((int)(intData1.intValue() + intData2.intValue())));
+		Integer intData1 = (Integer) obj1;
+		Integer intData2 = (Integer) obj2;
+
+		return (Object) (new Integer((int) (intData1.intValue() + intData2.intValue())));
 	}
 
-	public Object div(Object obj1, Object obj2) 
+	public Object div(Object obj1, Object obj2)
 	{
-		Integer intData1 = (Integer)obj1;
-		Integer intData2 = (Integer)obj2;
-		
-		return (Object)(new Integer((int)(intData1.intValue() / intData2.intValue())));
+		Integer intData1 = (Integer) obj1;
+		Integer intData2 = (Integer) obj2;
+
+		return (Object) (new Integer((int) (intData1.intValue() / intData2.intValue())));
 	}
 
-	public Object immediate(String str) 
+	public Object immediate(String str)
 	{
 		IntegerConverter converter = new IntegerConverter();
 		return converter.convert(Integer.class, str);
 	}
 
-	public Object mul(Object obj1, Object obj2) 
+	public Object mul(Object obj1, Object obj2)
 	{
-		Integer intData1 = (Integer)obj1;
-		Integer intData2 = (Integer)obj2;
-		
-		return (Object)(new Integer((int)(intData1.intValue() * intData2.intValue())));
+		Integer intData1 = (Integer) obj1;
+		Integer intData2 = (Integer) obj2;
+
+		return (Object) (new Integer((int) (intData1.intValue() * intData2.intValue())));
 	}
 
-	public Object sub(Object obj1, Object obj2) 
+	public Object sub(Object obj1, Object obj2)
 	{
-		Integer intData1 = (Integer)obj1;
-		Integer intData2 = (Integer)obj2;
-		
-		return (Object)(new Integer((int)(intData1.intValue() - intData2.intValue())));
+		Integer intData1 = (Integer) obj1;
+		Integer intData2 = (Integer) obj2;
+
+		return (Object) (new Integer((int) (intData1.intValue() - intData2.intValue())));
 	}
 }

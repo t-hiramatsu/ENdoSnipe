@@ -21,44 +21,44 @@ import org.apache.commons.beanutils.converters.FloatConverter;
  * 
  * @author M.Yoshida
  */
-public class FloatCalculator implements Calculator 
+public class FloatCalculator implements Calculator
 {
 
-	public Object add(Object obj1, Object obj2) 
+	public Object add(Object obj1, Object obj2)
 	{
-		Float floatData1 = (Float)obj1;
-		Float floatData2 = (Float)obj2;
-		
-		return (Object)(new Float((float)(floatData1.floatValue() + floatData2.floatValue())));
+		Float floatData1 = (Float) obj1;
+		Float floatData2 = (Float) obj2;
+
+		return (Object) (new Float((float) (floatData1.floatValue() + floatData2.floatValue())));
 	}
 
-	public Object div(Object obj1, Object obj2) 
+	public Object div(Object obj1, Object obj2)
 	{
-		Float floatData1 = (Float)obj1;
-		Float floatData2 = (Float)obj2;
-		
-		return (Object)(new Float((float)(floatData1.floatValue() / floatData2.floatValue())));
+		Float floatData1 = (Float) obj1;
+		Float floatData2 = (Float) obj2;
+
+		return (Object) (new Float((float) (floatData1.floatValue() / floatData2.floatValue())));
 	}
 
-	public Object immediate(String str) 
+	public Object immediate(String str)
 	{
 		FloatConverter converter = new FloatConverter();
 		return converter.convert(Long.class, str);
 	}
 
-	public Object mul(Object obj1, Object obj2) 
+	public Object mul(Object obj1, Object obj2)
 	{
-		Float floatData1 = (Float)obj1;
-		Float floatData2 = (Float)obj2;
-		
-		return (Object)(new Float((float)(floatData1.floatValue() * floatData2.floatValue())));
+		Float floatData1 = (Float) obj1;
+		Float floatData2 = (Float) obj2;
+
+		return (Object) (new Float((float) (floatData1.floatValue() * floatData2.floatValue())));
 	}
 
-	public Object sub(Object obj1, Object obj2) 
+	public Object sub(Object obj1, Object obj2)
 	{
-		Float floatData1 = (Float)obj1;
-		Float floatData2 = (Float)obj2;
-		
-		return (Object)(new Float((float)(floatData1.floatValue() - floatData2.floatValue())));
+		Float floatData1 = (Float) obj1;
+		Float floatData2 = (Float) obj2;
+
+		return (Object) (new Float((float) (floatData1.floatValue() - floatData2.floatValue())));
 	}
 }

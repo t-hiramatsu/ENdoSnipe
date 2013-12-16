@@ -28,79 +28,76 @@ import jp.co.acroquest.endosnipe.report.controller.dispatcher.ReportPublishProce
  */
 public class ReportPublishDispatcher
 {
-    /** ロガー */
-    private static final ENdoSnipeLogger   LOGGER     =
-                                                        ENdoSnipeLogger.getLogger(
-                                                                                  ReportPublishDispatcher.class);
+	/** ロガー */
+	private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
+		.getLogger(ReportPublishDispatcher.class);
 
-    /** インスタンス保持用フィールド */
-    private static ReportPublishDispatcher instance__ = null;
+	/** インスタンス保持用フィールド */
+	private static ReportPublishDispatcher instance__ = null;
 
-    /** インスタンス化を防止するためのコンストラクタ */
-    private ReportPublishDispatcher()
-    {
-    }
+	/** インスタンス化を防止するためのコンストラクタ */
+	private ReportPublishDispatcher()
+	{
+	}
 
-    /**
-     * ディスパッチャのインスタンスを取得する。
-     * 
-     * @return インスタンス
-     */
-    public static ReportPublishDispatcher getInstance()
-    {
-        if (instance__ == null)
-        {
-            instance__ = new ReportPublishDispatcher();
-        }
-        return instance__;
-    }
+	/**
+	 * ディスパッチャのインスタンスを取得する。
+	 * 
+	 * @return インスタンス
+	 */
+	public static ReportPublishDispatcher getInstance()
+	{
+		if (instance__ == null)
+		{
+			instance__ = new ReportPublishDispatcher();
+		}
+		return instance__;
+	}
 
-    /**
-     * 指定したレポートタイプのレポートを出力するプロセッサを呼び出す。
-     * 
-     * @param rType レポートタイプ
-     * @param cond  プロセッサに渡す絞込み条件
-     * @return レポート出力処理の結果
-     */
-    public ReportProcessReturnContainer dispatch(ReportType rType, ReportSearchCondition cond)
-    {
-        String reportProcessorName = ReporterConfigAccessor.getReportProcessorName(rType);
-        ReportProcessReturnContainer returnContainer = null;
+	/**
+	 * 指定したレポートタイプのレポートを出力するプロセッサを呼び出す。
+	 * 
+	 * @param rType レポートタイプ
+	 * @param cond  プロセッサに渡す絞込み条件
+	 * @return レポート出力処理の結果
+	 */
+	public ReportProcessReturnContainer dispatch(ReportType rType, ReportSearchCondition cond)
+	{
+		String reportProcessorName = ReporterConfigAccessor.getReportProcessorName(rType);
+		ReportProcessReturnContainer returnContainer = null;
 
-        if (reportProcessorName == null)
-        {
-            return null;
-        }
+		if (reportProcessorName == null)
+		{
+			return null;
+		}
 
-        ReportPublishProcessor processor = null;
+		ReportPublishProcessor processor = null;
 
-        try
-        {
-            Class<?> reportProcessorClass = Class.forName(reportProcessorName);
-            processor =
-                        (ReportPublishProcessor)reportProcessorClass.getConstructor(
-                                                                                    ReportType.class).newInstance(
-                                                                                                                  rType);
-        }
-        catch (Exception e1)
-        {
-            returnContainer = new ReportProcessReturnContainer();
-            returnContainer.setHappendedError(e1);
-            LOGGER.log(LogIdConstants.EXCEPTION_HAPPENED, e1, new Object[0]);
+		try
+		{
+			Class<?> reportProcessorClass = Class.forName(reportProcessorName);
+			processor = (ReportPublishProcessor) reportProcessorClass.getConstructor(
+				ReportType.class).newInstance(rType);
+		}
+		catch (Exception e1)
+		{
+			returnContainer = new ReportProcessReturnContainer();
+			returnContainer.setHappendedError(e1);
+			LOGGER.log(LogIdConstants.EXCEPTION_HAPPENED, e1, new Object[0]);
 
-            return returnContainer;
-        }
+			return returnContainer;
+		}
 
-        try
-        {
-            returnContainer = processor.publish(cond);
-        }
-        catch (Throwable e)
-        {
-            returnContainer = new ReportProcessReturnContainer();
-            returnContainer.setHappendedError(e);
-        }
+		try
+		{
+			returnContainer = processor.publish(cond);
+		}
+		catch (Throwable e)
+		{
+			returnContainer = new ReportProcessReturnContainer();
+			returnContainer.setHappendedError(e);
+		}
 
-        return returnContainer;
-    }
+		return returnContainer;
+	}
 }

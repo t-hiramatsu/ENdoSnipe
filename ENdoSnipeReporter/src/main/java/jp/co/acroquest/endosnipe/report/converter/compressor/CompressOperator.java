@@ -17,10 +17,10 @@ package jp.co.acroquest.endosnipe.report.converter.compressor;
  * 
  * @author yoshida
  */
-public enum CompressOperator 
+public enum CompressOperator
 {
 	/** 単純平均 */
-	SIMPLE_AVERAGE, 
+	SIMPLE_AVERAGE,
 	/** 合計 */
 	TOTAL,
 	/** 時間平均 */

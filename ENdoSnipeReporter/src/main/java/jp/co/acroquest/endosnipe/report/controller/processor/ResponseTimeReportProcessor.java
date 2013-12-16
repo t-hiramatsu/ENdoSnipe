@@ -35,71 +35,70 @@ import jp.co.acroquest.endosnipe.report.util.ReporterConfigAccessor;
  */
 public class ResponseTimeReportProcessor extends ReportPublishProcessorBase
 {
-    /** ロガー */
-    private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(
-            ResponseTimeReportProcessor.class);
+	/** ロガー */
+	private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
+		.getLogger(ResponseTimeReportProcessor.class);
 
-    /**
-     * コンストラクタ
-     * @param type レポート種別
-     */
-    public ResponseTimeReportProcessor(ReportType type)
-    {
-        super(type);
-    }
+	/**
+	 * コンストラクタ
+	 * @param type レポート種別
+	 */
+	public ResponseTimeReportProcessor(ReportType type)
+	{
+		super(type);
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected Object getReportPlotData(ReportSearchCondition cond,
-            ReportProcessReturnContainer reportContainer)
-    {
-        ResponseTimeRecordAccessor recordAccessor = new ResponseTimeRecordAccessor();
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected Object getReportPlotData(ReportSearchCondition cond,
+		ReportProcessReturnContainer reportContainer)
+	{
+		ResponseTimeRecordAccessor recordAccessor = new ResponseTimeRecordAccessor();
 
-        List<ResponseTimeRecord> responseTimeRecord;
-        try
-        {
-            responseTimeRecord = recordAccessor.findResponseStatisticsByTerm(
-                    cond.getDatabases().get(0), cond.getStartDate(), cond.getEndDate());
-        }
-        catch (SQLException ex)
-        {
-            LOGGER.log(LogIdConstants.EXCEPTION_IN_READING, ex,
-                    ReporterConfigAccessor.getReportName(getReportType()));
-            return null;
-        }
+		List<ResponseTimeRecord> responseTimeRecord;
+		try
+		{
+			responseTimeRecord = recordAccessor.findResponseStatisticsByTerm(cond.getDatabases()
+				.get(0), cond.getStartDate(), cond.getEndDate());
+		}
+		catch (SQLException ex)
+		{
+			LOGGER.log(LogIdConstants.EXCEPTION_IN_READING, ex,
+				ReporterConfigAccessor.getReportName(getReportType()));
+			return null;
+		}
 
-        ResponseTimeRecord[] records = responseTimeRecord.toArray(new ResponseTimeRecord[0]);
-        return records;
-    }
+		ResponseTimeRecord[] records = responseTimeRecord.toArray(new ResponseTimeRecord[0]);
+		return records;
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void outputReport(Object plotData, ReportSearchCondition cond,
-            ReportProcessReturnContainer reportContainer)
-    {
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected void outputReport(Object plotData, ReportSearchCondition cond,
+		ReportProcessReturnContainer reportContainer)
+	{
 
-        ResponseTimeReporter reporter = new ResponseTimeReporter();
+		ResponseTimeReporter reporter = new ResponseTimeReporter();
 
-        String templateFilePath;
-        try
-        {
-            templateFilePath = TemplateFileManager.getInstance().getTemplateFile(getReportType());
-        }
-        catch (IOException e)
-        {
-            LOGGER.log(LogIdConstants.EXCEPTION_HAPPENED, e, new Object[0]);
-            reportContainer.setHappendedError(e);
-            return;
-        }
+		String templateFilePath;
+		try
+		{
+			templateFilePath = TemplateFileManager.getInstance().getTemplateFile(getReportType());
+		}
+		catch (IOException e)
+		{
+			LOGGER.log(LogIdConstants.EXCEPTION_HAPPENED, e, new Object[0]);
+			reportContainer.setHappendedError(e);
+			return;
+		}
 
-        reporter.outputReport(templateFilePath, getOutputFileName(),
-                              (ResponseTimeRecord[])plotData, cond.getStartDate(),
-                              cond.getEndDate());
+		reporter.outputReport(templateFilePath, getOutputFileName(),
+			(ResponseTimeRecord[]) plotData, cond.getStartDate(), cond.getEndDate());
 
-        return;
-    }
+		return;
+	}
 }
