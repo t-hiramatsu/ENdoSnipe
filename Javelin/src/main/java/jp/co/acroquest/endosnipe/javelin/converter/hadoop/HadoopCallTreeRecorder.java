@@ -29,8 +29,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 import jp.co.acroquest.endosnipe.javelin.CallTree;
 import jp.co.acroquest.endosnipe.javelin.CallTreeNode;
+import jp.co.acroquest.endosnipe.javelin.CallTreeRecorder;
 import jp.co.acroquest.endosnipe.javelin.bean.Invocation;
 
 /**
@@ -38,7 +40,7 @@ import jp.co.acroquest.endosnipe.javelin.bean.Invocation;
  *
  * @author matsuoka
  */
-public class HadoopCallTreeRecorder
+public class HadoopCallTreeRecorder extends CallTreeRecorder
 {
     /** {@link HadoopCallTreeRecorder}の唯一のインスタンス */
     private static HadoopCallTreeRecorder instance__ = new HadoopCallTreeRecorder();
@@ -50,7 +52,7 @@ public class HadoopCallTreeRecorder
     private HashMap<String, HashMap<String, CallTree>> callTreeMap_ = new HashMap<String, HashMap<String, CallTree>>(1);
 
     /** ジョブIDをキーとしたスレッド毎の{@link CallTreeNode}の一覧 */
-    private HashMap<String, HashMap<String, CallTreeNode>> callTreeNodeMap_ = new HashMap<String, HashMap<String, CallTreeNode>>(1);
+    private HashMap<String, HashMap<String, HadoopCallTreeNode>> callTreeNodeMap_ = new HashMap<String, HashMap<String, HadoopCallTreeNode>>(1);
 
     /** スレッド毎の{@link Invocation} */
     private HashMap<String, Invocation> invocationMap_ = new HashMap<String, Invocation>(1);
@@ -66,7 +68,7 @@ public class HadoopCallTreeRecorder
      */
     private HadoopCallTreeRecorder()
     {
-        // Do Nothing.
+    	super();
     }
 
     /**
@@ -209,14 +211,14 @@ public class HadoopCallTreeRecorder
      * @param jobID ジョブID
      * @param node {@link CallTreeNode}
      */
-    public void putCallTreeNode(String jobID, CallTreeNode node)
+    public void putCallTreeNode(String jobID, HadoopCallTreeNode node)
     {
         String threadID = String.valueOf(Thread.currentThread().getId());
         synchronized(callTreeNodeMap_)
         {
             if(!callTreeNodeMap_.containsKey(threadID))
             {
-                callTreeNodeMap_.put(threadID, new HashMap<String, CallTreeNode>(1));
+                callTreeNodeMap_.put(threadID, new HashMap<String, HadoopCallTreeNode>(1));
             }
             callTreeNodeMap_.get(threadID).put(jobID, node);
         }
@@ -254,9 +256,9 @@ public class HadoopCallTreeRecorder
      * 
      * @return ジョブIDをキーとした{@link CallTreeNode}の一覧
      */
-    public HashMap<String, CallTreeNode> takeAllCallTreeNode()
+    public HashMap<String, HadoopCallTreeNode> takeAllCallTreeNode()
     {
-        HashMap<String, CallTreeNode> callTreeNodeMap = null;
+        HashMap<String, HadoopCallTreeNode> callTreeNodeMap = null;
         String threadID = String.valueOf(Thread.currentThread().getId());
 
         synchronized(callTreeNodeMap_)
@@ -387,5 +389,46 @@ public class HadoopCallTreeRecorder
             if(!startTimeMap_.containsKey(threadID))
                 startTimeMap_.put(threadID, start);
         }
+    }
+
+    /**
+     * CallTreeNodeを取得します。
+     *
+     * @return CallTree。
+     */
+    public HadoopCallTreeNode getCallTreeNode()
+    {
+        return (HadoopCallTreeNode) super.getCallTreeNode();
+    }
+
+    
+    /**
+     * CallTreeNodeを生成します。
+     *
+     * @param invocation Invocation。
+     * @param args 引数。
+     * @param stacktrace スタックトレース。
+     * @param config 設定。
+     * @return CallTreeNode。
+     */
+    public static HadoopCallTreeNode createNode(
+            Invocation invocation,
+            final Object[] args,
+            final StackTraceElement[] stacktrace,
+            final JavelinConfig config)
+    {
+    	HadoopCallTreeNode node = new HadoopCallTreeNode();
+
+        node.setStacktrace(stacktrace);
+
+        // パラメータ設定が行われているとき、ノードにパラメータを設定する
+        if (args != null)
+        {
+            CallTreeRecorder.addLogArgs(node, args, config);
+        }
+
+        node.setInvocation(invocation);
+
+        return node;
     }
 }

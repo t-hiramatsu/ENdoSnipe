@@ -247,10 +247,8 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
                         return null;
                     }
 
-                    // クライアントの時刻でグラフのデータを保存する。
-                    Date date = new Date();
-                    long now = date.getTime();
-                    resourceData.measurementTime = now;
+                    // サーバの時刻でグラフのデータを保存する。
+                    resourceData.measurementTime = (Long)body.getObjItemValueArr()[0];
                 }
 
                 // 時間の項目が来ないと無限ループになるので、どちらにしてもカウントアップする
@@ -424,14 +422,15 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
     }
 
     /**
-     * 要求応答種別が応答であるかどうか
+     * 要求応答種別が応答あるいは通知であるかどうか
      * @param telegram 電文
-     * @return true:要求応答種別が応答である、false:要求応答種別が応答でない。
+     * @return true:要求応答種別が応答あるいは通知である、false:要求応答種別が応答あるいは通知でない。
      */
     private static boolean checkResponseKind(final Telegram telegram)
     {
         Header header = telegram.getObjHeader();
-        if (BYTE_REQUEST_KIND_RESPONSE == header.getByteRequestKind())
+        if (BYTE_REQUEST_KIND_RESPONSE == header.getByteRequestKind()
+                || BYTE_REQUEST_KIND_NOTIFY == header.getByteRequestKind())
         {
             return true;
         }
@@ -487,9 +486,31 @@ public class ResourceNotifyAccessor implements TelegramConstants, MeasurementCon
      */
     public static Telegram makeResponseTelegram(List<Body> responseBodyList)
     {
+        return makeTelegram(responseBodyList, BYTE_REQUEST_KIND_RESPONSE);
+    }
+    /**
+     * 応答電文を作成する。
+     * 
+     * @param responseBodyList 応答電文に詰めるBodyのリスト。
+     * @return 作成した応答電文(Telegram)。
+     */
+    public static Telegram makeNotifyTelegram(List<Body> responseBodyList)
+    {
+        return makeTelegram(responseBodyList, BYTE_REQUEST_KIND_NOTIFY);
+    }
+
+    /**
+     * 応答電文を作成する。
+     * 
+     * @param responseBodyList 応答電文に詰めるBodyのリスト。
+     * @param requestKind リクエスト種別
+     * @return 作成した応答電文(Telegram)。
+     */
+    public static Telegram makeTelegram(List<Body> responseBodyList, byte requestKind)
+    {
         Header responseHeader = new Header();
         responseHeader.setByteTelegramKind(BYTE_TELEGRAM_KIND_RESOURCENOTIFY);
-        responseHeader.setByteRequestKind(BYTE_REQUEST_KIND_RESPONSE);
+        responseHeader.setByteRequestKind(requestKind);
 
         Telegram responseTelegram = new Telegram();
         responseTelegram.setObjHeader(responseHeader);

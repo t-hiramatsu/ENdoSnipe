@@ -38,6 +38,7 @@ import jp.co.acroquest.endosnipe.web.dashboard.config.AgentSetting;
 import jp.co.acroquest.endosnipe.web.dashboard.config.DataBaseConfig;
 import jp.co.acroquest.endosnipe.web.dashboard.constants.LogMessageCodes;
 import jp.co.acroquest.endosnipe.web.dashboard.listener.collector.AlarmNotifyListener;
+import jp.co.acroquest.endosnipe.web.dashboard.listener.collector.AlarmThreadDumpNotifyListener;
 import jp.co.acroquest.endosnipe.web.dashboard.listener.collector.CollectorListener;
 import jp.co.acroquest.endosnipe.web.dashboard.listener.collector.SignalStateChangeListener;
 import jp.co.acroquest.endosnipe.web.dashboard.listener.collector.SummarySignalStateChangeListener;
@@ -46,6 +47,9 @@ import jp.co.acroquest.endosnipe.web.dashboard.listener.collector.TreeStateDelet
 import jp.co.acroquest.endosnipe.web.dashboard.listener.javelin.JavelinNotifyListener;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.ConnectionClient;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.DatabaseManager;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * WebDashボードの通信を行うサーブレットです。
@@ -81,9 +85,11 @@ public class DashBoardServlet extends HttpServlet
     {
         //　通信用オブジェクトの作成
         DataBaseConfig dbConfig = null;
+
         // DBの設定が行われるのを待ち続ける。
         while (true)
         {
+
             DatabaseManager manager = DatabaseManager.getInstance();
             dbConfig = manager.getDataBaseConfig();
             if (dbConfig != null)
@@ -99,6 +105,9 @@ public class DashBoardServlet extends HttpServlet
                 LOGGER.log(LogMessageCodes.FAIL_READ_DB_SETTING, SLEEP_TIME);
             }
         }
+        ApplicationContext context =
+                new ClassPathXmlApplicationContext(
+                                                   "jp/co/acroquest/endosnipe/web/dashboard/quartz/propertySetting-quartz.xml");
         // client modeの場合、設定ファイルのエージェントごとに、threadを作成する
         if ("client".equals(dbConfig.getConnectionMode()))
         {
@@ -128,6 +137,7 @@ public class DashBoardServlet extends HttpServlet
                 client.addTelegramListener(new SummarySignalStateChangeListener());
                 client.addTelegramListener(new TreeStateAddListener());
                 client.addTelegramListener(new TreeStateDeleteListener());
+                client.addTelegramListener(new AlarmThreadDumpNotifyListener());
 
                 ConnectNotifyData connectNotify = new ConnectNotifyData();
                 connectNotify.setKind(ConnectNotifyData.KIND_CONTROLLER);
@@ -152,6 +162,7 @@ public class DashBoardServlet extends HttpServlet
             connectNotify.setPurpose(ConnectNotifyData.PURPOSE_GET_DATABASE);
             connectNotify.setAgentName("noDatabase");
             client.addTelegramListener(new JavelinNotifyListener());
+            client.addTelegramListener(new AlarmThreadDumpNotifyListener());
 
             client.connect(connectNotify);
             clientList.add(client);
@@ -169,4 +180,5 @@ public class DashBoardServlet extends HttpServlet
     {
         return host + ":" + port;
     }
+
 }

@@ -23,18 +23,18 @@ import java.sql.Timestamp;
 public class ItemRecord
 {
 	/** 計測時刻 */
-    private Timestamp measurementTime_;
-    
-    /** 補間期間平均　*/
-    private double      value_;
-    
-    /** 補間期間最大 */
-    private double      valueMax_;
-    
-    /** 補間期間最小 */
-    private double      valueMin_;
-    
-    /**
+	private Timestamp measurementTime_;
+
+	/** 補間期間平均　*/
+	private double value_;
+
+	/** 補間期間最大 */
+	private double valueMax_;
+
+	/** 補間期間最小 */
+	private double valueMin_;
+
+	/**
 	 * @return the measurementTime_
 	 */
 	public Timestamp getMeasurementTime()
@@ -49,7 +49,7 @@ public class ItemRecord
 	{
 		this.measurementTime_ = measurementTime;
 	}
-	
+
 	/**
 	 * @return the value_
 	 */

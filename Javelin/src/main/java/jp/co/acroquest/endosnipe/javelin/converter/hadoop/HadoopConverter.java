@@ -29,8 +29,11 @@ import java.io.IOException;
 import java.util.List;
 
 import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
+import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.javelin.converter.AbstractConverter;
 import jp.co.acroquest.endosnipe.javelin.converter.util.ConvertedMethodCounter;
+import jp.co.acroquest.endosnipe.javelin.resource.ResourceCollector;
+import jp.co.acroquest.endosnipe.javelin.resource.hadoop.HadoopJobTrackerGetter;
 import jp.co.smg.endosnipe.javassist.CannotCompileException;
 import jp.co.smg.endosnipe.javassist.CtBehavior;
 import jp.co.smg.endosnipe.javassist.CtClass;
@@ -96,6 +99,10 @@ public class HadoopConverter extends AbstractConverter
             {
                 HadoopRecorder.javelinInit(new JavelinConfig());
             }
+    		ResourceCollector.getInstance().addMultiResource(
+    				TelegramConstants.ITEMNAME_HADOOP_JOBTRACKER,
+    				new HadoopJobTrackerGetter());
+            
         }
     }
 

@@ -98,8 +98,30 @@ public class SummarySignalService
      */
     public List<SummarySignalDefinitionDto> getAllSummarySignals()
     {
-        getAllSummarySignalDefinition(null);
-        return null;
+        List<SummarySignalDefinitionDto> summarySignalDtoList =
+                new ArrayList<SummarySignalDefinitionDto>();
+        try
+        {
+            List<SummarySignalInfo> summarySignalList = summarySignalInfoDao.selectAll();
+
+            for (SummarySignalInfo summarySignal : summarySignalList)
+            {
+                summarySignalDtoList.add(convertSummarySignalDtos(summarySignal));
+            }
+        }
+        catch (PersistenceException pEx)
+        {
+            Throwable cause = pEx.getCause();
+            if (cause instanceof SQLException)
+            {
+                SQLException sqlEx = (SQLException)cause;
+                LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx, sqlEx.getMessage());
+            }
+            LOGGER.log(LogMessageCodes.SQL_EXCEPTION, pEx, pEx.getMessage());
+            return new ArrayList<SummarySignalDefinitionDto>();
+        }
+
+        return summarySignalDtoList;
     }
 
     /**
@@ -149,6 +171,11 @@ public class SummarySignalService
         definitionDto.setSummarySignalName(summarySignalInfo.summarySignalName);
         definitionDto.setSummarySignalType(summarySignalInfo.summarySignalType);
         definitionDto.setPriorityNo(summarySignalInfo.priorityNo);
+        definitionDto.setMessage(summarySignalInfo.errorMessage);
+        if (summarySignalInfo.errorMessage == null || summarySignalInfo.errorMessage.equals(""))
+        {
+            definitionDto.setMessage("");
+        }
 
         String[] temp = null;
         temp = SummarySignalInfo.targetSignalId.split(",");
@@ -156,7 +183,6 @@ public class SummarySignalService
         {
             summarySignalList.add(temp[index]);
         }
-        definitionDto.setMessage(summarySignalInfo.errorMessage);
         definitionDto.setSignalList(summarySignalList);
         return definitionDto;
     }
@@ -247,6 +273,12 @@ public class SummarySignalService
                                                                   TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_UPDATE);
     }
 
+    /**
+     * check about summary signal is already exist or not
+     * @param summarySignalId  Id of summary signal
+     * @param summarySignalName  Name of summary signal
+     * @return duplicate or not
+     */
     public boolean checkDuplicate(final long summarySignalId, final String summarySignalName)
     {
         SummarySignalInfo summarySignalInfo =

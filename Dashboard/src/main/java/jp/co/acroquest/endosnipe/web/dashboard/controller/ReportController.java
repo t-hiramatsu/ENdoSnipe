@@ -20,11 +20,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.servlet.http.HttpServletResponse;
 
+import jp.co.acroquest.endosnipe.common.util.MessageUtil;
 import jp.co.acroquest.endosnipe.report.Reporter;
+import jp.co.acroquest.endosnipe.web.dashboard.constants.ResponseConstants;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.ReportDefinitionDto;
+import jp.co.acroquest.endosnipe.web.dashboard.dto.ResponseDto;
+import jp.co.acroquest.endosnipe.web.dashboard.dto.SchedulingReportDefinitionDto;
 import jp.co.acroquest.endosnipe.web.dashboard.entity.ReportDefinition;
+import jp.co.acroquest.endosnipe.web.dashboard.entity.SchedulingReportDefinition;
 import jp.co.acroquest.endosnipe.web.dashboard.service.ReportService;
 import net.arnx.jsonic.JSON;
 
@@ -47,7 +54,7 @@ public class ReportController
 {
     /** シグナル定義のサービスクラスのオブジェクト。 */
     @Autowired
-    protected ReportService reportService;
+    protected ReportService reportService_;
 
     /**
      * デフォルトコンストラクタ。
@@ -55,6 +62,26 @@ public class ReportController
     public ReportController()
     {
         //  new ReportData();
+
+    }
+
+    /**
+     * to initialize thread
+     */
+    @PostConstruct
+    public void init()
+    {
+        reportService_.runThread();
+    }
+
+    /**
+     * to stop Thread
+     */
+    @PreDestroy
+    public void destroy()
+    {
+        reportService_.stopThread();
+
     }
 
     /**
@@ -68,8 +95,41 @@ public class ReportController
     {
         List<ReportDefinitionDto> reportDefinitionDtos = new ArrayList<ReportDefinitionDto>();
 
-        reportDefinitionDtos = this.reportService.getAllReport();
+        reportDefinitionDtos = this.reportService_.getAllReport();
 
+        return reportDefinitionDtos;
+    }
+
+    /**
+     * get all scheduling definition data
+     * @return schedule report definition dto
+     */
+    @RequestMapping(value = "/getAllScheduleDefinition", method = RequestMethod.POST)
+    @ResponseBody
+    public List<SchedulingReportDefinitionDto> getAllSchedulingDefinition()
+    {
+        List<SchedulingReportDefinitionDto> reportDefinitionDtos =
+                new ArrayList<SchedulingReportDefinitionDto>();
+
+        reportDefinitionDtos = this.reportService_.getAllSchedule(null);
+        return reportDefinitionDtos;
+    }
+
+    /**
+     * get all scheduling definition data related agent
+     * @param nodeName for getting schedule 
+     *        report only for related agent
+     * @return schedule report definition dto
+     */
+    @RequestMapping(value = "/getAllScheduleDefinitionByAgent", method = RequestMethod.POST)
+    @ResponseBody
+    public List<SchedulingReportDefinitionDto> getAllScheduleDefinitionByAgent(
+            @RequestParam(value = "nodeName") final String nodeName)
+    {
+        List<SchedulingReportDefinitionDto> reportDefinitionDtos =
+                new ArrayList<SchedulingReportDefinitionDto>();
+
+        reportDefinitionDtos = this.reportService_.getAllSchedule(nodeName);
         return reportDefinitionDtos;
     }
 
@@ -84,7 +144,7 @@ public class ReportController
             @RequestParam(value = "reportName") final String reportName)
     {
         List<ReportDefinitionDto> reportDefinitionDtos =
-                this.reportService.getReportByReportName(reportName);
+                this.reportService_.getReportByReportName(reportName);
         return reportDefinitionDtos;
     }
 
@@ -103,22 +163,23 @@ public class ReportController
         ReportDefinitionDto reportDefinitionDto =
                 JSON.decode(reportDefinition, ReportDefinitionDto.class);
 
-        boolean isExist = this.reportService.checkReportName(reportDefinitionDto);
+        boolean isExist = this.reportService_.checkReportName(reportDefinitionDto);
         if (isExist == true)
         {
-            reportDefinitionDto.messge = "duplicate";
+            reportDefinitionDto.message_ = "duplicate";
             return reportDefinitionDto;
         }
         else
         {
-            this.reportService.createReport(reportDefinitionDto);
+            reportDefinitionDto.setStatus("Creating");
+            this.reportService_.createReport(reportDefinitionDto);
 
             ReportDefinition definition =
-                    this.reportService.convertReportDefinition(reportDefinitionDto);
+                    this.reportService_.convertReportDefinition(reportDefinitionDto);
 
             // レポート定義をDBに登録する
             ReportDefinitionDto addedDefinitionDto =
-                    this.reportService.insertReportDefinition(definition);
+                    this.reportService_.insertReportDefinition(definition);
             return addedDefinitionDto;
         }
 
@@ -137,7 +198,7 @@ public class ReportController
     {
         ReportDefinitionDto reportDefinitionDto =
                 JSON.decode(reportDefinition, ReportDefinitionDto.class);
-        this.reportService.createReport(reportDefinitionDto);
+        this.reportService_.createReport(reportDefinitionDto);
         return reportDefinitionDto;
 
     }
@@ -156,11 +217,11 @@ public class ReportController
             @RequestParam(value = "reportId") final int reportId)
         throws IOException
     {
-        ReportDefinitionDto reportDefinitionDto = this.reportService.getReportByReportId(reportId);
+        ReportDefinitionDto reportDefinitionDto = this.reportService_.getReportByReportId(reportId);
         // ファイル名を取得する
         String fileName = createFileNameByDefinitionDto(reportDefinitionDto);
 
-        this.reportService.doRequest(res, fileName);
+        this.reportService_.doRequest(res, fileName);
         return fileName;
     }
 
@@ -177,7 +238,7 @@ public class ReportController
             @RequestParam(value = "reportName") final String reportName)
     {
         List<ReportDefinitionDto> definitionDtoList =
-                this.reportService.getReportByReportName(reportName);
+                this.reportService_.getReportByReportName(reportName);
 
         int definitionDtosLength = definitionDtoList.size();
 
@@ -186,10 +247,10 @@ public class ReportController
             ReportDefinitionDto definitionDto = definitionDtoList.get(index);
             String fileName = this.createFileNameByDefinitionDto(definitionDto);
             // ファイルを削除する
-            this.reportService.deleteReportFile(fileName);
+            this.reportService_.deleteReportFile(fileName);
         }
 
-        this.reportService.deleteReportDefinitionByName(reportName);
+        this.reportService_.deleteReportDefinitionByName(reportName);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("reportName", reportName);
 
@@ -207,17 +268,17 @@ public class ReportController
     @ResponseBody
     public Map<String, Object> deleteById(@RequestParam(value = "reportId") final int reportId)
     {
-        ReportDefinitionDto reportDefinitionDto = this.reportService.getReportByReportId(reportId);
+        ReportDefinitionDto reportDefinitionDto = this.reportService_.getReportByReportId(reportId);
         // ファイル名を取得する
         String fileName = createFileNameByDefinitionDto(reportDefinitionDto);
         // ファイルを削除する
-        boolean isDeleteSuccess = this.reportService.deleteReportFile(fileName);
+        boolean isDeleteSuccess = this.reportService_.deleteReportFile(fileName);
 
         Map<String, Object> map = new HashMap<String, Object>();
 
         if (isDeleteSuccess)
         {
-            this.reportService.deleteReportDefinitionById(reportId);
+            this.reportService_.deleteReportDefinitionById(reportId);
         }
 
         map.put("reportId", reportId);
@@ -253,4 +314,93 @@ public class ReportController
         return fileName;
     }
 
+    /**
+    * 
+    * @param schedulingReportDefinition is used
+    * @return is used
+    */
+    @RequestMapping(value = "/addscheduling", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseDto addSchedulingReport(
+            @RequestParam(value = "schedulingReportDefinition") final String schedulingReportDefinition)
+    {
+        ResponseDto responseDto = new ResponseDto();
+        SchedulingReportDefinitionDto schedulingReportDefinitionDto =
+                JSON.decode(schedulingReportDefinition, SchedulingReportDefinitionDto.class);
+
+        long reportId = schedulingReportDefinitionDto.getReportId();
+        String reportName = schedulingReportDefinitionDto.getReportName();
+        boolean hasSameSignalName = this.reportService_.hasSameReportName(reportId, reportName);
+        if (hasSameSignalName)
+        {
+            String errorMessage = MessageUtil.getMessage("WEWD0141", reportName);
+            responseDto.setResult(ResponseConstants.RESULT_FAIL);
+            responseDto.setMessage(errorMessage);
+            return responseDto;
+        }
+        SchedulingReportDefinition schedulingDefinition =
+                this.reportService_.convertSchedulingReportDefinition(schedulingReportDefinitionDto);
+
+        // DBに追加する
+        SchedulingReportDefinitionDto addedDefinitionDto =
+                this.reportService_.insertSchedulingReport(schedulingDefinition);
+
+        responseDto.setData(addedDefinitionDto);
+        responseDto.setResult(ResponseConstants.RESULT_SUCCESS);
+        return responseDto;
+    }
+
+    /**
+     * delete data by using id.
+     * @param reportId get from database
+     * @return map
+     */
+    @RequestMapping(value = "/deleteScheduleById", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> deleteSchedulingReport(
+            @RequestParam(value = "reportId") final int reportId)
+    {
+        this.reportService_.deleteSchduleReportById(reportId);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("reportId", reportId);
+        return map;
+    }
+
+    /**
+     * Edit scheduling data.
+     * @param schedulingReportDefinition get from database.
+     * @return response dto.
+     */
+    @RequestMapping(value = "/schedulingEdit", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseDto schedulingEdit(
+            @RequestParam(value = "schedulingReportDefinition") final String schedulingReportDefinition)
+    {
+        ResponseDto responseDto = new ResponseDto();
+        SchedulingReportDefinitionDto schedulingReportDefinitionDto =
+                JSON.decode(schedulingReportDefinition, SchedulingReportDefinitionDto.class);
+        boolean hasSameSignalName =
+                this.reportService_.hasSameReportName(schedulingReportDefinitionDto.getReportId(),
+                                                      schedulingReportDefinitionDto.getReportName());
+        if (hasSameSignalName)
+        {
+            String errorMessage =
+                    MessageUtil.getMessage("WEWD0141",
+                                           schedulingReportDefinitionDto.getReportName());
+            responseDto.setResult(ResponseConstants.RESULT_FAIL);
+            responseDto.setMessage(errorMessage);
+            return responseDto;
+        }
+        SchedulingReportDefinition signalInfo =
+                this.reportService_.convertSchedulingReportDefinition(schedulingReportDefinitionDto);
+
+        // DBに登録されている定義を更新する
+        SchedulingReportDefinitionDto updatedDefinitionDto =
+                this.reportService_.updateSchedulingInfo(signalInfo,
+                                                         schedulingReportDefinitionDto.getBeforeReportName());
+        responseDto.setResult(ResponseConstants.RESULT_SUCCESS);
+        responseDto.setData(updatedDefinitionDto);
+
+        return responseDto;
+    }
 }

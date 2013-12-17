@@ -27,6 +27,7 @@ package jp.co.acroquest.endosnipe.javelin.converter.hadoop;
 
 import java.util.ArrayList;
 
+
 /**
  * HadoopのTaskTrackerStatus情報を保持するクラス
  *
@@ -35,6 +36,9 @@ import java.util.ArrayList;
  */
 public class HadoopInfo
 {
+    /** インスタンスの生成時刻 */
+    private long timestamp_;
+    
     /** ホスト名 */
     private String host_ = null;
 
@@ -58,7 +62,17 @@ public class HadoopInfo
      */
     public HadoopInfo()
     {
-        // 何もしない
+        this.timestamp_ = System.currentTimeMillis();
+    }
+
+    /**
+     * インスタンス生成時刻を取得する。
+     *
+     * @return インスタンス生成時刻
+     */
+    public long getTimestamp()
+    {
+        return this.timestamp_;
     }
 
     /**

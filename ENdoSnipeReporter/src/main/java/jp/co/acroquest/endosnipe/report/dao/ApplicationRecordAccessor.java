@@ -29,71 +29,71 @@ import jp.co.acroquest.endosnipe.report.entity.ReportItemValue;
  */
 public class ApplicationRecordAccessor
 {
-    /** ロガー */
-    private static final ENdoSnipeLogger LOGGER     = ENdoSnipeLogger.getLogger(
-                                                            ApplicationRecordAccessor.class);
+	/** ロガー */
+	private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
+		.getLogger(ApplicationRecordAccessor.class);
 
-    /** 最大件数 */
-    public static final int              ITEM_COUNT = 200;
+	/** 最大件数 */
+	public static final int ITEM_COUNT = 200;
 
-    /**
-     * 期間を指定し、その期間内での<br/>
-     * アプリケーションのレポートデータを取得する。
-     * 
-     * @param database データベース名。
-     * @param startTime 検索条件(開始時刻)。
-     * @param endTime 検索条件(終了時刻)。
-     * @return アプリケーションのレポートデータ。
-     * @throws SQLException データ取得時に例外が発生した場合
-     */
-    public List<ApplicationRecord> findApplicationStaticsByTerm(
-            String database, Timestamp startTime, Timestamp endTime)
-            throws SQLException
-    {
-        List<ApplicationRecord> result = new ArrayList<ApplicationRecord>();
+	/**
+	 * 期間を指定し、その期間内での<br/>
+	 * アプリケーションのレポートデータを取得する。
+	 * 
+	 * @param database データベース名。
+	 * @param startTime 検索条件(開始時刻)。
+	 * @param endTime 検索条件(終了時刻)。
+	 * @return アプリケーションのレポートデータ。
+	 * @throws SQLException データ取得時に例外が発生した場合
+	 */
+	public List<ApplicationRecord> findApplicationStaticsByTerm(String database,
+		Timestamp startTime, Timestamp endTime) throws SQLException
+	{
+		List<ApplicationRecord> result = new ArrayList<ApplicationRecord>();
 
-        // データベースから値を取得する
-        List<ReportItemValue> httpSessionInstanceNumValues;
-        List<ReportItemValue> httpSessionObjectSizeValues;
+		// データベースから値を取得する
+		List<ReportItemValue> httpSessionInstanceNumValues;
+		List<ReportItemValue> httpSessionObjectSizeValues;
 
-        httpSessionInstanceNumValues = ReportDao.selectAverage(database,
-                startTime, endTime, Constants.ITEMNAME_HTTPSESSION_NUM);
-        httpSessionObjectSizeValues = ReportDao.selectAverage(database,
-                startTime, endTime, Constants.ITEMNAME_HTTPSESSION_TOTALSIZE);
+		httpSessionInstanceNumValues = ReportDao.selectAverage(database, startTime, endTime,
+			Constants.ITEMNAME_HTTPSESSION_NUM);
+		httpSessionObjectSizeValues = ReportDao.selectAverage(database, startTime, endTime,
+			Constants.ITEMNAME_HTTPSESSION_TOTALSIZE);
 
-        int httpSessionObjectCnt = 0;
-        for (int index = 0; index < httpSessionInstanceNumValues.size(); index++)
-        {
-            ApplicationRecord record = new ApplicationRecord();
-            ReportItemValue httpSessionInstanceNum;
-            ReportItemValue httpSessionObjectSize;
+		int httpSessionObjectCnt = 0;
+		for (int index = 0; index < httpSessionInstanceNumValues.size(); index++)
+		{
+			ApplicationRecord record = new ApplicationRecord();
+			ReportItemValue httpSessionInstanceNum;
+			ReportItemValue httpSessionObjectSize;
 
-            httpSessionInstanceNum = httpSessionInstanceNumValues.get(index);
+			httpSessionInstanceNum = httpSessionInstanceNumValues.get(index);
 
-            httpSessionObjectSize = new ReportItemValue();
-            httpSessionObjectSize.measurementTime = httpSessionInstanceNumValues.get(index).measurementTime;
-            if (httpSessionObjectSizeValues.size() > httpSessionObjectCnt)
-            {
-                if (httpSessionObjectSizeValues.get(httpSessionObjectCnt).measurementTime.compareTo(httpSessionInstanceNumValues.get(index).measurementTime) <= 0)
-                {
-                    httpSessionObjectSize = httpSessionObjectSizeValues.get(httpSessionObjectCnt);
-                    httpSessionObjectCnt++;
-                }
-            }
+			httpSessionObjectSize = new ReportItemValue();
+			httpSessionObjectSize.measurementTime = httpSessionInstanceNumValues.get(index).measurementTime;
+			if (httpSessionObjectSizeValues.size() > httpSessionObjectCnt)
+			{
+				if (httpSessionObjectSizeValues.get(httpSessionObjectCnt).measurementTime
+					.compareTo(httpSessionInstanceNumValues.get(index).measurementTime) <= 0)
+				{
+					httpSessionObjectSize = httpSessionObjectSizeValues.get(httpSessionObjectCnt);
+					httpSessionObjectCnt++;
+				}
+			}
 
-            record.setHttpInstanceMeasurementTime(httpSessionInstanceNum.measurementTime);
-            record.setHttpSessionInstanceNum(httpSessionInstanceNum.summaryValue.longValue());
-            record.setHttpSessionInstanceNumMax(httpSessionInstanceNum.maxValue.longValue());
-            record.setHttpSessionInstanceNumMin(httpSessionInstanceNum.minValue.longValue());
+			record.setHttpInstanceMeasurementTime(httpSessionInstanceNum.measurementTime);
+			record.setHttpSessionInstanceNum(httpSessionInstanceNum.summaryValue.longValue());
+			record.setHttpSessionInstanceNumMax(httpSessionInstanceNum.maxValue.longValue());
+			record.setHttpSessionInstanceNumMin(httpSessionInstanceNum.minValue.longValue());
 
-            record.setHttpSessionMeasurementTime(httpSessionObjectSize.measurementTime);
-            record.setHttpSessionObjectSize(httpSessionObjectSize.summaryValue.longValue());
-            record.setHttpSessionObjectSizeMax(httpSessionObjectSize.maxValue.longValue());
-            record.setHttpSessionObjectSizeMin(httpSessionObjectSize.minValue.longValue());
+			record.setHttpSessionMeasurementTime(httpSessionObjectSize.measurementTime);
+			record.setHttpSessionObjectSize(httpSessionObjectSize.summaryValue.longValue());
+			record.setHttpSessionObjectSizeMax(httpSessionObjectSize.maxValue.longValue());
+			record.setHttpSessionObjectSizeMin(httpSessionObjectSize.minValue.longValue());
 
-            result.add(record);
-        }
+			result.add(record);
+		}
 
-        return result;
-    }
+		return result;
+	}
 }

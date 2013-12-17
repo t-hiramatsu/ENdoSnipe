@@ -216,6 +216,11 @@ div#contents_area_content {
 /* jqGrid style */
 .ui-jqgrid tr.jqgrow td {
 	white-space: normal;
+	vertical-align: top;
+}
+
+.ui-jqgrid .ui-jqgrid-title {
+  word-break: break-all;
 }
 
 .dygraph-title {
@@ -242,7 +247,7 @@ div#contents_area_content {
 		#333333 79%, #666666 100%); /* IE10+ */
 	background: linear-gradient(135deg, #666666 0%, #333333 24%, #222222 50%, #333333
 		79%, #666666 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient(           startColorstr='#666666',
+	filter: progid:DXImageTransform.Microsoft.gradient(            startColorstr='#666666',
 		endColorstr='#87bcea', GradientType=1 );
 	word-wrap: break-word;
 	font-family: Verdana;
@@ -279,3 +284,4 @@ tr.ui-state-hover {
 tr.ui-state-hover a {
 	text-decoration: underline !important;
 }
+

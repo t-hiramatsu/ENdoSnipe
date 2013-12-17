@@ -558,8 +558,8 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
      * @param name 項目名
      * @throws SQLException SQL 実行時に例外が発生した場合
      */
-    public static void updateDiagnosed(final String database,
-        final Timestamp start, final Timestamp end, final String name)
+    public static void updateDiagnosed(final String database, final Timestamp start,
+        final Timestamp end, final String name)
         throws SQLException
     {
         Connection conn = null;
@@ -958,5 +958,170 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
         }
         sql.append(") MERGED_TIME");
         return sql.toString();
+    }
+
+    /**
+     * getting threadDump data  from database
+     * 
+     * @param database is databaseName
+     * @param start is startTime
+     * @param end is endTime
+     * @param name is name
+     * @param outputLog is boolean
+     * @param removeDiagnosed is boolean
+     * @return return threadDump data
+     * @throws SQLException SQLException
+     */
+    public static List<JavelinLog> selectThreadDumpByTermAndName(String database, Timestamp start,
+        Timestamp end, String name, boolean outputLog, boolean removeDiagnosed)
+        throws SQLException
+    {
+        List<JavelinLog> result = new ArrayList<JavelinLog>();
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try
+        {
+
+            conn = getConnection(database, true);
+            String sql =
+                createThreadDumpSelectSqlByTermAndName(JAVELIN_LOG, start, end, name, true);
+            pstmt = conn.prepareStatement(sql);
+            PreparedStatement delegated = getDelegatingStatement(pstmt);
+            setTimestampByTerm(delegated, start, end);
+            rs = delegated.executeQuery();
+
+            // 結果をリストに１つずつ格納する
+            while (rs.next() == true)
+            {
+                JavelinLog log = new JavelinLog();
+                setJavelinLogFromResultSet(log, rs, outputLog);
+                result.add(log);
+            }
+        }
+        finally
+        {
+            SQLUtil.closeResultSet(rs);
+            SQLUtil.closeStatement(pstmt);
+            SQLUtil.closeConnection(conn);
+        }
+
+        return result;
+    }
+
+    /**
+     * this is sql statement for javelin data
+     * @param tableName is tableName
+     * @param start is startDate
+     * @param end is end data
+     * @param name is measurement name
+     * @param removeDiagnosed is boolean
+     * @return sql statement
+     */
+    private static String createThreadDumpSelectSqlByTermAndName(String tableName, Timestamp start,
+        Timestamp end, String name, boolean removeDiagnosed)
+    {
+        String sql = "select * from " + tableName + " where CALLEE_CLASS = 'FullThreadDump'";
+        if (start != null && end != null)
+        {
+            sql += " and ? <= START_TIME and END_TIME <= ?";
+        }
+        else if (start != null && end == null)
+        {
+            sql += " and ? <= START_TIME";
+        }
+        else if (start == null && end != null)
+        {
+            sql += " and END_TIME <= ?";
+        }
+        if (name != null)
+        {
+            sql += " and MEASUREMENT_ITEM_NAME like '" + name + "%'";
+        }
+        sql += " order by START_TIME desc";
+        return sql;
+    }
+
+    /**
+     * select all threadDump data
+     * @param dbName is data base name
+     * @return javelin data
+     * @throws SQLException is sql exception
+     */
+    public static List<JavelinLog> selectAllThreadDump(String dbName)
+        throws SQLException
+    {
+        List<JavelinLog> result = new ArrayList<JavelinLog>();
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        try
+        {
+            conn = getConnection(dbName, true);
+
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery("select * from " + JAVELIN_LOG);
+
+            // 結果をリストに１つずつ格納する
+            while (rs.next())
+            {
+                JavelinLog log = new JavelinLog();
+                setJavelinLogFromResultSet(log, rs);
+                result.add(log);
+            }
+        }
+        finally
+        {
+            SQLUtil.closeResultSet(rs);
+            SQLUtil.closeStatement(stmt);
+            SQLUtil.closeConnection(conn);
+        }
+
+        return result;
+
+    }
+
+    /**
+     * get all javelin data related with agent
+     * @param dbName is data base name
+     * @param measurementItem is agent name
+     * @return threadDump data
+     * @throws SQLException is SQL exception
+     */
+    public static List<JavelinLog> selectAllThreadDumpByMeasurementItem(String dbName,
+        String measurementItem)
+        throws SQLException
+    {
+
+        List<JavelinLog> result = new ArrayList<JavelinLog>();
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        try
+        {
+            conn = getConnection(dbName, true);
+
+            stmt = conn.createStatement();
+            rs =
+                stmt.executeQuery("select * from " + JAVELIN_LOG
+                    + " where CALLEE_CLASS = 'FullThreadDump' and MEASUREMENT_ITEM_NAME like '"
+                    + measurementItem + "%'");
+
+            // 結果をリストに１つずつ格納する
+            while (rs.next())
+            {
+                JavelinLog log = new JavelinLog();
+                setJavelinLogFromResultSet(log, rs);
+                result.add(log);
+            }
+        }
+        finally
+        {
+            SQLUtil.closeResultSet(rs);
+            SQLUtil.closeStatement(stmt);
+            SQLUtil.closeConnection(conn);
+        }
+
+        return result;
     }
 }

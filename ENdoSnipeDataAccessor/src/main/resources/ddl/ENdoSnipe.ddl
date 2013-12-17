@@ -1,5 +1,5 @@
 /**********************************/
-/* �e�[�u����: Javelin���O */
+/* テーブル名: Javelinログ */
 /**********************************/
 CREATE TABLE JAVELIN_LOG(
   LOG_ID BIGINT DEFAULT NEXTVAL('SEQ_LOG_ID') NOT NULL,
@@ -30,7 +30,7 @@ CREATE TABLE JAVELIN_LOG(
 );
 
 /**********************************/
-/* �e�[�u����: Javelin�v������ */
+/* テーブル名: Javelin計測項目 */
 /**********************************/
 CREATE TABLE JAVELIN_MEASUREMENT_ITEM(
   MEASUREMENT_ITEM_ID INT DEFAULT NEXTVAL('SEQ_MEASUREMENT_ITEM_ID') NOT NULL,
@@ -40,7 +40,7 @@ CREATE TABLE JAVELIN_MEASUREMENT_ITEM(
 );
 
 /**********************************/
-/* �e�[�u����: Javelin �v���l */
+/* テーブル名: Javelin 計測値 */
 /**********************************/
 CREATE TABLE MEASUREMENT_VALUE(
   MEASUREMENT_VALUE_ID BIGINT DEFAULT NEXTVAL('SEQ_VALUE_ID') NOT NULL,
@@ -52,7 +52,7 @@ CREATE TABLE MEASUREMENT_VALUE(
 );
 
 /**********************************/
-/* �e�[�u����: �v���l��� */
+/* テーブル名: 計測値情報 */
 /**********************************/
 CREATE TABLE MEASUREMENT_INFO(
   MEASUREMENT_TYPE INT NOT NULL,
@@ -62,7 +62,7 @@ CREATE TABLE MEASUREMENT_INFO(
 );
 
 /**********************************/
-/* �e�[�u����: �v���Ώۃz�X�g��� */
+/* テーブル名: 計測対象ホスト情報 */
 /**********************************/
 CREATE TABLE HOST_INFO(
   HOST_ID INT DEFAULT NEXTVAL('SEQ_HOST_ID') NOT NULL,
@@ -73,7 +73,7 @@ CREATE TABLE HOST_INFO(
 );
 
 /**********************************/
-/* �e�[�u����: Javelin �v���l�A�[�J�C�u */
+/* テーブル名: Javelin 計測値アーカイブ */
 /**********************************/
 CREATE TABLE ARCHIVED_VALUE(
   MEASUREMENT_VALUE_ID BIGINT DEFAULT NEXTVAL('SEQ_VALUE_ID') NOT NULL,
@@ -85,7 +85,7 @@ CREATE TABLE ARCHIVED_VALUE(
 );
 
 /**********************************/
-/* �e�[�u����: �V�O�i����`�e�[�u�� */
+/* テーブル名: シグナル定義テーブル */
 /**********************************/
 CREATE TABLE SIGNAL_DEFINITION(
   SIGNAL_ID serial NOT NULL,
@@ -97,7 +97,7 @@ CREATE TABLE SIGNAL_DEFINITION(
 );
 
 /**********************************/
-/* �e�[�u����: �}�b�v�e�[�u�� */
+/* テーブル名: マップテーブル */
 /**********************************/
 CREATE TABLE MAP_INFO(
  MAP_ID SERIAL NOT NULL,
@@ -107,18 +107,33 @@ CREATE TABLE MAP_INFO(
 );
 
 /**********************************/
-/* �e�[�u����: ���|�[�g��`�e�[�u�� */
+/* テーブル名: レポート出力結果テーブル */
 /**********************************/
-CREATE TABLE REPORT_DEFINITION(
+CREATE TABLE REPORT_EXPORT_RESULT(
   REPORT_ID SERIAL NOT NULL,
   REPORT_NAME VARCHAR NOT NULL,
   TARGET_MEASUREMENT_NAME VARCHAR NOT NULL,
   FM_TIME VARCHAR NOT NULL,
-  TO_TIME VARCHAR NOT NULL
+  TO_TIME VARCHAR NOT NULL,
+  STATUS VARCHAR NOT NULL
 );
 
 /**********************************/
-/* �e�[�u����: MULTIPLE_RESOURCE_GRAPH */
+/* テーブル名: スケジュールレポート定義テーブル */
+/**********************************/
+CREATE TABLE SCHEDULING_REPORT_DEFINITION (
+  REPORT_ID SERIAL PRIMARY KEY,
+  REPORT_NAME  VARCHAR  ,
+  TARGET_MEASUREMENT_NAME VARCHAR  ,
+  SCHEDULE_TERM VARCHAR ,
+  SCHEDULE_TIME VARCHAR  ,
+  SCHEDULE_DAY VARCHAR  ,
+  SCHEDULE_DATE VARCHAR	,
+  PLAN_EXPORT_REPORT_TIME TIMESTAMP	NOT NULL
+);
+
+/**********************************/
+/* テーブル名: 複数系列グラフ定義テーブル */
 /**********************************/
 CREATE TABLE MULTIPLE_RESOURCE_GRAPH(
   MULTIPLE_RESOURCE_GRAPH_ID SERIAL NOT NULL,
@@ -127,7 +142,7 @@ CREATE TABLE MULTIPLE_RESOURCE_GRAPH(
 );
 
 /**********************************/
-/* �e�[�u����: SQL_PLAN */
+/* テーブル名: SQL計画実行定義テーブル */
 /**********************************/
 CREATE TABLE SQL_PLAN(
   MEASUREMENt_ITEM_NAME VARCHAR NOT NULL,
@@ -140,7 +155,7 @@ CREATE TABLE SQL_PLAN(
 );
 
 /**********************************/
-/* テーブル名: SUMMARY_SIGNAL_DEFINITION */
+/* テーブル名: SUMMARY　SIGNAL定義テーブル */
 /**********************************/
 CREATE TABLE SUMMARY_SIGNAL_DEFINITION(
   SUMMARY_SIGNAL_ID SERIAL NOT NULL,
@@ -148,6 +163,15 @@ CREATE TABLE SUMMARY_SIGNAL_DEFINITION(
   TARGET_SIGNAL_ID VARCHAR NOT NULL,
   SIGNAL_TYPE INT NOT NULL,
   PRIORITY_NO INT NOT NULL
+);
+
+/**********************************/
+/* テーブル名: PROPERTY　SETTINGテーブル */
+/**********************************/
+CREATE TABLE PROPERTY_SETTING_DEFINITION(
+  PROPERTY_SETTING_ID SERIAL NOT NULL,
+  PROPERTY_SETTING_KEY VARCHAR NOT NULL UNIQUE,
+  PROPERTY_SETTING_VALUE VARCHAR NOT NULL
 );
 
 ALTER TABLE JAVELIN_LOG ADD PRIMARY KEY (LOG_ID);

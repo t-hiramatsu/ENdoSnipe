@@ -1,20 +1,20 @@
 /*******************************************************************************
  * ENdoSnipe 5.0 - (https://github.com/endosnipe)
- * 
+ *
  * The MIT License (MIT)
- * 
+ *
  * Copyright (c) 2012 Acroquest Technology Co.,Ltd.
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -37,6 +37,11 @@ ENS.DATE_FORMAT_HOUR = 'yyyy/MM/dd HH:mm';
 ENS.URL = {};
 ENS.URL.TERM_PERFDOCTOR_DATA_URL = "/performanceDoctor/getPerfDoctor";
 ENS.URL.PERFDOCTOR_POSTFIX_ID = "/performanceDoctor";
+
+ENS.URL.TERM_THREADDUMP_DATA_URL = "/threadDump/getThreadDump";
+ENS.URL.THREADDUMP_POSTFIX_ID = "/threadDump";
+ENS.URL.JVN_LOG_NOTIFY_POSTFIX_ID = "/JvnLog_Notify";
+
 
 ENS.common = {};
 ENS.common.dualslider = {};
@@ -152,6 +157,8 @@ ENS.tree.SUMMARYSIGNAL_SELECT_ALL_URL = wgp.common.getContextPath()
 + "/summarySignal/getAllDefinition";
 ENS.tree.SUMMARY_SIGNAL_SELECT_ALL_URL = wgp.common.getContextPath()
 + "/summarySignal/getAllDefinitions";
+ENS.tree.SUMMARY_SIGNAL_CHANGE_STATE_URL = wgp.common.getContextPath()
++ "/summarySignal/changeStatus";
 
 ENS.tree.REPORT_ADD_URL = wgp.common.getContextPath() + "/report/add";
 ENS.tree.REPORT_ADD_DUPLICATE_URL = wgp.common.getContextPath()
@@ -167,6 +174,7 @@ ENS.tree.SUMMARYSIGNAL_VALUE = "summarySignalValue";
 ENS.tree.SUMMARYSIGNAL_DIALOG = "summarySignalDialog";
 
 ENS.tree.REPORT_PREFIX_ID = "/reportNode-";
+ENS.tree.SCHEDULE_REPORT_PREFIX_ID = "/schedulingReportNode-";
 ENS.tree.REPORT_SELECT_ALL_URL = wgp.common.getContextPath()
 		+ "/report/getAllDefinition";
 ENS.tree.REPORT_SELECT_BY_REPORT_NAME_URL = wgp.common.getContextPath()
@@ -182,14 +190,33 @@ ENS.tree.GET_CHILD_TARGET_NODES = wgp.common.getContextPath()
 		+ "/tree/getChildTargetNodes";
 ENS.tree.GET_ALL_CHILD_NODES = wgp.common.getContextPath()
 		+ "/tree/getAllChildNodes";
+ENS.tree.THREADDUMP_AGENT_SELECT_ALL_URL = wgp.common.getContextPath()
+		+ "/threadDump/selectAllAgent";
+ENS.tree.THREAD_DUMP_CLICK = wgp.common.getContextPath()+"/threadDump/addThreadDump";
 
 ENS.tree.type = {};
 ENS.tree.type.GROUP = "group";
 ENS.tree.type.TARGET = "target";
 ENS.tree.type.SIGNAL = "signal";
 ENS.tree.type.REPORT = "report";
+ENS.tree.type.REPORT_SCHEDULE = "schedulingReport";
 ENS.tree.type.MULTIPLERESOURCEGRAPH = "mulResGraph";
 ENS.tree.type.SUMMARYSIGNAL = "summarySignal";
+
+ENS.tree.OUTPUT_REPORT_SCHEDULE_TYPE = "outputScheduleReport";
+ENS.tree.EDIT_SCHEDULE_TYPE = "editScheduling";
+ENS.tree.DELETE_REPORT_SCHEDULE_TYPE = "deleteScheduleReport";
+ENS.tree.SCHEDULING_REPORT_ADD_URL = wgp.common.getContextPath() + "/report/addscheduling";
+ENS.tree.SCHEDULING_EDIT_URL = wgp.common.getContextPath() + "/report/edit";
+ENS.tree.REPORT_SCHEDULE_DIALOG = "schedulingReportDialog";
+ENS.tree.SCHEDULING_REPORT_SELECT_ALL_URL = wgp.common.getContextPath()
++ "/report/getAllScheduleDefinition";
+ENS.tree.SCHEDULING_REPORT_SELECT_ALL_URL_BY_AGENT = wgp.common.getContextPath()
++ "/report/getAllScheduleDefinitionByAgent";
+ENS.tree.SCHEDULE_EDIT_URL = wgp.common.getContextPath() + "/report/schedulingEdit";
+ENS.tree.REPORT_SCHEDULE_DELETE_BY_NAME_URL = wgp.common.getContextPath() + "/report/deleteScheduleByName";
+ENS.tree.REPORT_SCHEDULE_DELETE_BY_ID_URL = wgp.common.getContextPath() + "/report/deleteScheduleById";
+ENS.tree.type.REPORT_SCHEDULE = "reportSchedule";
 
 ENS.tree.contextOption = [ {
 	menu_id : ENS.tree.ADD_SIGNAL_TYPE,
@@ -301,7 +328,37 @@ ENS.tree.contextOption = [ {
 		summarySignalType : ENS.tree.DELETE_SUMMARYSIGNAL_TYPE
 	},
 	children : []
-} ];
+}, {
+	menu_id : ENS.tree.OUTPUT_REPORT_SCHEDULE_TYPE,
+	menu_name : "Scheduling Report",
+	executeClass : "ENS.SchedulingReportDialogView",
+	showTreeTypes : [ ENS.tree.type.GROUP, ENS.tree.type.TARGET ],
+	executeOption : {
+		dialogId : ENS.tree.REPORT_SCHEDULE_DIALOG,
+		signalType : ENS.tree.OUTPUT_REPORT_SCHEDULE_TYPE
+	},
+	children : []
+},{
+	menu_id : ENS.tree.EDIT_SCHEDULE_TYPE,
+	menu_name : "Edit Scheduling",
+	executeClass : "ENS.SchedulingReportDialogView",
+	showTreeTypes : [ ENS.tree.type.REPORT_SCHEDULE ],
+	executeOption : {
+		dialogId : ENS.tree.REPORT_SCHEDULE_DIALOG,
+		signalType : ENS.tree.EDIT_SCHEDULE_TYPE
+	},
+	children : []
+},{
+	menu_id : ENS.tree.DELETE_REPORT_SCHEDULE_TYPE,
+	menu_name : "Delete Scheduling Report",
+	executeClass : "",
+	showTreeTypes : [ ENS.tree.type.REPORT_SCHEDULE ],
+	executeOption : {
+		dialogId : ENS.tree.REPORT_SCHEDULE_DIALOG,
+		signalType : ENS.tree.DELETE_REPORT_SCHEDULE_TYPE
+	},
+	children : []
+}];
 ENS.tree.SIGNAL_ICON_STOP = "signal_-1";
 ENS.tree.SIGNAL_ICON_0 = "signal_0";
 ENS.tree.SIGNAL_ICON_1 = "signal_1";
@@ -409,7 +466,11 @@ ENS.svg.attribute = {
 	r : "r",
 	rx : "rx",
 	ry : "ry",
-	src : "src",
+	src : {
+		name : "src",
+		type : "string",
+		display : "url"
+	},
 	stroke : {
 		name : "stroke",
 		type : "color",
@@ -461,3 +522,7 @@ ENS.svg.attribute = {
 ENS.report = {};
 ENS.report.DOWNLOAD_URL = wgp.common.getContextPath() + "/report/download";
 ENS.perfDoctor = {};
+ENS.threadDump = {};
+ENS.report.SCHEDULINGREPROT_URL = wgp.common.getContextPath() + "/report/updateSchedulingReport";
+ENS.schedulingReportDialog = {};
+ENS.tree.agentName = "/default/";

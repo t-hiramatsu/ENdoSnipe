@@ -47,7 +47,7 @@ import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
  * @author y-komori
  */
 public class SystemResourceListener extends AbstractTelegramListener implements TelegramListener,
-        LogMessageCodes, CommonLogMessageCodes, AgentNameListener
+    LogMessageCodes, CommonLogMessageCodes, AgentNameListener
 {
     /** ロガー */
     private static final ENdoSnipeLogger LOGGER;
@@ -93,9 +93,7 @@ public class SystemResourceListener extends AbstractTelegramListener implements 
     protected Telegram doReceiveTelegram(final Telegram telegram)
     {
         ResourceData resourceData =
-                                    ResourceNotifyAccessor.createResourceData(telegram,
-                                                                              this.databaseName_,
-                                                                              agentName_);
+            ResourceNotifyAccessor.createResourceData(telegram, this.databaseName_, agentName_);
         resourceData.hostName = this.hostName_;
         resourceData.ipAddress = this.ipAddress_;
         resourceData.portNum = this.port_;
@@ -189,7 +187,13 @@ public class SystemResourceListener extends AbstractTelegramListener implements 
         clientId_ = clientId;
     }
 
-    private void setProperties(final JavelinData javelinData, final long telegramId)
+    /**
+     * プロパティ設定する。
+     * 
+     * @param javelinData JavelinData
+     * @param telegramId 電文ID
+     */
+    protected void setProperties(final JavelinData javelinData, final long telegramId)
     {
         javelinData.setDatabaseName(this.databaseName_);
         javelinData.setHost(this.hostName_);
@@ -199,11 +203,67 @@ public class SystemResourceListener extends AbstractTelegramListener implements 
         javelinData.setTelegramId(telegramId);
     }
 
-    /* (non-Javadoc)
-     * @see jp.co.acroquest.endosnipe.collector.listener.AgentNameListener#setAgentName(java.lang.String)
+    /**
+     * エージェント名を設定する。
+     * @param agentName エージェント名。
      */
     public void setAgentName(final String agentName)
     {
         this.agentName_ = agentName;
     }
+
+    /**
+     * データベース名を取得する。
+     * @return データベース名。
+     */
+    public String getDatabaseName()
+    {
+        return databaseName_;
+    }
+
+    /**
+     * ホスト名を取得する。
+     * @return ホスト名。
+     */
+    public String getHostName()
+    {
+        return hostName_;
+    }
+
+    /**
+     * IPアドレスを取得する。
+     * @return IPアドレス名。
+     */
+    public String getIpAddress()
+    {
+        return ipAddress_;
+    }
+
+    /**
+     * ポート番号を取得する。
+     * @return ポート番号。
+     */
+    public int getPort()
+    {
+        return port_;
+    }
+
+    /**
+     * クライアントIDを取得する。
+     * @return クライアントID。
+     */
+    public String getClientId()
+    {
+        return clientId_;
+    }
+
+    /**
+     * キューを取得する。
+     * @return キュー名。
+     */
+    public JavelinDataQueue getQueue()
+    {
+        return queue_;
+    }
+
 }

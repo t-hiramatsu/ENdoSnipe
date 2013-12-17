@@ -21,45 +21,45 @@ import org.apache.commons.beanutils.converters.ShortConverter;
  * 
  * @author M.Yoshida
  */
-public class ShortCalculator implements Calculator 
+public class ShortCalculator implements Calculator
 {
 
-	public Object add(Object obj1, Object obj2) 
+	public Object add(Object obj1, Object obj2)
 	{
-		Short shortData1 = (Short)obj1;
-		Short shortData2 = (Short)obj2;
-		
-		return (Object)(new Short((short)(shortData1.shortValue() + shortData2.shortValue())));
+		Short shortData1 = (Short) obj1;
+		Short shortData2 = (Short) obj2;
+
+		return (Object) (new Short((short) (shortData1.shortValue() + shortData2.shortValue())));
 	}
 
-	public Object div(Object obj1, Object obj2) 
+	public Object div(Object obj1, Object obj2)
 	{
-		Short shortData1 = (Short)obj1;
-		Short shortData2 = (Short)obj2;
-		
-		return (Object)(new Short((short)(shortData1.shortValue() / shortData2.shortValue())));
+		Short shortData1 = (Short) obj1;
+		Short shortData2 = (Short) obj2;
+
+		return (Object) (new Short((short) (shortData1.shortValue() / shortData2.shortValue())));
 	}
 
-	public Object immediate(String str) 
+	public Object immediate(String str)
 	{
 		ShortConverter converter = new ShortConverter();
 		return converter.convert(Short.class, str);
 	}
 
-	public Object mul(Object obj1, Object obj2) 
+	public Object mul(Object obj1, Object obj2)
 	{
-		Short shortData1 = (Short)obj1;
-		Short shortData2 = (Short)obj2;
-		
-		return (Object)(new Short((short)(shortData1.shortValue() * shortData2.shortValue())));
+		Short shortData1 = (Short) obj1;
+		Short shortData2 = (Short) obj2;
+
+		return (Object) (new Short((short) (shortData1.shortValue() * shortData2.shortValue())));
 	}
 
-	public Object sub(Object obj1, Object obj2) 
+	public Object sub(Object obj1, Object obj2)
 	{
-		Short shortData1 = (Short)obj1;
-		Short shortData2 = (Short)obj2;
-		
-		return (Object)(new Short((short)(shortData1.shortValue() - shortData2.shortValue())));
+		Short shortData1 = (Short) obj1;
+		Short shortData2 = (Short) obj2;
+
+		return (Object) (new Short((short) (shortData1.shortValue() - shortData2.shortValue())));
 	}
 
 }

@@ -33,27 +33,29 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import jp.co.acroquest.endosnipe.collector.DataCollectorServer.ClientNotifyListener;
 import jp.co.acroquest.endosnipe.collector.data.JavelinConnectionData;
 import jp.co.acroquest.endosnipe.collector.listener.AllNotifyListener;
 import jp.co.acroquest.endosnipe.collector.listener.CommonResponseListener;
+import jp.co.acroquest.endosnipe.collector.listener.JavelinClientTelegramListener;
 import jp.co.acroquest.endosnipe.collector.listener.JvnFileNotifyListener;
 import jp.co.acroquest.endosnipe.collector.listener.SignalChangeListener;
 import jp.co.acroquest.endosnipe.collector.listener.SignalStateListener;
 import jp.co.acroquest.endosnipe.collector.listener.SqlPlanNotifyListener;
 import jp.co.acroquest.endosnipe.collector.listener.SummarySignalChangeListener;
 import jp.co.acroquest.endosnipe.collector.listener.SystemResourceListener;
+import jp.co.acroquest.endosnipe.collector.listener.SystemResourceNotifyListener;
 import jp.co.acroquest.endosnipe.collector.listener.TelegramNotifyListener;
+import jp.co.acroquest.endosnipe.collector.listener.ThreadDumpNotifyListener;
 import jp.co.acroquest.endosnipe.communicator.TelegramListener;
 import jp.co.acroquest.endosnipe.communicator.TelegramSender;
 import jp.co.acroquest.endosnipe.communicator.accessor.ConnectNotifyAccessor;
 import jp.co.acroquest.endosnipe.communicator.accessor.SystemResourceGetter;
+import jp.co.acroquest.endosnipe.communicator.entity.Body;
 import jp.co.acroquest.endosnipe.communicator.entity.ConnectNotifyData;
 import jp.co.acroquest.endosnipe.communicator.entity.Header;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
-import jp.co.acroquest.endosnipe.communicator.impl.DataCollectorClient;
-import jp.co.acroquest.endosnipe.communicator.impl.DataCollectorServer;
-import jp.co.acroquest.endosnipe.communicator.impl.DataCollectorServer.ClientNotifyListener;
 import jp.co.acroquest.endosnipe.data.service.HostInfoManager;
 
 /**
@@ -61,7 +63,7 @@ import jp.co.acroquest.endosnipe.data.service.HostInfoManager;
  * 
  * @author matsuoka
  */
-public class JavelinServer implements TelegramSender
+public class JavelinServer implements TelegramSender, TelegramConstants
 {
     /** サーバインスタンス */
     private final DataCollectorServer server_ = new DataCollectorServer();
@@ -96,6 +98,8 @@ public class JavelinServer implements TelegramSender
     /** 接続するデータベース名。 */
     private String dbName_;
 
+    private static final int AGENTINDEX = 4;
+
     /**
      * サーバを開始する。
      * 
@@ -123,6 +127,11 @@ public class JavelinServer implements TelegramSender
                 {
                     return;
                 }
+                String agentName = client.getAgentName();
+                if (client.getAgentName() == null || "".equals(agentName))
+                {
+                    client.setAgentName(notifyData.getAgentName());
+                }
 
                 switch (notifyData.getKind())
                 {
@@ -149,6 +158,11 @@ public class JavelinServer implements TelegramSender
                 {
                     return;
                 }
+                String agentName = client.getAgentName();
+                if (client.getAgentName() == null || "".equals(agentName))
+                {
+                    client.setAgentName(notifyData.getAgentName());
+                }
 
                 switch (notifyData.getKind())
                 {
@@ -170,12 +184,17 @@ public class JavelinServer implements TelegramSender
                         setDatabaseAdminClient(client);
                         sendDatabaseName();
                         break;
+                    default:
+                        addControlClient(client);
+                        initializeControlClient(client);
+                        break;
                     }
                     break;
 
                 default:
                     break;
                 }
+
             }
         });
 
@@ -229,20 +248,20 @@ public class JavelinServer implements TelegramSender
      */
     public void sendTelegramToControlClient(final String clientId, final Telegram telegram)
     {
-        DataCollectorClient javelinClient = getClient(clientId);
-        if (javelinClient == null)
-        {
-            return;
-        }
-        ConnectNotifyData notifyData = javelinClient.getConnectNotifyData();
-        if (notifyData == null)
-        {
-            return;
-        }
-        if (notifyData.getKind() != ConnectNotifyData.KIND_JAVELIN)
-        {
-            return;
-        }
+        //        DataCollectorClient javelinClient = getClient(clientId);
+        //        if (javelinClient == null)
+        //        {
+        //            return;
+        //        }
+        //        ConnectNotifyData notifyData = javelinClient.getConnectNotifyData();
+        //        if (notifyData == null)
+        //        {
+        //            return;
+        //        }
+        //        if (notifyData.getKind() != ConnectNotifyData.KIND_JAVELIN)
+        //        {
+        //            return;
+        //        }
 
         if (behaviorMode_.equals(BehaviorMode.PLUGIN_MODE))
         {
@@ -349,16 +368,22 @@ public class JavelinServer implements TelegramSender
             createJvnFileNotifyListener(dbName, hostName, ipAddress, port, clientId, agentName);
         SystemResourceListener systemResourceListener =
             createSystemResourceListener(dbName, hostName, ipAddress, port, clientId, agentName);
+        SystemResourceListener systemResourceNotifyListener =
+            createSystemResourceNotifyListener(dbName, hostName, ipAddress, port, clientId,
+                                               agentName);
 
         if (queue_ != null)
         {
             client.addTelegramListener(jvnFileNotifyListener);
             client.addTelegramListener(systemResourceListener);
+            client.addTelegramListener(systemResourceNotifyListener);
 
-            client
-                .addTelegramListener(createResponseTelegramListener(TelegramConstants.BYTE_TELEGRAM_KIND_GET_DUMP));
-            client
-                .addTelegramListener(createResponseTelegramListener(TelegramConstants.BYTE_TELEGRAM_KIND_UPDATE_PROPERTY));
+            CommonResponseListener dumpTelegramListener =
+                createResponseTelegramListener(BYTE_TELEGRAM_KIND_GET_DUMP);
+            client.addTelegramListener(dumpTelegramListener);
+            CommonResponseListener updatePropertyListener =
+                createResponseTelegramListener(BYTE_TELEGRAM_KIND_UPDATE_PROPERTY);
+            client.addTelegramListener(updatePropertyListener);
 
             client.addTelegramListener(createSqlPlanNotifyListener(hostName, agentName, port,
                                                                    dbName));
@@ -376,6 +401,9 @@ public class JavelinServer implements TelegramSender
         client.addTelegramListener(signalStateListener);
         client.addTelegramListener(signalChangeListener);
         client.addTelegramListener(summarySignalChangeListener);
+
+        ThreadDumpNotifyListener threadDumpNotifyListener = new ThreadDumpNotifyListener();
+        client.addTelegramListener(threadDumpNotifyListener);
 
         // 制御クライアントが存在するなら、Javelinクライアントと紐付ける。
         Set<DataCollectorClient> controlClientSet = getControlClient(dbName);
@@ -460,18 +488,37 @@ public class JavelinServer implements TelegramSender
      */
     private synchronized void initializeControlClient(final DataCollectorClient client)
     {
-        DataCollectorClient javelinClient = getJavelinClient(dbName_);
-        if (javelinClient != null)
+        addDataCollectorClientListener(client);
+        for (DataCollectorClient javelinClient : this.javelinClientList_.values())
         {
             bindJavelinAndControlClient(javelinClient, client);
+            resourceGetter_.addTelegramSenderList(client);
         }
+
+    }
+
+    private void addDataCollectorClientListener(final DataCollectorClient client)
+    {
+        client.addTelegramListener(new JavelinClientTelegramListener());
+        SignalStateListener signalStateListener = new SignalStateListener();
+        SignalChangeListener signalChangeListener = new SignalChangeListener();
+
+        SummarySignalChangeListener summarySignalChangeListener = new SummarySignalChangeListener();
+
+        client.addTelegramListener(signalStateListener);
+        client.addTelegramListener(signalChangeListener);
+        client.addTelegramListener(summarySignalChangeListener);
+
+        ThreadDumpNotifyListener threadDumpNotifyListener = new ThreadDumpNotifyListener();
+        client.addTelegramListener(threadDumpNotifyListener);
+
     }
 
     /**
-     * Javelinと制御クライアントを紐付ける。
-     * @param javelinClient Javelinクライアント
-     * @param controlClient 制御クライアント
-     */
+        * Javelinと制御クライアントを紐付ける。
+        * @param javelinClient Javelinクライアント
+        * @param controlClient 制御クライアント
+        */
     private void bindJavelinAndControlClient(final DataCollectorClient javelinClient,
         final DataCollectorClient controlClient)
     {
@@ -479,14 +526,62 @@ public class JavelinServer implements TelegramSender
         controlClient.addTelegramListener(new TelegramListener() {
             public Telegram receiveTelegram(final Telegram telegram)
             {
-                javelinClient.sendTelegram(telegram);
+                Header objHeader = telegram.getObjHeader();
+
+                if (objHeader.getByteTelegramKind() == BYTE_TELEGRAM_KIND_GET_DUMP
+                    && objHeader.getByteRequestKind() == BYTE_REQUEST_KIND_REQUEST)
+                {
+                    Body[] bodies = telegram.getObjBody();
+                    if (bodies.length == 2)
+                    {
+                        String agentName = bodies[1].getStrItemName();
+                        if (agentName.split("/").length < AGENTINDEX)
+                        {
+                            javelinClient.sendTelegram(telegram);
+                        }
+                        else
+                        {
+                            agentName = splitAgentName(agentName);
+                            //send ThreadDump for only related agent
+                            if (agentName.equals(javelinClient.getAgentName()))
+                            {
+                                javelinClient.sendTelegram(telegram);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        javelinClient.sendTelegram(telegram);
+                    }
+                }
+                else if (objHeader.getByteTelegramKind() == BYTE_TELEGRAM_KIND_SUMMARYSIGNAL_DEFINITION
+                    && objHeader.getByteRequestKind() == BYTE_REQUEST_KIND_NOTIFY)
+                {
+                    Body[] bodies = telegram.getObjBody();
+                    Object[] itemValues = bodies[0].getObjItemValueArr();
+                    String agentName = (String)itemValues[0];
+                    if (agentName.split("/").length < AGENTINDEX)
+                    {
+                        javelinClient.sendTelegram(telegram);
+                    }
+                    else
+                    {
+                        agentName = splitAgentName(agentName);
+                        //send ThreadDump for only related agent
+                        if (agentName.equals(javelinClient.getAgentName()))
+                        {
+                            javelinClient.sendTelegram(telegram);
+                        }
+                    }
+                }
+
+                else
+                {
+                    javelinClient.sendTelegram(telegram);
+                }
                 return null;
             }
         });
-
-        controlClient.addTelegramListener(new SignalStateListener());
-        controlClient.addTelegramListener(new SignalChangeListener());
-        controlClient.addTelegramListener(new SummarySignalChangeListener());
 
         // Javelin->DataCollector->BottleneckEye
         javelinClient.addTelegramListener(new TelegramListener() {
@@ -496,8 +591,8 @@ public class JavelinServer implements TelegramSender
                 byte telKind = header.getByteTelegramKind();
                 byte reqKind = header.getByteRequestKind();
 
-                if (telKind == TelegramConstants.BYTE_TELEGRAM_KIND_RESOURCENOTIFY
-                    && reqKind == TelegramConstants.BYTE_REQUEST_KIND_RESPONSE)
+                if (telKind == BYTE_TELEGRAM_KIND_RESOURCENOTIFY
+                    && reqKind == BYTE_REQUEST_KIND_RESPONSE)
                 {
                     return null;
                 }
@@ -506,6 +601,22 @@ public class JavelinServer implements TelegramSender
                 return null;
             }
         });
+    }
+
+    /**
+     * Splite agentName from selected node
+     * @param agentName
+     * @return
+     */
+    private String splitAgentName(final String agentName)
+    {
+        String[] agentSplit = agentName.split("/");
+        String spliteAgentName = "/" + agentSplit[1];
+        for (int index = 2; index < AGENTINDEX; index++)
+        {
+            spliteAgentName += "/" + agentSplit[index];
+        }
+        return spliteAgentName;
     }
 
     /**
@@ -585,6 +696,34 @@ public class JavelinServer implements TelegramSender
     }
 
     /**
+     * リソース通知を処理するリスナを作成する。
+     * 
+     * @param dbName データベース名
+     * @param hostName 接続先のホスト名
+     * @param ipAddress 接続先のIPアドレス
+     * @param port 接続先のポート番号
+     * @param clientId クライアントID
+     * @return 作成したSystemResourceListener
+     */
+    private SystemResourceListener createSystemResourceNotifyListener(final String dbName,
+        final String hostName, final String ipAddress, final int port, final String clientId,
+        final String agentName)
+    {
+        SystemResourceListener notifyListener = null;
+        if (queue_ != null)
+        {
+            notifyListener = new SystemResourceNotifyListener(queue_);
+            notifyListener.setDatabaseName(dbName);
+            notifyListener.setHostName(hostName);
+            notifyListener.setIpAddress(ipAddress);
+            notifyListener.setPort(port);
+            notifyListener.setClientId(clientId);
+            notifyListener.setAgentName(agentName);
+        }
+        return notifyListener;
+    }
+
+    /**
      * 応答電文を処理するリスナを作成する。
      * @param telegramKind 電文種別
      * @return 作成したリスナを返す。
@@ -640,7 +779,7 @@ public class JavelinServer implements TelegramSender
     {
         synchronized (javelinClientList_)
         {
-            javelinClientList_.put(dbName_, client);
+            javelinClientList_.put(client.getAgentName(), client);
         }
     }
 

@@ -47,6 +47,7 @@ import jp.co.acroquest.endosnipe.collector.data.JavelinConnectionData;
 import jp.co.acroquest.endosnipe.collector.data.JavelinData;
 import jp.co.acroquest.endosnipe.collector.data.JavelinLogData;
 import jp.co.acroquest.endosnipe.collector.data.JavelinMeasurementData;
+import jp.co.acroquest.endosnipe.collector.data.JavelinMeasurementNotifyData;
 import jp.co.acroquest.endosnipe.collector.log.JavelinLogUtil;
 import jp.co.acroquest.endosnipe.collector.manager.SignalStateManager;
 import jp.co.acroquest.endosnipe.collector.manager.SummarySignalStateManager;
@@ -57,6 +58,7 @@ import jp.co.acroquest.endosnipe.collector.processor.AlarmThresholdProcessor;
 import jp.co.acroquest.endosnipe.collector.processor.AlarmType;
 import jp.co.acroquest.endosnipe.collector.request.CommunicationClientRepository;
 import jp.co.acroquest.endosnipe.collector.util.CollectorTelegramUtil;
+import jp.co.acroquest.endosnipe.collector.util.PerfDoctorMessages;
 import jp.co.acroquest.endosnipe.collector.util.SignalSummarizer;
 import jp.co.acroquest.endosnipe.common.Constants;
 import jp.co.acroquest.endosnipe.common.entity.ItemType;
@@ -177,6 +179,12 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
     /** 性能情報のキーの区切り文字 */
     private static final String KEY_SEPARETOR = "/";
 
+    /** 測定値の閾値超時のメッセージフォーマット */
+    private static final String EXCEEDS_TAT_MESSAGES = "APP.MTRC.EXCD_TAT_message";
+
+    /** 測定値の閾値下回り時のメッセージフォーマット */
+    private static final String FALLS_TAT_MESSAGES = "APP.MTRC.FALL_TAT_message";
+
     /** JAVELIN_LOG テーブルを truncate するコールバックメソッド */
     private final RotateCallback javelinRotateCallback_ = new RotateCallback() {
         /**
@@ -195,6 +203,7 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         {
             JavelinLogDao.truncate(database, tableIndex, year);
         }
+
     };
 
     /**
@@ -396,6 +405,22 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
                 logResourceData(database, resourceData);
             }
         }
+        else if (data instanceof JavelinMeasurementNotifyData)
+        {
+            // 計測値データの場合
+            ResourceData resourceData = ((JavelinMeasurementNotifyData)data).getResourceData();
+            String database = data.getDatabaseName();
+
+            if (resourceData != null && resourceData.getMeasurementMap() != null)
+            {
+                this.logResourceData(database, resourceData, false, true);
+            }
+        }
+        else
+        {
+            // 何もしない。
+            "".toString();
+        }
     }
 
     /**
@@ -470,9 +495,34 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
      * @param database データベース名
      * @param resourceData 登録するデータ
      */
+    private void logResourceData(final String database, final ResourceData resourceData,
+        final boolean isConnectionData, final boolean direct)
+    {
+        if (direct)
+        {
+            try
+            {
+                this.insertMeasurementDataDirect(database, resourceData);
+            }
+            catch (SQLException ex)
+            {
+                LOGGER.log(DATABASE_ACCESS_ERROR, ex, ex.getMessage());
+            }
+        }
+        else
+        {
+            this.logResourceData(database, resourceData, isConnectionData);
+        }
+    }
+
+    /**
+     * 指定されたデータをデータベースに登録します。<br />
+     * @param database データベース名
+     * @param resourceData 登録するデータ
+     */
     private void logResourceData(final String database, final ResourceData resourceData)
     {
-        this.logResourceData(database, resourceData, false);
+        this.logResourceData(database, resourceData, false, false);
     }
 
     /**
@@ -687,6 +737,27 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         responseTelegram.setObjBody(responseBodys);
 
         return responseTelegram;
+    }
+
+    private void insertMeasurementDataDirect(final String database,
+        final ResourceData convertedResourceData)
+        throws SQLException
+    {
+        long startTime = System.currentTimeMillis();
+        InsertResult result =
+            ResourceDataDaoUtil.insertDirect(database, convertedResourceData,
+                                             config_.getBatchSize(), config_.getItemIdCacheSize());
+        long endTime = System.currentTimeMillis();
+        long elapsedTime = endTime - startTime;
+
+        if (result.getInsertCount() != 0)
+        {
+            // IEDC0022=データベースに測定値を登録しました。 
+            // データベース名:{0}、経過時間:{1}、登録件数:{2}、キャッシュヒット件数:{3}、キャッシュあふれ回数:{4}
+            int cacheHitCount = result.getInsertCount() - result.getCacheMissCount();
+            LOGGER.log("IEDC0022", database, elapsedTime, result.getInsertCount(), cacheHitCount,
+                       result.getCacheOverflowCount());
+        }
     }
 
     /**
@@ -1044,10 +1115,12 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         List<String> alarmSignalList = new ArrayList<String>();
         for (Entry<Long, SignalDefinitionDto> signalDefinitionEntry : signalDefinitionMap
             .entrySet())
+
         {
             SignalDefinitionDto signalDefinition = signalDefinitionEntry.getValue();
             String itemName = signalDefinition.getMatchingPattern();
             String signalName = signalDefinition.getSignalName();
+            long signalId = signalDefinition.getSignalId();
 
             // 異なるドメイン（クラスタ名、IPアドレス、エージェント名）のリソース情報から閾値判定を行うと、
             // 正常状態に戻すため、判定対象としない。
@@ -1057,11 +1130,11 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             }
 
             //現在のアラーム通知状況を取得
-            AlarmData currentAlarmData = signalStateManager.getAlarmData(signalName);
+            AlarmData currentAlarmData = signalStateManager.getAlarmData(signalId);
             if (currentAlarmData == null)
             {
                 currentAlarmData = new AlarmData();
-                signalStateManager.addAlarmData(signalName, currentAlarmData);
+                signalStateManager.addAlarmData(signalId, currentAlarmData);
             }
             AlarmProcessor processor = getAlarmProcessor(signalDefinition);
 
@@ -1080,13 +1153,13 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             alarmEntry.setIpAddress(currentResourceData.ipAddress);
             alarmEntry.setPort(currentResourceData.portNum);
             alarmEntry.setDatabaseName(database);
-            signalStateManager.addAlarmData(itemName, currentAlarmData);
+            signalStateManager.addAlarmData(signalId, currentAlarmData);
             alarmEntry.setDefinition(signalDefinition);
             // アラーム通知処理
             if (alarmEntry.isSendAlarm())
             {
                 alarmEntryList.add(alarmEntry);
-                if (calcualteSignalIcon(alarmEntry.getAlarmState(), alarmEntry.getSignalLevel())
+                if (calcualteSignalIcon(alarmEntry.getSignalValue(), alarmEntry.getSignalLevel())
                     .equals("signal_4"))
                 {
                     alarmSignalList.add(signalName);
@@ -1187,54 +1260,78 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
     private void addSignalStateChangeEvent(final AlarmEntry alarmEntry)
     {
         PerfDoctorResultDto signalStateChangeEvent = new PerfDoctorResultDto();
-        String alarmType;
         String level = "INFO";
+        String exceededLevel = "INFO";
         double threshold = 0;
+        String description = "";
         if (alarmEntry.getAlarmType().equals(AlarmType.FAILURE))
         {
-            if (alarmEntry.getAlarmState() != 0)
+            if (alarmEntry.getSignalValue() != 0)
             {
                 threshold =
-                    alarmEntry.getDefinition().getThresholdMaping().get(alarmEntry.getAlarmState());
+                    alarmEntry.getDefinition().getThresholdMaping()
+                        .get(alarmEntry.getSignalValue());
             }
-            alarmType = "exceeds";
             if (alarmEntry.getSignalLevel() == SIGNAL_LEVEL_3)
             {
-                if (alarmEntry.getAlarmState() == SIGNAL_LEVEL_1)
+                if (alarmEntry.getSignalValue() == SIGNAL_LEVEL_1)
                 {
                     level = "WARN";
+                    exceededLevel = "WARNING";
                 }
-                else if (alarmEntry.getAlarmState() == SIGNAL_LEVEL_2)
+                else if (alarmEntry.getSignalValue() == SIGNAL_LEVEL_2)
                 {
                     level = "ERROR";
+                    exceededLevel = "CRITICAL";
                 }
             }
             else if (alarmEntry.getSignalLevel() == SIGNAL_LEVEL_5)
             {
-                if (alarmEntry.getAlarmState() == SIGNAL_LEVEL_1
-                    || alarmEntry.getAlarmState() == SIGNAL_LEVEL_2)
+                if (alarmEntry.getSignalValue() == SIGNAL_LEVEL_1)
                 {
                     level = "WARN";
+                    exceededLevel = "INFO";
                 }
-                else if (alarmEntry.getAlarmState() == SIGNAL_LEVEL_3
-                    || alarmEntry.getAlarmState() == SIGNAL_LEVEL_4)
+                else if (alarmEntry.getSignalValue() == SIGNAL_LEVEL_2)
+                {
+                    level = "WARN";
+                    exceededLevel = "WARNING";
+                }
+                else if (alarmEntry.getSignalValue() == SIGNAL_LEVEL_3)
                 {
                     level = "ERROR";
+                    exceededLevel = "ERROR";
+                }
+                else if (alarmEntry.getSignalValue() == SIGNAL_LEVEL_4)
+                {
+                    level = "ERROR";
+                    exceededLevel = "CRITICAL";
                 }
             }
+
+            // 警告の概要を取得
+            description =
+                PerfDoctorMessages.getMessage(EXCEEDS_TAT_MESSAGES, new Object[]{threshold,
+                    alarmEntry.getAlarmValue(), exceededLevel});
         }
         else
         {
             // 回復した閾値の内、最も小さいものを取得
             threshold =
-                alarmEntry.getDefinition().getThresholdMaping().get(alarmEntry.getAlarmState() + 1);
-            alarmType = "falls";
+                alarmEntry.getDefinition().getThresholdMaping()
+                    .get(alarmEntry.getSignalValue() + 1);
+
+            // 警告の概要を取得
+            description =
+                PerfDoctorMessages.getMessage(FALLS_TAT_MESSAGES, new Object[]{threshold,
+                    alarmEntry.getAlarmValue(), exceededLevel});
         }
+
         signalStateChangeEvent.setLevel(level);
         signalStateChangeEvent.setOccurrenceTime(new Timestamp(System.currentTimeMillis()));
-        signalStateChangeEvent.setDescription(alarmType, threshold, alarmEntry.getAlarmValue());
-        signalStateChangeEvent.setMeasurementItemName(alarmEntry.getAlarmID());
-        signalStateChangeEvent.setClassName(alarmEntry.getAlarmID());
+        signalStateChangeEvent.setDescription(description);
+        signalStateChangeEvent.setMeasurementItemName(alarmEntry.getSignalName());
+        signalStateChangeEvent.setClassName(alarmEntry.getSignalName());
         try
         {
             PerfDoctorResultDao.insert(alarmEntry.getDatabaseName(), signalStateChangeEvent);
@@ -1280,6 +1377,7 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         }
         int rotatePeriod = rotateConfig.getMeasureRotatePeriod();
         int rotatePeriodUnit = rotateConfig.getMeasureUnitByCalendar();
+        String clientId = logData.getClientId();
 
         JavelinLog javelinLog = createJavelinLog(logData);
         try
@@ -1307,6 +1405,8 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
                 }
             }
             JavelinLogDao.insert(database, javelinLog);
+            Telegram telegram = createThreadDumpResponseTelegram();
+            this.clientRepository_.sendTelegramToClient(clientId, telegram);
         }
         catch (SQLException ex)
         {
@@ -1316,6 +1416,28 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
 
         // 一時ファイルがある場合は削除しておく
         logData.deleteFile();
+    }
+
+    /**
+     * this is createTheadDumpResponseTelegram
+     * @return telegram data
+     */
+    private Telegram createThreadDumpResponseTelegram()
+    {
+        Header responseHeader = new Header();
+
+        responseHeader.setByteTelegramKind(TelegramConstants.BYTE_TELEGRAM_KIND_THREAD_DUMP);
+        responseHeader.setByteRequestKind(TelegramConstants.BYTE_REQUEST_KIND_NOTIFY);
+
+        Telegram responseTelegram = new Telegram();
+
+        responseTelegram.setObjHeader(responseHeader);
+
+        Body[] responseBodys = {};
+        responseTelegram.setObjBody(responseBodys);
+
+        return responseTelegram;
+
     }
 
     /**
