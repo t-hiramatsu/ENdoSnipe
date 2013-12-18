@@ -164,7 +164,7 @@ ENS.ResourceMapListView = wgp.TreeView
 					width : 350,
 					modal : true,
 					buttons : {
-						"YES" : function() {
+						"OK" : function() {
 							var setting = {
 								data : {
 									mapId : treeModel.id
@@ -189,7 +189,7 @@ ENS.ResourceMapListView = wgp.TreeView
 							// マップ一覧を再描画する。
 							instance.onLoad();
 						},
-						"NO" : function() {
+						"Cancel" : function() {
 							removeMapDialog.dialog("close");
 						}
 					},
