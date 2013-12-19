@@ -1628,6 +1628,9 @@ ENS.treeView = wgp.TreeView
 			 */
 			onChange : function(treeModel) {
 
+				// 継承元の変更処理を実行して画面に反映する。
+				ENS.ResourceTreeView.prototype.onChange.call(this, treeModel);
+
 				var treeId = treeModel.get("id");
 				var treeType = treeModel.get("type");
 				var message = treeModel.get("message");
