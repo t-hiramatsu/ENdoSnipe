@@ -20,10 +20,10 @@ import jp.co.acroquest.endosnipe.report.converter.compressor.CompressOperator;
  * 
  * @author M.Yoshida
  */
-public class CompressOperation 
+public class CompressOperation
 {
 	/** 圧縮時の計測値演算対象フィールド */
-	private String           compressField_;
+	private String compressField_;
 
 	/** 圧縮時の演算処理 */
 	private CompressOperator operation_;
@@ -33,26 +33,29 @@ public class CompressOperation
 	 * @param compressField 計測値演算対象フィールド
 	 * @param operation     演算処理
 	 */
-	public CompressOperation(String compressField,
-			                 CompressOperator operation)
+	public CompressOperation(String compressField, CompressOperator operation)
 	{
 		this.compressField_ = compressField;
-		this.operation_     = operation;
+		this.operation_ = operation;
 	}
 
-	public String getCompressField() {
+	public String getCompressField()
+	{
 		return compressField_;
 	}
 
-	public void setCompressField(String compressField) {
+	public void setCompressField(String compressField)
+	{
 		this.compressField_ = compressField;
 	}
 
-	public CompressOperator getOperation() {
+	public CompressOperator getOperation()
+	{
 		return operation_;
 	}
 
-	public void setOperation(CompressOperator operation) {
+	public void setOperation(CompressOperator operation)
+	{
 		this.operation_ = operation;
 	}
 }

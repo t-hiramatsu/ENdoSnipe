@@ -88,13 +88,11 @@ public class ThreadDumpService
             try
             {
                 String nodeName = dataGroupId;
-                if (nodeName.split("/").length > NUMBER_FOUR)
+                if (nodeName != null)
                 {
-                    String[] agentSplit = nodeName.split("/");
-                    nodeName = "/" + agentSplit[1];
-                    for (int index = 2; index < NUMBER_FOUR; index++)
+                    if (nodeName.split("/").length > NUMBER_FOUR)
                     {
-                        nodeName += "/" + agentSplit[index];
+                        nodeName = getAgentName(nodeName);
                     }
                 }
                 list =
@@ -114,6 +112,22 @@ public class ThreadDumpService
     }
 
     /**
+     * Substract agent Name from node name
+     * @param nodeName full node path name
+     * @return agentName
+     */
+    private String getAgentName(final String nodeName)
+    {
+        String[] agentSplit = nodeName.split("/");
+        String agentName = "/" + agentSplit[1];
+        for (int index = 2; index < NUMBER_FOUR; index++)
+        {
+            agentName += "/" + agentSplit[index];
+        }
+        return agentName;
+    }
+
+    /**
      * This function is to convert all JavelinLog data to 
      * threadDump data
      * @param list is javelinLog data
@@ -128,6 +142,7 @@ public class ThreadDumpService
             result.agentId_ = table.getLogId();
             result.date_ = table.getStartTime().toString();
             String name = table.getLogFileName();
+            result.setLogFileName(name);
             result.threadDumpInfo_ = this.getThreadDumpDetailData(name);
             displayList.add(result);
         }
@@ -183,7 +198,14 @@ public class ThreadDumpService
         List<ThreadDumpDto> displayList = new ArrayList<ThreadDumpDto>();
         try
         {
-            list = JavelinLogDao.selectAllThreadDumpByMeasurementItem(dbName, measurementItem);
+            //for get agentName's threadDump even selected node is subChild of agent
+            String agentName = measurementItem;
+            if (agentName.split("/").length > NUMBER_FOUR)
+            {
+                agentName = getAgentName(measurementItem);
+            }
+
+            list = JavelinLogDao.selectAllThreadDumpByMeasurementItem(dbName, agentName);
         }
         catch (SQLException ex)
         {

@@ -28,6 +28,9 @@ public class SchedulingReportDefinitionDto
     /** レポート名。 */
     private String reportName_;
 
+    /** before editing レポート名。 */
+    private String beforeReportName_;
+
     /** レポート出力の対象の計測対象名。 */
     private String targetMeasurementName_;
 
@@ -108,6 +111,26 @@ public class SchedulingReportDefinitionDto
     public void setReportName(final String reportName)
     {
         reportName_ = reportName;
+    }
+
+    /**
+     * Before editing レポート名を取得する。
+     * 
+     * @return レポート名
+     */
+    public String getBeforeReportName()
+    {
+        return beforeReportName_;
+    }
+
+    /**
+     * efore editing レポート名を設定する。
+     * 
+     * @param beforeReportName レポート名
+     */
+    public void setBeforeReportName(final String beforeReportName)
+    {
+        beforeReportName_ = beforeReportName;
     }
 
     /**

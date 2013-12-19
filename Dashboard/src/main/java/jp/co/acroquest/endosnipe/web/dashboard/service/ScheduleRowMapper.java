@@ -137,6 +137,18 @@ public class ScheduleRowMapper implements RowMapper<SchedulingReportDefinitionDt
         ReportDefinitionDto definitionDto = ReportUtil.convertReportDifinitionDto(definition);
         //put the report to the queue for export
         ReportUtil.createReport(definitionDto);
+
+        //check report is already exported or not
+        int countOfReport =
+                this.jTemplate_.queryForInt("select count(*) from REPORT_EXPORT_RESULT where REPORT_NAME = ?",
+                                            definition.reportName_);
+        //if report exported is first time, send to the client side and add to tree 
+        //for reappear even user deleted the previous exported report on tree.
+        if (countOfReport < 1)
+        {
+            ReportUtil.sendSchedulingReportDefinition(schedulingReportDefinitionDto, "add");
+        }
+
         String sql =
                 "insert into REPORT_EXPORT_RESULT (REPORT_NAME,TARGET_MEASUREMENT_NAME,FM_TIME,TO_TIME, STATUS)"
 
@@ -144,6 +156,7 @@ public class ScheduleRowMapper implements RowMapper<SchedulingReportDefinitionDt
                         + definition.targetMeasurementName_ + "', " + "'" + definition.fmTime_
                         + "', " + "'" + definition.toTime_ + "'," + "'" + definition.status_ + "')";
         jTemplate_.execute(sql);
+
         reportName = definitionDto.getReportName();
         SchedulingReportDefinition schedulingReportDefinition = new SchedulingReportDefinition();
         DateFormat scheduleTimeFormat = new SimpleDateFormat(TIME_FORMAT);

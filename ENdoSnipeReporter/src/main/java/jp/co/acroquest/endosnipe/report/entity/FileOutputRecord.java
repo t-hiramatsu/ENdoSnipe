@@ -11,70 +11,78 @@ import java.sql.Timestamp;
 public class FileOutputRecord
 {
 	/** ・ｽv・ｽ・ｽ・ｽ・ｽ・ｽ・ｽ */
-    private Timestamp measurementTime_;
-    
+	private Timestamp measurementTime_;
+
 	/** ・ｽt・ｽ@・ｽC・ｽ・ｽ・ｽ・ｽo・ｽﾍ量のグ・ｽ・ｽ・ｽt・ｽﾌ、・ｽt・ｽ@・ｽC・ｽ・ｽ・ｽo・ｽﾍ暦ｿｽ[・ｽT・ｽC・ｽY(Bytes)]・ｽi・ｽ・ｽﾔ奇ｿｽﾔ包ｿｽ・ｽﾏ） */
-    private long fileOutput_;
-    
-    /** ・ｽt・ｽ@・ｽC・ｽ・ｽ・ｽ・ｽo・ｽﾍ量のグ・ｽ・ｽ・ｽt・ｽﾌ、・ｽt・ｽ@・ｽC・ｽ・ｽ・ｽo・ｽﾍ暦ｿｽ[・ｽT・ｽC・ｽY(Bytes)]・ｽi・ｽ・ｽﾔ奇ｿｽﾔ最托ｿｽj */
-    private long fileOutputMax_;
-    
-    /** ・ｽt・ｽ@・ｽC・ｽ・ｽ・ｽ・ｽo・ｽﾍ量のグ・ｽ・ｽ・ｽt・ｽﾌ、・ｽt・ｽ@・ｽC・ｽ・ｽ・ｽo・ｽﾍ暦ｿｽ[・ｽT・ｽC・ｽY(Bytes)]・ｽi・ｽ・ｽﾔ奇ｿｽﾔ最擾ｿｽ・ｽj */
-    private long fileOutputMin_;
-	
+	private long fileOutput_;
+
+	/** ・ｽt・ｽ@・ｽC・ｽ・ｽ・ｽ・ｽo・ｽﾍ量のグ・ｽ・ｽ・ｽt・ｽﾌ、・ｽt・ｽ@・ｽC・ｽ・ｽ・ｽo・ｽﾍ暦ｿｽ[・ｽT・ｽC・ｽY(Bytes)]・ｽi・ｽ・ｽﾔ奇ｿｽﾔ最托ｿｽj */
+	private long fileOutputMax_;
+
+	/** ・ｽt・ｽ@・ｽC・ｽ・ｽ・ｽ・ｽo・ｽﾍ量のグ・ｽ・ｽ・ｽt・ｽﾌ、・ｽt・ｽ@・ｽC・ｽ・ｽ・ｽo・ｽﾍ暦ｿｽ[・ｽT・ｽC・ｽY(Bytes)]・ｽi・ｽ・ｽﾔ奇ｿｽﾔ最擾ｿｽ・ｽj */
+	private long fileOutputMin_;
+
 	/**
 	 * @return the measurementTime_
 	 */
-	public Timestamp getMeasurementTime() {
+	public Timestamp getMeasurementTime()
+	{
 		return measurementTime_;
 	}
 
 	/**
 	 * @param measurementTime the measurementTime_ to set
 	 */
-	public void setMeasurementTime(Timestamp measurementTime) {
+	public void setMeasurementTime(Timestamp measurementTime)
+	{
 		this.measurementTime_ = measurementTime;
 	}
-	
+
 	/**
 	 * @return the fileOutput_
 	 */
-	public long getFileOutput() {
+	public long getFileOutput()
+	{
 		return fileOutput_;
 	}
 
 	/**
 	 * @param fileOutput the fileOutput_ to set
 	 */
-	public void setFileOutput(long fileOutput) {
+	public void setFileOutput(long fileOutput)
+	{
 		this.fileOutput_ = fileOutput;
 	}
 
 	/**
 	 * @return the fileOutputMax_
 	 */
-	public long getFileOutputMax() {
+	public long getFileOutputMax()
+	{
 		return fileOutputMax_;
 	}
 
 	/**
 	 * @param fileOutputMax the fileOutputMax_ to set
 	 */
-	public void setFileOutputMax(long fileOutputMax) {
+	public void setFileOutputMax(long fileOutputMax)
+	{
 		this.fileOutputMax_ = fileOutputMax;
 	}
 
 	/**
 	 * @return the fileOutputMin_
 	 */
-	public long getFileOutputMin() {
+	public long getFileOutputMin()
+	{
 		return fileOutputMin_;
 	}
 
 	/**
 	 * @param fileOutputMin the fileOutputMin_ to set
 	 */
-	public void setFileOutputMin(long fileOutputMin) {
+	public void setFileOutputMin(long fileOutputMin)
+	{
 		this.fileOutputMin_ = fileOutputMin;
 	}
 }

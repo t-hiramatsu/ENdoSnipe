@@ -23,8 +23,7 @@ ENS.ResourceTreeView = ENS.treeManager
 				if ($("#" + this.contextMenuId).length == 0) {
 
 					var contextMenu0 = new contextMenu("addGraph", "Add Graph");
-					var contextMenu1 = new contextMenu("addSignal",
-							"Add Signal");
+					var contextMenu1 = new contextMenu("addSignal","Add Signal");
 					var contextMenuArray = [ contextMenu0, contextMenu1 ];
 					contextMenuCreator.initializeContextMenu(
 							this.contextMenuId, contextMenuArray);
@@ -55,7 +54,8 @@ ENS.ResourceTreeView = ENS.treeManager
 
 						// シグナルかグラフかによって表示するメニューを変更する。
 						// シグナルの場合
-						if (ENS.tree.type.SIGNAL == treeType) {
+						if (ENS.tree.type.SIGNAL == treeType ||
+								ENS.tree.type.SUMMARYSIGNAL == treeType) {
 							$("#" + instance.contextMenuId + " #addGraph")
 									.hide();
 							$("#" + instance.contextMenuId + " #addSignal")

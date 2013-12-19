@@ -30,114 +30,114 @@ import jp.co.acroquest.endosnipe.report.util.ReporterConfigAccessor;
  */
 public class TemplateFileManager
 {
-    private static TemplateFileManager instance__ = null;
+	private static TemplateFileManager instance__ = null;
 
-    /**
-     * インスタンス防止のためのコンストラクタ
-     */
-    private TemplateFileManager()
-    // CHECKSTYLE:OFF
-    {
-        // Do nothing.
-    }
-    // CHECKSTYLE:ON
+	/**
+	 * インスタンス防止のためのコンストラクタ
+	 */
+	private TemplateFileManager()
+	// CHECKSTYLE:OFF
+	{
+		// Do nothing.
+	}
 
-    /**
-     * インスタンスを取得する。
-     * @return インスタンス。
-     */
-    public static TemplateFileManager getInstance()
-    {
-        if (instance__ == null)
-        {
-            instance__ = new TemplateFileManager();
-        }
-        return instance__;
-    }
+	// CHECKSTYLE:ON
 
-    /**
-     * レポートの「種類」に対応するテンプレートファイルをリソースから取り出し
-     * テンポラリ領域にコピー後、テンポラリファイルへの絶対パスを生成する。
-     * 
-     * @param type レポートの種類
-     * @throws IOException 入出力エラー発生時
-     * @return ファイルパス
-     */
-    public String getTemplateFile(ReportType type)
-        throws IOException
-    {
-        String templateFileResourcePath =
-                                          ReporterConfigAccessor.getReportTemplateResourcePath(type);
+	/**
+	 * インスタンスを取得する。
+	 * @return インスタンス。
+	 */
+	public static TemplateFileManager getInstance()
+	{
+		if (instance__ == null)
+		{
+			instance__ = new TemplateFileManager();
+		}
+		return instance__;
+	}
 
-        if (templateFileResourcePath == null)
-        {
-            return null;
-        }
+	/**
+	 * レポートの「種類」に対応するテンプレートファイルをリソースから取り出し
+	 * テンポラリ領域にコピー後、テンポラリファイルへの絶対パスを生成する。
+	 * 
+	 * @param type レポートの種類
+	 * @throws IOException 入出力エラー発生時
+	 * @return ファイルパス
+	 */
+	public String getTemplateFile(ReportType type) throws IOException
+	{
+		String templateFileResourcePath = ReporterConfigAccessor
+			.getReportTemplateResourcePath(type);
 
-        URL fileUrl = getClass().getResource(templateFileResourcePath);
-        if (fileUrl == null)
-        {
-            return null;
-        }
+		if (templateFileResourcePath == null)
+		{
+			return null;
+		}
 
-        File temporaryTemplate = null;
-        BufferedInputStream templateFileStream = null;
-        BufferedOutputStream bTempStream = null;
-        try
-        {
-            templateFileStream = new BufferedInputStream(fileUrl.openStream());
+		URL fileUrl = getClass().getResource(templateFileResourcePath);
+		if (fileUrl == null)
+		{
+			return null;
+		}
 
-            temporaryTemplate = File.createTempFile("tempTemplate", ".xls");
+		File temporaryTemplate = null;
+		BufferedInputStream templateFileStream = null;
+		BufferedOutputStream bTempStream = null;
+		try
+		{
+			templateFileStream = new BufferedInputStream(fileUrl.openStream());
 
-            FileOutputStream temporaryStream = new FileOutputStream(temporaryTemplate);
-            bTempStream = new BufferedOutputStream(temporaryStream);
+			temporaryTemplate = File.createTempFile("tempTemplate", ".xls");
 
-            while (true)
-            {
-                int data = templateFileStream.read();
-                if (data == -1)
-                {
-                    break;
-                }
-                bTempStream.write(data);
-            }
+			FileOutputStream temporaryStream = new FileOutputStream(temporaryTemplate);
+			bTempStream = new BufferedOutputStream(temporaryStream);
 
-            bTempStream.flush();
-        }
-        catch (IOException ioex)
-        {
-            throw ioex;
-        }
-        finally
-        {
-            closeStream(templateFileStream);
-            closeStream(bTempStream);
-        }
+			while (true)
+			{
+				int data = templateFileStream.read();
+				if (data == -1)
+				{
+					break;
+				}
+				bTempStream.write(data);
+			}
 
-        return temporaryTemplate.getAbsolutePath();
-    }
+			bTempStream.flush();
+		}
+		catch (IOException ioex)
+		{
+			throw ioex;
+		}
+		finally
+		{
+			closeStream(templateFileStream);
+			closeStream(bTempStream);
+		}
 
-    /**
-     * ストリームをクローズします。<br />
-     * 引数が <code>null</code> の場合は何も行いません。
-     * 
-     * @param stream ストリーム
+		return temporaryTemplate.getAbsolutePath();
+	}
 
-     */
-    private void closeStream(final Closeable stream)
-    {
-        if (stream != null)
-        {
-            try
-            {
-                stream.close();
-            }
-            catch (IOException ex)
-            // CHECKSTYLE:OFF
-            {
-                // Do nothing.
-            }
-            // CHECKSTYLE:ON
-        }
-    }
+	/**
+	 * ストリームをクローズします。<br />
+	 * 引数が <code>null</code> の場合は何も行いません。
+	 * 
+	 * @param stream ストリーム
+
+	 */
+	private void closeStream(final Closeable stream)
+	{
+		if (stream != null)
+		{
+			try
+			{
+				stream.close();
+			}
+			catch (IOException ex)
+			// CHECKSTYLE:OFF
+			{
+				// Do nothing.
+			}
+			// CHECKSTYLE:ON
+		}
+	}
 }

@@ -133,7 +133,8 @@ ENS.NodeInfoParentView = wgp.AbstractView
 					id : graphId,
 					measurementUnit : "",
 					parentTreeId : "",
-					treeId : ""
+					treeId : "",
+					viewMaximumButtonFlag : true
 				};
 				var viewAttribute = {
 					id : graphId,

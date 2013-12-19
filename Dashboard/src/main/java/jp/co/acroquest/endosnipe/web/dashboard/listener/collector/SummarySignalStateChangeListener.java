@@ -20,10 +20,7 @@ import jp.co.acroquest.endosnipe.communicator.AbstractTelegramListener;
 import jp.co.acroquest.endosnipe.communicator.entity.Body;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
-import jp.co.acroquest.endosnipe.web.dashboard.constants.ResponseConstants;
 import jp.co.acroquest.endosnipe.web.dashboard.constants.TreeMenuConstants;
-import jp.co.acroquest.endosnipe.web.dashboard.controller.SummarySignalController;
-import jp.co.acroquest.endosnipe.web.dashboard.dto.ResponseDto;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.SummarySignalDefinitionDto;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.TreeMenuDto;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.EventManager;
@@ -113,6 +110,7 @@ public class SummarySignalStateChangeListener extends AbstractTelegramListener
             treeMenu.setData(summarySignalDisplayName);
             treeMenu.setType(TreeMenuConstants.TREE_MENU_TYPE_SUMMARY_SIGNAL);
             treeMenu.setIcon("signal_0");
+            treeMenu.setMessage(errorMessage[cnt]);
             if (summarySignalState[cnt] == 1)
             {
                 treeMenu.setIcon("signal_4");
@@ -125,17 +123,6 @@ public class SummarySignalStateChangeListener extends AbstractTelegramListener
             sumDto.setSummarySignalStatus(summarySignalState[cnt]);
             sumDto.setMessage(errorMessage[cnt]);
             summarySignalDtoList.add(sumDto);
-            if (!type[cnt].equals(TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_ALL) && cnt == 0)
-            {
-                ResponseDto responseDto = new ResponseDto();
-                responseDto.setData(sumDto);
-                responseDto.setResult(ResponseConstants.RESULT_SUCCESS);
-                SummarySignalController.responseData__ = responseDto;
-                if (!errorMessage[cnt].equals(""))
-                {
-                    return null;
-                }
-            }
         }
 
         EventManager eventManager = EventManager.getInstance();
@@ -175,16 +162,8 @@ public class SummarySignalStateChangeListener extends AbstractTelegramListener
             }
             else if (type[0].equals(TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_ALL))
             {
-                SummarySignalController.summarySignalDefinitionDto__ = summarySignalDtoList;
+                resourceSender.send(summarySignalTreeMenuDtoList, "update");
             }
-        }
-        if (type == null || type.length == 0)
-        {
-            if (summarySignalDtoList.size() == 0)
-            {
-                summarySignalDtoList.add(new SummarySignalDefinitionDto());
-            }
-            SummarySignalController.summarySignalDefinitionDto__ = summarySignalDtoList;
         }
         return null;
     }

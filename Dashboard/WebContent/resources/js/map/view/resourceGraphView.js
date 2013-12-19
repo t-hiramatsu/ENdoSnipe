@@ -41,7 +41,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				this._initData(argument, treeSettings);
 				// グラフの系列色
 				this.colors = [];
-				
+
 				// Dygraphの系列色を設定する。
 				var sat = 1.0;
 				var val = 0.5;
@@ -107,6 +107,8 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				this.term = argument.term;
 				this.noTermData = argument.noTermData;
 				this.graphId = argument["graphId"];
+				this.viewMaximumButtonFlag =
+					treeSettings["viewMaximumButtonFlag"];
 
 				if (argument["title"].indexOf(":") != -1) {
 					var splitTitle = argument["title"].split(":");
@@ -223,42 +225,45 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 							});
 				}
 
-				if ($("#" + this.maximumButton).length > 0) {
-					$("#" + this.maximumButton).remove();
-				}
-
-				var childElem = $("#" + graphId + "").children("div");
-				$(childElem).append(this.maximumButtonImg);
-				$("#" + this.maximumButton).css("float", "right");
-				var minButton = this.normalButton, maxButton = this.maximumButton;
-
-				$(element).click(
-						function(e) {
-							var offsetLeft = $("#" + graphId).offset().left;
-							var offsetTop = $("#" + graphId).offset().top;
-							var position = {
-								x : Math.floor(e.clientX - offsetLeft),
-								y : Math.floor(e.clientY - offsetTop)
-							};
-
-							if (position.x > ($("#" + graphId).width() - 20)
-									&& position.x < ($("#" + graphId).width())
-									&& position.y > 0 && position.y < 28) {
-								if ($("." + maxButton).length > 0) {
-									instance.addMaximizeEvent(offsetLeft,
-											offsetTop);
-								}
-							}
-						});
-
 				this.getGraphObject().updateOptions({
 					dateWindow : this.dateWindow,
 					axisLabelFontSize : 10,
 					titleHeight : 22
 				});
 
-				$(".dygraph-title").width(
-						$("#" + graphId).width() - this.titleButtonSpace);
+				if(this.viewMaximumButtonFlag){
+					if ($("#" + this.maximumButton).length > 0) {
+						$("#" + this.maximumButton).remove();
+					}
+
+					var childElem = $("#" + graphId + "").children("div");
+					$(childElem).append(this.maximumButtonImg);
+					$("#" + this.maximumButton).css("float", "right");
+					var minButton = this.normalButton, maxButton = this.maximumButton;
+
+					$(element).click(
+							function(e) {
+								var offsetLeft = $("#" + graphId).offset().left;
+								var offsetTop = $("#" + graphId).offset().top;
+								var position = {
+									x : Math.floor(e.clientX - offsetLeft),
+									y : Math.floor(e.clientY - offsetTop)
+								};
+
+								if (position.x > ($("#" + graphId).width() - 20)
+										&& position.x < ($("#" + graphId).width())
+										&& position.y > 0 && position.y < 28) {
+									if ($("." + maxButton).length > 0) {
+										instance.addMaximizeEvent(offsetLeft,
+												offsetTop);
+									}
+								}
+							});
+
+					$(".dygraph-title").width(
+							$("#" + graphId).width() - this.titleButtonSpace);
+
+				}
 
 				this.mouseEvent(graphId, isShort, tmpTitle, optionSettings);
 
@@ -293,9 +298,12 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				$("#" + graphId).dblclick(
 						function(event) {
 							instance.zoomOut(instance.getGraphObject());
-							$(".dygraph-title").width(
-									$("#" + graphId).width()
-											- instance.titleButtonSpace);
+
+							if(instance.viewMaximumButtonFlag){
+								$(".dygraph-title").width(
+										$("#" + graphId).width()
+												- instance.titleButtonSpace);
+							}
 						});
 			},
 			onAdd : function(graphModel) {
@@ -345,8 +353,12 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 						}
 
 					}
-					$(".dygraph-title").width(
-							$("#tempDiv").width() - this.titleButtonSpace);
+
+					if(this.viewMaximumButtonFlag){
+						$(".dygraph-title").width(
+								$("#tempDiv").width() - this.titleButtonSpace);
+					}
+
 				}
 			},
 			addCollection : function(dataArray) {
@@ -400,11 +412,18 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				var graphId = this.$el.attr("id") + "_ensgraph";
 
 				if ($("#tempDiv").length > 0) {
-					$(".dygraph-title").width(
-							$("#tempDiv").width() - this.titleButtonSpace);
+
+					if(this.viewMaximumButtonFlag){
+						$(".dygraph-title").width(
+								$("#tempDiv").width() - this.titleButtonSpace);
+					}
+
 				} else {
-					$(".dygraph-title").width(
-							$("#" + graphId).width() - this.titleButtonSpace);
+
+					if(this.viewMaximumButtonFlag){
+						$(".dygraph-title").width(
+								$("#" + graphId).width() - this.titleButtonSpace);
+					}
 				}
 			},
 			getData : function() {
@@ -694,39 +713,26 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 			},
 			createDragEvent : function(divArea) {
 				var instance = this;
-				$(divArea)
-						.bind(
-								'mousedown',
-								function(e) {
-									$(divArea).bind('mousemove', function(e) {
-									});
+				$(divArea).bind('mousedown',
+					function(e) {
+						$(divArea).bind('mousemove', function(e) {});
 
-									$(divArea)
-											.bind(
-													'mouseup',
-													function() {
-														$(divArea).unbind(
-																'mousemove');
-														if ($("#tempDiv").length > 0) {
-															$(".dygraph-title")
-																	.width(
-																			$(
-																					"#tempDiv")
-																					.width()
-																					- this.titleButtonSpace);
-														} else {
-															$(".dygraph-title")
-																	.width(
-																			$(
-																					"#"
-																							+ instance.$el
-																									.attr("id")
-																							+ "_ensgraph")
-																					.width()
-																					- this.titleButtonSpace);
-														}
-													});
-								});
+						$(divArea).bind('mouseup', function() {
+							$(divArea).unbind('mousemove');
+
+							if(this.viewMaximumButtonFlag){
+								var dygraphTitleWidth;
+								if ($("#tempDiv").length > 0) {
+									dygraphTitleWidth = $("#tempDiv").width() - this.titleButtonSpace;
+								} else {
+									dygraphTitleWidth =
+										$(instance.$el.attr("id") + "_ensgraph").width() - this.titleButtonSpace
+								}
+
+								$(".dygraph-title").width(dygraphTitleWidth);
+							}
+						});
+				});
 			},
 			windowResize : function() {
 				var instance = this;
@@ -755,38 +761,46 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 
 							instance.resizeState = true;
 
-							if ($("#" + instance.normalButton).length <= 0) {
+							var dygraphTitleWidth;
+							if(this.viewMaximumButtonFlag){
 
-								childElem = $("#" + graphId + "").children(
-										"div");
-								$(childElem).append(instance.normalButtonImg);
-								$("#" + instance.normalButton).show();
+								if ($("#" + instance.normalButton).length <= 0) {
 
-								$("#" + instance.normalButton).css(
-										"padding-left",
-										$("#tempDiv").width() * 0.977);
+									childElem = $("#" + graphId + "").children(
+											"div");
+									$(childElem).append(instance.normalButtonImg);
+									$("#" + instance.normalButton).show();
+
+									$("#" + instance.normalButton).css(
+											"padding-left",
+											$("#tempDiv").width() * 0.977);
+								}
+
+								dygraphTitleWidth = $("#tempDiv").width() - this.titleButtonSpace
+								$(".dygraph-title").width(dygraphTitleWidth);
+
 							}
 
-							$(".dygraph-title").width(
-									$("#tempDiv").width()
-											- this.titleButtonSpace);
 						} else {
 
-							if ($("#" + instance.maximumButton).length <= 0) {
+							var dygraphTitleWidth;
+							if(this.viewMaximumButtonFlag){
 
-								childElem = $("#" + graphId + "").children(
-										"div");
-								$(childElem).append(instance.maximumButtonImg);
+								if ($("#" + instance.maximumButton).length <= 0) {
 
-								$("#" + instance.maximumButton).css(
-										"padding-left",
-										($("#" + graphId).width() - 20));
+									childElem = $("#" + graphId + "").children(
+											"div");
+									$(childElem).append(instance.maximumButtonImg);
 
+									$("#" + instance.maximumButton).css(
+											"padding-left",
+											($("#" + graphId).width() - 20));
+
+								}
+
+								dygraphTitleWidth = $("#" + graphId).width() - this.titleButtonSpace;
+								$(".dygraph-title").width(dygraphTitleWidth);
 							}
-
-							$(".dygraph-title")
-									.width(
-											($("#" + graphId).width() - this.titleButtonSpace));
 						}
 					}
 				}

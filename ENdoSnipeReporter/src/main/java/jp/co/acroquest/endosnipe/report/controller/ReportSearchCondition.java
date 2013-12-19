@@ -20,7 +20,8 @@ import java.util.List;
  * 
  * @author M.Yoshida
  */
-public class ReportSearchCondition {
+public class ReportSearchCondition
+{
 
 	/** 対象データベースリスト */
 	private List<String> databases_;
@@ -43,32 +44,35 @@ public class ReportSearchCondition {
 	/** PerformanceDoctorレポート出力で、同一ルールで絞り込むかどうか */
 	private boolean limitBySameRule_;
 
-
 	/**
 	 * @return the databases
 	 */
-	public List<String> getDatabases() {
+	public List<String> getDatabases()
+	{
 		return databases_;
 	}
 
 	/**
 	 * @return the startDate
 	 */
-	public Timestamp getStartDate() {
+	public Timestamp getStartDate()
+	{
 		return startDate_;
 	}
 
 	/**
 	 * @return the endDate
 	 */
-	public Timestamp getEndDate() {
+	public Timestamp getEndDate()
+	{
 		return endDate_;
 	}
 
 	/**
 	 * @return the outputFilePath
 	 */
-	public String getOutputFilePath() {
+	public String getOutputFilePath()
+	{
 		return outputFilePath_;
 	}
 
@@ -76,7 +80,8 @@ public class ReportSearchCondition {
 	 * @param databases
 	 *            the databases to set
 	 */
-	public void setDatabases(List<String> databases) {
+	public void setDatabases(List<String> databases)
+	{
 		databases_ = databases;
 	}
 
@@ -84,7 +89,8 @@ public class ReportSearchCondition {
 	 * @param startDate
 	 *            the startDate to set
 	 */
-	public void setStartDate(Timestamp startDate) {
+	public void setStartDate(Timestamp startDate)
+	{
 		startDate_ = startDate;
 	}
 
@@ -92,7 +98,8 @@ public class ReportSearchCondition {
 	 * @param endDate
 	 *            the endDate to set
 	 */
-	public void setEndDate(Timestamp endDate) {
+	public void setEndDate(Timestamp endDate)
+	{
 		endDate_ = endDate;
 	}
 
@@ -100,14 +107,16 @@ public class ReportSearchCondition {
 	 * @param outputFilePath
 	 *            the outputFilePath to set
 	 */
-	public void setOutputFilePath(String outputFilePath) {
+	public void setOutputFilePath(String outputFilePath)
+	{
 		outputFilePath_ = outputFilePath;
 	}
 
 	/**
 	 * @return the limitSameCause
 	 */
-	public boolean getLimitSameCause() {
+	public boolean getLimitSameCause()
+	{
 		return this.limitSameCause_;
 	}
 
@@ -115,14 +124,16 @@ public class ReportSearchCondition {
 	 * @param limitSameCause
 	 *            the limitSameCause to set
 	 */
-	public void setLimitSameCause(boolean limitSameCause) {
+	public void setLimitSameCause(boolean limitSameCause)
+	{
 		this.limitSameCause_ = limitSameCause;
 	}
 
 	/**
 	 * @return the limitBySameRule
 	 */
-	public boolean getLimitBySameRule() {
+	public boolean getLimitBySameRule()
+	{
 		return this.limitBySameRule_;
 	}
 
@@ -130,7 +141,8 @@ public class ReportSearchCondition {
 	 * @param limitBySameRule
 	 *            the limitBySameRule to set
 	 */
-	public void setLimitBySameRule(boolean limitBySameRule) {
+	public void setLimitBySameRule(boolean limitBySameRule)
+	{
 		this.limitBySameRule_ = limitBySameRule;
 	}
 
@@ -139,7 +151,8 @@ public class ReportSearchCondition {
 	 * 
 	 * @return レポート出力対象の計測項目の親の項目名
 	 */
-	public String getTargetItemName() {
+	public String getTargetItemName()
+	{
 		return targetItemName_;
 	}
 
@@ -149,7 +162,8 @@ public class ReportSearchCondition {
 	 * @param targetItemName
 	 *            レポート出力対象の計測項目の親の項目名
 	 */
-	public void setTargetItemName(String targetItemName) {
+	public void setTargetItemName(String targetItemName)
+	{
 		this.targetItemName_ = targetItemName;
 	}
 

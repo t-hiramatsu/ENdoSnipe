@@ -33,63 +33,63 @@ import jp.co.acroquest.endosnipe.report.dao.ReportDao;
  */
 public class ResponseTimeRecordAccessor
 {
-    /**
-     * 期間を指定し、その期間内でのレスポンスタイムレポートのデータを取得する。
-     * 
-     * @param database  データベース名
-     * @param startTime 検索条件(開始時刻)
-     * @param endTime   検索条件(終了時刻)
-     * @return レスポンスタイムレポートのデータ
-     * @throws SQLException データ取得時にエラーが発生した場合
-     */
-    public List<ResponseTimeRecord> findResponseStatisticsByTerm(String database,
-            Timestamp startTime, Timestamp endTime) throws SQLException
-    {
-        List<ResponseTimeRecord> result = new ArrayList<ResponseTimeRecord>();
+	/**
+	 * 期間を指定し、その期間内でのレスポンスタイムレポートのデータを取得する。
+	 * 
+	 * @param database  データベース名
+	 * @param startTime 検索条件(開始時刻)
+	 * @param endTime   検索条件(終了時刻)
+	 * @return レスポンスタイムレポートのデータ
+	 * @throws SQLException データ取得時にエラーが発生した場合
+	 */
+	public List<ResponseTimeRecord> findResponseStatisticsByTerm(String database,
+		Timestamp startTime, Timestamp endTime) throws SQLException
+	{
+		List<ResponseTimeRecord> result = new ArrayList<ResponseTimeRecord>();
 
-        List<ReportItemValue> minValues = ReportDao.selectAverage(database, startTime, endTime,
-                TelegramConstants.ITEMNAME_PROCESS_RESPONSE_TIME_MIN);
+		List<ReportItemValue> minValues = ReportDao.selectAverage(database, startTime, endTime,
+			TelegramConstants.ITEMNAME_PROCESS_RESPONSE_TIME_MIN);
 
-        List<ReportItemValue> maxValues = ReportDao.selectAverage(database, startTime, endTime,
-                TelegramConstants.ITEMNAME_PROCESS_RESPONSE_TIME_MAX);
+		List<ReportItemValue> maxValues = ReportDao.selectAverage(database, startTime, endTime,
+			TelegramConstants.ITEMNAME_PROCESS_RESPONSE_TIME_MAX);
 
-        List<ReportItemValue> cntValues = ReportDao.selectAverage(database, startTime, endTime,
-                TelegramConstants.ITEMNAME_PROCESS_RESPONSE_TOTAL_COUNT);
+		List<ReportItemValue> cntValues = ReportDao.selectAverage(database, startTime, endTime,
+			TelegramConstants.ITEMNAME_PROCESS_RESPONSE_TOTAL_COUNT);
 
-        List<ReportItemValue> aveValues = ReportDao.selectAverage(database, startTime, endTime,
-                TelegramConstants.ITEMNAME_PROCESS_RESPONSE_TIME_AVERAGE);
+		List<ReportItemValue> aveValues = ReportDao.selectAverage(database, startTime, endTime,
+			TelegramConstants.ITEMNAME_PROCESS_RESPONSE_TIME_AVERAGE);
 
-//        for (String accessedTarget : cntMap.keySet())
-//        {
-//            ResponseTimeRecord resultElem = new ResponseTimeRecord();
-//            resultElem.setAccessTarget(accessedTarget);
-//            resultElem.setAccessCount(cntMap.get(accessedTarget).value.longValue());
-//            resultElem.setAveResponseTime(aveMap.get(accessedTarget).value.longValue());
-//            resultElem.setMaxResponseTime(maxMap.get(accessedTarget).value.longValue());
-//            resultElem.setMinResponseTime(minMap.get(accessedTarget).value.longValue());
-//
-//            result.add(resultElem);
-//        }
+		//        for (String accessedTarget : cntMap.keySet())
+		//        {
+		//            ResponseTimeRecord resultElem = new ResponseTimeRecord();
+		//            resultElem.setAccessTarget(accessedTarget);
+		//            resultElem.setAccessCount(cntMap.get(accessedTarget).value.longValue());
+		//            resultElem.setAveResponseTime(aveMap.get(accessedTarget).value.longValue());
+		//            resultElem.setMaxResponseTime(maxMap.get(accessedTarget).value.longValue());
+		//            resultElem.setMinResponseTime(minMap.get(accessedTarget).value.longValue());
+		//
+		//            result.add(resultElem);
+		//        }
 
-        return result;
-    }
+		return result;
+	}
 
-    /**
-     * リストデータを、系列名称（アクセス対象メソッド／URL)をキーとするマップ形式のデータに変換する。
-     * 
-     * @param list リストデータ
-     * @return 変換後のマップデータ
-     */
-    private Map<String, MeasurementValueDto> convertListToItemKeyMap(List<MeasurementValueDto> list)
-    {
-        Map<String, MeasurementValueDto> resultMap = new HashMap<String, MeasurementValueDto>();
+	/**
+	 * リストデータを、系列名称（アクセス対象メソッド／URL)をキーとするマップ形式のデータに変換する。
+	 * 
+	 * @param list リストデータ
+	 * @return 変換後のマップデータ
+	 */
+	private Map<String, MeasurementValueDto> convertListToItemKeyMap(List<MeasurementValueDto> list)
+	{
+		Map<String, MeasurementValueDto> resultMap = new HashMap<String, MeasurementValueDto>();
 
-        for (MeasurementValueDto elem : list)
-        {
-            resultMap.put(elem.measurementItemName, elem);
-        }
+		for (MeasurementValueDto elem : list)
+		{
+			resultMap.put(elem.measurementItemName, elem);
+		}
 
-        return resultMap;
-    }
+		return resultMap;
+	}
 
 }

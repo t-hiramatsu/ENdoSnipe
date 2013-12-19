@@ -33,13 +33,12 @@ import org.bbreak.excella.reports.tag.SingleParamParser;
  */
 public class SummaryReportProcessor implements ReportPublishProcessor
 {
-    /** ロガー */
-    private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(
-            SummaryReportProcessor.class);
+	/** ロガー */
+	private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
+		.getLogger(SummaryReportProcessor.class);
 
 	/** 出力されるレポートの種類のリスト */
-	private static final ThreadLocal<ReportType[]> OUTPUT_FILE_TYPE_LIST
-	        = new ThreadLocal<ReportType[]>();
+	private static final ThreadLocal<ReportType[]> OUTPUT_FILE_TYPE_LIST = new ThreadLocal<ReportType[]>();
 
 	/**
 	 * 出力されるレポートの種類のリストをセットします。<br>
@@ -55,32 +54,29 @@ public class SummaryReportProcessor implements ReportPublishProcessor
 	public static final int PROCESS_PHASE_NUM = 3;
 
 	/** データを取得する工程 */
-	private static final String GET_DATA_PHASE_KEY
-	        = "reporter.report.progress.detail.getData";
+	private static final String GET_DATA_PHASE_KEY = "reporter.report.progress.detail.getData";
 
 	/** 取得したデータを変換する工程 */
-	private static final String CONVERT_DATA_PHASE_KEY
-	        = "reporter.report.progress.detail.convData";
+	private static final String CONVERT_DATA_PHASE_KEY = "reporter.report.progress.detail.convData";
 
 	/** ファイルを出力する工程 */
-	private static final String OUTPUT_DATA_PHASE_KEY
-	        = "reporter.report.progress.detail.output";
-	
+	private static final String OUTPUT_DATA_PHASE_KEY = "reporter.report.progress.detail.output";
+
 	/** レポート出力期間を示すタグ */
 	private static final String DATE_RANGE_TAG = "dataRange";
-	
+
 	/** データベース名を示すタグ */
 	private static final String DATABASE_NAME_TAG = "dataBaseName";
-	
+
 	/** 番号のリストを示すタグ */
 	private static final String NUMBERS_TAG = "numbers";
-	
+
 	/** 出力ファイル名のリストを示すタグ */
 	private static final String FILE_NAMES_TAG = "fileNames";
-	
+
 	/** 出力ファイルの説明を示すタグ */
 	private static final String FILE_EXPLANATIONS_TAG = "fileExplanations";
-	
+
 	/** レポート種別 */
 	private ReportType rType_;
 
@@ -111,11 +107,10 @@ public class SummaryReportProcessor implements ReportPublishProcessor
 	 */
 	protected String getOutputFileName()
 	{
-		File outputFile = new File(outputDir_, ReporterConfigAccessor
-				.getOutputFileName(rType_));
+		File outputFile = new File(outputDir_, ReporterConfigAccessor.getOutputFileName(rType_));
 		return outputFile.getAbsolutePath();
 	}
-	
+
 	/**
 	 * 出力先フォルダのパスを取得する
 	 * @return 出力先フォルダのパス
@@ -133,10 +128,10 @@ public class SummaryReportProcessor implements ReportPublishProcessor
 	 * @throws InterruptedException あるスレッドがこのスレッドを中断させた時に発生する。
 	 */
 	public ReportProcessReturnContainer publish(ReportSearchCondition cond)
-			throws InterruptedException
+		throws InterruptedException
 	{
 		// TODO 他のプロセッサと同様のPhaseを使用しているのを修正する。
-		
+
 		outputDir_ = cond.getOutputFilePath();
 
 		ReportProcessReturnContainer retContainer = new ReportProcessReturnContainer();
@@ -158,11 +153,9 @@ public class SummaryReportProcessor implements ReportPublishProcessor
 
 		// データ取得開始日時とデータ取得終了日時を成型する
 		calendar.setTime(startDate);
-		String startDateString = String.format(
-				"%1$tY/%1$tm/%1$td(%1$ta) %1$tH:%1$tM", calendar);
+		String startDateString = String.format("%1$tY/%1$tm/%1$td(%1$ta) %1$tH:%1$tM", calendar);
 		calendar.setTime(endDate);
-		String endDateString = String.format(
-				"%1$tY/%1$tm/%1$td(%1$ta) %1$tH:%1$tM", calendar);
+		String endDateString = String.format("%1$tY/%1$tm/%1$td(%1$ta) %1$tH:%1$tM", calendar);
 
 		// 表示用文字列を成形する
 		StringBuilder builder = new StringBuilder();
@@ -182,7 +175,7 @@ public class SummaryReportProcessor implements ReportPublishProcessor
 	 * @param reportContainer コンテナ
 	 */
 	private void outputReport(Object plotData, ReportSearchCondition cond,
-			ReportProcessReturnContainer reportContainer)
+		ReportProcessReturnContainer reportContainer)
 	{
 		// ダイアログでチェックされた、レポート種類のリストを取得する。
 		ReportType[] outputFileTypeList = OUTPUT_FILE_TYPE_LIST.get();
@@ -194,19 +187,17 @@ public class SummaryReportProcessor implements ReportPublishProcessor
 		Map<String, String> explanationMap = new HashMap<String, String>();
 		for (int index = 0; index < outputFileTypeList.length; index++)
 		{
-		    ReportType currentReportType = outputFileTypeList[index];
-			String fileName = ReporterConfigAccessor
-			        .getOutputFileName(currentReportType);
-			String explanation = ReporterConfigAccessor
-	                .getExplanation(currentReportType);
+			ReportType currentReportType = outputFileTypeList[index];
+			String fileName = ReporterConfigAccessor.getOutputFileName(currentReportType);
+			String explanation = ReporterConfigAccessor.getExplanation(currentReportType);
 			numbers[index] = index + 1;
 			// ApplicationReportとObjectReport、ResponseTimeReport、EventReportは
 			// ディレクトリとして出力されるので、".xls"を付けない
 			if (currentReportType.equals(ReportType.SERVER_POOL)
-			    || currentReportType.equals(ReportType.POOL_SIZE)
-			    || currentReportType.equals(ReportType.OBJECT)
-                || currentReportType.equals(ReportType.RESPONSE_LIST)
-                || currentReportType.equals(ReportType.EVENT))
+				|| currentReportType.equals(ReportType.POOL_SIZE)
+				|| currentReportType.equals(ReportType.OBJECT)
+				|| currentReportType.equals(ReportType.RESPONSE_LIST)
+				|| currentReportType.equals(ReportType.EVENT))
 			{
 				fileNames[index] = fileName;
 			}
@@ -229,8 +220,7 @@ public class SummaryReportProcessor implements ReportPublishProcessor
 		String templateFilePath;
 		try
 		{
-			templateFilePath = TemplateFileManager.getInstance()
-					.getTemplateFile(getReportType());
+			templateFilePath = TemplateFileManager.getInstance().getTemplateFile(getReportType());
 		}
 		catch (IOException exception)
 		{
@@ -246,25 +236,22 @@ public class SummaryReportProcessor implements ReportPublishProcessor
 
 		// 出力するExcelのブックとシートを表すオブジェクトを生成する
 		String id = this.getReportType().getId();
-		String templateSheetName = ReporterConfigAccessor.getProperty(id
-				+ ".templateSheetName");
-		ReportBook outputBook = new ReportBook(templateFilePath,
-				outputFilePath, ExcelExporter.FORMAT_TYPE);
+		String templateSheetName = ReporterConfigAccessor.getProperty(id + ".templateSheetName");
+		ReportBook outputBook = new ReportBook(templateFilePath, outputFilePath,
+			ExcelExporter.FORMAT_TYPE);
 		ReportSheet outputDataSheet = new ReportSheet(templateSheetName);
 		outputBook.addReportSheet(outputDataSheet);
 
 		// シートにデータを流し込む
-		outputDataSheet.addParam(SingleParamParser.DEFAULT_TAG,
-				DATE_RANGE_TAG, this.getDataRangeString(startDate, endDate));
-		outputDataSheet.addParam(SingleParamParser.DEFAULT_TAG,
-				DATABASE_NAME_TAG, databases.get(0));
+		outputDataSheet.addParam(SingleParamParser.DEFAULT_TAG, DATE_RANGE_TAG,
+			this.getDataRangeString(startDate, endDate));
+		outputDataSheet
+			.addParam(SingleParamParser.DEFAULT_TAG, DATABASE_NAME_TAG, databases.get(0));
 
-		outputDataSheet.addParam(RowRepeatParamParser.DEFAULT_TAG,
-				NUMBERS_TAG, numbers);
-		outputDataSheet.addParam(RowRepeatParamParser.DEFAULT_TAG,
-				FILE_NAMES_TAG, fileNames);
-		outputDataSheet.addParam(RowRepeatParamParser.DEFAULT_TAG,
-				FILE_EXPLANATIONS_TAG, explanations);
+		outputDataSheet.addParam(RowRepeatParamParser.DEFAULT_TAG, NUMBERS_TAG, numbers);
+		outputDataSheet.addParam(RowRepeatParamParser.DEFAULT_TAG, FILE_NAMES_TAG, fileNames);
+		outputDataSheet.addParam(RowRepeatParamParser.DEFAULT_TAG, FILE_EXPLANATIONS_TAG,
+			explanations);
 
 		// Excelファイルを出力する。
 		ReportProcessor reportProcessor = new ReportProcessor();
@@ -274,8 +261,8 @@ public class SummaryReportProcessor implements ReportPublishProcessor
 		}
 		catch (Exception ex)
 		{
-		    LOGGER.log(LogIdConstants.EXCEPTION_HAPPENED, ex,
-		            ReporterConfigAccessor.getReportName(getReportType()));
+			LOGGER.log(LogIdConstants.EXCEPTION_HAPPENED, ex,
+				ReporterConfigAccessor.getReportName(getReportType()));
 		}
 	}
 }

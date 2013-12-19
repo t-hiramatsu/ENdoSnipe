@@ -35,9 +35,9 @@ import jp.co.acroquest.endosnipe.report.util.ReporterConfigAccessor;
  */
 public class JavelinReportProcessor extends ReportPublishProcessorBase
 {
-    /** ロガー */
-    private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(
-            JavelinReportProcessor.class);
+	/** ロガー */
+	private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
+		.getLogger(JavelinReportProcessor.class);
 
 	/**
 	 * ReportProcessorを生成する。
@@ -55,7 +55,7 @@ public class JavelinReportProcessor extends ReportPublishProcessorBase
 	 */
 	@Override
 	protected Object getReportPlotData(ReportSearchCondition cond,
-			ReportProcessReturnContainer reportContainer)
+		ReportProcessReturnContainer reportContainer)
 	{
 		// 検索条件の取得
 		String database = cond.getDatabases().get(0);
@@ -67,15 +67,15 @@ public class JavelinReportProcessor extends ReportPublishProcessorBase
 		List<JavelinRecord> data;
 		try
 		{
-	        data = accessor.findJavelinStaticsByTerm(database, startTime, endTime);
+			data = accessor.findJavelinStaticsByTerm(database, startTime, endTime);
 		}
 		catch (SQLException ex)
 		{
-		    LOGGER.log(LogIdConstants.EXCEPTION_IN_READING, ex,
-		            ReporterConfigAccessor.getReportName(getReportType()));
-		    return null;
+			LOGGER.log(LogIdConstants.EXCEPTION_IN_READING, ex,
+				ReporterConfigAccessor.getReportName(getReportType()));
+			return null;
 		}
-		
+
 		return data;
 	}
 
@@ -83,12 +83,11 @@ public class JavelinReportProcessor extends ReportPublishProcessorBase
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected Object convertPlotData(Object rawData,
-			ReportSearchCondition cond,
-			ReportProcessReturnContainer reportContainer)
+	protected Object convertPlotData(Object rawData, ReportSearchCondition cond,
+		ReportProcessReturnContainer reportContainer)
 	{
-		List<JavelinRecord> data = (List<JavelinRecord>)rawData;
-		return (JavelinRecord[])data.toArray(new JavelinRecord[data.size()]);
+		List<JavelinRecord> data = (List<JavelinRecord>) rawData;
+		return (JavelinRecord[]) data.toArray(new JavelinRecord[data.size()]);
 	}
 
 	/**
@@ -96,7 +95,7 @@ public class JavelinReportProcessor extends ReportPublishProcessorBase
 	 */
 	@Override
 	protected void outputReport(Object plotData, ReportSearchCondition cond,
-			ReportProcessReturnContainer reportContainer)
+		ReportProcessReturnContainer reportContainer)
 	{
 		if ((plotData instanceof JavelinRecord[]) == false)
 		{
@@ -107,8 +106,7 @@ public class JavelinReportProcessor extends ReportPublishProcessorBase
 		String templateFilePath;
 		try
 		{
-			templateFilePath = TemplateFileManager.getInstance()
-					.getTemplateFile(getReportType());
+			templateFilePath = TemplateFileManager.getInstance().getTemplateFile(getReportType());
 		}
 		catch (IOException exception)
 		{
@@ -123,9 +121,7 @@ public class JavelinReportProcessor extends ReportPublishProcessorBase
 		Timestamp endTime = cond.getEndDate();
 
 		// レポート出力を実行する
-		RecordReporter<JavelinRecord> reporter =
-			new RecordReporter<JavelinRecord>(getReportType());
-		reporter.outputReport(templateFilePath, outputFilePath, records,
-				startTime, endTime);
+		RecordReporter<JavelinRecord> reporter = new RecordReporter<JavelinRecord>(getReportType());
+		reporter.outputReport(templateFilePath, outputFilePath, records, startTime, endTime);
 	}
 }

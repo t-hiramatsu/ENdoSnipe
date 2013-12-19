@@ -1,20 +1,20 @@
 /*******************************************************************************
  * ENdoSnipe 5.0 - (https://github.com/endosnipe)
- * 
+ *
  * The MIT License (MIT)
- * 
+ *
  * Copyright (c) 2012 Acroquest Technology Co.,Ltd.
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -157,6 +157,8 @@ ENS.tree.SUMMARYSIGNAL_SELECT_ALL_URL = wgp.common.getContextPath()
 + "/summarySignal/getAllDefinition";
 ENS.tree.SUMMARY_SIGNAL_SELECT_ALL_URL = wgp.common.getContextPath()
 + "/summarySignal/getAllDefinitions";
+ENS.tree.SUMMARY_SIGNAL_CHANGE_STATE_URL = wgp.common.getContextPath()
++ "/summarySignal/changeStatus";
 
 ENS.tree.REPORT_ADD_URL = wgp.common.getContextPath() + "/report/add";
 ENS.tree.REPORT_ADD_DUPLICATE_URL = wgp.common.getContextPath()
@@ -209,6 +211,8 @@ ENS.tree.SCHEDULING_EDIT_URL = wgp.common.getContextPath() + "/report/edit";
 ENS.tree.REPORT_SCHEDULE_DIALOG = "schedulingReportDialog";
 ENS.tree.SCHEDULING_REPORT_SELECT_ALL_URL = wgp.common.getContextPath()
 + "/report/getAllScheduleDefinition";
+ENS.tree.SCHEDULING_REPORT_SELECT_ALL_URL_BY_AGENT = wgp.common.getContextPath()
++ "/report/getAllScheduleDefinitionByAgent";
 ENS.tree.SCHEDULE_EDIT_URL = wgp.common.getContextPath() + "/report/schedulingEdit";
 ENS.tree.REPORT_SCHEDULE_DELETE_BY_NAME_URL = wgp.common.getContextPath() + "/report/deleteScheduleByName";
 ENS.tree.REPORT_SCHEDULE_DELETE_BY_ID_URL = wgp.common.getContextPath() + "/report/deleteScheduleById";
@@ -462,7 +466,11 @@ ENS.svg.attribute = {
 	r : "r",
 	rx : "rx",
 	ry : "ry",
-	src : "src",
+	src : {
+		name : "src",
+		type : "string",
+		display : "url"
+	},
 	stroke : {
 		name : "stroke",
 		type : "color",

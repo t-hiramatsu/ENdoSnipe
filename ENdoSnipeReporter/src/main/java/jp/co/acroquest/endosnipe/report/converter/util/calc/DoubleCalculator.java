@@ -21,45 +21,49 @@ import org.apache.commons.beanutils.converters.DoubleConverter;
  * 
  * @author M.Yoshida
  */
-public class DoubleCalculator implements Calculator 
+public class DoubleCalculator implements Calculator
 {
 
-	public Object add(Object obj1, Object obj2) 
+	public Object add(Object obj1, Object obj2)
 	{
-		Double doubleData1 = (Double)obj1;
-		Double doubleData2 = (Double)obj2;
-		
-		return (Object)(new Double((double)(doubleData1.doubleValue() + doubleData2.doubleValue())));
+		Double doubleData1 = (Double) obj1;
+		Double doubleData2 = (Double) obj2;
+
+		return (Object) (new Double(
+			(double) (doubleData1.doubleValue() + doubleData2.doubleValue())));
 	}
 
-	public Object div(Object obj1, Object obj2) 
+	public Object div(Object obj1, Object obj2)
 	{
-		Double doubleData1 = (Double)obj1;
-		Double doubleData2 = (Double)obj2;
-		
-		return (Object)(new Double((double)(doubleData1.doubleValue() / doubleData2.doubleValue())));
+		Double doubleData1 = (Double) obj1;
+		Double doubleData2 = (Double) obj2;
+
+		return (Object) (new Double(
+			(double) (doubleData1.doubleValue() / doubleData2.doubleValue())));
 	}
 
-	public Object immediate(String str) 
+	public Object immediate(String str)
 	{
 		DoubleConverter converter = new DoubleConverter();
 		return converter.convert(Double.class, str);
 	}
 
-	public Object mul(Object obj1, Object obj2) 
+	public Object mul(Object obj1, Object obj2)
 	{
-		Double doubleData1 = (Double)obj1;
-		Double doubleData2 = (Double)obj2;
-		
-		return (Object)(new Double((double)(doubleData1.doubleValue() * doubleData2.doubleValue())));
+		Double doubleData1 = (Double) obj1;
+		Double doubleData2 = (Double) obj2;
+
+		return (Object) (new Double(
+			(double) (doubleData1.doubleValue() * doubleData2.doubleValue())));
 	}
 
-	public Object sub(Object obj1, Object obj2) 
+	public Object sub(Object obj1, Object obj2)
 	{
-		Double doubleData1 = (Double)obj1;
-		Double doubleData2 = (Double)obj2;
-		
-		return (Object)(new Double((double)(doubleData1.doubleValue() - doubleData2.doubleValue())));
+		Double doubleData1 = (Double) obj1;
+		Double doubleData2 = (Double) obj2;
+
+		return (Object) (new Double(
+			(double) (doubleData1.doubleValue() - doubleData2.doubleValue())));
 	}
 
 }
