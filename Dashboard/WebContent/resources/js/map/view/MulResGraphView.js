@@ -200,36 +200,39 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 					$("#" + this.maximumButton).remove();
 				}
 
-				var childElem = $("#" + graphId + "").children("div");
-				$(childElem).append(this.maximumButtonImg);
-				$("#" + this.maximumButton).css("float", "right");
-				var minButton = this.normalButton, maxButton = this.maximumButton;
-				$(element).click(
-						function(e) {
-							var offsetLeft = $("#" + graphId).offset().left;
-							var offsetTop = $("#" + graphId).offset().top;
-							var position = {
-								x : Math.floor(e.clientX - offsetLeft),
-								y : Math.floor(e.clientY - offsetTop)
-							};
-
-							if (position.x > ($("#" + graphId).width() - 20)
-									&& position.x < ($("#" + graphId).width())
-									&& position.y > 0 && position.y < 28) {
-								if ($("." + maxButton).length > 0) {
-									instance.addMaximizeEvent(offsetLeft,
-											offsetTop);
-								}
-							}
-						});
 				this.getGraphObject().updateOptions({
 					dateWindow : this.dateWindow,
 					axisLabelFontSize : 10,
 					titleHeight : 22
 				});
 
-				$(".dygraph-title").width(
-						$("#" + graphId).width() - this.titleButtonSpace);
+				if(this.viewMaximumButtonFlag){
+					var childElem = $("#" + graphId + "").children("div");
+					$(childElem).append(this.maximumButtonImg);
+					$("#" + this.maximumButton).css("float", "right");
+					var minButton = this.normalButton, maxButton = this.maximumButton;
+					$(element).click(
+							function(e) {
+								var offsetLeft = $("#" + graphId).offset().left;
+								var offsetTop = $("#" + graphId).offset().top;
+								var position = {
+									x : Math.floor(e.clientX - offsetLeft),
+									y : Math.floor(e.clientY - offsetTop)
+								};
+
+								if (position.x > ($("#" + graphId).width() - 20)
+										&& position.x < ($("#" + graphId).width())
+										&& position.y > 0 && position.y < 28) {
+									if ($("." + maxButton).length > 0) {
+										instance.addMaximizeEvent(offsetLeft,
+												offsetTop);
+									}
+								}
+							});
+
+					$(".dygraph-title").width(
+							$("#" + graphId).width() - this.titleButtonSpace);
+				}
 				this.mouseEvent(graphId, isShort, tmpTitle, optionSettings);
 			},
 
@@ -292,8 +295,11 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 						}
 
 					}
-					$(".dygraph-title").width(
-							$("#tempDiv").width() - this.titleButtonSpace);
+
+					if(this.viewMaximumButtonFlag){
+						$(".dygraph-title").width(
+								$("#tempDiv").width() - this.titleButtonSpace);
+					}
 				}
 			},
 			_getTermData : function() {
@@ -355,11 +361,18 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				var graphId = this.$el.attr("id") + "_ensgraph";
 
 				if ($("#tempDiv").length > 0) {
-					$(".dygraph-title").width(
-							($("#tempDiv").width() * 0.977) - 67);
+
+					if(this.viewMaximumButtonFlag){
+						$(".dygraph-title").width(
+								$("#tempDiv").width() - this.titleButtonSpace);
+					}
+
 				} else {
 
-					$(".dygraph-title").width(($("#" + graphId).width() - 87));
+					if(this.viewMaximumButtonFlag){
+						$(".dygraph-title").width(
+								$("#" + graphId).width() - this.titleButtonSpace);
+					}
 				}
 			},
 			getMaxValue : function(dataList) {

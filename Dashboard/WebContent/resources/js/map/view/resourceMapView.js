@@ -135,7 +135,8 @@ ENS.ResourceMapView = wgp.MapView.extend({
 			id : graphId,
 			measurementUnit : "",
 			parentTreeId : "",
-			treeId : ""
+			treeId : "",
+			viewMaximumButtonFlag : false
 		};
 		var viewAttribute = {
 			id : graphId,

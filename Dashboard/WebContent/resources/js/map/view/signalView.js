@@ -16,7 +16,7 @@ ENS.SignalElementView = ENS.ShapeElementView.extend({
 		wgp.MapElementView.prototype.render.apply(this, [ model ]);
 
 		// 状態画像とシグナル名の情報はresourceTreeから取得
-		var treeModel = resourceTreeView.ensTreeView.collection.get(model.id);
+		var treeModel = resourceTreeView.ensTreeView.collection.get(model.get("resourceId"));
 		var icon = ENS.tree.SIGNAL_ICON_STOP;
 		var text = model.get("text");
 		if(treeModel){
@@ -66,7 +66,7 @@ ENS.SignalElementView = ENS.ShapeElementView.extend({
 	update : function(model) {
 
 		// 状態画像の情報はresourceTreeから取得
-		var treeModel = resourceTreeView.ensTreeView.collection.get(model.id);
+		var treeModel = resourceTreeView.ensTreeView.collection.get(model.get("resourceId"));
 		var icon = ENS.tree.SIGNAL_ICON_STOP;
 		var text = model.get("text");
 
