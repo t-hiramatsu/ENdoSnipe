@@ -63,6 +63,11 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 														}
 														ins
 																.inputMulResGraphDialog_();
+														var selectedOpts = $('#multipleResourceGraphLstBox2 option');
+														if (selectedOpts.length === 0) {
+															alert("There is no data match with pattern.");
+															return;
+														}
 													}
 
 													if (!ins.op_[okObj]) {
@@ -197,25 +202,6 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 												.append($(selectedOpts).clone());
 										$(selectedOpts).remove();
 										e.preventDefault();
-									});
-
-					$('#btnAddGraphText')
-							.click(
-									function(e) {
-
-										if ($(
-												'#multipleResourceGraphRegExpression')
-												.attr("checked")) {
-											var multipleResourceGraphItems = $(
-													"#multipleResourceGraphItems")
-													.val();
-											if (multipleResourceGraphItems === "") {
-												alert("Please input 'Pattern of Multiple Resource Graph Items'.");
-												return;
-											}
-											ins.inputMulResGraphDialog_();
-										}
-
 									});
 
 					ENS.multipleResourceGraphDialog.isFirst = false;
