@@ -450,7 +450,7 @@ ENS.treeView = wgp.TreeView
 					executeOption.okObject = this;
 					executeOption.okFunctionName = "mulResGraphPushOkFunction";
 					executeOption.cancelObject = this;
-					executeOption.cancelFunctionName = "pushCancelFunction";
+					executeOption.cancelFunctionName = "mulResGraphPushCancelFunction";
 					eval("new " + executeClass + "(executeOption)");
 				}
 			},
@@ -758,7 +758,8 @@ ENS.treeView = wgp.TreeView
 				var mulResGraphDefinition = {
 					multipleResourceGraphId : $("#mulResGraphId").val(),
 					multipleResourceGraphName : mulResGraphName,
-					measurementItemIdList : measurementItem
+					measurementItemIdList : measurementItem,
+					measurementItemPattern : $("#multipleResourceGraphItems").val()
 				};
 
 				var sendData = {
@@ -792,7 +793,8 @@ ENS.treeView = wgp.TreeView
 				var mulResGraphDefinition = {
 					multipleResourceGraphId : $("#mulResGraphId").val(),
 					multipleResourceGraphName : mulResGraphName,
-					measurementItemIdList : measurementItem
+					measurementItemIdList : measurementItem,
+					measurementItemPattern : $("#multipleResourceGraphItems").val()
 				};
 				var sendData = {
 					mulResGraphDefinition : JSON
@@ -1429,7 +1431,7 @@ ENS.treeView = wgp.TreeView
 				$("#multipleResourceGraphId").val("");
 				$("#multipleResourceGraphName").val("");
 				$("#multipleResourceGraphLstBox2").empty();
-
+				$("#multipleResourceGraphItems").val("");
 			},
 
 			clearSummarySignalDialog_ : function() {
@@ -1473,6 +1475,9 @@ ENS.treeView = wgp.TreeView
 									+ measurementList[i] + "</option>");
 
 				}
+				$("#multipleResourceGraphItems")
+				.val(multipleResourceGraphDefinition.measurementItemPattern);
+				
 			},
 
 			inputSummarySignalDialog_ : function(treeModel) {

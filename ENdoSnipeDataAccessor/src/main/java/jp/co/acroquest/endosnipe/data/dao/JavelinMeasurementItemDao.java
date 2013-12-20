@@ -156,8 +156,7 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
                     + " where replace(replace(replace(MEASUREMENT_ITEM_NAME,chr(13)"
                     + "||chr(10),' '),chr(13),' '),chr(10),' ') LIKE ? "
                     + "order by MEASUREMENT_ITEM_NAME";
-             
-            
+
             pstmt = conn.prepareStatement(sql);
             PreparedStatement preparedStatement = getDelegatingStatement(pstmt);
             String tempStr = measurementItemName + "%";
@@ -175,10 +174,11 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
                 itemNameList.add(new GraphTypeDto(itemName, "graph"));
                 // CHECKSTYLE:ON
             }
-            
-            List<GraphTypeDto> itemNameList2 = selectMulGrapNameListByParentItemName(database, measurementItemName);
-            itemNameList.addAll(itemNameList2);          
-            
+
+            List<GraphTypeDto> itemNameList2 =
+                selectMulGrapNameListByParentItemName(database, measurementItemName);
+            itemNameList.addAll(itemNameList2);
+
         }
         finally
         {
@@ -215,8 +215,7 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
                     + " where replace(replace(replace(MULTIPLE_RESOURCE_GRAPH_NAME,chr(13)"
                     + "||chr(10),' '),chr(13),' '),chr(10),' ') LIKE ? "
                     + "order by MULTIPLE_RESOURCE_GRAPH_NAME";
-           
-               
+
             pstmt = conn.prepareStatement(sql);
             PreparedStatement preparedStatement = getDelegatingStatement(pstmt);
             String tempStr = measurementItemName + "%";
@@ -244,8 +243,7 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
 
         return itemNameList;
     }
-    
-    
+
     /**
      * 指定されたItemName配下の計測項目名の一覧を取得します。<br />
      *
@@ -393,6 +391,7 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
             stmt = conn.createStatement();
             String sql =
                 "select * from " + JAVELIN_MEASUREMENT_ITEM + " order by MEASUREMENT_ITEM_NAME";
+
             rs = stmt.executeQuery(sql);
             while (rs.next() == true)
             {
@@ -409,6 +408,51 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
         {
             SQLUtil.closeResultSet(rs);
             SQLUtil.closeStatement(stmt);
+            SQLUtil.closeConnection(conn);
+        }
+        return result;
+    }
+
+    /**
+     * レコードをすべて取得します。<br />
+     * 
+     * @param database データベース名
+     * @param regExp regularexpression
+     * @return {@link JavelinMeasurementItem} のリスト
+     * @throws SQLException SQL 実行時に例外が発生した場合
+     */
+    public static List<JavelinMeasurementItem> selectAllByPattern(final String database,
+        final String regExp)
+        throws SQLException
+    {
+        List<JavelinMeasurementItem> result = new ArrayList<JavelinMeasurementItem>();
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try
+        {
+            conn = getConnection(database, true);
+            String sql =
+                "select * from " + JAVELIN_MEASUREMENT_ITEM
+                    + " where MEASUREMENT_ITEM_NAME ~* ? order by MEASUREMENT_ITEM_NAME";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, regExp);
+            rs = pstmt.executeQuery();
+            while (rs.next() == true)
+            {
+                JavelinMeasurementItem item = new JavelinMeasurementItem();
+                // CHECKSTYLE:OFF
+                item.measurementItemId = rs.getInt(1);
+                item.itemName = rs.getString(2);
+                item.lastInserted = rs.getTimestamp(3);
+                // CHECKSTYLE:ON
+                result.add(item);
+            }
+        }
+        finally
+        {
+            SQLUtil.closeResultSet(rs);
+            SQLUtil.closeStatement(pstmt);
             SQLUtil.closeConnection(conn);
         }
         return result;
@@ -760,4 +804,5 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
             SQLUtil.closeConnection(conn);
         }
     }
+
 }

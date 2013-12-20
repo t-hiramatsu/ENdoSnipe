@@ -63,7 +63,8 @@ public class MeasurementValueDaoTest extends AbstractDaoTest
      * @param expected 期待する値
      * @param actual 実際の値
      */
-    private static void assertEquals(final MeasurementValue expected, final MeasurementValue actual)
+    private static void
+        assertEquals(final MeasurementValue expected, final MeasurementValue actual)
     {
         assertEquals(expected.measurementTime, actual.measurementTime);
         assertEquals(expected.measurementItemId, actual.measurementItemId);
@@ -170,8 +171,7 @@ public class MeasurementValueDaoTest extends AbstractDaoTest
         insertMeasurementValue();
 
         // 実行
-        List<MeasurementValue> actual =
-                MeasurementValueDao.selectByTerm(DB_NAME, start, end);
+        List<MeasurementValue> actual = MeasurementValueDao.selectByTerm(DB_NAME, start, end);
 
         // 検証
         assertEquals(2, actual.size());
@@ -202,8 +202,7 @@ public class MeasurementValueDaoTest extends AbstractDaoTest
         insertMeasurementValue();
 
         // 実行
-        List<MeasurementValue> actual =
-                MeasurementValueDao.selectByTerm(DB_NAME, start, end);
+        List<MeasurementValue> actual = MeasurementValueDao.selectByTerm(DB_NAME, start, end);
 
         // 検証
         assertEquals(0, actual.size());
@@ -232,8 +231,7 @@ public class MeasurementValueDaoTest extends AbstractDaoTest
         Timestamp end = new Timestamp(System.currentTimeMillis());
 
         // 実行
-        List<MeasurementValue> actual =
-                MeasurementValueDao.selectByTerm(DB_NAME, start, end);
+        List<MeasurementValue> actual = MeasurementValueDao.selectByTerm(DB_NAME, start, end);
 
         // 検証
         assertEquals(0, actual.size());

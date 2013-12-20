@@ -29,6 +29,9 @@ public class MultipleResourceGraphInfo
     /** measurementItemId's list. */
     public String measurementItemIdList_;
 
+    /** measurementItemPattern . */
+    public String measurementItemPattern_;
+
     /**
      * {@link MultipleResourceGraphInfo} MultipleResourceGraphトを生成します。<br />
      */
@@ -40,8 +43,8 @@ public class MultipleResourceGraphInfo
     @Override
     public String toString()
     {
-        return String.format("MultipleResourceGraphID%d MultipleResourceGraphName:%s MeasurementItemIdList_:%s",
+        return String.format("MultipleResourceGraphID%d MultipleResourceGraphName:%s MeasurementItemIdList:%s MeasurementItemPattern:%s",
                              multipleResourceGraphId_, multipleResourceGraphName_,
-                             measurementItemIdList_);
+                             measurementItemIdList_, measurementItemPattern_);
     }
 }

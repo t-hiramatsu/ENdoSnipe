@@ -371,7 +371,8 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 
 					if(this.viewMaximumButtonFlag){
 						$(".dygraph-title").width(
-								$("#" + graphId).width() - this.titleButtonSpace);
+								$("#" + graphId).width()
+										- this.titleButtonSpace);
 					}
 				}
 			},
