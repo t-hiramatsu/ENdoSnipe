@@ -274,7 +274,6 @@ public class MultipleResourceGraphService
                     getmultipleResourceGraphInfo(multipleResourceGraphName);
 
             multipleResourceGraphDao.delete(multipleResourceGraphName);
-            this.deleteMeasurementItem(multipleResourceGraphName);
         }
         catch (PersistenceException pEx)
         {
@@ -288,10 +287,6 @@ public class MultipleResourceGraphService
             {
                 LOGGER.log(LogMessageCodes.SQL_EXCEPTION, pEx, pEx.getMessage());
             }
-        }
-        catch (SQLException sqlEx)
-        {
-            LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx, sqlEx.getMessage());
         }
 
         // 各クライアントに複数グラフ定義の削除を送信する。
@@ -316,7 +311,8 @@ public class MultipleResourceGraphService
         multipleResourceGraphInfo.multipleResourceGraphName_ =
                 definitionDto.getMultipleResourceGraphName();
         multipleResourceGraphInfo.measurementItemIdList_ = definitionDto.getMeasurementItemIdList();
-
+        multipleResourceGraphInfo.measurementItemPattern_ =
+                definitionDto.getMeasurementItemPattern();
         return multipleResourceGraphInfo;
     }
 
@@ -336,44 +332,33 @@ public class MultipleResourceGraphService
         definitionDto.setMultipleResourceGraphId(multipleResourceGraphInfo.multipleResourceGraphId_);
         definitionDto.setMultipleResourceGraphName(multipleResourceGraphInfo.multipleResourceGraphName_);
         definitionDto.setMeasurementItemIdList(multipleResourceGraphInfo.measurementItemIdList_);
-
+        definitionDto.setMeasurementItemPattern(multipleResourceGraphInfo.measurementItemPattern_);
         return definitionDto;
     }
 
     /**
      * javelin_measurement_itemテーブルのMEASUREMENT_ITEM_NAMEを更新する。
-     * 
+     * @param regExp regExp
      * @throws SQLException
      *             SQL 実行時に例外が発生した場合
      *             
      * @return javelin_measurement_itemのリスト
      */
-    public List<JavelinMeasurementItem> getMeasurementItemName()
+    public List<JavelinMeasurementItem> getMeasurementItemName(final String regExp)
         throws SQLException
     {
         DatabaseManager dbMmanager = DatabaseManager.getInstance();
         String dbName = dbMmanager.getDataBaseName(1);
-
-        List<JavelinMeasurementItem> measurementItemList =
-                JavelinMeasurementItemDao.selectAll(dbName);
+        List<JavelinMeasurementItem> measurementItemList = new ArrayList<JavelinMeasurementItem>();
+        if (regExp != null && !(regExp.trim().equals("")))
+        {
+            measurementItemList = JavelinMeasurementItemDao.selectAllByPattern(dbName, regExp);
+        }
+        else
+        {
+            measurementItemList = JavelinMeasurementItemDao.selectAll(dbName);
+        }
         return measurementItemList;
-    }
-
-    /**
-     * javelin_measurement_itemテーブルの指定したMEASUREMENT_ITEM_NAMEのレコードを削除する。
-     * 
-     * @param itemName
-     *            削除するレコードの MEASUREMENT_ITEM_NAME
-     * @throws SQLException
-     *             SQL 実行時に例外が発生した場合
-     */
-    private void deleteMeasurementItem(final String itemName)
-        throws SQLException
-    {
-        DatabaseManager dbMmanager = DatabaseManager.getInstance();
-        String dbName = dbMmanager.getDataBaseName(1);
-
-        JavelinMeasurementItemDao.deleteByMeasurementItemId(dbName, itemName);
     }
 
     /**

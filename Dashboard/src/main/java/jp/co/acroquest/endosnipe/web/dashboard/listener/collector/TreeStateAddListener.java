@@ -92,8 +92,8 @@ public class TreeStateAddListener extends AbstractTelegramListener
                 String type = "add";
 
                 resourceSender.send(treeMenuDtoList, type);
-            }
 
+            }
         }
 
         return null;
