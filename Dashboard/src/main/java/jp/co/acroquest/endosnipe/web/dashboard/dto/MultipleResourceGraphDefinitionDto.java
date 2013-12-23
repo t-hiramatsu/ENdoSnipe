@@ -30,6 +30,9 @@ public class MultipleResourceGraphDefinitionDto
     /** measurementItemId's list. */
     private String measurementItemIdList_;
 
+    /** measurementItemPattern . */
+    private String measurementItemPattern_;
+
     /**
      * コンストラクタ。
      */
@@ -99,6 +102,24 @@ public class MultipleResourceGraphDefinitionDto
     public void setMeasurementItemIdList(final String measurementItemIdList)
     {
         measurementItemIdList_ = measurementItemIdList;
+    }
+
+    /**
+     * measurementItemPatternを取得する。
+     * @return measurement Item Pattern
+     */
+    public String getMeasurementItemPattern()
+    {
+        return measurementItemPattern_;
+    }
+
+    /**
+     * measurementItemPatternを設定する。
+     * @param measurementItemPattern regular expression pattern
+     */
+    public void setMeasurementItemPattern(final String measurementItemPattern)
+    {
+        measurementItemPattern_ = measurementItemPattern;
     }
 
 }

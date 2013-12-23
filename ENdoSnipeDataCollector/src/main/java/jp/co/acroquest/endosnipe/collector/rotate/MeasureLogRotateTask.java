@@ -28,12 +28,15 @@ package jp.co.acroquest.endosnipe.collector.rotate;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.List;
 
 import jp.co.acroquest.endosnipe.collector.LogMessageCodes;
 import jp.co.acroquest.endosnipe.collector.config.RotateConfig;
+import jp.co.acroquest.endosnipe.collector.util.MulResourceGraphUtil;
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
 import jp.co.acroquest.endosnipe.data.dao.JavelinMeasurementItemDao;
 import jp.co.acroquest.endosnipe.data.dao.MeasurementValueDao;
+import jp.co.acroquest.endosnipe.data.dao.MulResourceGraphDefinitionDao;
 import jp.co.acroquest.endosnipe.data.db.ConnectionManager;
 
 /**
@@ -44,8 +47,8 @@ import jp.co.acroquest.endosnipe.data.db.ConnectionManager;
 public class MeasureLogRotateTask implements LogRotateTask
 {
     /** ロガー。 */
-    private static final ENdoSnipeLogger LOGGER =
-                                                  ENdoSnipeLogger.getLogger(MeasureLogRotateTask.class);
+    private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
+        .getLogger(MeasureLogRotateTask.class);
 
     /** ローテート用設定 */
     private final RotateConfig config_;
@@ -72,8 +75,7 @@ public class MeasureLogRotateTask implements LogRotateTask
         }
 
         Calendar deleteTimeCalender =
-                                      RotateUtil.getBeforeDate(this.config_.getMeasureUnitByCalendar(),
-                                                               period);
+            RotateUtil.getBeforeDate(this.config_.getMeasureUnitByCalendar(), period);
 
         Timestamp deleteLimit = new Timestamp(deleteTimeCalender.getTimeInMillis());
 
@@ -83,15 +85,19 @@ public class MeasureLogRotateTask implements LogRotateTask
             try
             {
                 MeasurementValueDao.deleteOldRecordByTime(databaseName, deleteLimit);
+                List<String> result =
+                    MulResourceGraphDefinitionDao.selectOnNotUsedRecord(databaseName);
                 JavelinMeasurementItemDao.deleteNotUsedRecord(databaseName);
+                MulResourceGraphUtil.checkMatchPattern(databaseName, result, "delete");
                 LOGGER.log(LogMessageCodes.MEASURELOG_ROTATE, new Object[]{databaseName,
-                        deleteLimit});
+                    deleteLimit});
             }
             catch (SQLException ex)
             {
                 LOGGER.log(LogMessageCodes.MEASURELOG_ROTATE_FAIL, ex, new Object[]{databaseName,
-                        deleteLimit});
+                    deleteLimit});
             }
         }
     }
+
 }

@@ -58,6 +58,7 @@ import jp.co.acroquest.endosnipe.collector.processor.AlarmThresholdProcessor;
 import jp.co.acroquest.endosnipe.collector.processor.AlarmType;
 import jp.co.acroquest.endosnipe.collector.request.CommunicationClientRepository;
 import jp.co.acroquest.endosnipe.collector.util.CollectorTelegramUtil;
+import jp.co.acroquest.endosnipe.collector.util.MulResourceGraphUtil;
 import jp.co.acroquest.endosnipe.collector.util.PerfDoctorMessages;
 import jp.co.acroquest.endosnipe.collector.util.SignalSummarizer;
 import jp.co.acroquest.endosnipe.common.Constants;
@@ -640,7 +641,12 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         {
             Telegram addTelegram = createAddTreeNodeTelegram(measurementItemList);
             this.clientRepository_.sendTelegramToClient(clientId, addTelegram);
-
+            List<String> itemNameList = new ArrayList<String>();
+            for (MeasurementValueDto measurementItem : measurementItemList)
+            {
+                itemNameList.add(measurementItem.measurementItemName);
+            }
+            MulResourceGraphUtil.checkMatchPattern(database, itemNameList, "add");
         }
     }
 
@@ -1665,4 +1671,5 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
 
         return icon;
     }
+
 }

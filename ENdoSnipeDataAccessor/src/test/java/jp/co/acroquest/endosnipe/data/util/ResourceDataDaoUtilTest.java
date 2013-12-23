@@ -143,8 +143,8 @@ public class ResourceDataDaoUtilTest extends AbstractDaoTest
         for (int index = 101; index <= 104; index++)
         {
             MeasurementInfo measurementInfo =
-                    new MeasurementInfo(index, "itemName" + index, "Name" + index, "Description"
-                            + index);
+                new MeasurementInfo(index, "itemName" + index, "Name" + index, "Description"
+                    + index);
             MeasurementInfoDao.insert(DB_NAME, measurementInfo);
         }
     }
@@ -171,7 +171,7 @@ public class ResourceDataDaoUtilTest extends AbstractDaoTest
         List<MeasurementValue> measurementValueList = MeasurementValueDao.selectAll(DB_NAME);
         assertEquals(3, measurementValueList.size());
         List<JavelinMeasurementItem> measurementItemList =
-                JavelinMeasurementItemDao.selectAll(DB_NAME);
+            JavelinMeasurementItemDao.selectAll(DB_NAME);
         assertEquals(3, measurementItemList.size());
     }
 
@@ -198,7 +198,7 @@ public class ResourceDataDaoUtilTest extends AbstractDaoTest
         List<MeasurementValue> measurementValueList = MeasurementValueDao.selectAll(DB_NAME);
         assertEquals(6, measurementValueList.size());
         List<JavelinMeasurementItem> measurementItemList =
-                JavelinMeasurementItemDao.selectAll(DB_NAME);
+            JavelinMeasurementItemDao.selectAll(DB_NAME);
         assertEquals(3, measurementItemList.size());
     }
 

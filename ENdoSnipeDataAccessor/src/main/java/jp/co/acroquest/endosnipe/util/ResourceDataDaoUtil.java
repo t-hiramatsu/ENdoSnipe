@@ -28,6 +28,7 @@ package jp.co.acroquest.endosnipe.util;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -36,6 +37,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 import jp.co.acroquest.endosnipe.common.entity.MeasurementData;
@@ -45,10 +47,12 @@ import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
 import jp.co.acroquest.endosnipe.data.LogMessageCodes;
 import jp.co.acroquest.endosnipe.data.dao.JavelinMeasurementItemDao;
 import jp.co.acroquest.endosnipe.data.dao.MeasurementValueDao;
+import jp.co.acroquest.endosnipe.data.dao.MulResourceGraphDefinitionDao;
 import jp.co.acroquest.endosnipe.data.db.DBManager;
 import jp.co.acroquest.endosnipe.data.dto.MeasurementValueDto;
 import jp.co.acroquest.endosnipe.data.entity.JavelinMeasurementItem;
 import jp.co.acroquest.endosnipe.data.entity.MeasurementValue;
+import jp.co.acroquest.endosnipe.data.entity.MultipleResourceGraphInfo;
 
 /**
  * データベースの計測値情報を {@link ResourceData} でやりとりするためのユーティリティクラス。
@@ -72,6 +76,12 @@ public class ResourceDataDaoUtil
     /** データベース名をキーとする、measurement_typeとitem_nameを":"で区切って連結した文字列をキーとする、item_idのマップを保持するマップ*/
     private static Map<String, Map<String, Integer>> measurementItemIdMap__ =
         new ConcurrentHashMap<String, Map<String, Integer>>();
+
+    /**
+     * MeasurementItemName with Id for real time add process
+     */
+    private static Map<Integer, String> measurementItemNameMap__ =
+        new ConcurrentHashMap<Integer, String>();
 
     /** １週間の日数 */
     public static final int DAY_OF_WEEK = 7;
@@ -254,14 +264,13 @@ public class ResourceDataDaoUtil
      * @return インサート結果
      * @throws SQLException SQL 実行時に例外が発生した場合
      */
-    public static InsertResult insertDirect(final String database, final ResourceData resourceData,final int batchUnit,
-        final int itemIdCacheSize)
-    throws SQLException
+    public static InsertResult insertDirect(final String database, final ResourceData resourceData,
+        final int batchUnit, final int itemIdCacheSize)
+        throws SQLException
     {
-        return insert(database, resourceData, 0, 0, batchUnit,
-                      itemIdCacheSize, false);
+        return insert(database, resourceData, 0, 0, batchUnit, itemIdCacheSize, false);
     }
-    
+
     /**
      * {@link ResourceData} をデータベースに登録します。<br />
      *
@@ -288,7 +297,7 @@ public class ResourceDataDaoUtil
     public static InsertResult insert(final String database, final ResourceData resourceData,
         final int rotatePeriod, final int rotatePeriodUnit, final int batchUnit,
         final int itemIdCacheSize)
-    throws SQLException
+        throws SQLException
     {
         return insert(database, resourceData, rotatePeriod, rotatePeriodUnit, batchUnit,
                       itemIdCacheSize, true);
@@ -724,6 +733,7 @@ public class ResourceDataDaoUtil
             try
             {
                 JavelinMeasurementItemDao.deleteByMeasurementItemId(database, deleteIdList);
+                updateItemListMulResGraph(database, deleteIdList);
                 removedItems += deleteIdList.size();
             }
             catch (SQLException ex)
@@ -744,6 +754,18 @@ public class ResourceDataDaoUtil
         }
 
         return deleteIdList;
+    }
+
+    private static void
+        updateItemListMulResGraph(final String database, List<Integer> deleteIdList)
+    {
+        List<String> measurementItemName = new ArrayList<String>();
+        for (Integer id : deleteIdList)
+        {
+            measurementItemName.add(measurementItemNameMap__.get(id));
+
+        }
+        checkMatchPattern(database, measurementItemName);
     }
 
     /**
@@ -804,6 +826,7 @@ public class ResourceDataDaoUtil
      */
     private static Map<Integer, Timestamp> getUpdatedMap(String database)
     {
+        measurementItemNameMap__ = new ConcurrentHashMap<Integer, String>();
         Map<Integer, Timestamp> updatedMap = measurementItemUpdatedMap__.get(database);
         if (updatedMap == null)
         {
@@ -818,6 +841,7 @@ public class ResourceDataDaoUtil
                 for (JavelinMeasurementItem item : itemList)
                 {
                     updatedMap.put(item.measurementItemId, item.lastInserted);
+                    measurementItemNameMap__.put(item.measurementItemId, item.itemName);
                 }
             }
             catch (SQLException ex)
@@ -827,4 +851,70 @@ public class ResourceDataDaoUtil
         }
         return updatedMap;
     }
+
+    /**
+     * Get the measurementName List that match with pattern
+     * @param databaseName
+     * @param measurementNameList
+     */
+    private static void checkMatchPattern(final String databaseName,
+        final List<String> measurementNameList)
+    {
+        try
+        {
+            for (String measurementName : measurementNameList)
+            {
+                Map<Long, String> itemMap = new TreeMap<Long, String>();
+                List<MultipleResourceGraphInfo> result =
+                    MulResourceGraphDefinitionDao.selectMatchPattern(databaseName, measurementName);
+
+                for (MultipleResourceGraphInfo matchResult : result)
+                {
+                    String updateList =
+                        createUpdateMeasurementItemList(matchResult.measurementItemIdList_,
+                                                        measurementName);
+                    itemMap.put(matchResult.multipleResourceGraphId_, updateList);
+                    System.out.println(matchResult.multipleResourceGraphName_);
+                }
+                if (itemMap.size() > 0)
+                {
+                    MulResourceGraphDefinitionDao.updateItemListById(databaseName, itemMap);
+
+                }
+
+            }
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * Create the updated measurement ItemList depend on operation
+     * @param itemList
+     * @param updateItem
+     * @return String
+     */
+    private static String createUpdateMeasurementItemList(final String itemList,
+        final String updateItem)
+    {
+        String updateList = null;
+        List<String> list = new ArrayList<String>(Arrays.asList(itemList.split(",")));
+        if (list.indexOf(updateItem) == -1)
+        {
+            return itemList;
+        }
+        list.remove(list.indexOf(updateItem));
+        if (list.size() > 0)
+        {
+            updateList = list.get(0);
+        }
+        for (int index = 1; index < list.size(); index++)
+        {
+            updateList += "," + list.get(index);
+        }
+        return updateList;
+    }
+
 }

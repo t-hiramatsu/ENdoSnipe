@@ -35,21 +35,19 @@
 		<div id="multipleResourceGraphPatternValueArea"
 			class="dialogContentArea">
 			<div id="multipleResourceGraphPatternValueValue" class="dialogValue">
-				<table style='width: 500px; height: 250px;'>
-					<tr>
+				<table style='width: 500px; height: auto;'>
+					<tr class="selectPlace">
 						<td colspan="3">
 							<div id="multipleResourceGraphPatternGraphRadio"
 								class="dialogValue">
 								<input style='margin-left: 0px' type="radio"
 									name="multiple_Resource_Graph_Resource"
 									id="multipleResourceGraphSelection" value="GraphSelection"
-									checked />
-								<!-- checked  -->
-								Graph Selection
+									checked /> Graph Selection
 							</div>
 						</td>
 					</tr>
-					<tr>
+					<tr class="selectPlace">
 						<td style='width: 250px;'>Graph Lists:<br /> <select
 							style='width: 200px; height: 250px;' multiple="multiple"
 							id='multipleResourceGraphLstBox1' class="dialogValue">
@@ -66,14 +64,14 @@
 
 						</select></td>
 					</tr>
-					<tr>
+					<tr class="selectPlace">
 						<td colspan="3">
 							<div id='pagingMeasurement' class='pagination'
 								style='padding-left: 10px;'></div>
 						</td>
 					</tr>
 
-					<tr>
+					<tr class="regPlace">
 						<td colspan="3">
 							<div id="multipleResourceGraphPatternTextRadio"
 								class="dialogValue">
@@ -85,7 +83,7 @@
 						</td>
 					</tr>
 
-					<tr>
+					<tr class="regPlace">
 						<td colspan="2">
 							<div id="multipleResourceGraphPatternTextValue"
 								class="dialogValue">
@@ -94,15 +92,7 @@
 
 							</div>
 						</td>
-						<td>
-							<div id="multipleResourceGraphPatternTextButton"
-								class="dialogValue">
-								<input type='button' style='width: 200px;' id='btnAddGraphText'
-									value='         Add            ' /> <br />
-							</div>
-						</td>
 					</tr>
-
 
 				</table>
 			</div>

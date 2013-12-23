@@ -77,7 +77,7 @@ public abstract class AbstractDao
      * @throws SQLException コネクションが取得できない場合
      */
     protected static Connection getConnection(final String databaseName,
-            final boolean connectOnlyExists)
+        final boolean connectOnlyExists)
         throws SQLException
     {
         return ConnectionManager.getInstance().getConnection(databaseName, connectOnlyExists);
@@ -187,7 +187,7 @@ public abstract class AbstractDao
      * @throws SQLException SQL 実行時に例外が発生した場合
      */
     protected static void alterCheckConstraint(final String database, final String tableName,
-            final int tableIndex, final String column, final int year)
+        final int tableIndex, final String column, final int year)
         throws SQLException
     {
         Connection conn = null;
@@ -202,16 +202,16 @@ public abstract class AbstractDao
 
             // CHECK属性を削除する
             String sqlToDropCheck =
-                    "ALTER TABLE " + tableName + " DROP CONSTRAINT " + checkConstraintName
-                            + " RESTRICT";
+                "ALTER TABLE " + tableName + " DROP CONSTRAINT " + checkConstraintName
+                    + " RESTRICT";
             stmt.execute(sqlToDropCheck);
 
             // CHECK属性を更新する
             String checkConstraint =
-                    DBInitializer.createCheckConstraintText(column, tableIndex, year);
+                DBInitializer.createCheckConstraintText(column, tableIndex, year);
             String sqlToCreateCheck =
-                    String.format("ALTER TABLE %s ADD CONSTRAINT %s %s", tableName,
-                                  checkConstraintName, checkConstraint);
+                String.format("ALTER TABLE %s ADD CONSTRAINT %s %s", tableName,
+                              checkConstraintName, checkConstraint);
             stmt.execute(sqlToCreateCheck);
         }
         finally
@@ -265,8 +265,9 @@ public abstract class AbstractDao
      * @return 値の生成に成功した場合は生成された値、失敗した場合は <code>-1</code>
      * @throws SQLException SQL 実行時に例外が発生した場合
      */
-    protected static int createValueFromSequenceId(final String database, final String sequenceName)
-        throws SQLException
+    protected static int
+        createValueFromSequenceId(final String database, final String sequenceName)
+            throws SQLException
     {
         Connection conn = null;
         Statement stmt = null;
