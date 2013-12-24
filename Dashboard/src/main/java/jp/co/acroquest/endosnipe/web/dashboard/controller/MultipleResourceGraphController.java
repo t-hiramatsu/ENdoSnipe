@@ -81,18 +81,50 @@ public class MultipleResourceGraphController
 
     /**
      * Get the measurementList of multiple Resource Graph.
-     *
+     *  @param multipleResourceGraphItems
+     *            JSON data of regular expression
      * @return JavelinMeasurementItem List
      */
     @RequestMapping(value = "/getAllMeasurementList", method = RequestMethod.POST)
     @ResponseBody
-    public List<JavelinMeasurementItem> getAllMeasurementList()
+    public List<JavelinMeasurementItem> getAllMeasurementList(
+            @RequestParam(value = "multipleResourceGraphItems") final String multipleResourceGraphItems)
     {
 
         List<JavelinMeasurementItem> measurementValueDtoList;
         try
         {
-            measurementValueDtoList = multipleResourceGraphService_.getMeasurementItemName();
+            measurementValueDtoList =
+                    multipleResourceGraphService_.getMeasurementItemName(multipleResourceGraphItems);
+            return measurementValueDtoList;
+
+        }
+        catch (SQLException ex)
+        {
+
+            ex.printStackTrace();
+            return new ArrayList<JavelinMeasurementItem>();
+        }
+
+    }
+
+    /**
+     * Get the measurementList of multiple Resource Graph.
+     * @param multipleResourceGraphItems
+     *            JSON data of regular expression
+     * @return JavelinMeasurementItem List
+     */
+    @RequestMapping(value = "/getAllMeasurementListPattern", method = RequestMethod.POST)
+    @ResponseBody
+    public List<JavelinMeasurementItem> getAllMeasurementListPattern(
+            @RequestParam(value = "multipleResourceGraphItems") final String multipleResourceGraphItems)
+    {
+
+        List<JavelinMeasurementItem> measurementValueDtoList;
+        try
+        {
+            measurementValueDtoList =
+                    multipleResourceGraphService_.getMeasurementItemName(multipleResourceGraphItems);
             return measurementValueDtoList;
 
         }
@@ -144,7 +176,7 @@ public class MultipleResourceGraphController
                 this.multipleResourceGraphService_.hasSamemultipleResourceGraphName(multipleResourceGraphName);
         if (hasSameMulResGraphName)
         {
-            String errorMessage = MessageUtil.getMessage("WEWD0131", multipleResourceGraphName);
+            String errorMessage = MessageUtil.getMessage("WEWD0141", multipleResourceGraphName);
             responseDto.setResult(ResponseConstants.RESULT_FAIL);
             responseDto.setMessage(errorMessage);
             return responseDto;

@@ -450,7 +450,7 @@ ENS.treeView = wgp.TreeView
 					executeOption.okObject = this;
 					executeOption.okFunctionName = "mulResGraphPushOkFunction";
 					executeOption.cancelObject = this;
-					executeOption.cancelFunctionName = "pushCancelFunction";
+					executeOption.cancelFunctionName = "mulResGraphPushCancelFunction";
 					eval("new " + executeClass + "(executeOption)");
 				}
 			},
@@ -758,7 +758,8 @@ ENS.treeView = wgp.TreeView
 				var mulResGraphDefinition = {
 					multipleResourceGraphId : $("#mulResGraphId").val(),
 					multipleResourceGraphName : mulResGraphName,
-					measurementItemIdList : measurementItem
+					measurementItemIdList : measurementItem,
+					measurementItemPattern : $("#multipleResourceGraphItems").val()
 				};
 
 				var sendData = {
@@ -792,7 +793,8 @@ ENS.treeView = wgp.TreeView
 				var mulResGraphDefinition = {
 					multipleResourceGraphId : $("#mulResGraphId").val(),
 					multipleResourceGraphName : mulResGraphName,
-					measurementItemIdList : measurementItem
+					measurementItemIdList : measurementItem,
+					measurementItemPattern : $("#multipleResourceGraphItems").val()
 				};
 				var sendData = {
 					mulResGraphDefinition : JSON
@@ -1048,8 +1050,16 @@ ENS.treeView = wgp.TreeView
 				ENS.tree.doRender = true;
 				this.collection.add(addOptionListSecond);
 			},
-			callbackAddMulResGraph_ : function() {
+			callbackAddMulResGraph_ : function(responseDto) {
 				// Do nothing
+				var result = responseDto.result;
+
+				// 編集操作に失敗した場合はメッセージを表示する。
+				if (result === "fail") {
+					var message = responseDto.message;
+					alert(message);
+					return;
+				}
 			},
 			callbackGetAllMulResGraph_ : function(mulResGraphDefinitionList) {
 				var instance = this;
@@ -1061,12 +1071,13 @@ ENS.treeView = wgp.TreeView
 								function(mulResGraphDefinition, index) {
 									var treeOption = instance
 											.createMulResGraphSignalTreeOption_(mulResGraphDefinition);
-									// addOptionList.push(treeOption);
+
 									if (treeOption.id.split("/").length <= 3) {
 										addTopOptionList.push(treeOption);
 									} else {
 										addOptionList.push(treeOption);
 									}
+
 								});
 
 				// renderのADDを実行する権限を無くす
@@ -1420,7 +1431,7 @@ ENS.treeView = wgp.TreeView
 				$("#multipleResourceGraphId").val("");
 				$("#multipleResourceGraphName").val("");
 				$("#multipleResourceGraphLstBox2").empty();
-
+				$("#multipleResourceGraphItems").val("");
 			},
 
 			clearSummarySignalDialog_ : function() {
@@ -1464,6 +1475,9 @@ ENS.treeView = wgp.TreeView
 									+ measurementList[i] + "</option>");
 
 				}
+				$("#multipleResourceGraphItems")
+				.val(multipleResourceGraphDefinition.measurementItemPattern);
+				
 			},
 
 			inputSummarySignalDialog_ : function(treeModel) {
@@ -1627,6 +1641,9 @@ ENS.treeView = wgp.TreeView
 			 * ツリー要素の基となるコレクションが変更された場合に、 変更内容をツリーに反映する。
 			 */
 			onChange : function(treeModel) {
+
+				// 継承元の変更処理を実行して画面に反映する。
+				ENS.ResourceTreeView.prototype.onChange.call(this, treeModel);
 
 				var treeId = treeModel.get("id");
 				var treeType = treeModel.get("type");

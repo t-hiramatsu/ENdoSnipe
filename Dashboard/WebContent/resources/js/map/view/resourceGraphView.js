@@ -439,24 +439,30 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				_.each(this.collection.models, function(model, index) {
 					data.push(instance._parseModel(model));
 				});
-				// リアルタイムに閾値を取得しない画面では、グラフに閾値を表示しない。
-				if (window.treeView == null) {
+				var models = [];
+
+				if (window.treeView != null) {
+					models = treeView.ensTreeView.collection.where({
+						type : "signal"
+					});
+				} else if (window.resourceTreeView != null) {
+					models = resourceTreeView.ensTreeView.collection.where({
+						type : "signal"
+					});
+				} else {
+					// 閾値判定定義情報を取得できない場合は、グラフに閾値を表示しない。
 					return data;
 				}
-				var models = treeView.ensTreeView.collection.models;
 				var instance = this;
 				var signalCount = 0;
 				_.each(models, function(model, index) {
 					// 閾値の線を追加する。
-					var type = model.get("type");
-					if (type === "signal") {
-						var matchingPattern = model.get("matchingPattern");
-						if (instance.graphId === matchingPattern) {
-							// 閾値をグラフに追加する。
-							signalCount = instance._addAllSignalData(model,
+					var matchingPattern = model.get("matchingPattern");
+					if (instance.graphId === matchingPattern) {
+						// 閾値をグラフに追加する。
+						signalCount = instance._addAllSignalData(model,
 									data, signalCount);
 						}
-					}
 				});
 				return data;
 			},
