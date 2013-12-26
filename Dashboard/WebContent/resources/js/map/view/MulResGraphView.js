@@ -138,8 +138,10 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				$("#" + this.$el.attr("id")).append(graphdiv);
 
 				var labelId = this.$el.attr("id") + "_enslabel";
-				var labeldiv = $("<div id='" + labelId
-						+ "' class='ensLabel'><div>");
+				var labeldiv = $("<div id='"
+						+ labelId
+						+ "' class='ensLabel' style= 'position : relative;background-color : black; overflow:visible; word-break : break-word; z-index : 1'><div>"); 
+//				style= 'position : relative;background-color : black; overflow:visible; word-break : break-word;'
 				$("#" + this.$el.attr("id")).append(labeldiv);
 				var labelDom = document.getElementById(labelId);
 
@@ -155,7 +157,10 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 					ylabel : this.labelY,
 					axisLabelColor : "#000000",
 					labelsDivStyles : {
-						background : "none repeat scroll 0 0 #000000"
+						"background" : "none repeat scroll 0 0 #000000",
+						"position" : "relative",
+						"background-color" : "black",
+						"word-break" : "break-word"
 					},
 					dateWindow : this.dateWindow,
 					axisLabelFontSize : 10,
