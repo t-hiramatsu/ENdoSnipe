@@ -147,8 +147,8 @@ ENS.schedulingReportNodeParentView = {
 		tabTitle : "Scheduling Report",
 		collection : [ ENS.schedulingReportParentElem ]
 	};
-ENS.ResourceMapField = {
-	viewClassName : "ENS.ResourceMapView",
+ENS.ResourceDashboardField = {
+	viewClassName : "ENS.ResourceDashboardView",
 	rootView : appView,
 	collection : []
 };
@@ -162,5 +162,5 @@ wgp.constants.VIEW_SETTINGS = $.extend(wgp.constants.VIEW_SETTINGS, {
 	"/jdbc/[^/]+/[^/]+/[^/]+" : ENS.nodeTabView,
 	"/jdbc/[^/]+/[^/]+" : ENS.sqlPlanTabView,
 	"default" : ENS.nodeTabView,
-	"ENS.ResourceMapView" : ENS.ResourceMapField
+	"ENS.ResourceDashboardView" : ENS.ResourceDashboardField
 });

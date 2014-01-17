@@ -1,15 +1,15 @@
 ENS.TextBoxElementView = ENS.ShapeElementView.extend({
 	initialize : function(argument){
 
-		this.mapView  = argument.mapView;
+		this.dashboardView  = argument.dashboardView;
 
 		// 継承元のinitialzeメソッド実行
-		wgp.MapElementView.prototype.initialize.apply(this, [ argument ]);
+		wgp.DashboardElementView.prototype.initialize.apply(this, [ argument ]);
 	},
 	render : function(model){
 
 		// 継承元のrenderメソッド実行
-		wgp.MapElementView.prototype.render.apply(this, [ model ]);
+		wgp.DashboardElementView.prototype.render.apply(this, [ model ]);
 
 		var elementProperty = {
 			objectId : model.get("objectId"),

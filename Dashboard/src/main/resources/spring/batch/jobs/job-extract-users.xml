@@ -38,7 +38,7 @@
 		<property name="pageSize" value="10" />
 		<property name="rowMapper">
 			<bean
-				class="jp.co.acroquest.endosnipe.web.dashboard.service.ScheduleRowMapper" />
+				class="jp.co.acroquest.endosnipe.web.explorer.service.ScheduleRowMapper" />
 		</property>
 	</bean>
 
@@ -61,7 +61,7 @@
 		<property name="aliases">
 			<util:map id="aliases">
 				<entry key="user"
-					value="jp.co.acroquest.endosnipe.web.dashboard.dto.SchedulingReportDefinitionDto" />
+					value="jp.co.acroquest.endosnipe.web.explorer.dto.SchedulingReportDefinitionDto" />
 			</util:map>
 		</property>
 	</bean>

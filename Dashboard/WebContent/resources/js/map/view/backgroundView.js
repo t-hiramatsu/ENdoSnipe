@@ -24,7 +24,7 @@ ENS.BackgroundElementView = ENS.ShapeElementView.extend({
 			 shapeName = raphaelMapConstants.IMAGE_ELEMENT_NAME_ELEMENT_NAME;
 
 			 var element =
-				this.mapView.mapManager.createElementFunction(
+				this.dashboardView.dashboardManager.createElementFunction(
 					shapeName,
 					shapeType,
 					elementProperty);
@@ -44,7 +44,7 @@ ENS.BackgroundElementView = ENS.ShapeElementView.extend({
 			 shapeName = raphaelMapConstants.RECTANGLE_ELEMENT_NAME;
 
 			 var element =
-				this.mapView.mapManager.createElementFunction(
+				this.dashboardView.dashboardManager.createElementFunction(
 					shapeName,
 					shapeType,
 					elementProperty);
@@ -58,7 +58,7 @@ ENS.BackgroundElementView = ENS.ShapeElementView.extend({
 		 }
 
 		 // 最奥に配置
-		 $(this.mapView.paper.canvas).prepend(element.object.node);
+		 $(this.dashboardView.paper.canvas).prepend(element.object.node);
 
 		instance.model.set({
 			elementAttrList : elementAttributeList
@@ -77,6 +77,6 @@ ENS.BackgroundElementView = ENS.ShapeElementView.extend({
 			silent : true
 		});
 
-		this.mapView.setMapSize(element.width, element.height);
+		this.dashboardView.setMapSize(element.width, element.height);
 	}
 });

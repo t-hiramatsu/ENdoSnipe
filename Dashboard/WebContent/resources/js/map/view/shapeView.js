@@ -1,16 +1,16 @@
-ENS.ShapeElementView = wgp.MapElementView.extend({
+ENS.ShapeElementView = wgp.DashboardElementView.extend({
 	initialize : function(argument){
 
-		this.mapView  = argument.mapView;
+		this.dashboardView  = argument.dashboardView;
 		this.elementList_ = [];
 
 		// 継承元のinitialzeメソッド実行
-		wgp.MapElementView.prototype.initialize.apply(this, [ argument ]);
+		wgp.DashboardElementView.prototype.initialize.apply(this, [ argument ]);
 	},
 	render : function(model){
 
 		// 継承元のrenderメソッド実行
-		wgp.MapElementView.prototype.render.apply(this, [ model ]);
+		wgp.DashboardElementView.prototype.render.apply(this, [ model ]);
 
 		var shapeName = model.get("shapeName");
 		var shapeType = model.get("shapeType");
@@ -19,7 +19,7 @@ ENS.ShapeElementView = wgp.MapElementView.extend({
 
 		// 図形を描画する。
 		var element =
-			this.mapView.mapManager.createElementFunction(
+			this.dashboardView.dashboardManager.createElementFunction(
 				shapeName,
 				shapeType,
 				elementProperty);
@@ -93,7 +93,7 @@ ENS.ShapeElementView = wgp.MapElementView.extend({
 			element.object.remove();
 		});
 		var objectId = this.getObjectId();
-		this.mapView.collection.remove(objectId);
+		this.dashboardView.collection.remove(objectId);
 	},
 	getWidth : function(){
 		return this.elementList_[0].width;
@@ -122,7 +122,7 @@ ENS.ShapeElementView = wgp.MapElementView.extend({
 		});
 
 		// マップ領域の拡張
-		this.mapView.enlargeMapArea(
+		this.dashboardView.enlargeDashboardArea(
 			element.x,
 			element.y,
 			element.width,

@@ -35,7 +35,7 @@ public class ConnectNotifyData
     /** 接続種別：Javelin */
     public static final int KIND_JAVELIN = 0;
 
-    /** 接続種別：制御クライアント (BottleneckEye/WebDashboard) */
+    /** 接続種別：制御クライアント (BottleneckEye/WebExplorer) */
     public static final int KIND_CONTROLLER = 1;
 
     /** 接続目的：リソースの取得 */

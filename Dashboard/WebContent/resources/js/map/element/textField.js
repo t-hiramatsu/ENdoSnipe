@@ -24,7 +24,7 @@ function textField(elementProperty, paper){
 		initValue : elementProperty.text
 	};
 	positionArray.push(textPosition);
-	this.createMapElement(positionArray, paper);
+	this.createDashboardElement(positionArray, paper);
 	this.object.node.setAttribute('objectId', elementProperty.objectId);
 	this.object.node.setAttribute('class',
 			raphaelMapConstants.CLASS_MAP_ELEMENT);
@@ -54,7 +54,7 @@ function textField(elementProperty, paper){
 	this.height = elementProperty.height;
 	return this;
 }
-textField.prototype = new mapElement();
+textField.prototype = new dashboardElement();
 
 textField.prototype.createPositionArray = function(elementProperty){
 
@@ -81,13 +81,13 @@ textField.prototype.createPositionArray = function(elementProperty){
  * オブジェクトの生成。
  *
  * @private
- * @param {Map}
+ * @param {Dashboard}
  *            positionArray
  * @param {raphael}
  *            paper
  *
  */
-textField.prototype.createMapElement = function(positionArray, paper) {
+textField.prototype.createDashboardElement = function(positionArray, paper) {
 	if (positionArray) {
 		var position = positionArray[0];
 		this.object = paper

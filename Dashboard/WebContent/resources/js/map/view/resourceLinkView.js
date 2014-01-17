@@ -1,4 +1,4 @@
-ENS.ResourceLinkElementModel = wgp.MapElement.extend({
+ENS.ResourceLinkElementModel = wgp.DashboardElement.extend({
 	defaults : {
 		text : null,
 		fontSize : 8,
@@ -12,7 +12,7 @@ ENS.ResourceLinkElementView = ENS.ShapeElementView.extend({
 	render : function(model){
 
 		// 継承元のrenderメソッド実行
-		wgp.MapElementView.prototype.render.apply(this, [ model ]);
+		wgp.DashboardElementView.prototype.render.apply(this, [ model ]);
 
 		var shapeName = "textField";
 		var elementProperty = model.attributes;
@@ -21,7 +21,7 @@ ENS.ResourceLinkElementView = ENS.ShapeElementView.extend({
 		// テキストを描画する。
 		this.elementList_ = [];
 		var element =
-			this.mapView.mapManager.createElementText(
+			this.dashboardView.dashboardManager.createElementText(
 				shapeName,
 				elementProperty);
 		element.object.node.setAttribute("cid", model.cid);
@@ -43,12 +43,12 @@ ENS.ResourceLinkElementView = ENS.ShapeElementView.extend({
 			var linkType = instance.model.get("linkType");
 
 			// マップリンクの場合はリンク先が存在する場合に遷移を行う。
-			if (linkType == "mapLinkURL") {
-				var targetMapLink = resourceMapListView.collection.get(linkUrl);
+			if (linkType == "dashboardLinkURL") {
+				var targetDashboardLink = resourceDashboardListView.collection.get(linkUrl);
 
 				// ツリー要素をクリックしてイベントを発生させる。
-				if (targetMapLink) {
-					resourceMapListView.clickModel(targetMapLink);
+				if (targetDashboardLink) {
+					resourceDashboardListView.clickModel(targetDashboardLink);
 				}
 			}
 		});

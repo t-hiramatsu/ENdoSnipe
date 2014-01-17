@@ -49,9 +49,9 @@ ENS.treeManager = wgp.AbstractView
 
 				// クリックイベント作成
 				$("#tree_area").click(function() {
-					if ($("[id$='mapreduce/task']") !== undefined) {
+					if ($("[id$='dashboardreduce/task']") !== undefined) {
 
-						var elem = $("[id$='mapreduce/task']");
+						var elem = $("[id$='dashboardreduce/task']");
 
 						$("#tree_area").jstree("delete_node", elem);
 					}

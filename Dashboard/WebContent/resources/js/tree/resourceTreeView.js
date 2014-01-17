@@ -80,23 +80,23 @@ ENS.ResourceTreeView = ENS.treeManager
 						var treeModel = instance.ensTreeView.collection.get(treeId);
 
 						// TODO マップが選択されていない場合はメッセージを表示して処理を中止する。
-						if (!window.resourceMapListView.childView) {
+						if (!window.resourceDashboardListView.childView) {
 							return;
 						}
 
-						var offsetX = $("#" + window.resourceMapListView.childView.$el.attr("id"))
+						var offsetX = $("#" + window.resourceDashboardListView.childView.$el.attr("id"))
 								.offset()["left"];
-						var offsetY = $("#" + window.resourceMapListView.childView.$el.attr("id"))
+						var offsetY = $("#" + window.resourceDashboardListView.childView.$el.attr("id"))
 								.offset()["top"];
-						var resourceModel = new wgp.MapElement();
+						var resourceModel = new wgp.DashboardElement();
 
 						// グラフを追加する場合
 						if (event.currentTarget.id == "addGraph") {
 
 							// 同一グラフが既にマップ上に存在する場合
-							var graphModel = window.resourceMapListView.childView.collection.get(treeId);
+							var graphModel = window.resourceDashboardListView.childView.collection.get(treeId);
 							if(graphModel != null){
-								alert("Cannot add the graph. Because the graph has already existed in the map.");
+								alert("Cannot add the graph. Because the graph has already existed in the dashboard.");
 								return;
 							}
 
@@ -119,7 +119,7 @@ ENS.ResourceTreeView = ENS.treeManager
 							});
 
 							// グラフ追加イベント
-							window.resourceMapListView.childView.changedFlag = true;
+							window.resourceDashboardListView.childView.changedFlag = true;
 
 							// シグナルを追加する場合
 						} else if (event.currentTarget.id == "addSignal") {
@@ -128,11 +128,11 @@ ENS.ResourceTreeView = ENS.treeManager
 							var treeIcon = treeModel.get("icon");
 							var treeText = treeModel.get("data");
 
-							var signalModel = window.resourceMapListView.childView.collection
+							var signalModel = window.resourceDashboardListView.childView.collection
 									.get(treeId);
 							// 同一シグナルが既にマップ上に存在する場合
 							if (signalModel != null) {
-								alert("Cannot add the signal. Because the signal has already existed in the map.");
+								alert("Cannot add the signal. Because the signal has already existed in the dashboard.");
 								return false;
 							}
 
@@ -152,15 +152,15 @@ ENS.ResourceTreeView = ENS.treeManager
 								{
 									fontSize : 16,
 									textAnchor : "middle",
-									fill : ENS.map.fontColor,
+									fill : ENS.dashboard.fontColor,
 								}]
 							});
 
 							// シグナル追加イベント
-							window.resourceMapListView.childView.changedFlag = true;
+							window.resourceDashboardListView.childView.changedFlag = true;
 						}
 
-						window.resourceMapListView.childView.collection.add(resourceModel);
+						window.resourceDashboardListView.childView.collection.add(resourceModel);
 						zIndex++;
 					}
 				};
@@ -175,25 +175,25 @@ ENS.ResourceTreeView = ENS.treeManager
 			 * ツリー要素の基となるコレクションが変更された場合に、 別ペインへ状態変更を伝搬する。
 			 */
 			onChange : function(treeModel) {
-				if (window.resourceMapListView != null
-						&& resourceMapListView.childView != null) {
-					var childView = resourceMapListView.childView;
+				if (window.resourceDashboardListView != null
+						&& resourceDashboardListView.childView != null) {
+					var childView = resourceDashboardListView.childView;
 
-					var mapElementModel = childView.collection.where({resourceId : treeModel.id});
+					var dashboardElementModel = childView.collection.where({resourceId : treeModel.id});
 
 					// 伝搬対象のビューがマップに存在しなければ処理終了
-					if (!mapElementModel){
+					if (!dashboardElementModel){
 						return;
 					}
 
-					_.each(mapElementModel, function(model, index){
-						var mapElementView = childView.viewCollection[model.id];
-						if (!mapElementView) {
+					_.each(dashboardElementModel, function(model, index){
+						var dashboardElementView = childView.viewCollection[model.id];
+						if (!dashboardElementView) {
 							return;
 						}
 						// モデルのチェンジイベントを発行する。
-						mapElementView.model
-								.trigger("change", mapElementView.model);
+						dashboardElementView.model
+								.trigger("change", dashboardElementView.model);
 					});
 				}
 			}
