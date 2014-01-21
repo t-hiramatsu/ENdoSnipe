@@ -446,7 +446,7 @@ raphaelDashboardManager.prototype.moveElement = function(event, options) {
 
 	// ドラッグされた大きさを計測する。
 	var moveX = 0;
-	if(Math.abs(options.deltaX - this.movedPointX) > ENS.dashboard.moveSpan.moveSpan){
+	if(Math.abs(options.deltaX - this.movedPointX) > ENS.dashboard.moveSpan){
 		moveX = options.deltaX - this.movedPointX;
 		this.movedPointX = options.deltaX;
 	}
