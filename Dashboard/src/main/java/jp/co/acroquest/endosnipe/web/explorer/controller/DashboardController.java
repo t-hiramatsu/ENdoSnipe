@@ -94,22 +94,22 @@ public class DashboardController
      * Get Map List.
      *
      * @param request HTTPサーブレットリクエスト
-     * @param mapListForm マップ情報
+     * @param dashboardListForm マップ情報
      * @return 表示するjspファイルの名前
      */
     @RequestMapping(value = "/dashboardList")
     public String initializeMapList(final HttpServletRequest request,
-            @ModelAttribute("mapListForm") final DashboardListForm mapListForm)
+            @ModelAttribute("dashboardListForm") final DashboardListForm dashboardListForm)
     {
         EventManager eventManager = EventManager.getInstance();
         eventManager.setWgpDataManager(wgpDataManager);
         eventManager.setResourceSender(resourceSender);
 
         // マップモードが設定されていない場合は運用モードを設定する。
-        String mapMode = mapListForm.getMapMode();
+        String mapMode = dashboardListForm.getMapMode();
         if (mapMode == null || mapMode.length() == 0)
         {
-            mapListForm.setMapMode(OPERATE_MODE);
+            dashboardListForm.setMapMode(OPERATE_MODE);
         }
         return "DashboardList";
     }

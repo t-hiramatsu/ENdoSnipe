@@ -14,7 +14,7 @@
 <body id="main" oncontextmenu="return false;" onload="self.focus();">
 	<div id="persArea"></div>
 	<input id="treeData" type="hidden" value='${treeData}' />
-	<form:form modelAttribute="mapListForm">
+	<form:form modelAttribute="dashboardListForm">
 		<!-- マップモード(運用or編集) -->
 		<form:hidden path="mapMode" />
 
@@ -142,9 +142,9 @@
 			$("#tree_area")
 			.click(
 					function() {
-						if ($("[id$='dashboardreduce/task']") != undefined) {
+						if ($("[id$='mapreduce/task']") != undefined) {
 
-							var elem = $("[id$='dashboardreduce/task']");
+							var elem = $("[id$='mapreduce/task']");
 
 							$("#tree_area").jstree("delete_node",
 									elem);
@@ -183,9 +183,9 @@
 
 		// マップ一覧ツリーの選択状態の復元用データを取得
 		var resourceDashboardListSelect = null;
-		var resourceDashboardListSelectStr = $("#selectedDashboardListId").val();
-		if(resourceDashboardListSelectStr.length > 0){
-			resourceDashboardListSelect = resourceDashboardListSelectStr;
+		var resourceMapListSelectStr = $("#selectedDashboardListId").val();
+		if(resourceMapListSelectStr.length > 0){
+			resourceDashboardListSelect = resourceMapListSelectStr;
 		}
 
 		// マップ一覧ツリー構築後の処理をバインド
@@ -236,9 +236,9 @@
 				alt : 'This is the current operation mode. Please click if you want to edit the dashboard.',
 				onclick : (function(event){
 					$("#mapMode").val(ENS.dashboard.mode.EDIT);
-					$("#mapListForm").attr("action", "<%=request.getContextPath()%>/dashboard/dashboardList");
+					$("#dashboardListForm").attr("action", "<%=request.getContextPath()%>/dashboard/dashboardList");
 					saveDisplayState();
-					$("#mapListForm").submit();
+					$("#dashboardListForm").submit();
 				})
 			});
 
@@ -251,10 +251,10 @@
 				alt : 'This is the current edit mode. Please click to go back to the operation mode.',
 				onclick : (function(event){
 					$("#mapMode").val(ENS.dashboard.mode.OPERATE);
-					$("#mapListForm").attr("action", "<%=request.getContextPath()%>/dashboard/dashboardList");
+					$("#dashboardListForm").attr("action", "<%=request.getContextPath()%>/dashboard/dashboardList");
 					saveDisplayState();
 					this.resourceDashboardListView.saveOperation();
-					$("#mapListForm").submit();
+					$("#dashboardListForm").submit();
 				})
 			});
 		}

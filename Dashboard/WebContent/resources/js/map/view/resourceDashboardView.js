@@ -1,4 +1,4 @@
-ENS.ResourceDashboardView = wgp.DashboardView.extend({
+ENS.ResourceDashboardView = wgp.MapView.extend({
 	tagName : "div",
 	initialize : function(argument) {
 		_.bindAll();
@@ -441,10 +441,10 @@ ENS.ResourceDashboardView = wgp.DashboardView.extend({
 
 			var linkUrlLabel = $("<label for='linkUrl' style='margin-top: 10px;'>Target Dashboard：</label>");
 			var linkUrlSelect = $("<select name='selectDashboardList' style='margin-top: 10px;'></select>")
-			var mapList = resourceDashboardListView.collection.models;
-			_.each(mapList, function(mapListModel, index){
-				var linkUrlName = mapListModel.get("data");
-				var linkUrlValue = mapListModel.get("id");
+			var dashboardList = resourceDashboardListView.collection.models;
+			_.each(dashboardList, function(dashboardListModel, index){
+				var linkUrlName = dashboardListModel.get("data");
+				var linkUrlValue = dashboardListModel.get("id");
 				linkUrlSelect.append("<option value='"+ linkUrlValue +"'>" + linkUrlName + "</option>");
 			});
 

@@ -54,7 +54,7 @@ function textField(elementProperty, paper){
 	this.height = elementProperty.height;
 	return this;
 }
-textField.prototype = new dashboardElement();
+textField.prototype = new mapElement();
 
 textField.prototype.createPositionArray = function(elementProperty){
 

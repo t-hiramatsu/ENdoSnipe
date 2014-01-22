@@ -1,4 +1,4 @@
-ENS.ResourceLinkElementModel = wgp.DashboardElement.extend({
+ENS.ResourceLinkElementModel = wgp.MapElement.extend({
 	defaults : {
 		text : null,
 		fontSize : 8,
@@ -12,7 +12,7 @@ ENS.ResourceLinkElementView = ENS.ShapeElementView.extend({
 	render : function(model){
 
 		// 継承元のrenderメソッド実行
-		wgp.DashboardElementView.prototype.render.apply(this, [ model ]);
+		wgp.MapElementView.prototype.render.apply(this, [ model ]);
 
 		var shapeName = "textField";
 		var elementProperty = model.attributes;
