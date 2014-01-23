@@ -70,7 +70,7 @@ public class DashboardController
     protected ServletContext servletContext;
 
     /** マップを表すID */
-    private static final String MAP_DATA_ID = "map";
+    private static final String MAP_DATA_ID = "dashboard";
 
     /** 運用モード */
     private static final String OPERATE_MODE = "OPERATE";

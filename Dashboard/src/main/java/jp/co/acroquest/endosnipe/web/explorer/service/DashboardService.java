@@ -79,10 +79,10 @@ public class DashboardService
      */
     public List<Map<String, String>> getAllMap()
     {
-        List<DashboardInfo> mapList = null;
+        List<DashboardInfo> dashboardList = null;
         try
         {
-            mapList = dashboardInfoDao_.selectAll();
+            dashboardList = dashboardInfoDao_.selectAll();
         }
         catch (PersistenceException pe)
         {
@@ -97,7 +97,7 @@ public class DashboardService
         }
 
         List<Map<String, String>> resultList = new ArrayList<Map<String, String>>();
-        for (DashboardInfo dashboardInfo : mapList)
+        for (DashboardInfo dashboardInfo : dashboardList)
         {
             Map<String, String> dataMap = this.convertDataMap(dashboardInfo);
             resultList.add(dataMap);

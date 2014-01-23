@@ -28,7 +28,7 @@
 		<form:hidden path="selectedTreeId" />
 
 		<!-- 選択しているResourceDashboardListViewのID -->
-		<form:hidden path="selectedMapListId" />
+		<form:hidden path="selectedDashboardListId" />
 	</form:form>
 	<script>
 		var appView = new ENS.AppView();
@@ -183,9 +183,9 @@
 
 		// マップ一覧ツリーの選択状態の復元用データを取得
 		var resourceDashboardListSelect = null;
-		var resourceMapListSelectStr = $("#selectedDashboardListId").val();
-		if(resourceMapListSelectStr.length > 0){
-			resourceDashboardListSelect = resourceMapListSelectStr;
+		var resourceDashboardListSelectStr = $("#selectedDashboardListId").val();
+		if(resourceDashboardListSelectStr.length > 0){
+			resourceDashboardListSelect = resourceDashboardListSelectStr;
 		}
 
 		// マップ一覧ツリー構築後の処理をバインド
@@ -279,7 +279,7 @@
 				width : 25,
 				height : 25,
 				styleClass : 'dashboard_menu_icon',
-				src : '<%=request.getContextPath()%>/resources/images/dashboard/saveIcon.png',
+				src : '<%=request.getContextPath()%>/resources/images/map/saveIcon.png',
 				alt : 'Please click if you want to save the dashboard.',
 				onclick : (function(event){
 					if(resourceDashboardListView.childView){

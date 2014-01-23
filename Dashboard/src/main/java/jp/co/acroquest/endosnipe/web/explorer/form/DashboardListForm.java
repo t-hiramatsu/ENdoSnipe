@@ -33,7 +33,7 @@ public class DashboardListForm
     private String selectedTreeId_;
 
     /** 選択しているResourceMapListViewのID */
-    private String selectedMapListId_;
+    private String selectedDashboardListId_;
 
     /**
      * コンストラクタ。
@@ -128,19 +128,19 @@ public class DashboardListForm
      * 
      * @return 選択しているResourceMapListViewのID
      */
-    public String getSelectedMapListId()
+    public String getSelectedDashboardListId()
     {
-        return selectedMapListId_;
+        return selectedDashboardListId_;
     }
 
     /**
      * 選択しているResourceMapListViewのIDを設定する。
      * 
-     * @param selectedMapListId 選択しているResourceMapListViewのID
+     * @param selectedDashboardListId 選択しているResourceMapListViewのID
      */
-    public void setSelectedMapListId(final String selectedMapListId)
+    public void setSelectedDashboardListId(final String selectedDashboardListId)
     {
-        this.selectedMapListId_ = selectedMapListId;
+        this.selectedDashboardListId_ = selectedDashboardListId;
     }
 
 }
