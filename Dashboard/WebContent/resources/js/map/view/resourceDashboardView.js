@@ -295,7 +295,7 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 			if(!background){
 				background = ENS.dashboard.backgroundSetting;
 			}
-			var backgroundModel = new wgp.DashboardElement(background);
+			var backgroundModel = new wgp.MapElement(background);
 
 			var backgroundArgument = {
 				paper : this.paper,
@@ -309,7 +309,7 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 			var resources = mapData["resources"];
 			var instance = this;
 			_.each(resources, function(resource, index){
-				var dashboardElement = new wgp.DashboardElement(resource);
+				var dashboardElement = new wgp.MapElement(resource);
 				instance.collection.add(dashboardElement);
 			});
 		}
@@ -357,7 +357,7 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 	createClickAddShapeEvent : function(shapeName, shapeType){
 		var instance = this;
 		var clickEventFunction = function(event){
-			var resourceModel = new wgp.DashboardElement();
+			var resourceModel = new wgp.MapElement();
 
 			// オリジナルオブジェクトIDの算出
 			var objectId = instance.createObjectId();
@@ -390,7 +390,7 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 	createClickAddTextboxEvent :function(){
 		var instance = this;
 		var clickEventFunction = function(event){
-			var resourceModel = new wgp.DashboardElement();
+			var resourceModel = new wgp.MapElement();
 
 			// オリジナルオブジェクトIDの算出
 			var objectId = instance.createObjectId();
@@ -430,7 +430,7 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 
 		var clickEventFunction = function(event){
 
-			var resourceModel = new wgp.DashboardElement();
+			var resourceModel = new wgp.MapElement();
 
 			var createLinkDialog = $("<div title='Create new Link'></div>");
 			createLinkDialog.append("<p> Please enter new Link name</p>");

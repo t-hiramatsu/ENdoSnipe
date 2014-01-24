@@ -88,7 +88,7 @@ ENS.ResourceTreeView = ENS.treeManager
 								.offset()["left"];
 						var offsetY = $("#" + window.resourceDashboardListView.childView.$el.attr("id"))
 								.offset()["top"];
-						var resourceModel = new wgp.DashboardElement();
+						var resourceModel = new wgp.MapElement();
 
 						// グラフを追加する場合
 						if (event.currentTarget.id == "addGraph") {

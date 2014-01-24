@@ -13,7 +13,7 @@ ENS.SignalElementView = ENS.ShapeElementView.extend({
 	render : function(model) {
 
 		// 継承元のrenderメソッド実行
-		wgp.DashboardElementView.prototype.render.apply(this, [ model ]);
+		wgp.MapElementView.prototype.render.apply(this, [ model ]);
 
 		// 状態画像とシグナル名の情報はresourceTreeから取得
 		var treeModel = resourceTreeView.ensTreeView.collection.get(model.get("resourceId"));

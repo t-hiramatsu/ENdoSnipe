@@ -4,12 +4,12 @@ ENS.TextBoxElementView = ENS.ShapeElementView.extend({
 		this.dashboardView  = argument.dashboardView;
 
 		// 継承元のinitialzeメソッド実行
-		wgp.DashboardElementView.prototype.initialize.apply(this, [ argument ]);
+		wgp.MapElementView.prototype.initialize.apply(this, [ argument ]);
 	},
 	render : function(model){
 
 		// 継承元のrenderメソッド実行
-		wgp.DashboardElementView.prototype.render.apply(this, [ model ]);
+		wgp.MapElementView.prototype.render.apply(this, [ model ]);
 
 		var elementProperty = {
 			objectId : model.get("objectId"),
