@@ -44,10 +44,10 @@ ENS.SignalElementView = ENS.ShapeElementView.extend({
 			objectId : model.get("objectId"),
 			pointX : elementProperty.pointX + elementProperty.width / 2,
 			pointY : elementProperty.pointY + elementProperty.height + 15,
-			fontSize : ENS.map.fontSize,
+			fontSize : ENS.dashboard.fontSize,
 			textAnchor : "middle",
 			text : text,
-			fill : ENS.map.fontColor
+			fill : ENS.dashboard.fontColor
 		};
 
 		// シグナル名を表す文字列を描画する。

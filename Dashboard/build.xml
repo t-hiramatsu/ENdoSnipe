@@ -2,7 +2,7 @@
     <import file="../ENdoSnipe/build_common.xml" />
 
     <!-- ★変数設定★ -->
-    <property name="app.name" value="Dashboard"/>
+    <property name="app.name" value="Explorer"/>
 
     <!-- パス設定 -->
     <property name="src.path"           value="${basedir}/src/main/java"/>

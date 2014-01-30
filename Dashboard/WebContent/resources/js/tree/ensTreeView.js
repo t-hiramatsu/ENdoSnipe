@@ -1317,7 +1317,7 @@ ENS.treeView = wgp.TreeView
 					icon : ENS.tree.SIGNAL_ICON_0,
 					type : ENS.tree.type.SIGNAL,
 					matchingPattern : signalDefinition.matchingPattern,
-					signalMap : signalDefinition.signalMap
+					signalDashboard : signalDefinition.signalDashboard
 				};
 
 				return treeOption;

@@ -603,7 +603,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 						var afterHeight = $(e.target).height();
 
 						// グラフ分のマップエリア拡張
-						resourceMapListView.childView.enlargeMapArea(
+						resourceDashboardListView.childView.enlargeDashboardArea(
 								positionLeft, positionTop, afterWidth,
 								afterHeight + 10);
 					},
@@ -661,15 +661,15 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 						var positionTop = position.top;
 
 						var afterWidth = $(e.target).width();
-						if (afterWidth < ENS.map.MIN_GRAPH_WIDTH) {
-							$(e.target).width(ENS.map.MIN_GRAPH_WIDTH);
+						if (afterWidth < ENS.dashboard.MIN_GRAPH_WIDTH) {
+							$(e.target).width(ENS.dashboard.MIN_GRAPH_WIDTH);
 						}
 						var afterHeight = $(e.target).height();
-						if (afterHeight < ENS.map.MIN_GRAPH_HEIGHT) {
-							$(e.target).height(ENS.map.MIN_GRAPH_HEIGHT);
+						if (afterHeight < ENS.dashboard.MIN_GRAPH_HEIGHT) {
+							$(e.target).height(ENS.dashboard.MIN_GRAPH_HEIGHT);
 						}
 						// グラフ分のマップエリア拡張
-						resourceMapListView.childView.enlargeMapArea(
+						resourceDashboardListView.childView.enlargeDashboardArea(
 								positionLeft, positionTop, afterWidth,
 								afterHeight + 10);
 					},
@@ -677,20 +677,20 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 						var afterWidth = $(e.target).width();
 						var afterHeight = $(e.target).height();
 
-						if (afterWidth < ENS.map.MIN_GRAPH_WIDTH) {
-							afterWidth = ENS.map.MIN_GRAPH_WIDTH;
+						if (afterWidth < ENS.dashboard.MIN_GRAPH_WIDTH) {
+							afterWidth = ENS.dashboard.MIN_GRAPH_WIDTH;
 						}
-						if (afterHeight < ENS.map.MIN_GRAPH_HEIGHT) {
-							afterHeight = ENS.map.MIN_GRAPH_HEIGHT;
+						if (afterHeight < ENS.dashboard.MIN_GRAPH_HEIGHT) {
+							afterHeight = ENS.dashboard.MIN_GRAPH_HEIGHT;
 						}
 						var changeWidth = afterWidth - beforeWidth;
-						if (beforeWidth <= ENS.map.MIN_GRAPH_WIDTH
-								&& afterWidth <= ENS.map.MIN_GRAPH_WIDTH) {
+						if (beforeWidth <= ENS.dashboard.MIN_GRAPH_WIDTH
+								&& afterWidth <= ENS.dashboard.MIN_GRAPH_WIDTH) {
 							changeWidth = 0;
 						}
 						var changeHeight = afterHeight - beforeHeight;
-						if (beforeHeight <= ENS.map.MIN_GRAPH_HEIGHT
-								&& afterHeight <= ENS.map.MIN_GRAPH_HEIGHT) {
+						if (beforeHeight <= ENS.dashboard.MIN_GRAPH_HEIGHT
+								&& afterHeight <= ENS.dashboard.MIN_GRAPH_HEIGHT) {
 							changeHeight = 0;
 						}
 
@@ -1049,16 +1049,16 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				// TODO
 			},
 			_addAllSignalData : function(model, data, signalCount) {
-				var signalMap = model.get("signalMap");
+				var signalDashboard = model.get("signalDashboard");
 				// Websocket通信時にJSON文字列に変換されるため、再変換する。
-				if ((typeof signalMap) === "string") {
-					signalMap = $.parseJSON(signalMap);
+				if ((typeof signalDashboard) === "string") {
+					signalDashboard = $.parseJSON(signalDashboard);
 				}
 
 				var instance = this;
 				var level = model.get("level");
 				// 閾値のマップの値をグラフデータに追加する。
-				_.each(signalMap,
+				_.each(signalDashboard,
 						function(value, signalLevel) {
 							_.each(data, function(columnData, dataIndex) {
 								var addPosition = ENS.graph.INIT_SIGNAL_POSTION

@@ -1,7 +1,7 @@
 ENS.TextBoxElementView = ENS.ShapeElementView.extend({
 	initialize : function(argument){
 
-		this.mapView  = argument.mapView;
+		this.dashboardView  = argument.dashboardView;
 
 		// 継承元のinitialzeメソッド実行
 		wgp.MapElementView.prototype.initialize.apply(this, [ argument ]);

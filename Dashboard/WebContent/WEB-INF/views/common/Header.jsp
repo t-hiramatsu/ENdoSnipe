@@ -12,8 +12,8 @@
 				<img src="<%=request.getContextPath()%>/resources/images/ENdoSnipe_logo.png" />
 			</td>
 			<td style="float:right;">
-				<a href="<%=request.getContextPath()%>/">Dashboard</a>
-				<a href="<%=request.getContextPath()%>/map/mapList">Map</a>
+				<a href="<%=request.getContextPath()%>/">Explorer</a>
+				<a href="<%=request.getContextPath()%>/dashboard/dashboardList">Dashboard</a>
 			</td>
 		</tr>
 	</table>
@@ -21,8 +21,8 @@
 <script>
 	$(".headerTable a").button();
 	$(".ui-button-text").click(function(){
-				if($("#mapMode").val() == ENS.map.mode.EDIT){
-					window.resourceMapListView.saveOperation();
+				if($("#mapMode").val() == ENS.dashboard.mode.EDIT){
+					window.resourceDashboardListView.saveOperation();
 				}
 			});
 </script>
