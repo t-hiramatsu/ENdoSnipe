@@ -121,7 +121,7 @@ ENS.ShapeElementView = wgp.MapElementView.extend({
 			silent : true
 		});
 
-		// マップ領域の拡張
+		// ダッシュボード領域の拡張
 		this.dashboardView.enlargeDashboardArea(
 			element.x,
 			element.y,

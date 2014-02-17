@@ -48,7 +48,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 /**
- * Map用サービスクラス。
+ * Dashboard用サービスクラス。
  *
  * @author fujii
  */
@@ -59,7 +59,7 @@ public class DashboardService
     private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(DashboardService.class);
 
     /**
-     * マップ情報Dao
+     * ダッシュボード情報Dao
      */
     @Autowired
     protected DashboardInfoDao dashboardInfoDao_;
@@ -73,11 +73,11 @@ public class DashboardService
     }
 
     /**
-     * 全てのマップデータを返す。
+     * 全てのダッシュボードデータを返す。
      *
-     * @return マップデータ
+     * @return ダッシュボードデータ
      */
-    public List<Map<String, String>> getAllMap()
+    public List<Map<String, String>> getAllDashboard()
     {
         List<DashboardInfo> dashboardList = null;
         try
@@ -106,8 +106,8 @@ public class DashboardService
     }
 
     /**
-     * マップを登録する。
-     * @param dashboardInfo 登録するマップ情報
+     * ダッシュボードを登録する。
+     * @param dashboardInfo 登録するダッシュボード情報
      * @return 登録結果電文
      */
     public ResponseDto insert(final DashboardInfo dashboardInfo)
@@ -151,9 +151,9 @@ public class DashboardService
     }
 
     /**
-     * マップを更新する。
+     * ダッシュボードを更新する。
      *
-     * @param dashboardInfo マップ情報
+     * @param dashboardInfo ダッシュボード情報
      * @return 更新結果電文
      */
     public ResponseDto update(final DashboardInfo dashboardInfo)
@@ -199,16 +199,16 @@ public class DashboardService
     }
 
     /**
-     * マップを取得する。
-     * @param mapId Target mapId
+     * ダッシュボードを取得する。
+     * @param dashboardId Target dashboardId
      * @return 取得結果
      */
-    public ResponseDto getById(final long mapId)
+    public ResponseDto getById(final long dashboardId)
     {
         ResponseDto responseDto = new ResponseDto();
         try
         {
-            DashboardInfo dashboardInfo = dashboardInfoDao_.selectById(mapId);
+            DashboardInfo dashboardInfo = dashboardInfoDao_.selectById(dashboardId);
             if (dashboardInfo == null)
             {
                 String errorMessage = MessageUtil.getMessage("WEWD0164", new Object[] {});
@@ -244,8 +244,8 @@ public class DashboardService
     }
 
     /**
-     * マップを取得する。
-     * @param name マップ名
+     * ダッシュボードを取得する。
+     * @param name ダッシュボード名
      * @return 取得結果
      */
     public List<DashboardInfo> getByName(final String name)
@@ -271,17 +271,17 @@ public class DashboardService
     }
 
     /**
-     * マップを削除する。
-     * @param mapId マップID
+     * ダッシュボードを削除する。
+     * @param dashboardId ダッシュボードID
      * @return 削除結果
      */
-    public ResponseDto removeMapById(final long mapId)
+    public ResponseDto removeDashboardById(final long dashboardId)
     {
         int count = 0;
         ResponseDto responseDto = new ResponseDto();
         try
         {
-            count = dashboardInfoDao_.deleteById(mapId);
+            count = dashboardInfoDao_.deleteById(dashboardId);
             if (count == 0)
             {
                 String errorMessage = MessageUtil.getMessage("WEWD0166", new Object[] {});
@@ -314,18 +314,18 @@ public class DashboardService
     }
 
     /**
-     * マップ情報をMap形式に変換する。
-     * @param dashboardInfo マップ情報
-     * @return Map形式のマップ情報
+     * ダッシュボード情報をMap形式に変換する。
+     * @param dashboardInfo ダッシュボード情報
+     * @return Map形式のダッシュボード情報
      */
     private Map<String, String> convertDataMap(final DashboardInfo dashboardInfo)
     {
         Map<String, String> dataMap = new HashMap<String, String>();
-        dataMap.put("id", String.valueOf(dashboardInfo.mapId));
+        dataMap.put("id", String.valueOf(dashboardInfo.dashboardId));
         dataMap.put("parentTreeId", "");
         dataMap.put("data", dashboardInfo.name);
-        dataMap.put("treeId", String.valueOf(dashboardInfo.mapId));
-        dataMap.put("mapData", dashboardInfo.data);
+        dataMap.put("treeId", String.valueOf(dashboardInfo.dashboardId));
+        dataMap.put("dashboardData", dashboardInfo.data);
         return dataMap;
     }
 

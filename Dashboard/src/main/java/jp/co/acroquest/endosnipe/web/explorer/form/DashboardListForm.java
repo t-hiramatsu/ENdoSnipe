@@ -13,15 +13,15 @@
 package jp.co.acroquest.endosnipe.web.explorer.form;
 
 /**
- * マップの情報を持つクラス。
+ * ダッシュボードの情報を持つクラス。
  * 
  * @author miyasaka
  *
  */
 public class DashboardListForm
 {
-    /** マップモード(運用or編集) */
-    private String mapMode_;
+    /** ダッシュボードモード(運用or編集) */
+    private String dashboardMode_;
 
     /** ResourceTreeViewの展開状態 */
     private String treeViewOpenNodeData_;
@@ -32,7 +32,7 @@ public class DashboardListForm
     /** 選択しているResourceTreeViewのID */
     private String selectedTreeId_;
 
-    /** 選択しているResourceMapListViewのID */
+    /** 選択しているResourceDashboardListViewのID */
     private String selectedDashboardListId_;
 
     /**
@@ -44,23 +44,23 @@ public class DashboardListForm
     }
 
     /**
-     * マップモードを取得する。
+     * ダッシュボードモードを取得する。
      * 
-     * @return マップモード
+     * @return ダッシュボードモード
      */
-    public String getMapMode()
+    public String getDashboardMode()
     {
-        return mapMode_;
+        return dashboardMode_;
     }
 
     /**
-     * マップモードを設定する。
+     * ダッシュボードモードを設定する。
      * 
-     * @param mapMode マップモード
+     * @param dashboardMode ダッシュボードモード
      */
-    public void setMapMode(final String mapMode)
+    public void setDashboardMode(final String dashboardMode)
     {
-        this.mapMode_ = mapMode;
+        this.dashboardMode_ = dashboardMode;
     }
 
     /**
@@ -124,9 +124,9 @@ public class DashboardListForm
     }
 
     /**
-     * 選択しているResourceMapListViewのIDを取得する。
+     * 選択しているResourceDashboardListViewのIDを取得する。
      * 
-     * @return 選択しているResourceMapListViewのID
+     * @return 選択しているResourceDashboardListViewのID
      */
     public String getSelectedDashboardListId()
     {
@@ -134,9 +134,9 @@ public class DashboardListForm
     }
 
     /**
-     * 選択しているResourceMapListViewのIDを設定する。
+     * 選択しているResourceDashboardListViewのIDを設定する。
      * 
-     * @param selectedDashboardListId 選択しているResourceMapListViewのID
+     * @param selectedDashboardListId 選択しているResourceDashboardListViewのID
      */
     public void setSelectedDashboardListId(final String selectedDashboardListId)
     {

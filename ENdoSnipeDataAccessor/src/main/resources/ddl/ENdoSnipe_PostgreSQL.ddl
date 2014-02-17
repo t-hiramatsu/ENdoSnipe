@@ -72,10 +72,10 @@ CREATE TABLE SIGNAL_DEFINITION(
 );
 
 /**********************************/
-/* テーブル名: マップテーブル */
+/* テーブル名: ダッシュボードテーブル */
 /**********************************/
-CREATE TABLE MAP_INFO(
- MAP_ID SERIAL NOT NULL,
+CREATE TABLE DASHBOARD_INFO(
+ DASHBOARD_ID SERIAL NOT NULL,
  NAME VARCHAR(64),
  DATA text,
  LAST_UPDATE TIMESTAMP NOT NULL

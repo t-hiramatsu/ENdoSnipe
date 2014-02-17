@@ -26,7 +26,7 @@ ENS.ResourceDashboardListView = wgp.TreeView
 
 				this.targetId = argument["targetId"];
 
-				// マップ一覧の要素がクリックされた際に紐付くマップを表示する。
+				// ダッシュボード一覧の要素がクリックされた際に紐付くダッシュボードを表示する。
 				var instance = this;
 				$("#" + this.$el.attr("id")).mousedown(function(event) {
 
@@ -67,7 +67,7 @@ ENS.ResourceDashboardListView = wgp.TreeView
 				var treeSettings = treeModel.attributes;
 				var resourceDashboardView = new ENS.ResourceDashboardView({
 					id : this.targetId,
-					mapId : treeModel.get("id")
+					dashboardId : treeModel.get("id")
 				});
 
 				this.childView = resourceDashboardView;
@@ -138,7 +138,7 @@ ENS.ResourceDashboardListView = wgp.TreeView
 							}else{
 								createDashboardDialog.dialog("close");
 
-								// マップ一覧を再描画する。
+								// ダッシュボード一覧を再描画する。
 								instance.onLoad();
 							}
 						},
@@ -167,7 +167,7 @@ ENS.ResourceDashboardListView = wgp.TreeView
 						"OK" : function() {
 							var setting = {
 								data : {
-									mapId : treeModel.id
+									dashboardId : treeModel.id
 								},
 								url : wgp.common.getContextPath()
 										+ "/dashboard/removeById"
@@ -180,13 +180,13 @@ ENS.ResourceDashboardListView = wgp.TreeView
 							}
 							removeDashboardDialog.dialog("close");
 
-							// マップの表示内容を全て消去する。
+							// ダッシュボードの表示内容を全て消去する。
 							$("#" + instance.targetId).children().remove();
 
 							// ビューの関連付けを削除する。
 							instance.childView = null;
 
-							// マップ一覧を再描画する。
+							// ダッシュボード一覧を再描画する。
 							instance.onLoad();
 						},
 						"Cancel" : function() {
@@ -261,7 +261,7 @@ ENS.ResourceDashboardListView = wgp.TreeView
 					this.selectNode(selectTreeId, "id");
 				}
 
-				// マップを表示する。
+				// ダッシュボードを表示する。
 				var treeModel = this.collection.get(selectTreeId);
 				if(treeModel){
 					this.clickModel(treeModel);

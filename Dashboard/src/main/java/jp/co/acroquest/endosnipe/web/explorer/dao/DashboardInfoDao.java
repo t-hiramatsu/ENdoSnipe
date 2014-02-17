@@ -26,51 +26,51 @@ public interface DashboardInfoDao
 {
 
     /**
-     * マップ情報を全て取得する。<br />
+     * ダッシュボード情報を全て取得する。<br />
      *
-     * マップ情報が登録されていない場合は空のリストを返却する。<br />
+     * ダッシュボード情報が登録されていない場合は空のリストを返却する。<br />
      *
-     * @return マップ情報のリスト
+     * @return ダッシュボード情報のリスト
      */
     List<DashboardInfo> selectAll();
 
     /**
-     * マップ情報を取得する。
-     * @param mapId マップID
-     * @return マップ情報
+     * ダッシュボード情報を取得する。
+     * @param dashboardId ダッシュボードID
+     * @return ダッシュボード情報
      */
-    DashboardInfo selectById(final long mapId);
+    DashboardInfo selectById(final long dashboardId);
 
     /**
-     * マップ情報を取得する。
-     * @param name マップ名
-     * @return マップ情報
+     * ダッシュボード情報を取得する。
+     * @param name ダッシュボード名
+     * @return ダッシュボード情報
      */
     List<DashboardInfo> selectByName(final String name);
 
     /**
-     * マップ情報を新規登録する。<br />
-     * @param dashboardInfo マップ情報
+     * ダッシュボード情報を新規登録する。<br />
+     * @param dashboardInfo ダッシュボード情報
      * @return 登録件数
      */
     int insert(final DashboardInfo dashboardInfo);
 
     /**
-     * マップ情報を更新する。
-     * @param dashboardInfo マップ情報
+     * ダッシュボード情報を更新する。
+     * @param dashboardInfo ダッシュボード情報
      * @return 更新件数
      */
     int update(final DashboardInfo dashboardInfo);
 
     /**
-     * マップ情報を削除する。
-     * @param mapId マップID
+     * ダッシュボード情報を削除する。
+     * @param dashboardId ダッシュボードID
      * @return 削除件数
      */
-    int deleteById(final long mapId);
+    int deleteById(final long dashboardId);
 
     /**
-     * すべてのマップ情報を削除する。<br />
+     * すべてのダッシュボード情報を削除する。<br />
      * @return 削除件数
      */
     int deleteAll();

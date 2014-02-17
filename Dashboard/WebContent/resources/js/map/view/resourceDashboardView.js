@@ -13,17 +13,17 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 		var ajaxHandler = new wgp.AjaxHandler();
 		this.ajaxHandler = ajaxHandler;
 
-		this.mapMode = $("#mapMode").val();
+		this.dashboardMode = $("#dashboardMode").val();
 
 		var contextMenuId = this.cid + "_contextMenu";
 		this.contextMenuId = contextMenuId;
 
-		this.mapId = argument["mapId"];
+		this.dashboardId = argument["dashboardId"];
 
 		// 継承元の初期化メソッド実行
 		this.__proto__.__proto__.initialize.apply(this, [argument]);
 
-		// マップ操作用マネージャ
+		// ダッシュボード操作用マネージャ
 		this.dashboardManager = new raphaelDashboardManager(this);
 
 		// 手動でのオブジェクトID割り振り用のカウント変数
@@ -32,7 +32,7 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 		// 本クラスのrenderメソッド実行
 		this.renderExtend();
 
-		if(this.mapMode == ENS.dashboard.mode.EDIT){
+		if(this.dashboardMode == ENS.dashboard.mode.EDIT){
 			this.setEditFunction();
 
 		}else{
@@ -45,13 +45,13 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 	},
 	renderExtend : function(){
 
-		if(this.mapMode == ENS.dashboard.mode.EDIT){
+		if(this.dashboardMode == ENS.dashboard.mode.EDIT){
 			this.createEditContextMenuTag();
 		}else {
 			this.createOperateContextMenuTag();
 		}
 
-		// マップ情報を読み込む。
+		// ダッシュボード情報を読み込む。
 		this.onLoad();
 		return this;
 	},
@@ -103,7 +103,7 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 		}
 
 		// 編集モードの場合に各種イベントを設定する。
-		if(this.mapMode == ENS.dashboard.mode.EDIT){
+		if(this.dashboardMode == ENS.dashboard.mode.EDIT){
 
 			// ビューの編集イベントを設定する。
 			if(newView && newView.setEditFunction){
@@ -251,7 +251,7 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 
 		var setting = {
 			data : {
-				mapId : treeModel.get("id"),
+				dashboardId : treeModel.get("id"),
 				name : treeModel.get("data"),
 				data : JSON.stringify(resourceDashboard)
 			},
@@ -271,23 +271,23 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 		// コレクションをリセット
 		this.collection.reset();
 
-		// マップ情報を画面に表示する。
-		var mapId = this.mapId;
+		// ダッシュボード情報を画面に表示する。
+		var dashboardId = this.dashboardId;
 
-		if(mapId != undefined && mapId.length > 0){
+		if(dashboardId != undefined && dashboardId.length > 0){
 
-			// サーバからマップ情報を取得し、結果をコレクションに追加する。
-			var telegram = this.getDashboardData(mapId);
+			// サーバからダッシュボード情報を取得し、結果をコレクションに追加する。
+			var telegram = this.getDashboardData(dashboardId);
 			var returnData = $.parseJSON(telegram);
 			if(returnData.result == "fail"){
 				alert(returnData.message);
 				return;
 			}
 
-			var mapData = $.parseJSON(returnData.data.mapData);
-			var dashboardWidth = mapData["dashboardWidth"];
-			var dashboardHeight = mapData["dashboardHeight"];
-			var background = mapData["background"];
+			var dashboardData = $.parseJSON(returnData.data.dashboardData);
+			var dashboardWidth = dashboardData["dashboardWidth"];
+			var dashboardHeight = dashboardData["dashboardHeight"];
+			var background = dashboardData["background"];
 			if(dashboardWidth && dashboardHeight){
 				this.paper.setSize(dashboardWidth, dashboardHeight);
 			}
@@ -306,7 +306,7 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 			var backgroundView = new ENS.BackgroundElementView(backgroundArgument);
 			this.backgroundView = backgroundView;
 
-			var resources = mapData["resources"];
+			var resources = dashboardData["resources"];
 			var instance = this;
 			_.each(resources, function(resource, index){
 				var dashboardElement = new wgp.MapElement(resource);
@@ -320,10 +320,10 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 			this.maxObjectId = maxObjectIdElement.get("objectId") + 1;
 		}
 	},
-	getDashboardData : function(mapId){
+	getDashboardData : function(dashboardId){
 		var setting = {
 			data : {
-				mapId : mapId
+				dashboardId : dashboardId
 			},
 			url : wgp.common.getContextPath() + "/dashboard/getById"
 		}
@@ -553,13 +553,13 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 		var dashboardHeight = this.paper.height;
 		var changeFlag = false;
 
-		if(pointX + width + ENS.dashboard.extraMapSize > dashboardWidth){
-			dashboardWidth = pointX + width + ENS.dashboard.extraMapSize;
+		if(pointX + width + ENS.dashboard.extraDashboardSize > dashboardWidth){
+			dashboardWidth = pointX + width + ENS.dashboard.extraDashboardSize;
 			changeFlag = true;
 		}
 
-		if(pointY + height + ENS.dashboard.extraMapSize > dashboardHeight){
-			dashboardHeight = pointY + height + ENS.dashboard.extraMapSize;
+		if(pointY + height + ENS.dashboard.extraDashboardSize > dashboardHeight){
+			dashboardHeight = pointY + height + ENS.dashboard.extraDashboardSize;
 			changeFlag = true;
 		}
 
@@ -577,7 +577,7 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 		// ドラッグ時のイベント
 		this.changedFlag = true;
 	},
-	setMapSize : function(dashboardWidth, dashboardHeight){
+	setDashboardSize : function(dashboardWidth, dashboardHeight){
 		this.paper.setSize(dashboardWidth, dashboardHeight);
 		this.changeFlag = true;
 	},
