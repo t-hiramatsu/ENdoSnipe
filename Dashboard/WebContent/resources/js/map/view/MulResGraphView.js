@@ -26,6 +26,7 @@
 
 ENS.tree.measurementDefinitionList = [];
 ENS.tree.previousKey = [];
+ENS.tree.labelsName = [];
 
 ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 		.extend({
@@ -137,8 +138,10 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				$("#" + this.$el.attr("id")).append(graphdiv);
 
 				var labelId = this.$el.attr("id") + "_enslabel";
-				var labeldiv = $("<div id='" + labelId
-						+ "' class='ensLabel'><div>");
+				var labeldiv = $("<div id='"
+						+ labelId
+						+ "' class='ensLabel' style= 'position : relative;background-color : black; overflow:visible; word-break : break-word; z-index : 1'><div>"); 
+//				style= 'position : relative;background-color : black; overflow:visible; word-break : break-word;'
 				$("#" + this.$el.attr("id")).append(labeldiv);
 				var labelDom = document.getElementById(labelId);
 
@@ -146,14 +149,18 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				var dataFinal = this.createDataList(data);
 
 				var optionSettings = {
-					labels : this.datalabel,
+					// labels : this.datalabel,
+					labels : ENS.tree.labelsName,
 					valueRange : [ 0, this.maxValue * this.yValueMagnification ],
 					title : this.title,
 					xlabel : this.labelX,
 					ylabel : this.labelY,
 					axisLabelColor : "#000000",
 					labelsDivStyles : {
-						background : "none repeat scroll 0 0 #000000"
+						"background" : "none repeat scroll 0 0 #000000",
+						"position" : "relative",
+						"background-color" : "black",
+						"word-break" : "break-word"
 					},
 					dateWindow : this.dateWindow,
 					axisLabelFontSize : 10,
@@ -206,29 +213,37 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 					titleHeight : 22
 				});
 
-				if(this.viewMaximumButtonFlag){
+				if (this.viewMaximumButtonFlag) {
 					var childElem = $("#" + graphId + "").children("div");
 					$(childElem).append(this.maximumButtonImg);
 					$("#" + this.maximumButton).css("float", "right");
 					var minButton = this.normalButton, maxButton = this.maximumButton;
-					$(element).click(
-							function(e) {
-								var offsetLeft = $("#" + graphId).offset().left;
-								var offsetTop = $("#" + graphId).offset().top;
-								var position = {
-									x : Math.floor(e.clientX - offsetLeft),
-									y : Math.floor(e.clientY - offsetTop)
-								};
+					$(element)
+							.click(
+									function(e) {
+										var offsetLeft = $("#" + graphId)
+												.offset().left;
+										var offsetTop = $("#" + graphId)
+												.offset().top;
+										var position = {
+											x : Math.floor(e.clientX
+													- offsetLeft),
+											y : Math.floor(e.clientY
+													- offsetTop)
+										};
 
-								if (position.x > ($("#" + graphId).width() - 20)
-										&& position.x < ($("#" + graphId).width())
-										&& position.y > 0 && position.y < 28) {
-									if ($("." + maxButton).length > 0) {
-										instance.addMaximizeEvent(offsetLeft,
-												offsetTop);
-									}
-								}
-							});
+										if (position.x > ($("#" + graphId)
+												.width() - 20)
+												&& position.x < ($("#"
+														+ graphId).width())
+												&& position.y > 0
+												&& position.y < 28) {
+											if ($("." + maxButton).length > 0) {
+												instance.addMaximizeEvent(
+														offsetLeft, offsetTop);
+											}
+										}
+									});
 
 					$(".dygraph-title").width(
 							$("#" + graphId).width() - this.titleButtonSpace);
@@ -296,7 +311,7 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 
 					}
 
-					if(this.viewMaximumButtonFlag){
+					if (this.viewMaximumButtonFlag) {
 						$(".dygraph-title").width(
 								$("#tempDiv").width() - this.titleButtonSpace);
 					}
@@ -362,14 +377,14 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 
 				if ($("#tempDiv").length > 0) {
 
-					if(this.viewMaximumButtonFlag){
+					if (this.viewMaximumButtonFlag) {
 						$(".dygraph-title").width(
 								$("#tempDiv").width() - this.titleButtonSpace);
 					}
 
 				} else {
 
-					if(this.viewMaximumButtonFlag){
+					if (this.viewMaximumButtonFlag) {
 						$(".dygraph-title").width(
 								$("#" + graphId).width()
 										- this.titleButtonSpace);
@@ -450,6 +465,7 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 												null, null, null, null, null,
 												null, null, null, null, null,
 												null, null ]);
+
 									}
 
 									data[measurementItemName].push(instance
@@ -477,6 +493,7 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				var data = this.getData();
 				var dataFinal = this.createDataList(data);
 				var optionSettings = {
+					labels : ENS.tree.labelsName,
 					title : this.title,
 					xlabel : this.labelX,
 					ylabel : this.labelY,
@@ -675,10 +692,11 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 						ENS.tree.previousKey.splice(tempKey[tempIndex]);
 					}
 				}
-
+				ENS.tree.labelsName = [];
+				ENS.tree.labelsName.push("Date");
 				for ( var keyIndex3 = 0; keyIndex3 < top; keyIndex3++) {
 					var value = dataValue[ENS.tree.previousKey[keyIndex3]];
-
+					ENS.tree.labelsName.push(ENS.tree.previousKey[keyIndex3]);
 					_.each(value, function(valueData, index) {
 						var valueD = valueData;
 						if (dataMap[valueD[0]] === undefined
@@ -699,6 +717,10 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 
 					dataFinal.push(value);
 				});
+				if (dataFinal != null && dataFinal.length > 1) {
+					dataFinal[0].splice(dataFinal[1].length,
+							(dataFinal[0].length - dataFinal[1].length));
+				}
 				return dataFinal;
 			}
 		});
