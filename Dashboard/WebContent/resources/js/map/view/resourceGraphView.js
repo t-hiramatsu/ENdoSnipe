@@ -168,8 +168,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				$("#" + this.$el.attr("id")).append(graphdiv);
 
 				var labelId = this.$el.attr("id") + "_enslabel";
-				var labeldiv = $("<div id='" + labelId
-						+ "' class='ensLabel'><div>");
+				var labeldiv = ENS.graphLabel.create(labelId);
 				$("#" + this.$el.attr("id")).append(labeldiv);
 				var labelDom = document.getElementById(labelId);
 
@@ -266,7 +265,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				}
 
 				this.mouseEvent(graphId, isShort, tmpTitle, optionSettings);
-
+				ENS.graphLabel.setEventListener(labeldiv, graphdiv);
 			},
 			mouseEvent : function(graphId, isShort, tmpTitle, optionSettings) {
 				var graphPath = this.graphId;
