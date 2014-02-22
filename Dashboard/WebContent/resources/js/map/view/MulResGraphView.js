@@ -46,6 +46,10 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				this.maxGraphVerticalMargin = argument.maxGraphVerticalMargin;
 				// グラフタイトル横のボタン用スペースの大きさ
 				this.titleButtonSpace = argument.titleButtonSpace;
+				// グラフラベルの横幅
+				this.labelWidth = 200;
+				// グラフラベルのオフセット
+				this.labelOffset = 50;
 
 				var graphIds = "(";
 				var appView = new ENS.AppView();
@@ -138,10 +142,8 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				$("#" + this.$el.attr("id")).append(graphdiv);
 
 				var labelId = this.$el.attr("id") + "_enslabel";
-				var labeldiv = $("<div id='"
-						+ labelId
-						+ "' class='ensLabel' style= 'position : relative;background-color : black; overflow:visible; word-break : break-word; z-index : 1'><div>"); 
-//				style= 'position : relative;background-color : black; overflow:visible; word-break : break-word;'
+				
+				var labeldiv = ENS.graphLabel.create(labelId);
 				$("#" + this.$el.attr("id")).append(labeldiv);
 				var labelDom = document.getElementById(labelId);
 
@@ -249,6 +251,8 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 							$("#" + graphId).width() - this.titleButtonSpace);
 				}
 				this.mouseEvent(graphId, isShort, tmpTitle, optionSettings);
+				
+				ENS.graphLabel.setEventListener(labeldiv, graphdiv);
 			},
 
 			onAdd : function(graphModel) {

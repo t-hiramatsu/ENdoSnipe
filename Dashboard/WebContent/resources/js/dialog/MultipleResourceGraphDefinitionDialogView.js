@@ -113,7 +113,7 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 												ins.op_);
 									},
 									modal : true,
-									width : 550
+									width : 800
 
 								});
 				$('#multipleResourceGraphLstBox1').removeAttr("disabled");
@@ -121,6 +121,7 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 				$('#multipleResourceGraphSelection').removeAttr("disabled");
 				$("#multipleResourceGraphSelection").attr('checked', 'checked');
 				$('#multipleResourceGraphRegExpression').removeAttr("disabled");
+				$('#multipleResourceGraphItems').val(treeId+"/.*");
 				$(".selectPlace").css('display', 'block');
 				$(".regPlace").css('display', 'block');
 				if (this.signalType == ENS.tree.ADD_MULTIPLE_RESOURCE_GRAPH_TYPE) {
