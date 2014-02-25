@@ -343,6 +343,9 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				var dataList = this.createDataList(data);
 				if (dataList.length !== 0) {
 					this.maxValue = this.getMaxValue(dataList);
+				}else{
+					//データが存在しない場合は以降の更新処理を行わない。
+					return;
 				}
 				var updateOption;
 				if (this.labelY == "%") {
