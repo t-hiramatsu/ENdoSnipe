@@ -726,42 +726,25 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 			},
 			createDragEvent : function(divArea) {
 				var instance = this;
-				$(divArea)
-						.bind(
-								'mousedown',
-								function(e) {
-									$(divArea).bind('mousemove', function(e) {
-									});
 
-									$(divArea)
-											.bind(
-													'mouseup',
-													function() {
-														$(divArea).unbind(
-																'mousemove');
+				$(divArea).bind(
+						'mouseup',
+						function() {
+							if (this.viewMaximumButtonFlag) {
+								var dygraphTitleWidth;
+								if ($("#tempDiv").length > 0) {
+									dygraphTitleWidth = $("#tempDiv").width()
+											- this.titleButtonSpace;
+								} else {
+									dygraphTitleWidth = $(
+											instance.$el.attr("id")
+													+ "_ensgraph").width()
+											- this.titleButtonSpace
+								}
 
-														if (this.viewMaximumButtonFlag) {
-															var dygraphTitleWidth;
-															if ($("#tempDiv").length > 0) {
-																dygraphTitleWidth = $(
-																		"#tempDiv")
-																		.width()
-																		- this.titleButtonSpace;
-															} else {
-																dygraphTitleWidth = $(
-																		instance.$el
-																				.attr("id")
-																				+ "_ensgraph")
-																		.width()
-																		- this.titleButtonSpace
-															}
-
-															$(".dygraph-title")
-																	.width(
-																			dygraphTitleWidth);
-														}
-													});
-								});
+								$(".dygraph-title").width(dygraphTitleWidth);
+							}
+						});
 			},
 			windowResize : function() {
 				var instance = this;
