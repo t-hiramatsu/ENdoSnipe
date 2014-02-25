@@ -4,15 +4,20 @@ ENS.graphLabel.LABEL_WIDTH = 200;
 ENS.graphLabel.LABEL_OFFSET = 50;
 
 ENS.graphLabel.create = function(id) {
-	var labeldiv = $("<div id='" + id + "' class='ensLabel' style= '"
-			+ "position : absolute;" + "width: " + ENS.graphLabel.LABEL_WIDTH
-			+ "px; overflow:visible;" + "word-break : break-word;"
-			+ "background-color: rgba(220,220,220,0.8);"
-			+ "border: 3px solid #24140e;" + "color: black;" + "padding: 10px;"
-			+ "border-radius: 10px;"
-			+ "z-index : 10'><div>");
-	labeldiv.hide();
-	return labeldiv;
+	var $label = $("<div/>");
+	$label.attr("id", id);
+	ENS.graphLabel._setAttr($label);
+	return $label;
+};
+
+ENS.graphLabel.modify = function($div){
+	ENS.graphLabel._setAttr($div);
+};
+
+ENS.graphLabel._setAttr = function($label){
+	$label.addClass("ensLabel");
+	$label.css("width", ENS.graphLabel.LABEL_WIDTH+"px");
+	$label.hide();
 };
 
 ENS.graphLabel.setEventListener = function(labeldiv, graphdiv) {
@@ -36,6 +41,9 @@ ENS.graphLabel.setEventListener = function(labeldiv, graphdiv) {
 
 				labeldiv.css("left", labelPos.left);
 				labeldiv.css("top", labelPos.top);
+				if(labeldiv.html().length <= 0){
+					labeldiv.html("NO DATA");
+				}
 			});
 	graphdiv.mouseout(function(e) {
 		labeldiv.hide();

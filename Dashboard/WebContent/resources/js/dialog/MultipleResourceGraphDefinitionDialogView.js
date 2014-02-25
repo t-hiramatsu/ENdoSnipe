@@ -121,7 +121,7 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 				$('#multipleResourceGraphSelection').removeAttr("disabled");
 				$("#multipleResourceGraphSelection").attr('checked', 'checked');
 				$('#multipleResourceGraphRegExpression').removeAttr("disabled");
-				$('#multipleResourceGraphItems').val(treeId+"/.*");
+				$('#multipleResourceGraphItems').val(treeId + "/.*");
 				$(".selectPlace").css('display', 'block');
 				$(".regPlace").css('display', 'block');
 				if (this.signalType == ENS.tree.ADD_MULTIPLE_RESOURCE_GRAPH_TYPE) {
@@ -251,20 +251,13 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 
 				});
 				instance.pagingGraph(measurementDefinitionList);
-
-				$("select option").attr("title", "");
-				$("select option").each(function(i) {
-					this.title = this.text;
+				
+				$("select option").each(function(i){
+					var text = $(this).html();
+					$(this).html(text + "<br><span>" + text + "</span>");
+					$(this).addClass("tooltip");
 				});
-
-				// Attach a tooltip to select elements
-				$("select").tooltip({
-					content : function() {
-						return $(this).attr(this.title);
-					},
-					items : "[alt]",
-					tooltipClass : "tooltip"
-				});
+			
 			},
 			inputMulResGraphDialog_ : function() {
 
@@ -289,6 +282,7 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 									+ "'>" + javelinMeasurementItem.itemName
 									+ "</option>");
 				});
+				
 				$("select option").attr("title", "");
 				$("select option").each(function(i) {
 					this.title = this.text;
@@ -321,9 +315,9 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 				var offset = page_index * items_per_page;
 				var new_content = $('#hiddenIdList option').slice(offset,
 						offset + items_per_page).clone();
-
+				
 				$('#multipleResourceGraphLstBox1').empty().append(new_content);
-
+				
 				return false;
 			}
 

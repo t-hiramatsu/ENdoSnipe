@@ -509,6 +509,7 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 
 				var attributes = this.getAttributes(ENS.ResourceGraphAttribute);
 				var labelDom = document.getElementById("tempDiv_enslabel");
+				ENS.graphLabel.modify($(labelDom));
 
 				optionSettings = $.extend(true, optionSettings, attributes);
 				optionSettings.labelsDiv = labelDom;
@@ -653,6 +654,7 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 											- instance.titleButtonSpace);
 						});
 
+				ENS.graphLabel.setEventListener($(labelDom), $("#tempDiv"));
 			},
 			createDataList : function(data) {
 				var dataMap = {};
