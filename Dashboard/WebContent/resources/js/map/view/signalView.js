@@ -115,6 +115,7 @@ ENS.SignalElementView = ENS.ShapeElementView.extend({
 	},
 	updateModelPosition : function(){
 		var imageElement = this.getElement(0);
+		var textElement = this.getElement(1);
 		this.model.set({
 			pointX : imageElement.x,
 			pointY : imageElement.y,
@@ -123,6 +124,14 @@ ENS.SignalElementView = ENS.ShapeElementView.extend({
 		},{
 			silent : true
 		});
+
+		// ダッシュボード領域の拡張
+		this.dashboardView.enlargeDashboardArea(
+			imageElement.x,
+			textElement.y,
+			imageElement.width,
+			textElement.height);
+
 	},
 	alignText : function(){
 		var imageElement = this.getElement(0);
