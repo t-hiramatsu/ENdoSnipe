@@ -552,10 +552,12 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 			},
 			move : function(pointX, pointY) {
 				var divArea = $("#" + this.$el.attr("id"));
-				var offsetParent = divArea.offsetParent().offset();
+				var parentOffset = divArea.parent().offset();
+				var scrollTop = divArea.parent().scrollTop();
+				var scrollLeft = divArea.parent().scrollLeft();
 				divArea.offset({
-					top : pointY + offsetParent.top,
-					left : pointX + offsetParent.left
+					top : parentOffset["top"] + pointY - scrollTop,
+					left : parentOffset["left"] + pointX - scrollLeft
 				});
 			},
 			resize : function(changeWidth, changeHeight) {
@@ -578,8 +580,23 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 					silent : true
 				});
 				this.move(property.pointX, property.pointY);
-				this.resize(this.width - property.width, this.height
-						- property.height);
+
+				var changeWidth = property.width - this.width;
+				var changeHeight = property.height - this.height;
+
+				// グラフ領域を囲むdivタグについてはここで事前にリサイズしておく。
+				var divArea = $("#" + this.$el.attr("id"));
+				divArea.width(divArea.width() + changeWidth);
+				divArea.height(divArea.height() + changeHeight);
+
+				if (this.rootView.enlargeDashboardArea) {
+					var divAreaPosition = divArea.position();
+					this.rootView.enlargeDashboardArea(divAreaPosition.left,
+							divAreaPosition.top, divArea.width() + 10, divArea
+									.height() + 10);
+				}
+
+				this.resize(changeWidth, changeHeight);
 			},
 			relateContextMenu : function(menuId, option) {
 				contextMenuCreator.createContextMenu(this.$el.attr("id"),
@@ -602,47 +619,50 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 					grid : [ 16, 16 ],
 					scroll : true,
 					drag : function(e, ui) {
-						var position = ui.position;
-						var positionLeft = position.left;
-						var positionTop = position.top;
-
-						var afterWidth = $(e.target).width();
-						var afterHeight = $(e.target).height();
+						var parentOffset = divArea.parent().offset();
+						var scrollTop = divArea.parent().scrollTop();
+						var scrollLeft = divArea.parent().scrollLeft();
+						var pointX = divArea.offset().left + scrollLeft
+								- parentOffset.left;
+						var pointY = divArea.offset().top + scrollTop
+								- parentOffset.top;
+						
+						var afterWidth = divArea.width();
+						var afterHeight = divArea.height();
 
 						// グラフ分のダッシュボードエリア拡張
 						resourceDashboardListView.childView
-								.enlargeDashboardArea(positionLeft,
-										positionTop, afterWidth,
-										afterHeight + 10);
+								.enlargeDashboardArea(
+										pointX,
+										pointY,
+										afterWidth + 20,
+										afterHeight + 20);
 					},
 					stop : function(e, ui) {
-						var position = ui.position;
-						var positionLeft = position.left;
-						var positionTop = position.top;
-
-						var parentOffset = $(e.target).parent().offset();
-						if (position["left"] < 0) {
-							$(e.target).offset({
+						var parentOffset = divArea.parent().offset();
+						if (ui.position["left"] < 0) {
+							divArea.offset({
 								left : parentOffset.left
 							});
-
-							// 再取得
-							positionLeft = $(e.target).position().left;
 						}
 
-						if (position["top"] < 0) {
-							$(e.target).offset({
+						if (ui.position["top"] < 0) {
+							divArea.offset({
 								top : parentOffset.top
 							});
-
-							// 再取得
-							positionTop = $(e.target).position().top;
 						}
 
-						instance.model.set("pointX", positionLeft, {
+						var scrollTop = divArea.parent().scrollTop();
+						var scrollLeft = divArea.parent().scrollLeft();
+						var pointX = divArea.offset().left + scrollLeft
+								- parentOffset.left;
+						var pointY = divArea.offset().top + scrollTop
+								- parentOffset.top;
+
+						instance.model.set("pointX", pointX, {
 							silent : true
 						});
-						instance.model.set("pointY", positionTop, {
+						instance.model.set("pointY", pointY, {
 							silent : true
 						});
 					}
@@ -650,45 +670,60 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 
 				var beforeWidth = 0;
 				var beforeHeight = 0;
+				var parentOffsetTop = 0;
+				var perentOffsetLeft = 0;
+				var scrollTop = 0;
+				var scrollLeft = 0;
 				divArea
 						.resizable({
 							grid : [ 16, 16 ],
 							start : function(e, ui) {
-								beforeWidth = $(e.target).width();
-								beforeHeight = $(e.target).height();
+								beforeWidth = divArea.width();
+								beforeHeight = divArea.height();
 
-								var parentOffset = $(e.target).parent()
-										.offset();
-								var position = ui.position;
-								$(e.target).offset({
-									top : parentOffset.top + position.top,
-									left : parentOffset.left + position.left
-								});
+								var parentOffset = divArea.parent().offset();
+								parentOffsetTop = parentOffset["top"];
+								perentOffsetLeft = parentOffset["left"];
+								scrollTop = divArea.parent().scrollTop();
+								scrollLeft = divArea.parent().scrollLeft();
 							},
 							resize : function(e, ui) {
-								var position = ui.position;
+								divArea.offset({
+									top : parentOffsetTop
+											+ instance.model.get("pointY")
+											- scrollTop,
+									left : perentOffsetLeft
+											+ instance.model.get("pointX")
+											- scrollLeft
+								});
+								divArea.parent().scrollTop(scrollTop);
+								divArea.parent().scrollLeft(scrollLeft);
+
+								var position = divArea.position();
 								var positionLeft = position.left;
 								var positionTop = position.top;
 
-								var afterWidth = $(e.target).width();
+								var afterWidth = divArea.width();
 								if (afterWidth < ENS.dashboard.MIN_GRAPH_WIDTH) {
-									$(e.target).width(
+									divArea.width(
 											ENS.dashboard.MIN_GRAPH_WIDTH);
 								}
 								var afterHeight = $(e.target).height();
 								if (afterHeight < ENS.dashboard.MIN_GRAPH_HEIGHT) {
-									$(e.target).height(
+									divArea.height(
 											ENS.dashboard.MIN_GRAPH_HEIGHT);
 								}
 								// グラフ分のダッシュボードエリア拡張
 								resourceDashboardListView.childView
-										.enlargeDashboardArea(positionLeft,
-												positionTop, afterWidth,
+										.enlargeDashboardArea(
+												instance.model.get("pointX"),
+												instance.model.get("pointY"),
+												afterWidth + 10,
 												afterHeight + 10);
 							},
 							stop : function(e, ui) {
-								var afterWidth = $(e.target).width();
-								var afterHeight = $(e.target).height();
+								var afterWidth = divArea.width();
+								var afterHeight = divArea.height();
 
 								if (afterWidth < ENS.dashboard.MIN_GRAPH_WIDTH) {
 									afterWidth = ENS.dashboard.MIN_GRAPH_WIDTH;
@@ -728,23 +763,23 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				var instance = this;
 
 				$(divArea).bind(
-						'mouseup',
-						function() {
-							if (this.viewMaximumButtonFlag) {
-								var dygraphTitleWidth;
-								if ($("#tempDiv").length > 0) {
+													'mouseup',
+													function() {
+														if (this.viewMaximumButtonFlag) {
+															var dygraphTitleWidth;
+															if ($("#tempDiv").length > 0) {
 									dygraphTitleWidth = $("#tempDiv").width()
-											- this.titleButtonSpace;
-								} else {
-									dygraphTitleWidth = $(
+																		- this.titleButtonSpace;
+															} else {
+																dygraphTitleWidth = $(
 											instance.$el.attr("id")
 													+ "_ensgraph").width()
-											- this.titleButtonSpace
-								}
+																		- this.titleButtonSpace
+															}
 
 								$(".dygraph-title").width(dygraphTitleWidth);
-							}
-						});
+														}
+													});
 			},
 			windowResize : function() {
 				var instance = this;
