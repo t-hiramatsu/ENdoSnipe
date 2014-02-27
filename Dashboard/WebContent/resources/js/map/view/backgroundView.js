@@ -61,6 +61,13 @@ ENS.BackgroundElementView = ENS.ShapeElementView.extend({
 		}, {
 			silent : true
 		});
+
+		// SVGの描画処理が走らない場合があるため、下記の遅延処理によって
+		// 確実に走るようにする。
+		var dashboardCanvas = this.dashboardView.paper.canvas;
+		setTimeout(function(){
+			$(dashboardCanvas).show();
+		}, 100);
 	},
 	updateModelPosition : function() {
 		var element = this.elementList_[0];
