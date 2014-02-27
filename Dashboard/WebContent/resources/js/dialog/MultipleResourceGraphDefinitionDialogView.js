@@ -13,7 +13,7 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 				var treeId = option.treeId;
 				this.measurementDefinitionList = [];
 				this.noOfPage = 0;
-				this.graphPerPage = 10;
+				this.graphPerPage = 15;
 				var okName = "okFunctionName";
 				var okObj = "okObject";
 				var cName = "cancelFunctionName";
@@ -252,7 +252,7 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 				});
 				instance.pagingGraph(measurementDefinitionList);
 				
-				$("select option").each(function(i){
+				$(".dialogValue option").each(function(i){
 					var text = $(this).html();
 					$(this).html(text + "<br><span>" + text + "</span>");
 					$(this).addClass("tooltip");
