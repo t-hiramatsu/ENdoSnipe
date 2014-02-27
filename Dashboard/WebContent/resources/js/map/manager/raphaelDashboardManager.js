@@ -363,6 +363,12 @@ raphaelDashboardManager.prototype.selectElementRange = function(event) {
 
 	var clickView = this.getViewFromId(clickObjectId);
 	if (!clickView) {
+		// 選択解除して自身の選択を行う。
+		_.each(this.selectViewList_, function(releaseSelectView, index) {
+			releaseSelectView.hideFrame();
+		});
+
+		this.selectViewList_ = {};
 		return;
 	}
 
