@@ -25,8 +25,6 @@
  ******************************************************************************/
 
 ENS.tree.measurementDefinitionList = [];
-ENS.tree.previousKey = [];
-ENS.tree.labelsName = [];
 
 ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 		.extend({
@@ -46,6 +44,14 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				this.maxGraphVerticalMargin = argument.maxGraphVerticalMargin;
 				// グラフタイトル横のボタン用スペースの大きさ
 				this.titleButtonSpace = argument.titleButtonSpace;
+				// グラフラベルの横幅
+				this.labelWidth = 200;
+				// グラフラベルのオフセット
+				this.labelOffset = 50;
+				// 前回表示したKey
+				this.previousKeys = [];
+				// 前回表示したラベル名
+				this.labelNames = [];
 
 				var graphIds = "(";
 				var appView = new ENS.AppView();
@@ -138,10 +144,8 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				$("#" + this.$el.attr("id")).append(graphdiv);
 
 				var labelId = this.$el.attr("id") + "_enslabel";
-				var labeldiv = $("<div id='"
-						+ labelId
-						+ "' class='ensLabel' style= 'position : relative;background-color : black; overflow:visible; word-break : break-word; z-index : 1'><div>"); 
-//				style= 'position : relative;background-color : black; overflow:visible; word-break : break-word;'
+				
+				var labeldiv = ENS.graphLabel.create(labelId);
 				$("#" + this.$el.attr("id")).append(labeldiv);
 				var labelDom = document.getElementById(labelId);
 
@@ -150,7 +154,7 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 
 				var optionSettings = {
 					// labels : this.datalabel,
-					labels : ENS.tree.labelsName,
+					labels : this.labelNames,
 					valueRange : [ 0, this.maxValue * this.yValueMagnification ],
 					title : this.title,
 					xlabel : this.labelX,
@@ -249,6 +253,8 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 							$("#" + graphId).width() - this.titleButtonSpace);
 				}
 				this.mouseEvent(graphId, isShort, tmpTitle, optionSettings);
+				
+				ENS.graphLabel.setEventListener(labeldiv, graphdiv);
 			},
 
 			onAdd : function(graphModel) {
@@ -297,6 +303,7 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 									this.maxValue * this.yValueMagnification ]
 						};
 					}
+					
 					if (dataList.length !== 0) {
 						updateOption['dateWindow'] = [ tempStart, tempEnd ];
 					}
@@ -339,6 +346,9 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				var dataList = this.createDataList(data);
 				if (dataList.length !== 0) {
 					this.maxValue = this.getMaxValue(dataList);
+				}else{
+					//データが存在しない場合は以降の更新処理を行わない。
+					return;
 				}
 				var updateOption;
 				if (this.labelY == "%") {
@@ -493,7 +503,7 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				var data = this.getData();
 				var dataFinal = this.createDataList(data);
 				var optionSettings = {
-					labels : ENS.tree.labelsName,
+					labels : this.labelNames,
 					title : this.title,
 					xlabel : this.labelX,
 					ylabel : this.labelY,
@@ -505,6 +515,7 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 
 				var attributes = this.getAttributes(ENS.ResourceGraphAttribute);
 				var labelDom = document.getElementById("tempDiv_enslabel");
+				ENS.graphLabel.modify($(labelDom));
 
 				optionSettings = $.extend(true, optionSettings, attributes);
 				optionSettings.labelsDiv = labelDom;
@@ -649,6 +660,7 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 											- instance.titleButtonSpace);
 						});
 
+				ENS.graphLabel.setEventListener($(labelDom), $("#tempDiv"));
 			},
 			createDataList : function(data) {
 				var dataMap = {};
@@ -664,14 +676,14 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				}
 
 				if (this.isFirstCreate) {
-					ENS.tree.previousKey = keys;
+					this.previousKeys = keys;
 					this.isFirstCreate = false;
 				} else {
-					var tempKey = ENS.tree.previousKey.slice();
+					var tempKey = this.previousKeys.slice();
 					for ( var keyIndex = 0; keyIndex < top; keyIndex++) {
 						var found = false;
-						for ( var iKey = 0; iKey < ENS.tree.previousKey.length; iKey++) {
-							if (ENS.tree.previousKey[iKey] === keys[keyIndex]) {
+						for ( var iKey = 0; iKey < this.previousKeys.length; iKey++) {
+							if (this.previousKeys[iKey] === keys[keyIndex]) {
 								found = true;
 
 							}
@@ -682,21 +694,21 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 
 					}
 
-					ENS.tree.previousKey = tempKey.slice();
+					this.previousKeys = tempKey.slice();
 
 					for ( var keyIndex2 = 0; keyIndex2 < top; keyIndex2++) {
 						tempKey.splice(keys[keyIndex2]);
 					}
 
 					for ( var tempIndex = 0; tempIndex < tempKey.length; tempIndex++) {
-						ENS.tree.previousKey.splice(tempKey[tempIndex]);
+						this.previousKeys.splice(tempKey[tempIndex]);
 					}
 				}
-				ENS.tree.labelsName = [];
-				ENS.tree.labelsName.push("Date");
+				this.labelNames = [];
+				this.labelNames.push("Date");
 				for ( var keyIndex3 = 0; keyIndex3 < top; keyIndex3++) {
-					var value = dataValue[ENS.tree.previousKey[keyIndex3]];
-					ENS.tree.labelsName.push(ENS.tree.previousKey[keyIndex3]);
+					var value = dataValue[this.previousKeys[keyIndex3]];
+					this.labelNames.push(this.previousKeys[keyIndex3]);
 					_.each(value, function(valueData, index) {
 						var valueD = valueData;
 						if (dataMap[valueD[0]] === undefined

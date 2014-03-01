@@ -35,7 +35,7 @@
 		<div id="multipleResourceGraphPatternValueArea"
 			class="dialogContentArea">
 			<div id="multipleResourceGraphPatternValueValue" class="dialogValue">
-				<table style='width: 500px; height: auto;'>
+				<table style='height: auto;'>
 					<tr class="selectPlace">
 						<td colspan="3">
 							<div id="multipleResourceGraphPatternGraphRadio"
@@ -49,7 +49,7 @@
 					</tr>
 					<tr class="selectPlace">
 						<td style='width: 250px;'>Graph Lists:<br /> <select
-							style='width: 200px; height: 250px;' multiple="multiple"
+							style='width: 320px; height: 250px;' multiple="multiple"
 							id='multipleResourceGraphLstBox1' class="dialogValue">
 
 						</select></td>
@@ -59,7 +59,7 @@
 							<input type='button' id='btnRemoveGraph' value=' < Remove ' />
 						</td>
 						<td style='width: 250px;'>Selected Graphs:<br /> <select
-							style='width: 200px; height: 250px;' multiple="multiple"
+							style='width: 320px; height: 250px;' multiple="multiple"
 							id='multipleResourceGraphLstBox2' class="dialogValue">
 
 						</select></td>
@@ -88,7 +88,7 @@
 							<div id="multipleResourceGraphPatternTextValue"
 								class="dialogValue">
 								<input type="text" id="multipleResourceGraphItems"
-									class="multipleResourceGraphItemsValue" style='width: 300px;' />
+									class="multipleResourceGraphItemsValue" style='width: 750px;' />
 
 							</div>
 						</td>

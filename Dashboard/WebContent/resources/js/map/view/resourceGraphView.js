@@ -107,8 +107,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				this.term = argument.term;
 				this.noTermData = argument.noTermData;
 				this.graphId = argument["graphId"];
-				this.viewMaximumButtonFlag =
-					treeSettings["viewMaximumButtonFlag"];
+				this.viewMaximumButtonFlag = treeSettings["viewMaximumButtonFlag"];
 
 				if (argument["title"].indexOf(":") != -1) {
 					var splitTitle = argument["title"].split(":");
@@ -168,8 +167,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				$("#" + this.$el.attr("id")).append(graphdiv);
 
 				var labelId = this.$el.attr("id") + "_enslabel";
-				var labeldiv = $("<div id='" + labelId
-						+ "' class='ensLabel'><div>");
+				var labeldiv = ENS.graphLabel.create(labelId);
 				$("#" + this.$el.attr("id")).append(labeldiv);
 				var labelDom = document.getElementById(labelId);
 
@@ -231,7 +229,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 					titleHeight : 22
 				});
 
-				if(this.viewMaximumButtonFlag){
+				if (this.viewMaximumButtonFlag) {
 					if ($("#" + this.maximumButton).length > 0) {
 						$("#" + this.maximumButton).remove();
 					}
@@ -241,24 +239,32 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 					$("#" + this.maximumButton).css("float", "right");
 					var minButton = this.normalButton, maxButton = this.maximumButton;
 
-					$(element).click(
-							function(e) {
-								var offsetLeft = $("#" + graphId).offset().left;
-								var offsetTop = $("#" + graphId).offset().top;
-								var position = {
-									x : Math.floor(e.clientX - offsetLeft),
-									y : Math.floor(e.clientY - offsetTop)
-								};
+					$(element)
+							.click(
+									function(e) {
+										var offsetLeft = $("#" + graphId)
+												.offset().left;
+										var offsetTop = $("#" + graphId)
+												.offset().top;
+										var position = {
+											x : Math.floor(e.clientX
+													- offsetLeft),
+											y : Math.floor(e.clientY
+													- offsetTop)
+										};
 
-								if (position.x > ($("#" + graphId).width() - 20)
-										&& position.x < ($("#" + graphId).width())
-										&& position.y > 0 && position.y < 28) {
-									if ($("." + maxButton).length > 0) {
-										instance.addMaximizeEvent(offsetLeft,
-												offsetTop);
-									}
-								}
-							});
+										if (position.x > ($("#" + graphId)
+												.width() - 20)
+												&& position.x < ($("#"
+														+ graphId).width())
+												&& position.y > 0
+												&& position.y < 28) {
+											if ($("." + maxButton).length > 0) {
+												instance.addMaximizeEvent(
+														offsetLeft, offsetTop);
+											}
+										}
+									});
 
 					$(".dygraph-title").width(
 							$("#" + graphId).width() - this.titleButtonSpace);
@@ -266,7 +272,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				}
 
 				this.mouseEvent(graphId, isShort, tmpTitle, optionSettings);
-
+				ENS.graphLabel.setEventListener(labeldiv, graphdiv);
 			},
 			mouseEvent : function(graphId, isShort, tmpTitle, optionSettings) {
 				var graphPath = this.graphId;
@@ -299,7 +305,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 						function(event) {
 							instance.zoomOut(instance.getGraphObject());
 
-							if(instance.viewMaximumButtonFlag){
+							if (instance.viewMaximumButtonFlag) {
 								$(".dygraph-title").width(
 										$("#" + graphId).width()
 												- instance.titleButtonSpace);
@@ -354,7 +360,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 
 					}
 
-					if(this.viewMaximumButtonFlag){
+					if (this.viewMaximumButtonFlag) {
 						$(".dygraph-title").width(
 								$("#tempDiv").width() - this.titleButtonSpace);
 					}
@@ -413,16 +419,17 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 
 				if ($("#tempDiv").length > 0) {
 
-					if(this.viewMaximumButtonFlag){
+					if (this.viewMaximumButtonFlag) {
 						$(".dygraph-title").width(
 								$("#tempDiv").width() - this.titleButtonSpace);
 					}
 
 				} else {
 
-					if(this.viewMaximumButtonFlag){
+					if (this.viewMaximumButtonFlag) {
 						$(".dygraph-title").width(
-								$("#" + graphId).width() - this.titleButtonSpace);
+								$("#" + graphId).width()
+										- this.titleButtonSpace);
 					}
 				}
 			},
@@ -460,9 +467,9 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 					var matchingPattern = model.get("matchingPattern");
 					if (instance.graphId === matchingPattern) {
 						// 閾値をグラフに追加する。
-						signalCount = instance._addAllSignalData(model,
-									data, signalCount);
-						}
+						signalCount = instance._addAllSignalData(model, data,
+								signalCount);
+					}
 				});
 				return data;
 			},
@@ -545,10 +552,12 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 			},
 			move : function(pointX, pointY) {
 				var divArea = $("#" + this.$el.attr("id"));
-				var offsetParent = divArea.offsetParent().offset();
+				var parentOffset = divArea.parent().offset();
+				var scrollTop = divArea.parent().scrollTop();
+				var scrollLeft = divArea.parent().scrollLeft();
 				divArea.offset({
-					top : pointY + offsetParent.top,
-					left : pointX + offsetParent.left
+					top : parentOffset["top"] + pointY - scrollTop,
+					left : parentOffset["left"] + pointX - scrollLeft
 				});
 			},
 			resize : function(changeWidth, changeHeight) {
@@ -571,8 +580,23 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 					silent : true
 				});
 				this.move(property.pointX, property.pointY);
-				this.resize(this.width - property.width, this.height
-						- property.height);
+
+				var changeWidth = property.width - this.width;
+				var changeHeight = property.height - this.height;
+
+				// グラフ領域を囲むdivタグについてはここで事前にリサイズしておく。
+				var divArea = $("#" + this.$el.attr("id"));
+				divArea.width(divArea.width() + changeWidth);
+				divArea.height(divArea.height() + changeHeight);
+
+				if (this.rootView.enlargeDashboardArea) {
+					var divAreaPosition = divArea.position();
+					this.rootView.enlargeDashboardArea(divAreaPosition.left,
+							divAreaPosition.top, divArea.width() + 10, divArea
+									.height() + 10);
+				}
+
+				this.resize(changeWidth, changeHeight);
 			},
 			relateContextMenu : function(menuId, option) {
 				contextMenuCreator.createContextMenu(this.$el.attr("id"),
@@ -595,46 +619,50 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 					grid : [ 16, 16 ],
 					scroll : true,
 					drag : function(e, ui) {
-						var position = ui.position;
-						var positionLeft = position.left;
-						var positionTop = position.top;
-
-						var afterWidth = $(e.target).width();
-						var afterHeight = $(e.target).height();
+						var parentOffset = divArea.parent().offset();
+						var scrollTop = divArea.parent().scrollTop();
+						var scrollLeft = divArea.parent().scrollLeft();
+						var pointX = divArea.offset().left + scrollLeft
+								- parentOffset.left;
+						var pointY = divArea.offset().top + scrollTop
+								- parentOffset.top;
+						
+						var afterWidth = divArea.width();
+						var afterHeight = divArea.height();
 
 						// グラフ分のダッシュボードエリア拡張
-						resourceDashboardListView.childView.enlargeDashboardArea(
-								positionLeft, positionTop, afterWidth,
-								afterHeight + 10);
+						resourceDashboardListView.childView
+								.enlargeDashboardArea(
+										pointX,
+										pointY,
+										afterWidth + 20,
+										afterHeight + 20);
 					},
 					stop : function(e, ui) {
-						var position = ui.position;
-						var positionLeft = position.left;
-						var positionTop = position.top;
-
-						var parentOffset = $(e.target).parent().offset();
-						if (position["left"] < 0) {
-							$(e.target).offset({
+						var parentOffset = divArea.parent().offset();
+						if (ui.position["left"] < 0) {
+							divArea.offset({
 								left : parentOffset.left
 							});
-
-							// 再取得
-							positionLeft = $(e.target).position().left;
 						}
 
-						if (position["top"] < 0) {
-							$(e.target).offset({
+						if (ui.position["top"] < 0) {
+							divArea.offset({
 								top : parentOffset.top
 							});
-
-							// 再取得
-							positionTop = $(e.target).position().top;
 						}
 
-						instance.model.set("pointX", positionLeft, {
+						var scrollTop = divArea.parent().scrollTop();
+						var scrollLeft = divArea.parent().scrollLeft();
+						var pointX = divArea.offset().left + scrollLeft
+								- parentOffset.left;
+						var pointY = divArea.offset().top + scrollTop
+								- parentOffset.top;
+
+						instance.model.set("pointX", pointX, {
 							silent : true
 						});
-						instance.model.set("pointY", positionTop, {
+						instance.model.set("pointY", pointY, {
 							silent : true
 						});
 					}
@@ -642,67 +670,87 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 
 				var beforeWidth = 0;
 				var beforeHeight = 0;
-				divArea.resizable({
-					grid : [ 16, 16 ],
-					start : function(e, ui) {
-						beforeWidth = $(e.target).width();
-						beforeHeight = $(e.target).height();
+				var parentOffsetTop = 0;
+				var perentOffsetLeft = 0;
+				var scrollTop = 0;
+				var scrollLeft = 0;
+				divArea
+						.resizable({
+							grid : [ 16, 16 ],
+							start : function(e, ui) {
+								beforeWidth = divArea.width();
+								beforeHeight = divArea.height();
 
-						var parentOffset = $(e.target).parent().offset();
-						var position = ui.position;
-						$(e.target).offset({
-							top : parentOffset.top + position.top,
-							left : parentOffset.left + position.left
+								var parentOffset = divArea.parent().offset();
+								parentOffsetTop = parentOffset["top"];
+								perentOffsetLeft = parentOffset["left"];
+								scrollTop = divArea.parent().scrollTop();
+								scrollLeft = divArea.parent().scrollLeft();
+							},
+							resize : function(e, ui) {
+								divArea.offset({
+									top : parentOffsetTop
+											+ instance.model.get("pointY")
+											- scrollTop,
+									left : perentOffsetLeft
+											+ instance.model.get("pointX")
+											- scrollLeft
+								});
+								divArea.parent().scrollTop(scrollTop);
+								divArea.parent().scrollLeft(scrollLeft);
+
+								var position = divArea.position();
+								var positionLeft = position.left;
+								var positionTop = position.top;
+
+								var afterWidth = divArea.width();
+								if (afterWidth < ENS.dashboard.MIN_GRAPH_WIDTH) {
+									divArea.width(
+											ENS.dashboard.MIN_GRAPH_WIDTH);
+								}
+								var afterHeight = $(e.target).height();
+								if (afterHeight < ENS.dashboard.MIN_GRAPH_HEIGHT) {
+									divArea.height(
+											ENS.dashboard.MIN_GRAPH_HEIGHT);
+								}
+								// グラフ分のダッシュボードエリア拡張
+								resourceDashboardListView.childView
+										.enlargeDashboardArea(
+												instance.model.get("pointX"),
+												instance.model.get("pointY"),
+												afterWidth + 10,
+												afterHeight + 10);
+							},
+							stop : function(e, ui) {
+								var afterWidth = divArea.width();
+								var afterHeight = divArea.height();
+
+								if (afterWidth < ENS.dashboard.MIN_GRAPH_WIDTH) {
+									afterWidth = ENS.dashboard.MIN_GRAPH_WIDTH;
+								}
+								if (afterHeight < ENS.dashboard.MIN_GRAPH_HEIGHT) {
+									afterHeight = ENS.dashboard.MIN_GRAPH_HEIGHT;
+								}
+								var changeWidth = afterWidth - beforeWidth;
+								if (beforeWidth <= ENS.dashboard.MIN_GRAPH_WIDTH
+										&& afterWidth <= ENS.dashboard.MIN_GRAPH_WIDTH) {
+									changeWidth = 0;
+								}
+								var changeHeight = afterHeight - beforeHeight;
+								if (beforeHeight <= ENS.dashboard.MIN_GRAPH_HEIGHT
+										&& afterHeight <= ENS.dashboard.MIN_GRAPH_HEIGHT) {
+									changeHeight = 0;
+								}
+
+								instance.resize(changeWidth, changeHeight);
+								instance.model.set("width", afterWidth, {
+									silent : true
+								});
+								instance.model.set("height", afterHeight, {
+									silent : true
+								});
+							}
 						});
-					},
-					resize : function(e, ui) {
-						var position = ui.position;
-						var positionLeft = position.left;
-						var positionTop = position.top;
-
-						var afterWidth = $(e.target).width();
-						if (afterWidth < ENS.dashboard.MIN_GRAPH_WIDTH) {
-							$(e.target).width(ENS.dashboard.MIN_GRAPH_WIDTH);
-						}
-						var afterHeight = $(e.target).height();
-						if (afterHeight < ENS.dashboard.MIN_GRAPH_HEIGHT) {
-							$(e.target).height(ENS.dashboard.MIN_GRAPH_HEIGHT);
-						}
-						// グラフ分のダッシュボードエリア拡張
-						resourceDashboardListView.childView.enlargeDashboardArea(
-								positionLeft, positionTop, afterWidth,
-								afterHeight + 10);
-					},
-					stop : function(e, ui) {
-						var afterWidth = $(e.target).width();
-						var afterHeight = $(e.target).height();
-
-						if (afterWidth < ENS.dashboard.MIN_GRAPH_WIDTH) {
-							afterWidth = ENS.dashboard.MIN_GRAPH_WIDTH;
-						}
-						if (afterHeight < ENS.dashboard.MIN_GRAPH_HEIGHT) {
-							afterHeight = ENS.dashboard.MIN_GRAPH_HEIGHT;
-						}
-						var changeWidth = afterWidth - beforeWidth;
-						if (beforeWidth <= ENS.dashboard.MIN_GRAPH_WIDTH
-								&& afterWidth <= ENS.dashboard.MIN_GRAPH_WIDTH) {
-							changeWidth = 0;
-						}
-						var changeHeight = afterHeight - beforeHeight;
-						if (beforeHeight <= ENS.dashboard.MIN_GRAPH_HEIGHT
-								&& afterHeight <= ENS.dashboard.MIN_GRAPH_HEIGHT) {
-							changeHeight = 0;
-						}
-
-						instance.resize(changeWidth, changeHeight);
-						instance.model.set("width", afterWidth, {
-							silent : true
-						});
-						instance.model.set("height", afterHeight, {
-							silent : true
-						});
-					}
-				});
 			},
 			addDragEvent : function() {
 				var divArea = $("#" + this.$el.attr("id") + "_ensgraph");
@@ -713,26 +761,25 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 			},
 			createDragEvent : function(divArea) {
 				var instance = this;
-				$(divArea).bind('mousedown',
-					function(e) {
-						$(divArea).bind('mousemove', function(e) {});
 
-						$(divArea).bind('mouseup', function() {
-							$(divArea).unbind('mousemove');
-
-							if(this.viewMaximumButtonFlag){
-								var dygraphTitleWidth;
-								if ($("#tempDiv").length > 0) {
-									dygraphTitleWidth = $("#tempDiv").width() - this.titleButtonSpace;
-								} else {
-									dygraphTitleWidth =
-										$(instance.$el.attr("id") + "_ensgraph").width() - this.titleButtonSpace
-								}
+				$(divArea).bind(
+													'mouseup',
+													function() {
+														if (this.viewMaximumButtonFlag) {
+															var dygraphTitleWidth;
+															if ($("#tempDiv").length > 0) {
+									dygraphTitleWidth = $("#tempDiv").width()
+																		- this.titleButtonSpace;
+															} else {
+																dygraphTitleWidth = $(
+											instance.$el.attr("id")
+													+ "_ensgraph").width()
+																		- this.titleButtonSpace
+															}
 
 								$(".dygraph-title").width(dygraphTitleWidth);
-							}
-						});
-				});
+														}
+													});
 			},
 			windowResize : function() {
 				var instance = this;
@@ -762,13 +809,14 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 							instance.resizeState = true;
 
 							var dygraphTitleWidth;
-							if(this.viewMaximumButtonFlag){
+							if (this.viewMaximumButtonFlag) {
 
 								if ($("#" + instance.normalButton).length <= 0) {
 
 									childElem = $("#" + graphId + "").children(
 											"div");
-									$(childElem).append(instance.normalButtonImg);
+									$(childElem).append(
+											instance.normalButtonImg);
 									$("#" + instance.normalButton).show();
 
 									$("#" + instance.normalButton).css(
@@ -776,7 +824,8 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 											$("#tempDiv").width() * 0.977);
 								}
 
-								dygraphTitleWidth = $("#tempDiv").width() - this.titleButtonSpace
+								dygraphTitleWidth = $("#tempDiv").width()
+										- this.titleButtonSpace
 								$(".dygraph-title").width(dygraphTitleWidth);
 
 							}
@@ -784,13 +833,14 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 						} else {
 
 							var dygraphTitleWidth;
-							if(this.viewMaximumButtonFlag){
+							if (this.viewMaximumButtonFlag) {
 
 								if ($("#" + instance.maximumButton).length <= 0) {
 
 									childElem = $("#" + graphId + "").children(
 											"div");
-									$(childElem).append(instance.maximumButtonImg);
+									$(childElem).append(
+											instance.maximumButtonImg);
 
 									$("#" + instance.maximumButton).css(
 											"padding-left",
@@ -798,7 +848,8 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 
 								}
 
-								dygraphTitleWidth = $("#" + graphId).width() - this.titleButtonSpace;
+								dygraphTitleWidth = $("#" + graphId).width()
+										- this.titleButtonSpace;
 								$(".dygraph-title").width(dygraphTitleWidth);
 							}
 						}
@@ -834,6 +885,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 
 				var attributes = this.getAttributes(ENS.ResourceGraphAttribute);
 				var labelDom = document.getElementById("tempDiv_enslabel");
+				ENS.graphLabel.modify($(labelDom));
 
 				optionSettings = $.extend(true, optionSettings, attributes);
 				optionSettings.labelsDiv = labelDom;
@@ -979,6 +1031,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 											- instance.titleButtonSpace);
 						});
 
+				ENS.graphLabel.setEventListener($(labelDom), $("#tempDiv"))
 			},
 			addNormalizeEvent : function() {
 				$("#tempDiv").remove();
@@ -1066,8 +1119,8 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 								columnData[addPosition] = value;
 							});
 							instance.colors[ENS.graph.INIT_SIGNAL_POSTION
-									+ signalCount - 1] = instance._getSignalColor(
-									level, signalLevel);
+									+ signalCount - 1] = instance
+									._getSignalColor(level, signalLevel);
 							signalCount++;
 							if (instance.maxValue < value) {
 								instance.maxValue = value;

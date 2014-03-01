@@ -93,6 +93,14 @@ ENS.TextBoxElementView = ENS.ShapeElementView.extend({
 			textArea.height(boxHeight);
 			textArea.focus();
 
+			// テキストエリア以外をクリックしたらフォーカスアウトイベントが走行するようにすることで、
+			// ダッシュボードエリア内でのフォーカスアウトを実現する。
+			var otherClickFunction = function(event){
+				textArea.trigger("focusout");
+			}
+			$("path").on("click", otherClickFunction);
+
+			
 			// テキストエリアからフォーカスをはずした際に入力内容を自身に適用する。
 			textArea.on("focusout", function(event){
 				var inputText = textArea.val();
@@ -109,7 +117,10 @@ ENS.TextBoxElementView = ENS.ShapeElementView.extend({
 				instance.setAttributes(elementAttrList_);
 				textArea.remove();
 				instance.alignText();
+
+				$("path").off("click", otherClickFunction);
 			});
+
 		};
 
 		boxElement.object.dblclick(openTextAreaFunction);

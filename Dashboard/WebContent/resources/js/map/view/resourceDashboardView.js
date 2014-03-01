@@ -268,6 +268,10 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 	},
 	onLoad : function(){
 
+		// スクロール位置をリセット
+		$("#" + this.$el.attr("id")).scrollTop(0);
+		$("#" + this.$el.attr("id")).scrollLeft(0);
+
 		// コレクションをリセット
 		this.collection.reset();
 

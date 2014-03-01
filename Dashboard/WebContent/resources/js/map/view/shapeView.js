@@ -52,7 +52,7 @@ ENS.ShapeElementView = wgp.MapElementView.extend({
 				element.object.attr(ENS.svg.attribute[key].name, value);
 			});
 
-			elementAttrList_[index] = attributes;
+			_.extend(elementAttrList_[index], attributes);
 		});
 
 		instance.model.set({
