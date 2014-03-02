@@ -34,6 +34,18 @@ ENS.graph.SIGNAL_COLOR = {
 	"3" : "#FE8900",
 	"4" : "#E91717"
 };
+// Signal PatternがLevel3の時の閾値レベルと閾値名の組み合わせマップ
+ENS.graph.LEVEL3_THRESHOLD_NAME = {
+	"1" : "WARNING",
+	"2" : "CRITICAL",
+};
+// Signal PatternがLevel5の時の閾値レベルと閾値名の組み合わせマップ
+ENS.graph.LEVEL5_THRESHOLD_NAME = {
+	"1" : "INFO",
+	"2" : "WARNING",
+	"3" : "ERROR",
+	"4" : "CRITICAL"
+};
 ENS.ResourceGraphElementView = wgp.DygraphElementView
 		.extend({
 			initialize : function(argument, treeSettings) {
@@ -41,6 +53,8 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				this._initData(argument, treeSettings);
 				// グラフの系列色
 				this.colors = [];
+				// 前回表示したラベル名
+				this.labelNames = [];
 
 				// Dygraphの系列色を設定する。
 				var sat = 1.0;
@@ -172,7 +186,9 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				var labelDom = document.getElementById(labelId);
 
 				var data = this.getData();
+
 				var optionSettings = {
+					labels : this.labelNames,
 					valueRange : [ 0, this.maxValue * this.yValueMagnification ],
 					title : this.title,
 					xlabel : this.labelX,
@@ -336,13 +352,15 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 					if (this.labelY == "%") {
 						updateOption = {
 							valueRange : [ 0, this.percentGraphMaxYValue ],
-							'file' : this.data
+							'file' : this.data,
+							'labels' : this.labelNames
 						};
 					} else {
 						updateOption = {
 							'file' : this.data,
 							'valueRange' : [ 0,
-									this.maxValue * this.yValueMagnification ]
+									this.maxValue * this.yValueMagnification ],
+							'labels' : this.labelNames
 						};
 					}
 					if (this.data.length !== 0) {
@@ -437,15 +455,16 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 
 				var data = [];
 				var instance = this;
-				data.push([ new Date(0), null, null, null, null, null, null,
-						null, null, null, null, null, null, null, null, null,
-						null, null, null, null, null, null, null, null, null,
-						null, null, null, null, null, null, null, null, null,
-						null, null, null, null, null, null, null, null, null,
-						null, null, null, null, null, null, null, null ]);
+				data.push([ new Date(0), null ]);
 				_.each(this.collection.models, function(model, index) {
 					data.push(instance._parseModel(model));
 				});
+
+				// ラベルに表示する要素を作成
+				this.labelNames = [];
+				this.labelNames.push("Date");
+				this.labelNames.push(this.graphId);
+
 				var models = [];
 
 				if (window.treeView != null) {
@@ -460,6 +479,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 					// 閾値判定定義情報を取得できない場合は、グラフに閾値を表示しない。
 					return data;
 				}
+
 				var instance = this;
 				var signalCount = 0;
 				_.each(models, function(model, index) {
@@ -471,6 +491,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 								signalCount);
 					}
 				});
+
 				return data;
 			},
 			getMaxValue : function(dataList) {
@@ -626,17 +647,14 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 								- parentOffset.left;
 						var pointY = divArea.offset().top + scrollTop
 								- parentOffset.top;
-						
+
 						var afterWidth = divArea.width();
 						var afterHeight = divArea.height();
 
 						// グラフ分のダッシュボードエリア拡張
 						resourceDashboardListView.childView
-								.enlargeDashboardArea(
-										pointX,
-										pointY,
-										afterWidth + 20,
-										afterHeight + 20);
+								.enlargeDashboardArea(pointX, pointY,
+										afterWidth + 20, afterHeight + 20);
 					},
 					stop : function(e, ui) {
 						var parentOffset = divArea.parent().offset();
@@ -705,19 +723,19 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 
 								var afterWidth = divArea.width();
 								if (afterWidth < ENS.dashboard.MIN_GRAPH_WIDTH) {
-									divArea.width(
-											ENS.dashboard.MIN_GRAPH_WIDTH);
+									divArea
+											.width(ENS.dashboard.MIN_GRAPH_WIDTH);
 								}
 								var afterHeight = $(e.target).height();
 								if (afterHeight < ENS.dashboard.MIN_GRAPH_HEIGHT) {
-									divArea.height(
-											ENS.dashboard.MIN_GRAPH_HEIGHT);
+									divArea
+											.height(ENS.dashboard.MIN_GRAPH_HEIGHT);
 								}
 								// グラフ分のダッシュボードエリア拡張
 								resourceDashboardListView.childView
-										.enlargeDashboardArea(
-												instance.model.get("pointX"),
-												instance.model.get("pointY"),
+										.enlargeDashboardArea(instance.model
+												.get("pointX"), instance.model
+												.get("pointY"),
 												afterWidth + 10,
 												afterHeight + 10);
 							},
@@ -763,23 +781,23 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				var instance = this;
 
 				$(divArea).bind(
-													'mouseup',
-													function() {
-														if (this.viewMaximumButtonFlag) {
-															var dygraphTitleWidth;
-															if ($("#tempDiv").length > 0) {
+						'mouseup',
+						function() {
+							if (this.viewMaximumButtonFlag) {
+								var dygraphTitleWidth;
+								if ($("#tempDiv").length > 0) {
 									dygraphTitleWidth = $("#tempDiv").width()
-																		- this.titleButtonSpace;
-															} else {
-																dygraphTitleWidth = $(
+											- this.titleButtonSpace;
+								} else {
+									dygraphTitleWidth = $(
 											instance.$el.attr("id")
 													+ "_ensgraph").width()
-																		- this.titleButtonSpace
-															}
+											- this.titleButtonSpace
+								}
 
 								$(".dygraph-title").width(dygraphTitleWidth);
-														}
-													});
+							}
+						});
 			},
 			windowResize : function() {
 				var instance = this;
@@ -874,6 +892,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				var data = this.getData();
 
 				var optionSettings = {
+					labels : this.labelNames,
 					title : this.title,
 					xlabel : this.labelX,
 					ylabel : this.labelY,
@@ -1109,18 +1128,31 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				}
 
 				var instance = this;
-				var level = model.get("level");
+				var levelStr = model.get("level");
+				var level = parseInt(levelStr, 10);
+
+				// シグナルの判定ができていない時はグラフデータに追加しない。
+				if (level === 0) {
+					return 0;
+				}
+
 				// 閾値のマップの値をグラフデータに追加する。
 				_.each(signalMap,
-						function(value, signalLevel) {
+						function(value, signalLevelStr) {
 							_.each(data, function(columnData, dataIndex) {
 								var addPosition = ENS.graph.INIT_SIGNAL_POSTION
 										+ signalCount;
 								columnData[addPosition] = value;
 							});
+							var signalLevel = parseInt(signalLevelStr, 10);
 							instance.colors[ENS.graph.INIT_SIGNAL_POSTION
 									+ signalCount - 1] = instance
 									._getSignalColor(level, signalLevel);
+							instance
+									._setThreshholdLabels(level, signalLevel,
+											ENS.graph.INIT_SIGNAL_POSTION
+													+ signalCount);
+
 							signalCount++;
 							if (instance.maxValue < value) {
 								instance.maxValue = value;
@@ -1128,9 +1160,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 						});
 				return signalCount;
 			},
-			_getSignalColor : function(levelStr, signalLevelStr) {
-				var level = parseInt(levelStr, 10);
-				var signalLevel = parseInt(signalLevelStr, 10);
+			_getSignalColor : function(level, signalLevel) {
 				if (level == 3) {
 					if (0 <= signalLevel && signalLevel < 3) {
 						return ENS.graph.SIGNAL_COLOR[String(2 * signalLevel)];
@@ -1144,6 +1174,35 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 					} else {
 						return ENS.graph.SIGNAL_COLOR["-1"];
 					}
+				}
+			},
+			/**
+			 * 閾値のラベルを設定する。
+			 * 
+			 * @param level
+			 *            Signal Patternのレベル
+			 * @param signalLevel
+			 *            閾値のレベル
+			 * @param addPosition
+			 *            ラベル名を追加するラベル配列のindex番号
+			 */
+			_setThreshholdLabels : function(level, signalLevel, addPosition) {
+				if (level == 3) {
+					if (0 <= signalLevel && signalLevel < 3) {
+						this.labelNames[addPosition] = "Threshhold("
+								+ ENS.graph.LEVEL3_THRESHOLD_NAME[signalLevel]
+								+ ")";
+					}
+				} else if (level == 5) {
+					if (0 <= signalLevel && signalLevel < 5) {
+						this.labelNames[addPosition] = "Threshhold("
+								+ ENS.graph.LEVEL5_THRESHOLD_NAME[signalLevel]
+								+ ")";
+					}
+				} else {
+					this.labelNames[addPosition] = "Threshhold("
+							+ ENS.graph.LEVEL5_THRESHOLD_NAME[signalLevel]
+							+ ")";
 				}
 			}
 		});
