@@ -145,7 +145,8 @@ public class TermDataController
             List<String> measurementDataList = new ArrayList<String>();
             for (JavelinMeasurementItem measurementItem : measurementItemList)
             {
-                if (measurementItem.itemName.matches(dataId))
+                if (measurementItem.itemName.matches(dataId)
+                        || measurementItem.itemName.equals(dataId))
                 {
                     measurementDataList.add(measurementItem.itemName);
                 }
