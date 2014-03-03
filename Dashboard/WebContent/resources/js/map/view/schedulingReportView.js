@@ -124,7 +124,6 @@ ENS.schedulingReportView = wgp.AbstractView
 				_.each(this.collection.models, function(model, index) {
 					tableViewData.push(instance._parseModel(model));
 				});
-
 				$("#scheduleReportTable").clearGridData().setGridParam({
 					data : tableViewData
 				}).trigger("reloadGrid");
