@@ -57,8 +57,10 @@ ENS.graphLabel.setEventListener = function($labelDiv, $graphDiv) {
 				$labelDiv.css("left", labelPos.left);
 				$labelDiv.css("top", labelPos.top);
 
-				// マウスカーソルがデータの存在しない場所にあるときは、"NO DATA"と表示
-				if ($labelDiv.html().length <= 0) {
+				// マウスカーソルがデータの存在しない場所にあるとき、
+				// または固定値のデータ(1970/01/01 9:00)であるときは"NO DATA"と表示
+				if ($labelDiv.html().length <= 0 ||
+					$labelDiv.html().startsWith("1970/01/01 09:00") ) {
 					$labelDiv.html("NO DATA");
 				}
 
