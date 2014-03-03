@@ -67,12 +67,12 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				this.titleButtonSpace = argument.titleButtonSpace;
 
 				var appView = new ENS.AppView();
-				appView.addView(this, "\\\Q" + this.graphId + "\\\E");
+				appView.addView(this, this.graphId );
 
 				this.registerCollectionEvent();
 
 				if (!this.noTermData) {
-					appView.getTermData([ "\\\Q" + this.graphId + "\\\E" ], this.timeStart,
+					appView.getTermData([ this.graphId ], this.timeStart,
 							this.timeEnd);
 				}
 

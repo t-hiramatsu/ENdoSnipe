@@ -136,7 +136,7 @@ public class ResourceSender
 
                     // 完全一致する場合は、単数系列取得扱いとして、値を返す。
                     // 完全一致しない場合は、複数系列取得扱いとして、値を返す。
-                    if (observateGroupId.matches(measurementItemName))
+                    if (observateGroupId.equals(measurementItemName))
                     {
                         MeasurementValueDto singleData = singleDataMap.get(observateGroupId);
                         if (singleData == null)
@@ -241,22 +241,13 @@ public class ResourceSender
         List<String> groupIdList = new ArrayList<String>();
         for (String groupId : listeners)
         {
-            // 正規表現で一致する場合
-            if (itemName.matches(groupId))
+            // 正規表現で一致する場合、または完全一致する場合
+            if (itemName.matches(groupId) || itemName.equals(groupId))
             {
                 groupIdList.add(groupId);
+
             }
         }
         return groupIdList;
     }
-
-    //    private boolean checkPattern(final String groupId, final String itemName)
-    //    {
-    //        String pattern = groupId.replace("%", ".*");
-    //        if (itemName.matches(pattern) || itemName.equals(groupId))
-    //        {
-    //            return true;
-    //        }
-    //        return false;
-    //    }
 }
