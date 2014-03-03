@@ -1,5 +1,4 @@
 ENS.multipleResourceGraphDialog = {};
-ENS.tree.measurementDefinitionList = [];
 ENS.multipleResourceGraphDialog.isFirst = true;
 ENS.tree.doRender = true;
 
@@ -31,9 +30,8 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 												click : function(event) {
 
 													// multipleResourceGraphNameが空の時はアラートを表示し、再入力を求める。
-													var multipleResourceGraphName = $(
-															"#multipleResourceGraphName")
-															.val();
+													var multipleResourceGraphName =
+														$("#multipleResourceGraphName").val();
 													if (multipleResourceGraphName === "") {
 														alert("Please input 'Summary Graph Name'.");
 														return;
@@ -43,29 +41,17 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 														return;
 													}
 
-													var selectedOpts = $('#multipleResourceGraphLstBox2 option');
-													if (!$(
-															'#multipleResourceGraphRegExpression')
-															.attr("checked")
-															&& selectedOpts.length === 0) {
-														alert("Please select 'Multiple Resource Graph Items'.");
-														return;
-													}
-
-													if ($(
-															'#multipleResourceGraphRegExpression')
-															.attr("checked")) {
-														if ($(
-																"#multipleResourceGraphItems")
-																.val() === "") {
-															alert("Please input 'Pattern of Multiple Resource Graph Items'.");
+													if ($('#multipleResourceGraphSelection').attr("checked")) {
+														var selectedOpts = $('#multipleResourceGraphLstBox2 option');
+														if(selectedOpts.length === 0){
+															alert("Please select 'Multiple Resource Graph Items'.");
 															return;
 														}
-														ins
-																.inputMulResGraphDialog_();
-														var selectedOpts = $('#multipleResourceGraphLstBox2 option');
-														if (selectedOpts.length === 0) {
-															alert("There is no data match with pattern.");
+													}
+
+													if ($('#multipleResourceGraphRegExpression').attr("checked")) {
+														if ($("#multipleResourceGraphItems").val() === "") {
+															alert("Please input 'Pattern of Multiple Resource Graph Items'.");
 															return;
 														}
 													}
@@ -121,22 +107,23 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 				$('#multipleResourceGraphSelection').removeAttr("disabled");
 				$("#multipleResourceGraphSelection").attr('checked', 'checked');
 				$('#multipleResourceGraphRegExpression').removeAttr("disabled");
-				$('#multipleResourceGraphItems').val(treeId + "/.*");
 				$(".selectPlace").css('display', 'block');
 				$(".regPlace").css('display', 'block');
 				if (this.signalType == ENS.tree.ADD_MULTIPLE_RESOURCE_GRAPH_TYPE) {
-
+					$('#multipleResourceGraphItems').val(treeId + "/.*");
 					$('#multipleResourceGraphItems').attr("disabled", true);
+
 				} else {
-					if ($("#multipleResourceGraphItems").val() !== "") {
-						$("#multipleResourceGraphRegExpression").attr(
-								'checked', 'checked');
-						$('#multipleResourceGraphRegExpression').removeAttr(
-								"disabled");
-						$('#multipleResourceGraphItems').removeAttr("disabled");
-						$(".selectPlace").css('display', 'none');
+
+					// グラフ系列直接指定時
+					if ($("#multipleResourceGraphItems").val() === "") {
+						$('#multipleResourceGraphSelection').attr("checked", true);
+						this.changeGraphSelection();
+
+					// 正規表現指定時
 					} else {
-						$(".regPlace").css('display', 'none');
+						$('#multipleResourceGraphRegExpression').attr("checked", true);
+						this.changeRegExpression();
 					}
 				}
 				if (ENS.multipleResourceGraphDialog.isFirst === true) {
@@ -145,35 +132,12 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 							"#multipleResourceGraphSelection, #multipleResourceGraphRegExpression")
 							.change(
 									function(event) {
-										if ($('#multipleResourceGraphSelection')
-												.attr("checked")) {
+										if ($('#multipleResourceGraphSelection').attr("checked")) {
+											ins.changeGraphSelection();
 
-											$('#multipleResourceGraphLstBox1')
-													.removeAttr("disabled");
-											$('#multipleResourceGraphLstBox2')
-													.removeAttr("disabled");
-											$('#multipleResourceGraphItems')
-													.attr("disabled", true);
-											$('#multipleResourceGraphLstBox2')
-													.empty();
-											$('#multipleResourceGraphItems')
-													.val("");
+										}else if ($('#multipleResourceGraphRegExpression').attr("checked")) {
+											ins.changeRegExpression();
 										}
-
-										else if ($(
-												'#multipleResourceGraphRegExpression')
-												.attr("checked")) {
-
-											$('#multipleResourceGraphLstBox2')
-													.empty();
-											$('#multipleResourceGraphItems')
-													.removeAttr("disabled");
-											$('#multipleResourceGraphLstBox1')
-													.attr("disabled", true);
-											$('#multipleResourceGraphLstBox2')
-													.attr("disabled", true);
-										}
-
 									});
 
 					$('#btnAddGraph')
@@ -199,8 +163,8 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 											alert("Nothing to move.");
 											e.preventDefault();
 										}
-										$('#multipleResourceGraphLstBox1')
-												.append($(selectedOpts).clone());
+//										$('#multipleResourceGraphLstBox1')
+//												.append($(selectedOpts).clone());
 										$(selectedOpts).remove();
 										e.preventDefault();
 									});
@@ -208,7 +172,18 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 					ENS.multipleResourceGraphDialog.isFirst = false;
 				}
 			},
-
+			changeGraphSelection : function(){
+				// グラフ系列選択時の挙動
+				$('#multipleResourceGraphItems').attr("disabled", true);
+				$('#multipleResourceGraphLstBox1').removeAttr("disabled");
+				$('#multipleResourceGraphLstBox2').removeAttr("disabled");
+			},
+			changeRegExpression : function(){
+				// 正規表現選択時の挙動
+				$('#multipleResourceGraphItems').removeAttr("disabled");
+				$('#multipleResourceGraphLstBox1').attr("disabled", true);
+				$('#multipleResourceGraphLstBox2').attr("disabled", true);
+			},
 			getAllMeasurement_ : function() {
 				// measurementItem List 定義を取得する
 				// Ajax通信用の設定
@@ -251,13 +226,13 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 
 				});
 				instance.pagingGraph(measurementDefinitionList);
-				
+
 				$(".dialogValue option").each(function(i){
 					var text = $(this).html();
 					$(this).html(text + "<br><span>" + text + "</span>");
 					$(this).addClass("tooltip");
 				});
-			
+
 			},
 			inputMulResGraphDialog_ : function() {
 
@@ -282,7 +257,7 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 									+ "'>" + javelinMeasurementItem.itemName
 									+ "</option>");
 				});
-				
+
 				$("select option").attr("title", "");
 				$("select option").each(function(i) {
 					this.title = this.text;
@@ -313,11 +288,23 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 
 				var items_per_page = this.items_per_page;
 				var offset = page_index * items_per_page;
-				var new_content = $('#hiddenIdList option').slice(offset,
-						offset + items_per_page).clone();
-				
+				var new_content = [];
+				_.each($('#hiddenIdList option').slice(offset, offset + items_per_page)
+						,function(node ,index){
+					new_content.push($(node.cloneNode(true))[0]);
+				});
+
+				// すでに選択されている系列については削除する。
+				var selectedOptionValues =
+					_.pluck($('#multipleResourceGraphLstBox2 option'), "value");
+				_.each(new_content, function(newContentOption, index){
+					if(_.contains(selectedOptionValues, newContentOption.value)){
+						newContentOption.remove();
+					}
+				});
+
 				$('#multipleResourceGraphLstBox1').empty().append(new_content);
-				
+
 				return false;
 			}
 

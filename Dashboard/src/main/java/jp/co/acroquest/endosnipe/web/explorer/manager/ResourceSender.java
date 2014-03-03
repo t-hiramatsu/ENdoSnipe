@@ -26,7 +26,6 @@
 package jp.co.acroquest.endosnipe.web.explorer.manager;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -116,8 +115,9 @@ public class ResourceSender
         {
             MeasurementData measurementData = measurementDataEntry.getValue();
             String measurementItemName = measurementDataEntry.getKey();
-            String observateGroupId = searchObservateGroupId(listeners, measurementItemName);
-            if (observateGroupId == null)
+            List<String> observateGroupIdList =
+                    searchObservateGroupIdList(listeners, measurementItemName);
+            if (observateGroupIdList.size() == 0)
             {
                 continue;
             }
@@ -131,30 +131,12 @@ public class ResourceSender
                 MeasurementDetail measurementDetail = valIterator.next();
                 String value = String.valueOf(measurementDetail.value);
 
-                String[] measurementArray = null;
-                if (observateGroupId.indexOf("|") != -1
-                        || observateGroupId.indexOf("(") != observateGroupId.lastIndexOf("("))
+                for (String observateGroupId : observateGroupIdList)
                 {
-                    measurementArray =
-                            (observateGroupId.substring(observateGroupId.indexOf("(") + 1,
-                                                        observateGroupId.lastIndexOf(")"))).split("\\|");
-                }
-                List<String> measurementDataList = new ArrayList<String>();
-                if (measurementArray != null)
-                {
-                    measurementDataList.addAll(Arrays.asList(measurementArray));
-                }
-                else
-                {
-                    measurementDataList.add(observateGroupId);
-                }
-                for (int index = 0; index < measurementDataList.size(); index++)
-                {
-                    String matchData = measurementDataList.get(index);
 
                     // 完全一致する場合は、単数系列取得扱いとして、値を返す。
                     // 完全一致しない場合は、複数系列取得扱いとして、値を返す。
-                    if (matchData.equals(measurementItemName) && measurementDataList.size() == 1)
+                    if (observateGroupId.matches(measurementItemName))
                     {
                         MeasurementValueDto singleData = singleDataMap.get(observateGroupId);
                         if (singleData == null)
@@ -164,7 +146,7 @@ public class ResourceSender
                             singleData.setMeasurementItemName(measurementItemName);
                             singleData.setMeasurementTime(measurementTime);
                             singleData.setMeasurementValue(value);
-                            singleDataMap.put(matchData, singleData);
+                            singleDataMap.put(observateGroupId, singleData);
                         }
                         singleData.setMeasurementValue(value);
                     }
@@ -245,71 +227,36 @@ public class ResourceSender
     }
 
     /**
-     * 監視対象グループに計測対象が含まれているかどうか。リスナに保持したグループIDの前方一致で判定する。
+     * 計測対象が含まれている監視対象グループを全て取得する。
      *
      * @param listeners
      *            監視対象リスナ
      * @param itemName
      *            計測項目名
-     * @return 監視対象グループに計測対象が含まれている場合true、含まれていない場合falseを返す。
+     * @return 計測対象が含まれている監視対象グループのリスト
      */
-    private String searchObservateGroupId(final Set<String> listeners, final String itemName)
+    private List<String> searchObservateGroupIdList(final Set<String> listeners,
+            final String itemName)
     {
+        List<String> groupIdList = new ArrayList<String>();
         for (String groupId : listeners)
         {
-            String[] measurementArray = null;
-
-            if (groupId.indexOf("|") != -1 || groupId.indexOf("(") != groupId.lastIndexOf("("))
+            // 正規表現で一致する場合
+            if (itemName.matches(groupId))
             {
-                if (groupId.indexOf("|") != -1 || groupId.indexOf("(") != groupId.lastIndexOf("(")
-                        && (groupId.charAt(0) == '(')
-                        && (groupId.charAt((groupId.length() - 1)) == ')'))
-
-                {
-                    measurementArray =
-                            (groupId.substring(groupId.indexOf("(") + 1, groupId.lastIndexOf(")"))).split("\\|");
-                }
-            }
-
-            List<String> measurementDataList = new ArrayList<String>();
-            if (measurementArray != null)
-            {
-                measurementDataList.addAll(Arrays.asList(measurementArray));
-            }
-            else
-            {
-                if ((groupId.charAt(0) == '(') && (groupId.charAt((groupId.length() - 1)) == ')'))
-                {
-                    measurementDataList.add(groupId.substring(groupId.indexOf("(") + 1,
-                                                              groupId.lastIndexOf(")")));
-                }
-                else
-                {
-                    measurementDataList.add(groupId);
-                }
-            }
-            for (int index = 0; index < measurementDataList.size(); index++)
-            {
-                String matchData = measurementDataList.get(index);
-
-                if (checkPattern(matchData, itemName))
-                {
-                    return groupId;
-                }
-
+                groupIdList.add(groupId);
             }
         }
-        return null;
+        return groupIdList;
     }
 
-    private boolean checkPattern(final String groupId, final String itemName)
-    {
-        String pattern = groupId.replace("%", ".*");
-        if (itemName.matches(pattern) || itemName.equals(groupId))
-        {
-            return true;
-        }
-        return false;
-    }
-
+    //    private boolean checkPattern(final String groupId, final String itemName)
+    //    {
+    //        String pattern = groupId.replace("%", ".*");
+    //        if (itemName.matches(pattern) || itemName.equals(groupId))
+    //        {
+    //            return true;
+    //        }
+    //        return false;
+    //    }
 }
