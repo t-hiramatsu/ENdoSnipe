@@ -151,7 +151,7 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 										}
 										$('#multipleResourceGraphLstBox2')
 												.append($(selectedOpts).clone());
-										$(selectedOpts).remove();
+										$(selectedOpts).hide();
 										e.preventDefault();
 									});
 
@@ -163,9 +163,12 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 											alert("Nothing to move.");
 											e.preventDefault();
 										}
-//										$('#multipleResourceGraphLstBox1')
-//												.append($(selectedOpts).clone());
+
 										$(selectedOpts).remove();
+										_.each(selectedOpts, function(selectedOpt, index){
+											$("#multipleResourceGraphLstBox1 > option[value='" + selectedOpt.value + "']").show();
+										});
+
 										e.preventDefault();
 									});
 
@@ -215,15 +218,13 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 					var measurementName = javelinMeasurementItem.itemName;
 					var indexArray = $.inArray(measurementName,
 							measurementDefList);
-					if (indexArray == -1) {
-						$('#hiddenIdList').append(
-								"<option value='"
-										+ javelinMeasurementItem.itemName
-										+ "'>"
-										+ javelinMeasurementItem.itemName
-										+ "</option>");
-					}
 
+					$('#hiddenIdList').append(
+						"<option value='"
+							+ javelinMeasurementItem.itemName
+							+ "'>"
+							+ javelinMeasurementItem.itemName
+							+ "</option>");
 				});
 				instance.pagingGraph(measurementDefinitionList);
 
@@ -286,6 +287,8 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 			},
 			pageselectCallback : function(page_index, jq) {
 
+				$('#multipleResourceGraphLstBox1').empty()
+
 				var items_per_page = this.items_per_page;
 				var offset = page_index * items_per_page;
 				var new_content = [];
@@ -298,12 +301,12 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 				var selectedOptionValues =
 					_.pluck($('#multipleResourceGraphLstBox2 option'), "value");
 				_.each(new_content, function(newContentOption, index){
-					if(_.contains(selectedOptionValues, newContentOption.value)){
-						newContentOption.remove();
+					var result = _.contains(selectedOptionValues, newContentOption.value);
+					if(result){
+						$(newContentOption).hide();
 					}
+					$('#multipleResourceGraphLstBox1').append(newContentOption);
 				});
-
-				$('#multipleResourceGraphLstBox1').empty().append(new_content);
 
 				return false;
 			}
