@@ -46,6 +46,15 @@
 		= #{dashboardId}
 	</update>
 
+	<update id="updateByName"
+		parameterType="jp.co.acroquest.endosnipe.web.explorer.entity.DashboardInfo">
+		update DASHBOARD_INFO set
+		NAME = #{name},
+		DATA = #{data},
+		LAST_UPDATE = #{lastUpdate}
+		where NAME = #{name}
+	</update>
+
 	<delete id="deleteById">
 		delete from DASHBOARD_INFO
 		where DASHBOARD_ID =

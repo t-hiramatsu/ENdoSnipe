@@ -25,10 +25,12 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.web.explorer.servlet;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -48,6 +50,10 @@ import jp.co.acroquest.endosnipe.web.explorer.constants.EventConstants;
 import jp.co.acroquest.endosnipe.web.explorer.constants.LogMessageCodes;
 import jp.co.acroquest.endosnipe.web.explorer.exception.InitializeException;
 import jp.co.acroquest.endosnipe.web.explorer.manager.DatabaseManager;
+import jp.co.acroquest.endosnipe.web.explorer.service.DashboardService;
+import jp.co.acroquest.endosnipe.web.explorer.service.MultipleResourceGraphService;
+import jp.co.acroquest.endosnipe.web.explorer.service.SignalService;
+import jp.co.acroquest.endosnipe.web.explorer.service.SummarySignalService;
 import jp.co.acroquest.endosnipe.web.explorer.service.processor.AgentInformationProcessor;
 import jp.co.acroquest.endosnipe.web.explorer.service.processor.AgentNotifyProcessor;
 import jp.co.acroquest.endosnipe.web.explorer.service.processor.AlarmNotifyStartProcessor;
@@ -62,6 +68,12 @@ import jp.co.acroquest.endosnipe.web.explorer.service.processor.ResourceAlarmSto
 import jp.co.acroquest.endosnipe.web.explorer.service.processor.ResourceStateAllProcessor;
 import jp.co.acroquest.endosnipe.web.explorer.service.processor.TermAlarmNotifyProcessor;
 import jp.co.acroquest.endosnipe.web.explorer.service.processor.TermMeasurementDataProcessor;
+import jp.co.acroquest.endosnipe.web.explorer.template.TemplateCreator;
+import jp.co.acroquest.endosnipe.web.explorer.template.TemplateLoader;
+import jp.co.acroquest.endosnipe.web.explorer.template.meta.Template;
+
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 /**
  * クライアントから通知要求を受信するためのサーブレットです。
@@ -76,6 +88,15 @@ public class ExplorerNotifyServlet extends HttpServlet
     /** ロガー */
     private static final ENdoSnipeLogger LOGGER =
             ENdoSnipeLogger.getLogger(ExplorerNotifyServlet.class);
+
+    /** テンプレートディレクトリのパス */
+    private static final String TEMPLATE_DIR = "WEB-INF" + File.separator + "classes"
+            + File.separator + "dashboard" + File.separator + "template";
+
+    /** テンプレートファイルの拡張子 */
+    private static final String TEMPLATE_EXTENTION = ".xml";
+
+    private static final String BLANK = "";
 
     /** イベント処理クラスのMap */
     private final Map<Integer, EventProcessor> processorMap_ =
@@ -143,6 +164,34 @@ public class ExplorerNotifyServlet extends HttpServlet
 
         DatabaseManager manager = DatabaseManager.getInstance();
         manager.setDataBaseConfig(dbConfig);
+
+        // テンプレートの読み込み
+        TemplateLoader templateLoader = new TemplateLoader();
+        String templateDirPath = servletConfig.getServletContext().getRealPath(TEMPLATE_DIR);
+        Map<String, Template> templates = templateLoader.loadAll(templateDirPath);
+
+        ServletContext context = servletConfig.getServletContext();
+        WebApplicationContext webContext =
+                WebApplicationContextUtils.getRequiredWebApplicationContext(context);
+        MultipleResourceGraphService multipleResourceGraphService =
+                (MultipleResourceGraphService)webContext.getBean("multipleResourceGraphService");
+        DashboardService dashboardService =
+                (DashboardService)webContext.getBean("dashboardService");
+        SignalService signalService = (SignalService)webContext.getBean("signalService");
+        SummarySignalService summarySignalService =
+                (SummarySignalService)webContext.getBean("summarySignalService");
+
+        TemplateCreator templateCreator =
+                new TemplateCreator(multipleResourceGraphService, dashboardService, signalService,
+                                    summarySignalService);
+
+        for (Entry<String, Template> templateEntry : templates.entrySet())
+        {
+            String name = templateEntry.getKey();
+            name = name.replaceAll(TEMPLATE_EXTENTION, BLANK);
+            Template template = templateEntry.getValue();
+            templateCreator.create(name, template);
+        }
 
         // コールバック関数を作成するために、初期化メソッドを呼び出す。
         MeasurementInfoDao.initialize();

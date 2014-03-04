@@ -13,6 +13,12 @@
 		<result property="measurementItemPattern_" column="MEASUREMENT_ITEM_PATTERN" />
 	</resultMap>
 
+	<resultMap id="ChildDirectoryMap" type="jp.co.acroquest.endosnipe.web.explorer.entity.ChildGraphInfo">
+		<id property="child" column="child"/>
+		<result property="grandChild" column="grandchild"/>
+	</resultMap>
+	
+
 	<select id="selectAll" resultMap="MultipleResourceGraphInfoMap">
 		SELECT * FROM
 		MULTIPLE_RESOURCE_GRAPH
@@ -72,5 +78,23 @@
 		where
 		MULTIPLE_RESOURCE_GRAPH_NAME
 		= #{multipleResourceGraphName_}
+	</select>
+	
+	<select id="selectDirectChildren"
+				resultMap="ChildDirectoryMap">
+		SELECT
+			split_part(multiple_resource_graph_name, '/', #{childLength}) AS child
+			,split_part(multiple_resource_graph_name ,'/', #{grandChildLength}) != '' AS grandchild
+		FROM
+			multiple_resource_graph
+		    WHERE
+			REPLACE(REPLACE(REPLACE(multiple_resource_graph_name, CHR(13) || CHR(10), ' '), CHR(13), ' '), CHR(10), ' ') LIKE #{searchTreeId}
+			AND split_part(REPLACE(REPLACE(REPLACE(multiple_resource_graph_name, CHR(13) || CHR(10), ' '), CHR(13), ' '), CHR(10), ' ') ,'/' ,#{length}) = #{selfElementName}
+		GROUP BY
+			child
+			,grandchild
+		ORDER BY
+			child
+			,grandchild
 	</select>
 </mapper>

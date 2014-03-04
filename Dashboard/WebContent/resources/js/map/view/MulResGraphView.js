@@ -755,7 +755,9 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 							dataMap[dateData] = dataArray;
 
 						}
-						dataArray[currentKeysIndex] = valueData;
+						if (currentKeysIndex !== 0 || valueData !== undefined) {
+						  dataArray[currentKeysIndex] = valueData;
+						}
 					});
 				});
 
