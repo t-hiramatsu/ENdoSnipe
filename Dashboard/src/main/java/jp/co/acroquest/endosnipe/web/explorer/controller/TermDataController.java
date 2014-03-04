@@ -222,6 +222,13 @@ public class TermDataController
                 }
             }
         }
+        if (responceDataList.size() == 0 && dataGroupIdList.size() > 0)
+        {
+            for (String dataGroupId : dataGroupIdList)
+            {
+                responceDataList.put(dataGroupId, new ArrayList<Map<String, String>>());
+            }
+        }
         return responceDataList;
     }
 

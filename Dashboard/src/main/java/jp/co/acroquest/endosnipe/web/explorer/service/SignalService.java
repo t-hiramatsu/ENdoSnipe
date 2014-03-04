@@ -293,6 +293,10 @@ public class SignalService
     public SignalDefinitionDto getSignalInfo(final String signalName)
     {
         SignalInfo signalInfo = signalInfoDao.selectByName(signalName);
+        if (signalInfo == null)
+        {
+            return null;
+        }
         SignalDefinitionDto defitionDto = this.convertSignalDto(signalInfo);
         return defitionDto;
     }
