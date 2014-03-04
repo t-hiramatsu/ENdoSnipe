@@ -528,4 +528,4 @@ ENS.schedulingReportDialog = {};
 ENS.tree.agentName = "/default/";
 ENS.mulResGraphView = {};
 ENS.mulResGraphView.series = {};
-ENS.mulResGraphView.series.number = 5;
+ENS.mulResGraphView.series.number = 10;

@@ -63,6 +63,13 @@ public interface DashboardInfoDao
     int update(final DashboardInfo dashboardInfo);
 
     /**
+     * ダッシュボード情報をダッシュボード名で更新する。
+     * @param dashboardInfo ダッシュボード情報
+     * @return 更新件数
+     */
+    int updateByName(final DashboardInfo dashboardInfo);
+
+    /**
      * ダッシュボード情報を削除する。
      * @param dashboardId ダッシュボードID
      * @return 削除件数

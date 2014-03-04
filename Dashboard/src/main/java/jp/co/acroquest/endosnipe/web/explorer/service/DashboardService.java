@@ -158,13 +158,32 @@ public class DashboardService
      */
     public ResponseDto update(final DashboardInfo dashboardInfo)
     {
+        return update(dashboardInfo, false);
+    }
+
+    /**
+     * ダッシュボードを更新する。
+     *
+     * @param dashboardInfo ダッシュボード情報
+     * @param auto 自動生成したマップかどうか。（true：自動生成したマップである、false：自動生成したマップでない。）
+     * @return 更新結果電文
+     */
+    public ResponseDto update(final DashboardInfo dashboardInfo, final boolean auto)
+    {
         // 最終更新日時を設定
         dashboardInfo.lastUpdate = new Timestamp(Calendar.getInstance().getTimeInMillis());
         int count = 0;
         ResponseDto responseDto = new ResponseDto();
         try
         {
-            count = dashboardInfoDao_.update(dashboardInfo);
+            if (auto == true)
+            {
+                count = dashboardInfoDao_.updateByName(dashboardInfo);
+            }
+            else
+            {
+                count = dashboardInfoDao_.update(dashboardInfo);
+            }
             if (count > 0)
             {
                 responseDto.setResult(ResponseConstants.RESULT_SUCCESS);

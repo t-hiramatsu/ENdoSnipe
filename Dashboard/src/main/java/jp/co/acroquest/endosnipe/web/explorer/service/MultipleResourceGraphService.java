@@ -38,7 +38,7 @@ import org.wgp.manager.WgpDataManager;
  * @author pin
  * 
  */
-@Service
+@Service("multipleResourceGraphService")
 public class MultipleResourceGraphService
 {
 
@@ -214,6 +214,12 @@ public class MultipleResourceGraphService
     {
         MultipleResourceGraphInfo multipleResourceGraphInfo =
                 multipleResourceGraphDao.selectByName(multipleResourceGraphName);
+
+        //指定した名前の複数グラフが存在しない場合はnullを返す
+        if (multipleResourceGraphInfo == null)
+        {
+            return null;
+        }
 
         MultipleResourceGraphDefinitionDto defitionDto =
                 this.convertmultipleResourceGraphDto(multipleResourceGraphInfo);

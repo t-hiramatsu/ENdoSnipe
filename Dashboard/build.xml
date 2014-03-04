@@ -147,6 +147,10 @@
         <copy file="${jar.file}" todir="${weblib.path}" overwrite="true"/>
         <copy file="${classes.path}/EWDMessages_ja.properties" todir="${webroot.path}/WEB-INF/classes" overwrite="true"/>
         <copy file="${classes.path}/log4j.xml" todir="${webroot.path}/WEB-INF/classes" overwrite="true"/>
+    	<mkdir dir="${webroot.path}/WEB-INF/classes/dashboard"/>
+    	<copy todir="${webroot.path}/WEB-INF/classes/dashboard" includeEmptyDirs="no">
+    	    <fileset dir="${resource.path}/dashboard"/>
+        </copy>
         <war basedir="${webroot.path}"
              destfile="${war.file}"
              webxml="${webroot.path}/WEB-INF/web.xml">
