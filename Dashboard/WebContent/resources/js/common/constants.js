@@ -526,3 +526,6 @@ ENS.threadDump = {};
 ENS.report.SCHEDULINGREPROT_URL = wgp.common.getContextPath() + "/report/updateSchedulingReport";
 ENS.schedulingReportDialog = {};
 ENS.tree.agentName = "/default/";
+ENS.mulResGraphView = {};
+ENS.mulResGraphView.series = {};
+ENS.mulResGraphView.series.number = 5;
