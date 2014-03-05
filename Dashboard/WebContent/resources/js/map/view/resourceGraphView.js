@@ -297,7 +297,8 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				var instance = this;
 				$("#" + graphId).mouseover(function(event) {
 					var target = event.target;
-					$("#" + graphId).attr("title", graphPath);
+					// graphLabel.jsでツールチップに表示する項目名を取得するために項目名を登録する
+					$("#" + graphId).attr("itemId", graphPath);
 					if (!isShort) {
 						return;
 					}
@@ -307,7 +308,6 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 					}
 				});
 				$("#" + graphId).mouseout(function(event) {
-					$("#" + graphId).removeAttr("title");
 					if (!isShort) {
 						return;
 					}
@@ -316,6 +316,12 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 						$(target).text(optionSettings.title);
 						$(target).parent("div").css('z-index', "0");
 					}
+				});
+				
+				// 拡大時のグラフにマウスオーバー時のイベントを設定する
+				$("#tempDiv").mouseover(function(event) {
+					// graphLabel.jsでツールチップに表示する項目名を取得するために項目名を登録する
+					$("#tempDiv").attr("itemId", graphPath);
 				});
 
 				// ズームアウト時（ダブルクリック）のイベントを設定。

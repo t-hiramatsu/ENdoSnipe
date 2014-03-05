@@ -2,9 +2,10 @@ ENS.graphLabel = {};
 
 // グラフラベルの横幅
 ENS.graphLabel.LABEL_WIDTH = 200;
-
-// カーソルとグラフラベルのオフセット
-ENS.graphLabel.LABEL_OFFSET = 50;
+// カーソルとグラフラベルのトップオフセット
+ENS.graphLabel.LABEL_TOP_OFFSET = 30;
+// カーソルとグラフラベルのサイドオフセット
+ENS.graphLabel.LABEL_LEFT_OFFSET = 10;
 
 // IDを指定してグラフラベルのDIV要素を作成する
 ENS.graphLabel.create = function(id) {
@@ -31,26 +32,37 @@ ENS.graphLabel.setEventListener = function($labelDiv, $graphDiv) {
 			.mousemove(function(e) {
 				var $contents = $("#contents_area");
 				var cLeft = $contents.offset().left;
+				var cTop = $contents.offset().top;
 				var cWidth = $contents.width();
+				var cHeight = $contents.height();
 				var cScrollX = $contents.scrollLeft();
+				var cScrollY = $contents.scrollTop();
 				var graphPos = $(this).position();
 				var labelPos = {};
-				labelPos.top = graphPos.top;
-				labelPos.left = e.pageX - cLeft + ENS.graphLabel.LABEL_OFFSET
-						+ cScrollX;
+				labelPos.top = e.pageY - cTop + ENS.graphLabel.LABEL_TOP_OFFSET
+						+ cScrollY;
+				labelPos.left = e.pageX - cLeft
+						+ ENS.graphLabel.LABEL_LEFT_OFFSET + cScrollX;
 
 				$labelDiv.show();
 
 				// マップ画面の場合は位置を修正する
 				if (graphPos.left === 0 && graphPos.top === 0) {
 					labelPos.left = e.pageX - $(this).offset().left
-							+ ENS.graphLabel.LABEL_OFFSET;
+							+ ENS.graphLabel.LABEL_LEFT_OFFSET;
 				}
 
 				// ラベルが画面右端に到達している場合、ラベルをカーソルの左側に移動させる
 				if (cLeft + cWidth - ENS.graphLabel.LABEL_WIDTH < e.pageX) {
 					labelPos.left = labelPos.left
-							- (ENS.graphLabel.LABEL_OFFSET * 2 + ENS.graphLabel.LABEL_WIDTH);
+							- (ENS.graphLabel.LABEL_LEFT_OFFSET * 2 + ENS.graphLabel.LABEL_WIDTH);
+				}
+
+				var labelHeight = $labelDiv.height();
+				// ラベルが画面下端に到達している場合、ラベルをカーソルの左側に移動させる
+				if (cTop + cHeight - labelHeight < e.pageY) {
+					labelPos.top = labelPos.top
+							- (ENS.graphLabel.LABEL_TOP_OFFSET * 3 + labelHeight);
 				}
 
 				// ラベルの位置を設定する
@@ -59,9 +71,9 @@ ENS.graphLabel.setEventListener = function($labelDiv, $graphDiv) {
 
 				// マウスカーソルがデータの存在しない場所にあるとき、
 				// または固定値のデータ(1970/01/01 9:00)であるときは"NO DATA"と表示
-				if ($labelDiv.html().length <= 0 ||
-					$labelDiv.html().startsWith("1970/01/01 09:00") ) {
-					$labelDiv.html("NO DATA");
+				if ($labelDiv.html().length <= 0
+						|| $labelDiv.html().startsWith("1970/01/01 09:00")) {
+					$labelDiv.html(this.itemId);
 				}
 
 				// 改行を追加する
