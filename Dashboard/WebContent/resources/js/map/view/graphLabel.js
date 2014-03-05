@@ -6,6 +6,8 @@ ENS.graphLabel.LABEL_WIDTH = 200;
 ENS.graphLabel.LABEL_TOP_OFFSET = 30;
 // カーソルとグラフラベルのサイドオフセット
 ENS.graphLabel.LABEL_LEFT_OFFSET = 10;
+// グラフのフルパスのタイトル
+ENS.graphLabel.fullPathTitle = "";
 
 // IDを指定してグラフラベルのDIV要素を作成する
 ENS.graphLabel.create = function(id) {
@@ -70,10 +72,13 @@ ENS.graphLabel.setEventListener = function($labelDiv, $graphDiv) {
 				$labelDiv.css("top", labelPos.top);
 
 				// マウスカーソルがデータの存在しない場所にあるとき、
-				// または固定値のデータ(1970/01/01 9:00)であるときは"NO DATA"と表示
-				if ($labelDiv.html().length <= 0
-						|| $labelDiv.html().startsWith("1970/01/01 09:00")) {
-					$labelDiv.html(this.itemId);
+				// または固定値のデータ(1970/01/01 9:00)であるときは項目名をラベルに表示
+				var labelDivHtml = $labelDiv.html();
+				var compareLabelDivHtml = " " + labelDivHtml;
+				var defaultDate = "1970/01/01 09:00";
+				if (labelDivHtml.length <= 0
+						|| compareLabelDivHtml.indexOf(" " + defaultDate) !== -1) {
+					$labelDiv.html(ENS.graphLabel.fullPathTitle);
 				}
 
 				// 改行を追加する

@@ -298,7 +298,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				$("#" + graphId).mouseover(function(event) {
 					var target = event.target;
 					// graphLabel.jsでツールチップに表示する項目名を取得するために項目名を登録する
-					$("#" + graphId).attr("itemId", graphPath);
+					ENS.graphLabel.fullPathTitle = graphPath;
 					if (!isShort) {
 						return;
 					}
@@ -321,7 +321,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				// 拡大時のグラフにマウスオーバー時のイベントを設定する
 				$("#tempDiv").mouseover(function(event) {
 					// graphLabel.jsでツールチップに表示する項目名を取得するために項目名を登録する
-					$("#tempDiv").attr("itemId", graphPath);
+					ENS.graphLabel.fullPathTitle = graphPath;
 				});
 
 				// ズームアウト時（ダブルクリック）のイベントを設定。

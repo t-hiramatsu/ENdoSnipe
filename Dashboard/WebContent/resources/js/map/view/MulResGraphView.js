@@ -766,7 +766,7 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				// 時刻を「キー値」、各系列ごとの値の配列を「値」とする連想配列を、
 				// 時刻ごとの[時刻, 系列の値1,系列の値2....]の2次元配列に変換する。
 				_.each(dataMap, function(dataMapValue, dateData){
-					returnDataArray.push(Array.concat(new Date(dateData), dataMapValue));
+					returnDataArray.push([].concat(new Date(dateData), dataMapValue));
 				});
 
 				return returnDataArray;
