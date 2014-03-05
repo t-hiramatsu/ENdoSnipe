@@ -36,7 +36,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import jp.co.acroquest.endosnipe.data.dao.JavelinLogDao;
+import jp.co.acroquest.endosnipe.data.dao.JavelinMeasurementItemDao;
 import jp.co.acroquest.endosnipe.data.entity.JavelinLog;
+import jp.co.acroquest.endosnipe.data.entity.JavelinMeasurementItem;
 import jp.co.acroquest.endosnipe.perfdoctor.WarningUnit;
 import jp.co.acroquest.endosnipe.web.explorer.dto.MeasurementValueDto;
 import jp.co.acroquest.endosnipe.web.explorer.dto.MultipleResourceGraphDefinitionDto;
@@ -124,31 +126,32 @@ public class TermDataController
             return new HashMap<String, List<Map<String, String>>>();
         }
 
+        // あらかじめ全measurementItemを取得しておく。
+        List<JavelinMeasurementItem> measurementItemList = null;
+        try
+        {
+            measurementItemList = this.getMeasurementItemList();
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+            return new HashMap<String, List<Map<String, String>>>();
+        }
+
         for (String dataId : dataGroupIdList)
         {
-            String[] measurementArray = null;
-            if (dataId.indexOf("|") != -1 || dataId.indexOf("(") != dataId.lastIndexOf("("))
-            {
-                measurementArray =
-                        (dataId.substring(dataId.indexOf("(") + 1, dataId.lastIndexOf(")"))).split("\\|");
-            }
+            // measurementItemのいずれかと一致する場合は単一リソースとみなす。
+            // そうでない場合は正規表現による指定とみなし、合致するリソースを検索して取得する。
             List<String> measurementDataList = new ArrayList<String>();
-            if (measurementArray != null)
+            for (JavelinMeasurementItem measurementItem : measurementItemList)
             {
-                measurementDataList.addAll(Arrays.asList(measurementArray));
-            }
-            else
-            {
-                if ((dataId.charAt(0) == '(') && (dataId.charAt((dataId.length() - 1)) == ')'))
+                if (measurementItem.itemName.matches(dataId)
+                        || measurementItem.itemName.equals(dataId))
                 {
-                    measurementDataList.add(dataId.substring(dataId.indexOf("(") + 1,
-                                                             dataId.lastIndexOf(")")));
-                }
-                else
-                {
-                    measurementDataList.add(dataId);
+                    measurementDataList.add(measurementItem.itemName);
                 }
             }
+
             for (int index = 0; index < measurementDataList.size(); index++)
             {
                 String matchData = measurementDataList.get(index);
@@ -217,6 +220,13 @@ public class TermDataController
                             createTreeMenuData(measurementValueEntry.getValue());
                     responceDataList.put(dataGroupIdList.get(0), measurementValueList);
                 }
+            }
+        }
+        if (responceDataList.size() == 0 && dataGroupIdList.size() > 0)
+        {
+            for (String dataGroupId : dataGroupIdList)
+            {
+                responceDataList.put(dataGroupId, new ArrayList<Map<String, String>>());
             }
         }
         return responceDataList;
@@ -313,4 +323,16 @@ public class TermDataController
         return createTreeMenuData(signalTreeList);
     }
 
+    /**
+     * javelin_measurement_itemから全てのmeasurement_itemを取得する。
+     * @return javelin_measurement_itemのリスト
+     * @throws SQLException SQL 実行時に例外が発生した場合
+     */
+    private List<JavelinMeasurementItem> getMeasurementItemList()
+        throws SQLException
+    {
+        DatabaseManager dbMmanager = DatabaseManager.getInstance();
+        String dbName = dbMmanager.getDataBaseName(1);
+        return JavelinMeasurementItemDao.selectAll(dbName);
+    }
 }

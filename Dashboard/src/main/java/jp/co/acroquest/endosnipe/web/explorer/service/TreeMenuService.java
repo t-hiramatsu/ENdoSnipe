@@ -27,9 +27,12 @@ package jp.co.acroquest.endosnipe.web.explorer.service;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.regex.Pattern;
 
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
@@ -38,9 +41,12 @@ import jp.co.acroquest.endosnipe.data.dto.GraphTypeDto;
 import jp.co.acroquest.endosnipe.data.entity.JavelinMeasurementItem;
 import jp.co.acroquest.endosnipe.web.explorer.constants.LogMessageCodes;
 import jp.co.acroquest.endosnipe.web.explorer.constants.TreeMenuConstants;
+import jp.co.acroquest.endosnipe.web.explorer.dao.MultipleResourceGraphInfoDao;
 import jp.co.acroquest.endosnipe.web.explorer.dto.TreeMenuDto;
+import jp.co.acroquest.endosnipe.web.explorer.entity.ChildGraphInfo;
 import jp.co.acroquest.endosnipe.web.explorer.manager.DatabaseManager;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -76,6 +82,10 @@ public class TreeMenuService
 
     /** アイコン：ターゲット。 */
     private static final String TARGET_ICON = "leaf";
+
+    /** 複数グラフ情報Dao。 */
+    @Autowired
+    protected MultipleResourceGraphInfoDao multipleResourceGraphDao;
 
     /**
      * コンストラクタ
@@ -198,13 +208,17 @@ public class TreeMenuService
         String dbName = dbMmanager.getDataBaseName(1);
         try
         {
+            // 計測情報の子要素を追加する。
             List<String> itemNameList =
                     JavelinMeasurementItemDao.selectDirectChildren(dbName, parentTreeId);
 
-            int itemNameListLength = itemNameList.size();
-            for (int index = 0; index < itemNameListLength; index++)
+            Set<String> treeElementSet = new TreeSet<String>(itemNameList);
+
+            List<String> graphNameList = getGraphNameList(parentTreeId);
+
+            treeElementSet.addAll(graphNameList);
+            for (String itemName : treeElementSet)
             {
-                String itemName = itemNameList.get(index);
                 String[] itemNameSplits = itemName.split("/");
 
                 String childNodeName = itemNameSplits[0];
@@ -234,12 +248,58 @@ public class TreeMenuService
 
                 directChildPathList.add(treeMenuDto);
             }
+
         }
         catch (SQLException sqlEx)
         {
             LOGGER.log(LogMessageCodes.SQL_EXCEPTION, sqlEx, sqlEx.getMessage());
         }
         return directChildPathList;
+    }
+
+    /**
+     * 複数グラフの中から、ツリーに表示する子要素を取得する。
+     * @param parentTreeId 親TreeId
+     * @return 親要素配下に存在する子要素のID
+     */
+    private List<String> getGraphNameList(final String parentTreeId)
+    {
+        List<String> graphChildList = new ArrayList<String>();
+        // MultiResourceGraphのツリーを追加する。
+        String[] resourcenamePart = parentTreeId.split("/");
+        int length = resourcenamePart.length;
+        String searchTreeId = parentTreeId + "%";
+        String selfElementName = "";
+        if (resourcenamePart.length > 0)
+        {
+            selfElementName = resourcenamePart[length - 1];
+        }
+
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        paramMap.put("length", length);
+        paramMap.put("childLength", length + 1);
+        paramMap.put("grandChildLength", length + 2);
+        paramMap.put("searchTreeId", searchTreeId);
+        paramMap.put("selfElementName", selfElementName);
+        List<ChildGraphInfo> graphInfoList =
+                this.multipleResourceGraphDao.selectDirectChildren(paramMap);
+
+        for (ChildGraphInfo graphInfo : graphInfoList)
+        {
+            String child = graphInfo.child;
+            boolean grandChild = graphInfo.grandChild;
+            if (grandChild == true)
+            {
+                child += "/";
+            }
+            if ("".equals(child))
+            {
+                continue;
+            }
+
+            graphChildList.add(child);
+        }
+        return graphChildList;
     }
 
     /**

@@ -1,20 +1,20 @@
 /*******************************************************************************
  * ENdoSnipe 5.0 - (https://github.com/endosnipe)
- * 
+ *
  * The MIT License (MIT)
- * 
+ *
  * Copyright (c) 2012 Acroquest Technology Co.,Ltd.
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -23,8 +23,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-
-ENS.tree.measurementDefinitionList = [];
 
 ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 		.extend({
@@ -53,30 +51,18 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				// 前回表示したラベル名
 				this.labelNames = [];
 
-				var graphIds = "(";
 				var appView = new ENS.AppView();
-				this.getMeasurementTargetNodes(argument.graphId);
 
-				for ( var index = 0; index < ENS.tree.measurementDefinitionList.length; index++) {
+				// measurementItemNameのキー文字列を生成する。
+				this.graphIds = this.createGraphIds(argument.graphId);
 
-					if (index == ENS.tree.measurementDefinitionList.length - 1) {
-						graphIds = graphIds
-								+ ENS.tree.measurementDefinitionList[index]
-								+ ")";
-					} else {
-						graphIds = graphIds
-								+ ENS.tree.measurementDefinitionList[index]
-								+ "|";
-					}
-
-				}
-				appView.addView(this, graphIds);
+				appView.addView(this, this.graphIds);
 
 				this.registerCollectionEvent();
 
 				if (!this.noTermData) {
 
-					appView.getTermData([ graphIds ], this.timeStart,
+					appView.getTermData([ this.graphIds ], this.timeStart,
 							this.timeEnd);
 
 				}
@@ -101,8 +87,51 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				this.windowResize();
 				this.addDragEvent();
 			},
-			getMeasurementTargetNodes : function(parentId) {
+			// 本グラフが表示対象とするmeasurementItemNameのパターンを取得する。
+			createGraphIds : function(graphId){
 
+				// グラフIDからグラフの定義情報を取得する。
+				var multipleGraphDefinition = this.getMultipleGraphDefinition(graphId);
+				var measurementItemIds = multipleGraphDefinition["measurementItemIdList"].split(",");
+				var measurementItemPattern = multipleGraphDefinition["measurementItemPattern"];
+
+				// 系列の指定方法が正規表現によるマッチングがidによる直接指定かによって
+				// 系列のキー文字列作成元となる系列のリストの作成方法を変更する。
+
+				// 正規表現によるマッチングの場合
+				// 正規表現をそのまま使用する。
+				if(measurementItemPattern.length > 0){
+					return measurementItemPattern;
+
+				// idによる直接指定の場合
+				// 取得した系列のリストをそのまま使用する。
+				}else{
+					var measurementItemNameList = measurementItemIds;
+
+					// measurementItemNameのリストから以下のようなパイプ区切りの正規表現を生成する。
+					// "( measurementItemName1|measurementItemName2|...|measurementItemNameN )"
+					var graphIds = "(";
+					for ( var index = 0; index < measurementItemNameList.length; index++) {
+						if (index == measurementItemNameList.length - 1) {
+
+							// measurementItemName中の括弧などは正規表現として解釈されてしまうため、
+							// サーバ上では正規表現として扱われないように処理する。
+							graphIds = graphIds
+									+ "\\\Q"
+									+ measurementItemNameList[index]
+									+ "\\\E)";
+						} else {
+							graphIds =　graphIds
+									+ "\\\Q"
+									+ measurementItemNameList[index]
+									+ "\\\E|";
+						}
+					}
+					return graphIds;
+				}
+			},
+			// 指定した複数グラフの定義情報を取得する。
+			getMultipleGraphDefinition : function(parentId){
 				var settings = {
 					url : ENS.tree.MULTIPLE_RESOURCE_GRAPH_GET_URL,
 					data : {
@@ -112,11 +141,7 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 
 				var ajaxHandler = new wgp.AjaxHandler();
 				var result = ajaxHandler.requestServerSync(settings);
-				var multipleResourceGraphDefinition = JSON.parse(result);
-
-				ENS.tree.measurementDefinitionList = multipleResourceGraphDefinition.measurementItemIdList
-						.split(",");
-
+				return JSON.parse(result);
 			},
 			keysByValue : function(data) {
 				var arrayData = [];
@@ -144,7 +169,7 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				$("#" + this.$el.attr("id")).append(graphdiv);
 
 				var labelId = this.$el.attr("id") + "_enslabel";
-				
+
 				var labeldiv = ENS.graphLabel.create(labelId);
 				$("#" + this.$el.attr("id")).append(labeldiv);
 				var labelDom = document.getElementById(labelId);
@@ -253,7 +278,7 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 							$("#" + graphId).width() - this.titleButtonSpace);
 				}
 				this.mouseEvent(graphId, isShort, tmpTitle, optionSettings);
-				
+
 				ENS.graphLabel.setEventListener(labeldiv, graphdiv);
 			},
 
@@ -303,7 +328,7 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 									this.maxValue * this.yValueMagnification ]
 						};
 					}
-					
+
 					if (dataList.length !== 0) {
 						updateOption['dateWindow'] = [ tempStart, tempEnd ];
 					}
@@ -325,22 +350,6 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				}
 			},
 			_getTermData : function() {
-
-				var graphIds = "(";
-
-				for ( var index = 0; index < ENS.tree.measurementDefinitionList.length; index++) {
-
-					if (index == ENS.tree.measurementDefinitionList.length - 1) {
-						graphIds = graphIds
-								+ ENS.tree.measurementDefinitionList[index]
-								+ ")";
-					} else {
-						graphIds = graphIds
-								+ ENS.tree.measurementDefinitionList[index]
-								+ "|";
-					}
-
-				}
 
 				var data = this.getData();
 				var dataList = this.createDataList(data);
@@ -372,7 +381,7 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				}
 
 				var tmpAppView = new ENS.AppView();
-				tmpAppView.syncData([ graphIds ]);
+				tmpAppView.syncData([ this.graphIds ]);
 			},
 			onComplete : function(syncType) {
 
@@ -434,58 +443,40 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				this.timeStart = startTime;
 				this.timeEnd = endTime;
 				this.timeFrom = from;
-				var graphIds = "(";
-				this.getMeasurementTargetNodes(graphId);
-
-				for ( var index = 0; index < ENS.tree.measurementDefinitionList.length; index++) {
-
-					if (index == ENS.tree.measurementDefinitionList.length - 1) {
-						graphIds = graphIds
-								+ ENS.tree.measurementDefinitionList[index]
-								+ ")";
-					} else {
-						graphIds = graphIds
-								+ ENS.tree.measurementDefinitionList[index]
-								+ "|";
-					}
-
-				}
+				var graphIds = this.createGraphIds(graphId);
 				appView.getTermData([ graphIds ], startTime, endTime);
 			},
 			getData : function() {
 
 				var measurementListMap = {};
 				var dataMap = [];
-				var data = [];
+				var data = {};
 				var instance = this;
 				var measurementItemName;
 				var measurmentListm = {};
 
-				_
-						.each(
-								this.collection.models,
-								function(model, index) {
-									measurementItemName = model
-											.get("measurementItemName");
+				_.each(this.collection.models, function(model, index) {
+					measurementItemName = model
+							.get("measurementItemName");
+					if(data[measurementItemName] === undefined ){
+						data[measurementItemName] = [];
+						data[measurementItemName].push([new Date(0), null]);
+					}
+					data[measurementItemName].push(instance
+							._parseModel(model));
+					measurementListMap[measurementItemName] = data[measurementItemName];
+				});
 
-									if (data[measurementItemName] === undefined) {
-										data[measurementItemName] = [];
-										data[measurementItemName].push([
-												new Date(0), null, null, null,
-												null, null, null, null, null,
-												null, null, null, null, null,
-												null, null ]);
+				// データが1件もない場合
+				if(_.keys(data).length === 0){
+					data['DEFAULT_NO_DATA'] = [];
+					data['DEFAULT_NO_DATA'].push([new Date(0)]);
+				}
 
-									}
-
-									data[measurementItemName].push(instance
-											._parseModel(model));
-									measurementListMap[measurementItemName] = data[measurementItemName];
-
-								});
-
+				_.each(data, function(dataArray, index){
+					measurementListMap[index] = dataArray;
+				});
 				return measurementListMap;
-
 			},
 			addMaximizeEvent : function(offsetLeft, offsetTop) {
 				var instance = this;
@@ -662,77 +653,122 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 
 				ENS.graphLabel.setEventListener($(labelDom), $("#tempDiv"));
 			},
-			createDataList : function(data) {
-				var dataMap = {};
-				var dataValue = {};
-				dataValue = data;
-				var keys = this.keysByValue(data);
+			createDataList : function(getData) {
+				var instance = this;
+				var currentKeys = [];
 
-				var top;
-				if (keys.length > 5) {
-					top = 5;
-				} else {
-					top = keys.length;
+				// データが表示可能最大系列数より多い場合は、
+				// 各系列の中で直近のデータの値が大きい順に表示する。
+				// 同条件の場合は辞書式とする。
+				var getDataKeysTemp = [];
+				_.each(getData, function(seriesData, seriesDataKey){
+
+					// 系列が持つ直近の時刻およびデータを取得する。
+					var seriesDataDate = new Date(0)
+					var seriesDataValue = null;
+					if(seriesData.length > 0){
+
+						var lastDate = seriesData[seriesData.length - 1][0];
+						var lastValue = seriesData[seriesData.length - 1][1];
+						getDataKeysTemp.push({
+							"seriesKey" : seriesDataKey,
+							"lastDate" : lastDate,
+							"lastValue" : lastValue
+						});
+					}
+
+				});
+
+				getDataKeysTemp.sort(function(before, after){
+
+					// 直近の日付の大小を比較する。
+					if(before.lastDate > after.lastDate){
+						return -1;
+
+					}else if(after.lastDate > before.lastDat){
+						return 1;
+					}
+
+					// 直近のデータを比較する。
+					if(before.lastValue > after.lastValue){
+						return -1;
+					}else if(after.lastValue > before.lastValue){
+						return 1;
+
+					}
+
+					// 系列のキー文字列を比較する。
+					if(before.seriesKey > after.seriesKey){
+						return -1;
+
+					}else if(after.seriesKey > before.seriesKey){
+						return 1;
+
+					}else{
+						return 0;
+					}
+				});
+
+				// ソート結果から表示可能系列数のみを抽出する。
+				getDataKeysTemp = getDataKeysTemp.slice(0, ENS.mulResGraphView.series.number);
+				var currentKeysTemp = _.pluck(getDataKeysTemp, "seriesKey");
+
+				// previousKeysとcurrentKeysTempを比較して含まれていないキーを算出する。
+				// キーが全て含まれている場合は、前回のソート結果を優先する。
+				if(_.difference(currentKeysTemp, this.previousKeys).length = 0 &&
+					currentKeysTemp.length === this.previousKeys.length){
+					currentKeys = this.previousKeys;
+				}else {
+					currentKeys = currentKeysTemp;
+					this.previousKeys = currentKeys;
 				}
 
-				if (this.isFirstCreate) {
-					this.previousKeys = keys;
-					this.isFirstCreate = false;
-				} else {
-					var tempKey = this.previousKeys.slice();
-					for ( var keyIndex = 0; keyIndex < top; keyIndex++) {
-						var found = false;
-						for ( var iKey = 0; iKey < this.previousKeys.length; iKey++) {
-							if (this.previousKeys[iKey] === keys[keyIndex]) {
-								found = true;
-
-							}
-						}
-						if (!found) {
-							tempKey.push(keys[keyIndex]);
-						}
-
-					}
-
-					this.previousKeys = tempKey.slice();
-
-					for ( var keyIndex2 = 0; keyIndex2 < top; keyIndex2++) {
-						tempKey.splice(keys[keyIndex2]);
-					}
-
-					for ( var tempIndex = 0; tempIndex < tempKey.length; tempIndex++) {
-						this.previousKeys.splice(tempKey[tempIndex]);
-					}
-				}
 				this.labelNames = [];
 				this.labelNames.push("Date");
-				for ( var keyIndex3 = 0; keyIndex3 < top; keyIndex3++) {
-					var value = dataValue[this.previousKeys[keyIndex3]];
-					this.labelNames.push(this.previousKeys[keyIndex3]);
-					_.each(value, function(valueData, index) {
-						var valueD = valueData;
-						if (dataMap[valueD[0]] === undefined
-								|| dataMap[valueD[0]] === null) {
-							dataMap[valueD[0]] = valueD;
-						} else if (dataMap[valueD[0]] !== undefined
-								|| dataMap[valueD[0]] !== null) {
 
-							var list = dataMap[valueD[0]];
-							list.push(valueD[1]);
-							dataMap[valueD[0]] = list;
+				var dataMap = {};
+				_.each(currentKeys, function(currentKey, currentKeysIndex){
+
+					// ラベル名に系列値を設定。
+					instance.labelNames.push(currentKey);
+
+					var dataListOfEveryKey = getData[currentKey];
+					_.each(dataListOfEveryKey, function(dataList, dataListIndex){
+
+						// 時刻データを取得する。
+						// 同一時刻データが未取得の場合は配列を生成する。
+						var dateData = dataList[0];
+						var valueData = dataList[1];
+
+						var dataArray
+						if(_.has(dataMap, dateData)){
+							dataArray = dataMap[dateData];
+
+						}else{
+							dataArray = new Array(currentKeys.length);
+
+							// いずれかの系列にデータが存在しない場合を考慮し、
+							// あらかじめnullで初期化しておく。
+							_.each(dataArray, function(dataTemp, dataTempIndex){
+								dataArray[dataTempIndex] = null;
+							});
+							dataMap[dateData] = dataArray;
+
+						}
+						if (currentKeysIndex !== 0 || valueData !== undefined) {
+						  dataArray[currentKeysIndex] = valueData;
 						}
 					});
-				}
-
-				var dataFinal = [];
-				$.map(dataMap, function(value, key) {
-
-					dataFinal.push(value);
 				});
-				if (dataFinal != null && dataFinal.length > 1) {
-					dataFinal[0].splice(dataFinal[1].length,
-							(dataFinal[0].length - dataFinal[1].length));
-				}
-				return dataFinal;
+
+				var returnDataArray = [];
+
+				// 時刻を「キー値」、各系列ごとの値の配列を「値」とする連想配列を、
+				// 時刻ごとの[時刻, 系列の値1,系列の値2....]の2次元配列に変換する。
+				_.each(dataMap, function(dataMapValue, dateData){
+					returnDataArray.push(Array.concat(new Date(dateData), dataMapValue));
+				});
+
+				return returnDataArray;
 			}
 		});

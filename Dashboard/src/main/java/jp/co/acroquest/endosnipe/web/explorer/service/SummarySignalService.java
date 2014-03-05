@@ -344,6 +344,10 @@ public class SummarySignalService
     {
         SummarySignalInfo summarySignalInfo = new SummarySignalInfo();
         summarySignalInfo = summarySignalInfoDao.selectByName(summarySignalName);
+        if (summarySignalInfo == null)
+        {
+            return null;
+        }
         SummarySignalDefinitionDto summarySignalDto =
                 this.convertSummarySignalDtos(summarySignalInfo);
 

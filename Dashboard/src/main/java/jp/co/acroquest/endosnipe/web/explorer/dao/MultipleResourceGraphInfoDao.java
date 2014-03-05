@@ -26,7 +26,9 @@
 package jp.co.acroquest.endosnipe.web.explorer.dao;
 
 import java.util.List;
+import java.util.Map;
 
+import jp.co.acroquest.endosnipe.web.explorer.entity.ChildGraphInfo;
 import jp.co.acroquest.endosnipe.web.explorer.entity.MultipleResourceGraphInfo;
 
 /**
@@ -99,4 +101,11 @@ public interface MultipleResourceGraphInfoDao
      * @return sequence no of multipleResourceGraph
      */
     int selectSequenceNum(final MultipleResourceGraphInfo multipleResourceGraphInfo);
+
+    /**
+     * Select directories that parent has the parentTreeId.
+     * @param parentTreeId parenetTreeId
+     * @return directories that parent has the parentTreeId
+     */
+    List<ChildGraphInfo> selectDirectChildren(final Map<String, Object> map);
 }
