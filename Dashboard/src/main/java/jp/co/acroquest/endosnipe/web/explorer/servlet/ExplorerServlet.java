@@ -25,31 +25,10 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.web.explorer.servlet;
 
-import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
-import jp.co.acroquest.endosnipe.communicator.CommunicationClient;
-import jp.co.acroquest.endosnipe.communicator.CommunicationFactory;
-import jp.co.acroquest.endosnipe.communicator.entity.ConnectNotifyData;
-import jp.co.acroquest.endosnipe.web.explorer.config.AgentSetting;
-import jp.co.acroquest.endosnipe.web.explorer.config.DataBaseConfig;
-import jp.co.acroquest.endosnipe.web.explorer.constants.LogMessageCodes;
-import jp.co.acroquest.endosnipe.web.explorer.listener.collector.AlarmNotifyListener;
-import jp.co.acroquest.endosnipe.web.explorer.listener.collector.AlarmThreadDumpNotifyListener;
-import jp.co.acroquest.endosnipe.web.explorer.listener.collector.CollectorListener;
-import jp.co.acroquest.endosnipe.web.explorer.listener.collector.SignalStateChangeListener;
-import jp.co.acroquest.endosnipe.web.explorer.listener.collector.SummarySignalStateChangeListener;
-import jp.co.acroquest.endosnipe.web.explorer.listener.collector.TreeStateAddListener;
-import jp.co.acroquest.endosnipe.web.explorer.listener.collector.TreeStateDeleteListener;
-import jp.co.acroquest.endosnipe.web.explorer.listener.javelin.JavelinNotifyListener;
-import jp.co.acroquest.endosnipe.web.explorer.manager.ConnectionClient;
-import jp.co.acroquest.endosnipe.web.explorer.manager.DatabaseManager;
-
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * WebDashボードの通信を行うサーブレットです。
@@ -83,90 +62,90 @@ public class ExplorerServlet extends HttpServlet
     public void init()
         throws ServletException
     {
-        //　通信用オブジェクトの作成
-        DataBaseConfig dbConfig = null;
-
-        // DBの設定が行われるのを待ち続ける。
-        while (true)
-        {
-
-            DatabaseManager manager = DatabaseManager.getInstance();
-            dbConfig = manager.getDataBaseConfig();
-            if (dbConfig != null)
-            {
-                break;
-            }
-            try
-            {
-                Thread.sleep(SLEEP_TIME);
-            }
-            catch (InterruptedException ex)
-            {
-                LOGGER.log(LogMessageCodes.FAIL_READ_DB_SETTING, SLEEP_TIME);
-            }
-        }
-        ApplicationContext context =
-                new ClassPathXmlApplicationContext(
-                                                   "jp/co/acroquest/endosnipe/web/explorer/quartz/propertySetting-quartz.xml");
-        // client modeの場合、設定ファイルのエージェントごとに、threadを作成する
-        if ("client".equals(dbConfig.getConnectionMode()))
-        {
-
-            List<AgentSetting> agentSettings = dbConfig.getAgentSettingList();
-
-            ConnectionClient connectionClient = ConnectionClient.getInstance();
-            List<CommunicationClient> clientList = connectionClient.getClientList();
-            for (int cnt = 0; cnt < agentSettings.size(); cnt++)
-            {
-                AgentSetting setting = agentSettings.get(cnt);
-                // DataCollectorに接続する。
-                // TODO 複数エージェント対応・エラーチェック
-                String javelinHost = setting.acceptHost_;
-                int javelinPort = setting.acceptPort_;
-                int agentId = cnt + 1;
-                String clientId = createClientId(javelinHost, javelinPort);
-
-                CommunicationClient client =
-                        CommunicationFactory.getCommunicationClient("DataCollector-ClientThread-"
-                                + clientId);
-
-                client.init(javelinHost, javelinPort);
-                client.addTelegramListener(new CollectorListener(agentId, setting.databaseName_));
-                client.addTelegramListener(new AlarmNotifyListener(agentId));
-                client.addTelegramListener(new SignalStateChangeListener());
-                client.addTelegramListener(new SummarySignalStateChangeListener());
-                client.addTelegramListener(new TreeStateAddListener());
-                client.addTelegramListener(new TreeStateDeleteListener());
-                client.addTelegramListener(new AlarmThreadDumpNotifyListener());
-
-                ConnectNotifyData connectNotify = new ConnectNotifyData();
-                connectNotify.setKind(ConnectNotifyData.KIND_CONTROLLER);
-                connectNotify.setPurpose(ConnectNotifyData.PURPOSE_GET_RESOURCE);
-                connectNotify.setAgentName(setting.databaseName_);
-
-                client.connect(connectNotify);
-                clientList.add(client);
-            }
-        }
-        else if ("server".equals(dbConfig.getConnectionMode()))
-        {
-            ConnectionClient connectionClient = ConnectionClient.getInstance();
-            List<CommunicationClient> clientList = connectionClient.getClientList();
-
-            CommunicationClient client =
-                    CommunicationFactory.getCommunicationClient("DataCollector-JavelinNotify-Thread");
-            client.init(dbConfig.getServerModeAgentSetting().acceptHost_,
-                        dbConfig.getServerModeAgentSetting().acceptPort_);
-            ConnectNotifyData connectNotify = new ConnectNotifyData();
-            connectNotify.setKind(ConnectNotifyData.KIND_CONTROLLER);
-            connectNotify.setPurpose(ConnectNotifyData.PURPOSE_GET_DATABASE);
-            connectNotify.setAgentName("noDatabase");
-            client.addTelegramListener(new JavelinNotifyListener());
-            client.addTelegramListener(new AlarmThreadDumpNotifyListener());
-
-            client.connect(connectNotify);
-            clientList.add(client);
-        }
+        //        //　通信用オブジェクトの作成
+        //        DataBaseConfig dbConfig = null;
+        //
+        //        // DBの設定が行われるのを待ち続ける。
+        //        while (true)
+        //        {
+        //
+        //            DatabaseManager manager = DatabaseManager.getInstance();
+        //            dbConfig = manager.getDataBaseConfig();
+        //            if (dbConfig != null)
+        //            {
+        //                break;
+        //            }
+        //            try
+        //            {
+        //                Thread.sleep(SLEEP_TIME);
+        //            }
+        //            catch (InterruptedException ex)
+        //            {
+        //                LOGGER.log(LogMessageCodes.FAIL_READ_DB_SETTING, SLEEP_TIME);
+        //            }
+        //        }
+        //        ApplicationContext context =
+        //                new ClassPathXmlApplicationContext(
+        //                                                   "jp/co/acroquest/endosnipe/web/explorer/quartz/propertySetting-quartz.xml");
+        //        // client modeの場合、設定ファイルのエージェントごとに、threadを作成する
+        //        if ("client".equals(dbConfig.getConnectionMode()))
+        //        {
+        //
+        //            List<AgentSetting> agentSettings = dbConfig.getAgentSettingList();
+        //
+        //            ConnectionClient connectionClient = ConnectionClient.getInstance();
+        //            List<CommunicationClient> clientList = connectionClient.getClientList();
+        //            for (int cnt = 0; cnt < agentSettings.size(); cnt++)
+        //            {
+        //                AgentSetting setting = agentSettings.get(cnt);
+        //                // DataCollectorに接続する。
+        //                // TODO 複数エージェント対応・エラーチェック
+        //                String javelinHost = setting.acceptHost_;
+        //                int javelinPort = setting.acceptPort_;
+        //                int agentId = cnt + 1;
+        //                String clientId = createClientId(javelinHost, javelinPort);
+        //
+        //                CommunicationClient client =
+        //                        CommunicationFactory.getCommunicationClient("DataCollector-ClientThread-"
+        //                                + clientId);
+        //
+        //                client.init(javelinHost, javelinPort);
+        //                client.addTelegramListener(new CollectorListener(agentId, setting.databaseName_));
+        //                client.addTelegramListener(new AlarmNotifyListener(agentId));
+        //                client.addTelegramListener(new SignalStateChangeListener());
+        //                client.addTelegramListener(new SummarySignalStateChangeListener());
+        //                client.addTelegramListener(new TreeStateAddListener());
+        //                client.addTelegramListener(new TreeStateDeleteListener());
+        //                client.addTelegramListener(new AlarmThreadDumpNotifyListener());
+        //
+        //                ConnectNotifyData connectNotify = new ConnectNotifyData();
+        //                connectNotify.setKind(ConnectNotifyData.KIND_CONTROLLER);
+        //                connectNotify.setPurpose(ConnectNotifyData.PURPOSE_GET_RESOURCE);
+        //                connectNotify.setAgentName(setting.databaseName_);
+        //
+        //                client.connect(connectNotify);
+        //                clientList.add(client);
+        //            }
+        //        }
+        //        else if ("server".equals(dbConfig.getConnectionMode()))
+        //        {
+        //            ConnectionClient connectionClient = ConnectionClient.getInstance();
+        //            List<CommunicationClient> clientList = connectionClient.getClientList();
+        //
+        //            CommunicationClient client =
+        //                    CommunicationFactory.getCommunicationClient("DataCollector-JavelinNotify-Thread");
+        //            client.init(dbConfig.getServerModeAgentSetting().acceptHost_,
+        //                        dbConfig.getServerModeAgentSetting().acceptPort_);
+        //            ConnectNotifyData connectNotify = new ConnectNotifyData();
+        //            connectNotify.setKind(ConnectNotifyData.KIND_CONTROLLER);
+        //            connectNotify.setPurpose(ConnectNotifyData.PURPOSE_GET_DATABASE);
+        //            connectNotify.setAgentName("noDatabase");
+        //            client.addTelegramListener(new JavelinNotifyListener());
+        //            client.addTelegramListener(new AlarmThreadDumpNotifyListener());
+        //
+        //            client.connect(connectNotify);
+        //            clientList.add(client);
+        //        }
     }
 
     /**

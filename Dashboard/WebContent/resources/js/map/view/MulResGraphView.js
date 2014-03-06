@@ -176,10 +176,19 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 
 				var data = this.getData();
 				var dataFinal = this.createDataList(data);
-
+				
+				var displayLabelNames = [];
+				_.each(this.labelNames, function(index, data){
+					if (index.length <= ENS.graphLabel.MAX_LABEL_LENGTH) {
+						displayLabelNames.push(index);
+					} else {
+						displayLabelNames.push(index.slice(0, ENS.graphLabel.MAX_LABEL_LENGTH) + "...");
+					}
+				});
+				
 				var optionSettings = {
 					// labels : this.datalabel,
-					labels : this.labelNames,
+					labels : displayLabelNames,
 					valueRange : [ 0, this.maxValue * this.yValueMagnification ],
 					title : this.title,
 					xlabel : this.labelX,
@@ -332,6 +341,18 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 					if (dataList.length !== 0) {
 						updateOption['dateWindow'] = [ tempStart, tempEnd ];
 					}
+					
+					// ラベル名を再設定する。
+					var displayLabelNames = [];
+					_.each(this.labelNames, function(index, data){
+						if (index.length <= ENS.graphLabel.MAX_LABEL_LENGTH) {
+							displayLabelNames.push(index);
+						} else {
+							displayLabelNames.push(index.slice(0, ENS.graphLabel.MAX_LABEL_LENGTH) + "...");
+						}
+					});
+					updateOption['labels'] = displayLabelNames;
+					
 					this.entity.updateOptions(updateOption);
 
 					var graphId = this.$el.attr("id") + "_ensgraph";
@@ -653,14 +674,25 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 
 				ENS.graphLabel.setEventListener($(labelDom), $("#tempDiv"));
 			},
+			getMaxValueFromSeriesData : function(seriesData){
+				var max = seriesData[0][1];
+				for(var i=0, len=seriesData.length; i<len; i++){
+					if(seriesData[i][1] <= max){
+						continue;
+					}
+					max = seriesData[i][1];
+				}
+				return max;
+			},
 			createDataList : function(getData) {
 				var instance = this;
 				var currentKeys = [];
 
 				// データが表示可能最大系列数より多い場合は、
-				// 各系列の中で直近のデータの値が大きい順に表示する。
+				// 各系列の中で最大値が大きい順に表示する。
 				// 同条件の場合は辞書式とする。
 				var getDataKeysTemp = [];
+				var instance = this;
 				_.each(getData, function(seriesData, seriesDataKey){
 
 					// 系列が持つ直近の時刻およびデータを取得する。
@@ -668,12 +700,10 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 					var seriesDataValue = null;
 					if(seriesData.length > 0){
 
-						var lastDate = seriesData[seriesData.length - 1][0];
-						var lastValue = seriesData[seriesData.length - 1][1];
+						var maxValue = instance.getMaxValueFromSeriesData(seriesData);
 						getDataKeysTemp.push({
 							"seriesKey" : seriesDataKey,
-							"lastDate" : lastDate,
-							"lastValue" : lastValue
+							"maxValue" : maxValue
 						});
 					}
 
@@ -681,20 +711,11 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 
 				getDataKeysTemp.sort(function(before, after){
 
-					// 直近の日付の大小を比較する。
-					if(before.lastDate > after.lastDate){
+					// 最大値を比較する。
+					if(before.maxValue > after.maxValue){
 						return -1;
-
-					}else if(after.lastDate > before.lastDat){
+					}else if(after.maxValue > before.maxValue){
 						return 1;
-					}
-
-					// 直近のデータを比較する。
-					if(before.lastValue > after.lastValue){
-						return -1;
-					}else if(after.lastValue > before.lastValue){
-						return 1;
-
 					}
 
 					// 系列のキー文字列を比較する。

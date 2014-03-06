@@ -1,5 +1,7 @@
 <?xml version="1.0"?>
 <template>
+	<width>1024</width>
+	<height>600</height>
 	<background>
 		<objectType>IMAGE</objectType>
 		<src>resources/images/user/default_image001.png</src>

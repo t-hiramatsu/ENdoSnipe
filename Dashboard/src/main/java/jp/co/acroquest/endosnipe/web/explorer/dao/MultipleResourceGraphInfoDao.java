@@ -28,7 +28,7 @@ package jp.co.acroquest.endosnipe.web.explorer.dao;
 import java.util.List;
 import java.util.Map;
 
-import jp.co.acroquest.endosnipe.web.explorer.entity.ChildGraphInfo;
+import jp.co.acroquest.endosnipe.web.explorer.entity.ChildResourceInfo;
 import jp.co.acroquest.endosnipe.web.explorer.entity.MultipleResourceGraphInfo;
 
 /**
@@ -89,6 +89,13 @@ public interface MultipleResourceGraphInfoDao
     void delete(final String multipleResourceGraphName);
 
     /**
+     * Delete multipleResourceGraphs by regular expression
+     * 
+     * @param multipleResourceGraphNameRe regular expression
+     */
+    void deleteChildren(final String multipleResourceGraphNameRe);
+
+    /**
      * Delete all of data of multipleResourceGraph.<br />
      */
     void deleteAll();
@@ -107,5 +114,5 @@ public interface MultipleResourceGraphInfoDao
      * @param parentTreeId parenetTreeId
      * @return directories that parent has the parentTreeId
      */
-    List<ChildGraphInfo> selectDirectChildren(final Map<String, Object> map);
+    List<ChildResourceInfo> selectDirectChildren(final Map<String, Object> map);
 }

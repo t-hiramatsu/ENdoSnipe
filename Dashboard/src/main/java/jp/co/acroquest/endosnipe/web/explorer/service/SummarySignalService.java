@@ -336,6 +336,15 @@ public class SummarySignalService
     }
 
     /**
+     * 正規表現で指定した名前のサマリシグナル定義をDBから削除する
+     * @param summarySignalNameRe サマリシグナル名の正規表現
+     */
+    public void deleteChildren(final String summarySignalNameRe)
+    {
+        summarySignalInfoDao.deleteChildren(summarySignalNameRe);
+    }
+
+    /**
      * Summary Signalグラフ定義をDBから取得する。
      * @param summarySignalName Summary Signalグラフ名
      * @return SummarySignalDefinitionグラフ定義のDTOオブジェクト

@@ -42,8 +42,10 @@ import jp.co.acroquest.endosnipe.data.entity.JavelinMeasurementItem;
 import jp.co.acroquest.endosnipe.web.explorer.constants.LogMessageCodes;
 import jp.co.acroquest.endosnipe.web.explorer.constants.TreeMenuConstants;
 import jp.co.acroquest.endosnipe.web.explorer.dao.MultipleResourceGraphInfoDao;
+import jp.co.acroquest.endosnipe.web.explorer.dao.SignalInfoDao;
+import jp.co.acroquest.endosnipe.web.explorer.dao.SummarySignalInfoDao;
 import jp.co.acroquest.endosnipe.web.explorer.dto.TreeMenuDto;
-import jp.co.acroquest.endosnipe.web.explorer.entity.ChildGraphInfo;
+import jp.co.acroquest.endosnipe.web.explorer.entity.ChildResourceInfo;
 import jp.co.acroquest.endosnipe.web.explorer.manager.DatabaseManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,6 +88,14 @@ public class TreeMenuService
     /** 複数グラフ情報Dao。 */
     @Autowired
     protected MultipleResourceGraphInfoDao multipleResourceGraphDao;
+
+    /** 単数シグナル情報Dao。 */
+    @Autowired
+    protected SignalInfoDao signalInfoDao;
+
+    /** サマリシグナル情報Dao。*/
+    @Autowired
+    protected SummarySignalInfoDao summarySignalInfoDao;
 
     /**
      * コンストラクタ
@@ -214,7 +224,7 @@ public class TreeMenuService
 
             Set<String> treeElementSet = new TreeSet<String>(itemNameList);
 
-            List<String> graphNameList = getGraphNameList(parentTreeId);
+            List<String> graphNameList = getResourceNameList(parentTreeId);
 
             treeElementSet.addAll(graphNameList);
             for (String itemName : treeElementSet)
@@ -262,7 +272,7 @@ public class TreeMenuService
      * @param parentTreeId 親TreeId
      * @return 親要素配下に存在する子要素のID
      */
-    private List<String> getGraphNameList(final String parentTreeId)
+    private List<String> getResourceNameList(final String parentTreeId)
     {
         List<String> graphChildList = new ArrayList<String>();
         // MultiResourceGraphのツリーを追加する。
@@ -281,10 +291,14 @@ public class TreeMenuService
         paramMap.put("grandChildLength", length + 2);
         paramMap.put("searchTreeId", searchTreeId);
         paramMap.put("selfElementName", selfElementName);
-        List<ChildGraphInfo> graphInfoList =
-                this.multipleResourceGraphDao.selectDirectChildren(paramMap);
 
-        for (ChildGraphInfo graphInfo : graphInfoList)
+        List<ChildResourceInfo> graphInfoList =
+                this.multipleResourceGraphDao.selectDirectChildren(paramMap);
+        List<ChildResourceInfo> signalInfoList = this.signalInfoDao.selectDirectChildren(paramMap);
+
+        graphInfoList.addAll(signalInfoList);
+
+        for (ChildResourceInfo graphInfo : graphInfoList)
         {
             String child = graphInfo.child;
             boolean grandChild = graphInfo.grandChild;

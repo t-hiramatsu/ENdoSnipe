@@ -28,10 +28,6 @@ import jp.co.acroquest.endosnipe.web.explorer.template.meta.Template;
 public class TemplateConvertUtil
 {
 
-    protected static final int VALUE_W = 1024;
-
-    protected static final int VALUE_H = 768;
-
     private static final String KEY_DASHBOARD_WIDTH = "dashboardWidth";
 
     private static final String KEY_DASHBOARD_HEIGHT = "dashboardHeight";
@@ -39,6 +35,12 @@ public class TemplateConvertUtil
     private static final String KEY_BACKGROUND = "background";
 
     private static final String KEY_RESOURCES = "resources";
+
+    protected static final String TEMPLATE_PREFIX = "/default/template";
+
+    protected static final String SLASH = "/";
+
+    private static final String WILDCARD = "%";
 
     /**
      * テンプレートをマップに変換する
@@ -51,11 +53,13 @@ public class TemplateConvertUtil
         Map<String, Object> result = new HashMap<String, Object>();
 
         //固定値をセット
-        result.put(KEY_DASHBOARD_WIDTH, VALUE_W);
-        result.put(KEY_DASHBOARD_HEIGHT, VALUE_H);
+        result.put(KEY_DASHBOARD_WIDTH, template.getWidth());
+        result.put(KEY_DASHBOARD_HEIGHT, template.getHeight());
 
         //背景をセット
-        Map<String, Object> background = BackgroundCounvertUtil.convert(template.getBackground());
+        Map<String, Object> background =
+                BackgroundCounvertUtil.convert(template.getBackground(), template.getWidth(),
+                                               template.getHeight());
         result.put(KEY_BACKGROUND, background);
 
         //リソース群をセット
@@ -67,5 +71,15 @@ public class TemplateConvertUtil
         result.put(KEY_RESOURCES, resources);
 
         return result;
+    }
+
+    /**
+     * 指定したテンプレート名の配下全てを表す正規表現文字列を取得する
+     * @param name テンプレート名
+     * @return テンプレートの配下全てを表す正規表現文字列
+     */
+    public static String getTreeName(final String name)
+    {
+        return TEMPLATE_PREFIX + SLASH + name + SLASH + WILDCARD;
     }
 }

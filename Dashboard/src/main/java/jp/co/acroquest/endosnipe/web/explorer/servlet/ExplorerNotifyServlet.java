@@ -40,6 +40,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
+import jp.co.acroquest.endosnipe.communicator.CommunicationClient;
+import jp.co.acroquest.endosnipe.communicator.CommunicationFactory;
+import jp.co.acroquest.endosnipe.communicator.entity.ConnectNotifyData;
 import jp.co.acroquest.endosnipe.data.dao.MeasurementInfoDao;
 import jp.co.acroquest.endosnipe.data.db.DBManager;
 import jp.co.acroquest.endosnipe.data.db.DatabaseType;
@@ -49,6 +52,15 @@ import jp.co.acroquest.endosnipe.web.explorer.config.DataBaseConfig;
 import jp.co.acroquest.endosnipe.web.explorer.constants.EventConstants;
 import jp.co.acroquest.endosnipe.web.explorer.constants.LogMessageCodes;
 import jp.co.acroquest.endosnipe.web.explorer.exception.InitializeException;
+import jp.co.acroquest.endosnipe.web.explorer.listener.collector.AlarmNotifyListener;
+import jp.co.acroquest.endosnipe.web.explorer.listener.collector.AlarmThreadDumpNotifyListener;
+import jp.co.acroquest.endosnipe.web.explorer.listener.collector.CollectorListener;
+import jp.co.acroquest.endosnipe.web.explorer.listener.collector.SignalStateChangeListener;
+import jp.co.acroquest.endosnipe.web.explorer.listener.collector.SummarySignalStateChangeListener;
+import jp.co.acroquest.endosnipe.web.explorer.listener.collector.TreeStateAddListener;
+import jp.co.acroquest.endosnipe.web.explorer.listener.collector.TreeStateDeleteListener;
+import jp.co.acroquest.endosnipe.web.explorer.listener.javelin.JavelinNotifyListener;
+import jp.co.acroquest.endosnipe.web.explorer.manager.ConnectionClient;
 import jp.co.acroquest.endosnipe.web.explorer.manager.DatabaseManager;
 import jp.co.acroquest.endosnipe.web.explorer.service.DashboardService;
 import jp.co.acroquest.endosnipe.web.explorer.service.MultipleResourceGraphService;
@@ -97,6 +109,9 @@ public class ExplorerNotifyServlet extends HttpServlet
     private static final String TEMPLATE_EXTENTION = ".xml";
 
     private static final String BLANK = "";
+
+    /** 停止時間   */
+    private static final int SLEEP_TIME = 5000;
 
     /** イベント処理クラスのMap */
     private final Map<Integer, EventProcessor> processorMap_ =
@@ -164,6 +179,8 @@ public class ExplorerNotifyServlet extends HttpServlet
 
         DatabaseManager manager = DatabaseManager.getInstance();
         manager.setDataBaseConfig(dbConfig);
+
+        connectDataCollector();
 
         // テンプレートの読み込み
         TemplateLoader templateLoader = new TemplateLoader();
@@ -315,4 +332,91 @@ public class ExplorerNotifyServlet extends HttpServlet
 
         return config;
     }
+
+    public void connectDataCollector()
+    {
+        //　通信用オブジェクトの作成
+        DataBaseConfig dbConfig = null;
+
+        // DBの設定が行われるのを待ち続ける。
+
+        DatabaseManager manager = DatabaseManager.getInstance();
+        dbConfig = manager.getDataBaseConfig();
+        if (dbConfig == null)
+        {
+            return;
+        }
+        // client modeの場合、設定ファイルのエージェントごとに、threadを作成する
+        if ("client".equals(dbConfig.getConnectionMode()))
+        {
+
+            List<AgentSetting> agentSettings = dbConfig.getAgentSettingList();
+
+            ConnectionClient connectionClient = ConnectionClient.getInstance();
+            List<CommunicationClient> clientList = connectionClient.getClientList();
+            for (int cnt = 0; cnt < agentSettings.size(); cnt++)
+            {
+                AgentSetting setting = agentSettings.get(cnt);
+                // DataCollectorに接続する。
+                // TODO 複数エージェント対応・エラーチェック
+                String javelinHost = setting.acceptHost_;
+                int javelinPort = setting.acceptPort_;
+                int agentId = cnt + 1;
+                String clientId = createClientId(javelinHost, javelinPort);
+
+                CommunicationClient client =
+                        CommunicationFactory.getCommunicationClient("DataCollector-ClientThread-"
+                                + clientId);
+
+                client.init(javelinHost, javelinPort);
+                client.addTelegramListener(new CollectorListener(agentId, setting.databaseName_));
+                client.addTelegramListener(new AlarmNotifyListener(agentId));
+                client.addTelegramListener(new SignalStateChangeListener());
+                client.addTelegramListener(new SummarySignalStateChangeListener());
+                client.addTelegramListener(new TreeStateAddListener());
+                client.addTelegramListener(new TreeStateDeleteListener());
+                client.addTelegramListener(new AlarmThreadDumpNotifyListener());
+
+                ConnectNotifyData connectNotify = new ConnectNotifyData();
+                connectNotify.setKind(ConnectNotifyData.KIND_CONTROLLER);
+                connectNotify.setPurpose(ConnectNotifyData.PURPOSE_GET_RESOURCE);
+                connectNotify.setAgentName(setting.databaseName_);
+
+                client.connect(connectNotify);
+                clientList.add(client);
+            }
+        }
+        else if ("server".equals(dbConfig.getConnectionMode()))
+        {
+            ConnectionClient connectionClient = ConnectionClient.getInstance();
+            List<CommunicationClient> clientList = connectionClient.getClientList();
+
+            CommunicationClient client =
+                    CommunicationFactory.getCommunicationClient("DataCollector-JavelinNotify-Thread");
+            client.init(dbConfig.getServerModeAgentSetting().acceptHost_,
+                        dbConfig.getServerModeAgentSetting().acceptPort_);
+            ConnectNotifyData connectNotify = new ConnectNotifyData();
+            connectNotify.setKind(ConnectNotifyData.KIND_CONTROLLER);
+            connectNotify.setPurpose(ConnectNotifyData.PURPOSE_GET_DATABASE);
+            connectNotify.setAgentName("noDatabase");
+            client.addTelegramListener(new JavelinNotifyListener());
+            client.addTelegramListener(new AlarmThreadDumpNotifyListener());
+
+            client.connect(connectNotify);
+            clientList.add(client);
+        }
+    }
+
+    /**
+     * ホスト名とポート番号からクライアント ID を生成します。<br />
+     *
+     * @param host ホスト名
+     * @param port ポート番号
+     * @return クライアント ID
+     */
+    public static String createClientId(final String host, final int port)
+    {
+        return host + ":" + port;
+    }
+
 }

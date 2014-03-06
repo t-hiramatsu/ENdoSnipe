@@ -81,11 +81,11 @@ public class ResourceConvertUtil extends TemplateConvertUtil
 
     private static final Object VALUE_DEPTH = 0;
 
-    private static final String TEMPLATE_PREFIX = "/default/template";
-
-    private static final String SLASH = "/";
-
     private static final String VALUE_BLANK = "";
+
+    private static final String RESOURCE_TYPE_GRAPH = "graph";
+
+    private static final String RESOURCE_TYPE_SIGNAL = "signal";
 
     private static int currentObjectId__ = 0;
 
@@ -246,6 +246,7 @@ public class ResourceConvertUtil extends TemplateConvertUtil
             map.put(KEY_SHAPE_NAME, property.getShapeName());
             map.put(KEY_SHAPE_TYPE, VALUE_SHAPE_TYPE);
 
+            @SuppressWarnings("unchecked")
             List<Map<String, Object>> attr = (List<Map<String, Object>>)map.get(KEY_PROPERTIES);
             Map<String, Object> propertyMap = attr.get(0);
             propertyMap.remove(KEY_SHAPE_NAME);
@@ -255,14 +256,14 @@ public class ResourceConvertUtil extends TemplateConvertUtil
         else if (objectName.equals(Resource.OBJ_NAME_SIGNAL))
         {
             Property signal = property.getSignal();
-            String signalName = getTreeName(name, signal);
+            String signalName = getTreeName(name, objectName, signal);
             map.put(KEY_ID, signalName);
             map.put(KEY_TEXT, signal.getName());
             return;
         }
         else if (objectName.equals(Resource.OBJ_NAME_GRAPH))
         {
-            String graphName = getTreeName(name, property);
+            String graphName = getTreeName(name, objectName, property);
             map.put(KEY_ID, graphName);
             return;
         }
@@ -275,17 +276,29 @@ public class ResourceConvertUtil extends TemplateConvertUtil
      * @param property プロパティオブジェクト
      * @return ツリー上の配置を表す名前
      */
-    public static String getTreeName(final String templateName, final Property property)
+    public static String getTreeName(final String templateName, final String objectName,
+            final Property property)
     {
         String resourceId = property.getResourceId();
+        String resourceType = null;
+        if (objectName.equals(Resource.OBJ_NAME_GRAPH))
+        {
+            resourceType = RESOURCE_TYPE_GRAPH;
+        }
+        else if (objectName.equals(Resource.OBJ_NAME_SIGNAL))
+        {
+            resourceType = RESOURCE_TYPE_SIGNAL;
+        }
+
         if (resourceId == null || VALUE_BLANK.equals(resourceId))
         {
             String name = property.getName();
-            return TEMPLATE_PREFIX + SLASH + templateName + SLASH + name;
+            return TEMPLATE_PREFIX + SLASH + templateName + SLASH + resourceType + SLASH + name;
         }
         else
         {
             return property.getResourceId();
         }
     }
+
 }

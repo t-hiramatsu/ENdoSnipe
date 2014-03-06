@@ -17,7 +17,7 @@ package jp.co.acroquest.endosnipe.web.explorer.entity;
  * @author fujii
  *
  */
-public class ChildGraphInfo
+public class ChildResourceInfo
 {
     /** 子要素のID */
     public String child;
