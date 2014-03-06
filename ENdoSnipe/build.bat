@@ -56,7 +56,7 @@ pushd ..\Dashboard
 
 call ant dist
 
-copy target\Dashboard.war ..\ENdoSnipe\release
+copy target\ENdoSnipe.war ..\ENdoSnipe\release
 
 popd
 
