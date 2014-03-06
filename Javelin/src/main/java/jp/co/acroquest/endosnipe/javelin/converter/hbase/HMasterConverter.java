@@ -26,6 +26,7 @@
 package jp.co.acroquest.endosnipe.javelin.converter.hbase;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
@@ -50,6 +51,12 @@ public class HMasterConverter extends AbstractConverter {
 	/** コンバータ名 */
 	private static final String CONVERTER_NAME = "HMasterConverter";
 
+	private static final String HSERVER_INFO = "org.apache.hadoop.hbase.HServerInfo";
+	
+	private static final String HSERVER_LOAD = "org.apache.hadoop.hbase.HServerLoad";
+	
+	private static final String SERVER_NAME = "org.apache.hadoop.hbase.ServerName";
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -71,18 +78,69 @@ public class HMasterConverter extends AbstractConverter {
 			// インターフェースの追加
 			CtClass accessorClass = getClassPool().get(
 					HMasterAccessor.class.getName());
+			
+			String convertParams;
+			String serverAddress;
+			String startCode;
+			String inputLoad;
+			String infoPort;
+			String serverName;
+			String hostname;
+			
+			String convertArgsInGetServerInfo;
+			String resMapKey;
+			
+			String inputKeyType;
+			String inputValueDecl;
+			String convertArgsInGetAssignments;
+			
+			Collection<String> refClasses = ctClass.getRefClasses();
+			if (refClasses.contains(HSERVER_INFO)) {
+				// cdh3
+				convertParams = HSERVER_INFO + " inputInfo";
+				serverAddress = "inputInfo.getServerAddress().getInetSocketAddress()";
+				startCode = "inputInfo.getStartCode()";
+				inputLoad = "inputInfo.getLoad()";
+				infoPort = "inputInfo.getInfoPort()";
+				serverName = "inputInfo.getServerName()";
+				hostname = "inputInfo.getHostname()";
+				
+				convertArgsInGetServerInfo = "(org.apache.hadoop.hbase.HServerInfo)inputInfoEntry.getValue()";
+				resMapKey = "inputInfoEntry.getKey()";
+				
+				inputKeyType = HSERVER_INFO;
+				inputValueDecl = "";
+				convertArgsInGetAssignments = "inputInfo";
+			}
+			else {
+				// cdh4
+				convertParams = SERVER_NAME + " serverName, " + HSERVER_LOAD + " hServerLoad";
+				serverAddress = "new java.net.InetSocketAddress(serverName.getHostname(), serverName.getPort())";
+				startCode = "serverName.getStartcode()";
+				inputLoad = "hServerLoad";
+				infoPort = "serverName.getPort()";
+				serverName = "serverName.getServerName()";
+				hostname = "serverName.getHostname()";
+				
+				convertArgsInGetServerInfo = "(" + SERVER_NAME + ")inputInfoEntry.getKey(), (" + HSERVER_LOAD + ")inputInfoEntry.getValue()";
+				resMapKey = "((org.apache.hadoop.hbase.ServerName)inputInfoEntry.getKey()).getServerName()";
+				
+				inputKeyType = SERVER_NAME;
+				inputValueDecl = HSERVER_LOAD + " inputLoad = this.serverManager.getOnlineServers().get(inputInfo);";
+				convertArgsInGetAssignments = "(" + inputKeyType + ")inputInfo, (" + HSERVER_LOAD + ")inputLoad";
+			}
 
 			// HServerInfoを、HBaseのクラスから、Javelin用クラスに変換する。
 			// RegionLoadについては未対応。
 			CtMethod convertServerInfoMethod = CtMethod
 					.make(""
-							+ "public jp.co.acroquest.endosnipe.javelin.converter.hbase.monitor.HServerInfo convertServerInfo(org.apache.hadoop.hbase.HServerInfo inputInfo) { "
+							+ "public jp.co.acroquest.endosnipe.javelin.converter.hbase.monitor.HServerInfo convertServerInfo(" + convertParams + ") { "
 							+ "            jp.co.acroquest.endosnipe.javelin.converter.hbase.monitor.HServerInfo info ="
 							+ "                                                                                         new jp.co.acroquest.endosnipe.javelin.converter.hbase.monitor.HServerInfo();"
-							+ "            info.setServerAddress(inputInfo.getServerAddress().getInetSocketAddress());"
-							+ "            info.setStartCode(inputInfo.getStartCode());"
+							+ "            info.setServerAddress(" + serverAddress + ");"
+							+ "            info.setStartCode(" + startCode + ");"
 							+ "" //
-							+ "            org.apache.hadoop.hbase.HServerLoad inputLoad = inputInfo.getLoad();"
+							+ "            org.apache.hadoop.hbase.HServerLoad inputLoad = " + inputLoad + ";"
 							+ "            jp.co.acroquest.endosnipe.javelin.converter.hbase.monitor.HServerLoad load ="
 							+ "                                                                                         new jp.co.acroquest.endosnipe.javelin.converter.hbase.monitor.HServerLoad();"
 							+ "" //
@@ -91,9 +149,9 @@ public class HMasterConverter extends AbstractConverter {
 							+ "            load.setNumberOfRegions(inputLoad.getNumberOfRegions());"
 							+ "            load.setNumberOfRequests(inputLoad.getNumberOfRequests());"
 							+ "            info.setLoad(load); " //
-							+ "            info.setInfoPort(inputInfo.getInfoPort());"
-							+ "            info.setServerName(inputInfo.getServerName());"
-							+ "            info.setHostname(inputInfo.getHostname());"
+							+ "            info.setInfoPort(" + infoPort + ");"
+							+ "            info.setServerName(" + serverName + ");"
+							+ "            info.setHostname(" + hostname + ");"
 							+ "        return info;" + //
 							"}", ctClass);
 			ctClass.addMethod(convertServerInfoMethod);
@@ -112,9 +170,9 @@ public class HMasterConverter extends AbstractConverter {
 							+ "        while (it.hasNext())"
 							+ "        {" //
 							+ "            java.util.Map.Entry inputInfoEntry = (java.util.Map.Entry)it.next();"
-							+ "            jp.co.acroquest.endosnipe.javelin.converter.hbase.monitor.HServerInfo info = convertServerInfo((org.apache.hadoop.hbase.HServerInfo)inputInfoEntry.getValue());"
+							+ "            jp.co.acroquest.endosnipe.javelin.converter.hbase.monitor.HServerInfo info = convertServerInfo(" + convertArgsInGetServerInfo + ");"
 							+ "            " //
-							+ "            resMap.put(inputInfoEntry.getKey(), info);"
+							+ "            resMap.put(" + resMapKey + ", info);"
 							+ "        }" //
 							+ "        " //
 							+ "        return (resMap);" //
@@ -192,9 +250,9 @@ public class HMasterConverter extends AbstractConverter {
 							+ "        while (inputIterator.hasNext())"
 							+ "        {" //
 							+ "            java.util.Map.Entry inputInfoEntry = (java.util.Map.Entry)inputIterator.next();"
-							+ "            org.apache.hadoop.hbase.HServerInfo inputInfo ="
-							+ "                                                            (org.apache.hadoop.hbase.HServerInfo)inputInfoEntry.getKey();"
-							+ "            jp.co.acroquest.endosnipe.javelin.converter.hbase.monitor.HServerInfo info = convertServerInfo(inputInfo);"
+							+ "            " + inputKeyType + " inputInfo = (" + inputKeyType + ")inputInfoEntry.getKey();"
+							+ "            " + inputValueDecl
+							+ "            jp.co.acroquest.endosnipe.javelin.converter.hbase.monitor.HServerInfo info = convertServerInfo(" + convertArgsInGetAssignments + ");"
 							+ "" //
 							+ "            java.util.List regionList = new java.util.ArrayList();"
 							+ "            java.util.List inputRegionList = (java.util.List)inputInfoEntry.getValue();"
