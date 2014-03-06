@@ -45,7 +45,8 @@ public class BackgroundCounvertUtil extends ResourceConvertUtil
      * Background型データを、情報が追加されたMapに変換する
      * @return　変換したマップ
      */
-    public static Map<String, Object> convert(final Background background)
+    public static Map<String, Object> convert(final Background background, final Integer width,
+            final Integer height)
     {
         Map<String, Object> result = new HashMap<String, Object>();
 
@@ -54,13 +55,12 @@ public class BackgroundCounvertUtil extends ResourceConvertUtil
         result.put(KEY_OBJECT_NAME, VALUE_OBJECT_NAME);
         result.put(KEY_X, VALUE_X);
         result.put(KEY_Y, VALUE_Y);
-        result.put(KEY_W, VALUE_W);
-        result.put(KEY_H, VALUE_H);
         result.put(KEY_DEPTH, VALUE_DEPTH);
         result.put(KEY_SHAPE_NAME, VALUE_SHAPE_NAME);
         result.put(KEY_SHAPE_TYPE, VALUE_SHAPE_TYPE);
 
-        //TODO: 高さを表示エレメントに合わせて変更する。
+        result.put(KEY_W, width);
+        result.put(KEY_H, height);
 
         //テンプレートからの読み込み値をセット
         List<Map<String, Object>> attr = new ArrayList<Map<String, Object>>();

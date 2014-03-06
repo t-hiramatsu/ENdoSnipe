@@ -26,7 +26,9 @@
 package jp.co.acroquest.endosnipe.web.explorer.dao;
 
 import java.util.List;
+import java.util.Map;
 
+import jp.co.acroquest.endosnipe.web.explorer.entity.ChildResourceInfo;
 import jp.co.acroquest.endosnipe.web.explorer.entity.SignalInfo;
 
 /**
@@ -88,6 +90,12 @@ public interface SignalInfoDao
     void delete(final String signalName);
 
     /**
+     * 正規表現で指定したシグナル名に該当するシグナル情報全てをDBから削除する。
+     * @param signalNameRe シグナル名の正規表現
+     */
+    void deleteChildren(final String signalNameRe);
+
+    /**
      * すべてのレコードを削除します。<br />
      */
     void deleteAll();
@@ -100,4 +108,11 @@ public interface SignalInfoDao
      * @return 直前のシーケンス番号
      */
     int selectSequenceNum(final SignalInfo signalInfo);
+
+    /**
+     * Select directories that parent has the parentTreeId.
+     * @param parentTreeId parenetTreeId
+     * @return directories that parent has the parentTreeId
+     */
+    List<ChildResourceInfo> selectDirectChildren(final Map<String, Object> map);
 }

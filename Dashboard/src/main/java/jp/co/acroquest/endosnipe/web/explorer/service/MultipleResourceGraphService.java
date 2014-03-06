@@ -300,6 +300,15 @@ public class MultipleResourceGraphService
     }
 
     /**
+     * 複数グラフ名を正規表現で指定してDBから削除する
+     * @param multipleResourceGraphNameRe 複数グラフ名の正規表現
+     */
+    public void deleteMultipleResourceGraphs(final String multipleResourceGraphNameRe)
+    {
+        multipleResourceGraphDao.deleteChildren(multipleResourceGraphNameRe);
+    }
+
+    /**
      * MultipleResourceGraphDefinitionDtoオブジェクトをMultipleResourceGraphInfoオブジェクトに変換する。
      * 
      * @param definitionDto

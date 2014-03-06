@@ -48,6 +48,12 @@ public interface SummarySignalInfoDao
     int selectSequenceNum(final SummarySignalInfo summarySignalInfo);
 
     /**
+     * 正規表現で指定した名前のサマリシグナルをDBから削除する
+     * @param nameRe サマリシグナル名の正規表現
+     */
+    void deleteChildren(final String nameRe);
+
+    /**
      * Get the SummarySignalInfo by Name.
      *
      * @param summarySignalName

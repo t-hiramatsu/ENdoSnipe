@@ -44,6 +44,10 @@ public class Property
 
     private Integer period;
 
+    private String type;
+
+    private Integer method;
+
     private Property border;
 
     private Property label;
@@ -200,6 +204,26 @@ public class Property
         this.period = period;
     }
 
+    public String getType()
+    {
+        return type;
+    }
+
+    public void setType(final String type)
+    {
+        this.type = type;
+    }
+
+    public Integer getMethod()
+    {
+        return method;
+    }
+
+    public void setMethod(final Integer method)
+    {
+        this.method = method;
+    }
+
     public Property getBorder()
     {
         return border;
@@ -241,6 +265,7 @@ public class Property
         result = prime * result + ((fontSize == null) ? 0 : fontSize.hashCode());
         result = prime * result + ((label == null) ? 0 : label.hashCode());
         result = prime * result + ((level == null) ? 0 : level.hashCode());
+        result = prime * result + ((method == null) ? 0 : method.hashCode());
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime * result + ((period == null) ? 0 : period.hashCode());
         result = prime * result + ((resourceId == null) ? 0 : resourceId.hashCode());
@@ -253,6 +278,7 @@ public class Property
         result = prime * result + ((text == null) ? 0 : text.hashCode());
         result = prime * result + ((textAnchor == null) ? 0 : textAnchor.hashCode());
         result = prime * result + ((threshold == null) ? 0 : threshold.hashCode());
+        result = prime * result + ((type == null) ? 0 : type.hashCode());
         return result;
     }
 
@@ -335,6 +361,17 @@ public class Property
             }
         }
         else if (!level.equals(other.level))
+        {
+            return false;
+        }
+        if (method == null)
+        {
+            if (other.method != null)
+            {
+                return false;
+            }
+        }
+        else if (!method.equals(other.method))
         {
             return false;
         }
@@ -470,6 +507,17 @@ public class Property
         {
             return false;
         }
+        if (type == null)
+        {
+            if (other.type != null)
+            {
+                return false;
+            }
+        }
+        else if (!type.equals(other.type))
+        {
+            return false;
+        }
         return true;
     }
 
@@ -481,8 +529,8 @@ public class Property
                 + ", fontSize=" + fontSize + ", textAnchor=" + textAnchor + ", fontFamily="
                 + fontFamily + ", text=" + text + ", resourceId=" + resourceId + ", target="
                 + target + ", name=" + name + ", level=" + level + ", threshold=" + threshold
-                + ", period=" + period + ", border=" + border + ", label=" + label + ", signal="
-                + signal + "]";
+                + ", period=" + period + ", type=" + type + ", method=" + method + ", border="
+                + border + ", label=" + label + ", signal=" + signal + "]";
     }
 
 }

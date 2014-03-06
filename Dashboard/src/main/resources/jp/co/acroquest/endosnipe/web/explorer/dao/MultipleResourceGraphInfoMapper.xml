@@ -13,7 +13,7 @@
 		<result property="measurementItemPattern_" column="MEASUREMENT_ITEM_PATTERN" />
 	</resultMap>
 
-	<resultMap id="ChildDirectoryMap" type="jp.co.acroquest.endosnipe.web.explorer.entity.ChildGraphInfo">
+	<resultMap id="ChildDirectoryMap" type="jp.co.acroquest.endosnipe.web.explorer.entity.ChildResourceInfo">
 		<id property="child" column="child"/>
 		<result property="grandChild" column="grandchild"/>
 	</resultMap>
@@ -69,6 +69,14 @@
 	<delete id="deleteAll"
 		parameterType="jp.co.acroquest.endosnipe.web.explorer.entity.MultipleResourceGraphInfo">
 		delete from MULTIPLE_RESOURCE_GRAPH
+	</delete>
+	
+	<delete id="deleteChildren">
+		delete from MULTIPLE_RESOURCE_GRAPH 
+		where 
+		MULTIPLE_RESOURCE_GRAPH_NAME
+		like
+		#{multipleResourceGraphNameRe_}
 	</delete>
 
 	<select id="selectSequenceNum" resultType="int">

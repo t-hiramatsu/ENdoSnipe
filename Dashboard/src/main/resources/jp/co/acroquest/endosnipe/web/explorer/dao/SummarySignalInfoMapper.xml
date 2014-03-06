@@ -41,5 +41,13 @@
 		SUMMARY_SIGNAL_NAME
 		= #{summarySignalName}
 	</select>
+	
+	<delete id="deleteChildren">
+		delete from SUMMARY_SIGNAL_DEFINITION
+		where
+		SUMMARY_SIGNAL_NAME
+		like
+		#{nameRe}
+	</delete>
 
 </mapper>

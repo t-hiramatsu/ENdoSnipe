@@ -6,6 +6,8 @@ ENS.graphLabel.LABEL_WIDTH = 200;
 ENS.graphLabel.LABEL_TOP_OFFSET = 30;
 // カーソルとグラフラベルのサイドオフセット
 ENS.graphLabel.LABEL_LEFT_OFFSET = 10;
+// 最大系列表示文字数
+ENS.graphLabel.MAX_LABEL_LENGTH = 200;
 // グラフのフルパスのタイトル
 ENS.graphLabel.fullPathTitle = "";
 

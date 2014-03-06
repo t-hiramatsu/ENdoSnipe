@@ -25,6 +25,10 @@ public class Template
 
     private List<Resource> resources;
 
+    private Integer width;
+
+    private Integer height;
+
     @XmlElement(name = "background")
     public Background getBackground()
     {
@@ -48,10 +52,26 @@ public class Template
         this.resources = resources;
     }
 
-    @Override
-    public String toString()
+    @XmlElement(name = "width")
+    public Integer getWidth()
     {
-        return "Template [background=" + background + ", resources=" + resources + "]";
+        return width;
+    }
+
+    public void setWidth(final Integer width)
+    {
+        this.width = width;
+    }
+
+    @XmlElement(name = "height")
+    public Integer getHeight()
+    {
+        return height;
+    }
+
+    public void setHeight(final Integer height)
+    {
+        this.height = height;
     }
 
     @Override
@@ -60,7 +80,9 @@ public class Template
         final int prime = 31;
         int result = 1;
         result = prime * result + ((background == null) ? 0 : background.hashCode());
+        result = prime * result + ((height == null) ? 0 : height.hashCode());
         result = prime * result + ((resources == null) ? 0 : resources.hashCode());
+        result = prime * result + ((width == null) ? 0 : width.hashCode());
         return result;
     }
 
@@ -91,6 +113,17 @@ public class Template
         {
             return false;
         }
+        if (height == null)
+        {
+            if (other.height != null)
+            {
+                return false;
+            }
+        }
+        else if (!height.equals(other.height))
+        {
+            return false;
+        }
         if (resources == null)
         {
             if (other.resources != null)
@@ -102,7 +135,25 @@ public class Template
         {
             return false;
         }
+        if (width == null)
+        {
+            if (other.width != null)
+            {
+                return false;
+            }
+        }
+        else if (!width.equals(other.width))
+        {
+            return false;
+        }
         return true;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Template [background=" + background + ", resources=" + resources + ", width="
+                + width + ", height=" + height + "]";
     }
 
 }

@@ -397,6 +397,15 @@ public class SignalService
     }
 
     /**
+     * 正規表現で指定したシグナル名に該当するシグナル定義をDBから削除する
+     * @param signalNameRe シグナル名の正規表現
+     */
+    public void deleteChildren(final String signalNameRe)
+    {
+        signalInfoDao.deleteChildren(signalNameRe);
+    }
+
+    /**
      * SignalDefinitionDtoオブジェクトをSignalInfoオブジェクトに変換する。
      * 
      * @param definitionDto

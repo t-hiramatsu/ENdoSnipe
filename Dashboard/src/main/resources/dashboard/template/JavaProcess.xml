@@ -1,5 +1,7 @@
 <?xml version="1.0"?>
 <template>
+	<width>1024</width>
+	<height>600</height>
 	<background>
 		<objectType>IMAGE</objectType>
 		<src>resources/images/user/default_image001.png</src>
@@ -32,10 +34,10 @@
 			<x>50</x>
 			<y>65</y>
 			<w>400</w>
-			<h>300</h>
+			<h>220</h>
 			<property>
 				<resourceId></resourceId>
-				<name>CPU Usage(OS)</name>
+				<name>CPU Usage(OS):%</name>
 				<target>.*/system/cpu/usage/total.*</target>
 			</property>
 		</resource>
@@ -44,19 +46,19 @@
 			<x>500</x>
 			<y>65</y>
 			<w>400</w>
-			<h>300</h>
+			<h>220</h>
 			<property>
 				<resourceId></resourceId>
-				<name>CPU Usage(Process)</name>
+				<name>CPU Usage(Process):%</name>
 				<target>.*/process/cpu/usage/total.*</target>
 			</property>
 		</resource>
 		<resource>
 			<objectName>ENS.MultipleResourceGraphElementView</objectName>
 			<x>50</x>
-			<y>400</y>
+			<y>320</y>
 			<w>400</w>
-			<h>300</h>
+			<h>220</h>
 			<property>
 				<resourceId></resourceId>
 				<name>Memory Usage(Heap)</name>
@@ -66,9 +68,9 @@
 		<resource>
 			<objectName>ENS.MultipleResourceGraphElementView</objectName>
 			<x>500</x>
-			<y>400</y>
+			<y>320</y>
 			<w>400</w>
-			<h>300</h>
+			<h>220</h>
 			<property>
 				<resourceId></resourceId>
 				<name>GC Time</name>
