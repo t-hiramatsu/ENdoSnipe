@@ -3,8 +3,8 @@
 	<width>1024</width>
 	<height>600</height>
 	<background>
-		<objectType>IMAGE</objectType>
-		<src>resources/images/user/default_image001.png</src>
+		<objectType>POLYGON</objectType>
+		<fill>#000000</fill>
 	</background>
 	<resources>
 		<resource>
@@ -15,7 +15,7 @@
 			<h>30</h>
 			<property>
 				<border>
-					<fill>#333333</fill>
+					<fill>#444444</fill>
 					<stroke>#000000</stroke>
 					<strokeWidth>2</strokeWidth>
 					<strokeDasharray></strokeDasharray>
