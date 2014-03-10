@@ -28,11 +28,11 @@ halook.HbaseRegionMapView = wgp.AbstractView.extend({
 			this.height = realTag.height();
 		}
 		var appView = ENS.AppView();
-		appView.addView(this, this.treeSetting.treeId + '%');
+		appView.addView(this, this.treeSetting.treeId + '.*');
 
 		var end = new Date();
 		var start = new Date(end.getTime() - 15000);
-		appView.getTermData([ (this.treeSetting.treeId + '%') ], start, end);
+		appView.getTermData([ (this.treeSetting.treeId + '.*') ], start, end);
 
 		// set paper
 		this.render();
@@ -93,7 +93,7 @@ halook.HbaseRegionMapView = wgp.AbstractView.extend({
 	_getTermData : function() {
 		// this._updateDraw();
 		if (this.isRealTime) {
-			appView.syncData([ (this.treeSetting.treeId + "%") ]);
+			appView.syncData([ (this.treeSetting.treeId + ".*") ]);
 		}
 
 		this.data = this._getData();
@@ -364,8 +364,8 @@ halook.HbaseRegionMapView = wgp.AbstractView.extend({
 		var treeSettingId = this.treeSetting.treeId;
 		var end = new Date(new Date().getTime() - pastTime);
 		var start = new Date(end.getTime() - 60 * 60 * 1000);
-		appView.stopSyncData([ (treeSettingId + '%') ]);
-		appView.getTermData([ (treeSettingId + '%') ], start, end);
+		appView.stopSyncData([ (treeSettingId + '.*') ]);
+		appView.getTermData([ (treeSettingId + '.*') ], start, end);
 	},
 	_drawYDivision : function(maxRegionNum) {
 		var yUnitSize = this.graphMaxValue / maxRegionNum;

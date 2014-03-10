@@ -37,8 +37,8 @@ halook.BubbleElementView = wgp.DygraphElementView
 						this.jobInfo.finishTime.getTime() + 120 * 1000);
 
 				var appView = new ENS.AppView();
-				appView.addView(this, (this.treeSettings.id + "%"));
-				appView.getTermData([ (this.treeSettings.id + "%") ],
+				appView.addView(this, (this.treeSettings.id + ".*"));
+				appView.getTermData([ (this.treeSettings.id + ".*") ],
 						this.jobInfo.startTime, finishTime);
 
 				var realTag = $("#" + this.$el.attr("id"));
@@ -105,7 +105,7 @@ halook.BubbleElementView = wgp.DygraphElementView
 			destroy : function() {
 				this.stopRegisterCollectionEvent();
 				var appView = new ENS.AppView();
-				appView.stopSyncData([this.treeSettings.id + "%"]);
+				appView.stopSyncData([this.treeSettings.id + ".*"]);
 				if (this.collection) {
 					this.collection.reset();
 				}
@@ -198,7 +198,7 @@ halook.BubbleElementView = wgp.DygraphElementView
 				var finishTime = new Date(
 						this.jobInfo.finishTime.getTime() + 120 * 1000);
 				var appView = new ENS.AppView();
-				appView.getTermData([ (this.treeSettings.id + "%") ],
+				appView.getTermData([ (this.treeSettings.id + ".*") ],
 						this.jobInfo.startTime, finishTime);
 			},
 			// データの種類、成功別に分類し、グラフ表示用の配列に加工する関数
