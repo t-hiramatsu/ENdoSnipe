@@ -84,10 +84,12 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
      *
      * @param database 挿入先データベース名
      * @param javelinLog 対象オブジェクト
+     * @param diagnosed 挿入するログを診断済みにするか
      * @throws SQLException SQL 実行時に例外が発生した場合
      */
-    public static void insert(final String database, final JavelinLog javelinLog)
-        throws SQLException
+    public static void
+        insert(final String database, final JavelinLog javelinLog, boolean diagnosed)
+            throws SQLException
     {
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -104,8 +106,9 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
                     + "CALLER_NAME, " + "CALLER_SIGNATURE, " + "CALLER_CLASS, "
                     + "CALLER_OBJECTID, " + "EVENT_LEVEL, " + "ELAPSED_TIME, " + "MODIFIER, "
                     + "THREAD_NAME, " + "THREAD_CLASS, " + "THREAD_OBJECTID, "
-                    + "MEASUREMENT_ITEM_NAME" + ") values (" + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
-                    + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    + "MEASUREMENT_ITEM_NAME" + (diagnosed ? ", DIAGNOSED" : "") + ") values ("
+                    + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, " + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?"
+                    + (diagnosed ? ", ?" : "") + ")";
             pstmt = conn.prepareStatement(sql);
             PreparedStatement delegated = getDelegatingStatement(pstmt);
             // CHECKSTYLE:OFF
@@ -134,6 +137,10 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
             delegated.setString(22, javelinLog.threadClass);
             delegated.setInt(23, javelinLog.threadObjectId);
             delegated.setString(24, javelinLog.measurementItemName);
+            if (diagnosed)
+            {
+                delegated.setBoolean(25, true);
+            }
             // CHECKSTYLE:ON
 
             pstmt.execute();
@@ -153,6 +160,19 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
             SQLUtil.closeStatement(pstmt);
             SQLUtil.closeConnection(conn);
         }
+    }
+
+    /**
+     * {@link JavelinLog} オブジェクトを挿入します。<br />
+     *
+     * @param database 挿入先データベース名
+     * @param javelinLog 対象オブジェクト
+     * @throws SQLException SQL 実行時に例外が発生した場合
+     */
+    public static void insert(final String database, final JavelinLog javelinLog)
+        throws SQLException
+    {
+        insert(database, javelinLog, false);
     }
 
     /**

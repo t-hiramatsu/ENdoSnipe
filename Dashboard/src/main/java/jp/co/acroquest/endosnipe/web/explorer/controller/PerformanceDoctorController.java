@@ -48,6 +48,9 @@ import jp.co.acroquest.endosnipe.web.explorer.service.JvnFileEntryJudge;
 import jp.co.acroquest.endosnipe.web.explorer.service.PerformanceDoctorService;
 import net.arnx.jsonic.JSON;
 
+import org.elasticsearch.client.Client;
+import org.elasticsearch.node.Node;
+import org.elasticsearch.node.NodeBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -141,6 +144,31 @@ public class PerformanceDoctorController
                 dto.setLogFileName(warning.getLogFileName());
                 dto.setMeasurementItemName(warning.getMeasurementItemName());
                 dtoList.add(dto);
+
+                String measurementItemName = dto.getMeasurementItemName();
+                String[] splittedItemName = measurementItemName.split("/");
+                String clusterName = splittedItemName[1];
+                String address = splittedItemName[2];
+                String agentName = splittedItemName[3];
+
+                Node node = NodeBuilder.nodeBuilder().clusterName("elasticsearch_hiramatsu").node();
+                Client client = node.client();
+
+                Map<String, Object> jsonDocument = new HashMap<String, Object>();
+
+                jsonDocument.put("OCCURRENCE_TIME", dto.getOccurrenceTime().toString());
+                jsonDocument.put("DESCRIPTION", dto.getDescription());
+                jsonDocument.put("LEVEL", dto.getLevel());
+                jsonDocument.put("CLASS_NAME", dto.getClassName());
+                jsonDocument.put("METHOD_NAME", dto.getMethodName());
+                jsonDocument.put("MEASUREMENT_ITEM_NAME", dto.getMeasurementItemName());
+                jsonDocument.put("CLUSTER_NAME", clusterName);
+                jsonDocument.put("ADDRESS", address);
+                jsonDocument.put("AGENT_NAME", agentName);
+                jsonDocument.put("ID", warning.getId());
+                client.prepareIndex("endosnipetest2", "PDResultTest2").setSource(jsonDocument).execute().actionGet();
+
+                node.close();
             }
             // 診断結果をPerfDoctorResultTableに登録
             //            PerfDoctorResultDao.insert(dbName, dtoList);

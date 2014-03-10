@@ -237,4 +237,10 @@ public interface LogMessageCodes extends CommonLogMessageCodes
 
     /** アラームIDに対応する情報取得定義が存在しない */
     String ALARM_DATA_COLLECT_NOT_DEFINED = "DEDC0504";
+
+    /** PerformaceDoctorのルールが見つからない */
+    String CANNOT_FIND_PERFRULE = "WEWD0503";
+
+    /** PerformaceDoctorのルール生成に失敗*/
+    String FAIL_TO_CREATE_PERFRULE = "WEWD0504";
 }

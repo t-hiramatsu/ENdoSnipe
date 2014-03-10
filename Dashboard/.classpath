@@ -83,6 +83,38 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-retry-1.0.2.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/xstream-1.3.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/quartz-1.8.6.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spatial4j-0.3.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/antlr-runtime-3.5.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/asm-4.1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/asm-commons-4.1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jsr173_1.0_api.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/elasticsearch-0.90.9.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/endosnipe-common-5.1.0.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/endosnipe-communicator-5.1.0.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/endosnipe-dataaccessor-5.1.0.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/endosnipe-datacollector-5.1.0.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/endosnipe-Explorer.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-io-1.4.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/endosnipe-report-command.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/endosnipe-reporter.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jna-3.3.0.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/json-20080701.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jts-1.12.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/log4j-1.2.17.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/lucene-analyzers-common-4.6.0.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/lucene-codecs-4.6.0.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/lucene-core-4.6.0.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/lucene-expressions-4.6.0.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/lucene-grouping-4.6.0.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/lucene-highlighter-4.6.0.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/lucene-join-4.6.0.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/lucene-memory-4.6.0.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/lucene-misc-4.6.0.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/lucene-queries-4.6.0.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/lucene-queryparser-4.6.0.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/lucene-sandbox-4.6.0.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/lucene-spatial-4.6.0.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/lucene-suggest-4.6.0.jar"/>
 	<classpathentry kind="var" path="TOMCAT_HOME/lib/servlet-api.jar"/>
 	<classpathentry kind="var" path="TOMCAT_HOME/lib/jasper.jar"/>
 	<classpathentry kind="var" path="TOMCAT_HOME/lib/jsp-api.jar"/>
