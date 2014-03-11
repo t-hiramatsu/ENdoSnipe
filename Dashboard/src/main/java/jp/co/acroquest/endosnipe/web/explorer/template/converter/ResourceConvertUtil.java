@@ -27,67 +27,106 @@ import jp.co.acroquest.endosnipe.web.explorer.template.meta.Resource;
  */
 public class ResourceConvertUtil extends TemplateConvertUtil
 {
+    /** オブジェクトIDのキー */
     protected static final String KEY_OBJECT_ID = "objectId";
 
+    /** x座標のキー */
     protected static final String KEY_X = "pointX";
 
+    /** y座標のキー */
     protected static final String KEY_Y = "pointY";
 
+    /** 横幅のキー */
     protected static final String KEY_W = "width";
 
+    /** 高さのキー */
     protected static final String KEY_H = "height";
 
+    /** 図形名のキー */
     protected static final String KEY_SHAPE_NAME = "shapeName";
 
+    /** 属性要素のキー */
     protected static final String KEY_PROPERTIES = "elementAttrList";
 
+    /** 深度のキー */
     protected static final String KEY_DEPTH = "zIndex";
 
+    /** 図形タイプのキー */
     protected static final String KEY_SHAPE_TYPE = "shapeType";
 
+    /** オブジェクトタイプのキー */
     protected static final String KEY_OBJECT_TYPE = "objectType";
 
+    /** 塗りつぶし色のキー */
     protected static final String KEY_FILL = "fill";
 
+    /** オブジェクト名のキー */
     protected static final String KEY_OBJECT_NAME = "objectName";
 
+    /** 図形タイプの値 */
     protected static final Object VALUE_SHAPE_TYPE = "POLYGON";
 
+    /** フォントファミリーのキー */
     private static final String KEY_FONT_FAMILY = "fontFamily";
 
+    /** フォントサイズのキー */
     private static final String KEY_FONT_SIZE = "fontSize";
 
+    /** リソースIDのキー */
     private static final String KEY_RESOUCE_ID = "resourceId";
 
+    /** ストローク色のキー */
     private static final String KEY_STROKE = "stroke";
 
+    /** 線の種類のキー */
     private static final String KEY_STROKE_DASHARRAY = "strokeDasharray";
 
+    /** ターゲットのキー */
     private static final String KEY_TARGET = "target";
 
+    /** 枠線の幅のキー */
     private static final String KEY_STROKE_WIDTH = "strokeWidth";
 
+    /** テキストのキー */
     private static final String KEY_TEXT = "text";
 
+    /** テキスト位置のキー */
     private static final String KEY_TEXT_ANCHOR = "textAnchor";
 
+    /** 枠線プロパティのキー */
     private static final String KEY_BORDER = "border";
 
+    /** ラベルプロパティのキー */
     private static final String KEY_LABEL = "label";
 
+    /** シグナルプロパティのキー */
     private static final String KEY_SIGNAL = "signal";
 
+    /** リソースIDのキー */
     private static final String KEY_ID = "resourceId";
 
+    /** 深度の値 */
     private static final Object VALUE_DEPTH = 0;
 
+    /** 空文字 */
     private static final String VALUE_BLANK = "";
 
+    /** グラフのリソースタイプの値 */
     private static final String RESOURCE_TYPE_GRAPH = "graph";
 
+    /** シグナルのリソースタイプの値 */
     private static final String RESOURCE_TYPE_SIGNAL = "signal";
 
+    /** オブジェクトIDを一意にするためのカウンタ */
     private static int currentObjectId__ = 0;
+
+    /**
+     * コンストラクタ
+     */
+    protected ResourceConvertUtil()
+    {
+
+    }
 
     /**
      * プロパティをMapに変換する
@@ -200,6 +239,11 @@ public class ResourceConvertUtil extends TemplateConvertUtil
         return result;
     }
 
+    /**
+     * elementEttrListを設定する
+     * @param map 変換結果のマップ
+     * @param resource 返還前のリソースオブジェクト
+     */
     private static void setAttrList(final Map<String, Object> map, final Resource resource)
     {
         List<Map<String, Object>> attrList = new ArrayList<Map<String, Object>>();
@@ -231,6 +275,13 @@ public class ResourceConvertUtil extends TemplateConvertUtil
         map.put(KEY_PROPERTIES, attrList);
     }
 
+    /**
+     * テンプレート定義ではプロパティ配下に位置づいているが、
+     * 内部定義ではリソース直下に位置づいている属性を移動させる。
+     * @param name テンプレート名
+     * @param map 変換結果マップ
+     * @param resource 変換前のリソースオブジェクト
+     */
     private static void setProperty(final String name, final Map<String, Object> map,
             final Resource resource)
     {
@@ -273,6 +324,7 @@ public class ResourceConvertUtil extends TemplateConvertUtil
     /**
      * 命名規則に従ってツリー上の配置を表す名前を取得する
      * @param templateName テンプレート名
+     * @param objectName オブジェクト名
      * @param property プロパティオブジェクト
      * @return ツリー上の配置を表す名前
      */

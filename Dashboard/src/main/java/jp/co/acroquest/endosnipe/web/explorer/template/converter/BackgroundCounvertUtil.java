@@ -27,23 +27,40 @@ import jp.co.acroquest.endosnipe.web.explorer.template.meta.Resource;
  */
 public class BackgroundCounvertUtil extends ResourceConvertUtil
 {
+    /** 背景のオブジェクトID */
     private static final String VALUE_OBJECT_ID = "background";
 
+    /** 背景のオブジェクト名 */
     private static final String VALUE_OBJECT_NAME = Resource.OBJ_NAME_BACKGROUND;
 
+    /** 背景のx座標 */
     private static final int VALUE_X = 0;
 
+    /** 背景のy座標 */
     private static final int VALUE_Y = 0;
 
+    /** 背景の深度 */
     private static final int VALUE_DEPTH = 0;
 
+    /** 背景の図形名 */
     private static final String VALUE_SHAPE_NAME = "rectangle";
 
+    /** 画像パスのキー */
     private static final String KEY_SRC = "src";
 
     /**
+     * コンストラクタ
+     */
+    public BackgroundCounvertUtil()
+    {
+    }
+
+    /**
      * Background型データを、情報が追加されたMapに変換する
-     * @return　変換したマップ
+     * @param background 背景オブジェクト
+     * @param width テンプレートの横幅
+     * @param height テンプレートの高さ
+     * @return 変換したマップ
      */
     public static Map<String, Object> convert(final Background background, final Integer width,
             final Integer height)

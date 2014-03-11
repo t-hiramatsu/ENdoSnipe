@@ -49,7 +49,7 @@ public class MultipleResourceGraphService
      * 複数グラフ情報Dao。
      */
     @Autowired
-    protected MultipleResourceGraphInfoDao multipleResourceGraphDao;
+    protected MultipleResourceGraphInfoDao multipleResourceGraphDao_;
 
     /**
      * コンストラクタ
@@ -69,7 +69,7 @@ public class MultipleResourceGraphService
         List<MultipleResourceGraphInfo> multipleResourceGraphList = null;
         try
         {
-            multipleResourceGraphList = multipleResourceGraphDao.selectAll();
+            multipleResourceGraphList = multipleResourceGraphDao_.selectAll();
         }
         catch (PersistenceException pEx)
         {
@@ -184,9 +184,9 @@ public class MultipleResourceGraphService
         int multipleResourceGraphId = 0;
         try
         {
-            multipleResourceGraphDao.insert(multipleResourceGraphInfo);
+            multipleResourceGraphDao_.insert(multipleResourceGraphInfo);
             multipleResourceGraphId =
-                    multipleResourceGraphDao.selectSequenceNum(multipleResourceGraphInfo);
+                    multipleResourceGraphDao_.selectSequenceNum(multipleResourceGraphInfo);
         }
         catch (DuplicateKeyException dkEx)
         {
@@ -213,7 +213,7 @@ public class MultipleResourceGraphService
             final String multipleResourceGraphName)
     {
         MultipleResourceGraphInfo multipleResourceGraphInfo =
-                multipleResourceGraphDao.selectByName(multipleResourceGraphName);
+                multipleResourceGraphDao_.selectByName(multipleResourceGraphName);
 
         //指定した名前の複数グラフが存在しない場合はnullを返す
         if (multipleResourceGraphInfo == null)
@@ -238,7 +238,7 @@ public class MultipleResourceGraphService
     {
         try
         {
-            multipleResourceGraphDao.update(multipleResourceGraphInfo);
+            multipleResourceGraphDao_.update(multipleResourceGraphInfo);
         }
         catch (PersistenceException pEx)
         {
@@ -279,7 +279,7 @@ public class MultipleResourceGraphService
             multipleResourceGraphDefinitionDto =
                     getmultipleResourceGraphInfo(multipleResourceGraphName);
 
-            multipleResourceGraphDao.delete(multipleResourceGraphName);
+            multipleResourceGraphDao_.delete(multipleResourceGraphName);
         }
         catch (PersistenceException pEx)
         {
@@ -305,7 +305,7 @@ public class MultipleResourceGraphService
      */
     public void deleteMultipleResourceGraphs(final String multipleResourceGraphNameRe)
     {
-        multipleResourceGraphDao.deleteChildren(multipleResourceGraphNameRe);
+        multipleResourceGraphDao_.deleteChildren(multipleResourceGraphNameRe);
     }
 
     /**
@@ -384,7 +384,7 @@ public class MultipleResourceGraphService
     public boolean hasSamemultipleResourceGraphName(final String multipleResourceGraphName)
     {
         MultipleResourceGraphInfo multipleResourceGraphInfo =
-                this.multipleResourceGraphDao.selectByName(multipleResourceGraphName);
+                this.multipleResourceGraphDao_.selectByName(multipleResourceGraphName);
         if (multipleResourceGraphInfo == null)
         {
             // 同一複数グラフ名を持つ複数グラフ定義情報が存在しない場合
@@ -404,7 +404,7 @@ public class MultipleResourceGraphService
             final String multipleResourceGraphName)
     {
         MultipleResourceGraphInfo multipleResourceGraphInfo =
-                this.multipleResourceGraphDao.selectByName(multipleResourceGraphName);
+                this.multipleResourceGraphDao_.selectByName(multipleResourceGraphName);
         if (multipleResourceGraphInfo == null)
         {
             // 同一複数グラフ名を持つ複数グラフ定義情報が存在しない場合
