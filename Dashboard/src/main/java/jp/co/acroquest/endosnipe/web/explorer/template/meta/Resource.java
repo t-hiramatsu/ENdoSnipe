@@ -17,6 +17,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "resource")
 public class Resource
 {
+    private static final int PRIME = 31;
+
     public static final String OBJ_NAME_SHAPE = "ENS.ShapeElementView";
 
     public static final String OBJ_NAME_TEXT = "ENS.TextBoxElementView";
@@ -102,14 +104,13 @@ public class Resource
     @Override
     public int hashCode()
     {
-        final int prime = 31;
         int result = 1;
-        result = prime * result + ((h == null) ? 0 : h.hashCode());
-        result = prime * result + ((objectName == null) ? 0 : objectName.hashCode());
-        result = prime * result + ((property == null) ? 0 : property.hashCode());
-        result = prime * result + ((w == null) ? 0 : w.hashCode());
-        result = prime * result + ((x == null) ? 0 : x.hashCode());
-        result = prime * result + ((y == null) ? 0 : y.hashCode());
+        result = PRIME * result + ((h == null) ? 0 : h.hashCode());
+        result = PRIME * result + ((objectName == null) ? 0 : objectName.hashCode());
+        result = PRIME * result + ((property == null) ? 0 : property.hashCode());
+        result = PRIME * result + ((w == null) ? 0 : w.hashCode());
+        result = PRIME * result + ((x == null) ? 0 : x.hashCode());
+        result = PRIME * result + ((y == null) ? 0 : y.hashCode());
         return result;
     }
 

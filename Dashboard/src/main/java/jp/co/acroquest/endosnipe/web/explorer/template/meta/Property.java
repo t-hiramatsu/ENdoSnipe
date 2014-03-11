@@ -14,6 +14,8 @@ package jp.co.acroquest.endosnipe.web.explorer.template.meta;
 
 public class Property
 {
+    private static final int PRIME = 31;
+
     private String strokeDasharray;
 
     private String stroke;
@@ -257,28 +259,27 @@ public class Property
     @Override
     public int hashCode()
     {
-        final int prime = 31;
         int result = 1;
-        result = prime * result + ((border == null) ? 0 : border.hashCode());
-        result = prime * result + ((fill == null) ? 0 : fill.hashCode());
-        result = prime * result + ((fontFamily == null) ? 0 : fontFamily.hashCode());
-        result = prime * result + ((fontSize == null) ? 0 : fontSize.hashCode());
-        result = prime * result + ((label == null) ? 0 : label.hashCode());
-        result = prime * result + ((level == null) ? 0 : level.hashCode());
-        result = prime * result + ((method == null) ? 0 : method.hashCode());
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((period == null) ? 0 : period.hashCode());
-        result = prime * result + ((resourceId == null) ? 0 : resourceId.hashCode());
-        result = prime * result + ((shapeName == null) ? 0 : shapeName.hashCode());
-        result = prime * result + ((signal == null) ? 0 : signal.hashCode());
-        result = prime * result + ((stroke == null) ? 0 : stroke.hashCode());
-        result = prime * result + ((strokeDasharray == null) ? 0 : strokeDasharray.hashCode());
-        result = prime * result + ((strokeWidth == null) ? 0 : strokeWidth.hashCode());
-        result = prime * result + ((target == null) ? 0 : target.hashCode());
-        result = prime * result + ((text == null) ? 0 : text.hashCode());
-        result = prime * result + ((textAnchor == null) ? 0 : textAnchor.hashCode());
-        result = prime * result + ((threshold == null) ? 0 : threshold.hashCode());
-        result = prime * result + ((type == null) ? 0 : type.hashCode());
+        result = PRIME * result + ((border == null) ? 0 : border.hashCode());
+        result = PRIME * result + ((fill == null) ? 0 : fill.hashCode());
+        result = PRIME * result + ((fontFamily == null) ? 0 : fontFamily.hashCode());
+        result = PRIME * result + ((fontSize == null) ? 0 : fontSize.hashCode());
+        result = PRIME * result + ((label == null) ? 0 : label.hashCode());
+        result = PRIME * result + ((level == null) ? 0 : level.hashCode());
+        result = PRIME * result + ((method == null) ? 0 : method.hashCode());
+        result = PRIME * result + ((name == null) ? 0 : name.hashCode());
+        result = PRIME * result + ((period == null) ? 0 : period.hashCode());
+        result = PRIME * result + ((resourceId == null) ? 0 : resourceId.hashCode());
+        result = PRIME * result + ((shapeName == null) ? 0 : shapeName.hashCode());
+        result = PRIME * result + ((signal == null) ? 0 : signal.hashCode());
+        result = PRIME * result + ((stroke == null) ? 0 : stroke.hashCode());
+        result = PRIME * result + ((strokeDasharray == null) ? 0 : strokeDasharray.hashCode());
+        result = PRIME * result + ((strokeWidth == null) ? 0 : strokeWidth.hashCode());
+        result = PRIME * result + ((target == null) ? 0 : target.hashCode());
+        result = PRIME * result + ((text == null) ? 0 : text.hashCode());
+        result = PRIME * result + ((textAnchor == null) ? 0 : textAnchor.hashCode());
+        result = PRIME * result + ((threshold == null) ? 0 : threshold.hashCode());
+        result = PRIME * result + ((type == null) ? 0 : type.hashCode());
         return result;
     }
 
@@ -298,94 +299,64 @@ public class Property
             return false;
         }
         Property other = (Property)obj;
-        if (border == null)
+        if (equals1(other) && equals2(other) && equals3(other))
         {
-            if (other.border != null)
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * 機械的に分割したequalsメソッド
+     * @param other 比較対象
+     * @return 一致するか
+     */
+    private boolean equals3(final Property other)
+    {
+        if (textAnchor == null)
+        {
+            if (other.textAnchor != null)
             {
                 return false;
             }
         }
-        else if (!border.equals(other.border))
+        else if (!textAnchor.equals(other.textAnchor))
         {
             return false;
         }
-        if (fill == null)
+        if (threshold == null)
         {
-            if (other.fill != null)
+            if (other.threshold != null)
             {
                 return false;
             }
         }
-        else if (!fill.equals(other.fill))
+        else if (!threshold.equals(other.threshold))
         {
             return false;
         }
-        if (fontFamily == null)
+        if (type == null)
         {
-            if (other.fontFamily != null)
+            if (other.type != null)
             {
                 return false;
             }
         }
-        else if (!fontFamily.equals(other.fontFamily))
+        else if (!type.equals(other.type))
         {
             return false;
         }
-        if (fontSize == null)
-        {
-            if (other.fontSize != null)
-            {
-                return false;
-            }
-        }
-        else if (!fontSize.equals(other.fontSize))
-        {
-            return false;
-        }
-        if (label == null)
-        {
-            if (other.label != null)
-            {
-                return false;
-            }
-        }
-        else if (!label.equals(other.label))
-        {
-            return false;
-        }
-        if (level == null)
-        {
-            if (other.level != null)
-            {
-                return false;
-            }
-        }
-        else if (!level.equals(other.level))
-        {
-            return false;
-        }
-        if (method == null)
-        {
-            if (other.method != null)
-            {
-                return false;
-            }
-        }
-        else if (!method.equals(other.method))
-        {
-            return false;
-        }
-        if (name == null)
-        {
-            if (other.name != null)
-            {
-                return false;
-            }
-        }
-        else if (!name.equals(other.name))
-        {
-            return false;
-        }
+        return true;
+    }
+
+    /**
+     * 機械的に分割したequalsメソッド
+     * @param other 比較対象
+     * @return 一致するか
+     */
+    private boolean equals2(final Property other)
+    {
         if (period == null)
         {
             if (other.period != null)
@@ -485,36 +456,101 @@ public class Property
         {
             return false;
         }
-        if (textAnchor == null)
+        return true;
+    }
+
+    /**
+     * 機械的に分割したequalsメソッド
+     * @param other 比較対象
+     * @return 一致するか
+     */
+    private boolean equals1(final Property other)
+    {
+        if (border == null)
         {
-            if (other.textAnchor != null)
+            if (other.border != null)
             {
                 return false;
             }
         }
-        else if (!textAnchor.equals(other.textAnchor))
+        else if (!border.equals(other.border))
         {
             return false;
         }
-        if (threshold == null)
+        if (fill == null)
         {
-            if (other.threshold != null)
+            if (other.fill != null)
             {
                 return false;
             }
         }
-        else if (!threshold.equals(other.threshold))
+        else if (!fill.equals(other.fill))
         {
             return false;
         }
-        if (type == null)
+        if (fontFamily == null)
         {
-            if (other.type != null)
+            if (other.fontFamily != null)
             {
                 return false;
             }
         }
-        else if (!type.equals(other.type))
+        else if (!fontFamily.equals(other.fontFamily))
+        {
+            return false;
+        }
+        if (fontSize == null)
+        {
+            if (other.fontSize != null)
+            {
+                return false;
+            }
+        }
+        else if (!fontSize.equals(other.fontSize))
+        {
+            return false;
+        }
+        if (label == null)
+        {
+            if (other.label != null)
+            {
+                return false;
+            }
+        }
+        else if (!label.equals(other.label))
+        {
+            return false;
+        }
+        if (level == null)
+        {
+            if (other.level != null)
+            {
+                return false;
+            }
+        }
+        else if (!level.equals(other.level))
+        {
+            return false;
+        }
+        if (method == null)
+        {
+            if (other.method != null)
+            {
+                return false;
+            }
+        }
+        else if (!method.equals(other.method))
+        {
+            return false;
+        }
+        if (name == null)
+        {
+            if (other.name != null)
+            {
+                return false;
+            }
+        }
+        else if (!name.equals(other.name))
         {
             return false;
         }

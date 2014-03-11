@@ -17,6 +17,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "background")
 public class Background
 {
+    private static final int PRIME = 31;
+
     public static final String OBJECT_TYPE_POLYGON = "POLYGON";
 
     public static final String OBJECT_TYPE_IMAGE = "IMAGE";
@@ -83,11 +85,10 @@ public class Background
     @Override
     public int hashCode()
     {
-        final int prime = 31;
         int result = 1;
-        result = prime * result + ((fill == null) ? 0 : fill.hashCode());
-        result = prime * result + ((objectType == null) ? 0 : objectType.hashCode());
-        result = prime * result + ((src == null) ? 0 : src.hashCode());
+        result = PRIME * result + ((fill == null) ? 0 : fill.hashCode());
+        result = PRIME * result + ((objectType == null) ? 0 : objectType.hashCode());
+        result = PRIME * result + ((src == null) ? 0 : src.hashCode());
         return result;
     }
 
