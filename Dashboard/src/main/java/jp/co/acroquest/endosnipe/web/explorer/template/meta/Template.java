@@ -21,6 +21,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "template")
 public class Template
 {
+    private static final int PRIME = 31;
+
     private Background background;
 
     private List<Resource> resources;
@@ -77,12 +79,11 @@ public class Template
     @Override
     public int hashCode()
     {
-        final int prime = 31;
         int result = 1;
-        result = prime * result + ((background == null) ? 0 : background.hashCode());
-        result = prime * result + ((height == null) ? 0 : height.hashCode());
-        result = prime * result + ((resources == null) ? 0 : resources.hashCode());
-        result = prime * result + ((width == null) ? 0 : width.hashCode());
+        result = PRIME * result + ((background == null) ? 0 : background.hashCode());
+        result = PRIME * result + ((height == null) ? 0 : height.hashCode());
+        result = PRIME * result + ((resources == null) ? 0 : resources.hashCode());
+        result = PRIME * result + ((width == null) ? 0 : width.hashCode());
         return result;
     }
 
