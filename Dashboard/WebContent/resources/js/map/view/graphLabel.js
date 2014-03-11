@@ -52,6 +52,8 @@ ENS.graphLabel.setEventListener = function($labelDiv, $graphDiv) {
 
 				// マップ画面の場合は位置を修正する
 				if (graphPos.left === 0 && graphPos.top === 0) {
+					labelPos.top = e.pageY - $(this).offset().top
+							+ ENS.graphLabel.LABEL_TOP_OFFSET;
 					labelPos.left = e.pageX - $(this).offset().left
 							+ ENS.graphLabel.LABEL_LEFT_OFFSET;
 				}
