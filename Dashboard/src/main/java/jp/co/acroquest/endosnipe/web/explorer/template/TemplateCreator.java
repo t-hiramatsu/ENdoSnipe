@@ -13,7 +13,6 @@
 package jp.co.acroquest.endosnipe.web.explorer.template;
 
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -44,29 +43,32 @@ import net.arnx.jsonic.JSON;
 public class TemplateCreator
 {
 
+    /** 空白文字 */
     private static final String BLANK = "";
 
-    private static final long DASHBOARD_ID = -1;
-
-    private static final Timestamp DASHBOARD_LAST_UPDATE = null;
-
-    private static final long GRAPH_ID = 0;
-
-    private static final long SIGNAL_ID = 0;
-
+    /** 単体グラフを表すシグナルタイプ */
     private static final Object SIGNAL_TYPE_SINGLE = "SINGLE";
 
+    /** 複数グラフを表すシグナルタイプ */
     private static final Object SIGNAL_TYPE_SUMMARY = "SUMMARY";
 
-    private final MultipleResourceGraphService graphService;
+    /** ミリ秒を秒に変換する定数 */
+    private static final int MS_TO_SEC = 1000;
 
-    private final DashboardService dashboardService;
+    /** 複数リソースグラフのサービス */
+    private final MultipleResourceGraphService graphService_;
 
-    private final SignalService signalService;
+    /** ダッシュボードのサービス */
+    private final DashboardService dashboardService_;
 
-    private final SummarySignalService summarySignalService;
+    /** 単体シグナルのサービス */
+    private final SignalService signalService_;
 
-    private int signalCount;
+    /** サマリシグナルのサービス */
+    private final SummarySignalService summarySignalService_;
+
+    /** シグナルの連番 */
+    private int signalCount_;
 
     /**
      * コンストラクタ
@@ -79,10 +81,10 @@ public class TemplateCreator
             final DashboardService dashboardService, final SignalService signalService,
             final SummarySignalService summarySignalService)
     {
-        this.graphService = graphService;
-        this.dashboardService = dashboardService;
-        this.signalService = signalService;
-        this.summarySignalService = summarySignalService;
+        this.graphService_ = graphService;
+        this.dashboardService_ = dashboardService;
+        this.signalService_ = signalService;
+        this.summarySignalService_ = summarySignalService;
     }
 
     /**
@@ -131,20 +133,18 @@ public class TemplateCreator
 
         //DashboardをDBに登録
         DashboardInfo dashboardInfo = new DashboardInfo();
-        dashboardInfo.dashboardId = DASHBOARD_ID;
         dashboardInfo.data = json;
-        dashboardInfo.lastUpdate = DASHBOARD_LAST_UPDATE;
         dashboardInfo.name = name;
 
         //既にDBに存在する場合は更新、無い場合は新規作成
-        List<DashboardInfo> existDashboard = dashboardService.getByName(name);
+        List<DashboardInfo> existDashboard = dashboardService_.getByName(name);
         if (existDashboard.size() == 0)
         {
-            dashboardService.insert(dashboardInfo);
+            dashboardService_.insert(dashboardInfo);
         }
         else
         {
-            dashboardService.update(dashboardInfo, true);
+            dashboardService_.update(dashboardInfo, true);
         }
     }
 
@@ -155,8 +155,8 @@ public class TemplateCreator
     private void deleteSignals(final String name)
     {
         String treeName = TemplateConvertUtil.getTreeName(name);
-        summarySignalService.deleteChildren(treeName);
-        signalService.deleteChildren(treeName);
+        summarySignalService_.deleteChildren(treeName);
+        signalService_.deleteChildren(treeName);
     }
 
     /**
@@ -166,7 +166,7 @@ public class TemplateCreator
     private void deleteGraphs(final String name)
     {
         String treeName = TemplateConvertUtil.getTreeName(name);
-        graphService.deleteMultipleResourceGraphs(treeName);
+        graphService_.deleteMultipleResourceGraphs(treeName);
     }
 
     /**
@@ -186,20 +186,19 @@ public class TemplateCreator
         MultipleResourceGraphInfo graphInfo = new MultipleResourceGraphInfo();
         graphInfo.measurementItemIdList_ = BLANK;
         graphInfo.measurementItemPattern_ = property.getTarget();
-        graphInfo.multipleResourceGraphId_ = GRAPH_ID;
         graphInfo.multipleResourceGraphName_ =
                 ResourceConvertUtil.getTreeName(name, Resource.OBJ_NAME_GRAPH, property);
 
         MultipleResourceGraphDefinitionDto existDto =
-                graphService.getmultipleResourceGraphInfo(graphInfo.multipleResourceGraphName_);
+                graphService_.getmultipleResourceGraphInfo(graphInfo.multipleResourceGraphName_);
         //既に同一の名前のグラフが存在する場合は更新、無い場合は新規作成する。
         if (existDto == null)
         {
-            graphService.insertMultipleResourceGraphInfo(graphInfo);
+            graphService_.insertMultipleResourceGraphInfo(graphInfo);
         }
         else
         {
-            graphService.updatemultipleResourceGraphInfo(graphInfo);
+            graphService_.updatemultipleResourceGraphInfo(graphInfo);
         }
 
     }
@@ -249,7 +248,7 @@ public class TemplateCreator
 
         for (String target : targets)
         {
-            String name = treeName + "_" + (signalCount++);
+            String name = treeName + "_" + (signalCount_++);
             signalProperty.setTarget(target);
             createSingleSignal(signalProperty, name);
             signalList.add(name);
@@ -260,7 +259,7 @@ public class TemplateCreator
         dto.signalList_ = signalList;
         dto.summarySignalType_ = signalProperty.getMethod();
 
-        summarySignalService.insertSummarySignalDefinition(dto);
+        summarySignalService_.insertSummarySignalDefinition(dto);
     }
 
     /**
@@ -275,7 +274,7 @@ public class TemplateCreator
         List<JavelinMeasurementItem> items = null;
         try
         {
-            items = graphService.getMeasurementItemName(re);
+            items = graphService_.getMeasurementItemName(re);
         }
         catch (SQLException ex)
         {
@@ -299,23 +298,22 @@ public class TemplateCreator
     {
         //SignalInfoを作成
         SignalInfo signalInfo = new SignalInfo();
-        signalInfo.escalationPeriod = signalProperty.getPeriod() * 1000;
+        signalInfo.escalationPeriod = signalProperty.getPeriod() * MS_TO_SEC;
         signalInfo.level = signalProperty.getLevel();
         signalInfo.matchingPattern = signalProperty.getTarget();
         signalInfo.patternValue = signalProperty.getThreshold();
-        signalInfo.signalId = SIGNAL_ID;
         signalInfo.signalName = treeName;
 
         //既に同一名のシグナルがある場合は更新、そうでない場合は新規作成
-        SignalDefinitionDto existDto = signalService.getSignalInfo(signalInfo.signalName);
+        SignalDefinitionDto existDto = signalService_.getSignalInfo(signalInfo.signalName);
         if (existDto == null)
         {
-            signalService.insertSignalInfo(signalInfo);
+            signalService_.insertSignalInfo(signalInfo);
         }
         else
         {
             signalInfo.signalId = existDto.getSignalId();
-            signalService.updateSignalInfo(signalInfo);
+            signalService_.updateSignalInfo(signalInfo);
         }
     }
 }

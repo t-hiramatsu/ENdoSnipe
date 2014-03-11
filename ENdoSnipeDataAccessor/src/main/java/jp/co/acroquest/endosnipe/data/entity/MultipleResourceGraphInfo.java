@@ -43,9 +43,10 @@ public class MultipleResourceGraphInfo
     @Override
     public String toString()
     {
-        return String
-            .format("MultipleResourceGraphID%d MultipleResourceGraphName:%s MeasurementItemIdList:%s MeasurementItemPattern:%s",
-                    multipleResourceGraphId_, multipleResourceGraphName_, measurementItemIdList_,
-                    measurementItemPattern_);
+        return String.format("MultipleResourceGraphID%d MultipleResourceGraphName:%s "
+                                 + "MeasurementItemIdList:%s MeasurementItemPattern:%s",
+                             multipleResourceGraphId_,
+                             multipleResourceGraphName_, measurementItemIdList_,
+                             measurementItemPattern_);
     }
 }

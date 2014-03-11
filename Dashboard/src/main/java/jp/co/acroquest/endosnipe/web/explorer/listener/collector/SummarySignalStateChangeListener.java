@@ -109,12 +109,9 @@ public class SummarySignalStateChangeListener extends AbstractTelegramListener
             treeMenu.setParentTreeId(parentTreeId);
             treeMenu.setData(summarySignalDisplayName);
             treeMenu.setType(TreeMenuConstants.TREE_MENU_TYPE_SUMMARY_SIGNAL);
-            treeMenu.setIcon("signal_0");
             treeMenu.setMessage(errorMessage[cnt]);
-            if (summarySignalState[cnt] == 1)
-            {
-                treeMenu.setIcon("signal_4");
-            }
+            treeMenu.setIcon("signal_" + summarySignalState[cnt]);
+
             summarySignalTreeMenuDtoList.add(treeMenu);
             SummarySignalDefinitionDto sumDto = new SummarySignalDefinitionDto();
             sumDto.setSummarySignalId(summarySignalId[cnt].intValue());

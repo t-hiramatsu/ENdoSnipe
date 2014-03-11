@@ -30,8 +30,18 @@ import jp.co.acroquest.endosnipe.web.explorer.template.meta.Template;
  */
 public class TemplateLoader
 {
+
+    /**
+     * コンストラクタ
+     */
+    public TemplateLoader()
+    {
+
+    }
+
     /**
      * テンプレート定義ファイルのディレクトリ内全てのテンプレートを読み込む
+     * @param dirPath テンプレート定義ファイルがあるディレクトリのパス
      * @return keyをファイル名、valueをテンプレートデータとするマップ
      */
     public Map<String, Template> loadAll(final String dirPath)

@@ -36,9 +36,11 @@ import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 
 import jp.co.acroquest.endosnipe.collector.data.SignalStateNode;
+import jp.co.acroquest.endosnipe.collector.processor.AlarmData;
 import jp.co.acroquest.endosnipe.collector.util.SignalSummarizer;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.data.dao.SummarySignalDefinitionDao;
+import jp.co.acroquest.endosnipe.data.dto.SignalDefinitionDto;
 import jp.co.acroquest.endosnipe.data.dto.SummarySignalDefinitionDto;
 import jp.co.acroquest.endosnipe.data.entity.SummarySignalDefinition;
 
@@ -64,11 +66,26 @@ public class SummarySignalStateManager
     /** signal Child List that change the state*/
     private final Set<String> alarmChildList_ = new TreeSet<String>();
 
-    /** Sumamry signal Child List that change the state*/
+    /** Summary signal Child List that change the state*/
     private final Set<String> alarmSummaryList_ = new TreeSet<String>();
+
+    /** アラームを出すか判定するために保持するシグナルレベルのデータ  */
+    private final Map<Long, Integer> signalLevelMap_ = new ConcurrentHashMap<Long, Integer>();
 
     /** Database name to be access*/
     public String dataBaseName;
+
+    /** シグナルのレベルが3段階 */
+    private static final int SIGNAL_LEVEL_3 = 3;
+
+    /** シグナルのレベルが5段階 */
+    private static final int SIGNAL_LEVEL_5 = 5;
+
+    /** シグナルのタイプ OR */
+    private static final int SIGNAL_TYPE_OR = 1;
+
+    /** シグナルのタイプ AND */
+    private static final int SIGNAL_TYPE_AND = 0;
 
     /**
      * {@link SummarySignalStateManager}インスタンスを取得する。
@@ -621,4 +638,144 @@ public class SummarySignalStateManager
         }
         return false;
     }
+
+    /**
+     * サマリシグナルレベルデータを格納する
+     * @param id サマリシグナルID
+     * @param level サマリシグナルのレベル
+     */
+    public void setSignalLevel(final Long id, final Integer level)
+    {
+        signalLevelMap_.put(id, level);
+    }
+
+    /**
+     * サマリシグナルのレベルを取得する
+     * @param id サマリシグナルID
+     * @return サマリシグナルのレベル(指定したIDが存在しない場合は-1)
+     */
+    public int getSignalLevel(final Long id)
+    {
+        Integer level = signalLevelMap_.get(id);
+        if (level == null)
+        {
+            return -1;
+        }
+        return level;
+    }
+
+    /**
+     * サマリシグナルのレベル値を取得する
+     * @param summarySignalDefinitionDto サマリシグナルのDTO
+     * @return サマリシグナルのレベル値
+     */
+    public int getSummaryLevel(final SummarySignalDefinitionDto summarySignalDefinitionDto)
+    {
+        if (summarySignalDefinitionDto.summmarySignalType_ == SIGNAL_TYPE_OR)
+        {
+            return getWorstLevel(summarySignalDefinitionDto);
+        }
+        else if (summarySignalDefinitionDto.summmarySignalType_ == SIGNAL_TYPE_AND)
+        {
+            return getBestLevel(summarySignalDefinitionDto);
+        }
+        return -1;
+    }
+
+    /**
+     * サマリシグナルを構成するシグナル郡から、最も危険なレベルの値を取得する
+     * @param summarySignalDefinitionDto サマリシグナルのDTO
+     * @return 最も危険なレベル値
+     */
+    private int getWorstLevel(final SummarySignalDefinitionDto summarySignalDefinitionDto)
+    {
+        SignalStateManager signalStateManager = SignalStateManager.getInstance();
+        int worstLevel = -1;
+        for (String signalName : summarySignalDefinitionDto.signalList_)
+        {
+            Long signalId = signalStateManager.getSignalId(signalName);
+            if (signalId == null)
+            {
+                continue;
+            }
+            AlarmData alarmData = signalStateManager.getAlarmData(signalId);
+            SignalDefinitionDto signalDto =
+                signalStateManager.getSignalDeifinitionMap().get(signalId);
+            if (alarmData == null || signalDto == null)
+            {
+                continue;
+            }
+            int level = calculateSignalLevel(alarmData.getAlarmLevel(), signalDto.getLevel());
+            if (worstLevel < level)
+            {
+                worstLevel = level;
+            }
+        }
+        return worstLevel;
+    }
+
+    /**
+     * サマリシグナルを構成するシグナル郡から、最も安全なレベルの値を取得する
+     * @param summarySignalDefinitionDto サマリシグナルのDTO
+     * @return 最も安全なレベル値
+     */
+    private int getBestLevel(final SummarySignalDefinitionDto summarySignalDefinitionDto)
+    {
+        SignalStateManager signalStateManager = SignalStateManager.getInstance();
+        int bestLevel = -1;
+        for (String signalName : summarySignalDefinitionDto.signalList_)
+        {
+            Long signalId = signalStateManager.getSignalId(signalName);
+            if (signalId == null)
+            {
+                continue;
+            }
+            AlarmData alarmData = signalStateManager.getAlarmData(signalId);
+            SignalDefinitionDto signalDto =
+                signalStateManager.getSignalDeifinitionMap().get(signalId);
+            if (alarmData == null || signalDto == null)
+            {
+                continue;
+            }
+            int level = calculateSignalLevel(alarmData.getAlarmLevel(), signalDto.getLevel());
+            if (bestLevel == -1)
+            {
+                bestLevel = level;
+            }
+            if (bestLevel > level)
+            {
+                bestLevel = level;
+            }
+        }
+        return bestLevel;
+    }
+
+    private static int calculateSignalLevel(final int signalValue, final int level)
+    {
+        if (level == SIGNAL_LEVEL_3)
+        {
+            if (0 <= signalValue && signalValue < SIGNAL_LEVEL_3)
+            {
+                return 2 * signalValue;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+        else if (level == SIGNAL_LEVEL_5)
+        {
+            if (0 <= signalValue && signalValue < SIGNAL_LEVEL_5)
+            {
+                return signalValue;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
+        return -1;
+    }
+
 }

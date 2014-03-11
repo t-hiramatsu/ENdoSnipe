@@ -28,6 +28,8 @@ package jp.co.acroquest.endosnipe.collector.listener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import jp.co.acroquest.endosnipe.collector.LogMessageCodes;
 import jp.co.acroquest.endosnipe.collector.manager.SignalStateManager;
@@ -73,6 +75,9 @@ public class SignalChangeListener extends AbstractTelegramListener implements Te
      */
     private static List<SummarySignalDefinitionDto> summaryDtoList__ = null;
 
+    private final ArrayList<SummarySignalDefinitionDto> updatedSummarySignals_ =
+        new ArrayList<SummarySignalDefinitionDto>();
+
     /**
      * {@inheritDoc}
      */
@@ -91,19 +96,22 @@ public class SignalChangeListener extends AbstractTelegramListener implements Te
         if (itemName.equals(TelegramConstants.ITEMNAME_SIGNAL_DELETE)
             || itemName.equals(TelegramConstants.ITEMNAME_SIGNAL_UPDATE))
         {
-            if (summaryDtoList__ != null)
+            if (updatedSummarySignals_.size() == 0)
             {
-                List<SummarySignalDefinitionDto> summaryList =
-                    new ArrayList<SummarySignalDefinitionDto>();
-                summaryList.addAll(summaryDtoList__);
-                Telegram responseSummaryTelegram =
-                    CollectorTelegramUtil
-                        .createSummarySignalResponseTelegram(summaryList,
-                                                             TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_UPDATE);
-                summaryDtoList__ = null;
-                return responseSummaryTelegram;
+                return null;
             }
+            for (SummarySignalDefinitionDto dto : updatedSummarySignals_)
+            {
+                dto.summarySignalStatus_ =
+                    SummarySignalStateManager.getInstance().getSummaryLevel(dto);
+            }
+            Telegram responseSummaryTelegram =
+                CollectorTelegramUtil
+                    .createSummarySignalResponseTelegram(updatedSummarySignals_,
+                                                         TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_UPDATE);
+            return responseSummaryTelegram;
         }
+
         return null;
     }
 
@@ -114,7 +122,6 @@ public class SignalChangeListener extends AbstractTelegramListener implements Te
     private void updateSignalDefinition(final Telegram telegram)
     {
         Body[] bodys = telegram.getObjBody();
-
         for (Body body : bodys)
         {
             String itemName = body.getStrItemName();
@@ -128,7 +135,6 @@ public class SignalChangeListener extends AbstractTelegramListener implements Te
                 deleteSignalDefinition(body);
             }
         }
-        return;
     }
 
     /**
@@ -200,6 +206,22 @@ public class SignalChangeListener extends AbstractTelegramListener implements Te
         Object[] itemValues = body.getObjItemValueArr();
         String signalIdStr = (String)itemValues[ITEM_VALUE_SIGNAL_ID];
         String signalName = (String)itemValues[ITEM_VALUE_SIGNAL_NAME];
+
+        //更新されるサマリシグナルのリストを作成する
+        updatedSummarySignals_.clear();
+        SummarySignalStateManager summarySignalStateManager =
+            SummarySignalStateManager.getInstance();
+        Map<Long, SummarySignalDefinitionDto> dtoMap =
+            summarySignalStateManager.getSummarySignalDefinitionMap();
+        for (Entry<Long, SummarySignalDefinitionDto> entry : dtoMap.entrySet())
+        {
+            SummarySignalDefinitionDto dto = entry.getValue();
+            if (!dto.signalList_.contains(signalName))
+            {
+                continue;
+            }
+            updatedSummarySignals_.add(dto);
+        }
 
         try
         {

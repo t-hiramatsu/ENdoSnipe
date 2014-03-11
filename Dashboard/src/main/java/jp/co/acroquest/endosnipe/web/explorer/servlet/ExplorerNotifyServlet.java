@@ -108,10 +108,8 @@ public class ExplorerNotifyServlet extends HttpServlet
     /** テンプレートファイルの拡張子 */
     private static final String TEMPLATE_EXTENTION = ".xml";
 
+    /** 空白文字 */
     private static final String BLANK = "";
-
-    /** 停止時間   */
-    private static final int SLEEP_TIME = 5000;
 
     /** イベント処理クラスのMap */
     private final Map<Integer, EventProcessor> processorMap_ =

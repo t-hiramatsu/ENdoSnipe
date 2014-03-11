@@ -60,7 +60,6 @@ import jp.co.acroquest.endosnipe.collector.request.CommunicationClientRepository
 import jp.co.acroquest.endosnipe.collector.util.CollectorTelegramUtil;
 import jp.co.acroquest.endosnipe.collector.util.MulResourceGraphUtil;
 import jp.co.acroquest.endosnipe.collector.util.PerfDoctorMessages;
-import jp.co.acroquest.endosnipe.collector.util.SignalSummarizer;
 import jp.co.acroquest.endosnipe.common.Constants;
 import jp.co.acroquest.endosnipe.common.entity.ItemType;
 import jp.co.acroquest.endosnipe.common.entity.MeasurementData;
@@ -1105,6 +1104,9 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         final ResourceData currentResourceData, final ResourceData prevResourceData)
     {
         SignalStateManager signalStateManager = SignalStateManager.getInstance();
+        SummarySignalStateManager summarySignalStateManager =
+            SummarySignalStateManager.getInstance();
+
         List<AlarmEntry> alarmEntryList = new ArrayList<AlarmEntry>();
 
         Map<Long, SignalDefinitionDto> signalDefinitionMap =
@@ -1118,14 +1120,12 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             return;
         }
 
-        List<String> alarmSignalList = new ArrayList<String>();
         for (Entry<Long, SignalDefinitionDto> signalDefinitionEntry : signalDefinitionMap
             .entrySet())
 
         {
             SignalDefinitionDto signalDefinition = signalDefinitionEntry.getValue();
             String itemName = signalDefinition.getMatchingPattern();
-            String signalName = signalDefinition.getSignalName();
             long signalId = signalDefinition.getSignalId();
 
             // 異なるドメイン（クラスタ名、IPアドレス、エージェント名）のリソース情報から閾値判定を行うと、
@@ -1142,7 +1142,7 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
                 currentAlarmData = new AlarmData();
                 signalStateManager.addAlarmData(signalId, currentAlarmData);
             }
-            AlarmProcessor processor = getAlarmProcessor(signalDefinition);
+            AlarmProcessor processor = getAlarmProcessor();
 
             if (processor == null)
             {
@@ -1165,29 +1165,21 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             if (alarmEntry.isSendAlarm())
             {
                 alarmEntryList.add(alarmEntry);
-                if (calcualteSignalIcon(alarmEntry.getSignalValue(), alarmEntry.getSignalLevel())
-                    .equals("signal_4"))
-                {
-                    alarmSignalList.add(signalName);
-                    SummarySignalStateManager.getInstance().addChildAlarmData(signalName);
-                }
-                else
-                {
-                    if (SummarySignalStateManager.getInstance().getAlarmChildList()
-                        .contains(signalName))
-                    {
-                        alarmSignalList.add(signalName);
-                        SummarySignalStateManager.getInstance().getAlarmChildList()
-                            .remove(signalName);
-                    }
-                }
             }
         }
 
+        notifyClient(currentResourceData, summarySignalStateManager, alarmEntryList);
+    }
+
+    private void notifyClient(final ResourceData currentResourceData,
+        final SummarySignalStateManager summarySignalStateManager,
+        final List<AlarmEntry> alarmEntryList)
+    {
         // 閾値超過アラームをクライアントに通知する。
+        String clientId = currentResourceData.clientId;
+
         if (alarmEntryList != null && alarmEntryList.size() != 0)
         {
-            String clientId = currentResourceData.clientId;
             if (clientId == null || clientId.equals(""))
             {
                 clientId =
@@ -1196,21 +1188,66 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             }
             Telegram alarmTelegram = CollectorTelegramUtil.createAlarmTelegram(alarmEntryList);
             this.clientRepository_.sendTelegramToClient(clientId, alarmTelegram);
-            if (alarmSignalList != null && alarmSignalList.size() > 0)
-            {
-                List<SummarySignalDefinitionDto> alarmSummarySignal =
-                    SignalSummarizer.getInstance().calculateSummarySignalState(alarmSignalList);
-                Telegram alarmSummaryTelegram =
-                    CollectorTelegramUtil
-                        .createSummarySignalResponseTelegram(alarmSummarySignal,
-                                                             TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_CHANGE_STATE);
-                this.clientRepository_.sendTelegramToClient(clientId, alarmSummaryTelegram);
-            }
             for (AlarmEntry alarmEntry : alarmEntryList)
             {
                 addSignalStateChangeEvent(alarmEntry);
             }
         }
+
+        Map<Long, SummarySignalDefinitionDto> summarySignalDefinitionMap =
+            summarySignalStateManager.getSummarySignalDefinitionMap();
+        List<SummarySignalDefinitionDto> updatedSummarySignals =
+            new ArrayList<SummarySignalDefinitionDto>();
+        for (Entry<Long, SummarySignalDefinitionDto> entry : summarySignalDefinitionMap.entrySet())
+        {
+            SummarySignalDefinitionDto summarySignalDefinitionDto = entry.getValue();
+
+            //サマリシグナルを構成するシグナルに更新が無い場合は何もしない
+            if (!hasSignal(summarySignalDefinitionDto, alarmEntryList))
+            {
+                return;
+            }
+
+            int summaryLevel =
+                summarySignalStateManager.getSummaryLevel(summarySignalDefinitionDto);
+
+            Long summarySignalId = summarySignalDefinitionDto.summarySignalId_;
+            int previousLevel = summarySignalStateManager.getSignalLevel(summarySignalId);
+            if (previousLevel != summaryLevel)
+            {
+                summarySignalDefinitionDto.setSummarySignalStatus(summaryLevel);
+                summarySignalDefinitionDto.setPriority(0);
+                updatedSummarySignals.add(summarySignalDefinitionDto);
+            }
+            summarySignalStateManager.setSignalLevel(summarySignalId, summaryLevel);
+        }
+        if (updatedSummarySignals.size() != 0)
+        {
+            Telegram alarmSummaryTelegram =
+                CollectorTelegramUtil
+                    .createSummarySignalResponseTelegram(updatedSummarySignals,
+                                                         TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_CHANGE_STATE);
+            this.clientRepository_.sendTelegramToClient(clientId, alarmSummaryTelegram);
+        }
+    }
+
+    /**
+     * サマリシグナルを構成するシグナル郡に更新が発生したものが含まれるか判定する
+     * @param dto サマリシグナルのDTO
+     * @param entries 更新通知のリスト
+     * @return 含まれるか否か
+     */
+    private boolean hasSignal(final SummarySignalDefinitionDto dto, final List<AlarmEntry> entries)
+    {
+        for (AlarmEntry entry : entries)
+        {
+            if (!dto.signalList_.contains(entry.getSignalName()))
+            {
+                continue;
+            }
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -1350,10 +1387,9 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
 
     /**
      * 閾値判定処理を行うオブジェクトを取得する。
-     * @param signalDefinitionDto 閾値判定定義情報
      * @return 閾値判定処理を行うオブジェクト
      */
-    private AlarmProcessor getAlarmProcessor(final SignalDefinitionDto signalDefinitionDto)
+    private AlarmProcessor getAlarmProcessor()
     {
         // 現在は、閾値超過のアラーム判定しかないが、判定ロジックを追加するために、
         // 引数にはSignalDefinitionDtoを設定する。
@@ -1637,39 +1673,6 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         }
         long prevMeasurementValue = Long.valueOf(measurementDetail.value).longValue();
         return prevMeasurementValue;
-    }
-
-    private static String calcualteSignalIcon(final int signalValue, final int level)
-    {
-        String icon = "";
-        if (level == SIGNAL_LEVEL_3)
-        {
-            if (0 <= signalValue && signalValue < SIGNAL_LEVEL_3)
-            {
-                icon = "signal_" + 2 * signalValue;
-            }
-            else
-            {
-                icon = "signal_-1";
-            }
-        }
-        else if (level == SIGNAL_LEVEL_5)
-        {
-            if (0 <= signalValue && signalValue < SIGNAL_LEVEL_5)
-            {
-                icon = "signal_" + signalValue;
-            }
-            else
-            {
-                icon = "signal_-1";
-            }
-        }
-        else
-        {
-            icon = "signal_-1";
-        }
-
-        return icon;
     }
 
 }

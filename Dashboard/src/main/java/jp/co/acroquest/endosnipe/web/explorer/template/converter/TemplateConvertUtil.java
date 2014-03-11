@@ -28,19 +28,34 @@ import jp.co.acroquest.endosnipe.web.explorer.template.meta.Template;
 public class TemplateConvertUtil
 {
 
+    /** ダッシュボードの横幅のキー */
     private static final String KEY_DASHBOARD_WIDTH = "dashboardWidth";
 
+    /** ダッシュボードの高さのキー */
     private static final String KEY_DASHBOARD_HEIGHT = "dashboardHeight";
 
+    /** 背景のキー */
     private static final String KEY_BACKGROUND = "background";
 
+    /** リソースのキー */
     private static final String KEY_RESOURCES = "resources";
 
+    /** テンプレートの接頭辞 */
     protected static final String TEMPLATE_PREFIX = "/default/template";
 
+    /** スラッシュ */
     protected static final String SLASH = "/";
 
+    /** SQLのワイルドカード */
     private static final String WILDCARD = "%";
+
+    /**
+     * コンストラクタ
+     */
+    protected TemplateConvertUtil()
+    {
+
+    }
 
     /**
      * テンプレートをマップに変換する

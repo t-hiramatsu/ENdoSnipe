@@ -18,71 +18,119 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlType;
 
+/**
+ * テンプレートクラス
+ * @author kamo
+ *
+ */
 @XmlType(name = "template")
 public class Template
 {
-    private Background background;
+    /** 背景クラス */
+    private Background background_;
 
-    private List<Resource> resources;
+    /** リソースクラスのリスト */
+    private List<Resource> resources_;
 
-    private Integer width;
+    /** 横幅 */
+    private Integer width_;
 
-    private Integer height;
+    /** 高さ */
+    private Integer height_;
 
+    /**
+     * コンストラクタ
+     */
+    public Template()
+    {
+    }
+
+    /**
+     * 背景の取得
+     * @return 背景
+     */
     @XmlElement(name = "background")
     public Background getBackground()
     {
-        return background;
+        return background_;
     }
 
+    /**
+     * 背景の設定
+     * @param background 背景
+     */
     public void setBackground(final Background background)
     {
-        this.background = background;
+        this.background_ = background;
     }
 
+    /**
+     * リソースリストの取得
+     * @return リソースリスト
+     */
     @XmlElement(name = "resource")
     @XmlElementWrapper(name = "resources")
     public List<Resource> getResources()
     {
-        return resources;
+        return resources_;
     }
 
+    /**
+     * リソースリストの設定
+     * @param resources リソースリスト
+     */
     public void setResources(final List<Resource> resources)
     {
-        this.resources = resources;
+        this.resources_ = resources;
     }
 
+    /**
+     * 横幅の取得
+     * @return 横幅
+     */
     @XmlElement(name = "width")
     public Integer getWidth()
     {
-        return width;
+        return width_;
     }
 
+    /**
+     * 横幅の設定
+     * @param width 横幅
+     */
     public void setWidth(final Integer width)
     {
-        this.width = width;
+        this.width_ = width;
     }
 
+    /**
+     * 高さの取得
+     * @return 高さ
+     */
     @XmlElement(name = "height")
     public Integer getHeight()
     {
-        return height;
+        return height_;
     }
 
+    /**
+     * 高さの設定
+     * @param height 高さ
+     */
     public void setHeight(final Integer height)
     {
-        this.height = height;
+        this.height_ = height;
     }
 
     @Override
     public int hashCode()
     {
-        final int prime = 31;
+        final int PRIME = 31;
         int result = 1;
-        result = prime * result + ((background == null) ? 0 : background.hashCode());
-        result = prime * result + ((height == null) ? 0 : height.hashCode());
-        result = prime * result + ((resources == null) ? 0 : resources.hashCode());
-        result = prime * result + ((width == null) ? 0 : width.hashCode());
+        result = PRIME * result + ((background_ == null) ? 0 : background_.hashCode());
+        result = PRIME * result + ((height_ == null) ? 0 : height_.hashCode());
+        result = PRIME * result + ((resources_ == null) ? 0 : resources_.hashCode());
+        result = PRIME * result + ((width_ == null) ? 0 : width_.hashCode());
         return result;
     }
 
@@ -102,47 +150,47 @@ public class Template
             return false;
         }
         Template other = (Template)obj;
-        if (background == null)
+        if (background_ == null)
         {
-            if (other.background != null)
+            if (other.background_ != null)
             {
                 return false;
             }
         }
-        else if (!background.equals(other.background))
+        else if (!background_.equals(other.background_))
         {
             return false;
         }
-        if (height == null)
+        if (height_ == null)
         {
-            if (other.height != null)
+            if (other.height_ != null)
             {
                 return false;
             }
         }
-        else if (!height.equals(other.height))
+        else if (!height_.equals(other.height_))
         {
             return false;
         }
-        if (resources == null)
+        if (resources_ == null)
         {
-            if (other.resources != null)
+            if (other.resources_ != null)
             {
                 return false;
             }
         }
-        else if (!resources.equals(other.resources))
+        else if (!resources_.equals(other.resources_))
         {
             return false;
         }
-        if (width == null)
+        if (width_ == null)
         {
-            if (other.width != null)
+            if (other.width_ != null)
             {
                 return false;
             }
         }
-        else if (!width.equals(other.width))
+        else if (!width_.equals(other.width_))
         {
             return false;
         }
@@ -152,8 +200,8 @@ public class Template
     @Override
     public String toString()
     {
-        return "Template [background=" + background + ", resources=" + resources + ", width="
-                + width + ", height=" + height + "]";
+        return "Template [background=" + background_ + ", resources=" + resources_ + ", width="
+                + width_ + ", height=" + height_ + "]";
     }
 
 }

@@ -26,6 +26,7 @@
 package jp.co.acroquest.endosnipe.collector.manager;
 
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import jp.co.acroquest.endosnipe.collector.processor.AlarmData;
@@ -141,6 +142,25 @@ public class SignalStateManager
             return null;
         }
         return this.signalDefinitionMap_.remove(signalId);
+    }
+
+    /**
+     * シグナル名を指定してシグナルIDを取得する
+     * @param name シグナル名
+     * @return シグナルID
+     */
+    public Long getSignalId(final String name)
+    {
+        for (Entry<Long, SignalDefinitionDto> entry : signalDefinitionMap_.entrySet())
+        {
+            SignalDefinitionDto dto = entry.getValue();
+            if (!dto.getSignalName().equals(name))
+            {
+                continue;
+            }
+            return entry.getKey();
+        }
+        return null;
     }
 
 }
