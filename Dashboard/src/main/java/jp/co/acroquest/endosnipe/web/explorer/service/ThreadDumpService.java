@@ -139,9 +139,9 @@ public class ThreadDumpService
         for (JavelinLog table : list)
         {
             ThreadDumpDto result = new ThreadDumpDto();
-            result.agentId_ = table.getLogId();
-            result.date_ = table.getStartTime().toString();
-            String name = table.getLogFileName();
+            result.agentId_ = table.logId;
+            result.date_ = table.startTime.toString();
+            String name = table.logFileName;
             result.setLogFileName(name);
             result.threadDumpInfo_ = this.getThreadDumpDetailData(name);
             displayList.add(result);
