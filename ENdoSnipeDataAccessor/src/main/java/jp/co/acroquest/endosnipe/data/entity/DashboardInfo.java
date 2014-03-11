@@ -69,7 +69,7 @@ public class DashboardInfo
     @Override
     public String toString()
     {
-        return String.format("DashboardID:%d Name:%s Data:%s LastUpadate%s", dashboardId, name, data,
-                             lastUpdate);
+        return String.format("DashboardID:%d Name:%s Data:%s LastUpadate%s", dashboardId, name,
+                             data, lastUpdate);
     }
 }
