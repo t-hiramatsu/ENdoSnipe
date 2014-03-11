@@ -66,7 +66,8 @@ public class DashboardInfoDao extends AbstractDao
         {
             conn = getConnection(database);
             String sql =
-                "insert into " + DASHBOARD_INFO_TABLE + "(NAME, DATA, LAST_UPDATE)" + " values (?, ?, ?)";
+                "insert into " + DASHBOARD_INFO_TABLE + "(NAME, DATA, LAST_UPDATE)"
+                    + " values (?, ?, ?)";
             pstmt = conn.prepareStatement(sql);
             // CHECKSTYLE:OFF
             pstmt.setString(1, dashboardInfo.name);
@@ -135,7 +136,8 @@ public class DashboardInfoDao extends AbstractDao
         try
         {
             conn = getConnection(database, true);
-            String sql = "select * from " + DASHBOARD_INFO_TABLE + " where DASHBOARD_ID = ? order by NAME";
+            String sql =
+                "select * from " + DASHBOARD_INFO_TABLE + " where DASHBOARD_ID = ? order by NAME";
             pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, dashboardId);
             rs = pstmt.executeQuery();
@@ -174,7 +176,8 @@ public class DashboardInfoDao extends AbstractDao
         {
             conn = getConnection(database, true);
             String sql =
-                "update " + DASHBOARD_INFO_TABLE + " set data = ? , last_update = ? where DASHBOARD_ID = ?";
+                "update " + DASHBOARD_INFO_TABLE
+                    + " set data = ? , last_update = ? where DASHBOARD_ID = ?";
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(SQL_DATA, dashboardInfo.data);
             Timestamp current = new Timestamp(System.currentTimeMillis());
