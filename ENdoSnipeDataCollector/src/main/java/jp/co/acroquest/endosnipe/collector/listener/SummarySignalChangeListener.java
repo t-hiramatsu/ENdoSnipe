@@ -84,10 +84,13 @@ public class SummarySignalChangeListener extends AbstractTelegramListener implem
                 if (!bodys[0].getStrItemName()
                     .equals(TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_DELETE))
                 {
+                    SummarySignalStateManager summarySignalStateManager =
+                        SummarySignalStateManager.getInstance();
                     List<SummarySignalDefinitionDto> summarySignalDefinitionDtoList =
-                        SignalSummarizer.getInstance()
-                            .calculateChangeSummarySignalState(summarySignalDefinitionDto,
-                                                               bodys[0].getStrItemName());
+                        new ArrayList<SummarySignalDefinitionDto>();
+                    SummarySignalDefinitionDto dto = summarySignalDefinitionDto.get(0);
+                    dto.summarySignalStatus_ = summarySignalStateManager.getSummaryLevel(dto);
+                    summarySignalDefinitionDtoList.add(dto);
                     if (summarySignalDefinitionDtoList != null
                         && summarySignalDefinitionDtoList.size() > 0)
                     {
