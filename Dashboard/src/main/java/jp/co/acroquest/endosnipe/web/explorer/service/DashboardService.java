@@ -367,7 +367,6 @@ public class DashboardService
                 String imageName = image.getName();
                 if (imageName.endsWith(".png"))
                 {
-                    String imagePath = image.getPath();
                     imageMap.put(imageName, relativePath + "/" + imageName);
                 }
             }
