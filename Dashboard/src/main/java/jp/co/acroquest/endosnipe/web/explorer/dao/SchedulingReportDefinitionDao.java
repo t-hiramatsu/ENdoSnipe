@@ -66,6 +66,9 @@ public interface SchedulingReportDefinitionDao
      */
     List<SchedulingReportDefinition> selectBySchedule(Timestamp currentTime);
 
+    //TODO: JavaDocを書く
+    List<SchedulingReportDefinition> selectPreviousSchedule(Timestamp currentTime);
+
     /**
      * insert into database.
      * @param schedulingReportDefinition is used

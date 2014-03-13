@@ -125,10 +125,18 @@
 		PLAN_EXPORT_REPORT_TIME
 		= #{currentTime}
 	</select>
+	
+	<select id="selectPreviousSchedule" resultMap="SchedulingReportDefinitionMap">
+	    select REPORT_ID,REPORT_NAME,TARGET_MEASUREMENT_NAME,SCHEDULE_TERM,SCHEDULE_TIME,SCHEDULE_DAY,SCHEDULE_DATE,PLAN_EXPORT_REPORT_TIME
+	    from SCHEDULING_REPORT_DEFINITION
+	    where to_char(plan_export_report_time, 'YYYY-MM-DD HH24:MI:SS') &lt;= #{currentTime}
+	</select>
+	
 	<delete id="deleteById">
 		delete from SCHEDULING_REPORT_DEFINITION
 		where
 		REPORT_ID
 		= #{reportId_}
 	</delete>
+	
 </mapper>
