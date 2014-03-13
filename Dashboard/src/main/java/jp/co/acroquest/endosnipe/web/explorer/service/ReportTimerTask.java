@@ -14,6 +14,9 @@ package jp.co.acroquest.endosnipe.web.explorer.service;
 
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import org.quartz.SchedulerContext;
+import org.quartz.SchedulerException;
+import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.stereotype.Service;
 
@@ -51,8 +54,18 @@ public class ReportTimerTask extends QuartzJobBean
     protected void executeInternal(final JobExecutionContext context)
         throws JobExecutionException
     {
-
-        runMeTask_.run();
+        SchedulerContext schedulerContext;
+        try
+        {
+            schedulerContext = context.getScheduler().getContext();
+        }
+        catch (SchedulerException ex)
+        {
+            return;
+        }
+        ApplicationContext applicationContext =
+                (ApplicationContext)schedulerContext.get("applicationContext");
+        runMeTask_.run(applicationContext);
 
     }
 }

@@ -20,7 +20,6 @@ import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
 /**
@@ -33,10 +32,7 @@ public class ReportScheduleService
 {
 
     /** connect with database */
-    String[] springConfig_ = { "spring/batch/jobs/job-extract-users.xml" };
-
-    /** create class path */
-    ApplicationContext context_ = new ClassPathXmlApplicationContext(springConfig_);
+    String[] springConfig_ = { "../spring/appServlet/job-extract-users.xml" };
 
     /**
      * デフォルトコンストラクタ。
@@ -48,16 +44,15 @@ public class ReportScheduleService
     /**
      * Thread excuting.
      */
-    public void run()
+    public void run(final ApplicationContext context)
     {
         Timestamp currentTime = new Timestamp(Calendar.getInstance().getTimeInMillis());
 
-        JobLauncher jobLauncher = (JobLauncher)context_.getBean("jobLauncher");
-        Job job = (Job)context_.getBean("testJob");
+        JobLauncher jobLauncher = (JobLauncher)context.getBean("jobLauncher");
+        Job job = (Job)context.getBean("testJob");
 
         try
         {
-
             JobParameters param =
                     new JobParametersBuilder().addString("currentTime", currentTime.toString()).toJobParameters();
             jobLauncher.run(job, param);
