@@ -12,33 +12,6 @@
 		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
 		">
 
-	<beans:bean id="itemWriter"
-		class="org.springframework.batch.item.xml.StaxEventItemWriter">
-		<beans:property name="resource" value="file:xml/outputs/users.xml" />
-		<beans:property name="marshaller" ref="userUnmarshaller" />
-		<beans:property name="rootTagName" value="users" />
-	</beans:bean>
-
-	<beans:bean id="userUnmarshaller"
-		class="org.springframework.oxm.xstream.XStreamMarshaller">
-		<beans:property name="aliases">
-			<util:map id="aliases">
-				<beans:entry key="user"
-					value="jp.co.acroquest.endosnipe.web.explorer.dto.SchedulingReportDefinitionDto" />
-			</util:map>
-		</beans:property>
-	</beans:bean>
-	<!-- stored job-meta in memory -->
-	<beans:bean id="jobRepository"
-		class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean">
-		<beans:property name="transactionManager" ref="transactionManager" />
-	</beans:bean>
-
-	<beans:bean id="jobLauncher"
-		class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
-		<beans:property name="jobRepository" ref="jobRepository" />
-	</beans:bean>
-
 	<beans:bean id="runMeTask"
 		class="jp.co.acroquest.endosnipe.web.explorer.service.ReportScheduleService" />
 
@@ -63,7 +36,6 @@
 		class="org.springframework.scheduling.quartz.CronTriggerBean">
 
 		<beans:property name="jobDetail" ref="runMeJob" />
-		<!-- <property name="cronExpression" value="0*/1 * * * * ?"/> -->
 		<beans:property name="cronExpression" value="0/5 * * * * ?" />
 
 	</beans:bean>

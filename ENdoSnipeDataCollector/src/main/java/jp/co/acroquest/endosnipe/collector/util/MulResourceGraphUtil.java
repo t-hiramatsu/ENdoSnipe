@@ -74,7 +74,6 @@ public class MulResourceGraphUtil
                         createUpdateMeasurementItemList(matchResult.measurementItemIdList_,
                                                         measurementName, operation);
                     itemMap.put(matchResult.multipleResourceGraphId_, updateList);
-                    System.out.println(matchResult.multipleResourceGraphName_);
                 }
                 if (itemMap.size() > 0)
                 {
