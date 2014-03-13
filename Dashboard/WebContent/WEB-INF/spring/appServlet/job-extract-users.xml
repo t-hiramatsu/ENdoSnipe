@@ -1,0 +1,129 @@
+<beans:beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:batch="http://www.springframework.org/schema/batch" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:import="http://www.springframework.org/schema//import"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/batch 
+		http://www.springframework.org/schema/batch/spring-batch-2.2.xsd
+		http://www.springframework.org/schema/util 
+		http://www.springframework.org/schema/util/spring-util-3.2.xsd
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		">
+
+	<beans:bean id="pagingItemReader"
+		class="org.springframework.batch.item.database.JdbcPagingItemReader"
+		scope="step">
+		<beans:property name="rowMapper">
+			<beans:bean
+				class="jp.co.acroquest.endosnipe.web.explorer.service.ScheduleRowMapper" />
+		</beans:property>
+		<beans:property name="dataSource" ref="dataSource" />
+		<beans:property name="queryProvider">
+			<beans:bean
+				class="org.springframework.batch.item.database.support.SqlPagingQueryProviderFactoryBean">
+				<beans:property name="dataSource" ref="dataSource" />
+				<beans:property name="selectClause"
+					value="select REPORT_ID,REPORT_NAME,TARGET_MEASUREMENT_NAME,SCHEDULE_TERM,SCHEDULE_TIME,SCHEDULE_DAY,SCHEDULE_DATE,PLAN_EXPORT_REPORT_TIME" />
+				<beans:property name="fromClause"
+					value="from SCHEDULING_REPORT_DEFINITION" />
+				<beans:property name="whereClause"
+					value="where to_char(plan_export_report_time, 'YYYY-MM-DD HH24:MI:SS') &lt;=:time" />
+				<beans:property name="sortKey" value="report_id" />
+			</beans:bean>
+		</beans:property>
+		<beans:property name="parameterValues">
+			<beans:map>
+				<beans:entry key="time" value="#{jobParameters['currentTime']}" />
+			</beans:map>
+		</beans:property>
+		<beans:property name="pageSize" value="10" />
+
+	</beans:bean>
+	
+
+	<job id="testJob" xmlns="http://www.springframework.org/schema/batch">
+		<step id="step1">
+			<tasklet>
+				<chunk reader="pagingItemReader" writer="itemWriter"
+					commit-interval="1" />
+			</tasklet>
+		</step>
+	</job>
+
+	<beans:bean id="itemWriter"
+		class="org.springframework.batch.item.xml.StaxEventItemWriter">
+		<beans:property name="resource" value="file:xml/outputs/users.xml" />
+		<beans:property name="marshaller" ref="userUnmarshaller" />
+		<beans:property name="rootTagName" value="users" />
+	</beans:bean>
+
+	<beans:bean id="userUnmarshaller"
+		class="org.springframework.oxm.xstream.XStreamMarshaller">
+		<beans:property name="aliases">
+			<util:map id="aliases">
+				<beans:entry key="user"
+					value="jp.co.acroquest.endosnipe.web.explorer.dto.SchedulingReportDefinitionDto" />
+			</util:map>
+		</beans:property>
+	</beans:bean>
+	<!-- stored job-meta in memory -->
+	<beans:bean id="jobRepository"
+		class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean">
+		<beans:property name="transactionManager" ref="transactionManager" />
+	</beans:bean>
+
+	<beans:bean id="jobLauncher"
+		class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+		<beans:property name="jobRepository" ref="jobRepository" />
+	</beans:bean>
+
+	<beans:bean id="runMeTask"
+		class="jp.co.acroquest.endosnipe.web.explorer.service.ReportScheduleService" />
+
+	<!-- Spring Quartz -->
+	<beans:bean name="runMeJob"
+		class="org.springframework.scheduling.quartz.JobDetailBean">
+
+		<beans:property name="jobClass"
+			value="jp.co.acroquest.endosnipe.web.explorer.service.ReportTimerTask" />
+
+		<beans:property name="jobDataAsMap">
+			<util:map>
+				<beans:entry key="runMeTask" value-ref="runMeTask" />
+			</util:map>
+		</beans:property>
+
+	</beans:bean>
+
+
+	<!-- Cron Trigger, run every 5 seconds -->
+	<beans:bean id="cronTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerBean">
+
+		<beans:property name="jobDetail" ref="runMeJob" />
+		<!-- <property name="cronExpression" value="0*/1 * * * * ?"/> -->
+		<beans:property name="cronExpression" value="0/5 * * * * ?" />
+
+	</beans:bean>
+
+	<beans:bean
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<beans:property name="applicationContextSchedulerContextKey">
+			<beans:value>applicationContext</beans:value>
+		</beans:property>
+		<beans:property name="jobDetails">
+			<util:list>
+				<beans:ref bean="runMeJob" />
+			</util:list>
+		</beans:property>
+
+		<beans:property name="triggers">
+			<util:list>
+				<beans:ref bean="cronTrigger" />
+			</util:list>
+		</beans:property>
+
+	</beans:bean>
+</beans:beans>
