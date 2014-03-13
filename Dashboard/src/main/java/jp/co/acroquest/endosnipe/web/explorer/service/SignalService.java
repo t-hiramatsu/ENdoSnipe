@@ -58,7 +58,7 @@ public class SignalService
      * シグナル情報Dao
      */
     @Autowired
-    protected SignalInfoDao signalInfoDao;
+    protected SignalInfoDao signalInfoDao_;
 
     /** 閾値を区切るパターン */
     private static final Pattern SIGNAL_SPLIT_PATTERN = Pattern.compile(",");
@@ -81,7 +81,7 @@ public class SignalService
         List<SignalInfo> signalList = null;
         try
         {
-            signalList = signalInfoDao.selectAll();
+            signalList = signalInfoDao_.selectAll();
         }
         catch (PersistenceException pEx)
         {
@@ -261,8 +261,8 @@ public class SignalService
         int signalId = 0;
         try
         {
-            signalInfoDao.insert(signalInfo);
-            signalId = signalInfoDao.selectSequenceNum(signalInfo);
+            signalInfoDao_.insert(signalInfo);
+            signalId = signalInfoDao_.selectSequenceNum(signalInfo);
         }
         catch (DuplicateKeyException dkEx)
         {
@@ -292,7 +292,7 @@ public class SignalService
      */
     public SignalDefinitionDto getSignalInfo(final String signalName)
     {
-        SignalInfo signalInfo = signalInfoDao.selectByName(signalName);
+        SignalInfo signalInfo = signalInfoDao_.selectByName(signalName);
         if (signalInfo == null)
         {
             return null;
@@ -312,13 +312,13 @@ public class SignalService
     {
         try
         {
-            SignalInfo beforeSignalInfo = signalInfoDao.selectById(signalInfo.signalId);
+            SignalInfo beforeSignalInfo = signalInfoDao_.selectById(signalInfo.signalId);
             if (beforeSignalInfo == null)
             {
                 return new SignalDefinitionDto();
             }
 
-            signalInfoDao.update(signalInfo);
+            signalInfoDao_.update(signalInfo);
 
             String beforeItemName = beforeSignalInfo.signalName;
             String afterItemName = signalInfo.signalName;
@@ -370,7 +370,7 @@ public class SignalService
             // 削除前に定義情報を取得しておく。
             signalDefinitionDto = getSignalInfo(signalName);
 
-            signalInfoDao.delete(signalName);
+            signalInfoDao_.delete(signalName);
             this.deleteMeasurementItem(signalName);
         }
         catch (PersistenceException pEx)
@@ -402,7 +402,7 @@ public class SignalService
      */
     public void deleteChildren(final String signalNameRe)
     {
-        signalInfoDao.deleteChildren(signalNameRe);
+        signalInfoDao_.deleteChildren(signalNameRe);
     }
 
     /**
@@ -502,7 +502,7 @@ public class SignalService
      */
     public boolean hasSameSignalName(final String signalName)
     {
-        SignalInfo signalInfo = this.signalInfoDao.selectByName(signalName);
+        SignalInfo signalInfo = this.signalInfoDao_.selectByName(signalName);
         if (signalInfo == null)
         {
             // 同一シグナル名を持つ閾値判定定義情報が存在しない場合
@@ -520,7 +520,7 @@ public class SignalService
      */
     public boolean hasSameSignalName(final long signalId, final String signalName)
     {
-        SignalInfo signalInfo = this.signalInfoDao.selectByName(signalName);
+        SignalInfo signalInfo = this.signalInfoDao_.selectByName(signalName);
         if (signalInfo == null)
         {
             // 同一シグナル名を持つ閾値判定定義情報が存在しない場合
