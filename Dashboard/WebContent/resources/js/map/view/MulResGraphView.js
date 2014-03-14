@@ -1,20 +1,20 @@
 /*******************************************************************************
  * ENdoSnipe 5.0 - (https://github.com/endosnipe)
- *
+ * 
  * The MIT License (MIT)
- *
+ * 
  * Copyright (c) 2012 Acroquest Technology Co.,Ltd.
- *
+ * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * 
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -109,7 +109,9 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 					var measurementItemNameList = measurementItemIds;
 
 					// measurementItemNameのリストから以下のようなパイプ区切りの正規表現を生成する。
-					// "( measurementItemName1|measurementItemName2|...|measurementItemNameN )"
+					// "(
+					// measurementItemName1|measurementItemName2|...|measurementItemNameN
+					// )"
 					var graphIds = "(";
 					for ( var index = 0; index < measurementItemNameList.length; index++) {
 						if (index == measurementItemNameList.length - 1) {
@@ -377,7 +379,7 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				if (dataList.length !== 0) {
 					this.maxValue = this.getMaxValue(dataList);
 				}else{
-					//データが存在しない場合は以降の更新処理を行わない。
+					// データが存在しない場合は以降の更新処理を行わない。
 					return;
 				}
 				var updateOption;
@@ -761,7 +763,7 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 						var dateData = dataList[0];
 						var valueData = dataList[1];
 
-						var dataArray
+						var dataArray;
 						if(_.has(dataMap, dateData)){
 							dataArray = dataMap[dateData];
 
@@ -777,7 +779,7 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 
 						}
 						if (currentKeysIndex !== 0 || valueData !== undefined) {
-						  dataArray[currentKeysIndex] = valueData;
+							dataArray[currentKeysIndex] = valueData;
 						}
 					});
 				});
@@ -786,10 +788,32 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 
 				// 時刻を「キー値」、各系列ごとの値の配列を「値」とする連想配列を、
 				// 時刻ごとの[時刻, 系列の値1,系列の値2....]の2次元配列に変換する。
-				_.each(dataMap, function(dataMapValue, dateData){
-					returnDataArray.push([].concat(new Date(dateData), dataMapValue));
-				});
+				for(var key in dataMap){
+					var value = dataMap[key];
+					var date = new Date(key);
+					var data = [].concat(date, value);
+					instance._insertArray(returnDataArray, data);
+				}
 
 				return returnDataArray;
+			},
+			_insertArray : function(array, data){
+				var len = array.length;
+				
+				//配列が空か末尾のデータよりも挿入データが新しい場合
+				if(len === 0 || array[len-1][0] < data[0]){
+					array.push(data);
+					return;
+				}
+				
+				//時系列になるようにデータを挿入する
+				for(var i=0; i<len; i++){
+					var targetDate = array[i][0];
+					if(targetDate > data[0]){
+						continue;
+					}
+					array.splice(i+1, 0, data);
+					return;
+				}
 			}
 		});
