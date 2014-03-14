@@ -91,6 +91,15 @@ ENS.ResourceDashboardListView = wgp.TreeView
 
 				var result = this.ajaxHandler.requestServerSync(setting);
 				var dashboardListTree = $.parseJSON(result)["dashboard"];
+				dashboardListTree.sort(function(a, b){
+					if(a.data > b.data){
+						return 1;
+					}else if(a.data < b.data){
+						return -1;
+					}else{
+						return 0;
+					}
+				});
 				instance.collection = new TreeModelList(dashboardListTree, {
 					model : wgp.TreeModel
 				});
