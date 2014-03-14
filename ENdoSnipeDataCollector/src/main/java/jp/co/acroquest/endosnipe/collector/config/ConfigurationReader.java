@@ -132,8 +132,8 @@ import jp.co.acroquest.endosnipe.data.db.DatabaseType;
  */
 public class ConfigurationReader
 {
-    private static final ENdoSnipeLogger logger_ = ENdoSnipeLogger
-        .getLogger(ConfigurationReader.class);
+    private static final ENdoSnipeLogger logger_ =
+                                                   ENdoSnipeLogger.getLogger(ConfigurationReader.class);
 
     /** DataCollectorConfig */
     private static DataCollectorConfig config__ = null;
@@ -206,7 +206,7 @@ public class ConfigurationReader
 
     /** 計測データの最大蓄積期間を表す接頭辞 (共通設定) */
     private static final String COMMON_MEASUREMENT_LOG_STORAGE_PERIOD =
-        "measurement.log.storage.period";
+                                                                        "measurement.log.storage.period";
 
     /** Javelinログの最大蓄積期間を表す接頭辞 */
     private static final String JVN_LOG_STRAGE_PERIOD = "javelin.log.storage.period.";
@@ -278,7 +278,7 @@ public class ConfigurationReader
     private static final String SMTP_TEMPLATE_MEASUREMENT = SMTP_TEMPLATE_PREFIX + "measurement";
 
     public static final String SMTP_TEMPLATE_COLLECT_COMPLETED = SMTP_TEMPLATE_PREFIX
-        + "collectCompleted";
+            + "collectCompleted";
 
     //--------------------
     // SNMP settings
@@ -307,27 +307,6 @@ public class ConfigurationReader
     public static final String BATCH_SIZE = "insert.batch.size";
 
     public static final String ITEMID_CACHE_SIZE = "itemid.cache.size";
-
-    /** クラスタ名（ElasticSearch)の設定項目名 */
-    public static final String ES_HOST_NAME = "elasticsearch.host.name";
-
-    /** クラスタ名（ElasticSearch)の設定項目名 */
-    public static final String ES_HOST_PORT = "elasticsearch.host.port";
-
-    /** クラスタ名（ElasticSearch)の設定項目名 */
-    public static final String ES_CLUSTER_NAME = "elasticsearch.cluster.name";
-
-    /** インデックス(ElasticSearch:接頭辞)の設定項目名 */
-    public static final String ES_INDEX_PREFIX = "elasticsearch.index.prefix";
-
-    /**インデックス(ElasticSearch:接尾辞)の設定項目名 */
-    public static final String ES_INDEX_POSTFIX = "elasticsearch.index.postfix";
-
-    /** 種別 (ElasticSearch)の設定項目名 */
-    public static final String ES_TYPE = "elasticsearch.type";
-
-    /** 利用可能かどうか(ElasticSearch)の設定項目名 */
-    public static final String ES_AVAILABLE = "elasticsearch.available";
 
     /** エージェント定義の設定を表すprefix */
     private static final Set<String> AGENT_PREFIXES = new CopyOnWriteArraySet<String>();
@@ -505,7 +484,8 @@ public class ConfigurationReader
             catch (InitializeException ex)
             {
                 String defaultValue =
-                    AgentSetting.DEF_PERIOD + AgentSetting.DEF_PERIOD_UNIT.toString();
+                                      AgentSetting.DEF_PERIOD
+                                              + AgentSetting.DEF_PERIOD_UNIT.toString();
                 logger_.log(LogMessageCodes.FAIL_READ_PARAMETER_USE_DEFAULT, configFilePath_, key,
                             defaultValue);
             }
@@ -519,7 +499,8 @@ public class ConfigurationReader
             catch (InitializeException ex)
             {
                 String defaultValue =
-                    AgentSetting.DEF_PERIOD + AgentSetting.DEF_PERIOD_UNIT.toString();
+                                      AgentSetting.DEF_PERIOD
+                                              + AgentSetting.DEF_PERIOD_UNIT.toString();
                 logger_.log(LogMessageCodes.FAIL_READ_PARAMETER_USE_DEFAULT, configFilePath_, key,
                             defaultValue);
             }
@@ -595,7 +576,7 @@ public class ConfigurationReader
      * @throws InitializeException パラメータの初期化に失敗した場合
      */
     private static void setCommonValue(final DataCollectorConfig config, final String key,
-        final String value)
+            final String value)
         throws InitializeException
     {
         if (DATABASE_TYPE.equals(key))
@@ -770,7 +751,7 @@ public class ConfigurationReader
             {
                 // 件名
                 String name =
-                    key.substring(0, key.length() - SMTP_TEMPLATE_SUBJECT_SUFFIX.length());
+                              key.substring(0, key.length() - SMTP_TEMPLATE_SUBJECT_SUFFIX.length());
                 MailTemplateEntity entity = getMailTemplateEntity(config, name);
                 entity.subject = value;
             }
@@ -860,43 +841,7 @@ public class ConfigurationReader
             }
 
         }
-        // Elastic Search Settings
-        else if (ES_HOST_NAME.equals(key))
-        {
-            config.setEsHostName(value);
-        }
-        else if (ES_HOST_PORT.equals(key))
-        {
-            try
-            {
-                config.setEsHostPort(Integer.parseInt(value));
-            }
-            catch (NumberFormatException ex)
-            {
-                // 必須項目ではないため、ログ出力は行わない。
-                config.setEsHostPort(0);
-            }
-        }
-        else if (ES_CLUSTER_NAME.equals(key))
-        {
-            config.setEsClusterName(value);
-        }
-        else if (ES_INDEX_PREFIX.equals(key))
-        {
-            config.setEsIndexPrefix(value);
-        }
-        else if (ES_INDEX_POSTFIX.equals(key))
-        {
-            config.setEsIndexPostfix(value);
-        }
-        else if (ES_TYPE.equals(key))
-        {
-            config.setEsType(value);
-        }
-        else if (ES_AVAILABLE.equals(key))
-        {
-            config.setEsAvailable(Boolean.parseBoolean(value));
-        }
+
     }
 
     /**
@@ -908,7 +853,7 @@ public class ConfigurationReader
      * @return 設定オブジェクト
      */
     private static MailTemplateEntity getMailTemplateEntity(final DataCollectorConfig config,
-        final String name)
+            final String name)
     {
         MailTemplateEntity entity = config.getSmtpTemplate(name);
         if (entity == null)

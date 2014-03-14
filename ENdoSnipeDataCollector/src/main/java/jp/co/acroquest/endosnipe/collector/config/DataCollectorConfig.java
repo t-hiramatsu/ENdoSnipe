@@ -228,7 +228,7 @@ public class DataCollectorConfig
 
     /** メールテンプレート（キー：設定項目名、値：テンプレートファイル名） */
     private final Map<String, MailTemplateEntity> smtpTemplateMap_ =
-        new HashMap<String, MailTemplateEntity>();
+                     new HashMap<String, MailTemplateEntity>();
 
     //--------------------
     // SNMP settings(default)
@@ -295,27 +295,6 @@ public class DataCollectorConfig
 
     /** 使用言語 */
     private String language_ = DEF_LANGUAGE;
-
-    /** ホスト名(ElasticSearch) */
-    private String esHostName_;
-
-    /** ホストポート(ElasticSearch) */
-    private int esHostPort_;
-
-    /** クラスタ名(ElasticSearch) */
-    private String esClusterName_;
-
-    /** インデックス(ElasticSearch:接頭辞) */
-    private String esIndexPrefix_;
-
-    /** インデックス(ElasticSearch:接尾辞) */
-    private String esIndexPostfix_;
-
-    /** 種別 (ElasticSearch)*/
-    private String esType_;
-
-    /** 利用可能かどうか(ElasticSearch) */
-    private boolean esAvailable_;
 
     /**
      * データベースの種類を返します。<br />
@@ -1024,131 +1003,4 @@ public class DataCollectorConfig
     {
         itemIdCacheSize_ = itemIdCacheSize;
     }
-
-    /**
-     * ホスト名(ElasticSearch)を取得する。
-     * @return ホスト名(ElasticSearch)
-     */
-    public String getEsHostName()
-    {
-        return esHostName_;
-    }
-
-    /**
-     * ホスト名(ElasticSearch)を取得する。
-     * @param esHostName ホスト名(ElasticSearch)
-     */
-    public void setEsHostName(final String esHostName)
-    {
-        esHostName_ = esHostName;
-    }
-
-    /**
-     * ホストポート番号(ElasticSearch)を取得する。
-     * @return ホストポート番号(ElasticSearch)
-     */
-    public int getEsHostPort()
-    {
-        return esHostPort_;
-    }
-
-    /**
-     * ホストポート番号(ElasticSearch)を取得する。
-     * @param esHostPort ホストポート番号(ElasticSearch)
-     */
-    public void setEsHostPort(final int esHostPort)
-    {
-        esHostPort_ = esHostPort;
-    }
-
-    /**
-     * クラスタ名(ElasticSearch)を取得する。
-     * @return クラスタ名(ElasticSearch)
-     */
-    public String getEsClusterName()
-    {
-        return esClusterName_;
-    }
-
-    /**
-     * クラスタ名(ElasticSearch)を設定する。
-     * @param esClusterName クラスタ名(ElasticSearch)
-     */
-    public void setEsClusterName(final String esClusterName)
-    {
-        this.esClusterName_ = esClusterName;
-    }
-
-    /**
-     * インデックス(接頭辞:ElasticSearch)を取得する。
-     * @return インデックス(接頭辞:ElasticSearch)
-     */
-    public String getEsIndexPrefix()
-    {
-        return esIndexPrefix_;
-    }
-
-    /**
-     * インデックス(接頭辞:ElasticSearch)を設定する。
-     * @param esIndexPrefix インデックス(接頭辞:ElasticSearch)
-     */
-    public void setEsIndexPrefix(final String esIndexPrefix)
-    {
-        this.esIndexPrefix_ = esIndexPrefix;
-    }
-
-    /**
-     * インデックス(接尾辞:ElasticSearch）を設定する。
-     * @return インデックス(接尾辞:ElasticSearch）
-     */
-    public String getEsIndexPostfix()
-    {
-        return esIndexPostfix_;
-    }
-
-    /**
-     * インデックス(接尾辞:ElasticSearch）を取得する。
-     * @param esIndexPostifx インデックス(接尾辞:ElasticSearch）
-     */
-    public void setEsIndexPostfix(final String esIndexPostifx)
-    {
-        esIndexPostfix_ = esIndexPostifx;
-    }
-
-    /**
-     * 種別(ElasticSearch)を取得する。
-     * @return 種別(ElasticSearch)
-     */
-    public String getEsType()
-    {
-        return esType_;
-    }
-
-    /**
-     * 種別(ElasticSearch)を設定する。
-     * @param esType 種別(ElasticSearch)
-     */
-    public void setEsType(final String esType)
-    {
-        this.esType_ = esType;
-    }
-
-    /**
-     * 利用か可能かどうか(ElasticSearch)を取得する。
-     * @return 利用可能かどうか(ElasticSearch)。
-     */
-    public boolean isEsAvailable()
-    {
-        return esAvailable_;
-    }
-
-    /**
-     * 利用か可能かどうか(ElasticSearch)を設定する。
-     * @param esAvailable 利用可能かどうか(ElasticSearch)。
-     */
-    public void setEsAvailable(final boolean esAvailable)
-    {
-        this.esAvailable_ = esAvailable;
-    }
-
 }
