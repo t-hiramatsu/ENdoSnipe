@@ -200,6 +200,9 @@
                 <include name="commons-pool-*.jar" />
                 <include name="h2-*.jar" />
             </fileset>
+            <fileset dir="${endosnipe-perfdoctor.dir}/lib">
+                <include name="commons-beanutils-core-*.jar" />
+            </fileset>
             <fileset dir="${lib}/opt">
                 <include name="mail.jar" />
                 <include name="activation.jar" />
