@@ -812,7 +812,7 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 					if(targetDate > data[0]){
 						continue;
 					}
-					targetDate.splice(i+1, 0, data);
+					array.splice(i+1, 0, data);
 					return;
 				}
 			}
