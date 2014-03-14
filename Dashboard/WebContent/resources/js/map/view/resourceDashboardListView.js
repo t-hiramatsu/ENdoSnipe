@@ -49,14 +49,18 @@ ENS.ResourceDashboardListView = wgp.TreeView
 
 					if(treeId){
 						var treeModel = instance.collection.get(treeId);
-						instance.clickModel(treeModel);
+						instance.showModel(treeModel);
 					}
 				});
 
 				// ツリー情報をサーバから読み込む
 				this.onLoad();
+				
+				// 初期状態ではツリーの先頭のDashboardを表示する
+				var initModel = this.collection.models[0];
+				this.showModel(initModel);
 			},
-			clickModel : function(treeModel) {
+			showModel : function(treeModel) {
 				if (this.childView) {
 					this.saveOperation();
 					var tmpAppView = new wgp.AppView();
@@ -273,10 +277,10 @@ ENS.ResourceDashboardListView = wgp.TreeView
 				// ダッシュボードを表示する。
 				var treeModel = this.collection.get(selectTreeId);
 				if(treeModel){
-					this.clickModel(treeModel);
+					this.showModel(treeModel);
 				}
 			},
-						/**
+			/**
 			 * 操作した内容を保存するか確認する。
 			 */
 			saveOperation : function(){
