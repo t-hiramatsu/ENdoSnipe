@@ -93,7 +93,6 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/endosnipe-communicator-5.1.0.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/endosnipe-dataaccessor-5.1.0.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/endosnipe-datacollector-5.1.0.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/endosnipe-Explorer.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-io-1.4.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/endosnipe-report-command.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/endosnipe-reporter.jar"/>

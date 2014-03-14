@@ -41,6 +41,7 @@
 	<classpathentry kind="lib" path="lib/dependency/runtime_registry_compatibility.jar"/>
 	<classpathentry kind="lib" path="lib/dependency/spatial4j-0.3.jar"/>
 	<classpathentry kind="lib" path="lib/dependency/ENdoSnipePerfDoctor.jar"/>
+	<classpathentry kind="lib" path="lib/dependency/commons-beanutils-core-1.8.0.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ENdoSnipeCommon"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ENdoSnipeCommunicator"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ENdoSnipeDataAccessor"/>

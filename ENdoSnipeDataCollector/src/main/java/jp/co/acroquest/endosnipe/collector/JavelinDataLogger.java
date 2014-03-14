@@ -58,6 +58,7 @@ import jp.co.acroquest.endosnipe.collector.processor.AlarmThresholdProcessor;
 import jp.co.acroquest.endosnipe.collector.processor.AlarmType;
 import jp.co.acroquest.endosnipe.collector.request.CommunicationClientRepository;
 import jp.co.acroquest.endosnipe.collector.util.CollectorTelegramUtil;
+import jp.co.acroquest.endosnipe.collector.util.ElasticSearchUtil;
 import jp.co.acroquest.endosnipe.collector.util.MulResourceGraphUtil;
 import jp.co.acroquest.endosnipe.collector.util.PerfDoctorMessages;
 import jp.co.acroquest.endosnipe.collector.util.SignalSummarizer;
@@ -98,10 +99,6 @@ import jp.co.acroquest.endosnipe.util.InsertResult;
 import jp.co.acroquest.endosnipe.util.JavelinLogConvertUtil;
 import jp.co.acroquest.endosnipe.util.ResourceDataDaoUtil;
 import jp.co.acroquest.endosnipe.util.RotateCallback;
-
-import org.elasticsearch.client.Client;
-import org.elasticsearch.node.Node;
-import org.elasticsearch.node.NodeBuilder;
 
 /**
  * {@link JavelinData} をデータベースへ格納するためのクラスです。<br />
@@ -532,33 +529,9 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             dto.setLogFileName(warning.getLogFileName());
             dto.setMeasurementItemName(warning.getMeasurementItemName());
             dtoList.add(dto);
-
-            String measurementItemName = dto.getMeasurementItemName();
-            String[] splittedItemName = measurementItemName.split("/");
-            String clusterName = splittedItemName[1];
-            String address = splittedItemName[2];
-            String agentName = splittedItemName[3];
-
-            Node node = NodeBuilder.nodeBuilder().clusterName("elasticsearch_hiramatsu").node();
-            Client client = node.client();
-
-            Map<String, Object> jsonDocument = new HashMap<String, Object>();
-
-            jsonDocument.put("OCCURRENCE_TIME", dto.getOccurrenceTime().toString());
-            jsonDocument.put("DESCRIPTION", dto.getDescription());
-            jsonDocument.put("LEVEL", dto.getLevel());
-            jsonDocument.put("CLASS_NAME", dto.getClassName());
-            jsonDocument.put("METHOD_NAME", dto.getMethodName());
-            jsonDocument.put("MEASUREMENT_ITEM_NAME", dto.getMeasurementItemName());
-            jsonDocument.put("CLUSTER_NAME", clusterName);
-            jsonDocument.put("ADDRESS", address);
-            jsonDocument.put("AGENT_NAME", agentName);
-            jsonDocument.put("ID", warning.getId());
-            client.prepareIndex("endosnipetest2", "PDResultTest2").setSource(jsonDocument)
-                .execute().actionGet();
-
-            node.close();
         }
+        ElasticSearchUtil.sendElasticSearch(this.config_, warningUnitList);
+
         // 診断結果をPerfDoctorResultTableに登録
         //            PerfDoctorResultDao.insert(dbName, dtoList);
         for (PerfDoctorResultDto dto : dtoList)
@@ -1417,13 +1390,6 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
                     alarmEntry.getAlarmValue(), exceededLevel});
         }
 
-        Timestamp occurrenceTime = new Timestamp(System.currentTimeMillis());
-        String measurementItemName = alarmEntry.getSignalName();
-        String[] splittedItemName = measurementItemName.split("/");
-        String clusterName = splittedItemName[1];
-        String address = splittedItemName[2];
-        String agentName = splittedItemName[3];
-
         signalStateChangeEvent.setLevel(level);
         signalStateChangeEvent.setOccurrenceTime(new Timestamp(System.currentTimeMillis()));
         signalStateChangeEvent.setDescription(description);
@@ -1431,31 +1397,14 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         signalStateChangeEvent.setClassName(alarmEntry.getSignalName());
         try
         {
-            Node node = NodeBuilder.nodeBuilder().clusterName("elasticsearch_hiramatsu").node();
-            Client client = node.client();
-
-            Map<String, Object> jsonDocument = new HashMap<String, Object>();
-
-            jsonDocument.put("OCCURRENCE_TIME", occurrenceTime.toString());
-            jsonDocument.put("DESCRIPTION", description);
-            jsonDocument.put("LEVEL", level);
-            jsonDocument.put("CLASS_NAME", alarmEntry.getSignalName());
-            jsonDocument.put("METHOD_NAME", "");
-            jsonDocument.put("MEASUREMENT_ITEM_NAME", measurementItemName);
-            jsonDocument.put("CLUSTER_NAME", clusterName);
-            jsonDocument.put("ADDRESS", address);
-            jsonDocument.put("AGENT_NAME", agentName);
-            jsonDocument.put("ID", "THRESHOLD");
-            client.prepareIndex("endosnipetest2", "PDResultTest2").setSource(jsonDocument)
-                .execute().actionGet();
-
-            node.close();
             PerfDoctorResultDao.insert(alarmEntry.getDatabaseName(), signalStateChangeEvent);
         }
         catch (SQLException ex)
         {
             LOGGER.log(ex.getMessage());
         }
+
+        ElasticSearchUtil.sendElasticSearch(this.config_, signalStateChangeEvent);
     }
 
     /**

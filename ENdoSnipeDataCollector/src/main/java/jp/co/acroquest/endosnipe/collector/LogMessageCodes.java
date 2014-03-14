@@ -187,6 +187,9 @@ public interface LogMessageCodes extends CommonLogMessageCodes
     /** メールテンプレート設定の取得に失敗 */
     String FAIL_READ_MAIL_TEMPLATE_CONFIG = "WEDC0418";
 
+    /** ElasticSearchとの通信に失敗 */
+    String FAIL_SEND_ELASTIC_SEARCH = "WEDC0419";
+
     /** Javelin 通信用オブジェクトが取得できない */
     String CANNOT_GET_JAVELIN_COMMUNICATION_CLIENT = "EEDC0431";
 
