@@ -201,6 +201,7 @@
                 <include name="h2-*.jar" />
             </fileset>
             <fileset dir="${endosnipe-perfdoctor.dir}/lib">
+                <include name="commons-lang-*.jar" />
                 <include name="commons-beanutils-core-*.jar" />
             </fileset>
             <fileset dir="${lib}/opt">
