@@ -58,6 +58,7 @@ import jp.co.acroquest.endosnipe.collector.processor.AlarmThresholdProcessor;
 import jp.co.acroquest.endosnipe.collector.processor.AlarmType;
 import jp.co.acroquest.endosnipe.collector.request.CommunicationClientRepository;
 import jp.co.acroquest.endosnipe.collector.util.CollectorTelegramUtil;
+import jp.co.acroquest.endosnipe.collector.util.ElasticSearchUtil;
 import jp.co.acroquest.endosnipe.collector.util.MulResourceGraphUtil;
 import jp.co.acroquest.endosnipe.collector.util.PerfDoctorMessages;
 import jp.co.acroquest.endosnipe.common.Constants;
@@ -89,7 +90,12 @@ import jp.co.acroquest.endosnipe.data.util.AccumulatedValuesDefinition;
 import jp.co.acroquest.endosnipe.javelin.parser.JavelinLogElement;
 import jp.co.acroquest.endosnipe.javelin.parser.JavelinParser;
 import jp.co.acroquest.endosnipe.javelin.parser.ParseException;
+import jp.co.acroquest.endosnipe.perfdoctor.PerfDoctor;
+import jp.co.acroquest.endosnipe.perfdoctor.WarningUnit;
+import jp.co.acroquest.endosnipe.perfdoctor.exception.RuleCreateException;
+import jp.co.acroquest.endosnipe.perfdoctor.exception.RuleNotFoundException;
 import jp.co.acroquest.endosnipe.util.InsertResult;
+import jp.co.acroquest.endosnipe.util.JavelinLogConvertUtil;
 import jp.co.acroquest.endosnipe.util.ResourceDataDaoUtil;
 import jp.co.acroquest.endosnipe.util.RotateCallback;
 
@@ -452,6 +458,7 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             return;
         }
 
+        List<JavelinLogElement> jvnLogElmList = new ArrayList<JavelinLogElement>();
         while (true)
         {
             try
@@ -461,6 +468,7 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
                 {
                     break;
                 }
+                jvnLogElmList.add(element);
 
                 // DataCollectorが参照する各種情報をセットする
                 element.setIpAddress(logData.getIpAddress());
@@ -469,6 +477,8 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
                 element.setAlarmThreshold(logData.getAlarmThreshold());
                 element.setCpuAlarmThreshold(logData.getCpuAlarmThreshold());
                 element.setLogFileName(logData.getLogFileName());
+
+                element.setMeasurementItemName(logData.getAgentName());
 
                 String clientId = logData.getClientId();
                 if (clientId == null || clientId.equals(""))
@@ -488,6 +498,53 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
                 LOGGER.log(LogMessageCodes.FAIL_PARSE_JVN_DATA, ex, message);
             }
         }
+
+        PerfDoctor perfDoctor = new PerfDoctor();
+        List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
+        try
+        {
+            perfDoctor.init();
+            warningUnitList = perfDoctor.judgeJavelinLog(jvnLogElmList);
+        }
+        catch (RuleNotFoundException ex)
+        {
+            LOGGER.log(LogMessageCodes.CANNOT_FIND_PERFRULE, ex);
+        }
+        catch (RuleCreateException ex)
+        {
+            LOGGER.log(LogMessageCodes.FAIL_TO_CREATE_PERFRULE, ex);
+        }
+
+        List<PerfDoctorResultDto> dtoList = new ArrayList<PerfDoctorResultDto>();
+
+        for (WarningUnit warning : warningUnitList)
+        {
+            PerfDoctorResultDto dto = new PerfDoctorResultDto();
+            dto.setOccurrenceTime(new Timestamp(warning.getStartTime()));
+            dto.setDescription(warning.getDescription());
+            dto.setLevel(warning.getLevel());
+            dto.setClassName(warning.getClassName());
+            dto.setMethodName(warning.getMethodName());
+            dto.setLogFileName(warning.getLogFileName());
+            dto.setMeasurementItemName(warning.getMeasurementItemName());
+            dtoList.add(dto);
+        }
+        ElasticSearchUtil.sendElasticSearch(this.config_, warningUnitList);
+
+        // 診断結果をPerfDoctorResultTableに登録
+        //            PerfDoctorResultDao.insert(dbName, dtoList);
+        for (PerfDoctorResultDto dto : dtoList)
+        {
+            try
+            {
+                PerfDoctorResultDao.insert(database, dto);
+            }
+            catch (SQLException ex)
+            {
+                LOGGER.log(ex);
+            }
+        }
+
     }
 
     /**
@@ -1383,6 +1440,8 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         {
             LOGGER.log(ex.getMessage());
         }
+
+        ElasticSearchUtil.sendElasticSearch(this.config_, signalStateChangeEvent);
     }
 
     /**
@@ -1458,6 +1517,34 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
 
         // 一時ファイルがある場合は削除しておく
         logData.deleteFile();
+    }
+
+    private List<WarningUnit> judgeJavelinLog(final JavelinLog javelinLog)
+    {
+        List<JavelinLog> jvnLogList = new ArrayList<JavelinLog>();
+        jvnLogList.add(javelinLog);
+        // PerformanceDoctorでJavelinLogを診断する。
+        List<JavelinLogElement> jvnLogElmList = new ArrayList<JavelinLogElement>();
+        JavelinLogConvertUtil.createJvnLogElementList(jvnLogList, jvnLogElmList);
+
+        System.out.println("#JvnLogElm: " + jvnLogElmList.size());
+
+        PerfDoctor perfDoctor = new PerfDoctor();
+        List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
+        try
+        {
+            perfDoctor.init();
+            warningUnitList = perfDoctor.judgeJavelinLog(jvnLogElmList);
+        }
+        catch (RuleNotFoundException ex)
+        {
+            LOGGER.log(LogMessageCodes.CANNOT_FIND_PERFRULE, ex);
+        }
+        catch (RuleCreateException ex)
+        {
+            LOGGER.log(LogMessageCodes.FAIL_TO_CREATE_PERFRULE, ex);
+        }
+        return warningUnitList;
     }
 
     /**

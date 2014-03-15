@@ -52,6 +52,8 @@ call build_java.bat
 set JAVA_HOME=%JAVA_HOME_60%
 set PATH=%JAVA_HOME%\bin;%PATH%
 
+call ant build_java6
+
 pushd ..\Dashboard
 
 call ant dist

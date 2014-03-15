@@ -10,6 +10,37 @@
 	<classpathentry kind="lib" path="lib/opt/activation.jar"/>
 	<classpathentry kind="lib" path="lib/opt/mail.jar"/>
 	<classpathentry kind="lib" path="lib/djunit.jar"/>
+	<classpathentry kind="lib" path="lib/dependency/antlr-runtime-3.5.jar"/>
+	<classpathentry kind="lib" path="lib/dependency/asm-4.1.jar"/>
+	<classpathentry kind="lib" path="lib/dependency/asm-commons-4.1.jar"/>
+	<classpathentry kind="lib" path="lib/dependency/commons-lang-2.4.jar"/>
+	<classpathentry kind="lib" path="lib/dependency/elasticsearch-0.90.9.jar"/>
+	<classpathentry kind="lib" path="lib/dependency/endosnipe-common-fortest-5.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/dependency/jna-3.3.0.jar"/>
+	<classpathentry kind="lib" path="lib/dependency/jts-1.12.jar"/>
+	<classpathentry kind="lib" path="lib/dependency/junit-3.8.2.jar"/>
+	<classpathentry kind="lib" path="lib/dependency/lucene-analyzers-common-4.6.0.jar"/>
+	<classpathentry kind="lib" path="lib/dependency/lucene-codecs-4.6.0.jar"/>
+	<classpathentry kind="lib" path="lib/dependency/lucene-core-4.6.0.jar"/>
+	<classpathentry kind="lib" path="lib/dependency/lucene-expressions-4.6.0.jar"/>
+	<classpathentry kind="lib" path="lib/dependency/lucene-grouping-4.6.0.jar"/>
+	<classpathentry kind="lib" path="lib/dependency/lucene-highlighter-4.6.0.jar"/>
+	<classpathentry kind="lib" path="lib/dependency/lucene-join-4.6.0.jar"/>
+	<classpathentry kind="lib" path="lib/dependency/lucene-memory-4.6.0.jar"/>
+	<classpathentry kind="lib" path="lib/dependency/lucene-misc-4.6.0.jar"/>
+	<classpathentry kind="lib" path="lib/dependency/lucene-queries-4.6.0.jar"/>
+	<classpathentry kind="lib" path="lib/dependency/lucene-queryparser-4.6.0.jar"/>
+	<classpathentry kind="lib" path="lib/dependency/lucene-sandbox-4.6.0.jar"/>
+	<classpathentry kind="lib" path="lib/dependency/lucene-spatial-4.6.0.jar"/>
+	<classpathentry kind="lib" path="lib/dependency/lucene-suggest-4.6.0.jar"/>
+	<classpathentry kind="lib" path="lib/dependency/org.eclipse.core.contenttype_3.2.100.v20070319.jar"/>
+	<classpathentry kind="lib" path="lib/dependency/org.eclipse.core.jobs_3.3.0.v20070423.jar"/>
+	<classpathentry kind="lib" path="lib/dependency/org.eclipse.equinox.app_1.0.0.v20070606.jar"/>
+	<classpathentry kind="lib" path="lib/dependency/org.eclipse.equinox.registry_3.3.0.v20070522.jar"/>
+	<classpathentry kind="lib" path="lib/dependency/runtime_registry_compatibility.jar"/>
+	<classpathentry kind="lib" path="lib/dependency/spatial4j-0.3.jar"/>
+	<classpathentry kind="lib" path="lib/dependency/ENdoSnipePerfDoctor.jar"/>
+	<classpathentry kind="lib" path="lib/dependency/commons-beanutils-core-1.8.0.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ENdoSnipeCommon"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ENdoSnipeCommunicator"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ENdoSnipeDataAccessor"/>

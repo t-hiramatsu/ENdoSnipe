@@ -63,4 +63,10 @@ public interface LogMessageCodes extends CommonLogMessageCodes
 
     /** 不要な系列情報を削除した */
     String NO_NEEDED_SERIES_REMOVED = "IEDA0108";
+
+    /** Javelinログの解析に失敗 */
+    String FAIL_PARSE_JVNLOG = "WEDA0501";
+
+    /** 入出力例外が発生 */
+    String IO_ERROR = "WEDA0001";
 }
