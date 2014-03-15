@@ -76,6 +76,7 @@
         <copy file="${endosnipe-common-fortest.jar}" todir="${lib-dependency.dir}" failonerror="yes" />
         <copy file="${endosnipe-communicator.jar}" todir="${lib-service.dir}" failonerror="yes" />
         <copy file="${endosnipe-dataaccessor.jar}" todir="${lib-service.dir}" failonerror="yes" />
+    	<copy file="${endosnipe-perfdoctor.jar}" todir="${lib-service.dir}" failonerror="yes" />
 
         <!-- ${src}から${classes}に、Javaコードをコンパイルする -->
         <javac srcdir="${src}" destdir="${classes}" debug="on" encoding="UTF-8">
@@ -208,6 +209,8 @@
                 <include name="mail.jar" />
                 <include name="activation.jar" />
                 <include name="SNMP4J.jar" />
+                <include name="elasticsearch-*.jar" />
+                <include name="lucene-*.jar" />
             </fileset>
         </copy>
 

@@ -49,9 +49,9 @@
     </target>
 
     <!-- 各プロジェクトをビルドして成果物を dist 配下へコピーする -->
-    <target name="build_java6" depends="build_ENdoSnipeDataCollector,
-        build_ENdoSnipeReporter, build_ENdoSnipeReportCommand,
-        build_ENdoSnipePerfDoctor">
+    <target name="build_java6" depends="build_ENdoSnipePerfDoctor,
+        build_ENdoSnipeDataCollector,build_ENdoSnipeReporter,
+        build_ENdoSnipeReportCommand">
         <copy todir="${release.dir}">
             <fileset dir="${endosnipe-datacollector.dir}/dist">
                 <include name="${datacollector.zip}" />
