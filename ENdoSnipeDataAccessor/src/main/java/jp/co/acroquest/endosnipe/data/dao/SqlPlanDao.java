@@ -74,4 +74,20 @@ public class SqlPlanDao extends AbstractDao implements TableNames
             SQLUtil.closeConnection(conn);
         }
     }
+    
+    /**
+     * 指定したインデックスのテーブルを truncate します。
+     *
+     * @param database データベース名
+     * @param tableIndex テーブルインデックス
+     * @param year 次にこのテーブルに入れるデータの年
+     * @throws SQLException SQL 実行時に例外が発生した場合
+     */
+    public static void truncate(final String database, final int tableIndex, final int year)
+        throws SQLException
+    {
+        String tableName = String.format("%s_%02d", SQL_PLAN, tableIndex);
+        truncate(database, tableName);
+        alterCheckConstraint(database, tableName, tableIndex, "GETTING_PLAN_TIME", year);
+    }
 }

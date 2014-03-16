@@ -80,7 +80,6 @@ import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.data.dao.JavelinLogDao;
 import jp.co.acroquest.endosnipe.data.dao.JavelinMeasurementItemDao;
 import jp.co.acroquest.endosnipe.data.dao.PerfDoctorResultDao;
-import jp.co.acroquest.endosnipe.data.db.DBManager;
 import jp.co.acroquest.endosnipe.data.dto.MeasurementValueDto;
 import jp.co.acroquest.endosnipe.data.dto.PerfDoctorResultDto;
 import jp.co.acroquest.endosnipe.data.dto.SignalDefinitionDto;
@@ -1447,28 +1446,6 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         JavelinLog javelinLog = createJavelinLog(logData);
         try
         {
-            if (DBManager.isDefaultDb() == false)
-            {
-                // H2以外のデータベースの場合は、パーティショニング処理を行う
-                Integer tableIndex = ResourceDataDaoUtil.getTableIndexToInsert(javelinLog.endTime);
-                Integer prevTableIndex = prevTableIndexMap__.get(database);
-                if (tableIndex.equals(prevTableIndex) == false)
-                {
-                    Timestamp[] range = JavelinLogDao.getLogTerm(database);
-                    if (range.length == 2
-                        && (range[1] == null || range[1].before(javelinLog.endTime)))
-                    {
-                        // 前回の挿入データと今回の挿入データで挿入先テーブルが異なる場合に、ローテート処理を行う
-                        // ただし、すでにDBに入っているデータのうち、最新のデータよりも古いデータが入ってきた場合はローテート処理しない
-                        boolean truncateCurrent = (prevTableIndex != null);
-                        ResourceDataDaoUtil.rotateTable(database, tableIndex, javelinLog.endTime,
-                                                        rotatePeriod, rotatePeriodUnit,
-                                                        truncateCurrent,
-                                                        this.javelinRotateCallback_);
-                        prevTableIndexMap__.put(database, tableIndex);
-                    }
-                }
-            }
             JavelinLogDao.insert(database, javelinLog, true);
             Telegram telegram = createThreadDumpResponseTelegram();
             this.clientRepository_.sendTelegramToClient(clientId, telegram);
