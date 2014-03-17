@@ -106,7 +106,7 @@ infinispan.BubbleChartView = wgp.AbstractView
 
 				$("#" + this.$el.attr("id"))
 						.append(
-								'<div id="leftTop"></div><div id="rightTop"><div id ="checkLeft" class = "checkTable"></div><div id ="checkCenter" class = "checkTable"></div><div id ="checkRight" class = "checkTable"></div></div><div id="marginSpace"></div>');
+								'<div id="leftTop"></div><div id="infinispanRightTop"><div id ="checkLeft" class = "checkTable"></div><div id ="checkCenter" class = "checkTable"></div><div id ="checkRight" class = "checkTable"></div></div><div id="marginSpace"></div>');
 				$("#leftTop").css({
 					float : "left",
 					width : 350,
@@ -125,7 +125,7 @@ infinispan.BubbleChartView = wgp.AbstractView
 					float : "left"
 				});
 
-				$("#rightTop").css({
+				$("#infinispanRightTop").css({
 					float : "right"
 				});
 				$("#marginSpace").css({
@@ -177,7 +177,7 @@ infinispan.BubbleChartView = wgp.AbstractView
 					marginTop : 10,
 					marginLeft : 10
 				});
-				$("#rightTop").css({
+				$("#infinispanRightTop").css({
 					marginTop : 10,
 					marginLeft : 10
 				});

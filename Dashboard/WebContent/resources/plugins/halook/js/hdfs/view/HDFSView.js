@@ -60,7 +60,7 @@ halook.HDFSView = wgp.AbstractView
 				halook.HDFS.treeSettingId = treeSetting.id;
 
 				var appView = ENS.AppView();
-				appView.addView(this, halook.HDFS.treeSettingId + '%');
+				appView.addView(this, halook.HDFS.treeSettingId + '.*');
 				// set paper
 				this.render();
 
@@ -91,7 +91,7 @@ halook.HDFSView = wgp.AbstractView
 				var end = new Date();
 				var start = new Date(end.getTime() - 15000);
 				appView
-						.getTermData([ (halook.HDFS.treeSettingId + '%') ], start,
+						.getTermData([ (halook.HDFS.treeSettingId + '.*') ], start,
 								end);
 
 			},
@@ -185,7 +185,7 @@ halook.HDFSView = wgp.AbstractView
 			_getTermData : function() {
 				this._updateDraw();
 				if (this.isRealTime) {
-					appView.syncData([ (halook.HDFS.treeSettingId + "%") ]);
+					appView.syncData([ (halook.HDFS.treeSettingId + ".*") ]);
 				}
 				
 			},
@@ -455,9 +455,9 @@ halook.HDFSView = wgp.AbstractView
 			_drawStaticDataNode : function(pastTime) {
 				var end = new Date(new Date().getTime() - pastTime);
 				var start = new Date(end.getTime() - 60 * 60 * 1000);
-				appView.stopSyncData([ (halook.HDFS.treeSettingId + '%') ]);
+				appView.stopSyncData([ (halook.HDFS.treeSettingId + '.*') ]);
 				appView
-						.getTermData([ (halook.HDFS.treeSettingId + '%') ], start,
+						.getTermData([ (halook.HDFS.treeSettingId + '.*') ], start,
 								end);
 			},
 			_addBlockTransfer : function(self) {
@@ -840,13 +840,13 @@ halook.HDFSView = wgp.AbstractView
 			updateDisplaySpan : function(pastTime) {
 				if (pastTime === 0) {
 					if (this.isRealTime === false) {
-						appView.syncData([ (halook.HDFS.treeSettingId + "%") ]);
+						appView.syncData([ (halook.HDFS.treeSettingId + ".*") ]);
 					}
 					this.isRealTime = true;
 
 					var end = new Date();
 					var start = new Date(end.getTime() - 60 * 60 * 1000);
-					appView.getTermData([ (halook.HDFS.treeSettingId + '%') ], start,
+					appView.getTermData([ (halook.HDFS.treeSettingId + '.*') ], start,
 							end);
 				} else {
 					this.isRealTime = false;
@@ -926,7 +926,7 @@ halook.HDFSView = wgp.AbstractView
 			destroy : function() {
 				this.stopRegisterCollectionEvent();
 				var appView = ENS.AppView();
-				appView.stopSyncData([halook.HDFS.treeSettingId + '%']);
+				appView.stopSyncData([halook.HDFS.treeSettingId + '.*']);
 				if (this.collection) {
 					this.collection.reset();
 				}

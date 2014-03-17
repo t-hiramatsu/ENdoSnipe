@@ -45,9 +45,13 @@ import jp.co.acroquest.endosnipe.common.entity.MeasurementDetail;
 import jp.co.acroquest.endosnipe.common.entity.ResourceData;
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
 import jp.co.acroquest.endosnipe.data.LogMessageCodes;
+import jp.co.acroquest.endosnipe.data.dao.JavelinLogDao;
 import jp.co.acroquest.endosnipe.data.dao.JavelinMeasurementItemDao;
 import jp.co.acroquest.endosnipe.data.dao.MeasurementValueDao;
 import jp.co.acroquest.endosnipe.data.dao.MulResourceGraphDefinitionDao;
+import jp.co.acroquest.endosnipe.data.dao.PerfDoctorResultDao;
+import jp.co.acroquest.endosnipe.data.dao.ReportExportResultDao;
+import jp.co.acroquest.endosnipe.data.dao.SqlPlanDao;
 import jp.co.acroquest.endosnipe.data.db.DBManager;
 import jp.co.acroquest.endosnipe.data.dto.MeasurementValueDto;
 import jp.co.acroquest.endosnipe.data.entity.JavelinMeasurementItem;
@@ -118,6 +122,86 @@ public class ResourceDataDaoUtil
             throws SQLException
         {
             MeasurementValueDao.truncate(database, tableIndex, year);
+        }
+    };
+
+    /** JAVELIN_LOG テーブルを truncate するコールバックメソッド */
+    private static final RotateCallback JAVELIN_ROTATE_CALLBACK = new RotateCallback() {
+        /**
+         * {@inheritDoc}
+         */
+        public String getTableType()
+        {
+            return "JAVELIN_LOG";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        public void truncate(final String database, final int tableIndex, final int year)
+            throws SQLException
+        {
+            JavelinLogDao.truncate(database, tableIndex, year);
+        }
+    };
+
+    /** PERFDOCTOR_RESULT テーブルを truncate するコールバックメソッド */
+    private static final RotateCallback PERFDOCTOR_ROTATE_CALLBACK = new RotateCallback() {
+        /**
+         * {@inheritDoc}
+         */
+        public String getTableType()
+        {
+            return "PERFDOCTOR_RESULT";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        public void truncate(final String database, final int tableIndex, final int year)
+            throws SQLException
+        {
+            PerfDoctorResultDao.truncate(database, tableIndex, year);
+        }
+    };
+
+    /** REPORT_EXPORT_RESULT テーブルを truncate するコールバックメソッド */
+    private static final RotateCallback REPORT_ROTATE_CALLBACK = new RotateCallback() {
+        /**
+         * {@inheritDoc}
+         */
+        public String getTableType()
+        {
+            return "REPORT_EXPORT_RESULT";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        public void truncate(final String database, final int tableIndex, final int year)
+            throws SQLException
+        {
+            ReportExportResultDao.truncate(database, tableIndex, year);
+        }
+    };
+
+    /** SQL_PLAN テーブルを truncate するコールバックメソッド */
+    private static final RotateCallback SQL_ROTATE_CALLBACK = new RotateCallback() {
+        /**
+         * {@inheritDoc}
+         */
+        public String getTableType()
+        {
+            return "SQL_PLAN";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        public void truncate(final String database, final int tableIndex, final int year)
+            throws SQLException
+        {
+            SqlPlanDao.truncate(database, tableIndex, year);
         }
     };
 
@@ -496,6 +580,18 @@ public class ResourceDataDaoUtil
                 rotateTable(database, tableIndex, baseMeasurementValue.measurementTime,
                             rotatePeriod, rotatePeriodUnit, truncateCurrent,
                             MEASUREMENT_ROTATE_CALLBACK);
+                rotateTable(database, tableIndex, baseMeasurementValue.measurementTime,
+                            rotatePeriod, rotatePeriodUnit, truncateCurrent,
+                            JAVELIN_ROTATE_CALLBACK);
+                rotateTable(database, tableIndex, baseMeasurementValue.measurementTime,
+                            rotatePeriod, rotatePeriodUnit, truncateCurrent,
+                            PERFDOCTOR_ROTATE_CALLBACK);
+                rotateTable(database, tableIndex, baseMeasurementValue.measurementTime,
+                            rotatePeriod, rotatePeriodUnit, truncateCurrent,
+                            REPORT_ROTATE_CALLBACK);
+                rotateTable(database, tableIndex, baseMeasurementValue.measurementTime,
+                            rotatePeriod, rotatePeriodUnit, truncateCurrent,
+                            SQL_ROTATE_CALLBACK);
                 prevTableIndexMap__.put(database, tableIndex);
             }
             deleteItemIdList =

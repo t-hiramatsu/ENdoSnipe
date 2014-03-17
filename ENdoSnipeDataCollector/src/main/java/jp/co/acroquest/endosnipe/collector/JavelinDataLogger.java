@@ -79,7 +79,6 @@ import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.data.dao.JavelinLogDao;
 import jp.co.acroquest.endosnipe.data.dao.JavelinMeasurementItemDao;
 import jp.co.acroquest.endosnipe.data.dao.PerfDoctorResultDao;
-import jp.co.acroquest.endosnipe.data.db.DBManager;
 import jp.co.acroquest.endosnipe.data.dto.MeasurementValueDto;
 import jp.co.acroquest.endosnipe.data.dto.PerfDoctorResultDto;
 import jp.co.acroquest.endosnipe.data.dto.SignalDefinitionDto;
@@ -95,9 +94,7 @@ import jp.co.acroquest.endosnipe.perfdoctor.WarningUnit;
 import jp.co.acroquest.endosnipe.perfdoctor.exception.RuleCreateException;
 import jp.co.acroquest.endosnipe.perfdoctor.exception.RuleNotFoundException;
 import jp.co.acroquest.endosnipe.util.InsertResult;
-import jp.co.acroquest.endosnipe.util.JavelinLogConvertUtil;
 import jp.co.acroquest.endosnipe.util.ResourceDataDaoUtil;
-import jp.co.acroquest.endosnipe.util.RotateCallback;
 
 /**
  * {@link JavelinData} をデータベースへ格納するためのクラスです。<br />
@@ -152,10 +149,6 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
     private final Map<String, ResourceData> prevConvertedResourceDataMap_ =
         new HashMap<String, ResourceData>();
 
-    /** データベース名をキーにした、前回データを挿入したテーブルインデックスを保持するマップ */
-    private static Map<String, Integer> prevTableIndexMap__ =
-        new ConcurrentHashMap<String, Integer>();
-
     /**
      * Javelinから接続されたときのイベント。
      * 接続データを受け取った時にセットされ、接続前の、全てが0のデータを書き込む際に用いられる。
@@ -190,27 +183,6 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
 
     /** 測定値の閾値下回り時のメッセージフォーマット */
     private static final String FALLS_TAT_MESSAGES = "APP.MTRC.FALL_TAT_message";
-
-    /** JAVELIN_LOG テーブルを truncate するコールバックメソッド */
-    private final RotateCallback javelinRotateCallback_ = new RotateCallback() {
-        /**
-         * {@inheritDoc}
-         */
-        public String getTableType()
-        {
-            return "JAVELIN_LOG";
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        public void truncate(final String database, final int tableIndex, final int year)
-            throws SQLException
-        {
-            JavelinLogDao.truncate(database, tableIndex, year);
-        }
-
-    };
 
     /**
      * 初期化を行います。
@@ -1476,36 +1448,12 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         {
             rotateConfig = defaultRotateConfig_;
         }
-        int rotatePeriod = rotateConfig.getMeasureRotatePeriod();
-        int rotatePeriodUnit = rotateConfig.getMeasureUnitByCalendar();
         String clientId = logData.getClientId();
 
         JavelinLog javelinLog = createJavelinLog(logData);
         try
         {
-            if (DBManager.isDefaultDb() == false)
-            {
-                // H2以外のデータベースの場合は、パーティショニング処理を行う
-                Integer tableIndex = ResourceDataDaoUtil.getTableIndexToInsert(javelinLog.endTime);
-                Integer prevTableIndex = prevTableIndexMap__.get(database);
-                if (tableIndex.equals(prevTableIndex) == false)
-                {
-                    Timestamp[] range = JavelinLogDao.getLogTerm(database);
-                    if (range.length == 2
-                        && (range[1] == null || range[1].before(javelinLog.endTime)))
-                    {
-                        // 前回の挿入データと今回の挿入データで挿入先テーブルが異なる場合に、ローテート処理を行う
-                        // ただし、すでにDBに入っているデータのうち、最新のデータよりも古いデータが入ってきた場合はローテート処理しない
-                        boolean truncateCurrent = (prevTableIndex != null);
-                        ResourceDataDaoUtil.rotateTable(database, tableIndex, javelinLog.endTime,
-                                                        rotatePeriod, rotatePeriodUnit,
-                                                        truncateCurrent,
-                                                        this.javelinRotateCallback_);
-                        prevTableIndexMap__.put(database, tableIndex);
-                    }
-                }
-            }
-            JavelinLogDao.insert(database, javelinLog);
+            JavelinLogDao.insert(database, javelinLog, true);
             Telegram telegram = createThreadDumpResponseTelegram();
             this.clientRepository_.sendTelegramToClient(clientId, telegram);
         }
@@ -1517,34 +1465,6 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
 
         // 一時ファイルがある場合は削除しておく
         logData.deleteFile();
-    }
-
-    private List<WarningUnit> judgeJavelinLog(final JavelinLog javelinLog)
-    {
-        List<JavelinLog> jvnLogList = new ArrayList<JavelinLog>();
-        jvnLogList.add(javelinLog);
-        // PerformanceDoctorでJavelinLogを診断する。
-        List<JavelinLogElement> jvnLogElmList = new ArrayList<JavelinLogElement>();
-        JavelinLogConvertUtil.createJvnLogElementList(jvnLogList, jvnLogElmList);
-
-        System.out.println("#JvnLogElm: " + jvnLogElmList.size());
-
-        PerfDoctor perfDoctor = new PerfDoctor();
-        List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
-        try
-        {
-            perfDoctor.init();
-            warningUnitList = perfDoctor.judgeJavelinLog(jvnLogElmList);
-        }
-        catch (RuleNotFoundException ex)
-        {
-            LOGGER.log(LogMessageCodes.CANNOT_FIND_PERFRULE, ex);
-        }
-        catch (RuleCreateException ex)
-        {
-            LOGGER.log(LogMessageCodes.FAIL_TO_CREATE_PERFRULE, ex);
-        }
-        return warningUnitList;
     }
 
     /**

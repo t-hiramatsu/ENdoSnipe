@@ -102,13 +102,13 @@ halook.HbaseResionMapParentView = wgp.AbstractView
 				if (pastTime === 0) {
 
 					if (this.hbaseView.isRealTime === false) {
-						appView.syncData([ (this.treeSettingId_ + "%") ]);
+						appView.syncData([ (this.treeSettingId_ + ".*") ]);
 					}
 					this.hbaseView.isRealTime = true;
 
 					var end = new Date();
 					var start = new Date(end.getTime() - 60 * 60 * 1000);
-					appView.getTermData([ (this.treeSettingId_ + '%') ], start,
+					appView.getTermData([ (this.treeSettingId_ + '.*') ], start,
 							end);
 				} else {
 					this.hbaseView.isRealTime = false;

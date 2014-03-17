@@ -40,8 +40,8 @@ infinispan.ganttChartParentView = wgp.AbstractView
 				var dateS = new Date(dateE.getTime() - 60 * 1000 * 60);
 
 				var appView = new ENS.AppView();
-				appView.addView(this, (treeSettings.id + "%"));
-				appView.getTermData([ (treeSettings.id + "%") ], dateS, dateE);
+				appView.addView(this, (treeSettings.id + ".*"));
+				appView.getTermData([ (treeSettings.id + ".*") ], dateS, dateE);
 
 				this.termData = {};
 				this.termData.startDate = dateS;
@@ -166,7 +166,7 @@ infinispan.ganttChartParentView = wgp.AbstractView
 				var appView = ENS.AppView();
 				appView.removeView(this.gantt);
 				this.stopRegisterCollectionEvent();
-				appView.stopSyncData([this.treeSettings.id + "%"]);
+				appView.stopSyncData([this.treeSettings.id + ".*"]);
 				if (this.collection) {
 					this.collection.reset();
 				}
@@ -270,7 +270,7 @@ infinispan.ganttChartParentView = wgp.AbstractView
 				this.termData.startDate = new Date().getTime() - from;
 				this.termData.endDate = new Date().getTime() - to;
 				var appView = new ENS.AppView();
-				appView.getTermData([ (this.treeSettings.id + "%") ], new Date(
+				appView.getTermData([ (this.treeSettings.id + ".*") ], new Date(
 						this.termData.startDate), new Date(
 						this.termData.endDate));
 			}

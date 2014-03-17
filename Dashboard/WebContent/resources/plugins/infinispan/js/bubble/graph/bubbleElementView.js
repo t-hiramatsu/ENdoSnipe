@@ -29,7 +29,7 @@ infinispan.BubbleElementView = wgp.DygraphElementView
 				this.width = argument["width"];// ウィンドウ幅
 				this.height = argument["height"];// ウィンドウの高さ
 				this.graphId = 0;// グラフID
-				new graphListenerView(this);// グラフのチェックボックスのリスナ用ビュー
+				new infinispanGraphListenerView(this);// グラフのチェックボックスのリスナ用ビュー
 				new sortListenerView(this);// ソートのリスナ用ビュー
 
 				this.jobInfo = argument.jobInfo;
@@ -37,8 +37,8 @@ infinispan.BubbleElementView = wgp.DygraphElementView
 						this.jobInfo.finishTime.getTime() + 120 * 1000);
 
 				var appView = new ENS.AppView();
-				appView.addView(this, (this.treeSettings.id + "%"));
-				appView.getTermData([ (this.treeSettings.id + "%") ],
+				appView.addView(this, (this.treeSettings.id + ".*"));
+				appView.getTermData([ (this.treeSettings.id + ".*") ],
 						this.jobInfo.startTime, finishTime);
 
 				var realTag = $("#" + this.$el.attr("id"));
@@ -105,7 +105,7 @@ infinispan.BubbleElementView = wgp.DygraphElementView
 			destroy : function() {
 				this.stopRegisterCollectionEvent();
 				var appView = new ENS.AppView();
-				appView.stopSyncData([this.treeSettings.id + "%"]);
+				appView.stopSyncData([this.treeSettings.id + ".*"]);
 				if (this.collection) {
 					this.collection.reset();
 				}
@@ -196,7 +196,7 @@ infinispan.BubbleElementView = wgp.DygraphElementView
 				var finishTime = new Date(
 						this.jobInfo.finishTime.getTime() + 120 * 1000);
 				var appView = new ENS.AppView();
-				appView.getTermData([ (this.treeSettings.id + "%") ],
+				appView.getTermData([ (this.treeSettings.id + ".*") ],
 						this.jobInfo.startTime, finishTime);
 			},
 			// データの種類、成功別に分類し、グラフ表示用の配列に加工する関数
@@ -345,12 +345,12 @@ var sortListenerView = Backbone.View.extend({
 	}
 });
 
-var graphListenerView = Backbone.View.extend({
-	el : "#rightTop",// 右上のチェックボックス群
+var infinispanGraphListenerView = Backbone.View.extend({
+	el : "#infinispanRightTop",// 右上のチェックボックス群
 	initialize : function(parentView) {
 		this.parentView = parentView;
 		var instance = this;
-		$("#rightTop").find("input").change(function(e) {
+		$("#infinispanRightTop").find("input").change(function(e) {
 			instance._check(e);
 		});
 

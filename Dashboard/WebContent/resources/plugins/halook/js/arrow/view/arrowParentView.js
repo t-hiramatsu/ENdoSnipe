@@ -175,8 +175,8 @@ halook.ArrowParentView = wgp.AbstractView
 						this.jobInfo.finishTime.getTime() + 120 * 1000);
 
 				var appView = new ENS.AppView();
-				appView.addView(this, (treeSettings.id + "%"));
-				appView.getTermData([ (treeSettings.id + "%") ],
+				appView.addView(this, (treeSettings.id + ".*"));
+				appView.getTermData([ (treeSettings.id + ".*") ],
 						this.jobInfo.startTime, finishTime);
 
 				halook.parentView.minGraphTime = this.jobInfo.startTime
