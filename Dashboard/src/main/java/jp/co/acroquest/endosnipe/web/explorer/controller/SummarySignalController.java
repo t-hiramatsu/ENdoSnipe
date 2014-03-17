@@ -126,10 +126,26 @@ public class SummarySignalController
     public ResponseDto add(
             @RequestParam(value = "summarySignalDefinition") final String summarySignalDefinition)
     {
-        ResponseDto responseDto = new ResponseDto();
         SummarySignalDefinitionDto summarySignalDefinitionDto =
                 JSON.decode(summarySignalDefinition, SummarySignalDefinitionDto.class);
+
+        //名前が重複するサマリシグナルを取得する
+        SummarySignalDefinitionDto existDto =
+                this.summarySignalService_.getSummarySignalDefinition(summarySignalDefinitionDto.summarySignalName_);
+
+        //重複する場合はエラーメッセージをセットしてレスポンスを返す。
+        if (existDto != null)
+        {
+            ResponseDto responseDto = new ResponseDto();
+            responseDto.setResult("failure");
+            responseDto.setMessage("\"" + summarySignalDefinitionDto.summarySignalName_
+                    + "\" is already exists.");
+            return responseDto;
+        }
+
+        //重複しない場合は電文を送信し、成功のレスポンスを返す。
         this.summarySignalService_.insertSummarySignalDefinition(summarySignalDefinitionDto);
+        ResponseDto responseDto = new ResponseDto();
         responseDto.setResult("success");
         return responseDto;
     }
