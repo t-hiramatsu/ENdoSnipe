@@ -15,6 +15,7 @@ package jp.co.acroquest.endosnipe.web.explorer.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.co.acroquest.endosnipe.web.explorer.constants.ResponseConstants;
 import jp.co.acroquest.endosnipe.web.explorer.dto.ResponseDto;
 import jp.co.acroquest.endosnipe.web.explorer.dto.SignalDefinitionDto;
 import jp.co.acroquest.endosnipe.web.explorer.dto.SummarySignalDefinitionDto;
@@ -137,7 +138,7 @@ public class SummarySignalController
         if (existDto != null)
         {
             ResponseDto responseDto = new ResponseDto();
-            responseDto.setResult("failure");
+            responseDto.setResult(ResponseConstants.RESULT_FAILURE);
             responseDto.setMessage("\"" + summarySignalDefinitionDto.summarySignalName_
                     + "\" is already exists.");
             return responseDto;

@@ -113,7 +113,7 @@ public class SignalController
         if (hasSameSignalName)
         {
             String errorMessage = MessageUtil.getMessage("WEWD0131", signalName);
-            responseDto.setResult(ResponseConstants.RESULT_FAIL);
+            responseDto.setResult(ResponseConstants.RESULT_FAILURE);
             responseDto.setMessage(errorMessage);
             return responseDto;
         }
@@ -162,7 +162,7 @@ public class SignalController
         if (hasSameSignalName)
         {
             String errorMessage = MessageUtil.getMessage("WEWD0131", signalName);
-            responseDto.setResult(ResponseConstants.RESULT_FAIL);
+            responseDto.setResult(ResponseConstants.RESULT_FAILURE);
             responseDto.setMessage(errorMessage);
             return responseDto;
         }

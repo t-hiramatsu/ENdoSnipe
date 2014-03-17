@@ -334,7 +334,7 @@ public class ReportController
         if (hasSameSignalName)
         {
             String errorMessage = MessageUtil.getMessage("WEWD0141", reportName);
-            responseDto.setResult(ResponseConstants.RESULT_FAIL);
+            responseDto.setResult(ResponseConstants.RESULT_FAILURE);
             responseDto.setMessage(errorMessage);
             return responseDto;
         }
@@ -387,7 +387,7 @@ public class ReportController
             String errorMessage =
                     MessageUtil.getMessage("WEWD0141",
                                            schedulingReportDefinitionDto.getReportName());
-            responseDto.setResult(ResponseConstants.RESULT_FAIL);
+            responseDto.setResult(ResponseConstants.RESULT_FAILURE);
             responseDto.setMessage(errorMessage);
             return responseDto;
         }

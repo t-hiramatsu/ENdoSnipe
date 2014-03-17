@@ -177,7 +177,7 @@ public class MultipleResourceGraphController
         if (hasSameMulResGraphName)
         {
             String errorMessage = MessageUtil.getMessage("WEWD0141", multipleResourceGraphName);
-            responseDto.setResult(ResponseConstants.RESULT_FAIL);
+            responseDto.setResult(ResponseConstants.RESULT_FAILURE);
             responseDto.setMessage(errorMessage);
             return responseDto;
         }
