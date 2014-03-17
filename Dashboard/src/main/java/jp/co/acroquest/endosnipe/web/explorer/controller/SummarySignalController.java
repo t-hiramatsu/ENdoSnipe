@@ -147,7 +147,7 @@ public class SummarySignalController
         //重複しない場合は電文を送信し、成功のレスポンスを返す。
         this.summarySignalService_.insertSummarySignalDefinition(summarySignalDefinitionDto);
         ResponseDto responseDto = new ResponseDto();
-        responseDto.setResult("success");
+        responseDto.setResult(ResponseConstants.RESULT_SUCCESS);
         return responseDto;
     }
 
@@ -165,7 +165,7 @@ public class SummarySignalController
     {
         this.summarySignalService_.deleteSummarySignalDefinition(summarySignalName);
         ResponseDto responseDto = new ResponseDto();
-        responseDto.setResult("success");
+        responseDto.setResult(ResponseConstants.RESULT_SUCCESS);
         return responseDto;
 
     }
@@ -203,7 +203,7 @@ public class SummarySignalController
         SummarySignalDefinitionDto summarySignalDefinitionDto =
                 JSON.decode(summarySignalDefinition, SummarySignalDefinitionDto.class);
         this.summarySignalService_.updateSummarySignalDefinition(summarySignalDefinitionDto);
-        responseDto.setResult("success");
+        responseDto.setResult(ResponseConstants.RESULT_SUCCESS);
         return responseDto;
     }
 }
