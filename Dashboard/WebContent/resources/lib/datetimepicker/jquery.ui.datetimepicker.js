@@ -2222,7 +2222,7 @@
         /*　Validation for date select */
         _validateSelected: function(id)　{
         	
-        	var elemList = $(".ui-state-active");
+        	var elemList = $("#ui-datepicker-div .ui-state-active");
         	
         	if(elemList.length == 0){
         		return alert("Select any date.");
