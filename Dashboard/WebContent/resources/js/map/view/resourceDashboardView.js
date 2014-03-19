@@ -1,6 +1,15 @@
 ENS.ResourceDashboardView = wgp.MapView.extend({
 	tagName : "div",
 	initialize : function(argument) {
+		//定数の定義
+		this.OBJ_NAME_GRAPH = "ENS.ResourceGraphElementView";
+		this.OBJ_NAME_MULTIPLE_GRAPH = "ENS.MultipleResourceGraphElementView";
+		this.OBJ_NAME_SIGNAL = "ENS.SignalElementView";
+		this.OBJ_NAME_LINK = "ENS.ResourceLinkElementView";
+		this.OBJ_NAME_TEXT = "ENS.TextBoxElementView";
+		this.OBJ_NAME_SHAPE = "ENS.ShapeElementView";
+		this.DIV_ID_CONTROLLER = "range_controller";
+		
 		_.bindAll();
 
 		var width = $("#" + this.$el.attr("id")).width();
@@ -42,6 +51,9 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 
 		// イベント実行可設定
 		this.isExecuteEvent_ = true;
+		
+		// 時間範囲指定UIを作成する
+		this._createRangeController(argument.id);
 	},
 	renderExtend : function(){
 
@@ -72,27 +84,27 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 
 		// リソースグラフの場合はグラフを描画する。
 		var newView;
-		if("ENS.ResourceGraphElementView" == objectName){
+		if(this.OBJ_NAME_GRAPH == objectName){
 			newView = this._addGraphDivision(model);
 			this.viewCollection[model.id] = newView;
 
-		}else if("ENS.MultipleResourceGraphElementView" == objectName){
+		}else if(this.OBJ_NAME_MULTIPLE_GRAPH == objectName){
 			newView = this._addGraphDivision(model);
 			this.viewCollection[model.id] = newView;
 
-		}else if("ENS.SignalElementView" == objectName){
+		}else if(this.OBJ_NAME_SIGNAL == objectName){
 			newView = this._addStateElement(model);
 			this.viewCollection[model.id] = newView;
 
-		}else if("ENS.ResourceLinkElementView" == objectName){
+		}else if(this.OBJ_NAME_LINK == objectName){
 			newView = this._addLinkElement(model);
 			this.viewCollection[model.id] = newView;
 
-		}else if("ENS.TextBoxElementView" == objectName){
+		}else if(this.OBJ_NAME_TEXT == objectName){
 			newView = this._addTextboxElement(model);
 			this.viewCollection[model.id] = newView;
 
-		}else if("ENS.ShapeElementView" == objectName){
+		}else if(this.OBJ_NAME_SHAPE == objectName){
 			newView = this._addShapeElement(model);
 			this.viewCollection[model.id] = newView;
 
@@ -169,7 +181,7 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 		});
 		$.extend(true, viewAttribute, ENS.nodeInfoParentView.viewAttribute);
 		var view = null;
-		if ("ENS.ResourceGraphElementView" === objectName) {
+		if (this.OBJ_NAME_GRAPH === objectName) {
 			view = new ENS.ResourceGraphElementView(viewAttribute, treeSettings);
 		} else {
 			view = new ENS.MultipleResourceGraphElementView(viewAttribute, treeSettings);
@@ -247,7 +259,7 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 			dashboardHeight : dashboardHeight,
 			background : background,
 			resources : resourceArray
-		}
+		};
 
 		var setting = {
 			data : {
@@ -256,7 +268,7 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 				data : JSON.stringify(resourceDashboard)
 			},
 			url : wgp.common.getContextPath() + "/dashboard/update"
-		}
+		};
 		var telegram = this.ajaxHandler.requestServerSync(setting);
 		var returnData = $.parseJSON(telegram);
 		this.changedFlag = false;
@@ -278,7 +290,7 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 		// ダッシュボード情報を画面に表示する。
 		var dashboardId = this.dashboardId;
 
-		if(dashboardId != undefined && dashboardId.length > 0){
+		if(dashboardId !== undefined && dashboardId.length > 0){
 
 			// サーバからダッシュボード情報を取得し、結果をコレクションに追加する。
 			var telegram = this.getDashboardData(dashboardId);
@@ -319,7 +331,7 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 		}
 
 		// オブジェクトIDの番号の最大値をセット
-		var maxObjectIdElement = this.collection.max(function(element){return element.get("objectId")});
+		var maxObjectIdElement = this.collection.max(function(element){return element.get("objectId");});
 		if(maxObjectIdElement){
 			this.maxObjectId = maxObjectIdElement.get("objectId") + 1;
 		}
@@ -330,7 +342,7 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 				dashboardId : dashboardId
 			},
 			url : wgp.common.getContextPath() + "/dashboard/getById"
-		}
+		};
 		return this.ajaxHandler.requestServerSync(setting);
 	},
 	// raphaelPaperをクリックした際に追加するイベントを付加する。
@@ -340,13 +352,13 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 			$(this.paper.canvas).off("click", this.clickAddElementFunction);
 		}
 
-		if("ENS.ResourceLinkElementView" === viewClassName){
+		if(this.OBJ_NAME_LINK === viewClassName){
 			this.clickAddElementFunction = this.createClickAddLinkEvent(name, type);
 
-		} else if("ENS.TextBoxElementView" == viewClassName){
+		} else if(this.OBJ_NAME_TEXT === viewClassName){
 			this.clickAddElementFunction = this.createClickAddTextboxEvent(name, type);
 
-		} else if("ENS.ShapeElementView" === viewClassName){
+		} else if(this.OBJ_NAME_SHAPE === viewClassName){
 			this.clickAddElementFunction = this.createClickAddShapeEvent(name, type);
 
 		} else{
@@ -370,7 +382,7 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 			var height = 100;
 			resourceModel.set({
 				objectId : objectId,
-				objectName : "ENS.ShapeElementView",
+				objectName : instance.OBJ_NAME_SHAPE,
 				pointX : event.pageX - $("#" + instance.$el.attr("id")).offset()["left"],
 				pointY : event.pageY - $("#" + instance.$el.attr("id")).offset()["top"],
 				width : 100,
@@ -387,7 +399,7 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 			});
 			instance.collection.add(resourceModel);
 			$(instance.paper.canvas).off("click", clickEventFunction);
-		}
+		};
 
 		return clickEventFunction;
 	},
@@ -403,7 +415,7 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 			var height = 100;
 			resourceModel.set({
 				objectId : objectId,
-				objectName : "ENS.TextBoxElementView",
+				objectName : instance.OBJ_NAME_TEXT,
 				pointX : event.pageX - $("#" + instance.$el.attr("id")).offset()["left"],
 				pointY : event.pageY - $("#" + instance.$el.attr("id")).offset()["top"],
 				width : 100,
@@ -423,7 +435,7 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 			});
 			instance.collection.add(resourceModel);
 			$(instance.paper.canvas).off("click", clickEventFunction);
-		}
+		};
 
 		return clickEventFunction;
 	},
@@ -444,7 +456,7 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 				$("<input type='text' name='linkName' id='linkName' class='text'>");
 
 			var linkUrlLabel = $("<label for='linkUrl' style='margin-top: 10px;'>Target Dashboard：</label>");
-			var linkUrlSelect = $("<select name='selectDashboardList' style='margin-top: 10px;'></select>")
+			var linkUrlSelect = $("<select name='selectDashboardList' style='margin-top: 10px;'></select>");
 			var dashboardList = resourceDashboardListView.collection.models;
 			_.each(dashboardList, function(dashboardListModel, index){
 				var linkUrlName = dashboardListModel.get("data");
@@ -454,7 +466,7 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 
 			createLinkDialog.append(linkNameLabel);
 			createLinkDialog.append(linkNameText);
-			createLinkDialog.append("</br>")
+			createLinkDialog.append("</br>");
 			createLinkDialog.append(linkUrlLabel);
 			createLinkDialog.append(linkUrlSelect);
 			createLinkDialog.dialog({
@@ -465,7 +477,7 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 				buttons : {
 					"OK" : function(){
 
-						if(linkNameText.val().length == 0){
+						if(linkNameText.val().length === 0){
 							alert("link Name is require");
 							return;
 						}
@@ -478,7 +490,7 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 
 						resourceModel.set({
 							objectId : objectId,
-							objectName : "ENS.ResourceLinkElementView",
+							objectName : instance.OBJ_NAME_LINK,
 							text : linkName,
 							linkUrl : linkUrl,
 							linkType : "dashboardLinkURL",
@@ -519,7 +531,7 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 	createEditContextMenuTag : function(){
 
 		// メニューの定義がない場合にのみメニュー用のタグを作成する。
-		if($("#" + this.contextMenuId).length == 0){
+		if($("#" + this.contextMenuId).length === 0){
 
 			var contextMenu0 = new contextMenu("Remove", "Remove");
 			var contextMenu1 = new contextMenu("Properties", "Properties");
@@ -675,5 +687,57 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 	_dragResizeEnd : function(event, option){
 		this.dashboardManager.executeEvent(raphaelMapConstants.EVENT_TYPE_RESIZE_END,
 			event, option);
+	},
+	_createRangeController : function(parentId){
+		// コンテナとなるDIV要素を作成して親要素に追加する
+		var $timeControllerDiv = $("<div/>");
+		$timeControllerDiv.attr("id", this.DIV_ID_CONTROLLER);
+		$timeControllerDiv.css("background-color", "rgba(0, 0, 0, 0.7)");
+		$timeControllerDiv.css("padding", "10px");
+		$timeControllerDiv.css("position", "absolute");
+		$timeControllerDiv.css("border", "solid 3px #aaaaaa");
+		$timeControllerDiv.css("border-radius", "10px");
+		$timeControllerDiv.css("cursor", "move");
+		$timeControllerDiv.draggable();
+		$("#"+parentId).append($timeControllerDiv);
+		
+		// 時間帯設定UIを構築する
+		var graphRangeController = new ENS.graphRangeController(this.DIV_ID_CONTROLLER);
+		
+		// 画面右上に移動させる
+		var left = $("#"+parentId).width() - $timeControllerDiv.width() - 100;
+		$timeControllerDiv.css("left", left+"px");
+		
+		// 時間帯変更時のリスナを設定する
+		var instance = this;
+		graphRangeController.setSearchListener(function(from, to){
+			var viewList = instance.viewCollection;
+			for ( var key in viewList) {
+				var view = viewList[key];
+				var objectName = view.model.attributes.objectName;
+				
+				// viewがグラフでない場合は何もしない
+				if(objectName !== instance.OBJ_NAME_GRAPH && objectName !== instance.OBJ_NAME_MULTIPLE_GRAPH ){
+					continue;
+				}
+				
+				var fromHour = from / 60 / 60 / 1000;
+				// 15秒毎にグラフが更新されるので、グラフ内に収まるデータ数は、4 × 60 × 表示期間(h) となる
+				view.graphMaxNumber = 4 * 60 * fromHour;
+				// グラフの表示期間の幅を更新する
+				view.updateDisplaySpan(from, to);
+				// グラフの表示データを更新する
+				view.updateGraphData(view.graphId, from, to);
+
+				if ($("#tempDiv").length > 0) {
+					$(".dygraph-title").width(
+							($("#tempDiv").width() * 0.977) - 67);
+				} else {
+					$(".dygraph-title").width(
+							($("#" + view.$el.attr("id") + "_ensgraph")
+									.width() - 87));
+				}
+			}
+		});
 	}
 });
