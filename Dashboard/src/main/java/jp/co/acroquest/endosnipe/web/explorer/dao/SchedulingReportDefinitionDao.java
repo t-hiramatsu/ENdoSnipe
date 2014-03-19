@@ -66,7 +66,11 @@ public interface SchedulingReportDefinitionDao
      */
     List<SchedulingReportDefinition> selectBySchedule(Timestamp currentTime);
 
-    //TODO: JavaDocを書く
+    /**
+     * 現在時刻より前の定義のリストを取得する
+     * @param currentTime 現在時刻のタイムスタンプ
+     * @return 現在時刻より前の定義リスト
+     */
     List<SchedulingReportDefinition> selectPreviousSchedule(Timestamp currentTime);
 
     /**

@@ -117,7 +117,7 @@ public class DashboardService
         {
             String errorMessage = MessageUtil.getMessage("WEWD0160", new Object[] {});
             responseDto.setMessage(errorMessage);
-            responseDto.setResult(ResponseConstants.RESULT_FAIL);
+            responseDto.setResult(ResponseConstants.RESULT_FAILURE);
             return responseDto;
         }
 
@@ -134,7 +134,7 @@ public class DashboardService
             else
             {
                 String errorMessage = MessageUtil.getMessage("WEWD0161", new Object[] {});
-                responseDto.setResult(ResponseConstants.RESULT_FAIL);
+                responseDto.setResult(ResponseConstants.RESULT_FAILURE);
                 responseDto.setMessage(errorMessage);
             }
 
@@ -145,7 +145,7 @@ public class DashboardService
             LOGGER.log(LogMessageCodes.SQL_EXCEPTION, dkEx, dkEx.getMessage());
             String errorMessage = MessageUtil.getMessage("WEWD0160", new Object[] {});
             responseDto.setMessage(errorMessage);
-            responseDto.setResult(ResponseConstants.RESULT_FAIL);
+            responseDto.setResult(ResponseConstants.RESULT_FAILURE);
             return responseDto;
         }
     }
@@ -191,7 +191,7 @@ public class DashboardService
             else
             {
                 String errorMessage = MessageUtil.getMessage("WEWD0162", new Object[] {});
-                responseDto.setResult(ResponseConstants.RESULT_FAIL);
+                responseDto.setResult(ResponseConstants.RESULT_FAILURE);
                 responseDto.setMessage(errorMessage);
             }
 
@@ -212,7 +212,7 @@ public class DashboardService
 
             String errorMessage = MessageUtil.getMessage("WEWD0163", new Object[] {});
             responseDto.setMessage(errorMessage);
-            responseDto.setResult(ResponseConstants.RESULT_FAIL);
+            responseDto.setResult(ResponseConstants.RESULT_FAILURE);
             return responseDto;
         }
     }
@@ -232,7 +232,7 @@ public class DashboardService
             {
                 String errorMessage = MessageUtil.getMessage("WEWD0164", new Object[] {});
                 responseDto.setMessage(errorMessage);
-                responseDto.setResult(ResponseConstants.RESULT_FAIL);
+                responseDto.setResult(ResponseConstants.RESULT_FAILURE);
                 return responseDto;
             }
 
@@ -257,7 +257,7 @@ public class DashboardService
 
             String errorMessage = MessageUtil.getMessage("WEWD0165", new Object[] {});
             responseDto.setMessage(errorMessage);
-            responseDto.setResult(ResponseConstants.RESULT_FAIL);
+            responseDto.setResult(ResponseConstants.RESULT_FAILURE);
             return responseDto;
         }
     }
@@ -305,7 +305,7 @@ public class DashboardService
             {
                 String errorMessage = MessageUtil.getMessage("WEWD0166", new Object[] {});
                 responseDto.setMessage(errorMessage);
-                responseDto.setResult(ResponseConstants.RESULT_FAIL);
+                responseDto.setResult(ResponseConstants.RESULT_FAILURE);
                 return responseDto;
             }
 
@@ -327,7 +327,7 @@ public class DashboardService
 
             String errorMessage = MessageUtil.getMessage("WEWD0167", new Object[] {});
             responseDto.setMessage(errorMessage);
-            responseDto.setResult(ResponseConstants.RESULT_FAIL);
+            responseDto.setResult(ResponseConstants.RESULT_FAILURE);
             return responseDto;
         }
     }

@@ -60,22 +60,10 @@ ENS.NodeInfoParentView = wgp.AbstractView
 				// dual slider area (add div and css, and make slider)
 				$("#" + this.$el.attr("id")).append(
 						'<div id="' + id.dualSliderArea + '"></div>');
-				$('#' + id.dualSliderArea).css(
-						ENS.nodeinfo.parent.css.dualSliderArea);
-				$('#' + id.dualSliderArea).css(
-						ENS.nodeinfo.parent.css.dualSliderArea);
-				this.dualSliderView = new ENS.DualSliderView({
-					id : id.dualSliderArea,
-					rootView : this
-				});
-
-				var instance = this;
-
-				this.dualSliderView.setScaleMovedEvent(function(from, to) {
-					instance.moveScale["from"] = from;
-					instance.moveScale["to"] = to;
+				
+				var graphRangeController = new ENS.graphRangeController(id.dualSliderArea);
+				graphRangeController.setSearchListener(function(from, to){
 					var viewList = ENS.nodeinfo.viewList;
-
 					for ( var key in viewList) {
 						var fromHour = from / 60 / 60 / 1000;
 						var ins = viewList[key];

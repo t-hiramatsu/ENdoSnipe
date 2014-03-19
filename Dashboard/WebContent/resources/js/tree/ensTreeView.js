@@ -1421,9 +1421,6 @@ ENS.treeView = wgp.TreeView
 				$("#targetName").val("");
 				$("#jquery-ui-datepicker-from").val("");
 				$("#jquery-ui-datepicker-to").val("");
-
-				$("#jquery-ui-datepicker-from, #jquery-ui-datepicker-to")
-						.datetimepicker('destroy');
 			},
 			/**
 			 * シグナルダイアログをクリアする。
@@ -1831,7 +1828,7 @@ ENS.treeView = wgp.TreeView
 				var result = responseDto.result;
 
 				// 追加操作に失敗した場合はメッセージを表示する。
-				if (result === "fail") {
+				if (result === "failure") {
 					var message = responseDto.message;
 					alert(message);
 					return;

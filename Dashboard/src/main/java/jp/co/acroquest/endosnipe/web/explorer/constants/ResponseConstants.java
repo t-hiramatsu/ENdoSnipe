@@ -36,7 +36,7 @@ public class ResponseConstants
     public static final String RESULT_SUCCESS = "success";
 
     /** 失敗を表す電文 **/
-    public static final String RESULT_FAIL = "fail";
+    public static final String RESULT_FAILURE = "failure";
 
     /**
      * インスタンス化を防止するprivateコンストラクタ。

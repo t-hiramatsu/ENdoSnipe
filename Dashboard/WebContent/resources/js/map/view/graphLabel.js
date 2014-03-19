@@ -96,4 +96,4 @@ ENS.graphLabel.setEventListener = function($labelDiv, $graphDiv) {
 	$graphDiv.focusout(function(e) {
 		$labelDiv.hide();
 	});
-}
+};

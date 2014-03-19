@@ -694,11 +694,10 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				// 各系列の中で最大値が大きい順に表示する。
 				// 同条件の場合は辞書式とする。
 				var getDataKeysTemp = [];
-				var instance = this;
 				_.each(getData, function(seriesData, seriesDataKey){
 
 					// 系列が持つ直近の時刻およびデータを取得する。
-					var seriesDataDate = new Date(0)
+					var seriesDataDate = new Date(0);
 					var seriesDataValue = null;
 					if(seriesData.length > 0){
 
@@ -738,7 +737,7 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 
 				// previousKeysとcurrentKeysTempを比較して含まれていないキーを算出する。
 				// キーが全て含まれている場合は、前回のソート結果を優先する。
-				if(_.difference(currentKeysTemp, this.previousKeys).length = 0 &&
+				if(_.difference(currentKeysTemp, this.previousKeys).length === 0 &&
 					currentKeysTemp.length === this.previousKeys.length){
 					currentKeys = this.previousKeys;
 				}else {

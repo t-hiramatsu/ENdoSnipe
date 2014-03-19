@@ -33,10 +33,10 @@
 		<div id="reportSetTermArea" class="dialogContentArea">
 			<div id="reportSetTermItem" class="dialogItem">Report Term :</div>
 			<div id="reportSetTermValue" class="dialogValue">
-				From<br /> <input name="jquery-ui-datepicker-from"
-					class="hasDatepicker" id="jquery-ui-datepicker-from" type="text" /><br />To<br />
-				<input name="jquery-ui-datepicker-to" class="hasDatepicker"
-					id="jquery-ui-datepicker-to" type="text" />
+				From<br />
+				<input name="jquery-ui-datepicker-from" id="jquery-ui-datepicker-from" type="text" /><br />
+				To<br />
+				<input name="jquery-ui-datepicker-to" id="jquery-ui-datepicker-to" type="text" />
 			</div>
 		</div>
 		<div class="clearFloat"></div>

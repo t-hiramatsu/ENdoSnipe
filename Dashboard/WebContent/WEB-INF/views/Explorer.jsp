@@ -3,6 +3,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/resources/css/common/common.css"
+	type="text/css" media="all">
 <%@ include file="../include/ext/javaScriptInclude.jsp"%>
 <%@ include file="../include/ExplorerInclude.jsp"%>
 <%@ include file="common/Header.jsp"%>
@@ -79,7 +82,4 @@
 		</div>
 	</form>
 </body>
-<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/resources/css/common/common.css"
-	type="text/css" media="all">
 </html>

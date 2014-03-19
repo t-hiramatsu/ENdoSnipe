@@ -15,6 +15,7 @@ package jp.co.acroquest.endosnipe.web.explorer.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.co.acroquest.endosnipe.web.explorer.constants.ResponseConstants;
 import jp.co.acroquest.endosnipe.web.explorer.dto.ResponseDto;
 import jp.co.acroquest.endosnipe.web.explorer.dto.SignalDefinitionDto;
 import jp.co.acroquest.endosnipe.web.explorer.dto.SummarySignalDefinitionDto;
@@ -126,11 +127,27 @@ public class SummarySignalController
     public ResponseDto add(
             @RequestParam(value = "summarySignalDefinition") final String summarySignalDefinition)
     {
-        ResponseDto responseDto = new ResponseDto();
         SummarySignalDefinitionDto summarySignalDefinitionDto =
                 JSON.decode(summarySignalDefinition, SummarySignalDefinitionDto.class);
+
+        //名前が重複するサマリシグナルを取得する
+        SummarySignalDefinitionDto existDto =
+                this.summarySignalService_.getSummarySignalDefinition(summarySignalDefinitionDto.summarySignalName_);
+
+        //重複する場合はエラーメッセージをセットしてレスポンスを返す。
+        if (existDto != null)
+        {
+            ResponseDto responseDto = new ResponseDto();
+            responseDto.setResult(ResponseConstants.RESULT_FAILURE);
+            responseDto.setMessage("\"" + summarySignalDefinitionDto.summarySignalName_
+                    + "\" is already exists.");
+            return responseDto;
+        }
+
+        //重複しない場合は電文を送信し、成功のレスポンスを返す。
         this.summarySignalService_.insertSummarySignalDefinition(summarySignalDefinitionDto);
-        responseDto.setResult("success");
+        ResponseDto responseDto = new ResponseDto();
+        responseDto.setResult(ResponseConstants.RESULT_SUCCESS);
         return responseDto;
     }
 
@@ -148,7 +165,7 @@ public class SummarySignalController
     {
         this.summarySignalService_.deleteSummarySignalDefinition(summarySignalName);
         ResponseDto responseDto = new ResponseDto();
-        responseDto.setResult("success");
+        responseDto.setResult(ResponseConstants.RESULT_SUCCESS);
         return responseDto;
 
     }
@@ -186,7 +203,7 @@ public class SummarySignalController
         SummarySignalDefinitionDto summarySignalDefinitionDto =
                 JSON.decode(summarySignalDefinition, SummarySignalDefinitionDto.class);
         this.summarySignalService_.updateSummarySignalDefinition(summarySignalDefinitionDto);
-        responseDto.setResult("success");
+        responseDto.setResult(ResponseConstants.RESULT_SUCCESS);
         return responseDto;
     }
 }

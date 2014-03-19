@@ -66,11 +66,6 @@ ENS.AppView = wgp.AppView.extend({
 		this.onSearch(settings);
 	},
 	_add : function(addCollection, addData) {
-		
-		if(addData.updateData.type === ENS.tree.type.SUMMARYSIGNAL && addData.updateData.message !== ""){
-			alert(addData.updateData.message);
-			return;
-			}
 		if (addCollection.get(addData.id) != null) {
 			console.log('Collection already Exists');
 		} else {
