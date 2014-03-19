@@ -112,16 +112,42 @@ ENS.ReportDialogView = ENS.DialogView
 								});
 			},
 			createDatepicker_ : function() {
-				var dates = $(
-						'#jquery-ui-datepicker-from, #jquery-ui-datepicker-to')
-						.datetimepicker({
-							changeMonth : true,
-							numberOfMonths : 2,
-							showCurrentAtPos : 1
-						});
-
-				$("#jquery-ui-datepicker-from, #jquery-ui-datepicker-to")
-						.datetimepicker("option", "showOn", 'both');
-
+				var startDateTextBox = $('#jquery-ui-datepicker-from');
+				var endDateTextBox = $('#jquery-ui-datepicker-to');
+				
+				startDateTextBox.datetimepicker({ 
+					numberOfMonths: 2,
+					onClose: function(dateText, inst) {
+						if (endDateTextBox.val() !== '') {
+							var testStartDate = startDateTextBox.datetimepicker('getDate');
+							var testEndDate = endDateTextBox.datetimepicker('getDate');
+							if (testStartDate > testEndDate)
+								endDateTextBox.datetimepicker('setDate', testStartDate);
+						}
+						else {
+							endDateTextBox.val(dateText);
+						}
+					},
+					onSelect: function (selectedDateTime){
+						endDateTextBox.datetimepicker('option', 'minDate', startDateTextBox.datetimepicker('getDate') );
+					}
+				});
+				endDateTextBox.datetimepicker({ 
+					numberOfMonths: 2,
+					onClose: function(dateText, inst) {
+						if (startDateTextBox.val() !== '') {
+							var testStartDate = startDateTextBox.datetimepicker('getDate');
+							var testEndDate = endDateTextBox.datetimepicker('getDate');
+							if (testStartDate > testEndDate)
+								startDateTextBox.datetimepicker('setDate', testEndDate);
+						}
+						else {
+							startDateTextBox.val(dateText);
+						}
+					},
+					onSelect: function (selectedDateTime){
+						startDateTextBox.datetimepicker('option', 'maxDate', endDateTextBox.datetimepicker('getDate') );
+					}
+				});
 			}
 		});

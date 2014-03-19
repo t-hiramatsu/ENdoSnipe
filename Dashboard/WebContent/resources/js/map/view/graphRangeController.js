@@ -12,7 +12,7 @@ ENS.graphRangeController = function(id) {
 	this.TIMER_INTERVAL = 1000;
 
 	this.searchListener = null;
-	this.isPlaying = false;
+	this.isPlaying = true;
 	this.timerId = null;
 
 	this._create(id);
@@ -126,7 +126,10 @@ ENS.graphRangeController.prototype._createDatetimePicker = function() {
 	$datepicker.attr("id", this.ID_DATEPICKER);
 	$datepicker.attr("type", "text");
 	$datepicker.attr("title", "To date");
-	$datepicker.datetimepicker();
+	$datepicker.datetimepicker({
+		dateFormat: "yy-mm-dd",
+		timeFormat: "HH:mm"
+	});
 	return $datepicker;
 };
 
@@ -187,7 +190,7 @@ ENS.graphRangeController.prototype._createPlayButton = function() {
 	var instance = this;
 	$play.button({
 		icons : {
-			primary : "ui-icon-play"
+			primary : "ui-icon-stop"
 		},
 		text : false
 	});

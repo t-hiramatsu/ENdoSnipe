@@ -1387,9 +1387,6 @@ ENS.treeView = wgp.TreeView
 				$("#targetName").val("");
 				$("#jquery-ui-datepicker-from").val("");
 				$("#jquery-ui-datepicker-to").val("");
-
-				$("#jquery-ui-datepicker-from, #jquery-ui-datepicker-to")
-						.datetimepicker('destroy');
 			},
 			/**
 			 * シグナルダイアログをクリアする。
