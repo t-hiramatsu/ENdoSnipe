@@ -49,7 +49,7 @@ ENS.graphRangeController.prototype._create = function(id) {
 	var $search = this._createSearchButton();
 
 	// 期間表示
-	var $span = this._createSpan();
+	// var $span = this._createSpan();
 
 	// コンテナ
 	var $container = $("#" + id);
@@ -57,13 +57,12 @@ ENS.graphRangeController.prototype._create = function(id) {
 	// スタイルの変更
 	$search.css("margin-left", "3px");
 	$container.css("font-size", "0.8em");
-	$container.css("margin-left", "20px");
-	$container.css("margin-top", "20px");
 	$container.css("margin-bottom", "0px");
 	$datepicker.css("margin-left", "7px");
 	$prev.css("margin-left", "8px");
 	$next.css("margin-left", "3px");
-	$play.css("margin-left", "8px");
+	$play.css("margin-left", "3px");
+	// $span.css("margin-left", "16px");
 
 	// コンテナに追加
 	$container.append($rangeLabel);
@@ -71,9 +70,9 @@ ENS.graphRangeController.prototype._create = function(id) {
 	$container.append($datepicker);
 	$container.append($search);
 	$container.append($prev);
-	$container.append($next);
 	$container.append($play);
-	$container.append($span);
+	$container.append($next);
+	// $container.append($span);
 
 	// 初期表示では現在時刻をセット
 	var date = new Date();
@@ -127,8 +126,8 @@ ENS.graphRangeController.prototype._createDatetimePicker = function() {
 	$datepicker.attr("type", "text");
 	$datepicker.attr("title", "To date");
 	$datepicker.datetimepicker({
-		dateFormat: "yy-mm-dd",
-		timeFormat: "HH:mm"
+		dateFormat : "yy-mm-dd",
+		timeFormat : "HH:mm"
 	});
 	return $datepicker;
 };
@@ -260,7 +259,7 @@ ENS.graphRangeController.prototype._createSearchButton = function() {
  * 期間表示領域を作成する
  */
 ENS.graphRangeController.prototype._createSpan = function() {
-	var $span = $("<p/>");
+	var $span = $("<span/>");
 	$span.attr("id", this.ID_SPAN);
 	return $span;
 };
@@ -278,12 +277,11 @@ ENS.graphRangeController.prototype._updateSpan = function(date) {
 		return;
 	}
 	var from = new Date(to.getTime() - rangeMs);
-	var str = "Term ";
+	var str = "Term: ";
+	str += this._getDateStr(from) + " 〜 " + this._getDateStr(to);
 	if (this.isPlaying) {
 		str += "[Realtime]";
 	}
-	str += ": ";
-	str += this._getDateStr(from) + " 〜 " + this._getDateStr(to);
 	$("#" + this.ID_SPAN).html(str);
 };
 
@@ -423,9 +421,9 @@ ENS.graphRangeController.prototype._updateTooltip = function() {
 			(this._getRangeHour() / 2) + " hours ago");
 	$("#" + this.ID_NEXT_BUTTON).attr("title",
 			(this._getRangeHour() / 2) + " hours after");
-	if(!this.isPlaying){
-		$("#"+this.ID_PLAY_BUTTON).attr("title", "Start realtime tracking.");
-	}else{
-		$("#"+this.ID_PLAY_BUTTON).attr("title", "Stop realtime tracking.");
+	if (!this.isPlaying) {
+		$("#" + this.ID_PLAY_BUTTON).attr("title", "Start realtime tracking.");
+	} else {
+		$("#" + this.ID_PLAY_BUTTON).attr("title", "Stop realtime tracking.");
 	}
 };
