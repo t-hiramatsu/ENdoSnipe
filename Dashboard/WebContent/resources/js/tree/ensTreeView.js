@@ -698,20 +698,16 @@ ENS.treeView = wgp.TreeView
 				// Ajax通信の送信先URL
 				var url = "";
 				// サーバに送信するデータ
-				var sendData;
+				var sendData = this.createSendMulResGraphData_(mulResGraphName);
 				// Ajax通信のコールバック関数と送信先URLを追加か編集かによって決める
 				if (option.signalType == ENS.tree.ADD_MULTIPLE_RESOURCE_GRAPH_TYPE) {
-					sendData = this
-							.createSendAddMulResGraphData_(mulResGraphName);
 					callbackFunction = "callbackAddMulResGraph_";
 					url = ENS.tree.MULTIPLE_RESOURCE_GRAPH_ADD_URL;
 
 				} else if (option.signalType == ENS.tree.EDIT_MULTIPLE_RESOURCE_GRAPH_TYPE) {
-
-					sendData = this
-							.createSendEditMulResGraphData_(mulResGraphName);
 					callbackFunction = "callbackEditMulResGraph_";
 					url = ENS.tree.MULTIPLE_RESOURCE_GRAPH_EDIT_URL;
+
 				}
 
 				// Ajax通信用の設定
@@ -736,23 +732,28 @@ ENS.treeView = wgp.TreeView
 				this.clearMulResGraphDialog_();
 			},
 			/**
-			 * 複数グラフ新規追加時の送信データを生成する。
+			 * 複数グラフ追加/編集時の送信データを生成する。
 			 */
-			createSendAddMulResGraphData_ : function(mulResGraphName) {
-				// 入力された秒をミリ秒に変換する
-				var measurementList;
-				var measurementItem;
-				measurementList = $("#multipleResourceGraphLstBox2>option")
-						.map(function() {
-							return $(this).val();
-						});
+			createSendMulResGraphData_ : function(mulResGraphName) {
 
-				measurementItem = measurementList.get(0);
-				for ( var i = 1; i < measurementList.length; i++) {
+				// ラジオボタンで「Graph Selection」を指定した場合
+				var measurementItem = "";
+				if($('#multipleResourceGraphSelection').attr("checked")){
+					var measurementList = $("#multipleResourceGraphLstBox2>option")
+					.map(function() {
+						return $(this).val();
+					});
 
-					measurementItem = measurementItem + ","
-							+ measurementList.get(i);
+					measurementItem = measurementList.get(0);
+					for ( var i = 1; i < measurementList.length; i++) {
+						measurementItem = measurementItem + ","
+								+ measurementList.get(i);
+					}
+				}
 
+				var measurementItemPattern = "";
+				if($('#multipleResourceGraphRegExpression').attr("checked")){
+					measurementItemPattern = $("#multipleResourceGraphItems").val();
 				}
 
 				// 複数グラフ定義を作成する
@@ -760,43 +761,9 @@ ENS.treeView = wgp.TreeView
 					multipleResourceGraphId : $("#mulResGraphId").val(),
 					multipleResourceGraphName : mulResGraphName,
 					measurementItemIdList : measurementItem,
-					measurementItemPattern : $("#multipleResourceGraphItems").val()
+					measurementItemPattern : measurementItemPattern
 				};
 
-				var sendData = {
-					mulResGraphDefinition : JSON
-							.stringify(mulResGraphDefinition)
-				};
-
-				return sendData;
-			},
-			/**
-			 * 複数グラフ編集時の送信データを生成する。
-			 */
-			createSendEditMulResGraphData_ : function(mulResGraphName) {
-
-				var measurementList;
-				var measurementItem;
-				measurementList = $("#multipleResourceGraphLstBox2>option")
-						.map(function() {
-							return $(this).val();
-						});
-
-				measurementItem = measurementList.get(0);
-				for ( var i = 1; i < measurementList.length; i++) {
-
-					measurementItem = measurementItem + ","
-							+ measurementList.get(i);
-
-				}
-
-				// 複数グラフ定義を作成する
-				var mulResGraphDefinition = {
-					multipleResourceGraphId : $("#mulResGraphId").val(),
-					multipleResourceGraphName : mulResGraphName,
-					measurementItemIdList : measurementItem,
-					measurementItemPattern : $("#multipleResourceGraphItems").val()
-				};
 				var sendData = {
 					mulResGraphDefinition : JSON
 							.stringify(mulResGraphDefinition)
@@ -1465,17 +1432,23 @@ ENS.treeView = wgp.TreeView
 				$("#beforemultipleResourceGraphName")
 						.val(
 								multipleResourceGraphDefinition.multipleResourceGraphName);
-				var measurementList = multipleResourceGraphDefinition.measurementItemIdList
-						.split(",");
-				for ( var i = 0; i < measurementList.length; i++) {
-					$('#multipleResourceGraphLstBox2').append(
-							"<option value='" + measurementList[i] + "'>"
-									+ measurementList[i] + "</option>");
 
+				// 正規表現パターンが指定されていない場合は系列直接指定であるため、
+				// 被選択内容を生成する。
+				if(multipleResourceGraphDefinition.measurementItemPattern.length === 0){
+
+					var measurementList = multipleResourceGraphDefinition.measurementItemIdList
+					.split(",");
+					for ( var i = 0; i < measurementList.length; i++) {
+						$('#multipleResourceGraphLstBox2').append(
+						"<option value='" + measurementList[i] + "'>"
+								+ measurementList[i] + "</option>");
+					}
 				}
+
 				$("#multipleResourceGraphItems")
 				.val(multipleResourceGraphDefinition.measurementItemPattern);
-				
+
 			},
 
 			inputSummarySignalDialog_ : function(treeModel) {
