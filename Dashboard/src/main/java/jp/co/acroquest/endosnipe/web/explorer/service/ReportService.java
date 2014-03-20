@@ -158,6 +158,10 @@ public class ReportService
                 }
             }
         }
+        else
+        {
+            LOGGER.log(LogMessageCodes.CANNOT_FIND_REPORT_SETTINGS);
+        }
     }
 
     /**

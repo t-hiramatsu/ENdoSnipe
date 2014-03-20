@@ -155,4 +155,7 @@ public interface LogMessageCodes extends CommonLogMessageCodes
     /** レポート出力期間のフォーマットが不正。 */
     String UNSUPPORTED_REPORT_FILE_DURATION_FORMAT = "WEWD0604";
 
+    /** レポート設定ファイルが読み込めない。 */
+    String CANNOT_FIND_REPORT_SETTINGS = "WEWD0605";
+
 }

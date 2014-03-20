@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.servlet.http.HttpServletResponse;
 
@@ -63,15 +62,6 @@ public class ReportController
     {
         //  new ReportData();
 
-    }
-
-    /**
-     * to initialize thread
-     */
-    @PostConstruct
-    public void init()
-    {
-        reportService_.runThread();
     }
 
     /**
