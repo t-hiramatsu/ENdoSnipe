@@ -116,6 +116,8 @@ ENS.ReportDialogView = ENS.DialogView
 				var endDateTextBox = $('#jquery-ui-datepicker-to');
 				
 				startDateTextBox.datetimepicker({ 
+					dateFormat: "yy-mm-dd",
+					timeFormat: "HH:mm",
 					numberOfMonths: 2,
 					onClose: function(dateText, inst) {
 						if (endDateTextBox.val() !== '') {
@@ -133,6 +135,8 @@ ENS.ReportDialogView = ENS.DialogView
 					}
 				});
 				endDateTextBox.datetimepicker({ 
+					dateFormat: "yy-mm-dd",
+					timeFormat: "HH:mm",
 					numberOfMonths: 2,
 					onClose: function(dateText, inst) {
 						if (startDateTextBox.val() !== '') {
