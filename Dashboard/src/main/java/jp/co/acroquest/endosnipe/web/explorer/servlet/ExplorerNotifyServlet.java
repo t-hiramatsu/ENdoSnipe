@@ -64,6 +64,7 @@ import jp.co.acroquest.endosnipe.web.explorer.manager.ConnectionClient;
 import jp.co.acroquest.endosnipe.web.explorer.manager.DatabaseManager;
 import jp.co.acroquest.endosnipe.web.explorer.service.DashboardService;
 import jp.co.acroquest.endosnipe.web.explorer.service.MultipleResourceGraphService;
+import jp.co.acroquest.endosnipe.web.explorer.service.ReportService;
 import jp.co.acroquest.endosnipe.web.explorer.service.SignalService;
 import jp.co.acroquest.endosnipe.web.explorer.service.SummarySignalService;
 import jp.co.acroquest.endosnipe.web.explorer.service.processor.AgentInformationProcessor;
@@ -207,6 +208,10 @@ public class ExplorerNotifyServlet extends HttpServlet
             Template template = templateEntry.getValue();
             templateCreator.create(name, template);
         }
+
+        // レポート出力用スレッドを起動させる。
+        ReportService reportService = (ReportService)webContext.getBean("reportService");
+        reportService.runThread();
 
         // コールバック関数を作成するために、初期化メソッドを呼び出す。
         MeasurementInfoDao.initialize();
