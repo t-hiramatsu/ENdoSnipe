@@ -11,9 +11,12 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 		this.DIV_ID_CONTROLLER = "range_controller";
 		
 		_.bindAll();
+		
+		// 時間範囲指定UIを作成する
+		this._createRangeController(argument.id);
 
 		var width = $("#" + this.$el.attr("id")).width();
-		var height = $("#" + this.$el.attr("id")).height();
+		var height = $("#" + this.$el.attr("id")).height() - 300;
 		_.extend(argument, {width : width, height : height});
 
 		var changedFlag = false;
@@ -51,9 +54,6 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 
 		// イベント実行可設定
 		this.isExecuteEvent_ = true;
-		
-		// 時間範囲指定UIを作成する
-		this._createRangeController(argument.id);
 	},
 	renderExtend : function(){
 
@@ -694,20 +694,11 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 		$timeControllerDiv.attr("id", this.DIV_ID_CONTROLLER);
 		$timeControllerDiv.css("background-color", "rgba(0, 0, 0, 0.7)");
 		$timeControllerDiv.css("padding", "10px");
-		$timeControllerDiv.css("position", "absolute");
-		$timeControllerDiv.css("border", "solid 3px #aaaaaa");
-		$timeControllerDiv.css("border-radius", "10px");
-		$timeControllerDiv.css("cursor", "move");
-		$timeControllerDiv.draggable();
 		$("#"+parentId).append($timeControllerDiv);
 		
 		// 時間帯設定UIを構築する
 		var graphRangeController = new ENS.graphRangeController(this.DIV_ID_CONTROLLER);
-		
-		// 画面右上に移動させる
-		var left = $("#"+parentId).width() - $timeControllerDiv.width() - 100;
-		$timeControllerDiv.css("left", left+"px");
-		
+				
 		// 時間帯変更時のリスナを設定する
 		var instance = this;
 		graphRangeController.setSearchListener(function(from, to){
