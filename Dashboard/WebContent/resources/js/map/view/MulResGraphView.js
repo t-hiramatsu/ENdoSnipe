@@ -592,7 +592,6 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				resizeStyle["height"] = graphHeight;
 
 				$("#tempDiv").css(resizeStyle);
-				this.tempEntity.resize(graphWidth, graphHeight);
 				this.addDragEvent();
 
 				var divNo = parseInt(this.$el.attr("id").substring(30,
@@ -634,6 +633,8 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				}
 
 				this.hiddenGraph = hiddenGraph;
+				
+				this.tempEntity.resize(graphWidth, graphHeight);
 
 				$(".dygraph-title").width(
 						$("#tempDiv").width() - this.titleButtonSpace);
