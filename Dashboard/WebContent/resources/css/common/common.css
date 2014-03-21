@@ -239,14 +239,6 @@ div#contents_area_content {
 	padding: 0 0;
 }
 
-.ui-tabs .ui-tabs-nav li {
-	height: 30px;
-}
-
-.ui-tabs .ui-tabs-nav li a {
-	padding: 0.1em 1em;
-}
-
 /* jqGrid style */
 .ui-jqgrid tr.jqgrow td {
 	white-space: normal;
