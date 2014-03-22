@@ -11,9 +11,9 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 		this.DIV_ID_CONTROLLER = "range_controller";
 		
 		_.bindAll();
-
+		
 		var width = $("#" + this.$el.attr("id")).width();
-		var height = $("#" + this.$el.attr("id")).height();
+		var height = $("#" + this.$el.attr("id")).height() - 300;
 		_.extend(argument, {width : width, height : height});
 
 		var changedFlag = false;
@@ -51,9 +51,6 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 
 		// イベント実行可設定
 		this.isExecuteEvent_ = true;
-		
-		// 時間範囲指定UIを作成する
-		this._createRangeController(argument.id);
 	},
 	renderExtend : function(){
 
@@ -687,57 +684,5 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 	_dragResizeEnd : function(event, option){
 		this.dashboardManager.executeEvent(raphaelMapConstants.EVENT_TYPE_RESIZE_END,
 			event, option);
-	},
-	_createRangeController : function(parentId){
-		// コンテナとなるDIV要素を作成して親要素に追加する
-		var $timeControllerDiv = $("<div/>");
-		$timeControllerDiv.attr("id", this.DIV_ID_CONTROLLER);
-		$timeControllerDiv.css("background-color", "rgba(0, 0, 0, 0.7)");
-		$timeControllerDiv.css("padding", "10px");
-		$timeControllerDiv.css("position", "absolute");
-		$timeControllerDiv.css("border", "solid 3px #aaaaaa");
-		$timeControllerDiv.css("border-radius", "10px");
-		$timeControllerDiv.css("cursor", "move");
-		$timeControllerDiv.draggable();
-		$("#"+parentId).append($timeControllerDiv);
-		
-		// 時間帯設定UIを構築する
-		var graphRangeController = new ENS.graphRangeController(this.DIV_ID_CONTROLLER);
-		
-		// 画面右上に移動させる
-		var left = $("#"+parentId).width() - $timeControllerDiv.width() - 100;
-		$timeControllerDiv.css("left", left+"px");
-		
-		// 時間帯変更時のリスナを設定する
-		var instance = this;
-		graphRangeController.setSearchListener(function(from, to){
-			var viewList = instance.viewCollection;
-			for ( var key in viewList) {
-				var view = viewList[key];
-				var objectName = view.model.attributes.objectName;
-				
-				// viewがグラフでない場合は何もしない
-				if(objectName !== instance.OBJ_NAME_GRAPH && objectName !== instance.OBJ_NAME_MULTIPLE_GRAPH ){
-					continue;
-				}
-				
-				var fromHour = from / 60 / 60 / 1000;
-				// 15秒毎にグラフが更新されるので、グラフ内に収まるデータ数は、4 × 60 × 表示期間(h) となる
-				view.graphMaxNumber = 4 * 60 * fromHour;
-				// グラフの表示期間の幅を更新する
-				view.updateDisplaySpan(from, to);
-				// グラフの表示データを更新する
-				view.updateGraphData(view.graphId, from, to);
-
-				if ($("#tempDiv").length > 0) {
-					$(".dygraph-title").width(
-							($("#tempDiv").width() * 0.977) - 67);
-				} else {
-					$(".dygraph-title").width(
-							($("#" + view.$el.attr("id") + "_ensgraph")
-									.width() - 87));
-				}
-			}
-		});
 	}
 });
