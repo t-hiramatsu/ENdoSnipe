@@ -48,9 +48,6 @@ ENS.graphRangeController.prototype._create = function(id) {
 	// 検索ボタン
 	var $search = this._createSearchButton();
 
-	// 期間表示
-	// var $span = this._createSpan();
-
 	// コンテナ
 	var $container = $("#" + id);
 
@@ -72,7 +69,6 @@ ENS.graphRangeController.prototype._create = function(id) {
 	$container.append($prev);
 	$container.append($play);
 	$container.append($next);
-	// $container.append($span);
 
 	// 初期表示では現在時刻をセット
 	var date = new Date();
@@ -253,15 +249,6 @@ ENS.graphRangeController.prototype._createSearchButton = function() {
 		instance._search();
 	});
 	return $search;
-};
-
-/**
- * 期間表示領域を作成する
- */
-ENS.graphRangeController.prototype._createSpan = function() {
-	var $span = $("<span/>");
-	$span.attr("id", this.ID_SPAN);
-	return $span;
 };
 
 /**

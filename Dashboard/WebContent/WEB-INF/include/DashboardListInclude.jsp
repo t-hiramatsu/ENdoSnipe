@@ -99,6 +99,9 @@
 	src="<%=request.getContextPath()%>/resources/js/map/view/graphLabel.js">
 </script>
 <script type="text/javascript"
+	src="<%=request.getContextPath()%>/resources/js/map/view/graphControllerView.js">
+</script>
+<script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/map/view/graphRangeController.js">
 </script>
 
