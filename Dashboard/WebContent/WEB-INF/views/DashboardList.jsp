@@ -53,13 +53,20 @@
 		if(dashboardMode == ENS.dashboard.mode.OPERATE){
 
 			var viewArea1 = {
-				width : 1200,
-				height : 800,
-				rowspan : 1,
-				colspan : 1
-			};
+					width : 1200,
+					height : 100,
+					rowspan : 1,
+					colspan : 1
+				};
 
 			var viewArea2 = {
+					width : 1200,
+					height : 700,
+					rowspan : 1,
+					colspan : 1
+				};
+
+			var viewArea3 = {
 				width : 1200,
 				height : 50,
 				rowspan : 1,
@@ -67,7 +74,8 @@
 			};
 
 			var table = [ [ new wgp.PerspectiveModel(viewArea1)],
-						[new wgp.PerspectiveModel(viewArea2)]];
+			            [ new wgp.PerspectiveModel(viewArea2)],
+						[new wgp.PerspectiveModel(viewArea3)]];
 			perspectiveView = new wgp.PerspectiveView({
 				id : "persArea",
 				collection : table,
@@ -77,8 +85,10 @@
 
 			// TODO WGPを改修し、barを非表示にする。
 			$('#persArea_bar_1_0').hide();
+			$('#persArea_bar_2_0').hide();
 
-			perspectiveView.dropView("persArea_drop_0_0", "contents_area", "DashboardView");
+			perspectiveView.dropView("persArea_drop_0_0", "range_area", "DashboardView");
+			perspectiveView.dropView("persArea_drop_1_0", "contents_area", "DashboardView");
 
 			// リソースリスト・ダッシュボードリスト用の領域を別に用意する。
 			var treeArea = $("<div id='tree_area'></div>");
@@ -171,6 +181,14 @@
 				resourceTreeView.restoreDisplayState(resourceTreeSelect, resourceTreeOpenNodes);
 			});
 
+		}
+		if(dashboardMode == ENS.dashboard.mode.OPERATE){
+			// グラフ範囲入力ダイアログの生成
+			var rangeAreaView = new ENS.GraphControllerView({
+				id : "range_area",
+				targetId : "range_area"
+				});
+			$("#range_area").css('overflow', 'hidden');	
 		}
 
 		// ダッシュボード一覧ツリーの生成
@@ -390,8 +408,14 @@
 		}
 
 		// メニューアイコンを生成する。
+		var menuAreaId = "";
+		if(dashboardMode == ENS.dashboard.mode.OPERATE){
+			menuAreaId = "persArea_drop_2_0";
+		} else {
+			menuAreaId = "persArea_drop_1_0";
+		}
 		var menuView = new ENS.dashboardMenuView({
-				id : "persArea_drop_1_0",
+				id : menuAreaId,
 				collection : menuModelArray
 			},
 			{}
