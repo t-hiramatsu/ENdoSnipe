@@ -34,12 +34,6 @@ ENS.GraphControllerView = wgp.AbstractView
 				this.OBJ_NAME_SHAPE = "ENS.ShapeElementView";
 				this.DIV_ID_CONTROLLER = "range_controller";
 
-				var $timeControllerDiv = $("<div/>");
-				$timeControllerDiv.attr("id", this.DIV_ID_CONTROLLER);
-				$timeControllerDiv.css("background-color", "rgba(0, 0, 0, 0.7)");
-				$timeControllerDiv.css("padding", "10px");
-				$("#"+argument.targetId).append($timeControllerDiv);
-
 				var graphRangeController = new ENS.graphRangeController(argument.targetId);
 				// 時間帯変更時のリスナを設定する
 				var instance = this;
