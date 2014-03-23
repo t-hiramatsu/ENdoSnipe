@@ -1,15 +1,19 @@
 @CHARSET "UTF-8";
 
-.ui-tooltip {   
-	background-color:#000 !important;    
-	border:1px solid #fff !important;    
-	padding:10px 15px !important;    
-	width:200px !important;    
-	display:none !important;    
-	color:#fff !important;    
-	text-align:left !important;    
-	font-size:12px !important;     
-	/* outline radius for mozilla/firefox only */    
-	-moz-box-shadow:0 0 10px #000 !important;    
-	-webkit-box-shadow:0 0 10px #000 !important;
-	}
+.ui-tooltip {
+	background-color: #000 !important;
+	border: 1px solid #fff !important;
+	padding: 10px 15px !important;
+	width: 200px !important;
+	display: none !important;
+	color: #fff !important;
+	text-align: left !important;
+	font-size: 12px !important;
+	/* outline radius for mozilla/firefox only */
+	-moz-box-shadow: 0 0 10px #000 !important;
+	-webkit-box-shadow: 0 0 10px #000 !important;
+}
+
+#sliderArea {
+	padding-top: 10px;
+}

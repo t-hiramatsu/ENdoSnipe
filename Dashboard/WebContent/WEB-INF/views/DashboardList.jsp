@@ -54,14 +54,18 @@
 
 			var viewArea1 = {
 					width : 1200,
-					height : 100,
+					height : 90,
 					rowspan : 1,
-					colspan : 1
+					colspan : 1,
+					css : {
+						"overflow" : "hidden",
+						"padding-top" : "10px"
+					}
 				};
 
 			var viewArea2 = {
 					width : 1200,
-					height : 700,
+					height : 710,
 					rowspan : 1,
 					colspan : 1
 				};
@@ -188,7 +192,6 @@
 				id : "range_area",
 				targetId : "range_area"
 				});
-			$("#range_area").css('overflow', 'hidden');	
 		}
 
 		// ダッシュボード一覧ツリーの生成

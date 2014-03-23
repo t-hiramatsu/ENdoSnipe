@@ -19,7 +19,7 @@ ENS.schedulingReportView = wgp.AbstractView
 				this.getAllScheReportList_(nodeName);
 			},
 			render : function() {
-				$("#" + this.id).append('<br/><br/><div id="scheduleReportDiv"></div>');
+				$("#" + this.id).append('<div id="scheduleReportDiv"></div>');
 				$("#scheduleReportDiv").css({
 					"margin-left" : 5
 				});
