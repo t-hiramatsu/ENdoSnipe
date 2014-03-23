@@ -593,6 +593,7 @@ wgp.PerspectiveView = Backbone.View
 							+ targetTableModel.get("drop_area_id"));
 					var utilBarDiv = $("#"
 							+ targetTableModel.get("util_bar_id"));
+					var targetCss = targetTableModel.get("css");
 
 					// ビュー領域を取得する。
 					var viewDivIdArray = targetTableModel.get("view_div_id");
@@ -604,7 +605,13 @@ wgp.PerspectiveView = Backbone.View
 						viewAreaDiv.height(dropAreaDiv.height()
 								- utilBarDiv.height() - margin);
 						viewAreaDiv.zIndex(dropAreaDiv.zIndex() + 1);
-						viewAreaDiv.css("overflow", "auto");
+						if (targetCss == null) {
+							viewAreaDiv.css("overflow", "auto");
+						} else {
+							$.each(targetCss, function(index, value) {
+								viewAreaDiv.css(index, value);
+							})
+						}
 
 						$
 								.each(viewAreaDiv.children(),
