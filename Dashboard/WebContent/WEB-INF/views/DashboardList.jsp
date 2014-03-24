@@ -59,7 +59,8 @@
 					colspan : 1,
 					css : {
 						"overflow" : "hidden",
-						"padding-top" : "10px"
+						"padding-top" : "10px",
+						"z-index" : "30"
 					}
 				};
 
