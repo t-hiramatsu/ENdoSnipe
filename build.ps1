@@ -12,7 +12,7 @@ function global:Replace-Content
 
 
 #ƒ^ƒO–¼Ì‚ğİ’è‚·‚éB
-$tags = "5.1.0-release"
+$tags = "5.2.0-alpha1"
 
 $WorkDir="build"
 
