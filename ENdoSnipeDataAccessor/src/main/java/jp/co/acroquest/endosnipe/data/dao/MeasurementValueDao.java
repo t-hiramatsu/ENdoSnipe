@@ -164,6 +164,36 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
     	"select min(MEASUREMENT_TIME) MIN_TIME, max(MEASUREMENT_TIME) MAX_TIME from " +
         MEASUREMENT_VALUE;
 
+    /** 期間と項目名を指定して計測値の系列を取得するSQL。 */
+    private static final String SQL_SELECT_BY_TERM_AND_MEASUREMENT_ITEM_NAME =
+        "SELECT jmi.measurement_item_name," +
+        "       mv.measurement_item_id," +
+        "       mv.measurement_time," +
+        "       mv.measurement_value" +
+        "  FROM measurement_value mv, javelin_measurement_item jmi" +
+        "  WHERE mv.measurement_item_id = jmi.measurement_item_id" +
+        "    AND (mv.measurement_time BETWEEN ? and ?)" +
+        "    AND replace(replace(replace(jmi.measurement_item_name,chr(13)"
+                    + "||chr(10),' '),chr(13),' '),chr(10),' ')  LIKE ?" +
+        "  ORDER BY mv.measurement_time, measurement_item_name";
+
+    /** 期間と項目名を指定して計測値の系列を取得するSQL(前半部）。 */
+    private static final String SQL_SELECT_BY_TERM_AND_MEASUREMENT_ITEM_NAME_LIST_PREFIX
+    =
+        "SELECT jmi.measurement_item_name," +
+        "       mv.measurement_item_id," +
+        "       mv.measurement_time," +
+        "       mv.measurement_value" +
+        "  FROM measurement_value mv, javelin_measurement_item jmi" +
+        "  WHERE mv.measurement_item_id = jmi.measurement_item_id" +
+        "    AND (mv.measurement_time BETWEEN ? and ?)" +
+        "    AND replace(replace(replace(jmi.measurement_item_name,chr(13)"
+                    + "||chr(10),' '),chr(13),' '),chr(10),' ')  IN (";
+
+    /** 期間と項目名を指定して計測値の系列を取得するSQL(後半部）。 */
+    private static final String SQL_SELECT_BY_TERM_AND_MEASUREMENT_ITEM_NAME_LIST_POSTFIX =
+        ")  ORDER BY mv.measurement_time, measurement_item_name";
+
     /**
      * データを挿入するテーブルの名前を返します。
      *
@@ -430,19 +460,6 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
         return result;
     }
 
-    /** 期間と項目名を指定して計測値の系列を取得するSQL。 */
-    private static final String SQL_SELECT_BY_TERM_AND_MEASUREMENT_ITEM_NAME =
-        "SELECT jmi.measurement_item_name," +
-        "       mv.measurement_item_id," +
-        "       mv.measurement_time," +
-        "       mv.measurement_value" +
-        "  FROM measurement_value mv, javelin_measurement_item jmi" +
-        "  WHERE mv.measurement_item_id = jmi.measurement_item_id" +
-        "    AND (mv.measurement_time BETWEEN ? and ?)" +
-        "    AND replace(replace(replace(jmi.measurement_item_name,chr(13)"
-                    + "||chr(10),' '),chr(13),' '),chr(10),' ')  LIKE ?" +
-        "  ORDER BY mv.measurement_time, measurement_item_name";
-
     /**
      * 期間と項目名を指定して、特定のグラフのレコードを取得します。<br />
      * レコードは時刻で昇順に並べ替えて返します。
@@ -489,6 +506,69 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
         return result;
     }
 
+    /**
+     * 期間と項目名を指定して、特定のグラフのレコードを取得します。<br />
+     * レコードは時刻で昇順に並べ替えて返します。
+     *
+     * @param database データベース名。
+     * @param start 開始時刻。
+     * @param end 終了時刻。
+     * @param itemNameList 計測項目名のリスト。
+     * @return {@link MeasurementValueDto} のリスト
+     * @throws SQLException SQL 実行時に例外が発生した場合
+     */
+    public static List<MeasurementValueDto> selectByTermAndMeasurementItemNameList(String database,
+        Date start, Date end, List<String> itemNameList)
+        throws SQLException
+    {
+        if (itemNameList == null || itemNameList.size() == 0)
+        {
+            return new ArrayList<MeasurementValueDto>();
+        }
+
+        List<MeasurementValueDto> result = null;
+
+        // Date → Timestampへの変換
+        Timestamp tsStart = new Timestamp(start.getTime());
+        Timestamp tsEnd = new Timestamp(end.getTime());
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        StringBuilder executeSqlBulder =
+            new StringBuilder(SQL_SELECT_BY_TERM_AND_MEASUREMENT_ITEM_NAME_LIST_PREFIX);
+        for (int count = 0; count < itemNameList.size(); count++)
+        {
+            if (count != 0)
+            {
+                executeSqlBulder.append(",");
+            }
+            executeSqlBulder.append("?");
+        }
+        executeSqlBulder.append(SQL_SELECT_BY_TERM_AND_MEASUREMENT_ITEM_NAME_LIST_POSTFIX);
+        try
+        {
+            conn = getConnection(database, true);
+            pstmt = conn.prepareStatement(executeSqlBulder.toString());
+            int index = 1;
+            pstmt.setTimestamp(index++, tsStart);
+            pstmt.setTimestamp(index++, tsEnd);
+            for (String iemName : itemNameList)
+            {
+                pstmt.setString(index++, iemName);
+            }
+            rs = pstmt.executeQuery();
+            result = getMeasurementValueDtosFromResultSet(rs);
+        }
+        finally
+        {
+            SQLUtil.closeResultSet(rs);
+            SQLUtil.closeStatement(pstmt);
+            SQLUtil.closeConnection(conn);
+        }
+        return result;
+    }
+    
     /**
      * 時刻の範囲を指定して、特定のグラフのレコードを取得します。<br />
      *
