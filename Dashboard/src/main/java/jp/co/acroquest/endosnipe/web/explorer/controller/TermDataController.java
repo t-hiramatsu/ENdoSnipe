@@ -28,7 +28,6 @@ package jp.co.acroquest.endosnipe.web.explorer.controller;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -41,18 +40,12 @@ import jp.co.acroquest.endosnipe.data.entity.JavelinLog;
 import jp.co.acroquest.endosnipe.data.entity.JavelinMeasurementItem;
 import jp.co.acroquest.endosnipe.perfdoctor.WarningUnit;
 import jp.co.acroquest.endosnipe.web.explorer.dto.MeasurementValueDto;
-import jp.co.acroquest.endosnipe.web.explorer.dto.MultipleResourceGraphDefinitionDto;
 import jp.co.acroquest.endosnipe.web.explorer.dto.PerfDoctorTableDto;
-import jp.co.acroquest.endosnipe.web.explorer.dto.SignalDefinitionDto;
-import jp.co.acroquest.endosnipe.web.explorer.dto.SignalTreeMenuDto;
 import jp.co.acroquest.endosnipe.web.explorer.form.PerfDoctorTermDataForm;
 import jp.co.acroquest.endosnipe.web.explorer.form.TermDataForm;
 import jp.co.acroquest.endosnipe.web.explorer.manager.DatabaseManager;
 import jp.co.acroquest.endosnipe.web.explorer.service.JvnFileEntryJudge;
 import jp.co.acroquest.endosnipe.web.explorer.service.MeasurementValueService;
-import jp.co.acroquest.endosnipe.web.explorer.service.MultipleResourceGraphService;
-import jp.co.acroquest.endosnipe.web.explorer.service.SignalService;
-import jp.co.acroquest.endosnipe.web.explorer.service.TreeMenuService;
 import net.arnx.jsonic.JSON;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,24 +69,9 @@ public class TermDataController
     /** PerformanceDoctorページのID。 */
     private static final String PERFDOCTOR_POSTFIX_ID = "/performanceDoctor";
 
-    /** ツリーデータのID。 */
-    private static final String TREE_DATA_ID = "tree";
-
-    /** ツリーメニューに関する操作を行うクラスのオブジェクト。 */
-    @Autowired
-    protected TreeMenuService treeMenuService;
-
     /** MeasurementValueの取得用のインタフェースを提供するクラスのオブジェクト。 */
     @Autowired
     protected MeasurementValueService measurementValueService;
-
-    /** シグナル定義のサービスクラスのオブジェクト。 */
-    @Autowired
-    protected SignalService signalService;
-
-    /** Service Object of MultipleResourceGraph. */
-    @Autowired
-    MultipleResourceGraphService service = new MultipleResourceGraphService();
 
     /**
      * コンストラクタ。
@@ -142,49 +120,15 @@ public class TermDataController
         {
             // measurementItemのいずれかと一致する場合は単一リソースとみなす。
             // そうでない場合は正規表現による指定とみなし、合致するリソースを検索して取得する。
-            List<String> measurementDataList = new ArrayList<String>();
             for (JavelinMeasurementItem measurementItem : measurementItemList)
             {
                 if (measurementItem.itemName.matches(dataId)
                         || measurementItem.itemName.equals(dataId))
                 {
-                    measurementDataList.add(measurementItem.itemName);
+                    graphDataList.add(measurementItem.itemName);
                 }
             }
 
-            for (int index = 0; index < measurementDataList.size(); index++)
-            {
-                String matchData = measurementDataList.get(index);
-                if (TREE_DATA_ID.equals(matchData))
-                {
-                    // 計測対象の項目を全て取得してツリー要素に変換
-                    List<Map<String, String>> treeMenuDtoList =
-                            createTreeMenuData(treeMenuService.initialize());
-
-                    // シグナル定義を全て取得
-                    List<SignalDefinitionDto> signalList = signalService.getAllSignal();
-
-                    // 計測対象のツリーにシグナル定義を追加
-                    treeMenuDtoList.addAll(convertSignalDefinition(signalList));
-
-                    responceDataList.put(TREE_DATA_ID, treeMenuDtoList);
-                }
-                else
-                {
-                    if (matchData.contains("graph") || matchData.contains("Graph"))
-                    {
-                        MultipleResourceGraphDefinitionDto dto =
-                                service.getmultipleResourceGraphInfo(matchData);
-                        String[] measurementList = dto.getMeasurementItemIdList().split(",");
-
-                        graphDataList.addAll(Arrays.asList(measurementList));
-                    }
-                    else
-                    {
-                        graphDataList.add(matchData);
-                    }
-                }
-            }
         }
         if (graphDataList.size() != 0)
         {
@@ -301,26 +245,6 @@ public class TermDataController
             bufferDtoList.add(DataConvertUtil.getPropertyList(treeMenuData));
         }
         return bufferDtoList;
-    }
-
-    /**
-     * シグナル定義をツリーメニューの情報に変換する。
-     * @param signalList シグナル定義のリスト
-     * @return ツリーメニューのリスト
-     */
-    private List<Map<String, String>> convertSignalDefinition(
-            final List<SignalDefinitionDto> signalList)
-    {
-        List<SignalTreeMenuDto> signalTreeList = new ArrayList<SignalTreeMenuDto>();
-
-        for (SignalDefinitionDto signal : signalList)
-        {
-            SignalTreeMenuDto treeMenu = this.signalService.convertSignalTreeMenu(signal);
-
-            signalTreeList.add(treeMenu);
-        }
-
-        return createTreeMenuData(signalTreeList);
     }
 
     /**
