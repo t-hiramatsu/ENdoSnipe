@@ -65,11 +65,11 @@ public class MeasurementValueService
      * 
      * @param starttime  範囲開始時刻
      * @param endtime    範囲終了時刻
-     * @param measItemNameList 項目名のリスト
+     * @param itemNameList 項目名のリスト
      * @return MeasurementValueのリスト。
      */
     public Map<String, List<MeasurementValueDto>> getMeasurementValueList(final Date starttime,
-            final Date endtime, final List<String> measItemNameList)
+            final Date endtime, final List<String> itemNameList)
     {
         // TODO データベース名が固定
         // →以下のコードは、collector.propertiesからデータベース名を取得するもの(clientモード想定)
@@ -78,47 +78,44 @@ public class MeasurementValueService
         DatabaseManager dbMmanager = DatabaseManager.getInstance();
         String dbName = dbMmanager.getDataBaseName(1);
 
-        Map<String, List<MeasurementValueDto>> valueMap =
-                new HashMap<String, List<MeasurementValueDto>>();
-
-        for (String itemName : measItemNameList)
+        Map<String, List<MeasurementValueDto>> valueMap = null;
+        try
         {
-            List<MeasurementValueDto> valueList = new ArrayList<MeasurementValueDto>();
-            valueMap.put(itemName, valueList);
-
-            try
-            {
-                List<jp.co.acroquest.endosnipe.data.dto.MeasurementValueDto> queryResultList =
-                        MeasurementValueDao.selectByTermAndMeasurementItemName(dbName, starttime,
-                                                                               endtime, itemName);
-                exchangeToExplorerDto(queryResultList, valueList);
-            }
-            catch (SQLException ex)
-            {
-                LOGGER.log(LogMessageCodes.SQL_EXCEPTION);
-            }
+            List<jp.co.acroquest.endosnipe.data.dto.MeasurementValueDto> queryResultList =
+                    MeasurementValueDao.selectByTermAndMeasurementItemNameList(dbName, starttime,
+                                                                               endtime,
+                                                                               itemNameList);
+            valueMap = createMeasurementValueMap(queryResultList);
+        }
+        catch (SQLException ex)
+        {
+            LOGGER.log(LogMessageCodes.SQL_EXCEPTION);
         }
 
         return valueMap;
     }
 
     /**
-     * DataAccesesorを使ってDBから取得した計測値の情報を、Explorer用のDTOに詰め替える。
-     * 
-     * @param explorerDtoList Explorer用のDTOのリスト。
+     * DataAccesesorを使ってDBから取得した計測値の情報から、Explorer表示用のMapを作成する。
+     * Explorer表示用の
      * @param queryResultList DBから取得した計測値のリスト。
+     * @return Explorer表示用のMap。    
      */
-    private void exchangeToExplorerDto(
-            final List<jp.co.acroquest.endosnipe.data.dto.MeasurementValueDto> queryResultList,
-            final List<MeasurementValueDto> explorerDtoList)
+    private Map<String, List<MeasurementValueDto>> createMeasurementValueMap(
+            final List<jp.co.acroquest.endosnipe.data.dto.MeasurementValueDto> queryResultList)
     {
-        if (explorerDtoList == null || queryResultList == null)
-        {
-            return;
-        }
+        Map<String, List<MeasurementValueDto>> valueMap =
+                new HashMap<String, List<MeasurementValueDto>>();
 
         for (jp.co.acroquest.endosnipe.data.dto.MeasurementValueDto queryDto : queryResultList)
         {
+            String itemName = queryDto.measurementItemName;
+            List<MeasurementValueDto> explorerDtoList = valueMap.get(itemName);
+            if (explorerDtoList == null)
+            {
+                explorerDtoList = new ArrayList<MeasurementValueDto>();
+                valueMap.put(itemName, explorerDtoList);
+            }
             MeasurementValueDto explorerDto = new MeasurementValueDto();
             explorerDto.setMeasurementItemId(queryDto.measurementItemId);
             explorerDto.setMeasurementItemName(queryDto.measurementItemName);
@@ -126,5 +123,6 @@ public class MeasurementValueService
             explorerDto.setMeasurementValue(queryDto.value);
             explorerDtoList.add(explorerDto);
         }
+        return valueMap;
     }
 }
