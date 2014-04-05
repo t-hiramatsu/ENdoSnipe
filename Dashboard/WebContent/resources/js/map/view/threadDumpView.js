@@ -46,6 +46,7 @@ ENS.threadDumpView = wgp.AbstractView
 							startTime, endTime, 100);
 				});
 				$("#button").on("click", function() {
+					$("#button").attr("disabled",true);
 					ENS.threadDump.isTrue=true;
 					ENS.tree.agentName = instance.treeSettings.treeId;
 					var settings = {
@@ -148,6 +149,7 @@ ENS.threadDumpView = wgp.AbstractView
 					appView.syncData();
 				}
 				this.reloadTable();
+				$("#button").attr("disabled",false);
 			},
 			reloadTable : function() {
 				var tableViewData = [];
