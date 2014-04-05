@@ -45,14 +45,10 @@ ENS.graphRangeController.prototype._create = function(id) {
 	// 15分後ボタン
 	var $next = this._createNextButton();
 
-	// 検索ボタン
-	var $search = this._createSearchButton();
-
 	// コンテナ
 	var $container = $("#" + id);
 
 	// スタイルの変更
-	$search.css("margin-left", "3px");
 	$container.css("font-size", "0.8em");
 	$container.css("margin-bottom", "0px");
 	$datepicker.css("margin-left", "7px");
@@ -65,7 +61,6 @@ ENS.graphRangeController.prototype._create = function(id) {
 	$container.append($rangeLabel);
 	$container.append($range);
 	$container.append($datepicker);
-	$container.append($search);
 	$container.append($prev);
 	$container.append($play);
 	$container.append($next);
@@ -103,12 +98,13 @@ ENS.graphRangeController.prototype._createRange = function() {
 
 	var instance = this;
 	$range.change(function() {
-		if (!instance.isPlaying) {
-			return;
-		}
 		var rangeMs = instance._getRangeMs();
 		instance._updateGraph(rangeMs, 0);
 		instance._updateTooltip();
+
+		if (instance.isPlaying) {
+			instance._play();
+		}
 	});
 	return $range;
 };
@@ -121,10 +117,29 @@ ENS.graphRangeController.prototype._createDatetimePicker = function() {
 	$datepicker.attr("id", this.ID_DATEPICKER);
 	$datepicker.attr("type", "text");
 	$datepicker.attr("title", "To date");
+	
+	var instance = this;
 	$datepicker.datetimepicker({
 		dateFormat : "yy-mm-dd",
-		timeFormat : "HH:mm"
+		timeFormat : "HH:mm",
+		onClose : function() {
+			if (instance.isPlaying) {
+				instance._stop();
+			}
+
+			// テキストボックスの選択状態を解除する
+			$datepicker.blur();
+			
+			// 日付が不正でないかチェックし、不正であれば、アラートを表示し、グラフの更新は行わない
+			var range = instance._getFromToMs();
+			if (range === null) {
+				alert("Invalid date format.");
+				return;
+			}
+			instance._updateGraph(range.from, range.to);
+		}
 	});
+
 	return $datepicker;
 };
 
@@ -226,30 +241,6 @@ ENS.graphRangeController.prototype._createNextButton = function() {
 	return $next;
 };
 
-/**
- * 検索ボタンを生成する
- */
-ENS.graphRangeController.prototype._createSearchButton = function() {
-	var $search = $("<button/>");
-	$search.attr("id", this.ID_SEARCH_BUTTON);
-	$search.attr("title", "search");
-	$search.addClass("range_config");
-	$search.html("search");
-	$search.button({
-		icons : {
-			secondary : "ui-icon-search"
-		},
-		text : false
-	});
-	var instance = this;
-	$search.click(function() {
-		if (instance.isPlaying) {
-			instance._stop();
-		}
-		instance._search();
-	});
-	return $search;
-};
 
 /**
  * 設定に合わせて期間表示を更新する
