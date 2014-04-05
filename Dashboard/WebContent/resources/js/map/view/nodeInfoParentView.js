@@ -234,7 +234,7 @@ ENS.NodeInfoParentView = wgp.AbstractView
 				if ($("#pagingDemo").length <= 0) {
 					$("#" + this.divId)
 							.append(
-									"<div id='pagingDemo' class='pagination' style='padding-left:10px;'></div><br/>");
+									"<div id='pagingDemo' class='pagination' style='padding-left:10px;'></div><div class='clearFloat'></div>");
 				}
 				var instance = this;
 				/*
