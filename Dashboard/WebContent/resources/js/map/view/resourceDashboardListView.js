@@ -48,6 +48,7 @@ ENS.ResourceDashboardListView = wgp.TreeView
 					}
 
 					if(treeId){
+						instance.selectedTreeId = treeId;
 						var treeModel = instance.collection.get(treeId);
 						instance.showModel(treeModel);
 					}

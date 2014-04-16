@@ -9,6 +9,7 @@ ENS.graphRangeController = function(id) {
 	this.ID_NEXT_BUTTON = "range_controller_next";
 	this.ID_SEARCH_BUTTON = "range_controller_search";
 	this.ID_SPAN = "range_controller_span";
+	this.ID_CLUSTER_NAME = "cluster_name";
 	this.TIMER_INTERVAL = 1000;
 
 	this.searchListener = null;
@@ -33,7 +34,7 @@ ENS.graphRangeController.prototype._create = function(id) {
 	var $rangeLabel = $("<span/>").html("Range: ");
 	var $range = this._createRange();
 
-	// 日時
+	// 日時,
 	var $datepicker = this._createDatetimePicker();
 
 	// 15分前ボタン
@@ -44,6 +45,9 @@ ENS.graphRangeController.prototype._create = function(id) {
 
 	// 15分後ボタン
 	var $next = this._createNextButton();
+	
+	// クラスタ選択ドロップダウンリスト
+	var $selector = this._createClusterSelector();
 
 	// コンテナ
 	var $container = $("#" + id);
@@ -64,6 +68,7 @@ ENS.graphRangeController.prototype._create = function(id) {
 	$container.append($prev);
 	$container.append($play);
 	$container.append($next);
+	$container.append($selector);
 
 	// 初期表示では現在時刻をセット
 	var date = new Date();
@@ -141,6 +146,51 @@ ENS.graphRangeController.prototype._createDatetimePicker = function() {
 	});
 
 	return $datepicker;
+};
+
+ENS.graphRangeController.prototype._createClusterSelector = function(){
+	var $selector = $("<select/>");
+	$selector.attr("id", this.ID_CLUSTER_NAME);
+	$selector.css("float", "right");
+	
+	// Ajax通信用の設定
+	var settings = {
+			url: ENS.tree.GET_TOP_NODES
+	};
+	
+	// 非同期通信でデータを送信する
+	var ajaxHandler = new wgp.AjaxHandler();
+	settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] = this;
+	settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = "_callbackGetTopNodes";
+	ajaxHandler.requestServerAsync(settings);
+	
+	return $selector;
+};
+
+ENS.graphRangeController.prototype._callbackGetTopNodes = function(topNodes){
+	var $selector = $("#"+this.ID_CLUSTER_NAME);
+	
+	var $option = $("<option/>");
+	$option.html("*");
+	$selector.append($option);
+	
+	for(var i in topNodes){
+		var cluster = topNodes[i];
+		$option = $("<option/>");
+		$option.html(cluster.data);
+		$selector.append($option);
+	}
+	
+	var instance = this;
+	$selector.change(function(){
+		var view = window.resourceDashboardListView;
+		var treeId = view.selectedTreeId;
+		if(treeId === undefined){
+			treeId = "1";
+		}
+		var treeModel = view.collection.get(treeId);
+		view.showModel(treeModel);
+	});
 };
 
 /**

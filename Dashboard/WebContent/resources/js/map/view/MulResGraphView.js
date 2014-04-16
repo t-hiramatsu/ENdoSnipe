@@ -50,7 +50,9 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				this.previousKeys = [];
 				// 前回表示したラベル名
 				this.labelNames = [];
-
+				// クラスタ名
+				this.CLUSTER_NAME = '${ClusterName}';
+				
 				var appView = new ENS.AppView();
 
 				// measurementItemNameのキー文字列を生成する。
@@ -95,6 +97,14 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				var measurementItemIds = multipleGraphDefinition["measurementItemIdList"].split(",");
 				var measurementItemPattern = multipleGraphDefinition["measurementItemPattern"];
 
+				// ClusterNameが含まれている場合は置換をおこなう
+				var $cluster = $("#cluster_name");
+				var val = $cluster.val();
+				if(val === "*"){
+					val = ".*";
+				}
+				measurementItemPattern = measurementItemPattern.replace(this.CLUSTER_NAME, val);
+				
 				// 系列の指定方法が正規表現によるマッチングがidによる直接指定かによって
 				// 系列のキー文字列作成元となる系列のリストの作成方法を変更する。
 
