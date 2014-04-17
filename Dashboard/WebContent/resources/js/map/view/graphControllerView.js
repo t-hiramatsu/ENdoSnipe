@@ -34,10 +34,10 @@ ENS.GraphControllerView = wgp.AbstractView
 				this.OBJ_NAME_SHAPE = "ENS.ShapeElementView";
 				this.DIV_ID_CONTROLLER = "range_controller";
 
-				var graphRangeController = new ENS.graphRangeController(argument.targetId);
+				this.graphRangeController = new ENS.graphRangeController(argument.targetId);
 				// 時間帯変更時のリスナを設定する
 				var instance = this;
-				graphRangeController.setSearchListener(function(from, to){
+				this.graphRangeController.setSearchListener(function(from, to){
 					var viewList = resourceDashboardListView.childView.viewCollection;
 					for ( var key in viewList) {
 						var view = viewList[key];
