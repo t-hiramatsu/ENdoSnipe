@@ -50,7 +50,7 @@
 					<tr class="selectPlace">
 						<td style='width: 250px;'>Graph Lists:<br /> <select
 							style='width: 320px; height: 250px;' multiple="multiple"
-							id='multipleResourceGraphLstBox1' class="dialogValue">
+							id='multipleResourceGraphLstBox1' class="dialogValue tooltipDialogValue">
 
 						</select></td>
 						<td
@@ -60,7 +60,7 @@
 						</td>
 						<td style='width: 250px;'>Selected Graphs:<br /> <select
 							style='width: 320px; height: 250px;' multiple="multiple"
-							id='multipleResourceGraphLstBox2' class="dialogValue">
+							id='multipleResourceGraphLstBox2' class="dialogValue tooltipDialogValue">
 
 						</select></td>
 					</tr>
