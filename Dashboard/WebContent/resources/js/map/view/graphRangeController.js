@@ -72,7 +72,7 @@ ENS.graphRangeController.prototype._create = function(id) {
 
 	// 初期表示では現在時刻をセット
 	var date = new Date();
-	this._setDate(date);
+	this.setDate(date);
 	this._updateSpan(date);
 	this._updateTooltip();
 };
@@ -196,7 +196,7 @@ ENS.graphRangeController.prototype._callbackGetTopNodes = function(topNodes){
 /**
  * 日付時刻選択UIにDate型で指定した時刻を表示させる
  */
-ENS.graphRangeController.prototype._setDate = function(date) {
+ENS.graphRangeController.prototype.setDate = function(date) {
 	var dateStr = this._getDateStr(date);
 	var $datepicker = $("#" + this.ID_DATEPICKER);
 	$datepicker.val(dateStr);
@@ -327,7 +327,7 @@ ENS.graphRangeController.prototype._play = function() {
 	this._updateGraph(rangeMs, 0);
 	var instance = this;
 	var date = new Date();
-	this._setDate(date);
+	this.setDate(date);
 	this.timerId = setInterval(function() {
 		var date = new Date();
 		instance._updateSpan(date);
@@ -399,7 +399,7 @@ ENS.graphRangeController.prototype._shiftTime = function(time) {
 		return;
 	}
 	date.setTime(date.getTime() + time);
-	this._setDate(date);
+	this.setDate(date);
 
 	var range = this._getFromToMs();
 	if (range === null) {
