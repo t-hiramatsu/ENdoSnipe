@@ -228,7 +228,7 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 				});
 				instance.pagingGraph(measurementDefinitionList);
 
-				$(".dialogValue option").each(function(i){
+				$(".tooltipDialogValue option").each(function(i){
 					var text = $(this).html();
 					$(this).html(text + "<br><span>" + text + "</span>");
 					$(this).addClass("tooltip");
