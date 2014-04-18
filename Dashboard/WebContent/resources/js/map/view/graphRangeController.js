@@ -47,7 +47,12 @@ ENS.graphRangeController.prototype._create = function(id) {
 	var $next = this._createNextButton();
 	
 	// クラスタ選択ドロップダウンリスト
+	var $selectorLabel = $("<span/>").html("Cluster: ");
+	$selectorLabel.css("margin-left", "10px");
 	var $selector = this._createClusterSelector();
+	
+	// ダッシュボード選択アイコン
+	var $loadDashboard = this._createLoadDashboardIcon();
 
 	// コンテナ
 	var $container = $("#" + id);
@@ -68,7 +73,11 @@ ENS.graphRangeController.prototype._create = function(id) {
 	$container.append($prev);
 	$container.append($play);
 	$container.append($next);
+	$container.append($selectorLabel);
 	$container.append($selector);
+	if($loadDashboard !== null){
+		$container.append($loadDashboard);
+	}
 
 	// 初期表示では現在時刻をセット
 	var date = new Date();
@@ -151,7 +160,6 @@ ENS.graphRangeController.prototype._createDatetimePicker = function() {
 ENS.graphRangeController.prototype._createClusterSelector = function(){
 	var $selector = $("<select/>");
 	$selector.attr("id", this.ID_CLUSTER_NAME);
-	$selector.css("float", "right");
 	
 	// Ajax通信用の設定
 	var settings = {
@@ -289,6 +297,27 @@ ENS.graphRangeController.prototype._createNextButton = function() {
 		instance._shiftTime(instance._getRangeMs() * 0.5);
 	});
 	return $next;
+};
+
+/**
+ * Dashboard変更アイコンを生成する
+ */
+ENS.graphRangeController.prototype._createLoadDashboardIcon = function() {
+	if(href.match(/dashboardList\?*.*$/) == null){
+		return null;
+	}
+	var $button = $("<img/>");
+	var contextPath =  wgp.common.getContextPath();
+	$button.attr("src", contextPath+"/resources/images/folder_icon.png");
+	$button.attr("title", "Select dashboard");
+	$button.css("float", "right");
+	$button.css("width", "28px");
+	$button.css("margin-top", "-6px");
+	$button.html("Switch Dashboard");
+	$button.click(function(){
+		$("#" + window.resourceDashboardListView.$el.attr("id")).dialog("open");
+	});
+	return $button;
 };
 
 
