@@ -1023,7 +1023,7 @@ ENS.treeView = wgp.TreeView
 				var result = responseDto.result;
 
 				// 編集操作に失敗した場合はメッセージを表示する。
-				if (result === "fail") {
+				if (result === "failure") {
 					var message = responseDto.message;
 					alert(message);
 					return;
