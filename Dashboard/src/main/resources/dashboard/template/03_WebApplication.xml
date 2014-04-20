@@ -38,7 +38,7 @@
 			<property>
 				<resourceId></resourceId>
 				<name>Access Count</name>
-				<target>.*process/response/servlet/.*/count</target>
+				<target>/${ClusterName}/.*/process/response/servlet/.*/count</target>
 			</property>
 		</resource>
 		<resource>
@@ -50,7 +50,7 @@
 			<property>
 				<resourceId></resourceId>
 				<name>Response Time</name>
-				<target>.*process/response/servlet/.*/average</target>
+				<target>/${ClusterName}/.*/process/response/servlet/.*/average</target>
 			</property>
 		</resource>
 		<resource>
@@ -62,7 +62,7 @@
 			<property>
 				<resourceId></resourceId>
 				<name>Exception</name>
-				<target>.*/process/response/servlet/.*/event/.*</target>
+				<target>/${ClusterName}/.*/process/response/servlet/.*/event/.*</target>
 			</property>
 		</resource>
 	</resources>
