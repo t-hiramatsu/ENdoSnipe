@@ -38,7 +38,7 @@
 			<property>
 				<resourceId></resourceId>
 				<name>Execution Count(SQL)</name>
-				<target>.*/process/response/jdbc/.*/count</target>
+				<target>/${ClusterName}/.*/process/response/jdbc/.*/count</target>
 			</property>
 		</resource>
 		<resource>
@@ -50,7 +50,7 @@
 			<property>
 				<resourceId></resourceId>
 				<name>Execution Time(SQL)</name>
-				<target>.*/process/response/jdbc/.*/average</target>
+				<target>/${ClusterName}/.*/process/response/jdbc/.*/average</target>
 			</property>
 		</resource>
 	</resources>

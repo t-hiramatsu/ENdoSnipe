@@ -38,7 +38,7 @@
 			<property>
 				<resourceId></resourceId>
 				<name>CPU Usage(OS):%</name>
-				<target>.*/system/cpu/usage/total.*</target>
+				<target>/${ClusterName}/.*/system/cpu/usage/total.*</target>
 			</property>
 		</resource>
 		<resource>
@@ -50,7 +50,7 @@
 			<property>
 				<resourceId></resourceId>
 				<name>CPU Usage(Process):%</name>
-				<target>.*/process/cpu/usage/total.*</target>
+				<target>/${ClusterName}/.*/process/cpu/usage/total.*</target>
 			</property>
 		</resource>
 		<resource>
@@ -62,7 +62,7 @@
 			<property>
 				<resourceId></resourceId>
 				<name>Exception</name>
-				<target>.*/event/.*</target>
+				<target>/${ClusterName}/.*/event/.*</target>
 			</property>
 		</resource>
 	</resources>
