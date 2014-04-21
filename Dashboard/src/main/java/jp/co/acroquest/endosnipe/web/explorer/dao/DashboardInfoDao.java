@@ -49,6 +49,12 @@ public interface DashboardInfoDao
     List<DashboardInfo> selectByName(final String name);
 
     /**
+     * ダッシュボードの名前の一覧を取得する
+     * @return ダッシュボードの名前一覧
+     */
+    List<String> selectName();
+
+    /**
      * ダッシュボード情報を新規登録する。<br />
      * @param dashboardInfo ダッシュボード情報
      * @return 登録件数
