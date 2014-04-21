@@ -224,7 +224,6 @@ ENS.report.callbackDownload = function(response) {
 ENS.report.deleteNode = function(id) {
 	var rowData = $("#reportTable").getRowData(id);
 	var ids = rowData.reportId;
-	$("#reportTable").jqGrid("delRowData", id);
 	var url = ENS.tree.REPORT_DELETE_BY_ID_URL;
 
 	var settings = {
@@ -233,6 +232,27 @@ ENS.report.deleteNode = function(id) {
 		},
 		url : url
 	};
+	settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] = this;
+	settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = "_callbackDeleteNode";
 	var ajaxHandler = new wgp.AjaxHandler();
 	ajaxHandler.requestServerAsync(settings);
+};
+
+ENS.report._callbackDeleteNode = function(data) {
+	if(!data.isSuccess){
+		alert("Delete the report is failed.");
+		return;
+	}
+	var grid = $("#reportTable");
+	var id = 0;
+	var rowData = grid.getRowData();
+	for(var i=0, len=rowData.length; i<len; i++){
+		var d = rowData[i];
+		if(d.reportId != data.reportId){
+			continue;
+		}
+		id = i+1;
+		break;
+	}
+	grid.delRowData(id);
 };
