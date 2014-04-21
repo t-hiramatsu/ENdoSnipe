@@ -206,4 +206,11 @@ public class DashboardController
         String directoryPath = servletContext.getRealPath(BACKGROUND_IMAGE_PATH);
         return this.dashboardService_.getImageList(directoryPath, BACKGROUND_IMAGE_PATH);
     }
+
+    @RequestMapping(value = "/getNames", method = RequestMethod.POST)
+    @ResponseBody
+    public List<String> getNames()
+    {
+        return this.dashboardService_.getNames();
+    }
 }

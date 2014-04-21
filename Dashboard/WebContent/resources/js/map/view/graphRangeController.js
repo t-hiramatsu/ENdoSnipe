@@ -10,6 +10,7 @@ ENS.graphRangeController = function(id) {
 	this.ID_SEARCH_BUTTON = "range_controller_search";
 	this.ID_SPAN = "range_controller_span";
 	this.ID_CLUSTER_NAME = "cluster_name";
+	this.ID_DASHBOARD_NAME = "dashboard_name";
 	this.TIMER_INTERVAL = 1000;
 
 	this.searchListener = null;
@@ -175,6 +176,23 @@ ENS.graphRangeController.prototype._createClusterSelector = function(){
 	return $selector;
 };
 
+ENS.graphRangeController.prototype._callbackGetNames = function(names) {
+	var $selector = $("#"+this.ID_DASHBOARD_NAME);
+	for(var i in names){
+		var $option = $("<option/>");
+		$option.html(names[i]);
+		$selector.append($option);
+	}
+	
+	var instance = this;
+	$selector.change(function(){
+		var view = window.resourceDashboardListView;
+		var treeId = instance._getSelectedTreeId();
+		var treeModel = view.collection.get(treeId);
+		view.showModel(treeModel);
+	});
+};
+
 ENS.graphRangeController.prototype._callbackGetTopNodes = function(topNodes){
 	var $selector = $("#"+this.ID_CLUSTER_NAME);
 	
@@ -192,13 +210,25 @@ ENS.graphRangeController.prototype._callbackGetTopNodes = function(topNodes){
 	var instance = this;
 	$selector.change(function(){
 		var view = window.resourceDashboardListView;
-		var treeId = view.selectedTreeId;
-		if(treeId === undefined){
-			treeId = "1";
-		}
+		var treeId = instance._getSelectedTreeId();
 		var treeModel = view.collection.get(treeId);
 		view.showModel(treeModel);
 	});
+};
+
+/**
+ * 現在選択されているTreeIdを取得する
+ */
+ENS.graphRangeController.prototype._getSelectedTreeId = function(){
+	var val = $("#"+this.ID_DASHBOARD_NAME).val();
+	var view = window.resourceDashboardListView;
+	for(var i=0, len=view.collection.models.length; i<len; i++){
+		var model = view.collection.models[i];
+		if(model.attributes.data === val){
+			return model.attributes.treeId;
+		}
+	}
+	return "1";
 };
 
 /**
@@ -306,18 +336,20 @@ ENS.graphRangeController.prototype._createLoadDashboardIcon = function() {
 	if(href.match(/dashboardList\?*.*$/) == null){
 		return null;
 	}
-	var $button = $("<img/>");
-	var contextPath =  wgp.common.getContextPath();
-	$button.attr("src", contextPath+"/resources/images/folder_icon.png");
-	$button.attr("title", "Select dashboard");
-	$button.css("float", "right");
-	$button.css("width", "28px");
-	$button.css("margin-top", "-6px");
-	$button.html("Switch Dashboard");
-	$button.click(function(){
-		$("#" + window.resourceDashboardListView.$el.attr("id")).dialog("open");
-	});
-	return $button;
+	var $select = $("<select/>");
+	$select.attr("id", this.ID_DASHBOARD_NAME);
+	$select.css("float", "right");
+	var settings = {
+			url : wgp.common.getContextPath() + "/dashboard/getNames"
+	}
+	
+	// 非同期通信でデータを送信する
+	var ajaxHandler = new wgp.AjaxHandler();
+	settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] = this;
+	settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = "_callbackGetNames";
+	ajaxHandler.requestServerAsync(settings); 
+	
+	return $select;
 };
 
 
