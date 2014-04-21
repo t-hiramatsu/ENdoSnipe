@@ -272,7 +272,14 @@ public class ReportController
         }
 
         map.put("reportId", reportId);
-        map.put("isSuccess", isDeleteSuccess);
+        if (isDeleteSuccess)
+        {
+            map.put(ResponseConstants.RESULT, ResponseConstants.RESULT_SUCCESS);
+        }
+        else
+        {
+            map.put(ResponseConstants.RESULT, ResponseConstants.RESULT_FAILURE);
+        }
 
         return map;
     }

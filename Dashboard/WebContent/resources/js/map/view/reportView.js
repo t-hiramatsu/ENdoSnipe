@@ -15,6 +15,8 @@ ENS.reportView = wgp.AbstractView
 				// 空のテーブルを作成
 				this.createTabelColModel();
 				this.render();
+				
+				this.selectedRowId = 0;
 
 				var reportName = treeSettings.parentTreeId + "/"
 						+ treeSettings.data;
@@ -224,8 +226,8 @@ ENS.report.callbackDownload = function(response) {
 ENS.report.deleteNode = function(id) {
 	var rowData = $("#reportTable").getRowData(id);
 	var ids = rowData.reportId;
-	$("#reportTable").jqGrid("delRowData", id);
 	var url = ENS.tree.REPORT_DELETE_BY_ID_URL;
+	this.selectedRowId = id;
 
 	var settings = {
 		data : {
@@ -233,6 +235,18 @@ ENS.report.deleteNode = function(id) {
 		},
 		url : url
 	};
+	settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] = this;
+	settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = "_callbackDeleteNode";
 	var ajaxHandler = new wgp.AjaxHandler();
 	ajaxHandler.requestServerAsync(settings);
+};
+
+ENS.report._callbackDeleteNode = function(data) {
+	if(data.result === "failure" ){
+		alert("Delete the report is failed.");
+		return;
+	}
+	var grid = $("#reportTable");
+	var id = this.selectedRowId;
+	grid.delRowData(id);
 };
