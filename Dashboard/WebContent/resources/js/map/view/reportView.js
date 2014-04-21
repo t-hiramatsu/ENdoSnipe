@@ -15,6 +15,8 @@ ENS.reportView = wgp.AbstractView
 				// 空のテーブルを作成
 				this.createTabelColModel();
 				this.render();
+				
+				this.selectedRowId = 0;
 
 				var reportName = treeSettings.parentTreeId + "/"
 						+ treeSettings.data;
@@ -225,6 +227,7 @@ ENS.report.deleteNode = function(id) {
 	var rowData = $("#reportTable").getRowData(id);
 	var ids = rowData.reportId;
 	var url = ENS.tree.REPORT_DELETE_BY_ID_URL;
+	this.selectedRowId = id;
 
 	var settings = {
 		data : {
@@ -239,20 +242,11 @@ ENS.report.deleteNode = function(id) {
 };
 
 ENS.report._callbackDeleteNode = function(data) {
-	if(!data.isSuccess){
+	if(data.result === "failure" ){
 		alert("Delete the report is failed.");
 		return;
 	}
 	var grid = $("#reportTable");
-	var id = 0;
-	var rowData = grid.getRowData();
-	for(var i=0, len=rowData.length; i<len; i++){
-		var d = rowData[i];
-		if(d.reportId != data.reportId){
-			continue;
-		}
-		id = i+1;
-		break;
-	}
+	var id = this.selectedRowId;
 	grid.delRowData(id);
 };

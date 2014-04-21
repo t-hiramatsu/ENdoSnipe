@@ -38,6 +38,9 @@ public class ResponseConstants
     /** 失敗を表す電文 **/
     public static final String RESULT_FAILURE = "failure";
 
+    /** 成否を表す電文のキー **/
+    public static final String RESULT = "result";
+
     /**
      * インスタンス化を防止するprivateコンストラクタ。
      */
