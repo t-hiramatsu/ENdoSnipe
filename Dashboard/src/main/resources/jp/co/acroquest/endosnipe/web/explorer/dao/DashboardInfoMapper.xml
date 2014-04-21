@@ -27,6 +27,10 @@
 		where NAME
 		= #{name}
 	</select>
+	
+	<select id="selectName" resultType="String">
+		select NAME from DASHBOARD_INFO order by NAME
+	</select>
 
 	<insert id="insert"
 		parameterType="jp.co.acroquest.endosnipe.web.explorer.entity.DashboardInfo">
