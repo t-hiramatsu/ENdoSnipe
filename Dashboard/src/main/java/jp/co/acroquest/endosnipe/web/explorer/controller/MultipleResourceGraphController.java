@@ -30,6 +30,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import jp.co.acroquest.endosnipe.common.util.MessageUtil;
 import jp.co.acroquest.endosnipe.data.entity.JavelinMeasurementItem;
@@ -172,11 +174,26 @@ public class MultipleResourceGraphController
 
         String multipleResourceGraphName =
                 multipleResourceGraphDefinitionDto.getMultipleResourceGraphName();
+
+        String measurementItemPattern =
+                multipleResourceGraphDefinitionDto.getMeasurementItemPattern();
+        try
+        {
+            Pattern.compile(measurementItemPattern);
+        }
+        catch (PatternSyntaxException e)
+        {
+            String errorMessage = MessageUtil.getMessage("WEWD0169", multipleResourceGraphName);
+            responseDto.setResult(ResponseConstants.RESULT_FAILURE);
+            responseDto.setMessage(errorMessage);
+            return responseDto;
+        }
+
         boolean hasSameMulResGraphName =
                 this.multipleResourceGraphService_.hasSamemultipleResourceGraphName(multipleResourceGraphName);
         if (hasSameMulResGraphName)
         {
-            String errorMessage = MessageUtil.getMessage("WEWD0141", multipleResourceGraphName);
+            String errorMessage = MessageUtil.getMessage("WEWD0168", multipleResourceGraphName);
             responseDto.setResult(ResponseConstants.RESULT_FAILURE);
             responseDto.setMessage(errorMessage);
             return responseDto;
