@@ -106,6 +106,15 @@ public class DashboardService
     }
 
     /**
+     * ダッシュボードの名前の一覧を取得する
+     * @return ダッシュボードの名前の一覧
+     */
+    public List<String> getNames()
+    {
+        return dashboardInfoDao_.selectName();
+    }
+
+    /**
      * ダッシュボードを登録する。
      * @param dashboardInfo 登録するダッシュボード情報
      * @return 登録結果電文

@@ -54,7 +54,7 @@
 
 			var viewArea1 = {
 					width : 1200,
-					height : 90,
+					height : 62,
 					rowspan : 1,
 					colspan : 1,
 					css : {
