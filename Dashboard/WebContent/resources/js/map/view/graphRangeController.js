@@ -53,7 +53,12 @@ ENS.graphRangeController.prototype._create = function(id) {
 	var $selector = this._createClusterSelector();
 	
 	// ダッシュボード選択アイコン
+	var $dashboardLabel = $("<span/>").html("Dashboard: ");
+	$dashboardLabel.css("margin-left", "10px");
 	var $loadDashboard = this._createLoadDashboardIcon();
+	
+	// 編集モードへの切り替えアイコン
+	var $editMode = this._createChangeModeIcon();
 
 	// コンテナ
 	var $container = $("#" + id);
@@ -68,16 +73,21 @@ ENS.graphRangeController.prototype._create = function(id) {
 	// $span.css("margin-left", "16px");
 
 	// コンテナに追加
-	$container.append($rangeLabel);
-	$container.append($range);
-	$container.append($datepicker);
-	$container.append($prev);
-	$container.append($play);
-	$container.append($next);
-	$container.append($selectorLabel);
-	$container.append($selector);
+	var $subcontainer = $("<div/>");
+	$subcontainer.css("float", "left");
+	$container.append($subcontainer);
+	$subcontainer.append($rangeLabel);
+	$subcontainer.append($range);
+	$subcontainer.append($datepicker);
+	$subcontainer.append($prev);
+	$subcontainer.append($play);
+	$subcontainer.append($next);
+	$subcontainer.append($selectorLabel);
+	$subcontainer.append($selector);
 	if($loadDashboard !== null){
-		$container.append($loadDashboard);
+		$subcontainer.append($dashboardLabel);
+		$subcontainer.append($loadDashboard);
+		$container.append($editMode);
 	}
 
 	// 初期表示では現在時刻をセット
@@ -338,7 +348,6 @@ ENS.graphRangeController.prototype._createLoadDashboardIcon = function() {
 	}
 	var $select = $("<select/>");
 	$select.attr("id", this.ID_DASHBOARD_NAME);
-	$select.css("float", "right");
 	var settings = {
 			url : wgp.common.getContextPath() + "/dashboard/getNames"
 	}
@@ -350,6 +359,41 @@ ENS.graphRangeController.prototype._createLoadDashboardIcon = function() {
 	ajaxHandler.requestServerAsync(settings); 
 	
 	return $select;
+};
+
+/**
+ * 編集モードへの切り替えアイコンを生成する
+ */
+ENS.graphRangeController.prototype._createChangeModeIcon = function(){
+	var contextPath = wgp.common.getContextPath();
+	var $container = $("<div/>");
+	var $editMode = $("<img/>");
+	$editMode.css("width", "16px");
+	$editMode.css("margin", "2px 20px 0px 30px");
+	
+	if($("#dashboardMode").val() == ENS.dashboard.mode.OPERATE){
+		$editMode.attr("title", "Edit Mode");
+		$editMode.attr("src", contextPath+"/resources/images/map/editModeIcon.png");
+		$editMode.click(function(){
+			$("#dashboardMode").val(ENS.dashboard.mode.EDIT);
+			$("#dashboardListForm").attr("action", "/ENdoSnipe/dashboard/dashboardList");
+			saveDisplayState();
+			$("#dashboardListForm").submit(); 
+		});
+		$editMode.css("cursor", "pointer");
+	}else{
+		$editMode.attr("title", "Operate Mode");
+		$editMode.attr("src", contextPath+"/resources/images/map/operateModeIcon.png");
+		$editMode.click(function(){
+			$("#dashboardMode").val(ENS.dashboard.mode.OPERATE);
+			$("#dashboardListForm").attr("action", "/ENdoSnipe/dashboard/dashboardList");
+			saveDisplayState();
+			$("#dashboardListForm").submit(); 
+		});
+		$editMode.css("cursor", "pointer");
+	}
+	$container.append($editMode);
+	return $container;
 };
 
 
