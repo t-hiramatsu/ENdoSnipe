@@ -71,16 +71,8 @@
 					colspan : 1
 				};
 
-			var viewArea3 = {
-				width : 1200,
-				height : 50,
-				rowspan : 1,
-				colspan : 1
-			};
-
 			var table = [ [ new wgp.PerspectiveModel(viewArea1)],
-			            [ new wgp.PerspectiveModel(viewArea2)],
-						[new wgp.PerspectiveModel(viewArea3)]];
+			            [ new wgp.PerspectiveModel(viewArea2)] ];
 			perspectiveView = new wgp.PerspectiveView({
 				id : "persArea",
 				collection : table,
@@ -116,22 +108,30 @@
 				rowspan : 2,
 				colspan : 1
 			};
+			
 			var viewArea2 = {
-				width : 900,
-				height : 750,
-				rowspan : 1,
-				colspan : 1
-			};
+					width : 900,
+					height : 62,
+					rowspan : 1,
+					colspan : 1,
+					css : {
+						"overflow" : "hidden",
+						"padding-top" : "10px",
+						"z-index" : "30"
+					}
+				};
+			
 			var viewArea3 = {
 				width : 900,
-				height : 50,
+				height : 738,
 				rowspan : 1,
 				colspan : 1
 			};
 
 			var table = [ [ new wgp.PerspectiveModel(viewArea1),
 					new wgp.PerspectiveModel(viewArea2) ],
-					[new wgp.PerspectiveModel(viewArea3)]];
+					[new wgp.PerspectiveModel(viewArea3)]
+					];
 			perspectiveView = new wgp.PerspectiveView({
 				id : "persArea",
 				collection : table,
@@ -143,8 +143,8 @@
 			$('#persArea_bar_1_0').hide();
 
 			perspectiveView.dropView("persArea_drop_0_0", "tree_area", "GraphTree");
-			perspectiveView.dropView("persArea_drop_0_0", "list_area", "DashboardList");
-			perspectiveView.dropView("persArea_drop_0_1", "contents_area", "DashboardView");
+			perspectiveView.dropView("persArea_drop_0_1", "range_area", "DashboardView");
+			perspectiveView.dropView("persArea_drop_1_0", "contents_area", "DashboardView");
 
 		}
 
@@ -187,13 +187,12 @@
 			});
 
 		}
-		if(dashboardMode == ENS.dashboard.mode.OPERATE){
-			// グラフ範囲入力ダイアログの生成
-			var rangeAreaView = new ENS.GraphControllerView({
-				id : "range_area",
-				targetId : "range_area"
-				});
-		}
+		
+		// グラフ範囲入力エリアの生成
+		var rangeAreaView = new ENS.GraphControllerView({
+			id : "range_area",
+			targetId : "range_area"
+			});
 
 		// ダッシュボード一覧ツリーの生成
 		var resourceDashboardListView = new ENS.ResourceDashboardListView({
@@ -264,21 +263,6 @@
 				})
 			});
 
-		}else if(dashboardMode == ENS.dashboard.mode.EDIT){
-			changeModeMenuModel = new ENS.dashboardMenuModel({
-				width : 25,
-				height : 25,
-				styleClass : 'dashboard_menu_icon',
-				src : '<%=request.getContextPath()%>/resources/images/map/editModeIcon.png',
-				alt : 'This is the current edit mode. Please click to go back to the operation mode.',
-				onclick : (function(event){
-					$("#dashboardMode").val(ENS.dashboard.mode.OPERATE);
-					$("#dashboardListForm").attr("action", "<%=request.getContextPath()%>/dashboard/dashboardList");
-					saveDisplayState();
-					this.resourceDashboardListView.saveOperation();
-					$("#dashboardListForm").submit();
-				})
-			});
 		}
 		menuModelArray.push(changeModeMenuModel);
 
