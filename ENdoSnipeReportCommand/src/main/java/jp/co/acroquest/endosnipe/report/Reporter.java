@@ -13,14 +13,17 @@
 package jp.co.acroquest.endosnipe.report;
 
 import java.io.File;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import jp.co.acroquest.endosnipe.collector.config.DataCollectorConfig;
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
+import jp.co.acroquest.endosnipe.data.dao.ReportExportResultDao;
 import jp.co.acroquest.endosnipe.data.db.DBManager;
 import jp.co.acroquest.endosnipe.report.controller.ReportPublishTask;
 import jp.co.acroquest.endosnipe.report.controller.ReportSearchCondition;
@@ -80,6 +83,8 @@ public class Reporter
 	public void createReport(DataCollectorConfig config, Calendar fmTime, Calendar toTime,
 		String reportPath, String targetItemName, String reportName, String status)
 	{
+		
+
 
 		// 開始時刻が終了時刻より未来を指していた場合はエラー
 		if (fmTime.compareTo(toTime) > 0)
@@ -99,7 +104,7 @@ public class Reporter
 		String dbPort = config.getDatabasePort();
 		String dbUser = config.getDatabaseUserName();
 		String dbPass = config.getDatabasePassword();
-
+		
 		// レポート作成に使用するDBを指定する
 		DBManager.updateSettings(false, "", dbHost, dbPort, dbName, dbUser, dbPass);
 
@@ -117,15 +122,28 @@ public class Reporter
 		String end = format.format(toTime.getTime());
 		String leafDirectoryName = reportName + "_" + start + "-" + end;
 
-		String outputFilePath = reportPath + File.separator + dbName + File.separator
-			+ leafDirectoryName;
+		String outputParentPath = reportPath + File.separator + dbName;
+		
+		// レポートのローテートを行う。
+		try
+		{
+			rotateReport(new File(outputParentPath), dbName);
+		}
+		catch (SQLException e1)
+		{
+			e1.printStackTrace();
+		}
+		
+		String outputFilePath = outputParentPath + File.separator + leafDirectoryName;
 
 		File outputDir = new File(outputFilePath);
 		if (outputDir.exists() == false)
 		{
 			outputDir.mkdirs();
 		}
+		
 
+		
 		// TODO 絞り込みのルールを設定する
 		boolean limitSameCause = false;
 		boolean limitBySameRule = false;
@@ -202,6 +220,26 @@ public class Reporter
 			LOGGER.log(LogIdConstants.FAIL_TO_ZIP, outputDirFullPath + leafDirectoryName);
 		}
 
+	}
+
+	private void rotateReport(File outputDir, String dbName) throws SQLException
+	{
+		File[] filesInDir = outputDir.listFiles();
+		if (filesInDir.length == 0) 
+		{
+			return;
+		}
+		
+		List<String> fileNamesInTable = ReportExportResultDao.selectAllReportName(dbName);
+		
+		for (File fileInDir: filesInDir) 
+		{
+			if (! fileNamesInTable.contains(fileInDir.getName())) 
+			{
+				fileInDir.delete();
+			}
+		}
+		
 	}
 
 	/**
