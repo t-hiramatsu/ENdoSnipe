@@ -289,7 +289,7 @@
 				alt : 'Please click if you want to save the dashboard.',
 				onclick : (function(event){
 					if(resourceDashboardListView.childView){
-						var selectedId = $("#" + resourceDashboardListView.id).find(".jstree-clicked")[0].id;
+						var selectedId = window.rangeAreaView.graphRangeController._getSelectedTreeId();
 						var treeModel = resourceDashboardListView.collection.where({id : selectedId})[0];
 						resourceDashboardListView.childView.onSave(treeModel);
 					}else{

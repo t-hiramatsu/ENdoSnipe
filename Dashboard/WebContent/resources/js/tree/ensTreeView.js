@@ -188,6 +188,7 @@ ENS.treeView = wgp.TreeView
 				this.getAllSignal_();
 				this.getAllSummarySignal_();
 				this.getAllMulResGraph_();
+				this.clearSignalDialog_();
 			},
 			/**
 			 * ツリーを開け閉めするためのアイコンを設定する。

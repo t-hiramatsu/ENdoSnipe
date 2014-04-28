@@ -82,9 +82,9 @@ ENS.graphRangeController.prototype._create = function(id) {
 	$subcontainer.append($prev);
 	$subcontainer.append($play);
 	$subcontainer.append($next);
-	$subcontainer.append($selectorLabel);
-	$subcontainer.append($selector);
 	if($loadDashboard !== null){
+		$subcontainer.append($selectorLabel);
+		$subcontainer.append($selector);
 		$subcontainer.append($dashboardLabel);
 		$subcontainer.append($loadDashboard);
 		$container.append($editMode);

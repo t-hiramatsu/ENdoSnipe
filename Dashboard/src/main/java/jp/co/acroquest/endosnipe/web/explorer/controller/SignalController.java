@@ -34,9 +34,11 @@ import jp.co.acroquest.endosnipe.common.util.MessageUtil;
 import jp.co.acroquest.endosnipe.web.explorer.constants.ResponseConstants;
 import jp.co.acroquest.endosnipe.web.explorer.dto.ResponseDto;
 import jp.co.acroquest.endosnipe.web.explorer.dto.SignalDefinitionDto;
+import jp.co.acroquest.endosnipe.web.explorer.dto.TreeMenuDto;
 import jp.co.acroquest.endosnipe.web.explorer.entity.SignalInfo;
 import jp.co.acroquest.endosnipe.web.explorer.manager.ResourceSender;
 import jp.co.acroquest.endosnipe.web.explorer.service.SignalService;
+import jp.co.acroquest.endosnipe.web.explorer.service.TreeMenuService;
 import net.arnx.jsonic.JSON;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +70,13 @@ public class SignalController
     /** シグナル定義のサービスクラスのオブジェクト。 */
     @Autowired
     protected SignalService signalService;
+
+    /** ツリーメニューのサービスクラスのオブジェクト。 */
+    @Autowired
+    protected TreeMenuService treeMenuService;
+
+    /** クラスタ名を表す変数 */
+    private static final String CLUSTER_NAME = "${ClusterName}";
 
     /**
      * コンストラクタ。
@@ -118,14 +127,57 @@ public class SignalController
             return responseDto;
         }
 
-        SignalInfo signalInfo = this.signalService.convertSignalInfo(signalDefinitionDto);
-
-        // DBに追加する
-        SignalDefinitionDto addedDefinitionDto = this.signalService.insertSignalInfo(signalInfo);
+        // シグナルを追加する
+        SignalDefinitionDto addedDefinitionDto = addSignals(signalDefinitionDto);
 
         responseDto.setData(addedDefinitionDto);
         responseDto.setResult(ResponseConstants.RESULT_SUCCESS);
         return responseDto;
+    }
+
+    /**
+     * マッチングパターンに${ClusterName}を含む場合、各クラスタのシグナルを追加する。
+     * @param signalDefinitionDto 
+     */
+    private SignalDefinitionDto addSignals(final SignalDefinitionDto signalDefinitionDto)
+    {
+
+        String matchingPattern = signalDefinitionDto.getMatchingPattern();
+
+        // マッチングパターンに ${ClusterName} を含まない場合はそのまま登録する
+        if (matchingPattern.indexOf(CLUSTER_NAME) == -1)
+        {
+            SignalInfo signalInfo = this.signalService.convertSignalInfo(signalDefinitionDto);
+            SignalDefinitionDto addedDefinitionDto =
+                    this.signalService.insertSignalInfo(signalInfo);
+            return addedDefinitionDto;
+        }
+
+        // マッチングパターンに ${ClusterName} を含む場合、クラスタの数分だけシグナルを作る
+
+        // クラスタの一覧を取得する
+        List<TreeMenuDto> topNodeList = treeMenuService.getTopNodes();
+        TreeMenuDto wildcard = new TreeMenuDto();
+        wildcard.setData(".*");
+        topNodeList.add(wildcard);
+
+        String signalName = signalDefinitionDto.getSignalName();
+        SignalDefinitionDto clusterDefinitionDto = null;
+        for (TreeMenuDto treeMenuDto : topNodeList)
+        {
+            // DBに各クラスタ分のシグナルを挿入する
+            String clusterName = treeMenuDto.getData();
+            String clusterSignalMatchingPattern =
+                    matchingPattern.replace(CLUSTER_NAME, clusterName);
+            String clusterSignalName = signalName + "_" + clusterName;
+
+            signalDefinitionDto.setMatchingPattern(clusterSignalMatchingPattern);
+            signalDefinitionDto.setSignalName(clusterSignalName);
+
+            SignalInfo signalInfo = this.signalService.convertSignalInfo(signalDefinitionDto);
+            clusterDefinitionDto = this.signalService.insertSignalInfo(signalInfo);
+        }
+        return clusterDefinitionDto;
     }
 
     /**

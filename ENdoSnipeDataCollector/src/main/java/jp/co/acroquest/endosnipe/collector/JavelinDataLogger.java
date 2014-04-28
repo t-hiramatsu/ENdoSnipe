@@ -1157,12 +1157,6 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             String itemName = signalDefinition.getMatchingPattern();
             long signalId = signalDefinition.getSignalId();
 
-            // 異なるドメイン（クラスタ名、IPアドレス、エージェント名）のリソース情報から閾値判定を行うと、
-            // 正常状態に戻すため、判定対象としない。
-            if (!itemName.startsWith(domain))
-            {
-                continue;
-            }
 
             //現在のアラーム通知状況を取得
             AlarmData currentAlarmData = signalStateManager.getAlarmData(signalId);

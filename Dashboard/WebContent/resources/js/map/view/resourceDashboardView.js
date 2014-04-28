@@ -322,6 +322,14 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 			var resources = dashboardData["resources"];
 			var instance = this;
 			_.each(resources, function(resource, index){
+				if(resource.objectName === instance.OBJ_NAME_SIGNAL){
+					var clusterName = $("#cluster_name").val();
+					if(clusterName === "*"){
+						clusterName = ".*";
+					}
+					resource.resourceId += "_";
+					resource.resourceId += clusterName;
+				}
 				var dashboardElement = new wgp.MapElement(resource);
 				instance.collection.add(dashboardElement);
 			});
