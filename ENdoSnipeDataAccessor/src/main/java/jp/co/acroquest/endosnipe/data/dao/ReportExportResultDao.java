@@ -75,6 +75,7 @@ public class ReportExportResultDao extends AbstractDao implements TableNames
                 builder.append(rs.getString(4).replace("-", "").replace(":", "").replace(" ", "_"));
                 builder.append("-");
                 builder.append(rs.getString(5).replace("-", "").replace(":", "").replace(" ", "_"));
+                builder.append(".zip");
                 reportNameList.add(builder.toString());
                 builder.setLength(0);
             }
