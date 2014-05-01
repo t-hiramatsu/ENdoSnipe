@@ -1,4 +1,0 @@
-http://ftp.kddilabs.jp/infosystems/apache//httpd/httpd-2.4.6.tar.gz
-http://ftp.yz.yamagata-u.ac.jp/pub/network/apache//apr/apr-1.4.8.tar.gz
-http://ftp.yz.yamagata-u.ac.jp/pub/network/apache//apr/apr-util-1.5.2.tar.gz
-ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.33.tar.gz
