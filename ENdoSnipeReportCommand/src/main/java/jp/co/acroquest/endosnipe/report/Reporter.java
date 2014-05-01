@@ -1,26 +1,29 @@
 /*
- * Copyright (c) 2004-2013 Acroquest Technology Co., Ltd. All Rights Reserved.
- * Please read the associated COPYRIGHTS file for more details.
- *
- * THE  SOFTWARE IS  PROVIDED BY  Acroquest Technology Co., Ltd., WITHOUT  WARRANTY  OF
- * ANY KIND,  EXPRESS  OR IMPLIED,  INCLUDING BUT  NOT LIMITED  TO THE
- * WARRANTIES OF  MERCHANTABILITY,  FITNESS FOR A  PARTICULAR  PURPOSE
- * AND NONINFRINGEMENT.
- * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDER BE LIABLE FOR ANY
- * CLAIM, DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING
- * OR DISTRIBUTING THIS SOFTWARE OR ITS DERIVATIVES.
- */
+* Copyright (c) 2004-2013 Acroquest Technology Co., Ltd. All Rights Reserved.
+* Please read the associated COPYRIGHTS file for more details.
+*
+* THE SOFTWARE IS PROVIDED BY Acroquest Technology Co., Ltd., WITHOUT WARRANTY OF
+* ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+* WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
+* AND NONINFRINGEMENT.
+* IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDER BE LIABLE FOR ANY
+* CLAIM, DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING
+* OR DISTRIBUTING THIS SOFTWARE OR ITS DERIVATIVES.
+*/
 package jp.co.acroquest.endosnipe.report;
 
 import java.io.File;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import jp.co.acroquest.endosnipe.collector.config.DataCollectorConfig;
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
+import jp.co.acroquest.endosnipe.data.dao.ReportExportResultDao;
 import jp.co.acroquest.endosnipe.data.db.DBManager;
 import jp.co.acroquest.endosnipe.report.controller.ReportPublishTask;
 import jp.co.acroquest.endosnipe.report.controller.ReportSearchCondition;
@@ -33,10 +36,10 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Zip;
 
 /**
- * BottleneckEyeを起動せずに、レポート作成を行うためのクラスです。<br>
- * 
- * @author iida
- */
+* BottleneckEyeを起動せずに、レポート作成を行うためのクラスです。<br>
+*
+* @author iida
+*/
 public class Reporter
 {
 
@@ -48,8 +51,8 @@ public class Reporter
 		.getLogger(ReportPublishDispatcher.class);
 
 	/**
-	 * コンストラクタ。
-	 */
+	* コンストラクタ。
+	*/
 	public Reporter()
 	{
 
@@ -62,21 +65,21 @@ public class Reporter
 	}
 
 	/**
-	 * レポート作成を行います。<br/>
-	 * 
-	 * @param config
-	 *            DataCollectorの設定/定数を保持するオブジェクト
-	 * @param fmTime
-	 *            開始時刻
-	 * @param toTime
-	 *            終了時刻
-	 * @param reportPath
-	 *            出力先ディレクトリ
-	 * @param targetItemName
-	 *            レポート出力対象の親の項目名
-	 * @param reportName
-	 *            レポート名
-	 */
+	* レポート作成を行います。<br/>
+	*
+	* @param config
+	* DataCollectorの設定/定数を保持するオブジェクト
+	* @param fmTime
+	* 開始時刻
+	* @param toTime
+	* 終了時刻
+	* @param reportPath
+	* 出力先ディレクトリ
+	* @param targetItemName
+	* レポート出力対象の親の項目名
+	* @param reportName
+	* レポート名
+	*/
 	public void createReport(DataCollectorConfig config, Calendar fmTime, Calendar toTime,
 		String reportPath, String targetItemName, String reportName, String status)
 	{
@@ -117,8 +120,19 @@ public class Reporter
 		String end = format.format(toTime.getTime());
 		String leafDirectoryName = reportName + "_" + start + "-" + end;
 
-		String outputFilePath = reportPath + File.separator + dbName + File.separator
-			+ leafDirectoryName;
+		String outputParentPath = reportPath + File.separator + dbName;
+
+		// レポートのローテートを行う。
+		try
+		{
+			rotateReport(new File(outputParentPath), dbName);
+		}
+		catch (SQLException e1)
+		{
+			e1.printStackTrace();
+		}
+
+		String outputFilePath = outputParentPath + File.separator + leafDirectoryName;
 
 		File outputDir = new File(outputFilePath);
 		if (outputDir.exists() == false)
@@ -204,13 +218,33 @@ public class Reporter
 
 	}
 
+	private void rotateReport(File outputDir, String dbName) throws SQLException
+	{
+		File[] filesInDir = outputDir.listFiles();
+		if (filesInDir.length == 0)
+		{
+			return;
+		}
+
+		List<String> fileNamesInTable = ReportExportResultDao.selectAllReportName(dbName);
+
+		for (File fileInDir : filesInDir)
+		{
+			if (!fileNamesInTable.contains(fileInDir.getName()))
+			{
+				fileInDir.delete();
+			}
+		}
+
+	}
+
 	/**
-	 * 指定したディレクトリごと削除する。
-	 * 
-	 * @param dir
-	 *            削除するディレクトリ。
-	 * @return ディレクトリの削除に失敗した場合。
-	 */
+	* 指定したディレクトリごと削除する。
+	*
+	* @param dir
+	* 削除するディレクトリ。
+	* @return ディレクトリの削除に失敗した場合。
+	*/
 	private static boolean deleteDir(File dir)
 	{
 		boolean result = true;
