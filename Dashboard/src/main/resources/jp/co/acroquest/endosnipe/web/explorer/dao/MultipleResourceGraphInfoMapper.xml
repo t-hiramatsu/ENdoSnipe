@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="jp.co.acroquest.endosnipe.web.explorer.dao.MultipleResourceGraphInfoDao">
+	<resultMap id="MultipleResourceGraphInfoMap"
+		type="jp.co.acroquest.endosnipe.web.explorer.entity.MultipleResourceGraphInfo">
+		<id property="multipleResourceGraphId_" column="MULTIPLE_RESOURCE_GRAPH_ID" />
+		<result property="multipleResourceGraphName_" column="MULTIPLE_RESOURCE_GRAPH_NAME" />
+		<result property="measurementItemIdList_" column="MEASUREMENT_ITEM_ID_LIST" />
+		<result property="measurementItemPattern_" column="MEASUREMENT_ITEM_PATTERN" />
+	</resultMap>
+
+	<resultMap id="ChildDirectoryMap" type="jp.co.acroquest.endosnipe.web.explorer.entity.ChildResourceInfo">
+		<id property="child" column="child"/>
+		<result property="grandChild" column="grandchild"/>
+	</resultMap>
+	
+
+	<select id="selectAll" resultMap="MultipleResourceGraphInfoMap">
+		SELECT * FROM
+		MULTIPLE_RESOURCE_GRAPH
+	</select>
+
+	<select id="selectById" resultMap="MultipleResourceGraphInfoMap">
+		SELECT * FROM
+		MULTIPLE_RESOURCE_GRAPH
+		where MULTIPLE_RESOURCE_GRAPH_ID
+		=
+		#{multipleResourceGraphId_}
+	</select>
+
+	<select id="selectByName" resultMap="MultipleResourceGraphInfoMap">
+		SELECT * FROM
+		MULTIPLE_RESOURCE_GRAPH
+		where MULTIPLE_RESOURCE_GRAPH_NAME
+		=
+		#{multipleResourceGraphName_}
+	</select>
+
+	<insert id="insert"
+		parameterType="jp.co.acroquest.endosnipe.web.explorer.entity.MultipleResourceGraphInfo">
+		insert into MULTIPLE_RESOURCE_GRAPH
+		(MULTIPLE_RESOURCE_GRAPH_NAME,MEASUREMENT_ITEM_ID_LIST,MEASUREMENT_ITEM_PATTERN)
+		values
+		(#{multipleResourceGraphName_},#{measurementItemIdList_},#{measurementItemPattern_})
+	</insert>
+
+	<update id="update"
+		parameterType="jp.co.acroquest.endosnipe.web.explorer.entity.MultipleResourceGraphInfo">
+		update MULTIPLE_RESOURCE_GRAPH set
+		MULTIPLE_RESOURCE_GRAPH_NAME = #{multipleResourceGraphName_},
+		MEASUREMENT_ITEM_ID_LIST = #{measurementItemIdList_},
+		MEASUREMENT_ITEM_PATTERN = #{measurementItemPattern_}
+		where
+		MULTIPLE_RESOURCE_GRAPH_NAME
+		= #{multipleResourceGraphName_}
+	</update>
+
+	<delete id="delete">
+		delete from MULTIPLE_RESOURCE_GRAPH
+		where
+		MULTIPLE_RESOURCE_GRAPH_NAME =
+		#{multipleResourceGraphName_}
+	</delete>
+
+	<delete id="deleteAll"
+		parameterType="jp.co.acroquest.endosnipe.web.explorer.entity.MultipleResourceGraphInfo">
+		delete from MULTIPLE_RESOURCE_GRAPH
+	</delete>
+	
+	<delete id="deleteChildren">
+		delete from MULTIPLE_RESOURCE_GRAPH 
+		where 
+		MULTIPLE_RESOURCE_GRAPH_NAME
+		like
+		#{multipleResourceGraphNameRe_}
+	</delete>
+
+	<select id="selectSequenceNum" resultType="int">
+		SELECT
+		MULTIPLE_RESOURCE_GRAPH_ID FROM
+		MULTIPLE_RESOURCE_GRAPH
+		where
+		MULTIPLE_RESOURCE_GRAPH_NAME
+		= #{multipleResourceGraphName_}
+	</select>
+	
+	<select id="selectDirectChildren"
+				resultMap="ChildDirectoryMap">
+		SELECT
+			split_part(multiple_resource_graph_name, '/', #{childLength}) AS child
+			,split_part(multiple_resource_graph_name ,'/', #{grandChildLength}) != '' AS grandchild
+		FROM
+			multiple_resource_graph
+		    WHERE
+			REPLACE(REPLACE(REPLACE(multiple_resource_graph_name, CHR(13) || CHR(10), ' '), CHR(13), ' '), CHR(10), ' ') LIKE #{searchTreeId}
+			AND split_part(REPLACE(REPLACE(REPLACE(multiple_resource_graph_name, CHR(13) || CHR(10), ' '), CHR(13), ' '), CHR(10), ' ') ,'/' ,#{length}) = #{selfElementName}
+		GROUP BY
+			child
+			,grandchild
+		ORDER BY
+			child
+			,grandchild
+	</select>
+</mapper>

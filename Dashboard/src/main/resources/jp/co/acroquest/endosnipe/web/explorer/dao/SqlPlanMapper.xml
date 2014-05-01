@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jp.co.acroquest.endosnipe.web.explorer.dao.SqlPlanDao">
+	<resultMap id="SqlPlanMap"
+		type="jp.co.acroquest.endosnipe.web.explorer.entity.SqlPlan">
+		<result property="measurementItemName" column="MEASUREMENT_ITEM_NAME" />
+		<result property="sqlStatement" column="SQL_STATEMENT" />
+		<result property="executionPlan" column="EXECUTION_PLAN" />
+		<result property="gettingPlanTime" column="GETTING_PLAN_TIME" />
+		<result property="stackTrace" column="STACK_TRACE" />
+	</resultMap>
+
+	<select id="selectByItemName" resultMap="SqlPlanMap">
+		SELECT * FROM
+		SQL_PLAN
+		where
+		replace(replace(replace(MEASUREMENT_ITEM_NAME,chr(13)
+			||chr(10),' '),chr(13),' '),chr(10),' ')
+		= #{measurementItemName}
+	</select>
+
+</mapper>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jp.co.acroquest.endosnipe.web.explorer.dao.SignalInfoDao">
+	<resultMap id="SignalInfoMap"
+		type="jp.co.acroquest.endosnipe.web.explorer.entity.SignalInfo">
+		<id property="signalId" column="SIGNAL_ID" />
+		<result property="signalName" column="SIGNAL_NAME" />
+		<result property="matchingPattern" column="matching_pattern" />
+		<result property="level" column="LEVEL" />
+		<result property="patternValue" column="PATTERN_VALUE" />
+		<result property="escalationPeriod" column="ESCALATION_PERIOD" />
+	</resultMap>
+	
+	<resultMap id="ChildDirectoryMap" type="jp.co.acroquest.endosnipe.web.explorer.entity.ChildResourceInfo">
+		<id property="child" column="child"/>
+		<result property="grandChild" column="grandchild"/>
+	</resultMap>
+
+	<select id="selectAll" resultMap="SignalInfoMap">
+		SELECT * FROM SIGNAL_DEFINITION
+	</select>
+
+	<select id="selectById" resultMap="SignalInfoMap">
+		SELECT * FROM
+		SIGNAL_DEFINITION
+		where SIGNAL_ID
+		= #{signalId}
+	</select>
+
+	<select id="selectByName" resultMap="SignalInfoMap">
+		SELECT * FROM
+		SIGNAL_DEFINITION
+		where SIGNAL_NAME
+		= #{signalName}
+	</select>
+
+	<insert id="insert"
+		parameterType="jp.co.acroquest.endosnipe.web.explorer.entity.SignalInfo">
+		insert into SIGNAL_DEFINITION
+		(SIGNAL_NAME,MATCHING_PATTERN,LEVEL,PATTERN_VALUE,ESCALATION_PERIOD)
+		values
+		(#{signalName},#{matchingPattern},#{level},#{patternValue},#{escalationPeriod})
+	</insert>
+
+	<update id="update"
+		parameterType="jp.co.acroquest.endosnipe.web.explorer.entity.SignalInfo">
+		update SIGNAL_DEFINITION set
+		SIGNAL_NAME = #{signalName},
+		MATCHING_PATTERN = #{matchingPattern},
+		LEVEL = #{level},
+		PATTERN_VALUE =
+		#{patternValue},
+		ESCALATION_PERIOD = #{escalationPeriod}
+		where SIGNAL_ID
+		= #{signalId}
+	</update>
+
+	<delete id="delete">
+		delete from SIGNAL_DEFINITION
+		where SIGNAL_NAME =
+		#{signalName}
+	</delete>
+
+	<delete id="deleteAll"
+		parameterType="jp.co.acroquest.endosnipe.web.explorer.entity.SignalInfo">
+		delete from SIGNAL_DEFINITION
+	</delete>
+
+	<delete id="deleteChildren">
+		delete from SIGNAL_DEFINITION
+		where
+		SIGNAL_NAME
+		like
+		#{signalNameRe}
+	</delete>
+
+	<select id="selectSequenceNum" resultType="int">
+		SELECT SIGNAL_ID FROM
+		SIGNAL_DEFINITION
+		where SIGNAL_NAME
+		= #{signalName}
+	</select>
+	
+	<select id="selectDirectChildren"
+				resultMap="ChildDirectoryMap">
+		SELECT
+			split_part(signal_name, '/', #{childLength}) AS child
+			,split_part(signal_name ,'/', #{grandChildLength}) != '' AS grandchild
+		FROM
+			signal_definition
+		    WHERE
+			REPLACE(REPLACE(REPLACE(signal_name, CHR(13) || CHR(10), ' '), CHR(13), ' '), CHR(10), ' ') LIKE #{searchTreeId}
+			AND split_part(REPLACE(REPLACE(REPLACE(signal_name, CHR(13) || CHR(10), ' '), CHR(13), ' '), CHR(10), ' ') ,'/' ,#{length}) = #{selfElementName}
+		GROUP BY
+			child
+			,grandchild
+		ORDER BY
+			child
+			,grandchild
+	</select>
+	
+</mapper>

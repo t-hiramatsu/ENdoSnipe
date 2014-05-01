@@ -1,0 +1,782 @@
+/**
+ * ENdonipe Commutator
+ * MySQLからEndoSnipeのDataCollectorに送る情報を収集する。
+ *
+ * Copyright (C) Acroquest Technology, Co.LTD
+ */
+
+
+%{
+#include <linux/sched.h>
+#include <string.h>
+%}
+
+function local_clock:long()
+%{
+    THIS->__retvalue = local_clock();
+%}
+
+global mypid
+global utime, stime
+global file_read, file_write
+global net_receive, net_transmit
+global sleep_start, sleep_time
+global lock_start, lock_wait
+global lock_num
+
+global select_count, insert_count, update_count, delete_count, other_count
+global command_times, connection_times, delete_times, delete_row_times
+global filesort_times, rdlock_times, unlock_times, wrlock_times
+global index_read_row_times, insert_times, insert_row_times, insert_select_times
+global keycache_read_block_value, keycache_read_times
+global keycache_read_hit_count, keycache_read_miss_count
+global keycache_write_block_value, keycache_write_times
+global multi_delete_times, multi_update_times, net_read_times, net_write_times
+global query_cache_hit_count, query_cache_miss_count
+global sql_exec_times, read_row_times, select_times, update_times, update_row_times
+
+global command_exe, connection_exe, delete_exe, delete_row_exe, filesort_exe, rdlock_exe
+global unlock_exe, wrlock_exe, index_read_row_exe, insert_exe, insert_row_exe, insert_select_exe
+global keycache_read_exe, keycache_write_exe, multi_delete_exe, multi_update_exe, net_read_exe
+global net_write_exe, query_exe, query_exec_exe, query_parse_exe, read_row_exe, select_exe
+global update_exe, update_row_exe
+
+global sql_exec_time_threshold
+global sql_over_threshold_count
+
+probe begin
+{
+    mypid = pid()
+    init_counter()
+    sql_exec_time_threshold = 10000  //SQL実行時間の閾値(この時間をオーバーしたクエリの実行回数が出力される)
+    sql_over_threshold_count = 0
+}
+
+// 2
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("command__start")
+{
+    command_exe[tid()] = local_clock() 
+}
+
+// 1
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("command__done")
+{
+    start_clock = command_exe[tid()]; delete command_exe[tid()]
+    if(start_clock){
+        command_time = local_clock() - start_clock
+        command_times += command_time
+    }
+}
+
+// 4
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("connection__start")
+{
+    connection_exe[tid()] = local_clock() 
+}
+
+// 3
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("connection__done")
+{
+    start_clock = connection_exe[tid()]; delete connection_exe[tid()]
+    if(start_clock){
+        connection_time = local_clock() - start_clock
+        connection_times += connection_time
+    }
+}
+
+// 6
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("delete__start")
+{
+    delete_exe[tid()] = local_clock() 
+}
+
+// 5
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("delete__done")
+{
+    start_clock = delete_exe[tid()]; delete delete_exe[tid()]
+    if(start_clock){
+        delete_time = local_clock() - start_clock
+        delete_times += delete_time
+    }
+}
+
+// 8
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("delete__row__start")
+{
+    delete_row_exe[tid()] = local_clock() 
+}
+
+
+// 7
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("delete__row__done")
+{
+    start_clock = delete_row_exe[tid()]; delete delete_row_exe[tid()]
+    if(start_clock){
+        delete_row_time = local_clock() - start_clock
+        delete_row_times += delete_row_time
+    }
+}
+
+// 10
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("filesort__start")
+{
+    filesort_exe[tid()] = local_clock() 
+}
+
+// 9
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("filesort__done")
+{
+    start_clock = filesort_exe[tid()]; delete filesort_exe[tid()]
+    if(start_clock){
+        filesort_time = local_clock() - start_clock
+        filesort_times += filesort_time
+    }
+}
+
+
+// 12
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("handler__rdlock__start")
+{
+    rdlock_exe[tid()] = local_clock() 
+}
+
+
+// 11
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("handler__rdlock__done")
+{
+    start_clock = rdlock_exe[tid()]; delete rdlock_exe[tid()]
+    if(start_clock){
+        rdlock_time = local_clock() - start_clock
+        rdlock_times += rdlock_time
+    }
+}
+
+// 14
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("handler__unlock__start")
+{
+    unlock_exe[tid()] = local_clock() 
+}
+
+// 13
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("handler__unlock__done")
+{
+    start_clock = unlock_exe[tid()]; delete unlock_exe[tid()]
+    if(start_clock){
+        unlock_time = local_clock() - start_clock
+        unlock_times += unlock_time
+    }
+}
+
+// 16
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("handler__wrlock__start")
+{
+    wrlock_exe[tid()] = local_clock() 
+}
+
+// 15
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("handler__wrlock__done")
+{
+    start_clock = wrlock_exe[tid()]; delete wrlock_exe[tid()]
+    if(start_clock){
+        wrlock_time = local_clock() - start_clock
+        wrlock_times += wrlock_time
+    }
+}
+
+// 18
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("index__read__row__start")
+{
+    index_read_row_exe[tid()] = local_clock() 
+}
+
+// 17
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("index__read__row__done")
+{
+    start_clock = index_read_row_exe[tid()]; delete index_read_row_exe[tid()]
+    if(start_clock){
+        index_read_row_time = local_clock() - start_clock
+        index_read_row_times += index_read_row_time
+    }
+}
+
+// 24
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("insert__start")
+{
+    insert_exe[tid()] = local_clock() 
+}
+
+// 19
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("insert__done")
+{
+    start_clock = insert_exe[tid()]; delete insert_exe[tid()]
+    if(start_clock){
+        insert_time = local_clock() - start_clock
+        insert_times += insert_time
+    }
+}
+
+// 21
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("insert__row__start")
+{
+    insert_row_exe[tid()] = local_clock() 
+}
+
+// 20
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("insert__row__done")
+{
+    start_clock = insert_row_exe[tid()]; delete insert_row_exe[tid()]
+    if(start_clock){
+        insert_row_time = local_clock() - start_clock
+        insert_row_times += insert_row_time
+    }
+}
+
+// 23
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("insert__select__start")
+{
+    insert_select_exe[tid()] = local_clock() 
+}
+
+// 22
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("insert__select__done")
+{
+    start_clock = insert_select_exe[tid()]; delete insert_select_exe[tid()]
+    if(start_clock){
+        insert_select_time = local_clock() - start_clock
+        insert_select_times += insert_select_time
+    }
+}
+
+// 25
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("keycache__read__block")
+{
+    keycache_read_block_value += $arg1 
+}
+
+// 29
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("keycache__read__start")
+{
+    keycache_read_exe[tid()] = local_clock() 
+}
+
+// 26
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("keycache__read__done")
+{
+    start_clock = keycache_read_exe[tid()]; delete keycache_read_exe[tid()]
+    if(start_clock){
+        keycache_read_time = local_clock() - start_clock
+        keycache_read_times += keycache_read_time
+    }
+}
+
+// 27
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("keycache__read__hit")
+{
+    keycache_read_hit_count++
+}
+
+// 28
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("keycache__read__miss")
+{
+    keycache_read_miss_count++
+}
+
+// 30
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("keycache__write__block")
+{
+    keycache_write_block_value += $arg1 
+}
+
+// 32
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("keycache__write__start")
+{
+    keycache_write_exe[tid()] = local_clock() 
+}
+
+// 31
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("keycache__write__done")
+{
+    start_clock = keycache_write_exe[tid()]; delete keycache_write_exe[tid()]
+    if(start_clock){
+        keycache_write_time = local_clock() - start_clock
+        keycache_write_times += keycache_write_time
+    }
+}
+
+// 34
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("multi__delete__start")
+{
+    multi_delete_exe[tid()] = local_clock() 
+}
+
+// 33
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("multi__delete__done")
+{
+    start_clock = multi_delete_exe[tid()]; delete multi_delete_exe[tid()]
+    if(start_clock){
+        multi_delete_time = local_clock() - start_clock
+        multi_delete_times += multi_delete_time
+    }
+}
+
+// 36
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("multi__update__start")
+{
+    multi_update_exe[tid()] = local_clock() 
+}
+
+// 35
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("multi__update__done")
+{
+    start_clock = multi_update_exe[tid()]; delete multi_update_exe[tid()]
+    if(start_clock){
+        multi_update_time = local_clock() - start_clock
+        multi_update_times += multi_update_time
+    }
+}
+
+// 38
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("net__read__start")
+{
+    net_read_exe[tid()] = local_clock() 
+}
+
+// 37
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("net__read__done")
+{
+    start_clock = net_read_exe[tid()]; delete net_read_exe[tid()]
+    if(start_clock){
+        net_read_time = local_clock() - start_clock
+        net_read_times += net_read_time
+    }
+}
+
+// 40
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("net__write__start")
+{
+    net_write_exe[tid()] = local_clock() 
+}
+
+// 39
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("net__write__done")
+{
+    start_clock = net_write_exe[tid()]; delete net_write_exe[tid()]
+    if(start_clock){
+        net_write_time = local_clock() - start_clock
+        net_write_times += net_write_time
+    }
+}
+
+// 41
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("query__cache__hit")
+{
+    query_cache_hits_count++
+}
+
+// 42
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("query__cache__miss")
+{
+    query_cache_miss_count++
+}
+
+// 48
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("query__start")
+{
+    query_exe[tid()] = local_clock() 
+    query = user_string($arg1)
+    if(strcmp_head6(query, "SELECT")){
+        select_count++
+    }else if(strcmp_head6(query, "INSERT")){
+        insert_count++
+    }else if(strcmp_head6(query, "UPDATE")){
+        update_count++
+    }else if(strcmp_head6(query, "DELETE")){
+        delete_count++
+    }else{
+        other_count++
+    }
+}
+
+// 43
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("query__done")
+{
+    start_clock = query_exe[tid()]; delete query_exe[tid()]
+    if(start_clock){
+        query_time = local_clock() - start_clock
+        query_times += query_time
+    }
+}
+
+// 45
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("query__exec__start")
+{
+    query_exec_exe[tid()] = local_clock() 
+}
+
+// 44
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("query__exec__done")
+{
+    start_clock = query_exec_exe[tid()]; delete query_exec_exe[tid()]
+    if(start_clock){
+        query_exec_time = local_clock() - start_clock
+        sql_exec_times["execute"] += query_exec_time
+        check_sql_exec_time(query_exec_time)
+    }
+}
+
+// 47
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("query__parse__start")
+{
+    query_parse_exe[tid()] = local_clock() 
+}
+
+// 46
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("query__parse__done")
+{
+    start_clock = query_parse_exe[tid()]; delete query_parse_exe[tid()]
+    if(start_clock){
+        query_parse_time = local_clock() - start_clock
+        sql_exec_times["parse"] += query_parse_time
+        check_sql_exec_time(query_parse_time)
+    }
+}
+
+// 50
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("read__row__start")
+{
+    read_row_exe[tid()] = local_clock() 
+}
+
+// 49
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("read__row__done")
+{
+    start_clock = read_row_exe[tid()]; delete read_row_exe[tid()]
+    if(start_clock){
+        read_row_time = local_clock() - start_clock
+        read_row_times += read_row_time
+    }
+}
+
+// 52
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("select__start")
+{
+    select_exe[tid()] = local_clock() 
+}
+
+// 51
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("select__done")
+{
+    start_clock = select_exe[tid()]; delete select_exe[tid()]
+    if(start_clock){
+        select_time = local_clock() - start_clock
+        select_times += select_time
+    }
+}
+
+// 56
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("update__start")
+{
+    update_exe[tid()] = local_clock() 
+}
+
+// 53
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("update__done")
+{
+    start_clock = update_exe[tid()]; delete update_exe[tid()]
+    if(start_clock){
+        update_time = local_clock() - start_clock
+        update_times += update_time
+    }
+}
+
+// 55
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("update__row__start")
+{
+    update_row_exe[tid()] = local_clock() 
+}
+
+// 54
+probe process("/usr/local/mysql-5.6.13/bin/mysqld").mark("update__row__done")
+{
+    start_clock = update_row_exe[tid()]; delete update_row_exe[tid()]
+    if(start_clock){
+        update_row_time = local_clock() - start_clock
+        update_row_times += update_row_time
+    }
+}
+
+// 以下,mySQL対象外の汎用probe
+
+probe _ens.vfs_read.return = kernel.function("vfs_read").return
+{
+    if(mypid != pid()){
+        file_read += $return
+    }
+}
+
+probe _ens.vfs_write.return = kernel.function("vfs_write").return
+{
+    if(mypid != pid()){
+        file_write += $return
+    }
+}
+
+probe _ens.netdev.receive = kernel.function("netif_receive_skb")
+{
+    net_receive += $skb->len
+}
+probe _ens.tcp_recvmsg.return = kernel.function("tcp_recvmsg").return
+{
+    if(pid() == target()){
+        net_receive += $return
+    }
+}
+probe _ens.udp_recvmsg.return = kernel.function("udp_recvmsg").return
+{
+    if(pid() == target()){
+        net_receive += $return
+    }
+}
+probe _ens.sys_recvfrom.return = kernel.function("sys_recvfrom").return
+{
+}
+
+probe _ens.netdev.transmit = kernel.function("dev_queue_xmit")
+{
+    if(pid() == target()){
+        net_transmit += $skb->len
+    }
+}
+
+probe _ens.sys_nanosleep = kernel.function("sys_nanosleep").call
+{
+    sleep_nanosec += ($rqtp->tv_sec * 1000000000 + $rqtp->tv_nsec)
+    sleep_start[tid()] = local_clock()
+}
+
+probe _ens.sys_nanosleep.return = kernel.function("sys_nanosleep").return
+{
+    sleep_time += (local_clock() - sleep_start[tid()])
+}
+
+probe _ens.sys_futex = kernel.function("sys_futex").call
+{
+    flag = $op & 0x0F
+    if ( 0 == flag || 9 == flag ){ /* FUTEX_WAIT or FUTEX_WAIT_BITSET */
+        lock_start[lock_num] = local_clock()
+        lock_num += 1
+    }
+    if ( 1 == flag || 10 == flag ){ /* FUTEX_WAKE or FUTEX_WAKE_BITSET */
+        lock_num -= 1 /* WAIT時に保管した値を見る。なかったとしても次のWAIT時の保管先がそこになるだけ。 */
+        if(0 < lock_start[lock_num]){ /* WAKEが先に来る時がある */
+            lock_wait += (local_clock() - lock_start[lock_num])
+        }
+    }
+}
+
+probe _ens.sched_switch = kernel.trace("sched_switch")
+{
+    utime[tid()] = task_utime()
+    stime[tid()] = task_stime()
+}
+
+function init_sql_exec_times()
+{
+    sql_exec_times["parse"] = 0
+    sql_exec_times["execute"] = 0
+}
+
+probe _ens.vfs_read.return{}
+probe _ens.vfs_write.return{}
+probe _ens.netdev.receive{}
+probe _ens.tcp_recvmsg.return{}
+probe _ens.udp_recvmsg.return{}
+probe _ens.netdev.transmit{}
+probe _ens.sys_nanosleep{}
+probe _ens.sys_nanosleep.return{}
+probe _ens.sys_futex{}
+probe _ens.sched_switch{}
+//probe _ens.sys_recvfrom.return{}
+
+
+function print_period()
+{
+    printf("/common/fundamental/time/current,%ld\n",gettimeofday_ms())
+
+    foreach ([tid] in utime) {
+        utimemerged += utime[tid]
+    }
+    foreach ([tid] in stime) {
+        stimemerged += stime[tid]
+    }
+    delete utime
+    delete stime
+    printf("/process/cpu/time/total,%ld\n", utimemerged + stimemerged)
+    printf("/system/cpu/time/user,%ld\n", utimemerged)
+}
+
+function print_use_memory()
+{
+    printf("/process/memory/physical/used:bytes,%ld\n", proc_mem_rss_pid(target()) * mem_page_size())
+}
+
+function print_vfs_read()
+{
+    printf("/system/file/read:bytes,%ld\n",file_read)
+    delete file_read
+}
+
+function print_vfs_write()
+{
+    printf("/system/file/write:bytes,%ld\n",file_write)
+    delete file_write
+}
+
+function print_net_receive()
+{
+    printf("/proc/network/input/used:bytes,%ld\n",net_receive)
+    delete net_receive
+}
+
+function print_net_transmit()
+{
+    printf("/proc/network/output/used:bytes,%ld\n",net_transmit)
+    delete net_transmit
+}
+
+function print_nanosleep()
+{
+    printf("/process/cpu/sleep/total,%ld\n", sleep_time)
+    delete sleep_time
+}
+
+function print_lockwait()
+{
+    printf("/process/wait/lock/total,%ld\n", lock_wait)
+    delete lock_wait
+    delete lock_start
+    lock_num = 10
+}
+
+function print_query_counts()
+{
+    query_count = select_count + insert_count + update_count + delete_count + other_count
+    printf("/mysql/sql,%d\n", query_count)
+    printf("/mysql/sql/select,%d\n", select_count)
+    printf("/mysql/sql/insert,%d\n", insert_count)
+    printf("/mysql/sql/update,%d\n", update_count)
+    printf("/mysql/sql/delete,%d\n", delete_count)
+    printf("/mysql/sql/other,%d\n", other_count)
+    printf("/mysql/sql/sql_over_threshold_count,%d\n", sql_over_threshold_count)
+
+    printf("/mysql/sql_time/command,%d\n", command_times)
+    printf("/mysql/sql_time/connection,%d\n", connection_times)
+    printf("/mysql/sql_time/delete_time,%d\n", delete_times)
+    printf("/mysql/sql_time/delete_row,%d\n", delete_row_times)
+    printf("/mysql/sql_time/filesort,%d\n", filesort_times)
+    printf("/mysql/lock/read,%d\n", rdlock_times)
+    printf("/mysql/lock/unlock,%d\n", unlock_times)
+    printf("/mysql/lock/write,%d\n", wrlock_times)
+    printf("/mysql/sql_time/index_read_row,%d\n", index_read_row_times)
+    printf("/mysql/sql_time/insert,%d\n", insert_times)
+    printf("/mysql/sql_time/insert_select,%d\n", insert_select_times)
+    printf("/mysql/sql/keycache_read_block,%d\n", keycache_read_block_value)
+    printf("/mysql/sql_time/keycache_read,%d\n", keycache_read_times)
+    printf("/mysql/cache/keycache_read_hit,%d\n", keycache_read_hit_count)
+    printf("/mysql/cache/keycache_read_miss,%d\n", keycache_read_miss_count)
+    printf("/mysql/sql/keycache_write_block,%d\n", keycache_write_block_value)
+    printf("/mysql/sql_time/keycache_write,%d\n", keycache_write_times)
+    printf("/mysql/sql_time/multi_delete,%d\n", multi_delete_times)
+    printf("/mysql/sql_time/multi_update,%d\n", multi_update_times)
+    printf("/mysql/sql_time/net_read,%d\n", net_read_times)
+    printf("/mysql/sql_time/net_write,%d\n", net_write_times)
+    printf("/mysql/cache/query_cache_hit,%d\n", query_cache_hit_count)
+    printf("/mysql/cache/query_cache_miss,%d\n", query_cache_miss_count)
+    printf("/mysql/sql_time/parse,%d\n", sql_exec_times["parse"])
+    printf("/mysql/sql_time/execute,%d\n", sql_exec_times["execute"])
+    printf("/mysql/sql_time/read_row,%d\n", read_row_times)
+    printf("/mysql/sql_time/select,%d\n", select_times)
+    printf("/mysql/sql_time/update,%d\n", update_times)
+    printf("/mysql/sql_time/update_row,%d\n", update_row_times)
+}
+
+function check_sql_exec_time(s1: long)
+{
+    if( s1 <= sql_exec_time_threshold ) return
+    sql_over_threshold_count++
+}
+
+function strcmp_head6:long(s1: string, s2: string){
+    for( i=0; i<6; i++ ){
+        if( !strcmp_ignorecase( substr(s1, i, i+1), substr(s2, i, i+1) ) ) return 0;
+    }
+    return 1
+}
+
+function strcmp_ignorecase:long(s1: string, s2: string)%{
+    char c1, c2;
+    int i1, i2;
+    c1 = STAP_ARG_s1[0];
+    c2 = STAP_ARG_s2[0];
+    i1 = toupper(c1);
+    i2 = toupper(c2);
+    if( i1 == i2 ) STAP_RETVALUE = 1;
+    else STAP_RETVALUE = 0;
+%}
+
+function init_counter()
+{
+    lock_num = 10    // WAKEが先に来た時、配列のインデックスが負数にならないように。
+    lock_start[lock_num] = 0
+    select_count = 0
+    insert_count = 0
+    update_count = 0
+    delete_count = 0
+    other_count = 0
+    sql_over_threshold_count = 0
+    command_times = 0
+    connection_times = 0
+    delete_times = 0
+    delete_row_times = 0
+    filesort_times = 0
+    rdlock_times = 0
+    unlock_times = 0
+    wrlock_times = 0
+    index_read_row_times = 0
+    insert_times = 0
+    insert_row_times = 0
+    insert_select_times = 0
+    keycache_read_block_value = 0
+    keycache_read_times = 0
+    keycache_write_times = 0
+    keycache_read_hit_count = 0
+    keycache_read_miss_count = 0
+    keycache_write_block_value = 0
+    multi_delete_times = 0
+    multi_update_times = 0
+    net_read_times = 0
+    net_write_times = 0
+    query_cache_hit_count = 0
+    query_cache_miss_count = 0
+    init_sql_exec_times()
+    read_row_times = 0
+    select_times = 0
+    update_times = 0
+    update_row_times = 0
+}
+
+probe timer.ms(15000)
+{
+    print_period()
+    print_use_memory()
+    print_vfs_read()
+    print_vfs_write()
+    print_net_receive()
+    print_net_transmit()
+    print_nanosleep()
+    print_lockwait()
+    print_query_counts()
+    printf(".\n")
+    init_counter()
+}
+
