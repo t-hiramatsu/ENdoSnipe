@@ -1,0 +1,13 @@
+@CHARSET "UTF-8";
+
+#schedulingReportDayAndDate {
+	float: left !important;
+}
+
+#schedulingReportTime {
+	float: right !important;
+}
+
+#scheduleReportDiv {
+	margin-top: 10px;
+}

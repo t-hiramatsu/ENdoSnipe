@@ -1,0 +1,67 @@
+.dashboard_menu_icon {
+	float: left;
+}
+
+.dashboard_menu_icon img {
+	margin: 5px;
+}
+.dashboard_menu_icon:hover {
+	cursor: pointer;
+	background: #2e7db2;
+}
+
+.dashboard_menu_icon-active {
+	background: #2e7db2;
+}
+
+.ui-widget{
+	font-size: 0.8em;
+}
+
+.dashboardProperty{
+	width: 500px;
+	height: 500px;
+}
+
+.dashboardPropertyItem{
+	clear:both;
+	height: 30px;
+}
+
+.dashboardPropertyItem div{
+	width: 200px;
+	height: 20px;
+	float: left;
+	margin-left: 10px;
+}
+
+.dashboardPropertyItem input{
+	width: 80px;
+	height: 20px;
+}
+
+.dashboardPropertyItem select{
+	width: 80px;
+	height: 20px;
+}
+.dashboardPropertyItem > .number{
+	text-align: right;
+}
+
+.dashboardPropertyFontItem {
+	clear:both;
+	height : 40px;
+}
+
+.dashboardPropertyFontItem div{
+	width: 200px;
+	height: 30px;
+	float: left;
+	margin-left: 10px;
+}
+
+.dashboardPropertyFontItem select{
+	width: 200px;
+	height : 30px;
+	font-size : 20px;
+}

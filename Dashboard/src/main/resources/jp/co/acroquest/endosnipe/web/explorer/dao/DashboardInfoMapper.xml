@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jp.co.acroquest.endosnipe.web.explorer.dao.DashboardInfoDao">
+	<resultMap id="DashboardInfoMap"
+		type="jp.co.acroquest.endosnipe.web.explorer.entity.DashboardInfo">
+		<id property="dashboardId" column="DASHBOARD_ID" />
+		<result property="name" column="NAME" />
+		<result property="data" column="DATA" />
+		<result property="lastUpdate" column="LAST_UPDATE" />
+	</resultMap>
+
+	<select id="selectAll" resultMap="DashboardInfoMap">
+		select * from DASHBOARD_INFO order by DASHBOARD_ID
+	</select>
+
+	<select id="selectById" resultMap="DashboardInfoMap">
+		select * from DASHBOARD_INFO
+		where DASHBOARD_ID
+		= #{dashboardId}
+	</select>
+
+	<select id="selectByName" resultMap="DashboardInfoMap">
+		select * from DASHBOARD_INFO
+		where NAME
+		= #{name}
+	</select>
+	
+	<select id="selectName" resultType="String">
+		select NAME from DASHBOARD_INFO order by NAME
+	</select>
+
+	<insert id="insert"
+		parameterType="jp.co.acroquest.endosnipe.web.explorer.entity.DashboardInfo">
+		insert into DASHBOARD_INFO
+		(NAME,DATA,LAST_UPDATE)
+		values
+		(#{name},#{data},#{lastUpdate})
+	</insert>
+
+	<update id="update"
+		parameterType="jp.co.acroquest.endosnipe.web.explorer.entity.DashboardInfo">
+		update DASHBOARD_INFO set
+		NAME = #{name},
+		DATA = #{data},
+		LAST_UPDATE = #{lastUpdate}
+		where DASHBOARD_ID
+		= #{dashboardId}
+	</update>
+
+	<update id="updateByName"
+		parameterType="jp.co.acroquest.endosnipe.web.explorer.entity.DashboardInfo">
+		update DASHBOARD_INFO set
+		NAME = #{name},
+		DATA = #{data},
+		LAST_UPDATE = #{lastUpdate}
+		where NAME = #{name}
+	</update>
+
+	<delete id="deleteById">
+		delete from DASHBOARD_INFO
+		where DASHBOARD_ID =
+		#{dashboardId}
+	</delete>
+
+	<delete id="deleteAll"
+		parameterType="jp.co.acroquest.endosnipe.web.explorer.entity.DashboardInfo">
+		delete from DASHBOARD_INFO
+	</delete>
+
+	<select id="selectSequenceNum" resultType="long">
+		select MAX(DASHBOARD_ID) from DASHBOARD_INFO
+	</select>
+</mapper>
