@@ -29,7 +29,7 @@ import jp.co.acroquest.endosnipe.common.entity.ItemType;
 import jp.co.acroquest.endosnipe.javelin.bean.proc.ProcInfo;
 
 /**
- * MemInfoからシステム全体のスワップ空き容量を取得する。
+ * MemInfo����V�X�e���S�̂̃X���b�v�󂫗e�ʂ��擾����B
  * 
  * @author akita
  */
@@ -38,7 +38,7 @@ public class LinuxSwapFreeGetter extends ProcResourceGetter
 
     /**
      * 
-     * @param procParser リソース情報取得用
+     * @param procParser ���\�[�X���擾�p
      */
     public LinuxSwapFreeGetter(ProcParser procParser)
     {

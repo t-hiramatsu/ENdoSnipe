@@ -38,22 +38,22 @@ import jp.co.acroquest.endosnipe.perfdoctor.Messages;
 import jp.co.acroquest.endosnipe.perfdoctor.rule.SingleElementRule;
 
 /**
- * CPUã®ã‚¢ã‚¤ãƒ‰ãƒ«æ™‚é–“ãŒã€é–¾å€¤ã‚’è¶…ãˆãŸã“ã¨ã‚’æ¤œå‡ºã—ã¾ã™ã€‚<br/>
- * JavelinLogElementã‚’è§£æã—ã€å®Ÿè¡Œæ™‚é–“ã¨CPUæ™‚é–“ã®å·®ãŒé–¾å€¤ã«é”ã—ãŸå ´åˆã€
- * é–¾å€¤(å˜ä½:msec)ã€ã‚¢ã‚¤ãƒ‰ãƒ«æ™‚é–“(å˜ä½:msec)ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚ã€‚<br/><br/>
+ * CPU‚ÌƒAƒCƒhƒ‹ŠÔ‚ªAè‡’l‚ğ’´‚¦‚½‚±‚Æ‚ğŒŸo‚µ‚Ü‚·B<br/>
+ * JavelinLogElement‚ğ‰ğÍ‚µAÀsŠÔ‚ÆCPUŠÔ‚Ì·‚ªè‡’l‚É’B‚µ‚½ê‡A
+ * è‡’l(’PˆÊ:msec)AƒAƒCƒhƒ‹ŠÔ(’PˆÊ:msec)‚ğo—Í‚µ‚Ü‚·BB<br/><br/>
  * 
- * åˆ¤å®šå†…å®¹<br/> 
- * <li>baseInfo[ID] ãŒã€ŒCallã€ã§ã‚ã‚‹ã“ã¨ã€‚ 
- * <li>detailInfo[JMXInfo] ã® duration ã¨ thread.currentThreadCpuTime.delta ã®å·®ãŒé–¾å€¤ä»¥ä¸Šã§ã‚ã‚‹ã“ã¨ã€‚
+ * ”»’è“à—e<br/> 
+ * <li>baseInfo[ID] ‚ªuCallv‚Å‚ ‚é‚±‚ÆB 
+ * <li>detailInfo[JMXInfo] ‚Ì duration ‚Æ thread.currentThreadCpuTime.delta ‚Ì·‚ªè‡’lˆÈã‚Å‚ ‚é‚±‚ÆB
  * 
  * @author fujii
  */
 public class IdleTimeRule extends SingleElementRule implements JavelinLogConstants
 {
-    /** ã‚¢ã‚¤ãƒ‰ãƒ«æ™‚é–“ã®é–¾å€¤(å˜ä½:msec) */
+    /** ƒAƒCƒhƒ‹ŠÔ‚Ìè‡’l(’PˆÊ:msec) */
     public long                 threshold;
 
-    /** è§£ææƒ…å ±ã‚’å–å¾—ã§ããªã„å ´åˆã®ãƒ­ã‚°ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ */
+    /** ‰ğÍî•ñ‚ğæ“¾‚Å‚«‚È‚¢ê‡‚ÌƒƒOƒƒbƒZ[ƒW */
     private static final String MESSAGE_NO_JMXINFO =
                                                      Messages.getMessage("endosnipe.perfdoctor.rule.code.MethodPureCpuUsageRule.InfoNotGet",
                                                                          EXTRAPARAM_IDLETIME);
@@ -64,7 +64,7 @@ public class IdleTimeRule extends SingleElementRule implements JavelinLogConstan
     @Override
     public void doJudgeElement(final JavelinLogElement element)
     {
-        // ãƒ¡ã‚½ãƒƒãƒ‰ã®æˆ»ã‚Šã§ãªã„å ´åˆã¯ã€åˆ¤å®šã‚’è¡Œã„ã¾ã›ã‚“ã€‚
+        // ƒƒ\ƒbƒh‚Ì–ß‚è‚Å‚È‚¢ê‡‚ÍA”»’è‚ğs‚¢‚Ü‚¹‚ñB
         List<?> baseInfo = element.getBaseInfo();
         String id = (String)baseInfo.get(JavelinLogColumnNum.ID);
         if (JavelinConstants.MSG_CALL.equals(id) == false)
@@ -72,13 +72,13 @@ public class IdleTimeRule extends SingleElementRule implements JavelinLogConstan
             return;
         }
 
-        // ã‚¹ãƒ¬ãƒƒãƒ‰ã®CPUæ™‚é–“ã‚’å–å¾—ã—ã¾ã™ã€‚
+        // ƒXƒŒƒbƒh‚ÌCPUŠÔ‚ğæ“¾‚µ‚Ü‚·B
         Map<String, String> argsInfo =
                                        JavelinLogUtil.parseDetailInfo(element,
                                                                       JavelinParser.TAG_TYPE_JMXINFO);
         String cpuTimeStr = argsInfo.get(JMXPARAM_THREAD_CURRENT_THREAD_CPU_TIME_DELTA);
 
-        // å®Ÿè¡Œæ™‚é–“ã‚’å–å¾—ã—ã¾ã™ã€‚
+        // ÀsŠÔ‚ğæ“¾‚µ‚Ü‚·B
         Map<String, String> extraInfo =
                                         JavelinLogUtil.parseDetailInfo(element,
                                                                        JavelinParser.TAG_TYPE_EXTRAINFO);
@@ -86,7 +86,7 @@ public class IdleTimeRule extends SingleElementRule implements JavelinLogConstan
 
         if (cpuTimeStr == null || execTimeStr == null)
         {
-            // è§£ææƒ…å ±ã‚’å–å¾—ã§ããªã„å ´åˆã¯ã€åˆ¤å®šã‚’è¡Œã„ã¾ã›ã‚“ã€‚
+            // ‰ğÍî•ñ‚ğæ“¾‚Å‚«‚È‚¢ê‡‚ÍA”»’è‚ğs‚¢‚Ü‚¹‚ñB
             log(MESSAGE_NO_JMXINFO, element, null);
             return;
         }
@@ -106,7 +106,7 @@ public class IdleTimeRule extends SingleElementRule implements JavelinLogConstan
         }
         long idleTime = execTime - cpuTime;
 
-        // é–¾å€¤ã‚’è¶…ãˆã¦ã„ãŸå ´åˆã€ã‚¨ãƒ©ãƒ¼ã¨ã—ã¾ã™ã€‚
+        // è‡’l‚ğ’´‚¦‚Ä‚¢‚½ê‡AƒGƒ‰[‚Æ‚µ‚Ü‚·B
         if (idleTime >= this.threshold)
         {
             String threadName = element.getThreadName();

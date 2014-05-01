@@ -41,32 +41,3 @@ ENS.Utility.makeAnchor = function(cellValue, options, rowObject) {
 	return '<a href="javascript:void(0)" onclick="' + onclick + '(\'' + rowId
 			+ '\');">' + linkName + '</a>';
 };
-ENS.Utility.makeAnchor1 = function(cellValue, options, rowObject) {
-	var selectValueList = options.colModel.editoptions;
-	var val = rowObject.value;
-	var rowId = options.rowId;
-	var onclick1 = selectValueList.onclick1;
-	var updateLink = selectValueList.updateLink;
-	var onclick2 = selectValueList.onclick2;
-	var deleteLink = selectValueList.deleteLink;
-	return '<a href="javascript:void(0)" id="update" onclick="' + onclick1
-			+ '(\'' + rowId + '\');">' + updateLink + '</a>' + '<br>'
-			+ '<a href="javascript:void(0)" id="delete" onclick="' + onclick2
-			+ '(\'' + rowId + '\');">' + deleteLink + '</a>';
-};
-
-ENS.Utility.makeAnchor2 = function(cellValue, options, rowObject) {
-	var selectValueList = options.colModel.editoptions;
-	var val = rowObject.value;
-	var rowId = options.rowId;
-	var logFile = rowObject.logFileName;
-	var logDetail = rowObject.detailResult;
-	var onclick = selectValueList.onclick;
-	var linkName = selectValueList.linkName;
-	if (logFile == null || logDetail == null) {
-		return '<font color=gray>' + linkName + '</font>';
-	}
-	return '<a href="javascript:void(0)" onclick="' + onclick + '(\'' + rowId
-			+ '\');">' + linkName + '</a>';
-
-};

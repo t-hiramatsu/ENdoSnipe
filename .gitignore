@@ -14,10 +14,8 @@ local.properties
 !/Javelin/bin
 classes-test/
 classes-servlet-api/
-classes-jsonic/
 junit-report/
 build/
-target/
 
 # External tool builders
 .externalToolBuilders/

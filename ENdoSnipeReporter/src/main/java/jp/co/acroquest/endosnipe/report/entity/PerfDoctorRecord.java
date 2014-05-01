@@ -1,186 +1,150 @@
 package jp.co.acroquest.endosnipe.report.entity;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-
 import jp.co.acroquest.endosnipe.perfdoctor.WarningUnit;
 
 /**
- * PerformanceDoctorãƒ¬ãƒãƒ¼ãƒˆã«å‡ºåŠ›ã™ã‚‹ãƒ‡ãƒ¼ã‚¿ã®ä¸­ã®ã€ 1ãƒ¬ã‚³ãƒ¼ãƒ‰åˆ†ã®æƒ…å ±ã‚’ä¿æŒã™ã‚‹ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã§ã™ã€‚
+ * PerformanceDoctorƒŒƒ|[ƒg‚Éo—Í‚·‚éƒf[ƒ^‚Ì’†‚ÌA
+ * 1ƒŒƒR[ƒh•ª‚Ìî•ñ‚ğ•Û‚·‚éƒGƒ“ƒeƒBƒeƒB‚Å‚·B
  * 
  * @author T. Iida
  */
 public class PerfDoctorRecord
 {
-	/** ID */
-	private String id_ = "default id";
+    /** ID */
+    private String id_ = "default id";
+    
+    /** ŠT—v */
+    private String description_ = "default description";
+    
+    /** d—v“x */
+    private String level_ = "default level";
+    
+    /** ƒNƒ‰ƒX */
+    private String className_ = "default className";
+    
+    /** ƒƒ\ƒbƒh */
+    private String methodName_ = "default methodName";
+    
+    /** ƒtƒ@ƒCƒ‹–¼ */
+    private String logFileName_ = "default logFileName";
+    
+    /**
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Å‚·B
+     */
+    public PerfDoctorRecord()
+    {
+        // ‰½‚à‚µ‚È‚¢
+    }
+    
+    /**
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Å‚·B
+     * w’è‚³‚ê‚½WarningUnit‚ÅAƒtƒB[ƒ‹ƒh‚ğ‰Šú‰»‚µ‚Ü‚·B
+     * 
+     * @param warningUnit w’è‚³‚ê‚½WarningUnit
+     */
+    public PerfDoctorRecord(WarningUnit warningUnit)
+    {
+        this.setId(warningUnit.getId());
+        this.setDescription(warningUnit.getDescription());
+        this.setLevel(warningUnit.getLevel());
+        this.setClassName(warningUnit.getClassName());
+        this.setMethodName(warningUnit.getMethodName());
+        this.setLogFileName(warningUnit.getLogFileName());
+    }
 
-	/** Time */
-	private String time_ = "default time";
+    /**
+     * @return the id
+     */
+    public String getId()
+    {
+        return this.id_;
+    }
 
-	/** æ¦‚è¦ */
-	private String description_ = "default description";
+    /**
+     * @param id the id to set
+     */
+    public void setId(String id)
+    {
+        this.id_ = id;
+    }
 
-	/** é‡è¦åº¦ */
-	private String level_ = "default level";
+    /**
+     * @return the description
+     */
+    public String getDescription()
+    {
+        return this.description_;
+    }
 
-	/** ã‚¯ãƒ©ã‚¹ */
-	private String className_ = "default className";
+    /**
+     * @param description the description to set
+     */
+    public void setDescription(String description)
+    {
+        this.description_ = description;
+    }
 
-	/** ãƒ¡ã‚½ãƒƒãƒ‰ */
-	private String methodName_ = "default methodName";
+    /**
+     * @return the level
+     */
+    public String getLevel()
+    {
+        return this.level_;
+    }
 
-	/** ãƒ•ã‚¡ã‚¤ãƒ«å */
-	private String logFileName_ = "default logFileName";
+    /**
+     * @param level the level to set
+     */
+    public void setLevel(String level)
+    {
+        this.level_ = level;
+    }
 
-	/**
-	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§ã™ã€‚
-	 */
-	public PerfDoctorRecord()
-	{
-		// ä½•ã‚‚ã—ãªã„
-	}
+    /**
+     * @return the className
+     */
+    public String getClassName()
+    {
+        return this.className_;
+    }
 
-	/**
-	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§ã™ã€‚ æŒ‡å®šã•ã‚ŒãŸWarningUnitã§ã€ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã‚’åˆæœŸåŒ–ã—ã¾ã™ã€‚
-	 * 
-	 * @param warningUnit
-	 *            æŒ‡å®šã•ã‚ŒãŸWarningUnit
-	 */
-	public PerfDoctorRecord(WarningUnit warningUnit)
-	{
-		this.setId(warningUnit.getId());
+    /**
+     * @param className the className to set
+     */
+    public void setClassName(String className)
+    {
+        this.className_ = className;
+    }
 
-		// calculating long to date format
-		long time = warningUnit.getStartTime();
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTimeInMillis(time);
+    /**
+     * @return the methodName
+     */
+    public String getMethodName()
+    {
+        return this.methodName_;
+    }
 
-		this.setTime(formatter.format(calendar.getTime()));
-		this.setDescription(warningUnit.getDescription());
-		this.setLevel(warningUnit.getLevel());
-		this.setClassName(warningUnit.getClassName());
-		this.setMethodName(warningUnit.getMethodName());
-		this.setLogFileName(warningUnit.getLogFileName());
-	}
+    /**
+     * @param methodName the methodName to set
+     */
+    public void setMethodName(String methodName)
+    {
+        this.methodName_ = methodName;
+    }
 
-	/**
-	 * @return the id
-	 */
-	public String getId()
-	{
-		return this.id_;
-	}
+    /**
+     * @return the logFileName
+     */
+    public String getLogFileName()
+    {
+        return this.logFileName_;
+    }
 
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setId(String id)
-	{
-		this.id_ = id;
-	}
-
-	/**
-	 * @return the time
-	 */
-	public String getTime()
-	{
-		return time_;
-	}
-
-	/**
-	 * @param time
-	 *            the time to set
-	 */
-	public void setTime(String time)
-	{
-		this.time_ = time;
-	}
-
-	/**
-	 * @return the description
-	 */
-	public String getDescription()
-	{
-		return this.description_;
-	}
-
-	/**
-	 * @param description
-	 *            the description to set
-	 */
-	public void setDescription(String description)
-	{
-		this.description_ = description;
-	}
-
-	/**
-	 * @return the level
-	 */
-	public String getLevel()
-	{
-		return this.level_;
-	}
-
-	/**
-	 * @param level
-	 *            the level to set
-	 */
-	public void setLevel(String level)
-	{
-		this.level_ = level;
-	}
-
-	/**
-	 * @return the className
-	 */
-	public String getClassName()
-	{
-		return this.className_;
-	}
-
-	/**
-	 * @param className
-	 *            the className to set
-	 */
-	public void setClassName(String className)
-	{
-		this.className_ = className;
-	}
-
-	/**
-	 * @return the methodName
-	 */
-	public String getMethodName()
-	{
-		return this.methodName_;
-	}
-
-	/**
-	 * @param methodName
-	 *            the methodName to set
-	 */
-	public void setMethodName(String methodName)
-	{
-		this.methodName_ = methodName;
-	}
-
-	/**
-	 * @return the logFileName
-	 */
-	public String getLogFileName()
-	{
-		return this.logFileName_;
-	}
-
-	/**
-	 * @param logFileName
-	 *            the logFileName to set
-	 */
-	public void setLogFileName(String logFileName)
-	{
-		this.logFileName_ = logFileName;
-	}
+    /**
+     * @param logFileName the logFileName to set
+     */
+    public void setLogFileName(String logFileName)
+    {
+        this.logFileName_ = logFileName;
+    }
 }

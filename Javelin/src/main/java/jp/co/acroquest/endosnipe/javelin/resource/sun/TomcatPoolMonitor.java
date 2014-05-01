@@ -40,18 +40,18 @@ import jp.co.acroquest.endosnipe.common.entity.ResourceItem;
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 
 /**
- * Tomcatã®ãƒ¯ãƒ¼ã‚«ã‚¹ãƒ¬ãƒƒãƒ‰ã®æœ€å¤§æ•°ã¨ç¨¼å‹•æ•°ã‚’è¿”ã™ã‚¯ãƒ©ã‚¹
+ * Tomcat‚Ìƒ[ƒJƒXƒŒƒbƒh‚ÌÅ‘å”‚Æ‰Ò“®”‚ğ•Ô‚·ƒNƒ‰ƒX
  * 
  * @author fujii
  * 
  */
 public class TomcatPoolMonitor
 {
-    /** ãƒ¯ãƒ¼ã‚«ã‚¹ãƒ¬ãƒƒãƒ‰ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå */
+    /** ƒ[ƒJƒXƒŒƒbƒh‚ÌƒIƒuƒWƒFƒNƒg–¼ */
     private static final String THREAD_POOL_STR = "*:type=ThreadPool,*";
 
     /**
-     * ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+     * ƒvƒ‰ƒCƒx[ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^
      */
     private TomcatPoolMonitor()
     {
@@ -59,12 +59,12 @@ public class TomcatPoolMonitor
     }
 
     /**
-     * Tomcatã®ãƒ¯ãƒ¼ã‚«ã‚¹ãƒ¬ãƒƒãƒ‰ã®æœ€å¤§æ•°ã¨ç¨¼å‹•æ•°ã‚’æ•°ãˆã‚‹ã€‚
-     * @return Tomcatã®ãƒ¯ãƒ¼ã‚«ã‚¹ãƒ¬ãƒƒãƒ‰ã®æœ€å¤§æ•°ã¨ç¨¼å‹•æ•°ã®ãƒªã‚¹ãƒˆ
+     * Tomcat‚Ìƒ[ƒJƒXƒŒƒbƒh‚ÌÅ‘å”‚Æ‰Ò“®”‚ğ”‚¦‚éB
+     * @return Tomcat‚Ìƒ[ƒJƒXƒŒƒbƒh‚ÌÅ‘å”‚Æ‰Ò“®”‚ÌƒŠƒXƒg
      */
     public static List<ResourceItem> getThreadCount()
     {
-        // MBeanã‚µãƒ¼ãƒã‚’å–å¾—ã™ã‚‹ã€‚
+        // MBeanƒT[ƒo‚ğæ“¾‚·‚éB
         MBeanServer mBeanServer = getMBeanServer();
 
         if (mBeanServer == null)
@@ -75,7 +75,7 @@ public class TomcatPoolMonitor
         List<ResourceItem> list = new ArrayList<ResourceItem>();
         ObjectName queryObjectName = null;
 
-        // ãƒ¯ãƒ¼ã‚«ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã®ObjectNameã‚’å–å¾—ã™ã‚‹ã€‚
+        // ƒ[ƒJƒXƒŒƒbƒh”‚ÌObjectName‚ğæ“¾‚·‚éB
         try
         {
             queryObjectName = new ObjectName(THREAD_POOL_STR);
@@ -95,7 +95,7 @@ public class TomcatPoolMonitor
         }
         
         String poolPrefix = "/process/pool/";
-        // å„ãƒãƒ¼ãƒˆã”ã¨ã®ãƒ¯ãƒ¼ã‚«ã‚¹ãƒ¬ãƒƒãƒ‰ã®æœ€å¤§æ•°ã€ç¨¼å‹•æ•°ã‚’å–å¾—ã™ã‚‹ã€‚
+        // Šeƒ|[ƒg‚²‚Æ‚Ìƒ[ƒJƒXƒŒƒbƒh‚ÌÅ‘å”A‰Ò“®”‚ğæ“¾‚·‚éB
         for (ObjectName objectName : threadPools)
         {
             ResourceItem maxThreadEntry = new ResourceItem();
@@ -105,18 +105,18 @@ public class TomcatPoolMonitor
             {
                 String name = objectName.getKeyProperty("name");
 
-                // ãƒ¯ãƒ¼ã‚«ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã®æœ€å¤§æ•°ã‚’å–å¾—ã™ã‚‹ã€‚
+                // ƒ[ƒJƒXƒŒƒbƒh”‚ÌÅ‘å”‚ğæ“¾‚·‚éB
                 Number maxThreads = (Number)mBeanServer.getAttribute(objectName, "maxThreads");
                 maxThreadEntry.setName(poolPrefix + name + "_max");
                 maxThreadEntry.setValue(String.valueOf(maxThreads));
 
-                // ãƒ¯ãƒ¼ã‚«ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã®ç¨¼å‹•æ•°ã‚’å–å¾—ã™ã‚‹ã€‚
+                // ƒ[ƒJƒXƒŒƒbƒh”‚Ì‰Ò“®”‚ğæ“¾‚·‚éB
                 Number currentServerPool =
                         (Number)mBeanServer.getAttribute(objectName, "currentThreadsBusy");
                 currentThreadEntry.setName(poolPrefix + name + "_current");
                 currentThreadEntry.setValue(String.valueOf(currentServerPool));
 
-                // å¾…æ©Ÿä¸­ã®ãƒ¯ãƒ¼ã‚«ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã‚’å–å¾—ã™ã‚‹ã€‚
+                // ‘Ò‹@’†‚Ìƒ[ƒJƒXƒŒƒbƒh”‚ğæ“¾‚·‚éB
                 Number waitServerPool =
                         (Number)mBeanServer.getAttribute(objectName, "currentThreadCount");
                 waitThreadEntry.setName(poolPrefix + name + "_wait");
@@ -136,7 +136,7 @@ public class TomcatPoolMonitor
     }
 
     /**
-     * MBeanServerã‚’å–å¾—ã™ã‚‹ã€‚
+     * MBeanServer‚ğæ“¾‚·‚éB
      * @return MBeanServer
      */
     private static synchronized MBeanServer getMBeanServer()

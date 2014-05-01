@@ -31,45 +31,38 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 import jp.co.acroquest.endosnipe.javelin.converter.hadoop.HadoopAction.ActionType;
 import jp.co.acroquest.endosnipe.javelin.converter.hadoop.HadoopTaskStatus.State;
 
 /**
- * Hadoopã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è§£æã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚
+ * Hadoop‚ÌƒIƒuƒWƒFƒNƒg‚ğ‰ğÍ‚·‚éƒNƒ‰ƒXB
  *
  * @author y_asazuma
  *
  */
 public class HadoopObjectAnalyzer
 {
-	/** setupã‚¿ã‚¹ã‚¯ã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚’è¡¨ã™æ–‡å­—åˆ—ã€‚ */
-	private static final String SETUP_TASK_STATE = "setup";
-	
-	/** cleanupã‚¿ã‚¹ã‚¯ã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚’è¡¨ã™æ–‡å­—åˆ—ã€‚ */
-	private static final String CLEANUP_TASK_STATE = "cleanup";
-	
-    /** JobStatus.getRunState()ã®æˆ»ã‚Šå€¤ */
+    /** JobStatus.getRunState()‚Ì–ß‚è’l */
     public enum HadoopJobStatus
     {
-        /** å†…éƒ¨ã‚¨ãƒ©ãƒ¼ */
+        /** “à•”ƒGƒ‰[ */
         ERROR,          // -1
-        /** å®Ÿè¡Œä¸­ */
+        /** Às’† */
         RUNNING,        // 1
-        /** æˆåŠŸ */
+        /** ¬Œ÷ */
         SUCCEEDED,      // 2
-        /** å¤±æ•— */
+        /** ¸”s */
         FAILED,         // 3
-        /** æº–å‚™ä¸­ */
+        /** €”õ’† */
         PREP,           // 4
-        /** åœæ­¢ã•ã‚ŒãŸ */
+        /** ’â~‚³‚ê‚½ */
         KILLED;         // 5
 
         /**
-         * JobStatusã‚’Hadoopå†…éƒ¨ã§ä½¿ã‚ã‚Œã‚‹æ•°å€¤ã«å¤‰æ›ã—ã¾ã™ã€‚
+         * JobStatus‚ğHadoop“à•”‚Åg‚í‚ê‚é”’l‚É•ÏŠ·‚µ‚Ü‚·B
          * 
-         * @param status ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã®åˆ—æŒ™ä½“
-         * @return ï¼‘ï½ï¼•ã®æ•°å€¤(-1ã¯ã‚¨ãƒ©ãƒ¼)
+         * @param status ƒXƒe[ƒ^ƒX‚Ì—ñ‹“‘Ì
+         * @return ‚P`‚T‚Ì”’l(-1‚ÍƒGƒ‰[)
          */
         public static int getNumber(HadoopJobStatus status)
         {
@@ -91,18 +84,15 @@ public class HadoopObjectAnalyzer
             case KILLED:
                 ret = 5;
                 break;
-			default:
-				ret = -1;
-				break;
             }
             return ret;
         }
 
         /**
-         * Hadoopå†…éƒ¨ã§ä½¿ã‚ã‚Œã‚‹æ•°å€¤ã‚’JobStatusã«å¤‰æ›ã—ã¾ã™ã€‚
+         * Hadoop“à•”‚Åg‚í‚ê‚é”’l‚ğJobStatus‚É•ÏŠ·‚µ‚Ü‚·B
          * 
-         * @param status ï¼‘ï½ï¼•ã®æ•°å€¤
-         * @return ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹åˆ—æŒ™ä½“
+         * @param status ‚P`‚T‚Ì”’l
+         * @return ƒXƒe[ƒ^ƒX—ñ‹“‘Ì
          */
         public static HadoopJobStatus getStatus(int status)
         {
@@ -129,13 +119,13 @@ public class HadoopObjectAnalyzer
         }
     }
 
-    /** JobIDã‚’åˆ†è§£ã™ã‚‹ãŸã‚ã®ã‚»ãƒ‘ãƒ¬ãƒ¼ã‚¿ */
+    /** JobID‚ğ•ª‰ğ‚·‚é‚½‚ß‚ÌƒZƒpƒŒ[ƒ^ */
     private static String SEPARATOR = "_";
 
     /**
-     * Hadoopã®TaskTrackerStatusã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‹ã‚‰ãƒ›ã‚¹ãƒˆåã‚’å–å¾—ã™ã‚‹ã€‚
+     * Hadoop‚ÌTaskTrackerStatusƒIƒuƒWƒFƒNƒg‚©‚çƒzƒXƒg–¼‚ğæ“¾‚·‚éB
      *
-     * @param taskTrackerStatus Hadoopã®TaskTrackerStatus
+     * @param taskTrackerStatus Hadoop‚ÌTaskTrackerStatus
      *
      * @throws NoSuchMethodException NoSuchMethodException
      * @throws InvocationTargetException InvocationTargetException
@@ -143,39 +133,28 @@ public class HadoopObjectAnalyzer
      * @throws SecurityException SecurityException
      * @throws IllegalArgumentException IllegalArgumentException
      */
+    @SuppressWarnings("unchecked")
     public static String hostNamefromTaskTrackerStatus(Object taskTrackerStatus)
         throws IllegalArgumentException, SecurityException, IllegalAccessException,
                InvocationTargetException, NoSuchMethodException
     {
-        Class<?> taskTrackerClass = taskTrackerStatus.getClass();
-        // TaskTrackerStatusä»¥å¤–ã®ã‚¯ãƒ©ã‚¹ã®å ´åˆã¯å‡¦ç†ã‚’é£›ã°ã™
+        Class taskTrackerClass = taskTrackerStatus.getClass();
+        // TaskTrackerStatusˆÈŠO‚ÌƒNƒ‰ƒX‚Ìê‡‚Íˆ—‚ğ”ò‚Î‚·
         if (!taskTrackerClass.getName().equals("org.apache.hadoop.mapred.TaskTrackerStatus"))
         {
             return null;
         }
 
-        // Hoståã‚’ãƒªã‚¿ãƒ¼ãƒ³
-        Method method = getAccessibleMethod(taskTrackerClass.getMethod("getHost", new Class[]{}));
-		return method.invoke(taskTrackerStatus, new Object[]{}).toString();
+        // Host–¼‚ğƒŠƒ^[ƒ“
+        return taskTrackerClass.getMethod("getHost", new Class[]{}).invoke(taskTrackerStatus, new Object[]{}).toString();
     }
 
     /**
-     * ãƒ¡ã‚½ãƒƒãƒ‰ã‚’accesibleã«ã—ã¦è¿”ã™ã€‚
-     * 
-     * @param method å¯¾è±¡ãƒ¡ã‚½ãƒƒãƒ‰
-     * @return accesibleãªãƒ¡ã‚½ãƒƒãƒ‰
-     */
-	private static Method getAccessibleMethod(Method method) {
-		method.setAccessible(true);
-		return method;
-	}
-
-    /**
-     * Hadoopã®TaskTrackerStatusã‹ã‚‰HadoopTaskStatusã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒªã‚¹ãƒˆã‚’ä½œæˆã™ã‚‹ã€‚
+     * Hadoop‚ÌTaskTrackerStatus‚©‚çHadoopTaskStatusƒIƒuƒWƒFƒNƒg‚ÌƒŠƒXƒg‚ğì¬‚·‚éB
      *
-     * @param taskTrackerStatus Hadoopã®TaskTrackerStatusã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param taskTrackerStatus Hadoop‚ÌTaskTrackerStatusƒIƒuƒWƒFƒNƒg
      *
-     * @return å¤‰æ›ã—ãŸHadoopTaskStatus
+     * @return •ÏŠ·‚µ‚½HadoopTaskStatus
      *
      * @throws NoSuchMethodException NoSuchMethodException
      * @throws InvocationTargetException InvocationTargetException
@@ -183,65 +162,46 @@ public class HadoopObjectAnalyzer
      * @throws SecurityException SecurityException
      * @throws IllegalArgumentException IllegalArgumentException
      */
+    @SuppressWarnings("unchecked")
     public static ArrayList<HadoopTaskStatus> transTaskStatus(Object taskTrackerStatus)
         throws IllegalArgumentException, SecurityException, IllegalAccessException,
                InvocationTargetException, NoSuchMethodException
     {
-        Class<?> taskTrackerClass = taskTrackerStatus.getClass();
-        // TaskTrackerStatusä»¥å¤–ã®ã‚¯ãƒ©ã‚¹ã®å ´åˆã¯å‡¦ç†ã‚’é£›ã°ã™
+        Class taskTrackerClass = taskTrackerStatus.getClass();
+        // TaskTrackerStatusˆÈŠO‚ÌƒNƒ‰ƒX‚Ìê‡‚Íˆ—‚ğ”ò‚Î‚·
         if (!taskTrackerClass.getName().equals("org.apache.hadoop.mapred.TaskTrackerStatus"))
         {
             return null;
         }
 
-        // TaskStatusã®ãƒªã‚¹ãƒˆã‚’å–ã‚Šå‡ºã™
-        Object taskObjectList = getAccessibleMethod(taskTrackerClass.getMethod("getTaskReports", new Class[]{})).invoke(taskTrackerStatus, new Object[]{});
+        // TaskStatus‚ÌƒŠƒXƒg‚ğæ‚èo‚·
+        Object taskObjectList = taskTrackerClass.getMethod("getTaskReports", new Class[]{}).invoke(taskTrackerStatus, new Object[]{});
 
         ArrayList<HadoopTaskStatus> hadoopTaskStatusList = new ArrayList<HadoopTaskStatus>();
 
-        java.util.List<?> taskList = (java.util.ArrayList<?>)taskObjectList;
+        java.util.ArrayList<Object> taskList = (java.util.ArrayList)taskObjectList;
 
-        // HadoopTaskStatusã®è¨­å®š
+        // HadoopTaskStatus‚Ìİ’è
         for (Object taskStatus : taskList)
         {
-        	// Taskã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚’ç¢ºèªã—ã€setupã‚‚ã—ãã¯cleanupã§ã‚ã£ãŸå ´åˆã¯ç„¡è¦–ã™ã‚‹
-            Method getStateStringMethod = taskStatus.getClass().getSuperclass().getDeclaredMethod("getStateString", new Class[]{});
-            getAccessibleMethod(getStateStringMethod);
-            String stateString = getStateStringMethod.invoke(taskStatus, new Object[]{}).toString();
-            if (SETUP_TASK_STATE.equals(stateString) || CLEANUP_TASK_STATE.equals(stateString)) {
-            	continue;
-            }
-            
             HadoopTaskStatus hadoopTaskStatus = new HadoopTaskStatus();
 
             // state
-            String state = getAccessibleMethod(taskStatus.getClass().getMethod("getRunState", new Class[]{})).invoke(taskStatus, new Object[]{}).toString();
+            String state = taskStatus.getClass().getMethod("getRunState", new Class[]{}).invoke(taskStatus, new Object[]{}).toString();
 
-            // RUNNINGã¯ç„¡è¦–
+            // RUNNING‚Í–³‹
             if (state.endsWith(State.RUNNING.toString()))
                 continue;
 
             hadoopTaskStatus.setState(state);
 
             // taskID
-            Object taskIdObject = getAccessibleMethod(taskStatus.getClass().getMethod("getTaskID", new Class[]{})).invoke(taskStatus, new Object[]{});
+            Object taskIdObject = taskStatus.getClass().getMethod("getTaskID", new Class[]{}).invoke(taskStatus, new Object[]{});
             hadoopTaskStatus.setTaskID(taskIdObject.toString());
             // jobID
-            hadoopTaskStatus.setJobID(getAccessibleMethod(taskIdObject.getClass().getMethod("getJobID", new Class[]{})).invoke(taskIdObject, new Object[]{}).toString());
+            hadoopTaskStatus.setJobID(taskIdObject.getClass().getMethod("getJobID", new Class[]{}).invoke(taskIdObject, new Object[]{}).toString());
             //Phase
-            hadoopTaskStatus.setPhase(getAccessibleMethod(taskStatus.getClass().getMethod("getPhase", new Class[]{})).invoke(taskStatus, new Object[]{}).toString());
-            // é–‹å§‹æ™‚åˆ»
-            Object startTimeObject = getAccessibleMethod(taskStatus.getClass().getMethod("getStartTime", new Class[]{})).invoke(taskStatus, new Object[]{});
-            if (startTimeObject != null && startTimeObject instanceof Long)
-            {
-                hadoopTaskStatus.setStartTime((Long)startTimeObject);                
-            }
-            // çµ‚äº†æ™‚åˆ»
-            Object finishTimeObject = getAccessibleMethod(taskStatus.getClass().getMethod("getFinishTime", new Class[]{})).invoke(taskStatus, new Object[]{});
-            if (finishTimeObject != null && finishTimeObject instanceof Long)
-            {
-                hadoopTaskStatus.setFinishTime((Long)finishTimeObject);                
-            }
+            hadoopTaskStatus.setPhase(taskStatus.getClass().getMethod("getPhase", new Class[]{}).invoke(taskStatus, new Object[]{}).toString());
 
             hadoopTaskStatusList.add(hadoopTaskStatus);
         }
@@ -250,11 +210,11 @@ public class HadoopObjectAnalyzer
     }
 
     /**
-     * Hadoopã®HeartbeatResponseã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‹ã‚‰HadoopActionã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒªã‚¹ãƒˆã‚’ä½œæˆã™ã‚‹ã€‚
+     * Hadoop‚ÌHeartbeatResponseƒIƒuƒWƒFƒNƒg‚©‚çHadoopActionƒIƒuƒWƒFƒNƒg‚ÌƒŠƒXƒg‚ğì¬‚·‚éB
      *
      * @param heartbeatResponse TaskTrackerAction[]
      *
-     * @return HadoopActionã®ãƒªã‚¹ãƒˆ
+     * @return HadoopAction‚ÌƒŠƒXƒg
      *
      * @throws IllegalArgumentException IllegalArgumentException
      * @throws SecurityException SecurityException
@@ -263,110 +223,96 @@ public class HadoopObjectAnalyzer
      * @throws NoSuchMethodException NoSuchMethodException
      * @throws NoSuchFieldException NoSuchFieldException
      */
+    @SuppressWarnings("unchecked")
     public static ArrayList<HadoopAction> taskTrackerActionListFromHearbeatResponse(Object heartbeatResponse)
         throws IllegalArgumentException, SecurityException,
                IllegalAccessException, InvocationTargetException,
                NoSuchMethodException, NoSuchFieldException
     {
-        Class<?> heartbeatResponseClass = heartbeatResponse.getClass();
-        // HeartbeatResponseä»¥å¤–ã®ã‚¯ãƒ©ã‚¹ã®å ´åˆã¯å‡¦ç†ã‚’é£›ã°ã™
+        Class heartbeatResponseClass = heartbeatResponse.getClass();
+        // HeartbeatResponseˆÈŠO‚ÌƒNƒ‰ƒX‚Ìê‡‚Íˆ—‚ğ”ò‚Î‚·
         if (!heartbeatResponseClass.getName().equals("org.apache.hadoop.mapred.HeartbeatResponse"))
         {
             return null;
         }
-        // TaskTrackerAction[]ã‚’è§£æ
+        // TaskTrackerAction[]‚ğ‰ğÍ
         Method method = heartbeatResponseClass.getMethod("getActions", new Class[]{});
-        getAccessibleMethod(method);
+        method.setAccessible(true);
         Object[] actionList = (Object[])(method.invoke(heartbeatResponse, new Object[]{}));
         ArrayList<HadoopAction> ret = new ArrayList<HadoopAction>();
 
-        // HadoopActionã‚’è¿½åŠ 
+        // HadoopAction‚ğ’Ç‰Á
         for (Object action : actionList)
         {
             HadoopAction hadoopAction = new HadoopAction();
 
-            // ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ç¨®åˆ¥ã®åˆ¤å®š
-            // ãƒªãƒ•ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã¯åŸºåº•ã‚¯ãƒ©ã‚¹ã®ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã³å‡ºã›ãªã„ã®ã§ã€åŸºåº•ã‚¯ãƒ©ã‚¹ã‹ã‚‰ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å–å¾—ã™ã‚‹ã€‚
+            // ƒAƒNƒVƒ‡ƒ“í•Ê‚Ì”»’è
+            // ƒŠƒtƒŒƒNƒVƒ‡ƒ“‚ÍŠî’êƒNƒ‰ƒX‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚¹‚È‚¢‚Ì‚ÅAŠî’êƒNƒ‰ƒX‚©‚çƒƒ\ƒbƒh‚ğæ“¾‚·‚éB
             Method getActionIdMethod = action.getClass().getSuperclass().getDeclaredMethod("getActionId", new Class[]{});
-            getAccessibleMethod(getActionIdMethod);
+            getActionIdMethod.setAccessible(true);
             String actionType = getActionIdMethod.invoke(action, new Object[]{}).toString();
             hadoopAction.setActionType(actionType);
 
-            // KillJobã€TaskTrackerã®å†æ§‹ç¯‰ã¯è§£æã‚’çœç•¥
+            // KillJobATaskTracker‚ÌÄ\’z‚Í‰ğÍ‚ğÈ—ª
             if ( (actionType.toString().equals(ActionType.REINIT_TRACKER.toString())) ||
                  (actionType.toString().equals(ActionType.KILL_JOB.toString())) )
                 continue;
 
-            // æ–°è¦ã‚¿ã‚¹ã‚¯å®Ÿè¡Œã®å ´åˆ
+            // V‹Kƒ^ƒXƒNÀs‚Ìê‡
             if (actionType.toString().equals(ActionType.LAUNCH_TASK.toString()))
             {
-                // Taskã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå–å¾—
+                // TaskƒIƒuƒWƒFƒNƒgæ“¾
                 Method getTaskMethod = action.getClass().getDeclaredMethod("getTask", new Class[]{});
-                getAccessibleMethod(getTaskMethod);
+                getTaskMethod.setAccessible(true);
                 Object task = getTaskMethod.invoke(action, new Object[]{});
 
-                // Mapã‚¿ã‚¹ã‚¯ã‹ï¼Ÿ
+                // Mapƒ^ƒXƒN‚©H
                 Method isMapTaskMethod = task.getClass().getDeclaredMethod("isMapTask", new Class[]{});
-                getAccessibleMethod(isMapTaskMethod);
+                isMapTaskMethod.setAccessible(true);
                 hadoopAction.setMapTask(((Boolean)(isMapTaskMethod.invoke(task, new Object[]{}))).booleanValue());
 
-                // ã‚¸ãƒ§ãƒ–ID
+                // ƒWƒ‡ƒuID
                 Method getJobIDMethod = task.getClass().getSuperclass().getDeclaredMethod("getJobID", new Class[]{});
-                getAccessibleMethod(getJobIDMethod);
+                getJobIDMethod.setAccessible(true);
                 hadoopAction.setJobID(getJobIDMethod.invoke(task, new Object[]{}).toString());
 
-                // ã‚¿ã‚¹ã‚¯è©¦è¡ŒID
+                // ƒ^ƒXƒNsID
                 Method getTaskIDMethod = task.getClass().getSuperclass().getDeclaredMethod("getTaskID", new Class[]{});
-                getAccessibleMethod(getTaskIDMethod);
+                getTaskIDMethod.setAccessible(true);
                 hadoopAction.setTaskID(getTaskIDMethod.invoke(task, new Object[]{}).toString());
 
-                // JobConfã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå–å¾—
+                // JobConfƒIƒuƒWƒFƒNƒgæ“¾
                 Method getConfMethod = task.getClass().getSuperclass().getDeclaredMethod("getConf", new Class[]{});
-                getAccessibleMethod(getConfMethod);
+                getConfMethod.setAccessible(true);
                 Object jobConf = getConfMethod.invoke(task, new Object[]{});
 
-                // ã‚¸ãƒ§ãƒ–å
+                // ƒWƒ‡ƒu–¼
                 hadoopAction.setJobName(jobConf.getClass().getDeclaredMethod("getJobName", new Class[]{}).invoke(jobConf, new Object[]{}).toString());
 
-                // å‡¦ç†å¯¾è±¡ãƒ‡ãƒ¼ã‚¿
+                // ˆ—‘ÎÛƒf[ƒ^
                 if (task.getClass().toString().equals("class org.apache.hadoop.mapred.MapTask"))
                 {
-					try {
-						Field splitMetaInfoField = task.getClass()
-								.getDeclaredField("splitMetaInfo");
-						splitMetaInfoField.setAccessible(true);
-						Object splitMetaInfo = splitMetaInfoField.get(task);
-						String splitLocation = getAccessibleMethod(
-								splitMetaInfo.getClass().getMethod(
-										"getSplitLocation", new Class[] {}))
-								.invoke(splitMetaInfo, new Object[] {})
-								.toString();
-						String startOffset = getAccessibleMethod(
-								splitMetaInfo.getClass().getMethod(
-										"getStartOffset", new Class[] {}))
-								.invoke(splitMetaInfo, new Object[] {})
-								.toString();
+                    Field splitMetaInfoField = task.getClass().getDeclaredField("splitMetaInfo");
+                    splitMetaInfoField.setAccessible(true);
+                    Object splitMetaInfo = splitMetaInfoField.get(task);
+                    String splitLocation = splitMetaInfo.getClass().getMethod("getSplitLocation", new Class[]{}).invoke(splitMetaInfo, new Object[]{}).toString();
+                    String startOffset = splitMetaInfo.getClass().getMethod("getStartOffset", new Class[]{}).invoke(splitMetaInfo, new Object[]{}).toString();
 
-						hadoopAction.setInputData(splitLocation + "("
-								+ startOffset + ")");
-					} catch (NoSuchFieldException nsfe) {
-						// TODO å­˜åœ¨ã—ãªã„å ´åˆã®å‡¦ç†
-						
-					}
+                    hadoopAction.setInputData(splitLocation + "(" + startOffset + ")");
                 }
             }
-            // ãã®ä»–
+            // ‚»‚Ì‘¼
             else
             {
-                // ã‚¿ã‚¹ã‚¯è©¦è¡ŒID
+                // ƒ^ƒXƒNsID
                 Method getTaskIDMethod = action.getClass().getDeclaredMethod("getTaskID", new Class[]{});
-                getAccessibleMethod(getTaskIDMethod);
+                getTaskIDMethod.setAccessible(true);
                 Object taskAttemptID = getTaskIDMethod.invoke(action, new Object[]{});
                 hadoopAction.setTaskID(taskAttemptID.toString());
 
-                // ã‚¸ãƒ§ãƒ–ID
+                // ƒWƒ‡ƒuID
                 Method getJobIDMethod = taskAttemptID.getClass().getDeclaredMethod("getJobID", new Class[]{});
-                getAccessibleMethod(getJobIDMethod);
+                getJobIDMethod.setAccessible(true);
                 Object jobID = getJobIDMethod.invoke(taskAttemptID, new Object[]{});
                 hadoopAction.setJobID(jobID.toString());
             }
@@ -378,11 +324,11 @@ public class HadoopObjectAnalyzer
     }
 
     /**
-     * JobStatusã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‹ã‚‰ã‚¸ãƒ§ãƒ–IDã‚’å–å¾—ã™ã‚‹ã€‚
+     * JobStatusƒIƒuƒWƒFƒNƒg‚©‚çƒWƒ‡ƒuID‚ğæ“¾‚·‚éB
      *
-     * @param jobStatus JobStatusã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param jobStatus JobStatusƒIƒuƒWƒFƒNƒg
      *
-     * @return ã‚¸ãƒ§ãƒ–ID
+     * @return ƒWƒ‡ƒuID
      *
      * @throws IllegalArgumentException IllegalArgumentException
      * @throws SecurityException SecurityException
@@ -390,27 +336,28 @@ public class HadoopObjectAnalyzer
      * @throws InvocationTargetException InvocationTargetException
      * @throws NoSuchMethodException NoSuchMethodException
      */
+    @SuppressWarnings("unchecked")
     public static String getJobIDfromJobStatus(Object jobStatus)
         throws IllegalArgumentException, SecurityException, IllegalAccessException,
                InvocationTargetException, NoSuchMethodException
     {
-        Class<?> jobStatusClass = jobStatus.getClass();
-        // JobStatusä»¥å¤–ã®ã‚¯ãƒ©ã‚¹ã®å ´åˆã¯å‡¦ç†ã‚’é£›ã°ã™
+        Class jobStatusClass = jobStatus.getClass();
+        // JobStatusˆÈŠO‚ÌƒNƒ‰ƒX‚Ìê‡‚Íˆ—‚ğ”ò‚Î‚·
         if (!jobStatusClass.getName().equals("org.apache.hadoop.mapred.JobStatus"))
         {
             return null;
         }
 
-        // JobIDã‚’å–å¾—
-        return getAccessibleMethod(jobStatusClass.getMethod("getJobId", new Class[]{})).invoke(jobStatus, new Object[]{}).toString();
+        // JobID‚ğæ“¾
+        return jobStatusClass.getMethod("getJobId", new Class[]{}).invoke(jobStatus, new Object[]{}).toString();
     }
 
     /**
-     * JobStatusã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è§£æã—ã¦ã€ã‚¸ãƒ§ãƒ–ãŒå®Œäº†ã—ã¦ã„ã‚‹ã‹åˆ¤å®šã™ã‚‹ã€‚
+     * JobStatusƒIƒuƒWƒFƒNƒg‚ğ‰ğÍ‚µ‚ÄAƒWƒ‡ƒu‚ªŠ®—¹‚µ‚Ä‚¢‚é‚©”»’è‚·‚éB
      *
-     * @param jobStatus JobStatusã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param jobStatus JobStatusƒIƒuƒWƒFƒNƒg
      *
-     * @return ã‚¸ãƒ§ãƒ–ã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
+     * @return ƒWƒ‡ƒu‚ÌƒXƒe[ƒ^ƒX
      *
      * @throws IllegalArgumentException IllegalArgumentException
      * @throws SecurityException SecurityException
@@ -418,6 +365,7 @@ public class HadoopObjectAnalyzer
      * @throws InvocationTargetException InvocationTargetException
      * @throws NoSuchMethodException NoSuchMethodException
      */
+    @SuppressWarnings("unchecked")
     public static HadoopJobStatus getJobState(Object jobStatus)
         throws IllegalArgumentException, SecurityException, IllegalAccessException,
                InvocationTargetException, NoSuchMethodException
@@ -427,15 +375,15 @@ public class HadoopObjectAnalyzer
         if (null == jobStatus)
             return ret;
 
-        Class<?> jobStatusClass = jobStatus.getClass();
-        // JobStatusä»¥å¤–ã®ã‚¯ãƒ©ã‚¹ã®å ´åˆã¯å‡¦ç†ã‚’é£›ã°ã™
+        Class jobStatusClass = jobStatus.getClass();
+        // JobStatusˆÈŠO‚ÌƒNƒ‰ƒX‚Ìê‡‚Íˆ—‚ğ”ò‚Î‚·
         if (!jobStatusClass.getName().equals("org.apache.hadoop.mapred.JobStatus"))
         {
             return ret;
         }
 
-        // getRunState()ã‚’å–å¾—ã€å®Ÿè¡Œ
-        int state = ((Integer)(getAccessibleMethod(jobStatusClass.getMethod("getRunState", new Class[]{})).invoke(jobStatus, new Object[]{}))).intValue();
+        // getRunState()‚ğæ“¾AÀs
+        int state = ((Integer)(jobStatusClass.getMethod("getRunState", new Class[]{}).invoke(jobStatus, new Object[]{}))).intValue();
 
         ret = HadoopJobStatus.getStatus(state);
 
@@ -443,12 +391,12 @@ public class HadoopObjectAnalyzer
     }
 
     /**
-     * JobIDã‚’åŸºã«ã‚¸ãƒ§ãƒ–ã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * JobID‚ğŠî‚ÉƒWƒ‡ƒu‚ÌƒXƒe[ƒ^ƒX‚ğæ“¾‚µ‚Ü‚·B
      * 
-     * @param jobID ã‚¸ãƒ§ãƒ–ID
-     * @param jobTracker JobTrackerã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+     * @param jobID ƒWƒ‡ƒuID
+     * @param jobTracker JobTrackerƒCƒ“ƒXƒ^ƒ“ƒX
      * 
-     * @return ã‚¸ãƒ§ãƒ–ã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
+     * @return ƒWƒ‡ƒu‚ÌƒXƒe[ƒ^ƒX
      * 
      * @throws IllegalArgumentException IllegalArgumentException
      * @throws SecurityException SecurityException
@@ -457,6 +405,7 @@ public class HadoopObjectAnalyzer
      * @throws NoSuchMethodException NoSuchMethodException
      * @throws InstantiationException InstantiationException
      */
+    @SuppressWarnings("unchecked")
     public static HadoopJobStatus checkJobStatus (String jobID, Object jobTracker)
         throws IllegalArgumentException, SecurityException, IllegalAccessException,
                InvocationTargetException, NoSuchMethodException, InstantiationException,
@@ -467,26 +416,26 @@ public class HadoopObjectAnalyzer
         if (jobID == null || jobID.equals(""))
             return status;
 
-        // Stringå‹ã®JobIDã‚’åˆ†è§£ã—ã€JobIDã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆã™ã‚‹
+        // StringŒ^‚ÌJobID‚ğ•ª‰ğ‚µAJobIDƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚é
         String[] elem = jobID.split(SEPARATOR);
-        // JobIDã¯"job_xxxxxxxxxxxx_yyyã®å½¢ã®ã¯ãš
+        // JobID‚Í"job_xxxxxxxxxxxx_yyy‚ÌŒ`‚Ì‚Í‚¸
         if (3 != elem.length)
             return status;
 
-        // JobIDã‚¯ãƒ©ã‚¹ã‚’ç”Ÿæˆã™ã‚‹ãŸã‚ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+        // JobIDƒNƒ‰ƒX‚ğ¶¬‚·‚é‚½‚ß‚ÌƒIƒuƒWƒFƒNƒg
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         Class<?> jobIDClass = loader.loadClass("org.apache.hadoop.mapred.JobID");
-        // JobIDã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿å¼•æ•°ã¯(String, int)
+        // JobID‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^ˆø”‚Í(String, int)
         Class<?>[] classes = new Class[]{String.class, int.class};
         Constructor<?> jobIDConstructor = jobIDClass.getConstructor(classes);
-        // å¼•æ•°ä»˜ãã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§JobIDã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆ
+        // ˆø”•t‚«ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ÅJobIDƒIƒuƒWƒFƒNƒg¶¬
         Object[] args = {elem[1], Integer.valueOf(elem[2])};
         Object[] jobIDObject = {jobIDConstructor.newInstance(args)};
 
-        // getJobStatusãƒ¡ã‚½ãƒƒãƒ‰ã®å¼•æ•°ã®å‹
+        // getJobStatusƒƒ\ƒbƒh‚Ìˆø”‚ÌŒ^
         Class<?>[] getJobStatusTypes = new Class[]{jobIDClass};
 
-        // getJobStatusãƒ¡ã‚½ãƒƒãƒ‰ã‚’å®Ÿè¡Œã—ã¦JobStatusã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾—
+        // getJobStatusƒƒ\ƒbƒh‚ğÀs‚µ‚ÄJobStatusƒIƒuƒWƒFƒNƒg‚ğæ“¾
         Method getJobStatusMethod = jobTracker.getClass().getMethod("getJobStatus", getJobStatusTypes);
         Object jobStatusObject = getJobStatusMethod.invoke(jobTracker, jobIDObject);
 
@@ -494,123 +443,4 @@ public class HadoopObjectAnalyzer
 
         return status;
     }
-
-    /**
-     * JobIDã‚’åŸºã«JobInProgressã‚’å–å¾—ã—ã€Jobã®æƒ…å ±ã‚’å–å¾—ã—ã¾ã™ã€‚
-     * 
-     * @param jobID ã‚¸ãƒ§ãƒ–ID
-     * @param jobTracker JobTrackerã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
-     * 
-     * @return ã‚¸ãƒ§ãƒ–ã®æƒ…å ±
-     * 
-     * @throws IllegalArgumentException IllegalArgumentException
-     * @throws SecurityException SecurityException
-     * @throws IllegalAccessException IllegalAccessException
-     * @throws InvocationTargetException InvocationTargetException
-     * @throws NoSuchMethodException NoSuchMethodException
-     * @throws InstantiationException InstantiationException
-     * @throws NoSuchFieldException 
-     */
-    public static HadoopJobStatusInfo getJobStatusInfo (String jobID, Object jobTracker)
-        throws IllegalArgumentException, SecurityException, IllegalAccessException,
-               InvocationTargetException, NoSuchMethodException, InstantiationException,
-               ClassNotFoundException, NoSuchFieldException
-    {
-        HadoopJobStatusInfo info = new HadoopJobStatusInfo();
-        info.setJobID(jobID);
-
-        // jobID ãŒè¨­å®šã•ã‚Œã¦ã„ãªã‘ã‚Œã°ã€ç©ºã® HadoopJobStatusInfo ã‚’è¿”ã™
-        if (jobID == null || jobID.equals(""))
-            return info;
-
-        // Stringå‹ã®JobIDã‚’åˆ†è§£ã—ã€JobIDã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆã™ã‚‹
-        String[] elem = jobID.split(SEPARATOR);
-        // JobIDã¯"job_xxxxxxxxxxxx_yyyã®å½¢ã®ã¯ãš
-        if (3 != elem.length)
-            return info;
-
-        // JobIDã‚¯ãƒ©ã‚¹ã‚’ç”Ÿæˆã™ã‚‹ãŸã‚ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-        ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        Class<?> jobIDClass = loader.loadClass("org.apache.hadoop.mapred.JobID");
-        // JobIDã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿å¼•æ•°ã¯(String, int)
-        Class<?>[] classes = new Class[]{String.class, int.class};
-        Constructor<?> jobIDConstructor = jobIDClass.getConstructor(classes);
-        // å¼•æ•°ä»˜ãã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§JobIDã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆ
-        Object[] args = {elem[1], Integer.valueOf(elem[2])};
-        Object[] jobIDObject = {jobIDConstructor.newInstance(args)};
-
-        // getJobãƒ¡ã‚½ãƒƒãƒ‰ã®å¼•æ•°ã®å‹
-        Class<?>[] getJobTypes = new Class[]{jobIDClass};
-
-        // getJobãƒ¡ã‚½ãƒƒãƒ‰ã‚’å®Ÿè¡Œã—ã¦JobInProgressã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾—
-        Method getJobMethod = jobTracker.getClass().getMethod("getJob", getJobTypes);
-        Object jobInProgressObject = getJobMethod.invoke(jobTracker, jobIDObject);
-        
-        //èµ·å‹•æ™‚åˆ»ã‚’å–å¾—ã™ã‚‹
-        Object startTimeObject = getAccessibleMethod(jobInProgressObject.getClass().getMethod("getStartTime", new Class[]{})).invoke(jobInProgressObject, new Object[]{});
-        if (startTimeObject != null && startTimeObject instanceof Long)
-        {
-            info.setStartTime((Long)startTimeObject);                
-        }
-        //çµ‚äº†æ™‚åˆ»ã‚’å–å¾—ã™ã‚‹
-        Object finishTimeObject = getAccessibleMethod(jobInProgressObject.getClass().getMethod("getFinishTime", new Class[]{})).invoke(jobInProgressObject, new Object[]{});
-        if (finishTimeObject != null && finishTimeObject instanceof Long)
-        {
-            info.setFinishTime((Long)finishTimeObject);                
-        }
-        //Submitæ™‚åˆ»ã‚’å–å¾—ã™ã‚‹
-        Object submitTimeObject = getAccessibleMethod(jobInProgressObject.getClass().getMethod("getCreateTimeJvn", new Class[]{})).invoke(jobInProgressObject, new Object[]{});
-        if (submitTimeObject != null && submitTimeObject instanceof Long)
-        {
-            info.setSubmitTime((Long)submitTimeObject);                
-        }
-
-        // JobName ã‚’å–å¾—ã™ã‚‹
-        Field jobConfField = jobInProgressObject.getClass().getDeclaredField("conf");
-        jobConfField.setAccessible(true);
-        Object jobConfObject = jobConfField.get(jobInProgressObject);
-        String jobName = getAccessibleMethod(jobConfObject.getClass().getMethod("getJobName", new Class[]{})).invoke(jobConfObject, new Object[]{}).toString();
-        info.setJobName(jobName);
-        
-        return info;
-    }
-
-    /**
-     * TaskStatusã‚’æœ€æ–°ã®çŠ¶æ…‹ã«æ›´æ–°ã™ã‚‹ã€‚
-     * 
-     * @param jobTracker TaskStatusã‚’å–å¾—ã™ã‚‹ãŸã‚ã®JotTrackerã€‚
-     * @param taskStatusList TaskStatusã®ãƒªã‚¹ãƒˆã€‚
-     */
-	public static void updateTaskStatuses(Object jobTracker, 
-			ArrayList<HadoopTaskStatus> taskStatusList) {
-		for (HadoopTaskStatus status : taskStatusList) {
-			String taskID = status.getTaskID();
-			try {
-				Class<?> taskAttemptIDClass = Class.forName(
-						"org.apache.hadoop.mapred.TaskAttemptID", true, Thread
-								.currentThread().getContextClassLoader());
-				Object taskAttemptID = getAccessibleMethod(
-						taskAttemptIDClass.getMethod("forName", new Class[] { String.class}))
-						.invoke(null, new Object[] { taskID });
-				
-				Method method = jobTracker.getClass().getDeclaredMethod(
-						"getTaskStatus",
-						new Class[] { taskAttemptIDClass });
-				Object newStatus = getAccessibleMethod(method).invoke(jobTracker,
-						new Object[] { taskAttemptID });
-				
-				String state = getAccessibleMethod(
-						newStatus.getClass().getMethod("getRunState",
-								new Class[] {})).invoke(newStatus,
-						new Object[] {}).toString();
-				
-				status.setState(state);
-				
-			} catch (Exception e) {
-				SystemLogger.getInstance().warn(e);
-			}
-		}
-        
-	}
 }
-	

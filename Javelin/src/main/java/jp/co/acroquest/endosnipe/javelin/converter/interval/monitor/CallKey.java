@@ -26,7 +26,7 @@
 package jp.co.acroquest.endosnipe.javelin.converter.interval.monitor;
 
 /**
- * ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—é–“éš”ã‚’ä¿å­˜ã™ã‚‹Mapã®ã‚­ãƒ¼ã¨ãªã‚‹ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+ * ƒƒ\ƒbƒhŒÄ‚Ño‚µŠÔŠu‚ğ•Û‘¶‚·‚éMap‚ÌƒL[‚Æ‚È‚éƒNƒ‰ƒX‚Å‚·B<br />
  * 
  * @author yamasaki
  */
@@ -39,17 +39,17 @@ class CallKey
     private final int hashCode_;
 
     /**
-     * ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
+     * ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‚Ü‚·B<br />
      *
-     * @param className ã‚¯ãƒ©ã‚¹å
-     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
+     * @param className ƒNƒ‰ƒX–¼
+     * @param methodName ƒƒ\ƒbƒh–¼
      */
     CallKey(final String className, final String methodName)
     {
         className_ = className;
         methodName_ = methodName;
 
-        // ãƒãƒƒã‚·ãƒ¥ã‚³ãƒ¼ãƒ‰ã‚’è¨ˆç®—ã—ã¦ãŠãã¾ã™ã€‚
+        // ƒnƒbƒVƒ…ƒR[ƒh‚ğŒvZ‚µ‚Ä‚¨‚«‚Ü‚·B
         hashCode_ = (className_ + "#" + methodName_).hashCode();
     }
 

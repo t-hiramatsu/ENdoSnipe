@@ -25,204 +25,215 @@ import jp.co.acroquest.endosnipe.common.Constants;
 import jp.co.acroquest.endosnipe.report.dao.ReportDao;
 
 /**
- * CPUï¼ãƒ¡ãƒ¢ãƒªã®ãƒ‡ãƒ¼ã‚¿å–å¾—ã¨ãƒ¬ãƒãƒ¼ãƒˆæƒ…å ±å¤‰æ›ã‚’è¡Œã†ã‚¢ã‚¯ã‚»ã‚µã€‚
+ * CPU^ƒƒ‚ƒŠ‚Ìƒf[ƒ^æ“¾‚ÆƒŒƒ|[ƒgî•ñ•ÏŠ·‚ğs‚¤ƒAƒNƒZƒTB
  * 
  * @author akiba
  */
 public class CpuAndMemoryRecordAccessor
 {
-	/**
-	 * æœŸé–“ã‚’æŒ‡å®šã—ã€ãã®æœŸé–“å†…ã§ã®ãƒ—ãƒ­ã‚»ã‚¹ãƒªã‚½ãƒ¼ã‚¹(CPUï¼ãƒ¡ãƒ¢ãƒª)ä½¿ç”¨çŠ¶æ³ã®ãƒ¬ãƒãƒ¼ãƒˆãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã€‚
-	 * 
-	 * @param database  ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã€‚
-	 * @param startTime æ¤œç´¢æ¡ä»¶(é–‹å§‹æ™‚åˆ»)ã€‚
-	 * @param endTime   æ¤œç´¢æ¡ä»¶(çµ‚äº†æ™‚åˆ»)ã€‚
-	 * @return ãƒ—ãƒ­ã‚»ã‚¹ãƒªã‚½ãƒ¼ã‚¹ä½¿ç”¨çŠ¶æ³ã®ãƒ¬ãƒãƒ¼ãƒˆãƒ‡ãƒ¼ã‚¿ã€‚
-	 * @throws SQLException ãƒ‡ãƒ¼ã‚¿å–å¾—æ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
-	 */
-	public List<ProcessResourceRecord> findSystemResourceStaticsByTerm(String database,
-		Timestamp startTime, Timestamp endTime) throws SQLException
-	{
-		List<ProcessResourceRecord> result = new ArrayList<ProcessResourceRecord>();
+    /**
+     * ŠúŠÔ‚ğw’è‚µA‚»‚ÌŠúŠÔ“à‚Å‚ÌƒvƒƒZƒXƒŠƒ\[ƒX(CPU^ƒƒ‚ƒŠ)g—pó‹µ‚ÌƒŒƒ|[ƒgƒf[ƒ^‚ğæ“¾‚·‚éB
+     * 
+     * @param database  ƒf[ƒ^ƒx[ƒX–¼B
+     * @param startTime ŒŸõğŒ(ŠJn)B
+     * @param endTime   ŒŸõğŒ(I—¹)B
+     * @return ƒvƒƒZƒXƒŠƒ\[ƒXg—pó‹µ‚ÌƒŒƒ|[ƒgƒf[ƒ^B
+     * @throws SQLException ƒf[ƒ^æ“¾‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     */
+    public List<ProcessResourceRecord> findSystemResourceStaticsByTerm(String database,
+            Timestamp startTime, Timestamp endTime) throws SQLException
+    {
+        List<ProcessResourceRecord> result = new ArrayList<ProcessResourceRecord>();
 
-		// ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‹ã‚‰å€¤ã‚’å–å¾—ã™ã‚‹
+        // ƒf[ƒ^ƒx[ƒX‚©‚ç’l‚ğæ“¾‚·‚é
+        
+        // CPUg—p—¦iƒvƒƒZƒXj
+        List<ReportItemValue> cpuUsageTotalValues;
+        List<ReportItemValue> cpuUsageSysValues;
+        // ƒq[ƒvƒƒ‚ƒŠg—p—Ê
+        List<ReportItemValue> heapMemMaxValues;
+        List<ReportItemValue> heapMemNowValues;
+        // ”ñƒq[ƒvƒƒ‚ƒŠg—p—Ê
+        List<ReportItemValue> nonHeapMemMaxValues;
+        List<ReportItemValue> nonHeapMemNowValues;
+        // ƒƒWƒƒ[ƒtƒH[ƒ‹ƒg”
+        List<ReportItemValue> majorFaultValues;
+        // ‰¼‘zƒ}ƒVƒ“ƒƒ‚ƒŠ—Ê
+        List<ReportItemValue> vmMemMaxValues;
+        List<ReportItemValue> vmMemNowValues;
+        // ƒvƒƒZƒX‚Ìƒƒ‚ƒŠg—p—Ê
+        List<ReportItemValue> virtualMemValue;
+        List<ReportItemValue> physicalMemValues;
+        // ƒvƒƒZƒX‚Ìƒtƒ@ƒCƒ‹‹Lqq^ƒnƒ“ƒhƒ‹”
+        List<ReportItemValue> fdCountValues;
 
-		// CPUä½¿ç”¨ç‡ï¼ˆãƒ—ãƒ­ã‚»ã‚¹ï¼‰
-		List<ReportItemValue> cpuUsageTotalValues;
-		List<ReportItemValue> cpuUsageSysValues;
-		// ãƒ’ãƒ¼ãƒ—ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡
-		List<ReportItemValue> heapMemMaxValues;
-		List<ReportItemValue> heapMemNowValues;
-		// éãƒ’ãƒ¼ãƒ—ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡
-		List<ReportItemValue> nonHeapMemMaxValues;
-		List<ReportItemValue> nonHeapMemNowValues;
-		// ãƒ¡ã‚¸ãƒ£ãƒ¼ãƒ•ã‚©ãƒ¼ãƒ«ãƒˆæ•°
-		List<ReportItemValue> majorFaultValues;
-		// ä»®æƒ³ãƒã‚·ãƒ³ãƒ¡ãƒ¢ãƒªé‡
-		List<ReportItemValue> vmMemMaxValues;
-		List<ReportItemValue> vmMemNowValues;
-		// ãƒ—ãƒ­ã‚»ã‚¹ã®ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡
-		List<ReportItemValue> virtualMemValue;
-		List<ReportItemValue> physicalMemValues;
-		// ãƒ—ãƒ­ã‚»ã‚¹ã®ãƒ•ã‚¡ã‚¤ãƒ«è¨˜è¿°å­ï¼ãƒãƒ³ãƒ‰ãƒ«æ•°
-		List<ReportItemValue> fdCountValues;
+        cpuUsageTotalValues = ReportDao.selectAverage(database, startTime,
+                endTime, Constants.ITEMNAME_PROCESS_CPU_TOTAL_USAGE);
+        cpuUsageSysValues = ReportDao.selectAverage(database, startTime,
+                endTime, Constants.ITEMNAME_PROCESS_CPU_SYSTEM_USAGE);
 
-		cpuUsageTotalValues = ReportDao.selectAverage(database, startTime, endTime,
-			Constants.ITEMNAME_PROCESS_CPU_TOTAL_USAGE);
-		cpuUsageSysValues = ReportDao.selectAverage(database, startTime, endTime,
-			Constants.ITEMNAME_PROCESS_CPU_SYSTEM_USAGE);
+        // CPUg—p—¦‚Ìƒf[ƒ^‚ªDB‚É‚ ‚èAæ“¾‚Å‚«‚½ê‡‚ÍA‚»‚ê‚ç‚É•ÏŠ·ˆ—‚ğs‚¤B
+        // æ“¾‚Å‚«‚È‚©‚Á‚½ê‡‚ÍA‘¼‚Ìƒf[ƒ^‚©‚çŒvZ‚·‚é‚±‚Æ‚É‚æ‚Á‚ÄÄæ“¾‚·‚éB
+        if (cpuUsageTotalValues != null && cpuUsageSysValues != null
+                && 0 < cpuUsageTotalValues.size()
+                && 0 < cpuUsageSysValues.size())
+        {
+            cpuUsageTotalValues = PercentageDataUtil
+                    .reconstitutePercentageData(cpuUsageTotalValues);
+            cpuUsageSysValues = PercentageDataUtil
+                    .reconstitutePercentageData(cpuUsageSysValues);
+        }
+        else
+        {
+            cpuUsageTotalValues = selectCpuUsage(database, startTime,
+                    endTime, Constants.ITEMNAME_PROCESS_CPU_TOTAL_TIME);
+            cpuUsageSysValues = selectCpuUsage(database, startTime,
+                    endTime, Constants.ITEMNAME_PROCESS_CPU_SYSTEM_TIME);
+        }
+        
+        heapMemNowValues = ReportDao.selectAverage(database, startTime,
+                endTime, Constants.ITEMNAME_JAVAPROCESS_MEMORY_HEAP_USED);
+        heapMemMaxValues = ReportDao.selectAverage(database, startTime,
+                endTime, Constants.ITEMNAME_JAVAPROCESS_MEMORY_HEAP_MAX);
+        nonHeapMemNowValues = ReportDao.selectAverage(database, startTime,
+                endTime, Constants.ITEMNAME_JAVAPROCESS_MEMORY_NONHEAP_USED);
+        nonHeapMemMaxValues = ReportDao.selectAverage(database, startTime,
+                endTime, Constants.ITEMNAME_JAVAPROCESS_MEMORY_NONHEAP_MAX);
+        majorFaultValues = ReportDao.selectAverage(database, startTime,
+                endTime, Constants.ITEMNAME_PROCESS_MEMORY_MAJORFAULT_COUNT);
+        vmMemNowValues = selectMemoryUsage(database, startTime,endTime,
+        		Constants.ITEMNAME_PROCESS_MEMORY_VIRTUALMACHINE_MAX,
+        		Constants.ITEMNAME_PROCESS_MEMORY_VIRTUALMACHINE_FREE);
+        vmMemMaxValues = ReportDao.selectAverage(database, startTime,
+        		endTime, Constants.ITEMNAME_PROCESS_MEMORY_VIRTUALMACHINE_MAX);
+        virtualMemValue = ReportDao.selectAverage(database, startTime,
+                endTime, Constants.ITEMNAME_PROCESS_MEMORY_VIRTUAL_USED);
+        physicalMemValues = ReportDao.selectAverage(database, startTime,
+                endTime, Constants.ITEMNAME_PROCESS_MEMORY_PHYSICAL_USED);
+        fdCountValues = ReportDao.selectAverage(database, startTime,
+                endTime, Constants.ITEMNAME_PROCESS_HANDLE_TOTAL_NUMBER);
 
-		// CPUä½¿ç”¨ç‡ã®ãƒ‡ãƒ¼ã‚¿ãŒDBã«ã‚ã‚Šã€å–å¾—ã§ããŸå ´åˆã¯ã€ãã‚Œã‚‰ã«å¤‰æ›å‡¦ç†ã‚’è¡Œã†ã€‚
-		// å–å¾—ã§ããªã‹ã£ãŸå ´åˆã¯ã€ä»–ã®ãƒ‡ãƒ¼ã‚¿ã‹ã‚‰è¨ˆç®—ã™ã‚‹ã“ã¨ã«ã‚ˆã£ã¦å†å–å¾—ã™ã‚‹ã€‚
-		if (cpuUsageTotalValues != null && cpuUsageSysValues != null
-			&& 0 < cpuUsageTotalValues.size() && 0 < cpuUsageSysValues.size())
-		{
-			cpuUsageTotalValues = PercentageDataUtil
-				.reconstitutePercentageData(cpuUsageTotalValues);
-			cpuUsageSysValues = PercentageDataUtil.reconstitutePercentageData(cpuUsageSysValues);
-		}
-		else
-		{
-			cpuUsageTotalValues = selectCpuUsage(database, startTime, endTime,
-				Constants.ITEMNAME_PROCESS_CPU_TOTAL_TIME);
-			cpuUsageSysValues = selectCpuUsage(database, startTime, endTime,
-				Constants.ITEMNAME_PROCESS_CPU_SYSTEM_TIME);
-		}
+        for (int index = 0; index < cpuUsageTotalValues.size(); index++)
+        {
 
-		heapMemNowValues = ReportDao.selectAverage(database, startTime, endTime,
-			Constants.ITEMNAME_JAVAPROCESS_MEMORY_HEAP_USED);
-		heapMemMaxValues = ReportDao.selectAverage(database, startTime, endTime,
-			Constants.ITEMNAME_JAVAPROCESS_MEMORY_HEAP_MAX);
-		nonHeapMemNowValues = ReportDao.selectAverage(database, startTime, endTime,
-			Constants.ITEMNAME_JAVAPROCESS_MEMORY_NONHEAP_USED);
-		nonHeapMemMaxValues = ReportDao.selectAverage(database, startTime, endTime,
-			Constants.ITEMNAME_JAVAPROCESS_MEMORY_NONHEAP_MAX);
-		majorFaultValues = ReportDao.selectAverage(database, startTime, endTime,
-			Constants.ITEMNAME_PROCESS_MEMORY_MAJORFAULT_COUNT);
-		vmMemNowValues = selectMemoryUsage(database, startTime, endTime,
-			Constants.ITEMNAME_PROCESS_MEMORY_VIRTUALMACHINE_MAX,
-			Constants.ITEMNAME_PROCESS_MEMORY_VIRTUALMACHINE_FREE);
-		vmMemMaxValues = ReportDao.selectAverage(database, startTime, endTime,
-			Constants.ITEMNAME_PROCESS_MEMORY_VIRTUALMACHINE_MAX);
-		virtualMemValue = ReportDao.selectAverage(database, startTime, endTime,
-			Constants.ITEMNAME_PROCESS_MEMORY_VIRTUAL_USED);
-		physicalMemValues = ReportDao.selectAverage(database, startTime, endTime,
-			Constants.ITEMNAME_PROCESS_MEMORY_PHYSICAL_USED);
-		fdCountValues = ReportDao.selectAverage(database, startTime, endTime,
-			Constants.ITEMNAME_PROCESS_HANDLE_TOTAL_NUMBER);
+            ProcessResourceRecord record = new ProcessResourceRecord();
+            ReportItemValue cpuUsageTotal = cpuUsageTotalValues.get(index);
+            ReportItemValue cpuUsageSys = cpuUsageSysValues.get(index);
+            ReportItemValue heapMemNow = heapMemNowValues.get(index);
+            ReportItemValue heapMemMax = heapMemMaxValues.get(index);
+            ReportItemValue nonHeapMemNow = nonHeapMemNowValues.get(index);
+            ReportItemValue nonHeapMemMax = nonHeapMemMaxValues.get(index);
+            ReportItemValue majorFault = majorFaultValues.get(index);
+            ReportItemValue vmMemNow = vmMemNowValues.get(index);
+            ReportItemValue vmMemMax = vmMemMaxValues.get(index);
+            ReportItemValue virtualMem = virtualMemValue.get(index);
+            ReportItemValue physicalMem = physicalMemValues.get(index);
+            ReportItemValue fdCount = fdCountValues.get(index);
+            
+            if (cpuUsageTotal != null)
+            {
+	            record.setMeasurementTime(cpuUsageTotal.measurementTime);
+	            record.setCpuUsage(cpuUsageTotal.summaryValue.doubleValue());
+	            record.setCpuUsageMax(cpuUsageTotal.maxValue.doubleValue());
+	            record.setCpuUsageMin(cpuUsageTotal.minValue.doubleValue());
+	            record.setCpuUsageSys(cpuUsageSys.summaryValue.doubleValue());
+                record.setCpuUsageSysMax(cpuUsageSys.maxValue.doubleValue());
+                record.setCpuUsageSysMin(cpuUsageSys.minValue.doubleValue());
+	            record.setHeapMemoryNow(heapMemNow.summaryValue.doubleValue());
+	            record.setHeapMemoryNowMax(heapMemNow.maxValue.doubleValue());
+	            record.setHeapMemoryNowMin(heapMemNow.minValue.doubleValue());
+	            record.setHeapMemoryMax(heapMemMax.maxValue.doubleValue());
+	            record.setNonHeapMemoryNow(nonHeapMemNow.summaryValue.doubleValue());
+	            record.setNonHeapMemoryNowMax(nonHeapMemNow.maxValue.doubleValue());
+	            record.setNonHeapMemoryNowMin(nonHeapMemNow.minValue.doubleValue());
+	            record.setNonHeapMemoryMax(nonHeapMemMax.maxValue.doubleValue());
+	            record.setMajorFault(majorFault.summaryValue.doubleValue());
+	            record.setMajorFaultMax(majorFault.maxValue.doubleValue());
+	            record.setMajorFaultMin(majorFault.minValue.doubleValue());
+	            record.setVmMemoryNow(vmMemNow.summaryValue.doubleValue());
+	            record.setVmMemoryNowMax(vmMemNow.maxValue.doubleValue());
+	            record.setVmMemoryNowMin(vmMemNow.minValue.doubleValue());
+	            record.setVmMemoryMax(vmMemMax.maxValue.doubleValue());
+	            record.setVirtualMem(virtualMem.summaryValue.doubleValue());
+	            record.setVirtualMemMax(virtualMem.maxValue.doubleValue());
+	            record.setVirtualMemMin(virtualMem.minValue.doubleValue());
+	            record.setPhysicalMem(physicalMem.summaryValue.doubleValue());
+                record.setPhysicalMemMax(physicalMem.maxValue.doubleValue());
+                record.setPhysicalMemMin(physicalMem.minValue.doubleValue());
 
-		for (int index = 0; index < cpuUsageTotalValues.size(); index++)
-		{
+	            if (fdCount != null)
+	            {
+	                record.setFdCount(fdCount.summaryValue.longValue());
+	                record.setFdCountMax(fdCount.maxValue.longValue());
+	                record.setFdCountMin(fdCount.minValue.longValue());
+	            }
+           }
 
-			ProcessResourceRecord record = new ProcessResourceRecord();
-			ReportItemValue cpuUsageTotal = cpuUsageTotalValues.get(index);
-			ReportItemValue cpuUsageSys = cpuUsageSysValues.get(index);
-			ReportItemValue heapMemNow = heapMemNowValues.get(index);
-			ReportItemValue heapMemMax = heapMemMaxValues.get(index);
-			ReportItemValue nonHeapMemNow = nonHeapMemNowValues.get(index);
-			ReportItemValue nonHeapMemMax = nonHeapMemMaxValues.get(index);
-			ReportItemValue majorFault = majorFaultValues.get(index);
-			ReportItemValue vmMemNow = vmMemNowValues.get(index);
-			ReportItemValue vmMemMax = vmMemMaxValues.get(index);
-			ReportItemValue virtualMem = virtualMemValue.get(index);
-			ReportItemValue physicalMem = physicalMemValues.get(index);
-			ReportItemValue fdCount = fdCountValues.get(index);
+            result.add(record);
+        }
 
-			if (cpuUsageTotal != null)
-			{
-				record.setMeasurementTime(cpuUsageTotal.measurementTime);
-				record.setCpuUsage(cpuUsageTotal.summaryValue.doubleValue());
-				record.setCpuUsageMax(cpuUsageTotal.maxValue.doubleValue());
-				record.setCpuUsageMin(cpuUsageTotal.minValue.doubleValue());
-				record.setCpuUsageSys(cpuUsageSys.summaryValue.doubleValue());
-				record.setCpuUsageSysMax(cpuUsageSys.maxValue.doubleValue());
-				record.setCpuUsageSysMin(cpuUsageSys.minValue.doubleValue());
-				record.setHeapMemoryNow(heapMemNow.summaryValue.doubleValue());
-				record.setHeapMemoryNowMax(heapMemNow.maxValue.doubleValue());
-				record.setHeapMemoryNowMin(heapMemNow.minValue.doubleValue());
-				record.setHeapMemoryMax(heapMemMax.maxValue.doubleValue());
-				record.setNonHeapMemoryNow(nonHeapMemNow.summaryValue.doubleValue());
-				record.setNonHeapMemoryNowMax(nonHeapMemNow.maxValue.doubleValue());
-				record.setNonHeapMemoryNowMin(nonHeapMemNow.minValue.doubleValue());
-				record.setNonHeapMemoryMax(nonHeapMemMax.maxValue.doubleValue());
-				record.setMajorFault(majorFault.summaryValue.doubleValue());
-				record.setMajorFaultMax(majorFault.maxValue.doubleValue());
-				record.setMajorFaultMin(majorFault.minValue.doubleValue());
-				record.setVmMemoryNow(vmMemNow.summaryValue.doubleValue());
-				record.setVmMemoryNowMax(vmMemNow.maxValue.doubleValue());
-				record.setVmMemoryNowMin(vmMemNow.minValue.doubleValue());
-				record.setVmMemoryMax(vmMemMax.maxValue.doubleValue());
-				record.setVirtualMem(virtualMem.summaryValue.doubleValue());
-				record.setVirtualMemMax(virtualMem.maxValue.doubleValue());
-				record.setVirtualMemMin(virtualMem.minValue.doubleValue());
-				record.setPhysicalMem(physicalMem.summaryValue.doubleValue());
-				record.setPhysicalMemMax(physicalMem.maxValue.doubleValue());
-				record.setPhysicalMemMin(physicalMem.minValue.doubleValue());
+        return result;
+    }
+    
+    /**
+     * DB‚©‚çCPUŠÔ‚ğæ“¾‚µACPUg—p—¦‚ğŠ„‚èo‚·B
+     * 
+     * @param database  ƒf[ƒ^ƒx[ƒXB
+     * @param startTime ŒŸõğŒ(ŠJn)B
+     * @param endTime   ŒŸõğŒ(I—¹)B
+     * @param cpuItemName CPUŠÔ‚ÌitemNameB
+     * @return CPUg—p—¦‚ÌƒŠƒXƒgB
+     * @throws SQLException ƒf[ƒ^ƒx[ƒX‚©‚ç‚ÌŒŸõ‚ÉƒGƒ‰[‚ª”­¶‚µ‚½ê‡B
+     */
+    private List<ReportItemValue> selectCpuUsage(String database, Timestamp startTime,
+            Timestamp endTime, String cpuItemName)
+        throws SQLException
+    {
+        List<ReportItemValue> cpuTimeValues =
+                ReportDao.selectAverage(database, startTime, endTime, cpuItemName);
+        List<ReportItemValue> upTimeValues =
+                ReportDao.selectAverage(database, startTime, endTime, Constants.ITEMNAME_JAVAUPTIME);
+        List<ReportItemValue> procCntValues =
+                ReportDao.selectAverage(database, startTime, endTime,
+                                        Constants.ITEMNAME_SYSTEM_CPU_PROCESSOR_COUNT);
 
-				if (fdCount != null)
-				{
-					record.setFdCount(fdCount.summaryValue.longValue());
-					record.setFdCountMax(fdCount.maxValue.longValue());
-					record.setFdCountMin(fdCount.minValue.longValue());
-				}
-			}
+        List<ReportItemValue> dtoList = new ArrayList<ReportItemValue>();
 
-			result.add(record);
-		}
+        for(int index = 0; index < cpuTimeValues.size(); index++)
+        {
+            ReportItemValue cpuValue = cpuTimeValues.get(index);
+            ReportItemValue upTimeValue = upTimeValues.get(index);
+            ReportItemValue procCntValue = procCntValues.get(index);
+            if (cpuValue == null || upTimeValue == null || procCntValue == null)
+            {
+                continue;
+            }
+            else
+            {
+                ReportItemValue dto = new ReportItemValue();
+                dto.measurementTime = cpuValue.measurementTime;
+                dto.summaryValue = calcCpuUsage(cpuValue.summaryValue
+                        .longValue(), upTimeValue.summaryValue.longValue(),
+                        procCntValue.summaryValue.longValue());
+                dto.maxValue =
+                        calcCpuUsage(cpuValue.maxValue.longValue(),
+                                     upTimeValue.maxValue.longValue(),
+                                     procCntValue.maxValue.longValue());
+                dto.minValue =
+                        calcCpuUsage(cpuValue.minValue.longValue(),
+                                     upTimeValue.minValue.longValue(),
+                                     procCntValue.minValue.longValue());
 
-		return result;
-	}
+                dtoList.add(dto);
+            }
+        }
 
-	/**
-	 * DBã‹ã‚‰CPUæ™‚é–“ã‚’å–å¾—ã—ã€CPUä½¿ç”¨ç‡ã‚’å‰²ã‚Šå‡ºã™ã€‚
-	 * 
-	 * @param database  ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã€‚
-	 * @param startTime æ¤œç´¢æ¡ä»¶(é–‹å§‹æ™‚åˆ»)ã€‚
-	 * @param endTime   æ¤œç´¢æ¡ä»¶(çµ‚äº†æ™‚åˆ»)ã€‚
-	 * @param cpuItemName CPUæ™‚é–“ã®itemNameã€‚
-	 * @return CPUä½¿ç”¨ç‡ã®ãƒªã‚¹ãƒˆã€‚
-	 * @throws SQLException ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‹ã‚‰ã®æ¤œç´¢æ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆã€‚
-	 */
-	private List<ReportItemValue> selectCpuUsage(String database, Timestamp startTime,
-		Timestamp endTime, String cpuItemName) throws SQLException
-	{
-		List<ReportItemValue> cpuTimeValues = ReportDao.selectAverage(database, startTime, endTime,
-			cpuItemName);
-		List<ReportItemValue> upTimeValues = ReportDao.selectAverage(database, startTime, endTime,
-			Constants.ITEMNAME_JAVAUPTIME);
-		List<ReportItemValue> procCntValues = ReportDao.selectAverage(database, startTime, endTime,
-			Constants.ITEMNAME_SYSTEM_CPU_PROCESSOR_COUNT);
 
-		List<ReportItemValue> dtoList = new ArrayList<ReportItemValue>();
+        return dtoList;
+    }
 
-		for (int index = 0; index < cpuTimeValues.size(); index++)
-		{
-			ReportItemValue cpuValue = cpuTimeValues.get(index);
-			ReportItemValue upTimeValue = upTimeValues.get(index);
-			ReportItemValue procCntValue = procCntValues.get(index);
-			if (cpuValue == null || upTimeValue == null || procCntValue == null)
-			{
-				continue;
-			}
-			else
-			{
-				ReportItemValue dto = new ReportItemValue();
-				dto.measurementTime = cpuValue.measurementTime;
-				dto.summaryValue = calcCpuUsage(cpuValue.summaryValue.longValue(),
-					upTimeValue.summaryValue.longValue(), procCntValue.summaryValue.longValue());
-				dto.maxValue = calcCpuUsage(cpuValue.maxValue.longValue(),
-					upTimeValue.maxValue.longValue(), procCntValue.maxValue.longValue());
-				dto.minValue = calcCpuUsage(cpuValue.minValue.longValue(),
-					upTimeValue.minValue.longValue(), procCntValue.minValue.longValue());
-
-				dtoList.add(dto);
-			}
-		}
-
-		return dtoList;
-	}
-
-	private double calcCpuUsage(long cpuValueLong, long upTimeValueLong, long procCntValueLong)
+	private double calcCpuUsage(long cpuValueLong,
+			long upTimeValueLong, long procCntValueLong)
 	{
 		if (upTimeValueLong == 0 || procCntValueLong == 0)
 		{
@@ -232,61 +243,62 @@ public class CpuAndMemoryRecordAccessor
 		return cpuValueLong / (upTimeValueLong * 10000.0 * procCntValueLong);
 	}
 
-	/**
-	 * DBã‹ã‚‰ãƒ¡ãƒ¢ãƒªã®å…¨ä½“ã¨ç©ºãå®¹é‡ã‚’å–å¾—ã—ã€ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡ã‚’å‰²ã‚Šå‡ºã™ã€‚
-	 * 
-	 * @param database  ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã€‚
-	 * @param startTime æ¤œç´¢æ¡ä»¶(é–‹å§‹æ™‚åˆ»)ã€‚
-	 * @param endTime   æ¤œç´¢æ¡ä»¶(çµ‚äº†æ™‚åˆ»)ã€‚
-	 * @param itemNameCapacity å…¨ä½“ã‚’å–å¾—ã™ã‚‹ãŸã‚ã®é …ç›®åç§°ã€‚
-	 * @param itemNameFree ç©ºãã‚’å–å¾—ã™ã‚‹ãŸã‚ã®é …ç›®åç§°ã€‚
-	 * @return ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡ã®ãƒªã‚¹ãƒˆã€‚
-	 * @throws SQLException ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‹ã‚‰ã®æ¤œç´¢æ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆã€‚
-	 */
-	private List<ReportItemValue> selectMemoryUsage(String database, Timestamp startTime,
-		Timestamp endTime, String itemNameCapacity, String itemNameFree) throws SQLException
-	{
-		// å…¨ä½“
-		List<ReportItemValue> memCapacityValues = ReportDao.selectAverage(database, startTime,
-			endTime, itemNameCapacity);
+    /**
+     * DB‚©‚çƒƒ‚ƒŠ‚Ì‘S‘Ì‚Æ‹ó‚«—e—Ê‚ğæ“¾‚µAƒƒ‚ƒŠg—p—Ê‚ğŠ„‚èo‚·B
+     * 
+     * @param database  ƒf[ƒ^ƒx[ƒXB
+     * @param startTime ŒŸõğŒ(ŠJn)B
+     * @param endTime   ŒŸõğŒ(I—¹)B
+     * @param itemNameCapacity ‘S‘Ì‚ğæ“¾‚·‚é‚½‚ß‚Ì€–Ú–¼ÌB
+     * @param itemNameFree ‹ó‚«‚ğæ“¾‚·‚é‚½‚ß‚Ì€–Ú–¼ÌB
+     * @return ƒƒ‚ƒŠg—p—Ê‚ÌƒŠƒXƒgB
+     * @throws SQLException ƒf[ƒ^ƒx[ƒX‚©‚ç‚ÌŒŸõ‚ÉƒGƒ‰[‚ª”­¶‚µ‚½ê‡B
+     */
+    private List<ReportItemValue> selectMemoryUsage(String database, Timestamp startTime,
+            Timestamp endTime, String itemNameCapacity, String itemNameFree)
+        throws SQLException
+    {
+        // ‘S‘Ì
+        List<ReportItemValue> memCapacityValues = ReportDao.selectAverage(database, startTime,
+                endTime, itemNameCapacity);
 
-		// ç©ºã
-		List<ReportItemValue> memFreeValues = ReportDao.selectAverage(database, startTime, endTime,
-			itemNameFree);
+        // ‹ó‚«
+        List<ReportItemValue> memFreeValues = ReportDao.selectAverage(database, startTime,
+                endTime, itemNameFree);
 
-		// å…¨ä½“ã‹ã‚‰ç©ºãã‚’å¼•ã„ãŸå€¤ã‚’ä½¿ç”¨é‡ã¨ã—ã¦ãƒªã‚¹ãƒˆã«è¿½åŠ ã™ã‚‹
-		List<ReportItemValue> memUsageValues = new ArrayList<ReportItemValue>();
-		for (int index = 0; index < memCapacityValues.size(); index++)
-		{
-			ReportItemValue memCapacity = memCapacityValues.get(index);
-			ReportItemValue memFree = memFreeValues.get(index);
+        // ‘S‘Ì‚©‚ç‹ó‚«‚ğˆø‚¢‚½’l‚ğg—p—Ê‚Æ‚µ‚ÄƒŠƒXƒg‚É’Ç‰Á‚·‚é
+        List<ReportItemValue> memUsageValues = new ArrayList<ReportItemValue>();
+        for (int index = 0; index < memCapacityValues.size(); index++)
+        {
+        	ReportItemValue memCapacity = memCapacityValues.get(index);
+        	ReportItemValue memFree = memFreeValues.get(index);
 
-			// valueä»¥å¤–ã¯capacityã®å€¤ã‚’ãã®ã¾ã¾è©°ã‚ã‚‹
-			ReportItemValue memUsage = new ReportItemValue();
-			memUsage.measurementTime = memCapacity.measurementTime;
-			memUsage.index = memCapacity.index;
-			memUsage.itemName = memCapacity.itemName;
+            // valueˆÈŠO‚Ícapacity‚Ì’l‚ğ‚»‚Ì‚Ü‚Ü‹l‚ß‚é
+        	ReportItemValue memUsage = new ReportItemValue();
+            memUsage.measurementTime = memCapacity.measurementTime;
+            memUsage.index = memCapacity.index;
+            memUsage.itemName = memCapacity.itemName;
+            
+            double capacity = memCapacity.maxValue.doubleValue();
+            
+            // •½‹Ï’l‚ÌŒvZ
+            double summaryFree = memFree.summaryValue.doubleValue();
+            double summaryUsage = capacity - summaryFree;
+            memUsage.summaryValue = new BigDecimal(summaryUsage);
+            
+            // Å¬’l‚ÌŒvZ
+            double maxFree = memFree.maxValue.doubleValue();
+            double minUsage = capacity - maxFree;
+            memUsage.minValue = new BigDecimal(minUsage);
+            
+            // Å‘å’l‚ÌŒvZ
+            double minFree = memFree.minValue.doubleValue();
+            double maxUsage = capacity - minFree;
+            memUsage.maxValue = new BigDecimal(maxUsage);
+            
+            memUsageValues.add(memUsage);
+        }
 
-			double capacity = memCapacity.maxValue.doubleValue();
-
-			// å¹³å‡å€¤ã®è¨ˆç®—
-			double summaryFree = memFree.summaryValue.doubleValue();
-			double summaryUsage = capacity - summaryFree;
-			memUsage.summaryValue = new BigDecimal(summaryUsage);
-
-			// æœ€å°å€¤ã®è¨ˆç®—
-			double maxFree = memFree.maxValue.doubleValue();
-			double minUsage = capacity - maxFree;
-			memUsage.minValue = new BigDecimal(minUsage);
-
-			// æœ€å¤§å€¤ã®è¨ˆç®—
-			double minFree = memFree.minValue.doubleValue();
-			double maxUsage = capacity - minFree;
-			memUsage.maxValue = new BigDecimal(maxUsage);
-
-			memUsageValues.add(memUsage);
-		}
-
-		return memUsageValues;
-	}
+        return memUsageValues;
+    }
 }

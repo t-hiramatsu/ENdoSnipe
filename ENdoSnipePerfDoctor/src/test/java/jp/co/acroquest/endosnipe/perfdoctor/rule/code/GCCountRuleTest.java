@@ -6,7 +6,7 @@ import jp.co.acroquest.endosnipe.javelin.parser.JavelinLogElement;
 import jp.co.acroquest.endosnipe.perfdoctor.PerformanceRuleTestCase;
 
 /**
- * GCå®Ÿè¡Œé »åº¦åˆ¤å®šãƒ«ãƒ¼ãƒ«ç”¨ã®ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹<br>
+ * GCÀs•p“x”»’èƒ‹[ƒ‹—p‚ÌƒeƒXƒgƒP[ƒX<br>
  * <br>
  * @author S.Kimura
  */
@@ -14,8 +14,8 @@ public class GCCountRuleTest extends PerformanceRuleTestCase
 {
 
     /**
-     * é–¾å€¤ã‚’æŒ‡å®šã—ã¦GCFrequencyRuleã‚’ç”Ÿæˆã™ã‚‹ã€‚<br>
-     * @param threshold é–¾å€¤
+     * è‡’l‚ğw’è‚µ‚ÄGCFrequencyRule‚ğ¶¬‚·‚éB<br>
+     * @param threshold è‡’l
      * @return GCFrequencyRule
      */
     private GCCountRule createRule(int threshold)
@@ -30,12 +30,12 @@ public class GCCountRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 2-5-1<br>
+     * [€”Ô] 2-5-1<br>
      * <br>
-     * judgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»æ¤œå‡ºé »åº¦ãŒ0ã€‚<br>
-     * ãƒ»é–¾å€¤ãŒ1ã€‚<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br>
+     * judge‚ÌƒeƒXƒgB<br>
+     * EŒŸo•p“x‚ª0B<br>
+     * Eè‡’l‚ª1B<br>
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br>
      */
     public void testDoJudge_01()
     {
@@ -49,18 +49,18 @@ public class GCCountRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
 
     }
 
     /**
-     * [é …ç•ª] 2-5-2<br>
+     * [€”Ô] 2-5-2<br>
      * <br>
-     * judgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»æ¤œå‡ºå›æ•°ãŒ1ã€‚<br>
-     * ãƒ»é–¾å€¤ãŒ1ã€‚<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚(è­¦å‘Šãƒªã‚¹ãƒˆã®ã‚µã‚¤ã‚ºãŒ0)<br>
+     * judge‚ÌƒeƒXƒgB<br>
+     * EŒŸo‰ñ”‚ª1B<br>
+     * Eè‡’l‚ª1B<br>
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B(ŒxƒŠƒXƒg‚ÌƒTƒCƒY‚ª0)<br>
      */
     public void testDoJudge_02()
     {
@@ -75,12 +75,12 @@ public class GCCountRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 2-5-3<br>
+     * [€”Ô] 2-5-3<br>
      * <br>
-     * judgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»æ¤œå‡ºé »åº¦ãŒ2ã€‚<br>
-     * ãƒ»é–¾å€¤ãŒ1ã€‚<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã™ã‚‹ã€‚<br>
+     * judge‚ÌƒeƒXƒgB<br>
+     * EŒŸo•p“x‚ª2B<br>
+     * Eè‡’l‚ª1B<br>
+     * ¨Œx‚ª”­¶‚·‚éB<br>
      */
     public void testDoJudge_03()
     {
@@ -95,12 +95,12 @@ public class GCCountRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 2-5-5<br>
+     * [€”Ô] 2-5-5<br>
      * <br>
-     * judgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»æ¤œå‡ºé »åº¦ãŒ20ã€‚<br>
-     * ãƒ»é–¾å€¤ãŒ20ã€‚<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã™ã‚‹ã€‚<br>
+     * judge‚ÌƒeƒXƒgB<br>
+     * EŒŸo•p“x‚ª20B<br>
+     * Eè‡’l‚ª20B<br>
+     * ¨Œx‚ª”­¶‚·‚éB<br>
      */
     public void testDoJudge_05()
     {
@@ -115,11 +115,11 @@ public class GCCountRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 2-5-10<br>
+     * [€”Ô] 2-5-10<br>
      * <br>
-     * judgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»GCå›æ•°ã®å€¤ãŒæ•°å€¤ã§ã¯ãªã„ã€‚<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br>
+     * judge‚ÌƒeƒXƒgB<br>
+     * EGC‰ñ”‚Ì’l‚ª”’l‚Å‚Í‚È‚¢B<br>
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br>
      */
     public void testDoJudge_10()
     {
@@ -133,16 +133,16 @@ public class GCCountRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 2-5-11<br>
+     * [€”Ô] 2-5-11<br>
      * <br>
-     * judgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»GCå›æ•°ã®å€¤ãŒç©ºç™½ã€‚<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br>
+     * judge‚ÌƒeƒXƒgB<br>
+     * EGC‰ñ”‚Ì’l‚ª‹ó”’B<br>
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br>
      */
     public void testDoJudge_11()
     {
@@ -156,16 +156,16 @@ public class GCCountRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 2-5-12<br>
+     * [€”Ô] 2-5-12<br>
      * <br>
-     * ç•°å¸¸ãƒ­ã‚°<br>
-     * ãƒ­ã‚°å†…ã«ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãŒç„¡ã„ã€‚<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br>
+     * ˆÙíƒƒO<br>
+     * ƒƒO“à‚Éƒpƒ‰ƒ[ƒ^‚ª–³‚¢B<br>
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br>
      */
     public void testDoJudge_12()
     {
@@ -179,16 +179,16 @@ public class GCCountRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 2-5-14<br>
+     * [€”Ô] 2-5-14<br>
      * <br>
-     * judgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»detailInfoãŒãªã„ã€‚<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br>
+     * judge‚ÌƒeƒXƒgB<br>
+     * EdetailInfo‚ª‚È‚¢B<br>
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br>
      */
     public void testDoJudge_14()
     {
@@ -202,16 +202,16 @@ public class GCCountRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 2-5-15<br>
+     * [€”Ô] 2-5-15<br>
      * <br>
-     * judgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»CALLãŒãªã„ã€‚<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br>
+     * judge‚ÌƒeƒXƒgB<br>
+     * ECALL‚ª‚È‚¢B<br>
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br>
      */
     public void testDoJudge_15()
     {
@@ -225,15 +225,15 @@ public class GCCountRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 2-5-26<br>
+     * [€”Ô] 2-5-26<br>
      * <br>
-     * judgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»è¤‡æ•°ã®JavelinLogElementã§è­¦å‘ŠãŒå‡ºã‚‹ã€‚<br>
+     * judge‚ÌƒeƒXƒgB<br>
+     * E•¡”‚ÌJavelinLogElement‚ÅŒx‚ªo‚éB<br>
      */
     public void testDoJudge_26()
     {
@@ -249,11 +249,11 @@ public class GCCountRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 2-5-27<br>
+     * [€”Ô] 2-5-27<br>
      * <br>
-     * judgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»ã‚ã‚‹JavelinLogElementã§å®Ÿè¡Œæ™‚ä¾‹å¤–ãŒç™ºç”Ÿ<br>
-     * â†’ãã®JavelinLogElementã¯ã‚¹ã‚­ãƒƒãƒ—ã—ã¦å‡¦ç†ã™ã‚‹ã€‚<br>
+     * judge‚ÌƒeƒXƒgB<br>
+     * E‚ ‚éJavelinLogElement‚ÅÀs—áŠO‚ª”­¶<br>
+     * ¨‚»‚ÌJavelinLogElement‚ÍƒXƒLƒbƒv‚µ‚Äˆ—‚·‚éB<br>
      */
     public void testDoJudge_RuntimeException()
     {

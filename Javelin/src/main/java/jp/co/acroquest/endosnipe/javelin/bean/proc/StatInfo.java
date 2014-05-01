@@ -25,42 +25,40 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.javelin.bean.proc;
 
-import java.util.List;
-
 /**
- *ã€€/proc/statã®å†…å®¹ã‚’ä¿æŒã™ã‚‹Bean
+ *@/proc/stat‚Ì“à—e‚ğ•Û‚·‚éBean
  * 
  * @author eriguchi
  */
 public class StatInfo
 {
-    /** CPUãƒ¦ãƒ¼ã‚¶ */
+    /** CPUƒ†[ƒU */
     private long   cpuUser_;
 
-    /** CPUã‚·ã‚¹ãƒ†ãƒ  */
+    /** CPUƒVƒXƒeƒ€ */
     private long   cpuSystem_;
 
-    /** CPUã‚¿ã‚¹ã‚¯ */
+    /** CPUƒ^ƒXƒN */
     private long   cpuTask_;
 
-    /** CPUé…åˆ— */
-    private List<CpuCoreInfo> cpuArray_;
+    /** CPU”z—ñ */
+    private long[] cpuArray_;
 
-    /** ãƒšãƒ¼ã‚¸ã‚¤ãƒ³æ™‚é–“ */
+    /** ƒy[ƒWƒCƒ“ŠÔ */
     private long   pageIn_;
 
-    /** ãƒšãƒ¼ã‚¸ã‚¢ã‚¦ãƒˆæ™‚é–“*/
+    /** ƒy[ƒWƒAƒEƒgŠÔ*/
     private long   pageOut_;
 
-    /** FDã‚«ã‚¦ãƒ³ãƒˆ */
+    /** FDƒJƒEƒ“ƒg */
     private long   fdCount_;
 
-    /** CPUã€€I/Oå¾…æ©Ÿæ™‚é–“ */
+    /** CPU@I/O‘Ò‹@ŠÔ */
     private long   cpuIoWait_;
 
     /**
-     * CPUãƒ¦ãƒ¼ã‚¶ã‚’å–å¾—ã—ã¾ã™ã€‚
-     * @return CPUãƒ¦ãƒ¼ã‚¶
+     * CPUƒ†[ƒU‚ğæ“¾‚µ‚Ü‚·B
+     * @return CPUƒ†[ƒU
      */
     public long getCpuUser()
     {
@@ -68,8 +66,8 @@ public class StatInfo
     }
 
     /**
-     * CPUãƒ¦ãƒ¼ã‚¶ã‚’è¨­å®šã—ã¾ã™ã€‚
-     * @param cpuUser CPUãƒ¦ãƒ¼ã‚¶
+     * CPUƒ†[ƒU‚ğİ’è‚µ‚Ü‚·B
+     * @param cpuUser CPUƒ†[ƒU
      */
     public void setCpuUser(long cpuUser)
     {
@@ -77,8 +75,8 @@ public class StatInfo
     }
 
     /**
-     * CPUã‚·ã‚¹ãƒ†ãƒ ã‚’å–å¾—ã—ã¾ã™ã€‚
-     * @return CPUã‚·ã‚¹ãƒ†ãƒ 
+     * CPUƒVƒXƒeƒ€‚ğæ“¾‚µ‚Ü‚·B
+     * @return CPUƒVƒXƒeƒ€
      */
     public long getCpuSystem()
     {
@@ -86,8 +84,8 @@ public class StatInfo
     }
 
     /**
-     * CPUã‚·ã‚¹ãƒ†ãƒ ã‚’è¨­å®šã—ã¾ã™ã€‚
-     * @param cpuSystem CPUã‚·ã‚¹ãƒ†ãƒ 
+     * CPUƒVƒXƒeƒ€‚ğİ’è‚µ‚Ü‚·B
+     * @param cpuSystem CPUƒVƒXƒeƒ€
      */
     public void setCpuSystem(long cpuSystem)
     {
@@ -95,8 +93,8 @@ public class StatInfo
     }
 
     /**
-     * CPUã‚¿ã‚¹ã‚¯ã‚’å–å¾—ã—ã¾ã™ã€‚
-     * @return CPUã‚¿ã‚¹ã‚¯
+     * CPUƒ^ƒXƒN‚ğæ“¾‚µ‚Ü‚·B
+     * @return CPUƒ^ƒXƒN
      */
     public long getCpuTask()
     {
@@ -104,8 +102,8 @@ public class StatInfo
     }
 
     /**
-     * CPUã‚¿ã‚¹ã‚¯ã‚’è¨­å®šã—ã¾ã™ã€‚
-     * @param cpuTask CPUã‚¿ã‚¹ã‚¯
+     * CPUƒ^ƒXƒN‚ğİ’è‚µ‚Ü‚·B
+     * @param cpuTask CPUƒ^ƒXƒN
      */
     public void setCpuTask(long cpuTask)
     {
@@ -113,26 +111,26 @@ public class StatInfo
     }
 
     /**
-     * CPUé…åˆ—ã‚’å–å¾—ã—ã¾ã™ã€‚
-     * @return CPUé…åˆ—
+     * CPU”z—ñ‚ğæ“¾‚µ‚Ü‚·B
+     * @return CPU”z—ñ
      */
-    public List<CpuCoreInfo> getCpuArray()
+    public long[] getCpuArray()
     {
         return cpuArray_;
     }
 
     /**
-     * CPUé…åˆ—ã‚’è¨­å®šã—ã¾ã™ã€‚
-     * @param cpuArray CPUé…åˆ—
+     * CPU”z—ñ‚ğİ’è‚µ‚Ü‚·B
+     * @param cpuArray CPU”z—ñ
      */
-    public void setCpuArray(List<CpuCoreInfo> cpuArray)
+    public void setCpuArray(long[] cpuArray)
     {
         cpuArray_ = cpuArray;
     }
 
     /**
-     * ãƒšãƒ¼ã‚¸ã‚¤ãƒ³æ™‚é–“ã‚’å–å¾—ã—ã¾ã™ã€‚
-     * @return ãƒšãƒ¼ã‚¸ã‚¤ãƒ³æ™‚é–“
+     * ƒy[ƒWƒCƒ“ŠÔ‚ğæ“¾‚µ‚Ü‚·B
+     * @return ƒy[ƒWƒCƒ“ŠÔ
      */
     public long getPageIn()
     {
@@ -140,8 +138,8 @@ public class StatInfo
     }
 
     /**
-     * ãƒšãƒ¼ã‚¸ã‚¤ãƒ³æ™‚é–“ã‚’è¨­å®šã—ã¾ã™ã€‚
-     * @param pageIn ãƒšãƒ¼ã‚¸ã‚¤ãƒ³
+     * ƒy[ƒWƒCƒ“ŠÔ‚ğİ’è‚µ‚Ü‚·B
+     * @param pageIn ƒy[ƒWƒCƒ“
      */
     public void setPageIn(long pageIn)
     {
@@ -149,8 +147,8 @@ public class StatInfo
     }
 
     /**
-     * ãƒšãƒ¼ã‚¸ã‚¢ã‚¦ãƒˆæ™‚é–“ã‚’å–å¾—ã—ã¾ã™ã€‚
-     * @return ãƒšãƒ¼ã‚¸ã‚¢ã‚¦ãƒˆæ™‚é–“
+     * ƒy[ƒWƒAƒEƒgŠÔ‚ğæ“¾‚µ‚Ü‚·B
+     * @return ƒy[ƒWƒAƒEƒgŠÔ
      */
     public long getPageOut()
     {
@@ -158,8 +156,8 @@ public class StatInfo
     }
 
     /**
-     * ãƒšãƒ¼ã‚¸ã‚¢ã‚¦ãƒˆæ™‚é–“ã‚’è¨­å®šã—ã¾ã™ã€‚
-     * @param pageOut ãƒšãƒ¼ã‚¸ã‚¢ã‚¦ãƒˆæ™‚é–“
+     * ƒy[ƒWƒAƒEƒgŠÔ‚ğİ’è‚µ‚Ü‚·B
+     * @param pageOut ƒy[ƒWƒAƒEƒgŠÔ
      */
     public void setPageOut(long pageOut)
     {
@@ -167,8 +165,8 @@ public class StatInfo
     }
 
     /**
-     * FDã‚«ã‚¦ãƒ³ãƒˆã‚’å–å¾—ã—ã¾ã™ã€‚
-     * @return FDã‚«ã‚¦ãƒ³ãƒˆ
+     * FDƒJƒEƒ“ƒg‚ğæ“¾‚µ‚Ü‚·B
+     * @return FDƒJƒEƒ“ƒg
      */
     public long getFdCount()
     {
@@ -176,8 +174,8 @@ public class StatInfo
     }
 
     /**
-     * FDã‚«ã‚¦ãƒ³ãƒˆã‚’è¨­å®šã—ã¾ã™ã€‚
-     * @param fdCount FDã‚«ã‚¦ãƒ³ãƒˆ
+     * FDƒJƒEƒ“ƒg‚ğİ’è‚µ‚Ü‚·B
+     * @param fdCount FDƒJƒEƒ“ƒg
      */
     public void setFdCount(long fdCount)
     {
@@ -185,8 +183,8 @@ public class StatInfo
     }
 
     /**
-     * CPUã€€I/Oå¾…æ©Ÿæ™‚é–“ã‚’è¨­å®šã—ã¾ã™ã€‚
-     * @param cpuIoWait CPU I/Oå¾…æ©Ÿæ™‚é–“
+     * CPU@I/O‘Ò‹@ŠÔ‚ğİ’è‚µ‚Ü‚·B
+     * @param cpuIoWait CPU I/O‘Ò‹@ŠÔ
      */
     public void setCpuIoWait(long cpuIoWait)
     {
@@ -194,8 +192,8 @@ public class StatInfo
     }
 
     /**
-     * CPUã€€I/Oå¾…æ©Ÿæ™‚é–“ã‚’å–å¾—ã—ã¾ã™ã€‚
-     * @return CPUã€€I/Oå¾…æ©Ÿæ™‚é–“
+     * CPU@I/O‘Ò‹@ŠÔ‚ğæ“¾‚µ‚Ü‚·B
+     * @return CPU@I/O‘Ò‹@ŠÔ
      */
     public long getCpuIoWait()
     {

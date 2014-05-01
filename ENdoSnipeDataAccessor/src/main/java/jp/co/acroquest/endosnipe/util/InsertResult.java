@@ -25,12 +25,8 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.util;
 
-import java.util.List;
-
-import jp.co.acroquest.endosnipe.data.dto.MeasurementValueDto;
-
 /**
- * 入力結果
+ * ���͌���
  * 
  * @author sakamoto
  */
@@ -42,12 +38,8 @@ public class InsertResult
 
     private int cacheOverflowCount_;
 
-    private List<Integer> deleteItemIdList_;
-
-    private List<MeasurementValueDto> measurementItemList_;
-
     /**
-     * InsertCountを返す
+     * InsertCount��Ԃ�
      * @return InsertCount
      */
     public int getInsertCount()
@@ -56,7 +48,7 @@ public class InsertResult
     }
 
     /**
-     * InsertCountを設定する
+     * InsertCount��ݒ肷��
      * @param insertCount InsertCount
      */
     public void setInsertCount(int insertCount)
@@ -65,7 +57,7 @@ public class InsertResult
     }
 
     /**
-     * CacheMissCountを返す
+     * CacheMissCount��Ԃ�
      * @return CacheMissCount
      */
     public int getCacheMissCount()
@@ -74,7 +66,7 @@ public class InsertResult
     }
 
     /**
-     * CacheMissCountを設定する
+     * CacheMissCount��ݒ肷��
      * @param cacheMissCount CacheMissCount
      */
     public void setCacheMissCount(int cacheMissCount)
@@ -83,7 +75,7 @@ public class InsertResult
     }
 
     /**
-     * CacheOverflowCountを返す
+     * CacheOverflowCount��Ԃ�
      * @return CacheOverflowCount
      */
     public int getCacheOverflowCount()
@@ -92,52 +84,13 @@ public class InsertResult
     }
 
     /**
-     * CacheOverflowCountを設定する
+     * CacheOverflowCount��ݒ肷��
      * 
      * @param cacheOverflowCount CacheOverflowCount
      */
     public void setCacheOverflowCount(int cacheOverflowCount)
     {
         cacheOverflowCount_ = cacheOverflowCount;
-    }
-
-    /**
-     * deleteItemIdListを返す
-     * 
-     * @return deleteItemIdList
-     */
-    public List<Integer> getDeleteItemIdList()
-    {
-        return deleteItemIdList_;
-    }
-
-    /**
-     * deleteItemIdListを設定する
-     * 
-     * @param deleteItemIdList deleteItemIdList
-     */
-    public void setDeleteItemIdList(List<Integer> deleteItemIdList)
-    {
-        deleteItemIdList_ = deleteItemIdList;
-    }
-
-    /**
-     * measurementItemListを返す
-     * 
-     * @return measurementItemList
-     */
-    public List<MeasurementValueDto> getMeasurementItemList()
-    {
-        return measurementItemList_;
-    }
-
-    /**
-     * deleteItemIdListを設定する
-     * @param measurementItemList measurementItemList
-     */
-    public void setMeasurementItemList(List<MeasurementValueDto> measurementItemList)
-    {
-        measurementItemList_ = measurementItemList;
     }
 
 }

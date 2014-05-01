@@ -31,21 +31,21 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * DBã®å®Ÿè¡Œè¨ˆç”»ã®èª¿æŸ»ã‚’å®šç¾©ã™ã‚‹åŸºåº•ã‚¯ãƒ©ã‚¹ã€‚
+ * DB‚ÌÀsŒv‰æ‚Ì’²¸‚ğ’è‹`‚·‚éŠî’êƒNƒ‰ƒXB
  * 
- * @param <T> å®Ÿè¡Œè¨ˆç”»ã®1è¦ç´ 
+ * @param <T> ÀsŒv‰æ‚Ì1—v‘f
  * @author iida
  */
 public abstract class AbstractExecutePlanChecker<T>
 {
-    /** å®Ÿè¡Œè¨ˆç”»ã®ãƒ—ãƒ¬ãƒ•ã‚£ãƒƒã‚¯ã‚¹ */
+    /** ÀsŒv‰æ‚ÌƒvƒŒƒtƒBƒbƒNƒX */
     public static final String PLAN_PREFIX = "[PLAN] ";
 
     /**
-     * æŒ‡å®šã•ã‚ŒãŸå®Ÿè¡Œè¨ˆç”»ã®ãƒªã‚¹ãƒˆã‹ã‚‰ã€å®Ÿè¡Œè¨ˆç”»ã®æ–‡å­—åˆ—ã‚’ä½œæˆã—ã¦ã€è¿”ã—ã¾ã™ã€‚<br>
+     * w’è‚³‚ê‚½ÀsŒv‰æ‚ÌƒŠƒXƒg‚©‚çAÀsŒv‰æ‚Ì•¶š—ñ‚ğì¬‚µ‚ÄA•Ô‚µ‚Ü‚·B<br>
      * 
-     * @param executePlanList å®Ÿè¡Œè¨ˆç”»ã®ãƒªã‚¹ãƒˆ
-     * @return å®Ÿè¡Œè¨ˆç”»ã®æ–‡å­—åˆ—
+     * @param executePlanList ÀsŒv‰æ‚ÌƒŠƒXƒg
+     * @return ÀsŒv‰æ‚Ì•¶š—ñ
      */
     public String parseExecutePlan(final List<String> executePlanList)
     {
@@ -67,18 +67,18 @@ public abstract class AbstractExecutePlanChecker<T>
     }
 
     /**
-     * æŒ‡å®šã•ã‚ŒãŸå®Ÿè¡Œè¨ˆç”»ã®æ–‡å­—åˆ—ã‹ã‚‰ã€Mapã®ãƒªã‚¹ãƒˆã‚’ä½œæˆã—ã¦ã€è¿”ã—ã¾ã™ã€‚<br>
+     * w’è‚³‚ê‚½ÀsŒv‰æ‚Ì•¶š—ñ‚©‚çAMap‚ÌƒŠƒXƒg‚ğì¬‚µ‚ÄA•Ô‚µ‚Ü‚·B<br>
      * 
-     * @param executePlan å®Ÿè¡Œè¨ˆç”»ã®æ–‡å­—åˆ—
-     * @return Mapã®ãƒªã‚¹ãƒˆ
+     * @param executePlan ÀsŒv‰æ‚Ì•¶š—ñ
+     * @return Map‚ÌƒŠƒXƒg
      */
     public abstract List<T> parseExecutePlanList(String executePlan);
 
     /**
-     * æŒ‡å®šã•ã‚ŒãŸå®Ÿè¡Œè¨ˆç”»ã®ãƒªã‚¹ãƒˆã‹ã‚‰ã€Mapã®ãƒªã‚¹ãƒˆã‚’ä½œæˆã—ã¦ã€è¿”ã—ã¾ã™ã€‚<br>
+     * w’è‚³‚ê‚½ÀsŒv‰æ‚ÌƒŠƒXƒg‚©‚çAMap‚ÌƒŠƒXƒg‚ğì¬‚µ‚ÄA•Ô‚µ‚Ü‚·B<br>
      * 
-     * @param executePlanList å®Ÿè¡Œè¨ˆç”»ã®ãƒªã‚¹ãƒˆ
-     * @return Mapã®ãƒªã‚¹ãƒˆ
+     * @param executePlanList ÀsŒv‰æ‚ÌƒŠƒXƒg
+     * @return Map‚ÌƒŠƒXƒg
      */
     public List<T> parseExecutePlanList(final List<String> executePlanList)
     {
@@ -87,22 +87,22 @@ public abstract class AbstractExecutePlanChecker<T>
     }
 
     /**
-     * æŒ‡å®šã•ã‚ŒãŸå®Ÿè¡Œè¨ˆç”»ã®æ–‡å­—åˆ—ã‚’èª¿æŸ»ã—ã€ãã®ä¸­ã§Full Scanã‚’è¡Œã£ã¦ã„ã‚‹Tableã®åå‰ã®ã‚»ãƒƒãƒˆã‚’ä½œæˆã—ã¦ã€è¿”ã—ã¾ã™ã€‚<br>
-     * ãŸã ã—ã€æŒ‡å®šã•ã‚ŒãŸé™¤å¤–ãƒ‘ã‚¿ãƒ¼ãƒ³ã®æ–‡å­—åˆ—ã¨ãƒãƒƒãƒã™ã‚‹ã‚‚ã®ã¯ã€ãã®ã‚»ãƒƒãƒˆã«å«ã¾ã‚Œã¾ã›ã‚“ã€‚<br>
+     * w’è‚³‚ê‚½ÀsŒv‰æ‚Ì•¶š—ñ‚ğ’²¸‚µA‚»‚Ì’†‚ÅFull Scan‚ğs‚Á‚Ä‚¢‚éTable‚Ì–¼‘O‚ÌƒZƒbƒg‚ğì¬‚µ‚ÄA•Ô‚µ‚Ü‚·B<br>
+     * ‚½‚¾‚µAw’è‚³‚ê‚½œŠOƒpƒ^[ƒ“‚Ì•¶š—ñ‚Æƒ}ƒbƒ`‚·‚é‚à‚Ì‚ÍA‚»‚ÌƒZƒbƒg‚ÉŠÜ‚Ü‚ê‚Ü‚¹‚ñB<br>
      * 
-     * @param executePlan å®Ÿè¡Œè¨ˆç”»ã®æ–‡å­—åˆ—
-     * @param excludeString é™¤å¤–ãƒ‘ã‚¿ãƒ¼ãƒ³ã®æ–‡å­—åˆ—ã€‚
-     * @return Full Scanã‚’è¡Œã£ã¦ã„ã‚‹Tableã®åå‰ã®ã‚»ãƒƒãƒˆ
+     * @param executePlan ÀsŒv‰æ‚Ì•¶š—ñ
+     * @param excludeString œŠOƒpƒ^[ƒ“‚Ì•¶š—ñB
+     * @return Full Scan‚ğs‚Á‚Ä‚¢‚éTable‚Ì–¼‘O‚ÌƒZƒbƒg
      */
     public abstract Set<String> getFullScanTableNameSet(String executePlan, String excludeString);
 
     /**
-     * æŒ‡å®šã•ã‚ŒãŸãƒ†ãƒ¼ãƒ–ãƒ«åãŒã€æŒ‡å®šã•ã‚ŒãŸé™¤å¤–ãƒ‘ã‚¿ãƒ¼ãƒ³ã«ãƒãƒƒãƒã™ã‚‹ã‹ã©ã†ã‹ã‚’åˆ¤å®šã—ã€è¿”ã—ã¾ã™ã€‚<br>
-     * å¼•æ•°ã®ä¸­ã«nullã®ã‚‚ã®ãŒã‚ã‚‹å ´åˆã€falseã‚’è¿”ã—ã¾ã™ã€‚<br>
+     * w’è‚³‚ê‚½ƒe[ƒuƒ‹–¼‚ªAw’è‚³‚ê‚½œŠOƒpƒ^[ƒ“‚Éƒ}ƒbƒ`‚·‚é‚©‚Ç‚¤‚©‚ğ”»’è‚µA•Ô‚µ‚Ü‚·B<br>
+     * ˆø”‚Ì’†‚Énull‚Ì‚à‚Ì‚ª‚ ‚éê‡Afalse‚ğ•Ô‚µ‚Ü‚·B<br>
      * 
-     * @param tableName æ–‡å­—åˆ—
-     * @param excludePattern é™¤å¤–ãƒ‘ã‚¿ãƒ¼ãƒ³
-     * @return é™¤å¤–ãƒ‘ã‚¿ãƒ¼ãƒ³ã«ãƒãƒƒãƒã™ã‚‹å ´åˆã¯trueã€ãã†ã§ãªã„å ´åˆã¯false
+     * @param tableName •¶š—ñ
+     * @param excludePattern œŠOƒpƒ^[ƒ“
+     * @return œŠOƒpƒ^[ƒ“‚Éƒ}ƒbƒ`‚·‚éê‡‚ÍtrueA‚»‚¤‚Å‚È‚¢ê‡‚Ífalse
      */
     protected boolean isExclude(final String tableName, final Pattern excludePattern)
     {

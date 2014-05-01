@@ -28,7 +28,7 @@ package jp.co.acroquest.endosnipe.javelin.converter.ejb;
 import jp.co.smg.endosnipe.javassist.CtMethod;
 
 /**
- * EJB2.0ä»¥å‰ã«å¯¾å¿œã—ãŸEJBã‚³ãƒ³ãƒãƒ¼ã‚¿ã€‚
+ * EJB2.0ˆÈ‘O‚É‘Î‰‚µ‚½EJBƒRƒ“ƒo[ƒ^B
  * 
  * @author S.Kimura
  */
@@ -36,10 +36,10 @@ public class Ejb2Converter extends AbstractEjbConverter
 {
 
     /**
-     * EJB2ã‚³ãƒ³ãƒãƒ¼ã‚¿ã¯includeå®šç¾©ã«ã‚ˆã£ã¦å¤‰æ›ã‚’è¡Œã†ã‹ã©ã†ã‹åˆ¤å®šã™ã‚‹ãŸã‚ã€
-     * æœ¬ãƒ¡ã‚½ãƒƒãƒ‰ã«ã‚ˆã‚‹åˆ¤å®šã¯å¸¸æ™‚trueã¨ãªã‚‹
+     * EJB2ƒRƒ“ƒo[ƒ^‚Íinclude’è‹`‚É‚æ‚Á‚Ä•ÏŠ·‚ğs‚¤‚©‚Ç‚¤‚©”»’è‚·‚é‚½‚ßA
+     * –{ƒƒ\ƒbƒh‚É‚æ‚é”»’è‚Íítrue‚Æ‚È‚é
      * 
-     * @return å¤‰æ›ã‚’è¡Œã†ã‹ã©ã†ã‹ï¼ˆå¸¸ã«trueï¼‰
+     * @return •ÏŠ·‚ğs‚¤‚©‚Ç‚¤‚©ií‚Étruej
      */
     @Override
     protected boolean isConvert()

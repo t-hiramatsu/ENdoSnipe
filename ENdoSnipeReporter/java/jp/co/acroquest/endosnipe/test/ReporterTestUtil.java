@@ -34,7 +34,7 @@ import jp.co.acroquest.endosnipe.data.entity.MeasurementValue;
 import junit.framework.Assert;
 
 /**
- * ENdoSnipeReporterãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ†ã‚¹ãƒˆãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹
+ * ENdoSnipeReporterƒvƒƒWƒFƒNƒg‚ÌƒeƒXƒgƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒX
  * 
  * @author kimura
  */
@@ -114,14 +114,14 @@ public class ReporterTestUtil
     }
 
     // -------------------------------------------------------------------------------
-    // JavelinLogãƒ†ãƒ¼ãƒ–ãƒ«å¯¾è±¡ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£
+    // JavelinLogƒe[ƒuƒ‹‘ÎÛƒ†[ƒeƒBƒŠƒeƒB
     // -------------------------------------------------------------------------------
 
     /**
-     * äºŒã¤ã®JavelinLogã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆãŒç­‰ã—ã„äº‹ã‚’ç¢ºèªã™ã‚‹ã€‚
+     * “ñ‚Â‚ÌJavelinLogƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg‚ª“™‚µ‚¢–‚ğŠm”F‚·‚éB
      * 
-     * @param expects äºˆæ¸¬å€¤
-     * @param actuals å®Ÿéš›å€¤
+     * @param expects —\‘ª’l
+     * @param actuals ÀÛ’l
      */
     public static void assertJavelinLog(List<Object> expects, List<Object> actuals)
     {
@@ -168,10 +168,10 @@ public class ReporterTestUtil
     }
 
     /**
-     * JavelinLogã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆã‚’ç”Ÿæˆã™ã‚‹ã€‚
+     * JavelinLog‚ÌƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg‚ğ¶¬‚·‚éB
      * 
-     * @param datarows  ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆã«è¨­å®šã™ã‚‹CSV
-     * @returnã€€ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆ
+     * @param datarows  ƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg‚Éİ’è‚·‚éCSV
+     * @return@ƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg
      * @throws Exception
      */
     public static List<Object> createJavelinEntities(String[] datarows)
@@ -199,10 +199,10 @@ public class ReporterTestUtil
     }
 
     /**
-     * æŒ‡å®šã—ãŸãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹ã‹ã‚‰ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã¿ã€JavelinLogãƒ‡ãƒ¼ã‚¿ã‚’ç”Ÿæˆã™ã‚‹ã€‚
+     * w’è‚µ‚½ƒtƒ@ƒCƒ‹‚ÌƒpƒX‚©‚çƒf[ƒ^‚ğ“Ç‚İ‚İAJavelinLogƒf[ƒ^‚ğ¶¬‚·‚éB
      * 
-     * @param jvnLogFilePath JavelinLogã®ãƒ‘ã‚¹
-     * @return ãƒ‡ãƒ¼ã‚¿ã«ã‚¢ã‚¯ã‚»ã‚¹ã™ã‚‹ãŸã‚ã®ã‚¹ãƒˆãƒªãƒ¼ãƒ 
+     * @param jvnLogFilePath JavelinLog‚ÌƒpƒX
+     * @return ƒf[ƒ^‚ÉƒAƒNƒZƒX‚·‚é‚½‚ß‚ÌƒXƒgƒŠ[ƒ€
      */
     public static InputStream convertStreamJavelinFile(String jvnLogFilePath)
     {
@@ -294,14 +294,14 @@ public class ReporterTestUtil
     }
 
     // -------------------------------------------------------------------------------
-    // MeasurementValue ãƒ†ãƒ¼ãƒ–ãƒ«å¯¾è±¡ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£
+    // MeasurementValue ƒe[ƒuƒ‹‘ÎÛƒ†[ƒeƒBƒŠƒeƒB
     // -------------------------------------------------------------------------------
 
     /**
-     * äºŒã¤ã®MeasurementValueã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆãŒç­‰ã—ã„äº‹ã‚’ç¢ºèªã™ã‚‹ã€‚
+     * “ñ‚Â‚ÌMeasurementValueƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg‚ª“™‚µ‚¢–‚ğŠm”F‚·‚éB
      * 
-     * @param expects äºˆæ¸¬å€¤
-     * @param actuals å®Ÿéš›å€¤
+     * @param expects —\‘ª’l
+     * @param actuals ÀÛ’l
      */
     public static void assertMeasurementValue(List<Object> expects, List<Object> actuals)
     {
@@ -348,10 +348,10 @@ public class ReporterTestUtil
     }
 
     /**
-     * MeasurementValueã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆã‚’ç”Ÿæˆã™ã‚‹ã€‚
+     * MeasurementValue‚ÌƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg‚ğ¶¬‚·‚éB
      * 
-     * @param datarows  ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆã«è¨­å®šã™ã‚‹CSV
-     * @returnã€€ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆ
+     * @param datarows  ƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg‚Éİ’è‚·‚éCSV
+     * @return@ƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg
      * @throws Exception
      */
     public static List<Object> createMeasurementValueEntities(String[] datarows)
@@ -378,10 +378,10 @@ public class ReporterTestUtil
     }
 
     /**
-     * MeasurementValueDtoã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚’CSVå½¢å¼ã®ãƒ‡ãƒ¼ã‚¿ã‹ã‚‰ç”Ÿæˆã™ã‚‹ã€‚
+     * MeasurementValueDto‚ÌƒGƒ“ƒeƒBƒeƒB‚ğCSVŒ`®‚Ìƒf[ƒ^‚©‚ç¶¬‚·‚éB
      * 
-     * @param datarows CSVå½¢å¼ã®ãƒ‡ãƒ¼ã‚¿ãƒªã‚¹ãƒˆ
-     * @return ç”Ÿæˆã—ãŸãƒ‡ãƒ¼ã‚¿ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®ãƒªã‚¹ãƒˆ
+     * @param datarows CSVŒ`®‚Ìƒf[ƒ^ƒŠƒXƒg
+     * @return ¶¬‚µ‚½ƒf[ƒ^ƒCƒ“ƒXƒ^ƒ“ƒX‚ÌƒŠƒXƒg
      */
     public static List<Object> createMeasurementValueDtoEntities(String[] datarows)
     {
@@ -479,14 +479,14 @@ public class ReporterTestUtil
     }
 
     // -------------------------------------------------------------------------------
-    // JavelinMeasurementItem ãƒ†ãƒ¼ãƒ–ãƒ«å¯¾è±¡ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£
+    // JavelinMeasurementItem ƒe[ƒuƒ‹‘ÎÛƒ†[ƒeƒBƒŠƒeƒB
     // -------------------------------------------------------------------------------
 
     /**
-     * äºŒã¤ã®JavelinMeasurementItemã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆãŒç­‰ã—ã„äº‹ã‚’ç¢ºèªã™ã‚‹ã€‚
+     * “ñ‚Â‚ÌJavelinMeasurementItemƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg‚ª“™‚µ‚¢–‚ğŠm”F‚·‚éB
      * 
-     * @param expects äºˆæ¸¬å€¤
-     * @param actuals å®Ÿéš›å€¤
+     * @param expects —\‘ª’l
+     * @param actuals ÀÛ’l
      */
     public static void assertJavelinMeasurementItem(List<Object> expects, List<Object> actuals)
     {
@@ -533,10 +533,10 @@ public class ReporterTestUtil
     }
 
     /**
-     * JavelinMeasurementItemã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆã‚’ç”Ÿæˆã™ã‚‹ã€‚
+     * JavelinMeasurementItem‚ÌƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg‚ğ¶¬‚·‚éB
      * 
-     * @param datarows  ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆã«è¨­å®šã™ã‚‹CSV
-     * @returnã€€ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆ
+     * @param datarows  ƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg‚Éİ’è‚·‚éCSV
+     * @return@ƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg
      * @throws Exception
      */
     public static List<Object> createJavelinMeasurementItemEntities(String[] datarows)
@@ -564,14 +564,14 @@ public class ReporterTestUtil
     }
 
     // -------------------------------------------------------------------------------
-    // MeasurementInfo ãƒ†ãƒ¼ãƒ–ãƒ«å¯¾è±¡ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£
+    // MeasurementInfo ƒe[ƒuƒ‹‘ÎÛƒ†[ƒeƒBƒŠƒeƒB
     // -------------------------------------------------------------------------------
 
     /**
-     * äºŒã¤ã®MeasurementInfoã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆãŒç­‰ã—ã„äº‹ã‚’ç¢ºèªã™ã‚‹ã€‚
+     * “ñ‚Â‚ÌMeasurementInfoƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg‚ª“™‚µ‚¢–‚ğŠm”F‚·‚éB
      * 
-     * @param expects äºˆæ¸¬å€¤
-     * @param actuals å®Ÿéš›å€¤
+     * @param expects —\‘ª’l
+     * @param actuals ÀÛ’l
      */
     public static void assertMeasurementInfo(List<Object> expects, List<Object> actuals)
     {
@@ -618,10 +618,10 @@ public class ReporterTestUtil
     }
 
     /**
-     * MeasurementInfoã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆã‚’ç”Ÿæˆã™ã‚‹ã€‚
+     * MeasurementInfo‚ÌƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg‚ğ¶¬‚·‚éB
      * 
-     * @param datarows  ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆã«è¨­å®šã™ã‚‹CSV
-     * @returnã€€ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆ
+     * @param datarows  ƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg‚Éİ’è‚·‚éCSV
+     * @return@ƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg
      * @throws Exception
      */
     public static List<Object> createMeasurementInfoEntities(String[] datarows)
@@ -671,15 +671,15 @@ public class ReporterTestUtil
     }
 
     // -------------------------------------------------------------------------------
-    // å…±é€šãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£
+    // ‹¤’Êƒ†[ƒeƒBƒŠƒeƒB
     // -------------------------------------------------------------------------------
 
     /**
-     * å„ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã®ãƒªã‚¹ãƒˆã«æ ¼ç´ã•ã‚ŒãŸå€¤ãŒãã‚Œãã‚Œç­‰ã—ã„ã‹å¦ã‹ã‚’åˆ¤å®šã™ã‚‹ã€‚
+     * ŠeƒGƒ“ƒeƒBƒeƒB‚ÌƒŠƒXƒg‚ÉŠi”[‚³‚ê‚½’l‚ª‚»‚ê‚¼‚ê“™‚µ‚¢‚©”Û‚©‚ğ”»’è‚·‚éB
      * 
-     * @param expects  äºˆæ¸¬å€¤
-     * @param actuals  å®Ÿéš›å€¤
-     * @param exclude  ãƒã‚§ãƒƒã‚¯ã‹ã‚‰é™¤å¤–ã™ã‚‹ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®åå‰
+     * @param expects  —\‘ª’l
+     * @param actuals  ÀÛ’l
+     * @param exclude  ƒ`ƒFƒbƒN‚©‚çœŠO‚·‚éƒtƒB[ƒ‹ƒh‚Ì–¼‘O
      * @throws Exception
      */
     public static void assertEntitiesEquals(List<Object> expects, List<Object> actuals,
@@ -699,11 +699,11 @@ public class ReporterTestUtil
     }
 
     /**
-     * å„ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£åŒå£«ã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ãŒç­‰ã—ã„ã‹å¦ã‹ã‚’åˆ¤å®šã™ã‚‹ã€‚
+     * ŠeƒGƒ“ƒeƒBƒeƒB“¯m‚ÌƒtƒB[ƒ‹ƒh‚ª“™‚µ‚¢‚©”Û‚©‚ğ”»’è‚·‚éB
      * 
-     * @param expect  äºˆæ¸¬å€¤
-     * @param actual  å®Ÿéš›å€¤
-     * @param exclude ãƒã‚§ãƒƒã‚¯ã‚’è¡Œã‚ãªã„ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®ã‚»ãƒƒãƒˆ
+     * @param expect  —\‘ª’l
+     * @param actual  ÀÛ’l
+     * @param exclude ƒ`ƒFƒbƒN‚ğs‚í‚È‚¢ƒtƒB[ƒ‹ƒh‚ÌƒZƒbƒg
      * @throws Exception 
      */
     public static void assertEntityEquals(Object expect, Object actual, Set<String> exclude)
@@ -770,13 +770,13 @@ public class ReporterTestUtil
     }
 
     /**
-     * CSVå½¢å¼ã«å®šç¾©ã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ã‚’ã€æŒ‡å®šã—ãŸã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã«å¤‰æ›ã™ã‚‹ã€‚
-     * ãŸã ã—ã€static finalå®£è¨€ã•ã‚ŒãŸå¤‰æ•°ã‚’æŒ‡å®šã™ã‚‹ã“ã¨ã¯å‡ºæ¥ãªã„ã€‚
+     * CSVŒ`®‚É’è‹`‚³‚ê‚½ƒf[ƒ^‚ğAw’è‚µ‚½ƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚É•ÏŠ·‚·‚éB
+     * ‚½‚¾‚µAstatic finaléŒ¾‚³‚ê‚½•Ï”‚ğw’è‚·‚é‚±‚Æ‚Ío—ˆ‚È‚¢B
      * 
-     * @param clazz     å¯¾è±¡ã¨ãªã‚‹ã‚¯ãƒ©ã‚¹
-     * @param fieldList è¨­å®šå¯¾è±¡ã¨ã™ã‚‹ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰
-     * @param datarows  è¨­å®šã™ã‚‹ãƒ‡ãƒ¼ã‚¿(CSVå½¢å¼)ã®ãƒªã‚¹ãƒˆ
-     * @returnã€€ç”Ÿæˆã—ãŸã‚¯ãƒ©ã‚¹ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®ãƒªã‚¹ãƒˆ
+     * @param clazz     ‘ÎÛ‚Æ‚È‚éƒNƒ‰ƒX
+     * @param fieldList İ’è‘ÎÛ‚Æ‚·‚éƒtƒB[ƒ‹ƒh
+     * @param datarows  İ’è‚·‚éƒf[ƒ^(CSVŒ`®)‚ÌƒŠƒXƒg
+     * @return@¶¬‚µ‚½ƒNƒ‰ƒXƒCƒ“ƒXƒ^ƒ“ƒX‚ÌƒŠƒXƒg
      * @throws Exception
      */
     public static List<Object> createEntityList(Class<?> clazz, String[] fieldList,
@@ -800,13 +800,13 @@ public class ReporterTestUtil
     }
 
     /**
-     * CSVå½¢å¼ã«å®šç¾©ã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ã‚’ã€æŒ‡å®šã—ãŸã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã«å¤‰æ›ã™ã‚‹ã€‚
-     * ãŸã ã—ã€static finalå®£è¨€ã•ã‚ŒãŸå¤‰æ•°ã‚’æŒ‡å®šã™ã‚‹ã“ã¨ã¯å‡ºæ¥ãªã„ã€‚
+     * CSVŒ`®‚É’è‹`‚³‚ê‚½ƒf[ƒ^‚ğAw’è‚µ‚½ƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚É•ÏŠ·‚·‚éB
+     * ‚½‚¾‚µAstatic finaléŒ¾‚³‚ê‚½•Ï”‚ğw’è‚·‚é‚±‚Æ‚Ío—ˆ‚È‚¢B
      * 
-     * @param clazz     å¯¾è±¡ã¨ãªã‚‹ã‚¯ãƒ©ã‚¹
-     * @param fieldList è¨­å®šå¯¾è±¡ã¨ã™ã‚‹ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰
-     * @param datarowsã€€ è¨­å®šã™ã‚‹ãƒ‡ãƒ¼ã‚¿(CSVå½¢å¼)
-     * @returnã€€ç”Ÿæˆã—ãŸã‚¯ãƒ©ã‚¹ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+     * @param clazz     ‘ÎÛ‚Æ‚È‚éƒNƒ‰ƒX
+     * @param fieldList İ’è‘ÎÛ‚Æ‚·‚éƒtƒB[ƒ‹ƒh
+     * @param datarows@ İ’è‚·‚éƒf[ƒ^(CSVŒ`®)
+     * @return@¶¬‚µ‚½ƒNƒ‰ƒXƒCƒ“ƒXƒ^ƒ“ƒX
      * @throws Exception
      */
     public static Object createEntity(Class<?> clazz, String[] fieldList, String datarow)
@@ -842,11 +842,11 @@ public class ReporterTestUtil
     }
 
     /**
-     * æ–‡å­—åˆ—è¡¨ç¾ã§è¡¨ã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ã‚’ã€æŒ‡å®šã—ãŸãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã«è¨­å®šå¯èƒ½ãªã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«å¤‰æ›ã™ã‚‹ã€‚
+     * •¶š—ñ•\Œ»‚Å•\‚³‚ê‚½ƒf[ƒ^‚ğAw’è‚µ‚½ƒtƒB[ƒ‹ƒh‚Éİ’è‰Â”\‚ÈƒIƒuƒWƒFƒNƒg‚É•ÏŠ·‚·‚éB
      * 
-     * @param field å€¤ã®è¨­å®šå¯¾è±¡ã¨ãªã‚‹ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰
-     * @param data  å¯¾è±¡ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã«è¨­å®šã™ã‚‹ãƒ‡ãƒ¼ã‚¿ã®æ–‡å­—åˆ—è¡¨ç¾
-     * @return      å‹å¤‰æ›ã•ã‚ŒãŸè¨­å®šå€¤
+     * @param field ’l‚Ìİ’è‘ÎÛ‚Æ‚È‚éƒtƒB[ƒ‹ƒh
+     * @param data  ‘ÎÛƒtƒB[ƒ‹ƒh‚Éİ’è‚·‚éƒf[ƒ^‚Ì•¶š—ñ•\Œ»
+     * @return      Œ^•ÏŠ·‚³‚ê‚½İ’è’l
      * @throws Exception
      */
     public static Object parseString(Field field, String data)
@@ -926,20 +926,20 @@ public class ReporterTestUtil
     }
 
     /**
-     * privateãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ãªã©ã€ã‚¢ã‚¯ã‚»ã‚¹ã§ããªã„ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã«å¯¾ã—ã¦ã€å€¤ã‚’è¨­å®šã™ã‚‹ã€‚
-     * static privateã«å¯¾ã—ã¦ã®ã‚¢ã‚¯ã‚»ã‚¹ã¯ä¸å¯èƒ½ã€‚
+     * privateƒtƒB[ƒ‹ƒh‚È‚ÇAƒAƒNƒZƒX‚Å‚«‚È‚¢ƒtƒB[ƒ‹ƒh‚É‘Î‚µ‚ÄA’l‚ğİ’è‚·‚éB
+     * static private‚É‘Î‚µ‚Ä‚ÌƒAƒNƒZƒX‚Í•s‰Â”\B
      * 
-     * @param clazz     è¨­å®šå¯¾è±¡ã®ã‚¯ãƒ©ã‚¹ã®ã‚¯ãƒ©ã‚¹æƒ…å ±
-     * @param fieldName è¨­å®šå¯¾è±¡ã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰å
-     * @param instance  è¨­å®šå¯¾è±¡ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
-     * @param value     è¨­å®šã™ã‚‹å€¤
+     * @param clazz     İ’è‘ÎÛ‚ÌƒNƒ‰ƒX‚ÌƒNƒ‰ƒXî•ñ
+     * @param fieldName İ’è‘ÎÛ‚ÌƒtƒB[ƒ‹ƒh–¼
+     * @param instance  İ’è‘ÎÛ‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
+     * @param value     İ’è‚·‚é’l
      */
     public static void setNonAccessibleField(
         Class<?> clazz, String fieldName, Object instance, Object value)
     {
         if (instance != null && clazz.equals(instance.getClass()) == false)
         {
-            throw new RuntimeException("è¨­å®šå¯¾è±¡ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ãŒä¸€è‡´ã—ã¾ã›ã‚“");
+            throw new RuntimeException("İ’è‘ÎÛƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ªˆê’v‚µ‚Ü‚¹‚ñ");
         }
         
         try
@@ -955,19 +955,19 @@ public class ReporterTestUtil
     }
 
     /**
-     * privateãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ãªã©ã€ã‚¢ã‚¯ã‚»ã‚¹ã§ããªã„ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
+     * privateƒtƒB[ƒ‹ƒh‚È‚ÇAƒAƒNƒZƒX‚Å‚«‚È‚¢ƒtƒB[ƒ‹ƒh‚Ì’l‚ğæ“¾‚·‚éB
      * 
-     * @param clazz     è¨­å®šå¯¾è±¡ã‚¯ãƒ©ã‚¹ã®ã‚¯ãƒ©ã‚¹æƒ…å ±
-     * @param fieldName è¨­å®šå¯¾è±¡ã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰å
-     * @param instance  è¨­å®šå¯¾è±¡ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
-     * @return          è¨­å®šã™ã‚‹å€¤
+     * @param clazz     İ’è‘ÎÛƒNƒ‰ƒX‚ÌƒNƒ‰ƒXî•ñ
+     * @param fieldName İ’è‘ÎÛ‚ÌƒtƒB[ƒ‹ƒh–¼
+     * @param instance  İ’è‘ÎÛ‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
+     * @return          İ’è‚·‚é’l
      */
     public static Object getNonAccessibleField(
         Class<?> clazz, String fieldName, Object instance)
     {
         if (instance != null && clazz.equals(instance.getClass()) == false)
         {
-            throw new RuntimeException("å–å¾—å¯¾è±¡ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ãŒä¸€è‡´ã—ã¾ã›ã‚“");
+            throw new RuntimeException("æ“¾‘ÎÛƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ªˆê’v‚µ‚Ü‚¹‚ñ");
         }
         
         Object result = null;
@@ -986,13 +986,13 @@ public class ReporterTestUtil
     }
     
     /**
-     * privateãƒ¡ã‚½ãƒƒãƒ‰ãªã©ã€ç›´æ¥ã‚¢ã‚¯ã‚»ã‚¹ã§ããªã„ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å®Ÿè¡Œã™ã‚‹ã€‚
+     * privateƒƒ\ƒbƒh‚È‚ÇA’¼ÚƒAƒNƒZƒX‚Å‚«‚È‚¢ƒƒ\ƒbƒh‚ğÀs‚·‚éB
      * 
-     * @param clazz      å¯¾è±¡ã®ãƒ¡ã‚½ãƒƒãƒ‰ãŒå®šç¾©ã•ã‚Œã¦ã„ã‚‹ã‚¯ãƒ©ã‚¹ã®ã‚¯ãƒ©ã‚¹æƒ…å ±
-     * @param methodName å‘¼ã³å‡ºã™å¯¾è±¡ã®ãƒ¡ã‚½ãƒƒãƒ‰ã®åç§°
-     * @param instance   ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã³å‡ºã™ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã€‚staticãƒ¡ã‚½ãƒƒãƒ‰ã®å ´åˆã¯nullã€‚
-     * @param params     ãƒ¡ã‚½ãƒƒãƒ‰ã«æŒ‡å®šã™ã‚‹ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿(ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–å‹ã®å ´åˆã¯ãƒ©ãƒƒãƒ‘ãƒ¼ã‚¯ãƒ©ã‚¹ã‚’ä½¿ç”¨ã™ã‚‹)
-     * @returnã€€æŒ‡å®šã—ãŸãƒ¡ã‚½ãƒƒãƒ‰ã®å‘¼å‡ºçµæœ
+     * @param clazz      ‘ÎÛ‚Ìƒƒ\ƒbƒh‚ª’è‹`‚³‚ê‚Ä‚¢‚éƒNƒ‰ƒX‚ÌƒNƒ‰ƒXî•ñ
+     * @param methodName ŒÄ‚Ño‚·‘ÎÛ‚Ìƒƒ\ƒbƒh‚Ì–¼Ì
+     * @param instance   ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·ƒCƒ“ƒXƒ^ƒ“ƒXBstaticƒƒ\ƒbƒh‚Ìê‡‚ÍnullB
+     * @param params     ƒƒ\ƒbƒh‚Éw’è‚·‚éƒpƒ‰ƒ[ƒ^(ƒvƒŠƒ~ƒeƒBƒuŒ^‚Ìê‡‚Íƒ‰ƒbƒp[ƒNƒ‰ƒX‚ğg—p‚·‚é)
+     * @return@w’è‚µ‚½ƒƒ\ƒbƒh‚ÌŒÄoŒ‹‰Ê
      */
     public static Object invokeNonAccessibleMethod(
         Class<?> clazz, String methodName, Object instance, Object ... params)
@@ -1023,12 +1023,12 @@ public class ReporterTestUtil
     }
     
     /**
-     * æŒ‡å®šã—ãŸå¼•æ•°ã«ã€å‹ãŒå¯¾å¿œã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å–å¾—ã™ã‚‹ã€‚
+     * w’è‚µ‚½ˆø”‚ÉAŒ^‚ª‘Î‰‚·‚éƒƒ\ƒbƒh‚ğæ“¾‚·‚éB
      * 
-     * @param clazz      ãƒ¡ã‚½ãƒƒãƒ‰ã‚’æ¤œç´¢ã™ã‚‹å‹
-     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰ã®åå‰
-     * @param params     ãƒ¡ã‚½ãƒƒãƒ‰ã«é©ç”¨ã™ã‚‹å¼•æ•°
-     * @return é©åˆã—ãŸãƒ¡ã‚½ãƒƒãƒ‰ã€‚è¦‹ä»˜ã‹ã‚‰ãªã‹ã£ãŸå ´åˆã¯nullã€‚
+     * @param clazz      ƒƒ\ƒbƒh‚ğŒŸõ‚·‚éŒ^
+     * @param methodName ƒƒ\ƒbƒh‚Ì–¼‘O
+     * @param params     ƒƒ\ƒbƒh‚É“K—p‚·‚éˆø”
+     * @return “K‡‚µ‚½ƒƒ\ƒbƒhBŒ©•t‚©‚ç‚È‚©‚Á‚½ê‡‚ÍnullB
      */
     private static Method getParamTypesMatchMethod(Class<?> clazz, String methodName, Object ... params)
     {
@@ -1080,10 +1080,10 @@ public class ReporterTestUtil
     }
 
     /**
-     * æŒ‡å®šã—ãŸãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–å‹ã«å¯¾å¿œã™ã‚‹ãƒ©ãƒƒãƒ‘ãƒ¼ã‚¯ãƒ©ã‚¹ã‚’å–å¾—ã™ã‚‹ã€‚
+     * w’è‚µ‚½ƒvƒŠƒ~ƒeƒBƒuŒ^‚É‘Î‰‚·‚éƒ‰ƒbƒp[ƒNƒ‰ƒX‚ğæ“¾‚·‚éB
      * 
-     * @param clazz ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–å‹
-     * @returnã€€ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã«å¯¾å¿œã™ã‚‹ãƒ©ãƒƒãƒ‘ãƒ¼ã‚¯ãƒ©ã‚¹ã€‚ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã«ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–å‹ãŒé©ç”¨ã•ã‚Œã¦ã„ãªã‘ã‚Œã°nullã€‚
+     * @param clazz ƒvƒŠƒ~ƒeƒBƒuŒ^
+     * @return@ƒpƒ‰ƒ[ƒ^‚É‘Î‰‚·‚éƒ‰ƒbƒp[ƒNƒ‰ƒXBƒpƒ‰ƒ[ƒ^‚ÉƒvƒŠƒ~ƒeƒBƒuŒ^‚ª“K—p‚³‚ê‚Ä‚¢‚È‚¯‚ê‚ÎnullB
      */
     private static Class<? extends Object> getWrapperClass(Class<?> clazz)
     {
@@ -1092,8 +1092,8 @@ public class ReporterTestUtil
     		return null;
     	}
     	
-    	// ä¸€æ—¦ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–å‹ã®é…åˆ—ã‚’ç”Ÿæˆå¾Œã€Arrayã‚¯ãƒ©ã‚¹ã‚’ä½¿ã£ã¦è¦ç´ ã‚’å–å¾—ã™ã‚‹ã“ã¨ã§
-    	// ãƒ©ãƒƒãƒ‘ãƒ¼ã‚¯ãƒ©ã‚¹ã«å¤‰æ›ã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã§ãã‚‹ã€‚
+    	// ˆê’UƒvƒŠƒ~ƒeƒBƒuŒ^‚Ì”z—ñ‚ğ¶¬ŒãAArrayƒNƒ‰ƒX‚ğg‚Á‚Ä—v‘f‚ğæ“¾‚·‚é‚±‚Æ‚Å
+    	// ƒ‰ƒbƒp[ƒNƒ‰ƒX‚É•ÏŠ·‚³‚ê‚½ƒf[ƒ^‚ğæ“¾‚Å‚«‚éB
     	Object array = Array.newInstance(clazz, 1);
     	Object wrapper = Array.get(array, 0);
     	

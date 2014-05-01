@@ -71,20 +71,20 @@ import jp.co.smg.endosnipe.javassist.CtClass;
 import jp.co.smg.endosnipe.javassist.LoaderClassPath;
 
 /**
- * Java Instrumentation APIã«ã‚ˆã‚Šã€javaagentã¨ã—ã¦ã‚¯ãƒ©ã‚¹ã®å¤‰æ›ã‚’è¡Œã†ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+ * Java Instrumentation API‚É‚æ‚èAjavaagent‚Æ‚µ‚ÄƒNƒ‰ƒX‚Ì•ÏŠ·‚ğs‚¤ƒNƒ‰ƒX‚Å‚·B<br />
  * 
  * @author yamasaki
  * 
  */
 public class JavelinTransformer implements ClassFileTransformer
 {
-    /** Javelinç”¨ã‚¹ãƒ¬ãƒƒãƒ‰ãŒå‡¦ç†ã‚’é–‹å§‹ã™ã‚‹ã¾ã§ã®å¾…ã¡æ™‚é–“ã€‚ */
+    /** Javelin—pƒXƒŒƒbƒh‚ªˆ—‚ğŠJn‚·‚é‚Ü‚Å‚Ì‘Ò‚¿ŠÔB */
     public static final int                    WAIT_FOR_THREAD_START = 1000 * 10;
 
-    /** ã‚¯ãƒ©ã‚¹ãƒ­ãƒ¼ãƒ‰æ™‚ã«èª­ã¾ã‚Œã‚‹ã‚¯ãƒ©ã‚¹ */
+    /** ƒNƒ‰ƒXƒ[ƒh‚É“Ç‚Ü‚ê‚éƒNƒ‰ƒX */
     private static JavelinTransformer          transformer__;
 
-    /** ã‚¯ãƒ©ã‚¹poolã‚’ç™»éŒ²ã™ã‚‹Map */
+    /** ƒNƒ‰ƒXpool‚ğ“o˜^‚·‚éMap */
     private static Map<ClassLoader, ClassPool> loaderPoolMap__;
 
     private static boolean                     forceTransform__      = false;
@@ -96,41 +96,35 @@ public class JavelinTransformer implements ClassFileTransformer
         loaderPoolMap__ = Collections.synchronizedMap(new WeakHashMap<ClassLoader, ClassPool>());
     }
 
-    /** ãƒ­ãƒ¼ãƒ‰æ¸ˆã¿ã®ã‚¯ãƒ©ã‚¹ã®é›†åˆ */
+    /** ƒ[ƒhÏ‚İ‚ÌƒNƒ‰ƒX‚ÌW‡ */
     private static Set<String>                 loadedClassSet__      = new HashSet<String>();
 
-    /** Javelinã®è¨­å®šå€¤ã‚’èª­ã¿è¾¼ã‚€ã‚¯ãƒ©ã‚¹ */
+    /** Javelin‚Ìİ’è’l‚ğ“Ç‚İ‚ŞƒNƒ‰ƒX */
     private JavelinTransformConfig             transformConfig_;
 
-    /** ã‚·ã‚¹ãƒ†ãƒ ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£è¡¨ç¤ºã®å…ˆé ­ */
+    /** ƒVƒXƒeƒ€ƒvƒƒpƒeƒB•\¦‚Ìæ“ª */
     private static final String                SYS_PROP_HEAD         = "\n>>>> System Properties\n";
 
-    /** ã‚·ã‚¹ãƒ†ãƒ ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£è¡¨ç¤ºã®æœ«å°¾ */
+    /** ƒVƒXƒeƒ€ƒvƒƒpƒeƒB•\¦‚Ì––”ö */
     private static final String                SYS_PROP_END          = "<<<<\n";
 
-    /** StringBuilderã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚µã‚¤ã‚º */
+    /** StringBuilder‚ÌƒfƒtƒHƒ‹ƒgƒTƒCƒY */
     private static final int                   DEF_BUILDER_SIZE      = 1024;
 
     /**
-     * ãƒ­ã‚°å‡ºåŠ›å‡¦ç†ã‚’åŸ‹ã‚è¾¼ã¿ã¾ã™ã€‚<br />
+     * ƒƒOo—Íˆ—‚ğ–„‚ß‚İ‚Ü‚·B<br />
      * 
-     * @param loader ã‚¯ãƒ©ã‚¹ãƒ­ãƒ¼ãƒ€
-     * @param className ã‚¯ãƒ©ã‚¹å
-     * @param classBeingRedefined å†å®šç¾©ã•ã‚ŒãŸã‚¯ãƒ©ã‚¹
-     * @param protectionDomain ä¿è­·é ˜åŸŸ
-     * @param classfileBuffer ã‚¯ãƒ©ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ãƒãƒƒãƒ•ã‚¡
-     * @return ã‚³ãƒ¼ãƒ‰åŸ‹ã‚è¾¼ã¿å¾Œã®ã‚¯ãƒ©ã‚¹ã®ãƒã‚¤ãƒˆã‚³ãƒ¼ãƒ‰
+     * @param loader ƒNƒ‰ƒXƒ[ƒ_
+     * @param className ƒNƒ‰ƒX–¼
+     * @param classBeingRedefined Ä’è‹`‚³‚ê‚½ƒNƒ‰ƒX
+     * @param protectionDomain •ÛŒì—Ìˆæ
+     * @param classfileBuffer ƒNƒ‰ƒXƒtƒ@ƒCƒ‹ƒoƒbƒtƒ@
+     * @return ƒR[ƒh–„‚ß‚İŒã‚ÌƒNƒ‰ƒX‚ÌƒoƒCƒgƒR[ƒh
      */
     public byte[] transform(final ClassLoader loader, String className,
             final Class<?> classBeingRedefined, final ProtectionDomain protectionDomain,
             final byte[] classfileBuffer)
     {
-        // Javeliné–¢é€£ã®ã‚¹ãƒ¬ãƒƒãƒ‰ã®å ´åˆã¯ã€å¤‰æ›ã‚’è¡Œã‚ãªã„ã€‚
-        if (Thread.currentThread().getName().startsWith("Javelin"))
-        {
-            return null;
-        }
-        
         className = className.replaceAll("/", "\\.");
 
         if (!isTargetClassName(className))
@@ -143,7 +137,7 @@ public class JavelinTransformer implements ClassFileTransformer
             return null;
         }
 
-        // é™¤å¤–ãƒªã‚¹ãƒˆã§ã‚¯ãƒ©ã‚¹ã”ã¨é™¤å¤–ã•ã‚Œã¦ã„ã‚‹å ´åˆã¯ã€ä»¥é™ã®å‡¦ç†ã‚’è¡Œã‚ãªã„ã€‚
+        // œŠOƒŠƒXƒg‚ÅƒNƒ‰ƒX‚²‚ÆœŠO‚³‚ê‚Ä‚¢‚éê‡‚ÍAˆÈ~‚Ìˆ—‚ğs‚í‚È‚¢B
         if (this.transformConfig_.isExcludeClass(className))
         {
             return null;
@@ -187,15 +181,15 @@ public class JavelinTransformer implements ClassFileTransformer
     }
 
     /**
-     * ã‚¯ãƒ©ã‚¹åã‹ã‚‰å¤‰æ›å¯¾è±¡ã§ã‚ã‚‹ã‹ã€åˆ¤å®šã™ã‚‹ã€‚
-     * Java APIã®ã‚¯ãƒ©ã‚¹ãŠã‚ˆã³javassistã€Javelinã®ã‚¯ãƒ©ã‚¹ã§ã‚ã‚Œã°ã€falseã‚’è¿”ã™ã€‚
+     * ƒNƒ‰ƒX–¼‚©‚ç•ÏŠ·‘ÎÛ‚Å‚ ‚é‚©A”»’è‚·‚éB
+     * Java API‚ÌƒNƒ‰ƒX‚¨‚æ‚ÑjavassistAJavelin‚ÌƒNƒ‰ƒX‚Å‚ ‚ê‚ÎAfalse‚ğ•Ô‚·B
      * 
      * @param className
-     * @return å¤‰æ›å¯¾è±¡ã§ã‚ã‚Œã°trueã‚’ã€ãã†ã§ãªã‘ã‚Œã°falseã‚’è¿”ã™ã€‚
+     * @return •ÏŠ·‘ÎÛ‚Å‚ ‚ê‚Îtrue‚ğA‚»‚¤‚Å‚È‚¯‚ê‚Îfalse‚ğ•Ô‚·B
      */
     private static boolean isTargetClassName(String className)
     {
-        // Java APIã®ã‚¯ãƒ©ã‚¹ãŠã‚ˆã³javassistã€Javelinã®ã‚¯ãƒ©ã‚¹ã«å¯¾ã—ã¦ã¯å‡¦ç†ã‚’è¡Œã‚ãªã„ã€‚
+        // Java API‚ÌƒNƒ‰ƒX‚¨‚æ‚ÑjavassistAJavelin‚ÌƒNƒ‰ƒX‚É‘Î‚µ‚Ä‚Íˆ—‚ğs‚í‚È‚¢B
         if (className.startsWith("sun.misc") 
                 || className.startsWith("javassist.")
                 || className.startsWith("org.seasar.javelin")
@@ -209,13 +203,13 @@ public class JavelinTransformer implements ClassFileTransformer
     }
 
     /**
-     * æŒ‡å®šã—ãŸã‚¯ãƒ©ã‚¹ã®ãƒã‚¤ãƒˆã‚³ãƒ¼ãƒ‰ã‚’å¤‰æ›ã—ã¾ã™ã€‚<br />
+     * w’è‚µ‚½ƒNƒ‰ƒX‚ÌƒoƒCƒgƒR[ƒh‚ğ•ÏŠ·‚µ‚Ü‚·B<br />
      *
-     * @param loader ã‚¯ãƒ©ã‚¹ãƒ­ãƒ¼ãƒ€
-     * @param className å¤‰æ›ã™ã‚‹ã‚¯ãƒ©ã‚¹å
-     * @param classfileBuffer å¤‰æ›å‰ã®ãƒã‚¤ãƒˆã‚³ãƒ¼ãƒ‰
-     * @return å¤‰æ›å¾Œã®ãƒã‚¤ãƒˆã‚³ãƒ¼ãƒ‰
-     * @throws Exception å¤‰æ›ä¸­ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @param loader ƒNƒ‰ƒXƒ[ƒ_
+     * @param className •ÏŠ·‚·‚éƒNƒ‰ƒX–¼
+     * @param classfileBuffer •ÏŠ·‘O‚ÌƒoƒCƒgƒR[ƒh
+     * @return •ÏŠ·Œã‚ÌƒoƒCƒgƒR[ƒh
+     * @throws Exception •ÏŠ·’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚½ê‡
      */
     private byte[] transformClass(final ClassLoader loader, final String className,
             final byte[] classfileBuffer)
@@ -244,26 +238,26 @@ public class JavelinTransformer implements ClassFileTransformer
 
         try
         {
-            // å¯¾è±¡ãƒªã‚¹ãƒˆã«ãƒãƒƒãƒã™ã‚Œã°ã€å‡¦ç†ã‚’è¡Œã†ã€‚
+            // ‘ÎÛƒŠƒXƒg‚Éƒ}ƒbƒ`‚·‚ê‚ÎAˆ—‚ğs‚¤B
             List<IncludeConversionConfig> includeConfigList =
                     this.transformConfig_.matchesToInclude(className, ctClass, pool);
 
-            // 1ã¤ã®ã‚¯ãƒ©ã‚¹ã«å¯¾ã—ã€åŒã˜ã‚³ãƒ³ãƒãƒ¼ã‚¿ã‚¯ãƒ©ã‚¹ã¯1å›ã®ã¿é©ç”¨ã™ã‚‹ã€‚
-            // 1ã¤ã®ã‚¯ãƒ©ã‚¹ã«å¯¾ã—ã¦ã€åŒã˜ã‚³ãƒ³ãƒãƒ¼ã‚¿ã‚¯ãƒ©ã‚¹ãŒè¤‡æ•°è¡Œã«æ¸¡ã‚Šå½“ã¦ã¯ã¾ã‚‹å ´åˆã¯ã€
-            // å®šç¾©ãƒ•ã‚¡ã‚¤ãƒ«ã®ä¸Šã®è¡Œã‚’å„ªå…ˆã™ã‚‹ã€‚
-            // ä»¥ä¸‹ã®å®šç¾©ã®å ´åˆã€TestTargetã«ã¯ã€ConverterAã€ConverterBã€ConverterCã®é †ã§é©ç”¨ã•ã‚Œã‚‹ã€‚
+            // 1‚Â‚ÌƒNƒ‰ƒX‚É‘Î‚µA“¯‚¶ƒRƒ“ƒo[ƒ^ƒNƒ‰ƒX‚Í1‰ñ‚Ì‚İ“K—p‚·‚éB
+            // 1‚Â‚ÌƒNƒ‰ƒX‚É‘Î‚µ‚ÄA“¯‚¶ƒRƒ“ƒo[ƒ^ƒNƒ‰ƒX‚ª•¡”s‚É“n‚è“–‚Ä‚Í‚Ü‚éê‡‚ÍA
+            // ’è‹`ƒtƒ@ƒCƒ‹‚Ìã‚Ìs‚ğ—Dæ‚·‚éB
+            // ˆÈ‰º‚Ì’è‹`‚Ìê‡ATestTarget‚É‚ÍAConverterAAConverterBAConverterC‚Ì‡‚Å“K—p‚³‚ê‚éB
             // [Converter]Converter1=yyy.zzz.ConverterA
             // [Converter]Converter2=yyy.zzz.ConverterB,yyy.zzz.ConverterA,yyy.zzz.ConverterC
             // TestTarget,Converter1
             // TestTarget,Converter2
 
-            // å¯¾è±¡ãƒªã‚¹ãƒˆã«ãƒãƒƒãƒã—ãªã„å ´åˆã¯ã€å‡¦ç†ã‚’è¡Œã‚ãªã„
+            // ‘ÎÛƒŠƒXƒg‚Éƒ}ƒbƒ`‚µ‚È‚¢ê‡‚ÍAˆ—‚ğs‚í‚È‚¢
             List<ExcludeConversionConfig> exludeConfigList =
                                              this.transformConfig_.matchesToExclude(className);
 
             Set<String> appliedConverterSet = new HashSet<String>();
 
-            // ã‚³ãƒ³ãƒãƒ¼ã‚¿ã‚’é †æ¬¡é©ç”¨ã™ã‚‹
+            // ƒRƒ“ƒo[ƒ^‚ğ‡Ÿ“K—p‚·‚é
             for (IncludeConversionConfig includeConfig : includeConfigList)
             {
                 for (String converterName : includeConfig.getConverterNameList())
@@ -332,10 +326,10 @@ public class JavelinTransformer implements ClassFileTransformer
     }
 
     /**
-     * ClassPoolã«ãƒ‘ã‚¹ã‚’è¿½åŠ ã—ã¾ã™ã€‚<br />
+     * ClassPool‚ÉƒpƒX‚ğ’Ç‰Á‚µ‚Ü‚·B<br />
      * 
-     * @param pool {@link ClassPool}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param loader {@link ClassLoader}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param pool {@link ClassPool}ƒIƒuƒWƒFƒNƒg
+     * @param loader {@link ClassLoader}ƒIƒuƒWƒFƒNƒg
      */
     private static void appendLoaderClassPath(final ClassPool pool, final ClassLoader loader)
     {
@@ -351,16 +345,16 @@ public class JavelinTransformer implements ClassFileTransformer
     }
 
     /**
-     * ã‚³ãƒ³ãƒãƒ¼ã‚¿ã‚’é©ç”¨ã—ã¾ã™ã€‚<br />
+     * ƒRƒ“ƒo[ƒ^‚ğ“K—p‚µ‚Ü‚·B<br />
      * 
-     * @param className ã‚¯ãƒ©ã‚¹å
-     * @param classfileBuffer ã‚¯ãƒ©ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒãƒƒãƒ•ã‚¡
-     * @param pool {@link ClassPool}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param ctClass {@link CtClass}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param includeConfig ã‚³ãƒ¼ãƒ‰åŸ‹ã‚è¾¼ã¿å¯¾è±¡ã‚¯ãƒ©ã‚¹ã‚‚ã—ãã¯ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ç¤ºã™è¨­å®š
-     * @param excludeConfigList ã‚³ãƒ¼ãƒ‰åŸ‹ã‚è¾¼ã¿é™¤å¤–å¯¾è±¡ã‚¯ãƒ©ã‚¹ã‚‚ã—ãã¯ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ç¤ºã™è¨­å®š
-     * @param converterClassName ã‚³ãƒ³ãƒãƒ¼ã‚¿ã®ã‚¯ãƒ©ã‚¹å
-     * @return ã‚³ãƒ¼ãƒ‰åŸ‹ã‚è¾¼ã¿å¾Œã®ã‚¯ãƒ©ã‚¹ã®ãƒã‚¤ãƒˆã‚³ãƒ¼ãƒ‰
+     * @param className ƒNƒ‰ƒX–¼
+     * @param classfileBuffer ƒNƒ‰ƒXƒtƒ@ƒCƒ‹‚Ìƒoƒbƒtƒ@
+     * @param pool {@link ClassPool}ƒIƒuƒWƒFƒNƒg
+     * @param ctClass {@link CtClass}ƒIƒuƒWƒFƒNƒg
+     * @param includeConfig ƒR[ƒh–„‚ß‚İ‘ÎÛƒNƒ‰ƒX‚à‚µ‚­‚Íƒƒ\ƒbƒh‚ğ¦‚·İ’è
+     * @param excludeConfigList ƒR[ƒh–„‚ß‚İœŠO‘ÎÛƒNƒ‰ƒX‚à‚µ‚­‚Íƒƒ\ƒbƒh‚ğ¦‚·İ’è
+     * @param converterClassName ƒRƒ“ƒo[ƒ^‚ÌƒNƒ‰ƒX–¼
+     * @return ƒR[ƒh–„‚ß‚İŒã‚ÌƒNƒ‰ƒX‚ÌƒoƒCƒgƒR[ƒh
      */
     private byte[] applyConverter(final String className, byte[] classfileBuffer,
             final ClassPool pool, final CtClass ctClass,
@@ -391,21 +385,21 @@ public class JavelinTransformer implements ClassFileTransformer
     }
 
     /**
-     * åˆæœŸåŒ–å‡¦ç†ã§ã™ã€‚ è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿è¾¼ã¿ã‚’è¡Œã„ã¾ã™ã€‚<br />
+     * ‰Šú‰»ˆ—‚Å‚·B İ’èƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İ‚ğs‚¢‚Ü‚·B<br />
      * 
-     * @throws IOException å…¥å‡ºåŠ›æ™‚ã®ä¾‹å¤–
+     * @throws IOException “üo—Í‚Ì—áŠO
      */
     public void init()
         throws IOException
     {
-        // å®Ÿè¡Œã—ã¦ã„ã‚‹Jarãƒ•ã‚¡ã‚¤ãƒ«ãŒå­˜åœ¨ã™ã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®ãƒ‘ã‚¹ã‚’å–å¾—
+        // Às‚µ‚Ä‚¢‚éJarƒtƒ@ƒCƒ‹‚ª‘¶İ‚·‚éƒfƒBƒŒƒNƒgƒŠ‚ÌƒpƒX‚ğæ“¾
         String absoluteJarDirectory = getAbsoluteDirectoryPath();
 
-        // ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ã€ã‚ªãƒ—ã‚·ãƒ§ãƒ³è¨­å®šã‚’èª­ã¿è¾¼ã‚€ã€‚
+        // ƒIƒvƒVƒ‡ƒ“ƒtƒ@ƒCƒ‹‚©‚çAƒIƒvƒVƒ‡ƒ“İ’è‚ğ“Ç‚İ‚ŞB
         JavelinConfig config = new JavelinConfig(absoluteJarDirectory);
         SystemLogger.initSystemLog(config);
 
-        // JavlinConfigã®agentNameã‚’æ›´æ–°
+        // JavlinConfig‚ÌagentName‚ğXV
         String agentName = config.getClusterName();
         agentName = addSlashes(agentName);
         agentName += "%H";
@@ -442,9 +436,9 @@ public class JavelinTransformer implements ClassFileTransformer
     }
 
     /**
-     * javaagentã‚ªãƒ³ãƒ‡ãƒãƒ³ãƒ‰ãƒ»ã‚¢ã‚¿ãƒƒãƒç”¨ã‚¨ãƒ³ãƒˆãƒªãƒã‚¤ãƒ³ãƒˆã€‚
+     * javaagentƒIƒ“ƒfƒ}ƒ“ƒhEƒAƒ^ƒbƒ`—pƒGƒ“ƒgƒŠƒ|ƒCƒ“ƒgB
      * 
-     * @param args å¼•æ•°
+     * @param args ˆø”
      * @param instrumentation Instrumentation
      */
     public static void agentmain(final String args, final Instrumentation instrumentation)
@@ -462,16 +456,16 @@ public class JavelinTransformer implements ClassFileTransformer
     }
 
     /**
-     * javaagentç”¨ã‚¨ãƒ³ãƒˆãƒªãƒã‚¤ãƒ³ãƒˆã€‚<br> ãƒ­ãƒ¼ãƒ‰æ¸ˆã¿ã‚¯ãƒ©ã‚¹ã®å¤‰æ›´ã‚‚è¡Œã†ã€‚
+     * javaagent—pƒGƒ“ƒgƒŠƒ|ƒCƒ“ƒgB<br> ƒ[ƒhÏ‚İƒNƒ‰ƒX‚Ì•ÏX‚às‚¤B
      * 
-     * @param args å¼•æ•°
+     * @param args ˆø”
      * @param instrumentation Instrumentation
      */
     public static void premain(final String args, final Instrumentation instrumentation)
     {
         ENdoSnipeLogger.setSystemLoggerMode(true);
 
-        // ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®ç”Ÿæˆã¨åˆæœŸåŒ–ã‚’è¡Œã†ã€‚
+        // ƒCƒ“ƒXƒ^ƒ“ƒX‚Ì¶¬‚Æ‰Šú‰»‚ğs‚¤B
         transformer__ = new JavelinTransformer();
         try
         {
@@ -485,7 +479,7 @@ public class JavelinTransformer implements ClassFileTransformer
 
         JavelinConfig javelinConfig = new JavelinConfig();
 
-        // è¨­å®šå€¤ã‚’è¡¨ç¤ºã™ã‚‹ã€‚
+        // İ’è’l‚ğ•\¦‚·‚éB
         transformer__.printConfig(javelinConfig);
         transformer__.printSystemProperty();
 
@@ -495,7 +489,7 @@ public class JavelinTransformer implements ClassFileTransformer
 
         Class<?>[] classes = instrumentation.getAllLoadedClasses();
 
-        // æ—¢ã«ãƒ­ãƒ¼ãƒ‰æ¸ˆã¿ã®ã‚¯ãƒ©ã‚¹ã®å¤‰æ›´ã‚’è¡Œã†ã€‚
+        // Šù‚Éƒ[ƒhÏ‚İ‚ÌƒNƒ‰ƒX‚Ì•ÏX‚ğs‚¤B
         ClassReserveTransformer classReserveTransformer = new ClassReserveTransformer();
         instrumentation.addTransformer(classReserveTransformer);
         transformLoadedClasses(instrumentation, classes);
@@ -504,7 +498,7 @@ public class JavelinTransformer implements ClassFileTransformer
 
         try
         {
-            // åˆæœŸåŒ–ã—ãŸã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç™»éŒ²ã™ã‚‹ã€‚
+            // ‰Šú‰»‚µ‚½ƒCƒ“ƒXƒ^ƒ“ƒX‚ğ“o˜^‚·‚éB
             instrumentation.addTransformer(transformer__);
         }
         catch (Throwable th)
@@ -512,32 +506,32 @@ public class JavelinTransformer implements ClassFileTransformer
             SystemLogger.getInstance().warn(th);
         }
 
-        // ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
+        // ƒXƒŒƒbƒhƒ†[ƒeƒBƒŠƒeƒB‚ğ‰Šú‰»‚·‚éB
         ThreadUtil.init(javelinConfig);
 
-        // ä»¥ä¸‹ã®å‡¦ç†ã¯ã€instrumentation.addTransformer() ã‚’å‘¼ã³å‡ºã—ãŸå¾Œã«å®Ÿè¡Œã™ã‚‹ã€‚
-        // ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’ç”Ÿæˆã™ã‚‹å‡¦ç†ã¯ã€addTransformer() å®Ÿè¡Œå¾Œã§ãªã„ã¨ã€
-        // ãƒ­ãƒ¼ãƒ‰ã•ã‚ŒãŸã‚¯ãƒ©ã‚¹ãŒ transformer__.transform() ã«æ¸¡ã•ã‚Œãªã„ã“ã¨ãŒã‚ã‚Šå¾—ã‚‹ãŸã‚ã€‚
-        ////////// ã“ã“ã‹ã‚‰ //////////
+        // ˆÈ‰º‚Ìˆ—‚ÍAinstrumentation.addTransformer() ‚ğŒÄ‚Ño‚µ‚½Œã‚ÉÀs‚·‚éB
+        // ƒXƒŒƒbƒh‚ğ¶¬‚·‚éˆ—‚ÍAaddTransformer() ÀsŒã‚Å‚È‚¢‚ÆA
+        // ƒ[ƒh‚³‚ê‚½ƒNƒ‰ƒX‚ª transformer__.transform() ‚É“n‚³‚ê‚È‚¢‚±‚Æ‚ª‚ ‚è“¾‚é‚½‚ßB
+        ////////// ‚±‚±‚©‚ç //////////
 
-        // ã‚¹ãƒ¬ãƒƒãƒ‰ç›£è¦–ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’é–‹å§‹ã™ã‚‹ã€‚
+        // ƒXƒŒƒbƒhŠÄ‹ƒXƒŒƒbƒh‚ğŠJn‚·‚éB
         initThreadMonitor();
         
-        // ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å–å¾—ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’é–‹å§‹ã™ã‚‹ã€‚
+        // ƒXƒŒƒbƒhƒ_ƒ“ƒvæ“¾ƒXƒŒƒbƒh‚ğŠJn‚·‚éB
         initThreadDumpMonitor();
         
-        // ãƒ•ãƒ«GCæ¤œå‡ºã‚¹ãƒ¬ãƒƒãƒ‰ã‚’é–‹å§‹ã™ã‚‹ã€‚
+        // ƒtƒ‹GCŒŸoƒXƒŒƒbƒh‚ğŠJn‚·‚éB
         initFullGCMonitor();
         
-        // ã‚¹ãƒˆãƒ¼ãƒ«ãƒ¡ã‚½ãƒƒãƒ‰ç›£è¦–ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’é–‹å§‹ã™ã‚‹ã€‚
+        // ƒXƒg[ƒ‹ƒƒ\ƒbƒhŠÄ‹ƒXƒŒƒbƒh‚ğŠJn‚·‚éB
         initMethodStallMonitor();
         
-        // ãƒãƒ¼ãƒˆã‚’ã‚ªãƒ¼ãƒ—ãƒ³ã™ã‚‹ã€‚
+        // ƒ|[ƒg‚ğƒI[ƒvƒ“‚·‚éB
         StatsJavelinRecorder.javelinInit(javelinConfig);
 
-        ////////// ã“ã“ã¾ã§ //////////
+        ////////// ‚±‚±‚Ü‚Å //////////
 
-        // è‡ªåˆ†è‡ªèº«ã«å¯¾ã—ã¦Attachã™ã‚‹ã€‚
+        // ©•ª©g‚É‘Î‚µ‚ÄAttach‚·‚éB
         try
         {
             AttachUtil.attach();
@@ -555,14 +549,14 @@ public class JavelinTransformer implements ClassFileTransformer
             SystemLogger.getInstance().info(message, th);
         }
 
-        // ãƒªã‚½ãƒ¼ã‚¹ã‚’å–å¾—ã—ã¦ã¿ã‚‹ã€‚
+        // ƒŠƒ\[ƒX‚ğæ“¾‚µ‚Ä‚İ‚éB
         JavelinCompatibilityChecker checker = new JavelinCompatibilityChecker();
         checker.check();
     }
 
     private static void loadClasses()
     {
-        // ClassPoolã®åˆæœŸåŒ–ã§ãƒ‡ãƒƒãƒ‰ãƒ­ãƒƒã‚¯ã‚’é¿ã‘ã‚‹ãŸã‚ã€ClassPoolã‚’ãƒ­ãƒ¼ãƒ‰ã—ã¦ãŠã
+        // ClassPool‚Ì‰Šú‰»‚ÅƒfƒbƒhƒƒbƒN‚ğ”ğ‚¯‚é‚½‚ßAClassPool‚ğƒ[ƒh‚µ‚Ä‚¨‚­
         ClassPool.getDefault();
 
         Map<String, String> tempMap = new HashMap<String, String>();
@@ -575,10 +569,10 @@ public class JavelinTransformer implements ClassFileTransformer
     }
 
     /**
-     * ã™ã§ã«ãƒ­ãƒ¼ãƒ‰ã•ã‚ŒãŸã‚¯ãƒ©ã‚¹ã®ãƒã‚¤ãƒˆã‚³ãƒ¼ãƒ‰ã‚’å¤‰æ›ã—ã¾ã™ã€‚<br />
+     * ‚·‚Å‚Éƒ[ƒh‚³‚ê‚½ƒNƒ‰ƒX‚ÌƒoƒCƒgƒR[ƒh‚ğ•ÏŠ·‚µ‚Ü‚·B<br />
      *
-     * @param instrumentation ãƒã‚¤ãƒˆã‚³ãƒ¼ãƒ‰æ“ä½œã‚µãƒ¼ãƒ“ã‚¹
-     * @param classes å¤‰æ›ã™ã‚‹ãƒ­ãƒ¼ãƒ‰æ¸ˆã¿ã‚¯ãƒ©ã‚¹
+     * @param instrumentation ƒoƒCƒgƒR[ƒh‘€ìƒT[ƒrƒX
+     * @param classes •ÏŠ·‚·‚éƒ[ƒhÏ‚İƒNƒ‰ƒX
      */
     private static void transformLoadedClasses(final Instrumentation instrumentation,
             final Class<?>[] classes)
@@ -645,7 +639,7 @@ public class JavelinTransformer implements ClassFileTransformer
     }
 
     /**
-     * LinkedList ã‚¯ãƒ©ã‚¹ã‚’ãƒ­ãƒ¼ãƒ‰ã—ã¾ã™ã€‚<br />
+     * LinkedList ƒNƒ‰ƒX‚ğƒ[ƒh‚µ‚Ü‚·B<br />
      */
     private static void useLinkedList()
     {
@@ -660,7 +654,7 @@ public class JavelinTransformer implements ClassFileTransformer
     }
     
     /**
-     * ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å–å¾—ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’é–‹å§‹ã™ã‚‹ã€‚
+     * ƒXƒŒƒbƒhƒ_ƒ“ƒvæ“¾ƒXƒŒƒbƒh‚ğŠJn‚·‚éB
      */
     private static void initThreadDumpMonitor()
     {
@@ -672,7 +666,7 @@ public class JavelinTransformer implements ClassFileTransformer
     }
 
     /**
-     * ã‚¹ãƒ¬ãƒƒãƒ‰ç›£è¦–ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’é–‹å§‹ã™ã‚‹ã€‚
+     * ƒXƒŒƒbƒhŠÄ‹ƒXƒŒƒbƒh‚ğŠJn‚·‚éB
      */
     private static void initThreadMonitor()
     {
@@ -683,7 +677,7 @@ public class JavelinTransformer implements ClassFileTransformer
     }
 
     /**
-     * FullGCæ¤œå‡ºã‚¹ãƒ¬ãƒƒãƒ‰ã‚’é–‹å§‹ã™ã‚‹ã€‚
+     * FullGCŒŸoƒXƒŒƒbƒh‚ğŠJn‚·‚éB
      */
     private static void initFullGCMonitor()
     {
@@ -694,7 +688,7 @@ public class JavelinTransformer implements ClassFileTransformer
     }
     
     /**
-     * ã‚¹ãƒˆãƒ¼ãƒ«ãƒ¡ã‚½ãƒƒãƒ‰ç›£è¦–ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’é–‹å§‹ã™ã‚‹ã€‚
+     * ƒXƒg[ƒ‹ƒƒ\ƒbƒhŠÄ‹ƒXƒŒƒbƒh‚ğŠJn‚·‚éB
      */
     private static void initMethodStallMonitor()
     {
@@ -706,13 +700,13 @@ public class JavelinTransformer implements ClassFileTransformer
     }
 
     /**
-     * ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®è¨­å®šå€¤ã‚’è¡¨ç¤ºã—ã¾ã™ã€‚<br />
+     * ƒpƒ‰ƒ[ƒ^‚Ìİ’è’l‚ğ•\¦‚µ‚Ü‚·B<br />
      * 
-     * @param config Javelinã®è¨­å®šå€¤ã‚’ä¿å­˜ã—ã¦ã„ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param config Javelin‚Ìİ’è’l‚ğ•Û‘¶‚µ‚Ä‚¢‚éƒIƒuƒWƒFƒNƒg
      */
     private void printConfig(final JavelinConfig config)
     {
-        // Javelinã®è¨­å®šå€¤ã‚’å‘¼ã³å‡ºã™ã€‚
+        // Javelin‚Ìİ’è’l‚ğŒÄ‚Ño‚·B
         String license = config.getLicensePath();
         String include = config.getInclude();
         String exclude = config.getExclude();
@@ -790,6 +784,7 @@ public class JavelinTransformer implements ClassFileTransformer
         int traceDepth = config.getTraceDepth();
         int collectionLeakDetectDepth = config.getCollectionLeakDetectDepth();
         int collectionSizeThreshold = config.getCollectionSizeThreshold();
+        boolean leakCollectionSizeOut = config.isLeakCollectionSizePrint();
         boolean linearSearchMonitor = config.isLinearSearchMonitor();
         int linearSearchListSize = config.getLinearSearchListSize();
         double linearSearchListRatio = config.getLinearSearchListRatio();
@@ -819,7 +814,7 @@ public class JavelinTransformer implements ClassFileTransformer
         int methodStallTraceDepth = config.getMethodStallTraceDepth();
         boolean httpStatusError = config.isHttpStatusError();
 
-        // Javelinã®è¨­å®šå€¤ã‚’æ¨™æº–å‡ºåŠ›ã™ã‚‹
+        // Javelin‚Ìİ’è’l‚ğ•W€o—Í‚·‚é
         String version = ResourceBundle.getBundle("version").getString("version");
         System.out.println(">>>> Properties related with Javelin (Version " + version + ")");
         System.out.println("\tjavelin.license.path                 : " + license);
@@ -902,6 +897,7 @@ public class JavelinTransformer implements ClassFileTransformer
         System.out.println("\tjavelin.leak.class.histo.interval    : " + classHistoInterval);
         System.out.println("\tjavelin.leak.class.histo.max         : " + classHistoMax);
         System.out.println("\tjavelin.leak.class.histo.gc          : " + classHistoGC);
+        System.out.println("\tjavelin.leak.collectionSizeOut       : " + leakCollectionSizeOut);
         System.out.println("\tjavelin.leak.collectionSizeThreshold : " + collectionSizeThreshold);
         System.out.println("\tjavelin.linearsearch.monitor         : " + linearSearchMonitor);
         System.out.println("\tjavelin.linearsearch.size            : " + linearSearchListSize);
@@ -932,7 +928,7 @@ public class JavelinTransformer implements ClassFileTransformer
     }
 
     /**
-     * ã‚·ã‚¹ãƒ†ãƒ ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’ãƒˆãƒ¬ãƒ¼ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã«å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+     * ƒVƒXƒeƒ€ƒvƒƒpƒeƒB‚ğƒgƒŒ[ƒXƒtƒ@ƒCƒ‹‚Éo—Í‚µ‚Ü‚·B<br />
      * 
      */
     public void printSystemProperty()
@@ -954,9 +950,9 @@ public class JavelinTransformer implements ClassFileTransformer
     }
 
     /**
-     * javelin.jar ãƒ•ã‚¡ã‚¤ãƒ«ãŒå­˜åœ¨ã™ã‚‹ã€ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®ç‰©ç†ãƒ‘ã‚¹ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * javelin.jar ƒtƒ@ƒCƒ‹‚ª‘¶İ‚·‚éAƒfƒBƒŒƒNƒgƒŠ‚Ì•¨—ƒpƒX‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return javelin.jar ãƒ•ã‚¡ã‚¤ãƒ«ãŒå­˜åœ¨ã™ã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®ç‰©ç†ãƒ‘ã‚¹
+     * @return javelin.jar ƒtƒ@ƒCƒ‹‚ª‘¶İ‚·‚éƒfƒBƒŒƒNƒgƒŠ‚Ì•¨—ƒpƒX
      */
     private String getAbsoluteDirectoryPath()
     {
@@ -968,7 +964,7 @@ public class JavelinTransformer implements ClassFileTransformer
         }
         catch (UnsupportedEncodingException ex)
         {
-            // ä½•ã‚‚ã—ãªã„ã€‚
+            // ‰½‚à‚µ‚È‚¢B
             SystemLogger.getInstance().warn(ex);
         }
 
@@ -985,10 +981,10 @@ public class JavelinTransformer implements ClassFileTransformer
     }
 
     /***
-     * æ—¢ã«ãƒˆãƒ¬ãƒ¼ã‚¹ã—ã¦ã„ã‚‹ã‹ã‚’è¿”ã™ã€‚
+     * Šù‚ÉƒgƒŒ[ƒX‚µ‚Ä‚¢‚é‚©‚ğ•Ô‚·B
      * 
-     * @param className ãƒˆãƒ¬ãƒ¼ã‚¹ä¸­ã®ã‚¯ãƒ©ã‚¹
-     * @return æ—¢ã«ãƒˆãƒ¬ãƒ¼ã‚¹ã—ã¦ã„ã‚‹ã‹ã€‚
+     * @param className ƒgƒŒ[ƒX’†‚ÌƒNƒ‰ƒX
+     * @return Šù‚ÉƒgƒŒ[ƒX‚µ‚Ä‚¢‚é‚©B
      */
     private static Boolean isPrevTracing(String className)
     {
@@ -1002,7 +998,7 @@ public class JavelinTransformer implements ClassFileTransformer
         {
             if (!forceTransform__ && (!prevTracing || !isTracingConcurrent))
             {
-                // CollectionMonitorã¾ãŸã¯ConcurrentAccessMonitorå‹•ä½œä¸­ã¯ã€transformã—ãªã„
+                // CollectionMonitor‚Ü‚½‚ÍConcurrentAccessMonitor“®ì’†‚ÍAtransform‚µ‚È‚¢
                 String key = "javelin.JavelinTransformer.NotTransformed";
                 List<String> monitorClasses = new ArrayList<String>();
                 if (!prevTracing)
@@ -1021,7 +1017,7 @@ public class JavelinTransformer implements ClassFileTransformer
             String threadName = Thread.currentThread().getName();
             if ("Reference Handler".equals(threadName))
             {
-                // Reference Handlerã‚¹ãƒ¬ãƒƒãƒ‰ã§ãƒ­ãƒ¼ãƒ‰ã•ã‚ŒãŸã‚¯ãƒ©ã‚¹ã¯transformã—ãªã„
+                // Reference HandlerƒXƒŒƒbƒh‚Åƒ[ƒh‚³‚ê‚½ƒNƒ‰ƒX‚Ítransform‚µ‚È‚¢
                 String key = "javelin.JavelinTransformer.CannotTransformInReferenceHandler";
                 String message = JavelinMessages.getMessage(key, className);
                 logger.warn(message);

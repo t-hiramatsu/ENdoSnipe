@@ -36,8 +36,8 @@ import jp.co.smg.endosnipe.javassist.CtClass;
 import jp.co.smg.endosnipe.javassist.NotFoundException;
 
 /**
- * å‘¼ã³å‡ºã—é–“éš”ãƒã‚§ãƒƒã‚¯ã‚³ãƒ³ãƒãƒ¼ã‚¿ã€‚<br />
- * IntervalMonitorã‚’ç”¨ã„ãŸå‘¼ã³å‡ºã—é–“éš”ã®ãƒã‚§ãƒƒã‚¯å‡¦ç†ã‚’ã€æŒ‡å®šã•ã‚ŒãŸãƒ¡ã‚½ãƒƒãƒ‰ã«åŸ‹ã‚è¾¼ã‚€ã€‚<br />
+ * ŒÄ‚Ño‚µŠÔŠuƒ`ƒFƒbƒNƒRƒ“ƒo[ƒ^B<br />
+ * IntervalMonitor‚ğ—p‚¢‚½ŒÄ‚Ño‚µŠÔŠu‚Ìƒ`ƒFƒbƒNˆ—‚ğAw’è‚³‚ê‚½ƒƒ\ƒbƒh‚É–„‚ß‚ŞB<br />
  * 
  * @author yamasaki
  */
@@ -71,13 +71,13 @@ public class IntervalMonitorConverter extends AbstractConverter
     }
 
     /**
-     * ãƒ¡ã‚½ãƒƒãƒ‰ã®æŒ¯ã‚‹èˆã„ã‚’ä¿®æ­£ã™ã‚‹ã€‚
-     * å‘¼ã³å‡ºã—æ™‚é–“ã‚’è¨˜éŒ²ã—ã€å‰å›ã¨ã®å‘¼ã³å‡ºã—æ™‚é–“ãŒé–¾å€¤ä»¥ä¸Šã§ã‚ã‚Œã°ã€
-     * å¼·åˆ¶çš„ã«ã‚¢ãƒ©ãƒ¼ãƒ ã‚’å‡ºåŠ›ã—ã€å•é¡Œã‚’é€šçŸ¥ã™ã‚‹ã€‚
+     * ƒƒ\ƒbƒh‚ÌU‚é•‘‚¢‚ğC³‚·‚éB
+     * ŒÄ‚Ño‚µŠÔ‚ğ‹L˜^‚µA‘O‰ñ‚Æ‚ÌŒÄ‚Ño‚µŠÔ‚ªè‡’lˆÈã‚Å‚ ‚ê‚ÎA
+     * ‹­§“I‚ÉƒAƒ‰[ƒ€‚ğo—Í‚µA–â‘è‚ğ’Ê’m‚·‚éB
      * 
      * @param ctBehavior CtBehavior
-     * @throws CannotCompileException ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã§ããªã„å ´åˆ
-     * @throws NotFoundException ã‚¯ãƒ©ã‚¹ãŒè¦‹ã¤ã‹ã‚‰ãªã„å ´åˆ
+     * @throws CannotCompileException ƒRƒ“ƒpƒCƒ‹‚Å‚«‚È‚¢ê‡
+     * @throws NotFoundException ƒNƒ‰ƒX‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡
      */
     private void convertBehavior(final CtBehavior ctBehavior)
         throws CannotCompileException,

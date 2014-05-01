@@ -34,14 +34,14 @@ import jp.co.acroquest.endosnipe.javelin.resource.AbstractResourceGetter;
 import com.sun.management.OperatingSystemMXBean;
 
 /**
- * CPUæ™‚é–“ã‚’å–å¾—ã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚
+ * CPUŠÔ‚ğæ“¾‚·‚éƒNƒ‰ƒXB
  * 
  * @author Sakamoto
  */
 public class CpuTimeGetter extends AbstractResourceGetter 
 {
     
-    /** è¨­å®š */
+    /** İ’è */
     private JavelinConfig config_ = new JavelinConfig();
 
     /**

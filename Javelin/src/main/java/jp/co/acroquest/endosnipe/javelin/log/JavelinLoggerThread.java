@@ -41,30 +41,30 @@ import jp.co.acroquest.endosnipe.javelin.converter.concurrent.monitor.Concurrent
 import jp.co.acroquest.endosnipe.javelin.converter.leak.monitor.CollectionMonitor;
 
 /**
- * Javelinãƒ­ã‚°ã‚’å‡ºåŠ›ã™ã‚‹ã‚¹ãƒ¬ãƒƒãƒ‰ã§ã™ã€‚
+ * JavelinƒƒO‚ğo—Í‚·‚éƒXƒŒƒbƒh‚Å‚·B
  * @author eriguchi
  *
  */
 class JavelinLoggerThread extends Thread
 {
-    /** ãƒ•ã‚¡ã‚¤ãƒ«ã«ã¤ã‘ã‚‹ã‚·ãƒ¼ã‚±ãƒ³ã‚¹ãƒŠãƒ³ãƒãƒ¼ */
+    /** ƒtƒ@ƒCƒ‹‚É‚Â‚¯‚éƒV[ƒPƒ“ƒXƒiƒ“ƒo[ */
     private static int sequenceNumber__ = 0;
 
-    /** zipãƒ•ã‚¡ã‚¤ãƒ«ã«ã¤ã‘ã‚‹ã‚·ãƒ¼ã‚±ãƒ³ã‚¹ãƒŠãƒ³ãƒãƒ¼ */
+    /** zipƒtƒ@ƒCƒ‹‚É‚Â‚¯‚éƒV[ƒPƒ“ƒXƒiƒ“ƒo[ */
     private static int zipSequenceNumber__ = 0;
 
-    /** æ¬¡ã« Javelin ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å‰Šé™¤ã™ã‚‹ã‚·ãƒ¼ã‚±ãƒ³ã‚¹ãƒŠãƒ³ãƒãƒ¼ */
+    /** Ÿ‚É Javelin ƒƒOƒtƒ@ƒCƒ‹‚ğíœ‚·‚éƒV[ƒPƒ“ƒXƒiƒ“ƒo[ */
     private static int nextDeleteSequenceNumber__ = 0;
 
     private static final String EXTENTION_JVN = ".jvn";
 
     private static final String EXTENTION_ZIP = ".zip";
 
-    /** jvnãƒ•ã‚¡ã‚¤ãƒ«åã®ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ(æ—¥ä»˜ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ(ãƒŸãƒª(sec)ã¾ã§è¡¨ç¤º) */
+    /** jvnƒtƒ@ƒCƒ‹–¼‚ÌƒtƒH[ƒ}ƒbƒg(“ú•tƒtƒH[ƒ}ƒbƒg(ƒ~ƒŠ(sec)‚Ü‚Å•\¦) */
     private static final String JVN_FILE_FORMAT =
             "javelin_{0,date,yyyy_MM_dd_HHmmss_SSS}_{1,number,00000}" + EXTENTION_JVN;
 
-    /** zipãƒ•ã‚¡ã‚¤ãƒ«åã®ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ(æ—¥ä»˜ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ(ãƒŸãƒª(sec)ã¾ã§è¡¨ç¤º) */
+    /** zipƒtƒ@ƒCƒ‹–¼‚ÌƒtƒH[ƒ}ƒbƒg(“ú•tƒtƒH[ƒ}ƒbƒg(ƒ~ƒŠ(sec)‚Ü‚Å•\¦) */
     private static final String ZIP_FILE_FORMAT =
             "{0}" + File.separator + "javelin_{1,date,yyyy_MM_dd_HHmmss_SSS}_{2,number,00000}"
                     + EXTENTION_ZIP;
@@ -74,10 +74,10 @@ class JavelinLoggerThread extends Thread
     private final BlockingQueue<JavelinLogTask> queue_;
 
     /**
-     * Javelinã®è¨­å®šå€¤ã¨ã‚­ãƒ¥ãƒ¼ã‚’ã‚»ãƒƒãƒˆã—ã¾ã™ã€‚<br />
+     * Javelin‚Ìİ’è’l‚ÆƒLƒ…[‚ğƒZƒbƒg‚µ‚Ü‚·B<br />
      *
-     * @param javelinConfig {@link JavelinConfig}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param queue ã‚­ãƒ¥ãƒ¼
+     * @param javelinConfig {@link JavelinConfig}ƒIƒuƒWƒFƒNƒg
+     * @param queue ƒLƒ…[
      */
     public JavelinLoggerThread(final JavelinConfig javelinConfig,
             final BlockingQueue<JavelinLogTask> queue)
@@ -108,7 +108,7 @@ class JavelinLoggerThread extends Thread
 
         String javelinFileDir = this.javelinConfig_.getJavelinFileDir();
 
-        // jvnãƒ­ã‚°å‡ºåŠ›å…ˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’ä½œæˆã™ã‚‹ã€‚
+        // jvnƒƒOo—ÍæƒfƒBƒŒƒNƒgƒŠ‚ğì¬‚·‚éB
         File javelinFileDirFile = new File(javelinFileDir);
         if (javelinFileDirFile.exists() == false)
         {
@@ -136,7 +136,7 @@ class JavelinLoggerThread extends Thread
                     continue;
                 }
 
-                // ãƒ­ã‚°ã®zipåœ§ç¸®ã€ãƒ•ã‚¡ã‚¤ãƒ«æ•°åˆ¶é™ã‚’è¡Œã†ã€‚
+                // ƒƒO‚Ìzipˆ³kAƒtƒ@ƒCƒ‹”§ŒÀ‚ğs‚¤B
                 if (sequenceNumber__ > nextDeleteSequenceNumber__)
                 {
                     nextDeleteSequenceNumber__ += jvnFileMax;
@@ -169,13 +169,13 @@ class JavelinLoggerThread extends Thread
                 long telegramId = task.getTelegramId();
                 String itemName = task.getItemName();
 
-                // å†å¸°çš„ã«writerã«æ›¸ãè¾¼ã¿ã‚’è¡Œã†ã€‚
+                // Ä‹A“I‚Éwriter‚É‘‚«‚İ‚ğs‚¤B
                 JavelinFileGenerator.generateJavelinFileImpl(stringBuilder,
                         task.getTree(), task.getNode(), task.getEndNode(),
                         callback, jvnFileName, jvnFileFullPath, telegramId,
                         itemName);
 
-                // å‡ºåŠ›ã™ã¹ããƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãŒã‚ã‚Œã°ãƒãƒƒãƒ•ã‚¡ãƒ•ãƒ©ãƒƒã‚·ãƒ¥
+                // o—Í‚·‚×‚«ƒƒbƒZ[ƒW‚ª‚ ‚ê‚Îƒoƒbƒtƒ@ƒtƒ‰ƒbƒVƒ…
                 if (stringBuilder.length() > 0)
                 {
                     JavelinFileGenerator.flushBuffer(stringBuilder,
@@ -191,10 +191,10 @@ class JavelinLoggerThread extends Thread
     }
 
     /**
-     * Javelinãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«åã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
+     * JavelinƒƒOƒtƒ@ƒCƒ‹–¼‚ğ¶¬‚µ‚Ü‚·B<br />
      *
-     * @param date æ—¥ä»˜
-     * @return jvnãƒ•ã‚¡ã‚¤ãƒ«å
+     * @param date “ú•t
+     * @return jvnƒtƒ@ƒCƒ‹–¼
      */
     public static String createJvnFileName(final Date date)
     {
@@ -205,9 +205,9 @@ class JavelinLoggerThread extends Thread
     }
 
     /**
-     * ãƒ•ã‚¡ã‚¤ãƒ«åã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
+     * ƒtƒ@ƒCƒ‹–¼‚ğ¶¬‚µ‚Ü‚·B<br />
      *
-     * @return ãƒ•ã‚¡ã‚¤ãƒ«å
+     * @return ƒtƒ@ƒCƒ‹–¼
      */
     private String createZipFileName(final Date date)
     {

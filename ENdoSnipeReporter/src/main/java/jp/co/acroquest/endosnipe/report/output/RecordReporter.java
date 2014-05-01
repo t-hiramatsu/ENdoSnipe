@@ -31,13 +31,13 @@ import org.bbreak.excella.reports.tag.SingleParamParser;
  * 
  * @param <E>
  */
-public class RecordReporter<E>
-{
+public class RecordReporter<E> {
 	/** ロガー */
-	private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(RecordReporter.class);
+	private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
+			.getLogger(RecordReporter.class);
 
 	private static final String XLS_EXTENTION = ".xls";
-
+	
 	/** 参照するテンプレートのシート名のリスト */
 	private String[] templateSheetNames_;
 
@@ -65,24 +65,23 @@ public class RecordReporter<E>
 	 * @param type
 	 *            レポート種別
 	 */
-	public RecordReporter(ReportType type)
-	{
+	public RecordReporter(ReportType type) {
 		String id = type.getId();
-		String parameterProperty = ReporterConfigAccessor.getProperty(id + ".recordParameter");
-		if (parameterProperty == null)
-		{
+		String parameterProperty = ReporterConfigAccessor.getProperty(id
+				+ ".recordParameter");
+		if (parameterProperty == null) {
 			parameterProperty = PARAMETER_NAME;
 		}
 		this.recordParameters_ = parameterProperty.split(" *, *");
 
 		// テンプレートファイルのシート名の一覧を取得する。
-		String templateSheetNames = ReporterConfigAccessor.getProperty(id + ".templateSheetNames");
+		String templateSheetNames = ReporterConfigAccessor.getProperty(id
+				+ ".templateSheetNames");
 		CSVTokenizer tokenizer = new CSVTokenizer(templateSheetNames);
 		int tokenCount = tokenizer.countTokens();
 		this.templateSheetNames_ = new String[tokenCount];
 		int index = 0;
-		while (tokenizer.hasMoreTokens())
-		{
+		while (tokenizer.hasMoreTokens()) {
 			this.templateSheetNames_[index] = tokenizer.nextToken();
 			index++;
 		}
@@ -107,16 +106,14 @@ public class RecordReporter<E>
 	 *            データ取得終了時刻
 	 */
 	public void outputReport(String templateFilePath, String outputFolderPath,
-		String outputFileName, String[] graphTitles, E[] records, Date startDate, Date endDate)
-	{
+			String outputFileName, String[] graphTitles, E[] records,
+			Date startDate, Date endDate) {
 		// 指定されたフォルダを作成する
 		File outputDir = new File(outputFolderPath);
 
-		if (outputDir.exists() == false)
-		{
+		if (outputDir.exists() == false) {
 			boolean result = outputDir.mkdirs();
-			if (result == false)
-			{
+			if (result == false) {
 				return;
 			}
 		}
@@ -127,11 +124,10 @@ public class RecordReporter<E>
 		// �出力先のファイルパス(拡張子はExporterによって自動的に付与されるため、不要。)
 		// �ファイルフォーマット(ConvertConfigurationの配列)
 		// を指定し、ReportBookインスタンスを生成する。
-		ReportBook outputBook = new ReportBook(templateFilePath, outputFilePath,
-			ExcelExporter.FORMAT_TYPE);
+		ReportBook outputBook = new ReportBook(templateFilePath,
+				outputFilePath, ExcelExporter.FORMAT_TYPE);
 
-		for (int sheetIndex = 0; sheetIndex < this.templateSheetNames_.length; sheetIndex++)
-		{
+		for (int sheetIndex = 0; sheetIndex < this.templateSheetNames_.length; sheetIndex++) {
 			String templateSheetName = this.templateSheetNames_[sheetIndex];
 
 			// テンプレートファイル内のシート名と出力シート名を指定し、
@@ -142,26 +138,25 @@ public class RecordReporter<E>
 			// 置換パラメータをReportSheetオブジェクトに追加する。
 			// (反復置換のパラメータには配列を渡す。)
 			List<Integer> numberList = new ArrayList<Integer>();
-			for (int index = 0; index < records.length; index++)
-			{
+			for (int index = 0; index < records.length; index++) {
 				numberList.add(index + 1);
 			}
 			outputDataSheet.addParam(BlockRowRepeatParamParser.DEFAULT_TAG,
-				this.recordParameters_[0], records);
+					this.recordParameters_[0], records);
 
 			// 表の一番左端の列に項目番号を追加
-			outputDataSheet.addParam(RowRepeatParamParser.DEFAULT_TAG, RecordReporter.NUMBERS,
-				numberList.toArray());
+			outputDataSheet.addParam(RowRepeatParamParser.DEFAULT_TAG,
+					RecordReporter.NUMBERS, numberList.toArray());
 
 			// ○月○日(○) ○○:○○ から ○月○日(○) ○○:○○ までのデータ取得結果です
 			// という文字列を表示させる
 			String dataRange = this.getDataRangeString(startDate, endDate);
-			outputDataSheet.addParam(SingleParamParser.DEFAULT_TAG, RecordReporter.DATA_RANGE,
-				dataRange);
+			outputDataSheet.addParam(SingleParamParser.DEFAULT_TAG,
+					RecordReporter.DATA_RANGE, dataRange);
 
 			// グラフのタイトルを表示させる
-			outputDataSheet.addParam(SingleParamParser.DEFAULT_TAG, RecordReporter.GRAPH_TITLE,
-				graphTitles[sheetIndex]);
+			outputDataSheet.addParam(SingleParamParser.DEFAULT_TAG,
+					RecordReporter.GRAPH_TITLE, graphTitles[sheetIndex]);
 		}
 
 		//
@@ -169,13 +164,11 @@ public class RecordReporter<E>
 		// ReportBookを元にレポート処理を実行します。
 		//
 		ReportProcessor reportProcessor = new ReportProcessor();
-		try
-		{
+		try {
 			reportProcessor.process(outputBook);
-		}
-		catch (Exception ex)
-		{
-			LOGGER.log(LogIdConstants.REPORT_PUBLISH_STOPPED_WARN, ex, outputFilePath);
+		} catch (Exception ex) {
+			LOGGER.log(LogIdConstants.REPORT_PUBLISH_STOPPED_WARN, ex,
+					outputFilePath);
 		}
 	}
 
@@ -193,18 +186,16 @@ public class RecordReporter<E>
 	 * @param endDate
 	 *            データ取得終了時刻
 	 */
-	public void outputReport(String templateFilePath, String outputFilePath, E[] records,
-		Date startDate, Date endDate)
-	{
+	public void outputReport(String templateFilePath, String outputFilePath,
+			E[] records, Date startDate, Date endDate) {
 		// �読み込むテンプレートファイルのパス(拡張子含)
 		// �出力先のファイルパス(拡張子はExporterによって自動的に付与されるため、不要。)
 		// �ファイルフォーマット(ConvertConfigurationの配列)
 		// を指定し、ReportBookインスタンスを生成する。
-		ReportBook outputBook = new ReportBook(templateFilePath, outputFilePath,
-			ExcelExporter.FORMAT_TYPE);
+		ReportBook outputBook = new ReportBook(templateFilePath,
+				outputFilePath, ExcelExporter.FORMAT_TYPE);
 
-		for (String templateSheetName : this.templateSheetNames_)
-		{
+		for (String templateSheetName : this.templateSheetNames_) {
 
 			// テンプレートファイル内のシート名と出力シート名を指定し、
 			// ReportSheetインスタンスを生成して、ReportBookに追加する。
@@ -214,22 +205,21 @@ public class RecordReporter<E>
 			// 置換パラメータをReportSheetオブジェクトに追加する。
 			// (反復置換のパラメータには配列を渡す。)
 			List<Integer> numberList = new ArrayList<Integer>();
-			for (int index = 0; index < records.length; index++)
-			{
+			for (int index = 0; index < records.length; index++) {
 				numberList.add(index + 1);
 			}
 			outputDataSheet.addParam(BlockRowRepeatParamParser.DEFAULT_TAG,
-				this.recordParameters_[0], records);
+					this.recordParameters_[0], records);
 
 			// 表の一番左端の列に項目番号を追加
-			outputDataSheet.addParam(RowRepeatParamParser.DEFAULT_TAG, RecordReporter.NUMBERS,
-				numberList.toArray());
+			outputDataSheet.addParam(RowRepeatParamParser.DEFAULT_TAG,
+					RecordReporter.NUMBERS, numberList.toArray());
 
 			// ○月○日(○) ○○:○○ から ○月○日(○) ○○:○○ までのデータ取得結果です
 			// という文字列を表示させる
 			String dataRange = this.getDataRangeString(startDate, endDate);
-			outputDataSheet.addParam(SingleParamParser.DEFAULT_TAG, RecordReporter.DATA_RANGE,
-				dataRange);
+			outputDataSheet.addParam(SingleParamParser.DEFAULT_TAG,
+					RecordReporter.DATA_RANGE, dataRange);
 		}
 
 		//
@@ -237,13 +227,11 @@ public class RecordReporter<E>
 		// ReportBookを元にレポート処理を実行します。
 		//
 		ReportProcessor reportProcessor = new ReportProcessor();
-		try
-		{
+		try {
 			reportProcessor.process(outputBook);
-		}
-		catch (Exception ex)
-		{
-			LOGGER.log(LogIdConstants.REPORT_PUBLISH_STOPPED_WARN, ex, outputFilePath);
+		} catch (Exception ex) {
+			LOGGER.log(LogIdConstants.REPORT_PUBLISH_STOPPED_WARN, ex,
+					outputFilePath);
 		}
 	}
 
@@ -261,12 +249,12 @@ public class RecordReporter<E>
 	 * @param endDate
 	 *            データ取得終了時刻
 	 */
-	public void outputReport(String templateFilePath, String outputFolderPath, ItemData itemData,
-		Date startDate, Date endDate)
-	{
+	public void outputReport(String templateFilePath, String outputFolderPath,
+			ItemData itemData, Date startDate, Date endDate) {
 		List<ItemData> itemDataList = new ArrayList<ItemData>();
 		itemDataList.add(itemData);
-		this.outputReport(templateFilePath, outputFolderPath, itemDataList, startDate, endDate);
+		this.outputReport(templateFilePath, outputFolderPath, itemDataList,
+				startDate, endDate);
 	}
 
 	/**
@@ -284,22 +272,18 @@ public class RecordReporter<E>
 	 *            データ取得終了時刻
 	 */
 	public void outputReport(String templateFilePath, String outputFolderPath,
-		List<ItemData> itemDataList, Date startDate, Date endDate)
-	{
+			List<ItemData> itemDataList, Date startDate, Date endDate) {
 		// 指定されたフォルダを作成する
 		File outputDir = new File(outputFolderPath);
 
-		if (outputDir.exists() == false)
-		{
+		if (outputDir.exists() == false) {
 			boolean result = outputDir.mkdirs();
-			if (result == false)
-			{
+			if (result == false) {
 				return;
 			}
 		}
 
-		if (itemDataList == null || itemDataList.size() == 0)
-		{
+		if (itemDataList == null || itemDataList.size() == 0) {
 			return;
 		}
 
@@ -314,51 +298,47 @@ public class RecordReporter<E>
 		// �出力先のファイルパス(拡張子はExporterによって自動的に付与されるため、不要。)
 		// �ファイルフォーマット(ConvertConfigurationの配列)
 		// を指定し、ReportBookインスタンスを生成する。
-		ReportBook outputBook = new ReportBook(templateFilePath, outputFilePath,
-			ExcelExporter.FORMAT_TYPE);
+		ReportBook outputBook = new ReportBook(templateFilePath,
+				outputFilePath, ExcelExporter.FORMAT_TYPE);
 
-		for (String templateSheetName : this.templateSheetNames_)
-		{
+		for (String templateSheetName : this.templateSheetNames_) {
 			// テンプレートファイル内のシート名と出力シート名を指定し、
 			// ReportSheetインスタンスを生成して、ReportBookに追加する。
 			ReportSheet outputDataSheet = new ReportSheet(templateSheetName);
 			outputBook.addReportSheet(outputDataSheet);
 
-			for (int itemIndex = 0; itemIndex < itemDataList.size(); itemIndex++)
-			{
+			for (int itemIndex = 0; itemIndex < itemDataList.size(); itemIndex++) {
 				ItemData itemData = itemDataList.get(itemIndex);
 				List<ItemRecord> recordList = itemData.getRecords();
-				ItemRecord[] records = (ItemRecord[]) recordList.toArray(new ItemRecord[recordList
-					.size()]);
+				ItemRecord[] records = (ItemRecord[]) recordList
+						.toArray(new ItemRecord[recordList.size()]);
 
 				// 置換パラメータをReportSheetオブジェクトに追加する。
 				// (反復置換のパラメータには配列を渡す。)
 				List<Integer> numberList = new ArrayList<Integer>();
-				for (int index = 0; index < records.length; index++)
-				{
+				for (int index = 0; index < records.length; index++) {
 					numberList.add(index + 1);
 				}
 				String parameterName = RecordReporter.PARAMETER_NAME;
-				if (this.recordParameters_.length > itemIndex)
-				{
+				if (this.recordParameters_.length > itemIndex) {
 					parameterName = this.recordParameters_[itemIndex];
 				}
-				outputDataSheet.addParam(BlockRowRepeatParamParser.DEFAULT_TAG, parameterName,
-					records);
+				outputDataSheet.addParam(BlockRowRepeatParamParser.DEFAULT_TAG,
+						parameterName, records);
 
 				// 表の一番左端の列に項目番号を追加
-				outputDataSheet.addParam(RowRepeatParamParser.DEFAULT_TAG, RecordReporter.NUMBERS,
-					numberList.toArray());
+				outputDataSheet.addParam(RowRepeatParamParser.DEFAULT_TAG,
+						RecordReporter.NUMBERS, numberList.toArray());
 
 				// ○月○日(○) ○○:○○ から ○月○日(○) ○○:○○ までのデータ取得結果です
 				// という文字列を表示させる
 				String dataRange = this.getDataRangeString(startDate, endDate);
-				outputDataSheet.addParam(SingleParamParser.DEFAULT_TAG, RecordReporter.DATA_RANGE,
-					dataRange);
+				outputDataSheet.addParam(SingleParamParser.DEFAULT_TAG,
+						RecordReporter.DATA_RANGE, dataRange);
 
 				// グラフのタイトルを表示
-				outputDataSheet.addParam(SingleParamParser.DEFAULT_TAG, RecordReporter.GRAPH_TITLE,
-					itemName);
+				outputDataSheet.addParam(SingleParamParser.DEFAULT_TAG,
+						RecordReporter.GRAPH_TITLE, itemName);
 			}
 		}
 
@@ -367,13 +347,11 @@ public class RecordReporter<E>
 		// ReportBookを元にレポート処理を実行します。
 		//
 		ReportProcessor reportProcessor = new ReportProcessor();
-		try
-		{
+		try {
 			reportProcessor.process(outputBook);
-		}
-		catch (Exception ex)
-		{
-			LOGGER.log(LogIdConstants.REPORT_PUBLISH_STOPPED_WARN, ex, outputFilePath);
+		} catch (Exception ex) {
+			LOGGER.log(LogIdConstants.REPORT_PUBLISH_STOPPED_WARN, ex,
+					outputFilePath);
 		}
 	}
 
@@ -386,13 +364,13 @@ public class RecordReporter<E>
 	 *            itemName
 	 * @return レポート出力ファイル名。
 	 */
-	private String createFilePath(String outputFolderPath, String itemName)
-	{
+	private String createFilePath(String outputFolderPath, String itemName) {
 		String outputFileName = PathUtil.getValidFileName(itemName);
-		String outputFilePath = outputFolderPath + File.separator + outputFileName + XLS_EXTENTION;
+		String outputFilePath = outputFolderPath + File.separator
+				+ outputFileName + XLS_EXTENTION;
 
-		outputFilePath = outputFilePath.substring(0,
-			outputFilePath.length() - XLS_EXTENTION.length());
+		outputFilePath = outputFilePath.substring(0, outputFilePath.length()
+				- XLS_EXTENTION.length());
 		return outputFilePath;
 	}
 
@@ -411,26 +389,23 @@ public class RecordReporter<E>
 	 *            データ取得終了時刻
 	 */
 	public void outputReports(String templateFilePath, String outputFolderPath,
-		List<ItemData> dataList, Date startDate, Date endDate)
-	{
+			List<ItemData> dataList, Date startDate, Date endDate) {
 		// ディレクトリに使えない禁止文字を変換する
 		outputFolderPath = replaceForbidedDirName(outputFolderPath);
 
 		// 指定されたフォルダを作成する
 		File outputDir = new File(outputFolderPath);
 
-		if (outputDir.exists() == false)
-		{
+		if (outputDir.exists() == false) {
 			boolean result = outputDir.mkdirs();
-			if (result == false)
-			{
+			if (result == false) {
 				return;
 			}
 		}
 
-		for (ItemData itemData : dataList)
-		{
-			outputReport(templateFilePath, outputFolderPath, itemData, startDate, endDate);
+		for (ItemData itemData : dataList) {
+			outputReport(templateFilePath, outputFolderPath, itemData,
+					startDate, endDate);
 		}
 	}
 
@@ -443,19 +418,18 @@ public class RecordReporter<E>
 	 *            データ取得終了日時
 	 * @return　表示用の文字列
 	 */
-	private String getDataRangeString(Date startDate, Date endDate)
-	{
+	private String getDataRangeString(Date startDate, Date endDate) {
 		Calendar calendar = Calendar.getInstance();
 
 		// データ取得開始日時とデータ取得終了日時を成型する
 		calendar.setTime(startDate);
 
 		Locale.setDefault(Locale.ENGLISH);
-		String startDateString = String.format("%1$tY/%1$tm/%1$td(%1$ta) %1$tH:%1$tM:%1$tS",
-			calendar);
+		String startDateString = String.format(
+				"%1$tY/%1$tm/%1$td(%1$ta) %1$tH:%1$tM:%1$tS", calendar);
 		calendar.setTime(endDate);
-		String endDateString = String
-			.format("%1$tY/%1$tm/%1$td(%1$ta) %1$tH:%1$tM:%1$tS", calendar);
+		String endDateString = String.format(
+				"%1$tY/%1$tm/%1$td(%1$ta) %1$tH:%1$tM:%1$tS", calendar);
 
 		// 表示用文字列を成型する
 		StringBuilder builder = new StringBuilder();
@@ -475,18 +449,15 @@ public class RecordReporter<E>
 	 * @param dirPath
 	 * @return
 	 */
-	private String replaceForbidedDirName(String dirPath)
-	{
+	private String replaceForbidedDirName(String dirPath) {
 		String[] dirPathSplitList = dirPath.split("/");
 		int dirPathLength = dirPathSplitList.length;
 
 		StringBuilder builder = new StringBuilder();
-		for (int index = 0; index < dirPathLength; index++)
-		{
+		for (int index = 0; index < dirPathLength; index++) {
 			String dirName = dirPathSplitList[index];
 
-			if (index != 0)
-			{
+			if (index != 0) {
 				dirName = dirName.replace(":", "_");
 				dirName = dirName.replace("?", "_");
 				dirName = dirName.replace("\"", "_");

@@ -34,28 +34,28 @@ import java.util.concurrent.locks.ReentrantLock;
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 
 /**
- * ReentrantLockã‚’ç”¨ã„ã¦ã€å¯¾è±¡ãƒ¡ã‚½ãƒƒãƒ‰ã®å®Ÿè¡Œã‚’æ’ä»–ã™ã‚‹ã‚¯ãƒ©ã‚¹ã§ã™ã€‚
+ * ReentrantLock‚ğ—p‚¢‚ÄA‘ÎÛƒƒ\ƒbƒh‚ÌÀs‚ğ”r‘¼‚·‚éƒNƒ‰ƒX‚Å‚·B
  * 
  * @author eriguchi
  */
 public class SynchronizeMonitor
 {
-    /** Lockã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒãƒƒãƒ—ã€‚ */
+    /** LockƒIƒuƒWƒFƒNƒg‚Ìƒ}ƒbƒvB */
     private static Map<Object, Lock> lockMap__ =
             Collections.synchronizedMap(new WeakHashMap<Object, Lock>());
 
     /**
-     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã‚’é˜²æ­¢ã™ã‚‹ãŸã‚ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§ã™ã€‚
+     * ƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğ–h~‚·‚é‚½‚ß‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Å‚·B
      */
     private SynchronizeMonitor()
     {
-        // ä½•ã‚‚ã—ãªã„ã€‚
+        // ‰½‚à‚µ‚È‚¢B
     }
 
     /**
-     * Lockã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾—ã—ã€ãƒ­ãƒƒã‚¯ã™ã‚‹ã€‚
+     * LockƒIƒuƒWƒFƒNƒg‚ğæ“¾‚µAƒƒbƒN‚·‚éB
      * 
-     * @param obj å¯¾è±¡ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚
+     * @param obj ‘ÎÛ‚ÌƒIƒuƒWƒFƒNƒgB
      */
     public static void preProcess(Object obj)
     {
@@ -76,9 +76,9 @@ public class SynchronizeMonitor
     }
 
     /**
-     * Lockã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾—ã—ã€ãƒ­ãƒƒã‚¯ã‚’è§£é™¤ã™ã‚‹ã€‚
+     * LockƒIƒuƒWƒFƒNƒg‚ğæ“¾‚µAƒƒbƒN‚ğ‰ğœ‚·‚éB
      * 
-     * @param obj å¯¾è±¡ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚
+     * @param obj ‘ÎÛ‚ÌƒIƒuƒWƒFƒNƒgB
      */
     public static void postProcess(Object obj)
     {
@@ -99,10 +99,10 @@ public class SynchronizeMonitor
     }
 
     /**
-     * Lockã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾—ã™ã‚‹ã€‚
+     * LockƒIƒuƒWƒFƒNƒg‚ğæ“¾‚·‚éB
      * 
-     * @param obj å¯¾è±¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚
-     * @return Lockã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚
+     * @param obj ‘ÎÛƒIƒuƒWƒFƒNƒgB
+     * @return LockƒIƒuƒWƒFƒNƒgB
      */
     private static Lock getLock(Object obj)
     {

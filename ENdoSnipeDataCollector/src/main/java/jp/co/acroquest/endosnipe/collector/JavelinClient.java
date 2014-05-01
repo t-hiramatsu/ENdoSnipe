@@ -34,15 +34,11 @@ import java.util.List;
 import jp.co.acroquest.endosnipe.collector.data.JavelinConnectionData;
 import jp.co.acroquest.endosnipe.collector.listener.AllNotifyListener;
 import jp.co.acroquest.endosnipe.collector.listener.CommonResponseListener;
-import jp.co.acroquest.endosnipe.collector.listener.ConnectNotifyListener;
 import jp.co.acroquest.endosnipe.collector.listener.JvnFileNotifyListener;
 import jp.co.acroquest.endosnipe.collector.listener.SignalChangeListener;
 import jp.co.acroquest.endosnipe.collector.listener.SignalStateListener;
-import jp.co.acroquest.endosnipe.collector.listener.SqlPlanNotifyListener;
 import jp.co.acroquest.endosnipe.collector.listener.SystemResourceListener;
-import jp.co.acroquest.endosnipe.collector.listener.SystemResourceNotifyListener;
 import jp.co.acroquest.endosnipe.collector.listener.TelegramNotifyListener;
-import jp.co.acroquest.endosnipe.collector.listener.ThreadDumpNotifyListener;
 import jp.co.acroquest.endosnipe.collector.transfer.JavelinTransferServerThread;
 import jp.co.acroquest.endosnipe.common.logger.CommonLogMessageCodes;
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
@@ -51,15 +47,17 @@ import jp.co.acroquest.endosnipe.communicator.AbstractCommunicator;
 import jp.co.acroquest.endosnipe.communicator.CommunicationClient;
 import jp.co.acroquest.endosnipe.communicator.CommunicationFactory;
 import jp.co.acroquest.endosnipe.communicator.CommunicatorListener;
+import jp.co.acroquest.endosnipe.communicator.TelegramListener;
 import jp.co.acroquest.endosnipe.communicator.TelegramReceiver;
 import jp.co.acroquest.endosnipe.communicator.TelegramSender;
 import jp.co.acroquest.endosnipe.communicator.entity.ConnectNotifyData;
+import jp.co.acroquest.endosnipe.communicator.entity.Header;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.data.service.HostInfoManager;
 
 /**
- * Javelin ã‹ã‚‰ãƒ‡ãƒ¼ã‚¿ã‚’å—ä¿¡ã™ã‚‹ãŸã‚ã®ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã§ã™ã€‚<br />
+ * Javelin ‚©‚çƒf[ƒ^‚ğóM‚·‚é‚½‚ß‚ÌƒNƒ‰ƒCƒAƒ“ƒg‚Å‚·B<br />
  * 
  * @author y-komori
  */
@@ -69,13 +67,13 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
 
     private String databaseName_;
 
-    /** Javelin ãŒå‹•ä½œã—ã¦ã„ã‚‹ãƒ›ã‚¹ãƒˆåã¾ãŸã¯ IP ã‚¢ãƒ‰ãƒ¬ã‚¹ */
+    /** Javelin ‚ª“®ì‚µ‚Ä‚¢‚éƒzƒXƒg–¼‚Ü‚½‚Í IP ƒAƒhƒŒƒX */
     private String javelinHost_;
 
-    /** Javelin ã¸ã®æ¥ç¶šãƒãƒ¼ãƒˆç•ªå· */
+    /** Javelin ‚Ö‚ÌÚ‘±ƒ|[ƒg”Ô† */
     private int javelinPort_;
 
-    /** BottleneckEye å¾…ã¡å—ã‘ãƒãƒ¼ãƒˆç•ªå· */
+    /** BottleneckEye ‘Ò‚¿ó‚¯ƒ|[ƒg”Ô† */
     private int acceptPort_;
 
     private CommunicationClient client_;
@@ -84,15 +82,13 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
 
     private String clientId_;
 
-    private String agentName_;
-
     private final JavelinTransferServerThread transferThread_ = new JavelinTransferServerThread();
 
-    /** ãƒ‡ãƒ¼ã‚¿ã‚’è“„ç©ã™ã‚‹ãŸã‚ã®ã‚­ãƒ¥ãƒ¼ */
+    /** ƒf[ƒ^‚ğ’~Ï‚·‚é‚½‚ß‚ÌƒLƒ…[ */
     private JavelinDataQueue queue_;
 
     /**
-     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
      */
     public JavelinClient()
     {
@@ -100,33 +96,15 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
     }
 
     /**
-     * agentName for javelinClient
-     * @return agentName
-     */
-    public String getAgentName()
-    {
-        return agentName_;
-    }
-
-    /**
-     * agentName for javelinClient
-     * @param agentName for client
-     */
-    public void setAgentName(final String agentName)
-    {
-        agentName_ = agentName;
-    }
-
-    /**
-     * ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã®æ¥ç¶šè¨­å®šã‚’è¡Œã„ã¾ã™ã€‚<br />
+     * ƒNƒ‰ƒCƒAƒ“ƒg‚ÌÚ‘±İ’è‚ğs‚¢‚Ü‚·B<br />
      *
-     * @param databaseName ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @param javelinHost æ¥ç¶šå…ˆ Javelin ã®ãƒ›ã‚¹ãƒˆåã¾ãŸã¯ IP ã‚¢ãƒ‰ãƒ¬ã‚¹
-     * @param javelinPort æ¥ç¶šå…ˆ Javelin ã®ãƒãƒ¼ãƒˆç•ªå·
-     * @param acceptPort BottleneckEye ã‹ã‚‰ã®æ¥ç¶šå¾…ã¡å—ã‘ãƒãƒ¼ãƒˆç•ªå·
+     * @param databaseName ƒf[ƒ^ƒx[ƒX–¼
+     * @param javelinHost Ú‘±æ Javelin ‚ÌƒzƒXƒg–¼‚Ü‚½‚Í IP ƒAƒhƒŒƒX
+     * @param javelinPort Ú‘±æ Javelin ‚Ìƒ|[ƒg”Ô†
+     * @param acceptPort BottleneckEye ‚©‚ç‚ÌÚ‘±‘Ò‚¿ó‚¯ƒ|[ƒg”Ô†
      */
     public void init(final String databaseName, final String javelinHost, final int javelinPort,
-        final int acceptPort)
+            final int acceptPort)
     {
         this.databaseName_ = databaseName;
         this.javelinHost_ = javelinHost;
@@ -136,10 +114,10 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
     }
 
     /**
-     * ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã«é€šçŸ¥ã™ã‚‹ãŸã‚ã®ãƒªã‚¹ãƒŠã‚’ç™»éŒ²ã—ã¾ã™ã€‚
-     * ç™»éŒ²ã¨åŒæ™‚ã«ã€ãƒªã‚¹ãƒŠã«å¯¾ã—ã¦é›»æ–‡é€ä¿¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ã‚»ãƒƒãƒˆã—ã¾ã™ã€‚
+     * ƒNƒ‰ƒCƒAƒ“ƒg‚É’Ê’m‚·‚é‚½‚ß‚ÌƒŠƒXƒi‚ğ“o˜^‚µ‚Ü‚·B
+     * “o˜^‚Æ“¯‚ÉAƒŠƒXƒi‚É‘Î‚µ‚Ä“d•¶‘—MƒIƒuƒWƒFƒNƒg‚ğƒZƒbƒg‚µ‚Ü‚·B
      *
-     * @param notifyListenerList ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã«é€šçŸ¥ã™ã‚‹ãŸã‚ã®ãƒªã‚¹ãƒŠ
+     * @param notifyListenerList ƒNƒ‰ƒCƒAƒ“ƒg‚É’Ê’m‚·‚é‚½‚ß‚ÌƒŠƒXƒi
      */
     public void setTelegramNotifyListener(final List<TelegramNotifyListener> notifyListenerList)
     {
@@ -155,47 +133,32 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
     }
 
     /**
-     * ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚’é–‹å§‹ã—ã¾ã™ã€‚<br />
+     * ƒNƒ‰ƒCƒAƒ“ƒg‚ğŠJn‚µ‚Ü‚·B<br />
      *
-     * @param queue ãƒ‡ãƒ¼ã‚¿ã‚’è“„ç©ã™ã‚‹ãŸã‚ã®ã‚­ãƒ¥ãƒ¼
-     * @param connectNotify æ¥ç¶šå®Œäº†å¾Œã«é€ä¿¡ã™ã‚‹æ¥ç¶šé€šçŸ¥æƒ…å ±
+     * @param queue ƒf[ƒ^‚ğ’~Ï‚·‚é‚½‚ß‚ÌƒLƒ…[
+     * @param connectNotify Ú‘±Š®—¹Œã‚É‘—M‚·‚éÚ‘±’Ê’mî•ñ
      */
     public synchronized void connect(final JavelinDataQueue queue,
-        final ConnectNotifyData connectNotify)
+            final ConnectNotifyData connectNotify)
     {
         connect(queue, BehaviorMode.CONNECT_MODE, connectNotify);
     }
 
     /**
-     * ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚’é–‹å§‹ã—ã¾ã™ã€‚<br />
+     * ƒNƒ‰ƒCƒAƒ“ƒg‚ğŠJn‚µ‚Ü‚·B<br />
      *
-     * @param queue ãƒ‡ãƒ¼ã‚¿ã‚’è“„ç©ã™ã‚‹ãŸã‚ã®ã‚­ãƒ¥ãƒ¼
-     * @param behaviorMode ã‚µãƒ¼ãƒ“ã‚¹ãƒ¢ãƒ¼ãƒ‰
-     * @param connectNotify æ¥ç¶šå®Œäº†å¾Œã«é€ä¿¡ã™ã‚‹æ¥ç¶šé€šçŸ¥æƒ…å ±
+     * @param queue ƒf[ƒ^‚ğ’~Ï‚·‚é‚½‚ß‚ÌƒLƒ…[
+     * @param behaviorMode ƒT[ƒrƒXƒ‚[ƒh
+     * @param connectNotify Ú‘±Š®—¹Œã‚É‘—M‚·‚éÚ‘±’Ê’mî•ñ
      */
     public synchronized void connect(final JavelinDataQueue queue, final BehaviorMode behaviorMode,
-        final ConnectNotifyData connectNotify)
-    {
-        this.connect(queue, behaviorMode, connectNotify, 0);
-    }
-
-    /**
-     * ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚’é–‹å§‹ã—ã¾ã™ã€‚<br />
-     *
-     * @param queue ãƒ‡ãƒ¼ã‚¿ã‚’è“„ç©ã™ã‚‹ãŸã‚ã®ã‚­ãƒ¥ãƒ¼
-     * @param behaviorMode ã‚µãƒ¼ãƒ“ã‚¹ãƒ¢ãƒ¼ãƒ‰
-     * @param connectNotify æ¥ç¶šå®Œäº†å¾Œã«é€ä¿¡ã™ã‚‹æ¥ç¶šé€šçŸ¥æƒ…å ±
-     * @param agentId ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆID
-     */
-    public synchronized void connect(final JavelinDataQueue queue, final BehaviorMode behaviorMode,
-        final ConnectNotifyData connectNotify, final int agentId)
-
+            final ConnectNotifyData connectNotify)
     {
         this.queue_ = queue;
 
         if (isConnected() == true)
         {
-            // æ—¢ã«æ¥ç¶šä¸­ã®å ´åˆ
+            // Šù‚ÉÚ‘±’†‚Ìê‡
             LOGGER.log(JAVELIN_ALREADY_CONNECTED, this.javelinHost_, this.javelinPort_);
             return;
         }
@@ -206,21 +169,22 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
             hostName = this.javelinHost_;
         }
 
-        initializeClient(queue, behaviorMode, hostName, connectNotify, agentId);
+        initializeClient(queue, behaviorMode, hostName, connectNotify);
     }
 
     /**
-     * ã‚µãƒ¼ãƒã‹ã‚‰åˆ‡æ–­ã—ã¾ã™ã€‚<br />
+     * ƒT[ƒo‚©‚çØ’f‚µ‚Ü‚·B<br />
      */
     public synchronized void disconnect()
     {
         if (this.client_ != null)
         {
-            // åˆ‡æ–­ã‚’è¡¨ã™ãƒ‡ãƒ¼ã‚¿ã‚’ã‚­ãƒ¥ãƒ¼ã«è¿½åŠ ã™ã‚‹
+            // Ø’f‚ğ•\‚·ƒf[ƒ^‚ğƒLƒ…[‚É’Ç‰Á‚·‚é
             Date currentDate = new Date();
             long currentTime = currentDate.getTime();
             JavelinConnectionData disconnectionData =
-                new JavelinConnectionData(JavelinConnectionData.TYPE_DISCONNECTION);
+                                                      new JavelinConnectionData(
+                                                                                JavelinConnectionData.TYPE_DISCONNECTION);
             disconnectionData.measurementTime = currentTime;
             disconnectionData.setDatabaseName(JavelinClient.this.databaseName_);
             if (this.queue_ != null)
@@ -238,9 +202,9 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
     }
 
     /**
-     * Javelin ã¸æ¥ç¶šä¸­ã‹ã©ã†ã‹ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * Javelin ‚ÖÚ‘±’†‚©‚Ç‚¤‚©‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @return æ¥ç¶šä¸­ã®å ´åˆã¯ <code>true</code>
+     * @return Ú‘±’†‚Ìê‡‚Í <code>true</code>
      */
     public synchronized boolean isConnected()
     {
@@ -252,9 +216,9 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
     }
 
     /**
-     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ƒf[ƒ^ƒx[ƒX–¼‚ğ•Ô‚µ‚Ü‚·B<br />
      *
-     * @return ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @return ƒf[ƒ^ƒx[ƒX–¼
      */
     public String getDatabaseName()
     {
@@ -262,9 +226,9 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
     }
 
     /**
-     * ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚’è­˜åˆ¥ã™ã‚‹ ID ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ƒNƒ‰ƒCƒAƒ“ƒg‚ğ¯•Ê‚·‚é ID ‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @return ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆID
+     * @return ƒNƒ‰ƒCƒAƒ“ƒgID
      */
     public String getClientId()
     {
@@ -272,11 +236,11 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
     }
 
     /**
-     * ãƒ›ã‚¹ãƒˆåã¨ãƒãƒ¼ãƒˆç•ªå·ã‹ã‚‰ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆ ID ã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
+     * ƒzƒXƒg–¼‚Æƒ|[ƒg”Ô†‚©‚çƒNƒ‰ƒCƒAƒ“ƒg ID ‚ğ¶¬‚µ‚Ü‚·B<br />
      * 
-     * @param host ãƒ›ã‚¹ãƒˆå
-     * @param port ãƒãƒ¼ãƒˆç•ªå·
-     * @return ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆ ID
+     * @param host ƒzƒXƒg–¼
+     * @param port ƒ|[ƒg”Ô†
+     * @return ƒNƒ‰ƒCƒAƒ“ƒg ID
      */
     public static String createClientIdFromHost(final String host, final int port)
     {
@@ -288,18 +252,18 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
         }
         catch (UnknownHostException ex)
         {
-            LOGGER.log(CommonLogMessageCodes.UNEXPECTED_ERROR, ex);
+            LOGGER.warn(CommonLogMessageCodes.UNEXPECTED_ERROR, ex);
         }
 
         return createClientId(ipAddress, port);
     }
 
     /**
-     * IPã‚¢ãƒ‰ãƒ¬ã‚¹ã¨ãƒãƒ¼ãƒˆç•ªå·ã‹ã‚‰ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆ ID ã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
+     * IPƒAƒhƒŒƒX‚Æƒ|[ƒg”Ô†‚©‚çƒNƒ‰ƒCƒAƒ“ƒg ID ‚ğ¶¬‚µ‚Ü‚·B<br />
      * 
-     * @param ipAddr IPã‚¢ãƒ‰ãƒ¬ã‚¹
-     * @param port ãƒãƒ¼ãƒˆç•ªå·
-     * @return ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆ ID
+     * @param ipAddr IPƒAƒhƒŒƒX
+     * @param port ƒ|[ƒg”Ô†
+     * @return ƒNƒ‰ƒCƒAƒ“ƒg ID
      */
     public static String createClientId(final String ipAddr, final int port)
     {
@@ -331,8 +295,8 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
     }
 
     /**
-     * é›»æ–‡é€ä¿¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾—ã—ã¾ã™ã€‚
-     * @return é›»æ–‡é€ä¿¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * “d•¶‘—MƒIƒuƒWƒFƒNƒg‚ğæ“¾‚µ‚Ü‚·B
+     * @return “d•¶‘—MƒIƒuƒWƒFƒNƒg
      */
     public TelegramSender getTelegramSender()
     {
@@ -340,10 +304,10 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
     }
 
     /**
-     * é›»æ–‡å—ä¿¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾—ã—ã¾ã™ã€‚
-     * @return é›»æ–‡å—ä¿¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * “d•¶óMƒIƒuƒWƒFƒNƒg‚ğæ“¾‚µ‚Ü‚·B
+     * @return “d•¶óMƒIƒuƒWƒFƒNƒg
      */
-    public TelegramReceiver getTelegramReceiver()
+    private TelegramReceiver getTelegramReceiver()
     {
         return getCommunicator();
     }
@@ -355,13 +319,13 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
     }
 
     /**
-     * BottleneckEye ã«ã€ DataCollector ãŒå¤‰æ›ã—ãŸãƒ‡ãƒ¼ã‚¿ã‚’é€šçŸ¥ã—ã¾ã™ã€‚
+     * BottleneckEye ‚ÉA DataCollector ‚ª•ÏŠ·‚µ‚½ƒf[ƒ^‚ğ’Ê’m‚µ‚Ü‚·B
      *
-     * @param telegram é›»æ–‡
+     * @param telegram “d•¶
      */
     public void sendTelegramToClient(final Telegram telegram)
     {
-        // ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ãƒ¢ãƒ¼ãƒ‰ã®å ´åˆã¯é€šçŸ¥ã—ã€ãã†ã§ãªã„å ´åˆã¯ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã«é›»æ–‡é€ä¿¡ã™ã‚‹ã€‚
+        // ƒvƒ‰ƒOƒCƒ“ƒ‚[ƒh‚Ìê‡‚Í’Ê’m‚µA‚»‚¤‚Å‚È‚¢ê‡‚ÍƒNƒ‰ƒCƒAƒ“ƒg‚É“d•¶‘—M‚·‚éB
         if (this.acceptPort_ == -1)
         {
             for (TelegramNotifyListener notifyListener : this.telegramNotifyListenerList_)
@@ -379,48 +343,40 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
     }
 
     /**
-     * ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆå‹•ä½œæ™‚ã®åˆæœŸåŒ–å‡¦ç†ã€‚
+     * ƒNƒ‰ƒCƒAƒ“ƒg“®ì‚Ì‰Šú‰»ˆ—B
      * 
-     * @param queue ãƒ‡ãƒ¼ã‚¿ã‚’è“„ç©ã™ã‚‹ãŸã‚ã®ã‚­ãƒ¥ãƒ¼
-     * @param alarmRepository ã‚¢ãƒ©ãƒ¼ãƒ 
-     * @param behaviorMode ã‚µãƒ¼ãƒ“ã‚¹ãƒ¢ãƒ¼ãƒ‰
-     * @param hostName ãƒ›ã‚¹ãƒˆå
-     * @param connectNotify æ¥ç¶šå®Œäº†å¾Œã«é€ä¿¡ã™ã‚‹æ¥ç¶šé€šçŸ¥æƒ…å ±
-     * @param agentId ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆID
+     * @param queue ƒf[ƒ^‚ğ’~Ï‚·‚é‚½‚ß‚ÌƒLƒ…[
+     * @param alarmRepository ƒAƒ‰[ƒ€
+     * @param behaviorMode ƒT[ƒrƒXƒ‚[ƒh
+     * @param hostName ƒzƒXƒg–¼
+     * @param connectNotify Ú‘±Š®—¹Œã‚É‘—M‚·‚éÚ‘±’Ê’mî•ñ
      */
     private synchronized void initializeClient(final JavelinDataQueue queue,
-        final BehaviorMode behaviorMode, final String hostName,
-        final ConnectNotifyData connectNotify, final int agentId)
+            final BehaviorMode behaviorMode, final String hostName,
+            final ConnectNotifyData connectNotify)
     {
         this.client_ =
-            CommunicationFactory.getCommunicationClient("DataCollector-ClientThread-"
-                + this.clientId_);
+                       CommunicationFactory.getCommunicationClient("DataCollector-ClientThread-"
+                               + this.clientId_);
         this.client_.init(this.javelinHost_, this.javelinPort_);
 
-        String agentName = null;
-        if (connectNotify != null)
-        {
-            agentName = connectNotify.getAgentName();
-            this.agentName_ = connectNotify.getAgentName();
-        }
-        initializeCommon(queue, behaviorMode, hostName, agentName, agentId);
+        String agentName = connectNotify.getAgentName();
+        initializeCommon(queue, behaviorMode, hostName, agentName);
 
-        // ã‚µãƒ¼ãƒã¸æ¥ç¶šã™ã‚‹(æ¥ç¶šã«æˆåŠŸã™ã‚‹ã¾ã§ãƒªãƒˆãƒ©ã‚¤ã‚’ç¶šã‘ã‚‹)
+        // ƒT[ƒo‚ÖÚ‘±‚·‚é(Ú‘±‚É¬Œ÷‚·‚é‚Ü‚ÅƒŠƒgƒ‰ƒC‚ğ‘±‚¯‚é)
         this.client_.connect(connectNotify);
     }
 
     /**
-     * ã‚µãƒ¼ãƒ/ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆå‹•ä½œã®å…±é€šã®åˆæœŸåŒ–å‡¦ç†ã€‚
+     * ƒT[ƒo/ƒNƒ‰ƒCƒAƒ“ƒg“®ì‚Ì‹¤’Ê‚Ì‰Šú‰»ˆ—B
      * 
-     * @param queue ãƒ‡ãƒ¼ã‚¿ã‚’è“„ç©ã™ã‚‹ãŸã‚ã®ã‚­ãƒ¥ãƒ¼
-     * @param alarmRepository ã‚¢ãƒ©ãƒ¼ãƒ 
-     * @param behaviorMode ã‚µãƒ¼ãƒ“ã‚¹ãƒ¢ãƒ¼ãƒ‰
-     * @param hostName ãƒ›ã‚¹ãƒˆå
-     * @param agentId ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆID
+     * @param queue ƒf[ƒ^‚ğ’~Ï‚·‚é‚½‚ß‚ÌƒLƒ…[
+     * @param alarmRepository ƒAƒ‰[ƒ€
+     * @param behaviorMode ƒT[ƒrƒXƒ‚[ƒh
+     * @param hostName ƒzƒXƒg–¼
      */
     private synchronized void initializeCommon(final JavelinDataQueue queue,
-        final BehaviorMode behaviorMode, final String hostName, final String agentName,
-        final int agentId)
+            final BehaviorMode behaviorMode, final String hostName, final String agentName)
     {
         setTelegramSenders();
 
@@ -431,62 +387,84 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
         receiver.addTelegramListener(allNotifyListener);
 
         final JvnFileNotifyListener JVN_FILE_NOTIFY_LISTENER =
-            createJvnFileNotifyListener(queue, hostName);
+                                                               createJvnFileNotifyListener(queue,
+                                                                                           hostName);
         final SystemResourceListener SYSTEM_RESOURCE_LISTENER =
-            createSystemResourceListener(queue, hostName, agentName);
-        final SystemResourceNotifyListener SYSTEM_RESOURCE_NOTIFY_LISTENER =
-            createSystemResourceNotifyListener(queue, hostName, agentName);
+                                                                createSystemResourceListener(queue,
+                                                                                             hostName,
+                                                                                             agentName);
 
         final SignalStateListener SIGNAL_STATE_LISTENER = new SignalStateListener();
         final SignalChangeListener SIGNAL_CHANGE_LISTENER = new SignalChangeListener();
-        final ThreadDumpNotifyListener THREAD_DUMP_NOTIFY_LISTENER = new ThreadDumpNotifyListener();
-        final SqlPlanNotifyListener SQL_PLAN_NOTIFY_LISTENER =
-            createSqlPlanNotifyListener(hostName, agentName);
-
         if (queue != null)
         {
             receiver.addTelegramListener(JVN_FILE_NOTIFY_LISTENER);
             receiver.addTelegramListener(SYSTEM_RESOURCE_LISTENER);
-            receiver.addTelegramListener(SYSTEM_RESOURCE_NOTIFY_LISTENER);
             receiver.addTelegramListener(SIGNAL_STATE_LISTENER);
             receiver.addTelegramListener(SIGNAL_CHANGE_LISTENER);
-            receiver.addTelegramListener(SQL_PLAN_NOTIFY_LISTENER);
-
-            receiver.addTelegramListener(THREAD_DUMP_NOTIFY_LISTENER);
-
             addResponseTelegramListener(TelegramConstants.BYTE_TELEGRAM_KIND_GET_DUMP);
             addResponseTelegramListener(TelegramConstants.BYTE_TELEGRAM_KIND_UPDATE_PROPERTY);
         }
 
-        ConnectNotifyListener connectListener = new ConnectNotifyListener(agentId);
-        connectListener.addAgentNameListener(SYSTEM_RESOURCE_LISTENER);
-        connectListener.addAgentNameListener(JVN_FILE_NOTIFY_LISTENER);
-        receiver.addTelegramListener(connectListener);
-
-        // ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆãƒ»ã‚µãƒ¼ãƒã®çŠ¶æ…‹å¤‰åŒ–ã‚’é€šçŸ¥ã™ã‚‹ãŸã‚ã®ãƒªã‚¹ãƒŠã‚’ç™»éŒ²
+        // ƒNƒ‰ƒCƒAƒ“ƒgEƒT[ƒo‚Ìó‘Ô•Ï‰»‚ğ’Ê’m‚·‚é‚½‚ß‚ÌƒŠƒXƒi‚ğ“o˜^
         CommunicatorListener listener =
-            createCommunicatorListener(queue, JVN_FILE_NOTIFY_LISTENER, SYSTEM_RESOURCE_LISTENER);
+                                        createCommunicatorListener(queue, JVN_FILE_NOTIFY_LISTENER,
+                                                                   SYSTEM_RESOURCE_LISTENER);
         getCommunicator().addCommunicatorListener(listener);
         getCommunicator().addCommunicatorListener(this);
     }
 
     /**
-     * ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆãƒ»ã‚µãƒ¼ãƒã®çŠ¶æ…‹å¤‰åŒ–ã‚’å—ã‘å–ã‚‹ãƒªã‚¹ãƒŠã‚’ç”Ÿæˆã—ã¾ã™ã€‚
+     * ƒT[ƒrƒXƒ‚[ƒh‚Ì‰Šú‰»ˆ—B
+     * @param alarmRepository ƒAƒ‰[ƒ€
+     */
+    private synchronized void initializeForServiceMode()
+    {
+
+        // BottleneckEye->DataCollector->Javelin
+        this.transferThread_.addTelegramListener(new TelegramListener() {
+            public Telegram receiveTelegram(final Telegram telegram)
+            {
+                getTelegramSender().sendTelegram(telegram);
+                return null;
+            }
+        });
+
+        // Javelin->DataCollector->BottleneckEye
+        this.transferThread_.start(this.acceptPort_);
+        getTelegramReceiver().addTelegramListener(new TelegramListener() {
+            public Telegram receiveTelegram(final Telegram telegram)
+            {
+                Header header = telegram.getObjHeader();
+                if (header.getByteTelegramKind() == TelegramConstants.BYTE_TELEGRAM_KIND_RESOURCENOTIFY
+                        && header.getByteRequestKind() == TelegramConstants.BYTE_REQUEST_KIND_RESPONSE)
+                {
+                    return null;
+                }
+
+                transferThread_.sendTelegram(telegram);
+                return null;
+            }
+        });
+    }
+
+    /**
+     * ƒNƒ‰ƒCƒAƒ“ƒgEƒT[ƒo‚Ìó‘Ô•Ï‰»‚ğó‚¯æ‚éƒŠƒXƒi‚ğ¶¬‚µ‚Ü‚·B
      * 
-     * @param queue ãƒ‡ãƒ¼ã‚¿ã‚’è“„ç©ã™ã‚‹ãŸã‚ã®ã‚­ãƒ¥ãƒ¼
-     * @param jvnFileNotifyListener Javelinãƒ­ã‚°ã‚’å—ä¿¡ã™ã‚‹ãŸã‚ã®ãƒªã‚¹ãƒŠ
-     * @param systemResourceListener ã‚·ã‚¹ãƒ†ãƒ ãƒªã‚½ãƒ¼ã‚¹é€šçŸ¥ã‚’å—ä¿¡ã™ã‚‹ãŸã‚ã®ãƒªã‚¹ãƒŠ
-     * @return ç”Ÿæˆã—ãŸãƒªã‚¹ãƒŠ
+     * @param queue ƒf[ƒ^‚ğ’~Ï‚·‚é‚½‚ß‚ÌƒLƒ…[
+     * @param jvnFileNotifyListener JavelinƒƒO‚ğóM‚·‚é‚½‚ß‚ÌƒŠƒXƒi
+     * @param systemResourceListener ƒVƒXƒeƒ€ƒŠƒ\[ƒX’Ê’m‚ğóM‚·‚é‚½‚ß‚ÌƒŠƒXƒi
+     * @return ¶¬‚µ‚½ƒŠƒXƒi
      */
     private CommunicatorListener createCommunicatorListener(final JavelinDataQueue queue,
-        final JvnFileNotifyListener jvnFileNotifyListener,
-        final SystemResourceListener systemResourceListener)
+            final JvnFileNotifyListener jvnFileNotifyListener,
+            final SystemResourceListener systemResourceListener)
     {
-        // æ¥ç¶šã«æˆåŠŸã™ã‚‹ã¨SocketChannelã‹ã‚‰IPã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’å–å¾—ã§ãã‚‹ãŸã‚ã€
-        // ãã®ã¨ãã«JvnFileNotifyListenerã«IPã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’ç™»éŒ²ã™ã‚‹
+        // Ú‘±‚É¬Œ÷‚·‚é‚ÆSocketChannel‚©‚çIPƒAƒhƒŒƒX‚ğæ“¾‚Å‚«‚é‚½‚ßA
+        // ‚»‚Ì‚Æ‚«‚ÉJvnFileNotifyListener‚ÉIPƒAƒhƒŒƒX‚ğ“o˜^‚·‚é
         CommunicatorListener listener = new CommunicatorListener() {
             public void clientConnected(final String hostName, final String ipAddress,
-                final int port)
+                    final int port)
             {
                 if (queue != null)
                 {
@@ -502,11 +480,12 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
                     telegramNotifyListener.clientConnected(hostName, ipAddress, port);
                 }
 
-                // æ¥ç¶šã‚’è¡¨ã™ãƒ‡ãƒ¼ã‚¿ã‚’ã‚­ãƒ¥ãƒ¼ã«è¿½åŠ ã™ã‚‹
+                // Ú‘±‚ğ•\‚·ƒf[ƒ^‚ğƒLƒ…[‚É’Ç‰Á‚·‚é
                 Date currentDate = new Date();
                 long currentTime = currentDate.getTime();
                 JavelinConnectionData connectionData =
-                    new JavelinConnectionData(JavelinConnectionData.TYPE_CONNECTION);
+                                                       new JavelinConnectionData(
+                                                                                 JavelinConnectionData.TYPE_CONNECTION);
                 connectionData.measurementTime = currentTime;
                 connectionData.setDatabaseName(JavelinClient.this.databaseName_);
                 if (queue != null)
@@ -519,11 +498,12 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
             {
                 if (forceDisconnected)
                 {
-                    // åˆ‡æ–­ã‚’è¡¨ã™ãƒ‡ãƒ¼ã‚¿ã‚’ã‚­ãƒ¥ãƒ¼ã«è¿½åŠ ã™ã‚‹ï¼ˆå¼·åˆ¶åˆ‡æ–­ã•ã‚ŒãŸå ´åˆï¼‰
+                    // Ø’f‚ğ•\‚·ƒf[ƒ^‚ğƒLƒ…[‚É’Ç‰Á‚·‚éi‹­§Ø’f‚³‚ê‚½ê‡j
                     Date currentDate = new Date();
                     long currentTime = currentDate.getTime();
                     JavelinConnectionData disconnectionData =
-                        new JavelinConnectionData(JavelinConnectionData.TYPE_DISCONNECTION);
+                                                              new JavelinConnectionData(
+                                                                                        JavelinConnectionData.TYPE_DISCONNECTION);
                     disconnectionData.measurementTime = currentTime;
                     disconnectionData.setDatabaseName(JavelinClient.this.databaseName_);
                     if (queue != null)
@@ -542,14 +522,14 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
     }
 
     /**
-     * JvnFileNotifyListenerã‚’ä½œæˆã—ã¾ã™ã€‚
+     * JvnFileNotifyListener‚ğì¬‚µ‚Ü‚·B
      * 
-     * @param queue ãƒ‡ãƒ¼ã‚¿ã‚’è“„ç©ã™ã‚‹ãŸã‚ã®ã‚­ãƒ¥ãƒ¼
-     * @param hostName æ¥ç¶šå…ˆã®ãƒ›ã‚¹ãƒˆå
-     * @return ä½œæˆã—ãŸJvnFileNotifyListener
+     * @param queue ƒf[ƒ^‚ğ’~Ï‚·‚é‚½‚ß‚ÌƒLƒ…[
+     * @param hostName Ú‘±æ‚ÌƒzƒXƒg–¼
+     * @return ì¬‚µ‚½JvnFileNotifyListener
      */
     private JvnFileNotifyListener createJvnFileNotifyListener(final JavelinDataQueue queue,
-        final String hostName)
+            final String hostName)
     {
         JvnFileNotifyListener notifyListener = null;
         if (queue != null)
@@ -558,21 +538,19 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
             notifyListener.setDatabaseName(this.databaseName_);
             notifyListener.setHostName(hostName);
             notifyListener.setPort(this.javelinPort_);
-            notifyListener.setClientId(this.clientId_);
         }
         return notifyListener;
     }
 
     /**
-     * SystemResourceListenerã‚’ä½œæˆã—ã¾ã™ã€‚
+     * SystemResourceListener‚ğì¬‚µ‚Ü‚·B
      * 
-     * @param queue ãƒ‡ãƒ¼ã‚¿ã‚’è“„ç©ã™ã‚‹ãŸã‚ã®ã‚­ãƒ¥ãƒ¼
-     * @param hostName æ¥ç¶šå…ˆã®ãƒ›ã‚¹ãƒˆå
-     * @param agentName Agentå
-     * @return ä½œæˆã—ãŸSystemResourceListener
+     * @param queue ƒf[ƒ^‚ğ’~Ï‚·‚é‚½‚ß‚ÌƒLƒ…[
+     * @param hostName Ú‘±æ‚ÌƒzƒXƒg–¼
+     * @return ì¬‚µ‚½SystemResourceListener
      */
     private SystemResourceListener createSystemResourceListener(final JavelinDataQueue queue,
-        final String hostName, final String agentName)
+            final String hostName, final String agentName)
     {
         SystemResourceListener notifyListener = null;
         if (queue != null)
@@ -582,56 +560,13 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
             notifyListener.setHostName(hostName);
             notifyListener.setPort(this.javelinPort_);
             notifyListener.setAgentName(agentName);
-            notifyListener.setClientId(this.clientId_);
         }
         return notifyListener;
     }
 
     /**
-     * SqlPlanNotifyListenerã‚’ä½œæˆã—ã¾ã™ã€‚
-     * 
-     * @param hostName æ¥ç¶šå…ˆã®ãƒ›ã‚¹ãƒˆå
-     * @param agentName Agentå
-     * 
-     * @return SqlPlanNotifyListenerã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     */
-    private SqlPlanNotifyListener createSqlPlanNotifyListener(final String hostName,
-        final String agentName)
-    {
-        SqlPlanNotifyListener notifyListener = new SqlPlanNotifyListener();
-
-        notifyListener.setAgentName(agentName);
-        notifyListener.setDatabaseName(this.databaseName_);
-
-        return notifyListener;
-    }
-
-    /**
-     * SystemResourceListenerã‚’ä½œæˆã—ã¾ã™ã€‚
-     * 
-     * @param queue ãƒ‡ãƒ¼ã‚¿ã‚’è“„ç©ã™ã‚‹ãŸã‚ã®ã‚­ãƒ¥ãƒ¼
-     * @param hostName æ¥ç¶šå…ˆã®ãƒ›ã‚¹ãƒˆå
-     * @return ä½œæˆã—ãŸSystemResourceListener
-     */
-    private SystemResourceNotifyListener createSystemResourceNotifyListener(
-        final JavelinDataQueue queue, final String hostName, final String agentName)
-    {
-        SystemResourceNotifyListener notifyListener = null;
-        if (queue != null)
-        {
-            notifyListener = new SystemResourceNotifyListener(queue);
-            notifyListener.setDatabaseName(this.databaseName_);
-            notifyListener.setHostName(hostName);
-            notifyListener.setPort(this.javelinPort_);
-            notifyListener.setAgentName(agentName);
-            notifyListener.setClientId(this.clientId_);
-        }
-        return notifyListener;
-    }
-
-    /**
-     * Javelinæ¥ç¶šãƒ¢ãƒ¼ãƒ‰ã‹ã‚‰ç¾åœ¨æœ‰åŠ¹ãªã‚³ãƒŸãƒ¥ãƒ‹ã‚±ãƒ¼ã‚¿ã‚’è¿”ã—ã¾ã™ã€‚
-     * @return ç¾åœ¨æœ‰åŠ¹ãªã‚³ãƒŸãƒ¥ãƒ‹ã‚±ãƒ¼ã‚¿
+     * JavelinÚ‘±ƒ‚[ƒh‚©‚çŒ»İ—LŒø‚ÈƒRƒ~ƒ…ƒjƒP[ƒ^‚ğ•Ô‚µ‚Ü‚·B
+     * @return Œ»İ—LŒø‚ÈƒRƒ~ƒ…ƒjƒP[ƒ^
      */
     private synchronized AbstractCommunicator getCommunicator()
     {
@@ -639,5 +574,4 @@ public class JavelinClient implements CommunicatorListener, LogMessageCodes
         communicator = this.client_;
         return communicator;
     }
-
 }

@@ -26,22 +26,22 @@
 package jp.co.acroquest.endosnipe.communicator.entity;
 
 /**
- * é›»æ–‡ãƒ‡ãƒ¼ã‚¿ã®ãŸã‚ã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+ * “d•¶ƒf[ƒ^‚Ì‚½‚ß‚ÌƒGƒ“ƒeƒBƒeƒBƒNƒ‰ƒX‚Å‚·B<br />
  * 
  * @author y-komori
  */
 public class Telegram implements Cloneable
 {
-    /** é›»æ–‡ãƒ˜ãƒƒãƒ€ */
+    /** “d•¶ƒwƒbƒ_ */
     private Header objHeader_ = null;
 
-    /** é›»æ–‡æœ¬ä½“ */
+    /** “d•¶–{‘Ì */
     private Body[] objBody_ = null;
 
     /**
-     * é›»æ–‡ãƒ˜ãƒƒãƒ€ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * “d•¶ƒwƒbƒ_‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return é›»æ–‡ãƒ˜ãƒƒãƒ€
+     * @return “d•¶ƒwƒbƒ_
      */
     public Header getObjHeader()
     {
@@ -49,9 +49,9 @@ public class Telegram implements Cloneable
     }
 
     /**
-     * é›»æ–‡ãƒ˜ãƒƒãƒ€ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
+     * “d•¶ƒwƒbƒ_‚ğİ’è‚µ‚Ü‚·B<br />
      * 
-     * @param objHeader é›»æ–‡ãƒ˜ãƒƒãƒ€
+     * @param objHeader “d•¶ƒwƒbƒ_
      */
     public void setObjHeader(final Header objHeader)
     {
@@ -59,9 +59,9 @@ public class Telegram implements Cloneable
     }
 
     /**
-     * é›»æ–‡æœ¬ä½“ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * “d•¶–{‘Ì‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return é›»æ–‡æœ¬ä½“
+     * @return “d•¶–{‘Ì
      */
     public Body[] getObjBody()
     {
@@ -69,9 +69,9 @@ public class Telegram implements Cloneable
     }
 
     /**
-     * é›»æ–‡æœ¬ä½“ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
+     * “d•¶–{‘Ì‚ğİ’è‚µ‚Ü‚·B<br />
      * 
-     * @param objBody é›»æ–‡æœ¬ä½“
+     * @param objBody “d•¶–{‘Ì
      */
     public void setObjBody(final Body[] objBody)
     {
@@ -79,9 +79,9 @@ public class Telegram implements Cloneable
     }
 
     /**
-     * é›»æ–‡æœ¬ä½“ã‚’è¿½åŠ ã—ã¾ã™ã€‚<br />
+     * “d•¶–{‘Ì‚ğ’Ç‰Á‚µ‚Ü‚·B<br />
      * 
-     * @param objBody è¿½åŠ ã™ã‚‹é›»æ–‡æœ¬ä½“
+     * @param objBody ’Ç‰Á‚·‚é“d•¶–{‘Ì
      */
     public void addObjBody(final Body objBody)
     {
@@ -93,10 +93,10 @@ public class Telegram implements Cloneable
     }
 
     /**
-     * ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ã‚³ãƒ”ãƒ¼ã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã§ã™ã€‚<br />
+     * ƒIƒuƒWƒFƒNƒg‚ğƒRƒs[‚·‚éƒƒ\ƒbƒh‚Å‚·B<br />
      * 
-     * @return ã‚³ãƒ”ãƒ¼å¾Œã®{@link Telegram}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @throws CloneNotSupportedException ã‚¯ãƒ­ãƒ¼ãƒ³ãŒã‚µãƒãƒ¼ãƒˆã•ã‚Œã¦ã„ãªã„å ´åˆ
+     * @return ƒRƒs[Œã‚Ì{@link Telegram}ƒIƒuƒWƒFƒNƒg
+     * @throws CloneNotSupportedException ƒNƒ[ƒ“‚ªƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢ê‡
      */
     public Telegram clone()
         throws CloneNotSupportedException

@@ -26,24 +26,24 @@
 package jp.co.acroquest.endosnipe.common.entity;
 
 /**
- * è¨ˆæ¸¬ã—ãŸå€¤ã®è¡¨ç¤ºæ–¹æ³•ã‚’è¡¨ã™åˆ—æŒ™ä½“ã§ã™ã€‚<br />
- * ãƒ‡ãƒ¼ã‚¿å‹ã¯ä»¥ä¸‹ã®ã‚³ãƒ¼ãƒ‰ã§ç¤ºã—ã¾ã™ã€‚<br />
+ * Œv‘ª‚µ‚½’l‚Ì•\¦•û–@‚ğ•\‚·—ñ‹“‘Ì‚Å‚·B<br />
+ * ƒf[ƒ^Œ^‚ÍˆÈ‰º‚ÌƒR[ƒh‚Å¦‚µ‚Ü‚·B<br />
  * <br />
  * <table border="1" cellspacing="0">
  * <tr>
- *  <th>è¡¨ç¤ºæ–¹æ³•</th>
- *  <th>æ•°å€¤</th>
+ *  <th>•\¦•û–@</th>
+ *  <th>”’l</th>
  * </tr>
  * <tr>
- *  <td>ä¸æ˜</td>
+ *  <td>•s–¾</td>
  *  <td>-1</td>
  * </tr>
  * <tr>
- *  <td>è¨ˆæ¸¬å€¤è¡¨ç¤º</td>
+ *  <td>Œv‘ª’l•\¦</td>
  *  <td>0</td>
  * </tr>
  * <tr>
- *  <td>å·®åˆ†è¡¨ç¤º</td>
+ *  <td>·•ª•\¦</td>
  *  <td>1</td>
  * </tr>
  * </table>
@@ -52,18 +52,18 @@ package jp.co.acroquest.endosnipe.common.entity;
  */
 public enum DisplayType
 {
-    /** ä¸æ˜ */
+    /** •s–¾ */
     DISPLAYTYPE_UNKNOWN, // -1
-    /** è¨ˆæ¸¬å€¤è¡¨ç¤º */
+    /** Œv‘ª’l•\¦ */
     DISPLAYTYPE_NORMAL, // 0
-    /** å·®åˆ†è¡¨ç¤º */
+    /** ·•ª•\¦ */
     DISPLAYTYPE_DIFFERENCE; // 1
 
     /**
-     * æ•°å€¤ã‹ã‚‰ãƒ‡ãƒ¼ã‚¿å‹ã‚’è¿”ã™ã€‚
+     * ”’l‚©‚çƒf[ƒ^Œ^‚ğ•Ô‚·B
      *
-     * @param n æ•°å€¤
-     * @return ãƒ‡ãƒ¼ã‚¿å‹
+     * @param n ”’l
+     * @return ƒf[ƒ^Œ^
      */
     public static DisplayType getDisplayType(final byte n)
     {
@@ -81,10 +81,10 @@ public enum DisplayType
     }
 
     /**
-     * ãƒ‡ãƒ¼ã‚¿å‹ã«å¿œã˜ãŸæ•°å€¤ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * ƒf[ƒ^Œ^‚É‰‚¶‚½”’l‚ğæ“¾‚µ‚Ü‚·B
      *
-     * @param type ãƒ‡ãƒ¼ã‚¿å‹
-     * @return æ•°å€¤
+     * @param type ƒf[ƒ^Œ^
+     * @return ”’l
      */
     public static byte getDisplayTypeNumber(final DisplayType type)
     {

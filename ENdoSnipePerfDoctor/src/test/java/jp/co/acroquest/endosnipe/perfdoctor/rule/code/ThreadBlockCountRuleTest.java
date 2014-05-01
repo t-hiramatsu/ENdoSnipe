@@ -9,8 +9,8 @@ public class ThreadBlockCountRuleTest extends PerformanceRuleTestCase
 {
 
     /**
-     * é–¾å€¤ã‚’æŒ‡å®šã—ã¦ThreadBlockCountRuleã‚’ç”Ÿæˆã™ã‚‹ã€‚<br>
-     * @param threshold é–¾å€¤
+     * è‡’l‚ğw’è‚µ‚ÄThreadBlockCountRule‚ğ¶¬‚·‚éB<br>
+     * @param threshold è‡’l
      * @return ThreadBlockCountRule
      */
     private ThreadBlockCountRule createRule(long threshold)
@@ -25,7 +25,7 @@ public class ThreadBlockCountRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 2-3-1
+     * [€”Ô] 2-3-1
      */
     public void testDoJudge_01()
     {
@@ -39,12 +39,12 @@ public class ThreadBlockCountRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 2-3-2
+     * [€”Ô] 2-3-2
      */
     public void testDoJudge_02()
     {
@@ -60,7 +60,7 @@ public class ThreadBlockCountRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 2-3-3
+     * [€”Ô] 2-3-3
      */
     public void testDoJudge_03()
     {
@@ -76,7 +76,7 @@ public class ThreadBlockCountRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 2-3-5
+     * [€”Ô] 2-3-5
      */
     public void testDoJudge_05()
     {
@@ -92,7 +92,7 @@ public class ThreadBlockCountRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 2-3-10
+     * [€”Ô] 2-3-10
      */
     public void testDoJudge_10()
     {
@@ -106,12 +106,12 @@ public class ThreadBlockCountRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 2-3-11
+     * [€”Ô] 2-3-11
      */
     public void testDoJudge_11()
     {
@@ -125,12 +125,12 @@ public class ThreadBlockCountRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 2-3-12
+     * [€”Ô] 2-3-12
      */
     public void testDoJudge_12()
     {
@@ -144,12 +144,12 @@ public class ThreadBlockCountRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 2-3-14
+     * [€”Ô] 2-3-14
      */
     public void testDoJudge_14()
     {
@@ -163,12 +163,12 @@ public class ThreadBlockCountRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 2-3-15
+     * [€”Ô] 2-3-15
      */
     public void testDoJudge_15()
     {
@@ -182,12 +182,12 @@ public class ThreadBlockCountRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 2-3-26
+     * [€”Ô] 2-3-26
      */
     public void testDoJudge_26()
     {
@@ -205,11 +205,11 @@ public class ThreadBlockCountRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 2-3-27<br>
+     * [€”Ô] 2-3-27<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»ã‚ã‚‹JavelinLogElementã§å®Ÿè¡Œæ™‚ä¾‹å¤–ãŒç™ºç”Ÿ<br>
-     * â†’ãã®JavelinLogElementã¯ã‚¹ã‚­ãƒƒãƒ—ã—ã¦å‡¦ç†ã™ã‚‹ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * E‚ ‚éJavelinLogElement‚ÅÀs—áŠO‚ª”­¶<br>
+     * ¨‚»‚ÌJavelinLogElement‚ÍƒXƒLƒbƒv‚µ‚Äˆ—‚·‚éB<br>
      */
     public void testDoJudge_RuntimeException()
     {

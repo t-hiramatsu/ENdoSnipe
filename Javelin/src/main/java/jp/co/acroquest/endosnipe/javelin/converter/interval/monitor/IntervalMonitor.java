@@ -38,10 +38,10 @@ import jp.co.acroquest.endosnipe.javelin.event.IntervalErrorEvent;
 import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
 
 /**
- * ãƒ¡ã‚½ãƒƒãƒ‰ã®å‘¼ã³å‡ºã—é–“éš”ã‚’è¨ˆæ¸¬ã—ã€é–¾å€¤ã‚’è¶…éã™ã‚Œã°ã€ã‚¢ãƒ©ãƒ¼ãƒ ã‚’ç™ºã—ã¾ã™ã€‚<br />
- * ãƒ•ãƒ¬ãƒ¼ãƒ ãƒ¯ãƒ¼ã‚¯ã®åˆæœŸåŒ–ç­‰ã€ã‚·ã‚¹ãƒ†ãƒ èµ·å‹•æ™‚ç­‰ã«ï¼‘å›ã ã‘å®Ÿè¡Œã™ã‚Œã°è‰¯ã„ãƒ¡ã‚½ãƒƒãƒ‰ãŒã€
- * é »ç¹ã«å‘¼ã³å‡ºã•ã‚Œã¦ã„ãªã„ã‹ç¢ºèªã™ã‚‹ã“ã¨ãŒã§ãã¾ã™ã€‚<br />
- * å‘¼ã³å‡ºã—ã‚’ç¢ºèªã—ãŸå ´åˆã¯ã€ã‚¢ãƒ©ãƒ¼ãƒ ã‚’ç™ºå ±ã™ã‚‹ãŸã‚ã€ç•°å¸¸ã‚’BottleneckEyeã§æ¤œå‡ºã™ã‚‹äº‹ãŒå¯èƒ½ã§ã™ã€‚<br />
+ * ƒƒ\ƒbƒh‚ÌŒÄ‚Ño‚µŠÔŠu‚ğŒv‘ª‚µAè‡’l‚ğ’´‰ß‚·‚ê‚ÎAƒAƒ‰[ƒ€‚ğ”­‚µ‚Ü‚·B<br />
+ * ƒtƒŒ[ƒ€ƒ[ƒN‚Ì‰Šú‰»“™AƒVƒXƒeƒ€‹N“®“™‚É‚P‰ñ‚¾‚¯Às‚·‚ê‚Î—Ç‚¢ƒƒ\ƒbƒh‚ªA
+ * •p”É‚ÉŒÄ‚Ño‚³‚ê‚Ä‚¢‚È‚¢‚©Šm”F‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·B<br />
+ * ŒÄ‚Ño‚µ‚ğŠm”F‚µ‚½ê‡‚ÍAƒAƒ‰[ƒ€‚ğ”­•ñ‚·‚é‚½‚ßAˆÙí‚ğBottleneckEye‚ÅŒŸo‚·‚é–‚ª‰Â”\‚Å‚·B<br />
  * 
  * @author yamasaki
  */
@@ -70,7 +70,7 @@ public class IntervalMonitor
 
     private static JavelinConfig config__;
 
-    /** ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—é–“éš”è¨ˆæ¸¬ä¸­ã‚’è¡¨ã™ãƒ•ãƒ©ã‚° */
+    /** ƒƒ\ƒbƒhŒÄ‚Ño‚µŠÔŠuŒv‘ª’†‚ğ•\‚·ƒtƒ‰ƒO */
     private static ThreadLocal<Boolean> isTracing__;
 
     static
@@ -86,7 +86,7 @@ public class IntervalMonitor
     }
 
     /**
-     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã‚’é˜²æ­¢ã™ã‚‹ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§ã™ã€‚
+     * ƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğ–h~‚·‚éƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Å‚·B
      */
     private IntervalMonitor()
     {
@@ -103,12 +103,12 @@ public class IntervalMonitor
 
     /**
      * 
-     * @param className ã‚¯ãƒ©ã‚¹å
-     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
+     * @param className ƒNƒ‰ƒX–¼
+     * @param methodName ƒƒ\ƒbƒh–¼
      */
     public static void preProcess(String className, String methodName)
     {
-        // ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—é–“éš”è¨ˆæ¸¬ä¸­ã®å ´åˆã€å‡¦ç†ã‚’è¡Œã‚ãªã„ã€‚
+        // ƒƒ\ƒbƒhŒÄ‚Ño‚µŠÔŠuŒv‘ª’†‚Ìê‡Aˆ—‚ğs‚í‚È‚¢B
         if (isTracing__.get().booleanValue() == true)
         {
             return;
@@ -119,7 +119,7 @@ public class IntervalMonitor
     }
 
     /**
-     * ãƒ¡ã‚½ãƒƒãƒ‰å‘¼å‡ºã—å¾Œã«ã€ãƒ¡ã‚½ãƒƒãƒ‰è¨ˆæ¸¬ä¸­ã‚’è¡¨ã™ãƒ•ãƒ©ã‚°ã‚’OFFã«ã—ã¾ã™ã€‚<br />
+     * ƒƒ\ƒbƒhŒÄo‚µŒã‚ÉAƒƒ\ƒbƒhŒv‘ª’†‚ğ•\‚·ƒtƒ‰ƒO‚ğOFF‚É‚µ‚Ü‚·B<br />
      */
     public static void postProcess()
     {
@@ -127,15 +127,15 @@ public class IntervalMonitor
     }
 
     /**
-     * ä¾‹å¤–ç™ºç”Ÿæ™‚ã«ã€ãƒ¡ã‚½ãƒƒãƒ‰è¨ˆæ¸¬ä¸­ã‚’è¡¨ã™ãƒ•ãƒ©ã‚°ã‚’OFFã«ã—ã¾ã™ã€‚<br />
+     * —áŠO”­¶‚ÉAƒƒ\ƒbƒhŒv‘ª’†‚ğ•\‚·ƒtƒ‰ƒO‚ğOFF‚É‚µ‚Ü‚·B<br />
      */
     public static void postProcessException()
     {
         isTracing__.set(Boolean.FALSE);
     }
 
-    // javelin.propertiesã«è¨˜è¿°ã•ã‚ŒãŸè¨­å®šå€¤ã‚’ãƒ‘ãƒ¼ã‚¹ã—ã€
-    // ãƒã‚§ãƒƒã‚¯å¯¾è±¡ã®ã‚¯ãƒ©ã‚¹ã€ãƒ¡ã‚½ãƒƒãƒ‰ã¨é–¾å€¤ã‚’å–å¾—ã—ã¾ã™ã€‚
+    // javelin.properties‚É‹Lq‚³‚ê‚½İ’è’l‚ğƒp[ƒX‚µA
+    // ƒ`ƒFƒbƒN‘ÎÛ‚ÌƒNƒ‰ƒXAƒƒ\ƒbƒh‚Æè‡’l‚ğæ“¾‚µ‚Ü‚·B
     private static void parse(String threshold)
     {
         String[] thresholds = threshold.split(TOKEN_THRESHOLD);
@@ -145,12 +145,12 @@ public class IntervalMonitor
 
             if (values.length != 2)
             {
-                // ãƒã‚§ãƒƒã‚¯å¯¾è±¡ã‚¯ãƒ©ã‚¹ã€ãƒ¡ã‚½ãƒƒãƒ‰ãŠã‚ˆã³é–¾å€¤ãŒæ­£ã—ãæŒ‡å®šã•ã‚Œã¦ã„ãªã„å ´åˆã€
-                // ãƒ­ã‚°ã«è¨­å®šã‚¨ãƒ©ãƒ¼ã‚’è¨˜éŒ²ã—ã¾ã™ã€‚
+                // ƒ`ƒFƒbƒN‘ÎÛƒNƒ‰ƒXAƒƒ\ƒbƒh‚¨‚æ‚Ñè‡’l‚ª³‚µ‚­w’è‚³‚ê‚Ä‚¢‚È‚¢ê‡A
+                // ƒƒO‚Éİ’èƒGƒ‰[‚ğ‹L˜^‚µ‚Ü‚·B
                 String message = JavelinMessages.getMessage(KEY_CONFIG_ERROR, config);
                 SystemLogger.getInstance().warn(message);
 
-                // æ¬¡ã®è¨­å®šã®å‡¦ç†ã«ç§»è¡Œã—ã¾ã™ã€‚
+                // Ÿ‚Ìİ’è‚Ìˆ—‚ÉˆÚs‚µ‚Ü‚·B
                 continue;
             }
 
@@ -163,11 +163,11 @@ public class IntervalMonitor
             }
             catch (NumberFormatException ex)
             {
-                // é–¾å€¤ã®è¨­å®šãŒlongå€¤ã¨ã—ã¦è§£é‡ˆä¸èƒ½ãªå ´åˆã€ãƒ­ã‚°ã«è¨­å®šã‚¨ãƒ©ãƒ¼ã‚’è¨˜éŒ²ã—ã¾ã™ã€‚
+                // è‡’l‚Ìİ’è‚ªlong’l‚Æ‚µ‚Ä‰ğß•s”\‚Èê‡AƒƒO‚Éİ’èƒGƒ‰[‚ğ‹L˜^‚µ‚Ü‚·B
                 String message = JavelinMessages.getMessage(KEY_CONFIG_ERROR, config);
                 SystemLogger.getInstance().warn(message, ex);
 
-                // æ¬¡ã®è¨­å®šã®å‡¦ç†ã«ç§»è¡Œã—ã¾ã™ã€‚
+                // Ÿ‚Ìİ’è‚Ìˆ—‚ÉˆÚs‚µ‚Ü‚·B
                 continue;
             }
 
@@ -184,7 +184,7 @@ public class IntervalMonitor
             }
             else
             {
-                // ã‚¯ãƒ©ã‚¹ã€ãƒ¡ã‚½ãƒƒãƒ‰ãŒæ­£ã—ãæŒ‡å®šã•ã‚Œã¦ã„ãªã„å ´åˆã¯ãƒ­ã‚°ã«è¨­å®šã‚¨ãƒ©ãƒ¼ã‚’è¨˜éŒ²ã—ã¾ã™ã€‚
+                // ƒNƒ‰ƒXAƒƒ\ƒbƒh‚ª³‚µ‚­w’è‚³‚ê‚Ä‚¢‚È‚¢ê‡‚ÍƒƒO‚Éİ’èƒGƒ‰[‚ğ‹L˜^‚µ‚Ü‚·B
                 String message = JavelinMessages.getMessage(KEY_CONFIG_ERROR, config);
                 SystemLogger.getInstance().warn(message);
             }
@@ -192,12 +192,12 @@ public class IntervalMonitor
     }
 
     /**
-     * ãƒ¡ã‚½ãƒƒãƒ‰ã®å‘¼ã³å‡ºã—é–“éš”ã®åˆ¤å®šã‚’è¡Œã„ã¾ã™ã€‚<br />
-     * å‰å›å‘¼ã³å‡ºã—æ™‚ã‹ã‚‰ã®çµŒéæ™‚é–“ã‚’ãƒŸãƒªç§’å˜ä½ã§æ±‚ã‚ã€
-     * è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã«è¨˜è¿°ã•ã‚ŒãŸé–¾å€¤ã‚’ä¸‹å›ã£ã¦ã„ã‚Œã°ã€ã‚¢ãƒ©ãƒ¼ãƒ ã®ç™ºå ±ã‚’è¡Œã„ã¾ã™ã€‚
+     * ƒƒ\ƒbƒh‚ÌŒÄ‚Ño‚µŠÔŠu‚Ì”»’è‚ğs‚¢‚Ü‚·B<br />
+     * ‘O‰ñŒÄ‚Ño‚µ‚©‚ç‚ÌŒo‰ßŠÔ‚ğƒ~ƒŠ•b’PˆÊ‚Å‹‚ßA
+     * İ’èƒtƒ@ƒCƒ‹‚É‹Lq‚³‚ê‚½è‡’l‚ğ‰º‰ñ‚Á‚Ä‚¢‚ê‚ÎAƒAƒ‰[ƒ€‚Ì”­•ñ‚ğs‚¢‚Ü‚·B
      *
-     * @param className ã‚¯ãƒ©ã‚¹å
-     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
+     * @param className ƒNƒ‰ƒX–¼
+     * @param methodName ƒƒ\ƒbƒh–¼
      */
     private static void call(String className, String methodName)
     {
@@ -215,8 +215,8 @@ public class IntervalMonitor
                 {
                     long threshold = thresholdLong.longValue();
 
-                    // é–¾å€¤ãŒè¨­å®šã•ã‚Œã¦ãŠã‚Šã€å®Ÿéš›ã®å‘¼ã³å‡ºã—é–“éš”ãŒé–¾å€¤ã‚’ä¸‹å›ã£ã¦ã„ã‚Œã°ã€
-                    // ã‚¢ãƒ©ãƒ¼ãƒ ã‚’ç™ºå ±è¨­å®šã‚’è¡Œã„ã¾ã™ã€‚
+                    // è‡’l‚ªİ’è‚³‚ê‚Ä‚¨‚èAÀÛ‚ÌŒÄ‚Ño‚µŠÔŠu‚ªè‡’l‚ğ‰º‰ñ‚Á‚Ä‚¢‚ê‚ÎA
+                    // ƒAƒ‰[ƒ€‚ğ”­•ñİ’è‚ğs‚¢‚Ü‚·B
                     if (threshold > 0 && threshold > diff)
                     {
                         CommonEvent event = new IntervalErrorEvent();
@@ -234,12 +234,12 @@ public class IntervalMonitor
                 }
             }
 
-            // æ¬¡å›åˆ¤å®šç”¨ã«æœ€æ–°ã®å‘¼ã³å‡ºã—æ™‚åˆ»ã‚’è¨˜éŒ²ã—ã¦ãŠãã¾ã™ã€‚
+            // Ÿ‰ñ”»’è—p‚ÉÅV‚ÌŒÄ‚Ño‚µ‚ğ‹L˜^‚µ‚Ä‚¨‚«‚Ü‚·B
             callIntervalMap__.put(key, presentTime);
         }
         catch (Exception ex)
         {
-            //ä¾‹å¤–ç™ºç”Ÿæ™‚ã¯ãƒ­ã‚°ã«è¨˜éŒ²ã—ã¦ãŠãã¾ã™ã€‚
+            //—áŠO”­¶‚ÍƒƒO‚É‹L˜^‚µ‚Ä‚¨‚«‚Ü‚·B
             SystemLogger.getInstance().warn(ex);
         }
     }

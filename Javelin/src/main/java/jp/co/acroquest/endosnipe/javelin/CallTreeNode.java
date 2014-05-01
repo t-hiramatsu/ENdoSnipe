@@ -37,14 +37,14 @@ import jp.co.acroquest.endosnipe.javelin.converter.hadoop.HadoopInfo;
 import jp.co.acroquest.endosnipe.javelin.event.CommonEvent;
 
 /**
- * ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—æƒ…å ±
+ * ƒƒ\ƒbƒhŒÄ‚Ño‚µî•ñ
  * @author eriguchi
  *
  */
 public class CallTreeNode
 {
     /**
-     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
      */
     public CallTreeNode()
     {
@@ -54,81 +54,81 @@ public class CallTreeNode
     /**  */
     private Invocation          invocation_;
 
-    /** æˆ»ã‚Šå€¤ */
+    /** –ß‚è’l */
     private String              returnValue_;
 
-    /** ä¾‹å¤– */
+    /** —áŠO */
     private Throwable           throwable_;
 
-    /** ä¾‹å¤–ç™ºç”Ÿæ™‚åˆ» */
+    /** —áŠO”­¶ */
     private long                throwTime_;
 
-    /** é–‹å§‹æ™‚åˆ» */
+    /** ŠJn */
     private long                startTime_;
 
-    /** çµ‚äº†æ™‚åˆ» */
+    /** I—¹ */
     private long                endTime_     = -1;
 
-    /** ç´¯ç©æ™‚é–“ */
+    /** —İÏŠÔ */
     private long                accumulatedTime_;
 
-    /** CPUæ™‚é–“ */
+    /** CPUŠÔ */
     private long                cpuTime_;
 
-    /** ãƒ¦ãƒ¼ã‚¶æ™‚é–“ */
+    /** ƒ†[ƒUŠÔ */
     private long                userTime_;
 
-    /** é–‹å§‹æ™‚ã®VMã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ */
+    /** ŠJn‚ÌVM‚ÌƒXƒe[ƒ^ƒX */
     private VMStatus            startVmStatus_;
 
-    /** çµ‚äº†æ™‚ã®VMã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ */
+    /** I—¹‚ÌVM‚ÌƒXƒe[ƒ^ƒX */
     private VMStatus            endVmStatus_;
 
-    /** å¼•æ•° */
+    /** ˆø” */
     private String[]            args_;
 
-    /** ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ */
+    /** ƒXƒ^ƒbƒNƒgƒŒ[ƒX */
     private StackTraceElement[] stacktrace_;
 
-    /** è‡ªåˆ†ãŒæ‰€å±ã—ã¦ã„ã‚‹CallTree */
+    /** ©•ª‚ªŠ‘®‚µ‚Ä‚¢‚éCallTree */
     private CallTree            tree_;
 
-    /** CallTreeNodeã®è¦ªãƒãƒ¼ãƒ‰ */
+    /** CallTreeNode‚Ìeƒm[ƒh */
     private CallTreeNode        parent_;
 
-    /** CallTreeNodeã®å­ãƒãƒ¼ãƒ‰ */
+    /** CallTreeNode‚Ìqƒm[ƒh */
     private List<CallTreeNode>  children_    = new ArrayList<CallTreeNode>();
 
-    /** ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã‚¢ã‚¯ã‚»ã‚¹ */
+    /** ƒtƒB[ƒ‹ƒhƒAƒNƒZƒX */
     private boolean             isFieldAccess_;
 
-    /** æ·±ã• */
+    /** [‚³ */
     private int                 depth_;
 
-    /** å­ãƒãƒ¼ãƒ‰ã§æ¶ˆè²»ã•ã‚ŒãŸå‡¦ç†æ™‚é–“ */
+    /** qƒm[ƒh‚ÅÁ”ï‚³‚ê‚½ˆ—ŠÔ */
     private long                childrenTime_;
 
-    /** å­ãƒãƒ¼ãƒ‰ã§æ¶ˆè²»ã•ã‚ŒãŸCPUæ™‚é–“ */
+    /** qƒm[ƒh‚ÅÁ”ï‚³‚ê‚½CPUŠÔ */
     private long                childrenCpuTime_;
 
-    /** å­ãƒãƒ¼ãƒ‰ã§æ¶ˆè²»ã•ã‚ŒãŸãƒ¦ãƒ¼ã‚¶æ™‚é–“ */
+    /** qƒm[ƒh‚ÅÁ”ï‚³‚ê‚½ƒ†[ƒUŠÔ */
     private long                childrenUserTime_;
 
-    /** ï¼‘ã¤ã®ãƒãƒ¼ãƒ‰ã«è¨˜éŒ²ã™ã‚‹ã‚¤ãƒ™ãƒ³ãƒˆã®æœ€å¤§æ•° */
+    /** ‚P‚Â‚Ìƒm[ƒh‚É‹L˜^‚·‚éƒCƒxƒ“ƒg‚ÌÅ‘å” */
     private static final int    MAX_EVENT    = 100;
 
-    /** Invocationã«è¨˜éŒ²ã—ãŸã‹ã©ã†ã‹ã‚’ç¤ºã™ãƒ•ãƒ©ã‚°ã€‚ */
+    /** Invocation‚É‹L˜^‚µ‚½‚©‚Ç‚¤‚©‚ğ¦‚·ƒtƒ‰ƒOB */
     private boolean             isRecoreded_ = false;
 
-    /** ã‚¹ãƒˆãƒ¼ãƒ«ãƒ¡ã‚½ãƒƒãƒ‰ã¨ã—ã¦æ¤œå‡ºã•ã‚ŒãŸã‹ã©ã†ã‹ã‚’ç¤ºã™ãƒ•ãƒ©ã‚° */
+    /** ƒXƒg[ƒ‹ƒƒ\ƒbƒh‚Æ‚µ‚ÄŒŸo‚³‚ê‚½‚©‚Ç‚¤‚©‚ğ¦‚·ƒtƒ‰ƒO */
     private boolean             isStalled_   = false;
     
-    /** Hadoopã®TaskTrackeræƒ…å ± */
+    /** Hadoop‚ÌTaskTrackerî•ñ */
     private HadoopInfo hadoopInfo_ = null;
 
     /**
-     * æ·±ã•ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return æ·±ã•
+     * [‚³‚ğæ“¾‚·‚éB
+     * @return [‚³
      */
     public int getDepth()
     {
@@ -136,8 +136,8 @@ public class CallTreeNode
     }
 
     /**
-     * æ·±ã•ã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param depth æ·±ã•
+     * [‚³‚ğİ’è‚·‚éB
+     * @param depth [‚³
      */
     public void setDepth(int depth)
     {
@@ -147,23 +147,23 @@ public class CallTreeNode
     /**  */
     private final Map<String, Object> loggingValueMap_ = new TreeMap<String, Object>();
 
-    /** CallTreeNodeãŒrootã‹ã©ã†ã‹(true:rootã€false:not rootã€‚ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã¯false) */
+    /** CallTreeNode‚ªroot‚©‚Ç‚¤‚©(true:rootAfalse:not rootBƒfƒtƒHƒ‹ƒg’l‚Ífalse) */
     private boolean                   isRoot_          = false;
 
-    /** ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆã€‚ */
+    /** ”­¶‚µ‚½ƒCƒxƒ“ƒgB */
     private final List<CommonEvent>   eventList_       = new CopyOnWriteArrayList<CommonEvent>();
 
-    /** é‡è¤‡å‘¼ã³å‡ºã—å‰Šé™¤ç”¨ã®ã‚«ã‚¦ãƒ³ã‚¿(ServletMonitorã‚ˆã‚Šä½¿ç”¨) */
+    /** d•¡ŒÄ‚Ño‚µíœ—p‚ÌƒJƒEƒ“ƒ^(ServletMonitor‚æ‚èg—p) */
     public int                        count_;
 
     /**
-     * Javelinã®è¨ˆæ¸¬ã«ã‹ã‹ã£ãŸæ™‚é–“(ç¾åœ¨ã®å®Ÿè£…ã§ã¯JDBC Javelinã®å®Ÿè¡Œè¨ˆç”»å–å¾—ã®ã¿)
+     * Javelin‚ÌŒv‘ª‚É‚©‚©‚Á‚½ŠÔ(Œ»İ‚ÌÀ‘•‚Å‚ÍJDBC Javelin‚ÌÀsŒv‰ææ“¾‚Ì‚İ)
      */
     private long                      javelinTime_;
 
     /**
      * InvoCation
-     * invocationã‚’å–å¾—ã™ã‚‹ã€‚
+     * invocation‚ğæ“¾‚·‚éB
      * @return Invocation
      */
     public Invocation getInvocation()
@@ -172,7 +172,7 @@ public class CallTreeNode
     }
 
     /**
-     * Invocationã‚’è¨­å®šã™ã‚‹ã€‚
+     * Invocation‚ğİ’è‚·‚éB
      * @param invocation Invocation
      */
     public void setInvocation(final Invocation invocation)
@@ -181,8 +181,8 @@ public class CallTreeNode
     }
 
     /**
-     * æˆ»ã‚Šå€¤ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return æˆ»ã‚Šå€¤
+     * –ß‚è’l‚ğæ“¾‚·‚éB
+     * @return –ß‚è’l
      */
     public String getReturnValue()
     {
@@ -190,8 +190,8 @@ public class CallTreeNode
     }
 
     /**
-     * æˆ»ã‚Šå€¤ã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param returnValue æˆ»ã‚Šå€¤
+     * –ß‚è’l‚ğİ’è‚·‚éB
+     * @param returnValue –ß‚è’l
      */
     public void setReturnValue(final String returnValue)
     {
@@ -199,8 +199,8 @@ public class CallTreeNode
     }
 
     /**
-     * ãƒ¡ã‚½ãƒƒãƒ‰é–‹å§‹æ™‚åˆ»ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ãƒ¡ã‚½ãƒƒãƒ‰é–‹å§‹æ™‚åˆ»
+     * ƒƒ\ƒbƒhŠJn‚ğæ“¾‚·‚éB
+     * @return ƒƒ\ƒbƒhŠJn
      */
     public long getStartTime()
     {
@@ -208,8 +208,8 @@ public class CallTreeNode
     }
 
     /**
-     * ãƒ¡ã‚½ãƒƒãƒ‰é–‹å§‹æ™‚åˆ»ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @param startTime ãƒ¡ã‚½ãƒƒãƒ‰é–‹å§‹æ™‚åˆ»
+     * ƒƒ\ƒbƒhŠJn‚ğæ“¾‚·‚éB
+     * @param startTime ƒƒ\ƒbƒhŠJn
      */
     public void setStartTime(final long startTime)
     {
@@ -217,8 +217,8 @@ public class CallTreeNode
     }
 
     /**
-     * ãƒ¡ã‚½ãƒƒãƒ‰ã®çµ‚äº†æ™‚åˆ»ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ãƒ¡ã‚½ãƒƒãƒ‰ã®çµ‚äº†æ™‚åˆ»
+     * ƒƒ\ƒbƒh‚ÌI—¹‚ğæ“¾‚·‚éB
+     * @return ƒƒ\ƒbƒh‚ÌI—¹
      */
     public long getEndTime()
     {
@@ -226,8 +226,8 @@ public class CallTreeNode
     }
 
     /**
-     * ãƒ¡ã‚½ãƒƒãƒ‰ã®çµ‚äº†æ™‚åˆ»ã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param endTime ãƒ¡ã‚½ãƒƒãƒ‰ã®çµ‚äº†æ™‚åˆ»
+     * ƒƒ\ƒbƒh‚ÌI—¹‚ğİ’è‚·‚éB
+     * @param endTime ƒƒ\ƒbƒh‚ÌI—¹
      */
     public void setEndTime(final long endTime)
     {
@@ -237,8 +237,8 @@ public class CallTreeNode
     }
 
     /**
-     * ç´¯ç©æ™‚é–“ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ç´¯ç©æ™‚é–“
+     * —İÏŠÔ‚ğæ“¾‚·‚éB
+     * @return —İÏŠÔ
      */
     public long getAccumulatedTime()
     {
@@ -246,8 +246,8 @@ public class CallTreeNode
     }
 
     /**
-     * CPUæ™‚é–“ã‚’å–å¾—ã™ã€‚ã‚‹
-     * @param cpuTime CPUæ™‚é–“
+     * CPUŠÔ‚ğæ“¾‚·B‚é
+     * @param cpuTime CPUŠÔ
      */
     public void setCpuTime(final long cpuTime)
     {
@@ -255,8 +255,8 @@ public class CallTreeNode
     }
 
     /**
-     * CPUæ™‚é–“ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return CPUæ™‚é–“
+     * CPUŠÔ‚ğæ“¾‚·‚éB
+     * @return CPUŠÔ
      */
     public long getCpuTime()
     {
@@ -264,7 +264,7 @@ public class CallTreeNode
     }
 
     /**
-     * StackTraceã‚’å–å¾—ã™ã‚‹ã€‚
+     * StackTrace‚ğæ“¾‚·‚éB
      * @return StackTrace
      */
     public StackTraceElement[] getStacktrace()
@@ -273,7 +273,7 @@ public class CallTreeNode
     }
 
     /**
-     * StackTraceã‚’è¨­å®šã™ã‚‹ã€‚
+     * StackTrace‚ğİ’è‚·‚éB
      * @param stacktrace StackTrace
      */
     public void setStacktrace(final StackTraceElement[] stacktrace)
@@ -282,7 +282,7 @@ public class CallTreeNode
     }
 
     /**
-     * è‡ªåˆ†ãŒæ‰€å±ã™ã‚‹CallTreeã‚’å–å¾—ã™ã‚‹ã€‚
+     * ©•ª‚ªŠ‘®‚·‚éCallTree‚ğæ“¾‚·‚éB
      *
      * @return CallTree
      */
@@ -292,7 +292,7 @@ public class CallTreeNode
     }
 
     /**
-     * è‡ªåˆ†ãŒæ‰€å±ã™ã‚‹CallTreeã‚’è¨­å®šã™ã‚‹ã€‚
+     * ©•ª‚ªŠ‘®‚·‚éCallTree‚ğİ’è‚·‚éB
      * @param tree CallTree
      */
     public void setTree(CallTree tree)
@@ -301,8 +301,8 @@ public class CallTreeNode
     }
 
     /**
-     * CallTreeNodeã®è¦ªã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return CallTreeNodeã®è¦ª
+     * CallTreeNode‚Ìe‚ğæ“¾‚·‚éB
+     * @return CallTreeNode‚Ìe
      */
     public CallTreeNode getParent()
     {
@@ -310,8 +310,8 @@ public class CallTreeNode
     }
 
     /**
-     * CallTreeNodeã®è¦ªã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param parent CallTreeNodeã®è¦ª
+     * CallTreeNode‚Ìe‚ğİ’è‚·‚éB
+     * @param parent CallTreeNode‚Ìe
      */
     public void setParent(final CallTreeNode parent)
     {
@@ -319,8 +319,8 @@ public class CallTreeNode
     }
 
     /**
-     * CallTreeNOdeã®å­ã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param children CallTreeNodeã®å­
+     * CallTreeNOde‚Ìq‚ğİ’è‚·‚éB
+     * @param children CallTreeNode‚Ìq
      */
     public void setChildren(List<CallTreeNode> children)
     {
@@ -328,8 +328,8 @@ public class CallTreeNode
     }
 
     /**
-     * CallTreeNOdeã®å­ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return CallTreeNodeã®å­
+     * CallTreeNOde‚Ìq‚ğæ“¾‚·‚éB
+     * @return CallTreeNode‚Ìq
      */
     public List<CallTreeNode> getChildren()
     {
@@ -337,8 +337,8 @@ public class CallTreeNode
     }
 
     /**
-     * CallTreeNOdeã®å­ã‚’è¿½åŠ ã™ã‚‹ã€‚
-     * @param node CallTreeNodeã®å­
+     * CallTreeNOde‚Ìq‚ğ’Ç‰Á‚·‚éB
+     * @param node CallTreeNode‚Ìq
      */
     public void addChild(final CallTreeNode node)
     {
@@ -353,7 +353,7 @@ public class CallTreeNode
     }
 
     /**
-     * å…¨ã¦ã®CallTreeNodeã®å­ã‚’å‰Šé™¤ã™ã‚‹ã€‚
+     * ‘S‚Ä‚ÌCallTreeNode‚Ìq‚ğíœ‚·‚éB
      */
     public void clearChildren()
     {
@@ -366,8 +366,8 @@ public class CallTreeNode
     }
 
     /**
-     * CallTreeNodeã®å­ã‚’å‰Šé™¤ã™ã‚‹ã€‚
-     * @param node CallTreeNodeã®å­
+     * CallTreeNode‚Ìq‚ğíœ‚·‚éB
+     * @param node CallTreeNode‚Ìq
      */
     public void removeChild(CallTreeNode node)
     {
@@ -378,9 +378,9 @@ public class CallTreeNode
     }
 
     /**
-     * é…ä¸‹ã®ãƒãƒ¼ãƒ‰ã®æ•°ã‚’æ•°ãˆã‚‹ã€‚
+     * ”z‰º‚Ìƒm[ƒh‚Ì”‚ğ”‚¦‚éB
      *
-     * @returnã€€é…ä¸‹ã®ãƒãƒ¼ãƒ‰ã®æ•°
+     * @return@”z‰º‚Ìƒm[ƒh‚Ì”
      */
     private int countChildren()
     {
@@ -394,8 +394,8 @@ public class CallTreeNode
     }
 
     /**
-     * å¼•æ•°ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return å¼•æ•°
+     * ˆø”‚ğæ“¾‚·‚éB
+     * @return ˆø”
      */
     public String[] getArgs()
     {
@@ -403,8 +403,8 @@ public class CallTreeNode
     }
 
     /**
-     * å¼•æ•°ã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param args å¼•æ•°
+     * ˆø”‚ğİ’è‚·‚éB
+     * @param args ˆø”
      */
     public void setArgs(final String[] args)
     {
@@ -412,9 +412,9 @@ public class CallTreeNode
     }
 
     /**
-     * ãƒãƒ¼ãƒ‰ãŒãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã¸ã®ã‚¢ã‚¯ã‚»ã‚¹ã‹ã©ã†ã‹ã‚’ç¤ºã™ãƒ•ãƒ©ã‚°ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒm[ƒh‚ªƒtƒB[ƒ‹ƒh‚Ö‚ÌƒAƒNƒZƒX‚©‚Ç‚¤‚©‚ğ¦‚·ƒtƒ‰ƒO‚ğæ“¾‚·‚éB
      *
-     * @return ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã‚¢ã‚¯ã‚»ã‚¹ãªã‚‰trueã€ãã†ã§ãªã‘ã‚Œã°falseã‚’è¿”ã™ã€‚
+     * @return ƒtƒB[ƒ‹ƒhƒAƒNƒZƒX‚È‚çtrueA‚»‚¤‚Å‚È‚¯‚ê‚Îfalse‚ğ•Ô‚·B
      */
     public boolean isFieldAccess()
     {
@@ -422,9 +422,9 @@ public class CallTreeNode
     }
 
     /**
-     * ãƒãƒ¼ãƒ‰ãŒãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã¸ã®ã‚¢ã‚¯ã‚»ã‚¹ã‹ã©ã†ã‹ã‚’ç¤ºã™ãƒ•ãƒ©ã‚°ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒm[ƒh‚ªƒtƒB[ƒ‹ƒh‚Ö‚ÌƒAƒNƒZƒX‚©‚Ç‚¤‚©‚ğ¦‚·ƒtƒ‰ƒO‚ğæ“¾‚·‚éB
      *
-     * @param isFieldAccess ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã‚¢ã‚¯ã‚»ã‚¹ãªã‚‰trueã€ãã†ã§ãªã‘ã‚Œã°falseã€‚
+     * @param isFieldAccess ƒtƒB[ƒ‹ƒhƒAƒNƒZƒX‚È‚çtrueA‚»‚¤‚Å‚È‚¯‚ê‚ÎfalseB
      */
     public void setFieldAccess(final boolean isFieldAccess)
     {
@@ -432,8 +432,8 @@ public class CallTreeNode
     }
 
     /**
-     * ä¾‹å¤–ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ä¾‹å¤–
+     * —áŠO‚ğæ“¾‚·‚éB
+     * @return —áŠO
      */
     public Throwable getThrowable()
     {
@@ -441,8 +441,8 @@ public class CallTreeNode
     }
 
     /**
-     * ä¾‹å¤–ã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param throwable ä¾‹å¤–
+     * —áŠO‚ğİ’è‚·‚éB
+     * @param throwable —áŠO
      */
     public void setThrowable(final Throwable throwable)
     {
@@ -450,8 +450,8 @@ public class CallTreeNode
     }
 
     /**
-     * ä¾‹å¤–ç™ºç”Ÿæ™‚åˆ»ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ä¾‹å¤–ç™ºç”Ÿæ™‚åˆ»
+     * —áŠO”­¶‚ğæ“¾‚·‚éB
+     * @return —áŠO”­¶
      */
     public long getThrowTime()
     {
@@ -459,8 +459,8 @@ public class CallTreeNode
     }
 
     /**
-     * ä¾‹å¤–ç™ºç”Ÿæ™‚åˆ»ã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param throwTime ä¾‹å¤–ç™ºç”Ÿæ™‚åˆ»ã€‚
+     * —áŠO”­¶‚ğİ’è‚·‚éB
+     * @param throwTime —áŠO”­¶B
      */
     public void setThrowTime(final long throwTime)
     {
@@ -468,8 +468,8 @@ public class CallTreeNode
     }
 
     /**
-     * VMã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return VMã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
+     * VM‚ÌƒXƒe[ƒ^ƒX‚ğæ“¾‚·‚éB
+     * @return VM‚ÌƒXƒe[ƒ^ƒX
      */
     public VMStatus getEndVmStatus()
     {
@@ -477,8 +477,8 @@ public class CallTreeNode
     }
 
     /**
-     * VMã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚’è¨­å®šã™ã‚‹ã€‚
-     * @return VMã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
+     * VM‚ÌƒXƒe[ƒ^ƒX‚ğİ’è‚·‚éB
+     * @return VM‚ÌƒXƒe[ƒ^ƒX
      */
     public VMStatus getStartVmStatus()
     {
@@ -486,8 +486,8 @@ public class CallTreeNode
     }
 
     /**
-     * çµ‚äº†æ™‚ã®VMã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹è¨­å®šã™ã‚‹ã€‚
-     * @param endVmStatus çµ‚äº†æ™‚ã®VMã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
+     * I—¹‚ÌVM‚ÌƒXƒe[ƒ^ƒXİ’è‚·‚éB
+     * @param endVmStatus I—¹‚ÌVM‚ÌƒXƒe[ƒ^ƒX
      */
     public void setEndVmStatus(final VMStatus endVmStatus)
     {
@@ -495,8 +495,8 @@ public class CallTreeNode
     }
 
     /**
-     * é–‹å§‹æ™‚ã®VMã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹è¨­å®šã™ã‚‹ã€‚
-     * @param startVmStatus é–‹å§‹æ™‚ã®VMã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
+     * ŠJn‚ÌVM‚ÌƒXƒe[ƒ^ƒXİ’è‚·‚éB
+     * @param startVmStatus ŠJn‚ÌVM‚ÌƒXƒe[ƒ^ƒX
      */
     public void setStartVmStatus(final VMStatus startVmStatus)
     {
@@ -504,8 +504,8 @@ public class CallTreeNode
     }
 
     /**
-     * ãƒ¦ãƒ¼ã‚¶æ™‚é–“ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ãƒ¦ãƒ¼ã‚¶æ™‚é–“
+     * ƒ†[ƒUŠÔ‚ğæ“¾‚·‚éB
+     * @return ƒ†[ƒUŠÔ
      */
     public long getUserTime()
     {
@@ -513,8 +513,8 @@ public class CallTreeNode
     }
 
     /**
-     * ãƒ¦ãƒ¼ã‚¶æ™‚é–“ã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param userTime ãƒ¦ãƒ¼ã‚¶æ™‚é–“
+     * ƒ†[ƒUŠÔ‚ğİ’è‚·‚éB
+     * @param userTime ƒ†[ƒUŠÔ
      */
     public void setUserTime(final long userTime)
     {
@@ -522,15 +522,15 @@ public class CallTreeNode
     }
 
     /**
-     * ãƒ­ã‚°å€¤ã‚’è¨­å®šã™ã‚‹ã€‚
+     * ƒƒO’l‚ğİ’è‚·‚éB
      *
-     * @param key ã‚­ãƒ¼
-     * @param value å€¤
+     * @param key ƒL[
+     * @param value ’l
      */
     public void setLoggingValue(final String key, final Object value)
     {
-        // Call TreeãŒdisableã®å ´åˆã‹ã¤RootNodeãŒå­˜åœ¨ã™ã‚‹å ´åˆã€
-        // RootNodeã«ä¿å­˜ã™ã‚‹ã€‚
+        // Call Tree‚ªdisable‚Ìê‡‚©‚ÂRootNode‚ª‘¶İ‚·‚éê‡A
+        // RootNode‚É•Û‘¶‚·‚éB
         if (isRoot_ == false && !tree_.isCallTreeEnabled())
         {
             CallTreeNode rootNode = tree_.getRootNode();
@@ -546,9 +546,9 @@ public class CallTreeNode
     }
 
     /**
-     * Mapã‹ã‚‰ã‚­ãƒ¼ã‚’å–å¾—ã™ã‚‹ã€‚
+     * Map‚©‚çƒL[‚ğæ“¾‚·‚éB
      *
-     * @return ã‚­ãƒ¼é…åˆ—
+     * @return ƒL[”z—ñ
      */
     public String[] getLoggingKeys()
     {
@@ -562,10 +562,10 @@ public class CallTreeNode
     }
 
     /**
-     * Mapã‹ã‚‰ã‚­ãƒ¼ã«å¯¾å¿œã™ã‚‹å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
+     * Map‚©‚çƒL[‚É‘Î‰‚·‚é’l‚ğæ“¾‚·‚éB
      *
-     * @param key ã‚­ãƒ¼
-     * @return ã‚­ãƒ¼ã®å€¤
+     * @param key ƒL[
+     * @return ƒL[‚Ì’l
      */
     public Object getLoggingValue(final String key)
     {
@@ -576,8 +576,8 @@ public class CallTreeNode
     }
 
     /**
-     * CallTreeNodeãŒrootã‹ã©ã†ã‹ã‚’è¡¨ã™å€¤ã‚’è¿”ã™ã€‚
-     * @return true:rootã€false:not root
+     * CallTreeNode‚ªroot‚©‚Ç‚¤‚©‚ğ•\‚·’l‚ğ•Ô‚·B
+     * @return true:rootAfalse:not root
      */
     public boolean isRoot()
     {
@@ -585,8 +585,8 @@ public class CallTreeNode
     }
 
     /**
-     * CallTreeNodeãŒrootã‹ã©ã†ã‹ã‚’è¡¨ã™å€¤ã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param isRoot CallTreeNodeãŒrootã‹ã©ã†ã‹ã‚’è¡¨ã™å€¤
+     * CallTreeNode‚ªroot‚©‚Ç‚¤‚©‚ğ•\‚·’l‚ğİ’è‚·‚éB
+     * @param isRoot CallTreeNode‚ªroot‚©‚Ç‚¤‚©‚ğ•\‚·’l
      */
     public void setRoot(final boolean isRoot)
     {
@@ -594,8 +594,8 @@ public class CallTreeNode
     }
 
     /**
-     * ã“ã®CallTreeNodeã®rootã«ã‚ãŸã‚‹CallTreeNodeã‚’è¿”ã™ã€‚
-     * @return rootã«ã‚ãŸã‚‹CallTreeNode
+     * ‚±‚ÌCallTreeNode‚Ìroot‚É‚ ‚½‚éCallTreeNode‚ğ•Ô‚·B
+     * @return root‚É‚ ‚½‚éCallTreeNode
      */
     public CallTreeNode getRootNode()
     {
@@ -610,13 +610,13 @@ public class CallTreeNode
     }
 
     /**
-     * ã‚¤ãƒ™ãƒ³ãƒˆã‚’è¿½åŠ ã™ã‚‹ã€‚
+     * ƒCƒxƒ“ƒg‚ğ’Ç‰Á‚·‚éB
      *
-     * @param event ã‚¤ãƒ™ãƒ³ãƒˆã€‚
+     * @param event ƒCƒxƒ“ƒgB
      */
     public void addEvent(CommonEvent event)
     {
-        // Call TreeãŒdisableã®å ´åˆã¯Treeã«ä¿å­˜ã™ã‚‹ã€‚
+        // Call Tree‚ªdisable‚Ìê‡‚ÍTree‚É•Û‘¶‚·‚éB
         if (tree_ != null && !tree_.isCallTreeEnabled())
         {
             CallTreeNode node = new CallTreeNode();
@@ -631,9 +631,9 @@ public class CallTreeNode
     }
 
     /**
-     * ã‚¤ãƒ™ãƒ³ãƒˆã‚’è¿½åŠ ã™ã‚‹ã€‚
+     * ƒCƒxƒ“ƒg‚ğ’Ç‰Á‚·‚éB
      *
-     * @param event ã‚¤ãƒ™ãƒ³ãƒˆã€‚
+     * @param event ƒCƒxƒ“ƒgB
      */
     private void addEventForce(CommonEvent event)
     {
@@ -644,9 +644,9 @@ public class CallTreeNode
     }
 
     /**
-     * ã‚¤ãƒ™ãƒ³ãƒˆãƒªã‚¹ãƒˆã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒCƒxƒ“ƒgƒŠƒXƒg‚ğæ“¾‚·‚éB
      *
-     * @return ã‚¤ãƒ™ãƒ³ãƒˆã€‚
+     * @return ƒCƒxƒ“ƒgB
      */
     public CommonEvent[] getEventList()
     {
@@ -654,9 +654,9 @@ public class CallTreeNode
     }
 
     /**
-     * æŒ‡å®šã—ãŸã‚¤ãƒ™ãƒ³ãƒˆã‚’å‰Šé™¤ã™ã‚‹ã€‚
+     * w’è‚µ‚½ƒCƒxƒ“ƒg‚ğíœ‚·‚éB
      *
-     * @param event ã‚¤ãƒ™ãƒ³ãƒˆã€‚
+     * @param event ƒCƒxƒ“ƒgB
      */
     public void removeEvent(CommonEvent event)
     {
@@ -664,10 +664,10 @@ public class CallTreeNode
     }
 
     /**
-     * Javelinã®è¨ˆæ¸¬ã«ã‹ã‹ã£ãŸæ™‚é–“(ç¾åœ¨ã®å®Ÿè£…ã§ã¯JDBC Javelinã®å®Ÿè¡Œè¨ˆç”»å–å¾—ã®ã¿)ã«
-     * å€¤ã‚’è¿½åŠ ã™ã‚‹ã€‚
+     * Javelin‚ÌŒv‘ª‚É‚©‚©‚Á‚½ŠÔ(Œ»İ‚ÌÀ‘•‚Å‚ÍJDBC Javelin‚ÌÀsŒv‰ææ“¾‚Ì‚İ)‚É
+     * ’l‚ğ’Ç‰Á‚·‚éB
      *
-     * @param javelinTime Javelinã®è¨ˆæ¸¬ã«ã‹ã‹ã£ãŸæ™‚é–“
+     * @param javelinTime Javelin‚ÌŒv‘ª‚É‚©‚©‚Á‚½ŠÔ
      */
     public void addJavelinTime(long javelinTime)
     {
@@ -685,10 +685,10 @@ public class CallTreeNode
     }
 
     /**
-     * Javelinã®è¨ˆæ¸¬ã«ã‹ã‹ã£ãŸæ™‚é–“(ç¾åœ¨ã®å®Ÿè£…ã§ã¯JDBC Javelinã®å®Ÿè¡Œè¨ˆç”»å–å¾—ã®ã¿)
-     * ã‚’å–å¾—ã™ã‚‹ã€‚
+     * Javelin‚ÌŒv‘ª‚É‚©‚©‚Á‚½ŠÔ(Œ»İ‚ÌÀ‘•‚Å‚ÍJDBC Javelin‚ÌÀsŒv‰ææ“¾‚Ì‚İ)
+     * ‚ğæ“¾‚·‚éB
      *
-     * @return Javelinã®è¨ˆæ¸¬ã«ã‹ã‹ã£ãŸæ™‚é–“
+     * @return Javelin‚ÌŒv‘ª‚É‚©‚©‚Á‚½ŠÔ
      */
     public long getJavelinTime()
     {
@@ -696,10 +696,10 @@ public class CallTreeNode
     }
 
     /**
-     * Javelinã®è¨ˆæ¸¬ã«ã‹ã‹ã£ãŸæ™‚é–“(ç¾åœ¨ã®å®Ÿè£…ã§ã¯JDBC Javelinã®å®Ÿè¡Œè¨ˆç”»å–å¾—ã®ã¿)
-     * ã‚’è¨­å®šã™ã‚‹ã€‚
+     * Javelin‚ÌŒv‘ª‚É‚©‚©‚Á‚½ŠÔ(Œ»İ‚ÌÀ‘•‚Å‚ÍJDBC Javelin‚ÌÀsŒv‰ææ“¾‚Ì‚İ)
+     * ‚ğİ’è‚·‚éB
      *
-     * @param javelinTime Javelinã®è¨ˆæ¸¬ã«ã‹ã‹ã£ãŸæ™‚é–“
+     * @param javelinTime Javelin‚ÌŒv‘ª‚É‚©‚©‚Á‚½ŠÔ
      */
     public void setJavelinTime(long javelinTime)
     {
@@ -707,8 +707,8 @@ public class CallTreeNode
     }
 
     /**
-     * å­ãƒãƒ¼ãƒ‰ã§æ¶ˆè²»ã•ã‚ŒãŸå‡¦ç†æ™‚é–“ã‚’å–å¾—ã—ã¾ã™ã€‚
-     * @return å­ãƒãƒ¼ãƒ‰ã§æ¶ˆè²»ã•ã‚ŒãŸå‡¦ç†æ™‚é–“
+     * qƒm[ƒh‚ÅÁ”ï‚³‚ê‚½ˆ—ŠÔ‚ğæ“¾‚µ‚Ü‚·B
+     * @return qƒm[ƒh‚ÅÁ”ï‚³‚ê‚½ˆ—ŠÔ
      */
     public long getChildrenTime()
     {
@@ -716,8 +716,8 @@ public class CallTreeNode
     }
 
     /**
-     * å­ãƒãƒ¼ãƒ‰ã§æ¶ˆè²»ã•ã‚ŒãŸCPUæ™‚é–“ã‚’å–å¾—ã—ã¾ã™ã€‚
-     * @return å­ãƒãƒ¼ãƒ‰ã§æ¶ˆè²»ã•ã‚ŒãŸCPUæ™‚é–“
+     * qƒm[ƒh‚ÅÁ”ï‚³‚ê‚½CPUŠÔ‚ğæ“¾‚µ‚Ü‚·B
+     * @return qƒm[ƒh‚ÅÁ”ï‚³‚ê‚½CPUŠÔ
      */
     public long getChildrenCpuTime()
     {
@@ -725,8 +725,8 @@ public class CallTreeNode
     }
 
     /**
-     * å­ãƒãƒ¼ãƒ‰ã§æ¶ˆè²»ã•ã‚ŒãŸãƒ¦ãƒ¼ã‚¶æ™‚é–“ã‚’å–å¾—ã—ã¾ã™ã€‚
-     * @return å­ãƒãƒ¼ãƒ‰ã§æ¶ˆè²»ã•ã‚ŒãŸãƒ¦ãƒ¼ã‚¶æ™‚é–“
+     * qƒm[ƒh‚ÅÁ”ï‚³‚ê‚½ƒ†[ƒUŠÔ‚ğæ“¾‚µ‚Ü‚·B
+     * @return qƒm[ƒh‚ÅÁ”ï‚³‚ê‚½ƒ†[ƒUŠÔ
      */
     public long getChildrenUserTime()
     {
@@ -734,8 +734,8 @@ public class CallTreeNode
     }
 
     /**
-     * å­ãƒãƒ¼ãƒ‰ã§æ¶ˆè²»ã•ã‚ŒãŸå‡¦ç†æ™‚é–“ã‚’è¿½åŠ ã—ã¾ã™ã€‚
-     * @param childrenTime å­ãƒãƒ¼ãƒ‰ã§æ¶ˆè²»ã•ã‚ŒãŸå‡¦ç†æ™‚é–“
+     * qƒm[ƒh‚ÅÁ”ï‚³‚ê‚½ˆ—ŠÔ‚ğ’Ç‰Á‚µ‚Ü‚·B
+     * @param childrenTime qƒm[ƒh‚ÅÁ”ï‚³‚ê‚½ˆ—ŠÔ
      */
     public void addChildrenTime(long childrenTime)
     {
@@ -743,8 +743,8 @@ public class CallTreeNode
     }
 
     /**
-     * å­ãƒãƒ¼ãƒ‰ã§æ¶ˆè²»ã•ã‚ŒãŸCPUæ™‚é–“ã‚’è¿½åŠ ã—ã¾ã™ã€‚
-     * @param childrenCpuTime å­ãƒãƒ¼ãƒ‰ã§æ¶ˆè²»ã•ã‚ŒãŸCPUæ™‚é–“
+     * qƒm[ƒh‚ÅÁ”ï‚³‚ê‚½CPUŠÔ‚ğ’Ç‰Á‚µ‚Ü‚·B
+     * @param childrenCpuTime qƒm[ƒh‚ÅÁ”ï‚³‚ê‚½CPUŠÔ
      */
     public void addChildrenCpuTime(long childrenCpuTime)
     {
@@ -752,8 +752,8 @@ public class CallTreeNode
     }
 
     /**
-     * å­ãƒãƒ¼ãƒ‰ã§æ¶ˆè²»ã•ã‚ŒãŸãƒ¦ãƒ¼ã‚¶æ™‚é–“ã‚’è¿½åŠ ã—ã¾ã™ã€‚
-     * @param childrenUserTime å­ãƒãƒ¼ãƒ‰ã§æ¶ˆè²»ã•ã‚ŒãŸãƒ¦ãƒ¼ã‚¶æ™‚é–“
+     * qƒm[ƒh‚ÅÁ”ï‚³‚ê‚½ƒ†[ƒUŠÔ‚ğ’Ç‰Á‚µ‚Ü‚·B
+     * @param childrenUserTime qƒm[ƒh‚ÅÁ”ï‚³‚ê‚½ƒ†[ƒUŠÔ
      */
     public void addChildrenUserTime(long childrenUserTime)
     {
@@ -761,8 +761,8 @@ public class CallTreeNode
     }
 
     /**
-     * Invocationã«è¨˜éŒ²ã—ãŸã‹ã©ã†ã‹ã®ãƒ•ãƒ©ã‚°ã‚’å–å¾—ã—ã¾ã™ã€‚
-     * @return Invocationã«è¨˜éŒ²ã—ãŸã¨ãtrue/ãã†ã§ãªã„ã¨ãfalse
+     * Invocation‚É‹L˜^‚µ‚½‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO‚ğæ“¾‚µ‚Ü‚·B
+     * @return Invocation‚É‹L˜^‚µ‚½‚Æ‚«true/‚»‚¤‚Å‚È‚¢‚Æ‚«false
      */
     public boolean isRecoreded()
     {
@@ -770,8 +770,8 @@ public class CallTreeNode
     }
 
     /**
-     * Invocationã«è¨˜éŒ²ã—ãŸã‹ã©ã†ã‹ã®ãƒ•ãƒ©ã‚°ã‚’è¨­å®šã—ã¾ã™ã€‚
-     * @param isRecoreded Invocationã«è¨˜éŒ²ã—ãŸã‹ã©ã†ã‹ã®ãƒ•ãƒ©ã‚°
+     * Invocation‚É‹L˜^‚µ‚½‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO‚ğİ’è‚µ‚Ü‚·B
+     * @param isRecoreded Invocation‚É‹L˜^‚µ‚½‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO
      */
     public void setRecoreded(boolean isRecoreded)
     {
@@ -779,8 +779,8 @@ public class CallTreeNode
     }
 
     /**
-     * ã‚¹ãƒˆãƒ¼ãƒ«ãƒ¡ã‚½ãƒƒãƒ‰ã¨ã—ã¦æ¤œå‡ºã•ã‚ŒãŸã‹ã©ã†ã‹ã‚’ç¤ºã™ãƒ•ãƒ©ã‚°ã‚’å–å¾—ã—ã¾ã™ã€‚
-     * @return ã‚¹ãƒˆãƒ¼ãƒ«ãƒ¡ã‚½ãƒƒãƒ‰ã¨ã—ã¦æ¤œå‡ºã•ã‚ŒãŸã¨ãtrue/ãã†ã§ãªã„ã¨ãfalse
+     * ƒXƒg[ƒ‹ƒƒ\ƒbƒh‚Æ‚µ‚ÄŒŸo‚³‚ê‚½‚©‚Ç‚¤‚©‚ğ¦‚·ƒtƒ‰ƒO‚ğæ“¾‚µ‚Ü‚·B
+     * @return ƒXƒg[ƒ‹ƒƒ\ƒbƒh‚Æ‚µ‚ÄŒŸo‚³‚ê‚½‚Æ‚«true/‚»‚¤‚Å‚È‚¢‚Æ‚«false
      */
     public boolean isStalled()
     {
@@ -788,8 +788,8 @@ public class CallTreeNode
     }
 
     /**
-     * ã‚¹ãƒˆãƒ¼ãƒ«ãƒ¡ã‚½ãƒƒãƒ‰ã¨ã—ã¦æ¤œå‡ºã•ã‚ŒãŸã‹ã©ã†ã‹ã‚’ç¤ºã™ãƒ•ãƒ©ã‚°ã‚’è¨­å®šã—ã¾ã™ã€‚
-     * @param isStalled ã‚¹ãƒˆãƒ¼ãƒ«ãƒ¡ã‚½ãƒƒãƒ‰ã¨ã—ã¦æ¤œå‡ºã•ã‚ŒãŸã‹ã©ã†ã‹ã‚’ç¤ºã™ãƒ•ãƒ©ã‚°
+     * ƒXƒg[ƒ‹ƒƒ\ƒbƒh‚Æ‚µ‚ÄŒŸo‚³‚ê‚½‚©‚Ç‚¤‚©‚ğ¦‚·ƒtƒ‰ƒO‚ğİ’è‚µ‚Ü‚·B
+     * @param isStalled ƒXƒg[ƒ‹ƒƒ\ƒbƒh‚Æ‚µ‚ÄŒŸo‚³‚ê‚½‚©‚Ç‚¤‚©‚ğ¦‚·ƒtƒ‰ƒO
      */
     public void setStalled(boolean isStalled)
     {
@@ -797,9 +797,9 @@ public class CallTreeNode
     }
     
     /**
-     * TaskTrackerã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹æƒ…å ±ã‚’æŒã£ã¦ã„ã‚‹ã‹ã‚’è¿”ã™ã€‚
+     * TaskTracker‚ÌƒXƒe[ƒ^ƒXî•ñ‚ğ‚Á‚Ä‚¢‚é‚©‚ğ•Ô‚·B
      *
-     * @return {@code true}ï¼šæŒã£ã¦ã„ã‚‹ï¼{@code false}ï¼šæŒã£ã¦ã„ãªã„
+     * @return {@code true}F‚Á‚Ä‚¢‚é^{@code false}F‚Á‚Ä‚¢‚È‚¢
      */
     public boolean hasHadoopInfo()
     {
@@ -807,9 +807,9 @@ public class CallTreeNode
     }
 
     /**
-     * TaskTrackerã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹æƒ…å ±ã‚’å–å¾—ã™ã‚‹ã€‚
+     * TaskTracker‚ÌƒXƒe[ƒ^ƒXî•ñ‚ğæ“¾‚·‚éB
      *
-     * @return TaskTrackerã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹æƒ…å ±
+     * @return TaskTracker‚ÌƒXƒe[ƒ^ƒXî•ñ
      */
     public HadoopInfo getHadoopInfo()
     {
@@ -817,9 +817,9 @@ public class CallTreeNode
     }
 
     /**
-     * TaskTrackerã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹æƒ…å ±ã‚’è¨­å®šã™ã‚‹ã€‚
+     * TaskTracker‚ÌƒXƒe[ƒ^ƒXî•ñ‚ğİ’è‚·‚éB
      *
-     * @param hadoopInfo TaskTrackerã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹æƒ…å ±
+     * @param hadoopInfo TaskTracker‚ÌƒXƒe[ƒ^ƒXî•ñ
      */
     public void setHadoopInfo(HadoopInfo hadoopInfo)
     {

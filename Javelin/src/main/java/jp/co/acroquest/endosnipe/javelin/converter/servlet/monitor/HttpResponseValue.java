@@ -26,24 +26,24 @@
 package jp.co.acroquest.endosnipe.javelin.converter.servlet.monitor;
 
 /**
- * HttpResponseValueã‚¯ãƒ©ã‚¹
+ * HttpResponseValueƒNƒ‰ƒX
  * @author acroquest
  *
  */
 public class HttpResponseValue
 {
-    /** ã‚³ãƒ³ãƒ†ãƒ³ãƒ„ã‚¿ã‚¤ãƒ— */
+    /** ƒRƒ“ƒeƒ“ƒcƒ^ƒCƒv */
     private String    contentType_;
 
-    /** ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ */
+    /** ƒXƒe[ƒ^ƒX */
     private int       status_ = -1;
 
-    /** ä¾‹å¤–ã€€*/
+    /** —áŠO@*/
     private Throwable throwable_;
 
     /**
-     * ã‚³ãƒ³ãƒ†ãƒ³ãƒ„ã‚¿ã‚¤ãƒ—ã‚’å–å¾—ã—ã¾ã™ã€‚
-     * @return ã‚³ãƒ³ãƒ†ãƒ³ãƒ„ã‚¿ã‚¤ãƒ—
+     * ƒRƒ“ƒeƒ“ƒcƒ^ƒCƒv‚ğæ“¾‚µ‚Ü‚·B
+     * @return ƒRƒ“ƒeƒ“ƒcƒ^ƒCƒv
      */
     public String getContentType()
     {
@@ -51,8 +51,8 @@ public class HttpResponseValue
     }
 
     /**
-     * ã‚³ãƒ³ãƒ†ãƒ³ãƒ„ã‚¿ã‚¤ãƒ—ã‚’è¨­å®šã—ã¾ã™ã€‚
-     * @param contentType ã‚³ãƒ³ãƒ†ãƒ³ãƒ„ã‚¿ã‚¤ãƒ—
+     * ƒRƒ“ƒeƒ“ƒcƒ^ƒCƒv‚ğİ’è‚µ‚Ü‚·B
+     * @param contentType ƒRƒ“ƒeƒ“ƒcƒ^ƒCƒv
      */
     public void setContentType(String contentType)
     {
@@ -60,8 +60,8 @@ public class HttpResponseValue
     }
 
     /**
-     * ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚’å–å¾—ã—ã¾ã™ã€‚
-     * @return ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
+     * ƒXƒe[ƒ^ƒX‚ğæ“¾‚µ‚Ü‚·B
+     * @return ƒXƒe[ƒ^ƒX
      */
     public int getStatus()
     {
@@ -69,8 +69,8 @@ public class HttpResponseValue
     }
 
     /**
-     * ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚’è¨­å®šã—ã¾ã™ã€‚
-     * @param status ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
+     * ƒXƒe[ƒ^ƒX‚ğİ’è‚µ‚Ü‚·B
+     * @param status ƒXƒe[ƒ^ƒX
      */
     public void setStatus(int status)
     {
@@ -78,8 +78,8 @@ public class HttpResponseValue
     }
 
     /**
-     * ä¾‹å¤–ã‚’å–å¾—ã—ã¾ã™ã€‚
-     * @return ä¾‹å¤–
+     * —áŠO‚ğæ“¾‚µ‚Ü‚·B
+     * @return —áŠO
      */
     public Throwable getThrowable()
     {
@@ -87,8 +87,8 @@ public class HttpResponseValue
     }
 
     /**
-     * ä¾‹å¤–ã‚’è¨­å®šã—ã¾ã™ã€‚
-     * @param throwable ä¾‹å¤–
+     * —áŠO‚ğİ’è‚µ‚Ü‚·B
+     * @param throwable —áŠO
      */
     public void setThrowable(Throwable throwable)
     {

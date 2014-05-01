@@ -28,339 +28,339 @@ package jp.co.acroquest.endosnipe.common.event;
 import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 
 /**
- * г‚¤гѓ™гѓігѓ€еђЌгЂЃгѓ‘гѓ©гѓЎгѓјг‚їеђЌг‚’е®љзѕ©гЃ™г‚‹г‚¤гѓіг‚їгѓ•г‚§гѓјг‚№гЂ‚<br />
+ * ѓCѓxѓ“ѓg–јЃAѓpѓ‰ѓЃЃ[ѓ^–ј‚р’и‹`‚·‚йѓCѓ“ѓ^ѓtѓFЃ[ѓXЃB<br />
  * 
- * е®љж•°еђЌгЃЇгЂЃд»Ґдё‹гЃ®е‘ЅеђЌи¦Џе‰‡гЃ«еѕ“гЃ†г‚‚гЃ®гЃЁгЃ™г‚‹гЂ‚
+ * ’иђ”–ј‚НЃA€И‰є‚М–Ѕ–ј‹K‘Ґ‚ЙЏ]‚¤‚а‚М‚Ж‚·‚йЃB
  * <ul>
- * <li>NAME_г‚¤гѓ™гѓігѓ€еђЌ</li>
- * <li>PARAM_г‚¤гѓ™гѓігѓ€еђЌ_гѓ‘гѓ©гѓЎгѓјг‚їеђЌ</li>
+ * <li>NAME_ѓCѓxѓ“ѓg–ј</li>
+ * <li>PARAM_ѓCѓxѓ“ѓg–ј_ѓpѓ‰ѓЃЃ[ѓ^–ј</li>
  * </ul>
  * 
  * @author eriguchi
  */
 public interface EventConstants
 {
-    /** SQLе®џиЎЊе›ћж•°и¶…йЃЋг‚¤гѓ™гѓігѓ€гЃ®г‚¤гѓ™гѓігѓ€еђЌгЂ‚ */
+    /** SQLЋАЌs‰сђ”’ґ‰ЯѓCѓxѓ“ѓg‚МѓCѓxѓ“ѓg–јЃB */
     String NAME_SQLCOUNT = "SqlCountOver";
 
-    /** SQLе®џиЎЊе›ћж•°и¶…йЃЋг‚¤гѓ™гѓігѓ€гЃ§гЃ®е‘јгЃіе‡єгЃ—гЃџе›ћж•°гЃ®ж¤ње‡єеЂ¤гЃ®гѓ‘гѓ©гѓЎгѓјг‚їеђЌгЂ‚ */
+    /** SQLЋАЌs‰сђ”’ґ‰ЯѓCѓxѓ“ѓg‚Е‚МЊД‚СЏo‚µ‚Ѕ‰сђ”‚МЊџЏo’l‚Мѓpѓ‰ѓЃЃ[ѓ^–јЃB */
     String PARAM_SQLCOUNT_ACTUAL = JavelinConfig.JAVELIN_PREFIX + "jdbc.sqlcount.acutual";
 
-    /** SQLе®џиЎЊе›ћж•°и¶…йЃЋг‚¤гѓ™гѓігѓ€гЃ§гЃ®е‘јгЃіе‡єгЃ—гЃџе›ћж•°гЃ®й–ѕеЂ¤гЃ®гѓ‘гѓ©гѓЎгѓјг‚їеђЌгЂ‚ */
+    /** SQLЋАЌs‰сђ”’ґ‰ЯѓCѓxѓ“ѓg‚Е‚МЊД‚СЏo‚µ‚Ѕ‰сђ”‚Ми‡’l‚Мѓpѓ‰ѓЃЃ[ѓ^–јЃB */
     String PARAM_SQLCOUNT_THRESHOLD = JavelinConfig.JAVELIN_PREFIX + "jdbc.sqlcount.threshold";
 
-    /** SQLе®џиЎЊе›ћж•°и¶…йЃЋг‚¤гѓ™гѓігѓ€гЃ§гЃ®е‘јгЃіе‡єгЃ—гЃџSQLгЃ®ж¤ње‡єеЂ¤гЃ®гѓ‘гѓ©гѓЎгѓјг‚їеђЌгЂ‚ */
+    /** SQLЋАЌs‰сђ”’ґ‰ЯѓCѓxѓ“ѓg‚Е‚МЊД‚СЏo‚µ‚ЅSQL‚МЊџЏo’l‚Мѓpѓ‰ѓЃЃ[ѓ^–јЃB */
     String PARAM_SQLCOUNT_SQL = JavelinConfig.JAVELIN_PREFIX + "jdbc.sqlcount.sql";
 
-    /** SQLе®џиЎЊе›ћж•°и¶…йЃЋг‚¤гѓ™гѓігѓ€гЃ§гЃ®г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№гЃ®гѓ‘гѓ©гѓЎгѓјг‚їеђЌгЂ‚ */
+    /** SQLЋАЌs‰сђ”’ґ‰ЯѓCѓxѓ“ѓg‚Е‚МѓXѓ^ѓbѓNѓgѓЊЃ[ѓX‚Мѓpѓ‰ѓЃЃ[ѓ^–јЃB */
     String PARAM_SQLCOUNT_STACKTRACE = JavelinConfig.JAVELIN_PREFIX + "jdbc.sqlcount.stackTrace";
 
-    /** SQLгЃ®Full Scanг‚¤гѓ™гѓігѓ€гЃ®г‚¤гѓ™гѓігѓ€еђЌгЂ‚ */
+    /** SQL‚МFull ScanѓCѓxѓ“ѓg‚МѓCѓxѓ“ѓg–јЃB */
     String NAME_FULL_SCAN = "FullScan";
 
-    /** SQLгЃ®Full Scanг‚’иЎЊгЃЈгЃ¦гЃ„г‚‹гѓ†гѓјгѓ–гѓ«еђЌгЂ‚ */
+    /** SQL‚МFull Scan‚рЌs‚Б‚Д‚ў‚йѓeЃ[ѓuѓ‹–јЃB */
     String PARAM_FULL_SCAN_TABLE_NAME = JavelinConfig.JAVELIN_PREFIX + "jdbc.fullScan.tableName";
 
-    /** SQLгЃ®Full Scanг‚’иЎЊгЃЈгЃџж™‚гЃ®Stack TraceгЂ‚ */
+    /** SQL‚МFull Scan‚рЌs‚Б‚ЅЋћ‚МStack TraceЃB */
     String PARAM_FULL_SCAN_STACK_TRACE = JavelinConfig.JAVELIN_PREFIX + "jdbc.fullScan.stackTrace";
 
-    /** SQLгЃ®Full Scanг‚’иЎЊгЃЈгЃџж™‚гЃ®SQLж–‡гЂ‚ */
+    /** SQL‚МFull Scan‚рЌs‚Б‚ЅЋћ‚МSQL•¶ЃB */
     String PARAM_FULL_SCAN_SQL = JavelinConfig.JAVELIN_PREFIX + "jdbc.fullScan.sql";
 
-    /** SQLгЃ®Full Scanг‚’иЎЊгЃЈгЃџж™‚гЃ®е®џиЎЊиЁ€з”»гЂ‚ */
+    /** SQL‚МFull Scan‚рЌs‚Б‚ЅЋћ‚МЋАЌsЊv‰жЃB */
     String PARAM_FULL_SCAN_EXEC_PLAN = JavelinConfig.JAVELIN_PREFIX + "jdbc.fullScan.execPlan";
 
-    /** SQLгЃ®Full Scanг‚’иЎЊгЃЈгЃџж™‚гЃ®SQLе®џиЎЊж™‚й–“гЂ‚ */
+    /** SQL‚МFull Scan‚рЌs‚Б‚ЅЋћ‚МSQLЋАЌsЋћЉФЃB */
     String PARAM_FULL_SCAN_DURATION = JavelinConfig.JAVELIN_PREFIX + "jdbc.fullScan.duration";
 
-    /** гѓЎг‚Ѕгѓѓгѓ‰е‘јгЃіе‡єгЃ—й–“йљ”и¶…йЃЋг‚¤гѓ™гѓігѓ€гЃ®г‚¤гѓ™гѓігѓ€еђЌгЂ‚ */
+    /** ѓЃѓ\ѓbѓhЊД‚СЏo‚µЉФЉu’ґ‰ЯѓCѓxѓ“ѓg‚МѓCѓxѓ“ѓg–јЃB */
     String NAME_INTERVALERROR = "IntervalError";
 
-    /** гѓЎг‚Ѕгѓѓгѓ‰е‘јгЃіе‡єгЃ—й–“йљ”и¶…йЃЋг‚¤гѓ™гѓігѓ€гЃ®г‚Їгѓ©г‚№еђЌгЂ‚ */
+    /** ѓЃѓ\ѓbѓhЊД‚СЏo‚µЉФЉu’ґ‰ЯѓCѓxѓ“ѓg‚МѓNѓ‰ѓX–јЃB */
     String PARAM_INTERVALERROR_CLASSNAME = "javelin.interval.classname";
 
-    /** гѓЎг‚Ѕгѓѓгѓ‰е‘јгЃіе‡єгЃ—й–“йљ”и¶…йЃЋг‚¤гѓ™гѓігѓ€гЃ®гѓЎг‚Ѕгѓѓгѓ‰еђЌгЂ‚ */
+    /** ѓЃѓ\ѓbѓhЊД‚СЏo‚µЉФЉu’ґ‰ЯѓCѓxѓ“ѓg‚МѓЃѓ\ѓbѓh–јЃB */
     String PARAM_INTERVALERROR_METHODNAME = "javelin.interval.methodname";
 
-    /** гѓЎг‚Ѕгѓѓгѓ‰е‘јгЃіе‡єгЃ—й–“йљ”и¶…йЃЋг‚¤гѓ™гѓігѓ€гЃ®еј•ж•°гЃ®еЂ¤пј€жњ«е°ѕгЃ« "1" гЂЃ "2" з­‰гЃЊгЃ¤гЃЏпј‰гЂ‚ */
+    /** ѓЃѓ\ѓbѓhЊД‚СЏo‚µЉФЉu’ґ‰ЯѓCѓxѓ“ѓg‚М€шђ”‚М’lЃi––”ц‚Й "1" ЃA "2" “™‚Є‚В‚­ЃjЃB */
     String PARAM_INTERVALERROR_ARGUMENTS = "javelin.interval.arguments.";
 
-    /** гѓЎг‚Ѕгѓѓгѓ‰е‘јгЃіе‡єгЃ—й–“йљ”и¶…йЃЋг‚¤гѓ™гѓігѓ€гЃ®е‘јгЃіе‡єгЃ—й–“йљ”ж¤ње‡єеЂ¤(ms)гЂ‚ */
+    /** ѓЃѓ\ѓbѓhЊД‚СЏo‚µЉФЉu’ґ‰ЯѓCѓxѓ“ѓg‚МЊД‚СЏo‚µЉФЉuЊџЏo’l(ms)ЃB */
     String PARAM_INTERVALERROR_ACTUAL_INTERVAL = "javelin.interval.actual";
 
-    /** гѓЎг‚Ѕгѓѓгѓ‰е‘јгЃіе‡єгЃ—й–“йљ”и¶…йЃЋг‚¤гѓ™гѓігѓ€гЃ®е‘јгЃіе‡єгЃ—й–“йљ”й–ѕеЂ¤(ms)гЂ‚ */
+    /** ѓЃѓ\ѓbѓhЊД‚СЏo‚µЉФЉu’ґ‰ЯѓCѓxѓ“ѓg‚МЊД‚СЏo‚µЉФЉuи‡’l(ms)ЃB */
     String PARAM_INTERVALERROR_THRESHOLD = "javelin.interval.threshold";
 
-    /** гѓЎг‚Ѕгѓѓгѓ‰е‘јгЃіе‡єгЃ—й–“йљ”и¶…йЃЋг‚¤гѓ™гѓігѓ€гЃ®е‘јгЃіе‡єгЃ—ж™‚гЃ®г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№гЂ‚ */
+    /** ѓЃѓ\ѓbѓhЊД‚СЏo‚µЉФЉu’ґ‰ЯѓCѓxѓ“ѓg‚МЊД‚СЏo‚µЋћ‚МѓXѓ^ѓbѓNѓgѓЊЃ[ѓXЃB */
     String PARAM_INTERVALERROR_STACKTRACE = "javelin.interval.stackTrace";
 
-    /** гѓЎгѓўгѓЄгѓЄгѓјг‚Їж¤ње‡єг‚¤гѓ™гѓігѓ€гЃ®гѓЎг‚Ѕгѓѓгѓ‰еђЌгЂ‚ */
+    /** ѓЃѓ‚ѓЉѓЉЃ[ѓNЊџЏoѓCѓxѓ“ѓg‚МѓЃѓ\ѓbѓh–јЃB */
     String NAME_LEAK_DETECTED = "LeakDetected";
 
-    /** гѓЎгѓўгѓЄгѓЄгѓјг‚Їж¤ње‡єг‚¤гѓ™гѓігѓ€гЃ®и­е€Ґе­ђгЃ®гѓ‘гѓ©гѓЎгѓјг‚їеђЌгЂ‚ */
+    /** ѓЃѓ‚ѓЉѓЉЃ[ѓNЊџЏoѓCѓxѓ“ѓg‚МЋЇ•КЋq‚Мѓpѓ‰ѓЃЃ[ѓ^–јЃB */
     String PARAM_LEAK_IDENTIFIER = "javelin.leak.identifier";
 
-    /** гѓЎгѓўгѓЄгѓЄгѓјг‚Їж¤ње‡єг‚¤гѓ™гѓігѓ€гЃ®й–ѕеЂ¤гЃ®гѓ‘гѓ©гѓЎгѓјг‚їеђЌ */
+    /** ѓЃѓ‚ѓЉѓЉЃ[ѓNЊџЏoѓCѓxѓ“ѓg‚Ми‡’l‚Мѓpѓ‰ѓЃЃ[ѓ^–ј */
     String PARAM_LEAK_THRESHOLD = "javelin.leak.threshold";
 
-    /** гѓЎгѓўгѓЄгѓЄгѓјг‚Їж¤ње‡єг‚¤гѓ™гѓігѓ€гЃ®ж•°гЃ®гѓ‘гѓ©гѓЎгѓјг‚їеђЌ */
+    /** ѓЃѓ‚ѓЉѓЉЃ[ѓNЊџЏoѓCѓxѓ“ѓg‚Мђ”‚Мѓpѓ‰ѓЃЃ[ѓ^–ј */
     String PARAM_LEAK_COUNT = "javelin.leak.count";
 
-    /** гѓЎгѓўгѓЄгѓЄгѓјг‚Їж¤ње‡єг‚¤гѓ™гѓігѓ€гЃ®г‚µг‚¤г‚єгЃ®гѓ‘гѓ©гѓЎгѓјг‚їеђЌ */
+    /** ѓЃѓ‚ѓЉѓЉЃ[ѓNЊџЏoѓCѓxѓ“ѓg‚МѓTѓCѓY‚Мѓpѓ‰ѓЃЃ[ѓ^–ј */
     String PARAM_LEAK_SIZE = "javelin.leak.size";
 
-    /** гѓЎгѓўгѓЄгѓЄгѓјг‚Їж¤ње‡єг‚¤гѓ™гѓігѓ€гЃ®иїЅеЉ гЃ•г‚ЊгЃџг‚Єгѓ–г‚ёг‚§г‚Їгѓ€гЃ®г‚Їгѓ©г‚№еђЌ */
+    /** ѓЃѓ‚ѓЉѓЉЃ[ѓNЊџЏoѓCѓxѓ“ѓg‚М’З‰Б‚і‚к‚ЅѓIѓuѓWѓFѓNѓg‚МѓNѓ‰ѓX–ј */
     String PARAM_LEAK_CLASS_NAME = "javelin.leak.className";
 
-    /** гѓЎгѓўгѓЄгѓЄгѓјг‚Їж¤ње‡єг‚¤гѓ™гѓігѓ€гЃ®г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№гЃ®гѓ‘гѓ©гѓЎгѓјг‚їеђЌгЂ‚ */
+    /** ѓЃѓ‚ѓЉѓЉЃ[ѓNЊџЏoѓCѓxѓ“ѓg‚МѓXѓ^ѓbѓNѓgѓЊЃ[ѓX‚Мѓpѓ‰ѓЃЃ[ѓ^–јЃB */
     String PARAM_LEAK_STACK_TRACE = "javelin.leak.stackTrace";
 
-    /** и¤‡ж•°г‚№гѓ¬гѓѓгѓ‰гЃ‹г‚‰гЃ®г‚ўг‚Їг‚»г‚№г‚¤гѓ™гѓігѓ€гЃ®г‚¤гѓ™гѓігѓ€еђЌ */
+    /** •Ўђ”ѓXѓЊѓbѓh‚©‚з‚МѓAѓNѓZѓXѓCѓxѓ“ѓg‚МѓCѓxѓ“ѓg–ј */
     String NAME_CONCURRENT_ACCESS = "ConcurrentAccess";
 
-    /** и¤‡ж•°г‚№гѓ¬гѓѓгѓ‰гЃ‹г‚‰гЃ®г‚ўг‚Їг‚»г‚№г‚¤гѓ™гѓігѓ€гЃ®и­е€Ґе­ђгЃ®гѓ‘гѓ©гѓЎгѓјг‚їеђЌ */
+    /** •Ўђ”ѓXѓЊѓbѓh‚©‚з‚МѓAѓNѓZѓXѓCѓxѓ“ѓg‚МЋЇ•КЋq‚Мѓpѓ‰ѓЃЃ[ѓ^–ј */
     String PARAM_CONCURRENT_IDENTIFIER = "javelin.concurrent.identifier";
 
-    /** и¤‡ж•°г‚№гѓ¬гѓѓгѓ‰гЃ‹г‚‰гЃ®г‚ўг‚Їг‚»г‚№г‚¤гѓ™гѓігѓ€гЃ®г‚№гѓ¬гѓѓгѓ‰еђЌгЃ®гѓ‘гѓ©гѓЎгѓјг‚їеђЌ */
+    /** •Ўђ”ѓXѓЊѓbѓh‚©‚з‚МѓAѓNѓZѓXѓCѓxѓ“ѓg‚МѓXѓЊѓbѓh–ј‚Мѓpѓ‰ѓЃЃ[ѓ^–ј */
     String PARAM_CONCURRENT_THREAD = "javelin.concurrent.thread";
 
-    /** и¤‡ж•°г‚№гѓ¬гѓѓгѓ‰гЃ‹г‚‰гЃ®г‚ўг‚Їг‚»г‚№г‚¤гѓ™гѓігѓ€гЃ®ж™‚е€»гЃ®гѓ‘гѓ©гѓЎгѓјг‚їеђЌ */
+    /** •Ўђ”ѓXѓЊѓbѓh‚©‚з‚МѓAѓNѓZѓXѓCѓxѓ“ѓg‚МЋћЌЏ‚Мѓpѓ‰ѓЃЃ[ѓ^–ј */
     String PARAM_CONCURRENT_TIME = "javelin.concurrent.time";
 
-    /** и¤‡ж•°г‚№гѓ¬гѓѓгѓ‰гЃ‹г‚‰гЃ®г‚ўг‚Їг‚»г‚№г‚¤гѓ™гѓігѓ€гЃ®г‚№гѓ¬гѓѓгѓ‰еђЌгЃ®гѓ‘гѓ©гѓЎгѓјг‚їеђЌ */
+    /** •Ўђ”ѓXѓЊѓbѓh‚©‚з‚МѓAѓNѓZѓXѓCѓxѓ“ѓg‚МѓXѓЊѓbѓh–ј‚Мѓpѓ‰ѓЃЃ[ѓ^–ј */
     String PARAM_CONCURRENT_LOCK = "javelin.concurrent.lock";
 
-    /** и¤‡ж•°г‚№гѓ¬гѓѓгѓ‰гЃ‹г‚‰гЃ®г‚ўг‚Їг‚»г‚№г‚¤гѓ™гѓігѓ€гЃ®г‚Ёгѓ©гѓјгЃ®гѓ‘гѓ©гѓЎгѓјг‚їеђЌ */
+    /** •Ўђ”ѓXѓЊѓbѓh‚©‚з‚МѓAѓNѓZѓXѓCѓxѓ“ѓg‚МѓGѓ‰Ѓ[‚Мѓpѓ‰ѓЃЃ[ѓ^–ј */
     String PARAM_CONCURRENT_ERROR = "javelin.concurrent.error";
 
-    /** и¤‡ж•°г‚№гѓ¬гѓѓгѓ‰гЃ‹г‚‰гЃ®г‚ўг‚Їг‚»г‚№г‚¤гѓ™гѓігѓ€гЃ®г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№гЃ®гѓ‘гѓ©гѓЎгѓјг‚їеђЌ */
+    /** •Ўђ”ѓXѓЊѓbѓh‚©‚з‚МѓAѓNѓZѓXѓCѓxѓ“ѓg‚МѓXѓ^ѓbѓNѓgѓЊЃ[ѓX‚Мѓpѓ‰ѓЃЃ[ѓ^–ј */
     String PARAM_CONCURRENT_STACKTRACE = "javelin.concurrent.stackTrace";
 
-    /** г‚їг‚¤гѓ г‚ўг‚¦гѓ€жњЄиЁ­е®љж¤ње‡єг‚¤гѓ™гѓігѓ€гЃ®гѓЎг‚Ѕгѓѓгѓ‰еђЌ */
+    /** ѓ^ѓCѓЂѓAѓEѓg–ўђЭ’иЊџЏoѓCѓxѓ“ѓg‚МѓЃѓ\ѓbѓh–ј */
     String NAME_NOTIMEOUT_DETECTED = "NoTimeoutDetected";
 
-    /** г‚їг‚¤гѓ г‚ўг‚¦гѓ€жњЄиЁ­е®љж¤ње‡єг‚¤гѓ™гѓігѓ€гЃ®и­е€Ґе­ђгЃ®гѓ‘гѓ©гѓЎгѓјг‚їеђЌгЂ‚ */
+    /** ѓ^ѓCѓЂѓAѓEѓg–ўђЭ’иЊџЏoѓCѓxѓ“ѓg‚МЋЇ•КЋq‚Мѓpѓ‰ѓЃЃ[ѓ^–јЃB */
     String NOTIMEOUT_IDENTIFIER = "javelin.notimeout.identifier";
 
-    /** г‚їг‚¤гѓ г‚ўг‚¦гѓ€жњЄиЁ­е®љж¤ње‡єг‚¤гѓ™гѓігѓ€гЃ®г‚їг‚¤гѓ г‚ўг‚¦гѓ€еЂ¤гЃ®гѓ‘гѓ©гѓЎгѓјг‚їеђЌгЂ‚ */
+    /** ѓ^ѓCѓЂѓAѓEѓg–ўђЭ’иЊџЏoѓCѓxѓ“ѓg‚Мѓ^ѓCѓЂѓAѓEѓg’l‚Мѓpѓ‰ѓЃЃ[ѓ^–јЃB */
     String NOTIMEOUT_TIMEOUT = "javelin.notimeout.timeout";
 
-    /** г‚їг‚¤гѓ г‚ўг‚¦гѓ€жњЄиЁ­е®љж¤ње‡єг‚¤гѓ™гѓігѓ€гЃ®г‚ўгѓ‰гѓ¬г‚№гЃ®гѓ‘гѓ©гѓЎгѓјг‚їеђЌгЂ‚ */
+    /** ѓ^ѓCѓЂѓAѓEѓg–ўђЭ’иЊџЏoѓCѓxѓ“ѓg‚МѓAѓhѓЊѓX‚Мѓpѓ‰ѓЃЃ[ѓ^–јЃB */
     String NOTIMEOUT_ADDRESS = "javelin.notimeout.address";
 
-    /** г‚їг‚¤гѓ г‚ўг‚¦гѓ€жњЄиЁ­е®љж¤ње‡єг‚¤гѓ™гѓігѓ€гЃ®гѓќгѓјгѓ€з•ЄеЏ·гЃ®гѓ‘гѓ©гѓЎгѓјг‚їеђЌгЂ‚ */
+    /** ѓ^ѓCѓЂѓAѓEѓg–ўђЭ’иЊџЏoѓCѓxѓ“ѓg‚Мѓ|Ѓ[ѓg”ФЌ†‚Мѓpѓ‰ѓЃЃ[ѓ^–јЃB */
     String NOTIMEOUT_PORT = "javelin.notimeout.port";
 
-    /** и¤‡ж•°г‚№гѓ¬гѓѓгѓ‰гЃ‹г‚‰гЃ®г‚ўг‚Їг‚»г‚№г‚¤гѓ™гѓігѓ€гЃ®г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№гЃ®гѓ‘гѓ©гѓЎгѓјг‚їеђЌ */
+    /** •Ўђ”ѓXѓЊѓbѓh‚©‚з‚МѓAѓNѓZѓXѓCѓxѓ“ѓg‚МѓXѓ^ѓbѓNѓgѓЊЃ[ѓX‚Мѓpѓ‰ѓЃЃ[ѓ^–ј */
     String NOTIMEOUT_STACKTRACE = "javelin.notimeout.stackTrace";
 
-    /** гѓ•гѓ«г‚№гѓ¬гѓѓгѓ‰гѓЂгѓігѓ—еЏ–еѕ—гЃ®г‚¤гѓ™гѓігѓ€еђЌ */
+    /** ѓtѓ‹ѓXѓЊѓbѓhѓ_ѓ“ѓvЋж“ѕ‚МѓCѓxѓ“ѓg–ј */
     String NAME_THREAD_DUMP = "FullThreadDump";
 
-    /** гѓ•гѓ«г‚№гѓ¬гѓѓгѓ‰гѓЂгѓігѓ—еЏ–еѕ—г‚¤гѓ™гѓігѓ€гЃ®гѓ‘гѓ©гѓЎгѓјг‚їеђЌ */
+    /** ѓtѓ‹ѓXѓЊѓbѓhѓ_ѓ“ѓvЋж“ѕѓCѓxѓ“ѓg‚Мѓpѓ‰ѓЃЃ[ѓ^–ј */
     String PARAM_THREAD_DUMP = "javelin.thread.dump";
 
-    /** гѓ•гѓ«г‚№гѓ¬гѓѓгѓ‰гѓЂгѓігѓ—еЏ–еѕ—ж™‚гЃ®CPUдЅїз”ЁзЋ‡гЃ®гѓ‘гѓ©гѓЎгѓјг‚їеђЌ */
+    /** ѓtѓ‹ѓXѓЊѓbѓhѓ_ѓ“ѓvЋж“ѕЋћ‚МCPUЋg—p—¦‚Мѓpѓ‰ѓЃЃ[ѓ^–ј */
     String PARAM_THREAD_DUMP_CPU_TOTAL = "javelin.thread.dump.cpu.total";
 
-    /** гѓ•гѓ«г‚№гѓ¬гѓѓгѓ‰гѓЂгѓігѓ—еЏ–еѕ—ж™‚гЃ®CPUдЅїз”ЁзЋ‡гЃ®гѓ‘гѓ©гѓЎгѓјг‚їеђЌ */
+    /** ѓtѓ‹ѓXѓЊѓbѓhѓ_ѓ“ѓvЋж“ѕЋћ‚МCPUЋg—p—¦‚Мѓpѓ‰ѓЃЃ[ѓ^–ј */
     String PARAM_THREAD_DUMP_CPU = "javelin.thread.dump.cpu";
 
-    /** гѓ•гѓ«г‚№гѓ¬гѓѓгѓ‰гѓЂгѓігѓ—еЏ–еѕ—ж™‚гЃ®г‚№гѓ¬гѓѓгѓ‰ж•°гЃ®гѓ‘гѓ©гѓЎгѓјг‚їеђЌ */
+    /** ѓtѓ‹ѓXѓЊѓbѓhѓ_ѓ“ѓvЋж“ѕЋћ‚МѓXѓЊѓbѓhђ”‚Мѓpѓ‰ѓЃЃ[ѓ^–ј */
     String PARAM_THREAD_DUMP_THREADNUM = "javelin.thread.dump.threadNum";
 
-    /** гѓ•гѓ«г‚№гѓ¬гѓѓгѓ‰гѓЂгѓігѓ—еЏ–еѕ—г‚¤гѓ™гѓігѓ€гЃ®г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№гЃ®гѓ‘гѓ©гѓЎгѓјг‚їеђЌ */
+    /** ѓtѓ‹ѓXѓЊѓbѓhѓ_ѓ“ѓvЋж“ѕѓCѓxѓ“ѓg‚МѓXѓ^ѓbѓNѓgѓЊЃ[ѓX‚Мѓpѓ‰ѓЃЃ[ѓ^–ј */
     String PARAM_THREAD_DUMP_STACKTRACE = "javelin.thread.dump.stackTrace";
 
-    /** г‚Їгѓ©г‚№гѓ’г‚№гѓ€г‚°гѓ©гѓ гѓЂгѓігѓ—еЏ–еѕ—гЃ®г‚¤гѓ™гѓігѓ€еђЌ */
+    /** ѓNѓ‰ѓXѓqѓXѓgѓOѓ‰ѓЂѓ_ѓ“ѓvЋж“ѕ‚МѓCѓxѓ“ѓg–ј */
     String NAME_CLASSHISTOGRAM = "ClassHistogram";
 
-    /** г‚Їгѓ©г‚№гѓ’г‚№гѓ€г‚°гѓ©гѓ гѓЂгѓігѓ—еЏ–еѕ—гЃ®г‚¤гѓ™гѓігѓ€еђЌ */
+    /** ѓNѓ‰ѓXѓqѓXѓgѓOѓ‰ѓЂѓ_ѓ“ѓvЋж“ѕ‚МѓCѓxѓ“ѓg–ј */
     String PARAM_CLASSHISTOGRAM = "ClassHistogram";
 
-    /** гѓ•гѓ«GCеЏ–еѕ—гЃ®г‚¤гѓ™гѓігѓ€еђЌ */
+    /** ѓtѓ‹GCЋж“ѕ‚МѓCѓxѓ“ѓg–ј */
     String NAME_FULLGC = "FullGCDetected";
 
-    /** гѓЄгѓ•г‚Ўгѓ¬гѓіг‚№гѓЂгѓігѓ—еЏ–еѕ—гЃ®г‚¤гѓ™гѓігѓ€еђЌ */
+    /** ѓЉѓtѓ@ѓЊѓ“ѓXѓ_ѓ“ѓvЋж“ѕ‚МѓCѓxѓ“ѓg–ј */
     String NAME_REFERENCE_DUMP = "ReferenceDump";
 
-    /** гѓЄгѓ•г‚Ўгѓ¬гѓіг‚№гѓЂгѓігѓ—еЏ–еѕ—г‚¤гѓ™гѓігѓ€гЃ®гѓ‘гѓ©гѓЎгѓјг‚їеђЌ */
+    /** ѓЉѓtѓ@ѓЊѓ“ѓXѓ_ѓ“ѓvЋж“ѕѓCѓxѓ“ѓg‚Мѓpѓ‰ѓЃЃ[ѓ^–ј */
     String PARAM_REFERENCE_DUMP = "javelin.reference.dump";
 
-    /** гѓ•гѓ«GCз™єз”џе›ћж•°гЃ®гѓ‘гѓ©гѓЎгѓјг‚їеђЌ */
+    /** ѓtѓ‹GC”­ђ¶‰сђ”‚Мѓpѓ‰ѓЃЃ[ѓ^–ј */
     String PARAM_FULLGC_COUNT = "javelin.fullgc.count";
 
-    /** гѓ•гѓ«GCе®џиЎЊж™‚й–“г‚’иЎЁгЃ™гѓ‘гѓ©гѓЎгѓјг‚їеђЌ */
+    /** ѓtѓ‹GCЋАЌsЋћЉФ‚р•\‚·ѓpѓ‰ѓЃЃ[ѓ^–ј */
     String PARAM_FULLGC_TIME = "javelin.fullgc.time";
 
-    /** гѓ•гѓ«GCг‚’ж¤ње‡єгЃ—гЃџгЃЁгЃЌгЃ®гѓ’гѓјгѓ—гѓЎгѓўгѓЄгЃ®гѓ‘гѓ©гѓЎгѓјг‚їеђЌ */
+    /** ѓtѓ‹GC‚рЊџЏo‚µ‚Ѕ‚Ж‚«‚МѓqЃ[ѓvѓЃѓ‚ѓЉ‚Мѓpѓ‰ѓЃЃ[ѓ^–ј */
     String PARAM_FULLGC_HEAPMEMORY = "javelin.fullgc.heapMemory";
 
-    /** дѕ‹е¤–ж¤ње‡єг‚¤гѓ™гѓігѓ€гЃ®гѓЎг‚Ѕгѓѓгѓ‰еђЌ */
+    /** —бЉOЊџЏoѓCѓxѓ“ѓg‚МѓЃѓ\ѓbѓh–ј */
     String NAME_EXCEPTION_DETECTED = "ExceptionDetected";
 
-    /** дѕ‹е¤–ж¤ње‡єг‚¤гѓ™гѓігѓ€гЃ®и­е€Ґе­ђгЃ®гѓ‘гѓ©гѓЎгѓјг‚їеђЌгЂ‚ */
+    /** —бЉOЊџЏoѓCѓxѓ“ѓg‚МЋЇ•КЋq‚Мѓpѓ‰ѓЃЃ[ѓ^–јЃB */
     String EXCEPTION_IDENTIFIER = "javelin.exception.identifier";
 
-    /** дѕ‹е¤–ж¤ње‡єг‚¤гѓ™гѓігѓ€гЃ®г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№гЃ®гѓ‘гѓ©гѓЎгѓјг‚їеђЌгЂ‚ */
+    /** —бЉOЊџЏoѓCѓxѓ“ѓg‚МѓXѓ^ѓbѓNѓgѓЊЃ[ѓX‚Мѓpѓ‰ѓЃЃ[ѓ^–јЃB */
     String EXCEPTION_STACKTRACE = "javelin.exception.stackTrace";
 
-    /** CallTreeгЃЊжњЂе¤§еЂ¤гЃ«йЃ”гЃ—гЃџгЃЁгЃЌгЃ®г‚¤гѓ™гѓігѓ€еђЌ */
+    /** CallTree‚ЄЌЕ‘е’l‚Й’B‚µ‚Ѕ‚Ж‚«‚МѓCѓxѓ“ѓg–ј */
     String NAME_CALLTREE_FULL = "CallTreeFull";
 
-    /** InvocationгЃЊжњЂе¤§еЂ¤гЃ«йЃ”гЃ—гЃџгЃЁгЃЌгЃ®г‚¤гѓ™гѓігѓ€еђЌ */
+    /** Invocation‚ЄЌЕ‘е’l‚Й’B‚µ‚Ѕ‚Ж‚«‚МѓCѓxѓ“ѓg–ј */
     String NAME_INVOCATION_FULL = "InvocationFull";
 
-    /** CallTreeгЃ®жњЂе¤§еЂ¤ */
+    /** CallTree‚МЌЕ‘е’l */
     String PARAM_CALLTREE = "javelin.call.tree";
 
-    /** CallTreeгЃЊжњЂе¤§еЂ¤гЃ«йЃ”гЃ—гЃџгЃЁгЃЌгЃ®<г‚Їгѓ©г‚№еђЌ>#<гѓЎг‚Ѕгѓѓгѓ‰еђЌ> */
+    /** CallTree‚ЄЌЕ‘е’l‚Й’B‚µ‚Ѕ‚Ж‚«‚М<ѓNѓ‰ѓX–ј>#<ѓЃѓ\ѓbѓh–ј> */
     String PARAM_CALLTREE_METHOD = "javelin.call.tree.method";
 
-    /** CallTreeгЃЊжњЂе¤§еЂ¤гЃ«йЃ”гЃ—гЃџгЃЁгЃЌгЃ®г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№ */
+    /** CallTree‚ЄЌЕ‘е’l‚Й’B‚µ‚Ѕ‚Ж‚«‚МѓXѓ^ѓbѓNѓgѓЊЃ[ѓX */
     String PARAM_CALLTREE_STACKTRACE = "javelin.call.tree.stackTrace";
 
-    /** InvocationгЃ®жњЂе¤§еЂ¤ */
+    /** Invocation‚МЌЕ‘е’l */
     String PARAM_INVOCATION = "javelin.invocation";
 
-    /** InvocationгЃЊжњЂе¤§еЂ¤гЃ«йЃ”гЃ—гЃџгЃЁгЃЌгЃ®<г‚Їгѓ©г‚№еђЌ> */
+    /** Invocation‚ЄЌЕ‘е’l‚Й’B‚µ‚Ѕ‚Ж‚«‚М<ѓNѓ‰ѓX–ј> */
     String PARAM_INVOCATION_CLASS = "javelin.invocation.class";
 
-    /** InvocationгЃЊжњЂе¤§еЂ¤гЃ«йЃ”гЃ—гЃџгЃЁгЃЌгЃ«иїЅеЉ гЃ—гЃџ<гѓЎг‚Ѕгѓѓгѓ‰еђЌ> */
+    /** Invocation‚ЄЌЕ‘е’l‚Й’B‚µ‚Ѕ‚Ж‚«‚Й’З‰Б‚µ‚Ѕ<ѓЃѓ\ѓbѓh–ј> */
     String PARAM_INVOCATION_METHOD_ADD = "javelin.invocation.method.add";
 
-    /** InvocationгЃЊжњЂе¤§еЂ¤гЃ«йЃ”гЃ—гЃџгЃЁгЃЌгЃ«е‰Љй™¤гЃ—гЃџ<гѓЎг‚Ѕгѓѓгѓ‰еђЌ> */
+    /** Invocation‚ЄЌЕ‘е’l‚Й’B‚µ‚Ѕ‚Ж‚«‚ЙЌнЏњ‚µ‚Ѕ<ѓЃѓ\ѓbѓh–ј> */
     String PARAM_INVOCATION_METHOD_REMOVE = "javelin.invocation.method.remove";
 
-    /** InvocationгЃЊжњЂе¤§еЂ¤гЃ«йЃ”гЃ—гЃџгЃЁгЃЌгЃ®г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№ */
+    /** Invocation‚ЄЌЕ‘е’l‚Й’B‚µ‚Ѕ‚Ж‚«‚МѓXѓ^ѓbѓNѓgѓЊЃ[ѓX */
     String PARAM_INVOCATION_STACKTRACE = "javelin.invocation.stackTrace";
 
-    /** г‚¤гѓ™гѓігѓ€з™єз”џгЃ®г‚Їгѓ©г‚№еђЌ */
+    /** ѓCѓxѓ“ѓg”­ђ¶‚МѓNѓ‰ѓX–ј */
     String EVENT_CLASSNAME = "EVENT_JAVELIN_CLASS";
 
-    /** г‚¤гѓ™гѓігѓ€з™єз”џгЃ®гѓЎг‚Ѕгѓѓгѓ‰еђЌ */
+    /** ѓCѓxѓ“ѓg”­ђ¶‚МѓЃѓ\ѓbѓh–ј */
     String EVENT_METHODNAME = "EVENT_JAVELIN_METHOD";
 
-    /** гѓ–гѓ­гѓѓг‚Їз¶™з¶љж¤ње‡єж™‚гЃ®г‚¤гѓ™гѓігѓ€еђЌ */
+    /** ѓuѓЌѓbѓNЊp‘±ЊџЏoЋћ‚МѓCѓxѓ“ѓg–ј */
     String EVENT_THREAD_BLOCK_CONTINUE = "ThreadBlockContinue";
 
-    /** гѓ–гѓ­гѓѓг‚Їз¶™з¶љж¤ње‡єж™‚гЂЃгѓ­гѓѓг‚ЇдїќжЊЃг‚№гѓ¬гѓѓгѓ‰жѓ…е ±гЃ®гѓ‘гѓ©гѓЎгѓјг‚їеђЌ */
+    /** ѓuѓЌѓbѓNЊp‘±ЊџЏoЋћЃAѓЌѓbѓN•ЫЋќѓXѓЊѓbѓhЏо•с‚Мѓpѓ‰ѓЃЃ[ѓ^–ј */
     String PARAM_THREAD_MONITOR_OWNER = "thread.monitor.owner";
 
-    /** гѓ–гѓ­гѓѓг‚Їз¶™з¶љж¤ње‡єж™‚гЂЃгѓ­гѓѓг‚Їеѕ…гЃЎг‚№гѓ¬гѓѓгѓ‰жѓ…е ±гЃ®гѓ‘гѓ©гѓЎгѓјг‚їеђЌ */
+    /** ѓuѓЌѓbѓNЊp‘±ЊџЏoЋћЃAѓЌѓbѓN‘Т‚їѓXѓЊѓbѓhЏо•с‚Мѓpѓ‰ѓЃЃ[ѓ^–ј */
     String PARAM_THREAD_MONITOR_THREAD = "thread.monitor.thread";
 
-    /** гѓ–гѓ­гѓѓг‚Їз¶™з¶љж¤ње‡єж™‚гЂЃйЂЈз¶љгѓ–гѓ­гѓѓг‚Їж™‚й–“гЃ®гѓ‘гѓ©гѓЎгѓјг‚їеђЌ */
+    /** ѓuѓЌѓbѓNЊp‘±ЊџЏoЋћЃAA‘±ѓuѓЌѓbѓNЋћЉФ‚Мѓpѓ‰ѓЃЃ[ѓ^–ј */
     String PARAM_THREAD_BLOCK_DURATION = "thread.block.duration";
 
-    /** г‚№гѓ¬гѓѓгѓ‰гѓЄгѓјг‚Їж¤ње‡єж™‚гЃ®г‚¤гѓ™гѓігѓ€еђЌ */
+    /** ѓXѓЊѓbѓhѓЉЃ[ѓNЊџЏoЋћ‚МѓCѓxѓ“ѓg–ј */
     String EVENT_THREAD_LEAK_CONTINUE = "ThreadLeakContinue";
 
-    /** г‚№гѓ¬гѓѓгѓ‰гѓЄгѓјг‚Їж¤ње‡єг‚їг‚¤гѓџгѓіг‚°гЃ®гѓ‘гѓ©гѓЎгѓјг‚їеђЌ */
+    /** ѓXѓЊѓbѓhѓЉЃ[ѓNЊџЏoѓ^ѓCѓ~ѓ“ѓO‚Мѓpѓ‰ѓЃЃ[ѓ^–ј */
     String PARAM_THREAD_LEAK_TIMING = "thread.leak.timing";
 
-    /** г‚№гѓ¬гѓѓгѓ‰гѓЄгѓјг‚Їж¤ње‡єж™‚гЃ®г‚№гѓ¬гѓѓгѓ‰IDгЃ®гѓ‘гѓ©гѓЎгѓјг‚їеђЌ */
+    /** ѓXѓЊѓbѓhѓЉЃ[ѓNЊџЏoЋћ‚МѓXѓЊѓbѓhID‚Мѓpѓ‰ѓЃЃ[ѓ^–ј */
     String PARAM_THREAD_LEAK_ID = "thread.leak.id";
 
-    /** г‚№гѓ¬гѓѓгѓ‰гѓЄгѓјг‚Їж¤ње‡єг‚№гѓ¬гѓѓгѓ‰гЃ®гѓ‘гѓ©гѓЎгѓјг‚їеђЌ */
+    /** ѓXѓЊѓbѓhѓЉЃ[ѓNЊџЏoѓXѓЊѓbѓh‚Мѓpѓ‰ѓЃЃ[ѓ^–ј */
     String PARAM_THREAD_LEAK_NAME = "thread.leak.name";
 
-    /** г‚№гѓ¬гѓѓгѓ‰зЉ¶ж…‹гЃ®гѓ‘гѓ©гѓЎгѓјг‚їеђЌ */
+    /** ѓXѓЊѓbѓhЏу‘Ф‚Мѓpѓ‰ѓЃЃ[ѓ^–ј */
     String PARAM_THREAD_LEAK_STATE = "thread.leak.state";
 
-    /** г‚№гѓ¬гѓѓгѓ‰гѓЄгѓјг‚Їж¤ње‡єж™‚гЃ®г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№гЃ®гѓ‘гѓ©гѓЎгѓјг‚їеђЌ */
+    /** ѓXѓЊѓbѓhѓЉЃ[ѓNЊџЏoЋћ‚МѓXѓ^ѓbѓNѓgѓЊЃ[ѓX‚Мѓpѓ‰ѓЃЃ[ѓ^–ј */
     String PARAM_THREAD_LEAK_STACKTRACE = "thread.leak.stackTrace";
 
-    /** з·љеЅўж¤њзґўж¤њж™‚гЃ®г‚¤гѓ™гѓігѓ€еђЌ */
+    /** ђьЊ`ЊџЌхЊџЋћ‚МѓCѓxѓ“ѓg–ј */
     String NAME_LINEARSEARCH_DETECTED = "LinearSearchDetected";
 
-    /** з·љеЅўж¤њзґўж¤ње‡єгЃ—гЃџгѓЄг‚№гѓ€гЃ®г‚µг‚¤г‚є */
+    /** ђьЊ`ЊџЌхЊџЏo‚µ‚ЅѓЉѓXѓg‚МѓTѓCѓY */
     String PARAM_LINEARSEARCH_SIZE = "linearsearch.size";
 
-    /** з·љеЅўж¤њзґўж¤ње‡єгЃ—гЃџгѓЄг‚№гѓ€гЃ®ж¤њзґўе›ћж•° */
+    /** ђьЊ`ЊџЌхЊџЏo‚µ‚ЅѓЉѓXѓg‚МЊџЌх‰сђ” */
     String PARAM_LINEARSEARCH_COUNT = "linearsearch.count";
 
-    /** з·љеЅўж¤њзґўж¤ње‡єгЃ—гЃџгѓЄг‚№гѓ€гЃ®г‚Єгѓ–г‚ёг‚§г‚Їгѓ€ID */
+    /** ђьЊ`ЊџЌхЊџЏo‚µ‚ЅѓЉѓXѓg‚МѓIѓuѓWѓFѓNѓgID */
     String PARAM_LINEARSEARCH_OBJECTID = "linearsearch.objectID";
 
-    /** з·љеЅўж¤њзґўж¤ње‡єж™‚гЃ®г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№ */
+    /** ђьЊ`ЊџЌхЊџЏoЋћ‚МѓXѓ^ѓbѓNѓgѓЊЃ[ѓX */
     String PARAM_LINEARSEARCH_STACKTRACE = "linearsearch.stackTrace";
 
-    /** Log4JгЃ«г‚€г‚‹г‚Ёгѓ©гѓјгѓ­г‚°е‡єеЉ›ж™‚гЃ®г‚¤гѓ™гѓігѓ€еђЌ */
+    /** Log4J‚Й‚ж‚йѓGѓ‰Ѓ[ѓЌѓOЏo—НЋћ‚МѓCѓxѓ“ѓg–ј */
     String NAME_LOG4JERROR_DETECTED = "Log4jErrorDetected";
 
-    /** Log4JгЃ«г‚€г‚‹г‚Ёгѓ©гѓјгѓ­г‚°е‡єеЉ›ж™‚гЃ®гѓ­г‚°гѓ¬гѓ™гѓ« */
+    /** Log4J‚Й‚ж‚йѓGѓ‰Ѓ[ѓЌѓOЏo—НЋћ‚МѓЌѓOѓЊѓxѓ‹ */
     String PARAM_LOG4JERROR_LOGLEVEL = "log4jerror.logLevel";
 
-    /** Log4JгЃ«г‚€г‚‹г‚Ёгѓ©гѓјгѓ­г‚°е‡єеЉ›ж™‚гЃ®гѓ­г‚°гѓЎгѓѓг‚»гѓјг‚ё */
+    /** Log4J‚Й‚ж‚йѓGѓ‰Ѓ[ѓЌѓOЏo—НЋћ‚МѓЌѓOѓЃѓbѓZЃ[ѓW */
     String PARAM_LOG4JERROR_LOGMESSAGE = "log4jerror.logMessage";
 
-    /** Log4JгЃ«г‚€г‚‹г‚Ёгѓ©гѓјгѓ­г‚°е‡єеЉ›ж™‚гЃ®дѕ‹е¤–гѓЎгѓѓг‚»гѓјг‚ё */
+    /** Log4J‚Й‚ж‚йѓGѓ‰Ѓ[ѓЌѓOЏo—НЋћ‚М—бЉOѓЃѓbѓZЃ[ѓW */
     String PARAM_LOG4JERROR_EXCLASS = "log4jerror.exClass";
 
-    /** Log4JгЃ«г‚€г‚‹г‚Ёгѓ©гѓјгѓ­г‚°е‡єеЉ›ж™‚гЃ®дѕ‹е¤–гѓЎгѓѓг‚»гѓјг‚ё */
+    /** Log4J‚Й‚ж‚йѓGѓ‰Ѓ[ѓЌѓOЏo—НЋћ‚М—бЉOѓЃѓbѓZЃ[ѓW */
     String PARAM_LOG4JERROR_EXMESSAGE = "log4jerror.exMessage";
 
-    /** Log4JгЃ«г‚€г‚‹г‚Ёгѓ©гѓјгѓ­г‚°е‡єеЉ›ж™‚гЃ®дѕ‹е¤–г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№ */
+    /** Log4J‚Й‚ж‚йѓGѓ‰Ѓ[ѓЌѓOЏo—НЋћ‚М—бЉOѓXѓ^ѓbѓNѓgѓЊЃ[ѓX */
     String PARAM_LOG4JERROR_EXSTACKTRACE = "log4jerror.exStackTrace";
 
-    /** Log4JгЃ«г‚€г‚‹г‚Ёгѓ©гѓјгѓ­г‚°е‡єеЉ›ж™‚гЃ®г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№ */
+    /** Log4J‚Й‚ж‚йѓGѓ‰Ѓ[ѓЌѓOЏo—НЋћ‚МѓXѓ^ѓbѓNѓgѓЊЃ[ѓX */
     String PARAM_LOG4JERROR_STACKTRACE = "log4jerror.stackTrace";
 
-    /** гѓ‡гѓѓгѓ‰гѓ­гѓѓг‚Їж¤ње‡єж™‚гЃ®г‚¤гѓ™гѓігѓ€еђЌ */
+    /** ѓfѓbѓhѓЌѓbѓNЊџЏoЋћ‚МѓCѓxѓ“ѓg–ј */
     String NAME_DEADLOCK_DETECTED = "DeadLockDetected";
 
-    /** гѓ‡гѓѓгѓ‰гѓ­гѓѓг‚Їж¤ње‡єж™‚гЃ®г‚№гѓ¬гѓѓгѓ‰жѓ…е ± */
+    /** ѓfѓbѓhѓЌѓbѓNЊџЏoЋћ‚МѓXѓЊѓbѓhЏо•с */
     String PARAM_DEADLOCK_INFO = "thread.deadlock.info.";
 
-    /** CommonsPoolж¤ње‡єг‚¤гѓ™гѓігѓ€гЃ®гѓЎг‚Ѕгѓѓгѓ‰еђЌгЂ‚ */
+    /** CommonsPoolЊџЏoѓCѓxѓ“ѓg‚МѓЃѓ\ѓbѓh–јЃB */
     String NAME_COMMONSPOOL_INIT = "CommonsPoolInitialize";
 
-    /** CommonsPoolгЃ®г‚Єгѓ–г‚ёг‚§г‚Їгѓ€ID */
+    /** CommonsPool‚МѓIѓuѓWѓFѓNѓgID */
     String PARAM_COMMONSPOOL_OBJECTID = "javelin.commons.pool.objectID";
 
-    /** CommonsPoolгЃ®г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№ */
+    /** CommonsPool‚МѓXѓ^ѓbѓNѓgѓЊЃ[ѓX */
     String PARAM_COMMONSPOOL_STACKTRACE = "javelin.commons.pool.stackTrace";
 
-    /** еј·е€¶е€‡ж–­ж¤ње‡єж™‚гЃ®г‚¤гѓ™гѓігѓ€еђЌ */
+    /** ‹­ђ§ђШ’fЊџЏoЋћ‚МѓCѓxѓ“ѓg–ј */
     String NAME_FORCE_DISCONNECTED = "ForceDisconnected";
 
-    /** HTTPг‚№гѓ†гѓјг‚їг‚№г‚Ёгѓ©гѓјгЃ®г‚¤гѓ™гѓігѓ€еђЌ */
+    /** HTTPѓXѓeЃ[ѓ^ѓXѓGѓ‰Ѓ[‚МѓCѓxѓ“ѓg–ј */
     String NAME_HTTP_STATUS_ERROR = "HttpStatusError";
 
-    /**  HTTPг‚№гѓ†гѓјг‚їг‚№г‚Ёгѓ©гѓјгЃ®URL */
+    /**  HTTPѓXѓeЃ[ѓ^ѓXѓGѓ‰Ѓ[‚МURL */
     String PARAM_HTTP_URL = "javelin.commons.pool.stackTrace";
 
-    /**  HTTPг‚№гѓ†гѓјг‚їг‚№г‚Ёгѓ©гѓјгЃ®URL */
+    /**  HTTPѓXѓeЃ[ѓ^ѓXѓGѓ‰Ѓ[‚МURL */
     String PARAM_HTTP_STATUS = "http.status";
 
-    /**  HTTPг‚№гѓ†гѓјг‚їг‚№г‚Ёгѓ©гѓјгЃ®URL */
+    /**  HTTPѓXѓeЃ[ѓ^ѓXѓGѓ‰Ѓ[‚МURL */
     String PARAM_HTTP_THROWABLE_MESSAGE = "http.throwable.message";
 
-    /**  HTTPг‚№гѓ†гѓјг‚їг‚№г‚Ёгѓ©гѓјгЃ®URL */
+    /**  HTTPѓXѓeЃ[ѓ^ѓXѓGѓ‰Ѓ[‚МURL */
     String PARAM_HTTP_THROWABLE_STACKTRACE = "http.throwable.stacktrace";
 
-    /** г‚№гѓ€гѓјгѓ«гѓЎг‚Ѕгѓѓгѓ‰ж¤ње‡єж™‚гЃ®г‚¤гѓ™гѓігѓ€еђЌ */
+    /** ѓXѓgЃ[ѓ‹ѓЃѓ\ѓbѓhЊџЏoЋћ‚МѓCѓxѓ“ѓg–ј */
     String EVENT_METHOD_STALL = "MethodStall";
 
-    /** г‚№гѓ€гѓјгѓ«гѓЎг‚Ѕгѓѓгѓ‰ж¤ње‡єг‚¤гѓ™гѓігѓ€гЃ®й–ѕеЂ¤гЃ®гѓ‘гѓ©гѓЎгѓјг‚їеђЌ */
+    /** ѓXѓgЃ[ѓ‹ѓЃѓ\ѓbѓhЊџЏoѓCѓxѓ“ѓg‚Ми‡’l‚Мѓpѓ‰ѓЃЃ[ѓ^–ј */
     String PARAM_METHOD_STALL_THRESHOLD = "javelin.method.stall.threshold";
 
-    /** г‚№гѓ€гѓјгѓ«гѓЎг‚Ѕгѓѓгѓ‰ж¤ње‡єг‚¤гѓ™гѓігѓ€гЃ®г‚Їгѓ©г‚№еђЌгЃ®гѓ‘гѓ©гѓЎгѓјг‚їеђЌ */
+    /** ѓXѓgЃ[ѓ‹ѓЃѓ\ѓbѓhЊџЏoѓCѓxѓ“ѓg‚МѓNѓ‰ѓX–ј‚Мѓpѓ‰ѓЃЃ[ѓ^–ј */
     String PARAM_METHOD_STALL_CLASS_NAME = "javelin.method.stall.className";
 
-    /** г‚№гѓ€гѓјгѓ«гѓЎг‚Ѕгѓѓгѓ‰ж¤ње‡єг‚¤гѓ™гѓігѓ€гЃ®гѓЎг‚Ѕгѓѓгѓ‰еђЌгЃ®гѓ‘гѓ©гѓЎгѓјг‚їеђЌ */
+    /** ѓXѓgЃ[ѓ‹ѓЃѓ\ѓbѓhЊџЏoѓCѓxѓ“ѓg‚МѓЃѓ\ѓbѓh–ј‚Мѓpѓ‰ѓЃЃ[ѓ^–ј */
     String PARAM_METHOD_STALL_METHOD_NAME = "javelin.method.stall.methodName";
 
-    /** г‚№гѓ€гѓјгѓ«гѓЎг‚Ѕгѓѓгѓ‰ж¤ње‡єг‚¤гѓ™гѓігѓ€гЃ®г‚№гѓ¬гѓѓгѓ‰IDгЃ®гѓ‘гѓ©гѓЎгѓјг‚їеђЌ */
+    /** ѓXѓgЃ[ѓ‹ѓЃѓ\ѓbѓhЊџЏoѓCѓxѓ“ѓg‚МѓXѓЊѓbѓhID‚Мѓpѓ‰ѓЃЃ[ѓ^–ј */
     String PARAM_METHOD_STALL_THREAD_ID = "javelin.method.stall.threadId";
 
-    /** г‚№гѓ€гѓјгѓ«гѓЎг‚Ѕгѓѓгѓ‰ж¤ње‡єг‚¤гѓ™гѓігѓ€гЃ®г‚№гѓ¬гѓѓгѓ‰еђЌгЃ®гѓ‘гѓ©гѓЎгѓјг‚їеђЌ */
+    /** ѓXѓgЃ[ѓ‹ѓЃѓ\ѓbѓhЊџЏoѓCѓxѓ“ѓg‚МѓXѓЊѓbѓh–ј‚Мѓpѓ‰ѓЃЃ[ѓ^–ј */
     String PARAM_METHOD_STALL_THREAD_NAME = "javelin.method.stall.threadName";
 
-    /** г‚№гѓ€гѓјгѓ«гѓЎг‚Ѕгѓѓгѓ‰ж¤ње‡єг‚¤гѓ™гѓігѓ€гЃ®г‚№гѓ¬гѓѓгѓ‰зЉ¶ж…‹гЃ®гѓ‘гѓ©гѓЎгѓјг‚їеђЌ */
+    /** ѓXѓgЃ[ѓ‹ѓЃѓ\ѓbѓhЊџЏoѓCѓxѓ“ѓg‚МѓXѓЊѓbѓhЏу‘Ф‚Мѓpѓ‰ѓЃЃ[ѓ^–ј */
     String PARAM_METHOD_STALL_THREAD_STATE = "javelin.method.stall.threadState";
 
-    /** г‚№гѓ€гѓјгѓ«гѓЎг‚Ѕгѓѓгѓ‰ж¤ње‡єг‚¤гѓ™гѓігѓ€гЃ®г‚№г‚їгѓѓг‚Їгѓ€гѓ¬гѓјг‚№гЃ®гѓ‘гѓ©гѓЎгѓјг‚їеђЌ */
+    /** ѓXѓgЃ[ѓ‹ѓЃѓ\ѓbѓhЊџЏoѓCѓxѓ“ѓg‚МѓXѓ^ѓbѓNѓgѓЊЃ[ѓX‚Мѓpѓ‰ѓЃЃ[ѓ^–ј */
     String PARAM_METHOD_STALL_STACKTRACE = "javelin.method.stall.stackTrace";
 }

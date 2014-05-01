@@ -32,25 +32,25 @@ import jp.co.acroquest.endosnipe.javelin.CallTreeRecorder;
 import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
 
 /**
- * Object#waitã€Thread.sleepã®å®Ÿè¡Œæ™‚é–“ã‚’ç›£è¦–ã—ã€
+ * Object#waitAThread.sleep‚ÌÀsŠÔ‚ğŠÄ‹‚µA
  * <ul>
- * <li>ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—</li>
- * <li>å®Ÿè¡Œæ™‚é–“</li>
+ * <li>ƒXƒŒƒbƒhƒ_ƒ“ƒv</li>
+ * <li>ÀsŠÔ</li>
  * </ul>
- * ã‚’å–å¾—ã™ã‚‹ã€‚
+ * ‚ğæ“¾‚·‚éB
  *  
  * @author eriguchi
  */
 public class WaitMonitor
 {
-    /** waitã—ãŸéš›ã®æƒ…å ±ã‚’è¨˜éŒ²ã™ã‚‹ã€‚ */
+    /** wait‚µ‚½Û‚Ìî•ñ‚ğ‹L˜^‚·‚éB */
     private static ThreadLocal<WaitMonitorInfo> waitMonitorInfo__ = createWaitMonitorInfo();
 
-    /** åˆæœŸåŒ–æ¸ˆã¿ã‹ã©ã†ã‹ã€‚ */
+    /** ‰Šú‰»Ï‚İ‚©‚Ç‚¤‚©B */
     private static boolean initialized__ = false;
 
     /**
-     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
      */
     private WaitMonitor()
     {
@@ -58,9 +58,9 @@ public class WaitMonitor
     }
 
     /**
-     * WaitMonitorInfoã‚’ç”Ÿæˆã™ã‚‹ã€‚
+     * WaitMonitorInfo‚ğ¶¬‚·‚éB
      * 
-     * @return WaitMonitorInfoã€‚
+     * @return WaitMonitorInfoB
      */
     private static ThreadLocal<WaitMonitorInfo> createWaitMonitorInfo()
     {
@@ -74,15 +74,15 @@ public class WaitMonitor
     }
 
     /**
-     * ThreadMXBeanã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
+     * ThreadMXBean‚ğ‰Šú‰»‚·‚éB
      */
     private static void init()
     {
     }
 
     /**
-     * waitã™ã‚‹å‰ã«å‘¼ã³å‡ºã•ã‚Œã‚‹ã€‚
-     * é–‹å§‹æ™‚åˆ»ã‚’è¨˜éŒ²ã™ã‚‹ã€‚
+     * wait‚·‚é‘O‚ÉŒÄ‚Ño‚³‚ê‚éB
+     * ŠJn‚ğ‹L˜^‚·‚éB
      */
     public static void preProcess()
     {
@@ -95,12 +95,12 @@ public class WaitMonitor
     }
 
     /**
-     * waitã—ãŸå¾Œã«å‘¼ã³å‡ºã•ã‚Œã‚‹ã€‚
-     * CallTreeNodeã«æƒ…å ±ã‚’è¿½åŠ ã™ã‚‹ã€‚
-     * è¿½åŠ ã™ã‚‹æƒ…å ±ã¯ä»¥ä¸‹ã®é€šã‚Šã€‚
+     * wait‚µ‚½Œã‚ÉŒÄ‚Ño‚³‚ê‚éB
+     * CallTreeNode‚Éî•ñ‚ğ’Ç‰Á‚·‚éB
+     * ’Ç‰Á‚·‚éî•ñ‚ÍˆÈ‰º‚Ì’Ê‚èB
      * <ul>
-     * <li>wait.duration.ã‚·ãƒ¼ã‚±ãƒ³ã‚¹ç•ªå· waitã—ãŸæ™‚é–“(ãƒŸãƒªç§’)ã€‚</li>
-     * <li>wait.stackTrace.ã‚·ãƒ¼ã‚±ãƒ³ã‚¹ç•ªå· waitã—ãŸç®‡æ‰€ã®ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã€‚</li>
+     * <li>wait.duration.ƒV[ƒPƒ“ƒX”Ô† wait‚µ‚½ŠÔ(ƒ~ƒŠ•b)B</li>
+     * <li>wait.stackTrace.ƒV[ƒPƒ“ƒX”Ô† wait‚µ‚½‰ÓŠ‚ÌƒXƒ^ƒbƒNƒgƒŒ[ƒXB</li>
      * </ul> 
      */
     public static void postProcess()
@@ -125,11 +125,11 @@ public class WaitMonitor
     }
 
     /**
-     * ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±ã‚’æ–‡å­—åˆ—ã«å¤‰æ›ã™ã‚‹ã€‚
+     * ƒXƒŒƒbƒhî•ñ‚ğ•¶š—ñ‚É•ÏŠ·‚·‚éB
      * 
-     * @param threadId ã‚¹ãƒ¬ãƒƒãƒ‰IDã€‚
-     * @param threadInfo ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±ã€‚
-     * @return ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±æ–‡å­—åˆ—ã€‚
+     * @param threadId ƒXƒŒƒbƒhIDB
+     * @param threadInfo ƒXƒŒƒbƒhî•ñB
+     * @return ƒXƒŒƒbƒhî•ñ•¶š—ñB
      */
     public static String toString(final long threadId, final ThreadInfo threadInfo)
     {
@@ -137,12 +137,12 @@ public class WaitMonitor
     }
 
     /**
-     * ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±ã‚’æ–‡å­—åˆ—ã«å¤‰æ›ã™ã‚‹ã€‚
+     * ƒXƒŒƒbƒhî•ñ‚ğ•¶š—ñ‚É•ÏŠ·‚·‚éB
      * 
-     * @param threadId ã‚¹ãƒ¬ãƒƒãƒ‰IDã€‚
-     * @param threadInfo ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±ã€‚
-     * @param stacktraces ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã€‚
-     * @return ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±æ–‡å­—åˆ—ã€‚
+     * @param threadId ƒXƒŒƒbƒhIDB
+     * @param threadInfo ƒXƒŒƒbƒhî•ñB
+     * @param stacktraces ƒXƒ^ƒbƒNƒgƒŒ[ƒXB
+     * @return ƒXƒŒƒbƒhî•ñ•¶š—ñB
      */
     public static String toString(final long threadId, final ThreadInfo threadInfo,
             final StackTraceElement[] stacktraces)
@@ -176,9 +176,9 @@ public class WaitMonitor
     }
 
     /**
-     * ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’æ–‡å­—åˆ—ã«å¤‰æ›ã™ã‚‹ã€‚
+     * ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğ•¶š—ñ‚É•ÏŠ·‚·‚éB
      *  
-     * @return ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹æ–‡å­—åˆ—ã€‚
+     * @return ƒXƒ^ƒbƒNƒgƒŒ[ƒX•¶š—ñB
      */
     private static String getStackTrace()
     {
@@ -194,9 +194,9 @@ public class WaitMonitor
     }
 
     /**
-     * WaitMonitorInfoã‚’å–å¾—ã™ã‚‹ã€‚
+     * WaitMonitorInfo‚ğæ“¾‚·‚éB
      * 
-     * @return WaitMonitorInfoã€‚
+     * @return WaitMonitorInfoB
      */
     private static WaitMonitorInfo getMonitorInfo()
     {

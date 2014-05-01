@@ -28,22 +28,22 @@ package jp.co.acroquest.endosnipe.collector.config;
 import jp.co.acroquest.endosnipe.collector.exception.InitializeException;
 
 /**
- * Javelin ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆã¸ã®æ¥ç¶šè¨­å®šã‚’ä¿æŒã™ã‚‹ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+ * Javelin ƒG[ƒWƒFƒ“ƒg‚Ö‚ÌÚ‘±İ’è‚ğ•Û‚·‚éƒNƒ‰ƒX‚Å‚·B<br />
  * 
  * @author y-komori
  */
 public class AgentSetting
 {
-    /** æ¥ç¶šå…ˆãƒãƒ¼ãƒˆç•ªå·ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** Ú‘±æƒ|[ƒg”Ô†‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final int        DEF_PORT                              = 18000;
 
-    /** BottleneckEye ã‹ã‚‰ã®æ¥ç¶šå¾…ã¡å—ã‘ãƒãƒ¼ãƒˆç•ªå·ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** BottleneckEye ‚©‚ç‚ÌÚ‘±‘Ò‚¿ó‚¯ƒ|[ƒg”Ô†‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final int        DEF_ACCEPT_PORT                       = DEF_PORT + 10000;
 
-    /** Javelinãƒ­ã‚°ã®æœ€å¤§è“„ç©æœŸé–“ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** JavelinƒƒO‚ÌÅ‘å’~ÏŠúŠÔ‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final String     DEF_JVN_LOG_STRAGE_PERIOD             = "7d";
 
-    /** è¨ˆæ¸¬ãƒ‡ãƒ¼ã‚¿ã®æœ€å¤§è“„ç©æœŸé–“ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** Œv‘ªƒf[ƒ^‚ÌÅ‘å’~ÏŠúŠÔ‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final String     DEF_MEASUREMENT_JVN_LOG_STRAGE_PERIOD = "7d";
 
     public static final String     NONE                                  = "NONE";
@@ -52,36 +52,36 @@ public class AgentSetting
 
     public static final PeriodUnit DEF_PERIOD_UNIT                       = PeriodUnit.DAY;
 
-    /** 1æ—¥ã®æ™‚é–“æ•° */
+    /** 1“ú‚ÌŠÔ” */
     public static final int        HOURS_PER_DAY                         = 24;
 
-    /** ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆ ID */
+    /** ƒG[ƒWƒFƒ“ƒg ID */
     public int                      agentId;
 
-    /** ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å */
+    /** ƒf[ƒ^ƒx[ƒX–¼ */
     public String                   databaseName;
 
-    /** æ¥ç¶šå…ˆãƒ›ã‚¹ãƒˆå */
+    /** Ú‘±æƒzƒXƒg–¼ */
     public String                   hostName;
 
-    /** æ¥ç¶šå…ˆãƒãƒ¼ãƒˆç•ªå· */
+    /** Ú‘±æƒ|[ƒg”Ô† */
     public int                      port                                  = DEF_PORT;
 
-    /** BottleneckEye ã‹ã‚‰ã®æ¥ç¶šå¾…ã¡å—ã‘ãƒãƒ¼ãƒˆç•ªå· */
+    /** BottleneckEye ‚©‚ç‚ÌÚ‘±‘Ò‚¿ó‚¯ƒ|[ƒg”Ô† */
     public int                      acceptPort                            = DEF_ACCEPT_PORT;
 
-    /** Javelinãƒ­ã‚°ã®æœ€å¤§è“„ç©æœŸé–“ */
+    /** JavelinƒƒO‚ÌÅ‘å’~ÏŠúŠÔ */
     public String                   jvnLogStragePeriod                    =
                                                                             DEF_JVN_LOG_STRAGE_PERIOD;
 
-    /** è¨ˆæ¸¬ãƒ‡ãƒ¼ã‚¿ã®æœ€å¤§è“„ç©ä»¶æ•° */
+    /** Œv‘ªƒf[ƒ^‚ÌÅ‘å’~ÏŒ” */
     public String                   measureStragePeriod                   =
                                                                             DEF_MEASUREMENT_JVN_LOG_STRAGE_PERIOD;
 
-    /** Javelinãƒ­ã‚°ã®è“„ç©æœŸé–“(å˜ä½) */
+    /** JavelinƒƒO‚Ì’~ÏŠúŠÔ(’PˆÊ) */
     private PeriodUnit              jvnLogStragePeriodUnit_;
 
-    /** è¨ˆæ¸¬ãƒ‡ãƒ¼ã‚¿ã®è“„ç©æœŸé–“(å˜ä½) */
+    /** Œv‘ªƒf[ƒ^‚Ì’~ÏŠúŠÔ(’PˆÊ) */
     private PeriodUnit              measureStragePeriodUnit_;
 
     /**
@@ -94,10 +94,10 @@ public class AgentSetting
     }
 
     /**
-     * Javelinãƒ­ã‚°ã®è“„ç©æœŸé–“(å€¤)ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * JavelinƒƒO‚Ì’~ÏŠúŠÔ(’l)‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return Javelinãƒ­ã‚°ã®è“„ç©æœŸé–“(å€¤)
-     * @throws InitializeException ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®åˆæœŸåŒ–ã«å¤±æ•—ã—ãŸå ´åˆ
+     * @return JavelinƒƒO‚Ì’~ÏŠúŠÔ(’l)
+     * @throws InitializeException ƒpƒ‰ƒ[ƒ^‚Ì‰Šú‰»‚É¸”s‚µ‚½ê‡
      */
     public int getJavelinRotatePeriod()
         throws InitializeException
@@ -132,7 +132,7 @@ public class AgentSetting
             }
             else if ("h".equals(storagePriodUnitStr))
             {
-                // æ™‚é–“å˜ä½ã§è¨˜è¿°ã•ã‚Œã¦ã„ã‚‹å ´åˆã¯ã€æ—¥ä»˜å˜ä½ã«åˆ‡ã‚Šä¸Šã’ã‚‹
+                // ŠÔ’PˆÊ‚Å‹Lq‚³‚ê‚Ä‚¢‚éê‡‚ÍA“ú•t’PˆÊ‚ÉØ‚èã‚°‚é
                 this.jvnLogStragePeriodUnit_ = PeriodUnit.DAY;
                 storagePeriod = (storagePeriod + HOURS_PER_DAY - 1) / HOURS_PER_DAY;
             }
@@ -149,9 +149,9 @@ public class AgentSetting
     }
 
     /**
-     * Javelinãƒ­ã‚°ã®è“„ç©æœŸé–“(å˜ä½)ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * JavelinƒƒO‚Ì’~ÏŠúŠÔ(’PˆÊ)‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return Javelinãƒ­ã‚°ã®è“„ç©æœŸé–“(å˜ä½)
+     * @return JavelinƒƒO‚Ì’~ÏŠúŠÔ(’PˆÊ)
      */
     public PeriodUnit getJavelinRotatePeriodUnit()
     {
@@ -159,10 +159,10 @@ public class AgentSetting
     }
 
     /**
-     * è¨ˆæ¸¬ãƒ‡ãƒ¼ã‚¿ã®è“„ç©æœŸé–“(å€¤)ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * Œv‘ªƒf[ƒ^‚Ì’~ÏŠúŠÔ(’l)‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return è¨ˆæ¸¬ãƒ‡ãƒ¼ã‚¿ã®è“„ç©æœŸé–“(å€¤)
-     * @throws InitializeException ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®åˆæœŸåŒ–ã«å¤±æ•—ã—ãŸå ´åˆ
+     * @return Œv‘ªƒf[ƒ^‚Ì’~ÏŠúŠÔ(’l)
+     * @throws InitializeException ƒpƒ‰ƒ[ƒ^‚Ì‰Šú‰»‚É¸”s‚µ‚½ê‡
      */
     public int getMeasurementRotatePeriod()
         throws InitializeException
@@ -197,7 +197,7 @@ public class AgentSetting
             }
             else if ("h".equals(storagePriodUnitStr))
             {
-                // æ™‚é–“å˜ä½ã§è¨˜è¿°ã•ã‚Œã¦ã„ã‚‹å ´åˆã¯ã€æ—¥ä»˜å˜ä½ã«åˆ‡ã‚Šä¸Šã’ã‚‹
+                // ŠÔ’PˆÊ‚Å‹Lq‚³‚ê‚Ä‚¢‚éê‡‚ÍA“ú•t’PˆÊ‚ÉØ‚èã‚°‚é
                 this.measureStragePeriodUnit_ = PeriodUnit.DAY;
                 storagePeriod = (storagePeriod + HOURS_PER_DAY - 1) / HOURS_PER_DAY;
             }
@@ -214,9 +214,9 @@ public class AgentSetting
     }
 
     /**
-     * è¨ˆæ¸¬ãƒ‡ãƒ¼ã‚¿ã®è“„ç©æœŸé–“(å˜ä½)ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * Œv‘ªƒf[ƒ^‚Ì’~ÏŠúŠÔ(’PˆÊ)‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return è¨ˆæ¸¬ãƒ‡ãƒ¼ã‚¿ã®è“„ç©æœŸé–“(å˜ä½)
+     * @return Œv‘ªƒf[ƒ^‚Ì’~ÏŠúŠÔ(’PˆÊ)
      */
     public PeriodUnit getMeasurementRotatePeriodUnit()
     {

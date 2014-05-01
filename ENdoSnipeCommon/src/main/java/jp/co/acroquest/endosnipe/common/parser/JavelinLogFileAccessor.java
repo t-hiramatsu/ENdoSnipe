@@ -32,16 +32,16 @@ import java.io.InputStream;
 import jp.co.acroquest.endosnipe.common.parser.JavelinLogAccessor;
 
 /**
- * Javelin ãƒ­ã‚°ã‚’ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰å–å¾—ã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚<br />
+ * Javelin ƒƒO‚ğƒtƒ@ƒCƒ‹‚©‚çæ“¾‚·‚éƒNƒ‰ƒXB<br />
  *
  * @author y-sakamoto
  */
 public class JavelinLogFileAccessor extends JavelinLogAccessor
 {
     /**
-     * ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ Javelin ãƒ­ã‚°ã‚’å–å¾—ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã—ã¾ã™ã€‚
+     * ƒtƒ@ƒCƒ‹‚©‚ç Javelin ƒƒO‚ğæ“¾‚·‚éƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‚Ü‚·B
      *
-     * @param fileName ãƒ•ã‚¡ã‚¤ãƒ«å
+     * @param fileName ƒtƒ@ƒCƒ‹–¼
      */
     public JavelinLogFileAccessor(final String fileName)
     {

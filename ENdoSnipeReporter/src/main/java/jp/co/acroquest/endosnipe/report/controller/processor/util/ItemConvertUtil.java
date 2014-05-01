@@ -23,37 +23,38 @@ import jp.co.acroquest.endosnipe.report.entity.ItemData;
 import jp.co.acroquest.endosnipe.report.entity.ItemRecord;
 
 /**
- * è¤‡æ•°ç³»åˆ—ã®ã‚°ãƒ©ãƒ•ã«å¯¾ã—ã¦ã€converter ã‚’é©ç”¨ã™ã‚‹ã‚¯ãƒ©ã‚¹
+ * •¡”Œn—ñ‚ÌƒOƒ‰ƒt‚É‘Î‚µ‚ÄAconverter ‚ğ“K—p‚·‚éƒNƒ‰ƒX
  * 
  * @author ochiai
  */
 public class ItemConvertUtil
 {
 	/**
-	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 	 */
 	private ItemConvertUtil()
 	{
 	}
 
 	/**
-	 * ç³»åˆ—ãƒ‡ãƒ¼ã‚¿ã€æœŸé–“ã‚’æŒ‡å®šã—ã€ãã®æœŸé–“å†…ã§ã®<br/>
-	 * ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã€‚
+	 * Œn—ñƒf[ƒ^AŠúŠÔ‚ğw’è‚µA‚»‚ÌŠúŠÔ“à‚Å‚Ì<br/>
+	 * ƒf[ƒ^‚ğæ“¾‚·‚éB
 	 * 
 	 * @param itemData
-	 *            ç³»åˆ—ãƒ‡ãƒ¼ã‚¿ã€‚
+	 *            Œn—ñƒf[ƒ^B
 	 * @param startTime
-	 *            æ¤œç´¢æ¡ä»¶(é–‹å§‹æ™‚åˆ»)ã€‚
+	 *            ŒŸõğŒ(ŠJn)B
 	 * @param endTime
-	 *            æ¤œç´¢æ¡ä»¶(çµ‚äº†æ™‚åˆ»)ã€‚
-	 * @return æŒ‡å®šã—ãŸã‚°ãƒ©ãƒ•ã®ãƒ‡ãƒ¼ã‚¿ã€‚
+	 *            ŒŸõğŒ(I—¹)B
+	 * @return w’è‚µ‚½ƒOƒ‰ƒt‚Ìƒf[ƒ^B
 	 */
-	public static ItemData convertItemData(ItemData itemData, Timestamp startTime, Timestamp endTime)
+	public static ItemData convertItemData(
+			ItemData itemData, Timestamp startTime, Timestamp endTime)
 	{
 		ItemData convertedData = new ItemData();
 		List<ItemRecord> convertedRecords = new ArrayList<ItemRecord>();
 
-		// åœ§ç¸®å‰ã®ãƒ‡ãƒ¼ã‚¿
+		// ˆ³k‘O‚Ìƒf[ƒ^
 		List<ItemRecord> rawRecords = itemData.getRecords();
 
 		SamplingCompressor compresser = new SamplingCompressor();
@@ -62,20 +63,22 @@ public class ItemConvertUtil
 
 		List<CompressOperation> operation = new ArrayList<CompressOperation>();
 
-		// æœ€å¤§ã€æœ€å°ã‚’æ±‚ã‚ã‚‹åœ§ç¸®æ–¹æ³•
-		operation.add(new CompressOperation("value", itemData.getOperator()));
+		// Å‘åAÅ¬‚ğ‹‚ß‚éˆ³k•û–@
+		operation.add(new CompressOperation("value",
+				itemData.getOperator()));
 
 		try
 		{
-			compressedRecords = compresser.compressSamplingList(rawRecords, startTime, endTime,
-				"measurementTime", operation, ItemRecord.class);
+			compressedRecords = compresser.compressSamplingList(
+					rawRecords, startTime, endTime,
+					"measurementTime", operation, ItemRecord.class);
 		}
 		catch (Exception e)
 		{
 			throw new RuntimeException(e);
 		}
 
-		// ItemRecordã®é…åˆ—ã«å¤‰æ›ã™ã‚‹
+		// ItemRecord‚Ì”z—ñ‚É•ÏŠ·‚·‚é
 		for (int index = 0; index < compressedRecords.size(); index++)
 		{
 			ItemRecord itemRecord = (ItemRecord) compressedRecords.get(index);
@@ -89,24 +92,25 @@ public class ItemConvertUtil
 	}
 
 	/**
-	 * ç³»åˆ—ãƒ‡ãƒ¼ã‚¿ã®ãƒªã‚¹ãƒˆã€æœŸé–“ã‚’æŒ‡å®šã—ã€<br/>
-	 * ãã®æœŸé–“å†…ã§ã®ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã€‚
+	 * Œn—ñƒf[ƒ^‚ÌƒŠƒXƒgAŠúŠÔ‚ğw’è‚µA<br/>
+	 * ‚»‚ÌŠúŠÔ“à‚Å‚Ìƒf[ƒ^‚ğæ“¾‚·‚éB
 	 * 
 	 * @param itemDataList
-	 *            ç³»åˆ—ãƒ‡ãƒ¼ã‚¿ã®ãƒªã‚¹ãƒˆã€‚
+	 *            Œn—ñƒf[ƒ^‚ÌƒŠƒXƒgB
 	 * @param startTime
-	 *            æ¤œç´¢æ¡ä»¶(é–‹å§‹æ™‚åˆ»)ã€‚
+	 *            ŒŸõğŒ(ŠJn)B
 	 * @param endTime
-	 *            æ¤œç´¢æ¡ä»¶(çµ‚äº†æ™‚åˆ»)ã€‚
-	 * @return æŒ‡å®šã—ãŸã‚°ãƒ©ãƒ•ã®ãƒ‡ãƒ¼ã‚¿ã€‚
+	 *            ŒŸõğŒ(I—¹)B
+	 * @return w’è‚µ‚½ƒOƒ‰ƒt‚Ìƒf[ƒ^B
 	 */
-	public static List<ItemData> convertItemDataList(List<ItemData> itemDataList,
-		Timestamp startTime, Timestamp endTime)
+	public static List<ItemData> convertItemDataList(
+			List<ItemData> itemDataList, Timestamp startTime, Timestamp endTime)
 	{
 		List<ItemData> result = new ArrayList<ItemData>();
 		for (ItemData itemData : itemDataList)
 		{
-			ItemData convertedData = convertItemData(itemData, startTime, endTime);
+			ItemData convertedData =
+				convertItemData(itemData, startTime, endTime);
 			result.add(convertedData);
 		}
 		return result;

@@ -42,442 +42,426 @@ import jp.co.acroquest.endosnipe.data.db.SQLExecutor;
 import jp.co.acroquest.endosnipe.util.ResourceDataDaoUtil;
 
 /**
- * ENdoSnipe ç”¨ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚’åˆæœŸåŒ–ã™ã‚‹ãŸã‚ã®ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+ * ENdoSnipe —pƒf[ƒ^ƒx[ƒX‚ğ‰Šú‰»‚·‚é‚½‚ß‚ÌƒNƒ‰ƒX‚Å‚·B<br />
  * 
  * @author y-komori
  */
 public class DBInitializer
 {
-    private static final String DDL_PATH = "/ddl/ENdoSnipe.ddl";
+	private static final String DDL_PATH = "/ddl/ENdoSnipe.ddl";
 
-    private static final String POSTGRES_DDL_PATH = "/ddl/ENdoSnipe_PostgreSQL.ddl";
+	private static final String POSTGRES_DDL_PATH = "/ddl/ENdoSnipe_PostgreSQL.ddl";
 
-    private static final String DDL_SEQUENCE_PATH = "/ddl/ENdoSnipeSequence.ddl";
+	private static final String DDL_SEQUENCE_PATH = "/ddl/ENdoSnipeSequence.ddl";
 
-    private static final String H2_FUNC_PATH = "/func/h2_func.sql";
+	private static final String H2_FUNC_PATH = "/func/h2_func.sql";
 
-    private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(DBInitializer.class);
+	private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(
+			DBInitializer.class);
 
-    /** PostgreSQLãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®ãƒ‰ãƒ©ã‚¤ãƒã‚¯ãƒ©ã‚¹åç§° */
-    private static final String POSTGRES_DRIVER = "org.postgresql.Driver";
+	/** PostgreSQLƒf[ƒ^ƒx[ƒX‚Ìƒhƒ‰ƒCƒoƒNƒ‰ƒX–¼Ì */
+	private static final String POSTGRES_DRIVER = "org.postgresql.Driver";
 
-    /** PostgreSQLæ¥ç¶šç”¨URIã®ãƒ—ãƒ¬ãƒ•ã‚£ã‚¯ã‚¹ */
-    private static final String POSTGRES_URI_PREFIX = "jdbc:postgresql://";
+	/** PostgreSQLÚ‘±—pURI‚ÌƒvƒŒƒtƒBƒNƒX */
+	private static final String POSTGRES_URI_PREFIX = "jdbc:postgresql://";
 
-    private DBInitializer()
-    {
-        // Do nothing.
-    }
+	private DBInitializer()
+	{
+		// Do nothing.
+	}
 
-    /**
-     * æ¥ç¶šã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãŒåˆæœŸåŒ–æ¸ˆã¿ã‹ã©ã†ã‹ã‚’èª¿ã¹ã¾ã™ã€‚<br />
-     * 
-     * @param con
-     *            ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³
-     * @return åˆæœŸåŒ–æ¸ˆã¿ã®å ´åˆã¯ <code>true</code>ã€ãã†ã§ãªã„å ´åˆã¯ <code>false</code>ã€‚
-     */
-    public static boolean isInitialized(final Connection con)
-    {
-        if (con == null)
-        {
-            return false;
-        }
+	/**
+	 * Ú‘±‚³‚ê‚½ƒf[ƒ^ƒx[ƒX‚ª‰Šú‰»Ï‚İ‚©‚Ç‚¤‚©‚ğ’²‚×‚Ü‚·B<br />
+	 * 
+	 * @param con
+	 *            ƒRƒlƒNƒVƒ‡ƒ“
+	 * @return ‰Šú‰»Ï‚İ‚Ìê‡‚Í <code>true</code>A‚»‚¤‚Å‚È‚¢ê‡‚Í <code>false</code>B
+	 */
+	public static boolean isInitialized(final Connection con)
+	{
+		if (con == null)
+		{
+			return false;
+		}
 
-        boolean initialized = false;
-        String sql = null;
+		boolean initialized = false;
+		String sql = null;
 
-        if (DBManager.isDefaultDb())
-        {
-            sql = "SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE='TABLE'";
-        }
-        else
-        {
-            sql = "SELECT last_value FROM SEQ_LOG_ID";
-        }
-        Statement stmt = null;
-        ResultSet rs = null;
-        try
-        {
-            stmt = con.createStatement();
-            rs = stmt.executeQuery(sql);
-            if (rs.next() == true)
-            {
-                initialized = true;
-            }
-        }
-        catch (SQLException ex)
-        {
-            // åˆæœŸåŒ–ã•ã‚Œã¦ã„ãªã„å ´åˆã«ä¾‹å¤–ãŒç™ºç”Ÿã™ã‚‹ãŸã‚ã€
-            // INFOä»¥ä¸Šã§ã®å‡ºåŠ›ã¨ã™ã‚‹ã€‚
-            if (LOGGER.isInfoEnabled())
-            {
-                LOGGER.log(LogMessageCodes.DB_ACCESS_ERROR, ex, ex.getMessage());
-            }
-        }
-        finally
-        {
-            SQLUtil.closeResultSet(rs);
-            SQLUtil.closeStatement(stmt);
-        }
-        return initialized;
-    }
+		if (DBManager.isDefaultDb())
+		{
+			sql = "SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE='TABLE'";
+		}
+		else
+		{
+			sql = "SELECT last_value FROM SEQ_LOG_ID";
+		}
+		Statement stmt = null;
+		ResultSet rs = null;
+		try
+		{
+			stmt = con.createStatement();
+			rs = stmt.executeQuery(sql);
+			if (rs.next() == true)
+			{
+				initialized = true;
+			}
+		}
+		catch (SQLException ex)
+		{
+			// ‰Šú‰»‚³‚ê‚Ä‚¢‚È‚¢ê‡‚É—áŠO‚ª”­¶‚·‚é‚½‚ßA
+			// INFOˆÈã‚Å‚Ìo—Í‚Æ‚·‚éB
+			if (LOGGER.isInfoEnabled())
+			{
+				LOGGER
+						.log(LogMessageCodes.DB_ACCESS_ERROR, ex, ex
+								.getMessage());
+			}
+		}
+		finally
+		{
+			SQLUtil.closeResultSet(rs);
+			SQLUtil.closeStatement(stmt);
+		}
+		return initialized;
+	}
 
-    /**
-     * æ¥ç¶šã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®åˆæœŸåŒ–ã‚’è¡Œã„ã¾ã™ã€‚<br />
-     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãŒåˆæœŸåŒ–æ¸ˆã¿ã®å ´åˆã¯ä½•ã‚‚è¡Œã„ã¾ã›ã‚“ã€‚<br />
-     * 
-     * @param con
-     *            ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³
-     * @throws SQLException
-     *             SQLç™ºè¡Œã«å¤±æ•—ã—ãŸå ´åˆ
-     * @throws IOException
-     *             å…¥å‡ºåŠ›ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
-     */
-    public static void initialize(final Connection con)
-        throws SQLException,
-            IOException
-    {
-        if (isInitialized(con) == true)
-        {
-            return;
-        }
+	/**
+	 * Ú‘±‚³‚ê‚½ƒf[ƒ^ƒx[ƒX‚Ì‰Šú‰»‚ğs‚¢‚Ü‚·B<br />
+	 * ƒf[ƒ^ƒx[ƒX‚ª‰Šú‰»Ï‚İ‚Ìê‡‚Í‰½‚às‚¢‚Ü‚¹‚ñB<br />
+	 * 
+	 * @param con
+	 *            ƒRƒlƒNƒVƒ‡ƒ“
+	 * @throws SQLException
+	 *             SQL”­s‚É¸”s‚µ‚½ê‡
+	 * @throws IOException
+	 *             “üo—ÍƒGƒ‰[‚ª”­¶‚µ‚½ê‡
+	 */
+	public static void initialize(final Connection con) throws SQLException,
+			IOException
+	{
+		if (isInitialized(con) == true)
+		{
+			return;
+		}
 
-        H2DBUtil.executeDDL(con, DDL_SEQUENCE_PATH);
-        if (DBManager.isDefaultDb())
-        {
-            H2DBUtil.executeDDL(con, DDL_PATH);
-        }
-        else
-        {
-            H2DBUtil.executeDDL(con, POSTGRES_DDL_PATH);
+		H2DBUtil.executeDDL(con, DDL_SEQUENCE_PATH);
+		if (DBManager.isDefaultDb())
+		{
+			H2DBUtil.executeDDL(con, DDL_PATH);
+		}
+		else
+		{
+			H2DBUtil.executeDDL(con, POSTGRES_DDL_PATH);
 
-            // ç¾åœ¨ã®ãƒ‡ãƒ¼ã‚¿ã‚’æŒ¿å…¥ã™ã‚‹ãƒ†ãƒ¼ãƒ–ãƒ«ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
-            int startIndex = ResourceDataDaoUtil.getTableIndexToInsert(null);
+			// Œ»İ‚Ìƒf[ƒ^‚ğ‘}“ü‚·‚éƒe[ƒuƒ‹ƒCƒ“ƒfƒbƒNƒX
+			int startIndex = ResourceDataDaoUtil.getTableIndexToInsert(null);
 
-            // ä»Šå¹´ã®è¥¿æš¦
-            Calendar currentYearCalendar = Calendar.getInstance();
-            int currentYear = currentYearCalendar.get(Calendar.YEAR);
+			// ¡”N‚Ì¼—ï
+			Calendar currentYearCalendar = Calendar.getInstance();
+			int currentYear = currentYearCalendar.get(Calendar.YEAR);
 
-            // ãƒ‘ãƒ¼ãƒ†ã‚£ã‚·ãƒ§ãƒ‹ãƒ³ã‚°ç”¨ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ä½œæˆã™ã‚‹ï¼ˆMEASUREMENT_VALUEã€JAVELIN_LOGãƒ†ãƒ¼ãƒ–ãƒ«ï¼‰
-            for (int index = 1; index <= ResourceDataDaoUtil.PARTITION_TABLE_COUNT; index++)
-            {
-                int year;
-                if (index < startIndex)
-                {
-                    // ç¾åœ¨ã®ãƒ‡ãƒ¼ã‚¿ã‚’æŒ¿å…¥ã™ã‚‹ãƒ†ãƒ¼ãƒ–ãƒ«ã‚ˆã‚Šã‚‚å‰ã®ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ä½œæˆã™ã‚‹å ´åˆã€
-                    // CHECKåˆ¶ç´„ã«å…¥ã‚Œã‚‹æ™‚åˆ»ã®ç¯„å›²ã¯ç¿Œå¹´ã®å€¤ã‚’å…¥ã‚Œã‚‹
-                    year = currentYear + 1;
-                }
-                else
-                {
-                    // ç¾åœ¨ã®ãƒ‡ãƒ¼ã‚¿ã‚’æŒ¿å…¥ã™ã‚‹ãƒ†ãƒ¼ãƒ–ãƒ«ä»¥é™ã®ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ä½œæˆã™ã‚‹å ´åˆã€
-                    // CHECKåˆ¶ç´„ã«å…¥ã‚Œã‚‹æ™‚åˆ»ã®ç¯„å›²ã¯ä»Šå¹´ã®å€¤ã‚’å…¥ã‚Œã‚‹
-                    year = currentYear;
-                }
+			// ƒp[ƒeƒBƒVƒ‡ƒjƒ“ƒO—pƒe[ƒuƒ‹‚ğì¬‚·‚éiMEASUREMENT_VALUEAJAVELIN_LOGƒe[ƒuƒ‹j
+			for (int index = 1;
+				index <= ResourceDataDaoUtil.PARTITION_TABLE_COUNT; index++)
+			{
+				int year;
+				if (index < startIndex)
+				{
+					// Œ»İ‚Ìƒf[ƒ^‚ğ‘}“ü‚·‚éƒe[ƒuƒ‹‚æ‚è‚à‘O‚Ìƒe[ƒuƒ‹‚ğì¬‚·‚éê‡A
+					// CHECK§–ñ‚É“ü‚ê‚é‚Ì”ÍˆÍ‚Í—‚”N‚Ì’l‚ğ“ü‚ê‚é
+					year = currentYear + 1;
+				}
+				else
+				{
+					// Œ»İ‚Ìƒf[ƒ^‚ğ‘}“ü‚·‚éƒe[ƒuƒ‹ˆÈ~‚Ìƒe[ƒuƒ‹‚ğì¬‚·‚éê‡A
+					// CHECK§–ñ‚É“ü‚ê‚é‚Ì”ÍˆÍ‚Í¡”N‚Ì’l‚ğ“ü‚ê‚é
+					year = currentYear;
+				}
 
-                createMeasurementValueTable(con, index, year);
-                createJavelinLogTable(con, index, year);
-                createPerfDoctorResultTable(con, index, year);
-                createReportExportResultTable(con, index, year);
-                createSqlPlanTable(con, index, year);
-            }
-        }
-        // MEASUREMENT_INFOãƒ†ãƒ¼ãƒ–ãƒ«ã‚’å‰Šé™¤ã—ãŸã®ã§ã€åˆæœŸãƒ‡ãƒ¼ã‚¿æŠ•å…¥ã‚‚ã—ãªã„
-        // initMeasurementInfoFromTsv(con, TSV_MEASUREMENT_INFO_PATH);
+				createMeasurementValueTable(con, index, year);
+				createJavelinLogTable(con, index, year);
+			}
+		}
+		// MEASUREMENT_INFOƒe[ƒuƒ‹‚ğíœ‚µ‚½‚Ì‚ÅA‰Šúƒf[ƒ^“Š“ü‚à‚µ‚È‚¢
+		// initMeasurementInfoFromTsv(con, TSV_MEASUREMENT_INFO_PATH);
 
-    }
+	}
 
-    /**
-     * æ¥ç¶šã®åº¦ã«å¿…è¦ãªåˆæœŸåŒ–ã‚’è¡Œã„ã¾ã™ã€‚
-     * 
-     * @param con
-     *            ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³
-     * @throws SQLException
-     *             SQLç™ºè¡Œã«å¤±æ•—ã—ãŸå ´åˆ
-     * @throws IOException
-     *             å…¥å‡ºåŠ›ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
-     */
-    public static void reinitialize(Connection con)
-        throws SQLException,
-            IOException
-    {
-        initialize(con);
-        if (DBManager.isDefaultDb())
-        {
-            H2DBUtil.executeDDL(con, H2_FUNC_PATH);
-        }
-    }
+	/**
+	 * Ú‘±‚Ì“x‚É•K—v‚È‰Šú‰»‚ğs‚¢‚Ü‚·B
+	 * 
+	 * @param con
+	 *            ƒRƒlƒNƒVƒ‡ƒ“
+	 * @throws SQLException
+	 *             SQL”­s‚É¸”s‚µ‚½ê‡
+	 * @throws IOException
+	 *             “üo—ÍƒGƒ‰[‚ª”­¶‚µ‚½ê‡
+	 */
+	public static void reinitialize(Connection con) throws SQLException,
+			IOException
+	{
+		initialize(con);
+		if (DBManager.isDefaultDb())
+		{
+			H2DBUtil.executeDDL(con, H2_FUNC_PATH);
+		}
+		// MEASUREMENT_INFOƒe[ƒuƒ‹‚ğíœ‚µ‚½‚Ì‚ÅA‰Šúƒf[ƒ^“Š“ü‚à‚µ‚È‚¢
+		// initMeasurementInfoFromTsv(con, TSV_MEASUREMENT_INFO_PATH);
+	}
 
-    /**
-     * CHECK åˆ¶ç´„åã‚’ç”Ÿæˆã—ã¾ã™ã€‚
-     * 
-     * @param tableName
-     *            ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚‚å«ã‚ãŸãƒ†ãƒ¼ãƒ–ãƒ«å
-     * @param column
-     *            ã‚«ãƒ©ãƒ å
-     * @return CHECK åˆ¶ç´„å
-     */
-    public static String createCheckConstraintName(final String tableName, final String column)
-    {
-        return tableName + "_" + column + "_check";
-    }
+	// MEASUREMENT_INFOƒe[ƒuƒ‹‚ğíœ‚µ‚½‚Ì‚ÅA‰Šúƒf[ƒ^“Š“ü‚à‚µ‚È‚¢
+	// /**
+	// * ƒNƒ‰ƒXƒpƒXã‚É‘¶İ‚·‚é TSV ƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚İA MEASUREMENT_INFO ƒe[ƒuƒ‹‚Éƒf[ƒ^‚ğ‘}“ü‚µ‚Ü‚·B<br />
+	// *
+	// * @param con ƒRƒlƒNƒVƒ‡ƒ“
+	// * @param path “Ç‚İ‚Ş TSV ƒtƒ@ƒCƒ‹‚ÌƒpƒX
+	// * @throws IOException “üo—ÍƒGƒ‰[‚ª”­¶‚µ‚½ê‡
+	// * @throws SQLException SQLƒGƒ‰[‚ª”­¶‚µ‚½ê‡
+	// */
+	// public static void initMeasurementInfoFromTsv(final Connection con, final
+	// String path)
+	// throws IOException,
+	// SQLException
+	// {
+	// final int COLUMN_COUNT = 4;
+	//
+	// if (path == null)
+	// {
+	// throw new IllegalArgumentException("schemaPath can't be null");
+	// }
+	//
+	// try
+	// {
+	// MeasurementInfoDao.deleteAllWithoutJMX(con);
+	// }
+	// catch (SQLException sqle)
+	// {
+	// // ‰Šú‰»‚³‚ê‚Ä‚¢‚È‚¢ê‡‚É—áŠO‚ª”­¶‚·‚é‚½‚ßA
+	// // INFOˆÈã‚Å‚Ìo—Í‚Æ‚·‚éB
+	// if (LOGGER.isInfoEnabled())
+	// {
+	// LOGGER.log(LogMessageCodes.DB_ACCESS_ERROR, sqle, sqle.getMessage());
+	// }
+	// }
+	//        
+	// BufferedReader reader = null;
+	// try
+	// {
+	// InputStream is = H2DBUtil.class.getResourceAsStream(path);
+	// reader = new BufferedReader(new InputStreamReader(is));
+	//
+	//
+	// String line;
+	// while ((line = reader.readLine()) != null)
+	// {
+	// String[] items = line.split("\t", COLUMN_COUNT);
+	// if (items.length == COLUMN_COUNT)
+	// {
+	// // CHECKSTYLE:OFF
+	// long measurementType = Long.parseLong(items[0]);
+	// String itemName = items[1];
+	// String displayName = items[2];
+	// String description = items[3];
+	// // CHECKSTYLE:ON
+	// MeasurementInfo measurementInfo =
+	// new MeasurementInfo(measurementType, itemName, displayName, description);
+	// MeasurementInfoDao.insert(con, measurementInfo);
+	// }
+	// }
+	// }
+	// finally
+	// {
+	// reader.close();
+	// }
+	// }
 
-    /**
-     * ãƒ‘ãƒ¼ãƒ†ã‚£ã‚·ãƒ§ãƒ‹ãƒ³ã‚°ã•ã‚ŒãŸå€‹ã€…ã®ãƒ†ãƒ¼ãƒ–ãƒ«ã«å¯¾ã—ã¦è¨­å®šã™ã‚‹ CHECK åˆ¶ç´„ã®æ–‡ã‚’ç”Ÿæˆã—ã¾ã™ã€‚
-     * 
-     * @param column
-     *            åˆ¶é™ã‚’ã‹ã‘ã‚‹ã‚«ãƒ©ãƒ å
-     * @param tableIndex
-     *            ãƒ†ãƒ¼ãƒ–ãƒ«ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
-     * @param year
-     *            å¹´
-     * @return CHECK åˆ¶ç´„ã®æ–‡
-     */
-    public static String createCheckConstraintText(final String column, final int tableIndex,
-        final int year)
-    {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(year, 0, 1, 0, 0, 0);
-        calendar.add(Calendar.DATE, (tableIndex - 1) * ResourceDataDaoUtil.DAY_OF_WEEK);
-        Date startDate = calendar.getTime();
-        if (tableIndex == ResourceDataDaoUtil.PARTITION_TABLE_COUNT)
-        {
-            // æœ€å¾Œã®ãƒ†ãƒ¼ãƒ–ãƒ«ã§ã¯ã€ãƒ†ãƒ¼ãƒ–ãƒ«ã«æ ¼ç´ã™ã‚‹çµ‚äº†æ—¥ä»˜ã¯ãã®å¹´ã®12/31ï¼ˆãªã®ã§çµ‚äº†æ—¥ã¯ç¿Œå¹´ã®1/1ï¼‰
-            calendar.set(year + 1, 0, 1, 0, 0, 0);
-        }
-        else
-        {
-            calendar.add(Calendar.DATE, ResourceDataDaoUtil.DAY_OF_WEEK);
-        }
-        Date endDate = calendar.getTime();
-        String checkConstraint =
-            String
-                .format("CHECK ('%2$tY/%2$tm/%2$td' <= %1$s" + " AND %1$s < '%3$tY/%3$tm/%3$td')",
-                        column, startDate, endDate);
-        return checkConstraint;
-    }
+	/**
+	 * CHECK §–ñ–¼‚ğ¶¬‚µ‚Ü‚·B
+	 * 
+	 * @param tableName
+	 *            ƒCƒ“ƒfƒbƒNƒX‚àŠÜ‚ß‚½ƒe[ƒuƒ‹–¼
+	 * @param column
+	 *            ƒJƒ‰ƒ€–¼
+	 * @return CHECK §–ñ–¼
+	 */
+	public static String createCheckConstraintName(final String tableName,
+			final String column)
+	{
+		return tableName + "_" + column + "_check";
+	}
 
-    /**
-     * MEASUREMENT_VALUE_xx ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ä½œæˆã—ã¾ã™ã€‚
-     * 
-     * @param con
-     *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³
-     * @param index
-     *            ä½œæˆã™ã‚‹ãƒ†ãƒ¼ãƒ–ãƒ«ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
-     * @param year
-     *            è¥¿æš¦
-     * @throws SQLException
-     *             ãƒ†ãƒ¼ãƒ–ãƒ«ä½œæˆæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
-     */
-    private static void createMeasurementValueTable(final Connection con, int index, int year)
-        throws SQLException
-    {
-        // MEASUREMENT_VALUE_xx ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ä½œæˆã™ã‚‹
-        String tableName = String.format("%s_%02d", TableNames.MEASUREMENT_VALUE, index);
-        String checkConstraintName = createCheckConstraintName(tableName, "MEASUREMENT_TIME");
-        String checkConstraint = createCheckConstraintText("MEASUREMENT_TIME", index, year);
-        String createMeasurementValueSql =
-            String.format("CREATE TABLE %s (CONSTRAINT %s %s) INHERITS (%s)", tableName,
-                          checkConstraintName, checkConstraint, TableNames.MEASUREMENT_VALUE);
-        SQLExecutor.executeSQL(con, createMeasurementValueSql, null);
+	/**
+	 * ƒp[ƒeƒBƒVƒ‡ƒjƒ“ƒO‚³‚ê‚½ŒÂX‚Ìƒe[ƒuƒ‹‚É‘Î‚µ‚Äİ’è‚·‚é CHECK §–ñ‚Ì•¶‚ğ¶¬‚µ‚Ü‚·B
+	 * 
+	 * @param column
+	 *            §ŒÀ‚ğ‚©‚¯‚éƒJƒ‰ƒ€–¼
+	 * @param tableIndex
+	 *            ƒe[ƒuƒ‹ƒCƒ“ƒfƒbƒNƒX
+	 * @param year
+	 *            ”N
+	 * @return CHECK §–ñ‚Ì•¶
+	 */
+	public static String createCheckConstraintText(final String column,
+			final int tableIndex, final int year)
+	{
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(year, 0, 1, 0, 0, 0);
+		calendar.add(Calendar.DATE, (tableIndex - 1)
+				* ResourceDataDaoUtil.DAY_OF_WEEK);
+		Date startDate = calendar.getTime();
+		if (tableIndex == ResourceDataDaoUtil.PARTITION_TABLE_COUNT)
+		{
+			// ÅŒã‚Ìƒe[ƒuƒ‹‚Å‚ÍAƒe[ƒuƒ‹‚ÉŠi”[‚·‚éI—¹“ú•t‚Í‚»‚Ì”N‚Ì12/31i‚È‚Ì‚ÅI—¹“ú‚Í—‚”N‚Ì1/1j
+			calendar.set(year + 1, 0, 1, 0, 0, 0);
+		}
+		else
+		{
+			calendar.add(Calendar.DATE, ResourceDataDaoUtil.DAY_OF_WEEK);
+		}
+		Date endDate = calendar.getTime();
+		String checkConstraint = String.format(
+				"CHECK ('%2$tY/%2$tm/%2$td' <= %1$s"
+						+ " AND %1$s < '%3$tY/%3$tm/%3$td')", column,
+				startDate, endDate);
+		return checkConstraint;
+	}
 
-        // MEASUREMENT_VALUE_xx ãƒ†ãƒ¼ãƒ–ãƒ«ã«ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’ã¤ã‘ã‚‹
-        String createIndexSql =
-            String.format("CREATE INDEX IDX_%1$s_MEASUREMENT_TIME" + " ON %1$s (MEASUREMENT_TIME)",
-                          tableName);
-        SQLExecutor.executeSQL(con, createIndexSql, null);
-    }
+	/**
+	 * MEASUREMENT_VALUE_xx ƒe[ƒuƒ‹‚ğì¬‚µ‚Ü‚·B
+	 * 
+	 * @param con
+	 *            ƒf[ƒ^ƒx[ƒXƒRƒlƒNƒVƒ‡ƒ“
+	 * @param index
+	 *            ì¬‚·‚éƒe[ƒuƒ‹‚ÌƒCƒ“ƒfƒbƒNƒX
+	 * @param year
+	 *            ¼—ï
+	 * @throws SQLException
+	 *             ƒe[ƒuƒ‹ì¬‚É—áŠO‚ª”­¶‚µ‚½ê‡
+	 */
+	private static void createMeasurementValueTable(final Connection con,
+			int index, int year) throws SQLException
+	{
+		// MEASUREMENT_VALUE_xx ƒe[ƒuƒ‹‚ğì¬‚·‚é
+		String tableName = String.format("%s_%02d",
+				TableNames.MEASUREMENT_VALUE, index);
+		String checkConstraintName = createCheckConstraintName(tableName,
+				"MEASUREMENT_TIME");
+		String checkConstraint = createCheckConstraintText("MEASUREMENT_TIME",
+				index, year);
+		String createMeasurementValueSql = String.format(
+				"CREATE TABLE %s (CONSTRAINT %s %s) INHERITS (%s)",
+				tableName, checkConstraintName, checkConstraint,
+				TableNames.MEASUREMENT_VALUE);
+		SQLExecutor.executeSQL(con, createMeasurementValueSql, null);
 
-    /**
-     * JAVELIN_LOG_xx ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ä½œæˆã—ã¾ã™ã€‚
-     * 
-     * @param con
-     *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³
-     * @param index
-     *            ä½œæˆã™ã‚‹ãƒ†ãƒ¼ãƒ–ãƒ«ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
-     * @param year
-     *            è¥¿æš¦
-     * @throws SQLException
-     *             ãƒ†ãƒ¼ãƒ–ãƒ«ä½œæˆæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
-     */
-    private static void createJavelinLogTable(final Connection con, int index, int year)
-        throws SQLException
-    {
-        // JAVELIN_LOG_xx ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ä½œæˆã™ã‚‹
-        String tableName = String.format("%s_%02d", TableNames.JAVELIN_LOG, index);
-        String checkConstraintName = createCheckConstraintName(tableName, "END_TIME");
-        String checkConstraint = createCheckConstraintText("END_TIME", index, year);
-        String createJavelinLogSql =
-            String.format("CREATE TABLE %s (CONSTRAINT %s %s) INHERITS (%s)", tableName,
-                          checkConstraintName, checkConstraint, TableNames.JAVELIN_LOG);
-        SQLExecutor.executeSQL(con, createJavelinLogSql, null);
+		// MEASUREMENT_VALUE_xx ƒe[ƒuƒ‹‚ÉƒCƒ“ƒfƒbƒNƒX‚ğ‚Â‚¯‚é
+		String createIndexSql = String
+				.format(
+						"CREATE INDEX IDX_%1$s_MEASUREMENT_TIME" +
+						" ON %1$s (MEASUREMENT_TIME)",
+						tableName);
+		SQLExecutor.executeSQL(con, createIndexSql, null);
+	}
 
-        // JAVELIN_LOG_xx ãƒ†ãƒ¼ãƒ–ãƒ«ã«ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’ã¤ã‘ã‚‹
-        String createStartTimeIndexSql =
-            String.format("CREATE INDEX IDX_%1$s_START_TIME ON %1$s (START_TIME)", tableName);
-        String createEndTimeIndexSql =
-            String.format("CREATE INDEX IDX_%1$s_END_TIME ON %1$s (END_TIME)", tableName);
-        SQLExecutor.executeSQL(con, createStartTimeIndexSql, null);
-        SQLExecutor.executeSQL(con, createEndTimeIndexSql, null);
-    }
+	/**
+	 * JAVELIN_LOG_xx ƒe[ƒuƒ‹‚ğì¬‚µ‚Ü‚·B
+	 * 
+	 * @param con
+	 *            ƒf[ƒ^ƒx[ƒXƒRƒlƒNƒVƒ‡ƒ“
+	 * @param index
+	 *            ì¬‚·‚éƒe[ƒuƒ‹‚ÌƒCƒ“ƒfƒbƒNƒX
+	 * @param year
+	 *            ¼—ï
+	 * @throws SQLException
+	 *             ƒe[ƒuƒ‹ì¬‚É—áŠO‚ª”­¶‚µ‚½ê‡
+	 */
+	private static void createJavelinLogTable(final Connection con, int index,
+			int year) throws SQLException
+	{
+		// JAVELIN_LOG_xx ƒe[ƒuƒ‹‚ğì¬‚·‚é
+		String tableName = String.format("%s_%02d", TableNames.JAVELIN_LOG,
+				index);
+		String checkConstraintName = createCheckConstraintName(tableName,
+				"END_TIME");
+		String checkConstraint = createCheckConstraintText("END_TIME", index,
+				year);
+		String createJavelinLogSql = String.format(
+				"CREATE TABLE %s (CONSTRAINT %s %s) INHERITS (%s)", tableName,
+				checkConstraintName, checkConstraint, TableNames.JAVELIN_LOG);
+		SQLExecutor.executeSQL(con, createJavelinLogSql, null);
 
-    /**
-     * PERFDOCTOR_RESULT_xx ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ä½œæˆã—ã¾ã™ã€‚
-     * 
-     * @param con
-     *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³
-     * @param index
-     *            ä½œæˆã™ã‚‹ãƒ†ãƒ¼ãƒ–ãƒ«ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
-     * @param year
-     *            è¥¿æš¦
-     * @throws SQLException
-     *             ãƒ†ãƒ¼ãƒ–ãƒ«ä½œæˆæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
-     */
-    private static void createPerfDoctorResultTable(final Connection con, int index, int year)
-        throws SQLException
-    {
-        // PERFDOCTOR_RESULT_xx ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ä½œæˆã™ã‚‹
-        String tableName = String.format("%s_%02d", TableNames.PERFDOCTOR_RESULT, index);
-        String checkConstraintName = createCheckConstraintName(tableName, "OCCURRENCE_TIME");
-        String checkConstraint = createCheckConstraintText("OCCURRENCE_TIME", index, year);
-        String createJavelinLogSql =
-            String.format("CREATE TABLE %s (CONSTRAINT %s %s) INHERITS (%s)", tableName,
-                          checkConstraintName, checkConstraint, TableNames.PERFDOCTOR_RESULT);
-        SQLExecutor.executeSQL(con, createJavelinLogSql, null);
+		// JAVELIN_LOG_xx ƒe[ƒuƒ‹‚ÉƒCƒ“ƒfƒbƒNƒX‚ğ‚Â‚¯‚é
+		String createStartTimeIndexSql = String.format(
+				"CREATE INDEX IDX_%1$s_START_TIME ON %1$s (START_TIME)",
+				tableName);
+		String createEndTimeIndexSql = String.format(
+				"CREATE INDEX IDX_%1$s_END_TIME ON %1$s (END_TIME)", tableName);
+		SQLExecutor.executeSQL(con, createStartTimeIndexSql, null);
+		SQLExecutor.executeSQL(con, createEndTimeIndexSql, null);
+	}
 
-        // PERFDOCTOR_RESULT_xx ãƒ†ãƒ¼ãƒ–ãƒ«ã«ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’ã¤ã‘ã‚‹
-        String createIndexSql =
-            String.format("CREATE INDEX IDX_%1$s_OCCURRENCE_TIME ON %1$s (OCCURRENCE_TIME)",
-                          tableName);
-        SQLExecutor.executeSQL(con, createIndexSql, null);
-    }
+	/**
+	 * w’è‚³‚ê‚½–¼‘O‚Ìƒf[ƒ^ƒx[ƒX‚ğì¬‚·‚éB
+	 * 
+	 * @param dbName
+	 *            ƒf[ƒ^ƒx[ƒX–¼
+	 * @return ƒf[ƒ^ƒx[ƒX‚Ìì¬‚É¬Œ÷‚µ‚½‚ç <code>true</code>A‚»‚¤‚Å‚È‚¢ê‡‚Í<code>false</code>
+	 */
+	public static boolean createDatabase(String dbName)
+	{
+		if (DBManager.isDefaultDb() == true)
+		{
+			// H2‚Ìê‡‚Í‰½‚à‚µ‚È‚¢
+			return false;
+		}
+		return createPostgresDatabase(dbName);
+	}
 
-    /**
-     * REPORT_EXPORT_RESULT_xx ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ä½œæˆã—ã¾ã™ã€‚
-     * 
-     * @param con
-     *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³
-     * @param index
-     *            ä½œæˆã™ã‚‹ãƒ†ãƒ¼ãƒ–ãƒ«ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
-     * @param year
-     *            è¥¿æš¦
-     * @throws SQLException
-     *             ãƒ†ãƒ¼ãƒ–ãƒ«ä½œæˆæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
-     */
-    private static void createReportExportResultTable(final Connection con, int index, int year)
-        throws SQLException
-    {
-        // REPORT_EXPORT_RESULT_xx ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ä½œæˆã™ã‚‹
-        String tableName = String.format("%s_%02d", TableNames.REPORT_EXPORT_RESULT, index);
-        String checkConstraintName = createCheckConstraintName(tableName, "TO_TIME");
-        String checkConstraint = createCheckConstraintText("TO_TIME", index, year);
-        String createJavelinLogSql =
-            String.format("CREATE TABLE %s (CONSTRAINT %s %s) INHERITS (%s)", tableName,
-                          checkConstraintName, checkConstraint, TableNames.REPORT_EXPORT_RESULT);
-        SQLExecutor.executeSQL(con, createJavelinLogSql, null);
+	/**
+	 * w’è‚³‚ê‚½–¼‘O‚Ìƒf[ƒ^ƒx[ƒX‚ğPostgreSQL‚Åì¬‚·‚éB
+	 * 
+	 * @param dbName
+	 *            ƒf[ƒ^ƒx[ƒX–¼
+	 * @return ƒf[ƒ^ƒx[ƒX‚Ìì¬‚É¬Œ÷‚µ‚½‚ç <code>true</code>A‚»‚¤‚Å‚È‚¢ê‡‚Í<code>false</code>
+	 */
+	private static boolean createPostgresDatabase(String dbName)
+	{
+		try
+		{
+			Class.forName(POSTGRES_DRIVER);
+		}
+		catch (ClassNotFoundException ex)
+		{
+			return false;
+		}
 
-        // REPORT_EXPORT_RESULT_xx ãƒ†ãƒ¼ãƒ–ãƒ«ã«ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’ã¤ã‘ã‚‹
-        String createStartTimeIndexSql =
-            String.format("CREATE INDEX IDX_%1$s_FM_TIME ON %1$s (FM_TIME)", tableName);
-        String createEndTimeIndexSql =
-            String.format("CREATE INDEX IDX_%1$s_TO_TIME ON %1$s (TO_TIME)", tableName);
-        SQLExecutor.executeSQL(con, createStartTimeIndexSql, null);
-        SQLExecutor.executeSQL(con, createEndTimeIndexSql, null);
-    }
+		String uri = POSTGRES_URI_PREFIX + DBManager.getHostName() + ":"
+				+ DBManager.getPort() + "/";
+		Connection conn = null;
+		Statement state = null;
 
-    /**
-     * SQL_PLAN_xx ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ä½œæˆã—ã¾ã™ã€‚
-     * 
-     * @param con
-     *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³
-     * @param index
-     *            ä½œæˆã™ã‚‹ãƒ†ãƒ¼ãƒ–ãƒ«ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
-     * @param year
-     *            è¥¿æš¦
-     * @throws SQLException
-     *             ãƒ†ãƒ¼ãƒ–ãƒ«ä½œæˆæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
-     */
-    private static void createSqlPlanTable(final Connection con, int index, int year)
-        throws SQLException
-    {
-        // SQL_PLAN_xx ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ä½œæˆã™ã‚‹
-        String tableName = String.format("%s_%02d", TableNames.SQL_PLAN, index);
-        String checkConstraintName = createCheckConstraintName(tableName, "GETTING_PLAN_TIME");
-        String checkConstraint = createCheckConstraintText("GETTING_PLAN_TIME", index, year);
-        String createJavelinLogSql =
-            String.format("CREATE TABLE %s (CONSTRAINT %s %s) INHERITS (%s)", tableName,
-                          checkConstraintName, checkConstraint, TableNames.SQL_PLAN);
-        SQLExecutor.executeSQL(con, createJavelinLogSql, null);
+		// ƒf[ƒ^ƒx[ƒX‚ğì¬‚µA‚»‚ÌŒ‹‰Ê‚ğ•Ô‚·
+		try
+		{
+			conn = DriverManager.getConnection(uri, DBManager.getUserName(),
+					DBManager.getPassword());
 
-        // REPORT_EXPORT_RESULT_xx ãƒ†ãƒ¼ãƒ–ãƒ«ã«ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’ã¤ã‘ã‚‹
-        String createIndexSql =
-            String.format("CREATE INDEX IDX_%1$s_GETTING_PLAN_TIME ON %1$s (GETTING_PLAN_TIME)",
-                          tableName);
-        SQLExecutor.executeSQL(con, createIndexSql, null);
-    }
+			state = conn.createStatement();
 
-    /**
-     * æŒ‡å®šã•ã‚ŒãŸåå‰ã®ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚’ä½œæˆã™ã‚‹ã€‚
-     * 
-     * @param dbName
-     *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @return ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®ä½œæˆã«æˆåŠŸã—ãŸã‚‰ <code>true</code>ã€ãã†ã§ãªã„å ´åˆã¯<code>false</code>
-     */
-    public static boolean createDatabase(String dbName)
-    {
-        if (DBManager.isDefaultDb() == true)
-        {
-            // H2ã®å ´åˆã¯ä½•ã‚‚ã—ãªã„
-            return false;
-        }
-        return createPostgresDatabase(dbName);
-    }
+			// ƒf[ƒ^ƒx[ƒX–¼‚ğ""‚ÅŠ‡‚é
+			dbName = "\"" + dbName + "\"";
 
-    /**
-     * æŒ‡å®šã•ã‚ŒãŸåå‰ã®ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚’PostgreSQLã§ä½œæˆã™ã‚‹ã€‚
-     * 
-     * @param dbName
-     *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @return ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®ä½œæˆã«æˆåŠŸã—ãŸã‚‰ <code>true</code>ã€ãã†ã§ãªã„å ´åˆã¯<code>false</code>
-     */
-    private static boolean createPostgresDatabase(String dbName)
-    {
-        try
-        {
-            Class.forName(POSTGRES_DRIVER);
-        }
-        catch (ClassNotFoundException ex)
-        {
-            return false;
-        }
-
-        String uri =
-            POSTGRES_URI_PREFIX + DBManager.getHostName() + ":" + DBManager.getPort() + "/";
-        Connection conn = null;
-        Statement state = null;
-
-        // ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚’ä½œæˆã—ã€ãã®çµæœã‚’è¿”ã™
-        try
-        {
-            conn =
-                DriverManager.getConnection(uri, DBManager.getUserName(), DBManager.getPassword());
-
-            state = conn.createStatement();
-
-            // ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã‚’""ã§æ‹¬ã‚‹
-            dbName = "\"" + dbName + "\"";
-
-            return state.execute("CREATE DATABASE " + dbName + ";");
-        }
-        catch (SQLException sqlex)
-        {
-            return false;
-        }
-        finally
-        {
-            SQLUtil.closeStatement(state);
-            SQLUtil.closeConnection(conn);
-        }
-    }
+			return state.execute("CREATE DATABASE " + dbName + ";");
+		}
+		catch (SQLException sqlex)
+		{
+			return false;
+		}
+		finally
+		{
+			SQLUtil.closeStatement(state);
+			SQLUtil.closeConnection(conn);
+		}
+	}
 
 }

@@ -29,10 +29,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Timer;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -48,93 +46,80 @@ import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 import jp.co.acroquest.endosnipe.communicator.TelegramSender;
-import jp.co.acroquest.endosnipe.communicator.accessor.ConnectNotifyAccessor;
 import jp.co.acroquest.endosnipe.communicator.accessor.ResourceNotifyAccessor;
 import jp.co.acroquest.endosnipe.communicator.accessor.SystemResourceGetter;
-import jp.co.acroquest.endosnipe.communicator.entity.Body;
-import jp.co.acroquest.endosnipe.communicator.entity.ConnectNotifyData;
-import jp.co.acroquest.endosnipe.communicator.entity.Header;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
-import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
+import jp.co.acroquest.endosnipe.communicator.impl.DataCollectorClient;
 import jp.co.acroquest.endosnipe.data.dao.SignalDefinitionDao;
-import jp.co.acroquest.endosnipe.data.dao.SummarySignalDefinitionDao;
 import jp.co.acroquest.endosnipe.data.db.ConnectionManager;
 import jp.co.acroquest.endosnipe.data.db.DBManager;
 import jp.co.acroquest.endosnipe.data.db.DatabaseType;
 import jp.co.acroquest.endosnipe.data.dto.SignalDefinitionDto;
-import jp.co.acroquest.endosnipe.data.dto.SummarySignalDefinitionDto;
 import jp.co.acroquest.endosnipe.data.entity.SignalDefinition;
-import jp.co.acroquest.endosnipe.data.entity.SummarySignalDefinition;
 
 /**
- * ENdoSnipe DataCollector ã®ãƒ¡ã‚¤ãƒ³ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+ * ENdoSnipe DataCollector ‚ÌƒƒCƒ“ƒNƒ‰ƒX‚Å‚·B<br />
  * 
  * @author y-komori
  */
-public class ENdoSnipeDataCollector implements CommunicationClientRepository, LogMessageCodes,
-    TelegramConstants
+public class ENdoSnipeDataCollector implements CommunicationClientRepository, LogMessageCodes
 {
-    private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
-        .getLogger(ENdoSnipeDataCollector.class);
+    private static final ENdoSnipeLogger LOGGER =
+                                                  ENdoSnipeLogger.getLogger(ENdoSnipeDataCollector.class);
 
-    /** JavelinDataLogger ã®ã‚¹ãƒ¬ãƒƒãƒ‰åç§° */
+    /** JavelinDataLogger ‚ÌƒXƒŒƒbƒh–¼Ì */
     private static final String LOGGER_THREAD_NAME = "JavelinDataLoggerThread";
 
-    /** ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆç”¨ã‚¹ãƒ¬ãƒƒãƒ‰ã®åç§° */
+    /** ƒ[ƒe[ƒg—pƒXƒŒƒbƒh‚Ì–¼Ì */
     private static final String ROTATE_THREAD_NAME = "JavelinDataCollectorRotateThread";
 
     private static final String RESOURCE_GETTER_THREAD_NAME = "ResourceGetterThread";
 
-    /** ãƒŸãƒªã‚’è¡¨ã™å˜ä½ */
+    /** ƒ~ƒŠ‚ğ•\‚·’PˆÊ */
     private static final int MILLI_UNIT = 1000;
 
     private DataCollectorConfig config_;
 
-    /** ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆç”¨è¨­å®šãƒªã‚¹ãƒˆ */
+    /** ƒ[ƒe[ƒg—pİ’èƒŠƒXƒg */
     private final List<RotateConfig> rotateConfigList_ = new ArrayList<RotateConfig>();
 
-    /** ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆè¨­å®š */
+    /** ƒfƒtƒHƒ‹ƒg‚Ìƒ[ƒe[ƒgİ’è */
     private RotateConfig defaultRotateConfig_;
 
-    /** ãƒ­ã‚°ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆã‚¿ã‚¹ã‚¯ */
+    /** ƒƒOƒ[ƒe[ƒgƒ^ƒXƒN */
     private LogRotator logRotator_;
 
-    /** ãƒ­ã‚°ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆç”¨ã‚¹ãƒ¬ãƒƒãƒ‰ */
+    /** ƒƒOƒ[ƒe[ƒg—pƒXƒŒƒbƒh */
     private Thread rotateThread_;
 
     private volatile Thread javelinDataLoggerThread_;
 
     private JavelinDataLogger javelinDataLogger_;
 
-    /** DBåã‚’ã‚­ãƒ¼ã«ã—ãŸã€ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã«é€šçŸ¥ã™ã‚‹ãŸã‚ã®ãƒªã‚¹ãƒŠã®ãƒªã‚¹ãƒˆ */
+    /** DB–¼‚ğƒL[‚É‚µ‚½AƒNƒ‰ƒCƒAƒ“ƒg‚É’Ê’m‚·‚é‚½‚ß‚ÌƒŠƒXƒi‚ÌƒŠƒXƒg */
     private final Map<String, List<TelegramNotifyListener>> telegramNotifyListenersMap_ =
-        new HashMap<String, List<TelegramNotifyListener>>();
+                                                                                          new HashMap<String, List<TelegramNotifyListener>>();
 
-    private static List<JavelinClient> clientList__ = new ArrayList<JavelinClient>();
+    private final List<JavelinClient> clientList_ = new ArrayList<JavelinClient>();
 
     private volatile boolean isRunning_;
 
-    /** ãƒªã‚½ãƒ¼ã‚¹ã‚’å–å¾—ã™ã‚‹ã‚¹ãƒ¬ãƒƒãƒ‰ */
+    /** ƒŠƒ\[ƒX‚ğæ“¾‚·‚éƒXƒŒƒbƒh */
     private Timer timer_;
 
-    /** ãƒªã‚½ãƒ¼ã‚¹ã‚’å–å¾—ã™ã‚‹ã‚¿ã‚¤ãƒãƒ¼ã‚¿ã‚¹ã‚¯ */
+    /** ƒŠƒ\[ƒX‚ğæ“¾‚·‚éƒ^ƒCƒ}[ƒ^ƒXƒN */
     private SystemResourceGetter resourceGetterTask_;
 
-    /** ã‚µãƒ¼ãƒ“ã‚¹ãƒ¢ãƒ¼ãƒ‰ã‹ã©ã†ã‹ */
+    /** ƒT[ƒrƒXƒ‚[ƒh‚©‚Ç‚¤‚© */
     private BehaviorMode behaviorMode_ = BehaviorMode.SERVICE_MODE;
 
-    /** Javelinã‹ã‚‰ã®æ¥ç¶šã‚’å¾…ã¡å—ã‘ã‚‹ã‚µãƒ¼ãƒã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ */
+    /** Javelin‚©‚ç‚ÌÚ‘±‚ğ‘Ò‚¿ó‚¯‚éƒT[ƒoƒCƒ“ƒXƒ^ƒ“ƒX */
     private JavelinServer server_;
 
-    /** Javelinã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã®DBåã”ã¨ã®ã‚·ãƒ¼ã‚±ãƒ³ã‚¹ç•ªå·ãƒãƒƒãƒ— */
-    private static Map<String, Set<Integer>> javelinSeqMap__ = new HashMap<String, Set<Integer>>();
-
-    private static final int AGENTINDEX = 4;
-
     /**
-     * {@link ENdoSnipeDataCollector} ã®è¨­å®šã‚’è¡Œã„ã¾ã™ã€‚<br />
+     * {@link ENdoSnipeDataCollector} ‚Ìİ’è‚ğs‚¢‚Ü‚·B<br />
      * 
-     * @param config è¨­å®šã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param config İ’èƒIƒuƒWƒFƒNƒg
      */
     public void init(final DataCollectorConfig config)
     {
@@ -142,16 +127,16 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
     }
 
     /**
-     * ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã«é€šçŸ¥ã™ã‚‹ãŸã‚ã®ãƒªã‚¹ãƒŠã‚’ç™»éŒ²ã—ã¾ã™ã€‚
+     * ƒNƒ‰ƒCƒAƒ“ƒg‚É’Ê’m‚·‚é‚½‚ß‚ÌƒŠƒXƒi‚ğ“o˜^‚µ‚Ü‚·B
      * 
-     * @param dbName DBå
-     * @param notifyListener ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã«é€šçŸ¥ã™ã‚‹ãŸã‚ã®ãƒªã‚¹ãƒŠ
+     * @param dbName DB–¼
+     * @param notifyListener ƒNƒ‰ƒCƒAƒ“ƒg‚É’Ê’m‚·‚é‚½‚ß‚ÌƒŠƒXƒi
      */
     public void addTelegramNotifyListener(final String dbName,
-        final TelegramNotifyListener notifyListener)
+            final TelegramNotifyListener notifyListener)
     {
         List<TelegramNotifyListener> telegramNotifyListeners =
-            this.telegramNotifyListenersMap_.get(dbName);
+                                                               this.telegramNotifyListenersMap_.get(dbName);
         if (telegramNotifyListeners == null)
         {
             telegramNotifyListeners = new ArrayList<TelegramNotifyListener>();
@@ -161,7 +146,7 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
     }
 
     /**
-     * ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ãƒ¢ãƒ¼ãƒ‰ã§ DataCollector ã‚’å®Ÿè¡Œã—ã¾ã™ã€‚
+     * ƒvƒ‰ƒOƒCƒ“ƒ‚[ƒh‚Å DataCollector ‚ğÀs‚µ‚Ü‚·B
      */
     public void startPluginMode()
     {
@@ -169,7 +154,7 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
     }
 
     /**
-     * ã‚µãƒ¼ãƒ“ã‚¹ãƒ¢ãƒ¼ãƒ‰ã§ DataCollector ã‚’å®Ÿè¡Œã—ã¾ã™ã€‚
+     * ƒT[ƒrƒXƒ‚[ƒh‚Å DataCollector ‚ğÀs‚µ‚Ü‚·B
      */
     public void startService()
     {
@@ -177,11 +162,11 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
     }
 
     /**
-     * {@link ENdoSnipeDataCollector} ã‚’é–‹å§‹ã—ã¾ã™ã€‚<br />
-     * ãƒ­ã‚°ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆã‚’è¡Œã†å ´åˆã¯ã€{@link #addRotateConfig(RotateConfig)}ã‚’ç”¨ã„ã¦
-     * ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆç”¨ã®è¨­å®šã‚’è¿½åŠ ã—ãŸå¾Œã«æœ¬ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„ã€‚
+     * {@link ENdoSnipeDataCollector} ‚ğŠJn‚µ‚Ü‚·B<br />
+     * ƒƒOƒ[ƒe[ƒg‚ğs‚¤ê‡‚ÍA{@link #addRotateConfig(RotateConfig)}‚ğ—p‚¢‚Ä
+     * ƒ[ƒe[ƒg—p‚Ìİ’è‚ğ’Ç‰Á‚µ‚½Œã‚É–{ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢B
      * 
-     * @param behaviorMode ã‚µãƒ¼ãƒ“ã‚¹ãƒ¢ãƒ¼ãƒ‰ã®å ´åˆã¯ <code>true</code> ã€ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ãƒ¢ãƒ¼ãƒ‰ã®å ´åˆã¯
+     * @param behaviorMode ƒT[ƒrƒXƒ‚[ƒh‚Ìê‡‚Í <code>true</code> Aƒvƒ‰ƒOƒCƒ“ƒ‚[ƒh‚Ìê‡‚Í
      *            <code>false</code>
      */
     public synchronized void start(final BehaviorMode behaviorMode)
@@ -194,7 +179,7 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
         javelinConfig.setClusterName("");
 
         Map<Long, SignalDefinitionDto> signalDefinitionMap = null;
-        Map<Long, SummarySignalDefinitionDto> summarySignalDefinitionMap = null;
+
         this.behaviorMode_ = behaviorMode;
         if (config_ != null)
         {
@@ -219,36 +204,28 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
             }
 
             signalDefinitionMap = createSignalDefinition(databaseName);
-            summarySignalDefinitionMap = createSummarySignalDefinition(databaseName);
         }
 
-        // JavelinDataLogger ã®é–‹å§‹
+        // JavelinDataLogger ‚ÌŠJn
         if (javelinDataLogger_ != null)
         {
             javelinDataLogger_.stop();
         }
-        // javelinDataLogger_ = new JavelinDataLogger(config_, this, signalDefinitionMap);
-
-        /*need to change to test in the JUnit testcase class because in the test case it is 
-        using only three argument constructor for creating JavelinDataLogger*/
-
-        javelinDataLogger_ =
-            new JavelinDataLogger(config_, this, signalDefinitionMap, summarySignalDefinitionMap);
-
+        javelinDataLogger_ = new JavelinDataLogger(config_, this, signalDefinitionMap);
         javelinDataLogger_.init(this.rotateConfigList_);
         if (defaultRotateConfig_ != null)
         {
             javelinDataLogger_.setDefaultRotateConfig(defaultRotateConfig_);
         }
         javelinDataLoggerThread_ =
-            new Thread(javelinDataLogger_, LOGGER_THREAD_NAME + "_"
-                + Integer.toHexString(System.identityHashCode(this)));
+                                   new Thread(javelinDataLogger_, LOGGER_THREAD_NAME + "_"
+                                           + Integer.toHexString(System.identityHashCode(this)));
 
         if (behaviorMode == BehaviorMode.SERVICE_MODE)
         {
             javelinDataLoggerThread_.setDaemon(true);
 
-            // BottleneckEyeã¸é€šçŸ¥ã™ã‚‹è¡¨ç¤ºåã®å¤‰æ›ãƒãƒƒãƒ—ã‚’ç™»éŒ²
+            // BottleneckEye‚Ö’Ê’m‚·‚é•\¦–¼‚Ì•ÏŠ·ƒ}ƒbƒv‚ğ“o˜^
             ResourceNotifyAccessor.setConvMap(DisplayNameManager.getManager().getConvMap());
         }
 
@@ -266,18 +243,18 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
     }
 
     /**
-     * é–¾å€¤åˆ¤å®šå®šç¾©æƒ…å ±ã®ãƒãƒƒãƒ—ã‚’ä½œæˆã™ã‚‹ã€‚
-     * @param databaseName ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å 
-     * @return é–¾å€¤åˆ¤å®šå®šç¾©æƒ…å ±ã®ãƒãƒƒãƒ—
+     * è‡’l”»’è’è‹`î•ñ‚Ìƒ}ƒbƒv‚ğì¬‚·‚éB
+     * @param databaseName ƒf[ƒ^ƒx[ƒX–¼ 
+     * @return è‡’l”»’è’è‹`î•ñ‚Ìƒ}ƒbƒv
      */
     private Map<Long, SignalDefinitionDto> createSignalDefinition(final String databaseName)
     {
         Map<Long, SignalDefinitionDto> signalDefinitionMap =
-            new ConcurrentHashMap<Long, SignalDefinitionDto>();
+                                                             new ConcurrentHashMap<Long, SignalDefinitionDto>();
         try
         {
             List<SignalDefinition> signalDefinitionList =
-                SignalDefinitionDao.selectAll(databaseName);
+                                                          SignalDefinitionDao.selectAll(databaseName);
             for (SignalDefinition signalDefinition : signalDefinitionList)
             {
                 SignalDefinitionDto signalDefinitionDto = new SignalDefinitionDto(signalDefinition);
@@ -291,34 +268,8 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
         return signalDefinitionMap;
     }
 
-    private Map<Long, SummarySignalDefinitionDto> createSummarySignalDefinition(
-        final String databaseName)
-    {
-
-        Map<Long, SummarySignalDefinitionDto> summarySignalDefinitionMap =
-            new ConcurrentHashMap<Long, SummarySignalDefinitionDto>();
-        try
-        {
-            List<SummarySignalDefinition> summarySignalDefinitionList =
-                SummarySignalDefinitionDao.selectAll(databaseName);
-            for (SummarySignalDefinition summarySignalDefinition : summarySignalDefinitionList)
-            {
-                summarySignalDefinition.errorMessage = "";
-                SummarySignalDefinitionDto summarySignalDefinitionDto =
-                    new SummarySignalDefinitionDto(summarySignalDefinition);
-                summarySignalDefinitionMap.put(summarySignalDefinition.summarySignalId,
-                                               summarySignalDefinitionDto);
-            }
-        }
-        catch (SQLException ex)
-        {
-            LOGGER.log(FAIL_READ_SIGNAL_DEFINITION, ex, ex.getMessage());
-        }
-        return summarySignalDefinitionMap;
-    }
-
     /**
-     * DataCollectorãŒçµ‚äº†ã™ã‚‹ã¾ã§ã€ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’ãƒ–ãƒ­ãƒƒã‚¯ã—ã¾ã™ã€‚<br />
+     * DataCollector‚ªI—¹‚·‚é‚Ü‚ÅAƒXƒŒƒbƒh‚ğƒuƒƒbƒN‚µ‚Ü‚·B<br />
      */
     public void blockTillStop()
     {
@@ -337,11 +288,11 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
     }
 
     /**
-     * ã‚·ã‚¹ãƒ†ãƒ ãƒªã‚½ãƒ¼ã‚¹æƒ…å ±å–å¾—ã®ã‚¿ã‚¤ãƒãƒ¼ã‚¿ã‚¹ã‚¯ã‚’ã€interval(å˜ä½:ms)ã”ã¨ã«å®Ÿè¡Œã™ã‚‹ã€‚
-     * æ—¢ã«ã‚¿ã‚¤ãƒãƒ¼ã‚¿ã‚¹ã‚¯ãŒã‚ã‚Œã°ã€ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã—ãŸå¾Œæ–°ãŸã«ã‚¿ã‚¤ãƒãƒ¼ã‚¿ã‚¹ã‚¯ã‚’ä½œæˆã™ã‚‹ã€‚
+     * ƒVƒXƒeƒ€ƒŠƒ\[ƒXî•ñæ“¾‚Ìƒ^ƒCƒ}[ƒ^ƒXƒN‚ğAinterval(’PˆÊ:ms)‚²‚Æ‚ÉÀs‚·‚éB
+     * Šù‚Éƒ^ƒCƒ}[ƒ^ƒXƒN‚ª‚ ‚ê‚ÎAƒLƒƒƒ“ƒZƒ‹‚µ‚½ŒãV‚½‚Éƒ^ƒCƒ}[ƒ^ƒXƒN‚ğì¬‚·‚éB
      * 
-     * @param interval ã‚·ã‚¹ãƒ†ãƒ ãƒªã‚½ãƒ¼ã‚¹æƒ…å ±å–å¾—ã®é–“éš”(å˜ä½:ms)
-     * @param behaviorMode {@link BehaviorMode.SERVICE_MODE} ã®å ´åˆã€ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’ãƒ‡ãƒ¼ãƒ¢ãƒ³åŒ–ã™ã‚‹ã€‚
+     * @param interval ƒVƒXƒeƒ€ƒŠƒ\[ƒXî•ñæ“¾‚ÌŠÔŠu(’PˆÊ:ms)
+     * @param behaviorMode {@link BehaviorMode.SERVICE_MODE} ‚Ìê‡AƒXƒŒƒbƒh‚ğƒf[ƒ‚ƒ“‰»‚·‚éB
      */
     private void startTimer(final long interval, final BehaviorMode behaviorMode)
     {
@@ -367,20 +318,20 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
 
     private synchronized void stopTimer()
     {
-        // ã‚·ã‚¹ãƒ†ãƒ ãƒªã‚½ãƒ¼ã‚¹å–å¾—ã‚¹ãƒ¬ãƒƒãƒ‰ã®åœæ­¢
+        // ƒVƒXƒeƒ€ƒŠƒ\[ƒXæ“¾ƒXƒŒƒbƒh‚Ì’â~
         if (this.resourceGetterTask_ != null)
         {
             this.resourceGetterTask_.cancel();
         }
 
-        // ã‚·ã‚¹ãƒ†ãƒ ãƒªã‚½ãƒ¼ã‚¹å–å¾—ç”¨ã‚¿ã‚¤ãƒãƒ¼ã®åœæ­¢
+        // ƒVƒXƒeƒ€ƒŠƒ\[ƒXæ“¾—pƒ^ƒCƒ}[‚Ì’â~
         this.timer_.cancel();
     }
 
     /**
-     * ãƒ­ã‚°ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆç”¨ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’é–‹å§‹ã™ã‚‹ã€‚
+     * ƒƒOƒ[ƒe[ƒg—pƒXƒŒƒbƒh‚ğŠJn‚·‚éB
      * 
-     * @param daemon <code>true</code> ã®å ´åˆã€ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’ãƒ‡ãƒ¼ãƒ¢ãƒ³åŒ–ã™ã‚‹ã€‚
+     * @param daemon <code>true</code> ‚Ìê‡AƒXƒŒƒbƒh‚ğƒf[ƒ‚ƒ“‰»‚·‚éB
      */
     private void startLogRotate(final boolean daemon)
     {
@@ -389,13 +340,13 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
             return;
         }
 
-        // H2ã‚’ä½¿ç”¨ã—ã¦ã„ã‚‹ã¨ãã®ã¿ã€ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆç”¨ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’é–‹å§‹ã™ã‚‹
+        // H2‚ğg—p‚µ‚Ä‚¢‚é‚Æ‚«‚Ì‚İAƒ[ƒe[ƒg—pƒXƒŒƒbƒh‚ğŠJn‚·‚é
         this.logRotator_ = new LogRotator();
         this.logRotator_.setConfig(this.rotateConfigList_);
 
         this.rotateThread_ =
-            new Thread(this.logRotator_, ROTATE_THREAD_NAME + "_"
-                + Integer.toHexString(System.identityHashCode(this)));
+                             new Thread(this.logRotator_, ROTATE_THREAD_NAME + "_"
+                                     + Integer.toHexString(System.identityHashCode(this)));
         if (daemon == true)
         {
             this.rotateThread_.setDaemon(true);
@@ -404,7 +355,7 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
     }
 
     /**
-     * {@link ENdoSnipeDataCollector} ã‚’çµ‚äº†ã—ã¾ã™ã€‚<br />
+     * {@link ENdoSnipeDataCollector} ‚ğI—¹‚µ‚Ü‚·B<br />
      */
     public synchronized void stop()
     {
@@ -414,7 +365,7 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
         }
         LOGGER.log(ENDOSNIPE_DATA_COLLECTOR_STOPPING);
 
-        // ãƒ­ã‚°ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆæ©Ÿèƒ½ã®çµ‚äº†
+        // ƒƒOƒ[ƒe[ƒg‹@”\‚ÌI—¹
         if (this.logRotator_ != null)
         {
             this.logRotator_.stop();
@@ -422,21 +373,21 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
         }
         this.rotateConfigList_.clear();
 
-        // ãƒªã‚½ãƒ¼ã‚¹å–å¾—ã‚¿ã‚¤ãƒã®çµ‚äº†
+        // ƒŠƒ\[ƒXæ“¾ƒ^ƒCƒ}‚ÌI—¹
         stopTimer();
 
-        // JavelinClient ã®çµ‚äº†
+        // JavelinClient ‚ÌI—¹
         disconnectAll();
 
-        // JavelinDataLogger ã®çµ‚äº†
+        // JavelinDataLogger ‚ÌI—¹
         javelinDataLogger_.stop();
 
         LOGGER.log(ENDOSNIPE_DATA_COLLECTOR_STOPPED);
     }
 
     /**
-     * ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‹ã‚‰ã®æ¥ç¶šã‚’å¾…ã¡å—ã‘ã‚‹ã‚µãƒ¼ãƒã‚’é–‹å§‹ã™ã‚‹ã€‚
-     * @throws InitializeException åˆæœŸåŒ–ã«å¤±æ•—
+     * ƒNƒ‰ƒCƒAƒ“ƒg‚©‚ç‚ÌÚ‘±‚ğ‘Ò‚¿ó‚¯‚éƒT[ƒo‚ğŠJn‚·‚éB
+     * @throws InitializeException ‰Šú‰»‚É¸”s
      */
     public void startServer()
         throws InitializeException
@@ -453,8 +404,8 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
     }
 
     /**
-     * ãƒãƒ¼ãƒˆç•ªå·ã‚’æŒ‡å®šã—ã¦ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‹ã‚‰ã®æ¥ç¶šã‚’å¾…ã¡å—ã‘ã‚‹ã‚µãƒ¼ãƒã‚’é–‹å§‹ã™ã‚‹ã€‚
-     * @param port å¾…ã¡å—ã‘ãƒãƒ¼ãƒˆç•ªå·
+     * ƒ|[ƒg”Ô†‚ğw’è‚µ‚ÄƒNƒ‰ƒCƒAƒ“ƒg‚©‚ç‚ÌÚ‘±‚ğ‘Ò‚¿ó‚¯‚éƒT[ƒo‚ğŠJn‚·‚éB
+     * @param port ‘Ò‚¿ó‚¯ƒ|[ƒg”Ô†
      */
     public void startServer(final int port)
     {
@@ -467,11 +418,11 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
     }
 
     /**
-     * è¨­å®šã«è¨˜è¿°ã•ã‚ŒãŸã™ã¹ã¦ã® Javelin ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆã«æ¥ç¶šã—ã¾ã™ã€‚<br />
-     * {@link #init(DataCollectorConfig) init()} ãƒ¡ã‚½ãƒƒãƒ‰ã§æ¸¡ã•ã‚ŒãŸ
-     * {@link DataCollectorConfig} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«å¾“ã£ã¦ã€æ¥ç¶šã‚’è¡Œã„ã¾ã™ã€‚<br />
-     * æœ¬ãƒ¡ã‚½ãƒƒãƒ‰ã¯ {@link #startPluginMode()} ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã‚“ã ã‚ã¨ã«å®Ÿè¡Œã—ã¦ãã ã•ã„ã€‚<br />
-     * @throws InitializeException åˆæœŸåŒ–ä¾‹å¤–
+     * İ’è‚É‹Lq‚³‚ê‚½‚·‚×‚Ä‚Ì Javelin ƒG[ƒWƒFƒ“ƒg‚ÉÚ‘±‚µ‚Ü‚·B<br />
+     * {@link #init(DataCollectorConfig) init()} ƒƒ\ƒbƒh‚Å“n‚³‚ê‚½
+     * {@link DataCollectorConfig} ƒIƒuƒWƒFƒNƒg‚É]‚Á‚ÄAÚ‘±‚ğs‚¢‚Ü‚·B<br />
+     * –{ƒƒ\ƒbƒh‚Í {@link #startPluginMode()} ƒƒ\ƒbƒh‚ğŒÄ‚ñ‚¾‚ ‚Æ‚ÉÀs‚µ‚Ä‚­‚¾‚³‚¢B<br />
+     * @throws InitializeException ‰Šú‰»—áŠO
      */
     public void connectAll()
         throws InitializeException
@@ -489,17 +440,16 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
             String databaseName = agentSetting.databaseName;
             if (databaseName == null || databaseName.length() == 0)
             {
-                // ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åãŒæŒ‡å®šã•ã‚Œã¦ã„ãªã‘ã‚Œã°ã€
-                // endosnipedb_(javelin.host.nã®å€¤)_(javelin.port.nã®å€¤) ã«ã™ã‚‹
+                // ƒf[ƒ^ƒx[ƒX–¼‚ªw’è‚³‚ê‚Ä‚¢‚È‚¯‚ê‚ÎA
+                // endosnipedb_(javelin.host.n‚Ì’l)_(javelin.port.n‚Ì’l) ‚É‚·‚é
                 databaseName = "endosnipedb_" + agentSetting.hostName + "_" + agentSetting.port;
                 agentSetting.databaseName = databaseName;
             }
             RotateConfig rotateConfig = createRotateConfig(agentSetting);
             addRotateConfig(rotateConfig);
-
             String clientId =
-                connect(databaseName, agentSetting.hostName, agentSetting.port,
-                        agentSetting.acceptPort, agentSetting.agentId);
+                              connect(databaseName, agentSetting.hostName, agentSetting.port,
+                                      agentSetting.acceptPort);
             if (clientId == null)
             {
                 LOGGER.log(DATABASE_ALREADY_USED, databaseName, agentSetting.hostName,
@@ -510,73 +460,57 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
     }
 
     /**
-     * Javelin ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆã«æ¥ç¶šã—ã¾ã™ã€‚<br />
-     * æœ¬ãƒ¡ã‚½ãƒƒãƒ‰ã¯ {@link #startPluginMode()} ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã‚“ã ã‚ã¨ã«å®Ÿè¡Œã—ã¦ãã ã•ã„ã€‚<br />
+     * Javelin ƒG[ƒWƒFƒ“ƒg‚ÉÚ‘±‚µ‚Ü‚·B<br />
+     * –{ƒƒ\ƒbƒh‚Í {@link #startPluginMode()} ƒƒ\ƒbƒh‚ğŒÄ‚ñ‚¾‚ ‚Æ‚ÉÀs‚µ‚Ä‚­‚¾‚³‚¢B<br />
      *
-     * ã™ã§ã«åŒã˜ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚’å‚ç…§ã—ã¦æ¥ç¶šã—ã¦ã„ã‚‹ã‚‚ã®ãŒå­˜åœ¨ã—ãŸå ´åˆã¯ã€
-     * æ¥ç¶šã›ãšã« <code>null</code> ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ‚·‚Å‚É“¯‚¶ƒf[ƒ^ƒx[ƒX‚ğQÆ‚µ‚ÄÚ‘±‚µ‚Ä‚¢‚é‚à‚Ì‚ª‘¶İ‚µ‚½ê‡‚ÍA
+     * Ú‘±‚¹‚¸‚É <code>null</code> ‚ğ•Ô‚µ‚Ü‚·B<br />
      *
-     * @param dbName ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @param javelinHost æ¥ç¶šå…ˆ Javelin ã®ãƒ›ã‚¹ãƒˆåã¾ãŸã¯ IP ã‚¢ãƒ‰ãƒ¬ã‚¹
-     * @param javelinPort æ¥ç¶šå…ˆ Javelin ã®ãƒãƒ¼ãƒˆç•ªå·
-     * @param acceptPort BottleneckEye ã‹ã‚‰ã®æ¥ç¶šå¾…ã¡å—ã‘ãƒãƒ¼ãƒˆç•ªå·
-     * @return ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆ ID
+     * @param dbName ƒf[ƒ^ƒx[ƒX–¼
+     * @param javelinHost Ú‘±æ Javelin ‚ÌƒzƒXƒg–¼‚Ü‚½‚Í IP ƒAƒhƒŒƒX
+     * @param javelinPort Ú‘±æ Javelin ‚Ìƒ|[ƒg”Ô†
+     * @param acceptPort BottleneckEye ‚©‚ç‚ÌÚ‘±‘Ò‚¿ó‚¯ƒ|[ƒg”Ô†
+     * @return ƒNƒ‰ƒCƒAƒ“ƒg ID
      */
-    public String connect(final String dbName, final String javelinHost, final int javelinPort,
-        final int acceptPort)
+    public synchronized String connect(final String dbName, final String javelinHost,
+            final int javelinPort, final int acceptPort)
     {
-        return connect(dbName, javelinHost, javelinPort, acceptPort, 0);
-    }
+        DBManager.setDbName(dbName);
 
-    /**
-     * Javelin ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆã«æ¥ç¶šã—ã¾ã™ã€‚<br />
-     * æœ¬ãƒ¡ã‚½ãƒƒãƒ‰ã¯ {@link #startPluginMode()} ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã‚“ã ã‚ã¨ã«å®Ÿè¡Œã—ã¦ãã ã•ã„ã€‚<br />
-     *
-     * ã™ã§ã«åŒã˜ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚’å‚ç…§ã—ã¦æ¥ç¶šã—ã¦ã„ã‚‹ã‚‚ã®ãŒå­˜åœ¨ã—ãŸå ´åˆã¯ã€
-     * æ¥ç¶šã›ãšã« <code>null</code> ã‚’è¿”ã—ã¾ã™ã€‚<br />
-     *
-     * @param dbName ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @param javelinHost æ¥ç¶šå…ˆ Javelin ã®ãƒ›ã‚¹ãƒˆåã¾ãŸã¯ IP ã‚¢ãƒ‰ãƒ¬ã‚¹
-     * @param javelinPort æ¥ç¶šå…ˆ Javelin ã®ãƒãƒ¼ãƒˆç•ªå·
-     * @param acceptPort BottleneckEye ã‹ã‚‰ã®æ¥ç¶šå¾…ã¡å—ã‘ãƒãƒ¼ãƒˆç•ªå·
-     * @param agentId ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆID
-     * @return ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆ ID
-     */
-    private synchronized String connect(final String dbName, final String javelinHost,
-        final int javelinPort, final int acceptPort, final int agentId)
-    {
         checkRunning();
 
         String clientId = JavelinClient.createClientIdFromHost(javelinHost, javelinPort);
+
+        // ‚·‚Å‚É“¯‚¶ƒf[ƒ^ƒx[ƒX‚ğQÆ‚µ‚ÄÚ‘±‚µ‚Ä‚¢‚é‚à‚Ì‚ª‘¶İ‚µ‚½ê‡‚ÍAÚ‘±‚µ‚È‚¢
+        DataBaseManager manager = DataBaseManager.getInstance();
+        String hostInfo = manager.getHostInfo(dbName);
+        if (hostInfo != null)
+        {
+            return null;
+        }
+
+        manager.addDbInfo(dbName, clientId);
 
         JavelinClient javelinClient = findJavelinClient(clientId);
         JavelinDataQueue queue = this.javelinDataLogger_.getQueue();
         if (javelinClient == null)
         {
-            // æ—¢ã«ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆãŒå­˜åœ¨ã—ãªã„å ´åˆã¯æ–°ãŸã«ç”Ÿæˆã™ã‚‹
+            // Šù‚ÉƒNƒ‰ƒCƒAƒ“ƒg‚ª‘¶İ‚µ‚È‚¢ê‡‚ÍV‚½‚É¶¬‚·‚é
             javelinClient = new JavelinClient();
             javelinClient.init(dbName, javelinHost, javelinPort, acceptPort);
             javelinClient.setTelegramNotifyListener(this.telegramNotifyListenersMap_.get(dbName));
-            int no = getJavelinSequenceNo("/default/127.0.0.1/agent/");
-            String agentName =
-                ConnectNotifyAccessor.createAgentName("/default/127.0.0.1/agent/", no);
-            javelinClient.setAgentName(agentName);
-            ConnectNotifyData notifyData = new ConnectNotifyData();
-            notifyData.setAgentName(agentName);
-            //  javelinClient.connect(queue, this.behaviorMode_, null, agentId);
-            //javelinClient.connect(queue, this.behaviorMode_, notifyData, agentId);
-            javelinClient.connect(queue, this.behaviorMode_, notifyData, clientList__.size());
-            clientList__.add(javelinClient);
+            javelinClient.connect(queue, this.behaviorMode_, null);
+            this.clientList_.add(javelinClient);
             this.resourceGetterTask_.addTelegramSenderList(javelinClient.getTelegramSender());
         }
         else
         {
             javelinClient.setTelegramNotifyListener(this.telegramNotifyListenersMap_.get(clientId));
 
-            // æ—¢ã«ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆãŒå­˜åœ¨ã—ã€æœªæ¥ç¶šã®å ´åˆã¯æ¥ç¶šã™ã‚‹
+            // Šù‚ÉƒNƒ‰ƒCƒAƒ“ƒg‚ª‘¶İ‚µA–¢Ú‘±‚Ìê‡‚ÍÚ‘±‚·‚é
             if (javelinClient.isConnected() == false)
             {
-                javelinClient.connect(queue, this.behaviorMode_, null, agentId);
+                javelinClient.connect(queue, this.behaviorMode_, null);
             }
         }
 
@@ -584,57 +518,9 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
     }
 
     /**
-     * Send telegram for JavelinClient
-     * @param telegram to send from JavelinClient
-     */
-    public static void sendJavelinClientTelegram(final Telegram telegram)
-    {
-        for (JavelinClient client : clientList__)
-        {
-            Header objHeader = telegram.getObjHeader();
-
-            if (objHeader.getByteTelegramKind() == BYTE_TELEGRAM_KIND_GET_DUMP
-                && objHeader.getByteRequestKind() == BYTE_REQUEST_KIND_REQUEST)
-            {
-                Body[] bodies = telegram.getObjBody();
-                if (bodies.length == 2)
-                {
-                    String agentName = bodies[1].getStrItemName();
-                    if (agentName.split("/").length < AGENTINDEX)
-                    {
-                        client.getTelegramSender().sendTelegram(telegram);
-                    }
-                    else
-                    {
-                        String[] agentSplit = agentName.split("/");
-                        agentName = "/" + agentSplit[1];
-                        for (int index = 2; index < AGENTINDEX; index++)
-                        {
-                            agentName += "/" + agentSplit[index];
-                        }
-                        //send ThreadDump for only related agent
-                        if (agentName.equals(client.getAgentName()))
-                        {
-                            client.getTelegramSender().sendTelegram(telegram);
-                        }
-                    }
-                }
-                else
-                {
-                    client.getTelegramSender().sendTelegram(telegram);
-                }
-            }
-            else
-            {
-                client.getTelegramSender().sendTelegram(telegram);
-            }
-        }
-    }
-
-    /**
-     * æŒ‡å®šã•ã‚ŒãŸã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚’ Javelin ã‹ã‚‰åˆ‡æ–­ã—ã¾ã™ã€‚<br />
+     * w’è‚³‚ê‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ğ Javelin ‚©‚çØ’f‚µ‚Ü‚·B<br />
      * 
-     * @param clientId ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆ ID
+     * @param clientId ƒNƒ‰ƒCƒAƒ“ƒg ID
      */
     public synchronized void disconnect(final String clientId)
     {
@@ -642,17 +528,16 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
         if (client != null)
         {
             client.disconnect();
-            removeJavelinSequenceNo(client.getAgentName(), Integer.parseInt(client.getClientId()));
             DataBaseManager.getInstance().removeDbInfo(client.getDatabaseName());
         }
     }
 
     /**
-     * ã™ã¹ã¦ã® Javelin ã‹ã‚‰åˆ‡æ–­ã—ã¾ã™ã€‚<br />
+     * ‚·‚×‚Ä‚Ì Javelin ‚©‚çØ’f‚µ‚Ü‚·B<br />
      */
     public synchronized void disconnectAll()
     {
-        for (JavelinClient javelinClient : clientList__)
+        for (JavelinClient javelinClient : clientList_)
         {
             javelinClient.disconnect();
             DataBaseManager.getInstance().removeDbInfo(javelinClient.getDatabaseName());
@@ -664,9 +549,9 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
     }
 
     /**
-     * {@link ENdoSnipeDataCollector} ãŒå®Ÿè¡Œä¸­ã§ã‚ã‚‹ã‹ã©ã†ã‹ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * {@link ENdoSnipeDataCollector} ‚ªÀs’†‚Å‚ ‚é‚©‚Ç‚¤‚©‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @return å®Ÿè¡Œä¸­ã®å ´åˆã¯ <code>true</code>
+     * @return Às’†‚Ìê‡‚Í <code>true</code>
      */
     public boolean isRunning()
     {
@@ -682,14 +567,14 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
     }
 
     /**
-     * æŒ‡å®šã•ã‚ŒãŸã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆ ID ã® {@link JavelinClient} ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’è¿”ã—ã¾ã™ã€‚
+     * w’è‚³‚ê‚½ƒNƒ‰ƒCƒAƒ“ƒg ID ‚Ì {@link JavelinClient} ƒCƒ“ƒXƒ^ƒ“ƒX‚ğ•Ô‚µ‚Ü‚·B
      *
-     * @param clientId ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆ ID
-     * @return å­˜åœ¨ã™ã‚‹å ´åˆã¯ {@link JavelinClient} ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã€å­˜åœ¨ã—ãªã„å ´åˆã¯ <code>null</code>
+     * @param clientId ƒNƒ‰ƒCƒAƒ“ƒg ID
+     * @return ‘¶İ‚·‚éê‡‚Í {@link JavelinClient} ‚ÌƒCƒ“ƒXƒ^ƒ“ƒXA‘¶İ‚µ‚È‚¢ê‡‚Í <code>null</code>
      */
     private JavelinClient findJavelinClient(final String clientId)
     {
-        for (JavelinClient javelinClient : clientList__)
+        for (JavelinClient javelinClient : clientList_)
         {
             if (clientId.equals(javelinClient.getClientId()) == true)
             {
@@ -710,7 +595,7 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
         }
         else
         {
-            for (JavelinClient javelinClient : clientList__)
+            for (JavelinClient javelinClient : clientList_)
             {
                 if (clientId.equals(javelinClient.getClientId()) == true)
                 {
@@ -746,9 +631,9 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
     }
 
     /**
-     * ãƒ­ã‚°ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆç”¨è¨­å®šã‚’è¿½åŠ 
+     * ƒƒOƒ[ƒe[ƒg—pİ’è‚ğ’Ç‰Á
      * 
-     * @param config ãƒ­ã‚°ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆè¨­å®š
+     * @param config ƒƒOƒ[ƒe[ƒgİ’è
      */
     public void addRotateConfig(final RotateConfig config)
     {
@@ -766,9 +651,9 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
     }
 
     /**
-     * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ãƒ­ã‚°ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆç”¨è¨­å®šã‚’è¿½åŠ 
+     * ƒfƒtƒHƒ‹ƒg‚ÌƒƒOƒ[ƒe[ƒg—pİ’è‚ğ’Ç‰Á
      * 
-     * @param config ãƒ­ã‚°ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆè¨­å®š
+     * @param config ƒƒOƒ[ƒe[ƒgİ’è
      */
     public void setDefaultRotateConfig(final RotateConfig config)
     {
@@ -790,9 +675,9 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
     }
 
     /**
-     * ãƒ­ã‚°ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆè¨­å®šã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
+     * ƒƒOƒ[ƒe[ƒgİ’è‚ğ¶¬‚µ‚Ü‚·B<br />
      * 
-     * @param agentSetting å„ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆã®è¨­å®š
+     * @param agentSetting ŠeƒG[ƒWƒFƒ“ƒg‚Ìİ’è
      */
     private RotateConfig createRotateConfig(final AgentSetting agentSetting)
         throws InitializeException
@@ -805,60 +690,5 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
         config.setMeasureRotatePeriodUnit(agentSetting.getMeasurementRotatePeriodUnit());
 
         return config;
-    }
-
-    /**
-     * calculate sequenceno for agent
-     * @param dbName dbName of agent
-     * @return sequence no
-     */
-    public static int getJavelinSequenceNo(final String dbName)
-    {
-        int seq = 0;
-
-        synchronized (javelinSeqMap__)
-        {
-            Set<Integer> seqSet = javelinSeqMap__.get(dbName);
-            if (seqSet == null)
-            {
-                seqSet = new HashSet<Integer>();
-                javelinSeqMap__.put(dbName, seqSet);
-            }
-
-            while (seqSet.contains(seq))
-            {
-                seq++;
-            }
-            seqSet.add(seq);
-        }
-
-        return seq;
-    }
-
-    /**
-     * Remove sequence no
-     * @param dbName dbName of agent
-     * @param seq sequence no of agent
-     */
-    public static void removeJavelinSequenceNo(final String dbName, final int seq)
-    {
-        synchronized (javelinSeqMap__)
-        {
-            Set<Integer> seqSet = javelinSeqMap__.get(dbName);
-            if (seqSet == null)
-            {
-                return;
-            }
-
-            if (seqSet.contains(seq))
-            {
-                seqSet.remove(seq);
-            }
-
-            if (seqSet.size() == 0)
-            {
-                javelinSeqMap__.remove(dbName);
-            }
-        }
     }
 }

@@ -28,7 +28,6 @@ package jp.co.acroquest.endosnipe.util;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -37,7 +36,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 import jp.co.acroquest.endosnipe.common.entity.MeasurementData;
@@ -45,67 +43,54 @@ import jp.co.acroquest.endosnipe.common.entity.MeasurementDetail;
 import jp.co.acroquest.endosnipe.common.entity.ResourceData;
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
 import jp.co.acroquest.endosnipe.data.LogMessageCodes;
-import jp.co.acroquest.endosnipe.data.dao.JavelinLogDao;
 import jp.co.acroquest.endosnipe.data.dao.JavelinMeasurementItemDao;
 import jp.co.acroquest.endosnipe.data.dao.MeasurementValueDao;
-import jp.co.acroquest.endosnipe.data.dao.MulResourceGraphDefinitionDao;
-import jp.co.acroquest.endosnipe.data.dao.PerfDoctorResultDao;
-import jp.co.acroquest.endosnipe.data.dao.ReportExportResultDao;
-import jp.co.acroquest.endosnipe.data.dao.SqlPlanDao;
 import jp.co.acroquest.endosnipe.data.db.DBManager;
-import jp.co.acroquest.endosnipe.data.dto.MeasurementValueDto;
 import jp.co.acroquest.endosnipe.data.entity.JavelinMeasurementItem;
 import jp.co.acroquest.endosnipe.data.entity.MeasurementValue;
-import jp.co.acroquest.endosnipe.data.entity.MultipleResourceGraphInfo;
 
 /**
- * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®è¨ˆæ¸¬å€¤æƒ…å ±ã‚’ {@link ResourceData} ã§ã‚„ã‚Šã¨ã‚Šã™ã‚‹ãŸã‚ã®ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã€‚
+ * ƒf[ƒ^ƒx[ƒX‚ÌŒv‘ª’lî•ñ‚ğ {@link ResourceData} ‚Å‚â‚è‚Æ‚è‚·‚é‚½‚ß‚Ìƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒXB
  *
  * @author sakamoto
  */
 public class ResourceDataDaoUtil
 {
-    /** ãƒ­ã‚¬ãƒ¼ */
-    private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
-        .getLogger(ResourceDataDaoUtil.class);
+    /** ƒƒK[ */
+    private static final ENdoSnipeLogger LOGGER =
+        ENdoSnipeLogger.getLogger(ResourceDataDaoUtil.class);
 
-    /** ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã‚’ã‚­ãƒ¼ã¨ã™ã‚‹ã€å‰å›ãƒ‡ãƒ¼ã‚¿ã‚’æŒ¿å…¥ã—ãŸãƒ†ãƒ¼ãƒ–ãƒ«ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’ä¿æŒã™ã‚‹ãƒãƒƒãƒ— */
+    /** ƒf[ƒ^ƒx[ƒX–¼‚ğƒL[‚Æ‚·‚éA‘O‰ñƒf[ƒ^‚ğ‘}“ü‚µ‚½ƒe[ƒuƒ‹ƒCƒ“ƒfƒbƒNƒX‚ğ•Û‚·‚éƒ}ƒbƒv */
     private static Map<String, Integer> prevTableIndexMap__ =
-        new ConcurrentHashMap<String, Integer>();
+            new ConcurrentHashMap<String, Integer>();
 
-    /** ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã‚’ã‚­ãƒ¼ã¨ã™ã‚‹ã€ç³»åˆ—ç•ªå·ã¨ãã®æœ€çµ‚æŒ¿å…¥æ™‚åˆ»ã®ãƒãƒƒãƒ—ã‚’ä¿æŒã™ã‚‹ãƒãƒƒãƒ— */
+    /** ƒf[ƒ^ƒx[ƒX–¼‚ğƒL[‚Æ‚·‚éAŒn—ñ”Ô†‚Æ‚»‚ÌÅI‘}“ü‚Ìƒ}ƒbƒv‚ğ•Û‚·‚éƒ}ƒbƒv */
     private static Map<String, Map<Integer, Timestamp>> measurementItemUpdatedMap__ =
-        new ConcurrentHashMap<String, Map<Integer, Timestamp>>();
+            new ConcurrentHashMap<String, Map<Integer, Timestamp>>();
 
-    /** ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã‚’ã‚­ãƒ¼ã¨ã™ã‚‹ã€measurement_typeã¨item_nameã‚’":"ã§åŒºåˆ‡ã£ã¦é€£çµã—ãŸæ–‡å­—åˆ—ã‚’ã‚­ãƒ¼ã¨ã™ã‚‹ã€item_idã®ãƒãƒƒãƒ—ã‚’ä¿æŒã™ã‚‹ãƒãƒƒãƒ—*/
+    /** ƒf[ƒ^ƒx[ƒX–¼‚ğƒL[‚Æ‚·‚éAmeasurement_type‚Æitem_name‚ğ":"‚Å‹æØ‚Á‚Ä˜AŒ‹‚µ‚½•¶š—ñ‚ğƒL[‚Æ‚·‚éAitem_id‚Ìƒ}ƒbƒv‚ğ•Û‚·‚éƒ}ƒbƒv*/
     private static Map<String, Map<String, Integer>> measurementItemIdMap__ =
-        new ConcurrentHashMap<String, Map<String, Integer>>();
-
-    /**
-     * MeasurementItemName with Id for real time add process
-     */
-    private static Map<Integer, String> measurementItemNameMap__ =
-        new ConcurrentHashMap<Integer, String>();
-
-    /** ï¼‘é€±é–“ã®æ—¥æ•° */
+            new ConcurrentHashMap<String, Map<String, Integer>>();
+    
+    /** ‚PTŠÔ‚Ì“ú” */
     public static final int DAY_OF_WEEK = 7;
 
-    /** ï¼‘å¹´é–“ã®æœ€å¤§æ—¥æ•° */
+    /** ‚P”NŠÔ‚ÌÅ‘å“ú” */
     private static final int DAY_OF_YEAR_MAX = 366;
 
-    /** ãƒ‘ãƒ¼ãƒ†ã‚£ã‚·ãƒ§ãƒ‹ãƒ³ã‚°ã•ã‚ŒãŸãƒ†ãƒ¼ãƒ–ãƒ«ã®æ•°ï¼ˆæœ€å¾Œã®ãƒ†ãƒ¼ãƒ–ãƒ«ã¯7æ—¥ä»¥ä¸Šã®ãƒ‡ãƒ¼ã‚¿ãŒå…¥ã‚‹ï¼‰ */
+    /** ƒp[ƒeƒBƒVƒ‡ƒjƒ“ƒO‚³‚ê‚½ƒe[ƒuƒ‹‚Ì”iÅŒã‚Ìƒe[ƒuƒ‹‚Í7“úˆÈã‚Ìƒf[ƒ^‚ª“ü‚éj */
     public static final int PARTITION_TABLE_COUNT = DAY_OF_YEAR_MAX / DAY_OF_WEEK;
 
-    /** JAVELIN_MEASUREMENT_ITEMãƒ†ãƒ¼ãƒ–ãƒ«ã®LAST_INSERTEDãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã‚’æ›´æ–°ã™ã‚‹é–“éš”ï¼ˆãƒŸãƒªç§’ï¼‰ */
+    /** JAVELIN_MEASUREMENT_ITEMƒe[ƒuƒ‹‚ÌLAST_INSERTEDƒtƒB[ƒ‹ƒh‚ğXV‚·‚éŠÔŠuiƒ~ƒŠ•bj */
     private static final int ITEM_UPDATE_INTERVAL = 24 * 60 * 60 * 1000;
 
-    /** ãƒãƒƒãƒã®ã‚µã‚¤ã‚º */
+    /** ƒoƒbƒ`‚ÌƒTƒCƒY */
     private static final int DEF_BATCH_SIZE = 100;
 
-    /** itemIdã®ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚µã‚¤ã‚º */
-    private static final int DEF_ITEMID_CACHE_SIZE = 2000000;
+    /** itemId‚ÌƒLƒƒƒbƒVƒ…ƒTƒCƒY */
+    private static final int DEF_ITEMID_CACHE_SIZE = 50000;
 
-    /** MEASUREMENT_VALUE ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ truncate ã™ã‚‹ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ãƒ¡ã‚½ãƒƒãƒ‰ */
+    /** MEASUREMENT_VALUE ƒe[ƒuƒ‹‚ğ truncate ‚·‚éƒR[ƒ‹ƒoƒbƒNƒƒ\ƒbƒh */
     private static final RotateCallback MEASUREMENT_ROTATE_CALLBACK = new RotateCallback() {
         /**
          * {@inheritDoc}
@@ -125,88 +110,8 @@ public class ResourceDataDaoUtil
         }
     };
 
-    /** JAVELIN_LOG ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ truncate ã™ã‚‹ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ãƒ¡ã‚½ãƒƒãƒ‰ */
-    private static final RotateCallback JAVELIN_ROTATE_CALLBACK = new RotateCallback() {
-        /**
-         * {@inheritDoc}
-         */
-        public String getTableType()
-        {
-            return "JAVELIN_LOG";
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        public void truncate(final String database, final int tableIndex, final int year)
-            throws SQLException
-        {
-            JavelinLogDao.truncate(database, tableIndex, year);
-        }
-    };
-
-    /** PERFDOCTOR_RESULT ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ truncate ã™ã‚‹ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ãƒ¡ã‚½ãƒƒãƒ‰ */
-    private static final RotateCallback PERFDOCTOR_ROTATE_CALLBACK = new RotateCallback() {
-        /**
-         * {@inheritDoc}
-         */
-        public String getTableType()
-        {
-            return "PERFDOCTOR_RESULT";
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        public void truncate(final String database, final int tableIndex, final int year)
-            throws SQLException
-        {
-            PerfDoctorResultDao.truncate(database, tableIndex, year);
-        }
-    };
-
-    /** REPORT_EXPORT_RESULT ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ truncate ã™ã‚‹ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ãƒ¡ã‚½ãƒƒãƒ‰ */
-    private static final RotateCallback REPORT_ROTATE_CALLBACK = new RotateCallback() {
-        /**
-         * {@inheritDoc}
-         */
-        public String getTableType()
-        {
-            return "REPORT_EXPORT_RESULT";
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        public void truncate(final String database, final int tableIndex, final int year)
-            throws SQLException
-        {
-            ReportExportResultDao.truncate(database, tableIndex, year);
-        }
-    };
-
-    /** SQL_PLAN ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ truncate ã™ã‚‹ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ãƒ¡ã‚½ãƒƒãƒ‰ */
-    private static final RotateCallback SQL_ROTATE_CALLBACK = new RotateCallback() {
-        /**
-         * {@inheritDoc}
-         */
-        public String getTableType()
-        {
-            return "SQL_PLAN";
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        public void truncate(final String database, final int tableIndex, final int year)
-            throws SQLException
-        {
-            SqlPlanDao.truncate(database, tableIndex, year);
-        }
-    };
-
     /**
-     * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã‚’éš è”½ã—ã¾ã™ã€‚
+     * ƒfƒtƒHƒ‹ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ğ‰B•Á‚µ‚Ü‚·B
      */
     private ResourceDataDaoUtil()
     {
@@ -214,11 +119,11 @@ public class ResourceDataDaoUtil
     }
 
     /**
-     * ãƒ‡ãƒ¼ã‚¿ã‚’æŒ¿å…¥ã™ã‚‹ãƒ†ãƒ¼ãƒ–ãƒ«ã®åå‰ã‚’è¿”ã—ã¾ã™ã€‚
+     * ƒf[ƒ^‚ğ‘}“ü‚·‚éƒe[ƒuƒ‹‚Ì–¼‘O‚ğ•Ô‚µ‚Ü‚·B
      *
-     * @param date æŒ¿å…¥ã™ã‚‹ãƒ‡ãƒ¼ã‚¿ã®æ—¥ä»˜
-     * @param tableNameBase ãƒ†ãƒ¼ãƒ–ãƒ«åã®ãƒ™ãƒ¼ã‚¹
-     * @return ãƒ†ãƒ¼ãƒ–ãƒ«å
+     * @param date ‘}“ü‚·‚éƒf[ƒ^‚Ì“ú•t
+     * @param tableNameBase ƒe[ƒuƒ‹–¼‚Ìƒx[ƒX
+     * @return ƒe[ƒuƒ‹–¼
      */
     public static String getTableNameToInsert(final Date date, final String tableNameBase)
     {
@@ -229,7 +134,7 @@ public class ResourceDataDaoUtil
         }
         else
         {
-            // H2ä»¥å¤–ã®ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®å ´åˆã¯ã€ãƒ‘ãƒ¼ãƒ†ã‚£ã‚·ãƒ§ãƒ‹ãƒ³ã‚°å‡¦ç†ã‚’è¡Œã†
+            // H2ˆÈŠO‚Ìƒf[ƒ^ƒx[ƒX‚Ìê‡‚ÍAƒp[ƒeƒBƒVƒ‡ƒjƒ“ƒOˆ—‚ğs‚¤
             int weekOfYear = getTableIndexToInsert(date);
             tableName = getTableName(tableNameBase, weekOfYear);
         }
@@ -237,11 +142,11 @@ public class ResourceDataDaoUtil
     }
 
     /**
-     * å®Ÿãƒ†ãƒ¼ãƒ–ãƒ«ã®åå‰ã‚’è¿”ã—ã¾ã™ã€‚
+     * Àƒe[ƒuƒ‹‚Ì–¼‘O‚ğ•Ô‚µ‚Ü‚·B
      *
-     * @param tableNameBase ãƒ†ãƒ¼ãƒ–ãƒ«åã®ãƒ™ãƒ¼ã‚¹
-     * @param index ãƒ†ãƒ¼ãƒ–ãƒ«ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
-     * @return å®Ÿãƒ†ãƒ¼ãƒ–ãƒ«ã®åå‰
+     * @param tableNameBase ƒe[ƒuƒ‹–¼‚Ìƒx[ƒX
+     * @param index ƒe[ƒuƒ‹ƒCƒ“ƒfƒbƒNƒX
+     * @return Àƒe[ƒuƒ‹‚Ì–¼‘O
      */
     public static String getTableName(final String tableNameBase, final int index)
     {
@@ -250,10 +155,10 @@ public class ResourceDataDaoUtil
     }
 
     /**
-     * ãƒ‡ãƒ¼ã‚¿ã‚’æŒ¿å…¥ã™ã‚‹ãƒ†ãƒ¼ãƒ–ãƒ«ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’è¿”ã—ã¾ã™ã€‚
+     * ƒf[ƒ^‚ğ‘}“ü‚·‚éƒe[ƒuƒ‹‚ÌƒCƒ“ƒfƒbƒNƒX‚ğ•Ô‚µ‚Ü‚·B
      *
-     * @param date æŒ¿å…¥ã™ã‚‹ãƒ‡ãƒ¼ã‚¿ã®æ—¥ä»˜ï¼ˆ <code>null</code> ã®å ´åˆã¯ç¾åœ¨ã®æ—¥ä»˜ï¼‰
-     * @return ãƒ†ãƒ¼ãƒ–ãƒ«ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+     * @param date ‘}“ü‚·‚éƒf[ƒ^‚Ì“ú•ti <code>null</code> ‚Ìê‡‚ÍŒ»İ‚Ì“ú•tj
+     * @return ƒe[ƒuƒ‹ƒCƒ“ƒfƒbƒNƒX
      */
     public static int getTableIndexToInsert(final Date date)
     {
@@ -271,27 +176,27 @@ public class ResourceDataDaoUtil
     }
 
     /**
-     * {@link ResourceData} ã‚’ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã«ç™»éŒ²ã—ã¾ã™ã€‚<br />
+     * {@link ResourceData} ‚ğƒf[ƒ^ƒx[ƒX‚É“o˜^‚µ‚Ü‚·B<br />
      *
-     * {@link ResourceData} ãŒä¿æŒã™ã‚‹ãƒ›ã‚¹ãƒˆæƒ…å ±ãŒè¨ˆæ¸¬å¯¾è±¡ãƒ›ã‚¹ãƒˆæƒ…å ±ãƒ†ãƒ¼ãƒ–ãƒ«ã«å­˜åœ¨ã—ãªã„å ´åˆã¯ã€
-     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã«ç™»éŒ²ã›ãšã€ã‚¨ãƒ©ãƒ¼ãƒ­ã‚°ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+     * {@link ResourceData} ‚ª•Û‚·‚éƒzƒXƒgî•ñ‚ªŒv‘ª‘ÎÛƒzƒXƒgî•ñƒe[ƒuƒ‹‚É‘¶İ‚µ‚È‚¢ê‡‚ÍA
+     * ƒf[ƒ^ƒx[ƒX‚É“o˜^‚¹‚¸AƒGƒ‰[ƒƒO‚ğo—Í‚µ‚Ü‚·B<br />
      *
-     *ã€€è©²å½“ã™ã‚‹è¨ˆæ¸¬å€¤ã®é …ç›®ï¼ˆç³»åˆ—ï¼‰ãŒ Javelin è¨ˆæ¸¬é …ç›®ãƒ†ãƒ¼ãƒ–ãƒ«ã«å­˜åœ¨ã—ãªã„å ´åˆã¯ã€
-     * è©²å½“ã™ã‚‹ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’ Javelin è¨ˆæ¸¬é …ç›®ãƒ†ãƒ¼ãƒ–ãƒ«ã«æŒ¿å…¥ã—ã¾ã™ã€‚<br />
+     *@ŠY“–‚·‚éŒv‘ª’l‚Ì€–ÚiŒn—ñj‚ª Javelin Œv‘ª€–Úƒe[ƒuƒ‹‚É‘¶İ‚µ‚È‚¢ê‡‚ÍA
+     * ŠY“–‚·‚éƒŒƒR[ƒh‚ğ Javelin Œv‘ª€–Úƒe[ƒuƒ‹‚É‘}“ü‚µ‚Ü‚·B<br />
      *
-     *ã€€è¨ˆæ¸¬å€¤ç¨®åˆ¥ãŒè¨ˆæ¸¬å€¤æƒ…å ±ãƒ†ãƒ¼ãƒ–ãƒ«ã«å­˜åœ¨ã—ãªã„å ´åˆã¯ã€
-     * è©²å½“ã™ã‚‹ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’è¨ˆæ¸¬å€¤æƒ…å ±ãƒ†ãƒ¼ãƒ–ãƒ«ã«æŒ¿å…¥ã—ã¾ã™ã€‚<br />
+     *@Œv‘ª’lí•Ê‚ªŒv‘ª’lî•ñƒe[ƒuƒ‹‚É‘¶İ‚µ‚È‚¢ê‡‚ÍA
+     * ŠY“–‚·‚éƒŒƒR[ƒh‚ğŒv‘ª’lî•ñƒe[ƒuƒ‹‚É‘}“ü‚µ‚Ü‚·B<br />
      *
-     * æŒ¿å…¥å¯¾è±¡ã®ãƒ†ãƒ¼ãƒ–ãƒ«ãŒå‰å›æŒ¿å…¥æ™‚ã‹ã‚‰å¤‰ã‚ã£ãŸå ´åˆã€ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆå‡¦ç†ã‚’è¡Œã„ã¾ã™ã€‚
+     * ‘}“ü‘ÎÛ‚Ìƒe[ƒuƒ‹‚ª‘O‰ñ‘}“ü‚©‚ç•Ï‚í‚Á‚½ê‡Aƒ[ƒe[ƒgˆ—‚ğs‚¢‚Ü‚·B
      *
-     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @param resourceData ç™»éŒ²ã™ã‚‹ãƒ‡ãƒ¼ã‚¿
-     * @param rotatePeriod ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆæœŸé–“
-     * @param rotatePeriodUnit ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆæœŸé–“ã®å˜ä½ï¼ˆ Calendar ã‚¯ãƒ©ã‚¹ã® DAY ã¾ãŸã¯ MONTH ã®å€¤ï¼‰
-     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @param database ƒf[ƒ^ƒx[ƒX–¼
+     * @param resourceData “o˜^‚·‚éƒf[ƒ^
+     * @param rotatePeriod ƒ[ƒe[ƒgŠúŠÔ
+     * @param rotatePeriodUnit ƒ[ƒe[ƒgŠúŠÔ‚Ì’PˆÊi Calendar ƒNƒ‰ƒX‚Ì DAY ‚Ü‚½‚Í MONTH ‚Ì’lj
+     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
      */
     public static void insert(final String database, final ResourceData resourceData,
-        final int rotatePeriod, final int rotatePeriodUnit)
+            final int rotatePeriod, final int rotatePeriodUnit)
         throws SQLException
     {
         insert(database, resourceData, rotatePeriod, rotatePeriodUnit, DEF_BATCH_SIZE,
@@ -299,143 +204,83 @@ public class ResourceDataDaoUtil
     }
 
     /**
-     * {@link ResourceData} ã‚’ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã«ç™»éŒ²ã—ã¾ã™ã€‚<br />
+     * {@link ResourceData} ‚ğƒf[ƒ^ƒx[ƒX‚É“o˜^‚µ‚Ü‚·B<br />
      *
-     * {@link ResourceData} ãŒä¿æŒã™ã‚‹ãƒ›ã‚¹ãƒˆæƒ…å ±ãŒè¨ˆæ¸¬å¯¾è±¡ãƒ›ã‚¹ãƒˆæƒ…å ±ãƒ†ãƒ¼ãƒ–ãƒ«ã«å­˜åœ¨ã—ãªã„å ´åˆã¯ã€
-     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã«ç™»éŒ²ã›ãšã€ã‚¨ãƒ©ãƒ¼ãƒ­ã‚°ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+     * {@link ResourceData} ‚ª•Û‚·‚éƒzƒXƒgî•ñ‚ªŒv‘ª‘ÎÛƒzƒXƒgî•ñƒe[ƒuƒ‹‚É‘¶İ‚µ‚È‚¢ê‡‚ÍA
+     * ƒf[ƒ^ƒx[ƒX‚É“o˜^‚¹‚¸AƒGƒ‰[ƒƒO‚ğo—Í‚µ‚Ü‚·B<br />
      *
-     *ã€€è©²å½“ã™ã‚‹è¨ˆæ¸¬å€¤ã®é …ç›®ï¼ˆç³»åˆ—ï¼‰ãŒ Javelin è¨ˆæ¸¬é …ç›®ãƒ†ãƒ¼ãƒ–ãƒ«ã«å­˜åœ¨ã—ãªã„å ´åˆã¯ã€
-     * è©²å½“ã™ã‚‹ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’ Javelin è¨ˆæ¸¬é …ç›®ãƒ†ãƒ¼ãƒ–ãƒ«ã«æŒ¿å…¥ã—ã¾ã™ã€‚<br />
+     *@ŠY“–‚·‚éŒv‘ª’l‚Ì€–ÚiŒn—ñj‚ª Javelin Œv‘ª€–Úƒe[ƒuƒ‹‚É‘¶İ‚µ‚È‚¢ê‡‚ÍA
+     * ŠY“–‚·‚éƒŒƒR[ƒh‚ğ Javelin Œv‘ª€–Úƒe[ƒuƒ‹‚É‘}“ü‚µ‚Ü‚·B<br />
      *
-     *ã€€è¨ˆæ¸¬å€¤ç¨®åˆ¥ãŒè¨ˆæ¸¬å€¤æƒ…å ±ãƒ†ãƒ¼ãƒ–ãƒ«ã«å­˜åœ¨ã—ãªã„å ´åˆã¯ã€
-     * è©²å½“ã™ã‚‹ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’è¨ˆæ¸¬å€¤æƒ…å ±ãƒ†ãƒ¼ãƒ–ãƒ«ã«æŒ¿å…¥ã—ã¾ã™ã€‚<br />
+     *@Œv‘ª’lí•Ê‚ªŒv‘ª’lî•ñƒe[ƒuƒ‹‚É‘¶İ‚µ‚È‚¢ê‡‚ÍA
+     * ŠY“–‚·‚éƒŒƒR[ƒh‚ğŒv‘ª’lî•ñƒe[ƒuƒ‹‚É‘}“ü‚µ‚Ü‚·B<br />
      *
-     * æŒ¿å…¥å¯¾è±¡ã®ãƒ†ãƒ¼ãƒ–ãƒ«ãŒå‰å›æŒ¿å…¥æ™‚ã‹ã‚‰å¤‰ã‚ã£ãŸå ´åˆã€ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆå‡¦ç†ã‚’è¡Œã„ã¾ã™ã€‚
+     * ‘}“ü‘ÎÛ‚Ìƒe[ƒuƒ‹‚ª‘O‰ñ‘}“ü‚©‚ç•Ï‚í‚Á‚½ê‡Aƒ[ƒe[ƒgˆ—‚ğs‚¢‚Ü‚·B
      *
-     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @param resourceData ç™»éŒ²ã™ã‚‹ãƒ‡ãƒ¼ã‚¿
-     * @param rotatePeriod ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆæœŸé–“
-     * @param rotatePeriodUnit ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆæœŸé–“ã®å˜ä½ï¼ˆ Calendar ã‚¯ãƒ©ã‚¹ã® DAY ã¾ãŸã¯ MONTH ã®å€¤ï¼‰
+     * @param database ƒf[ƒ^ƒx[ƒX–¼
+     * @param resourceData “o˜^‚·‚éƒf[ƒ^
+     * @param rotatePeriod ƒ[ƒe[ƒgŠúŠÔ
+     * @param rotatePeriodUnit ƒ[ƒe[ƒgŠúŠÔ‚Ì’PˆÊi Calendar ƒNƒ‰ƒX‚Ì DAY ‚Ü‚½‚Í MONTH ‚Ì’lj
      * @param insertUnit insertUnit
-     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
      */
     public static void insert(final String database, final ResourceData resourceData,
-        final int rotatePeriod, final int rotatePeriodUnit, final int insertUnit)
+            final int rotatePeriod, final int rotatePeriodUnit, final int insertUnit)
         throws SQLException
     {
         insert(database, resourceData, rotatePeriod, rotatePeriodUnit, insertUnit,
                DEF_ITEMID_CACHE_SIZE);
-    }
-
+    }        
+    
     /**
-     * {@link ResourceData} ã‚’ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã«ç™»éŒ²ã—ã¾ã™ã€‚<br />
+     * {@link ResourceData} ‚ğƒf[ƒ^ƒx[ƒX‚É“o˜^‚µ‚Ü‚·B<br />
      *
-     * {@link ResourceData} ãŒä¿æŒã™ã‚‹ãƒ›ã‚¹ãƒˆæƒ…å ±ãŒè¨ˆæ¸¬å¯¾è±¡ãƒ›ã‚¹ãƒˆæƒ…å ±ãƒ†ãƒ¼ãƒ–ãƒ«ã«å­˜åœ¨ã—ãªã„å ´åˆã¯ã€
-     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã«ç™»éŒ²ã›ãšã€ã‚¨ãƒ©ãƒ¼ãƒ­ã‚°ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+     * {@link ResourceData} ‚ª•Û‚·‚éƒzƒXƒgî•ñ‚ªŒv‘ª‘ÎÛƒzƒXƒgî•ñƒe[ƒuƒ‹‚É‘¶İ‚µ‚È‚¢ê‡‚ÍA
+     * ƒf[ƒ^ƒx[ƒX‚É“o˜^‚¹‚¸AƒGƒ‰[ƒƒO‚ğo—Í‚µ‚Ü‚·B<br />
      *
-     *ã€€è©²å½“ã™ã‚‹è¨ˆæ¸¬å€¤ã®é …ç›®ï¼ˆç³»åˆ—ï¼‰ãŒ Javelin è¨ˆæ¸¬é …ç›®ãƒ†ãƒ¼ãƒ–ãƒ«ã«å­˜åœ¨ã—ãªã„å ´åˆã¯ã€
-     * è©²å½“ã™ã‚‹ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’ Javelin è¨ˆæ¸¬é …ç›®ãƒ†ãƒ¼ãƒ–ãƒ«ã«æŒ¿å…¥ã—ã¾ã™ã€‚<br />
+     *@ŠY“–‚·‚éŒv‘ª’l‚Ì€–ÚiŒn—ñj‚ª Javelin Œv‘ª€–Úƒe[ƒuƒ‹‚É‘¶İ‚µ‚È‚¢ê‡‚ÍA
+     * ŠY“–‚·‚éƒŒƒR[ƒh‚ğ Javelin Œv‘ª€–Úƒe[ƒuƒ‹‚É‘}“ü‚µ‚Ü‚·B<br />
      *
-     *ã€€è¨ˆæ¸¬å€¤ç¨®åˆ¥ãŒè¨ˆæ¸¬å€¤æƒ…å ±ãƒ†ãƒ¼ãƒ–ãƒ«ã«å­˜åœ¨ã—ãªã„å ´åˆã¯ã€
-     * è©²å½“ã™ã‚‹ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’è¨ˆæ¸¬å€¤æƒ…å ±ãƒ†ãƒ¼ãƒ–ãƒ«ã«æŒ¿å…¥ã—ã¾ã™ã€‚<br />
+     *@Œv‘ª’lí•Ê‚ªŒv‘ª’lî•ñƒe[ƒuƒ‹‚É‘¶İ‚µ‚È‚¢ê‡‚ÍA
+     * ŠY“–‚·‚éƒŒƒR[ƒh‚ğŒv‘ª’lî•ñƒe[ƒuƒ‹‚É‘}“ü‚µ‚Ü‚·B<br />
      *
-     * æŒ¿å…¥å¯¾è±¡ã®ãƒ†ãƒ¼ãƒ–ãƒ«ãŒå‰å›æŒ¿å…¥æ™‚ã‹ã‚‰å¤‰ã‚ã£ãŸå ´åˆã€ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆå‡¦ç†ã‚’è¡Œã„ã¾ã™ã€‚
+     * ‘}“ü‘ÎÛ‚Ìƒe[ƒuƒ‹‚ª‘O‰ñ‘}“ü‚©‚ç•Ï‚í‚Á‚½ê‡Aƒ[ƒe[ƒgˆ—‚ğs‚¢‚Ü‚·B
      *
-     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @param resourceData ç™»éŒ²ã™ã‚‹ãƒ‡ãƒ¼ã‚¿
+     * @param database ƒf[ƒ^ƒx[ƒX–¼
+     * @param resourceData “o˜^‚·‚éƒf[ƒ^
+     * @param rotatePeriod ƒ[ƒe[ƒgŠúŠÔ
+     * @param rotatePeriodUnit ƒ[ƒe[ƒgŠúŠÔ‚Ì’PˆÊi Calendar ƒNƒ‰ƒX‚Ì DAY ‚Ü‚½‚Í MONTH ‚Ì’lj
      * @param batchUnit batchUnit
      * @param itemIdCacheSize itemIdCacheSize
-     * @return ã‚¤ãƒ³ã‚µãƒ¼ãƒˆçµæœ
-     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
-     */
-    public static InsertResult insertDirect(final String database, final ResourceData resourceData,
-        final int batchUnit, final int itemIdCacheSize)
-        throws SQLException
-    {
-        return insert(database, resourceData, 0, 0, batchUnit, itemIdCacheSize, false);
-    }
-
-    /**
-     * {@link ResourceData} ã‚’ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã«ç™»éŒ²ã—ã¾ã™ã€‚<br />
-     *
-     * {@link ResourceData} ãŒä¿æŒã™ã‚‹ãƒ›ã‚¹ãƒˆæƒ…å ±ãŒè¨ˆæ¸¬å¯¾è±¡ãƒ›ã‚¹ãƒˆæƒ…å ±ãƒ†ãƒ¼ãƒ–ãƒ«ã«å­˜åœ¨ã—ãªã„å ´åˆã¯ã€
-     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã«ç™»éŒ²ã›ãšã€ã‚¨ãƒ©ãƒ¼ãƒ­ã‚°ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
-     *
-     *ã€€è©²å½“ã™ã‚‹è¨ˆæ¸¬å€¤ã®é …ç›®ï¼ˆç³»åˆ—ï¼‰ãŒ Javelin è¨ˆæ¸¬é …ç›®ãƒ†ãƒ¼ãƒ–ãƒ«ã«å­˜åœ¨ã—ãªã„å ´åˆã¯ã€
-     * è©²å½“ã™ã‚‹ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’ Javelin è¨ˆæ¸¬é …ç›®ãƒ†ãƒ¼ãƒ–ãƒ«ã«æŒ¿å…¥ã—ã¾ã™ã€‚<br />
-     *
-     *ã€€è¨ˆæ¸¬å€¤ç¨®åˆ¥ãŒè¨ˆæ¸¬å€¤æƒ…å ±ãƒ†ãƒ¼ãƒ–ãƒ«ã«å­˜åœ¨ã—ãªã„å ´åˆã¯ã€
-     * è©²å½“ã™ã‚‹ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’è¨ˆæ¸¬å€¤æƒ…å ±ãƒ†ãƒ¼ãƒ–ãƒ«ã«æŒ¿å…¥ã—ã¾ã™ã€‚<br />
-     *
-     * æŒ¿å…¥å¯¾è±¡ã®ãƒ†ãƒ¼ãƒ–ãƒ«ãŒå‰å›æŒ¿å…¥æ™‚ã‹ã‚‰å¤‰ã‚ã£ãŸå ´åˆã€ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆå‡¦ç†ã‚’è¡Œã„ã¾ã™ã€‚
-     *
-     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @param resourceData ç™»éŒ²ã™ã‚‹ãƒ‡ãƒ¼ã‚¿
-     * @param rotatePeriod ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆæœŸé–“
-     * @param rotatePeriodUnit ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆæœŸé–“ã®å˜ä½ï¼ˆ Calendar ã‚¯ãƒ©ã‚¹ã® DAY ã¾ãŸã¯ MONTH ã®å€¤ï¼‰
-     * @param batchUnit batchUnit
-     * @param itemIdCacheSize itemIdCacheSize
-     * @return ã‚¤ãƒ³ã‚µãƒ¼ãƒˆçµæœ
-     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @return ƒCƒ“ƒT[ƒgŒ‹‰Ê
+     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
      */
     public static InsertResult insert(final String database, final ResourceData resourceData,
         final int rotatePeriod, final int rotatePeriodUnit, final int batchUnit,
         final int itemIdCacheSize)
         throws SQLException
     {
-        return insert(database, resourceData, rotatePeriod, rotatePeriodUnit, batchUnit,
-                      itemIdCacheSize, true);
-    }
-
-    /**
-     * {@link ResourceData} ã‚’ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã«ç™»éŒ²ã—ã¾ã™ã€‚<br />
-     *
-     * {@link ResourceData} ãŒä¿æŒã™ã‚‹ãƒ›ã‚¹ãƒˆæƒ…å ±ãŒè¨ˆæ¸¬å¯¾è±¡ãƒ›ã‚¹ãƒˆæƒ…å ±ãƒ†ãƒ¼ãƒ–ãƒ«ã«å­˜åœ¨ã—ãªã„å ´åˆã¯ã€
-     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã«ç™»éŒ²ã›ãšã€ã‚¨ãƒ©ãƒ¼ãƒ­ã‚°ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
-     *
-     *ã€€è©²å½“ã™ã‚‹è¨ˆæ¸¬å€¤ã®é …ç›®ï¼ˆç³»åˆ—ï¼‰ãŒ Javelin è¨ˆæ¸¬é …ç›®ãƒ†ãƒ¼ãƒ–ãƒ«ã«å­˜åœ¨ã—ãªã„å ´åˆã¯ã€
-     * è©²å½“ã™ã‚‹ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’ Javelin è¨ˆæ¸¬é …ç›®ãƒ†ãƒ¼ãƒ–ãƒ«ã«æŒ¿å…¥ã—ã¾ã™ã€‚<br />
-     *
-     *ã€€è¨ˆæ¸¬å€¤ç¨®åˆ¥ãŒè¨ˆæ¸¬å€¤æƒ…å ±ãƒ†ãƒ¼ãƒ–ãƒ«ã«å­˜åœ¨ã—ãªã„å ´åˆã¯ã€
-     * è©²å½“ã™ã‚‹ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’è¨ˆæ¸¬å€¤æƒ…å ±ãƒ†ãƒ¼ãƒ–ãƒ«ã«æŒ¿å…¥ã—ã¾ã™ã€‚<br />
-     *
-     * æŒ¿å…¥å¯¾è±¡ã®ãƒ†ãƒ¼ãƒ–ãƒ«ãŒå‰å›æŒ¿å…¥æ™‚ã‹ã‚‰å¤‰ã‚ã£ãŸå ´åˆã€ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆå‡¦ç†ã‚’è¡Œã„ã¾ã™ã€‚
-     *
-     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @param resourceData ç™»éŒ²ã™ã‚‹ãƒ‡ãƒ¼ã‚¿
-     * @param rotatePeriod ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆæœŸé–“
-     * @param rotatePeriodUnit ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆæœŸé–“ã®å˜ä½ï¼ˆ Calendar ã‚¯ãƒ©ã‚¹ã® DAY ã¾ãŸã¯ MONTH ã®å€¤ï¼‰
-     * @param batchUnit batchUnit
-     * @param itemIdCacheSize itemIdCacheSize
-     * @return ã‚¤ãƒ³ã‚µãƒ¼ãƒˆçµæœ
-     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
-     */
-    public static InsertResult insert(final String database, final ResourceData resourceData,
-        final int rotatePeriod, final int rotatePeriodUnit, final int batchUnit,
-        final int itemIdCacheSize, boolean isRotate)
-        throws SQLException
-    {
         InsertResult result = new InsertResult();
-        List<Integer> deleteItemIdList = new ArrayList<Integer>();
-
-        List<MeasurementValueDto> measurementItemList = new ArrayList<MeasurementValueDto>();
         MeasurementValue baseMeasurementValue = new MeasurementValue();
         baseMeasurementValue.measurementTime = new Timestamp(resourceData.measurementTime);
 
-        if (DBManager.isDefaultDb() == false && isRotate == true)
+        if (DBManager.isDefaultDb() == false)
         {
-            // H2ä»¥å¤–ã®ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®å ´åˆã¯ã€ãƒ‘ãƒ¼ãƒ†ã‚£ã‚·ãƒ§ãƒ‹ãƒ³ã‚°å‡¦ç†ã‚’è¡Œã†
-            deleteItemIdList =
-                partitioning(database, rotatePeriod, rotatePeriodUnit, batchUnit,
-                             baseMeasurementValue);
+            // H2ˆÈŠO‚Ìƒf[ƒ^ƒx[ƒX‚Ìê‡‚ÍAƒp[ƒeƒBƒVƒ‡ƒjƒ“ƒOˆ—‚ğs‚¤
+            partitioning(database, rotatePeriod, rotatePeriodUnit, batchUnit,
+					baseMeasurementValue);
         }
-        Map<String, Integer> itemMap = getItemIdMap(database, itemIdCacheSize);
-
+        Map<String, Integer> itemMap = measurementItemIdMap__.get(database);
+        if (itemMap == null)
+        {
+            itemMap = loadMeasurementItemIdMap(database, itemIdCacheSize);
+            measurementItemIdMap__.put(database, itemMap);
+        }
+        
         String prevTableName = null;
-
+        
         Map<String, Timestamp> updateTargetMap = new HashMap<String, Timestamp>();
         Map<Integer, Timestamp> updatedMap = getUpdatedMap(database);
-
         List<MeasurementValue> updateValueList = new ArrayList<MeasurementValue>();
         for (MeasurementData measurementData : resourceData.getMeasurementMap().values())
         {
@@ -457,16 +302,16 @@ public class ResourceDataDaoUtil
                 {
                     measurementItemName = measurementData.itemName;
                 }
-
+                
                 if (measurementItemName.startsWith("/") == false)
                 {
                     measurementItemName = "/" + measurementItemName;
                 }
-
+                
                 MeasurementValue measurementValue = new MeasurementValue();
                 measurementValue.measurementTime = baseMeasurementValue.measurementTime;
-                measurementValue.value = baseMeasurementValue.value;
-
+                measurementValue.value  = baseMeasurementValue.value;
+                
                 int itemId;
                 String itemMapKey = measurementItemName;
                 itemId = getItemId(database, itemMap, detail, itemMapKey);
@@ -477,17 +322,12 @@ public class ResourceDataDaoUtil
                 else
                 {
                     result.setCacheMissCount(result.getCacheMissCount() + 1);
-
-                    // ç³»åˆ—ãŒ Javelin è¨ˆæ¸¬é …ç›®ãƒ†ãƒ¼ãƒ–ãƒ«ã«ç™»éŒ²ã•ã‚Œã¦ã„ãªã„å ´åˆã¯è¿½åŠ ã™ã‚‹
+                    
+                    // Œn—ñ‚ª Javelin Œv‘ª€–Úƒe[ƒuƒ‹‚É“o˜^‚³‚ê‚Ä‚¢‚È‚¢ê‡‚Í’Ç‰Á‚·‚é
                     measurementValue.measurementItemId =
-                        insertJavelinMeasurementItem(database, measurementItemName,
-                                                     measurementValue.measurementTime);
-                    MeasurementValueDto measurementValueDto = new MeasurementValueDto();
-
-                    measurementValueDto.measurementItemName = measurementItemName;
-                    measurementValueDto.measurementItemId = measurementValue.measurementItemId;
-
-                    measurementItemList.add(measurementValueDto);
+                            insertJavelinMeasurementItem(database,
+                                                         measurementItemName,
+                                                         measurementValue.measurementTime);
                 }
 
                 int overflowCount =
@@ -507,100 +347,66 @@ public class ResourceDataDaoUtil
 
                 updateValueList.add(measurementValue);
 
-                // å‰å›JAVELIN_MEASUREMENT_ITEMãƒ†ãƒ¼ãƒ–ãƒ«ã®LAST_INSERTEDãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰æ›´æ–°ã‹ã‚‰
-                // ä¸€å®šæœŸé–“ãŒçµŒéã—ãŸå ´åˆã«ã€LAST_INSERTEDãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã‚’æ›´æ–°ã™ã‚‹å¯¾è±¡ã«å«ã‚ã‚‹ã€‚
+                // ‘O‰ñJAVELIN_MEASUREMENT_ITEMƒe[ƒuƒ‹‚ÌLAST_INSERTEDƒtƒB[ƒ‹ƒhXV‚©‚ç
+                // ˆê’èŠúŠÔ‚ªŒo‰ß‚µ‚½ê‡‚ÉALAST_INSERTEDƒtƒB[ƒ‹ƒh‚ğXV‚·‚é‘ÎÛ‚ÉŠÜ‚ß‚éB
                 Timestamp beforeTime = updatedMap.get(measurementValue.measurementItemId);
-                updatedMap
-                    .put(measurementValue.measurementItemId, measurementValue.measurementTime);
+                updatedMap.put(
+                		measurementValue.measurementItemId,
+                		measurementValue.measurementTime);
                 if (beforeTime == null
                     || measurementValue.measurementTime.getTime() > beforeTime.getTime()
                         + ITEM_UPDATE_INTERVAL)
                 {
                     updateTargetMap.put(measurementItemName, measurementValue.measurementTime);
                 }
-
                 prevTableName = tableName;
-            }
+             }
         }
-
+        
         if (prevTableName != null && updateValueList.size() > 0)
         {
             int insertCount =
                 MeasurementValueDao.insertBatch(database, prevTableName, updateValueList);
-            result.setInsertCount(result.getInsertCount() + insertCount);
+            result.setInsertCount(result.getInsertCount()
+                                  + insertCount);
         }
 
-        // LAST_INSERTEDãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã‚’æ›´æ–°ã™ã‚‹å¿…è¦ãŒã‚ã‚‹ç³»åˆ—ã«å¯¾ã—ã¦æ›´æ–°ã‚’å®Ÿæ–½ã™ã‚‹ã€‚
+        // LAST_INSERTEDƒtƒB[ƒ‹ƒh‚ğXV‚·‚é•K—v‚ª‚ ‚éŒn—ñ‚É‘Î‚µ‚ÄXV‚ğÀ{‚·‚éB
         if (updateTargetMap.size() > 0)
         {
             JavelinMeasurementItemDao.updateLastInserted(database, updateTargetMap);
         }
-        if (deleteItemIdList.size() > 0)
-        {
-            result.setDeleteItemIdList(deleteItemIdList);
-        }
-
-        if (measurementItemList.size() > 0)
-        {
-            result.setMeasurementItemList(measurementItemList);
-        }
         return result;
     }
 
-    private static Map<String, Integer> getItemIdMap(final String database,
-        final int itemIdCacheSize)
-        throws SQLException
-    {
-        Map<String, Integer> itemMap = measurementItemIdMap__.get(database);
-        if (itemMap == null)
-        {
-            itemMap = loadMeasurementItemIdMap(database, itemIdCacheSize);
-            measurementItemIdMap__.put(database, itemMap);
-        }
-        return itemMap;
-    }
-
-    private static List<Integer> partitioning(final String database, final int rotatePeriod,
-        final int rotatePeriodUnit, final int batchUnit, MeasurementValue baseMeasurementValue)
-        throws SQLException
-    {
-        List<Integer> deleteItemIdList = new ArrayList<Integer>();
-
-        Integer tableIndex = getTableIndexToInsert(baseMeasurementValue.measurementTime);
-        Integer prevTableIndex = prevTableIndexMap__.get(database);
-        if (tableIndex.equals(prevTableIndex) == false)
-        {
-            Timestamp[] range = MeasurementValueDao.getTerm(database);
-            if (range.length == 2
-                && (range[1] == null || range[1].before(baseMeasurementValue.measurementTime)))
-            {
-                // å‰å›ã®æŒ¿å…¥ãƒ‡ãƒ¼ã‚¿ã¨ä»Šå›ã®æŒ¿å…¥ãƒ‡ãƒ¼ã‚¿ã§æŒ¿å…¥å…ˆãƒ†ãƒ¼ãƒ–ãƒ«ãŒç•°ãªã‚‹å ´åˆã«ã€ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆå‡¦ç†ã‚’è¡Œã†
-                // ãŸã ã—ã€ã™ã§ã«DBã«å…¥ã£ã¦ã„ã‚‹ãƒ‡ãƒ¼ã‚¿ã®ã†ã¡ã€æœ€æ–°ã®ãƒ‡ãƒ¼ã‚¿ã‚ˆã‚Šã‚‚å¤ã„ãƒ‡ãƒ¼ã‚¿ãŒå…¥ã£ã¦ããŸå ´åˆã¯ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆå‡¦ç†ã—ãªã„
-                boolean truncateCurrent = (prevTableIndex != null);
-                rotateTable(database, tableIndex, baseMeasurementValue.measurementTime,
-                            rotatePeriod, rotatePeriodUnit, truncateCurrent,
-                            MEASUREMENT_ROTATE_CALLBACK);
-                rotateTable(database, tableIndex, baseMeasurementValue.measurementTime,
-                            rotatePeriod, rotatePeriodUnit, truncateCurrent,
-                            JAVELIN_ROTATE_CALLBACK);
-                rotateTable(database, tableIndex, baseMeasurementValue.measurementTime,
-                            rotatePeriod, rotatePeriodUnit, truncateCurrent,
-                            PERFDOCTOR_ROTATE_CALLBACK);
-                rotateTable(database, tableIndex, baseMeasurementValue.measurementTime,
-                            rotatePeriod, rotatePeriodUnit, truncateCurrent,
-                            REPORT_ROTATE_CALLBACK);
-                rotateTable(database, tableIndex, baseMeasurementValue.measurementTime,
-                            rotatePeriod, rotatePeriodUnit, truncateCurrent,
-                            SQL_ROTATE_CALLBACK);
-                prevTableIndexMap__.put(database, tableIndex);
-            }
-            deleteItemIdList =
-                deleteOldMeasurementItems(database, baseMeasurementValue.measurementTime,
-                                          rotatePeriod, rotatePeriodUnit, batchUnit);
-        }
-
-        return deleteItemIdList;
-    }
+	private static void partitioning(final String database,
+			final int rotatePeriod, final int rotatePeriodUnit,
+			final int batchUnit, MeasurementValue baseMeasurementValue)
+			throws SQLException
+	{
+		Integer tableIndex =
+		        getTableIndexToInsert(baseMeasurementValue.measurementTime);
+		Integer prevTableIndex = prevTableIndexMap__.get(database);
+		if (tableIndex.equals(prevTableIndex) == false)
+		{
+		    Timestamp[] range = MeasurementValueDao.getTerm(database);
+		    if (range.length == 2
+		            && (range[1] == null
+		            		|| range[1].before(baseMeasurementValue.measurementTime)))
+		    {
+		        // ‘O‰ñ‚Ì‘}“üƒf[ƒ^‚Æ¡‰ñ‚Ì‘}“üƒf[ƒ^‚Å‘}“üæƒe[ƒuƒ‹‚ªˆÙ‚È‚éê‡‚ÉAƒ[ƒe[ƒgˆ—‚ğs‚¤
+		        // ‚½‚¾‚µA‚·‚Å‚ÉDB‚É“ü‚Á‚Ä‚¢‚éƒf[ƒ^‚Ì‚¤‚¿AÅV‚Ìƒf[ƒ^‚æ‚è‚àŒÃ‚¢ƒf[ƒ^‚ª“ü‚Á‚Ä‚«‚½ê‡‚Íƒ[ƒe[ƒgˆ—‚µ‚È‚¢
+		        boolean truncateCurrent = (prevTableIndex != null);
+		        rotateTable(database, tableIndex, baseMeasurementValue.measurementTime,
+		                    rotatePeriod, rotatePeriodUnit, truncateCurrent,
+		                    MEASUREMENT_ROTATE_CALLBACK);
+		        prevTableIndexMap__.put(database, tableIndex);
+		    }
+		    deleteOldMeasurementItems(database,
+		    		baseMeasurementValue.measurementTime, rotatePeriod,
+		                              rotatePeriodUnit, batchUnit);
+		}
+	}
 
     private static LinkedHashMap<String, Integer> loadMeasurementItemIdMap(String database,
         int itemIdCacheSize)
@@ -613,7 +419,7 @@ public class ResourceDataDaoUtil
         {
             itemIdMap.put(item.itemName, item.measurementItemId);
         }
-
+        
         return itemIdMap;
     }
 
@@ -630,41 +436,19 @@ public class ResourceDataDaoUtil
             }
             else
             {
-                String displayName = itemMapKey;
-
-                // ã™ã§ã«è¨ˆæ¸¬é …ç›®ãŒãƒ†ãƒ¼ãƒ–ãƒ«ã«ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹ã‹ç¢ºèªã™ã‚‹ã€‚
-                // æ¯”è¼ƒã™ã‚‹éš›ã¯ã€æ”¹è¡Œã‚’åŠè§’ã‚¹ãƒšãƒ¼ã‚¹ã«å¤‰æ›ã—ãŸçŠ¶æ…‹ã§æ¯”è¼ƒã™ã‚‹ã€‚
+                String displayName = detail.displayName;
+                
+                // ‚·‚Å‚ÉŒv‘ª€–Ú‚ªƒe[ƒuƒ‹‚É“o˜^‚³‚ê‚Ä‚¢‚é‚©Šm”F‚·‚éB
+                // ”äŠr‚·‚éÛ‚ÍA‰üs‚ğ”¼ŠpƒXƒy[ƒX‚É•ÏŠ·‚µ‚½ó‘Ô‚Å”äŠr‚·‚éB
                 displayName = displayName.replaceAll("\\r\\n", " ");
                 displayName = displayName.replaceAll("\\r", " ");
                 displayName = displayName.replaceAll("\\n", " ");
-
+                
                 itemId =
                     JavelinMeasurementItemDao.selectMeasurementItemIdFromItemName(database,
                                                                                   displayName);
             }
             return itemId;
-        }
-    }
-
-    /**
-     * measurement_item_idã‚’å–å¾—ã™ã‚‹ã€‚
-     * 
-     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã€‚
-     * @param itemName measurent_item_name
-     * @param itemIdCacheSize ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚µã‚¤ã‚ºã€‚
-     * @return measurement_item_idã€‚
-     */
-    public static int getItemId(final String database, String itemName, int itemIdCacheSize)
-    {
-        try
-        {
-            Map<String, Integer> itemMap = getItemIdMap(database, itemIdCacheSize);
-            return getItemId(database, itemMap, null, itemName);
-        }
-        catch (SQLException ex)
-        {
-            LOGGER.log("EEDA0103", ex);
-            return -1;
         }
     }
 
@@ -678,8 +462,8 @@ public class ResourceDataDaoUtil
             if (itemMap.size() > itemIdCacheSize)
             {
                 overflowCount = 1;
-
-                // æœ€åˆã®è¦ç´ ã‚’å‰Šé™¤ã™ã‚‹ã€‚
+                
+                // Å‰‚Ì—v‘f‚ğíœ‚·‚éB
                 Iterator<Entry<String, Integer>> iterator = itemMap.entrySet().iterator();
                 if (iterator.hasNext())
                 {
@@ -690,22 +474,22 @@ public class ResourceDataDaoUtil
         }
         return overflowCount;
     }
-
+    
     /**
-     * ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆã‚’å®Ÿæ–½ã—ã¾ã™ã€‚
+     * ƒ[ƒe[ƒg‚ğÀ{‚µ‚Ü‚·B
      *
-     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @param tableIndex ãƒ‡ãƒ¼ã‚¿ãŒæŒ¿å…¥ã•ã‚ŒãŸãƒ†ãƒ¼ãƒ–ãƒ«ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
-     * @param date æŒ¿å…¥ã™ã‚‹ãƒ‡ãƒ¼ã‚¿ã®æ™‚åˆ»
-     * @param rotatePeriod ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆæœŸé–“
-     * @param rotatePeriodUnit ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆæœŸé–“ã®å˜ä½ï¼ˆCalendar.DATE or Calendar.MONTHï¼‰
-     * @param truncateCurrent ç¾åœ¨ã®ãƒ‡ãƒ¼ã‚¿ã®æŒ¿å…¥å¯¾è±¡ã‚’ truncate ã™ã‚‹å ´åˆã¯ <code>true</code>
-     * @param rotateCallback truncate å‡¦ç†ã‚’è¡Œã†ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ãƒ¡ã‚½ãƒƒãƒ‰
-     * @throws SQLException truncate å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @param database ƒf[ƒ^ƒx[ƒX–¼
+     * @param tableIndex ƒf[ƒ^‚ª‘}“ü‚³‚ê‚½ƒe[ƒuƒ‹ƒCƒ“ƒfƒbƒNƒX
+     * @param date ‘}“ü‚·‚éƒf[ƒ^‚Ì
+     * @param rotatePeriod ƒ[ƒe[ƒgŠúŠÔ
+     * @param rotatePeriodUnit ƒ[ƒe[ƒgŠúŠÔ‚Ì’PˆÊiCalendar.DATE or Calendar.MONTHj
+     * @param truncateCurrent Œ»İ‚Ìƒf[ƒ^‚Ì‘}“ü‘ÎÛ‚ğ truncate ‚·‚éê‡‚Í <code>true</code>
+     * @param rotateCallback truncate ˆ—‚ğs‚¤ƒR[ƒ‹ƒoƒbƒNƒƒ\ƒbƒh
+     * @throws SQLException truncate Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
      */
     public static void rotateTable(final String database, final Integer tableIndex,
-        final Timestamp date, final int rotatePeriod, final int rotatePeriodUnit,
-        final boolean truncateCurrent, final RotateCallback rotateCallback)
+            final Timestamp date, final int rotatePeriod, final int rotatePeriodUnit,
+            final boolean truncateCurrent, final RotateCallback rotateCallback)
         throws SQLException
     {
         Calendar calendarToInsert = Calendar.getInstance();
@@ -718,19 +502,19 @@ public class ResourceDataDaoUtil
         }
 
         Calendar deleteTime = getBeforeDate(date, rotatePeriod, rotatePeriodUnit);
-        // remainStartIndexä»¥é™ï¼ˆã“ã®å€¤ã‚’å«ã‚€ï¼‰ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã®ãƒ†ãƒ¼ãƒ–ãƒ«ã¯truncateã—ãªã„
+        // remainStartIndexˆÈ~i‚±‚Ì’l‚ğŠÜ‚Şj‚ÌƒCƒ“ƒfƒbƒNƒX‚Ìƒe[ƒuƒ‹‚Ítruncate‚µ‚È‚¢
         int remainStartIndex = getTableIndexToInsert(deleteTime.getTime());
         if (remainStartIndex <= tableIndex)
         {
-            // ãƒ†ãƒ¼ãƒ–ãƒ«ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãŒç­‰ã—ã„å ´åˆã€
-            // ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆæœŸé–“ãŒ1é€±é–“æœªæº€ã®å ´åˆã¨ç´„1å¹´ã®å ´åˆã®2ãƒ‘ã‚¿ãƒ¼ãƒ³ã‚ã‚‹ã€‚
-            // ãã‚Œãã‚Œã«ã‚ˆã£ã¦å‡¦ç†ãŒç•°ãªã‚‹ã€‚
-            // ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆæœŸé–“ãŒ1é€±é–“æœªæº€ã®å ´åˆã¯ã€æŒ¿å…¥ãƒ†ãƒ¼ãƒ–ãƒ«ä»¥å¤–ã®ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’truncateã—ã¦ã‚ˆã„ãŒã€
-            // ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆæœŸé–“ãŒç´„1å¹´ã®å ´åˆã¯ã€ä»–ã®ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’truncateã—ã¦ã¯ã„ã‘ãªã„ã€‚
+            // ƒe[ƒuƒ‹ƒCƒ“ƒfƒbƒNƒX‚ª“™‚µ‚¢ê‡A
+            // ƒ[ƒe[ƒgŠúŠÔ‚ª1TŠÔ–¢–‚Ìê‡‚Æ–ñ1”N‚Ìê‡‚Ì2ƒpƒ^[ƒ“‚ ‚éB
+            // ‚»‚ê‚¼‚ê‚É‚æ‚Á‚Äˆ—‚ªˆÙ‚È‚éB
+            // ƒ[ƒe[ƒgŠúŠÔ‚ª1TŠÔ–¢–‚Ìê‡‚ÍA‘}“üƒe[ƒuƒ‹ˆÈŠO‚Ìƒe[ƒuƒ‹‚ğtruncate‚µ‚Ä‚æ‚¢‚ªA
+            // ƒ[ƒe[ƒgŠúŠÔ‚ª–ñ1”N‚Ìê‡‚ÍA‘¼‚Ìƒe[ƒuƒ‹‚ğtruncate‚µ‚Ä‚Í‚¢‚¯‚È‚¢B
             if (remainStartIndex < tableIndex
-                || isShorterThanOneWeek(rotatePeriod, rotatePeriodUnit))
+                    || isShorterThanOneWeek(rotatePeriod, rotatePeriodUnit))
             {
-                // remainStartIndexã‚ˆã‚Šå‰ã€ã‚‚ã—ãã¯tableIndexã‚ˆã‚Šå¾Œã®ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’truncateã™ã‚‹
+                // remainStartIndex‚æ‚è‘OA‚à‚µ‚­‚ÍtableIndex‚æ‚èŒã‚Ìƒe[ƒuƒ‹‚ğtruncate‚·‚é
                 for (int index = 1; index < remainStartIndex; index++)
                 {
                     rotateCallback.truncate(database, index, yearToInsert + 1);
@@ -752,16 +536,16 @@ public class ResourceDataDaoUtil
         if (LOGGER.isInfoEnabled())
         {
             LOGGER.log(LogMessageCodes.ROTATE_TABLE_PERFORMED, database,
-                       rotateCallback.getTableType());
+                         rotateCallback.getTableType());
         }
     }
 
     /**
-     * ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆæœŸé–“ãŒ1é€±é–“æœªæº€ã‹ã©ã†ã‹ã‚’åˆ¤å®šã—ã¾ã™ã€‚
+     * ƒ[ƒe[ƒgŠúŠÔ‚ª1TŠÔ–¢–‚©‚Ç‚¤‚©‚ğ”»’è‚µ‚Ü‚·B
      *
-     * @param rotatePeriod ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆæœŸé–“
-     * @param rotatePeriodUnit ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆæœŸé–“ã®å˜ä½
-     * @return 1é€±é–“ï¼ˆ7æ—¥ï¼‰æœªæº€ã®å ´åˆã¯ <code>true</code> ã€1é€±é–“ä»¥ä¸Šã®å ´åˆã¯ <code>false</code>
+     * @param rotatePeriod ƒ[ƒe[ƒgŠúŠÔ
+     * @param rotatePeriodUnit ƒ[ƒe[ƒgŠúŠÔ‚Ì’PˆÊ
+     * @return 1TŠÔi7“új–¢–‚Ìê‡‚Í <code>true</code> A1TŠÔˆÈã‚Ìê‡‚Í <code>false</code>
      */
     private static boolean isShorterThanOneWeek(final int rotatePeriod, final int rotatePeriodUnit)
     {
@@ -778,19 +562,18 @@ public class ResourceDataDaoUtil
     }
 
     /**
-     * å¤ã„ç³»åˆ—æƒ…å ±ï¼ˆITEMï¼‰ã‚’å‰Šé™¤ã—ã¾ã™ã€‚
+     * ŒÃ‚¢Œn—ñî•ñiITEMj‚ğíœ‚µ‚Ü‚·B
      *
-     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @param date æŒ¿å…¥ã™ã‚‹ãƒ‡ãƒ¼ã‚¿ã®æ™‚åˆ»
-     * @param rotatePeriod ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆæœŸé–“
-     * @param rotatePeriodUnit ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆæœŸé–“ã®å˜ä½ï¼ˆCalendar.DATE or Calendar.MONTHï¼‰
+     * @param database ƒf[ƒ^ƒx[ƒX–¼
+     * @param date ‘}“ü‚·‚éƒf[ƒ^‚Ì
+     * @param rotatePeriod ƒ[ƒe[ƒgŠúŠÔ
+     * @param rotatePeriodUnit ƒ[ƒe[ƒgŠúŠÔ‚Ì’PˆÊiCalendar.DATE or Calendar.MONTHj
      */
-    private static List<Integer> deleteOldMeasurementItems(final String database,
-        final Timestamp date, final int rotatePeriod, final int rotatePeriodUnit,
-        final int insertUnit)
+    private static void deleteOldMeasurementItems(final String database, final Timestamp date,
+        final int rotatePeriod, final int rotatePeriodUnit, final int insertUnit)
     {
         List<Integer> deleteIdList = new ArrayList<Integer>();
-
+        
         long deleteTime = getBeforeDate(date, rotatePeriod, rotatePeriodUnit).getTimeInMillis();
         Map<Integer, Timestamp> updatedMap = getUpdatedMap(database);
         Iterator<Map.Entry<Integer, Timestamp>> iterator = updatedMap.entrySet().iterator();
@@ -800,8 +583,8 @@ public class ResourceDataDaoUtil
             Map.Entry<Integer, Timestamp> entry = iterator.next();
             if (entry.getValue().getTime() < deleteTime)
             {
-                // æœ€çµ‚æ›´æ–°æ™‚åˆ»ãŒãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆæœŸé–“ã‚ˆã‚Šå‰ã®å ´åˆã¯ã€
-                // ãã®MEASUREMENT_ITEMã‚’å‰Šé™¤ã™ã‚‹
+                // ÅIXV‚ªƒ[ƒe[ƒgŠúŠÔ‚æ‚è‘O‚Ìê‡‚ÍA
+                // ‚»‚ÌMEASUREMENT_ITEM‚ğíœ‚·‚é
                 deleteIdList.add(entry.getKey());
 
                 if (deleteIdList.size() >= insertUnit)
@@ -810,16 +593,12 @@ public class ResourceDataDaoUtil
                     {
                         JavelinMeasurementItemDao.deleteByMeasurementItemId(database, deleteIdList);
                         removedItems += deleteIdList.size();
-                        //deleteIdList.clear();
+                        deleteIdList.clear();
                     }
                     catch (SQLException ex)
                     {
-                        // å‰Šé™¤ã«å¤±æ•—ã—ãŸå ´åˆã¯ã¾ã ITEMãŒä½¿ç”¨ã•ã‚Œã¦ã„ã‚‹ãŸã‚ã€
-                        // Mapã‹ã‚‰ã‚‚å‰Šé™¤ã—ãªã„
-                        if (LOGGER.isDebugEnabled())
-                        {
-                            LOGGER.log("EEDA0103", ex);
-                        }
+                        // íœ‚É¸”s‚µ‚½ê‡‚Í‚Ü‚¾ITEM‚ªg—p‚³‚ê‚Ä‚¢‚é‚½‚ßA
+                        // Map‚©‚ç‚àíœ‚µ‚È‚¢
                     }
                 }
             }
@@ -829,51 +608,35 @@ public class ResourceDataDaoUtil
             try
             {
                 JavelinMeasurementItemDao.deleteByMeasurementItemId(database, deleteIdList);
-                updateItemListMulResGraph(database, deleteIdList);
                 removedItems += deleteIdList.size();
+                deleteIdList.clear();
             }
             catch (SQLException ex)
             {
-                // å‰Šé™¤ã«å¤±æ•—ã—ãŸå ´åˆã¯ã¾ã ITEMãŒä½¿ç”¨ã•ã‚Œã¦ã„ã‚‹ãŸã‚ã€
-                // Mapã‹ã‚‰ã‚‚å‰Šé™¤ã—ãªã„
-                if (LOGGER.isDebugEnabled())
-                {
-                    LOGGER.log("EEDA0103", ex);
-                }
+                // íœ‚É¸”s‚µ‚½ê‡‚Í‚Ü‚¾ITEM‚ªg—p‚³‚ê‚Ä‚¢‚é‚½‚ßA
+                // Map‚©‚ç‚àíœ‚µ‚È‚¢
             }
         }
 
+        
         if (LOGGER.isInfoEnabled())
         {
             LOGGER.log(LogMessageCodes.NO_NEEDED_SERIES_REMOVED, database,
-                       Integer.valueOf(removedItems));
+                         Integer.valueOf(removedItems));
         }
-
-        return deleteIdList;
-    }
-
-    private static void
-        updateItemListMulResGraph(final String database, List<Integer> deleteIdList)
-    {
-        List<String> measurementItemName = new ArrayList<String>();
-        for (Integer id : deleteIdList)
-        {
-            measurementItemName.add(measurementItemNameMap__.get(id));
-
-        }
-        checkMatchPattern(database, measurementItemName);
     }
 
     /**
-     * æŒ‡å®šã•ã‚ŒãŸæ™‚åˆ»ã‹ã‚‰ã€æŒ‡å®šã—ãŸæ™‚é–“ã ã‘å‰ã®æ™‚åˆ»ã‚’è¿”ã—ã¾ã™ã€‚
+     * w’è‚³‚ê‚½‚©‚çAw’è‚µ‚½ŠÔ‚¾‚¯‘O‚Ì‚ğ•Ô‚µ‚Ü‚·B
      *
-     * @param baseTime æ™‚åˆ»
-     * @param period æœŸé–“ï¼ˆæ­£ã®å€¤ï¼‰
-     * @param unit å˜ä½ï¼ˆCalendarã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ï¼‰
-     * @return Calendarã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+     * @param baseTime 
+     * @param period ŠúŠÔi³‚Ì’lj
+     * @param unit ’PˆÊiCalendarƒNƒ‰ƒX‚ÌƒCƒ“ƒfƒbƒNƒXj
+     * @return CalendarƒCƒ“ƒXƒ^ƒ“ƒX
      */
-    private static Calendar
-        getBeforeDate(final Timestamp baseTime, final int period, final int unit)
+    private static Calendar getBeforeDate(final Timestamp baseTime,
+                                          final int period,
+                                          final int unit)
     {
         Calendar deleteTimeCalendar = Calendar.getInstance();
         deleteTimeCalendar.setTime(baseTime);
@@ -882,17 +645,18 @@ public class ResourceDataDaoUtil
     }
 
     /**
-     * Javelin è¨ˆæ¸¬é …ç›®ãƒ†ãƒ¼ãƒ–ãƒ«ã«ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚<br />
+     * Javelin Œv‘ª€–Úƒe[ƒuƒ‹‚ÉƒŒƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B<br />
      *
-     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @param measurementType è¨ˆæ¸¬å€¤ç¨®åˆ¥
-     * @param itemName é …ç›®åç§°
-     * @param lastInserted è¨ˆæ¸¬ãƒ‡ãƒ¼ã‚¿æœ€çµ‚æŒ¿å…¥æ™‚åˆ»
-     * @return æŒ¿å…¥ã—ãŸãƒ¬ã‚³ãƒ¼ãƒ‰ã®è¨ˆæ¸¬é …ç›® ID
-     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @param database ƒf[ƒ^ƒx[ƒX–¼
+     * @param measurementType Œv‘ª’lí•Ê
+     * @param itemName €–Ú–¼Ì
+     * @param lastInserted Œv‘ªƒf[ƒ^ÅI‘}“ü
+     * @return ‘}“ü‚µ‚½ƒŒƒR[ƒh‚ÌŒv‘ª€–Ú ID
+     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
      */
-    private static int insertJavelinMeasurementItem(final String database, final String itemName,
-        final Timestamp lastInserted)
+    private static int insertJavelinMeasurementItem(final String database,
+                                                    final String itemName,
+                                                    final Timestamp lastInserted)
         throws SQLException
     {
         JavelinMeasurementItem item = new JavelinMeasurementItem();
@@ -900,8 +664,8 @@ public class ResourceDataDaoUtil
         item.lastInserted = lastInserted;
         JavelinMeasurementItemDao.insert(database, item);
 
-        // æŒ¿å…¥ã—ãŸãƒ¬ã‚³ãƒ¼ãƒ‰ã®è¨ˆæ¸¬é …ç›® IDã‚’æ¤œç´¢ã™ã‚‹éš›ã€è¨ˆæ¸¬é …ç›®ã«æ”¹è¡ŒãŒå…¥ã£ã¦ã„ã‚‹å ´åˆã¯ã€
-        // æ”¹è¡Œã‚’åŠè§’ã‚¹ãƒšãƒ¼ã‚¹ã«å¤‰æ›´ã—ã¦ã‹ã‚‰æ¤œç´¢ã™ã‚‹
+        // ‘}“ü‚µ‚½ƒŒƒR[ƒh‚ÌŒv‘ª€–Ú ID‚ğŒŸõ‚·‚éÛAŒv‘ª€–Ú‚É‰üs‚ª“ü‚Á‚Ä‚¢‚éê‡‚ÍA
+        // ‰üs‚ğ”¼ŠpƒXƒy[ƒX‚É•ÏX‚µ‚Ä‚©‚çŒŸõ‚·‚é
         String parsedItemName = itemName.replaceAll("\\r\\n", " ");
         parsedItemName = parsedItemName.replaceAll("\\r", " ");
         parsedItemName = parsedItemName.replaceAll("\\n", " ");
@@ -912,24 +676,23 @@ public class ResourceDataDaoUtil
     }
 
     /**
-     * æŒ‡å®šã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã«å¯¾å¿œã™ã‚‹ã€ç³»åˆ—æ¯ã®æœ€çµ‚æ›´æ–°æ™‚åˆ»ã®ãƒãƒƒãƒ—ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * w’è‚³‚ê‚½ƒf[ƒ^ƒx[ƒX‚É‘Î‰‚·‚éAŒn—ñ–ˆ‚ÌÅIXV‚Ìƒ}ƒbƒv‚ğ•Ô‚µ‚Ü‚·B<br />
      *
-     * ã‚‚ã—ãƒãƒƒãƒ—ãŒå­˜åœ¨ã—ãªã„å ´åˆã¯æ–°ãŸã«ä½œæˆã—ã¾ã™ã€‚
-     * ã“ã®ã¨ãã€ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã«å­˜åœ¨ã™ã‚‹ç³»åˆ—æ¯ã®æœ€çµ‚æ›´æ–°æ™‚åˆ»æƒ…å ±ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * ‚à‚µƒ}ƒbƒv‚ª‘¶İ‚µ‚È‚¢ê‡‚ÍV‚½‚Éì¬‚µ‚Ü‚·B
+     * ‚±‚Ì‚Æ‚«Aƒf[ƒ^ƒx[ƒX‚É‘¶İ‚·‚éŒn—ñ–ˆ‚ÌÅIXVî•ñ‚ğæ“¾‚µ‚Ü‚·B
      *
-     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @return ç³»åˆ—æ¯ã®æœ€çµ‚æ›´æ–°æ™‚åˆ»ã®ãƒãƒƒãƒ—
+     * @param database ƒf[ƒ^ƒx[ƒX–¼
+     * @return Œn—ñ–ˆ‚ÌÅIXV‚Ìƒ}ƒbƒv
      */
     private static Map<Integer, Timestamp> getUpdatedMap(String database)
     {
-        measurementItemNameMap__ = new ConcurrentHashMap<Integer, String>();
         Map<Integer, Timestamp> updatedMap = measurementItemUpdatedMap__.get(database);
         if (updatedMap == null)
         {
             updatedMap = new ConcurrentHashMap<Integer, Timestamp>();
             measurementItemUpdatedMap__.put(database, updatedMap);
 
-            // ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã«å­˜åœ¨ã™ã‚‹ç³»åˆ—æ¯ã®æœ€çµ‚æ›´æ–°æ™‚åˆ»æƒ…å ±ã‚’å–å¾—ã™ã‚‹
+            // ƒf[ƒ^ƒx[ƒX‚É‘¶İ‚·‚éŒn—ñ–ˆ‚ÌÅIXVî•ñ‚ğæ“¾‚·‚é
             try
             {
                 List<JavelinMeasurementItem> itemList =
@@ -937,7 +700,6 @@ public class ResourceDataDaoUtil
                 for (JavelinMeasurementItem item : itemList)
                 {
                     updatedMap.put(item.measurementItemId, item.lastInserted);
-                    measurementItemNameMap__.put(item.measurementItemId, item.itemName);
                 }
             }
             catch (SQLException ex)
@@ -947,70 +709,4 @@ public class ResourceDataDaoUtil
         }
         return updatedMap;
     }
-
-    /**
-     * Get the measurementName List that match with pattern
-     * @param databaseName
-     * @param measurementNameList
-     */
-    private static void checkMatchPattern(final String databaseName,
-        final List<String> measurementNameList)
-    {
-        try
-        {
-            for (String measurementName : measurementNameList)
-            {
-                Map<Long, String> itemMap = new TreeMap<Long, String>();
-                List<MultipleResourceGraphInfo> result =
-                    MulResourceGraphDefinitionDao.selectMatchPattern(databaseName, measurementName);
-
-                for (MultipleResourceGraphInfo matchResult : result)
-                {
-                    String updateList =
-                        createUpdateMeasurementItemList(matchResult.measurementItemIdList_,
-                                                        measurementName);
-                    itemMap.put(matchResult.multipleResourceGraphId_, updateList);
-                    System.out.println(matchResult.multipleResourceGraphName_);
-                }
-                if (itemMap.size() > 0)
-                {
-                    MulResourceGraphDefinitionDao.updateItemListById(databaseName, itemMap);
-
-                }
-
-            }
-        }
-        catch (SQLException ex)
-        {
-            ex.printStackTrace();
-        }
-    }
-
-    /**
-     * Create the updated measurement ItemList depend on operation
-     * @param itemList
-     * @param updateItem
-     * @return String
-     */
-    private static String createUpdateMeasurementItemList(final String itemList,
-        final String updateItem)
-    {
-        String updateList = null;
-        List<String> list = new ArrayList<String>(Arrays.asList(itemList.split(",")));
-        if (list.indexOf(updateItem) == -1)
-        {
-            return itemList;
-        }
-        list.remove(list.indexOf(updateItem));
-        if (list.size() > 0)
-        {
-            updateList = list.get(0);
-        }
-        for (int index = 1; index < list.size(); index++)
-        {
-            updateList += "," + list.get(index);
-        }
-        return updateList;
-    }
-
 }

@@ -32,19 +32,19 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * SQLã®Serverå®Ÿè¡Œè¨ˆç”»ã®èª¿æŸ»ã‚’è¡Œã„ã¾ã™ã€‚<br>
- * ç¾çŠ¶ã€ãƒ•ãƒ«ã‚¹ã‚­ãƒ£ãƒ³ã‚’è¡Œã£ãŸæ™‚ã«å‡ºåŠ›ã•ã‚Œã‚‹æ–‡å­—åˆ—ãŒ<br>
- * å®Ÿè¡Œè¨ˆç”»ã®æ–‡å­—åˆ—ã®ä¸­ã«å«ã¾ã‚Œã‚‹ã‹å«ã¾ã‚Œãªã„ã‹ã®ã¿ã§ã€ãƒ•ãƒ«ã‚¹ã‚­ãƒ£ãƒ³ã®åˆ¤å®šã‚’è¡Œã£ã¦ã„ã‚‹ã€‚<br>
- * ã¾ãŸã€ãƒ•ãƒ«ã‚¹ã‚­ãƒ£ãƒ³ã‚’èµ·ã“ã—ã¦ã„ã‚‹ãƒ†ãƒ¼ãƒ–ãƒ«åã‚’å–å¾—ã—ã¦ã„ãªã„ã€‚<br>
+ * SQL‚ÌServerŽÀsŒv‰æ‚Ì’²¸‚ðs‚¢‚Ü‚·B<br>
+ * Œ»óAƒtƒ‹ƒXƒLƒƒƒ“‚ðs‚Á‚½Žž‚Éo—Í‚³‚ê‚é•¶Žš—ñ‚ª<br>
+ * ŽÀsŒv‰æ‚Ì•¶Žš—ñ‚Ì’†‚ÉŠÜ‚Ü‚ê‚é‚©ŠÜ‚Ü‚ê‚È‚¢‚©‚Ì‚Ý‚ÅAƒtƒ‹ƒXƒLƒƒƒ“‚Ì”»’è‚ðs‚Á‚Ä‚¢‚éB<br>
+ * ‚Ü‚½Aƒtƒ‹ƒXƒLƒƒƒ“‚ð‹N‚±‚µ‚Ä‚¢‚éƒe[ƒuƒ‹–¼‚ðŽæ“¾‚µ‚Ä‚¢‚È‚¢B<br>
  * 
  * @author iida
  */
 public class SQLServerExecutePlanChecker extends AbstractExecutePlanChecker<Map<String, String>>
 {
-    /** ãƒ•ãƒ«ã‚¹ã‚­ãƒ£ãƒ³ãŒè¡Œã‚ã‚ŒãŸã“ã¨ã‚’ç¤ºã™æ–‡å­—åˆ—ã€‚ */
+    /** ƒtƒ‹ƒXƒLƒƒƒ“‚ªs‚í‚ê‚½‚±‚Æ‚ðŽ¦‚·•¶Žš—ñB */
     private static final String PARAMETER_TABLE_SCAN = "Parameter Table Scan";
 
-    /** ãƒ•ãƒ«ã‚¹ã‚­ãƒ£ãƒ³ãŒè¡Œã‚ã‚ŒãŸã“ã¨ã‚’ç¤ºã™æ–‡å­—åˆ—ã€‚ */
+    /** ƒtƒ‹ƒXƒLƒƒƒ“‚ªs‚í‚ê‚½‚±‚Æ‚ðŽ¦‚·•¶Žš—ñB */
     private static final String TABLE_SCAN = "Table Scan";
 
     /**
@@ -63,10 +63,10 @@ public class SQLServerExecutePlanChecker extends AbstractExecutePlanChecker<Map<
     @Override
     public Set<String> getFullScanTableNameSet(final String executePlan, final String excludeString)
     {
-        // ãƒ•ãƒ«ã‚¹ã‚­ãƒ£ãƒ³ãŒç™ºç”Ÿã—ãŸãƒ†ãƒ¼ãƒ–ãƒ«ã®åå‰ã‚’ã¾ã¨ã‚ã‚‹Setã€‚
+        // ƒtƒ‹ƒXƒLƒƒƒ“‚ª”­¶‚µ‚½ƒe[ƒuƒ‹‚Ì–¼‘O‚ð‚Ü‚Æ‚ß‚éSetB
         Set<String> fullScanTableSet = new HashSet<String>();
 
-        // ãƒ•ãƒ«ã‚¹ã‚­ãƒ£ãƒ³ã‚’ç¤ºã™æ–‡å­—åˆ—ãŒã€å®Ÿè¡Œè¨ˆç”»ä¸­ã«å­˜åœ¨ã™ã‚‹ã‹ã©ã†ã‹ã‚’èª¿ã¹ã‚‹ã€‚
+        // ƒtƒ‹ƒXƒLƒƒƒ“‚ðŽ¦‚·•¶Žš—ñ‚ªAŽÀsŒv‰æ’†‚É‘¶Ý‚·‚é‚©‚Ç‚¤‚©‚ð’²‚×‚éB
         int parameterTableScanIndex = executePlan.indexOf(PARAMETER_TABLE_SCAN);
         int tableScanIndex = executePlan.indexOf(TABLE_SCAN);
 

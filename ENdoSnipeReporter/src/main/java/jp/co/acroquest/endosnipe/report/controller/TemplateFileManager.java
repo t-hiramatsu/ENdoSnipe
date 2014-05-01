@@ -23,121 +23,121 @@ import java.net.URL;
 import jp.co.acroquest.endosnipe.report.util.ReporterConfigAccessor;
 
 /**
- * ãƒ¬ãƒãƒ¼ãƒˆã®ã€Œç¨®é¡ã€ã«å¯¾å¿œã—ãŸãƒ¬ãƒãƒ¼ãƒˆãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã‚’ç®¡ç†ã™ã‚‹ã€‚
- * ãƒªã‚¯ã‚¨ã‚¹ãƒˆã«å¿œã˜ã¦ã€ãƒ¬ãƒãƒ¼ãƒˆãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆãƒªã‚½ãƒ¼ã‚¹ã«ã‚¢ã‚¯ã‚»ã‚¹ã™ã‚‹ãŸã‚ã®ãƒ‘ã‚¹ã‚’è¿”ã™ã€‚
+ * ƒŒƒ|[ƒg‚Ìuí—Şv‚É‘Î‰‚µ‚½ƒŒƒ|[ƒgƒeƒ“ƒvƒŒ[ƒg‚ğŠÇ—‚·‚éB
+ * ƒŠƒNƒGƒXƒg‚É‰‚¶‚ÄAƒŒƒ|[ƒgƒeƒ“ƒvƒŒ[ƒgƒŠƒ\[ƒX‚ÉƒAƒNƒZƒX‚·‚é‚½‚ß‚ÌƒpƒX‚ğ•Ô‚·B
  * 
  * @author M.Yoshida
  */
 public class TemplateFileManager
 {
-	private static TemplateFileManager instance__ = null;
+    private static TemplateFileManager instance__ = null;
 
-	/**
-	 * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹é˜²æ­¢ã®ãŸã‚ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
-	 */
-	private TemplateFileManager()
-	// CHECKSTYLE:OFF
-	{
-		// Do nothing.
-	}
+    /**
+     * ƒCƒ“ƒXƒ^ƒ“ƒX–h~‚Ì‚½‚ß‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     */
+    private TemplateFileManager()
+    // CHECKSTYLE:OFF
+    {
+        // Do nothing.
+    }
+    // CHECKSTYLE:ON
 
-	// CHECKSTYLE:ON
+    /**
+     * ƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚·‚éB
+     * @return ƒCƒ“ƒXƒ^ƒ“ƒXB
+     */
+    public static TemplateFileManager getInstance()
+    {
+        if (instance__ == null)
+        {
+            instance__ = new TemplateFileManager();
+        }
+        return instance__;
+    }
 
-	/**
-	 * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã™ã‚‹ã€‚
-	 * @return ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã€‚
-	 */
-	public static TemplateFileManager getInstance()
-	{
-		if (instance__ == null)
-		{
-			instance__ = new TemplateFileManager();
-		}
-		return instance__;
-	}
+    /**
+     * ƒŒƒ|[ƒg‚Ìuí—Şv‚É‘Î‰‚·‚éƒeƒ“ƒvƒŒ[ƒgƒtƒ@ƒCƒ‹‚ğƒŠƒ\[ƒX‚©‚çæ‚èo‚µ
+     * ƒeƒ“ƒ|ƒ‰ƒŠ—Ìˆæ‚ÉƒRƒs[ŒãAƒeƒ“ƒ|ƒ‰ƒŠƒtƒ@ƒCƒ‹‚Ö‚Ìâ‘ÎƒpƒX‚ğ¶¬‚·‚éB
+     * 
+     * @param type ƒŒƒ|[ƒg‚Ìí—Ş
+     * @throws IOException “üo—ÍƒGƒ‰[”­¶
+     * @return ƒtƒ@ƒCƒ‹ƒpƒX
+     */
+    public String getTemplateFile(ReportType type)
+        throws IOException
+    {
+        String templateFileResourcePath =
+                                          ReporterConfigAccessor.getReportTemplateResourcePath(type);
 
-	/**
-	 * ãƒ¬ãƒãƒ¼ãƒˆã®ã€Œç¨®é¡ã€ã«å¯¾å¿œã™ã‚‹ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã‚’ãƒªã‚½ãƒ¼ã‚¹ã‹ã‚‰å–ã‚Šå‡ºã—
-	 * ãƒ†ãƒ³ãƒãƒ©ãƒªé ˜åŸŸã«ã‚³ãƒ”ãƒ¼å¾Œã€ãƒ†ãƒ³ãƒãƒ©ãƒªãƒ•ã‚¡ã‚¤ãƒ«ã¸ã®çµ¶å¯¾ãƒ‘ã‚¹ã‚’ç”Ÿæˆã™ã‚‹ã€‚
-	 * 
-	 * @param type ãƒ¬ãƒãƒ¼ãƒˆã®ç¨®é¡
-	 * @throws IOException å…¥å‡ºåŠ›ã‚¨ãƒ©ãƒ¼ç™ºç”Ÿæ™‚
-	 * @return ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹
-	 */
-	public String getTemplateFile(ReportType type) throws IOException
-	{
-		String templateFileResourcePath = ReporterConfigAccessor
-			.getReportTemplateResourcePath(type);
+        if (templateFileResourcePath == null)
+        {
+            return null;
+        }
 
-		if (templateFileResourcePath == null)
-		{
-			return null;
-		}
+        URL fileUrl = getClass().getResource(templateFileResourcePath);
+        if (fileUrl == null)
+        {
+            return null;
+        }
 
-		URL fileUrl = getClass().getResource(templateFileResourcePath);
-		if (fileUrl == null)
-		{
-			return null;
-		}
+        File temporaryTemplate = null;
+        BufferedInputStream templateFileStream = null;
+        BufferedOutputStream bTempStream = null;
+        try
+        {
+            templateFileStream = new BufferedInputStream(fileUrl.openStream());
 
-		File temporaryTemplate = null;
-		BufferedInputStream templateFileStream = null;
-		BufferedOutputStream bTempStream = null;
-		try
-		{
-			templateFileStream = new BufferedInputStream(fileUrl.openStream());
+            temporaryTemplate = File.createTempFile("tempTemplate", ".xls");
 
-			temporaryTemplate = File.createTempFile("tempTemplate", ".xls");
+            FileOutputStream temporaryStream = new FileOutputStream(temporaryTemplate);
+            bTempStream = new BufferedOutputStream(temporaryStream);
 
-			FileOutputStream temporaryStream = new FileOutputStream(temporaryTemplate);
-			bTempStream = new BufferedOutputStream(temporaryStream);
+            while (true)
+            {
+                int data = templateFileStream.read();
+                if (data == -1)
+                {
+                    break;
+                }
+                bTempStream.write(data);
+            }
 
-			while (true)
-			{
-				int data = templateFileStream.read();
-				if (data == -1)
-				{
-					break;
-				}
-				bTempStream.write(data);
-			}
+            bTempStream.flush();
+        }
+        catch (IOException ioex)
+        {
+            throw ioex;
+        }
+        finally
+        {
+            closeStream(templateFileStream);
+            closeStream(bTempStream);
+        }
 
-			bTempStream.flush();
-		}
-		catch (IOException ioex)
-		{
-			throw ioex;
-		}
-		finally
-		{
-			closeStream(templateFileStream);
-			closeStream(bTempStream);
-		}
+        return temporaryTemplate.getAbsolutePath();
+    }
 
-		return temporaryTemplate.getAbsolutePath();
-	}
+    /**
+     * ƒXƒgƒŠ[ƒ€‚ğƒNƒ[ƒY‚µ‚Ü‚·B<br />
+     * ˆø”‚ª <code>null</code> ‚Ìê‡‚Í‰½‚às‚¢‚Ü‚¹‚ñB
+     * 
+     * @param stream ƒXƒgƒŠ[ƒ€
 
-	/**
-	 * ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚’ã‚¯ãƒ­ãƒ¼ã‚ºã—ã¾ã™ã€‚<br />
-	 * å¼•æ•°ãŒ <code>null</code> ã®å ´åˆã¯ä½•ã‚‚è¡Œã„ã¾ã›ã‚“ã€‚
-	 * 
-	 * @param stream ã‚¹ãƒˆãƒªãƒ¼ãƒ 
-
-	 */
-	private void closeStream(final Closeable stream)
-	{
-		if (stream != null)
-		{
-			try
-			{
-				stream.close();
-			}
-			catch (IOException ex)
-			// CHECKSTYLE:OFF
-			{
-				// Do nothing.
-			}
-			// CHECKSTYLE:ON
-		}
-	}
+     */
+    private void closeStream(final Closeable stream)
+    {
+        if (stream != null)
+        {
+            try
+            {
+                stream.close();
+            }
+            catch (IOException ex)
+            // CHECKSTYLE:OFF
+            {
+                // Do nothing.
+            }
+            // CHECKSTYLE:ON
+        }
+    }
 }

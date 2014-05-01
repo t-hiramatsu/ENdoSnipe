@@ -29,106 +29,107 @@ import jp.co.acroquest.endosnipe.data.dto.MeasurementValueDto;
 import jp.co.acroquest.endosnipe.report.dao.ReportDao;
 
 /**
- * ãƒ‡ãƒ¼ã‚¿å…¥å‡ºåŠ›æƒ…å ±ã‚’DBã‹ã‚‰å–å¾—ã™ã‚‹ã‚¢ã‚¯ã‚»ã‚µã‚¯ãƒ©ã‚¹ã€‚
+ * ƒf[ƒ^“üo—Íî•ñ‚ğDB‚©‚çæ“¾‚·‚éƒAƒNƒZƒTƒNƒ‰ƒXB
  * 
  * @author akiba
  */
 public class DataIORecordAccessor
 {
-	/**
-	 * æœŸé–“ã‚’æŒ‡å®šã—ã€ãã®æœŸé–“å†…ã§ã®ãƒ‡ãƒ¼ã‚¿å…¥å‡ºåŠ›ã®ãƒ¬ãƒãƒ¼ãƒˆãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã€‚<br/>
-	 * å–å¾—ã™ã‚‹ãƒ‡ãƒ¼ã‚¿ã¯ä»¥ä¸‹ã®é€šã‚Šã€‚<br/>
-	 * <ul>
-	 *  <li>ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯çµŒç”±ã§ã®ãƒ‡ãƒ¼ã‚¿å—ä¿¡é‡</li>
-	 *  <li>ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯çµŒç”±ã§ã®ãƒ‡ãƒ¼ã‚¿é€ä¿¡é‡</li>
-	 *  <li>ãƒ•ã‚¡ã‚¤ãƒ«å…¥åŠ›é‡</li>
-	 *  <li>ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›é‡</li>
-	 * </ul>
-	 * 
-	 * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã€‚
-	 * @param startTime æ¤œç´¢æ¡ä»¶(é–‹å§‹æ™‚åˆ»)ã€‚
-	 * @param endTime æ¤œç´¢æ¡ä»¶(çµ‚äº†æ™‚åˆ»)ã€‚
-	 * @return ãƒ‡ãƒ¼ã‚¿å…¥å‡ºåŠ›ã®ãƒ¬ãƒãƒ¼ãƒˆãƒ‡ãƒ¼ã‚¿ã€‚
-	 * @throws SQLException ãƒ‡ãƒ¼ã‚¿å–å¾—æ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
-	 */
-	public List<DataIORecord> findDataIOStaticsByTerm(String database, Timestamp startTime,
-		Timestamp endTime) throws SQLException
-	{
-		List<DataIORecord> result = new ArrayList<DataIORecord>();
+    /**
+     * ŠúŠÔ‚ğw’è‚µA‚»‚ÌŠúŠÔ“à‚Å‚Ìƒf[ƒ^“üo—Í‚ÌƒŒƒ|[ƒgƒf[ƒ^‚ğæ“¾‚·‚éB<br/>
+     * æ“¾‚·‚éƒf[ƒ^‚ÍˆÈ‰º‚Ì’Ê‚èB<br/>
+     * <ul>
+     *  <li>ƒlƒbƒgƒ[ƒNŒo—R‚Å‚Ìƒf[ƒ^óM—Ê</li>
+     *  <li>ƒlƒbƒgƒ[ƒNŒo—R‚Å‚Ìƒf[ƒ^‘—M—Ê</li>
+     *  <li>ƒtƒ@ƒCƒ‹“ü—Í—Ê</li>
+     *  <li>ƒtƒ@ƒCƒ‹o—Í—Ê</li>
+     * </ul>
+     * 
+     * @param database ƒf[ƒ^ƒx[ƒX–¼B
+     * @param startTime ŒŸõğŒ(ŠJn)B
+     * @param endTime ŒŸõğŒ(I—¹)B
+     * @return ƒf[ƒ^“üo—Í‚ÌƒŒƒ|[ƒgƒf[ƒ^B
+     * @throws SQLException ƒf[ƒ^æ“¾‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     */
+    public List<DataIORecord> findDataIOStaticsByTerm(String database, Timestamp startTime, Timestamp endTime) throws SQLException
+    {
+        List<DataIORecord> result = new ArrayList<DataIORecord>();
+        
+        // ƒf[ƒ^ƒx[ƒX‚©‚ç’l‚ğæ“¾‚·‚é
+        List<ReportItemValue> dataReceiveValues;
+        List<ReportItemValue> dataTransmitValues;
+        List<ReportItemValue> fileInputValues;
+        List<ReportItemValue> fileOutputValues;
+        
+        dataReceiveValues = ReportDao.selectAverage(database, startTime, endTime,
+                Constants.ITEMNAME_NETWORKINPUTSIZEOFPROCESS);
+        dataTransmitValues = ReportDao.selectAverage(database, startTime, endTime,
+                Constants.ITEMNAME_NETWORKOUTPUTSIZEOFPROCESS);
+        fileInputValues = ReportDao.selectAverage(database, startTime, endTime,
+                Constants.ITEMNAME_FILEINPUTSIZEOFPROCESS);
+        fileOutputValues = ReportDao.selectAverage(database, startTime, endTime,
+                Constants.ITEMNAME_FILEOUTPUTSIZEOFPROCESS);
+        
+        for (int index = 0; index < dataReceiveValues.size(); index++)
+        {
+            DataIORecord record = new DataIORecord();
+            
+            ReportItemValue dataReceive = dataReceiveValues.get(index);
+            ReportItemValue dataTransmit = dataTransmitValues.get(index);
+            ReportItemValue fileInput = fileInputValues.get(index);
+            ReportItemValue fileOutput = fileOutputValues.get(index);
+            
+            if (dataReceive != null)
+            {
+                record.setMeasurementTime(dataReceive.measurementTime);
+                record.setDataReceive(dataReceive.summaryValue.longValue());
+                record.setDataReceiveMax(dataReceive.maxValue.longValue());
+                record.setDataReceiveMin(dataReceive.minValue.longValue());
+                record.setDataTransmit(dataTransmit.summaryValue.longValue());
+                record.setDataTransmitMax(dataTransmit.maxValue.longValue());
+                record.setDataTransmitMin(dataTransmit.minValue.longValue());
+                record.setFileInput(fileInput.summaryValue.longValue());
+                record.setFileInputMax(fileInput.maxValue.longValue());
+                record.setFileInputMin(fileInput.minValue.longValue());
+                record.setFileOutput(fileOutput.summaryValue.longValue());
+                record.setFileOutputMax(fileOutput.maxValue.longValue());
+                record.setFileOutputMin(fileOutput.minValue.longValue());
+            }
+            
+            result.add(record);
+        }
+        
+        return result;
+    }
+    
+    /**
+     * ŠúŠÔ‚ğw’è‚µA‚»‚ÌŠúŠÔ“à‚Å‚Ì<br/>
+     * uƒf[ƒ^óM—ÊvƒOƒ‰ƒt‚Ìƒf[ƒ^‚ğæ“¾‚·‚éB
+     * 
+     * @param database ƒf[ƒ^ƒx[ƒX–¼B
+     * @param startTime ŒŸõğŒ(ŠJn)B
+     * @param endTime ŒŸõğŒ(I—¹)B
+     * @return uƒf[ƒ^óM—ÊvƒOƒ‰ƒt‚Ìƒf[ƒ^B
+     * @throws SQLException ƒf[ƒ^æ“¾‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     */
+    public List<DataReceiveRecord> findDataReceiveByTerm(String database, Timestamp startTime,
+            Timestamp endTime) throws SQLException
+    {
+        List<DataReceiveRecord> result = new ArrayList<DataReceiveRecord>();
 
-		// ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‹ã‚‰å€¤ã‚’å–å¾—ã™ã‚‹
-		List<ReportItemValue> dataReceiveValues;
-		List<ReportItemValue> dataTransmitValues;
-		List<ReportItemValue> fileInputValues;
-		List<ReportItemValue> fileOutputValues;
-
-		dataReceiveValues = ReportDao.selectAverage(database, startTime, endTime,
-			Constants.ITEMNAME_NETWORKINPUTSIZEOFPROCESS);
-		dataTransmitValues = ReportDao.selectAverage(database, startTime, endTime,
-			Constants.ITEMNAME_NETWORKOUTPUTSIZEOFPROCESS);
-		fileInputValues = ReportDao.selectAverage(database, startTime, endTime,
-			Constants.ITEMNAME_FILEINPUTSIZEOFPROCESS);
-		fileOutputValues = ReportDao.selectAverage(database, startTime, endTime,
-			Constants.ITEMNAME_FILEOUTPUTSIZEOFPROCESS);
-
-		for (int index = 0; index < dataReceiveValues.size(); index++)
-		{
-			DataIORecord record = new DataIORecord();
-
-			ReportItemValue dataReceive = dataReceiveValues.get(index);
-			ReportItemValue dataTransmit = dataTransmitValues.get(index);
-			ReportItemValue fileInput = fileInputValues.get(index);
-			ReportItemValue fileOutput = fileOutputValues.get(index);
-
-			if (dataReceive != null)
-			{
-				record.setMeasurementTime(dataReceive.measurementTime);
-				record.setDataReceive(dataReceive.summaryValue.longValue());
-				record.setDataReceiveMax(dataReceive.maxValue.longValue());
-				record.setDataReceiveMin(dataReceive.minValue.longValue());
-				record.setDataTransmit(dataTransmit.summaryValue.longValue());
-				record.setDataTransmitMax(dataTransmit.maxValue.longValue());
-				record.setDataTransmitMin(dataTransmit.minValue.longValue());
-				record.setFileInput(fileInput.summaryValue.longValue());
-				record.setFileInputMax(fileInput.maxValue.longValue());
-				record.setFileInputMin(fileInput.minValue.longValue());
-				record.setFileOutput(fileOutput.summaryValue.longValue());
-				record.setFileOutputMax(fileOutput.maxValue.longValue());
-				record.setFileOutputMin(fileOutput.minValue.longValue());
-			}
-
-			result.add(record);
-		}
-
-		return result;
-	}
-
-	/**
-	 * æœŸé–“ã‚’æŒ‡å®šã—ã€ãã®æœŸé–“å†…ã§ã®<br/>
-	 * ã€Œãƒ‡ãƒ¼ã‚¿å—ä¿¡é‡ã€ã‚°ãƒ©ãƒ•ã®ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã€‚
-	 * 
-	 * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã€‚
-	 * @param startTime æ¤œç´¢æ¡ä»¶(é–‹å§‹æ™‚åˆ»)ã€‚
-	 * @param endTime æ¤œç´¢æ¡ä»¶(çµ‚äº†æ™‚åˆ»)ã€‚
-	 * @return ã€Œãƒ‡ãƒ¼ã‚¿å—ä¿¡é‡ã€ã‚°ãƒ©ãƒ•ã®ãƒ‡ãƒ¼ã‚¿ã€‚
-	 * @throws SQLException ãƒ‡ãƒ¼ã‚¿å–å¾—æ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
-	 */
-	public List<DataReceiveRecord> findDataReceiveByTerm(String database, Timestamp startTime,
-		Timestamp endTime) throws SQLException
-	{
-		List<DataReceiveRecord> result = new ArrayList<DataReceiveRecord>();
-
-		// ãƒ‡ãƒ¼ã‚¿å—ä¿¡é‡
+		// ƒf[ƒ^óM—Ê
 		List<MeasurementValueDto> dataReceiveValues = MeasurementValueDao
-			.selectByTermAndMeasurementTypeWithNameOrderByTime(database, startTime, endTime,
-				Constants.ITEMNAME_NETWORKINPUTSIZEOFPROCESS);
+				.selectByTermAndMeasurementTypeWithNameOrderByTime(
+					database, startTime, endTime,
+					Constants.ITEMNAME_NETWORKINPUTSIZEOFPROCESS);
 
 		for (int index = 0; index < dataReceiveValues.size(); index++)
 		{
 			DataReceiveRecord record = new DataReceiveRecord();
-			MeasurementValueDto dataReceive = dataReceiveValues.get(index);
-
-			// ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã«ä¿å­˜ã•ã‚Œã¦ã„ã‚‹ã®ãŒåˆè¨ˆå€¤ãªã®ã§ã€å·®ã‚’ä¿å­˜ã™ã‚‹
+			MeasurementValueDto dataReceive = dataReceiveValues
+					.get(index);
+			
+			// ƒf[ƒ^ƒx[ƒX‚É•Û‘¶‚³‚ê‚Ä‚¢‚é‚Ì‚ª‡Œv’l‚È‚Ì‚ÅA·‚ğ•Û‘¶‚·‚é
 			long previousValue = 0;
 			if (index > 0)
 			{
@@ -136,7 +137,7 @@ public class DataIORecordAccessor
 			}
 
 			record.setMeasurementTime(dataReceive.measurementTime);
-
+			
 			long currentValue = Long.valueOf(dataReceive.value).longValue() - previousValue;
 			currentValue = Math.max(currentValue, 0);
 			record.setDataReceive(currentValue);
@@ -148,34 +149,36 @@ public class DataIORecordAccessor
 	}
 
 	/**
-	 * æœŸé–“ã‚’æŒ‡å®šã—ã€ãã®æœŸé–“å†…ã§ã®<br/>
-	 * ã€Œãƒ‡ãƒ¼ã‚¿é€ä¿¡é‡ã€ã‚°ãƒ©ãƒ•ã®ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã€‚
+	 * ŠúŠÔ‚ğw’è‚µA‚»‚ÌŠúŠÔ“à‚Å‚Ì<br/>
+	 * uƒf[ƒ^‘—M—ÊvƒOƒ‰ƒt‚Ìƒf[ƒ^‚ğæ“¾‚·‚éB
 	 * 
-	 * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã€‚
-	 * @param startTime æ¤œç´¢æ¡ä»¶(é–‹å§‹æ™‚åˆ»)ã€‚
-	 * @param endTime æ¤œç´¢æ¡ä»¶(çµ‚äº†æ™‚åˆ»)ã€‚
-	 * @return ã€Œãƒ‡ãƒ¼ã‚¿é€ä¿¡é‡ã€ã‚°ãƒ©ãƒ•ã®ãƒ‡ãƒ¼ã‚¿ã€‚
-	 * @throws SQLException ãƒ‡ãƒ¼ã‚¿å–å¾—æ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+	 * @param database ƒf[ƒ^ƒx[ƒX–¼B
+	 * @param startTime ŒŸõğŒ(ŠJn)B
+	 * @param endTime ŒŸõğŒ(I—¹)B
+	 * @return uƒf[ƒ^‘—M—ÊvƒOƒ‰ƒt‚Ìƒf[ƒ^B
+	 * @throws SQLException ƒf[ƒ^æ“¾‚É—áŠO‚ª”­¶‚µ‚½ê‡
 	 */
-	public List<DataTransmitRecord> findDataTransmitByTerm(String database, Timestamp startTime,
-		Timestamp endTime) throws SQLException
-	{
+    public List<DataTransmitRecord> findDataTransmitByTerm(String database, Timestamp startTime,
+            Timestamp endTime) throws SQLException
+    {
 		List<DataTransmitRecord> result = new ArrayList<DataTransmitRecord>();
 
-		// ãƒ‡ãƒ¼ã‚¿é€ä¿¡é‡
+		// ƒf[ƒ^‘—M—Ê
 		List<MeasurementValueDto> dataTransmitValues = MeasurementValueDao
-			.selectByTermAndMeasurementTypeWithNameOrderByTime(database, startTime, endTime,
-				Constants.ITEMNAME_NETWORKOUTPUTSIZEOFPROCESS);
+				.selectByTermAndMeasurementTypeWithNameOrderByTime(
+					database, startTime, endTime,
+					Constants.ITEMNAME_NETWORKOUTPUTSIZEOFPROCESS);
 
 		for (int index = 0; index < dataTransmitValues.size(); index++)
 		{
 			DataTransmitRecord record = new DataTransmitRecord();
-			MeasurementValueDto dataTransmit = dataTransmitValues.get(index);
+			MeasurementValueDto dataTransmit =
+				dataTransmitValues.get(index);
 
 			record.setMeasurementTime(dataTransmit.measurementTime);
 			record.setDataTransmit(Long.valueOf(dataTransmit.value).longValue());
 
-			// ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã«ä¿å­˜ã•ã‚Œã¦ã„ã‚‹ã®ãŒåˆè¨ˆå€¤ãªã®ã§ã€å·®ã‚’ä¿å­˜ã™ã‚‹
+			// ƒf[ƒ^ƒx[ƒX‚É•Û‘¶‚³‚ê‚Ä‚¢‚é‚Ì‚ª‡Œv’l‚È‚Ì‚ÅA·‚ğ•Û‘¶‚·‚é
 			long previousValue = 0;
 			if (index > 0)
 			{
@@ -183,7 +186,7 @@ public class DataIORecordAccessor
 			}
 
 			record.setMeasurementTime(dataTransmit.measurementTime);
-
+			
 			long currentValue = Long.valueOf(dataTransmit.value).longValue() - previousValue;
 			currentValue = Math.max(currentValue, 0);
 			record.setDataTransmit(currentValue);
@@ -195,33 +198,36 @@ public class DataIORecordAccessor
 	}
 
 	/**
-	 * æœŸé–“ã‚’æŒ‡å®šã—ã€ãã®æœŸé–“å†…ã§ã®<br/>
-	 * ã€Œãƒ•ã‚¡ã‚¤ãƒ«å…¥åŠ›é‡ã€ã‚°ãƒ©ãƒ•ã®ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã€‚
+	 * ŠúŠÔ‚ğw’è‚µA‚»‚ÌŠúŠÔ“à‚Å‚Ì<br/>
+	 * uƒtƒ@ƒCƒ‹“ü—Í—ÊvƒOƒ‰ƒt‚Ìƒf[ƒ^‚ğæ“¾‚·‚éB
 	 * 
-	 * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã€‚
-	 * @param startTime æ¤œç´¢æ¡ä»¶(é–‹å§‹æ™‚åˆ»)ã€‚
-	 * @param endTime æ¤œç´¢æ¡ä»¶(çµ‚äº†æ™‚åˆ»)ã€‚
-	 * @return ã€Œãƒ•ã‚¡ã‚¤ãƒ«å…¥åŠ›é‡ã€ã‚°ãƒ©ãƒ•ã®ãƒ‡ãƒ¼ã‚¿ã€‚
+	 * @param database ƒf[ƒ^ƒx[ƒX–¼B
+	 * @param startTime ŒŸõğŒ(ŠJn)B
+	 * @param endTime ŒŸõğŒ(I—¹)B
+	 * @return uƒtƒ@ƒCƒ‹“ü—Í—ÊvƒOƒ‰ƒt‚Ìƒf[ƒ^B
 	 */
-	public List<FileInputRecord> findFileInputByTerm(String database, Timestamp startTime,
-		Timestamp endTime) throws SQLException
-	{
-		List<FileInputRecord> result = new ArrayList<FileInputRecord>();
+    public List<FileInputRecord> findFileInputByTerm(String database, Timestamp startTime,
+            Timestamp endTime) throws SQLException
+    {
+		List<FileInputRecord> result =
+			new ArrayList<FileInputRecord>();
 
-		// ãƒ•ã‚¡ã‚¤ãƒ«å…¥åŠ›é‡
+			// ƒtƒ@ƒCƒ‹“ü—Í—Ê
 		List<MeasurementValueDto> fileInputValues = MeasurementValueDao
-			.selectByTermAndMeasurementTypeWithNameOrderByTime(database, startTime, endTime,
-				Constants.ITEMNAME_FILEINPUTSIZEOFPROCESS);
+				.selectByTermAndMeasurementTypeWithNameOrderByTime(
+						database, startTime, endTime,
+						Constants.ITEMNAME_FILEINPUTSIZEOFPROCESS);
 
 		for (int index = 0; index < fileInputValues.size(); index++)
 		{
 			FileInputRecord record = new FileInputRecord();
-			MeasurementValueDto fileInput = fileInputValues.get(index);
+			MeasurementValueDto fileInput =
+				fileInputValues.get(index);
 
 			record.setMeasurementTime(fileInput.measurementTime);
 			record.setFileInput(Long.valueOf(fileInput.value).longValue());
 
-			// ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã«ä¿å­˜ã•ã‚Œã¦ã„ã‚‹ã®ãŒåˆè¨ˆå€¤ãªã®ã§ã€å·®ã‚’ä¿å­˜ã™ã‚‹
+			// ƒf[ƒ^ƒx[ƒX‚É•Û‘¶‚³‚ê‚Ä‚¢‚é‚Ì‚ª‡Œv’l‚È‚Ì‚ÅA·‚ğ•Û‘¶‚·‚é
 			long previousValue = 0;
 			if (index > 0)
 			{
@@ -229,7 +235,7 @@ public class DataIORecordAccessor
 			}
 
 			record.setMeasurementTime(fileInput.measurementTime);
-
+			
 			long currentValue = Long.valueOf(fileInput.value).longValue() - previousValue;
 			currentValue = Math.max(currentValue, 0);
 			record.setFileInput(currentValue);
@@ -241,34 +247,37 @@ public class DataIORecordAccessor
 	}
 
 	/**
-	 * æœŸé–“ã‚’æŒ‡å®šã—ã€ãã®æœŸé–“å†…ã§ã®<br/>
-	 * ã€Œãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›é‡ã€ã‚°ãƒ©ãƒ•ã®ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã€‚
+	 * ŠúŠÔ‚ğw’è‚µA‚»‚ÌŠúŠÔ“à‚Å‚Ì<br/>
+	 * uƒtƒ@ƒCƒ‹o—Í—ÊvƒOƒ‰ƒt‚Ìƒf[ƒ^‚ğæ“¾‚·‚éB
 	 * 
-	 * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã€‚
-	 * @param startTime æ¤œç´¢æ¡ä»¶(é–‹å§‹æ™‚åˆ»)ã€‚
-	 * @param endTime æ¤œç´¢æ¡ä»¶(çµ‚äº†æ™‚åˆ»)ã€‚
-	 * @return ã€Œãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›é‡ã€ã‚°ãƒ©ãƒ•ã®ãƒ‡ãƒ¼ã‚¿ã€‚
-	 * @throws SQLException ãƒ‡ãƒ¼ã‚¿å–å¾—æ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+	 * @param database ƒf[ƒ^ƒx[ƒX–¼B
+	 * @param startTime ŒŸõğŒ(ŠJn)B
+	 * @param endTime ŒŸõğŒ(I—¹)B
+	 * @return uƒtƒ@ƒCƒ‹o—Í—ÊvƒOƒ‰ƒt‚Ìƒf[ƒ^B
+	 * @throws SQLException ƒf[ƒ^æ“¾‚É—áŠO‚ª”­¶‚µ‚½ê‡
 	 */
-	public List<FileOutputRecord> findFileOutputByTerm(String database, Timestamp startTime,
-		Timestamp endTime) throws SQLException
-	{
-		List<FileOutputRecord> result = new ArrayList<FileOutputRecord>();
+    public List<FileOutputRecord> findFileOutputByTerm(String database, Timestamp startTime,
+            Timestamp endTime) throws SQLException
+    {
+		List<FileOutputRecord> result =
+			new ArrayList<FileOutputRecord>();
 
-		// ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›é‡
-		List<MeasurementValueDto> fileOutputValues = MeasurementValueDao
-			.selectByTermAndMeasurementTypeWithNameOrderByTime(database, startTime, endTime,
-				Constants.ITEMNAME_FILEOUTPUTSIZEOFPROCESS);
+		// ƒtƒ@ƒCƒ‹o—Í—Ê
+	    List<MeasurementValueDto> fileOutputValues = MeasurementValueDao
+				.selectByTermAndMeasurementTypeWithNameOrderByTime(
+						database, startTime, endTime,
+						Constants.ITEMNAME_FILEOUTPUTSIZEOFPROCESS);
 
 		for (int index = 0; index < fileOutputValues.size(); index++)
 		{
 			FileOutputRecord record = new FileOutputRecord();
-			MeasurementValueDto fileOutput = fileOutputValues.get(index);
+			MeasurementValueDto fileOutput =
+				fileOutputValues.get(index);
 
 			record.setMeasurementTime(fileOutput.measurementTime);
 			record.setFileOutput(Long.valueOf(fileOutput.value).longValue());
 
-			// ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã«ä¿å­˜ã•ã‚Œã¦ã„ã‚‹ã®ãŒåˆè¨ˆå€¤ãªã®ã§ã€å·®ã‚’ä¿å­˜ã™ã‚‹
+			// ƒf[ƒ^ƒx[ƒX‚É•Û‘¶‚³‚ê‚Ä‚¢‚é‚Ì‚ª‡Œv’l‚È‚Ì‚ÅA·‚ğ•Û‘¶‚·‚é
 			long previousValue = 0;
 			if (index > 0)
 			{
@@ -276,7 +285,7 @@ public class DataIORecordAccessor
 			}
 
 			record.setMeasurementTime(fileOutput.measurementTime);
-
+			
 			long currentValue = Long.valueOf(fileOutput.value).longValue() - previousValue;
 			currentValue = Math.max(currentValue, 0);
 			record.setFileOutput(currentValue);

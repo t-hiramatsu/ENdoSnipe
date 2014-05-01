@@ -31,7 +31,7 @@ import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.javelin.MBeanManager;
 
 /**
- * ãƒªã‚»ãƒƒãƒˆè¦æ±‚å‡¦ç†ã‚¯ãƒ©ã‚¹ã€‚
+ * ƒŠƒZƒbƒg—v‹ˆ—ƒNƒ‰ƒXB
  * @author tsukano
  */
 public class ResetRequestTelegramListener implements TelegramListener, TelegramConstants

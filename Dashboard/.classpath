@@ -4,13 +4,6 @@
 	<classpathentry kind="src" path="src/main/resources"/>
 	<classpathentry kind="src" output="target/test-classes" path="src/test/java"/>
 	<classpathentry kind="src" output="target/test-classes" path="src/test/resources"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ENdoSnipePerfDoctor"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ENdoSnipeCommon"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ENdoSnipeCommunicator"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ENdoSnipeDataAccessor"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ENdoSnipeReportCommand"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ENdoSnipeReporter"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ENdoSnipeDataCollector"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/junit-4.4.jar" sourcepath="lib/sources/junit-4.4-sources.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/antlr-2.7.7.jar"/>
@@ -54,7 +47,15 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-tx-3.0.7.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/postgresql-9.1-901.jdbc3.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/ant.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/endosnipe-datacollector-5.0.3.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/ant-launcher.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/org.eclipse.core.runtime_3.4.0.v20080512.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/org.eclipse.equinox.common_3.4.0.v20080421-2006.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/org.eclipse.equinox.preferences_3.2.201.R34x_v20080709.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/org.eclipse.jface_3.4.2.M20090107-0800.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/org.eclipse.osgi_3.4.3.R34x_v20081215-1030.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/org.eclipse.swt.win32.win32.x86_3.4.1.v3452b.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/org.eclipse.ui.workbench_3.4.2.M20090127-1700.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jaxb-api.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jaxb-impl.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/excella-core-1.2.jar"/>
@@ -71,22 +72,22 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/xmlbeans-2.3.0.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-lang-2.4.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/ENdoSnipePerfDoctor.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/org.eclipse.core.commands_3.4.0.I20080509-2000.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/org.eclipse.core.contenttype_3.3.0.v20080604-1400.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/org.eclipse.core.resources_3.4.1.R34x_v20080902.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/org.eclipse.equinox.app_1.1.0.v20080421-2006.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/org.eclipse.equinox.registry_3.4.0.v20080516-0950.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/runtime_registry_compatibility.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/blancosqlformatter-0.1.1_pzc.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-batch-core-2.2.0.RELEASE.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-batch-infrastructure-2.2.0.RELEASE.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-beans-3.2.2.RELEASE.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-context-3.2.2.RELEASE.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-context-support-3.2.2.RELEASE.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-core-3.2.2.RELEASE.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-oxm-3.2.2.RELEASE.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-retry-1.0.2.RELEASE.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/xstream-1.3.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/quartz-1.8.6.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/org.eclipse.core.jobs_3.4.100.v20090429-1800.jar"/>
 	<classpathentry kind="var" path="TOMCAT_HOME/lib/servlet-api.jar"/>
 	<classpathentry kind="var" path="TOMCAT_HOME/lib/jasper.jar"/>
 	<classpathentry kind="var" path="TOMCAT_HOME/lib/jsp-api.jar"/>
 	<classpathentry kind="var" path="TOMCAT_HOME/lib/el-api.jar"/>
 	<classpathentry kind="var" path="TOMCAT_HOME/lib/annotations-api.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ENdoSnipeCommon"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ENdoSnipeCommunicator"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ENdoSnipeDataAccessor"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ENdoSnipeReportCommand"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ENdoSnipeReporter"/>
 	<classpathentry kind="output" path="WebContent/WEB-INF/classes"/>
 </classpath>

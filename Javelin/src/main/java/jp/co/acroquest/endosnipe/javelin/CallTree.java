@@ -40,100 +40,100 @@ import jp.co.acroquest.endosnipe.javelin.jdbc.common.JdbcJavelinConfig;
 import jp.co.acroquest.endosnipe.javelin.util.StatsUtil;
 
 /**
- * Javelinãƒ­ã‚°å‡ºåŠ›ç”¨ã«ã‚³ãƒ¼ãƒ«ã‚¹ã‚¿ãƒƒã‚¯ã‚’è¨˜éŒ²ã™ã‚‹ãŸã‚ã®ã€ãƒ„ãƒªãƒ¼ã‚¯ãƒ©ã‚¹ã€‚
+ * JavelinƒƒOo—Í—p‚ÉƒR[ƒ‹ƒXƒ^ƒbƒN‚ğ‹L˜^‚·‚é‚½‚ß‚ÌAƒcƒŠ[ƒNƒ‰ƒXB
  * 
  * @author yamasaki
  */
 public class CallTree
 {
-    /** ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ãƒªã‚¹ãƒˆã®ã‚µã‚¤ã‚º */
+    /** ƒfƒtƒHƒ‹ƒg‚ÌƒR[ƒ‹ƒoƒbƒNƒŠƒXƒg‚ÌƒTƒCƒY */
     private static final int DEFAULT_CALLBACK_LIST_SIZE = 5;
     
-    /** CallTreeãƒãƒ¼ãƒ‰ */
+    /** CallTreeƒm[ƒh */
     private CallTreeNode rootNode_;
 
     /** ThreadID */
     private String threadID_;
 
-    /** ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—ã®ãƒ«ãƒ¼ãƒˆãƒãƒ¼ãƒ‰ã«ã¤ã‘ã‚‹åå‰ã€‚ */
+    /** ƒƒ\ƒbƒhŒÄ‚Ño‚µ‚Ìƒ‹[ƒgƒm[ƒh‚É‚Â‚¯‚é–¼‘OB */
     private String rootCallerName_ = "unknown";
 
-    /** ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—ã®ã‚¨ãƒ³ãƒ‰ãƒãƒ¼ãƒ‰ã®åå‰ãŒæ±ºå®šã§ããªã„å ´åˆã«ã¤ã‘ã‚‹åå‰ã€‚ */
+    /** ƒƒ\ƒbƒhŒÄ‚Ño‚µ‚ÌƒGƒ“ƒhƒm[ƒh‚Ì–¼‘O‚ªŒˆ’è‚Å‚«‚È‚¢ê‡‚É‚Â‚¯‚é–¼‘OB */
     private String endCalleeName_ = "unknown";
 
-    /** ä¾‹å¤–ã®åŸå›  */
+    /** —áŠO‚ÌŒ´ˆö */
     private Throwable cause_;
 
-    /** CallBackã®ãƒªã‚¹ãƒˆ */
+    /** CallBack‚ÌƒŠƒXƒg */
     private final List<Callback> callbackList_;
 
-    /** ãƒ•ãƒ©ã‚°å€¤ã‚’ä¿å­˜ã™ã‚‹Map */
+    /** ƒtƒ‰ƒO’l‚ğ•Û‘¶‚·‚éMap */
     private final Map<String, Object> flagMap_;
 
-    /** ãƒ­ã‚°å€¤ã‚’ä¿å­˜ã™ã‚‹Map */
+    /** ƒƒO’l‚ğ•Û‘¶‚·‚éMap */
     private final Map<String, Object> loggingValueMap_;
 
-    /** ã‚¤ãƒ™ãƒ³ãƒˆã®ãƒªã‚¹ãƒˆ */
+    /** ƒCƒxƒ“ƒg‚ÌƒŠƒXƒg */
     private final List<CallTreeNode> eventList_;
 
-    /** æœ‰åŠ¹ãªæ·±ã•ã®ã‚»ãƒƒãƒˆã€‚ */
+    /** —LŒø‚È[‚³‚ÌƒZƒbƒgB */
     private Set<Integer> depthSet_ = new HashSet<Integer>();
 
-    /** ãƒ„ãƒªãƒ¼ã«æ‰€å±ã™ã‚‹CallTreeNodeã®æ•° */
+    /** ƒcƒŠ[‚ÉŠ‘®‚·‚éCallTreeNode‚Ì” */
     private int nodeCount_ = 0;
 
-    /** ãƒ„ãƒªãƒ¼ã®ãƒˆãƒ¼ã‚¿ãƒ«ã®ãƒãƒ¼ãƒ‰æ•° */
+    /** ƒcƒŠ[‚Ìƒg[ƒ^ƒ‹‚Ìƒm[ƒh” */
     private int totalNodeCount_ = 0;
 
     /**
-     * ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ä¸­ã®å¤‰æ›´ã‚’é˜²æ­¢ã™ã‚‹ãŸã‚ã®ã‚³ãƒ”ãƒ¼ã‚’å®Ÿæ–½ã—ãŸã‹ã©ã†ã‹
+     * ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“’†‚Ì•ÏX‚ğ–h~‚·‚é‚½‚ß‚ÌƒRƒs[‚ğÀ{‚µ‚½‚©‚Ç‚¤‚©
      */
     private boolean                           isConfigCopied_                    = false;
     
     /**
-     * javelin.leak.collection.monitorã®ã‚³ãƒ”ãƒ¼ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰
-     * (ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ä¸­ã®å¤‰æ›´ã‚’é˜²æ­¢ã™ã‚‹ã€‚)
+     * javelin.leak.collection.monitor‚ÌƒRƒs[ƒtƒB[ƒ‹ƒh
+     * (ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“’†‚Ì•ÏX‚ğ–h~‚·‚éB)
      */
     private boolean isCollectionMonitorEnabled_ = CONFIG.isCollectionMonitor();
     
-    /** javelin.concurrent.monitorã®ã‚³ãƒ”ãƒ¼ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ */
+    /** javelin.concurrent.monitor‚ÌƒRƒs[ƒtƒB[ƒ‹ƒh */
     private boolean isConcurrentMonitorEnabled_ = CONFIG.isConcurrentAccessMonitored();
     
-    /** javelin.call.tree.enabledã®ã‚³ãƒ”ãƒ¼ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ */
+    /** javelin.call.tree.enabled‚ÌƒRƒs[ƒtƒB[ƒ‹ƒh */
     private boolean isCallTreeEnabled_ = false;
     
-    /** javelin.jdbc.enableã®ã‚³ãƒ”ãƒ¼ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ */
+    /** javelin.jdbc.enable‚ÌƒRƒs[ƒtƒB[ƒ‹ƒh */
     private boolean isJdbcEnabled_ = false;
     
-    /** javelin.jdbc.recordDuplJdbcCallã®ã‚³ãƒ”ãƒ¼ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ */
+    /** javelin.jdbc.recordDuplJdbcCall‚ÌƒRƒs[ƒtƒB[ƒ‹ƒh */
     private boolean isRecordDuplJdbcCallEnabled_ = false;
     
-    /** ãƒ„ãƒªãƒ¼ã«è¨˜éŒ²ã™ã‚‹ã‚¤ãƒ™ãƒ³ãƒˆã®æœ€å¤§æ•° */
+    /** ƒcƒŠ[‚É‹L˜^‚·‚éƒCƒxƒ“ƒg‚ÌÅ‘å” */
     private static final int MAX_EVENT = 100;
     
-    /** ãƒãƒ¼ãƒ‰æ•°ã®é›†è¨ˆæ–¹æ³•ã‚’åˆ¤å®šã™ã‚‹ãŸã‚ã®è¨­å®šå‚ç…§ç”¨ã€‚  */
+    /** ƒm[ƒh”‚ÌWŒv•û–@‚ğ”»’è‚·‚é‚½‚ß‚Ìİ’èQÆ—pB  */
     private static final JavelinConfig CONFIG = new JavelinConfig();
 
-    /** ãƒãƒ¼ãƒ‰æ•°ã®é›†è¨ˆæ–¹æ³•ã‚’åˆ¤å®šã™ã‚‹ãŸã‚ã®è¨­å®šå‚ç…§ç”¨ã€‚  */
+    /** ƒm[ƒh”‚ÌWŒv•û–@‚ğ”»’è‚·‚é‚½‚ß‚Ìİ’èQÆ—pB  */
     private static final JdbcJavelinConfig JDBC_CONFIG = new JdbcJavelinConfig();    
     /**
-     * StatsJavelinRecorderã§é–¾å€¤åˆ¤å®šã‚’è¡Œã†éš›ã«ã€CallTreeNodeå›ºæœ‰ã®åˆ¤å®šã‚’è¡Œã†ã‚¯ãƒ©ã‚¹ã€‚
-     * (key, RecordStrategy)ã®ãƒãƒƒãƒ—ã¨ã—ã¦è¤‡æ•°æŒã¤ã“ã¨ãŒã§ãã‚‹ã€‚
-     * ã“ã®RecordStrategyã®åˆ¤å®šå‡¦ç†ã¯StatsJavelinRecorderè‡ªä½“ã«è¨­å®šã—ãŸ
-     * RecordStrategyã‚ˆã‚Šå„ªå…ˆã—ã¦å®Ÿè¡Œã•ã‚Œã‚‹ã€‚
+     * StatsJavelinRecorder‚Åè‡’l”»’è‚ğs‚¤Û‚ÉACallTreeNodeŒÅ—L‚Ì”»’è‚ğs‚¤ƒNƒ‰ƒXB
+     * (key, RecordStrategy)‚Ìƒ}ƒbƒv‚Æ‚µ‚Ä•¡”‚Â‚±‚Æ‚ª‚Å‚«‚éB
+     * ‚±‚ÌRecordStrategy‚Ì”»’èˆ—‚ÍStatsJavelinRecorder©‘Ì‚Éİ’è‚µ‚½
+     * RecordStrategy‚æ‚è—Dæ‚µ‚ÄÀs‚³‚ê‚éB
      */
     private final Map<String, RecordStrategy> highStrategyMap_;
 
     /**
-     * StatsJavelinRecorderã§é–¾å€¤åˆ¤å®šã‚’è¡Œã†éš›ã«ã€CallTreeNodeå›ºæœ‰ã®åˆ¤å®šã‚’è¡Œã†ã‚¯ãƒ©ã‚¹ã€‚
-     * (key, RecordStrategy)ã®ãƒãƒƒãƒ—ã¨ã—ã¦è¤‡æ•°æŒã¤ã“ã¨ãŒã§ãã‚‹ã€‚
-     * ã“ã®RecordStrategyã®åˆ¤å®šå‡¦ç†ã¯StatsJavelinRecorderè‡ªä½“ã«è¨­å®šã—ãŸ
-     * RecordStrategyã¨åŒä¸€ãƒ¬ãƒ™ãƒ«ã®å„ªå…ˆåº¦ã§å®Ÿè¡Œã•ã‚Œã‚‹ã€‚
+     * StatsJavelinRecorder‚Åè‡’l”»’è‚ğs‚¤Û‚ÉACallTreeNodeŒÅ—L‚Ì”»’è‚ğs‚¤ƒNƒ‰ƒXB
+     * (key, RecordStrategy)‚Ìƒ}ƒbƒv‚Æ‚µ‚Ä•¡”‚Â‚±‚Æ‚ª‚Å‚«‚éB
+     * ‚±‚ÌRecordStrategy‚Ì”»’èˆ—‚ÍStatsJavelinRecorder©‘Ì‚Éİ’è‚µ‚½
+     * RecordStrategy‚Æ“¯ˆêƒŒƒxƒ‹‚Ì—Dæ“x‚ÅÀs‚³‚ê‚éB
      */
     private final Map<String, RecordStrategy> normalStrategyMap_;
 
     /**
-     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚ ã‚¹ãƒ¬ãƒƒãƒ‰IDã‚’è¨­å®šã—ã¾ã™ã€‚<br />
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B ƒXƒŒƒbƒhID‚ğİ’è‚µ‚Ü‚·B<br />
      */
     public CallTree()
     {
@@ -147,13 +147,13 @@ public class CallTree
     }
 
     /**
-     * ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚ <br />
-     * loggingValueMap ã®ã¿ãƒ‡ã‚£ãƒ¼ãƒ—ã‚³ãƒ”ãƒ¼ã€ãã®ä»–ã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã¯ã‚·ãƒ£ãƒ­ãƒ¼ã‚³ãƒ”ãƒ¼ã—ã¾ã™ã€‚<br />
+     * ƒRƒs[ƒRƒ“ƒXƒgƒ‰ƒNƒ^B <br />
+     * loggingValueMap ‚Ì‚İƒfƒB[ƒvƒRƒs[A‚»‚Ì‘¼‚ÌƒtƒB[ƒ‹ƒh‚ÍƒVƒƒƒ[ƒRƒs[‚µ‚Ü‚·B<br />
      *
-     * loggingValueMap ã¯ Javelin é©ç”¨ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã®ã‚¹ãƒ¬ãƒƒãƒ‰ã¨ã¯åˆ¥ã®ã‚¹ãƒ¬ãƒƒãƒ‰ã§ä½¿ç”¨ã•ã‚Œã‚‹ãŸã‚ã€
-     * ãƒ‡ã‚£ãƒ¼ãƒ—ã‚³ãƒ”ãƒ¼ãŒå¿…è¦ã§ã™ã€‚
+     * loggingValueMap ‚Í Javelin “K—pƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒXƒŒƒbƒh‚Æ‚Í•Ê‚ÌƒXƒŒƒbƒh‚Åg—p‚³‚ê‚é‚½‚ßA
+     * ƒfƒB[ƒvƒRƒs[‚ª•K—v‚Å‚·B
      *
-     * @param callTree ã‚³ãƒ”ãƒ¼å…ƒ CallTree
+     * @param callTree ƒRƒs[Œ³ CallTree
      */
     public CallTree(final CallTree callTree)
     {
@@ -180,7 +180,7 @@ public class CallTree
     }
 
     /**
-     * åˆæœŸåŒ–ã—ã¾ã™ã€‚
+     * ‰Šú‰»‚µ‚Ü‚·B
      */
     public void init()
     {
@@ -202,9 +202,9 @@ public class CallTree
      }
     
     /**
-     * ãƒ«ãƒ¼ãƒˆãƒãƒ¼ãƒ‰ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * ƒ‹[ƒgƒm[ƒh‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return ãƒ«ãƒ¼ãƒˆãƒãƒ¼ãƒ‰
+     * @return ƒ‹[ƒgƒm[ƒh
      */
     public CallTreeNode getRootNode()
     {
@@ -212,9 +212,9 @@ public class CallTree
     }
 
     /**
-     * ãƒ«ãƒ¼ãƒˆãƒãƒ¼ãƒ‰ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
+     * ƒ‹[ƒgƒm[ƒh‚ğİ’è‚µ‚Ü‚·B<br />
      * 
-     * @param rootNode ãƒ«ãƒ¼ãƒˆãƒãƒ¼ãƒ‰
+     * @param rootNode ƒ‹[ƒgƒm[ƒh
      */
     public void setRootNode(final CallTreeNode rootNode)
     {
@@ -232,7 +232,7 @@ public class CallTree
     }
 
     /**
-     * è¨­å®šã‚’CallTreeã«åæ˜ ã™ã‚‹ã€‚
+     * İ’è‚ğCallTree‚É”½‰f‚·‚éB
      */
     public void loadConfig()
     {
@@ -249,7 +249,7 @@ public class CallTree
     }
 
     /**
-     * ThreadIDã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * ThreadID‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
      * @return ThreadID
      */
@@ -259,9 +259,9 @@ public class CallTree
     }
 
     /**
-     * ThreadIDã‚’è¨­å®šã—ã¾ã™ã€‚<br />
+     * ThreadID‚ğİ’è‚µ‚Ü‚·B<br />
      * 
-     * @param threadID ã‚¹ãƒ¬ãƒƒãƒ‰ID
+     * @param threadID ƒXƒŒƒbƒhID
      */
     public void setThreadID(final String threadID)
     {
@@ -269,9 +269,9 @@ public class CallTree
     }
 
     /**
-     * ã‚¨ãƒ³ãƒ‰ãƒãƒ¼ãƒ‰ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * ƒGƒ“ƒhƒm[ƒh‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return ã‚¨ãƒ³ãƒ‰ãƒãƒ¼ãƒ‰
+     * @return ƒGƒ“ƒhƒm[ƒh
      */
     public String getEndCalleeName()
     {
@@ -279,9 +279,9 @@ public class CallTree
     }
 
     /**
-     * ã‚¨ãƒ³ãƒ‰ãƒãƒ¼ãƒ‰ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
+     * ƒGƒ“ƒhƒm[ƒh‚ğİ’è‚µ‚Ü‚·B<br />
      * 
-     * @param endCalleeName ã‚¨ãƒ³ãƒ‰ãƒãƒ¼ãƒ‰
+     * @param endCalleeName ƒGƒ“ƒhƒm[ƒh
      */
     public void setEndCalleeName(final String endCalleeName)
     {
@@ -293,9 +293,9 @@ public class CallTree
     }
 
     /**
-     * å‘¼ã³å‡ºã—å…ƒã®ãƒ«ãƒ¼ãƒˆãƒãƒ¼ãƒ‰åã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * ŒÄ‚Ño‚µŒ³‚Ìƒ‹[ƒgƒm[ƒh–¼‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return å‘¼ã³å‡ºã—å…ƒã®ãƒ«ãƒ¼ãƒˆãƒãƒ¼ãƒ‰å
+     * @return ŒÄ‚Ño‚µŒ³‚Ìƒ‹[ƒgƒm[ƒh–¼
      */
     public String getRootCallerName()
     {
@@ -303,9 +303,9 @@ public class CallTree
     }
 
     /**
-     * å‘¼ã³å‡ºã—å…ƒã®ãƒ«ãƒ¼ãƒˆãƒãƒ¼ãƒ‰åã‚’è¨­å®šã—ã¾ã™ã€‚<br />
+     * ŒÄ‚Ño‚µŒ³‚Ìƒ‹[ƒgƒm[ƒh–¼‚ğİ’è‚µ‚Ü‚·B<br />
      * 
-     * @param rootCallerName å‘¼ã³å‡ºã—å…ƒã®ãƒ«ãƒ¼ãƒˆãƒãƒ¼ãƒ‰åã€‚
+     * @param rootCallerName ŒÄ‚Ño‚µŒ³‚Ìƒ‹[ƒgƒm[ƒh–¼B
      */
     public void setRootCallerName(final String rootCallerName)
     {
@@ -317,7 +317,7 @@ public class CallTree
     }
 
     /**
-     * CallBackã‚’è¿½åŠ ã—ã¾ã™ã€‚<br />
+     * CallBack‚ğ’Ç‰Á‚µ‚Ü‚·B<br />
      * 
      * @param callback CallBack
      */
@@ -327,7 +327,7 @@ public class CallTree
     }
 
     /**
-     * CallBackã‚’å®Ÿè¡Œã—ã¾ã™ã€‚<br />
+     * CallBack‚ğÀs‚µ‚Ü‚·B<br />
      */
     public void executeCallback()
     {
@@ -352,11 +352,11 @@ public class CallTree
     }
 
     /**
-     * ãƒ•ãƒ©ã‚°ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
+     * ƒtƒ‰ƒO‚ğİ’è‚µ‚Ü‚·B<br />
      * 
-     * @param flag ãƒ•ãƒ©ã‚°
-     * @param value å€¤
-     * @return ãƒ•ãƒ©ã‚°
+     * @param flag ƒtƒ‰ƒO
+     * @param value ’l
+     * @return ƒtƒ‰ƒO
      */
     public boolean setFlag(final String flag, final Object value)
     {
@@ -368,10 +368,10 @@ public class CallTree
     }
 
     /**
-     * ãƒ•ãƒ©ã‚°ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * ƒtƒ‰ƒO‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @param flag ãƒ•ãƒ©ã‚°
-     * @return ãƒ•ãƒ©ã‚°
+     * @param flag ƒtƒ‰ƒO
+     * @return ƒtƒ‰ƒO
      */
     public Object getFlag(final String flag)
     {
@@ -379,10 +379,10 @@ public class CallTree
     }
 
     /**
-     * flagãŒMapã«ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹ã‹è¿”ã—ã¾ã™ã€‚<br />
+     * flag‚ªMap‚É“o˜^‚³‚ê‚Ä‚¢‚é‚©•Ô‚µ‚Ü‚·B<br />
      * 
-     * @param flag ãƒ•ãƒ©ã‚°
-     * @return true:ã‚­ãƒ¼ãŒMapã«ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹ã€false:ã‚­ãƒ¼ãŒMapã«ç™»éŒ²ã•ã‚Œã¦ã„ãªã„ã€‚
+     * @param flag ƒtƒ‰ƒO
+     * @return true:ƒL[‚ªMap‚É“o˜^‚³‚ê‚Ä‚¢‚éAfalse:ƒL[‚ªMap‚É“o˜^‚³‚ê‚Ä‚¢‚È‚¢B
      */
     public boolean containsFlag(final String flag)
     {
@@ -390,10 +390,10 @@ public class CallTree
     }
 
     /**
-     * ãƒ•ãƒ©ã‚°ã®å€¤ã‚’Mapã‹ã‚‰é™¤å¤–ã—ã¾ã™ã€‚<br />
+     * ƒtƒ‰ƒO‚Ì’l‚ğMap‚©‚çœŠO‚µ‚Ü‚·B<br />
      * 
-     * @param flag ãƒ•ãƒ©ã‚°
-     * @return true:é™¤å¤–ã•ã‚Œã‚‹ã€false:é™¤å¤–ã•ã‚Œãªã„ã€‚
+     * @param flag ƒtƒ‰ƒO
+     * @return true:œŠO‚³‚ê‚éAfalse:œŠO‚³‚ê‚È‚¢B
      */
     public boolean removeFlag(final String flag)
     {
@@ -401,10 +401,10 @@ public class CallTree
     }
 
     /**
-     * ãƒ­ã‚°å€¤ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
+     * ƒƒO’l‚ğİ’è‚µ‚Ü‚·B<br />
      * 
-     * @param key ã‚­ãƒ¼
-     * @param value å€¤
+     * @param key ƒL[
+     * @param value ’l
      */
     public void setLoggingValue(final String key, final Object value)
     {
@@ -412,9 +412,9 @@ public class CallTree
     }
 
     /**
-     * Mapã‹ã‚‰ã‚­ãƒ¼ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * Map‚©‚çƒL[‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return ã‚­ãƒ¼é…åˆ—
+     * @return ƒL[”z—ñ
      */
     public String[] getLoggingKeys()
     {
@@ -424,10 +424,10 @@ public class CallTree
     }
 
     /**
-     * Mapã‹ã‚‰ã‚­ãƒ¼ã«å¯¾å¿œã™ã‚‹å€¤ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * Map‚©‚çƒL[‚É‘Î‰‚·‚é’l‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @param key ã‚­ãƒ¼
-     * @return ã‚­ãƒ¼ã®å€¤
+     * @param key ƒL[
+     * @return ƒL[‚Ì’l
      */
     public Object getLoggingValue(final String key)
     {
@@ -435,9 +435,9 @@ public class CallTree
     }
 
     /**
-     * ä¾‹å¤–ã®åŸå› ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * —áŠO‚ÌŒ´ˆö‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return ä¾‹å¤–ã®åŸå› 
+     * @return —áŠO‚ÌŒ´ˆö
      */
     public Throwable getCause()
     {
@@ -445,9 +445,9 @@ public class CallTree
     }
 
     /**
-     * ä¾‹å¤–ã®åŸå› ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
+     * —áŠO‚ÌŒ´ˆö‚ğİ’è‚µ‚Ü‚·B<br />
      * 
-     * @param cause ä¾‹å¤–ã®åŸå› 
+     * @param cause —áŠO‚ÌŒ´ˆö
      */
     public void setCause(final Throwable cause)
     {
@@ -455,9 +455,9 @@ public class CallTree
     }
 
     /**
-     * ã‚¤ãƒ™ãƒ³ãƒˆç™ºç”Ÿæ™‚ã®CallTreeNodeã‚’è¿½åŠ ã—ã¾ã™ã€‚<br />
+     * ƒCƒxƒ“ƒg”­¶‚ÌCallTreeNode‚ğ’Ç‰Á‚µ‚Ü‚·B<br />
      * 
-     * @param node ã‚¤ãƒ™ãƒ³ãƒˆç™ºç”Ÿæ™‚ã®CallTreeNode
+     * @param node ƒCƒxƒ“ƒg”­¶‚ÌCallTreeNode
      */
     public void addEventNode(final CallTreeNode node)
     {
@@ -468,9 +468,9 @@ public class CallTree
     }
 
     /**
-     * ã‚¤ãƒ™ãƒ³ãƒˆç™ºç”Ÿæ™‚ã®CallTreeNodeã®ãƒªã‚¹ãƒˆã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * ƒCƒxƒ“ƒg”­¶‚ÌCallTreeNode‚ÌƒŠƒXƒg‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return ã‚¤ãƒ™ãƒ³ãƒˆç™ºç”Ÿæ™‚ã®CallTreeNodeã®ãƒªã‚¹ãƒˆ
+     * @return ƒCƒxƒ“ƒg”­¶‚ÌCallTreeNode‚ÌƒŠƒXƒg
      */
     public List<CallTreeNode> getEventNodeList()
     {
@@ -478,7 +478,7 @@ public class CallTree
     }
 
     /**
-     * CallTreeNodeæ•°ã‚’ï¼‘å¢—ã‚„ã—ã¾ã™ã€‚
+     * CallTreeNode”‚ğ‚P‘‚â‚µ‚Ü‚·B
      */
     public void incrementNodeCount()
     {
@@ -489,15 +489,15 @@ public class CallTree
         }
         else if (totalNodeCount_ < nodeCount_)
         {
-            // javelin.call.tree.enable=falseã®å ´åˆã€
-            // nodeCount_ãŒæœ€é«˜å€¤ã‚’ä¸Šå›ã£ãŸå ´åˆã®ã¿ã€
-            // totalNodeCount_ã«nodeCount_ã‚’ä»£å…¥ã™ã‚‹ã€‚
+            // javelin.call.tree.enable=false‚Ìê‡A
+            // nodeCount_‚ªÅ‚’l‚ğã‰ñ‚Á‚½ê‡‚Ì‚İA
+            // totalNodeCount_‚ÉnodeCount_‚ğ‘ã“ü‚·‚éB
             this.totalNodeCount_ = this.nodeCount_;
         }
     }
 
     /**
-     * CallTreeNodeæ•°ã‚’ï¼‘æ¸›ã‚‰ã—ã¾ã™ã€‚
+     * CallTreeNode”‚ğ‚PŒ¸‚ç‚µ‚Ü‚·B
      */
     public void decrementNodeCount()
     {
@@ -505,9 +505,9 @@ public class CallTree
     }
 
     /**
-     * CallTreeNodeæ•°ã‚’æŒ‡å®šã•ã‚ŒãŸæ•°ã ã‘æ¸›ã‚‰ã—ã¾ã™ã€‚
+     * CallTreeNode”‚ğw’è‚³‚ê‚½”‚¾‚¯Œ¸‚ç‚µ‚Ü‚·B
      *
-     * @param count æ¸›ã‚‰ã™æ•°
+     * @param count Œ¸‚ç‚·”
      */
     public void decrementNodeCount(int count)
     {
@@ -515,9 +515,9 @@ public class CallTree
     }
     
     /**
-     * CallTreeNodeæ•°ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * CallTreeNode”‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return CallTreeNodeæ•°
+     * @return CallTreeNode”
      */
     public int getNodeCount()
     {
@@ -525,9 +525,9 @@ public class CallTree
     }
 
     /**
-     * ãƒˆãƒ¼ã‚¿ãƒ«ã®ãƒãƒ¼ãƒ‰æ•°ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒg[ƒ^ƒ‹‚Ìƒm[ƒh”‚ğæ“¾‚·‚éB
      * 
-     * @return ãƒˆãƒ¼ã‚¿ãƒ«ã®ãƒãƒ¼ãƒ‰æ•°ã€‚
+     * @return ƒg[ƒ^ƒ‹‚Ìƒm[ƒh”B
      */
     public int getTotalNodeCount()
     {
@@ -535,7 +535,7 @@ public class CallTree
     }
     
     /**
-     * CallTreeã®æ·±ã•ã‚’åˆæœŸåŒ–ã—ã¾ã™ã€‚<br />
+     * CallTree‚Ì[‚³‚ğ‰Šú‰»‚µ‚Ü‚·B<br />
      */
     public void clearDepth()
     {
@@ -543,9 +543,9 @@ public class CallTree
     }
 
     /**
-     * è¨ˆæ¸¬ã—ãŸCallTreeã®æ·±ã•ã‚’ä¿å­˜ã—ã¾ã™ã€‚<br />
+     * Œv‘ª‚µ‚½CallTree‚Ì[‚³‚ğ•Û‘¶‚µ‚Ü‚·B<br />
      * 
-     * @param depth CallTreeã®æ·±ã•
+     * @param depth CallTree‚Ì[‚³
      */
     public void addDepth(Integer depth)
     {
@@ -553,10 +553,10 @@ public class CallTree
     }
 
     /**
-     * å¼•æ•°ã§æŒ‡å®šã—ãŸæ·±ã•ãŒã€è¨ˆæ¸¬å¯¾è±¡ã§ã‚ã‚‹ã‹ã©ã†ã‹ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ˆø”‚Åw’è‚µ‚½[‚³‚ªAŒv‘ª‘ÎÛ‚Å‚ ‚é‚©‚Ç‚¤‚©‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @param depth CallTreeã®æ·±ã•
-     * @return æŒ‡å®šã—ãŸæ·±ã•ãŒè¨ˆæ¸¬å¯¾è±¡ã§ã‚ã‚‹ãªã‚‰ã€<code>true</code>
+     * @param depth CallTree‚Ì[‚³
+     * @return w’è‚µ‚½[‚³‚ªŒv‘ª‘ÎÛ‚Å‚ ‚é‚È‚çA<code>true</code>
      */
     public boolean containsDepth(Integer depth)
     {
@@ -564,9 +564,9 @@ public class CallTree
     }
 
     /**
-     * å¼•æ•°ã§æŒ‡å®šã—ãŸæ·±ã•ã‚’è¨ˆæ¸¬å¯¾è±¡ã‹ã‚‰é™¤å¤–ã—ã¾ã™ã€‚<br />
+     * ˆø”‚Åw’è‚µ‚½[‚³‚ğŒv‘ª‘ÎÛ‚©‚çœŠO‚µ‚Ü‚·B<br />
      * 
-     * @param depth CallTreeã®æ·±ã•
+     * @param depth CallTree‚Ì[‚³
      */
     public void removeDepth(Integer depth)
     {
@@ -574,9 +574,9 @@ public class CallTree
     }
 
     /**
-     * é–¾å€¤åˆ¤å®šç”¨ã‚¯ãƒ©ã‚¹(åˆ¤å®šå„ªå…ˆåº¦ï¼šé«˜)ã‚’è¿”ã™ã€‚
-     * @param key é–¾å€¤åˆ¤å®šç”¨ã‚¯ãƒ©ã‚¹ã®ã‚­ãƒ¼
-     * @return é–¾å€¤åˆ¤å®šç”¨ã‚¯ãƒ©ã‚¹
+     * è‡’l”»’è—pƒNƒ‰ƒX(”»’è—Dæ“xF‚)‚ğ•Ô‚·B
+     * @param key è‡’l”»’è—pƒNƒ‰ƒX‚ÌƒL[
+     * @return è‡’l”»’è—pƒNƒ‰ƒX
      */
     public RecordStrategy getHighPriorityRecordStrategy(final String key)
     {
@@ -584,8 +584,8 @@ public class CallTree
     }
 
     /**
-     * è¨­å®šã•ã‚Œã¦ã„ã‚‹é–¾å€¤åˆ¤å®šç”¨ã‚¯ãƒ©ã‚¹(åˆ¤å®šå„ªå…ˆåº¦ï¼šé«˜)ã®ãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚
-     * @return é–¾å€¤åˆ¤å®šç”¨ã‚¯ãƒ©ã‚¹ã®ãƒªã‚¹ãƒˆ
+     * İ’è‚³‚ê‚Ä‚¢‚éè‡’l”»’è—pƒNƒ‰ƒX(”»’è—Dæ“xF‚)‚ÌƒŠƒXƒg‚ğ•Ô‚·B
+     * @return è‡’l”»’è—pƒNƒ‰ƒX‚ÌƒŠƒXƒg
      */
     public RecordStrategy[] getHighPriorityRecordStrategy()
     {
@@ -593,9 +593,9 @@ public class CallTree
     }
 
     /**
-     * é–¾å€¤åˆ¤å®šç”¨ã‚¯ãƒ©ã‚¹(åˆ¤å®šå„ªå…ˆåº¦ï¼šé«˜)ã‚’è¨­å®šã™ã‚‹ã€‚æ—¢ã«åŒä¸€ã®ã‚­ãƒ¼ãŒç™»éŒ²ã•ã‚Œã¦ã„ã‚‹å ´åˆã¯ã€ç™»éŒ²ã—ãªã„ã€‚
-     * @param key é–¾å€¤åˆ¤å®šç”¨ã‚¯ãƒ©ã‚¹ã®ã‚­ãƒ¼
-     * @param strategy é–¾å€¤åˆ¤å®šç”¨ã‚¯ãƒ©ã‚¹
+     * è‡’l”»’è—pƒNƒ‰ƒX(”»’è—Dæ“xF‚)‚ğİ’è‚·‚éBŠù‚É“¯ˆê‚ÌƒL[‚ª“o˜^‚³‚ê‚Ä‚¢‚éê‡‚ÍA“o˜^‚µ‚È‚¢B
+     * @param key è‡’l”»’è—pƒNƒ‰ƒX‚ÌƒL[
+     * @param strategy è‡’l”»’è—pƒNƒ‰ƒX
      */
     public void addHighPriorityRecordStrategy(final String key, final RecordStrategy strategy)
     {
@@ -606,9 +606,9 @@ public class CallTree
     }
 
     /**
-     * é–¾å€¤åˆ¤å®šç”¨ã‚¯ãƒ©ã‚¹(åˆ¤å®šå„ªå…ˆåº¦ï¼šé€šå¸¸)ã‚’è¨­å®šã™ã‚‹ã€‚æ—¢ã«åŒä¸€ã®ã‚­ãƒ¼ãŒç™»éŒ²ã•ã‚Œã¦ã„ã‚‹å ´åˆã¯ã€ç™»éŒ²ã—ãªã„ã€‚
-     * @param key é–¾å€¤åˆ¤å®šç”¨ã‚¯ãƒ©ã‚¹ã®ã‚­ãƒ¼
-     * @param strategy é–¾å€¤åˆ¤å®šç”¨ã‚¯ãƒ©ã‚¹
+     * è‡’l”»’è—pƒNƒ‰ƒX(”»’è—Dæ“xF’Êí)‚ğİ’è‚·‚éBŠù‚É“¯ˆê‚ÌƒL[‚ª“o˜^‚³‚ê‚Ä‚¢‚éê‡‚ÍA“o˜^‚µ‚È‚¢B
+     * @param key è‡’l”»’è—pƒNƒ‰ƒX‚ÌƒL[
+     * @param strategy è‡’l”»’è—pƒNƒ‰ƒX
      */
     public void addRecordStrategy(final String key, final RecordStrategy strategy)
     {
@@ -619,9 +619,9 @@ public class CallTree
     }
 
     /**
-     * é–¾å€¤åˆ¤å®šç”¨ã‚¯ãƒ©ã‚¹(åˆ¤å®šå„ªå…ˆåº¦ï¼šé€šå¸¸)ã‚’è¿”ã™ã€‚
-     * @param key é–¾å€¤åˆ¤å®šç”¨ã‚¯ãƒ©ã‚¹ã®ã‚­ãƒ¼
-     * @return é–¾å€¤åˆ¤å®šç”¨ã‚¯ãƒ©ã‚¹
+     * è‡’l”»’è—pƒNƒ‰ƒX(”»’è—Dæ“xF’Êí)‚ğ•Ô‚·B
+     * @param key è‡’l”»’è—pƒNƒ‰ƒX‚ÌƒL[
+     * @return è‡’l”»’è—pƒNƒ‰ƒX
      */
     public RecordStrategy getRecordStrategy(final String key)
     {
@@ -629,8 +629,8 @@ public class CallTree
     }
 
     /**
-     * è¨­å®šã•ã‚Œã¦ã„ã‚‹é–¾å€¤åˆ¤å®šç”¨ã‚¯ãƒ©ã‚¹(åˆ¤å®šå„ªå…ˆåº¦ï¼šé€šå¸¸)ã®ãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚
-     * @return é–¾å€¤åˆ¤å®šç”¨ã‚¯ãƒ©ã‚¹ã®ãƒªã‚¹ãƒˆ
+     * İ’è‚³‚ê‚Ä‚¢‚éè‡’l”»’è—pƒNƒ‰ƒX(”»’è—Dæ“xF’Êí)‚ÌƒŠƒXƒg‚ğ•Ô‚·B
+     * @return è‡’l”»’è—pƒNƒ‰ƒX‚ÌƒŠƒXƒg
      */
     public RecordStrategy[] getRecordStrategy()
     {
@@ -638,8 +638,8 @@ public class CallTree
     }
 
     /**
-     * æœ¬ãƒ„ãƒªãƒ¼å†…ã§CollectionMonitorãŒæœ‰åŠ¹ã‹ã©ã†ã‹ã‚’ç¤ºã™ãƒ•ãƒ©ã‚°ã€‚
-     * @return trueãªã‚‰ã°ã€CollectionMonitorãŒæœ‰åŠ¹ã€‚
+     * –{ƒcƒŠ[“à‚ÅCollectionMonitor‚ª—LŒø‚©‚Ç‚¤‚©‚ğ¦‚·ƒtƒ‰ƒOB
+     * @return true‚È‚ç‚ÎACollectionMonitor‚ª—LŒøB
      */
     public boolean isCollectionMonitorEnabled()
     {
@@ -647,8 +647,8 @@ public class CallTree
     }
 
     /**
-     * æœ¬ãƒ„ãƒªãƒ¼å†…ã§ConcurrentMonitorãŒæœ‰åŠ¹ã‹ã©ã†ã‹ã‚’ç¤ºã™ãƒ•ãƒ©ã‚°ã€‚
-     * @return trueãªã‚‰ã°ã€ConcurrentMonitorãŒæœ‰åŠ¹ã€‚
+     * –{ƒcƒŠ[“à‚ÅConcurrentMonitor‚ª—LŒø‚©‚Ç‚¤‚©‚ğ¦‚·ƒtƒ‰ƒOB
+     * @return true‚È‚ç‚ÎAConcurrentMonitor‚ª—LŒøB
      */
     public boolean isConcurrentMonitorEnabled()
     {
@@ -656,8 +656,8 @@ public class CallTree
     }
 
     /**
-     * æœ¬ãƒ„ãƒªãƒ¼å†…ã§ã‚³ãƒ¼ãƒ«ãƒ„ãƒªãƒ¼ãŒæœ‰åŠ¹ã‹ã©ã†ã‹ã‚’ç¤ºã™ãƒ•ãƒ©ã‚°ã€‚
-     * @return trueãªã‚‰ã°ã€ã‚³ãƒ¼ãƒ«ãƒ„ãƒªãƒ¼ãŒæœ‰åŠ¹ã€‚
+     * –{ƒcƒŠ[“à‚ÅƒR[ƒ‹ƒcƒŠ[‚ª—LŒø‚©‚Ç‚¤‚©‚ğ¦‚·ƒtƒ‰ƒOB
+     * @return true‚È‚ç‚ÎAƒR[ƒ‹ƒcƒŠ[‚ª—LŒøB
      */
     public boolean isCallTreeEnabled()
     {
@@ -665,8 +665,8 @@ public class CallTree
     }
 
     /**
-     * æœ¬ãƒ„ãƒªãƒ¼å†…ã§JDBC JavelinãŒæœ‰åŠ¹ã‹ã©ã†ã‹ã‚’ç¤ºã™ãƒ•ãƒ©ã‚°ã€‚
-     * @return trueãªã‚‰ã°ã€JDBC JavelinãŒæœ‰åŠ¹ã€‚
+     * –{ƒcƒŠ[“à‚ÅJDBC Javelin‚ª—LŒø‚©‚Ç‚¤‚©‚ğ¦‚·ƒtƒ‰ƒOB
+     * @return true‚È‚ç‚ÎAJDBC Javelin‚ª—LŒøB
      */
     public boolean isJdbcEnabled()
     {
@@ -674,8 +674,8 @@ public class CallTree
     }
 
     /**
-     * æœ¬ãƒ„ãƒªãƒ¼å†…ã§javelin.jdbc.recordDuplJdbcCallãŒæœ‰åŠ¹ã‹ã©ã†ã‹ã‚’ç¤ºã™ãƒ•ãƒ©ã‚°ã€‚
-     * @return trueãªã‚‰ã°ã€javelin.jdbc.recordDuplJdbcCallãŒæœ‰åŠ¹ã€‚
+     * –{ƒcƒŠ[“à‚Åjavelin.jdbc.recordDuplJdbcCall‚ª—LŒø‚©‚Ç‚¤‚©‚ğ¦‚·ƒtƒ‰ƒOB
+     * @return true‚È‚ç‚ÎAjavelin.jdbc.recordDuplJdbcCall‚ª—LŒøB
      */
     public boolean isRecordDuplJdbcCallEnabled()
     {
@@ -683,8 +683,8 @@ public class CallTree
     }
     
     /**
-     * ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã«ã‚ˆã‚Šè‡ªåˆ†ã®ã‚³ãƒ”ãƒ¼ã‚’ä½œã‚‹ã€‚
-     * @return è‡ªåˆ†ã®ã‚³ãƒ”ãƒ¼ã€‚
+     * ƒRƒs[ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚É‚æ‚è©•ª‚ÌƒRƒs[‚ğì‚éB
+     * @return ©•ª‚ÌƒRƒs[B
      */
     public CallTree copy()
     {

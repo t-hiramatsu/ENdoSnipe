@@ -39,21 +39,21 @@ import jp.co.acroquest.endosnipe.javelin.event.MethodStallEvent;
 import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
 
 /**
- * ã‚¹ãƒˆãƒ¼ãƒ«ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ç›£è¦–ã™ã‚‹ãŸã‚ã®ã‚¹ãƒ¬ãƒƒãƒ‰ã§ã™ã€‚<br />
+ * ƒXƒg[ƒ‹ƒƒ\ƒbƒh‚ğŠÄ‹‚·‚é‚½‚ß‚ÌƒXƒŒƒbƒh‚Å‚·B<br />
  * 
  * @author matsuoka
  *
  */
 public class MethodStallMonitor implements Runnable
 {
-    /** Singletonã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
+    /** SingletonƒIƒuƒWƒFƒNƒg */
     private static MethodStallMonitor instance__ = new MethodStallMonitor();
 
-    /** Javelinã®è¨­å®šã€‚ */
+    /** Javelin‚Ìİ’èB */
     private final JavelinConfig config_ = new JavelinConfig();
     
     /**
-     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã‚’é˜»æ­¢ã™ã‚‹ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
+     * ƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğ‘j~‚·‚éƒvƒ‰ƒCƒx[ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^B
      */
     private MethodStallMonitor()
     {
@@ -61,9 +61,9 @@ public class MethodStallMonitor implements Runnable
     }
 
     /**
-     * {@link MethodStallMonitor}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * {@link MethodStallMonitor}ƒIƒuƒWƒFƒNƒg‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return {@link MethodStallMonitor}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @return {@link MethodStallMonitor}ƒIƒuƒWƒFƒNƒg
      */
     public static MethodStallMonitor getInstance()
     {
@@ -71,8 +71,8 @@ public class MethodStallMonitor implements Runnable
     }
 
     /**
-     * "javelin.method.stall.interval"ã®é–“éš”ã”ã¨ã«ã€
-     * ãƒ¡ã‚½ãƒƒãƒ‰ãŒã‚¹ãƒˆãƒ¼ãƒ«ã—ã¦ã„ã‚‹ã‹ã©ã†ã‹åˆ¤å®šã—ã¾ã™ã€‚
+     * "javelin.method.stall.interval"‚ÌŠÔŠu‚²‚Æ‚ÉA
+     * ƒƒ\ƒbƒh‚ªƒXƒg[ƒ‹‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©”»’è‚µ‚Ü‚·B
      */
     public void run()
     {
@@ -108,8 +108,8 @@ public class MethodStallMonitor implements Runnable
     }
     
     /**
-     * ã‚¹ãƒˆãƒ¼ãƒ«ãƒ¡ã‚½ãƒƒãƒ‰ã®å­˜åœ¨ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã€‚
-     * @param threshold é–¾å€¤
+     * ƒXƒg[ƒ‹ƒƒ\ƒbƒh‚Ì‘¶İ‚ğƒ`ƒFƒbƒN‚·‚éB
+     * @param threshold è‡’l
      */
     private void checkMethodStall(int threshold)
     {
@@ -130,11 +130,11 @@ public class MethodStallMonitor implements Runnable
     }
 
     /**
-     * å¯¾è±¡ã®CallTreeNodeãŒã‚¹ãƒˆãƒ¼ãƒ«ã—ã¦ã„ã‚‹ã‹ã‚’åˆ¤å®šã—ã¾ã™ã€‚
-     * @param node åˆ¤å®šå¯¾è±¡ã®CallTreeNode
-     * @param currentTime ç¾åœ¨æ™‚åˆ»
-     * @param threshold é–¾å€¤
-     * @return ã‚¹ãƒˆãƒ¼ãƒ«ã—ã¦ã„ãŸã‚‰<code>true</code>ã‚’è¿”ã—ã¾ã™ã€‚
+     * ‘ÎÛ‚ÌCallTreeNode‚ªƒXƒg[ƒ‹‚µ‚Ä‚¢‚é‚©‚ğ”»’è‚µ‚Ü‚·B
+     * @param node ”»’è‘ÎÛ‚ÌCallTreeNode
+     * @param currentTime Œ»İ
+     * @param threshold è‡’l
+     * @return ƒXƒg[ƒ‹‚µ‚Ä‚¢‚½‚ç<code>true</code>‚ğ•Ô‚µ‚Ü‚·B
      */
     private boolean isStall(CallTreeNode node, long currentTime, int threshold)
     {
@@ -146,11 +146,11 @@ public class MethodStallMonitor implements Runnable
     }
     
     /**
-     * ã‚¹ãƒˆãƒ¼ãƒ«ãƒ¡ã‚½ãƒƒãƒ‰æ¤œå‡ºã‚¤ãƒ™ãƒ³ãƒˆã‚’ä½œæˆã—ã¾ã™ã€‚
-     * @param threadId ãƒ¡ã‚½ãƒƒãƒ‰ãŒã‚¹ãƒˆãƒ¼ãƒ«ã—ã¦ã„ã‚‹ã‚¹ãƒ¬ãƒƒãƒ‰ã®ID
+     * ƒXƒg[ƒ‹ƒƒ\ƒbƒhŒŸoƒCƒxƒ“ƒg‚ğì¬‚µ‚Ü‚·B
+     * @param threadId ƒƒ\ƒbƒh‚ªƒXƒg[ƒ‹‚µ‚Ä‚¢‚éƒXƒŒƒbƒh‚ÌID
      * @param node CallTreeNode
-     * @param maxDepth å–å¾—ã™ã‚‹ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®æ·±ã•
-     * @return ä½œæˆã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
+     * @param maxDepth æ“¾‚·‚éƒXƒ^ƒbƒNƒgƒŒ[ƒX‚Ì[‚³
+     * @return ì¬‚µ‚½ƒCƒxƒ“ƒg
      */
     private MethodStallEvent createEvent(long threadId, CallTreeNode node, int maxDepth)
     {

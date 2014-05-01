@@ -5,372 +5,370 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import jp.co.acroquest.endosnipe.report.entity.ReportItemValue;
 import jp.co.acroquest.endosnipe.common.util.SQLUtil;
 import jp.co.acroquest.endosnipe.data.TableNames;
 import jp.co.acroquest.endosnipe.data.dao.AbstractDao;
 import jp.co.acroquest.endosnipe.data.db.DBManager;
-import jp.co.acroquest.endosnipe.report.entity.ReportItemValue;
 
 /**
- * ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ç”¨ã®Dao
+ * ƒŒƒ|[ƒgo—Í—p‚ÌDao
  * 
  * @author eriguchi
  * 
  */
-public class ReportDao extends AbstractDao implements TableNames
-{
-	/** æœ€å¤§ä»¶æ•° */
+public class ReportDao extends AbstractDao implements TableNames {
+	/** Å‘åŒ” */
 	public static final int ITEM_COUNT = 200;
 
-	/** æ—¥ä»˜ã®ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã€‚ */
-	private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
-
-	/** å¹³å‡å€¤è¨ˆç®—ç”¨ã®SQL */
+	/** •½‹Ï’lŒvZ—p‚ÌSQL */
 	private static final String SQL_AVERAGE = "SELECT"
-		+ "    min(mv.measurement_time) measurement_time"
-		+ "    , ji.measurement_item_name measurement_item_name"
-		+ "    , avg(cast(mv.measurement_value as double precision)) summary_value"
-		+ "    , max(cast(mv.measurement_value as double precision)) max_value"
-		+ "    , min(cast(mv.measurement_value as double precision)) min_value"
-		+ "    ,floor( "
-		+ ITEM_COUNT
-		+ " * (date_part('epoch', measurement_time) - date_part('epoch', ?::timestamp)) "
-		+ "    / ?"
-		+ ") measurement_index "
-		+ "FROM" //
-		+ "    measurement_value mv" //
-		+ "    ,javelin_measurement_item ji "//
-		+ "WHERE" //
-		+ "    ji.measurement_item_name = ?" //
-		+ "    AND mv.measurement_item_id = ji.measurement_item_id"
-		+ "    AND" //
-		+ "    (" //
-		+ "        mv.measurement_time BETWEEN ?" + "        AND ?" + "    ) "
-		+ "GROUP BY measurement_index, ji.measurement_item_name " + "ORDER BY"
-		+ "    ji.measurement_item_name, measurement_time";
+			+ "    min(mv.measurement_time) measurement_time"
+			+ "    , ji.measurement_item_name measurement_item_name"
+			+ "    , avg(cast(mv.measurement_value as bigint)) summary_value"
+			+ "    , max(cast(mv.measurement_value as bigint)) max_value"
+			+ "    , min(cast(mv.measurement_value as bigint)) min_value"
+			+ "    ,floor( "
+			+ ITEM_COUNT
+			+ " * (date_part('epoch', measurement_time) - date_part('epoch', ?::timestamp)) "
+			+ "    / ?"
+			+ ") measurement_index "
+			+ "FROM" //
+			+ "    measurement_value mv" //
+			+ "    ,javelin_measurement_item ji "//
+			+ "WHERE" //
+			+ "    ji.measurement_item_name = ?" //
+			+ "    AND mv.measurement_item_id = ji.measurement_item_id"
+			+ "    AND" // 
+			+ "    (" //
+			+ "        mv.measurement_time BETWEEN ?" + "        AND ?"
+			+ "    ) " + "GROUP BY measurement_index, ji.measurement_item_name "
+			+ "ORDER BY" + "    ji.measurement_item_name, measurement_time";
 
-	/** åˆè¨ˆå€¤è¨ˆç®—ç”¨ã®SQL */
+    /** ‡Œv’lŒvZ—p‚ÌSQL */
 	private static final String SQL_SUM = "SELECT"
-		+ "    min(mv.measurement_time) measurement_time"
-		+ "    , ji.measurement_item_name item_name"
-		+ "    , sum(cast(mv.measurement_value as double precision)) summary_value"
-		+ "    , sum(cast(mv.measurement_value as double precision)) max_value"
-		+ "    , sum(cast(mv.measurement_value as double precision)) min_value"
-		+ "    ,floor( "
-		+ ITEM_COUNT
-		+ " * (date_part('epoch', measurement_time) - date_part('epoch', ?::timestamp)) "
-		+ "    / ?"
-		+ ") measurement_index "
-		+ "FROM" //
-		+ "    measurement_value mv" //
-		+ "    ,javelin_measurement_item ji "
-		+ "WHERE" //
-		+ "    ji.measurement_item_name = ?"
-		+ "    AND mv.measurement_item_id = ji.measurement_item_id"
-		+ "    AND" //
-		+ "    (" //
-		+ "        mv.measurement_time BETWEEN ?" + "        AND ?" + "    ) "
-		+ "GROUP BY measurement_index, ji.measurement_item_name " + "ORDER BY"
-		+ "    ji.measurement_item_name, measurement_time";
+			+ "    min(mv.measurement_time) measurement_time"
+			+ "    , ji.measurement_item_name item_name"
+			+ "    , sum(cast(mv.measurement_value as bigint)) summary_value"
+			+ "    , sum(cast(mv.measurement_value as bigint)) max_value"
+			+ "    , sum(cast(mv.measurement_value as bigint)) min_value"
+			+ "    ,floor( "
+			+ ITEM_COUNT
+			+ " * (date_part('epoch', measurement_time) - date_part('epoch', ?::timestamp)) "
+			+ "    / ?"
+			+ ") measurement_index "
+			+ "FROM" //
+			+ "    measurement_value mv" //
+			+ "    ,javelin_measurement_item ji "
+			+ "WHERE" //
+			+ "    ji.measurement_item_name = ?"
+			+ "    AND mv.measurement_item_id = ji.measurement_item_id"
+			+ "    AND" //
+			+ "    (" //
+			+ "        mv.measurement_time BETWEEN ?" + "        AND ?"
+			+ "    ) " + "GROUP BY measurement_index, ji.measurement_item_name "
+			+ "ORDER BY" + "    ji.measurement_item_name, measurement_time";
 
-	/** å¹³å‡å€¤è¨ˆç®—ç”¨ã®SQL(H2) */
+    /** •½‹Ï’lŒvZ—p‚ÌSQL(H2) */
 	private static final String SQL_AVERAGE_ALL_H2 = "SELECT"
-		+ "    min(mv.measurement_time) measurement_time"
-		+ "    , case when substring(ji.measurement_item_name, 0, 1) = '/' then '/' "
-		+ "           when substring(ji.measurement_item_name, 0, 5) = 'jdbc:' then 'jdbc:' "
-		+ "           else 'java' end item_name_head"
-		+ "    , avg(cast(mv.measurement_value as double precision)) summary_value"
-		+ "    , max(cast(mv.measurement_value as double precision)) max_value"
-		+ "    , min(cast(mv.measurement_value as double precision)) min_value" + "    ,floor( "
-		+ ITEM_COUNT
-		+ " * (date_part('epoch', measurement_time) - date_part('epoch', ?::timestamp)) "
-		+ "    / ?" + ") measurement_index "
-		+ "FROM" //
-		+ "    measurement_value mv" //
-		+ "    ,javelin_measurement_item ji "//
-		+ "WHERE" //
-		+ "    ji.measurement_item_name = ?" //
-		+ "    AND mv.measurement_item_id = ji.measurement_item_id"
-		+ "    AND" //
-		+ "    (" //
-		+ "        mv.measurement_time BETWEEN ?" + "        AND ?" + "    ) "
-		+ " GROUP BY measurement_index, item_name_head" + " ORDER BY" + "    measurement_time";
+			+ "    min(mv.measurement_time) measurement_time"
+			+ "    , case when substring(ji.measurement_item_name, 0, 1) = '/' then '/' "
+			+ "           when substring(ji.measurement_item_name, 0, 5) = 'jdbc:' then 'jdbc:' "
+			+ "           else 'java' end item_name_head"
+			+ "    , avg(cast(mv.measurement_value as bigint)) summary_value"
+			+ "    , max(cast(mv.measurement_value as bigint)) max_value"
+			+ "    , min(cast(mv.measurement_value as bigint)) min_value"
+			+ "    ,floor( "
+			+ ITEM_COUNT
+			+ " * (date_part('epoch', measurement_time) - date_part('epoch', ?::timestamp)) "
+			+ "    / ?"
+			+ ") measurement_index "
+			+ "FROM" //
+			+ "    measurement_value mv" //
+			+ "    ,javelin_measurement_item ji "//
+			+ "WHERE" //
+			+ "    ji.measurement_item_name = ?" //
+			+ "    AND mv.measurement_item_id = ji.measurement_item_id"
+			+ "    AND" // 
+			+ "    (" //
+			+ "        mv.measurement_time BETWEEN ?" + "        AND ?"
+			+ "    ) " + " GROUP BY measurement_index, item_name_head"
+			+ " ORDER BY" + "    measurement_time";
 
-	/** å¹³å‡å€¤è¨ˆç®—ç”¨ã®SQL(postgres) */
+    /** •½‹Ï’lŒvZ—p‚ÌSQL(postgres) */
 	private static final String SQL_AVERAGE_ALL_POSTGRES = "SELECT"
-		+ "    min(mv.measurement_time) measurement_time"
-		+ "    , case when substring(ji.measurement_item_name, 0, 2) = '/' then '/' "
-		+ "           when substring(ji.measurement_item_name, 0, 6) = 'jdbc:' then 'jdbc:' "
-		+ "           else 'java' end item_name_head"
-		+ "    , avg(cast(mv.measurement_value as double precision)) summary_value"
-		+ "    , max(cast(mv.measurement_value as double precision)) max_value"
-		+ "    , min(cast(mv.measurement_value as double precision)) min_value" + "    ,floor( "
-		+ ITEM_COUNT
-		+ " * (date_part('epoch', measurement_time)  - date_part('epoch', ?::timestamp)) "
-		+ "    / ?" + ") measurement_index "
-		+ "FROM" //
-		+ "    measurement_value mv" //
-		+ "    ,javelin_measurement_item ji "//
-		+ "WHERE" //
-		+ "    ji.measurement_item_name = ?" //
-		+ "    AND mv.measurement_item_id = ji.measurement_item_id"
-		+ "    AND" //
-		+ "    (" //
-		+ "        mv.measurement_time BETWEEN ?" + "        AND ?" + "    ) "
-		+ " GROUP BY measurement_index, item_name_head" + " ORDER BY" + "    measurement_time";
+			+ "    min(mv.measurement_time) measurement_time"
+			+ "    , case when substring(ji.measurement_item_name, 0, 2) = '/' then '/' "
+			+ "           when substring(ji.measurement_item_name, 0, 6) = 'jdbc:' then 'jdbc:' "
+			+ "           else 'java' end item_name_head"
+			+ "    , avg(cast(mv.measurement_value as bigint)) summary_value"
+			+ "    , max(cast(mv.measurement_value as bigint)) max_value"
+			+ "    , min(cast(mv.measurement_value as bigint)) min_value"
+			+ "    ,floor( "
+			+ ITEM_COUNT
+			+ " * (date_part('epoch', measurement_time)  - date_part('epoch', ?::timestamp)) "
+			+ "    / ?"
+			+ ") measurement_index "
+			+ "FROM" //
+			+ "    measurement_value mv" //
+			+ "    ,javelin_measurement_item ji "//
+			+ "WHERE" //
+			+ "    ji.measurement_item_name = ?" //
+			+ "    AND mv.measurement_item_id = ji.measurement_item_id"
+			+ "    AND" // 
+			+ "    (" //
+			+ "        mv.measurement_time BETWEEN ?" + "        AND ?"
+			+ "    ) " + " GROUP BY measurement_index, item_name_head"
+			+ " ORDER BY" + "    measurement_time";
 
-	/** åˆè¨ˆå€¤è¨ˆç®—ç”¨ã®SQL(H2) */
+    /** ‡Œv’lŒvZ—p‚ÌSQL(H2) */
 	private static final String SQL_SUM_ALL_H2 = "SELECT"
-		+ "    min(mv.measurement_time) measurement_time"
-		+ "    , case when substring(ji.measurement_item_name, 0, 1) = '/' then '/' "
-		+ "           when substring(ji.measurement_item_name, 0, 5) = 'jdbc:' then 'jdbc:' "
-		+ "           else 'java' end item_name_head"
-		+ "    , sum(cast(mv.measurement_value as double precision)) summary_value"
-		+ "    , sum(cast(mv.measurement_value as double precision)) max_value"
-		+ "    , sum(cast(mv.measurement_value as double precision)) min_value"
-		+ "    ,floor( "
-		+ ITEM_COUNT
-		+ " * (date_part('epoch', measurement_time) - date_part('epoch', ?::timestamp)) "
-		+ "    / ?"
-		+ ") measurement_index "
-		+ "FROM" //
-		+ "    measurement_value mv" //
-		+ "    ,javelin_measurement_item ji "
-		+ "WHERE" //
-		+ "    ji.measurement_item_name = ?"
-		+ "    AND mv.measurement_item_id = ji.measurement_item_id"
-		+ "    AND" //
-		+ "    (" //
-		+ "        mv.measurement_time BETWEEN ?" + "        AND ?" + "    ) "
-		+ "GROUP BY measurement_index, item_name_head " //
-		+ "ORDER BY " + "    measurement_time";
+			+ "    min(mv.measurement_time) measurement_time"
+			+ "    , case when substring(ji.measurement_item_name, 0, 1) = '/' then '/' "
+			+ "           when substring(ji.measurement_item_name, 0, 5) = 'jdbc:' then 'jdbc:' "
+			+ "           else 'java' end item_name_head"
+			+ "    , sum(cast(mv.measurement_value as bigint)) summary_value"
+			+ "    , sum(cast(mv.measurement_value as bigint)) max_value"
+			+ "    , sum(cast(mv.measurement_value as bigint)) min_value"
+			+ "    ,floor( "
+			+ ITEM_COUNT
+			+ " * (date_part('epoch', measurement_time) - date_part('epoch', ?::timestamp)) "
+			+ "    / ?"
+			+ ") measurement_index "
+			+ "FROM" //
+			+ "    measurement_value mv" //
+			+ "    ,javelin_measurement_item ji "
+			+ "WHERE" //
+			+ "    ji.measurement_item_name = ?"
+			+ "    AND mv.measurement_item_id = ji.measurement_item_id"
+			+ "    AND" //
+			+ "    (" //
+			+ "        mv.measurement_time BETWEEN ?" + "        AND ?"
+			+ "    ) " + "GROUP BY measurement_index, item_name_head " //
+			+ "ORDER BY " + "    measurement_time";
 
-	/** åˆè¨ˆå€¤è¨ˆç®—ç”¨ã®SQL(postgres) */
+    /** ‡Œv’lŒvZ—p‚ÌSQL(postgres) */
 	private static final String SQL_SUM_ALL_POSTGRES = "SELECT"
-		+ "    min(mv.measurement_time) measurement_time"
-		+ "    , case when substring(ji.measurement_item_name, 0, 2) = '/' then '/' "
-		+ "           when substring(ji.measurement_item_name, 0, 6) = 'jdbc:' then 'jdbc:' "
-		+ "           else 'java' end item_name_head"
-		+ "    , sum(cast(mv.measurement_value as double precision)) summary_value"
-		+ "    , sum(cast(mv.measurement_value as double precision)) max_value"
-		+ "    , sum(cast(mv.measurement_value as double precision)) min_value"
-		+ "    ,floor( "
-		+ ITEM_COUNT
-		+ " * (date_part('epoch', measurement_time) - date_part('epoch', ?::timestamp)) "
-		+ "    / ?"
-		+ ") measurement_index "
-		+ "FROM" //
-		+ "    measurement_value mv" //
-		+ "    ,javelin_measurement_item ji "
-		+ "WHERE" //
-		+ "    ji.measurement_item_name = ?"
-		+ "    AND mv.measurement_item_id = ji.measurement_item_id"
-		+ "    AND" //
-		+ "    (" //
-		+ "        mv.measurement_time BETWEEN ?" + "        AND ?" + "    ) "
-		+ "GROUP BY measurement_index, item_name_head " //
-		+ "ORDER BY " + "    measurement_time";
+			+ "    min(mv.measurement_time) measurement_time"
+			+ "    , case when substring(ji.measurement_item_name, 0, 2) = '/' then '/' "
+			+ "           when substring(ji.measurement_item_name, 0, 6) = 'jdbc:' then 'jdbc:' "
+			+ "           else 'java' end item_name_head"
+			+ "    , sum(cast(mv.measurement_value as bigint)) summary_value"
+			+ "    , sum(cast(mv.measurement_value as bigint)) max_value"
+			+ "    , sum(cast(mv.measurement_value as bigint)) min_value"
+			+ "    ,floor( "
+			+ ITEM_COUNT
+			+ " * (date_part('epoch', measurement_time) - date_part('epoch', ?::timestamp)) "
+			+ "    / ?"
+			+ ") measurement_index "
+			+ "FROM" //
+			+ "    measurement_value mv" //
+			+ "    ,javelin_measurement_item ji "
+			+ "WHERE" //
+			+ "    ji.measurement_item_name = ?"
+			+ "    AND mv.measurement_item_id = ji.measurement_item_id"
+			+ "    AND" //
+			+ "    (" //
+			+ "        mv.measurement_time BETWEEN ?" + "        AND ?"
+			+ "    ) " + "GROUP BY measurement_index, item_name_head " //
+			+ "ORDER BY " + "    measurement_time";
 
-	/** ä¾‹å¤–è¨ˆç®—ç”¨ã®SQL(H2) */
+	/** —áŠOŒvZ—p‚ÌSQL(H2) */
 	private static final String SQL_EXCEPTION_H2 = "SELECT"
-		+ "    min(mv.measurement_time) measurement_time"
-		+ "    , case when substring(ji.measurement_item_name, 0, 1) = '/' then '/' "
-		+ "           when substring(ji.measurement_item_name, 0, 5) = 'jdbc:' then 'jdbc:' "
-		+ "           else 'java' end item_name_head"
-		+ "    , sum(cast(mv.measurement_value as double precision)) summary_value"
-		+ "    , sum(cast(mv.measurement_value as double precision)) max_value"
-		+ "    , sum(cast(mv.measurement_value as double precision)) min_value"
-		+ "    ,floor( "
-		+ ITEM_COUNT
-		+ " * (date_part('epoch', measurement_time) - date_part('epoch', ?::timestamp)) "
-		+ "    / ?"
-		+ ") measurement_index "
-		+ "FROM" //
-		+ "    measurement_value mv" //
-		+ "    ,javelin_measurement_item ji "
-		+ "WHERE" //
-		+ "    ji.measurement_item_name = ?"
-		+ "    AND mv.measurement_item_id = ji.measurement_item_id"
-		+ "    AND" //
-		+ "    (" //
-		+ "        mv.measurement_time BETWEEN ?" + "        AND ?" + "    ) "
-		+ "GROUP BY measurement_index, ji.measurement_item_name " + "ORDER BY"
-		+ "    item_name_head, measurement_time";
+			+ "    min(mv.measurement_time) measurement_time"
+			+ "    , case when substring(ji.measurement_item_name, 0, 1) = '/' then '/' "
+			+ "           when substring(ji.measurement_item_name, 0, 5) = 'jdbc:' then 'jdbc:' "
+			+ "           else 'java' end item_name_head"
+			+ "    , sum(cast(mv.measurement_value as bigint)) summary_value"
+			+ "    , sum(cast(mv.measurement_value as bigint)) max_value"
+			+ "    , sum(cast(mv.measurement_value as bigint)) min_value"
+			+ "    ,floor( "
+			+ ITEM_COUNT
+			+ " * (date_part('epoch', measurement_time) - date_part('epoch', ?::timestamp)) "
+			+ "    / ?"
+			+ ") measurement_index "
+			+ "FROM" //
+			+ "    measurement_value mv" //
+			+ "    ,javelin_measurement_item ji "
+			+ "WHERE" //
+			+ "    ji.measurement_item_name = ?"
+			+ "    AND mv.measurement_item_id = ji.measurement_item_id"
+			+ "    AND" //
+			+ "    (" //
+			+ "        mv.measurement_time BETWEEN ?" + "        AND ?"
+			+ "    ) " + "GROUP BY measurement_index, ji.measurement_item_name "
+			+ "ORDER BY" + "    item_name_head, measurement_time";
 
-	/** ä¾‹å¤–è¨ˆç®—ç”¨ã®SQL(postgres) */
+    /** —áŠOŒvZ—p‚ÌSQL(postgres) */
 	private static final String SQL_EXCEPTION_POSTGRES = "SELECT"
-		+ "    min(mv.measurement_time) measurement_time"
-		+ "    , case when substring(ji.measurement_item_name, 0, 2) = '/' then '/' "
-		+ "           when substring(ji.measurement_item_name, 0, 6) = 'jdbc:' then 'jdbc:' "
-		+ "           else 'java' end item_name_head"
-		+ "    , sum(cast(mv.measurement_value as double precision)) summary_value"
-		+ "    , sum(cast(mv.measurement_value as double precision)) max_value"
-		+ "    , sum(cast(mv.measurement_value as double precision)) min_value"
-		+ "    ,floor( "
-		+ ITEM_COUNT
-		+ " * (date_part('epoch', measurement_time) - date_part('epoch', ?::timestamp)) "
-		+ "    / ?"
-		+ ") measurement_index "
-		+ "FROM" //
-		+ "    measurement_value mv" //
-		+ "    ,javelin_measurement_item ji "
-		+ "WHERE" //
-		+ "    ji.measurement_item_name = ?"
-		+ "    AND mv.measurement_item_id = ji.measurement_item_id"
-		+ "    AND" //
-		+ "    (" //
-		+ "        mv.measurement_time BETWEEN ?" + "        AND ?" + "    ) "
-		+ "GROUP BY measurement_index, ji.measurement_item_name " + "ORDER BY"
-		+ "    item_name_head, measurement_time";
+			+ "    min(mv.measurement_time) measurement_time"
+			+ "    , case when substring(ji.measurement_item_name, 0, 2) = '/' then '/' "
+			+ "           when substring(ji.measurement_item_name, 0, 6) = 'jdbc:' then 'jdbc:' "
+			+ "           else 'java' end item_name_head"
+			+ "    , sum(cast(mv.measurement_value as bigint)) summary_value"
+			+ "    , sum(cast(mv.measurement_value as bigint)) max_value"
+			+ "    , sum(cast(mv.measurement_value as bigint)) min_value"
+			+ "    ,floor( "
+			+ ITEM_COUNT
+			+ " * (date_part('epoch', measurement_time) - date_part('epoch', ?::timestamp)) "
+			+ "    / ?"
+			+ ") measurement_index "
+			+ "FROM" //
+			+ "    measurement_value mv" //
+			+ "    ,javelin_measurement_item ji "
+			+ "WHERE" //
+			+ "    ji.measurement_item_name = ?"
+			+ "    AND mv.measurement_item_id = ji.measurement_item_id"
+			+ "    AND" //
+			+ "    (" //
+			+ "        mv.measurement_time BETWEEN ?" + "        AND ?"
+			+ "    ) " + "GROUP BY measurement_index, ji.measurement_item_name "
+			+ "ORDER BY" + "    item_name_head, measurement_time";
 
 	/**
-	 * CallTreeNodoç”Ÿæˆæ•°ã®ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ãŸã‚ã®SQLæ–‡ã€‚
+	 * CallTreeNodo¶¬”‚Ìƒf[ƒ^‚ğæ“¾‚·‚é‚½‚ß‚ÌSQL•¶B
 	 */
 	private static final String SQL_CALLTREE_AVERAGE = "SELECT"
-		+ "    min(mv.measurement_time) measurement_time"
-		+ "    ,ji.measurement_item_name item_name"
-		+ "    , avg(cast(mv.measurement_value as double precision)) summary_value"
-		+ "    , max(cast(mv.measurement_value as double precision)) max_value"
-		+ "    , min(cast(mv.measurement_value as double precision)) min_value"
-		+ "    ,floor( "
-		+ ITEM_COUNT
-		+ " * (date_part('epoch', measurement_time) - date_part('epoch', ?::timestamp)) "
-		+ "    / ?"
-		+ ") measurement_index "
-		+ "FROM" //
-		+ "    measurement_value mv" //
-		+ "    ,javelin_measurement_item ji "//
-		+ "WHERE" //
-		+ "    ji.measurement_item_name = ?" //
-		+ "    AND mv.measurement_item_id = ji.measurement_item_id"
-		+ "    AND" //
-		+ "    (" //
-		+ "        mv.measurement_time BETWEEN ?" + "        AND ?" + "    ) "
-		+ "GROUP BY measurement_index, ji.measurement_item_name " + "ORDER BY"
-		+ "    ji.measurement_item_name, measurement_time";
+			+ "    min(mv.measurement_time) measurement_time"
+			+ "    ,ji.measurement_item_name item_name"
+			+ "    , avg(cast(mv.measurement_value as bigint)) summary_value"
+			+ "    , max(cast(mv.measurement_value as bigint)) max_value"
+			+ "    , min(cast(mv.measurement_value as bigint)) min_value"
+			+ "    ,floor( "
+			+ ITEM_COUNT
+			+ " * (date_part('epoch', measurement_time) - date_part('epoch', ?::timestamp)) "
+			+ "    / ?"
+			+ ") measurement_index "
+			+ "FROM" //
+			+ "    measurement_value mv" //
+			+ "    ,javelin_measurement_item ji "//
+			+ "WHERE" //
+			+ "    ji.measurement_item_name = ?" //
+			+ "    AND mv.measurement_item_id = ji.measurement_item_id"
+			+ "    AND" // 
+			+ "    (" //
+			+ "        mv.measurement_time BETWEEN ?" + "        AND ?"
+			+ "    ) " + "GROUP BY measurement_index, ji.measurement_item_name "
+			+ "ORDER BY" + "    ji.measurement_item_name, measurement_time";
 
 	/**
-	 * æŒ‡å®šã—ãŸæœŸé–“ã‹ã‚‰ã€ã‚µãƒãƒªè¨ˆç®—ã‚’è¡Œã„ã€çµæœã‚’å–å¾—ã™ã‚‹ã€‚
+	 * w’è‚µ‚½ŠúŠÔ‚©‚çAƒTƒ}ƒŠŒvZ‚ğs‚¢AŒ‹‰Ê‚ğæ“¾‚·‚éB
 	 * 
-	 * ã‚µãƒãƒªã¨ã—ã¦å¹³å‡å€¤ã‚’è¨ˆç®—ã™ã‚‹SQLã§å•ã„åˆã‚ã›ã€çµæœã‚’ãƒªã‚¹ãƒˆã«ã—ã¦è¿”ã™ã€‚ å¿…ãšã€ITEM_COUNTã®ã‚µã‚¤ã‚ºã®ãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚
+	 * ƒTƒ}ƒŠ‚Æ‚µ‚Ä•½‹Ï’l‚ğŒvZ‚·‚éSQL‚Å–â‚¢‡‚í‚¹AŒ‹‰Ê‚ğƒŠƒXƒg‚É‚µ‚Ä•Ô‚·B •K‚¸AITEM_COUNT‚ÌƒTƒCƒY‚ÌƒŠƒXƒg‚ğ•Ô‚·B
 	 * 
 	 * @param database
-	 *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹
+	 *            ƒf[ƒ^ƒx[ƒX
 	 * @param startTime
-	 *            é–‹å§‹æ™‚åˆ»
+	 *            ŠJn
 	 * @param endTime
-	 *            çµ‚äº†æ™‚åˆ»
+	 *            I—¹
 	 * @param itemName
 	 *            item_name
-	 * @return ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã«ä½¿ç”¨ã™ã‚‹ReportItemValueã®ãƒªã‚¹ãƒˆã€‚
+	 * @return ƒŒƒ|[ƒgo—Í‚Ég—p‚·‚éReportItemValue‚ÌƒŠƒXƒgB
 	 * @throws SQLException
-	 *             DBã‚¢ã‚¯ã‚»ã‚¹æ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
+	 *             DBƒAƒNƒZƒX‚ÉƒGƒ‰[‚ª”­¶‚µ‚½ê‡
 	 */
-	public static List<ReportItemValue> selectSum(String database, Timestamp startTime,
-		Timestamp endTime, String itemName) throws SQLException
-	{
-		List<ReportItemValue> result = select(database, startTime, endTime, itemName, SQL_SUM);
+	public static List<ReportItemValue> selectSum(String database,
+			Timestamp startTime, Timestamp endTime, String itemName)
+			throws SQLException {
+		List<ReportItemValue> result = select(database, startTime, endTime,
+				itemName, SQL_SUM);
 
 		return result;
 	}
 
 	/**
-	 * æŒ‡å®šã—ãŸæœŸé–“ã‹ã‚‰ã€ã‚µãƒãƒªè¨ˆç®—ã‚’è¡Œã„ã€çµæœã‚’å–å¾—ã™ã‚‹ã€‚
+	 * w’è‚µ‚½ŠúŠÔ‚©‚çAƒTƒ}ƒŠŒvZ‚ğs‚¢AŒ‹‰Ê‚ğæ“¾‚·‚éB
 	 * 
-	 * ã‚µãƒãƒªã¨ã—ã¦å¹³å‡å€¤ã‚’è¨ˆç®—ã™ã‚‹SQLã§å•ã„åˆã‚ã›ã€çµæœã‚’ãƒªã‚¹ãƒˆã«ã—ã¦è¿”ã™ã€‚ å¿…ãšã€ITEM_COUNTã®ã‚µã‚¤ã‚ºã®ãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚
+	 * ƒTƒ}ƒŠ‚Æ‚µ‚Ä•½‹Ï’l‚ğŒvZ‚·‚éSQL‚Å–â‚¢‡‚í‚¹AŒ‹‰Ê‚ğƒŠƒXƒg‚É‚µ‚Ä•Ô‚·B •K‚¸AITEM_COUNT‚ÌƒTƒCƒY‚ÌƒŠƒXƒg‚ğ•Ô‚·B
 	 * 
 	 * @param database
-	 *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹
+	 *            ƒf[ƒ^ƒx[ƒX
 	 * @param startTime
-	 *            é–‹å§‹æ™‚åˆ»
+	 *            ŠJn
 	 * @param endTime
-	 *            çµ‚äº†æ™‚åˆ»
+	 *            I—¹
 	 * @param itemName
 	 *            item_name
-	 * @return ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã«ä½¿ç”¨ã™ã‚‹ReportItemValueã®ãƒªã‚¹ãƒˆã€‚
+	 * @return ƒŒƒ|[ƒgo—Í‚Ég—p‚·‚éReportItemValue‚ÌƒŠƒXƒgB
 	 * @throws SQLException
-	 *             DBã‚¢ã‚¯ã‚»ã‚¹æ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
+	 *             DBƒAƒNƒZƒX‚ÉƒGƒ‰[‚ª”­¶‚µ‚½ê‡
 	 */
-	public static List<ReportItemValue> selectAverage(String database, Timestamp startTime,
-		Timestamp endTime, String itemName) throws SQLException
-	{
-		List<ReportItemValue> result = select(database, startTime, endTime, itemName, SQL_AVERAGE);
+	public static List<ReportItemValue> selectAverage(String database,
+			Timestamp startTime, Timestamp endTime, String itemName)
+			throws SQLException {
+		List<ReportItemValue> result = select(database, startTime, endTime,
+				itemName, SQL_AVERAGE);
 
 		return result;
 	}
 
 	/**
-	 * æŒ‡å®šã—ãŸæœŸé–“ã‹ã‚‰ã€ã‚µãƒãƒªè¨ˆç®—ã‚’è¡Œã„ã€çµæœã‚’å–å¾—ã™ã‚‹ã€‚ ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã§å–å¾—ã§ãã‚‹ã®ã¯ã€CallTreeNodeç”Ÿæˆæ•°ã®ãƒ‡ãƒ¼ã‚¿ã®ã¿ã§ã‚ã‚‹ã€‚
+	 * w’è‚µ‚½ŠúŠÔ‚©‚çAƒTƒ}ƒŠŒvZ‚ğs‚¢AŒ‹‰Ê‚ğæ“¾‚·‚éB ‚±‚Ìƒƒ\ƒbƒh‚Åæ“¾‚Å‚«‚é‚Ì‚ÍACallTreeNode¶¬”‚Ìƒf[ƒ^‚Ì‚İ‚Å‚ ‚éB
 	 * 
-	 * ã‚µãƒãƒªã¨ã—ã¦å¹³å‡å€¤ã‚’è¨ˆç®—ã™ã‚‹SQLã§å•ã„åˆã‚ã›ã€çµæœã‚’ãƒªã‚¹ãƒˆã«ã—ã¦è¿”ã™ã€‚ å¿…ãšã€ITEM_COUNTã®ã‚µã‚¤ã‚ºã®ãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚
+	 * ƒTƒ}ƒŠ‚Æ‚µ‚Ä•½‹Ï’l‚ğŒvZ‚·‚éSQL‚Å–â‚¢‡‚í‚¹AŒ‹‰Ê‚ğƒŠƒXƒg‚É‚µ‚Ä•Ô‚·B •K‚¸AITEM_COUNT‚ÌƒTƒCƒY‚ÌƒŠƒXƒg‚ğ•Ô‚·B
 	 * 
 	 * @param database
-	 *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹
+	 *            ƒf[ƒ^ƒx[ƒX
 	 * @param startTime
-	 *            é–‹å§‹æ™‚åˆ»
+	 *            ŠJn
 	 * @param endTime
-	 *            çµ‚äº†æ™‚åˆ»
+	 *            I—¹
 	 * @param itemName
 	 *            item_name
-	 * @return ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã«ä½¿ç”¨ã™ã‚‹ReportItemValueã®ãƒªã‚¹ãƒˆã€‚
+	 * @return ƒŒƒ|[ƒgo—Í‚Ég—p‚·‚éReportItemValue‚ÌƒŠƒXƒgB
 	 * @throws SQLException
-	 *             DBã‚¢ã‚¯ã‚»ã‚¹æ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
+	 *             DBƒAƒNƒZƒX‚ÉƒGƒ‰[‚ª”­¶‚µ‚½ê‡
 	 */
-	public static List<ReportItemValue> selectCallTreeAverage(String database, Timestamp startTime,
-		Timestamp endTime, String itemName) throws SQLException
-	{
-		List<ReportItemValue> result = select(database, startTime, endTime, itemName,
-			SQL_CALLTREE_AVERAGE);
+	public static List<ReportItemValue> selectCallTreeAverage(String database,
+			Timestamp startTime, Timestamp endTime, String itemName)
+			throws SQLException {
+		List<ReportItemValue> result = select(database, startTime, endTime,
+				itemName, SQL_CALLTREE_AVERAGE);
 
 		return result;
 	}
 
 	/**
-	 * æŒ‡å®šã—ãŸæœŸé–“ã‹ã‚‰ã€ã‚µãƒãƒªè¨ˆç®—ã‚’è¡Œã„ã€çµæœã‚’å–å¾—ã™ã‚‹ã€‚
+	 * w’è‚µ‚½ŠúŠÔ‚©‚çAƒTƒ}ƒŠŒvZ‚ğs‚¢AŒ‹‰Ê‚ğæ“¾‚·‚éB
 	 * 
-	 * ã‚µãƒãƒªã¨ã—ã¦å¹³å‡å€¤ã‚’è¨ˆç®—ã™ã‚‹SQLã§å•ã„åˆã‚ã›ã€çµæœã‚’ãƒªã‚¹ãƒˆã«ã—ã¦è¿”ã™ã€‚ å¿…ãšã€ITEM_COUNTã®ã‚µã‚¤ã‚ºã®ãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚
+	 * ƒTƒ}ƒŠ‚Æ‚µ‚Ä•½‹Ï’l‚ğŒvZ‚·‚éSQL‚Å–â‚¢‡‚í‚¹AŒ‹‰Ê‚ğƒŠƒXƒg‚É‚µ‚Ä•Ô‚·B •K‚¸AITEM_COUNT‚ÌƒTƒCƒY‚ÌƒŠƒXƒg‚ğ•Ô‚·B
 	 * 
 	 * @param database
-	 *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹
+	 *            ƒf[ƒ^ƒx[ƒX
 	 * @param startTime
-	 *            é–‹å§‹æ™‚åˆ»
+	 *            ŠJn
 	 * @param endTime
-	 *            çµ‚äº†æ™‚åˆ»
+	 *            I—¹
 	 * @param itemName
 	 *            item_name
-	 * @return ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã«ä½¿ç”¨ã™ã‚‹ReportItemValueã®ãƒªã‚¹ãƒˆã€‚
+	 * @return ƒŒƒ|[ƒgo—Í‚Ég—p‚·‚éReportItemValue‚ÌƒŠƒXƒgB
 	 * @throws SQLException
-	 *             DBã‚¢ã‚¯ã‚»ã‚¹æ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
+	 *             DBƒAƒNƒZƒX‚ÉƒGƒ‰[‚ª”­¶‚µ‚½ê‡
 	 */
-	public static Map<String, List<ReportItemValue>> selectSumAll(String database,
-		Timestamp startTime, Timestamp endTime, String itemName) throws SQLException
-	{
+	public static Map<String, List<ReportItemValue>> selectSumAll(
+			String database, Timestamp startTime, Timestamp endTime,
+			String itemName) throws SQLException {
 		Map<String, Map<Integer, ReportItemValue>> resultMap;
 
-		if (DBManager.isDefaultDb() == true)
-		{
-			resultMap = selectMap(database, startTime, endTime, itemName, SQL_SUM_ALL_H2);
-		}
-		else
-		{
-			resultMap = selectMap(database, startTime, endTime, itemName, SQL_SUM_ALL_POSTGRES);
+		if (DBManager.isDefaultDb() == true) {
+			resultMap = selectMap(database, startTime, endTime, itemName,
+					SQL_SUM_ALL_H2);
+		} else {
+			resultMap = selectMap(database, startTime, endTime, itemName,
+					SQL_SUM_ALL_POSTGRES);
 		}
 
 		Map<String, List<ReportItemValue>> result;
-		if (resultMap.isEmpty())
-		{
+		if (resultMap.isEmpty()) {
 			result = createZeroMapData(startTime, endTime, itemName);
-		}
-		else
-		{
+		} else {
 			result = convertToReportItemListMap(startTime, endTime, resultMap);
 		}
 
@@ -378,72 +376,63 @@ public class ReportDao extends AbstractDao implements TableNames
 	}
 
 	/**
-	 * æŒ‡å®šã—ãŸæœŸé–“ã‹ã‚‰ã€ã‚µãƒãƒªè¨ˆç®—ã‚’è¡Œã„ã€çµæœã‚’å–å¾—ã™ã‚‹ã€‚
+	 * w’è‚µ‚½ŠúŠÔ‚©‚çAƒTƒ}ƒŠŒvZ‚ğs‚¢AŒ‹‰Ê‚ğæ“¾‚·‚éB
 	 * 
-	 * ã‚µãƒãƒªã¨ã—ã¦å¹³å‡å€¤ã‚’è¨ˆç®—ã™ã‚‹SQLã§å•ã„åˆã‚ã›ã€çµæœã‚’ãƒªã‚¹ãƒˆã«ã—ã¦è¿”ã™ã€‚ å¿…ãšã€ITEM_COUNTã®ã‚µã‚¤ã‚ºã®ãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚
+	 * ƒTƒ}ƒŠ‚Æ‚µ‚Ä•½‹Ï’l‚ğŒvZ‚·‚éSQL‚Å–â‚¢‡‚í‚¹AŒ‹‰Ê‚ğƒŠƒXƒg‚É‚µ‚Ä•Ô‚·B •K‚¸AITEM_COUNT‚ÌƒTƒCƒY‚ÌƒŠƒXƒg‚ğ•Ô‚·B
 	 * 
 	 * @param database
-	 *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹
+	 *            ƒf[ƒ^ƒx[ƒX
 	 * @param startTime
-	 *            é–‹å§‹æ™‚åˆ»
+	 *            ŠJn
 	 * @param endTime
-	 *            çµ‚äº†æ™‚åˆ»
+	 *            I—¹
 	 * @param itemName
 	 *            item_name
-	 * @return ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã«ä½¿ç”¨ã™ã‚‹ReportItemValueã®ãƒªã‚¹ãƒˆã€‚
+	 * @return ƒŒƒ|[ƒgo—Í‚Ég—p‚·‚éReportItemValue‚ÌƒŠƒXƒgB
 	 * @throws SQLException
-	 *             DBã‚¢ã‚¯ã‚»ã‚¹æ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
+	 *             DBƒAƒNƒZƒX‚ÉƒGƒ‰[‚ª”­¶‚µ‚½ê‡
 	 */
-	public static Map<String, List<ReportItemValue>> selectAverageAll(String database,
-		Timestamp startTime, Timestamp endTime, String itemName) throws SQLException
-	{
+	public static Map<String, List<ReportItemValue>> selectAverageAll(
+			String database, Timestamp startTime, Timestamp endTime,
+			String itemName) throws SQLException {
 		Map<String, Map<Integer, ReportItemValue>> resultMap;
 
-		if (DBManager.isDefaultDb() == true)
-		{
-			resultMap = selectMap(database, startTime, endTime, itemName, SQL_AVERAGE_ALL_H2);
-		}
-		else
-		{
-			resultMap = selectMap(database, startTime, endTime, itemName, SQL_AVERAGE_ALL_POSTGRES);
+		if (DBManager.isDefaultDb() == true) {
+			resultMap = selectMap(database, startTime, endTime, itemName,
+					SQL_AVERAGE_ALL_H2);
+		} else {
+			resultMap = selectMap(database, startTime, endTime, itemName,
+					SQL_AVERAGE_ALL_POSTGRES);
 		}
 
 		Map<String, List<ReportItemValue>> result;
-		if (resultMap.isEmpty())
-		{
+		if (resultMap.isEmpty()) {
 			result = createZeroMapData(startTime, endTime, itemName);
-		}
-		else
-		{
+		} else {
 			result = convertToReportItemListMap(startTime, endTime, resultMap);
 		}
 		return result;
 	}
 
 	/**
-	 * å€¤ãŒ0ã®Mapã‚’ç”Ÿæˆã™ã‚‹ã€‚
+	 * ’l‚ª0‚ÌMap‚ğ¶¬‚·‚éB
 	 * 
-	 * @param startTime
-	 *            é–‹å§‹æ™‚åˆ»ã€‚
-	 * @param endTime
-	 *            çµ‚äº†æ™‚åˆ»ã€‚
-	 * @param itemName
-	 *            é …ç›®åã€‚
-	 * @returnã€€ç”Ÿæˆã—ãŸMapã€‚
+	 * @param startTime ŠJnB
+	 * @param endTime I—¹B
+	 * @param itemName €–Ú–¼B
+	 * @return@¶¬‚µ‚½MapB
 	 */
-	private static Map<String, List<ReportItemValue>> createZeroMapData(Timestamp startTime,
-		Timestamp endTime, String itemName)
-	{
+	private static Map<String, List<ReportItemValue>> createZeroMapData(
+			Timestamp startTime, Timestamp endTime, String itemName) {
 		Map<String, List<ReportItemValue>> result;
 		long startMillis = startTime.getTime();
 		long endMillis = endTime.getTime();
 		List<ReportItemValue> reportItemList = new ArrayList<ReportItemValue>();
-		for (int index = 0; index < ITEM_COUNT; index++)
-		{
+		for (int index = 0; index < ITEM_COUNT; index++) {
 			ReportItemValue reportItemValue = new ReportItemValue();
 			reportItemValue.itemName = itemName;
-			reportItemValue.measurementTime = new Timestamp(startMillis + (endMillis - startMillis)
-				* index / ITEM_COUNT);
+			reportItemValue.measurementTime = new Timestamp(startMillis
+					+ (endMillis - startMillis) * index / ITEM_COUNT);
 			reportItemValue.summaryValue = 0;
 			reportItemValue.maxValue = 0;
 			reportItemValue.minValue = 0;
@@ -455,165 +444,155 @@ public class ReportDao extends AbstractDao implements TableNames
 	}
 
 	/**
-	 * æŒ‡å®šã—ãŸæœŸé–“ã‹ã‚‰ã€ã‚µãƒãƒªè¨ˆç®—ã‚’è¡Œã„ã€çµæœã‚’å–å¾—ã™ã‚‹ã€‚
+	 * w’è‚µ‚½ŠúŠÔ‚©‚çAƒTƒ}ƒŠŒvZ‚ğs‚¢AŒ‹‰Ê‚ğæ“¾‚·‚éB
 	 * 
-	 * ã‚µãƒãƒªã¨ã—ã¦å¹³å‡å€¤ã‚’è¨ˆç®—ã™ã‚‹SQLã§å•ã„åˆã‚ã›ã€çµæœã‚’ãƒªã‚¹ãƒˆã«ã—ã¦è¿”ã™ã€‚ å¿…ãšã€ITEM_COUNTã®ã‚µã‚¤ã‚ºã®ãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚
+	 * ƒTƒ}ƒŠ‚Æ‚µ‚Ä•½‹Ï’l‚ğŒvZ‚·‚éSQL‚Å–â‚¢‡‚í‚¹AŒ‹‰Ê‚ğƒŠƒXƒg‚É‚µ‚Ä•Ô‚·B •K‚¸AITEM_COUNT‚ÌƒTƒCƒY‚ÌƒŠƒXƒg‚ğ•Ô‚·B
 	 * 
 	 * @param database
-	 *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹
+	 *            ƒf[ƒ^ƒx[ƒX
 	 * @param startTime
-	 *            é–‹å§‹æ™‚åˆ»
+	 *            ŠJn
 	 * @param endTime
-	 *            çµ‚äº†æ™‚åˆ»
+	 *            I—¹
 	 * @param itemName
 	 *            item_name
-	 * @return ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã«ä½¿ç”¨ã™ã‚‹ReportItemValueã®ãƒªã‚¹ãƒˆã€‚
+	 * @return ƒŒƒ|[ƒgo—Í‚Ég—p‚·‚éReportItemValue‚ÌƒŠƒXƒgB
 	 * @throws SQLException
-	 *             DBã‚¢ã‚¯ã‚»ã‚¹æ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
+	 *             DBƒAƒNƒZƒX‚ÉƒGƒ‰[‚ª”­¶‚µ‚½ê‡
 	 */
-	public static Map<String, List<ReportItemValue>> selectSumMap(String database,
-		Timestamp startTime, Timestamp endTime, String itemName) throws SQLException
-	{
-		Map<String, Map<Integer, ReportItemValue>> resultMap = selectMap(database, startTime,
-			endTime, itemName, SQL_SUM);
+	public static Map<String, List<ReportItemValue>> selectSumMap(
+			String database, Timestamp startTime, Timestamp endTime,
+			String itemName) throws SQLException {
+		Map<String, Map<Integer, ReportItemValue>> resultMap = selectMap(
+				database, startTime, endTime, itemName, SQL_SUM);
 
-		Map<String, List<ReportItemValue>> result = convertToReportItemListMap(startTime, endTime,
-			resultMap);
+		Map<String, List<ReportItemValue>> result = convertToReportItemListMap(
+				startTime, endTime, resultMap);
 
 		return result;
 	}
 
-	/**
-	 * æŒ‡å®šã—ãŸæœŸé–“ã‹ã‚‰ã€ã‚µãƒãƒªè¨ˆç®—ã‚’è¡Œã„ã€çµæœã‚’å–å¾—ã™ã‚‹ã€‚
-	 * 
-	 * ã‚µãƒãƒªã¨ã—ã¦åˆè¨ˆå€¤ã‚’è¨ˆç®—ã™ã‚‹SQLã§å•ã„åˆã‚ã›ã€çµæœã‚’ãƒªã‚¹ãƒˆã«ã—ã¦è¿”ã™ã€‚ å¿…ãšã€ITEM_COUNTã®ã‚µã‚¤ã‚ºã®ãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚
-	 * 
-	 * @param database
-	 *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹
-	 * @param startTime
-	 *            é–‹å§‹æ™‚åˆ»
-	 * @param endTime
-	 *            çµ‚äº†æ™‚åˆ»
-	 * @param itemName
-	 *            item_name
-	 * @return ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã«ä½¿ç”¨ã™ã‚‹ReportItemValueã®ãƒªã‚¹ãƒˆã€‚
-	 * @throws SQLException
-	 *             DBã‚¢ã‚¯ã‚»ã‚¹æ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
-	 */
-	public static Map<String, List<ReportItemValue>> selectExceptionSumMap(String database,
-		Timestamp startTime, Timestamp endTime, String itemName) throws SQLException
-	{
+    /**
+     * w’è‚µ‚½ŠúŠÔ‚©‚çAƒTƒ}ƒŠŒvZ‚ğs‚¢AŒ‹‰Ê‚ğæ“¾‚·‚éB
+     * 
+     * ƒTƒ}ƒŠ‚Æ‚µ‚Ä‡Œv’l‚ğŒvZ‚·‚éSQL‚Å–â‚¢‡‚í‚¹AŒ‹‰Ê‚ğƒŠƒXƒg‚É‚µ‚Ä•Ô‚·B •K‚¸AITEM_COUNT‚ÌƒTƒCƒY‚ÌƒŠƒXƒg‚ğ•Ô‚·B
+     * 
+     * @param database
+     *            ƒf[ƒ^ƒx[ƒX
+     * @param startTime
+     *            ŠJn
+     * @param endTime
+     *            I—¹
+     * @param itemName
+     *            item_name
+     * @return ƒŒƒ|[ƒgo—Í‚Ég—p‚·‚éReportItemValue‚ÌƒŠƒXƒgB
+     * @throws SQLException
+     *             DBƒAƒNƒZƒX‚ÉƒGƒ‰[‚ª”­¶‚µ‚½ê‡
+     */
+	public static Map<String, List<ReportItemValue>> selectExceptionSumMap(
+			String database, Timestamp startTime, Timestamp endTime,
+			String itemName) throws SQLException {
 		Map<String, Map<Integer, ReportItemValue>> resultMap;
 
-		if (DBManager.isDefaultDb() == true)
-		{
-			resultMap = selectMap(database, startTime, endTime, itemName, SQL_EXCEPTION_H2);
-		}
-		else
-		{
-			resultMap = selectMap(database, startTime, endTime, itemName, SQL_EXCEPTION_POSTGRES);
+		if (DBManager.isDefaultDb() == true) {
+			resultMap = selectMap(database, startTime, endTime, itemName,
+					SQL_EXCEPTION_H2);
+		} else {
+			resultMap = selectMap(database, startTime, endTime, itemName,
+					SQL_EXCEPTION_POSTGRES);
 		}
 
-		Map<String, List<ReportItemValue>> result = convertToReportItemListMap(startTime, endTime,
-			resultMap);
+		Map<String, List<ReportItemValue>> result = convertToReportItemListMap(
+				startTime, endTime, resultMap);
 
 		return result;
 	}
 
+    /**
+     * w’è‚µ‚½ŠúŠÔ‚©‚çAƒTƒ}ƒŠŒvZ‚ğs‚¢AŒ‹‰Ê‚ğæ“¾‚·‚éB
+     * 
+     * ƒTƒ}ƒŠ‚Æ‚µ‚Ä‡Œv’l‚ğŒvZ‚·‚éSQL‚Å–â‚¢‡‚í‚¹AŒ‹‰Ê‚ğƒŠƒXƒg‚É‚µ‚Ä•Ô‚·B •K‚¸AITEM_COUNT‚ÌƒTƒCƒY‚ÌƒŠƒXƒg‚ğ•Ô‚·B
+     * 
+     * @param database
+     *            ƒf[ƒ^ƒx[ƒX
+     * @param startTime
+     *            ŠJn
+     * @param endTime
+     *            I—¹
+     * @param itemName
+     *            item_name
+     * @return ƒŒƒ|[ƒgo—Í‚Ég—p‚·‚éReportItemValue‚ÌƒŠƒXƒgB
+     * @throws SQLException
+     *             DBƒAƒNƒZƒX‚ÉƒGƒ‰[‚ª”­¶‚µ‚½ê‡
+     */
+    public static Map<String, List<ReportItemValue>> selectStallSumMap(
+            String database, Timestamp startTime, Timestamp endTime,
+            String itemName) throws SQLException {
+        Map<String, Map<Integer, ReportItemValue>> resultMap;
+
+        // g—p‚·‚éSQL‚Í—áŠOƒf[ƒ^‚Æ“¯‚¶‚à‚Ì‚ğg—p‚·‚éB
+        if (DBManager.isDefaultDb() == true) {
+            resultMap = selectMap(database, startTime, endTime, itemName,
+                    SQL_EXCEPTION_H2);
+        } else {
+            resultMap = selectMap(database, startTime, endTime, itemName,
+                    SQL_EXCEPTION_POSTGRES);
+        }
+
+        Map<String, List<ReportItemValue>> result = convertToReportItemListMap(
+                startTime, endTime, resultMap);
+
+        return result;
+    }
+
 	/**
-	 * æŒ‡å®šã—ãŸæœŸé–“ã‹ã‚‰ã€ã‚µãƒãƒªè¨ˆç®—ã‚’è¡Œã„ã€çµæœã‚’å–å¾—ã™ã‚‹ã€‚
+	 * w’è‚µ‚½ŠúŠÔ‚©‚çAƒTƒ}ƒŠŒvZ‚ğs‚¢AŒ‹‰Ê‚ğæ“¾‚·‚éB
 	 * 
-	 * ã‚µãƒãƒªã¨ã—ã¦åˆè¨ˆå€¤ã‚’è¨ˆç®—ã™ã‚‹SQLã§å•ã„åˆã‚ã›ã€çµæœã‚’ãƒªã‚¹ãƒˆã«ã—ã¦è¿”ã™ã€‚ å¿…ãšã€ITEM_COUNTã®ã‚µã‚¤ã‚ºã®ãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚
+	 * ƒTƒ}ƒŠ‚Æ‚µ‚Ä•½‹Ï’l‚ğŒvZ‚·‚éSQL‚Å–â‚¢‡‚í‚¹AŒ‹‰Ê‚ğƒŠƒXƒg‚É‚µ‚Ä•Ô‚·B •K‚¸AITEM_COUNT‚ÌƒTƒCƒY‚ÌƒŠƒXƒg‚ğ•Ô‚·B
 	 * 
 	 * @param database
-	 *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹
+	 *            ƒf[ƒ^ƒx[ƒX
 	 * @param startTime
-	 *            é–‹å§‹æ™‚åˆ»
+	 *            ŠJn
 	 * @param endTime
-	 *            çµ‚äº†æ™‚åˆ»
+	 *            I—¹
 	 * @param itemName
 	 *            item_name
-	 * @return ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã«ä½¿ç”¨ã™ã‚‹ReportItemValueã®ãƒªã‚¹ãƒˆã€‚
+	 * @return ƒŒƒ|[ƒgo—Í‚Ég—p‚·‚éReportItemValue‚ÌƒŠƒXƒgB
 	 * @throws SQLException
-	 *             DBã‚¢ã‚¯ã‚»ã‚¹æ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
+	 *             DBƒAƒNƒZƒX‚ÉƒGƒ‰[‚ª”­¶‚µ‚½ê‡
 	 */
-	public static Map<String, List<ReportItemValue>> selectStallSumMap(String database,
-		Timestamp startTime, Timestamp endTime, String itemName) throws SQLException
-	{
-		Map<String, Map<Integer, ReportItemValue>> resultMap;
+	public static Map<String, List<ReportItemValue>> selectAverageMap(
+			String database, Timestamp startTime, Timestamp endTime,
+			String itemName) throws SQLException {
+		Map<String, Map<Integer, ReportItemValue>> resultMap = selectMap(
+				database, startTime, endTime, itemName, SQL_AVERAGE);
 
-		// ä½¿ç”¨ã™ã‚‹SQLã¯ä¾‹å¤–ãƒ‡ãƒ¼ã‚¿ã¨åŒã˜ã‚‚ã®ã‚’ä½¿ç”¨ã™ã‚‹ã€‚
-		if (DBManager.isDefaultDb() == true)
-		{
-			resultMap = selectMap(database, startTime, endTime, itemName, SQL_EXCEPTION_H2);
-		}
-		else
-		{
-			resultMap = selectMap(database, startTime, endTime, itemName, SQL_EXCEPTION_POSTGRES);
-		}
-
-		Map<String, List<ReportItemValue>> result = convertToReportItemListMap(startTime, endTime,
-			resultMap);
-
+		Map<String, List<ReportItemValue>> result = convertToReportItemListMap(
+				startTime, endTime, resultMap);
 		return result;
 	}
 
-	/**
-	 * æŒ‡å®šã—ãŸæœŸé–“ã‹ã‚‰ã€ã‚µãƒãƒªè¨ˆç®—ã‚’è¡Œã„ã€çµæœã‚’å–å¾—ã™ã‚‹ã€‚
-	 * 
-	 * ã‚µãƒãƒªã¨ã—ã¦å¹³å‡å€¤ã‚’è¨ˆç®—ã™ã‚‹SQLã§å•ã„åˆã‚ã›ã€çµæœã‚’ãƒªã‚¹ãƒˆã«ã—ã¦è¿”ã™ã€‚ å¿…ãšã€ITEM_COUNTã®ã‚µã‚¤ã‚ºã®ãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚
-	 * 
-	 * @param database
-	 *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹
-	 * @param startTime
-	 *            é–‹å§‹æ™‚åˆ»
-	 * @param endTime
-	 *            çµ‚äº†æ™‚åˆ»
-	 * @param itemName
-	 *            item_name
-	 * @return ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã«ä½¿ç”¨ã™ã‚‹ReportItemValueã®ãƒªã‚¹ãƒˆã€‚
-	 * @throws SQLException
-	 *             DBã‚¢ã‚¯ã‚»ã‚¹æ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
-	 */
-	public static Map<String, List<ReportItemValue>> selectAverageMap(String database,
-		Timestamp startTime, Timestamp endTime, String itemName) throws SQLException
-	{
-		Map<String, Map<Integer, ReportItemValue>> resultMap = selectMap(database, startTime,
-			endTime, itemName, SQL_AVERAGE);
-
-		Map<String, List<ReportItemValue>> result = convertToReportItemListMap(startTime, endTime,
-			resultMap);
-		return result;
-	}
-
-	/**
-	 * æŒ‡å®šã—ãŸæœŸé–“ã‹ã‚‰ã€æŒ‡å®šã—ãŸSQLã‚’ç”¨ã„ã¦ã‚µãƒãƒªè¨ˆç®—ã‚’è¡Œã„ã€çµæœã‚’å–å¾—ã™ã‚‹ã€‚
-	 * 
-	 * @param database
-	 *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹
-	 * @param startTime
-	 *            é–‹å§‹æ™‚åˆ»
-	 * @param endTime
-	 *            çµ‚äº†æ™‚åˆ»
-	 * @param itemName
-	 *            item_name
-	 * @param sqlBase
-	 *            SQL
-	 * @return ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã«ä½¿ç”¨ã™ã‚‹ReportItemValueã®ãƒªã‚¹ãƒˆã€‚
-	 * @throws SQLException
-	 *             DBã‚¢ã‚¯ã‚»ã‚¹æ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
-	 */
-	public static Map<String, Map<Integer, ReportItemValue>> selectMap(String database,
-		Timestamp startTime, Timestamp endTime, String itemName, String sqlBase)
-		throws SQLException
-	{
+    /**
+     * w’è‚µ‚½ŠúŠÔ‚©‚çAw’è‚µ‚½SQL‚ğ—p‚¢‚ÄƒTƒ}ƒŠŒvZ‚ğs‚¢AŒ‹‰Ê‚ğæ“¾‚·‚éB
+     * 
+     * @param database ƒf[ƒ^ƒx[ƒX
+     * @param startTime ŠJn
+     * @param endTime I—¹
+     * @param itemName item_name
+     * @param sqlBase SQL
+     * @return ƒŒƒ|[ƒgo—Í‚Ég—p‚·‚éReportItemValue‚ÌƒŠƒXƒgB
+     * @throws SQLException DBƒAƒNƒZƒX‚ÉƒGƒ‰[‚ª”­¶‚µ‚½ê‡
+     */
+	public static Map<String, Map<Integer, ReportItemValue>> selectMap(
+			String database, Timestamp startTime, Timestamp endTime,
+			String itemName, String sqlBase) throws SQLException {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
 		Map<String, Map<Integer, ReportItemValue>> result = null;
-		try
-		{
+		try {
 			conn = getConnection(database, true);
 			pstmt = conn.prepareStatement(sqlBase);
 			// CHECKSTYLE:OFF
@@ -627,9 +606,7 @@ public class ReportDao extends AbstractDao implements TableNames
 			// CHECKSTYLE:ON
 			rs = pstmt.executeQuery();
 			result = getReportItemMapFromResultSet(rs);
-		}
-		finally
-		{
+		} finally {
 			SQLUtil.closeResultSet(rs);
 			SQLUtil.closeStatement(pstmt);
 			SQLUtil.closeConnection(conn);
@@ -639,66 +616,62 @@ public class ReportDao extends AbstractDao implements TableNames
 	}
 
 	/**
-	 * æŒ‡å®šã—ãŸæœŸé–“ã®è¨ˆæ¸¬æƒ…å ±ã®ã‚µãƒãƒªè¨ˆç®—ã‚’è¡Œã„ã€çµæœã‚’å–å¾—ã™ã‚‹ã€‚
+	 * w’è‚µ‚½ŠúŠÔ‚ÌŒv‘ªî•ñ‚ÌƒTƒ}ƒŠŒvZ‚ğs‚¢AŒ‹‰Ê‚ğæ“¾‚·‚éB
 	 * 
-	 * å¼•æ•°ã§æŒ‡å®šã—ãŸSQLã§å•ã„åˆã‚ã›ã€çµæœã‚’ãƒªã‚¹ãƒˆã«ã—ã¦è¿”ã™ã€‚ å¿…ãšã€ITEM_COUNTã®ã‚µã‚¤ã‚ºã®ãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚
+	 * ˆø”‚Åw’è‚µ‚½SQL‚Å–â‚¢‡‚í‚¹AŒ‹‰Ê‚ğƒŠƒXƒg‚É‚µ‚Ä•Ô‚·B •K‚¸AITEM_COUNT‚ÌƒTƒCƒY‚ÌƒŠƒXƒg‚ğ•Ô‚·B
 	 * 
 	 * @param database
-	 *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹
+	 *            ƒf[ƒ^ƒx[ƒX
 	 * @param startTime
-	 *            é–‹å§‹æ™‚åˆ»
+	 *            ŠJn
 	 * @param endTime
-	 *            çµ‚äº†æ™‚åˆ»
+	 *            I—¹
 	 * @param itemName
 	 *            item_name
 	 * @param sql
 	 *            SQL
-	 * @return ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã«ä½¿ç”¨ã™ã‚‹ReportItemValueã®ãƒªã‚¹ãƒˆã€‚
+	 * @return ƒŒƒ|[ƒgo—Í‚Ég—p‚·‚éReportItemValue‚ÌƒŠƒXƒgB
 	 * @throws SQLException
-	 *             DBã‚¢ã‚¯ã‚»ã‚¹æ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
+	 *             DBƒAƒNƒZƒX‚ÉƒGƒ‰[‚ª”­¶‚µ‚½ê‡
 	 */
-	private static List<ReportItemValue> select(String database, Timestamp startTime,
-		Timestamp endTime, String itemName, String sql) throws SQLException
-	{
-		Map<String, Map<Integer, ReportItemValue>> resultMap = selectMap(database, startTime,
-			endTime, itemName, sql);
+	private static List<ReportItemValue> select(String database,
+			Timestamp startTime, Timestamp endTime, String itemName, String sql)
+			throws SQLException {
+		Map<String, Map<Integer, ReportItemValue>> resultMap = selectMap(
+				database, startTime, endTime, itemName, sql);
 
 		long startMillis = startTime.getTime();
 		long endMillis = endTime.getTime();
 
-		List<ReportItemValue> result = new ArrayList<ReportItemValue>(ITEM_COUNT);
-		if (resultMap.isEmpty())
-		{
-			for (int index = 0; index < ITEM_COUNT; index++)
-			{
+		List<ReportItemValue> result = new ArrayList<ReportItemValue>(
+				ITEM_COUNT);
+		if (resultMap.isEmpty()) {
+			for (int index = 0; index < ITEM_COUNT; index++) {
 				ReportItemValue reportItemValue = new ReportItemValue();
 				reportItemValue.itemName = itemName;
 				reportItemValue.measurementTime = new Timestamp(startMillis
-					+ (endMillis - startMillis) * index / ITEM_COUNT);
+						+ (endMillis - startMillis) * index / ITEM_COUNT);
 				reportItemValue.summaryValue = 0;
 				reportItemValue.maxValue = 0;
 				reportItemValue.minValue = 0;
 				result.add(reportItemValue);
 			}
 		}
-		for (Map<Integer, ReportItemValue> reportItemMap : resultMap.values())
-		{
-			for (int index = 0; index < ITEM_COUNT; index++)
-			{
-				ReportItemValue reportItemValue = reportItemMap.get(Integer.valueOf(index));
-				if (reportItemValue == null)
-				{
-					// å€¤ãŒãªã‘ã‚Œã°0ã§è£œé–“ã™ã‚‹
+		for (Map<Integer, ReportItemValue> reportItemMap : resultMap.values()) {
+			for (int index = 0; index < ITEM_COUNT; index++) {
+				ReportItemValue reportItemValue = reportItemMap.get(Integer
+						.valueOf(index));
+				if (reportItemValue == null) {
+					// ’l‚ª‚È‚¯‚ê‚Î0‚Å•âŠÔ‚·‚é
 					reportItemValue = new ReportItemValue();
 					reportItemValue.itemName = itemName;
 					reportItemValue.measurementTime = new Timestamp(startMillis
-						+ (endMillis - startMillis) * index / ITEM_COUNT);
+							+ (endMillis - startMillis) * index / ITEM_COUNT);
 					reportItemValue.summaryValue = 0;
 					reportItemValue.maxValue = 0;
 					reportItemValue.minValue = 0;
 				}
-				if (reportItemValue != null)
-				{
+				if (reportItemValue != null) {
 					result.add(reportItemValue);
 				}
 			}
@@ -708,45 +681,44 @@ public class ReportDao extends AbstractDao implements TableNames
 
 	/**
 	 * 
-	 * itemNameãŒã‚­ãƒ¼ã€ReportItemValueã®ãƒªã‚¹ãƒˆãŒå€¤ã®ãƒãƒƒãƒ—ã«å¤‰æ›ã™ã‚‹ã€‚
+	 * itemName‚ªƒL[AReportItemValue‚ÌƒŠƒXƒg‚ª’l‚Ìƒ}ƒbƒv‚É•ÏŠ·‚·‚éB
 	 * 
 	 * @param startTime
-	 *            é–‹ç¤ºæ™‚åˆ»
+	 *            ŠJ¦
 	 * @param endTime
-	 *            çµ‚äº†æ™‚åˆ»
+	 *            I—¹
 	 * @param inputMap
-	 *            å¤‰æ›å¯¾è±¡ã®ãƒãƒƒãƒ—
+	 *            •ÏŠ·‘ÎÛ‚Ìƒ}ƒbƒv
 	 * @return
 	 */
 	private static Map<String, List<ReportItemValue>> convertToReportItemListMap(
-		Timestamp startTime, Timestamp endTime, Map<String, Map<Integer, ReportItemValue>> inputMap)
-	{
+			Timestamp startTime, Timestamp endTime,
+			Map<String, Map<Integer, ReportItemValue>> inputMap) {
 		long startMillis = startTime.getTime();
 		long endMillis = endTime.getTime();
 
 		Map<String, List<ReportItemValue>> result = new LinkedHashMap<String, List<ReportItemValue>>();
 
-		for (Map.Entry<String, Map<Integer, ReportItemValue>> entry : inputMap.entrySet())
-		{
+		for (Map.Entry<String, Map<Integer, ReportItemValue>> entry : inputMap
+				.entrySet()) {
 			String entryItemName = entry.getKey();
 			Map<Integer, ReportItemValue> reportItemMap = entry.getValue();
-			List<ReportItemValue> list = new ArrayList<ReportItemValue>(ITEM_COUNT);
-			for (int index = 0; index < ITEM_COUNT; index++)
-			{
-				ReportItemValue reportItemValue = reportItemMap.get(Integer.valueOf(index));
-				if (reportItemValue == null)
-				{
-					// å€¤ãŒãªã‘ã‚Œã°0ã§è£œé–“ã™ã‚‹
+			List<ReportItemValue> list = new ArrayList<ReportItemValue>(
+					ITEM_COUNT);
+			for (int index = 0; index < ITEM_COUNT; index++) {
+				ReportItemValue reportItemValue = reportItemMap.get(Integer
+						.valueOf(index));
+				if (reportItemValue == null) {
+					// ’l‚ª‚È‚¯‚ê‚Î0‚Å•âŠÔ‚·‚é
 					reportItemValue = new ReportItemValue();
 					reportItemValue.itemName = entryItemName;
 					reportItemValue.measurementTime = new Timestamp(startMillis
-						+ (endMillis - startMillis) * index / ITEM_COUNT);
+							+ (endMillis - startMillis) * index / ITEM_COUNT);
 					reportItemValue.summaryValue = 0;
 					reportItemValue.maxValue = 0;
 					reportItemValue.minValue = 0;
 				}
-				if (reportItemValue != null)
-				{
+				if (reportItemValue != null) {
 					list.add(reportItemValue);
 				}
 			}
@@ -757,97 +729,46 @@ public class ReportDao extends AbstractDao implements TableNames
 	}
 
 	/**
-	 * {@link ResultSet}ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‹ã‚‰ã€{@link ReportValue}ã®ãƒªã‚¹ãƒˆã‚’ç”Ÿæˆã—ã¾ã™ã€‚
+	 * {@link ResultSet}ƒCƒ“ƒXƒ^ƒ“ƒX‚©‚çA{@link ReportValue}‚ÌƒŠƒXƒg‚ğ¶¬‚µ‚Ü‚·B
 	 * 
 	 * @param rs
-	 *            ãƒ‡ãƒ¼ã‚¿ãŒå«ã¾ã‚Œã¦ã„ã‚‹{@link ResultSet} ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+	 *            ƒf[ƒ^‚ªŠÜ‚Ü‚ê‚Ä‚¢‚é{@link ResultSet} ƒCƒ“ƒXƒ^ƒ“ƒX
 	 * @throws SQLException
-	 *             SQL å®Ÿè¡Œçµæœå–å¾—æ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+	 *             SQL ÀsŒ‹‰Êæ“¾‚É—áŠO‚ª”­¶‚µ‚½ê‡
 	 */
 	private static Map<String, Map<Integer, ReportItemValue>> getReportItemMapFromResultSet(
-		final ResultSet rs) throws SQLException
-	{
+			final ResultSet rs) throws SQLException {
 		Map<String, Map<Integer, ReportItemValue>> result = new LinkedHashMap<String, Map<Integer, ReportItemValue>>();
 
-		while (rs.next() == true)
-		{
+		while (rs.next() == true) {
 			ReportItemValue reportItemValue = new ReportItemValue();
 			// CHECKSTYLE:OFF
 			reportItemValue.measurementTime = rs.getTimestamp(1);
 			reportItemValue.itemName = rs.getString(2);
-			reportItemValue.summaryValue = rs.getDouble(3);
-			reportItemValue.maxValue = rs.getDouble(4);
-			if (reportItemValue.maxValue == null)
-			{
+			reportItemValue.summaryValue = rs.getLong(3);
+			reportItemValue.maxValue = rs.getLong(4);
+			if (reportItemValue.maxValue == null) {
 				reportItemValue.maxValue = reportItemValue.summaryValue;
 			}
-			reportItemValue.minValue = rs.getDouble(5);
-			if (reportItemValue.minValue == null)
-			{
+			reportItemValue.minValue = rs.getLong(5);
+			if (reportItemValue.minValue == null) {
 				reportItemValue.minValue = reportItemValue.summaryValue;
 			}
 			reportItemValue.index = rs.getInt(6);
 			// CHECKSTYLE:ON
 
-			if (reportItemValue.itemName == null)
-			{
+			if (reportItemValue.itemName == null) {
 				reportItemValue.itemName = "";
 			}
 
-			Map<Integer, ReportItemValue> map = result.get(reportItemValue.itemName);
-			if (map == null)
-			{
+			Map<Integer, ReportItemValue> map = result
+					.get(reportItemValue.itemName);
+			if (map == null) {
 				map = new LinkedHashMap<Integer, ReportItemValue>();
 				result.put(reportItemValue.itemName, map);
 			}
 			map.put(reportItemValue.index, reportItemValue);
 		}
 		return result;
-	}
-
-	/**
-	 * @author khine wai
-	 * @param dbName
-	 *            dbName
-	 * @param status
-	 *            status
-	 * @param targetItemName
-	 *            targetItemName
-	 * @param fmTime
-	 *            fmTime
-	 * @param toTime
-	 *            toTime
-	 */
-	public void changeStatus(String dbName, String status, String targetItemName, Timestamp fmTime,
-		Timestamp toTime)
-	{
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String sqlBase = "UPDATE REPORT_EXPORT_RESULT"
-			+ " SET STATUS = ? WHERE TARGET_MEASUREMENT_NAME= ? AND FM_TIME= ? AND TO_TIME= ?";
-		DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
-		String fmTimeData = dateFormat.format(fmTime.getTime());
-		String toTimeData = dateFormat.format(toTime.getTime());
-		try
-		{
-			conn = getConnection(dbName, true);
-			pstmt = conn.prepareStatement(sqlBase);
-			pstmt.setString(1, status);
-			pstmt.setString(2, targetItemName);
-			pstmt.setString(3, fmTimeData);
-			pstmt.setString(4, toTimeData);
-			pstmt.executeUpdate();
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-		}
-		finally
-		{
-			SQLUtil.closeResultSet(rs);
-			SQLUtil.closeStatement(pstmt);
-			SQLUtil.closeConnection(conn);
-		}
 	}
 }

@@ -15,47 +15,44 @@ package jp.co.acroquest.endosnipe.report.converter.compressor;
 import jp.co.acroquest.endosnipe.report.converter.compressor.CompressOperator;
 
 /**
- * ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°ã®åœ§ç¸®ã‚’è¡Œã†éš›ã«ã€Compressorã«åœ§ç¸®å‡¦ç†ã®æ–¹æ³•ã‚’
- * æŒ‡å®šã™ã‚‹ãŸã‚ã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+ * ƒTƒ“ƒvƒŠƒ“ƒO‚Ìˆ³k‚ğs‚¤Û‚ÉACompressor‚Éˆ³kˆ—‚Ì•û–@‚ğ
+ * w’è‚·‚é‚½‚ß‚ÌƒGƒ“ƒeƒBƒeƒBƒIƒuƒWƒFƒNƒg
  * 
  * @author M.Yoshida
  */
-public class CompressOperation
+public class CompressOperation 
 {
-	/** åœ§ç¸®æ™‚ã®è¨ˆæ¸¬å€¤æ¼”ç®—å¯¾è±¡ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ */
-	private String compressField_;
+	/** ˆ³k‚ÌŒv‘ª’l‰‰Z‘ÎÛƒtƒB[ƒ‹ƒh */
+	private String           compressField_;
 
-	/** åœ§ç¸®æ™‚ã®æ¼”ç®—å‡¦ç† */
+	/** ˆ³k‚Ì‰‰Zˆ— */
 	private CompressOperator operation_;
 
 	/**
-	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
-	 * @param compressField è¨ˆæ¸¬å€¤æ¼”ç®—å¯¾è±¡ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰
-	 * @param operation     æ¼”ç®—å‡¦ç†
+	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
+	 * @param compressField Œv‘ª’l‰‰Z‘ÎÛƒtƒB[ƒ‹ƒh
+	 * @param operation     ‰‰Zˆ—
 	 */
-	public CompressOperation(String compressField, CompressOperator operation)
+	public CompressOperation(String compressField,
+			                 CompressOperator operation)
 	{
 		this.compressField_ = compressField;
-		this.operation_ = operation;
+		this.operation_     = operation;
 	}
 
-	public String getCompressField()
-	{
+	public String getCompressField() {
 		return compressField_;
 	}
 
-	public void setCompressField(String compressField)
-	{
+	public void setCompressField(String compressField) {
 		this.compressField_ = compressField;
 	}
 
-	public CompressOperator getOperation()
-	{
+	public CompressOperator getOperation() {
 		return operation_;
 	}
 
-	public void setOperation(CompressOperator operation)
-	{
+	public void setOperation(CompressOperator operation) {
 		this.operation_ = operation;
 	}
 }

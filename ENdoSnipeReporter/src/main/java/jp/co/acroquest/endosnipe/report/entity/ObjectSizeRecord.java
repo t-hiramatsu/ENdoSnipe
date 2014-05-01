@@ -3,86 +3,78 @@ package jp.co.acroquest.endosnipe.report.entity;
 import java.sql.Timestamp;
 
 /**
- * ・ｽu・ｽI・ｽu・ｽW・ｽF・ｽN・ｽg・ｽ・ｽ・ｽv・ｽ^・ｽu・ｽﾌ「・ｽI・ｽu・ｽW・ｽF・ｽN・ｽg・ｽT・ｽC・ｽY・ｽv・ｽﾌグ・ｽ・ｽ・ｽt・ｽﾌデ・ｽ[・ｽ^・ｽ・ｽ
- * 1・ｽﾂ保趣ｿｽ・ｽ・ｽ・ｽ・ｽN・ｽ・ｽ・ｽX・ｽﾅゑｿｽ・ｽB
+ * �u�I�u�W�F�N�g���v�^�u�́u�I�u�W�F�N�g�T�C�Y�v�̃O���t�̃f�[�^��
+ * 1�ێ�����N���X�ł��B
  * 
  * @author acroquest
  */
 public class ObjectSizeRecord
 {
-	/** ・ｽv・ｽ・ｽ・ｽ・ｽ・ｽ・ｽ */
-	private Timestamp measurementTime_;
-
-	/** ・ｽI・ｽu・ｽW・ｽF・ｽN・ｽg・ｽT・ｽC・ｽY[・ｽv・ｽf・ｽ・ｽ]・ｽi・ｽ・ｽﾔ奇ｿｽﾔ包ｿｽ・ｽﾏ） */
-	private long objectSize_;
-
-	/** ・ｽI・ｽu・ｽW・ｽF・ｽN・ｽg・ｽT・ｽC・ｽY[・ｽv・ｽf・ｽ・ｽ]・ｽi・ｽ・ｽﾔ奇ｿｽﾔ最托ｿｽj */
-	private long objectSizeMax_;
-
-	/** ・ｽI・ｽu・ｽW・ｽF・ｽN・ｽg・ｽT・ｽC・ｽY[・ｽv・ｽf・ｽ・ｽ]・ｽi・ｽ・ｽﾔ奇ｿｽﾔ最擾ｿｽ・ｽj */
-	private long objectSizeMin_;
-
-	/**
+	/** �v������ */
+    private Timestamp measurementTime_;
+    
+    /** �I�u�W�F�N�g�T�C�Y[�v�f��]�i��Ԋ�ԕ��ρj */
+    private long      objectSize_;
+    
+    /** �I�u�W�F�N�g�T�C�Y[�v�f��]�i��Ԋ�ԍő�j */
+    private long      objectSizeMax_;
+    
+    /** �I�u�W�F�N�g�T�C�Y[�v�f��]�i��Ԋ�ԍŏ��j */
+    private long      objectSizeMin_;
+    
+    /**
 	 * @return the measurementTime_
 	 */
-	public Timestamp getMeasurementTime()
-	{
+	public Timestamp getMeasurementTime() {
 		return measurementTime_;
 	}
 
 	/**
 	 * @param measurementTime the measurementTime_ to set
 	 */
-	public void setMeasurementTime(Timestamp measurementTime)
-	{
+	public void setMeasurementTime(Timestamp measurementTime) {
 		this.measurementTime_ = measurementTime;
 	}
-
+	
 	/**
 	 * @return the objectSize_
 	 */
-	public long getObjectSize()
-	{
+	public long getObjectSize() {
 		return objectSize_;
 	}
 
 	/**
 	 * @param objectSize the objectSize_ to set
 	 */
-	public void setObjectSize(long objectSize)
-	{
+	public void setObjectSize(long objectSize) {
 		this.objectSize_ = objectSize;
 	}
 
 	/**
 	 * @return the objectSizeMax_
 	 */
-	public long getObjectSizeMax()
-	{
+	public long getObjectSizeMax() {
 		return objectSizeMax_;
 	}
 
 	/**
 	 * @param objectSizeMax the objectSizeMax_ to set
 	 */
-	public void setObjectSizeMax(long objectSizeMax)
-	{
+	public void setObjectSizeMax(long objectSizeMax) {
 		this.objectSizeMax_ = objectSizeMax;
 	}
 
 	/**
 	 * @return the objectSizeMin_
 	 */
-	public long getObjectSizeMin()
-	{
+	public long getObjectSizeMin() {
 		return objectSizeMin_;
 	}
 
 	/**
 	 * @param objectSizeMin the objectSizeMin_ to set
 	 */
-	public void setObjectSizeMin(long objectSizeMin)
-	{
+	public void setObjectSizeMin(long objectSizeMin) {
 		this.objectSizeMin_ = objectSizeMin;
 	}
 }

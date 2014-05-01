@@ -36,19 +36,19 @@ import jp.co.acroquest.endosnipe.javelin.parser.JavelinParser;
 import jp.co.acroquest.endosnipe.perfdoctor.rule.SingleElementRule;
 
 /**
- * åŒä¸€SQLã®ç™ºè¡Œå›æ•°ã‚’ã‚«ã‚¦ãƒ³ãƒˆã™ã‚‹ãƒ«ãƒ¼ãƒ«ã€‚<br />
+ * “¯ˆêSQL‚Ì”­s‰ñ”‚ğƒJƒEƒ“ƒg‚·‚éƒ‹[ƒ‹B<br />
  * 
- * Javelinã‹ã‚‰ã®ã‚¤ãƒ™ãƒ³ãƒˆã«ã‚ˆã‚‹é€šçŸ¥ã‚’æ¤œå‡ºã™ã‚‹ã€‚
+ * Javelin‚©‚ç‚ÌƒCƒxƒ“ƒg‚É‚æ‚é’Ê’m‚ğŒŸo‚·‚éB
  * 
  * @author eriguchi
  */
 public class OneSqlCountEventRule extends SingleElementRule
 {
-    /** è­¦å‘Šã¨åˆ¤æ–­ã™ã‚‹ SQL å®Ÿè¡Œå›æ•°ã®é–¾å€¤ */
+    /** Œx‚Æ”»’f‚·‚é SQL Às‰ñ”‚Ìè‡’l */
     public int threshold;
 
     /**
-     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
      */
     public OneSqlCountEventRule()
     {

@@ -36,18 +36,18 @@ import jp.co.smg.endosnipe.javassist.CtMethod;
 import jp.co.smg.endosnipe.javassist.NotFoundException;
 
 /**
- * NetWorkã®å…¥å‡ºåŠ›é‡ã‚’ç›£è¦–ã™ã‚‹ãŸã‚ã®ã‚³ãƒ³ãƒãƒ¼ã‚¿
+ * NetWork‚Ì“üo—Í—Ê‚ğŠÄ‹‚·‚é‚½‚ß‚ÌƒRƒ“ƒo[ƒ^
  * 
  * @author yamasaki
  */
 public class NetMonitorConverter extends AbstractConverter
 {
 
-    /** ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯å…¥åŠ›ãƒ¢ãƒ‹ã‚¿ã®ã‚¯ãƒ©ã‚¹åç§° */
+    /** ƒlƒbƒgƒ[ƒN“ü—Íƒ‚ƒjƒ^‚ÌƒNƒ‰ƒX–¼Ì */
     private static final String INPUSTREAM_MONITOR_NAME =
             InputStreamMonitor.class.getCanonicalName();
 
-    /** ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯å‡ºåŠ›ãƒ¢ãƒ‹ã‚¿ã®ã‚¯ãƒ©ã‚¹åç§° */
+    /** ƒlƒbƒgƒ[ƒNo—Íƒ‚ƒjƒ^‚ÌƒNƒ‰ƒX–¼Ì */
     private static final String OUTPUSTREAM_MONITOR_NAME =
             OutputStreamMonitor.class.getCanonicalName();
 
@@ -81,31 +81,31 @@ public class NetMonitorConverter extends AbstractConverter
     }
 
     /**
-     * getInputStreamãƒ¡ã‚½ãƒƒãƒ‰ã«ã‚³ãƒ¼ãƒ‰åŸ‹ã‚è¾¼ã¿ã‚’è¡Œã†ã€‚
+     * getInputStreamƒƒ\ƒbƒh‚ÉƒR[ƒh–„‚ß‚İ‚ğs‚¤B
      * 
      * @param ctMethod CtMethod
-     * @throws CannotCompileException ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ãŒå‡ºæ¥ãªã„å ´åˆ
+     * @throws CannotCompileException ƒRƒ“ƒpƒCƒ‹‚ªo—ˆ‚È‚¢ê‡
      */
     private void convertGetInputStreamMethod(final CtMethod ctMethod)
         throws CannotCompileException
     {
         ctMethod.insertAfter("return new " + INPUSTREAM_MONITOR_NAME + "($_);");
-        // å‡¦ç†çµæœã‚’ãƒ­ã‚°ã«å‡ºåŠ›ã™ã‚‹ã€‚
+        // ˆ—Œ‹‰Ê‚ğƒƒO‚Éo—Í‚·‚éB
         logModifiedMethod("NetMonitorConverter", ctMethod);
 
     }
 
     /**
-     * getOutputStreamãƒ¡ã‚½ãƒƒãƒ‰ã«ã‚³ãƒ¼ãƒ‰åŸ‹ã‚è¾¼ã¿ã‚’è¡Œã†ã€‚
+     * getOutputStreamƒƒ\ƒbƒh‚ÉƒR[ƒh–„‚ß‚İ‚ğs‚¤B
      * 
      * @param ctMethod CtMethod
-     * @throws CannotCompileException ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ãŒå‡ºæ¥ãªã„å ´åˆ
+     * @throws CannotCompileException ƒRƒ“ƒpƒCƒ‹‚ªo—ˆ‚È‚¢ê‡
      */
     private void convertGetOutputStreamMethod(final CtMethod ctMethod)
         throws CannotCompileException
     {
         ctMethod.insertAfter("return new " + OUTPUSTREAM_MONITOR_NAME + "($_);");
-        // å‡¦ç†çµæœã‚’ãƒ­ã‚°ã«å‡ºåŠ›ã™ã‚‹ã€‚
+        // ˆ—Œ‹‰Ê‚ğƒƒO‚Éo—Í‚·‚éB
         logModifiedMethod("NetMonitorConverter", ctMethod);
     }
 }

@@ -43,18 +43,21 @@ import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 import jp.co.acroquest.endosnipe.javelin.CallTree;
 import jp.co.acroquest.endosnipe.javelin.CallTreeRecorder;
 import jp.co.acroquest.endosnipe.javelin.StatsJavelinRecorder;
+import jp.co.acroquest.endosnipe.javelin.conf.JavelinMessages;
 import jp.co.acroquest.endosnipe.javelin.event.CommonEvent;
 import jp.co.acroquest.endosnipe.javelin.event.LeakDetectEvent;
 import jp.co.acroquest.endosnipe.javelin.util.StatsUtil;
 import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
 
+import org.netbeans.insane.scanner.ScannerUtils;
+
 /**
- * ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã‚¯ãƒ©ã‚¹ã€ãƒãƒƒãƒ—ã‚¯ãƒ©ã‚¹ã®ã‚µã‚¤ã‚ºã‚’å¸¸æ™‚ç›£è¦–ã™ã‚‹ç›£è¦–ã‚¯ãƒ©ã‚¹
- * ç›£è¦–å¯¾è±¡ã«å¯¾ã™ã‚‹å¼±å‚ç…§ã¨ã‚­ãƒ¼ã‚’ä¿æŒã—ã€ä¸€å®šé–“éš”ã«ç™»éŒ²ã•ã‚ŒãŸã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã‚µã‚¤ã‚ºã‚’å–å¾—ã™ã‚‹
- * ç›£è¦–å¯¾è±¡ã¨ãªã‚‹ã‚¯ãƒ©ã‚¹ãŒç”Ÿæˆæ™‚ã«ä»¥ä¸‹ã®å‡¦ç†ã‚’å®Ÿæ–½ã™ã‚‹ã“ã¨ã§ã€ç›£è¦–å¯¾å‡¦ã«è‡ªã‚‰ã‚’è¿½åŠ ã™ã‚‹ã€‚
- * ã€ŒCollectionTracer.addTraceTarget(this);ã€
+ * ƒRƒŒƒNƒVƒ‡ƒ“ƒNƒ‰ƒXAƒ}ƒbƒvƒNƒ‰ƒX‚ÌƒTƒCƒY‚ğíŠÄ‹‚·‚éŠÄ‹ƒNƒ‰ƒX
+ * ŠÄ‹‘ÎÛ‚É‘Î‚·‚éãQÆ‚ÆƒL[‚ğ•Û‚µAˆê’èŠÔŠu‚É“o˜^‚³‚ê‚½ƒRƒŒƒNƒVƒ‡ƒ“ƒTƒCƒY‚ğæ“¾‚·‚é
+ * ŠÄ‹‘ÎÛ‚Æ‚È‚éƒNƒ‰ƒX‚ª¶¬‚ÉˆÈ‰º‚Ìˆ—‚ğÀ{‚·‚é‚±‚Æ‚ÅAŠÄ‹‘Îˆ‚É©‚ç‚ğ’Ç‰Á‚·‚éB
+ * uCollectionTracer.addTraceTarget(this);v
  * 
- * TODO ã“ã®ã‚¯ãƒ©ã‚¹å†…éƒ¨ã§ã€ç›£è¦–å¯¾è±¡ã®Mapãªã©ã‚’åˆ©ç”¨ã—ã¦ã„ã‚‹ãŸã‚ã€StackOverFlowErrorã«ãªã‚‹å ´åˆãŒã‚ã‚‹ã€‚ThreadLocalãªçŠ¶æ…‹ã‚’æŒã¤ã¹ãã‹ï¼Ÿ
+ * TODO ‚±‚ÌƒNƒ‰ƒX“à•”‚ÅAŠÄ‹‘ÎÛ‚ÌMap‚È‚Ç‚ğ—˜—p‚µ‚Ä‚¢‚é‚½‚ßAStackOverFlowError‚É‚È‚éê‡‚ª‚ ‚éBThreadLocal‚Èó‘Ô‚ğ‚Â‚×‚«‚©H
  * 
  * @author eriguchi
  */
@@ -62,23 +65,23 @@ public class CollectionMonitor
 {
     private static JavelinConfig javelinConfig__ = new JavelinConfig();
 
-    /** ç›£è¦–å¯¾è±¡ï¼ˆã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ï¼‰ã‚’ä¿æŒã™ã‚‹ãƒãƒƒãƒ— */
+    /** ŠÄ‹‘ÎÛiƒRƒŒƒNƒVƒ‡ƒ“j‚ğ•Û‚·‚éƒ}ƒbƒv */
     private static Map<String, CollectionMonitorEntry> listMap__ =
             new ConcurrentHashMap<String, CollectionMonitorEntry>();
 
-    /** ç›£è¦–å¯¾è±¡ï¼ˆã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ï¼‰ã‚’ä¿æŒã™ã‚‹ãƒãƒƒãƒ— */
+    /** ŠÄ‹‘ÎÛiƒRƒŒƒNƒVƒ‡ƒ“j‚ğ•Û‚·‚éƒ}ƒbƒv */
     private static Map<String, CollectionMonitorEntry> queueMap__ =
             new ConcurrentHashMap<String, CollectionMonitorEntry>();
 
-    /** ç›£è¦–å¯¾è±¡ï¼ˆã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ï¼‰ã‚’ä¿æŒã™ã‚‹ãƒãƒƒãƒ— */
+    /** ŠÄ‹‘ÎÛiƒRƒŒƒNƒVƒ‡ƒ“j‚ğ•Û‚·‚éƒ}ƒbƒv */
     private static Map<String, CollectionMonitorEntry> setMap__ =
             new ConcurrentHashMap<String, CollectionMonitorEntry>();
 
-    /** ç›£è¦–å¯¾è±¡ï¼ˆãƒãƒƒãƒ—ï¼‰ã‚’ä¿æŒã™ã‚‹ãƒãƒƒãƒ— */
+    /** ŠÄ‹‘ÎÛiƒ}ƒbƒvj‚ğ•Û‚·‚éƒ}ƒbƒv */
     private static Map<String, CollectionMonitorEntry> mapMap__ =
             new ConcurrentHashMap<String, CollectionMonitorEntry>();
 
-    /** ã‚µã‚¤ã‚ºã®å¤§ãã„æ–¹ã‹ã‚‰ã€ä»¥ä¸‹ã®æ•°ã®ã‚¨ãƒ³ãƒˆãƒªãƒ¼ã‚’ãƒªã‚¹ãƒˆåŒ–ã—ã¦è¿”ã™ */
+    /** ƒTƒCƒY‚Ì‘å‚«‚¢•û‚©‚çAˆÈ‰º‚Ì”‚ÌƒGƒ“ƒgƒŠ[‚ğƒŠƒXƒg‰»‚µ‚Ä•Ô‚· */
     public static final int TOPTRACENUMBER = 5;
 
     private static ThreadLocal<Boolean> isTracing__ = new ThreadLocal<Boolean>() {
@@ -90,7 +93,7 @@ public class CollectionMonitor
     };
 
     /**
-     * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+     * ƒfƒtƒHƒ‹ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^
      */
     private CollectionMonitor()
     {
@@ -98,14 +101,14 @@ public class CollectionMonitor
     }
 
     /**
-     * ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã‚¯ãƒ©ã‚¹ã‚’ç›£è¦–å¯¾è±¡ã«åŠ ãˆã‚‹
+     * ƒRƒŒƒNƒVƒ‡ƒ“ƒNƒ‰ƒX‚ğŠÄ‹‘ÎÛ‚É‰Á‚¦‚é
      * 
-     * @param target ç›£è¦–å¯¾è±¡ã«åŠ ãˆã‚‹ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã‚¯ãƒ©ã‚¹
-     * @param element addã‚„addAllã•ã‚ŒãŸè¦ç´ 
+     * @param target ŠÄ‹‘ÎÛ‚É‰Á‚¦‚éƒRƒŒƒNƒVƒ‡ƒ“ƒNƒ‰ƒX
+     * @param element add‚âaddAll‚³‚ê‚½—v‘f
      */
     public static void addTrace(final Collection<?> target, Object element)
     {
-        //è­˜åˆ¥å­ã‚’ã¤ã‘ã‚‹
+        //¯•Êq‚ğ‚Â‚¯‚é
         String identifier = StatsUtil.createIdentifier(target);
 
         if (listMap__.containsKey(identifier) || queueMap__.containsKey(identifier)
@@ -157,19 +160,19 @@ public class CollectionMonitor
         }
         else
         {
-            // targetã¯Collectionã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+            // target‚ÍCollection‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
             listMap__.put(identifier, collectionMonitorEntry);
             getSortedListList();
         }
     }
 
     /**
-     * Leakã‚’æ¤œå‡ºã—ãŸæ™‚ã®ã‚¤ãƒ™ãƒ³ãƒˆã‚’ä½œæˆã—ã¾ã™ã€‚
-     * @param identifier è­˜åˆ¥å­
-     * @param target ãƒªãƒ¼ã‚¯ã—ã¦ã„ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å«ã‚€ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³
-     * @param count ãƒªãƒ¼ã‚¯ã—ã¦ã„ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®è¦ç´ æ•°
-     * @param element addã‚„addAllã€putãƒ¡ã‚½ãƒƒãƒ‰ã®è¦ç´ 
-     * @return {@link CommonEvent}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * Leak‚ğŒŸo‚µ‚½‚ÌƒCƒxƒ“ƒg‚ğì¬‚µ‚Ü‚·B
+     * @param identifier ¯•Êq
+     * @param target ƒŠ[ƒN‚µ‚Ä‚¢‚éƒIƒuƒWƒFƒNƒg‚ğŠÜ‚ŞƒRƒŒƒNƒVƒ‡ƒ“
+     * @param count ƒŠ[ƒN‚µ‚Ä‚¢‚éƒIƒuƒWƒFƒNƒg‚Ì—v‘f”
+     * @param element add‚âaddAllAputƒƒ\ƒbƒh‚Ì—v‘f
+     * @return {@link CommonEvent}ƒIƒuƒWƒFƒNƒg
      */
     static CommonEvent createLeakDetectedEvent(final String identifier, final Collection<?> target,
             int count, Object element)
@@ -178,7 +181,23 @@ public class CollectionMonitor
 
         int leakSize = 0;
 
-        // Leakæ¤œå‡ºã‚’å¼•ãèµ·ã“ã—ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¯ãƒ©ã‚¹åã‚’å–å¾—ã™ã‚‹ã€‚
+        //ƒRƒŒƒNƒVƒ‡ƒ“‚ÌƒIƒuƒWƒFƒNƒgƒTƒCƒYZoˆ—‚Ì•‰‰×‚ª‚‚¢‚½‚ßA
+        //ƒTƒCƒY‚Íİ’èƒtƒ‰ƒO‚ªON‚É‚È‚Á‚Ä‚¢‚éê‡‚Ì‚İZo/o—Í‚ğs‚¤
+        if (javelinConfig__.isLeakCollectionSizePrint() == true && target != null)
+        {
+                try
+                {
+                    leakSize = ScannerUtils.recursiveSizeOf(target, null);
+                }
+                catch (Exception ex)
+                {
+                    String key = "javelin.converter.leak.monitor.CannotGetSize";
+                    String message = JavelinMessages.getMessage(key);
+                    SystemLogger.getInstance().warn(message, ex);
+                }
+        }
+        
+        // LeakŒŸo‚ğˆø‚«‹N‚±‚µ‚½ƒIƒuƒWƒFƒNƒg‚ÌƒNƒ‰ƒX–¼‚ğæ“¾‚·‚éB
         String className = null;
         if (element != null)
         {
@@ -192,6 +211,10 @@ public class CollectionMonitor
         event.addParam(EventConstants.PARAM_LEAK_THRESHOLD,
                        String.valueOf(javelinConfig__.getCollectionSizeThreshold()));
         event.addParam(EventConstants.PARAM_LEAK_COUNT, String.valueOf(count));
+        if (javelinConfig__.isLeakCollectionSizePrint() == true)
+        {
+            event.addParam(EventConstants.PARAM_LEAK_SIZE, String.valueOf(leakSize));
+        }
         if (className != null)
         {
             event.addParam(EventConstants.PARAM_LEAK_CLASS_NAME, className);
@@ -202,14 +225,14 @@ public class CollectionMonitor
     }
 
     /**
-     * ãƒãƒƒãƒ—ã‚¯ãƒ©ã‚¹ã‚’ç›£è¦–å¯¾è±¡ã«åŠ ãˆã‚‹
+     * ƒ}ƒbƒvƒNƒ‰ƒX‚ğŠÄ‹‘ÎÛ‚É‰Á‚¦‚é
      * 
-     * @param target ç›£è¦–å¯¾è±¡ã«åŠ ãˆã‚‹ãƒãƒƒãƒ—ã‚¯ãƒ©ã‚¹
-     * @param element putã•ã‚ŒãŸè¦ç´ 
+     * @param target ŠÄ‹‘ÎÛ‚É‰Á‚¦‚éƒ}ƒbƒvƒNƒ‰ƒX
+     * @param element put‚³‚ê‚½—v‘f
      */
     public static void addTrace(final Map<?, ?> target, Object element)
     {
-        //è­˜åˆ¥å­ã‚’ã¤ã‘ã‚‹
+        //¯•Êq‚ğ‚Â‚¯‚é
         String identifier = StatsUtil.createIdentifier(target);
 
         if (mapMap__.containsKey(identifier))
@@ -233,21 +256,21 @@ public class CollectionMonitor
     }
 
     /**
-     * ãƒ¡ãƒ¢ãƒªãƒªãƒ¼ã‚¯ã®æ¤œå‡ºã‚’è¡Œã†ã€‚
+     * ƒƒ‚ƒŠƒŠ[ƒN‚ÌŒŸo‚ğs‚¤B
      * 
-     * æ•°å›(â€»1)ã«1å›ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’å–å¾—ã—ã€
-     * æ—¢ã«æ¤œå‡ºæ¸ˆã¿ã®ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹(â€»2)ã¨ä¸€è‡´ã—ãªã„å ´åˆã®ã¿
-     * ãƒ¡ãƒ¢ãƒªãƒªãƒ¼ã‚¯ã¨ã—ã¦æ¤œå‡ºã™ã‚‹ã€‚
+     * ”‰ñ(¦1)‚É1‰ñƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğæ“¾‚µA
+     * Šù‚ÉŒŸoÏ‚İ‚ÌƒXƒ^ƒbƒNƒgƒŒ[ƒX(¦2)‚Æˆê’v‚µ‚È‚¢ê‡‚Ì‚İ
+     * ƒƒ‚ƒŠƒŠ[ƒN‚Æ‚µ‚ÄŒŸo‚·‚éB
      * 
      * <ul>
-     * <li>javelin.leak.interval ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’ä½•å›ã”ã¨ã«å–å¾—ã™ã‚‹ã‹(â€»1)</li>
-     * <li>javelin.leak.traceMax ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’ä¿æŒã™ã‚‹å›æ•°(â€»2)</li>
-     * <li>javelin.leak.traceDepth ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹å–å¾—ã®æ·±ã•(â€»2)</li>
+     * <li>javelin.leak.interval ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğ‰½‰ñ‚²‚Æ‚Éæ“¾‚·‚é‚©(¦1)</li>
+     * <li>javelin.leak.traceMax ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğ•Û‚·‚é‰ñ”(¦2)</li>
+     * <li>javelin.leak.traceDepth ƒXƒ^ƒbƒNƒgƒŒ[ƒXæ“¾‚Ì[‚³(¦2)</li>
      * </ul>
      * 
-     * @param identifier ãƒªãƒ¼ã‚¯ã—ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®è­˜åˆ¥å­ã€‚
-     * @param monitorEntry ãƒªãƒ¼ã‚¯ã—ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å†…å®¹ã€‚
-     * @param element addã‚„addAllã€putã•ã‚ŒãŸè¦ç´ 
+     * @param identifier ƒŠ[ƒN‚µ‚½ƒIƒuƒWƒFƒNƒg‚Ì¯•ÊqB
+     * @param monitorEntry ƒŠ[ƒN‚µ‚½ƒIƒuƒWƒFƒNƒg‚Ì“à—eB
+     * @param element add‚âaddAllAput‚³‚ê‚½—v‘f
      */
     static void detect(final String identifier,
             final CollectionMonitorEntry monitorEntry, Object element)
@@ -313,12 +336,12 @@ public class CollectionMonitor
     }
 
     /**
-     * ç›£è¦–å¯¾è±¡ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã¾ãŸã¯ãƒãƒƒãƒ—ã‚’ã€ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã§è¿”ã—ã¾ã™ã€‚<br />
+     * ŠÄ‹‘ÎÛƒRƒŒƒNƒVƒ‡ƒ“‚Ü‚½‚Íƒ}ƒbƒv‚ğAƒRƒŒƒNƒVƒ‡ƒ“‚Å•Ô‚µ‚Ü‚·B<br />
      *
-     * ç›£è¦–å¯¾è±¡ãŒ GC ã§å›åã•ã‚Œã¦ã„ã‚‹å ´åˆã¯ <code>null</code> ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ŠÄ‹‘ÎÛ‚ª GC ‚Å‰ñû‚³‚ê‚Ä‚¢‚éê‡‚Í <code>null</code> ‚ğ•Ô‚µ‚Ü‚·B<br />
      *
-     * @param monitorEntry Collection ã®ã‚¨ãƒ³ãƒˆãƒª
-     * @return ç›£è¦–å¯¾è±¡ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã€ã¾ãŸã¯ç›£è¦–å¯¾è±¡ãƒãƒƒãƒ—ã‚’å«ã‚€ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³
+     * @param monitorEntry Collection ‚ÌƒGƒ“ƒgƒŠ
+     * @return ŠÄ‹‘ÎÛƒRƒŒƒNƒVƒ‡ƒ“A‚Ü‚½‚ÍŠÄ‹‘ÎÛƒ}ƒbƒv‚ğŠÜ‚ŞƒRƒŒƒNƒVƒ‡ƒ“
      */
     private static Collection<?> getTargetByCollection(final CollectionMonitorEntry monitorEntry)
     {
@@ -344,9 +367,9 @@ public class CollectionMonitor
     }
 
     /**
-     * Listã®è¦ç´ æ•°ã®ãƒªã‚¹ãƒˆã‚’å–å¾—ã™ã‚‹ã€‚
+     * List‚Ì—v‘f”‚ÌƒŠƒXƒg‚ğæ“¾‚·‚éB
      * 
-     * @return Listã®è¦ç´ æ•°ã®ãƒªã‚¹ãƒˆã€‚
+     * @return List‚Ì—v‘f”‚ÌƒŠƒXƒgB
      */
     public static List<CollectionMonitorEntry> getSortedListList()
     {
@@ -354,9 +377,9 @@ public class CollectionMonitor
     }
 
     /**
-     * Setã®è¦ç´ æ•°ã®ãƒªã‚¹ãƒˆã‚’å–å¾—ã™ã‚‹ã€‚
+     * Set‚Ì—v‘f”‚ÌƒŠƒXƒg‚ğæ“¾‚·‚éB
      * 
-     * @return Setã®è¦ç´ æ•°ã®ãƒªã‚¹ãƒˆã€‚
+     * @return Set‚Ì—v‘f”‚ÌƒŠƒXƒgB
      */
     public static List<CollectionMonitorEntry> getSortedSetList()
     {
@@ -364,9 +387,9 @@ public class CollectionMonitor
     }
 
     /**
-     * Queueã®è¦ç´ æ•°ã®ãƒªã‚¹ãƒˆã‚’å–å¾—ã™ã‚‹ã€‚
+     * Queue‚Ì—v‘f”‚ÌƒŠƒXƒg‚ğæ“¾‚·‚éB
      * 
-     * @return Queueã®è¦ç´ æ•°ã®ãƒªã‚¹ãƒˆã€‚
+     * @return Queue‚Ì—v‘f”‚ÌƒŠƒXƒgB
      */
     public static List<CollectionMonitorEntry> getSortedQueueList()
     {
@@ -374,9 +397,9 @@ public class CollectionMonitor
     }
 
     /**
-     * Mapã®è¦ç´ æ•°ã®ãƒªã‚¹ãƒˆã‚’å–å¾—ã™ã‚‹ã€‚
+     * Map‚Ì—v‘f”‚ÌƒŠƒXƒg‚ğæ“¾‚·‚éB
      * 
-     * @return Mapã®è¦ç´ æ•°ã®ãƒªã‚¹ãƒˆã€‚
+     * @return Map‚Ì—v‘f”‚ÌƒŠƒXƒgB
      */
     public static List<CollectionMonitorEntry> getSortedMapList()
     {
@@ -410,11 +433,11 @@ public class CollectionMonitor
     }
 
     /**
-     * å¯¾è±¡ã®ãƒªã‚¹ãƒˆã®ã‚µã‚¤ã‚ºTopã‚’ãƒªã‚¹ãƒˆã¨ã—ã¦è¿”ã™
-     * å…ƒã®ãƒªã‚¹ãƒˆã¯ã‚½ãƒ¼ãƒˆã•ã‚ŒãŸçŠ¶æ…‹ã¨ãªã‚‹
+     * ‘ÎÛ‚ÌƒŠƒXƒg‚ÌƒTƒCƒYTop‚ğƒŠƒXƒg‚Æ‚µ‚Ä•Ô‚·
+     * Œ³‚ÌƒŠƒXƒg‚Íƒ\[ƒg‚³‚ê‚½ó‘Ô‚Æ‚È‚é
      * 
-     * @param targetList å¯¾è±¡ã®ãƒªã‚¹ãƒˆ
-     * @return å¯¾è±¡ãƒªã‚¹ãƒˆä¸­ã®ã‚µã‚¤ã‚ºã®è¦ç´ ã®ãƒªã‚¹ãƒˆ
+     * @param targetList ‘ÎÛ‚ÌƒŠƒXƒg
+     * @return ‘ÎÛƒŠƒXƒg’†‚ÌƒTƒCƒY‚Ì—v‘f‚ÌƒŠƒXƒg
      */
     private static List<CollectionMonitorEntry> makeTopSizeList(
             final List<CollectionMonitorEntry> targetList)
@@ -434,10 +457,10 @@ public class CollectionMonitor
     }
 
     /**
-     * æŒ‡å®šã—ãŸCollectionãŒã‚µã‚¤ã‚ºãŒé–¾å€¤ã‚’è¶…ãˆã¦ã‚‹å ´åˆã«ã€Collectionã‚’ç›£è¦–å¯¾è±¡ã«åŠ ãˆã‚‹ã€‚
+     * w’è‚µ‚½Collection‚ªƒTƒCƒY‚ªè‡’l‚ğ’´‚¦‚Ä‚éê‡‚ÉACollection‚ğŠÄ‹‘ÎÛ‚É‰Á‚¦‚éB
      * 
-     * @param target ç›£è¦–å¯¾è±¡å€™è£œã®Collectionã€‚
-     * @param element addã¾ãŸã¯addAllã•ã‚ŒãŸè¦ç´ 
+     * @param target ŠÄ‹‘ÎÛŒó•â‚ÌCollectionB
+     * @param element add‚Ü‚½‚ÍaddAll‚³‚ê‚½—v‘f
      */
     public static void preProcessCollectionAdd(final Collection<?> target, Object element)
     {
@@ -469,10 +492,10 @@ public class CollectionMonitor
     }
 
     /**
-     * æŒ‡å®šã—ãŸMapãŒã‚µã‚¤ã‚ºãŒé–¾å€¤ã‚’è¶…ãˆã¦ã‚‹å ´åˆã«ã€Mapã‚’ç›£è¦–å¯¾è±¡ã«åŠ ãˆã‚‹ã€‚
+     * w’è‚µ‚½Map‚ªƒTƒCƒY‚ªè‡’l‚ğ’´‚¦‚Ä‚éê‡‚ÉAMap‚ğŠÄ‹‘ÎÛ‚É‰Á‚¦‚éB
      * 
-     * @param targetMap ç›£è¦–å¯¾è±¡å€™è£œã®Mapã€‚
-     * @param element putã•ã‚ŒãŸè¦ç´ 
+     * @param targetMap ŠÄ‹‘ÎÛŒó•â‚ÌMapB
+     * @param element put‚³‚ê‚½—v‘f
      */
     public static void preProcessMapPut(final Map<?, ?> targetMap, Object element)
     {
@@ -504,10 +527,10 @@ public class CollectionMonitor
     }
 
     /**
-     * ç›£è¦–å¯¾è±¡ã«åŠ ãˆã‚‹ã‹ã©ã†ã‹ã‚’åˆ¤å®šã™ã‚‹ã€‚
+     * ŠÄ‹‘ÎÛ‚É‰Á‚¦‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
      * 
-     * @param target ç›£è¦–å¯¾è±¡å€™è£œã€‚
-     * @return ç›£è¦–å¯¾è±¡ã«åŠ ãˆã‚‹ã‹ã©ã†ã‹ã€‚
+     * @param target ŠÄ‹‘ÎÛŒó•âB
+     * @return ŠÄ‹‘ÎÛ‚É‰Á‚¦‚é‚©‚Ç‚¤‚©B
      */
     private static boolean isTraceTarget(final Map<?, ?> target)
     {
@@ -525,10 +548,10 @@ public class CollectionMonitor
     }
 
     /**
-     * ç›£è¦–å¯¾è±¡ã«åŠ ãˆã‚‹ã‹ã©ã†ã‹ã‚’åˆ¤å®šã™ã‚‹ã€‚
+     * ŠÄ‹‘ÎÛ‚É‰Á‚¦‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
      * 
-     * @param target ç›£è¦–å¯¾è±¡å€™è£œã€‚
-     * @return ç›£è¦–å¯¾è±¡ã«åŠ ãˆã‚‹ã‹ã©ã†ã‹ã€‚
+     * @param target ŠÄ‹‘ÎÛŒó•âB
+     * @return ŠÄ‹‘ÎÛ‚É‰Á‚¦‚é‚©‚Ç‚¤‚©B
      */
     private static boolean isTraceTarget(final Collection<?> target)
     {
@@ -546,9 +569,9 @@ public class CollectionMonitor
     }
 
     /**
-     * ç›£è¦–ã‚’å®Ÿè¡Œã™ã‚‹ã‹ã©ã†ã‹ã‚’è¨­å®šã™ã‚‹ã€‚
+     * ŠÄ‹‚ğÀs‚·‚é‚©‚Ç‚¤‚©‚ğİ’è‚·‚éB
      * 
-     * @param isTracing ç›£è¦–ã‚’å®Ÿè¡Œã™ã‚‹ã‹ã©ã†ã‹ã€‚
+     * @param isTracing ŠÄ‹‚ğÀs‚·‚é‚©‚Ç‚¤‚©B
      */
     public static void setTracing(final Boolean isTracing)
     {
@@ -556,9 +579,9 @@ public class CollectionMonitor
     }
 
     /**
-     * ç›£è¦–ã‚’å®Ÿè¡Œã™ã‚‹ã‹ã©ã†ã‹ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ŠÄ‹‚ğÀs‚·‚é‚©‚Ç‚¤‚©‚ğæ“¾‚·‚éB
      * 
-     * @return ç›£è¦–ã‚’å®Ÿè¡Œã™ã‚‹ã‹ã©ã†ã‹ã€‚
+     * @return ŠÄ‹‚ğÀs‚·‚é‚©‚Ç‚¤‚©B
      */
     public static Boolean isTracing()
     {

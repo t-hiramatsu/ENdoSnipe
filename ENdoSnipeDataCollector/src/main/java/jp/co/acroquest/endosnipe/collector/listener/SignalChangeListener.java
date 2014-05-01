@@ -25,18 +25,9 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.collector.listener;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import jp.co.acroquest.endosnipe.collector.LogMessageCodes;
 import jp.co.acroquest.endosnipe.collector.manager.SignalStateManager;
-import jp.co.acroquest.endosnipe.collector.manager.SummarySignalStateManager;
 import jp.co.acroquest.endosnipe.collector.processor.AlarmData;
-import jp.co.acroquest.endosnipe.collector.util.CollectorTelegramUtil;
-import jp.co.acroquest.endosnipe.collector.util.SignalSummarizer;
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
 import jp.co.acroquest.endosnipe.communicator.AbstractTelegramListener;
 import jp.co.acroquest.endosnipe.communicator.TelegramListener;
@@ -44,19 +35,18 @@ import jp.co.acroquest.endosnipe.communicator.entity.Body;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.data.dto.SignalDefinitionDto;
-import jp.co.acroquest.endosnipe.data.dto.SummarySignalDefinitionDto;
 import jp.co.acroquest.endosnipe.data.entity.SignalDefinition;
 
 /**
- * ã‚·ã‚°ãƒŠãƒ«å®šç¾©å¤‰æ›´è¦æ±‚é›»æ–‡ã‚’å—ä¿¡ã™ã‚‹ãŸã‚ã®ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+ * ƒVƒOƒiƒ‹’è‹`•ÏX—v‹“d•¶‚ğóM‚·‚é‚½‚ß‚ÌƒNƒ‰ƒX‚Å‚·B<br />
  * 
  * @author fujii
  */
 public class SignalChangeListener extends AbstractTelegramListener implements TelegramListener,
-    LogMessageCodes
+        LogMessageCodes
 {
-    private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
-        .getLogger(SignalChangeListener.class);
+    private static final ENdoSnipeLogger LOGGER =
+                                                  ENdoSnipeLogger.getLogger(SignalChangeListener.class);
 
     private static final int ITEM_VALUE_SIGNAL_ID = 0;
 
@@ -71,14 +61,6 @@ public class SignalChangeListener extends AbstractTelegramListener implements Te
     private static final int ITEM_VALUE_PATTERN_VALUE = 5;
 
     /**
-     * Summary Signal List
-     */
-    private static List<SummarySignalDefinitionDto> summaryDtoList__ = null;
-
-    private final ArrayList<SummarySignalDefinitionDto> updatedSummarySignals_ =
-        new ArrayList<SummarySignalDefinitionDto>();
-
-    /**
      * {@inheritDoc}
      */
     @Override
@@ -89,44 +71,25 @@ public class SignalChangeListener extends AbstractTelegramListener implements Te
             LOGGER.log(SIGNAL_DEFINITION_CHANGE_NOTIFY_RECEIVED);
         }
 
-        // é›»æ–‡ã‚’è§£æã—ã€ã‚·ã‚°ãƒŠãƒ«å®šç¾©æƒ…å ±ã‚’æ›´æ–°ã™ã‚‹ã€‚
+        // “d•¶‚ğ‰ğÍ‚µAƒVƒOƒiƒ‹’è‹`î•ñ‚ğXV‚·‚éB
         updateSignalDefinition(telegram);
-        Body[] bodys = telegram.getObjBody();
-        String itemName = bodys[0].getStrItemName();
-        if (itemName.equals(TelegramConstants.ITEMNAME_SIGNAL_DELETE)
-            || itemName.equals(TelegramConstants.ITEMNAME_SIGNAL_UPDATE))
-        {
-            if (updatedSummarySignals_.size() == 0)
-            {
-                return null;
-            }
-            for (SummarySignalDefinitionDto dto : updatedSummarySignals_)
-            {
-                dto.summarySignalStatus_ =
-                    SummarySignalStateManager.getInstance().getSummaryLevel(dto);
-            }
-            Telegram responseSummaryTelegram =
-                CollectorTelegramUtil
-                    .createSummarySignalResponseTelegram(updatedSummarySignals_,
-                                                         TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_UPDATE);
-            return responseSummaryTelegram;
-        }
 
         return null;
     }
 
     /**
-     * é–¾å€¤å®šç¾©æƒ…å ±ã‚’æ›´æ–°ã™ã‚‹ã€‚
-     * @param telegram é–¾å€¤å®šç¾©æƒ…å ±é›»æ–‡ä¸€è¦§
+     * è‡’l’è‹`î•ñ‚ğXV‚·‚éB
+     * @param telegram è‡’l’è‹`î•ñ“d•¶ˆê——
      */
     private void updateSignalDefinition(final Telegram telegram)
     {
         Body[] bodys = telegram.getObjBody();
+
         for (Body body : bodys)
         {
             String itemName = body.getStrItemName();
             if (TelegramConstants.ITEMNAME_SIGNAL_ADD.equals(itemName)
-                || TelegramConstants.ITEMNAME_SIGNAL_UPDATE.equals(itemName))
+                    || TelegramConstants.ITEMNAME_SIGNAL_UPDATE.equals(itemName))
             {
                 setSignalDefinition(body, itemName);
             }
@@ -135,12 +98,13 @@ public class SignalChangeListener extends AbstractTelegramListener implements Te
                 deleteSignalDefinition(body);
             }
         }
+        return;
     }
 
     /**
      * 
-     * @param body {@link Body}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param itemName é …ç›®å
+     * @param body {@link Body}ƒIƒuƒWƒFƒNƒg
+     * @param itemName €–Ú–¼
      */
     private void setSignalDefinition(final Body body, final String itemName)
     {
@@ -171,33 +135,23 @@ public class SignalChangeListener extends AbstractTelegramListener implements Te
 
             if (TelegramConstants.ITEMNAME_SIGNAL_UPDATE.equals(itemName))
             {
-                AlarmData alarmData = signalStateManager.getAlarmData(signalDefinition.signalId);
+                AlarmData alarmData = signalStateManager.getAlarmData(signalName);
                 if (alarmData != null)
                 {
                     alarmData.reset();
-                    if (SummarySignalStateManager.getInstance().getAlarmChildList()
-                        .contains(signalName))
-                    {
-                        SummarySignalStateManager.getInstance().getAlarmChildList()
-                            .remove(signalName);
-                        List<String> childList = new ArrayList<String>();
-                        childList.add(signalName);
-                        summaryDtoList__ =
-                            SignalSummarizer.getInstance().calculateSummarySignalState(childList);
-                    }
                 }
             }
         }
         catch (NumberFormatException ex)
         {
-            // ã‚·ã‚°ãƒŠãƒ«å®šç¾©æƒ…å ±ã®è¿½åŠ ã«å¤±æ•—
+            // ƒVƒOƒiƒ‹’è‹`î•ñ‚Ì’Ç‰Á‚É¸”s
         }
     }
 
     /**
      * 
-     * @param body {@link Body}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param itemName é …ç›®å
+     * @param body {@link Body}ƒIƒuƒWƒFƒNƒg
+     * @param itemName €–Ú–¼
      */
     private void deleteSignalDefinition(final Body body)
     {
@@ -207,38 +161,15 @@ public class SignalChangeListener extends AbstractTelegramListener implements Te
         String signalIdStr = (String)itemValues[ITEM_VALUE_SIGNAL_ID];
         String signalName = (String)itemValues[ITEM_VALUE_SIGNAL_NAME];
 
-        //æ›´æ–°ã•ã‚Œã‚‹ã‚µãƒãƒªã‚·ã‚°ãƒŠãƒ«ã®ãƒªã‚¹ãƒˆã‚’ä½œæˆã™ã‚‹
-        updatedSummarySignals_.clear();
-        SummarySignalStateManager summarySignalStateManager =
-            SummarySignalStateManager.getInstance();
-        Map<Long, SummarySignalDefinitionDto> dtoMap =
-            summarySignalStateManager.getSummarySignalDefinitionMap();
-        for (Entry<Long, SummarySignalDefinitionDto> entry : dtoMap.entrySet())
-        {
-            SummarySignalDefinitionDto dto = entry.getValue();
-            if (!dto.signalList_.contains(signalName))
-            {
-                continue;
-            }
-            updatedSummarySignals_.add(dto);
-        }
-
         try
         {
             long signalId = Long.parseLong(signalIdStr);
             signalStateManager.removeSignalDefinition(signalId);
-            summaryDtoList__ =
-                SummarySignalStateManager.getInstance().checkDeleteNode(signalName, true);
-            signalStateManager.removeAlarmData(signalId);
+            signalStateManager.removeAlarmData(signalName);
         }
         catch (NumberFormatException ex)
         {
-            // ã‚·ã‚°ãƒŠãƒ«å®šç¾©æƒ…å ±ã®è¿½åŠ ã«å¤±æ•—
-        }
-        catch (SQLException ex)
-        {
-            // TODO è‡ªå‹•ç”Ÿæˆã•ã‚ŒãŸ catch ãƒ–ãƒ­ãƒƒã‚¯
-            ex.printStackTrace();
+            // ƒVƒOƒiƒ‹’è‹`î•ñ‚Ì’Ç‰Á‚É¸”s
         }
     }
 

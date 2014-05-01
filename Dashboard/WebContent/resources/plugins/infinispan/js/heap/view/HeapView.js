@@ -41,7 +41,7 @@ infinispan.HeapView = wgp.AbstractView
 				// idをheapに変更する。
 				this.heapPath = argument.heapPath;
 				var clusterName = treeSetting.treeId.split("/")[1];
-				infinispan.Heap.treeSettingId = "/" + clusterName + "/.*" + this.heapPath;
+				infinispan.Heap.treeSettingId = "/" + clusterName + "/%" + this.heapPath;
 
 				infinispan.Heap.self = this;
 
@@ -63,7 +63,7 @@ infinispan.HeapView = wgp.AbstractView
 				$("#persArea_drop_0_1").append();
 
 				var appView = ENS.AppView();
-				appView.addView(this, infinispan.Heap.treeSettingId + '.*');
+				appView.addView(this, infinispan.Heap.treeSettingId + '%');
 				// set paper
 				this.render();
 
@@ -91,7 +91,7 @@ infinispan.HeapView = wgp.AbstractView
 
 				var end = new Date();
 				var start = new Date(end.getTime() - 15000);
-				appView.getTermData([ (infinispan.Heap.treeSettingId + '.*') ],
+				appView.getTermData([ (infinispan.Heap.treeSettingId + '%') ],
 						start, end);
 
 			},
@@ -116,12 +116,6 @@ infinispan.HeapView = wgp.AbstractView
 					tmpList[index] = this.agentsList_[agentIndex];
 				}
 
-				for (key in infinispan.Heap.capacityList){
-					infinispan.Heap.capacityList[key].remove();
-					infinispan.Heap.rackList[key].remove();
-					infinispan.Heap.usageList[key].remove();
-					$("#capacity_table").empty();
-				}
 				this.agentsList_ = tmpList;
 
 				// draw capacity bars
@@ -157,9 +151,6 @@ infinispan.HeapView = wgp.AbstractView
 					tmpList[index] = this.agentsList_[agentIndex];
 				}
 		
-				for (key in infinispan.Heap.capacityList){
-					infinispan.Heap.capacityList[key].remove();
-				}
 				this.agentsList_ = tmpList;
 		
 				// redraw capacity bars
@@ -215,7 +206,7 @@ infinispan.HeapView = wgp.AbstractView
 			_getTermData : function() {
 				this._drawHeap();
 				if (this.isRealTime) {
-					appView.syncData([ (infinispan.Heap.treeSettingId + ".*") ]);
+					appView.syncData([ (infinispan.Heap.treeSettingId + "%") ]);
 				}
 
 			},
@@ -435,7 +426,7 @@ infinispan.HeapView = wgp.AbstractView
 						this.agentsList_.push(agent);
 
 						// set capacityMax
-						if (this.heapState_[agent]["max:bytes"] - 0 > this.capacityMax_ - 0) {
+						if (this.heapState_[agent]["max:bytes"] > this.capacityMax_) {
 							this.capacityMax_ = this.heapState_[agent]["max:bytes"];
 						}
 					}
@@ -496,8 +487,8 @@ infinispan.HeapView = wgp.AbstractView
 			_drawStaticDataNode : function(pastTime) {
 				var end = new Date(new Date().getTime() - pastTime);
 				var start = new Date(end.getTime() - 60 * 60 * 1000);
-				appView.stopSyncData([ (infinispan.Heap.treeSettingId + '.*') ]);
-				appView.getTermData([ (infinispan.Heap.treeSettingId + '.*') ],
+				appView.stopSyncData([ (infinispan.Heap.treeSettingId + '%') ]);
+				appView.getTermData([ (infinispan.Heap.treeSettingId + '%') ],
 						start, end);
 			},
 			_addBlockTransfer : function(self) {
@@ -988,14 +979,14 @@ infinispan.HeapView = wgp.AbstractView
 				if (pastTime === 0) {
 					if (this.isRealTime === false) {
 						appView
-								.syncData([ (infinispan.Heap.treeSettingId + ".*") ]);
+								.syncData([ (infinispan.Heap.treeSettingId + "%") ]);
 					}
 					this.isRealTime = true;
 
 					var end = new Date();
 					var start = new Date(end.getTime() - 60 * 60 * 1000);
 					appView.getTermData(
-							[ (infinispan.Heap.treeSettingId + '.*') ], start,
+							[ (infinispan.Heap.treeSettingId + '%') ], start,
 							end);
 				} else {
 					this.isRealTime = false;
@@ -1007,15 +998,15 @@ infinispan.HeapView = wgp.AbstractView
 				this._setHeapDataList();
 
 				var localHeapLastData = this.heapDataList_[this.lastMeasurementTime_];
-				var dashboardSize = 0;
-				var dashboardId = "";
+				var mapSize = 0;
+				var mapId = "";
 				_.each(localHeapLastData, function(value, id) {
-					dashboardId = id;
-					dashboardSize++;
+					mapId = id;
+					mapSize++;
 				});
 
-				if (dashboardSize == 1
-						&& dashboardId == infinispan.heap.constants.agentnameAll) {
+				if (mapSize == 1
+						&& mapId == infinispan.heap.constants.agentnameAll) {
 					return;
 				}
 
@@ -1117,7 +1108,7 @@ infinispan.HeapView = wgp.AbstractView
 			destroy : function() {
 				this.stopRegisterCollectionEvent();
 				var appView = ENS.AppView();
-				appView.stopSyncData([ infinispan.Heap.treeSettingId + '.*' ]);
+				appView.stopSyncData([ infinispan.Heap.treeSettingId + '%' ]);
 				if (this.collection) {
 					this.collection.reset();
 				}

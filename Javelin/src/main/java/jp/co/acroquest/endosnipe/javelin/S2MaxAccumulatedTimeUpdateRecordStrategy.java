@@ -30,25 +30,25 @@ import jp.co.acroquest.endosnipe.common.config.JavelinConfigUtil;
 import jp.co.acroquest.endosnipe.javelin.log.JavelinLogCallback;
 
 /**
- * å‘¼ã³å‡ºã—ç©ç®—æ™‚é–“ã®æœ€å¤§å€¤ãŒæ›´æ–°ã•ã‚ŒãŸå ´åˆã«ã€è¨˜éŒ²ãƒ»é€šçŸ¥ã‚’è¡Œã†RecordStrategyã€‚ ãŸã ã—ã€ä¸å¿…è¦ãªè¨˜éŒ²ãƒ»é€šçŸ¥ã‚’é˜²ããŸã‚ã€æ›´æ–°å›æ•°ãŒ
- * javelin.maxAccumulatedTimeUpdate.ignoreUpdateCountã§æŒ‡å®šã•ã‚ŒãŸ å›æ•°ä»¥ä¸‹ã®å ´åˆã¯è¨˜éŒ²ãƒ»é€šçŸ¥ã‚’è¡Œã‚ãªã„ã€‚
+ * ŒÄ‚Ño‚µÏZŠÔ‚ÌÅ‘å’l‚ªXV‚³‚ê‚½ê‡‚ÉA‹L˜^E’Ê’m‚ğs‚¤RecordStrategyB ‚½‚¾‚µA•s•K—v‚È‹L˜^E’Ê’m‚ğ–h‚®‚½‚ßAXV‰ñ”‚ª
+ * javelin.maxAccumulatedTimeUpdate.ignoreUpdateCount‚Åw’è‚³‚ê‚½ ‰ñ”ˆÈ‰º‚Ìê‡‚Í‹L˜^E’Ê’m‚ğs‚í‚È‚¢B
  * 
  * @author tsukano
  */
 public class S2MaxAccumulatedTimeUpdateRecordStrategy implements RecordStrategy
 {
-    /** æ›´æ–°å›æ•°ã‚’ç„¡è¦–ã™ã‚‹é–¾å€¤ */
+    /** XV‰ñ”‚ğ–³‹‚·‚éè‡’l */
     private final int ignoreUpdateCount_;
 
-    /** æ›´æ–°å›æ•°ã‚’ç„¡è¦–ã™ã‚‹é–¾å€¤ã‚’è¡¨ã™ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å */
+    /** XV‰ñ”‚ğ–³‹‚·‚éè‡’l‚ğ•\‚·ƒvƒƒpƒeƒB–¼ */
     private static final String IGNOREUPDATECOUNT_KEY =
             JavelinConfig.JAVELIN_PREFIX + "maxAccumulatedTimeUpdate.ignoreUpdateCount";
 
-    /** æ›´æ–°å›æ•°ã‚’ç„¡è¦–ã™ã‚‹é–¾å€¤ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ */
+    /** XV‰ñ”‚ğ–³‹‚·‚éè‡’l‚ÌƒfƒtƒHƒ‹ƒg */
     private static final int DEFAULT_IGNOREUPDATECOUNT = 3;
 
     /**
-     * ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‹ã‚‰ignoreUpdateCountã‚’èª­ã¿è¾¼ã‚€ã€‚
+     * ƒvƒƒpƒeƒB‚©‚çignoreUpdateCount‚ğ“Ç‚İ‚ŞB
      */
     public S2MaxAccumulatedTimeUpdateRecordStrategy()
     {
@@ -58,10 +58,10 @@ public class S2MaxAccumulatedTimeUpdateRecordStrategy implements RecordStrategy
     }
 
     /**
-     * ã‚¢ãƒ©ãƒ¼ãƒ ã‚’ç™ºç”Ÿã•ã›ã‚‹ã‹ã©ã†ã‹ã‚’åˆ¤å®šã—ã¾ã™ã€‚<br />
+     * ƒAƒ‰[ƒ€‚ğ”­¶‚³‚¹‚é‚©‚Ç‚¤‚©‚ğ”»’è‚µ‚Ü‚·B<br />
      * 
-     * @param node {@link CallTreeNode}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @return ã‚¢ãƒ©ãƒ¼ãƒ ã‚’ç™ºç”Ÿã•ã›ã‚‹å ´åˆã€<code>true</code>
+     * @param node {@link CallTreeNode}ƒIƒuƒWƒFƒNƒg
+     * @return ƒAƒ‰[ƒ€‚ğ”­¶‚³‚¹‚éê‡A<code>true</code>
      */
     public boolean judgeSendExceedThresholdAlarm(final CallTreeNode node)
     {
@@ -75,7 +75,7 @@ public class S2MaxAccumulatedTimeUpdateRecordStrategy implements RecordStrategy
     }
 
     /**
-     * ä½•ã‚‚ã—ãªã„ã€‚
+     * ‰½‚à‚µ‚È‚¢B
      */
     public void postJudge()
     {
@@ -83,7 +83,7 @@ public class S2MaxAccumulatedTimeUpdateRecordStrategy implements RecordStrategy
     }
 
     /**
-     * ä½•ã‚‚ã—ãªã„ã€‚
+     * ‰½‚à‚µ‚È‚¢B
      * @param node CallTreeNode
      * @return null
      */
@@ -94,7 +94,7 @@ public class S2MaxAccumulatedTimeUpdateRecordStrategy implements RecordStrategy
     }
 
     /**
-     * ä½•ã‚‚ã—ãªã„ã€‚
+     * ‰½‚à‚µ‚È‚¢B
      * @return null
      */
     public JavelinLogCallback createCallback()
@@ -104,8 +104,8 @@ public class S2MaxAccumulatedTimeUpdateRecordStrategy implements RecordStrategy
     }
 
     /**
-     * æ›´æ–°å›æ•°ã‚’ç„¡è¦–ã™ã‚‹é–¾å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return æ›´æ–°å›æ•°ã‚’ç„¡è¦–ã™ã‚‹é–¾å€¤
+     * XV‰ñ”‚ğ–³‹‚·‚éè‡’l‚ğæ“¾‚·‚éB
+     * @return XV‰ñ”‚ğ–³‹‚·‚éè‡’l
      */
     public int getIgnoreUpdateCount()
     {

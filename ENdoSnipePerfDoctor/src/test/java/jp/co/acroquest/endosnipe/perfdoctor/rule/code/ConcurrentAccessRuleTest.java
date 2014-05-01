@@ -31,18 +31,18 @@ import jp.co.acroquest.endosnipe.javelin.parser.JavelinLogElement;
 import jp.co.acroquest.endosnipe.perfdoctor.PerformanceRuleTestCase;
 
 /**
- * ENdoSnipeVer.4.0ã®æ–°ãƒ«ãƒ¼ãƒ«
- * TATã¯é•·ã„ãŒã€CPUæ™‚é–“ã€WAITæ™‚é–“ã€ãƒ–ãƒ­ãƒƒã‚¯æ™‚é–“ãŒçŸ­ã„ãƒ«ãƒ¼ãƒ«ã®ãƒ†ã‚¹ãƒˆ
+ * ENdoSnipeVer.4.0‚ÌVƒ‹[ƒ‹
+ * TAT‚Í’·‚¢‚ªACPUŠÔAWAITŠÔAƒuƒƒbƒNŠÔ‚ª’Z‚¢ƒ‹[ƒ‹‚ÌƒeƒXƒg
  * @author akita
  *
  */
 public class ConcurrentAccessRuleTest extends PerformanceRuleTestCase
 {
-    /** ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã«åˆ©ç”¨ã™ã‚‹Mapã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆID */
+    /** ƒƒOƒtƒ@ƒCƒ‹‚É—˜—p‚·‚éMap‚ÌƒIƒuƒWƒFƒNƒgID */
     private static final String MAP_OBJECT_ID = "java.util.HashMap@1b134a0";
 
     /**
-     * ConcurrentAccessRuleã‚’ç”Ÿæˆã™ã‚‹ã€‚<br>
+     * ConcurrentAccessRule‚ğ¶¬‚·‚éB<br>
      * @return ConcurrentAccessRule
      */
     private ConcurrentAccessRule createRule()
@@ -55,185 +55,185 @@ public class ConcurrentAccessRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 3-14-1<br>
+     * [€”Ô] 3-14-1<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»æŒ‡å®šã•ã‚ŒãŸå€¤ãŒæ–‡å­—åˆ—ã§ã‚ã‚‹å ´åˆã€‚<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã™ã‚‹ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * Ew’è‚³‚ê‚½’l‚ª•¶š—ñ‚Å‚ ‚éê‡B<br>
+     * ¨Œx‚ª”­¶‚·‚éB<br>
      */
     public void testDoJudge_10()
     {
-        // æº–å‚™
+        // €”õ
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("ConcurrentAccessRuleTest_testDoJudge_valstring.jvn");
 
         ConcurrentAccessRule rule = createRule();
 
-        // å®Ÿè¡Œ
+        // Às
         rule.judge(elementList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(1, getErrorJavelinLogElements().size());
 
-        // elementListã«ã¯ã€CALLâ†’EVENTã®é †ã«å…¥åŠ›ã•ã‚Œã¦ã„ã‚‹ã®ã§ã€
-        // 2ç•ªç›®ã®JavelinLogElementãŒè­¦å‘Šã«å‡ºåŠ›ã•ã‚Œã‚‹ã€‚
+        // elementList‚É‚ÍACALL¨EVENT‚Ì‡‚É“ü—Í‚³‚ê‚Ä‚¢‚é‚Ì‚ÅA
+        // 2”Ô–Ú‚ÌJavelinLogElement‚ªŒx‚Éo—Í‚³‚ê‚éB
         assertErrorOccurred(elementList.get(1), MAP_OBJECT_ID, "Thread-0,Thread-1");
 
     }
 
     /**
-     * [é …ç•ª] 3-14-2<br>
+     * [€”Ô] 3-14-2<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * æŒ‡å®šã•ã‚ŒãŸå€¤ãŒç©ºç™½ã€‚<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * w’è‚³‚ê‚½’l‚ª‹ó”’B<br>
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br>
      */
     public void testDoJudge_11()
     {
-        // æº–å‚™
+        // €”õ
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("ConcurrentAccessRuleTest_testDoJudge_empty.jvn");
 
         ConcurrentAccessRule rule = createRule();
 
-        // å®Ÿè¡Œ
+        // Às
         rule.judge(elementList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(0, getErrorJavelinLogElements().size());
     }
 
     /**
-     * [é …ç•ª] 3-14-3<br>
+     * [€”Ô] 3-14-3<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     *ã€€æŒ‡å®šã•ã‚ŒãŸãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãŒãªã„ã€‚ãƒ–ãƒ­ãƒƒã‚¯ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãŒç„¡ã„å ´åˆ<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã™ã‚‹ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     *@w’è‚³‚ê‚½ƒpƒ‰ƒ[ƒ^‚ª‚È‚¢BƒuƒƒbƒN‚Ìƒpƒ‰ƒ[ƒ^‚ª–³‚¢ê‡<br>
+     * ¨Œx‚ª”­¶‚·‚éB<br>
      */
     public void testDoJudge_12()
     {
-        // æº–å‚™
+        // €”õ
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("ConcurrentAccessRuleTest_testDoJudge_no_param.jvn");
         ConcurrentAccessRule rule = createRule();
 
-        // å®Ÿè¡Œ
+        // Às
         rule.judge(elementList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(0, getErrorJavelinLogElements().size());
     }
 
     /**
-     * [é …ç•ª] 3-14-4<br>
+     * [€”Ô] 3-14-4<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»EventInfoãŒãªã„ã€‚<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã™ã‚‹ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * EEventInfo‚ª‚È‚¢B<br>
+     * ¨Œx‚ª”­¶‚·‚éB<br>
      */
     public void testDoJudge_14()
     {
-        // æº–å‚™
+        // €”õ
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("ConcurrentAccessRuleTest_testDoJudge_no_EventInfo.jvn");
 
         ConcurrentAccessRule rule = createRule();
 
-        // å®Ÿè¡Œ
+        // Às
         rule.judge(elementList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(0, getErrorJavelinLogElements().size());
     }
 
     /**
-     * [é …ç•ª] 3-14-5<br>
+     * [€”Ô] 3-14-5<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»EVENTãŒãªã„ã€‚<br>
-     * â†’è­¦å‘Šã‚’è¡¨ç¤ºã—ãªã„ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * EEVENT‚ª‚È‚¢B<br>
+     * ¨Œx‚ğ•\¦‚µ‚È‚¢B<br>
      */
     public void testDoJudge_15()
     {
-        // æº–å‚™
+        // €”õ
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("ConcurrentAccessRuleTest_testDoJudge_no_type.jvn");
         ConcurrentAccessRule rule = createRule();
 
-        // å®Ÿè¡Œ
+        // Às
         rule.judge(elementList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(0, getErrorJavelinLogElements().size());
     }
 
     /**
-     * [é …ç•ª] 3-14-6<br>
+     * [€”Ô] 3-14-6<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»EVENTãŒãªã„ã€‚<br>
-     * â†’è­¦å‘Šã‚’è¡¨ç¤ºã—ãªã„ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * EEVENT‚ª‚È‚¢B<br>
+     * ¨Œx‚ğ•\¦‚µ‚È‚¢B<br>
      */
     public void testDoJudge_16()
     {
-        // æº–å‚™
+        // €”õ
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("ConcurrentAccessRuleTest_testDoJudge_no_eventname.jvn");
         ConcurrentAccessRule rule = createRule();
 
-        // å®Ÿè¡Œ
+        // Às
         rule.judge(elementList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(0, getErrorJavelinLogElements().size());
     }
 
     /**
-     * [é …ç•ª] 3-14-7<br>
+     * [€”Ô] 3-14-7<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»è¤‡æ•°ã®JavelinLogElementã§è­¦å‘ŠãŒå‡ºã‚‹ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * E•¡”‚ÌJavelinLogElement‚ÅŒx‚ªo‚éB<br>
      */
     public void testDoJudge_27()
     {
-        // æº–å‚™
+        // €”õ
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("ConcurrentAccessRuleTest_testDoJudge_multi_Element.jvn");
         ConcurrentAccessRule rule = createRule();
 
-        // å®Ÿè¡Œ
+        // Às
         rule.doJudge(elementList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(2, getErrorJavelinLogElements().size());
-        // elementListã«ã¯ã€CALLâ†’EVENTâ†’EVENTã®é †ã«å…¥åŠ›ã•ã‚Œã¦ã„ã‚‹ã®ã§ã€
-        // 2ç•ªç›®ã€3ç•ªç›®ã®JavelinLogElementãŒè­¦å‘Šã«å‡ºåŠ›ã•ã‚Œã‚‹ã€‚
+        // elementList‚É‚ÍACALL¨EVENT¨EVENT‚Ì‡‚É“ü—Í‚³‚ê‚Ä‚¢‚é‚Ì‚ÅA
+        // 2”Ô–ÚA3”Ô–Ú‚ÌJavelinLogElement‚ªŒx‚Éo—Í‚³‚ê‚éB
         assertErrorOccurred(elementList.get(1), MAP_OBJECT_ID, "Thread-0,Thread-1");
         assertErrorOccurred(elementList.get(2), MAP_OBJECT_ID, "Thread-1,Thread-0");
     }
 
     /**
-     * [é …ç•ª] 3-14-8<br>
+     * [€”Ô] 3-14-8<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»ã‚ã‚‹JavelinLogElementã§å®Ÿè¡Œæ™‚ä¾‹å¤–ãŒç™ºç”Ÿ<br>
-     * â†’ãã®JavelinLogElementã¯ã‚¹ã‚­ãƒƒãƒ—ã—ã¦å‡¦ç†ã™ã‚‹ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * E‚ ‚éJavelinLogElement‚ÅÀs—áŠO‚ª”­¶<br>
+     * ¨‚»‚ÌJavelinLogElement‚ÍƒXƒLƒbƒv‚µ‚Äˆ—‚·‚éB<br>
      */
     public void testDoJudge_28_RuntimeException()
     {
-        // æº–å‚™
+        // €”õ
         ConcurrentAccessRule rule = createRule();
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("ConcurrentAccessRuleTest_testDoJudge_valstring.jvn");
         elementList.add(0, null);
 
-        // å®Ÿè¡Œ
+        // Às
         rule.doJudge(elementList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(1, getErrorJavelinLogElements().size());
-        // elementListã«ã¯ã€nullâ†’CALLâ†’EVENTã®é †ã«å…¥åŠ›ã•ã‚Œã¦ã„ã‚‹ã®ã§ã€
-        // 2ç•ªç›®ã®JavelinLogElementãŒè­¦å‘Šã«å‡ºåŠ›ã•ã‚Œã‚‹ã€‚
+        // elementList‚É‚ÍAnull¨CALL¨EVENT‚Ì‡‚É“ü—Í‚³‚ê‚Ä‚¢‚é‚Ì‚ÅA
+        // 2”Ô–Ú‚ÌJavelinLogElement‚ªŒx‚Éo—Í‚³‚ê‚éB
         assertErrorOccurred(elementList.get(2), MAP_OBJECT_ID, "Thread-0,Thread-1");
     }
 

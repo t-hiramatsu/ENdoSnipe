@@ -4,40 +4,40 @@ import java.sql.Timestamp;
 
 public class ServerPoolRecord
 {
-	/** Ë®àÊ∏¨ÊôÇÂàª */
-	private Timestamp measurementTime_;
+    /** åvë™éûçè */
+    private Timestamp measurementTime_;
+    
+    private long serverPoolMax_;
+    
+    private long serverPoolNum_;
 
-	private long serverPoolMax_;
+    public Timestamp getMeasurementTime()
+    {
+        return measurementTime_;
+    }
 
-	private long serverPoolNum_;
+    public void setMeasurementTime(Timestamp measurementTime)
+    {
+        this.measurementTime_ = measurementTime;
+    }
 
-	public Timestamp getMeasurementTime()
-	{
-		return measurementTime_;
-	}
+    public long getServerPoolMax()
+    {
+        return serverPoolMax_;
+    }
 
-	public void setMeasurementTime(Timestamp measurementTime)
-	{
-		this.measurementTime_ = measurementTime;
-	}
+    public void setServerPoolMax(long serverPoolMax)
+    {
+        this.serverPoolMax_ = serverPoolMax;
+    }
 
-	public long getServerPoolMax()
-	{
-		return serverPoolMax_;
-	}
+    public long getServerPoolNum()
+    {
+        return serverPoolNum_;
+    }
 
-	public void setServerPoolMax(long serverPoolMax)
-	{
-		this.serverPoolMax_ = serverPoolMax;
-	}
-
-	public long getServerPoolNum()
-	{
-		return serverPoolNum_;
-	}
-
-	public void setServerPoolNum(long serverPoolNum)
-	{
-		this.serverPoolNum_ = serverPoolNum;
-	}
+    public void setServerPoolNum(long serverPoolNum)
+    {
+        this.serverPoolNum_ = serverPoolNum;
+    }
 }

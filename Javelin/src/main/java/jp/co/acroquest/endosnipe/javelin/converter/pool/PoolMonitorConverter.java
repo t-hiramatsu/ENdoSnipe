@@ -41,8 +41,8 @@ import jp.co.smg.endosnipe.javassist.CtMethod;
 import jp.co.smg.endosnipe.javassist.NotFoundException;
 
 /**
- * Poolç›£è¦–ã‚³ãƒ³ãƒãƒ¼ã‚¿ã€‚
- * Poolã®ç›£è¦–ã‚’è¡Œã„ã€ã‚°ãƒ©ãƒ•ã§åˆ©ç”¨ã™ã‚‹ãŸã‚ã®ã‚µã‚¤ã‚ºæƒ…å ±ã‚’å–å¾—ã™ã‚‹ã€‚
+ * PoolŠÄ‹ƒRƒ“ƒo[ƒ^B
+ * Pool‚ÌŠÄ‹‚ğs‚¢AƒOƒ‰ƒt‚Å—˜—p‚·‚é‚½‚ß‚ÌƒTƒCƒYî•ñ‚ğæ“¾‚·‚éB
  * 
  * @author eriguchi
  */
@@ -142,12 +142,12 @@ public class PoolMonitorConverter extends AbstractConverter
     }
 
     /**
-     * ãƒ¡ã‚½ãƒƒãƒ‰ã®æŒ¯ã‚‹èˆã„ã‚’ä¿®æ­£ã™ã‚‹ã€‚
+     * ƒƒ\ƒbƒh‚ÌU‚é•‘‚¢‚ğC³‚·‚éB
      * 
      * 
      * @param ctBehavior CtBehavior
-     * @throws CannotCompileException ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã§ããªã„å ´åˆ
-     * @throws NotFoundException ã‚¯ãƒ©ã‚¹ãŒè¦‹ã¤ã‹ã‚‰ãªã„å ´åˆ
+     * @throws CannotCompileException ƒRƒ“ƒpƒCƒ‹‚Å‚«‚È‚¢ê‡
+     * @throws NotFoundException ƒNƒ‰ƒX‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡
      */
     private void convertBehavior(final CtBehavior ctBehavior)
         throws CannotCompileException,

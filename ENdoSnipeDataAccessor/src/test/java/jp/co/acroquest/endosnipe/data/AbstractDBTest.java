@@ -40,7 +40,7 @@ import jp.co.dgic.testing.framework.DJUnitTestCase;
 import org.apache.commons.io.FileUtils;
 
 /**
- * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã«é–¢ã™ã‚‹ãƒ†ã‚¹ãƒˆã‚’è¡Œã†ãŸã‚ã®åŸºåº•ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+ * ƒf[ƒ^ƒx[ƒX‚ÉŠÖ‚·‚éƒeƒXƒg‚ğs‚¤‚½‚ß‚ÌŠî’êƒNƒ‰ƒX‚Å‚·B<br />
  * 
  * @author y-komori
  */
@@ -48,10 +48,10 @@ public abstract class AbstractDBTest extends DJUnitTestCase
 {
     private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(AbstractDBTest.class);
 
-    /** ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä¿å­˜ã™ã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã€‚ */
+    /** ƒf[ƒ^ƒx[ƒXƒtƒ@ƒCƒ‹‚ğ•Û‘¶‚·‚éƒfƒBƒŒƒNƒgƒŠB */
     private static final String BASE_DIR = IOUtil.getTmpDirFile().getAbsolutePath();
 
-    /** ãƒ†ã‚¹ãƒˆã§ä½¿ç”¨ã™ã‚‹ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®åå‰ã€‚ */
+    /** ƒeƒXƒg‚Åg—p‚·‚éƒf[ƒ^ƒx[ƒX‚Ì–¼‘OB */
     protected static final String DB_NAME = "endosnipedb";
 
     /**
@@ -63,7 +63,7 @@ public abstract class AbstractDBTest extends DJUnitTestCase
     {
         super.setUp();
         
-        LOGGER.info("ãƒ†ã‚¹ãƒˆé–‹å§‹:" + getName());
+        LOGGER.info("ƒeƒXƒgŠJn:" + getName());
         initConnection();
     }
 
@@ -82,9 +82,9 @@ public abstract class AbstractDBTest extends DJUnitTestCase
         }
         catch (IOException ex)
         {
-            LOGGER.info("DBã®å‰Šé™¤ã«å¤±æ•—ã—ã¾ã—ãŸã€‚" + getName());
+            LOGGER.info("DB‚Ìíœ‚É¸”s‚µ‚Ü‚µ‚½B" + getName());
         }
-        LOGGER.info("ãƒ†ã‚¹ãƒˆçµ‚äº†:" + getName());
+        LOGGER.info("ƒeƒXƒgI—¹:" + getName());
     }
 
     protected void initConnection()
@@ -97,7 +97,7 @@ public abstract class AbstractDBTest extends DJUnitTestCase
         {
             if (tempDir.mkdir() == false)
             {
-                fail("ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®ä½œæˆã«å¤±æ•—ã—ã¾ã—ãŸ. ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªå:" + tempDir.getAbsolutePath());
+                fail("ƒfƒBƒŒƒNƒgƒŠ‚Ìì¬‚É¸”s‚µ‚Ü‚µ‚½. ƒfƒBƒŒƒNƒgƒŠ–¼:" + tempDir.getAbsolutePath());
             }
         }
         connectionManager.setBaseDir(BASE_DIR);
@@ -114,9 +114,9 @@ public abstract class AbstractDBTest extends DJUnitTestCase
     }
 
     /**
-     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å‰Šé™¤ã—ã¾ã™ã€‚<br />
+     * ƒf[ƒ^ƒx[ƒXƒtƒ@ƒCƒ‹‚ğíœ‚µ‚Ü‚·B<br />
      * 
-     * @throws IOException ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å‰Šé™¤ã§ããªã„å ´åˆ
+     * @throws IOException ƒtƒ@ƒCƒ‹‚ğíœ‚Å‚«‚È‚¢ê‡
      */
     protected void deleteDB()
         throws IOException
@@ -131,9 +131,9 @@ public abstract class AbstractDBTest extends DJUnitTestCase
     }
 
     /**
-     * ãƒ†ã‚¹ãƒˆã§ä½¿ç”¨ã™ã‚‹ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * ƒeƒXƒg‚Åg—p‚·‚éƒf[ƒ^ƒx[ƒXƒRƒlƒNƒVƒ‡ƒ“‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³
+     * @return ƒRƒlƒNƒVƒ‡ƒ“
      * @throws SQLException
      */
     protected Connection getConnection()

@@ -37,7 +37,7 @@ import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 /**
- * ZIP ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ç”Ÿæˆã™ã‚‹ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+ * ZIP ƒtƒ@ƒCƒ‹‚ğ¶¬‚·‚éƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒX‚Å‚·B<br />
  * 
  * @author y-komori
  */
@@ -50,14 +50,14 @@ public class ZipUtil
     }
 
     /**
-     * ZIP åœ§ç¸®ã•ã‚ŒãŸãƒã‚¤ãƒˆé…åˆ—ã‚’èª­ã¿è¾¼ã‚€ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‹ã‚‰å†…å®¹ã‚’èª­ã¿è¾¼ã‚€ãŸã‚ã®
-     * å…¥åŠ›ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚’è¿”ã—ã¾ã™ã€‚<br />
-     * æœ¬ãƒ¡ã‚½ãƒƒãƒ‰ã§ã¯æœ€åˆã«æ ¼ç´ã•ã‚ŒãŸ ZIP ã‚¨ãƒ³ãƒˆãƒªã®ã¿ã‚’å±•é–‹å¯¾è±¡ã¨ã—ã¾ã™ã€‚<br />
-     * æœ¬ãƒ¡ã‚½ãƒƒãƒ‰ã«ã‚ˆã£ã¦è¿”ã•ã‚ŒãŸã‚¹ãƒˆãƒªãƒ¼ãƒ ã¯å‘¼ã³å‡ºã—å´ã§ã‚¯ãƒ­ãƒ¼ã‚ºã—ã¦ãã ã•ã„ã€‚<br />
+     * ZIP ˆ³k‚³‚ê‚½ƒoƒCƒg”z—ñ‚ğ“Ç‚İ‚ŞƒXƒgƒŠ[ƒ€‚©‚ç“à—e‚ğ“Ç‚İ‚Ş‚½‚ß‚Ì
+     * “ü—ÍƒXƒgƒŠ[ƒ€‚ğ•Ô‚µ‚Ü‚·B<br />
+     * –{ƒƒ\ƒbƒh‚Å‚ÍÅ‰‚ÉŠi”[‚³‚ê‚½ ZIP ƒGƒ“ƒgƒŠ‚Ì‚İ‚ğ“WŠJ‘ÎÛ‚Æ‚µ‚Ü‚·B<br />
+     * –{ƒƒ\ƒbƒh‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½ƒXƒgƒŠ[ƒ€‚ÍŒÄ‚Ño‚µ‘¤‚ÅƒNƒ[ƒY‚µ‚Ä‚­‚¾‚³‚¢B<br />
      * 
-     * @param is ãƒã‚¤ãƒˆé…åˆ—ã‚’èª­ã¿è¾¼ã‚€ãŸã‚ã®ã‚¹ãƒˆãƒªãƒ¼ãƒ 
-     * @return ZIP å±•é–‹çµæœã‚’èª­ã¿è¾¼ã‚€ãŸã‚ã®ã‚¹ãƒˆãƒªãƒ¼ãƒ 
-     * @throws IOException å…¥å‡ºåŠ›ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @param is ƒoƒCƒg”z—ñ‚ğ“Ç‚İ‚Ş‚½‚ß‚ÌƒXƒgƒŠ[ƒ€
+     * @return ZIP “WŠJŒ‹‰Ê‚ğ“Ç‚İ‚Ş‚½‚ß‚ÌƒXƒgƒŠ[ƒ€
+     * @throws IOException “üo—ÍƒGƒ‰[‚ª”­¶‚µ‚½ê‡
      */
     public static InputStream unzipFromByteArray(final InputStream is)
         throws IOException
@@ -80,12 +80,12 @@ public class ZipUtil
     }
 
     /**
-     * å…¥åŠ›ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‹ã‚‰èª­ã¿è¾¼ã‚“ã ãƒã‚¤ãƒˆåˆ—ã‚’ ZIP åœ§ç¸®ã—ã¦ãƒ•ã‚¡ã‚¤ãƒ«ã«å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+     * “ü—ÍƒXƒgƒŠ[ƒ€‚©‚ç“Ç‚İ‚ñ‚¾ƒoƒCƒg—ñ‚ğ ZIP ˆ³k‚µ‚Äƒtƒ@ƒCƒ‹‚Éo—Í‚µ‚Ü‚·B<br />
      * 
-     * @param zipFile ZIPå‡ºåŠ›ãƒ•ã‚¡ã‚¤ãƒ«å
-     * @param in å…¥åŠ›ã‚¹ãƒˆãƒªãƒ¼ãƒ 
-     * @param entryPath ã‚¨ãƒ³ãƒˆãƒªãƒ‘ã‚¹
-     * @throws IOException å…¥å‡ºåŠ›ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @param zipFile ZIPo—Íƒtƒ@ƒCƒ‹–¼
+     * @param in “ü—ÍƒXƒgƒŠ[ƒ€
+     * @param entryPath ƒGƒ“ƒgƒŠƒpƒX
+     * @throws IOException “üo—ÍƒGƒ‰[‚ª”­¶‚µ‚½ê‡
      */
     public static void createZip(final String zipFile, final InputStream in, final String entryPath)
         throws IOException
@@ -94,12 +94,12 @@ public class ZipUtil
     }
 
     /**
-     * å…¥åŠ›ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‹ã‚‰èª­ã¿è¾¼ã‚“ã ãƒã‚¤ãƒˆåˆ—ã‚’ ZIP åœ§ç¸®ã—ã¦ã‚¹ãƒˆãƒªãƒ¼ãƒ ã¸å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+     * “ü—ÍƒXƒgƒŠ[ƒ€‚©‚ç“Ç‚İ‚ñ‚¾ƒoƒCƒg—ñ‚ğ ZIP ˆ³k‚µ‚ÄƒXƒgƒŠ[ƒ€‚Öo—Í‚µ‚Ü‚·B<br />
      * 
-     * @param out å‡ºåŠ›ã‚¹ãƒˆãƒªãƒ¼ãƒ 
-     * @param in å…¥åŠ›ã‚¹ãƒˆãƒªãƒ¼ãƒ 
-     * @param entryPath ã‚¨ãƒ³ãƒˆãƒªãƒ‘ã‚¹
-     * @throws IOException å…¥å‡ºåŠ›ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @param out o—ÍƒXƒgƒŠ[ƒ€
+     * @param in “ü—ÍƒXƒgƒŠ[ƒ€
+     * @param entryPath ƒGƒ“ƒgƒŠƒpƒX
+     * @throws IOException “üo—ÍƒGƒ‰[‚ª”­¶‚µ‚½ê‡
      */
     public static void createZip(final OutputStream out, final InputStream in,
             final String entryPath)
@@ -111,11 +111,11 @@ public class ZipUtil
     }
 
     /**
-     * å¼•æ•°ã§ä¸ãˆã‚‰ã‚ŒãŸãƒ•ã‚¡ã‚¤ãƒ«ç¾¤ã‚’ ZIP åœ§ç¸®ã—ã¦ãƒ•ã‚¡ã‚¤ãƒ«ã«å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+     * ˆø”‚Å—^‚¦‚ç‚ê‚½ƒtƒ@ƒCƒ‹ŒQ‚ğ ZIP ˆ³k‚µ‚Äƒtƒ@ƒCƒ‹‚Éo—Í‚µ‚Ü‚·B<br />
      * 
-     * @param zipFile ZIPå‡ºåŠ›ãƒ•ã‚¡ã‚¤ãƒ«å
-     * @param targetFiles å…¥åŠ›ãƒ•ã‚¡ã‚¤ãƒ«(ã¾ãŸã¯ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª)é…åˆ—
-     * @throws IOException å…¥å‡ºåŠ›ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @param zipFile ZIPo—Íƒtƒ@ƒCƒ‹–¼
+     * @param targetFiles “ü—Íƒtƒ@ƒCƒ‹(‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ)”z—ñ
+     * @throws IOException “üo—ÍƒGƒ‰[‚ª”­¶‚µ‚½ê‡
      */
     public static void createZip(final String zipFile, final File[] targetFiles)
         throws IOException
@@ -133,14 +133,14 @@ public class ZipUtil
     }
 
     /**
-     * ãƒ•ã‚¡ã‚¤ãƒ«ã¾ãŸã¯ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’ {@link ZipOutputStream} ã®ã‚¨ãƒ³ãƒˆãƒªã¸å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+     * ƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚ğ {@link ZipOutputStream} ‚ÌƒGƒ“ƒgƒŠ‚Öo—Í‚µ‚Ü‚·B<br />
      * 
-     * ã‚¨ãƒ³ãƒˆãƒªã®ãƒ‘ã‚¹ã¯ã€ãƒ™ãƒ¼ã‚¹ãƒ‘ã‚¹ã‹ã‚‰ã®ç›¸å¯¾ãƒ‘ã‚¹ã«ãªã‚Šã¾ã™ã€‚<br />
+     * ƒGƒ“ƒgƒŠ‚ÌƒpƒX‚ÍAƒx[ƒXƒpƒX‚©‚ç‚Ì‘Š‘ÎƒpƒX‚É‚È‚è‚Ü‚·B<br />
      * 
-     * @param out ZIPå‡ºåŠ›å…ˆã‚¹ãƒˆãƒªãƒ¼ãƒ 
-     * @param targetFile å…¥åŠ›ãƒ•ã‚¡ã‚¤ãƒ«(ã¾ãŸã¯ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª)
-     * @param basePath ãƒ™ãƒ¼ã‚¹ãƒ‘ã‚¹
-     * @throws IOException å…¥å‡ºåŠ›ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @param out ZIPo—ÍæƒXƒgƒŠ[ƒ€
+     * @param targetFile “ü—Íƒtƒ@ƒCƒ‹(‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ)
+     * @param basePath ƒx[ƒXƒpƒX
+     * @throws IOException “üo—ÍƒGƒ‰[‚ª”­¶‚µ‚½ê‡
      */
     public static void createZip(final ZipOutputStream out, final File targetFile,
             final String basePath)
@@ -164,12 +164,12 @@ public class ZipUtil
     }
 
     /**
-     * å…¥åŠ›ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‹ã‚‰èª­ã¿è¾¼ã‚“ã ãƒã‚¤ãƒˆåˆ—ã‚’ {@link ZipOutputStream} ã®ã‚¨ãƒ³ãƒˆãƒªã¸å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+     * “ü—ÍƒXƒgƒŠ[ƒ€‚©‚ç“Ç‚İ‚ñ‚¾ƒoƒCƒg—ñ‚ğ {@link ZipOutputStream} ‚ÌƒGƒ“ƒgƒŠ‚Öo—Í‚µ‚Ü‚·B<br />
      * 
-     * @param out ZIPå‡ºåŠ›å…ˆã‚¹ãƒˆãƒªãƒ¼ãƒ 
-     * @param in å…¥åŠ›ã‚¹ãƒˆãƒªãƒ¼ãƒ 
-     * @param entryPath ã‚¨ãƒ³ãƒˆãƒªãƒ‘ã‚¹
-     * @throws IOException å…¥å‡ºåŠ›ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @param out ZIPo—ÍæƒXƒgƒŠ[ƒ€
+     * @param in “ü—ÍƒXƒgƒŠ[ƒ€
+     * @param entryPath ƒGƒ“ƒgƒŠƒpƒX
+     * @throws IOException “üo—ÍƒGƒ‰[‚ª”­¶‚µ‚½ê‡
      */
     public static void createZip(final ZipOutputStream out, final InputStream in,
             final String entryPath)

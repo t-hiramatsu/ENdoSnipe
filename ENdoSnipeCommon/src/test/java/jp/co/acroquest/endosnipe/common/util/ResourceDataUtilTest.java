@@ -33,18 +33,18 @@ import jp.co.acroquest.endosnipe.common.entity.ResourceData;
 import junit.framework.TestCase;
 
 /**
- * ResourceDataUtilã®ãƒ†ã‚¹ãƒˆã‚³ãƒ¼ãƒ‰ã€‚<br>
+ * ResourceDataUtil‚ÌƒeƒXƒgƒR[ƒhB<br>
  * 
  * @author iida
  */
 public class ResourceDataUtilTest extends TestCase
 {
     /**
-     * æŒ‡å®šã•ã‚ŒãŸå€¤ã¨åå‰ã‚’æŒã¤MeasurementDetailã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br>
+     * w’è‚³‚ê‚½’l‚Æ–¼‘O‚ğ‚ÂMeasurementDetailƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‚Ü‚·B<br>
      * 
-     * @param value å€¤
-     * @param ame åå‰
-     * @return MeasurementDetailã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param value ’l
+     * @param ame –¼‘O
+     * @return MeasurementDetailƒIƒuƒWƒFƒNƒg
      */
     private MeasurementDetail createMeasurementDetail(final long value, final String name)
     {
@@ -57,12 +57,12 @@ public class ResourceDataUtilTest extends TestCase
     }
 
     /**
-     * æŒ‡å®šã•ã‚ŒãŸã‚¿ã‚¤ãƒ—ã¨åå‰ã¨æ™‚åˆ»ã‚’æŒã¤MeasurementDataã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br>
+     * w’è‚³‚ê‚½ƒ^ƒCƒv‚Æ–¼‘O‚Æ‚ğ‚ÂMeasurementDataƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‚Ü‚·B<br>
      * 
-     * @param type ã‚¿ã‚¤ãƒ—
-     * @param name åå‰
-     * @param time æ™‚åˆ»
-     * @return MeasurementDataã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param type ƒ^ƒCƒv
+     * @param name –¼‘O
+     * @param time 
+     * @return MeasurementDataƒIƒuƒWƒFƒNƒg
      */
     private MeasurementData createMeasurementData(final int type, final String name, final long time)
     {
@@ -75,10 +75,10 @@ public class ResourceDataUtilTest extends TestCase
     }
 
     /**
-     * æŒ‡å®šã•ã‚ŒãŸæ™‚åˆ»ã‚’æŒã¤ResourceDataã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br>
+     * w’è‚³‚ê‚½‚ğ‚ÂResourceDataƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‚Ü‚·B<br>
      * 
-     * @param time æ™‚åˆ»
-     * @return ResourceDataã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param time 
+     * @return ResourceDataƒIƒuƒWƒFƒNƒg
      */
     private ResourceData createResourceData(final long time)
     {
@@ -91,7 +91,7 @@ public class ResourceDataUtilTest extends TestCase
     }
 
     /**
-     * æ–°ãŸãªãƒ‡ãƒ¼ã‚¿ãŒè¿½åŠ ã•ã‚Œã¦ã„ãªã„å ´åˆã€‚<br>
+     * V‚½‚Èƒf[ƒ^‚ª’Ç‰Á‚³‚ê‚Ä‚¢‚È‚¢ê‡B<br>
      */
     public void testCreateAdditionalPreviousData_SameData()
     {
@@ -99,14 +99,14 @@ public class ResourceDataUtilTest extends TestCase
         MeasurementData data;
 
         ResourceData prevData = this.createResourceData(1274247510000L);
-        data = this.createMeasurementData(1, "é …ç›®1", 1274247510000L);
-        detail = this.createMeasurementDetail(100, "é …ç›®1");
+        data = this.createMeasurementData(1, "€–Ú1", 1274247510000L);
+        detail = this.createMeasurementDetail(100, "€–Ú1");
         data.addMeasurementDetail(detail);
         prevData.addMeasurementData(data);
 
         ResourceData currData = this.createResourceData(1274247515000L);
-        data = this.createMeasurementData(1, "é …ç›®1", 1274247515000L);
-        detail = this.createMeasurementDetail(100, "é …ç›®1");
+        data = this.createMeasurementData(1, "€–Ú1", 1274247515000L);
+        detail = this.createMeasurementDetail(100, "€–Ú1");
         data.addMeasurementDetail(detail);
         currData.addMeasurementData(data);
 
@@ -120,7 +120,7 @@ public class ResourceDataUtilTest extends TestCase
     }
 
     /**
-     * æ–°ãŸãªMeasurementDetailãŒ1ã¤è¿½åŠ ã•ã‚ŒãŸå ´åˆã€‚<br>
+     * V‚½‚ÈMeasurementDetail‚ª1‚Â’Ç‰Á‚³‚ê‚½ê‡B<br>
      */
     public void testCreateAdditionalPreviousData_MeasurementDetailAdded()
     {
@@ -128,29 +128,29 @@ public class ResourceDataUtilTest extends TestCase
         MeasurementData data;
 
         ResourceData prevData = this.createResourceData(1274247510000L);
-        data = this.createMeasurementData(1, "é …ç›®1", 1274247510000L);
-        detail = this.createMeasurementDetail(100, "é …ç›®1");
+        data = this.createMeasurementData(1, "€–Ú1", 1274247510000L);
+        detail = this.createMeasurementDetail(100, "€–Ú1");
         data.addMeasurementDetail(detail);
         prevData.addMeasurementData(data);
 
         ResourceData currData = this.createResourceData(1274247515000L);
-        data = this.createMeasurementData(1, "é …ç›®1", 1274247515000L);
-        detail = this.createMeasurementDetail(100, "é …ç›®1");
+        data = this.createMeasurementData(1, "€–Ú1", 1274247515000L);
+        detail = this.createMeasurementDetail(100, "€–Ú1");
         data.addMeasurementDetail(detail);
-        detail = this.createMeasurementDetail(200, "é …ç›®2");
+        detail = this.createMeasurementDetail(200, "€–Ú2");
         data.addMeasurementDetail(detail);
         currData.addMeasurementData(data);
 
         ResourceData additionalData =
                 ResourceDataUtil.createAdditionalPreviousData(prevData, currData);
-        data = additionalData.getMeasurementMap().get("é …ç›®1");
-        detail = data.getMeasurementDetailMap().get("é …ç›®2");
+        data = additionalData.getMeasurementMap().get("€–Ú1");
+        detail = data.getMeasurementDetailMap().get("€–Ú2");
 
         assertNotNull(detail);
     }
 
     /**
-     * æ–°ãŸãªMeasurementDataãŒ1ã¤è¿½åŠ ã•ã‚ŒãŸå ´åˆã€‚<br>
+     * V‚½‚ÈMeasurementData‚ª1‚Â’Ç‰Á‚³‚ê‚½ê‡B<br>
      */
     public void testCreateAdditionalPreviousData_MeasurementDataAdded()
     {
@@ -158,33 +158,33 @@ public class ResourceDataUtilTest extends TestCase
         MeasurementData data;
 
         ResourceData prevData = this.createResourceData(1274247510000L);
-        data = this.createMeasurementData(1, "é …ç›®1", 1274247510000L);
-        detail = this.createMeasurementDetail(100, "é …ç›®1");
+        data = this.createMeasurementData(1, "€–Ú1", 1274247510000L);
+        detail = this.createMeasurementDetail(100, "€–Ú1");
         data.addMeasurementDetail(detail);
         prevData.addMeasurementData(data);
 
         ResourceData currData = this.createResourceData(1274247515000L);
 
-        data = this.createMeasurementData(1, "é …ç›®1", 1274247515000L);
-        detail = this.createMeasurementDetail(100, "é …ç›®1");
+        data = this.createMeasurementData(1, "€–Ú1", 1274247515000L);
+        detail = this.createMeasurementDetail(100, "€–Ú1");
         data.addMeasurementDetail(detail);
         currData.addMeasurementData(data);
 
-        data = this.createMeasurementData(2, "é …ç›®2", 1274247515000L);
-        detail = this.createMeasurementDetail(200, "é …ç›®2");
+        data = this.createMeasurementData(2, "€–Ú2", 1274247515000L);
+        detail = this.createMeasurementDetail(200, "€–Ú2");
         data.addMeasurementDetail(detail);
         currData.addMeasurementData(data);
 
         ResourceData additionalData =
                 ResourceDataUtil.createAdditionalPreviousData(prevData, currData);
-        data = additionalData.getMeasurementMap().get("é …ç›®2");
-        detail = data.getMeasurementDetailMap().get("é …ç›®2");
+        data = additionalData.getMeasurementMap().get("€–Ú2");
+        detail = data.getMeasurementDetailMap().get("€–Ú2");
 
         assertNotNull(detail);
     }
 
     /**
-     * æ–°ãŸãªMeasurementDetailãŒ2ã¤è¿½åŠ ã•ã‚ŒãŸå ´åˆã€‚<br>
+     * V‚½‚ÈMeasurementDetail‚ª2‚Â’Ç‰Á‚³‚ê‚½ê‡B<br>
      */
     public void testCreateAdditionalPreviousData_TwoMeasurementDetailAdded()
     {
@@ -192,34 +192,34 @@ public class ResourceDataUtilTest extends TestCase
         MeasurementData data;
 
         ResourceData prevData = this.createResourceData(1274247510000L);
-        data = this.createMeasurementData(1, "é …ç›®1", 1274247510000L);
-        detail = this.createMeasurementDetail(100, "é …ç›®1");
+        data = this.createMeasurementData(1, "€–Ú1", 1274247510000L);
+        detail = this.createMeasurementDetail(100, "€–Ú1");
         data.addMeasurementDetail(detail);
         prevData.addMeasurementData(data);
 
         ResourceData currData = this.createResourceData(1274247515000L);
 
-        data = this.createMeasurementData(1, "é …ç›®1", 1274247515000L);
-        detail = this.createMeasurementDetail(100, "é …ç›®1");
+        data = this.createMeasurementData(1, "€–Ú1", 1274247515000L);
+        detail = this.createMeasurementDetail(100, "€–Ú1");
         data.addMeasurementDetail(detail);
-        detail = this.createMeasurementDetail(200, "é …ç›®2");
+        detail = this.createMeasurementDetail(200, "€–Ú2");
         data.addMeasurementDetail(detail);
-        detail = this.createMeasurementDetail(300, "é …ç›®3");
+        detail = this.createMeasurementDetail(300, "€–Ú3");
         data.addMeasurementDetail(detail);
         currData.addMeasurementData(data);
 
         ResourceData additionalData =
                 ResourceDataUtil.createAdditionalPreviousData(prevData, currData);
-        data = additionalData.getMeasurementMap().get("é …ç›®1");
-        MeasurementDetail detail2 = data.getMeasurementDetailMap().get("é …ç›®2");
-        MeasurementDetail detail3 = data.getMeasurementDetailMap().get("é …ç›®3");
+        data = additionalData.getMeasurementMap().get("€–Ú1");
+        MeasurementDetail detail2 = data.getMeasurementDetailMap().get("€–Ú2");
+        MeasurementDetail detail3 = data.getMeasurementDetailMap().get("€–Ú3");
 
         assertTrue((detail2 != null) &&
                    (detail3 != null));
     }
 
     /**
-     * ã‚·ãƒ³ã‚°ãƒ«ã‚³ã‚¢ã®CPUã§ã€CPUä½¿ç”¨ç‡ãŒ100ã‚’è¶…ãˆã‚‹å ´åˆã®ã€CPUä½¿ç”¨ç‡ã®è¨ˆç®—çµæœç¢ºèªã€‚ (#2006)<br>
+     * ƒVƒ“ƒOƒ‹ƒRƒA‚ÌCPU‚ÅACPUg—p—¦‚ª100‚ğ’´‚¦‚éê‡‚ÌACPUg—p—¦‚ÌŒvZŒ‹‰ÊŠm”FB (#2006)<br>
      */
     public void testCalcCPUUsage_SingleCore_Over100Percent()
     {
@@ -228,7 +228,7 @@ public class ResourceDataUtilTest extends TestCase
     }
 
     /**
-     * ãƒ‡ãƒ¥ã‚¢ãƒ«ã‚³ã‚¢ã®CPUã§ã€CPUä½¿ç”¨ç‡ãŒ100ã‚’è¶…ãˆã‚‹å ´åˆã®ã€CPUä½¿ç”¨ç‡ã®è¨ˆç®—çµæœç¢ºèªã€‚ (#2006)<br>
+     * ƒfƒ…ƒAƒ‹ƒRƒA‚ÌCPU‚ÅACPUg—p—¦‚ª100‚ğ’´‚¦‚éê‡‚ÌACPUg—p—¦‚ÌŒvZŒ‹‰ÊŠm”FB (#2006)<br>
      */
     public void testCalcCPUUsage_DualCore_Over100Percent()
     {

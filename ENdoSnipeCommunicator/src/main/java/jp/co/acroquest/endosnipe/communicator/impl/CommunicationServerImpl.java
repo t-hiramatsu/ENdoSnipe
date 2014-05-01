@@ -44,51 +44,51 @@ import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.communicator.impl.JavelinClientThread.JavelinClientThreadListener;
 
 /**
- * é€šä¿¡éƒ¨åˆ†ã®ã‚µãƒ¼ãƒå´ã®å®Ÿè£…ã€‚
+ * ’ÊM•”•ª‚ÌƒT[ƒo‘¤‚ÌÀ‘•B
  *
  * @author eriguchi
  */
 public class CommunicationServerImpl implements Runnable, CommunicationServer, TelegramConstants
 {
-    /** ãƒ­ã‚¬ãƒ¼ã‚¯ãƒ©ã‚¹ */
+    /** ƒƒK[ƒNƒ‰ƒX */
     private static final ENdoSnipeLogger LOGGER =
             ENdoSnipeLogger.getLogger(CommunicationServerImpl.class);
 
 
     private static final int MAX_SOCKET = 1000;
 
-    /** ãƒãƒ¼ãƒˆç•ªå·ã®æœ€å¤§å€¤ */
+    /** ƒ|[ƒg”Ô†‚ÌÅ‘å’l */
     private static final int MAX_PORT = 65535;
     
-    /** ã‚µãƒ¼ãƒã‚½ã‚±ãƒƒãƒˆ */
+    /** ƒT[ƒoƒ\ƒPƒbƒg */
     ServerSocket objServerSocket_ = null;
 
 
-    /** ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã®ãƒªã‚¹ãƒˆ */
+    /** ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒŠƒXƒg */
     protected List<JavelinClientThread> clientList_ = new ArrayList<JavelinClientThread>();
 
-    /** ã‚¹ãƒ¬ãƒƒãƒ‰å‡¦ç†ä¸­ã‹ã©ã†ã‹ã‚’è¡¨ã™ãƒ•ãƒ©ã‚° */
+    /** ƒXƒŒƒbƒhˆ—’†‚©‚Ç‚¤‚©‚ğ•\‚·ƒtƒ‰ƒO */
     boolean isRunning_ = false;
 
-    /** é€šä¿¡ä¸­ã‹ã‚’è¡¨ã™ãƒ•ãƒ©ã‚° */
+    /** ’ÊM’†‚©‚ğ•\‚·ƒtƒ‰ƒO */
     private boolean isListening_ = false;
 
-    /** Javelinã¨é€šä¿¡ã‚’è¡Œã†ãƒãƒ¼ãƒˆ */
+    /** Javelin‚Æ’ÊM‚ğs‚¤ƒ|[ƒg */
     private int port_;
 
-    /** Javelinã¨é€šä¿¡ã‚’è¡Œã†åˆæœŸãƒãƒ¼ãƒˆç•ªå· */
+    /** Javelin‚Æ’ÊM‚ğs‚¤‰Šúƒ|[ƒg”Ô† */
     private int startPort_;
     
-    /** é€šä¿¡ç”¨ã‚¹ãƒ¬ãƒƒãƒ‰å */
+    /** ’ÊM—pƒXƒŒƒbƒh–¼ */
     private String acceptThreadName_ = "JavelinAcceptThread";
 
-    /** é€šä¿¡ç”¨ã‚¹ãƒ¬ãƒƒãƒ‰ */
+    /** ’ÊM—pƒXƒŒƒbƒh */
     private Thread acceptThread_;
 
-    /** é€šä¿¡ã«ä½¿ç”¨ã™ã‚‹ãƒãƒ¼ãƒˆã‚’ç¯„å›²æŒ‡å®šã™ã‚‹ã‹ã€ã®ãƒ•ãƒ©ã‚° */
+    /** ’ÊM‚Ég—p‚·‚éƒ|[ƒg‚ğ”ÍˆÍw’è‚·‚é‚©A‚Ìƒtƒ‰ƒO */
     private boolean isRange_ = false;
 
-    /** é€šä¿¡ã«ä½¿ç”¨ã™ã‚‹ãƒãƒ¼ãƒˆã‚’ç¯„å›²æŒ‡å®šã™ã‚‹éš›ã®æœ€å¤§å€¤ */
+    /** ’ÊM‚Ég—p‚·‚éƒ|[ƒg‚ğ”ÍˆÍw’è‚·‚éÛ‚ÌÅ‘å’l */
     private int rangeMax_;
 
     private long waitForThreadStart_;
@@ -99,10 +99,10 @@ public class CommunicationServerImpl implements Runnable, CommunicationServer, T
     
     private String[] listeners_;
     
-    /** CommunicationServerã®çŠ¶æ…‹å¤‰åŒ–ã‚’é€šçŸ¥ã™ã‚‹ãƒªã‚¹ãƒŠã®ãƒªã‚¹ãƒˆ */
+    /** CommunicationServer‚Ìó‘Ô•Ï‰»‚ğ’Ê’m‚·‚éƒŠƒXƒi‚ÌƒŠƒXƒg */
     private final List<CommunicatorListener> listenerList_;
 
-    /** Javelinã‹ã©ã†ã‹ */
+    /** Javelin‚©‚Ç‚¤‚© */
     protected boolean isJavelin_ = false;
 
     /**
@@ -123,13 +123,13 @@ public class CommunicationServerImpl implements Runnable, CommunicationServer, T
 
     
     /**
-     * ã‚µãƒ¼ãƒã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆã—ã¾ã™ã€‚
+     * ƒT[ƒoƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬‚µ‚Ü‚·B
      *
-     * @param isRange æ¥ç¶šãƒãƒ¼ãƒˆã«ç¯„å›²æŒ‡å®šã‚’åˆ©ç”¨ã™ã‚‹å ´åˆã¯ <code>true</code>
-     * @param rangeMax æ¥ç¶šãƒãƒ¼ãƒˆã«ç¯„å›²æŒ‡å®šã‚’åˆ©ç”¨ã™ã‚‹å ´åˆã®ç¯„å›²ã®æœ€å¤§å€¤
-     * @param waitForThreadStart ã‚¹ãƒ¬ãƒƒãƒ‰é–‹å§‹ã¾ã§ã®å¾…ã¡æ™‚é–“ï¼ˆãƒŸãƒªç§’ï¼‰
-     * @param bindInterval ãƒãƒ¼ãƒˆã‚ªãƒ¼ãƒ—ãƒ³ã®è©¦è¡Œé–“éš”ï¼ˆç§’ï¼‰
-     * @param listeners åˆ©ç”¨ã™ã‚‹TelegramListenerå
+     * @param isRange Ú‘±ƒ|[ƒg‚É”ÍˆÍw’è‚ğ—˜—p‚·‚éê‡‚Í <code>true</code>
+     * @param rangeMax Ú‘±ƒ|[ƒg‚É”ÍˆÍw’è‚ğ—˜—p‚·‚éê‡‚Ì”ÍˆÍ‚ÌÅ‘å’l
+     * @param waitForThreadStart ƒXƒŒƒbƒhŠJn‚Ü‚Å‚Ì‘Ò‚¿ŠÔiƒ~ƒŠ•bj
+     * @param bindInterval ƒ|[ƒgƒI[ƒvƒ“‚ÌsŠÔŠui•bj
+     * @param listeners —˜—p‚·‚éTelegramListener–¼
      */
     public CommunicationServerImpl(boolean isRange, int rangeMax, long waitForThreadStart,
             int bindInterval, String[] listeners)
@@ -144,14 +144,14 @@ public class CommunicationServerImpl implements Runnable, CommunicationServer, T
 
     
     /**
-     * ã‚µãƒ¼ãƒã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆã—ã¾ã™ã€‚
+     * ƒT[ƒoƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬‚µ‚Ü‚·B
      *
-     * @param isRange æ¥ç¶šãƒãƒ¼ãƒˆã«ç¯„å›²æŒ‡å®šã‚’åˆ©ç”¨ã™ã‚‹å ´åˆã¯ <code>true</code>
-     * @param rangeMax æ¥ç¶šãƒãƒ¼ãƒˆã«ç¯„å›²æŒ‡å®šã‚’åˆ©ç”¨ã™ã‚‹å ´åˆã®ç¯„å›²ã®æœ€å¤§å€¤
-     * @param waitForThreadStart ã‚¹ãƒ¬ãƒƒãƒ‰é–‹å§‹ã¾ã§ã®å¾…ã¡æ™‚é–“ï¼ˆãƒŸãƒªç§’ï¼‰
-     * @param bindInterval ãƒãƒ¼ãƒˆã‚ªãƒ¼ãƒ—ãƒ³ã®è©¦è¡Œé–“éš”ï¼ˆç§’ï¼‰
-     * @param listeners åˆ©ç”¨ã™ã‚‹TelegramListenerå
-     * @param threadName é€šä¿¡ç”¨ã‚¹ãƒ¬ãƒƒãƒ‰å
+     * @param isRange Ú‘±ƒ|[ƒg‚É”ÍˆÍw’è‚ğ—˜—p‚·‚éê‡‚Í <code>true</code>
+     * @param rangeMax Ú‘±ƒ|[ƒg‚É”ÍˆÍw’è‚ğ—˜—p‚·‚éê‡‚Ì”ÍˆÍ‚ÌÅ‘å’l
+     * @param waitForThreadStart ƒXƒŒƒbƒhŠJn‚Ü‚Å‚Ì‘Ò‚¿ŠÔiƒ~ƒŠ•bj
+     * @param bindInterval ƒ|[ƒgƒI[ƒvƒ“‚ÌsŠÔŠui•bj
+     * @param listeners —˜—p‚·‚éTelegramListener–¼
+     * @param threadName ’ÊM—pƒXƒŒƒbƒh–¼
      */
     public CommunicationServerImpl(boolean isRange, int rangeMax, long waitForThreadStart,
             int bindInterval, String[] listeners, String threadName)
@@ -173,7 +173,7 @@ public class CommunicationServerImpl implements Runnable, CommunicationServer, T
      */
     public void init()
     {
-        // ä½•ã‚‚ã—ãªã„ã€‚
+        // ‰½‚à‚µ‚È‚¢B
     }
 
     /**
@@ -209,7 +209,7 @@ public class CommunicationServerImpl implements Runnable, CommunicationServer, T
             }
         }
 
-        // ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆæ¥ç¶šã®å—ä»˜ã‚’é–‹å§‹ã™ã‚‹ã€‚
+        // ƒNƒ‰ƒCƒAƒ“ƒgÚ‘±‚Ìó•t‚ğŠJn‚·‚éB
         try
         {
             this.acceptThread_ = new Thread(this, acceptThreadName_);
@@ -234,7 +234,7 @@ public class CommunicationServerImpl implements Runnable, CommunicationServer, T
         {
             try
             {
-                //ã€€é€šä¿¡ç”¨ãƒãƒ¼ãƒˆBindå¾…ã¡çŠ¶æ…‹ã®ãŸã‚ã«ã€å‰²ã‚Šè¾¼ã¿ã‚’è¡Œã†
+                //@’ÊM—pƒ|[ƒgBind‘Ò‚¿ó‘Ô‚Ì‚½‚ß‚ÉAŠ„‚è‚İ‚ğs‚¤
                 Thread acceptThread = this.acceptThread_;
                 if(acceptThread != null)
                 {
@@ -249,8 +249,8 @@ public class CommunicationServerImpl implements Runnable, CommunicationServer, T
         
         if (this.isListening_)
         {
-            // å¾…ã¡å—ã‘ã‚½ã‚±ãƒƒãƒˆã‚’é–‰ã˜ã‚‹ã“ã¨ã«ã‚ˆã‚Šã€accept()ã§SocketExceptionãŒ
-            // ç™ºç”Ÿã—ã€å¾…ã¡å—ã‘ã‚¹ãƒ¬ãƒƒãƒ‰ãŒåœæ­¢ã™ã‚‹ã€‚
+            // ‘Ò‚¿ó‚¯ƒ\ƒPƒbƒg‚ğ•Â‚¶‚é‚±‚Æ‚É‚æ‚èAaccept()‚ÅSocketException‚ª
+            // ”­¶‚µA‘Ò‚¿ó‚¯ƒXƒŒƒbƒh‚ª’â~‚·‚éB
             if (this.objServerSocket_ != null)
             {
                 try
@@ -276,9 +276,9 @@ public class CommunicationServerImpl implements Runnable, CommunicationServer, T
     }
     
     /**
-     * ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã«Telegramã‚’é€ä¿¡ã™ã‚‹ã€‚
+     * ƒNƒ‰ƒCƒAƒ“ƒg‚ÉTelegram‚ğ‘—M‚·‚éB
      * 
-     * @param telegram é€ä¿¡ã™ã‚‹é›»æ–‡ã€‚
+     * @param telegram ‘—M‚·‚é“d•¶B
      */
     public void sendTelegram(Telegram telegram)
     {
@@ -340,7 +340,7 @@ public class CommunicationServerImpl implements Runnable, CommunicationServer, T
     }
 
     /**
-     * é€šä¿¡ç”¨ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’å®Ÿè¡Œã™ã‚‹ã€‚
+     * ’ÊM—pƒXƒŒƒbƒh‚ğÀs‚·‚éB
      */
     @SuppressWarnings("deprecation")
 	public void run()
@@ -380,8 +380,8 @@ public class CommunicationServerImpl implements Runnable, CommunicationServer, T
                 LOGGER.warn(message);
                 if (this.isRange_ == true)
                 {
-                    // ãƒãƒ¼ãƒˆç•ªå·ã‚’ï¼‘å¢—ã‚„ã—ã¦å†æ¥ç¶šã‚’è¡Œã†ã€‚
-                    // æ¥ç¶šç¯„å›²ã‚’è¶…ãˆãŸå ´åˆã«ã¯ã€javelin.bind.intervalã®é–“ã‚¹ãƒªãƒ¼ãƒ—ã—ãŸå¾Œã€å‡¦ç†ã‚’å†åº¦å®Ÿè¡Œã™ã‚‹ã€‚ 
+                    // ƒ|[ƒg”Ô†‚ğ‚P‘‚â‚µ‚ÄÄÚ‘±‚ğs‚¤B
+                    // Ú‘±”ÍˆÍ‚ğ’´‚¦‚½ê‡‚É‚ÍAjavelin.bind.interval‚ÌŠÔƒXƒŠ[ƒv‚µ‚½ŒãAˆ—‚ğÄ“xÀs‚·‚éB 
                     this.port_++;
                     if (this.port_ > this.rangeMax_)
                     {
@@ -451,12 +451,12 @@ public class CommunicationServerImpl implements Runnable, CommunicationServer, T
         String message = "";
         try
         {
-            // ãƒ¢ãƒ‹ã‚¿ãƒ¼
+            // ƒ‚ƒjƒ^[
             clientSocket = this.objServerSocket_.accept();
         }
         catch (SocketException se)
         {
-            // stop()ã§ã‚½ã‚±ãƒƒãƒˆã‚’é–‰ã˜ãŸå ´åˆã«SocketExceptionãŒç™ºç”Ÿã™ã‚‹ã€‚
+            // stop()‚Åƒ\ƒPƒbƒg‚ğ•Â‚¶‚½ê‡‚ÉSocketException‚ª”­¶‚·‚éB
             throw se;
         }
         catch (IOException ioe)
@@ -470,7 +470,7 @@ public class CommunicationServerImpl implements Runnable, CommunicationServer, T
         int clientCount = sweepClient();
         if (clientCount > MAX_SOCKET)
         {
-            LOGGER.info("æ¥ç¶šæ•°ãŒæœ€å¤§æ•°[" + MAX_SOCKET + "]ã‚’è¶…ãˆãŸãŸã‚ã€æ¥ç¶šã‚’æ‹’å¦ã—ã¾ã™ã€‚");
+            LOGGER.info("Ú‘±”‚ªÅ‘å”[" + MAX_SOCKET + "]‚ğ’´‚¦‚½‚½‚ßAÚ‘±‚ğ‹‘”Û‚µ‚Ü‚·B");
             try
             {
                 clientSocket.close();
@@ -489,7 +489,7 @@ public class CommunicationServerImpl implements Runnable, CommunicationServer, T
         message = CommunicatorMessages.getMessage(key, clientIP);
         LOGGER.info(message);
         
-        // ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‹ã‚‰ã®è¦æ±‚å—ä»˜ç”¨ã«ã€å‡¦ç†ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’èµ·å‹•ã™ã‚‹ã€‚
+        // ƒNƒ‰ƒCƒAƒ“ƒg‚©‚ç‚Ì—v‹ó•t—p‚ÉAˆ—ƒXƒŒƒbƒh‚ğ‹N“®‚·‚éB
         JavelinClientThread clientRunnable;
         try
         {
@@ -500,7 +500,7 @@ public class CommunicationServerImpl implements Runnable, CommunicationServer, T
             objHandleThread.setDaemon(true);
             objHandleThread.start();
 
-            // é€šçŸ¥ã®ãŸã‚ã®ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆãƒªã‚¹ãƒˆã«è¿½åŠ ã™ã‚‹ã€‚
+            // ’Ê’m‚Ì‚½‚ß‚ÌƒNƒ‰ƒCƒAƒ“ƒgƒŠƒXƒg‚É’Ç‰Á‚·‚éB
             synchronized (this.clientList_)
             {
                 this.clientList_.add(clientRunnable);
@@ -508,10 +508,10 @@ public class CommunicationServerImpl implements Runnable, CommunicationServer, T
         }
         catch (IOException ioe)
         {
-            LOGGER.warn("ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆé€šä¿¡ã‚¹ãƒ¬ãƒƒãƒ‰ã®ç”Ÿæˆã«å¤±æ•—ã—ã¾ã—ãŸã€‚", ioe);
+            LOGGER.warn("ƒNƒ‰ƒCƒAƒ“ƒg’ÊMƒXƒŒƒbƒh‚Ì¶¬‚É¸”s‚µ‚Ü‚µ‚½B", ioe);
         }
         
-        // æ¥ç¶šå®Œäº†ã‚’ãƒªã‚¹ãƒŠã«é€šçŸ¥
+        // Ú‘±Š®—¹‚ğƒŠƒXƒi‚É’Ê’m
         String hostName = clientIP.getHostName();
         String ip = clientIP.getHostAddress();
         int port = clientSocket.getPort();
@@ -519,11 +519,11 @@ public class CommunicationServerImpl implements Runnable, CommunicationServer, T
     }
 
     /**
-     * JavelinClientã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã—ã¾ã™ã€‚
+     * JavelinClientƒRƒlƒNƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‚Ü‚·B
      *
-     * @param clientSocket ã‚½ã‚±ãƒƒãƒˆ
-     * @return JavelinClientã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @throws IOException å…¥å‡ºåŠ›ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @param clientSocket ƒ\ƒPƒbƒg
+     * @return JavelinClientƒRƒlƒNƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg
+     * @throws IOException “üo—Í—áŠO‚ª”­¶‚µ‚½ê‡
      */
     protected JavelinClientThread createJavelinClientThread(final Socket clientSocket)
         throws IOException
@@ -538,7 +538,7 @@ public class CommunicationServerImpl implements Runnable, CommunicationServer, T
     }
 
     /**
-     * ãƒãƒ¼ãƒˆãŒæ—¢ã«é–‹ã‹ã‚Œã¦ã„ã‚‹å ´åˆã«å¾…æ©Ÿã™ã‚‹ã€‚
+     * ƒ|[ƒg‚ªŠù‚ÉŠJ‚©‚ê‚Ä‚¢‚éê‡‚É‘Ò‹@‚·‚éB
      */
     @SuppressWarnings("deprecation")
 	private void sleep()
@@ -575,11 +575,11 @@ public class CommunicationServerImpl implements Runnable, CommunicationServer, T
     }
 
     /**
-     * åˆæœŸãƒãƒ¼ãƒˆã€ãƒãƒ¼ãƒˆæœ€å¤§å€¤ãŒæ­£å¸¸ãªç¯„å›²ã®å€¤ã«ãªã£ã¦ã„ã‚‹ã‹ã‚’åˆ¤å®šã™ã‚‹ã€‚
+     * ‰Šúƒ|[ƒgAƒ|[ƒgÅ‘å’l‚ª³í‚È”ÍˆÍ‚Ì’l‚É‚È‚Á‚Ä‚¢‚é‚©‚ğ”»’è‚·‚éB
      * 
-     * @param port åˆæœŸãƒãƒ¼ãƒˆ
-     * @param portMax ãƒãƒ¼ãƒˆæœ€å¤§å€¤
-     * @return true åˆæœŸãƒãƒ¼ãƒˆã€ãƒãƒ¼ãƒˆæœ€å¤§å€¤ãŒæ­£å¸¸ãªç¯„å›²ã®å€¤ã«ãªã£ã¦ã„ã‚‹å ´åˆã€<code>true</code>
+     * @param port ‰Šúƒ|[ƒg
+     * @param portMax ƒ|[ƒgÅ‘å’l
+     * @return true ‰Šúƒ|[ƒgAƒ|[ƒgÅ‘å’l‚ª³í‚È”ÍˆÍ‚Ì’l‚É‚È‚Á‚Ä‚¢‚éê‡A<code>true</code>
      */
     private static boolean isPortNumValid(final int port, final int portMax)
     {
@@ -606,9 +606,9 @@ public class CommunicationServerImpl implements Runnable, CommunicationServer, T
     }
     
     /**
-     * åˆ‡æ–­ã•ã‚ŒãŸã“ã¨ã‚’å„ãƒªã‚¹ãƒŠã¸é€šçŸ¥ã—ã¾ã™ã€‚<br />
+     * Ø’f‚³‚ê‚½‚±‚Æ‚ğŠeƒŠƒXƒi‚Ö’Ê’m‚µ‚Ü‚·B<br />
      *
-     * @param forceDisconnected å¼·åˆ¶åˆ‡æ–­ã•ã‚ŒãŸå ´åˆã¯ <code>true</code>
+     * @param forceDisconnected ‹­§Ø’f‚³‚ê‚½ê‡‚Í <code>true</code>
      */
     private void notifyClientDisconnected(boolean forceDisconnected)
     {
@@ -622,11 +622,11 @@ public class CommunicationServerImpl implements Runnable, CommunicationServer, T
     }
 
     /**
-     * æ¥ç¶šã•ã‚ŒãŸã“ã¨ã‚’å„ãƒªã‚¹ãƒŠã¸é€šçŸ¥ã—ã¾ã™ã€‚<br />
+     * Ú‘±‚³‚ê‚½‚±‚Æ‚ğŠeƒŠƒXƒi‚Ö’Ê’m‚µ‚Ü‚·B<br />
      *
-     * @param hostName ãƒ›ã‚¹ãƒˆåï¼ˆ <code>null</code> ã®å¯èƒ½æ€§ã‚ã‚Šï¼‰
-     * @param ipAddr IP ã‚¢ãƒ‰ãƒ¬ã‚¹
-     * @param port ãƒãƒ¼ãƒˆç•ªå·
+     * @param hostName ƒzƒXƒg–¼i <code>null</code> ‚Ì‰Â”\«‚ ‚èj
+     * @param ipAddr IP ƒAƒhƒŒƒX
+     * @param port ƒ|[ƒg”Ô†
      */
     private void notifyClientConnected(final String hostName, final String ipAddr, final int port)
     {

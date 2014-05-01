@@ -9,47 +9,47 @@ import jp.co.acroquest.endosnipe.perfdoctor.classfier.PerformanceDoctorFilter;
 import junit.framework.TestCase;
 
 /**
- * PerformanceDoctorFilterã®ãƒ†ã‚¹ãƒˆã‚¯ãƒ©ã‚¹
+ * PerformanceDoctorFilter‚ÌƒeƒXƒgƒNƒ‰ƒX
  * @author fujii
  *
  */
 public class PerformanceDoctorFilterTest extends TestCase
 {
     /**
-     * [é …ç•ª] 1-1-13 doFilterã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»ãƒ‡ãƒ¼ã‚¿ãŒä¸€ã¤ã®WarningUnitã®ãƒªã‚¹ãƒˆã«å¯¾ã—ã¦ã€
-     *  PerformanceDoctorFilter#doFilterã‚’å‘¼ã³å‡ºã™ã€‚<br />
+     * [€”Ô] 1-1-13 doFilter‚ÌƒeƒXƒgB <br />
+     * Eƒf[ƒ^‚ªˆê‚Â‚ÌWarningUnit‚ÌƒŠƒXƒg‚É‘Î‚µ‚ÄA
+     *  PerformanceDoctorFilter#doFilter‚ğŒÄ‚Ño‚·B<br />
      * 
-     * â†’ãƒªã‚¹ãƒˆã®ãƒ‡ãƒ¼ã‚¿ãŒãã®ã¾ã¾è¿”ã£ã¦ãã‚‹ã“ã¨ã€‚
+     * ¨ƒŠƒXƒg‚Ìƒf[ƒ^‚ª‚»‚Ì‚Ü‚Ü•Ô‚Á‚Ä‚­‚é‚±‚ÆB
      * 
      */
     public void testDoFilter_ListSizeOne()
     {
-        // æº–å‚™
+        // €”õ
         PerformanceDoctorFilter filter = createFilter();
         List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
 
         WarningUnit unit = ClassifierUtil.createDefaultWarningUnit(new Integer[]{5, 10});
         warningUnitList.add(unit);
 
-        // å®Ÿè¡Œ
+        // Às
         List<WarningUnit> resultList = filter.doFilter(warningUnitList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         ClassifierUtil.assertWarningUnitList(warningUnitList.get(0), resultList.get(0));
     }
 
     /**
-     * [é …ç•ª] 1-1-14 doFilterã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»ãƒ‡ãƒ¼ã‚¿ãŒ10å€‹ã®WarningUnitã®ãƒªã‚¹ãƒˆã«å¯¾ã—ã¦ã€
-     *  PerformanceDoctorFilter#doFilterã‚’å‘¼ã³å‡ºã™ã€‚<br />
+     * [€”Ô] 1-1-14 doFilter‚ÌƒeƒXƒgB <br />
+     * Eƒf[ƒ^‚ª10ŒÂ‚ÌWarningUnit‚ÌƒŠƒXƒg‚É‘Î‚µ‚ÄA
+     *  PerformanceDoctorFilter#doFilter‚ğŒÄ‚Ño‚·B<br />
      * 
-     * â†’ãƒ•ã‚£ãƒ«ã‚¿ãƒ¼ãŒã‹ã‹ã£ã¦ã€ãƒªã‚¹ãƒˆãŒè¿”ã£ã¦ãã‚‹ã“ã¨(ã“ã“ã§ã¯ã€2è¡Œç›®ã€6è¡Œç›®ã€10è¡Œç›®)ã€‚
+     * ¨ƒtƒBƒ‹ƒ^[‚ª‚©‚©‚Á‚ÄAƒŠƒXƒg‚ª•Ô‚Á‚Ä‚­‚é‚±‚Æ(‚±‚±‚Å‚ÍA2s–ÚA6s–ÚA10s–Ú)B
      * 
      */
     public void testDoFilter_ListSizeTen()
     {
-        // æº–å‚™
+        // €”õ
         PerformanceDoctorFilter filter = createFilter();
         List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
 
@@ -75,10 +75,10 @@ public class PerformanceDoctorFilterTest extends TestCase
         warningUnitList.add(unit9);
         warningUnitList.add(unit10);
 
-        // å®Ÿè¡Œ
+        // Às
         List<WarningUnit> resultList = filter.doFilter(warningUnitList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(3, resultList.size());
         ClassifierUtil.assertWarningUnitList(warningUnitList.get(1), resultList.get(0));
         ClassifierUtil.assertWarningUnitList(warningUnitList.get(5), resultList.get(1));
@@ -86,16 +86,16 @@ public class PerformanceDoctorFilterTest extends TestCase
     }
 
     /**
-     * [é …ç•ª] 1-1-15 doFilterã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»ãƒ‡ãƒ¼ã‚¿ãŒ20å€‹ã®WarningUnitã®ãƒªã‚¹ãƒˆã«å¯¾ã—ã¦ã€
-     *  PerformanceDoctorFilter#doFilterã‚’å‘¼ã³å‡ºã™ã€‚<br />
+     * [€”Ô] 1-1-15 doFilter‚ÌƒeƒXƒgB <br />
+     * Eƒf[ƒ^‚ª20ŒÂ‚ÌWarningUnit‚ÌƒŠƒXƒg‚É‘Î‚µ‚ÄA
+     *  PerformanceDoctorFilter#doFilter‚ğŒÄ‚Ño‚·B<br />
      * 
-     * â†’ãƒ•ã‚£ãƒ«ã‚¿ãƒ¼ãŒã‹ã‹ã£ã¦ã€ãƒªã‚¹ãƒˆãŒè¿”ã£ã¦ãã‚‹ã“ã¨(ã“ã“ã§ã¯ã€4è¡Œç›®ã€8è¡Œç›®ã€12è¡Œç›®ã€16è¡Œç›®ã€20è¡Œç›®)ã€‚
+     * ¨ƒtƒBƒ‹ƒ^[‚ª‚©‚©‚Á‚ÄAƒŠƒXƒg‚ª•Ô‚Á‚Ä‚­‚é‚±‚Æ(‚±‚±‚Å‚ÍA4s–ÚA8s–ÚA12s–ÚA16s–ÚA20s–Ú)B
      * 
      */
     public void testDoFilter_ListSizeTwelve()
     {
-        // æº–å‚™
+        // €”õ
         PerformanceDoctorFilter filter = createFilter();
         List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
 
@@ -141,10 +141,10 @@ public class PerformanceDoctorFilterTest extends TestCase
         warningUnitList.add(unit19);
         warningUnitList.add(unit20);
 
-        // å®Ÿè¡Œ
+        // Às
         List<WarningUnit> resultList = filter.doFilter(warningUnitList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(5, resultList.size());
         ClassifierUtil.assertWarningUnitList(warningUnitList.get(3), resultList.get(0));
         ClassifierUtil.assertWarningUnitList(warningUnitList.get(7), resultList.get(1));
@@ -154,16 +154,16 @@ public class PerformanceDoctorFilterTest extends TestCase
     }
 
     /**
-     * [é …ç•ª] 1-1-16 doFilterã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»ãã‚Œãã‚Œã®è¦ç´ ãŒ10å€‹ä»¥ä¸‹ã®2ç¨®é¡ã®ãƒ«ãƒ¼ãƒ«IDãŒå«ã¾ã‚ŒãŸWarningUnitã®ãƒªã‚¹ãƒˆã«å¯¾ã—ã¦ã€
-     *  PerformanceDoctorFilter#doFilterã‚’å‘¼ã³å‡ºã™ã€‚<br />
+     * [€”Ô] 1-1-16 doFilter‚ÌƒeƒXƒgB <br />
+     * E‚»‚ê‚¼‚ê‚Ì—v‘f‚ª10ŒÂˆÈ‰º‚Ì2í—Ş‚Ìƒ‹[ƒ‹ID‚ªŠÜ‚Ü‚ê‚½WarningUnit‚ÌƒŠƒXƒg‚É‘Î‚µ‚ÄA
+     *  PerformanceDoctorFilter#doFilter‚ğŒÄ‚Ño‚·B<br />
      * 
-     * â†’ãƒ•ã‚£ãƒ«ã‚¿ãƒ¼ãŒã‹ã‹ã£ã¦ã€ãƒªã‚¹ãƒˆãŒè¿”ã£ã¦ãã‚‹ã“ã¨(ã“ã“ã§ã¯ã€2è¡Œç›®ã€5è¡Œç›®ã€24è¡Œç›®ã€27è¡Œç›®)ã€‚
+     * ¨ƒtƒBƒ‹ƒ^[‚ª‚©‚©‚Á‚ÄAƒŠƒXƒg‚ª•Ô‚Á‚Ä‚­‚é‚±‚Æ(‚±‚±‚Å‚ÍA2s–ÚA5s–ÚA24s–ÚA27s–Ú)B
      * 
      */
     public void testDoFilter_TwoSimpleClassifier()
     {
-        // æº–å‚™
+        // €”õ
         PerformanceDoctorFilter filter = createFilter();
         List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
 
@@ -191,10 +191,10 @@ public class PerformanceDoctorFilterTest extends TestCase
         warningUnitList.add(unit9);
         warningUnitList.add(unit10);
 
-        // å®Ÿè¡Œ
+        // Às
         List<WarningUnit> resultList = filter.doFilter(warningUnitList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(4, resultList.size());
         ClassifierUtil.assertWarningUnitList(warningUnitList.get(1), resultList.get(0));
         ClassifierUtil.assertWarningUnitList(warningUnitList.get(4), resultList.get(1));
@@ -203,16 +203,16 @@ public class PerformanceDoctorFilterTest extends TestCase
     }
 
     /**
-     * [é …ç•ª] 1-1-17 doFilterã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»è¦ç´ æ•°ãŒ10å€‹ä»¥ä¸‹ã®ãƒ«ãƒ¼ãƒ«IDã¨11å€‹ä»¥ä¸Šã®ãƒ«ãƒ¼ãƒ«IDãŒå«ã¾ã‚ŒãŸWarningUnitã®ãƒªã‚¹ãƒˆã«å¯¾ã—ã¦ã€
-     *  PerformanceDoctorFilter#doFilterã‚’å‘¼ã³å‡ºã™ã€‚<br />
+     * [€”Ô] 1-1-17 doFilter‚ÌƒeƒXƒgB <br />
+     * E—v‘f”‚ª10ŒÂˆÈ‰º‚Ìƒ‹[ƒ‹ID‚Æ11ŒÂˆÈã‚Ìƒ‹[ƒ‹ID‚ªŠÜ‚Ü‚ê‚½WarningUnit‚ÌƒŠƒXƒg‚É‘Î‚µ‚ÄA
+     *  PerformanceDoctorFilter#doFilter‚ğŒÄ‚Ño‚·B<br />
      * 
-     * â†’ãƒ•ã‚£ãƒ«ã‚¿ãƒ¼ãŒã‹ã‹ã£ã¦ã€ãƒªã‚¹ãƒˆãŒè¿”ã£ã¦ãã‚‹ã“ã¨(ã“ã“ã§ã¯ã€2è¡Œç›®ã€5è¡Œç›®ã€26è¡Œç›®ã€30è¡Œç›®ã€34è¡Œç›®ã€38è¡Œç›®ã€42è¡Œç›®)ã€‚
+     * ¨ƒtƒBƒ‹ƒ^[‚ª‚©‚©‚Á‚ÄAƒŠƒXƒg‚ª•Ô‚Á‚Ä‚­‚é‚±‚Æ(‚±‚±‚Å‚ÍA2s–ÚA5s–ÚA26s–ÚA30s–ÚA34s–ÚA38s–ÚA42s–Ú)B
      * 
      */
     public void testDoFilter_OneSimpleClassifierOneKmeanClassifier()
     {
-        // æº–å‚™
+        // €”õ
         PerformanceDoctorFilter filter = createFilter();
         List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
 
@@ -271,10 +271,10 @@ public class PerformanceDoctorFilterTest extends TestCase
         warningUnitList.add(unit24);
         warningUnitList.add(unit25);
 
-        // å®Ÿè¡Œ
+        // Às
         List<WarningUnit> resultList = filter.doFilter(warningUnitList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(7, resultList.size());
         ClassifierUtil.assertWarningUnitList(warningUnitList.get(1), resultList.get(0));
         ClassifierUtil.assertWarningUnitList(warningUnitList.get(4), resultList.get(1));
@@ -286,16 +286,16 @@ public class PerformanceDoctorFilterTest extends TestCase
     }
 
     /**
-     * [é …ç•ª] 1-1-18 doFilterã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»è¦ç´ æ•°ãŒ11å€‹ä»¥ä¸Šã®ãƒ«ãƒ¼ãƒ«IDã¨10å€‹ä»¥ä¸‹ã®ãƒ«ãƒ¼ãƒ«IDãŒå«ã¾ã‚ŒãŸWarningUnitã®ãƒªã‚¹ãƒˆã«å¯¾ã—ã¦ã€
-     *  PerformanceDoctorFilter#doFilterã‚’å‘¼ã³å‡ºã™ã€‚<br />
+     * [€”Ô] 1-1-18 doFilter‚ÌƒeƒXƒgB <br />
+     * E—v‘f”‚ª11ŒÂˆÈã‚Ìƒ‹[ƒ‹ID‚Æ10ŒÂˆÈ‰º‚Ìƒ‹[ƒ‹ID‚ªŠÜ‚Ü‚ê‚½WarningUnit‚ÌƒŠƒXƒg‚É‘Î‚µ‚ÄA
+     *  PerformanceDoctorFilter#doFilter‚ğŒÄ‚Ño‚·B<br />
      * 
-     * â†’ãƒ•ã‚£ãƒ«ã‚¿ãƒ¼ãŒã‹ã‹ã£ã¦ã€ãƒªã‚¹ãƒˆãŒè¿”ã£ã¦ãã‚‹ã“ã¨(ã“ã“ã§ã¯ã€4è¡Œç›®ã€8è¡Œç›®ã€12è¡Œç›®ã€16è¡Œç›®ã€20è¡Œç›®ã€24è¡Œç›®ã€27è¡Œç›®)ã€‚
+     * ¨ƒtƒBƒ‹ƒ^[‚ª‚©‚©‚Á‚ÄAƒŠƒXƒg‚ª•Ô‚Á‚Ä‚­‚é‚±‚Æ(‚±‚±‚Å‚ÍA4s–ÚA8s–ÚA12s–ÚA16s–ÚA20s–ÚA24s–ÚA27s–Ú)B
      * 
      */
     public void testDoFilter_OneKmeanClassifierOneSimpleClassifier()
     {
-        // æº–å‚™
+        // €”õ
         PerformanceDoctorFilter filter = createFilter();
         List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
 
@@ -354,10 +354,10 @@ public class PerformanceDoctorFilterTest extends TestCase
         warningUnitList.add(unit24);
         warningUnitList.add(unit25);
 
-        // å®Ÿè¡Œ
+        // Às
         List<WarningUnit> resultList = filter.doFilter(warningUnitList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(7, resultList.size());
         ClassifierUtil.assertWarningUnitList(warningUnitList.get(3), resultList.get(0));
         ClassifierUtil.assertWarningUnitList(warningUnitList.get(7), resultList.get(1));
@@ -369,16 +369,16 @@ public class PerformanceDoctorFilterTest extends TestCase
     }
 
     /**
-     * [é …ç•ª] 1-1-18 doFilterã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»è¦ç´ æ•°ãŒ11å€‹ä»¥ä¸Šã®ãƒ«ãƒ¼ãƒ«IDã¨10å€‹ä»¥ä¸‹ã®ãƒ«ãƒ¼ãƒ«IDãŒå«ã¾ã‚ŒãŸWarningUnitã®ãƒªã‚¹ãƒˆã«å¯¾ã—ã¦ã€
-     *  PerformanceDoctorFilter#doFilterã‚’å‘¼ã³å‡ºã™ã€‚<br />
+     * [€”Ô] 1-1-18 doFilter‚ÌƒeƒXƒgB <br />
+     * E—v‘f”‚ª11ŒÂˆÈã‚Ìƒ‹[ƒ‹ID‚Æ10ŒÂˆÈ‰º‚Ìƒ‹[ƒ‹ID‚ªŠÜ‚Ü‚ê‚½WarningUnit‚ÌƒŠƒXƒg‚É‘Î‚µ‚ÄA
+     *  PerformanceDoctorFilter#doFilter‚ğŒÄ‚Ño‚·B<br />
      * 
-     * â†’ãƒ•ã‚£ãƒ«ã‚¿ãƒ¼ãŒã‹ã‹ã£ã¦ã€ãƒªã‚¹ãƒˆãŒè¿”ã£ã¦ãã‚‹ã“ã¨(ã“ã“ã§ã¯ã€4ã€8ã€12ã€16ã€20ã€26ã€30ã€34,38ã€42è¡Œç›®)ã€‚
+     * ¨ƒtƒBƒ‹ƒ^[‚ª‚©‚©‚Á‚ÄAƒŠƒXƒg‚ª•Ô‚Á‚Ä‚­‚é‚±‚Æ(‚±‚±‚Å‚ÍA4A8A12A16A20A26A30A34,38A42s–Ú)B
      * 
      */
     public void testDoFilter_TwoKmeanClassifier()
     {
-        // æº–å‚™
+        // €”õ
         PerformanceDoctorFilter filter = createFilter();
         List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
 
@@ -467,10 +467,10 @@ public class PerformanceDoctorFilterTest extends TestCase
         warningUnitList.add(unit39);
         warningUnitList.add(unit40);
 
-        // å®Ÿè¡Œ
+        // Às
         List<WarningUnit> resultList = filter.doFilter(warningUnitList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(10, resultList.size());
         ClassifierUtil.assertWarningUnitList(warningUnitList.get(3), resultList.get(0));
         ClassifierUtil.assertWarningUnitList(warningUnitList.get(7), resultList.get(1));
@@ -485,16 +485,16 @@ public class PerformanceDoctorFilterTest extends TestCase
     }
 
     /**
-     * [é …ç•ª] 1-1-20 doFilterã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»ãƒ«ãƒ¼ãƒ«IDã€ã‚¯ãƒ©ã‚¹åã€ãƒ¡ã‚½ãƒƒãƒ‰åã€é‡è¦åº¦ã®ç•°ãªã‚‹WarinigUnitã‚’ãƒªã‚¹ãƒˆã«æŒã¤ã¨ãã«ã€
-     *  PerformanceDoctorFilter#doFilterã‚’å‘¼ã³å‡ºã™ã€‚<br />
+     * [€”Ô] 1-1-20 doFilter‚ÌƒeƒXƒgB <br />
+     * Eƒ‹[ƒ‹IDAƒNƒ‰ƒX–¼Aƒƒ\ƒbƒh–¼Ad—v“x‚ÌˆÙ‚È‚éWarinigUnit‚ğƒŠƒXƒg‚É‚Â‚Æ‚«‚ÉA
+     *  PerformanceDoctorFilter#doFilter‚ğŒÄ‚Ño‚·B<br />
      * 
-     * â†’ãƒ•ã‚£ãƒ«ã‚¿ãƒ¼ãŒã‹ã‹ã£ã¦ã€ãƒªã‚¹ãƒˆãŒè¿”ã£ã¦ãã‚‹ã“ã¨(ã“ã“ã§ã¯ã€1ã€23ã€43ã€44ã€45ã€46è¡Œç›®)ã€‚
+     * ¨ƒtƒBƒ‹ƒ^[‚ª‚©‚©‚Á‚ÄAƒŠƒXƒg‚ª•Ô‚Á‚Ä‚­‚é‚±‚Æ(‚±‚±‚Å‚ÍA1A23A43A44A45A46s–Ú)B
      * 
      */
     public void testDoFilter_DifferenceRule()
     {
-        // æº–å‚™
+        // €”õ
         PerformanceDoctorFilter filter = createFilter();
         List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
 
@@ -537,10 +537,10 @@ public class PerformanceDoctorFilterTest extends TestCase
         warningUnitList.add(unit5);
         warningUnitList.add(unit6);
 
-        // å®Ÿè¡Œ
+        // Às
         List<WarningUnit> resultList = filter.doFilter(warningUnitList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(6, resultList.size());
         ClassifierUtil.assertWarningUnitList(warningUnitList.get(0), resultList.get(0));
         ClassifierUtil.assertWarningUnitList(warningUnitList.get(1), resultList.get(1));
@@ -551,16 +551,16 @@ public class PerformanceDoctorFilterTest extends TestCase
     }
 
     /**
-     * [é …ç•ª] <br />
-     * ãƒ»ãƒ‡ãƒ¼ã‚¿ãŒä¸€ã¤ã®ã‚¤ãƒ™ãƒ³ãƒˆç”¨ã®WarningUnitã®ãƒªã‚¹ãƒˆã«å¯¾ã—ã¦ã€
-     *  PerformanceDoctorFilter#doFilterã‚’å‘¼ã³å‡ºã™ã€‚<br />
+     * [€”Ô] <br />
+     * Eƒf[ƒ^‚ªˆê‚Â‚ÌƒCƒxƒ“ƒg—p‚ÌWarningUnit‚ÌƒŠƒXƒg‚É‘Î‚µ‚ÄA
+     *  PerformanceDoctorFilter#doFilter‚ğŒÄ‚Ño‚·B<br />
      * 
-     * â†’ãƒªã‚¹ãƒˆã®ãƒ‡ãƒ¼ã‚¿ãŒãã®ã¾ã¾è¿”ã£ã¦ãã‚‹ã“ã¨ã€‚
+     * ¨ƒŠƒXƒg‚Ìƒf[ƒ^‚ª‚»‚Ì‚Ü‚Ü•Ô‚Á‚Ä‚­‚é‚±‚ÆB
      * 
      */
     public void testDoFilterEventListSizeOne()
     {
-        // æº–å‚™
+        // €”õ
         PerformanceDoctorFilter filter = createFilter();
         List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
 
@@ -570,25 +570,25 @@ public class PerformanceDoctorFilterTest extends TestCase
                 ClassifierUtil.createDefaultEventWarningUnit(stackTrace, new Integer[]{5, 10});
         warningUnitList.add(unit);
 
-        // å®Ÿè¡Œ
+        // Às
         List<WarningUnit> resultList = filter.doFilter(warningUnitList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         ClassifierUtil.assertWarningUnitList(warningUnitList.get(0), resultList.get(0));
     }
 
     /**
-     * [é …ç•ª]  <br />
-     * ãƒ»ãƒ‡ãƒ¼ã‚¿ãŒ5å€‹ã®ã‚¤ãƒ™ãƒ³ãƒˆç”¨ã®WarningUnitã®ãƒªã‚¹ãƒˆã«å¯¾ã—ã¦ã€
-     *  PerformanceDoctorFilter#doFilterã‚’å‘¼ã³å‡ºã™ã€‚<br />
-     *  WarningUnitã«ä¿å­˜ã™ã‚‹ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã¯ã™ã¹ã¦åŒã˜ã§ã‚ã‚‹ã¨ã™ã‚‹ã€‚<br />
+     * [€”Ô]  <br />
+     * Eƒf[ƒ^‚ª5ŒÂ‚ÌƒCƒxƒ“ƒg—p‚ÌWarningUnit‚ÌƒŠƒXƒg‚É‘Î‚µ‚ÄA
+     *  PerformanceDoctorFilter#doFilter‚ğŒÄ‚Ño‚·B<br />
+     *  WarningUnit‚É•Û‘¶‚·‚éƒXƒ^ƒbƒNƒgƒŒ[ƒX‚Í‚·‚×‚Ä“¯‚¶‚Å‚ ‚é‚Æ‚·‚éB<br />
      * 
-     * â†’ãƒ•ã‚£ãƒ«ã‚¿ãƒ¼ãŒã‹ã‹ã£ã¦ã€ãƒªã‚¹ãƒˆãŒè¿”ã£ã¦ãã‚‹ã“ã¨(ã“ã“ã§ã¯ã€5è¡Œç›®)ã€‚
+     * ¨ƒtƒBƒ‹ƒ^[‚ª‚©‚©‚Á‚ÄAƒŠƒXƒg‚ª•Ô‚Á‚Ä‚­‚é‚±‚Æ(‚±‚±‚Å‚ÍA5s–Ú)B
      * 
      */
     public void testDoFilterEventSameStackTrace()
     {
-        // æº–å‚™
+        // €”õ
         PerformanceDoctorFilter filter = createFilter();
         List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
 
@@ -611,26 +611,26 @@ public class PerformanceDoctorFilterTest extends TestCase
         warningUnitList.add(unit4);
         warningUnitList.add(unit5);
 
-        // å®Ÿè¡Œ
+        // Às
         List<WarningUnit> resultList = filter.doFilter(warningUnitList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(1, resultList.size());
         ClassifierUtil.assertWarningUnitList(warningUnitList.get(4), resultList.get(0));
     }
 
     /**
-     * [é …ç•ª]  <br />
-     * ãƒ»ãƒ‡ãƒ¼ã‚¿ãŒ5å€‹ã®ã‚¤ãƒ™ãƒ³ãƒˆç”¨ã®WarningUnitã®ãƒªã‚¹ãƒˆã«å¯¾ã—ã¦ã€
-     *  PerformanceDoctorFilter#doFilterã‚’å‘¼ã³å‡ºã™ã€‚<br />
-     *  WarningUnitã«ä¿å­˜ã™ã‚‹ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã¯ã™ã¹ã¦ç•°ãªã‚‹ã€‚<br />
+     * [€”Ô]  <br />
+     * Eƒf[ƒ^‚ª5ŒÂ‚ÌƒCƒxƒ“ƒg—p‚ÌWarningUnit‚ÌƒŠƒXƒg‚É‘Î‚µ‚ÄA
+     *  PerformanceDoctorFilter#doFilter‚ğŒÄ‚Ño‚·B<br />
+     *  WarningUnit‚É•Û‘¶‚·‚éƒXƒ^ƒbƒNƒgƒŒ[ƒX‚Í‚·‚×‚ÄˆÙ‚È‚éB<br />
      * 
-     * â†’ãƒ•ã‚£ãƒ«ã‚¿ãƒ¼ãŒã‹ã‹ã£ã¦ã€ãƒªã‚¹ãƒˆãŒè¿”ã£ã¦ãã‚‹ã“ã¨(1è¡Œç›®ã€2è¡Œç›®ã€3è¡Œç›®ã€4è¡Œç›®ã€5è¡Œç›®)ã€‚
+     * ¨ƒtƒBƒ‹ƒ^[‚ª‚©‚©‚Á‚ÄAƒŠƒXƒg‚ª•Ô‚Á‚Ä‚­‚é‚±‚Æ(1s–ÚA2s–ÚA3s–ÚA4s–ÚA5s–Ú)B
      * 
      */
     public void testDoFilterEventDiffStackTrace()
     {
-        // æº–å‚™
+        // €”õ
         PerformanceDoctorFilter filter = createFilter();
         List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
 
@@ -657,10 +657,10 @@ public class PerformanceDoctorFilterTest extends TestCase
         warningUnitList.add(unit4);
         warningUnitList.add(unit5);
 
-        // å®Ÿè¡Œ
+        // Às
         List<WarningUnit> resultList = filter.doFilter(warningUnitList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(5, resultList.size());
         ClassifierUtil.assertWarningUnitList(warningUnitList.get(0), resultList.get(0));
         ClassifierUtil.assertWarningUnitList(warningUnitList.get(1), resultList.get(1));
@@ -670,17 +670,17 @@ public class PerformanceDoctorFilterTest extends TestCase
     }
 
     /**
-     * [é …ç•ª]  <br />
-     * ãƒ»ãƒ‡ãƒ¼ã‚¿ãŒ5å€‹ã®ã‚¤ãƒ™ãƒ³ãƒˆç”¨ã®WarningUnitã®ãƒªã‚¹ãƒˆã«å¯¾ã—ã¦ã€
-     *  PerformanceDoctorFilter#doFilterã‚’å‘¼ã³å‡ºã™ã€‚<br />
-     *  WarningUnitã«ä¿å­˜ã™ã‚‹ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ãŒåŒã˜ã‚‚ã®ã¨ç•°ãªã‚‹ã‚‚ã®ãŒæ··ã˜ã£ã¦ã„ã‚‹ã€‚<br />
+     * [€”Ô]  <br />
+     * Eƒf[ƒ^‚ª5ŒÂ‚ÌƒCƒxƒ“ƒg—p‚ÌWarningUnit‚ÌƒŠƒXƒg‚É‘Î‚µ‚ÄA
+     *  PerformanceDoctorFilter#doFilter‚ğŒÄ‚Ño‚·B<br />
+     *  WarningUnit‚É•Û‘¶‚·‚éƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ª“¯‚¶‚à‚Ì‚ÆˆÙ‚È‚é‚à‚Ì‚ª¬‚¶‚Á‚Ä‚¢‚éB<br />
      * 
-     * â†’ãƒ•ã‚£ãƒ«ã‚¿ãƒ¼ãŒã‹ã‹ã£ã¦ã€ãƒªã‚¹ãƒˆãŒè¿”ã£ã¦ãã‚‹ã“ã¨(ã“ã“ã§ã¯ã€3è¡Œç›®ã€4è¡Œç›®ã€2è¡Œç›®)ã€‚
+     * ¨ƒtƒBƒ‹ƒ^[‚ª‚©‚©‚Á‚ÄAƒŠƒXƒg‚ª•Ô‚Á‚Ä‚­‚é‚±‚Æ(‚±‚±‚Å‚ÍA3s–ÚA4s–ÚA2s–Ú)B
      * 
      */
     public void testDoFilterEventSomeStackTrace()
     {
-        // æº–å‚™
+        // €”õ
         PerformanceDoctorFilter filter = createFilter();
         List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
 
@@ -705,10 +705,10 @@ public class PerformanceDoctorFilterTest extends TestCase
         warningUnitList.add(unit4);
         warningUnitList.add(unit5);
 
-        // å®Ÿè¡Œ
+        // Às
         List<WarningUnit> resultList = filter.doFilter(warningUnitList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(3, resultList.size());
         ClassifierUtil.assertWarningUnitList(warningUnitList.get(3), resultList.get(0));
         ClassifierUtil.assertWarningUnitList(warningUnitList.get(4), resultList.get(1));
@@ -716,17 +716,17 @@ public class PerformanceDoctorFilterTest extends TestCase
     }
 
     /**
-     * [é …ç•ª]  <br />
-     * ãƒ»è¦ç´ æ•°ãŒ11å€‹ä»¥ä¸Šã®ãƒ«ãƒ¼ãƒ«IDãŒå«ã¾ã‚ŒãŸWarningUnitã®ãƒªã‚¹ãƒˆã«å¯¾ã—ã¦ã€
-     *  PerformanceDoctorFilter#doFilterã‚’å‘¼ã³å‡ºã™ã€‚<br />
-     *  WarningUnitã«ä¿å­˜ã™ã‚‹ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã¯ã™ã¹ã¦åŒã˜ã§ã‚ã‚‹ã¨ã™ã‚‹ã€‚
+     * [€”Ô]  <br />
+     * E—v‘f”‚ª11ŒÂˆÈã‚Ìƒ‹[ƒ‹ID‚ªŠÜ‚Ü‚ê‚½WarningUnit‚ÌƒŠƒXƒg‚É‘Î‚µ‚ÄA
+     *  PerformanceDoctorFilter#doFilter‚ğŒÄ‚Ño‚·B<br />
+     *  WarningUnit‚É•Û‘¶‚·‚éƒXƒ^ƒbƒNƒgƒŒ[ƒX‚Í‚·‚×‚Ä“¯‚¶‚Å‚ ‚é‚Æ‚·‚éB
      * 
-     * â†’ãƒ•ã‚£ãƒ«ã‚¿ãƒ¼ãŒã‹ã‹ã£ã¦ã€ãƒªã‚¹ãƒˆãŒè¿”ã£ã¦ãã‚‹ã“ã¨(ã“ã“ã§ã¯ã€4è¡Œç›®ã€8è¡Œç›®ã€12è¡Œç›®ã€16è¡Œç›®ã€20è¡Œç›®)ã€‚
+     * ¨ƒtƒBƒ‹ƒ^[‚ª‚©‚©‚Á‚ÄAƒŠƒXƒg‚ª•Ô‚Á‚Ä‚­‚é‚±‚Æ(‚±‚±‚Å‚ÍA4s–ÚA8s–ÚA12s–ÚA16s–ÚA20s–Ú)B
      * 
      */
     public void testDoFilterEventOneKmeanClassifier()
     {
-        // æº–å‚™
+        // €”õ
         PerformanceDoctorFilter filter = createFilter();
         List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
 
@@ -795,10 +795,10 @@ public class PerformanceDoctorFilterTest extends TestCase
         warningUnitList.add(unit19);
         warningUnitList.add(unit20);
 
-        // å®Ÿè¡Œ
+        // Às
         List<WarningUnit> resultList = filter.doFilter(warningUnitList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(5, resultList.size());
         ClassifierUtil.assertWarningUnitList(warningUnitList.get(3), resultList.get(0));
         ClassifierUtil.assertWarningUnitList(warningUnitList.get(7), resultList.get(1));
@@ -808,7 +808,7 @@ public class PerformanceDoctorFilterTest extends TestCase
     }
 
     /**
-     * PerformaceDoctroFilterã‚’ä½œæˆã™ã‚‹ã€‚
+     * PerformaceDoctroFilter‚ğì¬‚·‚éB
      * @return PerformanceDoctorFilter
      */
     public PerformanceDoctorFilter createFilter()

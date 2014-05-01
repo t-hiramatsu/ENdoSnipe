@@ -35,23 +35,23 @@ import jp.co.acroquest.endosnipe.communicator.impl.CommunicationServerImpl;
 import jp.co.acroquest.endosnipe.communicator.impl.JavelinClientThread;
 
 /**
- * JavelinTransferServerThreadã‚¯ãƒ©ã‚¹
+ * JavelinTransferServerThreadƒNƒ‰ƒX
  * @author acroquest
  *
  */
 public class JavelinTransferServerThread extends CommunicationServerImpl
 {
-    /** ã‚¹ãƒ¬ãƒƒãƒ‰é–‹å§‹ã¾ã§ã®å¾…ã¡æ™‚é–“ 10000ãƒŸãƒªç§’ */
+    /** ƒXƒŒƒbƒhŠJn‚Ü‚Å‚Ì‘Ò‚¿ŠÔ 10000ƒ~ƒŠ•b */
     private static final int WAIT_FOR_THRESHOLD_START = 100000;
 
-    /** ãƒãƒ¼ãƒˆã‚ªãƒ¼ãƒ—ãƒ³ã®è©¦è¡Œé–“éš” 10000ç§’ */
+    /** ƒ|[ƒgƒI[ƒvƒ“‚ÌsŠÔŠu 10000•b */
     private static final int BIND_INTERVAL = 10000;
 
-    /** é›»æ–‡ãƒªã‚¹ãƒŠãƒ¼ã®ãƒªã‚¹ãƒˆ */
+    /** “d•¶ƒŠƒXƒi[‚ÌƒŠƒXƒg */
     List<TelegramListener> listenerList_ = new ArrayList<TelegramListener>();
 
     /**
-     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
      */
     public JavelinTransferServerThread()
     {

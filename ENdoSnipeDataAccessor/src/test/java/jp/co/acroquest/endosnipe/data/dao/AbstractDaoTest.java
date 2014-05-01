@@ -28,7 +28,7 @@ package jp.co.acroquest.endosnipe.data.dao;
 import jp.co.acroquest.endosnipe.data.AbstractDBTest;
 
 /**
- * DAO ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹ã®åŸºåº•ã‚¯ãƒ©ã‚¹ã€‚<br />
+ * DAO ƒeƒXƒgƒP[ƒX‚ÌŠî’êƒNƒ‰ƒXB<br />
  *
  * @author y-sakamoto
  */

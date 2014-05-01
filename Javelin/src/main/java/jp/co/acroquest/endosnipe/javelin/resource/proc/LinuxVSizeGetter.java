@@ -29,7 +29,7 @@ import jp.co.acroquest.endosnipe.common.entity.ItemType;
 import jp.co.acroquest.endosnipe.javelin.bean.proc.ProcInfo;
 
 /**
- * SelfStatInfoã‹ã‚‰ãƒ—ãƒ­ã‚»ã‚¹æ¯ã®ä»®æƒ³ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡(ãƒ—ãƒ­ã‚»ã‚¹)ã®ãƒã‚¤ãƒˆæ•°ã‚’å–å¾—ã™ã‚‹ã€‚
+ * SelfStatInfo‚©‚çƒvƒƒZƒX–ˆ‚Ì‰¼‘zƒƒ‚ƒŠg—p—Ê(ƒvƒƒZƒX)‚ÌƒoƒCƒg”‚ğæ“¾‚·‚éB
  * 
  * @author akita
  */
@@ -38,7 +38,7 @@ public class LinuxVSizeGetter extends ProcResourceGetter
 
     /**
      * 
-     * @param procParser ãƒªã‚½ãƒ¼ã‚¹ä½¿ç”¨æƒ…å ±å–å¾—ç”¨
+     * @param procParser ƒŠƒ\[ƒXg—pî•ñæ“¾—p
      */
     public LinuxVSizeGetter(ProcParser procParser)
     {

@@ -31,22 +31,22 @@ import jp.co.acroquest.endosnipe.javelin.bean.Invocation;
 import jp.co.acroquest.endosnipe.javelin.log.JavelinLogCallback;
 
 /**
- * seasarã®MaxAccumulatedTimeUpdateRecordStrategyã«ã€
- * Javelinãƒ­ã‚°é€šçŸ¥é›»æ–‡ã®é€ä¿¡å‡¦ç†ã‚’è¿½åŠ ã—ãŸã‚¹ãƒˆãƒ©ãƒ†ã‚¸ãƒ¼ã€‚
+ * seasar‚ÌMaxAccumulatedTimeUpdateRecordStrategy‚ÉA
+ * JavelinƒƒO’Ê’m“d•¶‚Ì‘—Mˆ—‚ğ’Ç‰Á‚µ‚½ƒXƒgƒ‰ƒeƒW[B
  * 
  * @author eriguchi
  */
 public class MaxAccumulatedTimeUpdateRecordStrategy extends
         S2MaxAccumulatedTimeUpdateRecordStrategy
 {
-    /** ãƒ¡ã‚¬ã‚’è¡¨ã™æ•°å­— */
+    /** ƒƒK‚ğ•\‚·”š */
     private static final int MEGA = 1000000;
     
     /**
-     * ã‚¢ãƒ©ãƒ¼ãƒ ã‚’ç™ºç”Ÿã•ã›ã‚‹ã‹ã©ã†ã‹ã‚’åˆ¤å®šã—ã¾ã™ã€‚<br />
+     * ƒAƒ‰[ƒ€‚ğ”­¶‚³‚¹‚é‚©‚Ç‚¤‚©‚ğ”»’è‚µ‚Ü‚·B<br />
      * 
-     * @param node {@link CallTreeNode}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @return ã‚¢ãƒ©ãƒ¼ãƒ ã‚’ç™ºç”Ÿã•ã›ã‚‹å ´åˆã€<code>true</code>
+     * @param node {@link CallTreeNode}ƒIƒuƒWƒFƒNƒg
+     * @return ƒAƒ‰[ƒ€‚ğ”­¶‚³‚¹‚éê‡A<code>true</code>
      */
     public boolean judgeSendExceedThresholdAlarm(final CallTreeNode node)
     {
@@ -73,15 +73,15 @@ public class MaxAccumulatedTimeUpdateRecordStrategy extends
     }
     
     /**
-     * Javelinãƒ­ã‚°é€šçŸ¥é›»æ–‡ã‚’é€ä¿¡ã™ã‚‹ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆã™ã‚‹ã€‚
+     * JavelinƒƒO’Ê’m“d•¶‚ğ‘—M‚·‚éƒR[ƒ‹ƒoƒbƒNƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
      * 
      * @param node CallTreeNode
-     * @return Javelinãƒ­ã‚°é€šçŸ¥é›»æ–‡ã‚’é€ä¿¡ã™ã‚‹ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @return JavelinƒƒO’Ê’m“d•¶‚ğ‘—M‚·‚éƒR[ƒ‹ƒoƒbƒNƒIƒuƒWƒFƒNƒg
      */
     @Override
     public JavelinLogCallback createCallback(final CallTreeNode node)
     {
-        // ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ã‚’è¶…ãˆã¦ã„ãŸå ´åˆã®ã¿Javelinãƒ­ã‚°é€šçŸ¥é›»æ–‡ã‚’é€ä¿¡ã™ã‚‹ã€‚
+        // ƒAƒ‰[ƒ€è‡’l‚ğ’´‚¦‚Ä‚¢‚½ê‡‚Ì‚İJavelinƒƒO’Ê’m“d•¶‚ğ‘—M‚·‚éB
         if (this.judgeSendExceedThresholdAlarm(node) == false)
         {
             return null;
@@ -91,9 +91,9 @@ public class MaxAccumulatedTimeUpdateRecordStrategy extends
     }
 
     /**
-     * Javelinãƒ­ã‚°é€šçŸ¥é›»æ–‡ã‚’é€ä¿¡ã™ã‚‹ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆã™ã‚‹ã€‚
+     * JavelinƒƒO’Ê’m“d•¶‚ğ‘—M‚·‚éƒR[ƒ‹ƒoƒbƒNƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
      * 
-     * @return ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯
+     * @return ƒR[ƒ‹ƒoƒbƒN
      */
     @Override
     public JavelinLogCallback createCallback()

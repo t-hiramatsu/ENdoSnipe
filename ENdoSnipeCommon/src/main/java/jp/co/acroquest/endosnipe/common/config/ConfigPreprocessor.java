@@ -38,8 +38,8 @@ import java.util.HashMap;
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 
 /**
- * è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ—ãƒªãƒ—ãƒ­ã‚»ãƒƒã‚µã€‚<br />
- * ã‚¤ãƒ³ãƒãƒ¼ãƒˆå®šç¾©ã‚’å±•é–‹ã™ã‚‹ã€‚
+ * İ’èƒtƒ@ƒCƒ‹‚ÌƒvƒŠƒvƒƒZƒbƒTB<br />
+ * ƒCƒ“ƒ|[ƒg’è‹`‚ğ“WŠJ‚·‚éB
  * 
  * @author nagai
  *
@@ -64,10 +64,10 @@ public class ConfigPreprocessor
     }
 
     /**
-     * ã‚¤ãƒ³ãƒãƒ¼ãƒˆå®šç¾©ã•ã‚Œã¦ã„ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ã™ã¹ã¦èª­ã¿è¾¼ã¿ã€
-     * ï¼‘ã¤ã«ã¾ã¨ã‚ã¦InputStreamã¨ã—ã¦è¿”ã™ã€‚
-     * @param file ãƒ«ãƒ¼ãƒˆã¨ãªã‚‹ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹
-     * @return ã‚¤ãƒ³ãƒãƒ¼ãƒˆå®šç¾©ã‚’ç½®ãæ›ãˆãŸInputStreamã€‚æ–‡å­—ã‚³ãƒ¼ãƒ‰MS932ã«å¯¾å¿œã—ãªã„Java VMã ã¨nullã‚’è¿”ã™ã€‚
+     * ƒCƒ“ƒ|[ƒg’è‹`‚³‚ê‚Ä‚¢‚éƒtƒ@ƒCƒ‹‚ğ‚·‚×‚Ä“Ç‚İ‚İA
+     * ‚P‚Â‚É‚Ü‚Æ‚ß‚ÄInputStream‚Æ‚µ‚Ä•Ô‚·B
+     * @param file ƒ‹[ƒg‚Æ‚È‚éƒtƒ@ƒCƒ‹‚ÌƒpƒX
+     * @return ƒCƒ“ƒ|[ƒg’è‹`‚ğ’u‚«Š·‚¦‚½InputStreamB•¶šƒR[ƒhMS932‚É‘Î‰‚µ‚È‚¢Java VM‚¾‚Ænull‚ğ•Ô‚·B
      */
     public static InputStream process(final File file)
     {

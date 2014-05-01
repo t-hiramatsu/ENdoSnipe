@@ -26,21 +26,21 @@
 package jp.co.acroquest.endosnipe.javelin.jdbc.stats;
 
 /**
- * SQLãƒˆãƒ¬ãƒ¼ã‚¹ã®å–å¾—çŠ¶æ…‹ã‚’å®šç¾©ã™ã‚‹ã€‚
+ * SQLƒgƒŒ[ƒX‚Ìæ“¾ó‘Ô‚ğ’è‹`‚·‚éB
  * 
  * @author eriguchi
  */
 public interface SqlTraceStatus
 {
-    /** SQLãƒˆãƒ¬ãƒ¼ã‚¹åˆæœŸåŒ–çŠ¶æ…‹ã‚’è¡¨ã™ãƒ•ãƒ©ã‚° */
+    /** SQLƒgƒŒ[ƒX‰Šú‰»ó‘Ô‚ğ•\‚·ƒtƒ‰ƒO */
     String KEY_SESSION_INITIALIZING = "javelin.jdbc.flag.session-initializing";
 
-    /** SQLãƒˆãƒ¬ãƒ¼ã‚¹å–å¾—ä¸­çŠ¶æ…‹ã‚’è¡¨ã™ãƒ•ãƒ©ã‚° */
+    /** SQLƒgƒŒ[ƒXæ“¾’†ó‘Ô‚ğ•\‚·ƒtƒ‰ƒO */
     String KEY_SESSION_STARTED = "javelin.jdbc.flag.session-started";
 
-    /** SQLãƒˆãƒ¬ãƒ¼ã‚¹çµ‚äº†ä¸­çŠ¶æ…‹ã‚’è¡¨ã™ãƒ•ãƒ©ã‚° */
+    /** SQLƒgƒŒ[ƒXI—¹’†ó‘Ô‚ğ•\‚·ƒtƒ‰ƒO */
     String KEY_SESSION_CLOSING = "javelin.jdbc.flag.session-closing";
 
-    /** SQLãƒˆãƒ¬ãƒ¼ã‚¹åœæ­¢ä¸­çŠ¶æ…‹ã‚’è¡¨ã™ãƒ•ãƒ©ã‚° */
+    /** SQLƒgƒŒ[ƒX’â~’†ó‘Ô‚ğ•\‚·ƒtƒ‰ƒO */
     String KEY_SESSION_FINISHED = "javelin.jdbc.flag.session-finished";
 }

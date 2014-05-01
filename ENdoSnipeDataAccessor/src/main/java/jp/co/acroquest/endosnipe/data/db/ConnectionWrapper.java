@@ -40,7 +40,7 @@ import jp.co.acroquest.endosnipe.common.util.AssertionUtil;
 import jp.co.acroquest.endosnipe.data.LogMessageCodes;
 
 /**
- * {@link Connection} ã‚’ãƒ©ãƒƒãƒ—ã™ã‚‹ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+ * {@link Connection} ‚ğƒ‰ƒbƒv‚·‚éƒNƒ‰ƒX‚Å‚·B<br />
  * 
  * @author y-komori
  */
@@ -54,10 +54,10 @@ public class ConnectionWrapper implements Connection, LogMessageCodes
     private final String dbName_;
 
     /**
-     * {@link ConnectionWrapper} ã‚’æ§‹ç¯‰ã—ã¾ã™ã€‚<br />
+     * {@link ConnectionWrapper} ‚ğ\’z‚µ‚Ü‚·B<br />
      * 
-     * @param wrappedConnection ãƒ©ãƒƒãƒ—å¯¾è±¡ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³
-     * @param dbName ãƒ‡ãƒ¼ã‚¿ãƒ¼ãƒ™ãƒ¼ã‚¹å
+     * @param wrappedConnection ƒ‰ƒbƒv‘ÎÛƒRƒlƒNƒVƒ‡ƒ“
+     * @param dbName ƒf[ƒ^[ƒx[ƒX–¼
      */
     public ConnectionWrapper(final Connection wrappedConnection, final String dbName)
     {

@@ -25,25 +25,23 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.javelin.resource;
 
-import java.util.concurrent.atomic.AtomicLong;
-
 import jp.co.acroquest.endosnipe.common.entity.ItemType;
 import jp.co.acroquest.endosnipe.javelin.SystemStatusManager;
 
 /**
- * ãƒ—ãƒ­ã‚»ã‚¹å…¨ä½“ã®ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ãƒ‡ãƒ¼ã‚¿å—ä¿¡é‡ã‚’å–å¾—ã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚
+ * ƒvƒƒZƒX‘S‘Ì‚Ìƒlƒbƒgƒ[ƒNƒf[ƒ^óM—Ê‚ğæ“¾‚·‚éƒNƒ‰ƒXB
  * 
  * @author Sakamoto
  */
 public class SystemStatusValueGetter extends AbstractResourceGetter
 {
-    /** ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ãŸã‚ã®ã‚­ãƒ¼ */
+    /** ƒf[ƒ^‚ğæ“¾‚·‚é‚½‚ß‚ÌƒL[ */
     private String key_;
 
     /**
-     * SystemStatusManagerã‹ã‚‰ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ãŸã‚ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã™ã‚‹ã€‚
+     * SystemStatusManager‚©‚çƒf[ƒ^‚ğæ“¾‚·‚é‚½‚ß‚ÌƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
      * 
-     * @param key ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ãŸã‚ã®ã‚­ãƒ¼
+     * @param key ƒf[ƒ^‚ğæ“¾‚·‚é‚½‚ß‚ÌƒL[
      */
     public SystemStatusValueGetter(String key)
     {
@@ -55,13 +53,16 @@ public class SystemStatusValueGetter extends AbstractResourceGetter
      */
     public Number getValue()
     {
-        AtomicLong size;
-        size = SystemStatusManager.getValue(this.key_);
+        Object size;
+        synchronized (SystemStatusManager.class)
+        {
+            size = SystemStatusManager.getValue(this.key_);
+        }
         if (size == null)
         {
-            size = new AtomicLong();
+            size = Long.valueOf(0);
         }
-        return size.get();
+        return (Long)size;
     }
 
     /**

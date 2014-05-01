@@ -40,723 +40,740 @@ import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 import jp.co.acroquest.endosnipe.communicator.entity.Body;
 import jp.co.acroquest.endosnipe.communicator.entity.Header;
 import jp.co.acroquest.endosnipe.communicator.entity.RequestBody;
+import jp.co.acroquest.endosnipe.communicator.entity.ResourceItemConverter;
 import jp.co.acroquest.endosnipe.communicator.entity.ResponseBody;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 
 /**
- * é›»æ–‡ã«é–¢ã™ã‚‹åŸºæœ¬æ©Ÿèƒ½ã‚’æä¾›ã™ã‚‹ãŸã‚ã®ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+ * “d•¶‚ÉŠÖ‚·‚éŠî–{‹@”\‚ğ’ñ‹Ÿ‚·‚é‚½‚ß‚Ìƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒX‚Å‚·B<br />
  * 
  * @author eriguchi
  */
 public final class TelegramUtil implements TelegramConstants
 {
-    private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(TelegramUtil.class);
-
-    /** é€ä¿¡é›»æ–‡ã®æœ€å¤§é•· */
-    public static final int TELEGRAM_LENGTH_MAX = 10 * 1024 * 1024;
-
-    /** å—ä¿¡é›»æ–‡ã®æœ€å¤§é•· */
-    public static final int TELEGRAM_READ_LENGTH_MAX = 1 * 1024 * 1024;
-
-    /** shortã‹ã‚‰byteé…åˆ—ã¸ã®å¤‰æ›æ™‚ã«å¿…è¦ãªãƒã‚¤ãƒˆæ•° */
-    private static final int SHORT_BYTE_SWITCH_LENGTH = 2;
-
-    /** intã‹ã‚‰byteé…åˆ—ã¸ã®å¤‰æ›æ™‚ã«å¿…è¦ãªãƒã‚¤ãƒˆæ•° */
-    private static final int INT_BYTE_SWITCH_LENGTH = 4;
-
-    /** longã‹ã‚‰byteé…åˆ—ã¸ã®å¤‰æ›æ™‚ã«å¿…è¦ãªãƒã‚¤ãƒˆæ•° */
-    private static final int LONG_BYTE_SWITCH_LENGTH = 8;
-
-    /** floatã‹ã‚‰byteé…åˆ—ã¸ã®å¤‰æ›æ™‚ã«å¿…è¦ãªãƒã‚¤ãƒˆæ•° */
-    private static final int FLOAT_BYTE_SWITCH_LENGTH = 4;
-
-    /** doubleã‹ã‚‰byteé…åˆ—ã¸ã®å¤‰æ›æ™‚ã«å¿…è¦ãªãƒã‚¤ãƒˆæ•° */
-    private static final int DOUBLE_BYTE_SWITCH_LENGTH = 8;
-
-    /** ãƒ˜ãƒƒãƒ€ã®é•·ã• */
-    public static final int TELEGRAM_HEADER_LENGTH = 18;
-
-    /** æ”¹è¡Œæ–‡å­—ã€‚ */
-    public static final String NEW_LINE = System.getProperty("line.separator");
-
-    /** æ–‡å­—åˆ—ã®æ–‡å­—ã‚³ãƒ¼ãƒ‰ */
-    private static final String CHAR_CODE = "UTF-8";
-
-    private static final long TELEGRAM_ID_START = 1;
-
-    /** é›»æ–‡ ID */
-    private static final AtomicLong TELEGRAM_ID = new AtomicLong(TELEGRAM_ID_START);
-
-    private TelegramUtil()
-    {
-        // Do nothing.
-    }
-
-    /**
-     * é›»æ–‡ ID ã‚’ç”Ÿæˆã—ã¾ã™ã€‚
-     * 
-     * @return é›»æ–‡ ID
-     */
-    public static long generateTelegramId()
-    {
-        // é›»æ–‡ ID ãŒæœ€å¤§å€¤ã«é”ã—ãŸå ´åˆã¯ã€å€¤ã‚’æˆ»ã™
-        TELEGRAM_ID.compareAndSet(Long.MAX_VALUE, TELEGRAM_ID_START);
-        return TELEGRAM_ID.getAndIncrement();
-    }
-
-    /**
-     * æ–‡å­—åˆ—ã‚’ãƒã‚¤ãƒˆé…åˆ—ï¼ˆï¼”ãƒã‚¤ãƒˆæ–‡å­—åˆ—é•·ï¼‹UTF8ï¼‰ã«å¤‰æ›ã—ã¾ã™ã€‚<br />
-     * 
-     * @param text
-     *            æ–‡å­—åˆ—
-     * @return ãƒã‚¤ãƒˆé…åˆ—
-     */
-    public static byte[] stringToByteArray(final String text)
-    {
-        byte[] textArray = new byte[0];
-        try
-        {
-            textArray = text.getBytes(CHAR_CODE);
-        }
-        catch (UnsupportedEncodingException ex)
-        {
-            SystemLogger.getInstance().warn(ex);
-        }
-        byte[] lengthArray = intToByteArray(textArray.length);
-
-        // æ–‡å­—åˆ—é•·ã¨æ–‡å­—åˆ—ã‚’çµåˆã™ã‚‹
-        return combineTwoByteArray(lengthArray, textArray);
-    }
-
-    /**
-     * 4ãƒã‚¤ãƒˆã®æ–‡å­—åˆ—é•·ï¼‹UTF8ã®ãƒã‚¤ãƒˆé…åˆ—ã‹ã‚‰æ–‡å­—åˆ—ã‚’ä½œæˆã—ã¾ã™ã€‚<br />
-     * 
-     * @param buffer
-     *            ãƒã‚¤ãƒˆé…åˆ—
-     * @return æ–‡å­—åˆ—
-     */
-    public static String byteArrayToString(final ByteBuffer buffer)
-    {
-        String strResult = "";
-
-        // æ–‡å­—åˆ—é•·ã‚’å–å¾—ã™ã‚‹
-        int intbyteArrLength = buffer.getInt();
-
-        if (intbyteArrLength > TELEGRAM_READ_LENGTH_MAX)
-        {
-            intbyteArrLength = TELEGRAM_READ_LENGTH_MAX;
-            LOGGER.log("WECC0101", intbyteArrLength);
-        }
-
-        try
-        {
-            byte[] byteSoruceArr = new byte[intbyteArrLength];
-            buffer.get(byteSoruceArr);
-
-            strResult = new String(byteSoruceArr, 0, intbyteArrLength, CHAR_CODE);
-        }
-        catch (UnsupportedEncodingException uee)
-        // CHECKSTYLE:OFF
-        {
-            // Do nothing.
-        }
-        // CHECKSTYLE:ON
-        catch (Throwable th)
-        {
-            LOGGER.log("WECC0102", th);
-        }
-
-        return strResult;
-    }
-
-    /**
-     * ï¼’ãƒã‚¤ãƒˆç¬¦å·ä»˜æ•´æ•°ã‚’ãƒã‚¤ãƒˆé…åˆ—ã«å¤‰æ›ã—ã¾ã™ã€‚<br />
-     * 
-     * @param value
-     *            å€¤
-     * @return ãƒã‚¤ãƒˆé…åˆ—
-     */
-    public static byte[] shortToByteArray(final short value)
-    {
-        ByteBuffer buffer = ByteBuffer.allocate(SHORT_BYTE_SWITCH_LENGTH);
-        buffer.putShort(value);
-        return buffer.array();
-    }
-
-    /**
-     * ï¼”ãƒã‚¤ãƒˆç¬¦å·ä»˜æ•´æ•°ã‚’ãƒã‚¤ãƒˆé…åˆ—ã«å¤‰æ›ã—ã¾ã™ã€‚<br />
-     * 
-     * @param value
-     *            å€¤
-     * @return ãƒã‚¤ãƒˆé…åˆ—
-     */
-    public static byte[] intToByteArray(final int value)
-    {
-        ByteBuffer buffer = ByteBuffer.allocate(INT_BYTE_SWITCH_LENGTH);
-        buffer.putInt(value);
-        return buffer.array();
-    }
-
-    /**
-     * ï¼˜ãƒã‚¤ãƒˆç¬¦å·ä»˜æ•´æ•°ã‚’ãƒã‚¤ãƒˆé…åˆ—ã«å¤‰æ›ã—ã¾ã™ã€‚<br />
-     * 
-     * @param value
-     *            å€¤
-     * @return ãƒã‚¤ãƒˆé…åˆ—
-     */
-    public static byte[] longToByteArray(final long value)
-    {
-        ByteBuffer buffer = ByteBuffer.allocate(LONG_BYTE_SWITCH_LENGTH);
-        buffer.putLong(value);
-        return buffer.array();
-    }
-
-    /**
-     * ï¼”ãƒã‚¤ãƒˆç¬¦å·ä»˜å°æ•°ã‚’ãƒã‚¤ãƒˆé…åˆ—ã«å¤‰æ›ã—ã¾ã™ã€‚<br />
-     * 
-     * @param value
-     *            å€¤
-     * @return ãƒã‚¤ãƒˆé…åˆ—
-     */
-    public static byte[] floatToByteArray(final float value)
-    {
-        ByteBuffer buffer = ByteBuffer.allocate(FLOAT_BYTE_SWITCH_LENGTH);
-        buffer.putFloat(value);
-        return buffer.array();
-    }
-
-    /**
-     * ï¼˜ãƒã‚¤ãƒˆç¬¦å·ä»˜å°æ•°ã‚’ãƒã‚¤ãƒˆé…åˆ—ã«å¤‰æ›ã—ã¾ã™ã€‚<br />
-     * 
-     * @param value
-     *            å€¤
-     * @return ãƒã‚¤ãƒˆé…åˆ—
-     */
-    public static byte[] doubleToByteArray(final double value)
-    {
-        ByteBuffer buffer = ByteBuffer.allocate(DOUBLE_BYTE_SWITCH_LENGTH);
-        buffer.putDouble(value);
-        return buffer.array();
-    }
-
-    /**
-     * é›»æ–‡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ãƒã‚¤ãƒˆé…åˆ—ã«å¤‰æ›ã—ã¾ã™ã€‚<br />
-     * 
-     * @param objTelegram
-     *            é›»æ–‡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @return ãƒã‚¤ãƒˆé…åˆ—
-     */
-    public static List<byte[]> createTelegram(final Telegram objTelegram)
-    {
-        Header header = objTelegram.getObjHeader();
-
-        List<byte[]> telegramList = new ArrayList<byte[]>();
-
-        // æœ¬ä½“ãƒ‡ãƒ¼ã‚¿ã‚’ä½œã‚‹
-        ByteArrayOutputStream byteArrayOutputStream = newByteStream(header);
-
-        if (objTelegram.getObjBody() != null)
-        {
-            for (Body body : objTelegram.getObjBody())
-            {
-                // ã‚µã‚¤ã‚ºã‚’è¶…ãˆãŸå ´åˆã«ã¯ã€ãã“ã¾ã§ã§ä¸€æ—¦é€ä¿¡ã™ã‚‹ã€‚
-                if (byteArrayOutputStream.size() > TELEGRAM_LENGTH_MAX)
-                {
-                    byte[] bytesBody = byteArrayOutputStream.toByteArray();
-                    int telegramLength = bytesBody.length;
-                    ByteBuffer outputBuffer = ByteBuffer.wrap(bytesBody);
-
-                    // ãƒ˜ãƒƒãƒ€ã‚’å¤‰æ›ã™ã‚‹
-                    outputBuffer.rewind();
-                    outputBuffer.putInt(telegramLength);
-                    telegramList.add(outputBuffer.array());
-
-                    // æ–°ã—ã„é›»æ–‡ã¨ã—ã¦ã€ãƒ˜ãƒƒãƒ€ã‚’è¿½åŠ ã™ã‚‹ã€‚
-                    byteArrayOutputStream = newByteStream(header);
-                }
-
-                try
-                {
-                    byte[] bytesObjName = stringToByteArray(body.getStrObjName());
-                    byte[] bytesItemName = stringToByteArray(body.getStrItemName());
-                    byte[] bytesObjDispName = stringToByteArray(body.getStrObjDispName());
-                    // æœ¬ä½“ãƒ‡ãƒ¼ã‚¿ã«è¨­å®šã™ã‚‹
-                    byteArrayOutputStream.write(bytesObjName);
-                    byteArrayOutputStream.write(bytesItemName);
-                    byteArrayOutputStream.write(bytesObjDispName);
-
-                    Body responseBody = body;
-                    ItemType itemType = responseBody.getByteItemMode();
-                    int loopCount = responseBody.getIntLoopCount();
-                    byte[] itemModeArray = new byte[]{ItemType.getItemTypeNumber(itemType)};
-                    byte[] loopCountArray = intToByteArray(loopCount);
-                    byteArrayOutputStream.write(itemModeArray);
-                    byteArrayOutputStream.write(loopCountArray);
-
-                    for (int index = 0; index < loopCount; index++)
-                    {
-                        Object obj = responseBody.getObjItemValueArr()[index];
-                        byte[] value = null;
-                        switch (itemType)
-                        {
-                        case ITEMTYPE_BYTE:
-                            value = new byte[]{((Number)obj).byteValue()};
-                            break;
-                        case ITEMTYPE_SHORT:
-                            value = shortToByteArray(((Number)obj).shortValue());
-                            break;
-                        case ITEMTYPE_INT:
-                            value = intToByteArray(((Number)obj).intValue());
-                            break;
-                        case ITEMTYPE_LONG:
-                            value = longToByteArray(((Number)obj).longValue());
-                            break;
-                        case ITEMTYPE_FLOAT:
-                            value = floatToByteArray(((Number)obj).floatValue());
-                            break;
-                        case ITEMTYPE_DOUBLE:
-                            value = doubleToByteArray(((Number)obj).doubleValue());
-                            break;
-                        case ITEMTYPE_STRING:
-                            value = stringToByteArray((String)obj);
-                            break;
-                        default:
-                            return null;
-                        }
-                        byteArrayOutputStream.write(value);
-                    }
-                }
-                catch (IOException ex)
-                {
-                    ex.printStackTrace();
-                    continue;
-                }
-            }
-        }
-
-        byte[] bytesBody = byteArrayOutputStream.toByteArray();
-        int telegramLength = bytesBody.length;
-        ByteBuffer outputBuffer = ByteBuffer.wrap(bytesBody);
-
-        // ãƒ˜ãƒƒãƒ€ã‚’å¤‰æ›ã™ã‚‹
-        outputBuffer.rewind();
-        outputBuffer.putInt(telegramLength);
-        outputBuffer.position(INT_BYTE_SWITCH_LENGTH + LONG_BYTE_SWITCH_LENGTH);
-        outputBuffer.put(FINAL_TELEGRAM);
-        return Arrays.asList(new byte[][]{outputBuffer.array()});
-    }
-
-    private static ByteArrayOutputStream newByteStream(Header header)
-    {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        ByteBuffer headerBuffer = initHeaderByteBuffer(header, HALFWAY_TELEGRAM);
-        try
-        {
-            byteArrayOutputStream.write(headerBuffer.array());
-        }
-        catch (IOException ioe)
-        {
-            ioe.printStackTrace();
-        }
-        return byteArrayOutputStream;
-    }
-
-    private static ByteBuffer initHeaderByteBuffer(Header header, byte finalTelegram)
-    {
-        ByteBuffer headerBuffer = ByteBuffer.allocate(TELEGRAM_HEADER_LENGTH);
-        headerBuffer.putInt(0); // é›»æ–‡é•·ã¯å¾Œã§å…¥ã‚Œã‚‹ã€‚
-        headerBuffer.putLong(header.getId());
-        headerBuffer.put(finalTelegram);
-        headerBuffer.put(header.getByteTelegramKind());
-        headerBuffer.put(header.getByteRequestKind());
-        return headerBuffer;
-    }
-
-    /**
-     * ãƒã‚¤ãƒˆé…åˆ—ã‚’é›»æ–‡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«å¤‰æ›ã—ã¾ã™ã€‚<br />
-     * 
-     * @param byteTelegramArr
-     *            ãƒã‚¤ãƒˆé…åˆ—
-     * @return é›»æ–‡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     */
-    public static Telegram recoveryTelegram(final byte[] byteTelegramArr)
-    {
-        // è¿”å´ã™ã‚‹ç”¨
-        Telegram objTelegram = new Telegram();
-
-        if (byteTelegramArr == null)
-        {
-            return null;
-        }
-
-        ByteBuffer telegramBuffer = ByteBuffer.wrap(byteTelegramArr);
-
-        // ã¾ãšã€Headeråˆ†ã‚’å–å¾—ã™ã‚‹
-        Header objHeader = new Header();
-        objHeader.setIntSize(telegramBuffer.getInt());
-        objHeader.setId(telegramBuffer.getLong());
-        objHeader.setLastTelegram(telegramBuffer.get());
-        objHeader.setByteTelegramKind(telegramBuffer.get());
-        objHeader.setByteRequestKind(telegramBuffer.get());
-        telegramBuffer.get();
-        telegramBuffer.get();
-        telegramBuffer.get();
-
-        byte kind = objHeader.getByteRequestKind();
-        boolean isResponseBody =
-            (kind == BYTE_REQUEST_KIND_RESPONSE || kind == BYTE_REQUEST_KIND_NOTIFY);
-
-        List<Body> bodyList = new ArrayList<Body>();
-
-        // æœ¬ä½“ã‚’å–å¾—ã™ã‚‹
-        while (telegramBuffer.remaining() > 0)
-        {
-            Body body;
-            String objectName = byteArrayToString(telegramBuffer);
-            String itemName = byteArrayToString(telegramBuffer);
-            String objDispName = byteArrayToString(telegramBuffer);
-
-            if (isResponseBody)
-            {
-                body = new ResponseBody();
-            }
-            else
-            {
-                body = new RequestBody();
-            }
-
-            // é …ç›®å‹è¨­å®š
-            body.setByteItemMode(ItemType.getItemType(telegramBuffer.get()));
-
-            // ç¹°ã‚Šè¿”ã—å›æ•°è¨­å®š
-            body.setIntLoopCount(telegramBuffer.getInt());
-
-            // å€¤è¨­å®š
-            Object[] values = new Object[body.getIntLoopCount()];
-            for (int index = 0; index < values.length; index++)
-            {
-                switch (body.getByteItemMode())
-                {
-                case ITEMTYPE_BYTE:
-                    values[index] = telegramBuffer.get();
-                    break;
-                case ITEMTYPE_SHORT:
-                    values[index] = telegramBuffer.getShort();
-                    break;
-                case ITEMTYPE_INT:
-                    values[index] = telegramBuffer.getInt();
-                    break;
-                case ITEMTYPE_LONG:
-                    values[index] = telegramBuffer.getLong();
-                    break;
-                case ITEMTYPE_FLOAT:
-                    values[index] = telegramBuffer.getFloat();
-                    break;
-                case ITEMTYPE_DOUBLE:
-                    values[index] = telegramBuffer.getDouble();
-                    break;
-                case ITEMTYPE_STRING:
-                    values[index] = byteArrayToString(telegramBuffer);
-                    break;
-                default:
-                    return null;
-                }
-            }
-            body.setObjItemValueArr(values);
-
-            body.setStrObjName(objectName);
-            body.setStrItemName(itemName);
-            body.setStrObjDispName(objDispName);
-            bodyList.add(body);
-        }
-
-        // æœ¬ä½“ãƒªã‚¹ãƒˆã‚’ä½œã‚‹
-        Body[] objBodyArr;
-        if (isResponseBody)
-        {
-            objBodyArr = bodyList.toArray(new ResponseBody[bodyList.size()]);
-        }
-        else
-        {
-            objBodyArr = bodyList.toArray(new Body[bodyList.size()]);
-        }
-
-        // å›å¾©ã—ãŸãƒ˜ãƒƒãƒ€ã¨æœ¬ä½“ã‚’é›»æ–‡ã«è¨­å®šã™ã‚‹
-        objTelegram.setObjHeader(objHeader);
-        objTelegram.setObjBody(objBodyArr);
-
-        return objTelegram;
-    }
-
-    /**
-     * æŒ‡å®šã•ã‚ŒãŸç¨®é¡ã®é›»æ–‡ã‚’ä½œæˆã—ã¾ã™ã€‚<br />
-     * 
-     * @param telegramKind
-     *            é›»æ–‡ç¨®åˆ¥
-     * @param requestKind
-     *            è¦æ±‚å¿œç­”ç¨®åˆ¥
-     * @param objectName
-     *            ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå
-     * @param itemName
-     *            é …ç›®å
-     * @param itemType
-     *            é …ç›®å‹
-     * @param value
-     *            å€¤
-     * @return é›»æ–‡
-     */
-    public static Telegram
-        createSingleTelegram(final byte telegramKind, final byte requestKind,
-            final String objectName, final String itemName, final ItemType itemType,
-            final Object value)
-    {
-        Header header = new Header();
-        header.setByteTelegramKind(telegramKind);
-        header.setByteRequestKind(requestKind);
-
-        ResponseBody responseBody = createSingleResponseBody(objectName, itemName, itemType, value);
-
-        Telegram telegram = new Telegram();
-        telegram.setObjHeader(header);
-        telegram.setObjBody(new Body[]{responseBody});
-        return telegram;
-    }
-
-    /**
-     * æŒ‡å®šã•ã‚ŒãŸç¨®é¡ã®å¿œç­”ã‚’ä½œæˆã—ã¾ã™ã€‚<br />
-     * 
-     * @param objectName
-     *            ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå
-     * @param itemName
-     *            é …ç›®å
-     * @param itemType
-     *            é …ç›®å‹
-     * @param value
-     *            å€¤
-     * @return å¿œç­”
-     */
-    public static ResponseBody createSingleResponseBody(final String objectName,
-        final String itemName, final ItemType itemType, final Object value)
-    {
-        ResponseBody responseBody = new ResponseBody();
-        responseBody.setStrObjName(objectName);
-        responseBody.setStrItemName(itemName);
-        responseBody.setByteItemMode(itemType);
-        Object[] itemValues;
-        if (value instanceof List<?>)
-        {
-            List<?> valueList = (List<?>)value;
-            itemValues = new Object[valueList.size()];
-            for (int index = 0; index < valueList.size(); index++)
-            {
-                itemValues[index] = valueList.get(index);
-            }
-        }
-        else
-        {
-            itemValues = new Object[]{value};
-        }
-        responseBody.setIntLoopCount(itemValues.length);
-        responseBody.setObjItemValueArr(itemValues);
-        return responseBody;
-    }
-
-    /**
-     * ï¼’ã¤ã®ãƒã‚¤ãƒˆé…åˆ—ã‚’çµåˆã—ã¾ã™ã€‚<br />
-     * 
-     * @param bytesFirst
-     *            æœ€åˆã®ãƒã‚¤ãƒˆé…åˆ—
-     * @param bytesSecond
-     *            å¾Œã‚ã«ã¤ãªã’ã‚‹ãƒã‚¤ãƒˆé…åˆ—
-     * @return ï¼’ã¤ã®ãƒã‚¤ãƒˆé…åˆ—ã‚’ã¤ãªã’ãŸãƒã‚¤ãƒˆã¯é›¶ã¤
-     */
-    private static byte[] combineTwoByteArray(final byte[] bytesFirst, final byte[] bytesSecond)
-    {
-        // è¿”å´ç”¨
-        byte[] bytesResult = null;
-
-        int byteBeforeArrLength = 0;
-        int byteAfterArrLength = 0;
-
-        // å‰åˆ† byte[] ã®ã‚µã‚¤ã‚ºã‚’å–å¾—
-        if (bytesFirst != null)
-        {
-            byteBeforeArrLength = bytesFirst.length;
-        }
-
-        // å¾Œåˆ† byte[] ã®ã‚µã‚¤ã‚ºã‚’å–å¾—
-        if (bytesSecond != null)
-        {
-            byteAfterArrLength = bytesSecond.length;
-        }
-
-        // è¿”å´ç”¨ byte[] ã‚’ä½œã‚‹
-        if (byteBeforeArrLength + byteAfterArrLength > 0)
-        {
-            bytesResult = new byte[byteBeforeArrLength + byteAfterArrLength];
-        }
-
-        // å‰åˆ† byte[] ã‚’è¿”å´ç”¨ byte[] ã«è¨­å®šã™ã‚‹
-        if (byteBeforeArrLength > 0)
-        {
-            System.arraycopy(bytesFirst, 0, bytesResult, 0, byteBeforeArrLength);
-        }
-
-        // å¾Œåˆ† byte[] ã‚’è¿”å´ç”¨ byte[] ã«è¨­å®šã™ã‚‹
-        if (byteAfterArrLength > 0)
-        {
-            System.arraycopy(bytesSecond, 0, bytesResult, byteBeforeArrLength, byteAfterArrLength);
-        }
-
-        // è¿”å´ã™ã‚‹
-        return bytesResult;
-    }
-
-    /**
-     * ReponseBodyã‚’ä½œæˆã—ã¾ã™ã€‚<br />
-     * 
-     * @param objName
-     *            ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå
-     * @param itemName
-     *            é …ç›®å
-     * @param itemMode
-     *            é …ç›®å‹
-     * @param objItemValueArr
-     *            é …ç›®å†…ã®é…åˆ—
-     * @return ReponseBody
-     */
-    public static ResponseBody createResponseBody(final String objName, final String itemName,
-        final ItemType itemMode, final Object[] objItemValueArr)
-    {
-        ResponseBody body = new ResponseBody();
-        body.setStrObjName(objName);
-        body.setStrItemName(itemName);
-        body.setByteItemMode(itemMode);
-        body.setIntLoopCount(objItemValueArr.length);
-        body.setObjItemValueArr(objItemValueArr);
-
-        return body;
-    }
-
-    /**
-     * é›»æ–‡å†…å®¹ã‚’ã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ã«å‡ºåŠ›ã—ã¾ã™ã€‚<br />
-     * 
-     * @param telegram
-     *            å‡ºåŠ›å¯¾è±¡é›»æ–‡
-     * @param length
-     *            å‡ºåŠ›å¯¾è±¡é›»æ–‡é•·
-     * @return ãƒ­ã‚°å‡ºåŠ›æ–‡å­—åˆ—
-     */
-    public static String toPrintStr(final Telegram telegram, final int length)
-    {
-        StringBuffer receivedBuffer = new StringBuffer();
-
-        Header header = telegram.getObjHeader();
-        byte telegramKind = header.getByteTelegramKind();
-        byte requestKind = header.getByteRequestKind();
-
-        receivedBuffer.append(NEW_LINE);
-        receivedBuffer.append(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-        receivedBuffer.append(NEW_LINE);
-
-        receivedBuffer.append("é›»æ–‡ç¨®åˆ¥      :[" + telegramKind + "]");
-        receivedBuffer.append(NEW_LINE);
-        receivedBuffer.append("è¦æ±‚å¿œç­”ç¨®åˆ¥  :[" + requestKind + "]");
-        receivedBuffer.append(NEW_LINE);
-        receivedBuffer.append("é›»æ–‡é•·        :[" + length + "]");
-        receivedBuffer.append(NEW_LINE);
-
-        Body[] objBody = telegram.getObjBody();
-
-        receivedBuffer.append("ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå\té …ç›®å\té …ç›®å‹\tç¹°ã‚Šè¿”ã—å›æ•°\té …ç›®å€¤");
-        receivedBuffer.append(NEW_LINE);
-        for (Body body : objBody)
-        {
-            String objName = body.getStrObjName();
-            String itemName = body.getStrItemName();
-            String itemMode = "";
-            String loopCount = "";
-            StringBuffer itemValue = new StringBuffer();
-
-            if (body instanceof ResponseBody)
-            {
-                ResponseBody responseBody = (ResponseBody)body;
-                itemMode = "[" + responseBody.getByteItemMode() + "]";
-                loopCount = "[" + responseBody.getIntLoopCount() + "]";
-
-                Object[] objArr = responseBody.getObjItemValueArr();
-                for (Object obj : objArr)
-                {
-                    itemValue.append("[" + obj + "]");
-                }
-            }
-            receivedBuffer.append(objName);
-            receivedBuffer.append("\t");
-            receivedBuffer.append(itemName);
-            receivedBuffer.append("\t");
-            receivedBuffer.append(itemMode);
-            receivedBuffer.append("\t");
-            receivedBuffer.append(loopCount);
-            receivedBuffer.append("\t");
-            receivedBuffer.append(itemValue);
-            receivedBuffer.append(NEW_LINE);
-        }
-
-        receivedBuffer.append("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-        receivedBuffer.append(NEW_LINE);
-
-        String receivedStr = receivedBuffer.toString();
-
-        return receivedStr;
-    }
-
-    /**
-         * ãƒ€ãƒ³ãƒ—å–å¾—è¦æ±‚ã®é›»æ–‡æœ¬ä½“ã‚’ä½œæˆã—ã¾ã™ã€‚
-          * 
-         * @param objName
-         *            ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå
-         * @param itemName
-       *            é …ç›®å
-          * @return ãƒ€ãƒ³ãƒ—å–å¾—è¦æ±‚ã®é›»æ–‡æœ¬ä½“
-          */
-    public static Body[] createEmptyRequestBody(final String objName, final String itemName)
-    {
-        Body[] bodies = new Body[1];
-        Body objBody = new Body();
-        objBody.setStrObjName(objName);
-        objBody.setStrItemName(itemName);
-        objBody.setIntLoopCount(0);
-        objBody.setByteItemMode(ItemType.ITEMTYPE_BYTE);
-        objBody.setObjItemValueArr(new Object[0]);
-        bodies[0] = objBody;
-        return bodies;
-    }
-
-    /**
-     * ãƒ€ãƒ³ãƒ—å–å¾—è¦æ±‚ã®é›»æ–‡æœ¬ä½“ã‚’ä½œæˆã—ã¾ã™ã€‚
-    * 
-     * @param objName
-     *            ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå
-     * @param itemName
-     *            é …ç›®å
-     * @param agentName
-     *            agentName
-     * @return ãƒ€ãƒ³ãƒ—å–å¾—è¦æ±‚ã®é›»æ–‡æœ¬ä½“
-     */
-    public static Body[] createEmptyRequestBody(final String objName, final String itemName,
-        final String agentName)
-    {
-        Body[] bodies = new Body[2];
-        Body objBody = new Body();
-        objBody.setStrObjName(itemName);
-        objBody.setStrItemName(agentName);
-        objBody.setIntLoopCount(0);
-        objBody.setByteItemMode(ItemType.ITEMTYPE_BYTE);
-        objBody.setObjItemValueArr(new Object[0]);
-        bodies[0] = createEmptyRequestBody(objName, itemName)[0];
-        bodies[1] = objBody;
-        return bodies;
-    }
-
+	private static final ENdoSnipeLogger LOGGER = 
+			ENdoSnipeLogger.getLogger(TelegramUtil.class);
+
+	/** ‘—M“d•¶‚ÌÅ‘å’· */
+	public static final int TELEGRAM_LENGTH_MAX = 10 * 1024 * 1024;
+
+	/** óM“d•¶‚ÌÅ‘å’· */
+	public static final int TELEGRAM_READ_LENGTH_MAX = 1 * 1024 * 1024;
+
+	/** short‚©‚çbyte”z—ñ‚Ö‚Ì•ÏŠ·‚É•K—v‚ÈƒoƒCƒg” */
+	private static final int SHORT_BYTE_SWITCH_LENGTH = 2;
+
+	/** int‚©‚çbyte”z—ñ‚Ö‚Ì•ÏŠ·‚É•K—v‚ÈƒoƒCƒg” */
+	private static final int INT_BYTE_SWITCH_LENGTH = 4;
+
+	/** long‚©‚çbyte”z—ñ‚Ö‚Ì•ÏŠ·‚É•K—v‚ÈƒoƒCƒg” */
+	private static final int LONG_BYTE_SWITCH_LENGTH = 8;
+
+	/** float‚©‚çbyte”z—ñ‚Ö‚Ì•ÏŠ·‚É•K—v‚ÈƒoƒCƒg” */
+	private static final int FLOAT_BYTE_SWITCH_LENGTH = 4;
+
+	/** double‚©‚çbyte”z—ñ‚Ö‚Ì•ÏŠ·‚É•K—v‚ÈƒoƒCƒg” */
+	private static final int DOUBLE_BYTE_SWITCH_LENGTH = 8;
+
+	/** ƒwƒbƒ_‚Ì’·‚³ */
+	public static final int TELEGRAM_HEADER_LENGTH = 18;
+
+	/** ‰üs•¶šB */
+	public static final String NEW_LINE = System.getProperty("line.separator");
+
+	/** •¶š—ñ‚Ì•¶šƒR[ƒh */
+	private static final String CHAR_CODE = "UTF-8";
+
+	private static final long TELEGRAM_ID_START = 1;
+
+	/** “d•¶ ID */
+	private static final AtomicLong TELEGRAM_ID = new AtomicLong(TELEGRAM_ID_START);
+
+	private TelegramUtil()
+	{
+		// Do nothing.
+	}
+
+	/**
+	 * “d•¶ ID ‚ğ¶¬‚µ‚Ü‚·B
+	 * 
+	 * @return “d•¶ ID
+	 */
+	public static long generateTelegramId()
+	{
+		// “d•¶ ID ‚ªÅ‘å’l‚É’B‚µ‚½ê‡‚ÍA’l‚ğ–ß‚·
+		TELEGRAM_ID.compareAndSet(Long.MAX_VALUE, TELEGRAM_ID_START);
+		return TELEGRAM_ID.getAndIncrement();
+	}
+
+	/**
+	 * •¶š—ñ‚ğƒoƒCƒg”z—ñi‚SƒoƒCƒg•¶š—ñ’·{UTF8j‚É•ÏŠ·‚µ‚Ü‚·B<br />
+	 * 
+	 * @param text
+	 *            •¶š—ñ
+	 * @return ƒoƒCƒg”z—ñ
+	 */
+	public static byte[] stringToByteArray(final String text)
+	{
+		byte[] textArray = new byte[0];
+		try
+		{
+			textArray = text.getBytes(CHAR_CODE);
+		}
+		catch (UnsupportedEncodingException ex)
+		{
+			SystemLogger.getInstance().warn(ex);
+		}
+		byte[] lengthArray = intToByteArray(textArray.length);
+
+		// •¶š—ñ’·‚Æ•¶š—ñ‚ğŒ‹‡‚·‚é
+		return combineTwoByteArray(lengthArray, textArray);
+	}
+
+	/**
+	 * 4ƒoƒCƒg‚Ì•¶š—ñ’·{UTF8‚ÌƒoƒCƒg”z—ñ‚©‚ç•¶š—ñ‚ğì¬‚µ‚Ü‚·B<br />
+	 * 
+	 * @param buffer
+	 *            ƒoƒCƒg”z—ñ
+	 * @return •¶š—ñ
+	 */
+	public static String byteArrayToString(final ByteBuffer buffer)
+	{
+		String strResult = "";
+
+		// •¶š—ñ’·‚ğæ“¾‚·‚é
+		int intbyteArrLength = buffer.getInt();
+
+		if (intbyteArrLength > TELEGRAM_READ_LENGTH_MAX)
+		{
+			intbyteArrLength = TELEGRAM_READ_LENGTH_MAX;
+			LOGGER.log("WECC0101", intbyteArrLength);
+		}
+
+		try
+		{
+			byte[] byteSoruceArr = new byte[intbyteArrLength];
+			buffer.get(byteSoruceArr);
+
+			strResult = new String(byteSoruceArr, 0, intbyteArrLength,
+					CHAR_CODE);
+		}
+		catch (UnsupportedEncodingException uee)
+		// CHECKSTYLE:OFF
+		{
+			// Do nothing.
+		}
+		// CHECKSTYLE:ON
+		catch (Throwable th)
+		{
+			LOGGER.log("WECC0102", th);
+		}
+
+		return strResult;
+	}
+
+	/**
+	 * ‚QƒoƒCƒg•„†•t®”‚ğƒoƒCƒg”z—ñ‚É•ÏŠ·‚µ‚Ü‚·B<br />
+	 * 
+	 * @param value
+	 *            ’l
+	 * @return ƒoƒCƒg”z—ñ
+	 */
+	public static byte[] shortToByteArray(final short value)
+	{
+		ByteBuffer buffer = ByteBuffer.allocate(SHORT_BYTE_SWITCH_LENGTH);
+		buffer.putShort(value);
+		return buffer.array();
+	}
+
+	/**
+	 * ‚SƒoƒCƒg•„†•t®”‚ğƒoƒCƒg”z—ñ‚É•ÏŠ·‚µ‚Ü‚·B<br />
+	 * 
+	 * @param value
+	 *            ’l
+	 * @return ƒoƒCƒg”z—ñ
+	 */
+	public static byte[] intToByteArray(final int value)
+	{
+		ByteBuffer buffer = ByteBuffer.allocate(INT_BYTE_SWITCH_LENGTH);
+		buffer.putInt(value);
+		return buffer.array();
+	}
+
+	/**
+	 * ‚WƒoƒCƒg•„†•t®”‚ğƒoƒCƒg”z—ñ‚É•ÏŠ·‚µ‚Ü‚·B<br />
+	 * 
+	 * @param value
+	 *            ’l
+	 * @return ƒoƒCƒg”z—ñ
+	 */
+	public static byte[] longToByteArray(final long value)
+	{
+		ByteBuffer buffer = ByteBuffer.allocate(LONG_BYTE_SWITCH_LENGTH);
+		buffer.putLong(value);
+		return buffer.array();
+	}
+
+	/**
+	 * ‚SƒoƒCƒg•„†•t¬”‚ğƒoƒCƒg”z—ñ‚É•ÏŠ·‚µ‚Ü‚·B<br />
+	 * 
+	 * @param value
+	 *            ’l
+	 * @return ƒoƒCƒg”z—ñ
+	 */
+	public static byte[] floatToByteArray(final float value)
+	{
+		ByteBuffer buffer = ByteBuffer.allocate(FLOAT_BYTE_SWITCH_LENGTH);
+		buffer.putFloat(value);
+		return buffer.array();
+	}
+
+	/**
+	 * ‚WƒoƒCƒg•„†•t¬”‚ğƒoƒCƒg”z—ñ‚É•ÏŠ·‚µ‚Ü‚·B<br />
+	 * 
+	 * @param value
+	 *            ’l
+	 * @return ƒoƒCƒg”z—ñ
+	 */
+	public static byte[] doubleToByteArray(final double value)
+	{
+		ByteBuffer buffer = ByteBuffer.allocate(DOUBLE_BYTE_SWITCH_LENGTH);
+		buffer.putDouble(value);
+		return buffer.array();
+	}
+
+	/**
+	 * “d•¶ƒIƒuƒWƒFƒNƒg‚ğƒoƒCƒg”z—ñ‚É•ÏŠ·‚µ‚Ü‚·B<br />
+	 * 
+	 * @param objTelegram
+	 *            “d•¶ƒIƒuƒWƒFƒNƒg
+	 * @return ƒoƒCƒg”z—ñ
+	 */
+	public static List<byte[]> createTelegram(final Telegram objTelegram)
+	{
+		Header header = objTelegram.getObjHeader();
+
+		List<byte[]> telegramList = new ArrayList<byte[]>();
+
+		// –{‘Ìƒf[ƒ^‚ğì‚é
+		ByteArrayOutputStream byteArrayOutputStream = newByteStream(header);
+
+		if (objTelegram.getObjBody() != null)
+		{
+			for (Body body : objTelegram.getObjBody())
+			{
+				// ƒTƒCƒY‚ğ’´‚¦‚½ê‡‚É‚ÍA‚»‚±‚Ü‚Å‚Åˆê’U‘—M‚·‚éB
+				if (byteArrayOutputStream.size() > TELEGRAM_LENGTH_MAX)
+				{
+					byte[] bytesBody = byteArrayOutputStream.toByteArray();
+					int telegramLength = bytesBody.length;
+					ByteBuffer outputBuffer = ByteBuffer.wrap(bytesBody);
+
+					// ƒwƒbƒ_‚ğ•ÏŠ·‚·‚é
+					outputBuffer.rewind();
+					outputBuffer.putInt(telegramLength);
+					telegramList.add(outputBuffer.array());
+
+					// V‚µ‚¢“d•¶‚Æ‚µ‚ÄAƒwƒbƒ_‚ğ’Ç‰Á‚·‚éB
+					byteArrayOutputStream = newByteStream(header);
+				}
+
+				try
+				{
+					byte[] bytesObjName = stringToByteArray(body
+							.getStrObjName());
+					byte[] bytesItemName = stringToByteArray(body
+							.getStrItemName());
+					byte[] bytesObjDispName = stringToByteArray(body
+							.getStrObjDispName());
+					// –{‘Ìƒf[ƒ^‚Éİ’è‚·‚é
+					byteArrayOutputStream.write(bytesObjName);
+					byteArrayOutputStream.write(bytesItemName);
+					byteArrayOutputStream.write(bytesObjDispName);
+
+					Body responseBody = body;
+					ItemType itemType = responseBody.getByteItemMode();
+					int loopCount = responseBody.getIntLoopCount();
+					byte[] itemModeArray = new byte[]
+					{ ItemType.getItemTypeNumber(itemType) };
+					byte[] loopCountArray = intToByteArray(loopCount);
+					byteArrayOutputStream.write(itemModeArray);
+					byteArrayOutputStream.write(loopCountArray);
+
+					for (int index = 0; index < loopCount; index++)
+					{
+						Object obj 
+							= responseBody.getObjItemValueArr()[index];
+						byte[] value = null;
+						switch (itemType)
+						{
+						case ITEMTYPE_BYTE:
+							value = new byte[]
+							{ ((Number) obj).byteValue() };
+							break;
+						case ITEMTYPE_SHORT:
+							value = shortToByteArray(((Number) obj)
+									.shortValue());
+							break;
+						case ITEMTYPE_INT:
+							value
+								= intToByteArray(
+									((Number) obj).intValue());
+							break;
+						case ITEMTYPE_LONG:
+							value
+								= longToByteArray(
+									((Number) obj).longValue());
+							break;
+						case ITEMTYPE_FLOAT:
+							value = floatToByteArray(((Number) obj)
+									.floatValue());
+							break;
+						case ITEMTYPE_DOUBLE:
+							value = doubleToByteArray(((Number) obj)
+									.doubleValue());
+							break;
+						case ITEMTYPE_STRING:
+							value = stringToByteArray((String) obj);
+							break;
+						case ITEMTYPE_JMX:
+							value = stringToByteArray((String) obj);
+							break;
+						default:
+							return null;
+						}
+						byteArrayOutputStream.write(value);
+					}
+				}
+				catch (IOException ex)
+				{
+					ex.printStackTrace();
+					continue;
+				}
+			}
+		}
+
+		byte[] bytesBody = byteArrayOutputStream.toByteArray();
+		int telegramLength = bytesBody.length;
+		ByteBuffer outputBuffer = ByteBuffer.wrap(bytesBody);
+
+		// ƒwƒbƒ_‚ğ•ÏŠ·‚·‚é
+		outputBuffer.rewind();
+		outputBuffer.putInt(telegramLength);
+		outputBuffer.position(INT_BYTE_SWITCH_LENGTH + LONG_BYTE_SWITCH_LENGTH);
+		outputBuffer.put(FINAL_TELEGRAM);
+		return Arrays.asList(new byte[][]
+		{ outputBuffer.array() });
+	}
+
+	private static ByteArrayOutputStream newByteStream(Header header)
+	{
+		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		ByteBuffer headerBuffer = initHeaderByteBuffer(header, HALFWAY_TELEGRAM);
+		try
+		{
+			byteArrayOutputStream.write(headerBuffer.array());
+		}
+		catch (IOException ioe)
+		{
+			ioe.printStackTrace();
+		}
+		return byteArrayOutputStream;
+	}
+
+	private static ByteBuffer initHeaderByteBuffer(Header header,
+			byte finalTelegram)
+	{
+		ByteBuffer headerBuffer = ByteBuffer.allocate(TELEGRAM_HEADER_LENGTH);
+		headerBuffer.putInt(0); // “d•¶’·‚ÍŒã‚Å“ü‚ê‚éB
+		headerBuffer.putLong(header.getId());
+		headerBuffer.put(finalTelegram);
+		headerBuffer.put(header.getByteTelegramKind());
+		headerBuffer.put(header.getByteRequestKind());
+		return headerBuffer;
+	}
+
+	/**
+	 * ƒoƒCƒg”z—ñ‚ğ“d•¶ƒIƒuƒWƒFƒNƒg‚É•ÏŠ·‚µ‚Ü‚·B<br />
+	 * 
+	 * @param byteTelegramArr
+	 *            ƒoƒCƒg”z—ñ
+	 * @return “d•¶ƒIƒuƒWƒFƒNƒg
+	 */
+	public static Telegram recoveryTelegram(final byte[] byteTelegramArr)
+	{
+		// •Ô‹p‚·‚é—p
+		Telegram objTelegram = new Telegram();
+
+		if (byteTelegramArr == null)
+		{
+			return null;
+		}
+
+		ByteBuffer telegramBuffer = ByteBuffer.wrap(byteTelegramArr);
+
+		// ‚Ü‚¸AHeader•ª‚ğæ“¾‚·‚é
+		Header objHeader = new Header();
+		objHeader.setIntSize(telegramBuffer.getInt());
+		objHeader.setId(telegramBuffer.getLong());
+		objHeader.setLastTelegram(telegramBuffer.get());
+		objHeader.setByteTelegramKind(telegramBuffer.get());
+		objHeader.setByteRequestKind(telegramBuffer.get());
+		telegramBuffer.get();
+		telegramBuffer.get();
+		telegramBuffer.get();
+
+		byte kind = objHeader.getByteRequestKind();
+		boolean isResponseBody = 
+			(kind == BYTE_REQUEST_KIND_RESPONSE || kind == BYTE_REQUEST_KIND_NOTIFY);
+
+		List<Body> bodyList = new ArrayList<Body>();
+
+		// –{‘Ì‚ğæ“¾‚·‚é
+		while (telegramBuffer.remaining() > 0)
+		{
+			Body body;
+			String objectName = byteArrayToString(telegramBuffer);
+			String itemName = byteArrayToString(telegramBuffer);
+			String objDispName = byteArrayToString(telegramBuffer);
+
+			if (isResponseBody)
+			{
+				body = new ResponseBody();
+			}
+			else
+			{
+				body = new RequestBody();
+			}
+
+			// €–ÚŒ^İ’è
+			body.setByteItemMode(ItemType.getItemType(telegramBuffer.get()));
+
+			// ŒJ‚è•Ô‚µ‰ñ”İ’è
+			body.setIntLoopCount(telegramBuffer.getInt());
+
+			// ’lİ’è
+			Object[] values = new Object[body.getIntLoopCount()];
+			for (int index = 0; index < values.length; index++)
+			{
+				switch (body.getByteItemMode())
+				{
+				case ITEMTYPE_BYTE:
+					values[index] = telegramBuffer.get();
+					break;
+				case ITEMTYPE_SHORT:
+					values[index] = telegramBuffer.getShort();
+					break;
+				case ITEMTYPE_INT:
+					values[index] = telegramBuffer.getInt();
+					break;
+				case ITEMTYPE_LONG:
+					values[index] = telegramBuffer.getLong();
+					break;
+				case ITEMTYPE_FLOAT:
+					values[index] = telegramBuffer.getFloat();
+					break;
+				case ITEMTYPE_DOUBLE:
+					values[index] = telegramBuffer.getDouble();
+					break;
+				case ITEMTYPE_STRING:
+					values[index] = byteArrayToString(telegramBuffer);
+					break;
+				case ITEMTYPE_JMX:
+					String jsonStr = byteArrayToString(telegramBuffer);
+					try
+					{
+						values[index] = ResourceItemConverter.getInstance()
+								.decodeFromJSON(jsonStr);
+					}
+					catch (Exception e)
+					{
+						SystemLogger.getInstance().warn(e);
+					}
+					break;
+				default:
+					return null;
+				}
+			}
+			body.setObjItemValueArr(values);
+
+			body.setStrObjName(objectName);
+			body.setStrItemName(itemName);
+			body.setStrObjDispName(objDispName);
+			bodyList.add(body);
+		}
+
+		// –{‘ÌƒŠƒXƒg‚ğì‚é
+		Body[] objBodyArr;
+		if (isResponseBody)
+		{
+			objBodyArr = bodyList.toArray(new ResponseBody[bodyList.size()]);
+		}
+		else
+		{
+			objBodyArr = bodyList.toArray(new Body[bodyList.size()]);
+		}
+
+		// ‰ñ•œ‚µ‚½ƒwƒbƒ_‚Æ–{‘Ì‚ğ“d•¶‚Éİ’è‚·‚é
+		objTelegram.setObjHeader(objHeader);
+		objTelegram.setObjBody(objBodyArr);
+
+		return objTelegram;
+	}
+
+	/**
+	 * w’è‚³‚ê‚½í—Ş‚Ì“d•¶‚ğì¬‚µ‚Ü‚·B<br />
+	 * 
+	 * @param telegramKind
+	 *            “d•¶í•Ê
+	 * @param requestKind
+	 *            —v‹‰“ší•Ê
+	 * @param objectName
+	 *            ƒIƒuƒWƒFƒNƒg–¼
+	 * @param itemName
+	 *            €–Ú–¼
+	 * @param itemType
+	 *            €–ÚŒ^
+	 * @param value
+	 *            ’l
+	 * @return “d•¶
+	 */
+	public static Telegram createSingleTelegram(final byte telegramKind,
+			final byte requestKind, final String objectName,
+			final String itemName, final ItemType itemType, final Object value)
+	{
+		Header header = new Header();
+		header.setByteTelegramKind(telegramKind);
+		header.setByteRequestKind(requestKind);
+
+		ResponseBody responseBody = createSingleResponseBody(objectName,
+				itemName, itemType, value);
+
+		Telegram telegram = new Telegram();
+		telegram.setObjHeader(header);
+		telegram.setObjBody(new Body[]
+		{ responseBody });
+		return telegram;
+	}
+
+	/**
+	 * ƒ_ƒ“ƒvæ“¾—v‹‚Ì“d•¶–{‘Ì‚ğì¬‚µ‚Ü‚·B
+	 * 
+	 * @param objName
+	 *            ƒIƒuƒWƒFƒNƒg–¼
+	 * @param itemName
+	 *            €–Ú–¼
+	 * @return ƒ_ƒ“ƒvæ“¾—v‹‚Ì“d•¶–{‘Ì
+	 */
+	public static Body[] createEmptyRequestBody(final String objName,
+			final String itemName)
+	{
+		Body[] bodies = new Body[1];
+		Body objBody = new Body();
+		objBody.setStrObjName(objName);
+		objBody.setStrItemName(itemName);
+		objBody.setIntLoopCount(0);
+		objBody.setByteItemMode(ItemType.ITEMTYPE_BYTE);
+		objBody.setObjItemValueArr(new Object[0]);
+		bodies[0] = objBody;
+		return bodies;
+	}
+
+	/**
+	 * w’è‚³‚ê‚½í—Ş‚Ì‰“š‚ğì¬‚µ‚Ü‚·B<br />
+	 * 
+	 * @param objectName
+	 *            ƒIƒuƒWƒFƒNƒg–¼
+	 * @param itemName
+	 *            €–Ú–¼
+	 * @param itemType
+	 *            €–ÚŒ^
+	 * @param value
+	 *            ’l
+	 * @return ‰“š
+	 */
+	public static ResponseBody createSingleResponseBody(
+			final String objectName, final String itemName,
+			final ItemType itemType, final Object value)
+	{
+		ResponseBody responseBody = new ResponseBody();
+		responseBody.setStrObjName(objectName);
+		responseBody.setStrItemName(itemName);
+		responseBody.setByteItemMode(itemType);
+		Object[] itemValues;
+		if (value instanceof List<?>)
+		{
+			List<?> valueList = (List<?>) value;
+			itemValues = new Object[valueList.size()];
+			for (int index = 0; index < valueList.size(); index++)
+			{
+				itemValues[index] = valueList.get(index);
+			}
+		}
+		else
+		{
+			itemValues = new Object[]
+			{ value };
+		}
+		responseBody.setIntLoopCount(itemValues.length);
+		responseBody.setObjItemValueArr(itemValues);
+		return responseBody;
+	}
+
+	/**
+	 * ‚Q‚Â‚ÌƒoƒCƒg”z—ñ‚ğŒ‹‡‚µ‚Ü‚·B<br />
+	 * 
+	 * @param bytesFirst
+	 *            Å‰‚ÌƒoƒCƒg”z—ñ
+	 * @param bytesSecond
+	 *            Œã‚ë‚É‚Â‚È‚°‚éƒoƒCƒg”z—ñ
+	 * @return ‚Q‚Â‚ÌƒoƒCƒg”z—ñ‚ğ‚Â‚È‚°‚½ƒoƒCƒg‚Í—ë‚Â
+	 */
+	private static byte[] combineTwoByteArray(final byte[] bytesFirst,
+			final byte[] bytesSecond)
+	{
+		// •Ô‹p—p
+		byte[] bytesResult = null;
+
+		int byteBeforeArrLength = 0;
+		int byteAfterArrLength = 0;
+
+		// ‘O•ª byte[] ‚ÌƒTƒCƒY‚ğæ“¾
+		if (bytesFirst != null)
+		{
+			byteBeforeArrLength = bytesFirst.length;
+		}
+
+		// Œã•ª byte[] ‚ÌƒTƒCƒY‚ğæ“¾
+		if (bytesSecond != null)
+		{
+			byteAfterArrLength = bytesSecond.length;
+		}
+
+		// •Ô‹p—p byte[] ‚ğì‚é
+		if (byteBeforeArrLength + byteAfterArrLength > 0)
+		{
+			bytesResult = new byte[byteBeforeArrLength + byteAfterArrLength];
+		}
+
+		// ‘O•ª byte[] ‚ğ•Ô‹p—p byte[] ‚Éİ’è‚·‚é
+		if (byteBeforeArrLength > 0)
+		{
+			System
+					.arraycopy(bytesFirst, 0, bytesResult, 0,
+							byteBeforeArrLength);
+		}
+
+		// Œã•ª byte[] ‚ğ•Ô‹p—p byte[] ‚Éİ’è‚·‚é
+		if (byteAfterArrLength > 0)
+		{
+			System.arraycopy(bytesSecond, 0, bytesResult, byteBeforeArrLength,
+					byteAfterArrLength);
+		}
+
+		// •Ô‹p‚·‚é
+		return bytesResult;
+	}
+
+	/**
+	 * ReponseBody‚ğì¬‚µ‚Ü‚·B<br />
+	 * 
+	 * @param objName
+	 *            ƒIƒuƒWƒFƒNƒg–¼
+	 * @param itemName
+	 *            €–Ú–¼
+	 * @param itemMode
+	 *            €–ÚŒ^
+	 * @param objItemValueArr
+	 *            €–Ú“à‚Ì”z—ñ
+	 * @return ReponseBody
+	 */
+	public static ResponseBody createResponseBody(final String objName,
+			final String itemName, final ItemType itemMode,
+			final Object[] objItemValueArr)
+	{
+		ResponseBody body = new ResponseBody();
+		body.setStrObjName(objName);
+		body.setStrItemName(itemName);
+		body.setByteItemMode(itemMode);
+		body.setIntLoopCount(objItemValueArr.length);
+		body.setObjItemValueArr(objItemValueArr);
+
+		return body;
+	}
+
+	/**
+	 * “d•¶“à—e‚ğƒVƒXƒeƒ€ƒƒO‚Éo—Í‚µ‚Ü‚·B<br />
+	 * 
+	 * @param telegram
+	 *            o—Í‘ÎÛ“d•¶
+	 * @param length
+	 *            o—Í‘ÎÛ“d•¶’·
+	 * @return ƒƒOo—Í•¶š—ñ
+	 */
+	public static String toPrintStr(final Telegram telegram, final int length)
+	{
+		StringBuffer receivedBuffer = new StringBuffer();
+
+		Header header = telegram.getObjHeader();
+		byte telegramKind = header.getByteTelegramKind();
+		byte requestKind = header.getByteRequestKind();
+
+		receivedBuffer.append(NEW_LINE);
+		receivedBuffer
+				.append(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+		receivedBuffer.append(NEW_LINE);
+
+		receivedBuffer.append("“d•¶í•Ê      :[" + telegramKind + "]");
+		receivedBuffer.append(NEW_LINE);
+		receivedBuffer.append("—v‹‰“ší•Ê  :[" + requestKind + "]");
+		receivedBuffer.append(NEW_LINE);
+		receivedBuffer.append("“d•¶’·        :[" + length + "]");
+		receivedBuffer.append(NEW_LINE);
+
+		Body[] objBody = telegram.getObjBody();
+
+		receivedBuffer.append("ƒIƒuƒWƒFƒNƒg–¼\t€–Ú–¼\t€–ÚŒ^\tŒJ‚è•Ô‚µ‰ñ”\t€–Ú’l");
+		receivedBuffer.append(NEW_LINE);
+		for (Body body : objBody)
+		{
+			String objName = body.getStrObjName();
+			String itemName = body.getStrItemName();
+			String itemMode = "";
+			String loopCount = "";
+			StringBuffer itemValue = new StringBuffer();
+
+			if (body instanceof ResponseBody)
+			{
+				ResponseBody responseBody = (ResponseBody) body;
+				itemMode = "[" + responseBody.getByteItemMode() + "]";
+				loopCount = "[" + responseBody.getIntLoopCount() + "]";
+
+				Object[] objArr = responseBody.getObjItemValueArr();
+				for (Object obj : objArr)
+				{
+					itemValue.append("[" + obj + "]");
+				}
+			}
+			receivedBuffer.append(objName);
+			receivedBuffer.append("\t");
+			receivedBuffer.append(itemName);
+			receivedBuffer.append("\t");
+			receivedBuffer.append(itemMode);
+			receivedBuffer.append("\t");
+			receivedBuffer.append(loopCount);
+			receivedBuffer.append("\t");
+			receivedBuffer.append(itemValue);
+			receivedBuffer.append(NEW_LINE);
+		}
+
+		receivedBuffer
+				.append("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+		receivedBuffer.append(NEW_LINE);
+
+		String receivedStr = receivedBuffer.toString();
+
+		return receivedStr;
+	}
 }

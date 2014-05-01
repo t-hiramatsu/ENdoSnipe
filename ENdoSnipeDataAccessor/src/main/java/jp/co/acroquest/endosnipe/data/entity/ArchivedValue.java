@@ -28,7 +28,7 @@ package jp.co.acroquest.endosnipe.data.entity;
 import java.sql.Timestamp;
 
 /**
- * Javelin 計測値情報アーカイブテーブルに対するエンティティクラスです。<br />
+ * Javelin �v���l���A�[�J�C�u�e�[�u���ɑ΂���G���e�B�e�B�N���X�ł��B<br />
  *
  * @author y-sakamoto
  */
@@ -36,49 +36,49 @@ public class ArchivedValue
 {
 
     /**
-     * 計測値 ID 。<br />
+     * �v���l ID �B<br />
      *
-     * 計測値を一意に識別する ID 。
+     * �v���l����ӂɎ��ʂ��� ID �B
      */
     public long measurementValueId;
 
     /**
-     * 計測 No.　。<br />
+     * �v�� No.�@�B<br />
      *
-     * 同時に計測された計測値群を紐づけるための ID 。<br />
+     * �����Ɍv�����ꂽ�v���l�Q��R�Â��邽�߂� ID �B<br />
      *
-     * 同時に計測された計測値は MESUREMENT_ID が同じ値となります。<br />
+     * �����Ɍv�����ꂽ�v���l�� MESUREMENT_ID �������l�ƂȂ�܂��B<br />
      */
     public long measurementNum;
 
     /**
-     * 計測データを取得したホストの ID 。<br />
+     * �v���f�[�^���擾�����z�X�g�� ID �B<br />
      */
     public int hostId;
 
     /**
-     * 計測時刻。<br />
+     * �v�������B<br />
      */
     public Timestamp measurementTime;
 
     /**
-     * 計測値種別。<br />
+     * �v���l��ʁB<br />
      *
-     * 計測値の種別を表す値。<br />
+     * �v���l�̎�ʂ�\���l�B<br />
      *
-     * 計測値の表示名称については MESUREMENT_INFO テーブルを参照します。
+     * �v���l�̕\�����̂ɂ��Ă� MESUREMENT_INFO �e�[�u�����Q�Ƃ��܂��B
      */
     public int measurementType;
 
     /**
-     * 計測値が系列名を持つ場合（コレクション数など）の系列 ID 。<br />
+     * �v���l���n�񖼂����ꍇ�i�R���N�V�������Ȃǁj�̌n�� ID �B<br />
      */
     public int measurementItemId;
 
     /**
-     * 計測値。<br />
+     * �v���l�B<br />
      *
-     * 実際の計測値。
+     * ���ۂ̌v���l�B
      */
     public Number value;
 

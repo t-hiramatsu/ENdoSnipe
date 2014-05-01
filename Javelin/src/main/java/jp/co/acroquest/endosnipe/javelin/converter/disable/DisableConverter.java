@@ -36,14 +36,14 @@ import jp.co.smg.endosnipe.javassist.CtClass;
 import jp.co.smg.endosnipe.javassist.NotFoundException;
 
 /**
- * Monitorã®1æ¬¡çš„ãªç„¡åŠ¹åŒ–ã‚’è¡Œã†Monitorã‚’çµ„ã¿è¾¼ã‚€ã‚³ãƒ³ãƒãƒ¼ã‚¿
+ * Monitor‚Ì1Ÿ“I‚È–³Œø‰»‚ğs‚¤Monitor‚ğ‘g‚İ‚ŞƒRƒ“ƒo[ƒ^
  * 
  * @author eriguchi
  *
  */
 public class DisableConverter extends AbstractConverter
 {
-    /** ãƒ¢ãƒ‹ã‚¿ã‚¯ãƒ©ã‚¹åã€‚ */
+    /** ƒ‚ƒjƒ^ƒNƒ‰ƒX–¼B */
     private static final String MONITOR_CLASSNAME =
         DisableMonitor.class.getCanonicalName();
 
@@ -62,7 +62,7 @@ public class DisableConverter extends AbstractConverter
         for (CtBehavior ctBehavior : behaviorList)
         {
             convertMethod(ctBehavior);
-            // å‡¦ç†çµæœã‚’ãƒ­ã‚°ã«å‡ºåŠ›ã™ã‚‹ã€‚
+            // ˆ—Œ‹‰Ê‚ğƒƒO‚Éo—Í‚·‚éB
             logModifiedMethod("DisableConverter", ctBehavior);
         }
 
@@ -70,14 +70,14 @@ public class DisableConverter extends AbstractConverter
     }
 
     /**
-     * ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å¤‰æ›´ã—ã€è¤‡æ•°ã‚¹ãƒ¬ãƒƒãƒ‰ã«ã‚ˆã‚‹åŒæ™‚ã‚¢ã‚¯ã‚»ã‚¹ã‚’åˆ¤å®šã™ã‚‹ã‚³ãƒ¼ãƒ‰ã‚’åŸ‹ã‚è¾¼ã‚€ã€‚
-     * @param method ãƒ¡ã‚½ãƒƒãƒ‰
-     * @throws CannotCompileException ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã§ããªã„å ´åˆ
+     * ƒƒ\ƒbƒh‚ğ•ÏX‚µA•¡”ƒXƒŒƒbƒh‚É‚æ‚é“¯ƒAƒNƒZƒX‚ğ”»’è‚·‚éƒR[ƒh‚ğ–„‚ß‚ŞB
+     * @param method ƒƒ\ƒbƒh
+     * @throws CannotCompileException ƒRƒ“ƒpƒCƒ‹‚Å‚«‚È‚¢ê‡
      */
     private void convertMethod(CtBehavior method)
         throws CannotCompileException
     {
-        // ç„¡åŠ¹åŒ–å‡¦ç†ã‚’åŸ‹ã‚è¾¼ã‚€ã€‚
+        // –³Œø‰»ˆ—‚ğ–„‚ß‚ŞB
         method.insertBefore(MONITOR_CLASSNAME + ".preProcess();");
         method.insertAfter(MONITOR_CLASSNAME + ".postProcess();", true);
     }

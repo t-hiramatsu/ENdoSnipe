@@ -35,7 +35,7 @@ import jp.co.acroquest.endosnipe.javelin.event.HttpStatusEvent;
 import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
 
 /**
- * ServletJavelinã‚’å®Ÿè¡Œã™ã‚‹
+ * ServletJavelin‚ğÀs‚·‚é
  * 
  * @author yamasaki
  * 
@@ -43,50 +43,50 @@ import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
 public class HttpServletMonitor
 {
     /**
-     * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+     * ƒfƒtƒHƒ‹ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^
      */
     private HttpServletMonitor()
     {
         // Do Nothing.
     }
 
-    /** ãƒ›ã‚¹ãƒˆåã‚’å…¥åŠ›ã™ã‚‹å¼•æ•°ç•ªå· */
+    /** ƒzƒXƒg–¼‚ğ“ü—Í‚·‚éˆø””Ô† */
     private static final int ARGS_HOST_NUM = 0;
 
-    /** ãƒãƒ¼ãƒˆç•ªå·ã‚’å…¥åŠ›ã™ã‚‹å¼•æ•°ç•ªå· */
+    /** ƒ|[ƒg”Ô†‚ğ“ü—Í‚·‚éˆø””Ô† */
     private static final int ARGS_PORT_NUM = 1;
 
-    /** ã‚³ãƒ³ãƒ†ã‚¯ã‚¹ãƒˆãƒ‘ã‚¹ã‚’å…¥åŠ›ã™ã‚‹å¼•æ•°ç•ªå· */
+    /** ƒRƒ“ƒeƒNƒXƒgƒpƒX‚ğ“ü—Í‚·‚éˆø””Ô† */
     private static final int ARGS_CONTEXTPATH_NUM = 2;
 
-    /** ã‚µãƒ¼ãƒ–ãƒ¬ãƒƒãƒˆãƒ‘ã‚¹ã‚’å…¥åŠ›ã™ã‚‹å¼•æ•°ç•ªå· */
+    /** ƒT[ƒuƒŒƒbƒgƒpƒX‚ğ“ü—Í‚·‚éˆø””Ô† */
     private static final int ARGS_SERVLETPATH_NUM = 3;
 
-    /** ãƒ¡ã‚½ãƒƒãƒ‰åã‚’å…¥åŠ›ã™ã‚‹å¼•æ•°ç•ªå· */
+    /** ƒƒ\ƒbƒh–¼‚ğ“ü—Í‚·‚éˆø””Ô† */
     private static final int ARGS_METHOD_NUM = 4;
 
-    /** ã‚¯ã‚¨ãƒªæ–‡å­—åˆ—ã‚’å…¥åŠ›ã™ã‚‹å¼•æ•°ç•ªå· */
+    /** ƒNƒGƒŠ•¶š—ñ‚ğ“ü—Í‚·‚éˆø””Ô† */
     private static final int ARGS_QUERY_STRING_NUM = 5;
 
-    /** ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®ãƒãƒƒãƒ—ã‚’å…¥åŠ›ã™ã‚‹å¼•æ•°ç•ªå· */
+    /** ƒpƒ‰ƒ[ƒ^‚Ìƒ}ƒbƒv‚ğ“ü—Í‚·‚éˆø””Ô† */
     private static final int ARGS_PARAMETER_MAP_NUM = 6;
 
-    /** ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚’å…¥åŠ›ã™ã‚‹å¼•æ•°ç•ªå· */
+    /** ƒZƒbƒVƒ‡ƒ“‚ğ“ü—Í‚·‚éˆø””Ô† */
     private static final int ARGS_SESSION_NUM = 7;
     
-    /** ã‚¨ãƒ©ãƒ¼ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹400ç•ªå°ã‚’è¡¨ã™æ•´æ•° */
+    /** ƒGƒ‰[ƒXƒe[ƒ^ƒX400”Ô‘ä‚ğ•\‚·®” */
     private static final int ERROR_STATUS_FOUR_HUNDRED = 400;
 
-    /** å¼•æ•°ã®æ•°. */
+    /** ˆø”‚Ì”. */
     private static final int ARGS_NUM = 8;
 
-    /** Javelinã®è¨­å®š */
+    /** Javelin‚Ìİ’è */
     private static JavelinConfig config__ = new JavelinConfig();
 
     /**
-     * å‰å‡¦ç†
+     * ‘Oˆ—
      * 
-     * @param request ãƒªã‚¯ã‚¨ã‚¹ãƒˆ
+     * @param request ƒŠƒNƒGƒXƒg
      */
     public static void preProcess(HttpRequestValue request)
     {
@@ -94,13 +94,13 @@ public class HttpServletMonitor
         {
             CallTreeRecorder callTreeRecorder = CallTreeRecorder.getInstance();
             
-            // ThreadLocalã‹ã‚‰ã‚¯ãƒ©ã‚¹åã€ãƒ¡ã‚½ãƒƒãƒ‰åã‚’å‘¼ã³å‡ºã™ã€‚ ã‚¯ãƒ©ã‚¹åã€ãƒ¡ã‚½ãƒƒãƒ‰åãŒå­˜åœ¨ã—ãªã„å ´åˆã€ 
-            // HttpRequestã®ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆãƒ‘ã‚¹ã€ã‚µãƒ¼ãƒ–ãƒ¬ãƒƒãƒˆãƒ‘ã‚¹ã‚’å‘¼ã³å‡ºã™ã€‚
+            // ThreadLocal‚©‚çƒNƒ‰ƒX–¼Aƒƒ\ƒbƒh–¼‚ğŒÄ‚Ño‚·B ƒNƒ‰ƒX–¼Aƒƒ\ƒbƒh–¼‚ª‘¶İ‚µ‚È‚¢ê‡A 
+            // HttpRequest‚ÌƒRƒ“ƒeƒLƒXƒgƒpƒXAƒT[ƒuƒŒƒbƒgƒpƒX‚ğŒÄ‚Ño‚·B
             String[] paths = getPaths(request);
             String contextPath = paths[0];
             String servletPath = paths[1];
             
-            // è¦ªãƒãƒ¼ãƒ‰ã¨åŒä¸€ã®ãƒ‘ã‚¹ãªã‚‰ã°ã€äºŒé‡ã«è¨˜éŒ²ã—ãªã„ã€‚
+            // eƒm[ƒh‚Æ“¯ˆê‚ÌƒpƒX‚È‚ç‚ÎA“ñd‚É‹L˜^‚µ‚È‚¢B
             CallTreeNode parent = callTreeRecorder.getCallTreeNode();
             if (parent != null)
             {
@@ -116,7 +116,7 @@ public class HttpServletMonitor
             
             Object[] args = null;
 
-            // log.argsãŒtrueã®ã¨ãã€å¼•æ•°æƒ…å ±ã‚’è¡¨ç¤ºã™ã‚‹ã€‚
+            // log.args‚ªtrue‚Ì‚Æ‚«Aˆø”î•ñ‚ğ•\¦‚·‚éB
             if (config__.isLogArgs())
             {
                 args = new Object[ARGS_NUM];
@@ -135,8 +135,8 @@ public class HttpServletMonitor
                 }
                 if (request.getCharacterEncoding() == null)
                 {
-                    // Character EncodingãŒæŒ‡å®šã•ã‚Œã¦ã„ãªã„å ´åˆã€
-                    // æ–‡å­—åŒ–ã‘ãŒç™ºç”Ÿã—ã¦ã—ã¾ã†ãŸã‚ã€ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒãƒƒãƒ—ã¯å–å¾—ã—ãªã„ã€‚
+                    // Character Encoding‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡A
+                    // •¶š‰»‚¯‚ª”­¶‚µ‚Ä‚µ‚Ü‚¤‚½‚ßAƒpƒ‰ƒ[ƒ^ƒ}ƒbƒv‚Íæ“¾‚µ‚È‚¢B
                     args[ARGS_PARAMETER_MAP_NUM] = "Parameter map is unavailable.";
                 }
                 else
@@ -167,9 +167,9 @@ public class HttpServletMonitor
     }
 
     /**
-     * å¾Œå‡¦ç†ã€‚
-     * @param request ãƒªã‚¯ã‚¨ã‚¹ãƒˆ
-     * @param response ãƒ¬ã‚¹ãƒãƒ³ã‚¹
+     * Œãˆ—B
+     * @param request ƒŠƒNƒGƒXƒg
+     * @param response ƒŒƒXƒ|ƒ“ƒX
      */
     public static void postProcess(HttpRequestValue request, HttpResponseValue response)
     {
@@ -223,9 +223,9 @@ public class HttpServletMonitor
     }
 
     /**
-     * å¾Œå‡¦ç†(ä¾‹å¤–)ã€‚
-     * @param request ãƒªã‚¯ã‚¨ã‚¹ãƒˆ
-     * @param throwable ä¾‹å¤–ã€‚
+     * Œãˆ—(—áŠO)B
+     * @param request ƒŠƒNƒGƒXƒg
+     * @param throwable —áŠOB
      */
     public static void postProcessNG(
             HttpRequestValue request,
@@ -235,7 +235,7 @@ public class HttpServletMonitor
         String contextPath = paths[0];
         String servletPath = paths[1];
 
-        // Invocationã«ä¾‹å¤–ãŒè¨˜éŒ²ã•ã‚Œãªã„å ´åˆã§ã‚‚ç™ºç”Ÿã—ãŸã€ã¨ã„ã†è¨˜éŒ²ã¯è¡Œã†
+        // Invocation‚É—áŠO‚ª‹L˜^‚³‚ê‚È‚¢ê‡‚Å‚à”­¶‚µ‚½A‚Æ‚¢‚¤‹L˜^‚Ís‚¤
         CallTreeRecorder callTreeRecorder = CallTreeRecorder.getInstance();
         CallTreeNode node = callTreeRecorder.getCallTreeNode();
         
@@ -273,7 +273,7 @@ public class HttpServletMonitor
     }
 
     /**
-     * HTTPãƒªã‚¯ã‚¨ã‚¹ãƒˆã‹ã‚‰ã‚¯ãƒ©ã‚¹åã€ãƒ¡ã‚½ãƒƒãƒ‰åã¨ãªã‚‹ãƒ‘ã‚¹æƒ…å ±ã‚’å–å¾—ã™ã‚‹ã€‚
+     * HTTPƒŠƒNƒGƒXƒg‚©‚çƒNƒ‰ƒX–¼Aƒƒ\ƒbƒh–¼‚Æ‚È‚éƒpƒXî•ñ‚ğæ“¾‚·‚éB
      * 
      * @param request
      * @return
@@ -295,7 +295,7 @@ public class HttpServletMonitor
             servletPath = pathInfo;
         }
 
-        // ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆãƒ‘ã‚¹ãŒç©ºã®å ´åˆã¯"/"ã‚’åˆ©ç”¨ã™ã‚‹ã€‚
+        // ƒRƒ“ƒeƒLƒXƒgƒpƒX‚ª‹ó‚Ìê‡‚Í"/"‚ğ—˜—p‚·‚éB
         if ("".equals(contextPath))
         {
             contextPath = "/";

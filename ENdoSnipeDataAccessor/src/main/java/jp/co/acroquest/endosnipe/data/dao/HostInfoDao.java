@@ -38,7 +38,7 @@ import jp.co.acroquest.endosnipe.data.TableNames;
 import jp.co.acroquest.endosnipe.data.entity.HostInfo;
 
 /**
- * {@link HostInfo} ã®ãŸã‚ã® DAO ã§ã™ã€‚
+ * {@link HostInfo} ‚Ì‚½‚ß‚Ì DAO ‚Å‚·B
  *
  * @author y-sakamoto
  */
@@ -46,13 +46,13 @@ public class HostInfoDao extends AbstractDao implements TableNames
 {
 
     /**
-     * {@link HostInfo} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æŒ¿å…¥ã—ã¾ã™ã€‚<br />
+     * {@link HostInfo} ƒIƒuƒWƒFƒNƒg‚ğ‘}“ü‚µ‚Ü‚·B<br />
      *
-     * <code>hostInfo.hostId</code> ã¯ä½¿ç”¨ã•ã‚Œã¾ã›ã‚“ã€‚
+     * <code>hostInfo.hostId</code> ‚Íg—p‚³‚ê‚Ü‚¹‚ñB
      * 
-     * @param database æŒ¿å…¥å…ˆãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @param hostInfo å¯¾è±¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @param database ‘}“üæƒf[ƒ^ƒx[ƒX–¼
+     * @param hostInfo ‘ÎÛƒIƒuƒWƒFƒNƒg
+     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
      */
     public static void insert(final String database, final HostInfo hostInfo)
         throws SQLException
@@ -84,13 +84,13 @@ public class HostInfoDao extends AbstractDao implements TableNames
     }
 
     /**
-     * æŒ‡å®šã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®ãƒ›ã‚¹ãƒˆæƒ…å ±ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * w’è‚³‚ê‚½ƒf[ƒ^ƒx[ƒX‚ÌƒzƒXƒgî•ñ‚ğæ“¾‚µ‚Ü‚·B<br />
      *
-     * ãƒ›ã‚¹ãƒˆæƒ…å ±ãŒå®šç¾©ã•ã‚Œã¦ã„ãªã„å ´åˆã¯ç©ºã®ãƒªã‚¹ãƒˆã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ƒzƒXƒgî•ñ‚ª’è‹`‚³‚ê‚Ä‚¢‚È‚¢ê‡‚Í‹ó‚ÌƒŠƒXƒg‚ğ•Ô‚µ‚Ü‚·B<br />
      *
-     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @return ãƒ›ã‚¹ãƒˆæƒ…å ±ã®ãƒªã‚¹ãƒˆ
-     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @param database ƒf[ƒ^ƒx[ƒX–¼
+     * @return ƒzƒXƒgî•ñ‚ÌƒŠƒXƒg
+     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
      */
     public static List<HostInfo> selectAll(final String database)
         throws SQLException
@@ -129,10 +129,10 @@ public class HostInfoDao extends AbstractDao implements TableNames
     }
 
     /**
-     * ã™ã¹ã¦ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å‰Šé™¤ã—ã¾ã™ã€‚<br />
+     * ‚·‚×‚Ä‚ÌƒŒƒR[ƒh‚ğíœ‚µ‚Ü‚·B<br />
      *
-     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @param database ƒf[ƒ^ƒx[ƒX–¼
+     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
      */
     public static void deleteAll(final String database)
         throws SQLException

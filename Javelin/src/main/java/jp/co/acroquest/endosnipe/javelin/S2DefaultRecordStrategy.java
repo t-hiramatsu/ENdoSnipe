@@ -30,7 +30,7 @@ import jp.co.acroquest.endosnipe.javelin.bean.Invocation;
 import jp.co.acroquest.endosnipe.javelin.log.JavelinLogCallback;
 
 /**
- * TATã®å€¤ãŒè¨­å®šã—ãŸé–¾å€¤ã‚’è¶Šãˆã¦ã„ã‚‹å ´åˆã€ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›ã€ã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥ã‚’è¡Œã†ã€‚
+ * TAT‚Ì’l‚ªİ’è‚µ‚½è‡’l‚ğ‰z‚¦‚Ä‚¢‚éê‡AƒƒOƒtƒ@ƒCƒ‹o—ÍAƒAƒ‰[ƒ€’Ê’m‚ğs‚¤B
  * @author eriguchi
  *
  */
@@ -38,21 +38,21 @@ public class S2DefaultRecordStrategy implements RecordStrategy
 {
     private final JavelinConfig config_ = new JavelinConfig();
     
-    /** è¨­å®šã•ã‚Œã¦ã„ãŸéš›ã€å¸¸æ™‚å‡ºåŠ›ã—ãªã„ã€ã¨åˆ¤å®šã™ã‚‹Threshold */
+    /** İ’è‚³‚ê‚Ä‚¢‚½ÛAío—Í‚µ‚È‚¢A‚Æ”»’è‚·‚éThreshold */
     private static final long ALWAYS_FALSE_THRESHOLD = -1;
 
     /**
-     * ã‚¢ãƒ©ãƒ¼ãƒ ã‚’é€šçŸ¥ã™ã‚‹ã‹ã©ã†ã‹åˆ¤å®šã™ã‚‹</br>
-     * AccumulatedTimeãŒjavelin.alarmThresholdã«è¨­å®šã—ãŸå€¤ä»¥ä¸Šã®ã¨ãã«å‡ºåŠ›ã™ã‚‹ã€‚
+     * ƒAƒ‰[ƒ€‚ğ’Ê’m‚·‚é‚©‚Ç‚¤‚©”»’è‚·‚é</br>
+     * AccumulatedTime‚ªjavelin.alarmThreshold‚Éİ’è‚µ‚½’lˆÈã‚Ì‚Æ‚«‚Éo—Í‚·‚éB
      * @param node CallTreeNode
-     * @return true:ã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥ã‚’è¡Œã†ã€falseï¼šã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥ã‚’è¡Œã‚ãªã„ã€‚
+     * @return true:ƒAƒ‰[ƒ€’Ê’m‚ğs‚¤AfalseFƒAƒ‰[ƒ€’Ê’m‚ğs‚í‚È‚¢B
      */
     public boolean judgeSendExceedThresholdAlarm(final CallTreeNode node)
     {
         long alarmThreshold = node.getInvocation().getAlarmThreshold();
         if (alarmThreshold == Invocation.THRESHOLD_NOT_SPECIFIED)
         {
-            //JavelinConfigã®é–¾å€¤ãŒ-1ã¨è¨­å®šã•ã‚Œã¦ã„ãŸå ´åˆã€æœ¬åˆ¤å®šã«ã‚ˆã‚‹ãƒ­ã‚°å‡ºåŠ›ã¯è¡Œã‚ãªã„
+            //JavelinConfig‚Ìè‡’l‚ª-1‚Æİ’è‚³‚ê‚Ä‚¢‚½ê‡A–{”»’è‚É‚æ‚éƒƒOo—Í‚Ís‚í‚È‚¢
             if(this.config_.getAlarmCpuThreashold() == ALWAYS_FALSE_THRESHOLD)
             {
                 return false;
@@ -67,7 +67,7 @@ public class S2DefaultRecordStrategy implements RecordStrategy
     }
 
     /**
-     * ä½•ã‚‚ã—ãªã„ã€‚
+     * ‰½‚à‚µ‚È‚¢B
      */
     public void postJudge()
     {
@@ -75,7 +75,7 @@ public class S2DefaultRecordStrategy implements RecordStrategy
     }
 
     /**
-     * ä½•ã‚‚ã—ãªã„ã€‚
+     * ‰½‚à‚µ‚È‚¢B
      * @param node CallTreeNode
      * @return null
      */
@@ -86,7 +86,7 @@ public class S2DefaultRecordStrategy implements RecordStrategy
     }
 
     /**
-     * ä½•ã‚‚ã—ãªã„ã€‚
+     * ‰½‚à‚µ‚È‚¢B
      * @return null
      */
     public JavelinLogCallback createCallback()

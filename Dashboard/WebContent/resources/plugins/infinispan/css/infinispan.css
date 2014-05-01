@@ -22,12 +22,10 @@ body {
 .annotationShortText {
 	 border: 7px outset #333333;
 }
-
 #stemp{
 	border-spacing: 0px;
 	border-color: #ccc;
 }
-
 #stemp td{
 	font-size: 11px;
 	font-family: sans-serif;
@@ -38,17 +36,7 @@ body {
 	text-align: right;
 }
 
-#arrowChart{
-        clear: both;
-        margin-left: 20px;
-}
-
-#dygraphChart{
-        clear: both;
-        margin-left: 40px;
-}
-
-#buttonSpace{
+#buttonSpace, #arrowChart {
 	margin-left: 20px;
 }
 

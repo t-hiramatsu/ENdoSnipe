@@ -26,77 +26,75 @@
 package jp.co.acroquest.endosnipe.perfdoctor;
 
 /**
- * ãƒ‘ãƒ•ã‚©ãƒ¼ãƒãƒ³ã‚¹ãƒ‰ã‚¯ã‚¿ãƒ¼ã®è¨ºæ–­çµæœã®ä¸€é …ç›®ã€‚
+ * ƒpƒtƒH[ƒ}ƒ“ƒXƒhƒNƒ^[‚Ìf’fŒ‹‰Ê‚Ìˆê€–ÚB
  * 
  * @author eriguchi
  * 
  */
 public class WarningUnit
 {
-    /** è­¦å‘ŠID */
-    private final String unitId_;
+    /** ŒxID */
+    private final String   unitId_;
 
-    /** ãƒ«ãƒ¼ãƒ«ID */
-    private final String id_;
+    /** ƒ‹[ƒ‹ID */
+    private final String   id_;
 
-    /** å†…å®¹ */
-    private final String description_;
+    /** “à—e */
+    private final String   description_;
 
-    /** è­¦å‘Šå¯¾è±¡ã®ã‚¯ãƒ©ã‚¹å */
-    private final String className_;
+    /** Œx‘ÎÛ‚ÌƒNƒ‰ƒX–¼ */
+    private final String   className_;
 
-    /** è­¦å‘Šå¯¾è±¡ã®ãƒ¡ã‚½ãƒƒãƒ‰å */
-    private final String methodName_;
+    /** Œx‘ÎÛ‚Ìƒƒ\ƒbƒh–¼ */
+    private final String   methodName_;
 
-    /** è­¦å‘Šã®é‡è¦åº¦ */
-    private final String level_;
+    /** Œx‚Ìd—v“x */
+    private final String   level_;
 
-    /** è­¦å‘Šå¯¾è±¡ã®ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«å */
-    private final String logFileName_;
+    /** Œx‘ÎÛ‚ÌƒƒOƒtƒ@ƒCƒ‹–¼ */
+    private final String   logFileName_;
 
-    /** è­¦å‘Šå¯¾è±¡ã®ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã®è¡Œç•ªå· */
-    private final int logFileLineNumber_;
+    /** Œx‘ÎÛ‚ÌƒƒOƒtƒ@ƒCƒ‹‚Ìs”Ô† */
+    private final int      logFileLineNumber_;
 
-    /** é–‹å§‹æ™‚é–“ */
-    private final long startTime_;
+    /** ŠJnŠÔ */
+    private final long     startTime_;
 
-    /** çµ‚äº†æ™‚é–“ */
-    private final long endTime_;
+    /** I—¹ŠÔ */
+    private final long     endTime_;
 
-    /** é™é †ãƒ•ãƒ©ã‚°(ãƒ•ã‚£ãƒ«ã‚¿æ™‚ã«é™é †ã«ä¸¦ã¹ã‚‹ã‹ã©ã†ã‹) */
-    private final boolean isDescend_;
+    /** ~‡ƒtƒ‰ƒO(ƒtƒBƒ‹ƒ^‚É~‡‚É•À‚×‚é‚©‚Ç‚¤‚©) */
+    private final boolean  isDescend_;
 
-    /** å¤‰æ•°ãƒªã‚¹ãƒˆ */
+    /** •Ï”ƒŠƒXƒg */
     private final Object[] args_;
 
-    /** ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ */
-    private String stackTrace_ = "";
+    /** ƒXƒ^ƒbƒNƒgƒŒ[ƒX */
+    private String         stackTrace_ = "";
 
-    /** ã‚¤ãƒ™ãƒ³ãƒˆã«ã‚ˆã‚‹è­¦å‘Šã§ã‚ã‚‹ã‹ã©ã†ã‹ã€‚ */
-    private boolean isEvent_ = false;
-
-    private String measurementItemName_;
+    /** ƒCƒxƒ“ƒg‚É‚æ‚éŒx‚Å‚ ‚é‚©‚Ç‚¤‚©B */
+    private boolean        isEvent_    = false;
 
     /**
-     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
      * 
-     * @param unitId è­¦å‘Šã®ID
-     * @param id ãƒ«ãƒ¼ãƒ«ã®ID
-     * @param description è­¦å‘Šã®èª¬æ˜ã€‚
-     * @param className ã‚¯ãƒ©ã‚¹åã€‚
-     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰åã€‚
-     * @param level é‡è¦åº¦
-     * @param logFileName ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«åã€‚
-     * @param logFileLineNumber è¡Œç•ªå·ã€‚
-     * @param startTime é–‹å§‹æ™‚åˆ»
-     * @param endTime çµ‚äº†æ™‚åˆ»
-     * @param isDescend è­¦å‘Šã®å„ªå…ˆåº¦ã‚’é™é †ã«ã™ã‚‹ã‹ã©ã†ã‹ã€‚
-     * @param args é–¾å€¤ã€æ¤œå‡ºå€¤ãªã©ã®å¼•æ•°ã€‚
+     * @param unitId Œx‚ÌID
+     * @param id ƒ‹[ƒ‹‚ÌID
+     * @param description Œx‚Ìà–¾B
+     * @param className ƒNƒ‰ƒX–¼B
+     * @param methodName ƒƒ\ƒbƒh–¼B
+     * @param level d—v“x
+     * @param logFileName ƒƒOƒtƒ@ƒCƒ‹–¼B
+     * @param logFileLineNumber s”Ô†B
+     * @param startTime ŠJn
+     * @param endTime I—¹
+     * @param isDescend Œx‚Ì—Dæ“x‚ğ~‡‚É‚·‚é‚©‚Ç‚¤‚©B
+     * @param args è‡’lAŒŸo’l‚È‚Ç‚Ìˆø”B
      */
     WarningUnit(final String unitId, final String id, final String description,
-        final String className, final String methodName, final String level,
-        final String logFileName, final int logFileLineNumber, final long startTime,
-        final long endTime, final boolean isDescend, final Object[] args)
+            final String className, final String methodName, final String level,
+            final String logFileName, final int logFileLineNumber, final long startTime,
+            final long endTime, final boolean isDescend, final Object[] args)
     {
         super();
         this.unitId_ = unitId;
@@ -114,40 +112,39 @@ public class WarningUnit
     }
 
     /**
-     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
      * 
-     * @param unitId è­¦å‘Šã®ID
-     * @param id ãƒ«ãƒ¼ãƒ«ã®ID
-     * @param description è­¦å‘Šã®èª¬æ˜ã€‚
-     * @param className ã‚¯ãƒ©ã‚¹åã€‚
-     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰åã€‚
-     * @param level é‡è¦åº¦
-     * @param logFileName ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«åã€‚
-     * @param logFileLineNumber è¡Œç•ªå·ã€‚
-     * @param startTime é–‹å§‹æ™‚åˆ»
-     * @param endTime çµ‚äº†æ™‚åˆ»
-     * @param isDescend è­¦å‘Šã®å„ªå…ˆåº¦ã‚’é™é †ã«ã™ã‚‹ã‹ã©ã†ã‹ã€‚
-     * @param isEvent ã‚¤ãƒ™ãƒ³ãƒˆã§ã‚ã‚‹ã‹ã©ã†ã‹ã€‚
-     * @param stackTrace ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹
-     * @param args é–¾å€¤ã€æ¤œå‡ºå€¤ãªã©ã®å¼•æ•°ã€‚
+     * @param unitId Œx‚ÌID
+     * @param id ƒ‹[ƒ‹‚ÌID
+     * @param description Œx‚Ìà–¾B
+     * @param className ƒNƒ‰ƒX–¼B
+     * @param methodName ƒƒ\ƒbƒh–¼B
+     * @param level d—v“x
+     * @param logFileName ƒƒOƒtƒ@ƒCƒ‹–¼B
+     * @param logFileLineNumber s”Ô†B
+     * @param startTime ŠJn
+     * @param endTime I—¹
+     * @param isDescend Œx‚Ì—Dæ“x‚ğ~‡‚É‚·‚é‚©‚Ç‚¤‚©B
+     * @param isEvent ƒCƒxƒ“ƒg‚Å‚ ‚é‚©‚Ç‚¤‚©B
+     * @param stackTrace ƒXƒ^ƒbƒNƒgƒŒ[ƒX
+     * @param args è‡’lAŒŸo’l‚È‚Ç‚Ìˆø”B
      */
     WarningUnit(final String unitId, final String id, final String description,
-        final String className, final String methodName, final String level,
-        final String logFileName, final int logFileLineNumber, final long startTime,
-        final long endTime, final boolean isDescend, final boolean isEvent,
-        final String stackTrace, final Object[] args, final String measurementItemName)
+            final String className, final String methodName, final String level,
+            final String logFileName, final int logFileLineNumber, final long startTime,
+            final long endTime, final boolean isDescend, final boolean isEvent,
+            final String stackTrace, final Object[] args)
     {
         this(unitId, id, description, className, methodName, level, logFileName, logFileLineNumber,
-            startTime, endTime, isDescend, args);
+                startTime, endTime, isDescend, args);
         this.isEvent_ = isEvent;
         this.stackTrace_ = stackTrace;
-        this.measurementItemName_ = measurementItemName;
     }
 
     /**
-     * ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹
+     * @return ƒXƒ^ƒbƒNƒgƒŒ[ƒX
      */
     public String getStackTrace()
     {
@@ -155,9 +152,9 @@ public class WarningUnit
     }
 
     /**
-     * ã‚¤ãƒ™ãƒ³ãƒˆã§ã‚ã‚‹ã‹ã©ã†ã‹ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ƒCƒxƒ“ƒg‚Å‚ ‚é‚©‚Ç‚¤‚©‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @return ã“ã®è­¦å‘Šã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒã‚¤ãƒ™ãƒ³ãƒˆã§ã‚ã‚Œã°ã€<code>true</code>
+     * @return ‚±‚ÌŒxƒIƒuƒWƒFƒNƒg‚ªƒCƒxƒ“ƒg‚Å‚ ‚ê‚ÎA<code>true</code>
      */
     public boolean isEvent()
     {
@@ -165,7 +162,7 @@ public class WarningUnit
     }
 
     /**
-     * @return ã‚¯ãƒ©ã‚¹åã€‚
+     * @return ƒNƒ‰ƒX–¼B
      */
     public String getClassName()
     {
@@ -173,7 +170,7 @@ public class WarningUnit
     }
 
     /**
-     * @return èª¬æ˜ã€‚ã€‚
+     * @return à–¾BB
      */
     public String getDescription()
     {
@@ -189,7 +186,7 @@ public class WarningUnit
     }
 
     /**
-     * @return IDã€‚
+     * @return IDB
      */
     public String getId()
     {
@@ -197,7 +194,7 @@ public class WarningUnit
     }
 
     /**
-     * @return è¡Œç•ªå·ã€‚
+     * @return s”Ô†B
      */
     public int getLogFileLineNumber()
     {
@@ -205,7 +202,7 @@ public class WarningUnit
     }
 
     /**
-     * @return ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«åã€‚
+     * @return ƒƒOƒtƒ@ƒCƒ‹–¼B
      */
     public String getLogFileName()
     {
@@ -213,7 +210,7 @@ public class WarningUnit
     }
 
     /**
-     * @return ãƒ¡ã‚½ãƒƒãƒ‰åã€‚
+     * @return ƒƒ\ƒbƒh–¼B
      */
     public String getMethodName()
     {
@@ -221,7 +218,7 @@ public class WarningUnit
     }
 
     /**
-     * @return é‡è¦åº¦ã€‚
+     * @return d—v“xB
      */
     public String getLevel()
     {
@@ -229,25 +226,25 @@ public class WarningUnit
     }
 
     /**
-     * å¤‰æ•°ã®ãƒªã‚¹ãƒˆã‚’é…åˆ—ã¨ã—ã¦è¿”ã™ã€‚
-     * @return å¤‰æ•°ãƒªã‚¹ãƒˆ
+     * •Ï”‚ÌƒŠƒXƒg‚ğ”z—ñ‚Æ‚µ‚Ä•Ô‚·B
+     * @return •Ï”ƒŠƒXƒg
      */
     public Object[] getArgs()
     {
-        if (args_ == null)
-        {
-            return null;
-        }
-        else
-        {
-            return this.args_.clone();
-        }
+    	if (args_ == null)
+    	{
+    		return null;
+    	}
+    	else
+    	{
+    		return this.args_.clone();
+    	}
     }
 
     /**
-     * é–‹å§‹æ™‚é–“ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * ŠJnŠÔ‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return é–‹å§‹æ™‚é–“
+     * @return ŠJnŠÔ
      */
     public long getStartTime()
     {
@@ -255,9 +252,9 @@ public class WarningUnit
     }
 
     /**
-     * çµ‚äº†æ™‚é–“ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * I—¹ŠÔ‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return çµ‚äº†æ™‚é–“
+     * @return I—¹ŠÔ
      */
     public long getEndTime()
     {
@@ -265,22 +262,12 @@ public class WarningUnit
     }
 
     /**
-     * é™é †ãƒ•ãƒ©ã‚°ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
+     * ~‡ƒtƒ‰ƒO‚ğİ’è‚µ‚Ü‚·B<br />
      * 
-     * @return ãƒ•ã‚£ãƒ«ã‚¿æ™‚ã«é™é †ã«ä¸¦ã¹ã‚‹ã¨ãã«ã¯<code>trud</code>
+     * @return ƒtƒBƒ‹ƒ^‚É~‡‚É•À‚×‚é‚Æ‚«‚É‚Í<code>trud</code>
      */
     public boolean isDescend()
     {
         return this.isDescend_;
-    }
-
-    public String getMeasurementItemName()
-    {
-        return measurementItemName_;
-    }
-
-    public void setMeasurementItemName(final String measurementItemName)
-    {
-        measurementItemName_ = measurementItemName;
     }
 }

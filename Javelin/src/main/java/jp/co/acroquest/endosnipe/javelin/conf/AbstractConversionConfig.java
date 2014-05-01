@@ -28,30 +28,30 @@ package jp.co.acroquest.endosnipe.javelin.conf;
 import java.util.regex.Pattern;
 
 /**
- * Include/Excludeè¨­å®šã‚’æ‰±ã†æŠ½è±¡ã‚¯ãƒ©ã‚¹ã€‚
+ * Include/Excludeİ’è‚ğˆµ‚¤’ŠÛƒNƒ‰ƒXB
  *
  * @author yamasaki
  */
 public abstract class AbstractConversionConfig
 {
-    /** ç¶™æ‰¿ç”¨è¨­å®šã‚’è¡Œã†ãŸã‚ã®æ¥é ­è¾ */
+    /** Œp³—pİ’è‚ğs‚¤‚½‚ß‚ÌÚ“ª« */
     private static final String INHERITANCE = "[inheritance]";
 
-    /** ç¶™æ‰¿ç”¨è¨­å®šã‹ã©ã†ã‹ã‚’ç¤ºã™ãƒ•ãƒ©ã‚°ã€‚ */
+    /** Œp³—pİ’è‚©‚Ç‚¤‚©‚ğ¦‚·ƒtƒ‰ƒOB */
     private boolean isInheritance_ = false;
 
-    /** ã‚¯ãƒ©ã‚¹åã®ãƒ‘ã‚¿ãƒ¼ãƒ³ã€‚ */
+    /** ƒNƒ‰ƒX–¼‚Ìƒpƒ^[ƒ“B */
     private String className_;
 
-    /** ãƒ¡ã‚½ãƒƒãƒ‰åã®ãƒ‘ã‚¿ãƒ¼ãƒ³ã€‚ */
+    /** ƒƒ\ƒbƒh–¼‚Ìƒpƒ^[ƒ“B */
     private String methodNamePattern_;
 
-    /** ã‚¯ãƒ©ã‚¹åã®ãƒ‘ã‚¿ãƒ¼ãƒ³ã€‚ */
+    /** ƒNƒ‰ƒX–¼‚Ìƒpƒ^[ƒ“B */
     private Pattern classNamePattern_;
 
     /**
-     * è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚€
-     * @param configLine è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã®è¡Œ
+     * İ’èƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚Ş
+     * @param configLine İ’èƒtƒ@ƒCƒ‹‚Ìs
      */
     public void readConfig(final String configLine)
     {
@@ -76,9 +76,9 @@ public abstract class AbstractConversionConfig
     }
 
     /**
-     * è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¿ãƒ¼ãƒ³ã‚’èª­ã¿è¾¼ã‚€ã€‚
-     * inheritanceã®ON/OFFã€ã‚¯ãƒ©ã‚¹åã€ãƒ¡ã‚½ãƒƒãƒ‰åã‚’å–å¾—ã™ã‚‹ã€‚
-     * @param configElements ã‚³ãƒ¼ãƒ‰åŸ‹ã‚è¾¼ã¿å¯¾è±¡
+     * İ’èƒtƒ@ƒCƒ‹‚Ìƒpƒ^[ƒ“‚ğ“Ç‚İ‚ŞB
+     * inheritance‚ÌON/OFFAƒNƒ‰ƒX–¼Aƒƒ\ƒbƒh–¼‚ğæ“¾‚·‚éB
+     * @param configElements ƒR[ƒh–„‚ß‚İ‘ÎÛ
      */
     protected void parseConfig(final String[] configElements)
     {
@@ -92,14 +92,14 @@ public abstract class AbstractConversionConfig
         int splitIndex = configElements[0].indexOf("#");
         if (splitIndex < 0)
         {
-            // è¨­å®šã«#ãŒå«ã¾ã‚Œã¦ã„ãªã‘ã‚Œã°ã€æŒ‡å®šã‚¯ãƒ©ã‚¹ã®å…¨ã¦ã®ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å¯¾è±¡ã¨ã™ã‚‹ã€‚
+            // İ’è‚É#‚ªŠÜ‚Ü‚ê‚Ä‚¢‚È‚¯‚ê‚ÎAw’èƒNƒ‰ƒX‚Ì‘S‚Ä‚Ìƒƒ\ƒbƒh‚ğ‘ÎÛ‚Æ‚·‚éB
             setClassName(configElements[0]);
             setClassNamePattern(Pattern.compile(configElements[0]));
             setMethodNamePattern(".*");
         }
         else
         {
-            // è¨­å®šã«#ãŒå«ã¾ã‚Œã¦ã„ã‚Œã°ã€ã‚¯ãƒ©ã‚¹åã€ãƒ¡ã‚½ãƒƒãƒ‰åä¸¡æ–¹ã«æŒ‡å®šãŒã‚ã‚‹ã€‚
+            // İ’è‚É#‚ªŠÜ‚Ü‚ê‚Ä‚¢‚ê‚ÎAƒNƒ‰ƒX–¼Aƒƒ\ƒbƒh–¼—¼•û‚Éw’è‚ª‚ ‚éB
             String className = configElements[0].substring(0, splitIndex);
             String methodName = configElements[0].substring(splitIndex + 1);
             setClassName(className);
@@ -109,8 +109,8 @@ public abstract class AbstractConversionConfig
     }
 
     /**
-     * ç¶™æ‰¿ç”¨è¨­å®šã®ON/OFFã‚’è¿”ã™ã€‚
-     * @return true:ç¶™æ‰¿ç”¨è¨­å®šãŒè¡Œã‚ã‚Œã¦ã„ã‚‹ã€false:ç¶™æ‰¿ç”¨è¨­å®šãŒè¡Œã‚ã‚Œã¦ã„ãªã„ã€‚
+     * Œp³—pİ’è‚ÌON/OFF‚ğ•Ô‚·B
+     * @return true:Œp³—pİ’è‚ªs‚í‚ê‚Ä‚¢‚éAfalse:Œp³—pİ’è‚ªs‚í‚ê‚Ä‚¢‚È‚¢B
      */
     public boolean isInheritance()
     {
@@ -118,8 +118,8 @@ public abstract class AbstractConversionConfig
     }
 
     /**
-     * ç¶™æ‰¿ç”¨ãƒ•ãƒ©ã‚°ã®è¨­å®šã‚’è¡Œã†ã€‚
-     * @param isInheritance true:ç¶™æ‰¿ç”¨è¨­å®šã‚’è¡Œã†ã€false:ç¶™æ‰¿ç”¨è¨­å®šã‚’è¡Œã‚ãªã„ã€‚
+     * Œp³—pƒtƒ‰ƒO‚Ìİ’è‚ğs‚¤B
+     * @param isInheritance true:Œp³—pİ’è‚ğs‚¤Afalse:Œp³—pİ’è‚ğs‚í‚È‚¢B
      */
     public void setInheritance(final boolean isInheritance)
     {
@@ -127,8 +127,8 @@ public abstract class AbstractConversionConfig
     }
 
     /**
-     * ã‚¯ãƒ©ã‚¹åã®ãƒ‘ã‚¿ãƒ¼ãƒ³ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ã‚¯ãƒ©ã‚¹åã®ãƒ‘ã‚¿ãƒ¼ãƒ³
+     * ƒNƒ‰ƒX–¼‚Ìƒpƒ^[ƒ“‚ğæ“¾‚·‚éB
+     * @return ƒNƒ‰ƒX–¼‚Ìƒpƒ^[ƒ“
      */
     public String getClassName()
     {
@@ -136,8 +136,8 @@ public abstract class AbstractConversionConfig
     }
 
     /**
-     * ã‚¯ãƒ©ã‚¹åã®ãƒ‘ã‚¿ãƒ¼ãƒ³ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ã‚¯ãƒ©ã‚¹åã®ãƒ‘ã‚¿ãƒ¼ãƒ³
+     * ƒNƒ‰ƒX–¼‚Ìƒpƒ^[ƒ“‚ğæ“¾‚·‚éB
+     * @return ƒNƒ‰ƒX–¼‚Ìƒpƒ^[ƒ“
      */
     public Pattern getClassNamePattern()
     {
@@ -145,8 +145,8 @@ public abstract class AbstractConversionConfig
     }
 
     /**
-     * ã‚¯ãƒ©ã‚¹åã®ãƒ‘ã‚¿ãƒ¼ãƒ³ã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param classNamePattern ã‚¯ãƒ©ã‚¹åã®ãƒ‘ã‚¿ãƒ¼ãƒ³
+     * ƒNƒ‰ƒX–¼‚Ìƒpƒ^[ƒ“‚ğİ’è‚·‚éB
+     * @param classNamePattern ƒNƒ‰ƒX–¼‚Ìƒpƒ^[ƒ“
      */
     public void setClassName(final String classNamePattern)
     {
@@ -154,8 +154,8 @@ public abstract class AbstractConversionConfig
     }
 
     /**
-     * ã‚¯ãƒ©ã‚¹åã®ãƒ‘ã‚¿ãƒ¼ãƒ³ã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param classNamePattern ã‚¯ãƒ©ã‚¹åã®ãƒ‘ã‚¿ãƒ¼ãƒ³
+     * ƒNƒ‰ƒX–¼‚Ìƒpƒ^[ƒ“‚ğİ’è‚·‚éB
+     * @param classNamePattern ƒNƒ‰ƒX–¼‚Ìƒpƒ^[ƒ“
      */
     public void setClassNamePattern(final Pattern classNamePattern)
     {
@@ -163,8 +163,8 @@ public abstract class AbstractConversionConfig
     }
 
     /**
-     * ãƒ¡ã‚½ãƒƒãƒ‰åã®ãƒ‘ã‚¿ãƒ¼ãƒ³ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ãƒ¡ã‚½ãƒƒãƒ‰åã®ãƒ‘ã‚¿ãƒ¼ãƒ³
+     * ƒƒ\ƒbƒh–¼‚Ìƒpƒ^[ƒ“‚ğæ“¾‚·‚éB
+     * @return ƒƒ\ƒbƒh–¼‚Ìƒpƒ^[ƒ“
      */
     public String getMethodNamePattern()
     {
@@ -172,8 +172,8 @@ public abstract class AbstractConversionConfig
     }
 
     /**
-     * ãƒ¡ã‚½ãƒƒãƒ‰åã®ãƒ‘ã‚¿ãƒ¼ãƒ³ã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param methodNamePattern ãƒ¡ã‚½ãƒƒãƒ‰åã®ãƒ‘ã‚¿ãƒ¼ãƒ³
+     * ƒƒ\ƒbƒh–¼‚Ìƒpƒ^[ƒ“‚ğİ’è‚·‚éB
+     * @param methodNamePattern ƒƒ\ƒbƒh–¼‚Ìƒpƒ^[ƒ“
      */
     public void setMethodNamePattern(final String methodNamePattern)
     {

@@ -7,5 +7,5 @@
     <updateXml>true</updateXml>
     <warLocation></warLocation>
     <extraInfo></extraInfo>
-    <webPath>/ENdoSnipe</webPath>
+    <webPath>/Dashboard</webPath>
 </tomcatProjectProperties>

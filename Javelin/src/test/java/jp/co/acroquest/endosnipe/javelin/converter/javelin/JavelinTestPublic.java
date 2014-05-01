@@ -26,14 +26,14 @@
 package jp.co.acroquest.endosnipe.javelin.converter.javelin;
 
 /**
- * publicメソッドのみ持つテストクラス
+ * public���\�b�h�̂ݎ��e�X�g�N���X
  * @author fujii
  *
  */
 public class JavelinTestPublic
 {
     /**
-     * パブリックメソッド
+     * �p�u���b�N���\�b�h
      */
     public void publicMethod()
     {

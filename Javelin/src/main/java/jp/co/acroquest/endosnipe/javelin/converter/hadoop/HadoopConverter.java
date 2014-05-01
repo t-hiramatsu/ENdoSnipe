@@ -29,62 +29,59 @@ import java.io.IOException;
 import java.util.List;
 
 import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
-import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.javelin.converter.AbstractConverter;
 import jp.co.acroquest.endosnipe.javelin.converter.util.ConvertedMethodCounter;
-import jp.co.acroquest.endosnipe.javelin.resource.ResourceCollector;
-import jp.co.acroquest.endosnipe.javelin.resource.hadoop.HadoopJobTrackerGetter;
 import jp.co.smg.endosnipe.javassist.CannotCompileException;
 import jp.co.smg.endosnipe.javassist.CtBehavior;
 import jp.co.smg.endosnipe.javassist.CtClass;
 import jp.co.smg.endosnipe.javassist.NotFoundException;
 
 /**
- * Hadoopç”¨ã‚³ãƒ³ãƒãƒ¼ã‚¿
+ * Hadoop—pƒRƒ“ƒo[ƒ^
  *
  * @author asazuma
  */
 public class HadoopConverter extends AbstractConverter
 {
-    /** ã‚³ãƒ³ãƒãƒ¼ã‚¿å */
+    /** ƒRƒ“ƒo[ƒ^–¼ */
     private static final String CONVERTER_NAME = "HadoopConverter";
 
-    /** JavelinRecorderå */
+    /** JavelinRecorder–¼ */
     private static final String JAVELIN_RECORDER_NAME = HadoopRecorder.class.getName();
 
-    /** å®Ÿè¡Œå‰å‡¦ç†ã¨ã—ã¦è¿½åŠ ã™ã‚‹preProcessã®ã‚³ãƒ¼ãƒ‰(å‰) */
+    /** Às‘Oˆ—‚Æ‚µ‚Ä’Ç‰Á‚·‚épreProcess‚ÌƒR[ƒh(‘O) */
     private static final String PREPROCESS_CODE_BEFORE = JAVELIN_RECORDER_NAME + ".preProcess(";
 
-    /** å®Ÿè¡Œå‰å‡¦ç†ã¨ã—ã¦è¿½åŠ ã™ã‚‹preProcessã®ã‚³ãƒ¼ãƒ‰(å¾Œ) */
+    /** Às‘Oˆ—‚Æ‚µ‚Ä’Ç‰Á‚·‚épreProcess‚ÌƒR[ƒh(Œã) */
     private static final String PREPROCESS_CODE_AFTER = "\", $args);";
 
-    /** å®Ÿè¡Œå¾Œå‡¦ç†ã¨ã—ã¦è¿½åŠ ã™ã‚‹postProcessNGã®ã‚³ãƒ¼ãƒ‰(å‰) */
+    /** ÀsŒãˆ—‚Æ‚µ‚Ä’Ç‰Á‚·‚épostProcessNG‚ÌƒR[ƒh(‘O) */
     private static final String POSTPROCESS_NG_CODE_BEFORE =
             JAVELIN_RECORDER_NAME + ".postProcessNG(";
 
-    /** å®Ÿè¡Œå¾Œå‡¦ç†ã¨ã—ã¦è¿½åŠ ã™ã‚‹postProcessNGã®ã‚³ãƒ¼ãƒ‰(å¾Œ) */
+    /** ÀsŒãˆ—‚Æ‚µ‚Ä’Ç‰Á‚·‚épostProcessNG‚ÌƒR[ƒh(Œã) */
     private static final String POSTPROCESS_NG_CODE_AFTER = "\",$e, $0);throw $e;";
 
-    /** å®Ÿè¡Œå¾Œå‡¦ç†ã¨ã—ã¦è¿½åŠ ã™ã‚‹postProcessOKã®ã‚³ãƒ¼ãƒ‰(å‰) */
+    /** ÀsŒãˆ—‚Æ‚µ‚Ä’Ç‰Á‚·‚épostProcessOK‚ÌƒR[ƒh(‘O) */
     private static final String POSTPROCESS_OK_CODE_BEFORE =
             JAVELIN_RECORDER_NAME + ".postProcessOK(";
 
-    /** å®Ÿè¡Œå¾Œå‡¦ç†ã¨ã—ã¦è¿½åŠ ã™ã‚‹postProcessOKã®ã‚³ãƒ¼ãƒ‰(å¾Œ) */
+    /** ÀsŒãˆ—‚Æ‚µ‚Ä’Ç‰Á‚·‚épostProcessOK‚ÌƒR[ƒh(Œã) */
     private static final String POSTPROCESS_OK_CODE_AFTER = "\",($w)$_, $0);";
 
-    /** å®Ÿè¡Œå‰å‡¦ç†ã¨ã—ã¦è¿½åŠ ã•ã‚Œã‚‹ã‚³ãƒ¼ãƒ‰ã®å›ºå®šéƒ¨åˆ†ã®æ–‡å­—åˆ—é•· */
+    /** Às‘Oˆ—‚Æ‚µ‚Ä’Ç‰Á‚³‚ê‚éƒR[ƒh‚ÌŒÅ’è•”•ª‚Ì•¶š—ñ’· */
     private static final int PREPROCESS_CODE_FIXEDLENGTH =
             PREPROCESS_CODE_BEFORE.length() + PREPROCESS_CODE_AFTER.length();
 
-    /** å®Ÿè¡Œå¾Œå‡¦ç†ã¨ã—ã¦è¿½åŠ ã•ã‚Œã‚‹ã‚³ãƒ¼ãƒ‰ã®å›ºå®šéƒ¨åˆ†ã®æ–‡å­—åˆ—é•· */
+    /** ÀsŒãˆ—‚Æ‚µ‚Ä’Ç‰Á‚³‚ê‚éƒR[ƒh‚ÌŒÅ’è•”•ª‚Ì•¶š—ñ’· */
     private static final int POSTPROCESS_CODE_FIXEDLENGTH =
             POSTPROCESS_OK_CODE_BEFORE.length() + POSTPROCESS_OK_CODE_AFTER.length();
 
-    /** å®Ÿè¡Œå¾Œå‡¦ç†ã¨ã—ã¦è¿½åŠ ã•ã‚Œã‚‹NGã‚³ãƒ¼ãƒ‰ã®å›ºå®šéƒ¨åˆ†ã®æ–‡å­—åˆ—é•· */
+    /** ÀsŒãˆ—‚Æ‚µ‚Ä’Ç‰Á‚³‚ê‚éNGƒR[ƒh‚ÌŒÅ’è•”•ª‚Ì•¶š—ñ’· */
     private static final int NG_CODE_FIXEDLENGTH =
             POSTPROCESS_NG_CODE_BEFORE.length() + POSTPROCESS_NG_CODE_AFTER.length();
 
-    /** å‡¦ç†ä¸­ã®ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒã‚¤ãƒˆã‚³ãƒ¼ãƒ‰æƒ…å ±ã€‚ */
+    /** ˆ—’†‚Ìƒƒ\ƒbƒh‚ÌƒoƒCƒgƒR[ƒhî•ñB */
     private BytecodeInfo info_;
 
     /**
@@ -92,17 +89,13 @@ public class HadoopConverter extends AbstractConverter
      */
     public void init()
     {
-        // HadoopRecorderã‚’åˆæœŸåŒ–ã™ã‚‹
+        // HadoopRecorder‚ğ‰Šú‰»‚·‚é
         synchronized (HadoopRecorder.class)
         {
             if (HadoopRecorder.isInitialized() == false)
             {
                 HadoopRecorder.javelinInit(new JavelinConfig());
             }
-    		ResourceCollector.getInstance().addMultiResource(
-    				TelegramConstants.ITEMNAME_HADOOP_JOBTRACKER,
-    				new HadoopJobTrackerGetter());
-            
         }
     }
 
@@ -118,9 +111,9 @@ public class HadoopConverter extends AbstractConverter
         List<CtBehavior> behaviorList = getMatcheDeclaredBehavior();
         for (CtBehavior ctBehavior : behaviorList)
         {
-            // æŒ‡å®šã•ã‚ŒãŸHadoopã®ãƒ¡ã‚½ãƒƒãƒ‰ã¯å¸¸ã«ç›£è¦–å¯¾è±¡ã¨ã™ã‚‹ã€‚
+            // w’è‚³‚ê‚½Hadoop‚Ìƒƒ\ƒbƒh‚Íí‚ÉŠÄ‹‘ÎÛ‚Æ‚·‚éB
             convertBehavior(ctBehavior);
-            // JavelinConverterã§å¤‰æ›ã‚’è¡Œã£ãŸãƒ¡ã‚½ãƒƒãƒ‰æ•°ã‚’è¨˜éŒ²
+            // JavelinConverter‚Å•ÏŠ·‚ğs‚Á‚½ƒƒ\ƒbƒh”‚ğ‹L˜^
             ConvertedMethodCounter.incrementConvertedCount();
         }
 
@@ -128,10 +121,10 @@ public class HadoopConverter extends AbstractConverter
     }
 
     /**
-     * ãƒ¡ã‚½ãƒƒãƒ‰ã®æŒ¯ã‚‹èˆã„ã‚’ä¿®æ­£ã™ã‚‹ã€‚
+     * ƒƒ\ƒbƒh‚ÌU‚é•‘‚¢‚ğC³‚·‚éB
      * @param ctBehavior CtBehavior
-     * @throws CannotCompileException ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã§ããªã„å ´åˆ
-     * @throws NotFoundException ã‚¯ãƒ©ã‚¹ãŒè¦‹ã¤ã‹ã‚‰ãªã„å ´åˆ
+     * @throws CannotCompileException ƒRƒ“ƒpƒCƒ‹‚Å‚«‚È‚¢ê‡
+     * @throws NotFoundException ƒNƒ‰ƒX‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡
      */
     private void convertBehavior(final CtBehavior ctBehavior)
         throws CannotCompileException,
@@ -142,7 +135,7 @@ public class HadoopConverter extends AbstractConverter
         String argClassMethod = "\"" + className + "\",\"" + methodName;
         int argLength = argClassMethod.length();
 
-        // å®Ÿè¡Œå‰å‡¦ç†ã‚’è¿½åŠ ã™ã‚‹ã€‚
+        // Às‘Oˆ—‚ğ’Ç‰Á‚·‚éB
         int preProcessCodeLength = argLength + PREPROCESS_CODE_FIXEDLENGTH;
         StringBuilder preProcessCodeBuffer = new StringBuilder(preProcessCodeLength);
         preProcessCodeBuffer.append(PREPROCESS_CODE_BEFORE);
@@ -152,7 +145,7 @@ public class HadoopConverter extends AbstractConverter
 
         ctBehavior.insertBefore(callPreProcessCode);
 
-        // å®Ÿè¡Œå¾Œå‡¦ç†ã‚’è¿½åŠ ã™ã‚‹ã€‚
+        // ÀsŒãˆ—‚ğ’Ç‰Á‚·‚éB
         int postProcessCodeLength = argLength + POSTPROCESS_CODE_FIXEDLENGTH;
         StringBuilder postProcessCodeBuffer = new StringBuilder(postProcessCodeLength);
         postProcessCodeBuffer.append(POSTPROCESS_OK_CODE_BEFORE);
@@ -162,9 +155,9 @@ public class HadoopConverter extends AbstractConverter
 
         ctBehavior.insertAfter(callPostProcessCode);
 
-        // ä¾‹å¤–ãƒãƒ³ãƒ‰ãƒªãƒ³ã‚°ã‚’è¿½åŠ ã™ã‚‹ã€‚
+        // —áŠOƒnƒ“ƒhƒŠƒ“ƒO‚ğ’Ç‰Á‚·‚éB
         CtClass throwable = getClassPool().get(Throwable.class.getName());
-        // å®Ÿè¡Œå‰å‡¦ç†ã‚’è¿½åŠ ã™ã‚‹ã€‚
+        // Às‘Oˆ—‚ğ’Ç‰Á‚·‚éB
         int ngCodeLength = argLength + NG_CODE_FIXEDLENGTH;
         StringBuilder ngCodeBuffer = new StringBuilder(ngCodeLength);
         ngCodeBuffer.append(POSTPROCESS_NG_CODE_BEFORE);
@@ -173,7 +166,7 @@ public class HadoopConverter extends AbstractConverter
         String ngCode = ngCodeBuffer.toString();
         ctBehavior.addCatch(ngCode, throwable);
 
-        // å‡¦ç†çµæœã‚’ãƒ­ã‚°ã«å‡ºåŠ›ã™ã‚‹ã€‚
+        // ˆ—Œ‹‰Ê‚ğƒƒO‚Éo—Í‚·‚éB
         logModifiedMethod(CONVERTER_NAME, ctBehavior, createByteCodeInfo());
     }
 

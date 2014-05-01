@@ -38,17 +38,17 @@ import jp.co.acroquest.endosnipe.javelin.StatsJavelinRecorder;
 import jp.co.acroquest.endosnipe.javelin.bean.Invocation;
 
 /**
- * Javelinã®é€šä¿¡ç”¨ã‚¹ãƒ¬ãƒƒãƒ‰
+ * Javelin‚Ì’ÊM—pƒXƒŒƒbƒh
  * @author eriguchi
  *
  */
 public class JavelinAcceptThread extends CommunicationServerImpl implements AlarmListener,
         TelegramConstants
 {
-    /** è¨­å®š */
+    /** İ’è */
     static JavelinConfig config__ = new JavelinConfig();
 
-    /** JavelinAcceptThreadã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹(ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³) */
+    /** JavelinAcceptThread‚ÌƒCƒ“ƒXƒ^ƒ“ƒX(ƒVƒ“ƒOƒ‹ƒgƒ“) */
     static JavelinAcceptThread instance__ = new JavelinAcceptThread();
     private JavelinAcceptThread()
     {
@@ -61,7 +61,7 @@ public class JavelinAcceptThread extends CommunicationServerImpl implements Alar
     }
 
     /**
-     * åˆæœŸåŒ–ãƒ¡ã‚½ãƒƒãƒ‰
+     * ‰Šú‰»ƒƒ\ƒbƒh
      */
     public void init()
     {
@@ -69,7 +69,7 @@ public class JavelinAcceptThread extends CommunicationServerImpl implements Alar
     }
 
     /**
-     * ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’é–‹å§‹ã—ã¾ã™ã€‚
+     * ƒXƒŒƒbƒh‚ğŠJn‚µ‚Ü‚·B
      */
     public void start()
     {
@@ -78,7 +78,7 @@ public class JavelinAcceptThread extends CommunicationServerImpl implements Alar
     }
         
     /**
-     * JavelinAcceptThreadã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã™ã‚‹ã€‚
+     * JavelinAcceptThread‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚·‚éB
      * @return JavelinAcceptThread
      */
     public static JavelinAcceptThread getInstance()
@@ -99,15 +99,15 @@ public class JavelinAcceptThread extends CommunicationServerImpl implements Alar
                 accumulateTimeList, BYTE_TELEGRAM_KIND_ALERT,
                 BYTE_REQUEST_KIND_NOTIFY);
 
-        // ã‚¢ãƒ©ãƒ¼ãƒ ã‚’é€ä¿¡ã™ã‚‹ã€‚
+        // ƒAƒ‰[ƒ€‚ğ‘—M‚·‚éB
         sendTelegram(objTelegram);
     }
 
     /**
-     * CallTreeã«ä¿å­˜ã•ã‚ŒãŸå…¨ã¦ã®Invocationã¨å®Ÿè¡Œæ™‚é–“ã‚’å†å¸°çš„ã«Listã«ä¿å­˜ã—ã¾ã™ã€‚<br />
+     * CallTree‚É•Û‘¶‚³‚ê‚½‘S‚Ä‚ÌInvocation‚ÆÀsŠÔ‚ğÄ‹A“I‚ÉList‚É•Û‘¶‚µ‚Ü‚·B<br />
      * 
-     * @param invocationList Invocationã‚’ä¿å­˜ã™ã‚‹ãƒªã‚¹ãƒˆã€‚
-     * @param accumulateTimeList å®Ÿè¡Œæ™‚é–“ã‚’ä¿å­˜ã™ã‚‹ãƒªã‚¹ãƒˆã€‚
+     * @param invocationList Invocation‚ğ•Û‘¶‚·‚éƒŠƒXƒgB
+     * @param accumulateTimeList ÀsŠÔ‚ğ•Û‘¶‚·‚éƒŠƒXƒgB
      * @param node CallTreeNode
      */
     private void addInvocationList(List<Invocation> invocationList, List<Long> accumulateTimeList,
@@ -125,10 +125,10 @@ public class JavelinAcceptThread extends CommunicationServerImpl implements Alar
     }
 
     /**
-     * ã“ã®AlarmListenerãŒãƒ«ãƒ¼ãƒˆãƒãƒ¼ãƒ‰ã®ã¿ã‚’å‡¦ç†ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¿”ã™ã€‚ â€»ã“ã®ã‚¯ãƒ©ã‚¹ã§ã¯ã€å¸¸ã«falseã‚’è¿”ã™ã€‚
+     * ‚±‚ÌAlarmListener‚ªƒ‹[ƒgƒm[ƒh‚Ì‚İ‚ğˆ—‚·‚é‚©‚Ç‚¤‚©‚ğ•Ô‚·B ¦‚±‚ÌƒNƒ‰ƒX‚Å‚ÍAí‚Éfalse‚ğ•Ô‚·B
      * 
      * @see jp.co.acroquest.endosnipe.javelin.communicate.AlarmListener#isSendingRootOnly()
-     * @return false(ãƒ«ãƒ¼ãƒˆãƒãƒ¼ãƒ‰ä»¥å¤–ã‚‚å‡¦ç†ã™ã‚‹)
+     * @return false(ƒ‹[ƒgƒm[ƒhˆÈŠO‚àˆ—‚·‚é)
      */
     public boolean isSendingRootOnly()
     {
@@ -136,8 +136,8 @@ public class JavelinAcceptThread extends CommunicationServerImpl implements Alar
     }
 
     /**
-     * ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚’æŒã£ã¦ã„ã‚‹ã‹ã©ã†ã‹ã€‚
-     * @return true:ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚’æŒã£ã¦ã„ã‚‹ã€false:ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚’æŒã£ã¦ã„ãªã„ã€‚
+     * ƒNƒ‰ƒCƒAƒ“ƒg‚ğ‚Á‚Ä‚¢‚é‚©‚Ç‚¤‚©B
+     * @return true:ƒNƒ‰ƒCƒAƒ“ƒg‚ğ‚Á‚Ä‚¢‚éAfalse:ƒNƒ‰ƒCƒAƒ“ƒg‚ğ‚Á‚Ä‚¢‚È‚¢B
      */
     public boolean hasClient()
     {

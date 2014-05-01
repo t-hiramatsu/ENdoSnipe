@@ -28,30 +28,30 @@ package jp.co.acroquest.endosnipe.javelin.communicate;
 import jp.co.acroquest.endosnipe.javelin.CallTreeNode;
 
 /**
- * アラームを通知する処理が実装するインタフェース。
+ * �A���[����ʒm���鏈������������C���^�t�F�[�X�B
  * 
  * @author unknown
  */
 public interface AlarmListener
 {
     /**
-     * しきい値超過のアラームを通知する際に使用する。
+     * �������l���߂̃A���[����ʒm����ۂɎg�p����B
      * 
-     * @param node しきい値超過した呼び出しの情報。
+     * @param node �������l���߂����Ăяo���̏��B
      */
     void sendExceedThresholdAlarm(CallTreeNode node);
 
     /**
-     * ルートノード(コールツリーの頂点)のみをAlarmの対象とするかどうかを指定する。
+     * ���[�g�m�[�h(�R�[���c���[�̒��_)�݂̂�Alarm�̑ΏۂƂ��邩�ǂ������w�肷��B
      * 
-     * @return trueならばルートノードのみを対象とする。falseならば全てのAlarmを対象とする。
+     * @return true�Ȃ�΃��[�g�m�[�h�݂̂�ΏۂƂ���Bfalse�Ȃ�ΑS�Ă�Alarm��ΏۂƂ���B
      */
     boolean isSendingRootOnly();
 
     /**
-     * 初期化メソッド
+     * ���������\�b�h
      * 
-     * @throws Exception 初期化中に発生した例外
+     * @throws Exception ���������ɔ���������O
      */
     void init() throws Exception;
 }

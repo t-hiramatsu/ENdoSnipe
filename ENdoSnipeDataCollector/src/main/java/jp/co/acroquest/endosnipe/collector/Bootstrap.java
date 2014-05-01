@@ -38,18 +38,18 @@ import jp.co.acroquest.endosnipe.common.util.PathUtil;
 import jp.co.acroquest.endosnipe.data.db.ConnectionManager;
 
 /**
- * DataCollector ã‚µãƒ¼ãƒ“ã‚¹ç”¨ã®ãƒ¡ã‚¤ãƒ³ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+ * DataCollector ƒT[ƒrƒX—p‚ÌƒƒCƒ“ƒNƒ‰ƒX‚Å‚·B<br />
  * <ul>
- * <li>Windowsç‰ˆ commons-daemon (procrun) ã®å ´åˆ
+ * <li>Windows”Å commons-daemon (procrun) ‚Ìê‡
  *   <dl>
- *     <dt>é–‹å§‹æ™‚<dd>main() ãƒ¡ã‚½ãƒƒãƒ‰ãŒå¼•æ•°ã€Œstartã€ã§å‘¼ã³å‡ºã•ã‚Œã¾ã™ã€‚<br />
- *     <dt>çµ‚äº†æ™‚<dd>main() ãƒ¡ã‚½ãƒƒãƒ‰ãŒå¼•æ•°ã€Œstopã€ã§å‘¼ã³å‡ºã•ã‚Œã¾ã™ã€‚<br />
+ *     <dt>ŠJn<dd>main() ƒƒ\ƒbƒh‚ªˆø”ustartv‚ÅŒÄ‚Ño‚³‚ê‚Ü‚·B<br />
+ *     <dt>I—¹<dd>main() ƒƒ\ƒbƒh‚ªˆø”ustopv‚ÅŒÄ‚Ño‚³‚ê‚Ü‚·B<br />
  *   </dl>
  * </li>
- * <li>Linuxç‰ˆ commons-daemon (jsvc) ã®å ´åˆ
+ * <li>Linux”Å commons-daemon (jsvc) ‚Ìê‡
  *   <dl>
- *     <dt>é–‹å§‹æ™‚<dd>init()ã€start() ã®é †ã«å‘¼ã³å‡ºã•ã‚Œã¾ã™ã€‚<br />
- *     <dt>çµ‚äº†æ™‚<dd>stop()ã€destroy() ã®é †ã«å‘¼ã³å‡ºã•ã‚Œã¾ã™ã€‚<br />
+ *     <dt>ŠJn<dd>init()Astart() ‚Ì‡‚ÉŒÄ‚Ño‚³‚ê‚Ü‚·B<br />
+ *     <dt>I—¹<dd>stop()Adestroy() ‚Ì‡‚ÉŒÄ‚Ño‚³‚ê‚Ü‚·B<br />
  *   </dl>
  * </li>
  * </ul>
@@ -60,30 +60,30 @@ public class Bootstrap implements LogMessageCodes
 {
     private static Bootstrap main__ = null;
 
-    /** ãƒ­ã‚¬ãƒ¼ */
+    /** ƒƒK[ */
     public static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(Bootstrap.class);
 
-    // è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã‚’æŒ‡å®šã™ã‚‹ãŸã‚ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å
+    // İ’èƒtƒ@ƒCƒ‹‚ğw’è‚·‚é‚½‚ß‚ÌƒvƒƒpƒeƒB–¼
     private static final String COLLECTOR_PROP_NAME = "collector.property";
 
-    // ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«
+    // ƒfƒtƒHƒ‹ƒg‚Ìİ’èƒtƒ@ƒCƒ‹
     private static final String DEF_COLLECTOR_PROPERTY = "../conf/collector.properties";
 
-    // ç•°å¸¸çµ‚äº†æ™‚ã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
+    // ˆÙíI—¹‚ÌƒXƒe[ƒ^ƒX
     private static final int STATUS_ERROR = 1;
 
-    // é–‹å§‹å‡¦ç†ä¸­ã‚’è¡¨ã™ãƒ•ãƒ©ã‚°
+    // ŠJnˆ—’†‚ğ•\‚·ƒtƒ‰ƒO
     private volatile boolean starting_;
 
-    // çµ‚äº†å‡¦ç†ä¸­ã‚’è¡¨ã™ãƒ•ãƒ©ã‚°
+    // I—¹ˆ—’†‚ğ•\‚·ƒtƒ‰ƒO
     private volatile boolean stopping_;
 
     private ENdoSnipeDataCollector collector_;
 
     /**
-     * ã‚¨ãƒ³ãƒˆãƒªãƒã‚¤ãƒ³ãƒˆãƒ¡ã‚½ãƒƒãƒ‰ã§ã™ã€‚<br />
+     * ƒGƒ“ƒgƒŠƒ|ƒCƒ“ƒgƒƒ\ƒbƒh‚Å‚·B<br />
      * 
-     * @param args ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³å¼•æ•°
+     * @param args ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“ˆø”
      */
     public static void main(final String[] args)
     {
@@ -122,15 +122,15 @@ public class Bootstrap implements LogMessageCodes
     }
 
     /**
-     * ã‚µãƒ¼ãƒ“ã‚¹ã‚’é–‹å§‹ã—ã¾ã™ã€‚<br />
-     * @throws InitializeException ã‚µãƒ¼ãƒ“ã‚¹ã®åˆæœŸåŒ–ã«å¤±æ•—
+     * ƒT[ƒrƒX‚ğŠJn‚µ‚Ü‚·B<br />
+     * @throws InitializeException ƒT[ƒrƒX‚Ì‰Šú‰»‚É¸”s
      */
     public void start()
         throws InitializeException
     {
         if (starting_ == true)
         {
-            // æ—¢ã«é–‹å§‹å‡¦ç†ä¸­ã®å ´åˆã¯ä½•ã‚‚è¡Œã‚ãªã„
+            // Šù‚ÉŠJnˆ—’†‚Ìê‡‚Í‰½‚às‚í‚È‚¢
             throw new InitializeException(DATA_COLLECTOR_ALREADY_STARTING);
         }
         this.starting_ = true;
@@ -138,7 +138,7 @@ public class Bootstrap implements LogMessageCodes
         initContextClassLoader();
 
         LOGGER.log(DATA_COLLECTOR_SERVICE_STARTING);
-        // ã‚·ãƒ£ãƒƒãƒˆãƒ€ã‚¦ãƒ³ãƒ•ãƒƒã‚¯ã®ç™»éŒ²
+        // ƒVƒƒƒbƒgƒ_ƒEƒ“ƒtƒbƒN‚Ì“o˜^
         Runtime.getRuntime().addShutdownHook(new ShutdownHook());
 
         DataCollectorConfig config = loadConfig();
@@ -155,14 +155,13 @@ public class Bootstrap implements LogMessageCodes
             }
             else
             {
-                this.collector_.startServer();
                 this.collector_.connectAll();
             }
 
             LOGGER.log(DATA_COLLECTOR_SERVICE_STARTED);
             this.starting_ = false;
 
-            // çµ‚äº†ã™ã‚‹ã¾ã§ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’ãƒ–ãƒ­ãƒƒã‚¯ã™ã‚‹
+            // I—¹‚·‚é‚Ü‚ÅƒXƒŒƒbƒh‚ğƒuƒƒbƒN‚·‚é
             this.collector_.blockTillStop();
         }
         catch (Throwable ex)
@@ -176,7 +175,7 @@ public class Bootstrap implements LogMessageCodes
     }
 
     /**
-     * ã‚µãƒ¼ãƒ“ã‚¹ã®åœæ­¢ã‚’è¡Œã„ã¾ã™ã€‚<br />
+     * ƒT[ƒrƒX‚Ì’â~‚ğs‚¢‚Ü‚·B<br />
      */
     public void stop()
     {
@@ -184,7 +183,7 @@ public class Bootstrap implements LogMessageCodes
         {
             if (stopping_ == true)
             {
-                // æ—¢ã«çµ‚äº†å‡¦ç†ä¸­ã®å ´åˆã¯ä½•ã‚‚è¡Œã‚ãªã„
+                // Šù‚ÉI—¹ˆ—’†‚Ìê‡‚Í‰½‚às‚í‚È‚¢
                 return;
             }
             this.stopping_ = true;
@@ -201,9 +200,9 @@ public class Bootstrap implements LogMessageCodes
     }
 
     /**
-     * Linux ç‰ˆ Commons-daemon ã‹ã‚‰å‘¼ã³å‡ºã•ã‚Œã‚‹åˆæœŸåŒ–ãƒ¡ã‚½ãƒƒãƒ‰ã§ã™ã€‚<br />
-     * å‰Šé™¤ã—ãªã„ã§ãã ã•ã„ã€‚<br />
-     * @param args å¼•æ•°
+     * Linux ”Å Commons-daemon ‚©‚çŒÄ‚Ño‚³‚ê‚é‰Šú‰»ƒƒ\ƒbƒh‚Å‚·B<br />
+     * íœ‚µ‚È‚¢‚Å‚­‚¾‚³‚¢B<br />
+     * @param args ˆø”
      */
     public void init(final String[] args)
     {
@@ -211,8 +210,8 @@ public class Bootstrap implements LogMessageCodes
     }
 
     /**
-     * Linux ç‰ˆ Commons-daemon ã‹ã‚‰å‘¼ã³å‡ºã•ã‚Œã‚‹ç ´æ£„ãƒ¡ã‚½ãƒƒãƒ‰ã§ã™ã€‚<br />
-     * å‰Šé™¤ã—ãªã„ã§ãã ã•ã„ã€‚<br />
+     * Linux ”Å Commons-daemon ‚©‚çŒÄ‚Ño‚³‚ê‚é”jŠüƒƒ\ƒbƒh‚Å‚·B<br />
+     * íœ‚µ‚È‚¢‚Å‚­‚¾‚³‚¢B<br />
      */
     public void destroy()
     {
@@ -228,7 +227,7 @@ public class Bootstrap implements LogMessageCodes
             fileName = DEF_COLLECTOR_PROPERTY;
         }
 
-        // è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ãŒç›¸å¯¾ãƒ‘ã‚¹æŒ‡å®šã®å ´åˆã€çµ¶å¯¾ãƒ‘ã‚¹ã«å¤‰æ›ã™ã‚‹
+        // İ’èƒtƒ@ƒCƒ‹‚ª‘Š‘ÎƒpƒXw’è‚Ìê‡Aâ‘ÎƒpƒX‚É•ÏŠ·‚·‚é
         if (PathUtil.isRelativePath(fileName))
         {
             String jarPath = PathUtil.getJarDir(Bootstrap.class);
@@ -252,9 +251,9 @@ public class Bootstrap implements LogMessageCodes
                                           ConfigurationReader.getAbsoluteFilePath());
         }
 
-        // ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åŸºæº–ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãŒç›¸å¯¾ãƒ‘ã‚¹æŒ‡å®šã®å ´åˆã€
-        // Jar ãŒå­˜åœ¨ã™ã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‹ã‚‰ã®ç›¸å¯¾ãƒ‘ã‚¹ã¨è¦‹ãªã—ã¦
-        // çµ¶å¯¾ãƒ‘ã‚¹ã«å¤‰æ›ã™ã‚‹
+        // ƒf[ƒ^ƒx[ƒXŠî€ƒfƒBƒŒƒNƒgƒŠ‚ª‘Š‘ÎƒpƒXw’è‚Ìê‡A
+        // Jar ‚ª‘¶İ‚·‚éƒfƒBƒŒƒNƒgƒŠ‚©‚ç‚Ì‘Š‘ÎƒpƒX‚ÆŒ©‚È‚µ‚Ä
+        // â‘ÎƒpƒX‚É•ÏŠ·‚·‚é
         String baseDir = config.getBaseDir();
         if (PathUtil.isRelativePath(baseDir) == true)
         {
@@ -262,9 +261,9 @@ public class Bootstrap implements LogMessageCodes
             config.setBaseDir(jarPath + baseDir);
         }
 
-        // ãƒªã‚½ãƒ¼ã‚¹ãƒ¢ãƒ‹ã‚¿ãƒªãƒ³ã‚°ã®è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«åãŒç›¸å¯¾ãƒ‘ã‚¹æŒ‡å®šã®å ´åˆã€
-        // Jar ãŒå­˜åœ¨ã™ã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‹ã‚‰ã®ç›¸å¯¾ãƒ‘ã‚¹ã¨è¦‹ãªã—ã¦
-        // çµ¶å¯¾ãƒ‘ã‚¹ã«å¤‰æ›ã™ã‚‹
+        // ƒŠƒ\[ƒXƒ‚ƒjƒ^ƒŠƒ“ƒO‚Ìİ’èƒtƒ@ƒCƒ‹–¼‚ª‘Š‘ÎƒpƒXw’è‚Ìê‡A
+        // Jar ‚ª‘¶İ‚·‚éƒfƒBƒŒƒNƒgƒŠ‚©‚ç‚Ì‘Š‘ÎƒpƒX‚ÆŒ©‚È‚µ‚Ä
+        // â‘ÎƒpƒX‚É•ÏŠ·‚·‚é
         String resourceMonitoringConf = config.getResourceMonitoringConf();
         if (PathUtil.isRelativePath(resourceMonitoringConf) == true)
         {
@@ -273,7 +272,7 @@ public class Bootstrap implements LogMessageCodes
 
         }
 
-        // è¨€èªåˆ¥ã®DisplayNameè¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚€
+        // Œ¾Œê•Ê‚ÌDisplayNameİ’èƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚Ş
         DisplayNameManager.getManager().init(config.getLanguage());
 
         return config;
@@ -281,8 +280,8 @@ public class Bootstrap implements LogMessageCodes
 
     private void initContextClassLoader()
     {
-        // CommonsDaemon ã‹ã‚‰èµ·å‹•ã—ãŸå ´åˆã€ã‚¹ãƒ¬ãƒƒãƒ‰ã«ã‚³ãƒ³ãƒ†ã‚¯ã‚¹ãƒˆã‚¯ãƒ©ã‚¹ãƒ­ãƒ¼ãƒ€
-        // ãŒè¨­å®šã•ã‚Œã¦ã„ãªã„ãŸã‚ã€å¼·åˆ¶çš„ã«æŒ‡å®šã™ã‚‹
+        // CommonsDaemon ‚©‚ç‹N“®‚µ‚½ê‡AƒXƒŒƒbƒh‚ÉƒRƒ“ƒeƒNƒXƒgƒNƒ‰ƒXƒ[ƒ_
+        // ‚ªİ’è‚³‚ê‚Ä‚¢‚È‚¢‚½‚ßA‹­§“I‚Éw’è‚·‚é
         ClassLoader loader = getClass().getClassLoader();
         Thread.currentThread().setContextClassLoader(loader);
     }
@@ -290,11 +289,11 @@ public class Bootstrap implements LogMessageCodes
     private static void printUsage()
     {
         System.err.println("Usage: java -D" + COLLECTOR_PROP_NAME
-            + "=PROPFILENAME -jar endosnipe-datacollector.jar {start|stop}");
+                + "=PROPFILENAME -jar endosnipe-datacollector.jar {start|stop}");
     }
 
     /**
-     * ã‚·ãƒ£ãƒƒãƒˆãƒ€ã‚¦ãƒ³ãƒ•ãƒƒã‚¯ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+     * ƒVƒƒƒbƒgƒ_ƒEƒ“ƒtƒbƒNƒNƒ‰ƒX‚Å‚·B<br />
      * 
      * @author fujii
      */

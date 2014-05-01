@@ -26,26 +26,26 @@
 package jp.co.acroquest.endosnipe.perfdoctor.rule;
 
 /**
- * ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚ºåŒ–ã•ã‚ŒãŸãƒ«ãƒ¼ãƒ«ã‚’æ ¼ç´ã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚<br />
+ * ƒVƒŠƒAƒ‰ƒCƒY‰»‚³‚ê‚½ƒ‹[ƒ‹‚ğŠi”[‚·‚éƒNƒ‰ƒXB<br />
  * 
  * @author sakamoto
  */
 public class SerializedRules
 {
 
-	/** ruleSetConfigMap_ã®å†…å®¹ã‚’ä¸€æ™‚çš„ã«ä¿å­˜ã—ã¦ãŠãé…åˆ— */
+	/** ruleSetConfigMap_‚Ì“à—e‚ğˆê“I‚É•Û‘¶‚µ‚Ä‚¨‚­”z—ñ */
 	private final byte[] ruleSetConfigMapData_;
 
-	/** ruleSetMap_ã®å†…å®¹ã‚’ä¸€æ™‚çš„ã«ä¿å­˜ã—ã¦ãŠãé…åˆ—ã€‚ */
+	/** ruleSetMap_‚Ì“à—e‚ğˆê“I‚É•Û‘¶‚µ‚Ä‚¨‚­”z—ñB */
 	private final byte[] ruleSetMapData_;
 
 	/**
-	 * ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚ºåŒ–ã•ã‚ŒãŸãƒ«ãƒ¼ãƒ«ã‚’æ ¼ç´ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
+	 * ƒVƒŠƒAƒ‰ƒCƒY‰»‚³‚ê‚½ƒ‹[ƒ‹‚ğŠi”[‚·‚éƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‚Ü‚·B<br />
 	 * 
 	 * @param ruleSetConfigMapData
-	 *            ruleSetConfigMap ã‚’ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚ºåŒ–ã—ãŸãƒ‡ãƒ¼ã‚¿
+	 *            ruleSetConfigMap ‚ğƒVƒŠƒAƒ‰ƒCƒY‰»‚µ‚½ƒf[ƒ^
 	 * @param ruleSetMapData
-	 *            ruleSetMap ã‚’ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚ºåŒ–ã—ãŸãƒ‡ãƒ¼ã‚¿
+	 *            ruleSetMap ‚ğƒVƒŠƒAƒ‰ƒCƒY‰»‚µ‚½ƒf[ƒ^
 	 */
 	public SerializedRules(final byte[] ruleSetConfigMapData,
 			final byte[] ruleSetMapData)
@@ -70,9 +70,9 @@ public class SerializedRules
 	}
 
 	/**
-	 * ruleSetConfigMap ã‚’ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚ºåŒ–ã—ãŸãƒ‡ãƒ¼ã‚¿ã‚’è¿”ã—ã¾ã™ã€‚<br />
+	 * ruleSetConfigMap ‚ğƒVƒŠƒAƒ‰ƒCƒY‰»‚µ‚½ƒf[ƒ^‚ğ•Ô‚µ‚Ü‚·B<br />
 	 * 
-	 * @return ruleSetConfigMap ã‚’ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚ºåŒ–ã—ãŸãƒ‡ãƒ¼ã‚¿
+	 * @return ruleSetConfigMap ‚ğƒVƒŠƒAƒ‰ƒCƒY‰»‚µ‚½ƒf[ƒ^
 	 */
 	public byte[] getRuleSetConfigMapData()
 	{
@@ -84,9 +84,9 @@ public class SerializedRules
 	}
 
 	/**
-	 * ruleSetMap ã‚’ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚ºåŒ–ã—ãŸãƒ‡ãƒ¼ã‚¿ã‚’è¿”ã—ã¾ã™ã€‚<br />
+	 * ruleSetMap ‚ğƒVƒŠƒAƒ‰ƒCƒY‰»‚µ‚½ƒf[ƒ^‚ğ•Ô‚µ‚Ü‚·B<br />
 	 * 
-	 * @return ruleSetMap ã‚’ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚ºåŒ–ã—ãŸãƒ‡ãƒ¼ã‚¿
+	 * @return ruleSetMap ‚ğƒVƒŠƒAƒ‰ƒCƒY‰»‚µ‚½ƒf[ƒ^
 	 */
 	public byte[] getRuleMapData()
 	{

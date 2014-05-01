@@ -32,57 +32,57 @@ import jp.co.acroquest.endosnipe.javelin.JavelinLogUtil;
 import jp.co.acroquest.endosnipe.javelin.parser.JavelinLogElement;
 
 /**
- * å˜ä¸€ã®{@link JavelinLogElement}ä¸­ã®ã€ å˜ä¸€ã®å€¤ãŒé–¾å€¤ã¨æ¯”è¼ƒã™ã‚‹ã“ã¨ã§ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã‚·ãƒ³ãƒ—ãƒ«ãªãƒ«ãƒ¼ãƒ«ã®ãŸã‚ã®åŸºåº•ãƒ«ãƒ¼ãƒ«
- * ä»¥ä¸‹ã®ï¼“ã¤ã®è¦ç´ ã‚’æŒ‡å®šã—ã¦ä½¿ç”¨ã™ã‚‹ã€‚
+ * ’Pˆê‚Ì{@link JavelinLogElement}’†‚ÌA ’Pˆê‚Ì’l‚ªè‡’l‚Æ”äŠr‚·‚é‚±‚Æ‚Åƒ`ƒFƒbƒN‚·‚éƒVƒ“ƒvƒ‹‚Èƒ‹[ƒ‹‚Ì‚½‚ß‚ÌŠî’êƒ‹[ƒ‹
+ * ˆÈ‰º‚Ì‚R‚Â‚Ì—v‘f‚ğw’è‚µ‚Äg—p‚·‚éB
  * 
- * JavelinLogElementã®ç¨®åˆ¥ï¼ˆIDï¼‰ æƒ…å ±åˆ†é¡ã‚¿ã‚° æ¤œè¨¼å¯¾è±¡å€¤ã®åç§°
+ * JavelinLogElement‚Ìí•ÊiIDj î•ñ•ª—Şƒ^ƒO ŒŸØ‘ÎÛ’l‚Ì–¼Ì
  * 
- * ã‚¨ãƒ©ãƒ¼å‡ºåŠ›æ™‚ã®å¼•æ•°ã«ã¯ã€Œé–¾å€¤ã€ã¨ã€Œå®Ÿæ¸¬å€¤ã€ã‚’æŒ‡å®šå¯èƒ½
+ * ƒGƒ‰[o—Í‚Ìˆø”‚É‚Íuè‡’lv‚ÆuÀ‘ª’lv‚ğw’è‰Â”\
  * 
  * @author S.Kimura
  * 
  */
 public abstract class AbstractSingleValueLimitRule extends SingleElementRule
 {
-    /** é–¾å€¤ */
+    /** è‡’l */
     public long threshold;
 
     /**
-     * å¯¾è±¡å€¤ãŒé–¾å€¤ä»¥ä¸Šã ã£ãŸå ´åˆã¯ã‚¨ãƒ©ãƒ¼ã‚’å‡ºåŠ›ã™ã‚‹ å¯¾è±¡å€¤ã¯æŒ‡å®šã•ã‚ŒãŸIDã€ã‚¿ã‚°ã€åç§°ã‚’æŒ‡å®šã—ã¦å–å¾—ã™ã‚‹
+     * ‘ÎÛ’l‚ªè‡’lˆÈã‚¾‚Á‚½ê‡‚ÍƒGƒ‰[‚ğo—Í‚·‚é ‘ÎÛ’l‚Íw’è‚³‚ê‚½IDAƒ^ƒOA–¼Ì‚ğw’è‚µ‚Äæ“¾‚·‚é
      * 
      * @param element
-     *            æ¤œè¨¼å¯¾è±¡LogElement
+     *            ŒŸØ‘ÎÛLogElement
      */
     @Override
     protected void doJudgeElement(final JavelinLogElement element)
     {
-        // ç¨®åˆ¥ã‚’ãƒã‚§ãƒƒã‚¯
+        // í•Ê‚ğƒ`ƒFƒbƒN
         String type = element.getBaseInfo().get(JavelinLogColumnNum.ID);
         String targetType = getTargetID();
 
         boolean isTarget = targetType.equals(type);
 
-        // æŒ‡å®šã•ã‚ŒãŸç¨®åˆ¥ä»¥å¤–ã ã£ãŸå ´åˆã¯æ¤œè¨¼çµ‚äº†
+        // w’è‚³‚ê‚½í•ÊˆÈŠO‚¾‚Á‚½ê‡‚ÍŒŸØI—¹
         if (false == isTarget)
         {
             return;
         }
 
-        // æƒ…å ±åˆ†é¡ã‚¿ã‚°ã‚’æŒ‡å®šã—ã¦ã€æƒ…å ±ã‚’å–å¾—
+        // î•ñ•ª—Şƒ^ƒO‚ğw’è‚µ‚ÄAî•ñ‚ğæ“¾
         String targetInfoTag = getTargetInfoTag();
         Map<String, String> targetInfoMap = JavelinLogUtil.parseDetailInfo(element, targetInfoTag);
 
-        // æŒ‡å®šæƒ…å ±ãŒå–å¾—ã§ããªã‹ã£ãŸå ´åˆã¯æ¤œè¨¼çµ‚äº†
+        // w’èî•ñ‚ªæ“¾‚Å‚«‚È‚©‚Á‚½ê‡‚ÍŒŸØI—¹
         if (targetInfoMap == null)
         {
             return;
         }
 
-        // æ¤œè¨¼å¯¾è±¡å€¤ã‚’å–å¾—
+        // ŒŸØ‘ÎÛ’l‚ğæ“¾
         String targetValueName = getTargetValueName();
         String targetValueStr = targetInfoMap.get(targetValueName);
 
-        // å–å¾—ã§ããªã‹ã£ãŸå ´åˆã¯æ¤œè¨¼çµ‚äº†
+        // æ“¾‚Å‚«‚È‚©‚Á‚½ê‡‚ÍŒŸØI—¹
         if (targetValueStr == null)
         {
             return;
@@ -97,23 +97,23 @@ public abstract class AbstractSingleValueLimitRule extends SingleElementRule
     }
 
     /**
-     * å¯¾è±¡ã¨ã™ã‚‹ãƒ­ã‚°ç¨®åˆ¥ã‚’è¿”ã™ã€‚
+     * ‘ÎÛ‚Æ‚·‚éƒƒOí•Ê‚ğ•Ô‚·B
      * 
-     * @return å¯¾è±¡ãƒ­ã‚°ç¨®åˆ¥
+     * @return ‘ÎÛƒƒOí•Ê
      */
     protected abstract String getTargetID();
 
     /**
-     * å¯¾è±¡ã¨ã™ã‚‹æƒ…å ±åˆ†é¡ã‚¿ã‚°ã‚’å–å¾—ã™ã‚‹
+     * ‘ÎÛ‚Æ‚·‚éî•ñ•ª—Şƒ^ƒO‚ğæ“¾‚·‚é
      * 
-     * @return å¯¾è±¡æƒ…å ±åˆ†é¡ã‚¿ã‚°
+     * @return ‘ÎÛî•ñ•ª—Şƒ^ƒO
      */
     protected abstract String getTargetInfoTag();
 
     /**
-     * å¯¾è±¡ã¨ã™ã‚‹å€¤ã®åç§°ã‚’å–å¾—ã™ã‚‹
+     * ‘ÎÛ‚Æ‚·‚é’l‚Ì–¼Ì‚ğæ“¾‚·‚é
      * 
-     * @return å¯¾è±¡å€¤åç§°
+     * @return ‘ÎÛ’l–¼Ì
      */
     protected abstract String getTargetValueName();
 }

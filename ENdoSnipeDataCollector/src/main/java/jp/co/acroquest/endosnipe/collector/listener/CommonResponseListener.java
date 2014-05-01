@@ -32,7 +32,7 @@ import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 
 /**
- * å¿œç­”é›»æ–‡ã‚’å‡¦ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚
+ * ‰“š“d•¶‚ğˆ—‚·‚éƒNƒ‰ƒXB
  *
  * @author sakamoto
  */
@@ -43,10 +43,10 @@ public class CommonResponseListener extends AbstractTelegramListener
     private final byte             telegramKind_;
 
     /**
-     * å¿œç­”é›»æ–‡ã‚’å‡¦ç†ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã—ã¾ã™ã€‚
+     * ‰“š“d•¶‚ğˆ—‚·‚éƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‚Ü‚·B
      *
-     * @param queue ã‚­ãƒ¥ãƒ¼
-     * @param telegramKind å‡¦ç†ã™ã‚‹å¿œç­”é›»æ–‡ã®ç¨®é¡
+     * @param queue ƒLƒ…[
+     * @param telegramKind ˆ—‚·‚é‰“š“d•¶‚Ìí—Ş
      */
     public CommonResponseListener(final JavelinDataQueue queue,
             final byte telegramKind)

@@ -43,7 +43,7 @@ import jp.co.acroquest.endosnipe.javelin.parser.JavelinLogElement;
 import jp.co.acroquest.endosnipe.javelin.parser.JavelinParser;
 
 /**
- * ãƒ‘ãƒ•ã‚©ãƒ¼ãƒãƒ³ã‚¹ãƒ‰ã‚¯ã‚¿ãƒ¼ã§ä½¿ç”¨ã™ã‚‹ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£
+ * ƒpƒtƒH[ƒ}ƒ“ƒXƒhƒNƒ^[‚Åg—p‚·‚éƒ†[ƒeƒBƒŠƒeƒB
  * 
  * @author eriguchi
  * @author tanimoto
@@ -51,20 +51,21 @@ import jp.co.acroquest.endosnipe.javelin.parser.JavelinParser;
  */
 public class WarningUnitUtil
 {
-    private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(WarningUnitUtil.class);
+    private static final ENdoSnipeLogger LOGGER              =
+                                                               ENdoSnipeLogger.getLogger(WarningUnitUtil.class);
 
-    // ãƒªã‚½ãƒ¼ã‚¹ãƒãƒ³ãƒ‰ãƒ«å
-    private static final String PERFDOCTOR_MESSAGES = "PerfDoctorMessages";
+    // ƒŠƒ\[ƒXƒoƒ“ƒhƒ‹–¼
+    private static final String          PERFDOCTOR_MESSAGES = "PerfDoctorMessages";
 
-    // ãƒªã‚½ãƒ¼ã‚¹ãƒãƒ³ãƒ‰ãƒ«ã‹ã‚‰ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å–å¾—ã™ã‚‹éš›ã«
-    // ãƒ«ãƒ¼ãƒ«IDã®å¾Œã‚ã«ã¤ã‘ã‚‹suffix
-    private static final String MESSAGE_SUFFIX = "_message";
+    // ƒŠƒ\[ƒXƒoƒ“ƒhƒ‹‚©‚çƒƒbƒZ[ƒW‚ğæ“¾‚·‚éÛ‚É
+    // ƒ‹[ƒ‹ID‚ÌŒã‚ë‚É‚Â‚¯‚ésuffix
+    private static final String          MESSAGE_SUFFIX      = "_message";
 
-    /** æ—¥ä»˜ã®ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ */
-    private static final String DATE_FORMAT = "yyyy/M/d HH:mm:ss.SSS";
+    /** “ú•t‚ÌƒtƒH[ƒ}ƒbƒg */
+    private static final String          DATE_FORMAT         = "yyyy/M/d HH:mm:ss.SSS";
 
     /**
-     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã‚’é˜²æ­¢ã™ã‚‹ãŸã‚ã®ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§ã™ã€‚<br />
+     * ƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğ–h~‚·‚é‚½‚ß‚Ìƒvƒ‰ƒCƒx[ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Å‚·B<br />
      * 
      */
     private WarningUnitUtil()
@@ -73,50 +74,50 @@ public class WarningUnitUtil
     }
 
     /**
-     * è­¦å‘Šã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
-     * WarningUnitã®ç”Ÿæˆã«ã¯å¿…ãšã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã‚’åˆ©ç”¨ã—ã¦ãã ã•ã„ã€‚<br />
+     * Œx‚ğ¶¬‚µ‚Ü‚·B<br />
+     * WarningUnit‚Ì¶¬‚É‚Í•K‚¸‚±‚Ìƒƒ\ƒbƒh‚ğ—˜—p‚µ‚Ä‚­‚¾‚³‚¢B<br />
      * 
      * @param unitId
-     *            è­¦å‘Šã®ID
+     *            Œx‚ÌID
      * @param rule
-     *            åˆ¤å®šãƒ«ãƒ¼ãƒ«
+     *            ”»’èƒ‹[ƒ‹
      * @param javelinLogElement
-     *            {@link JavelinLogElement}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     *            {@link JavelinLogElement}ƒIƒuƒWƒFƒNƒg
      * @param isDescend
-     *            ãƒ•ã‚£ãƒ«ã‚¿æ™‚ã«é™é †ã«ä¸¦ã¹ã‚‹ã‹ã©ã†ã‹ã‚’è¡¨ã™ãƒ•ãƒ©ã‚°
+     *            ƒtƒBƒ‹ƒ^‚É~‡‚É•À‚×‚é‚©‚Ç‚¤‚©‚ğ•\‚·ƒtƒ‰ƒO
      * @param args
-     *            ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®å¼•æ•°
-     * @return è­¦å‘Šã€‚
+     *            ƒƒbƒZ[ƒW‚Ìˆø”
+     * @return ŒxB
      */
     public static WarningUnit createWarningUnit(final String unitId, final PerformanceRule rule,
-        final JavelinLogElement javelinLogElement, final boolean isDescend, final Object[] args)
+            final JavelinLogElement javelinLogElement, final boolean isDescend, final Object[] args)
     {
         return createWarningUnit(false, "", unitId, rule, javelinLogElement, isDescend, args);
     }
 
     /**
-     * è­¦å‘Šã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
-     * WarningUnitã®ç”Ÿæˆã«ã¯å¿…ãšã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã‚’åˆ©ç”¨ã—ã¦ãã ã•ã„ã€‚<br />
+     * Œx‚ğ¶¬‚µ‚Ü‚·B<br />
+     * WarningUnit‚Ì¶¬‚É‚Í•K‚¸‚±‚Ìƒƒ\ƒbƒh‚ğ—˜—p‚µ‚Ä‚­‚¾‚³‚¢B<br />
      * 
      * @param isEvent
-     *            ã‚¤ãƒ™ãƒ³ãƒˆã«ã‚ˆã‚‹WarningUnitã‹ã©ã†ã‹
+     *            ƒCƒxƒ“ƒg‚É‚æ‚éWarningUnit‚©‚Ç‚¤‚©
      * @param stackTrace
-     *            ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹
+     *            ƒXƒ^ƒbƒNƒgƒŒ[ƒX
      * @param unitId
-     *            è­¦å‘Šã®ID
+     *            Œx‚ÌID
      * @param rule
-     *            åˆ¤å®šãƒ«ãƒ¼ãƒ«
+     *            ”»’èƒ‹[ƒ‹
      * @param javelinLogElement
-     *            {@link JavelinLogElement}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     *            {@link JavelinLogElement}ƒIƒuƒWƒFƒNƒg
      * @param isDescend
-     *            ãƒ•ã‚£ãƒ«ã‚¿æ™‚ã«é™é †ã«ä¸¦ã¹ã‚‹ã‹ã©ã†ã‹ã‚’è¡¨ã™ãƒ•ãƒ©ã‚°
+     *            ƒtƒBƒ‹ƒ^‚É~‡‚É•À‚×‚é‚©‚Ç‚¤‚©‚ğ•\‚·ƒtƒ‰ƒO
      * @param args
-     *            ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®å¼•æ•°
-     * @return è­¦å‘Šã€‚
+     *            ƒƒbƒZ[ƒW‚Ìˆø”
+     * @return ŒxB
      */
     public static WarningUnit createWarningUnit(final boolean isEvent, final String stackTrace,
-        final String unitId, final PerformanceRule rule, final JavelinLogElement javelinLogElement,
-        final boolean isDescend, final Object[] args)
+            final String unitId, final PerformanceRule rule,
+            final JavelinLogElement javelinLogElement, final boolean isDescend, final Object[] args)
     {
         String id = rule.getId();
         String message = getMessage(id + MESSAGE_SUFFIX, args);
@@ -126,7 +127,7 @@ public class WarningUnitUtil
         String logFileName = javelinLogElement.getLogFileName();
         int startLogLine = javelinLogElement.getStartLogLine();
 
-        // callã®ãƒ­ã‚°ã®ã¿endTimeã‚’ã¯ã‹ã‚Šã€ãã®ä»–ã®ãƒ­ã‚°ã¯endTimeã‚’startTimeã«ã‚ã‚ã›ã‚‹ã€‚
+        // call‚ÌƒƒO‚Ì‚İendTime‚ğ‚Í‚©‚èA‚»‚Ì‘¼‚ÌƒƒO‚ÍendTime‚ğstartTime‚É‚ ‚í‚¹‚éB
         long startTime = calculateStartTime(javelinLogElement);
         long endTime = startTime;
 
@@ -137,20 +138,18 @@ public class WarningUnitUtil
             endTime = calculateEndTime(javelinLogElement, startTime);
         }
 
-        String measurementItemName = javelinLogElement.getMeasurementItemName();
-
         return new WarningUnit(unitId, id, message, className, methodName, level, logFileName,
                                startLogLine, startTime, endTime, isDescend, isEvent, stackTrace,
-                               args, measurementItemName);
+                               args);
     }
 
     /**
-     * è­¦å‘Šã‚’å‡ºåŠ›ã™ã‚‹ãƒ­ã‚°ã®é–‹å§‹æ™‚é–“ã®longå€¤ã‚’è¨ˆç®—ã™ã‚‹ã€‚<br>
-     * "yyyy/mm/dd hh:mm:ss.SSS" ã®å½¢å¼ã®æ™‚åˆ»ãƒ‡ãƒ¼ã‚¿ã‚’longå€¤ã«å¤‰æ›ã—ã¦ã€æ™‚åˆ»ã‚’è¨ˆç®—ã™ã‚‹ã€‚<br>
+     * Œx‚ğo—Í‚·‚éƒƒO‚ÌŠJnŠÔ‚Ìlong’l‚ğŒvZ‚·‚éB<br>
+     * "yyyy/mm/dd hh:mm:ss.SSS" ‚ÌŒ`®‚Ìƒf[ƒ^‚ğlong’l‚É•ÏŠ·‚µ‚ÄA‚ğŒvZ‚·‚éB<br>
      * 
      * @param javelinLogElement
      *            JavelinLogElement
-     * @return æ™‚åˆ»ãƒ‡ãƒ¼ã‚¿ã®longå€¤
+     * @return ƒf[ƒ^‚Ìlong’l
      */
     @SuppressWarnings("deprecation")
     private static long calculateStartTime(final JavelinLogElement javelinLogElement)
@@ -170,7 +169,7 @@ public class WarningUnitUtil
             LOGGER.error(text);
             return 0;
         }
-        // SimleDateFormatã‚’åˆ©ç”¨ã—ã€æ™‚åˆ»ã‚’å–å¾—ã™ã‚‹ã€‚
+        // SimleDateFormat‚ğ—˜—p‚µA‚ğæ“¾‚·‚éB
         SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
         formatter.setLenient(true);
         try
@@ -187,24 +186,25 @@ public class WarningUnitUtil
     }
 
     /**
-     * çµ‚äº†æ™‚åˆ»ã‚’è¨ˆç®—ã™ã‚‹ã€‚<br>
-     * é–‹å§‹æ™‚åˆ»+durationã§è¨ˆç®—ã™ã‚‹ãŒã€ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆã¯ã€é–‹å§‹æ™‚åˆ»ã‚’è¿”ã™ã€‚
+     * I—¹‚ğŒvZ‚·‚éB<br>
+     * ŠJn+duration‚ÅŒvZ‚·‚é‚ªA—áŠO‚ª”­¶‚µ‚½ê‡‚ÍAŠJn‚ğ•Ô‚·B
      * 
      * @param javelinLogElement
      *            JavelinLogElement
      * @param startTime
-     *            é–‹å§‹æ™‚åˆ»
+     *            ŠJn
      * @return
      */
     @SuppressWarnings("deprecation")
     private static long calculateEndTime(final JavelinLogElement javelinLogElement,
-        final long startTime)
+            final long startTime)
     {
         Map<String, String> extraInfoMap;
         extraInfoMap =
-            JavelinLogUtil.parseDetailInfo(javelinLogElement, JavelinParser.TAG_TYPE_EXTRAINFO);
+                       JavelinLogUtil.parseDetailInfo(javelinLogElement,
+                                                      JavelinParser.TAG_TYPE_EXTRAINFO);
 
-        // Durationã‚’ç™»éŒ²ã™ã‚‹MapãŒè¦‹ã¤ã‹ã‚‰ãªã„å ´åˆã¯é–‹å§‹æ™‚åˆ»ã‚’è¿”ã™ã€‚
+        // Duration‚ğ“o˜^‚·‚éMap‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡‚ÍŠJn‚ğ•Ô‚·B
         if (extraInfoMap == null)
         {
             String text = Messages.getMessage("endosnipe.perfdoctor.rule.DateGetter.ErrorLabel");
@@ -212,7 +212,7 @@ public class WarningUnitUtil
             return startTime;
         }
 
-        // DurationãŒè¦‹ã¤ã‹ã‚‰ãªã„å ´åˆã¯é–‹å§‹æ™‚åˆ»ã‚’è¿”ã™ã€‚
+        // Duration‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡‚ÍŠJn‚ğ•Ô‚·B
         String durationStr = extraInfoMap.get(JavelinLogConstants.EXTRAPARAM_DURATION);
         if (durationStr == null)
         {
@@ -234,11 +234,11 @@ public class WarningUnitUtil
     }
 
     /**
-     * JavelinLogElementã‹ã‚‰ã‚¯ãƒ©ã‚¹åã‚’å–å¾—ã™ã‚‹ã€‚
+     * JavelinLogElement‚©‚çƒNƒ‰ƒX–¼‚ğæ“¾‚·‚éB
      * 
      * @param element
-     *            {@link JavelinLogElement}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @return ã‚¯ãƒ©ã‚¹å
+     *            {@link JavelinLogElement}ƒIƒuƒWƒFƒNƒg
+     * @return ƒNƒ‰ƒX–¼
      */
     private static String getClassName(final JavelinLogElement element)
     {
@@ -266,11 +266,11 @@ public class WarningUnitUtil
     }
 
     /**
-     * JavelinLogElementã‹ã‚‰ãƒ¡ã‚½ãƒƒãƒ‰åã‚’å–å¾—ã™ã‚‹ã€‚
+     * JavelinLogElement‚©‚çƒƒ\ƒbƒh–¼‚ğæ“¾‚·‚éB
      * 
      * @param element
-     *            {@link JavelinLogElement}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @return ãƒ¡ã‚½ãƒƒãƒ‰å
+     *            {@link JavelinLogElement}ƒIƒuƒWƒFƒNƒg
+     * @return ƒƒ\ƒbƒh–¼
      */
     private static String getMethodName(final JavelinLogElement element)
     {
@@ -298,13 +298,13 @@ public class WarningUnitUtil
     }
 
     /**
-     * ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒƒbƒZ[ƒW‚ğæ“¾‚·‚éB
      * 
      * @param messageId
-     *            ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸IDã€‚
+     *            ƒƒbƒZ[ƒWIDB
      * @param args
-     *            ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®å¼•æ•°ã€‚
-     * @return ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã€‚
+     *            ƒƒbƒZ[ƒW‚Ìˆø”B
+     * @return ƒƒbƒZ[ƒWB
      */
     @SuppressWarnings("deprecation")
     static String getMessage(final String messageId, final Object[] args)

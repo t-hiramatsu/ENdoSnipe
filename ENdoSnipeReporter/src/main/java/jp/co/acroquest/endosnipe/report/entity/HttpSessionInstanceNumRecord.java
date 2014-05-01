@@ -3,86 +3,78 @@ package jp.co.acroquest.endosnipe.report.entity;
 import java.sql.Timestamp;
 
 /**
- * ã€Œã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã€ã‚¿ãƒ–ã®ã€ŒHttpSessionã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ•°ã€ã®ãƒ¬ãƒãƒ¼ãƒˆã«ãŠã„ã¦ã€
- * å‡ºåŠ›ã•ã‚Œã‚‹æƒ…å ±ã®ä¸­ã®1ãƒ¬ã‚³ãƒ¼ãƒ‰åˆ†ã‚’ä¿æŒã™ã‚‹ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã§ã™ã€‚
+ * uƒAƒvƒŠƒP[ƒVƒ‡ƒ“vƒ^ƒu‚ÌuHttpSession‚ÌƒCƒ“ƒXƒ^ƒ“ƒX”v‚ÌƒŒƒ|[ƒg‚É‚¨‚¢‚ÄA
+ * o—Í‚³‚ê‚éî•ñ‚Ì’†‚Ì1ƒŒƒR[ƒh•ª‚ğ•Û‚·‚éƒGƒ“ƒeƒBƒeƒB‚Å‚·B
  * 
  * @author T. Iida
  */
 public class HttpSessionInstanceNumRecord
 {
-	/** è¨ˆæ¸¬æ™‚åˆ» */
-	private Timestamp measurementTime_;
-
-	/** HttpSessionã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ•°[æ•°]ï¼ˆè£œé–“æœŸé–“å¹³å‡ï¼‰ */
-	private long httpSessionInstanceNum_;
-
-	/** HttpSessionã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ•°[æ•°]ï¼ˆè£œé–“æœŸé–“æœ€å¤§ï¼‰ */
-	private long httpSessionInstanceNumMax_;
-
-	/** HttpSessionã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ•°[æ•°]ï¼ˆè£œé–“æœŸé–“æœ€å°ï¼‰ */
-	private long httpSessionInstanceNumMin_;
+	/** Œv‘ª */
+    private Timestamp measurementTime_;
+    
+	/** HttpSession‚ÌƒCƒ“ƒXƒ^ƒ“ƒX”[”]i•âŠÔŠúŠÔ•½‹Ïj */
+    private long      httpSessionInstanceNum_;
+    
+    /** HttpSession‚ÌƒCƒ“ƒXƒ^ƒ“ƒX”[”]i•âŠÔŠúŠÔÅ‘åj */
+    private long      httpSessionInstanceNumMax_;
+    
+    /** HttpSession‚ÌƒCƒ“ƒXƒ^ƒ“ƒX”[”]i•âŠÔŠúŠÔÅ¬j */
+    private long      httpSessionInstanceNumMin_;
 
 	/**
 	 * @return the measurementTime_
 	 */
-	public Timestamp getMeasurementTime()
-	{
+	public Timestamp getMeasurementTime() {
 		return measurementTime_;
 	}
 
 	/**
 	 * @param measurementTime the measurementTime_ to set
 	 */
-	public void setMeasurementTime(Timestamp measurementTime)
-	{
+	public void setMeasurementTime(Timestamp measurementTime) {
 		this.measurementTime_ = measurementTime;
 	}
 
 	/**
 	 * @return the httpSessionInstanceNum_
 	 */
-	public long getHttpSessionInstanceNum()
-	{
+	public long getHttpSessionInstanceNum() {
 		return httpSessionInstanceNum_;
 	}
 
 	/**
 	 * @param httpSessionInstanceNum the httpSessionInstanceNum_ to set
 	 */
-	public void setHttpSessionInstanceNum(long httpSessionInstanceNum)
-	{
+	public void setHttpSessionInstanceNum(long httpSessionInstanceNum) {
 		this.httpSessionInstanceNum_ = httpSessionInstanceNum;
 	}
 
 	/**
 	 * @return the httpSessionInstanceNumMax_
 	 */
-	public long getHttpSessionInstanceNumMax()
-	{
+	public long getHttpSessionInstanceNumMax() {
 		return httpSessionInstanceNumMax_;
 	}
 
 	/**
 	 * @param httpSessionInstanceNumMax the httpSessionInstanceNumMax_ to set
 	 */
-	public void setHttpSessionInstanceNumMax(long httpSessionInstanceNumMax)
-	{
+	public void setHttpSessionInstanceNumMax(long httpSessionInstanceNumMax) {
 		this.httpSessionInstanceNumMax_ = httpSessionInstanceNumMax;
 	}
 
 	/**
 	 * @return the httpSessionInstanceNumMin_
 	 */
-	public long getHttpSessionInstanceNumMin()
-	{
+	public long getHttpSessionInstanceNumMin() {
 		return httpSessionInstanceNumMin_;
 	}
 
 	/**
 	 * @param httpSessionInstanceNumMin the httpSessionInstanceNumMin_ to set
 	 */
-	public void setHttpSessionInstanceNumMin(long httpSessionInstanceNumMin)
-	{
+	public void setHttpSessionInstanceNumMin(long httpSessionInstanceNumMin) {
 		this.httpSessionInstanceNumMin_ = httpSessionInstanceNumMin;
 	}
 }

@@ -26,7 +26,7 @@
 package jp.co.acroquest.endosnipe.javelin.bean.proc;
 
 /**
- * /proc/diskStatsの以下の情報クラス
+ * /proc/diskStats�̈ȉ��̏��N���X
  * @author acroquest
  *
  */
@@ -39,7 +39,7 @@ public class DiskStats
     private long diskReadSector_;
 
     /**
-     * DiskWriterSectorを取得します。
+     * DiskWriterSector���擾���܂��B
      * @return DiskWriterSector
      */
     public long getDiskWriteSector()
@@ -48,7 +48,7 @@ public class DiskStats
     }
 
     /**
-     * DiskWriterSectorを設定します。
+     * DiskWriterSector��ݒ肵�܂��B
      * @param diskWriteSector DiskWriterSector
      */
     public void setDiskWriteSector(long diskWriteSector)
@@ -57,7 +57,7 @@ public class DiskStats
     }
 
     /**
-     * DiskReadSectorを取得します。
+     * DiskReadSector���擾���܂��B
      * @return DiskReadSector
      */
     public long getDiskReadSector()
@@ -66,7 +66,7 @@ public class DiskStats
     }
 
     /**
-     * DiskReadSectorを設定します。
+     * DiskReadSector��ݒ肵�܂��B
      * @param diskReadSector DiskReadSector
      */
     public void setDiskReadSector(long diskReadSector)

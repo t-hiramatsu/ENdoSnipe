@@ -26,7 +26,7 @@
 package jp.co.acroquest.endosnipe.javelin.conf;
 
 /**
- * ãƒˆãƒ©ãƒ³ã‚¹ãƒ•ã‚©ãƒ¼ãƒ å¯¾è±¡ã‹ã‚‰é™¤å¤–ã™ã‚‹ã‚¯ãƒ©ã‚¹ã‚‚ã—ãã¯ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ç¤ºã™è¨­å®šã€‚
+ * ƒgƒ‰ƒ“ƒXƒtƒH[ƒ€‘ÎÛ‚©‚çœŠO‚·‚éƒNƒ‰ƒX‚à‚µ‚­‚Íƒƒ\ƒbƒh‚ðŽ¦‚·Ý’èB
  *
  * @author yamasaki
  */

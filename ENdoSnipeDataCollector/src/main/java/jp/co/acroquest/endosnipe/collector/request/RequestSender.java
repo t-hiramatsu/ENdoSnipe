@@ -29,8 +29,8 @@ import jp.co.acroquest.endosnipe.communicator.TelegramSender;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 
 /**
- * Javelin ã«è¦æ±‚ã‚’é€ä¿¡ã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚
- * Executor ã«ã‚ˆã£ã¦è¦æ±‚ã‚’é€ä¿¡ã—ã¾ã™ã€‚
+ * Javelin ‚É—v‹‚ğ‘—M‚·‚éƒNƒ‰ƒXB
+ * Executor ‚É‚æ‚Á‚Ä—v‹‚ğ‘—M‚µ‚Ü‚·B
  *
  * @author sakamoto
  */
@@ -41,10 +41,10 @@ public class RequestSender implements Runnable
     private final Telegram       telegram_;
 
     /**
-     * ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã—ã¾ã™ã€‚
+     * ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‚Ü‚·B
      *
-     * @param sender Javelin é€ä¿¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param telegram é›»æ–‡
+     * @param sender Javelin ‘—MƒIƒuƒWƒFƒNƒg
+     * @param telegram “d•¶
      */
     public RequestSender(final TelegramSender sender, final Telegram telegram)
     {
@@ -53,7 +53,7 @@ public class RequestSender implements Runnable
     }
 
     /**
-     * é›»æ–‡ã‚’é€ä¿¡ã—ã¾ã™ã€‚
+     * “d•¶‚ğ‘—M‚µ‚Ü‚·B
      */
     public void run()
     {

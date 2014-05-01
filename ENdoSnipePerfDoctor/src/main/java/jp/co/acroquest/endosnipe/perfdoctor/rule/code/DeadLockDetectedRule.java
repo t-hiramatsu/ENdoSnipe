@@ -32,13 +32,13 @@ import jp.co.acroquest.endosnipe.javelin.parser.JavelinLogElement;
 import jp.co.acroquest.endosnipe.perfdoctor.rule.SingleElementRule;
 
 /**
- * ãƒ‡ãƒƒãƒ‰ãƒ­ãƒƒã‚¯ãŒç™ºç”Ÿã—ãŸã“ã¨ã‚’è­¦å‘Šã™ã‚‹ãƒ«ãƒ¼ãƒ«
+ * ƒfƒbƒhƒƒbƒN‚ª”­¶‚µ‚½‚±‚Æ‚ğŒx‚·‚éƒ‹[ƒ‹
  * @author s.Kimura
  */
 public class DeadLockDetectedRule extends SingleElementRule
 {
     /**
-     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
      */
     public DeadLockDetectedRule()
     {

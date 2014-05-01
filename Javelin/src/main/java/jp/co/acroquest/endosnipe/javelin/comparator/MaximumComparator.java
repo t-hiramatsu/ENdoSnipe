@@ -31,7 +31,7 @@ import java.util.Comparator;
 import jp.co.acroquest.endosnipe.javelin.bean.InvocationMBean;
 
 /**
- * 譛螟ｧ豈碑ｼ�逕ｨ繧ｳ繝ｳ繝代Ξ繝ｼ繧ｿ
+ * 最大比較用コンパレータ
  * @author acroquest
  */
 public class MaximumComparator implements Comparator<InvocationMBean>, Serializable

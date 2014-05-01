@@ -32,7 +32,7 @@ import jp.co.acroquest.endosnipe.common.entity.ResourceItem;
 import jp.co.acroquest.endosnipe.javelin.resource.sun.TomcatPoolMonitor;
 
 /**
- * Tomcat縺ｮ繝励�ｼ繝ｫ謨ｰ繧偵き繧ｦ繝ｳ繝医☆繧九�
+ * Tomcatのプール数をカウントする。
  * @author fujii
  *
  */

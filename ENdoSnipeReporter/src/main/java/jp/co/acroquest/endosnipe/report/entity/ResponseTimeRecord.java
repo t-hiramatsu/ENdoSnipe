@@ -13,106 +13,106 @@
 package jp.co.acroquest.endosnipe.report.entity;
 
 /**
- * ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚¿ã‚¤ãƒ ãƒ¬ãƒãƒ¼ãƒˆã«å‡ºåŠ›ã™ã‚‹ï¼‘ãƒ¬ã‚³ãƒ¼ãƒ‰åˆ†ã®ãƒ‡ãƒ¼ã‚¿ã‚’ç¤ºã™ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã€‚
+ * ƒŒƒXƒ|ƒ“ƒXƒ^ƒCƒ€ƒŒƒ|[ƒg‚Éo—Í‚·‚é‚PƒŒƒR[ƒh•ª‚Ìƒf[ƒ^‚ğ¦‚·ƒGƒ“ƒeƒBƒeƒBƒNƒ‰ƒXB
  * 
  * @author M.Yoshida
  */
 public class ResponseTimeRecord
 {
 
-	/** ã‚¢ã‚¯ã‚»ã‚¹å¯¾è±¡ã®URL/ãƒ¡ã‚½ãƒƒãƒ‰å */
-	private String accessTarget_;
+    /** ƒAƒNƒZƒX‘ÎÛ‚ÌURL/ƒƒ\ƒbƒh–¼ */
+    private String accessTarget_;
 
-	/** å¯¾è±¡URL/ãƒ¡ã‚½ãƒƒãƒ‰ã«ã‚¢ã‚¯ã‚»ã‚¹ã—ãŸå›æ•° */
-	private long accessCount_;
+    /** ‘ÎÛURL/ƒƒ\ƒbƒh‚ÉƒAƒNƒZƒX‚µ‚½‰ñ” */
+    private long   accessCount_;
 
-	/** å‡ºåŠ›æœŸé–“å†…ã®æœ€å°ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚¿ã‚¤ãƒ [ms] */
-	private long minResponseTime_;
+    /** o—ÍŠúŠÔ“à‚ÌÅ¬ƒŒƒXƒ|ƒ“ƒXƒ^ƒCƒ€[ms] */
+    private long   minResponseTime_;
 
-	/** å‡ºåŠ›æœŸé–“å†…ã®å¹³å‡ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚¿ã‚¤ãƒ [ms] */
-	private long aveResponseTime_;
+    /** o—ÍŠúŠÔ“à‚Ì•½‹ÏƒŒƒXƒ|ƒ“ƒXƒ^ƒCƒ€[ms] */
+    private long   aveResponseTime_;
 
-	/** å‡ºåŠ›æœŸé–“å†…ã®æœ€å¤§ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚¿ã‚¤ãƒ [ms] */
-	private long maxResponseTime_;
+    /** o—ÍŠúŠÔ“à‚ÌÅ‘åƒŒƒXƒ|ƒ“ƒXƒ^ƒCƒ€[ms] */
+    private long   maxResponseTime_;
 
-	/**
-	 * @return the accessTarget
-	 */
-	public String getAccessTarget()
-	{
-		return accessTarget_;
-	}
+    /**
+     * @return the accessTarget
+     */
+    public String getAccessTarget()
+    {
+        return accessTarget_;
+    }
 
-	/**
-	 * @return the accessCount
-	 */
-	public long getAccessCount()
-	{
-		return accessCount_;
-	}
+    /**
+     * @return the accessCount
+     */
+    public long getAccessCount()
+    {
+        return accessCount_;
+    }
 
-	/**
-	 * @return the minResponseTime
-	 */
-	public long getMinResponseTime()
-	{
-		return minResponseTime_;
-	}
+    /**
+     * @return the minResponseTime
+     */
+    public long getMinResponseTime()
+    {
+        return minResponseTime_;
+    }
 
-	/**
-	 * @return the aveResponseTime
-	 */
-	public long getAveResponseTime()
-	{
-		return aveResponseTime_;
-	}
+    /**
+     * @return the aveResponseTime
+     */
+    public long getAveResponseTime()
+    {
+        return aveResponseTime_;
+    }
 
-	/**
-	 * @return the maxResponseTime
-	 */
-	public long getMaxResponseTime()
-	{
-		return maxResponseTime_;
-	}
+    /**
+     * @return the maxResponseTime
+     */
+    public long getMaxResponseTime()
+    {
+        return maxResponseTime_;
+    }
 
-	/**
-	 * @param accessTarget the accessTarget to set
-	 */
-	public void setAccessTarget(String accessTarget)
-	{
-		accessTarget_ = accessTarget;
-	}
+    /**
+     * @param accessTarget the accessTarget to set
+     */
+    public void setAccessTarget(String accessTarget)
+    {
+        accessTarget_ = accessTarget;
+    }
 
-	/**
-	 * @param accessCount the accessCount to set
-	 */
-	public void setAccessCount(long accessCount)
-	{
-		accessCount_ = accessCount;
-	}
+    /**
+     * @param accessCount the accessCount to set
+     */
+    public void setAccessCount(long accessCount)
+    {
+        accessCount_ = accessCount;
+    }
 
-	/**
-	 * @param minResponseTime the minResponseTime to set
-	 */
-	public void setMinResponseTime(long minResponseTime)
-	{
-		minResponseTime_ = minResponseTime;
-	}
+    /**
+     * @param minResponseTime the minResponseTime to set
+     */
+    public void setMinResponseTime(long minResponseTime)
+    {
+        minResponseTime_ = minResponseTime;
+    }
 
-	/**
-	 * @param aveResponseTime the aveResponseTime to set
-	 */
-	public void setAveResponseTime(long aveResponseTime)
-	{
-		aveResponseTime_ = aveResponseTime;
-	}
+    /**
+     * @param aveResponseTime the aveResponseTime to set
+     */
+    public void setAveResponseTime(long aveResponseTime)
+    {
+        aveResponseTime_ = aveResponseTime;
+    }
 
-	/**
-	 * @param maxResponseTime the maxResponseTime to set
-	 */
-	public void setMaxResponseTime(long maxResponseTime)
-	{
-		maxResponseTime_ = maxResponseTime;
-	}
+    /**
+     * @param maxResponseTime the maxResponseTime to set
+     */
+    public void setMaxResponseTime(long maxResponseTime)
+    {
+        maxResponseTime_ = maxResponseTime;
+    }
 
 }

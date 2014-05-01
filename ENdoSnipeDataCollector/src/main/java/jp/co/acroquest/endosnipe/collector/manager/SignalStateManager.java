@@ -26,30 +26,29 @@
 package jp.co.acroquest.endosnipe.collector.manager;
 
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import jp.co.acroquest.endosnipe.collector.processor.AlarmData;
 import jp.co.acroquest.endosnipe.data.dto.SignalDefinitionDto;
 
 /**
- * ã‚·ã‚°ãƒŠãƒ«ã®çŠ¶æ…‹ã‚’ä¿æŒã™ã‚‹ã‚¯ãƒ©ã‚¹
+ * ƒVƒOƒiƒ‹‚Ìó‘Ô‚ğ•Û‚·‚éƒNƒ‰ƒX
  * @author fujii
  *
  */
 public class SignalStateManager
 {
-    /** SignalStateManagerã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ */
+    /** SignalStateManagerƒCƒ“ƒXƒ^ƒ“ƒX */
     public static SignalStateManager instance__ = new SignalStateManager();
 
-    /** ã‚¢ãƒ©ãƒ¼ãƒ ã‚’å‡ºã™ã‹ã©ã†ã‹åˆ¤å®šã™ã‚‹ãŸã‚ã«ä¿æŒã—ç¶šã‘ã‚‹ãƒ‡ãƒ¼ã‚¿ */
-    private final Map<Long, AlarmData> alarmDataMap_ = new ConcurrentHashMap<Long, AlarmData>();
+    /** ƒAƒ‰[ƒ€‚ğo‚·‚©‚Ç‚¤‚©”»’è‚·‚é‚½‚ß‚É•Û‚µ‘±‚¯‚éƒf[ƒ^ */
+    private final Map<String, AlarmData> alarmDataMap_ = new ConcurrentHashMap<String, AlarmData>();
 
-    /** ã‚·ã‚°ãƒŠãƒ«å®šç¾©ã‚’ä¿æŒã™ã‚‹ãƒãƒƒãƒ— */
+    /** ƒVƒOƒiƒ‹’è‹`‚ğ•Û‚·‚éƒ}ƒbƒv */
     private Map<Long, SignalDefinitionDto> signalDefinitionMap_ = null;
 
     /**
-     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã‚’é˜»æ­¢ã™ã‚‹privateã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§ã™ã€‚
+     * ƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğ‘j~‚·‚éprivateƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Å‚·B
      */
     private SignalStateManager()
     {
@@ -57,8 +56,8 @@ public class SignalStateManager
     }
 
     /**
-     * {@link SignalStateManager}ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return {@link SignalStateManager}ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+     * {@link SignalStateManager}ƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚·‚éB
+     * @return {@link SignalStateManager}ƒCƒ“ƒXƒ^ƒ“ƒX
      */
     public static SignalStateManager getInstance()
     {
@@ -66,37 +65,37 @@ public class SignalStateManager
     }
 
     /**
-     * é–¾å€¤åˆ¤å®šå®šç¾©æƒ…å ±ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @param signalId é–¾å€¤åˆ¤å®šå®šç¾©ID
-     * @return signalIdã«ä¸€è‡´ã™ã‚‹é–¾å€¤æƒ…å ±
+     * è‡’lî•ñ‚ğæ“¾‚·‚éB
+     * @param signalId ƒVƒOƒiƒ‹‚ğˆêˆÓ‚É‚·‚é–¼Ì
+     * @return signalId‚Éˆê’v‚·‚éè‡’lî•ñ
      */
-    public AlarmData getAlarmData(final long signalId)
+    public AlarmData getAlarmData(final String signalId)
     {
         return this.alarmDataMap_.get(signalId);
     }
 
     /**
-     * é–¾å€¤åˆ¤å®šå®šç¾©æƒ…å ±ã‚’ç™»éŒ²ã™ã‚‹ã€‚
-     * @param signalId é–¾å€¤åˆ¤å®šå®šç¾©ID
-     * @param alarmData é–¾å€¤æƒ…å ±
+     * è‡’lî•ñ‚ğ“o˜^‚·‚éB
+     * @param signalId ƒVƒOƒiƒ‹‚ğˆêˆÓ‚É‚·‚é–¼Ì
+     * @param alarmData è‡’lî•ñ
      */
-    public void addAlarmData(final long signalId, final AlarmData alarmData)
+    public void addAlarmData(final String signalId, final AlarmData alarmData)
     {
         this.alarmDataMap_.put(signalId, alarmData);
     }
 
     /**
-     * é–¾å€¤æƒ…å ±ã‚’å‰Šé™¤ã™ã‚‹ã€‚
-     * @param signalId é–¾å€¤åˆ¤å®šå®šç¾©ID
+     * è‡’lî•ñ‚ğíœ‚·‚éB
+     * @param signalId ƒVƒOƒiƒ‹‚ğˆêˆÓ‚É‚·‚é–¼Ì
      */
-    public void removeAlarmData(final long signalId)
+    public void removeAlarmData(final String signalId)
     {
         this.alarmDataMap_.remove(signalId);
     }
 
     /**
-     * ã‚·ã‚°ãƒŠãƒ«å®šç¾©æƒ…å ±ã®ãƒãƒƒãƒ—ã‚’è¿”å´ã™ã‚‹ã€‚
-     * @return ã‚·ã‚°ãƒŠãƒ«å®šç¾©æƒ…å ±ã®ãƒãƒƒãƒ—
+     * ƒVƒOƒiƒ‹’è‹`î•ñ‚Ìƒ}ƒbƒv‚ğ•Ô‹p‚·‚éB
+     * @return ƒVƒOƒiƒ‹’è‹`î•ñ‚Ìƒ}ƒbƒv
      */
     public Map<Long, SignalDefinitionDto> getSignalDeifinitionMap()
     {
@@ -104,8 +103,8 @@ public class SignalStateManager
     }
 
     /**
-     * ã‚·ã‚°ãƒŠãƒ«å®šç¾©æƒ…å ±ã®ãƒãƒƒãƒ—ã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param signalDefinitionMap ã‚·ã‚°ãƒŠãƒ«å®šç¾©æƒ…å ±ã®ãƒãƒƒãƒ—
+     * ƒVƒOƒiƒ‹’è‹`î•ñ‚Ìƒ}ƒbƒv‚ğİ’è‚·‚éB
+     * @param signalDefinitionMap ƒVƒOƒiƒ‹’è‹`î•ñ‚Ìƒ}ƒbƒv
      */
     public void setSignalDeifinitionMap(final Map<Long, SignalDefinitionDto> signalDefinitionMap)
     {
@@ -113,13 +112,13 @@ public class SignalStateManager
     }
 
     /**
-     * ã‚·ã‚°ãƒŠãƒ«å®šç¾©æƒ…å ±ã‚’è¿½åŠ ã™ã‚‹ã€‚
-     * @param signalId ã‚·ã‚°ãƒŠãƒ«ID
-     * @param signalDefinitionDto ã‚·ã‚°ãƒŠãƒ«å®šç¾©æƒ…å ±
+     * ƒVƒOƒiƒ‹’è‹`î•ñ‚ğ’Ç‰Á‚·‚éB
+     * @param signalId ƒVƒOƒiƒ‹ID
+     * @param signalDefinitionDto ƒVƒOƒiƒ‹’è‹`î•ñ
      * 
      */
     public void addSignalDefinition(final Long signalId,
-        final SignalDefinitionDto signalDefinitionDto)
+            final SignalDefinitionDto signalDefinitionDto)
     {
         if (this.signalDefinitionMap_ == null)
         {
@@ -129,10 +128,10 @@ public class SignalStateManager
     }
 
     /**
-     * ã‚·ã‚°ãƒŠãƒ«å®šç¾©æƒ…å ±ã‚’å‰Šé™¤ã™ã‚‹ã€‚
-     * @param signalId ã‚·ã‚°ãƒŠãƒ«ID
+     * ƒVƒOƒiƒ‹’è‹`î•ñ‚ğíœ‚·‚éB
+     * @param signalId ƒVƒOƒiƒ‹ID
      * 
-     * @return å‰Šé™¤ã—ãŸã‚·ã‚°ãƒŠãƒ«å®šç¾©æƒ…å ±
+     * @return íœ‚µ‚½ƒVƒOƒiƒ‹’è‹`î•ñ
      * 
      */
     public SignalDefinitionDto removeSignalDefinition(final Long signalId)
@@ -142,25 +141,6 @@ public class SignalStateManager
             return null;
         }
         return this.signalDefinitionMap_.remove(signalId);
-    }
-
-    /**
-     * ã‚·ã‚°ãƒŠãƒ«åã‚’æŒ‡å®šã—ã¦ã‚·ã‚°ãƒŠãƒ«IDã‚’å–å¾—ã™ã‚‹
-     * @param name ã‚·ã‚°ãƒŠãƒ«å
-     * @return ã‚·ã‚°ãƒŠãƒ«ID
-     */
-    public Long getSignalId(final String name)
-    {
-        for (Entry<Long, SignalDefinitionDto> entry : signalDefinitionMap_.entrySet())
-        {
-            SignalDefinitionDto dto = entry.getValue();
-            if (!dto.getSignalName().equals(name))
-            {
-                continue;
-            }
-            return entry.getKey();
-        }
-        return null;
     }
 
 }

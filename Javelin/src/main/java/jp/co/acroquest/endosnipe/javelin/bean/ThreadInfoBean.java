@@ -28,23 +28,23 @@ package jp.co.acroquest.endosnipe.javelin.bean;
 import java.lang.management.ThreadInfo;
 
 /**
- * ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±ã¨è¨˜éŒ²æ™‚åˆ»ã‚’ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã¨ã—ã¦æŒã¤Bean
+ * ƒXƒŒƒbƒhî•ñ‚Æ‹L˜^Žž‚ðƒtƒB[ƒ‹ƒh‚Æ‚µ‚ÄŽ‚ÂBean
  * 
  * @author S.Kimura
  */
 public class ThreadInfoBean
 {
-    /** è¨˜éŒ²æ™‚åˆ» */
+    /** ‹L˜^Žž */
     private long recordTime_;
     
-    /** ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ± */
+    /** ƒXƒŒƒbƒhî•ñ */
     private ThreadInfo threadInfo_;
 
     /**
-     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
      * 
-     * @param recordTime è¨˜éŒ²æ™‚åˆ»
-     * @param threadInfo ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±
+     * @param recordTime ‹L˜^Žž
+     * @param threadInfo ƒXƒŒƒbƒhî•ñ
      */
     public ThreadInfoBean(long recordTime, ThreadInfo threadInfo)
     {

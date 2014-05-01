@@ -39,16 +39,16 @@ import jp.co.smg.endosnipe.javassist.NotFoundException;
 import jp.co.smg.endosnipe.javassist.bytecode.ClassFile;
 
 /**
- * Javassistã‚’ä½¿ã†ãŸã‚ã®ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã€‚
+ * Javassist‚ğg‚¤‚½‚ß‚Ìƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒXB
  * 
  * @author yamasaki
  */
 public class JavassistUtil
 {
-    /** ç¶™æ‰¿é–¢ä¿‚ã®ã‚­ãƒ£ãƒƒã‚·ãƒ¥ä¿æŒæœ€å¤§æ•°ã€‚ */
+    /** Œp³ŠÖŒW‚ÌƒLƒƒƒbƒVƒ…•ÛÅ‘å”B */
     private static final int CACHE_MAX = 50000;
 
-    /** detachå¯¾è±¡ã®ã‚¯ãƒ©ã‚¹ã€‚ */
+    /** detach‘ÎÛ‚ÌƒNƒ‰ƒXB */
     private static ThreadLocal<List<CtClass>> detachClasses__;
     static
     {
@@ -64,23 +64,23 @@ public class JavassistUtil
     private static Map<String, Boolean> inheritedMap__ = new ConcurrentHashMap<String, Boolean>();
 
     /**
-     * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+     * ƒfƒtƒHƒ‹ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^
      */
     private JavassistUtil()
     {
         // Do Nothing.
     }
 
-    /** ç¶™æ‰¿ã‚’èª¿ã¹ã‚‹æ·±ã•ã®æœ€å¤§å€¤ */
+    /** Œp³‚ğ’²‚×‚é[‚³‚ÌÅ‘å’l */
     private static int maximumDepth__ = new JavelinConfig().getInheritanceDepth();
 
     /**
-     * ç¶™æ‰¿ã¾ãŸã¯å®Ÿè£…ã—ã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’èª¿ã¹ã‚‹ã€‚
+     * Œp³‚Ü‚½‚ÍÀ‘•‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ’²‚×‚éB
      * 
      * @param ctClass CtClass
      * @param pool ClassPool
-     * @param inheritedClassName ã‚¯ãƒ©ã‚¹orã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹å
-     * @return inheritedClassNameã‚’ç¶™æ‰¿ã¾ãŸã¯å®Ÿè£…ã—ã¦ã„ã‚Œã°true
+     * @param inheritedClassName ƒNƒ‰ƒXorƒCƒ“ƒ^ƒtƒF[ƒX–¼
+     * @return inheritedClassName‚ğŒp³‚Ü‚½‚ÍÀ‘•‚µ‚Ä‚¢‚ê‚Îtrue
      */
     public static boolean isInherited(final CtClass ctClass, final ClassPool pool,
             final String inheritedClassName)
@@ -128,13 +128,13 @@ public class JavassistUtil
     }
 
     /**
-     * ç¶™æ‰¿ã—ã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’èª¿ã¹ã‚‹ã€‚
+     * Œp³‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ’²‚×‚éB
      * 
      * @param ctClass CtClass
      * @param pool ClassPool
-     * @param inheritedClassName ã‚¯ãƒ©ã‚¹orã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹å
-     * @param depth ç¶™æ‰¿ã‚’èª¿ã¹ã‚‹æ·±ã•
-     * @return inheritedClassNameã‚’ç¶™æ‰¿ã¾ãŸã¯å®Ÿè£…ã—ã¦ã„ã‚Œã°true
+     * @param inheritedClassName ƒNƒ‰ƒXorƒCƒ“ƒ^ƒtƒF[ƒX–¼
+     * @param depth Œp³‚ğ’²‚×‚é[‚³
+     * @return inheritedClassName‚ğŒp³‚Ü‚½‚ÍÀ‘•‚µ‚Ä‚¢‚ê‚Îtrue
      */
     private static boolean isInherited(final CtClass ctClass, final ClassPool pool,
             final String inheritedClassName, int depth)
@@ -240,9 +240,9 @@ public class JavassistUtil
     }
 
     /**
-     * CtClassã®detachã‚’è¡Œã†ãƒªã‚¹ãƒˆã«è¿½åŠ ã™ã‚‹ã€‚
+     * CtClass‚Ìdetach‚ğs‚¤ƒŠƒXƒg‚É’Ç‰Á‚·‚éB
      * 
-     * @param ctClass detachå¯¾è±¡ã®ã‚¯ãƒ©ã‚¹ã€‚
+     * @param ctClass detach‘ÎÛ‚ÌƒNƒ‰ƒXB
      */
     public static void addDetachClass(final CtClass ctClass)
     {
@@ -250,7 +250,7 @@ public class JavassistUtil
     }
 
     /**
-     * CtClassã®detachã‚’ã¾ã¨ã‚ã¦è¡Œã†ã€‚
+     * CtClass‚Ìdetach‚ğ‚Ü‚Æ‚ß‚Äs‚¤B
      */
     public static void detachAll()
     {
@@ -269,7 +269,7 @@ public class JavassistUtil
     }
 
     /**
-     * detachå¯¾è±¡ã®ãƒªã‚¹ãƒˆã‚’ã‚¯ãƒªã‚¢ã™ã‚‹ã€‚
+     * detach‘ÎÛ‚ÌƒŠƒXƒg‚ğƒNƒŠƒA‚·‚éB
      */
     public static void clearDetachClass()
     {

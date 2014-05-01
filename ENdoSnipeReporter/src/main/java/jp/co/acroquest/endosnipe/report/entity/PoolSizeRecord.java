@@ -4,52 +4,52 @@ import java.sql.Timestamp;
 
 public class PoolSizeRecord
 {
-	/** Ë®àÊ∏¨ÊôÇÂàª */
-	private Timestamp measurementTime_;
+    /** åvë™éûçè */
+    private Timestamp measurementTime_;
+    
+    private long poolSizeMax_;
+    
+    private long poolSizeCurrent_;
+    
+    private long poolSizeWait_;
 
-	private long poolSizeMax_;
+    public Timestamp getMeasurementTime()
+    {
+        return measurementTime_;
+    }
 
-	private long poolSizeCurrent_;
+    public void setMeasurementTime(Timestamp measurementTime)
+    {
+        this.measurementTime_ = measurementTime;
+    }
 
-	private long poolSizeWait_;
+    public long getPoolSizeMax()
+    {
+        return poolSizeMax_;
+    }
 
-	public Timestamp getMeasurementTime()
-	{
-		return measurementTime_;
-	}
+    public void setPoolSizeMax(long poolSizeMax)
+    {
+        this.poolSizeMax_ = poolSizeMax;
+    }
 
-	public void setMeasurementTime(Timestamp measurementTime)
-	{
-		this.measurementTime_ = measurementTime;
-	}
+    public long getPoolSizeCurrent()
+    {
+        return poolSizeCurrent_;
+    }
 
-	public long getPoolSizeMax()
-	{
-		return poolSizeMax_;
-	}
+    public void setPoolSizeCurrent(long poolSizeCurrent)
+    {
+        this.poolSizeCurrent_ = poolSizeCurrent;
+    }
 
-	public void setPoolSizeMax(long poolSizeMax)
-	{
-		this.poolSizeMax_ = poolSizeMax;
-	}
+    public long getPoolSizeWait()
+    {
+        return poolSizeWait_;
+    }
 
-	public long getPoolSizeCurrent()
-	{
-		return poolSizeCurrent_;
-	}
-
-	public void setPoolSizeCurrent(long poolSizeCurrent)
-	{
-		this.poolSizeCurrent_ = poolSizeCurrent;
-	}
-
-	public long getPoolSizeWait()
-	{
-		return poolSizeWait_;
-	}
-
-	public void setPoolSizeWait(long poolSizeWait)
-	{
-		this.poolSizeWait_ = poolSizeWait;
-	}
+    public void setPoolSizeWait(long poolSizeWait)
+    {
+        this.poolSizeWait_ = poolSizeWait;
+    }
 }

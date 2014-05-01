@@ -26,7 +26,7 @@
 package jp.co.acroquest.endosnipe.common.logger;
 
 /**
- * {@link SystemLogger} を利用して出力するための {@link ENdoSnipeLogger} です。<br />
+ * {@link SystemLogger} �𗘗p���ďo�͂��邽�߂� {@link ENdoSnipeLogger} �ł��B<br />
  * 
  * @author y-komori
  */
@@ -35,7 +35,7 @@ public class SystemENdoSnipeLogger extends ENdoSnipeLogger
     private static SystemLogger systemLogger__;
 
     /**
-     * トレースログインスタンスを構築します。<br />
+     * �g���[�X���O�C���X�^���X���\�z���܂��B<br />
      */
     protected SystemENdoSnipeLogger()
     {

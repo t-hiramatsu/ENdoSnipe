@@ -28,7 +28,7 @@ package jp.co.acroquest.endosnipe.javelin.resource;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 
 /**
- * ãƒªã‚½ãƒ¼ã‚¹å€¤ã‚’å–å¾—ã™ã‚‹ãŸã‚ã®ã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹ã€‚
+ * ƒŠƒ\[ƒX’l‚ğæ“¾‚·‚é‚½‚ß‚ÌƒCƒ“ƒ^ƒtƒF[ƒXB
  * 
  * @author Sakamoto
  */

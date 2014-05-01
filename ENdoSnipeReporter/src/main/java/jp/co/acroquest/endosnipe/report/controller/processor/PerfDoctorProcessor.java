@@ -32,217 +32,208 @@ import jp.co.acroquest.endosnipe.report.output.RecordReporter;
 import jp.co.acroquest.endosnipe.report.util.ReporterConfigAccessor;
 
 /**
- * PerformanceDoctorã®è¨ºæ–­çµæœã®ãƒ¬ãƒãƒ¼ãƒˆã‚’ç”Ÿæˆã™ã‚‹ã€ãƒ—ãƒ­ã‚»ãƒƒã‚µã§ã™ã€‚
+ * PerformanceDoctor‚Ìf’fŒ‹‰Ê‚ÌƒŒƒ|[ƒg‚ğ¶¬‚·‚éAƒvƒƒZƒbƒT‚Å‚·B
  * 
  * @author iida
  */
 public class PerfDoctorProcessor extends ReportPublishProcessorBase
 {
-	/** ãƒ­ã‚¬ãƒ¼ */
-	private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
-		.getLogger(PerfDoctorProcessor.class);
+    /** ƒƒK[ */
+    private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(
+            PerfDoctorProcessor.class);
 
-	/** ãƒ¬ãƒãƒ¼ãƒˆã«å‡ºåŠ›ã•ã‚Œã‚‹çµæœã®æ•°ã®æœ€å¤§å€¤ */
-	private static final int MAX_RECORD = 65534;
+    /** ƒŒƒ|[ƒg‚Éo—Í‚³‚ê‚éŒ‹‰Ê‚Ì”‚ÌÅ‘å’l */
+    private static final int MAX_RECORD = 65534;
+    
+    /**
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Å‚·B
+     * w’è‚³‚ê‚½Aˆ—‚·‚éƒŒƒ|[ƒg‚Ìí•Ê‚ğAƒZƒbƒg‚µ‚Ü‚·B
+     * 
+     * @param type ˆ—‚·‚éƒŒƒ|[ƒg‚Ìí•Ê
+     */
+    public PerfDoctorProcessor(ReportType type)
+    {
+        super(type);
+    }
 
-	/**
-	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§ã™ã€‚ æŒ‡å®šã•ã‚ŒãŸã€å‡¦ç†ã™ã‚‹ãƒ¬ãƒãƒ¼ãƒˆã®ç¨®åˆ¥ã‚’ã€ã‚»ãƒƒãƒˆã—ã¾ã™ã€‚
-	 * 
-	 * @param type
-	 *            å‡¦ç†ã™ã‚‹ãƒ¬ãƒãƒ¼ãƒˆã®ç¨®åˆ¥
-	 */
-	public PerfDoctorProcessor(ReportType type)
-	{
-		super(type);
-	}
-
-	/**
-	 * DBãªã©ã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‹ã‚‰ã€ãƒ¬ãƒãƒ¼ãƒˆã«å‡ºåŠ›ã™ã‚‹ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã—ã¾ã™ã€‚
-	 * 
-	 * @param cond
-	 *            ãƒ‡ãƒ¼ã‚¿ã®å–å¾—æ¡ä»¶
-	 * @param reportContainer
-	 *            è¿”ã‚Šå€¤ãªã©ã‚’æ¸¡ã™ãŸã‚ã®ã‚³ãƒ³ãƒ†ãƒŠ
-	 * 
-	 * @return ãƒ¬ãƒãƒ¼ãƒˆã«å‡ºåŠ›ã™ã‚‹ãƒ‡ãƒ¼ã‚¿
-	 */
-	@Override
-	protected Object getReportPlotData(ReportSearchCondition cond,
-		ReportProcessReturnContainer reportContainer)
-	{
-		// ãƒ¬ãƒãƒ¼ãƒˆã«å‡ºåŠ›ã™ã‚‹ãƒ‡ãƒ¼ã‚¿ï¼ˆã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã®æˆ»ã‚Šå€¤ï¼‰
-		PerfDoctorRecord[] records = null;
-
-		try
-		{
-			String databaseName = cond.getDatabases().get(0); // ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-			Timestamp start = cond.getStartDate(); // é–‹å§‹æ™‚åˆ»ã®ã‚¿ã‚¤ãƒ ã‚¹ã‚¿ãƒ³ãƒ—
-			Timestamp end = cond.getEndDate(); // çµ‚äº†æ™‚åˆ»ã®ã‚¿ã‚¤ãƒ ã‚¹ã‚¿ãƒ³ãƒ—
-			String itemName = cond.getTargetItemName();
-
-			// Step 1. DBã‹ã‚‰ã€JavelinLogã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆã™ã‚‹ã€‚
-			List<JavelinLog> javelinLogList = JavelinLogDao.selectByTermAndName(databaseName,
-				start, end, itemName, false);
-
-			List<JavelinLogElement> javelinLogElementList = new ArrayList<JavelinLogElement>();
-
-			// Step 2. JavelinLogã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‹ã‚‰JavelinLogDatabaseAccessorã‚’ç”Ÿæˆã™ã‚‹
-			for (JavelinLog javelinLog : javelinLogList) // ç”Ÿæˆã—ãŸå„JavelinLogã«ã¤ã„ã¦ã€å‡¦ç†ã‚’ç¹°ã‚Šè¿”ã™
-			{
-				InputStream javelinLogStream = null;
-				try
-				{
-					javelinLogStream = JavelinLogDao.selectJavelinLogByLogId(databaseName,
-						javelinLog.logId);
+    /**
+     * DB‚È‚Ç‚ÌƒGƒ“ƒeƒBƒeƒB‚©‚çAƒŒƒ|[ƒg‚Éo—Í‚·‚éƒf[ƒ^‚ğæ“¾‚µ‚Ü‚·B
+     * 
+     * @param cond              ƒf[ƒ^‚Ìæ“¾ğŒ
+     * @param reportContainer   •Ô‚è’l‚È‚Ç‚ğ“n‚·‚½‚ß‚ÌƒRƒ“ƒeƒi
+     * 
+     * @return ƒŒƒ|[ƒg‚Éo—Í‚·‚éƒf[ƒ^
+     */
+    @Override
+    protected Object getReportPlotData(ReportSearchCondition cond,
+            ReportProcessReturnContainer reportContainer)
+    {
+        // ƒŒƒ|[ƒg‚Éo—Í‚·‚éƒf[ƒ^i‚±‚Ìƒƒ\ƒbƒh‚Ì–ß‚è’lj
+        PerfDoctorRecord[] records = null;
+        
+        try
+        {
+            String databaseName = cond.getDatabases().get(0);   // ƒf[ƒ^ƒx[ƒX–¼
+            Timestamp start = cond.getStartDate();              // ŠJn‚Ìƒ^ƒCƒ€ƒXƒ^ƒ“ƒv
+            Timestamp end = cond.getEndDate();                  // I—¹‚Ìƒ^ƒCƒ€ƒXƒ^ƒ“ƒv
+            
+            // Step 1. DB‚©‚çAJavelinLogƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬‚·‚éB
+            List<JavelinLog> javelinLogList = JavelinLogDao.selectByTerm(databaseName, start, end);
+            
+            List<JavelinLogElement> javelinLogElementList = new ArrayList<JavelinLogElement>();
+            
+            // Step 2. JavelinLogƒCƒ“ƒXƒ^ƒ“ƒX‚©‚çJavelinLogDatabaseAccessor‚ğ¶¬‚·‚é
+            for (JavelinLog javelinLog : javelinLogList)    // ¶¬‚µ‚½ŠeJavelinLog‚É‚Â‚¢‚ÄAˆ—‚ğŒJ‚è•Ô‚·
+            {
+            	InputStream javelinLogStream = null;
+            	try
+            	{
+					javelinLogStream = JavelinLogDao
+							.selectJavelinLogByLogId(databaseName, javelinLog.logId);
 					JavelinLogInputStreamAccessor javelinLogMemoryAccessor = new JavelinLogInputStreamAccessor(
-						javelinLog.logFileName, javelinLogStream);
-
-					// Step 3.
-					// JavelinLogMemoryAccessorã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‹ã‚‰JavelinParserã‚’ç”Ÿæˆã™ã‚‹
-					JavelinParser javelinParser = new JavelinParser(javelinLogMemoryAccessor);
-					javelinParser.init();
-
-					// Step 4. JavelinParserã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‹ã‚‰JavelinLogElementã‚’ç”Ÿæˆã™ã‚‹
-					JavelinLogElement javelinLogElement;
-					while ((javelinLogElement = javelinParser.nextElement()) != null)
-					{
-						javelinLogElementList.add(javelinLogElement);
-					}
-
-					JavelinParser.initDetailInfo(javelinLogElementList);
+							javelinLog.logFileName, javelinLogStream);
+	                
+	                // Step 3. JavelinLogMemoryAccessorƒCƒ“ƒXƒ^ƒ“ƒX‚©‚çJavelinParser‚ğ¶¬‚·‚é
+	                JavelinParser javelinParser = new JavelinParser(javelinLogMemoryAccessor);
+	                javelinParser.init();
+	                
+	                // Step 4. JavelinParserƒCƒ“ƒXƒ^ƒ“ƒX‚©‚çJavelinLogElement‚ğ¶¬‚·‚é
+	                JavelinLogElement javelinLogElement;
+	                while ((javelinLogElement = javelinParser.nextElement()) != null)
+	                {
+	                    javelinLogElementList.add(javelinLogElement);
+                    }
+	                
+	                JavelinParser.initDetailInfo(javelinLogElementList);
+                }
+                finally
+                {
+                    if (javelinLogStream != null)
+                    {
+                        javelinLogStream.close();
+                    }
 				}
-				finally
-				{
-					if (javelinLogStream != null)
-					{
-						javelinLogStream.close();
-					}
-				}
-			}
+            }
+            
+            // Step 5. ¶¬‚µ‚½JavelinLogElement‚ğAPerformanceDoctor‚Éf’f‚³‚¹‚é
+            PerfDoctor perfDoctor = new PerfDoctor();
+            perfDoctor.init();
+            List<WarningUnit> warningUnitList =
+                    perfDoctor.judgeJavelinLog(javelinLogElementList);
 
-			// Step 5. ç”Ÿæˆã—ãŸJavelinLogElementã‚’ã€PerformanceDoctorã«è¨ºæ–­ã•ã›ã‚‹
-			PerfDoctor perfDoctor = new PerfDoctor();
-			perfDoctor.init();
-			List<WarningUnit> warningUnitList = perfDoctor.judgeJavelinLog(javelinLogElementList);
+            if (MAX_RECORD <= warningUnitList.size())
+            {
+                warningUnitList = warningUnitList.subList(0, MAX_RECORD);
+            }
+            
+            // ƒtƒBƒ‹ƒ^ˆ—‚ğÀs‚·‚éB
+            warningUnitList = this.doFilter(warningUnitList, cond);
+            
+            List<PerfDoctorRecord> recordList = new ArrayList<PerfDoctorRecord>();
+            for (WarningUnit warningUnit : warningUnitList)
+            {
+                PerfDoctorRecord record = new PerfDoctorRecord(warningUnit);
+                recordList.add(record);
+            }
+            
+            // Œ‹‰Ê‚ğ”z—ñ‚É’¼‚·
+            records = new PerfDoctorRecord[recordList.size()];
+            recordList.toArray(records);
+        }
+        catch (SQLException ex)
+        {
+            LOGGER.log(LogIdConstants.EXCEPTION_IN_READING, ex,
+                    ReporterConfigAccessor.getReportName(getReportType()));
+        }
+        catch (IOException ex)
+        {
+            LOGGER.log(LogIdConstants.EXCEPTION_HAPPENED, ex,
+                    ReporterConfigAccessor.getReportName(getReportType()));
+        }
+        catch (ParseException ex)
+        {
+            LOGGER.log(LogIdConstants.EXCEPTION_HAPPENED, ex,
+                    ReporterConfigAccessor.getReportName(getReportType()));
+        }
+        catch (RuleNotFoundException ex)
+        {
+            LOGGER.log(LogIdConstants.EXCEPTION_HAPPENED, ex,
+                    ReporterConfigAccessor.getReportName(getReportType()));
+        }
+        catch (RuleCreateException ex)
+        {
+            LOGGER.log(LogIdConstants.EXCEPTION_HAPPENED, ex,
+                    ReporterConfigAccessor.getReportName(getReportType()));
+        }
+        
+        return records;
+    }
 
-			if (MAX_RECORD <= warningUnitList.size())
-			{
-				warningUnitList = warningUnitList.subList(0, MAX_RECORD);
-			}
+    /**
+     * ƒf[ƒ^‚ğƒŒƒ|[ƒg‚Éo—Í‚µ‚Ü‚·B
+     * 
+     * @param plotData          ƒŒƒ|[ƒg‚Éo—Í‚·‚éƒf[ƒ^
+     * @param cond              ƒf[ƒ^‚Ìo—ÍğŒ
+     * @param reportContainer   •Ô‚è’l‚È‚Ç‚ğ“n‚·‚½‚ß‚ÌƒRƒ“ƒeƒi
+     */
+    @Override
+    protected void outputReport(Object plotData, ReportSearchCondition cond,
+            ReportProcessReturnContainer reportContainer)
+    {
+        if (plotData instanceof PerfDoctorRecord[])
+        {
+            PerfDoctorRecord[] records = (PerfDoctorRecord[])plotData;
+            
+    		// o—Í‚·‚éƒŒƒ|[ƒg‚Ìí—Ş‚É‚ ‚í‚¹‚Äƒeƒ“ƒvƒŒ[ƒg‚Ìƒtƒ@ƒCƒ‹ƒpƒX‚ğæ“¾‚·‚é
+    		String templateFilePath;
+    		try
+    		{
+    			templateFilePath = TemplateFileManager.getInstance()
+    					.getTemplateFile(getReportType());
+    		}
+    		catch (IOException exception)
+    		{
+    			reportContainer.setHappendedError(exception);
+    			return;
+    		}
+			
+            RecordReporter<PerfDoctorRecord> reporter = 
+                new RecordReporter<PerfDoctorRecord>(this.getReportType());
+          
+            String outputFilePath = getOutputFolderName() + File.separator;
+            outputFilePath += ReporterConfigAccessor.getProperty(
+                    this.getReportType().getId() + ".outputFile");
+            
+            reporter.outputReport(templateFilePath, outputFilePath, records,
+                                  new Date(), new Date());  // ‚±‚Ì2‚Â‚ÌDate‚ÍA“Á‚Ég—p‚µ‚È‚¢B
+        }
+    }
 
-			// ãƒ•ã‚£ãƒ«ã‚¿å‡¦ç†ã‚’å®Ÿè¡Œã™ã‚‹ã€‚
-			warningUnitList = this.doFilter(warningUnitList, cond);
+    /**
+     * ƒŠƒXƒg‚ÉƒtƒBƒ‹ƒ^[‚ğ‚©‚¯‚éB
+     * 
+     * @param resultList    ‘ª’èŒ‹‰Ê‚ÌƒŠƒXƒg
+     * @param cond          ƒf[ƒ^‚Ìo—ÍğŒ
+     * @return ƒtƒBƒ‹ƒ^[‚ğ‚©‚¯‚½Œã‚ÌA‘ª’èŒ‹‰Ê‚ÌƒŠƒXƒg
+     */
+    private List<WarningUnit> doFilter(final List<WarningUnit> resultList,
+            final ReportSearchCondition cond)
+    {
+        PerformanceDoctorFilter sameFilter = new PerformanceDoctorFilter();
+        UnifiedFilter unifiedFilter = new UnifiedFilter();
+        List<WarningUnit> filteredList = resultList;
 
-			List<PerfDoctorRecord> recordList = new ArrayList<PerfDoctorRecord>();
-			for (WarningUnit warningUnit : warningUnitList)
-			{
-				PerfDoctorRecord record = new PerfDoctorRecord(warningUnit);
-				recordList.add(record);
-			}
+        // “¯—vˆöƒtƒBƒ‹ƒ^‚Æ“¯íŒxƒtƒBƒ‹ƒ^‚ğİ’è‚·‚éB
+        if (cond.getLimitSameCause())
+        {
+            filteredList = unifiedFilter.doFilter(filteredList);
+        }
+        if (cond.getLimitBySameRule())
+        {
+            filteredList = sameFilter.doFilter(filteredList);
+        }
 
-			// çµæœã‚’é…åˆ—ã«ç›´ã™
-			records = new PerfDoctorRecord[recordList.size()];
-			recordList.toArray(records);
-		}
-		catch (SQLException ex)
-		{
-			LOGGER.log(LogIdConstants.EXCEPTION_IN_READING, ex,
-				ReporterConfigAccessor.getReportName(getReportType()));
-		}
-		catch (IOException ex)
-		{
-			LOGGER.log(LogIdConstants.EXCEPTION_HAPPENED, ex,
-				ReporterConfigAccessor.getReportName(getReportType()));
-		}
-		catch (ParseException ex)
-		{
-			LOGGER.log(LogIdConstants.EXCEPTION_HAPPENED, ex,
-				ReporterConfigAccessor.getReportName(getReportType()));
-		}
-		catch (RuleNotFoundException ex)
-		{
-			LOGGER.log(LogIdConstants.EXCEPTION_HAPPENED, ex,
-				ReporterConfigAccessor.getReportName(getReportType()));
-		}
-		catch (RuleCreateException ex)
-		{
-			LOGGER.log(LogIdConstants.EXCEPTION_HAPPENED, ex,
-				ReporterConfigAccessor.getReportName(getReportType()));
-		}
-
-		return records;
-	}
-
-	/**
-	 * ãƒ‡ãƒ¼ã‚¿ã‚’ãƒ¬ãƒãƒ¼ãƒˆã«å‡ºåŠ›ã—ã¾ã™ã€‚
-	 * 
-	 * @param plotData
-	 *            ãƒ¬ãƒãƒ¼ãƒˆã«å‡ºåŠ›ã™ã‚‹ãƒ‡ãƒ¼ã‚¿
-	 * @param cond
-	 *            ãƒ‡ãƒ¼ã‚¿ã®å‡ºåŠ›æ¡ä»¶
-	 * @param reportContainer
-	 *            è¿”ã‚Šå€¤ãªã©ã‚’æ¸¡ã™ãŸã‚ã®ã‚³ãƒ³ãƒ†ãƒŠ
-	 */
-	@Override
-	protected void outputReport(Object plotData, ReportSearchCondition cond,
-		ReportProcessReturnContainer reportContainer)
-	{
-		if (plotData instanceof PerfDoctorRecord[])
-		{
-			PerfDoctorRecord[] records = (PerfDoctorRecord[]) plotData;
-
-			// å‡ºåŠ›ã™ã‚‹ãƒ¬ãƒãƒ¼ãƒˆã®ç¨®é¡ã«ã‚ã‚ã›ã¦ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã®ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã‚’å–å¾—ã™ã‚‹
-			String templateFilePath;
-			try
-			{
-				templateFilePath = TemplateFileManager.getInstance().getTemplateFile(
-					getReportType());
-			}
-			catch (IOException exception)
-			{
-				reportContainer.setHappendedError(exception);
-				return;
-			}
-
-			RecordReporter<PerfDoctorRecord> reporter = new RecordReporter<PerfDoctorRecord>(
-				this.getReportType());
-
-			String outputFilePath = getOutputFolderName() + File.separator;
-			outputFilePath += ReporterConfigAccessor.getProperty(this.getReportType().getId()
-				+ ".outputFile");
-
-			reporter
-				.outputReport(templateFilePath, outputFilePath, records, new Date(), new Date()); // ã“ã®2ã¤ã®Dateã¯ã€ç‰¹ã«ä½¿ç”¨ã—ãªã„ã€‚
-		}
-	}
-
-	/**
-	 * ãƒªã‚¹ãƒˆã«ãƒ•ã‚£ãƒ«ã‚¿ãƒ¼ã‚’ã‹ã‘ã‚‹ã€‚
-	 * 
-	 * @param resultList
-	 *            æ¸¬å®šçµæœã®ãƒªã‚¹ãƒˆ
-	 * @param cond
-	 *            ãƒ‡ãƒ¼ã‚¿ã®å‡ºåŠ›æ¡ä»¶
-	 * @return ãƒ•ã‚£ãƒ«ã‚¿ãƒ¼ã‚’ã‹ã‘ãŸå¾Œã®ã€æ¸¬å®šçµæœã®ãƒªã‚¹ãƒˆ
-	 */
-	private List<WarningUnit> doFilter(final List<WarningUnit> resultList,
-		final ReportSearchCondition cond)
-	{
-		PerformanceDoctorFilter sameFilter = new PerformanceDoctorFilter();
-		UnifiedFilter unifiedFilter = new UnifiedFilter();
-		List<WarningUnit> filteredList = resultList;
-
-		// åŒè¦å› ãƒ•ã‚£ãƒ«ã‚¿ã¨åŒç¨®è­¦å‘Šãƒ•ã‚£ãƒ«ã‚¿ã‚’è¨­å®šã™ã‚‹ã€‚
-		if (cond.getLimitSameCause())
-		{
-			filteredList = unifiedFilter.doFilter(filteredList);
-		}
-		if (cond.getLimitBySameRule())
-		{
-			filteredList = sameFilter.doFilter(filteredList);
-		}
-
-		return filteredList;
-	}
+        return filteredList;
+    }
 
 }

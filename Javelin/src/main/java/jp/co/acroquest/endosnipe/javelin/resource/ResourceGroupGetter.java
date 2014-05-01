@@ -29,23 +29,23 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * ã‚°ãƒ«ãƒ¼ãƒ—åŒ–ã•ã‚ŒãŸè¤‡æ•°ãƒªã‚½ãƒ¼ã‚¹å€¤ã‚’å–å¾—ã™ã‚‹ãŸã‚ã®ã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹ã€‚
+ * ƒOƒ‹[ƒv‰»‚³‚ê‚½•¡”ƒŠƒ\[ƒX’l‚ğæ“¾‚·‚é‚½‚ß‚ÌƒCƒ“ƒ^ƒtƒF[ƒXB
  * 
  * @author tsukano
  */
 public interface ResourceGroupGetter
 {
     /**
-     * é›»æ–‡æœ¬ä½“ã®é …ç›®åã®é›†åˆã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * “d•¶–{‘Ì‚Ì€–Ú–¼‚ÌW‡‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return é›»æ–‡æœ¬ä½“ã®é …ç›®åã®é›†åˆ
+     * @return “d•¶–{‘Ì‚Ì€–Ú–¼‚ÌW‡
      */
     Set<String> getItemNameSet();
 
     /**
-     * ãƒªã‚½ãƒ¼ã‚¹å€¤ãƒ»å‹ã®ãƒªã‚¹ãƒˆã‚’å–å¾—ã™ã‚‹ã€‚
-     * Mapã®keyã‚’itemNameã€valueã‚’Resourceã¨ã—ãŸæƒ…å ±ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ãƒªã‚½ãƒ¼ã‚¹å€¤ãƒ»å‹ã®ãƒªã‚¹ãƒˆ
+     * ƒŠƒ\[ƒX’lEŒ^‚ÌƒŠƒXƒg‚ğæ“¾‚·‚éB
+     * Map‚Ìkey‚ğitemNameAvalue‚ğResource‚Æ‚µ‚½î•ñ‚ğæ“¾‚·‚éB
+     * @return ƒŠƒ\[ƒX’lEŒ^‚ÌƒŠƒXƒg
      */
     Map<String, MultiResourceGetter> getResourceGroup();
 }

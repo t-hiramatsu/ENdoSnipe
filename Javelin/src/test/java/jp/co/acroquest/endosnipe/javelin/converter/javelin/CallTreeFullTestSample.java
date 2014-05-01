@@ -26,17 +26,17 @@
 package jp.co.acroquest.endosnipe.javelin.converter.javelin;
 
 /**
- * CallTreeFull ã‚¤ãƒ™ãƒ³ãƒˆã«é–¢ã™ã‚‹ãƒ†ã‚¹ãƒˆã®ã‚µãƒ³ãƒ—ãƒ«ã€‚
+ * CallTreeFull ƒCƒxƒ“ƒg‚ÉŠÖ‚·‚éƒeƒXƒg‚ÌƒTƒ“ƒvƒ‹B
  *
  * @author sakamoto
  */
 public class CallTreeFullTestSample
 {
     /**
-     * æŒ‡å®šã•ã‚ŒãŸã‚µã‚¤ã‚ºã® CallTreeNode ãŒç”Ÿæˆã•ã‚Œã‚‹ã‚ˆã†ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ç¹°ã‚Šè¿”ã—å‘¼ã³å‡ºã—ã¾ã™ã€‚
+     * w’è‚³‚ê‚½ƒTƒCƒY‚Ì CallTreeNode ‚ª¶¬‚³‚ê‚é‚æ‚¤ƒƒ\ƒbƒh‚ğŒJ‚è•Ô‚µŒÄ‚Ño‚µ‚Ü‚·B
      *
-     * @param treeSize ç”Ÿæˆã•ã‚Œã‚‹ CallTreeNode ã®ã‚µã‚¤ã‚º
-     *                 ï¼ˆå³å¯†ã«ã¯ entry() ã‚‚å«ã‚ã¦ +1 ã® CallTreeNode ãŒç”Ÿæˆã•ã‚Œã‚‹ï¼‰
+     * @param treeSize ¶¬‚³‚ê‚é CallTreeNode ‚ÌƒTƒCƒY
+     *                 iŒµ–§‚É‚Í entry() ‚àŠÜ‚ß‚Ä +1 ‚Ì CallTreeNode ‚ª¶¬‚³‚ê‚éj
      */
     public void entry(final int treeSize)
     {

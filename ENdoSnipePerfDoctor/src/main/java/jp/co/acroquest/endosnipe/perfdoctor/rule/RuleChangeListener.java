@@ -26,14 +26,14 @@
 package jp.co.acroquest.endosnipe.perfdoctor.rule;
 
 /**
- * ãƒ«ãƒ¼ãƒ«ã®å¤‰æ›´ã‚’é€šçŸ¥ã™ã‚‹ãƒªã‚¹ãƒŠã€‚
+ * ƒ‹[ƒ‹‚Ì•ÏX‚ğ’Ê’m‚·‚éƒŠƒXƒiB
  * @author fujii
  *
  */
 public interface RuleChangeListener
 {
     /**
-     * ãƒ«ãƒ¼ãƒ«ã®å¤‰æ›´ã‚’é€šçŸ¥ã™ã‚‹ã€‚
+     * ƒ‹[ƒ‹‚Ì•ÏX‚ğ’Ê’m‚·‚éB
      */
     void ruleChangePerformed();
 }

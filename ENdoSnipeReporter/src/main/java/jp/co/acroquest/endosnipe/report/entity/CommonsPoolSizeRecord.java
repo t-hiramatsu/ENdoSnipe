@@ -3,116 +3,105 @@ package jp.co.acroquest.endosnipe.report.entity;
 import java.sql.Timestamp;
 
 /**
- * ã€Œã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã€ã‚¿ãƒ–ã®ã€ŒCommons Poolã®ã‚µã‚¤ã‚ºã€ã®ãƒ¬ãƒãƒ¼ãƒˆã«ãŠã„ã¦ã€
- * å‡ºåŠ›ã•ã‚Œã‚‹æƒ…å ±ã®ä¸­ã®1ãƒ¬ã‚³ãƒ¼ãƒ‰åˆ†ã‚’ä¿æŒã™ã‚‹ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã§ã™ã€‚
+ * uƒAƒvƒŠƒP[ƒVƒ‡ƒ“vƒ^ƒu‚ÌuCommons Pool‚ÌƒTƒCƒYv‚ÌƒŒƒ|[ƒg‚É‚¨‚¢‚ÄA
+ * o—Í‚³‚ê‚éî•ñ‚Ì’†‚Ì1ƒŒƒR[ƒh•ª‚ğ•Û‚·‚éƒGƒ“ƒeƒBƒeƒB‚Å‚·B
  * 
  * @author T. Iida
  */
 public class CommonsPoolSizeRecord
 {
-	/** è¨ˆæ¸¬æ™‚åˆ» */
-	private Timestamp measurementTime_;
+	/** Œv‘ª */
+    private Timestamp measurementTime_;
+    
+    /** Commons Pool‚ÌƒTƒCƒY‚ÌÅ‘å’l */
+    private long      maxCommonsPoolSize_;
 
-	/** Commons Poolã®ã‚µã‚¤ã‚ºã®æœ€å¤§å€¤ */
-	private long maxCommonsPoolSize_;
-
-	/** Commons Poolã®ã‚µã‚¤ã‚º[æ•°]ï¼ˆè£œé–“æœŸé–“å¹³å‡ï¼‰ */
-	private long commonsPoolSize_;
-
-	/** Commons Poolã®ã‚µã‚¤ã‚º[æ•°]ï¼ˆè£œé–“æœŸé–“æœ€å¤§ï¼‰ */
-	private long commonsPoolSizeMax_;
-
-	/** Commons Poolã®ã‚µã‚¤ã‚º[æ•°]ï¼ˆè£œé–“æœŸé–“æœ€å°ï¼‰ */
-	private long commonsPoolSizeMin_;
-
-	/**
-	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
-	 */
-	public CommonsPoolSizeRecord()
-	{
-		maxCommonsPoolSize_ = 0;
-		commonsPoolSize_ = 0;
-		commonsPoolSizeMax_ = 0;
-		commonsPoolSizeMin_ = 0;
-	}
-
+    /** Commons Pool‚ÌƒTƒCƒY[”]i•âŠÔŠúŠÔ•½‹Ïj */
+    private long      commonsPoolSize_;
+    
+    /** Commons Pool‚ÌƒTƒCƒY[”]i•âŠÔŠúŠÔÅ‘åj */
+    private long      commonsPoolSizeMax_;
+    
+    /** Commons Pool‚ÌƒTƒCƒY[”]i•âŠÔŠúŠÔÅ¬j */
+    private long      commonsPoolSizeMin_;
+    
+    /**
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     */
+    public CommonsPoolSizeRecord() {
+        maxCommonsPoolSize_ = 0;
+        commonsPoolSize_ = 0;
+        commonsPoolSizeMax_ = 0;
+        commonsPoolSizeMin_ = 0;
+    }
+    
 	/**
 	 * @return the measurementTime_
 	 */
-	public Timestamp getMeasurementTime()
-	{
+	public Timestamp getMeasurementTime() {
 		return measurementTime_;
 	}
 
 	/**
 	 * @param measurementTime the measurementTime_ to set
 	 */
-	public void setMeasurementTime(Timestamp measurementTime)
-	{
+	public void setMeasurementTime(Timestamp measurementTime) {
 		this.measurementTime_ = measurementTime;
 	}
-
+	
 	/**
 	 * @return the maxCommonsPoolSize_
 	 */
-	public long getMaxCommonsPoolSize()
-	{
+	public long getMaxCommonsPoolSize() {
 		return maxCommonsPoolSize_;
 	}
 
 	/**
 	 * @param maxCommonsPoolSize the maxCommonsPoolSize_ to set
 	 */
-	public void setMaxCommonsPoolSize(long maxCommonsPoolSize)
-	{
+	public void setMaxCommonsPoolSize(long maxCommonsPoolSize) {
 		this.maxCommonsPoolSize_ = maxCommonsPoolSize;
 	}
 
 	/**
 	 * @return the commonsPoolSize_
 	 */
-	public long getCommonsPoolSize()
-	{
+	public long getCommonsPoolSize() {
 		return commonsPoolSize_;
 	}
 
 	/**
 	 * @param commonsPoolSize the commonsPoolSize_ to set
 	 */
-	public void setCommonsPoolSize(long commonsPoolSize)
-	{
+	public void setCommonsPoolSize(long commonsPoolSize) {
 		this.commonsPoolSize_ = commonsPoolSize;
 	}
 
 	/**
 	 * @return the commonsPoolSizeMax_
 	 */
-	public long getCommonsPoolSizeMax()
-	{
+	public long getCommonsPoolSizeMax() {
 		return commonsPoolSizeMax_;
 	}
 
 	/**
 	 * @param commonsPoolSizeMax the commonsPoolSizeMax_ to set
 	 */
-	public void setCommonsPoolSizeMax(long commonsPoolSizeMax)
-	{
+	public void setCommonsPoolSizeMax(long commonsPoolSizeMax) {
 		this.commonsPoolSizeMax_ = commonsPoolSizeMax;
 	}
 
 	/**
 	 * @return the commonsPoolSizeMin_
 	 */
-	public long getCommonsPoolSizeMin()
-	{
+	public long getCommonsPoolSizeMin() {
 		return commonsPoolSizeMin_;
 	}
 
 	/**
 	 * @param commonsPoolSizeMin the commonsPoolSizeMin_ to set
 	 */
-	public void setCommonsPoolSizeMin(long commonsPoolSizeMin)
-	{
+	public void setCommonsPoolSizeMin(long commonsPoolSizeMin) {
 		this.commonsPoolSizeMin_ = commonsPoolSizeMin;
 	}
 }

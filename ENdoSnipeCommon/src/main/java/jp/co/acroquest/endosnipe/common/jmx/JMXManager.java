@@ -31,28 +31,28 @@ import java.util.Map;
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 
 /**
- * ãƒ¦ãƒ¼ã‚¶ãŒè¨­å®šã—ãŸJMXæƒ…å ±ã‚’ç®¡ç†ã™ã‚‹ãŸã‚ã®ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+ * ƒ†[ƒU‚ªİ’è‚µ‚½JMXî•ñ‚ğŠÇ—‚·‚é‚½‚ß‚ÌƒNƒ‰ƒX‚Å‚·B<br />
  * 
  * @author y_asazuma
  */
 public class JMXManager
 {
-    /** ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ */
+    /** ƒCƒ“ƒXƒ^ƒ“ƒX */
     private static JMXManager manager__ = new JMXManager();
 
-    /** ãƒ¦ãƒ¼ã‚¶ãŒæŒ‡å®šã—ãŸJMXé …ç›®ã¨è¨ˆæ¸¬å€¤ç¨®åˆ¥ã®ãƒãƒƒãƒ—(DataCollectorç”¨) */
+    /** ƒ†[ƒU‚ªw’è‚µ‚½JMX€–Ú‚ÆŒv‘ª’lí•Ê‚Ìƒ}ƒbƒv(DataCollector—p) */
     private final Map<String, Map<String, Long>> measurmentTypeMap_;
 
-    /** JMXã®å–å¾—å€¤ã®ã†ã¡ã€å‰²åˆã‚’ç¤ºã™å€¤ */
+    /** JMX‚Ìæ“¾’l‚Ì‚¤‚¿AŠ„‡‚ğ¦‚·’l */
     public static final String[] JMX_RATIO_ITEMNAME_ARRAY = {"HitRatio"};
 
-    /** åˆæœŸåŒ–ãƒ•ãƒ©ã‚° */
+    /** ‰Šú‰»ƒtƒ‰ƒO */
     private boolean initFlag_ = false;
 
     private NotifyJMXItem callBack_ = null;
 
     /**
-     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã‚’é˜²ãã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+     * ƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğ–h‚®ƒRƒ“ƒXƒgƒ‰ƒNƒ^
      */
     private JMXManager()
     {
@@ -60,9 +60,9 @@ public class JMXManager
     }
 
     /**
-     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * ƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚µ‚Ü‚·B
      * 
-     * @return JMXManagerã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+     * @return JMXManagerƒCƒ“ƒXƒ^ƒ“ƒX
      */
     public static JMXManager getInstance()
     {
@@ -70,9 +70,9 @@ public class JMXManager
     }
 
     /**
-     * JMXé …ç›®ã®å¤‰æ›´ã‚’é€šçŸ¥ã™ã‚‹ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ãƒ¡ã‚½ãƒƒãƒ‰ã‚’è¨­å®šã—ã¾ã™ã€‚
+     * JMX€–Ú‚Ì•ÏX‚ğ’Ê’m‚·‚éƒR[ƒ‹ƒoƒbƒNƒƒ\ƒbƒh‚ğİ’è‚µ‚Ü‚·B
      * 
-     * @param callBack ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ãƒ¡ã‚½ãƒƒãƒ‰
+     * @param callBack ƒR[ƒ‹ƒoƒbƒNƒƒ\ƒbƒh
      */
     public void setCallBack(final NotifyJMXItem callBack)
     {
@@ -80,8 +80,8 @@ public class JMXManager
     }
 
     /**
-     * åˆæœŸåŒ–ãŒå®Œäº†ã™ã‚‹ã¾ã§ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’å¾…æ©Ÿã•ã›ã¾ã™ã€‚<br />
-     * åˆæœŸåŒ–å®Œäº†å¾Œã«å¿…ãš{@link #initCompleted()}ã‚’å‘¼ã³å‡ºã—ã¦ä¸‹ã•ã„ã€‚
+     * ‰Šú‰»‚ªŠ®—¹‚·‚é‚Ü‚ÅƒXƒŒƒbƒh‚ğ‘Ò‹@‚³‚¹‚Ü‚·B<br />
+     * ‰Šú‰»Š®—¹Œã‚É•K‚¸{@link #initCompleted()}‚ğŒÄ‚Ño‚µ‚Ä‰º‚³‚¢B
      */
     public void waitInitialize()
     {
@@ -99,8 +99,8 @@ public class JMXManager
     }
 
     /**
-     * åˆæœŸåŒ–ã®å®Œäº†ã‚’é€šçŸ¥ã—ã€<br />
-     * åˆæœŸåŒ–å¾…ã¡ã‚¹ãƒ¬ãƒƒãƒ‰ãŒã‚ã‚‹å ´åˆã¯ã™ã¹ã¦å†é–‹ã•ã›ã¾ã™ã€‚
+     * ‰Šú‰»‚ÌŠ®—¹‚ğ’Ê’m‚µA<br />
+     * ‰Šú‰»‘Ò‚¿ƒXƒŒƒbƒh‚ª‚ ‚éê‡‚Í‚·‚×‚ÄÄŠJ‚³‚¹‚Ü‚·B
      */
     public synchronized void initCompleted()
     {
@@ -109,9 +109,9 @@ public class JMXManager
     }
 
     /**
-     * JMXé …ç›®ã¨è¨ˆæ¸¬å€¤ç¨®åˆ¥ã®ãƒãƒƒãƒ—ã‚’å–å¾—ã—ã¾ã™ã€‚
-     * @param dbName DBå
-     * @return JMXé …ç›®ã¨è¨ˆæ¸¬å€¤ç¨®åˆ¥ã®ãƒãƒƒãƒ—
+     * JMX€–Ú‚ÆŒv‘ª’lí•Ê‚Ìƒ}ƒbƒv‚ğæ“¾‚µ‚Ü‚·B
+     * @param dbName DB–¼
+     * @return JMX€–Ú‚ÆŒv‘ª’lí•Ê‚Ìƒ}ƒbƒv
      */
     public Map<String, Long> getMeasurmentTypeMap(final String dbName)
     {
@@ -119,10 +119,10 @@ public class JMXManager
     }
 
     /**
-     * JMXé …ç›®ã¨è¨ˆæ¸¬å€¤ç¨®åˆ¥ã®ãƒãƒƒãƒ—ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * JMX€–Ú‚ÆŒv‘ª’lí•Ê‚Ìƒ}ƒbƒv‚ğæ“¾‚µ‚Ü‚·B
      * 
-     * @param dbName ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @param map JMXé …ç›®ã¨è¨ˆæ¸¬å€¤ç¨®åˆ¥ã®ãƒãƒƒãƒ—
+     * @param dbName ƒf[ƒ^ƒx[ƒX–¼
+     * @param map JMX€–Ú‚ÆŒv‘ª’lí•Ê‚Ìƒ}ƒbƒv
      */
     public void setMeasurementTypeMap(final String dbName, final Map<String, Long> map)
     {
@@ -130,13 +130,13 @@ public class JMXManager
     }
 
     /**
-     * JMXé …ç›®ã«å¯¾ã™ã‚‹è¨ˆæ¸¬å€¤ç¨®åˆ¥ã‚’ãƒãƒƒãƒ”ãƒ³ã‚°ã—ã¾ã™ã€‚
+     * JMX€–Ú‚É‘Î‚·‚éŒv‘ª’lí•Ê‚ğƒ}ƒbƒsƒ“ƒO‚µ‚Ü‚·B
      * 
-     * @param dbName ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @param objectName ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå
-     * @param objDispName ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆè¡¨ç¤ºå
+     * @param dbName ƒf[ƒ^ƒx[ƒX–¼
+     * @param objectName ƒIƒuƒWƒFƒNƒg–¼
+     * @param objDispName ƒIƒuƒWƒFƒNƒg•\¦–¼
      * 
-     * @return è¨ˆæ¸¬å€¤ç¨®åˆ¥ID<br />æ—¢ã«é …ç›®ãŒå­˜åœ¨ã—ã¦ã„ã‚‹å ´åˆã¯-1
+     * @return Œv‘ª’lí•ÊID<br />Šù‚É€–Ú‚ª‘¶İ‚µ‚Ä‚¢‚éê‡‚Í-1
      */
     public long addMeasurementType(final String dbName, final String objectName,
             final String objDispName)

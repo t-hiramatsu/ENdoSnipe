@@ -26,87 +26,84 @@ import jp.co.acroquest.endosnipe.report.controller.ReportSearchCondition;
 import jp.co.acroquest.endosnipe.report.controller.ReportType;
 
 /**
- * ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›å‡¦ç†ã‚’å®Ÿè¡Œã™ã‚‹ã‚¿ã‚¹ã‚¯ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ é€²æ—ç‡ã®é€šçŸ¥ã‚’ä¼´ã†ã€‚
+ * ƒŒƒ|[ƒgo—Íˆ—‚ğÀs‚·‚éƒ^ƒXƒNƒIƒuƒWƒFƒNƒg i’»—¦‚Ì’Ê’m‚ğ”º‚¤B
  * 
  * @author M.Yoshida
  */
-public class ReportPublishTask
-{
-	/** æ¤œç´¢æ¡ä»¶ */
+public class ReportPublishTask  {
+	/** ŒŸõğŒ */
 	private ReportSearchCondition searchCondition_;
 
-	/** ãƒ¬ãƒãƒ¼ãƒˆç¨®åˆ¥ */
+	/** ƒŒƒ|[ƒgí•Ê */
 	private ReportType[] publishTypes_;
 
-	/** çµ‚äº†æ™‚ã«ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã™ã‚‹ */
+	/** I—¹‚ÉƒR[ƒ‹ƒoƒbƒN‚·‚é */
 	private Runnable callback_;
 
-	/** ãƒ­ã‚¬ãƒ¼ */
-	private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
-		.getLogger(ReportPublishTask.class);
+	/** ƒƒK[ */
+	private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(
+			ReportPublishTask.class);
 
 	/**
-	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 	 * 
 	 * @param cond
-	 *            æ¤œç´¢æ¡ä»¶
+	 *            ŒŸõğŒ
 	 * @param publishType
-	 *            ãƒ¬ãƒãƒ¼ãƒˆç¨®åˆ¥
+	 *            ƒŒƒ|[ƒgí•Ê
 	 * @param callback
-	 *            ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯
+	 *            ƒR[ƒ‹ƒoƒbƒN
 	 */
-	public ReportPublishTask(ReportSearchCondition cond, ReportType[] publishType, Runnable callback)
-	{
+	public ReportPublishTask(ReportSearchCondition cond,
+			ReportType[] publishType, Runnable callback) {
 		List<ReportType> additionalTypes = new ArrayList<ReportType>();
 
-		for (ReportType type : publishType)
-		{
+		for (ReportType type : publishType) {
 			additionalTypes.add(type);
 		}
 
 		searchCondition_ = cond;
-		publishTypes_ = (ReportType[]) additionalTypes.toArray(new ReportType[0]);
+		publishTypes_ = (ReportType[]) additionalTypes
+				.toArray(new ReportType[0]);
 		callback_ = callback;
 	}
 
 	/**
-	 * ç¬¬äºŒå¼•æ•°ã®å…¨ã¦ã®å­è¦ç´ ã«å¯¾ã—ã¦ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã‚’å®Ÿè¡Œã™ã‚‹ã€‚
+	 * ‘æ“ñˆø”‚Ì‘S‚Ä‚Ìq—v‘f‚É‘Î‚µ‚ÄƒŒƒ|[ƒgo—Í‚ğÀs‚·‚éB
 	 * 
-	 * @param monitor IProgressMonitorã‚¯ãƒ©ã‚¹ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-	 * @param targetItemName ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›å¯¾è±¡ã®è¦ªã®é …ç›®å
-	 * @return å®Ÿè¡Œå®Œäº†æ™‚ã®çŠ¶æ…‹
+	 * @param monitor IProgressMonitorƒNƒ‰ƒX‚ÌƒIƒuƒWƒFƒNƒg
+	 * @param targetItemName ƒŒƒ|[ƒgo—Í‘ÎÛ‚Ìe‚Ì€–Ú–¼
+	 * @return ÀsŠ®—¹‚Ìó‘Ô
 	 */
-	public void createReport(String targetItemName)
-	{
-		searchCondition_.setTargetItemName(targetItemName);
+	public void createReport(String targetItemName) {
+		searchCondition_
+				.setTargetItemName(targetItemName);
 
-		ReportPublishDispatcher dispatcher = ReportPublishDispatcher.getInstance();
+		ReportPublishDispatcher dispatcher = ReportPublishDispatcher
+				.getInstance();
 
 		SummaryReportProcessor.setOutputFileTypeList(publishTypes_);
 
-		for (ReportType type : publishTypes_)
-		{
+		for (ReportType type : publishTypes_) {
 			ReportProcessReturnContainer retCont;
 			retCont = dispatcher.dispatch(type, searchCondition_);
 
-			if (retCont.getHappendedError() != null)
-			{
-				if (retCont.getHappendedError() instanceof InterruptedException)
-				{
+			if (retCont.getHappendedError() != null) {
+				if (retCont.getHappendedError() instanceof InterruptedException) {
 					return;
 				}
 
-				LOGGER.log(LogIdConstants.REPORT_PUBLISH_STOPPED_WARN, retCont.getHappendedError(),
-					ReporterConfigAccessor.getReportName(type));
+				LOGGER.log(LogIdConstants.REPORT_PUBLISH_STOPPED_WARN,
+						retCont.getHappendedError(),
+						ReporterConfigAccessor.getReportName(type));
 				continue;
 			}
 		}
 
-		if (this.callback_ != null)
-		{
+		if (this.callback_ != null) {
 			this.callback_.run();
 		}
 
-		return;
+        return;
 	}
 }

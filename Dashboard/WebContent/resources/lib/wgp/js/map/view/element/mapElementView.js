@@ -165,7 +165,7 @@ wgp.MapElementView = Backbone.View.extend({
 			var pointY = this.model.get("pointY");
 			var width = this.model.get("width");
 			var height = this.model.get("height");
-
+			
 			var frameLeftUpper = new ellipseSmall(pointX - (RADIUS_SIZE / 2),
 					pointY - (RADIUS_SIZE / 2), RADIUS_SIZE, RADIUS_SIZE, paper);
 			this._setFrameId(frameLeftUpper, raphaelMapConstants.LEFT_UPPER);
@@ -237,8 +237,5 @@ wgp.MapElementView = Backbone.View.extend({
 		_.each(this.frame, function(frameElement, index){
 			frameElement.object.hide();
 		});
-	},
-	getObjectId : function(){
-		return this.model.get("objectId");
 	}
 });

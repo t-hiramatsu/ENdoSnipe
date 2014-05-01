@@ -53,48 +53,45 @@ import jp.co.acroquest.endosnipe.javelin.util.StatsUtil;
 import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
 
 /**
- * ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—æƒ…å ±ã®å–å¾—ã‚’è¡Œã†ã‚¯ãƒ©ã‚¹ã§ã™ã€‚
+ * ƒƒ\ƒbƒhŒÄ‚Ño‚µî•ñ‚Ìæ“¾‚ğs‚¤ƒNƒ‰ƒX‚Å‚·B
  *
  * @author acroquest
  */
 public class StatsJavelinRecorder
 {
-    /** åˆæœŸåŒ–åˆ¤å®šãƒ•ãƒ©ã‚° */
+    /** ‰Šú‰»”»’èƒtƒ‰ƒO */
     private static boolean                   initialized__;
 
     private static VMStatusHelper            vmStatusHelper__       = new VMStatusHelper();
 
-    /** è¨˜éŒ²æ¡ä»¶åˆ¤å®šã‚¯ãƒ©ã‚¹ */
+    /** ‹L˜^ğŒ”»’èƒNƒ‰ƒX */
     private static RecordStrategy            recordStrategy__;
 
-    /** Javelinãƒ­ã‚°å‡ºåŠ›ã‚¯ãƒ©ã‚¹ã€‚ */
+    /** JavelinƒƒOo—ÍƒNƒ‰ƒXB */
     private static JavelinFileGenerator      generator__;
 
-    /** ã‚¢ãƒ©ãƒ¼ãƒ ãƒªã‚¹ãƒŠã®ãƒªã‚¹ãƒˆ */
+    /** ƒAƒ‰[ƒ€ƒŠƒXƒi‚ÌƒŠƒXƒg */
     private static final List<AlarmListener> ALARM_LISTENER_LIST    =
                                                           new ArrayList<AlarmListener>();
 
-    /** ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚ºã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** ƒoƒbƒtƒ@ƒTƒCƒY‚ÌƒfƒtƒHƒ‹ƒg’l */
     private static final int                 DEF_BUFFER_SIZE        = 1024;
 
-    /** ã‚¢ãƒ©ãƒ¼ãƒ å‰Šé™¤ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’ä¿å­˜ã—ã¾ã™ã€‚ */
+    /** ƒAƒ‰[ƒ€íœƒƒbƒZ[ƒW‚ğ•Û‘¶‚µ‚Ü‚·B */
     private static StringBuffer              discardBuffer__        =
                                                           new StringBuffer(DEF_BUFFER_SIZE);
 
-    /** å‰å›å‰Šé™¤ã‚’é€šçŸ¥ã—ãŸæ™‚é–“ã‚’ä¿å­˜ã—ã¾ã™ã€‚ */
+    /** ‘O‰ñíœ‚ğ’Ê’m‚µ‚½ŠÔ‚ğ•Û‘¶‚µ‚Ü‚·B */
     private static long                      lastDiscardTime__      = 0;
 
-    /** ã‚¤ãƒ™ãƒ³ãƒˆã®é‡è¤‡ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹ãŸã‚ã®ãƒªãƒã‚¸ãƒˆãƒªã€‚ */
+    /** ƒCƒxƒ“ƒg‚Ìd•¡‚ğƒ`ƒFƒbƒN‚·‚é‚½‚ß‚ÌƒŠƒ|ƒWƒgƒŠB */
     private static EventRepository           eventRepository__      = new EventRepository();
 
-    /** ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆãƒ¢ãƒ¼ãƒ‰ */
+    /** ƒNƒ‰ƒCƒAƒ“ƒgƒ‚[ƒh */
     private static final String              CONNECTION_MODE_CLIENT = "client";
 
-    /** ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆ/ã‚µãƒ¼ãƒä¸¡ç”¨ãƒ¢ãƒ¼ãƒ‰ */
-    private static final String              CONNECTION_MODE_BOTH = "both";
-
     /**
-     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã‚’é˜»æ­¢ã™ã‚‹ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§ã™ã€‚<br />
+     * ƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğ‘j~‚·‚éƒvƒ‰ƒCƒx[ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Å‚·B<br />
      */
     private StatsJavelinRecorder()
     {
@@ -102,10 +99,10 @@ public class StatsJavelinRecorder
     }
 
     /**
-     * åˆæœŸåŒ–å‡¦ç†ã€‚ AlarmListenerã®ç™»éŒ²ã‚’è¡Œã†ã€‚ RecordStrategyã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
-     * MBeanServerã¸ã®ContainerMBeanã®ç™»éŒ²ã‚’è¡Œã†ã€‚
-     * å…¬é–‹ç”¨HTTPãƒãƒ¼ãƒˆãŒæŒ‡å®šã•ã‚Œã¦ã„ãŸå ´åˆã¯ã€HttpAdaptorã®ç”Ÿæˆã¨ç™»éŒ²ã‚‚è¡Œã†ã€‚
-     * @param config ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®è¨­å®šå€¤ã‚’ä¿å­˜ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * ‰Šú‰»ˆ—B AlarmListener‚Ì“o˜^‚ğs‚¤B RecordStrategy‚ğ‰Šú‰»‚·‚éB
+     * MBeanServer‚Ö‚ÌContainerMBean‚Ì“o˜^‚ğs‚¤B
+     * ŒöŠJ—pHTTPƒ|[ƒg‚ªw’è‚³‚ê‚Ä‚¢‚½ê‡‚ÍAHttpAdaptor‚Ì¶¬‚Æ“o˜^‚às‚¤B
+     * @param config ƒpƒ‰ƒ[ƒ^‚Ìİ’è’l‚ğ•Û‘¶‚·‚éƒIƒuƒWƒFƒNƒg
      */
     public static void javelinInit(final JavelinConfig config)
     {
@@ -115,15 +112,15 @@ public class StatsJavelinRecorder
         }
         try
         {
-            // ã‚¨ãƒ©ãƒ¼ãƒ­ã‚¬ãƒ¼ã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
+            // ƒGƒ‰[ƒƒK[‚ğ‰Šú‰»‚·‚éB
             SystemLogger.initSystemLog(config);
 
             generator__ = new JavelinFileGenerator(config);
 
-            // AlarmListenerã‚’ç™»éŒ²ã™ã‚‹
+            // AlarmListener‚ğ“o˜^‚·‚é
             registerAlarmListeners(config);
 
-            // RecordStrategyã‚’åˆæœŸåŒ–ã™ã‚‹
+            // RecordStrategy‚ğ‰Šú‰»‚·‚é
             String strategyName = config.getRecordStrategy();
             try
             {
@@ -139,28 +136,18 @@ public class StatsJavelinRecorder
                 recordStrategy__ = (RecordStrategy)loadClass(defaultRecordstrategy).newInstance();
             }
 
-            // ã‚¹ãƒ¬ãƒƒãƒ‰ã®ç›£è¦–ã‚’é–‹å§‹ã™ã‚‹ã€‚
+            // ƒXƒŒƒbƒh‚ÌŠÄ‹‚ğŠJn‚·‚éB
             vmStatusHelper__.init();
 
-            // ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆãƒ¢ãƒ¼ãƒ‰ã®å ´åˆã€TCPã§ã®æ¥ç¶šã‚’é–‹å§‹ã™ã‚‹ã€‚
-            // ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆ/ã‚µãƒ¼ãƒãƒ¢ãƒ¼ãƒ‰ã®å ´åˆã€TCPã§ã®æ¥ç¶šã€ãŠã‚ˆã³æ¥ç¶šå—ä»˜ã™ã‚‹ã€‚
-            // ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆãƒ¢ãƒ¼ãƒ‰ã§ãªã„å ´åˆã€TCPã§ã®æ¥ç¶šå—ä»˜ã‚’é–‹å§‹ã™ã‚‹ã€‚
+            // ƒNƒ‰ƒCƒAƒ“ƒgƒ‚[ƒh‚Ìê‡‚Ì‚İATCP‚Å‚ÌÚ‘±‚ğŠJn‚·‚éB
+            // ƒNƒ‰ƒCƒAƒ“ƒgƒ‚[ƒh‚Å‚È‚¢ê‡ATCP‚Å‚ÌÚ‘±ó•t‚ğŠJn‚·‚éB
             if (CONNECTION_MODE_CLIENT.equals(config.getConnectionMode()))
             {
-                // æ¥ç¶š
                 JavelinConnectThread.getInstance().connect();
-            }
-            else if(CONNECTION_MODE_BOTH.equals(config.getConnectionMode()))
-            {
-                JavelinConnectThread.getInstance().connect();
-                
-                // TCPã§ã®æ¥ç¶šå—ä»˜ã‚’é–‹å§‹ã™ã‚‹ã€‚
-                JavelinAcceptThread.getInstance().start();
-                
             }
             else
             {
-                // TCPã§ã®æ¥ç¶šå—ä»˜ã‚’é–‹å§‹ã™ã‚‹ã€‚
+                // TCP‚Å‚ÌÚ‘±ó•t‚ğŠJn‚·‚éB
                 JavelinAcceptThread.getInstance().start();
             }
 
@@ -174,15 +161,15 @@ public class StatsJavelinRecorder
     }
 
     /**
-     * AlarmListenerã®ã‚¯ãƒ©ã‚¹ã‚’Javelinè¨­å®šã‹ã‚‰èª­ã¿è¾¼ã¿ã€ç™»éŒ²ã™ã‚‹ã€‚<br />
-     * ã‚¯ãƒ©ã‚¹ã®ãƒ­ãƒ¼ãƒ‰ã¯ã€ä»¥ä¸‹ã®é †ã§ã‚¯ãƒ©ã‚¹ãƒ­ãƒ¼ãƒ€ã§ã®ãƒ­ãƒ¼ãƒ‰ã‚’è©¦ã¿ã‚‹ã€‚
+     * AlarmListener‚ÌƒNƒ‰ƒX‚ğJavelinİ’è‚©‚ç“Ç‚İ‚İA“o˜^‚·‚éB<br />
+     * ƒNƒ‰ƒX‚Ìƒ[ƒh‚ÍAˆÈ‰º‚Ì‡‚ÅƒNƒ‰ƒXƒ[ƒ_‚Å‚Ìƒ[ƒh‚ğ‚İ‚éB
      *
      * <ol>
-     * <li>StatsJavelinRecorderã‚’ãƒ­ãƒ¼ãƒ‰ã—ãŸã‚¯ãƒ©ã‚¹ãƒ­ãƒ¼ãƒ€</li>
-     * <li>ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆã‚¯ãƒ©ã‚¹ãƒ­ãƒ¼ãƒ€</li>
+     * <li>StatsJavelinRecorder‚ğƒ[ƒh‚µ‚½ƒNƒ‰ƒXƒ[ƒ_</li>
+     * <li>ƒRƒ“ƒeƒLƒXƒgƒNƒ‰ƒXƒ[ƒ_</li>
      * </ol>
      *
-     * @param config ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®è¨­å®šå€¤ã‚’ä¿å­˜ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param config ƒpƒ‰ƒ[ƒ^‚Ìİ’è’l‚ğ•Û‘¶‚·‚éƒIƒuƒWƒFƒNƒg
      */
     private static void registerAlarmListeners(final JavelinConfig config)
     {
@@ -225,15 +212,15 @@ public class StatsJavelinRecorder
     }
 
     /**
-     * ã‚¯ãƒ©ã‚¹ã‚’ãƒ­ãƒ¼ãƒ‰ã™ã‚‹ã€‚ ä»¥ä¸‹ã®é †ã§ã‚¯ãƒ©ã‚¹ãƒ­ãƒ¼ãƒ€ã§ã®ãƒ­ãƒ¼ãƒ‰ã‚’è©¦ã¿ã‚‹ã€‚
+     * ƒNƒ‰ƒX‚ğƒ[ƒh‚·‚éB ˆÈ‰º‚Ì‡‚ÅƒNƒ‰ƒXƒ[ƒ_‚Å‚Ìƒ[ƒh‚ğ‚İ‚éB
      * <ol>
-     * <li>StatsJavelinRecorderã‚’ãƒ­ãƒ¼ãƒ‰ã—ãŸã‚¯ãƒ©ã‚¹ãƒ­ãƒ¼ãƒ€</li>
-     * <li>ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆã‚¯ãƒ©ã‚¹ãƒ­ãƒ¼ãƒ€</li>
+     * <li>StatsJavelinRecorder‚ğƒ[ƒh‚µ‚½ƒNƒ‰ƒXƒ[ƒ_</li>
+     * <li>ƒRƒ“ƒeƒLƒXƒgƒNƒ‰ƒXƒ[ƒ_</li>
      * </ol>
      *
-     * @param className ãƒ­ãƒ¼ãƒ‰ã™ã‚‹ã‚¯ãƒ©ã‚¹ã®åå‰ã€‚
-     * @return ãƒ­ãƒ¼ãƒ‰ã—ãŸã‚¯ãƒ©ã‚¹ã€‚
-     * @throws ClassNotFoundException å…¨ã¦ã®ã‚¯ãƒ©ã‚¹ãƒ­ãƒ¼ãƒ€ã§ã‚¯ãƒ©ã‚¹ãŒè¦‹ã¤ã‹ã‚‰ãªã„å ´åˆ
+     * @param className ƒ[ƒh‚·‚éƒNƒ‰ƒX‚Ì–¼‘OB
+     * @return ƒ[ƒh‚µ‚½ƒNƒ‰ƒXB
+     * @throws ClassNotFoundException ‘S‚Ä‚ÌƒNƒ‰ƒXƒ[ƒ_‚ÅƒNƒ‰ƒX‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡
      */
     private static Class<?> loadClass(final String className)
         throws ClassNotFoundException
@@ -254,12 +241,12 @@ public class StatsJavelinRecorder
     }
 
     /**
-     * JavelinRecorder, JDBCJavelinRecorderã‹ã‚‰å‘¼ã³å‡ºã—ãŸã¨ãã®å‰å‡¦ç†ã€‚
-     * @param className ã‚¯ãƒ©ã‚¹å
-     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
-     * @param config ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®è¨­å®šå€¤ã‚’ä¿å­˜ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param args å¼•æ•°
-     * @param doExclude é™¤å¤–å¯¾è±¡å‡¦ç†ã‚’è¡Œã†ã‹ã©ã†ã‹
+     * JavelinRecorder, JDBCJavelinRecorder‚©‚çŒÄ‚Ño‚µ‚½‚Æ‚«‚Ì‘Oˆ—B
+     * @param className ƒNƒ‰ƒX–¼
+     * @param methodName ƒƒ\ƒbƒh–¼
+     * @param config ƒpƒ‰ƒ[ƒ^‚Ìİ’è’l‚ğ•Û‘¶‚·‚éƒIƒuƒWƒFƒNƒg
+     * @param args ˆø”
+     * @param doExclude œŠO‘ÎÛˆ—‚ğs‚¤‚©‚Ç‚¤‚©
      */
     public static void preProcess(final String className, final String methodName,
             final Object[] args, final JavelinConfig config, final boolean doExclude)
@@ -279,12 +266,12 @@ public class StatsJavelinRecorder
     }
 
     /**
-     * JavelinRecorder, JDBCJavelinRecorderã‹ã‚‰å‘¼ã³å‡ºã—ãŸã¨ãã®å‰å‡¦ç†ã€‚
-     * @param component ã‚¯ãƒ©ã‚¹å
-     * @param invocation ãƒ¡ã‚½ãƒƒãƒ‰å
-     * @param config ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®è¨­å®šå€¤ã‚’ä¿å­˜ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param args å¼•æ•°
-     * @param doExcludeProcess é™¤å¤–å¯¾è±¡å‡¦ç†ã‚’è¡Œã†ã‹ã©ã†ã‹
+     * JavelinRecorder, JDBCJavelinRecorder‚©‚çŒÄ‚Ño‚µ‚½‚Æ‚«‚Ì‘Oˆ—B
+     * @param component ƒNƒ‰ƒX–¼
+     * @param invocation ƒƒ\ƒbƒh–¼
+     * @param config ƒpƒ‰ƒ[ƒ^‚Ìİ’è’l‚ğ•Û‘¶‚·‚éƒIƒuƒWƒFƒNƒg
+     * @param args ˆø”
+     * @param doExcludeProcess œŠO‘ÎÛˆ—‚ğs‚¤‚©‚Ç‚¤‚©
      */
     public static void preProcess(final Component component, final Invocation invocation,
             final Object[] args, final JavelinConfig config, final boolean doExcludeProcess)
@@ -299,12 +286,12 @@ public class StatsJavelinRecorder
     }
 
     /**
-     * å‰å‡¦ç†ã€‚
-     * @param className  ã‚¯ãƒ©ã‚¹å
-     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
-     * @param args å¼•æ•°
-     * @param stacktrace ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹
-     * @param config ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®è¨­å®šå€¤ã‚’ä¿å­˜ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * ‘Oˆ—B
+     * @param className  ƒNƒ‰ƒX–¼
+     * @param methodName ƒƒ\ƒbƒh–¼
+     * @param args ˆø”
+     * @param stacktrace ƒXƒ^ƒbƒNƒgƒŒ[ƒX
+     * @param config ƒpƒ‰ƒ[ƒ^‚Ìİ’è’l‚ğ•Û‘¶‚·‚éƒIƒuƒWƒFƒNƒg
      */
     public static void preProcess(final String className, final String methodName,
             final Object[] args, final StackTraceElement[] stacktrace, final JavelinConfig config)
@@ -313,13 +300,13 @@ public class StatsJavelinRecorder
     }
 
     /**
-     * å‰å‡¦ç†ã€‚
-     * @param className  ã‚¯ãƒ©ã‚¹å
-     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
-     * @param args å¼•æ•°
-     * @param stacktrace ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹
-     * @param config ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®è¨­å®šå€¤ã‚’ä¿å­˜ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param doExclude é™¤å¤–å¯¾è±¡å‡¦ç†ã‚’è¡Œã†ã‹ã©ã†ã‹
+     * ‘Oˆ—B
+     * @param className  ƒNƒ‰ƒX–¼
+     * @param methodName ƒƒ\ƒbƒh–¼
+     * @param args ˆø”
+     * @param stacktrace ƒXƒ^ƒbƒNƒgƒŒ[ƒX
+     * @param config ƒpƒ‰ƒ[ƒ^‚Ìİ’è’l‚ğ•Û‘¶‚·‚éƒIƒuƒWƒFƒNƒg
+     * @param doExclude œŠO‘ÎÛˆ—‚ğs‚¤‚©‚Ç‚¤‚©
      */
     public static void preProcess(final String className, final String methodName,
             final Object[] args, final StackTraceElement[] stacktrace, final JavelinConfig config,
@@ -336,15 +323,15 @@ public class StatsJavelinRecorder
     }
 
     /**
-     * å‰å‡¦ç†ã€‚
-     * @param component ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
-     * @param invocation ã‚¤ãƒ³ãƒœã‚±ãƒ¼ã‚·ãƒ§ãƒ³
-     * @param className  ã‚¯ãƒ©ã‚¹å
-     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
-     * @param args å¼•æ•°
-     * @param stacktrace ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹
-     * @param config ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®è¨­å®šå€¤ã‚’ä¿å­˜ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param doExcludeProcess é™¤å¤–å¯¾è±¡å‡¦ç†ã‚’è¡Œã†ã‹ã©ã†ã‹
+     * ‘Oˆ—B
+     * @param component ƒRƒ“ƒ|[ƒlƒ“ƒg
+     * @param invocation ƒCƒ“ƒ{ƒP[ƒVƒ‡ƒ“
+     * @param className  ƒNƒ‰ƒX–¼
+     * @param methodName ƒƒ\ƒbƒh–¼
+     * @param args ˆø”
+     * @param stacktrace ƒXƒ^ƒbƒNƒgƒŒ[ƒX
+     * @param config ƒpƒ‰ƒ[ƒ^‚Ìİ’è’l‚ğ•Û‘¶‚·‚éƒIƒuƒWƒFƒNƒg
+     * @param doExcludeProcess œŠO‘ÎÛˆ—‚ğs‚¤‚©‚Ç‚¤‚©
      */
     public static void preProcess(Component component, Invocation invocation,
             final String className, final String methodName, final Object[] args,
@@ -356,14 +343,14 @@ public class StatsJavelinRecorder
     }
 
     /**
-     * å‰å‡¦ç†ã€‚
-     * @param className  ã‚¯ãƒ©ã‚¹å
-     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
-     * @param args å¼•æ•°
-     * @param stacktrace ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹
-     * @param config ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®è¨­å®šå€¤ã‚’ä¿å­˜ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param doExclude é™¤å¤–å¯¾è±¡å‡¦ç†ã‚’è¡Œã†ã‹ã©ã†ã‹
-     * @param isResponse ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã§ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚’è¨˜éŒ²ã™ã‚‹ã‹ã©ã†ã‹ã€‚
+     * ‘Oˆ—B
+     * @param className  ƒNƒ‰ƒX–¼
+     * @param methodName ƒƒ\ƒbƒh–¼
+     * @param args ˆø”
+     * @param stacktrace ƒXƒ^ƒbƒNƒgƒŒ[ƒX
+     * @param config ƒpƒ‰ƒ[ƒ^‚Ìİ’è’l‚ğ•Û‘¶‚·‚éƒIƒuƒWƒFƒNƒg
+     * @param doExclude œŠO‘ÎÛˆ—‚ğs‚¤‚©‚Ç‚¤‚©
+     * @param isResponse ƒfƒtƒHƒ‹ƒg‚ÅƒŒƒXƒ|ƒ“ƒX‚ğ‹L˜^‚·‚é‚©‚Ç‚¤‚©B
      */
     public static void preProcess(final String className, final String methodName,
             final Object[] args, final StackTraceElement[] stacktrace, final JavelinConfig config,
@@ -380,16 +367,16 @@ public class StatsJavelinRecorder
     }
 
     /**
-     * å‰å‡¦ç†ã€‚
-     * @param component ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
+     * ‘Oˆ—B
+     * @param component ƒRƒ“ƒ|[ƒlƒ“ƒg
      * @param invocation Invocation
-     * @param className  ã‚¯ãƒ©ã‚¹å
-     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
-     * @param args å¼•æ•°
-     * @param stacktrace ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹
-     * @param config ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®è¨­å®šå€¤ã‚’ä¿å­˜ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param doExcludeProcess é™¤å¤–å¯¾è±¡å‡¦ç†ã‚’è¡Œã†ã‹ã©ã†ã‹
-     * @param isResponse ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã§ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚’è¨˜éŒ²ã™ã‚‹ã‹ã©ã†ã‹ã€‚
+     * @param className  ƒNƒ‰ƒX–¼
+     * @param methodName ƒƒ\ƒbƒh–¼
+     * @param args ˆø”
+     * @param stacktrace ƒXƒ^ƒbƒNƒgƒŒ[ƒX
+     * @param config ƒpƒ‰ƒ[ƒ^‚Ìİ’è’l‚ğ•Û‘¶‚·‚éƒIƒuƒWƒFƒNƒg
+     * @param doExcludeProcess œŠO‘ÎÛˆ—‚ğs‚¤‚©‚Ç‚¤‚©
+     * @param isResponse ƒfƒtƒHƒ‹ƒg‚ÅƒŒƒXƒ|ƒ“ƒX‚ğ‹L˜^‚·‚é‚©‚Ç‚¤‚©B
      */
     public static void preProcess(Component component, Invocation invocation,
             final String className, final String methodName, final Object[] args,
@@ -398,7 +385,7 @@ public class StatsJavelinRecorder
     {
         synchronized (StatsJavelinRecorder.class)
         {
-            // åˆæœŸåŒ–å‡¦ç†
+            // ‰Šú‰»ˆ—
             if (initialized__ == false)
             {
                 javelinInit(config);
@@ -406,13 +393,13 @@ public class StatsJavelinRecorder
         }
         CallTreeRecorder callTreeRecorder = CallTreeRecorder.getInstance();
 
-        // Javelinã®ãƒ­ã‚°å‡ºåŠ›å‡¦ç†ãŒå‘¼ã³å‡ºã•ã‚Œã¦ã„ã‚‹å ´åˆã€å‡¦ç†ã‚’è¡Œã‚ãªã„
+        // Javelin‚ÌƒƒOo—Íˆ—‚ªŒÄ‚Ño‚³‚ê‚Ä‚¢‚éê‡Aˆ—‚ğs‚í‚È‚¢
         if (callTreeRecorder.isRecordMethodCalled_)
         {
             return;
         }
 
-        // Javelinã®ãƒ­ã‚°å‡ºåŠ›å‡¦ç†å‘¼ã³å‡ºã—ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚’ã‚»ãƒƒãƒˆ
+        // Javelin‚ÌƒƒOo—Íˆ—ŒÄ‚Ño‚µƒXƒe[ƒ^ƒX‚ğƒZƒbƒg
         callTreeRecorder.isRecordMethodCalled_ = true;
 
         try
@@ -424,32 +411,32 @@ public class StatsJavelinRecorder
 
             if (isRecorded)
             {
-                // æœ‰åŠ¹ã ã£ãŸnodeã®æ·±ã•ã‚’ä¿å­˜ã™ã‚‹ã€‚
+                // —LŒø‚¾‚Á‚½node‚Ì[‚³‚ğ•Û‘¶‚·‚éB
                 callTreeRecorder.getCallTree().addDepth(callTreeRecorder.getDepth());
             }
         }
         finally
         {
-            // Javelinã®ãƒ­ã‚°å‡ºåŠ›å‡¦ç†å‘¼ã³å‡ºã—ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚’è§£é™¤
+            // Javelin‚ÌƒƒOo—Íˆ—ŒÄ‚Ño‚µƒXƒe[ƒ^ƒX‚ğ‰ğœ
             callTreeRecorder.isRecordMethodCalled_ = false;
             callTreeRecorder.setDepth(callTreeRecorder.getDepth() + 1);
         }
     }
 
     /**
-     * å‰å‡¦ç†ã€‚
-     * @param component ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
+     * ‘Oˆ—B
+     * @param component ƒRƒ“ƒ|[ƒlƒ“ƒg
      * @param invocation Invocation
-     * @param className  ã‚¯ãƒ©ã‚¹å
-     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
-     * @param args å¼•æ•°
-     * @param stacktrace ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹
-     * @param config ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®è¨­å®šå€¤ã‚’ä¿å­˜ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param doExcludeProcess é™¤å¤–å¯¾è±¡å‡¦ç†ã‚’è¡Œã†ã‹ã©ã†ã‹
-     * @param isResponse ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã§ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚’è¨˜éŒ²ã™ã‚‹ã‹ã©ã†ã‹ã€‚
-     * @param callTreeRecorder ã‚³ãƒ¼ãƒ«ãƒ„ãƒªãƒ¼
+     * @param className  ƒNƒ‰ƒX–¼
+     * @param methodName ƒƒ\ƒbƒh–¼
+     * @param args ˆø”
+     * @param stacktrace ƒXƒ^ƒbƒNƒgƒŒ[ƒX
+     * @param config ƒpƒ‰ƒ[ƒ^‚Ìİ’è’l‚ğ•Û‘¶‚·‚éƒIƒuƒWƒFƒNƒg
+     * @param doExcludeProcess œŠO‘ÎÛˆ—‚ğs‚¤‚©‚Ç‚¤‚©
+     * @param isResponse ƒfƒtƒHƒ‹ƒg‚ÅƒŒƒXƒ|ƒ“ƒX‚ğ‹L˜^‚·‚é‚©‚Ç‚¤‚©B
+     * @param callTreeRecorder ƒR[ƒ‹ƒcƒŠ[
      *
-     * @return è¨˜éŒ²ã—ãŸã‹ã©ã†ã‹
+     * @return ‹L˜^‚µ‚½‚©‚Ç‚¤‚©
      */
     private static boolean recordPreInvocation(Component component, Invocation invocation,
             final String className, final String methodName, final Object[] args,
@@ -477,7 +464,7 @@ public class StatsJavelinRecorder
         CallTreeNode parent = callTreeRecorder.getCallTreeNode();
         if (parent == null)
         {
-            // ãƒ«ãƒ¼ãƒˆå‘¼ã³å‡ºã—æ™‚ã«ã€ä¾‹å¤–ç™ºç”Ÿãƒ•ãƒ©ã‚°ã‚’ã‚¯ãƒªã‚¢ã™ã‚‹
+            // ƒ‹[ƒgŒÄ‚Ño‚µ‚ÉA—áŠO”­¶ƒtƒ‰ƒO‚ğƒNƒŠƒA‚·‚é
             callTreeRecorder.isExceptionOccured_ = false;
             if (invocation == null)
             {
@@ -486,11 +473,11 @@ public class StatsJavelinRecorder
                                                 isResponse);
             }
 
-            // ä¸€åº¦ã§ã‚‚ãƒ«ãƒ¼ãƒˆã‹ã‚‰å‘¼ã°ã‚ŒãŸã“ã¨ã®ã‚ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ä¿å­˜ã™ã‚‹ã€‚
+            // ˆê“x‚Å‚àƒ‹[ƒg‚©‚çŒÄ‚Î‚ê‚½‚±‚Æ‚Ì‚ ‚éƒƒ\ƒbƒh‚ğ•Û‘¶‚·‚éB
             ExcludeMonitor.addTargetPreferred(invocation);
             ExcludeMonitor.removeExcludePreferred(invocation);
 
-            // æœ€åˆã®å‘¼ã³å‡ºã—ãªã®ã§ã€CallTreeã‚’åˆæœŸåŒ–ã—ã¦ãŠãã€‚
+            // Å‰‚ÌŒÄ‚Ño‚µ‚È‚Ì‚ÅACallTree‚ğ‰Šú‰»‚µ‚Ä‚¨‚­B
             initCallTree(callTree, methodName, config, callTreeRecorder);
             newNode = CallTreeRecorder.createNode(invocation, args, stacktrace, config);
             newNode.setDepth(0);
@@ -500,20 +487,20 @@ public class StatsJavelinRecorder
         }
         else
         {
-            // CallTreeNodeãŒå¤šã„å ´åˆã¯ã‚¤ãƒ™ãƒ³ãƒˆã‚’é€ä¿¡ã™ã‚‹ã€‚
+            // CallTreeNode‚ª‘½‚¢ê‡‚ÍƒCƒxƒ“ƒg‚ğ‘—M‚·‚éB
             sendCallTreeEvent(callTree, className, methodName, config, callTreeRecorder);
 
             if (invocation == null)
             {
-                // ä¸€åº¦ã‚‚å‘¼ã³å‡ºã•ã‚Œã¦ã„ãªã„å ´åˆã¯ã€è¨˜éŒ²ã™ã‚‹ã€‚
+                // ˆê“x‚àŒÄ‚Ño‚³‚ê‚Ä‚¢‚È‚¢ê‡‚ÍA‹L˜^‚·‚éB
                 invocation =
                              registerInvocation(component, className, methodName, config,
                                                 isResponse);
             }
             else if (doExcludeProcess == true)
             {
-                // é™¤å¤–å¯¾è±¡ãƒ¢ãƒ‹ã‚¿ã‹ã‚‰å‘¼ã°ã‚Œã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã«å¯¾ã—ã¦ã€
-                // ãƒ«ãƒ¼ãƒˆã‹ã‚‰å‘¼ã°ã‚ŒãŸã“ã¨ãŒãªã„ã€ã‹ã¤ã€€é™¤å¤–å¯¾è±¡ãƒªã‚¹ãƒˆã«ã‚ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã‚’é™¤å¤–ã™ã‚‹ã€‚
+                // œŠO‘ÎÛƒ‚ƒjƒ^‚©‚çŒÄ‚Î‚ê‚éƒƒ\ƒbƒh‚É‘Î‚µ‚ÄA
+                // ƒ‹[ƒg‚©‚çŒÄ‚Î‚ê‚½‚±‚Æ‚ª‚È‚¢A‚©‚Â@œŠO‘ÎÛƒŠƒXƒg‚É‚ ‚éƒƒ\ƒbƒh‚ğœŠO‚·‚éB
                 boolean isTargetPreferred = ExcludeMonitor.isTargetPreferred(invocation);
                 if (isTargetPreferred == false)
                 {
@@ -589,10 +576,10 @@ public class StatsJavelinRecorder
     }
 
     /**
-     * æŒ‡å®šã—ãŸãƒãƒ¼ãƒ‰parentã®å­ãƒãƒ¼ãƒ‰ã®æƒ…å ±ã‚’jvnãƒ­ã‚°ã«å‡ºåŠ›ã—ã€Invocationã«åæ˜ ã™ã‚‹ã€‚
+     * w’è‚µ‚½ƒm[ƒhparent‚Ìqƒm[ƒh‚Ìî•ñ‚ğjvnƒƒO‚Éo—Í‚µAInvocation‚É”½‰f‚·‚éB
      *
-     * @param tree ã‚³ãƒ¼ãƒ«ãƒ„ãƒªãƒ¼ã€‚
-     * @param finishedNodeList ãƒãƒ¼ãƒ‰ã€‚
+     * @param tree ƒR[ƒ‹ƒcƒŠ[B
+     * @param finishedNodeList ƒm[ƒhB
      * @param callTreeRecorder callTreeRecorder
      */
     private static void recordChildNodes(CallTree tree, List<CallTreeNode> finishedNodeList,
@@ -609,21 +596,21 @@ public class StatsJavelinRecorder
         generator__.generateJaveinFile(tree, dummyParent, new JvnFileNotifyCallback(),
                                        children.get(children.size() - 1), 0);
 
-        // å­ãƒãƒ¼ãƒ‰ã®æƒ…å ±ã‚’è¨˜éŒ²ã™ã‚‹ã€‚
+        // qƒm[ƒh‚Ìî•ñ‚ğ‹L˜^‚·‚éB
         for (CallTreeNode child : children)
         {
             recordTransaction(child);
         }
 
-        // å­ãƒãƒ¼ãƒ‰ã‚’ã‚¯ãƒªã‚¢ã™ã‚‹ã€‚
+        // qƒm[ƒh‚ğƒNƒŠƒA‚·‚éB
         callTreeRecorder.clearChildren();
     }
 
     /**
-     * è¨ˆæ¸¬å¯¾è±¡ã®åˆ†å‰²è¡¨ç¤ºã®ãŸã‚ã«ã€ãƒ€ãƒŸãƒ¼ã®CallTreeNodeã‚’ç”Ÿæˆã™ã‚‹ã€‚
+     * Œv‘ª‘ÎÛ‚Ì•ªŠ„•\¦‚Ì‚½‚ß‚ÉAƒ_ƒ~[‚ÌCallTreeNode‚ğ¶¬‚·‚éB
      *
-     * @param finishedNodeList å…ƒã¨ãªã‚‹CallTreeNode
-     * @return ãƒ€ãƒŸãƒ¼ã®CallTreeNodeã€‚
+     * @param finishedNodeList Œ³‚Æ‚È‚éCallTreeNode
+     * @return ƒ_ƒ~[‚ÌCallTreeNodeB
      */
     private static CallTreeNode createDummyNode(List<CallTreeNode> finishedNodeList)
     {
@@ -634,17 +621,17 @@ public class StatsJavelinRecorder
     }
 
     /**
-     * ã‚³ãƒ¼ãƒ«ãƒ„ãƒªãƒ¼ã‚’åˆæœŸåŒ–ã—ã¾ã™ã€‚
+     * ƒR[ƒ‹ƒcƒŠ[‚ğ‰Šú‰»‚µ‚Ü‚·B
      *
      * @param callTree callTree
-     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
-     * @param config è¨­å®š
+     * @param methodName ƒƒ\ƒbƒh–¼
+     * @param config İ’è
      * @param callTreeRecorder callTreeRecorder
      */
     private static void initCallTree(CallTree callTree, final String methodName,
             final JavelinConfig config, CallTreeRecorder callTreeRecorder)
     {
-        // åˆå›å‘¼ã³å‡ºã—æ™‚ã¯ã‚³ãƒ¼ãƒ«ãƒ„ãƒªãƒ¼ã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
+        // ‰‰ñŒÄ‚Ño‚µ‚ÍƒR[ƒ‹ƒcƒŠ[‚ğ‰Šú‰»‚·‚éB
         callTree.clearDepth();
 
         callTree.setRootCallerName(config.getRootCallerName());
@@ -679,12 +666,12 @@ public class StatsJavelinRecorder
     }
 
     /**
-     * CallTreeNodeã®æ•°ãŒé–¾å€¤ã‚’è¶…ãˆã¦ã„ã‚‹å ´åˆã«ã€ã‚¤ãƒ™ãƒ³ãƒˆã‚’é€ä¿¡ã—ã¾ã™ã€‚
+     * CallTreeNode‚Ì”‚ªè‡’l‚ğ’´‚¦‚Ä‚¢‚éê‡‚ÉAƒCƒxƒ“ƒg‚ğ‘—M‚µ‚Ü‚·B
      *
-     * @param callTree ã‚³ãƒ¼ãƒ«ãƒ„ãƒªãƒ¼ã€‚
-     * @param className ã‚¯ãƒ©ã‚¹åã€‚
-     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰åã€‚
-     * @param config è¨­å®šã€‚
+     * @param callTree ƒR[ƒ‹ƒcƒŠ[B
+     * @param className ƒNƒ‰ƒX–¼B
+     * @param methodName ƒƒ\ƒbƒh–¼B
+     * @param config İ’èB
      * @param callTreeRecorder callTreeRecorder
      */
     private static boolean sendCallTreeEvent(CallTree callTree, final String className,
@@ -696,7 +683,7 @@ public class StatsJavelinRecorder
         {
             if (callTree.getFlag(EventConstants.NAME_CALLTREE_FULL) == null)
             {
-                // å®Œäº†ã—ãŸCallTreeNodeã‚’ãƒ•ã‚¡ã‚¤ãƒ«ã«æ›¸ãå‡ºã™ã€‚
+                // Š®—¹‚µ‚½CallTreeNode‚ğƒtƒ@ƒCƒ‹‚É‘‚«o‚·B
                 CommonEvent event;
                 event =
                         CallTreeEventCreator.createTreeFullEvent(className, methodName,
@@ -720,12 +707,12 @@ public class StatsJavelinRecorder
     }
 
     /**
-     * ã‚¹ãƒ¬ãƒƒãƒ‰IDã‚’ç”Ÿæˆã™ã‚‹ã€‚
+     * ƒXƒŒƒbƒhID‚ğ¶¬‚·‚éB
      *
-     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰åã€‚
-     * @param config è¨­å®šã€‚
+     * @param methodName ƒƒ\ƒbƒh–¼B
+     * @param config İ’èB
      * @param callTreeRecorder CallTreeRecorder
-     * @return ã‚¹ãƒ¬ãƒƒãƒ‰IDã€‚
+     * @return ƒXƒŒƒbƒhIDB
      */
     private static String createThreadId(final String methodName, final JavelinConfig config,
             final CallTreeRecorder callTreeRecorder)
@@ -749,10 +736,10 @@ public class StatsJavelinRecorder
     }
 
     /**
-     * Invocationã‚’å–å¾—ã™ã‚‹ã€‚
+     * Invocation‚ğæ“¾‚·‚éB
      *
-     * @param component ã‚¯ãƒ©ã‚¹å
-     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
+     * @param component ƒNƒ‰ƒX–¼
+     * @param methodName ƒƒ\ƒbƒh–¼
      * @return Invocation
      */
     public static Invocation getInvocation(final Component component, final String methodName)
@@ -767,14 +754,14 @@ public class StatsJavelinRecorder
     }
 
     /**
-     * Invocationã‚’ç™»éŒ²ã™ã‚‹ã€‚
+     * Invocation‚ğ“o˜^‚·‚éB
      *
-     * @param component ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
-     * @param className ã‚¯ãƒ©ã‚¹å
-     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
-     * @param config è¨­å®š
-     * @param isResponse ãƒ¬ã‚¹ãƒãƒ³ã‚¹
-     * @return ç™»éŒ²ã—ãŸInvocation
+     * @param component ƒRƒ“ƒ|[ƒlƒ“ƒg
+     * @param className ƒNƒ‰ƒX–¼
+     * @param methodName ƒƒ\ƒbƒh–¼
+     * @param config İ’è
+     * @param isResponse ƒŒƒXƒ|ƒ“ƒX
+     * @return “o˜^‚µ‚½Invocation
      */
     public static Invocation registerInvocation(Component component, final String className,
             final String methodName, final JavelinConfig config, boolean isResponse)
@@ -803,13 +790,13 @@ public class StatsJavelinRecorder
     }
 
     /**
-     * Invocation ã‚’ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã«ç™»éŒ²ã—ã¾ã™ã€‚
+     * Invocation ‚ğƒRƒ“ƒ|[ƒlƒ“ƒg‚É“o˜^‚µ‚Ü‚·B
      *
-     * @param component ç™»éŒ²å¯¾è±¡ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
-     * @param methodName ç™»éŒ²ã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰
-     * @param config è¨­å®š
-     * @param isResponse ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚°ãƒ©ãƒ•ã«è¡¨ç¤ºã™ã‚‹å ´åˆã¯ <code>true</code>
-     * @return ç™»éŒ²ã—ãŸ Invocation
+     * @param component “o˜^‘ÎÛƒRƒ“ƒ|[ƒlƒ“ƒg
+     * @param methodName “o˜^‚·‚éƒƒ\ƒbƒh
+     * @param config İ’è
+     * @param isResponse ƒŒƒXƒ|ƒ“ƒXƒOƒ‰ƒt‚É•\¦‚·‚éê‡‚Í <code>true</code>
+     * @return “o˜^‚µ‚½ Invocation
      */
     public static Invocation registerInvocation(final Component component, final String methodName,
             final JavelinConfig config, final boolean isResponse)
@@ -823,8 +810,8 @@ public class StatsJavelinRecorder
                      new Invocation(processName, className, methodName,
                                     Invocation.THRESHOLD_NOT_SPECIFIED);
 
-        // Invocationã®æ•°ãŒæœ€å¤§å€¤ã«é”ã—ã¦ãŠã‚Šã€ã‹ã¤InvocationFullEventã‚’é€ä¿¡ã™ã‚‹è¨­å®šã®å ´åˆã€
-        // InvocationFullEventé€ä¿¡ã®å‡¦ç†ã‚’è¡Œã†ã€‚
+        // Invocation‚Ì”‚ªÅ‘å’l‚É’B‚µ‚Ä‚¨‚èA‚©‚ÂInvocationFullEvent‚ğ‘—M‚·‚éİ’è‚Ìê‡A
+        // InvocationFullEvent‘—M‚Ìˆ—‚ğs‚¤B
         if (config.getSendInvocationFullEvent() == true
                 && recordedInvocationNum >= config.getRecordInvocationMax())
         {
@@ -843,13 +830,13 @@ public class StatsJavelinRecorder
     }
 
     /**
-     * InvocationFullEventã‚’é€ä¿¡ã™ã‚‹ã€‚
+     * InvocationFullEvent‚ğ‘—M‚·‚éB
      *
-     * @param component ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã€‚
-     * @param className ã‚¯ãƒ©ã‚¹å
-     * @param invocationNum Invocationã®æ•°
-     * @param addInvocation è¿½åŠ ã®Invocation
-     * @param removedInvocation é™¤å¤–ã—ãŸInvocation
+     * @param component ƒRƒ“ƒ|[ƒlƒ“ƒgB
+     * @param className ƒNƒ‰ƒX–¼
+     * @param invocationNum Invocation‚Ì”
+     * @param addInvocation ’Ç‰Á‚ÌInvocation
+     * @param removedInvocation œŠO‚µ‚½Invocation
      */
     private static void sendInvocationFullEvent(Component component, String className,
             int invocationNum, Invocation addInvocation, Invocation removedInvocation)
@@ -887,11 +874,11 @@ public class StatsJavelinRecorder
     }
 
     /**
-     * å¾Œå‡¦ç†ï¼ˆæœ¬å‡¦ç†æˆåŠŸæ™‚ï¼‰ã€‚
-     * @param className ã‚¯ãƒ©ã‚¹å
-     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
-     * @param returnValue æˆ»ã‚Šå€¤
-     * @param config ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®è¨­å®šå€¤ã‚’ä¿å­˜ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * Œãˆ—i–{ˆ—¬Œ÷jB
+     * @param className ƒNƒ‰ƒX–¼
+     * @param methodName ƒƒ\ƒbƒh–¼
+     * @param returnValue –ß‚è’l
+     * @param config ƒpƒ‰ƒ[ƒ^‚Ìİ’è’l‚ğ•Û‘¶‚·‚éƒIƒuƒWƒFƒNƒg
      */
     public static void postProcess(String className, String methodName, final Object returnValue,
             final JavelinConfig config)
@@ -900,13 +887,13 @@ public class StatsJavelinRecorder
     }
 
     /**
-    * å¾Œå‡¦ç†ï¼ˆæœ¬å‡¦ç†æˆåŠŸæ™‚ï¼‰ã€‚<br />
+    * Œãˆ—i–{ˆ—¬Œ÷jB<br />
     *
-    * @param className ã‚¯ãƒ©ã‚¹å
-    * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
-    * @param returnValue æˆ»ã‚Šå€¤
-    * @param config ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®è¨­å®šå€¤ã‚’ä¿å­˜ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-    * @param doExcludeProcess é™¤å¤–å¯¾è±¡å‡¦ç†ã‚’è¡Œã†ã‹ã©ã†ã‹
+    * @param className ƒNƒ‰ƒX–¼
+    * @param methodName ƒƒ\ƒbƒh–¼
+    * @param returnValue –ß‚è’l
+    * @param config ƒpƒ‰ƒ[ƒ^‚Ìİ’è’l‚ğ•Û‘¶‚·‚éƒIƒuƒWƒFƒNƒg
+    * @param doExcludeProcess œŠO‘ÎÛˆ—‚ğs‚¤‚©‚Ç‚¤‚©
     */
     public static void postProcess(String className, String methodName, final Object returnValue,
             final JavelinConfig config, boolean doExcludeProcess)
@@ -915,14 +902,14 @@ public class StatsJavelinRecorder
     }
 
     /**
-    * å¾Œå‡¦ç†ï¼ˆæœ¬å‡¦ç†æˆåŠŸæ™‚ï¼‰ã€‚<br />
+    * Œãˆ—i–{ˆ—¬Œ÷jB<br />
     *
-    * @param className ã‚¯ãƒ©ã‚¹å
-    * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
-    * @param returnValue æˆ»ã‚Šå€¤
-    * @param config ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®è¨­å®šå€¤ã‚’ä¿å­˜ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-    * @param doExcludeProcess é™¤å¤–å¯¾è±¡å‡¦ç†ã‚’è¡Œã†ã‹ã©ã†ã‹
-    * @param telegramId é›»æ–‡ ID
+    * @param className ƒNƒ‰ƒX–¼
+    * @param methodName ƒƒ\ƒbƒh–¼
+    * @param returnValue –ß‚è’l
+    * @param config ƒpƒ‰ƒ[ƒ^‚Ìİ’è’l‚ğ•Û‘¶‚·‚éƒIƒuƒWƒFƒNƒg
+    * @param doExcludeProcess œŠO‘ÎÛˆ—‚ğs‚¤‚©‚Ç‚¤‚©
+    * @param telegramId “d•¶ ID
     */
     public static void postProcess(String className, String methodName, final Object returnValue,
             final JavelinConfig config, boolean doExcludeProcess, final long telegramId)
@@ -931,14 +918,14 @@ public class StatsJavelinRecorder
     }
 
     /**
-     * å¾Œå‡¦ç†ã®å…±é€šå‡¦ç†ã€‚<br />
+     * Œãˆ—‚Ì‹¤’Êˆ—B<br />
      *
-     *ã€€CallTree ã«æƒ…å ±ã‚’æ ¼ç´ã—ã¾ã™ã€‚
-     * ã¾ãŸã€å¿…è¦ã«å¿œã˜ã¦ Javelin ãƒ­ã‚°å‡ºåŠ›ã¨ã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥ã‚’è¡Œã„ã¾ã™ã€‚<br />
+     *@CallTree ‚Éî•ñ‚ğŠi”[‚µ‚Ü‚·B
+     * ‚Ü‚½A•K—v‚É‰‚¶‚Ä Javelin ƒƒOo—Í‚ÆƒAƒ‰[ƒ€’Ê’m‚ğs‚¢‚Ü‚·B<br />
      *
-     * @param returnValue æˆ»ã‚Šå€¤ï¼ˆ <code>null</code> ã‚‚å¯ï¼‰
-     * @param cause ä¾‹å¤–ç™ºç”Ÿã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆï¼ˆ <code>null</code> ã‚‚å¯ï¼‰
-     * @param config ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®è¨­å®šå€¤ã‚’ä¿å­˜ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param returnValue –ß‚è’li <code>null</code> ‚à‰Âj
+     * @param cause —áŠO”­¶ƒIƒuƒWƒFƒNƒgi <code>null</code> ‚à‰Âj
+     * @param config ƒpƒ‰ƒ[ƒ^‚Ìİ’è’l‚ğ•Û‘¶‚·‚éƒIƒuƒWƒFƒNƒg
      */
     private static void postProcessCommon(final Object returnValue, final Throwable cause,
             final JavelinConfig config)
@@ -947,28 +934,28 @@ public class StatsJavelinRecorder
     }
 
     /**
-     * å¾Œå‡¦ç†ã®å…±é€šå‡¦ç†ã€‚<br />
+     * Œãˆ—‚Ì‹¤’Êˆ—B<br />
      *
-     *ã€€CallTree ã«æƒ…å ±ã‚’æ ¼ç´ã—ã¾ã™ã€‚
-     * ã¾ãŸã€å¿…è¦ã«å¿œã˜ã¦ Javelin ãƒ­ã‚°å‡ºåŠ›ã¨ã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥ã‚’è¡Œã„ã¾ã™ã€‚<br />
+     *@CallTree ‚Éî•ñ‚ğŠi”[‚µ‚Ü‚·B
+     * ‚Ü‚½A•K—v‚É‰‚¶‚Ä Javelin ƒƒOo—Í‚ÆƒAƒ‰[ƒ€’Ê’m‚ğs‚¢‚Ü‚·B<br />
      *
-     * @param returnValue æˆ»ã‚Šå€¤ï¼ˆ <code>null</code> ã‚‚å¯ï¼‰
-     * @param cause ä¾‹å¤–ç™ºç”Ÿã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆï¼ˆ <code>null</code> ã‚‚å¯ï¼‰
-     * @param config ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®è¨­å®šå€¤ã‚’ä¿å­˜ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-    * @param telegramId é›»æ–‡ ID
+     * @param returnValue –ß‚è’li <code>null</code> ‚à‰Âj
+     * @param cause —áŠO”­¶ƒIƒuƒWƒFƒNƒgi <code>null</code> ‚à‰Âj
+     * @param config ƒpƒ‰ƒ[ƒ^‚Ìİ’è’l‚ğ•Û‘¶‚·‚éƒIƒuƒWƒFƒNƒg
+    * @param telegramId “d•¶ ID
      */
     private static void postProcessCommon(final Object returnValue, final Throwable cause,
             final JavelinConfig config, final long telegramId)
     {
         CallTreeRecorder callTreeRecorder = CallTreeRecorder.getInstance();
 
-        // Javelinã®ãƒ­ã‚°å‡ºåŠ›å‡¦ç†ãŒå‘¼ã³å‡ºã•ã‚Œã¦ã„ã‚‹å ´åˆã€å‡¦ç†ã‚’è¡Œã‚ãªã„
+        // Javelin‚ÌƒƒOo—Íˆ—‚ªŒÄ‚Ño‚³‚ê‚Ä‚¢‚éê‡Aˆ—‚ğs‚í‚È‚¢
         if (callTreeRecorder.isRecordMethodCalled_)
         {
             return;
         }
 
-        // Javelinã®ãƒ­ã‚°å‡ºåŠ›å‡¦ç†å‘¼ã³å‡ºã—ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚’ã‚»ãƒƒãƒˆ
+        // Javelin‚ÌƒƒOo—Íˆ—ŒÄ‚Ño‚µƒXƒe[ƒ^ƒX‚ğƒZƒbƒg
         callTreeRecorder.isRecordMethodCalled_ = true;
 
         try
@@ -986,22 +973,22 @@ public class StatsJavelinRecorder
         }
         finally
         {
-            // Javelinã®ãƒ­ã‚°å‡ºåŠ›å‡¦ç†å‘¼ã³å‡ºã—ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚’è§£é™¤
+            // Javelin‚ÌƒƒOo—Íˆ—ŒÄ‚Ño‚µƒXƒe[ƒ^ƒX‚ğ‰ğœ
             callTreeRecorder.isRecordMethodCalled_ = false;
         }
     }
 
     /**
-     * å¾Œå‡¦ç†ã®å…±é€šå‡¦ç†ã€‚<br />
+     * Œãˆ—‚Ì‹¤’Êˆ—B<br />
      *
-     *ã€€CallTree ã«æƒ…å ±ã‚’æ ¼ç´ã—ã¾ã™ã€‚
-     * ã¾ãŸã€å¿…è¦ã«å¿œã˜ã¦ Javelin ãƒ­ã‚°å‡ºåŠ›ã¨ã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥ã‚’è¡Œã„ã¾ã™ã€‚<br />
+     *@CallTree ‚Éî•ñ‚ğŠi”[‚µ‚Ü‚·B
+     * ‚Ü‚½A•K—v‚É‰‚¶‚Ä Javelin ƒƒOo—Í‚ÆƒAƒ‰[ƒ€’Ê’m‚ğs‚¢‚Ü‚·B<br />
      *
-     * @param returnValue æˆ»ã‚Šå€¤ï¼ˆ <code>null</code> ã‚‚å¯ï¼‰
-     * @param cause ä¾‹å¤–ç™ºç”Ÿã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆï¼ˆ <code>null</code> ã‚‚å¯ï¼‰
-     * @param config ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®è¨­å®šå€¤ã‚’ä¿å­˜ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param callTreeRecorder ã‚³ãƒ¼ãƒ«ãƒ„ãƒªãƒ¼ãƒ¬ã‚³ãƒ¼ãƒ€
-     * @param telegramId é›»æ–‡ ID
+     * @param returnValue –ß‚è’li <code>null</code> ‚à‰Âj
+     * @param cause —áŠO”­¶ƒIƒuƒWƒFƒNƒgi <code>null</code> ‚à‰Âj
+     * @param config ƒpƒ‰ƒ[ƒ^‚Ìİ’è’l‚ğ•Û‘¶‚·‚éƒIƒuƒWƒFƒNƒg
+     * @param callTreeRecorder ƒR[ƒ‹ƒcƒŠ[ƒŒƒR[ƒ_
+     * @param telegramId “d•¶ ID
      */
     private static boolean recordPostInvocation(final Object returnValue, final Throwable cause,
             final JavelinConfig config, CallTreeRecorder callTreeRecorder, long telegramId)
@@ -1010,15 +997,15 @@ public class StatsJavelinRecorder
 
         try
         {
-            // ã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥å‡¦ç†ã€ã‚¤ãƒ™ãƒ³ãƒˆå‡ºåŠ›å‡¦ç†ã‚’è¡Œã†ã€‚
+            // ƒAƒ‰[ƒ€’Ê’mˆ—AƒCƒxƒ“ƒgo—Íˆ—‚ğs‚¤B
             recordAndAlarmEvents(callTree, callTreeRecorder, telegramId);
 
-            // å‘¼ã³å‡ºã—å…ƒæƒ…å ±å–å¾—ã€‚
+            // ŒÄ‚Ño‚µŒ³î•ñæ“¾B
             CallTreeNode node = callTreeRecorder.getCallTreeNode();
             if (node == null)
             {
-                // å‘¼ã³å‡ºã—å…ƒæƒ…å ±ãŒå–å¾—ã§ããªã„å ´åˆã¯å‡¦ç†ã‚’ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã™ã‚‹ã€‚
-                // (ä¸‹ä½ãƒ¬ã‚¤ãƒ¤ã§ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆã®ãŸã‚ã€‚)
+                // ŒÄ‚Ño‚µŒ³î•ñ‚ªæ“¾‚Å‚«‚È‚¢ê‡‚Íˆ—‚ğƒLƒƒƒ“ƒZƒ‹‚·‚éB
+                // (‰ºˆÊƒŒƒCƒ„‚Å—áŠO‚ª”­¶‚µ‚½ê‡‚Ì‚½‚ßB)
                 return false;
             }
 
@@ -1038,7 +1025,7 @@ public class StatsJavelinRecorder
 
                 if (config.isAlarmException())
                 {
-                    // ç™ºç”Ÿã—ãŸä¾‹å¤–ã‚’è¨˜éŒ²ã—ã¦ãŠã
+                    // ”­¶‚µ‚½—áŠO‚ğ‹L˜^‚µ‚Ä‚¨‚­
                     node.setThrowable(cause);
                     node.setThrowTime(System.currentTimeMillis());
                 }
@@ -1046,7 +1033,7 @@ public class StatsJavelinRecorder
 
             if (returnValue != null && config.isLogReturn())
             {
-                // æˆ»ã‚Šå€¤ã‚’å–å¾—ã™ã‚‹
+                // –ß‚è’l‚ğæ“¾‚·‚é
                 String returnString = getReturnValueString(returnValue, config);
                 node.setReturnValue(returnString);
             }
@@ -1067,8 +1054,8 @@ public class StatsJavelinRecorder
 
                 recordTransaction(node);
 
-                // CallTreeç„¡åŠ¹ã®å ´åˆã¾ãŸã¯ãƒãƒ¼ãƒ‰æ•°ãŒä¸Šé™ã«é”ã—ã¦ã„ã‚‹å ´åˆã¯ã€
-                // å‡¦ç†ãŒå®Œäº†ã—ãŸå­ãƒãƒ¼ãƒ‰ã¯Treeã‹ã‚‰å‰Šé™¤ã™ã‚‹ã€‚
+                // CallTree–³Œø‚Ìê‡‚Ü‚½‚Íƒm[ƒh”‚ªãŒÀ‚É’B‚µ‚Ä‚¢‚éê‡‚ÍA
+                // ˆ—‚ªŠ®—¹‚µ‚½qƒm[ƒh‚ÍTree‚©‚çíœ‚·‚éB
                 if (callTree.isCallTreeEnabled() == false
                         || CallTreeRecorder.isCallTreeFull(callTree, config))
                 {
@@ -1081,8 +1068,8 @@ public class StatsJavelinRecorder
                     || invocation.getAlarmThreshold() != Invocation.THRESHOLD_NOT_SPECIFIED
                     || invocation.getAlarmCpuThreshold() != Invocation.THRESHOLD_NOT_SPECIFIED)
             {
-                // ä»¥ä¸‹ã€CallTreeNodeãŒrootã®å ´åˆã€ã¾ãŸã¯é–¾å€¤ãŒå€‹åˆ¥ã«æŒ‡å®šã•ã‚Œã¦ã„ã‚‹å ´åˆã®å‡¦ç†ã€‚
-                // CallTreeNodeãŒrootã§ã€çµ±è¨ˆå€¤è¨˜éŒ²ã®é–¾å€¤ã‚’è¶…ãˆã¦ã„ãŸå ´åˆã«ã€ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚’è¨˜éŒ²ã™ã‚‹ã€‚
+                // ˆÈ‰ºACallTreeNode‚ªroot‚Ìê‡A‚Ü‚½‚Íè‡’l‚ªŒÂ•Ê‚Éw’è‚³‚ê‚Ä‚¢‚éê‡‚Ìˆ—B
+                // CallTreeNode‚ªroot‚ÅA“Œv’l‹L˜^‚Ìè‡’l‚ğ’´‚¦‚Ä‚¢‚½ê‡‚ÉAƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ğ‹L˜^‚·‚éB
                 if (parent == null && node.getAccumulatedTime() >= config.getStatisticsThreshold())
                 {
                     recordTransaction(node);
@@ -1090,14 +1077,14 @@ public class StatsJavelinRecorder
 
                 try
                 {
-                    // å¿…è¦ã«å¿œã˜ã¦ã€Javelinãƒ­ã‚°ã¸ã®å‡ºåŠ›ã€ã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥å‡¦ç†ã‚’è¡Œã†
+                    // •K—v‚É‰‚¶‚ÄAJavelinƒƒO‚Ö‚Ìo—ÍAƒAƒ‰[ƒ€’Ê’mˆ—‚ğs‚¤
                     recordAndAlarmProcedure(config, callTree, node, callTreeRecorder, telegramId);
                 }
                 finally
                 {
                     if (parent == null)
                     {
-                        // ãƒ«ãƒ¼ãƒˆãƒãƒ¼ãƒ‰ã®å ´åˆ
+                        // ƒ‹[ƒgƒm[ƒh‚Ìê‡
                         postProcessOnRootNode(callTree, node, callTreeRecorder);
                     }
                 }
@@ -1112,7 +1099,7 @@ public class StatsJavelinRecorder
     }
 
     /**
-     * ãƒ«ãƒ¼ãƒˆãƒãƒ¼ãƒ‰ã®å ´åˆã®å¾Œå‡¦ç†ã‚’è¡Œã„ã¾ã™ã€‚<br />
+     * ƒ‹[ƒgƒm[ƒh‚Ìê‡‚ÌŒãˆ—‚ğs‚¢‚Ü‚·B<br />
      *
      * @param callTree CallTree
      * @param node CallTreeNode
@@ -1121,38 +1108,38 @@ public class StatsJavelinRecorder
     private static void postProcessOnRootNode(CallTree callTree, CallTreeNode node,
             CallTreeRecorder callTreeRecorder)
     {
-        // Strategyã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹ã‚’åˆ©ç”¨ã—ãŸåˆ¤å®šå¾Œã®å¾Œå‡¦ç†ã‚’è¡Œã†
+        // StrategyƒCƒ“ƒ^ƒtƒF[ƒX‚ğ—˜—p‚µ‚½”»’èŒã‚ÌŒãˆ—‚ğs‚¤
         postJudge(callTree, node, recordStrategy__);
 
         callTree.executeCallback();
         callTreeRecorder.clearCallerNode();
 
-        // CallTreeã«ä¿æŒã•ã‚Œã¦ã„ãŸNodeæ•°ã‚’è¨˜éŒ²ã™ã‚‹
+        // CallTree‚É•Û‚³‚ê‚Ä‚¢‚½Node”‚ğ‹L˜^‚·‚é
         int totalNodeCount = callTree.getTotalNodeCount();
         CallTreeNodeMonitor.add(totalNodeCount);
         callTreeRecorder.clearCallTree();
     }
 
     /**
-     * ã‚¤ãƒ™ãƒ³ãƒˆãŒç™ºç”Ÿã—ã¦ã„ã‚‹å ´åˆã«ã€ Javelin ãƒ­ã‚°ã¸ã®å‡ºåŠ›ã¨ã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥ã‚’è¡Œã„ã¾ã™ã€‚<br />
+     * ƒCƒxƒ“ƒg‚ª”­¶‚µ‚Ä‚¢‚éê‡‚ÉA Javelin ƒƒO‚Ö‚Ìo—Í‚ÆƒAƒ‰[ƒ€’Ê’m‚ğs‚¢‚Ü‚·B<br />
      *
      * @param callTree CallTree
      * @param callTreeRecorder callTreeRecorder
-     * @param telegramId é›»æ–‡ ID
+     * @param telegramId “d•¶ ID
      */
     private static void recordAndAlarmEvents(CallTree callTree,
             CallTreeRecorder callTreeRecorder, long telegramId)
     {
-        // CallTreeã«å¯¾ã—ã¦EventNodeãŒå­˜åœ¨ã—ãªã„çŠ¶æ³ã§EventãŒç™ºç”Ÿã—ãŸå ´åˆã®ã¿ã€
-        //  getEventNodeListã«è¦ç´ ãŒè¿½åŠ ã•ã‚Œã¦ã„ã‚‹ã€‚
+        // CallTree‚É‘Î‚µ‚ÄEventNode‚ª‘¶İ‚µ‚È‚¢ó‹µ‚ÅEvent‚ª”­¶‚µ‚½ê‡‚Ì‚İA
+        //  getEventNodeList‚É—v‘f‚ª’Ç‰Á‚³‚ê‚Ä‚¢‚éB
         List<CallTreeNode> eventList = callTree.getEventNodeList();
         int size = eventList.size();
         if (size != 0)
         {
-            // ã‚¤ãƒ™ãƒ³ãƒˆå‡¦ç†ãŒå­˜åœ¨ã™ã‚‹å ´åˆã€ãƒ­ã‚°å‡ºåŠ›å‡¦ç†ã¨ ã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥å‡¦ç†ã‚’è¡Œã†ã€‚
+            // ƒCƒxƒ“ƒgˆ—‚ª‘¶İ‚·‚éê‡AƒƒOo—Íˆ—‚Æ ƒAƒ‰[ƒ€’Ê’mˆ—‚ğs‚¤B
             for (int num = 0; num < size; num++)
             {
-                // Javelinã®åˆæœŸåŒ–ãŒæ¸ˆã‚“ã§ã„ãªã„å ´åˆã€ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ä½œæˆã¨ã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥ã®å‡¦ç†ã‚’é£›ã°ã™ã€‚
+                // Javelin‚Ì‰Šú‰»‚ªÏ‚ñ‚Å‚¢‚È‚¢ê‡AƒƒOƒtƒ@ƒCƒ‹ì¬‚ÆƒAƒ‰[ƒ€’Ê’m‚Ìˆ—‚ğ”ò‚Î‚·B
                 if (generator__ != null)
                 {
                     generator__.generateJaveinFile(callTree, eventList.get(num),
@@ -1160,7 +1147,7 @@ public class StatsJavelinRecorder
                     sendEventAlarm();
                 }
 
-                // CallTreeã«ä¿æŒã•ã‚Œã¦ã„ãŸNodeæ•°ã‚’è¨˜éŒ²ã™ã‚‹
+                // CallTree‚É•Û‚³‚ê‚Ä‚¢‚½Node”‚ğ‹L˜^‚·‚é
                 int totalNodeCount = callTree.getTotalNodeCount();
                 CallTreeNodeMonitor.add(totalNodeCount);
 
@@ -1174,21 +1161,21 @@ public class StatsJavelinRecorder
     }
 
     /**
-     * å¿…è¦ã«å¿œã˜ã¦ã€ Javelin ãƒ­ã‚°ã¸ã®å‡ºåŠ›ã€ã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥å‡¦ç†ã‚’è¡Œã„ã¾ã™ã€‚<br />
+     * •K—v‚É‰‚¶‚ÄA Javelin ƒƒO‚Ö‚Ìo—ÍAƒAƒ‰[ƒ€’Ê’mˆ—‚ğs‚¢‚Ü‚·B<br />
      *
-     * @param config ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®è¨­å®šå€¤ã‚’ä¿å­˜ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param config ƒpƒ‰ƒ[ƒ^‚Ìİ’è’l‚ğ•Û‘¶‚·‚éƒIƒuƒWƒFƒNƒg
      * @param callTree CallTree
      * @param node CallTreeNode
      * @param callTreeRecorder callTreeRecorder
-     * @param telegramId é›»æ–‡ ID
+     * @param telegramId “d•¶ ID
      */
     private static void recordAndAlarmProcedure(final JavelinConfig config, CallTree callTree,
             CallTreeNode node, CallTreeRecorder callTreeRecorder, final long telegramId)
     {
-        // ã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥ã®æœ‰ç„¡ã‚’åˆ¤å®šã™ã‚‹(åˆ¤å®šå„ªå…ˆåº¦ï¼šé«˜)
+        // ƒAƒ‰[ƒ€’Ê’m‚Ì—L–³‚ğ”»’è‚·‚é(”»’è—Dæ“xF‚)
         boolean judgeHighSendAlarm = judgeHighPrioritySendExceedThresholdAlarm(callTree, node);
 
-        // ã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥ã®æœ‰ç„¡ã‚’åˆ¤å®šã™ã‚‹
+        // ƒAƒ‰[ƒ€’Ê’m‚Ì—L–³‚ğ”»’è‚·‚é
         boolean judgeSendAlarm =
                                  judgeSendExceedThresholdAlarm(callTree, node, config,
                                                                recordStrategy__, callTreeRecorder);
@@ -1199,7 +1186,7 @@ public class StatsJavelinRecorder
             isLastAlarmTooNear = checkLastAlarmTime(node, config, judgeHighSendAlarm);
         }
 
-        // ã‚¢ãƒ©ãƒ¼ãƒ ã®é–¾å€¤ã‚’è¶…ãˆã¦ã„ãŸå ´åˆã«ã€ã‚¢ãƒ©ãƒ¼ãƒ ã‚’é€šçŸ¥ã™ã‚‹ã€‚
+        // ƒAƒ‰[ƒ€‚Ìè‡’l‚ğ’´‚¦‚Ä‚¢‚½ê‡‚ÉAƒAƒ‰[ƒ€‚ğ’Ê’m‚·‚éB
         if (judgeHighSendAlarm == true || (judgeSendAlarm == true && isLastAlarmTooNear == false))
         {
             callTree.addHighPriorityRecordStrategy("AllRecordStrategy", new AllRecordStrategy());
@@ -1214,11 +1201,11 @@ public class StatsJavelinRecorder
     }
 
     /**
-     * ãƒ¡ã‚½ãƒƒãƒ‰ã®æˆ»ã‚Šå€¤ã‚’æ–‡å­—åˆ—ã§å–å¾—ã—ã¾ã™ã€‚<br />
+     * ƒƒ\ƒbƒh‚Ì–ß‚è’l‚ğ•¶š—ñ‚Åæ“¾‚µ‚Ü‚·B<br />
      *
-     * @param returnValue æˆ»ã‚Šå€¤ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param config ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®è¨­å®šå€¤ã‚’ä¿å­˜ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @return æˆ»ã‚Šå€¤ã®æ–‡å­—åˆ—è¡¨ç¾
+     * @param returnValue –ß‚è’lƒIƒuƒWƒFƒNƒg
+     * @param config ƒpƒ‰ƒ[ƒ^‚Ìİ’è’l‚ğ•Û‘¶‚·‚éƒIƒuƒWƒFƒNƒg
+     * @return –ß‚è’l‚Ì•¶š—ñ•\Œ»
      */
     private static String getReturnValueString(final Object returnValue, final JavelinConfig config)
     {
@@ -1266,15 +1253,15 @@ public class StatsJavelinRecorder
     }
 
     /**
-     * nodeã«ã‚¤ãƒ™ãƒ³ãƒˆã‚’è¿½åŠ ã—ã¾ã™ã€‚<br />
-     * CallTreeãŒç„¡ã„å ´åˆã¯ã€æ–°è¦ä½œæˆã—ã¾ã™ã€‚
-     * å¿…ãšç™ºå ±ã—ã¾ã™ã€‚
+     * node‚ÉƒCƒxƒ“ƒg‚ğ’Ç‰Á‚µ‚Ü‚·B<br />
+     * CallTree‚ª–³‚¢ê‡‚ÍAV‹Kì¬‚µ‚Ü‚·B
+     * •K‚¸”­•ñ‚µ‚Ü‚·B
      *
-     * @param event ã‚¤ãƒ™ãƒ³ãƒˆã€‚
-     * @param config è¨­å®šã€‚
-     * @param telegramId é›»æ–‡ ID
+     * @param event ƒCƒxƒ“ƒgB
+     * @param config İ’èB
+     * @param telegramId “d•¶ ID
      *
-     * @return è¿½åŠ ã—ãŸNodeã€‚
+     * @return ’Ç‰Á‚µ‚½NodeB
      */
     public static CallTreeNode addEvent(CommonEvent event, JavelinConfig config, long telegramId)
     {
@@ -1282,14 +1269,14 @@ public class StatsJavelinRecorder
     }
 
     /**
-     * nodeã«ã‚¤ãƒ™ãƒ³ãƒˆã‚’è¿½åŠ ã—ã¾ã™ã€‚<br />
-     * CallTreeãŒç„¡ã„å ´åˆã¯ã€æ–°è¦ä½œæˆã—ã¾ã™ã€‚
-     * å¿…ãšç™ºå ±ã™ã‚‹ã€‚
+     * node‚ÉƒCƒxƒ“ƒg‚ğ’Ç‰Á‚µ‚Ü‚·B<br />
+     * CallTree‚ª–³‚¢ê‡‚ÍAV‹Kì¬‚µ‚Ü‚·B
+     * •K‚¸”­•ñ‚·‚éB
      *
-     * @param event ã‚¤ãƒ™ãƒ³ãƒˆã€‚
-     * @param clear æ—¢ã«ã‚¤ãƒ™ãƒ³ãƒˆãŒã‚ã‚‹å ´åˆã‚‚ç™ºå ±ã™ã‚‹ã€‚
+     * @param event ƒCƒxƒ“ƒgB
+     * @param clear Šù‚ÉƒCƒxƒ“ƒg‚ª‚ ‚éê‡‚à”­•ñ‚·‚éB
      *
-     * @return è¿½åŠ ã—ãŸNodeã€‚
+     * @return ’Ç‰Á‚µ‚½NodeB
      */
     public static CallTreeNode addEvent(CommonEvent event, boolean clear)
     {
@@ -1297,16 +1284,16 @@ public class StatsJavelinRecorder
     }
 
     /**
-     * nodeã«ã‚¤ãƒ™ãƒ³ãƒˆã‚’è¿½åŠ ã—ã¾ã™ã€‚<br />
-     * CallTreeãŒç„¡ã„å ´åˆã¯ã€æ–°è¦ä½œæˆã—ã¾ã™ã€‚
-     * å¿…ãšç™ºå ±ã™ã‚‹ã€‚
+     * node‚ÉƒCƒxƒ“ƒg‚ğ’Ç‰Á‚µ‚Ü‚·B<br />
+     * CallTree‚ª–³‚¢ê‡‚ÍAV‹Kì¬‚µ‚Ü‚·B
+     * •K‚¸”­•ñ‚·‚éB
      *
-     * @param event ã‚¤ãƒ™ãƒ³ãƒˆã€‚
-     * @param clear æ—¢ã«ã‚¤ãƒ™ãƒ³ãƒˆãŒã‚ã‚‹å ´åˆã‚‚ç™ºå ±ã™ã‚‹ã€‚
-     * @param config è¨­å®šã€‚
-     * @param telegramId é›»æ–‡ ID
+     * @param event ƒCƒxƒ“ƒgB
+     * @param clear Šù‚ÉƒCƒxƒ“ƒg‚ª‚ ‚éê‡‚à”­•ñ‚·‚éB
+     * @param config İ’èB
+     * @param telegramId “d•¶ ID
      *
-     * @return è¿½åŠ ã—ãŸNodeã€‚
+     * @return ’Ç‰Á‚µ‚½NodeB
      */
     public static CallTreeNode addEvent(CommonEvent event, boolean clear, JavelinConfig config,
             long telegramId)
@@ -1324,8 +1311,8 @@ public class StatsJavelinRecorder
             config = new JavelinConfig();
         }
 
-        // ã‚¤ãƒ™ãƒ³ãƒˆã®å‡ºåŠ›è¨­å®šãƒ¬ãƒ™ãƒ«ãŒã€å¼•æ•°ã§æŒ‡å®šã—ãŸã‚¤ãƒ™ãƒ³ãƒˆã®ãƒ¬ãƒ™ãƒ«ã‚ˆã‚Šã‚‚å¤§ãã„å ´åˆã¯ã€
-        // ã‚¤ãƒ™ãƒ³ãƒˆã‚’å‡ºåŠ›ã—ãªã„ã€‚
+        // ƒCƒxƒ“ƒg‚Ìo—Íİ’èƒŒƒxƒ‹‚ªAˆø”‚Åw’è‚µ‚½ƒCƒxƒ“ƒg‚ÌƒŒƒxƒ‹‚æ‚è‚à‘å‚«‚¢ê‡‚ÍA
+        // ƒCƒxƒ“ƒg‚ğo—Í‚µ‚È‚¢B
         int outputEventLevel = convertEventLevel(config.getEventLevel());
         if (outputEventLevel > event.getLevel())
         {
@@ -1338,7 +1325,7 @@ public class StatsJavelinRecorder
         CallTreeNode callTreeNode = callTreeRecorder.getCallTreeNode();
         CallTree tree = callTreeRecorder.getCallTree();
 
-        // ã‚¤ãƒ™ãƒ³ãƒˆã®ãƒ¬ãƒ™ãƒ«ãŒã‚¨ãƒ©ãƒ¼ã®å ´åˆã€å³åº§ã«ã‚¢ãƒ©ãƒ¼ãƒ ã‚’ä¸Šã’ã‚‹ã€‚
+        // ƒCƒxƒ“ƒg‚ÌƒŒƒxƒ‹‚ªƒGƒ‰[‚Ìê‡A‘¦À‚ÉƒAƒ‰[ƒ€‚ğã‚°‚éB
         if (event.getLevel() >= CommonEvent.LEVEL_ERROR)
         {
             Invocation invocation = null;
@@ -1394,13 +1381,13 @@ public class StatsJavelinRecorder
     }
 
     /**
-     * ã‚¤ãƒ™ãƒ³ãƒˆç”¨ã®ãƒãƒ¼ãƒ‰ã‚’ä½œæˆã™ã‚‹ã€‚
+     * ƒCƒxƒ“ƒg—p‚Ìƒm[ƒh‚ğì¬‚·‚éB
      *
-     * @param event ã‚¤ãƒ™ãƒ³ãƒˆ
-     * @param config è¨­å®š
+     * @param event ƒCƒxƒ“ƒg
+     * @param config İ’è
      * @param callTreeRecorder CallTreeRecorder
-     * @param tree ãƒ„ãƒªãƒ¼
-     * @return ã‚¤ãƒ™ãƒ³ãƒˆç”¨ã®ãƒãƒ¼ãƒ‰ã€‚
+     * @param tree ƒcƒŠ[
+     * @return ƒCƒxƒ“ƒg—p‚Ìƒm[ƒhB
      */
     private static CallTreeNode createEventNode(CommonEvent event, JavelinConfig config,
             CallTreeRecorder callTreeRecorder, CallTree tree)
@@ -1409,14 +1396,14 @@ public class StatsJavelinRecorder
     }
 
     /**
-     * ã‚¤ãƒ™ãƒ³ãƒˆç”¨ã®ãƒãƒ¼ãƒ‰ã‚’ä½œæˆã™ã‚‹ã€‚
+     * ƒCƒxƒ“ƒg—p‚Ìƒm[ƒh‚ğì¬‚·‚éB
      *
-     * @param event ã‚¤ãƒ™ãƒ³ãƒˆ
-     * @param config è¨­å®š
+     * @param event ƒCƒxƒ“ƒg
+     * @param config İ’è
      * @param callTreeRecorder CallTreeRecorder
-     * @param tree ãƒ„ãƒªãƒ¼
+     * @param tree ƒcƒŠ[
      * @param invocation Invocation
-     * @return ã‚¤ãƒ™ãƒ³ãƒˆç”¨ã®ãƒãƒ¼ãƒ‰ã€‚
+     * @return ƒCƒxƒ“ƒg—p‚Ìƒm[ƒhB
      */
     private static CallTreeNode createEventNode(CommonEvent event, JavelinConfig config,
             CallTreeRecorder callTreeRecorder, CallTree tree, Invocation invocation)
@@ -1426,7 +1413,7 @@ public class StatsJavelinRecorder
             String className = config.getRootCallerName();
             String methodName = "";
 
-            // CallTreeã«ã‚¹ãƒ¬ãƒƒãƒ‰åã‚’è¨­å®šã™ã‚‹ã€‚
+            // CallTree‚ÉƒXƒŒƒbƒh–¼‚ğİ’è‚·‚éB
             String threadId = createThreadId(methodName, config, callTreeRecorder);
             if (threadId != null)
             {
@@ -1446,13 +1433,13 @@ public class StatsJavelinRecorder
     }
 
     /**
-     * å³åº§ã«ã‚¤ãƒ™ãƒ³ãƒˆã‚’é€ä¿¡ã™ã‚‹ã€‚
+     * ‘¦À‚ÉƒCƒxƒ“ƒg‚ğ‘—M‚·‚éB
      *
-     * @param event é€ä¿¡ã™ã‚‹ã‚¤ãƒ™ãƒ³ãƒˆ
-     * @param config Javelinã®config
+     * @param event ‘—M‚·‚éƒCƒxƒ“ƒg
+     * @param config Javelin‚Ìconfig
      * @param invocation invocation
      * @param callTreeRecorder callTreeRecorder
-     * @param telegram é›»æ–‡
+     * @param telegram “d•¶
      */
     private static void sendEventImmediately(CommonEvent event, JavelinConfig config,
             Invocation invocation, CallTreeRecorder callTreeRecorder, long telegramId)
@@ -1465,12 +1452,12 @@ public class StatsJavelinRecorder
     }
 
     /**
-     * nodeã«ã‚¤ãƒ™ãƒ³ãƒˆã‚’è¿½åŠ ã—ã¾ã™ã€‚<br />
-     * CallTreeãŒç„¡ã„å ´åˆã¯ã€æ–°è¦ä½œæˆã—ã¾ã™ã€‚
-     * å¿…ãšç™ºå ±ã™ã‚‹ã€‚
+     * node‚ÉƒCƒxƒ“ƒg‚ğ’Ç‰Á‚µ‚Ü‚·B<br />
+     * CallTree‚ª–³‚¢ê‡‚ÍAV‹Kì¬‚µ‚Ü‚·B
+     * •K‚¸”­•ñ‚·‚éB
      *
-     * @param event ã‚¤ãƒ™ãƒ³ãƒˆã€‚
-     * @return è¿½åŠ ã—ãŸCallTreeNodeã€‚
+     * @param event ƒCƒxƒ“ƒgB
+     * @return ’Ç‰Á‚µ‚½CallTreeNodeB
      */
     public static CallTreeNode addEvent(CommonEvent event)
     {
@@ -1478,13 +1465,13 @@ public class StatsJavelinRecorder
     }
 
     /**
-     * nodeã«ã‚¤ãƒ™ãƒ³ãƒˆã‚’è¿½åŠ ã—ã¾ã™ã€‚<br />
-     * CallTreeãŒç„¡ã„å ´åˆã¯ã€æ–°è¦ä½œæˆã—ã¾ã™ã€‚
-     * å¿…ãšç™ºå ±ã—ã¾ã™ã€‚
+     * node‚ÉƒCƒxƒ“ƒg‚ğ’Ç‰Á‚µ‚Ü‚·B<br />
+     * CallTree‚ª–³‚¢ê‡‚ÍAV‹Kì¬‚µ‚Ü‚·B
+     * •K‚¸”­•ñ‚µ‚Ü‚·B
      *
-     * @param event ã‚¤ãƒ™ãƒ³ãƒˆ
-     * @param telegramId é›»æ–‡ ID
-     * @return è¿½åŠ ã—ãŸ CallTreeNode
+     * @param event ƒCƒxƒ“ƒg
+     * @param telegramId “d•¶ ID
+     * @return ’Ç‰Á‚µ‚½ CallTreeNode
      */
     public static CallTreeNode addEvent(CommonEvent event, long telegramId)
     {
@@ -1492,18 +1479,18 @@ public class StatsJavelinRecorder
     }
 
     /**
-     * CallTreeNodeã«è¨­å®šã•ã‚ŒãŸåˆ¤å®šã‚¯ãƒ©ã‚¹(åˆ¤å®šå„ªå…ˆåº¦ï¼šé«˜)ã‚’åˆ©ç”¨ã—ã¦ã€
-     * ã‚¢ãƒ©ãƒ¼ãƒ ã‚’é€šçŸ¥ã™ã‚‹ã‹ã©ã†ã‹åˆ¤å®šã™ã‚‹ã€‚
+     * CallTreeNode‚Éİ’è‚³‚ê‚½”»’èƒNƒ‰ƒX(”»’è—Dæ“xF‚)‚ğ—˜—p‚µ‚ÄA
+     * ƒAƒ‰[ƒ€‚ğ’Ê’m‚·‚é‚©‚Ç‚¤‚©”»’è‚·‚éB
      *
-     *ã€€@param callTree CallTree
+     *@@param callTree CallTree
      * @param node CallTreeNode
-     * @return true:é€šçŸ¥ã™ã‚‹ã€false:é€šçŸ¥ã—ãªã„
+     * @return true:’Ê’m‚·‚éAfalse:’Ê’m‚µ‚È‚¢
      */
     private static boolean judgeHighPrioritySendExceedThresholdAlarm(final CallTree callTree,
             final CallTreeNode node)
     {
-        // CallTreeã«è¨­å®šã•ã‚Œã¦ã„ãŸåˆ¤å®šã‚¯ãƒ©ã‚¹ã§ã®åˆ¤å®šçµæœãŒ
-        // 1ã¤ã§ã‚‚trueã§ã‚ã‚Œã°ã€ãã‚Œã‚’æˆ»ã‚Šå€¤ã¨ã™ã‚‹
+        // CallTree‚Éİ’è‚³‚ê‚Ä‚¢‚½”»’èƒNƒ‰ƒX‚Å‚Ì”»’èŒ‹‰Ê‚ª
+        // 1‚Â‚Å‚àtrue‚Å‚ ‚ê‚ÎA‚»‚ê‚ğ–ß‚è’l‚Æ‚·‚é
         RecordStrategy[] strategyList = callTree.getHighPriorityRecordStrategy();
         for (RecordStrategy str : strategyList)
         {
@@ -1513,38 +1500,38 @@ public class StatsJavelinRecorder
             }
         }
 
-        // åˆ¤å®šãŒã™ã¹ã¦falseã®å ´åˆ
+        // ”»’è‚ª‚·‚×‚Äfalse‚Ìê‡
         return false;
     }
 
     /**
-     * S2JavelinConfigã¨CallTreeNodeã«è¨­å®šã•ã‚ŒãŸåˆ¤å®šã‚¯ãƒ©ã‚¹ã‚’åˆ©ç”¨ã—ã¦ã€
-     * ã‚¢ãƒ©ãƒ¼ãƒ ã‚’é€šçŸ¥ã™ã‚‹ã‹ã©ã†ã‹åˆ¤å®šã™ã‚‹ã€‚
+     * S2JavelinConfig‚ÆCallTreeNode‚Éİ’è‚³‚ê‚½”»’èƒNƒ‰ƒX‚ğ—˜—p‚µ‚ÄA
+     * ƒAƒ‰[ƒ€‚ğ’Ê’m‚·‚é‚©‚Ç‚¤‚©”»’è‚·‚éB
      *
      * @param tree CallTree
      * @param node CallTreeNode
-     * @param config ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®è¨­å®šå€¤ã‚’ä¿å­˜ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param strategy S2JavelinConfigã«è¨­å®šã•ã‚ŒãŸåˆ¤å®šã‚¯ãƒ©ã‚¹ã€‚
-     * @return true:é€šçŸ¥ã™ã‚‹ã€false:é€šçŸ¥ã—ãªã„
+     * @param config ƒpƒ‰ƒ[ƒ^‚Ìİ’è’l‚ğ•Û‘¶‚·‚éƒIƒuƒWƒFƒNƒg
+     * @param strategy S2JavelinConfig‚Éİ’è‚³‚ê‚½”»’èƒNƒ‰ƒXB
+     * @return true:’Ê’m‚·‚éAfalse:’Ê’m‚µ‚È‚¢
      */
     private static boolean judgeSendExceedThresholdAlarm(final CallTree tree,
             final CallTreeNode node, final JavelinConfig config, final RecordStrategy strategy,
             final CallTreeRecorder callTreeRecorder)
     {
-        // ä¾‹å¤–ãŒç™ºç”Ÿã—ã¦ã„ã¦ã€ä¾‹å¤–ç™ºç”Ÿæ™‚ã«ã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥ã™ã‚‹è¨­å®šã§ã‚ã‚Œã°ã€å¿…ãšã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥ã‚’è¡Œã†
+        // —áŠO‚ª”­¶‚µ‚Ä‚¢‚ÄA—áŠO”­¶‚ÉƒAƒ‰[ƒ€’Ê’m‚·‚éİ’è‚Å‚ ‚ê‚ÎA•K‚¸ƒAƒ‰[ƒ€’Ê’m‚ğs‚¤
         if (config.isAlarmException() && callTreeRecorder.isExceptionOccured_)
         {
             return true;
         }
 
-        // å¼•æ•°ã«è¨­å®šã•ã‚Œã¦ã„ãŸåˆ¤å®šã‚¯ãƒ©ã‚¹ã§ã®åˆ¤å®šçµæœãŒtrueã§ã‚ã‚Œã°ã€ãã‚Œã‚’æˆ»ã‚Šå€¤ã¨ã™ã‚‹
+        // ˆø”‚Éİ’è‚³‚ê‚Ä‚¢‚½”»’èƒNƒ‰ƒX‚Å‚Ì”»’èŒ‹‰Ê‚ªtrue‚Å‚ ‚ê‚ÎA‚»‚ê‚ğ–ß‚è’l‚Æ‚·‚é
         if (strategy.judgeSendExceedThresholdAlarm(node))
         {
             return true;
         }
 
-        // CallTreeNodeã«è¨­å®šã•ã‚Œã¦ã„ãŸåˆ¤å®šã‚¯ãƒ©ã‚¹ã§ã®åˆ¤å®šçµæœãŒ
-        // 1ã¤ã§ã‚‚trueã§ã‚ã‚Œã°ã€ãã‚Œã‚’æˆ»ã‚Šå€¤ã¨ã™ã‚‹
+        // CallTreeNode‚Éİ’è‚³‚ê‚Ä‚¢‚½”»’èƒNƒ‰ƒX‚Å‚Ì”»’èŒ‹‰Ê‚ª
+        // 1‚Â‚Å‚àtrue‚Å‚ ‚ê‚ÎA‚»‚ê‚ğ–ß‚è’l‚Æ‚·‚é
         RecordStrategy[] strategyList = tree.getRecordStrategy();
         for (RecordStrategy str : strategyList)
         {
@@ -1554,17 +1541,17 @@ public class StatsJavelinRecorder
             }
         }
 
-        // åˆ¤å®šãŒã™ã¹ã¦falseã®å ´åˆ
+        // ”»’è‚ª‚·‚×‚Äfalse‚Ìê‡
         return false;
     }
 
     /**
-     * S2JavelinConfigã¨CallTreeã«è¨­å®šã•ã‚ŒãŸåˆ¤å®šã‚¯ãƒ©ã‚¹ã«å¯¾ã—ã¦ã€
-     * åˆ¤å®šå¾Œã«å¾Œå‡¦ç†ã‚’è¡Œã†ã€‚
+     * S2JavelinConfig‚ÆCallTree‚Éİ’è‚³‚ê‚½”»’èƒNƒ‰ƒX‚É‘Î‚µ‚ÄA
+     * ”»’èŒã‚ÉŒãˆ—‚ğs‚¤B
      *
      * @param callTree CallTree
      * @param node CallTreeNode
-     * @param strategy S2JavelinConfigã«è¨­å®šã•ã‚ŒãŸåˆ¤å®šã‚¯ãƒ©ã‚¹ã€‚
+     * @param strategy S2JavelinConfig‚Éİ’è‚³‚ê‚½”»’èƒNƒ‰ƒXB
      */
     public static void postJudge(final CallTree callTree, final CallTreeNode node,
             final RecordStrategy strategy)
@@ -1585,15 +1572,15 @@ public class StatsJavelinRecorder
     }
 
     /**
-     * æœ€çµ‚ã‚¢ãƒ©ãƒ¼ãƒ é€ä¿¡æ™‚åˆ»ã‚’ç¢ºèªã—ã€æ›´æ–°ã™ã‚‹ã€‚
-     * ã‚¢ãƒ©ãƒ¼ãƒ é€ä¿¡æ™‚åˆ»ã‹ã‚‰ç¾åœ¨ã¾ã§ã®çµŒéæ™‚é–“ãŒé–¾å€¤(javelin.alarmIntervalThreshold)ã‚’
-     * è¶…ãˆã¦ã„ãŸå ´åˆã«ã¯ã€ãƒ­ã‚°ã‚’å‡ºåŠ›ã—trueã‚’è¿”ã™ã€‚
-     * ãŸã ã—ã€åˆ¤å®šå„ªå…ˆåº¦ï¼šé«˜ã®å®Ÿè¡ŒçµæœãŒtrueã®å ´åˆã¯ã€çµŒéæ™‚é–“ã«é–¢ä¿‚ãªãã€ãƒ­ã‚°å‡ºåŠ›ã—trueã‚’è¿”ã™ã€‚
+     * ÅIƒAƒ‰[ƒ€‘—M‚ğŠm”F‚µAXV‚·‚éB
+     * ƒAƒ‰[ƒ€‘—M‚©‚çŒ»İ‚Ü‚Å‚ÌŒo‰ßŠÔ‚ªè‡’l(javelin.alarmIntervalThreshold)‚ğ
+     * ’´‚¦‚Ä‚¢‚½ê‡‚É‚ÍAƒƒO‚ğo—Í‚µtrue‚ğ•Ô‚·B
+     * ‚½‚¾‚µA”»’è—Dæ“xF‚‚ÌÀsŒ‹‰Ê‚ªtrue‚Ìê‡‚ÍAŒo‰ßŠÔ‚ÉŠÖŒW‚È‚­AƒƒOo—Í‚µtrue‚ğ•Ô‚·B
      *
-     * @param node å¯¾è±¡ã®ãƒãƒ¼ãƒ‰ã€‚
-     * @param config è¨­å®šã€‚
-     * @param judgeHigh åˆ¤å®šå„ªå…ˆåº¦ï¼šé«˜ã®å®Ÿè¡Œçµæœ
-     * @return ã‚¢ãƒ©ãƒ¼ãƒ é€ä¿¡æ™‚åˆ»ã‹ã‚‰ç¾åœ¨ã¾ã§ã®çµŒéæ™‚é–“ãŒé–¾å€¤ã‚’è¶…ãˆã¦ã„ãŸå ´åˆã«é™ã‚Štrueã‚’è¿”ã™ã€‚
+     * @param node ‘ÎÛ‚Ìƒm[ƒhB
+     * @param config İ’èB
+     * @param judgeHigh ”»’è—Dæ“xF‚‚ÌÀsŒ‹‰Ê
+     * @return ƒAƒ‰[ƒ€‘—M‚©‚çŒ»İ‚Ü‚Å‚ÌŒo‰ßŠÔ‚ªè‡’l‚ğ’´‚¦‚Ä‚¢‚½ê‡‚ÉŒÀ‚ètrue‚ğ•Ô‚·B
      */
     private static boolean checkLastAlarmTime(final CallTreeNode node, final JavelinConfig config,
             final boolean judgeHigh)
@@ -1607,9 +1594,9 @@ public class StatsJavelinRecorder
         {
             isLastAlarmTooNear = true;
 
-            // ã‚¢ãƒ©ãƒ¼ãƒ å‰Šé™¤ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã¯ã€ã‚¢ãƒ©ãƒ¼ãƒ é€ä¿¡é–“éš”ã¨åŒã˜é–“éš”ã§å‡ºåŠ›ã™ã‚‹ã€‚
-            // ã¾ãŸã€ã‚¢ãƒ©ãƒ¼ãƒ å‰Šé™¤ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚µã‚¤ã‚ºãŒã€"DEF_BUFFER_SIZE"ã‚’è¶…ãˆã‚‹å ´åˆã€
-            // è¶…ãˆãŸæ–‡å­—åˆ—åˆ†ã‚’å‰Šé™¤ã™ã‚‹ã€‚
+            // ƒAƒ‰[ƒ€íœƒƒbƒZ[ƒW‚ÍAƒAƒ‰[ƒ€‘—MŠÔŠu‚Æ“¯‚¶ŠÔŠu‚Åo—Í‚·‚éB
+            // ‚Ü‚½AƒAƒ‰[ƒ€íœƒƒbƒZ[ƒWƒTƒCƒY‚ªA"DEF_BUFFER_SIZE"‚ğ’´‚¦‚éê‡A
+            // ’´‚¦‚½•¶š—ñ•ª‚ğíœ‚·‚éB
             synchronized (discardBuffer__)
             {
                 if (discardBuffer__.length() < DEF_BUFFER_SIZE)
@@ -1654,12 +1641,12 @@ public class StatsJavelinRecorder
     }
 
     /**
-     * å¾Œå‡¦ç†ï¼ˆæœ¬å‡¦ç†å¤±æ•—æ™‚ï¼‰ã€‚
+     * Œãˆ—i–{ˆ—¸”sjB
      *
-     * @param className ã‚¯ãƒ©ã‚¹å
-     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
-     * @param cause ä¾‹å¤–ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param config ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®è¨­å®šå€¤ã‚’ä¿å­˜ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param className ƒNƒ‰ƒX–¼
+     * @param methodName ƒƒ\ƒbƒh–¼
+     * @param cause —áŠOƒIƒuƒWƒFƒNƒg
+     * @param config ƒpƒ‰ƒ[ƒ^‚Ìİ’è’l‚ğ•Û‘¶‚·‚éƒIƒuƒWƒFƒNƒg
      */
     public static void postProcess(String className, String methodName, final Throwable cause,
             final JavelinConfig config)
@@ -1668,13 +1655,13 @@ public class StatsJavelinRecorder
     }
 
     /**
-     * å¾Œå‡¦ç†ï¼ˆæœ¬å‡¦ç†å¤±æ•—æ™‚ï¼‰ã€‚
+     * Œãˆ—i–{ˆ—¸”sjB
      *
-     * @param className ã‚¯ãƒ©ã‚¹å
-     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
-     * @param cause ä¾‹å¤–ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param config ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®è¨­å®šå€¤ã‚’ä¿å­˜ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param doExcludeProcess é™¤å¤–å¯¾è±¡å‡¦ç†ã‚’è¡Œã†ã‹ã©ã†ã‹
+     * @param className ƒNƒ‰ƒX–¼
+     * @param methodName ƒƒ\ƒbƒh–¼
+     * @param cause —áŠOƒIƒuƒWƒFƒNƒg
+     * @param config ƒpƒ‰ƒ[ƒ^‚Ìİ’è’l‚ğ•Û‘¶‚·‚éƒIƒuƒWƒFƒNƒg
+     * @param doExcludeProcess œŠO‘ÎÛˆ—‚ğs‚¤‚©‚Ç‚¤‚©
      */
     public static void postProcess(String className, String methodName, final Throwable cause,
             final JavelinConfig config, final boolean doExcludeProcess)
@@ -1695,14 +1682,14 @@ public class StatsJavelinRecorder
     }
 
     /**
-     * Javelinãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å‡ºåŠ›ã™ã‚‹ã€‚
-     * @param config ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®è¨­å®šå€¤ã‚’ä¿å­˜ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @return Javelinãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«
+     * JavelinƒƒOƒtƒ@ƒCƒ‹‚ğo—Í‚·‚éB
+     * @param config ƒpƒ‰ƒ[ƒ^‚Ìİ’è’l‚ğ•Û‘¶‚·‚éƒIƒuƒWƒFƒNƒg
+     * @return JavelinƒƒOƒtƒ@ƒCƒ‹
      */
     public static String dumpJavelinLog(final JavelinConfig config)
     {
         String fileName = "";
-        // Javelinãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å‡ºåŠ›ã™ã‚‹ã€‚
+        // JavelinƒƒOƒtƒ@ƒCƒ‹‚ğo—Í‚·‚éB
         JavelinFileGenerator generator = new JavelinFileGenerator(config);
 
         CallTree callTree = CallTreeRecorder.getInstance().getCallTree();
@@ -1722,7 +1709,7 @@ public class StatsJavelinRecorder
     }
 
     /**
-     * ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚’è¨˜éŒ²ã™ã‚‹ã€‚
+     * ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ğ‹L˜^‚·‚éB
      *
      * @param node CallTreeNode
      */
@@ -1774,7 +1761,7 @@ public class StatsJavelinRecorder
     }
 
     /**
-     * Alarmé€šçŸ¥ã™ã‚‹ã€‚
+     * Alarm’Ê’m‚·‚éB
      * @param node CallTreeNode
      * @param callTreeRecorder callTreeRecorder
      */
@@ -1784,8 +1771,8 @@ public class StatsJavelinRecorder
         {
             for (AlarmListener alarmListener : ALARM_LISTENER_LIST)
             {
-                // ãƒ«ãƒ¼ãƒˆãƒãƒ¼ãƒ‰ã®ã¿Alarmã‚’é€ä¿¡ã™ã‚‹AlarmListenerã¯ã€
-                // è¦ªã‚’æŒã¤ãƒãƒ¼ãƒ‰ã‚’ç„¡è¦–ã™ã‚‹ã€‚
+                // ƒ‹[ƒgƒm[ƒh‚Ì‚İAlarm‚ğ‘—M‚·‚éAlarmListener‚ÍA
+                // e‚ğ‚Âƒm[ƒh‚ğ–³‹‚·‚éB
                 boolean sendingRootOnly = alarmListener.isSendingRootOnly();
                 if (sendingRootOnly == true && node.getParent() != null)
                 {
@@ -1794,8 +1781,8 @@ public class StatsJavelinRecorder
 
                 try
                 {
-                    // AlarmListenerã«ã¯CallTreeNodeã‚’ãã®ã¾ã¾æ¸¡ã™
-                    // â†’ã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥ã§ç´¯ç©æ™‚é–“ã‚’ä½¿ç”¨ã™ã‚‹ã‚‚ã®ãŒã‚ã‚‹ç‚º
+                    // AlarmListener‚É‚ÍCallTreeNode‚ğ‚»‚Ì‚Ü‚Ü“n‚·
+                    // ¨ƒAƒ‰[ƒ€’Ê’m‚Å—İÏŠÔ‚ğg—p‚·‚é‚à‚Ì‚ª‚ ‚éˆ×
                     alarmListener.sendExceedThresholdAlarm(node);
                 }
                 catch (Throwable ex)
@@ -1824,9 +1811,9 @@ public class StatsJavelinRecorder
     }
 
     /**
-     * Alarmé€šçŸ¥ã™ã‚‹ã€‚
+     * Alarm’Ê’m‚·‚éB
      * @param node CallTreeNode
-     * @param telegramId é›»æ–‡ ID
+     * @param telegramId “d•¶ ID
      */
     private static void sendAlarmImpl(final CallTreeNode node)
     {
@@ -1834,8 +1821,8 @@ public class StatsJavelinRecorder
         {
             for (AlarmListener alarmListener : ALARM_LISTENER_LIST)
             {
-                // ãƒ«ãƒ¼ãƒˆãƒãƒ¼ãƒ‰ã®ã¿Alarmã‚’é€ä¿¡ã™ã‚‹AlarmListenerã¯ã€
-                // è¦ªã‚’æŒã¤ãƒãƒ¼ãƒ‰ã‚’ç„¡è¦–ã™ã‚‹ã€‚
+                // ƒ‹[ƒgƒm[ƒh‚Ì‚İAlarm‚ğ‘—M‚·‚éAlarmListener‚ÍA
+                // e‚ğ‚Âƒm[ƒh‚ğ–³‹‚·‚éB
                 boolean sendingRootOnly = alarmListener.isSendingRootOnly();
                 if (sendingRootOnly == true && node.getParent() != null)
                 {
@@ -1844,8 +1831,8 @@ public class StatsJavelinRecorder
 
                 try
                 {
-                    // AlarmListenerã«ã¯CallTreeNodeã‚’ãã®ã¾ã¾æ¸¡ã™
-                    // â†’ã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥ã§ç´¯ç©æ™‚é–“ã‚’ä½¿ç”¨ã™ã‚‹ã‚‚ã®ãŒã‚ã‚‹ç‚º
+                    // AlarmListener‚É‚ÍCallTreeNode‚ğ‚»‚Ì‚Ü‚Ü“n‚·
+                    // ¨ƒAƒ‰[ƒ€’Ê’m‚Å—İÏŠÔ‚ğg—p‚·‚é‚à‚Ì‚ª‚ ‚éˆ×
                     alarmListener.sendExceedThresholdAlarm(node);
                 }
                 catch (Throwable ex)
@@ -1857,9 +1844,9 @@ public class StatsJavelinRecorder
     }
 
     /**
-     * Alarmé€šçŸ¥ã«åˆ©ç”¨ã™ã‚‹AlarmListenerã‚’ç™»éŒ²ã™ã‚‹
+     * Alarm’Ê’m‚É—˜—p‚·‚éAlarmListener‚ğ“o˜^‚·‚é
      *
-     * @param alarmListener Alarmé€šçŸ¥ã«åˆ©ç”¨ã™ã‚‹AlarmListener
+     * @param alarmListener Alarm’Ê’m‚É—˜—p‚·‚éAlarmListener
      */
     public static void addListener(final AlarmListener alarmListener)
     {
@@ -1870,8 +1857,8 @@ public class StatsJavelinRecorder
     }
 
     /**
-     * ã‚¹ãƒ¬ãƒƒãƒ‰ã®IDã‚’è¨­å®šã™ã‚‹
-     * @param threadId ã‚¹ãƒ¬ãƒƒãƒ‰ID
+     * ƒXƒŒƒbƒh‚ÌID‚ğİ’è‚·‚é
+     * @param threadId ƒXƒŒƒbƒhID
      */
     public static void setThreadId(final String threadId)
     {
@@ -1880,8 +1867,8 @@ public class StatsJavelinRecorder
     }
 
     /**
-     * åˆæœŸåŒ–ã•ã‚Œã¦ã„ã‚‹ã‹ã‚’è¿”ã™ã€‚
-     * @return true:åˆæœŸåŒ–ã•ã‚Œã¦ã„ã‚‹ã€false:åˆæœŸåŒ–ã•ã‚Œã¦ã„ãªã„.
+     * ‰Šú‰»‚³‚ê‚Ä‚¢‚é‚©‚ğ•Ô‚·B
+     * @return true:‰Šú‰»‚³‚ê‚Ä‚¢‚éAfalse:‰Šú‰»‚³‚ê‚Ä‚¢‚È‚¢.
      */
     public static boolean isInitialized()
     {
@@ -1889,16 +1876,16 @@ public class StatsJavelinRecorder
     }
 
     /**
-     * CallTreeNodeã«è¨­å®šã•ã‚ŒãŸåˆ¤å®šã‚¯ãƒ©ã‚¹(åˆ¤å®šå„ªå…ˆåº¦ï¼šé«˜)ã‚’åˆ©ç”¨ã—ã¦ã€
-     * Javelinãƒ­ã‚°ã‚’ãƒ•ã‚¡ã‚¤ãƒ«ã«å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹åˆ¤å®šã™ã‚‹ã€‚
+     * CallTreeNode‚Éİ’è‚³‚ê‚½”»’èƒNƒ‰ƒX(”»’è—Dæ“xF‚)‚ğ—˜—p‚µ‚ÄA
+     * JavelinƒƒO‚ğƒtƒ@ƒCƒ‹‚Éo—Í‚·‚é‚©‚Ç‚¤‚©”»’è‚·‚éB
      *
      * @param node CallTreeNode
-     * @return true:å‡ºåŠ›ã™ã‚‹ã€false:å‡ºåŠ›ã—ãªã„
+     * @return true:o—Í‚·‚éAfalse:o—Í‚µ‚È‚¢
      */
     private static JavelinLogCallback createCallback(final CallTree tree, final CallTreeNode node)
     {
-        // CallTreeNodeã«è¨­å®šã•ã‚Œã¦ã„ãŸåˆ¤å®šã‚¯ãƒ©ã‚¹ã§ã®åˆ¤å®šçµæœãŒ
-        // 1ã¤ã§ã‚‚trueã§ã‚ã‚Œã°ã€ãã‚Œã‚’æˆ»ã‚Šå€¤ã¨ã™ã‚‹
+        // CallTreeNode‚Éİ’è‚³‚ê‚Ä‚¢‚½”»’èƒNƒ‰ƒX‚Å‚Ì”»’èŒ‹‰Ê‚ª
+        // 1‚Â‚Å‚àtrue‚Å‚ ‚ê‚ÎA‚»‚ê‚ğ–ß‚è’l‚Æ‚·‚é
         RecordStrategy[] strategyList = tree.getHighPriorityRecordStrategy();
         for (RecordStrategy str : strategyList)
         {
@@ -1908,15 +1895,15 @@ public class StatsJavelinRecorder
                 return callback;
             }
         }
-        // åˆ¤å®šãŒã™ã¹ã¦falseã®å ´åˆ
+        // ”»’è‚ª‚·‚×‚Äfalse‚Ìê‡
         return recordStrategy__.createCallback();
     }
 
     /**
-     * ã‚¤ãƒ™ãƒ³ãƒˆãƒ¬ãƒ™ãƒ«ã‚’æ–‡å­—åˆ—ã‹ã‚‰æ•°å€¤ã«å¤‰æ›ã—ã¾ã™ã€‚<br />
+     * ƒCƒxƒ“ƒgƒŒƒxƒ‹‚ğ•¶š—ñ‚©‚ç”’l‚É•ÏŠ·‚µ‚Ü‚·B<br />
      *
-     * @param eventLevelStr ã‚¤ãƒ™ãƒ³ãƒˆãƒ¬ãƒ™ãƒ«(æ–‡å­—åˆ—)
-     * @return ã‚¤ãƒ™ãƒ³ãƒˆãƒ¬ãƒ™ãƒ«(æ•°å€¤)
+     * @param eventLevelStr ƒCƒxƒ“ƒgƒŒƒxƒ‹(•¶š—ñ)
+     * @return ƒCƒxƒ“ƒgƒŒƒxƒ‹(”’l)
      */
     private static int convertEventLevel(final String eventLevelStr)
     {

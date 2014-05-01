@@ -30,7 +30,7 @@ import jp.co.acroquest.endosnipe.javelin.bean.proc.ProcInfo;
 import jp.co.acroquest.endosnipe.javelin.bean.proc.StatInfo;
 
 /**
- * StatInfoã‹ã‚‰ã‚·ã‚¹ãƒ†ãƒ ãƒ¢ãƒ¼ãƒ‰ã®CPUä½¿ç”¨é‡ã‚’å–å¾—ã™ã‚‹ã€‚
+ * StatInfo‚©‚çƒVƒXƒeƒ€ƒ‚[ƒh‚ÌCPUŽg—p—Ê‚ðŽæ“¾‚·‚éB
  * 
  * @author akita
  */
@@ -39,7 +39,7 @@ public class LinuxCpuSystemGetter extends ProcResourceGetter
 
     /**
      * 
-     * @param procParser ãƒªã‚½ãƒ¼ã‚¹æƒ…å ±å–å¾—ç”¨
+     * @param procParser ƒŠƒ\[ƒXî•ñŽæ“¾—p
      */
     public LinuxCpuSystemGetter(ProcParser procParser)
     {

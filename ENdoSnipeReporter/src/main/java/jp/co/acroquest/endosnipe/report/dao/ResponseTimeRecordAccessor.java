@@ -26,70 +26,70 @@ import jp.co.acroquest.endosnipe.data.dto.MeasurementValueDto;
 import jp.co.acroquest.endosnipe.report.dao.ReportDao;
 
 /**
- * ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚¿ã‚¤ãƒ ãƒ¬ãƒãƒ¼ãƒˆç”¨ã®ãƒ‡ãƒ¼ã‚¿ã«ã‚¢ã‚¯ã‚»ã‚¹ã™ã‚‹ãŸã‚ã®DAOã€‚
- * DBã‹ã‚‰å–å¾—ã—ãŸãƒ‡ãƒ¼ã‚¿ã®åŠ å·¥ã‚’è¡Œã„ã€ãƒ¬ãƒãƒ¼ãƒˆã«å‡ºåŠ›ã§ãã‚‹ãƒ‡ãƒ¼ã‚¿å½¢å¼ã«å¤‰æ›ã™ã‚‹ã€‚
+ * ƒŒƒXƒ|ƒ“ƒXƒ^ƒCƒ€ƒŒƒ|[ƒg—p‚Ìƒf[ƒ^‚ÉƒAƒNƒZƒX‚·‚é‚½‚ß‚ÌDAOB
+ * DB‚©‚çæ“¾‚µ‚½ƒf[ƒ^‚Ì‰ÁH‚ğs‚¢AƒŒƒ|[ƒg‚Éo—Í‚Å‚«‚éƒf[ƒ^Œ`®‚É•ÏŠ·‚·‚éB
  * 
  * @author M.Yoshida
  */
 public class ResponseTimeRecordAccessor
 {
-	/**
-	 * æœŸé–“ã‚’æŒ‡å®šã—ã€ãã®æœŸé–“å†…ã§ã®ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚¿ã‚¤ãƒ ãƒ¬ãƒãƒ¼ãƒˆã®ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã€‚
-	 * 
-	 * @param database  ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-	 * @param startTime æ¤œç´¢æ¡ä»¶(é–‹å§‹æ™‚åˆ»)
-	 * @param endTime   æ¤œç´¢æ¡ä»¶(çµ‚äº†æ™‚åˆ»)
-	 * @return ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚¿ã‚¤ãƒ ãƒ¬ãƒãƒ¼ãƒˆã®ãƒ‡ãƒ¼ã‚¿
-	 * @throws SQLException ãƒ‡ãƒ¼ã‚¿å–å¾—æ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
-	 */
-	public List<ResponseTimeRecord> findResponseStatisticsByTerm(String database,
-		Timestamp startTime, Timestamp endTime) throws SQLException
-	{
-		List<ResponseTimeRecord> result = new ArrayList<ResponseTimeRecord>();
+    /**
+     * ŠúŠÔ‚ğw’è‚µA‚»‚ÌŠúŠÔ“à‚Å‚ÌƒŒƒXƒ|ƒ“ƒXƒ^ƒCƒ€ƒŒƒ|[ƒg‚Ìƒf[ƒ^‚ğæ“¾‚·‚éB
+     * 
+     * @param database  ƒf[ƒ^ƒx[ƒX–¼
+     * @param startTime ŒŸõğŒ(ŠJn)
+     * @param endTime   ŒŸõğŒ(I—¹)
+     * @return ƒŒƒXƒ|ƒ“ƒXƒ^ƒCƒ€ƒŒƒ|[ƒg‚Ìƒf[ƒ^
+     * @throws SQLException ƒf[ƒ^æ“¾‚ÉƒGƒ‰[‚ª”­¶‚µ‚½ê‡
+     */
+    public List<ResponseTimeRecord> findResponseStatisticsByTerm(String database,
+            Timestamp startTime, Timestamp endTime) throws SQLException
+    {
+        List<ResponseTimeRecord> result = new ArrayList<ResponseTimeRecord>();
 
-		List<ReportItemValue> minValues = ReportDao.selectAverage(database, startTime, endTime,
-			TelegramConstants.ITEMNAME_PROCESS_RESPONSE_TIME_MIN);
+        List<ReportItemValue> minValues = ReportDao.selectAverage(database, startTime, endTime,
+                TelegramConstants.ITEMNAME_PROCESS_RESPONSE_TIME_MIN);
 
-		List<ReportItemValue> maxValues = ReportDao.selectAverage(database, startTime, endTime,
-			TelegramConstants.ITEMNAME_PROCESS_RESPONSE_TIME_MAX);
+        List<ReportItemValue> maxValues = ReportDao.selectAverage(database, startTime, endTime,
+                TelegramConstants.ITEMNAME_PROCESS_RESPONSE_TIME_MAX);
 
-		List<ReportItemValue> cntValues = ReportDao.selectAverage(database, startTime, endTime,
-			TelegramConstants.ITEMNAME_PROCESS_RESPONSE_TOTAL_COUNT);
+        List<ReportItemValue> cntValues = ReportDao.selectAverage(database, startTime, endTime,
+                TelegramConstants.ITEMNAME_PROCESS_RESPONSE_TOTAL_COUNT);
 
-		List<ReportItemValue> aveValues = ReportDao.selectAverage(database, startTime, endTime,
-			TelegramConstants.ITEMNAME_PROCESS_RESPONSE_TIME_AVERAGE);
+        List<ReportItemValue> aveValues = ReportDao.selectAverage(database, startTime, endTime,
+                TelegramConstants.ITEMNAME_PROCESS_RESPONSE_TIME_AVERAGE);
 
-		//        for (String accessedTarget : cntMap.keySet())
-		//        {
-		//            ResponseTimeRecord resultElem = new ResponseTimeRecord();
-		//            resultElem.setAccessTarget(accessedTarget);
-		//            resultElem.setAccessCount(cntMap.get(accessedTarget).value.longValue());
-		//            resultElem.setAveResponseTime(aveMap.get(accessedTarget).value.longValue());
-		//            resultElem.setMaxResponseTime(maxMap.get(accessedTarget).value.longValue());
-		//            resultElem.setMinResponseTime(minMap.get(accessedTarget).value.longValue());
-		//
-		//            result.add(resultElem);
-		//        }
+//        for (String accessedTarget : cntMap.keySet())
+//        {
+//            ResponseTimeRecord resultElem = new ResponseTimeRecord();
+//            resultElem.setAccessTarget(accessedTarget);
+//            resultElem.setAccessCount(cntMap.get(accessedTarget).value.longValue());
+//            resultElem.setAveResponseTime(aveMap.get(accessedTarget).value.longValue());
+//            resultElem.setMaxResponseTime(maxMap.get(accessedTarget).value.longValue());
+//            resultElem.setMinResponseTime(minMap.get(accessedTarget).value.longValue());
+//
+//            result.add(resultElem);
+//        }
 
-		return result;
-	}
+        return result;
+    }
 
-	/**
-	 * ãƒªã‚¹ãƒˆãƒ‡ãƒ¼ã‚¿ã‚’ã€ç³»åˆ—åç§°ï¼ˆã‚¢ã‚¯ã‚»ã‚¹å¯¾è±¡ãƒ¡ã‚½ãƒƒãƒ‰ï¼URL)ã‚’ã‚­ãƒ¼ã¨ã™ã‚‹ãƒãƒƒãƒ—å½¢å¼ã®ãƒ‡ãƒ¼ã‚¿ã«å¤‰æ›ã™ã‚‹ã€‚
-	 * 
-	 * @param list ãƒªã‚¹ãƒˆãƒ‡ãƒ¼ã‚¿
-	 * @return å¤‰æ›å¾Œã®ãƒãƒƒãƒ—ãƒ‡ãƒ¼ã‚¿
-	 */
-	private Map<String, MeasurementValueDto> convertListToItemKeyMap(List<MeasurementValueDto> list)
-	{
-		Map<String, MeasurementValueDto> resultMap = new HashMap<String, MeasurementValueDto>();
+    /**
+     * ƒŠƒXƒgƒf[ƒ^‚ğAŒn—ñ–¼ÌiƒAƒNƒZƒX‘ÎÛƒƒ\ƒbƒh^URL)‚ğƒL[‚Æ‚·‚éƒ}ƒbƒvŒ`®‚Ìƒf[ƒ^‚É•ÏŠ·‚·‚éB
+     * 
+     * @param list ƒŠƒXƒgƒf[ƒ^
+     * @return •ÏŠ·Œã‚Ìƒ}ƒbƒvƒf[ƒ^
+     */
+    private Map<String, MeasurementValueDto> convertListToItemKeyMap(List<MeasurementValueDto> list)
+    {
+        Map<String, MeasurementValueDto> resultMap = new HashMap<String, MeasurementValueDto>();
 
-		for (MeasurementValueDto elem : list)
-		{
-			resultMap.put(elem.measurementItemName, elem);
-		}
+        for (MeasurementValueDto elem : list)
+        {
+            resultMap.put(elem.measurementItemName, elem);
+        }
 
-		return resultMap;
-	}
+        return resultMap;
+    }
 
 }

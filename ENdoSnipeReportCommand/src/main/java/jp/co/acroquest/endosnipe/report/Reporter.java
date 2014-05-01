@@ -13,301 +13,258 @@
 package jp.co.acroquest.endosnipe.report;
 
 import java.io.File;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import jp.co.acroquest.endosnipe.collector.config.DataCollectorConfig;
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
-import jp.co.acroquest.endosnipe.data.dao.ReportExportResultDao;
 import jp.co.acroquest.endosnipe.data.db.DBManager;
 import jp.co.acroquest.endosnipe.report.controller.ReportPublishTask;
 import jp.co.acroquest.endosnipe.report.controller.ReportSearchCondition;
 import jp.co.acroquest.endosnipe.report.controller.ReportType;
 import jp.co.acroquest.endosnipe.report.controller.dispatcher.ReportPublishDispatcher;
-import jp.co.acroquest.endosnipe.report.dao.ReportDao;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Zip;
 
 /**
- * BottleneckEyeã‚’èµ·å‹•ã›ãšã«ã€ãƒ¬ãƒãƒ¼ãƒˆä½œæˆã‚’è¡Œã†ãŸã‚ã®ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br>
+ * BottleneckEye‚ğ‹N“®‚¹‚¸‚ÉAƒŒƒ|[ƒgì¬‚ğs‚¤‚½‚ß‚ÌƒNƒ‰ƒX‚Å‚·B<br>
  * 
  * @author iida
  */
 public class Reporter
 {
 
-	/** é–‹å§‹ï¼çµ‚äº†æ™‚åˆ»ã‚’æŒ‡å®šã™ã‚‹æ–‡å­—åˆ—å½¢å¼ã€‚ */
-	public static final String TIME_FORMAT = "yyyyMMdd_HHmmss";
+    /** ŠJn^I—¹‚ğw’è‚·‚é•¶š—ñŒ`®B */
+    public static final String           TIME_FORMAT = "yyyyMMdd_HHmmss";
 
-	/** ãƒ­ã‚¬ãƒ¼ */
-	private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
-		.getLogger(ReportPublishDispatcher.class);
+    /** ƒƒK[ */
+    private static final ENdoSnipeLogger LOGGER      = ENdoSnipeLogger
+                                                             .getLogger(
+                                                                     ReportPublishDispatcher.class);
 
-	/**
-	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
-	 */
-	public Reporter()
-	{
+    /**
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
+     */
+    public Reporter()
+    {
 
-	}
+    }
 
-	public void createReport(DataCollectorConfig config, Calendar fmTime, Calendar toTime,
-		String reportPath, String targetItemName, String reportName)
-	{
-		createReport(config, fmTime, toTime, reportPath, targetItemName, reportName, null);
-	}
+    /**
+     * ƒŒƒ|[ƒgì¬‚ğs‚¢‚Ü‚·B<br/>
+     * 
+     * @param config
+     *            DataCollector‚Ìİ’è/’è”‚ğ•Û‚·‚éƒIƒuƒWƒFƒNƒg
+     * @param fmTime
+     *            ŠJn
+     * @param toTime
+     *            I—¹
+     * @param reportPath
+     *            o—ÍæƒfƒBƒŒƒNƒgƒŠ
+     * @param targetItemName
+     *            ƒŒƒ|[ƒgo—Í‘ÎÛ‚Ìe‚Ì€–Ú–¼
+     * @param reportName
+     *            ƒŒƒ|[ƒg–¼
+     */
+    public void createReport(DataCollectorConfig config, Calendar fmTime,
+            Calendar toTime, String reportPath, String targetItemName,
+            String reportName)
+    {
 
-	/**
-	 * ãƒ¬ãƒãƒ¼ãƒˆä½œæˆã‚’è¡Œã„ã¾ã™ã€‚<br/>
-	 * 
-	 * @param config
-	 *            DataCollectorã®è¨­å®š/å®šæ•°ã‚’ä¿æŒã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-	 * @param fmTime
-	 *            é–‹å§‹æ™‚åˆ»
-	 * @param toTime
-	 *            çµ‚äº†æ™‚åˆ»
-	 * @param reportPath
-	 *            å‡ºåŠ›å…ˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
-	 * @param targetItemName
-	 *            ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›å¯¾è±¡ã®è¦ªã®é …ç›®å
-	 * @param reportName
-	 *            ãƒ¬ãƒãƒ¼ãƒˆå
-	 */
-	public void createReport(DataCollectorConfig config, Calendar fmTime, Calendar toTime,
-		String reportPath, String targetItemName, String reportName, String status)
-	{
-		
+        // ŠJn‚ªI—¹‚æ‚è–¢—ˆ‚ğw‚µ‚Ä‚¢‚½ê‡‚ÍƒGƒ‰[
+        if (fmTime.compareTo(toTime) > 0)
+        {
+            System.err.println("ŠJn‚ªI—¹‚æ‚è–¢—ˆ‚ğw‚µ‚Ä‚¢‚Ü‚·B");
+            return;
+        }
 
+        if (config == null)
+        {
+            return;
+        }
 
-		// é–‹å§‹æ™‚åˆ»ãŒçµ‚äº†æ™‚åˆ»ã‚ˆã‚Šæœªæ¥ã‚’æŒ‡ã—ã¦ã„ãŸå ´åˆã¯ã‚¨ãƒ©ãƒ¼
-		if (fmTime.compareTo(toTime) > 0)
-		{
-			System.err.println("é–‹å§‹æ™‚åˆ»ãŒçµ‚äº†æ™‚åˆ»ã‚ˆã‚Šæœªæ¥ã‚’æŒ‡ã—ã¦ã„ã¾ã™ã€‚");
-			return;
-		}
+        // DB‚Ì”İ’è‚ğæ“¾
+        String dbName = config.getDatabaseName();
+        String dbHost = config.getDatabaseHost();
+        String dbPort = config.getDatabasePort();
+        String dbUser = config.getDatabaseUserName();
+        String dbPass = config.getDatabasePassword();
 
-		if (config == null)
-		{
-			return;
-		}
+        // ƒŒƒ|[ƒgì¬‚Ég—p‚·‚éDB‚ğw’è‚·‚é
+        DBManager.updateSettings(false, "", dbHost, dbPort, dbName, dbUser,
+                dbPass);
 
-		// DBã®è«¸è¨­å®šã‚’å–å¾—
-		String dbName = config.getDatabaseName();
-		String dbHost = config.getDatabaseHost();
-		String dbPort = config.getDatabasePort();
-		String dbUser = config.getDatabaseUserName();
-		String dbPass = config.getDatabasePassword();
-		
-		// ãƒ¬ãƒãƒ¼ãƒˆä½œæˆã«ä½¿ç”¨ã™ã‚‹DBã‚’æŒ‡å®šã™ã‚‹
-		DBManager.updateSettings(false, "", dbHost, dbPort, dbName, dbUser, dbPass);
+        // ƒŒƒ|[ƒgì¬‚ÌŠeİ’è‚ğs‚¤
+        ReportType[] outputReportTypes = new ReportType[]{ReportType.OBJECT};
 
-		// ãƒ¬ãƒãƒ¼ãƒˆä½œæˆæ™‚ã®å„è¨­å®šã‚’è¡Œã†
-		ReportType[] outputReportTypes = new ReportType[] { ReportType.OBJECT,
-			ReportType.PERF_DOCTOR };
+        // TODO PerformanceDoctor ‚Ìƒ‹[ƒ‹İ’è‚ğ—LŒø‚É‚·‚éB
+        // // PerformanceDoctor‚Ìƒ‹[ƒ‹‚ğİ’è‚·‚é
+        // int selectionIndex = 0;
+        // RuleManager ruleManager = RuleManager.getInstance();
+        // RuleSetConfig[] ruleSetConfigs = ruleManager.getRuleSetConfigs();
+        // String id = ruleSetConfigs[selectionIndex].getId();
+        // ruleManager.changeActiveRuleSetByID(id);
 
-		Runnable callback = null;
+        Runnable callback = null;
 
-		// ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’æ±ºå®šã—ã€å­˜åœ¨ã—ãªã‘ã‚Œã°ä½œæˆã™ã‚‹
-		// ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›å…ˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªï¼š
-		// <current-dir>/reports/<db-name>/<from>-<to>/
-		SimpleDateFormat format = new SimpleDateFormat(TIME_FORMAT);
-		String start = format.format(fmTime.getTime());
-		String end = format.format(toTime.getTime());
-		String leafDirectoryName = reportName + "_" + start + "-" + end;
+        // ƒŒƒ|[ƒgo—ÍƒfƒBƒŒƒNƒgƒŠ‚ğŒˆ’è‚µA‘¶İ‚µ‚È‚¯‚ê‚Îì¬‚·‚é
+        // ƒŒƒ|[ƒgo—ÍæƒfƒBƒŒƒNƒgƒŠF
+        // <current-dir>/reports/<db-name>/<from>-<to>/
+        SimpleDateFormat format = new SimpleDateFormat(TIME_FORMAT);
+        String start = format.format(fmTime.getTime());
+        String end = format.format(toTime.getTime());
+        String leafDirectoryName = reportName + "_" + start + "-" + end;
 
-		String outputParentPath = reportPath + File.separator + dbName;
-		
-		// ãƒ¬ãƒãƒ¼ãƒˆã®ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆã‚’è¡Œã†ã€‚
-		try
-		{
-			rotateReport(new File(outputParentPath), dbName);
-		}
-		catch (SQLException e1)
-		{
-			e1.printStackTrace();
-		}
-		
-		String outputFilePath = outputParentPath + File.separator + leafDirectoryName;
+        String outputFilePath = reportPath + File.separator + dbName
+                + File.separator + leafDirectoryName;
 
-		File outputDir = new File(outputFilePath);
-		if (outputDir.exists() == false)
-		{
-			outputDir.mkdirs();
-		}
-		
+        File outputDir = new File(outputFilePath);
+        if (outputDir.exists() == false)
+        {
+            outputDir.mkdirs();
+        }
 
-		
-		// TODO çµã‚Šè¾¼ã¿ã®ãƒ«ãƒ¼ãƒ«ã‚’è¨­å®šã™ã‚‹
-		boolean limitSameCause = false;
-		boolean limitBySameRule = false;
+        // TODO i‚è‚İ‚Ìƒ‹[ƒ‹‚ğİ’è‚·‚é
+        boolean limitSameCause = false;
+        boolean limitBySameRule = false;
 
-		// ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›æœŸé–“ã®æ¡ä»¶ã‚’è¨­å®šã™ã‚‹
-		ReportSearchCondition searchCondition = new ReportSearchCondition();
-		searchCondition.setDatabases(Arrays.asList(dbName));
-		searchCondition.setStartDate(new Timestamp(fmTime.getTimeInMillis()));
-		searchCondition.setEndDate(new Timestamp(toTime.getTimeInMillis()));
-		searchCondition.setOutputFilePath(outputFilePath);
-		searchCondition.setLimitSameCause(limitSameCause);
-		searchCondition.setLimitBySameRule(limitBySameRule);
+        // ƒŒƒ|[ƒgo—ÍŠúŠÔ‚ÌğŒ‚ğİ’è‚·‚é
+        ReportSearchCondition searchCondition = new ReportSearchCondition();
+        searchCondition.setDatabases(Arrays.asList(dbName));
+        searchCondition.setStartDate(new Timestamp(fmTime.getTimeInMillis()));
+        searchCondition.setEndDate(new Timestamp(toTime.getTimeInMillis()));
+        searchCondition.setOutputFilePath(outputFilePath);
+        searchCondition.setLimitSameCause(limitSameCause);
+        searchCondition.setLimitBySameRule(limitBySameRule);
 
-		Timestamp startTime = new Timestamp(fmTime.getTimeInMillis());
-		Timestamp endTime = new Timestamp(toTime.getTimeInMillis());
-		// çµ¶å¯¾ãƒ‘ã‚¹ã‚’å–å¾—
-		File currentDirectory = new File(".");
+        // â‘ÎƒpƒX‚ğæ“¾
+        File currentDirectory = new File(".");
 
-		String outputDirFullPath = currentDirectory.getAbsolutePath() + File.separator + reportPath
-			+ File.separator + dbName + File.separator;
+        String outputDirFullPath = currentDirectory.getAbsolutePath()
+                + File.separator + reportPath + File.separator + dbName
+                + File.separator;
 
-		// ãƒ¬ãƒãƒ¼ãƒˆæƒ…å ±ã‚’ãƒ­ã‚°ã«å‡ºåŠ›ã™ã‚‹
-		LOGGER.log(LogIdConstants.OUTPUT_REPORT_INFO, outputDirFullPath, leafDirectoryName,
-			targetItemName);
+        // ƒŒƒ|[ƒgî•ñ‚ğƒƒO‚Éo—Í‚·‚é
+        LOGGER.log(LogIdConstants.OUTPUT_REPORT_INFO, outputDirFullPath,
+                leafDirectoryName, targetItemName);
 
-		// ReportPublishTaskã‚’å®Ÿè¡Œã—ã€ãƒ¬ãƒãƒ¼ãƒˆä½œæˆã‚’è¡Œã†
-		ReportDao reportDao = new ReportDao();
-		try
-		{
-			ReportPublishTask reportTask = new ReportPublishTask(searchCondition,
-				outputReportTypes, callback);
-			status = "completed";
+        // ReportPublishTask‚ğÀs‚µAƒŒƒ|[ƒgì¬‚ğs‚¤
+        try
+        {
+            ReportPublishTask reportTask = new ReportPublishTask(
+                    searchCondition, outputReportTypes, callback);
 
-			// ãƒ¬ãƒãƒ¼ãƒˆã‚’å‡ºåŠ›ã™ã‚‹
-			reportTask.createReport(targetItemName);
-		}
-		catch (Exception e)
-		{
-			status = "failed";
+            // ƒŒƒ|[ƒg‚ğo—Í‚·‚é
+            reportTask.createReport(targetItemName);
+        }
+        catch (Exception e)
+        {
+            LOGGER.log(LogIdConstants.REPORT_PUBLISH_STOPPED_WARN,
+                    outputDirFullPath + leafDirectoryName);
+            return;
+        }
 
-			LOGGER.log(LogIdConstants.REPORT_PUBLISH_STOPPED_WARN, outputDirFullPath
-				+ leafDirectoryName);
-			reportDao.changeStatus(dbName, status, targetItemName, startTime, endTime);
-			return;
-		}
+        // zipˆ³k‚·‚é
+        Project project = new Project();
+        project.init();
 
-		// khine Wai Oo
-		reportDao.changeStatus(dbName, status, targetItemName, startTime, endTime);
-		// zipåœ§ç¸®ã™ã‚‹
-		Project project = new Project();
-		project.init();
+        try
+        {
+            File baseDir = new File(outputFilePath);
+            Zip zipper = new Zip();
+            zipper.setProject(project);
+            zipper.setTaskName("zip");
+            zipper.setTaskType("zip");
+            zipper.setDestFile(new File(outputFilePath + ".zip"));
+            zipper.setBasedir(baseDir);
+            zipper.execute();
 
-		try
-		{
-			File baseDir = new File(outputFilePath);
-			Zip zipper = new Zip();
-			zipper.setProject(project);
-			zipper.setTaskName("zip");
-			zipper.setTaskType("zip");
-			zipper.setDestFile(new File(outputFilePath + ".zip"));
-			zipper.setBasedir(baseDir);
-			zipper.execute();
+            // zip‰»‚É¬Œ÷‚µ‚½‚çŒ³‚ÌƒfƒBƒŒƒNƒgƒŠ‚Ííœ‚·‚é
+            boolean deleted = deleteDir(baseDir);
+            if (deleted == false)
+            {
+                LOGGER.log(LogIdConstants.FAIL_TO_DELETE_DIR, outputDirFullPath
+                        + leafDirectoryName);
+            }
+        }
+        catch (BuildException bex)
+        {
+            LOGGER.log(LogIdConstants.FAIL_TO_ZIP, outputDirFullPath
+                    + leafDirectoryName);
+        }
+    }
 
-			// zipåŒ–ã«æˆåŠŸã—ãŸã‚‰å…ƒã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã¯å‰Šé™¤ã™ã‚‹
-			boolean deleted = deleteDir(baseDir);
-			if (deleted == false)
-			{
-				LOGGER
-					.log(LogIdConstants.FAIL_TO_DELETE_DIR, outputDirFullPath + leafDirectoryName);
-			}
-		}
-		catch (BuildException bex)
-		{
-			LOGGER.log(LogIdConstants.FAIL_TO_ZIP, outputDirFullPath + leafDirectoryName);
-		}
+    /**
+     * w’è‚µ‚½ƒfƒBƒŒƒNƒgƒŠ‚²‚Æíœ‚·‚éB
+     * 
+     * @param dir
+     *            íœ‚·‚éƒfƒBƒŒƒNƒgƒŠB
+     * @return ƒfƒBƒŒƒNƒgƒŠ‚Ìíœ‚É¸”s‚µ‚½ê‡B
+     */
+    private static boolean deleteDir(File dir)
+    {
+        boolean result = true;
+        File[] children = dir.listFiles();
+        for (File child : children)
+        {
+            if (child.isDirectory() == true)
+            {
+                // ƒfƒBƒŒƒNƒgƒŠ‚ÍÄ‹A‚µ‚Äíœ‚ğs‚¤
+                result = deleteDir(child);
+                if (result == false)
+                {
+                    break;
+                }
+            }
+            else
+            {
+                // ƒtƒ@ƒCƒ‹‚Í’P‚Éíœ‚ğs‚¤
+                result = child.delete();
+                if (result == false)
+                {
+                    break;
+                }
+            }
+        }
 
-	}
+        // ‘S‚Ä‚Ìíœ‚É¬Œ÷‚µ‚Ä‚¢‚ê‚Î’†g‚Í‹ó‚È‚Ì‚ÅA©•ª‚ÌƒfƒBƒŒƒNƒgƒŠ‚ğíœ‚·‚é
+        if (result == true)
+        {
+            result = dir.delete();
+        }
 
-	private void rotateReport(File outputDir, String dbName) throws SQLException
-	{
-		File[] filesInDir = outputDir.listFiles();
-		if (filesInDir.length == 0) 
-		{
-			return;
-		}
-		
-		List<String> fileNamesInTable = ReportExportResultDao.selectAllReportName(dbName);
-		
-		for (File fileInDir: filesInDir) 
-		{
-			if (! fileNamesInTable.contains(fileInDir.getName())) 
-			{
-				fileInDir.delete();
-			}
-		}
-		
-	}
+        return result;
+    }
 
-	/**
-	 * æŒ‡å®šã—ãŸãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã”ã¨å‰Šé™¤ã™ã‚‹ã€‚
-	 * 
-	 * @param dir
-	 *            å‰Šé™¤ã™ã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã€‚
-	 * @return ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®å‰Šé™¤ã«å¤±æ•—ã—ãŸå ´åˆã€‚
-	 */
-	private static boolean deleteDir(File dir)
-	{
-		boolean result = true;
-		File[] children = dir.listFiles();
-		for (File child : children)
-		{
-			if (child.isDirectory() == true)
-			{
-				// ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã¯å†å¸°ã—ã¦å‰Šé™¤ã‚’è¡Œã†
-				result = deleteDir(child);
-				if (result == false)
-				{
-					break;
-				}
-			}
-			else
-			{
-				// ãƒ•ã‚¡ã‚¤ãƒ«ã¯å˜ã«å‰Šé™¤ã‚’è¡Œã†
-				result = child.delete();
-				if (result == false)
-				{
-					break;
-				}
-			}
-		}
+    public static void main(String[] args) throws Exception
+    {
+        Reporter reporter = new Reporter();
+        DataCollectorConfig config = new DataCollectorConfig();
+        config.setDatabaseHost("126.0.56.101");
+        config.setDatabasePort("5432");
+        config.setDatabaseName("endosnipedb");
+        config.setDatabaseUserName("postgres");
+        config.setDatabasePassword("postgres");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+        
+        Date fmDate = format.parse("2013/06/04 13:00");
+        Calendar fmTime = Calendar.getInstance();
+        fmTime.setTime(fmDate);
+        
+        Date toDate = format.parse("2013/06/04 14:00");
+        Calendar toTime = Calendar.getInstance();
+        toTime.setTime(toDate);
 
-		// å…¨ã¦ã®å‰Šé™¤ã«æˆåŠŸã—ã¦ã„ã‚Œã°ä¸­èº«ã¯ç©ºãªã®ã§ã€è‡ªåˆ†ã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’å‰Šé™¤ã™ã‚‹
-		if (result == true)
-		{
-			result = dir.delete();
-		}
-
-		return result;
-	}
-
-	public static void main(String[] args) throws Exception
-	{
-		Reporter reporter = new Reporter();
-		DataCollectorConfig config = new DataCollectorConfig();
-		config.setDatabaseHost("126.0.56.101");
-		config.setDatabasePort("5432");
-		config.setDatabaseName("endosnipedb");
-		config.setDatabaseUserName("postgres");
-		config.setDatabasePassword("postgres");
-		SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-
-		Date fmDate = format.parse("2013/06/04 13:00");
-		Calendar fmTime = Calendar.getInstance();
-		fmTime.setTime(fmDate);
-
-		Date toDate = format.parse("2013/06/04 14:00");
-		Calendar toTime = Calendar.getInstance();
-		toTime.setTime(toDate);
-
-		String reportPath = "report";
-		String targetItemName = "/";
-		String reportName = "test";
-		String status = "failed";
-		reporter.createReport(config, fmTime, toTime, reportPath, targetItemName, reportName,
-			status);
-	}
+        
+        String reportPath = "report";
+        String targetItemName = "/";
+        String reportName = "test";
+        reporter.createReport(config, fmTime, toTime, reportPath,
+                targetItemName, reportName);
+    }
 }

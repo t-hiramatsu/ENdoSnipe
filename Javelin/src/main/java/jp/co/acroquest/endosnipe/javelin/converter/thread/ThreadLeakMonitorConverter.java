@@ -38,16 +38,16 @@ import jp.co.smg.endosnipe.javassist.CtClass;
 import jp.co.smg.endosnipe.javassist.NotFoundException;
 
 /**
- * ThreadLeakMonitorã‚’å‘¼ã³å‡ºã™ã‚³ãƒ¼ãƒ‰ã‚’åŸ‹ã‚è¾¼ã‚€ã‚³ãƒ³ãƒãƒ¼ã‚¿ã€‚
+ * ThreadLeakMonitor‚ğŒÄ‚Ño‚·ƒR[ƒh‚ğ–„‚ß‚ŞƒRƒ“ƒo[ƒ^B
  * 
  * @author eriguchi
  */
 public class ThreadLeakMonitorConverter extends AbstractConverter
 {
-    /** ãƒ¢ãƒ‹ã‚¿ã‚¯ãƒ©ã‚¹åã€‚ */
+    /** ƒ‚ƒjƒ^ƒNƒ‰ƒX–¼B */
     private static final String MONITOR_CLASSNAME = ThreadLeakMonitor.class.getCanonicalName();
 
-    /** Throwableã®CtClassã€‚ */
+    /** Throwable‚ÌCtClassB */
     private CtClass throwableClass_;
 
     /**
@@ -61,17 +61,17 @@ public class ThreadLeakMonitorConverter extends AbstractConverter
         }
         catch (NotFoundException nfe)
         {
-            // ç™ºç”Ÿã—ãªã„ã€‚
+            // ”­¶‚µ‚È‚¢B
             SystemLogger.getInstance().warn(nfe);
         }
     }
 
     /**
-     * startãƒ¡ã‚½ãƒƒãƒ‰ã®æœ€å¾Œã«ThreadLeakMonitor.postThreadStartã‚’è¿½åŠ ã™ã‚‹ã€‚
-     * runãƒ¡ã‚½ãƒƒãƒ‰ã®æœ€å¾Œã«ThreadLeakMonitor.postThreadRunã‚’è¿½åŠ ã™ã‚‹ã€‚
+     * startƒƒ\ƒbƒh‚ÌÅŒã‚ÉThreadLeakMonitor.postThreadStart‚ğ’Ç‰Á‚·‚éB
+     * runƒƒ\ƒbƒh‚ÌÅŒã‚ÉThreadLeakMonitor.postThreadRun‚ğ’Ç‰Á‚·‚éB
      * 
-     * @throws CannotCompileException ã‚³ãƒ¼ãƒ‰ã®åŸ‹ã‚è¾¼ã¿ã«å¤±æ•—ã—ãŸå ´åˆã€‚
-     * @throws IOException å¤‰æ›å¾Œã®CtClassã®ãƒã‚¤ãƒˆã‚³ãƒ¼ãƒ‰ã¸ã®å¤‰æ›ã«å¤±æ•—ã—ãŸå ´åˆã€‚ 
+     * @throws CannotCompileException ƒR[ƒh‚Ì–„‚ß‚İ‚É¸”s‚µ‚½ê‡B
+     * @throws IOException •ÏŠ·Œã‚ÌCtClass‚ÌƒoƒCƒgƒR[ƒh‚Ö‚Ì•ÏŠ·‚É¸”s‚µ‚½ê‡B 
      */
     @Override
     public void convertImpl()

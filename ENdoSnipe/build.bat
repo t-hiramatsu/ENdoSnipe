@@ -1,12 +1,11 @@
-
 @echo off
 
 rem ---------------------------------------------------------------------------
 rem この環境変数はビルドスクリプトによって自動的に build.properties と
 rem 各プロジェクトの MANIFEST.INF へ反映されます
 rem ---------------------------------------------------------------------------
-set VER=5.2.0
-set BUILD=release
+set VER=5.0.3
+set BUILD=023
 rem ---------------------------------------------------------------------------
 
 if exist "C:\Program Files (x86)" goto 64BIT
@@ -52,13 +51,11 @@ call build_java.bat
 set JAVA_HOME=%JAVA_HOME_60%
 set PATH=%JAVA_HOME%\bin;%PATH%
 
-call ant build_java6
-
 pushd ..\Dashboard
 
 call ant dist
 
-copy target\ENdoSnipe.war ..\ENdoSnipe\release
+copy target\Dashboard.war ..\ENdoSnipe\release
 
 popd
 

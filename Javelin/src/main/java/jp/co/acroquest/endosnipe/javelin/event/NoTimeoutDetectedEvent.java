@@ -29,17 +29,17 @@ import jp.co.acroquest.endosnipe.common.event.EventConstants;
 import jp.co.acroquest.endosnipe.javelin.util.StatsUtil;
 
 /**
- * ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆæœªè¨­å®šæ¤œå‡ºã‚¤ãƒ™ãƒ³ãƒˆã€‚
+ * ƒ^ƒCƒ€ƒAƒEƒg–¢İ’èŒŸoƒCƒxƒ“ƒgB
  * 
  * @author eriguchi
  */
 public class NoTimeoutDetectedEvent extends AbstractStackTraceCheckEvent
 {
-    /** equalså®Ÿè¡Œæ™‚ã«æ¯”è¼ƒã«ç”¨ã„ã‚‹ã€‚ */
+    /** equalsÀs‚É”äŠr‚É—p‚¢‚éB */
     private static final int EQUALS_LENGTH = 1000;
 
     /**
-     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
      */
     public NoTimeoutDetectedEvent()
     {

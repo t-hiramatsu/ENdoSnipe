@@ -38,29 +38,29 @@ import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 import jp.co.acroquest.endosnipe.javelin.conf.JavelinMessages;
 
 /**
- * JVMã«ã‚¢ã‚¿ãƒƒãƒã™ã‚‹ãŸã‚ã®ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£
+ * JVM‚ÉƒAƒ^ƒbƒ`‚·‚é‚½‚ß‚Ìƒ†[ƒeƒBƒŠƒeƒB
  * 
  * @author eriguchi
  *
  */
 public class AttachUtil
 {
-    /** JVMã¸ã®å‚ç…§ */
+    /** JVM‚Ö‚ÌQÆ */
     private static Object       vm__       = null;
 
-    /** heapHistoãƒ¡ã‚½ãƒƒãƒ‰ */
+    /** heapHistoƒƒ\ƒbƒh */
     private static Method       heapHistoMethod__;
 
-    /** detachMethodãƒ¡ã‚½ãƒƒãƒ‰ */
+    /** detachMethodƒƒ\ƒbƒh */
     private static Method       detachMethod__;
 
-    /** attachMethodãƒ¡ã‚½ãƒƒãƒ‰ */
+    /** attachMethodƒƒ\ƒbƒh */
     private static Method attachMethod__;
 
-    /** ãƒ’ãƒ¼ãƒ—ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ å–å¾—æ™‚ã«ã€å…¨ã¦ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å¯¾è±¡ã¨ã—ã¦æŒ‡å®šã™ã‚‹ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã€‚ */
+    /** ƒq[ƒvƒqƒXƒgƒOƒ‰ƒ€æ“¾‚ÉA‘S‚Ä‚ÌƒIƒuƒWƒFƒNƒg‚ğ‘ÎÛ‚Æ‚µ‚Äw’è‚·‚éƒpƒ‰ƒ[ƒ^B */
     private static final String HISTO_ALL  = "-all";
 
-    /** ãƒ’ãƒ¼ãƒ—ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ å–å¾—æ™‚ã«ã€ç”Ÿå­˜ã—ã¦ã„ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã¿ã‚’å¯¾è±¡ã¨ã—ã¦æŒ‡å®šã™ã‚‹ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã€‚ */
+    /** ƒq[ƒvƒqƒXƒgƒOƒ‰ƒ€æ“¾‚ÉA¶‘¶‚µ‚Ä‚¢‚éƒIƒuƒWƒFƒNƒg‚Ì‚İ‚ğ‘ÎÛ‚Æ‚µ‚Äw’è‚·‚éƒpƒ‰ƒ[ƒ^B */
     private static final String HISTO_LIVE = "-live";
 
     static
@@ -84,14 +84,14 @@ public class AttachUtil
     }
     
     /**
-     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã‚’é¿ã‘ã‚‹ãŸã‚ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
+     * ƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğ”ğ‚¯‚é‚½‚ß‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^B
      */
     private AttachUtil()
     {
     }
 
     /**
-     * JVMã«ã‚¢ã‚¿ãƒƒãƒã™ã‚‹ã€‚
+     * JVM‚ÉƒAƒ^ƒbƒ`‚·‚éB
      */
     public static void attach()
     {
@@ -123,10 +123,10 @@ public class AttachUtil
     }
 
     /**
-     * ãƒ’ãƒ¼ãƒ—ã®ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒq[ƒv‚ÌƒqƒXƒgƒOƒ‰ƒ€‚ğæ“¾‚·‚éB
      * 
-     * @param liveObjectOnly ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ å–å¾—ã®å¯¾è±¡ã‚’ã€ç”Ÿå­˜ã—ã¦ã„ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã¿ã«ã™ã‚‹ã‹(GCã™ã‚‹ã‹ã©ã†ã‹)ã‚’æŒ‡å®šã™ã‚‹ã€‚
-     * @return ãƒ’ãƒ¼ãƒ—ã®ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã€‚
+     * @param liveObjectOnly ƒqƒXƒgƒOƒ‰ƒ€æ“¾‚Ì‘ÎÛ‚ğA¶‘¶‚µ‚Ä‚¢‚éƒIƒuƒWƒFƒNƒg‚Ì‚İ‚É‚·‚é‚©(GC‚·‚é‚©‚Ç‚¤‚©)‚ğw’è‚·‚éB
+     * @return ƒq[ƒv‚ÌƒqƒXƒgƒOƒ‰ƒ€B
      */
     public static String getHeapHisto(final boolean liveObjectOnly)
     {
@@ -166,12 +166,12 @@ public class AttachUtil
     }
 
     /**
-     * ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã‚’å–å¾—ã™ã‚‹ãŸã‚ã®Readerã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒqƒXƒgƒOƒ‰ƒ€‚ğæ“¾‚·‚é‚½‚ß‚ÌReader‚ğæ“¾‚·‚éB
      * 
-     * @param liveObjectOnly ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ å–å¾—ã®å¯¾è±¡ã‚’ã€ç”Ÿå­˜ã—ã¦ã„ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã¿ã«ã™ã‚‹ã‹(GCã™ã‚‹ã‹ã©ã†ã‹)ã‚’æŒ‡å®šã™ã‚‹ã€‚
+     * @param liveObjectOnly ƒqƒXƒgƒOƒ‰ƒ€æ“¾‚Ì‘ÎÛ‚ğA¶‘¶‚µ‚Ä‚¢‚éƒIƒuƒWƒFƒNƒg‚Ì‚İ‚É‚·‚é‚©(GC‚·‚é‚©‚Ç‚¤‚©)‚ğw’è‚·‚éB
      * 
-     * @return ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã‚’å–å¾—ã™ã‚‹ãŸã‚ã®Readerã€‚
-     * @throws IOException ãƒ’ãƒ¼ãƒ—ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ å–å¾—æ™‚ã®ä¾‹å¤–ã€‚
+     * @return ƒqƒXƒgƒOƒ‰ƒ€‚ğæ“¾‚·‚é‚½‚ß‚ÌReaderB
+     * @throws IOException ƒq[ƒvƒqƒXƒgƒOƒ‰ƒ€æ“¾‚Ì—áŠOB
      */
     public static BufferedReader getHeapHistoReader(final boolean liveObjectOnly)
         throws IOException
@@ -212,7 +212,7 @@ public class AttachUtil
     }
 
     /**
-     * JVMã‹ã‚‰ãƒ‡ã‚¿ãƒƒãƒã™ã‚‹ã€‚
+     * JVM‚©‚çƒfƒ^ƒbƒ`‚·‚éB
      */
     public static void detach()
     {

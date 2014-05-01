@@ -28,32 +28,32 @@ package jp.co.acroquest.endosnipe.javelin.parser;
 import java.util.Map;
 
 /**
- * ç´”ç²‹å€¤ã‚’ä¿æŒã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰æƒ…å ±
+ * ƒˆ’l‚ğ•Û‚·‚éƒƒ\ƒbƒhî•ñ
  *
  * @author Sakamoto
  */
 public class MethodParam
 {
-    /** ãƒ¡ã‚½ãƒƒãƒ‰æƒ…å ± */
+    /** ƒƒ\ƒbƒhî•ñ */
     private JavelinLogElement javelinLogElement_;
 
-    /** ãƒ¡ã‚½ãƒƒãƒ‰å®Ÿè¡Œæ™‚é–“ */
+    /** ƒƒ\ƒbƒhÀsŠÔ */
     private long duration_;
 
-    /** ãƒ­ã‚°ã«å‡ºåŠ›ã•ã‚Œã¦ã„ã‚‹å€¤ */
+    /** ƒƒO‚Éo—Í‚³‚ê‚Ä‚¢‚é’l */
     private Map<String, Double> originalDataMap_;
 
-    /** ãƒ¡ã‚½ãƒƒãƒ‰ç´”ç²‹å€¤ */
+    /** ƒƒ\ƒbƒhƒˆ’l */
     private Map<String, Double> pureDataMap_;
 
-    /** ãƒ¡ã‚½ãƒƒãƒ‰é–‹å§‹æ™‚åˆ» */
+    /** ƒƒ\ƒbƒhŠJn */
     private long startTime_;
 
-    /** ãƒ¡ã‚½ãƒƒãƒ‰çµ‚äº†æ™‚åˆ» */
+    /** ƒƒ\ƒbƒhI—¹ */
     private long endTime_;
 
     /**
-     * ãƒ¡ã‚½ãƒƒãƒ‰ï¼‘ã¤ã®æƒ…å ±ã‚’è¡¨ã™ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆã™ã‚‹ã€‚
+     * ƒƒ\ƒbƒh‚P‚Â‚Ìî•ñ‚ğ•\‚·ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
      */
     public MethodParam()
     {
@@ -61,7 +61,7 @@ public class MethodParam
     }
 
     /**
-     * JavelinLogElementã‚’å–å¾—ã™ã‚‹ã€‚
+     * JavelinLogElement‚ğæ“¾‚·‚éB
      *
      * @return JavelinLogElement
      */
@@ -71,9 +71,9 @@ public class MethodParam
     }
 
     /**
-     * ãƒ¡ã‚½ãƒƒãƒ‰å®Ÿè¡Œæ™‚é–“ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒƒ\ƒbƒhÀsŠÔ‚ğæ“¾‚·‚éB
      *
-     * @return ãƒ¡ã‚½ãƒƒãƒ‰å®Ÿè¡Œæ™‚é–“
+     * @return ƒƒ\ƒbƒhÀsŠÔ
      */
     public long getDuration()
     {
@@ -81,9 +81,9 @@ public class MethodParam
     }
 
     /**
-     * ãƒ¡ã‚½ãƒƒãƒ‰é–‹å§‹æ™‚åˆ»ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒƒ\ƒbƒhŠJn‚ğæ“¾‚·‚éB
      *
-     * @return ãƒ¡ã‚½ãƒƒãƒ‰é–‹å§‹æ™‚åˆ»
+     * @return ƒƒ\ƒbƒhŠJn
      */
     public long getStartTime()
     {
@@ -91,9 +91,9 @@ public class MethodParam
     }
 
     /**
-     * ãƒ¡ã‚½ãƒƒãƒ‰çµ‚äº†æ™‚åˆ»ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒƒ\ƒbƒhI—¹‚ğæ“¾‚·‚éB
      *
-     * @return ãƒ¡ã‚½ãƒƒãƒ‰çµ‚äº†æ™‚åˆ»
+     * @return ƒƒ\ƒbƒhI—¹
      */
     public long getEndTime()
     {
@@ -101,9 +101,9 @@ public class MethodParam
     }
 
     /**
-     * ãƒ­ã‚°ã«å‡ºåŠ›ã•ã‚Œã¦ã„ã‚‹å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒƒO‚Éo—Í‚³‚ê‚Ä‚¢‚é’l‚ğæ“¾‚·‚éB
      *
-     * @return ãƒ­ã‚°ã«å‡ºåŠ›ã•ã‚Œã¦ã„ã‚‹å€¤ã®ãƒãƒƒãƒ—
+     * @return ƒƒO‚Éo—Í‚³‚ê‚Ä‚¢‚é’l‚Ìƒ}ƒbƒv
      */
     public Map<String, Double> getOriginalDataMap()
     {
@@ -111,9 +111,9 @@ public class MethodParam
     }
 
     /**
-     * ãƒ¡ã‚½ãƒƒãƒ‰ã®ç´”ç²‹å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒƒ\ƒbƒh‚Ìƒˆ’l‚ğæ“¾‚·‚éB
      *
-     * @return ãƒ¡ã‚½ãƒƒãƒ‰ã®ç´”ç²‹å€¤ã®ãƒãƒƒãƒ—
+     * @return ƒƒ\ƒbƒh‚Ìƒˆ’l‚Ìƒ}ƒbƒv
      */
     public Map<String, Double> getPureDataMap()
     {
@@ -121,9 +121,9 @@ public class MethodParam
     }
 
     /**
-     * JavelinLogElementã‚’è¨­å®šã—ã¾ã™ã€‚<br />
+     * JavelinLogElement‚ğİ’è‚µ‚Ü‚·B<br />
      * 
-     * @param javelinLogElement {@link JavelinLogElement}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param javelinLogElement {@link JavelinLogElement}ƒIƒuƒWƒFƒNƒg
      */
     public void setJavelinLogElement(final JavelinLogElement javelinLogElement)
     {
@@ -131,7 +131,7 @@ public class MethodParam
     }
 
     /**
-     * Durationã‚’è¨­å®šã—ã¾ã™ã€‚<br />
+     * Duration‚ğİ’è‚µ‚Ü‚·B<br />
      * 
      * @param duration Duration
      */
@@ -141,9 +141,9 @@ public class MethodParam
     }
 
     /**
-     * Javelinãƒ­ã‚°ã«å‡ºåŠ›ã•ã‚ŒãŸå€¤ã®Mapã‚’è¨­å®šã—ã¾ã™ã€‚<br />
+     * JavelinƒƒO‚Éo—Í‚³‚ê‚½’l‚ÌMap‚ğİ’è‚µ‚Ü‚·B<br />
      * 
-     * @param originalDataMap Javelinãƒ­ã‚°ã«å‡ºåŠ›ã•ã‚ŒãŸå€¤ã®Map
+     * @param originalDataMap JavelinƒƒO‚Éo—Í‚³‚ê‚½’l‚ÌMap
      */
     public void setOriginalDataMap(final Map<String, Double> originalDataMap)
     {
@@ -151,9 +151,9 @@ public class MethodParam
     }
 
     /**
-     * ç´”ç²‹å€¤ã‚’ä¿å­˜ã—ãŸMapã‚’è¨­å®šã—ã¾ã™ã€‚<br />
+     * ƒˆ’l‚ğ•Û‘¶‚µ‚½Map‚ğİ’è‚µ‚Ü‚·B<br />
      * 
-     * @param pureDataMap ç´”ç²‹å€¤ã‚’ä¿å­˜ã—ãŸMap
+     * @param pureDataMap ƒˆ’l‚ğ•Û‘¶‚µ‚½Map
      */
     public void setPureDataMap(final Map<String, Double> pureDataMap)
     {
@@ -161,9 +161,9 @@ public class MethodParam
     }
 
     /**
-     * é–‹å§‹æ™‚åˆ»ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
+     * ŠJn‚ğİ’è‚µ‚Ü‚·B<br />
      * 
-     * @param startTime é–‹å§‹æ™‚åˆ»
+     * @param startTime ŠJn
      */
     public void setStartTime(final long startTime)
     {
@@ -171,9 +171,9 @@ public class MethodParam
     }
 
     /**
-     * çµ‚äº†æ™‚åˆ»ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
+     * I—¹‚ğİ’è‚µ‚Ü‚·B<br />
      * 
-     * @param endTime çµ‚äº†æ™‚åˆ»
+     * @param endTime I—¹
      */
     public void setEndTime(final long endTime)
     {
@@ -181,9 +181,9 @@ public class MethodParam
     }
 
     /**
-     * ç´”ç²‹å€¤ã‹ã‚‰å­ãƒ¡ã‚½ãƒƒãƒ‰ã®å€¤ã‚’å¼•ãã€‚
+     * ƒˆ’l‚©‚çqƒƒ\ƒbƒh‚Ì’l‚ğˆø‚­B
      *
-     * @param childMethod å­ãƒ¡ã‚½ãƒƒãƒ‰
+     * @param childMethod qƒƒ\ƒbƒh
      */
     public void subtractData(final MethodParam childMethod)
     {

@@ -45,7 +45,7 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 
 /**
- * ãƒ†ã‚¹ãƒˆç”¨PreparedStatement
+ * ƒeƒXƒg—pPreparedStatement
  * 
  * @author k-ishida
  * 
@@ -137,9 +137,9 @@ public class SamplePreparedStatement implements PreparedStatement
      * 
      * @see java.sql.PreparedStatement#setArray(int, java.sql.Array)
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg1
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      */
     public void setArray(final int arg0, final Array arg1)
     {
@@ -152,11 +152,11 @@ public class SamplePreparedStatement implements PreparedStatement
      * @see java.sql.PreparedStatement#setAsciiStream(int, java.io.InputStream,
      *      int)
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg1
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg2
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      */
     public void setAsciiStream(final int arg0, final InputStream arg1, final int arg2)
     {
@@ -168,9 +168,9 @@ public class SamplePreparedStatement implements PreparedStatement
      * 
      * @see java.sql.PreparedStatement#setBigDecimal(int, java.math.BigDecimal)
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg1
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      */
     public void setBigDecimal(final int arg0, final BigDecimal arg1)
     {
@@ -183,11 +183,11 @@ public class SamplePreparedStatement implements PreparedStatement
      * @see java.sql.PreparedStatement#setBinaryStream(int, java.io.InputStream,
      *      int)
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg1
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg2
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      */
     public void setBinaryStream(final int arg0, final InputStream arg1, final int arg2)
     {
@@ -199,9 +199,9 @@ public class SamplePreparedStatement implements PreparedStatement
      * 
      * @see java.sql.PreparedStatement#setBlob(int, java.sql.Blob)
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg1
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      */
     public void setBlob(final int arg0, final Blob arg1)
     {
@@ -213,9 +213,9 @@ public class SamplePreparedStatement implements PreparedStatement
      * 
      * @see java.sql.PreparedStatement#setBoolean(int, boolean)
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg1
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      */
     public void setBoolean(final int arg0, final boolean arg1)
     {
@@ -227,9 +227,9 @@ public class SamplePreparedStatement implements PreparedStatement
      * 
      * @see java.sql.PreparedStatement#setByte(int, byte)
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg1
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      */
     public void setByte(final int arg0, final byte arg1)
     {
@@ -241,9 +241,9 @@ public class SamplePreparedStatement implements PreparedStatement
      * 
      * @see java.sql.PreparedStatement#setBytes(int, byte[])
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg1
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      */
     public void setBytes(final int arg0, final byte[] arg1)
     {
@@ -257,11 +257,11 @@ public class SamplePreparedStatement implements PreparedStatement
      * @see java.sql.PreparedStatement#setCharacterStream(int, java.io.Reader,
      *      int)
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg1
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg2
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      */
     public void setCharacterStream(final int arg0, final Reader arg1, final int arg2)
     {
@@ -273,9 +273,9 @@ public class SamplePreparedStatement implements PreparedStatement
      * 
      * @see java.sql.PreparedStatement#setClob(int, java.sql.Clob)
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg1
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      */
     public void setClob(final int arg0, final Clob arg1)
     {
@@ -288,11 +288,11 @@ public class SamplePreparedStatement implements PreparedStatement
      * @see java.sql.PreparedStatement#setDate(int, java.sql.Date,
      *      java.util.Calendar)
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg1
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg2
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      */
     public void setDate(final int arg0, final Date arg1, final Calendar arg2)
     {
@@ -304,9 +304,9 @@ public class SamplePreparedStatement implements PreparedStatement
      * 
      * @see java.sql.PreparedStatement#setDate(int, java.sql.Date)
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg1
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      */
     public void setDate(final int arg0, final Date arg1)
     {
@@ -318,9 +318,9 @@ public class SamplePreparedStatement implements PreparedStatement
      * 
      * @see java.sql.PreparedStatement#setDouble(int, double)
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg1
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      */
     public void setDouble(final int arg0, final double arg1)
     {
@@ -332,9 +332,9 @@ public class SamplePreparedStatement implements PreparedStatement
      * 
      * @see java.sql.PreparedStatement#setFloat(int, float)
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg1
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      */
     public void setFloat(final int arg0, final float arg1)
     {
@@ -346,9 +346,9 @@ public class SamplePreparedStatement implements PreparedStatement
      * 
      * @see java.sql.PreparedStatement#setInt(int, int)
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg1
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      */
     public void setInt(final int arg0, final int arg1)
     {
@@ -361,9 +361,9 @@ public class SamplePreparedStatement implements PreparedStatement
      * 
      * @see java.sql.PreparedStatement#setLong(int, long)
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg1
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      */
     public void setLong(final int arg0, final long arg1)
     {
@@ -376,11 +376,11 @@ public class SamplePreparedStatement implements PreparedStatement
      * 
      * @see java.sql.PreparedStatement#setNull(int, int, java.lang.String)
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg1
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg2
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      */
     public void setNull(final int arg0, final int arg1, final String arg2)
     {
@@ -393,9 +393,9 @@ public class SamplePreparedStatement implements PreparedStatement
      * 
      * @see java.sql.PreparedStatement#setNull(int, int)
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg1
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      */
     public void setNull(final int arg0, final int arg1)
     {
@@ -409,13 +409,13 @@ public class SamplePreparedStatement implements PreparedStatement
      * @see java.sql.PreparedStatement#setObject(int, java.lang.Object, int,
      *      int)
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg1
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg2
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg3
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      */
     public void setObject(final int arg0, final Object arg1, final int arg2, final int arg3)
     {
@@ -428,11 +428,11 @@ public class SamplePreparedStatement implements PreparedStatement
      * 
      * @see java.sql.PreparedStatement#setObject(int, java.lang.Object, int)
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg1
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg2
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      */
     public void setObject(final int arg0, final Object arg1, final int arg2)
     {
@@ -445,9 +445,9 @@ public class SamplePreparedStatement implements PreparedStatement
      * 
      * @see java.sql.PreparedStatement#setObject(int, java.lang.Object)
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg1
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      */
     public void setObject(final int arg0, final Object arg1)
     {
@@ -460,9 +460,9 @@ public class SamplePreparedStatement implements PreparedStatement
      * 
      * @see java.sql.PreparedStatement#setRef(int, java.sql.Ref)
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg1
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      */
     public void setRef(final int arg0, final Ref arg1)
     {
@@ -475,9 +475,9 @@ public class SamplePreparedStatement implements PreparedStatement
      * 
      * @see java.sql.PreparedStatement#setShort(int, short)
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg1
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      */
     public void setShort(final int arg0, final short arg1)
     {
@@ -490,9 +490,9 @@ public class SamplePreparedStatement implements PreparedStatement
      * 
      * @see java.sql.PreparedStatement#setString(int, java.lang.String)
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg1
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      */
     public void setString(final int arg0, final String arg1)
     {
@@ -506,11 +506,11 @@ public class SamplePreparedStatement implements PreparedStatement
      * @see java.sql.PreparedStatement#setTime(int, java.sql.Time,
      *      java.util.Calendar)
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg1
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg2
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      */
     public void setTime(final int arg0, final Time arg1, final Calendar arg2)
     {
@@ -523,9 +523,9 @@ public class SamplePreparedStatement implements PreparedStatement
      * 
      * @see java.sql.PreparedStatement#setTime(int, java.sql.Time)
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg1
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      */
     public void setTime(final int arg0, final Time arg1)
     {
@@ -539,11 +539,11 @@ public class SamplePreparedStatement implements PreparedStatement
      * @see java.sql.PreparedStatement#setTimestamp(int, java.sql.Timestamp,
      *      java.util.Calendar)
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg1
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg2
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      */
     public void setTimestamp(final int arg0, final Timestamp arg1, final Calendar arg2)
     {
@@ -556,9 +556,9 @@ public class SamplePreparedStatement implements PreparedStatement
      * 
      * @see java.sql.PreparedStatement#setTimestamp(int, java.sql.Timestamp)
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg1
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      */
     public void setTimestamp(final int arg0, final Timestamp arg1)
     {
@@ -572,11 +572,11 @@ public class SamplePreparedStatement implements PreparedStatement
      * @see java.sql.PreparedStatement#setUnicodeStream(int,
      *      java.io.InputStream, int)
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg1
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg2
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      */
     @SuppressWarnings("deprecation")
     public void setUnicodeStream(final int arg0, final InputStream arg1, final int arg2)
@@ -589,9 +589,9 @@ public class SamplePreparedStatement implements PreparedStatement
      * 
      * @see java.sql.PreparedStatement#setURL(int, java.net.URL)
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg1
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      */
     public void setURL(final int arg0, final URL arg1)
     {
@@ -604,7 +604,7 @@ public class SamplePreparedStatement implements PreparedStatement
      * 
      * @see java.sql.Statement#addBatch(java.lang.String)
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      */
     public void addBatch(final String arg0)
     {
@@ -658,9 +658,9 @@ public class SamplePreparedStatement implements PreparedStatement
      * 
      * @see java.sql.Statement#execute(java.lang.String, int)
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg1
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @return false
      */
     public boolean execute(final String arg0, final int arg1)
@@ -674,9 +674,9 @@ public class SamplePreparedStatement implements PreparedStatement
      * 
      * @see java.sql.Statement#execute(java.lang.String, int[])
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg1
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @return false
      */
     public boolean execute(final String arg0, final int[] arg1)
@@ -690,9 +690,9 @@ public class SamplePreparedStatement implements PreparedStatement
      * 
      * @see java.sql.Statement#execute(java.lang.String, java.lang.String[])
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg1
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @return false
      */
     public boolean execute(final String arg0, final String[] arg1)
@@ -706,7 +706,7 @@ public class SamplePreparedStatement implements PreparedStatement
      * 
      * @see java.sql.Statement#execute(java.lang.String)
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @return false
      */
     public boolean execute(final String arg0)
@@ -732,7 +732,7 @@ public class SamplePreparedStatement implements PreparedStatement
      * 
      * @see java.sql.Statement#executeQuery(java.lang.String)
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @return null
      */
     public ResultSet executeQuery(final String arg0)
@@ -746,9 +746,9 @@ public class SamplePreparedStatement implements PreparedStatement
      * 
      * @see java.sql.Statement#executeUpdate(java.lang.String, int)
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg1
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @return 0
      */
     public int executeUpdate(final String arg0, final int arg1)
@@ -762,9 +762,9 @@ public class SamplePreparedStatement implements PreparedStatement
      * 
      * @see java.sql.Statement#executeUpdate(java.lang.String, int[])
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg1
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @return 0
      */
     public int executeUpdate(final String arg0, final int[] arg1)
@@ -779,9 +779,9 @@ public class SamplePreparedStatement implements PreparedStatement
      * @see java.sql.Statement#executeUpdate(java.lang.String,
      *      java.lang.String[])
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @param arg1
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @return 0
      */
     public int executeUpdate(final String arg0, final String[] arg1)
@@ -795,7 +795,7 @@ public class SamplePreparedStatement implements PreparedStatement
      * 
      * @see java.sql.Statement#executeUpdate(java.lang.String)
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @return 0
      */
     public int executeUpdate(final String arg0)
@@ -893,7 +893,7 @@ public class SamplePreparedStatement implements PreparedStatement
      * 
      * @see java.sql.Statement#getMoreResults(int)
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      * @return false
      */
     public boolean getMoreResults(final int arg0)
@@ -991,7 +991,7 @@ public class SamplePreparedStatement implements PreparedStatement
      * 
      * @see java.sql.Statement#setCursorName(java.lang.String)
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      */
     public void setCursorName(final String arg0)
     {
@@ -1003,7 +1003,7 @@ public class SamplePreparedStatement implements PreparedStatement
      * 
      * @see java.sql.Statement#setEscapeProcessing(boolean)
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      */
     public void setEscapeProcessing(final boolean arg0)
     {
@@ -1015,7 +1015,7 @@ public class SamplePreparedStatement implements PreparedStatement
      * 
      * @see java.sql.Statement#setFetchDirection(int)
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      */
     public void setFetchDirection(final int arg0)
     {
@@ -1027,7 +1027,7 @@ public class SamplePreparedStatement implements PreparedStatement
      * 
      * @see java.sql.Statement#setFetchSize(int)
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      */
     public void setFetchSize(final int arg0)
     {
@@ -1039,7 +1039,7 @@ public class SamplePreparedStatement implements PreparedStatement
      * 
      * @see java.sql.Statement#setMaxFieldSize(int)
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      */
     public void setMaxFieldSize(final int arg0)
     {
@@ -1051,7 +1051,7 @@ public class SamplePreparedStatement implements PreparedStatement
      * 
      * @see java.sql.Statement#setMaxRows(int)
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      */
     public void setMaxRows(final int arg0)
     {
@@ -1063,7 +1063,7 @@ public class SamplePreparedStatement implements PreparedStatement
      * 
      * @see java.sql.Statement#setQueryTimeout(int)
      * @param arg0
-     *            åˆ©ç”¨ã—ãªã„
+     *            —˜—p‚µ‚È‚¢
      */
     public void setQueryTimeout(final int arg0)
     {

@@ -26,47 +26,47 @@
 package jp.co.acroquest.endosnipe.perfdoctor;
 
 /**
- * ãƒ‘ãƒ•ã‚©ãƒ¼ãƒãƒ³ã‚¹ãƒ‰ã‚¯ã‚¿ãƒ¼ã§ä½¿ç”¨ã™ã‚‹å®šæ•°ã€‚
+ * ƒpƒtƒH[ƒ}ƒ“ƒXƒhƒNƒ^[‚Åg—p‚·‚é’è”B
  * 
  * @author eriguchi
  *
  */
 public class PerfConstants
 {
-    /** é‡è¦åº¦ï¼šERRORãƒ¬ãƒ™ãƒ« */
+    /** d—v“xFERRORƒŒƒxƒ‹ */
     public static final String LEVEL_ERROR                   = "ERROR";
 
-    /** é‡è¦åº¦ï¼šWARNãƒ¬ãƒ™ãƒ« */
+    /** d—v“xFWARNƒŒƒxƒ‹ */
     public static final String LEVEL_WARN                    = "WARN";
 
-    /** é‡è¦åº¦ï¼šINFOãƒ¬ãƒ™ãƒ« */
+    /** d—v“xFINFOƒŒƒxƒ‹ */
     public static final String LEVEL_INFO                    = "INFO";
 
-    /** ä¾‹å¤–ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸:ClassNotFound */
+    /** —áŠOƒƒbƒZ[ƒW:ClassNotFound */
     public static final String CLASS_NOT_FOUND               = "ClassNotFound";
 
-    /** ä¾‹å¤–ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸:NewInstanceError */
+    /** —áŠOƒƒbƒZ[ƒW:NewInstanceError */
     public static final String NEW_INSTANCE_ERROR            = "NewInstanceError";
 
-    /** ä¾‹å¤–ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸:ClassTypeError */
+    /** —áŠOƒƒbƒZ[ƒW:ClassTypeError */
     public static final String CLASS_TYPE_ERROR              = "ClassTypeError";
 
-    /** ä¾‹å¤–ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸:PropertyNotFound */
+    /** —áŠOƒƒbƒZ[ƒW:PropertyNotFound */
     public static final String PROPERTY_NOT_FOUND            = "PropertyNotFound";
 
-    /** ä¾‹å¤–ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸:PropertyError */
+    /** —áŠOƒƒbƒZ[ƒW:PropertyError */
     public static final String PROPERTY_ERROR                = "PropertyError";
 
-    /** ä¾‹å¤–ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸:PropertyTypeError */
+    /** —áŠOƒƒbƒZ[ƒW:PropertyTypeError */
     public static final String PROPERTY_TYPE_ERROR           = "PropertyTypeError";
 
-    /** ä¾‹å¤–ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸:PropertyAccessError */
+    /** —áŠOƒƒbƒZ[ƒW:PropertyAccessError */
     public static final String PROPERTY_ACCESS_ERROR         = "PropertyAccessError";
 
-    /** ä¾‹å¤–ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸:PerfDoctorRunTimeException */
+    /** —áŠOƒƒbƒZ[ƒW:PerfDoctorRunTimeException */
     public static final String PERF_DOCTOR_RUNTIME_EXCEPTION = "PerfDoctorRuntimeException";
 
-    /** ä¾‹å¤–ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸:NumberFormatException */
+    /** —áŠOƒƒbƒZ[ƒW:NumberFormatException */
     public static final String NUMBER_FORMAT_EXCEPTION       = "NumberFormatException";
 
 }

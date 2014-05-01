@@ -30,7 +30,7 @@ import java.util.List;
 import jp.co.smg.endosnipe.javassist.CtBehavior;
 
 /**
- * AbstractConverterã®ãƒ¡ã‚½ãƒƒãƒ‰ã‚’è©¦é¨“ã™ã‚‹ãŸã‚ã®ã‚³ãƒ³ãƒãƒ¼ã‚¿ã€‚
+ * AbstractConverter‚Ìƒƒ\ƒbƒh‚ğŒ±‚·‚é‚½‚ß‚ÌƒRƒ“ƒo[ƒ^B
  * @author fujii
  *
  */
@@ -49,8 +49,8 @@ public class TestExtendConverter extends AbstractConverter
     }
 
     /**
-     * getMatchDeclaredBehaviorã®çµæœã‚’å–å¾—ã™ã‚‹ãŸã‚ã®ãƒ¡ã‚½ãƒƒãƒ‰ã€‚
-     * @return ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒªã‚¹ãƒˆ
+     * getMatchDeclaredBehavior‚ÌŒ‹‰Ê‚ğæ“¾‚·‚é‚½‚ß‚Ìƒƒ\ƒbƒhB
+     * @return ƒƒ\ƒbƒh‚ÌƒŠƒXƒg
      */
     public List<CtBehavior> getMethodList()
     {

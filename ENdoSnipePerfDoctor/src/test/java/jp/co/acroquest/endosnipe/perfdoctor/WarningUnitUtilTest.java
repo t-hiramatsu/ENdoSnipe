@@ -36,23 +36,23 @@ import jp.co.acroquest.endosnipe.javelin.parser.JavelinLogElement;
 import junit.framework.TestCase;
 
 /**
- * {@link WarningUnitUtil}ã®ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹
+ * {@link WarningUnitUtil}‚ÌƒeƒXƒgƒP[ƒX
  * @author fujii
  *
  */
 public class WarningUnitUtilTest extends TestCase
 {
-    /** æ—¥ä»˜ã®ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ */
+    /** “ú•t‚ÌƒtƒH[ƒ}ƒbƒg */
     private static final String DATE_FORMAT = "yyyy/M/d HH:mm:ss.SSS";
 
     /**
-     * calculateStartTimeExistDate ã®ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹ã€‚
-     * å­˜åœ¨ã™ã‚‹æ—¥ä»˜ã«å¯¾ã™ã‚‹ãƒ†ã‚¹ãƒˆã€‚
+     * calculateStartTimeExistDate ‚ÌƒeƒXƒgƒP[ƒXB
+     * ‘¶İ‚·‚é“ú•t‚É‘Î‚·‚éƒeƒXƒgB
      */
     public void testCalculateStartTimeExistDate()
         throws Exception
     {
-        // æº–å‚™
+        // €”õ
         Method method = getCalculateStartTimeMethod();
         String startTimeStr = "2010/10/10 10:10:10.111";
 
@@ -62,23 +62,23 @@ public class WarningUnitUtilTest extends TestCase
         JavelinLogElement element = new JavelinLogElement();
         element.setBaseInfo(infoList);
 
-        // å®Ÿè¡Œ
+        // Às
         Long result = (Long)method.invoke(null, new Object[]{element});
 
-        // çµæœ
+        // Œ‹‰Ê
         SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
         Date resultDate = new Date(result.longValue());
         assertEquals(startTimeStr, formatter.format(resultDate));
     }
 
     /**
-     * calculateStartTimeExistDate ã®ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹ã€‚
-     * æœˆãŒ1ã‚±ã‚¿
+     * calculateStartTimeExistDate ‚ÌƒeƒXƒgƒP[ƒXB
+     * Œ‚ª1ƒPƒ^
      */
     public void testCalculateStartTimeMonthSingleDigit()
         throws Exception
     {
-        // æº–å‚™
+        // €”õ
         Method method = getCalculateStartTimeMethod();
         String startTimeStr = "2010/1/10 10:10:10.111";
     
@@ -88,23 +88,23 @@ public class WarningUnitUtilTest extends TestCase
         JavelinLogElement element = new JavelinLogElement();
         element.setBaseInfo(infoList);
     
-        // å®Ÿè¡Œ
+        // Às
         Long result = (Long)method.invoke(null, new Object[]{element});
     
-        // çµæœ
+        // Œ‹‰Ê
         SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
         Date resultDate = new Date(result.longValue());
         assertEquals(startTimeStr, formatter.format(resultDate));
     }
 
     /**
-     * calculateStartTimeExistDate ã®ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹ã€‚
-     * æ—¥ãŒ1ã‚±ã‚¿
+     * calculateStartTimeExistDate ‚ÌƒeƒXƒgƒP[ƒXB
+     * “ú‚ª1ƒPƒ^
      */
     public void testCalculateStartTimeDaySingleDigit()
         throws Exception
     {
-        // æº–å‚™
+        // €”õ
         Method method = getCalculateStartTimeMethod();
         String startTimeStr = "2010/10/1 10:10:10.111";
     
@@ -114,23 +114,23 @@ public class WarningUnitUtilTest extends TestCase
         JavelinLogElement element = new JavelinLogElement();
         element.setBaseInfo(infoList);
     
-        // å®Ÿè¡Œ
+        // Às
         Long result = (Long)method.invoke(null, new Object[]{element});
     
-        // çµæœ
+        // Œ‹‰Ê
         SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
         Date resultDate = new Date(result.longValue());
         assertEquals(startTimeStr, formatter.format(resultDate));
     }
     
     /**
-     * calculateStartTimeExistDate ã®ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹ã€‚
-     * æ™‚é–“ãŒ1ã‚±ã‚¿
+     * calculateStartTimeExistDate ‚ÌƒeƒXƒgƒP[ƒXB
+     * ŠÔ‚ª1ƒPƒ^
      */
     public void testCalculateStartTimeHourSingleDigit()
         throws Exception
     {
-        // æº–å‚™
+        // €”õ
         Method method = getCalculateStartTimeMethod();
         String startTimeStr = "2010/10/10 1:10:10.111";
         String expectedResult = "2010/10/10 01:10:10.111";
@@ -141,23 +141,23 @@ public class WarningUnitUtilTest extends TestCase
         JavelinLogElement element = new JavelinLogElement();
         element.setBaseInfo(infoList);
     
-        // å®Ÿè¡Œ
+        // Às
         Long result = (Long)method.invoke(null, new Object[]{element});
     
-        // çµæœ
+        // Œ‹‰Ê
         SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
         Date resultDate = new Date(result.longValue());
         assertEquals(expectedResult, formatter.format(resultDate));
     }
     
     /**
-     * calculateStartTimeExistDate ã®ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹ã€‚
-     * åˆ†ãŒ1ã‚±ã‚¿
+     * calculateStartTimeExistDate ‚ÌƒeƒXƒgƒP[ƒXB
+     * •ª‚ª1ƒPƒ^
      */
     public void testCalculateStartTimeMinuteSingleDigit()
         throws Exception
     {
-        // æº–å‚™
+        // €”õ
         Method method = getCalculateStartTimeMethod();
         String startTimeStr = "2010/10/10 10:1:10.111";
         String expectedResult = "2010/10/10 10:01:10.111";
@@ -168,23 +168,23 @@ public class WarningUnitUtilTest extends TestCase
         JavelinLogElement element = new JavelinLogElement();
         element.setBaseInfo(infoList);
     
-        // å®Ÿè¡Œ
+        // Às
         Long result = (Long)method.invoke(null, new Object[]{element});
     
-        // çµæœ
+        // Œ‹‰Ê
         SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
         Date resultDate = new Date(result.longValue());
         assertEquals(expectedResult, formatter.format(resultDate));
     }
     
     /**
-     * calculateStartTimeExistDate ã®ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹ã€‚
-     * ç§’ãŒ1ã‚±ã‚¿
+     * calculateStartTimeExistDate ‚ÌƒeƒXƒgƒP[ƒXB
+     * •b‚ª1ƒPƒ^
      */
     public void testCalculateStartTimeSecondSingleDigit()
         throws Exception
     {
-        // æº–å‚™
+        // €”õ
         Method method = getCalculateStartTimeMethod();
         String startTimeStr = "2010/10/10 10:10:1.111";
         String expectedResult = "2010/10/10 10:10:01.111";
@@ -195,23 +195,23 @@ public class WarningUnitUtilTest extends TestCase
         JavelinLogElement element = new JavelinLogElement();
         element.setBaseInfo(infoList);
     
-        // å®Ÿè¡Œ
+        // Às
         Long result = (Long)method.invoke(null, new Object[]{element});
     
-        // çµæœ
+        // Œ‹‰Ê
         SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
         Date resultDate = new Date(result.longValue());
         assertEquals(expectedResult, formatter.format(resultDate));
     }
 
     /**
-     * calculateStartTimeExistDate ã®ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹ã€‚
-     * ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã‚¨ãƒ©ãƒ¼(ãƒŸãƒªç§’ãŒãªã„)
+     * calculateStartTimeExistDate ‚ÌƒeƒXƒgƒP[ƒXB
+     * ƒtƒH[ƒ}ƒbƒgƒGƒ‰[(ƒ~ƒŠ•b‚ª‚È‚¢)
      */
     public void testCalculateStartTimeIllegalFormat1()
         throws Exception
     {
-        // æº–å‚™
+        // €”õ
         Method method = getCalculateStartTimeMethod();
         String startTimeStr = "2010/10/10 10:10:10";
 
@@ -221,21 +221,21 @@ public class WarningUnitUtilTest extends TestCase
         JavelinLogElement element = new JavelinLogElement();
         element.setBaseInfo(infoList);
 
-        // å®Ÿè¡Œ
+        // Às
         Long result = (Long)method.invoke(null, new Object[]{element});
 
-        // çµæœ
+        // Œ‹‰Ê
         assertEquals(Long.valueOf(0), result);
     }
 
     /**
-     * calculateStartTimeExistDate ã®ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹ã€‚
-     * æ—¥ä»˜ã®ã‚»ãƒ‘ãƒ¬ãƒ¼ã‚¿ãŒ"-"
+     * calculateStartTimeExistDate ‚ÌƒeƒXƒgƒP[ƒXB
+     * “ú•t‚ÌƒZƒpƒŒ[ƒ^‚ª"-"
      */
     public void testCalculateStartTimeIllegalFormat2()
         throws Exception
     {
-        // æº–å‚™
+        // €”õ
         Method method = getCalculateStartTimeMethod();
         String startTimeStr = "2010-10-10 10:10:10.111";
 
@@ -245,21 +245,21 @@ public class WarningUnitUtilTest extends TestCase
         JavelinLogElement element = new JavelinLogElement();
         element.setBaseInfo(infoList);
 
-        // å®Ÿè¡Œ
+        // Às
         Long result = (Long)method.invoke(null, new Object[]{element});
 
-        // çµæœ
+        // Œ‹‰Ê
         assertEquals(Long.valueOf(0), result);
     }
 
     /**
-     * calculateStartTimeExistDate ã®ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹ã€‚
-     * é–‹å§‹æ™‚åˆ»ãŒæœªæŒ‡å®š
+     * calculateStartTimeExistDate ‚ÌƒeƒXƒgƒP[ƒXB
+     * ŠJn‚ª–¢w’è
      */
     public void testCalculateStartTimeSetNull()
         throws Exception
     {
-        // æº–å‚™
+        // €”õ
         Method method = getCalculateStartTimeMethod();
 
         List<String> infoList = new ArrayList<String>(10);
@@ -267,21 +267,21 @@ public class WarningUnitUtilTest extends TestCase
         JavelinLogElement element = new JavelinLogElement();
         element.setBaseInfo(infoList);
 
-        // å®Ÿè¡Œ
+        // Às
         Long result = (Long)method.invoke(null, new Object[]{element});
 
-        // çµæœ
+        // Œ‹‰Ê
         assertEquals(Long.valueOf(0), result);
     }
 
     /**
-     * calculateStartTimeExistDate ã®ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹ã€‚
-     * ç©ºæ–‡å­—ã‚’æŒ‡å®š
+     * calculateStartTimeExistDate ‚ÌƒeƒXƒgƒP[ƒXB
+     * ‹ó•¶š‚ğw’è
      */
     public void testCalculateStartTimeSetEmpty()
         throws Exception
     {
-        // æº–å‚™
+        // €”õ
         Method method = getCalculateStartTimeMethod();
         String startTimeStr = "";
 
@@ -291,16 +291,16 @@ public class WarningUnitUtilTest extends TestCase
         JavelinLogElement element = new JavelinLogElement();
         element.setBaseInfo(infoList);
 
-        // å®Ÿè¡Œ
+        // Às
         Long result = (Long)method.invoke(null, new Object[]{element});
 
-        // çµæœ
+        // Œ‹‰Ê
         assertEquals(Long.valueOf(0), result);
     }
 
     /**
-     * WarningUnitUtil#calculateStartTimeMethod ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return calculateStartTimeMethodãƒ¡ã‚½ãƒƒãƒ‰
+     * WarningUnitUtil#calculateStartTimeMethod ƒƒ\ƒbƒh‚ğæ“¾‚·‚éB
+     * @return calculateStartTimeMethodƒƒ\ƒbƒh
      */
     private Method getCalculateStartTimeMethod()
         throws Exception

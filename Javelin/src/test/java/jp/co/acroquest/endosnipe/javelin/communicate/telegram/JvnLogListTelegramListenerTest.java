@@ -37,7 +37,7 @@ import jp.co.acroquest.endosnipe.javelin.communicate.telegram.util.CreateTelegra
 import junit.framework.TestCase;
 
 /**
- * JVNãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ä¸€è¦§å–å¾—ã®ãƒ†ã‚¹ãƒˆã‚¯ãƒ©ã‚¹ã€‚
+ * JVNƒƒOƒtƒ@ƒCƒ‹ˆê——æ“¾‚ÌƒeƒXƒgƒNƒ‰ƒXB
  * @author fujii
  *
  */
@@ -45,32 +45,32 @@ public class JvnLogListTelegramListenerTest extends TestCase implements Telegram
 {
     private static final String BASE_DIR = "./src/test/resources/telegram";
     
-    /** Javelinã®è¨­å®šãƒ•ã‚¡ã‚¤ãƒ« */
+    /** Javelin‚Ìİ’èƒtƒ@ƒCƒ‹ */
     private JavelinConfig config_;
 
     /**
-     * åˆæœŸåŒ–ãƒ¡ã‚½ãƒƒãƒ‰<br />
-     * ã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ã®åˆæœŸåŒ–ã‚’è¡Œã†ã€‚
+     * ‰Šú‰»ƒƒ\ƒbƒh<br />
+     * ƒVƒXƒeƒ€ƒƒO‚Ì‰Šú‰»‚ğs‚¤B
      */
     @Override
     public void setUp()
     {
-        // ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ã€ã‚ªãƒ—ã‚·ãƒ§ãƒ³è¨­å®šã‚’èª­ã¿è¾¼ã‚€ã€‚
+        // ƒIƒvƒVƒ‡ƒ“ƒtƒ@ƒCƒ‹‚©‚çAƒIƒvƒVƒ‡ƒ“İ’è‚ğ“Ç‚İ‚ŞB
         this.config_ = new JavelinConfig(BASE_DIR + "/conf");
         this.config_.setJavelinFileDir(BASE_DIR);
         SystemLogger.initSystemLog(this.config_);
     }
 
     /**
-     * [é …ç•ª] 3-2-4 receiveTelegramã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»ãƒ•ã‚¡ã‚¤ãƒ«æ•°ãŒ1ã®ãƒ•ã‚©ãƒ«ãƒ€ã«å¯¾ã™ã‚‹ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ä¸€è¦§é›»æ–‡ã®å–å¾—ã€‚
-     * â†’ä½œæˆã—ãŸé›»æ–‡ãŒæŒ‡å®šã—ãŸã‚‚ã®ã«ãªã£ã¦ã„ã‚‹ã€‚<br />
+     * [€”Ô] 3-2-4 receiveTelegram‚ÌƒeƒXƒgB <br />
+     * Eƒtƒ@ƒCƒ‹”‚ª1‚ÌƒtƒHƒ‹ƒ_‚É‘Î‚·‚éƒƒOƒtƒ@ƒCƒ‹ˆê——“d•¶‚Ìæ“¾B
+     * ¨ì¬‚µ‚½“d•¶‚ªw’è‚µ‚½‚à‚Ì‚É‚È‚Á‚Ä‚¢‚éB<br />
      */
     public void testReceiveTelegram_FileNum1()
     {
         this.config_.setJavelinFileDir(BASE_DIR + "/fileNum1");
 
-        // æº–å‚™
+        // €”õ
         Header sendHeader =
                 CreateTelegramUtil.createHeader(BYTE_REQUEST_KIND_REQUEST,
                                                 BYTE_TELEGRAM_KIND_JVN_FILE_LIST);
@@ -81,34 +81,34 @@ public class JvnLogListTelegramListenerTest extends TestCase implements Telegram
         Telegram sendTelegram = CreateTelegramUtil.createTelegram(sendHeader, sendBodies);
         JvnLogListTelegramListener listener = new JvnLogListTelegramListener();
 
-        // å®Ÿè¡Œ
+        // Às
         Telegram receiveTelegram = listener.receiveTelegram(sendTelegram);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         Header receiveHeader = receiveTelegram.getObjHeader();
         Body[] receiveBody = receiveTelegram.getObjBody();
 
-        // ãƒ˜ãƒƒãƒ€ã®æ¤œè¨¼
+        // ƒwƒbƒ_‚ÌŒŸØ
         assertEquals(BYTE_TELEGRAM_KIND_JVN_FILE_LIST, receiveHeader.getByteTelegramKind());
         assertEquals(BYTE_REQUEST_KIND_RESPONSE, receiveHeader.getByteRequestKind());
 
         String[] detail1 = {"file1.jvn"};
 
-        // Bodyã®æ¤œè¨¼
+        // Body‚ÌŒŸØ
         AssertUtil.assertTelegram("jvnFile", "jvnFileName", BYTE_ITEMMODE_KIND_STRING, 1, detail1,
                                   receiveBody[0]);
     }
 
     /**
-     * [é …ç•ª] 3-2-5 receiveTelegramã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»ãƒ•ã‚¡ã‚¤ãƒ«æ•°ãŒ3ã®ãƒ•ã‚©ãƒ«ãƒ€ã«å¯¾ã™ã‚‹ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ä¸€è¦§é›»æ–‡ã®å–å¾—ã€‚
-     * â†’ä½œæˆã—ãŸé›»æ–‡ãŒæŒ‡å®šã—ãŸã‚‚ã®ã«ãªã£ã¦ã„ã‚‹ã€‚<br />
+     * [€”Ô] 3-2-5 receiveTelegram‚ÌƒeƒXƒgB <br />
+     * Eƒtƒ@ƒCƒ‹”‚ª3‚ÌƒtƒHƒ‹ƒ_‚É‘Î‚·‚éƒƒOƒtƒ@ƒCƒ‹ˆê——“d•¶‚Ìæ“¾B
+     * ¨ì¬‚µ‚½“d•¶‚ªw’è‚µ‚½‚à‚Ì‚É‚È‚Á‚Ä‚¢‚éB<br />
      */
     public void testReceiveTelegram_FileNum3()
     {
         this.config_.setJavelinFileDir(BASE_DIR + "/fileNum3");
 
-        // æº–å‚™
+        // €”õ
         Header sendHeader =
                 CreateTelegramUtil.createHeader(BYTE_REQUEST_KIND_REQUEST,
                                                 BYTE_TELEGRAM_KIND_JVN_FILE_LIST);
@@ -119,35 +119,35 @@ public class JvnLogListTelegramListenerTest extends TestCase implements Telegram
         Telegram sendTelegram = CreateTelegramUtil.createTelegram(sendHeader, sendBodies);
         JvnLogListTelegramListener listener = new JvnLogListTelegramListener();
 
-        // å®Ÿè¡Œ
+        // Às
         Telegram receiveTelegram = listener.receiveTelegram(sendTelegram);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         Header receiveHeader = receiveTelegram.getObjHeader();
         Body[] receiveBody = receiveTelegram.getObjBody();
 
-        // ãƒ˜ãƒƒãƒ€ã®æ¤œè¨¼
+        // ƒwƒbƒ_‚ÌŒŸØ
         assertEquals(BYTE_TELEGRAM_KIND_JVN_FILE_LIST, receiveHeader.getByteTelegramKind());
         assertEquals(BYTE_REQUEST_KIND_RESPONSE, receiveHeader.getByteRequestKind());
 
         String[] detail1 = {"file1.jvn", "file2.jvn", "file3.jvn"};
 
-        // Bodyã®æ¤œè¨¼
+        // Body‚ÌŒŸØ
         AssertUtil.assertTelegram("jvnFile", "jvnFileName", BYTE_ITEMMODE_KIND_STRING, 3, detail1,
                                   receiveBody[0]);
     }
 
     /**
-     * [é …ç•ª] 3-2-6 receiveTelegramã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»Jvnãƒ•ã‚¡ã‚¤ãƒ«ãŒ2ã¤ã€ãã‚Œä»¥å¤–ã®ãƒ•ã‚¡ã‚¤ãƒ«ãŒ2ã¤å…¥ã£ã¦ã„ã‚‹ãƒ•ã‚©ãƒ«ãƒ€
-     *  ã«å¯¾ã™ã‚‹ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ä¸€è¦§é›»æ–‡ã®å–å¾—ã€‚
-     * â†’ä½œæˆã—ãŸé›»æ–‡ãŒæŒ‡å®šã—ãŸã‚‚ã®ã«ãªã£ã¦ã„ã‚‹ã€‚<br />
+     * [€”Ô] 3-2-6 receiveTelegram‚ÌƒeƒXƒgB <br />
+     * EJvnƒtƒ@ƒCƒ‹‚ª2‚ÂA‚»‚êˆÈŠO‚Ìƒtƒ@ƒCƒ‹‚ª2‚Â“ü‚Á‚Ä‚¢‚éƒtƒHƒ‹ƒ_
+     *  ‚É‘Î‚·‚éƒƒOƒtƒ@ƒCƒ‹ˆê——“d•¶‚Ìæ“¾B
+     * ¨ì¬‚µ‚½“d•¶‚ªw’è‚µ‚½‚à‚Ì‚É‚È‚Á‚Ä‚¢‚éB<br />
      */
     public void testReceiveTelegram_JvnFileNum2_OtherFileNum2()
     {
         this.config_.setJavelinFileDir(BASE_DIR + "/jvn2_other2");
 
-        // æº–å‚™
+        // €”õ
         Header sendHeader =
                 CreateTelegramUtil.createHeader(BYTE_REQUEST_KIND_REQUEST,
                                                 BYTE_TELEGRAM_KIND_JVN_FILE_LIST);
@@ -158,34 +158,34 @@ public class JvnLogListTelegramListenerTest extends TestCase implements Telegram
         Telegram sendTelegram = CreateTelegramUtil.createTelegram(sendHeader, sendBodies);
         JvnLogListTelegramListener listener = new JvnLogListTelegramListener();
 
-        // å®Ÿè¡Œ
+        // Às
         Telegram receiveTelegram = listener.receiveTelegram(sendTelegram);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         Header receiveHeader = receiveTelegram.getObjHeader();
         Body[] receiveBody = receiveTelegram.getObjBody();
 
-        // ãƒ˜ãƒƒãƒ€ã®æ¤œè¨¼
+        // ƒwƒbƒ_‚ÌŒŸØ
         assertEquals(BYTE_TELEGRAM_KIND_JVN_FILE_LIST, receiveHeader.getByteTelegramKind());
         assertEquals(BYTE_REQUEST_KIND_RESPONSE, receiveHeader.getByteRequestKind());
 
         String[] detail1 = {"file1.jvn", "file2.jvn"};
 
-        // Bodyã®æ¤œè¨¼
+        // Body‚ÌŒŸØ
         AssertUtil.assertTelegram("jvnFile", "jvnFileName", BYTE_ITEMMODE_KIND_STRING, 2, detail1,
                                   receiveBody[0]);
     }
 
     /**
-     * [é …ç•ª] 3-2-7 receiveTelegramã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»Jvnãƒ•ã‚¡ã‚¤ãƒ«ãŒå…¥ã£ã¦ã„ãªã„ãƒ•ã‚©ãƒ«ãƒ€ã«å¯¾ã™ã‚‹ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ä¸€è¦§é›»æ–‡ã®å–å¾—ã€‚<br />
-     * â†’ä½œæˆã—ãŸé›»æ–‡ãŒæŒ‡å®šã—ãŸã‚‚ã®ã«ãªã£ã¦ã„ã‚‹ã€‚<br />
+     * [€”Ô] 3-2-7 receiveTelegram‚ÌƒeƒXƒgB <br />
+     * EJvnƒtƒ@ƒCƒ‹‚ª“ü‚Á‚Ä‚¢‚È‚¢ƒtƒHƒ‹ƒ_‚É‘Î‚·‚éƒƒOƒtƒ@ƒCƒ‹ˆê——“d•¶‚Ìæ“¾B<br />
+     * ¨ì¬‚µ‚½“d•¶‚ªw’è‚µ‚½‚à‚Ì‚É‚È‚Á‚Ä‚¢‚éB<br />
      */
     public void testReceiveTelegram_OtherFiles()
     {
         this.config_.setJavelinFileDir(BASE_DIR + "/otherFiles");
 
-        // æº–å‚™
+        // €”õ
         Header sendHeader =
                 CreateTelegramUtil.createHeader(BYTE_REQUEST_KIND_REQUEST,
                                                 BYTE_TELEGRAM_KIND_JVN_FILE_LIST);
@@ -196,34 +196,34 @@ public class JvnLogListTelegramListenerTest extends TestCase implements Telegram
         Telegram sendTelegram = CreateTelegramUtil.createTelegram(sendHeader, sendBodies);
         JvnLogListTelegramListener listener = new JvnLogListTelegramListener();
 
-        // å®Ÿè¡Œ
+        // Às
         Telegram receiveTelegram = listener.receiveTelegram(sendTelegram);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         Header receiveHeader = receiveTelegram.getObjHeader();
         Body[] receiveBody = receiveTelegram.getObjBody();
 
-        // ãƒ˜ãƒƒãƒ€ã®æ¤œè¨¼
+        // ƒwƒbƒ_‚ÌŒŸØ
         assertEquals(BYTE_TELEGRAM_KIND_JVN_FILE_LIST, receiveHeader.getByteTelegramKind());
         assertEquals(BYTE_REQUEST_KIND_RESPONSE, receiveHeader.getByteRequestKind());
 
         String[] detail1 = {};
 
-        // Bodyã®æ¤œè¨¼
+        // Body‚ÌŒŸØ
         AssertUtil.assertTelegram("jvnFile", "jvnFileName", BYTE_ITEMMODE_KIND_STRING, 0, detail1,
                                   receiveBody[0]);
     }
 
     /**
-     * [é …ç•ª] 3-2-8 receiveTelegramã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»ãƒ•ã‚¡ã‚¤ãƒ«ãŒç©ºã®ãƒ•ã‚©ãƒ«ãƒ€ã«å¯¾ã™ã‚‹ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ä¸€è¦§é›»æ–‡ã®å–å¾—ã€‚<br />
-     * â†’ä½œæˆã—ãŸé›»æ–‡ãŒæŒ‡å®šã—ãŸã‚‚ã®ã«ãªã£ã¦ã„ã‚‹ã€‚<br />
+     * [€”Ô] 3-2-8 receiveTelegram‚ÌƒeƒXƒgB <br />
+     * Eƒtƒ@ƒCƒ‹‚ª‹ó‚ÌƒtƒHƒ‹ƒ_‚É‘Î‚·‚éƒƒOƒtƒ@ƒCƒ‹ˆê——“d•¶‚Ìæ“¾B<br />
+     * ¨ì¬‚µ‚½“d•¶‚ªw’è‚µ‚½‚à‚Ì‚É‚È‚Á‚Ä‚¢‚éB<br />
      */
     public void testReceiveTelegram_FileNum0()
     {
         this.config_.setJavelinFileDir(BASE_DIR + "/fileNum0");
 
-        // æº–å‚™
+        // €”õ
         Header sendHeader =
                 CreateTelegramUtil.createHeader(BYTE_REQUEST_KIND_REQUEST,
                                                 BYTE_TELEGRAM_KIND_JVN_FILE_LIST);
@@ -234,33 +234,33 @@ public class JvnLogListTelegramListenerTest extends TestCase implements Telegram
         Telegram sendTelegram = CreateTelegramUtil.createTelegram(sendHeader, sendBodies);
         JvnLogListTelegramListener listener = new JvnLogListTelegramListener();
 
-        // å®Ÿè¡Œ
+        // Às
         Telegram receiveTelegram = listener.receiveTelegram(sendTelegram);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         Header receiveHeader = receiveTelegram.getObjHeader();
         Body[] receiveBody = receiveTelegram.getObjBody();
 
-        // ãƒ˜ãƒƒãƒ€ã®æ¤œè¨¼
+        // ƒwƒbƒ_‚ÌŒŸØ
         assertEquals(BYTE_TELEGRAM_KIND_JVN_FILE_LIST, receiveHeader.getByteTelegramKind());
         assertEquals(BYTE_REQUEST_KIND_RESPONSE, receiveHeader.getByteRequestKind());
 
         String[] detail1 = {};
 
-        // Bodyã®æ¤œè¨¼
+        // Body‚ÌŒŸØ
         AssertUtil.assertTelegram("jvnFile", "jvnFileName", BYTE_ITEMMODE_KIND_STRING, 0, detail1,
                                   receiveBody[0]);
     }
 
     /**
-     * [é …ç•ª] 3-2-9 receiveTelegramã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»é›»æ–‡ç¨®åˆ¥ãŒãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ä¸€è¦§å–å¾—ã§ãªã„ã¨ãã«ã€
-     *  receiveTeleramãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã¶ã€‚
-     * â†’ä½œæˆã—ãŸé›»æ–‡ãŒå…¨ã¦nullã«ãªã£ã¦ã„ã‚‹ã€‚<br />
+     * [€”Ô] 3-2-9 receiveTelegram‚ÌƒeƒXƒgB <br />
+     * E“d•¶í•Ê‚ªƒƒOƒtƒ@ƒCƒ‹ˆê——æ“¾‚Å‚È‚¢‚Æ‚«‚ÉA
+     *  receiveTeleramƒƒ\ƒbƒh‚ğŒÄ‚ÔB
+     * ¨ì¬‚µ‚½“d•¶‚ª‘S‚Änull‚É‚È‚Á‚Ä‚¢‚éB<br />
      */
     public void testReceiveTelegram_RequestKindOthers()
     {
-        // æº–å‚™
+        // €”õ
         byte[] requestKinds = {1, 2, 3, 4, 5, 6, 7, 8};
 
         for (byte requestKind : requestKinds)
@@ -275,23 +275,23 @@ public class JvnLogListTelegramListenerTest extends TestCase implements Telegram
             Telegram sendTelegram = CreateTelegramUtil.createTelegram(sendHeader, sendBodies);
             JvnLogListTelegramListener listener = new JvnLogListTelegramListener();
 
-            // å®Ÿè¡Œ
+            // Às
             Telegram receiveTelegram = listener.receiveTelegram(sendTelegram);
 
-            // æ¤œè¨¼
+            // ŒŸØ
             assertNull(receiveTelegram);
         }
     }
 
     /**
-     * [é …ç•ª] 3-2-10 receiveTelegramã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»é›»æ–‡å¿œç­”ç¨®åˆ¥ãŒè¦æ±‚ã§ãªã„ã¨ãã«ã€
-     *  receiveTeleramãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã¶ã€‚
-     * â†’ä½œæˆã—ãŸé›»æ–‡ãŒå…¨ã¦nullã«ãªã£ã¦ã„ã‚‹ã€‚<br />
+     * [€”Ô] 3-2-10 receiveTelegram‚ÌƒeƒXƒgB <br />
+     * E“d•¶‰“ší•Ê‚ª—v‹‚Å‚È‚¢‚Æ‚«‚ÉA
+     *  receiveTeleramƒƒ\ƒbƒh‚ğŒÄ‚ÔB
+     * ¨ì¬‚µ‚½“d•¶‚ª‘S‚Änull‚É‚È‚Á‚Ä‚¢‚éB<br />
      */
     public void testReceiveTelegram_TelegramKindOthers()
     {
-        // æº–å‚™
+        // €”õ
         byte[] telegramKinds = {0, 2};
 
         for (byte telegramKind : telegramKinds)
@@ -306,22 +306,22 @@ public class JvnLogListTelegramListenerTest extends TestCase implements Telegram
             Telegram sendTelegram = CreateTelegramUtil.createTelegram(sendHeader, sendBodies);
             JvnLogListTelegramListener listener = new JvnLogListTelegramListener();
 
-            // å®Ÿè¡Œ
+            // Às
             Telegram receiveTelegram = listener.receiveTelegram(sendTelegram);
 
-            // æ¤œè¨¼
+            // ŒŸØ
             assertNull(receiveTelegram);
         }
     }
 
     /**
-     * [é …ç•ª] 3-2-11 receiveTelegramã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»å­˜åœ¨ã—ãªã„ãƒ•ã‚©ãƒ«ãƒ€ã«å¯¾ã—ã¦ã€receiveTeleramãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã¶ã€‚
-     * â†’ä½œæˆã—ãŸé›»æ–‡ãŒnullã«ãªã£ã¦ã„ã‚‹ã€‚<br />
+     * [€”Ô] 3-2-11 receiveTelegram‚ÌƒeƒXƒgB <br />
+     * E‘¶İ‚µ‚È‚¢ƒtƒHƒ‹ƒ_‚É‘Î‚µ‚ÄAreceiveTeleramƒƒ\ƒbƒh‚ğŒÄ‚ÔB
+     * ¨ì¬‚µ‚½“d•¶‚ªnull‚É‚È‚Á‚Ä‚¢‚éB<br />
      */
     public void testReceiveTelegram_FolderNotExist()
     {
-        // æº–å‚™
+        // €”õ
         this.config_.setJavelinFileDir(BASE_DIR + "/FolderNotExist");
 
         Header sendHeader =
@@ -334,10 +334,10 @@ public class JvnLogListTelegramListenerTest extends TestCase implements Telegram
         Telegram sendTelegram = CreateTelegramUtil.createTelegram(sendHeader, sendBodies);
         JvnLogListTelegramListener listener = new JvnLogListTelegramListener();
 
-        // å®Ÿè¡Œ
+        // Às
         Telegram receiveTelegram = listener.receiveTelegram(sendTelegram);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertNull(receiveTelegram);
     }
 

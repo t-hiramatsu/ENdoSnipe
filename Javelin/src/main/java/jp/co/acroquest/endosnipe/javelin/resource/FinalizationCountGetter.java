@@ -32,7 +32,7 @@ import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 import jp.co.acroquest.endosnipe.common.entity.ItemType;
 
 /**
- * ãƒ•ã‚¡ã‚¤ãƒŠãƒ©ã‚¤ã‚ºå¾…ã¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ•°ã‚’å–å¾—ã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚
+ * ƒtƒ@ƒCƒiƒ‰ƒCƒY‘Ò‚¿ƒIƒuƒWƒFƒNƒg”‚ğæ“¾‚·‚éƒNƒ‰ƒXB
  * 
  * @author tsukano
  */
@@ -56,8 +56,8 @@ public class FinalizationCountGetter extends AbstractResourceGetter
     }
 
     /**
-     * JavelinConfigã«è¨­å®šã•ã‚ŒãŸenableå€¤ã‚’è¿”ã™ã€‚
-     * @return enableå€¤
+     * JavelinConfig‚Éİ’è‚³‚ê‚½enable’l‚ğ•Ô‚·B
+     * @return enable’l
      */
     @Override
     public boolean isEnable()

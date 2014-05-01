@@ -30,7 +30,7 @@ import jp.co.acroquest.endosnipe.javelin.bean.proc.MemInfo;
 import jp.co.acroquest.endosnipe.javelin.bean.proc.ProcInfo;
 
 /**
- * MemInfoからシステム全体の空きメモリ(MemFree+Buffers+Cached)を取得する。
+ * MemInfo����V�X�e���S�̂̋󂫃�����(MemFree+Buffers+Cached)���擾����B
  * @author akita
  *
  */
@@ -38,7 +38,7 @@ public class LinuxMemFreeGetter extends ProcResourceGetter
 {
     /**
      * 
-     * @param procParser リソース情報取得用
+     * @param procParser ���\�[�X���擾�p
      */
     public LinuxMemFreeGetter(ProcParser procParser)
     {

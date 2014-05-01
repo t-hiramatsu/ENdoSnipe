@@ -32,27 +32,27 @@ import java.util.ResourceBundle;
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 
 /**
- * Javelinã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å–å¾—ã‚¯ãƒ©ã‚¹ã€‚
+ * Javelin‚ÌƒƒbƒZ[ƒWæ“¾ƒNƒ‰ƒXB
  * @author tooru
  */
 public final class JdbcJavelinMessages
 {
-    /** ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãƒ•ã‚¡ã‚¤ãƒ«ã®åç§° */
+    /** ƒƒbƒZ[ƒWƒvƒƒpƒeƒBƒtƒ@ƒCƒ‹‚Ì–¼Ì */
     private static final String BUNDLE_NAME = "JdbcJavelin";
 
     /**
-     * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+     * ƒfƒtƒHƒ‹ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^
      */
     private JdbcJavelinMessages()
     {
-        //ä½•ã‚‚ã—ãªã„
+        //‰½‚à‚µ‚È‚¢
     }
 
     /**
-     * ãƒªã‚½ãƒ¼ã‚¹ãƒãƒ³ãƒ‰ãƒ«ã‚ˆã‚Šãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @param messageId ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ID
-     * @param args ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®å¼•æ•°
-     * @return ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
+     * ƒŠƒ\[ƒXƒoƒ“ƒhƒ‹‚æ‚èƒƒbƒZ[ƒW‚ğæ“¾‚·‚éB
+     * @param messageId ƒƒbƒZ[ƒWID
+     * @param args ƒƒbƒZ[ƒW‚Ìˆø”
+     * @return ƒƒbƒZ[ƒW
      */
     public static String getMessage(final String messageId, final Object... args)
     {
@@ -64,7 +64,7 @@ public final class JdbcJavelinMessages
         }
         catch (MissingResourceException mre)
         {
-            // ç„¡è¦–ã™ã‚‹ã€‚
+            // –³‹‚·‚éB
             SystemLogger.getInstance().warn(mre);
         }
         return message;

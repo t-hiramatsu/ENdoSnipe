@@ -34,1056 +34,1071 @@ import jp.co.acroquest.endosnipe.data.entity.MeasurementValue;
 import junit.framework.Assert;
 
 /**
- * ENdoSnipeReporterãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ†ã‚¹ãƒˆãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹
+ * ENdoSnipeReporterƒvƒƒWƒFƒNƒg‚ÌƒeƒXƒgƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒX
  * 
  * @author kimura
  */
 public class ReporterTestUtil
 {
 
-	protected static final String DB_NAME = "endosnipedb";
-
-	private static Map<String, Method> parseMethodMap;
-
-	private static String[] JAVELIN_LOG_FIELD_LIST = { "logId", "sessionId", "sequenceId",
-		"javelinLog", "logFileName", "startTime", "endTime", "sessionDesc", "logType",
-		"calleeName", "calleeSignature", "calleeClass", "calleeFieldType", "calleeObjectId",
-		"callerName", "callerSignature", "callerClass", "callerObjectId", "eventLevel",
-		"elapsedTime", "modifier", "threadName", "threadClass", "threadObjectId" };
-
-	private static Set<String> JAVELIN_LOG_EXCLUDE = new HashSet<String>();
-
-	private static final String[] MEASUREMENT_VALUE_FIELD_LIST = { "measurementValueId",
-		"measurementNum", "measurementTime", "measurementType", "measurementItemId", "value" };
-
-	private static Set<String> MEASUREMENT_VALUE_EXCLUDE = new HashSet<String>();
-
-	private static final String[] JAVELIN_MEASUREMENT_ITEM_FIELD_LIST = { "measurementItemId",
-		"measurementType", "itemName" };
-
-	private static Set<String> JAVELIN_MEASUREMENT_ITEM_EXCLUDE = new HashSet<String>();
-
-	private static final String[] MEASUREMENT_INFO_FIELD_LIST = { "measurementType_", "itemName_",
-		"displayName_", "description_" };
-
-	private static Set<String> MEASUREMENT_INFO_EXCLUDE = new HashSet<String>();
-
-	private static final String[] MEASUREMENT_VALUE_DTO_FIELD_LIST = { "measurementTime",
-		"measurementItemId", "measurementTypeItemName", "measurementTypeDisplayName",
-		"measurementItemName" };
-
-	private static Set<String> MEASUREMENT_VALUE_DTO_EXCLUDE = new HashSet<String>();
-
-	static
-	{
-		parseMethodMap = new HashMap<String, Method>();
-		try
-		{
-			parseMethodMap.put("boolean", Boolean.class.getMethod("parseBoolean", String.class));
-			parseMethodMap.put("byte", Byte.class.getMethod("parseByte", String.class));
-			parseMethodMap.put("double", Double.class.getMethod("parseDouble", String.class));
-			parseMethodMap.put("float", Float.class.getMethod("parseFloat", String.class));
-			parseMethodMap.put("int", Integer.class.getMethod("parseInt", String.class));
-			parseMethodMap.put("long", Long.class.getMethod("parseLong", String.class));
-			parseMethodMap.put("short", Short.class.getMethod("parseShort", String.class));
-		}
-		catch (SecurityException ex)
-		{
-		}
-		catch (NoSuchMethodException ex)
-		{
-		}
-
-		JAVELIN_LOG_EXCLUDE.add("logId");
-		JAVELIN_LOG_EXCLUDE.add("javelinLog");
-
-		MEASUREMENT_VALUE_EXCLUDE.add("measurementValueId");
-		JAVELIN_MEASUREMENT_ITEM_EXCLUDE.add("measurementItemId");
-		MEASUREMENT_VALUE_DTO_EXCLUDE.add("measurementValueId");
-		MEASUREMENT_VALUE_DTO_EXCLUDE.add("measurementNum");
-		MEASUREMENT_VALUE_DTO_EXCLUDE.add("measurementTime");
-		MEASUREMENT_VALUE_DTO_EXCLUDE.add("measurementType");
-		MEASUREMENT_VALUE_DTO_EXCLUDE.add("measurementItemId");
-		MEASUREMENT_VALUE_DTO_EXCLUDE.add("measurementTypeItemName");
-		MEASUREMENT_VALUE_DTO_EXCLUDE.add("measurementTypeDisplayName");
-	}
-
-	// -------------------------------------------------------------------------------
-	// JavelinLogãƒ†ãƒ¼ãƒ–ãƒ«å¯¾è±¡ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£
-	// -------------------------------------------------------------------------------
-
-	/**
-	 * äºŒã¤ã®JavelinLogã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆãŒç­‰ã—ã„äº‹ã‚’ç¢ºèªã™ã‚‹ã€‚
-	 * 
-	 * @param expects äºˆæ¸¬å€¤
-	 * @param actuals å®Ÿéš›å€¤
-	 */
-	public static void assertJavelinLog(List<Object> expects, List<Object> actuals)
-	{
-		Collections.sort(expects, new Comparator<Object>() {
-			public int compare(Object log1, Object log2)
-			{
-				if (((JavelinLog) log1).logId > ((JavelinLog) log2).logId)
-				{
-					return 1;
-				}
-				else if (((JavelinLog) log1).logId == ((JavelinLog) log2).logId)
-				{
-					return 0;
-				}
-
-				return -1;
-			}
-		});
-
-		Collections.sort(actuals, new Comparator<Object>() {
-			public int compare(Object log1, Object log2)
-			{
-				if (((JavelinLog) log1).logId > ((JavelinLog) log2).logId)
-				{
-					return 1;
-				}
-				else if (((JavelinLog) log1).logId == ((JavelinLog) log2).logId)
-				{
-					return 0;
-				}
-
-				return -1;
-			}
-		});
-
-		try
-		{
-			assertEntitiesEquals(expects, actuals, JAVELIN_LOG_EXCLUDE);
-		}
-		catch (Exception ex)
-		{
-			throw new RuntimeException(ex);
-		}
-	}
-
-	/**
-	 * JavelinLogã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆã‚’ç”Ÿæˆã™ã‚‹ã€‚
-	 * 
-	 * @param datarows  ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆã«è¨­å®šã™ã‚‹CSV
-	 * @returnã€€ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆ
-	 * @throws Exception
-	 */
-	public static List<Object> createJavelinEntities(String[] datarows)
-	{
-		if (datarows == null)
-		{
-			return null;
-		}
-
-		List<Object> javelinLogEntities;
-
-		try
-		{
-			javelinLogEntities = createEntityList(JavelinLog.class, JAVELIN_LOG_FIELD_LIST,
-				datarows);
-		}
-		catch (Exception ex)
-		{
-			throw new RuntimeException(ex);
-		}
-
-		return javelinLogEntities;
-
-	}
-
-	/**
-	 * æŒ‡å®šã—ãŸãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹ã‹ã‚‰ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã¿ã€JavelinLogãƒ‡ãƒ¼ã‚¿ã‚’ç”Ÿæˆã™ã‚‹ã€‚
-	 * 
-	 * @param jvnLogFilePath JavelinLogã®ãƒ‘ã‚¹
-	 * @return ãƒ‡ãƒ¼ã‚¿ã«ã‚¢ã‚¯ã‚»ã‚¹ã™ã‚‹ãŸã‚ã®ã‚¹ãƒˆãƒªãƒ¼ãƒ 
-	 */
-	public static InputStream convertStreamJavelinFile(String jvnLogFilePath)
-	{
-		File jvnLogFile = new File(jvnLogFilePath);
-
-		if (jvnLogFile.exists() == false)
-		{
-			return new ByteArrayInputStream(new byte[0]);
-		}
-
-		FileInputStream jvnLogStream = null;
-
-		try
-		{
-			jvnLogStream = new FileInputStream(jvnLogFile);
-		}
-		catch (FileNotFoundException ex)
-		{
-			try
-			{
-				if (jvnLogStream != null)
-				{
-					jvnLogStream.close();
-				}
-			}
-			catch (IOException iex)
-			{
-			}
-
-			return new ByteArrayInputStream(new byte[0]);
-		}
-
-		BufferedInputStream bufStream = new BufferedInputStream(jvnLogStream);
-		ByteArrayOutputStream byteOStream = new ByteArrayOutputStream();
-
-		while (true)
-		{
-			int readData = 0;
-			try
-			{
-				readData = bufStream.read();
-			}
-			catch (IOException ex)
-			{
-				try
-				{
-					bufStream.close();
-				}
-				catch (IOException iex)
-				{
-				}
-				try
-				{
-					byteOStream.close();
-				}
-				catch (IOException iex)
-				{
-				}
-				return new ByteArrayInputStream(new byte[0]);
-			}
-
-			if (readData == -1)
-			{
-				break;
-			}
-
-			byteOStream.write(readData);
-		}
-
-		ByteArrayInputStream retStream = new ByteArrayInputStream(byteOStream.toByteArray());
-
-		try
-		{
-			bufStream.close();
-		}
-		catch (IOException ex)
-		{
-		}
-
-		try
-		{
-			byteOStream.close();
-		}
-		catch (IOException ex)
-		{
-		}
-
-		return retStream;
-	}
-
-	// -------------------------------------------------------------------------------
-	// MeasurementValue ãƒ†ãƒ¼ãƒ–ãƒ«å¯¾è±¡ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£
-	// -------------------------------------------------------------------------------
-
-	/**
-	 * äºŒã¤ã®MeasurementValueã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆãŒç­‰ã—ã„äº‹ã‚’ç¢ºèªã™ã‚‹ã€‚
-	 * 
-	 * @param expects äºˆæ¸¬å€¤
-	 * @param actuals å®Ÿéš›å€¤
-	 */
-	public static void assertMeasurementValue(List<Object> expects, List<Object> actuals)
-	{
-		Collections.sort(expects, new Comparator<Object>() {
-			public int compare(Object log1, Object log2)
-			{
-				if (((MeasurementValue) log1).measurementItemId > ((MeasurementValue) log2).measurementItemId)
-				{
-					return 1;
-				}
-				else if (((MeasurementValue) log1).measurementItemId == ((MeasurementValue) log2).measurementItemId)
-				{
-					return 0;
-				}
-
-				return -1;
-			}
-		});
-
-		Collections.sort(actuals, new Comparator<Object>() {
-			public int compare(Object log1, Object log2)
-			{
-				if (((MeasurementValue) log1).measurementItemId > ((MeasurementValue) log2).measurementItemId)
-				{
-					return 1;
-				}
-				else if (((MeasurementValue) log1).measurementItemId == ((MeasurementValue) log2).measurementItemId)
-				{
-					return 0;
-				}
-
-				return -1;
-			}
-		});
-
-		try
-		{
-			assertEntitiesEquals(expects, actuals, MEASUREMENT_VALUE_EXCLUDE);
-		}
-		catch (Exception ex)
-		{
-			throw new RuntimeException(ex);
-		}
-	}
-
-	/**
-	 * MeasurementValueã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆã‚’ç”Ÿæˆã™ã‚‹ã€‚
-	 * 
-	 * @param datarows  ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆã«è¨­å®šã™ã‚‹CSV
-	 * @returnã€€ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆ
-	 * @throws Exception
-	 */
-	public static List<Object> createMeasurementValueEntities(String[] datarows)
-	{
-		if (datarows == null)
-		{
-			return null;
-		}
-
-		List<Object> measurementValueEntities;
-
-		try
-		{
-			measurementValueEntities = createEntityList(MeasurementValue.class,
-				MEASUREMENT_VALUE_FIELD_LIST, datarows);
-		}
-		catch (Exception ex)
-		{
-			throw new RuntimeException(ex);
-		}
-
-		return measurementValueEntities;
-	}
-
-	/**
-	 * MeasurementValueDtoã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚’CSVå½¢å¼ã®ãƒ‡ãƒ¼ã‚¿ã‹ã‚‰ç”Ÿæˆã™ã‚‹ã€‚
-	 * 
-	 * @param datarows CSVå½¢å¼ã®ãƒ‡ãƒ¼ã‚¿ãƒªã‚¹ãƒˆ
-	 * @return ç”Ÿæˆã—ãŸãƒ‡ãƒ¼ã‚¿ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®ãƒªã‚¹ãƒˆ
-	 */
-	public static List<Object> createMeasurementValueDtoEntities(String[] datarows)
-	{
-		if (datarows == null)
-		{
-			return null;
-		}
-
-		List<Object> measurementValueDtoEntities;
-
-		try
-		{
-			measurementValueDtoEntities = createEntityList(MeasurementValueDto.class,
-				MEASUREMENT_VALUE_DTO_FIELD_LIST, datarows);
-		}
-		catch (Exception ex)
-		{
-			throw new RuntimeException(ex);
-		}
-
-		return measurementValueDtoEntities;
-	}
-
-	public static void assertMeasurementValueDto(List<Object> expects, List<Object> actuals)
-	{
-		Collections.sort(expects, new Comparator<Object>() {
-			public int compare(Object log1, Object log2)
-			{
-
-				MeasurementValueDto obj1 = (MeasurementValueDto) log1;
-				MeasurementValueDto obj2 = (MeasurementValueDto) log2;
-
-				if (obj1.measurementItemName.compareTo(obj2.measurementItemName) > 0)
-				{
-					return 1;
-				}
-				else if (obj1.measurementItemName.compareTo(obj2.measurementItemName) < 0)
-				{
-					return -1;
-				}
-
-				if (Long.parseLong(obj1.value) > Long.parseLong(obj2.value))
-				{
-					return 1;
-				}
-				else if (Long.parseLong(obj1.value) < Long.parseLong(obj2.value))
-				{
-					return -1;
-				}
-
-				return 0;
-			}
-		});
-
-		Collections.sort(actuals, new Comparator<Object>() {
-			public int compare(Object log1, Object log2)
-			{
-
-				MeasurementValueDto obj1 = (MeasurementValueDto) log1;
-				MeasurementValueDto obj2 = (MeasurementValueDto) log2;
-
-				if (obj1.measurementItemName.compareTo(obj2.measurementItemName) > 0)
-				{
-					return 1;
-				}
-				else if (obj1.measurementItemName.compareTo(obj2.measurementItemName) < 0)
-				{
-					return -1;
-				}
-
-				if (Long.parseLong(obj1.value) > Long.parseLong(obj2.value))
-				{
-					return 1;
-				}
-				else if (Long.parseLong(obj1.value) < Long.parseLong(obj2.value))
-				{
-					return -1;
-				}
-
-				return 0;
-			}
-		});
-
-		try
-		{
-			assertEntitiesEquals(expects, actuals, MEASUREMENT_VALUE_DTO_EXCLUDE);
-		}
-		catch (Exception ex)
-		{
-			throw new RuntimeException(ex);
-		}
-
-	}
-
-	// -------------------------------------------------------------------------------
-	// JavelinMeasurementItem ãƒ†ãƒ¼ãƒ–ãƒ«å¯¾è±¡ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£
-	// -------------------------------------------------------------------------------
-
-	/**
-	 * äºŒã¤ã®JavelinMeasurementItemã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆãŒç­‰ã—ã„äº‹ã‚’ç¢ºèªã™ã‚‹ã€‚
-	 * 
-	 * @param expects äºˆæ¸¬å€¤
-	 * @param actuals å®Ÿéš›å€¤
-	 */
-	public static void assertJavelinMeasurementItem(List<Object> expects, List<Object> actuals)
-	{
-		Collections.sort(expects, new Comparator<Object>() {
-			public int compare(Object log1, Object log2)
-			{
-				if (((JavelinMeasurementItem) log1).measurementItemId > ((JavelinMeasurementItem) log2).measurementItemId)
-				{
-					return 1;
-				}
-				else if (((JavelinMeasurementItem) log1).measurementItemId == ((JavelinMeasurementItem) log2).measurementItemId)
-				{
-					return 0;
-				}
-
-				return -1;
-			}
-		});
-
-		Collections.sort(actuals, new Comparator<Object>() {
-			public int compare(Object log1, Object log2)
-			{
-				if (((JavelinMeasurementItem) log1).measurementItemId > ((JavelinMeasurementItem) log2).measurementItemId)
-				{
-					return 1;
-				}
-				else if (((JavelinMeasurementItem) log1).measurementItemId == ((JavelinMeasurementItem) log2).measurementItemId)
-				{
-					return 0;
-				}
-
-				return -1;
-			}
-		});
-
-		try
-		{
-			assertEntitiesEquals(expects, actuals, JAVELIN_MEASUREMENT_ITEM_EXCLUDE);
-		}
-		catch (Exception ex)
-		{
-			throw new RuntimeException(ex);
-		}
-	}
-
-	/**
-	 * JavelinMeasurementItemã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆã‚’ç”Ÿæˆã™ã‚‹ã€‚
-	 * 
-	 * @param datarows  ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆã«è¨­å®šã™ã‚‹CSV
-	 * @returnã€€ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆ
-	 * @throws Exception
-	 */
-	public static List<Object> createJavelinMeasurementItemEntities(String[] datarows)
-	{
-		if (datarows == null)
-		{
-			return null;
-		}
-
-		List<Object> javelinMeasurementItemEntities;
-
-		try
-		{
-			javelinMeasurementItemEntities = createEntityList(JavelinMeasurementItem.class,
-				JAVELIN_MEASUREMENT_ITEM_FIELD_LIST, datarows);
-		}
-		catch (Exception ex)
-		{
-			throw new RuntimeException(ex);
-		}
-
-		return javelinMeasurementItemEntities;
-	}
-
-	// -------------------------------------------------------------------------------
-	// MeasurementInfo ãƒ†ãƒ¼ãƒ–ãƒ«å¯¾è±¡ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£
-	// -------------------------------------------------------------------------------
-
-	/**
-	 * äºŒã¤ã®MeasurementInfoã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆãŒç­‰ã—ã„äº‹ã‚’ç¢ºèªã™ã‚‹ã€‚
-	 * 
-	 * @param expects äºˆæ¸¬å€¤
-	 * @param actuals å®Ÿéš›å€¤
-	 */
-	public static void assertMeasurementInfo(List<Object> expects, List<Object> actuals)
-	{
-		Collections.sort(expects, new Comparator<Object>() {
-			public int compare(Object log1, Object log2)
-			{
-				if (((MeasurementInfo) log1).getMeasurementType() > ((MeasurementInfo) log2)
-					.getMeasurementType())
-				{
-					return 1;
-				}
-				else if (((MeasurementInfo) log1).getMeasurementType() == ((MeasurementInfo) log2)
-					.getMeasurementType())
-				{
-					return 0;
-				}
-
-				return -1;
-			}
-		});
-
-		Collections.sort(actuals, new Comparator<Object>() {
-			public int compare(Object log1, Object log2)
-			{
-				if (((MeasurementInfo) log1).getMeasurementType() > ((MeasurementInfo) log2)
-					.getMeasurementType())
-				{
-					return 1;
-				}
-				else if (((MeasurementInfo) log1).getMeasurementType() == ((MeasurementInfo) log2)
-					.getMeasurementType())
-				{
-					return 0;
-				}
-
-				return -1;
-			}
-		});
-
-		try
-		{
-			assertEntitiesEquals(expects, actuals, MEASUREMENT_INFO_EXCLUDE);
-		}
-		catch (Exception ex)
-		{
-			throw new RuntimeException(ex);
-		}
-	}
-
-	/**
-	 * MeasurementInfoã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆã‚’ç”Ÿæˆã™ã‚‹ã€‚
-	 * 
-	 * @param datarows  ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆã«è¨­å®šã™ã‚‹CSV
-	 * @returnã€€ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆ
-	 * @throws Exception
-	 */
-	public static List<Object> createMeasurementInfoEntities(String[] datarows)
-	{
-		if (datarows == null)
-		{
-			return null;
-		}
-
-		List<Object> measurementInfoEntities = new ArrayList<Object>();
-
-		try
-		{
-			for (String datarow : datarows)
-			{
-				String[] dataElements = datarow.split(",");
-
-				Field mType = MeasurementInfo.class.getDeclaredField("measurementType_");
-				Field iName = MeasurementInfo.class.getDeclaredField("itemName_");
-				Field dName = MeasurementInfo.class.getDeclaredField("displayName_");
-				Field descr = MeasurementInfo.class.getDeclaredField("description_");
-				mType.setAccessible(true);
-				iName.setAccessible(true);
-				dName.setAccessible(true);
-				descr.setAccessible(true);
-
-				Object mTypeVal = parseString(mType, dataElements[0]);
-				Object iNameVal = parseString(iName, dataElements[1]);
-				Object dNameVal = parseString(dName, dataElements[2]);
-				Object descrVal = parseString(descr, dataElements[3]);
-
-				Object infoEntity = MeasurementInfo.class.getConstructors()[0].newInstance(
-					mTypeVal, iNameVal, dNameVal, descrVal);
-				measurementInfoEntities.add(infoEntity);
-			}
-		}
-		catch (Exception ex)
-		{
-			throw new RuntimeException(ex);
-		}
-
-		return measurementInfoEntities;
-	}
-
-	// -------------------------------------------------------------------------------
-	// å…±é€šãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£
-	// -------------------------------------------------------------------------------
-
-	/**
-	 * å„ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã®ãƒªã‚¹ãƒˆã«æ ¼ç´ã•ã‚ŒãŸå€¤ãŒãã‚Œãã‚Œç­‰ã—ã„ã‹å¦ã‹ã‚’åˆ¤å®šã™ã‚‹ã€‚
-	 * 
-	 * @param expects  äºˆæ¸¬å€¤
-	 * @param actuals  å®Ÿéš›å€¤
-	 * @param exclude  ãƒã‚§ãƒƒã‚¯ã‹ã‚‰é™¤å¤–ã™ã‚‹ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®åå‰
-	 * @throws Exception
-	 */
-	public static void assertEntitiesEquals(List<Object> expects, List<Object> actuals,
-		Set<String> exclude) throws Exception
-	{
-		if (expects.size() != actuals.size())
-		{
-			Assert.fail("actual datasize different expect datasize !! : expect<" + expects.size()
-				+ "> but actual<" + actuals.size() + ">");
-		}
-
-		for (int cnt = 0; cnt < expects.size(); cnt++)
-		{
-			assertEntityEquals(expects.get(cnt), actuals.get(cnt), exclude);
-		}
-	}
-
-	/**
-	 * å„ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£åŒå£«ã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ãŒç­‰ã—ã„ã‹å¦ã‹ã‚’åˆ¤å®šã™ã‚‹ã€‚
-	 * 
-	 * @param expect  äºˆæ¸¬å€¤
-	 * @param actual  å®Ÿéš›å€¤
-	 * @param exclude ãƒã‚§ãƒƒã‚¯ã‚’è¡Œã‚ãªã„ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®ã‚»ãƒƒãƒˆ
-	 * @throws Exception 
-	 */
-	public static void assertEntityEquals(Object expect, Object actual, Set<String> exclude)
-		throws Exception
-	{
-		if (expect == null || actual == null)
-		{
-			Assert.fail("expect or actual is NULL !!");
-		}
-
-		Class<?> chkTargetClass = expect.getClass();
-		Field[] chkFields = chkTargetClass.getDeclaredFields();
-
-		Assert.assertEquals(chkTargetClass, actual.getClass());
-
-		for (Field chkField : chkFields)
-		{
-			if (exclude.contains(chkField.getName()))
-			{
-				continue;
-			}
-
-			if (chkField.isAccessible() == false)
-			{
-				chkField.setAccessible(true);
-			}
-
-			Object expectFieldValue = chkField.get(expect);
-			Object actualFieldValue = chkField.get(actual);
-
-			if (Number.class.getName().equals(chkField.getType().getName()))
-			{
-				expectFieldValue = new BigDecimal(expectFieldValue.toString());
-				actualFieldValue = new BigDecimal(actualFieldValue.toString());
-
-				if (((BigDecimal) expectFieldValue).scale() > ((BigDecimal) actualFieldValue)
-					.scale())
-				{
-					actualFieldValue = ((BigDecimal) actualFieldValue)
-						.setScale(((BigDecimal) expectFieldValue).scale());
-				}
-				else
-				{
-					expectFieldValue = ((BigDecimal) expectFieldValue)
-						.setScale(((BigDecimal) actualFieldValue).scale());
-				}
-			}
-
-			if (expectFieldValue == null && actualFieldValue == null)
-			{
-				continue;
-			}
-
-			if (expectFieldValue == null)
-			{
-				Assert.assertNull(actualFieldValue);
-			}
-			else
-			{
-				Assert.assertNotNull(actualFieldValue);
-			}
-
-			Assert.assertEquals(expectFieldValue, actualFieldValue);
-		}
-	}
-
-	/**
-	 * CSVå½¢å¼ã«å®šç¾©ã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ã‚’ã€æŒ‡å®šã—ãŸã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã«å¤‰æ›ã™ã‚‹ã€‚
-	 * ãŸã ã—ã€static finalå®£è¨€ã•ã‚ŒãŸå¤‰æ•°ã‚’æŒ‡å®šã™ã‚‹ã“ã¨ã¯å‡ºæ¥ãªã„ã€‚
-	 * 
-	 * @param clazz     å¯¾è±¡ã¨ãªã‚‹ã‚¯ãƒ©ã‚¹
-	 * @param fieldList è¨­å®šå¯¾è±¡ã¨ã™ã‚‹ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰
-	 * @param datarows  è¨­å®šã™ã‚‹ãƒ‡ãƒ¼ã‚¿(CSVå½¢å¼)ã®ãƒªã‚¹ãƒˆ
-	 * @returnã€€ç”Ÿæˆã—ãŸã‚¯ãƒ©ã‚¹ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®ãƒªã‚¹ãƒˆ
-	 * @throws Exception
-	 */
-	public static List<Object> createEntityList(Class<?> clazz, String[] fieldList,
-		String[] datarows) throws Exception
-	{
-		if (clazz == null || fieldList == null || fieldList.length < 1)
-		{
-			return null;
-		}
-
-		List<Object> entityList = new ArrayList<Object>();
-
-		for (String datarow : datarows)
-		{
-			Object settingEntity = createEntity(clazz, fieldList, datarow);
-			entityList.add(settingEntity);
-		}
-
-		return entityList;
-	}
-
-	/**
-	 * CSVå½¢å¼ã«å®šç¾©ã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ã‚’ã€æŒ‡å®šã—ãŸã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã«å¤‰æ›ã™ã‚‹ã€‚
-	 * ãŸã ã—ã€static finalå®£è¨€ã•ã‚ŒãŸå¤‰æ•°ã‚’æŒ‡å®šã™ã‚‹ã“ã¨ã¯å‡ºæ¥ãªã„ã€‚
-	 * 
-	 * @param clazz     å¯¾è±¡ã¨ãªã‚‹ã‚¯ãƒ©ã‚¹
-	 * @param fieldList è¨­å®šå¯¾è±¡ã¨ã™ã‚‹ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰
-	 * @param datarowsã€€ è¨­å®šã™ã‚‹ãƒ‡ãƒ¼ã‚¿(CSVå½¢å¼)
-	 * @returnã€€ç”Ÿæˆã—ãŸã‚¯ãƒ©ã‚¹ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
-	 * @throws Exception
-	 */
-	public static Object createEntity(Class<?> clazz, String[] fieldList, String datarow)
-		throws Exception
-	{
-		Object entityObj = clazz.newInstance();
-		String[] dataElements = datarow.split(",");
-
-		for (int fieldCnt = 0; fieldCnt < fieldList.length; fieldCnt++)
-		{
-			Field settingField = clazz.getField(fieldList[fieldCnt]);
-			String settingData = null;
-
-			if (fieldCnt < dataElements.length)
-			{
-				settingData = dataElements[fieldCnt].trim();
-			}
-
-			Object settingVal = parseString(settingField, settingData);
-
-			if (settingVal != null)
-			{
-				if (settingField.isAccessible() == false)
-				{
-					settingField.setAccessible(true);
-				}
-
-				settingField.set(entityObj, settingVal);
-			}
-		}
-
-		return entityObj;
-	}
-
-	/**
-	 * æ–‡å­—åˆ—è¡¨ç¾ã§è¡¨ã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ã‚’ã€æŒ‡å®šã—ãŸãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã«è¨­å®šå¯èƒ½ãªã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«å¤‰æ›ã™ã‚‹ã€‚
-	 * 
-	 * @param field å€¤ã®è¨­å®šå¯¾è±¡ã¨ãªã‚‹ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰
-	 * @param data  å¯¾è±¡ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã«è¨­å®šã™ã‚‹ãƒ‡ãƒ¼ã‚¿ã®æ–‡å­—åˆ—è¡¨ç¾
-	 * @return      å‹å¤‰æ›ã•ã‚ŒãŸè¨­å®šå€¤
-	 * @throws Exception
-	 */
-	public static Object parseString(Field field, String data) throws Exception
-	{
-		String fieldTypeName = field.getType().getName();
-
-		if (data == null)
-		{
-			if (InputStream.class.getName().equals(fieldTypeName))
-			{
-				return new ByteArrayInputStream(new byte[0]);
-			}
-
-			return null;
-		}
-
-		if (String.class.getName().equals(fieldTypeName))
-		{
-			return data;
-		}
-
-		if ("".equals(data))
-		{
-			return null;
-		}
-
-		Method parseMethod = parseMethodMap.get(fieldTypeName);
-
-		if (parseMethod != null)
-		{
-			return parseMethod.invoke(null, data);
-		}
-
-		if (Timestamp.class.getName().equals(fieldTypeName))
-		{
-			DateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-			return new Timestamp(format.parse(data).getTime());
-		}
-
-		if (Date.class.getName().equals(fieldTypeName))
-		{
-			DateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-			return format.parse(data);
-		}
-
-		if (InputStream.class.getName().equals(fieldTypeName))
-		{
-			return convertStreamJavelinFile(data);
-		}
-
-		if (Number.class.getName().equals(fieldTypeName))
-		{
-			Method parseNumberMethod;
-
-			if (data.indexOf(".") == -1)
-			{
-				parseNumberMethod = parseMethodMap.get("long");
-			}
-			else
-			{
-				parseNumberMethod = parseMethodMap.get("double");
-			}
-
-			return parseNumberMethod.invoke(null, data);
-		}
-
-		return null;
-	}
-
-	public static Timestamp convertString2TimeStamp(String dateString) throws ParseException
-	{
-		return new Timestamp(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").parse(dateString)
-			.getTime());
-
-	}
-
-	/**
-	 * privateãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ãªã©ã€ã‚¢ã‚¯ã‚»ã‚¹ã§ããªã„ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã«å¯¾ã—ã¦ã€å€¤ã‚’è¨­å®šã™ã‚‹ã€‚
-	 * static privateã«å¯¾ã—ã¦ã®ã‚¢ã‚¯ã‚»ã‚¹ã¯ä¸å¯èƒ½ã€‚
-	 * 
-	 * @param clazz     è¨­å®šå¯¾è±¡ã®ã‚¯ãƒ©ã‚¹ã®ã‚¯ãƒ©ã‚¹æƒ…å ±
-	 * @param fieldName è¨­å®šå¯¾è±¡ã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰å
-	 * @param instance  è¨­å®šå¯¾è±¡ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
-	 * @param value     è¨­å®šã™ã‚‹å€¤
-	 */
-	public static void setNonAccessibleField(Class<?> clazz, String fieldName, Object instance,
-		Object value)
-	{
-		if (instance != null && clazz.equals(instance.getClass()) == false)
-		{
-			throw new RuntimeException("è¨­å®šå¯¾è±¡ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ãŒä¸€è‡´ã—ã¾ã›ã‚“");
-		}
-
-		try
-		{
-			Field targetField = clazz.getDeclaredField(fieldName);
-			targetField.setAccessible(true);
-			targetField.set(instance, value);
-		}
-		catch (Exception ex)
-		{
-			throw new RuntimeException(ex);
-		}
-	}
-
-	/**
-	 * privateãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ãªã©ã€ã‚¢ã‚¯ã‚»ã‚¹ã§ããªã„ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
-	 * 
-	 * @param clazz     è¨­å®šå¯¾è±¡ã‚¯ãƒ©ã‚¹ã®ã‚¯ãƒ©ã‚¹æƒ…å ±
-	 * @param fieldName è¨­å®šå¯¾è±¡ã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰å
-	 * @param instance  è¨­å®šå¯¾è±¡ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
-	 * @return          è¨­å®šã™ã‚‹å€¤
-	 */
-	public static Object getNonAccessibleField(Class<?> clazz, String fieldName, Object instance)
-	{
-		if (instance != null && clazz.equals(instance.getClass()) == false)
-		{
-			throw new RuntimeException("å–å¾—å¯¾è±¡ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ãŒä¸€è‡´ã—ã¾ã›ã‚“");
-		}
-
-		Object result = null;
-		try
-		{
-			Field targetField = clazz.getDeclaredField(fieldName);
-			targetField.setAccessible(true);
-			result = targetField.get(instance);
-		}
-		catch (Exception ex)
-		{
-			throw new RuntimeException(ex);
-		}
-
-		return result;
-	}
-
-	/**
-	 * privateãƒ¡ã‚½ãƒƒãƒ‰ãªã©ã€ç›´æ¥ã‚¢ã‚¯ã‚»ã‚¹ã§ããªã„ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å®Ÿè¡Œã™ã‚‹ã€‚
-	 * 
-	 * @param clazz      å¯¾è±¡ã®ãƒ¡ã‚½ãƒƒãƒ‰ãŒå®šç¾©ã•ã‚Œã¦ã„ã‚‹ã‚¯ãƒ©ã‚¹ã®ã‚¯ãƒ©ã‚¹æƒ…å ±
-	 * @param methodName å‘¼ã³å‡ºã™å¯¾è±¡ã®ãƒ¡ã‚½ãƒƒãƒ‰ã®åç§°
-	 * @param instance   ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã³å‡ºã™ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã€‚staticãƒ¡ã‚½ãƒƒãƒ‰ã®å ´åˆã¯nullã€‚
-	 * @param params     ãƒ¡ã‚½ãƒƒãƒ‰ã«æŒ‡å®šã™ã‚‹ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿(ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–å‹ã®å ´åˆã¯ãƒ©ãƒƒãƒ‘ãƒ¼ã‚¯ãƒ©ã‚¹ã‚’ä½¿ç”¨ã™ã‚‹)
-	 * @returnã€€æŒ‡å®šã—ãŸãƒ¡ã‚½ãƒƒãƒ‰ã®å‘¼å‡ºçµæœ
-	 */
-	public static Object invokeNonAccessibleMethod(Class<?> clazz, String methodName,
-		Object instance, Object... params)
-	{
-		List<Class<?>> targetParamTypes = new ArrayList<Class<?>>();
-
-		if (params != null)
-		{
-			for (Object param : params)
-			{
-				targetParamTypes.add(param.getClass());
-			}
-		}
-		Object retVal = null;
-
-		try
-		{
-			Method targetMethod = getParamTypesMatchMethod(clazz, methodName, params);
-			targetMethod.setAccessible(true);
-			retVal = targetMethod.invoke(instance, params);
-		}
-		catch (Exception ex)
-		{
-			throw new RuntimeException(ex);
-		}
-
-		return retVal;
-	}
-
-	/**
-	 * æŒ‡å®šã—ãŸå¼•æ•°ã«ã€å‹ãŒå¯¾å¿œã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å–å¾—ã™ã‚‹ã€‚
-	 * 
-	 * @param clazz      ãƒ¡ã‚½ãƒƒãƒ‰ã‚’æ¤œç´¢ã™ã‚‹å‹
-	 * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰ã®åå‰
-	 * @param params     ãƒ¡ã‚½ãƒƒãƒ‰ã«é©ç”¨ã™ã‚‹å¼•æ•°
-	 * @return é©åˆã—ãŸãƒ¡ã‚½ãƒƒãƒ‰ã€‚è¦‹ä»˜ã‹ã‚‰ãªã‹ã£ãŸå ´åˆã¯nullã€‚
-	 */
-	private static Method getParamTypesMatchMethod(Class<?> clazz, String methodName,
-		Object... params)
-	{
-		Method[] methods = clazz.getDeclaredMethods();
-
-		for (Method method : methods)
-		{
-			if (!method.getName().equals(methodName))
-			{
-				continue;
-			}
-
-			Class<?>[] paramTypes = method.getParameterTypes();
-
-			if (paramTypes.length != params.length)
-			{
-				continue;
-			}
-
-			boolean matchParamType = true;
-			for (int index = 0; index < params.length; index++)
-			{
-				if (paramTypes[index].isPrimitive() == true)
-				{
-					Class<?> wrapperType = getWrapperClass(paramTypes[index]);
-					if (!wrapperType.isInstance(params[index]))
-					{
-						matchParamType = false;
-						break;
-					}
-				}
-				else
-				{
-					if (!paramTypes[index].isInstance(params[index]))
-					{
-						matchParamType = false;
-						break;
-					}
-				}
-			}
-
-			if (matchParamType)
-			{
-				return method;
-			}
-		}
-
-		return null;
-	}
-
-	/**
-	 * æŒ‡å®šã—ãŸãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–å‹ã«å¯¾å¿œã™ã‚‹ãƒ©ãƒƒãƒ‘ãƒ¼ã‚¯ãƒ©ã‚¹ã‚’å–å¾—ã™ã‚‹ã€‚
-	 * 
-	 * @param clazz ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–å‹
-	 * @returnã€€ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã«å¯¾å¿œã™ã‚‹ãƒ©ãƒƒãƒ‘ãƒ¼ã‚¯ãƒ©ã‚¹ã€‚ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã«ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–å‹ãŒé©ç”¨ã•ã‚Œã¦ã„ãªã‘ã‚Œã°nullã€‚
-	 */
-	private static Class<? extends Object> getWrapperClass(Class<?> clazz)
-	{
-		if (clazz.isPrimitive() == false)
-		{
-			return null;
-		}
-
-		// ä¸€æ—¦ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–å‹ã®é…åˆ—ã‚’ç”Ÿæˆå¾Œã€Arrayã‚¯ãƒ©ã‚¹ã‚’ä½¿ã£ã¦è¦ç´ ã‚’å–å¾—ã™ã‚‹ã“ã¨ã§
-		// ãƒ©ãƒƒãƒ‘ãƒ¼ã‚¯ãƒ©ã‚¹ã«å¤‰æ›ã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã§ãã‚‹ã€‚
-		Object array = Array.newInstance(clazz, 1);
-		Object wrapper = Array.get(array, 0);
-
-		return wrapper.getClass();
-	}
-
+    protected static final String      DB_NAME                             = "endosnipedb";
+
+    private static Map<String, Method> parseMethodMap;
+
+    private static String[]            JAVELIN_LOG_FIELD_LIST              =
+                                                                             {"logId", "sessionId",
+            "sequenceId", "javelinLog", "logFileName", "startTime", "endTime", "sessionDesc",
+            "logType", "calleeName", "calleeSignature", "calleeClass", "calleeFieldType",
+            "calleeObjectId", "callerName", "callerSignature", "callerClass", "callerObjectId",
+            "eventLevel", "elapsedTime", "modifier", "threadName", "threadClass", "threadObjectId"};
+
+    private static Set<String>         JAVELIN_LOG_EXCLUDE                 = new HashSet<String>();
+
+    private static final String[]      MEASUREMENT_VALUE_FIELD_LIST        =
+                                                                             {"measurementValueId",
+            "measurementNum", "measurementTime", "measurementType", "measurementItemId", "value"};
+
+    private static Set<String>         MEASUREMENT_VALUE_EXCLUDE           = new HashSet<String>();
+
+    private static final String[]      JAVELIN_MEASUREMENT_ITEM_FIELD_LIST =
+                                                                             {"measurementItemId",
+            "measurementType", "itemName"                                    };
+
+    private static Set<String>         JAVELIN_MEASUREMENT_ITEM_EXCLUDE    = new HashSet<String>();
+
+    private static final String[]      MEASUREMENT_INFO_FIELD_LIST         =
+                                                                             {"measurementType_",
+            "itemName_", "displayName_", "description_"                      };
+
+    private static Set<String>         MEASUREMENT_INFO_EXCLUDE            = new HashSet<String>();
+
+    private static final String[]      MEASUREMENT_VALUE_DTO_FIELD_LIST    =
+                                                                             {"measurementValueId",
+            "measurementNum", "measurementTime", "measurementType", "measurementItemId", "value",
+            "measurementTypeItemName", "measurementTypeDisplayName", "measurementItemName"};
+
+    private static Set<String>         MEASUREMENT_VALUE_DTO_EXCLUDE       = new HashSet<String>();
+
+    static
+    {
+        parseMethodMap = new HashMap<String, Method>();
+        try
+        {
+            parseMethodMap.put("boolean", Boolean.class.getMethod("parseBoolean", String.class));
+            parseMethodMap.put("byte", Byte.class.getMethod("parseByte", String.class));
+            parseMethodMap.put("double", Double.class.getMethod("parseDouble", String.class));
+            parseMethodMap.put("float", Float.class.getMethod("parseFloat", String.class));
+            parseMethodMap.put("int", Integer.class.getMethod("parseInt", String.class));
+            parseMethodMap.put("long", Long.class.getMethod("parseLong", String.class));
+            parseMethodMap.put("short", Short.class.getMethod("parseShort", String.class));
+        }
+        catch (SecurityException ex)
+        {
+        }
+        catch (NoSuchMethodException ex)
+        {
+        }
+
+        JAVELIN_LOG_EXCLUDE.add("logId");
+        JAVELIN_LOG_EXCLUDE.add("javelinLog");
+
+        MEASUREMENT_VALUE_EXCLUDE.add("measurementValueId");
+        JAVELIN_MEASUREMENT_ITEM_EXCLUDE.add("measurementItemId");
+        MEASUREMENT_VALUE_DTO_EXCLUDE.add("measurementValueId");
+        MEASUREMENT_VALUE_DTO_EXCLUDE.add("measurementNum");
+        MEASUREMENT_VALUE_DTO_EXCLUDE.add("measurementTime");
+        MEASUREMENT_VALUE_DTO_EXCLUDE.add("measurementType");
+        MEASUREMENT_VALUE_DTO_EXCLUDE.add("measurementItemId");
+        MEASUREMENT_VALUE_DTO_EXCLUDE.add("measurementTypeItemName");
+        MEASUREMENT_VALUE_DTO_EXCLUDE.add("measurementTypeDisplayName");
+    }
+
+    // -------------------------------------------------------------------------------
+    // JavelinLogƒe[ƒuƒ‹‘ÎÛƒ†[ƒeƒBƒŠƒeƒB
+    // -------------------------------------------------------------------------------
+
+    /**
+     * “ñ‚Â‚ÌJavelinLogƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg‚ª“™‚µ‚¢–‚ğŠm”F‚·‚éB
+     * 
+     * @param expects —\‘ª’l
+     * @param actuals ÀÛ’l
+     */
+    public static void assertJavelinLog(List<Object> expects, List<Object> actuals)
+    {
+        Collections.sort(expects, new Comparator<Object>() {
+            public int compare(Object log1, Object log2)
+            {
+                if (((JavelinLog)log1).logId > ((JavelinLog)log2).logId)
+                {
+                    return 1;
+                }
+                else if (((JavelinLog)log1).logId == ((JavelinLog)log2).logId)
+                {
+                    return 0;
+                }
+
+                return -1;
+            }
+        });
+
+        Collections.sort(actuals, new Comparator<Object>() {
+            public int compare(Object log1, Object log2)
+            {
+                if (((JavelinLog)log1).logId > ((JavelinLog)log2).logId)
+                {
+                    return 1;
+                }
+                else if (((JavelinLog)log1).logId == ((JavelinLog)log2).logId)
+                {
+                    return 0;
+                }
+
+                return -1;
+            }
+        });
+
+        try
+        {
+            assertEntitiesEquals(expects, actuals, JAVELIN_LOG_EXCLUDE);
+        }
+        catch (Exception ex)
+        {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    /**
+     * JavelinLog‚ÌƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg‚ğ¶¬‚·‚éB
+     * 
+     * @param datarows  ƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg‚Éİ’è‚·‚éCSV
+     * @return@ƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg
+     * @throws Exception
+     */
+    public static List<Object> createJavelinEntities(String[] datarows)
+    {
+        if (datarows == null)
+        {
+            return null;
+        }
+
+        List<Object> javelinLogEntities;
+
+        try
+        {
+            javelinLogEntities =
+                                 createEntityList(JavelinLog.class, JAVELIN_LOG_FIELD_LIST,
+                                                  datarows);
+        }
+        catch (Exception ex)
+        {
+            throw new RuntimeException(ex);
+        }
+
+        return javelinLogEntities;
+
+    }
+
+    /**
+     * w’è‚µ‚½ƒtƒ@ƒCƒ‹‚ÌƒpƒX‚©‚çƒf[ƒ^‚ğ“Ç‚İ‚İAJavelinLogƒf[ƒ^‚ğ¶¬‚·‚éB
+     * 
+     * @param jvnLogFilePath JavelinLog‚ÌƒpƒX
+     * @return ƒf[ƒ^‚ÉƒAƒNƒZƒX‚·‚é‚½‚ß‚ÌƒXƒgƒŠ[ƒ€
+     */
+    public static InputStream convertStreamJavelinFile(String jvnLogFilePath)
+    {
+        File jvnLogFile = new File(jvnLogFilePath);
+
+        if (jvnLogFile.exists() == false)
+        {
+            return new ByteArrayInputStream(new byte[0]);
+        }
+
+        FileInputStream jvnLogStream = null;
+
+        try
+        {
+            jvnLogStream = new FileInputStream(jvnLogFile);
+        }
+        catch (FileNotFoundException ex)
+        {
+            try
+            {
+                if (jvnLogStream != null)
+                {
+                    jvnLogStream.close();
+                }
+            }
+            catch (IOException iex)
+            {
+            }
+
+            return new ByteArrayInputStream(new byte[0]);
+        }
+
+        BufferedInputStream bufStream = new BufferedInputStream(jvnLogStream);
+        ByteArrayOutputStream byteOStream = new ByteArrayOutputStream();
+
+        while (true)
+        {
+            int readData = 0;
+            try
+            {
+                readData = bufStream.read();
+            }
+            catch (IOException ex)
+            {
+                try
+                {
+                    bufStream.close();
+                }
+                catch (IOException iex)
+                {
+                }
+                try
+                {
+                    byteOStream.close();
+                }
+                catch (IOException iex)
+                {
+                }
+                return new ByteArrayInputStream(new byte[0]);
+            }
+
+            if (readData == -1)
+            {
+                break;
+            }
+
+            byteOStream.write(readData);
+        }
+
+        ByteArrayInputStream retStream = new ByteArrayInputStream(byteOStream.toByteArray());
+
+        try
+        {
+            bufStream.close();
+        }
+        catch (IOException ex)
+        {
+        }
+
+        try
+        {
+            byteOStream.close();
+        }
+        catch (IOException ex)
+        {
+        }
+
+        return retStream;
+    }
+
+    // -------------------------------------------------------------------------------
+    // MeasurementValue ƒe[ƒuƒ‹‘ÎÛƒ†[ƒeƒBƒŠƒeƒB
+    // -------------------------------------------------------------------------------
+
+    /**
+     * “ñ‚Â‚ÌMeasurementValueƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg‚ª“™‚µ‚¢–‚ğŠm”F‚·‚éB
+     * 
+     * @param expects —\‘ª’l
+     * @param actuals ÀÛ’l
+     */
+    public static void assertMeasurementValue(List<Object> expects, List<Object> actuals)
+    {
+        Collections.sort(expects, new Comparator<Object>() {
+            public int compare(Object log1, Object log2)
+            {
+                if (((MeasurementValue)log1).measurementItemId > ((MeasurementValue)log2).measurementItemId)
+                {
+                    return 1;
+                }
+                else if (((MeasurementValue)log1).measurementItemId == ((MeasurementValue)log2).measurementItemId)
+                {
+                    return 0;
+                }
+
+                return -1;
+            }
+        });
+
+        Collections.sort(actuals, new Comparator<Object>() {
+            public int compare(Object log1, Object log2)
+            {
+                if (((MeasurementValue)log1).measurementItemId > ((MeasurementValue)log2).measurementItemId)
+                {
+                    return 1;
+                }
+                else if (((MeasurementValue)log1).measurementItemId == ((MeasurementValue)log2).measurementItemId)
+                {
+                    return 0;
+                }
+
+                return -1;
+            }
+        });
+
+        try
+        {
+            assertEntitiesEquals(expects, actuals, MEASUREMENT_VALUE_EXCLUDE);
+        }
+        catch (Exception ex)
+        {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    /**
+     * MeasurementValue‚ÌƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg‚ğ¶¬‚·‚éB
+     * 
+     * @param datarows  ƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg‚Éİ’è‚·‚éCSV
+     * @return@ƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg
+     * @throws Exception
+     */
+    public static List<Object> createMeasurementValueEntities(String[] datarows)
+    {
+        if (datarows == null)
+        {
+            return null;
+        }
+
+        List<Object> measurementValueEntities;
+
+        try
+        {
+            measurementValueEntities =
+                                       createEntityList(MeasurementValue.class,
+                                                        MEASUREMENT_VALUE_FIELD_LIST, datarows);
+        }
+        catch (Exception ex)
+        {
+            throw new RuntimeException(ex);
+        }
+
+        return measurementValueEntities;
+    }
+
+    /**
+     * MeasurementValueDto‚ÌƒGƒ“ƒeƒBƒeƒB‚ğCSVŒ`®‚Ìƒf[ƒ^‚©‚ç¶¬‚·‚éB
+     * 
+     * @param datarows CSVŒ`®‚Ìƒf[ƒ^ƒŠƒXƒg
+     * @return ¶¬‚µ‚½ƒf[ƒ^ƒCƒ“ƒXƒ^ƒ“ƒX‚ÌƒŠƒXƒg
+     */
+    public static List<Object> createMeasurementValueDtoEntities(String[] datarows)
+    {
+        if (datarows == null)
+        {
+            return null;
+        }
+
+        List<Object> measurementValueDtoEntities;
+
+        try
+        {
+            measurementValueDtoEntities =
+                                          createEntityList(MeasurementValueDto.class,
+                                                           MEASUREMENT_VALUE_DTO_FIELD_LIST,
+                                                           datarows);
+        }
+        catch (Exception ex)
+        {
+            throw new RuntimeException(ex);
+        }
+
+        return measurementValueDtoEntities;
+    }
+
+    public static void assertMeasurementValueDto(List<Object> expects, List<Object> actuals)
+    {
+        Collections.sort(expects, new Comparator<Object>() {
+            public int compare(Object log1, Object log2)
+            {
+
+                MeasurementValueDto obj1 = (MeasurementValueDto)log1;
+                MeasurementValueDto obj2 = (MeasurementValueDto)log2;
+
+                if (obj1.measurementItemName.compareTo(obj2.measurementItemName) > 0)
+                {
+                    return 1;
+                }
+                else if (obj1.measurementItemName.compareTo(obj2.measurementItemName) < 0)
+                {
+                    return -1;
+                }
+
+                if (Long.parseLong(obj1.value) > Long.parseLong(obj2.value))
+                {
+                    return 1;
+                }
+                else if (Long.parseLong(obj1.value) < Long.parseLong(obj2.value))
+                {
+                    return -1;
+                }
+
+                return 0;
+            }
+        });
+
+        Collections.sort(actuals, new Comparator<Object>() {
+            public int compare(Object log1, Object log2)
+            {
+
+                MeasurementValueDto obj1 = (MeasurementValueDto)log1;
+                MeasurementValueDto obj2 = (MeasurementValueDto)log2;
+
+                if (obj1.measurementItemName.compareTo(obj2.measurementItemName) > 0)
+                {
+                    return 1;
+                }
+                else if (obj1.measurementItemName.compareTo(obj2.measurementItemName) < 0)
+                {
+                    return -1;
+                }
+
+                if (Long.parseLong(obj1.value) > Long.parseLong(obj2.value))
+                {
+                    return 1;
+                }
+                else if (Long.parseLong(obj1.value) < Long.parseLong(obj2.value))
+                {
+                    return -1;
+                }
+
+                return 0;
+            }
+        });
+
+        try
+        {
+            assertEntitiesEquals(expects, actuals, MEASUREMENT_VALUE_DTO_EXCLUDE);
+        }
+        catch (Exception ex)
+        {
+            throw new RuntimeException(ex);
+        }
+
+    }
+
+    // -------------------------------------------------------------------------------
+    // JavelinMeasurementItem ƒe[ƒuƒ‹‘ÎÛƒ†[ƒeƒBƒŠƒeƒB
+    // -------------------------------------------------------------------------------
+
+    /**
+     * “ñ‚Â‚ÌJavelinMeasurementItemƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg‚ª“™‚µ‚¢–‚ğŠm”F‚·‚éB
+     * 
+     * @param expects —\‘ª’l
+     * @param actuals ÀÛ’l
+     */
+    public static void assertJavelinMeasurementItem(List<Object> expects, List<Object> actuals)
+    {
+        Collections.sort(expects, new Comparator<Object>() {
+            public int compare(Object log1, Object log2)
+            {
+                if (((JavelinMeasurementItem)log1).measurementItemId > ((JavelinMeasurementItem)log2).measurementItemId)
+                {
+                    return 1;
+                }
+                else if (((JavelinMeasurementItem)log1).measurementItemId == ((JavelinMeasurementItem)log2).measurementItemId)
+                {
+                    return 0;
+                }
+
+                return -1;
+            }
+        });
+
+        Collections.sort(actuals, new Comparator<Object>() {
+            public int compare(Object log1, Object log2)
+            {
+                if (((JavelinMeasurementItem)log1).measurementItemId > ((JavelinMeasurementItem)log2).measurementItemId)
+                {
+                    return 1;
+                }
+                else if (((JavelinMeasurementItem)log1).measurementItemId == ((JavelinMeasurementItem)log2).measurementItemId)
+                {
+                    return 0;
+                }
+
+                return -1;
+            }
+        });
+
+        try
+        {
+            assertEntitiesEquals(expects, actuals, JAVELIN_MEASUREMENT_ITEM_EXCLUDE);
+        }
+        catch (Exception ex)
+        {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    /**
+     * JavelinMeasurementItem‚ÌƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg‚ğ¶¬‚·‚éB
+     * 
+     * @param datarows  ƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg‚Éİ’è‚·‚éCSV
+     * @return@ƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg
+     * @throws Exception
+     */
+    public static List<Object> createJavelinMeasurementItemEntities(String[] datarows)
+    {
+        if (datarows == null)
+        {
+            return null;
+        }
+
+        List<Object> javelinMeasurementItemEntities;
+
+        try
+        {
+            javelinMeasurementItemEntities =
+                                             createEntityList(JavelinMeasurementItem.class,
+                                                              JAVELIN_MEASUREMENT_ITEM_FIELD_LIST,
+                                                              datarows);
+        }
+        catch (Exception ex)
+        {
+            throw new RuntimeException(ex);
+        }
+
+        return javelinMeasurementItemEntities;
+    }
+
+    // -------------------------------------------------------------------------------
+    // MeasurementInfo ƒe[ƒuƒ‹‘ÎÛƒ†[ƒeƒBƒŠƒeƒB
+    // -------------------------------------------------------------------------------
+
+    /**
+     * “ñ‚Â‚ÌMeasurementInfoƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg‚ª“™‚µ‚¢–‚ğŠm”F‚·‚éB
+     * 
+     * @param expects —\‘ª’l
+     * @param actuals ÀÛ’l
+     */
+    public static void assertMeasurementInfo(List<Object> expects, List<Object> actuals)
+    {
+        Collections.sort(expects, new Comparator<Object>() {
+            public int compare(Object log1, Object log2)
+            {
+                if (((MeasurementInfo)log1).getMeasurementType() > ((MeasurementInfo)log2).getMeasurementType())
+                {
+                    return 1;
+                }
+                else if (((MeasurementInfo)log1).getMeasurementType() == ((MeasurementInfo)log2).getMeasurementType())
+                {
+                    return 0;
+                }
+
+                return -1;
+            }
+        });
+
+        Collections.sort(actuals, new Comparator<Object>() {
+            public int compare(Object log1, Object log2)
+            {
+                if (((MeasurementInfo)log1).getMeasurementType() > ((MeasurementInfo)log2).getMeasurementType())
+                {
+                    return 1;
+                }
+                else if (((MeasurementInfo)log1).getMeasurementType() == ((MeasurementInfo)log2).getMeasurementType())
+                {
+                    return 0;
+                }
+
+                return -1;
+            }
+        });
+
+        try
+        {
+            assertEntitiesEquals(expects, actuals, MEASUREMENT_INFO_EXCLUDE);
+        }
+        catch (Exception ex)
+        {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    /**
+     * MeasurementInfo‚ÌƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg‚ğ¶¬‚·‚éB
+     * 
+     * @param datarows  ƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg‚Éİ’è‚·‚éCSV
+     * @return@ƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg
+     * @throws Exception
+     */
+    public static List<Object> createMeasurementInfoEntities(String[] datarows)
+    {
+        if (datarows == null)
+        {
+            return null;
+        }
+
+        List<Object> measurementInfoEntities = new ArrayList<Object>();
+
+        try
+        {
+            for (String datarow : datarows)
+            {
+                String[] dataElements = datarow.split(",");
+
+                Field mType = MeasurementInfo.class.getDeclaredField("measurementType_");
+                Field iName = MeasurementInfo.class.getDeclaredField("itemName_");
+                Field dName = MeasurementInfo.class.getDeclaredField("displayName_");
+                Field descr = MeasurementInfo.class.getDeclaredField("description_");
+                mType.setAccessible(true);
+                iName.setAccessible(true);
+                dName.setAccessible(true);
+                descr.setAccessible(true);
+
+                Object mTypeVal = parseString(mType, dataElements[0]);
+                Object iNameVal = parseString(iName, dataElements[1]);
+                Object dNameVal = parseString(dName, dataElements[2]);
+                Object descrVal = parseString(descr, dataElements[3]);
+
+                Object infoEntity =
+                                    MeasurementInfo.class.getConstructors()[0].newInstance(
+                                                                                           mTypeVal,
+                                                                                           iNameVal,
+                                                                                           dNameVal,
+                                                                                           descrVal);
+                measurementInfoEntities.add(infoEntity);
+            }
+        }
+        catch (Exception ex)
+        {
+            throw new RuntimeException(ex);
+        }
+
+        return measurementInfoEntities;
+    }
+
+    // -------------------------------------------------------------------------------
+    // ‹¤’Êƒ†[ƒeƒBƒŠƒeƒB
+    // -------------------------------------------------------------------------------
+
+    /**
+     * ŠeƒGƒ“ƒeƒBƒeƒB‚ÌƒŠƒXƒg‚ÉŠi”[‚³‚ê‚½’l‚ª‚»‚ê‚¼‚ê“™‚µ‚¢‚©”Û‚©‚ğ”»’è‚·‚éB
+     * 
+     * @param expects  —\‘ª’l
+     * @param actuals  ÀÛ’l
+     * @param exclude  ƒ`ƒFƒbƒN‚©‚çœŠO‚·‚éƒtƒB[ƒ‹ƒh‚Ì–¼‘O
+     * @throws Exception
+     */
+    public static void assertEntitiesEquals(List<Object> expects, List<Object> actuals,
+            Set<String> exclude)
+        throws Exception
+    {
+        if (expects.size() != actuals.size())
+        {
+            Assert.fail("actual datasize different expect datasize !! : expect<" + expects.size()
+                    + "> but actual<" + actuals.size() + ">");
+        }
+
+        for (int cnt = 0; cnt < expects.size(); cnt++)
+        {
+            assertEntityEquals(expects.get(cnt), actuals.get(cnt), exclude);
+        }
+    }
+
+    /**
+     * ŠeƒGƒ“ƒeƒBƒeƒB“¯m‚ÌƒtƒB[ƒ‹ƒh‚ª“™‚µ‚¢‚©”Û‚©‚ğ”»’è‚·‚éB
+     * 
+     * @param expect  —\‘ª’l
+     * @param actual  ÀÛ’l
+     * @param exclude ƒ`ƒFƒbƒN‚ğs‚í‚È‚¢ƒtƒB[ƒ‹ƒh‚ÌƒZƒbƒg
+     * @throws Exception 
+     */
+    public static void assertEntityEquals(Object expect, Object actual, Set<String> exclude)
+        throws Exception
+    {
+        if (expect == null || actual == null)
+        {
+            Assert.fail("expect or actual is NULL !!");
+        }
+
+        Class<?> chkTargetClass = expect.getClass();
+        Field[] chkFields = chkTargetClass.getDeclaredFields();
+
+        Assert.assertEquals(chkTargetClass, actual.getClass());
+
+        for (Field chkField : chkFields)
+        {
+            if (exclude.contains(chkField.getName()))
+            {
+                continue;
+            }
+
+            if (chkField.isAccessible() == false)
+            {
+                chkField.setAccessible(true);
+            }
+
+            Object expectFieldValue = chkField.get(expect);
+            Object actualFieldValue = chkField.get(actual);
+
+            if (Number.class.getName().equals(chkField.getType().getName()))
+            {
+                expectFieldValue = new BigDecimal(expectFieldValue.toString());
+                actualFieldValue = new BigDecimal(actualFieldValue.toString());
+
+                if (((BigDecimal)expectFieldValue).scale() > ((BigDecimal)actualFieldValue).scale())
+                {
+                    actualFieldValue =
+                                       ((BigDecimal)actualFieldValue).setScale(((BigDecimal)expectFieldValue).scale());
+                }
+                else
+                {
+                    expectFieldValue =
+                                       ((BigDecimal)expectFieldValue).setScale(((BigDecimal)actualFieldValue).scale());
+                }
+            }
+
+            if (expectFieldValue == null && actualFieldValue == null)
+            {
+                continue;
+            }
+
+            if (expectFieldValue == null)
+            {
+                Assert.assertNull(actualFieldValue);
+            }
+            else
+            {
+                Assert.assertNotNull(actualFieldValue);
+            }
+
+            Assert.assertEquals(expectFieldValue, actualFieldValue);
+        }
+    }
+
+    /**
+     * CSVŒ`®‚É’è‹`‚³‚ê‚½ƒf[ƒ^‚ğAw’è‚µ‚½ƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚É•ÏŠ·‚·‚éB
+     * ‚½‚¾‚µAstatic finaléŒ¾‚³‚ê‚½•Ï”‚ğw’è‚·‚é‚±‚Æ‚Ío—ˆ‚È‚¢B
+     * 
+     * @param clazz     ‘ÎÛ‚Æ‚È‚éƒNƒ‰ƒX
+     * @param fieldList İ’è‘ÎÛ‚Æ‚·‚éƒtƒB[ƒ‹ƒh
+     * @param datarows  İ’è‚·‚éƒf[ƒ^(CSVŒ`®)‚ÌƒŠƒXƒg
+     * @return@¶¬‚µ‚½ƒNƒ‰ƒXƒCƒ“ƒXƒ^ƒ“ƒX‚ÌƒŠƒXƒg
+     * @throws Exception
+     */
+    public static List<Object> createEntityList(Class<?> clazz, String[] fieldList,
+            String[] datarows)
+        throws Exception
+    {
+        if (clazz == null || fieldList == null || fieldList.length < 1)
+        {
+            return null;
+        }
+
+        List<Object> entityList = new ArrayList<Object>();
+
+        for (String datarow : datarows)
+        {
+            Object settingEntity = createEntity(clazz, fieldList, datarow);
+            entityList.add(settingEntity);
+        }
+
+        return entityList;
+    }
+
+    /**
+     * CSVŒ`®‚É’è‹`‚³‚ê‚½ƒf[ƒ^‚ğAw’è‚µ‚½ƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚É•ÏŠ·‚·‚éB
+     * ‚½‚¾‚µAstatic finaléŒ¾‚³‚ê‚½•Ï”‚ğw’è‚·‚é‚±‚Æ‚Ío—ˆ‚È‚¢B
+     * 
+     * @param clazz     ‘ÎÛ‚Æ‚È‚éƒNƒ‰ƒX
+     * @param fieldList İ’è‘ÎÛ‚Æ‚·‚éƒtƒB[ƒ‹ƒh
+     * @param datarows@ İ’è‚·‚éƒf[ƒ^(CSVŒ`®)
+     * @return@¶¬‚µ‚½ƒNƒ‰ƒXƒCƒ“ƒXƒ^ƒ“ƒX
+     * @throws Exception
+     */
+    public static Object createEntity(Class<?> clazz, String[] fieldList, String datarow)
+        throws Exception
+    {
+        Object entityObj = clazz.newInstance();
+        String[] dataElements = datarow.split(",");
+
+        for (int fieldCnt = 0; fieldCnt < fieldList.length; fieldCnt++)
+        {
+            Field settingField = clazz.getField(fieldList[fieldCnt]);
+            String settingData = null;
+
+            if (fieldCnt < dataElements.length)
+            {
+                settingData = dataElements[fieldCnt].trim();
+            }
+
+            Object settingVal = parseString(settingField, settingData);
+
+            if (settingVal != null)
+            {
+                if (settingField.isAccessible() == false)
+                {
+                    settingField.setAccessible(true);
+                }
+
+                settingField.set(entityObj, settingVal);
+            }
+        }
+
+        return entityObj;
+    }
+
+    /**
+     * •¶š—ñ•\Œ»‚Å•\‚³‚ê‚½ƒf[ƒ^‚ğAw’è‚µ‚½ƒtƒB[ƒ‹ƒh‚Éİ’è‰Â”\‚ÈƒIƒuƒWƒFƒNƒg‚É•ÏŠ·‚·‚éB
+     * 
+     * @param field ’l‚Ìİ’è‘ÎÛ‚Æ‚È‚éƒtƒB[ƒ‹ƒh
+     * @param data  ‘ÎÛƒtƒB[ƒ‹ƒh‚Éİ’è‚·‚éƒf[ƒ^‚Ì•¶š—ñ•\Œ»
+     * @return      Œ^•ÏŠ·‚³‚ê‚½İ’è’l
+     * @throws Exception
+     */
+    public static Object parseString(Field field, String data)
+        throws Exception
+    {
+        String fieldTypeName = field.getType().getName();
+
+        if (data == null)
+        {
+            if (InputStream.class.getName().equals(fieldTypeName))
+            {
+                return new ByteArrayInputStream(new byte[0]);
+            }
+
+            return null;
+        }
+
+        if (String.class.getName().equals(fieldTypeName))
+        {
+            return data;
+        }
+
+        if ("".equals(data))
+        {
+            return null;
+        }
+
+        Method parseMethod = parseMethodMap.get(fieldTypeName);
+
+        if (parseMethod != null)
+        {
+            return parseMethod.invoke(null, data);
+        }
+
+        if (Timestamp.class.getName().equals(fieldTypeName))
+        {
+            DateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            return new Timestamp(format.parse(data).getTime());
+        }
+
+        if (Date.class.getName().equals(fieldTypeName))
+        {
+            DateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            return format.parse(data);
+        }
+
+        if (InputStream.class.getName().equals(fieldTypeName))
+        {
+            return convertStreamJavelinFile(data);
+        }
+
+        if (Number.class.getName().equals(fieldTypeName))
+        {
+            Method parseNumberMethod;
+
+            if (data.indexOf(".") == -1)
+            {
+                parseNumberMethod = parseMethodMap.get("long");
+            }
+            else
+            {
+                parseNumberMethod = parseMethodMap.get("double");
+            }
+
+            return parseNumberMethod.invoke(null, data);
+        }
+
+        return null;
+    }
+
+    public static Timestamp convertString2TimeStamp(String dateString)
+        throws ParseException
+    {
+        return new Timestamp(
+                             new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").parse(dateString).getTime());
+
+    }
+
+    /**
+     * privateƒtƒB[ƒ‹ƒh‚È‚ÇAƒAƒNƒZƒX‚Å‚«‚È‚¢ƒtƒB[ƒ‹ƒh‚É‘Î‚µ‚ÄA’l‚ğİ’è‚·‚éB
+     * static private‚É‘Î‚µ‚Ä‚ÌƒAƒNƒZƒX‚Í•s‰Â”\B
+     * 
+     * @param clazz     İ’è‘ÎÛ‚ÌƒNƒ‰ƒX‚ÌƒNƒ‰ƒXî•ñ
+     * @param fieldName İ’è‘ÎÛ‚ÌƒtƒB[ƒ‹ƒh–¼
+     * @param instance  İ’è‘ÎÛ‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
+     * @param value     İ’è‚·‚é’l
+     */
+    public static void setNonAccessibleField(
+        Class<?> clazz, String fieldName, Object instance, Object value)
+    {
+        if (instance != null && clazz.equals(instance.getClass()) == false)
+        {
+            throw new RuntimeException("İ’è‘ÎÛƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ªˆê’v‚µ‚Ü‚¹‚ñ");
+        }
+        
+        try
+        {
+            Field targetField = clazz.getDeclaredField(fieldName);
+            targetField.setAccessible(true);
+            targetField.set(instance, value);
+        }
+        catch(Exception ex)
+        {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    /**
+     * privateƒtƒB[ƒ‹ƒh‚È‚ÇAƒAƒNƒZƒX‚Å‚«‚È‚¢ƒtƒB[ƒ‹ƒh‚Ì’l‚ğæ“¾‚·‚éB
+     * 
+     * @param clazz     İ’è‘ÎÛƒNƒ‰ƒX‚ÌƒNƒ‰ƒXî•ñ
+     * @param fieldName İ’è‘ÎÛ‚ÌƒtƒB[ƒ‹ƒh–¼
+     * @param instance  İ’è‘ÎÛ‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
+     * @return          İ’è‚·‚é’l
+     */
+    public static Object getNonAccessibleField(
+        Class<?> clazz, String fieldName, Object instance)
+    {
+        if (instance != null && clazz.equals(instance.getClass()) == false)
+        {
+            throw new RuntimeException("æ“¾‘ÎÛƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ªˆê’v‚µ‚Ü‚¹‚ñ");
+        }
+        
+        Object result = null;
+        try
+        {
+            Field targetField = clazz.getDeclaredField(fieldName);
+            targetField.setAccessible(true);
+            result = targetField.get(instance);
+        }
+        catch(Exception ex)
+        {
+            throw new RuntimeException(ex);
+        }
+        
+        return result;
+    }
+    
+    /**
+     * privateƒƒ\ƒbƒh‚È‚ÇA’¼ÚƒAƒNƒZƒX‚Å‚«‚È‚¢ƒƒ\ƒbƒh‚ğÀs‚·‚éB
+     * 
+     * @param clazz      ‘ÎÛ‚Ìƒƒ\ƒbƒh‚ª’è‹`‚³‚ê‚Ä‚¢‚éƒNƒ‰ƒX‚ÌƒNƒ‰ƒXî•ñ
+     * @param methodName ŒÄ‚Ño‚·‘ÎÛ‚Ìƒƒ\ƒbƒh‚Ì–¼Ì
+     * @param instance   ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·ƒCƒ“ƒXƒ^ƒ“ƒXBstaticƒƒ\ƒbƒh‚Ìê‡‚ÍnullB
+     * @param params     ƒƒ\ƒbƒh‚Éw’è‚·‚éƒpƒ‰ƒ[ƒ^(ƒvƒŠƒ~ƒeƒBƒuŒ^‚Ìê‡‚Íƒ‰ƒbƒp[ƒNƒ‰ƒX‚ğg—p‚·‚é)
+     * @return@w’è‚µ‚½ƒƒ\ƒbƒh‚ÌŒÄoŒ‹‰Ê
+     */
+    public static Object invokeNonAccessibleMethod(
+        Class<?> clazz, String methodName, Object instance, Object ... params)
+    {
+        List<Class<?>> targetParamTypes = new ArrayList<Class<?>>();
+        
+        if(params != null)
+        {
+            for(Object param : params)
+            {
+                targetParamTypes.add(param.getClass());
+            }
+        }
+        Object retVal = null;
+        
+        try
+        {
+            Method targetMethod = getParamTypesMatchMethod(clazz, methodName, params);
+            targetMethod.setAccessible(true);
+            retVal = targetMethod.invoke(instance, params);
+        }
+        catch (Exception ex)
+        {
+            throw new RuntimeException(ex);
+        }
+        
+        return retVal;
+    }
+    
+    /**
+     * w’è‚µ‚½ˆø”‚ÉAŒ^‚ª‘Î‰‚·‚éƒƒ\ƒbƒh‚ğæ“¾‚·‚éB
+     * 
+     * @param clazz      ƒƒ\ƒbƒh‚ğŒŸõ‚·‚éŒ^
+     * @param methodName ƒƒ\ƒbƒh‚Ì–¼‘O
+     * @param params     ƒƒ\ƒbƒh‚É“K—p‚·‚éˆø”
+     * @return “K‡‚µ‚½ƒƒ\ƒbƒhBŒ©•t‚©‚ç‚È‚©‚Á‚½ê‡‚ÍnullB
+     */
+    private static Method getParamTypesMatchMethod(Class<?> clazz, String methodName, Object ... params)
+    {
+        Method[] methods = clazz.getDeclaredMethods();
+        
+        for(Method method : methods)
+        {
+            if(!method.getName().equals(methodName))
+            {
+                continue;
+            }
+            
+            Class<?>[] paramTypes = method.getParameterTypes();
+
+            if(paramTypes.length != params.length)
+            {
+                continue;
+            }
+            
+            boolean matchParamType = true;
+            for(int index = 0; index < params.length; index ++)
+            {
+            	if(paramTypes[index].isPrimitive() == true)
+            	{
+            		Class<?> wrapperType = getWrapperClass(paramTypes[index]);
+            		if(!wrapperType.isInstance(params[index]))
+            		{
+            			matchParamType = false;
+            			break;
+            		}
+            	}
+            	else
+            	{
+	                if(!paramTypes[index].isInstance(params[index]))
+	                {
+	                    matchParamType = false;
+	                    break;
+	                }
+            	}
+            }
+            
+            if(matchParamType)
+            {
+                return method;
+            }
+        }
+        
+        return null;
+    }
+
+    /**
+     * w’è‚µ‚½ƒvƒŠƒ~ƒeƒBƒuŒ^‚É‘Î‰‚·‚éƒ‰ƒbƒp[ƒNƒ‰ƒX‚ğæ“¾‚·‚éB
+     * 
+     * @param clazz ƒvƒŠƒ~ƒeƒBƒuŒ^
+     * @return@ƒpƒ‰ƒ[ƒ^‚É‘Î‰‚·‚éƒ‰ƒbƒp[ƒNƒ‰ƒXBƒpƒ‰ƒ[ƒ^‚ÉƒvƒŠƒ~ƒeƒBƒuŒ^‚ª“K—p‚³‚ê‚Ä‚¢‚È‚¯‚ê‚ÎnullB
+     */
+    private static Class<? extends Object> getWrapperClass(Class<?> clazz)
+    {
+    	if(clazz.isPrimitive() == false)
+    	{
+    		return null;
+    	}
+    	
+    	// ˆê’UƒvƒŠƒ~ƒeƒBƒuŒ^‚Ì”z—ñ‚ğ¶¬ŒãAArrayƒNƒ‰ƒX‚ğg‚Á‚Ä—v‘f‚ğæ“¾‚·‚é‚±‚Æ‚Å
+    	// ƒ‰ƒbƒp[ƒNƒ‰ƒX‚É•ÏŠ·‚³‚ê‚½ƒf[ƒ^‚ğæ“¾‚Å‚«‚éB
+    	Object array = Array.newInstance(clazz, 1);
+    	Object wrapper = Array.get(array, 0);
+    	
+    	return wrapper.getClass();
+    }
+
+    
 }

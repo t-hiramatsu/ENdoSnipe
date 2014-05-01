@@ -31,16 +31,16 @@ import jp.co.acroquest.endosnipe.javelin.parser.JavelinLogElement;
 import jp.co.acroquest.endosnipe.perfdoctor.PerformanceRuleTestCase;
 
 /**
- * ENdoSnipeVer.4.0ã®æ–°ãƒ«ãƒ¼ãƒ«
- * ç·šå½¢æ¤œç´¢æ¤œå‡ºãƒ«ãƒ¼ãƒ«
+ * ENdoSnipeVer.4.0‚ÌVƒ‹[ƒ‹
+ * üŒ`ŒŸõŒŸoƒ‹[ƒ‹
  * @author fujii
  *
  */
 public class LinearSearchRuleTest extends PerformanceRuleTestCase
 {
     /**
-     * InitDupulicationRuleã‚’ç”Ÿæˆã™ã‚‹ã€‚<br />
-     * @param threshold é–¾å€¤
+     * InitDupulicationRule‚ğ¶¬‚·‚éB<br />
+     * @param threshold è‡’l
      * @return InitDupulicationRule
      */
     private LinearSearchRule createRule(int threshold)
@@ -54,15 +54,15 @@ public class LinearSearchRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 3-23-1<br />
+     * [€”Ô] 3-23-1<br />
      * <br />
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
-     * ãƒ»å¢ƒç•Œå€¤åˆ†æ(é–¾å€¤ã‚ˆã‚Š1å°ã•ã„å ´åˆ)<br />
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br />
+     * doJudge‚ÌƒeƒXƒgB<br />
+     * E‹«ŠE’l•ªÍ(è‡’l‚æ‚è1¬‚³‚¢ê‡)<br />
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br />
      */
     public void testDoJudge_1()
     {
-        // æº–å‚™
+        // €”õ
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("LinearSearchRule_testDoJudge_99.jvn");
 
@@ -70,23 +70,23 @@ public class LinearSearchRuleTest extends PerformanceRuleTestCase
 
         LinearSearchRule rule = createRule(threshold);
 
-        // å®Ÿè¡Œ
+        // Às
         rule.judge(elementList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(0, getErrorJavelinLogElements().size());
     }
 
     /**
-     * [é …ç•ª] 3-23-2<br />
+     * [€”Ô] 3-23-2<br />
      * <br />
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
-     * ãƒ»å¢ƒç•Œå€¤åˆ†æ(é–¾å€¤ã¨ç­‰ã—ã„å ´åˆ)<br />
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã™ã‚‹ã€‚<br />
+     * doJudge‚ÌƒeƒXƒgB<br />
+     * E‹«ŠE’l•ªÍ(è‡’l‚Æ“™‚µ‚¢ê‡)<br />
+     * ¨Œx‚ª”­¶‚·‚éB<br />
      */
     public void testDoJudge_2()
     {
-        // æº–å‚™
+        // €”õ
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("LinearSearchRule_testDoJudge_100.jvn");
 
@@ -94,25 +94,25 @@ public class LinearSearchRuleTest extends PerformanceRuleTestCase
 
         LinearSearchRule rule = createRule(threshold);
 
-        // å®Ÿè¡Œ
+        // Às
         rule.judge(elementList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(1, getErrorJavelinLogElements().size());
         assertErrorOccurred(elementList.get(0), threshold, "100", "495", "TestList@123456");
 
     }
 
     /**
-     * [é …ç•ª] 3-23-3<br />
+     * [€”Ô] 3-23-3<br />
      * <br />
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
-     * ãƒ»å¢ƒç•Œå€¤åˆ†æ(é–¾å€¤ã‚ˆã‚Š1å¤§ãã„å ´åˆ)<br />
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br />
+     * doJudge‚ÌƒeƒXƒgB<br />
+     * E‹«ŠE’l•ªÍ(è‡’l‚æ‚è1‘å‚«‚¢ê‡)<br />
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br />
      */
     public void testDoJudge_3()
     {
-        // æº–å‚™
+        // €”õ
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("LinearSearchRule_testDoJudge_101.jvn");
 
@@ -120,25 +120,25 @@ public class LinearSearchRuleTest extends PerformanceRuleTestCase
 
         LinearSearchRule rule = createRule(threshold);
 
-        // å®Ÿè¡Œ
+        // Às
         rule.judge(elementList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(1, getErrorJavelinLogElements().size());
         assertErrorOccurred(elementList.get(0), threshold, "101", "500", "TestList@123456");
 
     }
 
     /**
-     * [é …ç•ª] 3-23-4<br />
+     * [€”Ô] 3-23-4<br />
      * <br />
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
-     * ãƒ»å¢ƒç•Œå€¤åˆ†æ(é–¾å€¤ã‚’åˆ¥ã®å€¤ã«è¨­å®š/é–¾å€¤ã¨ç­‰ã—ã„å ´åˆ)<br />
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã™ã‚‹ã€‚<br />
+     * doJudge‚ÌƒeƒXƒgB<br />
+     * E‹«ŠE’l•ªÍ(è‡’l‚ğ•Ê‚Ì’l‚Éİ’è/è‡’l‚Æ“™‚µ‚¢ê‡)<br />
+     * ¨Œx‚ª”­¶‚·‚éB<br />
      */
     public void testDoJudge_5()
     {
-        // æº–å‚™
+        // €”õ
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("LinearSearchRule_testDoJudge_500.jvn");
 
@@ -146,24 +146,24 @@ public class LinearSearchRuleTest extends PerformanceRuleTestCase
 
         LinearSearchRule rule = createRule(threshold);
 
-        // å®Ÿè¡Œ
+        // Às
         rule.judge(elementList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(1, getErrorJavelinLogElements().size());
         assertErrorOccurred(elementList.get(0), threshold, "500", "2495", "TestList@123456");
     }
 
     /**
-     * [é …ç•ª] 3-23-5<br />
+     * [€”Ô] 3-23-5<br />
      * <br />
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
-     * ãƒ»å¢ƒç•Œå€¤åˆ†æ(é–¾å€¤0ã€æ¤œå‡ºå€¤0ã®å ´åˆ)<br />
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã™ã‚‹ã€‚<br />
+     * doJudge‚ÌƒeƒXƒgB<br />
+     * E‹«ŠE’l•ªÍ(è‡’l0AŒŸo’l0‚Ìê‡)<br />
+     * ¨Œx‚ª”­¶‚·‚éB<br />
      */
     public void testDoJudge_7()
     {
-        // æº–å‚™
+        // €”õ
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("LinearSearchRule_testDoJudge_0.jvn");
 
@@ -171,24 +171,24 @@ public class LinearSearchRuleTest extends PerformanceRuleTestCase
 
         LinearSearchRule rule = createRule(threshold);
 
-        // å®Ÿè¡Œ
+        // Às
         rule.judge(elementList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(1, getErrorJavelinLogElements().size());
         assertErrorOccurred(elementList.get(0), threshold, "0", "0", "TestList@123456");
     }
 
     /**
-     * [é …ç•ª] 3-23-6<br />
+     * [€”Ô] 3-23-6<br />
      * <br />
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
-     * ãƒ»å¢ƒç•Œå€¤åˆ†æ(é–¾å€¤0ã€æ¤œå‡ºå€¤ãŒæ­£ã®å€¤ã®å ´åˆ)<br />
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br />
+     * doJudge‚ÌƒeƒXƒgB<br />
+     * E‹«ŠE’l•ªÍ(è‡’l0AŒŸo’l‚ª³‚Ì’l‚Ìê‡)<br />
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br />
      */
     public void testDoJudge_8()
     {
-        // æº–å‚™
+        // €”õ
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("LinearSearchRule_testDoJudge_threshold0.jvn");
 
@@ -196,24 +196,24 @@ public class LinearSearchRuleTest extends PerformanceRuleTestCase
 
         LinearSearchRule rule = createRule(threshold);
 
-        // å®Ÿè¡Œ
+        // Às
         rule.judge(elementList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(1, getErrorJavelinLogElements().size());
         assertErrorOccurred(elementList.get(0), threshold, "100", "495", "TestList@123456");
     }
 
     /**
-     * [é …ç•ª] 3-23-7<br />
+     * [€”Ô] 3-23-7<br />
      * <br />
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
-     * ãƒ»æŒ‡å®šã•ã‚ŒãŸãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®å€¤ãŒæ–‡å­—åˆ—ã«ãªã£ã¦ã„ã‚‹å ´åˆ<br />
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br />
+     * doJudge‚ÌƒeƒXƒgB<br />
+     * Ew’è‚³‚ê‚½ƒpƒ‰ƒ[ƒ^‚Ì’l‚ª•¶š—ñ‚É‚È‚Á‚Ä‚¢‚éê‡<br />
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br />
      */
     public void testDoJudge_10()
     {
-        // æº–å‚™
+        // €”õ
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("LinearSearchRule_testDoJudge_parameterString.jvn");
 
@@ -221,23 +221,23 @@ public class LinearSearchRuleTest extends PerformanceRuleTestCase
 
         LinearSearchRule rule = createRule(threshold);
 
-        // å®Ÿè¡Œ
+        // Às
         rule.judge(elementList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(0, getErrorJavelinLogElements().size());
     }
 
     /**
-     * [é …ç•ª] 3-23-8<br />
+     * [€”Ô] 3-23-8<br />
      * <br />
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
-     * ãƒ»æŒ‡å®šã•ã‚ŒãŸãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®å€¤ãŒç©ºã«ãªã£ã¦ã„ã‚‹å ´åˆ<br />
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br />
+     * doJudge‚ÌƒeƒXƒgB<br />
+     * Ew’è‚³‚ê‚½ƒpƒ‰ƒ[ƒ^‚Ì’l‚ª‹ó‚É‚È‚Á‚Ä‚¢‚éê‡<br />
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br />
      */
     public void testDoJudge_11()
     {
-        // æº–å‚™
+        // €”õ
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("LinearSearchRule_testDoJudge_parameterEmpty.jvn");
 
@@ -245,23 +245,23 @@ public class LinearSearchRuleTest extends PerformanceRuleTestCase
 
         LinearSearchRule rule = createRule(threshold);
 
-        // å®Ÿè¡Œ
+        // Às
         rule.judge(elementList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(0, getErrorJavelinLogElements().size());
     }
 
     /**
-     * [é …ç•ª] 3-23-9<br />
+     * [€”Ô] 3-23-9<br />
      * <br />
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
-     * ãƒ»æŒ‡å®šã•ã‚ŒãŸãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãŒãªã„å ´åˆ<br />
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br />
+     * doJudge‚ÌƒeƒXƒgB<br />
+     * Ew’è‚³‚ê‚½ƒpƒ‰ƒ[ƒ^‚ª‚È‚¢ê‡<br />
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br />
      */
     public void testDoJudge_12()
     {
-        // æº–å‚™
+        // €”õ
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("LinearSearchRule_testDoJudge_parameterNone.jvn");
 
@@ -269,23 +269,23 @@ public class LinearSearchRuleTest extends PerformanceRuleTestCase
 
         LinearSearchRule rule = createRule(threshold);
 
-        // å®Ÿè¡Œ
+        // Às
         rule.judge(elementList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(0, getErrorJavelinLogElements().size());
     }
 
     /**
-     * [é …ç•ª] 3-23-10<br />
+     * [€”Ô] 3-23-10<br />
      * <br />
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
-     * ãƒ»æŒ‡å®šã•ã‚ŒãŸInfoãŒãªã„å ´åˆ<br />
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br />
+     * doJudge‚ÌƒeƒXƒgB<br />
+     * Ew’è‚³‚ê‚½Info‚ª‚È‚¢ê‡<br />
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br />
      */
     public void testDoJudge_14()
     {
-        // æº–å‚™
+        // €”õ
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("LinearSearchRule_testDoJudge_NoInfo.jvn");
 
@@ -293,23 +293,23 @@ public class LinearSearchRuleTest extends PerformanceRuleTestCase
 
         LinearSearchRule rule = createRule(threshold);
 
-        // å®Ÿè¡Œ
+        // Às
         rule.judge(elementList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(0, getErrorJavelinLogElements().size());
     }
 
     /**
-     * [é …ç•ª] 3-23-11<br />
+     * [€”Ô] 3-23-11<br />
      * <br />
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
-     * ãƒ»æŒ‡å®šã•ã‚ŒãŸã‚¿ã‚¤ãƒ—ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãŒãªã„å ´åˆ<br />
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br />
+     * doJudge‚ÌƒeƒXƒgB<br />
+     * Ew’è‚³‚ê‚½ƒ^ƒCƒv‚ÌƒƒbƒZ[ƒW‚ª‚È‚¢ê‡<br />
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br />
      */
     public void testDoJudge_15()
     {
-        // æº–å‚™
+        // €”õ
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("LinearSearchRule_testDoJudge_NoType.jvn");
 
@@ -317,23 +317,23 @@ public class LinearSearchRuleTest extends PerformanceRuleTestCase
 
         LinearSearchRule rule = createRule(threshold);
 
-        // å®Ÿè¡Œ
+        // Às
         rule.judge(elementList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(0, getErrorJavelinLogElements().size());
     }
 
     /**
-     * [é …ç•ª] 3-23-12<br />
+     * [€”Ô] 3-23-12<br />
      * <br />
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
-     * ãƒ»æŒ‡å®šã•ã‚ŒãŸã‚¤ãƒ™ãƒ³ãƒˆåãŒãªã„å ´åˆ<br />
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br />
+     * doJudge‚ÌƒeƒXƒgB<br />
+     * Ew’è‚³‚ê‚½ƒCƒxƒ“ƒg–¼‚ª‚È‚¢ê‡<br />
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br />
      */
     public void testDoJudge_16()
     {
-        // æº–å‚™
+        // €”õ
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("LinearSearchRule_testDoJudge_NoEventName.jvn");
 
@@ -341,23 +341,23 @@ public class LinearSearchRuleTest extends PerformanceRuleTestCase
 
         LinearSearchRule rule = createRule(threshold);
 
-        // å®Ÿè¡Œ
+        // Às
         rule.judge(elementList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(0, getErrorJavelinLogElements().size());
     }
 
     /**
-     * [é …ç•ª] 3-23-13<br />
+     * [€”Ô] 3-23-13<br />
      * <br />
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
-     * ãƒ»è¤‡æ•°ã®JavelinLogElementã§è­¦å‘ŠãŒå‡ºã‚‹å ´åˆ<br />
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br />
+     * doJudge‚ÌƒeƒXƒgB<br />
+     * E•¡”‚ÌJavelinLogElement‚ÅŒx‚ªo‚éê‡<br />
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br />
      */
     public void testDoJudge_27()
     {
-        // æº–å‚™
+        // €”õ
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("LinearSearchRule_testDoJudge_multiElement.jvn");
 
@@ -365,15 +365,15 @@ public class LinearSearchRuleTest extends PerformanceRuleTestCase
 
         LinearSearchRule rule = createRule(threshold);
 
-        // å®Ÿè¡Œ
+        // Às
         rule.judge(elementList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(2, getErrorJavelinLogElements().size());
 
-        // CALL â†’ EVENT â†’ RETURN â†’ CALL â†’ EVENT â†’ RETURN
-        // ã®é †ã«elementListã®ã‚¤ãƒ™ãƒ³ãƒˆãŒä½œæˆã•ã‚Œã‚‹ã®ã§ã€
-        // 2ç•ªç›®ã¨5ç•ªç›®ã®ã‚¤ãƒ™ãƒ³ãƒˆãŒè­¦å‘Šã«å‡ºåŠ›ã•ã‚Œã‚‹ã“ã¨ã‚’ç¢ºèªã™ã‚‹ã€‚
+        // CALL ¨ EVENT ¨ RETURN ¨ CALL ¨ EVENT ¨ RETURN
+        // ‚Ì‡‚ÉelementList‚ÌƒCƒxƒ“ƒg‚ªì¬‚³‚ê‚é‚Ì‚ÅA
+        // 2”Ô–Ú‚Æ5”Ô–Ú‚ÌƒCƒxƒ“ƒg‚ªŒx‚Éo—Í‚³‚ê‚é‚±‚Æ‚ğŠm”F‚·‚éB
         assertErrorOccurred(elementList.get(1), threshold, "100", "495",
                             "java.util.ArrayList@6f50a8");
         assertErrorOccurred(elementList.get(4), threshold, "1000", "4995",
@@ -381,15 +381,15 @@ public class LinearSearchRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 3-23-14<br>
+     * [€”Ô] 3-23-14<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»å®Ÿè¡Œæ™‚ä¾‹å¤–ãŒç™ºç”Ÿã™ã‚‹å ´åˆ<br>
-     * â†’ãã®JavelinLogElementã¯ã‚¹ã‚­ãƒƒãƒ—ã—ã¦å‡¦ç†ã™ã‚‹ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * EÀs—áŠO‚ª”­¶‚·‚éê‡<br>
+     * ¨‚»‚ÌJavelinLogElement‚ÍƒXƒLƒbƒv‚µ‚Äˆ—‚·‚éB<br>
      */
     public void testDoJudge_29_RuntimeException()
     {
-        // æº–å‚™
+        // €”õ
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("LinearSearchRule_testDoJudge_100.jvn");
 
@@ -398,10 +398,10 @@ public class LinearSearchRuleTest extends PerformanceRuleTestCase
 
         elementList.add(0, null);
 
-        // å®Ÿè¡Œ
+        // Às
         rule.doJudge(elementList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(1, getErrorJavelinLogElements().size());
         assertErrorOccurred(elementList.get(1), threshold, "100", "495", "TestList@123456");
     }

@@ -22,144 +22,145 @@ import jp.co.acroquest.endosnipe.report.LogIdConstants;
 import jp.co.acroquest.endosnipe.report.controller.ReportType;
 
 /**
- * Reporterã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ã‚³ãƒ³ãƒ•ã‚£ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ï¼ˆreporter.propertiesï¼‰ã®
- * æƒ…å ±ã‚’å–å¾—ã™ã‚‹ãŸã‚ã®ã‚¢ã‚¯ã‚»ã‚µã‚¯ãƒ©ã‚¹ã€‚
+ * ReporterƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒRƒ“ƒtƒBƒOƒtƒ@ƒCƒ‹ireporter.propertiesj‚Ì
+ * î•ñ‚ğæ“¾‚·‚é‚½‚ß‚ÌƒAƒNƒZƒTƒNƒ‰ƒXB
  * 
  * @author M.Yoshida
  */
 public class ReporterConfigAccessor
 {
-	/** ãƒ­ã‚¬ãƒ¼ */
-	private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
-		.getLogger(ReporterConfigAccessor.class);
+    /** ƒƒK[ */
+    private static final ENdoSnipeLogger LOGGER                  =
+                                                                   ENdoSnipeLogger.getLogger(
+                                                                                             ReporterConfigAccessor.class);
+    
+    /** ƒRƒ“ƒtƒBƒOƒtƒ@ƒCƒ‹ƒpƒX */
+    private static final String          PROPERTY_RESOURCE_PATH  = "/reporter.properties";
+    
+    /** ƒeƒ“ƒvƒŒ[ƒgƒtƒ@ƒCƒ‹ */
+    private static final String          REPORT_TEMPLATE_SUFFIX  = ".template";
+    
+    /** ƒvƒƒZƒbƒT */
+    private static final String          REPORT_PROCESSOR_SUFFIX = ".processor";
+    
+    /** ƒŒƒ|[ƒg–¼Ì */
+    private static final String          REPORT_NAME_SUFFIX      = ".reportName";
+    
+    /** o—Íƒtƒ@ƒCƒ‹ */
+    private static final String          REPORT_OUTPUT_SUFFIX    = ".outputFile";
+    
+    /** à–¾ */
+    private static final String          REPORT_EXPLANATION_SUFFIX    = ".explanation";
+    
+    /** İ’è•ÛƒtƒB[ƒ‹ƒh */
+    private static Properties            configProperties__        = null;
 
-	/** ã‚³ãƒ³ãƒ•ã‚£ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ */
-	private static final String PROPERTY_RESOURCE_PATH = "/reporter.properties";
+    /**
+     * ƒCƒ“ƒXƒ^ƒ“ƒX‰»–h~‚Ì‚½‚ß‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     */
+    private ReporterConfigAccessor()
+    {
+    }
 
-	/** ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆãƒ•ã‚¡ã‚¤ãƒ« */
-	private static final String REPORT_TEMPLATE_SUFFIX = ".template";
+    private static Properties getReporterConfigProperties()
+    {
+        if (configProperties__ != null)
+        {
+            return configProperties__;
+        }
 
-	/** ãƒ—ãƒ­ã‚»ãƒƒã‚µ */
-	private static final String REPORT_PROCESSOR_SUFFIX = ".processor";
+        URL templateSetting = ReporterConfigAccessor.class.getResource(PROPERTY_RESOURCE_PATH);
+        configProperties__ = new Properties();
 
-	/** ãƒ¬ãƒãƒ¼ãƒˆåç§° */
-	private static final String REPORT_NAME_SUFFIX = ".reportName";
+        try
+        {
+            configProperties__.load(templateSetting.openStream());
+        }
+        catch (IOException e)
+        {
+            LOGGER.log(LogIdConstants.READ_FAULT_CONFIG, e, new Object[0]);
+        }
 
-	/** å‡ºåŠ›ãƒ•ã‚¡ã‚¤ãƒ« */
-	private static final String REPORT_OUTPUT_SUFFIX = ".outputFile";
+        return configProperties__;
+    }
 
-	/** èª¬æ˜ */
-	private static final String REPORT_EXPLANATION_SUFFIX = ".explanation";
+    /**
+     * w’è‚³‚ê‚½ƒL[‚ÉŠÖ˜A‚·‚éƒvƒƒpƒeƒB’l‚ğæ“¾‚·‚éB
+     * @param key ƒL[
+     * @return ƒL[‚ÉŠÖ˜A‚·‚é’l
+     */
+    public static String getProperty(String key)
+    {
+        Properties configProp = getReporterConfigProperties();
 
-	/** è¨­å®šä¿æŒãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ */
-	private static Properties configProperties__ = null;
+        return configProp.getProperty(key);
+    }
 
-	/**
-	 * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–é˜²æ­¢ã®ãŸã‚ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
-	 */
-	private ReporterConfigAccessor()
-	{
-	}
+    /**
+     * w’è‚³‚ê‚½ƒL[‚ÉŠÖ˜A‚·‚éƒvƒƒpƒeƒB‚ÉA’uŠ·ƒpƒ‰ƒ[ƒ^‚ğ“K—p‚µ‚Äæ“¾‚·‚éB
+     * 
+     * @param key   ƒL[
+     * @param param ƒL[‚ÉŠÖ˜A‚·‚é’l‚É“K—p‚·‚é’uŠ·ƒpƒ‰ƒ[ƒ^
+     * @return ƒL[‚ÉŠÖ˜A‚·‚é’li’uŠ·Ï‚İj
+     */
+    public static String getPropertyWithParam(String key, Object... param)
+    {
+        String messagePattern = getProperty(key);
+        return MessageFormat.format(messagePattern, param);
+    }
 
-	private static Properties getReporterConfigProperties()
-	{
-		if (configProperties__ != null)
-		{
-			return configProperties__;
-		}
+    /**
+     * w’è‚µ‚½ƒŒƒ|[ƒgƒ^ƒCƒv‚Ìƒeƒ“ƒvƒŒ[ƒg‚Ö‚ÌƒpƒX‚ğƒvƒƒpƒeƒB‚©‚çæ“¾‚·‚éB
+     * 
+     * @param type ƒŒƒ|[ƒgƒ^ƒCƒv
+     * @return ƒeƒ“ƒvƒŒ[ƒg‚Ö‚ÌƒpƒX
+     */
+    public static String getReportTemplateResourcePath(ReportType type)
+    {
+        return getProperty(type.getId() + REPORT_TEMPLATE_SUFFIX);
+    }
 
-		URL templateSetting = ReporterConfigAccessor.class.getResource(PROPERTY_RESOURCE_PATH);
-		configProperties__ = new Properties();
+    /**
+     * w’è‚µ‚½ƒŒƒ|[ƒgƒ^ƒCƒv‚ÌƒŒƒ|[ƒgƒvƒƒZƒbƒT‚ÌŠ®‘SŒÀ’è–¼‚ğƒvƒƒpƒeƒB‚©‚çæ“¾‚·‚éB
+     * 
+     * @param type ƒŒƒ|[ƒgƒ^ƒCƒv
+     * @return ƒŒƒ|[ƒgƒvƒƒZƒbƒT‚ÌŠ®‘SŒÀ’è–¼
+     */
+    public static String getReportProcessorName(ReportType type)
+    {
+        return getProperty(type.getId() + REPORT_PROCESSOR_SUFFIX);
+    }
 
-		try
-		{
-			configProperties__.load(templateSetting.openStream());
-		}
-		catch (IOException e)
-		{
-			LOGGER.log(LogIdConstants.READ_FAULT_CONFIG, e, new Object[0]);
-		}
+    /**
+     * w’è‚µ‚½ƒŒƒ|[ƒgƒ^ƒCƒv‚ÌƒŒƒ|[ƒg–¼‚ğƒvƒƒpƒeƒB‚©‚çæ“¾‚·‚éB
+     * 
+     * @param type ƒŒƒ|[ƒgƒ^ƒCƒv
+     * @return ƒŒƒ|[ƒg–¼
+     */
+    public static String getReportName(ReportType type)
+    {
+        return getProperty(type.getId() + REPORT_NAME_SUFFIX);
+    }
 
-		return configProperties__;
-	}
-
-	/**
-	 * æŒ‡å®šã•ã‚ŒãŸã‚­ãƒ¼ã«é–¢é€£ã™ã‚‹ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
-	 * @param key ã‚­ãƒ¼
-	 * @return ã‚­ãƒ¼ã«é–¢é€£ã™ã‚‹å€¤
-	 */
-	public static String getProperty(String key)
-	{
-		Properties configProp = getReporterConfigProperties();
-
-		return configProp.getProperty(key);
-	}
-
-	/**
-	 * æŒ‡å®šã•ã‚ŒãŸã‚­ãƒ¼ã«é–¢é€£ã™ã‚‹ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã«ã€ç½®æ›ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’é©ç”¨ã—ã¦å–å¾—ã™ã‚‹ã€‚
-	 * 
-	 * @param key   ã‚­ãƒ¼
-	 * @param param ã‚­ãƒ¼ã«é–¢é€£ã™ã‚‹å€¤ã«é©ç”¨ã™ã‚‹ç½®æ›ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
-	 * @return ã‚­ãƒ¼ã«é–¢é€£ã™ã‚‹å€¤ï¼ˆç½®æ›æ¸ˆã¿ï¼‰
-	 */
-	public static String getPropertyWithParam(String key, Object... param)
-	{
-		String messagePattern = getProperty(key);
-		return MessageFormat.format(messagePattern, param);
-	}
-
-	/**
-	 * æŒ‡å®šã—ãŸãƒ¬ãƒãƒ¼ãƒˆã‚¿ã‚¤ãƒ—ã®ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã¸ã®ãƒ‘ã‚¹ã‚’ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‹ã‚‰å–å¾—ã™ã‚‹ã€‚
-	 * 
-	 * @param type ãƒ¬ãƒãƒ¼ãƒˆã‚¿ã‚¤ãƒ—
-	 * @return ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã¸ã®ãƒ‘ã‚¹
-	 */
-	public static String getReportTemplateResourcePath(ReportType type)
-	{
-		return getProperty(type.getId() + REPORT_TEMPLATE_SUFFIX);
-	}
-
-	/**
-	 * æŒ‡å®šã—ãŸãƒ¬ãƒãƒ¼ãƒˆã‚¿ã‚¤ãƒ—ã®ãƒ¬ãƒãƒ¼ãƒˆãƒ—ãƒ­ã‚»ãƒƒã‚µã®å®Œå…¨é™å®šåã‚’ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‹ã‚‰å–å¾—ã™ã‚‹ã€‚
-	 * 
-	 * @param type ãƒ¬ãƒãƒ¼ãƒˆã‚¿ã‚¤ãƒ—
-	 * @return ãƒ¬ãƒãƒ¼ãƒˆãƒ—ãƒ­ã‚»ãƒƒã‚µã®å®Œå…¨é™å®šå
-	 */
-	public static String getReportProcessorName(ReportType type)
-	{
-		return getProperty(type.getId() + REPORT_PROCESSOR_SUFFIX);
-	}
-
-	/**
-	 * æŒ‡å®šã—ãŸãƒ¬ãƒãƒ¼ãƒˆã‚¿ã‚¤ãƒ—ã®ãƒ¬ãƒãƒ¼ãƒˆåã‚’ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‹ã‚‰å–å¾—ã™ã‚‹ã€‚
-	 * 
-	 * @param type ãƒ¬ãƒãƒ¼ãƒˆã‚¿ã‚¤ãƒ—
-	 * @return ãƒ¬ãƒãƒ¼ãƒˆå
-	 */
-	public static String getReportName(ReportType type)
-	{
-		return getProperty(type.getId() + REPORT_NAME_SUFFIX);
-	}
-
-	/**
-	 * æŒ‡å®šã—ãŸãƒ¬ãƒãƒ¼ãƒˆã‚¿ã‚¤ãƒ—ã®ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ãƒ•ã‚¡ã‚¤ãƒ«åã‚’å–å¾—ã™ã‚‹ã€‚
-	 * 
-	 * @param type ãƒ¬ãƒãƒ¼ãƒˆã‚¿ã‚¤ãƒ—
-	 * @return ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ãƒ•ã‚¡ã‚¤ãƒ«å
-	 */
-	public static String getOutputFileName(ReportType type)
-	{
-		return getProperty(type.getId() + REPORT_OUTPUT_SUFFIX);
-	}
-
-	/**
-	 * æŒ‡å®šã—ãŸãƒ¬ãƒãƒ¼ãƒˆã‚¿ã‚¤ãƒ—ã®èª¬æ˜ã‚’å–å¾—ã™ã‚‹ã€‚
-	 * 
-	 * @param type ãƒ¬ãƒãƒ¼ãƒˆã‚¿ã‚¤ãƒ—
-	 * @return ãƒ¬ãƒãƒ¼ãƒˆã®èª¬æ˜
-	 */
-	public static String getExplanation(ReportType type)
-	{
-		return getProperty(type.getId() + REPORT_EXPLANATION_SUFFIX);
-	}
+    /**
+     * w’è‚µ‚½ƒŒƒ|[ƒgƒ^ƒCƒv‚ÌƒŒƒ|[ƒgo—Íƒtƒ@ƒCƒ‹–¼‚ğæ“¾‚·‚éB
+     * 
+     * @param type ƒŒƒ|[ƒgƒ^ƒCƒv
+     * @return ƒŒƒ|[ƒgo—Íƒtƒ@ƒCƒ‹–¼
+     */
+    public static String getOutputFileName(ReportType type)
+    {
+        return getProperty(type.getId() + REPORT_OUTPUT_SUFFIX);
+    }
+    
+    /**
+     * w’è‚µ‚½ƒŒƒ|[ƒgƒ^ƒCƒv‚Ìà–¾‚ğæ“¾‚·‚éB
+     * 
+     * @param type ƒŒƒ|[ƒgƒ^ƒCƒv
+     * @return ƒŒƒ|[ƒg‚Ìà–¾
+     */
+    public static String getExplanation(ReportType type)
+    {
+        return getProperty(type.getId() + REPORT_EXPLANATION_SUFFIX);
+    }
 }

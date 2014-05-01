@@ -40,24 +40,24 @@ import jp.co.acroquest.endosnipe.javelin.log.JavelinLogCallback;
 import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
 
 /**
- * åŒä¸€ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³å†…ã§ã€åŒä¸€SQLã®å‘¼ã³å‡ºã—å›æ•°ãŒä¸€å®šå›æ•°ã‚’è¶…ãˆãŸå ´åˆã«ã€è¨˜éŒ²ãƒ»é€šçŸ¥ã‚’è¡Œã†RecordStrategyã€‚
- * é–¾å€¤ã¯javelin.jdbc.sqlcountã§æŒ‡å®šã™ã‚‹ã€‚
+ * “¯ˆêƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ““à‚ÅA“¯ˆêSQL‚ÌŒÄ‚Ño‚µ‰ñ”‚ªˆê’è‰ñ”‚ğ’´‚¦‚½ê‡‚ÉA‹L˜^E’Ê’m‚ğs‚¤RecordStrategyB
+ * è‡’l‚Íjavelin.jdbc.sqlcount‚Åw’è‚·‚éB
  * 
  * @author tsukano
  */
 public class SqlCountStrategy implements RecordStrategy
 {
-    /** åŒä¸€SQLã®å‘¼ã³å‡ºã—å›æ•°ã‚’ã‚¢ãƒ©ãƒ¼ãƒ ã«ã™ã‚‹é–¾å€¤ */
+    /** “¯ˆêSQL‚ÌŒÄ‚Ño‚µ‰ñ”‚ğƒAƒ‰[ƒ€‚É‚·‚éè‡’l */
     private final long threshold_;
 
     /**
-     * SQLã®å‘¼ã³å‡ºã—å›æ•°ã‚’ä¿æŒã™ã‚‹ãƒãƒƒãƒ—ã€‚
-     * key=SQLæ–‡ã€value=å‘¼ã³å‡ºã—å›æ•°
+     * SQL‚ÌŒÄ‚Ño‚µ‰ñ”‚ğ•Û‚·‚éƒ}ƒbƒvB
+     * key=SQL•¶Avalue=ŒÄ‚Ño‚µ‰ñ”
      */
     private final Map<String, Integer> sqlCountMap_ = new HashMap<String, Integer>();
 
     /**
-     * ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‹ã‚‰sqlcountã‚’èª­ã¿è¾¼ã‚€ã€‚
+     * ƒvƒƒpƒeƒB‚©‚çsqlcount‚ğ“Ç‚İ‚ŞB
      */
     public SqlCountStrategy()
     {
@@ -66,8 +66,8 @@ public class SqlCountStrategy implements RecordStrategy
     }
 
     /**
-     * SQLã®å‘¼ã³å‡ºã—å›æ•°ã®ã‚«ã‚¦ãƒ³ãƒˆã‚’å¢—ã‚„ã™ã€‚
-     * @param sql å‘¼ã³å‡ºã—å›æ•°ã‚’å¢—ã‚„ã™SQL
+     * SQL‚ÌŒÄ‚Ño‚µ‰ñ”‚ÌƒJƒEƒ“ƒg‚ğ‘‚â‚·B
+     * @param sql ŒÄ‚Ño‚µ‰ñ”‚ğ‘‚â‚·SQL
      */
     public void incrementSQLCount(final String sql)
     {
@@ -76,13 +76,13 @@ public class SqlCountStrategy implements RecordStrategy
             int newValue;
             if (sqlCountMap_.containsKey(sql))
             {
-                // æ—¢ã«å‘¼ã³å‡ºã—çµŒé¨“ãŒã‚ã‚‹SQLã¯å‘¼ã³å‡ºã—å›æ•°ã‚’1ã¤å¢—ã‚„ã™
+                // Šù‚ÉŒÄ‚Ño‚µŒoŒ±‚ª‚ ‚éSQL‚ÍŒÄ‚Ño‚µ‰ñ”‚ğ1‚Â‘‚â‚·
                 int old = sqlCountMap_.get(sql);
                 newValue = old + 1;
             }
             else
             {
-                // æ—¢ã«å‘¼ã³å‡ºã—çµŒé¨“ãŒãªã„SQLã¯å‘¼ã³å‡ºã—å›æ•°ã‚’1ã«ã™ã‚‹
+                // Šù‚ÉŒÄ‚Ño‚µŒoŒ±‚ª‚È‚¢SQL‚ÍŒÄ‚Ño‚µ‰ñ”‚ğ1‚É‚·‚é
                 newValue = 1;
             }
 
@@ -103,10 +103,10 @@ public class SqlCountStrategy implements RecordStrategy
     }
 
     /**
-     * å¸¸ã«falseã‚’è¿”ã—ã¾ã™ã€‚
+     * í‚Éfalse‚ğ•Ô‚µ‚Ü‚·B
      * 
-     * @param node ä½¿ç”¨ã—ã¾ã›ã‚“ã€‚
-     * @return å¸¸ã«falseã€‚ 
+     * @param node g—p‚µ‚Ü‚¹‚ñB
+     * @return í‚ÉfalseB 
      */
     public boolean judgeGenerateJaveinFile(final CallTreeNode node)
     {
@@ -114,10 +114,10 @@ public class SqlCountStrategy implements RecordStrategy
     }
 
     /**
-     * å¸¸ã«falseã‚’è¿”ã—ã¾ã™ã€‚
+     * í‚Éfalse‚ğ•Ô‚µ‚Ü‚·B
      * 
-     * @param node ä½¿ç”¨ã—ã¾ã›ã‚“ã€‚
-     * @return å¸¸ã«falseã€‚ 
+     * @param node g—p‚µ‚Ü‚¹‚ñB
+     * @return í‚ÉfalseB 
      */
     public boolean judgeSendExceedThresholdAlarm(final CallTreeNode node)
     {
@@ -125,7 +125,7 @@ public class SqlCountStrategy implements RecordStrategy
     }
 
     /**
-     * SQLã®å‘¼ã³å‡ºã—å›æ•°ã®æƒ…å ±ã‚’ã‚¯ãƒªã‚¢ã™ã‚‹ã€‚
+     * SQL‚ÌŒÄ‚Ño‚µ‰ñ”‚Ìî•ñ‚ğƒNƒŠƒA‚·‚éB
      */
     public void postJudge()
     {
@@ -136,7 +136,7 @@ public class SqlCountStrategy implements RecordStrategy
     }
 
     /**
-     * ä½•ã‚‚ã—ãªã„ã€‚
+     * ‰½‚à‚µ‚È‚¢B
      * @param node CallTreeNode
      * @return null
      */
@@ -147,7 +147,7 @@ public class SqlCountStrategy implements RecordStrategy
     }
 
     /**
-     * ä½•ã‚‚ã—ãªã„ã€‚
+     * ‰½‚à‚µ‚È‚¢B
      * @return null
      */
     public JavelinLogCallback createCallback()

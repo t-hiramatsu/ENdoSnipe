@@ -25,7 +25,6 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.javelin.util;
 
-import java.lang.Thread.State;
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadInfo;
 import java.lang.management.ThreadMXBean;
@@ -38,25 +37,25 @@ import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 
 /**
- * ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’æ‰±ã†ãŸã‚ã®ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+ * ƒXƒŒƒbƒh‚ğˆµ‚¤‚½‚ß‚Ìƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒX‚Å‚·B<br />
  * 
  * @author eriguchi
  */
 public class ThreadUtil
 {
-    /** ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±å–å¾—ç”¨MXBeanã€‚ */
+    /** ƒXƒŒƒbƒhî•ñæ“¾—pMXBeanB */
     private static ThreadMXBean threadMBean__ = ManagementFactory.getThreadMXBean();
 
-    /** ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—ã®ãƒ˜ãƒƒãƒ€é–‹å§‹éƒ¨ */
+    /** ƒXƒŒƒbƒhƒ_ƒ“ƒv‚Ìƒwƒbƒ_ŠJn•” */
     private static final String THREAD_DUMP_HEAD_START = "Full thread dump ";
 
-    /** ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—ã®ãƒ˜ãƒƒãƒ€çµ‚äº†éƒ¨ */
+    /** ƒXƒŒƒbƒhƒ_ƒ“ƒv‚Ìƒwƒbƒ_I—¹•” */
     private static final String THREAD_DUMP_HEAD_END = "):";
 
-    /** ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹æ¤œç´¢ã®é–‹å§‹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€‚ */
+    /** ƒXƒ^ƒbƒNƒgƒŒ[ƒXŒŸõ‚ÌŠJnƒCƒ“ƒfƒbƒNƒXB */
     private static final int STACK_SEARCH_START_INDEX = 0;
 
-    /** StringBuilderã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚µã‚¤ã‚º */
+    /** StringBuilderƒIƒuƒWƒFƒNƒg‚ÌƒfƒtƒHƒ‹ƒgƒTƒCƒY */
     private static final int DEF_BUILDER_SIZE = 512;
 
     private static Field tidField__;
@@ -73,27 +72,21 @@ public class ThreadUtil
     /** java.lang.management.MonitorInfo#getLockedStackDepth*/
     private static Method getLockedStackDepthMethod__ = null;
 
-    /** com.sun.management.ThreadMXBean#getThreadCpuTime(long[] arg0)*/
-    private static Method getThreadCpuTimeMethod__ = null;
-
-    /** com.sun.management.ThreadMXBean#getThreadUserTime(long[] arg0)*/
-    private static Method getThreadUserTimeMethod__ = null;
-
-    /** æ”¹è¡Œæ–‡å­— */
+    /** ‰üs•¶š */
     private static final String NEW_LINE = System.getProperty("line.separator");
 
     /**
-     * åˆ©ç”¨ã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã€MXBeanã®åˆæœŸåŒ–ã‚’è¡Œã„ã¾ã™ã€‚
+     * —˜—p‚·‚éƒƒ\ƒbƒhAMXBean‚Ì‰Šú‰»‚ğs‚¢‚Ü‚·B
      * 
-     * @param config Javelinã®è¨­å®š
+     * @param config Javelin‚Ìİ’è
      */
     public static void init(JavelinConfig config)
     {
         try
         {
-            // OracleASã‚’åˆ©ç”¨ã—ãŸå ´åˆã€Thead#getThreadID()ã‹ã‚‰ã‚¹ãƒ¬ãƒƒãƒ‰IDã‚’å–å¾—ã™ã‚‹ã¨ã€
-            // å¸¸ã«å›ºå®šå€¤ãŒå‡ºåŠ›ã•ã‚Œã‚‹ã®ã§ã€Threadã‚¯ãƒ©ã‚¹ã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã‹ã‚‰å–å¾—ã™ã‚‹ã€‚
-            // ã¾ãŸã€IBMã®VMã‚’åˆ©ç”¨ã—ãŸåˆ©ç”¨ã—ãŸå ´åˆã«ã¯ã€"tid"ã¨ã„ã†ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ãŒãªã„ãŸã‚ã€"uniqueId"ã‚’åˆ©ç”¨ã™ã‚‹ã€‚
+            // OracleAS‚ğ—˜—p‚µ‚½ê‡AThead#getThreadID()‚©‚çƒXƒŒƒbƒhID‚ğæ“¾‚·‚é‚ÆA
+            // í‚ÉŒÅ’è’l‚ªo—Í‚³‚ê‚é‚Ì‚ÅAThreadƒNƒ‰ƒX‚ÌƒtƒB[ƒ‹ƒh‚©‚çæ“¾‚·‚éB
+            // ‚Ü‚½AIBM‚ÌVM‚ğ—˜—p‚µ‚½—˜—p‚µ‚½ê‡‚É‚ÍA"tid"‚Æ‚¢‚¤ƒtƒB[ƒ‹ƒh‚ª‚È‚¢‚½‚ßA"uniqueId"‚ğ—˜—p‚·‚éB
             try
             {
                 tidField__ = Thread.class.getDeclaredField("tid");
@@ -109,34 +102,18 @@ public class ThreadUtil
             try
             {
                 getLockedSynchronizersMethod__ =
-                    ThreadInfo.class.getDeclaredMethod("getLockedSynchronizers");
+                        ThreadInfo.class.getDeclaredMethod("getLockedSynchronizers");
                 getLockInfoMethod__ = ThreadInfo.class.getDeclaredMethod("getLockInfo");
                 getLockedMonitorsMethod__ = ThreadInfo.class.getDeclaredMethod("getLockedMonitors");
                 try
                 {
                     Class<?> monitorInfoClass = Class.forName("java.lang.management.MonitorInfo");
                     getLockedStackDepthMethod__ =
-                        monitorInfoClass.getDeclaredMethod("getLockedStackDepth");
+                            monitorInfoClass.getDeclaredMethod("getLockedStackDepth");
                 }
                 catch (ClassNotFoundException cne)
                 {
                     SystemLogger.getInstance().debug(cne);
-                }
-
-                Class<?> mbeanClass = threadMBean__.getClass();
-                if (mbeanClass.getName().equals("com.sun.management.ThreadMXBean"))
-                {
-                    try
-                    {
-                        getThreadCpuTimeMethod__ =
-                            mbeanClass.getDeclaredMethod("getThreadCpuTime", long[].class);
-                        getThreadUserTimeMethod__ =
-                            mbeanClass.getDeclaredMethod("getThreadUserTime", long[].class);
-                    }
-                    catch (NoSuchMethodException cne)
-                    {
-                        SystemLogger.getInstance().debug(cne);
-                    }
                 }
             }
             catch (SecurityException se)
@@ -154,7 +131,7 @@ public class ThreadUtil
             }
 
             if (config.isThreadContentionMonitor()
-                && threadMBean__.isThreadContentionMonitoringSupported())
+                    && threadMBean__.isThreadContentionMonitoringSupported())
             {
                 threadMBean__.setThreadContentionMonitoringEnabled(true);
             }
@@ -169,20 +146,21 @@ public class ThreadUtil
         }
     }
 
-    private static ThreadLocal<Long> tid__ = new ThreadLocal<Long>() {
+    private static ThreadLocal<Long> tid__ = new ThreadLocal<Long>()
+    {
         @Override
         protected Long initialValue()
         {
             Thread thread = Thread.currentThread();
-            Long tid = ThreadUtil.getThreadId(thread);
+            Long   tid    = ThreadUtil.getThreadId(thread);
             return tid;
         }
     };
 
     /**
-     * ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğæ“¾‚·‚éB
      * 
-     * @return ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã€‚
+     * @return ƒXƒ^ƒbƒNƒgƒŒ[ƒXB
      */
     public static StackTraceElement[] getCurrentStackTrace()
     {
@@ -191,18 +169,18 @@ public class ThreadUtil
     }
 
     /**
-     * ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’æ–‡å­—åˆ—ã«å¤‰æ›ã—ã¾ã™ã€‚<br />
-     * ãŸã ã—ã€ã‚¯ãƒ©ã‚¹ã«"javelin"ã‚’å«ã‚€ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®è¡Œã¯è¡¨ç¤ºã—ã¾ã›ã‚“ã€‚<br />
+     * ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğ•¶š—ñ‚É•ÏŠ·‚µ‚Ü‚·B<br />
+     * ‚½‚¾‚µAƒNƒ‰ƒX‚É"javelin"‚ğŠÜ‚ŞƒXƒ^ƒbƒNƒgƒŒ[ƒX‚Ìs‚Í•\¦‚µ‚Ü‚¹‚ñB<br />
      *  
-     * @param stacktraces ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã€‚
-     * @param depth ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹å–å¾—ã®æ·±ã•ã€‚
-     * @return ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹æ–‡å­—åˆ—ã€‚
+     * @param stacktraces ƒXƒ^ƒbƒNƒgƒŒ[ƒXB
+     * @param depth ƒXƒ^ƒbƒNƒgƒŒ[ƒXæ“¾‚Ì[‚³B
+     * @return ƒXƒ^ƒbƒNƒgƒŒ[ƒX•¶š—ñB
      */
     public static String getStackTrace(final StackTraceElement[] stacktraces, int depth)
     {
         StringBuilder traceBuffer = new StringBuilder();
 
-        // å…ˆé ­ã®javelinã‚’å«ã‚€ã‚¹ã‚¿ãƒƒã‚¯ã¯èª­ã¿é£›ã°ã™ã€‚
+        // æ“ª‚Ìjavelin‚ğŠÜ‚ŞƒXƒ^ƒbƒN‚Í“Ç‚İ”ò‚Î‚·B
         int index;
         for (index = STACK_SEARCH_START_INDEX; index < stacktraces.length; index++)
         {
@@ -230,10 +208,10 @@ public class ThreadUtil
     }
 
     /**
-     * "javelin"ã‚‚å«ã‚ãŸå…¨ã¦ã®ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * "javelin"‚àŠÜ‚ß‚½‘S‚Ä‚ÌƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @param stacktraces ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹
-     * @return ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹æ–‡å­—åˆ—
+     * @param stacktraces ƒXƒ^ƒbƒNƒgƒŒ[ƒX
+     * @return ƒXƒ^ƒbƒNƒgƒŒ[ƒX•¶š—ñ
      */
     public static String getAllStackTrace(final StackTraceElement[] stacktraces)
     {
@@ -249,10 +227,10 @@ public class ThreadUtil
     }
 
     /**
-     * ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’æ–‡å­—åˆ—ã«å¤‰æ›ã™ã‚‹ã€‚
+     * ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğ•¶š—ñ‚É•ÏŠ·‚·‚éB
      *  
-     * @param stacktraces ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã€‚
-     * @return ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹æ–‡å­—åˆ—ã€‚
+     * @param stacktraces ƒXƒ^ƒbƒNƒgƒŒ[ƒXB
+     * @return ƒXƒ^ƒbƒNƒgƒŒ[ƒX•¶š—ñB
      */
     public static String getStackTrace(final StackTraceElement[] stacktraces)
     {
@@ -260,9 +238,9 @@ public class ThreadUtil
     }
 
     /**
-     * ã‚¹ãƒ¬ãƒƒãƒ‰IDã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒXƒŒƒbƒhID‚ğæ“¾‚·‚éB
      * 
-     * @return ã‚¹ãƒ¬ãƒƒãƒ‰IDã€‚
+     * @return ƒXƒŒƒbƒhIDB
      */
     public static long getThreadId()
     {
@@ -270,10 +248,10 @@ public class ThreadUtil
     }
 
     /**
-     * ã‚¹ãƒ¬ãƒƒãƒ‰IDã‚’å–å¾—ã™ã‚‹ã€‚
-     * @param thread ã‚¹ãƒ¬ãƒƒãƒ‰ã€‚
+     * ƒXƒŒƒbƒhID‚ğæ“¾‚·‚éB
+     * @param thread ƒXƒŒƒbƒhB
      * 
-     * @return ã‚¹ãƒ¬ãƒƒãƒ‰IDã€‚
+     * @return ƒXƒŒƒbƒhIDB
      */
     public static Long getThreadId(final Thread thread)
     {
@@ -297,9 +275,9 @@ public class ThreadUtil
     }
 
     /**
-     * å…¨ã¦ã®ã‚¹ãƒ¬ãƒƒãƒ‰IDã‚’å–å¾—ã™ã‚‹ã€‚
+     * ‘S‚Ä‚ÌƒXƒŒƒbƒhID‚ğæ“¾‚·‚éB
      * 
-     * @return å…¨ã¦ã®ã‚¹ãƒ¬ãƒƒãƒ‰IDã€‚
+     * @return ‘S‚Ä‚ÌƒXƒŒƒbƒhIDB
      */
     public static long[] getAllThreadIds()
     {
@@ -307,11 +285,11 @@ public class ThreadUtil
     }
 
     /**
-     * ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒXƒŒƒbƒhî•ñ‚ğæ“¾‚·‚éB
      * 
-     * @param maxDepth æ·±ã•ã€‚
-     * @param threadId ã‚¹ãƒ¬ãƒƒãƒ‰IDã€‚
-     * @return ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±ã€‚
+     * @param maxDepth [‚³B
+     * @param threadId ƒXƒŒƒbƒhIDB
+     * @return ƒXƒŒƒbƒhî•ñB
      */
     public static ThreadInfo getThreadInfo(final long threadId, final int maxDepth)
     {
@@ -319,11 +297,11 @@ public class ThreadUtil
     }
 
     /**
-     * ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒXƒŒƒbƒhî•ñ‚ğæ“¾‚·‚éB
      * 
-     * @param maxDepth æ·±ã•ã€‚
-     * @param threadIds ã‚¹ãƒ¬ãƒƒãƒ‰Iã®é…åˆ—ã€‚
-     * @return ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±ã®é…åˆ—ã€‚
+     * @param maxDepth [‚³B
+     * @param threadIds ƒXƒŒƒbƒhI‚Ì”z—ñB
+     * @return ƒXƒŒƒbƒhî•ñ‚Ì”z—ñB
      */
     public static ThreadInfo[] getThreadInfo(final long[] threadIds, final int maxDepth)
     {
@@ -331,11 +309,11 @@ public class ThreadUtil
     }
 
     /**
-     * æŒ‡å®šã—ãŸã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’æ¤œç´¢ã—ã€ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã®æœ€åˆã®ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹è¦ç´ ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * w’è‚µ‚½ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğŒŸõ‚µAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌÅ‰‚ÌƒXƒ^ƒbƒNƒgƒŒ[ƒX—v‘f‚ğæ“¾‚µ‚Ü‚·B
      * 
-     * @param stackTrace æ¤œç´¢å¯¾è±¡ã®ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã€‚
+     * @param stackTrace ŒŸõ‘ÎÛ‚ÌƒXƒ^ƒbƒNƒgƒŒ[ƒXB
      * 
-     * @return ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã®æœ€åˆã®ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹è¦ç´ ã€‚
+     * @return ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌÅ‰‚ÌƒXƒ^ƒbƒNƒgƒŒ[ƒX—v‘fB
      */
     public static StackTraceElement getApplicationStack(StackTraceElement[] stackTrace)
     {
@@ -352,9 +330,9 @@ public class ThreadUtil
     }
 
     /**
-     * Fullã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * FullƒXƒŒƒbƒhƒ_ƒ“ƒv‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return Fullã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—
+     * @return FullƒXƒŒƒbƒhƒ_ƒ“ƒv
      */
     public static String getFullThreadDump()
     {
@@ -362,13 +340,13 @@ public class ThreadUtil
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-        // æ™‚åˆ»ã‚’å‡ºåŠ›ã™ã‚‹ã€‚
+        // ‚ğo—Í‚·‚éB
         long now = System.currentTimeMillis();
         builder.append(NEW_LINE);
         builder.append(format.format(now));
         builder.append(NEW_LINE);
 
-        // ãƒ˜ãƒƒãƒ€éƒ¨ã‚’å‡ºåŠ›ã™ã‚‹ã€‚
+        // ƒwƒbƒ_•”‚ğo—Í‚·‚éB
         builder.append(THREAD_DUMP_HEAD_START);
         builder.append(System.getProperty("java.vm.name"));
         builder.append(" (");
@@ -376,7 +354,7 @@ public class ThreadUtil
         builder.append(THREAD_DUMP_HEAD_END);
         builder.append(NEW_LINE);
 
-        // å„ã‚¹ãƒ¬ãƒƒãƒ‰ã®æƒ…å ±ã‚’å–å¾—ã™ã‚‹ã€‚
+        // ŠeƒXƒŒƒbƒh‚Ìî•ñ‚ğæ“¾‚·‚éB
         long[] threadIds = getAllThreadIds();
         ThreadInfo[] threadInfos = getThreadInfo(threadIds, Integer.MAX_VALUE);
         for (ThreadInfo threadInfo : threadInfos)
@@ -384,7 +362,7 @@ public class ThreadUtil
             StackTraceElement[] elements = threadInfo.getStackTrace();
             String threadDump = null;
             if (getLockedSynchronizersMethod__ != null && getLockedMonitorsMethod__ != null
-                && getLockInfoMethod__ != null && getLockedStackDepthMethod__ != null)
+                    && getLockInfoMethod__ != null && getLockedStackDepthMethod__ != null)
             {
                 threadDump = getThreadDumpJava6(threadInfo, elements);
             }
@@ -401,78 +379,10 @@ public class ThreadUtil
     }
 
     /**
-     * æŒ‡å®šã—ãŸã‚¹ãƒ¬ãƒƒãƒ‰ã®CPUæ™‚é–“ã‚’å–å¾—ã™ã‚‹ã€‚
+     * Java6 ‚ğ—˜—p‚µ‚½ê‡‚ÉƒXƒŒƒbƒhƒ_ƒ“ƒv‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @param threadIds ã‚¹ãƒ¬ãƒƒãƒ‰ã€‚
-     * @return CPUæ™‚é–“ã®é…åˆ—ã€‚
-     */
-    public static long[] getThreadCpuTime(long[] threadIds)
-    {
-        long[] cpuTimes = null;
-
-        if (getThreadCpuTimeMethod__ != null)
-        {
-            try
-            {
-                cpuTimes = (long[])getThreadCpuTimeMethod__.invoke(threadMBean__, threadIds);
-            }
-            catch (Exception ex)
-            {
-                SystemLogger.getInstance().warn(ex);
-            }
-        }
-
-        if (cpuTimes == null)
-        {
-            cpuTimes = new long[threadIds.length];
-            for (int num = 0; num < threadIds.length; num++)
-            {
-                long threadId = threadIds[num];
-                cpuTimes[num] = threadMBean__.getThreadCpuTime(threadId);
-            }
-        }
-        return cpuTimes;
-    }
-
-    /**
-     * æŒ‡å®šã—ãŸã‚¹ãƒ¬ãƒƒãƒ‰ã®Useræ™‚é–“ã‚’å–å¾—ã™ã‚‹ã€‚
-     * 
-     * @param threadIds ã‚¹ãƒ¬ãƒƒãƒ‰ã€‚
-     * @return CPUæ™‚é–“ã®é…åˆ—ã€‚
-     */
-    public static long[] getThreadUserTime(long[] threadIds)
-    {
-        long[] cpuTimes = null;
-
-        if (getThreadUserTimeMethod__ != null)
-        {
-            try
-            {
-                cpuTimes = (long[])getThreadUserTimeMethod__.invoke(threadMBean__, threadIds);
-            }
-            catch (Exception ex)
-            {
-                SystemLogger.getInstance().warn(ex);
-            }
-        }
-
-        if (cpuTimes == null)
-        {
-            cpuTimes = new long[threadIds.length];
-            for (int num = 0; num < threadIds.length; num++)
-            {
-                long threadId = threadIds[num];
-                cpuTimes[num] = threadMBean__.getThreadUserTime(threadId);
-            }
-        }
-        return cpuTimes;
-    }
-
-    /**
-     * Java6 ã‚’åˆ©ç”¨ã—ãŸå ´åˆã«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
-     * 
-     * @param info {@link ThreadInfo}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param elements {@link StackTraceElement}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®é…åˆ—
+     * @param info {@link ThreadInfo}ƒIƒuƒWƒFƒNƒg
+     * @param elements {@link StackTraceElement}ƒIƒuƒWƒFƒNƒg‚Ì”z—ñ
      * @return
      */
     private static String getThreadDumpJava6(ThreadInfo info, StackTraceElement[] elements)
@@ -545,10 +455,10 @@ public class ThreadUtil
     }
 
     /**
-     * Java5 ã‚’åˆ©ç”¨ã—ãŸå ´åˆã«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * Java5 ‚ğ—˜—p‚µ‚½ê‡‚ÉƒXƒŒƒbƒhƒ_ƒ“ƒv‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @param info {@link ThreadInfo}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param elements {@link StackTraceElement}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®é…åˆ—
+     * @param info {@link ThreadInfo}ƒIƒuƒWƒFƒNƒg
+     * @param elements {@link StackTraceElement}ƒIƒuƒWƒFƒNƒg‚Ì”z—ñ
      * @return
      */
     private static String getThreadDumpJava5(ThreadInfo info, StackTraceElement[] elements)
@@ -562,16 +472,16 @@ public class ThreadUtil
     }
 
     /**
-     * ã‚¹ãƒ¬ãƒƒãƒ‰ã®çŠ¶æ…‹ã‚’StringBufferã«ã—ã¦è¿”ã—ã¾ã™ã€‚<br />
+     * ƒXƒŒƒbƒh‚Ìó‘Ô‚ğStringBuffer‚É‚µ‚Ä•Ô‚µ‚Ü‚·B<br />
      * 
-     * @param info {@link ThreadInfo}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @return ã‚¹ãƒ¬ãƒƒãƒ‰ã®çŠ¶æ…‹ã‚’StringBufferã«ã—ã¦è¿”ã—ãŸã‚‚ã®ã€‚
+     * @param info {@link ThreadInfo}ƒIƒuƒWƒFƒNƒg
+     * @return ƒXƒŒƒbƒh‚Ìó‘Ô‚ğStringBuffer‚É‚µ‚Ä•Ô‚µ‚½‚à‚ÌB
      */
     private static StringBuilder getThreadInfoBuffer(ThreadInfo info)
     {
         StringBuilder sb =
-            new StringBuilder("\"" + info.getThreadName() + "\"" + " Id=" + info.getThreadId()
-                + " " + info.getThreadState());
+                new StringBuilder("\"" + info.getThreadName() + "\"" + " Id=" + info.getThreadId()
+                        + " " + info.getThreadState());
         if (info.getLockName() != null)
         {
             sb.append(" on " + info.getLockName());
@@ -592,70 +502,11 @@ public class ThreadUtil
     }
 
     /**
-     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã‚’ç¦æ­¢ã™ã‚‹ã€‚
+     * ƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğ‹Ö~‚·‚éB
      */
     private ThreadUtil()
     {
         //
     }
 
-    /**
-     * RUNNABLEçŠ¶æ…‹ã®ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return RUNNABLEçŠ¶æ…‹ã®ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã€‚
-     */
-    public static int getRunnableThreadCount()
-    {
-        return getThreadCount(State.RUNNABLE);
-    }
-
-    /**
-     * æŒ‡å®šã—ãŸçŠ¶æ…‹ã®ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @param state ã‚¹ãƒ¬ãƒƒãƒ‰ã®çŠ¶æ…‹
-     * @return æŒ‡å®šã—ãŸçŠ¶æ…‹ã®ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã€‚
-     */
-    public static int getThreadCount(State state)
-    {
-        long[] threadIds = getAllThreadIds();
-
-        ThreadInfo[] threadInfos = getThreadInfo(threadIds, 0);
-
-        int count = 0;
-        for (ThreadInfo threadInfo : threadInfos)
-        {
-            State threadState = threadInfo.getThreadState();
-            if (state.equals(threadState))
-            {
-                count++;
-            }
-        }
-
-        return count;
-    }
-
-    /**
-     * æŒ‡å®šã—ãŸçŠ¶æ…‹ã®ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return æŒ‡å®šã—ãŸçŠ¶æ…‹ã®ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã€‚
-     */
-    public static DetailThreadInfo getThreadStateCount()
-    {
-        long[] threadIds = getAllThreadIds();
-
-        ThreadInfo[] threadInfos = getThreadInfo(threadIds, 0);
-
-        DetailThreadInfo info = new DetailThreadInfo();
-        for (ThreadInfo threadInfo : threadInfos)
-        {
-            State threadState = threadInfo.getThreadState();
-            if (State.RUNNABLE.equals(threadState))
-            {
-                info.setRunnableCount(info.getRunnableCount() + 1);
-            }
-            else if (State.BLOCKED.equals(threadState))
-            {
-                info.setBlockedCount(info.getBlockedCount() + 1);
-            }
-        }
-
-        return info;
-    }
 }

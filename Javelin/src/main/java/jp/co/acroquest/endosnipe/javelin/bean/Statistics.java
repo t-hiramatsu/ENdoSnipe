@@ -36,14 +36,14 @@ import jp.co.acroquest.endosnipe.javelin.comparator.MinimumComparator;
 import jp.co.acroquest.endosnipe.javelin.comparator.ThrowableComparator;
 
 /**
- * 統計処理用MBean。<br>
- * S2JmxJavelinで蓄積した情報に対して統計処理を行った結果を返す。<br>
- * 現状、以下の情報を取得することが可能。
+ * ���v�����pMBean�B<br>
+ * S2JmxJavelin�Œ~�ς������ɑ΂��ē��v�������s�������ʂ�Ԃ��B<br>
+ * ����A�ȉ��̏����擾���邱�Ƃ��\�B
  * <ol>
- * <li>平均値でソートしたメソッドコール情報。</li>
- * <li>最大値でソートしたメソッドコール情報。</li>
- * <li>最小値でソートしたメソッドコール情報。</li>
- * <li>例外の発生回数でソートしたメソッドコール情報。</li>
+ * <li>���ϒl�Ń\�[�g�������\�b�h�R�[�����B</li>
+ * <li>�ő�l�Ń\�[�g�������\�b�h�R�[�����B</li>
+ * <li>�ŏ��l�Ń\�[�g�������\�b�h�R�[�����B</li>
+ * <li>��O�̔����񐔂Ń\�[�g�������\�b�h�R�[�����B</li>
  * </ol>
  * 
  * @author acroquest

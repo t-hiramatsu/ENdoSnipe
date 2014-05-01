@@ -41,17 +41,17 @@ import jp.co.acroquest.endosnipe.javelin.StatsJavelinRecorder;
 import jp.co.acroquest.endosnipe.javelin.bean.Invocation;
 
 /**
- * Javelinã‹ã‚‰DataCollectorã¸ã®é€šä¿¡ç”¨ã‚¹ãƒ¬ãƒƒãƒ‰
+ * Javelin‚©‚çDataCollector‚Ö‚Ì’ÊM—pƒXƒŒƒbƒh
  * @author matsuoka
  *
  */
 public class JavelinConnectThread extends CommunicationClientImpl implements AlarmListener,
         TelegramConstants
 {
-    /** è¨­å®š */
+    /** İ’è */
     static JavelinConfig config__ = new JavelinConfig();
 
-    /** JavelinConnectThreadã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹(ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³) */
+    /** JavelinConnectThread‚ÌƒCƒ“ƒXƒ^ƒ“ƒX(ƒVƒ“ƒOƒ‹ƒgƒ“) */
     static JavelinConnectThread instance__ = new JavelinConnectThread();
     private JavelinConnectThread()
     {
@@ -62,7 +62,7 @@ public class JavelinConnectThread extends CommunicationClientImpl implements Ala
     }
 
     /**
-     * åˆæœŸåŒ–ãƒ¡ã‚½ãƒƒãƒ‰
+     * ‰Šú‰»ƒƒ\ƒbƒh
      */
     public void init()
     {
@@ -70,7 +70,7 @@ public class JavelinConnectThread extends CommunicationClientImpl implements Ala
     }
 
     /**
-     * æ¥ç¶šã‚¹ãƒ¬ãƒƒãƒ‰ã‚’é–‹å§‹ã—ã¾ã™ã€‚
+     * Ú‘±ƒXƒŒƒbƒh‚ğŠJn‚µ‚Ü‚·B
      */
     public void connect()
     {
@@ -86,7 +86,7 @@ public class JavelinConnectThread extends CommunicationClientImpl implements Ala
     }
         
     /**
-     * JavelinAcceptThreadã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã™ã‚‹ã€‚
+     * JavelinAcceptThread‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚·‚éB
      * @return JavelinAcceptThread
      */
     public static JavelinConnectThread getInstance()
@@ -107,15 +107,15 @@ public class JavelinConnectThread extends CommunicationClientImpl implements Ala
                 accumulateTimeList, BYTE_TELEGRAM_KIND_ALERT,
                 BYTE_REQUEST_KIND_NOTIFY);
 
-        // ã‚¢ãƒ©ãƒ¼ãƒ ã‚’é€ä¿¡ã™ã‚‹ã€‚
+        // ƒAƒ‰[ƒ€‚ğ‘—M‚·‚éB
         sendTelegram(objTelegram);
     }
 
     /**
-     * CallTreeã«ä¿å­˜ã•ã‚ŒãŸå…¨ã¦ã®Invocationã¨å®Ÿè¡Œæ™‚é–“ã‚’å†å¸°çš„ã«Listã«ä¿å­˜ã—ã¾ã™ã€‚<br />
+     * CallTree‚É•Û‘¶‚³‚ê‚½‘S‚Ä‚ÌInvocation‚ÆÀsŠÔ‚ğÄ‹A“I‚ÉList‚É•Û‘¶‚µ‚Ü‚·B<br />
      * 
-     * @param invocationList Invocationã‚’ä¿å­˜ã™ã‚‹ãƒªã‚¹ãƒˆã€‚
-     * @param accumulateTimeList å®Ÿè¡Œæ™‚é–“ã‚’ä¿å­˜ã™ã‚‹ãƒªã‚¹ãƒˆã€‚
+     * @param invocationList Invocation‚ğ•Û‘¶‚·‚éƒŠƒXƒgB
+     * @param accumulateTimeList ÀsŠÔ‚ğ•Û‘¶‚·‚éƒŠƒXƒgB
      * @param node CallTreeNode
      */
     private void addInvocationList(List<Invocation> invocationList, List<Long> accumulateTimeList,
@@ -133,10 +133,10 @@ public class JavelinConnectThread extends CommunicationClientImpl implements Ala
     }
 
     /**
-     * ã“ã®AlarmListenerãŒãƒ«ãƒ¼ãƒˆãƒãƒ¼ãƒ‰ã®ã¿ã‚’å‡¦ç†ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¿”ã™ã€‚ â€»ã“ã®ã‚¯ãƒ©ã‚¹ã§ã¯ã€å¸¸ã«falseã‚’è¿”ã™ã€‚
+     * ‚±‚ÌAlarmListener‚ªƒ‹[ƒgƒm[ƒh‚Ì‚İ‚ğˆ—‚·‚é‚©‚Ç‚¤‚©‚ğ•Ô‚·B ¦‚±‚ÌƒNƒ‰ƒX‚Å‚ÍAí‚Éfalse‚ğ•Ô‚·B
      * 
      * @see jp.co.acroquest.endosnipe.javelin.communicate.AlarmListener#isSendingRootOnly()
-     * @return false(ãƒ«ãƒ¼ãƒˆãƒãƒ¼ãƒ‰ä»¥å¤–ã‚‚å‡¦ç†ã™ã‚‹)
+     * @return false(ƒ‹[ƒgƒm[ƒhˆÈŠO‚àˆ—‚·‚é)
      */
     public boolean isSendingRootOnly()
     {
@@ -144,11 +144,11 @@ public class JavelinConnectThread extends CommunicationClientImpl implements Ala
     }
     
     /**
-     * TelegramListenerã®ã‚¯ãƒ©ã‚¹ã‚’Javelinè¨­å®šã‹ã‚‰èª­ã¿è¾¼ã¿ã€ç™»éŒ²ã™ã‚‹ã€‚ ã‚¯ãƒ©ã‚¹ã®ãƒ­ãƒ¼ãƒ‰ã¯ã€ä»¥ä¸‹ã®é †ã§ã‚¯ãƒ©ã‚¹ãƒ­ãƒ¼ãƒ€ã§ã®ãƒ­ãƒ¼ãƒ‰ã‚’è©¦ã¿ã‚‹ã€‚
-     * <ol> <li>JavelinClientThreadã‚’ãƒ­ãƒ¼ãƒ‰ã—ãŸã‚¯ãƒ©ã‚¹ãƒ­ãƒ¼ãƒ€</li> <li>ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆã‚¯ãƒ©ã‚¹ãƒ­ãƒ¼ãƒ€</li>
+     * TelegramListener‚ÌƒNƒ‰ƒX‚ğJavelinİ’è‚©‚ç“Ç‚İ‚İA“o˜^‚·‚éB ƒNƒ‰ƒX‚Ìƒ[ƒh‚ÍAˆÈ‰º‚Ì‡‚ÅƒNƒ‰ƒXƒ[ƒ_‚Å‚Ìƒ[ƒh‚ğ‚İ‚éB
+     * <ol> <li>JavelinClientThread‚ğƒ[ƒh‚µ‚½ƒNƒ‰ƒXƒ[ƒ_</li> <li>ƒRƒ“ƒeƒLƒXƒgƒNƒ‰ƒXƒ[ƒ_</li>
      * </ol>
      * 
-     * @param listeners åˆ©ç”¨ã™ã‚‹TelegramListenerå
+     * @param listeners —˜—p‚·‚éTelegramListener–¼
      */
     private void registerTelegramListeners(final String[] listeners)
     {
@@ -190,12 +190,12 @@ public class JavelinConnectThread extends CommunicationClientImpl implements Ala
     }
     
     /**
-     * ã‚¯ãƒ©ã‚¹ã‚’ãƒ­ãƒ¼ãƒ‰ã™ã‚‹ã€‚ ä»¥ä¸‹ã®é †ã§ã‚¯ãƒ©ã‚¹ãƒ­ãƒ¼ãƒ€ã§ã®ãƒ­ãƒ¼ãƒ‰ã‚’è©¦ã¿ã‚‹ã€‚ <ol> <li>JavelinClientThreadã‚’ãƒ­ãƒ¼ãƒ‰ã—ãŸã‚¯ãƒ©ã‚¹ãƒ­ãƒ¼ãƒ€</li>
-     * <li>ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆã‚¯ãƒ©ã‚¹ãƒ­ãƒ¼ãƒ€</li> </ol>
+     * ƒNƒ‰ƒX‚ğƒ[ƒh‚·‚éB ˆÈ‰º‚Ì‡‚ÅƒNƒ‰ƒXƒ[ƒ_‚Å‚Ìƒ[ƒh‚ğ‚İ‚éB <ol> <li>JavelinClientThread‚ğƒ[ƒh‚µ‚½ƒNƒ‰ƒXƒ[ƒ_</li>
+     * <li>ƒRƒ“ƒeƒLƒXƒgƒNƒ‰ƒXƒ[ƒ_</li> </ol>
      * 
-     * @param className ãƒ­ãƒ¼ãƒ‰ã™ã‚‹ã‚¯ãƒ©ã‚¹ã®åå‰ã€‚
-     * @return ãƒ­ãƒ¼ãƒ‰ã—ãŸã‚¯ãƒ©ã‚¹ã€‚
-     * @throws ClassNotFoundException å…¨ã¦ã®ã‚¯ãƒ©ã‚¹ãƒ­ãƒ¼ãƒ€ã§ã‚¯ãƒ©ã‚¹ãŒè¦‹ã¤ã‹ã‚‰ãªã„å ´åˆ
+     * @param className ƒ[ƒh‚·‚éƒNƒ‰ƒX‚Ì–¼‘OB
+     * @return ƒ[ƒh‚µ‚½ƒNƒ‰ƒXB
+     * @throws ClassNotFoundException ‘S‚Ä‚ÌƒNƒ‰ƒXƒ[ƒ_‚ÅƒNƒ‰ƒX‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡
      */
     private Class<?> loadClass(final String className)
         throws ClassNotFoundException

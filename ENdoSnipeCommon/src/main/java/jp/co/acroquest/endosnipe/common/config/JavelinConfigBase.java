@@ -29,888 +29,862 @@ import java.io.File;
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
 import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
-import java.util.Set;
-
-import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 
 /**
- * Javelinã®è¨­å®šã‚’ä¿æŒã™ã‚‹ãŸã‚ã®ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+ * Javelin‚Ìİ’è‚ğ•Û‚·‚é‚½‚ß‚ÌƒNƒ‰ƒX‚Å‚·B<br />
  * 
  * @author eriguchi
  */
 public class JavelinConfigBase
 {
-    /** ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ¢ãƒ‡ãƒ«ã®å€¤ï¼šã‚¹ãƒ¬ãƒƒãƒ‰ID */
+    /** ƒXƒŒƒbƒhƒ‚ƒfƒ‹‚Ì’lFƒXƒŒƒbƒhID */
     public static final int TM_THREAD_ID = 1;
 
-    /** ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ¢ãƒ‡ãƒ«ã®å€¤ï¼šã‚¹ãƒ¬ãƒƒãƒ‰å */
+    /** ƒXƒŒƒbƒhƒ‚ƒfƒ‹‚Ì’lFƒXƒŒƒbƒh–¼ */
     public static final int TM_THREAD_NAME = 2;
 
-    /** ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ¢ãƒ‡ãƒ«ã®å€¤ï¼š */
+    /** ƒXƒŒƒbƒhƒ‚ƒfƒ‹‚Ì’lF */
     public static final int TM_CONTEXT_PATH = 3;
 
-    /** Javelinç³»ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®æ¥é ­è¾ */
+    /** JavelinŒnƒpƒ‰ƒ[ƒ^‚ÌÚ“ª« */
     public static final String JAVELIN_PREFIX = "javelin.";
 
     /**
-     * ConcurrentAccessMonitorã‚„CollectionMonitorå‹•ä½œä¸­ã«ã‚¯ãƒ©ã‚¹ãƒ­ãƒ¼ãƒ‰ãŒèµ·ã£ãŸã¨ãã«ã€
-     * ãƒã‚¤ãƒˆã‚³ãƒ¼ãƒ‰å¤‰æ›ã‚’è¡Œã†ã‹ã©ã†ã‹ã‚’è¨­å®šã™ã‚‹ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ï¼ˆãƒã‚¤ãƒˆã‚³ãƒ¼ãƒ‰å¤‰æ›ã‚’è¡Œã‚ãªã„å ´åˆã¯ <code>true</code> ï¼‰ */
+     * ConcurrentAccessMonitor‚âCollectionMonitor“®ì’†‚ÉƒNƒ‰ƒXƒ[ƒh‚ª‹N‚Á‚½‚Æ‚«‚ÉA
+     * ƒoƒCƒgƒR[ƒh•ÏŠ·‚ğs‚¤‚©‚Ç‚¤‚©‚ğİ’è‚·‚éƒvƒƒpƒeƒBiƒoƒCƒgƒR[ƒh•ÏŠ·‚ğs‚í‚È‚¢ê‡‚Í <code>true</code> j */
     public static final String SKIPCLASS_ONPROCESSING_KEY = JAVELIN_PREFIX
-        + "skipClassOnProcessing";
+            + "skipClassOnProcessing";
 
-    /** ãƒ¡ã‚½ãƒƒãƒ‰å¹³å‡æ™‚é–“ã‚’å‡ºåŠ›ã™ã‚‹ãŸã‚ã«è¨˜éŒ²ã™ã‚‹Invocationæ•°ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ */
+    /** ƒƒ\ƒbƒh•½‹ÏŠÔ‚ğo—Í‚·‚é‚½‚ß‚É‹L˜^‚·‚éInvocation”‚ÌƒvƒƒpƒeƒB */
     public static final String INTERVALMAX_KEY = JAVELIN_PREFIX + "intervalMax";
 
-    /** ä¾‹å¤–ã®æ•°ã‚’è¨˜éŒ²ã™ã‚‹ãŸã‚ã®Invocationæ•°ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ */
+    /** —áŠO‚Ì”‚ğ‹L˜^‚·‚é‚½‚ß‚ÌInvocation”‚ÌƒvƒƒpƒeƒB */
     public static final String THROWABLEMAX_KEY = JAVELIN_PREFIX + "throwableMax";
 
-    /** Javelinã®æƒ…å ±å–å¾—å¯¾è±¡ã‹ã‚‰é™¤å¤–ã™ã‚‹ã€æœ€å¤§Bytecodeé•·ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ */
+    /** Javelin‚Ìî•ñæ“¾‘ÎÛ‚©‚çœŠO‚·‚éAÅ‘åBytecode’·‚ÌƒvƒƒpƒeƒB */
     public static final String BYTECODE_EXCLUDE_LENGTH_KEY = JAVELIN_PREFIX
-        + "bytecode.exclude.length";
+            + "bytecode.exclude.length";
 
-    /** Javelinã®æƒ…å ±å–å¾—å¯¾è±¡ã‹ã‚‰é™¤å¤–ã™ã‚‹ã€æœ€å¤§ã®åˆ¶å¾¡å‘½ä»¤æ•°ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ */
+    /** Javelin‚Ìî•ñæ“¾‘ÎÛ‚©‚çœŠO‚·‚éAÅ‘å‚Ì§Œä–½—ß”‚ÌƒvƒƒpƒeƒB */
     public static final String BYTECODE_EXCLUDE_CONTROLCOUNT_MAX_KEY = JAVELIN_PREFIX
-        + "bytecode.exclude.controlCount";
+            + "bytecode.exclude.controlCount";
 
-    /** Bytecodeã®å†…å®¹ã‚’å…ƒã«è¨ˆæ¸¬å¯¾è±¡ã‹ã‚‰é™¤å¤–ã™ã‚‹éš›ã®ãƒãƒªã‚·ãƒ¼ã€‚0:é™¤å¤–ã—ãªã„ 1:BCIã—ãªã„ */
+    /** Bytecode‚Ì“à—e‚ğŒ³‚ÉŒv‘ª‘ÎÛ‚©‚çœŠO‚·‚éÛ‚Ìƒ|ƒŠƒV[B0:œŠO‚µ‚È‚¢ 1:BCI‚µ‚È‚¢ */
     public static final String BYTECODE_EXCLUDE_POLICY_KEY = JAVELIN_PREFIX
-        + "bytecode.exclude.policy";
+            + "bytecode.exclude.policy";
 
-    /** ãƒ¡ãƒ¢ãƒªã«ä¿å­˜ã™ã‚‹é–¾å€¤ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ */
+    /** ƒƒ‚ƒŠ‚É•Û‘¶‚·‚éè‡’l‚ÌƒvƒƒpƒeƒB */
     public static final String STATISTICSTHRESHOLD_KEY = JAVELIN_PREFIX + "statistics"
-        + "Threshold";
+            + "Threshold";
 
-    /** ã‚¢ãƒ©ãƒ¼ãƒ ã‚’é€šçŸ¥ã™ã‚‹TATã®é–¾å€¤ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ */
+    /** ƒAƒ‰[ƒ€‚ğ’Ê’m‚·‚éTAT‚Ìè‡’l‚ÌƒvƒƒpƒeƒB */
     public static final String ALARMTHRESHOLD_KEY = JAVELIN_PREFIX + "alarmThreshold";
 
-    /** Javelinãƒ­ã‚°ã‚’å‡ºåŠ›ã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«åã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ */
+    /** JavelinƒƒO‚ğo—Í‚·‚éƒtƒ@ƒCƒ‹–¼‚ÌƒvƒƒpƒeƒB */
     public static final String JAVELINFILEDIR_KEY = JAVELIN_PREFIX + "javelinFileDir";
 
-    /** ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã‚’æ±ºå®šã™ã‚‹ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ */
+    /** ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚ğŒˆ’è‚·‚éƒvƒƒpƒeƒB */
     public static final String LOG_STACKTRACE_KEY = JAVELIN_PREFIX + "log.stacktrace";
 
-    /** å¼•æ•°æƒ…å ±ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã‚’æ±ºå®šã™ã‚‹ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ */
+    /** ˆø”î•ñ‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚ğŒˆ’è‚·‚éƒvƒƒpƒeƒB */
     public static final String LOG_ARGS_KEY = JAVELIN_PREFIX + "log.args";
 
-    /** ã‚¹ãƒ¬ãƒƒãƒ‰ã‚³ãƒ³ãƒ†ãƒ³ã‚·ãƒ§ãƒ³ç›£è¦–ã‚’è¡Œã†ã‹ã©ã†ã‹ã‚’æ±ºå®šã™ã‚‹ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ */
+    /** ƒXƒŒƒbƒhƒRƒ“ƒeƒ“ƒVƒ‡ƒ“ŠÄ‹‚ğs‚¤‚©‚Ç‚¤‚©‚ğŒˆ’è‚·‚éƒvƒƒpƒeƒB */
     public static final String THREAD_CONTENTION_KEY = JAVELIN_PREFIX + "thread.contention.monitor";
 
-    /** JMXInfoã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹æ±ºå®šã™ã‚‹ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ */
+    /** JMXInfo‚ğo—Í‚·‚é‚©‚Ç‚¤‚©Œˆ’è‚·‚éƒvƒƒpƒeƒB */
     public static final String LOG_MBEANINFO_KEY = JAVELIN_PREFIX + "log.mbeaninfo";
 
-    /** ç«¯ç‚¹ã§ã€JMXInfoã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹æ±ºå®šã™ã‚‹ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ */
+    /** ’[“_‚ÅAJMXInfo‚ğo—Í‚·‚é‚©‚Ç‚¤‚©Œˆ’è‚·‚éƒvƒƒpƒeƒB */
     public static final String LOG_MBEANINFO_ROOT_KEY = JAVELIN_PREFIX + "log.mbeaninfo.root";
 
-    /** æˆ»ã‚Šå€¤ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã‚’æ±ºå®šã™ã‚‹ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ */
+    /** –ß‚è’l‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚ğŒˆ’è‚·‚éƒvƒƒpƒeƒB */
     public static final String LOG_RETURN_KEY = JAVELIN_PREFIX + "log.return";
 
-    /** å¼•æ•°ã®è©³ç´°æƒ…å ±ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã‚’æ±ºå®šã™ã‚‹ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ */
+    /** ˆø”‚ÌÚ×î•ñ‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚ğŒˆ’è‚·‚éƒvƒƒpƒeƒB */
     public static final String ARGS_DETAIL_KEY = JAVELIN_PREFIX + "log.args.detail";
 
-    /** æˆ»ã‚Šå€¤ã®è©³ç´°æƒ…å ±ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã‚’æ±ºå®šã™ã‚‹ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ */
+    /** –ß‚è’l‚ÌÚ×î•ñ‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚ğŒˆ’è‚·‚éƒvƒƒpƒeƒB */
     public static final String RETURN_DETAIL_KEY = JAVELIN_PREFIX + "log.return.detail";
 
-    /** å¼•æ•°ã®è©³ç´°æƒ…å ±ã®æ·±ã•ã‚’è¡¨ã™ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ */
+    /** ˆø”‚ÌÚ×î•ñ‚Ì[‚³‚ğ•\‚·ƒvƒƒpƒeƒB */
     public static final String ARGS_DETAIL_DEPTH_KEY = JAVELIN_PREFIX + "log.args."
-        + "detail.depth";
+            + "detail.depth";
 
-    /** æˆ»ã‚Šå€¤ã®è©³ç´°æƒ…å ±ã®æ·±ã•ã‚’è¡¨ã™ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ */
+    /** –ß‚è’l‚ÌÚ×î•ñ‚Ì[‚³‚ğ•\‚·ƒvƒƒpƒeƒB */
     public static final String RETURN_DETAIL_DEPTH_KEY = JAVELIN_PREFIX + "log.return."
-        + "detail.depth";
+            + "detail.depth";
 
-    /** å‘¼ã³å‡ºã—å…ƒãŒä¸æ˜ã®ã¨ãã«è¨­å®šã™ã‚‹åå‰ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ */
+    /** ŒÄ‚Ño‚µŒ³‚ª•s–¾‚Ì‚Æ‚«‚Éİ’è‚·‚é–¼‘O‚ÌƒvƒƒpƒeƒB */
     public static final String ROOTCALLERNAME_KEY = JAVELIN_PREFIX + "rootCallerName";
 
-    /** æœ€ã‚‚æ·±ã„å‘¼ã³å‡ºã—å…ˆãŒä¸æ˜ã®ã¨ãã«è¨­å®šã™ã‚‹åå‰ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ */
+    /** Å‚à[‚¢ŒÄ‚Ño‚µæ‚ª•s–¾‚Ì‚Æ‚«‚Éİ’è‚·‚é–¼‘O‚ÌƒvƒƒpƒeƒB */
     public static final String ENDCALLEENAME_KEY = JAVELIN_PREFIX + "endCalleeName";
 
-    /** ã‚¹ãƒ¬ãƒƒãƒ‰ã®åç§°ã®æ±ºå®šæ–¹æ³•ã‚’è¡¨ã™ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ */
+    /** ƒXƒŒƒbƒh‚Ì–¼Ì‚ÌŒˆ’è•û–@‚ğ•\‚·ƒvƒƒpƒeƒB */
     public static final String THREADMODEL_KEY = JAVELIN_PREFIX + "threadModel";
 
-    /** BottleNeckEye/DataCollectorã¨ã®é€šä¿¡ç”¨ãƒãƒ¼ãƒˆã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å */
+    /** BottleNeckEye/DataCollector‚Æ‚Ì’ÊM—pƒ|[ƒg‚ÌƒvƒƒpƒeƒB–¼ */
     public static final String ACCEPTPORT_KEY = JAVELIN_PREFIX + "acceptPort";
 
-    /** BottleNeckEye/DataCollectorã¨ã®é€šä¿¡ç”¨ãƒãƒ¼ãƒˆã‚’ç¯„å›²æŒ‡å®šã™ã‚‹ã‹ã€ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£åç§° */
+    /** BottleNeckEye/DataCollector‚Æ‚Ì’ÊM—pƒ|[ƒg‚ğ”ÍˆÍw’è‚·‚é‚©A‚ÌƒvƒƒpƒeƒB–¼Ì */
     public static final String ACCEPTPORT_ISRANGE = ACCEPTPORT_KEY + ".isRange";
 
-    /** BottleNeckEye/DataCollectorã¨ã®é€šä¿¡ç”¨ãƒãƒ¼ãƒˆã‚’ç¯„å›²æŒ‡å®šã™ã‚‹éš›ã®æœ€å¤§å€¤ã€ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£åç§° */
+    /** BottleNeckEye/DataCollector‚Æ‚Ì’ÊM—pƒ|[ƒg‚ğ”ÍˆÍw’è‚·‚éÛ‚ÌÅ‘å’lA‚ÌƒvƒƒpƒeƒB–¼Ì */
     public static final String ACCEPTPORT_RANGEMAX = ACCEPTPORT_KEY + ".rangeMax";
 
-    /** JavelinAcceptThreadã§ã®acceptå‡¦ç†ã®é–‹å§‹ã‚’é…ã‚‰ã›ã‚‹æ™‚é–“(ãƒŸãƒªç§’)ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£åç§°(éš ã—ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿) */
+    /** JavelinAcceptThread‚Å‚Ìacceptˆ—‚ÌŠJn‚ğ’x‚ç‚¹‚éŠÔ(ƒ~ƒŠ•b)ƒvƒƒpƒeƒB–¼Ì(‰B‚µƒpƒ‰ƒ[ƒ^) */
     public static final String ACCEPT_DELAY_KEY = JAVELIN_PREFIX + "accept.delay";
 
-    /** Javelinã‹ã‚‰BottleNeckEye/DataCollectorã¸ã®é€šä¿¡ç”¨ãƒ›ã‚¹ãƒˆåã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å */
+    /** Javelin‚©‚çBottleNeckEye/DataCollector‚Ö‚Ì’ÊM—pƒzƒXƒg–¼‚ÌƒvƒƒpƒeƒB–¼ */
     public static final String CONNECTHOST_KEY = JAVELIN_PREFIX + "connectHost";
 
-    /** Javelinã‹ã‚‰BottleNeckEye/DataCollectorã¸ã®é€šä¿¡ç”¨ãƒãƒ¼ãƒˆã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å */
+    /** Javelin‚©‚çBottleNeckEye/DataCollector‚Ö‚Ì’ÊM—pƒ|[ƒg‚ÌƒvƒƒpƒeƒB–¼ */
     public static final String CONNECTPORT_KEY = JAVELIN_PREFIX + "connectPort";
 
-    /** DataCollectorã®ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å */
+    /** DataCollector‚Ìƒf[ƒ^ƒx[ƒX–¼ */
     public static final String AGENTNAME_KEY = JAVELIN_PREFIX + "agentName";
 
-    /** å±æ€§ã€æˆ»ã‚Šå€¤æƒ…å ±ã®æ–‡å­—åˆ—é•· */
+    /** ‘®«A–ß‚è’lî•ñ‚Ì•¶š—ñ’· */
     public static final String STRINGLIMITLENGTH_KEY = JAVELIN_PREFIX + "stringLimitLength";
 
-    /** ã‚·ã‚¹ãƒ†ãƒ ãƒˆãƒ¬ãƒ¼ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å */
+    /** ƒVƒXƒeƒ€ƒgƒŒ[ƒXƒtƒ@ƒCƒ‹‚ÌƒvƒƒpƒeƒB–¼ */
     public static final String SYSTEMLOG_KEY = JAVELIN_PREFIX + "system.log";
 
-    /** ãƒ’ãƒ¼ãƒ—ãƒ€ãƒ³ãƒ—ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å */
+    /** ƒq[ƒvƒ_ƒ“ƒv‚ÌƒvƒƒpƒeƒB–¼ */
     public static final String HEAPDUMPDIR_KEY = JAVELIN_PREFIX + "heapDumpDir";
 
-    /** åˆ©ç”¨ã™ã‚‹AlarmListenerå */
+    /** —˜—p‚·‚éAlarmListener–¼ */
     public static final String ALARM_LISTENERS_KEY = JAVELIN_PREFIX + "alarmListeners";
 
-    /** JMXé€šä¿¡ã«ã‚ˆã‚‹æƒ…å ±å…¬é–‹ã‚’è¡Œã†ã‹ã©ã†ã‹ã‚’è¡¨ã™ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å */
+    /** JMX’ÊM‚É‚æ‚éî•ñŒöŠJ‚ğs‚¤‚©‚Ç‚¤‚©‚ğ•\‚·ƒvƒƒpƒeƒB–¼ */
     public static final String RECORD_JMX_KEY = JAVELIN_PREFIX + "record.jmx";
 
-    /** jvnãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã®æœ€å¤§æ•°ã‚’è¡¨ã™ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å */
+    /** jvnƒƒOƒtƒ@ƒCƒ‹‚ÌÅ‘å”‚ğ•\‚·ƒvƒƒpƒeƒB–¼ */
     public static final String LOG_JVN_MAX_KEY = JAVELIN_PREFIX + "log.jvn.max";
 
-    /** jvnãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã‚’åœ§ç¸®ã—ãŸzipãƒ•ã‚¡ã‚¤ãƒ«ã®æœ€å¤§æ•°ã‚’è¡¨ã™ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å */
+    /** jvnƒƒOƒtƒ@ƒCƒ‹‚ğˆ³k‚µ‚½zipƒtƒ@ƒCƒ‹‚ÌÅ‘å”‚ğ•\‚·ƒvƒƒpƒeƒB–¼ */
     public static final String LOG_ZIP_MAX_KEY = JAVELIN_PREFIX + "log.zip.max";
 
-    /** è¨˜éŒ²æ¡ä»¶åˆ¤å®šã‚¯ãƒ©ã‚¹ */
+    /** ‹L˜^ğŒ”»’èƒNƒ‰ƒX */
     public static final String RECORDSTRATEGY_KEY = JAVELIN_PREFIX + "recordStrategy";
 
-    /** åˆ©ç”¨ã™ã‚‹TelegramListenerå */
+    /** —˜—p‚·‚éTelegramListener–¼ */
     public static final String TELERAM_LISTENERS_KEY = JAVELIN_PREFIX + "telegramListeners";
 
-    /** Javelinã®ã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ã®æœ€å¤§ãƒ•ã‚¡ã‚¤ãƒ«æ•°ã®ã‚­ãƒ¼ */
+    /** Javelin‚ÌƒVƒXƒeƒ€ƒƒO‚ÌÅ‘åƒtƒ@ƒCƒ‹”‚ÌƒL[ */
     private static final String SYSTEM_LOG_NUM_MAX_KEY = JAVELIN_PREFIX + "system.log.num.max";
 
-    /** Javelinã®ã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ã®æœ€å¤§ãƒ•ã‚¡ã‚¤ãƒ«ã‚µã‚¤ã‚ºã®ã‚­ãƒ¼ */
+    /** Javelin‚ÌƒVƒXƒeƒ€ƒƒO‚ÌÅ‘åƒtƒ@ƒCƒ‹ƒTƒCƒY‚ÌƒL[ */
     private static final String SYSTEM_LOG_SIZE_MAX_KEY = JAVELIN_PREFIX + "system.log."
-        + "size.max";
+            + "size.max";
 
-    /** Javelinã®ã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ã®ãƒ­ã‚°ãƒ¬ãƒ™ãƒ«ã®ã‚­ãƒ¼ */
+    /** Javelin‚ÌƒVƒXƒeƒ€ƒƒO‚ÌƒƒOƒŒƒxƒ‹‚ÌƒL[ */
     private static final String SYSTEM_LOG_LEVEL_KEY = JAVELIN_PREFIX + "system.log.level";
 
-    /** Javelinã®ã‚¤ãƒ™ãƒ³ãƒˆãƒ¬ãƒ™ãƒ«ã®ã‚­ãƒ¼ */
+    /** Javelin‚ÌƒCƒxƒ“ƒgƒŒƒxƒ‹‚ÌƒL[ */
     public static final String EVENT_LEVEL_KEY = JAVELIN_PREFIX + "event.level";
 
-    /** MBeanManagerãŒæŒã¤æƒ…å ±ã‚’ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚ºã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«å */
+    /** MBeanManager‚ª‚Âî•ñ‚ğƒVƒŠƒAƒ‰ƒCƒY‚·‚éƒtƒ@ƒCƒ‹–¼ */
     public static final String SERIALIZE_FILE_KEY = JAVELIN_PREFIX + "serializeFile";
 
-    /** ä¿å­˜ã™ã‚‹CallTreeæ•°ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ */
+    /** •Û‘¶‚·‚éCallTree”‚ÌƒvƒƒpƒeƒB */
     public static final String CALL_TREE_MAX_KEY = JAVELIN_PREFIX + "call.tree.max";
 
-    /** ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³å®Ÿè¡Œæ™‚ã®ä¾‹å¤–ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã‚’æ±ºå®šã™ã‚‹ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ */
+    /** ƒAƒvƒŠƒP[ƒVƒ‡ƒ“Às‚Ì—áŠO‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚ğŒˆ’è‚·‚éƒvƒƒpƒeƒB */
     public static final String ALARM_EXCEPTION_KEY = JAVELIN_PREFIX + "alarmException";
 
-    /** HTTPã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚¨ãƒ©ãƒ¼ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã‚’æ±ºå®šã™ã‚‹ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ */
+    /** HTTPƒXƒe[ƒ^ƒXƒGƒ‰[‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚ğŒˆ’è‚·‚éƒvƒƒpƒeƒB */
     public static final String HTTP_STATUS_ERROR_KEY = JAVELIN_PREFIX + "httpStatusError";
 
-    /** ï¼‘ã‚¯ãƒ©ã‚¹è¾ºã‚Šä¿æŒã™ã‚‹Invocationï¼ˆãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—ï¼‰æœ€å¤§æ•°ã®ã‚­ãƒ¼ */
+    /** ‚PƒNƒ‰ƒX•Ó‚è•Û‚·‚éInvocationiƒƒ\ƒbƒhŒÄ‚Ño‚µjÅ‘å”‚ÌƒL[ */
     public static final String RECORD_INVOCATION_MAX_KEY = JAVELIN_PREFIX
-        + "record.invocation.num.max";
+            + "record.invocation.num.max";
 
-    /** Turn Around Timeã‚’è¨ˆæ¸¬ã™ã‚‹ã‹ã©ã†ã‹ã‚’æ±ºå®šã™ã‚‹ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã®ã‚­ãƒ¼ */
+    /** Turn Around Time‚ğŒv‘ª‚·‚é‚©‚Ç‚¤‚©‚ğŒˆ’è‚·‚éƒvƒƒpƒeƒB‚ÌƒL[ */
     public static final String TAT_ENABLED_KEY = JAVELIN_PREFIX + "tat.monitor";
 
-    /** Turn Around Timeã®ä¿æŒæœŸé–“ã‚’è¡¨ã™ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã®ã‚­ãƒ¼ */
+    /** Turn Around Time‚Ì•ÛŠúŠÔ‚ğ•\‚·ƒvƒƒpƒeƒB‚ÌƒL[ */
     public static final String TAT_KEEP_TIME_KEY = JAVELIN_PREFIX + "tat.keepTime";
 
-    /** Turn Around Timeã®å€¤ãŒ 0 ã®å ´åˆã«ã€0 ã®å‡ºåŠ›ã‚’ */
+    /** Turn Around Time‚Ì’l‚ª 0 ‚Ìê‡‚ÉA0 ‚Ìo—Í‚ğ */
     public static final String TAT_ZERO_KEEP_TIME_KEY = JAVELIN_PREFIX + "tat.zeroKeepTime";
 
-    /** ã‚¢ãƒ©ãƒ¼ãƒ é€ä¿¡é–“éš”ã®æœ€å°å€¤ã€‚å‰å›ã‚¢ãƒ©ãƒ¼ãƒ é€ä¿¡ãƒ»Javelinãƒ­ã‚°å‡ºåŠ›ã‚’è¡Œã£ãŸéš›ã‹ã‚‰
-     * çµŒéã—ãŸæ™‚é–“ãŒã“ã®é–¾å€¤ã‚’è¶…ãˆã¦ã„ãŸå ´åˆã®ã¿ã‚¢ãƒ©ãƒ¼ãƒ é€ä¿¡ãƒ»Javelinãƒ­ã‚°å‡ºåŠ›ã‚’è¡Œã†ã€‚*/
+    /** ƒAƒ‰[ƒ€‘—MŠÔŠu‚ÌÅ¬’lB‘O‰ñƒAƒ‰[ƒ€‘—MEJavelinƒƒOo—Í‚ğs‚Á‚½Û‚©‚ç
+     * Œo‰ß‚µ‚½ŠÔ‚ª‚±‚Ìè‡’l‚ğ’´‚¦‚Ä‚¢‚½ê‡‚Ì‚İƒAƒ‰[ƒ€‘—MEJavelinƒƒOo—Í‚ğs‚¤B*/
     public static final String ALARM_MINIMUM_INTERVAL_KEY = JAVELIN_PREFIX + "minimumAlarmInterval";
 
-    /** åŒä¸€ã®ã‚¤ãƒ™ãƒ³ãƒˆã‚’æ¤œå‡ºã™ã‚‹é–“éš”ã€‚å‰å›ã®ã‚¤ãƒ™ãƒ³ãƒˆã‹ã‚‰ã“ã®æ™‚é–“çµŒéã—ã¦ã„ã‚‹å ´åˆã®ã¿ã€ã‚¤ãƒ™ãƒ³ãƒˆã‚’æ¤œå‡ºã™ã‚‹ã€‚ */
+    /** “¯ˆê‚ÌƒCƒxƒ“ƒg‚ğŒŸo‚·‚éŠÔŠuB‘O‰ñ‚ÌƒCƒxƒ“ƒg‚©‚ç‚±‚ÌŠÔŒo‰ß‚µ‚Ä‚¢‚éê‡‚Ì‚İAƒCƒxƒ“ƒg‚ğŒŸo‚·‚éB */
     public static final String EVENT_INTERVAL_KEY = JAVELIN_PREFIX + "eventInterval";
 
-    /** è¤‡æ•°ã‚¹ãƒ¬ãƒƒãƒ‰åŒæ™‚ã‚¢ã‚¯ã‚»ã‚¹ã‚’è¨ˆæ¸¬ã™ã‚‹ã‹ã©ã†ã‹ã‚’æ±ºå®šã™ã‚‹ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã®ã‚­ãƒ¼ */
+    /** •¡”ƒXƒŒƒbƒh“¯ƒAƒNƒZƒX‚ğŒv‘ª‚·‚é‚©‚Ç‚¤‚©‚ğŒˆ’è‚·‚éƒvƒƒpƒeƒB‚ÌƒL[ */
     public static final String CONCURRENT_ENABLED_KEY = JAVELIN_PREFIX + "concurrent.monitor";
 
-    /** ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆå€¤è¨­å®šã®ç›£è¦–ã‚’è¡Œã†ã‹ã©ã†ã‹ */
+    /** ƒ^ƒCƒ€ƒAƒEƒg’lİ’è‚ÌŠÄ‹‚ğs‚¤‚©‚Ç‚¤‚© */
     public static final String TIMEOUT_MONITOR = JAVELIN_PREFIX + "timeout.monitor";
 
-    /** jvnãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã€‚ */
+    /** jvnƒƒOƒtƒ@ƒCƒ‹‚ğo—Í‚·‚é‚©‚Ç‚¤‚©B */
     public static final String LOG_JVN_FILE = JAVELIN_PREFIX + "log.enable";
 
-    /** BottleNeckEyeã¨ã®é€šä¿¡ã«ä½¿ç”¨ã™ã‚‹ãƒãƒ¼ãƒˆã‚’å†å–å¾—ã™ã‚‹é–“éš” */
+    /** BottleNeckEye‚Æ‚Ì’ÊM‚Ég—p‚·‚éƒ|[ƒg‚ğÄæ“¾‚·‚éŠÔŠu */
     public static final String JAVELIN_BIND_INTERVAL = JAVELIN_PREFIX + "bind.interval";
 
-    /** ã‚·ã‚¹ãƒ†ãƒ ã®ãƒªã‚½ãƒ¼ã‚¹ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã€‚ */
+    /** ƒVƒXƒeƒ€‚ÌƒŠƒ\[ƒXƒf[ƒ^‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©B */
     public static final String COLLECT_SYSTEM_RESOURCES = JAVELIN_PREFIX
-        + "resource.collectSystemResources";
+            + "resource.collectSystemResources";
 
-    /** ã‚·ã‚¹ãƒ†ãƒ ã®ãƒªã‚½ãƒ¼ã‚¹ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã€‚ */
+    /** ƒVƒXƒeƒ€‚ÌƒŠƒ\[ƒXƒf[ƒ^‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©B */
     public static final String ITEMNAME_PREFIX = JAVELIN_PREFIX + "resource.itemName.prefix";
 
-    /** ã‚·ã‚¹ãƒ†ãƒ ã®ãƒªã‚½ãƒ¼ã‚¹ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã€‚ */
+    /** ƒVƒXƒeƒ€‚ÌƒŠƒ\[ƒXƒf[ƒ^‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©B */
     public static final String ITEMNAME_NOPREFIX_LIST = JAVELIN_PREFIX
-        + "resource.itemName.noPrefixList";
+            + "resource.itemName.noPrefixList";
 
-    /** ã‚·ã‚¹ãƒ†ãƒ ã®ãƒªã‚½ãƒ¼ã‚¹ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã€‚ */
+    /** ƒVƒXƒeƒ€‚ÌƒŠƒ\[ƒXƒf[ƒ^‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©B */
     public static final String COLLECT_HADOOP_AGENT_RESOURCES = JAVELIN_PREFIX
-        + "resource.collectHadoopAgentResources";
+            + "resource.collectHadoopAgentResources";
 
-    /** HBaseã®ãƒªã‚½ãƒ¼ã‚¹ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã€‚ */
+    /** HBase‚ÌƒŠƒ\[ƒXƒf[ƒ^‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©B */
     public static final String COLLECT_HBASE_AGENT_RESOURCES = JAVELIN_PREFIX
-        + "resource.collectHBaseAgentResources";
+            + "resource.collectHBaseAgentResources";
 
-    /** InvocationFullEventã‚’é€ä¿¡ã™ã‚‹ã‹ã©ã†ã‹ã€‚ */
+    /** InvocationFullEvent‚ğ‘—M‚·‚é‚©‚Ç‚¤‚©B */
     public static final String SEND_INVOCATION_FULL_EVENT = JAVELIN_PREFIX
-        + "record.invocation.sendFullEvent";
+            + "record.invocation.sendFullEvent";
 
-    /** JMXã®ãƒªã‚½ãƒ¼ã‚¹ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã€‚ */
+    /** JMX‚ÌƒŠƒ\[ƒXƒf[ƒ^‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©B */
     public static final String COLLECT_JMX_RESOURCES = JAVELIN_PREFIX
-        + "resource.collectJmxResources";
+            + "resource.collectJmxResources";
 
-    /** ã‚¹ãƒˆãƒ¼ãƒ«ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ç›£è¦–ã™ã‚‹ã‹ã©ã†ã‹ */
+    /** ƒXƒg[ƒ‹ƒƒ\ƒbƒh‚ğŠÄ‹‚·‚é‚©‚Ç‚¤‚© */
     private static final String METHOD_STALL_MONITOR = JAVELIN_PREFIX + "method.stall.monitor";
 
-    /** ã‚¹ãƒˆãƒ¼ãƒ«ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ç›£è¦–ã™ã‚‹å‘¨æœŸ */
+    /** ƒXƒg[ƒ‹ƒƒ\ƒbƒh‚ğŠÄ‹‚·‚éüŠú */
     private static final String METHOD_STALL_INTERVAL = JAVELIN_PREFIX + "method.stall.interval";
 
-    /** ã‚¹ãƒˆãƒ¼ãƒ«ãƒ¡ã‚½ãƒƒãƒ‰ã¨åˆ¤æ–­ã™ã‚‹é–¾å€¤ */
+    /** ƒXƒg[ƒ‹ƒƒ\ƒbƒh‚Æ”»’f‚·‚éè‡’l */
     private static final String METHOD_STALL_THRESHOLD = JAVELIN_PREFIX + "method.stall.threshold";
 
-    /** ã‚¹ãƒˆãƒ¼ãƒ«ãƒ¡ã‚½ãƒƒãƒ‰æ¤œå‡ºæ™‚ã«å‡ºåŠ›ã™ã‚‹ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®æ·±ã• */
+    /** ƒXƒg[ƒ‹ƒƒ\ƒbƒhŒŸo‚Éo—Í‚·‚éƒXƒ^ƒbƒNƒgƒŒ[ƒX‚Ì[‚³ */
     private static final String METHOD_STALL_TRACE_DEPTH = JAVELIN_PREFIX
-        + "method.stall.traceDepth";
+            + "method.stall.traceDepth";
 
-    /** MBeanã‚µãƒ¼ãƒã®ãƒ›ã‚¹ãƒˆå */
+    /** MBeanƒT[ƒo‚ÌƒzƒXƒg–¼ */
     public static final String JMX_HOST = "javelin.jmx.host";
 
-    /** MBeanã‚µãƒ¼ãƒã®ãƒãƒ¼ãƒˆç•ªå· */
+    /** MBeanƒT[ƒo‚Ìƒ|[ƒg”Ô† */
     public static final String JMX_PORT = "javelin.jmx.port";
 
-    /** MBeanã‚µãƒ¼ãƒã®èªè¨¼ãƒ¦ãƒ¼ã‚¶å */
+    /** MBeanƒT[ƒo‚Ì”FØƒ†[ƒU–¼ */
     public static final String JMX_USER_NAME = "javelin.jmx.user";
 
-    /** MBeanã‚µãƒ¼ãƒã®èªè¨¼ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ */
+    /** MBeanƒT[ƒo‚Ì”FØƒpƒXƒ[ƒh */
     public static final String JMX_PASSWORD = "javelin.jmx.password";
 
-    /** æ¥ç¶šãƒ¢ãƒ¼ãƒ‰(server/client) */
+    /** Ú‘±ƒ‚[ƒh(server/client) */
     private static final String CONNECTION_MODE_KEY = JAVELIN_PREFIX + "connection.mode";
 
-    /** ãƒ¡ã‚½ãƒƒãƒ‰åã®æœ€å¤§æ–‡å­—æ•° */
+    /** ƒƒ\ƒbƒh–¼‚ÌÅ‘å•¶š” */
     private static final String INVOCATION_NAME_LIMITLENGTH_KEY = JAVELIN_PREFIX
-        + "invocation.name.limitLength";
-
-    private static final String JDBCJAVELIN_LIGHTWEIGHT_MODE = JAVELIN_PREFIX + "jdbc.lightweight";
-
-    /** JDBCJavelinã‚’lightweightãƒ¢ãƒ¼ãƒ‰ã§å‹•ä½œã•ã›ã‚‹ã‹ã©ã†ã‹ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã€‚ */
-    private static final boolean DEFAULT_JDBCJAVELIN_LIGHTWEIGHT = false;
+            + "invocation.name.limitLength";
 
     /**
-     * ConcurrentAccessMonitorã‚„CollectionMonitorå‹•ä½œä¸­ã«ã‚¯ãƒ©ã‚¹ãƒ­ãƒ¼ãƒ‰ãŒèµ·ã£ãŸã¨ãã«ã€
-     * ãƒã‚¤ãƒˆã‚³ãƒ¼ãƒ‰å¤‰æ›ã‚’è¡Œã†ã‹ã©ã†ã‹ã‚’è¨­å®šã™ã‚‹ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+     * ConcurrentAccessMonitor‚âCollectionMonitor“®ì’†‚ÉƒNƒ‰ƒXƒ[ƒh‚ª‹N‚Á‚½‚Æ‚«‚ÉA
+     * ƒoƒCƒgƒR[ƒh•ÏŠ·‚ğs‚¤‚©‚Ç‚¤‚©‚ğİ’è‚·‚éƒvƒƒpƒeƒB‚ÌƒfƒtƒHƒ‹ƒg’l */
     private static final boolean DEFAULT_SKIPCLASS_ONPROCESSING = true;
 
-    /** ä¿å­˜ã™ã‚‹CallTreeNodeæ•°ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** •Û‘¶‚·‚éCallTreeNode”‚ÌƒfƒtƒHƒ‹ƒg’l */
     private static final int DEFAULT_CALL_TREE_MAX = 5000;
 
-    /** CallTreeNodeã®è¨ˆæ¸¬å€¤ä¿å­˜é–¾å€¤ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** CallTreeNode‚ÌŒv‘ª’l•Û‘¶è‡’l‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final int DEFAULT_CALL_TREE_MAX_MEASURE = 2500;
 
-    /** ãƒ¡ã‚½ãƒƒãƒ‰å¹³å‡æ™‚é–“ã‚’å‡ºåŠ›ã™ã‚‹ãŸã‚ã«è¨˜éŒ²ã™ã‚‹Invocationæ•°ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** ƒƒ\ƒbƒh•½‹ÏŠÔ‚ğo—Í‚·‚é‚½‚ß‚É‹L˜^‚·‚éInvocation”‚ÌƒfƒtƒHƒ‹ƒg’l */
     private static final int DEFAULT_INTERVALMAX = 500;
 
-    /** ä¾‹å¤–ã®æ•°ã‚’è¨˜éŒ²ã™ã‚‹ãŸã‚ã®Invocationæ•°ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** —áŠO‚Ì”‚ğ‹L˜^‚·‚é‚½‚ß‚ÌInvocation”‚ÌƒfƒtƒHƒ‹ƒg’l */
     private static final int DEFAULT_THROWABLEMAX = 100;
 
-    /** Bytecodeã®å†…å®¹ã‚’å…ƒã«è¨ˆæ¸¬å¯¾è±¡ã‹ã‚‰é™¤å¤–ã™ã‚‹ã€æœ€å¤§bytecodeé•·ã€‚ */
+    /** Bytecode‚Ì“à—e‚ğŒ³‚ÉŒv‘ª‘ÎÛ‚©‚çœŠO‚·‚éAÅ‘åbytecode’·B */
     public static final int DEFAULT_BYTECODE_LENGTH_MIN_KEY = 12;
 
-    /** Javelinã®æƒ…å ±å–å¾—å¯¾è±¡ã‹ã‚‰é™¤å¤–ã™ã‚‹ã€æœ€å¤§ã®åˆ¶å¾¡å‘½ä»¤æ•°ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ */
+    /** Javelin‚Ìî•ñæ“¾‘ÎÛ‚©‚çœŠO‚·‚éAÅ‘å‚Ì§Œä–½—ß”‚ÌƒvƒƒpƒeƒB */
     public static final int DEFAULT_BYTECODE_EXCLUDE_CONTROLCOUNT_MAX_KEY = 0;
 
-    /** Bytecodeã®å†…å®¹ã‚’å…ƒã«è¨ˆæ¸¬å¯¾è±¡ã‹ã‚‰é™¤å¤–ã™ã‚‹éš›ã®ãƒãƒªã‚·ãƒ¼ã€‚0:é™¤å¤–ã—ãªã„ 1:BCIã—ãªã„ */
+    /** Bytecode‚Ì“à—e‚ğŒ³‚ÉŒv‘ª‘ÎÛ‚©‚çœŠO‚·‚éÛ‚Ìƒ|ƒŠƒV[B0:œŠO‚µ‚È‚¢ 1:BCI‚µ‚È‚¢ */
     public static final int DEFAULT_BYTECODE_EXCLUDE_POLICY_KEY = 1;
 
-    /** ãƒ¡ãƒ¢ãƒªã«ä¿å­˜ã™ã‚‹é–¾å€¤ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ */
+    /** ƒƒ‚ƒŠ‚É•Û‘¶‚·‚éè‡’l‚ÌƒvƒƒpƒeƒB */
     private static final long DEFAULT_STATISTICSTHRESHOLD = 0;
 
-    /** ã‚¢ãƒ©ãƒ¼ãƒ ã‚’é€šçŸ¥ã™ã‚‹TATã®é–¾å€¤ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ */
+    /** ƒAƒ‰[ƒ€‚ğ’Ê’m‚·‚éTAT‚Ìè‡’l‚ÌƒvƒƒpƒeƒB */
     private static final long DEFAULT_ALARMTHRESHOLD = 5000;
 
-    /** åŒä¸€ã®ã‚¤ãƒ™ãƒ³ãƒˆã‚’æ¤œå‡ºã™ã‚‹é–“éš”ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** “¯ˆê‚ÌƒCƒxƒ“ƒg‚ğŒŸo‚·‚éŠÔŠu‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final long DEFAULT_EVENT_INTERVAL = 1000 * 60 * 60;
 
-    /** Javelinãƒ­ã‚°ã‚’å‡ºåŠ›ã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«åã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ */
+    /** JavelinƒƒO‚ğo—Í‚·‚éƒtƒ@ƒCƒ‹–¼‚ÌƒvƒƒpƒeƒB */
     private static final String DEFAULT_JAVELINFILEDIR = "../logs";
 
-    /** ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã‚’æ±ºå®šã™ã‚‹ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚ğŒˆ’è‚·‚éƒfƒtƒHƒ‹ƒg’l */
     private static final boolean DEFAULT_LOG_STACKTRACE = false;
 
-    /** å¼•æ•°æƒ…å ±ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã‚’æ±ºå®šã™ã‚‹ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** ˆø”î•ñ‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚ğŒˆ’è‚·‚éƒfƒtƒHƒ‹ƒg’l */
     private static final boolean DEFAULT_LOG_ARGS = true;
 
-    /** å¼•æ•°æƒ…å ±ã«ã‚»ãƒƒã‚·ãƒ§ãƒ³æƒ…å ±ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã‚’æ±ºå®šã™ã‚‹ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** ˆø”î•ñ‚ÉƒZƒbƒVƒ‡ƒ“î•ñ‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚ğŒˆ’è‚·‚éƒfƒtƒHƒ‹ƒg’l */
     private static final boolean DEFAULT_LOG_HTTP_SESSION = true;
 
-    /** ã‚¹ãƒ¬ãƒƒãƒ‰ã‚³ãƒ³ãƒ†ãƒ³ã‚·ãƒ§ãƒ³ç›£è¦–ã‚’è¡Œã†ã‹ã©ã†ã‹æ±ºå®šã™ã‚‹ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** ƒXƒŒƒbƒhƒRƒ“ƒeƒ“ƒVƒ‡ƒ“ŠÄ‹‚ğs‚¤‚©‚Ç‚¤‚©Œˆ’è‚·‚éƒfƒtƒHƒ‹ƒg’l */
     private static final boolean DEFAULT_THREAD_CONTENTION = true;
 
-    /** JMXInfoã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹æ±ºå®šã™ã‚‹ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** JMXInfo‚ğo—Í‚·‚é‚©‚Ç‚¤‚©Œˆ’è‚·‚éƒfƒtƒHƒ‹ƒg’l */
     private static final boolean DEFAULT_LOG_MBEANINFO = true;
 
-    /** JMXInfoã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹æ±ºå®šã™ã‚‹ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** JMXInfo‚ğo—Í‚·‚é‚©‚Ç‚¤‚©Œˆ’è‚·‚éƒfƒtƒHƒ‹ƒg’l */
     private static final boolean DEFAULT_LOG_MBEANINFO_ROOT = true;
 
-    /** æˆ»ã‚Šå€¤ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã‚’æ±ºå®šã™ã‚‹ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** –ß‚è’l‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚ğŒˆ’è‚·‚éƒfƒtƒHƒ‹ƒg’l */
     private static final boolean DEFAULT_LOG_RETURN = true;
 
-    /** å¼•æ•°ã®è©³ç´°æƒ…å ±ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã‚’æ±ºå®šã™ã‚‹ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** ˆø”‚ÌÚ×î•ñ‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚ğŒˆ’è‚·‚éƒfƒtƒHƒ‹ƒg’l */
     private static final boolean DEFAULT_ARGS_DETAIL = false;
 
-    /** å¼•æ•°ã®è©³ç´°æƒ…å ±ã®æ·±ã•ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** ˆø”‚ÌÚ×î•ñ‚Ì[‚³‚ÌƒfƒtƒHƒ‹ƒg’l */
     private static final int DEFAULT_ARGS_DETAIL_DEPTH = 1;
 
-    /** æˆ»ã‚Šå€¤ã®è©³ç´°æƒ…å ±ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã‚’æ±ºå®šã™ã‚‹ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** –ß‚è’l‚ÌÚ×î•ñ‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚ğŒˆ’è‚·‚éƒfƒtƒHƒ‹ƒg’l */
     private static final boolean DEFAULT_RETURN_DETAIL = false;
 
-    /** æˆ»ã‚Šå€¤ã®è©³ç´°æƒ…å ±ã®æ·±ã•ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** –ß‚è’l‚ÌÚ×î•ñ‚Ì[‚³‚ÌƒfƒtƒHƒ‹ƒg’l */
     private static final int DEFAULT_RETURN_DETAIL_DEPTH = 1;
 
-    /** HTTPã‚»ãƒƒã‚·ãƒ§ãƒ³ã®è©³ç´°æƒ…å ±ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã‚’æ±ºå®šã™ã‚‹ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** HTTPƒZƒbƒVƒ‡ƒ“‚ÌÚ×î•ñ‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚ğŒˆ’è‚·‚éƒfƒtƒHƒ‹ƒg’l */
     private static final boolean DEFAULT_HTTP_SESSION_DETAIL = false;
 
-    /** HTTPã‚»ãƒƒã‚·ãƒ§ãƒ³ã®è©³ç´°æƒ…å ±ã®æ·±ã•ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** HTTPƒZƒbƒVƒ‡ƒ“‚ÌÚ×î•ñ‚Ì[‚³‚ÌƒfƒtƒHƒ‹ƒg’l */
     private static final int DEFAULT_HTTP_SESSION_DETAIL_DEPTH = 1;
 
-    /** å‘¼ã³å‡ºã—å…ƒãŒä¸æ˜ã®ã¨ãã«è¨­å®šã™ã‚‹åå‰ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ */
+    /** ŒÄ‚Ño‚µŒ³‚ª•s–¾‚Ì‚Æ‚«‚Éİ’è‚·‚é–¼‘O‚ÌƒvƒƒpƒeƒB */
     private static final String DEFAULT_ROOTCALLERNAME = "root";
 
-    /** æœ€ã‚‚æ·±ã„å‘¼ã³å‡ºã—å…ˆãŒä¸æ˜ã®ã¨ãã«è¨­å®šã™ã‚‹åå‰ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ */
+    /** Å‚à[‚¢ŒÄ‚Ño‚µæ‚ª•s–¾‚Ì‚Æ‚«‚Éİ’è‚·‚é–¼‘O‚ÌƒvƒƒpƒeƒB */
     private static final String DEFAULT_ENDCALLEENAME = "unknown";
 
-    /** ã‚¹ãƒ¬ãƒƒãƒ‰ã®åç§°ã®æ±ºå®šæ–¹æ³•ã‚’è¡¨ã™ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ */
+    /** ƒXƒŒƒbƒh‚Ì–¼Ì‚ÌŒˆ’è•û–@‚ğ•\‚·ƒvƒƒpƒeƒB */
     private static final int DEFAULT_THREADMODEL = 0;
 
-    /** å±æ€§ã€æˆ»ã‚Šå€¤æƒ…å ±ã®æ–‡å­—åˆ—é•·ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** ‘®«A–ß‚è’lî•ñ‚Ì•¶š—ñ’·‚ÌƒfƒtƒHƒ‹ƒg’l */
     private static final int DEFAULT_STRINGLIMITLENGTH = 102400;
 
-    /** BottleNeckEye/DataCollectorã¨ã®é€šä¿¡ç”¨ãƒãƒ¼ãƒˆã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** BottleNeckEye/DataCollector‚Æ‚Ì’ÊM—pƒ|[ƒg‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final int DEFAULT_ACCEPTPORT = 18000;
 
-    /** JavelinAcceptThreadã§ã®acceptå‡¦ç†ã®é–‹å§‹ã‚’é…ã‚‰ã›ã‚‹æ™‚é–“(ãƒŸãƒªç§’)ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** JavelinAcceptThread‚Å‚Ìacceptˆ—‚ÌŠJn‚ğ’x‚ç‚¹‚éŠÔ(ƒ~ƒŠ•b)‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final long DEFAULT_ACCEPT_DELAY = 0;
 
-    /** BottleNeckEye/DataCollectorã¨ã®é€šä¿¡ç”¨ãƒãƒ¼ãƒˆã‚’ç¯„å›²æŒ‡å®šã™ã‚‹ã‹ã€ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** BottleNeckEye/DataCollector‚Æ‚Ì’ÊM—pƒ|[ƒg‚ğ”ÍˆÍw’è‚·‚é‚©A‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final boolean DEF_ACCEPTPORT_ISRANGE = false;
 
-    /** BottleNeckEye/DataCollectorã¨ã®é€šä¿¡ç”¨ãƒãƒ¼ãƒˆã‚’ç¯„å›²æŒ‡å®šã™ã‚‹éš›ã®æœ€å¤§å€¤ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** BottleNeckEye/DataCollector‚Æ‚Ì’ÊM—pƒ|[ƒg‚ğ”ÍˆÍw’è‚·‚éÛ‚ÌÅ‘å’l‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final int DEF_ACCEPTPORT_RANGEMAX = 18010;
 
-    /** BottleNeckEye/DataCollectorã¨ã®é€šä¿¡ç”¨ãƒãƒ¼ãƒˆã‚’ç¯„å›²æŒ‡å®šã™ã‚‹éš›ã®æœ€å°å€¤ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** BottleNeckEye/DataCollector‚Æ‚Ì’ÊM—pƒ|[ƒg‚ğ”ÍˆÍw’è‚·‚éÛ‚ÌÅ¬’l‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final int DEF_ACCEPTPORT_RANGEMIN = 18000;
 
-    /** Javelinã‹ã‚‰BottleNeckEye/DataCollectorã¸ã®é€šä¿¡ç”¨ãƒ›ã‚¹ãƒˆåã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** Javelin‚©‚çBottleNeckEye/DataCollector‚Ö‚Ì’ÊM—pƒzƒXƒg–¼‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final String DEFAULT_CONNECTHOST = "localhost";
 
-    /** Javelinã‹ã‚‰BottleNeckEye/DataCollectorã¸ã®é€šä¿¡ç”¨ãƒãƒ¼ãƒˆã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** Javelin‚©‚çBottleNeckEye/DataCollector‚Ö‚Ì’ÊM—pƒ|[ƒg‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final int DEFAULT_CONNECTPORT = 19000;
 
-    /** DataCollectorã®ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** DataCollector‚Ìƒf[ƒ^ƒx[ƒX–¼‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final String DEFAULT_AGENTNAME = "endosnipedb";
 
-    /** Javelinã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ã®å‡ºåŠ›å…ˆãƒ‘ã‚¹ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** JavelinƒVƒXƒeƒ€ƒƒO‚Ìo—ÍæƒpƒX‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final String DEFAULT_SYSTEMLOG = "../traces";
 
-    /** ãƒ’ãƒ¼ãƒ—ãƒ€ãƒ³ãƒ—ã®å‡ºåŠ›å…ˆãƒ‘ã‚¹ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** ƒq[ƒvƒ_ƒ“ƒv‚Ìo—ÍæƒpƒX‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final String DEFAULT_HEAPDUMP_DIR = "../heapdump";
 
-    /** ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã§åˆ©ç”¨ã™ã‚‹AlarmListenerå */
+    /** ƒfƒtƒHƒ‹ƒg‚Å—˜—p‚·‚éAlarmListener–¼ */
     private static final String DEFAULT_ALARM_LISTENERS = "";
 
-    /** ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã§JMXé€šä¿¡ã«ã‚ˆã‚‹æƒ…å ±å…¬é–‹ã‚’è¡Œã†ã‹ã©ã†ã‹ */
+    /** ƒfƒtƒHƒ‹ƒg‚ÅJMX’ÊM‚É‚æ‚éî•ñŒöŠJ‚ğs‚¤‚©‚Ç‚¤‚© */
     private static final boolean DEFAULT_RECORD_JMX = true;
 
-    /** jvnãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã®æœ€å¤§æ•°ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ */
+    /** jvnƒƒOƒtƒ@ƒCƒ‹‚ÌÅ‘å”‚ÌƒfƒtƒHƒ‹ƒg */
     private static final int DEFAULT_LOG_JVN_MAX = 256;
 
-    /** jvnãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã‚’åœ§ç¸®ã—ãŸzipãƒ•ã‚¡ã‚¤ãƒ«ã®æœ€å¤§æ•°ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ */
+    /** jvnƒƒOƒtƒ@ƒCƒ‹‚ğˆ³k‚µ‚½zipƒtƒ@ƒCƒ‹‚ÌÅ‘å”‚ÌƒfƒtƒHƒ‹ƒg */
     private static final int DEFAULT_LOG_ZIP_MAX = 256;
 
-    /** è¨˜éŒ²æ¡ä»¶åˆ¤å®šã‚¯ãƒ©ã‚¹ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ */
+    /** ‹L˜^ğŒ”»’èƒNƒ‰ƒX‚ÌƒfƒtƒHƒ‹ƒg */
     public static final String DEFAULT_RECORDSTRATEGY =
-        "jp.co.acroquest.endosnipe.javelin.record.CpuTimeRecordStrategy";
+            "jp.co.acroquest.endosnipe.javelin.record.CpuTimeRecordStrategy";
 
-    /** ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã§åˆ©ç”¨ã™ã‚‹TelegramListenerå */
+    /** ƒfƒtƒHƒ‹ƒg‚Å—˜—p‚·‚éTelegramListener–¼ */
     private static final String DEFAULT_TELEGEAM_LISTENERS =
-        "jp.co.acroquest.endosnipe.javelin.communicate.GetRequestTelegramListener,"
-            + "jp.co.acroquest.endosnipe.javelin.communicate.ResetRequestTelegramListener";
+            "jp.co.acroquest.endosnipe.javelin.communicate.GetRequestTelegramListener,"
+                    + "jp.co.acroquest.endosnipe.javelin.communicate.ResetRequestTelegramListener";
 
-    /** Javelinã®ã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ã®æœ€å¤§ãƒ•ã‚¡ã‚¤ãƒ«æ•°ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ */
+    /** Javelin‚ÌƒVƒXƒeƒ€ƒƒO‚ÌÅ‘åƒtƒ@ƒCƒ‹”‚ÌƒfƒtƒHƒ‹ƒg */
     private static final int DEFAULT_SYSTEM_LOG_NUM_MAX = 16;
 
-    /** Javelinã®ã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ã®æœ€å¤§ãƒ•ã‚¡ã‚¤ãƒ«ã‚µã‚¤ã‚ºã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ */
+    /** Javelin‚ÌƒVƒXƒeƒ€ƒƒO‚ÌÅ‘åƒtƒ@ƒCƒ‹ƒTƒCƒY‚ÌƒfƒtƒHƒ‹ƒg */
     private static final int DEFAULT_SYSTEM_LOG_SIZE_MAX = 1000000;
 
-    /** MBeanManagerãŒæŒã¤æƒ…å ±ã‚’ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚ºã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«åã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ */
+    /** MBeanManager‚ª‚Âî•ñ‚ğƒVƒŠƒAƒ‰ƒCƒY‚·‚éƒtƒ@ƒCƒ‹–¼‚ÌƒfƒtƒHƒ‹ƒg */
     public static final String DEFAULT_SERIALIZE_FILE = "../data/serialize.dat";
 
-    /** Javelinã®ã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ã®ãƒ­ã‚°ãƒ¬ãƒ™ãƒ«ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ */
+    /** Javelin‚ÌƒVƒXƒeƒ€ƒƒO‚ÌƒƒOƒŒƒxƒ‹‚ÌƒfƒtƒHƒ‹ƒg */
     private static final String DEFAULT_SYSTEM_LOG_LEVEL = "INFO";
 
-    /** Javelinã®ã‚¤ãƒ™ãƒ³ãƒˆãƒ¬ãƒ™ãƒ«ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ */
+    /** Javelin‚ÌƒCƒxƒ“ƒgƒŒƒxƒ‹‚ÌƒfƒtƒHƒ‹ƒg */
     private static final String DEFAULT_EVENT_LEVEL = "WARN";
 
-    /** ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³å®Ÿè¡Œæ™‚ã®ä¾‹å¤–æ™‚ã«ã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥ã™ã‚‹ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** ƒAƒvƒŠƒP[ƒVƒ‡ƒ“Às‚Ì—áŠO‚ÉƒAƒ‰[ƒ€’Ê’m‚·‚éƒfƒtƒHƒ‹ƒg’l */
     private static final boolean DEFAULT_ALARM_EXCEPTION = true;
 
-    /** HTTPã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚¨ãƒ©ãƒ¼ã®ã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥ã™ã‚‹ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** HTTPƒXƒe[ƒ^ƒXƒGƒ‰[‚ÌƒAƒ‰[ƒ€’Ê’m‚·‚éƒfƒtƒHƒ‹ƒg’l */
     private static final boolean DEFAULT_HTTP_STATUS_ERROR = true;
 
-    /** ï¼‘ã‚¯ãƒ©ã‚¹è¾ºã‚Šä¿æŒã™ã‚‹Invocationï¼ˆãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—ï¼‰æœ€å¤§æ•°ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** ‚PƒNƒ‰ƒX•Ó‚è•Û‚·‚éInvocationiƒƒ\ƒbƒhŒÄ‚Ño‚µjÅ‘å”‚ÌƒfƒtƒHƒ‹ƒg’l */
     private static final int DEFAULT_REC_INVOCATION_MAX = 1024;
 
-    /** ã‚¢ãƒ©ãƒ¼ãƒ é€ä¿¡é–“éš”ã®æœ€å°å€¤ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã€‚*/
+    /** ƒAƒ‰[ƒ€‘—MŠÔŠu‚ÌÅ¬’l‚ÌƒfƒtƒHƒ‹ƒg’lB*/
     public static final long DEFAULT_ALARM_MINIMUM_INTERVAL = 60000;
 
-    /** Turn Around Timeã‚’è¨ˆæ¸¬ã™ã‚‹ã‹ã©ã†ã‹ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** Turn Around Time‚ğŒv‘ª‚·‚é‚©‚Ç‚¤‚©‚ÌƒfƒtƒHƒ‹ƒg’l */
     private static final boolean DEFAULT_TAT_ENABLED = true;
 
-    /** Turn Around Timeã®ä¿æŒæœŸé–“ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã€‚*/
+    /** Turn Around Time‚Ì•ÛŠúŠÔ‚ÌƒfƒtƒHƒ‹ƒg’lB*/
     public static final long DEFAULT_TAT_KEEP_TIME = 15000;
 
-    /** Turn Around Timeã®å€¤ãŒ0ã®å ´åˆã«ã€0ã®å‡ºåŠ›ã‚’ç¶™ç¶šã™ã‚‹æ™‚é–“ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã€‚ */
+    /** Turn Around Time‚Ì’l‚ª0‚Ìê‡‚ÉA0‚Ìo—Í‚ğŒp‘±‚·‚éŠÔ‚ÌƒfƒtƒHƒ‹ƒg’lB */
     public static final long DEFAULT_TAT_ZERO_KEEP_TIME = 10000;
 
-    /** jvnãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã€‚ */
+    /** jvnƒƒOƒtƒ@ƒCƒ‹‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚ÌƒfƒtƒHƒ‹ƒg’lB */
     private static final boolean DEFAULT_LOG_JVN_FILE = true;
 
-    /** è¤‡æ•°ã‚¹ãƒ¬ãƒƒãƒ‰ã‚¢ã‚¯ã‚»ã‚¹ã‚’ç›£è¦–ã™ã‚‹ã‹ã©ã†ã‹ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** •¡”ƒXƒŒƒbƒhƒAƒNƒZƒX‚ğŠÄ‹‚·‚é‚©‚Ç‚¤‚©‚ÌƒfƒtƒHƒ‹ƒg’l */
     private static final boolean DEFAULT_CONCURRENT_ENABLED = true;
 
-    /** ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆå€¤ã®è¨­å®šãŒè¡Œã‚ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** ƒ^ƒCƒ€ƒAƒEƒg’l‚Ìİ’è‚ªs‚í‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ÌƒfƒtƒHƒ‹ƒg’l */
     private static final boolean DEF_TIMEOUT_MONITOR = true;
 
-    /** MBeanã‚µãƒ¼ãƒã®ãƒ›ã‚¹ãƒˆåã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** MBeanƒT[ƒo‚ÌƒzƒXƒg–¼‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final String DEF_JMX_HOST = "localhost";
 
-    /** MBeanã‚µãƒ¼ãƒã®ãƒãƒ¼ãƒˆç•ªå·ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** MBeanƒT[ƒo‚Ìƒ|[ƒg”Ô†‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final int DEF_JMX_PORT = 0;
 
-    /** MBeanã‚µãƒ¼ãƒã®èªè¨¼ãƒ¦ãƒ¼ã‚¶åã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** MBeanƒT[ƒo‚Ì”FØƒ†[ƒU–¼‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final String DEF_JMX_USER_NAME = "";
 
-    /** MBeanã‚µãƒ¼ãƒã®èªè¨¼ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** MBeanƒT[ƒo‚Ì”FØƒpƒXƒ[ƒh‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final String DEF_JMX_PASSWORD = "";
 
-    /** ãƒ­ã‚°å‡ºåŠ›å¯¾è±¡ãƒ‘ã‚¿ãƒ¼ãƒ³ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å */
+    /** ƒƒOo—Í‘ÎÛƒpƒ^[ƒ“‚ÌƒvƒƒpƒeƒB–¼ */
     public static final String INCLUDE = JAVELIN_PREFIX + "include";
 
-    /** ãƒ­ã‚°å‡ºåŠ›é™¤å¤–ãƒ‘ã‚¿ãƒ¼ãƒ³ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å */
+    /** ƒƒOo—ÍœŠOƒpƒ^[ƒ“‚ÌƒvƒƒpƒeƒB–¼ */
     public static final String EXCLUDE = JAVELIN_PREFIX + "exclude";
 
-    /** JVNãƒ•ã‚¡ã‚¤ãƒ«ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰æ™‚ã®æœ€å¤§ãƒã‚¤ãƒˆæ•°ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å */
+    /** JVNƒtƒ@ƒCƒ‹ƒ_ƒEƒ“ƒ[ƒh‚ÌÅ‘åƒoƒCƒg”‚ÌƒvƒƒpƒeƒB–¼ */
     public static final String JVN_DOWNLOAD_MAX = JAVELIN_PREFIX + "log.download.max";
 
-    /** è­¦å‘Šã‚’ç™ºç”Ÿã•ã›ã‚‹CPUæ™‚é–“ã®é–¾å€¤å */
+    /** Œx‚ğ”­¶‚³‚¹‚éCPUŠÔ‚Ìè‡’l–¼ */
     public static final String ALARM_CPUTHRESHOLD = JAVELIN_PREFIX + "alarmCpuThreshold";
 
-    /** ãƒ©ã‚¤ã‚»ãƒ³ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å */
+    /** ƒ‰ƒCƒZƒ“ƒXƒtƒ@ƒCƒ‹ƒpƒX‚ÌƒvƒƒpƒeƒB–¼ */
     public static final String LICENSEPATH = JAVELIN_PREFIX + "license.path";
 
-    /** ã‚¯ãƒ©ã‚¹åã‚’ç°¡ç•¥åŒ–ã™ã‚‹ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å */
+    /** ƒNƒ‰ƒX–¼‚ğŠÈ—ª‰»‚·‚éƒvƒƒpƒeƒB–¼ */
     public static final String CLASSNAME_SIMPLIFY = JAVELIN_PREFIX + "className.simplify";
 
-    /** Collectionã®ãƒ¡ãƒ¢ãƒªãƒªãƒ¼ã‚¯æ¤œå‡ºã‚’è¡Œã†ã‹ã©ã†ã‹ */
+    /** Collection‚Ìƒƒ‚ƒŠƒŠ[ƒNŒŸo‚ğs‚¤‚©‚Ç‚¤‚© */
     public static final String COLLECTION_MONITOR = JAVELIN_PREFIX + "leak.collection.monitor";
 
-    /** ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã®æ•°ã‚’ç›£è¦–ã™ã‚‹éš›ã®é–¾å€¤ */
+    /** ƒRƒŒƒNƒVƒ‡ƒ“‚Ì”‚ğŠÄ‹‚·‚éÛ‚Ìè‡’l */
     public static final String COLLECTION_SIZE_THRESHOLD = JAVELIN_PREFIX
-        + "leak.collectionSizeThreshold";
+            + "leak.collectionSizeThreshold";
 
-    /** ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã®æ•°ã‚’ç›£è¦–ã™ã‚‹éš›ã®å‡ºåŠ›ãƒã‚§ãƒƒã‚¯ã®é–“éš” */
+    /** ƒRƒŒƒNƒVƒ‡ƒ“‚Ì”‚ğŠÄ‹‚·‚éÛ‚Ìo—Íƒ`ƒFƒbƒN‚ÌŠÔŠu */
     public static final String COLLECTION_INTERVAL = JAVELIN_PREFIX + "leak.interval";
 
-    /** ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã®æ•°ã‚’ç›£è¦–ã™ã‚‹éš›ã«ä¿æŒã™ã‚‹ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®æ•°ã€‚ */
+    /** ƒRƒŒƒNƒVƒ‡ƒ“‚Ì”‚ğŠÄ‹‚·‚éÛ‚É•Û‚·‚éƒXƒ^ƒbƒNƒgƒŒ[ƒX‚Ì”B */
     public static final String COLLECTION_TRACE_MAX = JAVELIN_PREFIX + "leak.traceMax";
 
-    /** ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®è¡¨ç¤ºã«ä½¿ã†æ·±ã•ã€‚ */
+    /** ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚Ì•\¦‚Ég‚¤[‚³B */
     public static final String TRACE_DEPTH = JAVELIN_PREFIX + "traceDepth";
 
-    /** ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã®æ•°ã‚’ç›£è¦–ã™ã‚‹éš›ã«ä¿æŒã™ã‚‹ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®æ·±ã•ã€‚ */
+    /** ƒRƒŒƒNƒVƒ‡ƒ“‚Ì”‚ğŠÄ‹‚·‚éÛ‚É•Û‚·‚éƒXƒ^ƒbƒNƒgƒŒ[ƒX‚Ì[‚³B */
     public static final String COLLECTION_LEAKDETECT_DEPTH = JAVELIN_PREFIX
-        + "leak.detect.traceDepth";
+            + "leak.detect.traceDepth";
 
-    /** ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã‚’å–å¾—ã™ã‚‹éš›ã«ã€GCã‚’è¡Œã†ã‹ã©ã†ã‹ã€‚ */
+    /** ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€‚ğæ“¾‚·‚éÛ‚ÉAGC‚ğs‚¤‚©‚Ç‚¤‚©B */
     public static final String CLASS_HISTO_GC = JAVELIN_PREFIX + "leak.class.histo.gc";
 
-    /** ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã®ä¸Šä½ä½•ä»¶ã‚’å–å¾—ã™ã‚‹ã‹ */
+    /** ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€‚ÌãˆÊ‰½Œ‚ğæ“¾‚·‚é‚© */
     public static final String CLASS_HISTO_MAX = JAVELIN_PREFIX + "leak.class.histo.max";
 
-    /** ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ å–å¾—é–“éš”(ãƒŸãƒªç§’) */
+    /** ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€æ“¾ŠÔŠu(ƒ~ƒŠ•b) */
     public static final String CLASS_HISTO_INTERVAL = JAVELIN_PREFIX + "leak.class.histo.interval";
 
-    /** ç·šå½¢æ¤œç´¢ã‚’è¡Œã†ã‹ã©ã†ã‹ */
+    /** üŒ`ŒŸõ‚ğs‚¤‚©‚Ç‚¤‚© */
     public static final String LINEARSEARCH_ENABLED_KEY = JAVELIN_PREFIX + "linearsearch.monitor";
 
-    /** ç·šå½¢æ¤œç´¢æ¤œå‡ºã‚’è¡Œã†ãƒªã‚¹ãƒˆã‚µã‚¤ã‚ºã®é–¾å€¤ */
+    /** üŒ`ŒŸõŒŸo‚ğs‚¤ƒŠƒXƒgƒTƒCƒY‚Ìè‡’l */
     public static final String LINEARSEARCH_SIZE = JAVELIN_PREFIX + "linearsearch.size";
 
-    /** ç·šå½¢æ¤œç´¢å¯¾è±¡ã¨ãªã‚‹ã€ãƒªã‚¹ãƒˆã«å¯¾ã™ã‚‹ç·šå½¢ã‚¢ã‚¯ã‚»ã‚¹å›æ•°ã®å‰²åˆã®é–¾å€¤ */
+    /** üŒ`ŒŸõ‘ÎÛ‚Æ‚È‚éAƒŠƒXƒg‚É‘Î‚·‚éüŒ`ƒAƒNƒZƒX‰ñ”‚ÌŠ„‡‚Ìè‡’l */
     public static final String LINEARSEARCH_RATIO = JAVELIN_PREFIX + "linearsearch.ratio";
 
-    /** ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã€€ */
+    /** ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©@ */
     public static final String CLASS_HISTO = JAVELIN_PREFIX + "leak.class.histo";
 
-    /** ã‚¯ãƒ©ã‚¹å¤‰æ›å¾Œã€detachã™ã‚‹ã‹ã©ã†ã‹(éå…¬é–‹ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿)ã€€ */
+    /** ƒNƒ‰ƒX•ÏŠ·ŒãAdetach‚·‚é‚©‚Ç‚¤‚©(”ñŒöŠJƒpƒ‰ƒ[ƒ^)@ */
     public static final String DETACH = JAVELIN_PREFIX + "detach";
 
-    /** ã‚¹ãƒ¬ãƒƒãƒ‰ç›£è¦–ã‚’è¡Œã†ã‹ã©ã†ã‹ã€€ */
+    /** ƒXƒŒƒbƒhŠÄ‹‚ğs‚¤‚©‚Ç‚¤‚©@ */
     public static final String THREAD_MONITOR = JAVELIN_PREFIX + "thread.monitor";
 
-    /** ã‚¹ãƒ¬ãƒƒãƒ‰ç›£è¦–ã‚’è¡Œã†å‘¨æœŸ(ãƒŸãƒªç§’)ã€€ */
+    /** ƒXƒŒƒbƒhŠÄ‹‚ğs‚¤üŠú(ƒ~ƒŠ•b)@ */
     public static final String THREAD_MONITOR_INTERVAL = JAVELIN_PREFIX + "thread.monitor.interval";
 
-    /** ã‚¹ãƒ¬ãƒƒãƒ‰ç›£è¦–ã®éš›ã«å‡ºåŠ›ã™ã‚‹ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®æ·±ã•ã€€ */
+    /** ƒXƒŒƒbƒhŠÄ‹‚ÌÛ‚Éo—Í‚·‚éƒXƒ^ƒbƒNƒgƒŒ[ƒX‚Ì[‚³@ */
     public static final String THREAD_MONITOR_DEPTH = JAVELIN_PREFIX + "thread.monitor.depth";
 
-    /** ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã€€ */
+    /** ƒtƒ‹ƒXƒŒƒbƒhƒ_ƒ“ƒv‚ğo—Í‚·‚é‚©‚Ç‚¤‚©@ */
     public static final String THREAD_DUMP_MONITOR = JAVELIN_PREFIX + "thread.dump.monitor";
 
-    /** ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å–å¾—ã®é–“éš” */
+    /** ƒXƒŒƒbƒhƒ_ƒ“ƒvæ“¾‚ÌŠÔŠu */
     public static final String THREAD_DUMP_INTERVAL = JAVELIN_PREFIX + "thread.dump.interval";
 
-    /** ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å‡ºåŠ›ã«åˆ©ç”¨ã™ã‚‹ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã®é–¾å€¤ã€€ */
+    /** ƒtƒ‹ƒXƒŒƒbƒhƒ_ƒ“ƒvo—Í‚É—˜—p‚·‚éƒXƒŒƒbƒh”‚Ìè‡’l@ */
     public static final String THREAD_DUMP_THREAD = JAVELIN_PREFIX + "thread.dump.threadnum";
 
-    /** ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å‡ºåŠ›ã«åˆ©ç”¨ã™ã‚‹ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã®é–¾å€¤ã€€ */
-    public static final String THREAD_DUMP_THRESHOLD = JAVELIN_PREFIX + "thread.dump.threshold.";
-
-    /** RUNNBLEçŠ¶æ…‹ã®ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã€€ */
-    public static final String RESOURCE_THREAD_RUNNABLE = JAVELIN_PREFIX
-        + "resource.thread.runnable";
-
-    /** BLOCKEDçŠ¶æ…‹ã®ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã€€ */
-    public static final String RESOURCE_THREAD_BLOCKED = JAVELIN_PREFIX + "resource.thread.blocked";
-
-    /** ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å‡ºåŠ›ã«åˆ©ç”¨ã™ã‚‹CPUä½¿ç”¨ç‡ã®é–¾å€¤ã€€ */
+    /** ƒtƒ‹ƒXƒŒƒbƒhƒ_ƒ“ƒvo—Í‚É—˜—p‚·‚éCPUg—p—¦‚Ìè‡’l@ */
     public static final String THREAD_DUMP_CPU = JAVELIN_PREFIX + "thread.dump.cpu";
 
-    /** ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å‡ºåŠ›ã«åˆ©ç”¨ã™ã‚‹CPUä½¿ç”¨ç‡ã®é–¾å€¤(system)ã€€ */
-    public static final String THREAD_DUMP_CPU_SYS = JAVELIN_PREFIX + "thread.dump.cpu.sys";
-
-    /** ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å‡ºåŠ›ã«åˆ©ç”¨ã™ã‚‹CPUä½¿ç”¨ç‡ã®é–¾å€¤(usr)ã€€ */
-    public static final String THREAD_DUMP_CPU_USER = JAVELIN_PREFIX + "thread.dump.cpu.usr";
-
-    /** ãƒ•ãƒ«GCã‚’æ¤œå‡ºã™ã‚‹ã‹ã©ã†ã‹ */
+    /** ƒtƒ‹GC‚ğŒŸo‚·‚é‚©‚Ç‚¤‚© */
     public static final String FULLGC_MONITOR = JAVELIN_PREFIX + "fullgc.monitor";
 
-    /** ãƒ•ãƒ«GCã‚’è¡Œã†GarbageCollectoråã®ãƒªã‚¹ãƒˆ */
+    /** ƒtƒ‹GC‚ğs‚¤GarbageCollector–¼‚ÌƒŠƒXƒg */
     public static final String FULLGC_LIST = JAVELIN_PREFIX + "fullgc.list";
 
-    /** ãƒ•ãƒ«GCæ™‚é–“ã®é–¾å€¤ */
+    /** ƒtƒ‹GCŠÔ‚Ìè‡’l */
     public static final String FULLGC_THREASHOLD = JAVELIN_PREFIX + "fullgc.threshold";
 
-    /** ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯å…¥åŠ›é‡ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã®ãƒ•ãƒ©ã‚°ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£åã€€ */
+    /** ƒlƒbƒgƒ[ƒN“ü—Í—Ê‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO‚ÌƒvƒƒpƒeƒB–¼@ */
     public static final String NET_INPUT_MONITOR = JAVELIN_PREFIX + "net.input" + ".monitor";
 
-    /** ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯å‡ºåŠ›é‡ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã®ãƒ•ãƒ©ã‚°ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£åã€€ */
+    /** ƒlƒbƒgƒ[ƒNo—Í—Ê‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO‚ÌƒvƒƒpƒeƒB–¼@ */
     public static final String NET_OUTPUT_MONITOR = JAVELIN_PREFIX + "net.output" + ".monitor";
 
-    /** ãƒ•ã‚¡ã‚¤ãƒ«å…¥åŠ›é‡ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã®ãƒ•ãƒ©ã‚°ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£åã€€ */
+    /** ƒtƒ@ƒCƒ‹“ü—Í—Ê‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO‚ÌƒvƒƒpƒeƒB–¼@ */
     public static final String FILE_INPUT_MONITOR = JAVELIN_PREFIX + "file.input" + ".monitor";
 
-    /** ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›é‡ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã®ãƒ•ãƒ©ã‚°ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£åã€€ */
+    /** ƒtƒ@ƒCƒ‹o—Í—Ê‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO‚ÌƒvƒƒpƒeƒB–¼@ */
     public static final String FILE_OUTPUT_MONITOR = JAVELIN_PREFIX + "file.output" + ".monitor";
 
-    /** ãƒ•ã‚¡ã‚¤ãƒŠãƒ©ã‚¤ã‚ºå¾…ã¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ•°ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã®ãƒ•ãƒ©ã‚°ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£åã€€ */
+    /** ƒtƒ@ƒCƒiƒ‰ƒCƒY‘Ò‚¿ƒIƒuƒWƒFƒNƒg”‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO‚ÌƒvƒƒpƒeƒB–¼@ */
     public static final String FINALIZATION_COUNT_MONITOR = JAVELIN_PREFIX
-        + "finalizationCount.monitor";
+            + "finalizationCount.monitor";
 
-    /** ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—é–“éš”è¶…éã‚’ç›£è¦–ã™ã‚‹ã‹ã©ã†ã‹ã‚’æ±ºå®šã™ã‚‹ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å */
+    /** ƒƒ\ƒbƒhŒÄ‚Ño‚µŠÔŠu’´‰ß‚ğŠÄ‹‚·‚é‚©‚Ç‚¤‚©‚ğŒˆ’è‚·‚éƒvƒƒpƒeƒB–¼ */
     public static final String INTERVAL_ERROR_MONITOR = JAVELIN_PREFIX + "interval.monitor";
 
-    /** ç¶™æ‰¿ã‚’èª¿ã¹ã‚‹æ·±ã•ã®æœ€å¤§å€¤ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£åã€€ */
+    /** Œp³‚ğ’²‚×‚é[‚³‚ÌÅ‘å’l‚ÌƒvƒƒpƒeƒB–¼@ */
     public static final String INHERITANCE_DEPTH = JAVELIN_PREFIX + "inheritance" + ".depth";
 
-    /** ãƒ–ãƒ­ãƒƒã‚¯å›æ•°ãŒå¤šã™ãã‚‹ã‹ã©ã†ã‹ã®é–¾å€¤ */
+    /** ƒuƒƒbƒN‰ñ”‚ª‘½‚·‚¬‚é‚©‚Ç‚¤‚©‚Ìè‡’l */
     public static final String THREAD_BLOCK_THRESHOLD = JAVELIN_PREFIX + "thread.block"
-        + ".threshold";
+            + ".threshold";
 
-    /** ãƒ–ãƒ­ãƒƒã‚¯ç¶™ç¶šã‚¤ãƒ™ãƒ³ãƒˆã‚’å‡ºåŠ›ã™ã‚‹éš›ã®ãƒ–ãƒ­ãƒƒã‚¯ç¶™ç¶šæ™‚é–“ã®é–¾å€¤ */
+    /** ƒuƒƒbƒNŒp‘±ƒCƒxƒ“ƒg‚ğo—Í‚·‚éÛ‚ÌƒuƒƒbƒNŒp‘±ŠÔ‚Ìè‡’l */
     public static final String THREAD_BLOCKTIME_THRESHOLD = JAVELIN_PREFIX + "thread.blocktime"
-        + ".threshold";
+            + ".threshold";
 
-    /** ãƒ–ãƒ­ãƒƒã‚¯å›æ•°ãŒé–¾å€¤ã‚’è¶…ãˆãŸéš›ã«å–å¾—ã™ã‚‹ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±ã®æ•°ã€‚ */
+    /** ƒuƒƒbƒN‰ñ”‚ªè‡’l‚ğ’´‚¦‚½Û‚Éæ“¾‚·‚éƒXƒŒƒbƒhî•ñ‚Ì”B */
     public static final String THREAD_BLOCK_THREADINFO_NUM = JAVELIN_PREFIX + "thread.block"
-        + ".threadinfo.num";
+            + ".threadinfo.num";
 
-    /** Javaãƒ¬ãƒ™ãƒ«ãƒ‡ãƒƒãƒ‰ãƒ­ãƒƒã‚¯ã®ç›£è¦–ã‚’è¡Œã†ã‹ */
+    /** JavaƒŒƒxƒ‹ƒfƒbƒhƒƒbƒN‚ÌŠÄ‹‚ğs‚¤‚© */
     public static final String THREAD_DEADLOCK_MONITOR = JAVELIN_PREFIX + "thread.deadlock.monitor";
 
-    /** ãƒ¡ã‚½ãƒƒãƒ‰ã«å¯¾ã™ã‚‹å‘¼ã³å‡ºã—é–“éš”ã®é–¾å€¤å®šç¾©ã€‚ */
+    /** ƒƒ\ƒbƒh‚É‘Î‚·‚éŒÄ‚Ño‚µŠÔŠu‚Ìè‡’l’è‹`B */
     public static final String INTERVAL_THRESHOLD = JAVELIN_PREFIX + "interval" + ".threshold";
 
-    /** ãƒ¡ã‚½ãƒƒãƒ‰ã«å¯¾ã™ã‚‹ã€å¼•æ•°ã®å€¤ã”ã¨ã®å‘¼ã³å‡ºã—é–“éš”ã®é–¾å€¤å®šç¾©ã€‚ */
+    /** ƒƒ\ƒbƒh‚É‘Î‚·‚éAˆø”‚Ì’l‚²‚Æ‚ÌŒÄ‚Ño‚µŠÔŠu‚Ìè‡’l’è‹`B */
     public static final String INTERVAL_PER_ARGS_THRESHOLD = JAVELIN_PREFIX + "interval.perargs"
-        + ".threshold";
+            + ".threshold";
 
-    /** HttpSessionã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ•°ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã®ãƒ•ãƒ©ã‚°ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£åã€€ */
+    /** HttpSession‚ÌƒCƒ“ƒXƒ^ƒ“ƒX”‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO‚ÌƒvƒƒpƒeƒB–¼@ */
     public static final String HTTP_SESSION_COUNT_MONITOR = JAVELIN_PREFIX + "httpSessionCount"
-        + ".monitor";
+            + ".monitor";
 
-    /** HttpSessionã¸ã®ç™»éŒ²ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç·ã‚µã‚¤ã‚ºã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã®ãƒ•ãƒ©ã‚°ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£åã€€ */
+    /** HttpSession‚Ö‚Ì“o˜^ƒIƒuƒWƒFƒNƒg‘ƒTƒCƒY‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO‚ÌƒvƒƒpƒeƒB–¼@ */
     public static final String HTTP_SESSION_SIZE_MONITOR = JAVELIN_PREFIX + "httpSessionSize"
-        + ".monitor";
+            + ".monitor";
 
-    /** å¼•æ•°æƒ…å ±ã«HTTPã‚»ãƒƒã‚·ãƒ§ãƒ³æƒ…å ±ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã‚’æ±ºå®šã™ã‚‹ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ */
+    /** ˆø”î•ñ‚ÉHTTPƒZƒbƒVƒ‡ƒ“î•ñ‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚ğŒˆ’è‚·‚éƒvƒƒpƒeƒB */
     public static final String LOG_HTTP_SESSION_KEY = JAVELIN_PREFIX + "log.http.session";
 
-    /** HTTPã‚»ãƒƒã‚·ãƒ§ãƒ³ã®è©³ç´°æƒ…å ±ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã‚’æ±ºå®šã™ã‚‹ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ */
+    /** HTTPƒZƒbƒVƒ‡ƒ“‚ÌÚ×î•ñ‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚ğŒˆ’è‚·‚éƒvƒƒpƒeƒB */
     public static final String HTTP_SESSION_DETAIL_KEY = JAVELIN_PREFIX + "log.http.session.detail";
 
-    /** HTTPã‚»ãƒƒã‚·ãƒ§ãƒ³ã®è©³ç´°æƒ…å ±ã®æ·±ã•ã‚’è¡¨ã™ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ */
+    /** HTTPƒZƒbƒVƒ‡ƒ“‚ÌÚ×î•ñ‚Ì[‚³‚ğ•\‚·ƒvƒƒpƒeƒB */
     public static final String HTTP_SESSION_DETAIL_DEPTH_KEY = JAVELIN_PREFIX
-        + "log.http.session.detail.depth";
+            + "log.http.session.detail.depth";
 
-    /** è¨ˆæ¸¬å¯¾è±¡ã‹ã‚‰è‡ªå‹•é™¤å¤–ã™ã‚‹å‘¼ã³å‡ºã—å›æ•°ã®é–¾å€¤ */
+    /** Œv‘ª‘ÎÛ‚©‚ç©“®œŠO‚·‚éŒÄ‚Ño‚µ‰ñ”‚Ìè‡’l */
     private static final String AUTO_EXCLUDE_THRESHOLD_COUNT = JAVELIN_PREFIX
-        + "autoExcludeThreshold.count";
+            + "autoExcludeThreshold.count";
 
-    /** è¨ˆæ¸¬å¯¾è±¡ã‹ã‚‰è‡ªå‹•é™¤å¤–ã™ã‚‹å®Ÿè¡Œæ™‚é–“ã®é–¾å€¤ */
+    /** Œv‘ª‘ÎÛ‚©‚ç©“®œŠO‚·‚éÀsŠÔ‚Ìè‡’l */
     private static final String AUTO_EXCLUDE_THRESHOLD_TIME = JAVELIN_PREFIX
-        + "autoExcludeThreshold.time";
+            + "autoExcludeThreshold.time";
 
-    /** Log4Jã®ãƒ­ã‚°å‡ºåŠ›ã®éš›ã€ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’å‡ºåŠ›ã™ã‚‹ãƒ¬ãƒ™ãƒ«ã®é–¾å€¤ */
+    /** ƒƒ‚ƒŠƒŠ[ƒNŒŸo‚ÉAƒŠ[ƒN‚µ‚½ƒRƒŒƒNƒVƒ‡ƒ“‚ÌƒTƒCƒY‚ğo—Í‚·‚é‚©‚Ç‚¤‚© */
+    public static final String LEAK_COLLECTIONSIZE_OUT = JAVELIN_PREFIX + "leak.collectionSizeOut";
+
+    /** Log4J‚ÌƒƒOo—Í‚ÌÛAƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğo—Í‚·‚éƒŒƒxƒ‹‚Ìè‡’l */
     public static final String LOG4J_PRINTSTACK_LEVEL = JAVELIN_PREFIX + "log4j.printstack.level";
 
-    /** EJBã®ã‚»ãƒƒã‚·ãƒ§ãƒ³Beanã®å‘¼ã³å‡ºã—ï¼å¿œç­”ã¾ã§ã®æ™‚é–“ã®ç›£è¦–ã‚’è¡Œã†ã‹ã©ã†ã‹ */
+    /** EJB‚ÌƒZƒbƒVƒ‡ƒ“Bean‚ÌŒÄ‚Ño‚µ^‰“š‚Ü‚Å‚ÌŠÔ‚ÌŠÄ‹‚ğs‚¤‚©‚Ç‚¤‚© */
     public static final String EJB_SESSION_MONITOR = JAVELIN_PREFIX + "ejb.session.monitor";
 
-    /** CPUæ™‚é–“ã«ã‹ã‘ã‚‹æ•°ã€‚ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã§ã¯1 */
+    /** CPUŠÔ‚É‚©‚¯‚é”BƒfƒtƒHƒ‹ƒg‚Å‚Í1 */
     private static final String CPU_TIME_UNIT_KEY = JAVELIN_PREFIX + "cpu.unit";
 
-    /** ãƒ­ã‚°å‡ºåŠ›ã‚’ã™ã‚‹å¯¾è±¡ã‚’è¨˜è¿°ã—ãŸãƒ•ã‚£ãƒ«ã‚¿ãƒ•ã‚¡ã‚¤ãƒ«åã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** ƒƒOo—Í‚ğ‚·‚é‘ÎÛ‚ğ‹Lq‚µ‚½ƒtƒBƒ‹ƒ^ƒtƒ@ƒCƒ‹–¼‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final String DEF_INCLUDE = "include.conf";
 
-    /** ãƒ­ã‚°å‡ºåŠ›ã‹ã‚‰é™¤å¤–ã™ã‚‹å¯¾è±¡ã‚’è¨˜è¿°ã—ãŸãƒ•ã‚£ãƒ«ã‚¿ãƒ•ã‚¡ã‚¤ãƒ«åã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** ƒƒOo—Í‚©‚çœŠO‚·‚é‘ÎÛ‚ğ‹Lq‚µ‚½ƒtƒBƒ‹ƒ^ƒtƒ@ƒCƒ‹–¼‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final String DEF_EXCLUDE = "exclude.conf";
 
-    /** JVNãƒ•ã‚¡ã‚¤ãƒ«ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰æ™‚ã®æœ€å¤§ãƒã‚¤ãƒˆæ•°ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å */
+    /** JVNƒtƒ@ƒCƒ‹ƒ_ƒEƒ“ƒ[ƒh‚ÌÅ‘åƒoƒCƒg”‚ÌƒvƒƒpƒeƒB–¼ */
     public static final int DEF_JVN_DOWNLOAD_MAX = 1024 * 1024;
 
-    /** è­¦å‘Šã‚’ç™ºç”Ÿã•ã›ã‚‹ï¼£ï¼°ï¼µæ™‚é–“ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** Œx‚ğ”­¶‚³‚¹‚é‚b‚o‚tŠÔ‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final long DEF_ALARM_CPUTHRESHOLD = 1000;
 
-    /** ã‚¯ãƒ©ã‚¹å¤‰æ›å¾Œã€detachã™ã‚‹ã‹ã©ã†ã‹ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤(éå…¬é–‹ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿)ã€€ */
+    /** ƒNƒ‰ƒX•ÏŠ·ŒãAdetach‚·‚é‚©‚Ç‚¤‚©‚ÌƒfƒtƒHƒ‹ƒg’l(”ñŒöŠJƒpƒ‰ƒ[ƒ^)@ */
     public static final boolean DEF_DETACH = true;
 
-    /** ãƒ©ã‚¤ã‚»ãƒ³ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** ƒ‰ƒCƒZƒ“ƒXƒtƒ@ƒCƒ‹ƒpƒX‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final String DEF_LICENSEPATH = "../license/ENdoSnipeLicense.dat";
 
-    /** ã‚¯ãƒ©ã‚¹åç°¡ç•¥åŒ–ã‚’è¡¨ã™ãƒ•ãƒ©ã‚°ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** ƒNƒ‰ƒX–¼ŠÈ—ª‰»‚ğ•\‚·ƒtƒ‰ƒO‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final boolean DEF_CLASSNAME_SIMPLIFY = false;
 
-    /** Collectionã®ãƒ¡ãƒ¢ãƒªãƒªãƒ¼ã‚¯æ¤œå‡ºã‚’è¡Œã†ã‹ã©ã†ã‹ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** Collection‚Ìƒƒ‚ƒŠƒŠ[ƒNŒŸo‚ğs‚¤‚©‚Ç‚¤‚©‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final boolean DEF_COLLECTION_MONITOR = true;
 
-    /** ãƒ¡ãƒ¢ãƒªãƒªãƒ¼ã‚¯ã¨ã—ã¦æ¤œå‡ºã™ã‚‹Collectionã€Mapã®ã‚µã‚¤ã‚ºã®é–¾å€¤ */
+    /** ƒƒ‚ƒŠƒŠ[ƒN‚Æ‚µ‚ÄŒŸo‚·‚éCollectionAMap‚ÌƒTƒCƒY‚Ìè‡’l */
     public static final int DEF_COLLECTION_SIZE = 2000;
 
-    /** ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã®æ•°ã‚’ç›£è¦–ã™ã‚‹éš›ã®å‡ºåŠ›ãƒã‚§ãƒƒã‚¯ã®é–“éš” */
+    /** ƒRƒŒƒNƒVƒ‡ƒ“‚Ì”‚ğŠÄ‹‚·‚éÛ‚Ìo—Íƒ`ƒFƒbƒN‚ÌŠÔŠu */
     public static final int DEF_COLLECTION_INTERVAL = 11;
 
-    /** ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã®æ•°ã‚’ç›£è¦–ã™ã‚‹éš›ã«ä¿æŒã™ã‚‹ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®æ•°ã€‚ */
+    /** ƒRƒŒƒNƒVƒ‡ƒ“‚Ì”‚ğŠÄ‹‚·‚éÛ‚É•Û‚·‚éƒXƒ^ƒbƒNƒgƒŒ[ƒX‚Ì”B */
     public static final int DEF_COLLECTION_TRACE_MAX = 20;
 
-    /** ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®è¡¨ç¤ºã«ä½¿ã†æ·±ã•ã€‚ */
+    /** ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚Ì•\¦‚Ég‚¤[‚³B */
     public static final int DEF_COLLECTION_TRACE_DEPTH = 15;
 
-    /** ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã®æ•°ã‚’ç›£è¦–ã™ã‚‹éš›ã«ä¿æŒã™ã‚‹ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®æ·±ã•ã€‚ */
+    /** ƒRƒŒƒNƒVƒ‡ƒ“‚Ì”‚ğŠÄ‹‚·‚éÛ‚É•Û‚·‚éƒXƒ^ƒbƒNƒgƒŒ[ƒX‚Ì[‚³B */
     public static final int DEF_COLLECTION_LEAKDETECT_DEPTH = 5;
 
-    /** ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã‚’å–å¾—ã™ã‚‹éš›ã«ã€GCã‚’è¡Œã†ã‹ã©ã†ã‹ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã€‚ */
+    /** ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€‚ğæ“¾‚·‚éÛ‚ÉAGC‚ğs‚¤‚©‚Ç‚¤‚©‚ÌƒfƒtƒHƒ‹ƒg’lB */
     public static final boolean DEF_CLASS_HISTO_GC = false;
 
-    /** ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã®ä¸Šä½ä½•ä»¶ã‚’å–å¾—ã™ã‚‹ã‹ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€‚ÌãˆÊ‰½Œ‚ğæ“¾‚·‚é‚©‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final int DEF_CLASS_HISTO_MAX = 15;
 
-    /** ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ å–å¾—é–“éš”(ãƒŸãƒªç§’)ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€æ“¾ŠÔŠu(ƒ~ƒŠ•b)‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final int DEF_CLASS_HISTO_INTERVAL = 60000;
 
-    /** ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final boolean DEF_CLASS_HISTO = true;
 
-    /** ç·šå½¢æ¤œç´¢æ¤œå‡ºã‚’ç›£è¦–ã™ã‚‹ã‹ã©ã†ã‹ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** üŒ`ŒŸõŒŸo‚ğŠÄ‹‚·‚é‚©‚Ç‚¤‚©‚ÌƒfƒtƒHƒ‹ƒg’l */
     private static final boolean DEF_LINEARSEARCH_ENABLED = true;
 
-    /** ç·šå½¢æ¤œç´¢ã‚’è¡Œã†ãƒªã‚¹ãƒˆã‚µã‚¤ã‚ºã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** üŒ`ŒŸõ‚ğs‚¤ƒŠƒXƒgƒTƒCƒY‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final int DEF_LINEARSEARCH_SIZE = 100;
 
-    /** ç·šå½¢æ¤œç´¢å¯¾è±¡ã¨ãªã‚‹ã€ãƒªã‚¹ãƒˆã«å¯¾ã™ã‚‹ç·šå½¢ã‚¢ã‚¯ã‚»ã‚¹å›æ•°ã®å‰²åˆã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** üŒ`ŒŸõ‘ÎÛ‚Æ‚È‚éAƒŠƒXƒg‚É‘Î‚·‚éüŒ`ƒAƒNƒZƒX‰ñ”‚ÌŠ„‡‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final double DEF_LINEARSEARCH_RATIO = 5;
 
-    /** ã‚¹ãƒ¬ãƒƒãƒ‰ç›£è¦–ã‚’è¡Œã†ã‹ã©ã†ã‹ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã€€ */
+    /** ƒXƒŒƒbƒhŠÄ‹‚ğs‚¤‚©‚Ç‚¤‚©‚ÌƒfƒtƒHƒ‹ƒg’l@ */
     public static final boolean DEF_THREAD_MONITOR = true;
 
-    /** ã‚¹ãƒ¬ãƒƒãƒ‰ç›£è¦–ã‚’è¡Œã†å‘¨æœŸ(ãƒŸãƒªç§’)ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã€€ */
+    /** ƒXƒŒƒbƒhŠÄ‹‚ğs‚¤üŠú(ƒ~ƒŠ•b)‚ÌƒfƒtƒHƒ‹ƒg’l@ */
     public static final long DEF_THREAD_MON_INTERVAL = 1000;
 
-    /** ã‚¹ãƒ¬ãƒƒãƒ‰ç›£è¦–ã®éš›ã«å‡ºåŠ›ã™ã‚‹ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®æ·±ã•ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã€€ */
+    /** ƒXƒŒƒbƒhŠÄ‹‚ÌÛ‚Éo—Í‚·‚éƒXƒ^ƒbƒNƒgƒŒ[ƒX‚Ì[‚³‚ÌƒfƒtƒHƒ‹ƒg’l@ */
     public static final int DEF_THREAD_MON_DEPTH = 10;
 
-    /** ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** ƒtƒ‹ƒXƒŒƒbƒhƒ_ƒ“ƒv‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final boolean DEF_THREAD_DUMP_MONITOR = false;
 
-    /** ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å‡ºåŠ›é–“éš”ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** ƒtƒ‹ƒXƒŒƒbƒhƒ_ƒ“ƒvo—ÍŠÔŠu‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final int DEF_THREAD_DUMP_INTERVAL = 10000;
 
-    /** ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—ã‚’å‡ºåŠ›ã™ã‚‹ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã®é–¾å€¤ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
-    public static final int DEF_THREAD_DUMP_NUM = 100;
+    /** ƒtƒ‹ƒXƒŒƒbƒhƒ_ƒ“ƒv‚ğo—Í‚·‚éƒXƒŒƒbƒh”‚Ìè‡’l‚ÌƒfƒtƒHƒ‹ƒg’l */
+    public static final int DEF_THREAD_DUMP_THREAD = 100;
 
-    /** RUNNBLEçŠ¶æ…‹ã®ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
-    public static final boolean DEF_RESOURCE_THREAD_RUNNABLE = false;
-
-    /** BLOCKEDçŠ¶æ…‹ã®ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
-    public static final boolean DEF_RESOURCE_THREAD_BLOCKED = false;
-
-    /** ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—ã‚’å‡ºåŠ›ã™ã‚‹CPUä½¿ç”¨ç‡ã®é–¾å€¤ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** ƒtƒ‹ƒXƒŒƒbƒhƒ_ƒ“ƒv‚ğo—Í‚·‚éCPUg—p—¦‚Ìè‡’l‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final int DEF_THREAD_DUMP_CPU = 50;
 
-    /** ãƒ•ãƒ«GCã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** ƒtƒ‹GC‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final boolean DEF_FULLGC_MONITOR = true;
 
-    /** ãƒ•ãƒ«GCã‚’è¡Œã†GarbageCollectoråã®ãƒªã‚¹ãƒˆã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** ƒtƒ‹GC‚ğs‚¤GarbageCollector–¼‚ÌƒŠƒXƒg‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final String DEF_FULLGC_LIST =
-        "MarkSweepCompact,Garbage collection optimized for throughput Old Collector";
+            "MarkSweepCompact,Garbage collection optimized for throughput Old Collector";
 
-    /** ãƒ•ãƒ«GCæ¤œå‡ºã‚’è¡Œã†GCæ™‚é–“ã®é–¾å€¤ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** ƒtƒ‹GCŒŸo‚ğs‚¤GCŠÔ‚Ìè‡’l‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final int DEF_FULLGC_THRESHOLD = 5000;
 
-    /** Javaãƒ¬ãƒ™ãƒ«ãƒ‡ãƒƒãƒ‰ãƒ­ãƒƒã‚¯ã®ç›£è¦–ã‚’è¡Œã†ã‹ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** JavaƒŒƒxƒ‹ƒfƒbƒhƒƒbƒN‚ÌŠÄ‹‚ğs‚¤‚©‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final boolean DEF_THREAD_DEADLOCK_MONITOR = false;
 
-    /** ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯å…¥åŠ›é‡ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã®ãƒ•ãƒ©ã‚°ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** ƒlƒbƒgƒ[ƒN“ü—Í—Ê‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final boolean DEF_NET_INPUT_MONITOR = false;
 
-    /** ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯å‡ºåŠ›é‡ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã®ãƒ•ãƒ©ã‚°ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** ƒlƒbƒgƒ[ƒNo—Í—Ê‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final boolean DEF_NET_OUTPUT_MONITOR = false;
 
-    /** ãƒ•ã‚¡ã‚¤ãƒ«å…¥åŠ›é‡ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã®ãƒ•ãƒ©ã‚°ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** ƒtƒ@ƒCƒ‹“ü—Í—Ê‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final boolean DEF_FILE_INPUT_MONITOR = false;
 
-    /** ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›é‡ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã®ãƒ•ãƒ©ã‚°ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** ƒtƒ@ƒCƒ‹o—Í—Ê‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final boolean DEF_FILE_OUTPUT_MONITOR = false;
 
-    /** ãƒ•ã‚¡ã‚¤ãƒŠãƒ©ã‚¤ã‚ºå¾…ã¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ•°ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã®ãƒ•ãƒ©ã‚°ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** ƒtƒ@ƒCƒiƒ‰ƒCƒY‘Ò‚¿ƒIƒuƒWƒFƒNƒg”‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final boolean DEF_FINALIZATION_COUNT_MONITOR = true;
 
-    /** ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—é–“éš”è¶…éã‚’ç›£è¦–ã™ã‚‹ã‹ã©ã†ã‹ã®ãƒ•ãƒ©ã‚°ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** ƒƒ\ƒbƒhŒÄ‚Ño‚µŠÔŠu’´‰ß‚ğŠÄ‹‚·‚é‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final boolean DEF_INTERVAL_ERROR_MONITOR = true;
 
-    /** HttpSessionã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ•°ã‚’ç›£è¦–ã™ã‚‹ã‹ã©ã†ã‹ã®ãƒ•ãƒ©ã‚°ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** HttpSession‚ÌƒCƒ“ƒXƒ^ƒ“ƒX”‚ğŠÄ‹‚·‚é‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final boolean DEF_HTTP_SESSION_COUNT_MONITOR = true;
 
-    /** HttpSessionã¸ã®ç™»éŒ²ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç·ã‚µã‚¤ã‚ºã‚’ç›£è¦–ã™ã‚‹ã‹ã©ã†ã‹ã®ãƒ•ãƒ©ã‚°ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** HttpSession‚Ö‚Ì“o˜^ƒIƒuƒWƒFƒNƒg‘ƒTƒCƒY‚ğŠÄ‹‚·‚é‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final boolean DEF_HTTP_SESSION_SIZE_MONITOR = true;
 
-    /** ç¶™æ‰¿ã‚’èª¿ã¹ã‚‹æ·±ã•ã®æœ€å¤§å€¤ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã€€ */
+    /** Œp³‚ğ’²‚×‚é[‚³‚ÌÅ‘å’l‚ÌƒfƒtƒHƒ‹ƒg’l@ */
     public static final int DEF_INHERITANCE_DEPTH = 3;
 
-    /** ãƒ–ãƒ­ãƒƒã‚¯å›æ•°ãŒå¤šã™ãã‚‹ã‹ã©ã†ã‹ã®é–¾å€¤ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã€‚ */
+    /** ƒuƒƒbƒN‰ñ”‚ª‘½‚·‚¬‚é‚©‚Ç‚¤‚©‚Ìè‡’l‚ÌƒfƒtƒHƒ‹ƒg’lB */
     public static final long DEF_THREAD_BLOCK_THRESHOLD = 10;
 
-    /** ãƒ–ãƒ­ãƒƒã‚¯å›æ•°ãŒé–¾å€¤ã‚’è¶…ãˆãŸéš›ã«å–å¾—ã™ã‚‹ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±ã®æ•°ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã€‚ */
+    /** ƒuƒƒbƒN‰ñ”‚ªè‡’l‚ğ’´‚¦‚½Û‚Éæ“¾‚·‚éƒXƒŒƒbƒhî•ñ‚Ì”‚ÌƒfƒtƒHƒ‹ƒg’lB */
     public static final int DEF_THREAD_BLOCK_THREADINFO_NUM = 10;
 
-    /** ãƒ–ãƒ­ãƒƒã‚¯ç¶™ç¶šã‚¤ãƒ™ãƒ³ãƒˆã‚’å‡ºåŠ›ã™ã‚‹éš›ã®ãƒ–ãƒ­ãƒƒã‚¯ç¶™ç¶šæ™‚é–“ã®é–¾å€¤ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** ƒuƒƒbƒNŒp‘±ƒCƒxƒ“ƒg‚ğo—Í‚·‚éÛ‚ÌƒuƒƒbƒNŒp‘±ŠÔ‚Ìè‡’l‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final long DEF_THREAD_BLOCKTIME_THRESHOLD = 2000;
 
-    /** ãƒ¡ã‚½ãƒƒãƒ‰ã®å‘¼ã³å‡ºã—é–“éš”ã«å¯¾ã™ã‚‹ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤(å¯¾è±¡ãªã—)ã€‚ */
+    /** ƒƒ\ƒbƒh‚ÌŒÄ‚Ño‚µŠÔŠu‚É‘Î‚·‚éƒfƒtƒHƒ‹ƒg’l(‘ÎÛ‚È‚µ)B */
     public static final String DEF_INTERVAL_THRESHOLD = "";
 
-    /** ãƒ¡ã‚½ãƒƒãƒ‰ã®ã€å¼•æ•°ã®å€¤ã”ã¨ã®å‘¼ã³å‡ºã—é–“éš”ã«å¯¾ã™ã‚‹ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤(å¯¾è±¡ãªã—)ã€‚ */
+    /** ƒƒ\ƒbƒh‚ÌAˆø”‚Ì’l‚²‚Æ‚ÌŒÄ‚Ño‚µŠÔŠu‚É‘Î‚·‚éƒfƒtƒHƒ‹ƒg’l(‘ÎÛ‚È‚µ)B */
     public static final String DEF_INTERVAL_PER_ARGS_THRESHOLD = "";
 
-    /** è¨ˆæ¸¬å¯¾è±¡ã«å«ã‚ã‚‹ã‹åˆ¤å®šã™ã‚‹ãŸã‚ã®å›æ•°ã®é–¾å€¤ */
+    /** Œv‘ª‘ÎÛ‚ÉŠÜ‚ß‚é‚©”»’è‚·‚é‚½‚ß‚Ì‰ñ”‚Ìè‡’l */
     public static final int DEF_AUTO_EXCLUDE_THRESHOLD_COUNT = 10;
 
-    /** è¨ˆæ¸¬å¯¾è±¡ã«å«ã‚ã‚‹ã‹åˆ¤å®šã™ã‚‹ãŸã‚ã®æ™‚é–“ã®é–¾å€¤(å˜ä½:ãƒŸãƒªç§’) */
+    /** Œv‘ª‘ÎÛ‚ÉŠÜ‚ß‚é‚©”»’è‚·‚é‚½‚ß‚ÌŠÔ‚Ìè‡’l(’PˆÊ:ƒ~ƒŠ•b) */
     public static final int DEF_AUTO_EXCLUDE_THRESHOLD_TIME = 100;
 
-    /** BottleNeckEyeã¨ã®é€šä¿¡ã«ä½¿ç”¨ã™ã‚‹ãƒãƒ¼ãƒˆã‚’å†å–å¾—ã™ã‚‹é–“éš”ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** ƒƒ‚ƒŠƒŠ[ƒNŒŸo‚ÉAƒŠ[ƒN‚µ‚½ƒRƒŒƒNƒVƒ‡ƒ“‚ÌƒTƒCƒY‚ğo—Í‚·‚é‚©‚Ìƒtƒ‰ƒO‚ÌƒfƒtƒHƒ‹ƒg’l */
+    public static final boolean DEF_LEAK_COLLECTIONSIZE_OUT = false;
+
+    /** BottleNeckEye‚Æ‚Ì’ÊM‚Ég—p‚·‚éƒ|[ƒg‚ğÄæ“¾‚·‚éŠÔŠu‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final int DEF_JAVELIN_BIND_INTERVAL = 5000;
 
-    /** Log4Jã®ãƒ­ã‚°å‡ºåŠ›ã®éš›ã€ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’å‡ºåŠ›ã™ã‚‹ãƒ¬ãƒ™ãƒ«ã®é–¾å€¤ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** Log4J‚ÌƒƒOo—Í‚ÌÛAƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğo—Í‚·‚éƒŒƒxƒ‹‚Ìè‡’l‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final String DEF_LOG4J_PRINTSTACK_LEVEL = "ERROR";
 
-    /** EJBã®ã‚»ãƒƒã‚·ãƒ§ãƒ³Beanã®å‘¼ã³å‡ºã—ï¼å¿œç­”ã¾ã§ã®æ™‚é–“ã®ç›£è¦–ã‚’è¡Œã†ã‹ã©ã†ã‹ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** EJB‚ÌƒZƒbƒVƒ‡ƒ“Bean‚ÌŒÄ‚Ño‚µ^‰“š‚Ü‚Å‚ÌŠÔ‚ÌŠÄ‹‚ğs‚¤‚©‚Ç‚¤‚©‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final boolean DEF_EJB_SESSION_MONITOR = false;
 
-    /** ã‚·ã‚¹ãƒ†ãƒ ã®ãƒªã‚½ãƒ¼ã‚¹ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** ƒVƒXƒeƒ€‚ÌƒŠƒ\[ƒXƒf[ƒ^‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final boolean DEF_COLLECT_SYSTEM_RESOURCES = true;
 
-    /** InvocationFullEventã‚’é€ä¿¡ã™ã‚‹ã‹ã©ã†ã‹ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** InvocationFullEvent‚ğ‘—M‚·‚é‚©‚Ç‚¤‚©‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final boolean DEF_SEND_INVOCATION_FULL_EVENT = true;
 
-    /** JMXã®ãƒªã‚½ãƒ¼ã‚¹ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** JMX‚ÌƒŠƒ\[ƒXƒf[ƒ^‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final boolean DEF_COLLECT_JMX_RESOURCES = true;
 
-    /** Javelinã®è¨­å®šå€¤ã‚’ä¿å­˜ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
+    /** Javelin‚Ìİ’è’l‚ğ•Û‘¶‚·‚éƒIƒuƒWƒFƒNƒg */
     private static final JavelinConfigUtil CONFIGUTIL;
 
-    /** CPUæ™‚é–“ã«ã‹ã‘ã‚‹æ•°ã€‚ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã§ã¯1 */
+    /** CPUŠÔ‚É‚©‚¯‚é”BƒfƒtƒHƒ‹ƒg‚Å‚Í1 */
     private static final int DEF_CPU_TIME_UNIT = 1;
 
-    /** ã‚³ãƒ¼ãƒ«ãƒ„ãƒªãƒ¼ãŒæº¢ã‚ŒãŸå ´åˆã«å…¨ã¦ã‚’è¨˜éŒ²ã™ã‚‹ã‹ã©ã†ã‹ */
+    /** ƒR[ƒ‹ƒcƒŠ[‚ªˆì‚ê‚½ê‡‚É‘S‚Ä‚ğ‹L˜^‚·‚é‚©‚Ç‚¤‚© */
     private static final String CALL_TREE_ALL_KEY = JAVELIN_PREFIX + "call.tree.all";
 
-    /** ã‚³ãƒ¼ãƒ«ãƒ„ãƒªãƒ¼ãŒæº¢ã‚ŒãŸå ´åˆã«å…¨ã¦ã‚’è¨˜éŒ²ã™ã‚‹ã‹ã©ã†ã‹ */
+    /** ƒR[ƒ‹ƒcƒŠ[‚ªˆì‚ê‚½ê‡‚É‘S‚Ä‚ğ‹L˜^‚·‚é‚©‚Ç‚¤‚© */
     private static final boolean DEF_CALL_TREE_ALL = false;
 
-    /** ã‚³ãƒ¼ãƒ«ãƒ„ãƒªãƒ¼ã‚’è¨˜éŒ²ã™ã‚‹ã‹ã©ã†ã‹ */
+    /** ƒR[ƒ‹ƒcƒŠ[‚ğ‹L˜^‚·‚é‚©‚Ç‚¤‚© */
     public static final String CALL_TREE_ENABLE_KEY = JAVELIN_PREFIX + "call.tree.enable";
 
-    /** ã‚³ãƒ¼ãƒ«ãƒ„ãƒªãƒ¼ã‚’è¨˜éŒ²ã™ã‚‹ã‹ã©ã†ã‹ */
+    /** ƒR[ƒ‹ƒcƒŠ[‚ğ‹L˜^‚·‚é‚©‚Ç‚¤‚© */
     private static final boolean DEF_CALL_TREE_ENABLE = true;
 
-    /** ã‚¹ãƒˆãƒ¼ãƒ«ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ç›£è¦–ã™ã‚‹ã‹ã©ã†ã‹ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** ƒXƒg[ƒ‹ƒƒ\ƒbƒh‚ğŠÄ‹‚·‚é‚©‚Ç‚¤‚©‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final boolean DEF_METHOD_STALL_MONITOR = false;
 
-    /** ã‚¹ãƒˆãƒ¼ãƒ«ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ç›£è¦–ã™ã‚‹å‘¨æœŸã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** ƒXƒg[ƒ‹ƒƒ\ƒbƒh‚ğŠÄ‹‚·‚éüŠú‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final int DEF_METHOD_STALL_INTERVAL = 10000;
 
-    /** ã‚¹ãƒˆãƒ¼ãƒ«ãƒ¡ã‚½ãƒƒãƒ‰ã¨åˆ¤æ–­ã™ã‚‹é–¾å€¤ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** ƒXƒg[ƒ‹ƒƒ\ƒbƒh‚Æ”»’f‚·‚éè‡’l‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final int DEF_METHOD_STALL_THRESHOLD = 60000;
 
-    /** ã‚¹ãƒˆãƒ¼ãƒ«ãƒ¡ã‚½ãƒƒãƒ‰æ¤œå‡ºæ™‚ã«å‡ºåŠ›ã™ã‚‹ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®æ·±ã•ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** ƒXƒg[ƒ‹ƒƒ\ƒbƒhŒŸo‚Éo—Í‚·‚éƒXƒ^ƒbƒNƒgƒŒ[ƒX‚Ì[‚³‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final int DEF_METHOD_STALL_TRACE_DEPTH = 30;
 
-    /** ã‚¹ãƒˆãƒ¼ãƒ«ãƒ¡ã‚½ãƒƒãƒ‰æ¤œå‡ºæ™‚ã«å‡ºåŠ›ã™ã‚‹ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®æ·±ã•ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** ƒXƒg[ƒ‹ƒƒ\ƒbƒhŒŸo‚Éo—Í‚·‚éƒXƒ^ƒbƒNƒgƒŒ[ƒX‚Ì[‚³‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final String DEF_CONNNECTION_MODE = "server";
 
-    /** ã‚¹ãƒˆãƒ¼ãƒ«ãƒ¡ã‚½ãƒƒãƒ‰æ¤œå‡ºæ™‚ã«å‡ºåŠ›ã™ã‚‹ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®æ·±ã•ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** ƒXƒg[ƒ‹ƒƒ\ƒbƒhŒŸo‚Éo—Í‚·‚éƒXƒ^ƒbƒNƒgƒŒ[ƒX‚Ì[‚³‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final int DEF_INVOCATION_NAME_LIMITLENGTH = 2048;
 
-    /** é …ç›®åã«ä»˜ä¸ã™ã‚‹æ¥é ­è¾ã®æ–‡å­—åˆ—ã€‚ */
+    /** €–Ú–¼‚É•t—^‚·‚éÚ“ª«‚Ì•¶š—ñB */
     private static final String DEF_ITEMNAME_PREFIX = "";
 
-    /** é …ç›®åã«æ¥é ­è¾ã‚’ä»˜ä¸ã—ãªã„ãƒ‘ã‚¿ãƒ¼ãƒ³ã€‚ */
+    /** €–Ú–¼‚ÉÚ“ª«‚ğ•t—^‚µ‚È‚¢ƒpƒ^[ƒ“B */
     private static final String DEF_ITEMNAME_NOPREFIX_LIST = "/common/";
 
-    /** Javelinã‚’é©ç”¨ã—ãŸãƒ—ãƒ­ã‚»ã‚¹ãŒå±ã™ã‚‹ã‚¯ãƒ©ã‚¹ã‚¿åç§°ã‚’å–å¾—ã™ã‚‹ã‚­ãƒ¼æ–‡å­—åˆ—ã€‚ */
+    /** Javelin‚ğ“K—p‚µ‚½ƒvƒƒZƒX‚ª‘®‚·‚éƒNƒ‰ƒXƒ^–¼Ì‚ğæ“¾‚·‚éƒL[•¶š—ñB */
     private static final String CLUSTER_NAME_KEY = JAVELIN_PREFIX + "clusterName";
 
-    /** Javelinã‚’é©ç”¨ã—ãŸãƒ—ãƒ­ã‚»ã‚¹ãŒå±ã™ã‚‹ã‚¯ãƒ©ã‚¹ã‚¿åç§°ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã€‚ */
+    /** Javelin‚ğ“K—p‚µ‚½ƒvƒƒZƒX‚ª‘®‚·‚éƒNƒ‰ƒXƒ^–¼Ì‚ÌƒfƒtƒHƒ‹ƒg’lB */
     private static final String DEF_CLUSTER_NAME = "/default";
 
-    /** HadoopAgentã‹ã‚‰å–å¾—ã™ã‚‹ã€‚ */
+    /** HadoopAgent‚©‚çæ“¾‚·‚éB */
     private static final boolean DEF_COLLECT_HADOOP_AGENT_RESOURCES = false;
 
-    /** HBaseAgentã‹ã‚‰å–å¾—ã™ã‚‹ã€‚ */
+    /** HBaseAgent‚©‚çæ“¾‚·‚éB */
     private static final boolean DEF_COLLECT_HBASE_AGENT_RESOURCES = false;
 
-    /** è¤‡æ•°ãƒãƒ¼ãƒˆæ¥ç¶šæ™‚ã«ãƒ•ã‚©ãƒ«ãƒ€ã«ã¤ã‘ã‚‹åå‰ */
+    /** •¡”ƒ|[ƒgÚ‘±‚ÉƒtƒHƒ‹ƒ_‚É‚Â‚¯‚é–¼‘O */
     private static String logFolderName__;
 
-    /** è¤‡æ•°ãƒãƒ¼ãƒˆæ¥ç¶šæ™‚ã«Javelinãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ä¿å­˜å…ˆã‚’åˆæœŸåŒ–ã—ã¦ã„ã‚‹ã‹ã©ã†ã‹ */
+    /** •¡”ƒ|[ƒgÚ‘±‚ÉJavelinƒƒOƒtƒ@ƒCƒ‹•Û‘¶æ‚ğ‰Šú‰»‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚© */
     private static boolean isJvnDirInit__ = false;
 
-    /** è¤‡æ•°ãƒãƒ¼ãƒˆæ¥ç¶šæ™‚ã«ã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ä¿å­˜å…ˆã‚’åˆæœŸåŒ–ã—ã¦ã„ã‚‹ã‹ã©ã†ã‹ */
+    /** •¡”ƒ|[ƒgÚ‘±‚ÉƒVƒXƒeƒ€ƒƒOƒtƒ@ƒCƒ‹•Û‘¶æ‚ğ‰Šú‰»‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚© */
     private static boolean isSysLogDirInit__ = false;
 
     static
@@ -930,7 +904,7 @@ public class JavelinConfigBase
     }
 
     /**
-     * {@link JavelinConfig} ã‚’æ§‹ç¯‰ã—ã¾ã™ã€‚<br />
+     * {@link JavelinConfig} ‚ğ\’z‚µ‚Ü‚·B<br />
      */
     public JavelinConfigBase()
     {
@@ -938,9 +912,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * æŒ‡å®šã—ãŸã‚­ãƒ¼ã«å¯¾ã™ã‚‹Booleanå€¤ã®æ›´æ–°ã‚’ç¢ºå®Ÿã«åæ˜ ã•ã›ã‚‹ã€‚
+     * w’è‚µ‚½ƒL[‚É‘Î‚·‚éBoolean’l‚ÌXV‚ğŠmÀ‚É”½‰f‚³‚¹‚éB
      * 
-     * @param key æ›´æ–°åæ˜ å¯¾è±¡ã®ã‚­ãƒ¼
+     * @param key XV”½‰f‘ÎÛ‚ÌƒL[
      */
     public void updateBooleanValue(final String key)
     {
@@ -948,9 +922,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * æŒ‡å®šã—ãŸã‚­ãƒ¼ã«å¯¾ã™ã‚‹Integerå€¤ã®æ›´æ–°ã‚’ç¢ºå®Ÿã«åæ˜ ã•ã›ã‚‹ã€‚
+     * w’è‚µ‚½ƒL[‚É‘Î‚·‚éInteger’l‚ÌXV‚ğŠmÀ‚É”½‰f‚³‚¹‚éB
      * 
-     * @param key æ›´æ–°åæ˜ å¯¾è±¡ã®ã‚­ãƒ¼
+     * @param key XV”½‰f‘ÎÛ‚ÌƒL[
      */
     public void updateIntValue(final String key)
     {
@@ -958,9 +932,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * æŒ‡å®šã—ãŸã‚­ãƒ¼ã«å¯¾ã™ã‚‹Longå€¤ã®æ›´æ–°ã‚’ç¢ºå®Ÿã«åæ˜ ã•ã›ã‚‹ã€‚
+     * w’è‚µ‚½ƒL[‚É‘Î‚·‚éLong’l‚ÌXV‚ğŠmÀ‚É”½‰f‚³‚¹‚éB
      * 
-     * @param key æ›´æ–°åæ˜ å¯¾è±¡ã®ã‚­ãƒ¼
+     * @param key XV”½‰f‘ÎÛ‚ÌƒL[
      */
     public void updateLongValue(final String key)
     {
@@ -968,10 +942,10 @@ public class JavelinConfigBase
     }
 
     /**
-     * ConcurrentAccessMonitor ã‚„ CollectionMonitor å‹•ä½œä¸­ã«ã‚¯ãƒ©ã‚¹ãƒ­ãƒ¼ãƒ‰ãŒèµ·ã£ãŸã¨ãã«ã€
-     * ãƒã‚¤ãƒˆã‚³ãƒ¼ãƒ‰å¤‰æ›ã‚’è¡Œã†ã‹ã©ã†ã‹ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ConcurrentAccessMonitor ‚â CollectionMonitor “®ì’†‚ÉƒNƒ‰ƒXƒ[ƒh‚ª‹N‚Á‚½‚Æ‚«‚ÉA
+     * ƒoƒCƒgƒR[ƒh•ÏŠ·‚ğs‚¤‚©‚Ç‚¤‚©‚ğ•Ô‚µ‚Ü‚·B<br />
      *
-     * @return å¤‰æ›ã‚’è¡Œã‚ãªã„å ´åˆã¯ <code>true</code> ã€å¤‰æ›ã‚’è¡Œã†å ´åˆã¯ <code>false</code>
+     * @return •ÏŠ·‚ğs‚í‚È‚¢ê‡‚Í <code>true</code> A•ÏŠ·‚ğs‚¤ê‡‚Í <code>false</code>
      */
     public boolean isSkipClassOnProcessing()
     {
@@ -979,10 +953,10 @@ public class JavelinConfigBase
     }
 
     /**
-     * ConcurrentAccessMonitor ã‚„ CollectionMonitor å‹•ä½œä¸­ã«ã‚¯ãƒ©ã‚¹ãƒ­ãƒ¼ãƒ‰ãŒèµ·ã£ãŸã¨ãã«ã€
-     * ãƒã‚¤ãƒˆã‚³ãƒ¼ãƒ‰å¤‰æ›ã‚’è¡Œã†ã‹ã©ã†ã‹ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
+     * ConcurrentAccessMonitor ‚â CollectionMonitor “®ì’†‚ÉƒNƒ‰ƒXƒ[ƒh‚ª‹N‚Á‚½‚Æ‚«‚ÉA
+     * ƒoƒCƒgƒR[ƒh•ÏŠ·‚ğs‚¤‚©‚Ç‚¤‚©‚ğİ’è‚µ‚Ü‚·B<br />
      *
-     * @param skipClass å¤‰æ›ã‚’è¡Œã‚ãªã„å ´åˆã¯ <code>true</code> ã€å¤‰æ›ã‚’è¡Œã†å ´åˆã¯ <code>false</code>
+     * @param skipClass •ÏŠ·‚ğs‚í‚È‚¢ê‡‚Í <code>true</code> A•ÏŠ·‚ğs‚¤ê‡‚Í <code>false</code>
      */
     public void setSkipClassOnProcessing(final boolean skipClass)
     {
@@ -990,9 +964,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * å‘¼ã³å‡ºã—æƒ…å ±ã‚’è¨˜éŒ²ã™ã‚‹éš›ã®é–¾å€¤ã‚’è¿”ã™ã€‚
+     * ŒÄ‚Ño‚µî•ñ‚ğ‹L˜^‚·‚éÛ‚Ìè‡’l‚ğ•Ô‚·B
      *
-     * @return é–¾å€¤ï¼ˆãƒŸãƒªç§’ï¼‰
+     * @return è‡’liƒ~ƒŠ•bj
      */
     public long getAlarmThreshold()
     {
@@ -1000,9 +974,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * å‘¼ã³å‡ºã—æƒ…å ±ã‚’è¨˜éŒ²ã™ã‚‹éš›ã®é–¾å€¤ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’èª¿ã¹ã‚‹ã€‚
+     * ŒÄ‚Ño‚µî•ñ‚ğ‹L˜^‚·‚éÛ‚Ìè‡’l‚ªİ’è‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ’²‚×‚éB
      *
-     * @return è¨­å®šã•ã‚Œã¦ã„ã‚Œã°true
+     * @return İ’è‚³‚ê‚Ä‚¢‚ê‚Îtrue
      */
     public boolean isSetAlarmThreshold()
     {
@@ -1010,9 +984,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * å‘¼ã³å‡ºã—æƒ…å ±ã‚’è¨˜éŒ²ã™ã‚‹éš›ã®é–¾å€¤ã‚’è¿”ã™ã€‚
+     * ŒÄ‚Ño‚µî•ñ‚ğ‹L˜^‚·‚éÛ‚Ìè‡’l‚ğ•Ô‚·B
      *
-     * @param alarmThreshold é–¾å€¤ï¼ˆãƒŸãƒªç§’ï¼‰
+     * @param alarmThreshold è‡’liƒ~ƒŠ•bj
      */
     public void setAlarmThreshold(final long alarmThreshold)
     {
@@ -1020,9 +994,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * JMXé€šä¿¡ã«ã‚ˆã‚‹æƒ…å ±å…¬é–‹ã‚’è¡Œã†ã‹ã©ã†ã‹ã®è¨­å®šã‚’è¿”ã™ã€‚
+     * JMX’ÊM‚É‚æ‚éî•ñŒöŠJ‚ğs‚¤‚©‚Ç‚¤‚©‚Ìİ’è‚ğ•Ô‚·B
      *
-     * @return JMXé€šä¿¡ã«ã‚ˆã‚‹æƒ…å ±å…¬é–‹ã‚’è¡Œã†ãªã‚‰true
+     * @return JMX’ÊM‚É‚æ‚éî•ñŒöŠJ‚ğs‚¤‚È‚çtrue
      */
     public boolean isRecordJMX()
     {
@@ -1030,9 +1004,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * JMXé€šä¿¡ã«ã‚ˆã‚‹æƒ…å ±å…¬é–‹ã‚’è¡Œã†ã‹ã©ã†ã‹ã‚’è¨­å®šã™ã‚‹ã€‚
+     * JMX’ÊM‚É‚æ‚éî•ñŒöŠJ‚ğs‚¤‚©‚Ç‚¤‚©‚ğİ’è‚·‚éB
      *
-     * @param isRecordJMX JMXé€šä¿¡ã«ã‚ˆã‚‹æƒ…å ±å…¬é–‹ã‚’è¡Œã†ãªã‚‰true
+     * @param isRecordJMX JMX’ÊM‚É‚æ‚éî•ñŒöŠJ‚ğs‚¤‚È‚çtrue
      */
     public void setRecordJMX(final boolean isRecordJMX)
     {
@@ -1040,9 +1014,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * å‘¼ã³å‡ºã—æƒ…å ±ã‚’è¨˜éŒ²ã™ã‚‹æœ€å¤§ä»¶æ•°ã‚’è¿”ã™ã€‚
+     * ŒÄ‚Ño‚µî•ñ‚ğ‹L˜^‚·‚éÅ‘åŒ”‚ğ•Ô‚·B
      *
-     * @return ä»¶æ•°
+     * @return Œ”
      */
     public int getIntervalMax()
     {
@@ -1050,9 +1024,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * å‘¼ã³å‡ºã—æƒ…å ±ã‚’è¨˜éŒ²ã™ã‚‹æœ€å¤§ä»¶æ•°ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’èª¿ã¹ã‚‹ã€‚
+     * ŒÄ‚Ño‚µî•ñ‚ğ‹L˜^‚·‚éÅ‘åŒ”‚ªİ’è‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ’²‚×‚éB
      *
-     * @return è¨­å®šã•ã‚Œã¦ã„ã‚Œã°true
+     * @return İ’è‚³‚ê‚Ä‚¢‚ê‚Îtrue
      */
     public boolean isSetIntervalMax()
     {
@@ -1060,9 +1034,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * å‘¼ã³å‡ºã—æƒ…å ±ã‚’è¨˜éŒ²ã™ã‚‹æœ€å¤§ä»¶æ•°ã‚’ã‚»ãƒƒãƒˆã™ã‚‹ã€‚
+     * ŒÄ‚Ño‚µî•ñ‚ğ‹L˜^‚·‚éÅ‘åŒ”‚ğƒZƒbƒg‚·‚éB
      *
-     * @param intervalMax ä»¶æ•°
+     * @param intervalMax Œ”
      */
     public void setIntervalMax(final int intervalMax)
     {
@@ -1070,15 +1044,15 @@ public class JavelinConfigBase
     }
 
     /**
-     * Javelinãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã®å‡ºåŠ›å…ˆã‚’å–å¾—ã™ã‚‹ã€‚
+     * JavelinƒƒOƒtƒ@ƒCƒ‹‚Ìo—Íæ‚ğæ“¾‚·‚éB
      *
-     * @return å‡ºåŠ›å…ˆãƒ‘ã‚¹
+     * @return o—ÍæƒpƒX
      */
     public String getJavelinFileDir()
     {
         String relativePath = CONFIGUTIL.getString(JAVELINFILEDIR_KEY, DEFAULT_JAVELINFILEDIR);
 
-        // è¤‡æ•°ãƒãƒ¼ãƒˆæ¥ç¶šè¨­å®šã‚’è¡Œã†å ´åˆã€Javelinãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã®ä¿å­˜å ´æ‰€ã‚’å†è¨­å®šã™ã‚‹ã€‚
+        // •¡”ƒ|[ƒgÚ‘±İ’è‚ğs‚¤ê‡AJavelinƒƒOƒtƒ@ƒCƒ‹‚Ì•Û‘¶êŠ‚ğÄİ’è‚·‚éB
         if (isJvnDirInit__ == false)
         {
             if (isAcceptPortIsRange())
@@ -1092,9 +1066,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * Javelinãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã®å‡ºåŠ›å…ˆãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’èª¿ã¹ã‚‹ã€‚
+     * JavelinƒƒOƒtƒ@ƒCƒ‹‚Ìo—Íæ‚ªİ’è‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ’²‚×‚éB
      *
-     * @return è¨­å®šã•ã‚Œã¦ã„ã‚Œã°true
+     * @return İ’è‚³‚ê‚Ä‚¢‚ê‚Îtrue
      */
     public boolean isSetJavelinFileDir()
     {
@@ -1102,9 +1076,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * Javelinãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã®å‡ºåŠ›å…ˆã‚’ã‚»ãƒƒãƒˆã™ã‚‹ã€‚
+     * JavelinƒƒOƒtƒ@ƒCƒ‹‚Ìo—Íæ‚ğƒZƒbƒg‚·‚éB
      *
-     * @param javelinFileDir å‡ºåŠ›å…ˆãƒ‘ã‚¹
+     * @param javelinFileDir o—ÍæƒpƒX
      */
     public void setJavelinFileDir(final String javelinFileDir)
     {
@@ -1112,9 +1086,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ä¾‹å¤–ã®ç™ºç”Ÿå±¥æ­´ã‚’è¨˜éŒ²ã™ã‚‹æœ€å¤§ä»¶æ•°ã‚’è¿”ã™ã€‚
+     * —áŠO‚Ì”­¶—š—ğ‚ğ‹L˜^‚·‚éÅ‘åŒ”‚ğ•Ô‚·B
      *
-     * @return ä»¶æ•°
+     * @return Œ”
      */
     public int getThrowableMax()
     {
@@ -1122,9 +1096,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * Javelinã®æƒ…å ±å–å¾—å¯¾è±¡ã‹ã‚‰é™¤å¤–ã™ã‚‹ã€æœ€å¤§ã®Bytecodeé•·ã‚’è¿”ã™ã€‚
+     * Javelin‚Ìî•ñæ“¾‘ÎÛ‚©‚çœŠO‚·‚éAÅ‘å‚ÌBytecode’·‚ğ•Ô‚·B
      *
-     * @return Javelinã®æƒ…å ±å–å¾—å¯¾è±¡ã‹ã‚‰é™¤å¤–ã™ã‚‹ã€æœ€å¤§ã®Bytecodeé•·ã€‚
+     * @return Javelin‚Ìî•ñæ“¾‘ÎÛ‚©‚çœŠO‚·‚éAÅ‘å‚ÌBytecode’·B
      */
     public int getBytecodeLengthMax()
     {
@@ -1132,9 +1106,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * Javelinã®æƒ…å ±å–å¾—å¯¾è±¡ã‹ã‚‰é™¤å¤–ã™ã‚‹ã€æœ€å¤§ã®åˆ¶å¾¡å‘½ä»¤æ•°ã‚’è¿”ã™ã€‚
+     * Javelin‚Ìî•ñæ“¾‘ÎÛ‚©‚çœŠO‚·‚éAÅ‘å‚Ì§Œä–½—ß”‚ğ•Ô‚·B
      *
-     * @return Javelinã®æƒ…å ±å–å¾—å¯¾è±¡ã‹ã‚‰é™¤å¤–ã™ã‚‹ã€æœ€å¤§ã®åˆ¶å¾¡å‘½ä»¤æ•°ã€‚
+     * @return Javelin‚Ìî•ñæ“¾‘ÎÛ‚©‚çœŠO‚·‚éAÅ‘å‚Ì§Œä–½—ß”B
      */
     public int getBytecodeControlCountMax()
     {
@@ -1143,9 +1117,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * Bytecodeã®å†…å®¹ã‚’å…ƒã«è¨ˆæ¸¬å¯¾è±¡ã‹ã‚‰é™¤å¤–ã™ã‚‹éš›ã®ãƒãƒªã‚·ãƒ¼ã‚’å–å¾—ã™ã‚‹ã€‚ 
+     * Bytecode‚Ì“à—e‚ğŒ³‚ÉŒv‘ª‘ÎÛ‚©‚çœŠO‚·‚éÛ‚Ìƒ|ƒŠƒV[‚ğæ“¾‚·‚éB 
      * 
-     * @return Bytecodeã®å†…å®¹ã‚’å…ƒã«è¨ˆæ¸¬å¯¾è±¡ã‹ã‚‰é™¤å¤–ã™ã‚‹éš›ã®ãƒãƒªã‚·ãƒ¼ã€‚
+     * @return Bytecode‚Ì“à—e‚ğŒ³‚ÉŒv‘ª‘ÎÛ‚©‚çœŠO‚·‚éÛ‚Ìƒ|ƒŠƒV[B
      */
     public int getByteCodeExcludePolicy()
     {
@@ -1154,9 +1128,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * å‘¼ã³å‡ºã—æƒ…å ±ã‚’è¨˜éŒ²ã™ã‚‹éš›ã®é–¾å€¤ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’èª¿ã¹ã‚‹ã€‚
+     * ŒÄ‚Ño‚µî•ñ‚ğ‹L˜^‚·‚éÛ‚Ìè‡’l‚ªİ’è‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ’²‚×‚éB
      *
-     * @return è¨­å®šã•ã‚Œã¦ã„ã‚Œã°true
+     * @return İ’è‚³‚ê‚Ä‚¢‚ê‚Îtrue
      */
     public boolean isSetThrowableMax()
     {
@@ -1164,9 +1138,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ä¾‹å¤–ã®ç™ºç”Ÿå±¥æ­´ã‚’è¨˜éŒ²ã™ã‚‹æœ€å¤§ä»¶æ•°ã‚’ã‚»ãƒƒãƒˆã™ã‚‹ã€‚
+     * —áŠO‚Ì”­¶—š—ğ‚ğ‹L˜^‚·‚éÅ‘åŒ”‚ğƒZƒbƒg‚·‚éB
      *
-     * @param throwableMax ä»¶æ•°
+     * @param throwableMax Œ”
      */
     public void setThrowableMax(final int throwableMax)
     {
@@ -1174,9 +1148,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * å‘¼ã³å‡ºã—å…ˆã«ã¤ã‘ã‚‹åç§°ã‚’è¿”ã™ã€‚
+     * ŒÄ‚Ño‚µæ‚É‚Â‚¯‚é–¼Ì‚ğ•Ô‚·B
      *
-     * @return åç§°
+     * @return –¼Ì
      */
     public String getEndCalleeName()
     {
@@ -1184,9 +1158,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * å‘¼ã³å‡ºã—å…ˆã«ã¤ã‘ã‚‹åç§°ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’èª¿ã¹ã‚‹ã€‚
+     * ŒÄ‚Ño‚µæ‚É‚Â‚¯‚é–¼Ì‚ªİ’è‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ’²‚×‚éB
      *
-     * @return è¨­å®šã•ã‚Œã¦ã„ã‚Œã°true
+     * @return İ’è‚³‚ê‚Ä‚¢‚ê‚Îtrue
      */
     public boolean isSetEndCalleeName()
     {
@@ -1194,9 +1168,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * å‘¼ã³å‡ºã—å…ˆã«ã¤ã‘ã‚‹åç§°ã‚’ã‚»ãƒƒãƒˆã™ã‚‹ã€‚
+     * ŒÄ‚Ño‚µæ‚É‚Â‚¯‚é–¼Ì‚ğƒZƒbƒg‚·‚éB
      *
-     * @param endCalleeName åç§°
+     * @param endCalleeName –¼Ì
      */
     public void setEndCalleeName(final String endCalleeName)
     {
@@ -1204,9 +1178,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * å‘¼ã³å‡ºã—å…ƒã«ã¤ã‘ã‚‹åç§°ã‚’è¿”ã™ã€‚
+     * ŒÄ‚Ño‚µŒ³‚É‚Â‚¯‚é–¼Ì‚ğ•Ô‚·B
      *
-     * @return åç§°
+     * @return –¼Ì
      */
     public String getRootCallerName()
     {
@@ -1214,9 +1188,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * å‘¼ã³å‡ºã—å…ƒã«ã¤ã‘ã‚‹åç§°ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’èª¿ã¹ã‚‹ã€‚
+     * ŒÄ‚Ño‚µŒ³‚É‚Â‚¯‚é–¼Ì‚ªİ’è‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ’²‚×‚éB
      *
-     * @return è¨­å®šã•ã‚Œã¦ã„ã‚Œã°true
+     * @return İ’è‚³‚ê‚Ä‚¢‚ê‚Îtrue
      */
     public boolean isSetRootCallerName()
     {
@@ -1224,9 +1198,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * å‘¼ã³å‡ºã—å…ƒã«ã¤ã‘ã‚‹åç§°ã‚’ã‚»ãƒƒãƒˆã™ã‚‹ã€‚
+     * ŒÄ‚Ño‚µŒ³‚É‚Â‚¯‚é–¼Ì‚ğƒZƒbƒg‚·‚éB
      *
-     * @param rootCallerName åç§°
+     * @param rootCallerName –¼Ì
      */
     public void setRootCallerName(final String rootCallerName)
     {
@@ -1234,9 +1208,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã®è¨­å®šã‚’è¿”ã™ã€‚
+     * ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚Ìİ’è‚ğ•Ô‚·B
      *
-     * @return ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’å‡ºåŠ›ã™ã‚‹ãªã‚‰true
+     * @return ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğo—Í‚·‚é‚È‚çtrue
      */
     public boolean isLogStacktrace()
     {
@@ -1244,9 +1218,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’èª¿ã¹ã‚‹ã€‚
+     * ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚ªİ’è‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ’²‚×‚éB
      *
-     * @return è¨­å®šã•ã‚Œã¦ã„ã‚Œã°true
+     * @return İ’è‚³‚ê‚Ä‚¢‚ê‚Îtrue
      */
     public boolean isSetLogStacktrace()
     {
@@ -1254,9 +1228,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¨­å®šã™ã‚‹ã€‚
+     * ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚ğİ’è‚·‚éB
      *
-     * @param isLogStacktrace ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’å‡ºåŠ›ã™ã‚‹ãªã‚‰true
+     * @param isLogStacktrace ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğo—Í‚·‚é‚È‚çtrue
      */
     public void setLogStacktrace(final boolean isLogStacktrace)
     {
@@ -1264,9 +1238,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * å¼•æ•°ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã®è¨­å®šã‚’è¿”ã™ã€‚
+     * ˆø”‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚Ìİ’è‚ğ•Ô‚·B
      *
-     * @return å¼•æ•°ã‚’å‡ºåŠ›ã™ã‚‹ãªã‚‰true
+     * @return ˆø”‚ğo—Í‚·‚é‚È‚çtrue
      */
     public boolean isLogArgs()
     {
@@ -1274,9 +1248,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * HTTPã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã®è¨­å®šã‚’è¿”ã™ã€‚
+     * HTTPƒZƒbƒVƒ‡ƒ“‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚Ìİ’è‚ğ•Ô‚·B
      *
-     * @return HTTPã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚’å‡ºåŠ›ã™ã‚‹ãªã‚‰true
+     * @return HTTPƒZƒbƒVƒ‡ƒ“‚ğo—Í‚·‚é‚È‚çtrue
      */
     public boolean isLogHttpSession()
     {
@@ -1284,9 +1258,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚¹ãƒ¬ãƒƒãƒ‰ã‚³ãƒ³ãƒ†ãƒ³ã‚·ãƒ§ãƒ³ç›£è¦–ã‚’è¡Œã†ã‹ã©ã†ã‹ã®è¨­å®šã‚’è¿”ã™ã€‚
+     * ƒXƒŒƒbƒhƒRƒ“ƒeƒ“ƒVƒ‡ƒ“ŠÄ‹‚ğs‚¤‚©‚Ç‚¤‚©‚Ìİ’è‚ğ•Ô‚·B
      * 
-     * @return ã‚¹ãƒ¬ãƒƒãƒ‰ã‚³ãƒ³ãƒ†ãƒ³ã‚·ãƒ§ãƒ³ç›£è¦–ã‚’è¡Œã†ã‹ã©ã†ã‹ã€‚
+     * @return ƒXƒŒƒbƒhƒRƒ“ƒeƒ“ƒVƒ‡ƒ“ŠÄ‹‚ğs‚¤‚©‚Ç‚¤‚©B
      */
     public boolean isThreadContentionMonitor()
     {
@@ -1295,9 +1269,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * MBeanã«ã‚ˆã£ã¦å–å¾—ã—ãŸæƒ…å ±ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã®è¨­å®šã‚’è¿”ã™ã€‚
+     * MBean‚É‚æ‚Á‚Äæ“¾‚µ‚½î•ñ‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚Ìİ’è‚ğ•Ô‚·B
      *
-     * @return MBeanã«ã‚ˆã£ã¦å–å¾—ã—ãŸæƒ…å ±ã‚’å‡ºåŠ›ã™ã‚‹ãªã‚‰true
+     * @return MBean‚É‚æ‚Á‚Äæ“¾‚µ‚½î•ñ‚ğo—Í‚·‚é‚È‚çtrue
      */
     public boolean isLogMBeanInfo()
     {
@@ -1305,9 +1279,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ç«¯ç‚¹ã§ã€MBeanã«ã‚ˆã£ã¦å–å¾—ã—ãŸæƒ…å ±ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã®è¨­å®šã‚’è¿”ã™ã€‚
+     * ’[“_‚ÅAMBean‚É‚æ‚Á‚Äæ“¾‚µ‚½î•ñ‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚Ìİ’è‚ğ•Ô‚·B
      *
-     * @return ç«¯ç‚¹ã§ã€MBeanã«ã‚ˆã£ã¦å–å¾—ã—ãŸæƒ…å ±ã‚’å‡ºåŠ›ã™ã‚‹ãªã‚‰true
+     * @return ’[“_‚ÅAMBean‚É‚æ‚Á‚Äæ“¾‚µ‚½î•ñ‚ğo—Í‚·‚é‚È‚çtrue
      */
     public boolean isLogMBeanInfoRoot()
     {
@@ -1315,9 +1289,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * å¼•æ•°ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’èª¿ã¹ã‚‹ã€‚
+     * ˆø”‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚ªİ’è‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ’²‚×‚éB
      *
-     * @return è¨­å®šã•ã‚Œã¦ã„ã‚Œã°true
+     * @return İ’è‚³‚ê‚Ä‚¢‚ê‚Îtrue
      */
     public boolean isSetLogArgs()
     {
@@ -1325,9 +1299,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * å¼•æ•°ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¨­å®šã™ã‚‹ã€‚
+     * ˆø”‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚ğİ’è‚·‚éB
      *
-     * @param isLogArgs å¼•æ•°ã‚’å‡ºåŠ›ã™ã‚‹ãªã‚‰true
+     * @param isLogArgs ˆø”‚ğo—Í‚·‚é‚È‚çtrue
      */
     public void setLogArgs(final boolean isLogArgs)
     {
@@ -1335,9 +1309,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚’å¼•æ•°ã¨ã—ã¦å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¨­å®šã™ã‚‹ã€‚
+     * ƒZƒbƒVƒ‡ƒ“‚ğˆø”‚Æ‚µ‚Äo—Í‚·‚é‚©‚Ç‚¤‚©‚ğİ’è‚·‚éB
      *
-     * @param isLogArgs å¼•æ•°ã‚’å‡ºåŠ›ã™ã‚‹ãªã‚‰true
+     * @param isLogArgs ˆø”‚ğo—Í‚·‚é‚È‚çtrue
      */
     public void setLogHttpSession(final boolean isLogArgs)
     {
@@ -1345,9 +1319,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * MBeanã«ã‚ˆã£ã¦å–å¾—ã—ãŸæƒ…å ±ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¨­å®šã™ã‚‹ã€‚
+     * MBean‚É‚æ‚Á‚Äæ“¾‚µ‚½î•ñ‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚ğİ’è‚·‚éB
      *
-     * @param isLogMBeanInfo MBeanã«ã‚ˆã£ã¦å–å¾—ã—ãŸæƒ…å ±ã‚’å‡ºåŠ›ã™ã‚‹ãªã‚‰true
+     * @param isLogMBeanInfo MBean‚É‚æ‚Á‚Äæ“¾‚µ‚½î•ñ‚ğo—Í‚·‚é‚È‚çtrue
      */
     public void setLogMBeanInfo(final boolean isLogMBeanInfo)
     {
@@ -1355,9 +1329,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * MBeanã«ã‚ˆã£ã¦å–å¾—ã—ãŸæƒ…å ±ï¼ˆãƒ«ãƒ¼ãƒˆãƒãƒ¼ãƒ‰ï¼‰ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¨­å®šã™ã‚‹ã€‚
+     * MBean‚É‚æ‚Á‚Äæ“¾‚µ‚½î•ñiƒ‹[ƒgƒm[ƒhj‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚ğİ’è‚·‚éB
      *
-     * @param isLogMBeanInfo MBeanã«ã‚ˆã£ã¦å–å¾—ã—ãŸæƒ…å ±ã‚’å‡ºåŠ›ã™ã‚‹ãªã‚‰true
+     * @param isLogMBeanInfo MBean‚É‚æ‚Á‚Äæ“¾‚µ‚½î•ñ‚ğo—Í‚·‚é‚È‚çtrue
      */
     public void setLogMBeanInfoRoot(final boolean isLogMBeanInfo)
     {
@@ -1365,9 +1339,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * æˆ»ã‚Šå€¤ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã®è¨­å®šã‚’è¿”ã™ã€‚
+     * –ß‚è’l‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚Ìİ’è‚ğ•Ô‚·B
      *
-     * @return æˆ»ã‚Šå€¤ã‚’å‡ºåŠ›ã™ã‚‹ãªã‚‰true
+     * @return –ß‚è’l‚ğo—Í‚·‚é‚È‚çtrue
      */
     public boolean isLogReturn()
     {
@@ -1375,9 +1349,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * æˆ»ã‚Šå€¤ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’èª¿ã¹ã‚‹ã€‚
+     * –ß‚è’l‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚ªİ’è‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ’²‚×‚éB
      *
-     * @return è¨­å®šã•ã‚Œã¦ã„ã‚Œã°true
+     * @return İ’è‚³‚ê‚Ä‚¢‚ê‚Îtrue
      */
     public boolean isSetLogReturn()
     {
@@ -1385,9 +1359,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * æˆ»ã‚Šå€¤ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¨­å®šã™ã‚‹ã€‚
+     * –ß‚è’l‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚ğİ’è‚·‚éB
      *
-     * @param isLogReturn æˆ»ã‚Šå€¤ã‚’å‡ºåŠ›ã™ã‚‹ãªã‚‰true
+     * @param isLogReturn –ß‚è’l‚ğo—Í‚·‚é‚È‚çtrue
      */
     public void setLogReturn(final boolean isLogReturn)
     {
@@ -1395,9 +1369,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * å¼•æ•°ã®è©³ç´°ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã®è¨­å®šã‚’è¿”ã™ã€‚
+     * ˆø”‚ÌÚ×‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚Ìİ’è‚ğ•Ô‚·B
      *
-     * @return å¼•æ•°ã®è©³ç´°ã‚’å‡ºåŠ›ã™ã‚‹ãªã‚‰true
+     * @return ˆø”‚ÌÚ×‚ğo—Í‚·‚é‚È‚çtrue
      */
     public boolean isArgsDetail()
     {
@@ -1405,9 +1379,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * å¼•æ•°ã®è©³ç´°ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’èª¿ã¹ã‚‹ã€‚
+     * ˆø”‚ÌÚ×‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚ªİ’è‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ’²‚×‚éB
      *
-     * @return è¨­å®šã•ã‚Œã¦ã„ã‚Œã°true
+     * @return İ’è‚³‚ê‚Ä‚¢‚ê‚Îtrue
      */
     public boolean isSetArgsDetail()
     {
@@ -1415,9 +1389,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * å¼•æ•°ã®è©³ç´°ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¨­å®šã™ã‚‹ã€‚
+     * ˆø”‚ÌÚ×‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚ğİ’è‚·‚éB
      *
-     * @param isArgsDetail å¼•æ•°ã®è©³ç´°ã‚’å‡ºåŠ›ã™ã‚‹ãªã‚‰true
+     * @param isArgsDetail ˆø”‚ÌÚ×‚ğo—Í‚·‚é‚È‚çtrue
      */
     public void setArgsDetail(final boolean isArgsDetail)
     {
@@ -1425,9 +1399,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * æˆ»ã‚Šå€¤ã®è©³ç´°ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã®è¨­å®šã‚’è¿”ã™ã€‚
+     * –ß‚è’l‚ÌÚ×‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚Ìİ’è‚ğ•Ô‚·B
      *
-     * @return æˆ»ã‚Šå€¤ã®è©³ç´°ã‚’å‡ºåŠ›ã™ã‚‹ãªã‚‰true
+     * @return –ß‚è’l‚ÌÚ×‚ğo—Í‚·‚é‚È‚çtrue
      */
     public boolean isReturnDetail()
     {
@@ -1435,9 +1409,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * æˆ»ã‚Šå€¤ã®è©³ç´°ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’èª¿ã¹ã‚‹ã€‚
+     * –ß‚è’l‚ÌÚ×‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚ªİ’è‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ’²‚×‚éB
      *
-     * @return è¨­å®šã•ã‚Œã¦ã„ã‚Œã°true
+     * @return İ’è‚³‚ê‚Ä‚¢‚ê‚Îtrue
      */
     public boolean isSetReturnDetail()
     {
@@ -1445,9 +1419,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * æˆ»ã‚Šå€¤ã®è©³ç´°ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¨­å®šã™ã‚‹ã€‚
+     * –ß‚è’l‚ÌÚ×‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚ğİ’è‚·‚éB
      *
-     * @param isReturnDetail æˆ»ã‚Šå€¤ã®è©³ç´°ã‚’å‡ºåŠ›ã™ã‚‹ãªã‚‰true
+     * @param isReturnDetail –ß‚è’l‚ÌÚ×‚ğo—Í‚·‚é‚È‚çtrue
      */
     public void setReturnDetail(final boolean isReturnDetail)
     {
@@ -1455,9 +1429,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * å¼•æ•°ã®è©³ç´°ã‚’å‡ºåŠ›ã™ã‚‹éšå±¤æ•°ã®è¨­å®šã‚’è¿”ã™ã€‚
+     * ˆø”‚ÌÚ×‚ğo—Í‚·‚éŠK‘w”‚Ìİ’è‚ğ•Ô‚·B
      *
-     * @return å¼•æ•°ã®è©³ç´°ã‚’å‡ºåŠ›ã™ã‚‹éšå±¤æ•°
+     * @return ˆø”‚ÌÚ×‚ğo—Í‚·‚éŠK‘w”
      */
     public int getArgsDetailDepth()
     {
@@ -1465,9 +1439,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * å¼•æ•°ã®è©³ç´°ã‚’å‡ºåŠ›ã™ã‚‹éšå±¤æ•°ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’èª¿ã¹ã‚‹ã€‚
+     * ˆø”‚ÌÚ×‚ğo—Í‚·‚éŠK‘w”‚ªİ’è‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ’²‚×‚éB
      *
-     * @return è¨­å®šã•ã‚Œã¦ã„ã‚Œã°true
+     * @return İ’è‚³‚ê‚Ä‚¢‚ê‚Îtrue
      */
     public boolean isSetArgsDetailDepth()
     {
@@ -1475,9 +1449,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * å¼•æ•°ã®è©³ç´°ã‚’å‡ºåŠ›ã™ã‚‹éšå±¤æ•°ã‚’è¨­å®šã™ã‚‹ã€‚
+     * ˆø”‚ÌÚ×‚ğo—Í‚·‚éŠK‘w”‚ğİ’è‚·‚éB
      *
-     * @param detailDepth å¼•æ•°ã®è©³ç´°ã‚’å‡ºåŠ›ã™ã‚‹éšå±¤æ•°
+     * @param detailDepth ˆø”‚ÌÚ×‚ğo—Í‚·‚éŠK‘w”
      */
     public void setArgsDetailDepth(final int detailDepth)
     {
@@ -1485,9 +1459,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * æˆ»ã‚Šå€¤ã®è©³ç´°ã‚’å‡ºåŠ›ã™ã‚‹éšå±¤æ•°ã®è¨­å®šã‚’è¿”ã™ã€‚
+     * –ß‚è’l‚ÌÚ×‚ğo—Í‚·‚éŠK‘w”‚Ìİ’è‚ğ•Ô‚·B
      *
-     * @return è©³ç´°ã‚’å‡ºåŠ›ã™ã‚‹éšå±¤æ•°
+     * @return Ú×‚ğo—Í‚·‚éŠK‘w”
      */
     public int getReturnDetailDepth()
     {
@@ -1495,9 +1469,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * æˆ»ã‚Šå€¤ã®è©³ç´°ã‚’å‡ºåŠ›ã™ã‚‹éšå±¤æ•°ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’èª¿ã¹ã‚‹ã€‚
+     * –ß‚è’l‚ÌÚ×‚ğo—Í‚·‚éŠK‘w”‚ªİ’è‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ’²‚×‚éB
      *
-     * @return è¨­å®šã•ã‚Œã¦ã„ã‚Œã°true
+     * @return İ’è‚³‚ê‚Ä‚¢‚ê‚Îtrue
      */
     public boolean isSetReturnDetailDepth()
     {
@@ -1505,9 +1479,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * æˆ»ã‚Šå€¤ã®è©³ç´°ã‚’å‡ºåŠ›ã™ã‚‹éšå±¤æ•°ã‚’è¨­å®šã™ã‚‹ã€‚
+     * –ß‚è’l‚ÌÚ×‚ğo—Í‚·‚éŠK‘w”‚ğİ’è‚·‚éB
      *
-     * @param returnDetailDepth æˆ»ã‚Šå€¤ã®è©³ç´°ã‚’å‡ºåŠ›ã™ã‚‹éšå±¤æ•°
+     * @param returnDetailDepth –ß‚è’l‚ÌÚ×‚ğo—Í‚·‚éŠK‘w”
      */
     public void setReturnDetailDepth(final int returnDetailDepth)
     {
@@ -1515,9 +1489,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * HTTPã‚»ãƒƒã‚·ãƒ§ãƒ³ã®è©³ç´°ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã®è¨­å®šã‚’è¿”ã™ã€‚
+     * HTTPƒZƒbƒVƒ‡ƒ“‚ÌÚ×‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚Ìİ’è‚ğ•Ô‚·B
      *
-     * @return HTTPã‚»ãƒƒã‚·ãƒ§ãƒ³ã®è©³ç´°ã‚’å‡ºåŠ›ã™ã‚‹ãªã‚‰true
+     * @return HTTPƒZƒbƒVƒ‡ƒ“‚ÌÚ×‚ğo—Í‚·‚é‚È‚çtrue
      */
     public boolean isHttpSessionDetail()
     {
@@ -1525,9 +1499,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * HTTPã‚»ãƒƒã‚·ãƒ§ãƒ³ã®è©³ç´°ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’èª¿ã¹ã‚‹ã€‚
+     * HTTPƒZƒbƒVƒ‡ƒ“‚ÌÚ×‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚ªİ’è‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ’²‚×‚éB
      *
-     * @return è¨­å®šã•ã‚Œã¦ã„ã‚Œã°true
+     * @return İ’è‚³‚ê‚Ä‚¢‚ê‚Îtrue
      */
     public boolean isSetHttpSessionDetail()
     {
@@ -1535,9 +1509,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * HTTPã‚»ãƒƒã‚·ãƒ§ãƒ³ã®è©³ç´°ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¨­å®šã™ã‚‹ã€‚
+     * HTTPƒZƒbƒVƒ‡ƒ“‚ÌÚ×‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚ğİ’è‚·‚éB
      *
-     * @param isHttpSessionDetail HTTPã‚»ãƒƒã‚·ãƒ§ãƒ³ã®è©³ç´°ã‚’å‡ºåŠ›ã™ã‚‹ãªã‚‰true
+     * @param isHttpSessionDetail HTTPƒZƒbƒVƒ‡ƒ“‚ÌÚ×‚ğo—Í‚·‚é‚È‚çtrue
      */
     public void setHttpSessionDetail(final boolean isHttpSessionDetail)
     {
@@ -1545,9 +1519,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * HTTPã‚»ãƒƒã‚·ãƒ§ãƒ³ã®è©³ç´°ã‚’å‡ºåŠ›ã™ã‚‹éšå±¤æ•°ã®è¨­å®šã‚’è¿”ã™ã€‚
+     * HTTPƒZƒbƒVƒ‡ƒ“‚ÌÚ×‚ğo—Í‚·‚éŠK‘w”‚Ìİ’è‚ğ•Ô‚·B
      *
-     * @return HTTPã‚»ãƒƒã‚·ãƒ§ãƒ³ã®è©³ç´°ã‚’å‡ºåŠ›ã™ã‚‹éšå±¤æ•°
+     * @return HTTPƒZƒbƒVƒ‡ƒ“‚ÌÚ×‚ğo—Í‚·‚éŠK‘w”
      */
     public int getHttpSessionDetailDepth()
     {
@@ -1556,9 +1530,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * HTTPã‚»ãƒƒã‚·ãƒ§ãƒ³ã®è©³ç´°ã‚’å‡ºåŠ›ã™ã‚‹éšå±¤æ•°ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’èª¿ã¹ã‚‹ã€‚
+     * HTTPƒZƒbƒVƒ‡ƒ“‚ÌÚ×‚ğo—Í‚·‚éŠK‘w”‚ªİ’è‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ’²‚×‚éB
      *
-     * @return è¨­å®šã•ã‚Œã¦ã„ã‚Œã°true
+     * @return İ’è‚³‚ê‚Ä‚¢‚ê‚Îtrue
      */
     public boolean isSetHttpSessionDetailDepth()
     {
@@ -1566,9 +1540,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * HTTPã‚»ãƒƒã‚·ãƒ§ãƒ³ã®è©³ç´°ã‚’å‡ºåŠ›ã™ã‚‹éšå±¤æ•°ã‚’è¨­å®šã™ã‚‹ã€‚
+     * HTTPƒZƒbƒVƒ‡ƒ“‚ÌÚ×‚ğo—Í‚·‚éŠK‘w”‚ğİ’è‚·‚éB
      *
-     * @param detailDepth HTTPã‚»ãƒƒã‚·ãƒ§ãƒ³ã®è©³ç´°ã‚’å‡ºåŠ›ã™ã‚‹éšå±¤æ•°
+     * @param detailDepth HTTPƒZƒbƒVƒ‡ƒ“‚ÌÚ×‚ğo—Í‚·‚éŠK‘w”
      */
     public void setHttpSessionDetailDepth(final int detailDepth)
     {
@@ -1576,9 +1550,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ¢ãƒ‡ãƒ«ã‚’è¿”ã™ã€‚
+     * ƒXƒŒƒbƒhƒ‚ƒfƒ‹‚ğ•Ô‚·B
      *
-     * @return ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ¢ãƒ‡ãƒ«
+     * @return ƒXƒŒƒbƒhƒ‚ƒfƒ‹
      */
     public int getThreadModel()
     {
@@ -1586,9 +1560,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ¢ãƒ‡ãƒ«ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’èª¿ã¹ã‚‹ã€‚
+     * ƒXƒŒƒbƒhƒ‚ƒfƒ‹‚ªİ’è‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ’²‚×‚éB
      *
-     * @return è¨­å®šã•ã‚Œã¦ã„ã‚Œã°true
+     * @return İ’è‚³‚ê‚Ä‚¢‚ê‚Îtrue
      */
     public boolean isSetThreadModel()
     {
@@ -1596,9 +1570,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ¢ãƒ‡ãƒ«ã‚’ã‚»ãƒƒãƒˆã™ã‚‹ã€‚
+     * ƒXƒŒƒbƒhƒ‚ƒfƒ‹‚ğƒZƒbƒg‚·‚éB
      *
-     * @param threadModel ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ¢ãƒ‡ãƒ«
+     * @param threadModel ƒXƒŒƒbƒhƒ‚ƒfƒ‹
      */
     public void setThreadModel(final int threadModel)
     {
@@ -1606,10 +1580,10 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚­ãƒ¼ã«å¯¾å¿œã™ã‚‹å€¤ãŒã‚»ãƒƒãƒˆã•ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’èª¿ã¹ã‚‹ã€‚
+     * ƒL[‚É‘Î‰‚·‚é’l‚ªƒZƒbƒg‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ’²‚×‚éB
      *
-     * @param key ã‚­ãƒ¼
-     * @return å€¤ãŒã‚»ãƒƒãƒˆã•ã‚Œã¦ã„ã‚Œã°true
+     * @param key ƒL[
+     * @return ’l‚ªƒZƒbƒg‚³‚ê‚Ä‚¢‚ê‚Îtrue
      */
     private boolean isKeyExist(final String key)
     {
@@ -1617,8 +1591,8 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒ¡ãƒ¢ãƒªã«ä¿å­˜ã™ã‚‹é–¾å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ãƒ¡ãƒ¢ãƒªã«ä¿å­˜ã™ã‚‹é–¾å€¤
+     * ƒƒ‚ƒŠ‚É•Û‘¶‚·‚éè‡’l‚ğæ“¾‚·‚éB
+     * @return ƒƒ‚ƒŠ‚É•Û‘¶‚·‚éè‡’l
      */
     public long getStatisticsThreshold()
     {
@@ -1626,8 +1600,8 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒ¡ãƒ¢ãƒªã«ä¿å­˜ã™ã‚‹é–¾å€¤ã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param statisticsThreshold ãƒ¡ãƒ¢ãƒªã«ä¿å­˜ã™ã‚‹é–¾å€¤
+     * ƒƒ‚ƒŠ‚É•Û‘¶‚·‚éè‡’l‚ğİ’è‚·‚éB
+     * @param statisticsThreshold ƒƒ‚ƒŠ‚É•Û‘¶‚·‚éè‡’l
      */
     public void setStatisticsThreshold(final long statisticsThreshold)
     {
@@ -1635,8 +1609,8 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒ­ã‚°ã«å‡ºåŠ›ã™ã‚‹Argsã®é•·ã•ã®é–¾å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return Argsã®é•·ã•ã®é–¾å€¤
+     * ƒƒO‚Éo—Í‚·‚éArgs‚Ì’·‚³‚Ìè‡’l‚ğæ“¾‚·‚éB
+     * @return Args‚Ì’·‚³‚Ìè‡’l
      */
     public int getStringLimitLength()
     {
@@ -1644,8 +1618,8 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒ­ã‚°ã«å‡ºåŠ›ã™ã‚‹Argsã®é•·ã•ã®é–¾å€¤ã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param stringLimitLength Argsã®é•·ã•ã®é–¾å€¤
+     * ƒƒO‚Éo—Í‚·‚éArgs‚Ì’·‚³‚Ìè‡’l‚ğİ’è‚·‚éB
+     * @param stringLimitLength Args‚Ì’·‚³‚Ìè‡’l
      */
     public void setStringLimitLength(final int stringLimitLength)
     {
@@ -1653,9 +1627,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * å¾…ã¡ã†ã‘ãƒãƒ¼ãƒˆç•ªå·ã‚’è¿”ã™ã€‚
+     * ‘Ò‚¿‚¤‚¯ƒ|[ƒg”Ô†‚ğ•Ô‚·B
      *
-     * @return ãƒãƒ¼ãƒˆç•ªå·
+     * @return ƒ|[ƒg”Ô†
      */
     public int getAcceptPort()
     {
@@ -1663,9 +1637,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * æ¥ç¶šãƒ›ã‚¹ãƒˆåã‚’è¿”ã™ã€‚
+     * Ú‘±ƒzƒXƒg–¼‚ğ•Ô‚·B
      *
-     * @return ãƒ›ã‚¹ãƒˆå
+     * @return ƒzƒXƒg–¼
      */
     public String getConnectHost()
     {
@@ -1673,9 +1647,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * æ¥ç¶šãƒãƒ¼ãƒˆç•ªå·ã‚’è¿”ã™ã€‚
+     * Ú‘±ƒ|[ƒg”Ô†‚ğ•Ô‚·B
      *
-     * @return ãƒãƒ¼ãƒˆç•ªå·
+     * @return ƒ|[ƒg”Ô†
      */
     public int getConnectPort()
     {
@@ -1683,9 +1657,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã‚’è¿”ã™ã€‚
+     * ƒf[ƒ^ƒx[ƒX–¼‚ğ•Ô‚·B
      *
-     * @return ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @return ƒf[ƒ^ƒx[ƒX–¼
      */
     public String getAgentName()
     {
@@ -1693,9 +1667,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * Javelinã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ã®å‡ºåŠ›å…ˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’è¿”ã™ã€‚
+     * JavelinƒVƒXƒeƒ€ƒƒO‚Ìo—ÍæƒfƒBƒŒƒNƒgƒŠ‚ğ•Ô‚·B
      *
-     * @return Javelinã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ã®å‡ºåŠ›å…ˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã€‚
+     * @return JavelinƒVƒXƒeƒ€ƒƒO‚Ìo—ÍæƒfƒBƒŒƒNƒgƒŠB
      */
     public String getSystemLog()
     {
@@ -1713,9 +1687,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * Javelinã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ã®å‡ºåŠ›å…ˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’è¨­å®šã—ã¾ã™ã€‚<br />
+     * JavelinƒVƒXƒeƒ€ƒƒO‚Ìo—ÍæƒfƒBƒŒƒNƒgƒŠ‚ğİ’è‚µ‚Ü‚·B<br />
      *
-     * @param sysLogDir Javelinã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ã®å‡ºåŠ›å…ˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã€‚
+     * @param sysLogDir JavelinƒVƒXƒeƒ€ƒƒO‚Ìo—ÍæƒfƒBƒŒƒNƒgƒŠB
      */
     public void setSystemLog(final String sysLogDir)
     {
@@ -1723,9 +1697,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * HeapDumpãƒ•ã‚¡ã‚¤ãƒ«ã®å‡ºåŠ›å…ˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’è¿”ã™ã€‚
+     * HeapDumpƒtƒ@ƒCƒ‹‚Ìo—ÍæƒfƒBƒŒƒNƒgƒŠ‚ğ•Ô‚·B
      *
-     * @return HeapDumpãƒ•ã‚¡ã‚¤ãƒ«ã®å‡ºåŠ›å…ˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã€‚
+     * @return HeapDumpƒtƒ@ƒCƒ‹‚Ìo—ÍæƒfƒBƒŒƒNƒgƒŠB
      */
     public String getHeapDumpDir()
     {
@@ -1734,10 +1708,10 @@ public class JavelinConfigBase
     }
 
     /**
-     * åˆ©ç”¨ã™ã‚‹AlarmListeneråã‚’è¿”ã™ã€‚
-     * ","åŒºåˆ‡ã‚Šã§è¤‡æ•°æŒ‡å®šã™ã‚‹ã“ã¨ãŒã§ãã‚‹ã€‚
+     * —˜—p‚·‚éAlarmListener–¼‚ğ•Ô‚·B
+     * ","‹æØ‚è‚Å•¡”w’è‚·‚é‚±‚Æ‚ª‚Å‚«‚éB
      *
-     * @return åˆ©ç”¨ã™ã‚‹AlarmListenerå
+     * @return —˜—p‚·‚éAlarmListener–¼
      */
     public String getAlarmListeners()
     {
@@ -1745,9 +1719,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * åˆ©ç”¨ã™ã‚‹AlarmListeneråãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’èª¿ã¹ã‚‹ã€‚
+     * —˜—p‚·‚éAlarmListener–¼‚ªİ’è‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ’²‚×‚éB
      *
-     * @return è¨­å®šã•ã‚Œã¦ã„ã‚Œã°true
+     * @return İ’è‚³‚ê‚Ä‚¢‚ê‚Îtrue
      */
     public boolean isSetAlarmListeners()
     {
@@ -1755,10 +1729,10 @@ public class JavelinConfigBase
     }
 
     /**
-     * åˆ©ç”¨ã™ã‚‹AlarmListeneråã‚’ã‚»ãƒƒãƒˆã™ã‚‹ã€‚
-     * ","åŒºåˆ‡ã‚Šã§è¤‡æ•°æŒ‡å®šã™ã‚‹ã“ã¨ãŒã§ãã‚‹ã€‚
+     * —˜—p‚·‚éAlarmListener–¼‚ğƒZƒbƒg‚·‚éB
+     * ","‹æØ‚è‚Å•¡”w’è‚·‚é‚±‚Æ‚ª‚Å‚«‚éB
      *
-     * @param alarmListeners åˆ©ç”¨ã™ã‚‹AlarmListenerå
+     * @param alarmListeners —˜—p‚·‚éAlarmListener–¼
      */
     public void setAlarmListeners(final String alarmListeners)
     {
@@ -1766,8 +1740,8 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒ­ã‚°ã‚µã‚¤ã‚ºã®æœ€å¤§å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ãƒ­ã‚°ã‚µã‚¤ã‚ºã®æœ€å¤§å€¤
+     * ƒƒOƒTƒCƒY‚ÌÅ‘å’l‚ğæ“¾‚·‚éB
+     * @return ƒƒOƒTƒCƒY‚ÌÅ‘å’l
      */
     public int getLogJvnMax()
     {
@@ -1775,8 +1749,8 @@ public class JavelinConfigBase
     }
 
     /**
-     * ZipåŒ–ã™ã‚‹ãƒ­ã‚°ã®ãƒ•ã‚¡ã‚¤ãƒ«æ•°ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ZipåŒ–ã™ã‚‹ãƒ­ã‚°ã®ãƒ•ã‚¡ã‚¤ãƒ«æ•°
+     * Zip‰»‚·‚éƒƒO‚Ìƒtƒ@ƒCƒ‹”‚ğæ“¾‚·‚éB
+     * @return Zip‰»‚·‚éƒƒO‚Ìƒtƒ@ƒCƒ‹”
      */
     public int getLogZipMax()
     {
@@ -1784,8 +1758,8 @@ public class JavelinConfigBase
     }
 
     /**
-     * Jvnãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¿”ã™ã€‚
-     * @return ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹
+     * JvnƒƒOƒtƒ@ƒCƒ‹‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚ğ•Ô‚·B
+     * @return ƒƒOƒtƒ@ƒCƒ‹‚ğo—Í‚·‚é‚©‚Ç‚¤‚©
      */
     public boolean isLogJvnFile()
     {
@@ -1793,8 +1767,8 @@ public class JavelinConfigBase
     }
 
     /**
-     * Jvnãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param logJvnFile ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹
+     * JvnƒƒOƒtƒ@ƒCƒ‹‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚ğİ’è‚·‚éB
+     * @param logJvnFile ƒƒOƒtƒ@ƒCƒ‹‚ğo—Í‚·‚é‚©‚Ç‚¤‚©
      */
     public void setLogJvnFile(final boolean logJvnFile)
     {
@@ -1802,8 +1776,8 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒ­ã‚°ã‚’ZipåŒ–ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¿”ã™ã€‚
-     * @return true:ãƒ­ã‚°ã‚’ZipåŒ–ã™ã‚‹ã€false:ãƒ­ã‚°ã‚’ZipåŒ–ã—ãªã„ã€‚
+     * ƒƒO‚ğZip‰»‚·‚é‚©‚Ç‚¤‚©‚ğ•Ô‚·B
+     * @return true:ƒƒO‚ğZip‰»‚·‚éAfalse:ƒƒO‚ğZip‰»‚µ‚È‚¢B
      */
     public boolean isLogZipMax()
     {
@@ -1811,9 +1785,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * è¨˜éŒ²æ¡ä»¶åˆ¤å®šã‚¯ãƒ©ã‚¹åã‚’è¿”ã™
+     * ‹L˜^ğŒ”»’èƒNƒ‰ƒX–¼‚ğ•Ô‚·
      *
-     * @return ã‚¯ãƒ©ã‚¹å
+     * @return ƒNƒ‰ƒX–¼
      */
     public String getRecordStrategy()
     {
@@ -1821,9 +1795,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * è¨˜éŒ²æ¡ä»¶åˆ¤å®šã‚¯ãƒ©ã‚¹åãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’èª¿ã¹ã‚‹ã€‚
+     * ‹L˜^ğŒ”»’èƒNƒ‰ƒX–¼‚ªİ’è‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ’²‚×‚éB
      *
-     * @return è¨­å®šã•ã‚Œã¦ã„ã‚Œã°true
+     * @return İ’è‚³‚ê‚Ä‚¢‚ê‚Îtrue
      */
     public boolean isRecordStrategy()
     {
@@ -1831,10 +1805,10 @@ public class JavelinConfigBase
     }
 
     /**
-     * åˆ©ç”¨ã™ã‚‹TelegramListeneråã‚’è¿”ã™ã€‚
-     * ","åŒºåˆ‡ã‚Šã§è¤‡æ•°æŒ‡å®šã™ã‚‹ã“ã¨ãŒã§ãã‚‹ã€‚
+     * —˜—p‚·‚éTelegramListener–¼‚ğ•Ô‚·B
+     * ","‹æØ‚è‚Å•¡”w’è‚·‚é‚±‚Æ‚ª‚Å‚«‚éB
      *
-     * @return åˆ©ç”¨ã™ã‚‹TelegramListenerå
+     * @return —˜—p‚·‚éTelegramListener–¼
      */
     public String getTelegramListeners()
     {
@@ -1842,9 +1816,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * åˆ©ç”¨ã™ã‚‹TelegramListeneråãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’èª¿ã¹ã‚‹ã€‚
+     * —˜—p‚·‚éTelegramListener–¼‚ªİ’è‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ’²‚×‚éB
      *
-     * @return è¨­å®šã•ã‚Œã¦ã„ã‚Œã°true
+     * @return İ’è‚³‚ê‚Ä‚¢‚ê‚Îtrue
      */
     public boolean isSetTelegramListener()
     {
@@ -1852,9 +1826,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * Javelinã®ã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ã®æœ€å¤§ãƒ•ã‚¡ã‚¤ãƒ«æ•°ã‚’å–å¾—ã™ã‚‹ã€‚
+     * Javelin‚ÌƒVƒXƒeƒ€ƒƒO‚ÌÅ‘åƒtƒ@ƒCƒ‹”‚ğæ“¾‚·‚éB
      *
-     * @return Javelinã®ã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ã®æœ€å¤§ãƒ•ã‚¡ã‚¤ãƒ«æ•°ã€‚
+     * @return Javelin‚ÌƒVƒXƒeƒ€ƒƒO‚ÌÅ‘åƒtƒ@ƒCƒ‹”B
      */
     public int getSystemLogNumMax()
     {
@@ -1862,9 +1836,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * MBeanManagerãŒæŒã¤æƒ…å ±ã‚’ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚ºã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«åã‚’è¿”ã™ã€‚
+     * MBeanManager‚ª‚Âî•ñ‚ğƒVƒŠƒAƒ‰ƒCƒY‚·‚éƒtƒ@ƒCƒ‹–¼‚ğ•Ô‚·B
      *
-     * @return åˆ©ç”¨ã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«å
+     * @return —˜—p‚·‚éƒtƒ@ƒCƒ‹–¼
      */
     public String getSerializeFile()
     {
@@ -1873,9 +1847,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * MBeanManagerãŒæŒã¤æƒ…å ±ã‚’ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚ºã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«åãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’èª¿ã¹ã‚‹ã€‚
+     * MBeanManager‚ª‚Âî•ñ‚ğƒVƒŠƒAƒ‰ƒCƒY‚·‚éƒtƒ@ƒCƒ‹–¼‚ªİ’è‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ’²‚×‚éB
      *
-     * @return åˆ©ç”¨ã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«å
+     * @return —˜—p‚·‚éƒtƒ@ƒCƒ‹–¼
      */
     public boolean isSetSerializeFile()
     {
@@ -1883,9 +1857,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * Javelinã®ã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ã®æœ€å¤§ãƒ•ã‚¡ã‚¤ãƒ«ã‚µã‚¤ã‚ºã‚’å–å¾—ã™ã‚‹ã€‚
+     * Javelin‚ÌƒVƒXƒeƒ€ƒƒO‚ÌÅ‘åƒtƒ@ƒCƒ‹ƒTƒCƒY‚ğæ“¾‚·‚éB
      *
-     * @return Javelinã®ã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ã®æœ€å¤§ãƒ•ã‚¡ã‚¤ãƒ«ã‚µã‚¤ã‚ºã€‚
+     * @return Javelin‚ÌƒVƒXƒeƒ€ƒƒO‚ÌÅ‘åƒtƒ@ƒCƒ‹ƒTƒCƒYB
      */
     public int getSystemLogSizeMax()
     {
@@ -1893,8 +1867,8 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ã®ãƒ¬ãƒ™ãƒ«ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ã®ãƒ¬ãƒ™ãƒ«
+     * ƒVƒXƒeƒ€ƒƒO‚ÌƒŒƒxƒ‹‚ğæ“¾‚·‚éB
+     * @return ƒVƒXƒeƒ€ƒƒO‚ÌƒŒƒxƒ‹
      */
     public String getSystemLogLevel()
     {
@@ -1902,8 +1876,8 @@ public class JavelinConfigBase
     }
 
     /**
-     * Javelinã®ã‚¤ãƒ™ãƒ³ãƒˆãƒ¬ãƒ™ãƒ«ã‚’å–å¾—ã—ã¾ã™ã€‚
-     * @return Javelinã®ã‚¤ãƒ™ãƒ³ãƒˆãƒ¬ãƒ™ãƒ«
+     * Javelin‚ÌƒCƒxƒ“ƒgƒŒƒxƒ‹‚ğæ“¾‚µ‚Ü‚·B
+     * @return Javelin‚ÌƒCƒxƒ“ƒgƒŒƒxƒ‹
      */
     public String getEventLevel()
     {
@@ -1911,8 +1885,8 @@ public class JavelinConfigBase
     }
 
     /**
-     * Javelinã®ã‚¤ãƒ™ãƒ³ãƒˆãƒ¬ãƒ™ãƒ«ã‚’è¨­å®šã—ã¾ã™ã€‚
-     * @param eventLevel Javelinã®ã‚¤ãƒ™ãƒ³ãƒˆãƒ¬ãƒ™ãƒ«
+     * Javelin‚ÌƒCƒxƒ“ƒgƒŒƒxƒ‹‚ğİ’è‚µ‚Ü‚·B
+     * @param eventLevel Javelin‚ÌƒCƒxƒ“ƒgƒŒƒxƒ‹
      */
     public void setEventLevel(final String eventLevel)
     {
@@ -1920,8 +1894,8 @@ public class JavelinConfigBase
     }
 
     /**
-     * CallTreeã®æœ€å¤§å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return CallTreeã®æœ€å¤§å€¤
+     * CallTree‚ÌÅ‘å’l‚ğæ“¾‚·‚éB
+     * @return CallTree‚ÌÅ‘å’l
      */
     public int getCallTreeMax()
     {
@@ -1929,8 +1903,8 @@ public class JavelinConfigBase
     }
 
     /**
-     * CallTreeã®æœ€å¤§å€¤ã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param callTreeMax CallTreeã®æœ€å¤§å€¤
+     * CallTree‚ÌÅ‘å’l‚ğİ’è‚·‚éB
+     * @param callTreeMax CallTree‚ÌÅ‘å’l
      */
     public void setCallTreeMax(final int callTreeMax)
     {
@@ -1938,8 +1912,8 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ã‚’ã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥ã™ã‚‹ã‹ã©ã†ã‹ã€‚
-     * @return true:ã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥ã™ã‚‹ã€false:ã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥ã—ãªã„ã€‚
+     * ƒAƒvƒŠƒP[ƒVƒ‡ƒ“Às‚É—áŠO‚ğƒAƒ‰[ƒ€’Ê’m‚·‚é‚©‚Ç‚¤‚©B
+     * @return true:ƒAƒ‰[ƒ€’Ê’m‚·‚éAfalse:ƒAƒ‰[ƒ€’Ê’m‚µ‚È‚¢B
      */
     public boolean isAlarmException()
     {
@@ -1947,9 +1921,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ã‚’ã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥ã™ã‚‹ã‹ã©ã†ã‹è¨­å®šã™ã‚‹ã€‚
+     * ƒAƒvƒŠƒP[ƒVƒ‡ƒ“Às‚É—áŠO‚ğƒAƒ‰[ƒ€’Ê’m‚·‚é‚©‚Ç‚¤‚©İ’è‚·‚éB
      *
-     * @param isAlarmException ä¾‹å¤–ã‚’ã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥ã™ã‚‹ãªã‚‰true
+     * @param isAlarmException —áŠO‚ğƒAƒ‰[ƒ€’Ê’m‚·‚é‚È‚çtrue
      */
     public void setAlarmException(final boolean isAlarmException)
     {
@@ -1957,8 +1931,8 @@ public class JavelinConfigBase
     }
 
     /**
-     * ï¼‘ã‚¯ãƒ©ã‚¹è¾ºã‚Šä¿æŒã™ã‚‹Invocationï¼ˆãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—ï¼‰æœ€å¤§æ•°ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ï¼‘ã‚¯ãƒ©ã‚¹è¾ºã‚Šä¿æŒã™ã‚‹Invocationï¼ˆãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—ï¼‰æœ€å¤§æ•°
+     * ‚PƒNƒ‰ƒX•Ó‚è•Û‚·‚éInvocationiƒƒ\ƒbƒhŒÄ‚Ño‚µjÅ‘å”‚ğæ“¾‚·‚éB
+     * @return ‚PƒNƒ‰ƒX•Ó‚è•Û‚·‚éInvocationiƒƒ\ƒbƒhŒÄ‚Ño‚µjÅ‘å”
      */
     public int getRecordInvocationMax()
     {
@@ -1966,8 +1940,8 @@ public class JavelinConfigBase
     }
 
     /**
-     * ï¼‘ã‚¯ãƒ©ã‚¹è¾ºã‚Šä¿æŒã™ã‚‹Invocationï¼ˆãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—ï¼‰æœ€å¤§æ•°ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @param recInvocationMax ï¼‘ã‚¯ãƒ©ã‚¹è¾ºã‚Šä¿æŒã™ã‚‹Invocationï¼ˆãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—ï¼‰æœ€å¤§æ•°
+     * ‚PƒNƒ‰ƒX•Ó‚è•Û‚·‚éInvocationiƒƒ\ƒbƒhŒÄ‚Ño‚µjÅ‘å”‚ğæ“¾‚·‚éB
+     * @param recInvocationMax ‚PƒNƒ‰ƒX•Ó‚è•Û‚·‚éInvocationiƒƒ\ƒbƒhŒÄ‚Ño‚µjÅ‘å”
      */
     public void setRecordInvocationMax(final int recInvocationMax)
     {
@@ -1975,11 +1949,11 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚¢ãƒ©ãƒ¼ãƒ é€ä¿¡é–“éš”ã®æœ€å°å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒAƒ‰[ƒ€‘—MŠÔŠu‚ÌÅ¬’l‚ğæ“¾‚·‚éB
      * 
-     * å‰å›ã‚¢ãƒ©ãƒ¼ãƒ é€ä¿¡ãƒ»Javelinãƒ­ã‚°å‡ºåŠ›ã‚’è¡Œã£ãŸéš›ã‹ã‚‰
-     * çµŒéã—ãŸæ™‚é–“ãŒã“ã®æœ€å°å€¤ã‚’è¶…ãˆã¦ã„ãŸå ´åˆã®ã¿ã€ã‚¢ãƒ©ãƒ¼ãƒ é€ä¿¡ãƒ»Javelinãƒ­ã‚°å‡ºåŠ›ã‚’è¡Œã†ã€‚
-     * @return ã‚¢ãƒ©ãƒ¼ãƒ é€ä¿¡é–“éš”ã®æœ€å°å€¤ã€‚
+     * ‘O‰ñƒAƒ‰[ƒ€‘—MEJavelinƒƒOo—Í‚ğs‚Á‚½Û‚©‚ç
+     * Œo‰ß‚µ‚½ŠÔ‚ª‚±‚ÌÅ¬’l‚ğ’´‚¦‚Ä‚¢‚½ê‡‚Ì‚İAƒAƒ‰[ƒ€‘—MEJavelinƒƒOo—Í‚ğs‚¤B
+     * @return ƒAƒ‰[ƒ€‘—MŠÔŠu‚ÌÅ¬’lB
      */
     public long getAlarmMinimumInterval()
     {
@@ -1987,9 +1961,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * åŒä¸€ã®ã‚¤ãƒ™ãƒ³ãƒˆã‚’æ¤œå‡ºã™ã‚‹é–“éš”ã‚’å–å¾—ã™ã‚‹ã€‚
+     * “¯ˆê‚ÌƒCƒxƒ“ƒg‚ğŒŸo‚·‚éŠÔŠu‚ğæ“¾‚·‚éB
      * 
-     * @return åŒä¸€ã®ã‚¤ãƒ™ãƒ³ãƒˆã‚’æ¤œå‡ºã™ã‚‹é–“éš”ã€‚
+     * @return “¯ˆê‚ÌƒCƒxƒ“ƒg‚ğŒŸo‚·‚éŠÔŠuB
      */
     public long getEventInterval()
     {
@@ -1997,12 +1971,12 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚¢ãƒ©ãƒ¼ãƒ é€ä¿¡é–“éš”ã®æœ€å°å€¤ã‚’è¨­å®šã™ã‚‹ã€‚
+     * ƒAƒ‰[ƒ€‘—MŠÔŠu‚ÌÅ¬’l‚ğİ’è‚·‚éB
      * 
-     * å‰å›ã‚¢ãƒ©ãƒ¼ãƒ é€ä¿¡ãƒ»Javelinãƒ­ã‚°å‡ºåŠ›ã‚’è¡Œã£ãŸéš›ã‹ã‚‰
-     * çµŒéã—ãŸæ™‚é–“ãŒã“ã®æœ€å°ã‚’è¶…ãˆã¦ã„ãŸå ´åˆã®ã¿ã€ã‚¢ãƒ©ãƒ¼ãƒ é€ä¿¡ãƒ»Javelinãƒ­ã‚°å‡ºåŠ›ã‚’è¡Œã†ã€‚
+     * ‘O‰ñƒAƒ‰[ƒ€‘—MEJavelinƒƒOo—Í‚ğs‚Á‚½Û‚©‚ç
+     * Œo‰ß‚µ‚½ŠÔ‚ª‚±‚ÌÅ¬‚ğ’´‚¦‚Ä‚¢‚½ê‡‚Ì‚İAƒAƒ‰[ƒ€‘—MEJavelinƒƒOo—Í‚ğs‚¤B
      * 
-     * @param alarmMinimumInterval é–¾å€¤ã€‚
+     * @param alarmMinimumInterval è‡’lB
      */
     public void setAlarmMinimumInterval(final long alarmMinimumInterval)
     {
@@ -2010,9 +1984,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * Turn Around Timeã‚’è¨ˆæ¸¬ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¨­å®šã™ã‚‹ã€‚
+     * Turn Around Time‚ğŒv‘ª‚·‚é‚©‚Ç‚¤‚©‚ğİ’è‚·‚éB
      *
-     * @param tatEnabled Turn Around Timeã‚’è¨ˆæ¸¬ã™ã‚‹ãªã‚‰true
+     * @param tatEnabled Turn Around Time‚ğŒv‘ª‚·‚é‚È‚çtrue
      */
     public void setTatEnabled(final boolean tatEnabled)
     {
@@ -2020,8 +1994,8 @@ public class JavelinConfigBase
     }
 
     /**
-     * Turn Around Timeã‚’è¨ˆæ¸¬ã™ã‚‹ã‹ã©ã†ã‹ã€‚
-     * @return true:è¨ˆæ¸¬ã™ã‚‹ã€false:è¨ˆæ¸¬ã—ãªã„ã€‚
+     * Turn Around Time‚ğŒv‘ª‚·‚é‚©‚Ç‚¤‚©B
+     * @return true:Œv‘ª‚·‚éAfalse:Œv‘ª‚µ‚È‚¢B
      */
     public boolean isTatEnabled()
     {
@@ -2029,9 +2003,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * Turn Around Timeã®ä¿æŒæœŸé–“ã‚’ã‚»ãƒƒãƒˆã™ã‚‹ã€‚
+     * Turn Around Time‚Ì•ÛŠúŠÔ‚ğƒZƒbƒg‚·‚éB
      *
-     * @param tatKeepTime Turn Around Timeã®ä¿æŒæœŸé–“
+     * @param tatKeepTime Turn Around Time‚Ì•ÛŠúŠÔ
      */
     public void setTatKeepTime(final long tatKeepTime)
     {
@@ -2039,9 +2013,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * Turn Around Timeã®ä¿æŒæœŸé–“ã‚’å–å¾—ã™ã‚‹ã€‚
+     * Turn Around Time‚Ì•ÛŠúŠÔ‚ğæ“¾‚·‚éB
      * 
-     * @return Turn Around Timeã®ä¿æŒæœŸé–“
+     * @return Turn Around Time‚Ì•ÛŠúŠÔ
      */
     public long getTatKeepTime()
     {
@@ -2049,9 +2023,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * Turn Around Timeã®å€¤ãŒã€€0ã€€ã®å ´åˆã«ã€ã€€0ã€€ã®å‡ºåŠ›ã‚’ç¶™ç¶šã™ã‚‹æ™‚é–“ã‚’ã‚»ãƒƒãƒˆã™ã‚‹ã€‚
+     * Turn Around Time‚Ì’l‚ª@0@‚Ìê‡‚ÉA@0@‚Ìo—Í‚ğŒp‘±‚·‚éŠÔ‚ğƒZƒbƒg‚·‚éB
      *
-     * @param tatZeroKeepTime Turn Around Timeã®å€¤ãŒã€€0ã€€ã®å ´åˆã«ã€ã€€0ã€€ã®å‡ºåŠ›ã‚’ç¶™ç¶šã™ã‚‹æ™‚é–“
+     * @param tatZeroKeepTime Turn Around Time‚Ì’l‚ª@0@‚Ìê‡‚ÉA@0@‚Ìo—Í‚ğŒp‘±‚·‚éŠÔ
      */
     public void setTatZeroKeepTime(final long tatZeroKeepTime)
     {
@@ -2059,9 +2033,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * Turn Around Timeã®å€¤ãŒã€€0ã€€ã®å ´åˆã«ã€ã€€0ã€€ã®å‡ºåŠ›ã‚’ç¶™ç¶šã™ã‚‹æ™‚é–“ã‚’å–å¾—ã™ã‚‹ã€‚
+     * Turn Around Time‚Ì’l‚ª@0@‚Ìê‡‚ÉA@0@‚Ìo—Í‚ğŒp‘±‚·‚éŠÔ‚ğæ“¾‚·‚éB
      *
-     * @return Turn Around Timeã®å€¤ãŒã€€0ã€€ã®å ´åˆã«ã€ã€€0ã€€ã®å‡ºåŠ›ã‚’ç¶™ç¶šã™ã‚‹æ™‚é–“
+     * @return Turn Around Time‚Ì’l‚ª@0@‚Ìê‡‚ÉA@0@‚Ìo—Í‚ğŒp‘±‚·‚éŠÔ
      */
     public long getTatZeroKeepTime()
     {
@@ -2069,9 +2043,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯å…¥åŠ›é‡ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒlƒbƒgƒ[ƒN“ü—Í—Ê‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©‚ğæ“¾‚·‚éB
      * 
-     * @return ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯å…¥åŠ›é‡ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹
+     * @return ƒlƒbƒgƒ[ƒN“ü—Í—Ê‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©
      */
     public boolean isNetInputMonitor()
     {
@@ -2079,9 +2053,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯å…¥åŠ›é‡ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¨­å®šã™ã‚‹ã€‚
+     * ƒlƒbƒgƒ[ƒN“ü—Í—Ê‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©‚ğİ’è‚·‚éB
      * 
-     * @param isNetInputMonitor ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯å…¥åŠ›é‡ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹
+     * @param isNetInputMonitor ƒlƒbƒgƒ[ƒN“ü—Í—Ê‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©
      */
     public void setNetInputMonitor(final boolean isNetInputMonitor)
     {
@@ -2089,9 +2063,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯å‡ºåŠ›é‡ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒlƒbƒgƒ[ƒNo—Í—Ê‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©‚ğæ“¾‚·‚éB
      * 
-     * @return ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯å‡ºåŠ›é‡ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹
+     * @return ƒlƒbƒgƒ[ƒNo—Í—Ê‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©
      */
     public boolean isNetOutputMonitor()
     {
@@ -2099,9 +2073,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯å‡ºåŠ›é‡ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¨­å®šã™ã‚‹ã€‚
+     * ƒlƒbƒgƒ[ƒNo—Í—Ê‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©‚ğİ’è‚·‚éB
      * 
-     * @param isNetOutputMonitor ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯å‡ºåŠ›é‡ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹
+     * @param isNetOutputMonitor ƒlƒbƒgƒ[ƒNo—Í—Ê‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©
      */
     public void setNetOutputMonitor(final boolean isNetOutputMonitor)
     {
@@ -2109,9 +2083,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒ•ã‚¡ã‚¤ãƒ«å…¥åŠ›é‡ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒtƒ@ƒCƒ‹“ü—Í—Ê‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©‚ğæ“¾‚·‚éB
      * 
-     * @return ãƒ•ã‚¡ã‚¤ãƒ«å…¥åŠ›é‡ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹
+     * @return ƒtƒ@ƒCƒ‹“ü—Í—Ê‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©
      */
     public boolean isFileInputMonitor()
     {
@@ -2119,9 +2093,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒ•ã‚¡ã‚¤ãƒ«å…¥åŠ›é‡ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¨­å®šã™ã‚‹ã€‚
+     * ƒtƒ@ƒCƒ‹“ü—Í—Ê‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©‚ğİ’è‚·‚éB
      * 
-     * @param isFileInputMonitor ãƒ•ã‚¡ã‚¤ãƒ«å…¥åŠ›é‡ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹
+     * @param isFileInputMonitor ƒtƒ@ƒCƒ‹“ü—Í—Ê‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©
      */
     public void setFileInputMonitor(final boolean isFileInputMonitor)
     {
@@ -2129,9 +2103,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›é‡ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒtƒ@ƒCƒ‹o—Í—Ê‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©‚ğæ“¾‚·‚éB
      * 
-     * @return ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›é‡ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹
+     * @return ƒtƒ@ƒCƒ‹o—Í—Ê‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©
      */
     public boolean isFileOutputMonitor()
     {
@@ -2139,9 +2113,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›é‡ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¨­å®šã™ã‚‹ã€‚
+     * ƒtƒ@ƒCƒ‹o—Í—Ê‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©‚ğİ’è‚·‚éB
      * 
-     * @param isFileOutputMonitor ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›é‡ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹
+     * @param isFileOutputMonitor ƒtƒ@ƒCƒ‹o—Í—Ê‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©
      */
     public void setFileOutputMonitor(final boolean isFileOutputMonitor)
     {
@@ -2149,9 +2123,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒ•ã‚¡ã‚¤ãƒŠãƒ©ã‚¤ã‚ºå¾…ã¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ•°ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒtƒ@ƒCƒiƒ‰ƒCƒY‘Ò‚¿ƒIƒuƒWƒFƒNƒg”‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©‚ğæ“¾‚·‚éB
      * 
-     * @return ãƒ•ã‚¡ã‚¤ãƒŠãƒ©ã‚¤ã‚ºå¾…ã¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ•°ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹
+     * @return ƒtƒ@ƒCƒiƒ‰ƒCƒY‘Ò‚¿ƒIƒuƒWƒFƒNƒg”‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©
      */
     public boolean isFinalizationCount()
     {
@@ -2159,9 +2133,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒ•ã‚¡ã‚¤ãƒŠãƒ©ã‚¤ã‚ºå¾…ã¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ•°ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¨­å®šã™ã‚‹ã€‚
+     * ƒtƒ@ƒCƒiƒ‰ƒCƒY‘Ò‚¿ƒIƒuƒWƒFƒNƒg”‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©‚ğİ’è‚·‚éB
      * 
-     * @param isFinalizationCount ãƒ•ã‚¡ã‚¤ãƒŠãƒ©ã‚¤ã‚ºå¾…ã¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ•°ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹
+     * @param isFinalizationCount ƒtƒ@ƒCƒiƒ‰ƒCƒY‘Ò‚¿ƒIƒuƒWƒFƒNƒg”‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©
      */
     public void setFinalizationCount(final boolean isFinalizationCount)
     {
@@ -2169,9 +2143,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—é–“éš”è¶…éã‚’ç›£è¦–ã™ã‚‹ã‹ã©ã†ã‹ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒƒ\ƒbƒhŒÄ‚Ño‚µŠÔŠu’´‰ß‚ğŠÄ‹‚·‚é‚©‚Ç‚¤‚©‚ğæ“¾‚·‚éB
      * 
-     * @return ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—é–“éš”è¶…éã‚’ç›£è¦–ã™ã‚‹ã‹ã©ã†ã‹
+     * @return ƒƒ\ƒbƒhŒÄ‚Ño‚µŠÔŠu’´‰ß‚ğŠÄ‹‚·‚é‚©‚Ç‚¤‚©
      */
     public boolean isIntervalMonitor()
     {
@@ -2179,9 +2153,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—é–“éš”è¶…éã‚’ç›£è¦–ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¨­å®šã™ã‚‹ã€‚
+     * ƒƒ\ƒbƒhŒÄ‚Ño‚µŠÔŠu’´‰ß‚ğŠÄ‹‚·‚é‚©‚Ç‚¤‚©‚ğİ’è‚·‚éB
      * 
-     * @param isIntervalMonitor ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—é–“éš”è¶…éã‚’ç›£è¦–ã™ã‚‹ã‹ã©ã†ã‹
+     * @param isIntervalMonitor ƒƒ\ƒbƒhŒÄ‚Ño‚µŠÔŠu’´‰ß‚ğŠÄ‹‚·‚é‚©‚Ç‚¤‚©
      */
     public void setIntervalMonitor(final boolean isIntervalMonitor)
     {
@@ -2189,9 +2163,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * HttpSessionã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ•°ã‚’ç›£è¦–ã™ã‚‹ã‹ã©ã†ã‹ã‚’å–å¾—ã™ã‚‹ã€‚
+     * HttpSession‚ÌƒCƒ“ƒXƒ^ƒ“ƒX”‚ğŠÄ‹‚·‚é‚©‚Ç‚¤‚©‚ğæ“¾‚·‚éB
      * 
-     * @return HttpSessionã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ•°ã‚’ç›£è¦–ã™ã‚‹ã‹ã©ã†ã‹
+     * @return HttpSession‚ÌƒCƒ“ƒXƒ^ƒ“ƒX”‚ğŠÄ‹‚·‚é‚©‚Ç‚¤‚©
      */
     public boolean isHttpSessionCount()
     {
@@ -2199,9 +2173,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * HttpSessionã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ•°ã‚’ç›£è¦–ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¨­å®šã™ã‚‹ã€‚
+     * HttpSession‚ÌƒCƒ“ƒXƒ^ƒ“ƒX”‚ğŠÄ‹‚·‚é‚©‚Ç‚¤‚©‚ğİ’è‚·‚éB
      * 
-     * @param isHttpSessionCount HttpSessionã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ•°ã‚’ç›£è¦–ã™ã‚‹ã‹ã©ã†ã‹
+     * @param isHttpSessionCount HttpSession‚ÌƒCƒ“ƒXƒ^ƒ“ƒX”‚ğŠÄ‹‚·‚é‚©‚Ç‚¤‚©
      */
     public void setHttpSessionCount(final boolean isHttpSessionCount)
     {
@@ -2209,9 +2183,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * HttpSessionã¸ã®ç™»éŒ²ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç·ã‚µã‚¤ã‚ºã‚’ç›£è¦–ã™ã‚‹ã‹ã©ã†ã‹ã‚’å–å¾—ã™ã‚‹ã€‚
+     * HttpSession‚Ö‚Ì“o˜^ƒIƒuƒWƒFƒNƒg‘ƒTƒCƒY‚ğŠÄ‹‚·‚é‚©‚Ç‚¤‚©‚ğæ“¾‚·‚éB
      * 
-     * @return HttpSessionã¸ã®ç™»éŒ²ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç·ã‚µã‚¤ã‚ºã‚’ç›£è¦–ã™ã‚‹ã‹ã©ã†ã‹
+     * @return HttpSession‚Ö‚Ì“o˜^ƒIƒuƒWƒFƒNƒg‘ƒTƒCƒY‚ğŠÄ‹‚·‚é‚©‚Ç‚¤‚©
      */
     public boolean isHttpSessionSize()
     {
@@ -2219,9 +2193,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * HttpSessionã¸ã®ç™»éŒ²ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç·ã‚µã‚¤ã‚ºã‚’ç›£è¦–ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¨­å®šã™ã‚‹ã€‚
+     * HttpSession‚Ö‚Ì“o˜^ƒIƒuƒWƒFƒNƒg‘ƒTƒCƒY‚ğŠÄ‹‚·‚é‚©‚Ç‚¤‚©‚ğİ’è‚·‚éB
      * 
-     * @param isHttpSessionSize HttpSessionã¸ã®ç™»éŒ²ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç·ã‚µã‚¤ã‚ºã‚’ç›£è¦–ã™ã‚‹ã‹ã©ã†ã‹
+     * @param isHttpSessionSize HttpSession‚Ö‚Ì“o˜^ƒIƒuƒWƒFƒNƒg‘ƒTƒCƒY‚ğŠÄ‹‚·‚é‚©‚Ç‚¤‚©
      */
     public void setHttpSessionSize(final boolean isHttpSessionSize)
     {
@@ -2229,9 +2203,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * Javelinã®è¨­å®šã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆã™ã‚‹ã€‚ Javelinèµ·å‹•æ™‚ã«ã®ã¿å‘¼ã³å‡ºã•ã‚Œã‚‹ã€‚
+     * Javelin‚Ìİ’èƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB Javelin‹N“®‚É‚Ì‚İŒÄ‚Ño‚³‚ê‚éB
      * 
-     * @param absoluteJarDirectory JarãŒå­˜åœ¨ã™ã‚‹çµ¶å¯¾ãƒ‘ã‚¹
+     * @param absoluteJarDirectory Jar‚ª‘¶İ‚·‚éâ‘ÎƒpƒX
      */
     public JavelinConfigBase(final String absoluteJarDirectory)
     {
@@ -2239,9 +2213,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒ­ã‚°å‡ºåŠ›ã‹ã‚‰é™¤å¤–ã™ã‚‹å¯¾è±¡ã‚’è¨˜è¿°ã—ãŸãƒ•ã‚£ãƒ«ã‚¿ãƒ•ã‚¡ã‚¤ãƒ«åã‚’è¿”ã™ã€‚
+     * ƒƒOo—Í‚©‚çœŠO‚·‚é‘ÎÛ‚ğ‹Lq‚µ‚½ƒtƒBƒ‹ƒ^ƒtƒ@ƒCƒ‹–¼‚ğ•Ô‚·B
      * 
-     * @return ãƒ•ã‚¡ã‚¤ãƒ«å
+     * @return ƒtƒ@ƒCƒ‹–¼
      */
     public String getExclude()
     {
@@ -2250,9 +2224,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒ­ã‚°å‡ºåŠ›ã‚’ã™ã‚‹å¯¾è±¡ã‚’è¨˜è¿°ã—ãŸãƒ•ã‚£ãƒ«ã‚¿ãƒ•ã‚¡ã‚¤ãƒ«åã‚’è¿”ã™ã€‚
+     * ƒƒOo—Í‚ğ‚·‚é‘ÎÛ‚ğ‹Lq‚µ‚½ƒtƒBƒ‹ƒ^ƒtƒ@ƒCƒ‹–¼‚ğ•Ô‚·B
      * 
-     * @return ãƒ•ã‚¡ã‚¤ãƒ«å
+     * @return ƒtƒ@ƒCƒ‹–¼
      */
     public String getInclude()
     {
@@ -2261,9 +2235,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * JVNãƒ•ã‚¡ã‚¤ãƒ«ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰æ™‚ã®æœ€å¤§ãƒã‚¤ãƒˆæ•°ã‚’è¿”ã™ã€‚
+     * JVNƒtƒ@ƒCƒ‹ƒ_ƒEƒ“ƒ[ƒh‚ÌÅ‘åƒoƒCƒg”‚ğ•Ô‚·B
      * 
-     * @return JVNãƒ•ã‚¡ã‚¤ãƒ«ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰æ™‚ã®æœ€å¤§ãƒã‚¤ãƒˆæ•°ã€‚
+     * @return JVNƒtƒ@ƒCƒ‹ƒ_ƒEƒ“ƒ[ƒh‚ÌÅ‘åƒoƒCƒg”B
      */
     public int getJvnDownloadMax()
     {
@@ -2271,9 +2245,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * JVNãƒ•ã‚¡ã‚¤ãƒ«ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰æ™‚ã®æœ€å¤§ãƒã‚¤ãƒˆæ•°ã‚’è¿”ã™ã€‚
+     * JVNƒtƒ@ƒCƒ‹ƒ_ƒEƒ“ƒ[ƒh‚ÌÅ‘åƒoƒCƒg”‚ğ•Ô‚·B
      * 
-     * @param jvnDownloadMax JVNãƒ•ã‚¡ã‚¤ãƒ«ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰æ™‚ã®æœ€å¤§ãƒã‚¤ãƒˆæ•°ã€‚
+     * @param jvnDownloadMax JVNƒtƒ@ƒCƒ‹ƒ_ƒEƒ“ƒ[ƒh‚ÌÅ‘åƒoƒCƒg”B
      */
     public void setJvnDownloadMax(final int jvnDownloadMax)
     {
@@ -2281,9 +2255,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * "javelin." ã§é–‹å§‹ã™ã‚‹ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚’ä¸Šæ›¸ãã™ã‚‹ã€‚
+     * "javelin." ‚ÅŠJn‚·‚éƒIƒvƒVƒ‡ƒ“‚ğã‘‚«‚·‚éB
      * 
-     * @param properties ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãƒªã‚¹ãƒˆ
+     * @param properties ƒIƒvƒVƒ‡ƒ“ƒŠƒXƒg
      */
     public void overwriteProperty(final Properties properties)
     {
@@ -2300,9 +2274,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * è­¦å‘Šã‚’ç™ºç”Ÿã•ã›ã‚‹CPUæ™‚é–“ã®é–¾å€¤ã‚’è¨­å®šã™ã‚‹ã€‚
+     * Œx‚ğ”­¶‚³‚¹‚éCPUŠÔ‚Ìè‡’l‚ğİ’è‚·‚éB
      * 
-     * @param cpuTime CPUæ™‚é–“
+     * @param cpuTime CPUŠÔ
      */
     public void setAlarmCpuThreashold(final long cpuTime)
     {
@@ -2310,9 +2284,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * è­¦å‘Šã‚’ç™ºç”Ÿã•ã›ã‚‹CPUæ™‚é–“ã®é–¾å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
+     * Œx‚ğ”­¶‚³‚¹‚éCPUŠÔ‚Ìè‡’l‚ğæ“¾‚·‚éB
      * 
-     * @return è­¦å‘Šã‚’ç™ºç”Ÿã•ã›ã‚‹CPUæ™‚é–“ã®é–¾å€¤
+     * @return Œx‚ğ”­¶‚³‚¹‚éCPUŠÔ‚Ìè‡’l
      */
     public long getAlarmCpuThreashold()
     {
@@ -2320,9 +2294,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒ©ã‚¤ã‚»ãƒ³ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã‚’è¿”ã™ã€‚
+     * ƒ‰ƒCƒZƒ“ƒXƒtƒ@ƒCƒ‹ƒpƒX‚ğ•Ô‚·B
      * 
-     * @return ãƒ©ã‚¤ã‚»ãƒ³ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã€‚
+     * @return ƒ‰ƒCƒZƒ“ƒXƒtƒ@ƒCƒ‹ƒpƒXB
      */
     public String getLicensePath()
     {
@@ -2331,9 +2305,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚¯ãƒ©ã‚¹åã‚’å˜ç´”åŒ–ã™ã‚‹ã‹ã©ã†ã‹ã®ãƒ•ãƒ©ã‚°ã€‚
+     * ƒNƒ‰ƒX–¼‚ğ’Pƒ‰»‚·‚é‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒOB
      * 
-     * @return å˜ç´”åŒ–ã™ã‚‹å ´åˆã¯trueã€‚
+     * @return ’Pƒ‰»‚·‚éê‡‚ÍtrueB
      */
     public boolean isClassNameSimplify()
     {
@@ -2342,9 +2316,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * Collectionã®ãƒ¡ãƒ¢ãƒªãƒªãƒ¼ã‚¯æ¤œå‡ºã‚’è¡Œã†ã‹ã©ã†ã‹ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
+     * Collection‚Ìƒƒ‚ƒŠƒŠ[ƒNŒŸo‚ğs‚¤‚©‚Ç‚¤‚©‚ğİ’è‚µ‚Ü‚·B<br />
      * 
-     * @param collectionMonitor Collectionã®ãƒ¡ãƒ¢ãƒªãƒªãƒ¼ã‚¯æ¤œå‡ºã‚’è¡Œã†å ´åˆã€<code>true</code>
+     * @param collectionMonitor Collection‚Ìƒƒ‚ƒŠƒŠ[ƒNŒŸo‚ğs‚¤ê‡A<code>true</code>
      */
     public void setCollectionMonitor(final boolean collectionMonitor)
     {
@@ -2352,9 +2326,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * Collectionã®ãƒ¡ãƒ¢ãƒªãƒªãƒ¼ã‚¯æ¤œå‡ºã‚’è¡Œã†ã‹ã©ã†ã‹ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * Collection‚Ìƒƒ‚ƒŠƒŠ[ƒNŒŸo‚ğs‚¤‚©‚Ç‚¤‚©‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @return Collectionã®ãƒ¡ãƒ¢ãƒªãƒªãƒ¼ã‚¯æ¤œå‡ºã‚’è¡Œã†å ´åˆã€<code>true</code>
+     * @return Collection‚Ìƒƒ‚ƒŠƒŠ[ƒNŒŸo‚ğs‚¤ê‡A<code>true</code>
      */
     public boolean isCollectionMonitor()
     {
@@ -2362,7 +2336,7 @@ public class JavelinConfigBase
     }
 
     /**
-     * Collectionã€Mapã®ã‚µã‚¤ã‚ºã‚’è¨˜éŒ²ã™ã‚‹é–¾å€¤ã‚’è¨­å®šã™ã‚‹ã€‚
+     * CollectionAMap‚ÌƒTƒCƒY‚ğ‹L˜^‚·‚éè‡’l‚ğİ’è‚·‚éB
      * 
      * @param collectionSizeThreshold COLLECTION_SIZE_THRESHOLD
      */
@@ -2372,9 +2346,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * Collectionã€Mapã®ã‚µã‚¤ã‚ºã‚’è¨˜éŒ²ã™ã‚‹é–¾å€¤ã‚’è¨­å®šã™ã‚‹ã€‚
+     * CollectionAMap‚ÌƒTƒCƒY‚ğ‹L˜^‚·‚éè‡’l‚ğİ’è‚·‚éB
      * 
-     * @return Collectionã€Mapã®ã‚µã‚¤ã‚ºã‚’è¨˜éŒ²ã™ã‚‹é–¾å€¤ã€‚
+     * @return CollectionAMap‚ÌƒTƒCƒY‚ğ‹L˜^‚·‚éè‡’lB
      */
     public int getCollectionSizeThreshold()
     {
@@ -2382,9 +2356,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã®æ•°ã‚’ç›£è¦–ã™ã‚‹éš›ã®å‡ºåŠ›ãƒã‚§ãƒƒã‚¯ã®é–“éš”ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒRƒŒƒNƒVƒ‡ƒ“‚Ì”‚ğŠÄ‹‚·‚éÛ‚Ìo—Íƒ`ƒFƒbƒN‚ÌŠÔŠu‚ğæ“¾‚·‚éB
      * 
-     * @return ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã®æ•°ã‚’ç›£è¦–ã™ã‚‹éš›ã®å‡ºåŠ›ãƒã‚§ãƒƒã‚¯ã®é–“éš”ã€‚
+     * @return ƒRƒŒƒNƒVƒ‡ƒ“‚Ì”‚ğŠÄ‹‚·‚éÛ‚Ìo—Íƒ`ƒFƒbƒN‚ÌŠÔŠuB
      */
     public int getCollectionInterval()
     {
@@ -2392,9 +2366,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã®æ•°ã‚’ç›£è¦–ã™ã‚‹éš›ã«ä¿æŒã™ã‚‹ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®æ•°ã€‚
+     * ƒRƒŒƒNƒVƒ‡ƒ“‚Ì”‚ğŠÄ‹‚·‚éÛ‚É•Û‚·‚éƒXƒ^ƒbƒNƒgƒŒ[ƒX‚Ì”B
      * 
-     * @return ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã®æ•°ã‚’ç›£è¦–ã™ã‚‹éš›ã«ä¿æŒã™ã‚‹ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®æ•°ã€‚
+     * @return ƒRƒŒƒNƒVƒ‡ƒ“‚Ì”‚ğŠÄ‹‚·‚éÛ‚É•Û‚·‚éƒXƒ^ƒbƒNƒgƒŒ[ƒX‚Ì”B
      */
     public int getCollectionTraceMax()
     {
@@ -2402,9 +2376,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®è¡¨ç¤ºã«ä½¿ã†æ·±ã•ã§ã™ã€‚<br />
+     * ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚Ì•\¦‚Ég‚¤[‚³‚Å‚·B<br />
      * 
-     * @return ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®è¡¨ç¤ºã«ä½¿ã†æ·±ã•ã€‚
+     * @return ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚Ì•\¦‚Ég‚¤[‚³B
      */
     public int getTraceDepth()
     {
@@ -2412,9 +2386,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã®æ•°ã‚’ç›£è¦–ã™ã‚‹éš›ã«ä¿æŒã™ã‚‹ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®æ·±ã•ã€‚
+     * ƒRƒŒƒNƒVƒ‡ƒ“‚Ì”‚ğŠÄ‹‚·‚éÛ‚É•Û‚·‚éƒXƒ^ƒbƒNƒgƒŒ[ƒX‚Ì[‚³B
      * 
-     * @return ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã®æ•°ã‚’ç›£è¦–ã™ã‚‹éš›ã«ä¿æŒã™ã‚‹ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®æ·±ã•ã€‚
+     * @return ƒRƒŒƒNƒVƒ‡ƒ“‚Ì”‚ğŠÄ‹‚·‚éÛ‚É•Û‚·‚éƒXƒ^ƒbƒNƒgƒŒ[ƒX‚Ì[‚³B
      */
     public int getCollectionLeakDetectDepth()
     {
@@ -2422,9 +2396,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã‚’å–å¾—ã™ã‚‹éš›ã«ã€GCã‚’è¡Œã†ã‹ã©ã†ã‹ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€‚ğæ“¾‚·‚éÛ‚ÉAGC‚ğs‚¤‚©‚Ç‚¤‚©‚ğæ“¾‚·‚éB
      * 
-     * @return ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã‚’å–å¾—ã™ã‚‹éš›ã«ã€GCã‚’è¡Œã†ã‹ã©ã†ã‹ã€‚
+     * @return ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€‚ğæ“¾‚·‚éÛ‚ÉAGC‚ğs‚¤‚©‚Ç‚¤‚©B
      */
     public boolean getClassHistoGC()
     {
@@ -2432,9 +2406,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã‚’å–å¾—ã™ã‚‹éš›ã«ã€GCã‚’è¡Œã†ã‹ã©ã†ã‹ã‚’è¨­å®šã™ã‚‹ã€‚
+     * ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€‚ğæ“¾‚·‚éÛ‚ÉAGC‚ğs‚¤‚©‚Ç‚¤‚©‚ğİ’è‚·‚éB
      * 
-     * @param classHistoGC ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã‚’å–å¾—ã™ã‚‹éš›ã«ã€GCã‚’è¡Œã†ã‹ã©ã†ã‹ã€‚
+     * @param classHistoGC ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€‚ğæ“¾‚·‚éÛ‚ÉAGC‚ğs‚¤‚©‚Ç‚¤‚©B
      */
     public void setClassHistoGC(final boolean classHistoGC)
     {
@@ -2442,9 +2416,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã®ä¸Šä½ä½•ä»¶ã‚’å–å¾—ã™ã‚‹ã‹ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€‚ÌãˆÊ‰½Œ‚ğæ“¾‚·‚é‚©‚ğæ“¾‚·‚éB
      * 
-     * @return ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã®ä¸Šä½ä½•ä»¶ã‚’å–å¾—ã™ã‚‹ã‹ã€‚
+     * @return ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€‚ÌãˆÊ‰½Œ‚ğæ“¾‚·‚é‚©B
      */
     public int getClassHistoMax()
     {
@@ -2452,9 +2426,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã®ä¸Šä½ä½•ä»¶ã‚’å–å¾—ã™ã‚‹ã‹ã‚’è¨­å®šã™ã‚‹ã€‚
+     * ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€‚ÌãˆÊ‰½Œ‚ğæ“¾‚·‚é‚©‚ğİ’è‚·‚éB
      * 
-     * @param classHistoMax ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã®ä¸Šä½ä½•ä»¶ã‚’å–å¾—ã™ã‚‹ã‹ã€‚
+     * @param classHistoMax ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€‚ÌãˆÊ‰½Œ‚ğæ“¾‚·‚é‚©B
      */
     public void setClassHistoMax(final int classHistoMax)
     {
@@ -2462,9 +2436,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ å–å¾—é–“éš”(ãƒŸãƒªç§’)ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€æ“¾ŠÔŠu(ƒ~ƒŠ•b)‚ğæ“¾‚·‚éB
      * 
-     * @return ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ å–å¾—é–“éš”(ãƒŸãƒªç§’)ã€‚
+     * @return ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€æ“¾ŠÔŠu(ƒ~ƒŠ•b)B
      */
     public int getClassHistoInterval()
     {
@@ -2472,9 +2446,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ å–å¾—é–“éš”(ãƒŸãƒªç§’)ã‚’è¨­å®šã™ã‚‹ã€‚
+     * ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€æ“¾ŠÔŠu(ƒ~ƒŠ•b)‚ğİ’è‚·‚éB
      * 
-     * @param classHistoInterval ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ å–å¾—é–“éš”(ãƒŸãƒªç§’)ã€‚
+     * @param classHistoInterval ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€æ“¾ŠÔŠu(ƒ~ƒŠ•b)B
      */
     public void setClassHistoInterval(final int classHistoInterval)
     {
@@ -2482,9 +2456,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©‚ğæ“¾‚·‚éB
      * 
-     * @return ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã€‚
+     * @return ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©B
      */
     public boolean getClassHisto()
     {
@@ -2492,9 +2466,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¨­å®šã™ã‚‹ã€‚
+     * ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©‚ğİ’è‚·‚éB
      * 
-     * @param classHisto ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã€‚
+     * @param classHisto ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©B
      */
     public void setClassHisto(final boolean classHisto)
     {
@@ -2502,9 +2476,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©‚ğæ“¾‚·‚éB
      * 
-     * @return ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã€‚
+     * @return ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©B
      */
     public boolean getDetach()
     {
@@ -2512,9 +2486,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ç·šå½¢æ¤œç´¢æ¤œå‡ºã‚’è¡Œã†ã‹ã©ã†ã‹ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * üŒ`ŒŸõŒŸo‚ğs‚¤‚©‚Ç‚¤‚©‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @return ç·šå½¢æ¤œç´¢ã®æ¤œå‡ºã‚’è¡Œã†å ´åˆã€<code>true</code>
+     * @return üŒ`ŒŸõ‚ÌŒŸo‚ğs‚¤ê‡A<code>true</code>
      */
     public boolean isLinearSearchMonitor()
     {
@@ -2522,9 +2496,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ç·šå½¢æ¤œç´¢æ¤œå‡ºã‚’è¡Œã†ã‹ã©ã†ã‹ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
+     * üŒ`ŒŸõŒŸo‚ğs‚¤‚©‚Ç‚¤‚©‚ğİ’è‚µ‚Ü‚·B<br />
      * 
-     * @param linearSearchEnabled ç·šå½¢æ¤œç´¢æ¤œå‡ºã‚’è¡Œã†ã‹ã©ã†ã‹
+     * @param linearSearchEnabled üŒ`ŒŸõŒŸo‚ğs‚¤‚©‚Ç‚¤‚©
      */
     public void setLinearSearchMonitor(final boolean linearSearchEnabled)
     {
@@ -2532,9 +2506,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ç·šå½¢æ¤œç´¢å¯¾è±¡ã¨ãªã‚‹ãƒªã‚¹ãƒˆã‚µã‚¤ã‚ºã®é–¾å€¤ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * üŒ`ŒŸõ‘ÎÛ‚Æ‚È‚éƒŠƒXƒgƒTƒCƒY‚Ìè‡’l‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return ç·šå½¢æ¤œç´¢å¯¾è±¡ã¨ãªã‚‹ãƒªã‚¹ãƒˆã‚µã‚¤ã‚ºã®é–¾å€¤
+     * @return üŒ`ŒŸõ‘ÎÛ‚Æ‚È‚éƒŠƒXƒgƒTƒCƒY‚Ìè‡’l
      */
     public int getLinearSearchListSize()
     {
@@ -2542,9 +2516,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ç·šå½¢æ¤œç´¢å¯¾è±¡ã¨ã™ã‚‹ãƒªã‚¹ãƒˆã‚µã‚¤ã‚ºã®é–¾å€¤ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
+     * üŒ`ŒŸõ‘ÎÛ‚Æ‚·‚éƒŠƒXƒgƒTƒCƒY‚Ìè‡’l‚ğİ’è‚µ‚Ü‚·B<br />
      * 
-     * @param size ç·šå½¢æ¤œç´¢å¯¾è±¡ã¨ã™ã‚‹ãƒªã‚¹ãƒˆã‚µã‚¤ã‚ºã®é–¾å€¤
+     * @param size üŒ`ŒŸõ‘ÎÛ‚Æ‚·‚éƒŠƒXƒgƒTƒCƒY‚Ìè‡’l
      */
     public void setLinearSearchListSize(final int size)
     {
@@ -2552,9 +2526,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ç·šå½¢æ¤œç´¢å¯¾è±¡ã¨ãªã‚‹ã€ãƒªã‚¹ãƒˆã«å¯¾ã™ã‚‹ç·šå½¢ã‚¢ã‚¯ã‚»ã‚¹å›æ•°ã®å‰²åˆã®é–¾å€¤ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * üŒ`ŒŸõ‘ÎÛ‚Æ‚È‚éAƒŠƒXƒg‚É‘Î‚·‚éüŒ`ƒAƒNƒZƒX‰ñ”‚ÌŠ„‡‚Ìè‡’l‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return ãƒªã‚¹ãƒˆã«å¯¾ã™ã‚‹ç·šå½¢ã‚¢ã‚¯ã‚»ã‚¹å›æ•°ã®é–¾å€¤
+     * @return ƒŠƒXƒg‚É‘Î‚·‚éüŒ`ƒAƒNƒZƒX‰ñ”‚Ìè‡’l
      */
     public double getLinearSearchListRatio()
     {
@@ -2562,9 +2536,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ç·šå½¢æ¤œç´¢å¯¾è±¡ã¨ãªã‚‹ã€ãƒªã‚¹ãƒˆã«å¯¾ã™ã‚‹ç·šå½¢ã‚¢ã‚¯ã‚»ã‚¹å›æ•°ã®å‰²åˆã®é–¾å€¤ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * üŒ`ŒŸõ‘ÎÛ‚Æ‚È‚éAƒŠƒXƒg‚É‘Î‚·‚éüŒ`ƒAƒNƒZƒX‰ñ”‚ÌŠ„‡‚Ìè‡’l‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @param linearSearchRatio ãƒªã‚¹ãƒˆã«å¯¾ã™ã‚‹ç·šå½¢ã‚¢ã‚¯ã‚»ã‚¹å›æ•°ã®å‰²åˆã®é–¾å€¤
+     * @param linearSearchRatio ƒŠƒXƒg‚É‘Î‚·‚éüŒ`ƒAƒNƒZƒX‰ñ”‚ÌŠ„‡‚Ìè‡’l
      */
     public void setLinearSearchListRatio(final double linearSearchRatio)
     {
@@ -2572,9 +2546,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚¹ãƒ¬ãƒƒãƒ‰ç›£è¦–ã‚’è¡Œã†ã‹ã©ã†ã‹ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒXƒŒƒbƒhŠÄ‹‚ğs‚¤‚©‚Ç‚¤‚©‚ğæ“¾‚·‚éB
      * 
-     * @return ã‚¹ãƒ¬ãƒƒãƒ‰ç›£è¦–ã‚’è¡Œã†å ´åˆã¯<code>true</code>ã€‚
+     * @return ƒXƒŒƒbƒhŠÄ‹‚ğs‚¤ê‡‚Í<code>true</code>B
      */
     public boolean getThreadMonitor()
     {
@@ -2582,9 +2556,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚¹ãƒ¬ãƒƒãƒ‰ç›£è¦–ã‚’è¡Œã†é–“éš”(ãƒŸãƒªç§’)ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒXƒŒƒbƒhŠÄ‹‚ğs‚¤ŠÔŠu(ƒ~ƒŠ•b)‚ğæ“¾‚·‚éB
      * 
-     * @return ã‚¹ãƒ¬ãƒƒãƒ‰ç›£è¦–ã‚’è¡Œã†é–“éš”(ãƒŸãƒªç§’)ã€‚
+     * @return ƒXƒŒƒbƒhŠÄ‹‚ğs‚¤ŠÔŠu(ƒ~ƒŠ•b)B
      */
     public long getThreadMonitorInterval()
     {
@@ -2592,9 +2566,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚¹ãƒ¬ãƒƒãƒ‰ç›£è¦–ã®éš›ã«å‡ºåŠ›ã™ã‚‹ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®æ·±ã•ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒXƒŒƒbƒhŠÄ‹‚ÌÛ‚Éo—Í‚·‚éƒXƒ^ƒbƒNƒgƒŒ[ƒX‚Ì[‚³‚ğæ“¾‚·‚éB
      * 
-     * @return ã‚¹ãƒ¬ãƒƒãƒ‰ç›£è¦–ã®éš›ã«å‡ºåŠ›ã™ã‚‹ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®æ·±ã•ã€‚
+     * @return ƒXƒŒƒbƒhŠÄ‹‚ÌÛ‚Éo—Í‚·‚éƒXƒ^ƒbƒNƒgƒŒ[ƒX‚Ì[‚³B
      */
     public int getThreadMonitorDepth()
     {
@@ -2602,9 +2576,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ƒtƒ‹ƒXƒŒƒbƒhƒ_ƒ“ƒv‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @return ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—ã‚’å‡ºåŠ›ã™ã‚‹ã¨ãã«<code>true</code>ã€‚
+     * @return ƒtƒ‹ƒXƒŒƒbƒhƒ_ƒ“ƒv‚ğo—Í‚·‚é‚Æ‚«‚É<code>true</code>B
      */
     public boolean isThreadDump()
     {
@@ -2612,9 +2586,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¨­å®šã¾ã™ã€‚<br />
+     * ƒtƒ‹ƒXƒŒƒbƒhƒ_ƒ“ƒv‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚ğİ’è‚Ü‚·B<br />
      * 
-     * @param threadDumpMonitor ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã€‚
+     * @param threadDumpMonitor ƒtƒ‹ƒXƒŒƒbƒhƒ_ƒ“ƒv‚ğo—Í‚·‚é‚©‚Ç‚¤‚©B
      */
     public void setThreadDumpMonitor(final boolean threadDumpMonitor)
     {
@@ -2622,9 +2596,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å‡ºåŠ›é–“éš”ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ƒtƒ‹ƒXƒŒƒbƒhƒ_ƒ“ƒvo—ÍŠÔŠu‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @return ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å‡ºåŠ›é–“éš”ã€‚
+     * @return ƒtƒ‹ƒXƒŒƒbƒhƒ_ƒ“ƒvo—ÍŠÔŠuB
      */
     public int getThreadDumpInterval()
     {
@@ -2632,9 +2606,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å‡ºåŠ›é–“éš”ã‚’è¨­å®šã¾ã™ã€‚<br />
+     * ƒtƒ‹ƒXƒŒƒbƒhƒ_ƒ“ƒvo—ÍŠÔŠu‚ğİ’è‚Ü‚·B<br />
      * 
-     * @param threadDumpInterval ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å‡ºåŠ›é–“éš”ã€‚
+     * @param threadDumpInterval ƒtƒ‹ƒXƒŒƒbƒhƒ_ƒ“ƒvo—ÍŠÔŠuB
      */
     public void setThreadDumpInterval(final int threadDumpInterval)
     {
@@ -2642,19 +2616,19 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å‡ºåŠ›ã®ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã®é–¾å€¤ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ƒtƒ‹ƒXƒŒƒbƒhƒ_ƒ“ƒvo—Í‚ÌƒXƒŒƒbƒh”‚Ìè‡’l‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @return ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å‡ºåŠ›ã®ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã®é–¾å€¤
+     * @return ƒtƒ‹ƒXƒŒƒbƒhƒ_ƒ“ƒvo—Í‚ÌƒXƒŒƒbƒh”‚Ìè‡’l
      */
     public int getThreadDumpThreadNum()
     {
-        return CONFIGUTIL.getInteger(THREAD_DUMP_THREAD, DEF_THREAD_DUMP_NUM);
+        return CONFIGUTIL.getInteger(THREAD_DUMP_THREAD, DEF_THREAD_DUMP_THREAD);
     }
 
     /**
-     * ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å‡ºåŠ›ã®ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã®é–¾å€¤ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
+     * ƒtƒ‹ƒXƒŒƒbƒhƒ_ƒ“ƒvo—Í‚ÌƒXƒŒƒbƒh”‚Ìè‡’l‚ğİ’è‚µ‚Ü‚·B<br />
      * 
-     * @param threadDumpNum ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å‡ºåŠ›ã®ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã®é–¾å€¤
+     * @param threadDumpNum ƒtƒ‹ƒXƒŒƒbƒhƒ_ƒ“ƒvo—Í‚ÌƒXƒŒƒbƒh”‚Ìè‡’l
      */
     public void setThreadDumpThreadNum(final int threadDumpNum)
     {
@@ -2662,49 +2636,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å‡ºåŠ›ã®ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã®é–¾å€¤ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ƒtƒ‹ƒXƒŒƒbƒhƒ_ƒ“ƒvo—Í‚ÌCPUg—p—¦‚Ìè‡’l‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @return ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å‡ºåŠ›ã®ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã®é–¾å€¤
-     */
-    public boolean isResourceThreadRunnable()
-    {
-        return CONFIGUTIL.getBoolean(RESOURCE_THREAD_RUNNABLE, DEF_RESOURCE_THREAD_RUNNABLE);
-    }
-
-    /**
-     * ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å‡ºåŠ›ã®ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã®é–¾å€¤ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
-     * 
-     * @param threadDumpNum ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å‡ºåŠ›ã®ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã®é–¾å€¤
-     */
-    public void setResourceThreadRunnable(final boolean threadDumpNum)
-    {
-        CONFIGUTIL.setBoolean(RESOURCE_THREAD_RUNNABLE, threadDumpNum);
-    }
-
-    /**
-     * ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å‡ºåŠ›ã®ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã®é–¾å€¤ã‚’è¿”ã—ã¾ã™ã€‚<br />
-     * 
-     * @return ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å‡ºåŠ›ã®ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã®é–¾å€¤
-     */
-    public boolean isResourceThreadBlocked()
-    {
-        return CONFIGUTIL.getBoolean(RESOURCE_THREAD_BLOCKED, DEF_RESOURCE_THREAD_BLOCKED);
-    }
-
-    /**
-     * ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å‡ºåŠ›ã®ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã®é–¾å€¤ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
-     * 
-     * @param threadDumpNum ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å‡ºåŠ›ã®ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã®é–¾å€¤
-     */
-    public void setResourceThreadBlocked(final boolean threadDumpNum)
-    {
-        CONFIGUTIL.setBoolean(RESOURCE_THREAD_BLOCKED, threadDumpNum);
-    }
-
-    /**
-     * ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å‡ºåŠ›ã®CPUä½¿ç”¨ç‡ã®é–¾å€¤ã‚’è¿”ã—ã¾ã™ã€‚<br />
-     * 
-     * @return ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å‡ºåŠ›ã®CPUä½¿ç”¨ç‡ã®é–¾å€¤
+     * @return ƒtƒ‹ƒXƒŒƒbƒhƒ_ƒ“ƒvo—Í‚ÌCPUg—p—¦‚Ìè‡’l
      */
     public int getThreadDumpCpu()
     {
@@ -2712,9 +2646,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å‡ºåŠ›ã®CPUä½¿ç”¨ç‡ã®é–¾å€¤ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
+     * ƒtƒ‹ƒXƒŒƒbƒhƒ_ƒ“ƒvo—Í‚ÌCPUg—p—¦‚Ìè‡’l‚ğİ’è‚µ‚Ü‚·B<br />
      * 
-     * @param threadDumpCpu ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å‡ºåŠ›ã®CPUä½¿ç”¨ç‡ã®é–¾å€¤
+     * @param threadDumpCpu ƒtƒ‹ƒXƒŒƒbƒhƒ_ƒ“ƒvo—Í‚ÌCPUg—p—¦‚Ìè‡’l
      */
     public void setThreadDumpCpu(final int threadDumpCpu)
     {
@@ -2722,49 +2656,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å‡ºåŠ›ã®CPUä½¿ç”¨ç‡ã®é–¾å€¤ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ƒtƒ‹GC‚ğŒŸo‚·‚é‚©‚Ç‚¤‚©‚ğİ’è‚µ‚Ü‚·B<br />
      * 
-     * @return ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å‡ºåŠ›ã®CPUä½¿ç”¨ç‡ã®é–¾å€¤
-     */
-    public int getThreadDumpCpuSys()
-    {
-        return CONFIGUTIL.getInteger(THREAD_DUMP_CPU_SYS, DEF_THREAD_DUMP_CPU);
-    }
-
-    /**
-     * ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å‡ºåŠ›ã®CPUä½¿ç”¨ç‡ã®é–¾å€¤ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
-     * 
-     * @param threadDumpCpu ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å‡ºåŠ›ã®CPUä½¿ç”¨ç‡ã®é–¾å€¤
-     */
-    public void setThreadDumpCpuSys(final int threadDumpCpu)
-    {
-        CONFIGUTIL.setInteger(THREAD_DUMP_CPU_SYS, threadDumpCpu);
-    }
-
-    /**
-     * ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å‡ºåŠ›ã®CPUä½¿ç”¨ç‡ã®é–¾å€¤ã‚’è¿”ã—ã¾ã™ã€‚<br />
-     * 
-     * @return ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å‡ºåŠ›ã®CPUä½¿ç”¨ç‡ã®é–¾å€¤
-     */
-    public int getThreadDumpCpuUser()
-    {
-        return CONFIGUTIL.getInteger(THREAD_DUMP_CPU_USER, DEF_THREAD_DUMP_CPU);
-    }
-
-    /**
-     * ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å‡ºåŠ›ã®CPUä½¿ç”¨ç‡ã®é–¾å€¤ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
-     * 
-     * @param threadDumpCpu ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å‡ºåŠ›ã®CPUä½¿ç”¨ç‡ã®é–¾å€¤
-     */
-    public void setThreadDumpCpuUser(final int threadDumpCpu)
-    {
-        CONFIGUTIL.setInteger(THREAD_DUMP_CPU_USER, threadDumpCpu);
-    }
-
-    /**
-     * ãƒ•ãƒ«GCã‚’æ¤œå‡ºã™ã‚‹ã‹ã©ã†ã‹ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
-     * 
-     * @param fullGCMonitor ãƒ•ãƒ«GCã‚’æ¤œå‡ºã™ã‚‹å ´åˆã€<code>true</code>
+     * @param fullGCMonitor ƒtƒ‹GC‚ğŒŸo‚·‚éê‡A<code>true</code>
      */
     public void setFullGCMonitor(final boolean fullGCMonitor)
     {
@@ -2772,9 +2666,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒ•ãƒ«GCã‚’æ¤œå‡ºã™ã‚‹ã‹ã©ã†ã‹ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * ƒtƒ‹GC‚ğŒŸo‚·‚é‚©‚Ç‚¤‚©‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return ãƒ•ãƒ«GCã‚’æ¤œå‡ºã™ã‚‹å ´åˆã€<code>true</code>
+     * @return ƒtƒ‹GC‚ğŒŸo‚·‚éê‡A<code>true</code>
      */
     public boolean isFullGCMonitor()
     {
@@ -2782,9 +2676,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒ•ãƒ«GCã‚’è¡Œã†GarbageCollectoråã®ãƒªã‚¹ãƒˆã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * ƒtƒ‹GC‚ğs‚¤GarbageCollector–¼‚ÌƒŠƒXƒg‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return ãƒ•ãƒ«GCã‚’æ¤œå‡ºã™ã‚‹å ´åˆã€<code>true</code>
+     * @return ƒtƒ‹GC‚ğŒŸo‚·‚éê‡A<code>true</code>
      */
     public String getFullGCList()
     {
@@ -2792,9 +2686,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒ•ãƒ«GCæ¤œå‡ºã‚’è¡Œã†GCæ™‚é–“ã®é–¾å€¤ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * ƒtƒ‹GCŒŸo‚ğs‚¤GCŠÔ‚Ìè‡’l‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return ãƒ•ãƒ«GCæ¤œå‡ºã‚’è¡Œã†GCæ™‚é–“ã®é–¾å€¤
+     * @return ƒtƒ‹GCŒŸo‚ğs‚¤GCŠÔ‚Ìè‡’l
      */
     public int getFullGCThreshold()
     {
@@ -2802,9 +2696,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒ•ãƒ«GCæ¤œå‡ºã‚’è¡Œã†GCæ™‚é–“ã®é–¾å€¤ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
+     * ƒtƒ‹GCŒŸo‚ğs‚¤GCŠÔ‚Ìè‡’l‚ğİ’è‚µ‚Ü‚·B<br />
      * 
-     * @param threshold ãƒ•ãƒ«GCæ¤œå‡ºã‚’è¡Œã†GCæ™‚é–“ã®é–¾å€¤
+     * @param threshold ƒtƒ‹GCŒŸo‚ğs‚¤GCŠÔ‚Ìè‡’l
      */
     public void setFullGCThreshold(final int threshold)
     {
@@ -2812,9 +2706,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ç¶™æ‰¿ã‚’èª¿ã¹ã‚‹æ·±ã•ã®æœ€å¤§å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
+     * Œp³‚ğ’²‚×‚é[‚³‚ÌÅ‘å’l‚ğæ“¾‚·‚éB
      * 
-     * @return ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã€‚
+     * @return ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©B
      */
     public int getInheritanceDepth()
     {
@@ -2822,9 +2716,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚¹ãƒ¬ãƒƒãƒ‰ç›£è¦–ã‚’è¡Œã†ã‹ã©ã†ã‹ã‚’è¨­å®šã™ã‚‹ã€‚
+     * ƒXƒŒƒbƒhŠÄ‹‚ğs‚¤‚©‚Ç‚¤‚©‚ğİ’è‚·‚éB
      * 
-     * @param threadMonitor ã‚¹ãƒ¬ãƒƒãƒ‰ç›£è¦–ã‚’è¡Œã†å ´åˆã¯trueã€‚
+     * @param threadMonitor ƒXƒŒƒbƒhŠÄ‹‚ğs‚¤ê‡‚ÍtrueB
      */
     public void setThreadMonitor(final boolean threadMonitor)
     {
@@ -2832,9 +2726,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚¹ãƒ¬ãƒƒãƒ‰ç›£è¦–ã‚’è¡Œã†é–“éš”(ãƒŸãƒªç§’)ã‚’è¨­å®šã™ã‚‹ã€‚
+     * ƒXƒŒƒbƒhŠÄ‹‚ğs‚¤ŠÔŠu(ƒ~ƒŠ•b)‚ğİ’è‚·‚éB
      * 
-     * @param threadMonitorInterval ã‚¹ãƒ¬ãƒƒãƒ‰ç›£è¦–ã‚’è¡Œã†é–“éš”(ãƒŸãƒªç§’)ã€‚
+     * @param threadMonitorInterval ƒXƒŒƒbƒhŠÄ‹‚ğs‚¤ŠÔŠu(ƒ~ƒŠ•b)B
      */
     public void setThreadMonitorInterval(final long threadMonitorInterval)
     {
@@ -2842,9 +2736,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚¹ãƒ¬ãƒƒãƒ‰ç›£è¦–ã®éš›ã«å‡ºåŠ›ã™ã‚‹ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®æ·±ã•ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒXƒŒƒbƒhŠÄ‹‚ÌÛ‚Éo—Í‚·‚éƒXƒ^ƒbƒNƒgƒŒ[ƒX‚Ì[‚³‚ğæ“¾‚·‚éB
      * 
-     * @param threadMonitorDepth ã‚¹ãƒ¬ãƒƒãƒ‰ç›£è¦–ã®éš›ã«å‡ºåŠ›ã™ã‚‹ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®æ·±ã•ã€‚
+     * @param threadMonitorDepth ƒXƒŒƒbƒhŠÄ‹‚ÌÛ‚Éo—Í‚·‚éƒXƒ^ƒbƒNƒgƒŒ[ƒX‚Ì[‚³B
      */
     public void setThreadMonitorDepth(final int threadMonitorDepth)
     {
@@ -2852,9 +2746,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒ–ãƒ­ãƒƒã‚¯å›æ•°ãŒå¤šã™ãã‚‹ã‹ã©ã†ã‹ã®é–¾å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒuƒƒbƒN‰ñ”‚ª‘½‚·‚¬‚é‚©‚Ç‚¤‚©‚Ìè‡’l‚ğæ“¾‚·‚éB
      * 
-     * @return ãƒ–ãƒ­ãƒƒã‚¯å›æ•°ãŒå¤šã™ãã‚‹ã‹ã©ã†ã‹ã®é–¾å€¤ã€‚
+     * @return ƒuƒƒbƒN‰ñ”‚ª‘½‚·‚¬‚é‚©‚Ç‚¤‚©‚Ìè‡’lB
      */
     public long getBlockThreshold()
     {
@@ -2862,9 +2756,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒ–ãƒ­ãƒƒã‚¯å›æ•°ãŒå¤šã™ãã‚‹ã‹ã©ã†ã‹ã®é–¾å€¤ã‚’è¨­å®šã™ã‚‹ã€‚
+     * ƒuƒƒbƒN‰ñ”‚ª‘½‚·‚¬‚é‚©‚Ç‚¤‚©‚Ìè‡’l‚ğİ’è‚·‚éB
      * 
-     * @param blockThreshold ãƒ–ãƒ­ãƒƒã‚¯å›æ•°ãŒå¤šã™ãã‚‹ã‹ã©ã†ã‹ã®é–¾å€¤ã€‚
+     * @param blockThreshold ƒuƒƒbƒN‰ñ”‚ª‘½‚·‚¬‚é‚©‚Ç‚¤‚©‚Ìè‡’lB
      */
     public void setBlockThreshold(final long blockThreshold)
     {
@@ -2872,9 +2766,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒ–ãƒ­ãƒƒã‚¯ç¶™ç¶šã‚¤ãƒ™ãƒ³ãƒˆã‚’å‡ºåŠ›ã™ã‚‹éš›ã®ãƒ–ãƒ­ãƒƒã‚¯ç¶™ç¶šæ™‚é–“ã®é–¾å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒuƒƒbƒNŒp‘±ƒCƒxƒ“ƒg‚ğo—Í‚·‚éÛ‚ÌƒuƒƒbƒNŒp‘±ŠÔ‚Ìè‡’l‚ğæ“¾‚·‚éB
      * 
-     * @return ãƒ–ãƒ­ãƒƒã‚¯ç¶™ç¶šã‚¤ãƒ™ãƒ³ãƒˆã‚’å‡ºåŠ›ã™ã‚‹éš›ã®ãƒ–ãƒ­ãƒƒã‚¯ç¶™ç¶šæ™‚é–“ã®é–¾å€¤
+     * @return ƒuƒƒbƒNŒp‘±ƒCƒxƒ“ƒg‚ğo—Í‚·‚éÛ‚ÌƒuƒƒbƒNŒp‘±ŠÔ‚Ìè‡’l
      */
     public long getBlockTimeThreshold()
     {
@@ -2882,9 +2776,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒ–ãƒ­ãƒƒã‚¯ç¶™ç¶šã‚¤ãƒ™ãƒ³ãƒˆã‚’å‡ºåŠ›ã™ã‚‹éš›ã®ãƒ–ãƒ­ãƒƒã‚¯ç¶™ç¶šæ™‚é–“ã®é–¾å€¤ã‚’è¨­å®šã™ã‚‹ã€‚
+     * ƒuƒƒbƒNŒp‘±ƒCƒxƒ“ƒg‚ğo—Í‚·‚éÛ‚ÌƒuƒƒbƒNŒp‘±ŠÔ‚Ìè‡’l‚ğİ’è‚·‚éB
      * 
-     * @param blockTimeThreshold ãƒ–ãƒ­ãƒƒã‚¯ç¶™ç¶šã‚¤ãƒ™ãƒ³ãƒˆã‚’å‡ºåŠ›ã™ã‚‹éš›ã®ãƒ–ãƒ­ãƒƒã‚¯ç¶™ç¶šæ™‚é–“ã®é–¾å€¤
+     * @param blockTimeThreshold ƒuƒƒbƒNŒp‘±ƒCƒxƒ“ƒg‚ğo—Í‚·‚éÛ‚ÌƒuƒƒbƒNŒp‘±ŠÔ‚Ìè‡’l
      */
     public void setBlockTimeThreshold(final long blockTimeThreshold)
     {
@@ -2892,9 +2786,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒ–ãƒ­ãƒƒã‚¯å›æ•°ãŒé–¾å€¤ã‚’è¶…ãˆãŸéš›ã«å–å¾—ã™ã‚‹ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±ã®æ•°ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒuƒƒbƒN‰ñ”‚ªè‡’l‚ğ’´‚¦‚½Û‚Éæ“¾‚·‚éƒXƒŒƒbƒhî•ñ‚Ì”‚ğæ“¾‚·‚éB
      * 
-     * @return ãƒ–ãƒ­ãƒƒã‚¯å›æ•°ãŒé–¾å€¤ã‚’è¶…ãˆãŸéš›ã«å–å¾—ã™ã‚‹ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±ã®æ•°ã€‚
+     * @return ƒuƒƒbƒN‰ñ”‚ªè‡’l‚ğ’´‚¦‚½Û‚Éæ“¾‚·‚éƒXƒŒƒbƒhî•ñ‚Ì”B
      */
     public int getBlockThreadInfoNum()
     {
@@ -2902,9 +2796,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒ–ãƒ­ãƒƒã‚¯å›æ•°ãŒé–¾å€¤ã‚’è¶…ãˆãŸéš›ã«å–å¾—ã™ã‚‹ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±ã®æ•°ã‚’è¨­å®šã™ã‚‹ã€‚
+     * ƒuƒƒbƒN‰ñ”‚ªè‡’l‚ğ’´‚¦‚½Û‚Éæ“¾‚·‚éƒXƒŒƒbƒhî•ñ‚Ì”‚ğİ’è‚·‚éB
      * 
-     * @param blockThreadInfoNum ãƒ–ãƒ­ãƒƒã‚¯å›æ•°ãŒé–¾å€¤ã‚’è¶…ãˆãŸéš›ã«å–å¾—ã™ã‚‹ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±ã®æ•°ã€‚
+     * @param blockThreadInfoNum ƒuƒƒbƒN‰ñ”‚ªè‡’l‚ğ’´‚¦‚½Û‚Éæ“¾‚·‚éƒXƒŒƒbƒhî•ñ‚Ì”B
      */
     public void setBlockThreadInfoNum(final int blockThreadInfoNum)
     {
@@ -2912,9 +2806,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒ¡ã‚½ãƒƒãƒ‰ã«å¯¾ã™ã‚‹å‘¼ã³å‡ºã—é–“éš”ã®é–¾å€¤å®šç¾©ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒƒ\ƒbƒh‚É‘Î‚·‚éŒÄ‚Ño‚µŠÔŠu‚Ìè‡’l’è‹`‚ğæ“¾‚·‚éB
      * 
-     * @return ãƒ¡ã‚½ãƒƒãƒ‰ã«å¯¾ã™ã‚‹å‘¼ã³å‡ºã—é–“éš”ã®é–¾å€¤å®šç¾©ã€‚
+     * @return ƒƒ\ƒbƒh‚É‘Î‚·‚éŒÄ‚Ño‚µŠÔŠu‚Ìè‡’l’è‹`B
      */
     public String getIntervalThreshold()
     {
@@ -2922,9 +2816,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒ¡ã‚½ãƒƒãƒ‰ã«å¯¾ã™ã‚‹å‘¼ã³å‡ºã—é–“éš”ã®é–¾å€¤å®šç¾©ã‚’è¨­å®šã™ã‚‹ã€‚
+     * ƒƒ\ƒbƒh‚É‘Î‚·‚éŒÄ‚Ño‚µŠÔŠu‚Ìè‡’l’è‹`‚ğİ’è‚·‚éB
      * 
-     * @param callCountThreshold ãƒ¡ã‚½ãƒƒãƒ‰ã«å¯¾ã™ã‚‹å‘¼ã³å‡ºã—é–“éš”ã®é–¾å€¤å®šç¾©ã€‚
+     * @param callCountThreshold ƒƒ\ƒbƒh‚É‘Î‚·‚éŒÄ‚Ño‚µŠÔŠu‚Ìè‡’l’è‹`B
      */
     public void setIntervalThreshold(final String callCountThreshold)
     {
@@ -2932,9 +2826,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒ¡ã‚½ãƒƒãƒ‰ã«å¯¾ã™ã‚‹ã€å¼•æ•°ã®å€¤ã”ã¨ã®å‘¼ã³å‡ºã—é–“éš”ã®é–¾å€¤å®šç¾©ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒƒ\ƒbƒh‚É‘Î‚·‚éAˆø”‚Ì’l‚²‚Æ‚ÌŒÄ‚Ño‚µŠÔŠu‚Ìè‡’l’è‹`‚ğæ“¾‚·‚éB
      * 
-     * @return ãƒ¡ã‚½ãƒƒãƒ‰ã«å¯¾ã™ã‚‹ã€å¼•æ•°ã®å€¤ã”ã¨ã®å‘¼ã³å‡ºã—é–“éš”ã®é–¾å€¤å®šç¾©ã€‚
+     * @return ƒƒ\ƒbƒh‚É‘Î‚·‚éAˆø”‚Ì’l‚²‚Æ‚ÌŒÄ‚Ño‚µŠÔŠu‚Ìè‡’l’è‹`B
      */
     public String getIntervalPerArgsThreshold()
     {
@@ -2942,9 +2836,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒ¡ã‚½ãƒƒãƒ‰ã«å¯¾ã™ã‚‹ã€å¼•æ•°ã®å€¤ã”ã¨ã®å‘¼ã³å‡ºã—é–“éš”ã®é–¾å€¤å®šç¾©ã‚’è¨­å®šã™ã‚‹ã€‚
+     * ƒƒ\ƒbƒh‚É‘Î‚·‚éAˆø”‚Ì’l‚²‚Æ‚ÌŒÄ‚Ño‚µŠÔŠu‚Ìè‡’l’è‹`‚ğİ’è‚·‚éB
      * 
-     * @param callCountThreshold ãƒ¡ã‚½ãƒƒãƒ‰ã«å¯¾ã™ã‚‹ã€å¼•æ•°ã®å€¤ã”ã¨ã®å‘¼ã³å‡ºã—é–“éš”ã®é–¾å€¤å®šç¾©ã€‚
+     * @param callCountThreshold ƒƒ\ƒbƒh‚É‘Î‚·‚éAˆø”‚Ì’l‚²‚Æ‚ÌŒÄ‚Ño‚µŠÔŠu‚Ìè‡’l’è‹`B
      */
     public void setIntervalPerArgsThreshold(final String callCountThreshold)
     {
@@ -2952,9 +2846,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * è¤‡æ•°ã‚¹ãƒ¬ãƒƒãƒ‰ã‚¢ã‚¯ã‚»ã‚¹ç›£è¦–ã‚’è¡Œã†ã‹ã©ã†ã‹ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
+     * •¡”ƒXƒŒƒbƒhƒAƒNƒZƒXŠÄ‹‚ğs‚¤‚©‚Ç‚¤‚©‚ğİ’è‚µ‚Ü‚·B<br />
      *
-     * @param concurrentEnabled è¤‡æ•°ã‚¹ãƒ¬ãƒƒãƒ‰ã‚¢ã‚¯ã‚»ã‚¹ç›£è¦–ã‚’è¡Œã†ãªã‚‰true
+     * @param concurrentEnabled •¡”ƒXƒŒƒbƒhƒAƒNƒZƒXŠÄ‹‚ğs‚¤‚È‚çtrue
      */
     public void setConcurrentAccessMonitored(final boolean concurrentEnabled)
     {
@@ -2962,9 +2856,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * è¤‡æ•°ã‚¹ãƒ¬ãƒƒãƒ‰ã‚¢ã‚¯ã‚»ã‚¹ç›£è¦–ã‚’è¡Œã†ã©ã†ã‹ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * •¡”ƒXƒŒƒbƒhƒAƒNƒZƒXŠÄ‹‚ğs‚¤‚Ç‚¤‚©‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @return true:ç›£è¦–ã™ã‚‹ã€false:ç›£è¦–ã—ãªã„ã€‚
+     * @return true:ŠÄ‹‚·‚éAfalse:ŠÄ‹‚µ‚È‚¢B
      */
     public boolean isConcurrentAccessMonitored()
     {
@@ -2972,9 +2866,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆå€¤è¨­å®šã®ç›£è¦–ã‚’è¡Œã†ã‹ã©ã†ã‹ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
+     * ƒ^ƒCƒ€ƒAƒEƒg’lİ’è‚ÌŠÄ‹‚ğs‚¤‚©‚Ç‚¤‚©‚ğİ’è‚µ‚Ü‚·B<br />
      *
-     * @param timeoutMonitor ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆå€¤ã®è¨­å®šã®ç›£è¦–ã‚’è¡Œã†å ´åˆã€<code>true</code>
+     * @param timeoutMonitor ƒ^ƒCƒ€ƒAƒEƒg’l‚Ìİ’è‚ÌŠÄ‹‚ğs‚¤ê‡A<code>true</code>
      */
     public void setTimeoutMonitor(final boolean timeoutMonitor)
     {
@@ -2982,9 +2876,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆå€¤è¨­å®šã®ç›£è¦–ã‚’è¡Œã†ã‹ã©ã†ã‹ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ƒ^ƒCƒ€ƒAƒEƒg’lİ’è‚ÌŠÄ‹‚ğs‚¤‚©‚Ç‚¤‚©‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @return ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆå€¤ã®è¨­å®šã®ç›£è¦–ã‚’è¡Œã†å ´åˆã€<code>true</code>
+     * @return ƒ^ƒCƒ€ƒAƒEƒg’l‚Ìİ’è‚ÌŠÄ‹‚ğs‚¤ê‡A<code>true</code>
      */
     public boolean isTimeoutMonitor()
     {
@@ -2992,20 +2886,20 @@ public class JavelinConfigBase
     }
 
     /**
-     * è¨ˆæ¸¬å¯¾è±¡ã‹ã‚‰è‡ªå‹•é™¤å¤–ã™ã‚‹å‘¼ã³å‡ºã—å›æ•°ã®é–¾å€¤ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * Œv‘ª‘ÎÛ‚©‚ç©“®œŠO‚·‚éŒÄ‚Ño‚µ‰ñ”‚Ìè‡’l‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @return è¨ˆæ¸¬å¯¾è±¡ã‹ã‚‰è‡ªå‹•é™¤å¤–ã™ã‚‹å‘¼ã³å‡ºã—å›æ•°ã®é–¾å€¤
+     * @return Œv‘ª‘ÎÛ‚©‚ç©“®œŠO‚·‚éŒÄ‚Ño‚µ‰ñ”‚Ìè‡’l
      */
     public int getAutoExcludeThresholdCount()
     {
-        return CONFIGUTIL
-            .getInteger(AUTO_EXCLUDE_THRESHOLD_COUNT, DEF_AUTO_EXCLUDE_THRESHOLD_COUNT);
+        return CONFIGUTIL.getInteger(AUTO_EXCLUDE_THRESHOLD_COUNT,
+        		DEF_AUTO_EXCLUDE_THRESHOLD_COUNT);
     }
 
     /**
-     * è¨ˆæ¸¬å¯¾è±¡ã‹ã‚‰è‡ªå‹•é™¤å¤–ã™ã‚‹å®Ÿè¡Œæ™‚é–“ã®é–¾å€¤ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * Œv‘ª‘ÎÛ‚©‚ç©“®œŠO‚·‚éÀsŠÔ‚Ìè‡’l‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @return è¨ˆæ¸¬å¯¾è±¡ã‹ã‚‰è‡ªå‹•é™¤å¤–ã™ã‚‹å®Ÿè¡Œæ™‚é–“ã®é–¾å€¤(å˜ä½:ãƒŸãƒªç§’)
+     * @return Œv‘ª‘ÎÛ‚©‚ç©“®œŠO‚·‚éÀsŠÔ‚Ìè‡’l(’PˆÊ:ƒ~ƒŠ•b)
      */
     public int getAutoExcludeThresholdTime()
     {
@@ -3013,9 +2907,29 @@ public class JavelinConfigBase
     }
 
     /**
-     * Javelinã®å†æ¥ç¶šé–“éš”ã‚’å–å¾—
+     * ƒƒ‚ƒŠƒŠ[ƒNŒŸo‚ÉAƒŠ[ƒN‚µ‚½ƒRƒŒƒNƒVƒ‡ƒ“‚ÌƒTƒCƒY‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚ğ•Ô‚µ‚Ü‚·B<br /> 
      * 
-     * @return Javelinã®å†æ¥ç¶šé–“éš”
+     * @return ƒƒ‚ƒŠƒŠ[ƒNŒŸo‚ÉAƒŠ[ƒN‚µ‚½ƒRƒŒƒNƒVƒ‡ƒ“‚ÌƒTƒCƒY‚ğo—Í‚·‚é‚©‚Ç‚¤‚©
+     */
+    public boolean isLeakCollectionSizePrint()
+    {
+        return CONFIGUTIL.getBoolean(LEAK_COLLECTIONSIZE_OUT, DEF_LEAK_COLLECTIONSIZE_OUT);
+    }
+
+    /**
+     * ƒƒ‚ƒŠƒŠ[ƒNŒŸo‚ÉAƒŠ[ƒN‚µ‚½ƒRƒŒƒNƒVƒ‡ƒ“‚ÌƒTƒCƒY‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚ğİ’è‚·‚éB
+     * 
+     * @param leakCollectionSizePrint ƒƒ‚ƒŠƒŠ[ƒNŒŸo‚ÉAƒŠ[ƒN‚µ‚½ƒRƒŒƒNƒVƒ‡ƒ“‚ÌƒTƒCƒY‚ğo—Í‚·‚é‚©‚Ç‚¤‚©
+     */
+    public void setLeakCollectionSizePrint(final boolean leakCollectionSizePrint)
+    {
+        CONFIGUTIL.setBoolean(LEAK_COLLECTIONSIZE_OUT, leakCollectionSizePrint);
+    }
+
+    /**
+     * Javelin‚ÌÄÚ‘±ŠÔŠu‚ğæ“¾
+     * 
+     * @return Javelin‚ÌÄÚ‘±ŠÔŠu
      */
     public int getJavelinBindInterval()
     {
@@ -3023,9 +2937,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * Javelinã®å†æ¥ç¶šé–“éš”ã‚’è¨­å®š
+     * Javelin‚ÌÄÚ‘±ŠÔŠu‚ğİ’è
      * 
-     * @param javelinBindInterval å†æ¥ç¶šé–“éš”
+     * @param javelinBindInterval ÄÚ‘±ŠÔŠu
      */
     public void setJavelinBindInterval(final int javelinBindInterval)
     {
@@ -3033,9 +2947,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * Log4Jã®ãƒ­ã‚°å‡ºåŠ›ã«ãŠã„ã¦ã€ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’å‡ºåŠ›ã™ã‚‹é–¾å€¤ãƒ¬ãƒ™ãƒ«ã‚’å–å¾—ã™ã‚‹ã€‚
+     * Log4J‚ÌƒƒOo—Í‚É‚¨‚¢‚ÄAƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğo—Í‚·‚éè‡’lƒŒƒxƒ‹‚ğæ“¾‚·‚éB
      * 
-     * @return ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’å‡ºåŠ›ã™ã‚‹é–¾å€¤ãƒ¬ãƒ™ãƒ«
+     * @return ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğo—Í‚·‚éè‡’lƒŒƒxƒ‹
      */
     public String getLog4jPrintStackLevel()
     {
@@ -3043,9 +2957,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * Log4Jã®ãƒ­ã‚°å‡ºåŠ›ã«ãŠã„ã¦ã€ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’å‡ºåŠ›ã™ã‚‹é–¾å€¤ãƒ¬ãƒ™ãƒ«ã‚’è¨­å®šã™ã‚‹ã€‚
+     * Log4J‚ÌƒƒOo—Í‚É‚¨‚¢‚ÄAƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğo—Í‚·‚éè‡’lƒŒƒxƒ‹‚ğİ’è‚·‚éB
      * 
-     * @param log4jPrintStackLevel ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’å‡ºåŠ›ã™ã‚‹é–¾å€¤ãƒ¬ãƒ™ãƒ«
+     * @param log4jPrintStackLevel ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğo—Í‚·‚éè‡’lƒŒƒxƒ‹
      */
     public void setLog4jPrintStackLevel(final String log4jPrintStackLevel)
     {
@@ -3053,9 +2967,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒ‡ãƒƒãƒ‰ãƒ­ãƒƒã‚¯ã®ç›£è¦–ã‚’è¡Œã†ã‹ã€ã‚’å–å¾—ã™ã‚‹ã€‚<br /> 
+     * ƒfƒbƒhƒƒbƒN‚ÌŠÄ‹‚ğs‚¤‚©A‚ğæ“¾‚·‚éB<br /> 
      * 
-     * @return ãƒ‡ãƒƒãƒ‰ãƒ­ãƒƒã‚¯ã®ç›£è¦–ã‚’è¡Œã†ã‹
+     * @return ƒfƒbƒhƒƒbƒN‚ÌŠÄ‹‚ğs‚¤‚©
      */
     public boolean isDeadLockMonitor()
     {
@@ -3063,9 +2977,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ãƒ‡ãƒƒãƒ‰ãƒ­ãƒƒã‚¯ã®ç›£è¦–ã‚’è¡Œã†ã‹ã€ã‚’è¨­å®šã™ã‚‹ã€‚<br /> 
+     * ƒfƒbƒhƒƒbƒN‚ÌŠÄ‹‚ğs‚¤‚©A‚ğİ’è‚·‚éB<br /> 
      * 
-     * @param deadLockMonitor ãƒ‡ãƒƒãƒ‰ãƒ­ãƒƒã‚¯ã®ç›£è¦–ã‚’è¡Œã†ã‹
+     * @param deadLockMonitor ƒfƒbƒhƒƒbƒN‚ÌŠÄ‹‚ğs‚¤‚©
      */
     public void setDeadLockMonitor(final boolean deadLockMonitor)
     {
@@ -3073,9 +2987,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * EJBã®ã‚»ãƒƒã‚·ãƒ§ãƒ³Beanã®å‘¼ã³å‡ºã—ï¼å¿œç­”ã¾ã§ã®æ™‚é–“ã®ç›£è¦–ã‚’è¡Œã†ã‹ã©ã†ã‹ã‚’å–å¾—ã™ã‚‹ã€‚<br /> 
+     * EJB‚ÌƒZƒbƒVƒ‡ƒ“Bean‚ÌŒÄ‚Ño‚µ^‰“š‚Ü‚Å‚ÌŠÔ‚ÌŠÄ‹‚ğs‚¤‚©‚Ç‚¤‚©‚ğæ“¾‚·‚éB<br /> 
      * 
-     * @return EJBã®ã‚»ãƒƒã‚·ãƒ§ãƒ³Beanã®å‘¼ã³å‡ºã—ï¼å¿œç­”ã¾ã§ã®æ™‚é–“ã®ç›£è¦–ã‚’è¡Œã†ã‹ã©ã†ã‹
+     * @return EJB‚ÌƒZƒbƒVƒ‡ƒ“Bean‚ÌŒÄ‚Ño‚µ^‰“š‚Ü‚Å‚ÌŠÔ‚ÌŠÄ‹‚ğs‚¤‚©‚Ç‚¤‚©
      */
     public boolean isEjbSessionMonitor()
     {
@@ -3083,9 +2997,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * EJBã®ã‚»ãƒƒã‚·ãƒ§ãƒ³Beanã®å‘¼ã³å‡ºã—ï¼å¿œç­”ã¾ã§ã®æ™‚é–“ã®ç›£è¦–ã‚’è¡Œã†ã‹ã©ã†ã‹ã‚’è¨­å®šã™ã‚‹ã€‚<br /> 
+     * EJB‚ÌƒZƒbƒVƒ‡ƒ“Bean‚ÌŒÄ‚Ño‚µ^‰“š‚Ü‚Å‚ÌŠÔ‚ÌŠÄ‹‚ğs‚¤‚©‚Ç‚¤‚©‚ğİ’è‚·‚éB<br /> 
      * 
-     * @param ejbSessionMonitor EJBã®ã‚»ãƒƒã‚·ãƒ§ãƒ³Beanã®å‘¼ã³å‡ºã—ï¼å¿œç­”ã¾ã§ã®æ™‚é–“ã®ç›£è¦–ã‚’è¡Œã†ã‹ã©ã†ã‹
+     * @param ejbSessionMonitor EJB‚ÌƒZƒbƒVƒ‡ƒ“Bean‚ÌŒÄ‚Ño‚µ^‰“š‚Ü‚Å‚ÌŠÔ‚ÌŠÄ‹‚ğs‚¤‚©‚Ç‚¤‚©
      */
     public void setEjbSessionMonitor(final boolean ejbSessionMonitor)
     {
@@ -3093,9 +3007,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * BottleNeckEye/DataCollectorã¨ã®é€šä¿¡ç”¨ãƒãƒ¼ãƒˆã‚’ç¯„å›²æŒ‡å®šã™ã‚‹ã‹ã‚’å–å¾—ã™ã‚‹ã€‚<br /> 
+     * BottleNeckEye/DataCollector‚Æ‚Ì’ÊM—pƒ|[ƒg‚ğ”ÍˆÍw’è‚·‚é‚©‚ğæ“¾‚·‚éB<br /> 
      * 
-     * @return BottleNeckEye/DataCollectorã¨ã®é€šä¿¡ç”¨ãƒãƒ¼ãƒˆã‚’ç¯„å›²æŒ‡å®šã™ã‚‹ã‹
+     * @return BottleNeckEye/DataCollector‚Æ‚Ì’ÊM—pƒ|[ƒg‚ğ”ÍˆÍw’è‚·‚é‚©
      */
     public boolean isAcceptPortIsRange()
     {
@@ -3103,9 +3017,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * BottleNeckEye/DataCollectorã¨ã®é€šä¿¡ç”¨ãƒãƒ¼ãƒˆã‚’ç¯„å›²æŒ‡å®šã™ã‚‹éš›ã®æœ€å¤§å€¤ã‚’å–å¾—
+     * BottleNeckEye/DataCollector‚Æ‚Ì’ÊM—pƒ|[ƒg‚ğ”ÍˆÍw’è‚·‚éÛ‚ÌÅ‘å’l‚ğæ“¾
      * 
-     * @return BottleNeckEye/DataCollectorã¨ã®é€šä¿¡ç”¨ãƒãƒ¼ãƒˆã‚’ç¯„å›²æŒ‡å®šã™ã‚‹éš›ã®æœ€å¤§å€¤
+     * @return BottleNeckEye/DataCollector‚Æ‚Ì’ÊM—pƒ|[ƒg‚ğ”ÍˆÍw’è‚·‚éÛ‚ÌÅ‘å’l
      */
     public int getAcceptPortRangeMax()
     {
@@ -3113,7 +3027,7 @@ public class JavelinConfigBase
     }
 
     /**
-     * AcceptDelayã‚’è¿”ã™
+     * AcceptDelay‚ğ•Ô‚·
      * @return AcceptDelay
      */
     public long getAcceptDelay()
@@ -3122,7 +3036,7 @@ public class JavelinConfigBase
     }
 
     /**
-     * CpuTimeUnitã‚’è¿”ã™
+     * CpuTimeUnit‚ğ•Ô‚·
      * @return CpuTimeUnit
      */
     public int getCpuTimeUnit()
@@ -3131,7 +3045,7 @@ public class JavelinConfigBase
     }
 
     /**
-     * CallTreeAllã‚’è¿”ã™
+     * CallTreeAll‚ğ•Ô‚·
      * @return CallTreeAll
      */
     public boolean isCallTreeAll()
@@ -3140,7 +3054,7 @@ public class JavelinConfigBase
     }
 
     /**
-     * CallTreeEnabledã‚’è¿”ã™
+     * CallTreeEnabled‚ğ•Ô‚·
      * @return CallTreeEnabled
      */
     public boolean isCallTreeEnabled()
@@ -3149,8 +3063,8 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚·ã‚¹ãƒ†ãƒ ã®ãƒªã‚½ãƒ¼ã‚¹ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¿”ã™ã€‚
-     * @return ã‚·ã‚¹ãƒ†ãƒ ã®ãƒªã‚½ãƒ¼ã‚¹ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹
+     * ƒVƒXƒeƒ€‚ÌƒŠƒ\[ƒXƒf[ƒ^‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©‚ğ•Ô‚·B
+     * @return ƒVƒXƒeƒ€‚ÌƒŠƒ\[ƒXƒf[ƒ^‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©
      */
     public boolean getCollectSystemResources()
     {
@@ -3158,8 +3072,8 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚·ã‚¹ãƒ†ãƒ ã®ãƒªã‚½ãƒ¼ã‚¹ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param collectSystemResources ã‚·ã‚¹ãƒ†ãƒ ã®ãƒªã‚½ãƒ¼ã‚¹ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹
+     * ƒVƒXƒeƒ€‚ÌƒŠƒ\[ƒXƒf[ƒ^‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©‚ğİ’è‚·‚éB
+     * @param collectSystemResources ƒVƒXƒeƒ€‚ÌƒŠƒ\[ƒXƒf[ƒ^‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©
      */
     public void setCollectSystemResources(final boolean collectSystemResources)
     {
@@ -3167,8 +3081,8 @@ public class JavelinConfigBase
     }
 
     /**
-     * InvocationFullEventã‚’é€ä¿¡ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¿”ã™ã€‚
-     * @return InvocationFullEventã‚’é€ä¿¡ã™ã‚‹ã‹ã©ã†ã‹
+     * InvocationFullEvent‚ğ‘—M‚·‚é‚©‚Ç‚¤‚©‚ğ•Ô‚·B
+     * @return InvocationFullEvent‚ğ‘—M‚·‚é‚©‚Ç‚¤‚©
      */
     public boolean getSendInvocationFullEvent()
     {
@@ -3176,8 +3090,8 @@ public class JavelinConfigBase
     }
 
     /**
-     * InvocationFullEventã‚’é€ä¿¡ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param sendInvocationFullEvent InvocationFullEventã‚’é€ä¿¡ã™ã‚‹ã‹ã©ã†ã‹
+     * InvocationFullEvent‚ğ‘—M‚·‚é‚©‚Ç‚¤‚©‚ğİ’è‚·‚éB
+     * @param sendInvocationFullEvent InvocationFullEvent‚ğ‘—M‚·‚é‚©‚Ç‚¤‚©
      */
     public void setSendInvocationFullEvent(final boolean sendInvocationFullEvent)
     {
@@ -3185,8 +3099,8 @@ public class JavelinConfigBase
     }
 
     /**
-     * JMXã®ãƒªã‚½ãƒ¼ã‚¹ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¿”ã™ã€‚
-     * @return JMXã®ãƒªã‚½ãƒ¼ã‚¹ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹
+     * JMX‚ÌƒŠƒ\[ƒXƒf[ƒ^‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©‚ğ•Ô‚·B
+     * @return JMX‚ÌƒŠƒ\[ƒXƒf[ƒ^‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©
      */
     public boolean getCollectJmxResources()
     {
@@ -3194,8 +3108,8 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚·JMXã®ãƒªã‚½ãƒ¼ã‚¹ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param collectJmxResources JMXã®ãƒªã‚½ãƒ¼ã‚¹ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹
+     * ƒVJMX‚ÌƒŠƒ\[ƒXƒf[ƒ^‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©‚ğİ’è‚·‚éB
+     * @param collectJmxResources JMX‚ÌƒŠƒ\[ƒXƒf[ƒ^‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©
      */
     public void setCollectJmxResources(final boolean collectJmxResources)
     {
@@ -3203,9 +3117,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚¹ãƒˆãƒ¼ãƒ«ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ç›£è¦–ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ƒXƒg[ƒ‹ƒƒ\ƒbƒh‚ğŠÄ‹‚·‚é‚©‚Ç‚¤‚©‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @return ã‚¹ãƒˆãƒ¼ãƒ«ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ç›£è¦–ã™ã‚‹ã¨ãã«<code>true</code>ã€‚
+     * @return ƒXƒg[ƒ‹ƒƒ\ƒbƒh‚ğŠÄ‹‚·‚é‚Æ‚«‚É<code>true</code>B
      */
     public boolean isMethodStallMonitor()
     {
@@ -3213,9 +3127,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚¹ãƒˆãƒ¼ãƒ«ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ç›£è¦–ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¨­å®šã¾ã™ã€‚<br />
+     * ƒXƒg[ƒ‹ƒƒ\ƒbƒh‚ğŠÄ‹‚·‚é‚©‚Ç‚¤‚©‚ğİ’è‚Ü‚·B<br />
      * 
-     * @param methodStallMonitor ã‚¹ãƒˆãƒ¼ãƒ«ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ç›£è¦–ã™ã‚‹ã‹ã©ã†ã‹ã€‚
+     * @param methodStallMonitor ƒXƒg[ƒ‹ƒƒ\ƒbƒh‚ğŠÄ‹‚·‚é‚©‚Ç‚¤‚©B
      */
     public void setMethodStallMonitor(final boolean methodStallMonitor)
     {
@@ -3223,9 +3137,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚¹ãƒˆãƒ¼ãƒ«ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ç›£è¦–ã™ã‚‹å‘¨æœŸã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ƒXƒg[ƒ‹ƒƒ\ƒbƒh‚ğŠÄ‹‚·‚éüŠú‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @return ã‚¹ãƒˆãƒ¼ãƒ«ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ç›£è¦–ã™ã‚‹å‘¨æœŸã€‚
+     * @return ƒXƒg[ƒ‹ƒƒ\ƒbƒh‚ğŠÄ‹‚·‚éüŠúB
      */
     public int getMethodStallInterval()
     {
@@ -3233,9 +3147,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚¹ãƒˆãƒ¼ãƒ«ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ç›£è¦–ã™ã‚‹å‘¨æœŸã‚’è¨­å®šã¾ã™ã€‚<br />
+     * ƒXƒg[ƒ‹ƒƒ\ƒbƒh‚ğŠÄ‹‚·‚éüŠú‚ğİ’è‚Ü‚·B<br />
      * 
-     * @param methodStallInterval ã‚¹ãƒˆãƒ¼ãƒ«ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ç›£è¦–ã™ã‚‹å‘¨æœŸã€‚
+     * @param methodStallInterval ƒXƒg[ƒ‹ƒƒ\ƒbƒh‚ğŠÄ‹‚·‚éüŠúB
      */
     public void setMethodStallInterval(final int methodStallInterval)
     {
@@ -3243,9 +3157,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚¹ãƒˆãƒ¼ãƒ«ãƒ¡ã‚½ãƒƒãƒ‰ã¨åˆ¤æ–­ã™ã‚‹é–¾å€¤ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ƒXƒg[ƒ‹ƒƒ\ƒbƒh‚Æ”»’f‚·‚éè‡’l‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @return ã‚¹ãƒˆãƒ¼ãƒ«ãƒ¡ã‚½ãƒƒãƒ‰ã¨åˆ¤æ–­ã™ã‚‹é–¾å€¤ã€‚
+     * @return ƒXƒg[ƒ‹ƒƒ\ƒbƒh‚Æ”»’f‚·‚éè‡’lB
      */
     public int getMethodStallThreshold()
     {
@@ -3253,9 +3167,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚¹ãƒˆãƒ¼ãƒ«ãƒ¡ã‚½ãƒƒãƒ‰ã¨åˆ¤æ–­ã™ã‚‹é–¾å€¤ã‚’è¨­å®šã¾ã™ã€‚<br />
+     * ƒXƒg[ƒ‹ƒƒ\ƒbƒh‚Æ”»’f‚·‚éè‡’l‚ğİ’è‚Ü‚·B<br />
      * 
-     * @param methodStallThreshold ã‚¹ãƒˆãƒ¼ãƒ«ãƒ¡ã‚½ãƒƒãƒ‰ã¨åˆ¤æ–­ã™ã‚‹é–¾å€¤ã€‚
+     * @param methodStallThreshold ƒXƒg[ƒ‹ƒƒ\ƒbƒh‚Æ”»’f‚·‚éè‡’lB
      */
     public void setMethodStallThreshold(final int methodStallThreshold)
     {
@@ -3263,9 +3177,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚¹ãƒˆãƒ¼ãƒ«ãƒ¡ã‚½ãƒƒãƒ‰æ¤œå‡ºæ™‚ã«å‡ºåŠ›ã™ã‚‹ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®æ·±ã•ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ƒXƒg[ƒ‹ƒƒ\ƒbƒhŒŸo‚Éo—Í‚·‚éƒXƒ^ƒbƒNƒgƒŒ[ƒX‚Ì[‚³‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @return ã‚¹ãƒˆãƒ¼ãƒ«ãƒ¡ã‚½ãƒƒãƒ‰æ¤œå‡ºæ™‚ã«å‡ºåŠ›ã™ã‚‹ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®æ·±ã•ã€‚
+     * @return ƒXƒg[ƒ‹ƒƒ\ƒbƒhŒŸo‚Éo—Í‚·‚éƒXƒ^ƒbƒNƒgƒŒ[ƒX‚Ì[‚³B
      */
     public int getMethodStallTraceDepth()
     {
@@ -3273,9 +3187,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * ã‚¹ãƒˆãƒ¼ãƒ«ãƒ¡ã‚½ãƒƒãƒ‰æ¤œå‡ºæ™‚ã«å‡ºåŠ›ã™ã‚‹ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®æ·±ã•ã‚’è¨­å®šã¾ã™ã€‚<br />
+     * ƒXƒg[ƒ‹ƒƒ\ƒbƒhŒŸo‚Éo—Í‚·‚éƒXƒ^ƒbƒNƒgƒŒ[ƒX‚Ì[‚³‚ğİ’è‚Ü‚·B<br />
      * 
-     * @param methodStallTraceDepth ã‚¹ãƒˆãƒ¼ãƒ«ãƒ¡ã‚½ãƒƒãƒ‰æ¤œå‡ºæ™‚ã«å‡ºåŠ›ã™ã‚‹ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®æ·±ã•ã€‚
+     * @param methodStallTraceDepth ƒXƒg[ƒ‹ƒƒ\ƒbƒhŒŸo‚Éo—Í‚·‚éƒXƒ^ƒbƒNƒgƒŒ[ƒX‚Ì[‚³B
      */
     public void setMethodStallTraceDepth(final int methodStallTraceDepth)
     {
@@ -3283,9 +3197,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * HTTPã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹å‡ºåŠ›å¯å¦ã‚’è¨­å®šã—ã¾ã™ã€‚
+     * HTTPƒXƒe[ƒ^ƒXo—Í‰Â”Û‚ğİ’è‚µ‚Ü‚·B
      * 
-     * @param isHttpStatusError HTTPã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚¨ãƒ©ãƒ¼ã‚’é€šçŸ¥ã™ã‚‹ã‹ã©ã†ã‹
+     * @param isHttpStatusError HTTPƒXƒe[ƒ^ƒXƒGƒ‰[‚ğ’Ê’m‚·‚é‚©‚Ç‚¤‚©
      */
     public void setHttpStatusError(final boolean isHttpStatusError)
     {
@@ -3293,9 +3207,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * HTTPã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹å‡ºåŠ›å¯å¦ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * HTTPƒXƒe[ƒ^ƒXo—Í‰Â”Û‚ğæ“¾‚µ‚Ü‚·B
      * 
-     * @return HTTPã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚¨ãƒ©ãƒ¼ã®é€šçŸ¥å¯å¦
+     * @return HTTPƒXƒe[ƒ^ƒXƒGƒ‰[‚Ì’Ê’m‰Â”Û
      */
     public boolean isHttpStatusError()
     {
@@ -3303,9 +3217,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * MBeanã‚µãƒ¼ãƒã®ãƒ›ã‚¹ãƒˆåã‚’å–å¾—ã—ã¾ã™ã€‚
+     * MBeanƒT[ƒo‚ÌƒzƒXƒg–¼‚ğæ“¾‚µ‚Ü‚·B
      * 
-     * @return MBeanã‚µãƒ¼ãƒã®ãƒ›ã‚¹ãƒˆå
+     * @return MBeanƒT[ƒo‚ÌƒzƒXƒg–¼
      */
     public String getJMXHost()
     {
@@ -3313,9 +3227,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * MBeanã‚µãƒ¼ãƒã®ãƒ›ã‚¹ãƒˆåã‚’è¨­å®šã—ã¾ã™ã€‚
+     * MBeanƒT[ƒo‚ÌƒzƒXƒg–¼‚ğİ’è‚µ‚Ü‚·B
      * 
-     * @param hostname MBeanã‚µãƒ¼ãƒã®ãƒ›ã‚¹ãƒˆå
+     * @param hostname MBeanƒT[ƒo‚ÌƒzƒXƒg–¼
      */
     public void setJMXHost(final String hostname)
     {
@@ -3323,9 +3237,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * MBeanã‚µãƒ¼ãƒã®ãƒãƒ¼ãƒˆç•ªå·ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * MBeanƒT[ƒo‚Ìƒ|[ƒg”Ô†‚ğæ“¾‚µ‚Ü‚·B
      * 
-     * @return MBeanã‚µãƒ¼ãƒã®ãƒãƒ¼ãƒˆç•ªå·
+     * @return MBeanƒT[ƒo‚Ìƒ|[ƒg”Ô†
      */
     public int getJMXPort()
     {
@@ -3333,9 +3247,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * MBeanã‚µãƒ¼ãƒã®ãƒãƒ¼ãƒˆç•ªå·ã‚’è¨­å®šã—ã¾ã™ã€‚
+     * MBeanƒT[ƒo‚Ìƒ|[ƒg”Ô†‚ğİ’è‚µ‚Ü‚·B
      * 
-     * @param port MBeanã‚µãƒ¼ãƒã®ãƒãƒ¼ãƒˆç•ªå·
+     * @param port MBeanƒT[ƒo‚Ìƒ|[ƒg”Ô†
      */
     public void setJMXPort(final int port)
     {
@@ -3343,9 +3257,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * MBeanã‚µãƒ¼ãƒã®èªè¨¼ãƒ¦ãƒ¼ã‚¶åã‚’å–å¾—ã—ã¾ã™ã€‚
+     * MBeanƒT[ƒo‚Ì”FØƒ†[ƒU–¼‚ğæ“¾‚µ‚Ü‚·B
      * 
-     * @return MBeanã‚µãƒ¼ãƒã®èªè¨¼ãƒ¦ãƒ¼ã‚¶å
+     * @return MBeanƒT[ƒo‚Ì”FØƒ†[ƒU–¼
      */
     public String getJMXUserName()
     {
@@ -3353,9 +3267,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * MBeanã‚µãƒ¼ãƒã®èªè¨¼ãƒ¦ãƒ¼ã‚¶åã‚’è¨­å®šã—ã¾ã™ã€‚
+     * MBeanƒT[ƒo‚Ì”FØƒ†[ƒU–¼‚ğİ’è‚µ‚Ü‚·B
      * 
-     * @param userName MBeanã‚µãƒ¼ãƒã®èªè¨¼ãƒ¦ãƒ¼ã‚¶å
+     * @param userName MBeanƒT[ƒo‚Ì”FØƒ†[ƒU–¼
      */
     public void setJMXUserName(final String userName)
     {
@@ -3363,9 +3277,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * MBeanã‚µãƒ¼ãƒã®èªè¨¼ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * MBeanƒT[ƒo‚Ì”FØƒpƒXƒ[ƒh‚ğæ“¾‚µ‚Ü‚·B
      * 
-     * @return MBeanã‚µãƒ¼ãƒã®èªè¨¼ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰
+     * @return MBeanƒT[ƒo‚Ì”FØƒpƒXƒ[ƒh
      */
     public String getJMXPassword()
     {
@@ -3373,9 +3287,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * MBeanã‚µãƒ¼ãƒã®èªè¨¼ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã‚’è¨­å®šã—ã¾ã™ã€‚
+     * MBeanƒT[ƒo‚Ì”FØƒpƒXƒ[ƒh‚ğİ’è‚µ‚Ü‚·B
      * 
-     * @param password MBeanã‚µãƒ¼ãƒã®èªè¨¼ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰
+     * @param password MBeanƒT[ƒo‚Ì”FØƒpƒXƒ[ƒh
      */
     public void setJMXPassword(final String password)
     {
@@ -3383,9 +3297,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * æ¥ç¶šãƒ¢ãƒ¼ãƒ‰(server/client)ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * Ú‘±ƒ‚[ƒh(server/client)‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @return æ¥ç¶šãƒ¢ãƒ¼ãƒ‰(server/client)ã€‚
+     * @return Ú‘±ƒ‚[ƒh(server/client)B
      */
     public String getConnectionMode()
     {
@@ -3393,9 +3307,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * æ¥ç¶šãƒ¢ãƒ¼ãƒ‰(server/client)ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * Ú‘±ƒ‚[ƒh(server/client)‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @param connectionMode æ¥ç¶šãƒ¢ãƒ¼ãƒ‰(server/client)ã€‚
+     * @param connectionMode Ú‘±ƒ‚[ƒh(server/client)B
      */
     public void setConnectionMode(final String connectionMode)
     {
@@ -3403,9 +3317,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * é …ç›®åã«ä»˜ä¸ã™ã‚‹æ¥é ­è¾ã®æ–‡å­—åˆ—ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * €–Ú–¼‚É•t—^‚·‚éÚ“ª«‚Ì•¶š—ñ‚ğæ“¾‚µ‚Ü‚·B
      * 
-     * @return é …ç›®åã«ä»˜ä¸ã™ã‚‹æ¥é ­è¾ã€‚
+     * @return €–Ú–¼‚É•t—^‚·‚éÚ“ª«B
      */
     public String getItemNamePrefix()
     {
@@ -3413,9 +3327,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * é …ç›®åã«æ¥é ­è¾ã‚’ä»˜ä¸ã—ãªã„ãƒ‘ã‚¿ãƒ¼ãƒ³ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * €–Ú–¼‚ÉÚ“ª«‚ğ•t—^‚µ‚È‚¢ƒpƒ^[ƒ“‚ğæ“¾‚µ‚Ü‚·B
      * 
-     * @return é …ç›®åã«æ¥é ­è¾ã‚’ä»˜ä¸ã—ãªã„ãƒ‘ã‚¿ãƒ¼ãƒ³(å‰æ–¹ä¸€è‡´)ã€‚
+     * @return €–Ú–¼‚ÉÚ“ª«‚ğ•t—^‚µ‚È‚¢ƒpƒ^[ƒ“(‘O•ûˆê’v)B
      */
     public String getItemNameNoPrefixList()
     {
@@ -3423,9 +3337,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * HadoopAgentã‹ã‚‰ãƒªã‚½ãƒ¼ã‚¹å€¤ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã‚’æŒ‡å®šã—ã¾ã™ã€‚
+     * HadoopAgent‚©‚çƒŠƒ\[ƒX’l‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©‚ğw’è‚µ‚Ü‚·B
      * 
-     * @return HadoopAgentã‹ã‚‰ãƒªã‚½ãƒ¼ã‚¹å€¤ã‚’å–å¾—ã™ã‚‹å ´åˆã¯trueã€ãã†ã§ãªã„å ´åˆã¯falseã€‚
+     * @return HadoopAgent‚©‚çƒŠƒ\[ƒX’l‚ğæ“¾‚·‚éê‡‚ÍtrueA‚»‚¤‚Å‚È‚¢ê‡‚ÍfalseB
      */
     public boolean isCollectHadoopAgentResources()
     {
@@ -3434,9 +3348,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * HBaseAgentã‹ã‚‰ãƒªã‚½ãƒ¼ã‚¹å€¤ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹ã‚’æŒ‡å®šã—ã¾ã™ã€‚
+     * HBaseAgent‚©‚çƒŠƒ\[ƒX’l‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©‚ğw’è‚µ‚Ü‚·B
      * 
-     * @return HBaseAgentã‹ã‚‰ãƒªã‚½ãƒ¼ã‚¹å€¤ã‚’å–å¾—ã™ã‚‹å ´åˆã¯trueã€ãã†ã§ãªã„å ´åˆã¯falseã€‚
+     * @return HBaseAgent‚©‚çƒŠƒ\[ƒX’l‚ğæ“¾‚·‚éê‡‚ÍtrueA‚»‚¤‚Å‚È‚¢ê‡‚ÍfalseB
      */
     public boolean isCollectHBaseAgentResources()
     {
@@ -3445,9 +3359,9 @@ public class JavelinConfigBase
     }
 
     /**
-     * Invocationåã®é•·ã•ã®ä¸Šé™ã‚’ç¤ºã™ã€‚
+     * Invocation–¼‚Ì’·‚³‚ÌãŒÀ‚ğ¦‚·B
      * 
-     * @return Invocationåã®é•·ã•ã®ä¸Šé™ã€‚
+     * @return Invocation–¼‚Ì’·‚³‚ÌãŒÀB
      */
     public int getInvocationNameLimitLength()
     {
@@ -3456,69 +3370,12 @@ public class JavelinConfigBase
     }
 
     /**
-     * Javelinã‚’é©ç”¨ã—ãŸãƒ—ãƒ­ã‚»ã‚¹ãŒå±ã™ã‚‹ã‚¯ãƒ©ã‚¹ã‚¿åç§°ã‚’å–å¾—ã™ã‚‹ã€‚
+     * Javelin‚ğ“K—p‚µ‚½ƒvƒƒZƒX‚ª‘®‚·‚éƒNƒ‰ƒXƒ^–¼Ì‚ğæ“¾‚·‚éB
      * 
-     * @return Javelinã‚’é©ç”¨ã—ãŸãƒ—ãƒ­ã‚»ã‚¹ãŒå±ã™ã‚‹ã‚¯ãƒ©ã‚¹ã‚¿åç§°ã€‚
+     * @return Javelin‚ğ“K—p‚µ‚½ƒvƒƒZƒX‚ª‘®‚·‚éƒNƒ‰ƒXƒ^–¼ÌB
      */
     public String getClusterName()
     {
         return CONFIGUTIL.getString(CLUSTER_NAME_KEY, DEF_CLUSTER_NAME);
-    }
-
-    /**
-     * ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—ã®é–¾å€¤
-     * 
-     * @return ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—ã®é–¾å€¤ã€‚
-     */
-    public Map<String, Double> getThreadDumpResourceTreshold()
-    {
-        Map<String, Double> result = new HashMap<String, Double>();
-        Properties properties = JavelinConfigUtil.getInstance().getProperties();
-        Set<Object> keySet = properties.keySet();
-        for (Object key : keySet)
-        {
-            String keyStr = (String)key;
-            if (keyStr.startsWith(THREAD_DUMP_THRESHOLD))
-            {
-                String valueStr = properties.getProperty(keyStr);
-                try
-                {
-                    Double value = Double.parseDouble(valueStr);
-                    String itemName = keyStr.substring(THREAD_DUMP_THRESHOLD.length());
-                    result.put(itemName, value);
-                }
-                catch (NumberFormatException nfe)
-                {
-                    SystemLogger.getInstance().warn(nfe);
-                }
-            }
-        }
-
-        return result;
-    }
-
-    /**
-     * é–¾å€¤ã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param itemName é–¾å€¤ã®itemName
-     * @param value é–¾å€¤
-     */
-    public void setThreadDumpResourceTreshold(final String itemName, final Double value)
-    {
-        if (itemName.startsWith(THREAD_DUMP_THRESHOLD) == false)
-        {
-            return;
-        }
-        Properties properties = JavelinConfigUtil.getInstance().getProperties();
-        properties.setProperty(itemName, String.valueOf(value));
-    }
-
-    public boolean isJdbcjavelinLightweightMode()
-    {
-        return CONFIGUTIL.getBoolean(JDBCJAVELIN_LIGHTWEIGHT_MODE, DEFAULT_JDBCJAVELIN_LIGHTWEIGHT);
-    }
-
-    public void setJdbcjavelinLightweightMode(final boolean jdbcjavelinLightweightMode)
-    {
-        CONFIGUTIL.setBoolean(JDBCJAVELIN_LIGHTWEIGHT_MODE, jdbcjavelinLightweightMode);
     }
 }

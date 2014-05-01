@@ -40,12 +40,12 @@ import jp.co.smg.endosnipe.javassist.expr.ExprEditor;
 import jp.co.smg.endosnipe.javassist.expr.MethodCall;
 
 /**
- * Object#waitã€Thread.sleepã®å®Ÿè¡Œæ™‚é–“ã‚’ç›£è¦–ã—ã€
+ * Object#waitAThread.sleep‚ÌÀsŠÔ‚ğŠÄ‹‚µA
  * <ul>
- * <li>ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—ã¾ãŸã¯å®Ÿè¡Œç®‡æ‰€</li>
- * <li>å®Ÿè¡Œæ™‚é–“</li>
+ * <li>ƒXƒŒƒbƒhƒ_ƒ“ƒv‚Ü‚½‚ÍÀs‰ÓŠ</li>
+ * <li>ÀsŠÔ</li>
  * </ul>
- * ã‚’å–å¾—ã™ã‚‹ã€‚
+ * ‚ğæ“¾‚·‚éB
  * 
  * @author eriguchi
  */
@@ -60,13 +60,13 @@ public class WaitMonitorConverter extends AbstractConverter
      */
     public void init()
     {
-        // ä½•ã‚‚ã—ãªã„ã€‚
+        // ‰½‚à‚µ‚È‚¢B
     }
 
     /**
      * 
-     * @throws CannotCompileException ã‚³ãƒ¼ãƒ‰ã®åŸ‹ã‚è¾¼ã¿ã«å¤±æ•—ã—ãŸå ´åˆã€‚
-     * @throws IOException å¤‰æ›å¾Œã®CtClassã®ãƒã‚¤ãƒˆã‚³ãƒ¼ãƒ‰ã¸ã®å¤‰æ›ã«å¤±æ•—ã—ãŸå ´åˆã€‚ 
+     * @throws CannotCompileException ƒR[ƒh‚Ì–„‚ß‚İ‚É¸”s‚µ‚½ê‡B
+     * @throws IOException •ÏŠ·Œã‚ÌCtClass‚ÌƒoƒCƒgƒR[ƒh‚Ö‚Ì•ÏŠ·‚É¸”s‚µ‚½ê‡B 
      */
     @Override
     public void convertImpl()

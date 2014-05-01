@@ -29,34 +29,34 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * è¨ˆæ¸¬ãƒ‡ãƒ¼ã‚¿ã‚’æ ¼ç´ã™ã‚‹ãŸã‚ã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã§ã™ã€‚
+ * Œv‘ªƒf[ƒ^‚ğŠi”[‚·‚é‚½‚ß‚ÌƒGƒ“ƒeƒBƒeƒB‚Å‚·B
  * @author fujii
  */
 public class ResourceData
 {
-    /** è¨ˆæ¸¬æ™‚åˆ» */
+    /** Œv‘ª */
     public long measurementTime;
 
-    /** ãƒ›ã‚¹ãƒˆå */
+    /** ƒzƒXƒg–¼ */
     public String hostName;
 
-    /** IPã‚¢ãƒ‰ãƒ¬ã‚¹ */
+    /** IPƒAƒhƒŒƒX */
     public String ipAddress;
 
-    /** ãƒãƒ¼ãƒˆç•ªå· */
+    /** ƒ|[ƒg”Ô† */
     public int portNum;
 
-    /** ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆID */
+    /** ƒNƒ‰ƒCƒAƒ“ƒgID */
     public String clientId;
 
-    /** ã‚°ãƒ©ãƒ•ã®è¨ˆæ¸¬ãƒ‡ãƒ¼ã‚¿ã‚’æ ¼ç´ã™ã‚‹ãƒãƒƒãƒ—(è¨ˆæ¸¬é …ç›®åã€ã‚°ãƒ©ãƒ•ã®è¨ˆæ¸¬ãƒ‡ãƒ¼ã‚¿) */
+    /** ƒOƒ‰ƒt‚ÌŒv‘ªƒf[ƒ^‚ğŠi”[‚·‚éƒ}ƒbƒv(Œv‘ª€–Ú–¼AƒOƒ‰ƒt‚ÌŒv‘ªƒf[ƒ^) */
     private final Map<String, MeasurementData> measurementMap_ =
             new LinkedHashMap<String, MeasurementData>();
 
     /**
-     * {@link ResourceData}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«{@link MeasurementData}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç™»éŒ²ã™ã‚‹ã€‚
+     * {@link ResourceData}ƒIƒuƒWƒFƒNƒg‚É{@link MeasurementData}ƒIƒuƒWƒFƒNƒg‚ğ“o˜^‚·‚éB
      * 
-     * @param mData {@link MeasurementData}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param mData {@link MeasurementData}ƒIƒuƒWƒFƒNƒg
      */
     public void addMeasurementData(final MeasurementData mData)
     {
@@ -64,9 +64,9 @@ public class ResourceData
     }
 
     /**
-     * {@link MeasurementData} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * {@link MeasurementData} ƒIƒuƒWƒFƒNƒg‚ğ•Ô‚µ‚Ü‚·B<br />
      *
-     * @return {@link MeasurementData} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @return {@link MeasurementData} ƒIƒuƒWƒFƒNƒg
      */
     public Map<String, MeasurementData> getMeasurementMap()
     {

@@ -36,43 +36,43 @@ import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 import junit.framework.TestCase;
 
 /**
- * AbstractConverterã®ãƒ†ã‚¹ãƒˆã‚³ãƒ¼ãƒ‰
- * AbstractConverterã‚’ç¶™æ‰¿ã™ã‚‹TestExtendConverterã‚’åˆ©ç”¨ã—ã¦ã€
- * è©¦é¨“ã‚’è¡Œã†ã€‚
+ * AbstractConverter‚ÌƒeƒXƒgƒR[ƒh
+ * AbstractConverter‚ğŒp³‚·‚éTestExtendConverter‚ğ—˜—p‚µ‚ÄA
+ * Œ±‚ğs‚¤B
  * @author fujii
  *
  */
 public class AbstractConverterTest extends TestCase
 {
 
-    /** Javelinè¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹ */
+    /** Javelinİ’èƒtƒ@ƒCƒ‹‚ÌƒpƒX */
     private static final String JAVELIN_CONFIG_PATH = "test/common/conf";
 
     /**
-     * åˆæœŸåŒ–ãƒ¡ã‚½ãƒƒãƒ‰<br />
-     * ã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ã®åˆæœŸåŒ–ã‚’è¡Œã†ã€‚
+     * ‰Šú‰»ƒƒ\ƒbƒh<br />
+     * ƒVƒXƒeƒ€ƒƒO‚Ì‰Šú‰»‚ğs‚¤B
      */
     @Override
     public void setUp()
     {
-        // ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ã€ã‚ªãƒ—ã‚·ãƒ§ãƒ³è¨­å®šã‚’èª­ã¿è¾¼ã‚€ã€‚
+        // ƒIƒvƒVƒ‡ƒ“ƒtƒ@ƒCƒ‹‚©‚çAƒIƒvƒVƒ‡ƒ“İ’è‚ğ“Ç‚İ‚ŞB
         JavelinConfig config = new JavelinConfig(JAVELIN_CONFIG_PATH);
         SystemLogger.initSystemLog(config);
     }
 
     /**
-     * [é …ç•ª] 1-3-7 GetMatcheDeclaredBehaviorã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»ãƒ¡ã‚½ãƒƒãƒ‰ã‚’æŒãŸãªã„ã‚¯ãƒ©ã‚¹ã«å¯¾ã—ã¦ã€AbstractConverter#getMatchDeclaredBehaviorã‚’<br />
-     *  å®Ÿè¡Œã™ã‚‹ã€‚<br />
-     * â†’ç©ºã®ãƒªã‚¹ãƒˆãŒè¿”ã‚‹ã€‚<br />
+     * [€”Ô] 1-3-7 GetMatcheDeclaredBehavior‚ÌƒeƒXƒgB <br />
+     * Eƒƒ\ƒbƒh‚ğ‚½‚È‚¢ƒNƒ‰ƒX‚É‘Î‚µ‚ÄAAbstractConverter#getMatchDeclaredBehavior‚ğ<br />
+     *  Às‚·‚éB<br />
+     * ¨‹ó‚ÌƒŠƒXƒg‚ª•Ô‚éB<br />
      * 
-     * @throws Exception ä¾‹å¤–
+     * @throws Exception —áŠO
      */
     public void testGetMatcheDeclaredBehavior_EmptyMethod()
         throws Exception
     {
 
-        // æº–å‚™
+        // €”õ
         TestExtendConverter converter = new TestExtendConverter();
         ClassPool pool = ClassPool.getDefault();
         CtClass ctClass = pool.get("jp.co.acroquest.endosnipe.javelin.converter.TestEmptyMethod");
@@ -81,26 +81,26 @@ public class AbstractConverterTest extends TestCase
         field.setAccessible(true);
         field.set(converter, ctClass);
 
-        // å®Ÿè¡Œ
+        // Às
         List<CtBehavior> list = converter.getMethodList();
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(0, list.size());
     }
 
     /**
-     * [é …ç•ª] 1-3-8 GetMatcheDeclaredBehaviorã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»Abstractãƒ¡ã‚½ãƒƒãƒ‰ã®ã¿ã‚’æŒã¤ã‚¯ãƒ©ã‚¹ã«å¯¾ã—ã¦ã€AbstractConverter#getMatchDeclaredBehaviorã‚’<br />
-     *  å®Ÿè¡Œã™ã‚‹ã€‚<br />
-     * â†’ç©ºã®ãƒªã‚¹ãƒˆãŒè¿”ã‚‹ã€‚<br />
+     * [€”Ô] 1-3-8 GetMatcheDeclaredBehavior‚ÌƒeƒXƒgB <br />
+     * EAbstractƒƒ\ƒbƒh‚Ì‚İ‚ğ‚ÂƒNƒ‰ƒX‚É‘Î‚µ‚ÄAAbstractConverter#getMatchDeclaredBehavior‚ğ<br />
+     *  Às‚·‚éB<br />
+     * ¨‹ó‚ÌƒŠƒXƒg‚ª•Ô‚éB<br />
      * 
-     * @throws Exception ä¾‹å¤–
+     * @throws Exception —áŠO
      */
     public void testGetMatcheDeclaredBehavior_AbstractMethod()
         throws Exception
     {
 
-        // æº–å‚™
+        // €”õ
         TestExtendConverter converter = new TestExtendConverter();
         ClassPool pool = ClassPool.getDefault();
         CtClass ctClass = pool.get("jp.co.acroquest.endosnipe.javelin.converter.TestAbstractMethod");
@@ -109,26 +109,26 @@ public class AbstractConverterTest extends TestCase
         field.setAccessible(true);
         field.set(converter, ctClass);
 
-        // å®Ÿè¡Œ
+        // Às
         List<CtBehavior> list = converter.getMethodList();
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(0, list.size());
     }
 
     /**
-     * [é …ç•ª] 1-3-9 GetMatcheDeclaredBehaviorã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»Nativeãƒ¡ã‚½ãƒƒãƒ‰ã®ã¿ã‚’æŒã¤ã‚¯ãƒ©ã‚¹ã«å¯¾ã—ã¦ã€AbstractConverter#getMatchDeclaredBehaviorã‚’<br />
-     *  å®Ÿè¡Œã™ã‚‹ã€‚<br />
-     * â†’ç©ºã®ãƒªã‚¹ãƒˆãŒè¿”ã‚‹ã€‚<br />
+     * [€”Ô] 1-3-9 GetMatcheDeclaredBehavior‚ÌƒeƒXƒgB <br />
+     * ENativeƒƒ\ƒbƒh‚Ì‚İ‚ğ‚ÂƒNƒ‰ƒX‚É‘Î‚µ‚ÄAAbstractConverter#getMatchDeclaredBehavior‚ğ<br />
+     *  Às‚·‚éB<br />
+     * ¨‹ó‚ÌƒŠƒXƒg‚ª•Ô‚éB<br />
      * 
-     * @throws Exception ä¾‹å¤–
+     * @throws Exception —áŠO
      */
     public void testGetMatcheDeclaredBehavior_NativeMethod()
         throws Exception
     {
 
-        // æº–å‚™
+        // €”õ
         TestExtendConverter converter = new TestExtendConverter();
         ClassPool pool = ClassPool.getDefault();
         CtClass ctClass = pool.get("jp.co.acroquest.endosnipe.javelin.converter.TestNativeMethod");
@@ -137,10 +137,10 @@ public class AbstractConverterTest extends TestCase
         field.setAccessible(true);
         field.set(converter, ctClass);
 
-        // å®Ÿè¡Œ
+        // Às
         List<CtBehavior> list = converter.getMethodList();
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(0, list.size());
     }
 }

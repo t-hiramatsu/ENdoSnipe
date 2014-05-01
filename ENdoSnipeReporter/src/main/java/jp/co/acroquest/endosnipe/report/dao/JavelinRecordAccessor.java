@@ -24,299 +24,300 @@ import jp.co.acroquest.endosnipe.common.Constants;
 import jp.co.acroquest.endosnipe.report.dao.ReportDao;
 
 /**
- * Javelin ã‚°ãƒ©ãƒ•ãƒ‡ãƒ¼ã‚¿ã‚’DBã‹ã‚‰å–å¾—ã™ã‚‹ã‚¢ã‚¯ã‚»ã‚µã‚¯ãƒ©ã‚¹ã€‚
+ * Javelin ƒOƒ‰ƒtƒf[ƒ^‚ğDB‚©‚çæ“¾‚·‚éƒAƒNƒZƒTƒNƒ‰ƒXB
  * 
  * @author akiba
  */
 public class JavelinRecordAccessor
 {
-	private static final double DECIMAL_TO_PERCENT = 100.0;
+    private static final double DECIMAL_TO_PERCENT = 100.0;
 
-	/**
-	 * æœŸé–“ã‚’æŒ‡å®šã—ã€ãã®æœŸé–“å†…ã§ã®Javelinã®ãƒ¬ãƒãƒ¼ãƒˆãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã€‚
-	 * 
-	 * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã€‚
-	 * @param startTime æ¤œç´¢æ¡ä»¶(é–‹å§‹æ™‚åˆ»)ã€‚
-	 * @param endTime æ¤œç´¢æ¡ä»¶(çµ‚äº†æ™‚åˆ»)ã€‚
-	 * @return Javelinã®ãƒ¬ãƒãƒ¼ãƒˆã®ãƒ‡ãƒ¼ã‚¿ã€‚
-	 * @throws SQLException ãƒ‡ãƒ¼ã‚¿å–å¾—æ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
-	 */
-	public List<JavelinRecord> findJavelinStaticsByTerm(String database, Timestamp startTime,
-		Timestamp endTime) throws SQLException
-	{
-		List<JavelinRecord> result = new ArrayList<JavelinRecord>();
+    /**
+     * ŠúŠÔ‚ğw’è‚µA‚»‚ÌŠúŠÔ“à‚Å‚ÌJavelin‚ÌƒŒƒ|[ƒgƒf[ƒ^‚ğæ“¾‚·‚éB
+     * 
+     * @param database ƒf[ƒ^ƒx[ƒX–¼B
+     * @param startTime ŒŸõğŒ(ŠJn)B
+     * @param endTime ŒŸõğŒ(I—¹)B
+     * @return Javelin‚ÌƒŒƒ|[ƒg‚Ìƒf[ƒ^B
+     * @throws SQLException ƒf[ƒ^æ“¾‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     */
+    public List<JavelinRecord> findJavelinStaticsByTerm(String database,
+            Timestamp startTime, Timestamp endTime) throws SQLException
+    {
+        List<JavelinRecord> result = new ArrayList<JavelinRecord>();
 
-		// ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‹ã‚‰å€¤ã‚’å–å¾—ã™ã‚‹
-		List<ReportItemValue> maxCallTreeNodeValues;
-		List<ReportItemValue> convertedValues;
-		List<ReportItemValue> excludedValues;
-		List<ReportItemValue> executedValues;
-		List<ReportItemValue> allNodeCountValues;
-		List<ReportItemValue> callTreeCountValues;
-		List<ReportItemValue> coverageValues;
-		List<ReportItemValue> eventValues;
+        // ƒf[ƒ^ƒx[ƒX‚©‚ç’l‚ğæ“¾‚·‚é
+        List<ReportItemValue> maxCallTreeNodeValues;
+        List<ReportItemValue> convertedValues;
+        List<ReportItemValue> excludedValues;
+        List<ReportItemValue> executedValues;
+        List<ReportItemValue> allNodeCountValues;
+        List<ReportItemValue> callTreeCountValues;
+        List<ReportItemValue> coverageValues;
+        List<ReportItemValue> eventValues;
 
-		// CallTreeNode ç”Ÿæˆæ•°ï¼ˆæœ€å¤§ï¼‰
-		maxCallTreeNodeValues = ReportDao.selectCallTreeAverage(database, startTime, endTime,
-			Constants.ITEMNAME_MAX_NODECOUNT);
-		allNodeCountValues = ReportDao.selectCallTreeAverage(database, startTime, endTime,
-			Constants.ITEMNAME_ALL_NODECOUNT);
-		callTreeCountValues = ReportDao.selectCallTreeAverage(database, startTime, endTime,
-			Constants.ITEMNAME_CALLTREECOUNT);
-		convertedValues = ReportDao.selectAverage(database, startTime, endTime,
-			Constants.ITEMNAME_CONVERTEDMETHOD);
-		excludedValues = ReportDao.selectAverage(database, startTime, endTime,
-			Constants.ITEMNAME_EXCLUDEDMETHOD);
-		executedValues = ReportDao.selectAverage(database, startTime, endTime,
-			Constants.ITEMNAME_CALLEDMETHODCOUNT);
-		eventValues = ReportDao.selectAverage(database, startTime, endTime,
-			Constants.ITEMNAME_EVENT_COUNT);
+        // CallTreeNode ¶¬”iÅ‘åj
+        maxCallTreeNodeValues = ReportDao.selectCallTreeAverage(database,
+                startTime, endTime, Constants.ITEMNAME_MAX_NODECOUNT);
+        allNodeCountValues = ReportDao.selectCallTreeAverage(database,
+                startTime, endTime, Constants.ITEMNAME_ALL_NODECOUNT);
+        callTreeCountValues = ReportDao.selectCallTreeAverage(database,
+                startTime, endTime, Constants.ITEMNAME_CALLTREECOUNT);
+        convertedValues = ReportDao.selectAverage(database, startTime, endTime,
+                Constants.ITEMNAME_CONVERTEDMETHOD);
+        excludedValues = ReportDao.selectAverage(database, startTime, endTime,
+                Constants.ITEMNAME_EXCLUDEDMETHOD);
+        executedValues = ReportDao.selectAverage(database, startTime, endTime,
+                Constants.ITEMNAME_CALLEDMETHODCOUNT);
+        eventValues = ReportDao.selectAverage(database, startTime, endTime,
+                Constants.ITEMNAME_EVENT_COUNT);
 
-		coverageValues = ReportDao.selectAverage(database, startTime, endTime,
-			Constants.ITEMNAME_COVERAGE);
+        coverageValues = ReportDao.selectAverage(database, startTime, endTime,
+                Constants.ITEMNAME_COVERAGE);
 
-		// ã‚«ãƒãƒ¬ãƒƒã‚¸ã®ãƒ‡ãƒ¼ã‚¿ãŒDBã«ã‚ã‚Šã€å–å¾—ã§ããŸå ´åˆã¯ã€ãã‚Œã‚‰ã«å¤‰æ›å‡¦ç†ã‚’è¡Œã†ã€‚
-		if (coverageValues != null && 0 < coverageValues.size())
-		{
-			coverageValues = PercentageDataUtil.reconstitutePercentageData(coverageValues);
-		}
+        // ƒJƒoƒŒƒbƒW‚Ìƒf[ƒ^‚ªDB‚É‚ ‚èAæ“¾‚Å‚«‚½ê‡‚ÍA‚»‚ê‚ç‚É•ÏŠ·ˆ—‚ğs‚¤B
+        if (coverageValues != null && 0 < coverageValues.size())
+        {
+            coverageValues = PercentageDataUtil.reconstitutePercentageData(coverageValues);
+        }
 
-		for (int index = 0; index < maxCallTreeNodeValues.size(); index++)
-		{
-			JavelinRecord record = new JavelinRecord();
+        for (int index = 0; index < maxCallTreeNodeValues.size(); index++)
+        {
+            JavelinRecord record = new JavelinRecord();
 
-			ReportItemValue maxCallTreeNode = maxCallTreeNodeValues.get(index);
-			ReportItemValue converted = convertedValues.get(index);
-			ReportItemValue excluded = excludedValues.get(index);
-			ReportItemValue executed = executedValues.get(index);
-			ReportItemValue allNodeCount = allNodeCountValues.get(index);
-			ReportItemValue callTreeCount = callTreeCountValues.get(index);
-			ReportItemValue eventCount = eventValues.get(index);
+            ReportItemValue maxCallTreeNode = maxCallTreeNodeValues.get(index);
+            ReportItemValue converted = convertedValues.get(index);
+            ReportItemValue excluded = excludedValues.get(index);
+            ReportItemValue executed = executedValues.get(index);
+            ReportItemValue allNodeCount = allNodeCountValues.get(index);
+            ReportItemValue callTreeCount = callTreeCountValues.get(index);
+            ReportItemValue eventCount = eventValues.get(index);
 
-			record.setEvent(eventCount.summaryValue.longValue());
-			record.setEventMax(eventCount.maxValue.longValue());
-			record.setEventMin(eventCount.minValue.longValue());
+            record.setEvent(eventCount.summaryValue.longValue());
+            record.setEventMax(eventCount.maxValue.longValue());
+            record.setEventMin(eventCount.minValue.longValue());
 
-			if (maxCallTreeNode != null)
-			{
-				record.setMeasurementTime(maxCallTreeNode.measurementTime);
-				record.setCallTreeNodeNumMax(maxCallTreeNode.maxValue.longValue());
-				double allNodeCountValue = allNodeCount.summaryValue.longValue();
-				double callTreeCountValue = callTreeCount.summaryValue.longValue();
-				if (callTreeCountValue == 0.0)
-				{
-					callTreeCountValue = Double.MAX_VALUE;
-				}
-				record.setCallTreeNodeNumAverage(allNodeCountValue / callTreeCountValue);
-				record.setJavelinConverterMethodNum(converted.summaryValue.longValue());
-				record.setJavelinConverterExcludedMethodNum(excluded.summaryValue.longValue());
-				record.setExecutedMethodNum(executed.summaryValue.longValue());
-				// ã‚«ãƒãƒ¬ãƒƒã‚¸ãƒ‡ãƒ¼ã‚¿ã®å‡¦ç†ã‚’è¡Œã†ã€‚
-				ReportItemValue coverageRecord = new ReportItemValue();
-				if (coverageValues != null)
-				{
-					ReportItemValue coverage = coverageValues.get(index);
-					record.setCoverage(coverage.summaryValue.doubleValue());
-					record.setCoverageMax(coverage.maxValue.doubleValue());
-					record.setCoverageMin(coverage.minValue.doubleValue());
-				}
-				else
-				{
-					double convertedValue = record.getJavelinConverterMethodNum();
-					if (convertedValue < 1)
-					{
-						convertedValue = 1;
-					}
-					coverageRecord.summaryValue = executed.summaryValue.longValue()
-						/ convertedValue * DECIMAL_TO_PERCENT;
-					coverageRecord.maxValue = executed.maxValue.longValue() / convertedValue
-						* DECIMAL_TO_PERCENT;
-					coverageRecord.minValue = executed.minValue.longValue() / convertedValue
-						* DECIMAL_TO_PERCENT;
-					record.setCoverage(coverageRecord.summaryValue.doubleValue());
-					record.setCoverageMax(coverageRecord.maxValue.doubleValue());
-					record.setCoverageMin(coverageRecord.minValue.doubleValue());
-				}
-			}
-			result.add(record);
-		}
+            if (maxCallTreeNode != null)
+            {
+                record.setMeasurementTime(maxCallTreeNode.measurementTime);
+                record.setCallTreeNodeNumMax(maxCallTreeNode.maxValue.longValue());
+                double allNodeCountValue = allNodeCount.summaryValue.longValue();
+                double callTreeCountValue = callTreeCount.summaryValue.longValue();
+                if (callTreeCountValue == 0.0)
+                {
+                    callTreeCountValue = Double.MAX_VALUE;
+                }
+                record.setCallTreeNodeNumAverage(allNodeCountValue
+                        / callTreeCountValue);
+                record.setJavelinConverterMethodNum(converted.summaryValue.longValue());
+                record.setJavelinConverterExcludedMethodNum(excluded.summaryValue.longValue());
+                record.setExecutedMethodNum(executed.summaryValue.longValue());
+                // ƒJƒoƒŒƒbƒWƒf[ƒ^‚Ìˆ—‚ğs‚¤B
+                ReportItemValue coverageRecord = new ReportItemValue();
+                if (coverageValues != null)
+                {
+                    ReportItemValue coverage = coverageValues.get(index);
+                    record.setCoverage(coverage.summaryValue.doubleValue());
+                    record.setCoverageMax(coverage.maxValue.doubleValue());
+                    record.setCoverageMin(coverage.minValue.doubleValue());
+                }
+                else
+                {
+                    double convertedValue = record.getJavelinConverterMethodNum();
+                    if (convertedValue < 1)
+                    {
+                        convertedValue = 1;
+                    }
+                    coverageRecord.summaryValue = executed.summaryValue.longValue()
+                            / convertedValue * DECIMAL_TO_PERCENT;
+                    coverageRecord.maxValue = executed.maxValue.longValue()
+                            / convertedValue * DECIMAL_TO_PERCENT;
+                    coverageRecord.minValue = executed.minValue.longValue()
+                            / convertedValue * DECIMAL_TO_PERCENT;
+                    record.setCoverage(coverageRecord.summaryValue.doubleValue());
+                    record.setCoverageMax(coverageRecord.maxValue.doubleValue());
+                    record.setCoverageMin(coverageRecord.minValue.doubleValue());
+                }
+            }
+            result.add(record);
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	//	/**
-	//	 * æœŸé–“ã‚’æŒ‡å®šã—ã€ãã®æœŸé–“å†…ã§ã®<br/>
-	//	 * ã€ŒCallTreeNode ç”Ÿæˆæ•°ã€ã‚°ãƒ©ãƒ•ã®ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã€‚
-	//	 * 
-	//	 * @param database
-	//	 *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã€‚
-	//	 * @param startTime
-	//	 *            æ¤œç´¢æ¡ä»¶(é–‹å§‹æ™‚åˆ»)ã€‚
-	//	 * @param endTime
-	//	 *            æ¤œç´¢æ¡ä»¶(çµ‚äº†æ™‚åˆ»)ã€‚
-	//	 * @return ã€ŒCallTreeNode ç”Ÿæˆæ•°ã€ã‚°ãƒ©ãƒ•ã®ãƒ‡ãƒ¼ã‚¿ã€‚
-	//	 */
-	//	public List<CallTreeNodeRecord> findCallTreeNodeByTerm(
-	//			String database, Timestamp startTime, Timestamp endTime)
-	//			{
-	//		List<CallTreeNodeRecord> result = new ArrayList<CallTreeNodeRecord>();
-	//
-	//		// ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‹ã‚‰å€¤ã‚’å–å¾—ã™ã‚‹
-	//		List<MeasurementValueDto> maxCallTreeNodeValues;
-	//		List<MeasurementValueDto> aveCallTreeNodeValues;
-	//
-	//		try
-	//		{
-	//			// CallTreeNode ç”Ÿæˆæ•°ï¼ˆæœ€å¤§ï¼‰
-	//			maxCallTreeNodeValues = MeasurementValueDao
-	//					.selectByTermAndMeasurementTypeWithNameOrderByTime(
-	//							database, startTime, endTime,
-	//							Constants.ITEMNAME_MAX_NODECOUNT);
-	//			// CallTreeNode ç”Ÿæˆæ•°ï¼ˆå¹³å‡ï¼‰
-	//			aveCallTreeNodeValues = MeasurementValueDao
-	//					.selectByTermAndMeasurementTypeWithNameOrderByTime(
-	//							database, startTime, endTime,
-	//							Constants.ITEMNAME_NODECOUNT);
-	//		}
-	//		catch (SQLException exception)
-	//		{
-	//			// TODO ãƒ­ã‚°ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®å®šç¾©ã‚’è¡Œã£ã¦ã€ã“ã“ã«è¿½è¨˜ã™ã‚‹ã“ã¨ã€‚
-	//			LOGGER.log("", exception, new Object[0]);
-	//			return null;
-	//		}
-	//
-	//		// ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‹ã‚‰å–å¾—ã—ãŸãƒ‡ãƒ¼ã‚¿ã‚’ã€CallTreeNodeRecord ã®ãƒªã‚¹ãƒˆã«å¤‰æ›
-	//		for (int index = 0; index < aveCallTreeNodeValues.size(); index++)
-	//		{
-	//			CallTreeNodeRecord record = new CallTreeNodeRecord();
-	////			MeasurementValueDto maxCallTreeNode = maxCallTreeNodeValues.get(index);
-	//			MeasurementValueDto aveCallTreeNode = aveCallTreeNodeValues.get(index);
-	//			
-	//			record.setMeasurementTime(aveCallTreeNode.measurementTime);
-	////			record.setCallTreeNodeNumMax(maxCallTreeNode.value.longValue());
-	//			record.setCallTreeNodeNumAverage(aveCallTreeNode.value.longValue());
-	//			
-	//			result.add(record);
-	//		}
-	//		
-	//		return result;
-	//	}
-	//
-	//	/**
-	//	 * æœŸé–“ã‚’æŒ‡å®šã—ã€ãã®æœŸé–“å†…ã§ã®<br/>
-	//	 * ã€Œå¤‰æ›ãƒ¡ã‚½ãƒƒãƒ‰æ•°ã€ã‚°ãƒ©ãƒ•ã®ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã€‚
-	//	 * 
-	//	 * @param database
-	//	 *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã€‚
-	//	 * @param startTime
-	//	 *            æ¤œç´¢æ¡ä»¶(é–‹å§‹æ™‚åˆ»)ã€‚
-	//	 * @param endTime
-	//	 *            æ¤œç´¢æ¡ä»¶(çµ‚äº†æ™‚åˆ»)ã€‚
-	//	 * @return ã€Œå¤‰æ›ãƒ¡ã‚½ãƒƒãƒ‰æ•°ã€ã‚°ãƒ©ãƒ•ã®ãƒ‡ãƒ¼ã‚¿ã€‚
-	//	 */
-	//	public List<ConvertedMethodNumRecord> findConvertedMethodNumByTerm(
-	//			String database, Timestamp startTime, Timestamp endTime)
-	//			{
-	//		List<ConvertedMethodNumRecord> result = new ArrayList<ConvertedMethodNumRecord>();
-	//
-	//		// ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‹ã‚‰å€¤ã‚’å–å¾—ã™ã‚‹
-	//		List<MeasurementValueDto> convertedValues;
-	//		List<MeasurementValueDto> excludedValues;
-	//		List<MeasurementValueDto> executedValues;
-	//
-	//		try
-	//		{
-	//			// JavelinConverterå¤‰æ›ãƒ¡ã‚½ãƒƒãƒ‰æ•°
-	//			convertedValues = MeasurementValueDao
-	//					.selectByTermAndMeasurementTypeWithNameOrderByTime(
-	//							database, startTime, endTime,
-	//							Constants.ITEMNAME_CONVERTEDMETHOD);
-	//			// JavelinConverterå¤‰æ›é™¤å¤–ãƒ¡ã‚½ãƒƒãƒ‰æ•°
-	//			excludedValues = MeasurementValueDao
-	//					.selectByTermAndMeasurementTypeWithNameOrderByTime(
-	//							database, startTime, endTime,
-	//							Constants.ITEMNAME_EXCLUDEDMETHOD);
-	//			// å®Ÿè¡Œãƒ¡ã‚½ãƒƒãƒ‰æ•°
-	//			executedValues = MeasurementValueDao
-	//					.selectByTermAndMeasurementTypeWithNameOrderByTime(
-	//							database, startTime, endTime,
-	//							Constants.ITEMNAME_CALLEDMETHODCOUNT);
-	//		}
-	//		catch (SQLException exception)
-	//		{
-	//			// TODO ãƒ­ã‚°ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®å®šç¾©ã‚’è¡Œã£ã¦ã€ã“ã“ã«è¿½è¨˜ã™ã‚‹ã“ã¨ã€‚
-	//			LOGGER.log("", exception, new Object[0]);
-	//			return null;
-	//		}
-	//
-	//		// ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‹ã‚‰å–å¾—ã—ãŸãƒ‡ãƒ¼ã‚¿ã‚’ã€ConvertedMethodNumRecord ã®ãƒªã‚¹ãƒˆã«å¤‰æ›
-	//		for (int index = 0; index < convertedValues.size(); index++)
-	//		{
-	//			ConvertedMethodNumRecord record = new ConvertedMethodNumRecord();
-	//			MeasurementValueDto convertedNode = convertedValues.get(index);
-	//			MeasurementValueDto excludedNode = excludedValues.get(index);
-	//			MeasurementValueDto executedNode = executedValues.get(index);
-	//			
-	//			record.setMeasurementTime(convertedNode.measurementTime);
-	//			record.setJavelinConverterMethodNum(convertedNode.value.longValue());
-	//			record.setJavelinConverterExcludedMethodNum(excludedNode.value.longValue());
-	//			record.setExecutedMethodNum(executedNode.value.longValue());
-	//			
-	//			result.add(record);
-	//		}
-	//		
-	//		return result;
-	//	}
-	//
-	//	/**
-	//	 * æœŸé–“ã‚’æŒ‡å®šã—ã€ãã®æœŸé–“å†…ã§ã®<br/>
-	//	 * ã€Œã‚«ãƒãƒ¬ãƒƒã‚¸ã€ã‚°ãƒ©ãƒ•ã®ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã€‚
-	//	 * 
-	//	 * @param database
-	//	 *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã€‚
-	//	 * @param startTime
-	//	 *            æ¤œç´¢æ¡ä»¶(é–‹å§‹æ™‚åˆ»)ã€‚
-	//	 * @param endTime
-	//	 *            æ¤œç´¢æ¡ä»¶(çµ‚äº†æ™‚åˆ»)ã€‚
-	//	 * @return ã€ŒHttpSessionã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ•°ã€ã‚°ãƒ©ãƒ•ã®ãƒ‡ãƒ¼ã‚¿ã€‚
-	//	 */
-	//	public List<CoverageRecord> findCoverageByTerm(
-	//			String database, Timestamp startTime, Timestamp endTime)
-	//			{
-	//		List<CoverageRecord> result =
-	//			new ArrayList<CoverageRecord>();
-	//
-	//		// ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‹ã‚‰å€¤ã‚’å–å¾—ã™ã‚‹
-	//		List<MeasurementValueDto> coverageRecordValues;
-	//
-	//		try
-	//		{
-	//			// ã‚«ãƒãƒ¬ãƒƒã‚¸
-	//			coverageRecordValues = MeasurementValueDao
-	//					.selectByTermAndMeasurementTypeWithNameOrderByTime(
-	//							database, startTime, endTime,
-	//							Constants.ITEMNAME_HTTPSESSION_NUM);
-	//		}
-	//		catch (SQLException exception)
-	//		{
-	//			// TODO ãƒ­ã‚°ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®å®šç¾©ã‚’è¡Œã£ã¦ã€ã“ã“ã«è¿½è¨˜ã™ã‚‹ã“ã¨ã€‚
-	//			LOGGER.log("", exception, new Object[0]);
-	//			return result;
-	//		}
-	//
-	//		for (int index = 0; index < coverageRecordValues.size(); index++)
-	//		{
-	//			CoverageRecord record = new CoverageRecord();
-	//			MeasurementValueDto httpSessionInstanceNum =
-	//				coverageRecordValues.get(index);
-	//
-	//			record.setMeasurementTime(httpSessionInstanceNum.measurementTime);
-	//			record.setCoverage(httpSessionInstanceNum.value.longValue());
-	//
-	//			result.add(record);
-	//		}
-	//
-	//		return result;
-	//	}
+    //	/**
+    //	 * ŠúŠÔ‚ğw’è‚µA‚»‚ÌŠúŠÔ“à‚Å‚Ì<br/>
+    //	 * uCallTreeNode ¶¬”vƒOƒ‰ƒt‚Ìƒf[ƒ^‚ğæ“¾‚·‚éB
+    //	 * 
+    //	 * @param database
+    //	 *            ƒf[ƒ^ƒx[ƒX–¼B
+    //	 * @param startTime
+    //	 *            ŒŸõğŒ(ŠJn)B
+    //	 * @param endTime
+    //	 *            ŒŸõğŒ(I—¹)B
+    //	 * @return uCallTreeNode ¶¬”vƒOƒ‰ƒt‚Ìƒf[ƒ^B
+    //	 */
+    //	public List<CallTreeNodeRecord> findCallTreeNodeByTerm(
+    //			String database, Timestamp startTime, Timestamp endTime)
+    //			{
+    //		List<CallTreeNodeRecord> result = new ArrayList<CallTreeNodeRecord>();
+    //
+    //		// ƒf[ƒ^ƒx[ƒX‚©‚ç’l‚ğæ“¾‚·‚é
+    //		List<MeasurementValueDto> maxCallTreeNodeValues;
+    //		List<MeasurementValueDto> aveCallTreeNodeValues;
+    //
+    //		try
+    //		{
+    //			// CallTreeNode ¶¬”iÅ‘åj
+    //			maxCallTreeNodeValues = MeasurementValueDao
+    //					.selectByTermAndMeasurementTypeWithNameOrderByTime(
+    //							database, startTime, endTime,
+    //							Constants.ITEMNAME_MAX_NODECOUNT);
+    //			// CallTreeNode ¶¬”i•½‹Ïj
+    //			aveCallTreeNodeValues = MeasurementValueDao
+    //					.selectByTermAndMeasurementTypeWithNameOrderByTime(
+    //							database, startTime, endTime,
+    //							Constants.ITEMNAME_NODECOUNT);
+    //		}
+    //		catch (SQLException exception)
+    //		{
+    //			// TODO ƒƒOƒƒbƒZ[ƒW‚Ì’è‹`‚ğs‚Á‚ÄA‚±‚±‚É’Ç‹L‚·‚é‚±‚ÆB
+    //			LOGGER.log("", exception, new Object[0]);
+    //			return null;
+    //		}
+    //
+    //		// ƒf[ƒ^ƒx[ƒX‚©‚çæ“¾‚µ‚½ƒf[ƒ^‚ğACallTreeNodeRecord ‚ÌƒŠƒXƒg‚É•ÏŠ·
+    //		for (int index = 0; index < aveCallTreeNodeValues.size(); index++)
+    //		{
+    //			CallTreeNodeRecord record = new CallTreeNodeRecord();
+    ////			MeasurementValueDto maxCallTreeNode = maxCallTreeNodeValues.get(index);
+    //			MeasurementValueDto aveCallTreeNode = aveCallTreeNodeValues.get(index);
+    //			
+    //			record.setMeasurementTime(aveCallTreeNode.measurementTime);
+    ////			record.setCallTreeNodeNumMax(maxCallTreeNode.value.longValue());
+    //			record.setCallTreeNodeNumAverage(aveCallTreeNode.value.longValue());
+    //			
+    //			result.add(record);
+    //		}
+    //		
+    //		return result;
+    //	}
+    //
+    //	/**
+    //	 * ŠúŠÔ‚ğw’è‚µA‚»‚ÌŠúŠÔ“à‚Å‚Ì<br/>
+    //	 * u•ÏŠ·ƒƒ\ƒbƒh”vƒOƒ‰ƒt‚Ìƒf[ƒ^‚ğæ“¾‚·‚éB
+    //	 * 
+    //	 * @param database
+    //	 *            ƒf[ƒ^ƒx[ƒX–¼B
+    //	 * @param startTime
+    //	 *            ŒŸõğŒ(ŠJn)B
+    //	 * @param endTime
+    //	 *            ŒŸõğŒ(I—¹)B
+    //	 * @return u•ÏŠ·ƒƒ\ƒbƒh”vƒOƒ‰ƒt‚Ìƒf[ƒ^B
+    //	 */
+    //	public List<ConvertedMethodNumRecord> findConvertedMethodNumByTerm(
+    //			String database, Timestamp startTime, Timestamp endTime)
+    //			{
+    //		List<ConvertedMethodNumRecord> result = new ArrayList<ConvertedMethodNumRecord>();
+    //
+    //		// ƒf[ƒ^ƒx[ƒX‚©‚ç’l‚ğæ“¾‚·‚é
+    //		List<MeasurementValueDto> convertedValues;
+    //		List<MeasurementValueDto> excludedValues;
+    //		List<MeasurementValueDto> executedValues;
+    //
+    //		try
+    //		{
+    //			// JavelinConverter•ÏŠ·ƒƒ\ƒbƒh”
+    //			convertedValues = MeasurementValueDao
+    //					.selectByTermAndMeasurementTypeWithNameOrderByTime(
+    //							database, startTime, endTime,
+    //							Constants.ITEMNAME_CONVERTEDMETHOD);
+    //			// JavelinConverter•ÏŠ·œŠOƒƒ\ƒbƒh”
+    //			excludedValues = MeasurementValueDao
+    //					.selectByTermAndMeasurementTypeWithNameOrderByTime(
+    //							database, startTime, endTime,
+    //							Constants.ITEMNAME_EXCLUDEDMETHOD);
+    //			// Àsƒƒ\ƒbƒh”
+    //			executedValues = MeasurementValueDao
+    //					.selectByTermAndMeasurementTypeWithNameOrderByTime(
+    //							database, startTime, endTime,
+    //							Constants.ITEMNAME_CALLEDMETHODCOUNT);
+    //		}
+    //		catch (SQLException exception)
+    //		{
+    //			// TODO ƒƒOƒƒbƒZ[ƒW‚Ì’è‹`‚ğs‚Á‚ÄA‚±‚±‚É’Ç‹L‚·‚é‚±‚ÆB
+    //			LOGGER.log("", exception, new Object[0]);
+    //			return null;
+    //		}
+    //
+    //		// ƒf[ƒ^ƒx[ƒX‚©‚çæ“¾‚µ‚½ƒf[ƒ^‚ğAConvertedMethodNumRecord ‚ÌƒŠƒXƒg‚É•ÏŠ·
+    //		for (int index = 0; index < convertedValues.size(); index++)
+    //		{
+    //			ConvertedMethodNumRecord record = new ConvertedMethodNumRecord();
+    //			MeasurementValueDto convertedNode = convertedValues.get(index);
+    //			MeasurementValueDto excludedNode = excludedValues.get(index);
+    //			MeasurementValueDto executedNode = executedValues.get(index);
+    //			
+    //			record.setMeasurementTime(convertedNode.measurementTime);
+    //			record.setJavelinConverterMethodNum(convertedNode.value.longValue());
+    //			record.setJavelinConverterExcludedMethodNum(excludedNode.value.longValue());
+    //			record.setExecutedMethodNum(executedNode.value.longValue());
+    //			
+    //			result.add(record);
+    //		}
+    //		
+    //		return result;
+    //	}
+    //
+    //	/**
+    //	 * ŠúŠÔ‚ğw’è‚µA‚»‚ÌŠúŠÔ“à‚Å‚Ì<br/>
+    //	 * uƒJƒoƒŒƒbƒWvƒOƒ‰ƒt‚Ìƒf[ƒ^‚ğæ“¾‚·‚éB
+    //	 * 
+    //	 * @param database
+    //	 *            ƒf[ƒ^ƒx[ƒX–¼B
+    //	 * @param startTime
+    //	 *            ŒŸõğŒ(ŠJn)B
+    //	 * @param endTime
+    //	 *            ŒŸõğŒ(I—¹)B
+    //	 * @return uHttpSession‚ÌƒCƒ“ƒXƒ^ƒ“ƒX”vƒOƒ‰ƒt‚Ìƒf[ƒ^B
+    //	 */
+    //	public List<CoverageRecord> findCoverageByTerm(
+    //			String database, Timestamp startTime, Timestamp endTime)
+    //			{
+    //		List<CoverageRecord> result =
+    //			new ArrayList<CoverageRecord>();
+    //
+    //		// ƒf[ƒ^ƒx[ƒX‚©‚ç’l‚ğæ“¾‚·‚é
+    //		List<MeasurementValueDto> coverageRecordValues;
+    //
+    //		try
+    //		{
+    //			// ƒJƒoƒŒƒbƒW
+    //			coverageRecordValues = MeasurementValueDao
+    //					.selectByTermAndMeasurementTypeWithNameOrderByTime(
+    //							database, startTime, endTime,
+    //							Constants.ITEMNAME_HTTPSESSION_NUM);
+    //		}
+    //		catch (SQLException exception)
+    //		{
+    //			// TODO ƒƒOƒƒbƒZ[ƒW‚Ì’è‹`‚ğs‚Á‚ÄA‚±‚±‚É’Ç‹L‚·‚é‚±‚ÆB
+    //			LOGGER.log("", exception, new Object[0]);
+    //			return result;
+    //		}
+    //
+    //		for (int index = 0; index < coverageRecordValues.size(); index++)
+    //		{
+    //			CoverageRecord record = new CoverageRecord();
+    //			MeasurementValueDto httpSessionInstanceNum =
+    //				coverageRecordValues.get(index);
+    //
+    //			record.setMeasurementTime(httpSessionInstanceNum.measurementTime);
+    //			record.setCoverage(httpSessionInstanceNum.value.longValue());
+    //
+    //			result.add(record);
+    //		}
+    //
+    //		return result;
+    //	}
 
 }

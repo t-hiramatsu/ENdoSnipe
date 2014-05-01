@@ -36,29 +36,29 @@ import jp.co.smg.endosnipe.javassist.CtClass;
 import junit.framework.TestCase;
 
 /**
- * JavassistUtilã®ãƒ†ã‚¹ãƒˆã‚¯ãƒ©ã‚¹ã€‚
+ * JavassistUtil‚ÌƒeƒXƒgƒNƒ‰ƒXB
  * @author fujii
  *
  */
 public class JavassistUtilTest extends TestCase
 {
-    /** Javelinè¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹ */
+    /** Javelinİ’èƒtƒ@ƒCƒ‹‚ÌƒpƒX */
     private static final String JAVELIN_CONFIG_PATH = "/common/conf/javelin.properties";
 
     /**
-     * åˆæœŸåŒ–ãƒ¡ã‚½ãƒƒãƒ‰<br />
-     * ã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ã®åˆæœŸåŒ–ã‚’è¡Œã†ã€‚
+     * ‰Šú‰»ƒƒ\ƒbƒh<br />
+     * ƒVƒXƒeƒ€ƒƒO‚Ì‰Šú‰»‚ğs‚¤B
      */
     @Override
     public void setUp() throws Exception
     {
         super.setUp();
-        // ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ã€ã‚ªãƒ—ã‚·ãƒ§ãƒ³è¨­å®šã‚’èª­ã¿è¾¼ã‚€ã€‚
+        // ƒIƒvƒVƒ‡ƒ“ƒtƒ@ƒCƒ‹‚©‚çAƒIƒvƒVƒ‡ƒ“İ’è‚ğ“Ç‚İ‚ŞB
         JavelinTestUtil.camouflageJavelinConfig(getClass(), JAVELIN_CONFIG_PATH);
         JavelinConfig config = new JavelinConfig();
         SystemLogger.initSystemLog(config);
 
-        // ç¶™æ‰¿é–¢ä¿‚ã®ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚’ã‚¯ãƒªã‚¢ã™ã‚‹
+        // Œp³ŠÖŒW‚ÌƒLƒƒƒbƒVƒ…‚ğƒNƒŠƒA‚·‚é
         PrivateAccessor.setField(JavassistUtil.class, "inheritedMap__",
                                  new ConcurrentHashMap<String, Boolean>());
         PrivateAccessor.setField(JavassistUtil.class, "maximumDepth__",
@@ -66,108 +66,108 @@ public class JavassistUtilTest extends TestCase
     }
 
     /**
-     * [é …ç•ª] 1-3-1 isInheritedã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»inheritedClassNameã‚’ç¶™æ‰¿ã—ã¦ã„ã‚‹ã‚¯ãƒ©ã‚¹ã«å¯¾ã—ã¦ã€<br />
-     *  isInheritedãƒ¡ã‚½ãƒƒãƒ‰ã‚’å®Ÿè¡Œã™ã‚‹ã€‚<br />
-     * â†’trueãŒè¿”ã‚‹ã€‚<br />
+     * [€”Ô] 1-3-1 isInherited‚ÌƒeƒXƒgB <br />
+     * EinheritedClassName‚ğŒp³‚µ‚Ä‚¢‚éƒNƒ‰ƒX‚É‘Î‚µ‚ÄA<br />
+     *  isInheritedƒƒ\ƒbƒh‚ğÀs‚·‚éB<br />
+     * ¨true‚ª•Ô‚éB<br />
      * 
-     * @throws Exception ä¾‹å¤–
+     * @throws Exception —áŠO
      */
     public void testIsInherited_ineritate()
         throws Exception
     {
 
-        // æº–å‚™
-        // ã‚¯ãƒ©ã‚¹ã‚’å‘¼ã³å‡ºã™ã€‚
+        // €”õ
+        // ƒNƒ‰ƒX‚ğŒÄ‚Ño‚·B
         ClassPool pool = ClassPool.getDefault();
         CtClass ctClass = pool.get("jp.co.acroquest.endosnipe.javelin.common.TestInherit1");
 
-        // å®Ÿè¡Œ
+        // Às
         boolean isInherited =
                 JavassistUtil.isInherited(ctClass, pool,
                                           "jp.co.acroquest.endosnipe.javelin.common.TestRootClass");
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertTrue(isInherited);
 
     }
 
     /**
-     * [é …ç•ª] 1-3-2 isInheritedã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»å­˜åœ¨ã—ãªã„ã‚¯ãƒ©ã‚¹ã®åå‰ã‚’inheritedClassNameã«ã—ã¦ã€<br />
-     *  isInheritedãƒ¡ã‚½ãƒƒãƒ‰ã‚’å®Ÿè¡Œã™ã‚‹ã€‚<br />
-     * â†’falseãŒè¿”ã‚‹ã€‚<br />
+     * [€”Ô] 1-3-2 isInherited‚ÌƒeƒXƒgB <br />
+     * E‘¶İ‚µ‚È‚¢ƒNƒ‰ƒX‚Ì–¼‘O‚ğinheritedClassName‚É‚µ‚ÄA<br />
+     *  isInheritedƒƒ\ƒbƒh‚ğÀs‚·‚éB<br />
+     * ¨false‚ª•Ô‚éB<br />
      * 
-     * @throws Exception ä¾‹å¤–
+     * @throws Exception —áŠO
      */
     public void testIsInherited_NotExistClass()
         throws Exception
     {
-        // æº–å‚™
-        // ã‚¯ãƒ©ã‚¹ã‚’å‘¼ã³å‡ºã™ã€‚
+        // €”õ
+        // ƒNƒ‰ƒX‚ğŒÄ‚Ño‚·B
         ClassPool pool = ClassPool.getDefault();
         CtClass ctClass = pool.get("jp.co.acroquest.endosnipe.javelin.common.TestInherit1");
 
-        // å®Ÿè¡Œ
+        // Às
         boolean isInherited =
                 JavassistUtil.isInherited(ctClass, pool,
                                           "jp.co.acroquest.endosnipe.javelin.common.NotExistClass");
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertFalse(isInherited);
 
     }
 
     /**
-     * [é …ç•ª] 1-3-5 isInheritedã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»inheritedClassNameã‚’3éšå±¤ä¸‹ã§ç¶™æ‰¿ã—ã¦ã„ã‚‹ã‚¯ãƒ©ã‚¹ã«å¯¾ã—ã¦ã€<br />
-     *  isInheritedãƒ¡ã‚½ãƒƒãƒ‰ã‚’å®Ÿè¡Œã™ã‚‹ã€‚<br />
-     * â†’trueãŒè¿”ã‚‹ã€‚<br />
+     * [€”Ô] 1-3-5 isInherited‚ÌƒeƒXƒgB <br />
+     * EinheritedClassName‚ğ3ŠK‘w‰º‚ÅŒp³‚µ‚Ä‚¢‚éƒNƒ‰ƒX‚É‘Î‚µ‚ÄA<br />
+     *  isInheritedƒƒ\ƒbƒh‚ğÀs‚·‚éB<br />
+     * ¨true‚ª•Ô‚éB<br />
      * 
-     * @throws Exception ä¾‹å¤–
+     * @throws Exception —áŠO
      */
     public void testIsInherited_MaxDepth()
         throws Exception
     {
 
-        // æº–å‚™
-        // ã‚¯ãƒ©ã‚¹ã‚’å‘¼ã³å‡ºã™ã€‚
+        // €”õ
+        // ƒNƒ‰ƒX‚ğŒÄ‚Ño‚·B
         ClassPool pool = ClassPool.getDefault();
         CtClass ctClass = pool.get("jp.co.acroquest.endosnipe.javelin.common.TestInherit3");
 
-        // å®Ÿè¡Œ
+        // Às
         boolean isInherited =
                 JavassistUtil.isInherited(ctClass, pool,
                                           "jp.co.acroquest.endosnipe.javelin.common.TestRootClass");
         System.out.println(new JavelinConfig().getInheritanceDepth());
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertTrue(isInherited);
     }
 
     /**
-     * [é …ç•ª] 1-3-6 isInheritedã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»inheritedClassNameã‚’4éšå±¤ä¸‹ã§ç¶™æ‰¿ã—ã¦ã„ã‚‹ã‚¯ãƒ©ã‚¹ã«å¯¾ã—ã¦ã€<br />
-     *  isInheritedãƒ¡ã‚½ãƒƒãƒ‰ã‚’å®Ÿè¡Œã™ã‚‹ã€‚<br />
-     * â†’falseãŒè¿”ã‚‹ã€‚<br />
+     * [€”Ô] 1-3-6 isInherited‚ÌƒeƒXƒgB <br />
+     * EinheritedClassName‚ğ4ŠK‘w‰º‚ÅŒp³‚µ‚Ä‚¢‚éƒNƒ‰ƒX‚É‘Î‚µ‚ÄA<br />
+     *  isInheritedƒƒ\ƒbƒh‚ğÀs‚·‚éB<br />
+     * ¨false‚ª•Ô‚éB<br />
      * 
-     * @throws Exception ä¾‹å¤–
+     * @throws Exception —áŠO
      */
     public void testIsInherited_OverDepth()
         throws Exception
     {
 
-        // æº–å‚™
-        // ã‚¯ãƒ©ã‚¹ã‚’å‘¼ã³å‡ºã™ã€‚
+        // €”õ
+        // ƒNƒ‰ƒX‚ğŒÄ‚Ño‚·B
         ClassPool pool = ClassPool.getDefault();
         CtClass ctClass = pool.get("jp.co.acroquest.endosnipe.javelin.common.TestInherit4");
 
-        // å®Ÿè¡Œ
+        // Às
         boolean isInherited =
                 JavassistUtil.isInherited(ctClass, pool,
                                           "jp.co.acroquest.endosnipe.javelin.common.TestRootClass");
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertFalse(isInherited);
     }
 

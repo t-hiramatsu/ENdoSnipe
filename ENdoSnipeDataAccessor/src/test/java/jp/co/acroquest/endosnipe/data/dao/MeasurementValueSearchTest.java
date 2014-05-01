@@ -38,13 +38,13 @@ public class MeasurementValueSearchTest extends AbstractDaoTest
 {
     private static final String[] MEASUREMENT_VALUE_DATA =
     {
-        "1, 1, 2009/05/29 12:21:33, 1, 1, 350, time, ç¾åœ¨æ™‚åˆ», Test1" ,
-        "2, 1, 2009/05/29 12:22:33, 1, 1, 420, time, ç¾åœ¨æ™‚åˆ», Test1" ,
-        "3, 1, 2009/05/29 12:22:45, 2, 1, 470, time, ç¾åœ¨æ™‚åˆ», Test1" ,
-        "4, 2, 2009/05/29 12:24:12, 1, 1, 500, time, ç¾åœ¨æ™‚åˆ», Test1" ,
-        "5, 2, 2009/05/29 12:24:31, 1, 1, 300, time, ç¾åœ¨æ™‚åˆ», Test1" ,
-        "6, 3, 2009/05/29 12:27:31, 2, 1, 521, time, ç¾åœ¨æ™‚åˆ», Test1" ,
-        "7, 3, 2009/05/29 12:31:31, 1, 1, 200, time, ç¾åœ¨æ™‚åˆ», Test1"
+        "1, 1, 2009/05/29 12:21:33, 1, 1, 350, time, Œ»İ, Test1" ,
+        "2, 1, 2009/05/29 12:22:33, 1, 1, 420, time, Œ»İ, Test1" ,
+        "3, 1, 2009/05/29 12:22:45, 2, 1, 470, time, Œ»İ, Test1" ,
+        "4, 2, 2009/05/29 12:24:12, 1, 1, 500, time, Œ»İ, Test1" ,
+        "5, 2, 2009/05/29 12:24:31, 1, 1, 300, time, Œ»İ, Test1" ,
+        "6, 3, 2009/05/29 12:27:31, 2, 1, 521, time, Œ»İ, Test1" ,
+        "7, 3, 2009/05/29 12:31:31, 1, 1, 200, time, Œ»İ, Test1"
     };
 
     private static final String[] JAVELIN_MEASUREMENT_ITEM_DATA = 
@@ -61,13 +61,13 @@ public class MeasurementValueSearchTest extends AbstractDaoTest
     
     public void testValueInsert1()
     {
-        // æ¡ä»¶
-        // --> DBç™»éŒ²æ¸ˆã¿ãƒ‡ãƒ¼ã‚¿
+        // ğŒ
+        // --> DB“o˜^Ï‚İƒf[ƒ^
         initDatabase();
 
         List<Object> actualList = new ArrayList<Object>();
         
-        // å®Ÿæ–½
+        // À{
         try
         {
             actualList.addAll(MeasurementValueDao.selectAll(DB_NAME));
@@ -77,7 +77,7 @@ public class MeasurementValueSearchTest extends AbstractDaoTest
             fail(ex.getMessage());
         }
         
-        // æ¤œè¨¼
+        // ŒŸØ
         List<Object> expectedData 
             = DataAccessorTestUtil.createMeasurementValueEntities(MEASUREMENT_VALUE_DATA);
         
@@ -86,12 +86,12 @@ public class MeasurementValueSearchTest extends AbstractDaoTest
 
     public void testValueInsert2()
     {
-        // æ¡ä»¶
-        // --> DBç™»éŒ²æ¸ˆã¿ãƒ‡ãƒ¼ã‚¿
+        // ğŒ
+        // --> DB“o˜^Ï‚İƒf[ƒ^
 
         List<Object> actualList = new ArrayList<Object>();
         
-        // å®Ÿæ–½
+        // À{
         try
         {
             actualList.addAll(MeasurementValueDao.selectAll(DB_NAME));
@@ -101,19 +101,19 @@ public class MeasurementValueSearchTest extends AbstractDaoTest
             fail(ex.getMessage());
         }
         
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(0, actualList.size());
     }
     
     public void testSelectByTerm1()
     {
-        // æ¡ä»¶
-        // --> DBç™»éŒ²æ¸ˆã¿ãƒ‡ãƒ¼ã‚¿
+        // ğŒ
+        // --> DB“o˜^Ï‚İƒf[ƒ^
         initDatabase();
 
         List<Object> actualList = new ArrayList<Object>();
         
-        // å®Ÿæ–½
+        // À{
         try
         {
             SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -130,7 +130,7 @@ public class MeasurementValueSearchTest extends AbstractDaoTest
             fail(ex.getMessage());
         }
         
-        // æ¤œè¨¼
+        // ŒŸØ
         List<Object> expectedData 
             = DataAccessorTestUtil.createMeasurementValueEntities(
                   new String[]{MEASUREMENT_VALUE_DATA[1],
@@ -143,13 +143,13 @@ public class MeasurementValueSearchTest extends AbstractDaoTest
 
     public void testSelectByTerm2()
     {
-        // æ¡ä»¶
-        // --> DBç™»éŒ²æ¸ˆã¿ãƒ‡ãƒ¼ã‚¿
+        // ğŒ
+        // --> DB“o˜^Ï‚İƒf[ƒ^
         initDatabase();
 
         List<Object> actualList = new ArrayList<Object>();
         
-        // å®Ÿæ–½
+        // À{
         try
         {
             SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -166,19 +166,19 @@ public class MeasurementValueSearchTest extends AbstractDaoTest
             fail(ex.getMessage());
         }
         
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(0, actualList.size());
     }
 
     public void testSelectByTerm3()
     {
-        // æ¡ä»¶
-        // --> DBç™»éŒ²æ¸ˆã¿ãƒ‡ãƒ¼ã‚¿
+        // ğŒ
+        // --> DB“o˜^Ï‚İƒf[ƒ^
         initDatabase();
 
         List<Object> actualList = new ArrayList<Object>();
         
-        // å®Ÿæ–½
+        // À{
         try
         {
             SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -195,17 +195,17 @@ public class MeasurementValueSearchTest extends AbstractDaoTest
             fail(ex.getMessage());
         }
         
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(0, actualList.size());
     }
 
     public void testSelectByTerm4()
     {
-        // æ¡ä»¶
+        // ğŒ
 
         List<Object> actualList = new ArrayList<Object>();
         
-        // å®Ÿæ–½
+        // À{
         try
         {
             SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -222,19 +222,19 @@ public class MeasurementValueSearchTest extends AbstractDaoTest
             fail(ex.getMessage());
         }
         
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(0, actualList.size());
     }
 
     public void testSelectByTermAndType1()
     {
-        // æ¡ä»¶
-        // --> DBç™»éŒ²æ¸ˆã¿ãƒ‡ãƒ¼ã‚¿
+        // ğŒ
+        // --> DB“o˜^Ï‚İƒf[ƒ^
         initDatabase();
 
         List<Object> actualList = new ArrayList<Object>();
         
-        // å®Ÿæ–½
+        // À{
         try
         {
             SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -253,7 +253,7 @@ public class MeasurementValueSearchTest extends AbstractDaoTest
             fail(ex.getMessage());
         }
         
-        // æ¤œè¨¼
+        // ŒŸØ
         List<Object> expectedData 
             = DataAccessorTestUtil.createMeasurementValueDtoEntities(
               new String[]{MEASUREMENT_VALUE_DATA[1],
@@ -265,13 +265,13 @@ public class MeasurementValueSearchTest extends AbstractDaoTest
 
     public void testSelectByTermAndType2()
     {
-        // æ¡ä»¶
-        // --> DBç™»éŒ²æ¸ˆã¿ãƒ‡ãƒ¼ã‚¿
+        // ğŒ
+        // --> DB“o˜^Ï‚İƒf[ƒ^
         initDatabase();
 
         List<Object> actualList = new ArrayList<Object>();
         
-        // å®Ÿæ–½
+        // À{
         try
         {
             SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -290,20 +290,20 @@ public class MeasurementValueSearchTest extends AbstractDaoTest
             fail(ex.getMessage());
         }
         
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(0, actualList.size());
     }
 
     
     public void testSelectByTermAndType3()
     {
-        // æ¡ä»¶
-        // --> DBç™»éŒ²æ¸ˆã¿ãƒ‡ãƒ¼ã‚¿
+        // ğŒ
+        // --> DB“o˜^Ï‚İƒf[ƒ^
         initDatabase();
 
         List<Object> actualList = new ArrayList<Object>();
         
-        // å®Ÿæ–½
+        // À{
         try
         {
             SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -322,19 +322,19 @@ public class MeasurementValueSearchTest extends AbstractDaoTest
             fail(ex.getMessage());
         }
         
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(0, actualList.size());
     }
     
     public void testSelectByTermAndType4()
     {
-        // æ¡ä»¶
-        // --> DBç™»éŒ²æ¸ˆã¿ãƒ‡ãƒ¼ã‚¿
+        // ğŒ
+        // --> DB“o˜^Ï‚İƒf[ƒ^
         initDatabase();
 
         List<Object> actualList = new ArrayList<Object>();
         
-        // å®Ÿæ–½
+        // À{
         try
         {
             SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -353,19 +353,19 @@ public class MeasurementValueSearchTest extends AbstractDaoTest
             fail(ex.getMessage());
         }
         
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(0, actualList.size());
     }
 
     public void testSelectByTermAndType5()
     {
-        // æ¡ä»¶
-        // --> DBç™»éŒ²æ¸ˆã¿ãƒ‡ãƒ¼ã‚¿
+        // ğŒ
+        // --> DB“o˜^Ï‚İƒf[ƒ^
         initDatabase();
 
         List<Object> actualList = new ArrayList<Object>();
         
-        // å®Ÿæ–½
+        // À{
         try
         {
             SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -384,17 +384,17 @@ public class MeasurementValueSearchTest extends AbstractDaoTest
             fail(ex.getMessage());
         }
         
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(0, actualList.size());
     }
     
     public void testSelectByTermAndType6()
     {
-        // æ¡ä»¶
+        // ğŒ
 
         List<Object> actualList = new ArrayList<Object>();
         
-        // å®Ÿæ–½
+        // À{
         try
         {
             SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -413,7 +413,7 @@ public class MeasurementValueSearchTest extends AbstractDaoTest
             fail(ex.getMessage());
         }
         
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(0, actualList.size());
     }
 

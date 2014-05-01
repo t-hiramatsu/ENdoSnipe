@@ -1,33 +1,32 @@
 package jp.co.acroquest.endosnipe.report;
 
 /**
- * ログ出力用メッセージを定義する定数クラス
+ * ���O�o�͗p���b�Z�[�W���`����萔�N���X
  * 
  * @author kimura
  */
-public interface LogIdConstants
-{
-	/** 例外発生時のログID */
+public interface LogIdConstants {
+	/** ��O�������̃��OID */
 	String EXCEPTION_HAPPENED = "EERT0001";
 
-	/** レポート出力が停止した際ののログID */
+	/** ���|�[�g�o�͂���~�����ۂ̂̃��OID */
 	String REPORT_PUBLISH_STOPPED_WARN = "WERT0002";
 
-	/** レポート生成がキャンセルされた際のログID */
+	/** ���|�[�g�������L�����Z�����ꂽ�ۂ̃��OID */
 	String REPORT_CANCEL_INFO = "IERT0003";
 
-	/** コンフィグ読み込み失敗時のログID */
+	/** �R���t�B�O�ǂݍ��ݎ��s���̃��OID */
 	String READ_FAULT_CONFIG = "EERT0004";
 
-	/** データ読み込み失敗時のログID */
+	/** �f�[�^�ǂݍ��ݎ��s���̃��OID */
 	String EXCEPTION_IN_READING = "WERT0005";
 
-	/** レポート出力情報のログID */
+	/** ���|�[�g�o�͏��̃��OID */
 	String OUTPUT_REPORT_INFO = "DERT0006";
-
-	/** レポート作成元のディレクトリ削除に失敗した際のログID */
+	
+	/** ���|�[�g�쐬���̃f�B���N�g���폜�Ɏ��s�����ۂ̃��OID */
 	String FAIL_TO_DELETE_DIR = "WERT0007";
-
-	/** レポートファイルのZIP化に失敗した際のログID */
+	
+	/** ���|�[�g�t�@�C����ZIP���Ɏ��s�����ۂ̃��OID */
 	String FAIL_TO_ZIP = "WERT0008";
 }

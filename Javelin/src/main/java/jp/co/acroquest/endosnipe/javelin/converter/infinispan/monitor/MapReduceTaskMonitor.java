@@ -13,33 +13,32 @@ import java.util.concurrent.ConcurrentHashMap;
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 
 /**
- * mapreduceã‚¸ãƒ§ãƒ–ã€ã‚¿ã‚¹ã‚¯ã®æƒ…å ±ã‚’å–å¾—ã™ã‚‹ã€‚
+ * mapreduceƒWƒ‡ƒuAƒ^ƒXƒN‚Ìî•ñ‚ğæ“¾‚·‚éB
  * 
  * @author hiramatsu
  *
  */
 public class MapReduceTaskMonitor
 {
-    /**ã€€ã‚¸ãƒ§ãƒ–æƒ…å ±ã‚’ä¿æŒã™ã‚‹ãƒãƒƒãƒ—ã€€*/
-    private static Map<String, JobInfo> jobInfoMap__ = new ConcurrentHashMap<String, JobInfo>();
+    /**@ƒWƒ‡ƒuî•ñ‚ğ•Û‚·‚éƒ}ƒbƒv@*/
+    private static Map<String, JobInfo>  jobInfoMap__  = new ConcurrentHashMap<String, JobInfo>();
 
-    /**ã€€ã‚¿ã‚¹ã‚¯æƒ…å ±ã‚’ä¿æŒã™ã‚‹ãƒãƒƒãƒ—ã€€*/
+    /**@ƒ^ƒXƒNî•ñ‚ğ•Û‚·‚éƒ}ƒbƒv@*/
     private static Map<String, TaskInfo> taskInfoMap__ = new ConcurrentHashMap<String, TaskInfo>();
 
-    /**ã€€æœ€å¾Œã®ã‚¸ãƒ§ãƒ–ãŒå®Ÿè¡Œã•ã‚ŒãŸæ™‚åˆ»ã€€*/
-    private static String previousDate__;
+    /**@ÅŒã‚ÌƒWƒ‡ƒu‚ªÀs‚³‚ê‚½@*/
+    private static String                previousDate__;
 
-    /**ã€€ç¾åœ¨ã®æ™‚åˆ»ï¼ˆyyyyMMddHHmmï¼‰ä¸­ã«å®Ÿè¡Œã•ã‚ŒãŸã‚¸ãƒ§ãƒ–ã®å€‹æ•°ã€€*/
-    private static int num__;
+    /**@Œ»İ‚ÌiyyyyMMddHHmmj’†‚ÉÀs‚³‚ê‚½ƒWƒ‡ƒu‚ÌŒÂ”@*/
+    private static int                   num__;
 
     private MapReduceTaskMonitor()
-    {
-    }
+    {}
 
     /**
-     * ã‚¸ãƒ§ãƒ–é–‹å§‹å‰ã®å‡¦ç†ã‚’è¡Œã†ã€‚
+     * ƒWƒ‡ƒuŠJn‘O‚Ìˆ—‚ğs‚¤B
      * 
-     * @param accessor å¯¾è±¡ã®ã‚¸ãƒ§ãƒ–
+     * @param accessor ‘ÎÛ‚ÌƒWƒ‡ƒu
      */
     public static void preProcess(MapReduceTaskAccessor accessor)
     {
@@ -50,7 +49,7 @@ public class MapReduceTaskMonitor
         if (previousDate__ == null || !previousDate__.equals(sdf.format(date)))
         {
             previousDate__ = dateString;
-            num__ = 0;
+            num__ = 1;
         }
         else
         {
@@ -65,17 +64,17 @@ public class MapReduceTaskMonitor
         String[] tmpNames = tmpName.split("\\.");
         tmpName = tmpNames[tmpNames.length - 1];
         String mapper = "Mapper";
-        jobInfo.setJobName(tmpName.endsWith(mapper) ? tmpName.substring(0, tmpName.length()
-            - mapper.length()) : tmpName);
+        jobInfo.setJobName(tmpName.endsWith(mapper) ? tmpName.substring(0,
+                tmpName.length() - mapper.length()) : tmpName);
         jobInfo.setJobId(jobId);
         accessor.setJobId(jobId);
         saveJobInfo(jobInfo);
     }
 
     /**
-     * ã‚¸ãƒ§ãƒ–çµ‚äº†æ™‚ã®å‡¦ç†ã‚’è¡Œã†ã€‚
+     * ƒWƒ‡ƒuI—¹‚Ìˆ—‚ğs‚¤B
      * 
-     * @param accessor å¯¾è±¡ã®ã‚¸ãƒ§ãƒ–
+     * @param accessor ‘ÎÛ‚ÌƒWƒ‡ƒu
      */
     public static void postProcess(MapReduceTaskAccessor accessor)
     {
@@ -92,12 +91,13 @@ public class MapReduceTaskMonitor
     }
 
     /**
-     * ã‚¸ãƒ§ãƒ–å¤±æ•—æ™‚ã®å‡¦ç†ã‚’è¡Œã†ã€‚
+     * ƒWƒ‡ƒu¸”s‚Ìˆ—‚ğs‚¤B
      * 
-     * @param accessor å¯¾è±¡ã®ã‚¸ãƒ§ãƒ–
-     * @param throwable ã‚¿ã‚¹ã‚¯å¤±æ•—åŸå› ã®ä¾‹å¤–
+     * @param accessor ‘ÎÛ‚ÌƒWƒ‡ƒu
+     * @param throwable ƒ^ƒXƒN¸”sŒ´ˆö‚Ì—áŠO
      */
-    public static void postProcessNG(MapReduceTaskAccessor accessor, Throwable throwable)
+    public static void postProcessNG(MapReduceTaskAccessor accessor,
+            Throwable throwable)
     {
         long finishTime = System.currentTimeMillis();
         String jobId = accessor.getJobId();
@@ -112,37 +112,36 @@ public class MapReduceTaskMonitor
     }
 
     /**
-     * ã‚¿ã‚¹ã‚¯é–‹å§‹å‰ã®å‡¦ç†ã‚’è¡Œã†ã€‚
+     * ƒ^ƒXƒNŠJn‘O‚Ìˆ—‚ğs‚¤B
      * 
-     * @param accessor å¯¾è±¡ã®ã‚¿ã‚¹ã‚¯
-     * @param address ã‚¿ã‚¹ã‚¯ã®å®Ÿè¡Œã•ã‚Œã‚‹ã‚¢ãƒ‰ãƒ¬ã‚¹
-     * @param type ã‚¿ã‚¹ã‚¯ç¨®åˆ¥
+     * @param accessor ‘ÎÛ‚Ìƒ^ƒXƒN
+     * @param address ƒ^ƒXƒN‚ÌÀs‚³‚ê‚éƒAƒhƒŒƒX
      */
-    public static void preProcessTask(MapReduceTaskAccessor accessor, String address, String type)
+    public static void preProcessTask(MapReduceTaskAccessor accessor,
+            String address)
     {
         long startTime = System.currentTimeMillis();
         TaskInfo taskInfo = new TaskInfo();
         taskInfo.setStartTime(startTime);
         taskInfo.setJobID(accessor.getJobId());
         DecimalFormat df = new DecimalFormat("00000000");
-        String taskId = accessor.getJobId() + "_" + (df.format(accessor.getTaskCount()));
+        String taskId = accessor.getJobId() + "_"
+                + (df.format(accessor.getSizeOfTaskIdMap() + 1));
         taskInfo.setTaskAttemptID(taskId);
         accessor.putTaskId(address, taskId);
         taskInfo.setHostName(address);
-        taskInfo.setTaskType(type);
         saveTaskInfo(taskInfo);
         SystemLogger.getInstance().warn("preProcessTask:" + taskInfo);
     }
 
     /**
-     * org.infinispan.remoting.rpc.RpcManager.invokeRemotelyé–‹å§‹å‰ã®å‡¦ç†ã‚’è¡Œã†ã€‚
+     * org.infinispan.remoting.rpc.RpcManager.invokeRemotelyŠJn‘O‚Ìˆ—‚ğs‚¤B
      * 
-     * @param accessor å¯¾è±¡ã®ã‚¿ã‚¹ã‚¯
-     * @param address ã‚¿ã‚¹ã‚¯ã®å®Ÿè¡Œã•ã‚Œã‚‹ã‚¢ãƒ‰ãƒ¬ã‚¹
-     * @param type ã‚¿ã‚¹ã‚¯ç¨®åˆ¥
+     * @param accessor ‘ÎÛ‚Ìƒ^ƒXƒN
+     * @param address ƒ^ƒXƒN‚ÌÀs‚³‚ê‚éƒAƒhƒŒƒX
      */
-    public static void preProcessTaskForInvokeRemotely(MapReduceTaskAccessor accessor,
-        String address, String type)
+    public static void preProcessTaskForInvokeRemotely(
+            MapReduceTaskAccessor accessor, String address)
     {
         long startTime = System.currentTimeMillis();
         TaskInfo taskInfo = new TaskInfo();
@@ -151,39 +150,39 @@ public class MapReduceTaskMonitor
         taskInfo.setTaskAttemptID(accessor.getJobId());
         accessor.putTaskId(address, accessor.getJobId());
         taskInfo.setHostName(address);
-        taskInfo.setTaskType(type);
         saveTaskInfo(taskInfo);
-        SystemLogger.getInstance().warn("preProcessTaskForInvokeRemotely:" + taskInfo);
+        SystemLogger.getInstance().warn(
+                "preProcessTaskForInvokeRemotely:" + taskInfo);
     }
 
     /**
-     * org.infinispan.remoting.rpc.RpcManager.invokeRemotelyInFutureé–‹å§‹å‰ã®å‡¦ç†ã‚’è¡Œã†ã€‚
+     * org.infinispan.remoting.rpc.RpcManager.invokeRemotelyInFutureŠJn‘O‚Ìˆ—‚ğs‚¤B
      * 
-     * @param accessor å¯¾è±¡ã®ã‚¿ã‚¹ã‚¯
-     * @param address ã‚¿ã‚¹ã‚¯ã®å®Ÿè¡Œã•ã‚Œã‚‹ã‚¢ãƒ‰ãƒ¬ã‚¹
-     * @param type ã‚¿ã‚¹ã‚¯ç¨®åˆ¥
+     * @param accessor ‘ÎÛ‚Ìƒ^ƒXƒN
+     * @param address ƒ^ƒXƒN‚ÌÀs‚³‚ê‚éƒAƒhƒŒƒX
      */
-    public static void preProcessTaskForInvokeRemotelyInFuture(MapReduceTaskAccessor accessor,
-        String address, String type)
+    public static void preProcessTaskForInvokeRemotelyInFuture(
+            MapReduceTaskAccessor accessor, String address)
     {
         long startTime = System.currentTimeMillis();
         TaskInfo taskInfo = new TaskInfo();
         taskInfo.setStartTime(startTime);
         taskInfo.setJobID(accessor.getJobId());
         DecimalFormat df = new DecimalFormat("00000000");
-        String taskId = accessor.getJobId() + "_" + (df.format(accessor.getTaskCount()));
+        String taskId = accessor.getJobId() + "_"
+                + (df.format(accessor.getSizeOfTaskIdMap() + 1));
         taskInfo.setTaskAttemptID(taskId);
         accessor.putTaskId(address, taskId);
         taskInfo.setHostName(address);
-        taskInfo.setTaskType(type);
         saveTaskInfo(taskInfo);
-        SystemLogger.getInstance().warn("preProcessTaskForInvokeRemotelyInFuture:" + taskInfo);
+        SystemLogger.getInstance().warn(
+                "preProcessTaskForInvokeRemotelyInFuture:" + taskInfo);
     }
 
     /**
-     * ã‚¿ã‚¹ã‚¯çµ‚äº†æ™‚ã®å‡¦ç†ã‚’è¡Œã†ã€‚
+     * ƒ^ƒXƒNI—¹‚Ìˆ—‚ğs‚¤B
      * 
-     * @param accessor å¯¾è±¡ã®ã‚¿ã‚¹ã‚¯
+     * @param accessor ‘ÎÛ‚Ìƒ^ƒXƒN
      */
     public static void postProcessTask(MapReduceTaskAccessor accessor)
     {
@@ -198,34 +197,46 @@ public class MapReduceTaskMonitor
     }
 
     /**
-     * org.infinispan.remoting.rpc.RpcManager.invokeRemotelyçµ‚äº†å¾Œã®å‡¦ç†ã‚’è¡Œã†ã€‚
+     * org.infinispan.remoting.rpc.RpcManager.invokeRemotelyI—¹Œã‚Ìˆ—‚ğs‚¤B
      * 
-     * @param accessor å¯¾è±¡ã®ã‚¿ã‚¹ã‚¯
-     * @param map ã‚¿ã‚¹ã‚¯ã®å®Ÿè¡Œã•ã‚ŒãŸã‚¢ãƒ‰ãƒ¬ã‚¹ã¨çµ‚äº†çŠ¶æ…‹ã®ãƒãƒƒãƒ—
+     * @param accessor ‘ÎÛ‚Ìƒ^ƒXƒN
+     * @param map ƒ^ƒXƒN‚ÌÀs‚³‚ê‚½ƒAƒhƒŒƒX‚ÆI—¹ó‘Ô‚Ìƒ}ƒbƒv
      */
-    public static void postProcessTaskForInvokeRemotely(MapReduceTaskAccessor accessor,
-        Map<String, Boolean> map)
+    public static void postProcessTaskForInvokeRemotely(
+            MapReduceTaskAccessor accessor, Map<String, Boolean> map)
     {
         long finishTime = System.currentTimeMillis();
+        TaskInfo taskInfoOrg = taskInfoMap__.remove(accessor.getJobId());
+        DecimalFormat df = new DecimalFormat("00000000");
+        int index = 0;
         Set<Entry<String, Boolean>> entrySet = map.entrySet();
         for (Entry<?, ?> entry : entrySet)
         {
             String address = (String)entry.getKey();
-            String taskId = (String)accessor.getMapReduceTaskIdMap().get(address);
-            TaskInfo taskInfo = taskInfoMap__.get(taskId);
-            if (taskInfo == null)
-            {
-                return;
-            }
+            TaskInfo taskInfo = new TaskInfo();
+            taskInfo.setStartTime(taskInfoOrg.getStartTime());
             taskInfo.setFinishTime(finishTime);
+            taskInfo.setJobID(taskInfoOrg.getJobID());
+            taskInfo.setTaskAttemptID(taskInfoOrg.getTaskAttemptID() + "_"
+                    + df.format(index + 1));
+            taskInfo.setHostName(address);
             taskInfo.setStatus(map.get(address).booleanValue() ? "SUCCEEDED" : "FAILED");
+            saveTaskInfo(taskInfo);
+            if (index > 0)
+            {
+                accessor.putTaskId(taskInfo.getHostName(),
+                        taskInfo.getTaskAttemptID());
+            }
+            index++;
+            SystemLogger.getInstance().warn(
+                    "postProcessTaskForInvokeRemotely:" + taskInfo);
         }
     }
 
     /**
-     * ã‚¿ã‚¹ã‚¯å¤±æ•—æ™‚ã®å‡¦ç†ã‚’è¡Œã†ã€‚
+     * ƒ^ƒXƒN¸”s‚Ìˆ—‚ğs‚¤B
      * 
-     * @param accessor å¯¾è±¡ã®ã‚¿ã‚¹ã‚¯
+     * @param accessor ‘ÎÛ‚Ìƒ^ƒXƒN
      */
     public static void postProcessNGTask(MapReduceTaskAccessor accessor)
     {
@@ -240,9 +251,9 @@ public class MapReduceTaskMonitor
     }
 
     /**
-     * ã‚¸ãƒ§ãƒ–æƒ…å ±ã‚’ä¿å­˜ã™ã‚‹ã€‚
+     * ƒWƒ‡ƒuî•ñ‚ğ•Û‘¶‚·‚éB
      * 
-     * @param jobInfo ç™»éŒ²ã™ã‚‹ã‚¸ãƒ§ãƒ–ã®æƒ…å ±
+     * @param jobInfo “o˜^‚·‚éƒWƒ‡ƒu‚Ìî•ñ
      */
     public static void saveJobInfo(JobInfo jobInfo)
     {
@@ -251,9 +262,9 @@ public class MapReduceTaskMonitor
     }
 
     /**
-     * ã‚¿ã‚¹ã‚¯æƒ…å ±ã‚’ä¿å­˜ã™ã‚‹ã€‚
+     * ƒ^ƒXƒNî•ñ‚ğ•Û‘¶‚·‚éB
      * 
-     * @param taskInfo ç™»éŒ²ã™ã‚‹ã‚¿ã‚¹ã‚¯ã®æƒ…å ±
+     * @param taskInfo “o˜^‚·‚éƒ^ƒXƒN‚Ìî•ñ
      */
     public static void saveTaskInfo(TaskInfo taskInfo)
     {
@@ -262,9 +273,9 @@ public class MapReduceTaskMonitor
     }
 
     /**
-     * çµ‚äº†ã—ãŸã‚¸ãƒ§ãƒ–ã‚’ãƒãƒƒãƒ—ã‹ã‚‰å–ã‚Šé™¤ãã€ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã¨ã—ã¦è¿”ã™ã€‚
+     * I—¹‚µ‚½ƒWƒ‡ƒu‚ğƒ}ƒbƒv‚©‚çæ‚èœ‚«AƒRƒŒƒNƒVƒ‡ƒ“‚Æ‚µ‚Ä•Ô‚·B
      * 
-     * @return çµ‚äº†ã—ãŸã‚¸ãƒ§ãƒ–ã®ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³
+     * @return I—¹‚µ‚½ƒWƒ‡ƒu‚ÌƒRƒŒƒNƒVƒ‡ƒ“
      */
     public static Collection<JobInfo> cloneJobInfoMapAsCollection()
     {
@@ -287,9 +298,9 @@ public class MapReduceTaskMonitor
     }
 
     /**
-     * çµ‚äº†ã—ãŸã‚¿ã‚¹ã‚¯ã‚’ãƒãƒƒãƒ—ã‹ã‚‰å–ã‚Šé™¤ãã€ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã¨ã—ã¦è¿”ã™ã€‚
+     * I—¹‚µ‚½ƒ^ƒXƒN‚ğƒ}ƒbƒv‚©‚çæ‚èœ‚«AƒRƒŒƒNƒVƒ‡ƒ“‚Æ‚µ‚Ä•Ô‚·B
      * 
-     * @return çµ‚äº†ã—ãŸã‚¿ã‚¹ã‚¯ã®ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³
+     * @return I—¹‚µ‚½ƒ^ƒXƒN‚ÌƒRƒŒƒNƒVƒ‡ƒ“
      */
     public static Collection<TaskInfo> cloneTaskInfoMapAsCollection()
     {
@@ -300,7 +311,7 @@ public class MapReduceTaskMonitor
         {
             if (taskInfo.getStatus() == null)
             {
-                newTaskInfoMap.put(taskInfo.getTaskAttemptID(), taskInfo);
+                newTaskInfoMap.put(taskInfo.getJobID(), taskInfo);
             }
             else
             {

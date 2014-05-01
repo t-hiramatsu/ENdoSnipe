@@ -13,16 +13,16 @@
 package jp.co.acroquest.endosnipe.report.converter.compressor;
 
 /**
- * ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°åœ§ç¸®æ™‚ã®åœ§ç¸®å€¤ç®—å‡ºæ¼”ç®—ã®ç¨®é¡ã‚’æŒ‡å®šã™ã‚‹ãŸã‚ã®åˆ—æŒ™å­
+ * ƒTƒ“ƒvƒŠƒ“ƒOˆ³k‚Ìˆ³k’lZo‰‰Z‚Ìí—Ş‚ğw’è‚·‚é‚½‚ß‚Ì—ñ‹“q
  * 
  * @author yoshida
  */
-public enum CompressOperator
+public enum CompressOperator 
 {
-	/** å˜ç´”å¹³å‡ */
-	SIMPLE_AVERAGE,
-	/** åˆè¨ˆ */
+	/** ’Pƒ•½‹Ï */
+	SIMPLE_AVERAGE, 
+	/** ‡Œv */
 	TOTAL,
-	/** æ™‚é–“å¹³å‡ */
+	/** ŠÔ•½‹Ï */
 	TIME_AVERAGE;
 }

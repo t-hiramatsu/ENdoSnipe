@@ -46,7 +46,7 @@ import jp.co.acroquest.endosnipe.javelin.resource.ResourceCollector;
 import jp.co.acroquest.endosnipe.javelin.resource.sun.HeapDumpMonitor;
 
 /**
- * ãƒ€ãƒ³ãƒ—å–å¾—è¦æ±‚ã‚’å—ã‘å–ã‚‹ãƒªã‚¹ãƒŠã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+ * ƒ_ƒ“ƒvæ“¾—v‹‚ğó‚¯æ‚éƒŠƒXƒiƒNƒ‰ƒX‚Å‚·B<br />
  * 
  * @author fujii
  */
@@ -54,19 +54,19 @@ public class GetDumpTelegramListener implements TelegramListener, TelegramConsta
 {
 
     /**
-     * ãƒ€ãƒ³ãƒ—å–å¾—è¦æ±‚ã‚’å—ã‘å–ã£ãŸã¨ãã®ã¿å‡¦ç†ã‚’è¡Œã„ã¾ã™ã€‚<br />
+     * ƒ_ƒ“ƒvæ“¾—v‹‚ğó‚¯æ‚Á‚½‚Æ‚«‚Ì‚İˆ—‚ğs‚¢‚Ü‚·B<br />
      * 
-     * @param telegram é›»æ–‡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @return å¿œç­”é›»æ–‡ï¼ˆå¿œç­”ã‚’è¿”ã•ãªã„å ´åˆã¯ <code>null</code> ï¼‰
+     * @param telegram “d•¶ƒIƒuƒWƒFƒNƒg
+     * @return ‰“š“d•¶i‰“š‚ğ•Ô‚³‚È‚¢ê‡‚Í <code>null</code> j
      */
     public Telegram receiveTelegram(Telegram telegram)
     {
         Telegram response = null;
         if (telegram.getObjHeader().getByteTelegramKind() == BYTE_TELEGRAM_KIND_GET_DUMP
-            && telegram.getObjHeader().getByteRequestKind() == BYTE_REQUEST_KIND_REQUEST)
+                && telegram.getObjHeader().getByteRequestKind() == BYTE_REQUEST_KIND_REQUEST)
         {
             Body[] bodies = telegram.getObjBody();
-            if (bodies != null && (bodies.length == 1 || bodies.length == 2))
+            if (bodies != null && bodies.length == 1)
             {
                 response = notifyDumpRequest(bodies, telegram.getObjHeader().getId());
             }
@@ -75,18 +75,18 @@ public class GetDumpTelegramListener implements TelegramListener, TelegramConsta
     }
 
     /**
-     * é›»æ–‡æœ¬ä½“ã‹ã‚‰ãƒ€ãƒ³ãƒ—è¦æ±‚ã‚¤ãƒ™ãƒ³ãƒˆã‚’å–å¾—ã—ã€ãƒ€ãƒ³ãƒ—å–å¾—ã‚¤ãƒ™ãƒ³ãƒˆã‚’ç™ºç”Ÿã•ã›ã¾ã™ã€‚<br />
-     * ç™ºç”Ÿã™ã‚‹ã‚¤ãƒ™ãƒ³ãƒˆã¯ã€ãƒ’ãƒ¼ãƒ—ãƒ€ãƒ³ãƒ—å–å¾—è¦æ±‚ã¨ã€ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å–å¾—è¦æ±‚ã§ã™ã€‚<br />
-     * [ãƒ’ãƒ¼ãƒ—ãƒ€ãƒ³ãƒ—å–å¾—è¦æ±‚]<br />
-     * <li>ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå:"dump"</li>
-     * <li>é …ç›®å:"heapDump"</li>
-     * [ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å–å¾—è¦æ±‚]<br />
-     * <li>ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå:"dump"</li>
-     * <li>é …ç›®å:"threadDump"</li>
+     * “d•¶–{‘Ì‚©‚çƒ_ƒ“ƒv—v‹ƒCƒxƒ“ƒg‚ğæ“¾‚µAƒ_ƒ“ƒvæ“¾ƒCƒxƒ“ƒg‚ğ”­¶‚³‚¹‚Ü‚·B<br />
+     * ”­¶‚·‚éƒCƒxƒ“ƒg‚ÍAƒq[ƒvƒ_ƒ“ƒvæ“¾—v‹‚ÆAƒXƒŒƒbƒhƒ_ƒ“ƒvæ“¾—v‹‚Å‚·B<br />
+     * [ƒq[ƒvƒ_ƒ“ƒvæ“¾—v‹]<br />
+     * <li>ƒIƒuƒWƒFƒNƒg–¼:"dump"</li>
+     * <li>€–Ú–¼:"heapDump"</li>
+     * [ƒXƒŒƒbƒhƒ_ƒ“ƒvæ“¾—v‹]<br />
+     * <li>ƒIƒuƒWƒFƒNƒg–¼:"dump"</li>
+     * <li>€–Ú–¼:"threadDump"</li>
      *
-     * @param telegramId é›»æ–‡ ID
-     * @param bodies é›»æ–‡æœ¬ä½“
-     * @return å¿œç­”é›»æ–‡ï¼ˆå¿œç­”ã‚’è¿”ã•ãªã„å ´åˆã¯ <code>null</code> ï¼‰
+     * @param telegramId “d•¶ ID
+     * @param bodies “d•¶–{‘Ì
+     * @return ‰“š“d•¶i‰“š‚ğ•Ô‚³‚È‚¢ê‡‚Í <code>null</code> j
      */
     private Telegram notifyDumpRequest(final Body[] bodies, final long telegramId)
     {
@@ -103,12 +103,12 @@ public class GetDumpTelegramListener implements TelegramListener, TelegramConsta
             }
             else if (ITEMNAME_THREADDUMP.equals(itemName))
             {
-                // ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—ã®å ´åˆã¯ã€Javelinãƒ­ã‚°é€šçŸ¥é›»æ–‡ã‚’å¿œç­”é›»æ–‡ã¨ã™ã‚‹
+                // ƒXƒŒƒbƒhƒ_ƒ“ƒv‚Ìê‡‚ÍAJavelinƒƒO’Ê’m“d•¶‚ğ‰“š“d•¶‚Æ‚·‚é
                 ThreadDumpMonitor.getInstance().sendThreadDumpEvent(telegramId);
             }
             else if (ITEMNAME_CLASSHISTOGRAM.equals(itemName))
             {
-                // ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã®å ´åˆã¯ã€Javelinãƒ­ã‚°é€šçŸ¥é›»æ–‡ã‚’å¿œç­”é›»æ–‡ã¨ã™ã‚‹
+                // ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€‚Ìê‡‚ÍAJavelinƒƒO’Ê’m“d•¶‚ğ‰“š“d•¶‚Æ‚·‚é
                 sendClassHistogramDumpEvent(telegramId);
             }
             else if (ITEMNAME_SESSIONDUMP.equals(itemName))
@@ -157,7 +157,7 @@ public class GetDumpTelegramListener implements TelegramListener, TelegramConsta
         if (vendor != null)
         {
             if (vendor.contains(ResourceCollector.VENDER_BEA) == true
-                || vendor.contains(ResourceCollector.VENDER_ORACLE))
+                    || vendor.contains(ResourceCollector.VENDER_ORACLE))
             {
                 historgramMonitor = new OracleClassHistogramMonitor();
             }
@@ -166,7 +166,7 @@ public class GetDumpTelegramListener implements TelegramListener, TelegramConsta
                 historgramMonitor = new SunClassHistogramMonitor();
             }
         }
-
+        
         if (historgramMonitor != null)
         {
             CommonEvent event = createClassHistogramDumpEvent(historgramMonitor);

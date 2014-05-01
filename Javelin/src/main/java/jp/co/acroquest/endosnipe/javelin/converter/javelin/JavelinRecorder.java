@@ -31,7 +31,7 @@ import jp.co.acroquest.endosnipe.javelin.StatsJavelinRecorder;
 import jp.co.acroquest.endosnipe.javelin.converter.util.ConverterUtil;
 
 /**
- * Javelinãƒ­ã‚°ã‚’è¨˜éŒ²ã™ã‚‹
+ * JavelinƒƒO‚ğ‹L˜^‚·‚é
  * 
  * @author eriguchi
  * 
@@ -39,17 +39,17 @@ import jp.co.acroquest.endosnipe.javelin.converter.util.ConverterUtil;
 public class JavelinRecorder
 {
     /**
-     * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+     * ƒfƒtƒHƒ‹ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^
      */
     private JavelinRecorder()
     {
         // Do Nothing.
     }
 
-    /** Javelinã®è¨­å®šãƒ•ã‚¡ã‚¤ãƒ« */
+    /** Javelin‚Ìİ’èƒtƒ@ƒCƒ‹ */
     private static JavelinConfig config__ = new JavelinConfig();
 
-    /** ã‚¯ãƒ©ã‚¹åã®çœç•¥åŒ–ã®ãƒ•ãƒ©ã‚° */
+    /** ƒNƒ‰ƒX–¼‚ÌÈ—ª‰»‚Ìƒtƒ‰ƒO */
     private static boolean isSimplification__ = false;
 
     static
@@ -58,11 +58,11 @@ public class JavelinRecorder
     }
 
     /**
-     * å‰å‡¦ç†ã€‚
+     * ‘Oˆ—B
      * 
-     * @param className ã‚¯ãƒ©ã‚¹å
-     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
-     * @param args å¼•æ•°
+     * @param className ƒNƒ‰ƒX–¼
+     * @param methodName ƒƒ\ƒbƒh–¼
+     * @param args ˆø”
      */
     public static void preProcess(String className, String methodName, final Object[] args)
     {
@@ -89,11 +89,11 @@ public class JavelinRecorder
     }
 
     /**
-     * å¾Œå‡¦ç†ï¼ˆæœ¬å‡¦ç†æˆåŠŸæ™‚ï¼‰ã€‚
+     * Œãˆ—i–{ˆ—¬Œ÷jB
      * 
-     * @param className ã‚¯ãƒ©ã‚¹å
-     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
-     * @param retValue æˆ»ã‚Šå€¤ã€‚
+     * @param className ƒNƒ‰ƒX–¼
+     * @param methodName ƒƒ\ƒbƒh–¼
+     * @param retValue –ß‚è’lB
      */
     public static void postProcessOK(String className, String methodName, final Object retValue)
     {
@@ -120,11 +120,11 @@ public class JavelinRecorder
     }
 
     /**
-     * å¾Œå‡¦ç†ï¼ˆæœ¬å‡¦ç†å¤±æ•—æ™‚ï¼‰ã€‚
+     * Œãˆ—i–{ˆ—¸”sjB
      * 
-     * @param className ã‚¯ãƒ©ã‚¹å
-     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
-     * @param cause ä¾‹å¤–ã®åŸå› 
+     * @param className ƒNƒ‰ƒX–¼
+     * @param methodName ƒƒ\ƒbƒh–¼
+     * @param cause —áŠO‚ÌŒ´ˆö
      */
     public static void postProcessNG(String className, String methodName, final Throwable cause)
     {
@@ -144,9 +144,9 @@ public class JavelinRecorder
     }
 
     /**
-     * è¨­å®šã‚¯ãƒ©ã‚¹ã‚’èª­ã¿è¾¼ã‚€
+     * İ’èƒNƒ‰ƒX‚ğ“Ç‚İ‚Ş
      * 
-     * @param config Javelinã®è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«
+     * @param config Javelin‚Ìİ’èƒtƒ@ƒCƒ‹
      */
     public static void setJavelinConfig(final JavelinConfig config)
     {
@@ -154,9 +154,9 @@ public class JavelinRecorder
     }
 
     /**
-     * ã‚¹ãƒ¬ãƒƒãƒ‰ã®IDã‚’è¨­å®šã™ã‚‹
+     * ƒXƒŒƒbƒh‚ÌID‚ğİ’è‚·‚é
      * 
-     * @param threadId ã‚¹ãƒ¬ãƒƒãƒ‰ID
+     * @param threadId ƒXƒŒƒbƒhID
      */
     public static void setThreadId(final String threadId)
     {

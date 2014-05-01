@@ -35,9 +35,9 @@ public class TestInstrumentation
     public static void premain(final String args, final Instrumentation inst)
     {
         TestInstrumentation.objInstrumentation = inst;
-        System.out.println("â˜…æ¸¡ã—ãŸargsã¯ï¼š" + args);
+        System.out.println("š“n‚µ‚½args‚ÍF" + args);
 
-        // ï¼¶ï¼­ã§æä¾›ã•ã‚ŒãŸå…¨ã¦ã‚¯ãƒ©ã‚¹ã‚’å–ã‚‹
+        // ‚u‚l‚Å’ñ‹Ÿ‚³‚ê‚½‘S‚ÄƒNƒ‰ƒX‚ğæ‚é
         Class[] loaded = inst.getAllLoadedClasses();
 
         for (Class loadedClass : loaded)
@@ -54,6 +54,6 @@ public class TestInstrumentation
 
     public static void main(final String[] args)
     {
-        System.out.println("â€»Calendarã®ã‚µã‚¤ã‚ºã¯ï¼š " + sizeOf(Calendar.getInstance()));
+        System.out.println("¦Calendar‚ÌƒTƒCƒY‚ÍF " + sizeOf(Calendar.getInstance()));
     }
 }

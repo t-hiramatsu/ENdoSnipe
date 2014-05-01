@@ -26,17 +26,17 @@
 package jp.co.acroquest.endosnipe.data.db;
 
 /**
- * SQLæ–‡ã®ç½®æ›å‡¦ç†ã‚’è¡Œã†ãŸã‚ã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã§ã™ã€‚<br />
+ * SQL•¶‚Ì’uŠ·ˆ—‚ğs‚¤‚½‚ß‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX‚Å‚·B<br />
  * 
  * @author y-komori
  */
 public interface SQLReplacer
 {
     /**
-     * æŒ‡å®šã•ã‚ŒãŸ SQL ã‚’å®Ÿè£…ã«å¾“ã£ã¦ç½®æ›ã—ã¾ã™ã€‚<br />
+     * w’è‚³‚ê‚½ SQL ‚ğÀ‘•‚É]‚Á‚Ä’uŠ·‚µ‚Ü‚·B<br />
      * 
-     * @param sql SQLæ–‡
-     * @return ç½®æ›å¾Œã®SQLæ–‡
+     * @param sql SQL•¶
+     * @return ’uŠ·Œã‚ÌSQL•¶
      */
     String replace(String sql);
 }

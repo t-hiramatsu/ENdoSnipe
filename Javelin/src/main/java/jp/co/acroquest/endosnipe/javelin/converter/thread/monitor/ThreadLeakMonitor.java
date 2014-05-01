@@ -32,33 +32,33 @@ import jp.co.acroquest.endosnipe.javelin.event.CommonEvent;
 import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
 
 /**
- * ã‚¹ãƒ¬ãƒƒãƒ‰ã®é–‹å§‹ã€çµ‚äº†ã‚’ç›£è¦–ã—ã€ä»¥ä¸‹ã®å†…å®¹ã‚’å–å¾—ã™ã‚‹ã€‚
+ * ƒXƒŒƒbƒh‚ÌŠJnAI—¹‚ğŠÄ‹‚µAˆÈ‰º‚Ì“à—e‚ğæ“¾‚·‚éB
  * 
- * é–‹å§‹æ™‚ï¼š
+ * ŠJnF
  * <ul>
- * <li>æ™‚åˆ»</li>
- * <li>ã‚¹ãƒ¬ãƒƒãƒ‰ID</li>
- * <li>ã‚¹ãƒ¬ãƒƒãƒ‰å</li>
- * <li>é–‹å§‹æ™‚ã®ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹</li>
- * <li>é–‹å§‹å…ƒã®ã‚¹ãƒ¬ãƒƒãƒ‰ID</li>
- * <li>é–‹å§‹å…ƒã®ã‚¹ãƒ¬ãƒƒãƒ‰å</li>
+ * <li></li>
+ * <li>ƒXƒŒƒbƒhID</li>
+ * <li>ƒXƒŒƒbƒh–¼</li>
+ * <li>ŠJn‚ÌƒXƒ^ƒbƒNƒgƒŒ[ƒX</li>
+ * <li>ŠJnŒ³‚ÌƒXƒŒƒbƒhID</li>
+ * <li>ŠJnŒ³‚ÌƒXƒŒƒbƒh–¼</li>
  * </ul>
  * 
- * çµ‚äº†æ™‚ï¼š
+ * I—¹F
  * <ul>
- * <li>çµ‚äº†æ™‚åˆ»</li>
- * <li>ã‚¹ãƒ¬ãƒƒãƒ‰ID</li>
- * <li>ã‚¹ãƒ¬ãƒƒãƒ‰å</li>
- * <li>ä¾‹å¤–</li>
+ * <li>I—¹</li>
+ * <li>ƒXƒŒƒbƒhID</li>
+ * <li>ƒXƒŒƒbƒh–¼</li>
+ * <li>—áŠO</li>
  * </ul>
- * ã‚’å–å¾—ã™ã‚‹ã€‚
+ * ‚ğæ“¾‚·‚éB
  * 
  * @author eriguchi
  */
 public class ThreadLeakMonitor
 {
     /**
-     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
      */
     private ThreadLeakMonitor()
     {
@@ -66,9 +66,9 @@ public class ThreadLeakMonitor
     }
 
     /**
-     * ã‚¹ãƒ¬ãƒƒãƒ‰ã®é–‹å§‹æ™‚ã«å‘¼ã³å‡ºã•ã‚Œã‚‹ã€‚
+     * ƒXƒŒƒbƒh‚ÌŠJn‚ÉŒÄ‚Ño‚³‚ê‚éB
      * 
-     * @param thread é–‹å§‹ã™ã‚‹ã‚¹ãƒ¬ãƒƒãƒ‰ã€‚
+     * @param thread ŠJn‚·‚éƒXƒŒƒbƒhB
      */
     public static void postThreadStart(final Thread thread)
     {
@@ -87,7 +87,7 @@ public class ThreadLeakMonitor
     }
 
     /**
-     * ã‚¹ãƒ¬ãƒƒãƒ‰ã®çµ‚äº†æ™‚ã«å‘¼ã³å‡ºã•ã‚Œã‚‹ã€‚
+     * ƒXƒŒƒbƒh‚ÌI—¹‚ÉŒÄ‚Ño‚³‚ê‚éB
      */
     public static void postThreadRun()
     {
@@ -96,7 +96,7 @@ public class ThreadLeakMonitor
             Thread currentThread = Thread.currentThread();
             StackTraceElement[] stacktraces = ThreadUtil.getCurrentStackTrace();
             CommonEvent event =
-                createEvent("Thread Stop", ThreadUtil.getThreadId(), currentThread, stacktraces);
+                    createEvent("Thread Stop", ThreadUtil.getThreadId(), currentThread, stacktraces);
             event.setLevel(CommonEvent.LEVEL_INFO);
             StatsJavelinRecorder.addEvent(event);
         }
@@ -107,9 +107,9 @@ public class ThreadLeakMonitor
     }
 
     /**
-     * ä¾‹å¤–ç™ºç”Ÿæ™‚ã®ã‚¹ãƒ¬ãƒƒãƒ‰ã®çµ‚äº†æ™‚ã«å‘¼ã³å‡ºã•ã‚Œã‚‹ã€‚
+     * —áŠO”­¶‚ÌƒXƒŒƒbƒh‚ÌI—¹‚ÉŒÄ‚Ño‚³‚ê‚éB
      * 
-     * @param throwable ç™ºç”Ÿã—ãŸä¾‹å¤–ã€‚
+     * @param throwable ”­¶‚µ‚½—áŠOB
      */
     public static void postThreadRunNG(final Throwable throwable)
     {
@@ -130,13 +130,13 @@ public class ThreadLeakMonitor
     }
 
     /**
-     * Javelinãƒ­ã‚°ã«å‡ºåŠ›ã™ã‚‹ã‚¤ãƒ™ãƒ³ãƒˆã‚’ä½œæˆã—ã¾ã™ã€‚<br />
+     * JavelinƒƒO‚Éo—Í‚·‚éƒCƒxƒ“ƒg‚ğì¬‚µ‚Ü‚·B<br />
      * 
-     * @param timing ã‚¤ãƒ™ãƒ³ãƒˆé€šçŸ¥ã‚¿ã‚¤ãƒŸãƒ³ã‚°(é–‹å§‹/çµ‚äº†/ä¸­æ–­)
-     * @param threadId ã‚¹ãƒ¬ãƒƒãƒ‰ID
-     * @param thread ã‚¹ãƒ¬ãƒƒãƒ‰
-     * @param stacktraces ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹
-     * @returnã€€{@link CommonEvent}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param timing ƒCƒxƒ“ƒg’Ê’mƒ^ƒCƒ~ƒ“ƒO(ŠJn/I—¹/’†’f)
+     * @param threadId ƒXƒŒƒbƒhID
+     * @param thread ƒXƒŒƒbƒh
+     * @param stacktraces ƒXƒ^ƒbƒNƒgƒŒ[ƒX
+     * @return@{@link CommonEvent}ƒIƒuƒWƒFƒNƒg
      */
     private static CommonEvent createEvent(String timing, final long threadId, final Thread thread,
             final StackTraceElement[] stacktraces)

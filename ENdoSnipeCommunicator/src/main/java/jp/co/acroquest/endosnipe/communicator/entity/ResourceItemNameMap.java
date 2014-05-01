@@ -30,26 +30,23 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * 電文本体の項目名から計測値種別変換するためのユーティリティクラスです。<br />
+ * �d���{�̂̍��ږ�����v���l��ʕϊ����邽�߂̃��[�e�B���e�B�N���X�ł��B<br />
  * 
  * @author fujii
  */
 public class ResourceItemNameMap implements MeasurementConstants, TelegramConstants
 {
-	/** 項目名に対応する計測値種別を保存しているマップ */
+	/** ���ږ��ɑΉ�����v���l��ʂ�ۑ����Ă���}�b�v */
 	private static final Map<String, Integer> RESOURCE_MAP = new HashMap<String, Integer>();
 	static
 	{
 		RESOURCE_MAP.put(ITEMNAME_TIME, TYPE_TIME);
 		RESOURCE_MAP.put(ITEMNAME_ACQUIREDTIME, TYPE_ACQUIREDTIME);
 		RESOURCE_MAP.put(ITEMNAME_PROCESS_CPU_TOTAL_TIME, TYPE_CPUTIME);
-		RESOURCE_MAP.put(ITEMNAME_PROCESS_CPU_IOWAIT_TIME,
-				TYPE_PROC_CPU_IOWAIT_TIME);
-		RESOURCE_MAP.put(ITEMNAME_SYSTEM_CPU_IOWAIT_TIME,
-				TYPE_SYS_CPU_IOWAIT_TIME);
+		RESOURCE_MAP.put(ITEMNAME_PROCESS_CPU_IOWAIT_TIME, TYPE_PROC_CPU_IOWAIT_TIME);
+		RESOURCE_MAP.put(ITEMNAME_SYSTEM_CPU_IOWAIT_TIME, TYPE_SYS_CPU_IOWAIT_TIME);
 		RESOURCE_MAP.put(ITEMNAME_JAVAUPTIME, TYPE_JAVAUPTIME);
-		RESOURCE_MAP.put(ITEMNAME_SYSTEM_CPU_PROCESSOR_COUNT,
-				TYPE_PROCESSORCOUNT);
+		RESOURCE_MAP.put(ITEMNAME_SYSTEM_CPU_PROCESSOR_COUNT, TYPE_PROCESSORCOUNT);
 		RESOURCE_MAP.put(ITEMNAME_JAVAPROCESS_MEMORY_HEAP_COMMIT,
 				TYPE_HEAPMEMORY_COMMITTED);
 		RESOURCE_MAP.put(ITEMNAME_JAVAPROCESS_MEMORY_HEAP_USED,
@@ -89,8 +86,6 @@ public class ResourceItemNameMap implements MeasurementConstants, TelegramConsta
 				TYPE_FILE_OUTPUTSIZEOFSYSTEM);
 		RESOURCE_MAP.put(ITEMNAME_JAVAPROCESS_THREAD_TOTAL_COUNT,
 				TYPE_THREADCOUNT);
-        RESOURCE_MAP.put(ITEMNAME_RUNNABLE_THREAD_COUNT, TYPE_RUNNABLE_THREADCOUNT);
-        RESOURCE_MAP.put(ITEMNAME_BLOCKED_THREAD_COUNT, TYPE_RUNNABLE_THREADCOUNT);
 		RESOURCE_MAP.put(ITEMNAME_JAVAPROCESS_GC_TIME_TOTAL,
 				TYPE_GARBAGETOTALTIME);
 		RESOURCE_MAP.put(ITEMNAME_JAVAPROCESS_GC_FINALIZEQUEUE_COUNT,
@@ -176,7 +171,7 @@ public class ResourceItemNameMap implements MeasurementConstants, TelegramConsta
 		RESOURCE_MAP.put(ITEMNAME_SYSTEM_MEMORY_PHYSICAL_USED,
 				TYPE_SYS_PHYSICALMEM_USED);
 		RESOURCE_MAP.put(ITEMNAME_JMX, TYPE_JMX);
-		// HadoopAgent項目
+		// HadoopAgent����
 		RESOURCE_MAP.put(ITEMNAME_HADOOP_NAMENODE, TYPE_HADOOP_NAMENODE);
 		RESOURCE_MAP.put(ITEMNAME_HADOOP_DATANODE, TYPE_HADOOP_DATANODE);
 		RESOURCE_MAP.put(ITEMNAME_HADOOP_JOBTRACKER, TYPE_HAOOP_JOBTRACKER);
@@ -186,16 +181,14 @@ public class ResourceItemNameMap implements MeasurementConstants, TelegramConsta
 				.put(ITEMNAME_HBASE_HREGIONSERVER, TYPE_HBASE_HREGIONSERVER);
 		RESOURCE_MAP.put(ITEMNAME_INFINISPAN_MAPREDUCE,
 				TYPE_INFINISPAN_MAPREDUCE);
-        RESOURCE_MAP.put(ITEMNAME_OPTIONAL_RESOURCE,
-                         TYPE_OPTIONAL_RESOURCE);
 	}
 
     /**
-     * 項目名から計測値種別を取得します。<br/>
-     * 項目名が完全一致しない場合は、後方一致で検索します。
+     * ���ږ�����v���l��ʂ��擾���܂��B<br/>
+     * ���ږ������S��v���Ȃ��ꍇ�́A�����v�Ō������܂��B
      * 
-     * @param itemName 項目名。
-     * @return 計測値種別。検索に一致しないか、引数がnullの場合はnullを返す。
+     * @param itemName ���ږ��B
+     * @return �v���l��ʁB�����Ɉ�v���Ȃ����A������null�̏ꍇ��null��Ԃ��B
      */
     public static Integer getResourceType(String itemName)
     {
@@ -204,7 +197,7 @@ public class ResourceItemNameMap implements MeasurementConstants, TelegramConsta
             return null;
         }
         Integer type = RESOURCE_MAP.get(itemName);
-        // 項目名に接頭辞が付いている場合の対応: 見つからなければ末尾一致で線形検索する
+        // ���ږ��ɐړ������t���Ă���ꍇ�̑Ή�: ������Ȃ���Ζ�����v�Ő��`��������
         if (type == null)
         {
             Set<Map.Entry<String, Integer>> entrySet = RESOURCE_MAP.entrySet();
@@ -223,7 +216,7 @@ public class ResourceItemNameMap implements MeasurementConstants, TelegramConsta
     }
 
     /**
-     * デフォルトコンストラクタです。<br />
+     * �f�t�H���g�R���X�g���N�^�ł��B<br />
      */
     private ResourceItemNameMap()
     {

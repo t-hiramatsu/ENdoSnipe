@@ -29,18 +29,18 @@ import jp.co.acroquest.endosnipe.common.event.EventConstants;
 import jp.co.acroquest.endosnipe.javelin.util.StatsUtil;
 
 /**
- * Log4jã®ãƒ¡ã‚½ãƒƒãƒ‰ãŒå‘¼ã°ã‚ŒãŸã¨ãã®ã‚¤ãƒ™ãƒ³ãƒˆã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+ * Log4j‚Ìƒƒ\ƒbƒh‚ªŒÄ‚Î‚ê‚½‚Æ‚«‚ÌƒCƒxƒ“ƒg‚ğo—Í‚µ‚Ü‚·B<br />
  * 
  * @author fujii
  *
  */
 public class Log4jErrorEvent extends AbstractStackTraceCheckEvent
 {
-    /** equalså®Ÿè¡Œæ™‚ã«æ¯”è¼ƒã«ç”¨ã„ã‚‹ã€‚ */
+    /** equalsÀs‚É”äŠr‚É—p‚¢‚éB */
     private static final int EQUALS_LENGTH = 1000;
 
     /**
-     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚ã‚¤ãƒ™ãƒ³ãƒˆå(LeakDetected)ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^BƒCƒxƒ“ƒg–¼(LeakDetected)‚ğİ’è‚µ‚Ü‚·B<br />
      */
     public Log4jErrorEvent()
     {

@@ -28,27 +28,27 @@ package jp.co.acroquest.endosnipe.util;
 import java.sql.SQLException;
 
 /**
- * ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆå‡¦ç†æ™‚ã« truncate ã™ã‚‹å¿…è¦ãŒã‚ã‚‹å ´åˆã«
- * ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã•ã‚Œã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å®šç¾©ã™ã‚‹ã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹ã€‚
+ * ƒ[ƒe[ƒgˆ—‚É truncate ‚·‚é•K—v‚ª‚ ‚éê‡‚É
+ * ƒR[ƒ‹ƒoƒbƒN‚³‚ê‚éƒƒ\ƒbƒh‚ğ’è‹`‚·‚éƒCƒ“ƒ^ƒtƒF[ƒXB
  *
  * @author sakamoto
  */
 public interface RotateCallback
 {
     /**
-     * ãƒ†ãƒ¼ãƒ–ãƒ«ã®ç¨®é¡ã‚’è¿”ã—ã¾ã™ã€‚
+     * ƒe[ƒuƒ‹‚Ìí—Ş‚ğ•Ô‚µ‚Ü‚·B
      *
-     * @return ãƒ†ãƒ¼ãƒ–ãƒ«ã®ç¨®é¡ã‚’è¡¨ã™æ–‡å­—åˆ—
+     * @return ƒe[ƒuƒ‹‚Ìí—Ş‚ğ•\‚·•¶š—ñ
      */
     String getTableType();
 
     /**
-     * æŒ‡å®šã—ãŸã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã®ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ truncate ã—ã¾ã™ã€‚
+     * w’è‚µ‚½ƒCƒ“ƒfƒbƒNƒX‚Ìƒe[ƒuƒ‹‚ğ truncate ‚µ‚Ü‚·B
      *
-     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @param tableIndex ãƒ†ãƒ¼ãƒ–ãƒ«ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
-     * @param year æ¬¡ã«ã“ã®ãƒ†ãƒ¼ãƒ–ãƒ«ã«å…¥ã‚Œã‚‹ãƒ‡ãƒ¼ã‚¿ã®å¹´
-     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @param database ƒf[ƒ^ƒx[ƒX–¼
+     * @param tableIndex ƒe[ƒuƒ‹ƒCƒ“ƒfƒbƒNƒX
+     * @param year Ÿ‚É‚±‚Ìƒe[ƒuƒ‹‚É“ü‚ê‚éƒf[ƒ^‚Ì”N
+     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
      */
     void truncate(String database, int tableIndex, int year) throws SQLException;
 }

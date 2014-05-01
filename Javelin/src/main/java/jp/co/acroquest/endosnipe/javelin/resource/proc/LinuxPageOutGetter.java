@@ -29,7 +29,7 @@ import jp.co.acroquest.endosnipe.common.entity.ItemType;
 import jp.co.acroquest.endosnipe.javelin.bean.proc.ProcInfo;
 
 /**
- * StatInfoからユーザモードのページアウトのバイト数を取得する。
+ * StatInfo���烆�[�U���[�h�̃y�[�W�A�E�g�̃o�C�g�����擾����B
  * 
  * @author akita
  */
@@ -38,7 +38,7 @@ public class LinuxPageOutGetter extends ProcResourceGetter
 
     /**
      * 
-     * @param procParser リソース情報取得用
+     * @param procParser ���\�[�X���擾�p
      */
     public LinuxPageOutGetter(ProcParser procParser)
     {

@@ -35,37 +35,38 @@ import jp.co.acroquest.endosnipe.common.entity.ResourceData;
 import jp.co.acroquest.endosnipe.data.dto.SignalDefinitionDto;
 
 /**
- * æŒ‡å®šã•ã‚ŒãŸé–¾å€¤ã‚’è¶…ãˆãŸã¨ãã«ã‚¢ãƒ©ãƒ¼ãƒ ã‚’ç™ºç”Ÿã•ã›ã‚‹ã€‚
+ * w’è‚³‚ê‚½è‡’l‚ğ’´‚¦‚½‚Æ‚«‚ÉƒAƒ‰[ƒ€‚ğ”­¶‚³‚¹‚éB
  * @author fujii
  *
  */
 public class AlarmThresholdProcessor implements AlarmProcessor
 {
     /**
-     * æŒ‡å®šã•ã‚ŒãŸé–¾å€¤ã«å¯¾ã™ã‚‹ã‚¢ãƒ©ãƒ¼ãƒ å‡¦ç†
-     * @param currentResourceData ç¾åœ¨ã®ãƒªã‚½ãƒ¼ã‚¹ãƒ‡ãƒ¼ã‚¿
-     * @param prevResourceData ä¸€ã¤å‰ã®ãƒªã‚½ãƒ¼ã‚¹ãƒ‡ãƒ¼ã‚¿
-     * @param signalDefinition ã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥ã®è¨­å®šï¼ˆé–¾å€¤ãªã©ï¼‰
-     * @param alarmData ã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥ã®æœ‰ç„¡ã‚’è¨ˆç®—ã™ã‚‹ãŸã‚ã®ãƒ‡ãƒ¼ã‚¿ã€‚ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã®ä¸­ã§æ›´æ–°ã™ã‚‹
-     * @return ã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥ã®æœ‰ç„¡ã¨ã€é€šçŸ¥ã™ã‚‹ã‚¢ãƒ©ãƒ¼ãƒ ã«è¡¨ç¤ºã•ã›ã‚‹æƒ…å ±ã‚’å…¥ã‚ŒãŸAlarmEntry
+     * w’è‚³‚ê‚½è‡’l‚É‘Î‚·‚éƒAƒ‰[ƒ€ˆ—
+     * @param currentResourceData Œ»İ‚ÌƒŠƒ\[ƒXƒf[ƒ^
+     * @param prevResourceData ˆê‚Â‘O‚ÌƒŠƒ\[ƒXƒf[ƒ^
+     * @param signalDefinition ƒAƒ‰[ƒ€’Ê’m‚Ìİ’èiè‡’l‚È‚Çj
+     * @param alarmData ƒAƒ‰[ƒ€’Ê’m‚Ì—L–³‚ğŒvZ‚·‚é‚½‚ß‚Ìƒf[ƒ^B‚±‚Ìƒƒ\ƒbƒh‚Ì’†‚ÅXV‚·‚é
+     * @return ƒAƒ‰[ƒ€’Ê’m‚Ì—L–³‚ÆA’Ê’m‚·‚éƒAƒ‰[ƒ€‚É•\¦‚³‚¹‚éî•ñ‚ğ“ü‚ê‚½AlarmEntry
      */
     public AlarmEntry calculateAlarmLevel(final ResourceData currentResourceData,
-        final ResourceData prevResourceData, final SignalDefinitionDto signalDefinition,
-        final AlarmData alarmData)
+            final ResourceData prevResourceData, final SignalDefinitionDto signalDefinition,
+            final AlarmData alarmData)
     {
-        // åˆæœŸçŠ¶æ…‹
+        // ‰Šúó‘Ô
         if (currentResourceData == null)
         {
             AlarmEntry alarmEntry = new AlarmEntry();
             alarmEntry.setSendAlarm(false);
-            alarmEntry.setSignalValue(JavelinDataLogger.NORMAL_ALARM_LEVEL);
+            alarmEntry.setAlarmState(JavelinDataLogger.NORMAL_ALARM_LEVEL);
             alarmEntry.setSignalLevel(signalDefinition.getLevel());
             return alarmEntry;
         }
         String matchingPattern = signalDefinition.getMatchingPattern();
 
         Number itemValueNumber =
-            AlarmThresholdUtil.getNumberFromResourceData(currentResourceData, matchingPattern);
+                                 AlarmThresholdUtil.getNumberFromResourceData(currentResourceData,
+                                                                              matchingPattern);
         if (itemValueNumber == null)
         {
             if (alarmData == null)
@@ -77,13 +78,13 @@ public class AlarmThresholdProcessor implements AlarmProcessor
             {
                 return null;
             }
-            // å¯å¤‰ã‚°ãƒ©ãƒ•ã§ã¯ç›£è¦–ã—ã¦ã„ãªã„çŠ¶æ…‹ã§ã¯å€¤ãŒå–ã‚Œãªããªã‚‹ãŸã‚ã€å¾©æ—§ã‚¢ãƒ©ãƒ¼ãƒ ã‚’ç™ºç”Ÿã•ã›ã‚‹ã‚ˆã†ã«ã™ã‚‹ã€‚
+            // ‰Â•ÏƒOƒ‰ƒt‚Å‚ÍŠÄ‹‚µ‚Ä‚¢‚È‚¢ó‘Ô‚Å‚Í’l‚ªæ‚ê‚È‚­‚È‚é‚½‚ßA•œ‹ŒƒAƒ‰[ƒ€‚ğ”­¶‚³‚¹‚é‚æ‚¤‚É‚·‚éB
             itemValueNumber = Double.valueOf(0);
         }
         double itemValue = itemValueNumber.doubleValue();
         AlarmEntry alarmEntry =
-            createAlarmEntry(currentResourceData.measurementTime, itemValue, alarmData,
-                             signalDefinition);
+                                createAlarmEntry(currentResourceData.measurementTime, itemValue,
+                                                 alarmData, signalDefinition);
         return alarmEntry;
     }
 
@@ -96,9 +97,9 @@ public class AlarmThresholdProcessor implements AlarmProcessor
      * @return
      */
     private AlarmEntry createAlarmEntry(final long measurementTime, final double value,
-        final AlarmData alarmData, final SignalDefinitionDto signalDefinition)
+            final AlarmData alarmData, final SignalDefinitionDto signalDefinition)
     {
-        // è¿”ã‚Šå€¤ã¨ãªã‚‹ AlarmEntry ã®åˆæœŸåŒ–
+        // •Ô‚è’l‚Æ‚È‚é AlarmEntry ‚Ì‰Šú‰»
         AlarmEntry entry = null;
         Map<Integer, Double> thresholdMaping = signalDefinition.getThresholdMaping();
 
@@ -116,9 +117,9 @@ public class AlarmThresholdProcessor implements AlarmProcessor
 
         if (tmpLevel < currentLevel)
         {
-            // ä¸è¦ã«ãªã‚‹ã‚¢ãƒ©ãƒ¼ãƒ ã‚’å‰Šé™¤ã™ã‚‹ã€‚
-            // ç¾åœ¨ã®é–¾å€¤ãƒ¬ãƒ™ãƒ«ã‚ˆã‚Šã‚‚ä¸‹å›ã£ãŸå ´åˆã¯è¶…éã‚¢ãƒ©ãƒ¼ãƒ ã‚’å…¨ã¦å‰Šé™¤ã™ã‚‹ã€‚
-            // ç¾åœ¨ã®é–¾å€¤ãƒ¬ãƒ™ãƒ«ã‚ˆã‚Šã‚‚é«˜ã„é–¾å€¤ãƒ¬ãƒ™ãƒ«ã‚’æŒã¤å¾©æ—§ã‚¢ãƒ©ãƒ¼ãƒ ã‚’å…¨ã¦å‰Šé™¤ã™ã‚‹ã€‚
+            // •s—v‚É‚È‚éƒAƒ‰[ƒ€‚ğíœ‚·‚éB
+            // Œ»İ‚Ìè‡’lƒŒƒxƒ‹‚æ‚è‚à‰º‰ñ‚Á‚½ê‡‚Í’´‰ßƒAƒ‰[ƒ€‚ğ‘S‚Äíœ‚·‚éB
+            // Œ»İ‚Ìè‡’lƒŒƒxƒ‹‚æ‚è‚à‚‚¢è‡’lƒŒƒxƒ‹‚ğ‚Â•œ‹ŒƒAƒ‰[ƒ€‚ğ‘S‚Äíœ‚·‚éB
             alarmData.clearStartExceedance();
             alarmData.clearRecoverTimeMap(tmpLevel);
             Long stopExceedanceTime = alarmData.getRecoverTime(tmpLevel);
@@ -130,9 +131,9 @@ public class AlarmThresholdProcessor implements AlarmProcessor
         }
         else if (tmpLevel > currentLevel)
         {
-            // ä¸è¦ã«ãªã‚‹ã‚¢ãƒ©ãƒ¼ãƒ ã‚’å‰Šé™¤ã™ã‚‹ã€‚
-            // ç¾åœ¨ã®é–¾å€¤ãƒ¬ãƒ™ãƒ«ã‚ˆã‚Šã‚‚ä¸‹å›ã£ãŸå ´åˆã¯å¾©æ—§ã‚¢ãƒ©ãƒ¼ãƒ ã‚’å…¨ã¦ã™ã‚‹ã€‚
-            // ç¾åœ¨ã®é–¾å€¤ãƒ¬ãƒ™ãƒ«ã‚ˆã‚Šã‚‚é«˜ã„é–¾å€¤ãƒ¬ãƒ™ãƒ«ã‚’æŒã¤è¶…éã‚¢ãƒ©ãƒ¼ãƒ ã‚’å…¨ã¦å‰Šé™¤ã™ã‚‹ã€‚
+            // •s—v‚É‚È‚éƒAƒ‰[ƒ€‚ğíœ‚·‚éB
+            // Œ»İ‚Ìè‡’lƒŒƒxƒ‹‚æ‚è‚à‰º‰ñ‚Á‚½ê‡‚Í•œ‹ŒƒAƒ‰[ƒ€‚ğ‘S‚Ä‚·‚éB
+            // Œ»İ‚Ìè‡’lƒŒƒxƒ‹‚æ‚è‚à‚‚¢è‡’lƒŒƒxƒ‹‚ğ‚Â’´‰ßƒAƒ‰[ƒ€‚ğ‘S‚Äíœ‚·‚éB
             alarmData.clearRecoverExceedance();
             alarmData.clearStartExceedance(tmpLevel);
             Long startExceedanceTime = alarmData.getStartExceedanceTime(tmpLevel);
@@ -145,18 +146,15 @@ public class AlarmThresholdProcessor implements AlarmProcessor
         if (entry != null)
         {
             entry.setAlarmValue(value);
-            entry.setSignalId(signalDefinition.getSignalId());
-            entry.setSignalName(signalDefinition.getSignalName());
-            entry.setMatchingPattern(signalDefinition.getMatchingPattern());
-            entry.setPatternValue(signalDefinition.getPatternValue());
+            entry.setAlarmID(signalDefinition.getSignalName());
         }
         return entry;
     }
 
     /**
-     * ç¾åœ¨ã®é–¾å€¤ã«å¯¾å¿œã™ã‚‹è¶…éé–‹å§‹æ™‚åˆ»ã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param alarmData é–¾å€¤åˆ¤å®šãƒ‡ãƒ¼ã‚¿
-     * @param level é–¾å€¤ãƒ¬ãƒ™ãƒ«
+     * Œ»İ‚Ìè‡’l‚É‘Î‰‚·‚é’´‰ßŠJn‚ğİ’è‚·‚éB
+     * @param alarmData è‡’l”»’èƒf[ƒ^
+     * @param level è‡’lƒŒƒxƒ‹
      */
     private void addStartExceedanceTime(final AlarmData alarmData, final int level)
     {
@@ -169,9 +167,9 @@ public class AlarmThresholdProcessor implements AlarmProcessor
     }
 
     /**
-     * ç¾åœ¨ã®é–¾å€¤ã«å¯¾å¿œã™ã‚‹å¾©æ—§é–‹å§‹æ™‚åˆ»ã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param alarmData é–¾å€¤åˆ¤å®šãƒ‡ãƒ¼ã‚¿
-     * @param level é–¾å€¤ãƒ¬ãƒ™ãƒ«
+     * Œ»İ‚Ìè‡’l‚É‘Î‰‚·‚é•œ‹ŒŠJn‚ğİ’è‚·‚éB
+     * @param alarmData è‡’l”»’èƒf[ƒ^
+     * @param level è‡’lƒŒƒxƒ‹
      */
     private void addStopExceedanceTime(final AlarmData alarmData, final int level)
     {

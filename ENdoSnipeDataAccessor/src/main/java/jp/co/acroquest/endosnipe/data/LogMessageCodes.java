@@ -28,45 +28,39 @@ package jp.co.acroquest.endosnipe.data;
 import jp.co.acroquest.endosnipe.common.logger.CommonLogMessageCodes;
 
 /**
- * ENdoSnipe DataAccessor のためのメッセージコードです。<br />
+ * ENdoSnipe DataAccessor �̂��߂̃��b�Z�[�W�R�[�h�ł��B<br />
  * 
  * @author y-komori
  */
 public interface LogMessageCodes extends CommonLogMessageCodes
 {
     // -------------------------------------------------------------------------
-    // データアクセスメッセージコード (01xx)
+    // �f�[�^�A�N�Z�X���b�Z�[�W�R�[�h (01xx)
     // -------------------------------------------------------------------------
-    /** データベース初期化 */
+    /** �f�[�^�x�[�X������ */
     String DB_INITIALIZED = "IEDA0100";
 
-    /** ホスト用テーブル初期化時 */
+    /** �z�X�g�p�e�[�u���������� */
     String HOST_TABLE_INITIALIZED = "IEDA0101";
 
-    /** ホスト情報登録 */
+    /** �z�X�g���o�^ */
     String HOST_REGISTERED = "IEDA0102";
 
-    /** データベースアクセス失敗 */
+    /** �f�[�^�x�[�X�A�N�Z�X���s */
     String DB_ACCESS_ERROR = "EEDA0103";
 
-    /** コネクション接続 */
+    /** �R�l�N�V�����ڑ� */
     String DB_CONNECTED = "TEDA0104";
 
-    /** コネクション切断 */
+    /** �R�l�N�V�����ؒf */
     String DB_DICONNECTED = "TEDA0105";
 
-    /** コネクション全切断時にアクティブコネクションが残っている */
+    /** �R�l�N�V�����S�ؒf���ɃA�N�e�B�u�R�l�N�V�������c���Ă��� */
     String ACTIVE_CONNECTIONS_REMAINED = "WEDA0106";
 
-    /** ローテートを実施した */
+    /** ���[�e�[�g�����{���� */
     String ROTATE_TABLE_PERFORMED = "IEDA0107";
 
-    /** 不要な系列情報を削除した */
+    /** �s�v�Ȍn������폜���� */
     String NO_NEEDED_SERIES_REMOVED = "IEDA0108";
-
-    /** Javelinログの解析に失敗 */
-    String FAIL_PARSE_JVNLOG = "WEDA0501";
-
-    /** 入出力例外が発生 */
-    String IO_ERROR = "WEDA0001";
 }

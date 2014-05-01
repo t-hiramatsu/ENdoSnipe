@@ -29,7 +29,7 @@ import org.bbreak.excella.reports.tag.RowRepeatParamParser;
 import org.bbreak.excella.reports.tag.SingleParamParser;
 
 /**
- * ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚¿ã‚¤ãƒ ã®ãƒ¬ãƒãƒ¼ãƒˆã‚’å‡ºåŠ›ã™ã‚‹ã‚¯ãƒ©ã‚¹
+ * ƒŒƒXƒ|ƒ“ƒXƒ^ƒCƒ€‚ÌƒŒƒ|[ƒg‚ğo—Í‚·‚éƒNƒ‰ƒX
  * 
  * @author Y.Ochiai
  * 
@@ -37,113 +37,115 @@ import org.bbreak.excella.reports.tag.SingleParamParser;
 public class ResponseTimeReporter
 {
 
-	/** å‚ç…§ã™ã‚‹ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã®ã‚·ãƒ¼ãƒˆå */
-	public static final String TEMPLATE_SHEET_NAME = "ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚¿ã‚¤ãƒ ãƒ¬ãƒãƒ¼ãƒˆ";
+    /** QÆ‚·‚éƒeƒ“ƒvƒŒ[ƒg‚ÌƒV[ƒg–¼ */
+    public static final String TEMPLATE_SHEET_NAME  = "ƒŒƒXƒ|ƒ“ƒXƒ^ƒCƒ€ƒŒƒ|[ƒg";
 
-	/** å‡ºåŠ›ã‚·ãƒ¼ãƒˆå */
-	public static final String OUTPUT_SHEET_NAME = "ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚¿ã‚¤ãƒ ãƒ¬ãƒãƒ¼ãƒˆ";
+    /** o—ÍƒV[ƒg–¼ */
+    public static final String OUTPUT_SHEET_NAME    = "ƒŒƒXƒ|ƒ“ƒXƒ^ƒCƒ€ƒŒƒ|[ƒg";
 
-	/** ç½®æ›ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿å */
-	public static final String RESPONSE_TIME_RECORD = "responseTimeRecord";
+    /** ’uŠ·ƒpƒ‰ƒ[ƒ^–¼ */
+    public static final String RESPONSE_TIME_RECORD = "responseTimeRecord";
 
-	/** é …ç•ªã‚’è¡¨ã™ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿å */
-	public static final String NUMBERS = "numbers";
+    /** €”Ô‚ğ•\‚·ƒpƒ‰ƒ[ƒ^–¼ */
+    public static final String NUMBERS              = "numbers";
 
-	/** é–‹å§‹æ™‚åˆ»ã‚’è¡¨ç¤ºã™ã‚‹ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿å */
-	public static final String DATA_RANGE = "dataRange";
+    /** ŠJn‚ğ•\¦‚·‚éƒpƒ‰ƒ[ƒ^–¼ */
+    public static final String DATA_RANGE           = "dataRange";
 
-	/**
-	 * ãƒ¬ãƒãƒ¼ãƒˆã®ã‚¨ã‚¯ã‚»ãƒ«ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å‡ºåŠ›ã™ã‚‹
-	 * 
-	 * @param templateFilePath
-	 *            ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹
-	 * @param outputFilePath
-	 *            å‡ºåŠ›ã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹
-	 * @param records
-	 *            å‡ºåŠ›ã™ã‚‹ãƒ‡ãƒ¼ã‚¿ã®ãƒªã‚¹ãƒˆ
-	 * @param startDate
-	 *            é–‹å§‹æ—¥æ™‚
-	 * @param endDate
-	 *            çµ‚äº†æ—¥æ™‚
-	 */
-	public void outputReport(String templateFilePath, String outputFilePath,
-		ResponseTimeRecord[] records, Date startDate, Date endDate)
-	{
-		// ?èª­ã¿è¾¼ã‚€ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹(æ‹¡å¼µå­å«)
-		// ?å‡ºåŠ›å…ˆã®ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹(æ‹¡å¼µå­ã¯Exporterã«ã‚ˆã£ã¦è‡ªå‹•çš„ã«ä»˜ä¸ã•ã‚Œã‚‹ãŸã‚ã€ä¸è¦ã€‚)
-		// ?ãƒ•ã‚¡ã‚¤ãƒ«ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ(ConvertConfigurationã®é…åˆ—)
-		// ã‚’æŒ‡å®šã—ã€ReportBookã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆã™ã‚‹ã€‚
-		ReportBook outputBook = new ReportBook(templateFilePath, outputFilePath,
-			ExcelExporter.FORMAT_TYPE);
+    /**
+     * ƒŒƒ|[ƒg‚ÌƒGƒNƒZƒ‹ƒtƒ@ƒCƒ‹‚ğo—Í‚·‚é
+     * 
+     * @param templateFilePath
+     *            ƒeƒ“ƒvƒŒ[ƒgƒtƒ@ƒCƒ‹‚ÌƒpƒX
+     * @param outputFilePath
+     *            o—Í‚·‚éƒtƒ@ƒCƒ‹‚ÌƒpƒX
+     * @param records
+     *            o—Í‚·‚éƒf[ƒ^‚ÌƒŠƒXƒg
+     * @param startDate
+     *            ŠJn“ú
+     * @param endDate
+     *            I—¹“ú
+     */
+    public void outputReport(String templateFilePath, String outputFilePath,
+            ResponseTimeRecord[] records, Date startDate, Date endDate)
+    {
+        // ?“Ç‚İ‚Şƒeƒ“ƒvƒŒ[ƒgƒtƒ@ƒCƒ‹‚ÌƒpƒX(Šg’£qŠÜ)
+        // ?o—Íæ‚Ìƒtƒ@ƒCƒ‹ƒpƒX(Šg’£q‚ÍExporter‚É‚æ‚Á‚Ä©“®“I‚É•t—^‚³‚ê‚é‚½‚ßA•s—vB)
+        // ?ƒtƒ@ƒCƒ‹ƒtƒH[ƒ}ƒbƒg(ConvertConfiguration‚Ì”z—ñ)
+        // ‚ğw’è‚µAReportBookƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬‚·‚éB
+        ReportBook outputBook =
+                                new ReportBook(templateFilePath, outputFilePath,
+                                               ExcelExporter.FORMAT_TYPE);
 
-		// ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆãƒ•ã‚¡ã‚¤ãƒ«å†…ã®ã‚·ãƒ¼ãƒˆåã¨å‡ºåŠ›ã‚·ãƒ¼ãƒˆåã‚’æŒ‡å®šã—ã€
-		// ReportSheetã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆã—ã¦ã€ReportBookã«è¿½åŠ ã—ã¾ã™ã€‚
-		ReportSheet outputDataSheet = new ReportSheet(ResponseTimeReporter.TEMPLATE_SHEET_NAME,
-			ResponseTimeReporter.OUTPUT_SHEET_NAME);
-		outputBook.addReportSheet(outputDataSheet);
+        // ƒeƒ“ƒvƒŒ[ƒgƒtƒ@ƒCƒ‹“à‚ÌƒV[ƒg–¼‚Æo—ÍƒV[ƒg–¼‚ğw’è‚µA
+        // ReportSheetƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬‚µ‚ÄAReportBook‚É’Ç‰Á‚µ‚Ü‚·B
+        ReportSheet outputDataSheet =
+                                      new ReportSheet(ResponseTimeReporter.TEMPLATE_SHEET_NAME,
+                                                      ResponseTimeReporter.OUTPUT_SHEET_NAME);
+        outputBook.addReportSheet(outputDataSheet);
 
-		// ç½®æ›ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’ReportSheetã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«è¿½åŠ ã™ã‚‹ã€‚
-		// (åå¾©ç½®æ›ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã«ã¯é…åˆ—ã‚’æ¸¡ã™ã€‚)
-		List<Integer> numberList = new ArrayList<Integer>();
-		for (int index = 0; index < records.length; index++)
-		{
-			numberList.add(index + 1);
-		}
-		outputDataSheet.addParam(BlockRowRepeatParamParser.DEFAULT_TAG,
-			ResponseTimeReporter.RESPONSE_TIME_RECORD, records);
+        // ’uŠ·ƒpƒ‰ƒ[ƒ^‚ğReportSheetƒIƒuƒWƒFƒNƒg‚É’Ç‰Á‚·‚éB
+        // (”½•œ’uŠ·‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í”z—ñ‚ğ“n‚·B)
+        List<Integer> numberList = new ArrayList<Integer>();
+        for (int index = 0; index < records.length; index++)
+        {
+            numberList.add(index + 1);
+        }
+        outputDataSheet.addParam(BlockRowRepeatParamParser.DEFAULT_TAG,
+                                 ResponseTimeReporter.RESPONSE_TIME_RECORD, records);
 
-		//è¡¨ã®ä¸€ç•ªå·¦ç«¯ã®åˆ—ã«é …ç›®ç•ªå·ã‚’è¿½åŠ 
-		outputDataSheet.addParam(RowRepeatParamParser.DEFAULT_TAG, ResponseTimeReporter.NUMBERS,
-			numberList.toArray());
+        //•\‚Ìˆê”Ô¶’[‚Ì—ñ‚É€–Ú”Ô†‚ğ’Ç‰Á
+        outputDataSheet.addParam(RowRepeatParamParser.DEFAULT_TAG, ResponseTimeReporter.NUMBERS,
+                                 numberList.toArray());
 
-		//â—‹æœˆâ—‹æ—¥(â—‹) â—‹â—‹:â—‹â—‹ ã‹ã‚‰  â—‹æœˆâ—‹æ—¥(â—‹) â—‹â—‹:â—‹â—‹ ã¾ã§ã®ãƒ‡ãƒ¼ã‚¿å–å¾—çµæœã§ã™
-		//ã¨ã„ã†æ–‡å­—åˆ—ã‚’è¡¨ç¤ºã•ã›ã‚‹
-		String dataRange = this.getDataRangeString(startDate, endDate);
-		outputDataSheet.addParam(SingleParamParser.DEFAULT_TAG, ResponseTimeReporter.DATA_RANGE,
-			dataRange);
+        //›Œ›“ú(›) ››:›› ‚©‚ç  ›Œ›“ú(›) ››:›› ‚Ü‚Å‚Ìƒf[ƒ^æ“¾Œ‹‰Ê‚Å‚·
+        //‚Æ‚¢‚¤•¶š—ñ‚ğ•\¦‚³‚¹‚é
+        String dataRange = this.getDataRangeString(startDate, endDate);
+        outputDataSheet.addParam(SingleParamParser.DEFAULT_TAG, ResponseTimeReporter.DATA_RANGE,
+                                 dataRange);
 
-		// 
-		// ReportProcessorã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆã—ã€
-		// ReportBookã‚’å…ƒã«ãƒ¬ãƒãƒ¼ãƒˆå‡¦ç†ã‚’å®Ÿè¡Œã—ã¾ã™ã€‚
-		// 
-		ReportProcessor reportProcessor = new ReportProcessor();
-		try
-		{
-			reportProcessor.process(outputBook);
-		}
-		catch (Exception e)
-		{
-			// å‡ºåŠ›å¤±æ•—
-			e.printStackTrace();
-		}
-	}
+        // 
+        // ReportProcessorƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬‚µA
+        // ReportBook‚ğŒ³‚ÉƒŒƒ|[ƒgˆ—‚ğÀs‚µ‚Ü‚·B
+        // 
+        ReportProcessor reportProcessor = new ReportProcessor();
+        try
+        {
+            reportProcessor.process(outputBook);
+        }
+        catch (Exception e)
+        {
+            // o—Í¸”s
+            e.printStackTrace();
+        }
+    }
 
-	/**
-	 * ãƒ‡ãƒ¼ã‚¿å–å¾—æ™‚åˆ»ã®ç¯„å›²ã‚’è¡¨ç¤ºã™ã‚‹æ–‡å­—åˆ—ã‚’æˆå‹ã™ã‚‹
-	 * @param startDate ãƒ‡ãƒ¼ã‚¿å–å¾—é–‹å§‹æ—¥æ™‚
-	 * @param endDate ãƒ‡ãƒ¼ã‚¿å–å¾—çµ‚äº†æ—¥æ™‚
-	 * @returnã€€è¡¨ç¤ºç”¨ã®æ–‡å­—åˆ—
-	 */
-	private String getDataRangeString(Date startDate, Date endDate)
-	{
-		Calendar calendar = Calendar.getInstance();
+    /**
+     * ƒf[ƒ^æ“¾‚Ì”ÍˆÍ‚ğ•\¦‚·‚é•¶š—ñ‚ğ¬Œ^‚·‚é
+     * @param startDate ƒf[ƒ^æ“¾ŠJn“ú
+     * @param endDate ƒf[ƒ^æ“¾I—¹“ú
+     * @return@•\¦—p‚Ì•¶š—ñ
+     */
+    private String getDataRangeString(Date startDate, Date endDate)
+    {
+        Calendar calendar = Calendar.getInstance();
 
-		//ãƒ‡ãƒ¼ã‚¿å–å¾—é–‹å§‹æ—¥æ™‚ã¨ãƒ‡ãƒ¼ã‚¿å–å¾—çµ‚äº†æ—¥æ™‚ã‚’æˆå‹ã™ã‚‹
-		calendar.setTime(startDate);
-		String startDateString = String.format("%1$tY/%1$tm/%1$td(%1$ta) %1$tH:%1$tM", calendar);
-		calendar.setTime(endDate);
-		String endDateString = String.format("%1$tY/%1$tm/%1$td(%1$ta) %1$tH:%1$tM", calendar);
+        //ƒf[ƒ^æ“¾ŠJn“ú‚Æƒf[ƒ^æ“¾I—¹“ú‚ğ¬Œ^‚·‚é
+        calendar.setTime(startDate);
+        String startDateString = String.format("%1$tY/%1$tm/%1$td(%1$ta) %1$tH:%1$tM", calendar);
+        calendar.setTime(endDate);
+        String endDateString = String.format("%1$tY/%1$tm/%1$td(%1$ta) %1$tH:%1$tM", calendar);
 
-		//è¡¨ç¤ºç”¨æ–‡å­—åˆ—ã‚’æˆå‹ã™ã‚‹
-		StringBuilder builder = new StringBuilder();
-		builder.append("Result of data acquisition from ");
-		builder.append(startDateString);
-		builder.append(" to ");
-		builder.append(endDateString);
+        //•\¦—p•¶š—ñ‚ğ¬Œ^‚·‚é
+        StringBuilder builder = new StringBuilder();
+        builder.append("Result of data acquisition from ");
+        builder.append(startDateString);
+        builder.append(" to ");
+        builder.append(endDateString);
 
-		String returnValue = builder.toString();
+        String returnValue = builder.toString();
 
-		return returnValue;
-	}
+        return returnValue;
+    }
 
 }

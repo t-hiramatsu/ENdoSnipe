@@ -52,99 +52,99 @@ import jp.co.acroquest.endosnipe.communicator.entity.ConnectNotifyData;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 
 /**
- * {@link CommunicationClient} ã®å®Ÿè£…ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+ * {@link CommunicationClient} ‚ÌÀ‘•ƒNƒ‰ƒX‚Å‚·B<br />
  * 
  * @author y-komori
  */
 public class CommunicationClientImpl implements CommunicationClient, Runnable
 {
-	/** ãƒ­ã‚¬ãƒ¼ã‚¯ãƒ©ã‚¹ */
+	/** ƒƒK[ƒNƒ‰ƒX */
 	private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(
 			CommunicationClientImpl.class);
 
-	/** ã‚’ãƒŸãƒªç§’å˜ä½ã§è¡¨ã—ãŸ1ç§’ */
+	/** ‚ğƒ~ƒŠ•b’PˆÊ‚Å•\‚µ‚½1•b */
 	private static final int SECOND_ON_MILLIS = 1000;
 
-	/** å†æ¥ç¶šã‚’è¡Œã†é–“éš”ï¼ˆãƒŸãƒªç§’ï¼‰ */
+	/** ÄÚ‘±‚ğs‚¤ŠÔŠuiƒ~ƒŠ•bj */
 	private static final int RETRY_INTERVAL = 10000;
 
-	/** é›»æ–‡ã‚’è»¢é€ã™ã‚‹ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒªã‚¹ãƒˆ */
+	/** “d•¶‚ğ“]‘—‚·‚éƒ^[ƒQƒbƒgƒIƒuƒWƒFƒNƒg‚ÌƒŠƒXƒg */
 	private final List<CommunicatorListener> listenerList_;
 
-	/** é€šä¿¡ã‚½ã‚±ãƒƒãƒˆ */
+	/** ’ÊMƒ\ƒPƒbƒg */
 	private SocketChannel socketChannel_ = null;
 
-	/** å‡ºåŠ›ã‚¹ãƒˆãƒªãƒ¼ãƒ  */
+	/** o—ÍƒXƒgƒŠ[ƒ€ */
 	private PrintStream objPrintStream_ = null;
 
 	private TelegramReader telegramReader_;
 
 	private final ExecutorService writeExecutor_ = createThreadPoolExecutor();
 
-	/** ãƒ›ã‚¹ãƒˆï¼ˆãƒ›ã‚¹ãƒˆåã¾ãŸã¯ IP ã‚¢ãƒ‰ãƒ¬ã‚¹ï¼‰ */
+	/** ƒzƒXƒgiƒzƒXƒg–¼‚Ü‚½‚Í IP ƒAƒhƒŒƒXj */
 	private String host_;
 
-	/** ãƒãƒ¼ãƒˆç•ªå· */
+	/** ƒ|[ƒg”Ô† */
 	private int portNumber_;
 
-	/** IPã‚¢ãƒ‰ãƒ¬ã‚¹ */
+	/** IPƒAƒhƒŒƒX */
 	private String ipAddress_;
 
-	/** æ¥ç¶šçŠ¶æ…‹ */
+	/** Ú‘±ó‘Ô */
 	private volatile boolean isConnect_ = false;
 
-	/** startçŠ¶æ…‹ */
+	/** startó‘Ô */
 	private volatile boolean started_ = true;
 
-	/** èª­ã¿è¾¼ã¿ã‚¹ãƒ¬ãƒƒãƒ‰ */
+	/** “Ç‚İ‚İƒXƒŒƒbƒh */
 	private Thread readerThread_;
 
-	/** èª­ã¿è¾¼ã¿ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’ç›£è¦–ã™ã‚‹ã‚¹ãƒ¬ãƒƒãƒ‰ */
+	/** “Ç‚İ‚İƒXƒŒƒbƒh‚ğŠÄ‹‚·‚éƒXƒŒƒbƒh */
 	private Thread readerMonitorThread_;
 
-	/** ã‚¹ãƒ¬ãƒƒãƒ‰å */
+	/** ƒXƒŒƒbƒh–¼ */
 	private final String threadName_;
 
-	/** ãƒ­ã‚°å‡ºåŠ›æœ‰ç„¡. */
+	/** ƒƒOo—Í—L–³. */
 	private boolean isOutputLog_ = true;
 
-	/** å—ä¿¡é›»æ–‡ã‚’å‡¦ç†ã™ã‚‹ãŸã‚ã®ãƒªã‚¹ãƒŠ */
+	/** óM“d•¶‚ğˆ—‚·‚é‚½‚ß‚ÌƒŠƒXƒi */
 	private List<TelegramListener> telegramListeners_;
 
 	private boolean discard_;
 
-	/** æ¥ç¶šå®Œäº†å¾Œã«é€ä¿¡ã™ã‚‹æ¥ç¶šé€šçŸ¥ */
+	/** Ú‘±Š®—¹Œã‚É‘—M‚·‚éÚ‘±’Ê’m */
 	private ConnectNotifyData connectNotify_;
 
-	/** Javelinã‹ã©ã†ã‹ */
+	/** Javelin‚©‚Ç‚¤‚© */
 	protected boolean isJavelin_ = false;
 
 	/**
-	 * {@link CommunicationClientImpl} ã‚’æ§‹ç¯‰ã—ã¾ã™ã€‚<br />
+	 * {@link CommunicationClientImpl} ‚ğ\’z‚µ‚Ü‚·B<br />
 	 * 
 	 * @param threadName
-	 *            ã‚¹ãƒ¬ãƒƒãƒ‰å
+	 *            ƒXƒŒƒbƒh–¼
 	 */
 	public CommunicationClientImpl(final String threadName)
 	{
 		this.threadName_ = threadName;
 
-		// listenerList_ ã¯ synchronized ã‚’è¡Œã†å¿…è¦ãŒã‚ã‚‹ãŒã€
-		// æ‹¡å¼µ for æ–‡ï¼ˆ iterator ï¼‰ã‚’ä½¿ç”¨ã™ã‚‹å ´åˆã¯ Collections.synchronizedList
-		// ã§ãƒ©ãƒƒãƒ—ã—ã¦ã‚‚ç„¡é§„ãªãŸã‚ã€
-		// è‡ªå‰ã§ synchronized å‡¦ç†ã‚’è¡Œã†
+		// listenerList_ ‚Í synchronized ‚ğs‚¤•K—v‚ª‚ ‚é‚ªA
+		// Šg’£ for •¶i iterator j‚ğg—p‚·‚éê‡‚Í Collections.synchronizedList
+		// ‚Åƒ‰ƒbƒv‚µ‚Ä‚à–³‘Ê‚È‚½‚ßA
+		// ©‘O‚Å synchronized ˆ—‚ğs‚¤
 		this.listenerList_ = new ArrayList<CommunicatorListener>();
 	}
 
 	/**
-	 * {@link CommunicationClientImpl} ã‚’æ§‹ç¯‰ã—ã¾ã™ã€‚<br />
+	 * {@link CommunicationClientImpl} ‚ğ\’z‚µ‚Ü‚·B<br />
 	 * 
 	 * @param threadName
-	 *            ã‚¹ãƒ¬ãƒƒãƒ‰å
+	 *            ƒXƒŒƒbƒh–¼
 	 * @param discard
 	 *            discard
 	 * @param isOutputLog
-	 *            ãƒ­ã‚°å‡ºåŠ›æœ‰ç„¡
+	 *            ƒƒOo—Í—L–³
 	 */
 	public CommunicationClientImpl(final String threadName,
 			final boolean discard, final boolean isOutputLog)
@@ -169,7 +169,7 @@ public class CommunicationClientImpl implements CommunicationClient, Runnable
 	}
 
 	/**
-	 * ã‚µãƒ¼ãƒã‹ã‚‰åˆ‡æ–­ã—ã¾ã™ã€‚<br />
+	 * ƒT[ƒo‚©‚çØ’f‚µ‚Ü‚·B<br />
 	 */
 	public void disconnect()
 	{
@@ -177,10 +177,10 @@ public class CommunicationClientImpl implements CommunicationClient, Runnable
 	}
 
 	/**
-	 * ã‚µãƒ¼ãƒã‹ã‚‰åˆ‡æ–­ã—ã¾ã™ã€‚<br />
+	 * ƒT[ƒo‚©‚çØ’f‚µ‚Ü‚·B<br />
 	 * 
 	 * @param forceDisconnected
-	 *            å¼·åˆ¶åˆ‡æ–­ã•ã‚ŒãŸå ´åˆã¯ <code>true</code>
+	 *            ‹­§Ø’f‚³‚ê‚½ê‡‚Í <code>true</code>
 	 */
 	public void disconnect(final boolean forceDisconnected)
 	{
@@ -210,12 +210,12 @@ public class CommunicationClientImpl implements CommunicationClient, Runnable
 	 */
 	public void run()
 	{
-		// Javelinã¨ã—ã¦å‹•ä½œã—ã¦ã„ã‚‹å ´åˆã€jmx.propertiesã®èª­ã¿è¾¼ã¿å®Œäº†ã‚’å¾…ã¤
+		// Javelin‚Æ‚µ‚Ä“®ì‚µ‚Ä‚¢‚éê‡Ajmx.properties‚Ì“Ç‚İ‚İŠ®—¹‚ğ‘Ò‚Â
 		if (isJavelin_)
 		{
 			JMXManager.getInstance().waitInitialize();
 		}
-		// é–‹å§‹ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚Œã¦ã„ã‚‹é–“ï¼ˆåœæ­¢ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚Œã‚‹ã¾ã§ï¼‰å†æ¥ç¶šã‚’ç¹°ã‚Šè¿”ã™
+		// ŠJnƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚Ä‚¢‚éŠÔi’â~ƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚é‚Ü‚ÅjÄÚ‘±‚ğŒJ‚è•Ô‚·
 		while (this.started_)
 		{
 			try
@@ -226,18 +226,18 @@ public class CommunicationClientImpl implements CommunicationClient, Runnable
 
 					boolean forceDisconnected = false;
 
-					// åœæ­¢ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚Œã‚‹ã‹ã€å¼·åˆ¶åˆ‡æ–­ã™ã‚‹ã¾ã§ãƒ«ãƒ¼ãƒ—ã™ã‚‹
+					// ’â~ƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚é‚©A‹­§Ø’f‚·‚é‚Ü‚Åƒ‹[ƒv‚·‚é
 					while (this.started_)
 					{
 						if (this.readerThread_ == null)
 						{
-							// å¼·åˆ¶åˆ‡æ–­ã•ã‚ŒãŸ
+							// ‹­§Ø’f‚³‚ê‚½
 							forceDisconnected = true;
 							break;
 						}
 						if (this.readerThread_.isAlive() == false)
 						{
-							// å¼·åˆ¶åˆ‡æ–­ã•ã‚ŒãŸ
+							// ‹­§Ø’f‚³‚ê‚½
 							forceDisconnected = true;
 							break;
 						}
@@ -249,7 +249,7 @@ public class CommunicationClientImpl implements CommunicationClient, Runnable
 				}
 				else
 				{
-					// æ¥ç¶šã«å¤±æ•—ã—ãŸã‚‰ã€ä¸€å®šæ™‚é–“å¾…ã£ã¦ã‹ã‚‰å†æ¥ç¶šã‚’è¡Œã†
+					// Ú‘±‚É¸”s‚µ‚½‚çAˆê’èŠÔ‘Ò‚Á‚Ä‚©‚çÄÚ‘±‚ğs‚¤
 					waitMilliseconds(RETRY_INTERVAL);
 				}
 			}
@@ -275,7 +275,7 @@ public class CommunicationClientImpl implements CommunicationClient, Runnable
 	}
 
 	/**
-	 * ã‚µãƒ¼ãƒã‹ã‚‰ã®é›»æ–‡å—ä¿¡ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’é–‹å§‹ã—ã¾ã™ã€‚<br />
+	 * ƒT[ƒo‚©‚ç‚Ì“d•¶óMƒXƒŒƒbƒh‚ğŠJn‚µ‚Ü‚·B<br />
 	 */
 	public void startRead()
 	{
@@ -299,7 +299,7 @@ public class CommunicationClientImpl implements CommunicationClient, Runnable
 	}
 
 	/**
-	 * ã‚µãƒ¼ãƒã‹ã‚‰ã®é›»æ–‡å—ä¿¡ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’çµ‚äº†ã—ã¾ã™ã€‚<br />
+	 * ƒT[ƒo‚©‚ç‚Ì“d•¶óMƒXƒŒƒbƒh‚ğI—¹‚µ‚Ü‚·B<br />
 	 */
 	private void stopRead()
 	{
@@ -310,9 +310,9 @@ public class CommunicationClientImpl implements CommunicationClient, Runnable
 
 		if (this.readerThread_ != null && this.readerThread_.isAlive())
 		{
-			// å‰²ã‚Šè¾¼ã¿ã‚’ç™ºç”Ÿã•ã›ã€çµ‚äº†ã™ã‚‹ã¾ã§å¾…ã¤ã€‚
-			// join() ã‚’è¡Œã‚ãªã„ã¨ã€ã‚¹ãƒ¬ãƒƒãƒ‰ãŒå®Œå…¨ã«çµ‚äº†ã—ãªã„é–“ã«å†æ¥ç¶šå‡¦ç†ã‚’å®Ÿè¡Œã—ã‚ˆã†ã¨ã—ã€
-			// ã‚¹ãƒ¬ãƒƒãƒ‰ãŒç”Ÿãã¦ã„ã‚‹ãŸã‚å†æ¥ç¶šã‚’è¡Œã‚ãªã„ã‚ˆã†ã«ãªã£ã¦ã—ã¾ã†ã€‚
+			// Š„‚è‚İ‚ğ”­¶‚³‚¹AI—¹‚·‚é‚Ü‚Å‘Ò‚ÂB
+			// join() ‚ğs‚í‚È‚¢‚ÆAƒXƒŒƒbƒh‚ªŠ®‘S‚ÉI—¹‚µ‚È‚¢ŠÔ‚ÉÄÚ‘±ˆ—‚ğÀs‚µ‚æ‚¤‚Æ‚µA
+			// ƒXƒŒƒbƒh‚ª¶‚«‚Ä‚¢‚é‚½‚ßÄÚ‘±‚ğs‚í‚È‚¢‚æ‚¤‚É‚È‚Á‚Ä‚µ‚Ü‚¤B
 			this.readerThread_.interrupt();
 			try
 			{
@@ -327,10 +327,10 @@ public class CommunicationClientImpl implements CommunicationClient, Runnable
 	}
 
 	/**
-	 * ã‚µãƒ¼ãƒã«é›»æ–‡ã‚’é€ä¿¡ã—ã¾ã™ã€‚<br />
+	 * ƒT[ƒo‚É“d•¶‚ğ‘—M‚µ‚Ü‚·B<br />
 	 * 
 	 * @param telegram
-	 *            é›»æ–‡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 *            “d•¶ƒIƒuƒWƒFƒNƒg
 	 */
 	public void sendTelegram(final Telegram telegram)
 	{
@@ -349,13 +349,13 @@ public class CommunicationClientImpl implements CommunicationClient, Runnable
 							objPrintStream.write(byteOutputArr);
 							objPrintStream.flush();
 
-							// å¼·åˆ¶çµ‚äº†ãŒè¡Œã‚ã‚ŒãŸã¨ãã€å†æ¥ç¶šã‚’è¡Œã†
+							// ‹­§I—¹‚ªs‚í‚ê‚½‚Æ‚«AÄÚ‘±‚ğs‚¤
 							if (objPrintStream.checkError())
 							{
 								outputLog("WECC0201");
-								// ReaderThread ã‚’çµ‚äº†ã•ã›ã‚Œã°ã€
+								// ReaderThread ‚ğI—¹‚³‚¹‚ê‚ÎA
 								// ReaderMonitorThread
-								// ãŒå†æ¥ç¶šå‡¦ç†ã«å…¥ã‚‹
+								// ‚ªÄÚ‘±ˆ—‚É“ü‚é
 								stopRead();
 							}
 						}
@@ -371,9 +371,9 @@ public class CommunicationClientImpl implements CommunicationClient, Runnable
 	}
 
 	/**
-	 * ã‚½ã‚±ãƒƒãƒˆãƒãƒ£ãƒãƒ«ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+	 * ƒ\ƒPƒbƒgƒ`ƒƒƒlƒ‹‚ğæ“¾‚µ‚Ü‚·B<br />
 	 * 
-	 * @return ã‚½ã‚±ãƒƒãƒˆãƒãƒ£ãƒãƒ«
+	 * @return ƒ\ƒPƒbƒgƒ`ƒƒƒlƒ‹
 	 */
 	public SocketChannel getChannel()
 	{
@@ -381,9 +381,9 @@ public class CommunicationClientImpl implements CommunicationClient, Runnable
 	}
 
 	/**
-	 * æ¥ç¶šçŠ¶æ…‹ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+	 * Ú‘±ó‘Ô‚ğæ“¾‚µ‚Ü‚·B<br />
 	 * 
-	 * @return æ¥ç¶šã•ã‚Œã¦ã„ã‚‹ãªã‚‰ <code>true</code> ã€ãã†ã§ãªã„ãªã‚‰ <code>false</code>
+	 * @return Ú‘±‚³‚ê‚Ä‚¢‚é‚È‚ç <code>true</code> A‚»‚¤‚Å‚È‚¢‚È‚ç <code>false</code>
 	 */
 	public boolean isConnected()
 	{
@@ -391,10 +391,10 @@ public class CommunicationClientImpl implements CommunicationClient, Runnable
 	}
 
 	/**
-	 * ã‚¯ãƒ­ãƒ¼ã‚ºå‡¦ç†ã‚’è¡Œã„ã¾ã™ã€‚<br />
+	 * ƒNƒ[ƒYˆ—‚ğs‚¢‚Ü‚·B<br />
 	 * 
 	 * @param forceDisconnected
-	 *            å¼·åˆ¶åˆ‡æ–­ã•ã‚ŒãŸå ´åˆã¯ <code>true</code>
+	 *            ‹­§Ø’f‚³‚ê‚½ê‡‚Í <code>true</code>
 	 */
 	private void doClose(final boolean forceDisconnected)
 	{
@@ -405,9 +405,9 @@ public class CommunicationClientImpl implements CommunicationClient, Runnable
 
 		if (this.readerThread_ != null)
 		{
-			// å‰²ã‚Šè¾¼ã¿ã‚’ç™ºç”Ÿã•ã›ã€çµ‚äº†ã™ã‚‹ã¾ã§å¾…ã¤ã€‚
-			// join() ã‚’è¡Œã‚ãªã„ã¨ã€ã‚¹ãƒ¬ãƒƒãƒ‰ãŒå®Œå…¨ã«çµ‚äº†ã—ãªã„é–“ã«å†æ¥ç¶šå‡¦ç†ã‚’å®Ÿè¡Œã—ã‚ˆã†ã¨ã—ã€
-			// ã‚¹ãƒ¬ãƒƒãƒ‰ãŒç”Ÿãã¦ã„ã‚‹ãŸã‚å†æ¥ç¶šã‚’è¡Œã‚ãªã„ã‚ˆã†ã«ãªã£ã¦ã—ã¾ã†ã€‚
+			// Š„‚è‚İ‚ğ”­¶‚³‚¹AI—¹‚·‚é‚Ü‚Å‘Ò‚ÂB
+			// join() ‚ğs‚í‚È‚¢‚ÆAƒXƒŒƒbƒh‚ªŠ®‘S‚ÉI—¹‚µ‚È‚¢ŠÔ‚ÉÄÚ‘±ˆ—‚ğÀs‚µ‚æ‚¤‚Æ‚µA
+			// ƒXƒŒƒbƒh‚ª¶‚«‚Ä‚¢‚é‚½‚ßÄÚ‘±‚ğs‚í‚È‚¢‚æ‚¤‚É‚È‚Á‚Ä‚µ‚Ü‚¤B
 			this.readerThread_.interrupt();
 			try
 			{
@@ -424,7 +424,7 @@ public class CommunicationClientImpl implements CommunicationClient, Runnable
 			return;
 		}
 
-		// ä½¿ç”¨ã—ãŸé€šä¿¡å¯¾è±¡ã‚’ã‚¯ãƒªã‚¢ã™ã‚‹
+		// g—p‚µ‚½’ÊM‘ÎÛ‚ğƒNƒŠƒA‚·‚é
 		if (this.objPrintStream_ != null)
 		{
 			this.objPrintStream_.close();
@@ -448,15 +448,15 @@ public class CommunicationClientImpl implements CommunicationClient, Runnable
 		}
 		catch (IOException objIOException)
 		{
-			// ã‚¨ãƒ©ãƒ¼ã‚’å‡ºã™
+			// ƒGƒ‰[‚ğo‚·
 			outputLog("WECC0202", objIOException);
 		}
 	}
 
 	/**
-	 * æ¥ç¶šå‡¦ç†ã‚’è¡Œã„ã¾ã™ã€‚<br />
+	 * Ú‘±ˆ—‚ğs‚¢‚Ü‚·B<br />
 	 * 
-	 * @return æ¥ç¶šã«æˆåŠŸã—ãŸå ´åˆã¯ <code>true</code>
+	 * @return Ú‘±‚É¬Œ÷‚µ‚½ê‡‚Í <code>true</code>
 	 */
 	private boolean doConnect()
 	{
@@ -467,25 +467,25 @@ public class CommunicationClientImpl implements CommunicationClient, Runnable
 
 		try
 		{
-			// ã‚µãƒ¼ãƒã«æ¥ç¶šã™ã‚‹
+			// ƒT[ƒo‚ÉÚ‘±‚·‚é
 			SocketAddress remote = new InetSocketAddress(this.host_,
 					this.portNumber_);
 			this.socketChannel_ = SocketChannel.open(remote);
 			this.ipAddress_ = getIpAddress();
-			// æ¥ç¶šä¸­ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
+			// Ú‘±’†‚ÌƒƒbƒZ[ƒW
 			outputLog("IECC0206", remote, this.threadName_);
 
 			this.isConnect_ = true;
 		}
 		catch (Exception ex)
 		{
-			// ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å‡ºã™
+			// ƒGƒ‰[ƒƒbƒZ[ƒW‚ğo‚·
 			logConnectException(this.host_, this.portNumber_);
 			outputLog("WECC0202", ex);
 			return false;
 		}
 
-		// ãƒªã‚¹ãƒŠã«é€šçŸ¥ã™ã‚‹
+		// ƒŠƒXƒi‚É’Ê’m‚·‚é
 		String hostName = null;
 		if (NetworkUtil.isIpAddress(this.host_) == false)
 		{
@@ -508,20 +508,20 @@ public class CommunicationClientImpl implements CommunicationClient, Runnable
 		{
 			outputLog("WECC0202", objIOException);
 
-			// åˆ‡æ–­ã™ã‚‹ã€‚
+			// Ø’f‚·‚éB
 			doClose(false);
 			return false;
 		}
 
-		// æ¥ç¶šé€šçŸ¥ã‚’é€ä¿¡
+		// Ú‘±’Ê’m‚ğ‘—M
 		ConnectNotifyData connectNotify = new ConnectNotifyData();
 		if (this.connectNotify_ != null)
 		{
-			// ç¨®åˆ¥ã‚’ã‚³ãƒ”ãƒ¼
+			// í•Ê‚ğƒRƒs[
 			connectNotify.setKind(this.connectNotify_.getKind());
 			connectNotify.setPurpose(this.connectNotify_.getPurpose());
 
-			// DBåç§°ã‚’ç”Ÿæˆ
+			// DB–¼Ì‚ğ¶¬
 			String agentName = this.connectNotify_.getAgentName();
 			InetAddress localAddress = this.socketChannel_.socket()
 					.getLocalAddress();
@@ -540,9 +540,9 @@ public class CommunicationClientImpl implements CommunicationClient, Runnable
 	}
 
 	/**
-	 * é–‹å§‹çŠ¶æ…‹ã‚’è¿”ã—ã¾ã™ã€‚<br />
+	 * ŠJnó‘Ô‚ğ•Ô‚µ‚Ü‚·B<br />
 	 * 
-	 * @return é–‹å§‹çŠ¶æ…‹
+	 * @return ŠJnó‘Ô
 	 */
 	public boolean isStart()
 	{
@@ -550,10 +550,10 @@ public class CommunicationClientImpl implements CommunicationClient, Runnable
 	}
 
 	/**
-	 * {@link TelegramListener} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¿½åŠ ã—ã¾ã™ã€‚<br />
+	 * {@link TelegramListener} ƒIƒuƒWƒFƒNƒg‚ğ’Ç‰Á‚µ‚Ü‚·B<br />
 	 * 
 	 * @param listener
-	 *            è»¢é€å…ˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 *            “]‘—æƒIƒuƒWƒFƒNƒg
 	 */
 	public void addTelegramListener(final TelegramListener listener)
 	{
@@ -577,9 +577,9 @@ public class CommunicationClientImpl implements CommunicationClient, Runnable
 	}
 
 	/**
-	 * æ¥ç¶šå…ˆã® IP ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’è¿”ã—ã¾ã™ã€‚<br />
+	 * Ú‘±æ‚Ì IP ƒAƒhƒŒƒX‚ğ•Ô‚µ‚Ü‚·B<br />
 	 * 
-	 * @return æ¥ç¶šå…ˆã® IP ã‚¢ãƒ‰ãƒ¬ã‚¹
+	 * @return Ú‘±æ‚Ì IP ƒAƒhƒŒƒX
 	 */
 	public String getIpAddress()
 	{
@@ -600,14 +600,14 @@ public class CommunicationClientImpl implements CommunicationClient, Runnable
 	}
 
 	/**
-	 * é›»æ–‡ã‚’ãƒ‡ãƒãƒƒã‚°å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+	 * “d•¶‚ğƒfƒoƒbƒOo—Í‚µ‚Ü‚·B<br />
 	 * 
 	 * @param message
-	 *            ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
+	 *            ƒƒbƒZ[ƒW
 	 * @param response
-	 *            å—ä¿¡é›»æ–‡
+	 *            óM“d•¶
 	 * @param length
-	 *            é›»æ–‡é•·
+	 *            “d•¶’·
 	 */
 	public void logTelegram(final String message, final Telegram response,
 			final int length)
@@ -644,10 +644,10 @@ public class CommunicationClientImpl implements CommunicationClient, Runnable
 	}
 
 	/**
-	 * åˆ‡æ–­ã•ã‚ŒãŸã“ã¨ã‚’å„ãƒªã‚¹ãƒŠã¸é€šçŸ¥ã—ã¾ã™ã€‚<br />
+	 * Ø’f‚³‚ê‚½‚±‚Æ‚ğŠeƒŠƒXƒi‚Ö’Ê’m‚µ‚Ü‚·B<br />
 	 * 
 	 * @param forceDisconnected
-	 *            å¼·åˆ¶åˆ‡æ–­ã•ã‚ŒãŸå ´åˆã¯ <code>true</code>
+	 *            ‹­§Ø’f‚³‚ê‚½ê‡‚Í <code>true</code>
 	 */
 	private void notifyClientDisconnected(boolean forceDisconnected)
 	{
@@ -661,14 +661,14 @@ public class CommunicationClientImpl implements CommunicationClient, Runnable
 	}
 
 	/**
-	 * æ¥ç¶šã•ã‚ŒãŸã“ã¨ã‚’å„ãƒªã‚¹ãƒŠã¸é€šçŸ¥ã—ã¾ã™ã€‚<br />
+	 * Ú‘±‚³‚ê‚½‚±‚Æ‚ğŠeƒŠƒXƒi‚Ö’Ê’m‚µ‚Ü‚·B<br />
 	 * 
 	 * @param hostName
-	 *            ãƒ›ã‚¹ãƒˆåï¼ˆ <code>null</code> ã®å¯èƒ½æ€§ã‚ã‚Šï¼‰
+	 *            ƒzƒXƒg–¼i <code>null</code> ‚Ì‰Â”\«‚ ‚èj
 	 * @param ipAddr
-	 *            IP ã‚¢ãƒ‰ãƒ¬ã‚¹
+	 *            IP ƒAƒhƒŒƒX
 	 * @param port
-	 *            ãƒãƒ¼ãƒˆç•ªå·
+	 *            ƒ|[ƒg”Ô†
 	 */
 	private void notifyClientConnected(final String hostName,
 			final String ipAddr, final int port)
@@ -683,12 +683,12 @@ public class CommunicationClientImpl implements CommunicationClient, Runnable
 	}
 
 	/**
-	 * ãƒ­ã‚°ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+	 * ƒƒO‚ğo—Í‚µ‚Ü‚·B<br />
 	 * 
 	 * @param messageCode
-	 *            ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚³ãƒ¼ãƒ‰
+	 *            ƒƒbƒZ[ƒWƒR[ƒh
 	 * @param args
-	 *            å¼•æ•°
+	 *            ˆø”
 	 */
 	private void outputLog(final String messageCode, final Object... args)
 	{
@@ -699,17 +699,17 @@ public class CommunicationClientImpl implements CommunicationClient, Runnable
 	}
 
 	/**
-	 * Agentåç§°ã‚’ç”Ÿæˆã™ã‚‹ã€‚ "%H"æ–‡å­—åˆ—ã‚’ãƒ›ã‚¹ãƒˆåã«ã€ "%I"æ–‡å­—åˆ—ã‚’IPã‚¢ãƒ‰ãƒ¬ã‚¹ã«ç½®æ›ã—ãŸçµæœã‚’è¿”ã™ã€‚
+	 * Agent–¼Ì‚ğ¶¬‚·‚éB "%H"•¶š—ñ‚ğƒzƒXƒg–¼‚ÉA "%I"•¶š—ñ‚ğIPƒAƒhƒŒƒX‚É’uŠ·‚µ‚½Œ‹‰Ê‚ğ•Ô‚·B
 	 * 
 	 * @param agentName
-	 *            æ¥ç¶šæƒ…å ±ã«æ ¼ç´ã•ã‚Œã¦ã„ãŸDBå
+	 *            Ú‘±î•ñ‚ÉŠi”[‚³‚ê‚Ä‚¢‚½DB–¼
 	 * @param hostName
-	 *            ãƒ›ã‚¹ãƒˆå
+	 *            ƒzƒXƒg–¼
 	 * @param ipAddr
-	 *            IPã‚¢ãƒ‰ãƒ¬ã‚¹
-	 * @return è¿”é‚„å¾Œã®DBåç§°
+	 *            IPƒAƒhƒŒƒX
+	 * @return •ÔŠÒŒã‚ÌDB–¼Ì
 	 */
-	public static String createAgentName(String agentName, String hostName,
+	private static String createAgentName(String agentName, String hostName,
 			String ipAddr)
 	{
 		if (agentName == null)

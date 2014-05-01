@@ -28,24 +28,24 @@ package jp.co.acroquest.endosnipe.javelin.record;
 import jp.co.acroquest.endosnipe.javelin.CallTreeNode;
 
 /**
- * RecordStrategyã§åˆ©ç”¨ã™ã‚‹ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£
+ * RecordStrategy‚Å—˜—p‚·‚éƒ†[ƒeƒBƒŠƒeƒB
  * @author eriguchi
  */
 public class RecordStrategyUtil
 {
     /**
-     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
      */
     private RecordStrategyUtil()
     {
-        // ä½•ã‚‚ã—ãªã„ã€‚
+        // ‰½‚à‚µ‚È‚¢B
     }
 
     /**
-     * Javelinã«ã‚ˆã‚‹è¨ˆæ¸¬ã®æ™‚é–“ã‚’çœã„ãŸæ™‚é–“ã‚’å–å¾—ã™ã‚‹ã€‚
+     * Javelin‚É‚æ‚éŒv‘ª‚ÌŠÔ‚ğÈ‚¢‚½ŠÔ‚ğæ“¾‚·‚éB
      * 
-     * @param node ãƒãƒ¼ãƒ‰
-     * @return Javelinã«ã‚ˆã‚‹è¨ˆæ¸¬ã®æ™‚é–“ã‚’çœã„ãŸæ™‚é–“ã€‚
+     * @param node ƒm[ƒh
+     * @return Javelin‚É‚æ‚éŒv‘ª‚ÌŠÔ‚ğÈ‚¢‚½ŠÔB
      */
     public static long getAccumulatedTime(final CallTreeNode node)
     {

@@ -39,8 +39,8 @@ import jp.co.acroquest.endosnipe.perfdoctor.rule.SingleElementRule;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * è¤‡æ•°ã‚¹ãƒ¬ãƒƒãƒ‰ã‹ã‚‰ã®ä¸¦åˆ—ã‚¢ã‚¯ã‚»ã‚¹
- *ã€€ENdoSnipeVer.4.0ã«ã¦è¿½åŠ ã—ãŸãƒ«ãƒ¼ãƒ«
+ * •¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•À—ñƒAƒNƒZƒX
+ *@ENdoSnipeVer.4.0‚É‚Ä’Ç‰Á‚µ‚½ƒ‹[ƒ‹
  *  
  * @author akita
  *
@@ -48,15 +48,15 @@ import org.apache.commons.lang.StringUtils;
 public class ConcurrentAccessRule extends SingleElementRule implements JavelinConstants
 {
     /**
-    * EVENTãƒ­ã‚°ä¸­ã®javelin.concurrent.identifierã®å†…å®¹ãŒå­˜åœ¨ã™ã‚‹å ´åˆã€è­¦å‘Šã‚’å‡ºã™ã€‚
+    * EVENTƒƒO’†‚Ìjavelin.concurrent.identifier‚Ì“à—e‚ª‘¶İ‚·‚éê‡AŒx‚ğo‚·B
     * 
-    * @param element {@link JavelinLogElement}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+    * @param element {@link JavelinLogElement}ƒIƒuƒWƒFƒNƒg
     * 
     */
     @Override
     public void doJudgeElement(final JavelinLogElement element)
     {
-        //è­˜åˆ¥æ°ãŒ"Event"ã§ãªã„å ´åˆã€å‡¦ç†ã‚’çµ‚äº†ã™ã‚‹ã€‚
+        //¯•Ê‚ª"Event"‚Å‚È‚¢ê‡Aˆ—‚ğI—¹‚·‚éB
         List<String> baseInfo = element.getBaseInfo();
         String type = baseInfo.get(JavelinLogColumnNum.ID);
         if (MSG_EVENT.equals(type) == false)
@@ -106,7 +106,7 @@ public class ConcurrentAccessRule extends SingleElementRule implements JavelinCo
         }
 
         String stackTrace = eventInfoMap.get(EventConstants.PARAM_CONCURRENT_STACKTRACE + ".0");
-        //identiferã®å†…å®¹ãŒå­˜åœ¨ã™ã‚‹å ´åˆã€è­¦å‘Šã‚’å‡ºã™ã€‚
+        //identifer‚Ì“à—e‚ª‘¶İ‚·‚éê‡AŒx‚ğo‚·B
         addError(true, stackTrace, element, identifer, builder.toString());
     }
 }

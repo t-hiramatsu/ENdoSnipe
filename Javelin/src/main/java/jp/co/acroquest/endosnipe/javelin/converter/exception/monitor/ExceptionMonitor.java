@@ -33,14 +33,14 @@ import jp.co.acroquest.endosnipe.javelin.util.StatsUtil;
 import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
 
 /**
- * ä¾‹å¤–ã‚’ã‚­ãƒ£ãƒƒãƒã™ã‚‹ãƒ¢ãƒ‹ã‚¿ã‚¯ãƒ©ã‚¹ã§ã™ã€‚
+ * —áŠO‚ğƒLƒƒƒbƒ`‚·‚éƒ‚ƒjƒ^ƒNƒ‰ƒX‚Å‚·B
  * @author fujii
  *
  */
 public class ExceptionMonitor
 {
     /**
-     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã‚’é˜²ããƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§ã™ã€‚
+     * ƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğ–h‚®ƒvƒ‰ƒCƒx[ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Å‚·B
      */
     private ExceptionMonitor()
     {
@@ -48,10 +48,10 @@ public class ExceptionMonitor
     }
 
     /**
-     * ã‚¤ãƒ™ãƒ³ãƒˆãƒ­ã‚°ã«ä¾‹å¤–ã‚’ã‚­ãƒ£ãƒƒãƒã—ãŸã“ã¨ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+     * ƒCƒxƒ“ƒgƒƒO‚É—áŠO‚ğƒLƒƒƒbƒ`‚µ‚½‚±‚Æ‚ğo—Í‚µ‚Ü‚·B<br />
      * 
-     * @param throwable {@link Throwable}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param obj ä¾‹å¤–æ¤œå‡ºã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param throwable {@link Throwable}ƒIƒuƒWƒFƒNƒg
+     * @param obj —áŠOŒŸoƒIƒuƒWƒFƒNƒg
      */
     public static void postProcess(Throwable throwable, Object obj)
     {
@@ -60,11 +60,11 @@ public class ExceptionMonitor
     }
 
     /**
-     * ä¾‹å¤–ã‚­ãƒ£ãƒƒãƒæ¤œå‡ºã®ã‚¤ãƒ™ãƒ³ãƒˆã‚’ä½œæˆã—ã¾ã™ã€‚<br />
+     * —áŠOƒLƒƒƒbƒ`ŒŸo‚ÌƒCƒxƒ“ƒg‚ğì¬‚µ‚Ü‚·B<br />
      * 
-     * @param throwable {@link Throwable}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param obj ä¾‹å¤–æ¤œå‡ºã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @return {@link CommonEvent}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param throwable {@link Throwable}ƒIƒuƒWƒFƒNƒg
+     * @param obj —áŠOŒŸoƒIƒuƒWƒFƒNƒg
+     * @return {@link CommonEvent}ƒIƒuƒWƒFƒNƒg
      */
     private static CommonEvent createExceptionEvent(Throwable throwable, Object obj)
     {

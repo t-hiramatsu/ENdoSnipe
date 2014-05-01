@@ -3,136 +3,136 @@ package jp.co.acroquest.endosnipe.report.entity;
 import java.sql.Timestamp;
 
 /**
- * ã€Œã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã€ã‚¿ãƒ–ã®ã€ŒAPã‚µãƒ¼ãƒã®ãƒ¯ãƒ¼ã‚«ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã€ã®ãƒ¬ãƒãƒ¼ãƒˆã«ãŠã„ã¦ã€
- * å‡ºåŠ›ã•ã‚Œã‚‹æƒ…å ±ã®ä¸­ã®1ãƒ¬ã‚³ãƒ¼ãƒ‰åˆ†ã‚’ä¿æŒã™ã‚‹ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã§ã™ã€‚
+ * uƒAƒvƒŠƒP[ƒVƒ‡ƒ“vƒ^ƒu‚ÌuAPƒT[ƒo‚Ìƒ[ƒJƒXƒŒƒbƒh”v‚ÌƒŒƒ|[ƒg‚É‚¨‚¢‚ÄA
+ * o—Í‚³‚ê‚éî•ñ‚Ì’†‚Ì1ƒŒƒR[ƒh•ª‚ğ•Û‚·‚éƒGƒ“ƒeƒBƒeƒB‚Å‚·B
  * 
  * @author T. Iida
  */
 public class WorkerThreadNumRecord
 {
-	/** è¨ˆæ¸¬æ™‚åˆ» */
-	private Timestamp measurementTime_;
+    /** Œv‘ª */
+    private Timestamp measurementTime_;
 
-	/** APã‚µãƒ¼ãƒã®ãƒ¯ãƒ¼ã‚«ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã®æœ€å¤§å€¤[ã‚¹ãƒ¬ãƒƒãƒ‰æ•°] */
-	private long maxWorkerThreadNum_;
+    /** APƒT[ƒo‚Ìƒ[ƒJƒXƒŒƒbƒh”‚ÌÅ‘å’l[ƒXƒŒƒbƒh”] */
+    private long      maxWorkerThreadNum_;
 
-	/** APã‚µãƒ¼ãƒã®ãƒ¯ãƒ¼ã‚«ã‚¹ãƒ¬ãƒƒãƒ‰æ•°[ã‚¹ãƒ¬ãƒƒãƒ‰æ•°]ï¼ˆè£œé–“æœŸé–“å¹³å‡ï¼‰ */
-	private long workerThreadNum_;
+    /** APƒT[ƒo‚Ìƒ[ƒJƒXƒŒƒbƒh”[ƒXƒŒƒbƒh”]i•âŠÔŠúŠÔ•½‹Ïj */
+    private long      workerThreadNum_;
 
-	/** APã‚µãƒ¼ãƒã®ãƒ¯ãƒ¼ã‚«ã‚¹ãƒ¬ãƒƒãƒ‰æ•°[ã‚¹ãƒ¬ãƒƒãƒ‰æ•°]ï¼ˆè£œé–“æœŸé–“æœ€å¤§ï¼‰ */
-	private long workerThreadNumMax_;
+    /** APƒT[ƒo‚Ìƒ[ƒJƒXƒŒƒbƒh”[ƒXƒŒƒbƒh”]i•âŠÔŠúŠÔÅ‘åj */
+    private long      workerThreadNumMax_;
 
-	/** APã‚µãƒ¼ãƒã®ãƒ¯ãƒ¼ã‚«ã‚¹ãƒ¬ãƒƒãƒ‰æ•°[ã‚¹ãƒ¬ãƒƒãƒ‰æ•°]ï¼ˆè£œé–“æœŸé–“æœ€å°ï¼‰ */
-	private long workerThreadNumMin_;
+    /** APƒT[ƒo‚Ìƒ[ƒJƒXƒŒƒbƒh”[ƒXƒŒƒbƒh”]i•âŠÔŠúŠÔÅ¬j */
+    private long      workerThreadNumMin_;
 
-	/** APã‚µãƒ¼ãƒã®ãƒ¯ãƒ¼ã‚«ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ï¼ˆwaitï¼‰[ã‚¹ãƒ¬ãƒƒãƒ‰æ•°] */
-	private long waitWorkerThreadNum_;
+    /** APƒT[ƒo‚Ìƒ[ƒJƒXƒŒƒbƒh”iwaitj[ƒXƒŒƒbƒh”] */
+    private long      waitWorkerThreadNum_;
 
-	/**
-	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
-	 */
-	public WorkerThreadNumRecord()
-	{
-		maxWorkerThreadNum_ = 0;
-		workerThreadNum_ = 0;
-		workerThreadNumMax_ = 0;
-		workerThreadNumMin_ = 0;
-		waitWorkerThreadNum_ = 0;
-	}
+    /**
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     */
+    public WorkerThreadNumRecord()
+    {
+        maxWorkerThreadNum_ = 0;
+        workerThreadNum_ = 0;
+        workerThreadNumMax_ = 0;
+        workerThreadNumMin_ = 0;
+        waitWorkerThreadNum_ = 0;
+    }
 
-	/**
-	 * @return the measurementTime_
-	 */
-	public Timestamp getMeasurementTime()
-	{
-		return measurementTime_;
-	}
+    /**
+     * @return the measurementTime_
+     */
+    public Timestamp getMeasurementTime()
+    {
+        return measurementTime_;
+    }
 
-	/**
-	 * @param measurementTime the measurementTime_ to set
-	 */
-	public void setMeasurementTime(Timestamp measurementTime)
-	{
-		this.measurementTime_ = measurementTime;
-	}
+    /**
+     * @param measurementTime the measurementTime_ to set
+     */
+    public void setMeasurementTime(Timestamp measurementTime)
+    {
+        this.measurementTime_ = measurementTime;
+    }
 
-	/**
-	 * @return the maxWorkerThreadNum_
-	 */
-	public long getMaxWorkerThreadNum()
-	{
-		return maxWorkerThreadNum_;
-	}
+    /**
+     * @return the maxWorkerThreadNum_
+     */
+    public long getMaxWorkerThreadNum()
+    {
+        return maxWorkerThreadNum_;
+    }
 
-	/**
-	 * @param maxWorkerThreadNum the maxWorkerThreadNum_ to set
-	 */
-	public void setMaxWorkerThreadNum(long maxWorkerThreadNum)
-	{
-		this.maxWorkerThreadNum_ = maxWorkerThreadNum;
-	}
+    /**
+     * @param maxWorkerThreadNum the maxWorkerThreadNum_ to set
+     */
+    public void setMaxWorkerThreadNum(long maxWorkerThreadNum)
+    {
+        this.maxWorkerThreadNum_ = maxWorkerThreadNum;
+    }
 
-	/**
-	 * @return the workerThreadNum_
-	 */
-	public long getWorkerThreadNum()
-	{
-		return workerThreadNum_;
-	}
+    /**
+     * @return the workerThreadNum_
+     */
+    public long getWorkerThreadNum()
+    {
+        return workerThreadNum_;
+    }
 
-	/**
-	 * @param workerThreadNum_ the workerThreadNum_ to set
-	 */
-	public void setWorkerThreadNum(long workerThreadNum_)
-	{
-		this.workerThreadNum_ = workerThreadNum_;
-	}
+    /**
+     * @param workerThreadNum_ the workerThreadNum_ to set
+     */
+    public void setWorkerThreadNum(long workerThreadNum_)
+    {
+        this.workerThreadNum_ = workerThreadNum_;
+    }
 
-	/**
-	 * @return the workerThreadNumMax_
-	 */
-	public long getWorkerThreadNumMax()
-	{
-		return workerThreadNumMax_;
-	}
+    /**
+     * @return the workerThreadNumMax_
+     */
+    public long getWorkerThreadNumMax()
+    {
+        return workerThreadNumMax_;
+    }
 
-	/**
-	 * @param workerThreadNumMax_ the workerThreadNumMax_ to set
-	 */
-	public void setWorkerThreadNumMax(long workerThreadNumMax_)
-	{
-		this.workerThreadNumMax_ = workerThreadNumMax_;
-	}
+    /**
+     * @param workerThreadNumMax_ the workerThreadNumMax_ to set
+     */
+    public void setWorkerThreadNumMax(long workerThreadNumMax_)
+    {
+        this.workerThreadNumMax_ = workerThreadNumMax_;
+    }
 
-	/**
-	 * @return the workerThreadNumMin_
-	 */
-	public long getWorkerThreadNumMin()
-	{
-		return workerThreadNumMin_;
-	}
+    /**
+     * @return the workerThreadNumMin_
+     */
+    public long getWorkerThreadNumMin()
+    {
+        return workerThreadNumMin_;
+    }
 
-	/**
-	 * @param workerThreadNumMin_ the workerThreadNumMin_ to set
-	 */
-	public void setWorkerThreadNumMin(long workerThreadNumMin_)
-	{
-		this.workerThreadNumMin_ = workerThreadNumMin_;
-	}
+    /**
+     * @param workerThreadNumMin_ the workerThreadNumMin_ to set
+     */
+    public void setWorkerThreadNumMin(long workerThreadNumMin_)
+    {
+        this.workerThreadNumMin_ = workerThreadNumMin_;
+    }
 
-	/**
-	 * @return the waitWorkerThreadNum_
-	 */
-	public long getWaitWorkerThreadNum()
-	{
-		return waitWorkerThreadNum_;
-	}
+    /**
+     * @return the waitWorkerThreadNum_
+     */
+    public long getWaitWorkerThreadNum()
+    {
+        return waitWorkerThreadNum_;
+    }
 
-	/**
-	 * @param waitWorkerThreadNum the waitWorkerThreadNum_ to set
-	 */
-	public void setWaitWorkerThreadNum(long waitWorkerThreadNum)
-	{
-		this.waitWorkerThreadNum_ = waitWorkerThreadNum;
-	}
+    /**
+     * @param waitWorkerThreadNum the waitWorkerThreadNum_ to set
+     */
+    public void setWaitWorkerThreadNum(long waitWorkerThreadNum)
+    {
+        this.waitWorkerThreadNum_ = waitWorkerThreadNum;
+    }
 }

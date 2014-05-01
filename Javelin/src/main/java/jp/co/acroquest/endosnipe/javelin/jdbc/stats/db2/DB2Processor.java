@@ -37,31 +37,31 @@ import jp.co.acroquest.endosnipe.common.util.SQLUtil;
 import jp.co.acroquest.endosnipe.javelin.jdbc.stats.AbstractProcessor;
 
 /**
- * DB2å›ºæœ‰ã®å‡¦ç†ã‚’è¡Œã†ã€‚
+ * DB2ŒÅ—L‚Ìˆ—‚ğs‚¤B
  * @author ochiai
  */
 public class DB2Processor extends AbstractProcessor
 {
 
-    /** JDBCæ¥ç¶šURLãŒã“ã®æ–‡å­—åˆ—ã§å§‹ã¾ã‚‹ã¨ãã€å®Ÿè¡Œè¨ˆç”»ã‚’å–å¾—ã™ã‚‹(DB2) */
+    /** JDBCÚ‘±URL‚ª‚±‚Ì•¶š—ñ‚Ån‚Ü‚é‚Æ‚«AÀsŒv‰æ‚ğæ“¾‚·‚é(DB2) */
     public static final String EXPLAIN_TARGET_DB2 = "jdbc:db2";
     
-    /** Javelinãƒ­ã‚°ä¸­ã®æ”¹è¡Œæ–‡å­—ã‚’è¡¨ã™ */
+    /** JavelinƒƒO’†‚Ì‰üs•¶š‚ğ•\‚· */
     public static final String NEW_LINE = "\n";
     
-    /** Javelinãƒ­ã‚°ä¸­ã®åŒºåˆ‡ã‚Šæ–‡å­—ï¼ˆã‚«ãƒ³ãƒï¼‰ã‚’è¡¨ã™ */
+    /** JavelinƒƒO’†‚Ì‹æØ‚è•¶šiƒJƒ“ƒ}j‚ğ•\‚· */
     public static final String COMMA = ",";
     
-    /** é…åˆ—ã®æœ€åˆã®index */
+    /** ”z—ñ‚ÌÅ‰‚Ìindex */
     private static final int COLUMN_INDEX_FIRST = 1;
 
-    /** é…åˆ—ã®2ç•ªç›®ã®index */
+    /** ”z—ñ‚Ì2”Ô–Ú‚Ìindex */
     private static final int COLUMN_INDEX_SECOND = 2;
 
-    /** é…åˆ—ã®3ç•ªç›®ã®index */
+    /** ”z—ñ‚Ì3”Ô–Ú‚Ìindex */
     private static final int COLUMN_INDEX_THIRD = 3;
 
-    /** é…åˆ—ã®4ç•ªç›®ã®index */
+    /** ”z—ñ‚Ì4”Ô–Ú‚Ìindex */
     private static final int COLUMN_INDEX_FOURTH = 4;
 
     /**
@@ -73,27 +73,27 @@ public class DB2Processor extends AbstractProcessor
     }
 
     /**
-     * DB2ã§Statementã®å®Ÿè¡Œè¨ˆç”»ã‚’å–å¾—ã™ã‚‹ã€‚
+     * DB2‚ÅStatement‚ÌÀsŒv‰æ‚ğæ“¾‚·‚éB
      *
-     * @param stmt ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆ
-     * @param originalSql SQLæ–‡
-     * @param args å¼•æ•°ã€‚
-     * @return å®Ÿè¡Œè¨ˆç”»
-     * @throws SQLException ResultSetã‚¯ãƒ­ãƒ¼ã‚ºæ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸã¨ã
+     * @param stmt ƒXƒe[ƒgƒƒ“ƒg
+     * @param originalSql SQL•¶
+     * @param args ˆø”B
+     * @return ÀsŒv‰æ
+     * @throws SQLException ResultSetƒNƒ[ƒY‚ÉƒGƒ‰[‚ª”­¶‚µ‚½‚Æ‚«
      */
     public String getOneExecPlan(final Statement stmt, final String originalSql, final List<?> args)
         throws SQLException
     {
-        // å®Ÿè¡Œè¨ˆç”»å–å¾—ã«å¤±æ•—ã—ãŸå ´åˆã«argsã«ã‚»ãƒƒãƒˆã™ã‚‹æ–‡å­—åˆ—
+        // ÀsŒv‰ææ“¾‚É¸”s‚µ‚½ê‡‚Éargs‚ÉƒZƒbƒg‚·‚é•¶š—ñ
         StringBuilder execPlanText = new StringBuilder("Access Plan failed.");
 
-        //DB2ã®EXPLAINè¡¨ã«è¨˜å…¥ã—ã€
-        //EXPLAIN_OPERATORãƒ†ãƒ¼ãƒ–ãƒ«ã®OPERATOR_TYPEã‚’å¾—ã‚‹
+        //DB2‚ÌEXPLAIN•\‚É‹L“ü‚µA
+        //EXPLAIN_OPERATORƒe[ƒuƒ‹‚ÌOPERATOR_TYPE‚ğ“¾‚é
         String clearExplainTables = "DELETE FROM EXPLAIN_INSTANCE";
         String explainModeExplain = "SET CURRENT EXPLAIN MODE EXPLAIN";
         String explainModeNo = "SET CURRENT EXPLAIN MODE NO";
         
-        //EXPLAINè¡¨ã‹ã‚‰ãƒ•ãƒ«ã‚¹ã‚­ãƒ£ãƒ³ã€ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚¹ã‚­ãƒ£ãƒ³ã®æƒ…å ±ã‚’å–å¾—
+        //EXPLAIN•\‚©‚çƒtƒ‹ƒXƒLƒƒƒ“AƒCƒ“ƒfƒbƒNƒXƒXƒLƒƒƒ“‚Ìî•ñ‚ğæ“¾
         String operatorType =
             "SELECT ope.OPERATOR_ID, ope.OPERATOR_TYPE, stm.OBJECT_NAME, ope.TOTAL_COST "+
             "from EXPLAIN_OPERATOR ope LEFT JOIN EXPLAIN_STREAM stm "+
@@ -107,7 +107,7 @@ public class DB2Processor extends AbstractProcessor
             "ope.SECTNO = stm.SECTNO and "+
             "ope.OPERATOR_ID = stm.TARGET_ID ORDER BY ope.OPERATOR_ID";
         
-        //EXPLAINè¡¨ã‹ã‚‰ Optimized Statement ã‚’å–å¾—
+        //EXPLAIN•\‚©‚ç Optimized Statement ‚ğæ“¾
         String selectOptimizedStatement =
             "SELECT STATEMENT_TEXT FROM EXPLAIN_STATEMENT WHERE EXPLAIN_LEVEL='P'";
         
@@ -118,20 +118,20 @@ public class DB2Processor extends AbstractProcessor
         String accessPlanSeparator = "-----------";
         String meaningOfItems = "OPERATOR_ID,OPERATOR_TYPE,OBJECT_NAME,TOTAL_COST";
         
-        // å®Ÿè¡Œè¨ˆç”»ã‚’ç”Ÿæˆï¼ˆEXPLAINè¡¨ã«å±•é–‹ï¼‰
+        // ÀsŒv‰æ‚ğ¶¬iEXPLAIN•\‚É“WŠJj
         ResultSet resultSet = null;
         Statement planStmt = null;
         try
         {
             planStmt = stmt.getConnection().createStatement();
             
-            // EXPLAINè¡¨ã«å±•é–‹
+            // EXPLAIN•\‚É“WŠJ
             planStmt.execute(clearExplainTables);
             planStmt.execute(explainModeExplain);
             planStmt.execute(originalSql);
             planStmt.execute(explainModeNo);
             
-            // EXPLAINè¡¨ã‹ã‚‰Optimized Statementã‚’å–å¾—
+            // EXPLAIN•\‚©‚çOptimized Statement‚ğæ“¾
             resultSet = planStmt.executeQuery(selectOptimizedStatement);
             
             if (resultSet != null)
@@ -153,12 +153,12 @@ public class DB2Processor extends AbstractProcessor
                 execPlanText.append(NEW_LINE);
             }
              
-            // EXPLAINè¡¨ã‹ã‚‰Access Planã‚’å–å¾—
+            // EXPLAIN•\‚©‚çAccess Plan‚ğæ“¾
             resultSet = planStmt.executeQuery(operatorType);
 
             if (resultSet != null)
             {
-                // æ¤œç´¢ã•ã‚ŒãŸè¡Œæ•°åˆ†ãƒ«ãƒ¼ãƒ—
+                // ŒŸõ‚³‚ê‚½s”•ªƒ‹[ƒv
                 execPlanText.append(accessPlan);
                 execPlanText.append(NEW_LINE);
                 execPlanText.append(accessPlanSeparator);
@@ -169,9 +169,9 @@ public class DB2Processor extends AbstractProcessor
 
                 while (resultSet.next())
                 {
-                    // OPERATOR_TYPEã‚’å–å¾—
-                    // ãƒ¬ã‚³ãƒ¼ãƒ‰å–å¾—å‡¦ç†ã‚’é«˜é€ŸåŒ–ã™ã‚‹ãŸã‚ã€ResultSetã¸ã®ã‚¢ã‚¯ã‚»ã‚¹ã¯
-                    // ã‚«ãƒ©ãƒ åã§ã¯ãªãã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’ç”¨ã„ã¦è¡Œã†
+                    // OPERATOR_TYPE‚ğæ“¾
+                    // ƒŒƒR[ƒhæ“¾ˆ—‚ğ‚‘¬‰»‚·‚é‚½‚ßAResultSet‚Ö‚ÌƒAƒNƒZƒX‚Í
+                    // ƒJƒ‰ƒ€–¼‚Å‚Í‚È‚­ƒCƒ“ƒfƒbƒNƒX‚ğ—p‚¢‚Äs‚¤
                     StringBuilder planTableOutputBuilder = new StringBuilder();
                     planTableOutputBuilder.append(resultSet.getString(COLUMN_INDEX_FIRST));
                     planTableOutputBuilder.append(COMMA);
@@ -180,7 +180,7 @@ public class DB2Processor extends AbstractProcessor
                     planTableOutputBuilder.append(resultSet.getString(COLUMN_INDEX_THIRD));
                     planTableOutputBuilder.append(COMMA);
                     planTableOutputBuilder.append(resultSet.getString(COLUMN_INDEX_FOURTH));
-                    // çµåˆ
+                    // Œ‹‡
                     execPlanText.append(planTableOutputBuilder.toString());
                     execPlanText.append(NEW_LINE);
                 }
@@ -192,7 +192,7 @@ public class DB2Processor extends AbstractProcessor
         }
         finally
         {
-            // ãƒªã‚½ãƒ¼ã‚¹è§£æ”¾
+            // ƒŠƒ\[ƒX‰ğ•ú
             SQLUtil.closeResultSet(resultSet);
             SQLUtil.closeStatement(planStmt);
         }

@@ -32,39 +32,39 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * CollectionTraceManagerã«ãŠã‘ã‚‹Collectionã®ã‚¨ãƒ³ãƒˆãƒªã€‚
+ * CollectionTraceManager‚É‚¨‚¯‚éCollection‚ÌƒGƒ“ƒgƒŠB
  * 
  * @author kimura
  *
  */
 public class CollectionMonitorEntry
 {
-    /** å¯¾è±¡ã®è­˜åˆ¥å­ */
+    /** ‘ÎÛ‚Ì¯•Êq */
     private String entryIdentifier_;
 
-    /** æ¤œå‡ºå›æ•° */
+    /** ŒŸo‰ñ” */
     private int detectCount_;
 
-    /** ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹è­˜åˆ¥ */
+    /** ƒXƒ^ƒbƒNƒgƒŒ[ƒX¯•Ê */
     private final Set<Integer> traceSet_;
 
-    /** å¯¾è±¡ã®ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ */
+    /** ‘ÎÛ‚ÌƒRƒŒƒNƒVƒ‡ƒ“ */
     private WeakReference<Collection<?>> targetCollection_;
 
-    /** å¯¾è±¡ã®ãƒãƒƒãƒ— */
+    /** ‘ÎÛ‚Ìƒ}ƒbƒv */
     private WeakReference<Map<?, ?>> targetMap_;
 
-    /** å¯¾è±¡ã®ã‚µã‚¤ã‚º */
+    /** ‘ÎÛ‚ÌƒTƒCƒY */
     private int entryNumber_;
     
-    /** æ¤œå‡ºæ™‚ã®è¦ç´ æ•°ã€‚ */
+    /** ŒŸo‚Ì—v‘f”B */
     private int detectedSize_;
 
     /**
-     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
      * 
-     * @param entryIdentifier å¯¾è±¡ã®è­˜åˆ¥å­
-     * @param target å¯¾è±¡
+     * @param entryIdentifier ‘ÎÛ‚Ì¯•Êq
+     * @param target ‘ÎÛ
      */
     public CollectionMonitorEntry(final String entryIdentifier, final Collection<?> target)
     {
@@ -76,10 +76,10 @@ public class CollectionMonitorEntry
     }
 
     /**
-     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
      * 
-     * @param entryIdentifier å¯¾è±¡ã®è­˜åˆ¥å­
-     * @param target å¯¾è±¡
+     * @param entryIdentifier ‘ÎÛ‚Ì¯•Êq
+     * @param target ‘ÎÛ
      */
     public CollectionMonitorEntry(final String entryIdentifier, final Map<?, ?> target)
     {
@@ -91,7 +91,7 @@ public class CollectionMonitorEntry
     }
 
     /**
-     * å¯¾è±¡ã®ã‚µã‚¤ã‚ºã‚’æ›´æ–°ã™ã‚‹ã€‚
+     * ‘ÎÛ‚ÌƒTƒCƒY‚ğXV‚·‚éB
      */
     public void updateEntryNumber()
     {
@@ -115,9 +115,9 @@ public class CollectionMonitorEntry
     }
 
     /**
-     * å¯¾è±¡ã®è­˜åˆ¥å­ã‚’å–å¾—ã™ã‚‹
+     * ‘ÎÛ‚Ì¯•Êq‚ğæ“¾‚·‚é
      * 
-     * @return å¯¾è±¡ã®è­˜åˆ¥å­
+     * @return ‘ÎÛ‚Ì¯•Êq
      */
     public String getEntryIdentifier()
     {
@@ -125,9 +125,9 @@ public class CollectionMonitorEntry
     }
 
     /**
-     * å¯¾è±¡ã®è­˜åˆ¥å­ã‚’è¨­å®šã™ã‚‹
+     * ‘ÎÛ‚Ì¯•Êq‚ğİ’è‚·‚é
      * 
-     * @param entryIdentifier å¯¾è±¡ã®è­˜åˆ¥å­
+     * @param entryIdentifier ‘ÎÛ‚Ì¯•Êq
      */
     public void setEntryIdentifier(final String entryIdentifier)
     {
@@ -135,9 +135,9 @@ public class CollectionMonitorEntry
     }
 
     /**
-     * å¯¾è±¡ã®ã‚µã‚¤ã‚ºã‚’å–å¾—ã™ã‚‹
+     * ‘ÎÛ‚ÌƒTƒCƒY‚ğæ“¾‚·‚é
      * 
-     * @return å¯¾è±¡ã®ã‚µã‚¤ã‚º
+     * @return ‘ÎÛ‚ÌƒTƒCƒY
      */
     public int getEntryNumber()
     {
@@ -145,8 +145,8 @@ public class CollectionMonitorEntry
     }
 
     /**
-     * ãƒªãƒ¼ã‚¯æ¤œå‡ºå›æ•°ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ãƒªãƒ¼ã‚¯æ¤œå‡ºå›æ•°
+     * ƒŠ[ƒNŒŸo‰ñ”‚ğæ“¾‚·‚éB
+     * @return ƒŠ[ƒNŒŸo‰ñ”
      */
     public int getDetectCount()
     {
@@ -154,8 +154,8 @@ public class CollectionMonitorEntry
     }
 
     /**
-     * ãƒªãƒ¼ã‚¯æ¤œå‡ºå›æ•°ã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param detectCount ãƒªãƒ¼ã‚¯æ¤œå‡ºå›æ•°
+     * ƒŠ[ƒNŒŸo‰ñ”‚ğİ’è‚·‚éB
+     * @param detectCount ƒŠ[ƒNŒŸo‰ñ”
      */
     public void setDetectCount(final int detectCount)
     {
@@ -163,8 +163,8 @@ public class CollectionMonitorEntry
     }
 
     /**
-     * ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹å–å¾—å›æ•°ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹å–å¾—å›æ•°
+     * ƒXƒ^ƒbƒNƒgƒŒ[ƒXæ“¾‰ñ”‚ğæ“¾‚·‚éB
+     * @return ƒXƒ^ƒbƒNƒgƒŒ[ƒXæ“¾‰ñ”
      */
     public int getTraceCount()
     {
@@ -172,7 +172,7 @@ public class CollectionMonitorEntry
     }
 
     /**
-     * ä¿å­˜ã—ã¦ã„ã‚‹ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®å…ˆé ­è¦ç´ ã‚’å‰Šé™¤ã™ã‚‹ã€‚
+     * •Û‘¶‚µ‚Ä‚¢‚éƒXƒ^ƒbƒNƒgƒŒ[ƒX‚Ìæ“ª—v‘f‚ğíœ‚·‚éB
      */
     public void removeTrace()
     {
@@ -181,8 +181,8 @@ public class CollectionMonitorEntry
     }
 
     /**
-     * ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®hashCodeã‚’ä¿å­˜ã™ã‚‹ã€‚
-    * @param hashCode ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®hashCodeã€‚
+     * ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ÌhashCode‚ğ•Û‘¶‚·‚éB
+    * @param hashCode ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ÌhashCodeB
      */
     public void addTrace(final int hashCode)
     {
@@ -190,8 +190,8 @@ public class CollectionMonitorEntry
     }
 
     /**
-     * ä¿å­˜ã—ã¦ã„ã‚‹ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®ã‚’å‰Šé™¤ã™ã‚‹ã€‚
-     * @param hashCode ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®hashCodeã€‚
+     * •Û‘¶‚µ‚Ä‚¢‚éƒXƒ^ƒbƒNƒgƒŒ[ƒX‚Ì‚ğíœ‚·‚éB
+     * @param hashCode ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ÌhashCodeB
      */
     public void removeTrace(final int hashCode)
     {
@@ -199,11 +199,11 @@ public class CollectionMonitorEntry
     }
     
     /**
-     * æŒ‡å®šã—ãŸã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ãŒæ—¢ã«ä¿å­˜ã•ã‚Œã¦ã„ã‚‹ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã«
-     * ä¸€è‡´ã™ã‚‹ã‚‚ã®ãŒã‚ã‚‹ã‹ã©ã†ã‹ã‚’åˆ¤å®šã™ã‚‹ã€‚
+     * w’è‚µ‚½ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ªŠù‚É•Û‘¶‚³‚ê‚Ä‚¢‚éƒXƒ^ƒbƒNƒgƒŒ[ƒX‚É
+     * ˆê’v‚·‚é‚à‚Ì‚ª‚ ‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
      * 
-     * @param hashCode ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®hashCodeã€‚
-     * @return ä¸€è‡´ã™ã‚‹ã‚‚ã®ãŒã‚ã‚‹ã‹ã©ã†ã‹ã€‚
+     * @param hashCode ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ÌhashCodeB
+     * @return ˆê’v‚·‚é‚à‚Ì‚ª‚ ‚é‚©‚Ç‚¤‚©B
      */
     public boolean containsTrace(final int hashCode)
     {
@@ -211,12 +211,12 @@ public class CollectionMonitorEntry
     }
 
     /**
-     * ç›£è¦–å¯¾è±¡ã®ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ŠÄ‹‘ÎÛ‚ÌƒRƒŒƒNƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg‚ğ•Ô‚µ‚Ü‚·B<br />
      *
-     * ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã‚’ç›£è¦–ã—ã¦ã„ãªã„ã€ã‚‚ã—ãã¯ç›£è¦–å¯¾è±¡ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ãŒã™ã§ã« GC ã§å›åã•ã‚Œã¦ã„ã‚‹å ´åˆã¯
-     * <code>null</code> ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ƒRƒŒƒNƒVƒ‡ƒ“‚ğŠÄ‹‚µ‚Ä‚¢‚È‚¢A‚à‚µ‚­‚ÍŠÄ‹‘ÎÛƒRƒŒƒNƒVƒ‡ƒ“‚ª‚·‚Å‚É GC ‚Å‰ñû‚³‚ê‚Ä‚¢‚éê‡‚Í
+     * <code>null</code> ‚ğ•Ô‚µ‚Ü‚·B<br />
      *
-     * @return ç›£è¦–å¯¾è±¡ã®ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³
+     * @return ŠÄ‹‘ÎÛ‚ÌƒRƒŒƒNƒVƒ‡ƒ“
      */
     public Collection<?> getCollection()
     {
@@ -228,12 +228,12 @@ public class CollectionMonitorEntry
     }
 
     /**
-     * ç›£è¦–å¯¾è±¡ã®ãƒãƒƒãƒ—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ŠÄ‹‘ÎÛ‚Ìƒ}ƒbƒvƒIƒuƒWƒFƒNƒg‚ğ•Ô‚µ‚Ü‚·B<br />
      *
-     * ãƒãƒƒãƒ—ã‚’ç›£è¦–ã—ã¦ã„ãªã„ã€ã‚‚ã—ãã¯ç›£è¦–å¯¾è±¡ãƒãƒƒãƒ—ãŒã™ã§ã« GC ã§å›åã•ã‚Œã¦ã„ã‚‹å ´åˆã¯
-     * <code>null</code> ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ƒ}ƒbƒv‚ğŠÄ‹‚µ‚Ä‚¢‚È‚¢A‚à‚µ‚­‚ÍŠÄ‹‘ÎÛƒ}ƒbƒv‚ª‚·‚Å‚É GC ‚Å‰ñû‚³‚ê‚Ä‚¢‚éê‡‚Í
+     * <code>null</code> ‚ğ•Ô‚µ‚Ü‚·B<br />
      *
-     * @return ç›£è¦–å¯¾è±¡ã®ãƒãƒƒãƒ—
+     * @return ŠÄ‹‘ÎÛ‚Ìƒ}ƒbƒv
      */
     public Map<?, ?> getMap()
     {
@@ -245,9 +245,9 @@ public class CollectionMonitorEntry
     }
 
     /**
-     * å¯¾è±¡ã®ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã€ãƒãƒƒãƒ—ãŒã¾ã GCã«ã‚ˆã‚Šå›åã•ã‚Œã¦ã„ãªã„ã‹ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ‘ÎÛ‚ÌƒRƒŒƒNƒVƒ‡ƒ“Aƒ}ƒbƒv‚ª‚Ü‚¾GC‚É‚æ‚è‰ñû‚³‚ê‚Ä‚¢‚È‚¢‚©‚ğæ“¾‚·‚éB
      * 
-     * @return å¯¾è±¡ã®ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã€ãƒãƒƒãƒ—ãŒã¾ã GCã«ã‚ˆã‚Šå›åã•ã‚Œã¦ã„ãªã„ã‹ã€‚
+     * @return ‘ÎÛ‚ÌƒRƒŒƒNƒVƒ‡ƒ“Aƒ}ƒbƒv‚ª‚Ü‚¾GC‚É‚æ‚è‰ñû‚³‚ê‚Ä‚¢‚È‚¢‚©B
      */
     public boolean exists()
     {
@@ -256,8 +256,8 @@ public class CollectionMonitorEntry
     }
 
     /**
-     * æ¤œå‡ºæ™‚ã®è¦ç´ æ•°ã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param detectedSize æ¤œå‡ºæ™‚ã®è¦ç´ æ•°
+     * ŒŸo‚Ì—v‘f”‚ğİ’è‚·‚éB
+     * @param detectedSize ŒŸo‚Ì—v‘f”
      */
     public void setDetectedSize(int detectedSize)
     {
@@ -265,8 +265,8 @@ public class CollectionMonitorEntry
     }
 
     /**
-     * æ¤œå‡ºæ™‚ã®è¦ç´ æ•°ã‚’è¨­å®šã™ã‚‹ã€‚
-     * @return æ¤œå‡ºæ™‚ã®è¦ç´ æ•°
+     * ŒŸo‚Ì—v‘f”‚ğİ’è‚·‚éB
+     * @return ŒŸo‚Ì—v‘f”
      */
     public int getDetectedSize()
     {
@@ -274,7 +274,7 @@ public class CollectionMonitorEntry
     }
 
     /**
-     * ä¿å­˜ã—ã¦ã„ã‚‹ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’å‰Šé™¤ã™ã‚‹ã€‚
+     * •Û‘¶‚µ‚Ä‚¢‚éƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğíœ‚·‚éB
      */
     public void clearAllTrace()
     {

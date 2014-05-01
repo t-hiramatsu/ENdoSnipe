@@ -35,31 +35,31 @@ import jp.co.acroquest.test.util.JavelinTestUtil;
 import jp.co.dgic.testing.framework.DJUnitTestCase;
 
 /**
- * Javelinã®å›½éš›åŒ–å¯¾å¿œç”¨ãƒ†ã‚¹ãƒˆã‚¯ãƒ©ã‚¹
+ * Javelin‚Ì‘Û‰»‘Î‰—pƒeƒXƒgƒNƒ‰ƒX
  * @author tooru
  *
  */
 public class InternationalizationTest extends DJUnitTestCase
 {
-    /** Javelinã®è¨­å®šãƒ•ã‚¡ã‚¤ãƒ« */
+    /** Javelin‚Ìİ’èƒtƒ@ƒCƒ‹ */
     private JavelinConfig config_;
 
     /**
-     * åˆæœŸåŒ–ãƒ¡ã‚½ãƒƒãƒ‰<br />
-     * ã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ã®åˆæœŸåŒ–ã‚’è¡Œã†ã€‚
+     * ‰Šú‰»ƒƒ\ƒbƒh<br />
+     * ƒVƒXƒeƒ€ƒƒO‚Ì‰Šú‰»‚ğs‚¤B
      */
     @Override
     public void setUp() throws Exception
     {
         super.setUp();
-        // ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ã€ã‚ªãƒ—ã‚·ãƒ§ãƒ³è¨­å®šã‚’èª­ã¿è¾¼ã‚€ã€‚
+        // ƒIƒvƒVƒ‡ƒ“ƒtƒ@ƒCƒ‹‚©‚çAƒIƒvƒVƒ‡ƒ“İ’è‚ğ“Ç‚İ‚ŞB
         JavelinTestUtil.camouflageJavelinConfig(getClass(), "/telegram/conf/javelin.properties");
         this.config_ = new JavelinConfig();
         SystemLogger.initSystemLog(this.config_);
     }
 
     /**
-     * é …ç•ª:
+     * €”Ô:
      * 4-1-5
      */
     public void testFailGetProcessID()
@@ -69,18 +69,18 @@ public class InternationalizationTest extends DJUnitTestCase
         assertEquals("Failed to get process ID.", str1);
     }
 
-    // ãƒ¡ãƒ¼ãƒ«é€šçŸ¥æ©Ÿèƒ½ãŒDataCollectorã«ç§»ã£ãŸãŸã‚ã€
-    // ãã‚Œã‚’ä½¿ç”¨ã—ã¦ã„ãŸã€ä»¥ä¸‹ã®é …ç•ªã®ãƒ†ã‚¹ãƒˆã‚³ãƒ¼ãƒ‰ã‚’å‰Šé™¤ã—ãŸã€‚
+    // ƒ[ƒ‹’Ê’m‹@”\‚ªDataCollector‚ÉˆÚ‚Á‚½‚½‚ßA
+    // ‚»‚ê‚ğg—p‚µ‚Ä‚¢‚½AˆÈ‰º‚Ì€”Ô‚ÌƒeƒXƒgƒR[ƒh‚ğíœ‚µ‚½B
     // 4-1-9, 16, 17, 18, 19, 20, 21, 22
 
     /**
-     * é …ç•ª:
+     * €”Ô:
      * 4-1-23
      */
     public void testAnIllegalConfigurationLabel1()
     {
         AbstractConversionConfig config = new ExcludeConversionConfig();
-        String str1 = "ã“ã®æ–‡å­—åˆ—ãŒ(ä¸Šæ›¸ãã•ã‚Œã‚‹ã“ã¨ç„¡ã)æ¯”è¼ƒã•ã‚ŒãŸã‚‰å¤±æ•—ã€‚";
+        String str1 = "‚±‚Ì•¶š—ñ‚ª(ã‘‚«‚³‚ê‚é‚±‚Æ–³‚­)”äŠr‚³‚ê‚½‚ç¸”sB";
         try
         {
             config.readConfig("");
@@ -93,23 +93,23 @@ public class InternationalizationTest extends DJUnitTestCase
     }
 
     /**
-     * é …ç•ª:
+     * €”Ô:
      * 4-1-24
      */
     public void testAnIllegalConfigurationLabel2()
     {
         AbstractConversionConfig config = new ExcludeConversionConfig();
-        addReturnValue("AbstractConversionConfig", "parseConfig", new Exception("ã“ã®ä¾‹å¤–ãŒå‡ºã‚‹ã¯ãšã€‚"));
-        String str1 = "ã“ã®æ–‡å­—åˆ—ãŒ(ä¸Šæ›¸ãã•ã‚Œã‚‹ã“ã¨ç„¡ã)æ¯”è¼ƒã•ã‚ŒãŸã‚‰å¤±æ•—ã€‚";
+        addReturnValue("AbstractConversionConfig", "parseConfig", new Exception("‚±‚Ì—áŠO‚ªo‚é‚Í‚¸B"));
+        String str1 = "‚±‚Ì•¶š—ñ‚ª(ã‘‚«‚³‚ê‚é‚±‚Æ–³‚­)”äŠr‚³‚ê‚½‚ç¸”sB";
         try
         {
-            config.readConfig("<å†…å®¹>");
+            config.readConfig("<“à—e>");
         }
         catch (IllegalArgumentException ex)
         {
             str1 = ex.getMessage();
         }
-        assertEquals("An illegal configuration(<å†…å®¹>).", str1);
+        assertEquals("An illegal configuration(<“à—e>).", str1);
     }
 
 }

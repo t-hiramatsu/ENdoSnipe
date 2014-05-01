@@ -35,7 +35,7 @@ import jp.co.acroquest.endosnipe.javelin.parser.JavelinLogElement;
 import jp.co.acroquest.endosnipe.perfdoctor.rule.SingleElementRule;
 
 /**
- * ãƒ¡ã‚½ãƒƒãƒ‰ã®TATãƒ«ãƒ¼ãƒ«
+ * ƒƒ\ƒbƒh‚ÌTATƒ‹[ƒ‹
  * 
  * @author tooru
  * 
@@ -43,35 +43,35 @@ import jp.co.acroquest.endosnipe.perfdoctor.rule.SingleElementRule;
 public class MethodTatRule extends SingleElementRule
 {
 
-    /** ãƒ¡ã‚½ãƒƒãƒ‰ã®TATã‚’è¡¨ã™æ–‡å­—åˆ— */
+    /** ƒƒ\ƒbƒh‚ÌTAT‚ğ•\‚·•¶š—ñ */
     private static final String DURATION          = "duration";
 
-    /** ExtraInfoã‚’è¡¨ã™æ–‡å­—åˆ— */
+    /** ExtraInfo‚ğ•\‚·•¶š—ñ */
     private static final String EXTRA_INFO        = "ExtraInfo";
 
-    /** Callãƒ­ã‚°ã®é–‹å§‹ã‚¿ã‚° */
+    /** CallƒƒO‚ÌŠJnƒ^ƒO */
     private static final String CALL_TAG          = JavelinConstants.MSG_CALL;
 
-    /** è­¦å‘Šã¨åˆ¤æ–­ã™ã‚‹OR/UNIONå›æ•°ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã€‚ */
+    /** Œx‚Æ”»’f‚·‚éOR/UNION‰ñ”‚ÌƒfƒtƒHƒ‹ƒg’lB */
     private static final int    DEFAULT_THRESHOLD = 5000;
 
     /**
-     * TATã®é–¾å€¤ã€‚ã“ã®å€¤ã‚’è¶…ãˆãŸéš›ã«è­¦å‘Šã‚’ç”Ÿæˆã™ã‚‹ã€‚
+     * TAT‚Ìè‡’lB‚±‚Ì’l‚ğ’´‚¦‚½Û‚ÉŒx‚ğ¶¬‚·‚éB
      */
     public long                 threshold         = DEFAULT_THRESHOLD;
 
     /**
-     * CALLãƒ­ã‚°ä¸­ã®ãƒ¡ã‚½ãƒƒãƒ‰ã®TATã®å€¤ã‚’èª¿æŸ»ã—ã€ é–¾å€¤ã‚’è¶…ãˆã¦ã„ãŸéš›ã«ã¯è­¦å‘Šã™ã‚‹ã€‚
+     * CALLƒƒO’†‚Ìƒƒ\ƒbƒh‚ÌTAT‚Ì’l‚ğ’²¸‚µA è‡’l‚ğ’´‚¦‚Ä‚¢‚½Û‚É‚ÍŒx‚·‚éB
      * 
      * @param javelinLogElement
-     *            ãƒ­ã‚°ã®è¦ç´ 
+     *            ƒƒO‚Ì—v‘f
      * 
      */
 
     @Override
     public void doJudgeElement(final JavelinLogElement javelinLogElement)
     {
-        // ãƒ­ã‚°ã®ç¨®åˆ¥ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã€‚Callä»¥å¤–ã§ã‚ã‚Œã°æ¬¡ã®è¦ç´ ã¸ã€‚
+        // ƒƒO‚Ìí•Ê‚ğƒ`ƒFƒbƒN‚·‚éBCallˆÈŠO‚Å‚ ‚ê‚ÎŸ‚Ì—v‘f‚ÖB
         List<String> baseInfo = javelinLogElement.getBaseInfo();
         String type = baseInfo.get(JavelinLogColumnNum.ID);
         boolean isCall = CALL_TAG.equals(type);
@@ -81,23 +81,23 @@ public class MethodTatRule extends SingleElementRule
             return;
         }
 
-        // SQLå®Ÿè¡Œã¯é™¤å¤–ã™ã‚‹
+        // SQLÀs‚ÍœŠO‚·‚é
         String className = baseInfo.get(JavelinLogColumnNum.CALL_CALLEE_CLASS);
         if (isSqlExec(className) == true)
         {
             return;
         }
 
-        // ExtraInfoã®å†…å®¹ã‚’è¡¨ã™Mapã‚’å–å¾—ã™ã‚‹ã€‚
+        // ExtraInfo‚Ì“à—e‚ğ•\‚·Map‚ğæ“¾‚·‚éB
         Map<String, String> map = JavelinLogUtil.parseDetailInfo(javelinLogElement, EXTRA_INFO);
 
-        // ãƒ¡ã‚½ãƒƒãƒ‰ã®TATã®å€¤ã‚’å¾—ã‚‹ã€‚
+        // ƒƒ\ƒbƒh‚ÌTAT‚Ì’l‚ğ“¾‚éB
         String durationString = map.get(DURATION);
         long duration = 0;
 
         duration = Long.parseLong(durationString);
 
-        // ã‚‚ã—æ¤œå‡ºå€¤ãŒé–¾å€¤ã«é”ã™ã‚‹ã®ã§ã‚ã‚Œã°ã€è­¦å‘Šã‚’å‡ºã™ã€‚
+        // ‚à‚µŒŸo’l‚ªè‡’l‚É’B‚·‚é‚Ì‚Å‚ ‚ê‚ÎAŒx‚ğo‚·B
         if (duration >= this.threshold)
         {
             addError(javelinLogElement, this.threshold, duration);

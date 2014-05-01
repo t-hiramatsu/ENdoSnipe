@@ -3,86 +3,78 @@ package jp.co.acroquest.endosnipe.report.entity;
 import java.sql.Timestamp;
 
 /**
- * ã€Œã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã€ã‚¿ãƒ–ã®ã€ŒHttpSessionã¸ã®ç™»éŒ²ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç·ã‚µã‚¤ã‚ºã€ã®ãƒ¬ãƒãƒ¼ãƒˆã«ãŠã„ã¦ã€
- * å‡ºåŠ›ã•ã‚Œã‚‹æƒ…å ±ã®ä¸­ã®1ãƒ¬ã‚³ãƒ¼ãƒ‰åˆ†ã‚’ä¿æŒã™ã‚‹ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã§ã™ã€‚
+ * uƒAƒvƒŠƒP[ƒVƒ‡ƒ“vƒ^ƒu‚ÌuHttpSession‚Ö‚Ì“o˜^ƒIƒuƒWƒFƒNƒg‘ƒTƒCƒYv‚ÌƒŒƒ|[ƒg‚É‚¨‚¢‚ÄA
+ * o—Í‚³‚ê‚éî•ñ‚Ì’†‚Ì1ƒŒƒR[ƒh•ª‚ğ•Û‚·‚éƒGƒ“ƒeƒBƒeƒB‚Å‚·B
  * 
  * @author T. Iida
  */
 public class HttpSessionObjectSizeRecord
 {
-	/** è¨ˆæ¸¬æ™‚åˆ» */
-	private Timestamp measurementTime_;
-
-	/** HttpSessionã¸ã®ç™»éŒ²ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç·ã‚µã‚¤ã‚º[ã‚µã‚¤ã‚º(MB)]ï¼ˆè£œé–“æœŸé–“å¹³å‡ï¼‰ */
-	private long httpSessionObjectSize_;
-
-	/** HttpSessionã¸ã®ç™»éŒ²ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç·ã‚µã‚¤ã‚º[ã‚µã‚¤ã‚º(MB)]ï¼ˆè£œé–“æœŸé–“æœ€å¤§ï¼‰ */
-	private long httpSessionObjectSizeMax_;
-
-	/** HttpSessionã¸ã®ç™»éŒ²ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç·ã‚µã‚¤ã‚º[ã‚µã‚¤ã‚º(MB)]ï¼ˆè£œé–“æœŸé–“æœ€å°ï¼‰ */
-	private long httpSessionObjectSizeMin_;
+	/** Œv‘ª */
+    private Timestamp measurementTime_;
+	
+	/** HttpSession‚Ö‚Ì“o˜^ƒIƒuƒWƒFƒNƒg‘ƒTƒCƒY[ƒTƒCƒY(MB)]i•âŠÔŠúŠÔ•½‹Ïj */
+    private long      httpSessionObjectSize_;
+    
+    /** HttpSession‚Ö‚Ì“o˜^ƒIƒuƒWƒFƒNƒg‘ƒTƒCƒY[ƒTƒCƒY(MB)]i•âŠÔŠúŠÔÅ‘åj */
+    private long      httpSessionObjectSizeMax_;
+    
+    /** HttpSession‚Ö‚Ì“o˜^ƒIƒuƒWƒFƒNƒg‘ƒTƒCƒY[ƒTƒCƒY(MB)]i•âŠÔŠúŠÔÅ¬j */
+    private long      httpSessionObjectSizeMin_;
 
 	/**
 	 * @return the measurementTime_
 	 */
-	public Timestamp getMeasurementTime()
-	{
+	public Timestamp getMeasurementTime() {
 		return measurementTime_;
 	}
 
 	/**
 	 * @param measurementTime the measurementTime_ to set
 	 */
-	public void setMeasurementTime(Timestamp measurementTime)
-	{
+	public void setMeasurementTime(Timestamp measurementTime) {
 		this.measurementTime_ = measurementTime;
 	}
 
 	/**
 	 * @return the httpSessionObjectSize_
 	 */
-	public long getHttpSessionObjectSize()
-	{
+	public long getHttpSessionObjectSize() {
 		return httpSessionObjectSize_;
 	}
 
 	/**
 	 * @param httpSessionObjectSize the httpSessionObjectSize_ to set
 	 */
-	public void setHttpSessionObjectSize(long httpSessionObjectSize)
-	{
+	public void setHttpSessionObjectSize(long httpSessionObjectSize) {
 		this.httpSessionObjectSize_ = httpSessionObjectSize;
 	}
 
 	/**
 	 * @return the httpSessionObjectSizeMax_
 	 */
-	public long getHttpSessionObjectSizeMax()
-	{
+	public long getHttpSessionObjectSizeMax() {
 		return httpSessionObjectSizeMax_;
 	}
 
 	/**
 	 * @param httpSessionObjectSizeMax the httpSessionObjectSizeMax_ to set
 	 */
-	public void setHttpSessionObjectSizeMax(long httpSessionObjectSizeMax)
-	{
+	public void setHttpSessionObjectSizeMax(long httpSessionObjectSizeMax) {
 		this.httpSessionObjectSizeMax_ = httpSessionObjectSizeMax;
 	}
 
 	/**
 	 * @return the httpSessionObjectSizeMin_
 	 */
-	public long getHttpSessionObjectSizeMin()
-	{
+	public long getHttpSessionObjectSizeMin() {
 		return httpSessionObjectSizeMin_;
 	}
 
 	/**
 	 * @param httpSessionObjectSizeMin the httpSessionObjectSizeMin_ to set
 	 */
-	public void setHttpSessionObjectSizeMin(long httpSessionObjectSizeMin)
-	{
+	public void setHttpSessionObjectSizeMin(long httpSessionObjectSizeMin) {
 		this.httpSessionObjectSizeMin_ = httpSessionObjectSizeMin;
 	}
 }

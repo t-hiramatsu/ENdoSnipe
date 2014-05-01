@@ -29,7 +29,7 @@ import jp.co.acroquest.endosnipe.common.entity.ItemType;
 import jp.co.acroquest.endosnipe.javelin.bean.proc.ProcInfo;
 
 /**
- * SelfStatInfoからプロセス毎のfd数の回数を取得する。
+ * SelfStatInfo����v���Z�X����fd���̉񐔂��擾����B
  * 
  * @author eriguchi
  */
@@ -38,7 +38,7 @@ public class ProcFdCountGetter extends ProcResourceGetter
 
     /**
      * 
-     * @param procParser リソース情報取得用
+     * @param procParser ���\�[�X���擾�p
      */
     public ProcFdCountGetter(ProcParser procParser)
     {

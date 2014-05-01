@@ -37,29 +37,29 @@ import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
 import jp.co.acroquest.endosnipe.common.util.PathUtil;
 
 /**
- * ç”»é¢è¡¨ç¤ºåã‚’ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚
+ * ‰æ–Ê•\¦–¼‚ğŠÇ—‚·‚éƒNƒ‰ƒXB
  * @author acroquest
  *
  */
 public class DisplayNameManager
 {
-    /** singletonã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ */
+    /** singletonƒCƒ“ƒXƒ^ƒ“ƒX */
     private static DisplayNameManager manager__ = new DisplayNameManager();
 
-    /** è¨€èªå¤‰æ›ç”¨ãƒãƒƒãƒ— */
+    /** Œ¾Œê•ÏŠ·—pƒ}ƒbƒv */
     private final HashMap<String, String> convMap_;
 
-    /** ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ—ãƒ¬ãƒ•ã‚£ã‚¯ã‚¹ */
+    /** ƒvƒƒpƒeƒBƒtƒ@ƒCƒ‹‚ÌƒvƒŒƒtƒBƒNƒX */
     private static final String PREFIX = "../conf/displayname_";
 
-    /** ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãƒ•ã‚¡ã‚¤ãƒ«ã®æ‹¡å¼µå­ */
+    /** ƒvƒƒpƒeƒBƒtƒ@ƒCƒ‹‚ÌŠg’£q */
     private static final String EXTENSION = ".properties";
 
-    /** ã‚³ãƒ¡ãƒ³ãƒˆæ–‡å­— */
+    /** ƒRƒƒ“ƒg•¶š */
     private static final String COMMENT = "#";
 
     /**
-     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã‚’é˜²ãprivateã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+     * ƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğ–h‚®privateƒRƒ“ƒXƒgƒ‰ƒNƒ^
      */
     private DisplayNameManager()
     {
@@ -67,9 +67,9 @@ public class DisplayNameManager
     }
 
     /**
-     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * ƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚µ‚Ü‚·B
      * 
-     * @return ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+     * @return ƒCƒ“ƒXƒ^ƒ“ƒX
      */
     public static DisplayNameManager getManager()
     {
@@ -77,61 +77,61 @@ public class DisplayNameManager
     }
 
     /**
-     * è¨€èªå¤‰æ›ç”¨ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã¿ã€å¤‰æ›ãƒãƒƒãƒ—ã‚’åˆæœŸåŒ–ã—ã¾ã™ã€‚<br />
-     * å¼•æ•°ã§æŒ‡å®šã•ã‚ŒãŸè¨€èªã‚³ãƒ¼ãƒ‰ã«åˆã‚ã›ã¦<br />
-     * ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãƒ•ã‚¡ã‚¤ãƒ« displayname_xx.properties ã‚’èª­ã¿è¾¼ã¿ã¾ã™ã€‚
+     * Œ¾Œê•ÏŠ·—p‚ÌƒvƒƒpƒeƒBƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚İA•ÏŠ·ƒ}ƒbƒv‚ğ‰Šú‰»‚µ‚Ü‚·B<br />
+     * ˆø”‚Åw’è‚³‚ê‚½Œ¾ŒêƒR[ƒh‚É‡‚í‚¹‚Ä<br />
+     * ƒvƒƒpƒeƒBƒtƒ@ƒCƒ‹ displayname_xx.properties ‚ğ“Ç‚İ‚İ‚Ü‚·B
      * 
-     * @param lang æŒ‡å®šè¨€èª
+     * @param lang w’èŒ¾Œê
      */
     public void init(final String lang)
     {
-        // ãƒ­ã‚°å‡ºåŠ›ç”¨ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+        // ƒƒOo—Í—pƒCƒ“ƒXƒ^ƒ“ƒX
         final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(Bootstrap.class);
 
         if (lang == null || "".equals(lang))
         {
-            LOGGER.error("è¡¨ç¤ºè¨€èªãŒè¨­å®šã•ã‚Œã¦ã„ã¾ã›ã‚“ã€‚");
+            LOGGER.error("•\¦Œ¾Œê‚ªİ’è‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB");
             return;
         }
 
-        // ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãƒ•ã‚¡ã‚¤ãƒ«ã®çµ¶å¯¾ãƒ‘ã‚¹ã‚’å–å¾—
+        // ƒvƒƒpƒeƒBƒtƒ@ƒCƒ‹‚Ìâ‘ÎƒpƒX‚ğæ“¾
         String filename = PathUtil.getJarDir(Bootstrap.class) + PREFIX + lang + EXTENSION;
         File file = new File(filename);
         if (!file.exists())
         {
-            LOGGER.error("è¡¨ç¤ºåè¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ãŒå­˜åœ¨ã—ã¾ã›ã‚“ã€‚");
+            LOGGER.error("•\¦–¼İ’èƒtƒ@ƒCƒ‹‚ª‘¶İ‚µ‚Ü‚¹‚ñB");
             return;
         }
         else
         {
-            LOGGER.info("è¡¨ç¤ºåè¨­å®šãƒ•ã‚¡ã‚¤ãƒ« " + filename + " ã‚’èª­ã¿è¾¼ã¿ã¾ã™ã€‚");
+            LOGGER.info("•\¦–¼İ’èƒtƒ@ƒCƒ‹ " + filename + " ‚ğ“Ç‚İ‚İ‚Ü‚·B");
         }
 
-        // ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿è¾¼ã¿
+        // ƒvƒƒpƒeƒBƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İ
         BufferedReader in = null;
         try
         {
             in =
-                new BufferedReader(new InputStreamReader(new FileInputStream(file), "Windows-31J"));
+                 new BufferedReader(new InputStreamReader(new FileInputStream(file), "Windows-31J"));
 
             String line = "";
-            // ï¼‘è¡Œãšã¤èª­ã¿è¾¼ã¿è§£æ
+            // ‚Ps‚¸‚Â“Ç‚İ‚İ‰ğÍ
             while (null != (line = in.readLine()))
             {
-                // ã‚³ãƒ¡ãƒ³ãƒˆã¯èª­ã¿é£›ã°ã™
+                // ƒRƒƒ“ƒg‚Í“Ç‚İ”ò‚Î‚·
                 if (line.startsWith(COMMENT))
                 {
                     continue;
                 }
 
-                // ã‚¤ã‚³ãƒ¼ãƒ«ã§åˆ†è§£
+                // ƒCƒR[ƒ‹‚Å•ª‰ğ
                 String[] elements = line.split("=");
                 if (elements.length != 2)
                 {
                     continue;
                 }
 
-                LOGGER.info("é …ç›®å[" + elements[0] + "] : è¡¨ç¤ºå[" + elements[1] + "]");
+                LOGGER.info("€–Ú–¼[" + elements[0] + "] : •\¦–¼[" + elements[1] + "]");
                 this.convMap_.put(elements[0], elements[1]);
             }
 
@@ -139,16 +139,16 @@ public class DisplayNameManager
         }
         catch (IOException e)
         {
-            LOGGER.error("è¡¨ç¤ºåè¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿è¾¼ã¿ã«å¤±æ•—ã—ã¾ã—ãŸã€‚");
+            LOGGER.error("•\¦–¼İ’èƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İ‚É¸”s‚µ‚Ü‚µ‚½B");
         }
 
         return;
     }
 
     /**
-     * è¡¨ç¤ºåå¤‰æ›ãƒãƒƒãƒ—ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * •\¦–¼•ÏŠ·ƒ}ƒbƒv‚ğæ“¾‚µ‚Ü‚·B
      * 
-     * @return è¡¨ç¤ºåå¤‰æ›ãƒãƒƒãƒ—
+     * @return •\¦–¼•ÏŠ·ƒ}ƒbƒv
      */
     public HashMap<String, String> getConvMap()
     {

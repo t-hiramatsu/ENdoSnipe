@@ -33,13 +33,13 @@ import jp.co.smg.endosnipe.javassist.CannotCompileException;
 import jp.co.smg.endosnipe.javassist.CtMethod;
 
 /**
- * EJB3.0ä»¥é™ã«å¯¾å¿œã—ãŸEJBã‚³ãƒ³ãƒãƒ¼ã‚¿ã€‚
+ * EJB3.0ˆÈ~‚É‘Î‰‚µ‚½EJBƒRƒ“ƒo[ƒ^B
  * 
  * @author S.Kimura
  */
 public class Ejb3Converter extends AbstractEjbConverter
 {
-    /** å¯¾è±¡ã‚¯ãƒ©ã‚¹ã®å¤‰æ›ã‚’è¡Œã†ã€ã¨åˆ¤å®šã™ã‚‹ã‚¢ãƒãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ã‚¯ãƒ©ã‚¹åç§° */
+    /** ‘ÎÛƒNƒ‰ƒX‚Ì•ÏŠ·‚ğs‚¤A‚Æ”»’è‚·‚éƒAƒmƒe[ƒVƒ‡ƒ“ƒNƒ‰ƒX–¼Ì */
     private static final List<String> TARGET_ANNOTATIONS = new ArrayList<String>();
 
     static
@@ -50,16 +50,16 @@ public class Ejb3Converter extends AbstractEjbConverter
     }
 
     /**
-     * å¯¾è±¡ã‚¯ãƒ©ã‚¹ã®å¤‰æ›ã‚’è¡Œã†ã‹ã©ã†ã‹ã‚’åˆ¤å®šã™ã‚‹ã€‚ä¸‹è¨˜ã®æ¡ä»¶ã®ã„ãšã‚Œã‹ã‚’æº€ãŸã™å ´åˆã«å¤‰æ›ã‚’è¡Œã†ã€‚
+     * ‘ÎÛƒNƒ‰ƒX‚Ì•ÏŠ·‚ğs‚¤‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB‰º‹L‚ÌğŒ‚Ì‚¢‚¸‚ê‚©‚ğ–‚½‚·ê‡‚É•ÏŠ·‚ğs‚¤B
      * 
      * <ol>
-     * <li>javax.ejb.Statelessã‚¢ãƒãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å«ã‚“ã§ã„ã‚‹ã€‚</li>
-     * <li>javax.ejb.Statefulã‚¢ãƒãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å«ã‚“ã§ã„ã‚‹ã€‚</li>
-     * <li>javax.ejb.MessageDrivenã‚¢ãƒãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å«ã‚“ã§ã„ã‚‹ã€‚</li>
+     * <li>javax.ejb.StatelessƒAƒmƒe[ƒVƒ‡ƒ“‚ğŠÜ‚ñ‚Å‚¢‚éB</li>
+     * <li>javax.ejb.StatefulƒAƒmƒe[ƒVƒ‡ƒ“‚ğŠÜ‚ñ‚Å‚¢‚éB</li>
+     * <li>javax.ejb.MessageDrivenƒAƒmƒe[ƒVƒ‡ƒ“‚ğŠÜ‚ñ‚Å‚¢‚éB</li>
      * </ol>
      * 
-     * @return å¤‰æ›ã‚’è¡Œã†ã‹ã©ã†ã‹
-     * @throws CannotCompileException ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã«å¤±æ•—ã—ãŸå ´åˆ
+     * @return •ÏŠ·‚ğs‚¤‚©‚Ç‚¤‚©
+     * @throws CannotCompileException ƒRƒ“ƒpƒCƒ‹‚É¸”s‚µ‚½ê‡
      */
     @Override
     protected boolean isConvert()
@@ -101,9 +101,9 @@ public class Ejb3Converter extends AbstractEjbConverter
     }
 
     /**
-     * å¯¾è±¡ã®ã‚¢ãƒãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ãŒå¤‰æ›å¯¾è±¡ã‚¢ãƒãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å«ã‚“ã§ã„ã‚‹ã‹ã‚’åˆ¤å®š
+     * ‘ÎÛ‚ÌƒAƒmƒe[ƒVƒ‡ƒ“‚ª•ÏŠ·‘ÎÛƒAƒmƒe[ƒVƒ‡ƒ“‚ğŠÜ‚ñ‚Å‚¢‚é‚©‚ğ”»’è
      * 
-     * @return å¤‰æ›å¯¾è±¡ã‚¢ãƒãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å«ã‚“ã§ã„ã‚‹
+     * @return •ÏŠ·‘ÎÛƒAƒmƒe[ƒVƒ‡ƒ“‚ğŠÜ‚ñ‚Å‚¢‚é
      */
     private boolean containTargetAnnotation(final String annotationDesctiption)
     {

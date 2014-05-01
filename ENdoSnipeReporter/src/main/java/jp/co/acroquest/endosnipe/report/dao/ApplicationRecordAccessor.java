@@ -23,77 +23,77 @@ import jp.co.acroquest.endosnipe.report.entity.ApplicationRecord;
 import jp.co.acroquest.endosnipe.report.entity.ReportItemValue;
 
 /**
- * ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³æƒ…å ±ã‚’DBã‹ã‚‰å–å¾—ã™ã‚‹ã‚¢ã‚¯ã‚»ã‚µã‚¯ãƒ©ã‚¹ã€‚
+ * ƒAƒvƒŠƒP[ƒVƒ‡ƒ“î•ñ‚ğDB‚©‚çæ“¾‚·‚éƒAƒNƒZƒTƒNƒ‰ƒXB
  * 
  * @author akiba
  */
 public class ApplicationRecordAccessor
 {
-	/** ãƒ­ã‚¬ãƒ¼ */
-	private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
-		.getLogger(ApplicationRecordAccessor.class);
+    /** ƒƒK[ */
+    private static final ENdoSnipeLogger LOGGER     = ENdoSnipeLogger.getLogger(
+                                                            ApplicationRecordAccessor.class);
 
-	/** æœ€å¤§ä»¶æ•° */
-	public static final int ITEM_COUNT = 200;
+    /** Å‘åŒ” */
+    public static final int              ITEM_COUNT = 200;
 
-	/**
-	 * æœŸé–“ã‚’æŒ‡å®šã—ã€ãã®æœŸé–“å†…ã§ã®<br/>
-	 * ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã®ãƒ¬ãƒãƒ¼ãƒˆãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã€‚
-	 * 
-	 * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã€‚
-	 * @param startTime æ¤œç´¢æ¡ä»¶(é–‹å§‹æ™‚åˆ»)ã€‚
-	 * @param endTime æ¤œç´¢æ¡ä»¶(çµ‚äº†æ™‚åˆ»)ã€‚
-	 * @return ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã®ãƒ¬ãƒãƒ¼ãƒˆãƒ‡ãƒ¼ã‚¿ã€‚
-	 * @throws SQLException ãƒ‡ãƒ¼ã‚¿å–å¾—æ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
-	 */
-	public List<ApplicationRecord> findApplicationStaticsByTerm(String database,
-		Timestamp startTime, Timestamp endTime) throws SQLException
-	{
-		List<ApplicationRecord> result = new ArrayList<ApplicationRecord>();
+    /**
+     * ŠúŠÔ‚ğw’è‚µA‚»‚ÌŠúŠÔ“à‚Å‚Ì<br/>
+     * ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒŒƒ|[ƒgƒf[ƒ^‚ğæ“¾‚·‚éB
+     * 
+     * @param database ƒf[ƒ^ƒx[ƒX–¼B
+     * @param startTime ŒŸõğŒ(ŠJn)B
+     * @param endTime ŒŸõğŒ(I—¹)B
+     * @return ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒŒƒ|[ƒgƒf[ƒ^B
+     * @throws SQLException ƒf[ƒ^æ“¾‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     */
+    public List<ApplicationRecord> findApplicationStaticsByTerm(
+            String database, Timestamp startTime, Timestamp endTime)
+            throws SQLException
+    {
+        List<ApplicationRecord> result = new ArrayList<ApplicationRecord>();
 
-		// ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‹ã‚‰å€¤ã‚’å–å¾—ã™ã‚‹
-		List<ReportItemValue> httpSessionInstanceNumValues;
-		List<ReportItemValue> httpSessionObjectSizeValues;
+        // ƒf[ƒ^ƒx[ƒX‚©‚ç’l‚ğæ“¾‚·‚é
+        List<ReportItemValue> httpSessionInstanceNumValues;
+        List<ReportItemValue> httpSessionObjectSizeValues;
 
-		httpSessionInstanceNumValues = ReportDao.selectAverage(database, startTime, endTime,
-			Constants.ITEMNAME_HTTPSESSION_NUM);
-		httpSessionObjectSizeValues = ReportDao.selectAverage(database, startTime, endTime,
-			Constants.ITEMNAME_HTTPSESSION_TOTALSIZE);
+        httpSessionInstanceNumValues = ReportDao.selectAverage(database,
+                startTime, endTime, Constants.ITEMNAME_HTTPSESSION_NUM);
+        httpSessionObjectSizeValues = ReportDao.selectAverage(database,
+                startTime, endTime, Constants.ITEMNAME_HTTPSESSION_TOTALSIZE);
 
-		int httpSessionObjectCnt = 0;
-		for (int index = 0; index < httpSessionInstanceNumValues.size(); index++)
-		{
-			ApplicationRecord record = new ApplicationRecord();
-			ReportItemValue httpSessionInstanceNum;
-			ReportItemValue httpSessionObjectSize;
+        int httpSessionObjectCnt = 0;
+        for (int index = 0; index < httpSessionInstanceNumValues.size(); index++)
+        {
+            ApplicationRecord record = new ApplicationRecord();
+            ReportItemValue httpSessionInstanceNum;
+            ReportItemValue httpSessionObjectSize;
 
-			httpSessionInstanceNum = httpSessionInstanceNumValues.get(index);
+            httpSessionInstanceNum = httpSessionInstanceNumValues.get(index);
 
-			httpSessionObjectSize = new ReportItemValue();
-			httpSessionObjectSize.measurementTime = httpSessionInstanceNumValues.get(index).measurementTime;
-			if (httpSessionObjectSizeValues.size() > httpSessionObjectCnt)
-			{
-				if (httpSessionObjectSizeValues.get(httpSessionObjectCnt).measurementTime
-					.compareTo(httpSessionInstanceNumValues.get(index).measurementTime) <= 0)
-				{
-					httpSessionObjectSize = httpSessionObjectSizeValues.get(httpSessionObjectCnt);
-					httpSessionObjectCnt++;
-				}
-			}
+            httpSessionObjectSize = new ReportItemValue();
+            httpSessionObjectSize.measurementTime = httpSessionInstanceNumValues.get(index).measurementTime;
+            if (httpSessionObjectSizeValues.size() > httpSessionObjectCnt)
+            {
+                if (httpSessionObjectSizeValues.get(httpSessionObjectCnt).measurementTime.compareTo(httpSessionInstanceNumValues.get(index).measurementTime) <= 0)
+                {
+                    httpSessionObjectSize = httpSessionObjectSizeValues.get(httpSessionObjectCnt);
+                    httpSessionObjectCnt++;
+                }
+            }
 
-			record.setHttpInstanceMeasurementTime(httpSessionInstanceNum.measurementTime);
-			record.setHttpSessionInstanceNum(httpSessionInstanceNum.summaryValue.longValue());
-			record.setHttpSessionInstanceNumMax(httpSessionInstanceNum.maxValue.longValue());
-			record.setHttpSessionInstanceNumMin(httpSessionInstanceNum.minValue.longValue());
+            record.setHttpInstanceMeasurementTime(httpSessionInstanceNum.measurementTime);
+            record.setHttpSessionInstanceNum(httpSessionInstanceNum.summaryValue.longValue());
+            record.setHttpSessionInstanceNumMax(httpSessionInstanceNum.maxValue.longValue());
+            record.setHttpSessionInstanceNumMin(httpSessionInstanceNum.minValue.longValue());
 
-			record.setHttpSessionMeasurementTime(httpSessionObjectSize.measurementTime);
-			record.setHttpSessionObjectSize(httpSessionObjectSize.summaryValue.longValue());
-			record.setHttpSessionObjectSizeMax(httpSessionObjectSize.maxValue.longValue());
-			record.setHttpSessionObjectSizeMin(httpSessionObjectSize.minValue.longValue());
+            record.setHttpSessionMeasurementTime(httpSessionObjectSize.measurementTime);
+            record.setHttpSessionObjectSize(httpSessionObjectSize.summaryValue.longValue());
+            record.setHttpSessionObjectSizeMax(httpSessionObjectSize.maxValue.longValue());
+            record.setHttpSessionObjectSizeMin(httpSessionObjectSize.minValue.longValue());
 
-			result.add(record);
-		}
+            result.add(record);
+        }
 
-		return result;
-	}
+        return result;
+    }
 }

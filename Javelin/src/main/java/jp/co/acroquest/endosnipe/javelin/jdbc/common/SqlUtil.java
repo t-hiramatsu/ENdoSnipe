@@ -36,7 +36,7 @@ import jp.co.acroquest.endosnipe.javelin.jdbc.stats.JdbcJavelinRecorder;
 import jp.co.acroquest.endosnipe.javelin.jdbc.stats.JdbcJavelinStatement;
 
 /**
- * SQLæ–‡ã‚’æ“ä½œã™ã‚‹ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã€‚
+ * SQL•¶‚ğ‘€ì‚·‚éƒ†[ƒeƒBƒŠƒeƒBB
  * 
  * @author eriguchi
  */
@@ -45,7 +45,7 @@ public class SqlUtil
     private static final int DML_KEY_STR_LENGTH = 6;
 
     /**
-     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã‚’é¿ã‘ã‚‹ãŸã‚ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
+     * ƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğ”ğ‚¯‚é‚½‚ß‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^B
      */
     private SqlUtil()
     {
@@ -54,9 +54,9 @@ public class SqlUtil
     }
 
     /**
-     * sqlã‚’å¤§æ–‡å­—ã«å¤‰æ›´ã—ã€å…ˆé ­ã«ã‚ã‚‹ã‚³ãƒ¡ãƒ³ãƒˆã‚’é™¤å»ã™ã‚‹ã€‚
-     * @param sql ã‚³ãƒ¡ãƒ³ãƒˆé™¤å»ã‚’è¡Œã†SQL
-     * @return å‡¦ç†ã‚’è¡Œã£ãŸSQL
+     * sql‚ğ‘å•¶š‚É•ÏX‚µAæ“ª‚É‚ ‚éƒRƒƒ“ƒg‚ğœ‹‚·‚éB
+     * @param sql ƒRƒƒ“ƒgœ‹‚ğs‚¤SQL
+     * @return ˆ—‚ğs‚Á‚½SQL
      */
     public static String removeHeadComment(final String sql)
     {
@@ -64,19 +64,19 @@ public class SqlUtil
         while (true)
         {
             rawSql = rawSql.trim();
-            // ã‚³ãƒ¡ãƒ³ãƒˆ(--)ã§ã‚ã‚‹ã‹ã‚’èª¿ã¹ã€æ”¹è¡Œã¾ã§ã‚’å–ã‚Šé™¤ã
+            // ƒRƒƒ“ƒg(--)‚Å‚ ‚é‚©‚ğ’²‚×A‰üs‚Ü‚Å‚ğæ‚èœ‚­
             if (rawSql.startsWith("--"))
             {
                 rawSql = rawSql.substring(rawSql.indexOf('\n') + 1);
                 continue;
             }
 
-            // ã‚³ãƒ¡ãƒ³ãƒˆ(/* ï½ */)ã§ã‚ã‚‹ã‹ã‚’èª¿ã¹ã€/* ï½ */ ã¾ã§ã‚’å–ã‚Šé™¤ãã€‚
+            // ƒRƒƒ“ƒg(/* ` */)‚Å‚ ‚é‚©‚ğ’²‚×A/* ` */ ‚Ü‚Å‚ğæ‚èœ‚­B
             if (rawSql.startsWith("/*"))
             {
                 int nextEnd = rawSql.indexOf("*/", JdbcJavelinRecorder.COMMENT_HEADER_LENGTH);
-                // æ¬¡ã«"*/"ãŒå‡ºç¾ã™ã‚‹å ´æ‰€ã‚’æ¢ã—ã€ã‚³ãƒ¡ãƒ³ãƒˆã‚’å‰Šé™¤ã—ã€å‡¦ç†ã‚’ç¹°ã‚Šè¿”ã™ã€‚
-                // è¦‹ã¤ã‹ã‚‰ãªã‹ã£ãŸã‚‰ã€nullã‚’è¿”ã™ã€‚
+                // Ÿ‚É"*/"‚ªoŒ»‚·‚éêŠ‚ğ’T‚µAƒRƒƒ“ƒg‚ğíœ‚µAˆ—‚ğŒJ‚è•Ô‚·B
+                // Œ©‚Â‚©‚ç‚È‚©‚Á‚½‚çAnull‚ğ•Ô‚·B
 
                 if (nextEnd != JdbcJavelinRecorder.NOT_FOUND)
                 {
@@ -91,22 +91,22 @@ public class SqlUtil
     }
 
     /**
-     * SQLãŒDMLã§ã‚ã‚‹ã‹ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã€‚
-     * @param sql SQLæ–‡
-     * @return SQLãŒDMLã§ã‚ã‚Œã°trueã‚’ã€ãã‚Œä»¥å¤–ã¯falseã‚’è¿”ã™ã€‚
+     * SQL‚ªDML‚Å‚ ‚é‚©ƒ`ƒFƒbƒN‚·‚éB
+     * @param sql SQL•¶
+     * @return SQL‚ªDML‚Å‚ ‚ê‚Îtrue‚ğA‚»‚êˆÈŠO‚Ífalse‚ğ•Ô‚·B
      */
     public static boolean checkDml(final String sql)
     {
         String rawSql = null;
-        // SQLåˆ†ã®å‰ã®ã‚³ãƒ¡ãƒ³ãƒˆã‚’å…¨ã¦å–ã‚Šé™¤ãã¾ã§ãƒ«ãƒ¼ãƒ—ã€‚
-        // ã‚³ãƒ¡ãƒ³ãƒˆãŒä¸æ­£ãªå ´åˆã«é™ã‚ŠfalseãŒè¿”ã•ã‚Œã‚‹ã€‚
+        // SQL•ª‚Ì‘O‚ÌƒRƒƒ“ƒg‚ğ‘S‚Äæ‚èœ‚­‚Ü‚Åƒ‹[ƒvB
+        // ƒRƒƒ“ƒg‚ª•s³‚Èê‡‚ÉŒÀ‚èfalse‚ª•Ô‚³‚ê‚éB
         rawSql = SqlUtil.removeHeadComment(sql);
         if (rawSql == null)
         {
             return false;
         }
 
-        // DMLãªã‚‰trueã‚’è¿”ã™
+        // DML‚È‚çtrue‚ğ•Ô‚·
         if(rawSql.length() < DML_KEY_STR_LENGTH)
         {
             return false;
@@ -122,17 +122,17 @@ public class SqlUtil
     }
 
     /**
-     * ã‚»ãƒŸã‚³ãƒ­ãƒ³ã§åŒºåˆ‡ã‚‰ã‚ŒãŸSQLæ–‡ã‚’ã‚»ãƒŸã‚³ãƒ­ãƒ³ã§åˆ†å‰²ã™ã‚‹ã€‚
+     * ƒZƒ~ƒRƒƒ“‚Å‹æØ‚ç‚ê‚½SQL•¶‚ğƒZƒ~ƒRƒƒ“‚Å•ªŠ„‚·‚éB
      *
-     * @param sql è¤‡åˆSQLæ–‡
-     * @return åˆ†å‰²ã•ã‚ŒãŸSQLæ–‡
+     * @param sql •¡‡SQL•¶
+     * @return •ªŠ„‚³‚ê‚½SQL•¶
      */
     public static List<String> splitSqlStatement(String sql)
     {
         List<String> sqllist = new ArrayList<String>();
-        // ã‚·ãƒ³ã‚°ãƒ«ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ã®ä¸­ã«ã„ã‚‹ã¯true
+        // ƒVƒ“ƒOƒ‹ƒNƒH[ƒe[ƒVƒ‡ƒ“‚Ì’†‚É‚¢‚é‚Ítrue
         boolean singlequoteFlag = false;
-        // ãƒ€ãƒ–ãƒ«ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ã®ä¸­ã«ã„ã‚‹å ´åˆã¯true
+        // ƒ_ƒuƒ‹ƒNƒH[ƒe[ƒVƒ‡ƒ“‚Ì’†‚É‚¢‚éê‡‚Ítrue
         boolean doublequoteFlag = false;
 
         for (int index = 0; index < sql.length(); index++)
@@ -141,9 +141,9 @@ public class SqlUtil
 
             if (checkchar == '\'')
             {
-                // ã‚·ãƒ³ã‚°ãƒ«ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ãŒããŸã¨ãã¯ã€
-                // ãƒ€ãƒ–ãƒ«ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ã®ä¸­ã§ãªã‘ã‚Œã°
-                // ã‚·ãƒ³ã‚°ãƒ«ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ãƒ•ãƒ©ã‚°ã‚’åˆ‡ã‚Šæ›¿ãˆã‚‹ã€‚
+                // ƒVƒ“ƒOƒ‹ƒNƒH[ƒe[ƒVƒ‡ƒ“‚ª‚«‚½‚Æ‚«‚ÍA
+                // ƒ_ƒuƒ‹ƒNƒH[ƒe[ƒVƒ‡ƒ“‚Ì’†‚Å‚È‚¯‚ê‚Î
+                // ƒVƒ“ƒOƒ‹ƒNƒH[ƒe[ƒVƒ‡ƒ“ƒtƒ‰ƒO‚ğØ‚è‘Ö‚¦‚éB
                 if (doublequoteFlag == false)
                 {
                     singlequoteFlag = !singlequoteFlag;
@@ -151,9 +151,9 @@ public class SqlUtil
             }
             else if (checkchar == '"')
             {
-                // ãƒ€ãƒ–ãƒ«ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ãŒããŸã¨ãã¯ã€
-                // ã‚·ãƒ³ã‚°ãƒ«ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ã®ä¸­ã§ãªã‘ã‚Œã°
-                // ãƒ€ãƒ–ãƒ«ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ãƒ•ãƒ©ã‚°ã‚’åˆ‡ã‚Šæ›¿ãˆã‚‹ã€‚
+                // ƒ_ƒuƒ‹ƒNƒH[ƒe[ƒVƒ‡ƒ“‚ª‚«‚½‚Æ‚«‚ÍA
+                // ƒVƒ“ƒOƒ‹ƒNƒH[ƒe[ƒVƒ‡ƒ“‚Ì’†‚Å‚È‚¯‚ê‚Î
+                // ƒ_ƒuƒ‹ƒNƒH[ƒe[ƒVƒ‡ƒ“ƒtƒ‰ƒO‚ğØ‚è‘Ö‚¦‚éB
                 if (singlequoteFlag == false)
                 {
                     doublequoteFlag = !doublequoteFlag;
@@ -161,9 +161,9 @@ public class SqlUtil
             }
             else if (checkchar == ';')
             {
-                // ã‚»ãƒŸã‚³ãƒ­ãƒ³ãŒããŸã¨ãã¯ã€
-                // ã‚·ãƒ³ã‚°ãƒ«ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ã®ä¸­ã§ã‚‚ãƒ€ãƒ–ãƒ«ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ã®ä¸­ã§ã‚‚ãªã„å ´åˆã«
-                // åˆ†å‰²ã™ã‚‹ã€‚
+                // ƒZƒ~ƒRƒƒ“‚ª‚«‚½‚Æ‚«‚ÍA
+                // ƒVƒ“ƒOƒ‹ƒNƒH[ƒe[ƒVƒ‡ƒ“‚Ì’†‚Å‚àƒ_ƒuƒ‹ƒNƒH[ƒe[ƒVƒ‡ƒ“‚Ì’†‚Å‚à‚È‚¢ê‡‚É
+                // •ªŠ„‚·‚éB
                 if (singlequoteFlag == false && doublequoteFlag == false)
                 {
                     String sqlOne = sql.substring(0, index);
@@ -174,10 +174,10 @@ public class SqlUtil
             }
         }
 
-        // æ®‹ã‚Šã‚’è¿½åŠ ã™ã‚‹
+        // c‚è‚ğ’Ç‰Á‚·‚é
         sqllist.add(sql);
 
-        // ç©ºç™½ã®è¦ç´ ã‚’å‰Šé™¤ã™ã‚‹
+        // ‹ó”’‚Ì—v‘f‚ğíœ‚·‚é
         Iterator<String> iterator = sqllist.iterator();
         while (iterator.hasNext())
         {
@@ -193,27 +193,27 @@ public class SqlUtil
     }
 
     /**
-     * ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°ã®CSVã‚’ç”Ÿæˆã™ã‚‹ã€‚
+     * ƒoƒCƒ“ƒh•Ï”‚ÌCSV‚ğ¶¬‚·‚éB
      * 
-     * @param bindList ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°ã®ãƒªã‚¹ãƒˆï¼ˆ<code>null</code> ã‚‚å¯ï¼‰
-     * @param count ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°ã®ãƒªã‚¹ãƒˆä¸­ã®ä½ç½®
-     * @return å¯¾å¿œã™ã‚‹SQLã®ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°ã®CSVã€‚
-     *          bindList ãŒ <code>null</code> ãªã‚‰ <code>null</code> ã‚’è¿”ã™ã€‚
+     * @param bindList ƒoƒCƒ“ƒh•Ï”‚ÌƒŠƒXƒgi<code>null</code> ‚à‰Âj
+     * @param count ƒoƒCƒ“ƒh•Ï”‚ÌƒŠƒXƒg’†‚ÌˆÊ’u
+     * @return ‘Î‰‚·‚éSQL‚ÌƒoƒCƒ“ƒh•Ï”‚ÌCSVB
+     *          bindList ‚ª <code>null</code> ‚È‚ç <code>null</code> ‚ğ•Ô‚·B
      */
     public static String getBindValCsv(final List<?> bindList, final int count)
     {
-        //ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°å–å¾—
+        //ƒoƒCƒ“ƒh•Ï”æ“¾
         String bindVals = null;
         if (bindList != null)
         {
             try
             {
-                // ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°ã®Listã‹ã‚‰ã€å¯¾å¿œã™ã‚‹SQLã®TreeMapã‚’å–å¾—ã™ã‚‹ã€‚
+                // ƒoƒCƒ“ƒh•Ï”‚ÌList‚©‚çA‘Î‰‚·‚éSQL‚ÌTreeMap‚ğæ“¾‚·‚éB
                 TreeMap<?, ?> bindMap = (TreeMap<?, ?>)bindList.get(count);
                 Object lastKey = bindMap.lastKey();
                 if (lastKey != null)
                 {
-                    // ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°ã®ã‚«ãƒ³ãƒåŒºåˆ‡ã‚Šæ–‡å­—åˆ—ã‚’ç”Ÿæˆã™ã‚‹
+                    // ƒoƒCƒ“ƒh•Ï”‚ÌƒJƒ“ƒ}‹æØ‚è•¶š—ñ‚ğ¶¬‚·‚é
                     int maxIdx = ((Integer)lastKey).intValue();
                     StringBuffer csv = new StringBuffer();
                     for (int bindIdx = 1; bindIdx <= maxIdx; bindIdx++)
@@ -237,7 +237,7 @@ public class SqlUtil
             }
             catch (IndexOutOfBoundsException ex)
             {
-                // ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°ã¯ç™»éŒ²ã•ã‚Œã¦ã„ãªã„
+                // ƒoƒCƒ“ƒh•Ï”‚Í“o˜^‚³‚ê‚Ä‚¢‚È‚¢
                 SystemLogger.getInstance().warn(ex);
             }
         }
@@ -246,13 +246,13 @@ public class SqlUtil
     }
 
     /**
-     * ãƒªãƒ•ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã«ã¦PreparedStatementã®getJdbcJavelinBindValãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã³å‡ºã™ã€‚
-     * @param stmt Statementã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @return ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°ã®ãƒªã‚¹ãƒˆ
+     * ƒŠƒtƒŒƒNƒVƒ‡ƒ“‚É‚ÄPreparedStatement‚ÌgetJdbcJavelinBindValƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·B
+     * @param stmt StatementƒIƒuƒWƒFƒNƒg
+     * @return ƒoƒCƒ“ƒh•Ï”‚ÌƒŠƒXƒg
      */
     public static List<?> getJdbcJavelinBindValByRef(final Statement stmt)
     {
-        // JdbcJavelinStatementã§ã¯ãªã„å ´åˆã€nullã‚’è¿”ã™
+        // JdbcJavelinStatement‚Å‚Í‚È‚¢ê‡Anull‚ğ•Ô‚·
         if (stmt instanceof JdbcJavelinStatement == false)
         {
             return null;
@@ -265,12 +265,12 @@ public class SqlUtil
     }
 
     /**
-     * <code>PreparedStatement</code> ã§
-     * <code>addBatch</code> ãƒ¡ã‚½ãƒƒãƒ‰ãŒå‘¼ã³å‡ºã•ã‚ŒãŸå›æ•°ã‚’è¿”ã™ã€‚
+     * <code>PreparedStatement</code> ‚Å
+     * <code>addBatch</code> ƒƒ\ƒbƒh‚ªŒÄ‚Ño‚³‚ê‚½‰ñ”‚ğ•Ô‚·B
      *
      * @param stmt PreparedStatement
-     * @return <code>addBatch</code> ãƒ¡ã‚½ãƒƒãƒ‰ãŒå‘¼ã³å‡ºã•ã‚ŒãŸå›æ•°
-     * @throws Exception ä¾‹å¤–
+     * @return <code>addBatch</code> ƒƒ\ƒbƒh‚ªŒÄ‚Ño‚³‚ê‚½‰ñ”
+     * @throws Exception —áŠO
      */
     public static int getPreparedStatementAddBatchCount(final Statement stmt)
         throws Exception

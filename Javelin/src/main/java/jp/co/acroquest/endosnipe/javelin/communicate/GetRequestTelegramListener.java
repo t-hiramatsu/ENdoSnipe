@@ -37,7 +37,7 @@ import jp.co.acroquest.endosnipe.javelin.bean.Component;
 import jp.co.acroquest.endosnipe.javelin.bean.Invocation;
 
 /**
- * çŠ¶æ…‹å–å¾—å‡¦ç†ã‚¯ãƒ©ã‚¹ã€‚
+ * ó‘Ôæ“¾ˆ—ƒNƒ‰ƒXB
  * 
  * @author tsukano
  */
@@ -54,7 +54,7 @@ public class GetRequestTelegramListener implements TelegramListener, TelegramCon
             Component[] objComponentArr = MBeanManager.getAllComponents();
             List<Invocation> invocationList = new ArrayList<Invocation>();
 
-            // é›»æ–‡æ•°ã‚’çµ±è¨ˆã™ã‚‹
+            // “d•¶”‚ğ“Œv‚·‚é
             for (int i = 0; i < objComponentArr.length; i++)
             {
                 invocationList.addAll(Arrays.asList(objComponentArr[i].getAllInvocation()));

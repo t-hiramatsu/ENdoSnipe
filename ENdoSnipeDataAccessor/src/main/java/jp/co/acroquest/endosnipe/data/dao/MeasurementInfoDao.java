@@ -41,7 +41,7 @@ import jp.co.acroquest.endosnipe.data.TableNames;
 import jp.co.acroquest.endosnipe.data.entity.MeasurementInfo;
 
 /**
- * {@link MeasurementInfo} ã®ãŸã‚ã® DAO ã§ã™ã€‚
+ * {@link MeasurementInfo} ‚Ì‚½‚ß‚Ì DAO ‚Å‚·B
  * 
  * @author y-sakamoto
  */
@@ -58,7 +58,7 @@ public class MeasurementInfoDao extends AbstractDao implements TableNames
 	private static final Map<String, List<MeasurementInfo>>
 		MEASUREMENT_INFO_CACHE = new HashMap<String, List<MeasurementInfo>>();
 
-	// /** DBå¤‰æ›´ã‚’é€šçŸ¥ã™ã‚‹ãŸã‚ã®ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ãƒ¡ã‚½ãƒƒãƒ‰ */
+	// /** DB•ÏX‚ğ’Ê’m‚·‚é‚½‚ß‚ÌƒR[ƒ‹ƒoƒbƒNƒƒ\ƒbƒh */
 	// private static final NotifyJMXItem callBack_;
 	//
 	// static
@@ -107,7 +107,7 @@ public class MeasurementInfoDao extends AbstractDao implements TableNames
 	// }
 
 	/**
-	 * Callãƒãƒƒã‚¯ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç™»éŒ²ã™ã‚‹ãŸã‚ã®ã€åˆæœŸåŒ–ãƒ¡ã‚½ãƒƒãƒ‰ã§ã™ã€‚<br />
+	 * CallƒoƒbƒNƒIƒuƒWƒFƒNƒg‚ğ“o˜^‚·‚é‚½‚ß‚ÌA‰Šú‰»ƒƒ\ƒbƒh‚Å‚·B<br />
 	 */
 	public static void initialize()
 	{
@@ -115,14 +115,14 @@ public class MeasurementInfoDao extends AbstractDao implements TableNames
 	}
 
 	/**
-	 * {@link MeasurementInfo} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æŒ¿å…¥ã—ã¾ã™ã€‚<br />
+	 * {@link MeasurementInfo} ƒIƒuƒWƒFƒNƒg‚ğ‘}“ü‚µ‚Ü‚·B<br />
 	 * 
 	 * @param database
-	 *            æŒ¿å…¥å…ˆãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+	 *            ‘}“üæƒf[ƒ^ƒx[ƒX–¼
 	 * @param measurementInfo
-	 *            å¯¾è±¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 *            ‘ÎÛƒIƒuƒWƒFƒNƒg
 	 * @throws SQLException
-	 *             SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+	 *             SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
 	 */
 	public static void insert(final String database,
 			final MeasurementInfo measurementInfo) throws SQLException
@@ -141,14 +141,14 @@ public class MeasurementInfoDao extends AbstractDao implements TableNames
 	}
 
 	/**
-	 * {@link MeasurementInfo} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æŒ¿å…¥ã—ã¾ã™ã€‚<br />
+	 * {@link MeasurementInfo} ƒIƒuƒWƒFƒNƒg‚ğ‘}“ü‚µ‚Ü‚·B<br />
 	 * 
 	 * @param conn
-	 *            ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³
+	 *            ƒRƒlƒNƒVƒ‡ƒ“
 	 * @param measurementInfo
-	 *            å¯¾è±¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 *            ‘ÎÛƒIƒuƒWƒFƒNƒg
 	 * @throws SQLException
-	 *             SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+	 *             SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
 	 */
 	public static void insert(final Connection conn,
 			final MeasurementInfo measurementInfo) throws SQLException
@@ -178,13 +178,13 @@ public class MeasurementInfoDao extends AbstractDao implements TableNames
 	}
 
 	/**
-	 * ã™ã¹ã¦ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å–å¾—ã—ã¾ã™ã€‚
+	 * ‚·‚×‚Ä‚ÌƒŒƒR[ƒh‚ğæ“¾‚µ‚Ü‚·B
 	 * 
 	 * @param database
-	 *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-	 * @return {@link MeasurementInfo} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒªã‚¹ãƒˆ
+	 *            ƒf[ƒ^ƒx[ƒX–¼
+	 * @return {@link MeasurementInfo} ƒIƒuƒWƒFƒNƒg‚ÌƒŠƒXƒg
 	 * @throws SQLException
-	 *             SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+	 *             SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
 	 */
 	public static List<MeasurementInfo> selectAll(final String database)
 			throws SQLException
@@ -195,16 +195,16 @@ public class MeasurementInfoDao extends AbstractDao implements TableNames
 	}
 
 	/**
-	 * æŒ‡å®šã•ã‚ŒãŸè¨ˆæ¸¬å€¤ç¨®åˆ¥ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å–å¾—ã—ã¾ã™ã€‚
+	 * w’è‚³‚ê‚½Œv‘ª’lí•Ê‚ÌƒŒƒR[ƒh‚ğæ“¾‚µ‚Ü‚·B
 	 * 
 	 * @param database
-	 *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+	 *            ƒf[ƒ^ƒx[ƒX–¼
 	 * @param measurementType
-	 *            è¨ˆæ¸¬å€¤ç¨®åˆ¥
-	 * @return è©²å½“ã™ã‚‹ãƒ¬ã‚³ãƒ¼ãƒ‰ãŒå­˜åœ¨ã™ã‚‹å ´åˆã¯ {@link MeasurementInfo} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€ ãã‚Œä»¥å¤–ã®å ´åˆã¯
+	 *            Œv‘ª’lí•Ê
+	 * @return ŠY“–‚·‚éƒŒƒR[ƒh‚ª‘¶İ‚·‚éê‡‚Í {@link MeasurementInfo} ƒIƒuƒWƒFƒNƒgA ‚»‚êˆÈŠO‚Ìê‡‚Í
 	 *         <code>null</code>
 	 * @throws SQLException
-	 *             SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+	 *             SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
 	 */
 	public static MeasurementInfo selectByMeasurementType(
 			final String database, final int measurementType)
@@ -228,16 +228,16 @@ public class MeasurementInfoDao extends AbstractDao implements TableNames
 	}
 
 	/**
-	 * æŒ‡å®šã•ã‚ŒãŸãƒªã‚½ãƒ¼ã‚¹é€šçŸ¥é›»æ–‡ã®é …ç›®åã«å¯¾å¿œã™ã‚‹ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å–å¾—ã—ã¾ã™ã€‚
+	 * w’è‚³‚ê‚½ƒŠƒ\[ƒX’Ê’m“d•¶‚Ì€–Ú–¼‚É‘Î‰‚·‚éƒŒƒR[ƒh‚ğæ“¾‚µ‚Ü‚·B
 	 * 
 	 * @param database
-	 *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+	 *            ƒf[ƒ^ƒx[ƒX–¼
 	 * @param itemName
-	 *            ãƒªã‚½ãƒ¼ã‚¹é€šçŸ¥é›»æ–‡ã®é …ç›®å
-	 * @return è©²å½“ã™ã‚‹ãƒ¬ã‚³ãƒ¼ãƒ‰ãŒå­˜åœ¨ã™ã‚‹å ´åˆã¯ {@link MeasurementInfo} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€ ãã‚Œä»¥å¤–ã®å ´åˆã¯
+	 *            ƒŠƒ\[ƒX’Ê’m“d•¶‚Ì€–Ú–¼
+	 * @return ŠY“–‚·‚éƒŒƒR[ƒh‚ª‘¶İ‚·‚éê‡‚Í {@link MeasurementInfo} ƒIƒuƒWƒFƒNƒgA ‚»‚êˆÈŠO‚Ìê‡‚Í
 	 *         <code>null</code>
 	 * @throws SQLException
-	 *             SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+	 *             SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
 	 */
 	public static MeasurementInfo selectByItemName(final String database,
 			final String itemName) throws SQLException
@@ -260,12 +260,12 @@ public class MeasurementInfoDao extends AbstractDao implements TableNames
 	}
 
 	/**
-	 * ã™ã¹ã¦ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å‰Šé™¤ã—ã¾ã™ã€‚<br />
+	 * ‚·‚×‚Ä‚ÌƒŒƒR[ƒh‚ğíœ‚µ‚Ü‚·B<br />
 	 * 
 	 * @param database
-	 *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+	 *            ƒf[ƒ^ƒx[ƒX–¼
 	 * @throws SQLException
-	 *             SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+	 *             SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
 	 */
 	public static void deleteAll(final String database) throws SQLException
 	{
@@ -274,12 +274,12 @@ public class MeasurementInfoDao extends AbstractDao implements TableNames
 	}
 
 	/**
-	 * ã™ã¹ã¦ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å‰Šé™¤ã—ã¾ã™ã€‚<br />
+	 * ‚·‚×‚Ä‚ÌƒŒƒR[ƒh‚ğíœ‚µ‚Ü‚·B<br />
 	 * 
 	 * @param conn
-	 *            ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³
+	 *            ƒRƒlƒNƒVƒ‡ƒ“
 	 * @throws SQLException
-	 *             SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+	 *             SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
 	 */
 	public static void deleteAll(final Connection conn) throws SQLException
 	{
@@ -287,12 +287,12 @@ public class MeasurementInfoDao extends AbstractDao implements TableNames
 	}
 
 	/**
-	 * JMXç³»åˆ—ã®ãƒ‡ãƒ¼ã‚¿ã‚’é™¤ãã€æŒ‡å®šãŸãƒ†ãƒ¼ãƒ–ãƒ«ã®ã™ã¹ã¦ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å‰Šé™¤ã—ã¾ã™ã€‚<br />
+	 * JMXŒn—ñ‚Ìƒf[ƒ^‚ğœ‚­Aw’è‚½ƒe[ƒuƒ‹‚Ì‚·‚×‚Ä‚ÌƒŒƒR[ƒh‚ğíœ‚µ‚Ü‚·B<br />
 	 * 
 	 * @param conn
-	 *            ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³
+	 *            ƒRƒlƒNƒVƒ‡ƒ“
 	 * @throws SQLException
-	 *             SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+	 *             SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
 	 */
 	public static void deleteAllWithoutJMX(final Connection conn)
 			throws SQLException
@@ -315,13 +315,13 @@ public class MeasurementInfoDao extends AbstractDao implements TableNames
 	}
 
 	/**
-	 * ãƒ¬ã‚³ãƒ¼ãƒ‰ã®æ•°ã‚’è¿”ã—ã¾ã™ã€‚<br />
+	 * ƒŒƒR[ƒh‚Ì”‚ğ•Ô‚µ‚Ü‚·B<br />
 	 * 
 	 * @param database
-	 *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-	 * @return ãƒ¬ã‚³ãƒ¼ãƒ‰ã®æ•°
+	 *            ƒf[ƒ^ƒx[ƒX–¼
+	 * @return ƒŒƒR[ƒh‚Ì”
 	 * @throws SQLException
-	 *             SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+	 *             SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
 	 */
 	public static int count(final String database) throws SQLException
 	{
@@ -335,12 +335,12 @@ public class MeasurementInfoDao extends AbstractDao implements TableNames
 	}
 
 	/**
-	 * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã«ã‚ã‚‹ãƒ‡ãƒ¼ã‚¿ã‚’ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã—ã¾ã™ã€‚<br />
+	 * ƒf[ƒ^ƒx[ƒX‚É‚ ‚éƒf[ƒ^‚ğƒLƒƒƒbƒVƒ…‚µ‚Ü‚·B<br />
 	 * 
 	 * @param database
-	 *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+	 *            ƒf[ƒ^ƒx[ƒX–¼
 	 * @throws SQLException
-	 *             SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+	 *             SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
 	 */
 	private static synchronized void cacheFromDatabase(final String database)
 			throws SQLException
@@ -384,15 +384,15 @@ public class MeasurementInfoDao extends AbstractDao implements TableNames
 
 
 	/**
-	 * ã‚¢ã‚¤ãƒ†ãƒ åã‚’åŸºã«è¡¨ç¤ºåã‚’æ›´æ–°ã—ã¾ã™ã€‚
+	 * ƒAƒCƒeƒ€–¼‚ğŠî‚É•\¦–¼‚ğXV‚µ‚Ü‚·B
 	 * 
 	 * @param database
-	 *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+	 *            ƒf[ƒ^ƒx[ƒX–¼
 	 * @param displayName
-	 *            è¡¨ç¤ºå
+	 *            •\¦–¼
 	 * @param itemName
-	 *            ã‚¢ã‚¤ãƒ†ãƒ å
-	 * @throws SQLException SQLä¾‹å¤–
+	 *            ƒAƒCƒeƒ€–¼
+	 * @throws SQLException SQL—áŠO
 	 */
 	public static void updateByItemName(final String database,
 			final String displayName, final String itemName)

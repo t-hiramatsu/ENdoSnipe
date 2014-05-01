@@ -177,18 +177,15 @@ infinispan.ganttchartStateElementView = Backbone.View.extend({
 					+ this.model.attributes.state
 					// + "<br /> submitTime : "
 					// + this.model.attributes.submitTime
-					+ "<br /> submitTime : "
-					+ infinispan.comDateFormat(new Date(this.model.attributes.submitTime),
-							infinispan.DATE_FORMAT_DETAIL)
 					+ "<br /> startTime : "
 					+ infinispan.comDateFormat(new Date(this.model.attributes.startTime),
 							infinispan.DATE_FORMAT_DETAIL)
 					+ "<br /> finishTime : "
 					+ infinispan.comDateFormat(new Date(this.model.attributes.finishTime),
 							infinispan.DATE_FORMAT_DETAIL)
-					+ "<br /> executionTime : "
-					+ (this.model.attributes.finishTime - this.model.attributes.startTime)
-					+ "ms",
+					+ "<br /> submitTime : "
+					+ infinispan.comDateFormat(new Date(this.model.attributes.submitTime),
+							infinispan.DATE_FORMAT_DETAIL),
 			fontSize : 12
 		});
 

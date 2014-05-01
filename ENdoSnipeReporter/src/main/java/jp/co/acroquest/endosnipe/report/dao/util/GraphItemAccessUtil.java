@@ -25,72 +25,67 @@ import jp.co.acroquest.endosnipe.report.entity.ItemRecord;
 import jp.co.acroquest.endosnipe.report.entity.ReportItemValue;
 import jp.co.acroquest.endosnipe.common.Constants;
 import jp.co.acroquest.endosnipe.data.dao.JavelinMeasurementItemDao;
-import jp.co.acroquest.endosnipe.data.dto.GraphTypeDto;
 
 /**
- * è¤‡æ•°ç³»åˆ—ã®ã‚°ãƒ©ãƒ•æƒ…å ±ã‚’ã€<br/>
- * å–å¾—ã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚
+ * •¡”Œn—ñ‚ÌƒOƒ‰ƒtî•ñ‚ğA<br/>
+ * æ“¾‚·‚éƒNƒ‰ƒXB
  * 
  * @author ochiai
  */
-public class GraphItemAccessUtil
-{
+public class GraphItemAccessUtil {
 	/**
-	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚ ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ç”Ÿæˆã‚’é˜²æ­¢ã™ã‚‹ãŸã‚ã€privateã¨ã™ã‚‹ã€‚
+	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B ƒCƒ“ƒXƒ^ƒ“ƒX¶¬‚ğ–h~‚·‚é‚½‚ßAprivate‚Æ‚·‚éB
 	 */
-	private GraphItemAccessUtil()
-	{
+	private GraphItemAccessUtil() {
 		// Do nothing.
 	}
 
 	/**
-	 * ã‚°ãƒ©ãƒ•åã‚’å…ƒã«ã€ç³»åˆ—åã”ã¨ã®å€¤ãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚
+	 * ƒOƒ‰ƒt–¼‚ğŒ³‚ÉAŒn—ñ–¼‚²‚Æ‚Ì’lƒŠƒXƒg‚ğ•Ô‚·B
 	 * 
 	 * @param database
-	 *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+	 *            ƒf[ƒ^ƒx[ƒX–¼
 	 * @param graphName
-	 *            ã‚°ãƒ©ãƒ•å
+	 *            ƒOƒ‰ƒt–¼
 	 * @param operator
-	 *            åœ§ç¸®æ–¹æ³•
+	 *            ˆ³k•û–@
 	 * @param startTime
-	 *            æ¤œç´¢æ¡ä»¶(é–‹å§‹æ™‚åˆ»)
+	 *            ŒŸõğŒ(ŠJn)
 	 * @param endTime
-	 *            æ¤œç´¢æ¡ä»¶(çµ‚äº†æ™‚åˆ»)
-	 * @return ã€ŒListã€ã‚°ãƒ©ãƒ•ã®ãƒ‡ãƒ¼ã‚¿
+	 *            ŒŸõğŒ(I—¹)
+	 * @return uListvƒOƒ‰ƒt‚Ìƒf[ƒ^
 	 * @throws SQLException
-	 *             ãƒ‡ãƒ¼ã‚¿å–å¾—æ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+	 *             ƒf[ƒ^æ“¾‚É—áŠO‚ª”­¶‚µ‚½ê‡
 	 */
-	public static List<ItemData> findItemData(String database, String graphName,
-		CompressOperator operator, Timestamp startTime, Timestamp endTime) throws SQLException
-	{
+	public static List<ItemData> findItemData(String database,
+			String graphName, CompressOperator operator, Timestamp startTime,
+			Timestamp endTime) throws SQLException {
 		Map<String, List<ReportItemValue>> reportItemMap;
-		if (operator == CompressOperator.TOTAL)
-		{
-			reportItemMap = ReportDao.selectSumMap(database, startTime, endTime, graphName);
-		}
-		else
-		{
-			reportItemMap = ReportDao.selectAverageMap(database, startTime, endTime, graphName);
+		if (operator == CompressOperator.TOTAL) {
+			reportItemMap = ReportDao.selectSumMap(database, startTime,
+					endTime, graphName);
+		} else {
+			reportItemMap = ReportDao.selectAverageMap(database, startTime,
+					endTime, graphName);
 		}
 
 		return convertToItemDataList(operator, reportItemMap);
 	}
 
-	public static List<ItemData> convertToItemDataList(CompressOperator operator,
-		Map<String, List<ReportItemValue>> reportItemMap)
-	{
+	public static List<ItemData> convertToItemDataList(
+			CompressOperator operator,
+			Map<String, List<ReportItemValue>> reportItemMap) {
 		List<ItemData> result = new ArrayList<ItemData>();
-		for (Map.Entry<String, List<ReportItemValue>> entry : reportItemMap.entrySet())
-		{
+		for (Map.Entry<String, List<ReportItemValue>> entry : reportItemMap
+				.entrySet()) {
 			List<ReportItemValue> list = entry.getValue();
 			List<ItemRecord> records = new ArrayList<ItemRecord>();
-			for (ReportItemValue itemValue : list)
-			{
+			for (ReportItemValue itemValue : list) {
 				ItemRecord itemRecord = new ItemRecord();
 				itemRecord.setMeasurementTime(itemValue.measurementTime);
-				itemRecord.setValue(itemValue.summaryValue.doubleValue());
-				itemRecord.setValueMax(itemValue.maxValue.doubleValue());
-				itemRecord.setValueMin(itemValue.minValue.doubleValue());
+				itemRecord.setValue(itemValue.summaryValue.longValue());
+				itemRecord.setValueMax(itemValue.maxValue.longValue());
+				itemRecord.setValueMin(itemValue.minValue.longValue());
 
 				records.add(itemRecord);
 			}
@@ -108,44 +103,43 @@ public class GraphItemAccessUtil
 	}
 
 	/**
-	 * ã‚°ãƒ©ãƒ•åã‚’å…ƒã«ã€ç³»åˆ—åã”ã¨ã®å€¤ãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚
+	 * ƒOƒ‰ƒt–¼‚ğŒ³‚ÉAŒn—ñ–¼‚²‚Æ‚Ì’lƒŠƒXƒg‚ğ•Ô‚·B
 	 * 
 	 * @param database
-	 *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+	 *            ƒf[ƒ^ƒx[ƒX–¼
 	 * @param graphName
-	 *            ã‚°ãƒ©ãƒ•å
+	 *            ƒOƒ‰ƒt–¼
 	 * @param operator
-	 *            åœ§ç¸®æ–¹æ³•
+	 *            ˆ³k•û–@
 	 * @param startTime
-	 *            æ¤œç´¢æ¡ä»¶(é–‹å§‹æ™‚åˆ»)
+	 *            ŒŸõğŒ(ŠJn)
 	 * @param endTime
-	 *            æ¤œç´¢æ¡ä»¶(çµ‚äº†æ™‚åˆ»)
+	 *            ŒŸõğŒ(I—¹)
 	 * @param tatData
-	 * @return ã€ŒListã€ã‚°ãƒ©ãƒ•ã®ãƒ‡ãƒ¼ã‚¿
+	 * @return uListvƒOƒ‰ƒt‚Ìƒf[ƒ^
 	 * @throws SQLException
-	 *             ãƒ‡ãƒ¼ã‚¿å–å¾—æ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+	 *             ƒf[ƒ^æ“¾‚É—áŠO‚ª”­¶‚µ‚½ê‡
 	 */
-	public static List<ItemData> findExceptionData(String database, CompressOperator operator,
-		Timestamp startTime, Timestamp endTime, List<ItemData> tatData) throws SQLException
-	{
+	public static List<ItemData> findExceptionData(String database,
+			CompressOperator operator, Timestamp startTime, Timestamp endTime,
+			List<ItemData> tatData) throws SQLException {
 		Map<String, List<ReportItemValue>> exceptionCountData;
-		exceptionCountData = ReportDao.selectExceptionSumMap(database, startTime, endTime,
-			Constants.ITEMNAME_JAVAPROCESS_EXCEPTION_OCCURENCE_COUNT);
+		exceptionCountData = ReportDao.selectExceptionSumMap(database,
+				startTime, endTime,
+				Constants.ITEMNAME_JAVAPROCESS_EXCEPTION_OCCURENCE_COUNT);
 
 		long startMillis = startTime.getTime();
 		long endMillis = endTime.getTime();
-		for (ItemData tatItem : tatData)
-		{
+		for (ItemData tatItem : tatData) {
 			String itemName = tatItem.getItemName();
-			if (exceptionCountData.containsKey(itemName) == false)
-			{
+			if (exceptionCountData.containsKey(itemName) == false) {
 				ArrayList<ReportItemValue> list = new ArrayList<ReportItemValue>();
-				for (int index = 0; index < ReportDao.ITEM_COUNT; index++)
-				{
+				for (int index = 0; index < ReportDao.ITEM_COUNT; index++) {
 					ReportItemValue reportItemValue = new ReportItemValue();
 					reportItemValue.itemName = itemName;
 					reportItemValue.measurementTime = new Timestamp(startMillis
-						+ (endMillis - startMillis) / ReportDao.ITEM_COUNT * index);
+							+ (endMillis - startMillis) / ReportDao.ITEM_COUNT
+							* index);
 					reportItemValue.summaryValue = 0;
 					reportItemValue.maxValue = 0;
 					reportItemValue.minValue = 0;
@@ -153,10 +147,9 @@ public class GraphItemAccessUtil
 				}
 
 				exceptionCountData.put(itemName, list);
-			}
-			else
-			{
-				List<ReportItemValue> exceptionValue = exceptionCountData.get(itemName);
+			} else {
+				List<ReportItemValue> exceptionValue = exceptionCountData
+						.get(itemName);
 				exceptionCountData.remove(itemName);
 				exceptionCountData.put(itemName, exceptionValue);
 			}
@@ -165,55 +158,55 @@ public class GraphItemAccessUtil
 	}
 
 	/**
-	 * ã‚°ãƒ©ãƒ•åã‚’å…ƒã«ã€ç³»åˆ—åã”ã¨ã®å€¤ãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚
+	 * ƒOƒ‰ƒt–¼‚ğŒ³‚ÉAŒn—ñ–¼‚²‚Æ‚Ì’lƒŠƒXƒg‚ğ•Ô‚·B
 	 * 
 	 * @param database
-	 *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+	 *            ƒf[ƒ^ƒx[ƒX–¼
 	 * @param graphName
-	 *            ã‚°ãƒ©ãƒ•å
+	 *            ƒOƒ‰ƒt–¼
 	 * @param operator
-	 *            åœ§ç¸®æ–¹æ³•
+	 *            ˆ³k•û–@
 	 * @param startTime
-	 *            æ¤œç´¢æ¡ä»¶(é–‹å§‹æ™‚åˆ»)
+	 *            ŒŸõğŒ(ŠJn)
 	 * @param endTime
-	 *            æ¤œç´¢æ¡ä»¶(çµ‚äº†æ™‚åˆ»)
+	 *            ŒŸõğŒ(I—¹)
 	 * @param tatData
-	 * @return ã€ŒListã€ã‚°ãƒ©ãƒ•ã®ãƒ‡ãƒ¼ã‚¿
+	 * @return uListvƒOƒ‰ƒt‚Ìƒf[ƒ^
 	 * @throws SQLException
-	 *             ãƒ‡ãƒ¼ã‚¿å–å¾—æ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+	 *             ƒf[ƒ^æ“¾‚É—áŠO‚ª”­¶‚µ‚½ê‡
 	 */
-	public static List<ItemData> findStallData(String database, CompressOperator operator,
-		Timestamp startTime, Timestamp endTime, List<ItemData> tatData) throws SQLException
-	{
+	public static List<ItemData> findStallData(String database,
+			CompressOperator operator, Timestamp startTime, Timestamp endTime,
+			List<ItemData> tatData) throws SQLException {
 		Map<String, List<ReportItemValue>> stallCountData;
-		stallCountData = ReportDao.selectStallSumMap(database, startTime, endTime,
-			Constants.ITEMNAME_JAVAPROCESS_STALL_OCCURENCE_COUNT);
+		stallCountData = ReportDao.selectStallSumMap(database, startTime,
+				endTime, Constants.ITEMNAME_JAVAPROCESS_STALL_OCCURENCE_COUNT);
 
 		long startMillis = startTime.getTime();
 		long endMillis = endTime.getTime();
-		for (ItemData tatItem : tatData)
-		{
+		for (ItemData tatItem : tatData) {
 			String itemName = tatItem.getItemName();
-			if (stallCountData.containsKey(itemName) == false)
-			{
+			if (stallCountData.containsKey(itemName) == false) {
 				ArrayList<ReportItemValue> list = new ArrayList<ReportItemValue>();
-				for (int index = 0; index < ReportDao.ITEM_COUNT; index++)
-				{
+				for (int index = 0; index < ReportDao.ITEM_COUNT; index++) {
 					ReportItemValue reportItemValue = new ReportItemValue();
 					reportItemValue.itemName = itemName;
 					reportItemValue.measurementTime = new Timestamp(startMillis
-						+ (endMillis - startMillis) / ReportDao.ITEM_COUNT * index);
-					reportItemValue.summaryValue = tatItem.getRecords().get(index).getValue();
-					reportItemValue.maxValue = tatItem.getRecords().get(index).getValueMax();
-					reportItemValue.minValue = tatItem.getRecords().get(index).getValueMin();
+							+ (endMillis - startMillis) / ReportDao.ITEM_COUNT
+							* index);
+					reportItemValue.summaryValue = tatItem.getRecords()
+							.get(index).getValue();
+					reportItemValue.maxValue = tatItem.getRecords().get(index)
+							.getValueMax();
+					reportItemValue.minValue = tatItem.getRecords().get(index)
+							.getValueMin();
 					list.add(reportItemValue);
 				}
 
 				stallCountData.put(itemName, list);
-			}
-			else
-			{
-				List<ReportItemValue> exceptionValue = stallCountData.get(itemName);
+			} else {
+				List<ReportItemValue> exceptionValue = stallCountData
+						.get(itemName);
 				stallCountData.remove(itemName);
 				stallCountData.put(itemName, exceptionValue);
 			}
@@ -222,53 +215,50 @@ public class GraphItemAccessUtil
 	}
 
 	/**
-	 * ã‚°ãƒ©ãƒ•åã‚’å…ƒã«ã€ç³»åˆ—åã”ã¨ã®å€¤ãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚
+	 * ƒOƒ‰ƒt–¼‚ğŒ³‚ÉAŒn—ñ–¼‚²‚Æ‚Ì’lƒŠƒXƒg‚ğ•Ô‚·B
 	 * 
 	 * @param database
-	 *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+	 *            ƒf[ƒ^ƒx[ƒX–¼
 	 * @param graphName
-	 *            ã‚°ãƒ©ãƒ•å
+	 *            ƒOƒ‰ƒt–¼
 	 * @param operator
-	 *            åœ§ç¸®æ–¹æ³•
+	 *            ˆ³k•û–@
 	 * @param startTime
-	 *            æ¤œç´¢æ¡ä»¶(é–‹å§‹æ™‚åˆ»)
+	 *            ŒŸõğŒ(ŠJn)
 	 * @param endTime
-	 *            æ¤œç´¢æ¡ä»¶(çµ‚äº†æ™‚åˆ»)
-	 * @return ã€ŒListã€ã‚°ãƒ©ãƒ•ã®ãƒ‡ãƒ¼ã‚¿
+	 *            ŒŸõğŒ(I—¹)
+	 * @return uListvƒOƒ‰ƒt‚Ìƒf[ƒ^
 	 * @throws SQLException
-	 *             ãƒ‡ãƒ¼ã‚¿å–å¾—æ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+	 *             ƒf[ƒ^æ“¾‚É—áŠO‚ª”­¶‚µ‚½ê‡
 	 */
-	public static Map<String, List<ReportItemValue>> findItemDataMap(String database,
-		String graphName, CompressOperator operator, Timestamp startTime, Timestamp endTime)
-		throws SQLException
-	{
+	public static Map<String, List<ReportItemValue>> findItemDataMap(
+			String database, String graphName, CompressOperator operator,
+			Timestamp startTime, Timestamp endTime) throws SQLException {
 		Map<String, List<ReportItemValue>> result;
-		if (operator == CompressOperator.TOTAL)
-		{
-			result = ReportDao.selectSumMap(database, startTime, endTime, graphName);
-		}
-		else
-		{
-			result = ReportDao.selectAverageMap(database, startTime, endTime, graphName);
+		if (operator == CompressOperator.TOTAL) {
+			result = ReportDao.selectSumMap(database, startTime, endTime,
+					graphName);
+		} else {
+			result = ReportDao.selectAverageMap(database, startTime, endTime,
+					graphName);
 		}
 
 		return result;
 	}
 
 	/**
-	 * å¼•æ•°ã«æŒ‡å®šã—ãŸItemNameé…ä¸‹ã®è¨ˆæ¸¬å¯¾è±¡ã®ä¸€è¦§ã‚’å–å¾—ã™ã‚‹ã€‚
+	 * ˆø”‚Éw’è‚µ‚½ItemName”z‰º‚ÌŒv‘ª‘ÎÛ–¼‚Ìˆê——‚ğæ“¾‚·‚éB
 	 * 
 	 * @param parentItemName
-	 *            å–å¾—ã—ãŸã„è¨ˆæ¸¬å¯¾è±¡åã®è¦ªã®åå‰
-	 * @return è¨ˆæ¸¬å¯¾è±¡ã®ä¸€è¦§
+	 *            æ“¾‚µ‚½‚¢Œv‘ª‘ÎÛ–¼‚Ìe‚Ì–¼‘O
+	 * @return Œv‘ª‘ÎÛ–¼‚Ìˆê——
 	 * @throws SQLException
-	 *             ãƒ‡ãƒ¼ã‚¿å–å¾—æ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+	 *             ƒf[ƒ^æ“¾‚É—áŠO‚ª”­¶‚µ‚½ê‡
 	 */
-	public static List<GraphTypeDto> findChildMeasurementItems(String database,
-		String parentItemName) throws SQLException
-	{
-		List<GraphTypeDto> measurementItemNameList = JavelinMeasurementItemDao
-			.selectItemNameListByParentItemName(database, parentItemName);
+	public static List<String> findChildMeasurementItemName(String database,
+			String parentItemName) throws SQLException {
+		List<String> measurementItemNameList = JavelinMeasurementItemDao
+				.selectItemNameListByParentItemName(database, parentItemName);
 
 		return measurementItemNameList;
 	}

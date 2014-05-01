@@ -25,25 +25,20 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.javelin.resource.proc;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import jp.co.acroquest.endosnipe.common.entity.ItemType;
-import jp.co.acroquest.endosnipe.common.entity.ResourceItem;
-import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
-import jp.co.acroquest.endosnipe.javelin.bean.proc.CpuCoreInfo;
-import jp.co.acroquest.endosnipe.javelin.bean.proc.StatInfo;
+
 
 /**
- * StatInfoã‹ã‚‰ã‚¿ã‚¹ã‚¯å¾…ã¡ã§ã®CPUä½¿ç”¨é‡ã‚’å–å¾—ã™ã‚‹ã€‚
+ * StatInfo‚©‚çƒ^ƒXƒN‘Ò‚¿‚Å‚ÌCPUŽg—p—Ê‚ðŽæ“¾‚·‚éB
  * 
  * @author akita
  */
-public class LinuxCpuArrayGetter extends ProcMultiResourceGetter
+public class LinuxCpuArrayGetter extends ProcResourceGetter
 {
+
     /**
      * 
-     * @param procParser ãƒªã‚½ãƒ¼ã‚¹æƒ…å ±å–å¾—ç”¨
+     * @param procParser ƒŠƒ\[ƒXî•ñŽæ“¾—p
      */
     public LinuxCpuArrayGetter(ProcParser procParser)
     {
@@ -55,43 +50,17 @@ public class LinuxCpuArrayGetter extends ProcMultiResourceGetter
      */
     public ItemType getItemType()
     {
-        return ItemType.ITEMTYPE_STRING;
+        return ItemType.ITEMTYPE_LONG;
     }
 
     /**
      * {@inheritDoc}
      */
-    public List<ResourceItem> getValues()
+    public Number getValue()
     {
-        StatInfo statInfo = this.getProcParser().getProcInfo().getStatInfo();
-
-        List<ResourceItem> values = new ArrayList<ResourceItem>();
-        List<CpuCoreInfo> coreList = statInfo.getCpuArray();
-        for (int index = 0; index < coreList.size(); index++)
-        {
-            CpuCoreInfo coreInfo = coreList.get(index);
-            String base = TelegramConstants.ITEMNAME_CPU_ARRAY + "/" + index + "/time";
-            values.add(createItem(base, "/user(d)", coreInfo.getCpuUser()));
-            values.add(createItem(base, "/system(d)", coreInfo.getCpuSystem()));
-            values.add(createItem(base, "/iowait(d)", coreInfo.getCpuIoWait()));
-        }
-
-        return values;
+//        ProcParser lpp = this.getProcParser();
+//        ProcInfo pi = lpp.getProcInfo();
+        //TODOFˆÈ‰º‚Ìƒ\[ƒX‚ðC³‚·‚é‚±‚ÆBiŽb’è“I‚É‚O‚ð“ü‚ê‚Ä‚¢‚éj
+        return Long.valueOf(0);
     }
-
-    /**
-     * 
-     * @param base
-     * @param name
-     * @param value
-     * @return
-     */
-    private ResourceItem createItem(String base, String name, long value)
-    {
-        ResourceItem item = new ResourceItem();
-        item.setName(base + name);
-        item.setValue(String.valueOf(value));
-        return item;
-    }
-
 }

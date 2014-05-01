@@ -29,51 +29,49 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 import jp.co.acroquest.endosnipe.javelin.CallTree;
 import jp.co.acroquest.endosnipe.javelin.CallTreeNode;
-import jp.co.acroquest.endosnipe.javelin.CallTreeRecorder;
 import jp.co.acroquest.endosnipe.javelin.bean.Invocation;
 
 /**
- * Hadoopç”¨ã®ã‚³ãƒ¼ãƒ«ãƒ„ãƒªãƒ¼ã‚’è¨˜éŒ²ã™ã‚‹ã€‚
+ * Hadoop—p‚ÌƒR[ƒ‹ƒcƒŠ[‚ğ‹L˜^‚·‚éB
  *
  * @author matsuoka
  */
-public class HadoopCallTreeRecorder extends CallTreeRecorder
+public class HadoopCallTreeRecorder
 {
-    /** {@link HadoopCallTreeRecorder}ã®å”¯ä¸€ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ */
+    /** {@link HadoopCallTreeRecorder}‚Ì—Bˆê‚ÌƒCƒ“ƒXƒ^ƒ“ƒX */
     private static HadoopCallTreeRecorder instance__ = new HadoopCallTreeRecorder();
 
-    /** ã‚¸ãƒ§ãƒ–IDã‚’ã‚­ãƒ¼ã¨ã—ãŸ{@link HadoopCallTree}ã®ãƒªã‚¹ãƒˆ */
+    /** ƒWƒ‡ƒuID‚ğƒL[‚Æ‚µ‚½{@link HadoopCallTree}‚ÌƒŠƒXƒg */
     private Map<String, HadoopCallTree> hadoopCallTreeMap_ = new HashMap<String, HadoopCallTree>();
 
-    /** ã‚¸ãƒ§ãƒ–IDã‚’ã‚­ãƒ¼ã¨ã—ãŸã‚¹ãƒ¬ãƒƒãƒ‰æ¯ã®{@link CallTree}ã®ä¸€è¦§ */
+    /** ƒWƒ‡ƒuID‚ğƒL[‚Æ‚µ‚½ƒXƒŒƒbƒh–ˆ‚Ì{@link CallTree}‚Ìˆê—— */
     private HashMap<String, HashMap<String, CallTree>> callTreeMap_ = new HashMap<String, HashMap<String, CallTree>>(1);
 
-    /** ã‚¸ãƒ§ãƒ–IDã‚’ã‚­ãƒ¼ã¨ã—ãŸã‚¹ãƒ¬ãƒƒãƒ‰æ¯ã®{@link CallTreeNode}ã®ä¸€è¦§ */
-    private HashMap<String, HashMap<String, HadoopCallTreeNode>> callTreeNodeMap_ = new HashMap<String, HashMap<String, HadoopCallTreeNode>>(1);
+    /** ƒWƒ‡ƒuID‚ğƒL[‚Æ‚µ‚½ƒXƒŒƒbƒh–ˆ‚Ì{@link CallTreeNode}‚Ìˆê—— */
+    private HashMap<String, HashMap<String, CallTreeNode>> callTreeNodeMap_ = new HashMap<String, HashMap<String, CallTreeNode>>(1);
 
-    /** ã‚¹ãƒ¬ãƒƒãƒ‰æ¯ã®{@link Invocation} */
+    /** ƒXƒŒƒbƒh–ˆ‚Ì{@link Invocation} */
     private HashMap<String, Invocation> invocationMap_ = new HashMap<String, Invocation>(1);
 
-    /** ã‚¹ãƒ¬ãƒƒãƒ‰æ¯ã®ãƒ›ã‚¹ãƒˆå */
+    /** ƒXƒŒƒbƒh–ˆ‚ÌƒzƒXƒg–¼ */
     private HashMap<String, String> hostNameMap_ = new HashMap<String, String>(1);
 
-    /** ã‚¹ãƒ¬ãƒƒãƒ‰æ¯ã®ãƒ¡ã‚½ãƒƒãƒ‰é–‹å§‹æ™‚åˆ»*/
+    /** ƒXƒŒƒbƒh–ˆ‚Ìƒƒ\ƒbƒhŠJn*/
     private HashMap<String, Long> startTimeMap_ = new HashMap<String, Long>(1);
 
     /**
-     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã‚’éš è”½ã™ã‚‹ã€‚
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ğ‰B•Á‚·‚éB
      */
     private HadoopCallTreeRecorder()
     {
-    	super();
+        // Do Nothing.
     }
 
     /**
-     * {@link HadoopCallTreeRecorder}ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return {@link HadoopCallTreeRecorder}ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’è¿”ã™ã€‚
+     * {@link HadoopCallTreeRecorder}‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚·‚éB
+     * @return {@link HadoopCallTreeRecorder}‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ•Ô‚·B
      */
     public static HadoopCallTreeRecorder getInstance()
     {
@@ -81,9 +79,9 @@ public class HadoopCallTreeRecorder extends CallTreeRecorder
     }
 
     /**
-     * ã‚³ãƒ¼ãƒ«ãƒ„ãƒªãƒ¼ã‚’è¿½åŠ ã™ã‚‹ã€‚
-     * @param jobId Hadoopã®ã‚¸ãƒ§ãƒ–ID
-     * @param tree è¿½åŠ ã™ã‚‹ã‚³ãƒ¼ãƒ«ãƒ„ãƒªãƒ¼
+     * ƒR[ƒ‹ƒcƒŠ[‚ğ’Ç‰Á‚·‚éB
+     * @param jobId Hadoop‚ÌƒWƒ‡ƒuID
+     * @param tree ’Ç‰Á‚·‚éƒR[ƒ‹ƒcƒŠ[
      */
     public void addCallTree(String jobId, CallTree tree)
     {
@@ -101,9 +99,9 @@ public class HadoopCallTreeRecorder extends CallTreeRecorder
     }
 
     /**
-     * Hadoopã®ã‚¸ãƒ§ãƒ–IDã«å¯¾å¿œã™ã‚‹ã‚³ãƒ¼ãƒ«ãƒ„ãƒªãƒ¼ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @param jobId Hadoopã®ã‚¸ãƒ§ãƒ–ID
-     * @return æŒ‡å®šã•ã‚ŒãŸã‚¸ãƒ§ãƒ–IDã®ã‚³ãƒ¼ãƒ«ãƒ„ãƒªãƒ¼
+     * Hadoop‚ÌƒWƒ‡ƒuID‚É‘Î‰‚·‚éƒR[ƒ‹ƒcƒŠ[‚ğæ“¾‚·‚éB
+     * @param jobId Hadoop‚ÌƒWƒ‡ƒuID
+     * @return w’è‚³‚ê‚½ƒWƒ‡ƒuID‚ÌƒR[ƒ‹ƒcƒŠ[
      */
     public HadoopCallTree getCallTree(String jobId)
     {
@@ -111,8 +109,8 @@ public class HadoopCallTreeRecorder extends CallTreeRecorder
     }
 
     /**
-     * Hadoopã®ã‚¸ãƒ§ãƒ–IDã«å¯¾å¿œã™ã‚‹ã‚³ãƒ¼ãƒ«ãƒ„ãƒªãƒ¼ã‚’å‰Šé™¤ã™ã‚‹ã€‚
-     * @param jobId Hadoopã®ã‚¸ãƒ§ãƒ–ID
+     * Hadoop‚ÌƒWƒ‡ƒuID‚É‘Î‰‚·‚éƒR[ƒ‹ƒcƒŠ[‚ğíœ‚·‚éB
+     * @param jobId Hadoop‚ÌƒWƒ‡ƒuID
      */
     public void removeCallTree(String jobId)
     {
@@ -123,9 +121,9 @@ public class HadoopCallTreeRecorder extends CallTreeRecorder
     }
 
     /**
-     * JobIDä¸€è¦§ã‚’è¿”ã™
+     * JobIDˆê——‚ğ•Ô‚·
      *
-     * @return JobIDä¸€è¦§
+     * @return JobIDˆê——
      */
     public ArrayList<String> getJobIds()
     {
@@ -138,9 +136,9 @@ public class HadoopCallTreeRecorder extends CallTreeRecorder
     }
 
     /**
-     * CallTreeã¨ã‚¸ãƒ§ãƒ–IDã‚’ç´ä»˜ã¦æ ¼ç´ã™ã‚‹ã€‚
+     * CallTree‚ÆƒWƒ‡ƒuID‚ğ•R•t‚ÄŠi”[‚·‚éB
      * 
-     * @param jobID ã‚¸ãƒ§ãƒ–ID
+     * @param jobID ƒWƒ‡ƒuID
      * @param tree {@link CallTree}
      */
     public void putCallTree(String jobID, CallTree tree)
@@ -158,10 +156,10 @@ public class HadoopCallTreeRecorder extends CallTreeRecorder
     }
 
     /**
-     * æŒ‡å®šã•ã‚ŒãŸã‚¸ãƒ§ãƒ–IDã«ç´ä»˜ã„ãŸCallTreeã‚’å–å¾—ã™ã‚‹ã€‚<br />
-     * å–ã‚Šå‡ºã—ãŸCallTreeã¯CallTreeRecorderã‹ã‚‰å‰Šé™¤ã•ã‚Œã‚‹ã€‚
+     * w’è‚³‚ê‚½ƒWƒ‡ƒuID‚É•R•t‚¢‚½CallTree‚ğæ“¾‚·‚éB<br />
+     * æ‚èo‚µ‚½CallTree‚ÍCallTreeRecorder‚©‚çíœ‚³‚ê‚éB
      * 
-     * @param jobID ã‚¸ãƒ§ãƒ–ID
+     * @param jobID ƒWƒ‡ƒuID
      * 
      * @return {@link CallTree}
      */
@@ -183,10 +181,10 @@ public class HadoopCallTreeRecorder extends CallTreeRecorder
     }
 
     /**
-     * ã‚¸ãƒ§ãƒ–IDã‚’ã‚­ãƒ¼ã¨ã—ãŸCallTreeã®ä¸€è¦§ã‚’å–å¾—ã™ã‚‹ã€‚<br />
-     * å–ã‚Šå‡ºã—ãŸCallTreeã®ä¸€è¦§ã¯CallTreeRecorderã‹ã‚‰å‰Šé™¤ã•ã‚Œã‚‹ã€‚
+     * ƒWƒ‡ƒuID‚ğƒL[‚Æ‚µ‚½CallTree‚Ìˆê——‚ğæ“¾‚·‚éB<br />
+     * æ‚èo‚µ‚½CallTree‚Ìˆê——‚ÍCallTreeRecorder‚©‚çíœ‚³‚ê‚éB
      * 
-     * @return ã‚¸ãƒ§ãƒ–IDã‚’ã‚­ãƒ¼ã¨ã—ãŸ{@link CallTree}ã®ä¸€è¦§
+     * @return ƒWƒ‡ƒuID‚ğƒL[‚Æ‚µ‚½{@link CallTree}‚Ìˆê——
      */
     public HashMap<String, CallTree> takeAllCallTree()
     {
@@ -206,19 +204,19 @@ public class HadoopCallTreeRecorder extends CallTreeRecorder
     }
 
     /**
-     * CallTreeNodeã¨ã‚¸ãƒ§ãƒ–IDã‚’ç´ä»˜ã¦æ ¼ç´ã™ã‚‹ã€‚
+     * CallTreeNode‚ÆƒWƒ‡ƒuID‚ğ•R•t‚ÄŠi”[‚·‚éB
      * 
-     * @param jobID ã‚¸ãƒ§ãƒ–ID
+     * @param jobID ƒWƒ‡ƒuID
      * @param node {@link CallTreeNode}
      */
-    public void putCallTreeNode(String jobID, HadoopCallTreeNode node)
+    public void putCallTreeNode(String jobID, CallTreeNode node)
     {
         String threadID = String.valueOf(Thread.currentThread().getId());
         synchronized(callTreeNodeMap_)
         {
             if(!callTreeNodeMap_.containsKey(threadID))
             {
-                callTreeNodeMap_.put(threadID, new HashMap<String, HadoopCallTreeNode>(1));
+                callTreeNodeMap_.put(threadID, new HashMap<String, CallTreeNode>(1));
             }
             callTreeNodeMap_.get(threadID).put(jobID, node);
         }
@@ -226,10 +224,10 @@ public class HadoopCallTreeRecorder extends CallTreeRecorder
     }
 
     /**
-     * æŒ‡å®šã•ã‚ŒãŸã‚¸ãƒ§ãƒ–IDã«ç´ä»˜ã„ãŸCallTreeNodeã‚’å–å¾—ã™ã‚‹ã€‚<br />
-     * å–ã‚Šå‡ºã—ãŸCallTreeNodeã¯CallTreeRecorderã‹ã‚‰å‰Šé™¤ã•ã‚Œã‚‹ã€‚
+     * w’è‚³‚ê‚½ƒWƒ‡ƒuID‚É•R•t‚¢‚½CallTreeNode‚ğæ“¾‚·‚éB<br />
+     * æ‚èo‚µ‚½CallTreeNode‚ÍCallTreeRecorder‚©‚çíœ‚³‚ê‚éB
      * 
-     * @param jobID ã‚¸ãƒ§ãƒ–ID
+     * @param jobID ƒWƒ‡ƒuID
      * 
      * @return {@link CallTreeNode}
      */
@@ -251,14 +249,14 @@ public class HadoopCallTreeRecorder extends CallTreeRecorder
     }
 
     /**
-     * ã‚¸ãƒ§ãƒ–IDã‚’ã‚­ãƒ¼ã¨ã—ãŸCallTreeNodeã®ä¸€è¦§ã‚’å–å¾—ã™ã‚‹ã€‚<br />
-     * å–ã‚Šå‡ºã—ãŸCallTreeNodeã®ä¸€è¦§ã¯CallTreeRecorderã‹ã‚‰å‰Šé™¤ã•ã‚Œã‚‹ã€‚
+     * ƒWƒ‡ƒuID‚ğƒL[‚Æ‚µ‚½CallTreeNode‚Ìˆê——‚ğæ“¾‚·‚éB<br />
+     * æ‚èo‚µ‚½CallTreeNode‚Ìˆê——‚ÍCallTreeRecorder‚©‚çíœ‚³‚ê‚éB
      * 
-     * @return ã‚¸ãƒ§ãƒ–IDã‚’ã‚­ãƒ¼ã¨ã—ãŸ{@link CallTreeNode}ã®ä¸€è¦§
+     * @return ƒWƒ‡ƒuID‚ğƒL[‚Æ‚µ‚½{@link CallTreeNode}‚Ìˆê——
      */
-    public HashMap<String, HadoopCallTreeNode> takeAllCallTreeNode()
+    public HashMap<String, CallTreeNode> takeAllCallTreeNode()
     {
-        HashMap<String, HadoopCallTreeNode> callTreeNodeMap = null;
+        HashMap<String, CallTreeNode> callTreeNodeMap = null;
         String threadID = String.valueOf(Thread.currentThread().getId());
 
         synchronized(callTreeNodeMap_)
@@ -274,8 +272,8 @@ public class HadoopCallTreeRecorder extends CallTreeRecorder
     }
 
     /**
-     * Invocationã‚’å–å¾—ã™ã‚‹ã€‚<br />
-     * å–ã‚Šå‡ºã—ãŸInvocationã¯CallTreeRecorderã‹ã‚‰å‰Šé™¤ã•ã‚Œã‚‹ã€‚
+     * Invocation‚ğæ“¾‚·‚éB<br />
+     * æ‚èo‚µ‚½Invocation‚ÍCallTreeRecorder‚©‚çíœ‚³‚ê‚éB
      * 
      * @return {@link Invocation}
      */
@@ -297,7 +295,7 @@ public class HadoopCallTreeRecorder extends CallTreeRecorder
     }
 
     /**
-     * Invocationã‚’è¨­å®šã™ã‚‹ã€‚
+     * Invocation‚ğİ’è‚·‚éB
      * 
      * @param invocation {@link Invocation} 
      */
@@ -313,10 +311,10 @@ public class HadoopCallTreeRecorder extends CallTreeRecorder
     }
 
     /**
-     * ãƒ›ã‚¹ãƒˆåã‚’å–å¾—ã™ã‚‹ã€‚<br />
-     * å–ã‚Šå‡ºã—ãŸãƒ›ã‚¹ãƒˆåã¯CallTreeRecorderã‹ã‚‰å‰Šé™¤ã•ã‚Œã‚‹ã€‚
+     * ƒzƒXƒg–¼‚ğæ“¾‚·‚éB<br />
+     * æ‚èo‚µ‚½ƒzƒXƒg–¼‚ÍCallTreeRecorder‚©‚çíœ‚³‚ê‚éB
      * 
-     * @return ãƒ›ã‚¹ãƒˆå
+     * @return ƒzƒXƒg–¼
      */
     public String takeHostname()
     {
@@ -336,9 +334,9 @@ public class HadoopCallTreeRecorder extends CallTreeRecorder
     }
 
     /**
-     * ãƒ›ã‚¹ãƒˆåã‚’è¨­å®šã™ã‚‹ã€‚
+     * ƒzƒXƒg–¼‚ğİ’è‚·‚éB
      * 
-     * @param hostName ãƒ›ã‚¹ãƒˆå 
+     * @param hostName ƒzƒXƒg–¼ 
      */
     public void putHostName(String hostName)
     {
@@ -352,10 +350,10 @@ public class HadoopCallTreeRecorder extends CallTreeRecorder
     }
 
     /**
-     * ãƒ¡ã‚½ãƒƒãƒ‰é–‹å§‹æ™‚åˆ»ã‚’å–å¾—ã™ã‚‹ã€‚<br />
-     * å–ã‚Šå‡ºã—ãŸãƒ¡ã‚½ãƒƒãƒ‰é–‹å§‹æ™‚åˆ»ã¯CallTreeRecorderã‹ã‚‰å‰Šé™¤ã•ã‚Œã‚‹ã€‚
+     * ƒƒ\ƒbƒhŠJn‚ğæ“¾‚·‚éB<br />
+     * æ‚èo‚µ‚½ƒƒ\ƒbƒhŠJn‚ÍCallTreeRecorder‚©‚çíœ‚³‚ê‚éB
      * 
-     * @return ãƒ¡ã‚½ãƒƒãƒ‰é–‹å§‹æ™‚åˆ»
+     * @return ƒƒ\ƒbƒhŠJn
      */
     public long takeStartTime()
     {
@@ -375,9 +373,9 @@ public class HadoopCallTreeRecorder extends CallTreeRecorder
     }
 
     /**
-     * ãƒ¡ã‚½ãƒƒãƒ‰é–‹å§‹æ™‚åˆ»ã‚’è¨­å®šã™ã‚‹ã€‚
+     * ƒƒ\ƒbƒhŠJn‚ğİ’è‚·‚éB
      * 
-     * @param startTime ãƒ¡ã‚½ãƒƒãƒ‰é–‹å§‹æ™‚åˆ» 
+     * @param startTime ƒƒ\ƒbƒhŠJn 
      */
     public void putStartTime(long startTime)
     {
@@ -389,46 +387,5 @@ public class HadoopCallTreeRecorder extends CallTreeRecorder
             if(!startTimeMap_.containsKey(threadID))
                 startTimeMap_.put(threadID, start);
         }
-    }
-
-    /**
-     * CallTreeNodeã‚’å–å¾—ã—ã¾ã™ã€‚
-     *
-     * @return CallTreeã€‚
-     */
-    public HadoopCallTreeNode getCallTreeNode()
-    {
-        return (HadoopCallTreeNode) super.getCallTreeNode();
-    }
-
-    
-    /**
-     * CallTreeNodeã‚’ç”Ÿæˆã—ã¾ã™ã€‚
-     *
-     * @param invocation Invocationã€‚
-     * @param args å¼•æ•°ã€‚
-     * @param stacktrace ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã€‚
-     * @param config è¨­å®šã€‚
-     * @return CallTreeNodeã€‚
-     */
-    public static HadoopCallTreeNode createNode(
-            Invocation invocation,
-            final Object[] args,
-            final StackTraceElement[] stacktrace,
-            final JavelinConfig config)
-    {
-    	HadoopCallTreeNode node = new HadoopCallTreeNode();
-
-        node.setStacktrace(stacktrace);
-
-        // ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿è¨­å®šãŒè¡Œã‚ã‚Œã¦ã„ã‚‹ã¨ãã€ãƒãƒ¼ãƒ‰ã«ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’è¨­å®šã™ã‚‹
-        if (args != null)
-        {
-            CallTreeRecorder.addLogArgs(node, args, config);
-        }
-
-        node.setInvocation(invocation);
-
-        return node;
     }
 }

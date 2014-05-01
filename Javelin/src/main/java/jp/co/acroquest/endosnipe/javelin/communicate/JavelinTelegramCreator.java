@@ -41,92 +41,92 @@ import jp.co.acroquest.endosnipe.javelin.bean.ExcludeMonitor;
 import jp.co.acroquest.endosnipe.javelin.bean.Invocation;
 
 /**
- *  Invocationã‹ã‚‰é›»æ–‡ã‚’ä½œæˆã™ã‚‹ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+ *  Invocation‚©‚ç“d•¶‚ğì¬‚·‚éƒNƒ‰ƒX‚Å‚·B<br />
  * @author acroquest
  *
  */
 public class JavelinTelegramCreator implements TelegramConstants
 {
-    /** é›»æ–‡ã®é …ç›®æ•° */
+    /** “d•¶‚Ì€–Ú” */
     private static final int TELEGRAM_ITEM_COUNT = 26;
 
-    /** å‡¦ç†æ™‚é–“ã®indexç•ªå· */
+    /** ˆ—ŠÔ‚Ìindex”Ô† */
     private static final int PROCESS_TIME_INDEX_NUMBER = 1;
 
-    /** ç©ç®—å·é§…æ™‚é–“ã®indexç•ªå· */
+    /** ÏZ†‰wŠÔ‚Ìindex”Ô† */
     private static final int ACCUMULATED_TOTAL_INDEX_NUMBER = 2;
 
-    /** ç©ç®—æœ€å¤§æ™‚é–“ã®indexç•ªå· */
+    /** ÏZÅ‘åŠÔ‚Ìindex”Ô† */
     private static final int ACCUMULATED_MAX_INDEX_NUMBER = 3;
     
-    /** ç©ç®—æœ€å°æ™‚é–“ã®indexç•ªå· */
+    /** ÏZÅ¬ŠÔ‚Ìindex”Ô† */
     private static final int ACCUMULATED_MIN_INDEX_NUMBER = 4;
     
-    /** ç©ç®—CPUåˆè¨ˆæ™‚é–“ã®indexç•ªå· */
+    /** ÏZCPU‡ŒvŠÔ‚Ìindex”Ô† */
     private static final int ACCUMULATED_CPU_TOTAL_INDEX_NUMBER = 5;
     
-    /** ç©ç®—CPUæœ€å¤§æ™‚é–“ã®indexç•ªå· */
+    /** ÏZCPUÅ‘åŠÔ‚Ìindex”Ô† */
     private static final int ACCUMULATED_CPU_MAX_INDEX_NUMBER = 6;
     
-    /** ç©ç®—CPUæœ€å°æ™‚é–“ã®indexç•ªå· */
+    /** ÏZCPUÅ¬ŠÔ‚Ìindex”Ô† */
     private static final int ACCUMULATED_CPU_MIN_INDEX_NUMBER = 7;
     
-    /** ç©ç®—USERåˆè¨ˆæ™‚é–“ã®indexç•ªå· */
+    /** ÏZUSER‡ŒvŠÔ‚Ìindex”Ô† */
     private static final int ACCUMULATED_USER_TOTAL_INDEX_NUMBER = 8;
     
-    /** ç©ç®—USERæœ€å¤§æ™‚é–“ã®indexç•ªå· */
+    /** ÏZUSERÅ‘åŠÔ‚Ìindex”Ô† */
     private static final int ACCUMULATED_USER_MAX_INDEX_NUMBER = 9;
     
-    /** ç©ç®—USERæœ€å°æ™‚é–“ã®indexç•ªå· */
+    /** ÏZUSERÅ¬ŠÔ‚Ìindex”Ô† */
     private static final int ACCUMULATED_USER_MIN_INDEX_NUMBER = 10;
     
-    /** åˆè¨ˆæ™‚é–“ã®indexç•ªå· */
+    /** ‡ŒvŠÔ‚Ìindex”Ô† */
     private static final int TOTAL_TIME_INDEX_NUMBER = 11;
     
-    /** æœ€å¤§å‡¦ç†æ™‚é–“ã®indexç•ªå· */
+    /** Å‘åˆ—ŠÔ‚Ìindex”Ô† */
     private static final int MAX_PROCESS_TIME_INDEX_NUMBER = 12;
     
-    /** æœ€å°å‡¦ç†æ™‚é–“ã®indexç•ªå· */
+    /** Å¬ˆ—ŠÔ‚Ìindex”Ô† */
     private static final int MIN_PROCESS_TIME_INDEX_NUMBER = 13;
     
-    /** CPUåˆè¨ˆæ™‚é–“ã®indexç•ªå· */
+    /** CPU‡ŒvŠÔ‚Ìindex”Ô† */
     private static final int CPU_TOTAL_TIME_INDEX_NUMBER = 14;
     
-    /** CPUæœ€å¤§å‡¦ç†æ™‚é–“ã®indexç•ªå· */
+    /** CPUÅ‘åˆ—ŠÔ‚Ìindex”Ô† */
     private static final int MAX_CPU_TIME_INDEX_NUMBER = 15;
     
-    /** CPUæœ€å°å‡¦ç†æ™‚é–“ã®indexç•ªå· */
+    /** CPUÅ¬ˆ—ŠÔ‚Ìindex”Ô† */
     private static final int MIN_CPU_TIME_INDEX_NUMBER = 16;
     
-    /** Useråˆè¨ˆæ™‚é–“indexç•ªå· */
+    /** User‡ŒvŠÔindex”Ô† */
     private static final int USER_TOTAL_TIME_INDEX_NUMBER = 17;
     
-    /** Useræœ€å¤§å‡¦ç†æ™‚é–“ã®indexç•ªå· */
+    /** UserÅ‘åˆ—ŠÔ‚Ìindex”Ô† */
     private static final int MAX_USER_TIME_INDEX_NUMBER = 18;
     
-    /** Useræœ€å°å‡¦ç†æ™‚é–“ã®indexç•ªå· */
+    /** UserÅ¬ˆ—ŠÔ‚Ìindex”Ô† */
     private static final int MIN_USER_TIME_INDEX_NUMBER = 19;
     
-    /** ä¾‹å¤–ç™ºç”Ÿå›æ•°ã®indexç•ªå· */
+    /** —áŠO”­¶‰ñ”‚Ìindex”Ô† */
     private static final int THROWABLE_COUNT_INDEX_NUMBER = 20;
     
-    /** ãƒ¡ã‚½ãƒƒãƒ‰ã®å‘¼ã³å‡ºã—å…ƒ ã‚¯ãƒ©ã‚¹åã®indexç•ªå· */
+    /** ƒƒ\ƒbƒh‚ÌŒÄ‚Ño‚µŒ³ ƒNƒ‰ƒX–¼‚Ìindex”Ô† */
     private static final int CALLER_INDEX_NUMBER = 21;
     
-    /** è¨ˆæ¸¬å¯¾è±¡ã§ã‚ã‚‹ã‹ã®ãƒ•ãƒ©ã‚°ã®indexç•ªå· */
+    /** Œv‘ª‘ÎÛ‚Å‚ ‚é‚©‚Ìƒtƒ‰ƒO‚Ìindex”Ô† */
     private static final int TARGET_FLAG_INDEX_NUMBER = 22;
     
-    /** ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚°ãƒ©ãƒ•å‡ºåŠ›å¯¾è±¡ã®ãƒ•ãƒ©ã‚°ã®indexç•ªå· */
+    /** ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒOƒ‰ƒto—Í‘ÎÛ‚Ìƒtƒ‰ƒO‚Ìindex”Ô† */
     private static final int TRANSACTION_GRAPH_TARGET_INDEX_NUMBER = 23;
     
-    /** TATã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ã®indexç•ªå· */
+    /** TATƒAƒ‰[ƒ€è‡’l‚Ìindex”Ô† */
     private static final int TAT_ALARM_THRESHOLD_INDEX_NUMBER = 24;
     
-    /** CPUã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ã®indexç•ªå· */
+    /** CPUƒAƒ‰[ƒ€è‡’l‚Ìindex”Ô† */
     private static final int CPU_ALARM_THRESHOLD_INDEX_NUMBER = 25;
     
     /**
-     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
      */
     private JavelinTelegramCreator()
     {
@@ -134,17 +134,17 @@ public class JavelinTelegramCreator implements TelegramConstants
     }
 
     /***
-     * å…¨ã¦ã®Invocationã®ãƒªã‚¹ãƒˆã‚’å–å¾—ã—ã€é›»æ–‡ã«å¤‰æ›ã—ã¾ã™ã€‚<br />
+     * ‘S‚Ä‚ÌInvocation‚ÌƒŠƒXƒg‚ğæ“¾‚µA“d•¶‚É•ÏŠ·‚µ‚Ü‚·B<br />
      * 
-     * @return å…¨Invocationã®ãƒªã‚¹ãƒˆã‚’é›»æ–‡ã«å¤‰æ›ã—ãŸã‚‚ã®ã€‚
+     * @return ‘SInvocation‚ÌƒŠƒXƒg‚ğ“d•¶‚É•ÏŠ·‚µ‚½‚à‚ÌB
      */
     public static List<byte[]> createAll()
     {
-        // é›»æ–‡ãƒ‡ãƒ¼ã‚¿ã‚’å–ã‚‹
+        // “d•¶ƒf[ƒ^‚ğæ‚é
         Component[] objComponentArr = MBeanManager.getAllComponents();
         List<Invocation> invocationList = new ArrayList<Invocation>();
 
-        // é›»æ–‡æ•°ã‚’çµ±è¨ˆã™ã‚‹
+        // “d•¶”‚ğ“Œv‚·‚é
         for (int i = 0; i < objComponentArr.length; i++)
         {
             invocationList.addAll(Arrays.asList(objComponentArr[i].getAllInvocation()));
@@ -153,20 +153,20 @@ public class JavelinTelegramCreator implements TelegramConstants
         Telegram objTelegram =
                 create(invocationList, BYTE_TELEGRAM_KIND_GET, BYTE_REQUEST_KIND_RESPONSE);
 
-        // é›»æ–‡ã¯ã€object â‡’ byte[] ã«å¤‰æ›ã™ã‚‹
+        // “d•¶‚ÍAobject Ë byte[] ‚É•ÏŠ·‚·‚é
         List<byte[]> byteList = TelegramUtil.createTelegram(objTelegram);
 
-        // è¿”å´ã™ã‚‹
+        // •Ô‹p‚·‚é
         return byteList;
     }
 
     /**
-     * æŒ‡å®šã—ãŸinvocationã®ãƒªã‚¹ãƒˆã‹ã‚‰ã€ãã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¡¨ã™é›»æ–‡ã‚’ä½œæˆã—ã¾ã™ã€‚<br />
+     * w’è‚µ‚½invocation‚ÌƒŠƒXƒg‚©‚çA‚»‚ÌƒIƒuƒWƒFƒNƒg‚ğ•\‚·“d•¶‚ğì¬‚µ‚Ü‚·B<br />
      * 
-     * @param invocations inovocationã®ãƒªã‚¹ãƒˆ
-     * @param telegramKind é›»æ–‡ç¨®åˆ¥
-     * @param requestKind è¦æ±‚å¿œç­”ç¨®åˆ¥
-     * @return invocationã®ãƒªã‚¹ãƒˆã‹ã‚‰ä½œæˆã—ãŸé›»æ–‡
+     * @param invocations inovocation‚ÌƒŠƒXƒg
+     * @param telegramKind “d•¶í•Ê
+     * @param requestKind —v‹‰“ší•Ê
+     * @return invocation‚ÌƒŠƒXƒg‚©‚çì¬‚µ‚½“d•¶
      */
     public static Telegram create(final List<Invocation> invocations, final byte telegramKind,
             final byte requestKind)
@@ -175,13 +175,13 @@ public class JavelinTelegramCreator implements TelegramConstants
     }
 
     /**
-     * æŒ‡å®šã—ãŸinvocationã®ãƒªã‚¹ãƒˆã‹ã‚‰ã€ãã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¡¨ã™é›»æ–‡ã‚’ä½œæˆã—ã¾ã™ã€‚<br />
+     * w’è‚µ‚½invocation‚ÌƒŠƒXƒg‚©‚çA‚»‚ÌƒIƒuƒWƒFƒNƒg‚ğ•\‚·“d•¶‚ğì¬‚µ‚Ü‚·B<br />
      * 
-     * @param invocations inovocationã®ãƒªã‚¹ãƒˆ
-     * @param accumulatedTimes inovocationã«å¯¾å¿œã™ã‚‹ã€ç´¯ç©æ™‚é–“ã®ãƒªã‚¹ãƒˆ
-     * @param telegramKind é›»æ–‡ç¨®åˆ¥
-     * @param requestKind è¦æ±‚å¿œç­”ç¨®åˆ¥
-     * @return invocationã®ãƒªã‚¹ãƒˆã‹ã‚‰ä½œæˆã—ãŸé›»æ–‡
+     * @param invocations inovocation‚ÌƒŠƒXƒg
+     * @param accumulatedTimes inovocation‚É‘Î‰‚·‚éA—İÏŠÔ‚ÌƒŠƒXƒg
+     * @param telegramKind “d•¶í•Ê
+     * @param requestKind —v‹‰“ší•Ê
+     * @return invocation‚ÌƒŠƒXƒg‚©‚çì¬‚µ‚½“d•¶
      */
     public static Telegram create(final List<Invocation> invocations,
             final List<Long> accumulatedTimes, final byte telegramKind, final byte requestKind)
@@ -190,54 +190,54 @@ public class JavelinTelegramCreator implements TelegramConstants
     }
 
     /**
-     * æŒ‡å®šã—ãŸinvocationã®ãƒªã‚¹ãƒˆã‹ã‚‰ã€ãã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¡¨ã™é›»æ–‡ã‚’ä½œæˆã—ã¾ã™ã€‚<br />
+     * w’è‚µ‚½invocation‚ÌƒŠƒXƒg‚©‚çA‚»‚ÌƒIƒuƒWƒFƒNƒg‚ğ•\‚·“d•¶‚ğì¬‚µ‚Ü‚·B<br />
      * 
-     * @param invocations inovocationã®ãƒªã‚¹ãƒˆ
-     * @param accumulatedTimes inovocationã«å¯¾å¿œã™ã‚‹ã€ç´¯ç©æ™‚é–“ã®ãƒªã‚¹ãƒˆ
-     * @param telegramKind é›»æ–‡ç¨®åˆ¥
-     * @param requestKind è¦æ±‚å¿œç­”ç¨®åˆ¥
-     * @param telegramId é›»æ–‡ ID
-     * @return invocationã®ãƒªã‚¹ãƒˆã‹ã‚‰ä½œæˆã—ãŸé›»æ–‡
+     * @param invocations inovocation‚ÌƒŠƒXƒg
+     * @param accumulatedTimes inovocation‚É‘Î‰‚·‚éA—İÏŠÔ‚ÌƒŠƒXƒg
+     * @param telegramKind “d•¶í•Ê
+     * @param requestKind —v‹‰“ší•Ê
+     * @param telegramId “d•¶ ID
+     * @return invocation‚ÌƒŠƒXƒg‚©‚çì¬‚µ‚½“d•¶
      */
     public static Telegram create(final List<Invocation> invocations,
             final List<Long> accumulatedTimes, final byte telegramKind, final byte requestKind,
             final long telegramId)
     {
-        // é›»æ–‡é ­éƒ¨ã‚’ä½œã‚‹ã€ã¨ã‚Šã‚ãˆãšã€é›»æ–‡é•·ã‚’è¨­å®šã—ãªã„ã€‘
+        // “d•¶“ª•”‚ğì‚éy‚Æ‚è‚ ‚¦‚¸A“d•¶’·‚ğİ’è‚µ‚È‚¢z
         Header objHeader = new Header();
         objHeader.setId(telegramId);
         objHeader.setByteRequestKind(requestKind);
         objHeader.setByteTelegramKind(telegramKind);
 
-        // é›»æ–‡æœ¬ä½“ã‚’ä½œã‚‹
+        // “d•¶–{‘Ì‚ğì‚é
         ResponseBody[] bodies = new ResponseBody[invocations.size() * TELEGRAM_ITEM_COUNT];
 
         for (int index = 0; index < invocations.size(); index++)
         {
             Invocation invocation = invocations.get(index);
 
-            // ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆåã‚’å–å¾—ã™ã‚‹
+            // ƒIƒuƒWƒFƒNƒg–¼‚ğæ“¾‚·‚é
             StringBuffer strObjName = new StringBuffer();
             strObjName.append(invocation.getClassName());
             strObjName.append(CLASSMETHOD_SEPARATOR);
             strObjName.append(invocation.getMethodName());
             String objName = strObjName.toString();
 
-            // é …ç›®èª¬æ˜ã‚’ç½®ã‘ã‚‹ãƒªã‚¹ãƒˆ
+            // €–Úà–¾‚ğ’u‚¯‚éƒŠƒXƒg
             Object[] objItemValueArr = null;
             int bodyIndex = index * TELEGRAM_ITEM_COUNT;
 
-            // å‘¼ã³å‡ºã—å›æ•°
+            // ŒÄ‚Ño‚µ‰ñ”
             objItemValueArr = new Long[1];
             objItemValueArr[0] = Long.valueOf(invocation.getCount());
             bodies[bodyIndex + 0] =
                     TelegramUtil.createResponseBody(objName, ITEMNAME_CALL_COUNT,
                                                     ItemType.ITEMTYPE_LONG, objItemValueArr);
 
-            // 2ã¤ç›®ä»¥é™ã¯ã©ã®ã‚¯ãƒ©ã‚¹ã€ãƒ¡ã‚½ãƒƒãƒ‰ã®æƒ…å ±ã‹æ˜ã‚‰ã‹ã®ãŸã‚ã€ã‚¯ãƒ©ã‚¹åã€ãƒ¡ã‚½ãƒƒãƒ‰åã‚’ç©ºã«ã™ã‚‹
+            // 2‚Â–ÚˆÈ~‚Í‚Ç‚ÌƒNƒ‰ƒXAƒƒ\ƒbƒh‚Ìî•ñ‚©–¾‚ç‚©‚Ì‚½‚ßAƒNƒ‰ƒX–¼Aƒƒ\ƒbƒh–¼‚ğ‹ó‚É‚·‚é
             objName = "";
 
-            // å‡¦ç†æ™‚é–“
+            // ˆ—ŠÔ
             objItemValueArr = new Long[1];
             if (accumulatedTimes != null && index < accumulatedTimes.size())
             {
@@ -251,40 +251,40 @@ public class JavelinTelegramCreator implements TelegramConstants
                     TelegramUtil.createResponseBody(objName, ITEMNAME_CURRENT_INTERVAL,
                                                     ItemType.ITEMTYPE_LONG, objItemValueArr);
 
-            // ç©ç®—åˆè¨ˆæ™‚é–“
+            // ÏZ‡ŒvŠÔ
             objItemValueArr = new Long[1];
             objItemValueArr[0] = Long.valueOf(invocation.getAccumulatedTotal());
             bodies[bodyIndex + ACCUMULATED_TOTAL_INDEX_NUMBER] =
                     TelegramUtil.createResponseBody(objName, ITEMNAME_ACCUMULATED_TOTAL_INTERVAL,
                                                     ItemType.ITEMTYPE_LONG, objItemValueArr);
-            // ç©ç®—æœ€å¤§æ™‚é–“
+            // ÏZÅ‘åŠÔ
             objItemValueArr = new Long[1];
             objItemValueArr[0] = Long.valueOf(invocation.getAccumulatedMaximum());
             bodies[bodyIndex + ACCUMULATED_MAX_INDEX_NUMBER] =
                     TelegramUtil.createResponseBody(objName, ITEMNAME_ACCUMULATED_MAXIMUM_INTERVAL,
                                                     ItemType.ITEMTYPE_LONG, objItemValueArr);
-            // ç©ç®—æœ€å°æ™‚é–“
+            // ÏZÅ¬ŠÔ
             objItemValueArr = new Long[1];
             objItemValueArr[0] = Long.valueOf(invocation.getAccumulatedMinimum());
             bodies[bodyIndex + ACCUMULATED_MIN_INDEX_NUMBER] =
                     TelegramUtil.createResponseBody(objName, ITEMNAME_ACCUMULATED_MINIMUM_INTERVAL,
                                                     ItemType.ITEMTYPE_LONG, objItemValueArr);
             
-            // ç©ç®—CPUåˆè¨ˆæ™‚é–“
+            // ÏZCPU‡ŒvŠÔ
             objItemValueArr = new Long[1];
             objItemValueArr[0] = Long.valueOf(invocation.getAccumulatedCpuTotal());
             bodies[bodyIndex + ACCUMULATED_CPU_TOTAL_INDEX_NUMBER] =
                     TelegramUtil.createResponseBody(objName, 
                                                     ITEMNAME_ACCUMULATED_TOTAL_CPU_INTERVAL,
                                                     ItemType.ITEMTYPE_LONG, objItemValueArr);
-            // ç©ç®—CPUæœ€å¤§æ™‚é–“
+            // ÏZCPUÅ‘åŠÔ
             objItemValueArr = new Long[1];
             objItemValueArr[0] = Long.valueOf(invocation.getAccumulatedCpuMaximum());
             bodies[bodyIndex + ACCUMULATED_CPU_MAX_INDEX_NUMBER] =
                     TelegramUtil.createResponseBody(objName, 
                                                     ITEMNAME_ACCUMULATED_MAXIMUM_CPU_INTERVAL,
                                                     ItemType.ITEMTYPE_LONG, objItemValueArr);
-            // ç©ç®—CPUæœ€å°æ™‚é–“
+            // ÏZCPUÅ¬ŠÔ
             objItemValueArr = new Long[1];
             objItemValueArr[0] = Long.valueOf(invocation.getAccumulatedCpuMinimum());
             bodies[bodyIndex + ACCUMULATED_CPU_MIN_INDEX_NUMBER] =
@@ -292,21 +292,21 @@ public class JavelinTelegramCreator implements TelegramConstants
                                                     ITEMNAME_ACCUMULATED_MINIMUM_CPU_INTERVAL,
                                                     ItemType.ITEMTYPE_LONG, objItemValueArr);
             
-            // ç©ç®—USERåˆè¨ˆæ™‚é–“
+            // ÏZUSER‡ŒvŠÔ
             objItemValueArr = new Long[1];
             objItemValueArr[0] = Long.valueOf(invocation.getAccumulatedUserTotal());
             bodies[bodyIndex + ACCUMULATED_USER_TOTAL_INDEX_NUMBER] =
                     TelegramUtil.createResponseBody(objName, 
                                                     ITEMNAME_ACCUMULATED_TOTAL_USER_INTERVAL,
                                                     ItemType.ITEMTYPE_LONG, objItemValueArr);
-            // ç©ç®—USERæœ€å¤§æ™‚é–“
+            // ÏZUSERÅ‘åŠÔ
             objItemValueArr = new Long[1];
             objItemValueArr[0] = Long.valueOf(invocation.getAccumulatedUserMaximum());
             bodies[bodyIndex + ACCUMULATED_USER_MAX_INDEX_NUMBER] =
                     TelegramUtil.createResponseBody(objName, 
                                                     ITEMNAME_ACCUMULATED_MAXIMUM_USER_INTERVAL,
                                                     ItemType.ITEMTYPE_LONG, objItemValueArr);
-            // ç©ç®—USERæœ€å°æ™‚é–“
+            // ÏZUSERÅ¬ŠÔ
             objItemValueArr = new Long[1];
             objItemValueArr[0] = Long.valueOf(invocation.getAccumulatedUserMinimum());
             bodies[bodyIndex + ACCUMULATED_USER_MIN_INDEX_NUMBER] =
@@ -314,70 +314,70 @@ public class JavelinTelegramCreator implements TelegramConstants
                                                     ITEMNAME_ACCUMULATED_MINIMUM_USER_INTERVAL,
                                                     ItemType.ITEMTYPE_LONG, objItemValueArr);
             
-            // åˆè¨ˆæ™‚é–“
+            // ‡ŒvŠÔ
             objItemValueArr = new Long[1];
             objItemValueArr[0] = Long.valueOf(invocation.getTotal());
             bodies[bodyIndex + TOTAL_TIME_INDEX_NUMBER] =
                     TelegramUtil.createResponseBody(objName, ITEMNAME_TOTAL_INTERVAL,
                                                     ItemType.ITEMTYPE_LONG, objItemValueArr);
 
-            // æœ€å¤§å‡¦ç†æ™‚é–“
+            // Å‘åˆ—ŠÔ
             objItemValueArr = new Long[1];
             objItemValueArr[0] = Long.valueOf(invocation.getMaximum());
             bodies[bodyIndex + MAX_PROCESS_TIME_INDEX_NUMBER] =
                     TelegramUtil.createResponseBody(objName, ITEMNAME_MAXIMUM_INTERVAL,
                                                     ItemType.ITEMTYPE_LONG, objItemValueArr);
 
-            // æœ€å°å‡¦ç†æ™‚é–“
+            // Å¬ˆ—ŠÔ
             objItemValueArr = new Long[1];
             objItemValueArr[0] = Long.valueOf(invocation.getMinimum());
             bodies[bodyIndex + MIN_PROCESS_TIME_INDEX_NUMBER] =
                     TelegramUtil.createResponseBody(objName, ITEMNAME_MINIMUM_INTERVAL,
                                                     ItemType.ITEMTYPE_LONG, objItemValueArr);
 
-            // CPUåˆè¨ˆæ™‚é–“
+            // CPU‡ŒvŠÔ
             objItemValueArr = new Long[1];
             objItemValueArr[0] = Long.valueOf(invocation.getCpuTotal());
             bodies[bodyIndex + CPU_TOTAL_TIME_INDEX_NUMBER] =
                     TelegramUtil.createResponseBody(objName, ITEMNAME_TOTAL_CPU_INTERVAL,
                                                     ItemType.ITEMTYPE_LONG, objItemValueArr);
 
-            // CPUæœ€å¤§å‡¦ç†æ™‚é–“
+            // CPUÅ‘åˆ—ŠÔ
             objItemValueArr = new Long[1];
             objItemValueArr[0] = Long.valueOf(invocation.getCpuMaximum());
             bodies[bodyIndex + MAX_CPU_TIME_INDEX_NUMBER] =
                     TelegramUtil.createResponseBody(objName, ITEMNAME_MAXIMUM_CPU_INTERVAL,
                                                     ItemType.ITEMTYPE_LONG, objItemValueArr);
 
-            // CPUæœ€å°å‡¦ç†æ™‚é–“
+            // CPUÅ¬ˆ—ŠÔ
             objItemValueArr = new Long[1];
             objItemValueArr[0] = Long.valueOf(invocation.getCpuMinimum());
             bodies[bodyIndex + MIN_CPU_TIME_INDEX_NUMBER] =
                     TelegramUtil.createResponseBody(objName, ITEMNAME_MINIMUM_CPU_INTERVAL,
                                                     ItemType.ITEMTYPE_LONG, objItemValueArr);
 
-            // Useråˆè¨ˆæ™‚é–“
+            // User‡ŒvŠÔ
             objItemValueArr = new Long[1];
             objItemValueArr[0] = Long.valueOf(invocation.getUserTotal());
             bodies[bodyIndex + USER_TOTAL_TIME_INDEX_NUMBER] =
                     TelegramUtil.createResponseBody(objName, ITEMNAME_TOTAL_USER_INTERVAL,
                                                     ItemType.ITEMTYPE_LONG, objItemValueArr);
 
-            // Useræœ€å¤§å‡¦ç†æ™‚é–“
+            // UserÅ‘åˆ—ŠÔ
             objItemValueArr = new Long[1];
             objItemValueArr[0] = Long.valueOf(invocation.getUserMaximum());
             bodies[bodyIndex + MAX_USER_TIME_INDEX_NUMBER] =
                     TelegramUtil.createResponseBody(objName, ITEMNAME_MAXIMUM_USER_INTERVAL,
                                                     ItemType.ITEMTYPE_LONG, objItemValueArr);
 
-            // Useræœ€å°å‡¦ç†æ™‚é–“
+            // UserÅ¬ˆ—ŠÔ
             objItemValueArr = new Long[1];
             objItemValueArr[0] = Long.valueOf(invocation.getUserMinimum());
             bodies[bodyIndex + MIN_USER_TIME_INDEX_NUMBER] =
                     TelegramUtil.createResponseBody(objName, ITEMNAME_MINIMUM_USER_INTERVAL,
                                                     ItemType.ITEMTYPE_LONG, objItemValueArr);
 
-            // ä¾‹å¤–ç™ºç”Ÿå›æ•°
+            // —áŠO”­¶‰ñ”
             objItemValueArr = new Long[1];
             objItemValueArr[0] = Long.valueOf(invocation.getThrowableCount());
             bodies[bodyIndex + THROWABLE_COUNT_INDEX_NUMBER] =
@@ -385,7 +385,7 @@ public class JavelinTelegramCreator implements TelegramConstants
                                                     ITEMNAME_JAVAPROCESS_EXCEPTION_OCCURENCE_COUNT,
                                                     ItemType.ITEMTYPE_LONG, objItemValueArr);
 
-            // ãƒ¡ã‚½ãƒƒãƒ‰ã®å‘¼ã³å‡ºã—å…ƒ ã‚¯ãƒ©ã‚¹å
+            // ƒƒ\ƒbƒh‚ÌŒÄ‚Ño‚µŒ³ ƒNƒ‰ƒX–¼
             Invocation[] callerInvocations = invocation.getAllCallerInvocation();
             String[] callerNames = new String[callerInvocations.length];
             for (int callerIndex = 0; callerIndex < callerInvocations.length; callerIndex++)
@@ -396,7 +396,7 @@ public class JavelinTelegramCreator implements TelegramConstants
                     TelegramUtil.createResponseBody(objName, ITEMNAME_ALL_CALLER_NAMES,
                                                     ItemType.ITEMTYPE_STRING, callerNames);
 
-            // è¨ˆæ¸¬å¯¾è±¡ã‹å¦ã‹
+            // Œv‘ª‘ÎÛ‚©”Û‚©
             objItemValueArr = new String[1];
             boolean isTarget = isTarget(invocation);
             objItemValueArr[0] = String.valueOf(isTarget);
@@ -404,21 +404,21 @@ public class JavelinTelegramCreator implements TelegramConstants
                     TelegramUtil.createResponseBody(objName, ITEMNAME_TARGET,
                                                     ItemType.ITEMTYPE_STRING, objItemValueArr);
 
-            // ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚°ãƒ©ãƒ•å‡ºåŠ›å¯¾è±¡ã‹å¦ã‹
+            // ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒOƒ‰ƒto—Í‘ÎÛ‚©”Û‚©
             objItemValueArr = new String[1];
             objItemValueArr[0] = String.valueOf(invocation.isResponseGraphOutputTarget());
             bodies[bodyIndex + TRANSACTION_GRAPH_TARGET_INDEX_NUMBER] =
                     TelegramUtil.createResponseBody(objName, ITEMNAME_TRANSACTION_GRAPH,
                                                     ItemType.ITEMTYPE_STRING, objItemValueArr);
 
-            // TATã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤
+            // TATƒAƒ‰[ƒ€è‡’l
             objItemValueArr = new Long[1];
             objItemValueArr[0] = Long.valueOf(invocation.getAlarmThreshold());
             bodies[bodyIndex + TAT_ALARM_THRESHOLD_INDEX_NUMBER] =
                     TelegramUtil.createResponseBody(objName, ITEMNAME_ALARM_THRESHOLD,
                                                     ItemType.ITEMTYPE_LONG, objItemValueArr);
 
-            // CPUã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤
+            // CPUƒAƒ‰[ƒ€è‡’l
             objItemValueArr = new Long[1];
             objItemValueArr[0] = Long.valueOf(invocation.getAlarmCpuThreshold());
             bodies[bodyIndex + CPU_ALARM_THRESHOLD_INDEX_NUMBER] =
@@ -427,7 +427,7 @@ public class JavelinTelegramCreator implements TelegramConstants
             
         }
 
-        // é›»æ–‡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¨­å®šã™ã‚‹
+        // “d•¶ƒIƒuƒWƒFƒNƒg‚ğİ’è‚·‚é
         Telegram objTelegram = new Telegram();
         objTelegram.setObjHeader(objHeader);
         objTelegram.setObjBody(bodies);
@@ -435,11 +435,11 @@ public class JavelinTelegramCreator implements TelegramConstants
     }
 
     /**
-     * æŒ‡å®šã—ãŸã‚¯ãƒ©ã‚¹åã€ãƒ¡ã‚½ãƒƒãƒ‰åã‹ã‚‰è¨ˆæ¸¬å¯¾è±¡ã‹ã©ã†ã‹ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * w’è‚µ‚½ƒNƒ‰ƒX–¼Aƒƒ\ƒbƒh–¼‚©‚çŒv‘ª‘ÎÛ‚©‚Ç‚¤‚©‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @param className ã‚¯ãƒ©ã‚¹å
-     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
-     * @return è¨ˆæ¸¬å¯¾è±¡ã§ã‚ã‚‹å ´åˆã«ã€<code>ture</code>
+     * @param className ƒNƒ‰ƒX–¼
+     * @param methodName ƒƒ\ƒbƒh–¼
+     * @return Œv‘ª‘ÎÛ‚Å‚ ‚éê‡‚ÉA<code>ture</code>
      */
     private static boolean isTarget(Invocation invocation)
     {

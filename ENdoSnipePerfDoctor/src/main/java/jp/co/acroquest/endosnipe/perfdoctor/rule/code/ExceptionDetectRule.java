@@ -31,7 +31,7 @@ import jp.co.acroquest.endosnipe.javelin.parser.JavelinLogElement;
 import jp.co.acroquest.endosnipe.perfdoctor.rule.SingleElementRule;
 
 /**
- * ä¾‹å¤–ã‚’ã‚­ãƒ£ãƒƒãƒã—ãŸã“ã¨ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹ãƒ«ãƒ¼ãƒ«ã‚’è¡¨ã™ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br>
+ * —áŠO‚ðƒLƒƒƒbƒ`‚µ‚½‚±‚Æ‚ðƒ`ƒFƒbƒN‚·‚éƒ‹[ƒ‹‚ð•\‚·ƒNƒ‰ƒX‚Å‚·B<br>
  * 
  * @author iida
  */

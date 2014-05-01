@@ -15,427 +15,427 @@ package jp.co.acroquest.endosnipe.report.entity;
 import java.sql.Timestamp;
 
 /**
- * VMçŠ¶æ…‹ãƒ¬ãƒãƒ¼ãƒˆã«å‡ºåŠ›ã™ã‚‹ï¼‘ãƒ¬ã‚³ãƒ¼ãƒ‰åˆ†ã®æƒ…å ±ã‚’ä¿æŒã™ã‚‹ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã€‚
+ * VMó‘ÔƒŒƒ|[ƒg‚Éo—Í‚·‚é‚PƒŒƒR[ƒh•ª‚Ìî•ñ‚ğ•Û‚·‚éƒGƒ“ƒeƒBƒeƒBB
  * 
  * @author akiba
  */
 public class VmStatusRecord
 {
-	/** è¨ˆæ¸¬æ™‚åˆ» */
-	private Timestamp measurementTime_;
-
-	/** ã‚¹ãƒ¬ãƒƒãƒ‰æ•°(Native)(å¹³å‡) */
-	private double nativeThreadNum_;
-
-	/** ã‚¹ãƒ¬ãƒƒãƒ‰æ•°(Native)(æœ€å¤§) */
-	private double nativeThreadNumMax_;
-
-	/** ã‚¹ãƒ¬ãƒƒãƒ‰æ•°(Native)(æœ€å°) */
-	private double nativeThreadNumMin_;
-
-	/** ã‚¹ãƒ¬ãƒƒãƒ‰æ•°(Java)(å¹³å‡) */
-	private double threadNum_;
-
-	/** ã‚¹ãƒ¬ãƒƒãƒ‰æ•°(Java)(æœ€å¤§) */
-	private double threadNumMax_;
-
-	/** ã‚¹ãƒ¬ãƒƒãƒ‰æ•°(Java)(æœ€å°) */
-	private double threadNumMin_;
-
-	/** GCåœæ­¢æ™‚é–“(å¹³å‡) */
-	private double gcStopTime_;
-
-	/** GCåœæ­¢æ™‚é–“(æœ€å¤§) */
-	private double gcStopTimeMax_;
-
-	/** GCåœæ­¢æ™‚é–“(æœ€å°) */
-	private double gcStopTimeMin_;
-
-	/** VMã‚¹ãƒ«ãƒ¼ãƒ—ãƒƒãƒˆ(å¹³å‡) */
-	private double vmThroughput_;
-
-	/** VMã‚¹ãƒ«ãƒ¼ãƒ—ãƒƒãƒˆ(æœ€å¤§) */
-	private double vmThroughputMax_;
-
-	/** VMã‚¹ãƒ«ãƒ¼ãƒ—ãƒƒãƒˆ(æœ€å°) */
-	private double vmThroughputMin_;
-
-	/** ãƒ•ã‚¡ã‚¤ãƒŠãƒ©ã‚¤ã‚ºå¾…ã¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ•°(å¹³å‡) */
-	private double finalizeObjNum_;
-
-	/** ãƒ•ã‚¡ã‚¤ãƒŠãƒ©ã‚¤ã‚ºå¾…ã¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ•°(æœ€å¤§) */
-	private double finalizeObjNumMax_;
-
-	/** ãƒ•ã‚¡ã‚¤ãƒŠãƒ©ã‚¤ã‚ºå¾…ã¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ•°(æœ€å°) */
-	private double finalizeObjNumMin_;
-
-	/** ãƒ­ãƒ¼ãƒ‰ã•ã‚ŒãŸã‚¯ãƒ©ã‚¹ã®åˆè¨ˆæ•°(å¹³å‡) */
-	private double totalLoadedClassNum_;
-
-	/** ãƒ­ãƒ¼ãƒ‰ã•ã‚ŒãŸã‚¯ãƒ©ã‚¹ã®åˆè¨ˆæ•°(æœ€å¤§) */
-	private double totalLoadedClassNumMax_;
-
-	/** ãƒ­ãƒ¼ãƒ‰ã•ã‚ŒãŸã‚¯ãƒ©ã‚¹ã®åˆè¨ˆæ•°(æœ€å°) */
-	private double totalLoadedClassNumMin_;
-
-	/** ç¾åœ¨ãƒ­ãƒ¼ãƒ‰ã•ã‚Œã¦ã„ã‚‹ã‚¯ãƒ©ã‚¹ã®æ•° */
-	private double loadedClassNum_;
-
-	/** ç¾åœ¨ãƒ­ãƒ¼ãƒ‰ã•ã‚Œã¦ã„ã‚‹ã‚¯ãƒ©ã‚¹ã®æ•°(æœ€å¤§) */
-	private double loadedClassNumMax_;
-
-	/** ç¾åœ¨ãƒ­ãƒ¼ãƒ‰ã•ã‚Œã¦ã„ã‚‹ã‚¯ãƒ©ã‚¹ã®æ•°(æœ€å°) */
-	private double loadedClassNumMin_;
-
-	/**
-	 * @return the measurementTime
-	 */
-	public Timestamp getMeasurementTime()
-	{
-		return this.measurementTime_;
-	}
-
-	/**
-	 * @param measurementTime the measurementTime to set
-	 */
-	public void setMeasurementTime(Timestamp measurementTime)
-	{
-		this.measurementTime_ = measurementTime;
-	}
-
-	/**
-	 * @return the nativeThreadNum
-	 */
-	public double getNativeThreadNum()
-	{
-		return this.nativeThreadNum_;
-	}
-
-	/**
-	 * @param nativeThreadNum the nativeThreadNum to set
-	 */
-	public void setNativeThreadNum(double nativeThreadNum)
-	{
-		this.nativeThreadNum_ = nativeThreadNum;
-	}
-
-	/**
-	 * @return the nativeThreadNumMax
-	 */
-	public double getNativeThreadNumMax()
-	{
-		return this.nativeThreadNumMax_;
-	}
-
-	/**
-	 * @param nativeThreadNumMax the nativeThreadNumMax to set
-	 */
-	public void setNativeThreadNumMax(double nativeThreadNumMax)
-	{
-		this.nativeThreadNumMax_ = nativeThreadNumMax;
-	}
-
-	/**
-	 * @return the nativeThreadNumMin
-	 */
-	public double getNativeThreadNumMin()
-	{
-		return this.nativeThreadNumMin_;
-	}
-
-	/**
-	 * @param nativeThreadNumMin the nativeThreadNumMin to set
-	 */
-	public void setNativeThreadNumMin(double nativeThreadNumMin)
-	{
-		this.nativeThreadNumMin_ = nativeThreadNumMin;
-	}
-
-	/**
-	 * @return the threadNum
-	 */
-	public double getThreadNum()
-	{
-		return this.threadNum_;
-	}
-
-	/**
-	 * @param threadNum the threadNum to set
-	 */
-	public void setThreadNum(double threadNum)
-	{
-		this.threadNum_ = threadNum;
-	}
-
-	/**
-	 * @return the threadNumMax
-	 */
-	public double getThreadNumMax()
-	{
-		return this.threadNumMax_;
-	}
-
-	/**
-	 * @param threadNumMax the threadNumMax to set
-	 */
-	public void setThreadNumMax(double threadNumMax)
-	{
-		this.threadNumMax_ = threadNumMax;
-	}
-
-	/**
-	 * @return the threadNumMin
-	 */
-	public double getThreadNumMin()
-	{
-		return this.threadNumMin_;
-	}
-
-	/**
-	 * @param threadNumMin the threadNumMin to set
-	 */
-	public void setThreadNumMin(double threadNumMin)
-	{
-		this.threadNumMin_ = threadNumMin;
-	}
-
-	/**
-	 * @return the gcStopTime
-	 */
-	public double getGcStopTime()
-	{
-		return this.gcStopTime_;
-	}
-
-	/**
-	 * @param gcStopTime the gcStopTime to set
-	 */
-	public void setGcStopTime(double gcStopTime)
-	{
-		this.gcStopTime_ = gcStopTime;
-	}
-
-	/**
-	 * @return the gcStopTimeMax
-	 */
-	public double getGcStopTimeMax()
-	{
-		return this.gcStopTimeMax_;
-	}
-
-	/**
-	 * @param gcStopTimeMax the gcStopTimeMax to set
-	 */
-	public void setGcStopTimeMax(double gcStopTimeMax)
-	{
-		this.gcStopTimeMax_ = gcStopTimeMax;
-	}
-
-	/**
-	 * @return the gcStopTimeMin
-	 */
-	public double getGcStopTimeMin()
-	{
-		return this.gcStopTimeMin_;
-	}
-
-	/**
-	 * @param gcStopTimeMin the gcStopTimeMin to set
-	 */
-	public void setGcStopTimeMin(double gcStopTimeMin)
-	{
-		this.gcStopTimeMin_ = gcStopTimeMin;
-	}
-
-	/**
-	 * @return the vmThroughput
-	 */
-	public double getVmThroughput()
-	{
-		return this.vmThroughput_;
-	}
-
-	/**
-	 * @param vmThroughput the vmThroughput to set
-	 */
-	public void setVmThroughput(double vmThroughput)
-	{
-		this.vmThroughput_ = vmThroughput;
-	}
-
-	/**
-	 * @return the vmThroughputMax
-	 */
-	public double getVmThroughputMax()
-	{
-		return this.vmThroughputMax_;
-	}
-
-	/**
-	 * @param vmThroughputMax the vmThroughputMax to set
-	 */
-	public void setVmThroughputMax(double vmThroughputMax)
-	{
-		this.vmThroughputMax_ = vmThroughputMax;
-	}
-
-	/**
-	 * @return the vmThroughputMin
-	 */
-	public double getVmThroughputMin()
-	{
-		return this.vmThroughputMin_;
-	}
-
-	/**
-	 * @param vmThroughputMin the vmThroughputMin to set
-	 */
-	public void setVmThroughputMin(double vmThroughputMin)
-	{
-		this.vmThroughputMin_ = vmThroughputMin;
-	}
-
-	/**
-	 * @return the finalizeObjNum
-	 */
-	public double getFinalizeObjNum()
-	{
-		return this.finalizeObjNum_;
-	}
-
-	/**
-	 * @param finalizeObjNum the finalizeObjNum to set
-	 */
-	public void setFinalizeObjNum(double finalizeObjNum)
-	{
-		this.finalizeObjNum_ = finalizeObjNum;
-	}
-
-	/**
-	 * @return the finalizeObjNumMax
-	 */
-	public double getFinalizeObjNumMax()
-	{
-		return this.finalizeObjNumMax_;
-	}
-
-	/**
-	 * @param finalizeObjNumMax the finalizeObjNumMax to set
-	 */
-	public void setFinalizeObjNumMax(double finalizeObjNumMax)
-	{
-		this.finalizeObjNumMax_ = finalizeObjNumMax;
-	}
-
-	/**
-	 * @return the finalizeObjNumMin
-	 */
-	public double getFinalizeObjNumMin()
-	{
-		return this.finalizeObjNumMin_;
-	}
-
-	/**
-	 * @param finalizeObjNumMin the finalizeObjNumMin to set
-	 */
-	public void setFinalizeObjNumMin(double finalizeObjNumMin)
-	{
-		this.finalizeObjNumMin_ = finalizeObjNumMin;
-	}
-
-	/**
-	 * @return the totalLoadedClassNum
-	 */
-	public double getTotalLoadedClassNum()
-	{
-		return this.totalLoadedClassNum_;
-	}
-
-	/**
-	 * @param totalLoadedClassNum the totalLoadedClassNum to set
-	 */
-	public void setTotalLoadedClassNum(double totalLoadedClassNum)
-	{
-		this.totalLoadedClassNum_ = totalLoadedClassNum;
-	}
-
-	/**
-	 * @return the totalLoadedClassNumMax
-	 */
-	public double getTotalLoadedClassNumMax()
-	{
-		return this.totalLoadedClassNumMax_;
-	}
-
-	/**
-	 * @param totalLoadedClassNumMax the totalLoadedClassNumMax to set
-	 */
-	public void setTotalLoadedClassNumMax(double totalLoadedClassNumMax)
-	{
-		this.totalLoadedClassNumMax_ = totalLoadedClassNumMax;
-	}
-
-	/**
-	 * @return the totalLoadedClassNumMin
-	 */
-	public double getTotalLoadedClassNumMin()
-	{
-		return this.totalLoadedClassNumMin_;
-	}
-
-	/**
-	 * @param totalLoadedClassNumMin the totalLoadedClassNumMin to set
-	 */
-	public void setTotalLoadedClassNumMin(double totalLoadedClassNumMin)
-	{
-		this.totalLoadedClassNumMin_ = totalLoadedClassNumMin;
-	}
-
-	/**
-	 * @return the loadedClassNum
-	 */
-	public double getLoadedClassNum()
-	{
-		return this.loadedClassNum_;
-	}
-
-	/**
-	 * @param loadedClassNum the loadedClassNum to set
-	 */
-	public void setLoadedClassNum(double loadedClassNum)
-	{
-		this.loadedClassNum_ = loadedClassNum;
-	}
-
-	/**
-	 * @return the loadedClassNumMax
-	 */
-	public double getLoadedClassNumMax()
-	{
-		return this.loadedClassNumMax_;
-	}
-
-	/**
-	 * @param loadedClassNumMax the loadedClassNumMax to set
-	 */
-	public void setLoadedClassNumMax(double loadedClassNumMax)
-	{
-		this.loadedClassNumMax_ = loadedClassNumMax;
-	}
-
-	/**
-	 * @return the loadedClassNumMin
-	 */
-	public double getLoadedClassNumMin()
-	{
-		return this.loadedClassNumMin_;
-	}
-
-	/**
-	 * @param loadedClassNumMin the loadedClassNumMin to set
-	 */
-	public void setLoadedClassNumMin(double loadedClassNumMin)
-	{
-		this.loadedClassNumMin_ = loadedClassNumMin;
-	}
+    /** Œv‘ª */
+    private Timestamp measurementTime_;
+    
+    /** ƒXƒŒƒbƒh”(Native)(•½‹Ï) */
+    private double    nativeThreadNum_;
+
+    /** ƒXƒŒƒbƒh”(Native)(Å‘å) */
+    private double    nativeThreadNumMax_;
+
+    /** ƒXƒŒƒbƒh”(Native)(Å¬) */
+    private double    nativeThreadNumMin_;
+
+    /** ƒXƒŒƒbƒh”(Java)(•½‹Ï) */
+    private double    threadNum_;
+
+    /** ƒXƒŒƒbƒh”(Java)(Å‘å) */
+    private double    threadNumMax_;
+
+    /** ƒXƒŒƒbƒh”(Java)(Å¬) */
+    private double    threadNumMin_;
+
+    /** GC’â~ŠÔ(•½‹Ï) */
+    private double    gcStopTime_;
+
+    /** GC’â~ŠÔ(Å‘å) */
+    private double    gcStopTimeMax_;
+
+    /** GC’â~ŠÔ(Å¬) */
+    private double    gcStopTimeMin_;
+
+    /** VMƒXƒ‹[ƒvƒbƒg(•½‹Ï) */
+    private double    vmThroughput_;
+
+    /** VMƒXƒ‹[ƒvƒbƒg(Å‘å) */
+    private double    vmThroughputMax_;
+
+    /** VMƒXƒ‹[ƒvƒbƒg(Å¬) */
+    private double    vmThroughputMin_;
+
+    /** ƒtƒ@ƒCƒiƒ‰ƒCƒY‘Ò‚¿ƒIƒuƒWƒFƒNƒg”(•½‹Ï) */
+    private double    finalizeObjNum_;
+
+    /** ƒtƒ@ƒCƒiƒ‰ƒCƒY‘Ò‚¿ƒIƒuƒWƒFƒNƒg”(Å‘å) */
+    private double    finalizeObjNumMax_;
+
+    /** ƒtƒ@ƒCƒiƒ‰ƒCƒY‘Ò‚¿ƒIƒuƒWƒFƒNƒg”(Å¬) */
+    private double    finalizeObjNumMin_;
+    
+    /** ƒ[ƒh‚³‚ê‚½ƒNƒ‰ƒX‚Ì‡Œv”(•½‹Ï) */
+    private double    totalLoadedClassNum_;
+    
+    /** ƒ[ƒh‚³‚ê‚½ƒNƒ‰ƒX‚Ì‡Œv”(Å‘å) */
+    private double    totalLoadedClassNumMax_;
+    
+    /** ƒ[ƒh‚³‚ê‚½ƒNƒ‰ƒX‚Ì‡Œv”(Å¬) */
+    private double    totalLoadedClassNumMin_;
+
+    /** Œ»İƒ[ƒh‚³‚ê‚Ä‚¢‚éƒNƒ‰ƒX‚Ì” */
+    private double    loadedClassNum_;
+    
+    /** Œ»İƒ[ƒh‚³‚ê‚Ä‚¢‚éƒNƒ‰ƒX‚Ì”(Å‘å) */
+    private double    loadedClassNumMax_;
+    
+    /** Œ»İƒ[ƒh‚³‚ê‚Ä‚¢‚éƒNƒ‰ƒX‚Ì”(Å¬) */
+    private double    loadedClassNumMin_;
+    
+    /**
+     * @return the measurementTime
+     */
+    public Timestamp getMeasurementTime()
+    {
+        return this.measurementTime_;
+    }
+
+    /**
+     * @param measurementTime the measurementTime to set
+     */
+    public void setMeasurementTime(Timestamp measurementTime)
+    {
+        this.measurementTime_ = measurementTime;
+    }
+
+    /**
+     * @return the nativeThreadNum
+     */
+    public double getNativeThreadNum( )
+    {
+        return this.nativeThreadNum_;
+    }
+
+    /**
+     * @param nativeThreadNum the nativeThreadNum to set
+     */
+    public void setNativeThreadNum(double nativeThreadNum)
+    {
+        this.nativeThreadNum_ = nativeThreadNum;
+    }
+
+    /**
+     * @return the nativeThreadNumMax
+     */
+    public double getNativeThreadNumMax( )
+    {
+        return this.nativeThreadNumMax_;
+    }
+
+    /**
+     * @param nativeThreadNumMax the nativeThreadNumMax to set
+     */
+    public void setNativeThreadNumMax(double nativeThreadNumMax)
+    {
+        this.nativeThreadNumMax_ = nativeThreadNumMax;
+    }
+
+    /**
+     * @return the nativeThreadNumMin
+     */
+    public double getNativeThreadNumMin( )
+    {
+        return this.nativeThreadNumMin_;
+    }
+
+    /**
+     * @param nativeThreadNumMin the nativeThreadNumMin to set
+     */
+    public void setNativeThreadNumMin(double nativeThreadNumMin)
+    {
+        this.nativeThreadNumMin_ = nativeThreadNumMin;
+    }
+
+    /**
+     * @return the threadNum
+     */
+    public double getThreadNum()
+    {
+        return this.threadNum_;
+    }
+
+    /**
+     * @param threadNum the threadNum to set
+     */
+    public void setThreadNum(double threadNum)
+    {
+        this.threadNum_ = threadNum;
+    }
+
+    /**
+     * @return the threadNumMax
+     */
+    public double getThreadNumMax()
+    {
+        return this.threadNumMax_;
+    }
+
+    /**
+     * @param threadNumMax the threadNumMax to set
+     */
+    public void setThreadNumMax(double threadNumMax)
+    {
+        this.threadNumMax_ = threadNumMax;
+    }
+
+    /**
+     * @return the threadNumMin
+     */
+    public double getThreadNumMin()
+    {
+        return this.threadNumMin_;
+    }
+
+    /**
+     * @param threadNumMin the threadNumMin to set
+     */
+    public void setThreadNumMin(double threadNumMin)
+    {
+        this.threadNumMin_ = threadNumMin;
+    }
+
+    /**
+     * @return the gcStopTime
+     */
+    public double getGcStopTime()
+    {
+        return this.gcStopTime_;
+    }
+
+    /**
+     * @param gcStopTime the gcStopTime to set
+     */
+    public void setGcStopTime(double gcStopTime)
+    {
+        this.gcStopTime_ = gcStopTime;
+    }
+
+    /**
+     * @return the gcStopTimeMax
+     */
+    public double getGcStopTimeMax()
+    {
+        return this.gcStopTimeMax_;
+    }
+
+    /**
+     * @param gcStopTimeMax the gcStopTimeMax to set
+     */
+    public void setGcStopTimeMax(double gcStopTimeMax)
+    {
+        this.gcStopTimeMax_ = gcStopTimeMax;
+    }
+
+    /**
+     * @return the gcStopTimeMin
+     */
+    public double getGcStopTimeMin()
+    {
+        return this.gcStopTimeMin_;
+    }
+
+    /**
+     * @param gcStopTimeMin the gcStopTimeMin to set
+     */
+    public void setGcStopTimeMin(double gcStopTimeMin)
+    {
+        this.gcStopTimeMin_ = gcStopTimeMin;
+    }
+
+    /**
+     * @return the vmThroughput
+     */
+    public double getVmThroughput()
+    {
+        return this.vmThroughput_;
+    }
+
+    /**
+     * @param vmThroughput the vmThroughput to set
+     */
+    public void setVmThroughput(double vmThroughput)
+    {
+        this.vmThroughput_ = vmThroughput;
+    }
+
+    /**
+     * @return the vmThroughputMax
+     */
+    public double getVmThroughputMax()
+    {
+        return this.vmThroughputMax_;
+    }
+
+    /**
+     * @param vmThroughputMax the vmThroughputMax to set
+     */
+    public void setVmThroughputMax(double vmThroughputMax)
+    {
+        this.vmThroughputMax_ = vmThroughputMax;
+    }
+
+    /**
+     * @return the vmThroughputMin
+     */
+    public double getVmThroughputMin()
+    {
+        return this.vmThroughputMin_;
+    }
+
+    /**
+     * @param vmThroughputMin the vmThroughputMin to set
+     */
+    public void setVmThroughputMin(double vmThroughputMin)
+    {
+        this.vmThroughputMin_ = vmThroughputMin;
+    }
+
+    /**
+     * @return the finalizeObjNum
+     */
+    public double getFinalizeObjNum()
+    {
+        return this.finalizeObjNum_;
+    }
+
+    /**
+     * @param finalizeObjNum the finalizeObjNum to set
+     */
+    public void setFinalizeObjNum(double finalizeObjNum)
+    {
+        this.finalizeObjNum_ = finalizeObjNum;
+    }
+
+    /**
+     * @return the finalizeObjNumMax
+     */
+    public double getFinalizeObjNumMax()
+    {
+        return this.finalizeObjNumMax_;
+    }
+
+    /**
+     * @param finalizeObjNumMax the finalizeObjNumMax to set
+     */
+    public void setFinalizeObjNumMax(double finalizeObjNumMax)
+    {
+        this.finalizeObjNumMax_ = finalizeObjNumMax;
+    }
+
+    /**
+     * @return the finalizeObjNumMin
+     */
+    public double getFinalizeObjNumMin()
+    {
+        return this.finalizeObjNumMin_;
+    }
+
+    /**
+     * @param finalizeObjNumMin the finalizeObjNumMin to set
+     */
+    public void setFinalizeObjNumMin(double finalizeObjNumMin)
+    {
+        this.finalizeObjNumMin_ = finalizeObjNumMin;
+    }
+
+    /**
+     * @return the totalLoadedClassNum
+     */
+    public double getTotalLoadedClassNum( )
+    {
+        return this.totalLoadedClassNum_;
+    }
+
+    /**
+     * @param totalLoadedClassNum the totalLoadedClassNum to set
+     */
+    public void setTotalLoadedClassNum(double totalLoadedClassNum)
+    {
+        this.totalLoadedClassNum_ = totalLoadedClassNum;
+    }
+
+    /**
+     * @return the totalLoadedClassNumMax
+     */
+    public double getTotalLoadedClassNumMax( )
+    {
+        return this.totalLoadedClassNumMax_;
+    }
+
+    /**
+     * @param totalLoadedClassNumMax the totalLoadedClassNumMax to set
+     */
+    public void setTotalLoadedClassNumMax(double totalLoadedClassNumMax)
+    {
+        this.totalLoadedClassNumMax_ = totalLoadedClassNumMax;
+    }
+
+    /**
+     * @return the totalLoadedClassNumMin
+     */
+    public double getTotalLoadedClassNumMin( )
+    {
+        return this.totalLoadedClassNumMin_;
+    }
+
+    /**
+     * @param totalLoadedClassNumMin the totalLoadedClassNumMin to set
+     */
+    public void setTotalLoadedClassNumMin(double totalLoadedClassNumMin)
+    {
+        this.totalLoadedClassNumMin_ = totalLoadedClassNumMin;
+    }
+
+    /**
+     * @return the loadedClassNum
+     */
+    public double getLoadedClassNum()
+    {
+        return this.loadedClassNum_;
+    }
+
+    /**
+     * @param loadedClassNum the loadedClassNum to set
+     */
+    public void setLoadedClassNum(double loadedClassNum)
+    {
+        this.loadedClassNum_ = loadedClassNum;
+    }
+
+    /**
+     * @return the loadedClassNumMax
+     */
+    public double getLoadedClassNumMax( )
+    {
+        return this.loadedClassNumMax_;
+    }
+
+    /**
+     * @param loadedClassNumMax the loadedClassNumMax to set
+     */
+    public void setLoadedClassNumMax(double loadedClassNumMax)
+    {
+        this.loadedClassNumMax_ = loadedClassNumMax;
+    }
+
+    /**
+     * @return the loadedClassNumMin
+     */
+    public double getLoadedClassNumMin( )
+    {
+        return this.loadedClassNumMin_;
+    }
+
+    /**
+     * @param loadedClassNumMin the loadedClassNumMin to set
+     */
+    public void setLoadedClassNumMin(double loadedClassNumMin)
+    {
+        this.loadedClassNumMin_ = loadedClassNumMin;
+    }
 }

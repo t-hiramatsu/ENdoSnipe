@@ -18,23 +18,23 @@ import jp.co.acroquest.endosnipe.report.converter.compressor.CompressOperator;
 import jp.co.acroquest.endosnipe.report.entity.ItemRecord;
 
 /**
- * ç³»åˆ—ã”ã¨ã«ã‚°ãƒ©ãƒ•ã‚’å‡ºåŠ›ã™ã‚‹å ´åˆã®ãƒ‡ãƒ¼ã‚¿ã‚’
- * ä¿æŒã™ã‚‹ã‚¯ãƒ©ã‚¹ã§ã™ã€‚
+ * Œn—ñ‚²‚Æ‚ÉƒOƒ‰ƒt‚ğo—Í‚·‚éê‡‚Ìƒf[ƒ^‚ğ
+ * •Û‚·‚éƒNƒ‰ƒX‚Å‚·B
  * 
  * @author ochiai
  */
 public class ItemData
 {
-	/** ç³»åˆ—å */
-	private String itemName_;
-
-	/** åœ§ç¸®æ–¹æ³• */
-	private CompressOperator operator_;
-
-	/** è£œé–“æœŸé–“å¹³å‡ã€€*/
-	private List<ItemRecord> records_;
-
-	/**
+	/** Œn—ñ–¼ */
+    private String itemName_;
+    
+	/** ˆ³k•û–@ */
+    private CompressOperator operator_;
+    
+    /** •âŠÔŠúŠÔ•½‹Ï@*/
+    private List<ItemRecord> records_;
+    
+    /**
 	 * @return the itemName_
 	 */
 	public String getItemName()
@@ -49,8 +49,8 @@ public class ItemData
 	{
 		this.itemName_ = itemName;
 	}
-
-	/**
+	
+    /**
 	 * @return the operator_
 	 */
 	public CompressOperator getOperator()
@@ -65,7 +65,7 @@ public class ItemData
 	{
 		this.operator_ = operator;
 	}
-
+	
 	/**
 	 * @return the records_
 	 */

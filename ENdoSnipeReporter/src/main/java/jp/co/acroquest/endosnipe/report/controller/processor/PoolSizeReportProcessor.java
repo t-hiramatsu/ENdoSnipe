@@ -39,154 +39,149 @@ import jp.co.acroquest.endosnipe.report.util.ReporterConfigAccessor;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * APã‚µãƒ¼ãƒã®ãƒ¯ãƒ¼ã‚«ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã®ãƒ¬ãƒãƒ¼ãƒˆã‚’ç”Ÿæˆã™ã‚‹ãƒ¬ãƒãƒ¼ãƒˆãƒ—ãƒ­ã‚»ãƒƒã‚µã€‚
+ * APƒT[ƒo‚Ìƒ[ƒJƒXƒŒƒbƒh”‚ÌƒŒƒ|[ƒg‚ğ¶¬‚·‚éƒŒƒ|[ƒgƒvƒƒZƒbƒTB
  * 
  * @author iida
  */
 public class PoolSizeReportProcessor extends ReportPublishProcessorBase
 {
-	/** ãƒ­ã‚¬ãƒ¼ */
-	private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
-		.getLogger(PoolSizeReportProcessor.class);
+    /** ƒƒK[ */
+    private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(
+            PoolSizeReportProcessor.class);
 
-	/**
-	 * ReportProcessorã‚’ç”Ÿæˆã™ã‚‹ã€‚<br>
-	 * 
-	 * @param type
-	 *            ãƒ¬ãƒãƒ¼ãƒˆç¨®åˆ¥
-	 */
-	public PoolSizeReportProcessor(ReportType type)
-	{
-		super(type);
-	}
+    /**
+     * ReportProcessor‚ğ¶¬‚·‚éB<br>
+     * 
+     * @param type
+     *            ƒŒƒ|[ƒgí•Ê
+     */
+    public PoolSizeReportProcessor(ReportType type)
+    {
+        super(type);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @param reportContainer
-	 */
-	@Override
-	protected Object getReportPlotData(ReportSearchCondition cond,
-		ReportProcessReturnContainer reportContainer)
-	{
-		// æ¤œç´¢æ¡ä»¶ã‚’å–å¾—ã™ã‚‹ã€‚
-		String database = cond.getDatabases().get(0);
-		Timestamp startTime = cond.getStartDate();
-		Timestamp endTime = cond.getEndDate();
+    /**
+     * {@inheritDoc}
+     * 
+     * @param reportContainer
+     */
+    @Override
+    protected Object getReportPlotData(ReportSearchCondition cond,
+            ReportProcessReturnContainer reportContainer)
+    {
+        // ŒŸõğŒ‚ğæ“¾‚·‚éB
+        String database = cond.getDatabases().get(0);
+        Timestamp startTime = cond.getStartDate();
+        Timestamp endTime = cond.getEndDate();
 
-		// DBã‹ã‚‰ãƒ‡ãƒ¼ã‚¿ã‚’æ¤œç´¢ã™ã‚‹ã€‚
-		List<ItemData> workerThreadNumData = null;
-		try
-		{
-			workerThreadNumData = GraphItemAccessUtil
-				.findItemData(database, Constants.ITEMNAME_SERVER_POOL,
-					CompressOperator.SIMPLE_AVERAGE, startTime, endTime);
-		}
-		catch (SQLException ex)
-		{
-			LOGGER.log(LogIdConstants.EXCEPTION_IN_READING, ex,
-				ReporterConfigAccessor.getReportName(getReportType()));
-			return null;
-		}
+        // DB‚©‚çƒf[ƒ^‚ğŒŸõ‚·‚éB
+        List<ItemData> workerThreadNumData = null;
+        try
+        {
+            workerThreadNumData = GraphItemAccessUtil.findItemData(
+                    database, Constants.ITEMNAME_SERVER_POOL,
+                    CompressOperator.SIMPLE_AVERAGE, startTime, endTime);
+        }
+        catch (SQLException ex)
+        {
+            LOGGER.log(LogIdConstants.EXCEPTION_IN_READING, ex,
+                    ReporterConfigAccessor.getReportName(getReportType()));
+            return null;
+        }
 
-		return workerThreadNumData;
-	}
+        return workerThreadNumData;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @param reportContainer
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	protected Object convertPlotData(Object rawData, ReportSearchCondition cond,
-		ReportProcessReturnContainer reportContainer)
-	{
-		// ãƒ‡ãƒ¼ã‚¿å¤‰æ›ã¯ç‰¹ã«è¡Œã„ã¾ã›ã‚“ã€‚
-		return rawData;
-	}
+    /**
+     * {@inheritDoc}
+     * 
+     * @param reportContainer
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    protected Object convertPlotData(Object rawData,
+            ReportSearchCondition cond,
+            ReportProcessReturnContainer reportContainer)
+    {
+        // ƒf[ƒ^•ÏŠ·‚Í“Á‚És‚¢‚Ü‚¹‚ñB
+        return rawData;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @param cond
-	 * @param reportContainer
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	protected void outputReport(Object plotData, ReportSearchCondition cond,
-		ReportProcessReturnContainer reportContainer)
-	{
-		List<ItemData> workerThreadNumData = (List<ItemData>) plotData;
+    /**
+     * {@inheritDoc}
+     * 
+     * @param cond
+     * @param reportContainer
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    protected void outputReport(Object plotData, ReportSearchCondition cond,
+            ReportProcessReturnContainer reportContainer)
+    {
+        List<ItemData> workerThreadNumData = (List<ItemData>) plotData;
+        
+        // €–Ú–¼‚ª"http-8080_max","http-8080_current","http-8080_wait"‚Æ‚È‚Á‚Ä‚¢‚é‚Ì‚ÅA
+        // "_"‚Ì‘O‚ª“™‚µ‚¢‚à‚Ì‚ğ‚Ü‚Æ‚ßA“¯ˆê‚ÌƒOƒ‰ƒt‚Éo—Í‚·‚éB
+        Map<String, List<PoolSizeRecord>> poolSizeRecordMap = new HashMap<String, List<PoolSizeRecord>>();
+        for (ItemData itemData : workerThreadNumData) {
+            String[] itemName = StringUtils.split(itemData.getItemName(), "_");
+            if (!poolSizeRecordMap.containsKey(itemName[0])) {
+                List<PoolSizeRecord> poolSizeRecords = new ArrayList<PoolSizeRecord>(200);
+                for (ItemRecord itemRecord : itemData.getRecords()) {
+                    PoolSizeRecord poolSizeRecord = new PoolSizeRecord();
+                    poolSizeRecord.setMeasurementTime(itemRecord.getMeasurementTime());
+                    poolSizeRecords.add(poolSizeRecord);
+                }
+                poolSizeRecordMap.put(itemName[0], poolSizeRecords);
+            }
+            for (int index = 0; index < itemData.getRecords().size(); index++) {
+                ItemRecord itemRecord = itemData.getRecords().get(index);
+                PoolSizeRecord poolSizeRecord = poolSizeRecordMap.get(itemName[0]).get(index);
+                if ("max".equals(itemName[1])) {
+                    poolSizeRecord.setPoolSizeMax(itemRecord.getValue());
+                } else if ("current".equals(itemName[1])) {
+                    poolSizeRecord.setPoolSizeCurrent(itemRecord.getValue());
+                } else if ("wait".equals(itemName[1])) {
+                    poolSizeRecord.setPoolSizeWait(itemRecord.getValue());
+                }
+            }
+        }
 
-		// é …ç›®åãŒ"http-8080_max","http-8080_current","http-8080_wait"ã¨ãªã£ã¦ã„ã‚‹ã®ã§ã€
-		// "_"ã®å‰ãŒç­‰ã—ã„ã‚‚ã®ã‚’ã¾ã¨ã‚ã€åŒä¸€ã®ã‚°ãƒ©ãƒ•ã«å‡ºåŠ›ã™ã‚‹ã€‚
-		Map<String, List<PoolSizeRecord>> poolSizeRecordMap = new HashMap<String, List<PoolSizeRecord>>();
-		for (ItemData itemData : workerThreadNumData)
-		{
-			String[] itemName = StringUtils.split(itemData.getItemName(), "_");
-			if (!poolSizeRecordMap.containsKey(itemName[0]))
-			{
-				List<PoolSizeRecord> poolSizeRecords = new ArrayList<PoolSizeRecord>(200);
-				for (ItemRecord itemRecord : itemData.getRecords())
-				{
-					PoolSizeRecord poolSizeRecord = new PoolSizeRecord();
-					poolSizeRecord.setMeasurementTime(itemRecord.getMeasurementTime());
-					poolSizeRecords.add(poolSizeRecord);
-				}
-				poolSizeRecordMap.put(itemName[0], poolSizeRecords);
-			}
-			for (int index = 0; index < itemData.getRecords().size(); index++)
-			{
-				ItemRecord itemRecord = itemData.getRecords().get(index);
-				PoolSizeRecord poolSizeRecord = poolSizeRecordMap.get(itemName[0]).get(index);
-				if ("max".equals(itemName[1]))
-				{
-					poolSizeRecord.setPoolSizeMax((long) itemRecord.getValue());
-				}
-				else if ("current".equals(itemName[1]))
-				{
-					poolSizeRecord.setPoolSizeCurrent((long) itemRecord.getValue());
-				}
-				else if ("wait".equals(itemName[1]))
-				{
-					poolSizeRecord.setPoolSizeWait((long) itemRecord.getValue());
-				}
-			}
-		}
+        // o—Í‚·‚éƒŒƒ|[ƒg‚Ìí—Ş‚É‰‚¶‚ÄAƒeƒ“ƒvƒŒ[ƒg‚Ìƒtƒ@ƒCƒ‹ƒpƒX‚ğæ“¾‚·‚éB
+        String templateFilePath;
+        try
+        {
+            templateFilePath = TemplateFileManager.getInstance()
+                    .getTemplateFile(ReportType.POOL_SIZE);
+        }
+        catch (IOException exception)
+        {
+            reportContainer.setHappendedError(exception);
+            return;
+        }
 
-		// å‡ºåŠ›ã™ã‚‹ãƒ¬ãƒãƒ¼ãƒˆã®ç¨®é¡ã«å¿œã˜ã¦ã€ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã®ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã‚’å–å¾—ã™ã‚‹ã€‚
-		String templateFilePath;
-		try
-		{
-			templateFilePath = TemplateFileManager.getInstance().getTemplateFile(
-				ReportType.POOL_SIZE);
-		}
-		catch (IOException exception)
-		{
-			reportContainer.setHappendedError(exception);
-			return;
-		}
+        // ƒŒƒ|[ƒgo—Í‚Ìˆø”î•ñ‚ğæ“¾‚·‚éB
+        String outputFolderPath = getOutputFolderName()
+                + File.separator
+                + ReporterConfigAccessor.getProperty(super.getReportType()
+                        .getId()
+                        + ".outputFile");
+        Timestamp startTime = cond.getStartDate();
+        Timestamp endTime = cond.getEndDate();
 
-		// ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã®å¼•æ•°æƒ…å ±ã‚’å–å¾—ã™ã‚‹ã€‚
-		String outputFolderPath = getOutputFolderName() + File.separator
-			+ ReporterConfigAccessor.getProperty(super.getReportType().getId() + ".outputFile");
-		Timestamp startTime = cond.getStartDate();
-		Timestamp endTime = cond.getEndDate();
-
-		// ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã‚’å®Ÿè¡Œã™ã‚‹ã€‚
-		RecordReporter<PoolSizeRecord> reporter = new RecordReporter<PoolSizeRecord>(
-			getReportType());
-
-		for (Map.Entry<String, List<PoolSizeRecord>> poolSizeRecordEntry : poolSizeRecordMap
-			.entrySet())
-		{
-			PoolSizeRecord[] records = poolSizeRecordEntry.getValue().toArray(
-				new PoolSizeRecord[] {});
-			String itemName = poolSizeRecordEntry.getKey();
-			String[] graphTitles = { "APã‚µãƒ¼ãƒã®ãƒ¯ãƒ¼ã‚«ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ï¼ˆ" + itemName + "ï¼‰" };
-			reporter.outputReport(templateFilePath, outputFolderPath, itemName, graphTitles,
-				records, startTime, endTime);
-		}
-	}
+        // ƒŒƒ|[ƒgo—Í‚ğÀs‚·‚éB
+        RecordReporter<PoolSizeRecord> reporter = new RecordReporter<PoolSizeRecord>(
+                getReportType());
+        
+        for (Map.Entry<String, List<PoolSizeRecord>> poolSizeRecordEntry : poolSizeRecordMap.entrySet())
+        {
+            PoolSizeRecord[] records = poolSizeRecordEntry.getValue().toArray(
+                    new PoolSizeRecord[] {});
+            String itemName = poolSizeRecordEntry.getKey();
+            String[] graphTitles =
+            { "APƒT[ƒo‚Ìƒ[ƒJƒXƒŒƒbƒh”i" + itemName + "j" };
+            reporter.outputReport(templateFilePath, outputFolderPath, itemName,
+                    graphTitles, records, startTime, endTime);
+        }
+    }
 }

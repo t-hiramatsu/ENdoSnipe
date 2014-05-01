@@ -21,7 +21,7 @@ public class XmlRuleDefAccessorTest extends TestCase
 
         assertEquals("testFindRuleSet", def.getName());
 
-        // 1つ目の定義
+        // 1�ڂ̒�`
         RuleDef ruleDef1 = def.getRuleDefs().get(0);
         assertEquals("TEST01_NORMAL", ruleDef1.getId());
         assertEquals("jp.co.acroquest.endosnipe.perfdoctor.rule.Test01", ruleDef1.getClassName());
@@ -46,7 +46,7 @@ public class XmlRuleDefAccessorTest extends TestCase
         assertEquals("FALSE", ruleLevelDefs.get(1).getEnabled());
         assertNull(ruleLevelDefs.get(1).getPropertyDefs());
 
-        // 2つ目の定義
+        // 2�ڂ̒�`
         RuleDef ruleDef2 = def.getRuleDefs().get(1);
         assertEquals("TEST02_USE_DEFAULT", ruleDef2.getId());
         assertEquals("jp.co.acroquest.endosnipe.perfdoctor.rule.Test02", ruleDef2.getClassName());

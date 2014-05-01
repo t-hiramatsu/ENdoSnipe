@@ -36,7 +36,7 @@ import jp.co.smg.endosnipe.javassist.CtMethod;
 import jp.co.smg.endosnipe.javassist.NotFoundException;
 
 /**
- * ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆã®è¨­å®šãŒè¡Œã‚ã‚Œã¦ã„ã‚‹ã‹ã‚’æ¤œå‡ºã—ã¾ã™ã€‚<br />
+ * ƒ^ƒCƒ€ƒAƒEƒg‚Ìİ’è‚ªs‚í‚ê‚Ä‚¢‚é‚©‚ğŒŸo‚µ‚Ü‚·B<br />
  * 
  * @author fujii
  *
@@ -44,7 +44,7 @@ import jp.co.smg.endosnipe.javassist.NotFoundException;
 public class TimeoutMonitorConverter extends AbstractConverter
 {
 
-    /** ãƒ¢ãƒ‹ã‚¿ã‚¯ãƒ©ã‚¹åã€‚ */
+    /** ƒ‚ƒjƒ^ƒNƒ‰ƒX–¼B */
     private static final String MONITOR_CLASSNAME = TimeoutMonitor.class.getCanonicalName();
 
     /**
@@ -60,22 +60,22 @@ public class TimeoutMonitorConverter extends AbstractConverter
 
         CtMethod inputMethod = ctClass.getDeclaredMethod("getInputStream");
         convertMethod(inputMethod);
-        // å‡¦ç†çµæœã‚’ãƒ­ã‚°ã«å‡ºåŠ›ã™ã‚‹ã€‚
+        // ˆ—Œ‹‰Ê‚ğƒƒO‚Éo—Í‚·‚éB
 
         setNewClassfileBuffer(ctClass.toBytecode());
     }
 
     /**
-     * ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å¤‰æ›´ã—ã€ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆã®è¨­å®šãŒè¡Œã‚ã‚Œã¦ã„ã‚‹ã‹åˆ¤å®šã™ã‚‹å‡¦ç†ã‚’åŸ‹ã‚è¾¼ã¿ã¾ã™ã€‚<br />
+     * ƒƒ\ƒbƒh‚ğ•ÏX‚µAƒ^ƒCƒ€ƒAƒEƒg‚Ìİ’è‚ªs‚í‚ê‚Ä‚¢‚é‚©”»’è‚·‚éˆ—‚ğ–„‚ß‚İ‚Ü‚·B<br />
      * 
-     * @param method ãƒ¡ã‚½ãƒƒãƒ‰
-     * @throws CannotCompileException ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã§ããªã„å ´åˆ
+     * @param method ƒƒ\ƒbƒh
+     * @throws CannotCompileException ƒRƒ“ƒpƒCƒ‹‚Å‚«‚È‚¢ê‡
      */
     private void convertMethod(CtBehavior method)
         throws CannotCompileException
     {
         method.insertAfter("return new " + MONITOR_CLASSNAME + "(this, $_);");
-        // å‡¦ç†çµæœã‚’ãƒ­ã‚°ã«å‡ºåŠ›ã™ã‚‹ã€‚
+        // ˆ—Œ‹‰Ê‚ğƒƒO‚Éo—Í‚·‚éB
         logModifiedMethod("TimeoutConverter", method);
     }
 

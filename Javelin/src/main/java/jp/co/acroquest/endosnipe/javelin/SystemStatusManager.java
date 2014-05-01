@@ -27,22 +27,20 @@ package jp.co.acroquest.endosnipe.javelin;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * ã‚·ã‚¹ãƒ†ãƒ ã®çŠ¶æ…‹ã‚’ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+ * ƒVƒXƒeƒ€‚Ìó‘Ô‚ğŠÇ—‚·‚éƒNƒ‰ƒX‚Å‚·B<br />
  * 
  * @author fujii
  *
  */
 public class SystemStatusManager
 {
-    /** ã‚·ã‚¹ãƒ†ãƒ ã®çŠ¶æ…‹ã‚’ç®¡ç†ã™ã‚‹Map */
-    private static Map<String, AtomicLong> statusMap__ =
-        new ConcurrentHashMap<String, AtomicLong>();
+    /** ƒVƒXƒeƒ€‚Ìó‘Ô‚ğŠÇ—‚·‚éMap */
+    private static Map<String, Object> statusMap__ = new ConcurrentHashMap<String, Object>();
 
     /**
-     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã‚’é˜»æ­¢ã™ã‚‹privateã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§ã™ã€‚<br />
+     * ƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğ‘j~‚·‚éprivateƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Å‚·B<br />
      */
     private SystemStatusManager()
     {
@@ -50,19 +48,24 @@ public class SystemStatusManager
     }
 
     /**
-     * ã‚·ã‚¹ãƒ†ãƒ ã®çŠ¶æ…‹ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * ƒVƒXƒeƒ€‚Ìó‘Ô‚ğ•Û‘¶‚µ‚Ü‚·B<br />
      * 
-     * @param key ã‚­ãƒ¼
-     * @return æŒ‡å®šã•ã‚ŒãŸã‚­ãƒ¼ã«å¯¾å¿œã™ã‚‹çŠ¶æ…‹
+     * @param key ƒL[
+     * @param value ’l
      */
-    public static AtomicLong getValue(final String key)
+    public static void setValue(final String key, final Object value)
     {
-        AtomicLong value = statusMap__.get(key);
-        if (value == null)
-        {
-            value = new AtomicLong();
-            statusMap__.put(key, value);
-        }
-        return value;
+        statusMap__.put(key, value);
+    }
+
+    /**
+     * ƒVƒXƒeƒ€‚Ìó‘Ô‚ğæ“¾‚µ‚Ü‚·B<br />
+     * 
+     * @param key ƒL[
+     * @return w’è‚³‚ê‚½ƒL[‚É‘Î‰‚·‚éó‘Ô
+     */
+    public static Object getValue(final String key)
+    {
+        return statusMap__.get(key);
     }
 }

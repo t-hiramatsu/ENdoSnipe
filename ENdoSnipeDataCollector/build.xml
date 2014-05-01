@@ -76,10 +76,9 @@
         <copy file="${endosnipe-common-fortest.jar}" todir="${lib-dependency.dir}" failonerror="yes" />
         <copy file="${endosnipe-communicator.jar}" todir="${lib-service.dir}" failonerror="yes" />
         <copy file="${endosnipe-dataaccessor.jar}" todir="${lib-service.dir}" failonerror="yes" />
-    	<copy file="${endosnipe-perfdoctor.jar}" todir="${lib-service.dir}" failonerror="yes" />
 
         <!-- ${src}から${classes}に、Javaコードをコンパイルする -->
-        <javac srcdir="${src}" destdir="${classes}" debug="on" encoding="UTF-8">
+        <javac srcdir="${src}" destdir="${classes}" debug="on">
             <classpath>
                 <path refid="classpath" />
             </classpath>
@@ -94,7 +93,7 @@
     <!-- テストソースのコンパイル -->
     <target name="compile-test" depends="compile" description="テストソースをコンパイルする">
         <!-- ${src.test}から${classes.test}に、Javaコードをコンパイルする -->
-        <javac srcdir="${src.test}" destdir="${classes.test}" debug="on" encoding="UTF-8">
+        <javac srcdir="${src.test}" destdir="${classes.test}" debug="on">
             <classpath>
                 <path refid="classpath-test" />
             </classpath>
@@ -201,16 +200,10 @@
                 <include name="commons-pool-*.jar" />
                 <include name="h2-*.jar" />
             </fileset>
-            <fileset dir="${endosnipe-perfdoctor.dir}/lib">
-                <include name="commons-lang-*.jar" />
-                <include name="commons-beanutils-core-*.jar" />
-            </fileset>
             <fileset dir="${lib}/opt">
                 <include name="mail.jar" />
                 <include name="activation.jar" />
                 <include name="SNMP4J.jar" />
-                <include name="elasticsearch-*.jar" />
-                <include name="lucene-*.jar" />
             </fileset>
         </copy>
 
@@ -343,8 +336,5 @@
         <delete dir="${report}" />
         <delete dir="${plugin-temp}" />
         <delete dir="${service-temp}" />
-        <delete>
-            <fileset dir="${lib-dependency.dir}" includes="endosnipe-*.jar"/>
-        </delete>
     </target>
 </project>

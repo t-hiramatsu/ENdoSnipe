@@ -30,7 +30,7 @@ import jp.co.acroquest.endosnipe.javelin.bean.proc.ProcInfo;
 import jp.co.acroquest.endosnipe.javelin.bean.proc.SelfStatInfo;
 
 /**
- * SelfStatInfoからプロセス毎のメジャーフォールト数の回数を取得する。
+ * SelfStatInfo����v���Z�X���̃��W���[�t�H�[���g���̉񐔂��擾����B
  * 
  * @author akita
  */
@@ -39,7 +39,7 @@ public class LinuxMajfltGetter extends ProcResourceGetter
 
     /**
      * 
-     * @param procParser リソース情報取得用
+     * @param procParser ���\�[�X���擾�p
      */
     public LinuxMajfltGetter(ProcParser procParser)
     {

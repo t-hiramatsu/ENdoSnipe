@@ -28,35 +28,32 @@ package jp.co.acroquest.endosnipe.collector.rotate;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Calendar;
-import java.util.List;
 
 import jp.co.acroquest.endosnipe.collector.LogMessageCodes;
 import jp.co.acroquest.endosnipe.collector.config.RotateConfig;
-import jp.co.acroquest.endosnipe.collector.util.MulResourceGraphUtil;
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
 import jp.co.acroquest.endosnipe.data.dao.JavelinMeasurementItemDao;
 import jp.co.acroquest.endosnipe.data.dao.MeasurementValueDao;
-import jp.co.acroquest.endosnipe.data.dao.MulResourceGraphDefinitionDao;
 import jp.co.acroquest.endosnipe.data.db.ConnectionManager;
 
 /**
- * Ë®àÊ∏¨„É≠„Ç∞„ÅÆ„É≠„Éº„ÉÜ„Éº„Éà„ÇíË°å„ÅÜ„Çø„Çπ„ÇØ
+ * åvë™ÉçÉOÇÃÉçÅ[ÉeÅ[ÉgÇçsÇ§É^ÉXÉN
  * 
  * @author S.Kimura
  */
 public class MeasureLogRotateTask implements LogRotateTask
 {
-    /** „É≠„Ç¨„Éº„ÄÇ */
-    private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
-        .getLogger(MeasureLogRotateTask.class);
+    /** ÉçÉKÅ[ÅB */
+    private static final ENdoSnipeLogger LOGGER =
+                                                  ENdoSnipeLogger.getLogger(MeasureLogRotateTask.class);
 
-    /** „É≠„Éº„ÉÜ„Éº„ÉàÁî®Ë®≠ÂÆö */
+    /** ÉçÅ[ÉeÅ[Égópê›íË */
     private final RotateConfig config_;
 
     /**
-     * „Ç≥„É≥„Çπ„Éà„É©„ÇØ„Çø
+     * ÉRÉìÉXÉgÉâÉNÉ^
      * 
-     * @param config „É≠„Éº„ÉÜ„Éº„ÉàÁî®Ë®≠ÂÆö
+     * @param config ÉçÅ[ÉeÅ[Égópê›íË
      */
     public MeasureLogRotateTask(final RotateConfig config)
     {
@@ -75,7 +72,8 @@ public class MeasureLogRotateTask implements LogRotateTask
         }
 
         Calendar deleteTimeCalender =
-            RotateUtil.getBeforeDate(this.config_.getMeasureUnitByCalendar(), period);
+                                      RotateUtil.getBeforeDate(this.config_.getMeasureUnitByCalendar(),
+                                                               period);
 
         Timestamp deleteLimit = new Timestamp(deleteTimeCalender.getTimeInMillis());
 
@@ -85,19 +83,15 @@ public class MeasureLogRotateTask implements LogRotateTask
             try
             {
                 MeasurementValueDao.deleteOldRecordByTime(databaseName, deleteLimit);
-                List<String> result =
-                    MulResourceGraphDefinitionDao.selectOnNotUsedRecord(databaseName);
                 JavelinMeasurementItemDao.deleteNotUsedRecord(databaseName);
-                MulResourceGraphUtil.checkMatchPattern(databaseName, result, "delete");
                 LOGGER.log(LogMessageCodes.MEASURELOG_ROTATE, new Object[]{databaseName,
-                    deleteLimit});
+                        deleteLimit});
             }
             catch (SQLException ex)
             {
                 LOGGER.log(LogMessageCodes.MEASURELOG_ROTATE_FAIL, ex, new Object[]{databaseName,
-                    deleteLimit});
+                        deleteLimit});
             }
         }
     }
-
 }

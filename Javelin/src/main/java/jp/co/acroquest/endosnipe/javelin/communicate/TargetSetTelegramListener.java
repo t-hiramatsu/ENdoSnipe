@@ -41,41 +41,41 @@ import jp.co.acroquest.endosnipe.javelin.bean.Invocation;
 import jp.co.acroquest.endosnipe.javelin.bean.TripleState;
 
 /**
- * ãƒ¡ã‚½ãƒƒãƒ‰è¨ˆæ¸¬å¯¾è±¡ã®ON/OFFã‚’å—ä¿¡ã™ã‚‹Telegramã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+ * ƒƒ\ƒbƒhŒv‘ª‘ÎÛ‚ÌON/OFF‚ğóM‚·‚éTelegramƒNƒ‰ƒX‚Å‚·B<br />
  * 
  * @author fujii
  *
  */
 public class TargetSetTelegramListener implements TelegramListener, TelegramConstants
 {
-    /** ã‚¯ãƒ©ã‚¹åã®é…åˆ—ä½ç½® */
+    /** ƒNƒ‰ƒX–¼‚Ì”z—ñˆÊ’u */
     private static final int INDEX_CLASSNAME = 0;
 
-    /** ãƒ¡ã‚½ãƒƒãƒ‰åã®é…åˆ—ä½ç½® */
+    /** ƒƒ\ƒbƒh–¼‚Ì”z—ñˆÊ’u */
     private static final int INDEX_METHODNAME = 1;
 
     /**
-     * å—ä¿¡ã—ãŸé›»æ–‡ã®å†…å®¹ã«å¿œã˜ã¦ãƒ¡ã‚½ãƒƒãƒ‰è¨ˆæ¸¬å¯¾è±¡é™¤å¤–ã®ON/OFFã‚’åˆ‡ã‚Šæ›¿ãˆã¾ã™ã€‚<br />
+     * óM‚µ‚½“d•¶‚Ì“à—e‚É‰‚¶‚Äƒƒ\ƒbƒhŒv‘ª‘ÎÛœŠO‚ÌON/OFF‚ğØ‚è‘Ö‚¦‚Ü‚·B<br />
      *
-     * @param telegram é›»æ–‡
-     * @return å¿œç­”é›»æ–‡(null)
+     * @param telegram “d•¶
+     * @return ‰“š“d•¶(null)
      */
     public Telegram receiveTelegram(Telegram telegram)
     {
-        // ãƒ˜ãƒƒãƒ€ãŒä»¥ä¸‹ã®æ¡ä»¶ã‚’æº€ãŸã™å ´åˆã€å‡¦ç†ã‚’è¡Œã„ã¾ã™ã€‚
-        // é›»æ–‡ç¨®åˆ¥ : è¨ˆæ¸¬å¯¾è±¡æ›´æ–°
-        // è¦æ±‚ç¨®åˆ¥ : è¦æ±‚
+        // ƒwƒbƒ_‚ªˆÈ‰º‚ÌğŒ‚ğ–‚½‚·ê‡Aˆ—‚ğs‚¢‚Ü‚·B
+        // “d•¶í•Ê : Œv‘ª‘ÎÛXV
+        // —v‹í•Ê : —v‹
         if (telegram.getObjHeader().getByteTelegramKind() == BYTE_TELEGRAM_KIND_UPDATE_TARGET
                 && telegram.getObjHeader().getByteRequestKind() == BYTE_REQUEST_KIND_REQUEST)
         {
             Body[] bodies = telegram.getObjBody();
 
-            // é›»æ–‡æœ¬ä½“ã®ã†ã¡ã€ä»¥ä¸‹ã®æ¡ä»¶ã‚’æº€ãŸã™ã‚‚ã®ã®ã¿å‡¦ç†ã—ã¾ã™ã€‚
-            // ãƒ»ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆåãŒ<ã‚¯ãƒ©ã‚¹å>#ã‚»ãƒ‘ãƒ¬ãƒ¼ã‚¿#<ãƒ¡ã‚½ãƒƒãƒ‰å>ã®å½¢å¼ã§ã‚ã‚‹ã€‚
-            // ãƒ»é …ç›®åãŒ"target"ã§ã‚ã‚‹ã€‚
-            // ãƒ»é …ç›®å‹ãŒ Stringå‹ ã§ã‚ã‚‹ã€‚
-            // ãƒ»ç¹°ã‚Šè¿”ã—å›æ•°ãŒ1å›ã§ã‚ã‚‹ã€‚
-            // ãƒ»è©³ç´°ã®ç¬¬ä¸€å¼•æ•°ãŒ"true" ã‹ "false" ã§ã‚ã‚‹ã€‚
+            // “d•¶–{‘Ì‚Ì‚¤‚¿AˆÈ‰º‚ÌğŒ‚ğ–‚½‚·‚à‚Ì‚Ì‚İˆ—‚µ‚Ü‚·B
+            // EƒIƒuƒWƒFƒNƒg–¼‚ª<ƒNƒ‰ƒX–¼>#ƒZƒpƒŒ[ƒ^#<ƒƒ\ƒbƒh–¼>‚ÌŒ`®‚Å‚ ‚éB
+            // E€–Ú–¼‚ª"target"‚Å‚ ‚éB
+            // E€–ÚŒ^‚ª StringŒ^ ‚Å‚ ‚éB
+            // EŒJ‚è•Ô‚µ‰ñ”‚ª1‰ñ‚Å‚ ‚éB
+            // EÚ×‚Ì‘æˆêˆø”‚ª"true" ‚© "false" ‚Å‚ ‚éB
             for (Body body : bodies)
             {
                 String objName = body.getStrObjName();

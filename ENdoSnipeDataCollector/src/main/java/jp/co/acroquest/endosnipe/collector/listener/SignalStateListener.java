@@ -29,28 +29,32 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import jp.co.acroquest.endosnipe.collector.JavelinDataLogger;
 import jp.co.acroquest.endosnipe.collector.LogMessageCodes;
 import jp.co.acroquest.endosnipe.collector.manager.SignalStateManager;
+import jp.co.acroquest.endosnipe.collector.processor.AlarmData;
+import jp.co.acroquest.endosnipe.collector.processor.AlarmType;
 import jp.co.acroquest.endosnipe.collector.util.CollectorTelegramUtil;
+import jp.co.acroquest.endosnipe.common.entity.ItemType;
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
 import jp.co.acroquest.endosnipe.communicator.AbstractTelegramListener;
 import jp.co.acroquest.endosnipe.communicator.TelegramListener;
 import jp.co.acroquest.endosnipe.communicator.entity.Body;
+import jp.co.acroquest.endosnipe.communicator.entity.Header;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.data.dto.SignalDefinitionDto;
 
 /**
- * Javelin ã‚·ã‚°ãƒŠãƒ«çŠ¶æ…‹å–å¾—è¦æ±‚é›»æ–‡ã‚’å—ä¿¡ã™ã‚‹ãŸã‚ã®ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+ * Javelin ƒVƒOƒiƒ‹ó‘ÔŽæ“¾—v‹“d•¶‚ðŽóM‚·‚é‚½‚ß‚ÌƒNƒ‰ƒX‚Å‚·B<br />
  * 
  * @author fujii
  */
 public class SignalStateListener extends AbstractTelegramListener implements TelegramListener,
-    LogMessageCodes
+        LogMessageCodes
 {
-    /** LOGGER */
-    private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
-        .getLogger(SignalStateListener.class);
+    private static final ENdoSnipeLogger LOGGER =
+                                                  ENdoSnipeLogger.getLogger(SignalStateListener.class);
 
     /**
      * {@inheritDoc}
@@ -63,19 +67,18 @@ public class SignalStateListener extends AbstractTelegramListener implements Tel
             LOGGER.log(SIGNAL_STATE_NOTIFY_RECEIVED);
         }
 
-        // é–¾å€¤å®šç¾©æƒ…å ±ã®åç§°ä¸€è¦§ã‚’å–å¾—ã™ã‚‹ã€‚
+        // è‡’l’è‹`î•ñ‚Ì–¼Ìˆê——‚ðŽæ“¾‚·‚éB
         List<SignalDefinitionDto> signalDefitionList = getSignalDefinitionList(telegram);
 
-        Telegram responseTelegram =
-            CollectorTelegramUtil.createResponseTelegram(signalDefitionList);
+        Telegram responseTelegram = createResponseTelegram(signalDefitionList);
 
         return responseTelegram;
     }
 
     /**
-     * é–¾å€¤å®šç¾©æƒ…å ±ã®åç§°ä¸€è¦§ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @param telegram é–¾å€¤å®šç¾©æƒ…å ±é›»æ–‡ä¸€è¦§
-     * @return é–¾å€¤å®šç¾©æƒ…å ±ã®åç§°ä¸€è¦§
+     * è‡’l’è‹`î•ñ‚Ì–¼Ìˆê——‚ðŽæ“¾‚·‚éB
+     * @param telegram è‡’l’è‹`î•ñ“d•¶ˆê——
+     * @return è‡’l’è‹`î•ñ‚Ì–¼Ìˆê——
      */
     private List<SignalDefinitionDto> getSignalDefinitionList(final Telegram telegram)
     {
@@ -101,7 +104,7 @@ public class SignalStateListener extends AbstractTelegramListener implements Tel
         SignalStateManager signalStateManager = SignalStateManager.getInstance();
         Map<Long, SignalDefinitionDto> signalMap = signalStateManager.getSignalDeifinitionMap();
 
-        // ç›£è¦–å¯¾è±¡ã®é–¾å€¤åˆ¤å®šå®šç¾©æƒ…å ±ã‚’å–å¾—ã™ã‚‹ã€‚
+        // ŠÄŽ‹‘ÎÛ‚Ìè‡’l”»’è’è‹`î•ñ‚ðŽæ“¾‚·‚éB
         for (Long signalId : signalIds)
         {
             SignalDefinitionDto signalDefinitionDto = signalMap.get(signalId);
@@ -114,10 +117,10 @@ public class SignalStateListener extends AbstractTelegramListener implements Tel
     }
 
     /**
-     * é›»æ–‡ã‹ã‚‰æ–‡å­—åˆ—é…åˆ—ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @param loopCount ãƒ«ãƒ¼ãƒ—å›žæ•°
-     * @param telegramValuesOfobject è©³ç´°
-     * @return é›»æ–‡ã‹ã‚‰å–å¾—ã—ãŸæ–‡å­—åˆ—é…åˆ—
+     * “d•¶‚©‚ç•¶Žš—ñ”z—ñ‚ðŽæ“¾‚·‚éB
+     * @param loopCount ƒ‹[ƒv‰ñ”
+     * @param telegramValuesOfobject Ú×
+     * @return “d•¶‚©‚çŽæ“¾‚µ‚½•¶Žš—ñ”z—ñ
      */
     private Long[] getLongValues(final int loopCount, final Object[] telegramValuesOfobject)
     {
@@ -132,6 +135,96 @@ public class SignalStateListener extends AbstractTelegramListener implements Tel
             telegramValues[cnt] = longValue;
         }
         return telegramValues;
+    }
+
+    /**
+     * ƒVƒOƒiƒ‹ó‘ÔXV“d•¶‚ð¶¬‚·‚éB
+     * @param signalDefitionList è‡’l”»’è’è‹`î•ñˆê——
+     * @return ƒVƒOƒiƒ‹ó‘ÔXV“d•¶
+     */
+    private Telegram createResponseTelegram(final List<SignalDefinitionDto> signalDefitionList)
+    {
+        Header responseHeader = new Header();
+        responseHeader.setByteTelegramKind(TelegramConstants.BYTE_TELEGRAM_SIGNAL_STATE_CHANGE);
+        responseHeader.setByteRequestKind(TelegramConstants.BYTE_REQUEST_KIND_NOTIFY);
+
+        Telegram responseTelegram = new Telegram();
+
+        Body[] responseBodys = new Body[CollectorTelegramUtil.RESPONSEALARM_BODY_SIZE];
+        int signalCount = signalDefitionList.size();
+
+        // è‡’l”»’è’è‹`î•ñ–¼
+        Body signalNamesBody = new Body();
+
+        signalNamesBody.setStrObjName(TelegramConstants.OBJECTNAME_RESOURCEALARM);
+        signalNamesBody.setStrItemName(TelegramConstants.ITEMNAME_ALARM_ID);
+        signalNamesBody.setByteItemMode(ItemType.ITEMTYPE_STRING);
+        signalNamesBody.setIntLoopCount(signalCount);
+        String[] signalNames = new String[signalCount];
+
+        // ƒAƒ‰[ƒ€”­¶Žž‚Ìè‡’ló‘Ô
+        Body alarmStateBody = new Body();
+
+        alarmStateBody.setStrObjName(TelegramConstants.OBJECTNAME_RESOURCEALARM);
+        alarmStateBody.setStrItemName(TelegramConstants.ITEMNAME_ALARM_STATE);
+        alarmStateBody.setByteItemMode(ItemType.ITEMTYPE_INT);
+        alarmStateBody.setIntLoopCount(signalCount);
+        Integer[] signalState = new Integer[signalCount];
+
+        // ƒAƒ‰[ƒ€”­¶Žž‚Ìè‡’ló‘Ô
+        Body signalLevelBody = new Body();
+
+        signalLevelBody.setStrObjName(TelegramConstants.OBJECTNAME_RESOURCEALARM);
+        signalLevelBody.setStrItemName(TelegramConstants.ITEMNAME_SIGNAL_LEVEL);
+        signalLevelBody.setByteItemMode(ItemType.ITEMTYPE_INT);
+        signalLevelBody.setIntLoopCount(signalCount);
+        Integer[] signalLevel = new Integer[signalCount];
+
+        // ƒAƒ‰[ƒ€‚ÌŽí—Þ
+        Body alarmTypeBody = new Body();
+
+        alarmTypeBody.setStrObjName(TelegramConstants.OBJECTNAME_RESOURCEALARM);
+        alarmTypeBody.setStrItemName(TelegramConstants.ITEMNAME_ALARM_TYPE);
+        alarmTypeBody.setByteItemMode(ItemType.ITEMTYPE_STRING);
+        alarmTypeBody.setIntLoopCount(signalCount);
+        String[] alarmTypeItems = new String[signalCount];
+
+        // Œv‘ªIDAƒAƒ‰[ƒ€Ží—Þ‚ÌBody‚ÉAlarmEntry‚ÌŒ‹‰Ê‚ðŠi”[‚·‚éB
+        SignalStateManager manager = SignalStateManager.getInstance();
+        for (int cnt = 0; cnt < signalCount; cnt++)
+        {
+            SignalDefinitionDto signalDefition = signalDefitionList.get(cnt);
+            String signalName = signalDefition.getSignalName();
+            AlarmData alarmData = manager.getAlarmData(signalName);
+
+            signalNames[cnt] = signalName;
+            if (alarmData == null)
+            {
+                signalState[cnt] = JavelinDataLogger.STOP_ALARM_LEVEL;
+            }
+            else
+            {
+                signalState[cnt] = alarmData.getAlarmLevel();
+            }
+
+            signalLevel[cnt] = signalDefition.getLevel();
+            alarmTypeItems[cnt] = String.valueOf(AlarmType.NONE);
+        }
+        signalNamesBody.setObjItemValueArr(signalNames);
+        alarmStateBody.setObjItemValueArr(signalState);
+        alarmTypeBody.setObjItemValueArr(alarmTypeItems);
+        signalLevelBody.setObjItemValueArr(signalLevel);
+
+        responseTelegram.setObjHeader(responseHeader);
+
+        responseBodys[0] = signalNamesBody;
+        responseBodys[1] = alarmStateBody;
+        responseBodys[2] = signalLevelBody;
+        responseBodys[3] = alarmTypeBody;
+
+        responseTelegram.setObjBody(responseBodys);
+
+        return responseTelegram;
     }
 
     /**

@@ -4,250 +4,224 @@ import java.sql.Timestamp;
 
 public class DataIORecord
 {
-	/** è¨ˆæ¸¬æ™‚åˆ» */
-	private Timestamp measurementTime_;
+	/** Œv‘ª */
+    private Timestamp measurementTime_;
 
-	/** ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯çµŒç”±ã§ã®ãƒ‡ãƒ¼ã‚¿é€å—ä¿¡é‡ã®ã‚°ãƒ©ãƒ•ã®ã€ãƒ‡ãƒ¼ã‚¿å—ä¿¡é‡[ã‚µã‚¤ã‚º(Bytes)]ï¼ˆè£œé–“æœŸé–“å¹³å‡ï¼‰ */
-	private long dataReceive_;
+    /** ƒlƒbƒgƒ[ƒNŒo—R‚Å‚Ìƒf[ƒ^‘—óM—Ê‚ÌƒOƒ‰ƒt‚ÌAƒf[ƒ^óM—Ê[ƒTƒCƒY(Bytes)]i•âŠÔŠúŠÔ•½‹Ïj */
+    private long dataReceive_;
+    
+    /** ƒlƒbƒgƒ[ƒNŒo—R‚Å‚Ìƒf[ƒ^‘—óM—Ê‚ÌƒOƒ‰ƒt‚ÌAƒf[ƒ^óM—Ê[ƒTƒCƒY(Bytes)]i•âŠÔŠúŠÔÅ‘åj */
+    private long dataReceiveMax_;
+    
+    /** ƒlƒbƒgƒ[ƒNŒo—R‚Å‚Ìƒf[ƒ^‘—óM—Ê‚ÌƒOƒ‰ƒt‚ÌAƒf[ƒ^óM—Ê[ƒTƒCƒY(Bytes)]i•âŠÔŠúŠÔÅ¬j */
+    private long dataReceiveMin_;
 
-	/** ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯çµŒç”±ã§ã®ãƒ‡ãƒ¼ã‚¿é€å—ä¿¡é‡ã®ã‚°ãƒ©ãƒ•ã®ã€ãƒ‡ãƒ¼ã‚¿å—ä¿¡é‡[ã‚µã‚¤ã‚º(Bytes)]ï¼ˆè£œé–“æœŸé–“æœ€å¤§ï¼‰ */
-	private long dataReceiveMax_;
+    /** ƒlƒbƒgƒ[ƒNŒo—R‚Å‚Ìƒf[ƒ^‘—óM—Ê‚ÌƒOƒ‰ƒt‚ÌAƒf[ƒ^‘—M—Ê[ƒTƒCƒY(Bytes)]i•âŠÔŠúŠÔ•½‹Ïj */
+    private long dataTransmit_;
+    
+    /** ƒlƒbƒgƒ[ƒNŒo—R‚Å‚Ìƒf[ƒ^‘—óM—Ê‚ÌƒOƒ‰ƒt‚ÌAƒf[ƒ^‘—M—Ê[ƒTƒCƒY(Bytes)]i•âŠÔŠúŠÔÅ‘åj */
+    private long dataTransmitMax_;
+    
+    /** ƒlƒbƒgƒ[ƒNŒo—R‚Å‚Ìƒf[ƒ^‘—óM—Ê‚ÌƒOƒ‰ƒt‚ÌAƒf[ƒ^‘—M—Ê[ƒTƒCƒY(Bytes)]i•âŠÔŠúŠÔÅ¬j */
+    private long dataTransmitMin_;
 
-	/** ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯çµŒç”±ã§ã®ãƒ‡ãƒ¼ã‚¿é€å—ä¿¡é‡ã®ã‚°ãƒ©ãƒ•ã®ã€ãƒ‡ãƒ¼ã‚¿å—ä¿¡é‡[ã‚µã‚¤ã‚º(Bytes)]ï¼ˆè£œé–“æœŸé–“æœ€å°ï¼‰ */
-	private long dataReceiveMin_;
+    /** ƒtƒ@ƒCƒ‹“üo—Í—Ê‚ÌƒOƒ‰ƒt‚ÌAƒtƒ@ƒCƒ‹“ü—Í—Ê[ƒTƒCƒY(Bytes)]i•âŠÔŠúŠÔ•½‹Ïj */
+    private long fileInput_;
+    
+    /** ƒtƒ@ƒCƒ‹“üo—Í—Ê‚ÌƒOƒ‰ƒt‚ÌAƒtƒ@ƒCƒ‹“ü—Í—Ê[ƒTƒCƒY(Bytes)]i•âŠÔŠúŠÔÅ‘åj */
+    private long fileInputMax_;
+    
+    /** ƒtƒ@ƒCƒ‹“üo—Í—Ê‚ÌƒOƒ‰ƒt‚ÌAƒtƒ@ƒCƒ‹“ü—Í—Ê[ƒTƒCƒY(Bytes)]i•âŠÔŠúŠÔÅ¬j */
+    private long fileInputMin_;
 
-	/** ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯çµŒç”±ã§ã®ãƒ‡ãƒ¼ã‚¿é€å—ä¿¡é‡ã®ã‚°ãƒ©ãƒ•ã®ã€ãƒ‡ãƒ¼ã‚¿é€ä¿¡é‡[ã‚µã‚¤ã‚º(Bytes)]ï¼ˆè£œé–“æœŸé–“å¹³å‡ï¼‰ */
-	private long dataTransmit_;
-
-	/** ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯çµŒç”±ã§ã®ãƒ‡ãƒ¼ã‚¿é€å—ä¿¡é‡ã®ã‚°ãƒ©ãƒ•ã®ã€ãƒ‡ãƒ¼ã‚¿é€ä¿¡é‡[ã‚µã‚¤ã‚º(Bytes)]ï¼ˆè£œé–“æœŸé–“æœ€å¤§ï¼‰ */
-	private long dataTransmitMax_;
-
-	/** ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯çµŒç”±ã§ã®ãƒ‡ãƒ¼ã‚¿é€å—ä¿¡é‡ã®ã‚°ãƒ©ãƒ•ã®ã€ãƒ‡ãƒ¼ã‚¿é€ä¿¡é‡[ã‚µã‚¤ã‚º(Bytes)]ï¼ˆè£œé–“æœŸé–“æœ€å°ï¼‰ */
-	private long dataTransmitMin_;
-
-	/** ãƒ•ã‚¡ã‚¤ãƒ«å…¥å‡ºåŠ›é‡ã®ã‚°ãƒ©ãƒ•ã®ã€ãƒ•ã‚¡ã‚¤ãƒ«å…¥åŠ›é‡[ã‚µã‚¤ã‚º(Bytes)]ï¼ˆè£œé–“æœŸé–“å¹³å‡ï¼‰ */
-	private long fileInput_;
-
-	/** ãƒ•ã‚¡ã‚¤ãƒ«å…¥å‡ºåŠ›é‡ã®ã‚°ãƒ©ãƒ•ã®ã€ãƒ•ã‚¡ã‚¤ãƒ«å…¥åŠ›é‡[ã‚µã‚¤ã‚º(Bytes)]ï¼ˆè£œé–“æœŸé–“æœ€å¤§ï¼‰ */
-	private long fileInputMax_;
-
-	/** ãƒ•ã‚¡ã‚¤ãƒ«å…¥å‡ºåŠ›é‡ã®ã‚°ãƒ©ãƒ•ã®ã€ãƒ•ã‚¡ã‚¤ãƒ«å…¥åŠ›é‡[ã‚µã‚¤ã‚º(Bytes)]ï¼ˆè£œé–“æœŸé–“æœ€å°ï¼‰ */
-	private long fileInputMin_;
-
-	/** ãƒ•ã‚¡ã‚¤ãƒ«å…¥å‡ºåŠ›é‡ã®ã‚°ãƒ©ãƒ•ã®ã€ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›é‡[ã‚µã‚¤ã‚º(Bytes)]ï¼ˆè£œé–“æœŸé–“å¹³å‡ï¼‰ */
-	private long fileOutput_;
-
-	/** ãƒ•ã‚¡ã‚¤ãƒ«å…¥å‡ºåŠ›é‡ã®ã‚°ãƒ©ãƒ•ã®ã€ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›é‡[ã‚µã‚¤ã‚º(Bytes)]ï¼ˆè£œé–“æœŸé–“æœ€å¤§ï¼‰ */
-	private long fileOutputMax_;
-
-	/** ãƒ•ã‚¡ã‚¤ãƒ«å…¥å‡ºåŠ›é‡ã®ã‚°ãƒ©ãƒ•ã®ã€ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›é‡[ã‚µã‚¤ã‚º(Bytes)]ï¼ˆè£œé–“æœŸé–“æœ€å°ï¼‰ */
-	private long fileOutputMin_;
+    /** ƒtƒ@ƒCƒ‹“üo—Í—Ê‚ÌƒOƒ‰ƒt‚ÌAƒtƒ@ƒCƒ‹o—Í—Ê[ƒTƒCƒY(Bytes)]i•âŠÔŠúŠÔ•½‹Ïj */
+    private long fileOutput_;
+    
+    /** ƒtƒ@ƒCƒ‹“üo—Í—Ê‚ÌƒOƒ‰ƒt‚ÌAƒtƒ@ƒCƒ‹o—Í—Ê[ƒTƒCƒY(Bytes)]i•âŠÔŠúŠÔÅ‘åj */
+    private long fileOutputMax_;
+    
+    /** ƒtƒ@ƒCƒ‹“üo—Í—Ê‚ÌƒOƒ‰ƒt‚ÌAƒtƒ@ƒCƒ‹o—Í—Ê[ƒTƒCƒY(Bytes)]i•âŠÔŠúŠÔÅ¬j */
+    private long fileOutputMin_;
 
 	/**
 	 * @return the measurementTime_
 	 */
-	public Timestamp getMeasurementTime()
-	{
+	public Timestamp getMeasurementTime() {
 		return measurementTime_;
 	}
 
 	/**
 	 * @param measurementTime the measurementTime_ to set
 	 */
-	public void setMeasurementTime(Timestamp measurementTime)
-	{
+	public void setMeasurementTime(Timestamp measurementTime) {
 		this.measurementTime_ = measurementTime;
 	}
 
 	/**
 	 * @return the dataReceive_
 	 */
-	public long getDataReceive()
-	{
+	public long getDataReceive() {
 		return dataReceive_;
 	}
 
 	/**
 	 * @param dataReceive the dataReceive_ to set
 	 */
-	public void setDataReceive(long dataReceive)
-	{
+	public void setDataReceive(long dataReceive) {
 		this.dataReceive_ = dataReceive;
 	}
 
 	/**
 	 * @return the dataReceiveMax_
 	 */
-	public long getDataReceiveMax()
-	{
+	public long getDataReceiveMax() {
 		return dataReceiveMax_;
 	}
 
 	/**
 	 * @param dataReceiveMax the dataReceiveMax_ to set
 	 */
-	public void setDataReceiveMax(long dataReceiveMax)
-	{
+	public void setDataReceiveMax(long dataReceiveMax) {
 		this.dataReceiveMax_ = dataReceiveMax;
 	}
 
 	/**
 	 * @return the dataReceiveMin_
 	 */
-	public long getDataReceiveMin()
-	{
+	public long getDataReceiveMin() {
 		return dataReceiveMin_;
 	}
 
 	/**
 	 * @param dataReceiveMin the dataReceiveMin_ to set
 	 */
-	public void setDataReceiveMin(long dataReceiveMin)
-	{
+	public void setDataReceiveMin(long dataReceiveMin) {
 		this.dataReceiveMin_ = dataReceiveMin;
 	}
 
 	/**
 	 * @return the dataTransmit_
 	 */
-	public long getDataTransmit()
-	{
+	public long getDataTransmit() {
 		return dataTransmit_;
 	}
 
 	/**
 	 * @param dataTransmit the dataTransmit_ to set
 	 */
-	public void setDataTransmit(long dataTransmit)
-	{
+	public void setDataTransmit(long dataTransmit) {
 		this.dataTransmit_ = dataTransmit;
 	}
 
 	/**
 	 * @return the dataTransmitMax_
 	 */
-	public long getDataTransmitMax()
-	{
+	public long getDataTransmitMax() {
 		return dataTransmitMax_;
 	}
 
 	/**
 	 * @param dataTransmitMax the dataTransmitMax_ to set
 	 */
-	public void setDataTransmitMax(long dataTransmitMax)
-	{
+	public void setDataTransmitMax(long dataTransmitMax) {
 		this.dataTransmitMax_ = dataTransmitMax;
 	}
 
 	/**
 	 * @return the dataTransmitMin_
 	 */
-	public long getDataTransmitMin()
-	{
+	public long getDataTransmitMin() {
 		return dataTransmitMin_;
 	}
 
 	/**
 	 * @param dataTransmitMin the dataTransmitMin_ to set
 	 */
-	public void setDataTransmitMin(long dataTransmitMin)
-	{
+	public void setDataTransmitMin(long dataTransmitMin) {
 		this.dataTransmitMin_ = dataTransmitMin;
 	}
 
 	/**
 	 * @return the fileInput_
 	 */
-	public long getFileInput()
-	{
+	public long getFileInput() {
 		return fileInput_;
 	}
 
 	/**
-	 * @param fileInputã€€the fileInput_ to set
+	 * @param fileInput@the fileInput_ to set
 	 */
-	public void setFileInput(long fileInput)
-	{
+	public void setFileInput(long fileInput) {
 		this.fileInput_ = fileInput;
 	}
 
 	/**
 	 * @return the fileInputMax_
 	 */
-	public long getFileInputMax()
-	{
+	public long getFileInputMax() {
 		return fileInputMax_;
 	}
 
 	/**
 	 * @param fileInputMax the fileInputMax_ to set
 	 */
-	public void setFileInputMax(long fileInputMax)
-	{
+	public void setFileInputMax(long fileInputMax) {
 		this.fileInputMax_ = fileInputMax;
 	}
 
 	/**
 	 * @return the fileInputMin_
 	 */
-	public long getFileInputMin()
-	{
+	public long getFileInputMin() {
 		return fileInputMin_;
 	}
 
 	/**
 	 * @param fileInputMin the fileInputMin_ to set
 	 */
-	public void setFileInputMin(long fileInputMin)
-	{
+	public void setFileInputMin(long fileInputMin) {
 		this.fileInputMin_ = fileInputMin;
 	}
 
 	/**
 	 * @return the fileOutput_
 	 */
-	public long getFileOutput()
-	{
+	public long getFileOutput() {
 		return fileOutput_;
 	}
 
 	/**
 	 * @param fileOutput the fileOutput_ to set
 	 */
-	public void setFileOutput(long fileOutput)
-	{
+	public void setFileOutput(long fileOutput) {
 		this.fileOutput_ = fileOutput;
 	}
 
 	/**
 	 * @return the fileOutputMax_
 	 */
-	public long getFileOutputMax()
-	{
+	public long getFileOutputMax() {
 		return fileOutputMax_;
 	}
 
 	/**
 	 * @param fileOutputMax the fileOutputMax_ to set
 	 */
-	public void setFileOutputMax(long fileOutputMax)
-	{
+	public void setFileOutputMax(long fileOutputMax) {
 		this.fileOutputMax_ = fileOutputMax;
 	}
 
 	/**
 	 * @return the fileOutputMin_
 	 */
-	public long getFileOutputMin()
-	{
+	public long getFileOutputMin() {
 		return fileOutputMin_;
 	}
 
 	/**
 	 * @param fileOutputMin the fileOutputMin_ to set
 	 */
-	public void setFileOutputMin(long fileOutputMin)
-	{
+	public void setFileOutputMin(long fileOutputMin) {
 		this.fileOutputMin_ = fileOutputMin;
 	}
 }

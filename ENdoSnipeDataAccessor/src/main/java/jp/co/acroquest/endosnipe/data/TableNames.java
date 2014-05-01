@@ -26,60 +26,45 @@
 package jp.co.acroquest.endosnipe.data;
 
 /**
- * テーブル名称を定義するインターフェースです。<br />
+ * �e�[�u�����̂��`����C���^�[�t�F�[�X�ł��B<br />
  * 
  * @author y-komori
  */
 public interface TableNames
 {
-    /** 軽食対象ホスト情報 */
-    String HOST_INFO = "HOST_INFO";
+    /** �y�H�Ώۃz�X�g��� */
+    String HOST_INFO                = "HOST_INFO";
 
-    /** 計測値情報 */
-    String MEASUREMENT_INFO = "MEASUREMENT_INFO";
+    /** �v���l��� */
+    String MEASUREMENT_INFO         = "MEASUREMENT_INFO";
 
-    /** Javelin ログ */
-    String JAVELIN_LOG = "JAVELIN_LOG";
+    /** Javelin ���O */
+    String JAVELIN_LOG              = "JAVELIN_LOG";
 
-    /** Javelin 計測項目 */
+    /** Javelin �v������ */
     String JAVELIN_MEASUREMENT_ITEM = "JAVELIN_MEASUREMENT_ITEM";
 
-    /** Javelin 計測値 */
-    String MEASUREMENT_VALUE = "MEASUREMENT_VALUE";
+    /** Javelin �v���l */
+    String MEASUREMENT_VALUE        = "MEASUREMENT_VALUE";
 
-    /** Javelin 計測値アーカイブ */
-    String ARCHIVED_VALUE = "ARCHIVED_VALUE";
+    /** Javelin �v���l�A�[�J�C�u */
+    String ARCHIVED_VALUE           = "ARCHIVED_VALUE";
 
-    /** ログ ID の値を生成するシーケンス名。 */
-    String SEQ_LOG_ID = "SEQ_LOG_ID";
+    /** ���O ID �̒l�𐶐�����V�[�P���X���B */
+    String SEQ_LOG_ID               = "SEQ_LOG_ID";
 
-    /** セッション ID の値を生成するシーケンス名。 */
-    String SEQ_SESSION_ID = "SEQ_SESSION_ID";
+    /** �Z�b�V���� ID �̒l�𐶐�����V�[�P���X���B */
+    String SEQ_SESSION_ID           = "SEQ_SESSION_ID";
 
-    /** ホスト ID の値を生成するシーケンス名。 */
-    String SEQ_HOST_ID = "SEQ_HOST_ID";
+    /** �z�X�g ID �̒l�𐶐�����V�[�P���X���B */
+    String SEQ_HOST_ID              = "SEQ_HOST_ID";
 
-    /** 計測項目 ID の値を生成するシーケンス名。 */
-    String SEQ_MEASUREMENT_ITEM_ID = "SEQ_MEASUREMENT_ITEM_ID";
+    /** �v������ ID �̒l�𐶐�����V�[�P���X���B */
+    String SEQ_MEASUREMENT_ITEM_ID  = "SEQ_MEASUREMENT_ITEM_ID";
 
-    /** 計測 No. の値を生成するシーケンス名。 */
-    String SEQ_MEASUREMENT_NUM = "SEQ_MEASUREMENT_NUM";
+    /** �v�� No. �̒l�𐶐�����V�[�P���X���B */
+    String SEQ_MEASUREMENT_NUM      = "SEQ_MEASUREMENT_NUM";
 
-    /** シグナル定義テーブル。 */
-    String SIGNAL_DEFINITION = "SIGNAL_DEFINITION";
-
-    /** 複数グラフテーブル。 */
-    String MULTIPLE_RESOURCE_GRAPH = "MULTIPLE_RESOURCE_GRAPH";
-
-    /** SQL実行計画テーブル。 */
-    String SQL_PLAN = "SQL_PLAN";
-
-    /** SummarySignalテーブル。 */
-    String SUMMARY_SIGNAL_DEFINITION = "SUMMARY_SIGNAL_DEFINITION";
-
-    /** PerfDoctorResultテーブル。 */
-    String PERFDOCTOR_RESULT = "PERFDOCTOR_RESULT";
-
-    /** ReportExportResultテーブル。 */
-    String REPORT_EXPORT_RESULT = "REPORT_EXPORT_RESULT";
+    /** �V�O�i����`�e�[�u���B */
+    String SIGNAL_DEFINITION        = "SIGNAL_DEFINITION";
 }

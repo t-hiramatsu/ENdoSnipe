@@ -10,7 +10,6 @@
     <property name="endosnipe-datacollector.dir" value="ENdoSnipeDataCollector" />
     <property name="endosnipe-reporter.dir" value="ENdoSnipeReporter" />
     <property name="endosnipe-report-command.dir" value="ENdoSnipeReportCommand" />
-    <property name="endosnipe-perfdoctor.dir" value="ENdoSnipePerfDoctor" />
     <property name="javelin.dir" value="Javelin" />
     <property name="release.dir" value="ENdoSnipe/release" />
     <property name="plugin.jar" value="jp.co.acroquest.*.jar" />
@@ -29,29 +28,7 @@
     <target name="all_build" depends="clean, prepare,
         build_ENdoSnipeCommon, build_ENdoSnipeDataAccessor,
         build_ENdoSnipeCommunicator, build_ENdoSnipeDataCollector,
-        build_Javelin, build_ENdoSnipeReporter, build_ENdoSnipeReportCommand
-        , build_ENdoSnipePerfDoctor">
-        <copy todir="${release.dir}">
-            <fileset dir="${endosnipe-datacollector.dir}/dist">
-                <include name="${datacollector.zip}" />
-                <include name="${datacollector.tar.gz}" />
-            </fileset>
-            <fileset dir="${javelin.dir}/dist">
-                <include name="Javelin_*.zip" />
-            </fileset>
-        </copy>
-    </target>
-    
-    <!-- 各プロジェクトをビルドして成果物を dist 配下へコピーする -->
-    <target name="build_java5" depends="clean, prepare,
-        build_ENdoSnipeCommon, build_ENdoSnipeDataAccessor,
-        build_ENdoSnipeCommunicator, build_Javelin">
-    </target>
-
-    <!-- 各プロジェクトをビルドして成果物を dist 配下へコピーする -->
-    <target name="build_java6" depends="build_ENdoSnipePerfDoctor,
-        build_ENdoSnipeDataCollector,build_ENdoSnipeReporter,
-        build_ENdoSnipeReportCommand">
+        build_Javelin, build_ENdoSnipeReporter, build_ENdoSnipeReportCommand">
         <copy todir="${release.dir}">
             <fileset dir="${endosnipe-datacollector.dir}/dist">
                 <include name="${datacollector.zip}" />
@@ -64,7 +41,7 @@
     </target>
 
     <!-- リリース物件を作成する -->
-    <target name="release" depends="build_java5" description="リリース物件を作成する" />
+    <target name="release" depends="all_build" description="リリース物件を作成する" />
 
     <!-- ENdoSnipeCommon をビルドする -->
     <target name="build_ENdoSnipeCommon">
@@ -99,11 +76,6 @@
     <!-- ENdoSnipeReportCommand をビルドする -->
     <target name="build_ENdoSnipeReportCommand">
         <ant antfile="build.xml" dir="${endosnipe-report-command.dir}" target="release" inheritall="false"/>
-    </target>
-    
-    <!-- ENdoSnipePerfDoctor をビルドする -->
-    <target name="build_ENdoSnipePerfDoctor">
-        <ant antfile="build.xml" dir="${endosnipe-perfdoctor.dir}" target="release" inheritall="false"/>
     </target>
 
     <!-- WebDashboard をビルドする -->

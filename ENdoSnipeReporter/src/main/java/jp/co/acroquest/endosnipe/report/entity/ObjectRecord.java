@@ -15,370 +15,332 @@ package jp.co.acroquest.endosnipe.report.entity;
 import java.sql.Timestamp;
 
 /**
- * ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ¬ãƒãƒ¼ãƒˆã«å‡ºåŠ›ã™ã‚‹ï¼‘ãƒ¬ã‚³ãƒ¼ãƒ‰åˆ†ã®æƒ…å ±ã‚’ä¿æŒã™ã‚‹ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã€‚
+ * ƒIƒuƒWƒFƒNƒgƒŒƒ|[ƒg‚Éo—Í‚·‚é‚PƒŒƒR[ƒh•ª‚Ìî•ñ‚ğ•Û‚·‚éƒGƒ“ƒeƒBƒeƒBB
  * 
  * @author akiba
  */
 public class ObjectRecord
 {
-	/** è¨ˆæ¸¬æ™‚åˆ» */
-	private Timestamp measurementTime_;
+    /** Œv‘ª */
+    private Timestamp measurementTime_;
+    
+    /** List‚ÌƒTƒCƒY[—v‘f”]i•âŠÔŠúŠÔ•½‹Ïj */
+    private long      listSize_;
+    
+    /** List‚ÌƒTƒCƒY[—v‘f”]i•âŠÔŠúŠÔÅ‘åj */
+    private long      listSizeMax_;
+    
+    /** List‚ÌƒTƒCƒY[—v‘f”]i•âŠÔŠúŠÔÅ¬j */
+    private long      listSizeMin_;
 
-	/** Listã®ã‚µã‚¤ã‚º[è¦ç´ æ•°]ï¼ˆè£œé–“æœŸé–“å¹³å‡ï¼‰ */
-	private long listSize_;
+    /** Queue‚ÌƒTƒCƒY[—v‘f”]i•âŠÔŠúŠÔ•½‹Ïj */
+    private long      queueSize_;
+    
+    /** Queue‚ÌƒTƒCƒY[—v‘f”]i•âŠÔŠúŠÔÅ‘åj */
+    private long      queueSizeMax_;
+    
+    /** Queue‚ÌƒTƒCƒY[—v‘f”]i•âŠÔŠúŠÔÅ¬j */
+    private long      queueSizeMin_;
 
-	/** Listã®ã‚µã‚¤ã‚º[è¦ç´ æ•°]ï¼ˆè£œé–“æœŸé–“æœ€å¤§ï¼‰ */
-	private long listSizeMax_;
+    /** Set‚ÌƒTƒCƒY[—v‘f”]i•âŠÔŠúŠÔ•½‹Ïj */
+    private long      setSize_;
+    
+    /** Set‚ÌƒTƒCƒY[—v‘f”]i•âŠÔŠúŠÔÅ‘åj */
+    private long      setSizeMax_;
+    
+    /** Set‚ÌƒTƒCƒY[—v‘f”]i•âŠÔŠúŠÔÅ¬j */
+    private long      setSizeMin_;
 
-	/** Listã®ã‚µã‚¤ã‚º[è¦ç´ æ•°]ï¼ˆè£œé–“æœŸé–“æœ€å°ï¼‰ */
-	private long listSizeMin_;
+    /** Map‚ÌƒTƒCƒY[—v‘f”]i•âŠÔŠúŠÔ•½‹Ïj */
+    private long      mapSize_;
+    
+    /** Map‚ÌƒTƒCƒY[—v‘f”]i•âŠÔŠúŠÔÅ‘åj */
+    private long      mapSizeMax_;
+    
+    /** Map‚ÌƒTƒCƒY[—v‘f”]i•âŠÔŠúŠÔÅ¬j */
+    private long      mapSizeMin_;
 
-	/** Queueã®ã‚µã‚¤ã‚º[è¦ç´ æ•°]ï¼ˆè£œé–“æœŸé–“å¹³å‡ï¼‰ */
-	private long queueSize_;
+    /** ƒIƒuƒWƒFƒNƒgƒTƒCƒY[—v‘f”]i•âŠÔŠúŠÔ•½‹Ïj */
+    private long      objectSize_;
+    
+    /** ƒIƒuƒWƒFƒNƒgƒTƒCƒY[—v‘f”]i•âŠÔŠúŠÔÅ‘åj */
+    private long      objectSizeMax_;
+    
+    /** ƒIƒuƒWƒFƒNƒgƒTƒCƒY[—v‘f”]i•âŠÔŠúŠÔÅ¬j */
+    private long      objectSizeMin_;
 
-	/** Queueã®ã‚µã‚¤ã‚º[è¦ç´ æ•°]ï¼ˆè£œé–“æœŸé–“æœ€å¤§ï¼‰ */
-	private long queueSizeMax_;
-
-	/** Queueã®ã‚µã‚¤ã‚º[è¦ç´ æ•°]ï¼ˆè£œé–“æœŸé–“æœ€å°ï¼‰ */
-	private long queueSizeMin_;
-
-	/** Setã®ã‚µã‚¤ã‚º[è¦ç´ æ•°]ï¼ˆè£œé–“æœŸé–“å¹³å‡ï¼‰ */
-	private long setSize_;
-
-	/** Setã®ã‚µã‚¤ã‚º[è¦ç´ æ•°]ï¼ˆè£œé–“æœŸé–“æœ€å¤§ï¼‰ */
-	private long setSizeMax_;
-
-	/** Setã®ã‚µã‚¤ã‚º[è¦ç´ æ•°]ï¼ˆè£œé–“æœŸé–“æœ€å°ï¼‰ */
-	private long setSizeMin_;
-
-	/** Mapã®ã‚µã‚¤ã‚º[è¦ç´ æ•°]ï¼ˆè£œé–“æœŸé–“å¹³å‡ï¼‰ */
-	private long mapSize_;
-
-	/** Mapã®ã‚µã‚¤ã‚º[è¦ç´ æ•°]ï¼ˆè£œé–“æœŸé–“æœ€å¤§ï¼‰ */
-	private long mapSizeMax_;
-
-	/** Mapã®ã‚µã‚¤ã‚º[è¦ç´ æ•°]ï¼ˆè£œé–“æœŸé–“æœ€å°ï¼‰ */
-	private long mapSizeMin_;
-
-	/** ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚µã‚¤ã‚º[è¦ç´ æ•°]ï¼ˆè£œé–“æœŸé–“å¹³å‡ï¼‰ */
-	private long objectSize_;
-
-	/** ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚µã‚¤ã‚º[è¦ç´ æ•°]ï¼ˆè£œé–“æœŸé–“æœ€å¤§ï¼‰ */
-	private long objectSizeMax_;
-
-	/** ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚µã‚¤ã‚º[è¦ç´ æ•°]ï¼ˆè£œé–“æœŸé–“æœ€å°ï¼‰ */
-	private long objectSizeMin_;
-
-	/** ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ•°[è¦ç´ æ•°]ï¼ˆè£œé–“æœŸé–“å¹³å‡ï¼‰ */
-	private long objectNum_;
-
-	/** ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ•°[è¦ç´ æ•°]ï¼ˆè£œé–“æœŸé–“æœ€å¤§ï¼‰ */
-	private long objectNumMax_;
-
-	/** ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ•°[è¦ç´ æ•°]ï¼ˆè£œé–“æœŸé–“æœ€å°ï¼‰ */
-	private long objectNumMin_;
+    /** ƒIƒuƒWƒFƒNƒg”[—v‘f”]i•âŠÔŠúŠÔ•½‹Ïj */
+    private long      objectNum_;
+    
+    /** ƒIƒuƒWƒFƒNƒg”[—v‘f”]i•âŠÔŠúŠÔÅ‘åj */
+    private long      objectNumMax_;
+    
+    /** ƒIƒuƒWƒFƒNƒg”[—v‘f”]i•âŠÔŠúŠÔÅ¬j */
+    private long      objectNumMin_;
 
 	/**
 	 * @return the measurementTime_
 	 */
-	public Timestamp getMeasurementTime()
-	{
+	public Timestamp getMeasurementTime() {
 		return measurementTime_;
 	}
 
 	/**
 	 * @param measurementTime the measurementTime_ to set
 	 */
-	public void setMeasurementTime(Timestamp measurementTime)
-	{
+	public void setMeasurementTime(Timestamp measurementTime) {
 		this.measurementTime_ = measurementTime;
 	}
 
 	/**
 	 * @return the listSize_
 	 */
-	public long getListSize()
-	{
+	public long getListSize() {
 		return listSize_;
 	}
 
 	/**
 	 * @param listSize the listSize_ to set
 	 */
-	public void setListSize(long listSize)
-	{
+	public void setListSize(long listSize) {
 		this.listSize_ = listSize;
 	}
 
 	/**
 	 * @return the listSizeMax_
 	 */
-	public long getListSizeMax()
-	{
+	public long getListSizeMax() {
 		return listSizeMax_;
 	}
 
 	/**
 	 * @param listSizeMax the listSizeMax_ to set
 	 */
-	public void setListSizeMax(long listSizeMax)
-	{
+	public void setListSizeMax(long listSizeMax) {
 		this.listSizeMax_ = listSizeMax;
 	}
 
 	/**
 	 * @return the listSizeMin_
 	 */
-	public long getListSizeMin()
-	{
+	public long getListSizeMin() {
 		return listSizeMin_;
 	}
 
 	/**
 	 * @param listSizeMin the listSizeMin_ to set
 	 */
-	public void setListSizeMin(long listSizeMin)
-	{
+	public void setListSizeMin(long listSizeMin) {
 		this.listSizeMin_ = listSizeMin;
 	}
 
 	/**
 	 * @return the queueSize_
 	 */
-	public long getQueueSize()
-	{
+	public long getQueueSize() {
 		return queueSize_;
 	}
 
 	/**
 	 * @param queueSize the queueSize_ to set
 	 */
-	public void setQueueSize(long queueSize)
-	{
+	public void setQueueSize(long queueSize) {
 		this.queueSize_ = queueSize;
 	}
 
 	/**
 	 * @return the queueSizeMax_
 	 */
-	public long getQueueSizeMax()
-	{
+	public long getQueueSizeMax() {
 		return queueSizeMax_;
 	}
 
 	/**
 	 * @param queueSizeMax the queueSizeMax_ to set
 	 */
-	public void setQueueSizeMax(long queueSizeMax)
-	{
+	public void setQueueSizeMax(long queueSizeMax) {
 		this.queueSizeMax_ = queueSizeMax;
 	}
 
 	/**
 	 * @return the queueSizeMin_
 	 */
-	public long getQueueSizeMin()
-	{
+	public long getQueueSizeMin() {
 		return queueSizeMin_;
 	}
 
 	/**
 	 * @param queueSizeMin the queueSizeMin_ to set
 	 */
-	public void setQueueSizeMin(long queueSizeMin)
-	{
+	public void setQueueSizeMin(long queueSizeMin) {
 		this.queueSizeMin_ = queueSizeMin;
 	}
 
 	/**
 	 * @return the setSize_
 	 */
-	public long getSetSize()
-	{
+	public long getSetSize() {
 		return setSize_;
 	}
 
 	/**
 	 * @param setSize the setSize_ to set
 	 */
-	public void setSetSize(long setSize)
-	{
+	public void setSetSize(long setSize) {
 		this.setSize_ = setSize;
 	}
 
 	/**
 	 * @return the setSizeMax_
 	 */
-	public long getSetSizeMax()
-	{
+	public long getSetSizeMax() {
 		return setSizeMax_;
 	}
 
 	/**
 	 * @param setSizeMax the setSizeMax_ to set
 	 */
-	public void setSetSizeMax(long setSizeMax)
-	{
+	public void setSetSizeMax(long setSizeMax) {
 		this.setSizeMax_ = setSizeMax;
 	}
 
 	/**
 	 * @return the setSizeMin_
 	 */
-	public long getSetSizeMin()
-	{
+	public long getSetSizeMin() {
 		return setSizeMin_;
 	}
 
 	/**
 	 * @param setSizeMin the setSizeMin_ to set
 	 */
-	public void setSetSizeMin(long setSizeMin)
-	{
+	public void setSetSizeMin(long setSizeMin) {
 		this.setSizeMin_ = setSizeMin;
 	}
 
 	/**
 	 * @return the mapSize_
 	 */
-	public long getMapSize()
-	{
+	public long getMapSize() {
 		return mapSize_;
 	}
 
 	/**
 	 * @param mapSize the mapSize_ to set
 	 */
-	public void setMapSize(long mapSize)
-	{
+	public void setMapSize(long mapSize) {
 		this.mapSize_ = mapSize;
 	}
 
 	/**
 	 * @return the mapSizeMax_
 	 */
-	public long getMapSizeMax()
-	{
+	public long getMapSizeMax() {
 		return mapSizeMax_;
 	}
 
 	/**
 	 * @param mapSizeMax the mapSizeMax_ to set
 	 */
-	public void setMapSizeMax(long mapSizeMax)
-	{
+	public void setMapSizeMax(long mapSizeMax) {
 		this.mapSizeMax_ = mapSizeMax;
 	}
 
 	/**
 	 * @return the mapSizeMin_
 	 */
-	public long getMapSizeMin()
-	{
+	public long getMapSizeMin() {
 		return mapSizeMin_;
 	}
 
 	/**
 	 * @param mapSizeMin the mapSizeMin_ to set
 	 */
-	public void setMapSizeMin(long mapSizeMin)
-	{
+	public void setMapSizeMin(long mapSizeMin) {
 		this.mapSizeMin_ = mapSizeMin;
 	}
 
 	/**
 	 * @return the objectSize_
 	 */
-	public long getObjectSize()
-	{
+	public long getObjectSize() {
 		return objectSize_;
 	}
 
 	/**
 	 * @param objectSize the objectSize_ to set
 	 */
-	public void setObjectSize(long objectSize)
-	{
+	public void setObjectSize(long objectSize) {
 		this.objectSize_ = objectSize;
 	}
 
 	/**
 	 * @return the objectSizeMax_
 	 */
-	public long getObjectSizeMax()
-	{
+	public long getObjectSizeMax() {
 		return objectSizeMax_;
 	}
 
 	/**
 	 * @param objectSizeMax the objectSizeMax_ to set
 	 */
-	public void setObjectSizeMax(long objectSizeMax)
-	{
+	public void setObjectSizeMax(long objectSizeMax) {
 		this.objectSizeMax_ = objectSizeMax;
 	}
 
 	/**
 	 * @return the objectSizeMin_
 	 */
-	public long getObjectSizeMin()
-	{
+	public long getObjectSizeMin() {
 		return objectSizeMin_;
 	}
 
 	/**
 	 * @param objectSizeMin the objectSizeMin_ to set
 	 */
-	public void setObjectSizeMin(long objectSizeMin)
-	{
+	public void setObjectSizeMin(long objectSizeMin) {
 		this.objectSizeMin_ = objectSizeMin;
 	}
 
 	/**
 	 * @return the objectNum_
 	 */
-	public long getObjectNum()
-	{
+	public long getObjectNum() {
 		return objectNum_;
 	}
 
 	/**
 	 * @param objectNum the objectNum_ to set
 	 */
-	public void setObjectNum(long objectNum)
-	{
+	public void setObjectNum(long objectNum) {
 		this.objectNum_ = objectNum;
 	}
 
 	/**
 	 * @return the objectNumMax_
 	 */
-	public long getObjectNumMax()
-	{
+	public long getObjectNumMax() {
 		return objectNumMax_;
 	}
 
 	/**
 	 * @param objectNumMax the objectNumMax_ to set
 	 */
-	public void setObjectNumMax(long objectNumMax)
-	{
+	public void setObjectNumMax(long objectNumMax) {
 		this.objectNumMax_ = objectNumMax;
 	}
 
 	/**
 	 * @return the objectNumMin_
 	 */
-	public long getObjectNumMin()
-	{
+	public long getObjectNumMin() {
 		return objectNumMin_;
 	}
 
 	/**
 	 * @param objectNumMin the objectNumMin_ to set
 	 */
-	public void setObjectNumMin(long objectNumMin)
-	{
+	public void setObjectNumMin(long objectNumMin) {
 		this.objectNumMin_ = objectNumMin;
 	}
 }

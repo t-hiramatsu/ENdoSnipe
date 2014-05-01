@@ -29,17 +29,17 @@ import jp.co.acroquest.endosnipe.common.event.EventConstants;
 import jp.co.acroquest.endosnipe.javelin.util.StatsUtil;
 
 /**
- * ç·šå½¢æ¤œç´¢æ¤œå‡ºã‚¤ãƒ™ãƒ³ãƒˆã€‚
+ * üŒ`ŒŸõŒŸoƒCƒxƒ“ƒgB
  * 
  * @author eriguchi
  */
 public class LinearSearchEvent extends AbstractStackTraceCheckEvent
 {
-    /** equalså®Ÿè¡Œæ™‚ã«æ¯”è¼ƒã«ç”¨ã„ã‚‹ã€‚ */
+    /** equalsÀs‚É”äŠr‚É—p‚¢‚éB */
     private static final int EQUALS_LENGTH = 200;
 
     /**
-     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
      */
     public LinearSearchEvent()
     {

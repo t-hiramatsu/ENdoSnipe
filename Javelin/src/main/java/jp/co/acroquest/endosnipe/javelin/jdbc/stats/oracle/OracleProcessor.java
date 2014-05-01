@@ -41,16 +41,16 @@ import jp.co.acroquest.endosnipe.javelin.jdbc.stats.AbstractProcessor;
 import jp.co.acroquest.endosnipe.javelin.jdbc.stats.JdbcJavelinRecorder;
 
 /**
- * Oracleç”¨
+ * Oracle—p
  * @author akiba
  *
  */
 public class OracleProcessor extends AbstractProcessor
 {
-    /** JDBCæ¥ç¶šURLãŒã“ã®æ–‡å­—åˆ—ã§å§‹ã¾ã‚‹ã¨ãã€å®Ÿè¡Œè¨ˆç”»ã‚’å–å¾—ã™ã‚‹(Oracle Thin ãƒ‰ãƒ©ã‚¤ãƒ) */
+    /** JDBCÚ‘±URL‚ª‚±‚Ì•¶š—ñ‚Ån‚Ü‚é‚Æ‚«AÀsŒv‰æ‚ğæ“¾‚·‚é(Oracle Thin ƒhƒ‰ƒCƒo) */
     public static final String EXPLAIN_TARGET_ORACLE = "jdbc:oracle";
 
-    /** JDBCæ¥ç¶šURLãŒã“ã®æ–‡å­—åˆ—ã§å§‹ã¾ã‚‹ã¨ãã€å®Ÿè¡Œè¨ˆç”»ã‚’å–å¾—ã™ã‚‹(BEA WebLogic Type 4 JDBC Oracle ãƒ‰ãƒ©ã‚¤ãƒ) */
+    /** JDBCÚ‘±URL‚ª‚±‚Ì•¶š—ñ‚Ån‚Ü‚é‚Æ‚«AÀsŒv‰æ‚ğæ“¾‚·‚é(BEA WebLogic Type 4 JDBC Oracle ƒhƒ‰ƒCƒo) */
     public static final String EXPLAIN_TARGET_BEA_ORACLE = "jdbc:bea:oracle:";
     
     /**
@@ -63,35 +63,35 @@ public class OracleProcessor extends AbstractProcessor
     }
 
     /**
-     * Oracleã§å®Ÿè¡Œè¨ˆç”»ã‚’å–å¾—ã™ã‚‹ã€‚
+     * Oracle‚ÅÀsŒv‰æ‚ğæ“¾‚·‚éB
      * 
-     * @param stmt ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆ
-     * @param originalSql SQLæ–‡
-     * @param args å¼•æ•°ã€‚
-     * @return å®Ÿè¡Œè¨ˆç”»
-     * @throws SQLException Statementã‚¯ãƒ­ãƒ¼ã‚ºæ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸã¨ã
+     * @param stmt ƒXƒe[ƒgƒƒ“ƒg
+     * @param originalSql SQL•¶
+     * @param args ˆø”B
+     * @return ÀsŒv‰æ
+     * @throws SQLException StatementƒNƒ[ƒY‚ÉƒGƒ‰[‚ª”­¶‚µ‚½‚Æ‚«
      */
     public String getOneExecPlan(final Statement stmt, final String originalSql, final List<?> args)
         throws SQLException
     {
         JdbcJavelinConfig config = new JdbcJavelinConfig();
 
-        // å®Ÿè¡Œè¨ˆç”»å–å¾—ã«å¤±æ•—ã—ãŸå ´åˆã«argsã«ã‚»ãƒƒãƒˆã™ã‚‹æ–‡å­—åˆ—
+        // ÀsŒv‰ææ“¾‚É¸”s‚µ‚½ê‡‚Éargs‚ÉƒZƒbƒg‚·‚é•¶š—ñ
         StringBuilder execPlanText = null;
 
-        // å®Ÿè¡Œè¨ˆç”»ç”ŸæˆSQLæ–‡ã®ç”Ÿæˆ    
+        // ÀsŒv‰æ¶¬SQL•¶‚Ì¶¬    
         StringBuilder sql = new StringBuilder();
         sql.append("EXPLAIN PLAN FOR ");
         sql.append(originalSql);
 
-        // å®Ÿè¡Œè¨ˆç”»æ•´å½¢ãƒ»å–å¾—SQLã®ç”Ÿæˆã€‚
+        // ÀsŒv‰æ®Œ`Eæ“¾SQL‚Ì¶¬B
         StringBuilder planTable = new StringBuilder();
         planTable.append("SELECT PLAN_TABLE_OUTPUT FROM TABLE"
                 + "(DBMS_XPLAN.DISPLAY('PLAN_TABLE',NULL,'");
         planTable.append(config.getOutputOption());
         planTable.append("'))");
 
-        // å®Ÿè¡Œè¨ˆç”»ã‚’ç”Ÿæˆï¼ˆPLANãƒ†ãƒ¼ãƒ–ãƒ«ã«å±•é–‹ï¼‰
+        // ÀsŒv‰æ‚ğ¶¬iPLANƒe[ƒuƒ‹‚É“WŠJj
         ResultSet resultSet = null;
         Statement planStmt = null;
         try
@@ -100,16 +100,16 @@ public class OracleProcessor extends AbstractProcessor
 
             planStmt.execute(sql.toString());
 
-            // å®Ÿè¡Œè¨ˆç”»ã‚’æ•´å½¢ãƒ»å–å¾—
+            // ÀsŒv‰æ‚ğ®Œ`Eæ“¾
             resultSet = planStmt.executeQuery(planTable.toString());
 
-            // æ¤œç´¢ã•ã‚ŒãŸè¡Œæ•°åˆ†ãƒ«ãƒ¼ãƒ—
+            // ŒŸõ‚³‚ê‚½s”•ªƒ‹[ƒv
             execPlanText = new StringBuilder("");
             while (resultSet.next())
             {
-                // PLAN_TABLE_OUTPUTã‚’å–å¾—
+                // PLAN_TABLE_OUTPUT‚ğæ“¾
                 String planTableOutput = resultSet.getString(1);
-                // çµåˆ
+                // Œ‹‡
                 execPlanText.append(planTableOutput);
                 execPlanText.append('\n');
             }
@@ -117,12 +117,12 @@ public class OracleProcessor extends AbstractProcessor
         catch (SQLException ex)
         {
             execPlanText = new StringBuilder(JdbcJavelinRecorder.EXPLAIN_PLAN_FAILED);
-            // DBã‚¢ã‚¯ã‚»ã‚¹ã‚¨ãƒ©ãƒ¼/æƒ³å®šå¤–ã®ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆã¯ã‚¨ãƒ©ãƒ¼ãƒ­ã‚°ã«å‡ºåŠ›ã—ã¦ãŠãã€‚
+            // DBƒAƒNƒZƒXƒGƒ‰[/‘z’èŠO‚Ì—áŠO‚ª”­¶‚µ‚½ê‡‚ÍƒGƒ‰[ƒƒO‚Éo—Í‚µ‚Ä‚¨‚­B
             SystemLogger.getInstance().warn(ex);
         }
         finally
         {
-            // ãƒªã‚½ãƒ¼ã‚¹è§£æ”¾
+            // ƒŠƒ\[ƒX‰ğ•ú
             try
             {
                 if (resultSet != null)
@@ -143,25 +143,25 @@ public class OracleProcessor extends AbstractProcessor
     }
 
     /**
-     * SQLãƒˆãƒ¬ãƒ¼ã‚¹å–å¾—ç”¨SQLã‚’ç™ºè¡Œã™ã‚‹ã€‚
-     * @param connection ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³
+     * SQLƒgƒŒ[ƒXæ“¾—pSQL‚ğ”­s‚·‚éB
+     * @param connection ƒRƒlƒNƒVƒ‡ƒ“
      */
     @Override
     public void startSqlTrace(final Connection connection)
     {
-        // SQLãƒˆãƒ¬ãƒ¼ã‚¹ã®ãƒˆãƒ¬ãƒ¼ã‚¹IDã‚’è¨­å®šã™ã‚‹ã€‚
+        // SQLƒgƒŒ[ƒX‚ÌƒgƒŒ[ƒXID‚ğİ’è‚·‚éB
         SimpleDateFormat dataFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
         String id = Thread.currentThread().getId() + "_" + dataFormat.format(new Date());
 
         Statement stmt = null;
         try
         {
-            // SQLãƒˆãƒ¬ãƒ¼ã‚¹å–å¾—ç”¨ã®SQLã‚’å®Ÿè¡Œã™ã‚‹ã€‚
+            // SQLƒgƒŒ[ƒXæ“¾—p‚ÌSQL‚ğÀs‚·‚éB
             stmt = connection.createStatement();
             stmt.execute(SET_TRACE_ID + id + "'");
 
-            // ç¾æ™‚ç‚¹ã¾ã§ã®SQLãƒˆãƒ¬ãƒ¼ã‚¹ã‚’ä¸€æ—¦ã™ã¹ã¦å‡ºåŠ›ã—ã¦ã‹ã‚‰ã€å†åº¦é–‹å§‹ã™ã‚‹
-            // â€»Oracleã®SQLãƒˆãƒ¬ãƒ¼ã‚¹ã¯ã€æœ€å¾Œã®å‡ºåŠ›åœæ­¢æ™‚ç‚¹ã‹ã‚‰ç¾æ™‚ç‚¹ã¾ã§ã‚’å‡ºåŠ›ã™ã‚‹(å‹•ãã«è¦‹ãˆã‚‹)
+            // Œ»“_‚Ü‚Å‚ÌSQLƒgƒŒ[ƒX‚ğˆê’U‚·‚×‚Äo—Í‚µ‚Ä‚©‚çAÄ“xŠJn‚·‚é
+            // ¦Oracle‚ÌSQLƒgƒŒ[ƒX‚ÍAÅŒã‚Ìo—Í’â~“_‚©‚çŒ»“_‚Ü‚Å‚ğo—Í‚·‚é(“®‚«‚ÉŒ©‚¦‚é)
             stmt.execute(START_SQL_TRACE);
         }
         catch (Exception ex)
@@ -185,15 +185,15 @@ public class OracleProcessor extends AbstractProcessor
     }
 
     /**
-     * SQLãƒˆãƒ¬ãƒ¼ã‚¹çµ‚äº†ç”¨ã®SQLã‚’ç™ºè¡Œã™ã‚‹ã€‚
-     * @param connection ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³
+     * SQLƒgƒŒ[ƒXI—¹—p‚ÌSQL‚ğ”­s‚·‚éB
+     * @param connection ƒRƒlƒNƒVƒ‡ƒ“
      */
     public static void stopSqlTrace(final Connection connection)
     {
         Statement stmt = null;
         try
         {
-            // SQLãƒˆãƒ¬ãƒ¼ã‚¹çµ‚äº†ç”¨ã®SQLã‚’å®Ÿè¡Œã™ã‚‹ã€‚
+            // SQLƒgƒŒ[ƒXI—¹—p‚ÌSQL‚ğÀs‚·‚éB
             stmt = connection.createStatement();
             stmt.execute(STOP_SQL_TRACE);
         }
@@ -217,13 +217,13 @@ public class OracleProcessor extends AbstractProcessor
         }
     }
 
-    /** SQLãƒˆãƒ¬ãƒ¼ã‚¹ã®ID */
+    /** SQLƒgƒŒ[ƒX‚ÌID */
     private static final String SET_TRACE_ID = "alter session set tracefile_identifier='";
 
-    /** SQLãƒˆãƒ¬ãƒ¼ã‚¹å–å¾—ç”¨SQL */
+    /** SQLƒgƒŒ[ƒXæ“¾—pSQL */
     private static final String START_SQL_TRACE = "alter session set sql_trace=true";
 
-    /** SQLãƒˆãƒ¬ãƒ¼ã‚¹çµ‚äº†ç”¨SQL */
+    /** SQLƒgƒŒ[ƒXI—¹—pSQL */
     private static final String STOP_SQL_TRACE = "alter session set sql_trace=false";
 
     /**

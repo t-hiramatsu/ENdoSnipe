@@ -50,7 +50,7 @@ import jp.co.acroquest.endosnipe.common.util.NormalDateFormatter;
 import jp.co.acroquest.endosnipe.javelin.JavelinLogUtil;
 
 /**
- * Javelinãƒ­ã‚°ã‚’JavelinLogElementã«ãƒ‘ãƒ¼ã‚¹ã™ã‚‹ã€‚ JavelinConverterã‹ã‚‰åˆ‡ã‚Šå‡ºã—ã¦ä½œæˆã—ãŸã€‚
+ * JavelinƒƒO‚ğJavelinLogElement‚Éƒp[ƒX‚·‚éB JavelinConverter‚©‚çØ‚èo‚µ‚Äì¬‚µ‚½B
  * 
  * @author eriguchi
  */
@@ -58,84 +58,84 @@ public class JavelinParser
 {
     private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(JavelinParser.class);
 
-    /** è©³ç´°ã‚¿ã‚°ã®æ¥é ­è¾ */
+    /** Ú×ƒ^ƒO‚ÌÚ“ª« */
     public static final String DETAIL_TAG_PREFIX = "<<javelin.";
 
     private static final int DETAIL_START_TAG_LENGTH = DETAIL_TAG_PREFIX.length();
 
-    /** è©³ç´°ã‚¿ã‚°ã®æ¥å°¾è¾ */
+    /** Ú×ƒ^ƒO‚ÌÚ”ö« */
     public static final String DETAIL_TAG_START_END_STR = "_START>>";
 
     /**
-     * ä¾‹å¤–ã§ã‚ã‚‹ã‹ã©ã†ã‹ã‚’ç¤ºã™ã‚¿ã‚°ã€‚
+     * —áŠO‚Å‚ ‚é‚©‚Ç‚¤‚©‚ğ¦‚·ƒ^ƒOB
      */
     public static final String JAVELIN_EXCEPTION = "<<javelin.Exception>>";
 
-    /** ä»¥ä¸‹ã€å‹•ä½œãƒ­ã‚°ã®è©³ç´°æƒ…å ±ã‚’åˆ†é¡ã™ã‚‹ãŸã‚ã®ã‚¿ã‚° */
+    /** ˆÈ‰ºA“®ìƒƒO‚ÌÚ×î•ñ‚ğ•ª—Ş‚·‚é‚½‚ß‚Ìƒ^ƒO */
     public static final String TAG_TYPE_ARGS = "Args";
 
-    /** å‹•ä½œãƒ­ã‚°ã®è©³ç´°æƒ…å ±ã‚’åˆ†é¡ã™ã‚‹ã‚¿ã‚°(JMXInfo) */
+    /** “®ìƒƒO‚ÌÚ×î•ñ‚ğ•ª—Ş‚·‚éƒ^ƒO(JMXInfo) */
     public static final String TAG_TYPE_JMXINFO = "JMXInfo";
 
-    /** å‹•ä½œãƒ­ã‚°ã®è©³ç´°æƒ…å ±ã‚’åˆ†é¡ã™ã‚‹ã‚¿ã‚°(ExtraInfo) */
+    /** “®ìƒƒO‚ÌÚ×î•ñ‚ğ•ª—Ş‚·‚éƒ^ƒO(ExtraInfo) */
     public static final String TAG_TYPE_EXTRAINFO = "ExtraInfo";
 
-    /** å‹•ä½œãƒ­ã‚°ã®è©³ç´°æƒ…å ±ã‚’åˆ†é¡ã™ã‚‹ã‚¿ã‚°(EventInfo) */
+    /** “®ìƒƒO‚ÌÚ×î•ñ‚ğ•ª—Ş‚·‚éƒ^ƒO(EventInfo) */
     public static final String TAG_TYPE_EVENTINFO = "EventInfo";
 
-    /** å‹•ä½œãƒ­ã‚°ã®è©³ç´°æƒ…å ±ã‚’åˆ†é¡ã™ã‚‹ã‚¿ã‚°(StackTrace) */
+    /** “®ìƒƒO‚ÌÚ×î•ñ‚ğ•ª—Ş‚·‚éƒ^ƒO(StackTrace) */
     public static final String TAG_TYPE_STACKTRACE = "StackTrace";
 
-    /** å‹•ä½œãƒ­ã‚°ã®è©³ç´°æƒ…å ±ã‚’åˆ†é¡ã™ã‚‹ã‚¿ã‚°(ReturnValue) */
+    /** “®ìƒƒO‚ÌÚ×î•ñ‚ğ•ª—Ş‚·‚éƒ^ƒO(ReturnValue) */
     public static final String TAG_TYPE_RETURN_VAL = "ReturnValue";
 
-    /** å‹•ä½œãƒ­ã‚°ã®è©³ç´°æƒ…å ±ã‚’åˆ†é¡ã™ã‚‹ã‚¿ã‚°(FieldValue) */
+    /** “®ìƒƒO‚ÌÚ×î•ñ‚ğ•ª—Ş‚·‚éƒ^ƒO(FieldValue) */
     public static final String TAG_TYPE_FIELD_VAL = "FieldValue";
 
-    /** ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå˜ä½ã®ã‚·ãƒ¼ã‚±ãƒ³ã‚¹ã«ã™ã‚‹ã‹ã‚’æŒ‡å®šã™ã‚‹ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã®åå‰ */
+    /** ƒIƒuƒWƒFƒNƒg’PˆÊ‚ÌƒV[ƒPƒ“ƒX‚É‚·‚é‚©‚ğw’è‚·‚éƒvƒƒpƒeƒB‚Ì–¼‘O */
     public static final String PROP_JAVELINCONV_OBJECT = "javelinConv.object";
 
-    /** PROP_JAVELINCONV_OBJECTãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ */
+    /** PROP_JAVELINCONV_OBJECTƒvƒƒpƒeƒB‚ÌƒfƒtƒHƒ‹ƒg’l */
     public static final String PROP_JAVELINCONV_OBJECT_DEFAULT = "false";
 
     private static final String MESSAGE_FORMAT_ERROR =
             Messages.getString("0000_actionLogError_actionLogFileFormatError"); //$NON-NLS-1$
 
     /**
-     * ã‚¨ãƒ©ãƒ¼å‡ºåŠ›ç”¨ã‚¹ãƒˆãƒªãƒ¼ãƒ ã€‚
+     * ƒGƒ‰[o—Í—pƒXƒgƒŠ[ƒ€B
      */
     private final PrintStream errorStream_ = System.err;
 
-    /** logFileName_ã®åå‰ã‚’ã‚‚ã¤ãƒ•ã‚¡ã‚¤ãƒ« */
+    /** logFileName_‚Ì–¼‘O‚ğ‚à‚Âƒtƒ@ƒCƒ‹ */
     private File logFile_;
 
-    /** ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã®åå‰ã€‚èµ·å‹•æ™‚ã€å¼•æ•°ã«æ¸¡ã•ã‚ŒãŸã¾ã¾ã®æ–‡å­—åˆ—ã§ã‚ã‚‹ */
+    /** ƒƒOƒtƒ@ƒCƒ‹‚Ì–¼‘OB‹N“®Aˆø”‚É“n‚³‚ê‚½‚Ü‚Ü‚Ì•¶š—ñ‚Å‚ ‚é */
     private final String logFileName_;
 
     /**
-     * Javelin ãƒ­ã‚°å–å¾—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚<br />
+     * Javelin ƒƒOæ“¾ƒIƒuƒWƒFƒNƒgB<br />
      */
     private final JavelinLogAccessor logAccessor_;
 
-    /** logFile_ã‚’ã€è¡Œæ•°ã‚’ã‚«ã‚¦ãƒ³ãƒˆã—ãªãŒã‚‰èª­ã¿è¾¼ã‚€ãŸã‚ã®ãƒªãƒ¼ãƒ€ãƒ¼ */
+    /** logFile_‚ğAs”‚ğƒJƒEƒ“ƒg‚µ‚È‚ª‚ç“Ç‚İ‚Ş‚½‚ß‚ÌƒŠ[ƒ_[ */
     private LineNumberReader logBufferedReader_;
 
-    /** å…ˆèª­ã¿ã—ãŸãƒ­ã‚°è¦ç´ ã®åŸºæœ¬æƒ…å ± */
+    /** æ“Ç‚İ‚µ‚½ƒƒO—v‘f‚ÌŠî–{î•ñ */
     private String nextBaseInfo_ = "";
 
-    /** ç¾åœ¨èª­ã¿è¾¼ã¿ä¸­ã®è¡Œç•ªå· */
+    /** Œ»İ“Ç‚İ‚İ’†‚Ìs”Ô† */
     private int logFileLine_;
 
     /**
-     * èª­ã¿è¾¼ã¿ãƒ•ã‚¡ã‚¤ãƒ«ãŒãƒ•ã‚¡ã‚¤ãƒ«ã®çµ‚ç«¯ã«åˆ°é”ã—ãŸã‹ã©ã†ã‹ã€‚
+     * “Ç‚İ‚İƒtƒ@ƒCƒ‹‚ªƒtƒ@ƒCƒ‹‚ÌI’[‚É“’B‚µ‚½‚©‚Ç‚¤‚©B
      */
     private boolean isEOF_ = false;
 
     /**
-     * ãƒ•ã‚¡ã‚¤ãƒ«åã‚’æŒ‡å®šã—ã¦ãƒ‘ãƒ¼ã‚µã‚’ä½œæˆã—ã¾ã™ã€‚<br />
+     * ƒtƒ@ƒCƒ‹–¼‚ğw’è‚µ‚Äƒp[ƒT‚ğì¬‚µ‚Ü‚·B<br />
      * 
      * @param fileName
-     *            ãƒ‘ãƒ¼ã‚¹å¯¾è±¡ã®ãƒ•ã‚¡ã‚¤ãƒ«å
+     *            ƒp[ƒX‘ÎÛ‚Ìƒtƒ@ƒCƒ‹–¼
      */
     public JavelinParser(final String fileName)
     {
@@ -144,10 +144,10 @@ public class JavelinParser
     }
 
     /**
-     * ãƒ‘ãƒ¼ã‚µã‚’ä½œæˆã—ã¾ã™ã€‚<br />
+     * ƒp[ƒT‚ğì¬‚µ‚Ü‚·B<br />
      * 
      * @param logAccessor
-     *            Javelin ãƒ­ã‚°å–å¾—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     *            Javelin ƒƒOæ“¾ƒIƒuƒWƒFƒNƒg
      */
     public JavelinParser(final JavelinLogAccessor logAccessor)
     {
@@ -156,17 +156,17 @@ public class JavelinParser
     }
 
     /**
-     * åˆæœŸåŒ–ã—ã¾ã™ã€‚<br />
+     * ‰Šú‰»‚µ‚Ü‚·B<br />
      * 
-     * ãƒ‘ãƒ¼ã‚¹å¯¾è±¡ã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ãã€è¡Œç•ªå·ã‚’åˆæœŸåŒ–ã—ã¾ã™ã€‚
+     * ƒp[ƒX‘ÎÛ‚Ìƒtƒ@ƒCƒ‹‚ğŠJ‚«As”Ô†‚ğ‰Šú‰»‚µ‚Ü‚·B
      * 
      * @throws ParseException
-     *             ãƒ•ã‚¡ã‚¤ãƒ«ãŒå­˜åœ¨ã—ãªã„å ´åˆã€ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®å ´åˆã€ èª­ã¿è¾¼ã¿æ¨©é™ãŒãªã„å ´åˆ
+     *             ƒtƒ@ƒCƒ‹‚ª‘¶İ‚µ‚È‚¢ê‡AƒfƒBƒŒƒNƒgƒŠ‚Ìê‡A “Ç‚İ‚İŒ ŒÀ‚ª‚È‚¢ê‡
      */
     public void init()
         throws ParseException
     {
-        // ãƒ•ã‚¡ã‚¤ãƒ«ã®é–‹å§‹è¡Œç•ªå·ã‚’1ã«åˆæœŸåŒ–ã™ã‚‹ã€‚
+        // ƒtƒ@ƒCƒ‹‚ÌŠJns”Ô†‚ğ1‚É‰Šú‰»‚·‚éB
         this.logFileLine_ = 1;
 
         Reader logReader = null;
@@ -174,18 +174,18 @@ public class JavelinParser
         {
             if (this.logAccessor_ != null)
             {
-                // //////// ãƒ‘ãƒ¼ã‚¹å¯¾è±¡ãŒãƒ­ã‚°å–å¾—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«ã‚ã‚‹å ´åˆ //////////
+                // //////// ƒp[ƒX‘ÎÛ‚ªƒƒOæ“¾ƒIƒuƒWƒFƒNƒg‚É‚ ‚éê‡ //////////
                 InputStream input = this.logAccessor_.getInputStream();
                 logReader = new InputStreamReader(input);
             }
             else
             {
-                // //////// ãƒ‘ãƒ¼ã‚¹å¯¾è±¡ãŒãƒ•ã‚¡ã‚¤ãƒ«ã®å ´åˆ //////////
+                // //////// ƒp[ƒX‘ÎÛ‚ªƒtƒ@ƒCƒ‹‚Ìê‡ //////////
 
                 this.logFile_ = new File(this.logFileName_);
 
-                // ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ãŒå­˜åœ¨ã—ãªã„ã€ã‚‚ã—ãã¯ãƒ•ã‚¡ã‚¤ãƒ«ã§ãªã„å ´åˆã¯ã€
-                // ã‚¨ãƒ©ãƒ¼ã‚’å‡ºåŠ›ã—ã¦å¤±æ•—ã‚’è¿”ã™ã€‚
+                // ƒƒOƒtƒ@ƒCƒ‹‚ª‘¶İ‚µ‚È‚¢A‚à‚µ‚­‚Íƒtƒ@ƒCƒ‹‚Å‚È‚¢ê‡‚ÍA
+                // ƒGƒ‰[‚ğo—Í‚µ‚Ä¸”s‚ğ•Ô‚·B
                 if (this.logFile_.exists() == false || this.logFile_.isFile() == false)
                 {
                     String message =
@@ -194,7 +194,7 @@ public class JavelinParser
                     this.printError(message);
                     throw new ParseException(message);
                 }
-                // ãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿è¾¼ã¿æ¨©é™ãŒãªã„å ´åˆã¯ã€ã‚¨ãƒ©ãƒ¼ã‚’å‡ºåŠ›ã—ã¦å¤±æ•—ã‚’è¿”ã™ã€‚
+                // ƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İŒ ŒÀ‚ª‚È‚¢ê‡‚ÍAƒGƒ‰[‚ğo—Í‚µ‚Ä¸”s‚ğ•Ô‚·B
                 else if (this.logFile_.canRead() == false)
                 {
                     String message =
@@ -206,7 +206,7 @@ public class JavelinParser
                 logReader = new FileReader(this.logFile_);
             }
 
-            // å‹•ä½œãƒ­ã‚°ã®å†…å®¹ã‚’èª­ã‚€è¾¼ã‚€Readerã‚’ç”Ÿæˆ
+            // “®ìƒƒO‚Ì“à—e‚ğ“Ç‚Ş‚ŞReader‚ğ¶¬
             this.logBufferedReader_ = new LineNumberReader(logReader);
         }
         catch (IOException exp)
@@ -221,10 +221,10 @@ public class JavelinParser
     }
 
     /**
-     * ãƒ‘ãƒ¼ã‚¹å¯¾è±¡ã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ã‚¯ãƒ­ãƒ¼ã‚ºã™ã‚‹ã€‚ çµ‚äº†æ™‚ã«ã¯å¿…ãšã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã¶ã“ã¨ã€‚
+     * ƒp[ƒX‘ÎÛ‚Ìƒtƒ@ƒCƒ‹‚ğƒNƒ[ƒY‚·‚éB I—¹‚É‚Í•K‚¸‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ô‚±‚ÆB
      * 
      * @throws IOException
-     *             ãƒ‘ãƒ¼ã‚¹å¯¾è±¡ã®ãƒ•ã‚¡ã‚¤ãƒ«ã®ã‚¯ãƒ­ãƒ¼ã‚ºã«å¤±æ•—ã—ãŸå ´åˆã€‚
+     *             ƒp[ƒX‘ÎÛ‚Ìƒtƒ@ƒCƒ‹‚ÌƒNƒ[ƒY‚É¸”s‚µ‚½ê‡B
      */
     public void close()
         throws IOException
@@ -237,10 +237,10 @@ public class JavelinParser
     }
 
     /**
-     * ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’è¡¨ç¤ºã™ã‚‹ã€‚
+     * ƒGƒ‰[ƒƒbƒZ[ƒW‚ğ•\¦‚·‚éB
      * 
      * @param message
-     *            ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
+     *            ƒGƒ‰[ƒƒbƒZ[ƒW
      */
     private void printError(final String message)
     {
@@ -248,34 +248,34 @@ public class JavelinParser
     }
 
     /**
-     * å‹•ä½œãƒ­ã‚°ã‹ã‚‰ä¸€è¦ç´ åˆ†ã«å¯¾å¿œã™ã‚‹è¨˜è¿°ã‚’å–å¾—ã™ã‚‹ã€‚ çµ‚äº†ä½ç½®ã¾ã§èª­ã¿è¾¼ã¿çµ‚ã‚ã£ã¦ã„ã‚‹å ´åˆã¯ã€nullã‚’è¿”ã™ã€‚
+     * “®ìƒƒO‚©‚çˆê—v‘f•ª‚É‘Î‰‚·‚é‹Lq‚ğæ“¾‚·‚éB I—¹ˆÊ’u‚Ü‚Å“Ç‚İ‚İI‚í‚Á‚Ä‚¢‚éê‡‚ÍAnull‚ğ•Ô‚·B
      * 
-     * @return å‹•ä½œãƒ­ã‚°ã«ãŠã‘ã‚‹ä¸€è¦ç´ åˆ†ã®ãƒ­ã‚°æ–‡å­—åˆ—
+     * @return “®ìƒƒO‚É‚¨‚¯‚éˆê—v‘f•ª‚ÌƒƒO•¶š—ñ
      * @throws IOException
-     *             å…¥å‡ºåŠ›ä¾‹å¤–ç™ºç”Ÿæ™‚
+     *             “üo—Í—áŠO”­¶
      * @throws ParseException
-     *             ãƒ‘ãƒ¼ã‚¹ã‚¨ãƒ©ãƒ¼ç™ºç”Ÿæ™‚
+     *             ƒp[ƒXƒGƒ‰[”­¶
      */
     public JavelinLogElement nextElement()
         throws IOException,
             ParseException
     {
-        // ãƒ•ã‚¡ã‚¤ãƒ«ã®é–‹å§‹è¡Œã‚’è¨˜éŒ²ã™ã‚‹
+        // ƒtƒ@ƒCƒ‹‚ÌŠJns‚ğ‹L˜^‚·‚é
         int startLogLine = this.logFileLine_;
 
-        // çµ‚äº†ä½ç½®ã¾ã§èª­ã¿è¾¼ã¿çµ‚ã‚ã£ã¦ã„ã‚‹å ´åˆã¯ã€nullã‚’è¿”ã™ã€‚
+        // I—¹ˆÊ’u‚Ü‚Å“Ç‚İ‚İI‚í‚Á‚Ä‚¢‚éê‡‚ÍAnull‚ğ•Ô‚·B
         if (this.nextBaseInfo_ == null)
         {
             return null;
         }
 
-        // Javelinå‹•ä½œãƒ­ã‚°ã®è¦ç´ ã‚’ç”Ÿæˆ
+        // Javelin“®ìƒƒO‚Ì—v‘f‚ğ¶¬
         JavelinLogElement javelinLogElement = new JavelinLogElement();
 
-        // ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«åã®è¨­å®š
+        // ƒƒOƒtƒ@ƒCƒ‹–¼‚Ìİ’è
         javelinLogElement.setLogFileName(this.logFileName_);
 
-        // åŸºæœ¬æƒ…å ±ã®å–ã‚Šå‡ºã—
+        // Šî–{î•ñ‚Ìæ‚èo‚µ
         List<String> baseInfoList = this.getBaseInfoList();
 
         if (baseInfoList == null)
@@ -283,18 +283,18 @@ public class JavelinParser
             return null;
         }
 
-        // åŸºæœ¬æƒ…å ±ã®ã‚»ãƒƒãƒˆ
+        // Šî–{î•ñ‚ÌƒZƒbƒg
         javelinLogElement.setBaseInfo(baseInfoList);
 
-        // è©³ç´°æƒ…å ±ã®å–ã‚Šå‡ºã—
+        // Ú×î•ñ‚Ìæ‚èo‚µ
         boolean hasDetailInfo = this.getDetailInfo(javelinLogElement);
         while (hasDetailInfo == true)
         {
-            // è©³ç´°æƒ…å ±ã®å–ã‚Šå‡ºã—
+            // Ú×î•ñ‚Ìæ‚èo‚µ
             hasDetailInfo = this.getDetailInfo(javelinLogElement);
         }
 
-        // ç©ºè¡Œã‚’èª­ã¿é£›ã°ã™ã€‚ãã®ã¨ãã€ç©ºè¡Œã‚‚è©³ç´°æƒ…å ±ã«å«ã‚€ã€‚
+        // ‹ós‚ğ“Ç‚İ”ò‚Î‚·B‚»‚Ì‚Æ‚«A‹ós‚àÚ×î•ñ‚ÉŠÜ‚ŞB
         while ("".equals(this.nextBaseInfo_))
         {
             this.nextBaseInfo_ = this.logBufferedReader_.readLine();
@@ -302,14 +302,14 @@ public class JavelinParser
 
         this.logFileLine_ = this.logBufferedReader_.getLineNumber();
 
-        // ãƒ•ã‚¡ã‚¤ãƒ«ã®çµ‚äº†è¡Œã‚’è¨˜éŒ²ã™ã‚‹
+        // ƒtƒ@ƒCƒ‹‚ÌI—¹s‚ğ‹L˜^‚·‚é
         int endLogLine = this.logFileLine_ - 1;
         if (this.isEOF_)
         {
             endLogLine++;
         }
 
-        // é–‹å§‹ã€çµ‚äº†ã®è¡Œç•ªå·ã‚’è¨­å®šã™ã‚‹ã€‚
+        // ŠJnAI—¹‚Ìs”Ô†‚ğİ’è‚·‚éB
         javelinLogElement.setStartLogLine(startLogLine);
         javelinLogElement.setEndLogLine(endLogLine);
 
@@ -317,27 +317,27 @@ public class JavelinParser
     }
 
     /**
-     * åŸºæœ¬æƒ…å ±ã®è¡Œã‹ã‚‰CSVã§åˆ‡ã‚Šåˆ†ã‘ãŸãƒªã‚¹ãƒˆã‚’è¿”ã™
+     * Šî–{î•ñ‚Ìs‚©‚çCSV‚ÅØ‚è•ª‚¯‚½ƒŠƒXƒg‚ğ•Ô‚·
      * 
-     * @return åŸºæœ¬æƒ…å ±ã®ãƒªã‚¹ãƒˆ
+     * @return Šî–{î•ñ‚ÌƒŠƒXƒg
      * @throws IOException
-     *             ãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿è¾¼ã¿ã«å¤±æ•—ã—ãŸå ´åˆ
+     *             ƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İ‚É¸”s‚µ‚½ê‡
      */
     public List<String> getBaseInfoList()
         throws IOException
     {
         String baseInfoString;
 
-        // ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã«åŸºæœ¬æƒ…å ±ãŒä¿æŒã•ã‚Œã¦ã„ã‚‹å ´åˆ
+        // ƒtƒB[ƒ‹ƒh‚ÉŠî–{î•ñ‚ª•Û‚³‚ê‚Ä‚¢‚éê‡
         if (this.nextBaseInfo_.length() > 0)
         {
-            // ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã‹ã‚‰åŸºæœ¬æƒ…å ±ã®å–ã‚Šå‡ºã—
+            // ƒtƒB[ƒ‹ƒh‚©‚çŠî–{î•ñ‚Ìæ‚èo‚µ
             baseInfoString = this.nextBaseInfo_;
             this.nextBaseInfo_ = null;
         }
         else
         {
-            // å‹•ä½œãƒ­ã‚°ã‹ã‚‰åŸºæœ¬æƒ…å ±ã®å–ã‚Šå‡ºã—
+            // “®ìƒƒO‚©‚çŠî–{î•ñ‚Ìæ‚èo‚µ
             String line = this.logBufferedReader_.readLine();
             if (line == null)
             {
@@ -346,11 +346,11 @@ public class JavelinParser
             baseInfoString = line;
         }
 
-        // CSVã«ã‚ˆã‚‹åŸºæœ¬æƒ…å ±ã®åˆ‡ã‚Šåˆ†ã‘
+        // CSV‚É‚æ‚éŠî–{î•ñ‚ÌØ‚è•ª‚¯
         CSVTokenizer csvTokenizer = new CSVTokenizer(baseInfoString);
 
-        // å…¨ã¦ã®åŸºæœ¬æƒ…å ±ã«ã¤ã„ã¦ã€CSVã§åˆ‡ã‚Šå‡ºã—ã€
-        // åŸºæœ¬æƒ…å ±ã®ãƒªã‚¹ãƒˆã«è¿½åŠ 
+        // ‘S‚Ä‚ÌŠî–{î•ñ‚É‚Â‚¢‚ÄACSV‚ÅØ‚èo‚µA
+        // Šî–{î•ñ‚ÌƒŠƒXƒg‚É’Ç‰Á
         List<String> baseInfoList = new ArrayList<String>();
         boolean hasMoreBaseInfo = csvTokenizer.hasMoreTokens();
         while (hasMoreBaseInfo == true)
@@ -365,15 +365,15 @@ public class JavelinParser
     }
 
     /**
-     * è©³ç´°æƒ…å ±ã®èª­ã¿è¾¼ã¿ã‚’è¡Œã†
+     * Ú×î•ñ‚Ì“Ç‚İ‚İ‚ğs‚¤
      * 
      * @param logElement
-     *            Javelinãƒ­ã‚°ã®è¦ç´ 
-     * @return è©³ç´°æƒ…å ±å–å¾—ã®çµæœã€‚å–ã‚ŒãŸã¨ãã¯ã€trueã€‚å–ã‚Œãªã‹ã£ãŸã¨ãã¯ã€falseã€‚
+     *            JavelinƒƒO‚Ì—v‘f
+     * @return Ú×î•ñæ“¾‚ÌŒ‹‰ÊBæ‚ê‚½‚Æ‚«‚ÍAtrueBæ‚ê‚È‚©‚Á‚½‚Æ‚«‚ÍAfalseB
      * @throws ParseException
-     *             è©³ç´°ãƒ­ã‚°ã®ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆãŒç•°å¸¸ãªãŸã‚ã«ãƒ‘ãƒ¼ã‚¹ã«å¤±æ•—ã—ãŸå ´åˆã€‚
+     *             Ú×ƒƒO‚ÌƒtƒH[ƒ}ƒbƒg‚ªˆÙí‚È‚½‚ß‚Éƒp[ƒX‚É¸”s‚µ‚½ê‡B
      * @throws IOException
-     *             è©³ç´°ãƒ­ã‚°ã®èª­ã¿è¾¼ã¿ã«å¤±æ•—ã—ãŸå ´åˆ
+     *             Ú×ƒƒO‚Ì“Ç‚İ‚İ‚É¸”s‚µ‚½ê‡
      */
     public boolean getDetailInfo(final JavelinLogElement logElement)
         throws ParseException,
@@ -391,23 +391,23 @@ public class JavelinParser
         {
             result = true;
 
-            // è©³ç´°æƒ…å ±ãŒä¾‹å¤–ã‚’æ„å‘³ã™ã‚‹"javelin.Exception"ã§ã‚ã‚‹ã‹ã‚’ãƒã‚§ãƒƒã‚¯
+            // Ú×î•ñ‚ª—áŠO‚ğˆÓ–¡‚·‚é"javelin.Exception"‚Å‚ ‚é‚©‚ğƒ`ƒFƒbƒN
             boolean isJavelinExceptionTag = nextInfoLine.indexOf(JAVELIN_EXCEPTION) >= 0;
             if (isJavelinExceptionTag == true)
             {
-                // è©³ç´°æƒ…å ± "javelin.Exception"ã‚’ã‚»ãƒƒãƒˆ
+                // Ú×î•ñ "javelin.Exception"‚ğƒZƒbƒg
                 String detailTagType = JAVELIN_EXCEPTION;
                 String detailTagData = JAVELIN_EXCEPTION;
                 logElement.setDetailInfo(detailTagType, detailTagData);
                 return true;
             }
 
-            // é–‹å§‹ã‚¿ã‚°ã®æœ«å°¾ãŒæ­£ã—ã„å½¢ã«ãªã£ã¦ã„ã‚‹ã‹ãƒã‚§ãƒƒã‚¯
-            // æ­£ã—ããªã„å ´åˆã¯ã€ã‚¨ãƒ©ãƒ¼å‡ºåŠ›ã—ã¦ä¸­æ–­ã€‚
+            // ŠJnƒ^ƒO‚Ì––”ö‚ª³‚µ‚¢Œ`‚É‚È‚Á‚Ä‚¢‚é‚©ƒ`ƒFƒbƒN
+            // ³‚µ‚­‚È‚¢ê‡‚ÍAƒGƒ‰[o—Í‚µ‚Ä’†’fB
             boolean isRightEnd = nextInfoLine.endsWith(DETAIL_TAG_START_END_STR);
             if (isRightEnd == false)
             {
-                // å‹•ä½œãƒ­ã‚°ã®ç¾åœ¨ã®è¡Œç•ªå·ã‚’ä¿æŒã™ã‚‹
+                // “®ìƒƒO‚ÌŒ»İ‚Ìs”Ô†‚ğ•Û‚·‚é
                 this.logFileLine_ = this.logBufferedReader_.getLineNumber();
 
                 String message =
@@ -419,14 +419,14 @@ public class JavelinParser
             }
 
             int endPos = nextInfoLine.length() - DETAIL_TAG_START_END_STR.length();
-            // è©³ç´°æƒ…å ±ã®ã‚¿ã‚°ã‚¿ã‚¤ãƒ—åã®å–å¾—
+            // Ú×î•ñ‚Ìƒ^ƒOƒ^ƒCƒv–¼‚Ìæ“¾
             String detailTagType = nextInfoLine.substring(DETAIL_START_TAG_LENGTH, endPos);
 
-            // è©³ç´°æƒ…å ±ã‚’ä¿å­˜ã™ã‚‹StringBuffer
+            // Ú×î•ñ‚ğ•Û‘¶‚·‚éStringBuffer
             StringBuffer detailInfoBuffer = new StringBuffer();
 
-            // è©³ç´°æƒ…å ±ã®ä¸­èº«ã‚’ä¸€è¡Œãšã¤èª­ã¿è¾¼ã‚€ã€‚
-            // ãƒ•ã‚¡ã‚¤ãƒ«ã®æœ€å¾Œã¾ã§èª­ã‚“ã§ã‚‚çµ‚äº†ã‚¿ã‚°ãŒç¾ã‚Œãªã„å ´åˆã¯ã€ã‚¨ãƒ©ãƒ¼å‡ºåŠ›ã—ã¦ä¸­æ–­ã€‚
+            // Ú×î•ñ‚Ì’†g‚ğˆês‚¸‚Â“Ç‚İ‚ŞB
+            // ƒtƒ@ƒCƒ‹‚ÌÅŒã‚Ü‚Å“Ç‚ñ‚Å‚àI—¹ƒ^ƒO‚ªŒ»‚ê‚È‚¢ê‡‚ÍAƒGƒ‰[o—Í‚µ‚Ä’†’fB
             String detailInfoLine = this.logBufferedReader_.readLine();
             while (detailInfoLine != null && detailInfoLine.startsWith(DETAIL_TAG_PREFIX) == false)
             {
@@ -449,15 +449,15 @@ public class JavelinParser
         }
         else
         {
-            // åŸºæœ¬æƒ…å ±ãŒé€£ç¶šã—ãŸå ´åˆã«é€šã‚‹å‡¦ç†
-            // èª­ã¿è¾¼ã‚“ã æ¬¡ã®è¡Œã‚’ã€æ¬¡ã®åŸºæœ¬æƒ…å ±ã‚’è¡¨ã™ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã«ã‚»ãƒƒãƒˆ
+            // Šî–{î•ñ‚ª˜A‘±‚µ‚½ê‡‚É’Ê‚éˆ—
+            // “Ç‚İ‚ñ‚¾Ÿ‚Ìs‚ğAŸ‚ÌŠî–{î•ñ‚ğ•\‚·ƒtƒB[ƒ‹ƒh‚ÉƒZƒbƒg
             this.nextBaseInfo_ = nextInfoLine;
         }
         return result;
     }
 
     /**
-     * ãƒ­ã‚°ã®ãƒ‘ãƒ¼ã‚¹ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’ä½œæˆã™ã‚‹ã€‚
+     * ƒƒO‚Ìƒp[ƒXƒGƒ‰[ƒƒbƒZ[ƒW‚ğì¬‚·‚éB
      * 
      * @param message
      * @param cause
@@ -479,31 +479,31 @@ public class JavelinParser
     }
 
     /**
-     * Javelinãƒ­ã‚°ã®è©³ç´°æƒ…å ±ã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
+     * JavelinƒƒO‚ÌÚ×î•ñ‚ğ‰Šú‰»‚·‚éB
      * 
-     * å…·ä½“çš„ã«ã¯ã€Callãƒ­ã‚°ã«å¯¾ã—ã¦ã€ãã®ãƒ¡ã‚½ãƒƒãƒ‰ã®ç´”ç²‹å€¤ ï¼ˆElapsedTimeã¨Pure CPU
-     * Timeï¼‰ã‚’è¨ˆç®—ã—ã€extraInfoãƒãƒƒãƒ—ã«ç™»éŒ²ã™ã‚‹ã€‚
+     * ‹ï‘Ì“I‚É‚ÍACallƒƒO‚É‘Î‚µ‚ÄA‚»‚Ìƒƒ\ƒbƒh‚Ìƒˆ’l iElapsedTime‚ÆPure CPU
+     * Timej‚ğŒvZ‚µAextraInfoƒ}ƒbƒv‚É“o˜^‚·‚éB
      * 
      * @param logList
-     *            Javelinãƒ­ã‚°
+     *            JavelinƒƒO
      */
     @SuppressWarnings("deprecation")
     public static void initDetailInfo(final List<JavelinLogElement> logList)
     {
-        // ç´”ç²‹å€¤ã‚’è¨ˆç®—ã™ã‚‹å€¤ã®ã‚­ãƒ¼ã‚’ç™»éŒ²ã™ã‚‹
+        // ƒˆ’l‚ğŒvZ‚·‚é’l‚ÌƒL[‚ğ“o˜^‚·‚é
         Map<String, String> pureKeyMap = register();
-        // ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—ã‚¹ã‚¿ãƒƒã‚¯
+        // ƒƒ\ƒbƒhŒÄ‚Ño‚µƒXƒ^ƒbƒN
         Stack<MethodParam> methodCallStack = new Stack<MethodParam>();
 
-        // ãã‚Œãã‚Œã®Javelin Callãƒ­ã‚°ã«å¯¾ã—ã¦ã€ã¾ãšã¯ãƒ­ã‚°ã«è¨˜è¿°ã•ã‚ŒãŸå€¤ã‚’ãƒãƒƒãƒ—ã«ç™»éŒ²ã—ã€
-        // ãƒãƒƒãƒ—ã‹ã‚‰å­ãƒ¡ã‚½ãƒƒãƒ‰ã®å€¤ã‚’å¼•ã„ã¦ã„ã
+        // ‚»‚ê‚¼‚ê‚ÌJavelin CallƒƒO‚É‘Î‚µ‚ÄA‚Ü‚¸‚ÍƒƒO‚É‹Lq‚³‚ê‚½’l‚ğƒ}ƒbƒv‚É“o˜^‚µA
+        // ƒ}ƒbƒv‚©‚çqƒƒ\ƒbƒh‚Ì’l‚ğˆø‚¢‚Ä‚¢‚­
         for (JavelinLogElement targetMethod : logList)
         {
             if (targetMethod == null)
             {
                 continue;
             }
-            // Callãƒ­ã‚°ä»¥å¤–ã¯ç„¡è¦–ã™ã‚‹
+            // CallƒƒOˆÈŠO‚Í–³‹‚·‚é
             String id = targetMethod.getLogIDType();
             if (JavelinConstants.MSG_CALL.equals(id) == false)
             {
@@ -513,7 +513,7 @@ public class JavelinParser
             MethodParam methodParam = new MethodParam();
             methodParam.setJavelinLogElement(targetMethod);
 
-            // ç¾åœ¨ãƒ‘ãƒ¼ã‚¹ä¸­ã®ãƒ¡ã‚½ãƒƒãƒ‰ã®é–‹å§‹æ™‚åˆ»ã‚’å–å¾—ã™ã‚‹
+            // Œ»İƒp[ƒX’†‚Ìƒƒ\ƒbƒh‚ÌŠJn‚ğæ“¾‚·‚é
             List<String> baseInfo = targetMethod.getBaseInfo();
             if (baseInfo == null)
             {
@@ -533,7 +533,7 @@ public class JavelinParser
                 methodParam.setStartTime(0);
             }
 
-            // ç¾åœ¨ãƒ‘ãƒ¼ã‚¹ä¸­ã®ãƒ¡ã‚½ãƒƒãƒ‰ã®Duration Timeã‚’å–å¾—ã™ã‚‹
+            // Œ»İƒp[ƒX’†‚Ìƒƒ\ƒbƒh‚ÌDuration Time‚ğæ“¾‚·‚é
             Map<String, String> extraInfoMap =
                     JavelinLogUtil.parseDetailInfo(targetMethod, JavelinParser.TAG_TYPE_EXTRAINFO);
             String durationString = extraInfoMap.get(JavelinLogConstants.EXTRAPARAM_DURATION);
@@ -554,21 +554,21 @@ public class JavelinParser
                 methodParam.setDuration(0);
             }
 
-            // é–‹å§‹æ™‚åˆ»ã¨Duration Timeã‹ã‚‰ã€ãƒ¡ã‚½ãƒƒãƒ‰ã®çµ‚äº†æ™‚åˆ»ã‚’è¨ˆç®—ã™ã‚‹
+            // ŠJn‚ÆDuration Time‚©‚çAƒƒ\ƒbƒh‚ÌI—¹‚ğŒvZ‚·‚é
             methodParam.setEndTime(methodParam.getStartTime() + methodParam.getDuration());
             methodParam.setOriginalDataMap(new HashMap<String, Double>());
             methodParam.setPureDataMap(new HashMap<String, Double>());
 
             putOriginalValue(pureKeyMap, targetMethod, methodParam);
 
-            // ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—ã‚¹ã‚¿ãƒƒã‚¯ã«æ ¼ç´ã•ã‚Œã¦ã„ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã®ä¸­ã§ã€
-            // ãƒ¡ã‚½ãƒƒãƒ‰çµ‚äº†æ™‚åˆ»ãŒã“ã®ãƒ¡ã‚½ãƒƒãƒ‰é–‹å§‹æ™‚åˆ»ã‚ˆã‚Šã‚‚å‰ã®ã‚‚ã®ã®ç´”ç²‹å€¤ã‚’è¨ˆç®—ã™ã‚‹
+            // ƒƒ\ƒbƒhŒÄ‚Ño‚µƒXƒ^ƒbƒN‚ÉŠi”[‚³‚ê‚Ä‚¢‚éƒƒ\ƒbƒh‚Ì’†‚ÅA
+            // ƒƒ\ƒbƒhI—¹‚ª‚±‚Ìƒƒ\ƒbƒhŠJn‚æ‚è‚à‘O‚Ì‚à‚Ì‚Ìƒˆ’l‚ğŒvZ‚·‚é
             calcPureValue(methodCallStack, methodParam);
 
             methodCallStack.push(methodParam);
         }
 
-        // æœ€å¾Œã¾ã§æ®‹ã£ãŸãƒ¡ã‚½ãƒƒãƒ‰ã®ç´”ç²‹å€¤ã‚’è¨ˆç®—ã™ã‚‹
+        // ÅŒã‚Ü‚Åc‚Á‚½ƒƒ\ƒbƒh‚Ìƒˆ’l‚ğŒvZ‚·‚é
         while (methodCallStack.size() > 0)
         {
             MethodParam methodParam = methodCallStack.pop();
@@ -582,19 +582,19 @@ public class JavelinParser
     }
 
     /**
-     * ç´”ç²‹å€¤ã‚’æ±‚ã‚ã‚‹ã™ã¹ã¦ã®é …ç›®ã«å¯¾ã—ã¦ã€ç¾åœ¨å€¤ï¼ˆãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã«è¨˜è¿°ã•ã‚Œã¦ã„ã‚‹å€¤ï¼‰ã‚’ãƒãƒƒãƒ—ã«ç™»éŒ²ã™ã‚‹
-     * @param pureKeyMap ç´”ç²‹ã‚­ãƒ¼ãƒãƒƒãƒ—
-     * @param targetMethod å¯¾è±¡ãƒ¡ã‚½ãƒƒãƒ‰
-     * @param methodParam ãƒ¡ã‚½ãƒƒãƒ‰ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
+     * ƒˆ’l‚ğ‹‚ß‚é‚·‚×‚Ä‚Ì€–Ú‚É‘Î‚µ‚ÄAŒ»İ’liƒƒOƒtƒ@ƒCƒ‹‚É‹Lq‚³‚ê‚Ä‚¢‚é’lj‚ğƒ}ƒbƒv‚É“o˜^‚·‚é
+     * @param pureKeyMap ƒˆƒL[ƒ}ƒbƒv
+     * @param targetMethod ‘ÎÛƒƒ\ƒbƒh
+     * @param methodParam ƒƒ\ƒbƒhƒpƒ‰ƒ[ƒ^
      */
     @SuppressWarnings("deprecation")
     private static void putOriginalValue(final Map<String, String> pureKeyMap,
             final JavelinLogElement targetMethod, final MethodParam methodParam)
     {
-        // ç´”ç²‹å€¤ã‚’æ±‚ã‚ã‚‹ã™ã¹ã¦ã®é …ç›®ã«å¯¾ã—ã¦ã€ç¾åœ¨å€¤ï¼ˆãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã«è¨˜è¿°ã•ã‚Œã¦ã„ã‚‹å€¤ï¼‰ã‚’ãƒãƒƒãƒ—ã«ç™»éŒ²ã™ã‚‹
+        // ƒˆ’l‚ğ‹‚ß‚é‚·‚×‚Ä‚Ì€–Ú‚É‘Î‚µ‚ÄAŒ»İ’liƒƒOƒtƒ@ƒCƒ‹‚É‹Lq‚³‚ê‚Ä‚¢‚é’lj‚ğƒ}ƒbƒv‚É“o˜^‚·‚é
         for (Map.Entry<String, String> entrySet : pureKeyMap.entrySet())
         {
-            // ç´”ç²‹å€¤ã‚’è¨ˆç®—ã™ã‚‹å…ƒã¨ãªã‚‹ã‚­ãƒ¼ã¨å€¤
+            // ƒˆ’l‚ğŒvZ‚·‚éŒ³‚Æ‚È‚éƒL[‚Æ’l
             String detailInformationKey = entrySet.getKey();
             String originalString =
                     JavelinParser.getValueFromExtraInfoOrJmxInfo(targetMethod, detailInformationKey);
@@ -622,12 +622,12 @@ public class JavelinParser
     }
 
     /**
-     * æŒ‡å®šã•ã‚ŒãŸãƒ¡ã‚½ãƒƒãƒ‰ã®é–‹å§‹æ™‚åˆ»ã‚ˆã‚Šã‚‚å‰ã«å®Ÿè¡ŒãŒå®Œäº†ã—ã¦ã„ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã®ç´”ç²‹å€¤ã‚’è¨ˆç®—ã—ã€ ãã®å€¤ã‚’ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒãƒƒãƒ—ã«ç™»éŒ²ã™ã‚‹ã€‚
+     * w’è‚³‚ê‚½ƒƒ\ƒbƒh‚ÌŠJn‚æ‚è‚à‘O‚ÉÀs‚ªŠ®—¹‚µ‚Ä‚¢‚éƒƒ\ƒbƒh‚Ìƒˆ’l‚ğŒvZ‚µA ‚»‚Ì’l‚ğƒƒ\ƒbƒh‚Ìƒ}ƒbƒv‚É“o˜^‚·‚éB
      * 
      * @param methodCallStack
-     *            ã“ã®ä¸­ã«ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã®ç´”ç²‹å€¤ã‚’è¨ˆç®—ã™ã‚‹
+     *            ‚±‚Ì’†‚É“o˜^‚³‚ê‚Ä‚¢‚éƒƒ\ƒbƒh‚Ìƒˆ’l‚ğŒvZ‚·‚é
      * @param methodParam
-     *            ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã®é–‹å§‹æ™‚åˆ»ã‚ˆã‚Šå‰ã«å®Ÿè¡ŒãŒå®Œäº†ã—ã¦ã„ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã®ç´”ç²‹å€¤ã‚’è¨ˆç®—ã™ã‚‹
+     *            ‚±‚Ìƒƒ\ƒbƒh‚ÌŠJn‚æ‚è‘O‚ÉÀs‚ªŠ®—¹‚µ‚Ä‚¢‚éƒƒ\ƒbƒh‚Ìƒˆ’l‚ğŒvZ‚·‚é
      */
     private static void calcPureValue(final Stack<MethodParam> methodCallStack,
             final MethodParam methodParam)
@@ -637,8 +637,8 @@ public class JavelinParser
             return;
         }
 
-        // Stackã®ä¸­ã§ã€methodParamã§ç¤ºã•ã‚Œã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã®é–‹å§‹æ™‚åˆ»ã‚ˆã‚Šã‚‚å‰ã«
-        // å®Ÿè¡ŒãŒçµ‚äº†ã—ã¦ã„ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã®ç´”ç²‹å€¤ã‚’è¨ˆç®—ã™ã‚‹
+        // Stack‚Ì’†‚ÅAmethodParam‚Å¦‚³‚ê‚éƒƒ\ƒbƒh‚ÌŠJn‚æ‚è‚à‘O‚É
+        // Às‚ªI—¹‚µ‚Ä‚¢‚éƒƒ\ƒbƒh‚Ìƒˆ’l‚ğŒvZ‚·‚é
         long callStartTime = methodParam.getStartTime();
         MethodParam parentMethodParam = methodCallStack.get(methodCallStack.size() - 1);
         while (parentMethodParam.getEndTime() <= callStartTime)
@@ -646,17 +646,17 @@ public class JavelinParser
             methodCallStack.pop();
             if (methodCallStack.size() == 0)
             {
-                // ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒãƒƒãƒ—ã«ç´”ç²‹å€¤ã‚’ç™»éŒ²ã™ã‚‹
+                // ƒƒ\ƒbƒh‚Ìƒ}ƒbƒv‚Éƒˆ’l‚ğ“o˜^‚·‚é
                 registerPureDataToJavelinLogElement(parentMethodParam);
                 break;
             }
 
-            // ã€€ç¾åœ¨ç€ç›®ã—ã¦ã„ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ï¼ˆparentMethodParamï¼‰ã®è¦ªãƒ¡ã‚½ãƒƒãƒ‰ã®å€¤ã‹ã‚‰ã€
-            // ç€ç›®ã—ã¦ã„ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã®å€¤ã‚’å¼•ãã“ã¨ã§ã€ç´”ç²‹å€¤ã‚’è¨ˆç®—ã™ã‚‹
+            // @Œ»İ’…–Ú‚µ‚Ä‚¢‚éƒƒ\ƒbƒhiparentMethodParamj‚Ìeƒƒ\ƒbƒh‚Ì’l‚©‚çA
+            // ’…–Ú‚µ‚Ä‚¢‚éƒƒ\ƒbƒh‚Ì’l‚ğˆø‚­‚±‚Æ‚ÅAƒˆ’l‚ğŒvZ‚·‚é
             MethodParam grandparentMethodParam = methodCallStack.get(methodCallStack.size() - 1);
             grandparentMethodParam.subtractData(parentMethodParam);
 
-            // ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒãƒƒãƒ—ã«ç´”ç²‹å€¤ã‚’ç™»éŒ²ã™ã‚‹
+            // ƒƒ\ƒbƒh‚Ìƒ}ƒbƒv‚Éƒˆ’l‚ğ“o˜^‚·‚é
             registerPureDataToJavelinLogElement(parentMethodParam);
 
             parentMethodParam = grandparentMethodParam;
@@ -664,9 +664,9 @@ public class JavelinParser
     }
 
     /**
-     * ç´”ç²‹å€¤ã‚’è¨ˆç®—ã™ã‚‹ã‚­ãƒ¼ã®å¯¾å¿œã‚’ç”Ÿæˆã™ã‚‹ã€‚
+     * ƒˆ’l‚ğŒvZ‚·‚éƒL[‚Ì‘Î‰‚ğ¶¬‚·‚éB
      * 
-     * @return ç´”ç²‹å€¤ã‚’è¨ˆç®—ã™ã‚‹å…ƒã¨ãªã‚‹å€¤ã®ã‚­ãƒ¼ã¨ã€ç´”ç²‹å€¤ã‚’æ ¼ç´ã™ã‚‹ã‚­ãƒ¼ã®ãƒãƒƒãƒ—
+     * @return ƒˆ’l‚ğŒvZ‚·‚éŒ³‚Æ‚È‚é’l‚ÌƒL[‚ÆAƒˆ’l‚ğŠi”[‚·‚éƒL[‚Ìƒ}ƒbƒv
      */
     private static Map<String, String> register()
     {
@@ -683,10 +683,10 @@ public class JavelinParser
     }
 
     /**
-     * JavelinLogElementã®ExtraInfoä¸­ã«ã€è¨ˆç®—ã—ãŸç´”ç²‹å€¤ã‚’è¿½è¨˜ã™ã‚‹ã€‚
+     * JavelinLogElement‚ÌExtraInfo’†‚ÉAŒvZ‚µ‚½ƒˆ’l‚ğ’Ç‹L‚·‚éB
      * 
      * @param methodParam
-     *            ãƒ¡ã‚½ãƒƒãƒ‰
+     *            ƒƒ\ƒbƒh
      */
     private static void registerPureDataToJavelinLogElement(final MethodParam methodParam)
     {
@@ -707,13 +707,13 @@ public class JavelinParser
     }
 
     /**
-     * ExtraInfoã¾ãŸã¯JmxInfoã‹ã‚‰å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ExtraInfo‚Ü‚½‚ÍJmxInfo‚©‚ç’l‚ğæ“¾‚·‚éB
      * 
      * @param element
-     *            ãƒ¡ã‚½ãƒƒãƒ‰
+     *            ƒƒ\ƒbƒh
      * @param key
-     *            å€¤ã‚’å–å¾—ã™ã‚‹ã‚­ãƒ¼
-     * @return å€¤ã€‚å€¤ã‚’å–å¾—ã§ããªã„å ´åˆã¯ <code>null</code>
+     *            ’l‚ğæ“¾‚·‚éƒL[
+     * @return ’lB’l‚ğæ“¾‚Å‚«‚È‚¢ê‡‚Í <code>null</code>
      */
     private static String getValueFromExtraInfoOrJmxInfo(final JavelinLogElement element,
             final String key)

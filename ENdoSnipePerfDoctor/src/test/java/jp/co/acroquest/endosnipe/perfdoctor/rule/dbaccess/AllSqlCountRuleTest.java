@@ -8,7 +8,7 @@ import jp.co.acroquest.endosnipe.perfdoctor.WarningUnit;
 import jp.co.acroquest.endosnipe.perfdoctor.rule.PerformanceRuleFacade;
 
 /**
- * {@link AllSqlCountRule} ç”¨ã®ãƒ†ã‚¹ãƒˆã‚¯ãƒ©ã‚¹ã€‚
+ * {@link AllSqlCountRule} —p‚ÌƒeƒXƒgƒNƒ‰ƒXB
  * 
  * @author S.Kimura
  *
@@ -16,10 +16,10 @@ import jp.co.acroquest.endosnipe.perfdoctor.rule.PerformanceRuleFacade;
 public class AllSqlCountRuleTest extends PerformanceRuleTestCase
 {
     /**
-     * {@link AllSqlCountRule} ã‚’ç”Ÿæˆã™ã‚‹ã€‚
+     * {@link AllSqlCountRule} ‚ğ¶¬‚·‚éB
      * 
-     * @param threshold é–¾å€¤
-     * @return {@link AllSqlCountRule} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param threshold è‡’l
+     * @return {@link AllSqlCountRule} ƒIƒuƒWƒFƒNƒg
      */
     private AllSqlCountRule createRule(int threshold)
     {
@@ -32,11 +32,11 @@ public class AllSqlCountRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * {@link AllSqlCountRule} ã‚’ç”Ÿæˆã™ã‚‹(è­¦å‘Šãƒ¬ãƒ™ãƒ«ã‚‚è¨­å®šã§ãã‚‹)ã€‚
+     * {@link AllSqlCountRule} ‚ğ¶¬‚·‚é(ŒxƒŒƒxƒ‹‚àİ’è‚Å‚«‚é)B
      * 
-     * @param threshold é–¾å€¤
-     * @param level è­¦å‘Šãƒ¬ãƒ™ãƒ«
-     * @return {@link AllSqlCountRule} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param threshold è‡’l
+     * @param level ŒxƒŒƒxƒ‹
+     * @return {@link AllSqlCountRule} ƒIƒuƒWƒFƒNƒg
      */
     private AllSqlCountRule createRule(int threshold, String level)
     {
@@ -49,12 +49,12 @@ public class AllSqlCountRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 3-2-1<br>
+     * [€”Ô] 3-2-1<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»SQLã®ç™ºè¡Œå›æ•°ãŒ9ã€‚<br>
-     * ãƒ»é–¾å€¤ãŒ10ã€‚<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * ESQL‚Ì”­s‰ñ”‚ª9B<br>
+     * Eè‡’l‚ª10B<br>
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br>
      */
     public void testDoJudge_01()
     {
@@ -68,17 +68,17 @@ public class AllSqlCountRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 3-2-2<br>
+     * [€”Ô] 3-2-2<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»SQLã®ç™ºè¡Œå›æ•°ãŒ10ã€‚<br>
-     * ãƒ»é–¾å€¤ãŒ10ã€‚<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã™ã‚‹ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * ESQL‚Ì”­s‰ñ”‚ª10B<br>
+     * Eè‡’l‚ª10B<br>
+     * ¨Œx‚ª”­¶‚·‚éB<br>
      */
     public void testDoJudge_02()
     {
@@ -93,12 +93,12 @@ public class AllSqlCountRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 3-2-3<br>
+     * [€”Ô] 3-2-3<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»SQLã®ç™ºè¡Œå›æ•°ãŒ11ã€‚<br>
-     * ãƒ»é–¾å€¤ãŒ10ã€‚<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã™ã‚‹ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * ESQL‚Ì”­s‰ñ”‚ª11B<br>
+     * Eè‡’l‚ª10B<br>
+     * ¨Œx‚ª”­¶‚·‚éB<br>
      */
     public void testDoJudge_03()
     {
@@ -113,12 +113,12 @@ public class AllSqlCountRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 3-2-5<br>
+     * [€”Ô] 3-2-5<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»SQLã®ç™ºè¡Œå›æ•°ãŒ3ã€‚<br>
-     * ãƒ»é–¾å€¤ãŒ3ã€‚<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * ESQL‚Ì”­s‰ñ”‚ª3B<br>
+     * Eè‡’l‚ª3B<br>
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br>
      */
     public void testDoJudge_05()
     {
@@ -133,11 +133,11 @@ public class AllSqlCountRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 3-2-13<br>
+     * [€”Ô] 3-2-13<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»[SQL]ã¨ã„ã†ã‚¿ã‚°ãŒãªã„ã€‚<br>
-     * â†’è­¦å‘Šã‚’è¡¨ç¤ºã—ãªã„ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * E[SQL]‚Æ‚¢‚¤ƒ^ƒO‚ª‚È‚¢B<br>
+     * ¨Œx‚ğ•\¦‚µ‚È‚¢B<br>
      */
     public void testDoJudge_13()
     {
@@ -151,16 +151,16 @@ public class AllSqlCountRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 3-2-14<br>
+     * [€”Ô] 3-2-14<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»detailInfoãŒãªã„ã€‚<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã™ã‚‹ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * EdetailInfo‚ª‚È‚¢B<br>
+     * ¨Œx‚ª”­¶‚·‚éB<br>
      */
     public void testDoJudge_14()
     {
@@ -175,11 +175,11 @@ public class AllSqlCountRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 3-2-15<br>
+     * [€”Ô] 3-2-15<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»CALLãŒãªã„ã€‚<br>
-     * â†’è­¦å‘Šã‚’è¡¨ç¤ºã—ãªã„ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * ECALL‚ª‚È‚¢B<br>
+     * ¨Œx‚ğ•\¦‚µ‚È‚¢B<br>
      */
     public void testDoJudge_15()
     {
@@ -193,16 +193,16 @@ public class AllSqlCountRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 3-2-27<br>
+     * [€”Ô] 3-2-27<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»ã‚ã‚‹JavelinLogElementã§å®Ÿè¡Œæ™‚ä¾‹å¤–ãŒç™ºç”Ÿ<br>
-     * â†’ãã®JavelinLogElementã¯ã‚¹ã‚­ãƒƒãƒ—ã—ã¦å‡¦ç†ã™ã‚‹ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * E‚ ‚éJavelinLogElement‚ÅÀs—áŠO‚ª”­¶<br>
+     * ¨‚»‚ÌJavelinLogElement‚ÍƒXƒLƒbƒv‚µ‚Äˆ—‚·‚éB<br>
      */
     public void testDoJudge_RuntimeException()
     {
@@ -219,10 +219,10 @@ public class AllSqlCountRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * SCRå¯¾å¿œ<br>
-     * [é …ç•ª] 1-3-4
-     * ERRORãŒç™ºç”Ÿã€‚
-     * WARNã€INFOãŒç™ºç”Ÿã—ãªã„ã“ã¨ã‚’ç¢ºèªã™ã‚‹ã€‚<br>
+     * SCR‘Î‰<br>
+     * [€”Ô] 1-3-4
+     * ERROR‚ª”­¶B
+     * WARNAINFO‚ª”­¶‚µ‚È‚¢‚±‚Æ‚ğŠm”F‚·‚éB<br>
      */
     public void testJudge_RuleFacade_Error()
     {
@@ -245,10 +245,10 @@ public class AllSqlCountRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * SCRå¯¾å¿œ<br>
-     * [é …ç•ª] 1-3-5
-     * WARNãŒç™ºç”Ÿã€‚
-     * ERRORã€INFOãŒç™ºç”Ÿã—ãªã„ã“ã¨ã‚’ç¢ºèªã™ã‚‹ã€‚<br>
+     * SCR‘Î‰<br>
+     * [€”Ô] 1-3-5
+     * WARN‚ª”­¶B
+     * ERRORAINFO‚ª”­¶‚µ‚È‚¢‚±‚Æ‚ğŠm”F‚·‚éB<br>
      */
     public void testJudge_RuleFacade_Warn()
     {
@@ -271,10 +271,10 @@ public class AllSqlCountRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * SCRå¯¾å¿œ<br>
-     * [é …ç•ª] 1-3-6
-     * INFOãŒç™ºç”Ÿã€‚
-     * ERRORã€WARNãŒç™ºç”Ÿã—ãªã„ã“ã¨ã‚’ç¢ºèªã™ã‚‹ã€‚<br>
+     * SCR‘Î‰<br>
+     * [€”Ô] 1-3-6
+     * INFO‚ª”­¶B
+     * ERRORAWARN‚ª”­¶‚µ‚È‚¢‚±‚Æ‚ğŠm”F‚·‚éB<br>
      */
     public void testJudge_RuleFacade_Info()
     {

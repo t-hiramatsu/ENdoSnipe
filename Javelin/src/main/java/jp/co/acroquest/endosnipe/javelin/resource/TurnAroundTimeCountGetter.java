@@ -32,7 +32,7 @@ import jp.co.acroquest.endosnipe.common.entity.ResourceItem;
 import jp.co.acroquest.endosnipe.communicator.entity.MeasurementConstants;
 
 /**
- * Turn Around Timeå‘¼ã³å‡ºã—å›æ•°ã‚’å–å¾—ã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚
+ * Turn Around TimeŒÄ‚Ño‚µ‰ñ”‚ğæ“¾‚·‚éƒNƒ‰ƒXB
  * 
  * @author tsukano
  */
@@ -41,7 +41,7 @@ public class TurnAroundTimeCountGetter implements MultiResourceGetter, Measureme
     private final List<ResourceItem> resourceEntrylist_;
 
     /**
-     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§ã™ã€‚<br />
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Å‚·B<br />
      * 
      * @param resourceEntrylist {@link ResourceItem}
      */

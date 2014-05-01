@@ -33,77 +33,77 @@ import jp.co.acroquest.endosnipe.javelin.log.JavelinLogCallback;
 import junit.framework.TestCase;
 
 /**
- * é–¾å€¤è‡ªå‹•åˆ¤å®šã®ãƒ†ã‚¹ãƒˆã‚¯ãƒ©ã‚¹
+ * è‡’l©“®”»’è‚ÌƒeƒXƒgƒNƒ‰ƒX
  * @author fujii
  *
  */
 public class MaxAccumulatedTimeUpdateRecordStrategyTest extends TestCase
 {
-    /** Javelinè¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹ */
+    /** Javelinİ’èƒtƒ@ƒCƒ‹‚ÌƒpƒX */
     private static final String JAVELIN_CONFIG_PATH = "test/strategy/conf";
 
     /**
-     * åˆæœŸåŒ–ãƒ¡ã‚½ãƒƒãƒ‰<br />
-     * ã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ã®åˆæœŸåŒ–ã‚’è¡Œã†ã€‚
+     * ‰Šú‰»ƒƒ\ƒbƒh<br />
+     * ƒVƒXƒeƒ€ƒƒO‚Ì‰Šú‰»‚ğs‚¤B
      */
     @Override
     public void setUp()
     {
-        // ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ã€ã‚ªãƒ—ã‚·ãƒ§ãƒ³è¨­å®šã‚’èª­ã¿è¾¼ã‚€ã€‚
+        // ƒIƒvƒVƒ‡ƒ“ƒtƒ@ƒCƒ‹‚©‚çAƒIƒvƒVƒ‡ƒ“İ’è‚ğ“Ç‚İ‚ŞB
         JavelinConfig config = new JavelinConfig(JAVELIN_CONFIG_PATH);
         SystemLogger.initSystemLog(config);
     }
 
     /**
-     * [é …ç•ª] 4-1-1 createCallbackã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»ç´¯ç©æ™‚é–“ï¼š1000(ãƒŸãƒªç§’)ã€ç´¯ç©ã®ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ï¼š2000(ãƒŸãƒªç§’)ã§ã€<br />
-     *  createCallbackã‚’å‘¼ã¶<br />
-     * â†’nullãŒè¿”ã‚‹ã€‚
+     * [€”Ô] 4-1-1 createCallback‚ÌƒeƒXƒgB <br />
+     * E—İÏŠÔF1000(ƒ~ƒŠ•b)A—İÏ‚ÌƒAƒ‰[ƒ€è‡’lF2000(ƒ~ƒŠ•b)‚ÅA<br />
+     *  createCallback‚ğŒÄ‚Ô<br />
+     * ¨null‚ª•Ô‚éB
      * 
-     * @throws Exception ä¾‹å¤–
+     * @throws Exception —áŠO
      */
     public void testCreateCallback_Under()
         throws Exception
     {
-        // æº–å‚™
+        // €”õ
         CallTreeNode node = createCallTreeNode();
 
-        // ç´¯ç©ã®ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ã‚’è¨­å®šã™ã‚‹ã€‚
+        // —İÏ‚ÌƒAƒ‰[ƒ€è‡’l‚ğİ’è‚·‚éB
         node.setStartTime(0);
         node.setEndTime(2000);
 
-        // ç¾åœ¨ã®ãƒãƒ¼ãƒ‰ã®ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ã‚’è¨­å®šã™ã‚‹ã€‚
+        // Œ»İ‚Ìƒm[ƒh‚ÌƒAƒ‰[ƒ€è‡’l‚ğİ’è‚·‚éB
         node.setEndTime(1000);
 
         MaxAccumulatedTimeUpdateRecordStrategy strategy =
                 new MaxAccumulatedTimeUpdateRecordStrategy();
 
-        // å®Ÿè¡Œ
+        // Às
         JavelinLogCallback callBack = strategy.createCallback(node);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertNull(callBack);
     }
 
     /**
-     * [é …ç•ª] 4-1-2 createCallbackã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»ç´¯ç©æ™‚é–“ï¼š5000(ãƒŸãƒªç§’)ã€ç´¯ç©ã®ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ï¼š2000(ãƒŸãƒªç§’)ã§ã€<br />
-     *  createCallbackã‚’å‘¼ã¶<br />
-     * â†’nullã§ãªã„ã€JavelinLogCallbackã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒè¿”ã‚‹ã€‚
+     * [€”Ô] 4-1-2 createCallback‚ÌƒeƒXƒgB <br />
+     * E—İÏŠÔF5000(ƒ~ƒŠ•b)A—İÏ‚ÌƒAƒ‰[ƒ€è‡’lF2000(ƒ~ƒŠ•b)‚ÅA<br />
+     *  createCallback‚ğŒÄ‚Ô<br />
+     * ¨null‚Å‚È‚¢AJavelinLogCallbackƒIƒuƒWƒFƒNƒg‚ª•Ô‚éB
      * 
-     * @throws Exception ä¾‹å¤–
+     * @throws Exception —áŠO
      */
     public void testCreateCallback_Over()
         throws Exception
     {
-        // æº–å‚™
+        // €”õ
         CallTreeNode node = createCallTreeNode();
 
-        // ç´¯ç©ã®ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ã‚’è¨­å®šã™ã‚‹ã€‚
+        // —İÏ‚ÌƒAƒ‰[ƒ€è‡’l‚ğİ’è‚·‚éB
         node.setStartTime(0);
         node.setEndTime(2000);
 
-        // ç¾åœ¨ã®ãƒãƒ¼ãƒ‰ã®ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ã‚’è¨­å®šã™ã‚‹ã€‚
+        // Œ»İ‚Ìƒm[ƒh‚ÌƒAƒ‰[ƒ€è‡’l‚ğİ’è‚·‚éB
         node.getInvocation().addInterval(node, 0, 0, 0);
         node.getInvocation().addInterval(node, 0, 0, 0);
         node.getInvocation().addInterval(node, 0, 0, 0);
@@ -112,17 +112,17 @@ public class MaxAccumulatedTimeUpdateRecordStrategyTest extends TestCase
         MaxAccumulatedTimeUpdateRecordStrategy strategy =
                 new MaxAccumulatedTimeUpdateRecordStrategy();
 
-        // å®Ÿè¡Œ
+        // Às
         JavelinLogCallback callBack = strategy.createCallback(node);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertNotNull(callBack);
     }
 
     private CallTreeNode createCallTreeNode()
         throws Exception
     {
-        // Invocationè¨­å®š
+        // Invocationİ’è
         Invocation invocation =
                 new Invocation("pid@host", "RootCallerName", "callerMethod", 0);
         CallTreeNode node = new CallTreeNode();

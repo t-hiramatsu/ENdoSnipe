@@ -31,16 +31,16 @@ import jp.co.acroquest.endosnipe.javelin.parser.JavelinLogElement;
 import jp.co.acroquest.endosnipe.perfdoctor.PerformanceRuleTestCase;
 
 /**
- * ENdoSnipeVer.4.0ã®æ–°ãƒ«ãƒ¼ãƒ«
- * TATã¯é•·ã„ãŒã€CPUæ™‚é–“ã€WAITæ™‚é–“ã€ãƒ–ãƒ­ãƒƒã‚¯æ™‚é–“ãŒçŸ­ã„ãƒ«ãƒ¼ãƒ«ã®ãƒ†ã‚¹ãƒˆ
+ * ENdoSnipeVer.4.0‚ÌVƒ‹[ƒ‹
+ * TAT‚Í’·‚¢‚ªACPUŠÔAWAITŠÔAƒuƒƒbƒNŠÔ‚ª’Z‚¢ƒ‹[ƒ‹‚ÌƒeƒXƒg
  * @author akita
  *
  */
 public class IOWaitTimeRuleTest extends PerformanceRuleTestCase
 {
     /**
-     * é–¾å€¤ã‚’æŒ‡å®šã—ã¦LongTATShortCPUWaitBlockRuleã‚’ç”Ÿæˆã™ã‚‹ã€‚<br>
-     * @param threshold é–¾å€¤
+     * è‡’l‚ğw’è‚µ‚ÄLongTATShortCPUWaitBlockRule‚ğ¶¬‚·‚éB<br>
+     * @param threshold è‡’l
      * @return IOWaitTimeRule
      */
     private IOWaitTimeRule createRule(final long threshold)
@@ -55,12 +55,12 @@ public class IOWaitTimeRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 3-12-1<br>
+     * [€”Ô] 3-12-1<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»æ¤œå‡ºå€¤ãŒ4999ã€‚<br>
-     * ãƒ»é–¾å€¤ãŒ5000ã€‚<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * EŒŸo’l‚ª4999B<br>
+     * Eè‡’l‚ª5000B<br>
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br>
      */
     public void testDoJudge_01()
     {
@@ -74,17 +74,17 @@ public class IOWaitTimeRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 3-12-2<br>
+     * [€”Ô] 3-12-2<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»æ¤œå‡ºå€¤ãŒ5000ã€‚<br>
-     * ãƒ»é–¾å€¤ãŒ5000ã€‚<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã™ã‚‹ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * EŒŸo’l‚ª5000B<br>
+     * Eè‡’l‚ª5000B<br>
+     * ¨Œx‚ª”­¶‚·‚éB<br>
      */
     public void testDoJudge_02()
     {
@@ -99,12 +99,12 @@ public class IOWaitTimeRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 3-12-3<br>
+     * [€”Ô] 3-12-3<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»æ¤œå‡ºå€¤ãŒ5001ã€‚<br>
-     * ãƒ»é–¾å€¤ãŒ5000ã€‚<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã™ã‚‹ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * EŒŸo’l‚ª5001B<br>
+     * Eè‡’l‚ª5000B<br>
+     * ¨Œx‚ª”­¶‚·‚éB<br>
      */
     public void testDoJudge_03()
     {
@@ -119,12 +119,12 @@ public class IOWaitTimeRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 3-12-4<br>
+     * [€”Ô] 3-12-4<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»æ¤œå‡ºå€¤ãŒ10ã€‚<br>
-     * ãƒ»é–¾å€¤ãŒ10ã€‚<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã™ã‚‹ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * EŒŸo’l‚ª10B<br>
+     * Eè‡’l‚ª10B<br>
+     * ¨Œx‚ª”­¶‚·‚éB<br>
      */
     public void testDoJudge_05()
     {
@@ -139,11 +139,11 @@ public class IOWaitTimeRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 3-12-5<br>
+     * [€”Ô] 3-12-5<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»TATã®å€¤ãŒæ•°å€¤ã§ã¯ãªãæ–‡å­—åˆ—ã§ã‚ã‚‹å ´åˆã€‚<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * ETAT‚Ì’l‚ª”’l‚Å‚Í‚È‚­•¶š—ñ‚Å‚ ‚éê‡B<br>
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br>
      */
     public void testDoJudge_10()
     {
@@ -157,16 +157,16 @@ public class IOWaitTimeRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 3-12-6<br>
+     * [€”Ô] 3-12-6<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»TATã®å€¤ãŒç©ºç™½ã€‚<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * ETAT‚Ì’l‚ª‹ó”’B<br>
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br>
      */
     public void testDoJudge_11()
     {
@@ -180,16 +180,16 @@ public class IOWaitTimeRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 3-12-7<br>
+     * [€”Ô] 3-12-7<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     *ã€€æŒ‡å®šã•ã‚ŒãŸãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãŒãªã„ã€‚ãƒ–ãƒ­ãƒƒã‚¯ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãŒç„¡ã„å ´åˆ<br>
-     * â†’è­¦å‘Šã‚’è¡¨ç¤ºã—ãªã„ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     *@w’è‚³‚ê‚½ƒpƒ‰ƒ[ƒ^‚ª‚È‚¢BƒuƒƒbƒN‚Ìƒpƒ‰ƒ[ƒ^‚ª–³‚¢ê‡<br>
+     * ¨Œx‚ğ•\¦‚µ‚È‚¢B<br>
      */
     public void testDoJudge_12()
     {
@@ -203,16 +203,16 @@ public class IOWaitTimeRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 3-12-8<br>
+     * [€”Ô] 3-12-8<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»detailInfoãŒãªã„ã€‚ãƒ–ãƒ­ãƒƒã‚¯æ™‚é–“ãŒç„¡ã„å ´åˆ<br>
-     * â†’è­¦å‘Šã‚’è¡¨ç¤ºã—ãªã„ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * EdetailInfo‚ª‚È‚¢BƒuƒƒbƒNŠÔ‚ª–³‚¢ê‡<br>
+     * ¨Œx‚ğ•\¦‚µ‚È‚¢B<br>
      */
     public void testDoJudge_14()
     {
@@ -226,16 +226,16 @@ public class IOWaitTimeRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 3-12-9<br>
+     * [€”Ô] 3-12-9<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»CALLãŒãªã„ã€‚<br>
-     * â†’è­¦å‘Šã‚’è¡¨ç¤ºã—ãªã„ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * ECALL‚ª‚È‚¢B<br>
+     * ¨Œx‚ğ•\¦‚µ‚È‚¢B<br>
      */
     public void testDoJudge_15()
     {
@@ -249,15 +249,15 @@ public class IOWaitTimeRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 3-12-10<br>
+     * [€”Ô] 3-12-10<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»è¤‡æ•°ã®JavelinLogElementã§è­¦å‘ŠãŒå‡ºã‚‹ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * E•¡”‚ÌJavelinLogElement‚ÅŒx‚ªo‚éB<br>
      */
     public void testDoJudge_26()
     {
@@ -273,11 +273,11 @@ public class IOWaitTimeRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 3-12-11<br>
+     * [€”Ô] 3-12-11<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»ã‚ã‚‹JavelinLogElementã§å®Ÿè¡Œæ™‚ä¾‹å¤–ãŒç™ºç”Ÿ<br>
-     * â†’ãã®JavelinLogElementã¯ã‚¹ã‚­ãƒƒãƒ—ã—ã¦å‡¦ç†ã™ã‚‹ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * E‚ ‚éJavelinLogElement‚ÅÀs—áŠO‚ª”­¶<br>
+     * ¨‚»‚ÌJavelinLogElement‚ÍƒXƒLƒbƒv‚µ‚Äˆ—‚·‚éB<br>
      */
     public void testDoJudge_RuntimeException()
     {

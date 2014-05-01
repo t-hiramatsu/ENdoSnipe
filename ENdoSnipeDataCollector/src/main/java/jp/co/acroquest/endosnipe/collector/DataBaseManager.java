@@ -29,21 +29,21 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®æƒ…å ±ã‚’ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+ * ƒf[ƒ^ƒx[ƒX‚Ìî•ñ‚ğŠÇ—‚·‚éƒNƒ‰ƒX‚Å‚·B<br />
  * 
  * @author fujii
  *
  */
 public class DataBaseManager
 {
-    /** {@link DataBaseManager}ã®ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ */
+    /** {@link DataBaseManager}‚ÌƒVƒ“ƒOƒ‹ƒgƒ“ƒCƒ“ƒXƒ^ƒ“ƒX */
     private static final DataBaseManager MANAGER = new DataBaseManager();
 
-    /** DBã®ãƒ‘ã‚¹ã¨æ¥ç¶šå…ˆã‚’ä¿å­˜ã—ãŸãƒãƒƒãƒ— */
+    /** DB‚ÌƒpƒX‚ÆÚ‘±æ‚ğ•Û‘¶‚µ‚½ƒ}ƒbƒv */
     private final Map<String, String> dbMap_ = new ConcurrentHashMap<String, String>();
 
     /**
-     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã‚’é˜»æ­¢ã™ã‚‹ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
+     * ƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğ‘j~‚·‚éƒvƒ‰ƒCƒx[ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^B
      */
     private DataBaseManager()
     {
@@ -51,9 +51,9 @@ public class DataBaseManager
     }
 
     /**
-     * ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * ƒVƒ“ƒOƒ‹ƒgƒ“ƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+     * @return ƒCƒ“ƒXƒ^ƒ“ƒX
      */
     public static DataBaseManager getInstance()
     {
@@ -61,10 +61,10 @@ public class DataBaseManager
     }
 
     /**
-     * DBã®ä¿å­˜å…ˆã¨ãƒ›ã‚¹ãƒˆæƒ…å ±ã‚’Mapã¨ã—ã¦ä¿å­˜ã—ã¾ã™ã€‚<br />
+     * DB‚Ì•Û‘¶æ‚ÆƒzƒXƒgî•ñ‚ğMap‚Æ‚µ‚Ä•Û‘¶‚µ‚Ü‚·B<br />
      * 
-     * @param dbName DBå
-     * @param hostInfo ãƒ›ã‚¹ãƒˆæƒ…å ±
+     * @param dbName DB–¼
+     * @param hostInfo ƒzƒXƒgî•ñ
      */
     public void addDbInfo(final String dbName, final String hostInfo)
     {
@@ -72,10 +72,10 @@ public class DataBaseManager
     }
 
     /**
-     * ãƒ›ã‚¹ãƒˆæƒ…å ±ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * ƒzƒXƒgî•ñ‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @param dbName DBå
-     * @return ãƒ›ã‚¹ãƒˆæƒ…å ±
+     * @param dbName DB–¼
+     * @return ƒzƒXƒgî•ñ
      */
     public String getHostInfo(final String dbName)
     {
@@ -83,9 +83,9 @@ public class DataBaseManager
     }
 
     /**
-     * DBã®ãƒ›ã‚¹ãƒˆæƒ…å ±ã‚’å‰Šé™¤ã—ã¾ã™ã€‚<br />
+     * DB‚ÌƒzƒXƒgî•ñ‚ğíœ‚µ‚Ü‚·B<br />
      * 
-     * @param dbName ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param dbName ƒf[ƒ^ƒx[ƒX–¼
      */
     public void removeDbInfo(final String dbName)
     {

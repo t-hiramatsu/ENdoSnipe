@@ -44,7 +44,7 @@ import jp.co.acroquest.endosnipe.javelin.event.CommonEvent;
 import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
 
 /**
- * Javelinã®ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«åã‚’ç®¡ç†ã™ã‚‹
+ * Javelin‚ÌƒƒOƒtƒ@ƒCƒ‹–¼‚ğŠÇ—‚·‚é
  *
  * @author fujii
  *
@@ -55,22 +55,22 @@ public class JavelinFileGenerator implements JavelinConstants
 
     private final JavelinConfig javelinConfig_;
 
-    /** å‡ºåŠ›ãƒ‡ãƒ¼ã‚¿ã‚’è“„ç©ã™ã‚‹ã‚­ãƒ¥ãƒ¼ */
+    /** o—Íƒf[ƒ^‚ğ’~Ï‚·‚éƒLƒ…[ */
     private static BlockingQueue<JavelinLogTask> queue__ =
             new ArrayBlockingQueue<JavelinLogTask>(DEF_QUEUE_SIZE);
 
     private static boolean isInitialized__ = false;
 
-    /** QueueãŒFullã«ãªã£ãŸã‹ã©ã†ã‹ã‚’è¡¨ã™ãƒ•ãƒ©ã‚°ã§ã™ã€‚ */
+    /** Queue‚ªFull‚É‚È‚Á‚½‚©‚Ç‚¤‚©‚ğ•\‚·ƒtƒ‰ƒO‚Å‚·B */
     private boolean isQueueFull_ = false;
 
-    /** ãƒ­ã‚°å‡ºåŠ›ç”¨StringBuilder */
+    /** ƒƒOo—Í—pStringBuilder */
     private StringBuilder logBuilder_ = new StringBuilder();
 
     /**
-     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
      *
-     * @param config Javelinè¨­å®šã€‚
+     * @param config Javelinİ’èB
      *
      */
     public JavelinFileGenerator(final JavelinConfig config)
@@ -79,13 +79,13 @@ public class JavelinFileGenerator implements JavelinConstants
     }
 
     /**
-     * Javelinãƒ­ã‚°å‡ºåŠ›ã®ã‚¿ã‚¹ã‚¯ã‚’ã€Javelinãƒ­ã‚°å‡ºåŠ›ã‚­ãƒ¥ãƒ¼ã«è¿½åŠ ã—ã¾ã™ã€‚<br />
+     * JavelinƒƒOo—Í‚Ìƒ^ƒXƒN‚ğAJavelinƒƒOo—ÍƒLƒ…[‚É’Ç‰Á‚µ‚Ü‚·B<br />
      *
-     * @param tree Javelinãƒ­ã‚°ã‚’å‡ºåŠ›ã™ã‚‹CallTreeã€‚
-     * @param callback Javelinãƒ­ã‚°å‡ºåŠ›å¾Œã«å‘¼ã³å‡ºã™ã€‚
-     * @param endNode ãƒ­ã‚°ã«å‡ºåŠ›ã™ã‚‹ CallTree ã®æœ€å¾Œã®ãƒãƒ¼ãƒ‰ï¼ˆã“ã®ãƒãƒ¼ãƒ‰ã¾ã§å‡ºåŠ›ã•ã‚Œã‚‹ï¼‰
-     * @param telegramId é›»æ–‡ ID
-     * @return å‡ºåŠ›ã™ã‚‹Javelinãƒ­ã‚°ã®ãƒ•ã‚¡ã‚¤ãƒ«åã€‚
+     * @param tree JavelinƒƒO‚ğo—Í‚·‚éCallTreeB
+     * @param callback JavelinƒƒOo—ÍŒã‚ÉŒÄ‚Ño‚·B
+     * @param endNode ƒƒO‚Éo—Í‚·‚é CallTree ‚ÌÅŒã‚Ìƒm[ƒhi‚±‚Ìƒm[ƒh‚Ü‚Åo—Í‚³‚ê‚éj
+     * @param telegramId “d•¶ ID
+     * @return o—Í‚·‚éJavelinƒƒO‚Ìƒtƒ@ƒCƒ‹–¼B
      */
     public String generateJaveinFile(final CallTree tree, final JavelinLogCallback callback,
             final CallTreeNode endNode, final long telegramId)
@@ -95,14 +95,14 @@ public class JavelinFileGenerator implements JavelinConstants
     }
 
     /**
-     * Javelinãƒ­ã‚°å‡ºåŠ›ã®ã‚¿ã‚¹ã‚¯ã‚’ã€Javelinãƒ­ã‚°å‡ºåŠ›ã‚­ãƒ¥ãƒ¼ã«è¿½åŠ ã—ã¾ã™ã€‚<br />
+     * JavelinƒƒOo—Í‚Ìƒ^ƒXƒN‚ğAJavelinƒƒOo—ÍƒLƒ…[‚É’Ç‰Á‚µ‚Ü‚·B<br />
      *
-     * @param tree Javelinãƒ­ã‚°ã‚’å‡ºåŠ›ã™ã‚‹CallTreeã€‚
+     * @param tree JavelinƒƒO‚ğo—Í‚·‚éCallTreeB
      * @param node CallTreeNode
-     * @param callback Javelinãƒ­ã‚°å‡ºåŠ›å¾Œã«å‘¼ã³å‡ºã™ã€‚
-     * @param endNode ãƒ­ã‚°ã«å‡ºåŠ›ã™ã‚‹ CallTree ã®æœ€å¾Œã®ãƒãƒ¼ãƒ‰ï¼ˆã“ã®ãƒãƒ¼ãƒ‰ã¾ã§å‡ºåŠ›ã•ã‚Œã‚‹ï¼‰
-     * @param telegramId é›»æ–‡ ID
-     * @return å‡ºåŠ›ã™ã‚‹Javelinãƒ­ã‚°ã®ãƒ•ã‚¡ã‚¤ãƒ«åã€‚
+     * @param callback JavelinƒƒOo—ÍŒã‚ÉŒÄ‚Ño‚·B
+     * @param endNode ƒƒO‚Éo—Í‚·‚é CallTree ‚ÌÅŒã‚Ìƒm[ƒhi‚±‚Ìƒm[ƒh‚Ü‚Åo—Í‚³‚ê‚éj
+     * @param telegramId “d•¶ ID
+     * @return o—Í‚·‚éJavelinƒƒO‚Ìƒtƒ@ƒCƒ‹–¼B
      */
     public String generateJaveinFile(final CallTree tree, final CallTreeNode node,
             final JavelinLogCallback callback, final CallTreeNode endNode, final long telegramId)
@@ -180,7 +180,7 @@ public class JavelinFileGenerator implements JavelinConstants
         JavelinLogTask task = new JavelinLogTask(date, jvnFileName, tree, node, callback, endNode,
                                                  telegramId, itemName);
 
-        // ã‚­ãƒ¥ãƒ¼ã«ã‚¿ã‚¹ã‚¯ã‚’è¿½åŠ ã™ã‚‹ã€‚
+        // ƒLƒ…[‚Éƒ^ƒXƒN‚ğ’Ç‰Á‚·‚éB
         boolean result = queue__.offer(task);
         synchronized (this.logBuilder_)
         {
@@ -211,20 +211,20 @@ public class JavelinFileGenerator implements JavelinConstants
     }
 
     /**
-     * Javelinãƒ­ã‚°ã¨ã—ã¦ã€ãƒ•ã‚¡ã‚¤ãƒ«ã«å‡ºåŠ›ã™ã‚‹ã€‚
-     * javelin.download.maxã‚’è¶…ãˆã‚‹å ´åˆã«ã¯ã€åˆ†å‰²ã—ã¦é€ä¿¡ã™ã‚‹ã€‚
+     * JavelinƒƒO‚Æ‚µ‚ÄAƒtƒ@ƒCƒ‹‚Éo—Í‚·‚éB
+     * javelin.download.max‚ğ’´‚¦‚éê‡‚É‚ÍA•ªŠ„‚µ‚Ä‘—M‚·‚éB
      *
      *
-     * @param jvnLogBuilder ãƒ©ã‚¤ã‚¿ãƒ¼
-     * @param tree {@link CallTree}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param node ãƒãƒ¼ãƒ‰ã€‚
-     * @param endNode ãƒ­ã‚°ã«å‡ºåŠ›ã™ã‚‹ CallTree ã®æœ€å¾Œã®ãƒãƒ¼ãƒ‰ï¼ˆã“ã®ãƒãƒ¼ãƒ‰ã¾ã§å‡ºåŠ›ã•ã‚Œã‚‹ï¼‰
-     * @param callback JavelinCallbackã€‚
-     * @param jvnFileFullPath jvnãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ•ãƒ«ãƒ‘ã‚¹ã€‚
-     * @param jvnFileName jvnãƒ•ã‚¡ã‚¤ãƒ«åã€‚
-     * @param telegramId é›»æ–‡ IDã€‚
-     * @param itemName ã‚¢ã‚¤ãƒ†ãƒ åã€‚
-     * @return å¼•ãç¶šããƒãƒ¼ãƒ‰ã‚’å‡ºåŠ›ã™ã‚‹å ´åˆã¯ <code>true</code> ã€ãƒãƒ¼ãƒ‰å‡ºåŠ›ã‚’çµ‚äº†ã™ã‚‹å ´åˆã¯ <code>false</code>
+     * @param jvnLogBuilder ƒ‰ƒCƒ^[
+     * @param tree {@link CallTree}ƒIƒuƒWƒFƒNƒg
+     * @param node ƒm[ƒhB
+     * @param endNode ƒƒO‚Éo—Í‚·‚é CallTree ‚ÌÅŒã‚Ìƒm[ƒhi‚±‚Ìƒm[ƒh‚Ü‚Åo—Í‚³‚ê‚éj
+     * @param callback JavelinCallbackB
+     * @param jvnFileFullPath jvnƒtƒ@ƒCƒ‹‚Ìƒtƒ‹ƒpƒXB
+     * @param jvnFileName jvnƒtƒ@ƒCƒ‹–¼B
+     * @param telegramId “d•¶ IDB
+     * @param itemName ƒAƒCƒeƒ€–¼B
+     * @return ˆø‚«‘±‚«ƒm[ƒh‚ğo—Í‚·‚éê‡‚Í <code>true</code> Aƒm[ƒho—Í‚ğI—¹‚·‚éê‡‚Í <code>false</code>
      */
     public static boolean generateJavelinFileImpl(final StringBuilder jvnLogBuilder,
             final CallTree tree, final CallTreeNode node, final CallTreeNode endNode,
@@ -247,7 +247,7 @@ public class JavelinFileGenerator implements JavelinConstants
             return true;
         }
 
-        // ãƒ•ã‚¡ã‚¤ãƒ«ã«1ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’æ›¸ãè¾¼ã‚€ã€‚
+        // ƒtƒ@ƒCƒ‹‚É1ƒƒbƒZ[ƒW‚ğ‘‚«‚ŞB
         if (node.getInvocation() != null)
         {
             String jvnCallMessage = createLogMessage(tree, node);
@@ -272,13 +272,13 @@ public class JavelinFileGenerator implements JavelinConstants
             }
         }
 
-        // Throwãƒ­ã‚°ã‚’æ›¸ãè¾¼ã‚€ã€‚
+        // ThrowƒƒO‚ğ‘‚«‚ŞB
         if (node.getThrowable() != null)
         {
             writeThrowLog(jvnLogBuilder, tree, node);
         }
 
-        // Eventãƒ­ã‚°ã‚’æ›¸ãè¾¼ã‚€ã€‚
+        // EventƒƒO‚ğ‘‚«‚ŞB
         CommonEvent[] eventList = node.getEventList();
         if (eventList != null)
         {
@@ -304,7 +304,7 @@ public class JavelinFileGenerator implements JavelinConstants
             }
         }
 
-        // ãƒ•ã‚¡ã‚¤ãƒ«ã«1ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’æ›¸ãè¾¼ã‚€ã€‚
+        // ƒtƒ@ƒCƒ‹‚É1ƒƒbƒZ[ƒW‚ğ‘‚«‚ŞB
         if (jvnReturnMessage != null)
         {
             jvnLogBuilder.append(jvnReturnMessage);
@@ -318,7 +318,7 @@ public class JavelinFileGenerator implements JavelinConstants
     {
         String jvnThrowMessage = JavelinLogMaker.createEventLog(event, tree, node);
 
-        // ãƒ•ã‚¡ã‚¤ãƒ«ã«1ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’æ›¸ãè¾¼ã‚€ã€‚
+        // ƒtƒ@ƒCƒ‹‚É1ƒƒbƒZ[ƒW‚ğ‘‚«‚ŞB
         if (jvnThrowMessage != null)
         {
             writer.append(jvnThrowMessage);
@@ -347,7 +347,7 @@ public class JavelinFileGenerator implements JavelinConstants
         String jvnThrowMessage =
                 JavelinLogMaker.createJavelinLog(ID_THROW, node.getThrowTime(), tree, node);
 
-        // ãƒ•ã‚¡ã‚¤ãƒ«ã«1ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’æ›¸ãè¾¼ã‚€ã€‚
+        // ƒtƒ@ƒCƒ‹‚É1ƒƒbƒZ[ƒW‚ğ‘‚«‚ŞB
         if (jvnThrowMessage != null)
         {
             writer.append(jvnThrowMessage);
@@ -355,15 +355,15 @@ public class JavelinFileGenerator implements JavelinConstants
     }
 
     /**
-     * ãƒãƒƒãƒ•ã‚¡ã®å†…å®¹ã‚’jvnãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã€é€šçŸ¥ã¨ã—ã¦é€ä¿¡ã™ã‚‹ã€‚
+     * ƒoƒbƒtƒ@‚Ì“à—e‚ğjvnƒƒOƒtƒ@ƒCƒ‹A’Ê’m‚Æ‚µ‚Ä‘—M‚·‚éB
      *
-     * @param builder ãƒãƒƒãƒ•ã‚¡å†…å®¹ã€‚
-     * @param jvnFileName jvnãƒ•ã‚¡ã‚¤ãƒ«åã€‚
-     * @param jvnFileFullPath ï½Švnãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ•ãƒ«ãƒ‘ã‚¹ã€‚
-     * @param callback Callbackã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚
-     * @param telegramId é›»æ–‡ ID
-     * @param config è¨­å®šã€‚
-     * @param itemName ã‚¢ã‚¤ãƒ†ãƒ åã€‚
+     * @param builder ƒoƒbƒtƒ@“à—eB
+     * @param jvnFileName jvnƒtƒ@ƒCƒ‹–¼B
+     * @param jvnFileFullPath ‚Švnƒtƒ@ƒCƒ‹‚Ìƒtƒ‹ƒpƒXB
+     * @param callback CallbackƒIƒuƒWƒFƒNƒgB
+     * @param telegramId “d•¶ ID
+     * @param config İ’èB
+     * @param itemName ƒAƒCƒeƒ€–¼B
      */
     static void flushBuffer(StringBuilder builder, String jvnFileName, String jvnFileFullPath,
             JavelinLogCallback callback, JavelinConfig config, long telegramId, String itemName)

@@ -37,7 +37,7 @@ import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 
 /**
- * ã‚·ã‚¹ãƒ†ãƒ ãƒªã‚½ãƒ¼ã‚¹ã‚’å–å¾—ã™ã‚‹ã‚¹ãƒ¬ãƒƒãƒ‰ã€‚
+ * ƒVƒXƒeƒ€ƒŠƒ\[ƒX‚ğæ“¾‚·‚éƒXƒŒƒbƒhB
  *
  * @author Sakamoto
  */
@@ -46,23 +46,23 @@ public class SystemResourceGetter extends TimerTask implements TelegramConstants
     private static final ENdoSnipeLogger LOGGER =
             ENdoSnipeLogger.getLogger(SystemResourceGetter.class);
 
-    /** ã‚·ã‚¹ãƒ†ãƒ ãƒªã‚½ãƒ¼ã‚¹ã‚’å–å¾—ã™ã‚‹è¦æ±‚é›»æ–‡ */
+    /** ƒVƒXƒeƒ€ƒŠƒ\[ƒX‚ğæ“¾‚·‚é—v‹“d•¶ */
     private final Telegram requestResourceTelegram_;
 
-    /** é›»æ–‡é€ä¿¡ã‚¯ãƒ©ã‚¹ã€‚ */
+    /** “d•¶‘—MƒNƒ‰ƒXB */
     private final List<TelegramSender> senderList_;
 
-    /** ã‚¿ã‚¤ãƒãƒ¼å®Ÿè¡Œé »åº¦ã®æœ€çŸ­é–“éš”ï¼ˆãƒŸãƒªç§’ï¼‰ */
+    /** ƒ^ƒCƒ}[Às•p“x‚ÌÅ’ZŠÔŠuiƒ~ƒŠ•bj */
     private long minimumInterval_;
 
-    /** å‰å›ã«å®Ÿè¡Œã—ãŸæ™‚åˆ» */
+    /** ‘O‰ñ‚ÉÀs‚µ‚½ */
     private long prevExecTime_;
 
-    /** åˆæœŸåŒ–ã•ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹ã€‚ */
+    /** ‰Šú‰»‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©B */
     private boolean isInitialized_ = false;
 
     /**
-     * ã‚·ã‚¹ãƒ†ãƒ ãƒªã‚½ãƒ¼ã‚¹ã‚’å–å¾—ã™ã‚‹ã‚¹ãƒ¬ãƒƒãƒ‰ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã™ã‚‹ã€‚
+     * ƒVƒXƒeƒ€ƒŠƒ\[ƒX‚ğæ“¾‚·‚éƒXƒŒƒbƒhƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
      */
     public SystemResourceGetter()
     {
@@ -70,7 +70,7 @@ public class SystemResourceGetter extends TimerTask implements TelegramConstants
         this.minimumInterval_ = 0L;
         this.prevExecTime_ = 0L;
 
-        // ã‚·ã‚¹ãƒ†ãƒ ãƒªã‚½ãƒ¼ã‚¹ã‚’å–å¾—ã™ã‚‹è¦æ±‚é›»æ–‡ã‚’ä½œæˆã™ã‚‹
+        // ƒVƒXƒeƒ€ƒŠƒ\[ƒX‚ğæ“¾‚·‚é—v‹“d•¶‚ğì¬‚·‚é
         Header header = new Header();
         header.setByteTelegramKind(BYTE_TELEGRAM_KIND_RESOURCENOTIFY);
         header.setByteRequestKind(BYTE_REQUEST_KIND_REQUEST);
@@ -82,9 +82,9 @@ public class SystemResourceGetter extends TimerTask implements TelegramConstants
     }
 
     /**
-     * é€ä¿¡ç”¨ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¿½åŠ ã—ã¾ã™ã€‚<br />
+     * ‘—M—pƒIƒuƒWƒFƒNƒg‚ğ’Ç‰Á‚µ‚Ü‚·B<br />
      * 
-     * @param sender {@link TelegramSender}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param sender {@link TelegramSender}ƒIƒuƒWƒFƒNƒg
      */
     public void addTelegramSenderList(final TelegramSender sender)
     {
@@ -92,9 +92,9 @@ public class SystemResourceGetter extends TimerTask implements TelegramConstants
     }
 
     /**
-     * ã‚¿ã‚¤ãƒãƒ¼å®Ÿè¡Œé–“éš”ã®æœ€å°æ™‚é–“ã‚’ã‚»ãƒƒãƒˆã™ã‚‹ã€‚
+     * ƒ^ƒCƒ}[ÀsŠÔŠu‚ÌÅ¬ŠÔ‚ğƒZƒbƒg‚·‚éB
      *
-     * @param minimumInterval æœ€å°æ™‚é–“ï¼ˆãƒŸãƒªç§’ï¼‰
+     * @param minimumInterval Å¬ŠÔiƒ~ƒŠ•bj
      */
     public void setMinimumInterval(final long minimumInterval)
     {
@@ -102,7 +102,7 @@ public class SystemResourceGetter extends TimerTask implements TelegramConstants
     }
 
     /**
-     * ã‚·ã‚¹ãƒ†ãƒ ãƒªã‚½ãƒ¼ã‚¹ã‚’å–å¾—ã™ã‚‹ãƒ«ãƒ¼ãƒ—ã€‚
+     * ƒVƒXƒeƒ€ƒŠƒ\[ƒX‚ğæ“¾‚·‚éƒ‹[ƒvB
      */
     @Override
     public void run()
@@ -137,7 +137,7 @@ public class SystemResourceGetter extends TimerTask implements TelegramConstants
 
     private void sendTelegram(final Telegram telegram)
     {
-        // ãƒªã‚½ãƒ¼ã‚¹å–å¾—è¦æ±‚ã‚’é€ã‚‹
+        // ƒŠƒ\[ƒXæ“¾—v‹‚ğ‘—‚é
         for (TelegramSender sender : this.senderList_)
         {
             sender.sendTelegram(telegram);

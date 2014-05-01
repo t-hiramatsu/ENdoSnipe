@@ -26,25 +26,25 @@
 package jp.co.acroquest.endosnipe.javelin.converter.leak.monitor;
 
 /**
- * ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã®ä¸€è¦ç´ ã€‚
+ * ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€‚Ìˆê—v‘fB
  * 
  * @author eriguchi
  */
 public class ClassHistogramEntry
 {
-    /** ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ•°ã€‚ */
+    /** ƒCƒ“ƒXƒ^ƒ“ƒX”B */
     private int instances_;
 
-    /** ã‚µã‚¤ã‚º(byte)ã€‚ */
+    /** ƒTƒCƒY(byte)B */
     private int bytes_;
 
-    /** ã‚¯ãƒ©ã‚¹åã€‚ */
+    /** ƒNƒ‰ƒX–¼B */
     private String className_;
 
     /**
-     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ•°ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒCƒ“ƒXƒ^ƒ“ƒX”‚ğæ“¾‚·‚éB
      * 
-     * @return ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ•°ã€‚
+     * @return ƒCƒ“ƒXƒ^ƒ“ƒX”B
      */
     public int getInstances()
     {
@@ -52,9 +52,9 @@ public class ClassHistogramEntry
     }
 
     /**
-     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ•°ã‚’è¨­å®šã™ã‚‹ã€‚
+     * ƒCƒ“ƒXƒ^ƒ“ƒX”‚ğİ’è‚·‚éB
      * 
-     * @param instances ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ•°ã€‚
+     * @param instances ƒCƒ“ƒXƒ^ƒ“ƒX”B
      */
     public void setInstances(final int instances)
     {
@@ -62,9 +62,9 @@ public class ClassHistogramEntry
     }
 
     /**
-     * ã‚µã‚¤ã‚º(byte)ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒTƒCƒY(byte)‚ğæ“¾‚·‚éB
      * 
-     * @return ã‚µã‚¤ã‚º(byte)ã€‚
+     * @return ƒTƒCƒY(byte)B
      */
     public int getBytes()
     {
@@ -72,9 +72,9 @@ public class ClassHistogramEntry
     }
 
     /**
-     * ã‚µã‚¤ã‚º(byte)ã‚’è¨­å®šã™ã‚‹ã€‚
+     * ƒTƒCƒY(byte)‚ğİ’è‚·‚éB
      * 
-     * @param bytes ã‚µã‚¤ã‚º(byte)ã€‚
+     * @param bytes ƒTƒCƒY(byte)B
      */
     public void setBytes(final int bytes)
     {
@@ -82,9 +82,9 @@ public class ClassHistogramEntry
     }
 
     /**
-     * ã‚¯ãƒ©ã‚¹åã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒNƒ‰ƒX–¼‚ğæ“¾‚·‚éB
      * 
-     * @return ã‚¯ãƒ©ã‚¹åã€‚
+     * @return ƒNƒ‰ƒX–¼B
      */
     public String getClassName()
     {
@@ -92,9 +92,9 @@ public class ClassHistogramEntry
     }
 
     /**
-     * ã‚¯ãƒ©ã‚¹åã‚’è¨­å®šã™ã‚‹ã€‚
+     * ƒNƒ‰ƒX–¼‚ğİ’è‚·‚éB
      * 
-     * @param className ã‚¯ãƒ©ã‚¹åã€‚
+     * @param className ƒNƒ‰ƒX–¼B
      */
     public void setClassName(final String className)
     {

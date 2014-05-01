@@ -36,8 +36,8 @@ import jp.co.acroquest.endosnipe.perfdoctor.PerformanceRule;
 import jp.co.acroquest.endosnipe.perfdoctor.WarningUnit;
 
 /**
- * PerformanceRuleгЃ®гѓ•г‚Ўг‚µгѓјгѓ‰г‚Їгѓ©г‚№гЂ‚<br>
- * гЂЊERRORгЂЌгЂЊWARNгЂЌгЂЊINFOгЂЌгЃ®PerformanceRuleг‚’дїќжЊЃгЃ—гЂЃй †гЃ«е®џиЎЊгЃ™г‚‹гЂ‚
+ * PerformanceRule‚Мѓtѓ@ѓTЃ[ѓhѓNѓ‰ѓXЃB<br>
+ * ЃuERRORЃvЃuWARNЃvЃuINFOЃv‚МPerformanceRule‚р•ЫЋќ‚µЃAЏ‡‚ЙЋАЌs‚·‚йЃB
  * @author tanimoto
  *
  */
@@ -65,20 +65,20 @@ public class PerformanceRuleFacade implements PerformanceRule
 
     /**
      * {@inheritDoc}<br>
-     * гЂЊINFOгЂЌгЂЊWARNгЂЌгЂЊERRORгЂЌгЃ®й †гЃ§е€¤е®љг‚’иЎЊгЃ„гЂЃ
-     * еђЊдёЂгЃ®JavelinLogElementгЃ«гЃ¤гЃ„гЃ¦гЂЃеѕЊгЃ§г‚€г‚Љй«гЃ„гѓ¬гѓ™гѓ«гЃ®ж¤њжџ»гЃ§г‚‚й–ѕеЂ¤г‚’и¶…гЃ€гЃџе ґеђ€гЃ«гЃЇ
-     * зµђжћњгЃЇгѓ¬гѓ™гѓ«гЃ®й«гЃ„г‚‚гЃ®гЃ«дёЉж›ёгЃЌгЃ•г‚Њг‚‹гЂ‚<br>
-     * гЃџгЃЁгЃ€гЃ°еђЊдёЂгЃ®JavelinLogElementгЃ§INFOгЂЃWARNгЃ§е•ЏйЎЊг‚’ж¤ње‡єгЃ—гЃџе ґеђ€гЃЇгЂЃ
-     * жњЂе€ќгЃ«иЁйЊІгЃ—гЃџINFOгЃ®зµђжћњгЃЊWARNгЃ«г‚€г‚ЉдёЉж›ёгЃЌгЃ•г‚Њг‚‹гЂ‚
+     * ЃuINFOЃvЃuWARNЃvЃuERRORЃv‚МЏ‡‚Е”»’и‚рЌs‚ўЃA
+     * “Ї€к‚МJavelinLogElement‚Й‚В‚ў‚ДЃAЊг‚Е‚ж‚иЌ‚‚ўѓЊѓxѓ‹‚МЊџЌё‚Е‚аи‡’l‚р’ґ‚¦‚ЅЏкЌ‡‚Й‚Н
+     * Њ‹‰К‚НѓЊѓxѓ‹‚МЌ‚‚ў‚а‚М‚ЙЏгЏ‘‚«‚і‚к‚йЃB<br>
+     * ‚Ѕ‚Ж‚¦‚О“Ї€к‚МJavelinLogElement‚ЕINFOЃAWARN‚Е–в‘и‚рЊџЏo‚µ‚ЅЏкЌ‡‚НЃA
+     * ЌЕЏ‰‚Й‹L^‚µ‚ЅINFO‚МЊ‹‰К‚ЄWARN‚Й‚ж‚иЏгЏ‘‚«‚і‚к‚йЃB
      */
     public List<WarningUnit> judge(final List<JavelinLogElement> javelinLogElementList)
     {
         PerformanceRule[] rules = {this.infoRule_, this.warnRule_, this.errorRule_};
 
-        // еђ„гѓ¬гѓ™гѓ«гЃ®иЁєж–­зµђжћњг‚’иЎЁгЃ™гѓЄг‚№гѓ€г‚’ж јзґЌгЃ™г‚‹гѓЄг‚№гѓ€гЂ‚
+        // ЉeѓЊѓxѓ‹‚Мђf’fЊ‹‰К‚р•\‚·ѓЉѓXѓg‚рЉi”[‚·‚йѓЉѓXѓgЃB
         List<List<WarningUnit>> resultList = new ArrayList<List<WarningUnit>>();
 
-        // еђ„гѓ¬гѓ™гѓ«гЃ®иЁєж–­зµђжћњг‚’еѕ—г‚‹гЂ‚
+        // ЉeѓЊѓxѓ‹‚Мђf’fЊ‹‰К‚р“ѕ‚йЃB
         for (PerformanceRule rule : rules)
         {
             if (rule == null)
@@ -99,16 +99,16 @@ public class PerformanceRuleFacade implements PerformanceRule
             return new ArrayList<WarningUnit>();
         }
 
-        // зµђжћњг‚’гЃѕгЃЁг‚Ѓг‚‹MapгЂ‚
-        // еЂ¤гЃЇWarningUnitгЂЃг‚­гѓјгЃЇгЂЊгѓ•г‚Ўг‚¤гѓ«еђЌгЂЌгЃЁгЂЊз™єз”џгЃ—гЃџJavelinLogElementгЃ®й–‹е§‹иЎЊгЂЌг‚’йЂЈзµђгЃ—гЃџж–‡е­—е€—гЂ‚
+        // Њ‹‰К‚р‚Ь‚Ж‚Я‚йMapЃB
+        // ’l‚НWarningUnitЃAѓLЃ[‚НЃuѓtѓ@ѓCѓ‹–јЃv‚ЖЃu”­ђ¶‚µ‚ЅJavelinLogElement‚МЉJЋnЌsЃv‚рAЊ‹‚µ‚Ѕ•¶Ћљ—сЃB
         Map<String, WarningUnit> totalMap = new HashMap<String, WarningUnit>();
 
-        // дЅЋгЃ„гѓ¬гѓ™гѓ«гЃ®зµђжћњгЃ‹г‚‰й †гЃ«иЁйЊІгЃ™г‚‹гЂ‚
+        // ’б‚ўѓЊѓxѓ‹‚МЊ‹‰К‚©‚зЏ‡‚Й‹L^‚·‚йЃB
         for (List<WarningUnit> result : resultList)
         {
             for (WarningUnit unit : result)
             {
-                // еѕЊгЃ‹г‚‰еђЊгЃиЎЊгЃ§г‚€г‚Љй«гѓ¬гѓ™гѓ«гЃ®и­¦е‘ЉгЃЊз™єз”џгЃ—гЃџг‚‰дёЉж›ёгЃЌгЃ•г‚Њг‚‹гЂ‚
+                // Њг‚©‚з“Ї‚¶Ќs‚Е‚ж‚иЌ‚ѓЊѓxѓ‹‚МЊxЌђ‚Є”­ђ¶‚µ‚Ѕ‚зЏгЏ‘‚«‚і‚к‚йЃB
                 String unitID = unit.getUnitId();
                 totalMap.put(unitID, unit);
             }
@@ -135,7 +135,7 @@ public class PerformanceRuleFacade implements PerformanceRule
     }
 
     /**
-     * errorRuleг‚’иЁ­е®љгЃ™г‚‹гЂ‚
+     * errorRule‚рђЭ’и‚·‚йЃB
      * @param errorRule errorRule
      */
     public void setErrorRule(final PerformanceRule errorRule)
@@ -144,7 +144,7 @@ public class PerformanceRuleFacade implements PerformanceRule
     }
 
     /**
-     * infoRuleг‚’иЁ­е®љгЃ™г‚‹гЂ‚
+     * infoRule‚рђЭ’и‚·‚йЃB
      * @param infoRule infoRule
      */
     public void setInfoRule(final PerformanceRule infoRule)
@@ -153,7 +153,7 @@ public class PerformanceRuleFacade implements PerformanceRule
     }
 
     /**
-     * warnRuleг‚’иЁ­е®љгЃ™г‚‹гЂ‚
+     * warnRule‚рђЭ’и‚·‚йЃB
      * @param warnRule warnRule
      */
     public void setWarnRule(final PerformanceRule warnRule)

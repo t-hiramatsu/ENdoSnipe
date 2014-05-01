@@ -34,7 +34,7 @@ import jp.co.acroquest.endosnipe.test.ReporterTestUtilForBean;
 
 /**
  * jp.co.acroquest.endosnipe.report.converter.compressor.SamplingCompressor
- * ã«å¯¾ã™ã‚‹å˜ä½“ãƒ†ã‚¹ãƒˆã‚³ãƒ¼ãƒ‰
+ * ‚É‘Î‚·‚é’P‘ÌƒeƒXƒgƒR[ƒh
  * 
  * @author M.Yoshida
  *

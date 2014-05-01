@@ -27,28 +27,28 @@ package jp.co.acroquest.endosnipe.javelin.event;
 
 
 /**
- * ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®å†…å®¹ã«ã‚ˆã£ã¦ã€ã‚¤ãƒ™ãƒ³ãƒˆå‡ºåŠ›ã®æŠ‘åˆ¶ã‚’è¡Œã†ã‚¤ãƒ™ãƒ³ãƒˆã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+ * ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚Ì“à—e‚É‚æ‚Á‚ÄAƒCƒxƒ“ƒgo—Í‚Ì—}§‚ğs‚¤ƒCƒxƒ“ƒgƒNƒ‰ƒX‚Å‚·B<br />
  * 
  * @author fujii
  *
  */
 abstract class AbstractStackTraceCheckEvent extends CommonEvent
 {
-    /** æ¯”è¼ƒã®ãŸã‚ã®ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã€‚ */
+    /** ”äŠr‚Ì‚½‚ß‚ÌƒXƒ^ƒbƒNƒgƒŒ[ƒXB */
     protected String stackTraceToCompare_;
 
-    /** ã‚¤ãƒ™ãƒ³ãƒˆåã¨ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®ã‚»ãƒ‘ãƒ¬ãƒ¼ã‚¿ */
+    /** ƒCƒxƒ“ƒg–¼‚ÆƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ÌƒZƒpƒŒ[ƒ^ */
     private static final char SEPARATOR = '#';
 
-    /** ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’è¡¨ã™ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ */
+    /** ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğ•\‚·ƒpƒ‰ƒ[ƒ^ */
     protected String paramStackTrace_;
 
     /**
-     * ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’ä¿å­˜ã™ã‚‹Mapã«å€¤ã‚’ä¿å­˜ã—ã¾ã™ã€‚<br />
-     * ã“ã®ã¨ãã€ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãŒ"stackTrace"(å¤§æ–‡å­—ãƒ»å°æ–‡å­—ã®åˆ¤åˆ¥ã¯è¡Œã‚ãªã„)ã§çµ‚ã‚ã‚‹ãªã‚‰ã°ã€æ¯”è¼ƒç”¨ã«ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’ä¿å­˜ã—ã¾ã™ã€‚<br />
+     * ƒpƒ‰ƒ[ƒ^‚ğ•Û‘¶‚·‚éMap‚É’l‚ğ•Û‘¶‚µ‚Ü‚·B<br />
+     * ‚±‚Ì‚Æ‚«Aƒpƒ‰ƒ[ƒ^‚ª"stackTrace"(‘å•¶šE¬•¶š‚Ì”»•Ê‚Ís‚í‚È‚¢)‚ÅI‚í‚é‚È‚ç‚ÎA”äŠr—p‚ÉƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğ•Û‘¶‚µ‚Ü‚·B<br />
      * 
-     * @param key ã‚­ãƒ¼ã€‚
-     * @param value å€¤ã€‚
+     * @param key ƒL[B
+     * @param value ’lB
      */
     public void addParam(String key, String value)
     {
@@ -60,9 +60,9 @@ abstract class AbstractStackTraceCheckEvent extends CommonEvent
     }
 
     /**
-     * ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã§ãƒãƒƒã‚·ãƒ¥ã‚³ãƒ¼ãƒ‰ã‚’è¨ˆç®—ã™ã‚‹ã€‚
+     * ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ÅƒnƒbƒVƒ…ƒR[ƒh‚ğŒvZ‚·‚éB
      * 
-     * @return ãƒãƒƒã‚·ãƒ¥ã‚³ãƒ¼ãƒ‰ã€‚
+     * @return ƒnƒbƒVƒ…ƒR[ƒhB
      */
     public int hashCode()
     {
@@ -75,10 +75,10 @@ abstract class AbstractStackTraceCheckEvent extends CommonEvent
     }
 
     /**
-     * ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã§æ¯”è¼ƒã™ã‚‹ã€‚
+     * ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚Å”äŠr‚·‚éB
      * 
-     * @param obj æ¯”è¼ƒå¯¾è±¡ã€‚
-     * @return æ¯”è¼ƒçµæœã€‚
+     * @param obj ”äŠr‘ÎÛB
+     * @return ”äŠrŒ‹‰ÊB
      */
     public boolean equals(Object obj)
     {
@@ -103,9 +103,9 @@ abstract class AbstractStackTraceCheckEvent extends CommonEvent
     }
 
     /**
-     * æ¯”è¼ƒç”¨ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹å€¤ã‚’è¨­å®šã™ã‚‹ã€‚
+     * ”äŠr—pƒXƒ^ƒbƒNƒgƒŒ[ƒX’l‚ğİ’è‚·‚éB
      * 
-     * @param stackTrace ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹
+     * @param stackTrace ƒXƒ^ƒbƒNƒgƒŒ[ƒX
      */
     abstract void setStackTraceCompare(String stackTrace);
 

@@ -33,30 +33,30 @@ import jp.co.acroquest.endosnipe.javelin.communicate.JavelinConnectThread;
 import jp.co.acroquest.endosnipe.javelin.log.JavelinLogCallback;
 
 /**
- * Javelinãƒ­ã‚°é€šçŸ¥é›»æ–‡ã‚’é€ä¿¡ã™ã‚‹ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã€‚
+ * JavelinƒƒO’Ê’m“d•¶‚ğ‘—M‚·‚éƒR[ƒ‹ƒoƒbƒNB
  * 
  * @author eriguchi
  */
 public class JvnFileNotifyCallback implements JavelinLogCallback
 {
     /**
-     * ãƒ­ã‚°é€šçŸ¥é›»æ–‡ã‚’é€ä¿¡ã™ã‚‹ã€‚
-     * @param jvnFileName JVNãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«å
-     * @param jvnLogContent JVNãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã®å†…å®¹
-     * @param telegramId é›»æ–‡ ID
-     * @param itemName é …ç›®å
+     * ƒƒO’Ê’m“d•¶‚ğ‘—M‚·‚éB
+     * @param jvnFileName JVNƒƒOƒtƒ@ƒCƒ‹–¼
+     * @param jvnLogContent JVNƒƒOƒtƒ@ƒCƒ‹‚Ì“à—e
+     * @param telegramId “d•¶ ID
+     * @param itemName €–Ú–¼
      */
     public void execute(final String jvnFileName, final String jvnLogContent,
             final long telegramId, final String itemName)
     {
-        // ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆãŒã„ãªã„å ´åˆã¯é›»æ–‡ã‚’ä½œæˆã—ãªã„ã€‚
+        // ƒNƒ‰ƒCƒAƒ“ƒg‚ª‚¢‚È‚¢ê‡‚Í“d•¶‚ğì¬‚µ‚È‚¢B
         if (JavelinAcceptThread.getInstance().hasClient() == false
                 && JavelinConnectThread.getInstance().isConnected() == false)
         {
             return;
         }
 
-        // é€šçŸ¥é›»æ–‡ã‚’ä½œæˆã™ã‚‹ã€‚
+        // ’Ê’m“d•¶‚ğì¬‚·‚éB
         Telegram telegram = null;
         try
         {

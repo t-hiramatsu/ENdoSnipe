@@ -35,157 +35,145 @@ import jp.co.acroquest.endosnipe.javelin.CallTree;
 import jp.co.acroquest.endosnipe.javelin.CallTreeNode;
 import jp.co.acroquest.endosnipe.javelin.CallTreeRecorder;
 import jp.co.acroquest.endosnipe.javelin.bean.FastInteger;
-import jp.co.acroquest.endosnipe.javelin.resource.TurnAroundTimeGroupGetter;
 
 /**
- * ã‚¤ãƒ™ãƒ³ãƒˆç¨®åˆ¥æ¯ã®ã‚¤ãƒ™ãƒ³ãƒˆç™ºç”Ÿæ•°ã‚’æ•°ãˆã‚‹ã‚¯ãƒ©ã‚¹ã€‚<br />
+ * ƒCƒxƒ“ƒgí•Ê–ˆ‚ÌƒCƒxƒ“ƒg”­¶”‚ğ”‚¦‚éƒNƒ‰ƒXB<br />
  * 
  * @author Sakamoto
  */
 public class JavelinEventCounter implements JavelinConstants
 {
-    private long poolStorePeriod_;
+	private long poolStorePeriod_;
 
-    /** ã‚¤ãƒ™ãƒ³ãƒˆåã‚’ã‚­ãƒ¼ã«ã—ãŸã‚¤ãƒ™ãƒ³ãƒˆç™ºç”Ÿå›æ•°ã®ãƒãƒƒãƒ— */
-    private Map<String, FastInteger> eventCountMap_;
+	/** ƒCƒxƒ“ƒg–¼‚ğƒL[‚É‚µ‚½ƒCƒxƒ“ƒg”­¶‰ñ”‚Ìƒ}ƒbƒv */
+	private Map<String, FastInteger> eventCountMap_;
 
-    private Map<String, FastInteger> prevEventCountMap_;
+	private Map<String, FastInteger> prevEventCountMap_;
 
-    private Map<String, String> eventPageNameMap_;
+	private Map<String, String> eventPageNameMap_;
 
-    private long lastClearTime_;
+	private long lastClearTime_;
 
-    private static final JavelinEventCounter INSTANCE = new JavelinEventCounter();
+	private static final JavelinEventCounter INSTANCE = new JavelinEventCounter();
 
-    private TurnAroundTimeGroupGetter turnAroundTimeGroupGetter = new TurnAroundTimeGroupGetter();
+	/**
+	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ğ‰B•Á‚µ‚Ü‚·B<br />
+	 */
+	private JavelinEventCounter()
+	{
+		this.eventCountMap_ = new HashMap<String, FastInteger>();
+		this.prevEventCountMap_ = new HashMap<String, FastInteger>();
+		this.lastClearTime_ = System.currentTimeMillis();
+		JavelinConfig config = new JavelinConfig();
+		this.poolStorePeriod_ = config.getTatKeepTime();
+	}
 
-    /**
-     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã‚’éš è”½ã—ã¾ã™ã€‚<br />
-     */
-    private JavelinEventCounter()
-    {
-        this.eventCountMap_ = new HashMap<String, FastInteger>();
-        this.prevEventCountMap_ = new HashMap<String, FastInteger>();
-        this.lastClearTime_ = System.currentTimeMillis();
-        JavelinConfig config = new JavelinConfig();
-        this.poolStorePeriod_ = config.getTatKeepTime();
-    }
+	/**
+	 * ‚±‚ÌƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ•Ô‚µ‚Ü‚·B<br />
+	 * 
+	 * @return ƒCƒ“ƒXƒ^ƒ“ƒX
+	 */
+	public static JavelinEventCounter getInstance()
+	{
+		return INSTANCE;
+	}
 
-    /**
-     * ã“ã®ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’è¿”ã—ã¾ã™ã€‚<br />
-     * 
-     * @return ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
-     */
-    public static JavelinEventCounter getInstance()
-    {
-        return INSTANCE;
-    }
+	/**
+	 * ƒCƒxƒ“ƒg’~ÏŠúŠÔ‚ğƒZƒbƒg‚µ‚Ü‚·B<br />
+	 * 
+	 * ƒCƒxƒ“ƒg’Ç‰Á‚ÉA‚·‚Å‚É‚±‚Ì’l‚ğ’´‚¦‚ÄƒCƒxƒ“ƒg‚ğ’~Ï‚³‚ê‚Ä‚¢‚½ê‡A ’~Ï‚µ‚½ƒCƒxƒ“ƒg”­¶”‚ğƒNƒŠƒA‚µ‚Ü‚·B<br />
+	 * 
+	 * @param period
+	 *            ŠúŠÔiƒ~ƒŠ•bj
+	 */
+	public void setPoolStorePeriod(final long period)
+	{
+		this.poolStorePeriod_ = period;
+	}
 
-    /**
-     * ã‚¤ãƒ™ãƒ³ãƒˆè“„ç©æœŸé–“ã‚’ã‚»ãƒƒãƒˆã—ã¾ã™ã€‚<br />
-     * 
-     * ã‚¤ãƒ™ãƒ³ãƒˆè¿½åŠ æ™‚ã«ã€ã™ã§ã«ã“ã®å€¤ã‚’è¶…ãˆã¦ã‚¤ãƒ™ãƒ³ãƒˆã‚’è“„ç©ã•ã‚Œã¦ã„ãŸå ´åˆã€ è“„ç©ã—ãŸã‚¤ãƒ™ãƒ³ãƒˆç™ºç”Ÿæ•°ã‚’ã‚¯ãƒªã‚¢ã—ã¾ã™ã€‚<br />
-     * 
-     * @param period
-     *            æœŸé–“ï¼ˆãƒŸãƒªç§’ï¼‰
-     */
-    public void setPoolStorePeriod(final long period)
-    {
-        this.poolStorePeriod_ = period;
-    }
+	/**
+	 * ƒCƒxƒ“ƒg‚ğ’Ç‰Á‚µ‚Ü‚·B<br />
+	 * 
+	 * ‘O‰ñƒv[ƒ‹‚ğƒNƒŠƒA‚µ‚½‚©‚çƒCƒxƒ“ƒg’~ÏŠúŠÔ‚ª‰ß‚¬‚Ä‚¢‚éê‡‚ÍA ƒv[ƒ‹‚ğƒNƒŠƒA‚µ‚½Œã‚ÉƒCƒxƒ“ƒg‚ğ’Ç‰Á‚µ‚Ü‚·B<br />
+	 * 
+	 * @param event
+	 *            Javelin ƒCƒxƒ“ƒg
+	 */
+	public synchronized void addEvent(final CommonEvent event)
+	{
+		clearOldEvents();
+		String pageName = null;
+		CallTree callTree = CallTreeRecorder.getInstance().getCallTree();
+		if (callTree != null)
+		{
+			CallTreeNode rootNode = callTree.getRootNode();
+			if (rootNode != null)
+			{
+				pageName = rootNode.getInvocation().getRootInvocationManagerKey()
+						.replace("/", "&#47;");
+			}
+		}
 
-    /**
-     * ã‚¤ãƒ™ãƒ³ãƒˆã‚’è¿½åŠ ã—ã¾ã™ã€‚<br />
-     * 
-     * å‰å›ãƒ—ãƒ¼ãƒ«ã‚’ã‚¯ãƒªã‚¢ã—ãŸæ™‚åˆ»ã‹ã‚‰ã‚¤ãƒ™ãƒ³ãƒˆè“„ç©æœŸé–“ãŒéãã¦ã„ã‚‹å ´åˆã¯ã€ ãƒ—ãƒ¼ãƒ«ã‚’ã‚¯ãƒªã‚¢ã—ãŸå¾Œã«ã‚¤ãƒ™ãƒ³ãƒˆã‚’è¿½åŠ ã—ã¾ã™ã€‚<br />
-     * 
-     * @param event
-     *            Javelin ã‚¤ãƒ™ãƒ³ãƒˆ
-     */
-    public synchronized void addEvent(final CommonEvent event)
-    {
-        clearOldEvents();
-        String pageName = null;
-        CallTree callTree = CallTreeRecorder.getInstance().getCallTree();
-        if (callTree != null)
-        {
-            CallTreeNode rootNode = callTree.getRootNode();
-            if (rootNode != null)
-            {
-                pageName = rootNode.getInvocation().getRootInvocationManagerKey();
-            }
-        }
+		FastInteger count = this.eventCountMap_.get(event.getName());
+		if (count == null)
+		{
+			count = new FastInteger();
+			this.eventCountMap_.put((pageName == null ? "/event/" + event.getName()
+					: TelegramConstants.PREFIX_PROCESS_RESPONSE_EVENT.replace("page", pageName)
+							+ "/" + event.getName()), count);
+		}
+		count.increment();
+	}
 
-        FastInteger count = this.eventCountMap_.get(event.getName());
-        if (count == null)
-        {
-            count = new FastInteger();
-            if (pageName == null)
-            {
-                pageName = TelegramConstants.POSTFIX_EVENT + event.getName();
-                eventCountMap_.put(pageName, count);
-            }
-            else
-            {
-                String eventCountName =
-                    turnAroundTimeGroupGetter.getTreeNodeName(pageName,
-                                                              TelegramConstants.POSTFIX_EVENT,
-                                                              event.getName());
-                eventCountMap_.put(eventCountName, count);
-            }
-        }
-        count.increment();
-    }
+	/**
+	 * ƒCƒxƒ“ƒgí•Ê–ˆ‚ÌƒCƒxƒ“ƒg”­¶”‚ğæ“¾‚µ‚Ü‚·B<br />
+	 * 
+	 * æ“¾ŒãAƒCƒxƒ“ƒg”­¶”‚ÍƒNƒŠƒA‚³‚ê‚Ü‚·B<br />
+	 * 
+	 * @return ƒCƒxƒ“ƒg”­¶”‚Ìƒ}ƒbƒv
+	 */
+	public synchronized Map<String, FastInteger> takeEventCount()
+	{
+		Map<String, FastInteger> eventCountMapCopy = new HashMap<String, FastInteger>(
+				this.eventCountMap_);
+		addZeroCount(eventCountMapCopy);
+		this.prevEventCountMap_ = this.eventCountMap_;
+		this.eventCountMap_ = new HashMap<String, FastInteger>();
+		this.lastClearTime_ = System.currentTimeMillis();
+		return eventCountMapCopy;
+	}
 
-    /**
-     * ã‚¤ãƒ™ãƒ³ãƒˆç¨®åˆ¥æ¯ã®ã‚¤ãƒ™ãƒ³ãƒˆç™ºç”Ÿæ•°ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
-     * 
-     * å–å¾—å¾Œã€ã‚¤ãƒ™ãƒ³ãƒˆç™ºç”Ÿæ•°ã¯ã‚¯ãƒªã‚¢ã•ã‚Œã¾ã™ã€‚<br />
-     * 
-     * @return ã‚¤ãƒ™ãƒ³ãƒˆç™ºç”Ÿæ•°ã®ãƒãƒƒãƒ—
-     */
-    public synchronized Map<String, FastInteger> takeEventCount()
-    {
-        Map<String, FastInteger> eventCountMapCopy =
-            new HashMap<String, FastInteger>(this.eventCountMap_);
-        addZeroCount(eventCountMapCopy);
-        this.prevEventCountMap_ = this.eventCountMap_;
-        this.eventCountMap_ = new HashMap<String, FastInteger>();
-        this.lastClearTime_ = System.currentTimeMillis();
-        return eventCountMapCopy;
-    }
+	/**
+	 * ‘O‰ñ”­¶‚µ‚Ä‚¢‚½ƒCƒxƒ“ƒg‚Ì‚¤‚¿A¡‰ñ‚Í”­¶‚µ‚È‚©‚Á‚½ƒCƒxƒ“ƒg‚Ì”­¶”‚ğ <code>0</code> ‚É‚µ‚Ü‚·B<br />
+	 * 
+	 * ƒCƒxƒ“ƒg‚ª”­¶‚µ‚È‚©‚Á‚½ê‡‚ÍƒNƒ‰ƒCƒAƒ“ƒg‘¤‚É”­¶”‚ğ’Ê’m‚µ‚Ü‚¹‚ñ‚ªA ‘O‰ñƒCƒxƒ“ƒg‚ª”­¶‚µ‚Ä‚¢‚½ê‡A <code>0</code> ‚ğ’Ç‰Á‚·‚é‚±‚Æ‚É‚æ‚èA ƒOƒ‰ƒt•\¦‚Å
+	 * <code>0</code> ‚ğ•\Œ»‚Å‚«‚é‚æ‚¤‚É‚È‚è‚Ü‚·B<br />
+	 * 
+	 * @param currentCount
+	 *            Œ»İ‚Ì”­¶”
+	 */
+	private void addZeroCount(Map<String, FastInteger> currentCount)
+	{
+		for (Map.Entry<String, FastInteger> entry : this.prevEventCountMap_.entrySet())
+		{
+			if (!currentCount.containsKey(entry.getKey()) && entry.getValue().getValue() != 0)
+			{
+				// ”­¶” 0 ‚ğ’Ç‰Á‚·‚é
+				currentCount.put(entry.getKey(), new FastInteger());
+			}
+		}
+	}
 
-    /**
-     * å‰å›ç™ºç”Ÿã—ã¦ã„ãŸã‚¤ãƒ™ãƒ³ãƒˆã®ã†ã¡ã€ä»Šå›ã¯ç™ºç”Ÿã—ãªã‹ã£ãŸã‚¤ãƒ™ãƒ³ãƒˆã®ç™ºç”Ÿæ•°ã‚’ <code>0</code> ã«ã—ã¾ã™ã€‚<br />
-     * 
-     * ã‚¤ãƒ™ãƒ³ãƒˆãŒç™ºç”Ÿã—ãªã‹ã£ãŸå ´åˆã¯ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆå´ã«ç™ºç”Ÿæ•°ã‚’é€šçŸ¥ã—ã¾ã›ã‚“ãŒã€ å‰å›ã‚¤ãƒ™ãƒ³ãƒˆãŒç™ºç”Ÿã—ã¦ã„ãŸå ´åˆã€ <code>0</code> ã‚’è¿½åŠ ã™ã‚‹ã“ã¨ã«ã‚ˆã‚Šã€ ã‚°ãƒ©ãƒ•è¡¨ç¤ºã§
-     * <code>0</code> ã‚’è¡¨ç¾ã§ãã‚‹ã‚ˆã†ã«ãªã‚Šã¾ã™ã€‚<br />
-     * 
-     * @param currentCount
-     *            ç¾åœ¨ã®ç™ºç”Ÿæ•°
-     */
-    private void addZeroCount(Map<String, FastInteger> currentCount)
-    {
-        for (Map.Entry<String, FastInteger> entry : this.prevEventCountMap_.entrySet())
-        {
-            if (!currentCount.containsKey(entry.getKey()) && entry.getValue().getValue() != 0)
-            {
-                // ç™ºç”Ÿæ•° 0 ã‚’è¿½åŠ ã™ã‚‹
-                currentCount.put(entry.getKey(), new FastInteger());
-            }
-        }
-    }
-
-    /**
-     * ã‚¤ãƒ™ãƒ³ãƒˆè“„ç©æœŸé–“ã‚’è¶…ãˆãŸã‚¤ãƒ™ãƒ³ãƒˆã‚’ã‚¯ãƒªã‚¢ã—ã¾ã™ã€‚<br />
-     */
-    private void clearOldEvents()
-    {
-        long nowTime = System.currentTimeMillis();
-        if (nowTime > this.lastClearTime_ + this.poolStorePeriod_)
-        {
-            this.eventCountMap_.clear();
-            this.lastClearTime_ = nowTime;
-        }
-    }
+	/**
+	 * ƒCƒxƒ“ƒg’~ÏŠúŠÔ‚ğ’´‚¦‚½ƒCƒxƒ“ƒg‚ğƒNƒŠƒA‚µ‚Ü‚·B<br />
+	 */
+	private void clearOldEvents()
+	{
+		long nowTime = System.currentTimeMillis();
+		if (nowTime > this.lastClearTime_ + this.poolStorePeriod_)
+		{
+			this.eventCountMap_.clear();
+			this.lastClearTime_ = nowTime;
+		}
+	}
 }

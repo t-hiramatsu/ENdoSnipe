@@ -17,48 +17,48 @@ import jp.co.acroquest.endosnipe.report.converter.util.calc.Calculator;
 import org.apache.commons.beanutils.converters.IntegerConverter;
 
 /**
- * Integer蝙九↓驕ｩ蜷医＠縺溯ｨ育ｮ怜�ｦ逅�繧貞ｮ溯｡後☆繧玖ｨ育ｮ玲ｩ溘け繝ｩ繧ｹ
+ * Integer型に適合した計算処理を実行する計算機クラス
  * 
  * @author M.Yoshida
  */
-public class IntegerCalculator implements Calculator
+public class IntegerCalculator implements Calculator 
 {
 
-	public Object add(Object obj1, Object obj2)
+	public Object add(Object obj1, Object obj2) 
 	{
-		Integer intData1 = (Integer) obj1;
-		Integer intData2 = (Integer) obj2;
-
-		return (Object) (new Integer((int) (intData1.intValue() + intData2.intValue())));
+		Integer intData1 = (Integer)obj1;
+		Integer intData2 = (Integer)obj2;
+		
+		return (Object)(new Integer((int)(intData1.intValue() + intData2.intValue())));
 	}
 
-	public Object div(Object obj1, Object obj2)
+	public Object div(Object obj1, Object obj2) 
 	{
-		Integer intData1 = (Integer) obj1;
-		Integer intData2 = (Integer) obj2;
-
-		return (Object) (new Integer((int) (intData1.intValue() / intData2.intValue())));
+		Integer intData1 = (Integer)obj1;
+		Integer intData2 = (Integer)obj2;
+		
+		return (Object)(new Integer((int)(intData1.intValue() / intData2.intValue())));
 	}
 
-	public Object immediate(String str)
+	public Object immediate(String str) 
 	{
 		IntegerConverter converter = new IntegerConverter();
 		return converter.convert(Integer.class, str);
 	}
 
-	public Object mul(Object obj1, Object obj2)
+	public Object mul(Object obj1, Object obj2) 
 	{
-		Integer intData1 = (Integer) obj1;
-		Integer intData2 = (Integer) obj2;
-
-		return (Object) (new Integer((int) (intData1.intValue() * intData2.intValue())));
+		Integer intData1 = (Integer)obj1;
+		Integer intData2 = (Integer)obj2;
+		
+		return (Object)(new Integer((int)(intData1.intValue() * intData2.intValue())));
 	}
 
-	public Object sub(Object obj1, Object obj2)
+	public Object sub(Object obj1, Object obj2) 
 	{
-		Integer intData1 = (Integer) obj1;
-		Integer intData2 = (Integer) obj2;
-
-		return (Object) (new Integer((int) (intData1.intValue() - intData2.intValue())));
+		Integer intData1 = (Integer)obj1;
+		Integer intData2 = (Integer)obj2;
+		
+		return (Object)(new Integer((int)(intData1.intValue() - intData2.intValue())));
 	}
 }

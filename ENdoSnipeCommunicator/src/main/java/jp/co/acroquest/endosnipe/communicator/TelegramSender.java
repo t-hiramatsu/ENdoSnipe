@@ -28,25 +28,25 @@ package jp.co.acroquest.endosnipe.communicator;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 
 /**
- * é›»æ–‡ã‚’é€ä¿¡ã™ã‚‹ãŸã‚ã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã§ã™ã€‚<br />
+ * “d•¶‚ğ‘—M‚·‚é‚½‚ß‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX‚Å‚·B<br />
  * 
  * @author y-komori
  */
 public interface TelegramSender
 {
     /**
-     * é›»æ–‡ã‚’é€ä¿¡ã—ã¾ã™ã€‚<br />
-     * è‡ªãƒãƒ¼ãƒ‰ãŒã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã®å ´åˆã€ã‚µãƒ¼ãƒã¸é›»æ–‡ã‚’é€ä¿¡ã—ã¾ã™ã€‚<br />
-     * è‡ªãƒãƒ¼ãƒ‰ãŒã‚µãƒ¼ãƒã®å ´åˆã€æ¥ç¶šä¸­ã®ã™ã¹ã¦ã®ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã¸é›»æ–‡ã‚’é€ä¿¡ã—ã¾ã™ã€‚<br />
+     * “d•¶‚ğ‘—M‚µ‚Ü‚·B<br />
+     * ©ƒm[ƒh‚ªƒNƒ‰ƒCƒAƒ“ƒg‚Ìê‡AƒT[ƒo‚Ö“d•¶‚ğ‘—M‚µ‚Ü‚·B<br />
+     * ©ƒm[ƒh‚ªƒT[ƒo‚Ìê‡AÚ‘±’†‚Ì‚·‚×‚Ä‚ÌƒNƒ‰ƒCƒAƒ“ƒg‚Ö“d•¶‚ğ‘—M‚µ‚Ü‚·B<br />
      * 
-     * @param telegram é€ä¿¡ã™ã‚‹é›»æ–‡
+     * @param telegram ‘—M‚·‚é“d•¶
      */
     void sendTelegram(Telegram telegram);
 
     /**
-     * ã‚µãƒ¼ãƒã¸ã®æ¥ç¶šçŠ¶æ…‹ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ƒT[ƒo‚Ö‚ÌÚ‘±ó‘Ô‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @return æ¥ç¶šä¸­ã®å ´åˆã¯ <code>true</code>ã€ãã†ã§ãªã„å ´åˆã¯ <code>false</code>ã€‚
+     * @return Ú‘±’†‚Ìê‡‚Í <code>true</code>A‚»‚¤‚Å‚È‚¢ê‡‚Í <code>false</code>B
      */
     boolean isConnected();
 }

@@ -28,30 +28,30 @@ package jp.co.acroquest.endosnipe.javelin.resource;
 import jp.co.acroquest.endosnipe.common.entity.ItemType;
 
 /**
- * ãƒªã‚½ãƒ¼ã‚¹å€¤ã‚’å–å¾—ã™ã‚‹ãŸã‚ã®ã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹ã€‚
+ * ƒŠƒ\[ƒX’l‚ğæ“¾‚·‚é‚½‚ß‚ÌƒCƒ“ƒ^ƒtƒF[ƒXB
  * 
  * @author Sakamoto
  */
 public interface ResourceGetter
 {
     /**
-     * ãƒªã‚½ãƒ¼ã‚¹å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒŠƒ\[ƒX’l‚ğæ“¾‚·‚éB
      * 
-     * @return å€¤
+     * @return ’l
      */
     Number getValue();
 
     /**
-     * ãƒªã‚½ãƒ¼ã‚¹å€¤ã®å‹ã‚’è¿”ã™ã€‚
+     * ƒŠƒ\[ƒX’l‚ÌŒ^‚ğ•Ô‚·B
      * 
-     * @return å‹ç•ªå·
+     * @return Œ^”Ô†
      */
     ItemType getItemType();
 
     /**
-     * ãƒªã‚½ãƒ¼ã‚¹å€¤å–å¾—ã®å¯ä¸å¯çŠ¶æ…‹ã‚’è¿”ã™ã€‚
+     * ƒŠƒ\[ƒX’læ“¾‚Ì‰Â•s‰Âó‘Ô‚ğ•Ô‚·B
      * 
-     * @return true:å–å¾—å¯èƒ½ã€false:å–å¾—ä¸å¯èƒ½ã€‚
+     * @return true:æ“¾‰Â”\Afalse:æ“¾•s‰Â”\B
      */
     boolean isEnable();
 

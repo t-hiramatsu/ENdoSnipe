@@ -25,14 +25,12 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.javelin.converter.util;
 
-import java.util.concurrent.atomic.AtomicLong;
-
 import jp.co.acroquest.endosnipe.javelin.CallTree;
 import jp.co.acroquest.endosnipe.javelin.CallTreeRecorder;
 import jp.co.acroquest.endosnipe.javelin.SystemStatusManager;
 
 /**
- * ã‚¹ãƒˆãƒªãƒ¼ãƒ ã®å—ä¿¡é‡ï¼é€ä¿¡é‡ç›£è¦–ç”¨ã®ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹
+ * ƒXƒgƒŠ[ƒ€‚ÌóM—Ê^‘—M—ÊŠÄ‹—p‚Ìƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒX
  * 
  * @author kimura
  *
@@ -40,7 +38,7 @@ import jp.co.acroquest.endosnipe.javelin.SystemStatusManager;
 public class StreamMonitorUtil
 {
     /**
-     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
      */
     private StreamMonitorUtil()
     {
@@ -48,12 +46,12 @@ public class StreamMonitorUtil
     }
 
     /**
-     * è“„ç©å¯¾è±¡ã®è­˜åˆ¥å­ã¨åŠ ç®—é‡ã‚’æŒ‡å®šã—ã€ç´¯ç®—ã™ã‚‹ã€‚
-     * ç´¯ç®—å¯¾è±¡ã¯ã‚¹ãƒ¬ãƒƒãƒ‰å†…ã§ã®å€¤ã¨ã€ãƒ—ãƒ­ã‚»ã‚¹å…¨ä½“ã¨ã—ã¦ã®å€¤ã®ï¼’ã¤ã€‚
+     * ’~Ï‘ÎÛ‚Ì¯•Êq‚Æ‰ÁZ—Ê‚ğw’è‚µA—İZ‚·‚éB
+     * —İZ‘ÎÛ‚ÍƒXƒŒƒbƒh“à‚Å‚Ì’l‚ÆAƒvƒƒZƒX‘S‘Ì‚Æ‚µ‚Ä‚Ì’l‚Ì‚Q‚ÂB
      * 
-     * @param recordAmount          åŠ ç®—ã•ã‚Œã‚‹å€¤
-     * @param recordTargetThreadKey ã‚¹ãƒ¬ãƒƒãƒ‰ã®ç´¯ç®—å€¤ã«åŠ ç®—ã™ã‚‹éš›ã®è­˜åˆ¥å­
-     * @param recordTargetKey       ãƒ—ãƒ­ã‚»ã‚¹å…¨ä½“ã®ç´¯ç®—å€¤ã«åŠ ç®—ã™ã‚‹éš›ã®è­˜åˆ¥å­
+     * @param recordAmount          ‰ÁZ‚³‚ê‚é’l
+     * @param recordTargetThreadKey ƒXƒŒƒbƒh‚Ì—İZ’l‚É‰ÁZ‚·‚éÛ‚Ì¯•Êq
+     * @param recordTargetKey       ƒvƒƒZƒX‘S‘Ì‚Ì—İZ’l‚É‰ÁZ‚·‚éÛ‚Ì¯•Êq
      */
     public static void recordStreamAmount(final long recordAmount,
             final String recordTargetThreadKey, final String recordTargetKey)
@@ -73,7 +71,16 @@ public class StreamMonitorUtil
         newSize = oldSize + recordAmount;
         tree.setLoggingValue(recordTargetThreadKey, newSize);
 
-        AtomicLong longValue = SystemStatusManager.getValue(recordTargetKey);
-        longValue.addAndGet(recordAmount);
+        synchronized (SystemStatusManager.class)
+        {
+            oldSize = 0;
+            value = SystemStatusManager.getValue(recordTargetKey);
+            if (value != null)
+            {
+                oldSize = (Long)value;
+            }
+            newSize = oldSize + recordAmount;
+            SystemStatusManager.setValue(recordTargetKey, newSize);
+        }
     }
 }

@@ -28,7 +28,7 @@ package jp.co.acroquest.endosnipe.javelin.converter.javelin;
 public class TestMain
 {
     /**
-     * 繝｡繧､繝ｳ繝｡繧ｽ繝�繝�
+     * メインメソッド
      * @param args
      */
     public static void main(final String[] args)

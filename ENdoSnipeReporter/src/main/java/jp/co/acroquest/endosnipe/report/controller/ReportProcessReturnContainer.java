@@ -13,30 +13,30 @@
 package jp.co.acroquest.endosnipe.report.controller;
 
 /**
- * ãƒ¬ãƒãƒ¼ãƒˆå‡¦ç†ãƒ—ãƒ­ã‚»ãƒƒã‚µãŒå‘¼ã³å‡ºã—å…ƒã«å€¤ã‚’è¿”ã™ãŸã‚ã®ã‚³ãƒ³ãƒ†ãƒŠã‚¯ãƒ©ã‚¹ã€‚
- * å„ãƒ—ãƒ­ã‚»ãƒƒã‚µã¯ã€ã“ã®ã‚³ãƒ³ãƒ†ãƒŠã‚¯ãƒ©ã‚¹ã‚’ç¶™æ‰¿ã—ã¦ç‹¬è‡ªãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã‚’å®šç¾©ã™ã‚‹ã“ã¨ã€‚
+ * ƒŒƒ|[ƒgˆ—ƒvƒƒZƒbƒT‚ªŒÄ‚Ño‚µŒ³‚É’l‚ğ•Ô‚·‚½‚ß‚ÌƒRƒ“ƒeƒiƒNƒ‰ƒXB
+ * ŠeƒvƒƒZƒbƒT‚ÍA‚±‚ÌƒRƒ“ƒeƒiƒNƒ‰ƒX‚ğŒp³‚µ‚Ä“Æ©ƒtƒB[ƒ‹ƒh‚ğ’è‹`‚·‚é‚±‚ÆB
  * 
  * @author M.Yoshida
  */
 public class ReportProcessReturnContainer
 {
-	/** ãƒ—ãƒ­ã‚»ãƒƒã‚µã§ç™ºç”Ÿã—ãŸä¾‹å¤– */
-	private Throwable happendedError_;
+    /** ƒvƒƒZƒbƒT‚Å”­¶‚µ‚½—áŠO */
+    private Throwable happendedError_;
 
-	/**
-	 * @return the happendedError
-	 */
-	public Throwable getHappendedError()
-	{
-		return happendedError_;
-	}
+    /**
+     * @return the happendedError
+     */
+    public Throwable getHappendedError()
+    {
+        return happendedError_;
+    }
 
-	/**
-	 * @param happendedError the happendedError to set
-	 */
-	public void setHappendedError(Throwable happendedError)
-	{
-		happendedError_ = happendedError;
-	}
+    /**
+     * @param happendedError the happendedError to set
+     */
+    public void setHappendedError(Throwable happendedError)
+    {
+        happendedError_ = happendedError;
+    }
 
 }

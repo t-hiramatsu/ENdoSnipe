@@ -29,7 +29,7 @@ import jp.co.acroquest.endosnipe.common.entity.ItemType;
 import jp.co.acroquest.endosnipe.communicator.entity.MeasurementConstants;
 
 /**
- * ä»®æƒ³ãƒã‚·ãƒ³ã®ãƒ¡ãƒ¢ãƒªå®¹é‡ã‚’å–å¾—ã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚
+ * ‰¼‘zƒ}ƒVƒ“‚Ìƒƒ‚ƒŠ—e—Ê‚ğæ“¾‚·‚éƒNƒ‰ƒXB
  * 
  * @author Sakamoto
  */

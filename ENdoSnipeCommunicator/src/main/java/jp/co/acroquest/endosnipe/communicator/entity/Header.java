@@ -26,34 +26,34 @@
 package jp.co.acroquest.endosnipe.communicator.entity;
 
 /**
- * é›»æ–‡ãƒ˜ãƒƒãƒ€ã®ãŸã‚ã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+ * “d•¶ƒwƒbƒ_‚Ì‚½‚ß‚ÌƒGƒ“ƒeƒBƒeƒBƒNƒ‰ƒX‚Å‚·B<br />
  * 
  * @author y-komori
  */
 public class Header
 {
-    /** ãƒ˜ãƒƒãƒ€é•· */
+    /** ƒwƒbƒ_’· */
     public static final int HEADER_LENGTH = 18;
 
-    /** é›»æ–‡é•· */
+    /** “d•¶’· */
     private int intSize_ = 0;
 
-    /** é›»æ–‡ID */
+    /** “d•¶ID */
     private long id_ = 0;
 
-    /** çµ‚äº†ãƒ•ãƒ©ã‚°(0:çµ‚äº†ã§ãªã„ 1:çµ‚äº†) */
+    /** I—¹ƒtƒ‰ƒO(0:I—¹‚Å‚È‚¢ 1:I—¹) */
     private byte lastTelegram_ = 0;
 
-    /** é›»æ–‡ç¨®åˆ¥ */
+    /** “d•¶í•Ê */
     private byte byteTelegramKind_ = 0;
 
-    /** è¦æ±‚å¿œç­”ç¨®åˆ¥ */
+    /** —v‹‰“ší•Ê */
     private byte byteRequestKind_ = 0;
 
     /**
-     * é›»æ–‡é•·ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * “d•¶’·‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return é›»æ–‡é•·
+     * @return “d•¶’·
      */
     public int getIntSize()
     {
@@ -61,9 +61,9 @@ public class Header
     }
 
     /**
-     * é›»æ–‡é•·ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
+     * “d•¶’·‚ğİ’è‚µ‚Ü‚·B<br />
      * 
-     * @param intSize é›»æ–‡é•·
+     * @param intSize “d•¶’·
      */
     public void setIntSize(final int intSize)
     {
@@ -71,9 +71,9 @@ public class Header
     }
 
     /**
-     * é›»æ–‡ ID ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * “d•¶ ID ‚ğæ“¾‚µ‚Ü‚·B
      *
-     * @return é›»æ–‡ ID
+     * @return “d•¶ ID
      */
     public long getId()
     {
@@ -81,9 +81,9 @@ public class Header
     }
 
     /**
-     * é›»æ–‡ ID ã‚’è¨­å®šã—ã¾ã™ã€‚
+     * “d•¶ ID ‚ğİ’è‚µ‚Ü‚·B
      *
-     * @param id é›»æ–‡ ID
+     * @param id “d•¶ ID
      */
     public void setId(final long id)
     {
@@ -92,9 +92,9 @@ public class Header
 
     
     /**
-     * çµ‚äº†ãƒ•ãƒ©ã‚°ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * I—¹ƒtƒ‰ƒO‚ğæ“¾‚µ‚Ü‚·B
      *
-     * @return çµ‚äº†ãƒ•ãƒ©ã‚°
+     * @return I—¹ƒtƒ‰ƒO
      */
     public byte getLastTelegram()
     {
@@ -102,9 +102,9 @@ public class Header
     }
 
     /**
-     * çµ‚äº†ãƒ•ãƒ©ã‚°ã‚’è¨­å®šã—ã¾ã™ã€‚
+     * I—¹ƒtƒ‰ƒO‚ğİ’è‚µ‚Ü‚·B
      *
-     * @param lastTelegram çµ‚äº†ãƒ•ãƒ©ã‚°
+     * @param lastTelegram I—¹ƒtƒ‰ƒO
      */
     public void setLastTelegram(byte lastTelegram)
     {
@@ -112,9 +112,9 @@ public class Header
     }
 
     /**
-     * é›»æ–‡ç¨®åˆ¥ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * “d•¶í•Ê‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return é›»æ–‡ç¨®åˆ¥
+     * @return “d•¶í•Ê
      */
     public byte getByteTelegramKind()
     {
@@ -122,9 +122,9 @@ public class Header
     }
 
     /**
-     * é›»æ–‡ç¨®åˆ¥ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
+     * “d•¶í•Ê‚ğİ’è‚µ‚Ü‚·B<br />
      * 
-     * @param byteTelegramKind é›»æ–‡ç¨®åˆ¥
+     * @param byteTelegramKind “d•¶í•Ê
      */
     public void setByteTelegramKind(final byte byteTelegramKind)
     {
@@ -132,9 +132,9 @@ public class Header
     }
 
     /**
-     * è¦æ±‚å¿œç­”ç¨®åˆ¥ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * —v‹‰“ší•Ê‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return è¦æ±‚å¿œç­”ç¨®åˆ¥
+     * @return —v‹‰“ší•Ê
      */
     public byte getByteRequestKind()
     {
@@ -142,9 +142,9 @@ public class Header
     }
 
     /**
-     * è¦æ±‚å¿œç­”ç¨®åˆ¥ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
+     * —v‹‰“ší•Ê‚ğİ’è‚µ‚Ü‚·B<br />
      * 
-     * @param byteRequestKind è¦æ±‚å¿œç­”ç¨®åˆ¥
+     * @param byteRequestKind —v‹‰“ší•Ê
      */
     public void setByteRequestKind(final byte byteRequestKind)
     {

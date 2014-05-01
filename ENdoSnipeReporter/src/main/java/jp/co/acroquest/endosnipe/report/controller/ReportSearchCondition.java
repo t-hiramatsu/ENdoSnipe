@@ -16,63 +16,59 @@ import java.sql.Timestamp;
 import java.util.List;
 
 /**
- * ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›æ™‚ã®çµè¾¼ã¿æ¡ä»¶ã‚’ç¤ºã™ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚
+ * ƒŒƒ|[ƒgo—Í‚Ìi‚İğŒ‚ğ¦‚·ƒIƒuƒWƒFƒNƒgB
  * 
  * @author M.Yoshida
  */
-public class ReportSearchCondition
-{
+public class ReportSearchCondition {
 
-	/** å¯¾è±¡ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒªã‚¹ãƒˆ */
+	/** ‘ÎÛƒf[ƒ^ƒx[ƒXƒŠƒXƒg */
 	private List<String> databases_;
 
-	/** é–‹å§‹æ—¥æ™‚ */
+	/** ŠJn“ú */
 	private Timestamp startDate_;
 
-	/** çµ‚äº†æ—¥æ™‚ */
+	/** I—¹“ú */
 	private Timestamp endDate_;
 
-	/** å‡ºåŠ›ãƒ‘ã‚¹ */
+	/** o—ÍƒpƒX */
 	private String outputFilePath_;
 
-	/** ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›å¯¾è±¡ã®è¨ˆæ¸¬é …ç›®ã®è¦ªã®é …ç›®å */
+	/** ƒŒƒ|[ƒgo—Í‘ÎÛ‚ÌŒv‘ª€–Ú‚Ìe‚Ì€–Ú–¼ */
 	private String targetItemName_;
 
-	/** PerformanceDoctorãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã§ã€åŒä¸€åŸå› ã‚’çµã‚Šè¾¼ã‚€ã‹ã©ã†ã‹ */
+	/** PerformanceDoctorƒŒƒ|[ƒgo—Í‚ÅA“¯ˆêŒ´ˆö‚ği‚è‚Ş‚©‚Ç‚¤‚© */
 	private boolean limitSameCause_;
 
-	/** PerformanceDoctorãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã§ã€åŒä¸€ãƒ«ãƒ¼ãƒ«ã§çµã‚Šè¾¼ã‚€ã‹ã©ã†ã‹ */
+	/** PerformanceDoctorƒŒƒ|[ƒgo—Í‚ÅA“¯ˆêƒ‹[ƒ‹‚Åi‚è‚Ş‚©‚Ç‚¤‚© */
 	private boolean limitBySameRule_;
+
 
 	/**
 	 * @return the databases
 	 */
-	public List<String> getDatabases()
-	{
+	public List<String> getDatabases() {
 		return databases_;
 	}
 
 	/**
 	 * @return the startDate
 	 */
-	public Timestamp getStartDate()
-	{
+	public Timestamp getStartDate() {
 		return startDate_;
 	}
 
 	/**
 	 * @return the endDate
 	 */
-	public Timestamp getEndDate()
-	{
+	public Timestamp getEndDate() {
 		return endDate_;
 	}
 
 	/**
 	 * @return the outputFilePath
 	 */
-	public String getOutputFilePath()
-	{
+	public String getOutputFilePath() {
 		return outputFilePath_;
 	}
 
@@ -80,8 +76,7 @@ public class ReportSearchCondition
 	 * @param databases
 	 *            the databases to set
 	 */
-	public void setDatabases(List<String> databases)
-	{
+	public void setDatabases(List<String> databases) {
 		databases_ = databases;
 	}
 
@@ -89,8 +84,7 @@ public class ReportSearchCondition
 	 * @param startDate
 	 *            the startDate to set
 	 */
-	public void setStartDate(Timestamp startDate)
-	{
+	public void setStartDate(Timestamp startDate) {
 		startDate_ = startDate;
 	}
 
@@ -98,8 +92,7 @@ public class ReportSearchCondition
 	 * @param endDate
 	 *            the endDate to set
 	 */
-	public void setEndDate(Timestamp endDate)
-	{
+	public void setEndDate(Timestamp endDate) {
 		endDate_ = endDate;
 	}
 
@@ -107,16 +100,14 @@ public class ReportSearchCondition
 	 * @param outputFilePath
 	 *            the outputFilePath to set
 	 */
-	public void setOutputFilePath(String outputFilePath)
-	{
+	public void setOutputFilePath(String outputFilePath) {
 		outputFilePath_ = outputFilePath;
 	}
 
 	/**
 	 * @return the limitSameCause
 	 */
-	public boolean getLimitSameCause()
-	{
+	public boolean getLimitSameCause() {
 		return this.limitSameCause_;
 	}
 
@@ -124,16 +115,14 @@ public class ReportSearchCondition
 	 * @param limitSameCause
 	 *            the limitSameCause to set
 	 */
-	public void setLimitSameCause(boolean limitSameCause)
-	{
+	public void setLimitSameCause(boolean limitSameCause) {
 		this.limitSameCause_ = limitSameCause;
 	}
 
 	/**
 	 * @return the limitBySameRule
 	 */
-	public boolean getLimitBySameRule()
-	{
+	public boolean getLimitBySameRule() {
 		return this.limitBySameRule_;
 	}
 
@@ -141,29 +130,26 @@ public class ReportSearchCondition
 	 * @param limitBySameRule
 	 *            the limitBySameRule to set
 	 */
-	public void setLimitBySameRule(boolean limitBySameRule)
-	{
+	public void setLimitBySameRule(boolean limitBySameRule) {
 		this.limitBySameRule_ = limitBySameRule;
 	}
 
 	/**
-	 * ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›å¯¾è±¡ã®è¨ˆæ¸¬é …ç›®ã®è¦ªã®é …ç›®åã‚’å–å¾—ã™ã‚‹ã€‚
+	 * ƒŒƒ|[ƒgo—Í‘ÎÛ‚ÌŒv‘ª€–Ú‚Ìe‚Ì€–Ú–¼‚ğæ“¾‚·‚éB
 	 * 
-	 * @return ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›å¯¾è±¡ã®è¨ˆæ¸¬é …ç›®ã®è¦ªã®é …ç›®å
+	 * @return ƒŒƒ|[ƒgo—Í‘ÎÛ‚ÌŒv‘ª€–Ú‚Ìe‚Ì€–Ú–¼
 	 */
-	public String getTargetItemName()
-	{
+	public String getTargetItemName() {
 		return targetItemName_;
 	}
 
 	/**
-	 * ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›å¯¾è±¡ã®è¨ˆæ¸¬é …ç›®ã®è¦ªã®é …ç›®åã‚’è¨­å®šã™ã‚‹ã€‚
+	 * ƒŒƒ|[ƒgo—Í‘ÎÛ‚ÌŒv‘ª€–Ú‚Ìe‚Ì€–Ú–¼‚ğİ’è‚·‚éB
 	 * 
 	 * @param targetItemName
-	 *            ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›å¯¾è±¡ã®è¨ˆæ¸¬é …ç›®ã®è¦ªã®é …ç›®å
+	 *            ƒŒƒ|[ƒgo—Í‘ÎÛ‚ÌŒv‘ª€–Ú‚Ìe‚Ì€–Ú–¼
 	 */
-	public void setTargetItemName(String targetItemName)
-	{
+	public void setTargetItemName(String targetItemName) {
 		this.targetItemName_ = targetItemName;
 	}
 

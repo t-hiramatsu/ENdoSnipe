@@ -39,13 +39,13 @@ import jp.co.acroquest.endosnipe.perfdoctor.rule.SingleElementRule;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * ã‚½ã‚±ãƒƒãƒˆã®ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆå€¤ã®åˆæœŸåŒ–ãŒè¡Œã‚ã‚Œã¦ã„ãªã„ã“ã¨ã‚’æ¤œå‡ºã™ã‚‹ãƒ«ãƒ¼ãƒ«ã§ã™ã€‚<br />
+ * ƒ\ƒPƒbƒg‚Ìƒ^ƒCƒ€ƒAƒEƒg’l‚Ì‰Šú‰»‚ªs‚í‚ê‚Ä‚¢‚È‚¢‚±‚Æ‚ğŒŸo‚·‚éƒ‹[ƒ‹‚Å‚·B<br />
  * @author fujii
  *
  */
 public class NoTimeoutDetectRule extends SingleElementRule implements JavelinConstants
 {
-    /** ãƒ­ã‚¬ãƒ¼ */
+    /** ƒƒK[ */
     private static final ENdoSnipeLogger LOGGER =
                                                   ENdoSnipeLogger.getLogger(NoTimeoutDetectRule.class);
 
@@ -56,7 +56,7 @@ public class NoTimeoutDetectRule extends SingleElementRule implements JavelinCon
     @Override
     protected void doJudgeElement(final JavelinLogElement element)
     {
-        // è­˜åˆ¥å­ãŒ"Event"ã§ãªã„å ´åˆã¯ã€å‡¦ç†ã—ãªã„ã€‚
+        // ¯•Êq‚ª"Event"‚Å‚È‚¢ê‡‚ÍAˆ—‚µ‚È‚¢B
         String type = element.getBaseInfo().get(JavelinLogColumnNum.ID);
         boolean isEvent = MSG_EVENT.equals(type);
 
@@ -73,7 +73,7 @@ public class NoTimeoutDetectRule extends SingleElementRule implements JavelinCon
             return;
         }
 
-        // ã‚¤ãƒ™ãƒ³ãƒˆåãŒ"NoTimeoutDetected"ã®å ´åˆã€æ¤œå‡ºã‚’è¡Œã†ã€‚
+        // ƒCƒxƒ“ƒg–¼‚ª"NoTimeoutDetected"‚Ìê‡AŒŸo‚ğs‚¤B
         if (EventConstants.NAME_NOTIMEOUT_DETECTED.equals(eventName) == false)
         {
             return;

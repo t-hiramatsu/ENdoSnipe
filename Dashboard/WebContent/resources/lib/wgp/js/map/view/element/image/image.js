@@ -1,20 +1,20 @@
 /*******************************************************************************
  * WGP 1.0B - Web Graphical Platform (https://sourceforge.net/projects/wgp/)
- *
+ * 
  * The MIT License (MIT)
- *
+ * 
  * Copyright (c) 2012 Acroquest Technology Co.,Ltd.
- *
+ * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * 
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -87,64 +87,17 @@ image.prototype.getProperty = function() {
 	return baseData;
 };
 
-//// 現在使用不可
-//image.prototype.resize = function(scaleX, scaleY, fulcrumX, fulcrumY) {
-//	var target = this.object;
-//	var afterPointerX = fulcrumX + (target.attr("x") - fulcrumX) * scaleX;
-//	var afterPointerY = fulcrumY + (target.attr("y") - fulcrumY) * scaleY;
-//	var afterWidth = target.attr("width") * scaleX;
-//	var afterHeight = target.attr("height") * scaleY;
-//	target.attr("x", afterPointerX);
-//	target.attr("y", afterPointerY);
-//	target.attr("width", afterWidth);
-//	target.attr("height", afterHeight);
-//	this.refactorConnectLine();
-//};
-
-/**
- * resize of path.
- *
- * @param ratioX
- *            moment of resize ratio x
- * @param ratioY
- *            moment of resize ratio y
- * @param ellipsePosition
- *            small ellipse position
- */
-image.prototype.resize = function(ratioX, ratioY, ellipsePosition) {
-	// resize element
-	var afterWidth = this.width * ratioX;
-	var afterHeight = this.height * ratioY;
-	var moveX;
-	var moveY;
-	var ellipseMoveX;
-	var ellipseMoveY;
-	if (ellipsePosition == raphaelMapConstants.LEFT_UPPER
-			|| ellipsePosition == raphaelMapConstants.LEFT_UNDER) {
-		moveX = this.width - afterWidth;
-		ellipseMoveX = moveX;
-	} else {
-		moveX = 0;
-		ellipseMoveX = afterWidth - this.width;
-	}
-	if (ellipsePosition == raphaelMapConstants.LEFT_UPPER
-			|| ellipsePosition == raphaelMapConstants.RIGHT_UPPER) {
-		moveY = this.height - afterHeight;
-		ellipseMoveY = moveY;
-	} else {
-		moveY = 0;
-		ellipseMoveY = afterHeight - this.height;
-	}
-	this._moveElementObject(moveX, moveY);
-	this.object.attr("width", afterWidth);
-	this.object.attr("height", afterHeight);
-
-	this.x = this.x + moveX;
-	this.y = this.y + moveY;
-	this.width = afterWidth;
-	this.height = afterHeight;
-
-	this.resizeFrame(ellipseMoveX, ellipseMoveY, ellipsePosition);
+// 現在使用不可
+image.prototype.resize = function(scaleX, scaleY, fulcrumX, fulcrumY) {
+	var target = this.object;
+	var afterPointerX = fulcrumX + (target.attr("x") - fulcrumX) * scaleX;
+	var afterPointerY = fulcrumY + (target.attr("y") - fulcrumY) * scaleY;
+	var afterWidth = target.attr("width") * scaleX;
+	var afterHeight = target.attr("height") * scaleY;
+	target.attr("x", afterPointerX);
+	target.attr("y", afterPointerY);
+	target.attr("width", afterWidth);
+	target.attr("height", afterHeight);
 	this.refactorConnectLine();
 };
 

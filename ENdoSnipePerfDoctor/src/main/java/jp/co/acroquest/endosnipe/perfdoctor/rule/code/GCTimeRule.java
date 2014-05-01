@@ -36,18 +36,18 @@ import jp.co.acroquest.endosnipe.javelin.parser.JavelinParser;
 import jp.co.acroquest.endosnipe.perfdoctor.rule.SingleElementRule;
 
 /**
- * гѓ—гѓ­г‚»г‚№гЃ«гЃЉгЃ‘г‚‹GCгЃ®е®џиЎЊж™‚й–“гЃЊгЂЃй–ѕеЂ¤г‚’и¶…гЃ€гЃџгЃ“гЃЁг‚’ж¤ње‡єгЃ™г‚‹RuleгЂ‚</br>
+ * ѓvѓЌѓZѓX‚Й‚Ё‚Ї‚йGC‚МЋАЌsЋћЉФ‚ЄЃAи‡’l‚р’ґ‚¦‚Ѕ‚±‚Ж‚рЊџЏo‚·‚йRuleЃB</br>
  * 
- * Performance DoctorгЃ«е‡єеЉ›гЃ™г‚‹е†…е®№</br> <li>й–ѕеЂ¤гЃ«жЊ‡е®љгЃ—гЃџе®џиЎЊж™‚й–“г‚’и¶ЉгЃ€гЃџе ґеђ€гЂЃй–ѕеЂ¤гЃЁе®џиЎЊй »еє¦г‚’е‡єеЉ›гЃ™г‚‹гЂ‚
+ * Performance Doctor‚ЙЏo—Н‚·‚й“а—e</br> <li>и‡’l‚ЙЋw’и‚µ‚ЅЋАЌsЋћЉФ‚р‰z‚¦‚ЅЏкЌ‡ЃAи‡’l‚ЖЋАЌs•p“x‚рЏo—Н‚·‚йЃB
  * 
  * @author fujii
  */
 public class GCTimeRule extends SingleElementRule
 {
-    /** и­¦е‘ЉгЃЁе€¤ж–­гЃ™г‚‹GCе®џиЎЊж™‚й–“гЃ®й–ѕеЂ¤(еЌдЅЌ:гѓџгѓЄз§’) */
+    /** ЊxЌђ‚Ж”»’f‚·‚йGCЋАЌsЋћЉФ‚Ми‡’l(’P€К:ѓ~ѓЉ•b) */
     public double            threshold;
 
-    /** гѓџгѓЄз§’гЃ‹г‚‰з§’гЃёгЃ®еЌдЅЌе¤‰жЏ›е®љж•° */
+    /** ѓ~ѓЉ•b‚©‚з•b‚Ц‚М’P€К•ПЉ·’иђ” */
     private static final int CONVERT_TO_SEC = 1000;
 
     /**
@@ -56,9 +56,9 @@ public class GCTimeRule extends SingleElementRule
     @Override
     public void doJudgeElement(final JavelinLogElement element)
     {
-        // Returnгѓ­г‚°гЃ‹г‚‰GCе®џиЎЊж™‚й–“е·®е€†г‚’еЏ–еѕ—гЃ—гЂЃй–ѕеЂ¤гЃЁгЃ®жЇ”ијѓг‚’иЎЊгЃ†гЂ‚
-        // CPUе‡¦зђ†ж™‚й–“е·®е€†г‚’еЏ–еѕ—гЃ—гЂЃгЂЋGCе®џиЎЊе›ћж•°е·®е€†пјЏCPUе‡¦зђ†ж™‚й–“е·®е€†гЂЏпјќгЂЋGCе®џиЎЊй »еє¦гЂЏг‚’з®—е‡є
-        // зЁ®е€Ґг‚’гѓЃг‚§гѓѓг‚ЇгЃ™г‚‹гЂ‚Callд»Ґе¤–гЃ§гЃ‚г‚ЊгЃ°ж¬ЎгЃ®и¦Ѓзґ гЃёгЂ‚
+        // ReturnѓЌѓO‚©‚зGCЋАЌsЋћЉФЌ·•Є‚рЋж“ѕ‚µЃAи‡’l‚Ж‚М”дЉr‚рЌs‚¤ЃB
+        // CPUЏ€—ќЋћЉФЌ·•Є‚рЋж“ѕ‚µЃAЃwGCЋАЌs‰сђ”Ќ·•ЄЃ^CPUЏ€—ќЋћЉФЌ·•ЄЃxЃЃЃwGCЋАЌs•p“xЃx‚рЋZЏo
+        // Ћн•К‚рѓ`ѓFѓbѓN‚·‚йЃBCall€ИЉO‚Е‚ ‚к‚ОЋџ‚М—v‘f‚ЦЃB
 
         String type = element.getBaseInfo().get(JavelinLogColumnNum.ID);
         boolean isCall = JavelinConstants.MSG_CALL.equals(type);
@@ -67,7 +67,7 @@ public class GCTimeRule extends SingleElementRule
             return;
         }
 
-        // JMXжѓ…е ±г‚’еЏ–еѕ—гЃ—гЂЃгЃ•г‚‰гЃ«гЃќгЃ®дё­гЃ‹г‚‰getCheckParamName()гЃ®еђЌе‰ЌгЃ«еЇѕеїњгЃ™г‚‹еЂ¤г‚’еЏ–еѕ—гЃ™г‚‹гЂ‚
+        // JMXЏо•с‚рЋж“ѕ‚µЃA‚і‚з‚Й‚»‚М’†‚©‚зgetCheckParamName()‚М–ј‘O‚Й‘О‰ћ‚·‚й’l‚рЋж“ѕ‚·‚йЃB
         Map<String, String> jmxInfoMap =
                                          JavelinLogUtil.parseDetailInfo(element,
                                                                         JavelinParser.TAG_TYPE_JMXINFO);
@@ -84,7 +84,7 @@ public class GCTimeRule extends SingleElementRule
         {
             return;
         }
-        // 1000г‚’гЃ‹гЃ‘г‚‹гЃ“гЃЁгЃ«г‚€г‚ЉеЌдЅЌг‚’гЂЊе›ћ/secгЂЌгЃ«гЃ™г‚‹
+        // 1000‚р‚©‚Ї‚й‚±‚Ж‚Й‚ж‚и’P€К‚рЃu‰с/secЃv‚Й‚·‚й
         double gcFrequency = CONVERT_TO_SEC * gcCount / duration;
         if (gcTime >= this.threshold)
         {
@@ -93,7 +93,7 @@ public class GCTimeRule extends SingleElementRule
     }
 
     /**
-     * durationг‚’еЏ–еѕ—гЃ™г‚‹гЂ‚
+     * duration‚рЋж“ѕ‚·‚йЃB
      * 
      * @param element
      *            JavelinLogElement
@@ -101,12 +101,12 @@ public class GCTimeRule extends SingleElementRule
      */
     private int getDuration(final JavelinLogElement element)
     {
-        // ExtraInfoгЃ®е†…е®№г‚’иЎЁгЃ™Mapг‚’еЏ–еѕ—гЃ™г‚‹гЂ‚
+        // ExtraInfo‚М“а—e‚р•\‚·Map‚рЋж“ѕ‚·‚йЃB
         Map<String, String> map =
                                   JavelinLogUtil.parseDetailInfo(element,
                                                                  JavelinParser.TAG_TYPE_EXTRAINFO);
 
-        // гѓЎг‚Ѕгѓѓгѓ‰гЃ®TATгЃ®еЂ¤г‚’еѕ—г‚‹гЂ‚
+        // ѓЃѓ\ѓbѓh‚МTAT‚М’l‚р“ѕ‚йЃB
         String durationString = map.get(JavelinLogConstants.EXTRAPARAM_DURATION);
         if (durationString == null)
         {
@@ -118,13 +118,13 @@ public class GCTimeRule extends SingleElementRule
     }
 
     /**
-     * MapгЃ‹г‚‰keyгЃ«еЇѕеїњгЃ™г‚‹еЂ¤г‚’Doubleећ‹гЃЁгЃ—гЃ¦еЏ–еѕ—гЃ™г‚‹гЂ‚
+     * Map‚©‚зkey‚Й‘О‰ћ‚·‚й’l‚рDoubleЊ^‚Ж‚µ‚ДЋж“ѕ‚·‚йЃB
      * 
      * @param jmxInfoMap
-     *            ж¤њзґўеЇѕи±ЎMap
+     *            ЊџЌх‘ОЏЫMap
      * @param key
-     *            еЏ–еѕ—г‚­гѓј
-     * @return еЇѕеїњгЃ™г‚‹еЂ¤
+     *            Ћж“ѕѓLЃ[
+     * @return ‘О‰ћ‚·‚й’l
      */
     protected double getDoubleValue(final Map<String, String> jmxInfoMap, final String key)
     {

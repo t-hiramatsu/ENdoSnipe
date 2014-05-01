@@ -3,56 +3,55 @@ package jp.co.acroquest.endosnipe.javelin.converter.infinispan.monitor;
 import java.util.HashMap;
 import java.util.Map;
 
-import jp.co.acroquest.jsonic.JSON;
-
+import net.arnx.jsonic.JSON;
 
 /**
- * ã‚¸ãƒ§ãƒ–ã®æƒ…å ±
+ * ƒWƒ‡ƒu‚Ìî•ñ
  * 
  * @author hiramatsu
  *
  */
 public class JobInfo
 {
-    /**ã€€ã‚¸ãƒ§ãƒ–çµ‚äº†çŠ¶æ…‹ã€€*/
+    /**@ƒWƒ‡ƒuI—¹ó‘Ô@*/
     private String              status_;
 
-    /**ã€€ã‚¸ãƒ§ãƒ–ã‚µãƒ–ãƒŸãƒƒãƒˆæ™‚åˆ»ã€€*/
+    /**@ƒWƒ‡ƒuƒTƒuƒ~ƒbƒg@*/
     private long                submitTime_;
 
-    /**ã€€ã‚¸ãƒ§ãƒ–é–‹å§‹æ™‚åˆ»ã€€*/
+    /**@ƒWƒ‡ƒuŠJn@*/
     private long                startTime_;
 
-    /**ã€€ã‚¸ãƒ§ãƒ–çµ‚äº†æ™‚åˆ»ã€€*/
+    /**@ƒWƒ‡ƒuI—¹@*/
     private long                finishTime_;
 
-    /**ã€€ã‚¸ãƒ§ãƒ–åã€€*/
+    /**@ƒWƒ‡ƒu–¼@*/
     private String              jobName_;
 
-    /**ã€€ã‚¸ãƒ§ãƒ–IDã€€*/
+    /**@ƒWƒ‡ƒuID@*/
     private String              jobId_;
 
-    /** jobID ã® JSONã‚­ãƒ¼  */
+    /** jobID ‚Ì JSONƒL[  */
     private static final String JOB_ID      = "JobID";
 
-    /** jobName ã® JSONã‚­ãƒ¼  */
+    /** jobName ‚Ì JSONƒL[  */
     private static final String JOB_NAME    = "JobName";
 
-    /** submitTime ã® JSONã‚­ãƒ¼  */
+    /** submitTime ‚Ì JSONƒL[  */
     private static final String SUBMIT_TIME = "SubmitTime";
 
-    /** startTime ã® JSONã‚­ãƒ¼  */
+    /** startTime ‚Ì JSONƒL[  */
     private static final String START_TIME  = "StartTime";
 
-    /** finishTime ã® JSONã‚­ãƒ¼  */
+    /** finishTime ‚Ì JSONƒL[  */
     private static final String FINISH_TIME = "FinishTime";
 
-    /** status ã® JSONã‚­ãƒ¼  */
+    /** status ‚Ì JSONƒL[  */
     private static final String STATUS      = "Status";
 
     /**
-     * ã‚¸ãƒ§ãƒ–å®Ÿè¡ŒçµæœçŠ¶æ…‹ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ã‚¸ãƒ§ãƒ–å®Ÿè¡ŒçµæœçŠ¶æ…‹
+     * ƒWƒ‡ƒuÀsŒ‹‰Êó‘Ô‚ğæ“¾‚·‚éB
+     * @return ƒWƒ‡ƒuÀsŒ‹‰Êó‘Ô
      */
     public String getStatus()
     {
@@ -60,8 +59,8 @@ public class JobInfo
     }
 
     /**
-     * ã‚¸ãƒ§ãƒ–å®Ÿè¡ŒçµæœçŠ¶æ…‹ã‚’å¤‰æ›´ã™ã‚‹ã€‚
-     * @param status ã‚¸ãƒ§ãƒ–å®Ÿè¡ŒçµæœçŠ¶æ…‹
+     * ƒWƒ‡ƒuÀsŒ‹‰Êó‘Ô‚ğ•ÏX‚·‚éB
+     * @param status ƒWƒ‡ƒuÀsŒ‹‰Êó‘Ô
      */
     public void setStatus(String status)
     {
@@ -69,8 +68,8 @@ public class JobInfo
     }
 
     /**
-     * ã‚¸ãƒ§ãƒ–ã‚µãƒ–ãƒŸãƒƒãƒˆæ™‚åˆ»ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ã‚¸ãƒ§ãƒ–ã‚µãƒ–ãƒŸãƒƒãƒˆæ™‚åˆ»
+     * ƒWƒ‡ƒuƒTƒuƒ~ƒbƒg‚ğæ“¾‚·‚éB
+     * @return ƒWƒ‡ƒuƒTƒuƒ~ƒbƒg
      */
     public long getSubmitTime()
     {
@@ -78,8 +77,8 @@ public class JobInfo
     }
 
     /**
-     * ã‚¸ãƒ§ãƒ–ã‚µãƒ–ãƒŸãƒƒãƒˆæ™‚åˆ»ã‚’å¤‰æ›´ã™ã‚‹ã€‚
-     * @param submitTime ã‚¸ãƒ§ãƒ–ã‚µãƒ–ãƒŸãƒƒãƒˆæ™‚åˆ»
+     * ƒWƒ‡ƒuƒTƒuƒ~ƒbƒg‚ğ•ÏX‚·‚éB
+     * @param submitTime ƒWƒ‡ƒuƒTƒuƒ~ƒbƒg
      */
     public void setSubmitTime(long submitTime)
     {
@@ -87,8 +86,8 @@ public class JobInfo
     }
 
     /**
-     * ã‚¸ãƒ§ãƒ–é–‹å§‹æ™‚åˆ»ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ã‚¸ãƒ§ãƒ–é–‹å§‹æ™‚åˆ»
+     * ƒWƒ‡ƒuŠJn‚ğæ“¾‚·‚éB
+     * @return ƒWƒ‡ƒuŠJn
      */
     public long getStartTime()
     {
@@ -96,8 +95,8 @@ public class JobInfo
     }
 
     /**
-     * ã‚¸ãƒ§ãƒ–é–‹å§‹æ™‚åˆ»ã‚’å¤‰æ›´ã™ã‚‹ã€‚
-     * @param startTime ã‚¸ãƒ§ãƒ–é–‹å§‹æ™‚åˆ»
+     * ƒWƒ‡ƒuŠJn‚ğ•ÏX‚·‚éB
+     * @param startTime ƒWƒ‡ƒuŠJn
      */
     public void setStartTime(long startTime)
     {
@@ -105,8 +104,8 @@ public class JobInfo
     }
 
     /**
-     * ã‚¸ãƒ§ãƒ–çµ‚äº†æ™‚åˆ»ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ã‚¸ãƒ§ãƒ–çµ‚äº†æ™‚åˆ»
+     * ƒWƒ‡ƒuI—¹‚ğæ“¾‚·‚éB
+     * @return ƒWƒ‡ƒuI—¹
      */
     public long getFinishTime()
     {
@@ -114,8 +113,8 @@ public class JobInfo
     }
 
     /**
-     * ã‚¸ãƒ§ãƒ–çµ‚äº†æ™‚åˆ»ã‚’å¤‰æ›´ã™ã‚‹ã€‚
-     * @param finishTime ã‚¸ãƒ§ãƒ–çµ‚äº†æ™‚åˆ»
+     * ƒWƒ‡ƒuI—¹‚ğ•ÏX‚·‚éB
+     * @param finishTime ƒWƒ‡ƒuI—¹
      */
     public void setFinishTime(long finishTime)
     {
@@ -123,8 +122,8 @@ public class JobInfo
     }
 
     /**
-     * ã‚¸ãƒ§ãƒ–åã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ã‚¸ãƒ§ãƒ–å
+     * ƒWƒ‡ƒu–¼‚ğæ“¾‚·‚éB
+     * @return ƒWƒ‡ƒu–¼
      */
     public String getJobName()
     {
@@ -132,8 +131,8 @@ public class JobInfo
     }
 
     /**
-     * ã‚¸ãƒ§ãƒ–åã‚’å¤‰æ›´ã™ã‚‹ã€‚
-     * @param jobName ã‚¸ãƒ§ãƒ–å
+     * ƒWƒ‡ƒu–¼‚ğ•ÏX‚·‚éB
+     * @param jobName ƒWƒ‡ƒu–¼
      */
     public void setJobName(String jobName)
     {
@@ -141,8 +140,8 @@ public class JobInfo
     }
 
     /**
-     * ã‚¸ãƒ§ãƒ–IDã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ã‚¸ãƒ§ãƒ–ID
+     * ƒWƒ‡ƒuID‚ğæ“¾‚·‚éB
+     * @return ƒWƒ‡ƒuID
      */
     public String getJobId()
     {
@@ -150,8 +149,8 @@ public class JobInfo
     }
 
     /**
-     * ã‚¸ãƒ§ãƒ–IDã‚’å¤‰æ›´ã™ã‚‹ã€‚
-     * @param jobId ã‚¸ãƒ§ãƒ–ID
+     * ƒWƒ‡ƒuID‚ğ•ÏX‚·‚éB
+     * @param jobId ƒWƒ‡ƒuID
      */
     public void setJobId(String jobId)
     {
@@ -167,7 +166,7 @@ public class JobInfo
     }
 
     /**
-     * @return jsonå½¢å¼ã®ã‚¸ãƒ§ãƒ–æƒ…å ±
+     * @return jsonŒ`®‚ÌƒWƒ‡ƒuî•ñ
      */
     public String getJson()
     {

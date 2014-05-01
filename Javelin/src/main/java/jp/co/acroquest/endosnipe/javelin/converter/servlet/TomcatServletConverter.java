@@ -44,14 +44,14 @@ import jp.co.smg.endosnipe.javassist.NotFoundException;
  */
 public class TomcatServletConverter extends AbstractConverter
 {
-    /** HttpServletãƒ¢ãƒ‹ã‚¿ã®ã‚¯ãƒ©ã‚¹åç§° */
+    /** HttpServletƒ‚ƒjƒ^‚ÌƒNƒ‰ƒX–¼Ì */
     private static final String SERVLET_MONITOR_NAME = HttpServletMonitor.class.getCanonicalName();
 
     private static final String SERVLET_RESPONSE_CLASS = "org.apache.catalina.connector.Response";
 
     private static final String SERVLET_REQUEST_CLASS = "org.apache.catalina.connector.Request";
 
-    /** Throwableã®CtClassã€‚ */
+    /** Throwable‚ÌCtClassB */
     private CtClass             throwableClass_;
 
     /**
@@ -65,7 +65,7 @@ public class TomcatServletConverter extends AbstractConverter
         }
         catch (NotFoundException nfe)
         {
-            // ç™ºç”Ÿã—ãªã„ã€‚
+            // ”­¶‚µ‚È‚¢B
             SystemLogger.getInstance().warn(nfe);
         }
     }
@@ -80,8 +80,8 @@ public class TomcatServletConverter extends AbstractConverter
     {
         CtClass ctClass = getCtClass();
 
-        // serviceãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã³å‡ºã—ã€serviceãƒ¡ã‚½ãƒƒãƒ‰ãŒå­˜åœ¨ã™ã‚‹å ´åˆã®ã¿ã€
-        // ãƒ¡ã‚½ãƒƒãƒ‰ã«ãƒ­ã‚°å‡ºåŠ›ã‚³ãƒ¼ãƒ‰ã‚’åŸ‹ã‚è¾¼ã‚€ã€‚
+        // serviceƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µAserviceƒƒ\ƒbƒh‚ª‘¶İ‚·‚éê‡‚Ì‚İA
+        // ƒƒ\ƒbƒh‚ÉƒƒOo—ÍƒR[ƒh‚ğ–„‚ß‚ŞB
         List<CtBehavior> behaviorList = getMatcheDeclaredBehavior();
         for (CtBehavior ctBehavior : behaviorList)
         {
@@ -92,10 +92,10 @@ public class TomcatServletConverter extends AbstractConverter
     }
 
     /**
-     * å¯¾è±¡ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å¤‰æ›ã™ã‚‹ã€‚
+     * ‘ÎÛƒƒ\ƒbƒh‚ğ•ÏŠ·‚·‚éB
      * 
-     * @param ctMethod å¤‰æ›å¯¾è±¡ãƒ¡ã‚½ãƒƒãƒ‰
-     * @throws CannotCompileException ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«å¤±æ•—æ™‚
+     * @param ctMethod •ÏŠ·‘ÎÛƒƒ\ƒbƒh
+     * @throws CannotCompileException ƒRƒ“ƒpƒCƒ‹¸”s
      */
     private void convertMethod(final CtBehavior ctMethod)
         throws CannotCompileException
@@ -112,7 +112,7 @@ public class TomcatServletConverter extends AbstractConverter
             ctMethod.insertAfter(AFTER);
             ctMethod.addCatch(NG, throwableClass_);
 
-            // å‡¦ç†çµæœã‚’ãƒ­ã‚°ã«å‡ºåŠ›ã™ã‚‹ã€‚
+            // ˆ—Œ‹‰Ê‚ğƒƒO‚Éo—Í‚·‚éB
             logModifiedMethod("TomcatHttpServletConverter", ctMethod);
         }
         catch (NotFoundException ex)

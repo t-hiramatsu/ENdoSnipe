@@ -32,14 +32,14 @@ import jp.co.acroquest.endosnipe.common.entity.ResourceItem;
 import jp.co.acroquest.endosnipe.javelin.converter.leak.monitor.CollectionMonitorEntry;
 
 /**
- * resourceãƒ‘ãƒƒã‚±ãƒ¼ã‚¸ã§åˆ©ç”¨ã™ã‚‹ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã€‚
+ * resourceƒpƒbƒP[ƒW‚Å—˜—p‚·‚éƒ†[ƒeƒBƒŠƒeƒBB
  * 
  * @author eriguchi
  */
 public class ResourceUtil
 {
     /**
-     * ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§ã™ã€‚
+     * ƒvƒ‰ƒCƒx[ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Å‚·B
      */
     private ResourceUtil()
     {
@@ -47,9 +47,9 @@ public class ResourceUtil
     }
 
     /**
-     * CollectionMonitorEntryã‹ã‚‰ResourceEntryã¸ã®å‹å¤‰æ›ã‚’è¡Œã†ã€‚
-     * @param list CollectionMonitorEntryã®ãƒªã‚¹ãƒˆ
-     * @return ResourceEntryã®ãƒªã‚¹ãƒˆ
+     * CollectionMonitorEntry‚©‚çResourceEntry‚Ö‚ÌŒ^•ÏŠ·‚ğs‚¤B
+     * @param list CollectionMonitorEntry‚ÌƒŠƒXƒg
+     * @return ResourceEntry‚ÌƒŠƒXƒg
      */
     static List<ResourceItem> convert(List<CollectionMonitorEntry> list)
     {

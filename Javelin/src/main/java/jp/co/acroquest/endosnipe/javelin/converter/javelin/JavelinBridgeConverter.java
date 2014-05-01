@@ -43,7 +43,7 @@ import jp.co.smg.endosnipe.javassist.bytecode.CodeIterator;
 import jp.co.smg.endosnipe.javassist.bytecode.Opcode;
 
 /**
- * Javelinç”¨ã‚³ãƒ³ãƒãƒ¼ã‚¿
+ * Javelin—pƒRƒ“ƒo[ƒ^
  * 
  * @author yamasaki
  */
@@ -51,51 +51,51 @@ public class JavelinBridgeConverter extends AbstractConverter
 {
     private static final String CONVERTER_NAME = "JavelinConverter";
 
-    /** JavelinRecorderå */
+    /** JavelinRecorder–¼ */
     private static final String JAVELIN_RECORDER_NAME = JavelinRecorder.class.getName();
 
-    /** å®Ÿè¡Œå‰å‡¦ç†ã¨ã—ã¦è¿½åŠ ã™ã‚‹preProcessã®ã‚³ãƒ¼ãƒ‰(å‰)ã€‚ */
+    /** Às‘Oˆ—‚Æ‚µ‚Ä’Ç‰Á‚·‚épreProcess‚ÌƒR[ƒh(‘O)B */
     private static final String PREPROCESS_CODE_BEFORE = JAVELIN_RECORDER_NAME + ".preProcess(";
 
-    /** å®Ÿè¡Œå‰å‡¦ç†ã¨ã—ã¦è¿½åŠ ã™ã‚‹preProcessã®ã‚³ãƒ¼ãƒ‰(å¾Œ)ã€‚ */
+    /** Às‘Oˆ—‚Æ‚µ‚Ä’Ç‰Á‚·‚épreProcess‚ÌƒR[ƒh(Œã)B */
     private static final String PREPROCESS_CODE_AFTER = "\", $args);";
 
-    /** å®Ÿè¡Œå¾Œå‡¦ç†ã¨ã—ã¦è¿½åŠ ã™ã‚‹postProcessNGã®ã‚³ãƒ¼ãƒ‰(å‰)ã€‚ */
+    /** ÀsŒãˆ—‚Æ‚µ‚Ä’Ç‰Á‚·‚épostProcessNG‚ÌƒR[ƒh(‘O)B */
     private static final String POSTPROCESS_NG_CODE_BEFORE =
             JAVELIN_RECORDER_NAME + ".postProcessNG(";
 
-    /** å®Ÿè¡Œå¾Œå‡¦ç†ã¨ã—ã¦è¿½åŠ ã™ã‚‹postProcessNGã®ã‚³ãƒ¼ãƒ‰(å¾Œ)ã€‚ */
+    /** ÀsŒãˆ—‚Æ‚µ‚Ä’Ç‰Á‚·‚épostProcessNG‚ÌƒR[ƒh(Œã)B */
     private static final String POSTPROCESS_NG_CODE_AFTER = "\",$e);throw $e;";
 
-    /** å®Ÿè¡Œå¾Œå‡¦ç†ã¨ã—ã¦è¿½åŠ ã™ã‚‹postProcessOKã®ã‚³ãƒ¼ãƒ‰(å‰)ã€‚ */
+    /** ÀsŒãˆ—‚Æ‚µ‚Ä’Ç‰Á‚·‚épostProcessOK‚ÌƒR[ƒh(‘O)B */
     private static final String POSTPROCESS_OK_CODE_BEFORE =
             JAVELIN_RECORDER_NAME + ".postProcessOK(";
 
-    /** å®Ÿè¡Œå¾Œå‡¦ç†ã¨ã—ã¦è¿½åŠ ã™ã‚‹postProcessOKã®ã‚³ãƒ¼ãƒ‰(å¾Œ)ã€‚ */
+    /** ÀsŒãˆ—‚Æ‚µ‚Ä’Ç‰Á‚·‚épostProcessOK‚ÌƒR[ƒh(Œã)B */
     private static final String POSTPROCESS_OK_CODE_AFTER = "\",($w)$_);";
 
-    /** å®Ÿè¡Œå‰å‡¦ç†ã¨ã—ã¦è¿½åŠ ã•ã‚Œã‚‹ã‚³ãƒ¼ãƒ‰ã®å›ºå®šéƒ¨åˆ†ã®æ–‡å­—åˆ—é•· */
+    /** Às‘Oˆ—‚Æ‚µ‚Ä’Ç‰Á‚³‚ê‚éƒR[ƒh‚ÌŒÅ’è•”•ª‚Ì•¶š—ñ’· */
     private static final int PREPROCESS_CODE_FIXEDLENGTH =
             PREPROCESS_CODE_BEFORE.length() + PREPROCESS_CODE_AFTER.length();
 
-    /** å®Ÿè¡Œå¾Œå‡¦ç†ã¨ã—ã¦è¿½åŠ ã•ã‚Œã‚‹ã‚³ãƒ¼ãƒ‰ã®å›ºå®šéƒ¨åˆ†ã®æ–‡å­—åˆ—é•· */
+    /** ÀsŒãˆ—‚Æ‚µ‚Ä’Ç‰Á‚³‚ê‚éƒR[ƒh‚ÌŒÅ’è•”•ª‚Ì•¶š—ñ’· */
     private static final int POSTPROCESS_CODE_FIXEDLENGTH =
             POSTPROCESS_OK_CODE_BEFORE.length() + POSTPROCESS_OK_CODE_AFTER.length();
 
-    /** å®Ÿè¡Œå¾Œå‡¦ç†ã¨ã—ã¦è¿½åŠ ã•ã‚Œã‚‹NGã‚³ãƒ¼ãƒ‰ã®å›ºå®šéƒ¨åˆ†ã®æ–‡å­—åˆ—é•· */
+    /** ÀsŒãˆ—‚Æ‚µ‚Ä’Ç‰Á‚³‚ê‚éNGƒR[ƒh‚ÌŒÅ’è•”•ª‚Ì•¶š—ñ’· */
     private static final int NG_CODE_FIXEDLENGTH =
             POSTPROCESS_NG_CODE_BEFORE.length() + POSTPROCESS_NG_CODE_AFTER.length();
 
-    /** bytecodeã®å†…å®¹ã«ã‚ˆã‚Šé™¤å¤–ã™ã‚‹å ´åˆã®å‡¦ç†å†…å®¹ï¼šé™¤å¤–ã—ãªã„ã€‚ */
+    /** bytecode‚Ì“à—e‚É‚æ‚èœŠO‚·‚éê‡‚Ìˆ—“à—eFœŠO‚µ‚È‚¢B */
     private static final int POLICY_NOT_EXCLUDE = 0;
 
-    /** bytecodeã®å†…å®¹ã«ã‚ˆã‚Šé™¤å¤–ã™ã‚‹å ´åˆã®å‡¦ç†å†…å®¹ï¼šBCIã—ãªã„ã€‚ */
+    /** bytecode‚Ì“à—e‚É‚æ‚èœŠO‚·‚éê‡‚Ìˆ—“à—eFBCI‚µ‚È‚¢B */
     private static final int POLICY_NO_BCI = 1;
 
-    /** Javelinè¨­å®šã€‚ */
+    /** Javelinİ’èB */
     private final JavelinConfig config_ = new JavelinConfig();
 
-    /** å‡¦ç†ä¸­ã®ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒã‚¤ãƒˆã‚³ãƒ¼ãƒ‰æƒ…å ±ã€‚ */
+    /** ˆ—’†‚Ìƒƒ\ƒbƒh‚ÌƒoƒCƒgƒR[ƒhî•ñB */
     private BytecodeInfo info_;
 
     /**
@@ -103,7 +103,7 @@ public class JavelinBridgeConverter extends AbstractConverter
      */
     public void init()
     {
-        // StatsJavelinRecorderã‚’åˆæœŸåŒ–ã™ã‚‹
+        // StatsJavelinRecorder‚ğ‰Šú‰»‚·‚é
         synchronized (StatsJavelinRecorder.class)
         {
             if (StatsJavelinRecorder.isInitialized() == false)
@@ -128,13 +128,13 @@ public class JavelinBridgeConverter extends AbstractConverter
             if (isExcludeTarget(ctBehavior))
             {
                 processExcludeTarget(ctBehavior);
-                //JavelinConverterã§å¤‰æ›å¯¾è±¡ã‹ã‚‰é™¤å¤–ã•ã‚ŒãŸãƒ¡ã‚½ãƒƒãƒ‰æ•°ã‚’è¨˜éŒ²
+                //JavelinConverter‚Å•ÏŠ·‘ÎÛ‚©‚çœŠO‚³‚ê‚½ƒƒ\ƒbƒh”‚ğ‹L˜^
                 ConvertedMethodCounter.incrementExcludedCount();
             }
             else
             {
                 convertBehavior(ctBehavior);
-                //JavelinConverterã§å¤‰æ›ã‚’è¡Œã£ãŸãƒ¡ã‚½ãƒƒãƒ‰æ•°ã‚’è¨˜éŒ²
+                //JavelinConverter‚Å•ÏŠ·‚ğs‚Á‚½ƒƒ\ƒbƒh”‚ğ‹L˜^
                 ConvertedMethodCounter.incrementConvertedCount();
             }
 
@@ -144,10 +144,10 @@ public class JavelinBridgeConverter extends AbstractConverter
     }
 
     /**
-     * é™¤å¤–å‡¦ç†ã‚’å®Ÿè£…ã™ã‚‹ã€‚
-     * ä»Šã®ã¨ã“ã‚ã€ãƒ­ã‚°ã‚’å‡ºåŠ›ã™ã‚‹ã®ã¿ã€‚
+     * œŠOˆ—‚ğÀ‘•‚·‚éB
+     * ¡‚Ì‚Æ‚±‚ëAƒƒO‚ğo—Í‚·‚é‚Ì‚İB
      * 
-     * @param ctBehavior é™¤å¤–å¯¾è±¡ã€‚
+     * @param ctBehavior œŠO‘ÎÛB
      */
     private void processExcludeTarget(final CtBehavior ctBehavior)
     {
@@ -162,16 +162,16 @@ public class JavelinBridgeConverter extends AbstractConverter
     }
 
     /**
-     * é™¤å¤–ã™ã‚‹ã‹ã©ã†ã‹ã‚’åˆ¤å®šã™ã‚‹ã€‚
+     * œŠO‚·‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
      * 
-     * ä»¥ä¸‹ã®æ¡ä»¶ã‚’æº€ãŸã™å ´åˆã«é™¤å¤–ã™ã‚‹ã€‚
+     * ˆÈ‰º‚ÌğŒ‚ğ–‚½‚·ê‡‚ÉœŠO‚·‚éB
      * <ol>
-     * <li>bytecodeé•·ãŒbytecode.exclude.lengthã‚ˆã‚ŠçŸ­ã„ã€‚</li>
-     * <li>bytecodeã«gotoãŒå«ã¾ã‚Œã¦ã„ãªã„ã€‚</li>
+     * <li>bytecode’·‚ªbytecode.exclude.length‚æ‚è’Z‚¢B</li>
+     * <li>bytecode‚Égoto‚ªŠÜ‚Ü‚ê‚Ä‚¢‚È‚¢B</li>
      * </ol>
      * 
-     * @param behavior åˆ¤å®šå¯¾è±¡ã€‚
-     * @return é™¤å¤–ã™ã‚‹ã‹ã©ã†ã‹ã€‚
+     * @param behavior ”»’è‘ÎÛB
+     * @return œŠO‚·‚é‚©‚Ç‚¤‚©B
      */
     private boolean isExcludeTarget(final CtBehavior behavior)
     {
@@ -233,10 +233,10 @@ public class JavelinBridgeConverter extends AbstractConverter
     }
 
     /**
-     * ãƒ¡ã‚½ãƒƒãƒ‰ã®æŒ¯ã‚‹èˆã„ã‚’ä¿®æ­£ã™ã‚‹ã€‚
+     * ƒƒ\ƒbƒh‚ÌU‚é•‘‚¢‚ğC³‚·‚éB
      * @param ctBehavior CtBehavior
-     * @throws CannotCompileException ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã§ããªã„å ´åˆ
-     * @throws NotFoundException ã‚¯ãƒ©ã‚¹ãŒè¦‹ã¤ã‹ã‚‰ãªã„å ´åˆ
+     * @throws CannotCompileException ƒRƒ“ƒpƒCƒ‹‚Å‚«‚È‚¢ê‡
+     * @throws NotFoundException ƒNƒ‰ƒX‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡
      */
     private void convertBehavior(final CtBehavior ctBehavior)
         throws CannotCompileException,
@@ -247,7 +247,7 @@ public class JavelinBridgeConverter extends AbstractConverter
         String argClassMethod = "\"" + className + "\",\"" + methodName;
         int argLength = argClassMethod.length();
 
-        // å®Ÿè¡Œå‰å‡¦ç†ã‚’è¿½åŠ ã™ã‚‹ã€‚
+        // Às‘Oˆ—‚ğ’Ç‰Á‚·‚éB
         int preProcessCodeLength = argLength + PREPROCESS_CODE_FIXEDLENGTH;
         StringBuilder preProcessCodeBuffer = new StringBuilder(preProcessCodeLength);
         preProcessCodeBuffer.append(PREPROCESS_CODE_BEFORE);
@@ -256,7 +256,7 @@ public class JavelinBridgeConverter extends AbstractConverter
         String callPreProcessCode = preProcessCodeBuffer.toString();
         ctBehavior.insertBefore(callPreProcessCode);
 
-        // å®Ÿè¡Œå¾Œå‡¦ç†ã‚’è¿½åŠ ã™ã‚‹ã€‚
+        // ÀsŒãˆ—‚ğ’Ç‰Á‚·‚éB
         int postProcessCodeLength = argLength + POSTPROCESS_CODE_FIXEDLENGTH;
         StringBuilder postProcessCodeBuffer = new StringBuilder(postProcessCodeLength);
         postProcessCodeBuffer.append(POSTPROCESS_OK_CODE_BEFORE);
@@ -266,9 +266,9 @@ public class JavelinBridgeConverter extends AbstractConverter
 
         ctBehavior.insertAfter(callPostProcessCode);
 
-        // ä¾‹å¤–ãƒãƒ³ãƒ‰ãƒªãƒ³ã‚°ã‚’è¿½åŠ ã™ã‚‹ã€‚
+        // —áŠOƒnƒ“ƒhƒŠƒ“ƒO‚ğ’Ç‰Á‚·‚éB
         CtClass throwable = getClassPool().get(Throwable.class.getName());
-        // å®Ÿè¡Œå‰å‡¦ç†ã‚’è¿½åŠ ã™ã‚‹ã€‚
+        // Às‘Oˆ—‚ğ’Ç‰Á‚·‚éB
         int ngCodeLength = argLength + NG_CODE_FIXEDLENGTH;
         StringBuilder ngCodeBuffer = new StringBuilder(ngCodeLength);
         ngCodeBuffer.append(POSTPROCESS_NG_CODE_BEFORE);
@@ -277,7 +277,7 @@ public class JavelinBridgeConverter extends AbstractConverter
         String ngCode = ngCodeBuffer.toString();
         ctBehavior.addCatch(ngCode, throwable);
 
-        // å‡¦ç†çµæœã‚’ãƒ­ã‚°ã«å‡ºåŠ›ã™ã‚‹ã€‚
+        // ˆ—Œ‹‰Ê‚ğƒƒO‚Éo—Í‚·‚éB
         logModifiedMethod(CONVERTER_NAME, ctBehavior, createByteCodeInfo());
     }
 
@@ -287,7 +287,7 @@ public class JavelinBridgeConverter extends AbstractConverter
     }
 
     /**
-     * bytecodeã®æƒ…å ±ã‚’æŒã¤ã‚¯ãƒ©ã‚¹
+     * bytecode‚Ìî•ñ‚ğ‚ÂƒNƒ‰ƒX
      * @author acroquest
      *
      */

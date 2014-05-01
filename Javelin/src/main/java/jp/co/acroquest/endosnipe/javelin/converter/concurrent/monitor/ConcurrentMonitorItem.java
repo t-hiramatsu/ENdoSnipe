@@ -28,22 +28,22 @@ package jp.co.acroquest.endosnipe.javelin.converter.concurrent.monitor;
 import java.util.List;
 
 /**
- * 1å›1å›ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¸ã®ã‚¢ã‚¯ã‚»ã‚¹ã‚’ã‚’è¨˜éŒ²ã™ã‚‹ã€‚
+ * 1‰ñ1‰ñ‚ÌƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒAƒNƒZƒX‚ğ‚ğ‹L˜^‚·‚éB
  * @author eriguchi
  *
  */
 public class ConcurrentMonitorItem
 {
-    /** ã‚¹ãƒ¬ãƒƒãƒ‰ID */
+    /** ƒXƒŒƒbƒhID */
     private long threadId_;
 
-    /** ã‚¹ãƒ¬ãƒƒãƒ‰å */
+    /** ƒXƒŒƒbƒh–¼ */
     private String threadName_;
 
-    /** ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ */
+    /** ƒXƒ^ƒbƒNƒgƒŒ[ƒX */
     private String stackTrace_;
 
-    /** ãƒ­ãƒƒã‚¯ã—ã¦ã„ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒªã‚¹ãƒˆã€‚ */
+    /** ƒƒbƒN‚µ‚Ä‚¢‚éƒIƒuƒWƒFƒNƒg‚ÌƒŠƒXƒgB */
     private List<String> lockedObjectList_;
 
     private long time_;

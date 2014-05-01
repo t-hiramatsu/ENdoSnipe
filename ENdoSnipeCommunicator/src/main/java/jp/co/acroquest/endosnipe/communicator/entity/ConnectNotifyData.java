@@ -26,36 +26,36 @@
 package jp.co.acroquest.endosnipe.communicator.entity;
 
 /**
- * æ¥ç¶šé€šçŸ¥æƒ…å ±ã®ãƒ‡ãƒ¼ã‚¿ã‚¯ãƒ©ã‚¹ã§ã™ã€‚
+ * Ú‘±’Ê’mî•ñ‚Ìƒf[ƒ^ƒNƒ‰ƒX‚Å‚·B
  * 
  * @author matsuoka
  */
 public class ConnectNotifyData
 {
-    /** æ¥ç¶šç¨®åˆ¥ï¼šJavelin */
+    /** Ú‘±í•ÊFJavelin */
     public static final int KIND_JAVELIN = 0;
 
-    /** æ¥ç¶šç¨®åˆ¥ï¼šåˆ¶å¾¡ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆ (BottleneckEye/WebExplorer) */
+    /** Ú‘±í•ÊF§ŒäƒNƒ‰ƒCƒAƒ“ƒg (BottleneckEye/WebDashboard) */
     public static final int KIND_CONTROLLER = 1;
 
-    /** æ¥ç¶šç›®çš„ï¼šãƒªã‚½ãƒ¼ã‚¹ã®å–å¾— */
+    /** Ú‘±–Ú“IFƒŠƒ\[ƒX‚Ìæ“¾ */
     public static final int PURPOSE_GET_RESOURCE = 0;
 
-    /** æ¥ç¶šç›®çš„ï¼šãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã®å–å¾— */
+    /** Ú‘±–Ú“IFƒf[ƒ^ƒx[ƒX–¼‚Ìæ“¾ */
     public static final int PURPOSE_GET_DATABASE = 1;
 
-    /** æ¥ç¶šç¨®åˆ¥ */
+    /** Ú‘±í•Ê */
     private int kind_ = -1;
 
-    /** ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆå */
+    /** ƒG[ƒWƒFƒ“ƒg–¼ */
     private String agentName_;
 
-    /** æ¥ç¶šç›®çš„ */
+    /** Ú‘±–Ú“I */
     private int purpose_ = 0;
 
     /**
-     * æ¥ç¶šç¨®åˆ¥ã‚’å–å¾—ã—ã¾ã™ã€‚
-     * @return æ¥ç¶šç¨®åˆ¥
+     * Ú‘±í•Ê‚ğæ“¾‚µ‚Ü‚·B
+     * @return Ú‘±í•Ê
      */
     public int getKind()
     {
@@ -63,8 +63,8 @@ public class ConnectNotifyData
     }
 
     /**
-     * æ¥ç¶šç¨®åˆ¥ã‚’è¨­å®šã—ã¾ã™ã€‚
-     * @param kind æ¥ç¶šç¨®åˆ¥
+     * Ú‘±í•Ê‚ğİ’è‚µ‚Ü‚·B
+     * @param kind Ú‘±í•Ê
      */
     public void setKind(int kind)
     {
@@ -72,8 +72,8 @@ public class ConnectNotifyData
     }
 
     /**
-     * ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆåã‚’å–å¾—ã—ã¾ã™ã€‚
-     * @return DBå
+     * ƒG[ƒWƒFƒ“ƒg–¼‚ğæ“¾‚µ‚Ü‚·B
+     * @return DB–¼
      */
     public String getAgentName()
     {
@@ -81,8 +81,8 @@ public class ConnectNotifyData
     }
 
     /**
-     * ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆåã‚’è¨­å®šã—ã¾ã™ã€‚
-     * @param agentName ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆå
+     * ƒG[ƒWƒFƒ“ƒg–¼‚ğİ’è‚µ‚Ü‚·B
+     * @param agentName ƒG[ƒWƒFƒ“ƒg–¼
      */
     public void setAgentName(String agentName)
     {
@@ -90,8 +90,8 @@ public class ConnectNotifyData
     }
 
     /**
-     * æ¥ç¶šç›®çš„ã‚’å–å¾—ã—ã¾ã™ã€‚
-     * @return æ¥ç¶šç›®çš„
+     * Ú‘±–Ú“I‚ğæ“¾‚µ‚Ü‚·B
+     * @return Ú‘±–Ú“I
      */
     public int getPurpose()
     {
@@ -99,8 +99,8 @@ public class ConnectNotifyData
     }
 
     /**
-     * æ¥ç¶šç›®çš„ã‚’è¨­å®šã—ã¾ã™ã€‚
-     * @param purpose æ¥ç¶šç›®çš„
+     * Ú‘±–Ú“I‚ğİ’è‚µ‚Ü‚·B
+     * @param purpose Ú‘±–Ú“I
      */
     public void setPurpose(int purpose)
     {

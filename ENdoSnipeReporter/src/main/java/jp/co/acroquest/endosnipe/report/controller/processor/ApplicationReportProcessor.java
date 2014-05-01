@@ -29,21 +29,21 @@ import jp.co.acroquest.endosnipe.report.output.RecordReporter;
 import jp.co.acroquest.endosnipe.report.util.ReporterConfigAccessor;
 
 /**
- * ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³æƒ…å ±ã®ãƒ¬ãƒãƒ¼ãƒˆã‚’ç”Ÿæˆã™ã‚‹ãƒ¬ãƒãƒ¼ãƒˆãƒ—ãƒ­ã‚»ãƒƒã‚µã€‚
+ * ƒAƒvƒŠƒP[ƒVƒ‡ƒ“î•ñ‚ÌƒŒƒ|[ƒg‚ğ¶¬‚·‚éƒŒƒ|[ƒgƒvƒƒZƒbƒTB
  * 
  * @author akiba
  */
 public class ApplicationReportProcessor extends ReportPublishProcessorBase
 {
-	/** ãƒ­ã‚¬ãƒ¼ */
-	private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
-		.getLogger(ApplicationReportProcessor.class);
+    /** ƒƒK[ */
+    private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(
+            ApplicationReportProcessor.class);
 
 	/**
-	 * ReportProcessorã‚’ç”Ÿæˆã™ã‚‹ã€‚
+	 * ReportProcessor‚ğ¶¬‚·‚éB
 	 * 
 	 * @param type
-	 *            ãƒ¬ãƒãƒ¼ãƒˆç¨®åˆ¥ã€‚
+	 *            ƒŒƒ|[ƒgí•ÊB
 	 */
 	public ApplicationReportProcessor(ReportType type)
 	{
@@ -55,14 +55,14 @@ public class ApplicationReportProcessor extends ReportPublishProcessorBase
 	 */
 	@Override
 	protected Object getReportPlotData(ReportSearchCondition cond,
-		ReportProcessReturnContainer reportContainer)
+			ReportProcessReturnContainer reportContainer)
 	{
-		// æ¤œç´¢æ¡ä»¶ã®å–å¾—
+		// ŒŸõğŒ‚Ìæ“¾
 		String database = cond.getDatabases().get(0);
 		Timestamp startTime = cond.getStartDate();
 		Timestamp endTime = cond.getEndDate();
 
-		// DBã‹ã‚‰æ¤œç´¢
+		// DB‚©‚çŒŸõ
 		ApplicationRecordAccessor accessor = new ApplicationRecordAccessor();
 		List<ApplicationRecord> data;
 		try
@@ -71,9 +71,9 @@ public class ApplicationReportProcessor extends ReportPublishProcessorBase
 		}
 		catch (SQLException ex)
 		{
-			LOGGER.log(LogIdConstants.EXCEPTION_IN_READING, ex,
-				ReporterConfigAccessor.getReportName(getReportType()));
-			return null;
+		    LOGGER.log(LogIdConstants.EXCEPTION_IN_READING, ex,
+		            ReporterConfigAccessor.getReportName(getReportType()));
+		    return null;
 		}
 
 		return data;
@@ -83,11 +83,12 @@ public class ApplicationReportProcessor extends ReportPublishProcessorBase
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected Object convertPlotData(Object rawData, ReportSearchCondition cond,
-		ReportProcessReturnContainer reportContainer)
+	protected Object convertPlotData(Object rawData,
+			ReportSearchCondition cond,
+			ReportProcessReturnContainer reportContainer)
 	{
-		List<ApplicationRecord> data = (List<ApplicationRecord>) rawData;
-		return (ApplicationRecord[]) data.toArray(new ApplicationRecord[data.size()]);
+		List<ApplicationRecord> data = (List<ApplicationRecord>)rawData;
+		return (ApplicationRecord[])data.toArray(new ApplicationRecord[data.size()]);
 	}
 
 	/**
@@ -95,18 +96,19 @@ public class ApplicationReportProcessor extends ReportPublishProcessorBase
 	 */
 	@Override
 	protected void outputReport(Object plotData, ReportSearchCondition cond,
-		ReportProcessReturnContainer reportContainer)
+			ReportProcessReturnContainer reportContainer)
 	{
 		if ((plotData instanceof ApplicationRecord[]) == false)
 		{
 			return;
 		}
 
-		// å‡ºåŠ›ã™ã‚‹ãƒ¬ãƒãƒ¼ãƒˆã®ç¨®é¡ã«ã‚ã‚ã›ã¦ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã®ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã‚’å–å¾—ã™ã‚‹
+		// o—Í‚·‚éƒŒƒ|[ƒg‚Ìí—Ş‚É‚ ‚í‚¹‚Äƒeƒ“ƒvƒŒ[ƒg‚Ìƒtƒ@ƒCƒ‹ƒpƒX‚ğæ“¾‚·‚é
 		String templateFilePath;
 		try
 		{
-			templateFilePath = TemplateFileManager.getInstance().getTemplateFile(getReportType());
+			templateFilePath = TemplateFileManager.getInstance()
+					.getTemplateFile(getReportType());
 		}
 		catch (IOException exception)
 		{
@@ -114,15 +116,16 @@ public class ApplicationReportProcessor extends ReportPublishProcessorBase
 			return;
 		}
 
-		// ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã®å¼•æ•°æƒ…å ±ã‚’å–å¾—ã™ã‚‹
+		// ƒŒƒ|[ƒgo—Í‚Ìˆø”î•ñ‚ğæ“¾‚·‚é
 		ApplicationRecord[] records = (ApplicationRecord[]) plotData;
 		String outputFilePath = getOutputFileName();
 		Timestamp startTime = cond.getStartDate();
 		Timestamp endTime = cond.getEndDate();
 
-		// ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã‚’å®Ÿè¡Œã™ã‚‹
-		RecordReporter<ApplicationRecord> reporter = new RecordReporter<ApplicationRecord>(
-			getReportType());
-		reporter.outputReport(templateFilePath, outputFilePath, records, startTime, endTime);
+		// ƒŒƒ|[ƒgo—Í‚ğÀs‚·‚é
+		RecordReporter<ApplicationRecord> reporter =
+			new RecordReporter<ApplicationRecord>(getReportType());
+		reporter.outputReport(templateFilePath, outputFilePath, records,
+				startTime, endTime);
 	}
 }

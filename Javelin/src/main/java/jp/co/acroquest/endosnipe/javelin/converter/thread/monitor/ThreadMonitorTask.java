@@ -30,55 +30,55 @@ import java.lang.management.ThreadInfo;
 import jp.co.acroquest.endosnipe.javelin.CallTreeNode;
 
 /**
- * ã‚¹ãƒ¬ãƒƒãƒ‰ç›£è¦–ã‚’è¡Œã†éš›ã«å®Ÿè¡Œã™ã‚‹Taskã€‚
+ * ƒXƒŒƒbƒhŠÄ‹‚ğs‚¤Û‚ÉÀs‚·‚éTaskB
  * 
  * @author eriguchi
  */
 public interface ThreadMonitorTask
 {
     /**
-     * Taskã‚’å®Ÿè¡Œã™ã‚‹ã‹ã©ã†ã‹ã‚’åˆ¤å®šã™ã‚‹ã€‚
+     * Task‚ğÀs‚·‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
      * 
-     * @param prevThreadInfo å‰å›ã®ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±ã€‚
-     * @param threadInfo ç¾åœ¨ã®ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±ã€‚
-     * @return Taskã‚’å®Ÿè¡Œã™ã‚‹ã‹ã©ã†ã‹ã€‚
+     * @param prevThreadInfo ‘O‰ñ‚ÌƒXƒŒƒbƒhî•ñB
+     * @param threadInfo Œ»İ‚ÌƒXƒŒƒbƒhî•ñB
+     * @return Task‚ğÀs‚·‚é‚©‚Ç‚¤‚©B
      */
     boolean isTarget(ThreadInfo prevThreadInfo, ThreadInfo threadInfo);
 
     /**
-     * æŒ‡å®šã—ãŸnodeã«æƒ…å ±ã‚’è¿½åŠ ã™ã‚‹ã€‚
+     * w’è‚µ‚½node‚Éî•ñ‚ğ’Ç‰Á‚·‚éB
      * 
-     * @param node å¯¾è±¡ã®CallTreeNodeã€‚
-     * @param threadInfo ç¾åœ¨ã®ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±ã€‚
-     * @param prevThreadInfo å‰å›ã®ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±ã€‚
-     * @param maxDepth å–å¾—ã™ã‚‹ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®æ·±ã•ã€‚
+     * @param node ‘ÎÛ‚ÌCallTreeNodeB
+     * @param threadInfo Œ»İ‚ÌƒXƒŒƒbƒhî•ñB
+     * @param prevThreadInfo ‘O‰ñ‚ÌƒXƒŒƒbƒhî•ñB
+     * @param maxDepth æ“¾‚·‚éƒXƒ^ƒbƒNƒgƒŒ[ƒX‚Ì[‚³B
      */
     void updateNode(CallTreeNode node, ThreadInfo threadInfo, ThreadInfo prevThreadInfo,
             int maxDepth);
 
     /**
-     * å¼•æ•°ã¨ã—ã¦ä¸ãˆã‚‰ã‚ŒãŸæƒ…å ±ã‚’åŸºã«ã‚¤ãƒ™ãƒ³ãƒˆã‚’é€ä¿¡ã™ã‚‹ã€‚
+     * ˆø”‚Æ‚µ‚Ä—^‚¦‚ç‚ê‚½î•ñ‚ğŠî‚ÉƒCƒxƒ“ƒg‚ğ‘—M‚·‚éB
      * 
-     * @param threadId ã‚¹ãƒ¬ãƒƒãƒ‰ID
-     * @param threadInfo ç¾åœ¨ã®ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±ã€‚
-     * @param prevThreadInfo å‰å›ã®ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±ã€‚
-     * @param maxDepth å–å¾—ã™ã‚‹ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®æ·±ã•ã€‚
+     * @param threadId ƒXƒŒƒbƒhID
+     * @param threadInfo Œ»İ‚ÌƒXƒŒƒbƒhî•ñB
+     * @param prevThreadInfo ‘O‰ñ‚ÌƒXƒŒƒbƒhî•ñB
+     * @param maxDepth æ“¾‚·‚éƒXƒ^ƒbƒNƒgƒŒ[ƒX‚Ì[‚³B
      */
     void sendEvent(final Long threadId, final ThreadInfo threadInfo,
             final ThreadInfo prevThreadInfo, final int maxDepth);
 
     /**
-     * å‰å›ã®ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±ã‚’ç”¨ã„ã¦æ¬¡å›ã®åˆ¤å®šã¾ã§ã«ä¿æŒã™ã‚‹å¿…è¦ãŒã‚ã‚‹æƒ…å ±ã‚’æ›´æ–°ã™ã‚‹ã€‚
+     * ‘O‰ñ‚ÌƒXƒŒƒbƒhî•ñ‚ğ—p‚¢‚ÄŸ‰ñ‚Ì”»’è‚Ü‚Å‚É•Û‚·‚é•K—v‚ª‚ ‚éî•ñ‚ğXV‚·‚éB
      * 
-     * @param threadId ã‚¹ãƒ¬ãƒƒãƒ‰ID
-     * @param prevThreadInfo å‰å›ã®ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±ã€‚
+     * @param threadId ƒXƒŒƒbƒhID
+     * @param prevThreadInfo ‘O‰ñ‚ÌƒXƒŒƒbƒhî•ñB
      */
     void updateInfo(final Long threadId, final ThreadInfo prevThreadInfo);
 
     /**
-     * å¼•æ•°ã¨ã—ã¦æŒ‡å®šã•ã‚ŒãŸã‚¹ãƒ¬ãƒƒãƒ‰IDã®ä¿æŒæƒ…å ±ã‚’ã‚¯ãƒªã‚¢ã™ã‚‹ã€‚
+     * ˆø”‚Æ‚µ‚Äw’è‚³‚ê‚½ƒXƒŒƒbƒhID‚Ì•Ûî•ñ‚ğƒNƒŠƒA‚·‚éB
      * 
-     * @param threadId ã‚¹ãƒ¬ãƒƒãƒ‰ID
+     * @param threadId ƒXƒŒƒbƒhID
      */
     void clearInfo(final Long threadId);
 }

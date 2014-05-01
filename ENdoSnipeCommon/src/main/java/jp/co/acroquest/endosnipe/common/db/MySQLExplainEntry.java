@@ -26,7 +26,7 @@
 package jp.co.acroquest.endosnipe.common.db;
 
 /**
- * MySQLã®å®Ÿè¡Œè¨ˆç”»ã®1è¦ç´ ã€‚
+ * MySQL‚ÌÀsŒv‰æ‚Ì1—v‘fB
  * 
  * http://dev.mysql.com/doc/refman/5.1/ja/explain.html
  * 
@@ -35,46 +35,46 @@ package jp.co.acroquest.endosnipe.common.db;
  */
 public class MySQLExplainEntry
 {
-    /** SELECTè­˜åˆ¥å­ã€‚ã‚¯ã‚¨ãƒªå†…ã«ãŠã‘ã‚‹ã“ã® SELECTã®é †åºç•ªå·ã€‚ */
+    /** SELECT¯•ÊqBƒNƒGƒŠ“à‚É‚¨‚¯‚é‚±‚Ì SELECT‚Ì‡˜”Ô†B */
     private String id_;
 
-    /** SELECTç¯€ã®ç¨®é¡ã€‚ */
+    /** SELECTß‚Ìí—ŞB */
     private String selectType_;
 
-    /** çµæœã‚’å¾—ã‚‹ãŸã‚ã«å‚ç…§ã™ã‚‹ãƒ†ãƒ¼ãƒ–ãƒ«ã€‚  */
+    /** Œ‹‰Ê‚ğ“¾‚é‚½‚ß‚ÉQÆ‚·‚éƒe[ƒuƒ‹B  */
     private String table_;
 
-    /** çµåˆå‹ã€‚ */
+    /** Œ‹‡Œ^B */
     private String type_;
 
-    /** ã“ã®ãƒ†ãƒ¼ãƒ–ãƒ«å†…ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã®æ¤œç´¢ã« MySQL ã§ä½¿ç”¨å¯èƒ½ãªã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€‚ */
+    /** ‚±‚Ìƒe[ƒuƒ‹“à‚ÌƒŒƒR[ƒh‚ÌŒŸõ‚É MySQL ‚Åg—p‰Â”\‚ÈƒCƒ“ƒfƒbƒNƒXB */
     private String possibleKeys_;
 
-    /** MySQL ãŒå®Ÿéš›ã«ä½¿ç”¨ã‚’æ±ºå®šã—ãŸã‚­ãƒ¼ï¼ˆã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ï¼‰ã€‚  */
+    /** MySQL ‚ªÀÛ‚Ég—p‚ğŒˆ’è‚µ‚½ƒL[iƒCƒ“ƒfƒbƒNƒXjB  */
     private String key_;
 
-    /** MySQL ãŒå®Ÿéš›ã«ä½¿ç”¨ã‚’æ±ºå®šã—ãŸã‚­ãƒ¼ã®é•·ã•ã€‚ keyãŒ NULLã®å ´åˆã€ã“ã®é•·ã•ã¯ NULLã«ãªã‚‹ã€‚*/
+    /** MySQL ‚ªÀÛ‚Ég—p‚ğŒˆ’è‚µ‚½ƒL[‚Ì’·‚³B key‚ª NULL‚Ìê‡A‚±‚Ì’·‚³‚Í NULL‚É‚È‚éB*/
     private String keyLen_;
 
-    /** ãƒ†ãƒ¼ãƒ–ãƒ«ã‹ã‚‰ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’é¸æŠã™ã‚‹éš›ã« keyã¨ã¨ã‚‚ã«ä½¿ç”¨ã•ã‚Œã‚‹ã‚«ãƒ©ãƒ ã¾ãŸã¯å®šæ•°ã€‚  */
+    /** ƒe[ƒuƒ‹‚©‚çƒŒƒR[ƒh‚ğ‘I‘ğ‚·‚éÛ‚É key‚Æ‚Æ‚à‚Ég—p‚³‚ê‚éƒJƒ‰ƒ€‚Ü‚½‚Í’è”B  */
     private String ref_;
 
-    /** ã‚¯ã‚¨ãƒªã®å®Ÿè¡Œã«éš›ã—ã¦èª¿ã¹ã‚‹å¿…è¦ãŒã‚ã‚‹ã¨ MySQL ã«ã‚ˆã£ã¦åˆ¤å®šã•ã‚ŒãŸãƒ¬ã‚³ãƒ¼ãƒ‰ã®æ•°ã€‚ */
+    /** ƒNƒGƒŠ‚ÌÀs‚ÉÛ‚µ‚Ä’²‚×‚é•K—v‚ª‚ ‚é‚Æ MySQL ‚É‚æ‚Á‚Ä”»’è‚³‚ê‚½ƒŒƒR[ƒh‚Ì”B */
     private int rows_;
 
-    /** MySQL ã§ã©ã®ã‚ˆã†ã«ã‚¯ã‚¨ãƒªãŒè§£æ±ºã•ã‚Œã‚‹ã‹ã«é–¢ã™ã‚‹è¿½åŠ æƒ…å ±ãŒè¨˜è¼‰ã•ã‚Œã‚‹ã€‚ */
+    /** MySQL ‚Å‚Ç‚Ì‚æ‚¤‚ÉƒNƒGƒŠ‚ª‰ğŒˆ‚³‚ê‚é‚©‚ÉŠÖ‚·‚é’Ç‰Áî•ñ‚ª‹LÚ‚³‚ê‚éB */
     private String extra_;
 
     /**
-     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
      */
     public MySQLExplainEntry()
     {
     }
 
     /**
-     * SELECTè­˜åˆ¥å­ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return SELECTè­˜åˆ¥å­ã€‚
+     * SELECT¯•Êq‚ğæ“¾‚·‚éB
+     * @return SELECT¯•ÊqB
      */
     public String getId()
     {
@@ -82,8 +82,8 @@ public class MySQLExplainEntry
     }
 
     /**
-     * SELECTç¯€ã®ç¨®é¡ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return SELECTç¯€ã®ç¨®é¡ã€‚
+     * SELECTß‚Ìí—Ş‚ğæ“¾‚·‚éB
+     * @return SELECTß‚Ìí—ŞB
      */
     public String getSelectType()
     {
@@ -91,8 +91,8 @@ public class MySQLExplainEntry
     }
 
     /**
-     * çµæœã‚’å¾—ã‚‹ãŸã‚ã«å‚ç…§ã™ã‚‹ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return çµæœã‚’å¾—ã‚‹ãŸã‚ã«å‚ç…§ã™ã‚‹ãƒ†ãƒ¼ãƒ–ãƒ«ã€‚
+     * Œ‹‰Ê‚ğ“¾‚é‚½‚ß‚ÉQÆ‚·‚éƒe[ƒuƒ‹‚ğæ“¾‚·‚éB
+     * @return Œ‹‰Ê‚ğ“¾‚é‚½‚ß‚ÉQÆ‚·‚éƒe[ƒuƒ‹B
      */
     public String getTable()
     {
@@ -100,8 +100,8 @@ public class MySQLExplainEntry
     }
 
     /**
-     * çµåˆå‹ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return çµåˆå‹ã€‚
+     * Œ‹‡Œ^‚ğæ“¾‚·‚éB
+     * @return Œ‹‡Œ^B
      */
 
     public String getType()
@@ -110,8 +110,8 @@ public class MySQLExplainEntry
     }
 
     /**
-     * ä½¿ç”¨å¯èƒ½ãªã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ä½¿ç”¨å¯èƒ½ãªã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€‚
+     * g—p‰Â”\‚ÈƒCƒ“ƒfƒbƒNƒX‚ğæ“¾‚·‚éB
+     * @return g—p‰Â”\‚ÈƒCƒ“ƒfƒbƒNƒXB
      */
     public String getPossibleKeys()
     {
@@ -119,8 +119,8 @@ public class MySQLExplainEntry
     }
 
     /**
-     * å®Ÿéš›ã«ä½¿ç”¨ã‚’æ±ºå®šã—ãŸã‚­ãƒ¼ï¼ˆã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ï¼‰ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return å®Ÿéš›ã«ä½¿ç”¨ã‚’æ±ºå®šã—ãŸã‚­ãƒ¼ï¼ˆã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ï¼‰ã€‚
+     * ÀÛ‚Ég—p‚ğŒˆ’è‚µ‚½ƒL[iƒCƒ“ƒfƒbƒNƒXj‚ğæ“¾‚·‚éB
+     * @return ÀÛ‚Ég—p‚ğŒˆ’è‚µ‚½ƒL[iƒCƒ“ƒfƒbƒNƒXjB
      */
     public String getKey()
     {
@@ -128,8 +128,8 @@ public class MySQLExplainEntry
     }
 
     /**
-     * å®Ÿéš›ã«ä½¿ç”¨ã‚’æ±ºå®šã—ãŸã‚­ãƒ¼ã®é•·ã•ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return å®Ÿéš›ã«ä½¿ç”¨ã‚’æ±ºå®šã—ãŸã‚­ãƒ¼ã®é•·ã•ã€‚
+     * ÀÛ‚Ég—p‚ğŒˆ’è‚µ‚½ƒL[‚Ì’·‚³‚ğæ“¾‚·‚éB
+     * @return ÀÛ‚Ég—p‚ğŒˆ’è‚µ‚½ƒL[‚Ì’·‚³B
      */
     public String getKeyLen()
     {
@@ -137,8 +137,8 @@ public class MySQLExplainEntry
     }
 
     /**
-     * ãƒ†ãƒ¼ãƒ–ãƒ«ã‹ã‚‰ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’é¸æŠã™ã‚‹éš›ã« keyã¨ã¨ã‚‚ã«ä½¿ç”¨ã•ã‚Œã‚‹ã‚«ãƒ©ãƒ ã¾ãŸã¯å®šæ•°ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ãƒ†ãƒ¼ãƒ–ãƒ«ã‹ã‚‰ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’é¸æŠã™ã‚‹éš›ã« keyã¨ã¨ã‚‚ã«ä½¿ç”¨ã•ã‚Œã‚‹ã‚«ãƒ©ãƒ ã¾ãŸã¯å®šæ•°ã€‚
+     * ƒe[ƒuƒ‹‚©‚çƒŒƒR[ƒh‚ğ‘I‘ğ‚·‚éÛ‚É key‚Æ‚Æ‚à‚Ég—p‚³‚ê‚éƒJƒ‰ƒ€‚Ü‚½‚Í’è”‚ğæ“¾‚·‚éB
+     * @return ƒe[ƒuƒ‹‚©‚çƒŒƒR[ƒh‚ğ‘I‘ğ‚·‚éÛ‚É key‚Æ‚Æ‚à‚Ég—p‚³‚ê‚éƒJƒ‰ƒ€‚Ü‚½‚Í’è”B
      */
     public String getRef()
     {
@@ -146,8 +146,8 @@ public class MySQLExplainEntry
     }
 
     /**
-     * ãƒ¬ã‚³ãƒ¼ãƒ‰ã®æ•°ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ãƒ¬ã‚³ãƒ¼ãƒ‰ã®æ•°ã€‚
+     * ƒŒƒR[ƒh‚Ì”‚ğæ“¾‚·‚éB
+     * @return ƒŒƒR[ƒh‚Ì”B
      */
     public int getRows()
     {
@@ -155,8 +155,8 @@ public class MySQLExplainEntry
     }
 
     /**
-     * è¿½åŠ æƒ…å ±ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return è¿½åŠ æƒ…å ±ã€‚
+     * ’Ç‰Áî•ñ‚ğæ“¾‚·‚éB
+     * @return ’Ç‰Áî•ñB
      */
     public String getExtra()
     {
@@ -165,7 +165,7 @@ public class MySQLExplainEntry
 
     /**
      * 
-     * @param id SELECTè­˜åˆ¥å­ã€‚ã‚¯ã‚¨ãƒªå†…ã«ãŠã‘ã‚‹ã“ã® SELECTã®é †åºç•ªå·ã€‚
+     * @param id SELECT¯•ÊqBƒNƒGƒŠ“à‚É‚¨‚¯‚é‚±‚Ì SELECT‚Ì‡˜”Ô†B
      */
     public void setId(final String id)
     {
@@ -174,7 +174,7 @@ public class MySQLExplainEntry
 
     /**
      * 
-     * @param selectType SELECTç¯€ã®ç¨®é¡ã€‚
+     * @param selectType SELECTß‚Ìí—ŞB
      */
     public void setSelectType(final String selectType)
     {
@@ -183,7 +183,7 @@ public class MySQLExplainEntry
 
     /**
      * 
-     * @param table çµæœã‚’å¾—ã‚‹ãŸã‚ã«å‚ç…§ã™ã‚‹ãƒ†ãƒ¼ãƒ–ãƒ«ã€‚
+     * @param table Œ‹‰Ê‚ğ“¾‚é‚½‚ß‚ÉQÆ‚·‚éƒe[ƒuƒ‹B
      */
     public void setTable(final String table)
     {
@@ -192,7 +192,7 @@ public class MySQLExplainEntry
 
     /**
      * 
-     * @param type çµåˆå‹ã€‚
+     * @param type Œ‹‡Œ^B
      */
     public void setType(final String type)
     {
@@ -201,7 +201,7 @@ public class MySQLExplainEntry
 
     /**
      * 
-     * @param possibleKeys ã“ã®ãƒ†ãƒ¼ãƒ–ãƒ«å†…ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã®æ¤œç´¢ã« MySQL ã§ä½¿ç”¨å¯èƒ½ãªã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€‚
+     * @param possibleKeys ‚±‚Ìƒe[ƒuƒ‹“à‚ÌƒŒƒR[ƒh‚ÌŒŸõ‚É MySQL ‚Åg—p‰Â”\‚ÈƒCƒ“ƒfƒbƒNƒXB
      */
     public void setPossibleKeys(final String possibleKeys)
     {
@@ -210,7 +210,7 @@ public class MySQLExplainEntry
 
     /**
      * 
-     * @param key MySQL ãŒå®Ÿéš›ã«ä½¿ç”¨ã‚’æ±ºå®šã—ãŸã‚­ãƒ¼ï¼ˆã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ï¼‰ã€‚
+     * @param key MySQL ‚ªÀÛ‚Ég—p‚ğŒˆ’è‚µ‚½ƒL[iƒCƒ“ƒfƒbƒNƒXjB
      */
     public void setKey(final String key)
     {
@@ -220,7 +220,7 @@ public class MySQLExplainEntry
     /**
      * 
      * 
-     * @param keyLen MySQL ãŒå®Ÿéš›ã«ä½¿ç”¨ã‚’æ±ºå®šã—ãŸã‚­ãƒ¼ã®é•·ã•ã€‚ keyãŒ NULLã®å ´åˆã€ã“ã®é•·ã•ã¯ NULLã«ãªã‚‹ã€‚
+     * @param keyLen MySQL ‚ªÀÛ‚Ég—p‚ğŒˆ’è‚µ‚½ƒL[‚Ì’·‚³B key‚ª NULL‚Ìê‡A‚±‚Ì’·‚³‚Í NULL‚É‚È‚éB
      */
     public void setKeyLen(final String keyLen)
     {
@@ -229,7 +229,7 @@ public class MySQLExplainEntry
 
     /**
      * 
-     * @param ref ãƒ†ãƒ¼ãƒ–ãƒ«ã‹ã‚‰ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’é¸æŠã™ã‚‹éš›ã« keyã¨ã¨ã‚‚ã«ä½¿ç”¨ã•ã‚Œã‚‹ã‚«ãƒ©ãƒ ã¾ãŸã¯å®šæ•°ã€‚
+     * @param ref ƒe[ƒuƒ‹‚©‚çƒŒƒR[ƒh‚ğ‘I‘ğ‚·‚éÛ‚É key‚Æ‚Æ‚à‚Ég—p‚³‚ê‚éƒJƒ‰ƒ€‚Ü‚½‚Í’è”B
      */
     public void setRef(final String ref)
     {
@@ -238,7 +238,7 @@ public class MySQLExplainEntry
 
     /**
      * 
-     * @param rows ã‚¯ã‚¨ãƒªã®å®Ÿè¡Œã«éš›ã—ã¦èª¿ã¹ã‚‹å¿…è¦ãŒã‚ã‚‹ã¨ MySQL ã«ã‚ˆã£ã¦åˆ¤å®šã•ã‚ŒãŸãƒ¬ã‚³ãƒ¼ãƒ‰ã®æ•°ã€‚
+     * @param rows ƒNƒGƒŠ‚ÌÀs‚ÉÛ‚µ‚Ä’²‚×‚é•K—v‚ª‚ ‚é‚Æ MySQL ‚É‚æ‚Á‚Ä”»’è‚³‚ê‚½ƒŒƒR[ƒh‚Ì”B
      */
     public void setRows(final int rows)
     {
@@ -247,7 +247,7 @@ public class MySQLExplainEntry
 
     /**
      * 
-     * @param extra MySQL ã§ã©ã®ã‚ˆã†ã«ã‚¯ã‚¨ãƒªãŒè§£æ±ºã•ã‚Œã‚‹ã‹ã«é–¢ã™ã‚‹è¿½åŠ æƒ…å ±ãŒè¨˜è¼‰ã•ã‚Œã‚‹ã€‚
+     * @param extra MySQL ‚Å‚Ç‚Ì‚æ‚¤‚ÉƒNƒGƒŠ‚ª‰ğŒˆ‚³‚ê‚é‚©‚ÉŠÖ‚·‚é’Ç‰Áî•ñ‚ª‹LÚ‚³‚ê‚éB
      */
     public void setExtra(final String extra)
     {

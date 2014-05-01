@@ -29,7 +29,7 @@ import jp.co.acroquest.endosnipe.common.entity.ItemType;
 import jp.co.acroquest.endosnipe.javelin.converter.util.ConvertedMethodCounter;
 
 /**
- * JavelinConverterã§å¤‰æ›ã‚’è¡Œã£ãŸãƒ¡ã‚½ãƒƒãƒ‰æ•°ã‚’å–å¾—ã™ã‚‹
+ * JavelinConverter‚Å•ÏŠ·‚ğs‚Á‚½ƒƒ\ƒbƒh”‚ğæ“¾‚·‚é
  * 
  * @author S.Kimura
  */

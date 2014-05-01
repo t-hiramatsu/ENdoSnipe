@@ -38,27 +38,27 @@ import jp.co.acroquest.endosnipe.javelin.bean.Invocation;
 import junit.framework.TestCase;
 
 /**
- * JavelinTelegramCreatorã®ãƒ†ã‚¹ãƒˆã‚¯ãƒ©ã‚¹ã§ã™ã€‚
+ * JavelinTelegramCreator‚ÌƒeƒXƒgƒNƒ‰ƒX‚Å‚·B
  * 
  * @author eriguchi
  */
 public class JavelinTelegramCreatorTest extends TestCase
 {
     /**
-     * @test çŠ¶æ…‹é€šçŸ¥é›»æ–‡å¤‰æ›-é€šçŸ¥å¯¾è±¡å˜æ•° ç´¯ç©æ™‚é–“ç„¡ã—(é …ç›®:1-1-1)
+     * @test ó‘Ô’Ê’m“d•¶•ÏŠ·-’Ê’m‘ÎÛ’P” —İÏŠÔ–³‚µ(€–Ú:1-1-1)
      * @condition 
      * @result
      */
     public void testCreate_Alert_Single_NoTime()
     {
-        // æº–å‚™
+        // €”õ
         List<Invocation> invocations = new ArrayList<Invocation>();
         invocations.add(new Invocation("processName", "className", "methodName", 3000));
         List<Long> accumulatedTimes = null;
         byte telegramKind = TelegramConstants.BYTE_TELEGRAM_KIND_ALERT;
         byte requestKind = TelegramConstants.BYTE_REQUEST_KIND_NOTIFY;
 
-        // æœŸå¾…å€¤
+        // Šú‘Ò’l
         List<Invocation> expectedInvocations = invocations;
         List<Long> expectedAccumulatedTimes = new ArrayList<Long>();
         expectedAccumulatedTimes.add(Long.valueOf(0));
@@ -67,25 +67,25 @@ public class JavelinTelegramCreatorTest extends TestCase
         List<String> expectedIsTarget = new ArrayList<String>();
         expectedIsTarget.add("true");
 
-        // å®Ÿæ–½
+        // À{
         Telegram telegram =
                 JavelinTelegramCreator.create(invocations, accumulatedTimes, telegramKind,
                                               requestKind);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertAlertTelegram(expectedTelegramKind, expectedRequestKind, expectedInvocations,
                             expectedAccumulatedTimes, expectedIsTarget,
                             Arrays.asList(new String[]{}), telegram);
     }
 
     /**
-     * @test çŠ¶æ…‹é€šçŸ¥é›»æ–‡å¤‰æ›-é€šçŸ¥å¯¾è±¡å˜æ•° ç´¯ç©æ™‚é–“æœ‰ã‚Š(é …ç›®:1-1-2)
+     * @test ó‘Ô’Ê’m“d•¶•ÏŠ·-’Ê’m‘ÎÛ’P” —İÏŠÔ—L‚è(€–Ú:1-1-2)
      * @condition 
      * @result
      */
     public void testCreate_Alert_Single_Time()
     {
-        // æº–å‚™
+        // €”õ
         List<Invocation> invocations = new ArrayList<Invocation>();
         invocations.add(new Invocation("processName", "className", "methodName", 3000));
         List<Long> accumulatedTimes = new ArrayList<Long>();
@@ -93,7 +93,7 @@ public class JavelinTelegramCreatorTest extends TestCase
         byte telegramKind = TelegramConstants.BYTE_TELEGRAM_KIND_ALERT;
         byte requestKind = TelegramConstants.BYTE_REQUEST_KIND_NOTIFY;
 
-        // æœŸå¾…å€¤
+        // Šú‘Ò’l
         List<Invocation> expectedInvocations = invocations;
         List<Long> expectedAccumulatedTimes = accumulatedTimes;
         byte expectedTelegramKind = telegramKind;
@@ -101,25 +101,25 @@ public class JavelinTelegramCreatorTest extends TestCase
         List<String> expectedIsTarget = new ArrayList<String>();
         expectedIsTarget.add("true");
 
-        // å®Ÿæ–½
+        // À{
         Telegram telegram =
                 JavelinTelegramCreator.create(invocations, accumulatedTimes, telegramKind,
                                               requestKind);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertAlertTelegram(expectedTelegramKind, expectedRequestKind, expectedInvocations,
                             expectedAccumulatedTimes, expectedIsTarget,
                             Arrays.asList(new String[]{}), telegram);
     }
 
     /**
-     * @test çŠ¶æ…‹é€šçŸ¥é›»æ–‡å¤‰æ›-é€šçŸ¥å¯¾è±¡è¤‡æ•° ç´¯ç©æ™‚é–“ç„¡ã—(é …ç›®:1-1-3)
+     * @test ó‘Ô’Ê’m“d•¶•ÏŠ·-’Ê’m‘ÎÛ•¡” —İÏŠÔ–³‚µ(€–Ú:1-1-3)
      * @condition 
      * @result
      */
     public void testCreate_Alert_Multi_NoTime()
     {
-        // æº–å‚™
+        // €”õ
         List<Invocation> invocations = new ArrayList<Invocation>();
         invocations.add(new Invocation("processName", "className", "methodName", 3000));
         invocations.add(new Invocation("processName", "className2", "methodName2", 4000));
@@ -127,7 +127,7 @@ public class JavelinTelegramCreatorTest extends TestCase
         byte telegramKind = TelegramConstants.BYTE_TELEGRAM_KIND_ALERT;
         byte requestKind = TelegramConstants.BYTE_REQUEST_KIND_NOTIFY;
 
-        // æœŸå¾…å€¤
+        // Šú‘Ò’l
         List<Invocation> expectedInvocations = invocations;
         List<Long> expectedAccumulatedTimes = new ArrayList<Long>();
         expectedAccumulatedTimes.add(Long.valueOf(0));
@@ -138,25 +138,25 @@ public class JavelinTelegramCreatorTest extends TestCase
         expectedIsTarget.add("true");
         expectedIsTarget.add("true");
 
-        // å®Ÿæ–½
+        // À{
         Telegram telegram =
                 JavelinTelegramCreator.create(invocations, accumulatedTimes, telegramKind,
                                               requestKind);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertAlertTelegram(expectedTelegramKind, expectedRequestKind, expectedInvocations,
                             expectedAccumulatedTimes, expectedIsTarget,
                             Arrays.asList(new String[]{}), telegram);
     }
 
     /**
-     * @test çŠ¶æ…‹é€šçŸ¥é›»æ–‡å¤‰æ›-é€šçŸ¥å¯¾è±¡è¤‡æ•° ç´¯ç©æ™‚é–“æœ‰ã‚Š(é …ç›®:1-1-4)
+     * @test ó‘Ô’Ê’m“d•¶•ÏŠ·-’Ê’m‘ÎÛ•¡” —İÏŠÔ—L‚è(€–Ú:1-1-4)
      * @condition 
      * @result
      */
     public void testCreate_Alert_Multi_Time()
     {
-        // æº–å‚™
+        // €”õ
         List<Invocation> invocations = new ArrayList<Invocation>();
         invocations.add(new Invocation("processName", "className", "methodName", 3000));
         invocations.add(new Invocation("processName", "className2", "methodName2", 4000));
@@ -166,7 +166,7 @@ public class JavelinTelegramCreatorTest extends TestCase
         byte telegramKind = TelegramConstants.BYTE_TELEGRAM_KIND_ALERT;
         byte requestKind = TelegramConstants.BYTE_REQUEST_KIND_NOTIFY;
 
-        // æœŸå¾…å€¤
+        // Šú‘Ò’l
         List<Invocation> expectedInvocations = invocations;
         List<Long> expectedAccumulatedTimes = accumulatedTimes;
         byte expectedTelegramKind = telegramKind;
@@ -175,25 +175,25 @@ public class JavelinTelegramCreatorTest extends TestCase
         expectedIsTarget.add("true");
         expectedIsTarget.add("true");
 
-        // å®Ÿæ–½
+        // À{
         Telegram telegram =
                 JavelinTelegramCreator.create(invocations, accumulatedTimes, telegramKind,
                                               requestKind);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertAlertTelegram(expectedTelegramKind, expectedRequestKind, expectedInvocations,
                             expectedAccumulatedTimes, expectedIsTarget,
                             Arrays.asList(new String[]{}), telegram);
     }
 
     /**
-     * @test çŠ¶æ…‹é€šçŸ¥é›»æ–‡å¤‰æ›-é€šçŸ¥å¯¾è±¡è¤‡æ•° ç´¯ç©æ™‚é–“ä¸è¶³(é …ç›®:1-1-5)
+     * @test ó‘Ô’Ê’m“d•¶•ÏŠ·-’Ê’m‘ÎÛ•¡” —İÏŠÔ•s‘«(€–Ú:1-1-5)
      * @condition 
      * @result
      */
     public void testCreate_Alert_Multi_LackTime()
     {
-        // æº–å‚™
+        // €”õ
         List<Invocation> invocations = new ArrayList<Invocation>();
         invocations.add(new Invocation("processName", "className", "methodName", 3000));
         invocations.add(new Invocation("processName", "className2", "methodName2", 4000));
@@ -202,7 +202,7 @@ public class JavelinTelegramCreatorTest extends TestCase
         byte telegramKind = TelegramConstants.BYTE_TELEGRAM_KIND_ALERT;
         byte requestKind = TelegramConstants.BYTE_REQUEST_KIND_NOTIFY;
 
-        // æœŸå¾…å€¤
+        // Šú‘Ò’l
         List<Invocation> expectedInvocations = invocations;
         List<Long> expectedAccumulatedTimes = new ArrayList<Long>();
         expectedAccumulatedTimes.add(Long.valueOf(1));
@@ -213,25 +213,25 @@ public class JavelinTelegramCreatorTest extends TestCase
         expectedIsTarget.add("true");
         expectedIsTarget.add("true");
 
-        // å®Ÿæ–½
+        // À{
         Telegram telegram =
                 JavelinTelegramCreator.create(invocations, accumulatedTimes, telegramKind,
                                               requestKind);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertAlertTelegram(expectedTelegramKind, expectedRequestKind, expectedInvocations,
                             expectedAccumulatedTimes, expectedIsTarget,
                             Arrays.asList(new String[]{}), telegram);
     }
 
     /**
-     * @test çŠ¶æ…‹é€šçŸ¥é›»æ–‡å¤‰æ›-è¨ˆæ¸¬å¯¾è±¡ãƒ¡ã‚½ãƒƒãƒ‰(é …ç›®:1-1-6)
+     * @test ó‘Ô’Ê’m“d•¶•ÏŠ·-Œv‘ª‘ÎÛƒƒ\ƒbƒh(€–Ú:1-1-6)
      * @condition 
      * @result
      */
     public void testCreate_Alert_Single_Target()
     {
-        // æº–å‚™
+        // €”õ
         List<Invocation> invocations = new ArrayList<Invocation>();
         String className = "className";
         String methodName = "methodName";
@@ -243,7 +243,7 @@ public class JavelinTelegramCreatorTest extends TestCase
         byte requestKind = TelegramConstants.BYTE_REQUEST_KIND_NOTIFY;
         ExcludeMonitor.addTarget(invocation);
 
-        // æœŸå¾…å€¤
+        // Šú‘Ò’l
         List<Invocation> expectedInvocations = invocations;
         List<Long> expectedAccumulatedTimes = accumulatedTimes;
         byte expectedTelegramKind = telegramKind;
@@ -251,25 +251,25 @@ public class JavelinTelegramCreatorTest extends TestCase
         List<String> expectedIsTarget = new ArrayList<String>();
         expectedIsTarget.add("true");
 
-        // å®Ÿæ–½
+        // À{
         Telegram telegram =
                 JavelinTelegramCreator.create(invocations, accumulatedTimes, telegramKind,
                                               requestKind);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertAlertTelegram(expectedTelegramKind, expectedRequestKind, expectedInvocations,
                             expectedAccumulatedTimes, expectedIsTarget,
                             Arrays.asList(new String[]{}), telegram);
     }
 
     /**
-     * @test çŠ¶æ…‹é€šçŸ¥é›»æ–‡å¤‰æ›-è¨ˆæ¸¬å¯¾è±¡å¤–ãƒ¡ã‚½ãƒƒãƒ‰(é …ç›®:1-1-7)
+     * @test ó‘Ô’Ê’m“d•¶•ÏŠ·-Œv‘ª‘ÎÛŠOƒƒ\ƒbƒh(€–Ú:1-1-7)
      * @condition 
      * @result
      */
     public void testCreate_Alert_Single_NotTarget()
     {
-        // æº–å‚™
+        // €”õ
         List<Invocation> invocations = new ArrayList<Invocation>();
         String className = "className";
         String methodName = "methodName";
@@ -281,7 +281,7 @@ public class JavelinTelegramCreatorTest extends TestCase
         byte requestKind = TelegramConstants.BYTE_REQUEST_KIND_NOTIFY;
         ExcludeMonitor.addExclude(invocation);
 
-        // æœŸå¾…å€¤
+        // Šú‘Ò’l
         List<Invocation> expectedInvocations = invocations;
         List<Long> expectedAccumulatedTimes = accumulatedTimes;
         byte expectedTelegramKind = telegramKind;
@@ -289,25 +289,25 @@ public class JavelinTelegramCreatorTest extends TestCase
         List<String> expectedIsTarget = new ArrayList<String>();
         expectedIsTarget.add("false");
 
-        // å®Ÿæ–½
+        // À{
         Telegram telegram =
                 JavelinTelegramCreator.create(invocations, accumulatedTimes, telegramKind,
                                               requestKind);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertAlertTelegram(expectedTelegramKind, expectedRequestKind, expectedInvocations,
                             expectedAccumulatedTimes, expectedIsTarget,
                             Arrays.asList(new String[]{}), telegram);
     }
 
     /**
-     * @test çŠ¶æ…‹é€šçŸ¥é›»æ–‡å¤‰æ›-å‘¼ã³å‡ºã—å…ƒãƒ¡ã‚½ãƒƒãƒ‰ã€€å˜æ•°(é …ç›®:1-1-8)
+     * @test ó‘Ô’Ê’m“d•¶•ÏŠ·-ŒÄ‚Ño‚µŒ³ƒƒ\ƒbƒh@’P”(€–Ú:1-1-8)
      * @condition 
      * @result
      */
     public void testCreate_Alert_Single_CallerSingle()
     {
-        // æº–å‚™
+        // €”õ
         List<Invocation> invocations = new ArrayList<Invocation>();
         String className = "className";
         String methodName = "methodName";
@@ -322,7 +322,7 @@ public class JavelinTelegramCreatorTest extends TestCase
         ExcludeMonitor.addTarget(invocation);
         ExcludeMonitor.removeExclude(invocation);
 
-        // æœŸå¾…å€¤
+        // Šú‘Ò’l
         List<Invocation> expectedInvocations = invocations;
         List<Long> expectedAccumulatedTimes = accumulatedTimes;
         byte expectedTelegramKind = telegramKind;
@@ -331,25 +331,25 @@ public class JavelinTelegramCreatorTest extends TestCase
         expectedIsTarget.add("true");
         List<String> expectedCallerNames = Arrays.asList(new String[]{"callerClass"});
 
-        // å®Ÿæ–½
+        // À{
         Telegram telegram =
                 JavelinTelegramCreator.create(invocations, accumulatedTimes, telegramKind,
                                               requestKind);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertAlertTelegram(expectedTelegramKind, expectedRequestKind, expectedInvocations,
                             expectedAccumulatedTimes, expectedIsTarget, expectedCallerNames,
                             telegram);
     }
 
     /**
-     * @test çŠ¶æ…‹é€šçŸ¥é›»æ–‡å¤‰æ›-å‘¼ã³å‡ºã—å…ƒãƒ¡ã‚½ãƒƒãƒ‰ã€€è¤‡æ•°(é …ç›®:1-1-9)
+     * @test ó‘Ô’Ê’m“d•¶•ÏŠ·-ŒÄ‚Ño‚µŒ³ƒƒ\ƒbƒh@•¡”(€–Ú:1-1-9)
      * @condition 
      * @result
      */
     public void testCreate_Alert_Single_CallerMulti()
     {
-        // æº–å‚™
+        // €”õ
         List<Invocation> invocations = new ArrayList<Invocation>();
         String className = "className";
         String methodName = "methodName";
@@ -365,7 +365,7 @@ public class JavelinTelegramCreatorTest extends TestCase
         ExcludeMonitor.addTarget(invocation);
         ExcludeMonitor.removeExclude(invocation);
 
-        // æœŸå¾…å€¤
+        // Šú‘Ò’l
         List<Invocation> expectedInvocations = invocations;
         List<Long> expectedAccumulatedTimes = accumulatedTimes;
         byte expectedTelegramKind = telegramKind;
@@ -374,32 +374,32 @@ public class JavelinTelegramCreatorTest extends TestCase
         expectedIsTarget.add("true");
         List<String> expectedCallerNames = Arrays.asList(new String[]{"callerClass2", "callerClass"});
 
-        // å®Ÿæ–½
+        // À{
         Telegram telegram =
                 JavelinTelegramCreator.create(invocations, accumulatedTimes, telegramKind,
                                               requestKind);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertAlertTelegram(expectedTelegramKind, expectedRequestKind, expectedInvocations,
                             expectedAccumulatedTimes, expectedIsTarget, expectedCallerNames,
                             telegram);
     }
 
     /**
-     * @test çŠ¶æ…‹é€šçŸ¥å¿œç­”é›»æ–‡å¤‰æ›-é€šçŸ¥å¯¾è±¡å˜æ•° ç´¯ç©æ™‚é–“ç„¡ã—(é …ç›®:1-2-1)
+     * @test ó‘Ô’Ê’m‰“š“d•¶•ÏŠ·-’Ê’m‘ÎÛ’P” —İÏŠÔ–³‚µ(€–Ú:1-2-1)
      * @condition 
      * @result
      */
     public void testCreate_Get_Single_NoTime()
     {
-        // æº–å‚™
+        // €”õ
         List<Invocation> invocations = new ArrayList<Invocation>();
         invocations.add(new Invocation("processName", "className", "methodName", 3000));
         List<Long> accumulatedTimes = null;
         byte telegramKind = TelegramConstants.BYTE_TELEGRAM_KIND_GET;
         byte requestKind = TelegramConstants.BYTE_REQUEST_KIND_RESPONSE;
 
-        // æœŸå¾…å€¤
+        // Šú‘Ò’l
         List<Invocation> expectedInvocations = invocations;
         List<Long> expectedAccumulatedTimes = new ArrayList<Long>();
         expectedAccumulatedTimes.add(Long.valueOf(0));
@@ -408,25 +408,25 @@ public class JavelinTelegramCreatorTest extends TestCase
         List<String> expectedIsTarget = new ArrayList<String>();
         expectedIsTarget.add("true");
 
-        // å®Ÿæ–½
+        // À{
         Telegram telegram =
                 JavelinTelegramCreator.create(invocations, accumulatedTimes, telegramKind,
                                               requestKind);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertAlertTelegram(expectedTelegramKind, expectedRequestKind, expectedInvocations,
                             expectedAccumulatedTimes, expectedIsTarget,
                             Arrays.asList(new String[]{}), telegram);
     }
 
     /**
-     * @test çŠ¶æ…‹é€šçŸ¥å¿œç­”é›»æ–‡å¤‰æ›-é€šçŸ¥å¯¾è±¡å˜æ•° ç´¯ç©æ™‚é–“æœ‰ã‚Š(é …ç›®:1-2-2)
+     * @test ó‘Ô’Ê’m‰“š“d•¶•ÏŠ·-’Ê’m‘ÎÛ’P” —İÏŠÔ—L‚è(€–Ú:1-2-2)
      * @condition 
      * @result
      */
     public void testCreate_Get_Single_Time()
     {
-        // æº–å‚™
+        // €”õ
         List<Invocation> invocations = new ArrayList<Invocation>();
         invocations.add(new Invocation("processName", "className", "methodName", 3000));
         List<Long> accumulatedTimes = new ArrayList<Long>();
@@ -434,7 +434,7 @@ public class JavelinTelegramCreatorTest extends TestCase
         byte telegramKind = TelegramConstants.BYTE_TELEGRAM_KIND_GET;
         byte requestKind = TelegramConstants.BYTE_REQUEST_KIND_RESPONSE;
 
-        // æœŸå¾…å€¤
+        // Šú‘Ò’l
         List<Invocation> expectedInvocations = invocations;
         List<Long> expectedAccumulatedTimes = accumulatedTimes;
         byte expectedTelegramKind = telegramKind;
@@ -442,25 +442,25 @@ public class JavelinTelegramCreatorTest extends TestCase
         List<String> expectedIsTarget = new ArrayList<String>();
         expectedIsTarget.add("true");
 
-        // å®Ÿæ–½
+        // À{
         Telegram telegram =
                 JavelinTelegramCreator.create(invocations, accumulatedTimes, telegramKind,
                                               requestKind);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertAlertTelegram(expectedTelegramKind, expectedRequestKind, expectedInvocations,
                             expectedAccumulatedTimes, expectedIsTarget,
                             Arrays.asList(new String[]{}), telegram);
     }
 
     /**
-     * @test çŠ¶æ…‹é€šçŸ¥å¿œç­”é›»æ–‡å¤‰æ›-é€šçŸ¥å¯¾è±¡è¤‡æ•° ç´¯ç©æ™‚é–“ç„¡ã—(é …ç›®:1-2-3)
+     * @test ó‘Ô’Ê’m‰“š“d•¶•ÏŠ·-’Ê’m‘ÎÛ•¡” —İÏŠÔ–³‚µ(€–Ú:1-2-3)
      * @condition 
      * @result
      */
     public void testCreate_Get_Multi_NoTime()
     {
-        // æº–å‚™
+        // €”õ
         List<Invocation> invocations = new ArrayList<Invocation>();
         invocations.add(new Invocation("processName", "className", "methodName", 3000));
         invocations.add(new Invocation("processName", "className2", "methodName2", 4000));
@@ -468,7 +468,7 @@ public class JavelinTelegramCreatorTest extends TestCase
         byte telegramKind = TelegramConstants.BYTE_TELEGRAM_KIND_GET;
         byte requestKind = TelegramConstants.BYTE_REQUEST_KIND_RESPONSE;
 
-        // æœŸå¾…å€¤
+        // Šú‘Ò’l
         List<Invocation> expectedInvocations = invocations;
         List<Long> expectedAccumulatedTimes = new ArrayList<Long>();
         expectedAccumulatedTimes.add(Long.valueOf(0));
@@ -479,25 +479,25 @@ public class JavelinTelegramCreatorTest extends TestCase
         expectedIsTarget.add("true");
         expectedIsTarget.add("true");
 
-        // å®Ÿæ–½
+        // À{
         Telegram telegram =
                 JavelinTelegramCreator.create(invocations, accumulatedTimes, telegramKind,
                                               requestKind);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertAlertTelegram(expectedTelegramKind, expectedRequestKind, expectedInvocations,
                             expectedAccumulatedTimes, expectedIsTarget,
                             Arrays.asList(new String[]{}), telegram);
     }
 
     /**
-     * @test çŠ¶æ…‹é€šçŸ¥å¿œç­”é›»æ–‡å¤‰æ›-é€šçŸ¥å¯¾è±¡è¤‡æ•° ç´¯ç©æ™‚é–“æœ‰ã‚Š(é …ç›®:1-2-4)
+     * @test ó‘Ô’Ê’m‰“š“d•¶•ÏŠ·-’Ê’m‘ÎÛ•¡” —İÏŠÔ—L‚è(€–Ú:1-2-4)
      * @condition 
      * @result
      */
     public void testCreate_Get_Multi_Time()
     {
-        // æº–å‚™
+        // €”õ
         List<Invocation> invocations = new ArrayList<Invocation>();
         invocations.add(new Invocation("processName", "className", "methodName", 3000));
         invocations.add(new Invocation("processName", "className2", "methodName2", 4000));
@@ -507,7 +507,7 @@ public class JavelinTelegramCreatorTest extends TestCase
         byte telegramKind = TelegramConstants.BYTE_TELEGRAM_KIND_GET;
         byte requestKind = TelegramConstants.BYTE_REQUEST_KIND_RESPONSE;
 
-        // æœŸå¾…å€¤
+        // Šú‘Ò’l
         List<Invocation> expectedInvocations = invocations;
         List<Long> expectedAccumulatedTimes = accumulatedTimes;
         byte expectedTelegramKind = telegramKind;
@@ -516,12 +516,12 @@ public class JavelinTelegramCreatorTest extends TestCase
         expectedIsTarget.add("true");
         expectedIsTarget.add("true");
 
-        // å®Ÿæ–½
+        // À{
         Telegram telegram =
                 JavelinTelegramCreator.create(invocations, accumulatedTimes, telegramKind,
                                               requestKind);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertAlertTelegram(expectedTelegramKind, expectedRequestKind, expectedInvocations,
                             expectedAccumulatedTimes, expectedIsTarget,
                             Arrays.asList(new String[]{}), telegram);
@@ -532,11 +532,11 @@ public class JavelinTelegramCreatorTest extends TestCase
             List<Invocation> expectedInvocations, List<Long> expectedAccumulatedTimes,
             List<String> expectedIsTarget, List<String> expectedCallerNames, Telegram telegram)
     {
-        // ãƒ˜ãƒƒãƒ€ã®æ¤œè¨¼
+        // ƒwƒbƒ_‚ÌŒŸØ
         TelegramAssertionUtil.assertHeader(expectedTelegramKind, expectedRequestKind,
                                            telegram.getObjHeader());
 
-        // Invocationã®æ¤œè¨¼
+        // Invocation‚ÌŒŸØ
         int bodyIndex = 0;
         for (int index = 0; index < expectedInvocations.size(); index++)
         {

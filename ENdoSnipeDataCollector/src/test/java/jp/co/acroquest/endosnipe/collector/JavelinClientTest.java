@@ -28,26 +28,26 @@ package jp.co.acroquest.endosnipe.collector;
 import jp.co.dgic.testing.framework.DJUnitTestCase;
 
 /**
- * JavelinClientTestã‚¯ãƒ©ã‚¹ã®ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹ã§ã™ã€‚<br />
+ * JavelinClientTestƒNƒ‰ƒX‚ÌƒeƒXƒgƒP[ƒX‚Å‚·B<br />
  * 
  * @author iida
  */
 public class JavelinClientTest extends DJUnitTestCase
 {
     /**
-     * {@link JavelinClient#init(String, String, int, int)}å®Ÿè¡Œæ™‚ã«ã€<br />
-     * {@link JavelinClient#createClientIdFromHost(String, int)}ãŒå‘¼ã°ã‚Œã‚‹äº‹ã‚’ç¢ºèªã—ã¾ã™ã€‚<br />
+     * {@link JavelinClient#init(String, String, int, int)}Às‚ÉA<br />
+     * {@link JavelinClient#createClientIdFromHost(String, int)}‚ªŒÄ‚Î‚ê‚é–‚ğŠm”F‚µ‚Ü‚·B<br />
      */
     public void testInit()
     {
-        // æº–å‚™
+        // €”õ
         JavelinClient client = new JavelinClient();
 
-        // å®Ÿè¡Œ
+        // Às
         client.init("DatabaseName", "HostName", 18000, 18001);
         int callCount = getCallCount(JavelinClient.class, "createClientIdFromHost");
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(1, callCount);
     }
 }

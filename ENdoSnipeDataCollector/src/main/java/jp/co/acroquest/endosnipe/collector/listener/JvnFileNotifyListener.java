@@ -40,16 +40,16 @@ import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 
 /**
- * Javelin ãƒ­ã‚°é€šçŸ¥é›»æ–‡ã‚’å—ä¿¡ã™ã‚‹ãŸã‚ã®ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+ * Javelin ƒƒO’Ê’m“d•¶‚ğóM‚·‚é‚½‚ß‚ÌƒNƒ‰ƒX‚Å‚·B<br />
  * 
  * @author y-komori
  * @author nagai
  */
 public class JvnFileNotifyListener extends AbstractTelegramListener implements TelegramListener,
-    LogMessageCodes, AgentNameListener
+        LogMessageCodes
 {
-    private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
-        .getLogger(JvnFileNotifyListener.class);
+    private static final ENdoSnipeLogger LOGGER =
+                                                  ENdoSnipeLogger.getLogger(JvnFileNotifyListener.class);
 
     private final String tempDir_;
 
@@ -68,8 +68,8 @@ public class JvnFileNotifyListener extends AbstractTelegramListener implements T
     private String clientId_ = null;
 
     /**
-     * {@link JvnFileNotifyListener} ã‚’æ§‹ç¯‰ã—ã¾ã™ã€‚<br />
-     * @param queue ã‚­ãƒ¥ãƒ¼
+     * {@link JvnFileNotifyListener} ‚ğ\’z‚µ‚Ü‚·B<br />
+     * @param queue ƒLƒ…[
      */
     public JvnFileNotifyListener(final JavelinDataQueue queue)
     {
@@ -77,15 +77,15 @@ public class JvnFileNotifyListener extends AbstractTelegramListener implements T
 
         String iotemp = System.getProperty("java.io.tmpdir");
         tempDir_ =
-            iotemp + System.getProperty("file.separator") + "collector"
-                + System.getProperty("file.separator");
+                   iotemp + System.getProperty("file.separator") + "collector"
+                           + System.getProperty("file.separator");
 
         File tempFile = new File(tempDir_);
         if (tempFile.exists() == false)
         {
             if (tempFile.mkdir() == false)
             {
-                // ãƒ†ãƒ³ãƒãƒ©ãƒªãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªç”Ÿæˆã«å¤±æ•—ã—ãŸ
+                // ƒeƒ“ƒ|ƒ‰ƒŠƒfƒBƒŒƒNƒgƒŠ¶¬‚É¸”s‚µ‚½
                 LOGGER.log(MAKING_DIR_FAILED, tempFile.getAbsolutePath());
             }
         }
@@ -155,9 +155,9 @@ public class JvnFileNotifyListener extends AbstractTelegramListener implements T
     }
 
     /**
-     * {@link JavelinData} ç”¨ã®ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã‚’è¨­å®šã—ã¾ã™ã€‚<br />
+     * {@link JavelinData} —p‚Ìƒf[ƒ^ƒx[ƒX–¼‚ğİ’è‚µ‚Ü‚·B<br />
      *
-     * @param databaseName ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param databaseName ƒf[ƒ^ƒx[ƒX–¼
      */
     public void setDatabaseName(final String databaseName)
     {
@@ -165,8 +165,8 @@ public class JvnFileNotifyListener extends AbstractTelegramListener implements T
     }
 
     /**
-     * {@link JavelinData} ç”¨ã®æ¥ç¶šå…ˆãƒ›ã‚¹ãƒˆåã‚’è¨­å®šã—ã¾ã™ã€‚<br />
-     * @param hostName æ¥ç¶šå…ˆãƒ›ã‚¹ãƒˆå
+     * {@link JavelinData} —p‚ÌÚ‘±æƒzƒXƒg–¼‚ğİ’è‚µ‚Ü‚·B<br />
+     * @param hostName Ú‘±æƒzƒXƒg–¼
      */
     public void setHostName(final String hostName)
     {
@@ -184,9 +184,9 @@ public class JvnFileNotifyListener extends AbstractTelegramListener implements T
     }
 
     /**
-     * {@link JavelinData} ç”¨ã®æ¥ç¶šå…ˆ IP ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
+     * {@link JavelinData} —p‚ÌÚ‘±æ IP ƒAƒhƒŒƒX‚ğİ’è‚µ‚Ü‚·B<br />
      * 
-     * @param ipAddress æ¥ç¶šå…ˆ IP ã‚¢ãƒ‰ãƒ¬ã‚¹
+     * @param ipAddress Ú‘±æ IP ƒAƒhƒŒƒX
      */
     public void setIpAddress(final String ipAddress)
     {
@@ -194,9 +194,9 @@ public class JvnFileNotifyListener extends AbstractTelegramListener implements T
     }
 
     /**
-     * {@link JavelinData} ç”¨ã®æ¥ç¶šå…ˆãƒãƒ¼ãƒˆç•ªå·ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
+     * {@link JavelinData} —p‚ÌÚ‘±æƒ|[ƒg”Ô†‚ğİ’è‚µ‚Ü‚·B<br />
      * 
-     * @param port æ¥ç¶šå…ˆãƒãƒ¼ãƒˆç•ªå·
+     * @param port Ú‘±æƒ|[ƒg”Ô†
      */
     public void setPort(final int port)
     {
@@ -204,8 +204,8 @@ public class JvnFileNotifyListener extends AbstractTelegramListener implements T
     }
 
     /**
-     * {@link JavelinData} ç”¨ã®ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆIDã‚’è¨­å®šã—ã¾ã™ã€‚
-     * @param clientId ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆID
+     * {@link JavelinData} —p‚ÌƒNƒ‰ƒCƒAƒ“ƒgID‚ğİ’è‚µ‚Ü‚·B
+     * @param clientId ƒNƒ‰ƒCƒAƒ“ƒgID
      */
     public void setClientId(final String clientId)
     {

@@ -42,25 +42,18 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import jp.co.acroquest.endosnipe.collector.config.DataCollectorConfig;
 import jp.co.acroquest.endosnipe.collector.config.RotateConfig;
-import jp.co.acroquest.endosnipe.collector.converter.CPUConverter;
 import jp.co.acroquest.endosnipe.collector.data.JavelinConnectionData;
 import jp.co.acroquest.endosnipe.collector.data.JavelinData;
 import jp.co.acroquest.endosnipe.collector.data.JavelinLogData;
 import jp.co.acroquest.endosnipe.collector.data.JavelinMeasurementData;
-import jp.co.acroquest.endosnipe.collector.data.JavelinMeasurementNotifyData;
 import jp.co.acroquest.endosnipe.collector.log.JavelinLogUtil;
 import jp.co.acroquest.endosnipe.collector.manager.SignalStateManager;
-import jp.co.acroquest.endosnipe.collector.manager.SummarySignalStateManager;
 import jp.co.acroquest.endosnipe.collector.notification.AlarmEntry;
 import jp.co.acroquest.endosnipe.collector.processor.AlarmData;
 import jp.co.acroquest.endosnipe.collector.processor.AlarmProcessor;
 import jp.co.acroquest.endosnipe.collector.processor.AlarmThresholdProcessor;
-import jp.co.acroquest.endosnipe.collector.processor.AlarmType;
 import jp.co.acroquest.endosnipe.collector.request.CommunicationClientRepository;
 import jp.co.acroquest.endosnipe.collector.util.CollectorTelegramUtil;
-import jp.co.acroquest.endosnipe.collector.util.ElasticSearchUtil;
-import jp.co.acroquest.endosnipe.collector.util.MulResourceGraphUtil;
-import jp.co.acroquest.endosnipe.collector.util.PerfDoctorMessages;
 import jp.co.acroquest.endosnipe.common.Constants;
 import jp.co.acroquest.endosnipe.common.entity.ItemType;
 import jp.co.acroquest.endosnipe.common.entity.MeasurementData;
@@ -78,26 +71,20 @@ import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.data.dao.JavelinLogDao;
 import jp.co.acroquest.endosnipe.data.dao.JavelinMeasurementItemDao;
-import jp.co.acroquest.endosnipe.data.dao.PerfDoctorResultDao;
-import jp.co.acroquest.endosnipe.data.dto.MeasurementValueDto;
-import jp.co.acroquest.endosnipe.data.dto.PerfDoctorResultDto;
+import jp.co.acroquest.endosnipe.data.db.DBManager;
 import jp.co.acroquest.endosnipe.data.dto.SignalDefinitionDto;
-import jp.co.acroquest.endosnipe.data.dto.SummarySignalDefinitionDto;
 import jp.co.acroquest.endosnipe.data.entity.JavelinLog;
 import jp.co.acroquest.endosnipe.data.entity.JavelinMeasurementItem;
 import jp.co.acroquest.endosnipe.data.util.AccumulatedValuesDefinition;
 import jp.co.acroquest.endosnipe.javelin.parser.JavelinLogElement;
 import jp.co.acroquest.endosnipe.javelin.parser.JavelinParser;
 import jp.co.acroquest.endosnipe.javelin.parser.ParseException;
-import jp.co.acroquest.endosnipe.perfdoctor.PerfDoctor;
-import jp.co.acroquest.endosnipe.perfdoctor.WarningUnit;
-import jp.co.acroquest.endosnipe.perfdoctor.exception.RuleCreateException;
-import jp.co.acroquest.endosnipe.perfdoctor.exception.RuleNotFoundException;
 import jp.co.acroquest.endosnipe.util.InsertResult;
 import jp.co.acroquest.endosnipe.util.ResourceDataDaoUtil;
+import jp.co.acroquest.endosnipe.util.RotateCallback;
 
 /**
- * {@link JavelinData} ã‚’ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã¸æ ¼ç´ã™ã‚‹ãŸã‚ã®ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+ * {@link JavelinData} ‚ğƒf[ƒ^ƒx[ƒX‚ÖŠi”[‚·‚é‚½‚ß‚ÌƒNƒ‰ƒX‚Å‚·B<br />
  *
  * @author y-komori
  * @author ochiai
@@ -105,123 +92,87 @@ import jp.co.acroquest.endosnipe.util.ResourceDataDaoUtil;
 public class JavelinDataLogger implements Runnable, LogMessageCodes
 {
 
-    /** ã‚·ã‚°ãƒŠãƒ«ã®ãƒ¬ãƒ™ãƒ«1 */
-    private static final int SIGNAL_LEVEL_1 = 1;
-
-    /** ã‚·ã‚°ãƒŠãƒ«ã®ãƒ¬ãƒ™ãƒ«2 */
-    private static final int SIGNAL_LEVEL_2 = 2;
-
-    /** ã‚·ã‚°ãƒŠãƒ«ã®ãƒ¬ãƒ™ãƒ«3 */
-    private static final int SIGNAL_LEVEL_3 = 3;
-
-    /** ã‚·ã‚°ãƒŠãƒ«ã®ãƒ¬ãƒ™ãƒ«4 */
-    private static final int SIGNAL_LEVEL_4 = 4;
-
-    /** ã‚·ã‚°ãƒŠãƒ«ã®ãƒ¬ãƒ™ãƒ«5 */
-    private static final int SIGNAL_LEVEL_5 = 5;
-
-    /** ãƒ­ã‚¬ãƒ¼ */
     private static final String JVN_LOG_ENCODING = "UTF-8";
 
-    private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
-        .getLogger(JavelinDataLogger.class);
+    private static final ENdoSnipeLogger LOGGER =
+                                                  ENdoSnipeLogger.getLogger(JavelinDataLogger.class);
+
+    private static final int TREE_TELEGRAM_DTO_COUNT = 3;
 
     private final JavelinDataQueue queue_ = new JavelinDataQueue();
 
-    /** è¨­å®š */
+    /** İ’è */
     private final DataCollectorConfig config_;
 
-    /** ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã‚’ã‚­ãƒ¼ã«æŒã¤ã€ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆè¨­å®šã‚’ä¿æŒã™ã‚‹ãƒãƒƒãƒ— */
+    /** ƒf[ƒ^ƒx[ƒX–¼‚ğƒL[‚É‚ÂAƒ[ƒe[ƒgİ’è‚ğ•Û‚·‚éƒ}ƒbƒv */
     private final Map<String, RotateConfig> rotateConfigMap_;
 
-    /** ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ãƒ­ãƒ¼ãƒ†ãƒ¼ã¨è¨­å®š */
+    /** ƒfƒtƒHƒ‹ƒg‚Ìƒ[ƒe[‚Æİ’è */
     private RotateConfig defaultRotateConfig_;
 
     private final CommunicationClientRepository clientRepository_;
 
     private volatile boolean isRunnning_;
 
-    /** å‰å›ã®è¨ˆæ¸¬å€¤ */
+    /** ‘O‰ñ‚ÌŒv‘ª’l */
     private final Map<String, ResourceData> prevResourceDataMap_ =
-        new HashMap<String, ResourceData>();
+                                                                   new HashMap<String, ResourceData>();
 
-    /** å‰å›ã®è¨ˆæ¸¬å€¤(ç©ç®—ã‚’å·®åˆ†ã«ç›´ã—ãŸã‚‚ã®) */
+    /** ‘O‰ñ‚ÌŒv‘ª’l(ÏZ‚ğ·•ª‚É’¼‚µ‚½‚à‚Ì) */
     private final Map<String, ResourceData> prevConvertedResourceDataMap_ =
-        new HashMap<String, ResourceData>();
+                                                                            new HashMap<String, ResourceData>();
+
+    /** ƒf[ƒ^ƒx[ƒX–¼‚ğƒL[‚É‚µ‚½A‘O‰ñƒf[ƒ^‚ğ‘}“ü‚µ‚½ƒe[ƒuƒ‹ƒCƒ“ƒfƒbƒNƒX‚ğ•Û‚·‚éƒ}ƒbƒv */
+    private static Map<String, Integer> prevTableIndexMap__ =
+                                                              new ConcurrentHashMap<String, Integer>();
 
     /**
-     * Javelinã‹ã‚‰æ¥ç¶šã•ã‚ŒãŸã¨ãã®ã‚¤ãƒ™ãƒ³ãƒˆã€‚
-     * æ¥ç¶šãƒ‡ãƒ¼ã‚¿ã‚’å—ã‘å–ã£ãŸæ™‚ã«ã‚»ãƒƒãƒˆã•ã‚Œã€æ¥ç¶šå‰ã®ã€å…¨ã¦ãŒ0ã®ãƒ‡ãƒ¼ã‚¿ã‚’æ›¸ãè¾¼ã‚€éš›ã«ç”¨ã„ã‚‰ã‚Œã‚‹ã€‚
-     * æ›¸ãè¾¼ã¾ã‚ŒãŸå¾Œã€ã“ã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã¯nullã«æˆ»ã•ã‚Œã‚‹ã€‚
+     * Javelin‚©‚çÚ‘±‚³‚ê‚½‚Æ‚«‚ÌƒCƒxƒ“ƒgB
+     * Ú‘±ƒf[ƒ^‚ğó‚¯æ‚Á‚½‚ÉƒZƒbƒg‚³‚êAÚ‘±‘O‚ÌA‘S‚Ä‚ª0‚Ìƒf[ƒ^‚ğ‘‚«‚ŞÛ‚É—p‚¢‚ç‚ê‚éB
+     * ‘‚«‚Ü‚ê‚½ŒãA‚±‚ÌƒtƒB[ƒ‹ƒh‚Ínull‚É–ß‚³‚ê‚éB
      */
     private JavelinConnectionData connectionData_ = null;
 
-    /** é–¾å€¤åˆ¤å®šå‡¦ç†ã‚’è¡Œã†å®šç¾©ã‚’ä¿æŒã—ãŸãƒãƒƒãƒ— */
+    /** è‡’l”»’èˆ—‚ğs‚¤’è‹`‚ğ•Û‚µ‚½ƒ}ƒbƒv */
     private final Map<String, AlarmProcessor> processorMap_ =
-        new ConcurrentHashMap<String, AlarmProcessor>();
+                                                              new ConcurrentHashMap<String, AlarmProcessor>();
 
-    /** é–¾å€¤ãƒ¬ãƒ™ãƒ«ï¼ˆæ­£å¸¸ï¼‰ */
+    /** è‡’lƒŒƒxƒ‹i³íj */
     public static final int NORMAL_ALARM_LEVEL = 0;
 
-    /** é–¾å€¤ãƒ¬ãƒ™ãƒ«ï¼ˆç›£è¦–åœæ­¢ä¸­ï¼‰ */
+    /** è‡’lƒŒƒxƒ‹iŠÄ‹’â~’†j */
     public static final int STOP_ALARM_LEVEL = -1;
 
-    /** measurement_item_nameã‚’ã‚¹ãƒ©ãƒƒã‚·ãƒ¥åŒºåˆ‡ã‚Šã—ãŸéš›ã«ã€ã‚¯ãƒ©ã‚¹ã‚¿åãŒå…¥ã‚‹Indexç•ªå·ã€‚ */
-    private static final int CLUSTER_INDEX = 1;
+    /** JAVELIN_LOG ƒe[ƒuƒ‹‚ğ truncate ‚·‚éƒR[ƒ‹ƒoƒbƒNƒƒ\ƒbƒh */
+    private final RotateCallback javelinRotateCallback_ = new RotateCallback() {
+        /**
+         * {@inheritDoc}
+         */
+        public String getTableType()
+        {
+            return "JAVELIN_LOG";
+        }
 
-    /** measurement_item_nameã‚’ã‚¹ãƒ©ãƒƒã‚·ãƒ¥åŒºåˆ‡ã‚Šã—ãŸéš›ã«ã€ã‚µãƒ¼ãƒåãŒå…¥ã‚‹Indexç•ªå·ã€‚ */
-    private static final int SERVER_INDEX = 2;
-
-    /** measurement_item_nameã‚’ã‚¹ãƒ©ãƒƒã‚·ãƒ¥åŒºåˆ‡ã‚Šã—ãŸéš›ã«ã€ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆåãŒå…¥ã‚‹Indexç•ªå·ã€‚ */
-    private static final int AGENT_INDEX = 3;
-
-    /** æ€§èƒ½æƒ…å ±ã®ã‚­ãƒ¼ã®åŒºåˆ‡ã‚Šæ–‡å­— */
-    private static final String KEY_SEPARETOR = "/";
-
-    /** æ¸¬å®šå€¤ã®é–¾å€¤è¶…æ™‚ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ */
-    private static final String EXCEEDS_TAT_MESSAGES = "APP.MTRC.EXCD_TAT_message";
-
-    /** æ¸¬å®šå€¤ã®é–¾å€¤ä¸‹å›ã‚Šæ™‚ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ */
-    private static final String FALLS_TAT_MESSAGES = "APP.MTRC.FALL_TAT_message";
-
-    /**
-     * åˆæœŸåŒ–ã‚’è¡Œã„ã¾ã™ã€‚
-     *
-     * @param config {@link DataCollectorConfig} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param clientRepository {@link CommunicationClientRepository} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param signalDefinitionMap é–¾å€¤åˆ¤å®šå®šç¾©æƒ…å ±ã®ãƒãƒƒãƒ—
-     * @param summarySignalDefinitionMap data of summary signal
-     */
-    public JavelinDataLogger(final DataCollectorConfig config,
-        final CommunicationClientRepository clientRepository,
-        final Map<Long, SignalDefinitionDto> signalDefinitionMap,
-        final Map<Long, SummarySignalDefinitionDto> summarySignalDefinitionMap)
-    {
-        this.rotateConfigMap_ = new HashMap<String, RotateConfig>();
-        this.config_ = config;
-        this.clientRepository_ = clientRepository;
-        SignalStateManager signalStateManager = SignalStateManager.getInstance();
-        signalStateManager.setSignalDeifinitionMap(signalDefinitionMap);
-
-        SummarySignalStateManager summarySignalStateManager =
-            SummarySignalStateManager.getInstance();
-
-        String dataBase = config_.getDatabaseName();
-        summarySignalStateManager.setDataBaseName(dataBase);
-        summarySignalStateManager.setSummarySignalDefinitionMap(summarySignalDefinitionMap);
-        summarySignalStateManager.createAllSummarySignalMapValue();
-    }
+        /**
+         * {@inheritDoc}
+         */
+        public void truncate(final String database, final int tableIndex, final int year)
+            throws SQLException
+        {
+            JavelinLogDao.truncate(database, tableIndex, year);
+        }
+    };
 
     /**
-     * åˆæœŸåŒ–ã‚’è¡Œã„ã¾ã™ã€‚
+     * ‰Šú‰»‚ğs‚¢‚Ü‚·B
      *
-     * @param config {@link DataCollectorConfig} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param clientRepository {@link CommunicationClientRepository} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param signalDefinitionMap é–¾å€¤åˆ¤å®šå®šç¾©æƒ…å ±ã®ãƒãƒƒãƒ—
+     * @param config {@link DataCollectorConfig} ƒIƒuƒWƒFƒNƒg
+     * @param clientRepository {@link CommunicationClientRepository} ƒIƒuƒWƒFƒNƒg
+     * @param signalDefinitionMap è‡’l”»’è’è‹`î•ñ‚Ìƒ}ƒbƒv
      */
     public JavelinDataLogger(final DataCollectorConfig config,
-        final CommunicationClientRepository clientRepository,
-        final Map<Long, SignalDefinitionDto> signalDefinitionMap)
+            final CommunicationClientRepository clientRepository,
+            final Map<Long, SignalDefinitionDto> signalDefinitionMap)
     {
         this.rotateConfigMap_ = new HashMap<String, RotateConfig>();
         this.config_ = config;
@@ -231,9 +182,9 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
     }
 
     /**
-     * ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆè¨­å®šã‚’è¿½åŠ ã—ã¾ã™ã€‚
+     * ƒ[ƒe[ƒgİ’è‚ğ’Ç‰Á‚µ‚Ü‚·B
      *
-     * @param rotateConfig ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆè¨­å®š
+     * @param rotateConfig ƒ[ƒe[ƒgİ’è
      */
     public void addRotateConfig(final RotateConfig rotateConfig)
     {
@@ -241,9 +192,9 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
     }
 
     /**
-     * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆè¨­å®šã‚’è¨­å®šã—ã¾ã™ã€‚
+     * ƒfƒtƒHƒ‹ƒg‚Ìƒ[ƒe[ƒgİ’è‚ğİ’è‚µ‚Ü‚·B
      *
-     * @param rotateConfig ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆè¨­å®š
+     * @param rotateConfig ƒ[ƒe[ƒgİ’è
      */
     public void setDefaultRotateConfig(final RotateConfig rotateConfig)
     {
@@ -251,9 +202,9 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
     }
 
     /**
-     * ã‚¢ãƒ©ãƒ¼ãƒ ãƒ‡ãƒ¼ã‚¿ã‚’å…¥ã‚Œã‚‹ã‚­ãƒ¥ãƒ¼ã‚’è¿”ã—ã¾ã™ã€‚
+     * ƒAƒ‰[ƒ€ƒf[ƒ^‚ğ“ü‚ê‚éƒLƒ…[‚ğ•Ô‚µ‚Ü‚·B
      *
-     * @return ã‚­ãƒ¥ãƒ¼
+     * @return ƒLƒ…[
      */
     public JavelinDataQueue getQueue()
     {
@@ -267,18 +218,18 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
     {
         while (true)
         {
-            // çµ‚äº†ãƒã‚§ãƒƒã‚¯
+            // I—¹ƒ`ƒFƒbƒN
             if (this.isRunnning_ == false && this.queue_.size() == 0)
             {
                 break;
             }
 
-            // ã‚­ãƒ¥ãƒ¼ã‹ã‚‰ãƒ‡ãƒ¼ã‚¿ã‚’å–ã‚Šå‡ºã™
+            // ƒLƒ…[‚©‚çƒf[ƒ^‚ğæ‚èo‚·
             JavelinData data = this.queue_.take();
 
             if (data != null)
             {
-                // ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã¸æ›¸ãè¾¼ã¿
+                // ƒf[ƒ^ƒx[ƒX‚Ö‘‚«‚İ
                 logJavelinData(data);
             }
         }
@@ -287,10 +238,10 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
     }
 
     /**
-     * ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’åœæ­¢ã—ã¾ã™ã€‚<br />
+     * ƒXƒŒƒbƒh‚ğ’â~‚µ‚Ü‚·B<br />
      *
-     * ã‚­ãƒ¥ãƒ¼ã«æ›¸ãè¾¼ã‚€ã¹ããƒ‡ãƒ¼ã‚¿ãŒæ®‹ã£ã¦ã„ã‚‹å ´åˆã€
-     * ã™ã¹ã¦ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã«æ›¸ãè¾¼ã‚“ã§ã‹ã‚‰çµ‚äº†ã—ã¾ã™ã€‚<br />
+     * ƒLƒ…[‚É‘‚«‚Ş‚×‚«ƒf[ƒ^‚ªc‚Á‚Ä‚¢‚éê‡A
+     * ‚·‚×‚Äƒf[ƒ^ƒx[ƒX‚É‘‚«‚ñ‚Å‚©‚çI—¹‚µ‚Ü‚·B<br />
      */
     public synchronized void stop()
     {
@@ -299,9 +250,9 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
     }
 
     /**
-     * åˆæœŸåŒ–ã—ã¾ã™ã€‚<br />
+     * ‰Šú‰»‚µ‚Ü‚·B<br />
      *
-     * @param rotateConfigList ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆæ¯ã®ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆè¨­å®šã®ãƒªã‚¹ãƒˆ
+     * @param rotateConfigList ƒG[ƒWƒFƒ“ƒg–ˆ‚Ìƒ[ƒe[ƒgİ’è‚ÌƒŠƒXƒg
      */
     protected synchronized void init(final List<RotateConfig> rotateConfigList)
     {
@@ -317,9 +268,9 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
     }
 
     /**
-     * Javelin ãƒ­ã‚°ã‚’æ›¸ãè¾¼ã¿ã¾ã™ã€‚<br />
+     * Javelin ƒƒO‚ğ‘‚«‚İ‚Ü‚·B<br />
      *
-     * @param data Javelin ãƒ­ã‚°
+     * @param data Javelin ƒƒO
      */
     private void logJavelinData(final JavelinData data)
     {
@@ -330,52 +281,54 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
 
             if (connectionData.isConnectionData())
             {
-                // æ¥ç¶šã‚¤ãƒ™ãƒ³ãƒˆã®å ´åˆã€
-                // ãã‚Œã‚’ä¿æŒã—ã¦ãŠãã€æ¬¡å›ã®ãƒ‡ãƒ¼ã‚¿å–ã‚Šå‡ºã—æ™‚ã«ã€è¨ˆæ¸¬å€¤ãŒå…¨ã¦0ã®ãƒ‡ãƒ¼ã‚¿ã‚’åŠ ãˆã‚‹ã€‚
+                // Ú‘±ƒCƒxƒ“ƒg‚Ìê‡A
+                // ‚»‚ê‚ğ•Û‚µ‚Ä‚¨‚«AŸ‰ñ‚Ìƒf[ƒ^æ‚èo‚µ‚ÉAŒv‘ª’l‚ª‘S‚Ä0‚Ìƒf[ƒ^‚ğ‰Á‚¦‚éB
                 this.connectionData_ = connectionData;
             }
             else if (connectionData.isConnectionData() == false)
             {
-                // åˆ‡æ–­ã‚¤ãƒ™ãƒ³ãƒˆã®å ´åˆã€è¨ˆæ¸¬å€¤ãŒå…¨ã¦0ã®ãƒ‡ãƒ¼ã‚¿ã‚’åŠ ãˆã‚‹ã€‚
-                // ãŸã ã—ã€æ¥ç¶šå¾Œã™ãã«åˆ‡æ–­ã—ãŸå ´åˆã¯å‰å›ã®ãƒ‡ãƒ¼ã‚¿ãŒç„¡ã„ã®ã§ã€å‡¦ç†ã¯è¡Œã‚ãªã„ã€‚
+                // Ø’fƒCƒxƒ“ƒg‚Ìê‡AŒv‘ª’l‚ª‘S‚Ä0‚Ìƒf[ƒ^‚ğ‰Á‚¦‚éB
+                // ‚½‚¾‚µAÚ‘±Œã‚·‚®‚ÉØ’f‚µ‚½ê‡‚Í‘O‰ñ‚Ìƒf[ƒ^‚ª–³‚¢‚Ì‚ÅAˆ—‚Ís‚í‚È‚¢B
                 ResourceData resourceData = this.prevConvertedResourceDataMap_.get(database);
                 if (resourceData != null)
                 {
                     long measurementTime = connectionData.measurementTime;
                     ResourceData allZeroData =
-                        ResourceDataUtil.createAllZeroResourceData(resourceData, measurementTime,
-                                                                   false);
+                                               ResourceDataUtil.createAllZeroResourceData(resourceData,
+                                                                                          measurementTime,
+                                                                                          false);
                     logResourceData(database, allZeroData, true);
                 }
             }
         }
         else if (data instanceof JavelinLogData)
         {
-            // Javelin ãƒ­ã‚°ã®å ´åˆ
+            // Javelin ƒƒO‚Ìê‡
             JavelinLogData logData = (JavelinLogData)data;
             String database = data.getDatabaseName();
             logJavelinLogData(database, logData);
 
-            // Javelinãƒ­ã‚°ã®åˆ¤å®šå‡¦ç†
+            // JavelinƒƒO‚Ì”»’èˆ—
             alarmJavelinLogData(database, logData);
         }
         else if (data instanceof JavelinMeasurementData)
         {
-            // è¨ˆæ¸¬å€¤ãƒ‡ãƒ¼ã‚¿ã®å ´åˆ
+            // Œv‘ª’lƒf[ƒ^‚Ìê‡
             ResourceData resourceData = ((JavelinMeasurementData)data).getResourceData();
             String database = data.getDatabaseName();
 
             if (resourceData != null && resourceData.getMeasurementMap() != null)
             {
 
-                // æ¥ç¶šå¾Œã®æœ€åˆã®ãƒ‡ãƒ¼ã‚¿ã®å ´åˆã€æ¥ç¶šã‚’è¡¨ã™ï¼ˆè¨ˆæ¸¬å€¤ãŒå…¨ã¦0ã®ï¼‰ãƒ‡ãƒ¼ã‚¿ã‚’ç›´å‰ã«åŠ ãˆã‚‹ã€‚
+                // Ú‘±Œã‚ÌÅ‰‚Ìƒf[ƒ^‚Ìê‡AÚ‘±‚ğ•\‚·iŒv‘ª’l‚ª‘S‚Ä0‚Ìjƒf[ƒ^‚ğ’¼‘O‚É‰Á‚¦‚éB
                 if (this.connectionData_ != null
-                    && resourceData.getMeasurementMap().isEmpty() == false)
+                        && resourceData.getMeasurementMap().isEmpty() == false)
                 {
                     long measurementTime = this.connectionData_.measurementTime;
                     ResourceData allZeroData =
-                        ResourceDataUtil.createAllZeroResourceData(resourceData, measurementTime,
-                                                                   true);
+                                               ResourceDataUtil.createAllZeroResourceData(resourceData,
+                                                                                          measurementTime,
+                                                                                          true);
                     logResourceData(database, allZeroData, true);
                     this.connectionData_ = null;
                 }
@@ -383,29 +336,13 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
                 logResourceData(database, resourceData);
             }
         }
-        else if (data instanceof JavelinMeasurementNotifyData)
-        {
-            // è¨ˆæ¸¬å€¤ãƒ‡ãƒ¼ã‚¿ã®å ´åˆ
-            ResourceData resourceData = ((JavelinMeasurementNotifyData)data).getResourceData();
-            String database = data.getDatabaseName();
-
-            if (resourceData != null && resourceData.getMeasurementMap() != null)
-            {
-                this.logResourceData(database, resourceData, false, true);
-            }
-        }
-        else
-        {
-            // ä½•ã‚‚ã—ãªã„ã€‚
-            "".toString();
-        }
     }
 
     /**
-     * JVNãƒ‡ãƒ¼ã‚¿ã«å¯¾ã—ã¦ã€ã‚¤ãƒ™ãƒ³ãƒˆã‚’é€ä¿¡ã—ã¾ã™ã€‚<br />
+     * JVNƒf[ƒ^‚É‘Î‚µ‚ÄAƒCƒxƒ“ƒg‚ğ‘—M‚µ‚Ü‚·B<br />
      *
-     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @param logData {@link JavelinLogData}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param database ƒf[ƒ^ƒx[ƒX–¼
+     * @param logData {@link JavelinLogData}ƒIƒuƒWƒFƒNƒg
      */
     void alarmJavelinLogData(final String database, final JavelinLogData logData)
     {
@@ -430,7 +367,6 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             return;
         }
 
-        List<JavelinLogElement> jvnLogElmList = new ArrayList<JavelinLogElement>();
         while (true)
         {
             try
@@ -440,9 +376,8 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
                 {
                     break;
                 }
-                jvnLogElmList.add(element);
 
-                // DataCollectorãŒå‚ç…§ã™ã‚‹å„ç¨®æƒ…å ±ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+                // DataCollector‚ªQÆ‚·‚éŠeíî•ñ‚ğƒZƒbƒg‚·‚é
                 element.setIpAddress(logData.getIpAddress());
                 element.setPort(logData.getPort());
                 element.setDatabaseName(logData.getDatabaseName());
@@ -450,13 +385,12 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
                 element.setCpuAlarmThreshold(logData.getCpuAlarmThreshold());
                 element.setLogFileName(logData.getLogFileName());
 
-                element.setMeasurementItemName(logData.getAgentName());
-
                 String clientId = logData.getClientId();
                 if (clientId == null || clientId.equals(""))
                 {
                     clientId =
-                        JavelinClient.createClientId(logData.getIpAddress(), logData.getPort());
+                               JavelinClient.createClientId(logData.getIpAddress(),
+                                                            logData.getPort());
                 }
             }
             catch (IOException ex)
@@ -470,98 +404,26 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
                 LOGGER.log(LogMessageCodes.FAIL_PARSE_JVN_DATA, ex, message);
             }
         }
-
-        PerfDoctor perfDoctor = new PerfDoctor();
-        List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
-        try
-        {
-            perfDoctor.init();
-            warningUnitList = perfDoctor.judgeJavelinLog(jvnLogElmList);
-        }
-        catch (RuleNotFoundException ex)
-        {
-            LOGGER.log(LogMessageCodes.CANNOT_FIND_PERFRULE, ex);
-        }
-        catch (RuleCreateException ex)
-        {
-            LOGGER.log(LogMessageCodes.FAIL_TO_CREATE_PERFRULE, ex);
-        }
-
-        List<PerfDoctorResultDto> dtoList = new ArrayList<PerfDoctorResultDto>();
-
-        for (WarningUnit warning : warningUnitList)
-        {
-            PerfDoctorResultDto dto = new PerfDoctorResultDto();
-            dto.setOccurrenceTime(new Timestamp(warning.getStartTime()));
-            dto.setDescription(warning.getDescription());
-            dto.setLevel(warning.getLevel());
-            dto.setClassName(warning.getClassName());
-            dto.setMethodName(warning.getMethodName());
-            dto.setLogFileName(warning.getLogFileName());
-            dto.setMeasurementItemName(warning.getMeasurementItemName());
-            dtoList.add(dto);
-        }
-        ElasticSearchUtil.sendElasticSearch(this.config_, warningUnitList);
-
-        // è¨ºæ–­çµæœã‚’PerfDoctorResultTableã«ç™»éŒ²
-        //            PerfDoctorResultDao.insert(dbName, dtoList);
-        for (PerfDoctorResultDto dto : dtoList)
-        {
-            try
-            {
-                PerfDoctorResultDao.insert(database, dto);
-            }
-            catch (SQLException ex)
-            {
-                LOGGER.log(ex);
-            }
-        }
-
     }
 
     /**
-     * æŒ‡å®šã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ã‚’ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã«ç™»éŒ²ã—ã¾ã™ã€‚<br />
-     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @param resourceData ç™»éŒ²ã™ã‚‹ãƒ‡ãƒ¼ã‚¿
-     */
-    private void logResourceData(final String database, final ResourceData resourceData,
-        final boolean isConnectionData, final boolean direct)
-    {
-        if (direct)
-        {
-            try
-            {
-                this.insertMeasurementDataDirect(database, resourceData);
-            }
-            catch (SQLException ex)
-            {
-                LOGGER.log(DATABASE_ACCESS_ERROR, ex, ex.getMessage());
-            }
-        }
-        else
-        {
-            this.logResourceData(database, resourceData, isConnectionData);
-        }
-    }
-
-    /**
-     * æŒ‡å®šã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ã‚’ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã«ç™»éŒ²ã—ã¾ã™ã€‚<br />
-     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @param resourceData ç™»éŒ²ã™ã‚‹ãƒ‡ãƒ¼ã‚¿
+     * w’è‚³‚ê‚½ƒf[ƒ^‚ğƒf[ƒ^ƒx[ƒX‚É“o˜^‚µ‚Ü‚·B<br />
+     * @param database ƒf[ƒ^ƒx[ƒX–¼
+     * @param resourceData “o˜^‚·‚éƒf[ƒ^
      */
     private void logResourceData(final String database, final ResourceData resourceData)
     {
-        this.logResourceData(database, resourceData, false, false);
+        this.logResourceData(database, resourceData, false);
     }
 
     /**
-     * æŒ‡å®šã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ã‚’ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã«ç™»éŒ²ã—ã¾ã™ã€‚<br />
-     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @param resourceData ç™»éŒ²ã™ã‚‹ãƒ‡ãƒ¼ã‚¿
-     * @param isConnectionData æ¥ç¶šãƒ»åˆ‡æ–­ãƒ‡ãƒ¼ã‚¿ã‹ã©ã†ã‹
+     * w’è‚³‚ê‚½ƒf[ƒ^‚ğƒf[ƒ^ƒx[ƒX‚É“o˜^‚µ‚Ü‚·B<br />
+     * @param database ƒf[ƒ^ƒx[ƒX–¼
+     * @param resourceData “o˜^‚·‚éƒf[ƒ^
+     * @param isConnectionData Ú‘±EØ’fƒf[ƒ^‚©‚Ç‚¤‚©
      */
     private void logResourceData(final String database, final ResourceData resourceData,
-        final boolean isConnectionData)
+            final boolean isConnectionData)
     {
         if (resourceData.getMeasurementMap().isEmpty())
         {
@@ -577,13 +439,14 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
 
         try
         {
-            // å¯å¤‰æ•°ç³»åˆ—ã§æ–°ãŸãªãƒ‡ãƒ¼ã‚¿ãŒåŠ ã‚ã£ã¦ã„ã‚‹å ´åˆã€ã‚°ãƒ©ãƒ•ã®å§‹ã¾ã‚Šã‚’è¡¨ã™ãƒ‡ãƒ¼ã‚¿ã‚’è¿½åŠ ã™ã‚‹ã€‚
+            // ‰Â•Ï”Œn—ñ‚ÅV‚½‚Èƒf[ƒ^‚ª‰Á‚í‚Á‚Ä‚¢‚éê‡AƒOƒ‰ƒt‚Ìn‚Ü‚è‚ğ•\‚·ƒf[ƒ^‚ğ’Ç‰Á‚·‚éB
             String prevDataKey = resourceData.clientId;
             ResourceData prevData = this.prevConvertedResourceDataMap_.get(prevDataKey);
             if (prevData != null)
             {
                 ResourceData additionalData =
-                    ResourceDataUtil.createAdditionalPreviousData(prevData, resourceData);
+                                              ResourceDataUtil.createAdditionalPreviousData(prevData,
+                                                                                            resourceData);
 
                 if (additionalData.getMeasurementMap().size() > 0)
                 {
@@ -594,18 +457,19 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             ResourceData convertedResourceData = resourceData;
             if (isConnectionData == false)
             {
-                // ç©ç®—å€¤ãŒå…¥ã£ã¦ã„ã‚‹å ´åˆã€å·®åˆ†ã«ã™ã‚‹
-                ResourceData prevResource = this.prevResourceDataMap_.get(prevDataKey);
-                convertedResourceData = accumulatedValueParser(prevResource, resourceData);
+                // ÏZ’l‚ª“ü‚Á‚Ä‚¢‚éê‡A·•ª‚É‚·‚é
+                convertedResourceData =
+                                        accumulatedValueParser(this.prevResourceDataMap_.get(database),
+                                                               resourceData);
             }
 
-            // CPUä½¿ç”¨ç‡ã‚’è¨ˆç®—ã—ã€ãƒ‡ãƒ¼ã‚¿ã«åŠ ãˆã‚‹ã€‚
+            // CPUg—p—¦‚ğŒvZ‚µAƒf[ƒ^‚É‰Á‚¦‚éB
             this.calculateAndAddCpuUsageData(database, convertedResourceData);
 
-            // ã‚«ãƒãƒ¬ãƒƒã‚¸ã‚’è¨ˆç®—ã—ã€ãƒ‡ãƒ¼ã‚¿ã«åŠ ãˆã‚‹ã€‚
+            // ƒJƒoƒŒƒbƒW‚ğŒvZ‚µAƒf[ƒ^‚É‰Á‚¦‚éB
             this.calculateAndAddCoverageData(database, convertedResourceData);
 
-            // JMXã®è¨ˆç®—ã‚’è¡Œã†ã€‚
+            // Š„‡‚Ì’l‚É‘Î‚µ‚ÄAˆê’è’l‚ğ‚©‚¯‚é‚±‚Æ‚Å¸“x‚ğ•ÛØ‚·‚éB
             this.convertJmxRatioData(database, convertedResourceData);
 
             insertMeasurementData(database, convertedResourceData, rotatePeriod, rotatePeriodUnit);
@@ -616,9 +480,9 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             if (isConnectionData == false)
             {
                 if (resourceData.getMeasurementMap() != null
-                    && resourceData.getMeasurementMap().size() != 0)
+                        && resourceData.getMeasurementMap().size() != 0)
                 {
-                    this.prevResourceDataMap_.put(prevDataKey, resourceData);
+                    this.prevResourceDataMap_.put(database, resourceData);
                     this.prevConvertedResourceDataMap_.put(prevDataKey, convertedResourceData);
                 }
 
@@ -632,196 +496,106 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         }
     }
 
-    private void
-        insertMeasurementData(final String database, final ResourceData convertedResourceData,
-            final int rotatePeriod, final int rotatePeriodUnit)
-            throws SQLException
-    {
-        long startTime = System.currentTimeMillis();
-        InsertResult result =
-            ResourceDataDaoUtil.insert(database, convertedResourceData, rotatePeriod,
-                                       rotatePeriodUnit, config_.getBatchSize(),
-                                       config_.getItemIdCacheSize());
-        long endTime = System.currentTimeMillis();
-        long elapsedTime = endTime - startTime;
-
-        if (result.getInsertCount() != 0)
-        {
-            // IEDC0022=ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã«æ¸¬å®šå€¤ã‚’ç™»éŒ²ã—ã¾ã—ãŸã€‚ 
-            // ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å:{0}ã€çµŒéæ™‚é–“:{1}ã€ç™»éŒ²ä»¶æ•°:{2}ã€ã‚­ãƒ£ãƒƒã‚·ãƒ¥ãƒ’ãƒƒãƒˆä»¶æ•°:{3}ã€ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚ãµã‚Œå›æ•°:{4}
-            int cacheHitCount = result.getInsertCount() - result.getCacheMissCount();
-            LOGGER.log("IEDC0022", database, elapsedTime, result.getInsertCount(), cacheHitCount,
-                       result.getCacheOverflowCount());
-        }
-
-        String clientId = convertedResourceData.clientId;
-
-        if (clientId == null || "".equals(clientId))
-        {
-            clientId =
-                JavelinClient.createClientId(convertedResourceData.ipAddress,
-                                             convertedResourceData.portNum);
-        }
-
-        List<MeasurementValueDto> measurementItemList = result.getMeasurementItemList();
-
-        if (measurementItemList != null)
-        {
-            Telegram addTelegram = createAddTreeNodeTelegram(measurementItemList);
-            this.clientRepository_.sendTelegramToClient(clientId, addTelegram);
-            List<String> itemNameList = new ArrayList<String>();
-            for (MeasurementValueDto measurementItem : measurementItemList)
-            {
-                itemNameList.add(measurementItem.measurementItemName);
-            }
-            MulResourceGraphUtil.checkMatchPattern(database, itemNameList, "add");
-        }
-    }
-
-    /**
-     * This method create the telegram for added tree node
-     * 
-     * @param measurementItemList list of added tree node
-     * @return telegram of added tree node
-     */
-    private Telegram createAddTreeNodeTelegram(final List<MeasurementValueDto> measurementItemList)
-    {
-        Header responseHeader = new Header();
-
-        responseHeader
-            .setByteTelegramKind(TelegramConstants.BYTE_TELEGRAM_KIND_TREE_ADD_DEFINITION);
-        responseHeader.setByteRequestKind(TelegramConstants.BYTE_REQUEST_KIND_NOTIFY);
-
-        Telegram responseTelegram = new Telegram();
-        int addedNodeCount = measurementItemList.size();
-
-        Body measurementItemNameList = new Body();
-        measurementItemNameList.setStrObjName(TelegramConstants.OBJECTNAME_TREE_CHANGE);
-        measurementItemNameList.setStrItemName(TelegramConstants.ITEMNAME_TREE_ADD);
-        measurementItemNameList.setByteItemMode(ItemType.ITEMTYPE_STRING);
-        measurementItemNameList.setIntLoopCount(addedNodeCount);
-        String[] measuremntItemNames = new String[addedNodeCount];
-
-        for (int cnt = 0; cnt < addedNodeCount; cnt++)
-        {
-            MeasurementValueDto measurementValue = measurementItemList.get(cnt);
-            String measurementItemName = measurementValue.measurementItemName;
-            measuremntItemNames[cnt] = measurementItemName;
-        }
-
-        measurementItemNameList.setObjItemValueArr(measuremntItemNames);
-
-        responseTelegram.setObjHeader(responseHeader);
-
-        Body[] responseBodys = {measurementItemNameList};
-        responseTelegram.setObjBody(responseBodys);
-
-        return responseTelegram;
-    }
-
-    /**
-     * This method create the telegram for the deleted tree node
-     * 
-     * @param database database name to access the database
-     * @param deleteItemList list of deleted tree node
-     * @return  telegram
-     */
-    public Telegram createDeleteTreeNodeTelegram(final String database,
-        final List<Integer> deleteItemList)
-    {
-        Header responseHeader = new Header();
-        responseHeader
-            .setByteTelegramKind(TelegramConstants.BYTE_TELEGRAM_KIND_TREE_DELETE_DEFINITION);
-        responseHeader.setByteRequestKind(TelegramConstants.BYTE_REQUEST_KIND_REQUEST);
-
-        Telegram responseTelegram = new Telegram();
-
-        int deletedNodeCount = deleteItemList.size();
-
-        Body idList = new Body();
-        idList.setStrObjName(TelegramConstants.OBJECTNAME_TREE_CHANGE);
-        idList.setStrItemName(TelegramConstants.ITEMNAME_TREE_DELETE);
-        idList.setByteItemMode(ItemType.ITEMTYPE_STRING);
-        idList.setIntLoopCount(deletedNodeCount);
-        String[] measurementItemNames = new String[deletedNodeCount];
-
-        for (int cnt = 0; cnt < deletedNodeCount; cnt++)
-        {
-            JavelinMeasurementItem measurementItem;
-            try
-            {
-                measurementItem =
-                    JavelinMeasurementItemDao.selectById(database, deleteItemList.get(cnt));
-                String id = measurementItem.itemName;
-
-                measurementItemNames[cnt] = id;
-            }
-            catch (SQLException ex)
-            {
-                System.out.println("SQL exception");
-                ex.printStackTrace();
-            }
-
-        }
-        idList.setObjItemValueArr(measurementItemNames);
-        responseTelegram.setObjHeader(responseHeader);
-
-        Body[] responseBodys = {idList};
-
-        responseTelegram.setObjBody(responseBodys);
-
-        return responseTelegram;
-    }
-
-    private void insertMeasurementDataDirect(final String database,
-        final ResourceData convertedResourceData)
+    private void insertMeasurementData(final String database,
+            final ResourceData convertedResourceData, final int rotatePeriod,
+            final int rotatePeriodUnit)
         throws SQLException
     {
         long startTime = System.currentTimeMillis();
         InsertResult result =
-            ResourceDataDaoUtil.insertDirect(database, convertedResourceData,
-                                             config_.getBatchSize(), config_.getItemIdCacheSize());
+                              ResourceDataDaoUtil.insert(database, convertedResourceData,
+                                                         rotatePeriod, rotatePeriodUnit,
+                                                         config_.getBatchSize(),
+                                                         config_.getItemIdCacheSize());
         long endTime = System.currentTimeMillis();
         long elapsedTime = endTime - startTime;
 
         if (result.getInsertCount() != 0)
         {
-            // IEDC0022=ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã«æ¸¬å®šå€¤ã‚’ç™»éŒ²ã—ã¾ã—ãŸã€‚ 
-            // ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å:{0}ã€çµŒéæ™‚é–“:{1}ã€ç™»éŒ²ä»¶æ•°:{2}ã€ã‚­ãƒ£ãƒƒã‚·ãƒ¥ãƒ’ãƒƒãƒˆä»¶æ•°:{3}ã€ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚ãµã‚Œå›æ•°:{4}
+            // IEDC0022=ƒf[ƒ^ƒx[ƒX‚É‘ª’è’l‚ğ“o˜^‚µ‚Ü‚µ‚½B ƒf[ƒ^ƒx[ƒX–¼:{0}AŒo‰ßŠÔ:{1}A“o˜^Œ”:{2}AƒLƒƒƒbƒVƒ…ƒqƒbƒgŒ”:{3}AƒLƒƒƒbƒVƒ…‚ ‚Ó‚ê‰ñ”:{4}
             int cacheHitCount = result.getInsertCount() - result.getCacheMissCount();
             LOGGER.log("IEDC0022", database, elapsedTime, result.getInsertCount(), cacheHitCount,
                        result.getCacheOverflowCount());
         }
+
+        // TODO ÀÛ‚Ì’l‚ğæ“¾‚µ‚Ä‘ã“ü‚·‚é‚±‚Æ
+        int measurementItemId = 0;
+        String measurementItemName = "";
+        String lastInserted = "";
+
+        Telegram telegram =
+                            createAddTreeNodeTelegram(measurementItemId, measurementItemName,
+                                                      lastInserted);
+        // TODO ì¬‚µ‚½Telegram‚ğDashboard‚ÉSend‚·‚éˆ—‚ğ‘‚­‚±‚Æ
     }
 
     /**
-     * ç›´æ¥å‰²åˆå€¤ã‚’è¨ˆæ¸¬ã—ã¦ã„ã‚‹å€¤ã«å¯¾ã—ã¦ä¸€å®šå€¤ã‚’ã‹ã‘ã€ä¿å­˜ã™ã‚‹ã€‚
+     * ƒcƒŠ[ƒm[ƒh’Ç‰Á‚Ì“d•¶‚ğì¬‚·‚éB
+     * 
+     * @return
+     */
+    private Telegram createAddTreeNodeTelegram(final int measurementItemId,
+            final String measurementItemName, final String lastInserted)
+    {
+        Telegram telegram = new Telegram();
+
+        Header requestHeader = new Header();
+        requestHeader.setByteTelegramKind(TelegramConstants.BYTE_TELEGRAM_KIND_TREE_DEFINITION);
+        requestHeader.setByteRequestKind(TelegramConstants.BYTE_REQUEST_KIND_NOTIFY);
+
+        // ’Ç‰Á‚³‚ê‚½ƒcƒŠ[ƒm[ƒhî•ñ
+        Body treeBody = new Body();
+
+        treeBody.setStrObjName(TelegramConstants.OBJECTNAME_TREE_CHANGE);
+        treeBody.setStrItemName(TelegramConstants.ITEMNAME_TREE_ADD);
+        treeBody.setByteItemMode(ItemType.ITEMTYPE_STRING);
+
+        // ƒf[ƒ^”‚ğƒZƒbƒg‚·‚é
+        treeBody.setIntLoopCount(TREE_TELEGRAM_DTO_COUNT);
+
+        String[] treeDefObj =
+                              {String.valueOf(measurementItemId), measurementItemName, lastInserted};
+
+        // Value‚ğƒZƒbƒg‚·‚é
+        treeBody.setObjItemValueArr(treeDefObj);
+
+        Body[] requestBodys = {treeBody};
+
+        telegram.setObjHeader(requestHeader);
+        telegram.setObjBody(requestBodys);
+
+        return telegram;
+    }
+
+    /**
+     * ’¼ÚŠ„‡’l‚ğŒv‘ª‚µ‚Ä‚¢‚é’l‚É‘Î‚µ‚Äˆê’è’l‚ğ‚©‚¯A•Û‘¶‚·‚éB
      * @param database 
      * 
-     * @param resourceData è¿”é‚„å¯¾è±¡ã®å€¤ã€‚
+     * @param resourceData •ÔŠÒ‘ÎÛ‚Ì’lB
      */
     private void convertJmxRatioData(final String database, final ResourceData resourceData)
         throws SQLException
     {
-        // å¤‰æ›å¯¾è±¡ã®å€¤ã‚’ç‰¹å®šã™ã‚‹ã€‚
+        // •ÏŠ·‘ÎÛ‚Ì’l‚ğ“Á’è‚·‚éB
+        List<JavelinMeasurementItem> itemList = JavelinMeasurementItemDao.selectAll(database);
         Set<String> jmxTypeSet = new HashSet<String>();
-        for (String itemName : resourceData.getMeasurementMap().keySet())
+        for (JavelinMeasurementItem item : itemList)
         {
-            // jmxã®æ¸¬å®šç¨®åˆ¥ã‚’åˆ¤åˆ¥ã™ã‚‹ã€‚
-            if (itemName.indexOf("/jmx/") >= 0)
+            // jmx‚Ì‘ª’èí•Ê‚ğ”»•Ê‚·‚éB
+            if (item.itemName.indexOf("/jmx/") >= 0)
             {
-                jmxTypeSet.add(itemName);
+                jmxTypeSet.add(item.itemName);
             }
         }
 
-        // jmxãŒãªã‘ã‚Œã°ä½•ã‚‚ã—ãªã„ã€‚
+        // jmx‚ª‚È‚¯‚ê‚Î‰½‚à‚µ‚È‚¢B
         if (jmxTypeSet.size() == 0)
         {
             return;
         }
 
-        // å¤‰æ›å¯¾è±¡ã®å€¤ã‚’å–ã‚Šå‡ºã™ã€‚
-        // ä¸€å®šå€¤ã‚’ã‹ã‘ã‚‹ã€‚
+        // •ÏŠ·‘ÎÛ‚Ì’l‚ğæ‚èo‚·B
+        // ˆê’è’l‚ğ‚©‚¯‚éB
         for (String itemName : jmxTypeSet)
         {
             Map<String, MeasurementDetail> detailMap = getMultiDetailValue(resourceData, itemName);
@@ -830,7 +604,7 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
                 continue;
             }
 
-            // ãã‚Œãã‚Œã®keyå€¤ã«å¯¾ã—ã¦å‰²åˆã‚’ç¤ºã™ã‚‚ã®ãŒã‚ã‚‹ã‹æœæŸ»ã™ã‚‹ã€‚
+            // ‚»‚ê‚¼‚ê‚Ìkey’l‚É‘Î‚µ‚ÄŠ„‡‚ğ¦‚·‚à‚Ì‚ª‚ ‚é‚©‘{¸‚·‚éB
             Set<Entry<String, MeasurementDetail>> datailEntrySet = detailMap.entrySet();
             for (Entry<String, MeasurementDetail> detailEntry : datailEntrySet)
             {
@@ -854,8 +628,9 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
 
                 MeasurementDetail detail = detailMap.get(name);
                 detail.value =
-                    String.valueOf(Double.valueOf(detail.value) * ResourceDataUtil.PERCENT_CONST
-                        * ResourceDataUtil.PERCENTAGE_DATA_MAGNIFICATION);
+                               String.valueOf(Double.valueOf(detail.value)
+                                       * ResourceDataUtil.PERCENT_CONST
+                                       * ResourceDataUtil.PERCENTAGE_DATA_MAGNIFICATION);
             }
         }
     }
@@ -863,37 +638,40 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
     private void notifyResource(final ResourceData convertedResourceData)
     {
         Telegram resourceTelegram =
-            ResourceNotifyAccessor.getResourceTelgram(convertedResourceData);
+                                    ResourceNotifyAccessor.getResourceTelgram(convertedResourceData);
 
         String clientId = convertedResourceData.clientId;
         if (clientId == null || clientId.equals(""))
         {
             clientId =
-                JavelinClient.createClientId(convertedResourceData.ipAddress,
-                                             convertedResourceData.portNum);
+                       JavelinClient.createClientId(convertedResourceData.ipAddress,
+                                                    convertedResourceData.portNum);
         }
 
         this.clientRepository_.sendTelegramToClient(clientId, resourceTelegram);
     }
 
     /**
-     * æŒ‡å®šã•ã‚ŒãŸãƒªã‚½ãƒ¼ã‚¹ãƒ‡ãƒ¼ã‚¿ã®å€¤ã‚’ç”¨ã„ã¦ã‚«ãƒãƒ¬ãƒƒã‚¸ã‚’è¨ˆç®—ã—ã€ãã‚Œã‚’ãã®ãƒ‡ãƒ¼ã‚¿ã«è¿½åŠ ã—ã¾ã™ã€‚<br />
+     * w’è‚³‚ê‚½ƒŠƒ\[ƒXƒf[ƒ^‚Ì’l‚ğ—p‚¢‚ÄƒJƒoƒŒƒbƒW‚ğŒvZ‚µA‚»‚ê‚ğ‚»‚Ìƒf[ƒ^‚É’Ç‰Á‚µ‚Ü‚·B<br />
      *
-     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @param resourceData ç™»éŒ²ã™ã‚‹ãƒ‡ãƒ¼ã‚¿
+     * @param database ƒf[ƒ^ƒx[ƒX–¼
+     * @param resourceData “o˜^‚·‚éƒf[ƒ^
      * @throws SQLException
      */
-    private void
-        calculateAndAddCoverageData(final String database, final ResourceData resourceData)
-            throws SQLException
+    private void calculateAndAddCoverageData(final String database, final ResourceData resourceData)
+        throws SQLException
     {
-        // ã‚«ãƒãƒ¬ãƒƒã‚¸ã®è¨ˆç®—ã«å¿…è¦ãªå€¤ã‚’å–å¾—ã™ã‚‹ã€‚
-        long calledMethodCount =
-            getSingleDetailValue(resourceData, Constants.ITEMNAME_CALLEDMETHODCOUNT);
-        long convertedMethodCount =
-            getSingleDetailValue(resourceData, Constants.ITEMNAME_CONVERTEDMETHOD);
+        Map<String, Integer> measurementTypeMap = makeMeasurementTypeMap(database);
 
-        // å€¤ãŒå–å¾—ã§ããªã„å ´åˆã€ãƒ‡ãƒ¼ã‚¿ã®è¿½åŠ ã¯è¡Œã‚ãªã„ã€‚
+        // ƒJƒoƒŒƒbƒW‚ÌŒvZ‚É•K—v‚È’l‚ğæ“¾‚·‚éB
+        long calledMethodCount =
+                                 getSingleDetailValue(resourceData, measurementTypeMap,
+                                                      Constants.ITEMNAME_CALLEDMETHODCOUNT);
+        long convertedMethodCount =
+                                    getSingleDetailValue(resourceData, measurementTypeMap,
+                                                         Constants.ITEMNAME_CONVERTEDMETHOD);
+
+        // ’l‚ªæ“¾‚Å‚«‚È‚¢ê‡Aƒf[ƒ^‚Ì’Ç‰Á‚Ís‚í‚È‚¢B
         if (calledMethodCount < 0 || convertedMethodCount < 0)
         {
             return;
@@ -903,187 +681,187 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         if (convertedMethodCount > 0)
         {
             coverage =
-                (double)calledMethodCount / convertedMethodCount * ResourceDataUtil.PERCENT_CONST;
+                       (double)calledMethodCount / convertedMethodCount
+                               * ResourceDataUtil.PERCENT_CONST;
         }
 
-        Map<String, MeasurementData> measurementMap = resourceData.getMeasurementMap();
-        String subKey = "";
-        String[] temp = null;
-        for (String key : measurementMap.keySet())
-        {
-            temp = key.split("/");
-            subKey = "/" + temp[CLUSTER_INDEX] + "/" + temp[SERVER_INDEX] + "/" + temp[AGENT_INDEX];
-            break;
-        }
-        // ã‚«ãƒãƒ¬ãƒƒã‚¸ã®å€¤ãŒå…¥ã£ãŸãƒ‡ãƒ¼ã‚¿ã‚’ä½œæˆã™ã‚‹ã€‚
+        // ƒJƒoƒŒƒbƒW‚Ì’l‚ª“ü‚Á‚½ƒf[ƒ^‚ğì¬‚·‚éB
         MeasurementData coverageData =
-            calcCpuUsage(subKey + Constants.ITEMNAME_COVERAGE, coverage, database);
+                                       createCpuUsageMeasurementData(measurementTypeMap,
+                                                                     Constants.ITEMNAME_COVERAGE,
+                                                                     coverage);
 
-        // ä½œæˆã—ãŸãƒ‡ãƒ¼ã‚¿ã‚’ã€ä»–ã®ãƒ‡ãƒ¼ã‚¿ã®å…¥ã£ãŸMapã«è¿½åŠ ã™ã‚‹ã€‚
-        if (!subKey.equals(""))
-        {
-            measurementMap.put(subKey + Constants.ITEMNAME_COVERAGE, coverageData);
-        }
+        // ì¬‚µ‚½ƒf[ƒ^‚ğA‘¼‚Ìƒf[ƒ^‚Ì“ü‚Á‚½Map‚É’Ç‰Á‚·‚éB
+        resourceData.getMeasurementMap().put(Constants.ITEMNAME_COVERAGE, coverageData);
     }
 
     /**
-     * æŒ‡å®šã•ã‚ŒãŸãƒªã‚½ãƒ¼ã‚¹ãƒ‡ãƒ¼ã‚¿ã®å€¤ã‚’ç”¨ã„ã¦CPUä½¿ç”¨ç‡ã‚’è¨ˆç®—ã—ã€ãã‚Œã‚’ãã®ãƒ‡ãƒ¼ã‚¿ã«è¿½åŠ ã—ã¾ã™ã€‚<br />
+     * w’è‚³‚ê‚½ƒŠƒ\[ƒXƒf[ƒ^‚Ì’l‚ğ—p‚¢‚ÄCPUg—p—¦‚ğŒvZ‚µA‚»‚ê‚ğ‚»‚Ìƒf[ƒ^‚É’Ç‰Á‚µ‚Ü‚·B<br />
      *
-     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @param resourceData ç™»éŒ²ã™ã‚‹ãƒ‡ãƒ¼ã‚¿
+     * @param database ƒf[ƒ^ƒx[ƒX–¼
+     * @param resourceData “o˜^‚·‚éƒf[ƒ^
      * @throws SQLException
      */
-    private void
-        calculateAndAddCpuUsageData(final String database, final ResourceData resourceData)
-            throws SQLException
+    private void calculateAndAddCpuUsageData(final String database, final ResourceData resourceData)
+        throws SQLException
     {
-        Map<String, MeasurementData> measurementMap = resourceData.getMeasurementMap();
-        String subKey = null;
-        String[] temp = null;
-        // CPUä½¿ç”¨ç‡ã®è¨ˆç®—ã«å¿…è¦ãªå€¤ã‚’å–å¾—ã™ã‚‹ã€‚
+        Map<String, Integer> measurementTypeMap = makeMeasurementTypeMap(database);
+
+        // CPUg—p—¦‚ÌŒvZ‚É•K—v‚È’l‚ğæ“¾‚·‚éB
         long processorCount =
-            getSingleDetailValue(resourceData, Constants.ITEMNAME_SYSTEM_CPU_PROCESSOR_COUNT);
-        for (String key : measurementMap.keySet())
-        {
-            temp = key.split("/");
-            subKey = "/" + temp[CLUSTER_INDEX] + "/" + temp[SERVER_INDEX] + "/" + temp[AGENT_INDEX];
-            break;
-        }
-        long resourceInterval = this.config_.getResourceInterval();
-        String itemName = subKey + Constants.ITEMNAME_SYSTEM_CPU_USERMODE_TIME;
-        long sysCputimeUser = getSingleDetailValue(resourceData, itemName);
+                              getSingleDetailValue(resourceData, measurementTypeMap,
+                                                   Constants.ITEMNAME_SYSTEM_CPU_PROCESSOR_COUNT);
+        long javaUpTime =
+                          getSingleDetailValue(resourceData, measurementTypeMap,
+                                               Constants.ITEMNAME_JAVAUPTIME);
+        long sysCputimeTotal =
+                               getSingleDetailValue(resourceData, measurementTypeMap,
+                                                    Constants.ITEMNAME_SYSTEM_CPU_USERMODE_TIME);
         long sysCputimeSys =
-            getSingleDetailValue(resourceData, subKey + Constants.ITEMNAME_SYSTEM_CPU_SYSTEM_TIME);
+                             getSingleDetailValue(resourceData, measurementTypeMap,
+                                                  Constants.ITEMNAME_SYSTEM_CPU_SYSTEM_TIME);
         long sysCputimeIoWait =
-            getSingleDetailValue(resourceData, subKey + Constants.ITEMNAME_SYSTEM_CPU_IOWAIT_TIME);
-        long sysCputimeTotal = sysCputimeUser + sysCputimeSys + sysCputimeIoWait;
+                                getSingleDetailValue(resourceData, measurementTypeMap,
+                                                     Constants.ITEMNAME_SYSTEM_CPU_IOWAIT_TIME);
 
         long procCputimeTotal =
-            getSingleDetailValue(resourceData, subKey + Constants.ITEMNAME_PROCESS_CPU_TOTAL_TIME);
+                                getSingleDetailValue(resourceData, measurementTypeMap,
+                                                     Constants.ITEMNAME_PROCESS_CPU_TOTAL_TIME);
         long procCputimeSys =
-            getSingleDetailValue(resourceData, subKey + Constants.ITEMNAME_PROCESS_CPU_SYSTEM_TIME);
+                              getSingleDetailValue(resourceData, measurementTypeMap,
+                                                   Constants.ITEMNAME_PROCESS_CPU_SYSTEM_TIME);
         long procCputimeIoWait =
-            getSingleDetailValue(resourceData, subKey + Constants.ITEMNAME_PROCESS_CPU_IOWAIT_TIME);
-        long procCputimeUser = procCputimeTotal - procCputimeSys - procCputimeIoWait;
+                                 getSingleDetailValue(resourceData, measurementTypeMap,
+                                                      Constants.ITEMNAME_PROCESS_CPU_IOWAIT_TIME);
 
-        if (-1 < sysCputimeUser && -1 < sysCputimeSys && -1 < processorCount)
+        Map<String, MeasurementData> measurementMap = resourceData.getMeasurementMap();
+
+        // ƒVƒXƒeƒ€‚ÌCPUg—p—¦‚ÌŒvZ‚É•K—v‚È’l‚ªæ“¾‚Å‚«‚Ä‚¢‚éê‡A‚»‚Ìƒf[ƒ^‚ğ’Ç‰Á‚·‚éB
+        if (-1 < sysCputimeTotal && -1 < sysCputimeSys && -1 < processorCount && -1 < javaUpTime)
         {
-            double sysCpuusageUser =
-                CPUConverter.calcCPUUsage(sysCputimeUser, resourceInterval, processorCount);
-            double sysCpuusageSys =
-                CPUConverter.calcCPUUsage(sysCputimeSys, resourceInterval, processorCount);
-            double sysCpuusageIoWait =
-                CPUConverter.calcCPUUsage(sysCputimeIoWait, resourceInterval, processorCount);
             double sysCpuusageTotal =
-                CPUConverter.calcCPUUsage(sysCputimeTotal, resourceInterval, processorCount);
+                                      ResourceDataUtil.calcCPUUsage(sysCputimeTotal, javaUpTime,
+                                                                    processorCount);
+            double sysCpuusageSys =
+                                    ResourceDataUtil.calcCPUUsage(sysCputimeSys, javaUpTime,
+                                                                  processorCount);
+            double sysCpuusageIoWait =
+                                       ResourceDataUtil.calcCPUUsage(sysCputimeIoWait, javaUpTime,
+                                                                     processorCount);
 
-            MeasurementData sysCpuusageUserData =
-                calcCpuUsage(subKey + Constants.ITEMNAME_SYSTEM_CPU_USER_USAGE, sysCpuusageUser,
-                             database);
-            MeasurementData sysCpuusageSysData =
-                calcCpuUsage(subKey + Constants.ITEMNAME_SYSTEM_CPU_SYSTEM_USAGE, sysCpuusageSys,
-                             database);
-            MeasurementData sysCpuusageIoWaitData =
-                calcCpuUsage(subKey + Constants.ITEMNAME_SYSTEM_CPU_IOWAIT_USAGE,
-                             sysCpuusageIoWait, database);
             MeasurementData sysCpuusageTotalData =
-                calcCpuUsage(subKey + Constants.ITEMNAME_SYSTEM_CPU_TOTAL_USAGE, sysCpuusageTotal,
-                             database);
+                                                   createCpuUsageMeasurementData(measurementTypeMap,
+                                                                                 Constants.ITEMNAME_SYSTEM_CPU_TOTAL_USAGE,
+                                                                                 sysCpuusageTotal);
+            MeasurementData sysCpuusageSysData =
+                                                 createCpuUsageMeasurementData(measurementTypeMap,
+                                                                               Constants.ITEMNAME_SYSTEM_CPU_SYSTEM_USAGE,
+                                                                               sysCpuusageSys);
 
-            measurementMap.put(subKey + Constants.ITEMNAME_SYSTEM_CPU_USER_USAGE,
-                               sysCpuusageUserData);
-            measurementMap.put(subKey + Constants.ITEMNAME_SYSTEM_CPU_SYSTEM_USAGE,
-                               sysCpuusageSysData);
-            measurementMap.put(subKey + Constants.ITEMNAME_SYSTEM_CPU_IOWAIT_USAGE,
-                               sysCpuusageIoWaitData);
-            measurementMap.put(subKey + Constants.ITEMNAME_SYSTEM_CPU_TOTAL_USAGE,
-                               sysCpuusageTotalData);
+            MeasurementData sysCpuusageIoWaitData =
+                                                    createCpuUsageMeasurementData(measurementTypeMap,
+                                                                                  Constants.ITEMNAME_SYSTEM_CPU_IOWAIT_USAGE,
+                                                                                  sysCpuusageIoWait);
+
+            measurementMap.put(Constants.ITEMNAME_SYSTEM_CPU_TOTAL_USAGE, sysCpuusageTotalData);
+            measurementMap.put(Constants.ITEMNAME_SYSTEM_CPU_SYSTEM_USAGE, sysCpuusageSysData);
+            measurementMap.put(Constants.ITEMNAME_SYSTEM_CPU_IOWAIT_USAGE, sysCpuusageIoWaitData);
         }
 
-        // ãƒ—ãƒ­ã‚»ã‚¹ã®CPUä½¿ç”¨ç‡ã®è¨ˆç®—ã«å¿…è¦ãªå€¤ãŒå–å¾—ã§ãã¦ã„ã‚‹å ´åˆã€ãã®ãƒ‡ãƒ¼ã‚¿ã‚’è¿½åŠ ã™ã‚‹ã€‚
-        if (-1 < procCputimeTotal && -1 < procCputimeSys && -1 < processorCount)
+        // ƒvƒƒZƒX‚ÌCPUg—p—¦‚ÌŒvZ‚É•K—v‚È’l‚ªæ“¾‚Å‚«‚Ä‚¢‚éê‡A‚»‚Ìƒf[ƒ^‚ğ’Ç‰Á‚·‚éB
+        if (-1 < procCputimeTotal && -1 < procCputimeSys && -1 < processorCount && -1 < javaUpTime)
         {
-            double procCpuusageUser =
-                CPUConverter.calcCPUUsage(procCputimeUser, resourceInterval, processorCount);
-            double procCpuusageSys =
-                CPUConverter.calcCPUUsage(procCputimeSys, resourceInterval, processorCount);
-            double procCpuusageIoWait =
-                CPUConverter.calcCPUUsage(procCputimeIoWait, resourceInterval, processorCount);
             double procCpuusageTotal =
-                CPUConverter.calcCPUUsage(procCputimeTotal, resourceInterval, processorCount);
+                                       ResourceDataUtil.calcCPUUsage(procCputimeTotal, javaUpTime,
+                                                                     processorCount);
+            double procCpuusageSys =
+                                     ResourceDataUtil.calcCPUUsage(procCputimeSys, javaUpTime,
+                                                                   processorCount);
 
-            MeasurementData procCpuusageUserData =
-                calcCpuUsage(subKey + Constants.ITEMNAME_PROCESS_CPU_USER_USAGE, procCpuusageUser,
-                             database);
-            MeasurementData procCpuusageSysData =
-                calcCpuUsage(subKey + Constants.ITEMNAME_PROCESS_CPU_SYSTEM_USAGE, procCpuusageSys,
-                             database);
-            MeasurementData procCpuusageIoWaitData =
-                calcCpuUsage(subKey + Constants.ITEMNAME_PROCESS_CPU_IOWAIT_USAGE,
-                             procCpuusageIoWait, database);
+            double procCpuusageIoWait =
+                                        ResourceDataUtil.calcCPUUsage(procCputimeIoWait,
+                                                                      javaUpTime, processorCount);
+
             MeasurementData procCpuusageTotalData =
-                calcCpuUsage(subKey + Constants.ITEMNAME_PROCESS_CPU_TOTAL_USAGE,
-                             procCpuusageTotal, database);
+                                                    createCpuUsageMeasurementData(measurementTypeMap,
+                                                                                  Constants.ITEMNAME_PROCESS_CPU_TOTAL_USAGE,
+                                                                                  procCpuusageTotal);
+            MeasurementData procCpuusageSysData =
+                                                  createCpuUsageMeasurementData(measurementTypeMap,
+                                                                                Constants.ITEMNAME_PROCESS_CPU_SYSTEM_USAGE,
+                                                                                procCpuusageSys);
+            MeasurementData procCpuusageIoWaitData =
+                                                     createCpuUsageMeasurementData(measurementTypeMap,
+                                                                                   Constants.ITEMNAME_PROCESS_CPU_IOWAIT_USAGE,
+                                                                                   procCpuusageIoWait);
 
-            measurementMap.put(subKey + Constants.ITEMNAME_PROCESS_CPU_USER_USAGE,
-                               procCpuusageUserData);
-            measurementMap.put(subKey + Constants.ITEMNAME_PROCESS_CPU_SYSTEM_USAGE,
-                               procCpuusageSysData);
-            measurementMap.put(subKey + Constants.ITEMNAME_PROCESS_CPU_IOWAIT_USAGE,
-                               procCpuusageIoWaitData);
-            measurementMap.put(subKey + Constants.ITEMNAME_PROCESS_CPU_TOTAL_USAGE,
-                               procCpuusageTotalData);
+            measurementMap.put(Constants.ITEMNAME_PROCESS_CPU_TOTAL_USAGE, procCpuusageTotalData);
+            measurementMap.put(Constants.ITEMNAME_PROCESS_CPU_SYSTEM_USAGE, procCpuusageSysData);
+            measurementMap.put(Constants.ITEMNAME_PROCESS_CPU_IOWAIT_USAGE, procCpuusageIoWaitData);
         }
     }
 
     /**
-     * æŒ‡å®šã•ã‚ŒãŸãƒªã‚½ãƒ¼ã‚¹ãƒ‡ãƒ¼ã‚¿ã®ã€æŒ‡å®šã•ã‚ŒãŸmeasurementTypeã‚’æŒã¤ãƒ‡ãƒ¼ã‚¿ã®å€¤ã‚’è¿”ã—ã¾ã™ã€‚<br />
-     * ãŸã ã—ã€ãƒ‡ãƒ¼ã‚¿ãŒå…¥ã£ã¦ã„ãªã„å ´åˆã‚„ã€è¤‡æ•°ç³»åˆ—ã®ã‚‚ã®ã‚’æŒ‡å®šã—ãŸå ´åˆã¯ã€-1ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * item_name‚Æmeasurement_type‚Ì‘Î‰‚ğ•\‚·ƒ}ƒbƒv‚ğ¶¬‚µA•Ô‚µ‚Ü‚·B<br />
      *
-     * @param resourceData ãƒªã‚½ãƒ¼ã‚¹ãƒ‡ãƒ¼ã‚¿
-     * @param itemName itemName
-     * @return æŒ‡å®šã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ã®å€¤
+     * @param database ƒf[ƒ^ƒx[ƒX–¼
+     * @return item_name‚ğƒL[Ameasurement_type‚ğ’l‚Æ‚µ‚½ƒ}ƒbƒv
+     * @throws SQLException DBƒAƒNƒZƒX’†‚É”­¶‚µ‚½—áŠO
      */
-    private long getSingleDetailValue(final ResourceData resourceData, final String itemName)
+    private Map<String, Integer> makeMeasurementTypeMap(final String database)
+        throws SQLException
+    {
+        // measure_info ƒe[ƒuƒ‹‚Ì’u‚«Š·‚¦
+        List<JavelinMeasurementItem> measurementItemList;
+        measurementItemList = JavelinMeasurementItemDao.selectAll(database);
+        Map<String, Integer> measurementTypeMap = new HashMap<String, Integer>();
+        for (JavelinMeasurementItem info : measurementItemList)
+        {
+            measurementTypeMap.put(info.itemName, info.measurementItemId);
+        }
+        return measurementTypeMap;
+    }
+
+    /**
+     * w’è‚³‚ê‚½ƒŠƒ\[ƒXƒf[ƒ^‚ÌAw’è‚³‚ê‚½measurementType‚ğ‚Âƒf[ƒ^‚Ì’l‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ‚½‚¾‚µAƒf[ƒ^‚ª“ü‚Á‚Ä‚¢‚È‚¢ê‡‚âA•¡”Œn—ñ‚Ì‚à‚Ì‚ğw’è‚µ‚½ê‡‚ÍA-1‚ğ•Ô‚µ‚Ü‚·B<br />
+     *
+     * @param resourceData ƒŠƒ\[ƒXƒf[ƒ^
+     * @param measurementTypeMap item_name‚Æmeasurement_type‚Ì‘Î‰‚ğ•\‚·ƒ}ƒbƒv
+     * @param itemName itemName
+     * @return w’è‚³‚ê‚½ƒf[ƒ^‚Ì’l
+     */
+    private long getSingleDetailValue(final ResourceData resourceData,
+            final Map<String, Integer> measurementTypeMap, final String itemName)
     {
         long value = -1;
         Map<String, MeasurementData> measurementMap = resourceData.getMeasurementMap();
-        for (String key : measurementMap.keySet())
+        MeasurementData measurementData = measurementMap.get(itemName);
+        if (measurementData != null)
         {
-            if (key.endsWith(itemName))
+            Map<String, MeasurementDetail> measurementDetailMap;
+            measurementDetailMap = measurementData.getMeasurementDetailMap();
+            MeasurementDetail measurementDetail;
+            measurementDetail = measurementDetailMap.get(MeasurementData.SINGLE_DETAIL_KEY);
+            if (measurementDetail != null)
             {
-                MeasurementData measurementData = measurementMap.get(key);
-                if (measurementData != null)
-                {
-                    Map<String, MeasurementDetail> measurementDetailMap;
-                    measurementDetailMap = measurementData.getMeasurementDetailMap();
-                    MeasurementDetail measurementDetail;
-                    measurementDetail = measurementDetailMap.get(MeasurementData.SINGLE_DETAIL_KEY);
-                    if (measurementDetail != null)
-                    {
-                        value = Long.valueOf(measurementDetail.value).longValue();
-                    }
-                }
-                break;
-
+                value = Long.valueOf(measurementDetail.value).longValue();
             }
-
         }
-
         return value;
     }
 
     /**
-     * æŒ‡å®šã•ã‚ŒãŸãƒªã‚½ãƒ¼ã‚¹ãƒ‡ãƒ¼ã‚¿ã®ã€æŒ‡å®šã•ã‚ŒãŸmeasurementTypeã‚’æŒã¤ãƒ‡ãƒ¼ã‚¿ã®å€¤ã‚’doubleå‹ã§è¿”ã—ã¾ã™ã€‚<br />
-     * ãŸã ã—ã€ãƒ‡ãƒ¼ã‚¿ãŒå…¥ã£ã¦ã„ãªã„å ´åˆã‚„ã€è¤‡æ•°ç³»åˆ—ã®ã‚‚ã®ã‚’æŒ‡å®šã—ãŸå ´åˆã¯ã€-1ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * w’è‚³‚ê‚½ƒŠƒ\[ƒXƒf[ƒ^‚ÌAw’è‚³‚ê‚½measurementType‚ğ‚Âƒf[ƒ^‚Ì’l‚ğdoubleŒ^‚Å•Ô‚µ‚Ü‚·B<br />
+     * ‚½‚¾‚µAƒf[ƒ^‚ª“ü‚Á‚Ä‚¢‚È‚¢ê‡‚âA•¡”Œn—ñ‚Ì‚à‚Ì‚ğw’è‚µ‚½ê‡‚ÍA-1‚ğ•Ô‚µ‚Ü‚·B<br />
      *
-     * @param resourceData ãƒªã‚½ãƒ¼ã‚¹ãƒ‡ãƒ¼ã‚¿
-     * @param measurementTypeMap item_nameã¨measurement_typeã®å¯¾å¿œã‚’è¡¨ã™ãƒãƒƒãƒ—
+     * @param resourceData ƒŠƒ\[ƒXƒf[ƒ^
+     * @param measurementTypeMap item_name‚Æmeasurement_type‚Ì‘Î‰‚ğ•\‚·ƒ}ƒbƒv
      * @param itemName itemName
-     * @return æŒ‡å®šã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ã®å€¤
+     * @return w’è‚³‚ê‚½ƒf[ƒ^‚Ì’l
      */
     private Map<String, MeasurementDetail> getMultiDetailValue(final ResourceData resourceData,
-        final String itemName)
+            final String itemName)
     {
         Map<String, MeasurementData> measurementMap = resourceData.getMeasurementMap();
         MeasurementData measurementData = measurementMap.get(itemName);
@@ -1096,26 +874,36 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
     }
 
     /**
-     * CPUä½¿ç”¨ç‡ã®ãƒ‡ãƒ¼ã‚¿ã«å¯¾ã—ã¦ã€æŒ‡å®šã•ã‚ŒãŸitemNameã¨valueã‚’MeasurementDetailã¨ã—ã¦æŒã¤ã€<br />
-     * MeasurementDataã‚’ç”Ÿæˆã—ã€è¿”ã—ã¾ã™ã€‚<br />
-     * @param itemName itemName
-     * @param cpuUsage ãƒ‡ãƒ¼ã‚¿ã®å€¤
-     * @param database 
+     * CPUg—p—¦‚Ìƒf[ƒ^‚É‘Î‚µ‚ÄAw’è‚³‚ê‚½itemName‚Ævalue‚ğMeasurementDetail‚Æ‚µ‚Ä‚ÂA<br />
+     * MeasurementData‚ğ¶¬‚µA•Ô‚µ‚Ü‚·B<br />
      *
+     * @param measurementTypeMap item_name‚Æmeasurement_type‚Ì‘Î‰‚ğ•\‚·ƒ}ƒbƒv
+     * @param itemName itemName
+     * @param cpuUsage ƒf[ƒ^‚Ì’l
      * @return MeasurementData
      */
-    private MeasurementData calcCpuUsage(final String itemName, final double cpuUsage,
-        final String database)
+    private MeasurementData createCpuUsageMeasurementData(
+            final Map<String, Integer> measurementTypeMap, final String itemName,
+            final double cpuUsage)
     {
         MeasurementDetail measurementDetail = new MeasurementDetail();
-        // å°æ•°ç‚¹ä»¥ä¸‹ã®å€¤ã‚‚ä¿æŒã™ã‚‹ãŸã‚ã€ä¸€å®šã®å€ç‡ã‚’æ›ã‘ã‚‹ã€‚
-        measurementDetail.value = String.valueOf(cpuUsage);
+        // ¬”“_ˆÈ‰º‚Ì’l‚à•Û‚·‚é‚½‚ßAˆê’è‚Ì”{—¦‚ğŠ|‚¯‚éB
+        measurementDetail.value =
+                                  String.valueOf(cpuUsage
+                                          * ResourceDataUtil.PERCENTAGE_DATA_MAGNIFICATION);
         measurementDetail.displayName = "";
 
         MeasurementData measurementData = new MeasurementData();
         measurementData.itemName = itemName;
-        measurementData.measurementType =
-            ResourceDataDaoUtil.getItemId(database, itemName, config_.getItemIdCacheSize());
+        Integer typeObj = measurementTypeMap.get(itemName);
+        if (typeObj != null)
+        {
+            measurementData.measurementType = typeObj.intValue();
+        }
+        else
+        {
+            measurementData.measurementType = -1;
+        }
         measurementData.valueType = TelegramConstants.BYTE_ITEMMODE_KIND_STRING;
         measurementData.getMeasurementDetailMap().put(MeasurementData.SINGLE_DETAIL_KEY,
                                                       measurementDetail);
@@ -1124,306 +912,88 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
     }
 
     /**
-     * é–¾å€¤ã®è¶…éã€å¾©æ—§ã§ã‚¢ãƒ©ãƒ¼ãƒ ã‚’å‡ºã—ã¾ã™ã€‚
-     * @param database DBå
-     * @param currentResourceData å–å¾—ã—ãŸãƒªã‚½ãƒ¼ã‚¹å€¤ï¼ˆç©ç®—å€¤ã¯å·®åˆ†å€¤ã«å¤‰æ›æ¸ˆã¿ã¨ã™ã‚‹ï¼‰
-     * @param prevResourceData å‰å›å–å¾—ã—ãŸãƒªã‚½ãƒ¼ã‚¹å€¤ï¼ˆç©ç®—å€¤ã¯å·®åˆ†å€¤ã«å¤‰æ›æ¸ˆã¿ã¨ã™ã‚‹ï¼‰
+     * è‡’l‚Ì’´‰ßA•œ‹Œ‚ÅƒAƒ‰[ƒ€‚ğo‚µ‚Ü‚·B
+     * @param database DB–¼
+     * @param currentResourceData æ“¾‚µ‚½ƒŠƒ\[ƒX’liÏZ’l‚Í·•ª’l‚É•ÏŠ·Ï‚İ‚Æ‚·‚éj
+     * @param prevResourceData ‘O‰ñæ“¾‚µ‚½ƒŠƒ\[ƒX’liÏZ’l‚Í·•ª’l‚É•ÏŠ·Ï‚İ‚Æ‚·‚éj
      */
     private void alarmThresholdExceedance(final String database,
-        final ResourceData currentResourceData, final ResourceData prevResourceData)
+            final ResourceData currentResourceData, final ResourceData prevResourceData)
     {
         SignalStateManager signalStateManager = SignalStateManager.getInstance();
-        SummarySignalStateManager summarySignalStateManager =
-            SummarySignalStateManager.getInstance();
-
         List<AlarmEntry> alarmEntryList = new ArrayList<AlarmEntry>();
 
         Map<Long, SignalDefinitionDto> signalDefinitionMap =
-            signalStateManager.getSignalDeifinitionMap();
+                                                             signalStateManager.getSignalDeifinitionMap();
 
-        // ã‚¯ãƒ©ã‚¹ã‚¿åã€IPã‚¢ãƒ‰ãƒ¬ã‚¹ã€ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆåã‚’å–å¾—ã™ã‚‹ã€‚
-        // ã‚¯ãƒ©ã‚¹ã‚¿åã€IPã‚¢ãƒ‰ãƒ¬ã‚¹ã€ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆåãŒå–å¾—ã§ããªã„å ´åˆã¯é–¾å€¤åˆ¤å®šãŒã§ããªã„ãŸã‚ã€å‡¦ç†ã‚’çµ‚äº†ã™ã‚‹ã€‚
-        String domain = getDomain(currentResourceData);
-        if (domain == null)
-        {
-            return;
-        }
-
-        for (Entry<Long, SignalDefinitionDto> signalDefinitionEntry : signalDefinitionMap
-            .entrySet())
-
+        for (Entry<Long, SignalDefinitionDto> signalDefinitionEntry : signalDefinitionMap.entrySet())
         {
             SignalDefinitionDto signalDefinition = signalDefinitionEntry.getValue();
             String itemName = signalDefinition.getMatchingPattern();
-            long signalId = signalDefinition.getSignalId();
+            String signalName = signalDefinition.getSignalName();
 
-            // ç•°ãªã‚‹ãƒ‰ãƒ¡ã‚¤ãƒ³ï¼ˆã‚¯ãƒ©ã‚¹ã‚¿åã€IPã‚¢ãƒ‰ãƒ¬ã‚¹ã€ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆåï¼‰ã®ãƒªã‚½ãƒ¼ã‚¹æƒ…å ±ã‹ã‚‰é–¾å€¤åˆ¤å®šã‚’è¡Œã†ã¨ã€
-            // æ­£å¸¸çŠ¶æ…‹ã«æˆ»ã™ãŸã‚ã€åˆ¤å®šå¯¾è±¡ã¨ã—ãªã„ã€‚
-            if (!itemName.startsWith(domain))
-            {
-                continue;
-            }
-
-            //ç¾åœ¨ã®ã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥çŠ¶æ³ã‚’å–å¾—
-            AlarmData currentAlarmData = signalStateManager.getAlarmData(signalId);
+            //Œ»İ‚ÌƒAƒ‰[ƒ€’Ê’mó‹µ‚ğæ“¾
+            AlarmData currentAlarmData = signalStateManager.getAlarmData(signalName);
             if (currentAlarmData == null)
             {
                 currentAlarmData = new AlarmData();
-                signalStateManager.addAlarmData(signalId, currentAlarmData);
+                signalStateManager.addAlarmData(signalName, currentAlarmData);
             }
-            AlarmProcessor processor = getAlarmProcessor();
+            AlarmProcessor processor = getAlarmProcessor(signalDefinition);
 
             if (processor == null)
             {
                 continue;
             }
             AlarmEntry alarmEntry =
-                processor.calculateAlarmLevel(currentResourceData, prevResourceData,
-                                              signalDefinition, currentAlarmData);
+                                    processor.calculateAlarmLevel(currentResourceData,
+                                                                  prevResourceData,
+                                                                  signalDefinition,
+                                                                  currentAlarmData);
+
             if (alarmEntry == null)
             {
                 continue;
             }
-            // DataCollectorãŒå‚ç…§ã™ã‚‹æƒ…å ±ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+            // DataCollector‚ªQÆ‚·‚éî•ñ‚ğƒZƒbƒg‚·‚é
             alarmEntry.setIpAddress(currentResourceData.ipAddress);
             alarmEntry.setPort(currentResourceData.portNum);
             alarmEntry.setDatabaseName(database);
-            signalStateManager.addAlarmData(signalId, currentAlarmData);
-            alarmEntry.setDefinition(signalDefinition);
-            // ã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥å‡¦ç†
+
+            signalStateManager.addAlarmData(itemName, currentAlarmData);
+
+            // ƒAƒ‰[ƒ€’Ê’mˆ—
             if (alarmEntry.isSendAlarm())
             {
                 alarmEntryList.add(alarmEntry);
             }
         }
 
-        notifyClient(currentResourceData, summarySignalStateManager, alarmEntryList);
-    }
-
-    private void notifyClient(final ResourceData currentResourceData,
-        final SummarySignalStateManager summarySignalStateManager,
-        final List<AlarmEntry> alarmEntryList)
-    {
-        // é–¾å€¤è¶…éã‚¢ãƒ©ãƒ¼ãƒ ã‚’ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã«é€šçŸ¥ã™ã‚‹ã€‚
-        String clientId = currentResourceData.clientId;
-
+        // è‡’l’´‰ßƒAƒ‰[ƒ€‚ğƒNƒ‰ƒCƒAƒ“ƒg‚É’Ê’m‚·‚éB
         if (alarmEntryList != null && alarmEntryList.size() != 0)
         {
+            String clientId = currentResourceData.clientId;
             if (clientId == null || clientId.equals(""))
             {
                 clientId =
-                    JavelinClient.createClientId(currentResourceData.ipAddress,
-                                                 currentResourceData.portNum);
+                           JavelinClient.createClientId(currentResourceData.ipAddress,
+                                                        currentResourceData.portNum);
             }
             Telegram alarmTelegram = CollectorTelegramUtil.createAlarmTelegram(alarmEntryList);
             this.clientRepository_.sendTelegramToClient(clientId, alarmTelegram);
-            for (AlarmEntry alarmEntry : alarmEntryList)
-            {
-                addSignalStateChangeEvent(alarmEntry);
-            }
-        }
-
-        Map<Long, SummarySignalDefinitionDto> summarySignalDefinitionMap =
-            summarySignalStateManager.getSummarySignalDefinitionMap();
-        List<SummarySignalDefinitionDto> updatedSummarySignals =
-            new ArrayList<SummarySignalDefinitionDto>();
-        for (Entry<Long, SummarySignalDefinitionDto> entry : summarySignalDefinitionMap.entrySet())
-        {
-            SummarySignalDefinitionDto summarySignalDefinitionDto = entry.getValue();
-
-            //ã‚µãƒãƒªã‚·ã‚°ãƒŠãƒ«ã‚’æ§‹æˆã™ã‚‹ã‚·ã‚°ãƒŠãƒ«ã«æ›´æ–°ãŒç„¡ã„å ´åˆã¯ä½•ã‚‚ã—ãªã„
-            if (!hasSignal(summarySignalDefinitionDto, alarmEntryList))
-            {
-                return;
-            }
-
-            int summaryLevel =
-                summarySignalStateManager.getSummaryLevel(summarySignalDefinitionDto);
-
-            Long summarySignalId = summarySignalDefinitionDto.summarySignalId_;
-            int previousLevel = summarySignalStateManager.getSignalLevel(summarySignalId);
-            if (previousLevel != summaryLevel)
-            {
-                summarySignalDefinitionDto.setSummarySignalStatus(summaryLevel);
-                summarySignalDefinitionDto.setPriority(0);
-                updatedSummarySignals.add(summarySignalDefinitionDto);
-            }
-            summarySignalStateManager.setSignalLevel(summarySignalId, summaryLevel);
-        }
-        if (updatedSummarySignals.size() != 0)
-        {
-            Telegram alarmSummaryTelegram =
-                CollectorTelegramUtil
-                    .createSummarySignalResponseTelegram(updatedSummarySignals,
-                                                         TelegramConstants.ITEMNAME_SUMMARY_SIGNAL_CHANGE_STATE);
-            this.clientRepository_.sendTelegramToClient(clientId, alarmSummaryTelegram);
         }
     }
 
     /**
-     * ã‚µãƒãƒªã‚·ã‚°ãƒŠãƒ«ã‚’æ§‹æˆã™ã‚‹ã‚·ã‚°ãƒŠãƒ«éƒ¡ã«æ›´æ–°ãŒç™ºç”Ÿã—ãŸã‚‚ã®ãŒå«ã¾ã‚Œã‚‹ã‹åˆ¤å®šã™ã‚‹
-     * @param dto ã‚µãƒãƒªã‚·ã‚°ãƒŠãƒ«ã®DTO
-     * @param entries æ›´æ–°é€šçŸ¥ã®ãƒªã‚¹ãƒˆ
-     * @return å«ã¾ã‚Œã‚‹ã‹å¦ã‹
+     * è‡’l”»’èˆ—‚ğs‚¤ƒIƒuƒWƒFƒNƒg‚ğæ“¾‚·‚éB
+     * @param signalDefinitionDto è‡’l”»’è’è‹`î•ñ
+     * @return è‡’l”»’èˆ—‚ğs‚¤ƒIƒuƒWƒFƒNƒg
      */
-    private boolean hasSignal(final SummarySignalDefinitionDto dto, final List<AlarmEntry> entries)
+    private AlarmProcessor getAlarmProcessor(final SignalDefinitionDto signalDefinitionDto)
     {
-        for (AlarmEntry entry : entries)
-        {
-            if (!dto.signalList_.contains(entry.getSignalName()))
-            {
-                continue;
-            }
-            return true;
-        }
-        return false;
-    }
+        // Œ»İ‚ÍAè‡’l’´‰ß‚ÌƒAƒ‰[ƒ€”»’è‚µ‚©‚È‚¢‚ªA”»’èƒƒWƒbƒN‚ğ’Ç‰Á‚·‚é‚½‚ß‚ÉA
+        // ˆø”‚É‚ÍSignalDefinitionDto‚ğİ’è‚·‚éB
 
-    /**
-     * ãƒªã‚½ãƒ¼ã‚¹æƒ…å ±ã‹ã‚‰ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆã®ç›£è¦–å¯¾è±¡ã®ã‚¯ãƒ©ã‚¹ã‚¿åã€IPã‚¢ãƒ‰ãƒ¬ã‚¹ã€ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆåã‚’å–å¾—ã™ã‚‹ã€‚<br />
-     * ã‚¯ãƒ©ã‚¹ã‚¿åã€IPã‚¢ãƒ‰ãƒ¬ã‚¹ã€ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆåã¯ã‚¹ãƒ©ãƒƒã‚·ãƒ¥åŒºåˆ‡ã‚Šã¨ã™ã‚‹ã€‚
-     * @param resourceData ãƒªã‚½ãƒ¼ã‚¹æƒ…å ±
-     * @return ãƒªã‚½ãƒ¼ã‚¹æƒ…å ±ã‹ã‚‰å–å¾—ã—ãŸã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆã®ç›£è¦–å¯¾è±¡ã®ã‚¯ãƒ©ã‚¹ã‚¿åã€IPã‚¢ãƒ‰ãƒ¬ã‚¹ã€ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆå(ã‚¹ãƒ©ãƒƒã‚·ãƒ¥åŒºåˆ‡ã‚Š)
-     */
-    private String getDomain(final ResourceData resourceData)
-    {
-        if (resourceData == null)
-        {
-            return null;
-        }
-        Map<String, MeasurementData> resourceMap = resourceData.getMeasurementMap();
-        if (resourceMap.size() == 0)
-        {
-            return null;
-        }
-        for (String key : resourceMap.keySet())
-        {
-            int firstKeyPosition = key.indexOf(KEY_SEPARETOR);
-            if (firstKeyPosition < 0)
-            {
-                break;
-            }
-            int secondKeyPosition = key.indexOf(KEY_SEPARETOR, firstKeyPosition + 1);
-            if (secondKeyPosition < 0)
-            {
-                break;
-            }
-            int thirdKeyPosition = key.indexOf(KEY_SEPARETOR, secondKeyPosition + 1);
-            if (thirdKeyPosition < 0)
-            {
-                break;
-            }
-            int forthKeyPosition = key.indexOf(KEY_SEPARETOR, thirdKeyPosition + 1);
-            if (forthKeyPosition < 0)
-            {
-                break;
-            }
-            String domain = key.substring(0, forthKeyPosition + 1);
-            return domain;
-        }
-
-        return null;
-    }
-
-    /**
-     * é–¾å€¤è¶…éãƒ»å›å¾©ã‚¤ãƒ™ãƒ³ãƒˆã‚’ç™ºç”Ÿã•ã›ã€PerformanceDoctorè¨ºæ–­çµæœãƒ†ãƒ¼ãƒ–ãƒ«ã«è¿½åŠ ã—ã¾ã™ã€‚
-     * @param alarmEntry é–¾å€¤è¶…éãƒ»å›å¾©ã®æƒ…å ±
-     */
-    private void addSignalStateChangeEvent(final AlarmEntry alarmEntry)
-    {
-        PerfDoctorResultDto signalStateChangeEvent = new PerfDoctorResultDto();
-        String level = "INFO";
-        String exceededLevel = "INFO";
-        double threshold = 0;
-        String description = "";
-        if (alarmEntry.getAlarmType().equals(AlarmType.FAILURE))
-        {
-            if (alarmEntry.getSignalValue() != 0)
-            {
-                threshold =
-                    alarmEntry.getDefinition().getThresholdMaping()
-                        .get(alarmEntry.getSignalValue());
-            }
-            if (alarmEntry.getSignalLevel() == SIGNAL_LEVEL_3)
-            {
-                if (alarmEntry.getSignalValue() == SIGNAL_LEVEL_1)
-                {
-                    level = "WARN";
-                    exceededLevel = "WARNING";
-                }
-                else if (alarmEntry.getSignalValue() == SIGNAL_LEVEL_2)
-                {
-                    level = "ERROR";
-                    exceededLevel = "CRITICAL";
-                }
-            }
-            else if (alarmEntry.getSignalLevel() == SIGNAL_LEVEL_5)
-            {
-                if (alarmEntry.getSignalValue() == SIGNAL_LEVEL_1)
-                {
-                    level = "WARN";
-                    exceededLevel = "INFO";
-                }
-                else if (alarmEntry.getSignalValue() == SIGNAL_LEVEL_2)
-                {
-                    level = "WARN";
-                    exceededLevel = "WARNING";
-                }
-                else if (alarmEntry.getSignalValue() == SIGNAL_LEVEL_3)
-                {
-                    level = "ERROR";
-                    exceededLevel = "ERROR";
-                }
-                else if (alarmEntry.getSignalValue() == SIGNAL_LEVEL_4)
-                {
-                    level = "ERROR";
-                    exceededLevel = "CRITICAL";
-                }
-            }
-
-            // è­¦å‘Šã®æ¦‚è¦ã‚’å–å¾—
-            description =
-                PerfDoctorMessages.getMessage(EXCEEDS_TAT_MESSAGES, new Object[]{threshold,
-                    alarmEntry.getAlarmValue(), exceededLevel});
-        }
-        else
-        {
-            // å›å¾©ã—ãŸé–¾å€¤ã®å†…ã€æœ€ã‚‚å°ã•ã„ã‚‚ã®ã‚’å–å¾—
-            threshold =
-                alarmEntry.getDefinition().getThresholdMaping()
-                    .get(alarmEntry.getSignalValue() + 1);
-
-            // è­¦å‘Šã®æ¦‚è¦ã‚’å–å¾—
-            description =
-                PerfDoctorMessages.getMessage(FALLS_TAT_MESSAGES, new Object[]{threshold,
-                    alarmEntry.getAlarmValue(), exceededLevel});
-        }
-
-        signalStateChangeEvent.setLevel(level);
-        signalStateChangeEvent.setOccurrenceTime(new Timestamp(System.currentTimeMillis()));
-        signalStateChangeEvent.setDescription(description);
-        signalStateChangeEvent.setMeasurementItemName(alarmEntry.getSignalName());
-        signalStateChangeEvent.setClassName(alarmEntry.getSignalName());
-        try
-        {
-            PerfDoctorResultDao.insert(alarmEntry.getDatabaseName(), signalStateChangeEvent);
-        }
-        catch (SQLException ex)
-        {
-            LOGGER.log(ex.getMessage());
-        }
-
-        ElasticSearchUtil.sendElasticSearch(this.config_, signalStateChangeEvent);
-    }
-
-    /**
-     * é–¾å€¤åˆ¤å®šå‡¦ç†ã‚’è¡Œã†ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return é–¾å€¤åˆ¤å®šå‡¦ç†ã‚’è¡Œã†ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     */
-    private AlarmProcessor getAlarmProcessor()
-    {
-        // ç¾åœ¨ã¯ã€é–¾å€¤è¶…éã®ã‚¢ãƒ©ãƒ¼ãƒ åˆ¤å®šã—ã‹ãªã„ãŒã€åˆ¤å®šãƒ­ã‚¸ãƒƒã‚¯ã‚’è¿½åŠ ã™ã‚‹ãŸã‚ã«ã€
-        // å¼•æ•°ã«ã¯SignalDefinitionDtoã‚’è¨­å®šã™ã‚‹ã€‚
         String key = "default";
         AlarmProcessor processor = this.processorMap_.get(key);
 
@@ -1432,14 +1002,15 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             processor = new AlarmThresholdProcessor();
             this.processorMap_.put(key, processor);
         }
+
         return processor;
     }
 
     /**
-     * JVNãƒ­ã‚°ãƒ‡ãƒ¼ã‚¿ã‚’ä¿å­˜ã—ã¾ã™ã€‚<br />
+     * JVNƒƒOƒf[ƒ^‚ğ•Û‘¶‚µ‚Ü‚·B<br />
      *
-     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @param logData {@link JavelinLogData}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param database ƒf[ƒ^ƒx[ƒX–¼
+     * @param logData {@link JavelinLogData}ƒIƒuƒWƒFƒNƒg
      */
     private void logJavelinLogData(final String database, final JavelinLogData logData)
     {
@@ -1448,14 +1019,35 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         {
             rotateConfig = defaultRotateConfig_;
         }
-        String clientId = logData.getClientId();
+        int rotatePeriod = rotateConfig.getMeasureRotatePeriod();
+        int rotatePeriodUnit = rotateConfig.getMeasureUnitByCalendar();
 
         JavelinLog javelinLog = createJavelinLog(logData);
         try
         {
-            JavelinLogDao.insert(database, javelinLog, true);
-            Telegram telegram = createThreadDumpResponseTelegram();
-            this.clientRepository_.sendTelegramToClient(clientId, telegram);
+            if (DBManager.isDefaultDb() == false)
+            {
+                // H2ˆÈŠO‚Ìƒf[ƒ^ƒx[ƒX‚Ìê‡‚ÍAƒp[ƒeƒBƒVƒ‡ƒjƒ“ƒOˆ—‚ğs‚¤
+                Integer tableIndex = ResourceDataDaoUtil.getTableIndexToInsert(javelinLog.endTime);
+                Integer prevTableIndex = prevTableIndexMap__.get(database);
+                if (tableIndex.equals(prevTableIndex) == false)
+                {
+                    Timestamp[] range = JavelinLogDao.getLogTerm(database);
+                    if (range.length == 2
+                            && (range[1] == null || range[1].before(javelinLog.endTime)))
+                    {
+                        // ‘O‰ñ‚Ì‘}“üƒf[ƒ^‚Æ¡‰ñ‚Ì‘}“üƒf[ƒ^‚Å‘}“üæƒe[ƒuƒ‹‚ªˆÙ‚È‚éê‡‚ÉAƒ[ƒe[ƒgˆ—‚ğs‚¤
+                        // ‚½‚¾‚µA‚·‚Å‚ÉDB‚É“ü‚Á‚Ä‚¢‚éƒf[ƒ^‚Ì‚¤‚¿AÅV‚Ìƒf[ƒ^‚æ‚è‚àŒÃ‚¢ƒf[ƒ^‚ª“ü‚Á‚Ä‚«‚½ê‡‚Íƒ[ƒe[ƒgˆ—‚µ‚È‚¢
+                        boolean truncateCurrent = (prevTableIndex != null);
+                        ResourceDataDaoUtil.rotateTable(database, tableIndex, javelinLog.endTime,
+                                                        rotatePeriod, rotatePeriodUnit,
+                                                        truncateCurrent,
+                                                        this.javelinRotateCallback_);
+                        prevTableIndexMap__.put(database, tableIndex);
+                    }
+                }
+            }
+            JavelinLogDao.insert(database, javelinLog);
         }
         catch (SQLException ex)
         {
@@ -1463,56 +1055,37 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         }
         StreamUtil.closeStream(javelinLog.javelinLog);
 
-        // ä¸€æ™‚ãƒ•ã‚¡ã‚¤ãƒ«ãŒã‚ã‚‹å ´åˆã¯å‰Šé™¤ã—ã¦ãŠã
+        // ˆêƒtƒ@ƒCƒ‹‚ª‚ ‚éê‡‚Ííœ‚µ‚Ä‚¨‚­
         logData.deleteFile();
     }
 
     /**
-     * this is createTheadDumpResponseTelegram
-     * @return telegram data
-     */
-    private Telegram createThreadDumpResponseTelegram()
-    {
-        Header responseHeader = new Header();
-
-        responseHeader.setByteTelegramKind(TelegramConstants.BYTE_TELEGRAM_KIND_THREAD_DUMP);
-        responseHeader.setByteRequestKind(TelegramConstants.BYTE_REQUEST_KIND_NOTIFY);
-
-        Telegram responseTelegram = new Telegram();
-
-        responseTelegram.setObjHeader(responseHeader);
-
-        Body[] responseBodys = {};
-        responseTelegram.setObjBody(responseBodys);
-
-        return responseTelegram;
-
-    }
-
-    /**
-     * Javelin ãƒ­ã‚°ã‚’ã€ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã«æ›¸ãè¾¼ã‚€å½¢ã«å¤‰æ›ã—ã¾ã™ã€‚<br />
+     * Javelin ƒƒO‚ğAƒf[ƒ^ƒx[ƒX‚É‘‚«‚ŞŒ`‚É•ÏŠ·‚µ‚Ü‚·B<br />
      *
-     * @param javelinLogData Javelin ãƒ­ã‚°
-     * @return ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã«æ›¸ãè¾¼ã‚€ Javelin ãƒ­ã‚°ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚
-     *         ãƒ›ã‚¹ãƒˆæƒ…å ±ãŒå–å¾—ã§ããªã„å ´åˆã¯ <code>hostId</code> ãŒ <code>-1</code>
+     * @param javelinLogData Javelin ƒƒO
+     * @return ƒf[ƒ^ƒx[ƒX‚É‘‚«‚Ş Javelin ƒƒOƒIƒuƒWƒFƒNƒgB
+     *         ƒzƒXƒgî•ñ‚ªæ“¾‚Å‚«‚È‚¢ê‡‚Í <code>hostId</code> ‚ª <code>-1</code>
      */
     protected JavelinLog createJavelinLog(final JavelinLogData javelinLogData)
     {
         JavelinLog javelinLog = new JavelinLog();
         javelinLog.logFileName = javelinLogData.getLogFileName();
+
         javelinLog.javelinLog = createContentInputStream(javelinLogData);
+
         javelinLog.measurementItemName = javelinLogData.getAgentName();
+
         BufferedReader reader =
-            StreamUtil.getBufferedReader(createContentInputStream(javelinLogData));
+                                StreamUtil.getBufferedReader(createContentInputStream(javelinLogData));
         try
         {
             String line = reader.readLine();
             List<String> elemList = JavelinLogUtil.csvTokenizeHeader(line);
 
-            // ãƒ•ã‚¡ã‚¤ãƒ«ã®1è¡Œç›®ã‚’è§£æã—ã¦å„ç¨®å±æ€§ã‚’è¨­å®šã™ã‚‹
+            // ƒtƒ@ƒCƒ‹‚Ì1s–Ú‚ğ‰ğÍ‚µ‚ÄŠeí‘®«‚ğİ’è‚·‚é
             JavelinLogUtil.parse(javelinLog, elemList);
 
-            // durationã‚’èª­ã¿è¾¼ã‚€ã€‚
+            // duration‚ğ“Ç‚İ‚ŞB
             while ((line = reader.readLine()) != null)
             {
                 int beginIndex = line.indexOf(JavelinLogUtil.DURATION_KEY);
@@ -1538,10 +1111,10 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
     }
 
     /**
-     * Javelin ãƒ­ã‚°å†…å®¹ã‚’ {@link InputStream} ã§è¿”ã—ã¾ã™ã€‚<br />
+     * Javelin ƒƒO“à—e‚ğ {@link InputStream} ‚Å•Ô‚µ‚Ü‚·B<br />
      *
-     * @param javelinLogData Javelin ãƒ­ã‚°
-     * @return ãƒ­ã‚°å†…å®¹ã® {@link InputStream}
+     * @param javelinLogData Javelin ƒƒO
+     * @return ƒƒO“à—e‚Ì {@link InputStream}
      */
     protected InputStream createContentInputStream(final JavelinLogData javelinLogData)
     {
@@ -1549,22 +1122,22 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         String contents = javelinLogData.getContents();
         if (contents != null)
         {
-            // Javelin ãƒ­ã‚°ã‚’æ–‡å­—åˆ—ã§ä¿æŒã—ã¦ã„ã‚‹å ´åˆ
+            // Javelin ƒƒO‚ğ•¶š—ñ‚Å•Û‚µ‚Ä‚¢‚éê‡
             is = new ByteArrayInputStream(contents.getBytes());
         }
         else
         {
-            // Javelin ãƒ­ã‚°ã‚’ãƒ•ã‚¡ã‚¤ãƒ«ã§ä¿æŒã—ã¦ã„ã‚‹å ´åˆ
+            // Javelin ƒƒO‚ğƒtƒ@ƒCƒ‹‚Å•Û‚µ‚Ä‚¢‚éê‡
             is = StreamUtil.getStream(javelinLogData.getFile());
         }
         return is;
     }
 
     /**
-     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
+     * ƒf[ƒ^ƒx[ƒX–¼‚ğ¶¬‚µ‚Ü‚·B<br />
      *
-     * @param data Javelin ãƒ­ã‚°
-     * @return ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param data Javelin ƒƒO
+     * @return ƒf[ƒ^ƒx[ƒX–¼
      */
     protected String createDatabaseName(final JavelinData data)
     {
@@ -1580,14 +1153,14 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
     }
 
     /**
-     * ç©ç®—å€¤ã§å…¥ã£ã¦ã„ã‚‹å€¤ã‚’å·®åˆ†å€¤ã«å¤‰æ›ã—ãŸã‚‚ã®ã‚’è¿”ã™
-     * @param prevResourceData å‰å›ã®è¨ˆæ¸¬å€¤
-     * @param resourceData ä»Šå›ã®è¨ˆæ¸¬å€¤
+     * ÏZ’l‚Å“ü‚Á‚Ä‚¢‚é’l‚ğ·•ª’l‚É•ÏŠ·‚µ‚½‚à‚Ì‚ğ•Ô‚·
+     * @param prevResourceData ‘O‰ñ‚ÌŒv‘ª’l
+     * @param resourceData ¡‰ñ‚ÌŒv‘ª’l
      *
-     * @return ç©ç®—å€¤ã¯å·®åˆ†å€¤ã«å¤‰ãˆã€ãã†ã§ãªå€¤ã¯ãã®ã¾ã¾ã«ã‚³ãƒ”ãƒ¼ã—ãŸResourceData
+     * @return ÏZ’l‚Í·•ª’l‚É•Ï‚¦A‚»‚¤‚Å‚È’l‚Í‚»‚Ì‚Ü‚Ü‚ÉƒRƒs[‚µ‚½ResourceData
      */
     private static ResourceData accumulatedValueParser(final ResourceData prevResourceData,
-        final ResourceData resourceData)
+            final ResourceData resourceData)
     {
         ResourceData newResourceData = new ResourceData();
         newResourceData.measurementTime = resourceData.measurementTime;
@@ -1596,7 +1169,7 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         newResourceData.portNum = resourceData.portNum;
         newResourceData.clientId = resourceData.clientId;
 
-        // ResourceData ã‚’ã€ç©ç®—å€¤ã¯å·®åˆ†å€¤ã«å¤‰ãˆã€ãã†ã§ãªå€¤ã¯ãã®ã¾ã¾ã«ã‚³ãƒ”ãƒ¼ã™ã‚‹
+        // ResourceData ‚ğAÏZ’l‚Í·•ª’l‚É•Ï‚¦A‚»‚¤‚Å‚È’l‚Í‚»‚Ì‚Ü‚Ü‚ÉƒRƒs[‚·‚é
         for (MeasurementData measurementData : resourceData.getMeasurementMap().values())
         {
             MeasurementData newMeasurementData = new MeasurementData();
@@ -1606,10 +1179,11 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             newMeasurementData.valueType = measurementData.valueType;
             newMeasurementData.displayName = measurementData.displayName;
 
-            // MeasurementData ã‚’ã€ç©ç®—å€¤ã¯å·®åˆ†å€¤ã«å¤‰ãˆã€ãã†ã§ãªå€¤ã¯ãã®ã¾ã¾ã«ã‚³ãƒ”ãƒ¼ã™ã‚‹
+            // MeasurementData ‚ğAÏZ’l‚Í·•ª’l‚É•Ï‚¦A‚»‚¤‚Å‚È’l‚Í‚»‚Ì‚Ü‚Ü‚ÉƒRƒs[‚·‚é
             for (MeasurementDetail detail : measurementData.getMeasurementDetailMap().values())
             {
                 MeasurementDetail newMeasurementDetail = new MeasurementDetail();
+
                 newMeasurementDetail.value = detail.value;
                 newMeasurementDetail.displayName = detail.displayName;
                 newMeasurementDetail.itemId = detail.itemId;
@@ -1619,14 +1193,16 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
                 newMeasurementDetail.typeItemName = detail.typeItemName;
                 newMeasurementDetail.valueId = detail.valueId;
 
-                // ç©ç®—å€¤ã¯å·®åˆ†å€¤ã«å¤‰ãˆã‚‹
+                // ÏZ’l‚Í·•ª’l‚É•Ï‚¦‚é
                 if (AccumulatedValuesDefinition.isAccumulatedValue(measurementData.itemName,
                                                                    detail.displayType))
                 {
                     long prevMeasurementValue =
-                        getPrevValue(prevResourceData, measurementData, detail);
+                                                getPrevValue(prevResourceData, measurementData,
+                                                             detail);
                     long resultValue =
-                        Long.valueOf(detail.value).longValue() - prevMeasurementValue;
+                                       Long.valueOf(detail.value).longValue()
+                                               - prevMeasurementValue;
                     if (resultValue < 0)
                     {
                         newMeasurementDetail.value = "0";
@@ -1644,14 +1220,14 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
     }
 
     /**
-     * measurementData.measurementType ã«å¯¾å¿œã™ã‚‹1ã¤å‰ã®è¨ˆæ¸¬å€¤ã‚’å¾—ã‚‹
-     * @param prevResourceData 1ã¤å‰ã®è¨ˆæ¸¬å€¤
-     * @param measurementData è¨ˆæ¸¬å€¤
-     * @param defaultValue 1ã¤å‰ã®è¨ˆæ¸¬å€¤ãŒå­˜åœ¨ã—ãªã‹ã£ãŸå ´åˆã®å€¤
+     * measurementData.measurementType ‚É‘Î‰‚·‚é1‚Â‘O‚ÌŒv‘ª’l‚ğ“¾‚é
+     * @param prevResourceData 1‚Â‘O‚ÌŒv‘ª’l
+     * @param measurementData Œv‘ª’l
+     * @param defaultValue 1‚Â‘O‚ÌŒv‘ª’l‚ª‘¶İ‚µ‚È‚©‚Á‚½ê‡‚Ì’l
      * @return
      */
     private static long getPrevValue(final ResourceData prevResourceData,
-        final MeasurementData measurementData, final MeasurementDetail defaultValue)
+            final MeasurementData measurementData, final MeasurementDetail defaultValue)
     {
         if (prevResourceData == null)
         {
@@ -1668,7 +1244,7 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             return Long.valueOf(defaultValue.value).longValue();
         }
         Map<String, MeasurementDetail> measurementDetailMap =
-            prevMeasurementData.getMeasurementDetailMap();
+                                                              prevMeasurementData.getMeasurementDetailMap();
         if (measurementDetailMap == null)
         {
             return Long.valueOf(defaultValue.value).longValue();

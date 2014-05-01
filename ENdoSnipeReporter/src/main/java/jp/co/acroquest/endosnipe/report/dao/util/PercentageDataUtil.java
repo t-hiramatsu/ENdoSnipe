@@ -18,39 +18,39 @@ import jp.co.acroquest.endosnipe.report.entity.ReportItemValue;
 import jp.co.acroquest.endosnipe.common.util.ResourceDataUtil;
 
 /**
- * å‰²åˆã‚’è¡¨ã™ã‚°ãƒ©ãƒ•ã®ãƒ‡ãƒ¼ã‚¿ã®å¤‰æ›ã‚’è¡Œã†ã€ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã§ã™ã€‚
+ * Š„‡‚ð•\‚·ƒOƒ‰ƒt‚Ìƒf[ƒ^‚Ì•ÏŠ·‚ðs‚¤Aƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒX‚Å‚·B
  * 
  * @author iida
  */
 public class PercentageDataUtil
 {
-	/**
-	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã‚’éš è”½ã—ã¾ã™ã€‚<br />
-	 */
-	private PercentageDataUtil()
-	{
-		// DO NOTHING
-	}
-
-	/**
-	 * æŒ‡å®šã•ã‚ŒãŸã€å‰²åˆã‚’è¡¨ã™ã‚°ãƒ©ãƒ•ã®ãƒ‡ãƒ¼ã‚¿ã‚’ã€å€çŽ‡ã‚’æŽ›ã‘ã‚‰ã‚Œã‚‹å‰ã®ã‚‚ã®ã«æˆ»ã—ã¾ã™ã€‚<br />
-	 * 
-	 * @param percentageValues
-	 *            å€çŽ‡ã‚’æŽ›ã‘ã‚‰ã‚ŒãŸå¾Œã®ãƒ‡ãƒ¼ã‚¿
-	 * @return å€çŽ‡ã‚’æŽ›ã‘ã‚‰ã‚Œã‚‹å‰ã®ãƒ‡ãƒ¼ã‚¿
-	 */
-	public static List<ReportItemValue> reconstitutePercentageData(
-		List<ReportItemValue> percentageValues)
-	{
-		for (ReportItemValue value : percentageValues)
-		{
-			value.maxValue = value.maxValue.intValue()
-				/ ResourceDataUtil.PERCENTAGE_DATA_MAGNIFICATION;
-			value.minValue = value.minValue.intValue()
-				/ ResourceDataUtil.PERCENTAGE_DATA_MAGNIFICATION;
-			value.summaryValue = value.summaryValue.intValue()
-				/ ResourceDataUtil.PERCENTAGE_DATA_MAGNIFICATION;
-		}
-		return percentageValues;
-	}
+    /**
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ð‰B•Á‚µ‚Ü‚·B<br />
+     */
+    private PercentageDataUtil()
+    {
+        // DO NOTHING
+    }
+    
+    /**
+     * Žw’è‚³‚ê‚½AŠ„‡‚ð•\‚·ƒOƒ‰ƒt‚Ìƒf[ƒ^‚ðA”{—¦‚ðŠ|‚¯‚ç‚ê‚é‘O‚Ì‚à‚Ì‚É–ß‚µ‚Ü‚·B<br />
+     * 
+     * @param percentageValues
+     *            ”{—¦‚ðŠ|‚¯‚ç‚ê‚½Œã‚Ìƒf[ƒ^
+     * @return ”{—¦‚ðŠ|‚¯‚ç‚ê‚é‘O‚Ìƒf[ƒ^
+     */
+    public static List<ReportItemValue> reconstitutePercentageData(
+            List<ReportItemValue> percentageValues)
+    {
+        for (ReportItemValue value : percentageValues)
+        {
+            value.maxValue = value.maxValue.intValue()
+                    / ResourceDataUtil.PERCENTAGE_DATA_MAGNIFICATION;
+            value.minValue = value.minValue.intValue()
+                    / ResourceDataUtil.PERCENTAGE_DATA_MAGNIFICATION;
+            value.summaryValue = value.summaryValue.intValue()
+                    / ResourceDataUtil.PERCENTAGE_DATA_MAGNIFICATION;
+        }
+        return percentageValues;
+    }
 }

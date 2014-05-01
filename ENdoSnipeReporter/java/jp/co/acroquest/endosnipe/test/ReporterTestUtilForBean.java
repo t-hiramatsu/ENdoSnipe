@@ -22,13 +22,13 @@ public class ReporterTestUtilForBean
 	
 	
 	/**
-	 * JavaBeanã¨ã—ã¦å®šç¾©ã—ãŸã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ãƒªã‚¹ãƒˆã‚’ç”Ÿæˆã™ã‚‹ã€‚
-	 * ç”Ÿæˆã™ã‚‹ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã«ã¯ã€ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã«æŒ‡å®šã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ã‚’è¨­å®šã™ã‚‹ã€‚
+	 * JavaBean‚Æ‚µ‚Ä’è‹`‚µ‚½ƒGƒ“ƒeƒBƒeƒBƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒXƒŠƒXƒg‚ğ¶¬‚·‚éB
+	 * ¶¬‚·‚éƒCƒ“ƒXƒ^ƒ“ƒX‚É‚ÍAƒpƒ‰ƒ[ƒ^‚Éw’è‚³‚ê‚½ƒf[ƒ^‚ğİ’è‚·‚éB
 	 * 
-	 * @param clazz     ç”Ÿæˆã™ã‚‹ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
-	 * @param fieldList ãƒ‡ãƒ¼ã‚¿ã‚’è¨­å®šã™ã‚‹ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰
-	 * @param datarows  è¨­å®šã™ã‚‹ãƒ‡ãƒ¼ã‚¿(CSVå½¢å¼)
-	 * @return ãƒ‡ãƒ¼ã‚¿ã‚’è¨­å®šã—ãŸã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ãƒªã‚¹ãƒˆ
+	 * @param clazz     ¶¬‚·‚éƒCƒ“ƒXƒ^ƒ“ƒX
+	 * @param fieldList ƒf[ƒ^‚ğİ’è‚·‚éƒtƒB[ƒ‹ƒh
+	 * @param datarows  İ’è‚·‚éƒf[ƒ^(CSVŒ`®)
+	 * @return ƒf[ƒ^‚ğİ’è‚µ‚½ƒCƒ“ƒXƒ^ƒ“ƒXƒŠƒXƒg
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 * @throws InvocationTargetException
@@ -49,13 +49,13 @@ public class ReporterTestUtilForBean
 	}
 	
 	/**
-	 * JavaBeanã¨ã—ã¦å®šç¾©ã—ãŸã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆã™ã‚‹ã€‚
-	 * ç”Ÿæˆã™ã‚‹ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã«ã¯ã€ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã«æŒ‡å®šã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ã‚’è¨­å®šã™ã‚‹ã€‚
+	 * JavaBean‚Æ‚µ‚Ä’è‹`‚µ‚½ƒGƒ“ƒeƒBƒeƒBƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬‚·‚éB
+	 * ¶¬‚·‚éƒCƒ“ƒXƒ^ƒ“ƒX‚É‚ÍAƒpƒ‰ƒ[ƒ^‚Éw’è‚³‚ê‚½ƒf[ƒ^‚ğİ’è‚·‚éB
 	 * 
-	 * @param clazz     ç”Ÿæˆã™ã‚‹ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
-	 * @param fieldList ãƒ‡ãƒ¼ã‚¿ã‚’è¨­å®šã™ã‚‹ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰
-	 * @param datarow   è¨­å®šã™ã‚‹ãƒ‡ãƒ¼ã‚¿(CSVå½¢å¼)
-	 * @return ãƒ‡ãƒ¼ã‚¿ã‚’è¨­å®šã—ãŸã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+	 * @param clazz     ¶¬‚·‚éƒCƒ“ƒXƒ^ƒ“ƒX
+	 * @param fieldList ƒf[ƒ^‚ğİ’è‚·‚éƒtƒB[ƒ‹ƒh
+	 * @param datarow   İ’è‚·‚éƒf[ƒ^(CSVŒ`®)
+	 * @return ƒf[ƒ^‚ğİ’è‚µ‚½ƒCƒ“ƒXƒ^ƒ“ƒX
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 * @throws InvocationTargetException
@@ -84,12 +84,12 @@ public class ReporterTestUtilForBean
 	}
 	
 	/**
-	 * ãƒªã‚¹ãƒˆã®è¦ç´ æ•°ã€ãŠã‚ˆã³ãƒªã‚¹ãƒˆå†…ã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãŒå…¨ã¦åŒç­‰ã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‹åˆ¤å®šã™ã‚‹ã€‚
+	 * ƒŠƒXƒg‚Ì—v‘f”A‚¨‚æ‚ÑƒŠƒXƒg“à‚ÌƒGƒ“ƒeƒBƒeƒB‚ª‘S‚Ä“¯“™‚ÌƒGƒ“ƒeƒBƒeƒB‚©”»’è‚·‚éB
 	 * 
-     * @param expect  ã€€ã€€ã€€ã€€äºˆæ¸¬å€¤
-     * @param actual ã€€ã€€ã€€ã€€ å®Ÿéš›å€¤
-     * @param checkTarget ãƒã‚§ãƒƒã‚¯å¯¾è±¡ã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ãƒªã‚¹ãƒˆ
-     * @param delta   ã€€ã€€ã€€ã€€ã€€ç­‰ä¾¡ã¨ã¿ãªã™æµ®å‹•å°æ•°ç‚¹ã®èª¤å·®ç¯„å›²
+     * @param expect  @@@@—\‘ª’l
+     * @param actual @@@@ ÀÛ’l
+     * @param checkTarget ƒ`ƒFƒbƒN‘ÎÛ‚ÌƒtƒB[ƒ‹ƒhƒŠƒXƒg
+     * @param delta   @@@@@“™‰¿‚Æ‚İ‚È‚·•‚“®¬”“_‚ÌŒë·”ÍˆÍ
 	 */
 	public static void assertEntitiesEquals(
 		List<? extends Object> expect, 
@@ -107,12 +107,12 @@ public class ReporterTestUtilForBean
 	}
 	
     /**
-     * å„ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£åŒå£«ã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ãŒç­‰ã—ã„ã‹å¦ã‹ã‚’åˆ¤å®šã™ã‚‹ã€‚
+     * ŠeƒGƒ“ƒeƒBƒeƒB“¯m‚ÌƒtƒB[ƒ‹ƒh‚ª“™‚µ‚¢‚©”Û‚©‚ğ”»’è‚·‚éB
      * 
-     * @param expect  ã€€ã€€ã€€ã€€äºˆæ¸¬å€¤
-     * @param actual ã€€ã€€ã€€ã€€ å®Ÿéš›å€¤
-     * @param checkTarget ãƒã‚§ãƒƒã‚¯å¯¾è±¡ã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ãƒªã‚¹ãƒˆ
-     * @param delta   ã€€ã€€ã€€ã€€ã€€ç­‰ä¾¡ã¨ã¿ãªã™æµ®å‹•å°æ•°ç‚¹ã®èª¤å·®ç¯„å›²
+     * @param expect  @@@@—\‘ª’l
+     * @param actual @@@@ ÀÛ’l
+     * @param checkTarget ƒ`ƒFƒbƒN‘ÎÛ‚ÌƒtƒB[ƒ‹ƒhƒŠƒXƒg
+     * @param delta   @@@@@“™‰¿‚Æ‚İ‚È‚·•‚“®¬”“_‚ÌŒë·”ÍˆÍ
      */
     public static void assertEntityEquals(
     	Object expect, Object actual, String[] checkTarget, double delta)

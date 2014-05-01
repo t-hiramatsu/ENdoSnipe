@@ -15,76 +15,76 @@ package jp.co.acroquest.endosnipe.report.entity;
 import java.sql.Timestamp;
 
 /**
- * CPU/ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡ã®ï¼‘æ¨™æœ¬ã‚’ç¤ºã™ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã€‚
+ * CPU/ƒƒ‚ƒŠg—p—Ê‚Ì‚P•W–{‚ğ¦‚·ƒGƒ“ƒeƒBƒeƒBƒNƒ‰ƒXB
  * 
  * @author eriguchi
  */
 public class SystemResourceRecord
 {
-    /** è¨ˆæ¸¬æ™‚åˆ» */
+    /** Œv‘ª */
     private Timestamp measurementTime_;
 
-    /** åˆè¨ˆCPUä½¿ç”¨ç‡[%] (è£œé–“æœŸé–“å¹³å‡) */
+    /** ‡ŒvCPUg—p—¦[%] (•âŠÔŠúŠÔ•½‹Ï) */
     private double    cpuUsage_;
 
-    /** åˆè¨ˆCPUä½¿ç”¨ç‡[%] (è£œé–“æœŸé–“æœ€å¤§) */
-	private double cpuUsageMax_;
+    /** ‡ŒvCPUg—p—¦[%] (•âŠÔŠúŠÔÅ‘å) */
+    private double    cpuUsageMax_;
 
-    /** åˆè¨ˆCPUä½¿ç”¨ç‡[%] (æœ€å°) */
+    /** ‡ŒvCPUg—p—¦[%] (Å¬) */
     private double    cpuUsageMin_;
 
-    /** ã‚·ã‚¹ãƒ†ãƒ CPUä½¿ç”¨ç‡[%] (å¹³å‡) */
+    /** ƒVƒXƒeƒ€CPUg—p—¦[%] (•½‹Ï) */
     private double    sysCpuUsage_;
 
-    /** ã‚·ã‚¹ãƒ†ãƒ CPUä½¿ç”¨ç‡[%] (æœ€å¤§) */
+    /** ƒVƒXƒeƒ€CPUg—p—¦[%] (Å‘å) */
     private double    sysCpuUsageMax_;
 
-    /** ã‚·ã‚¹ãƒ†ãƒ CPUä½¿ç”¨ç‡[%] (è£œé–“æœŸé–“æœ€å°) */
+    /** ƒVƒXƒeƒ€CPUg—p—¦[%] (•âŠÔŠúŠÔÅ¬) */
     private double    sysCpuUsageMin_;
 
-    /** ç‰©ç†ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡ï¼ˆæœ€å¤§ï¼‰[B] */
+    /** •¨—ƒƒ‚ƒŠg—p—ÊiÅ‘åj[B] */
     private double    physicalMemoryMax_;
 
-    /** ç‰©ç†ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡ï¼ˆç¾åœ¨æœ€å¤§ï¼‰[B] */
+    /** •¨—ƒƒ‚ƒŠg—p—ÊiŒ»İÅ‘åj[B] */
     private double    physicalMemoryUseMax_;
 
-    /** ç‰©ç†ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡ï¼ˆç¾åœ¨æœ€å°ï¼‰[B] */
+    /** •¨—ƒƒ‚ƒŠg—p—ÊiŒ»İÅ¬j[B] */
     private double    physicalMemoryUseMin_;
 
-    /** ç‰©ç†ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡ï¼ˆç¾åœ¨å¹³å‡ï¼‰[B] */
+    /** •¨—ƒƒ‚ƒŠg—p—ÊiŒ»İ•½‹Ïj[B] */
     private double    physicalMemoryUse_;
 
-    /** ã‚¹ãƒ¯ãƒƒãƒ—ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡(æœ€å¤§)[B] */
+    /** ƒXƒƒbƒvƒƒ‚ƒŠg—p—Ê(Å‘å)[B] */
     private double    swapMemoryMax_;
 
-    /** ã‚¹ãƒ¯ãƒƒãƒ—ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡(ç¾åœ¨æœ€å¤§)[B] */
+    /** ƒXƒƒbƒvƒƒ‚ƒŠg—p—Ê(Œ»İÅ‘å)[B] */
     private double    swapMemoryUseMax_;
 
-    /** ã‚¹ãƒ¯ãƒƒãƒ—ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡(ç¾åœ¨æœ€å°)[B] */
+    /** ƒXƒƒbƒvƒƒ‚ƒŠg—p—Ê(Œ»İÅ¬)[B] */
     private double    swapMemoryUseMin_;
 
-    /** ã‚¹ãƒ¯ãƒƒãƒ—ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡(ç¾åœ¨å¹³å‡)[B] */
+    /** ƒXƒƒbƒvƒƒ‚ƒŠg—p—Ê(Œ»İ•½‹Ï)[B] */
     private double    swapMemoryUse_;
 
-    /** ãƒšãƒ¼ã‚¸ã‚¤ãƒ³(ç¾åœ¨æœ€å¤§) */
+    /** ƒy[ƒWƒCƒ“(Œ»İÅ‘å) */
     private double    pageInMax_;
 
-    /** ãƒšãƒ¼ã‚¸ã‚¤ãƒ³(ç¾åœ¨æœ€å°) */
+    /** ƒy[ƒWƒCƒ“(Œ»İÅ¬) */
     private double    pageInMin_;
 
-    /** ãƒšãƒ¼ã‚¸ã‚¤ãƒ³(ç¾åœ¨å¹³å‡) */
+    /** ƒy[ƒWƒCƒ“(Œ»İ•½‹Ï) */
     private double    pageOut_;
 
-    /** ãƒšãƒ¼ã‚¸ã‚¤ãƒ³(ç¾åœ¨æœ€å¤§) */
+    /** ƒy[ƒWƒCƒ“(Œ»İÅ‘å) */
     private double    pageOutMax_;
     
-    /** ãƒ•ã‚¡ã‚¤ãƒ«è¨˜è¿°å­/ãƒãƒ³ãƒ‰ãƒ«æ•° */
+    /** ƒtƒ@ƒCƒ‹‹Lqq/ƒnƒ“ƒhƒ‹” */
     private double    fdCount_;
 
-    /** ãƒ•ã‚¡ã‚¤ãƒ«è¨˜è¿°å­/ãƒãƒ³ãƒ‰ãƒ«æ•° æœ€å¤§å€¤ */
+    /** ƒtƒ@ƒCƒ‹‹Lqq/ƒnƒ“ƒhƒ‹” Å‘å’l */
     private double    fdCountMax_;
 
-    /** ãƒ•ã‚¡ã‚¤ãƒ«è¨˜è¿°å­/ãƒãƒ³ãƒ‰ãƒ«æ•° æœ€å°å€¤ */
+    /** ƒtƒ@ƒCƒ‹‹Lqq/ƒnƒ“ƒhƒ‹” Å¬’l */
     private double    fdCountMin_;
 
     public double getPhysicalMemoryUseMax()
@@ -207,10 +207,10 @@ public class SystemResourceRecord
         pageIn_ = pageIn;
     }
 
-    /** ãƒšãƒ¼ã‚¸ã‚¤ãƒ³(ç¾åœ¨æœ€å°) */
+    /** ƒy[ƒWƒCƒ“(Œ»İÅ¬) */
     private double pageOutMin_;
 
-    /** ãƒšãƒ¼ã‚¸ã‚¤ãƒ³(ç¾åœ¨å¹³å‡) */
+    /** ƒy[ƒWƒCƒ“(Œ»İ•½‹Ï) */
     private double pageIn_;
 
     /**

@@ -25,13 +25,11 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.javelin.jdbc.instrument;
 
-import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 import jp.co.acroquest.endosnipe.javelin.jdbc.common.JdbcJavelinMessages;
 import jp.co.acroquest.endosnipe.javelin.jdbc.stats.DBProcessor;
 import jp.co.acroquest.endosnipe.javelin.jdbc.stats.JdbcJavelinConnection;
 import jp.co.acroquest.endosnipe.javelin.jdbc.stats.JdbcJavelinRecorder;
-import jp.co.acroquest.endosnipe.javelin.jdbc.stats.LightweightJdbcJavelinRecorder;
 import jp.co.smg.endosnipe.javassist.CannotCompileException;
 import jp.co.smg.endosnipe.javassist.ClassPool;
 import jp.co.smg.endosnipe.javassist.CtBehavior;
@@ -42,13 +40,13 @@ import jp.co.smg.endosnipe.javassist.Modifier;
 import jp.co.smg.endosnipe.javassist.NotFoundException;
 
 /**
- * JdbcJavelinã®å¤‰æ›ç”¨ã‚¯ãƒ©ã‚¹
+ * JdbcJavelin‚Ì•ÏŠ·—pƒNƒ‰ƒX
  * @author acroquest
  */
 public class JdbcJavelinConverter
 {
     /**
-     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
      */
     private JdbcJavelinConverter()
     {
@@ -56,11 +54,11 @@ public class JdbcJavelinConverter
     }
     
     /**
-     * BCIã«ã¦setXXXã«åŸ‹ã‚è¾¼ã‚€ã‚³ãƒ¼ãƒ‰ï¼ˆãƒ‘ã‚¿ãƒ¼ãƒ³Aï¼‰
-     * 1.PreparedStatementã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°ä¿æŒãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ï¼ˆListï¼‰ã‚’å–å¾—ã™ã‚‹
-     * 2.TreeMapãŒç„¡ã‘ã‚Œã°ã€ä½œæˆã—ã¦Listã«ç™»éŒ²ã™ã‚‹
-     * 3.ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°ã‚’TreeMapã«ç™»éŒ²ã™ã‚‹ã€‚ãã®éš›StatsUtil#toStrã§Stringå‹ã«å¤‰æ›ã™ã‚‹ã€‚
-     * ã€€ã¾ãŸè¨­å®šå€¤ã«ã¦æ–‡å­—åˆ—é•·åˆ¶é™ã™ã‚‹ã€‚
+     * BCI‚É‚ÄsetXXX‚É–„‚ß‚ŞƒR[ƒhiƒpƒ^[ƒ“Aj
+     * 1.PreparedStatementƒIƒuƒWƒFƒNƒg‚ÌƒoƒCƒ“ƒh•Ï”•ÛƒtƒB[ƒ‹ƒhiListj‚ğæ“¾‚·‚é
+     * 2.TreeMap‚ª–³‚¯‚ê‚ÎAì¬‚µ‚ÄList‚É“o˜^‚·‚é
+     * 3.ƒoƒCƒ“ƒh•Ï”‚ğTreeMap‚É“o˜^‚·‚éB‚»‚ÌÛStatsUtil#toStr‚ÅStringŒ^‚É•ÏŠ·‚·‚éB
+     * @‚Ü‚½İ’è’l‚É‚Ä•¶š—ñ’·§ŒÀ‚·‚éB
      */
     protected static final String BCI_METHOD_A =
             "if(this != null) {                                                                 \n"
@@ -70,10 +68,10 @@ public class JdbcJavelinConverter
                     + "}                                                                        \n";
 
     /**
-     * BCIã«ã¦setXXXã«åŸ‹ã‚è¾¼ã‚€ã‚³ãƒ¼ãƒ‰ï¼ˆãƒ‘ã‚¿ãƒ¼ãƒ³Bï¼‰
-     * 1.PreparedStatementã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°ä¿æŒãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ï¼ˆListï¼‰ã‚’å–å¾—ã™ã‚‹
-     * 2.TreeMapãŒç„¡ã‘ã‚Œã°ã€ä½œæˆã—ã¦Listã«ç™»éŒ²ã™ã‚‹
-     * 3.ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°ã‚’TreeMapã«ç™»éŒ²ã™ã‚‹ã€‚ãã®éš›StatsUtil#toStrã§Stringå‹ã«å¤‰æ›ã™ã‚‹ã€‚
+     * BCI‚É‚ÄsetXXX‚É–„‚ß‚ŞƒR[ƒhiƒpƒ^[ƒ“Bj
+     * 1.PreparedStatementƒIƒuƒWƒFƒNƒg‚ÌƒoƒCƒ“ƒh•Ï”•ÛƒtƒB[ƒ‹ƒhiListj‚ğæ“¾‚·‚é
+     * 2.TreeMap‚ª–³‚¯‚ê‚ÎAì¬‚µ‚ÄList‚É“o˜^‚·‚é
+     * 3.ƒoƒCƒ“ƒh•Ï”‚ğTreeMap‚É“o˜^‚·‚éB‚»‚ÌÛStatsUtil#toStr‚ÅStringŒ^‚É•ÏŠ·‚·‚éB
      */
     protected static final String BCI_METHOD_B =
             "if(this != null) {                                                                 \n"
@@ -83,10 +81,10 @@ public class JdbcJavelinConverter
                     + "}                                                                        \n";
 
     /**
-     * BCIã«ã¦setXXXã«åŸ‹ã‚è¾¼ã‚€ã‚³ãƒ¼ãƒ‰ï¼ˆãƒ‘ã‚¿ãƒ¼ãƒ³Cï¼‰
-     * 1.PreparedStatementã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°ä¿æŒãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ï¼ˆListï¼‰ã‚’å–å¾—ã™ã‚‹
-     * 2.TreeMapãŒç„¡ã‘ã‚Œã°ã€ä½œæˆã—ã¦Listã«ç™»éŒ²ã™ã‚‹
-     * 3.ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°ã‚’TreeMapã«ç™»éŒ²ã™ã‚‹ã€‚ãã®éš›String#valueOfã§Stringå‹ã«å¤‰æ›ã™ã‚‹ã€‚
+     * BCI‚É‚ÄsetXXX‚É–„‚ß‚ŞƒR[ƒhiƒpƒ^[ƒ“Cj
+     * 1.PreparedStatementƒIƒuƒWƒFƒNƒg‚ÌƒoƒCƒ“ƒh•Ï”•ÛƒtƒB[ƒ‹ƒhiListj‚ğæ“¾‚·‚é
+     * 2.TreeMap‚ª–³‚¯‚ê‚ÎAì¬‚µ‚ÄList‚É“o˜^‚·‚é
+     * 3.ƒoƒCƒ“ƒh•Ï”‚ğTreeMap‚É“o˜^‚·‚éB‚»‚ÌÛString#valueOf‚ÅStringŒ^‚É•ÏŠ·‚·‚éB
      */
     protected static final String BCI_METHOD_C =
             "if(this != null) {                                                                 \n"
@@ -96,10 +94,10 @@ public class JdbcJavelinConverter
                     + "}                                                                        \n";
 
     /**
-     * BCIã«ã¦setXXXã«åŸ‹ã‚è¾¼ã‚€ã‚³ãƒ¼ãƒ‰ï¼ˆãƒ‘ã‚¿ãƒ¼ãƒ³Dï¼‰
-     * 1.PreparedStatementã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°ä¿æŒãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ï¼ˆListï¼‰ã‚’å–å¾—ã™ã‚‹
-     * 2.TreeMapãŒç„¡ã‘ã‚Œã°ã€ä½œæˆã—ã¦Listã«ç™»éŒ²ã™ã‚‹
-     * 3.ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°ã‚’TreeMapã«ç™»éŒ²ã™ã‚‹ã€‚ãã®éš›"byte[length]:FFFF..."ã«å¤‰æ›ã™ã‚‹ã€‚
+     * BCI‚É‚ÄsetXXX‚É–„‚ß‚ŞƒR[ƒhiƒpƒ^[ƒ“Dj
+     * 1.PreparedStatementƒIƒuƒWƒFƒNƒg‚ÌƒoƒCƒ“ƒh•Ï”•ÛƒtƒB[ƒ‹ƒhiListj‚ğæ“¾‚·‚é
+     * 2.TreeMap‚ª–³‚¯‚ê‚ÎAì¬‚µ‚ÄList‚É“o˜^‚·‚é
+     * 3.ƒoƒCƒ“ƒh•Ï”‚ğTreeMap‚É“o˜^‚·‚éB‚»‚ÌÛ"byte[length]:FFFF..."‚É•ÏŠ·‚·‚éB
      */
     protected static final String BCI_METHOD_D =
             "if(this != null) {                                                                 \n"
@@ -109,10 +107,10 @@ public class JdbcJavelinConverter
                     + "}                                                                        \n";
 
     /**
-     * BCIã«ã¦setXXXã«åŸ‹ã‚è¾¼ã‚€ã‚³ãƒ¼ãƒ‰ï¼ˆãƒ‘ã‚¿ãƒ¼ãƒ³Eï¼‰
-     * 1.PreparedStatementã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°ä¿æŒãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ï¼ˆListï¼‰ã‚’å–å¾—ã™ã‚‹
-     * 2.TreeMapãŒç„¡ã‘ã‚Œã°ã€ä½œæˆã—ã¦Listã«ç™»éŒ²ã™ã‚‹
-     * 3.ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°"(UNSUPPORTED)"ã‚’TreeMapã«ç™»éŒ²ã™ã‚‹ã€‚
+     * BCI‚É‚ÄsetXXX‚É–„‚ß‚ŞƒR[ƒhiƒpƒ^[ƒ“Ej
+     * 1.PreparedStatementƒIƒuƒWƒFƒNƒg‚ÌƒoƒCƒ“ƒh•Ï”•ÛƒtƒB[ƒ‹ƒhiListj‚ğæ“¾‚·‚é
+     * 2.TreeMap‚ª–³‚¯‚ê‚ÎAì¬‚µ‚ÄList‚É“o˜^‚·‚é
+     * 3.ƒoƒCƒ“ƒh•Ï”"(UNSUPPORTED)"‚ğTreeMap‚É“o˜^‚·‚éB
      */
     protected static final String BCI_METHOD_E =
             "if(this != null) {                                                                 \n"
@@ -122,10 +120,10 @@ public class JdbcJavelinConverter
                     + "}                                                                        \n";
 
     /**
-     * BCIã«ã¦setXXXã«åŸ‹ã‚è¾¼ã‚€ã‚³ãƒ¼ãƒ‰ï¼ˆãƒ‘ã‚¿ãƒ¼ãƒ³Fï¼‰
-     * 1.PreparedStatementã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°ä¿æŒãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ï¼ˆListï¼‰ã‚’å–å¾—ã™ã‚‹
-     * 2.TreeMapãŒç„¡ã‘ã‚Œã°ã€ä½œæˆã—ã¦Listã«ç™»éŒ²ã™ã‚‹
-     * 3.ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°"null"ã‚’TreeMapã«ç™»éŒ²ã™ã‚‹ã€‚ãã®éš›String#valueOfã§Stringå‹ã«å¤‰æ›ã™ã‚‹ã€‚
+     * BCI‚É‚ÄsetXXX‚É–„‚ß‚ŞƒR[ƒhiƒpƒ^[ƒ“Fj
+     * 1.PreparedStatementƒIƒuƒWƒFƒNƒg‚ÌƒoƒCƒ“ƒh•Ï”•ÛƒtƒB[ƒ‹ƒhiListj‚ğæ“¾‚·‚é
+     * 2.TreeMap‚ª–³‚¯‚ê‚ÎAì¬‚µ‚ÄList‚É“o˜^‚·‚é
+     * 3.ƒoƒCƒ“ƒh•Ï”"null"‚ğTreeMap‚É“o˜^‚·‚éB‚»‚ÌÛString#valueOf‚ÅStringŒ^‚É•ÏŠ·‚·‚éB
      */
     protected static final String BCI_METHOD_F =
             "if(this != null) {                                                                 \n"
@@ -135,7 +133,7 @@ public class JdbcJavelinConverter
                     + "}                                                                        \n";
 
     /**
-     * BCIã«ã¦addBatchã«åŸ‹ã‚è¾¼ã‚€ã‚³ãƒ¼ãƒ‰ï¼ˆjdbcJavelinBindValIndex_ã®ã‚¤ãƒ³ã‚¯ãƒªãƒ¡ãƒ³ãƒˆï¼‰
+     * BCI‚É‚ÄaddBatch‚É–„‚ß‚ŞƒR[ƒhijdbcJavelinBindValIndex_‚ÌƒCƒ“ƒNƒŠƒƒ“ƒgj
      */
     protected static final String BCI_METHOD_ADD_BATCH =
             "if(this != null) {                                         \n"
@@ -143,7 +141,7 @@ public class JdbcJavelinConverter
                     + "}                                                \n";
 
     /**
-     * BCIã«ã¦clearBatchã«åŸ‹ã‚è¾¼ã‚€ã‚³ãƒ¼ãƒ‰ï¼ˆjdbcJavelinBindValã®ã‚¯ãƒªã‚¢ï¼‰
+     * BCI‚É‚ÄclearBatch‚É–„‚ß‚ŞƒR[ƒhijdbcJavelinBindVal‚ÌƒNƒŠƒAj
      */
     protected static final String BCI_METHOD_CLEAR_BATCH =
             "if(this != null) {                                         \n"
@@ -151,14 +149,14 @@ public class JdbcJavelinConverter
                     + "}                                                \n";
 
     /**
-     * å®Ÿè¡Œè¨ˆç”»å–å¾—ç”¨PreparedStatementã«setXXXã™ã‚‹ãŸã‚ã«ã€
-     * é©ã—ãŸãƒ¡ã‚½ãƒƒãƒ‰åã«ç½®æ›ã™ã‚‹ç½®æ›å¯¾è±¡æ–‡å­—åˆ—ã€‚
+     * ÀsŒv‰ææ“¾—pPreparedStatement‚ÉsetXXX‚·‚é‚½‚ß‚ÉA
+     * “K‚µ‚½ƒƒ\ƒbƒh–¼‚É’uŠ·‚·‚é’uŠ·‘ÎÛ•¶š—ñB
      */
     protected static final String REPLACETARGET_OF_PLANPREPARED = "setXXX";
 
     /**
-     * å®Ÿè¡Œè¨ˆç”»å–å¾—ç”¨PreparedStatementã«setXXXã™ã‚‹ãŸã‚ã®ã‚³ãƒ¼ãƒ‰ã€‚
-     * setXXXã¯é©ã—ãŸãƒ¡ã‚½ãƒƒãƒ‰åã«ç½®æ›ã™ã‚‹ã€‚
+     * ÀsŒv‰ææ“¾—pPreparedStatement‚ÉsetXXX‚·‚é‚½‚ß‚ÌƒR[ƒhB
+     * setXXX‚Í“K‚µ‚½ƒƒ\ƒbƒh–¼‚É’uŠ·‚·‚éB
      */
     protected static final String BCI_METHOD_PLANFORPREPARED_SETXXX =
             "if (this != null && this." + JdbcJavelinTransformer.FLAGFORPLANSTMT_FIELD_NAME
@@ -179,9 +177,9 @@ public class JdbcJavelinConverter
                     + "}\n";
 
     /**
-     * å®Ÿè¡Œè¨ˆç”»å–å¾—ç”¨PreparedStatementã«setXXXã™ã‚‹ãŸã‚ã®ã‚³ãƒ¼ãƒ‰ã€‚
-     * setXXXã¯é©ã—ãŸãƒ¡ã‚½ãƒƒãƒ‰åã«ç½®æ›ã™ã‚‹ã€‚
-     * ä»¥ä¸‹ã®ãƒ¡ã‚½ãƒƒãƒ‰ã®å ´åˆã«ä½¿ç”¨ã™ã‚‹ã€‚
+     * ÀsŒv‰ææ“¾—pPreparedStatement‚ÉsetXXX‚·‚é‚½‚ß‚ÌƒR[ƒhB
+     * setXXX‚Í“K‚µ‚½ƒƒ\ƒbƒh–¼‚É’uŠ·‚·‚éB
+     * ˆÈ‰º‚Ìƒƒ\ƒbƒh‚Ìê‡‚Ég—p‚·‚éB
      * setAsciiStream
      * setBinaryStream
      * setUnicodeStream
@@ -206,9 +204,9 @@ public class JdbcJavelinConverter
                     + "    $1 = backup;\n" + "}\n";
 
     /**
-     * å®Ÿè¡Œè¨ˆç”»å–å¾—ç”¨PreparedStatementã«setXXXã™ã‚‹ãŸã‚ã®ã‚³ãƒ¼ãƒ‰ã€‚
-     * setXXXã¯é©ã—ãŸãƒ¡ã‚½ãƒƒãƒ‰åã«ç½®æ›ã™ã‚‹ã€‚
-     * ä»¥ä¸‹ã®ãƒ¡ã‚½ãƒƒãƒ‰ã®å ´åˆã«ä½¿ç”¨ã™ã‚‹ã€‚
+     * ÀsŒv‰ææ“¾—pPreparedStatement‚ÉsetXXX‚·‚é‚½‚ß‚ÌƒR[ƒhB
+     * setXXX‚Í“K‚µ‚½ƒƒ\ƒbƒh–¼‚É’uŠ·‚·‚éB
+     * ˆÈ‰º‚Ìƒƒ\ƒbƒh‚Ìê‡‚Ég—p‚·‚éB
      * setCharacterStream
      */
     protected static final String BCI_METHOD_PLANFORPREPARED_SETREADER =
@@ -229,8 +227,8 @@ public class JdbcJavelinConverter
                     + "($1, new java.io.StringReader(\"\"), $3);\n" + "    $1 = backup;\n" + "}\n";
 
     /**
-     * å®Ÿè¡Œè¨ˆç”»å–å¾—ç”¨PreparedStatementã§addBatchã®ã¨ãã«å®Ÿè¡Œã•ã‚Œã‚‹ã‚³ãƒ¼ãƒ‰ã€‚
-     * ãƒ‘ãƒ©ãƒ¡ã‚¿è¨­å®šçµ‚äº†ãƒ•ãƒ©ã‚°ã‚’ONã«ã™ã‚‹ã€‚
+     * ÀsŒv‰ææ“¾—pPreparedStatement‚ÅaddBatch‚Ì‚Æ‚«‚ÉÀs‚³‚ê‚éƒR[ƒhB
+     * ƒpƒ‰ƒƒ^İ’èI—¹ƒtƒ‰ƒO‚ğON‚É‚·‚éB
      */
     protected static final String BCI_METHOD_PLANFORPREPARED_ADDBATCH =
             "if (this != null && this." + JdbcJavelinTransformer.FLAGFORPLANSTMT_FIELD_NAME
@@ -239,8 +237,8 @@ public class JdbcJavelinConverter
                     + JdbcJavelinTransformer.FLAGFORPLANSTMT_FIELD_NAME + " = true;\n" + "}\n";
 
     /**
-     * å®Ÿè¡Œè¨ˆç”»å–å¾—ç”¨PreparedStatementã§clearBatchã®ã¨ãã«å®Ÿè¡Œã•ã‚Œã‚‹ã‚³ãƒ¼ãƒ‰ã€‚
-     * ãƒ‘ãƒ©ãƒ¡ã‚¿è¨­å®šçµ‚äº†ãƒ•ãƒ©ã‚°ã‚’OFFã«ã™ã‚‹ã€‚
+     * ÀsŒv‰ææ“¾—pPreparedStatement‚ÅclearBatch‚Ì‚Æ‚«‚ÉÀs‚³‚ê‚éƒR[ƒhB
+     * ƒpƒ‰ƒƒ^İ’èI—¹ƒtƒ‰ƒO‚ğOFF‚É‚·‚éB
      */
     protected static final String BCI_METHOD_PLANFORPREPARED_CLEARBATCH =
             "if (this != null && this." + JdbcJavelinTransformer.FLAGFORPLANSTMT_FIELD_NAME
@@ -249,8 +247,8 @@ public class JdbcJavelinConverter
                     + " = false;\n" + "}\n";
 
     /**
-     * å®Ÿè¡Œè¨ˆç”»å–å¾—ç”¨PreparedStatementã§closeã®ã¨ãã«å®Ÿè¡Œã•ã‚Œã‚‹ã‚³ãƒ¼ãƒ‰ã€‚
-     * å®Ÿè¡Œè¨ˆç”»å–å¾—ç”¨PreparedStatementã‚’closeã™ã‚‹ã€‚
+     * ÀsŒv‰ææ“¾—pPreparedStatement‚Åclose‚Ì‚Æ‚«‚ÉÀs‚³‚ê‚éƒR[ƒhB
+     * ÀsŒv‰ææ“¾—pPreparedStatement‚ğclose‚·‚éB
      */
     protected static final String BCI_METHOD_PLANFORPREPARED_CLOSE =
             "if (this != null && this." + JdbcJavelinTransformer.STMTFORPLAN_FIELD_NAME
@@ -260,20 +258,18 @@ public class JdbcJavelinConverter
                     + JdbcJavelinTransformer.STMTFORPLAN_FIELD_NAME
                     + "[indexOfPlanStmt].getPreparedStatement().close();\n" + "    }\n" + "}\n";
 
-    /** è¨­å®šå€¤ä¿æŒBean */
+    /** İ’è’l•ÛBean */
     private static final String JAVELIN_RECORDER_NAME = JdbcJavelinRecorder.class.getName();
     
-    private static final String JAVELIN_LIGHTWEIGHT_RECORDER_NAME = LightweightJdbcJavelinRecorder.class.getName();
-
-    /** å¼•æ•°ã®æ•° */
+    /** ˆø”‚Ì” */
     private static final int ARGS = 3;
     
     /**
-     * Statementã®ãƒ¡ã‚½ãƒƒãƒ‰ã«å¯¾ã—ã¦è¨ˆæ¸¬ã‚³ãƒ¼ãƒ‰ã‚’åŸ‹ã‚è¾¼ã‚€ã€‚
+     * Statement‚Ìƒƒ\ƒbƒh‚É‘Î‚µ‚ÄŒv‘ªƒR[ƒh‚ğ–„‚ß‚ŞB
      *
-     * @param pool Statementã‚’å«ã‚€ãƒ—ãƒ¼ãƒ«ã€‚ 
-     * @param ctClass Statementã‚’å®Ÿè£…ã™ã‚‹ã‚¯ãƒ©ã‚¹
-     * @return å¤‰æ›çµæœ
+     * @param pool Statement‚ğŠÜ‚Şƒv[ƒ‹B 
+     * @param ctClass Statement‚ğÀ‘•‚·‚éƒNƒ‰ƒX
+     * @return •ÏŠ·Œ‹‰Ê
      */
     public static CtClass convertConnection(final ClassPool pool, final CtClass ctClass)
     {
@@ -287,7 +283,7 @@ public class JdbcJavelinConverter
                 ctClass.addInterface(jvnConnction);
             }
             
-            // ã™ã§ã«ãƒ¡ã‚½ãƒƒãƒ‰ã‚’è¿½åŠ ã—ã¦ã„ã‚‹å ´åˆã¯å‡¦ç†ã‚’è¡Œã‚ãªã„
+            // ‚·‚Å‚Éƒƒ\ƒbƒh‚ğ’Ç‰Á‚µ‚Ä‚¢‚éê‡‚Íˆ—‚ğs‚í‚È‚¢
             if (hasBehavior(ctClass, "getJdbcJavelinProcessor"))
             {
                 return ctClass;
@@ -331,18 +327,20 @@ public class JdbcJavelinConverter
             return null;
         }
 
+        
+        
         CtBehavior[] behaviors = ctClass.getDeclaredBehaviors();
         for (int index = 0; index < behaviors.length; index++)
         {
             CtBehavior method = behaviors[index];
-            // ãƒ¡ã‚½ãƒƒãƒ‰ã®å®šç¾©ãŒãªã„å ´åˆã€ã‚ã‚‹ã„ã¯publicã§ãªã„
-            // (->ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã«å®šç¾©ã•ã‚Œã¦ã„ãªã„)å ´åˆã¯å®Ÿè¡Œã—ãªã„ã€‚
+            // ƒƒ\ƒbƒh‚Ì’è‹`‚ª‚È‚¢ê‡A‚ ‚é‚¢‚Ípublic‚Å‚È‚¢
+            // (->ƒCƒ“ƒ^[ƒtƒF[ƒX‚É’è‹`‚³‚ê‚Ä‚¢‚È‚¢)ê‡‚ÍÀs‚µ‚È‚¢B
             final int MODIFIER = method.getModifiers();
             if (Modifier.isAbstract(MODIFIER) || !Modifier.isPublic(MODIFIER))
             {
                 continue;
             }
-            // BCIå¯¾è±¡ã‚¯ãƒ©ã‚¹ã€Œjava.sql.Connectionã€ã«å¯¾ã—ã¦ã€ã‚³ãƒ¼ãƒ‰è»¢æ›ã‚’è¡Œã†
+            // BCI‘ÎÛƒNƒ‰ƒXujava.sql.Connectionv‚É‘Î‚µ‚ÄAƒR[ƒh“]Š·‚ğs‚¤
             String methodName = method.getName();
             try
             {
@@ -369,27 +367,26 @@ public class JdbcJavelinConverter
         {
             SystemLogger.getInstance().warn(ex);
             return null;
-        }
+        }        
     }
-
     /**
-     * Statementã®ãƒ¡ã‚½ãƒƒãƒ‰ã«å¯¾ã—ã¦è¨ˆæ¸¬ã‚³ãƒ¼ãƒ‰ã‚’åŸ‹ã‚è¾¼ã‚€ã€‚
+     * Statement‚Ìƒƒ\ƒbƒh‚É‘Î‚µ‚ÄŒv‘ªƒR[ƒh‚ğ–„‚ß‚ŞB
      *
-     * @param pool Statementã‚’å«ã‚€ãƒ—ãƒ¼ãƒ«ã€‚ 
-     * @param ctClass Statementã‚’å®Ÿè£…ã™ã‚‹ã‚¯ãƒ©ã‚¹
-     * @param method ãƒ¡ã‚½ãƒƒãƒ‰
-     * @param inheritedStatement Statementã‚’å®Ÿè£…ã—ãŸã‚¯ãƒ©ã‚¹ã‚’å¤‰æ›ã™ã‚‹å ´åˆã¯ <code>true</code>
-     * @param inheritedPreparedStatement PreparedStatementã‚’å®Ÿè£…ã—ãŸã‚¯ãƒ©ã‚¹ã‚’å¤‰æ›ã™ã‚‹å ´åˆã¯ <code>true</code>
+     * @param pool Statement‚ğŠÜ‚Şƒv[ƒ‹B 
+     * @param ctClass Statement‚ğÀ‘•‚·‚éƒNƒ‰ƒX
+     * @param method ƒƒ\ƒbƒh
+     * @param inheritedStatement Statement‚ğÀ‘•‚µ‚½ƒNƒ‰ƒX‚ğ•ÏŠ·‚·‚éê‡‚Í <code>true</code>
+     * @param inheritedPreparedStatement PreparedStatement‚ğÀ‘•‚µ‚½ƒNƒ‰ƒX‚ğ•ÏŠ·‚·‚éê‡‚Í <code>true</code>
      */
     public static void convertStatement(final ClassPool pool, final CtClass ctClass,
             final CtBehavior method, boolean inheritedStatement, boolean inheritedPreparedStatement)
     {
         try
         {
-            // BCIå¯¾è±¡ã‚¯ãƒ©ã‚¹ã€Œjava.sql.Connectionã€ã«å¯¾ã—ã¦ã€ã‚³ãƒ¼ãƒ‰è»¢æ›ã‚’è¡Œã†
+            // BCI‘ÎÛƒNƒ‰ƒXujava.sql.Connectionv‚É‘Î‚µ‚ÄAƒR[ƒh“]Š·‚ğs‚¤
             String methodName = method.getName();
 
-            // BCIå¯¾è±¡ã‚¯ãƒ©ã‚¹ã€Œjava.sql.Statementã€ã«å¯¾ã—ã¦ã€ã‚³ãƒ¼ãƒ‰è»¢æ›ã‚’è¡Œã†
+            // BCI‘ÎÛƒNƒ‰ƒXujava.sql.Statementv‚É‘Î‚µ‚ÄAƒR[ƒh“]Š·‚ğs‚¤
             if (inheritedStatement)
             {
                 if (SystemLogger.getInstance().isDebugEnabled())
@@ -416,7 +413,7 @@ public class JdbcJavelinConverter
                 }
             }
 
-            // BCIå¯¾è±¡ã‚¯ãƒ©ã‚¹ã€Œjava.sql.PreparedStatementã€ã«å¯¾ã—ã¦ã€ã‚³ãƒ¼ãƒ‰è»¢æ›ã‚’è¡Œã†
+            // BCI‘ÎÛƒNƒ‰ƒXujava.sql.PreparedStatementv‚É‘Î‚µ‚ÄAƒR[ƒh“]Š·‚ğs‚¤
             if (inheritedPreparedStatement)
             {
                 if (SystemLogger.getInstance().isDebugEnabled())
@@ -426,7 +423,7 @@ public class JdbcJavelinConverter
                 }
                 if ("setString".equals(methodName) || "setObject".equals(methodName))
                 {
-                    // ãƒ‘ã‚¿ãƒ¼ãƒ³Aã®setter. æ–‡å­—åˆ—é•·åˆ¶é™ãƒ©ãƒ™ãƒ«ã«å…·ä½“çš„ãªè¨­å®šå€¤ã‚’å…¥ã‚Œã‚‹.
+                    // ƒpƒ^[ƒ“A‚Ìsetter. •¶š—ñ’·§ŒÀƒ‰ƒxƒ‹‚É‹ï‘Ì“I‚Èİ’è’l‚ğ“ü‚ê‚é.
                     long jdbcStringLimitLength =
                             JdbcJavelinRecorder.getConfig().getJdbcStringLimitLength();
                     String code = BCI_METHOD_A.replaceAll("BCI_METHOD_A_LENGTH",
@@ -436,7 +433,7 @@ public class JdbcJavelinConverter
                 else if ("setBigDecimal".equals(methodName) || "setDate".equals(methodName)
                         || "setTime".equals(methodName) || "setTimestamp".equals(methodName))
                 {
-                    // ãƒ‘ã‚¿ãƒ¼ãƒ³Bã®setter
+                    // ƒpƒ^[ƒ“B‚Ìsetter
                     convertPreparedMethod(ctClass, method, BCI_METHOD_B,
                                           BCI_METHOD_PLANFORPREPARED_SETXXX);
                 }
@@ -444,13 +441,13 @@ public class JdbcJavelinConverter
                         || "setInt".equals(methodName) || "setLong".equals(methodName)
                         || "setFloat".equals(methodName) || "setDouble".equals(methodName))
                 {
-                    // ãƒ‘ã‚¿ãƒ¼ãƒ³Cã®setter
+                    // ƒpƒ^[ƒ“C‚Ìsetter
                     convertPreparedMethod(ctClass, method, BCI_METHOD_C,
                                           BCI_METHOD_PLANFORPREPARED_SETXXX);
                 }
                 else if ("setByte".equals(methodName) || "setBytes".equals(methodName))
                 {
-                    // ãƒ‘ã‚¿ãƒ¼ãƒ³Dã®setter
+                    // ƒpƒ^[ƒ“D‚Ìsetter
                     convertPreparedMethod(ctClass, method, BCI_METHOD_D,
                                           BCI_METHOD_PLANFORPREPARED_SETXXX);
                 }
@@ -458,13 +455,13 @@ public class JdbcJavelinConverter
                         || "setClob".equals(methodName) || "setRef".equals(methodName)
                         || "setURL".equals(methodName))
                 {
-                    // ãƒ‘ã‚¿ãƒ¼ãƒ³Eã®setter
+                    // ƒpƒ^[ƒ“E‚Ìsetter
                     convertPreparedMethod(ctClass, method, BCI_METHOD_E,
                                           BCI_METHOD_PLANFORPREPARED_SETXXX);
                 }
                 else if ("setNull".equals(methodName))
                 {
-                    // ãƒ‘ã‚¿ãƒ¼ãƒ³Fã®setter
+                    // ƒpƒ^[ƒ“F‚Ìsetter
                     convertPreparedMethod(ctClass, method, BCI_METHOD_F,
                                           BCI_METHOD_PLANFORPREPARED_SETXXX);
                 }
@@ -472,20 +469,20 @@ public class JdbcJavelinConverter
                         || "setBinaryStream".equals(methodName)
                         || "setUnicodeStream".equals(methodName))
                 {
-                    // TODO Java6.0 ã§ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã®ä»•æ§˜ãŒå¤‰ã‚ã£ãŸãŸã‚ã€å¼•æ•°ã®æ•°ãŒ3ä»¥å¤–ã®ã‚‚ã®ã‚‚å¯¾å¿œãŒå¿…è¦ã€‚
+                    // TODO Java6.0 ‚ÅƒCƒ“ƒ^[ƒtƒF[ƒX‚Ìd—l‚ª•Ï‚í‚Á‚½‚½‚ßAˆø”‚Ì”‚ª3ˆÈŠO‚Ì‚à‚Ì‚à‘Î‰‚ª•K—vB
                     if (method.getParameterTypes().length == ARGS)
                     {
-                        // ãƒ‘ã‚¿ãƒ¼ãƒ³Gã®setter
+                        // ƒpƒ^[ƒ“G‚Ìsetter
                         convertPreparedMethod(ctClass, method, BCI_METHOD_E,
                                               BCI_METHOD_PLANFORPREPARED_SETINPUTSTREAM);
                     }
                 }
                 else if ("setCharacterStream".equals(methodName))
                 {
-                    // TODO Java6.0 ã§ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã®ä»•æ§˜ãŒå¤‰ã‚ã£ãŸãŸã‚ã€å¼•æ•°ã®æ•°ãŒ3ä»¥å¤–ã®ã‚‚ã®ã‚‚å¯¾å¿œãŒå¿…è¦ã€‚
+                    // TODO Java6.0 ‚ÅƒCƒ“ƒ^[ƒtƒF[ƒX‚Ìd—l‚ª•Ï‚í‚Á‚½‚½‚ßAˆø”‚Ì”‚ª3ˆÈŠO‚Ì‚à‚Ì‚à‘Î‰‚ª•K—vB
                     if (method.getParameterTypes().length == ARGS)
                     {
-                        // ãƒ‘ã‚¿ãƒ¼ãƒ³Hã®setter
+                        // ƒpƒ^[ƒ“H‚Ìsetter
                         convertPreparedMethod(ctClass, method, BCI_METHOD_E,
                                               BCI_METHOD_PLANFORPREPARED_SETREADER);
                     }
@@ -516,11 +513,11 @@ public class JdbcJavelinConverter
     }
 
     /**
-     * PreparedStatementã®executeãƒ¡ã‚½ãƒƒãƒ‰ã«ã€
-     * ãƒã‚¤ãƒ³ãƒ‰å¼•æ•°ä¿å­˜ç”¨ArrayListåˆæœŸåŒ–å‡¦ç†ã‚’è¿½åŠ ã™ã‚‹ã€‚
-     * @param ctClass å¤‰æ›å¯¾è±¡ã®ã‚¯ãƒ©ã‚¹ã€‚
-     * @param method ãƒ¡ã‚½ãƒƒãƒ‰ã€‚
-     * @throws CannotCompileException javassistãŒã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã«å¤±æ•—ã—ãŸå ´åˆã€‚
+     * PreparedStatement‚Ìexecuteƒƒ\ƒbƒh‚ÉA
+     * ƒoƒCƒ“ƒhˆø”•Û‘¶—pArrayList‰Šú‰»ˆ—‚ğ’Ç‰Á‚·‚éB
+     * @param ctClass •ÏŠ·‘ÎÛ‚ÌƒNƒ‰ƒXB
+     * @param method ƒƒ\ƒbƒhB
+     * @throws CannotCompileException javassist‚ªƒRƒ“ƒpƒCƒ‹‚É¸”s‚µ‚½ê‡B
      */
     private static void convertExecuteMethod(final CtClass ctClass, final CtBehavior method)
         throws CannotCompileException
@@ -528,7 +525,7 @@ public class JdbcJavelinConverter
         String className = ctClass.getName();
         className = className.substring(className.lastIndexOf('.') + 1);
 
-        // å‰å‡¦ç†ã‚’åŸ‹ã‚è¾¼ã‚€
+        // ‘Oˆ—‚ğ–„‚ß‚Ş
         String key = "javelin.jdbc.instrument.JdbcJavelinConverter.ModifiedMethodLabel";
         String message = JdbcJavelinMessages.getMessage(key, className, method.getName());
         SystemLogger.getInstance().info(message);
@@ -537,12 +534,12 @@ public class JdbcJavelinConverter
     }
 
     /**
-     * PreparedStatementç”¨ã«ãƒ‘ã‚¿ãƒ¼ãƒ³åˆ¥ã®ã‚³ãƒ¼ãƒ‰ã‚’åŸ‹ã‚è¾¼ã‚€
-     * @param ctClass ã‚¯ãƒ©ã‚¹
-     * @param method ãƒ¡ã‚½ãƒƒãƒ‰
-     * @param bindValCode ãƒã‚¤ãƒ³ãƒ‰å¤‰æ•°å–å¾—ç”¨ã‚³ãƒ¼ãƒ‰
-     * @param explainCodeTemplate å®Ÿè¡Œè¨ˆç”»å–å¾—ç”¨ã‚³ãƒ¼ãƒ‰
-     * @throws CannotCompileException ã‚³ãƒ¼ãƒ‰åŸ‹ã‚è¾¼ã¿ã«å¤±æ•—ã—ãŸå ´åˆ
+     * PreparedStatement—p‚Éƒpƒ^[ƒ“•Ê‚ÌƒR[ƒh‚ğ–„‚ß‚Ş
+     * @param ctClass ƒNƒ‰ƒX
+     * @param method ƒƒ\ƒbƒh
+     * @param bindValCode ƒoƒCƒ“ƒh•Ï”æ“¾—pƒR[ƒh
+     * @param explainCodeTemplate ÀsŒv‰ææ“¾—pƒR[ƒh
+     * @throws CannotCompileException ƒR[ƒh–„‚ß‚İ‚É¸”s‚µ‚½ê‡
      */
     public static void convertPreparedMethod(final CtClass ctClass, final CtBehavior method,
             final String bindValCode, final String explainCodeTemplate)
@@ -552,18 +549,18 @@ public class JdbcJavelinConverter
         String methodName = method.getName();
         className = className.substring(className.lastIndexOf('.') + 1);
 
-        // setãƒ¡ã‚½ãƒƒãƒ‰ã®å¼•æ•°ã®1ç•ªç›®ãŒintã®ã¨ãã®ã¿ã€å®Ÿè¡Œè¨ˆç”»å–å¾—ç”¨å‡¦ç†ã€ãƒã‚¤ãƒ³ãƒ‰å¼•æ•°å–å¾—å‡¦ç†ã‚’è¿½åŠ ã™ã‚‹
+        // setƒƒ\ƒbƒh‚Ìˆø”‚Ì1”Ô–Ú‚ªint‚Ì‚Æ‚«‚Ì‚İAÀsŒv‰ææ“¾—pˆ—AƒoƒCƒ“ƒhˆø”æ“¾ˆ—‚ğ’Ç‰Á‚·‚é
         try
         {
             CtClass[] paramTypes;
             paramTypes = method.getParameterTypes();
             if (paramTypes.length >= 1 && "int".equals(paramTypes[0].getName()))
             {
-                // å®Ÿè¡Œè¨ˆç”»å–å¾—ç”¨PreparedStatementã®setXXXã‚’é©ã—ãŸãƒ¡ã‚½ãƒƒãƒ‰åã«å¤‰æ›´ã™ã‚‹
+                // ÀsŒv‰ææ“¾—pPreparedStatement‚ÌsetXXX‚ğ“K‚µ‚½ƒƒ\ƒbƒh–¼‚É•ÏX‚·‚é
                 String explainCode = explainCodeTemplate.replaceAll(REPLACETARGET_OF_PLANPREPARED,
                                                                     methodName);
                 
-                // å‰å‡¦ç†ã‚’åŸ‹ã‚è¾¼ã‚€
+                // ‘Oˆ—‚ğ–„‚ß‚Ş
                 String key = "javelin.jdbc.instrument.JdbcJavelinConverter.ModifiedMethodLabel";
                 String message = JdbcJavelinMessages.getMessage(key, className, methodName);
                 SystemLogger.getInstance().info(message);
@@ -579,11 +576,11 @@ public class JdbcJavelinConverter
     }
 
     /**
-     * PreparedStatement#addBatchç”¨ã«ã‚³ãƒ¼ãƒ‰ã‚’åŸ‹ã‚è¾¼ã‚€
+     * PreparedStatement#addBatch—p‚ÉƒR[ƒh‚ğ–„‚ß‚Ş
      * 
-     * @param ctClass PreparedStatementã‚’å®Ÿè£…ã™ã‚‹ã‚¯ãƒ©ã‚¹
-     * @param method addBatchãƒ¡ã‚½ãƒƒãƒ‰
-     * @throws CannotCompileException ã‚³ãƒ¼ãƒ‰åŸ‹ã‚è¾¼ã¿ã«å¤±æ•—ã—ãŸå ´åˆ
+     * @param ctClass PreparedStatement‚ğÀ‘•‚·‚éƒNƒ‰ƒX
+     * @param method addBatchƒƒ\ƒbƒh
+     * @throws CannotCompileException ƒR[ƒh–„‚ß‚İ‚É¸”s‚µ‚½ê‡
      */
     public static void convertPreparedMethodAddBatch(final CtClass ctClass, final CtBehavior method)
         throws CannotCompileException
@@ -591,7 +588,7 @@ public class JdbcJavelinConverter
         String className = ctClass.getName();
         className = className.substring(className.lastIndexOf('.') + 1);
 
-        // å‰å‡¦ç†ã‚’åŸ‹ã‚è¾¼ã‚€
+        // ‘Oˆ—‚ğ–„‚ß‚Ş
         String key = "javelin.jdbc.instrument.JdbcJavelinConverter.ModifiedMethodLabel";
         String message = JdbcJavelinMessages.getMessage(key, className, method.getName());
         SystemLogger.getInstance().info(message);
@@ -599,11 +596,11 @@ public class JdbcJavelinConverter
     }
 
     /**
-     * PreparedStatement#clearBatchç”¨ã«ã‚³ãƒ¼ãƒ‰ã‚’åŸ‹ã‚è¾¼ã‚€
+     * PreparedStatement#clearBatch—p‚ÉƒR[ƒh‚ğ–„‚ß‚Ş
      * 
-     * @param ctClass PreparedStatementã‚’å®Ÿè£…ã™ã‚‹ã‚¯ãƒ©ã‚¹
-     * @param method clearBatchãƒ¡ã‚½ãƒƒãƒ‰
-     * @throws CannotCompileException ã‚³ãƒ¼ãƒ‰åŸ‹ã‚è¾¼ã¿ã«å¤±æ•—ã—ãŸå ´åˆ
+     * @param ctClass PreparedStatement‚ğÀ‘•‚·‚éƒNƒ‰ƒX
+     * @param method clearBatchƒƒ\ƒbƒh
+     * @throws CannotCompileException ƒR[ƒh–„‚ß‚İ‚É¸”s‚µ‚½ê‡
      */
     public static void convertPreparedMethodClearBatch(final CtClass ctClass,
             final CtBehavior method)
@@ -612,7 +609,7 @@ public class JdbcJavelinConverter
         String className = ctClass.getName();
         className = className.substring(className.lastIndexOf('.') + 1);
 
-        // å‰å‡¦ç†ã‚’åŸ‹ã‚è¾¼ã‚€
+        // ‘Oˆ—‚ğ–„‚ß‚Ş
         String key = "javelin.jdbc.instrument.JdbcJavelinConverter.ModifiedMethodLabel";
         String message = JdbcJavelinMessages.getMessage(key, className, method.getName());
         SystemLogger.getInstance().info(message);
@@ -620,11 +617,11 @@ public class JdbcJavelinConverter
     }
 
     /**
-     * PreparedStatement#closeç”¨ã«ã‚³ãƒ¼ãƒ‰ã‚’åŸ‹ã‚è¾¼ã‚€
+     * PreparedStatement#close—p‚ÉƒR[ƒh‚ğ–„‚ß‚Ş
      *
-     * @param ctClass PreparedStatementã‚’å®Ÿè£…ã™ã‚‹ã‚¯ãƒ©ã‚¹
-     * @param method closeãƒ¡ã‚½ãƒƒãƒ‰
-     * @throws CannotCompileException ã‚³ãƒ¼ãƒ‰åŸ‹ã‚è¾¼ã¿ã«å¤±æ•—ã—ãŸå ´åˆ
+     * @param ctClass PreparedStatement‚ğÀ‘•‚·‚éƒNƒ‰ƒX
+     * @param method closeƒƒ\ƒbƒh
+     * @throws CannotCompileException ƒR[ƒh–„‚ß‚İ‚É¸”s‚µ‚½ê‡
      */
     public static void convertPreparedMethodClose(final CtClass ctClass, final CtBehavior method)
         throws CannotCompileException
@@ -632,7 +629,7 @@ public class JdbcJavelinConverter
         String className = ctClass.getName();
         className = className.substring(className.lastIndexOf('.') + 1);
 
-        // å‰å‡¦ç†ã‚’åŸ‹ã‚è¾¼ã‚€
+        // ‘Oˆ—‚ğ–„‚ß‚Ş
         String key = "javelin.jdbc.instrument.JdbcJavelinConverter.ModifiedMethodLabel";
         String message = JdbcJavelinMessages.getMessage(key, className, method.getName());
         SystemLogger.getInstance().info(message);
@@ -640,18 +637,18 @@ public class JdbcJavelinConverter
     }
 
     /**
-     * Statementã‚’å®Ÿè£…ã™ã‚‹ã‚¯ãƒ©ã‚¹ã«è¨ˆæ¸¬ã‚³ãƒ¼ãƒ‰ã‚’åŸ‹ã‚è¾¼ã‚€ã€‚
+     * Statement‚ğÀ‘•‚·‚éƒNƒ‰ƒX‚ÉŒv‘ªƒR[ƒh‚ğ–„‚ß‚ŞB
      *
-     * @param pool ã‚¯ãƒ©ã‚¹ãƒ—ãƒ¼ãƒ«
-     * @param ctClass Statementã‚’å®Ÿè£…ã™ã‚‹ã‚¯ãƒ©ã‚¹
-     * @param method åŸ‹ã‚è¾¼ã¿å¯¾è±¡ãƒ¡ã‚½ãƒƒãƒ‰
-     * @throws CannotCompileException ã‚³ãƒ¼ãƒ‰åŸ‹ã‚è¾¼ã¿ã«å¤±æ•—ã—ãŸå ´åˆ
+     * @param pool ƒNƒ‰ƒXƒv[ƒ‹
+     * @param ctClass Statement‚ğÀ‘•‚·‚éƒNƒ‰ƒX
+     * @param method –„‚ß‚İ‘ÎÛƒƒ\ƒbƒh
+     * @throws CannotCompileException ƒR[ƒh–„‚ß‚İ‚É¸”s‚µ‚½ê‡
      */
     public static void convertStatementMethod(final ClassPool pool, final CtClass ctClass,
             final CtBehavior method)
         throws CannotCompileException
     {
-        // StatsJavelinã«ã‚ˆã‚‹è¨ˆæ¸¬ã‚³ãƒ¼ãƒ‰ã‚’åŸ‹ã‚è¾¼ã‚€ï¼ˆStatementã®æ–¹ç”¨ï¼‰
+        // StatsJavelin‚É‚æ‚éŒv‘ªƒR[ƒh‚ğ–„‚ß‚ŞiStatement‚Ì•û—pj
         addRecordCode(ctClass, method);
         convertCatch(pool, ctClass, method);
 
@@ -666,118 +663,63 @@ public class JdbcJavelinConverter
     }
 
     /**
-     * StatsJavelinã«ã‚ˆã‚‹è¨ˆæ¸¬ã‚³ãƒ¼ãƒ‰ã‚’åŸ‹ã‚è¾¼ã‚€ã€‚
+     * StatsJavelin‚É‚æ‚éŒv‘ªƒR[ƒh‚ğ–„‚ß‚ŞB
      * 
-     * @param ctClass ã‚¯ãƒ©ã‚¹
-     * @param method ãƒ¡ã‚½ãƒƒãƒ‰
-     * @throws CannotCompileException ãƒ¡ã‚½ãƒƒãƒ‰ã®é–‹å§‹ä½ç½®ã¨çµ‚äº†ä½ç½®ã«ã‚³ãƒ¼ãƒ‰ã‚’åŸ‹ã‚è¾¼ã‚ãªã‹ã£ãŸå ´åˆ
+     * @param ctClass ƒNƒ‰ƒX
+     * @param method ƒƒ\ƒbƒh
+     * @throws CannotCompileException ƒƒ\ƒbƒh‚ÌŠJnˆÊ’u‚ÆI—¹ˆÊ’u‚ÉƒR[ƒh‚ğ–„‚ß‚ß‚È‚©‚Á‚½ê‡
      */
     public static void addRecordCode(final CtClass ctClass, final CtBehavior method)
         throws CannotCompileException
     {
-        // å‰å‡¦ç†ãƒ­ã‚°ã‚³ãƒ¼ãƒ‰ã‚’ä½œã‚‹
+        // ‘Oˆ—ƒƒOƒR[ƒh‚ğì‚é
         StringBuffer callPreProcessCodeBuffer = new StringBuffer();
-        // å¾Œå‡¦ç†ãƒ­ã‚°ã‚³ãƒ¼ãƒ‰ã‚’ä½œã‚‹
-        StringBuffer callPostProcessCodeBuffer = new StringBuffer();
-
-        String className = ctClass.getName();
-        
-        JavelinConfig config = new JavelinConfig();
-        boolean lightweight = config.isJdbcjavelinLightweightMode();
-        if (lightweight == true)
+        callPreProcessCodeBuffer.append(JAVELIN_RECORDER_NAME);
+        CtClass[] parameterTypes = null;
+        boolean paramZero = false;
+        try
         {
-            if (SystemLogger.getInstance().isDebugEnabled())
-            {
-                String tegKey = "javelin.jdbc.instrument.JdbcJavelinConverter.JDBCJavelinTag";
-                String jdbcJavelinTag = JdbcJavelinMessages.getMessage(tegKey);
-                String logMessage = "adding JDBC instruments as lightweight mode for " + className;
-                SystemLogger.getInstance().debug(jdbcJavelinTag + logMessage);
-            }
-            
-            if (hasStatementInterface(ctClass))
-            {
-                callPreProcessCodeBuffer.append(JAVELIN_LIGHTWEIGHT_RECORDER_NAME);
-                callPreProcessCodeBuffer.append(".preProcess($0);");
-
-                callPostProcessCodeBuffer.append(JAVELIN_LIGHTWEIGHT_RECORDER_NAME);
-                callPostProcessCodeBuffer.append(".postProcessOK();");
-                
-                if (SystemLogger.getInstance().isDebugEnabled())
-                {
-                    String tegKey = "javelin.jdbc.instrument.JdbcJavelinConverter.JDBCJavelinTag";
-                    String jdbcJavelinTag = JdbcJavelinMessages.getMessage(tegKey);
-                    String logMessage = "added to pre/post Statement: " + className + "." + method.getName();
-                    SystemLogger.getInstance().debug(jdbcJavelinTag + logMessage);
-                }
-            }
-            else
-            {
-                if (SystemLogger.getInstance().isDebugEnabled())
-                {
-                    String tegKey = "javelin.jdbc.instrument.JdbcJavelinConverter.JDBCJavelinTag";
-                    String jdbcJavelinTag = JdbcJavelinMessages.getMessage(tegKey);
-                    String logMessage = "not added to pre/post Statement: " + className + "." + method.getName();
-                    SystemLogger.getInstance().debug(jdbcJavelinTag + logMessage);
-                }
-                return;
-            }
+            parameterTypes = method.getParameterTypes();
+        }
+        catch (NotFoundException ex)
+        {
+            SystemLogger.getInstance().warn("", ex);
+        }
+        if (parameterTypes != null && (parameterTypes.length > 0))
+        {
+            callPreProcessCodeBuffer.append(".preProcessParam(");
+            callPreProcessCodeBuffer.append("$0");
+            callPreProcessCodeBuffer.append(", $args);");
         }
         else
         {
-            if (SystemLogger.getInstance().isDebugEnabled())
-            {
-                String tegKey = "javelin.jdbc.instrument.JdbcJavelinConverter.JDBCJavelinTag";
-                String jdbcJavelinTag = JdbcJavelinMessages.getMessage(tegKey);
-                String logMessage = "adding JDBC instruments as normal mode for " + className;
-                SystemLogger.getInstance().debug(jdbcJavelinTag + logMessage);
-            }
-            
-            boolean paramZero = false;
-            callPreProcessCodeBuffer.append(JAVELIN_RECORDER_NAME);
-            CtClass[] parameterTypes = null;
-            try
-            {
-                parameterTypes = method.getParameterTypes();
-            }
-            catch (NotFoundException ex)
-            {
-                SystemLogger.getInstance().warn("", ex);
-            }
-            if (parameterTypes != null && (parameterTypes.length > 0))
-            {
-                callPreProcessCodeBuffer.append(".preProcessParam(");
-                callPreProcessCodeBuffer.append("$0");
-                callPreProcessCodeBuffer.append(", $args);");
-            }
-            else
-            {
-                callPreProcessCodeBuffer.append(".preProcessSQLArgs(");
-                callPreProcessCodeBuffer.append("$0");
-                callPreProcessCodeBuffer.append(", this.getJdbcJavelinSql().toArray());");
-                paramZero = true;
-            }
-
-            callPostProcessCodeBuffer.append(JAVELIN_RECORDER_NAME);
-            // Recorderã«ã¦å®Ÿè¡Œè¨ˆç”»å–å¾—ã«Statemenã€ã‚¯ãƒ©ã‚¹åã€ãƒ¡ã‚½ãƒƒãƒ‰åãŒå¿…è¦
-            callPostProcessCodeBuffer.append(".postProcessOK($0");
-            if (paramZero == false)
-            { // å¼•æ•°ã®æ•°ã‚’postProcessOKã«æ¸¡ã™
-                callPostProcessCodeBuffer.append(", 1"); // å¼•æ•°1ä»¥ä¸Š
-            }
-            else
-            {
-                callPostProcessCodeBuffer.append(", 0"); // å¼•æ•°0
-            }
-
-            callPostProcessCodeBuffer.append(");");
+            callPreProcessCodeBuffer.append(".preProcessSQLArgs(");
+            callPreProcessCodeBuffer.append("$0");
+            callPreProcessCodeBuffer.append(", this.getJdbcJavelinSql().toArray());");
+            paramZero = true;
         }
-        //      JavelinErrorLogger.getInstance().log("modified class:" + className);
-        String callPreProcessCode = callPreProcessCodeBuffer.toString();
-        String returnPostProcessCode = callPostProcessCodeBuffer.toString();
+        String callPreProcessCode;
+        callPreProcessCode = callPreProcessCodeBuffer.toString();
 
+        // Œãˆ—ƒƒOƒR[ƒh‚ğì‚é
+        StringBuffer callPostProcessCodeBuffer = new StringBuffer();
+        callPostProcessCodeBuffer.append(JAVELIN_RECORDER_NAME);
+        // Recorder‚É‚ÄÀsŒv‰ææ“¾‚ÉStatemenAƒNƒ‰ƒX–¼Aƒƒ\ƒbƒh–¼‚ª•K—v
+        callPostProcessCodeBuffer.append(".postProcessOK($0");
+        if (paramZero == false)
+        { // ˆø”‚Ì”‚ğpostProcessOK‚É“n‚·
+            callPostProcessCodeBuffer.append(", 1"); // ˆø”1ˆÈã
+        }
+        else
+        {
+            callPostProcessCodeBuffer.append(", 0"); // ˆø”0
+        }
+
+        callPostProcessCodeBuffer.append(");");
+        String returnPostProcessCode = callPostProcessCodeBuffer.toString();
+        //		JavelinErrorLogger.getInstance().log("modified class:" + className);
         method.insertBefore(callPreProcessCode);
         method.insertAfter(returnPostProcessCode);
-
     }
 
     private static void addSqlToFieldCon(final CtClass ctClass, final CtBehavior method)
@@ -808,7 +750,7 @@ public class JdbcJavelinConverter
             CtClass[] parameterTypes = method.getParameterTypes();
             if (!(parameterTypes == null) && (parameterTypes.length > 0))
             {
-                // å®Ÿè¡Œã—ã¦ã„ã‚‹SQLæ–‡ã‚’è¿½åŠ ã™ã‚‹ç”¨ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ï¼ˆStatementã®addBatchãƒ¡ã‚½ãƒƒãƒ‰ç”¨ï¼‰
+                // Às‚µ‚Ä‚¢‚éSQL•¶‚ğ’Ç‰Á‚·‚é—pƒR[ƒh‚ğ’Ç‰Á‚·‚éiStatement‚ÌaddBatchƒƒ\ƒbƒh—pj
                 String addSqlCode = "if(this != null) this.jdbcJavelinSql_.add($1);";
                 method.insertAfter(addSqlCode);
 
@@ -831,15 +773,15 @@ public class JdbcJavelinConverter
     }
 
     /**
-     * ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã‹ã‚‰SQLã‚’å‰Šé™¤ã™ã‚‹
-     * @param ctClass ã‚¯ãƒ©ã‚¹
-     * @param method ãƒ¡ã‚½ãƒƒãƒ‰
-     * @throws CannotCompileException ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ä¸å¯æ™‚ã®ã‚¨ãƒ©ãƒ¼
+     * ƒtƒB[ƒ‹ƒh‚©‚çSQL‚ğíœ‚·‚é
+     * @param ctClass ƒNƒ‰ƒX
+     * @param method ƒƒ\ƒbƒh
+     * @throws CannotCompileException ƒRƒ“ƒpƒCƒ‹•s‰Â‚ÌƒGƒ‰[
      */
     public static void delSqlFromField(final CtClass ctClass, final CtBehavior method)
         throws CannotCompileException
     {
-        // å®Ÿè¡Œã—ã¦ã„ã‚‹SQLæ–‡ã‚’è¿½åŠ ã™ã‚‹ç”¨ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ï¼ˆStatementã®æ–¹ï¼‰
+        // Às‚µ‚Ä‚¢‚éSQL•¶‚ğ’Ç‰Á‚·‚é—pƒR[ƒh‚ğ’Ç‰Á‚·‚éiStatement‚Ì•ûj
         String addSqlCode = "if(this != null) this.jdbcJavelinSql_.clear();";
         method.insertAfter(addSqlCode);
 
@@ -854,11 +796,11 @@ public class JdbcJavelinConverter
     }
 
     /**
-     * ãƒ­ã‚°å–å¾—ã‚³ãƒ¼ãƒ‰ã‚’Throwableã®catchç¯€ã¨ã—ã¦è¿½åŠ ã™ã‚‹
-     * @param pool Statementã‚’å«ã‚€ãƒ—ãƒ¼ãƒ«
-     * @param ctClass PreparedStatementã‚’å®Ÿè£…ã™ã‚‹ã‚¯ãƒ©ã‚¹
+     * ƒƒOæ“¾ƒR[ƒh‚ğThrowable‚Ìcatchß‚Æ‚µ‚Ä’Ç‰Á‚·‚é
+     * @param pool Statement‚ğŠÜ‚Şƒv[ƒ‹
+     * @param ctClass PreparedStatement‚ğÀ‘•‚·‚éƒNƒ‰ƒX
      * @param behaviour behaviour
-     * @throws CannotCompileException ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ãŒã§ããªã„ã¨ãã®ä¾‹å¤–
+     * @throws CannotCompileException ƒRƒ“ƒpƒCƒ‹‚ª‚Å‚«‚È‚¢‚Æ‚«‚Ì—áŠO
      */
     public static void convertCatch(final ClassPool pool, final CtClass ctClass,
             final CtBehavior behaviour)
@@ -868,31 +810,27 @@ public class JdbcJavelinConverter
         {
             CtClass throwable = pool.get("java.lang.Throwable");
 
-            // ãƒ¡ã‚½ãƒƒãƒ‰ã®å®šç¾©ãŒãªã„å ´åˆã¯å®Ÿè¡Œã—ãªã„ã€‚
+            // ƒƒ\ƒbƒh‚Ì’è‹`‚ª‚È‚¢ê‡‚ÍÀs‚µ‚È‚¢B
             final int MODIFIER = behaviour.getModifiers();
             if (Modifier.isAbstract(MODIFIER))
             {
                 return;
             }
 
-            // JavelinLogger#writeExceptionLogã®å‘¼ã³å‡ºã—ã‚³ãƒ¼ãƒ‰ã‚’ä½œæˆã™ã‚‹ã€‚
+            // JavelinLogger#writeExceptionLog‚ÌŒÄ‚Ño‚µƒR[ƒh‚ğì¬‚·‚éB
             StringBuffer code = new StringBuffer();
 
-            JavelinConfig config = new JavelinConfig();
-            boolean lightweight = config.isJdbcjavelinLightweightMode();
-            if (lightweight == false || hasStatementInterface(ctClass))
-            {
-                // å¾Œå‡¦ç†ï¼ˆä¾‹å¤–å ´åˆï¼‰
-                code.append(JAVELIN_LIGHTWEIGHT_RECORDER_NAME);
-                code.append(".postProcessNG(");
-                code.append("$e");
-                code.append(");");
-                // ä¾‹å¤–ã‚’å†throwã™ã‚‹ã€‚
-                code.append("throw $e;");
+            // Œãˆ—i—áŠOê‡j
+            code.append(JAVELIN_RECORDER_NAME);
+            code.append(".postProcessNG(");
+            code.append("$e");
+            code.append(");");
 
-                // ãƒ­ã‚°å–å¾—ã‚³ãƒ¼ãƒ‰ã‚’Throwableã®catchç¯€ã¨ã—ã¦è¿½åŠ ã™ã‚‹ã€‚
-                behaviour.addCatch(code.toString(), throwable);
-            }
+            // —áŠO‚ğÄthrow‚·‚éB
+            code.append("throw $e;");
+
+            // ƒƒOæ“¾ƒR[ƒh‚ğThrowable‚Ìcatchß‚Æ‚µ‚Ä’Ç‰Á‚·‚éB
+            behaviour.addCatch(code.toString(), throwable);
         }
         catch (NotFoundException nfe)
         {
@@ -901,49 +839,10 @@ public class JdbcJavelinConverter
     }
 
     /**
-     * æŒ‡å®šã—ãŸã‚¯ãƒ©ã‚¹ãŒã€<code>java.sql.Statement</code>ã¾ãŸã¯<code>java.sql.PreparedStatement</code>
-     * ã‚’å®Ÿè£…ã—ã¦ã„ã‚‹ã‹åˆ¤å®šã™ã‚‹ã€‚
-     * @param ctClass åˆ¤å®šã™ã‚‹å¯¾è±¡ã‚¯ãƒ©ã‚¹ã€‚
-     * @return ç‰¹å®šã®Statementã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹ã‚’å®Ÿè£…ã—ã¦ã„ã‚‹å ´åˆã¯trueã€ãã†ã§ãªã„å ´åˆã¯falseã€‚
-     */
-    private static boolean hasStatementInterface(final CtClass ctClass)
-    {
-        boolean isSqlStatement = false;
-        CtClass[] interfaces;
-        try
-        {
-            interfaces = ctClass.getInterfaces();
-            for (CtClass ifClass : interfaces)
-            {
-                String ifClassName = ifClass.getName();
-                if (SystemLogger.getInstance().isDebugEnabled())
-                {
-                    String tegKey = "javelin.jdbc.instrument.JdbcJavelinConverter.JDBCJavelinTag";
-                    String jdbcJavelinTag = JdbcJavelinMessages.getMessage(tegKey);
-                    String logMessage = "interface: " + ifClassName;
-                    SystemLogger.getInstance().debug(jdbcJavelinTag + logMessage);
-                }
-                
-                if (ifClassName.equals("java.sql.Statement") || ifClassName.equals("java.sql.PreparedStatement"))
-                {
-                    isSqlStatement = true;
-                    break;
-                }
-            }
-        }
-        catch (NotFoundException ex)
-        {
-            // ä¾‹å¤–ãŒã‚¹ãƒ­ãƒ¼ã•ã‚ŒãŸå ´åˆã¯ã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹ã‚’å®Ÿè£…ã—ã¦ã„ãªã„(Statementã§ã¯ãªã„)ã“ã¨ã‚’æ„å‘³ã™ã‚‹
-        }
-        
-        return isSqlStatement;
-    }
-
-    /**
-     * æŒ‡å®šã—ãŸã‚¯ãƒ©ã‚¹ãŒæŒ‡å®šã—ãŸã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã‚’æŒã¤ã‹åˆ¤å®šã™ã‚‹
-     * @param targetClass åˆ¤å®šã™ã‚‹å¯¾è±¡ã‚¯ãƒ©ã‚¹
-     * @param interfaceClass ç¢ºèªã™ã‚‹ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹
-     * @return æŒ‡å®šã—ãŸã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã‚’æŒã¤ã¨ãtrue/ãã†ã§ãªã„ã¨ãfalse
+     * w’è‚µ‚½ƒNƒ‰ƒX‚ªw’è‚µ‚½ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğ‚Â‚©”»’è‚·‚é
+     * @param targetClass ”»’è‚·‚é‘ÎÛƒNƒ‰ƒX
+     * @param interfaceClass Šm”F‚·‚éƒCƒ“ƒ^[ƒtƒF[ƒX
+     * @return w’è‚µ‚½ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğ‚Â‚Æ‚«true/‚»‚¤‚Å‚È‚¢‚Æ‚«false
      */
     public static boolean hasInterface(CtClass targetClass, CtClass interfaceClass)
     {
@@ -962,18 +861,18 @@ public class JdbcJavelinConverter
         }
         catch (NotFoundException ex)
         {
-            // ä½•ã‚‚ã—ãªã„ã€‚
+            // ‰½‚à‚µ‚È‚¢B
             SystemLogger.getInstance().warn(ex);
         }
         return hasInterface;
     }
 
     /**
-     * æŒ‡å®šã—ãŸã‚¯ãƒ©ã‚¹ã«æŒ‡å®šã—ãŸãƒ¡ã‚½ãƒƒãƒ‰ãŒå­˜åœ¨ã™ã‚‹ã‹ã©ã†ã‹ã‚’èª¿ã¹ã¾ã™ã€‚
+     * w’è‚µ‚½ƒNƒ‰ƒX‚Éw’è‚µ‚½ƒƒ\ƒbƒh‚ª‘¶İ‚·‚é‚©‚Ç‚¤‚©‚ğ’²‚×‚Ü‚·B
      *
-     * @param targetClass ãƒ¡ã‚½ãƒƒãƒ‰ã®å­˜åœ¨ã‚’èª¿ã¹ã‚‹ã‚¯ãƒ©ã‚¹
-     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
-     * @return ãƒ¡ã‚½ãƒƒãƒ‰ãŒå­˜åœ¨ã™ã‚‹å ´åˆã¯ <code>true</code> ã€å­˜åœ¨ã—ãªã„å ´åˆã¯ <code>false</code>
+     * @param targetClass ƒƒ\ƒbƒh‚Ì‘¶İ‚ğ’²‚×‚éƒNƒ‰ƒX
+     * @param methodName ƒƒ\ƒbƒh–¼
+     * @return ƒƒ\ƒbƒh‚ª‘¶İ‚·‚éê‡‚Í <code>true</code> A‘¶İ‚µ‚È‚¢ê‡‚Í <code>false</code>
      */
     public static boolean hasBehavior(final CtClass targetClass, final String methodName)
     {

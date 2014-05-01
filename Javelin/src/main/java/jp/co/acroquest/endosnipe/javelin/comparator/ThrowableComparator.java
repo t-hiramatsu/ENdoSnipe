@@ -31,7 +31,7 @@ import java.util.Comparator;
 import jp.co.acroquest.endosnipe.javelin.bean.InvocationMBean;
 
 /**
- * Throwable縺ｪ繧ｳ繝ｳ繝代Ξ繝ｼ繧ｿ繧ｯ繝ｩ繧ｹ
+ * Throwableなコンパレータクラス
  *
  * @author acroquest
  */

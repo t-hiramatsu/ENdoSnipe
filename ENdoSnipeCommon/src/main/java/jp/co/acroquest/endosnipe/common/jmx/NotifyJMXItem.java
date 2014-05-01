@@ -26,20 +26,20 @@
 package jp.co.acroquest.endosnipe.common.jmx;
 
 /**
- * JMXé …ç›®ãŒå¤‰æ›´ã•ã‚ŒãŸã“ã¨ã‚’é€šçŸ¥ã™ã‚‹ãŸã‚ã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹
+ * JMX€–Ú‚ª•ÏX‚³‚ê‚½‚±‚Æ‚ğ’Ê’m‚·‚é‚½‚ß‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX
  * 
  * @author y_asazuma
  */
 public interface NotifyJMXItem
 {
     /**
-     * JMXé …ç›®ãŒè¿½åŠ ã•ã‚ŒãŸã“ã¨ã‚’é€šé”ã—ã¾ã™ã€‚
+     * JMX€–Ú‚ª’Ç‰Á‚³‚ê‚½‚±‚Æ‚ğ’Ê’B‚µ‚Ü‚·B
      * 
-     * @param dbName ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @param itemName JMXé …ç›®
-     * @param dispName è¡¨ç¤ºå
+     * @param dbName ƒf[ƒ^ƒx[ƒX–¼
+     * @param itemName JMX€–Ú
+     * @param dispName •\¦–¼
      * 
-     * @return è¨ˆæ¸¬å€¤ç¨®åˆ¥ID
+     * @return Œv‘ª’lí•ÊID
      */
     long addItem(final String dbName, final String itemName, final String dispName);
 }

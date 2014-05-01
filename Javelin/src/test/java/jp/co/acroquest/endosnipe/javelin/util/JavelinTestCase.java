@@ -31,7 +31,7 @@ import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 import org.seasar.extension.unit.S2TestCase;
 
 /**
- * Javenin テストのための基底クラスです。<br />
+ * Javenin �e�X�g�̂��߂̊��N���X�ł��B<br />
  * 
  * @author y-komori
  */

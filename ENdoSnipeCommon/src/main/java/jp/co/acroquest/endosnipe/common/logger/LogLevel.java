@@ -26,53 +26,53 @@
 package jp.co.acroquest.endosnipe.common.logger;
 
 /**
- * ã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ã®ãƒ­ã‚°ãƒ¬ãƒ™ãƒ«ã‚’è¡¨ã™ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+ * ƒVƒXƒeƒ€ƒƒO‚ÌƒƒOƒŒƒxƒ‹‚ğ•\‚·ƒNƒ‰ƒX‚Å‚·B<br />
  * 
  * @author eriguchi
  */
 public class LogLevel
 {
-    /** FATALãƒ¬ãƒ™ãƒ«ã®intå€¤ã€‚ */
+    /** FATALƒŒƒxƒ‹‚Ìint’lB */
     public static final int FATAL_INT = 50000;
 
-    /** ERRORãƒ¬ãƒ™ãƒ«ã®intå€¤ã€‚ */
+    /** ERRORƒŒƒxƒ‹‚Ìint’lB */
     public static final int ERROR_INT = 40000;
 
-    /** WARNãƒ¬ãƒ™ãƒ«ã®intå€¤ã€‚ */
+    /** WARNƒŒƒxƒ‹‚Ìint’lB */
     public static final int WARN_INT = 30000;
 
-    /** INFOãƒ¬ãƒ™ãƒ«ã®intå€¤ã€‚ */
+    /** INFOƒŒƒxƒ‹‚Ìint’lB */
     public static final int INFO_INT = 20000;
 
-    /** DEBUGãƒ¬ãƒ™ãƒ«ã®intå€¤ã€‚ */
+    /** DEBUGƒŒƒxƒ‹‚Ìint’lB */
     public static final int DEBUG_INT = 10000;
 
-    /** FATALãƒ¬ãƒ™ãƒ«ã€‚ */
+    /** FATALƒŒƒxƒ‹B */
     public static final LogLevel FATAL = new LogLevel(FATAL_INT, "FATAL");
 
-    /** ERRORãƒ¬ãƒ™ãƒ«ã€‚ */
+    /** ERRORƒŒƒxƒ‹B */
     public static final LogLevel ERROR = new LogLevel(ERROR_INT, "ERROR");
 
-    /** WARNãƒ¬ãƒ™ãƒ«ã€‚ */
+    /** WARNƒŒƒxƒ‹B */
     public static final LogLevel WARN = new LogLevel(WARN_INT, "WARN");
 
-    /** INFOãƒ¬ãƒ™ãƒ«ã€‚ */
+    /** INFOƒŒƒxƒ‹B */
     public static final LogLevel INFO = new LogLevel(INFO_INT, "INFO");
 
-    /** DEBUGãƒ¬ãƒ™ãƒ«ã€‚ */
+    /** DEBUGƒŒƒxƒ‹B */
     public static final LogLevel DEBUG = new LogLevel(DEBUG_INT, "DEBUG");
 
-    /** ãƒ­ã‚°ãƒ¬ãƒ™ãƒ«ã®intå€¤ã€‚ */
+    /** ƒƒOƒŒƒxƒ‹‚Ìint’lB */
     private final int level_;
 
-    /** ãƒ­ã‚°ãƒ¬ãƒ™ãƒ«ã®åç§°ã€‚ */
+    /** ƒƒOƒŒƒxƒ‹‚Ì–¼ÌB */
     private final String levelStr_;
 
     /**
-     * {@link LogLevel} ã‚’æ§‹ç¯‰ã—ã¾ã™ã€‚<br />
+     * {@link LogLevel} ‚ğ\’z‚µ‚Ü‚·B<br />
      * 
-     * @param level ãƒ­ã‚°ãƒ¬ãƒ™ãƒ«ã®å€¤
-     * @param levelStr ãƒ­ã‚°ãƒ¬ãƒ™ãƒ«ã®åç§°
+     * @param level ƒƒOƒŒƒxƒ‹‚Ì’l
+     * @param levelStr ƒƒOƒŒƒxƒ‹‚Ì–¼Ì
      */
     public LogLevel(final int level, final String levelStr)
     {
@@ -81,9 +81,9 @@ public class LogLevel
     }
 
     /**
-     * ãƒ­ã‚°ãƒ¬ãƒ™ãƒ«ã®åç§°ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * ƒƒOƒŒƒxƒ‹‚Ì–¼Ì‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return ãƒ­ã‚°ãƒ¬ãƒ™ãƒ«ã®åç§°
+     * @return ƒƒOƒŒƒxƒ‹‚Ì–¼Ì
      */
     public String getLevelStr()
     {
@@ -91,9 +91,9 @@ public class LogLevel
     }
 
     /**
-     * ãƒ­ã‚°ãƒ¬ãƒ™ãƒ«ã®å€¤ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * ƒƒOƒŒƒxƒ‹‚Ì’l‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return ãƒ­ã‚°ãƒ¬ãƒ™ãƒ«ã®inå€¤
+     * @return ƒƒOƒŒƒxƒ‹‚Ìin’l
      */
     public int getLevel()
     {

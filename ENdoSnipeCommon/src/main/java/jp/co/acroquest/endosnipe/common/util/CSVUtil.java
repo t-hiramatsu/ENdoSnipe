@@ -28,7 +28,7 @@ package jp.co.acroquest.endosnipe.common.util;
 import java.util.List;
 
 /**
- * CSV å½¢å¼ã®ãƒ‡ãƒ¼ã‚¿ã‚’æ“ä½œã™ã‚‹ãŸã‚ã®ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã€‚
+ * CSV Œ`®‚Ìƒf[ƒ^‚ğ‘€ì‚·‚é‚½‚ß‚Ìƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒXB
  *
  * @author y-sakamoto
  */
@@ -39,10 +39,10 @@ public class CSVUtil
     }
 
     /**
-     * æŒ‡å®šã•ã‚ŒãŸãƒªã‚¹ãƒˆã®è¦ç´ ã‚’ CSV å½¢å¼ã®1è¡Œæ–‡å­—åˆ—ã«çµåˆã—ã¾ã™ã€‚<br />
+     * w’è‚³‚ê‚½ƒŠƒXƒg‚Ì—v‘f‚ğ CSV Œ`®‚Ì1s•¶š—ñ‚ÉŒ‹‡‚µ‚Ü‚·B<br />
      *
-     * @param list ãƒªã‚¹ãƒˆ
-     * @return CSV å½¢å¼ã®1è¡Œæ–‡å­—åˆ—
+     * @param list ƒŠƒXƒg
+     * @return CSV Œ`®‚Ì1s•¶š—ñ
      */
     public static String createLine(final List<?> list)
     {
@@ -58,7 +58,7 @@ public class CSVUtil
             line.append(elementString);
             line.append(',');
         }
-        // æœ«å°¾ã®ã‚«ãƒ³ãƒã‚’å‰Šé™¤ã™ã‚‹
+        // ––”ö‚ÌƒJƒ“ƒ}‚ğíœ‚·‚é
         if (line.length() > 0)
         {
             line.deleteCharAt(line.length() - 1);

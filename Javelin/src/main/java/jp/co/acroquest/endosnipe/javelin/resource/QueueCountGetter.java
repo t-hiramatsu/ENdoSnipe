@@ -34,7 +34,7 @@ import jp.co.acroquest.endosnipe.javelin.converter.leak.monitor.CollectionMonito
 import jp.co.acroquest.endosnipe.javelin.converter.leak.monitor.CollectionMonitorEntry;
 
 /**
- * ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³æ•°ã‚’å–å¾—ã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚
+ * ƒRƒŒƒNƒVƒ‡ƒ“”‚ğæ“¾‚·‚éƒNƒ‰ƒXB
  * 
  * @author eriguchi
  */

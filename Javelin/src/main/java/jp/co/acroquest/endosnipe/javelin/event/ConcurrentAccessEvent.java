@@ -29,17 +29,17 @@ import jp.co.acroquest.endosnipe.common.event.EventConstants;
 import jp.co.acroquest.endosnipe.javelin.util.StatsUtil;
 
 /**
- * è¤‡æ•°ã‚¹ãƒ¬ãƒƒãƒ‰ã®åŒæ™‚ã‚¢ã‚¯ã‚»ã‚¹æ¤œå‡ºã‚¤ãƒ™ãƒ³ãƒˆã€‚
+ * •¡”ƒXƒŒƒbƒh‚Ì“¯ƒAƒNƒZƒXŒŸoƒCƒxƒ“ƒgB
  * 
  * @author eriguchi
  */
 public class ConcurrentAccessEvent extends AbstractStackTraceCheckEvent
 {
-    /** equalså®Ÿè¡Œæ™‚ã«æ¯”è¼ƒã«ç”¨ã„ã‚‹ã€‚ */
+    /** equalsÀs‚É”äŠr‚É—p‚¢‚éB */
     private static final int EQUALS_LENGTH = 100;
 
     /**
-     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
      */
     public ConcurrentAccessEvent()
     {
@@ -48,10 +48,10 @@ public class ConcurrentAccessEvent extends AbstractStackTraceCheckEvent
     }
 
     /**
-     * å€¤ã‚’è¨­å®šã™ã‚‹ã€‚
+     * ’l‚ğİ’è‚·‚éB
      * 
-     * @param key ã‚­ãƒ¼ã€‚
-     * @param value å€¤ã€‚
+     * @param key ƒL[B
+     * @param value ’lB
      */
     public void addParam(String key, String value)
     {

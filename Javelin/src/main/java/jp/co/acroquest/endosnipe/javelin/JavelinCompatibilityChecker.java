@@ -35,14 +35,14 @@ import jp.co.acroquest.endosnipe.javelin.resource.ResourceCollector;
 import jp.co.acroquest.endosnipe.javelin.resource.ResourceGetter;
 
 /**
- * JavelinãŒè¨ˆæ¸¬ã«ä½¿ç”¨ã™ã‚‹APIã‚’å®Ÿè¡Œã™ã‚‹ã€‚
+ * Javelin‚ªŒv‘ª‚Ég—p‚·‚éAPI‚ğÀs‚·‚éB
  * 
  * @author eriguchi
  */
 public class JavelinCompatibilityChecker
 {
     /**
-     * ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã€‚
+     * ƒ`ƒFƒbƒN‚·‚éB
      */
     public void check()
     {
@@ -57,7 +57,7 @@ public class JavelinCompatibilityChecker
             SystemLogger.getInstance().warn("[Resource Get Check] load failed", th);
         }
         
-        // ãƒªã‚½ãƒ¼ã‚¹å–å¾—ã—ã€å€¤ã‚’è¡¨ç¤ºã™ã‚‹ã€‚
+        // ƒŠƒ\[ƒXæ“¾‚µA’l‚ğ•\¦‚·‚éB
         SystemLogger.getInstance().warn("[Resource Get Check] Start");
         Map<String, ResourceGetter> resourceGetterMap = collector.getResourceGetterMap();
         for (Map.Entry<String, ResourceGetter> entry : resourceGetterMap.entrySet())

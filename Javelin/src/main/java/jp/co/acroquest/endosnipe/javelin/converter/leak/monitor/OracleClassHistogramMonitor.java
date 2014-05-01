@@ -34,8 +34,8 @@ import java.lang.reflect.Method;
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 
 /**
- * DiagnosticCommandã‚’ç”¨ã„ã¦ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã‚’å–å¾—ã™ã‚‹ã€‚
- * å–å¾—ã—ãŸãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã¯ä»¥ä¸‹ã®å½¢å¼ã§å–å¾—ã§ãã‚‹ãŸã‚ã€ãƒ‘ãƒ¼ã‚¹å‡¦ç†ã‚’è¡Œã†ã€‚
+ * DiagnosticCommand‚ğ—p‚¢‚ÄƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€‚ğæ“¾‚·‚éB
+ * æ“¾‚µ‚½ƒqƒXƒgƒOƒ‰ƒ€‚ÍˆÈ‰º‚ÌŒ`®‚Åæ“¾‚Å‚«‚é‚½‚ßAƒp[ƒXˆ—‚ğs‚¤B
  * 
  * <pre>
  * --------- Detailed Heap Statistics: ---------
@@ -53,29 +53,29 @@ import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
  */
 public class OracleClassHistogramMonitor extends ClassHistogramMonitor
 {
-    /** ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã®ãƒ˜ãƒƒãƒ€ */
+    /** ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€‚Ìƒwƒbƒ_ */
     private static final String HEAP_HEADER        =
                                                      "--------- Detailed Heap Statistics: ---------";
 
-    /** ã‚³ãƒãƒ³ãƒ‰ç™ºè¡Œã‚¯ãƒ©ã‚¹ã®ã‚¯ãƒ©ã‚¹å */
+    /** ƒRƒ}ƒ“ƒh”­sƒNƒ‰ƒX‚ÌƒNƒ‰ƒX–¼ */
     private static final String COMMAND_CLASS_NAME = "com.bea.jvm.DiagnosticCommand";
 
-    /** ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ä¸­ã®ã€ã‚µã‚¤ã‚º(kbyte)ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€‚ */
+    /** ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€’†‚ÌAƒTƒCƒY(kbyte)‚ÌƒCƒ“ƒfƒbƒNƒXB */
     private static final int    INDEX_BYTES        = 1;
 
-    /** ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ä¸­ã®ã€ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ•°ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€‚ */
+    /** ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€’†‚ÌAƒCƒ“ƒXƒ^ƒ“ƒX”‚ÌƒCƒ“ƒfƒbƒNƒXB */
     private static final int    INDEX_INSTANCES    = 2;
 
-    /** ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ä¸­ã®ã€ã‚¯ãƒ©ã‚¹åã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€‚ */
+    /** ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€’†‚ÌAƒNƒ‰ƒX–¼‚ÌƒCƒ“ƒfƒbƒNƒXB */
     private static final int    INDEX_CLASSNAME    = 4;
 
-    /** ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã®ã‚«ãƒ©ãƒ æ•°ã€‚ */
+    /** ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€‚ÌƒJƒ‰ƒ€”B */
     private static final int    HISTOGRAM_COLUMNS  = 5;
 
-    /** ã‚³ãƒãƒ³ãƒ‰ç™ºè¡Œç”¨ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
+    /** ƒRƒ}ƒ“ƒh”­s—pƒIƒuƒWƒFƒNƒg */
     private Object              command_;
 
-    /** ã‚³ãƒãƒ³ãƒ‰ç™ºè¡Œãƒ¡ã‚½ãƒƒãƒ‰ */
+    /** ƒRƒ}ƒ“ƒh”­sƒƒ\ƒbƒh */
     private Method              executeMethod_;
 
     public OracleClassHistogramMonitor()
@@ -116,7 +116,7 @@ public class OracleClassHistogramMonitor extends ClassHistogramMonitor
     }
 
     /**
-     * heap_diagnosticsã‚³ãƒãƒ³ãƒ‰ã‚’ç™ºè¡Œã—ã¦ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã‚’å–å¾—ã™ã‚‹ã€‚
+     * heap_diagnosticsƒRƒ}ƒ“ƒh‚ğ”­s‚µ‚ÄƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€‚ğæ“¾‚·‚éB
      */
     public BufferedReader newReader(boolean classHistoGC)
         throws IOException
@@ -157,8 +157,8 @@ public class OracleClassHistogramMonitor extends ClassHistogramMonitor
     }
 
     /**
-     * 1è¡Œã‚’ãƒ‘ãƒ¼ã‚¹ã—ã¦ã€ClassHistogramEntryã‚’ç”Ÿæˆã™ã‚‹ã€‚
-     * @param splitLine 1è¡Œ
+     * 1s‚ğƒp[ƒX‚µ‚ÄAClassHistogramEntry‚ğ¶¬‚·‚éB
+     * @param splitLine 1s
      */
     protected ClassHistogramEntry parseEntry(final String[] splitLine)
     {

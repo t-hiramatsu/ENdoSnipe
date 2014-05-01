@@ -30,7 +30,7 @@ import jp.co.acroquest.endosnipe.javelin.bean.proc.ProcInfo;
 import jp.co.acroquest.endosnipe.javelin.bean.proc.SelfStatInfo;
 
 /**
- * SelfStatInfo縺九ｉstime繧貞叙蠕励☆繧九�
+ * SelfStatInfoからstimeを取得する。
  * 
  * @author akita
  */
@@ -39,7 +39,7 @@ public class LinuxCpuTimeSysGetter extends ProcResourceGetter
 
     /**
      * 
-     * @param procParser 繝ｪ繧ｽ繝ｼ繧ｹ諠�蝣ｱ蜿門ｾ礼畑
+     * @param procParser リソース情報取得用
      */
     public LinuxCpuTimeSysGetter(ProcParser procParser)
     {

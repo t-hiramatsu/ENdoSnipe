@@ -30,18 +30,18 @@ import jp.co.acroquest.endosnipe.common.event.EventConstants;
 import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
 
 /**
- * CallTreeã«é–¢ã™ã‚‹ã‚¤ãƒ™ãƒ³ãƒˆã‚’å‡ºåŠ›ã™ã‚‹ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+ * CallTree‚ÉŠÖ‚·‚éƒCƒxƒ“ƒg‚ğo—Í‚·‚éƒNƒ‰ƒX‚Å‚·B<br />
  * @author fujii
  *
  */
 public class CallTreeEventCreator
 {
 
-    /** Javelinã®è¨­å®šå€¤ */
+    /** Javelin‚Ìİ’è’l */
     private static JavelinConfig config__ = new JavelinConfig();
 
     /**
-     *CallTreeEventCreatorã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã‚’é˜²æ­¢ã—ã¾ã™ã€‚<br />
+     *CallTreeEventCreator‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğ–h~‚µ‚Ü‚·B<br />
      */
     private CallTreeEventCreator()
     {
@@ -49,12 +49,12 @@ public class CallTreeEventCreator
     }
 
     /**
-     * CallTreeã®ã‚µã‚¤ã‚ºãŒæœ€å¤§å€¤ã«é”ã—ãŸæ™‚ã®ã‚¤ãƒ™ãƒ³ãƒˆã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+     * CallTree‚ÌƒTƒCƒY‚ªÅ‘å’l‚É’B‚µ‚½‚ÌƒCƒxƒ“ƒg‚ğo—Í‚µ‚Ü‚·B<br />
      * 
-     * @param className ã‚¯ãƒ©ã‚¹å
-     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
-     * @param callTreeMax CallTreeã®æœ€å¤§å€¤
-     * @return CallTreeã®ã‚µã‚¤ã‚ºãŒæœ€å¤§å€¤ã«é”ã—ãŸæ™‚ã®ã‚¤ãƒ™ãƒ³ãƒˆ
+     * @param className ƒNƒ‰ƒX–¼
+     * @param methodName ƒƒ\ƒbƒh–¼
+     * @param callTreeMax CallTree‚ÌÅ‘å’l
+     * @return CallTree‚ÌƒTƒCƒY‚ªÅ‘å’l‚É’B‚µ‚½‚ÌƒCƒxƒ“ƒg
      */
     public static CommonEvent createTreeFullEvent(String className, String methodName,
             int callTreeMax)
@@ -71,9 +71,9 @@ public class CallTreeEventCreator
     }
 
     /**
-     * ç¾åœ¨ã®ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * Œ»İ‚ÌƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹
+     * @return ƒXƒ^ƒbƒNƒgƒŒ[ƒX
      */
     private static String getStackTrace()
     {

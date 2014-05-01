@@ -34,7 +34,7 @@ import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.javelin.converter.leak.monitor.CallTreeNodeMonitor;
 
 /**
- * CallTreeNode謨ｰ繧貞叙蠕励☆繧九Μ繧ｽ繝ｼ繧ｹ繧ｲ繝�繧ｿ繝ｼ
+ * CallTreeNode数を取得するリソースゲッター
  * 
  * @author S.Kimura
  */

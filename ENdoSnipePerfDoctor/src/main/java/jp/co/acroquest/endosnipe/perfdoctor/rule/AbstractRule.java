@@ -36,8 +36,8 @@ import jp.co.acroquest.endosnipe.perfdoctor.WarningUnit;
 import jp.co.acroquest.endosnipe.perfdoctor.WarningUnitUtil;
 
 /**
- * PerformanceDoctorãƒ«ãƒ¼ãƒ«ã®æŠ½è±¡ã‚¯ãƒ©ã‚¹ã€‚
- * ãƒ«ãƒ¼ãƒ«é–‹ç™ºè€…ã¯ã€ã“ã®ã‚¯ãƒ©ã‚¹ã‚’ç¶™æ‰¿ã—ã¦ãƒ«ãƒ¼ãƒ«ã‚’ä½œæˆã™ã‚‹ã€‚
+ * PerformanceDoctorƒ‹[ƒ‹‚Ì’ŠÛƒNƒ‰ƒXB
+ * ƒ‹[ƒ‹ŠJ”­Ò‚ÍA‚±‚ÌƒNƒ‰ƒX‚ğŒp³‚µ‚Äƒ‹[ƒ‹‚ğì¬‚·‚éB
  * 
  * @author tanimoto
  * 
@@ -47,37 +47,37 @@ public abstract class AbstractRule implements PerformanceRule
     private static final ENdoSnipeLogger LOGGER             =
                                                               ENdoSnipeLogger.getLogger(AbstractRule.class);
 
-    /** ãƒ«ãƒ¼ãƒ«ID */
+    /** ƒ‹[ƒ‹ID */
     public String                        id;
 
-    /** ãƒ«ãƒ¼ãƒ«ãŒæœ‰åŠ¹ã‹ã©ã†ã‹ */
+    /** ƒ‹[ƒ‹‚ª—LŒø‚©‚Ç‚¤‚© */
     public boolean                       active;
 
-    /** ãƒ«ãƒ¼ãƒ«ã®å•é¡Œãƒ¬ãƒ™ãƒ« */
+    /** ƒ‹[ƒ‹‚Ì–â‘èƒŒƒxƒ‹ */
     public String                        level;
 
-    /** ãƒ«ãƒ¼ãƒ«ã‚’æœ‰åŠ¹ã«ã™ã‚‹durationã®é–¾å€¤ */
+    /** ƒ‹[ƒ‹‚ğ—LŒø‚É‚·‚éduration‚Ìè‡’l */
     public long                          durationThreshold;
 
-    /** ã‚¨ãƒ©ãƒ¼ãŒèµ·ããŸJavelinLogElementã®ãƒªã‚¹ãƒˆ */
+    /** ƒGƒ‰[‚ª‹N‚«‚½JavelinLogElement‚ÌƒŠƒXƒg */
     private List<JavelinLogElement>      errorJavelinLogElementList_;
 
-    /** ã‚¨ãƒ©ãƒ¼ã®å¼•æ•°ãƒªã‚¹ãƒˆã€‚è¦ç´ æ•°ã¯å¿…ãšjavelinLogElementList_ã¨ä¸€è‡´ã™ã‚‹ã€‚ */
+    /** ƒGƒ‰[‚Ìˆø”ƒŠƒXƒgB—v‘f”‚Í•K‚¸javelinLogElementList_‚Æˆê’v‚·‚éB */
     private List<Object[]>               argsList_;
 
-    /** æ¤œå‡ºã—ãŸè­¦å‘Šã®ãƒªã‚¹ãƒˆã€‚ */
+    /** ŒŸo‚µ‚½Œx‚ÌƒŠƒXƒgB */
     private List<WarningUnit>            warningList_;
 
-    /** durationé–¾å€¤ã¨ã—ã¦åˆ©ç”¨ã™ã‚‹æ–‡å­—åˆ—ã‚’æŠ½å‡ºã™ã‚‹Strategyã€‚ */
+    /** durationè‡’l‚Æ‚µ‚Ä—˜—p‚·‚é•¶š—ñ‚ğ’Šo‚·‚éStrategyB */
     private ThresholdStrategy            thresholdStrategy_ = new DefaultThresholdStrategy();
 
     /**
-     * ãƒ«ãƒ¼ãƒ«ã®åˆ¤å®šå‡¦ç†ã‚’è¡Œã†ã€‚<br>
-     * ãŸã ã—ã€ãƒ«ãƒ¼ãƒ«ãŒç„¡åŠ¹ãªå ´åˆã€å¼•æ•°ãŒnullã§ã‚ã‚‹å ´åˆã«ã¯åˆ¤å®šãã®ã‚‚ã®ã‚’è¡Œã‚ãšã€è¦ç´ æ•°0ã®Listã‚’è¿”ã™ã€‚
-     * ã¾ãŸã€durationãŒé–¾å€¤ã‚’ä¸‹å›ã£ã¦ã„ã‚‹JavelinLogElementã«ã¤ã„ã¦ã¯åˆ¤å®šå‡¦ç†ã‚’è¡Œã‚ãªã„ã€‚
+     * ƒ‹[ƒ‹‚Ì”»’èˆ—‚ğs‚¤B<br>
+     * ‚½‚¾‚µAƒ‹[ƒ‹‚ª–³Œø‚Èê‡Aˆø”‚ªnull‚Å‚ ‚éê‡‚É‚Í”»’è‚»‚Ì‚à‚Ì‚ğs‚í‚¸A—v‘f”0‚ÌList‚ğ•Ô‚·B
+     * ‚Ü‚½Aduration‚ªè‡’l‚ğ‰º‰ñ‚Á‚Ä‚¢‚éJavelinLogElement‚É‚Â‚¢‚Ä‚Í”»’èˆ—‚ğs‚í‚È‚¢B
      * 
-     * @param javelinLogElementList JavelinLogElementã®ãƒªã‚¹ãƒˆ
-     * @return è­¦å‘Šãƒ¦ãƒ‹ãƒƒãƒˆã®ä¸€è¦§ã‚’è¡¨ã™ãƒªã‚¹ãƒˆ
+     * @param javelinLogElementList JavelinLogElement‚ÌƒŠƒXƒg
+     * @return Œxƒ†ƒjƒbƒg‚Ìˆê——‚ğ•\‚·ƒŠƒXƒg
      */
     public List<WarningUnit> judge(final List<JavelinLogElement> javelinLogElementList)
     {
@@ -93,7 +93,7 @@ public abstract class AbstractRule implements PerformanceRule
             String durationString =
                                     getThresholdStrategy().extractDurationThreshold(javelinLogElement);
 
-            // TATã®å€¤ãŒå–å¾—ã§ããªã‹ã£ãŸå ´åˆã¯ã€0ã¨ã—ã¦æ‰±ã†
+            // TAT‚Ì’l‚ªæ“¾‚Å‚«‚È‚©‚Á‚½ê‡‚ÍA0‚Æ‚µ‚Äˆµ‚¤
             if (durationString == null)
             {
                 durationString = "0";
@@ -104,7 +104,7 @@ public abstract class AbstractRule implements PerformanceRule
             {
                 duration = Long.parseLong(durationString);
             }
-            //durationStringãŒlongå‹ã«å¤‰æ›ã§ããªã„æ–‡å­—åˆ—ã ã£ãŸå ´åˆã¯åˆ¤å®šã‚’è¡Œã‚ãªã„ã€‚
+            //durationString‚ªlongŒ^‚É•ÏŠ·‚Å‚«‚È‚¢•¶š—ñ‚¾‚Á‚½ê‡‚Í”»’è‚ğs‚í‚È‚¢B
             catch (NumberFormatException exception)
             {
                 targetList.add(javelinLogElement);
@@ -128,9 +128,9 @@ public abstract class AbstractRule implements PerformanceRule
     }
 
     /**
-     * è¿½åŠ ã•ã‚ŒãŸã‚¨ãƒ©ãƒ¼ã‚ˆã‚Šã€è­¦å‘Šãƒ¦ãƒ‹ãƒƒãƒˆã®ä¸€è¦§ã‚’è¡¨ã™ãƒªã‚¹ãƒˆã‚’ä½œæˆã—ã¾ã™ã€‚<br />
+     * ’Ç‰Á‚³‚ê‚½ƒGƒ‰[‚æ‚èAŒxƒ†ƒjƒbƒg‚Ìˆê——‚ğ•\‚·ƒŠƒXƒg‚ğì¬‚µ‚Ü‚·B<br />
      * 
-     * @return è­¦å‘Šãƒ¦ãƒ‹ãƒƒãƒˆä¸€è¦§
+     * @return Œxƒ†ƒjƒbƒgˆê——
      */
     protected List<WarningUnit> createWarningUnitList()
     {
@@ -139,10 +139,10 @@ public abstract class AbstractRule implements PerformanceRule
     }
 
     /**
-     * ãƒ«ãƒ¼ãƒ«ã®è¨­å®šå€¤ã«å¯¾ã—ã¦åˆæœŸåŒ–ã‚’è¡Œã„ã¾ã™ã€‚<br />
+     * ƒ‹[ƒ‹‚Ìİ’è’l‚É‘Î‚µ‚Ä‰Šú‰»‚ğs‚¢‚Ü‚·B<br />
      *
-     * æœ¬ãƒ¡ã‚½ãƒƒãƒ‰ã¯ã€ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®å€¤ãŒã‚»ãƒƒãƒˆã•ã‚ŒãŸå¾Œã€doJudgeãŒå‘¼ã°ã‚Œã‚‹å‰ã«å‘¼ã³å‡ºã•ã‚Œã¾ã™ã€‚<br />
-     * ãƒ«ãƒ¼ãƒ«ã‚¯ãƒ©ã‚¹å®Ÿè£…è€…ã¯ã€å¿…è¦ã§ã‚ã‚Œã°æœ¬ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã—ã¦ãã ã•ã„ã€‚<br />
+     * –{ƒƒ\ƒbƒh‚ÍAƒtƒB[ƒ‹ƒh‚Ì’l‚ªƒZƒbƒg‚³‚ê‚½ŒãAdoJudge‚ªŒÄ‚Î‚ê‚é‘O‚ÉŒÄ‚Ño‚³‚ê‚Ü‚·B<br />
+     * ƒ‹[ƒ‹ƒNƒ‰ƒXÀ‘•Ò‚ÍA•K—v‚Å‚ ‚ê‚Î–{ƒƒ\ƒbƒh‚ğƒI[ƒo[ƒ‰ƒCƒh‚µ‚Ä‚­‚¾‚³‚¢B<br />
      */
     public void init()
     {
@@ -150,19 +150,19 @@ public abstract class AbstractRule implements PerformanceRule
     }
 
     /**
-     * ãƒ«ãƒ¼ãƒ«ã®åˆ¤å®šå‡¦ç†ã‚’è¡Œã„ã¾ã™ã€‚<br />
+     * ƒ‹[ƒ‹‚Ì”»’èˆ—‚ğs‚¢‚Ü‚·B<br />
      * 
-     * @param javelinLogElementList JavelinLogElementã®ãƒªã‚¹ãƒˆ
+     * @param javelinLogElementList JavelinLogElement‚ÌƒŠƒXƒg
      */
     public abstract void doJudge(List<JavelinLogElement> javelinLogElementList);
 
     /**
-     * ã‚¨ãƒ©ãƒ¼ã‚’è¿½åŠ ã—ã¾ã™ã€‚<br />
-     * ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã¯ã‚¤ãƒ™ãƒ³ãƒˆä»¥å¤–ã®è­¦å‘Šã‚’ç™ºç”Ÿã•ã›ã‚‹ãŸã‚ã«åˆ©ç”¨ã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã§ã™ã€‚<br />
-     * ã‚¤ãƒ™ãƒ³ãƒˆã«ã‚ˆã‚‹è­¦å‘Šã‚’ç™ºç”Ÿã•ã›ã‚‹å ´åˆã«ã¯åˆ©ç”¨ã—ãªã„ã§ãã ã•ã„ã€‚<br />
+     * ƒGƒ‰[‚ğ’Ç‰Á‚µ‚Ü‚·B<br />
+     * ‚±‚Ìƒƒ\ƒbƒh‚ÍƒCƒxƒ“ƒgˆÈŠO‚ÌŒx‚ğ”­¶‚³‚¹‚é‚½‚ß‚É—˜—p‚·‚éƒƒ\ƒbƒh‚Å‚·B<br />
+     * ƒCƒxƒ“ƒg‚É‚æ‚éŒx‚ğ”­¶‚³‚¹‚éê‡‚É‚Í—˜—p‚µ‚È‚¢‚Å‚­‚¾‚³‚¢B<br />
      * 
-     * @param element {@link JavelinLogElement}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param args ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®å¼•æ•°
+     * @param element {@link JavelinLogElement}ƒIƒuƒWƒFƒNƒg
+     * @param args ƒƒbƒZ[ƒW‚Ìˆø”
      */
     protected synchronized void addError(final JavelinLogElement element, final Object... args)
     {
@@ -170,11 +170,11 @@ public abstract class AbstractRule implements PerformanceRule
     }
 
     /**
-     * ã‚¨ãƒ©ãƒ¼ã‚’è¿½åŠ ã—ã¾ã™ã€‚<br />
+     * ƒGƒ‰[‚ğ’Ç‰Á‚µ‚Ü‚·B<br />
      * 
-     * @param element {@link JavelinLogElement}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param isDescend ãƒ•ã‚£ãƒ«ã‚¿æ™‚ã«é™é †ã«ä¸¦ã¹ã‚‹ã‹ã©ã†ã‹ã‚’è¡¨ã™ãƒ•ãƒ©ã‚°
-     * @param args ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®å¼•æ•°
+     * @param element {@link JavelinLogElement}ƒIƒuƒWƒFƒNƒg
+     * @param isDescend ƒtƒBƒ‹ƒ^‚É~‡‚É•À‚×‚é‚©‚Ç‚¤‚©‚ğ•\‚·ƒtƒ‰ƒO
+     * @param args ƒƒbƒZ[ƒW‚Ìˆø”
      */
     protected synchronized void addError(final JavelinLogElement element, final boolean isDescend,
             final Object... args)
@@ -184,11 +184,11 @@ public abstract class AbstractRule implements PerformanceRule
     }
 
     /**
-     * ã‚¨ãƒ©ãƒ¼ã‚’è¿½åŠ ã—ã¾ã™ã€‚<br />
+     * ƒGƒ‰[‚ğ’Ç‰Á‚µ‚Ü‚·B<br />
      * 
-     * @param unitId è­¦å‘Šã®ID
-     * @param element {@link JavelinLogElement}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param args ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®å¼•æ•°
+     * @param unitId Œx‚ÌID
+     * @param element {@link JavelinLogElement}ƒIƒuƒWƒFƒNƒg
+     * @param args ƒƒbƒZ[ƒW‚Ìˆø”
      */
     protected synchronized void addError(final String unitId, final JavelinLogElement element,
             final Object... args)
@@ -197,12 +197,12 @@ public abstract class AbstractRule implements PerformanceRule
     }
 
     /**
-     * ã‚¨ãƒ©ãƒ¼ã‚’è¿½åŠ ã—ã¾ã™ã€‚<br />
+     * ƒGƒ‰[‚ğ’Ç‰Á‚µ‚Ü‚·B<br />
      * 
-     * @param unitId è­¦å‘Šã®ID
-     * @param element {@link JavelinLogElement}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param isDescend ãƒ•ã‚£ãƒ«ã‚¿æ™‚ã«é™é †ã«ä¸¦ã¹ã‚‹ã‹ã©ã†ã‹ã‚’è¡¨ã™ãƒ•ãƒ©ã‚°
-     * @param args ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®å¼•æ•°
+     * @param unitId Œx‚ÌID
+     * @param element {@link JavelinLogElement}ƒIƒuƒWƒFƒNƒg
+     * @param isDescend ƒtƒBƒ‹ƒ^‚É~‡‚É•À‚×‚é‚©‚Ç‚¤‚©‚ğ•\‚·ƒtƒ‰ƒO
+     * @param args ƒƒbƒZ[ƒW‚Ìˆø”
      */
     protected synchronized void addError(final String unitId, final JavelinLogElement element,
             final boolean isDescend, final Object[] args)
@@ -216,14 +216,14 @@ public abstract class AbstractRule implements PerformanceRule
     }
 
     /**
-     * ã‚¨ãƒ©ãƒ¼ã‚’è¿½åŠ ã—ã¾ã™ã€‚<br />
-     * ã‚¤ãƒ™ãƒ³ãƒˆã«ã‚ˆã‚‹è­¦å‘Šã‚’ç™ºç”Ÿã•ã›ã‚‹å ´åˆã«ã¯ã€ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã‚’åˆ©ç”¨ã—ã¦ãã ã•ã„ã€‚ 
+     * ƒGƒ‰[‚ğ’Ç‰Á‚µ‚Ü‚·B<br />
+     * ƒCƒxƒ“ƒg‚É‚æ‚éŒx‚ğ”­¶‚³‚¹‚éê‡‚É‚ÍA‚±‚Ìƒƒ\ƒbƒh‚ğ—˜—p‚µ‚Ä‚­‚¾‚³‚¢B 
      * 
-     * @param isEvent ã‚¤ãƒ™ãƒ³ãƒˆã«ã‚ˆã‚‹è­¦å‘Šã§ã‚ã‚‹ã‹ã©ã†ã‹ã€‚
-     * @param stackTrace ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹
-     * @param element {@link JavelinLogElement}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param isDescend ãƒ•ã‚£ãƒ«ã‚¿æ™‚ã«é™é †ã«ä¸¦ã¹ã‚‹ã‹ã©ã†ã‹ã‚’è¡¨ã™ãƒ•ãƒ©ã‚°
-     * @param args ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®å¼•æ•°
+     * @param isEvent ƒCƒxƒ“ƒg‚É‚æ‚éŒx‚Å‚ ‚é‚©‚Ç‚¤‚©B
+     * @param stackTrace ƒXƒ^ƒbƒNƒgƒŒ[ƒX
+     * @param element {@link JavelinLogElement}ƒIƒuƒWƒFƒNƒg
+     * @param isDescend ƒtƒBƒ‹ƒ^‚É~‡‚É•À‚×‚é‚©‚Ç‚¤‚©‚ğ•\‚·ƒtƒ‰ƒO
+     * @param args ƒƒbƒZ[ƒW‚Ìˆø”
      */
     protected synchronized void addError(final boolean isEvent, final String stackTrace,
             final JavelinLogElement element, final boolean isDescend, final Object... args)
@@ -233,13 +233,13 @@ public abstract class AbstractRule implements PerformanceRule
     }
 
     /**
-     * ã‚¨ãƒ©ãƒ¼ã‚’è¿½åŠ ã—ã¾ã™ã€‚<br />
-     * ã‚¤ãƒ™ãƒ³ãƒˆã«ã‚ˆã‚‹è­¦å‘Šã‚’ç™ºç”Ÿã•ã›ã‚‹å ´åˆã«ã¯ã€ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã‚’åˆ©ç”¨ã—ã¦ãã ã•ã„ã€‚ 
+     * ƒGƒ‰[‚ğ’Ç‰Á‚µ‚Ü‚·B<br />
+     * ƒCƒxƒ“ƒg‚É‚æ‚éŒx‚ğ”­¶‚³‚¹‚éê‡‚É‚ÍA‚±‚Ìƒƒ\ƒbƒh‚ğ—˜—p‚µ‚Ä‚­‚¾‚³‚¢B 
      * 
-     * @param isEvent ã‚¤ãƒ™ãƒ³ãƒˆã«ã‚ˆã‚‹è­¦å‘Šã§ã‚ã‚‹ã‹ã©ã†ã‹ã€‚
-     * @param stackTrace ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹
-     * @param element {@link JavelinLogElement}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param args ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®å¼•æ•°
+     * @param isEvent ƒCƒxƒ“ƒg‚É‚æ‚éŒx‚Å‚ ‚é‚©‚Ç‚¤‚©B
+     * @param stackTrace ƒXƒ^ƒbƒNƒgƒŒ[ƒX
+     * @param element {@link JavelinLogElement}ƒIƒuƒWƒFƒNƒg
+     * @param args ƒƒbƒZ[ƒW‚Ìˆø”
      */
     protected synchronized void addError(final boolean isEvent, final String stackTrace,
             final JavelinLogElement element, final Object... args)
@@ -248,15 +248,15 @@ public abstract class AbstractRule implements PerformanceRule
     }
 
     /**
-     * ã‚¨ãƒ©ãƒ¼ã‚’è¿½åŠ ã—ã¾ã™ã€‚<br />
-     * ã‚¤ãƒ™ãƒ³ãƒˆã«ã‚ˆã‚‹è­¦å‘Šã‚’ç™ºç”Ÿã•ã›ã‚‹å ´åˆã«ã¯ã€ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã‚’åˆ©ç”¨ã—ã¦ãã ã•ã„ã€‚ 
+     * ƒGƒ‰[‚ğ’Ç‰Á‚µ‚Ü‚·B<br />
+     * ƒCƒxƒ“ƒg‚É‚æ‚éŒx‚ğ”­¶‚³‚¹‚éê‡‚É‚ÍA‚±‚Ìƒƒ\ƒbƒh‚ğ—˜—p‚µ‚Ä‚­‚¾‚³‚¢B 
      * 
-     * @param isEvent ã‚¤ãƒ™ãƒ³ãƒˆã«ã‚ˆã‚‹è­¦å‘Šã§ã‚ã‚‹ã‹ã©ã†ã‹ã€‚
-     * @param stackTrace ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹
-     * @param unitId è­¦å‘Šã®ID
-     * @param element {@link JavelinLogElement}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param isDescend ãƒ•ã‚£ãƒ«ã‚¿æ™‚ã«é™é †ã«ä¸¦ã¹ã‚‹ã‹ã©ã†ã‹ã‚’è¡¨ã™ãƒ•ãƒ©ã‚°
-     * @param args ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®å¼•æ•°
+     * @param isEvent ƒCƒxƒ“ƒg‚É‚æ‚éŒx‚Å‚ ‚é‚©‚Ç‚¤‚©B
+     * @param stackTrace ƒXƒ^ƒbƒNƒgƒŒ[ƒX
+     * @param unitId Œx‚ÌID
+     * @param element {@link JavelinLogElement}ƒIƒuƒWƒFƒNƒg
+     * @param isDescend ƒtƒBƒ‹ƒ^‚É~‡‚É•À‚×‚é‚©‚Ç‚¤‚©‚ğ•\‚·ƒtƒ‰ƒO
+     * @param args ƒƒbƒZ[ƒW‚Ìˆø”
      */
     protected synchronized void addError(final boolean isEvent, final String stackTrace,
             final String unitId, final JavelinLogElement element, final boolean isDescend,
@@ -272,10 +272,10 @@ public abstract class AbstractRule implements PerformanceRule
     }
 
     /**
-     * ã‚¨ãƒ©ãƒ¼ã‚’è¿½åŠ ã—ã¾ã™ã€‚<br />
-     * ã‚¤ãƒ™ãƒ³ãƒˆã«ã‚ˆã‚‹è­¦å‘Šã‚’ç™ºç”Ÿã•ã›ã‚‹å ´åˆã«ã¯ã€ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã‚’åˆ©ç”¨ã—ã¦ãã ã•ã„ã€‚ 
+     * ƒGƒ‰[‚ğ’Ç‰Á‚µ‚Ü‚·B<br />
+     * ƒCƒxƒ“ƒg‚É‚æ‚éŒx‚ğ”­¶‚³‚¹‚éê‡‚É‚ÍA‚±‚Ìƒƒ\ƒbƒh‚ğ—˜—p‚µ‚Ä‚­‚¾‚³‚¢B 
      *
-     * @param warningUnitList ã‚¨ãƒ©ãƒ¼ã®ãƒªã‚¹ãƒˆ
+     * @param warningUnitList ƒGƒ‰[‚ÌƒŠƒXƒg
      */
     protected synchronized void addError(final List<WarningUnit> warningUnitList)
     {
@@ -283,20 +283,20 @@ public abstract class AbstractRule implements PerformanceRule
     }
 
     /**
-     * ã‚¨ãƒ©ãƒ¼ã‚’è¿½åŠ ã—ã¾ã™ã€‚<br />
+     * ƒGƒ‰[‚ğ’Ç‰Á‚µ‚Ü‚·B<br />
      * 
-     * @param messageId ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ID
-     * @param args ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®å¼•æ•°ã€‚
+     * @param messageId ƒƒbƒZ[ƒWID
+     * @param args ƒƒbƒZ[ƒW‚Ìˆø”B
      */
     protected synchronized void addValidationError(final String messageId, final Object... args)
     {
-        // TODO: å®Ÿè£…è¿½åŠ 
+        // TODO: À‘•’Ç‰Á
     }
 
     /**
-     * ãƒ«ãƒ¼ãƒ«IDã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * ƒ‹[ƒ‹ID‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return ãƒ«ãƒ¼ãƒ«ID
+     * @return ƒ‹[ƒ‹ID
      */
     public String getId()
     {
@@ -304,9 +304,9 @@ public abstract class AbstractRule implements PerformanceRule
     }
 
     /**
-     * ãƒ«ãƒ¼ãƒ«ã®å•é¡Œãƒ¬ãƒ™ãƒ«ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * ƒ‹[ƒ‹‚Ì–â‘èƒŒƒxƒ‹‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return ãƒ«ãƒ¼ãƒ«ã®å•é¡Œãƒ¬ãƒ™ãƒ«
+     * @return ƒ‹[ƒ‹‚Ì–â‘èƒŒƒxƒ‹
      */
     public String getLevel()
     {
@@ -314,9 +314,9 @@ public abstract class AbstractRule implements PerformanceRule
     }
 
     /**
-     * durationé–¾å€¤ã¨ã—ã¦åˆ©ç”¨ã™ã‚‹æ–‡å­—åˆ—ã‚’æŠ½å‡ºã™ã‚‹Strategyã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * durationè‡’l‚Æ‚µ‚Ä—˜—p‚·‚é•¶š—ñ‚ğ’Šo‚·‚éStrategy‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return durationé–¾å€¤ã¨ã—ã¦åˆ©ç”¨ã™ã‚‹æ–‡å­—åˆ—ã‚’æŠ½å‡ºã™ã‚‹Strategyã€‚
+     * @return durationè‡’l‚Æ‚µ‚Ä—˜—p‚·‚é•¶š—ñ‚ğ’Šo‚·‚éStrategyB
      */
     public ThresholdStrategy getThresholdStrategy()
     {
@@ -324,9 +324,9 @@ public abstract class AbstractRule implements PerformanceRule
     }
 
     /**
-     * durationé–¾å€¤ã¨ã—ã¦åˆ©ç”¨ã™ã‚‹æ–‡å­—åˆ—ã‚’æŠ½å‡ºã™ã‚‹Strategyã‚’è¨­å®šã™ã‚‹ã€‚
+     * durationè‡’l‚Æ‚µ‚Ä—˜—p‚·‚é•¶š—ñ‚ğ’Šo‚·‚éStrategy‚ğİ’è‚·‚éB
      * 
-     * @param thresholdStrategy durationé–¾å€¤ã¨ã—ã¦åˆ©ç”¨ã™ã‚‹æ–‡å­—åˆ—ã‚’æŠ½å‡ºã™ã‚‹Strategyã€‚
+     * @param thresholdStrategy durationè‡’l‚Æ‚µ‚Ä—˜—p‚·‚é•¶š—ñ‚ğ’Šo‚·‚éStrategyB
      */
     public void setThresholdStrategy(final ThresholdStrategy thresholdStrategy)
     {
@@ -334,10 +334,10 @@ public abstract class AbstractRule implements PerformanceRule
     }
 
     /**
-     * ãƒ«ãƒ¼ãƒ«ã‚¯ãƒ©ã‚¹ã§ç™ºç”Ÿã—ãŸä¾‹å¤–æƒ…å ±ã‚’ãƒ­ã‚°ã«å‡ºåŠ›ã™ã‚‹
-     * @param message å‡ºåŠ›ã™ã‚‹ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
-     * @param element ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã«é–¢é€£ã—ãŸJavelinLogElement
-     * @param throwable å‡ºåŠ›ã™ã‚‹Throwable
+     * ƒ‹[ƒ‹ƒNƒ‰ƒX‚Å”­¶‚µ‚½—áŠOî•ñ‚ğƒƒO‚Éo—Í‚·‚é
+     * @param message o—Í‚·‚éƒƒbƒZ[ƒW
+     * @param element ƒƒbƒZ[ƒW‚ÉŠÖ˜A‚µ‚½JavelinLogElement
+     * @param throwable o—Í‚·‚éThrowable
      */
     @SuppressWarnings("deprecation")
     protected void log(final String message, final JavelinLogElement element,
@@ -366,10 +366,10 @@ public abstract class AbstractRule implements PerformanceRule
     }
 
     /**
-     * SQLç™ºè¡Œã‚’è¡¨ã™ã‹ã©ã†ã‹ã‚’èª¿ã¹ã‚‹ã€‚
+     * SQL”­s‚ğ•\‚·‚©‚Ç‚¤‚©‚ğ’²‚×‚éB
      * 
-     * @param className ã‚¯ãƒ©ã‚¹å
-     * @return SQLç™ºè¡Œã‚’è¡¨ã™ãªã‚‰ <code>true</code>
+     * @param className ƒNƒ‰ƒX–¼
+     * @return SQL”­s‚ğ•\‚·‚È‚ç <code>true</code>
      */
     public boolean isSqlExec(final String className)
     {

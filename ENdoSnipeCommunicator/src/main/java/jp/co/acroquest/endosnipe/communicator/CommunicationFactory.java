@@ -28,7 +28,7 @@ package jp.co.acroquest.endosnipe.communicator;
 import jp.co.acroquest.endosnipe.communicator.impl.CommunicationClientImpl;
 
 /**
- * {@link CommunicationServer}ã€ {@link CommunicationClient} ã®ãŸã‚ã®ãƒ•ã‚¡ã‚¯ãƒˆãƒªã§ã™ã€‚<br />
+ * {@link CommunicationServer}A {@link CommunicationClient} ‚Ì‚½‚ß‚Ìƒtƒ@ƒNƒgƒŠ‚Å‚·B<br />
  * 
  * @author y-komori
  */
@@ -39,10 +39,10 @@ public class CommunicationFactory
     }
 
     /**
-     * {@link CommunicationClient} ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
+     * {@link CommunicationClient} ƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬‚µ‚Ü‚·B<br />
      * 
-     * @param threadName ã‚¹ãƒ¬ãƒƒãƒ‰å 
-     * @return {@link CommunicationClient} ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+     * @param threadName ƒXƒŒƒbƒh–¼ 
+     * @return {@link CommunicationClient} ƒCƒ“ƒXƒ^ƒ“ƒX
      */
     public static CommunicationClient getCommunicationClient(String threadName)
     {
@@ -50,9 +50,9 @@ public class CommunicationFactory
     }
 
     /**
-     * {@link CommunicationServer} ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
+     * {@link CommunicationServer} ƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬‚µ‚Ü‚·B<br />
      * 
-     * @return {@link CommunicationServer} ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+     * @return {@link CommunicationServer} ƒCƒ“ƒXƒ^ƒ“ƒX
      */
     public static CommunicationServer getCommunicationServer()
     {

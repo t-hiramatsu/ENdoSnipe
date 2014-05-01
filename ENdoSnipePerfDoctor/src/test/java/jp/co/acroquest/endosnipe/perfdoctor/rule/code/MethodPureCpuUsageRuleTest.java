@@ -7,13 +7,13 @@ import jp.co.acroquest.endosnipe.javelin.parser.JavelinParser;
 import jp.co.acroquest.endosnipe.perfdoctor.PerformanceRuleTestCase;
 
 /**
- * ãƒ¡ã‚½ãƒƒãƒ‰ã®å®ŸCPUä½¿ç”¨æ™‚é–“ãƒ«ãƒ¼ãƒ«ç”¨ã®ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹<br>
+ * ƒƒ\ƒbƒh‚ÌÀCPUg—pŠÔƒ‹[ƒ‹—p‚ÌƒeƒXƒgƒP[ƒX<br>
  */
 public class MethodPureCpuUsageRuleTest extends PerformanceRuleTestCase
 {
     /**
-     * é–¾å€¤ã‚’æŒ‡å®šã—ã¦MethodPureCpuUsageRuleã‚’ç”Ÿæˆã™ã‚‹ã€‚<br>
-     * @param threshold é–¾å€¤
+     * è‡’l‚ğw’è‚µ‚ÄMethodPureCpuUsageRule‚ğ¶¬‚·‚éB<br>
+     * @param threshold è‡’l
      * @return MethodPureCpuUsageRule
      */
     private MethodPureCpuUsageRule createRule(long threshold)
@@ -28,11 +28,11 @@ public class MethodPureCpuUsageRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 2-13-1<br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»å®ŸCPUä½¿ç”¨æ™‚é–“ãŒ199<br>
-     * ãƒ»é–¾å€¤ãŒ200<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br>
+     * [€”Ô] 2-13-1<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * EÀCPUg—pŠÔ‚ª199<br>
+     * Eè‡’l‚ª200<br>
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br>
      */
     public void testDoJudge_th200_val199()
     {
@@ -47,16 +47,16 @@ public class MethodPureCpuUsageRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 2-13-2<br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»å®ŸCPUä½¿ç”¨æ™‚é–“ãŒ200<br>
-     * ãƒ»é–¾å€¤ãŒ200<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã™ã‚‹ã€‚<br>
+     * [€”Ô] 2-13-2<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * EÀCPUg—pŠÔ‚ª200<br>
+     * Eè‡’l‚ª200<br>
+     * ¨Œx‚ª”­¶‚·‚éB<br>
      */
     public void testDoJudge_th200_val200()
     {
@@ -72,11 +72,11 @@ public class MethodPureCpuUsageRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 2-13-3<br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»å®ŸCPUä½¿ç”¨æ™‚é–“ãŒ201<br>
-     * ãƒ»é–¾å€¤ãŒ200<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã™ã‚‹ã€‚<br>
+     * [€”Ô] 2-13-3<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * EÀCPUg—pŠÔ‚ª201<br>
+     * Eè‡’l‚ª200<br>
+     * ¨Œx‚ª”­¶‚·‚éB<br>
      */
     public void testDoJudge_th200_val201()
     {
@@ -92,11 +92,11 @@ public class MethodPureCpuUsageRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 2-13-5<br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»å®ŸCPUä½¿ç”¨æ™‚é–“ãŒ5000<br>
-     * ãƒ»é–¾å€¤ãŒ5000<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã™ã‚‹ã€‚<br>
+     * [€”Ô] 2-13-5<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * EÀCPUg—pŠÔ‚ª5000<br>
+     * Eè‡’l‚ª5000<br>
+     * ¨Œx‚ª”­¶‚·‚éB<br>
      */
     public void testDoJudge_th5000_val5000()
     {
@@ -112,11 +112,11 @@ public class MethodPureCpuUsageRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 2-13-10<br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»å®ŸCPUä½¿ç”¨æ™‚é–“ã®å€¤ãŒæ–‡å­—åˆ—ï¼ˆTestæ–‡å­—åˆ—)<br>
-     * ãƒ»é–¾å€¤ãŒ200<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br>
+     * [€”Ô] 2-13-10<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * EÀCPUg—pŠÔ‚Ì’l‚ª•¶š—ñiTest•¶š—ñ)<br>
+     * Eè‡’l‚ª200<br>
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br>
      */
     public void testDoJudge_th200_valstring()
     {
@@ -131,16 +131,16 @@ public class MethodPureCpuUsageRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 2-13-11<br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»å®ŸCPUä½¿ç”¨æ™‚é–“ã®å€¤ãŒç©ºç™½<br>
-     * ãƒ»é–¾å€¤ãŒ200<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br>
+     * [€”Ô] 2-13-11<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * EÀCPUg—pŠÔ‚Ì’l‚ª‹ó”’<br>
+     * Eè‡’l‚ª200<br>
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br>
      */
     public void testDoJudge_th200_valblank()
     {
@@ -155,16 +155,16 @@ public class MethodPureCpuUsageRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 2-13-12<br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»CPUä½¿ç”¨æ™‚é–“ã®å€¤ãŒå­˜åœ¨ã—ãªã„ã€‚<br>
-     * ãƒ»é–¾å€¤ãŒ200<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br>
+     * [€”Ô] 2-13-12<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * ECPUg—pŠÔ‚Ì’l‚ª‘¶İ‚µ‚È‚¢B<br>
+     * Eè‡’l‚ª200<br>
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br>
      */
     public void testDoJudge_th200_valnovalue()
     {
@@ -179,16 +179,16 @@ public class MethodPureCpuUsageRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 2-13-14<br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»JMXInfoãŒå­˜åœ¨ã—ãªã„ã€‚<br>
-     * ãƒ»é–¾å€¤ãŒ200<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br>
+     * [€”Ô] 2-13-14<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * EJMXInfo‚ª‘¶İ‚µ‚È‚¢B<br>
+     * Eè‡’l‚ª200<br>
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br>
      */
     public void testDoJudge_th200_valnoinfotag()
     {
@@ -203,16 +203,16 @@ public class MethodPureCpuUsageRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 2-13-15<br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»Callç¨®åˆ¥ã®ãƒ­ã‚°ãŒå­˜åœ¨ã—ãªã„ã€‚<br>
-     * ãƒ»é–¾å€¤ãŒ200<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br>
+     * [€”Ô] 2-13-15<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * ECallí•Ê‚ÌƒƒO‚ª‘¶İ‚µ‚È‚¢B<br>
+     * Eè‡’l‚ª200<br>
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br>
      */
     public void testDoJudge_th200_valnocall()
     {
@@ -227,15 +227,15 @@ public class MethodPureCpuUsageRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 2-13-26<br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»è¤‡æ•°ã®JavelinLogElementã§è­¦å‘ŠãŒå‡ºã‚‹ã€‚<br>
-     * â†’è­¦å‘ŠãŒè¤‡æ•°ç™ºç”Ÿã€‚<br>
+     * [€”Ô] 2-13-26<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * E•¡”‚ÌJavelinLogElement‚ÅŒx‚ªo‚éB<br>
+     * ¨Œx‚ª•¡””­¶B<br>
      */
     public void testDoJudge_th200_multierror()
     {
@@ -252,11 +252,11 @@ public class MethodPureCpuUsageRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 2-13-27<br>
+     * [€”Ô] 2-13-27<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»ã‚ã‚‹JavelinLogElementã§å®Ÿè¡Œæ™‚ä¾‹å¤–ãŒç™ºç”Ÿ<br>
-     * â†’ãã®JavelinLogElementã¯ã‚¹ã‚­ãƒƒãƒ—ã—ã¦å‡¦ç†ã™ã‚‹ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * E‚ ‚éJavelinLogElement‚ÅÀs—áŠO‚ª”­¶<br>
+     * ¨‚»‚ÌJavelinLogElement‚ÍƒXƒLƒbƒv‚µ‚Äˆ—‚·‚éB<br>
      */
     public void testDoJudge_RuntimeException()
     {

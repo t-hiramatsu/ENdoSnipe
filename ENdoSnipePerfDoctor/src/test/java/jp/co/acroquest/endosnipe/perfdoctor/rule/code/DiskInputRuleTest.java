@@ -6,15 +6,15 @@ import jp.co.acroquest.endosnipe.javelin.parser.JavelinLogElement;
 import jp.co.acroquest.endosnipe.perfdoctor.PerformanceRuleTestCase;
 
 /**
- * ãƒ‡ã‚£ã‚¹ã‚¯å…¥åŠ›é‡åˆ¤å®šãƒ«ãƒ¼ãƒ«ç”¨ã®ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹<br>
+ * ƒfƒBƒXƒN“ü—Í—Ê”»’èƒ‹[ƒ‹—p‚ÌƒeƒXƒgƒP[ƒX<br>
  * <br>
  * @author S.Kimura
  */
 public class DiskInputRuleTest extends PerformanceRuleTestCase
 {
     /**
-     * é–¾å€¤ã‚’æŒ‡å®šã—ã¦DiskInputRuleã‚’ç”Ÿæˆã™ã‚‹ã€‚<br>
-     * @param threshold é–¾å€¤
+     * è‡’l‚ğw’è‚µ‚ÄDiskInputRule‚ğ¶¬‚·‚éB<br>
+     * @param threshold è‡’l
      * @return DiskInputRule
      */
     private DiskInputRule createRule(long threshold)
@@ -29,11 +29,11 @@ public class DiskInputRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 2-9-1<br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»ãƒ‡ã‚£ã‚¹ã‚¯å…¥åŠ›é‡ãŒ999999<br>
-     * ãƒ»é–¾å€¤ãŒ1000000<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br>
+     * [€”Ô] 2-9-1<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * EƒfƒBƒXƒN“ü—Í—Ê‚ª999999<br>
+     * Eè‡’l‚ª1000000<br>
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br>
      */
     public void testDoJudge_th1000000_val999999()
     {
@@ -47,16 +47,16 @@ public class DiskInputRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 2-9-2<br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»ãƒ‡ã‚£ã‚¹ã‚¯å…¥åŠ›é‡ãŒ1000000<br>
-     * ãƒ»é–¾å€¤ãŒ1000000<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã™ã‚‹ã€‚<br>
+     * [€”Ô] 2-9-2<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * EƒfƒBƒXƒN“ü—Í—Ê‚ª1000000<br>
+     * Eè‡’l‚ª1000000<br>
+     * ¨Œx‚ª”­¶‚·‚éB<br>
      */
     public void testDoJudge_th1000000_val1000000()
     {
@@ -71,11 +71,11 @@ public class DiskInputRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 2-9-3<br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»ãƒ‡ã‚£ã‚¹ã‚¯å…¥åŠ›é‡ãŒ1000001<br>
-     * ãƒ»é–¾å€¤ãŒ1000000<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã™ã‚‹ã€‚<br>
+     * [€”Ô] 2-9-3<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * EƒfƒBƒXƒN“ü—Í—Ê‚ª1000001<br>
+     * Eè‡’l‚ª1000000<br>
+     * ¨Œx‚ª”­¶‚·‚éB<br>
      */
     public void testDoJudge_th1000000_val1000001()
     {
@@ -90,11 +90,11 @@ public class DiskInputRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 2-9-5<br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»ãƒ‡ã‚£ã‚¹ã‚¯å…¥åŠ›é‡ãŒ1000<br>
-     * ãƒ»é–¾å€¤ãŒ1000<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã™ã‚‹ã€‚<br>
+     * [€”Ô] 2-9-5<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * EƒfƒBƒXƒN“ü—Í—Ê‚ª1000<br>
+     * Eè‡’l‚ª1000<br>
+     * ¨Œx‚ª”­¶‚·‚éB<br>
      */
     public void testDoJudge_th1000_val1000()
     {
@@ -109,11 +109,11 @@ public class DiskInputRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 2-9-10<br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»ãƒ‡ã‚£ã‚¹ã‚¯å…¥åŠ›é‡ã®å€¤ãŒæ–‡å­—åˆ—ï¼ˆTestæ–‡å­—åˆ—)<br>
-     * ãƒ»é–¾å€¤ãŒ1000000<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br>
+     * [€”Ô] 2-9-10<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * EƒfƒBƒXƒN“ü—Í—Ê‚Ì’l‚ª•¶š—ñiTest•¶š—ñ)<br>
+     * Eè‡’l‚ª1000000<br>
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br>
      */
     public void testDoJudge_th1000000_valstring()
     {
@@ -127,16 +127,16 @@ public class DiskInputRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 2-9-11<br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»ãƒ‡ã‚£ã‚¹ã‚¯å…¥åŠ›é‡ã®å€¤ãŒç©ºç™½<br>
-     * ãƒ»é–¾å€¤ãŒ1000000<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br>
+     * [€”Ô] 2-9-11<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * EƒfƒBƒXƒN“ü—Í—Ê‚Ì’l‚ª‹ó”’<br>
+     * Eè‡’l‚ª1000000<br>
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br>
      */
     public void testDoJudge_th1000000_valblank()
     {
@@ -150,16 +150,16 @@ public class DiskInputRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 2-9-12<br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»ãƒ‡ã‚£ã‚¹ã‚¯å…¥åŠ›é‡å€¤ãŒå­˜åœ¨ã—ãªã„ã€‚<br>
-     * ãƒ»é–¾å€¤ãŒ1000000<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br>
+     * [€”Ô] 2-9-12<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * EƒfƒBƒXƒN“ü—Í—Ê’l‚ª‘¶İ‚µ‚È‚¢B<br>
+     * Eè‡’l‚ª1000000<br>
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br>
      */
     public void testDoJudge_th1000000_valnovalue()
     {
@@ -173,16 +173,16 @@ public class DiskInputRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 2-9-14<br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»IOInfoãŒå­˜åœ¨ã—ãªã„ã€‚<br>
-     * ãƒ»é–¾å€¤ãŒ1000000<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br>
+     * [€”Ô] 2-9-14<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * EIOInfo‚ª‘¶İ‚µ‚È‚¢B<br>
+     * Eè‡’l‚ª1000000<br>
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br>
      */
     public void testDoJudge_th1000000_valnoinfotag()
     {
@@ -196,16 +196,16 @@ public class DiskInputRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 2-9-15<br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»Callç¨®åˆ¥ã®ãƒ­ã‚°ãŒå­˜åœ¨ã—ãªã„ã€‚<br>
-     * ãƒ»é–¾å€¤ãŒ1000000<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br>
+     * [€”Ô] 2-9-15<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * ECallí•Ê‚ÌƒƒO‚ª‘¶İ‚µ‚È‚¢B<br>
+     * Eè‡’l‚ª1000000<br>
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br>
      */
     public void testDoJudge_th1000000_valnocall()
     {
@@ -219,15 +219,15 @@ public class DiskInputRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 2-9-26<br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»è¤‡æ•°ã®JavelinLogElementã§è­¦å‘ŠãŒå‡ºã‚‹ã€‚<br>
-     * â†’è­¦å‘ŠãŒè¤‡æ•°ç™ºç”Ÿã€‚<br>
+     * [€”Ô] 2-9-26<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * E•¡”‚ÌJavelinLogElement‚ÅŒx‚ªo‚éB<br>
+     * ¨Œx‚ª•¡””­¶B<br>
      */
     public void testDoJudge_th1000000_multierror()
     {
@@ -243,11 +243,11 @@ public class DiskInputRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 2-9-27<br>
+     * [€”Ô] 2-9-27<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»ã‚ã‚‹JavelinLogElementã§å®Ÿè¡Œæ™‚ä¾‹å¤–ãŒç™ºç”Ÿ<br>
-     * â†’ãã®JavelinLogElementã¯ã‚¹ã‚­ãƒƒãƒ—ã—ã¦å‡¦ç†ã™ã‚‹ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * E‚ ‚éJavelinLogElement‚ÅÀs—áŠO‚ª”­¶<br>
+     * ¨‚»‚ÌJavelinLogElement‚ÍƒXƒLƒbƒv‚µ‚Äˆ—‚·‚éB<br>
      */
     public void testDoJudge_RuntimeException()
     {

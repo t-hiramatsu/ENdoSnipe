@@ -15,77 +15,77 @@ package jp.co.acroquest.endosnipe.report.entity;
 import java.sql.Timestamp;
 
 /**
- * ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ç”¨ã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£<br /> 
+ * ƒŒƒ|[ƒgo—Í—p‚ÌƒGƒ“ƒeƒBƒeƒB<br /> 
  *
  * @author eriguchi
  */
 public class ReportItemValue
 {
-	/**
-	 * è¨ˆæ¸¬æ™‚åˆ»ã€‚<br />
-	 */
-	public Timestamp measurementTime;
+    /**
+     * Œv‘ªB<br />
+     */
+    public Timestamp measurementTime;
 
-	/**
-	 * ç³»åˆ—å<br />
-	 */
-	public String itemName;
+    /**
+     * Œn—ñ–¼<br />
+     */
+    public String    itemName;
 
-	/**
-	 * è¨ˆæ¸¬å€¤(ä¸Šé™å€¤)ã€‚
-	 */
-	public Number limitValue;
+    /**
+     * Œv‘ª’l(ãŒÀ’l)B
+     */
+    public Number    limitValue;
 
-	/**
-	 * è¨ˆæ¸¬å€¤(ã‚µãƒãƒª)ã€‚
-	 */
-	public Number summaryValue;
+    /**
+     * Œv‘ª’l(ƒTƒ}ƒŠ)B
+     */
+    public Number    summaryValue;
 
-	/**
-	 * è¨ˆæ¸¬å€¤(æœ€å¤§)ã€‚
-	 */
-	public Number maxValue;
+    /**
+     * Œv‘ª’l(Å‘å)B
+     */
+    public Number    maxValue;
 
-	/**
-	 * è¨ˆæ¸¬å€¤(æœ€å°)ã€‚
-	 */
-	public Number minValue;
+    /**
+     * Œv‘ª’l(Å¬)B
+     */
+    public Number    minValue;
 
-	/**
-	 * è¨ˆæ¸¬å€¤ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
-	 */
-	public int index;
+    /**
+     * Œv‘ª’l‚ÌƒCƒ“ƒfƒbƒNƒX
+     */
+    public int       index;
 
-	/**
-	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
-	 */
-	public ReportItemValue()
-	{
-		itemName = "";
-		limitValue = 0;
-		summaryValue = 0;
-		maxValue = 0;
-		minValue = 0;
-	}
+    /**
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     */
+    public ReportItemValue()
+    {
+        itemName = "";
+        limitValue = 0;
+        summaryValue = 0;
+        maxValue = 0;
+        minValue = 0;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String toString()
-	{
-		StringBuilder builder = new StringBuilder();
-		builder.append("[itemName=");
-		builder.append(this.itemName);
-		builder.append(", summaryValue=");
-		builder.append(this.summaryValue);
-		builder.append(", maxValue=");
-		builder.append(this.maxValue);
-		builder.append(", minValue=");
-		builder.append(this.minValue);
-		builder.append(", measurementTime=");
-		builder.append(this.measurementTime);
-		builder.append("]");
-		return builder.toString();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString()
+    {
+        StringBuilder builder = new StringBuilder();
+        builder.append("[itemName=");
+        builder.append(this.itemName);
+        builder.append(", summaryValue=");
+        builder.append(this.summaryValue);
+        builder.append(", maxValue=");
+        builder.append(this.maxValue);
+        builder.append(", minValue=");
+        builder.append(this.minValue);
+        builder.append(", measurementTime=");
+        builder.append(this.measurementTime);
+        builder.append("]");
+        return builder.toString();
+    }
 }

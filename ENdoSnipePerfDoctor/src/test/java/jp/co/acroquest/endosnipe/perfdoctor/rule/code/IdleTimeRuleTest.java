@@ -6,15 +6,15 @@ import jp.co.acroquest.endosnipe.javelin.parser.JavelinLogElement;
 import jp.co.acroquest.endosnipe.perfdoctor.PerformanceRuleTestCase;
 
 /**
- * IdleTimeRuleã®ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹ã§ã™ã€‚<br/>
+ * IdleTimeRule‚ÌƒeƒXƒgƒP[ƒX‚Å‚·B<br/>
  * @author fujii
  *
  */
 public class IdleTimeRuleTest extends PerformanceRuleTestCase
 {
     /**
-     * é–¾å€¤ã‚’æŒ‡å®šã—ã¦IdleTimeRuleã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br/>
-     * @param threshold é–¾å€¤
+     * è‡’l‚ğw’è‚µ‚ÄIdleTimeRule‚ğ¶¬‚µ‚Ü‚·B<br/>
+     * @param threshold è‡’l
      * @return IdleTimeRule
      */
     private IdleTimeRule createRule(long threshold)
@@ -29,13 +29,13 @@ public class IdleTimeRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª]3-12-1 <br/>
+     * [€”Ô]3-12-1 <br/>
      * <br/>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã‚’ã—ã¾ã™ã€‚<br/>
-     * ãƒ»å®Ÿè¡Œæ™‚é–“ï¼š2999<br/>
-     * ãƒ»CPUæ™‚é–“ï¼š1000<br/>
-     * ãƒ»é–¾å€¤ï¼š2000<br/>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ã¾ã›ã‚“ã€‚<br/>
+     * doJudge‚ÌƒeƒXƒg‚ğ‚µ‚Ü‚·B<br/>
+     * EÀsŠÔF2999<br/>
+     * ECPUŠÔF1000<br/>
+     * Eè‡’lF2000<br/>
+     * ¨Œx‚ª”­¶‚µ‚Ü‚¹‚ñB<br/>
      */
     public void testDoJudgeUnderThreashold()
     {
@@ -49,18 +49,18 @@ public class IdleTimeRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª]3-12-2 <br/>
+     * [€”Ô]3-12-2 <br/>
      * <br/>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã‚’ã—ã¾ã™ã€‚<br/>
-     * ãƒ»å®Ÿè¡Œæ™‚é–“ï¼š3000<br/>
-     * ãƒ»CPUæ™‚é–“ï¼š1000<br/>
-     * ãƒ»é–¾å€¤ï¼š2000<br/>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ã¾ã™ã€‚<br/>
+     * doJudge‚ÌƒeƒXƒg‚ğ‚µ‚Ü‚·B<br/>
+     * EÀsŠÔF3000<br/>
+     * ECPUŠÔF1000<br/>
+     * Eè‡’lF2000<br/>
+     * ¨Œx‚ª”­¶‚µ‚Ü‚·B<br/>
      */
     public void testDoJudgeEqualThreashold()
     {
@@ -74,13 +74,13 @@ public class IdleTimeRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª]3-12-3 <br/>
+     * [€”Ô]3-12-3 <br/>
      * <br/>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã‚’ã—ã¾ã™ã€‚<br/>
-     * ãƒ»å®Ÿè¡Œæ™‚é–“ï¼š3001<br/>
-     * ãƒ»CPUæ™‚é–“ï¼š1000<br/>
-     * ãƒ»é–¾å€¤ï¼š2000<br/>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ã¾ã™ã€‚<br/>
+     * doJudge‚ÌƒeƒXƒg‚ğ‚µ‚Ü‚·B<br/>
+     * EÀsŠÔF3001<br/>
+     * ECPUŠÔF1000<br/>
+     * Eè‡’lF2000<br/>
+     * ¨Œx‚ª”­¶‚µ‚Ü‚·B<br/>
      */
     public void testDoJudgeOverThreashold()
     {
@@ -94,13 +94,13 @@ public class IdleTimeRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª]3-12-4 <br/>
+     * [€”Ô]3-12-4 <br/>
      * <br/>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã‚’ã—ã¾ã™ã€‚<br/>
-     * ãƒ»å®Ÿè¡Œæ™‚é–“ï¼š20<br/>
-     * ãƒ»CPUæ™‚é–“ï¼š10<br/>
-     * ãƒ»é–¾å€¤ï¼š10<br/>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ã¾ã™ã€‚<br/>
+     * doJudge‚ÌƒeƒXƒg‚ğ‚µ‚Ü‚·B<br/>
+     * EÀsŠÔF20<br/>
+     * ECPUŠÔF10<br/>
+     * Eè‡’lF10<br/>
+     * ¨Œx‚ª”­¶‚µ‚Ü‚·B<br/>
      */
     public void testDoJudgeOtherThreashold()
     {
@@ -114,13 +114,13 @@ public class IdleTimeRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª]3-12-9 <br/>
+     * [€”Ô]3-12-9 <br/>
      * <br/>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã‚’ã—ã¾ã™ã€‚<br/>
-     * ãƒ»å®Ÿè¡Œæ™‚é–“ï¼šãªã—<br/>
-     * ãƒ»CPUæ™‚é–“ï¼šãªã—<br/>
-     * ãƒ»é–¾å€¤ï¼š2000<br/>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ã¾ã›ã‚“ã€‚<br/>
+     * doJudge‚ÌƒeƒXƒg‚ğ‚µ‚Ü‚·B<br/>
+     * EÀsŠÔF‚È‚µ<br/>
+     * ECPUŠÔF‚È‚µ<br/>
+     * Eè‡’lF2000<br/>
+     * ¨Œx‚ª”­¶‚µ‚Ü‚¹‚ñB<br/>
      */
     public void testDoJudgeExecNoneCpuNone()
     {
@@ -134,18 +134,18 @@ public class IdleTimeRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª]3-12-10 <br/>
+     * [€”Ô]3-12-10 <br/>
      * <br/>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã‚’ã—ã¾ã™ã€‚<br/>
-     * ãƒ»å®Ÿè¡Œæ™‚é–“ï¼šãªã—<br/>
-     * ãƒ»CPUæ™‚é–“ï¼š1000<br/>
-     * ãƒ»é–¾å€¤ï¼š2000<br/>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ã¾ã›ã‚“ã€‚<br/>
+     * doJudge‚ÌƒeƒXƒg‚ğ‚µ‚Ü‚·B<br/>
+     * EÀsŠÔF‚È‚µ<br/>
+     * ECPUŠÔF1000<br/>
+     * Eè‡’lF2000<br/>
+     * ¨Œx‚ª”­¶‚µ‚Ü‚¹‚ñB<br/>
      */
     public void testDoJudgeExecNoneCpu1000()
     {
@@ -159,18 +159,18 @@ public class IdleTimeRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª]3-12-5 <br/>
+     * [€”Ô]3-12-5 <br/>
      * <br/>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã‚’ã—ã¾ã™ã€‚<br/>
-     * ãƒ»å®Ÿè¡Œæ™‚é–“ï¼šæ–‡å­—åˆ—<br/>
-     * ãƒ»CPUæ™‚é–“ï¼š1000<br/>
-     * ãƒ»é–¾å€¤ï¼š2000<br/>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ã¾ã›ã‚“ã€‚<br/>
+     * doJudge‚ÌƒeƒXƒg‚ğ‚µ‚Ü‚·B<br/>
+     * EÀsŠÔF•¶š—ñ<br/>
+     * ECPUŠÔF1000<br/>
+     * Eè‡’lF2000<br/>
+     * ¨Œx‚ª”­¶‚µ‚Ü‚¹‚ñB<br/>
      */
     public void testDoJudgeExecStringCpu1000()
     {
@@ -184,18 +184,18 @@ public class IdleTimeRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª]3-12-7 <br/>
+     * [€”Ô]3-12-7 <br/>
      * <br/>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã‚’ã—ã¾ã™ã€‚<br/>
-     * ãƒ»å®Ÿè¡Œæ™‚é–“ï¼šç©º<br/>
-     * ãƒ»CPUæ™‚é–“ï¼š1000<br/>
-     * ãƒ»é–¾å€¤ï¼š2000<br/>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ã¾ã›ã‚“ã€‚<br/>
+     * doJudge‚ÌƒeƒXƒg‚ğ‚µ‚Ü‚·B<br/>
+     * EÀsŠÔF‹ó<br/>
+     * ECPUŠÔF1000<br/>
+     * Eè‡’lF2000<br/>
+     * ¨Œx‚ª”­¶‚µ‚Ü‚¹‚ñB<br/>
      */
     public void testDoJudgeExecEmptyCpu1000()
     {
@@ -209,18 +209,18 @@ public class IdleTimeRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª]3-12-11 <br/>
+     * [€”Ô]3-12-11 <br/>
      * <br/>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã‚’ã—ã¾ã™ã€‚<br/>
-     * ãƒ»å®Ÿè¡Œæ™‚é–“ï¼š1000<br/>
-     * ãƒ»CPUæ™‚é–“ï¼šãªã—<br/>
-     * ãƒ»é–¾å€¤ï¼š2000<br/>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ã¾ã›ã‚“ã€‚<br/>
+     * doJudge‚ÌƒeƒXƒg‚ğ‚µ‚Ü‚·B<br/>
+     * EÀsŠÔF1000<br/>
+     * ECPUŠÔF‚È‚µ<br/>
+     * Eè‡’lF2000<br/>
+     * ¨Œx‚ª”­¶‚µ‚Ü‚¹‚ñB<br/>
      */
     public void testDoJudgeExec1000CpuNone()
     {
@@ -234,18 +234,18 @@ public class IdleTimeRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª]3-12-6 <br/>
+     * [€”Ô]3-12-6 <br/>
      * <br/>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã‚’ã—ã¾ã™ã€‚<br/>
-     * ãƒ»å®Ÿè¡Œæ™‚é–“ï¼š1000<br/>
-     * ãƒ»CPUæ™‚é–“ï¼šæ–‡å­—åˆ—<br/>
-     * ãƒ»é–¾å€¤ï¼š2000<br/>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ã¾ã›ã‚“ã€‚<br/>
+     * doJudge‚ÌƒeƒXƒg‚ğ‚µ‚Ü‚·B<br/>
+     * EÀsŠÔF1000<br/>
+     * ECPUŠÔF•¶š—ñ<br/>
+     * Eè‡’lF2000<br/>
+     * ¨Œx‚ª”­¶‚µ‚Ü‚¹‚ñB<br/>
      */
     public void testDoJudgeExec1000CpuString()
     {
@@ -259,18 +259,18 @@ public class IdleTimeRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª]3-12-8 <br/>
+     * [€”Ô]3-12-8 <br/>
      * <br/>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã‚’ã—ã¾ã™ã€‚<br/>
-     * ãƒ»å®Ÿè¡Œæ™‚é–“ï¼š1000<br/>
-     * ãƒ»CPUæ™‚é–“ï¼šç©º<br/>
-     * ãƒ»é–¾å€¤ï¼š2000<br/>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ã¾ã›ã‚“ã€‚<br/>
+     * doJudge‚ÌƒeƒXƒg‚ğ‚µ‚Ü‚·B<br/>
+     * EÀsŠÔF1000<br/>
+     * ECPUŠÔF‹ó<br/>
+     * Eè‡’lF2000<br/>
+     * ¨Œx‚ª”­¶‚µ‚Ü‚¹‚ñB<br/>
      */
     public void testDoJudgeExec1000CpuEmpty()
     {
@@ -284,17 +284,17 @@ public class IdleTimeRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª]3-12-12 <br/>
+     * [€”Ô]3-12-12 <br/>
      * <br/>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã‚’ã—ã¾ã™ã€‚<br/>
-     * ãƒ»detailInfoãŒãªã„å ´åˆ<br/>
-     * ãƒ»é–¾å€¤ï¼š2000<br/>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ã¾ã›ã‚“ã€‚<br/>
+     * doJudge‚ÌƒeƒXƒg‚ğ‚µ‚Ü‚·B<br/>
+     * EdetailInfo‚ª‚È‚¢ê‡<br/>
+     * Eè‡’lF2000<br/>
+     * ¨Œx‚ª”­¶‚µ‚Ü‚¹‚ñB<br/>
      */
     public void testDoJudgeNoDetailInfo()
     {
@@ -308,16 +308,16 @@ public class IdleTimeRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª]3-12-13<br/>
+     * [€”Ô]3-12-13<br/>
      * <br/>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã‚’ã—ã¾ã™ã€‚ã€‚<br/>
-     * ãƒ»ã€ŒCallã€ãŒãªã„å ´åˆã€‚<br/>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ã¾ã›ã‚“ã€‚<br/>
+     * doJudge‚ÌƒeƒXƒg‚ğ‚µ‚Ü‚·BB<br/>
+     * EuCallv‚ª‚È‚¢ê‡B<br/>
+     * ¨Œx‚ª”­¶‚µ‚Ü‚¹‚ñB<br/>
      */
     public void testDoJudgeCall()
     {
@@ -331,15 +331,15 @@ public class IdleTimeRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª]3-12-14 <br/>
+     * [€”Ô]3-12-14 <br/>
      * <br/>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã‚’ã—ã¾ã™ã€‚<br/>
-     * ãƒ»è¤‡æ•°ã®JavelinLogElementã§è­¦å‘ŠãŒå‡ºã¾ã™ã€‚<br/>
+     * doJudge‚ÌƒeƒXƒg‚ğ‚µ‚Ü‚·B<br/>
+     * E•¡”‚ÌJavelinLogElement‚ÅŒx‚ªo‚Ü‚·B<br/>
      */
     public void testDoJudgeMulti()
     {
@@ -355,11 +355,11 @@ public class IdleTimeRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª]3-12-15 <br/>
+     * [€”Ô]3-12-15 <br/>
      * <br/>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã‚’ã—ã¾ã™ã€‚<br/>
-     * ãƒ»ã‚ã‚‹JavelinLogElementã§å®Ÿè¡Œæ™‚ä¾‹å¤–ãŒç™ºç”Ÿã™ã‚‹å ´åˆ<br/>
-     * â†’ãã®JavelinLogElementã¯ã‚¹ã‚­ãƒƒãƒ—ã—ã¦å‡¦ç†ã—ã¾ã™ã€‚<br/>
+     * doJudge‚ÌƒeƒXƒg‚ğ‚µ‚Ü‚·B<br/>
+     * E‚ ‚éJavelinLogElement‚ÅÀs—áŠO‚ª”­¶‚·‚éê‡<br/>
+     * ¨‚»‚ÌJavelinLogElement‚ÍƒXƒLƒbƒv‚µ‚Äˆ—‚µ‚Ü‚·B<br/>
      */
     public void testDoJudgeRuntimeException()
     {

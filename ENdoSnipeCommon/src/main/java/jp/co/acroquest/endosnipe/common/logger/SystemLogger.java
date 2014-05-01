@@ -43,50 +43,50 @@ import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 import jp.co.acroquest.endosnipe.common.util.IOUtil;
 
 /**
- * Javelinã®ã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚¬ãƒ¼ã€‚<br>
+ * Javelin‚ÌƒVƒXƒeƒ€ƒƒK[B<br>
  * 
  * @author eriguchi
  */
 public class SystemLogger
 {
-    /** åˆæœŸåŒ–çŠ¶æ…‹ã‚’è¡¨ã™ãƒ•ãƒ©ã‚° */
+    /** ‰Šú‰»ó‘Ô‚ğ•\‚·ƒtƒ‰ƒO */
     private static volatile boolean initialized__ = false;
 
-    /** ã‚¨ãƒ©ãƒ¼ãƒ­ã‚°å‡ºåŠ›æ—¥æ™‚ã®ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ */
+    /** ƒGƒ‰[ƒƒOo—Í“ú‚ÌƒtƒH[ƒ}ƒbƒg */
     private static final String DATE_FORMAT = "yyyy/MM/dd HH:mm:ss.SSS";
 
-    /** æ”¹è¡Œæ–‡å­— */
+    /** ‰üs•¶š */
     public static final String NEW_LINE = System.getProperty("line.separator");
 
-    /** ã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã®æ‹¡å¼µå­ */
+    /** ƒVƒXƒeƒ€ƒƒOƒtƒ@ƒCƒ‹‚ÌŠg’£q */
     private static final String EXTENTION = ".log";
 
-    /** ã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«åã®ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ(æ—¥ä»˜ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ(ãƒŸãƒª(sec)ã¾ã§è¡¨ç¤º) */
+    /** ƒVƒXƒeƒ€ƒƒOƒtƒ@ƒCƒ‹–¼‚ÌƒtƒH[ƒ}ƒbƒg(“ú•tƒtƒH[ƒ}ƒbƒg(ƒ~ƒŠ(sec)‚Ü‚Å•\¦) */
     private static final String LOG_FILE_FORMAT =
             "jvn_sys_{0,date,yyyy_MM_dd_HHmmss_SSS}" + EXTENTION;
 
-    /** ã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã®æœ€å¤§æ•° */
+    /** ƒVƒXƒeƒ€ƒƒOƒtƒ@ƒCƒ‹‚ÌÅ‘å” */
     private int systemLogNumMax_;
 
-    /** ã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã®æœ€å¤§ã‚µã‚¤ã‚º */
+    /** ƒVƒXƒeƒ€ƒƒOƒtƒ@ƒCƒ‹‚ÌÅ‘åƒTƒCƒY */
     private int systemLogSizeMax_;
 
-    /** ã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ã®ãƒ­ã‚°ãƒ¬ãƒ™ãƒ« */
+    /** ƒVƒXƒeƒ€ƒƒO‚ÌƒƒOƒŒƒxƒ‹ */
     private LogLevel systemLogLevel_ = LogLevel.WARN;
 
-    /** æœ¬ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ */
+    /** –{ƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX */
     private static SystemLogger instance__ = new SystemLogger();
 
-    /** æ›¸ãè¾¼ã‚“ã æ–‡å­—æ•° */
+    /** ‘‚«‚ñ‚¾•¶š” */
     private long writeCount_ = 0;
 
-    /** ã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã®å‡ºåŠ›å…ˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®ãƒ‘ã‚¹ */
+    /** ƒVƒXƒeƒ€ƒƒOƒtƒ@ƒCƒ‹‚Ìo—ÍæƒfƒBƒŒƒNƒgƒŠ‚ÌƒpƒX */
     private String logPath_;
 
-    /** ã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ•ã‚¡ã‚¤ãƒ«å */
+    /** ƒVƒXƒeƒ€ƒƒOƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹–¼ */
     private String logFileName_;
 
-    /** ã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°å‡ºåŠ›ç”¨ThreadPoolExecutorã€‚ */
+    /** ƒVƒXƒeƒ€ƒƒOo—Í—pThreadPoolExecutorB */
     private final ThreadPoolExecutor executor_ =
             new ThreadPoolExecutor(1, 1, 1, TimeUnit.MILLISECONDS,
                                    new ArrayBlockingQueue<Runnable>(1000), new ThreadFactory() {
@@ -105,9 +105,9 @@ public class SystemLogger
     }
 
     /**
-     * æœ¬ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * –{ƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+     * @return ƒCƒ“ƒXƒ^ƒ“ƒX
      */
     public static SystemLogger getInstance()
     {
@@ -115,11 +115,11 @@ public class SystemLogger
     }
 
     /**
-     * ã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«åã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
-     * ãƒ•ã‚¡ã‚¤ãƒ«åã®ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã¯ä»¥ä¸‹ã®ã¨ãŠã‚Šã§ã™ã€‚<br>
+     * ƒVƒXƒeƒ€ƒƒOƒtƒ@ƒCƒ‹–¼‚ğ¶¬‚µ‚Ü‚·B<br />
+     * ƒtƒ@ƒCƒ‹–¼‚ÌƒtƒH[ƒ}ƒbƒg‚ÍˆÈ‰º‚Ì‚Æ‚¨‚è‚Å‚·B<br>
      * jvn_sys_yyyyMMddHHmmssSSS.log
      * 
-     * @return ã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«å
+     * @return ƒVƒXƒeƒ€ƒƒOƒtƒ@ƒCƒ‹–¼
      */
     private String createLogFileName()
     {
@@ -127,13 +127,13 @@ public class SystemLogger
     }
 
     /**
-     * ãƒ­ã‚°ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã—ã¾ã™ã€‚<br />
+     * ƒƒOƒƒbƒZ[ƒW‚ğƒtƒH[ƒ}ƒbƒg‚µ‚Ü‚·B<br />
      * 
-     * @param level ãƒ­ã‚°ãƒ¬ãƒ™ãƒ«
-     * @param threadName ã‚¹ãƒ¬ãƒƒãƒ‰åã€‚
-     * @param message ãƒ­ã‚°ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
-     * @param throwable ä¾‹å¤–ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @return ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã—ãŸãƒ­ã‚°ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
+     * @param level ƒƒOƒŒƒxƒ‹
+     * @param threadName ƒXƒŒƒbƒh–¼B
+     * @param message ƒƒOƒƒbƒZ[ƒW
+     * @param throwable —áŠOƒIƒuƒWƒFƒNƒg
+     * @return ƒtƒH[ƒ}ƒbƒg‚µ‚½ƒƒOƒƒbƒZ[ƒW
      */
     private String formatMessage(final LogLevel level, final String threadName,
             final String message, final Throwable throwable)
@@ -173,10 +173,10 @@ public class SystemLogger
     }
 
     /**
-     * ãƒ­ã‚°ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+     * ƒƒO‚ğo—Í‚µ‚Ü‚·B<br />
      * 
-     * @param message ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
-     * @param throwable ä¾‹å¤–ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param message ƒGƒ‰[ƒƒbƒZ[ƒW
+     * @param throwable —áŠOƒIƒuƒWƒFƒNƒg
      */
     private void log(final LogLevel level, final String message, final Throwable throwable)
     {
@@ -212,7 +212,7 @@ public class SystemLogger
                 OutputStreamWriter writer = null;
                 try
                 {
-                    // è¦ªãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’ä½œæˆã™ã‚‹ã€‚
+                    // eƒfƒBƒŒƒNƒgƒŠ‚ğì¬‚·‚éB
                     IOUtil.createDirs(logPath_);
 
                     FileOutputStream fileOutputStream =
@@ -224,9 +224,9 @@ public class SystemLogger
                 }
                 catch (Exception ex)
                 {
-                    // å‡ºåŠ›ã§ããªã‹ã£ãŸå ´åˆã¯æ¨™æº–ã‚¨ãƒ©ãƒ¼ã«å‡ºåŠ›ã™ã‚‹ã€‚ã€‚
+                    // o—Í‚Å‚«‚È‚©‚Á‚½ê‡‚Í•W€ƒGƒ‰[‚Éo—Í‚·‚éBB
                     String errMessage =
-                            "Javelinå®Ÿè¡Œã‚¨ãƒ©ãƒ¼å‡ºåŠ›ãƒ•ã‚¡ã‚¤ãƒ«ã¸ã®æ›¸ãè¾¼ã¿ãŒè¡Œãˆãªã‹ã£ãŸãŸã‚ã€æ¨™æº–ã‚¨ãƒ©ãƒ¼å‡ºåŠ›ã‚’ä½¿ç”¨ã—ã¾ã™ã€‚" + NEW_LINE
+                            "JavelinÀsƒGƒ‰[o—Íƒtƒ@ƒCƒ‹‚Ö‚Ì‘‚«‚İ‚ªs‚¦‚È‚©‚Á‚½‚½‚ßA•W€ƒGƒ‰[o—Í‚ğg—p‚µ‚Ü‚·B" + NEW_LINE
                             + "(javelin.error.log=" + logPath + File.separator
                             + logFileName_ + ")";
                     System.err.println(errMessage);
@@ -248,7 +248,7 @@ public class SystemLogger
                     }
                 }
 
-                // ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆãŒå¿…è¦ãªå ´åˆã¯ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆã™ã‚‹ã€‚
+                // ƒ[ƒe[ƒg‚ª•K—v‚Èê‡‚Íƒ[ƒe[ƒg‚·‚éB
                 if (writeCount_ > systemLogSizeMax_)
                 {
                     File logFile =
@@ -273,9 +273,9 @@ public class SystemLogger
     }
 
     /**
-     * FATAL ãƒ¬ãƒ™ãƒ«ã®ãƒ­ã‚°ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+     * FATAL ƒŒƒxƒ‹‚ÌƒƒO‚ğo—Í‚µ‚Ü‚·B<br />
      * 
-     * @param message ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
+     * @param message ƒƒbƒZ[ƒW
      */
     public void fatal(final String message)
     {
@@ -283,9 +283,9 @@ public class SystemLogger
     }
 
     /**
-     * FATAL ãƒ¬ãƒ™ãƒ«ã®ãƒ­ã‚°ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+     * FATAL ƒŒƒxƒ‹‚ÌƒƒO‚ğo—Í‚µ‚Ü‚·B<br />
      * 
-     * @param throwable ä¾‹å¤–ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param throwable —áŠOƒIƒuƒWƒFƒNƒg
      */
     public void fatal(final Throwable throwable)
     {
@@ -293,10 +293,10 @@ public class SystemLogger
     }
 
     /**
-     * FATAL ãƒ¬ãƒ™ãƒ«ã®ãƒ­ã‚°ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+     * FATAL ƒŒƒxƒ‹‚ÌƒƒO‚ğo—Í‚µ‚Ü‚·B<br />
      *
-     * @param message ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
-     * @param throwable ä¾‹å¤–ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param message ƒƒbƒZ[ƒW
+     * @param throwable —áŠOƒIƒuƒWƒFƒNƒg
      */
     public void fatal(final String message, final Throwable throwable)
     {
@@ -304,9 +304,9 @@ public class SystemLogger
     }
 
     /**
-     * ERROR ãƒ¬ãƒ™ãƒ«ã®ãƒ­ã‚°ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+     * ERROR ƒŒƒxƒ‹‚ÌƒƒO‚ğo—Í‚µ‚Ü‚·B<br />
      * 
-     * @param message ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
+     * @param message ƒƒbƒZ[ƒW
      */
     public void error(final String message)
     {
@@ -314,9 +314,9 @@ public class SystemLogger
     }
 
     /**
-     * ERROR ãƒ¬ãƒ™ãƒ«ã®ãƒ­ã‚°ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+     * ERROR ƒŒƒxƒ‹‚ÌƒƒO‚ğo—Í‚µ‚Ü‚·B<br />
      * 
-     * @param throwable ä¾‹å¤–ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param throwable —áŠOƒIƒuƒWƒFƒNƒg
      */
     public void error(final Throwable throwable)
     {
@@ -324,10 +324,10 @@ public class SystemLogger
     }
 
     /**
-     * ERROR ãƒ¬ãƒ™ãƒ«ã®ãƒ­ã‚°ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+     * ERROR ƒŒƒxƒ‹‚ÌƒƒO‚ğo—Í‚µ‚Ü‚·B<br />
      * 
-     * @param message ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
-     * @param throwable ä¾‹å¤–ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param message ƒƒbƒZ[ƒW
+     * @param throwable —áŠOƒIƒuƒWƒFƒNƒg
      */
     public void error(final String message, final Throwable throwable)
     {
@@ -335,9 +335,9 @@ public class SystemLogger
     }
 
     /**
-     * WARN ãƒ¬ãƒ™ãƒ«ã®ãƒ­ã‚°ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+     * WARN ƒŒƒxƒ‹‚ÌƒƒO‚ğo—Í‚µ‚Ü‚·B<br />
      * 
-     * @param message ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
+     * @param message ƒƒbƒZ[ƒW
      */
     public void warn(final String message)
     {
@@ -345,9 +345,9 @@ public class SystemLogger
     }
 
     /**
-     * WARN ãƒ¬ãƒ™ãƒ«ã®ãƒ­ã‚°ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+     * WARN ƒŒƒxƒ‹‚ÌƒƒO‚ğo—Í‚µ‚Ü‚·B<br />
      * 
-     * @param throwable ä¾‹å¤–ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param throwable —áŠOƒIƒuƒWƒFƒNƒg
      */
     public void warn(final Throwable throwable)
     {
@@ -355,10 +355,10 @@ public class SystemLogger
     }
 
     /**
-     * WARN ãƒ¬ãƒ™ãƒ«ã®ãƒ­ã‚°ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+     * WARN ƒŒƒxƒ‹‚ÌƒƒO‚ğo—Í‚µ‚Ü‚·B<br />
      * 
-     * @param message ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
-     * @param throwable ä¾‹å¤–ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param message ƒƒbƒZ[ƒW
+     * @param throwable —áŠOƒIƒuƒWƒFƒNƒg
      */
     public void warn(final String message, final Throwable throwable)
     {
@@ -366,9 +366,9 @@ public class SystemLogger
     }
 
     /**
-     * INFO ãƒ¬ãƒ™ãƒ«ã®ãƒ­ã‚°ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+     * INFO ƒŒƒxƒ‹‚ÌƒƒO‚ğo—Í‚µ‚Ü‚·B<br />
      * 
-     * @param message ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
+     * @param message ƒƒbƒZ[ƒW
      */
     public void info(final String message)
     {
@@ -376,9 +376,9 @@ public class SystemLogger
     }
 
     /**
-     * INFO ãƒ¬ãƒ™ãƒ«ã®ãƒ­ã‚°ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+     * INFO ƒŒƒxƒ‹‚ÌƒƒO‚ğo—Í‚µ‚Ü‚·B<br />
      * 
-     * @param throwable ä¾‹å¤–ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param throwable —áŠOƒIƒuƒWƒFƒNƒg
      */
     public void info(final Throwable throwable)
     {
@@ -386,10 +386,10 @@ public class SystemLogger
     }
 
     /**
-     * INFO ãƒ¬ãƒ™ãƒ«ã®ãƒ­ã‚°ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+     * INFO ƒŒƒxƒ‹‚ÌƒƒO‚ğo—Í‚µ‚Ü‚·B<br />
      * 
-     * @param message ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
-     * @param throwable ä¾‹å¤–ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param message ƒƒbƒZ[ƒW
+     * @param throwable —áŠOƒIƒuƒWƒFƒNƒg
      */
     public void info(final String message, final Throwable throwable)
     {
@@ -397,9 +397,9 @@ public class SystemLogger
     }
 
     /**
-     * DEBUG ãƒ¬ãƒ™ãƒ«ã®ãƒ­ã‚°ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+     * DEBUG ƒŒƒxƒ‹‚ÌƒƒO‚ğo—Í‚µ‚Ü‚·B<br />
      * 
-     * @param message ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
+     * @param message ƒƒbƒZ[ƒW
      */
     public void debug(final String message)
     {
@@ -407,9 +407,9 @@ public class SystemLogger
     }
 
     /**
-     * DEBUG ãƒ¬ãƒ™ãƒ«ã®ãƒ­ã‚°ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+     * DEBUG ƒŒƒxƒ‹‚ÌƒƒO‚ğo—Í‚µ‚Ü‚·B<br />
      * 
-     * @param throwable ä¾‹å¤–ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param throwable —áŠOƒIƒuƒWƒFƒNƒg
      */
     public void debug(final Throwable throwable)
     {
@@ -417,10 +417,10 @@ public class SystemLogger
     }
 
     /**
-     * DEBUG ãƒ¬ãƒ™ãƒ«ã®ãƒ­ã‚°ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+     * DEBUG ƒŒƒxƒ‹‚ÌƒƒO‚ğo—Í‚µ‚Ü‚·B<br />
      * 
-     * @param message ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
-     * @param throwable ä¾‹å¤–ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param message ƒƒbƒZ[ƒW
+     * @param throwable —áŠOƒIƒuƒWƒFƒNƒg
      */
     public void debug(final String message, final Throwable throwable)
     {
@@ -428,9 +428,9 @@ public class SystemLogger
     }
 
     /**
-     * DEBUG ãƒ¬ãƒ™ãƒ«ãŒæœ‰åŠ¹ã‹ã©ã†ã‹ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * DEBUG ƒŒƒxƒ‹‚ª—LŒø‚©‚Ç‚¤‚©‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @return æœ‰åŠ¹ã§ã‚ã‚‹å ´åˆã€<code>true</code>
+     * @return —LŒø‚Å‚ ‚éê‡A<code>true</code>
      */
     public boolean isDebugEnabled()
     {
@@ -442,9 +442,9 @@ public class SystemLogger
     }
 
     /**
-     * INFO ãƒ¬ãƒ™ãƒ«ãŒæœ‰åŠ¹ã‹ã©ã†ã‹ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * INFO ƒŒƒxƒ‹‚ª—LŒø‚©‚Ç‚¤‚©‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @return æœ‰åŠ¹ã§ã‚ã‚‹å ´åˆã€<code>true</code>
+     * @return —LŒø‚Å‚ ‚éê‡A<code>true</code>
      */
     public boolean isInfoEnabled()
     {
@@ -456,9 +456,9 @@ public class SystemLogger
     }
 
     /**
-     * WARN ãƒ¬ãƒ™ãƒ«ãŒæœ‰åŠ¹ã‹ã©ã†ã‹ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * WARN ƒŒƒxƒ‹‚ª—LŒø‚©‚Ç‚¤‚©‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @return æœ‰åŠ¹ã§ã‚ã‚‹å ´åˆã€<code>true</code>
+     * @return —LŒø‚Å‚ ‚éê‡A<code>true</code>
      */
     public boolean isWarnEnabled()
     {
@@ -470,9 +470,9 @@ public class SystemLogger
     }
 
     /**
-     * ERROR ãƒ¬ãƒ™ãƒ«ãŒæœ‰åŠ¹ã‹ã©ã†ã‹ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ERROR ƒŒƒxƒ‹‚ª—LŒø‚©‚Ç‚¤‚©‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @return æœ‰åŠ¹ã§ã‚ã‚‹å ´åˆã€<code>true</code>
+     * @return —LŒø‚Å‚ ‚éê‡A<code>true</code>
      */
     public boolean isErrorEnabled()
     {
@@ -484,9 +484,9 @@ public class SystemLogger
     }
 
     /**
-     * FATAL ãƒ¬ãƒ™ãƒ«ãŒæœ‰åŠ¹ã‹ã©ã†ã‹ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * FATAL ƒŒƒxƒ‹‚ª—LŒø‚©‚Ç‚¤‚©‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @return æœ‰åŠ¹ã§ã‚ã‚‹å ´åˆã€<code>true</code>
+     * @return —LŒø‚Å‚ ‚éê‡A<code>true</code>
      */
     public boolean isFatalEnabled()
     {
@@ -498,9 +498,9 @@ public class SystemLogger
     }
 
     /**
-     * ã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ã‚’åˆæœŸåŒ–ã—ã¾ã™ã€‚<br />
+     * ƒVƒXƒeƒ€ƒƒO‚ğ‰Šú‰»‚µ‚Ü‚·B<br />
      * 
-     * @param config åˆæœŸåŒ–ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param config ‰Šú‰»ƒpƒ‰ƒ[ƒ^ƒIƒuƒWƒFƒNƒg
      */
     public static synchronized void initSystemLog(final JavelinConfig config)
     {
@@ -517,7 +517,7 @@ public class SystemLogger
         this.systemLogSizeMax_ = config.getSystemLogSizeMax();
         this.systemLogLevel_ = toLogLevel(config.getSystemLogLevel());
 
-        // èµ·å‹•æ™‚ã«ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ãŒå¤šæ•°ã‚ã‚‹å ´åˆã¯å‰Šé™¤ã™ã‚‹ã€‚
+        // ‹N“®‚ÉƒƒOƒtƒ@ƒCƒ‹‚ª‘½”‚ ‚éê‡‚Ííœ‚·‚éB
         boolean success = IOUtil.removeFiles(this.systemLogNumMax_ - 1, this.logPath_, EXTENTION);
 
         if(!success)
@@ -528,9 +528,9 @@ public class SystemLogger
     }
 
     /**
-     * {@link SystemLogger} ãŒåˆæœŸåŒ–æ¸ˆã¿ã§ã‚ã‚‹ã‹ã©ã†ã‹ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * {@link SystemLogger} ‚ª‰Šú‰»Ï‚İ‚Å‚ ‚é‚©‚Ç‚¤‚©‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @return åˆæœŸåŒ–æ¸ˆã¿ã®å ´åˆã¯ <code>true</code>ã€‚
+     * @return ‰Šú‰»Ï‚İ‚Ìê‡‚Í <code>true</code>B
      */
     public static boolean isInitialized()
     {
@@ -538,10 +538,10 @@ public class SystemLogger
     }
 
     /**
-     * ãƒ­ã‚°ãƒ¬ãƒ™ãƒ«ã®æ–‡å­—åˆ—ã‚’ {@link LogLevel} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«å¤‰æ›ã—ã¾ã™ã€‚<br />
+     * ƒƒOƒŒƒxƒ‹‚Ì•¶š—ñ‚ğ {@link LogLevel} ƒIƒuƒWƒFƒNƒg‚É•ÏŠ·‚µ‚Ü‚·B<br />
      * 
-     * @param logLevelStr ãƒ­ã‚°ãƒ¬ãƒ™ãƒ«ã®æ–‡å­—åˆ—ã€‚
-     * @return LogLevel {@link LogLevel} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param logLevelStr ƒƒOƒŒƒxƒ‹‚Ì•¶š—ñB
+     * @return LogLevel {@link LogLevel} ƒIƒuƒWƒFƒNƒg
      */
     private static LogLevel toLogLevel(final String logLevelStr)
     {

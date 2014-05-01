@@ -29,7 +29,7 @@ import jp.co.acroquest.endosnipe.common.entity.ItemType;
 import jp.co.acroquest.endosnipe.javelin.bean.proc.ProcInfo;
 
 /**
- * MemInfoからシステム全体のスワップ最大量を取得する。
+ * MemInfo����V�X�e���S�̂̃X���b�v�ő�ʂ��擾����B
  * 
  * @author akita
  */
@@ -38,7 +38,7 @@ public class LinuxSwapTotalGetter extends ProcResourceGetter
 
     /**
      * 
-     * @param procParser リソース情報取得用
+     * @param procParser ���\�[�X���擾�p
      */
     public LinuxSwapTotalGetter(ProcParser procParser)
     {

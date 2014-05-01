@@ -28,7 +28,7 @@ package jp.co.acroquest.endosnipe.javelin.bean;
 import jp.co.acroquest.endosnipe.javelin.MBeanManager;
 
 /**
- * Containerã‚¯ãƒ©ã‚¹
+ * ContainerƒNƒ‰ƒX
  * @author acroquest
  *
  */

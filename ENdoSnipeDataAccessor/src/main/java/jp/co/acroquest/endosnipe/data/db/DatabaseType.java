@@ -26,7 +26,7 @@
 package jp.co.acroquest.endosnipe.data.db;
 
 /**
- * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®ç¨®é¡ã‚’è¡¨ã™åˆ—æŒ™ä½“ã€‚<br /> 
+ * ƒf[ƒ^ƒx[ƒX‚Ìí—Ş‚ğ•\‚·—ñ‹“‘ÌB<br /> 
  *
  * @author sakamoto
  */
@@ -38,13 +38,13 @@ public enum DatabaseType
     /** PostgreSQL */
     POSTGRES("postgres");
 
-    /** ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®ç¨®é¡ã‚’è¡¨ã™ ID */
+    /** ƒf[ƒ^ƒx[ƒX‚Ìí—Ş‚ğ•\‚· ID */
     private final String id_;
 
     /**
-     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®ç¨®é¡ã‚’è¡¨ã™é …ç›®ã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
+     * ƒf[ƒ^ƒx[ƒX‚Ìí—Ş‚ğ•\‚·€–Ú‚ğ¶¬‚µ‚Ü‚·B<br />
      *
-     * @param id ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®ç¨®é¡ã‚’è¡¨ã™ ID
+     * @param id ƒf[ƒ^ƒx[ƒX‚Ìí—Ş‚ğ•\‚· ID
      */
     private DatabaseType(final String id)
     {
@@ -52,9 +52,9 @@ public enum DatabaseType
     }
 
     /**
-     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®ç¨®é¡ã‚’è¡¨ã™ ID ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ƒf[ƒ^ƒx[ƒX‚Ìí—Ş‚ğ•\‚· ID ‚ğ•Ô‚µ‚Ü‚·B<br />
      *
-     * @return ID æ–‡å­—åˆ—
+     * @return ID •¶š—ñ
      */
     public String getId()
     {
@@ -62,10 +62,10 @@ public enum DatabaseType
     }
 
     /**
-     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®ç¨®é¡ã‚’è¡¨ã™ ID ã‹ã‚‰ã€ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ƒf[ƒ^ƒx[ƒX‚Ìí—Ş‚ğ•\‚· ID ‚©‚çAƒIƒuƒWƒFƒNƒg‚ğ•Ô‚µ‚Ü‚·B<br />
      *
-     * @param id ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®ç¨®é¡ã‚’è¡¨ã™ ID
-     * @return ID ã«å¯¾å¿œã™ã‚‹ç¨®é¡ãŒå­˜åœ¨ã™ã‚‹å ´åˆã¯ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€å­˜åœ¨ã—ãªã„å ´åˆã¯ <code>null</code>
+     * @param id ƒf[ƒ^ƒx[ƒX‚Ìí—Ş‚ğ•\‚· ID
+     * @return ID ‚É‘Î‰‚·‚éí—Ş‚ª‘¶İ‚·‚éê‡‚ÍƒIƒuƒWƒFƒNƒgA‘¶İ‚µ‚È‚¢ê‡‚Í <code>null</code>
      */
     public static DatabaseType fromId(final String id)
     {

@@ -1,3 +1,0 @@
-http://siliconslick.com/papitools/centos/6/RPMS/x86_64/libdwarf-0.20110612-1br.el6.x86_64.rpm
-http://siliconslick.com/papitools/centos/6/RPMS/x86_64/libdwarf-devel-0.20110612-1br.el6.x86_64.rpm
-

@@ -26,27 +26,27 @@
 package jp.co.acroquest.endosnipe.javelin.bean.proc;
 
 /**
- * ProcInfoクラス
+ * ProcInfo�N���X
  * @author acroquest
  *
  */
 public class ProcInfo
 {
-    /** /proc/meminfoの以下の情報 */
+    /** /proc/meminfo�̈ȉ��̏�� */
     private MemInfo      memInfo_;
 
-    /** /proc/statの以下の情報 */
+    /** /proc/stat�̈ȉ��̏�� */
     private StatInfo     statInfo_;
 
-    /** /proc/self/statの以下の情報 */
+    /** /proc/self/stat�̈ȉ��̏�� */
     private SelfStatInfo selfStatInfo_;
 
-    /** /proc/diskStatsの以下の情報 */
+    /** /proc/diskStats�̈ȉ��̏�� */
     private DiskStats    diskStats_;
 
     /**
-     * /proc/meminfoの以下の情報を取得します。
-     * @return /proc/meminfoの以下の情報
+     * /proc/meminfo�̈ȉ��̏����擾���܂��B
+     * @return /proc/meminfo�̈ȉ��̏��
      */
     public MemInfo getMemInfo()
     {
@@ -54,8 +54,8 @@ public class ProcInfo
     }
 
     /**
-     * /proc/meminfoの以下の情報を設定します。
-     * @param memInfo /proc/meminfoの以下の情報
+     * /proc/meminfo�̈ȉ��̏���ݒ肵�܂��B
+     * @param memInfo /proc/meminfo�̈ȉ��̏��
      */
     public void setMemInfo(MemInfo memInfo)
     {
@@ -63,8 +63,8 @@ public class ProcInfo
     }
 
     /**
-     * /proc/statの以下の情報を取得します。
-     * @return /proc/statの以下の情報
+     * /proc/stat�̈ȉ��̏����擾���܂��B
+     * @return /proc/stat�̈ȉ��̏��
      */
     public StatInfo getStatInfo()
     {
@@ -72,8 +72,8 @@ public class ProcInfo
     }
 
     /**
-     * /proc/statの以下の情報を設定します。
-     * @param statInfo /proc/statの以下の情報
+     * /proc/stat�̈ȉ��̏���ݒ肵�܂��B
+     * @param statInfo /proc/stat�̈ȉ��̏��
      */
     public void setStatInfo(StatInfo statInfo)
     {
@@ -81,8 +81,8 @@ public class ProcInfo
     }
 
     /**
-     * /proc/self/statの以下の情報を取得します。
-     * @return /proc/self/statの以下の情報
+     * /proc/self/stat�̈ȉ��̏����擾���܂��B
+     * @return /proc/self/stat�̈ȉ��̏��
      */
     public SelfStatInfo getSelfStatInfo()
     {
@@ -90,8 +90,8 @@ public class ProcInfo
     }
 
     /**
-     * /proc/self/statの以下の情報を設定します。
-     * @param selfStatInfo /proc/self/statの以下の情報
+     * /proc/self/stat�̈ȉ��̏���ݒ肵�܂��B
+     * @param selfStatInfo /proc/self/stat�̈ȉ��̏��
      */
     public void setSelfStatInfo(SelfStatInfo selfStatInfo)
     {
@@ -99,8 +99,8 @@ public class ProcInfo
     }
 
     /** 
-     * /proc/diskStatsの以下の情報を設定します。
-     * @param diskStats /proc/diskStatsの以下の情報
+     * /proc/diskStats�̈ȉ��̏���ݒ肵�܂��B
+     * @param diskStats /proc/diskStats�̈ȉ��̏��
      */
     public void setDiskStats(DiskStats diskStats)
     {
@@ -108,8 +108,8 @@ public class ProcInfo
     }
 
     /**
-     * /proc/diskStatsの以下の情報を取得します。
-     * @return /proc/diskStatsの以下の情報
+     * /proc/diskStats�̈ȉ��̏����擾���܂��B
+     * @return /proc/diskStats�̈ȉ��̏��
      */
     public DiskStats getDiskStats()
     {

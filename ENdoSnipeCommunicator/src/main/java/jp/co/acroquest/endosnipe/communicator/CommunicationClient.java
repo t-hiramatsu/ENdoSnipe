@@ -28,45 +28,45 @@ package jp.co.acroquest.endosnipe.communicator;
 import jp.co.acroquest.endosnipe.communicator.entity.ConnectNotifyData;
 
 /**
- * ã‚³ãƒŸãƒ¥ãƒ‹ã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã®ãŸã‚ã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã§ã™ã€‚<br />
+ * ƒRƒ~ƒ…ƒjƒP[ƒVƒ‡ƒ“ƒNƒ‰ƒCƒAƒ“ƒg‚Ì‚½‚ß‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX‚Å‚·B<br />
  * 
  * @author y-komori
  */
 public interface CommunicationClient extends AbstractCommunicator
 {
     /**
-     * ã‚³ãƒŸãƒ¥ãƒ‹ã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚’åˆæœŸåŒ–ã—ã¾ã™ã€‚<br />
+     * ƒRƒ~ƒ…ƒjƒP[ƒVƒ‡ƒ“ƒNƒ‰ƒCƒAƒ“ƒg‚ğ‰Šú‰»‚µ‚Ü‚·B<br />
      * 
-     * @param hostName æ¥ç¶šå…ˆãƒ›ã‚¹ãƒˆåã¾ãŸã¯IPã‚¢ãƒ‰ãƒ¬ã‚¹
-     * @param port æ¥ç¶šå…ˆãƒãƒ¼ãƒˆç•ªå·
+     * @param hostName Ú‘±æƒzƒXƒg–¼‚Ü‚½‚ÍIPƒAƒhƒŒƒX
+     * @param port Ú‘±æƒ|[ƒg”Ô†
      */
     void init(String hostName, int port);
 
     /**
-     * ã‚µãƒ¼ãƒã¸æ¥ç¶šã—ã¾ã™ã€‚<br />
+     * ƒT[ƒo‚ÖÚ‘±‚µ‚Ü‚·B<br />
      * 
-     * æœ¬ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã³å‡ºã™å‰ã«ã€{@link #init(String, int)} ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„ã€‚<br />
+     * –{ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·‘O‚ÉA{@link #init(String, int)} ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢B<br />
      * 
-     * @param connectNotify æ¥ç¶šå®Œäº†å¾Œã«é€ä¿¡ã™ã‚‹æ¥ç¶šé€šçŸ¥
+     * @param connectNotify Ú‘±Š®—¹Œã‚É‘—M‚·‚éÚ‘±’Ê’m
      */
     void connect(ConnectNotifyData connectNotify);
 
     /**
-     * ã‚µãƒ¼ãƒã‹ã‚‰åˆ‡æ–­ã—ã¾ã™ã€‚<br />
+     * ƒT[ƒo‚©‚çØ’f‚µ‚Ü‚·B<br />
      */
     void disconnect();
 
     /**
-     * ã‚³ãƒŸãƒ¥ãƒ‹ã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚’çµ‚äº†ã—ã¾ã™ã€‚<br />
+     * ƒRƒ~ƒ…ƒjƒP[ƒVƒ‡ƒ“ƒNƒ‰ƒCƒAƒ“ƒg‚ğI—¹‚µ‚Ü‚·B<br />
      * 
-     * æœ¬ãƒ¡ã‚½ãƒƒãƒ‰ã¯ã€{@link #disconnect()} ãƒ¡ã‚½ãƒƒãƒ‰ã®å¾Œã«å‘¼ã³å‡ºã—ã¦ãã ã•ã„ã€‚<br />
+     * –{ƒƒ\ƒbƒh‚ÍA{@link #disconnect()} ƒƒ\ƒbƒh‚ÌŒã‚ÉŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢B<br />
      */
     void shutdown();
 
     /**
-     * æ¥ç¶šå…ˆ IP ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * Ú‘±æ IP ƒAƒhƒŒƒX‚ğ•Ô‚µ‚Ü‚·B<br />
      *
-     * @return æ¥ç¶šå…ˆ IP ã‚¢ãƒ‰ãƒ¬ã‚¹
+     * @return Ú‘±æ IP ƒAƒhƒŒƒX
      */
     String getIpAddress();
 }

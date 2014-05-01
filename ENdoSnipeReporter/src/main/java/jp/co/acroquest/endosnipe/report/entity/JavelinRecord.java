@@ -4,231 +4,214 @@ import java.sql.Timestamp;
 
 public class JavelinRecord
 {
-	/** è¨ˆæ¸¬æ™‚åˆ» */
-	private Timestamp measurementTime_;
+	/** Œv‘ª */
+    private Timestamp measurementTime_;
 
-	/** CallTreeNodeç”Ÿæˆæ•°ã®ã‚°ãƒ©ãƒ•ã®ã€æœ€å¤§[æ•°] */
-	private long callTreeNodeNumMax_;
-
-	/** CallTreeNodeç”Ÿæˆæ•°ã®ã‚°ãƒ©ãƒ•ã®ã€å¹³å‡[æ•°] */
-	private double callTreeNodeNumAverage_;
-
-	/** å¤‰æ›ãƒ¡ã‚½ãƒƒãƒ‰æ•°ã®ã‚°ãƒ©ãƒ•ã®ã€JavelinConverterå¤‰æ›ãƒ¡ã‚½ãƒƒãƒ‰æ•°[æ•°] */
-	private long javelinConverterMethodNum_;
-
-	/** å¤‰æ›ãƒ¡ã‚½ãƒƒãƒ‰æ•°ã®ã‚°ãƒ©ãƒ•ã®ã€JavelinConverterå¤‰æ›é™¤å¤–ãƒ¡ã‚½ãƒƒãƒ‰æ•°[æ•°] */
-	private long javelinConverterExcludedMethodNum_;
-
-	/** å¤‰æ›ãƒ¡ã‚½ãƒƒãƒ‰æ•°ã®ã‚°ãƒ©ãƒ•ã®ã€å®Ÿè¡Œãƒ¡ã‚½ãƒƒãƒ‰æ•°[æ•°] */
-	private long executedMethodNum_;
-
-	/** ã‚«ãƒãƒ¬ãƒƒã‚¸[%]ï¼ˆè£œé–“æœŸé–“å¹³å‡ï¼‰ */
-	private double coverage_;
-
-	/** ã‚«ãƒãƒ¬ãƒƒã‚¸[%]ï¼ˆè£œé–“æœŸé–“æœ€å¤§ï¼‰ */
-	private double coverageMax_;
-
-	/** ã‚«ãƒãƒ¬ãƒƒã‚¸[%]ï¼ˆè£œé–“æœŸé–“æœ€å°ï¼‰ */
-	private double coverageMin_;
-
-	/** ã‚¤ãƒ™ãƒ³ãƒˆæ•°ï¼ˆæœ€å¤§ï¼‰ */
-	private long eventMax_;
-
-	/** ã‚¤ãƒ™ãƒ³ãƒˆæ•°(æœ€å°) */
-	private long eventMin_;
-
-	/** ã‚¤ãƒ™ãƒ³ãƒˆæ•° */
-	private long event_;
+    /** CallTreeNode¶¬”‚ÌƒOƒ‰ƒt‚ÌAÅ‘å[”] */
+    private long callTreeNodeNumMax_;
+    
+    /** CallTreeNode¶¬”‚ÌƒOƒ‰ƒt‚ÌA•½‹Ï[”] */
+    private double callTreeNodeNumAverage_;
+    
+    /** •ÏŠ·ƒƒ\ƒbƒh”‚ÌƒOƒ‰ƒt‚ÌAJavelinConverter•ÏŠ·ƒƒ\ƒbƒh”[”] */
+    private long javelinConverterMethodNum_;
+    
+    /** •ÏŠ·ƒƒ\ƒbƒh”‚ÌƒOƒ‰ƒt‚ÌAJavelinConverter•ÏŠ·œŠOƒƒ\ƒbƒh”[”] */
+    private long javelinConverterExcludedMethodNum_;
+    
+    /** •ÏŠ·ƒƒ\ƒbƒh”‚ÌƒOƒ‰ƒt‚ÌAÀsƒƒ\ƒbƒh”[”] */
+    private long executedMethodNum_;
+    
+    /** ƒJƒoƒŒƒbƒW[%]i•âŠÔŠúŠÔ•½‹Ïj */
+    private double coverage_;
+    
+    /** ƒJƒoƒŒƒbƒW[%]i•âŠÔŠúŠÔÅ‘åj */
+    private double coverageMax_;
+    
+    /** ƒJƒoƒŒƒbƒW[%]i•âŠÔŠúŠÔÅ¬j */
+    private double coverageMin_;
+    
+    /** ƒCƒxƒ“ƒg”iÅ‘åj */
+    private long eventMax_;
+    
+    /** ƒCƒxƒ“ƒg”(Å¬) */
+    private long eventMin_;
+    
+    /** ƒCƒxƒ“ƒg” */
+    private long event_;
 
 	/**
 	 * @return the measurementTime_
 	 */
-	public Timestamp getMeasurementTime()
-	{
+	public Timestamp getMeasurementTime() {
 		return measurementTime_;
 	}
 
 	/**
 	 * @param measurementTime the measurementTime_ to set
 	 */
-	public void setMeasurementTime(Timestamp measurementTime)
-	{
+	public void setMeasurementTime(Timestamp measurementTime) {
 		this.measurementTime_ = measurementTime;
 	}
 
 	/**
 	 * @return the callTreeNodeNumMax_
 	 */
-	public long getCallTreeNodeNumMax()
-	{
+	public long getCallTreeNodeNumMax() {
 		return callTreeNodeNumMax_;
 	}
 
 	/**
 	 * @param callTreeNodeNumMax the callTreeNodeNumMax_ to set
 	 */
-	public void setCallTreeNodeNumMax(long callTreeNodeNumMax)
-	{
+	public void setCallTreeNodeNumMax(long callTreeNodeNumMax) {
 		this.callTreeNodeNumMax_ = callTreeNodeNumMax;
 	}
 
 	/**
 	 * @return the callTreeNodeNumAverage_
 	 */
-	public double getCallTreeNodeNumAverage()
-	{
+	public double getCallTreeNodeNumAverage() {
 		return callTreeNodeNumAverage_;
 	}
 
 	/**
 	 * @param callTreeNodeNumAverage the callTreeNodeNumAverage_ to set
 	 */
-	public void setCallTreeNodeNumAverage(double callTreeNodeNumAverage)
-	{
+	public void setCallTreeNodeNumAverage(double callTreeNodeNumAverage) {
 		this.callTreeNodeNumAverage_ = callTreeNodeNumAverage;
 	}
 
 	/**
 	 * @return the javelinConverterMethodNum_
 	 */
-	public long getJavelinConverterMethodNum()
-	{
+	public long getJavelinConverterMethodNum() {
 		return javelinConverterMethodNum_;
 	}
 
 	/**
 	 * @param javelinConverterMethodNum the javelinConverterMethodNum_ to set
 	 */
-	public void setJavelinConverterMethodNum(long javelinConverterMethodNum)
-	{
+	public void setJavelinConverterMethodNum(long javelinConverterMethodNum) {
 		this.javelinConverterMethodNum_ = javelinConverterMethodNum;
 	}
 
 	/**
 	 * @return the javelinConverterExcludedMethodNum_
 	 */
-	public long getJavelinConverterExcludedMethodNum()
-	{
+	public long getJavelinConverterExcludedMethodNum() {
 		return javelinConverterExcludedMethodNum_;
 	}
 
 	/**
 	 * @param javelinConverterExcludedMethodNum the javelinConverterExcludedMethodNum_ to set
 	 */
-	public void setJavelinConverterExcludedMethodNum(long javelinConverterExcludedMethodNum)
-	{
+	public void setJavelinConverterExcludedMethodNum(
+			long javelinConverterExcludedMethodNum) {
 		this.javelinConverterExcludedMethodNum_ = javelinConverterExcludedMethodNum;
 	}
 
 	/**
 	 * @return the executedMethodNum_
 	 */
-	public long getExecutedMethodNum()
-	{
+	public long getExecutedMethodNum() {
 		return executedMethodNum_;
 	}
 
 	/**
 	 * @param executedMethodNum the executedMethodNum_ to set
 	 */
-	public void setExecutedMethodNum(long executedMethodNum)
-	{
+	public void setExecutedMethodNum(long executedMethodNum) {
 		this.executedMethodNum_ = executedMethodNum;
 	}
 
 	/**
 	 * @return the coverage_
 	 */
-	public double getCoverage()
-	{
+	public double getCoverage() {
 		return coverage_;
 	}
 
 	/**
 	 * @param coverage the coverage_ to set
 	 */
-	public void setCoverage(double coverage)
-	{
+	public void setCoverage(double coverage) {
 		this.coverage_ = coverage;
 	}
 
 	/**
 	 * @return the coverageMax_
 	 */
-	public double getCoverageMax()
-	{
+	public double getCoverageMax() {
 		return coverageMax_;
 	}
 
 	/**
 	 * @param coverageMax the coverageMax_ to set
 	 */
-	public void setCoverageMax(double coverageMax)
-	{
+	public void setCoverageMax(double coverageMax) {
 		this.coverageMax_ = coverageMax;
 	}
 
 	/**
 	 * @return the coverageMin_
 	 */
-	public double getCoverageMin()
-	{
+	public double getCoverageMin() {
 		return coverageMin_;
 	}
 
 	/**
 	 * @param coverageMin the coverageMin_ to set
 	 */
-	public void setCoverageMin(double coverageMin)
-	{
+	public void setCoverageMin(double coverageMin) {
 		this.coverageMin_ = coverageMin;
 	}
 
-	/**
-	 * @param eventMax_ the eventMax_ to set
-	 */
-	public void setEventMax(long eventMax_)
-	{
-		this.eventMax_ = eventMax_;
-	}
+    /**
+     * @param eventMax_ the eventMax_ to set
+     */
+    public void setEventMax(long eventMax_)
+    {
+        this.eventMax_ = eventMax_;
+    }
 
-	/**
-	 * @return the eventMax_
-	 */
-	public long getEventMax()
-	{
-		return eventMax_;
-	}
+    /**
+     * @return the eventMax_
+     */
+    public long getEventMax()
+    {
+        return eventMax_;
+    }
 
-	/**
-	 * @param eventMin_ the eventMin_ to set
-	 */
-	public void setEventMin(long eventMin_)
-	{
-		this.eventMin_ = eventMin_;
-	}
+    /**
+     * @param eventMin_ the eventMin_ to set
+     */
+    public void setEventMin(long eventMin_)
+    {
+        this.eventMin_ = eventMin_;
+    }
 
-	/**
-	 * @return the eventMin_
-	 */
-	public long getEventMin()
-	{
-		return eventMin_;
-	}
+    /**
+     * @return the eventMin_
+     */
+    public long getEventMin()
+    {
+        return eventMin_;
+    }
 
-	/**
-	 * @param event_ the event_ to set
-	 */
-	public void setEvent(long event_)
-	{
-		this.event_ = event_;
-	}
+    /**
+     * @param event_ the event_ to set
+     */
+    public void setEvent(long event_)
+    {
+        this.event_ = event_;
+    }
 
-	/**
-	 * @return the event_
-	 */
-	public long getEvent()
-	{
-		return event_;
-	}
+    /**
+     * @return the event_
+     */
+    public long getEvent()
+    {
+        return event_;
+    }
 }

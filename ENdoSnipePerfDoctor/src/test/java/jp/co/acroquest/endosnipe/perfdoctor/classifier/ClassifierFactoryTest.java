@@ -11,7 +11,7 @@ import jp.co.acroquest.endosnipe.perfdoctor.classfier.SimpleClassifier;
 import junit.framework.TestCase;
 
 /**
- * ClassifierFactoryã®ãƒ†ã‚¹ãƒˆã‚¯ãƒ©ã‚¹
+ * ClassifierFactory‚ÌƒeƒXƒgƒNƒ‰ƒX
  * @author fujii
  *
  */
@@ -19,16 +19,16 @@ public class ClassifierFactoryTest extends TestCase
 {
 
     /**
-     * [é …ç•ª] 1-1-9 getClassifierã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»1ã¤ã®è¦ç´ ã‹ã‚‰ãªã‚‹WarningUnitã®ãƒªã‚¹ãƒˆã«å¯¾ã—ã¦ã€
-     *  getClassifierãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã¶ã€‚<br />
+     * [€”Ô] 1-1-9 getClassifier‚ÌƒeƒXƒgB <br />
+     * E1‚Â‚Ì—v‘f‚©‚ç‚È‚éWarningUnit‚ÌƒŠƒXƒg‚É‘Î‚µ‚ÄA
+     *  getClassifierƒƒ\ƒbƒh‚ğŒÄ‚ÔB<br />
      * 
-     * â†’SimpleClassifierãŒè¿”ã£ã¦ãã‚‹ã“ã¨ã€‚
+     * ¨SimpleClassifier‚ª•Ô‚Á‚Ä‚­‚é‚±‚ÆB
      * 
      */
     public void testGetClassifier_ListSizeOne()
     {
-        // æº–å‚™
+        // €”õ
         ClassifierFactory factory = createFactory();
 
         List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
@@ -36,24 +36,24 @@ public class ClassifierFactoryTest extends TestCase
         WarningUnit unit = ClassifierUtil.createDefaultWarningUnit(new Integer[]{5, 10});
         warningUnitList.add(unit);
 
-        // å®Ÿè¡Œ
+        // Às
         Classifier classifier = factory.getClassifier(warningUnitList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertTrue(classifier instanceof SimpleClassifier);
     }
 
     /**
-     * [é …ç•ª] 1-1-10 getClassifierã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»10å€‹ã®è¦ç´ ã‹ã‚‰ãªã‚‹WarningUnitã®ãƒªã‚¹ãƒˆã«å¯¾ã—ã¦ã€
-     *  getClassifierãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã¶ã€‚<br />
+     * [€”Ô] 1-1-10 getClassifier‚ÌƒeƒXƒgB <br />
+     * E10ŒÂ‚Ì—v‘f‚©‚ç‚È‚éWarningUnit‚ÌƒŠƒXƒg‚É‘Î‚µ‚ÄA
+     *  getClassifierƒƒ\ƒbƒh‚ğŒÄ‚ÔB<br />
      * 
-     * â†’SimpleClassifierãŒè¿”ã£ã¦ãã‚‹ã“ã¨ã€‚
+     * ¨SimpleClassifier‚ª•Ô‚Á‚Ä‚­‚é‚±‚ÆB
      * 
      */
     public void testGetClassifier_ListSizeTen()
     {
-        // æº–å‚™
+        // €”õ
         ClassifierFactory factory = createFactory();
 
         List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
@@ -80,24 +80,24 @@ public class ClassifierFactoryTest extends TestCase
         warningUnitList.add(unit9);
         warningUnitList.add(unit10);
 
-        // å®Ÿè¡Œ
+        // Às
         Classifier classifier = factory.getClassifier(warningUnitList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertTrue(classifier instanceof SimpleClassifier);
     }
 
     /**
-     * [é …ç•ª] 1-1-11 getClassifierã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»11å€‹ã®è¦ç´ ã‹ã‚‰ãªã‚‹WarningUnitã®ãƒªã‚¹ãƒˆã«å¯¾ã—ã¦ã€
-     *  getClassifierãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã¶ã€‚<br />
+     * [€”Ô] 1-1-11 getClassifier‚ÌƒeƒXƒgB <br />
+     * E11ŒÂ‚Ì—v‘f‚©‚ç‚È‚éWarningUnit‚ÌƒŠƒXƒg‚É‘Î‚µ‚ÄA
+     *  getClassifierƒƒ\ƒbƒh‚ğŒÄ‚ÔB<br />
      * 
-     * â†’KmeansClassifierãŒè¿”ã£ã¦ãã‚‹ã“ã¨ã€‚
+     * ¨KmeansClassifier‚ª•Ô‚Á‚Ä‚­‚é‚±‚ÆB
      * 
      */
     public void testGetClassifier_ListSizeEleven()
     {
-        // æº–å‚™
+        // €”õ
         ClassifierFactory factory = createFactory();
 
         List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
@@ -126,24 +126,24 @@ public class ClassifierFactoryTest extends TestCase
         warningUnitList.add(unit10);
         warningUnitList.add(unit11);
 
-        // å®Ÿè¡Œ
+        // Às
         Classifier classifier = factory.getClassifier(warningUnitList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertTrue(classifier instanceof KmeansClassifier);
     }
 
     /**
-     * [é …ç•ª] 1-1-12 getClassifierã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»20å€‹ã®è¦ç´ ã‹ã‚‰ãªã‚‹WarningUnitã®ãƒªã‚¹ãƒˆã«å¯¾ã—ã¦ã€
-     *  getClassifierãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã¶ã€‚<br />
+     * [€”Ô] 1-1-12 getClassifier‚ÌƒeƒXƒgB <br />
+     * E20ŒÂ‚Ì—v‘f‚©‚ç‚È‚éWarningUnit‚ÌƒŠƒXƒg‚É‘Î‚µ‚ÄA
+     *  getClassifierƒƒ\ƒbƒh‚ğŒÄ‚ÔB<br />
      * 
-     * â†’KmeansClassifierãŒè¿”ã£ã¦ãã‚‹ã“ã¨ã€‚
+     * ¨KmeansClassifier‚ª•Ô‚Á‚Ä‚­‚é‚±‚ÆB
      * 
      */
     public void testGetClassifier_ListSizeTwenty()
     {
-        // æº–å‚™
+        // €”õ
         ClassifierFactory factory = createFactory();
 
         List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
@@ -190,15 +190,15 @@ public class ClassifierFactoryTest extends TestCase
         warningUnitList.add(unit19);
         warningUnitList.add(unit20);
 
-        // å®Ÿè¡Œ
+        // Às
         Classifier classifier = factory.getClassifier(warningUnitList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertTrue(classifier instanceof KmeansClassifier);
     }
 
     /**
-     * ClassifierFactoryã‚’ç”Ÿæˆã™ã‚‹ã€‚
+     * ClassifierFactory‚ğ¶¬‚·‚éB
      * @return ClassifierFactory
      */
     public ClassifierFactory createFactory()

@@ -32,10 +32,10 @@ import jp.co.dgic.testing.common.virtualmock.MockObjectManager;
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 
 /**
- * SystemLoggerã®ãƒ­ã‚°å‡ºåŠ›å‡¦ç†ã®å‘¼ã³å‡ºã—å¼•æ•°ã‚’ç”¨ã„ã¦å‡ºåŠ›ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’æ¤œè¨¼ã™ã‚‹ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹
+ * SystemLogger‚ÌƒƒOo—Íˆ—‚ÌŒÄ‚Ño‚µˆø”‚ğ—p‚¢‚Äo—ÍƒƒbƒZ[ƒW‚ğŒŸØ‚·‚éƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒX
  * 
- * ç†ç”±ã¯ä¸æ˜ã ãŒã€logãƒ¡ã‚½ãƒƒãƒ‰ã®å‘¼ã³å‡ºã—å›æ•°ã€
- * å¼•æ•°ç­‰ãŒå–å¾—ã§ããªã„ãŸã‚ã€å‘¼ã³å‡ºã—å…ƒã¨ãªã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã«å¯¾ã—ã¦ä»•æ›ã‘ã‚‹
+ * ——R‚Í•s–¾‚¾‚ªAlogƒƒ\ƒbƒh‚ÌŒÄ‚Ño‚µ‰ñ”A
+ * ˆø”“™‚ªæ“¾‚Å‚«‚È‚¢‚½‚ßAŒÄ‚Ño‚µŒ³‚Æ‚È‚éƒƒ\ƒbƒh‚É‘Î‚µ‚ÄdŠ|‚¯‚é
  * 
  * @author kimura
  *
@@ -51,10 +51,10 @@ public class SystemLoggerTestUtil
     }
 
     /**
-     * SystemLoggerã§ã€å¼•æ•°ã«æŒ‡å®šã—ãŸãƒ¡ã‚½ãƒƒãƒ‰ãƒ¡ã‚½ãƒƒãƒ‰ã§ç‰¹å®šã®ãƒ­ã‚°ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãŒå‡ºåŠ›ã•ã‚ŒãŸã“ã¨ãŒã‚ã‚‹ã‹ç¢ºèªã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰
-     * @param targetMessage æ¤œè¨¼å¯¾è±¡ãƒ­ã‚°ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
-     * @param methodName å‡ºåŠ›ã‚’è¡Œã£ãŸãƒ¡ã‚½ãƒƒãƒ‰å
-     * @return å‡ºåŠ›ã•ã‚ŒãŸã“ã¨ãŒã‚ã‚‹ã‹
+     * SystemLogger‚ÅAˆø”‚Éw’è‚µ‚½ƒƒ\ƒbƒhƒƒ\ƒbƒh‚Å“Á’è‚ÌƒƒOƒƒbƒZ[ƒW‚ªo—Í‚³‚ê‚½‚±‚Æ‚ª‚ ‚é‚©Šm”F‚·‚éƒƒ\ƒbƒh
+     * @param targetMessage ŒŸØ‘ÎÛƒƒOƒƒbƒZ[ƒW
+     * @param methodName o—Í‚ğs‚Á‚½ƒƒ\ƒbƒh–¼
+     * @return o—Í‚³‚ê‚½‚±‚Æ‚ª‚ ‚é‚©
      */
     public static boolean isContainSystemLogMethod(final String targetMessage,
             final String methodName)
@@ -76,7 +76,7 @@ public class SystemLoggerTestUtil
             }
             catch (Exception e)
             {
-                // nullãŒè¿”ã‚‹ã¨æƒ³å®šã—ã¦ã„ãŸãŒã€ä¾‹å¤–ãŒé£›ã¶ã®ã§ç„¡è¦–ã™ã‚‹æ–¹å‘ã§
+                // null‚ª•Ô‚é‚Æ‘z’è‚µ‚Ä‚¢‚½‚ªA—áŠO‚ª”ò‚Ô‚Ì‚Å–³‹‚·‚é•ûŒü‚Å
             }
 
             if (firstLogElement != null && firstLogElement instanceof Throwable)
@@ -119,9 +119,9 @@ public class SystemLoggerTestUtil
     }
 
     /**
-     * Throwableã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’æ–‡å­—åˆ—ã¨ã—ã¦å–å¾—ã™ã‚‹
-     * @param th Throwableã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
-     * @return Throwableã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹æ–‡å­—åˆ—
+     * ThrowableƒCƒ“ƒXƒ^ƒ“ƒX‚ÌƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğ•¶š—ñ‚Æ‚µ‚Äæ“¾‚·‚é
+     * @param th ThrowableƒCƒ“ƒXƒ^ƒ“ƒX
+     * @return ThrowableƒCƒ“ƒXƒ^ƒ“ƒX‚ÌƒXƒ^ƒbƒNƒgƒŒ[ƒX•¶š—ñ
      */
     public static String getStackTraceMessage(final Throwable th)
     {

@@ -29,7 +29,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Javelin ãƒ­ã‚°ã‚’JavelinLogã‹ã‚‰å–å¾—ã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚<br />
+ * Javelin ƒƒO‚ğJavelinLog‚©‚çæ“¾‚·‚éƒNƒ‰ƒXB<br />
  *
  * @author eriguchi
  */
@@ -38,9 +38,9 @@ public class JavelinLogInputStreamAccessor extends JavelinLogAccessor
     private InputStream javelinLog_;
     
     /**
-     * JavelinLogã‹ã‚‰ Javelin ãƒ­ã‚°ã‚’å–å¾—ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã—ã¾ã™ã€‚
+     * JavelinLog‚©‚ç Javelin ƒƒO‚ğæ“¾‚·‚éƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‚Ü‚·B
      *
-     * @param fileName ãƒ•ã‚¡ã‚¤ãƒ«åã€‚
+     * @param fileName ƒtƒ@ƒCƒ‹–¼B
      * @param javelinLog JavelinLog
      */
     public JavelinLogInputStreamAccessor(final String fileName, final InputStream javelinLog)

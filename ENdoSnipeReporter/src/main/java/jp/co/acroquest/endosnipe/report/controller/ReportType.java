@@ -13,68 +13,69 @@
 package jp.co.acroquest.endosnipe.report.controller;
 
 /**
- * ãƒ¬ãƒãƒ¼ãƒˆã®ã€Œç¨®é¡ã€ã‚’ç¤ºã™åˆ—æŒ™å‹
- * ç¨®é¡æ¯ã«ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚­ãƒ¼ã‚’å°ããŸã‚ã®ã€ŒIDã€ã‚’æŒã¤ã€‚
+ * ƒŒƒ|[ƒg‚Ìuí—Şv‚ğ¦‚·—ñ‹“Œ^
+ * í—Ş–ˆ‚ÉƒvƒƒpƒeƒBƒL[‚ğ“±‚­‚½‚ß‚ÌuIDv‚ğ‚ÂB
  * 
  * @author M.Yoshida
  *
  */
 public enum ReportType
 {
-	/** ã‚·ã‚¹ãƒ†ãƒ ãƒªã‚½ãƒ¼ã‚¹ä½¿ç”¨æ¨ç§»ãƒ¬ãƒãƒ¼ãƒˆ */
-	SYSTEM("reporter.report.type.system"),
-	/** ãƒ—ãƒ­ã‚»ã‚¹ãƒªã‚½ãƒ¼ã‚¹ä½¿ç”¨æ¨ç§»ãƒ¬ãƒãƒ¼ãƒˆ */
-	PROCESS("reporter.report.type.process"),
-	/** ãƒ‡ãƒ¼ã‚¿å…¥å‡ºåŠ›ãƒ¬ãƒãƒ¼ãƒˆ */
-	DATA_IO("reporter.report.type.dataIO"),
-	/** VMçŠ¶æ…‹ãƒ¬ãƒãƒ¼ãƒˆ */
-	VM_STATUS("reporter.report.type.vmStatus"),
-	/** ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ•°ãƒ¬ãƒãƒ¼ãƒˆ */
-	OBJECT("reporter.report.type.object"),
-	/** ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚¿ã‚¤ãƒ ã‚µãƒãƒªãƒ¬ãƒãƒ¼ãƒˆ */
-	RESPONSE_SUMMARY("reporter.report.type.responseSummary"),
-	/** ã‚¢ã‚¯ã‚»ã‚¹å¯¾è±¡åˆ¥ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚¿ã‚¤ãƒ ãƒ¬ãƒãƒ¼ãƒˆ */
-	RESPONSE_LIST("reporter.report.type.responseList"),
-	/** ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ãƒ¬ãƒãƒ¼ãƒˆ */
-	APPLICATION("reporter.report.type.application"),
-	/** ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ãƒ¬ãƒãƒ¼ãƒˆã®Commons Poolã®ã‚µã‚¤ã‚ºã®ãƒ¬ãƒãƒ¼ãƒˆ */
-	SERVER_POOL("reporter.report.type.serverPool"),
-	/** ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ãƒ¬ãƒãƒ¼ãƒˆã®APã‚µãƒ¼ãƒã®ãƒ¯ãƒ¼ã‚«ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã®ãƒ¬ãƒãƒ¼ãƒˆ */
-	POOL_SIZE("reporter.report.type.poolSize"),
-	/** Javelinãƒ¬ãƒãƒ¼ãƒˆ */
-	JAVELIN("reporter.report.type.javelin"),
-	/** ã‚¤ãƒ™ãƒ³ãƒˆç¨®åˆ¥æ¯ã®ã‚¤ãƒ™ãƒ³ãƒˆç™ºç”Ÿå›æ•°ãƒ¬ãƒãƒ¼ãƒˆ */
-	EVENT("reporter.report.type.javelin.event"),
-	/** PerformanceDoctorãƒ¬ãƒãƒ¼ãƒˆ */
-	PERF_DOCTOR("reporter.report.type.perfDoctor"),
-	/** ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚¿ã‚¤ãƒ ã‚µãƒãƒªãƒ¬ãƒãƒ¼ãƒˆ */
-	ITEM("reporter.report.type.item"),
-	/** å¹³å‡ã‚µãƒãƒªã®ãƒ¬ãƒãƒ¼ãƒˆ */
-	OBJECT_AVERAGE("reporter.report.type.object.average"),
-	/** ç©ç®—ã‚µãƒãƒªã‚°ãƒ©ãƒ•ã®ãƒ¬ãƒãƒ¼ãƒˆ */
-	OBJECT_TOTAL("reporter.report.type.object.total"),
-	/** ã‚µãƒãƒªãƒ¬ãƒãƒ¼ãƒˆ */
-	SUMMARY("reporter.report.type.summary");
+    /** ƒVƒXƒeƒ€ƒŠƒ\[ƒXg—p„ˆÚƒŒƒ|[ƒg */
+    SYSTEM("reporter.report.type.system"),
+    /** ƒvƒƒZƒXƒŠƒ\[ƒXg—p„ˆÚƒŒƒ|[ƒg */
+    PROCESS("reporter.report.type.process"),
+    /** ƒf[ƒ^“üo—ÍƒŒƒ|[ƒg */
+    DATA_IO("reporter.report.type.dataIO"),
+    /** VMó‘ÔƒŒƒ|[ƒg */
+    VM_STATUS("reporter.report.type.vmStatus"),
+    /** ƒIƒuƒWƒFƒNƒg”ƒŒƒ|[ƒg */
+    OBJECT("reporter.report.type.object"),
+    /** ƒŒƒXƒ|ƒ“ƒXƒ^ƒCƒ€ƒTƒ}ƒŠƒŒƒ|[ƒg */
+    RESPONSE_SUMMARY("reporter.report.type.responseSummary"),
+    /** ƒAƒNƒZƒX‘ÎÛ•ÊƒŒƒXƒ|ƒ“ƒXƒ^ƒCƒ€ƒŒƒ|[ƒg */
+    RESPONSE_LIST("reporter.report.type.responseList"),
+    /** ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒŒƒ|[ƒg */
+    APPLICATION("reporter.report.type.application"),
+    /** ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒŒƒ|[ƒg‚ÌCommons Pool‚ÌƒTƒCƒY‚ÌƒŒƒ|[ƒg */
+    SERVER_POOL("reporter.report.type.serverPool"),
+    /** ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒŒƒ|[ƒg‚ÌAPƒT[ƒo‚Ìƒ[ƒJƒXƒŒƒbƒh”‚ÌƒŒƒ|[ƒg */
+    POOL_SIZE("reporter.report.type.poolSize"),
+    /** JavelinƒŒƒ|[ƒg */
+    JAVELIN("reporter.report.type.javelin"),
+    /** ƒCƒxƒ“ƒgí•Ê–ˆ‚ÌƒCƒxƒ“ƒg”­¶‰ñ”ƒŒƒ|[ƒg */
+    EVENT("reporter.report.type.javelin.event"),
+    /** PerformanceDoctorƒŒƒ|[ƒg */
+    PERF_DOCTOR("reporter.report.type.perfDoctor"),
+    /** ƒŒƒXƒ|ƒ“ƒXƒ^ƒCƒ€ƒTƒ}ƒŠƒŒƒ|[ƒg */
+    ITEM("reporter.report.type.item"),
+    /** •½‹ÏƒTƒ}ƒŠ‚ÌƒŒƒ|[ƒg */
+    OBJECT_AVERAGE("reporter.report.type.object.average"),
+    /** ÏZƒTƒ}ƒŠƒOƒ‰ƒt‚ÌƒŒƒ|[ƒg */
+    OBJECT_TOTAL("reporter.report.type.object.total"),
+    /** ƒTƒ}ƒŠƒŒƒ|[ƒg */
+    SUMMARY("reporter.report.type.summary");
 
-	/** ID */
-	private String id_;
 
-	/**
-	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
-	 * @param id
-	 */
-	private ReportType(String id)
-	{
-		this.id_ = id;
-	}
+    /** ID */
+    private String id_;
 
-	/**
-	 * ãƒ¬ãƒãƒ¼ãƒˆã®ç¨®é¡ã«å¯¾å¿œã™ã‚‹ã€ŒIDã€ã‚’å–å¾—ã™ã‚‹ã€‚
-	 * 
-	 * @return ID
-	 */
-	public String getId()
-	{
-		return this.id_;
-	}
+    /**
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * @param id
+     */
+    private ReportType(String id)
+    {
+        this.id_ = id;
+    }
+
+    /**
+     * ƒŒƒ|[ƒg‚Ìí—Ş‚É‘Î‰‚·‚éuIDv‚ğæ“¾‚·‚éB
+     * 
+     * @return ID
+     */
+    public String getId()
+    {
+        return this.id_;
+    }
 }

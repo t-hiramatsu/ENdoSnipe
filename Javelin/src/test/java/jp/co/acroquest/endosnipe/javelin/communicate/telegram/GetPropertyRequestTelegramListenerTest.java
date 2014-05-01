@@ -43,19 +43,19 @@ import jp.co.acroquest.endosnipe.javelin.communicate.telegram.util.CreateTelegra
 import jp.co.acroquest.test.util.JavelinTestUtil;
 
 /**
- * ã‚µãƒ¼ãƒãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å–å¾—ãƒ†ã‚¹ãƒˆ
+ * ƒT[ƒoƒvƒƒpƒeƒBæ“¾ƒeƒXƒg
  * @author fujii
  *
  */
 public class GetPropertyRequestTelegramListenerTest extends DJUnitTestCase implements
         TelegramConstants
 {
-    /** Javelinã®è¨­å®šãƒ•ã‚¡ã‚¤ãƒ« */
+    /** Javelin‚Ìİ’èƒtƒ@ƒCƒ‹ */
     private JavelinConfig config_;
 
     /**
-     * åˆæœŸåŒ–ãƒ¡ã‚½ãƒƒãƒ‰<br />
-     * ã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ã®åˆæœŸåŒ–ã‚’è¡Œã†ã€‚
+     * ‰Šú‰»ƒƒ\ƒbƒh<br />
+     * ƒVƒXƒeƒ€ƒƒO‚Ì‰Šú‰»‚ğs‚¤B
      */
     @Override
     public void setUp()
@@ -63,7 +63,7 @@ public class GetPropertyRequestTelegramListenerTest extends DJUnitTestCase imple
     {
         super.setUp();
 
-        // ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ã€ã‚ªãƒ—ã‚·ãƒ§ãƒ³è¨­å®šã‚’èª­ã¿è¾¼ã‚€ã€‚
+        // ƒIƒvƒVƒ‡ƒ“ƒtƒ@ƒCƒ‹‚©‚çAƒIƒvƒVƒ‡ƒ“İ’è‚ğ“Ç‚İ‚ŞB
         MockObjectManager.initialize();
         JavelinTestUtil.camouflageJavelinConfig(getClass(), "/telegram/conf/javelin.properties");
         this.config_ = new JavelinConfig();
@@ -71,13 +71,13 @@ public class GetPropertyRequestTelegramListenerTest extends DJUnitTestCase imple
     }
 
     /**
-     * @test ã‚µãƒ¼ãƒãƒ—ãƒ­ãƒ‘ãƒ†ã‚£è¨­å®šé›»æ–‡-å–å¾—å¿œç­”é›»æ–‡ï¼šãƒ‘ã‚¿ãƒ¼ãƒ³ï¼‘(é …ç›®:4-1-1)
+     * @test ƒT[ƒoƒvƒƒpƒeƒBİ’è“d•¶-æ“¾‰“š“d•¶Fƒpƒ^[ƒ“‚P(€–Ú:4-1-1)
      * @condition 
      * @result
      */
     public void testReceiveTelegram_Get_Pattern1()
     {
-        // æº–å‚™
+        // €”õ
         GetPropertyRequestTelegramListener telegramListener =
                 new GetPropertyRequestTelegramListener();
 
@@ -87,23 +87,23 @@ public class GetPropertyRequestTelegramListenerTest extends DJUnitTestCase imple
         header.setByteRequestKind(BYTE_REQUEST_KIND_REQUEST);
         request.setObjHeader(header);
 
-        // æœŸå¾…å€¤
+        // Šú‘Ò’l
         byte expectedTelegramKind = BYTE_TELEGRAM_KIND_GET_PROPERTY;
         byte expectedRequestKind = BYTE_REQUEST_KIND_RESPONSE;
         Map<String, String> expectedConfigMap = createPattern1();
 
-        // å®Ÿæ–½
+        // À{
         Telegram response = telegramListener.receiveTelegram(request);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         TelegramAssertionUtil.assertHeader(expectedTelegramKind, expectedRequestKind,
                                            response.getObjHeader());
 
-        // Bodyã®æ¤œè¨¼
+        // Body‚ÌŒŸØ
         for (Body body : response.getObjBody())
         {
             String value = expectedConfigMap.get(body.getStrObjName());
-            // äºˆæœŸã—ãŸãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãŒå…¥ã£ã¦ã„ãªã„ã¨ãã«ã¯ã€æ¤œè¨¼ã«å¤±æ•—ã€‚
+            // —\Šú‚µ‚½ƒpƒ‰ƒ[ƒ^‚ª“ü‚Á‚Ä‚¢‚È‚¢‚Æ‚«‚É‚ÍAŒŸØ‚É¸”sB
             if (value == null)
             {
                 fail();
@@ -113,13 +113,13 @@ public class GetPropertyRequestTelegramListenerTest extends DJUnitTestCase imple
     }
 
     /**
-     * @test ã‚µãƒ¼ãƒãƒ—ãƒ­ãƒ‘ãƒ†ã‚£è¨­å®šé›»æ–‡-å–å¾—å¿œç­”é›»æ–‡ï¼šãƒ‘ã‚¿ãƒ¼ãƒ³2(é …ç›®:4-1-2)
+     * @test ƒT[ƒoƒvƒƒpƒeƒBİ’è“d•¶-æ“¾‰“š“d•¶Fƒpƒ^[ƒ“2(€–Ú:4-1-2)
      * @condition 
      * @result
      */
     public void testReceiveTelegram_Get_Pattern2()
     {
-        // æº–å‚™
+        // €”õ
         GetPropertyRequestTelegramListener telegramListener =
                 new GetPropertyRequestTelegramListener();
 
@@ -131,23 +131,23 @@ public class GetPropertyRequestTelegramListenerTest extends DJUnitTestCase imple
         HashMap<String, String> configMap = createPattern2();
         addReturnValue(ConfigUpdater.class, "getUpdatableConfig", configMap);
 
-        // æœŸå¾…å€¤
+        // Šú‘Ò’l
         byte expectedTelegramKind = BYTE_TELEGRAM_KIND_GET_PROPERTY;
         byte expectedRequestKind = BYTE_REQUEST_KIND_RESPONSE;
         Map<String, String> expectedConfigMap = configMap;
 
-        // å®Ÿæ–½
+        // À{
         Telegram response = telegramListener.receiveTelegram(request);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         TelegramAssertionUtil.assertHeader(expectedTelegramKind, expectedRequestKind,
                                            response.getObjHeader());
 
-        // Bodyã®æ¤œè¨¼
+        // Body‚ÌŒŸØ
         for (Body body : response.getObjBody())
         {
             String value = expectedConfigMap.get(body.getStrObjName());
-            // äºˆæœŸã—ãŸãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãŒå…¥ã£ã¦ã„ãªã„ã¨ãã«ã¯ã€æ¤œè¨¼ã«å¤±æ•—ã€‚
+            // —\Šú‚µ‚½ƒpƒ‰ƒ[ƒ^‚ª“ü‚Á‚Ä‚¢‚È‚¢‚Æ‚«‚É‚ÍAŒŸØ‚É¸”sB
             if (value == null)
             {
                 fail();
@@ -171,13 +171,13 @@ public class GetPropertyRequestTelegramListenerTest extends DJUnitTestCase imple
     }
     
     /**
-     * [é …ç•ª] 3-3-1 createPropertyResponseã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å€¤ã‚’è¨­å®šã—ã¦ã€createPropertyResponseãƒ¡ã‚½ãƒƒãƒ‰ã‚’å®Ÿè¡Œã™ã‚‹ã€‚
-     * â†’ä½œæˆã—ãŸé›»æ–‡ãŒæŒ‡å®šã—ãŸã‚‚ã®ã«ãªã£ã¦ã„ã‚‹ã€‚<br />
+     * [€”Ô] 3-3-1 createPropertyResponse‚ÌƒeƒXƒgB <br />
+     * EƒvƒƒpƒeƒB’l‚ğİ’è‚µ‚ÄAcreatePropertyResponseƒƒ\ƒbƒh‚ğÀs‚·‚éB
+     * ¨ì¬‚µ‚½“d•¶‚ªw’è‚µ‚½‚à‚Ì‚É‚È‚Á‚Ä‚¢‚éB<br />
      */
     public void testCreatePropertyResponse()
     {
-        // æº–å‚™
+        // €”õ
         Map<String, String> resultMap = new HashMap<String, String>();
         resultMap.put("javelin.alarmThreshold", "0");
         resultMap.put("javelin.alarmCpuThreshold", "0");
@@ -250,23 +250,23 @@ public class GetPropertyRequestTelegramListenerTest extends DJUnitTestCase imple
         resultMap.put("javelin.threadModel", "0");
         resultMap.put("javelin.alarmException", "false");
 
-        // å®Ÿè¡Œ
+        // Às
         Telegram receiveTelegram =
                 GetPropertyRequestTelegramListener.createPropertyResponse(0, BYTE_TELEGRAM_KIND_GET_PROPERTY);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         Header receiveHeader = receiveTelegram.getObjHeader();
         Body[] receiveBody = receiveTelegram.getObjBody();
 
-        // ãƒ˜ãƒƒãƒ€ã®æ¤œè¨¼
+        // ƒwƒbƒ_‚ÌŒŸØ
         assertEquals(BYTE_TELEGRAM_KIND_GET_PROPERTY, receiveHeader.getByteTelegramKind());
         assertEquals(BYTE_REQUEST_KIND_RESPONSE, receiveHeader.getByteRequestKind());
 
-        // Bodyã®æ¤œè¨¼
+        // Body‚ÌŒŸØ
         for (Body body : receiveBody)
         {
             String value = resultMap.get(body.getStrObjName());
-            // äºˆæœŸã—ãŸãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãŒå…¥ã£ã¦ã„ãªã„ã¨ãã«ã¯ã€æ¤œè¨¼ã«å¤±æ•—ã€‚
+            // —\Šú‚µ‚½ƒpƒ‰ƒ[ƒ^‚ª“ü‚Á‚Ä‚¢‚È‚¢‚Æ‚«‚É‚ÍAŒŸØ‚É¸”sB
             if (value == null)
             {
                 fail(body.getStrObjName() + " is not defined.");
@@ -277,18 +277,18 @@ public class GetPropertyRequestTelegramListenerTest extends DJUnitTestCase imple
     }
 
     /**
-     * [é …ç•ª] 3-3-2 receiveTelegramã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å€¤ã‚’è¨­å®šã—ã¦ã€receiveTelegramãƒ¡ã‚½ãƒƒãƒ‰ã‚’å®Ÿè¡Œã™ã‚‹ã€‚
-     * â†’ä½œæˆã—ãŸé›»æ–‡ãŒæŒ‡å®šã—ãŸã‚‚ã®ã«ãªã£ã¦ã„ã‚‹ã€‚<br />
+     * [€”Ô] 3-3-2 receiveTelegram‚ÌƒeƒXƒgB <br />
+     * EƒvƒƒpƒeƒB’l‚ğİ’è‚µ‚ÄAreceiveTelegramƒƒ\ƒbƒh‚ğÀs‚·‚éB
+     * ¨ì¬‚µ‚½“d•¶‚ªw’è‚µ‚½‚à‚Ì‚É‚È‚Á‚Ä‚¢‚éB<br />
      * 
-     * @throws Exception ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @throws Exception —áŠO‚ª”­¶‚µ‚½ê‡
      */
     public void testReceiveTelegram_Sucess()
         throws Exception
     {
-        // æº–å‚™
+        // €”õ
 
-        // æ¤œè¨¼ç”¨ãƒ‡ãƒ¼ã‚¿ã‚’Mapã«å…¥åŠ›ã™ã‚‹ã€‚
+        // ŒŸØ—pƒf[ƒ^‚ğMap‚É“ü—Í‚·‚éB
         Map<String, String> resultMap = new HashMap<String, String>();
         resultMap.put("javelin.alarmThreshold", "0");
         resultMap.put("javelin.alarmCpuThreshold", "0");
@@ -371,23 +371,23 @@ public class GetPropertyRequestTelegramListenerTest extends DJUnitTestCase imple
         Telegram sendTelegram = CreateTelegramUtil.createTelegram(sendHeader, sendBodies);
         GetPropertyRequestTelegramListener listener = new GetPropertyRequestTelegramListener();
 
-        // å®Ÿè¡Œ
+        // Às
         Telegram receiveTelegram = listener.receiveTelegram(sendTelegram);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         Header receiveHeader = receiveTelegram.getObjHeader();
         Body[] receiveBody = receiveTelegram.getObjBody();
 
-        // ãƒ˜ãƒƒãƒ€ã®æ¤œè¨¼
+        // ƒwƒbƒ_‚ÌŒŸØ
         assertEquals(BYTE_TELEGRAM_KIND_GET_PROPERTY, receiveHeader.getByteTelegramKind());
         assertEquals(BYTE_REQUEST_KIND_RESPONSE, receiveHeader.getByteRequestKind());
 
-        // Bodyã®æ¤œè¨¼
+        // Body‚ÌŒŸØ
         assertEquals(resultMap.size(), receiveBody.length);
         for (Body body : receiveBody)
         {
             String value = resultMap.get(body.getStrObjName());
-            // äºˆæœŸã—ãŸãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãŒå…¥ã£ã¦ã„ãªã„ã¨ãã«ã¯ã€æ¤œè¨¼ã«å¤±æ•—ã€‚
+            // —\Šú‚µ‚½ƒpƒ‰ƒ[ƒ^‚ª“ü‚Á‚Ä‚¢‚È‚¢‚Æ‚«‚É‚ÍAŒŸØ‚É¸”sB
             if (value == null)
             {
                 fail();
@@ -397,12 +397,12 @@ public class GetPropertyRequestTelegramListenerTest extends DJUnitTestCase imple
     }
 
     /**
-     * [é …ç•ª] 3-3-3 receiveTelegramã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»é›»æ–‡ç¨®åˆ¥ãŒã‚µãƒ¼ãƒãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å–å¾—é€šçŸ¥ä»¥å¤–ã®é›»æ–‡ã«å¯¾ã—ã¦ã€<br />
-     * receiveTelegramãƒ¡ã‚½ãƒƒãƒ‰ã‚’å®Ÿè¡Œã™ã‚‹ã€‚<br />
-     * â†’ä½œæˆã—ãŸé›»æ–‡ãŒå…¨ã¦nullã«ãªã£ã¦ã„ã‚‹ã€‚<br />
+     * [€”Ô] 3-3-3 receiveTelegram‚ÌƒeƒXƒgB <br />
+     * E“d•¶í•Ê‚ªƒT[ƒoƒvƒƒpƒeƒBæ“¾’Ê’mˆÈŠO‚Ì“d•¶‚É‘Î‚µ‚ÄA<br />
+     * receiveTelegramƒƒ\ƒbƒh‚ğÀs‚·‚éB<br />
+     * ¨ì¬‚µ‚½“d•¶‚ª‘S‚Änull‚É‚È‚Á‚Ä‚¢‚éB<br />
      * 
-     * @throws Exception ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @throws Exception —áŠO‚ª”­¶‚µ‚½ê‡
      */
     public void testReceiveTelegram_RequestKindOthers()
         throws Exception
@@ -411,7 +411,7 @@ public class GetPropertyRequestTelegramListenerTest extends DJUnitTestCase imple
 
         for (byte requestKind : requestKinds)
         {
-            // æº–å‚™
+            // €”õ
             Header sendHeader =
                     CreateTelegramUtil.createHeader(BYTE_REQUEST_KIND_REQUEST, requestKind);
             String[] inputDetail = {""};
@@ -421,21 +421,21 @@ public class GetPropertyRequestTelegramListenerTest extends DJUnitTestCase imple
             Telegram sendTelegram = CreateTelegramUtil.createTelegram(sendHeader, sendBodies);
             GetPropertyRequestTelegramListener listener = new GetPropertyRequestTelegramListener();
 
-            // å®Ÿè¡Œ
+            // Às
             Telegram receiveTelegram = listener.receiveTelegram(sendTelegram);
 
-            // æ¤œè¨¼
+            // ŒŸØ
             assertNull(receiveTelegram);
         }
     }
 
     /**
-     * [é …ç•ª] 3-3-4 receiveTelegramã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»é›»æ–‡å¿œç­”ç¨®åˆ¥ãŒè¦æ±‚ä»¥å¤–ã®é›»æ–‡ã«å¯¾ã—ã¦ã€<br />
-     * receiveTelegramãƒ¡ã‚½ãƒƒãƒ‰ã‚’å®Ÿè¡Œã™ã‚‹ã€‚<br />
-     * â†’ä½œæˆã—ãŸé›»æ–‡ãŒå…¨ã¦nullã«ãªã£ã¦ã„ã‚‹ã€‚<br />
+     * [€”Ô] 3-3-4 receiveTelegram‚ÌƒeƒXƒgB <br />
+     * E“d•¶‰“ší•Ê‚ª—v‹ˆÈŠO‚Ì“d•¶‚É‘Î‚µ‚ÄA<br />
+     * receiveTelegramƒƒ\ƒbƒh‚ğÀs‚·‚éB<br />
+     * ¨ì¬‚µ‚½“d•¶‚ª‘S‚Änull‚É‚È‚Á‚Ä‚¢‚éB<br />
      * 
-     * @throws Exception ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @throws Exception —áŠO‚ª”­¶‚µ‚½ê‡
      */
     public void testReceiveTelegram_TelegramKindOthers()
         throws Exception
@@ -444,7 +444,7 @@ public class GetPropertyRequestTelegramListenerTest extends DJUnitTestCase imple
 
         for (byte telegramKind : telegramKinds)
         {
-            // æº–å‚™
+            // €”õ
             Header sendHeader =
                     CreateTelegramUtil.createHeader(telegramKind, BYTE_TELEGRAM_KIND_GET_PROPERTY);
             String[] inputDetail = {""};
@@ -454,10 +454,10 @@ public class GetPropertyRequestTelegramListenerTest extends DJUnitTestCase imple
             Telegram sendTelegram = CreateTelegramUtil.createTelegram(sendHeader, sendBodies);
             GetPropertyRequestTelegramListener listener = new GetPropertyRequestTelegramListener();
 
-            // å®Ÿè¡Œ
+            // Às
             Telegram receiveTelegram = listener.receiveTelegram(sendTelegram);
 
-            // æ¤œè¨¼
+            // ŒŸØ
             assertNull(receiveTelegram);
         }
     }

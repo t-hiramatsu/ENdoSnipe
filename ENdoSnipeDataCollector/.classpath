@@ -10,19 +10,6 @@
 	<classpathentry kind="lib" path="lib/opt/activation.jar"/>
 	<classpathentry kind="lib" path="lib/opt/mail.jar"/>
 	<classpathentry kind="lib" path="lib/djunit.jar"/>
-	<classpathentry kind="lib" path="lib/dependency/ENdoSnipePerfDoctor.jar"/>
-	<classpathentry kind="lib" path="lib/dependency/commons-beanutils-core-1.8.0.jar"/>
-	<classpathentry kind="lib" path="lib/dependency/commons-lang-2.4.jar"/>
-	<classpathentry kind="lib" path="lib/opt/elasticsearch-0.90.9.jar"/>
-	<classpathentry kind="lib" path="lib/opt/lucene-analyzers-common-4.6.0.jar"/>
-	<classpathentry kind="lib" path="lib/opt/lucene-codecs-4.6.0.jar"/>
-	<classpathentry kind="lib" path="lib/opt/lucene-core-4.6.0.jar"/>
-	<classpathentry kind="lib" path="lib/opt/lucene-highlighter-4.6.0.jar"/>
-	<classpathentry kind="lib" path="lib/opt/lucene-join-4.6.0.jar"/>
-	<classpathentry kind="lib" path="lib/opt/lucene-queries-4.6.0.jar"/>
-	<classpathentry kind="lib" path="lib/opt/lucene-queryparser-4.6.0.jar"/>
-	<classpathentry kind="lib" path="lib/opt/lucene-sandbox-4.6.0.jar"/>
-	<classpathentry kind="lib" path="lib/opt/lucene-suggest-4.6.0.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ENdoSnipeCommon"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ENdoSnipeCommunicator"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ENdoSnipeDataAccessor"/>

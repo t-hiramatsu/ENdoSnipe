@@ -26,16 +26,16 @@
 package jp.co.acroquest.endosnipe.communicator;
 
 /**
- * é›»æ–‡å‡¦ç†ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç®¡ç†ã™ã‚‹ãŸã‚ã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã§ã™ã€‚<br />
+ * “d•¶ˆ—ƒIƒuƒWƒFƒNƒg‚ğŠÇ—‚·‚é‚½‚ß‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX‚Å‚·B<br />
  * 
  * @author y-komori
  */
 public interface TelegramReceiver
 {
     /**
-     * é›»æ–‡å‡¦ç†ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¿½åŠ ã—ã¾ã™ã€‚<br />
+     * “d•¶ˆ—ƒIƒuƒWƒFƒNƒg‚ğ’Ç‰Á‚µ‚Ü‚·B<br />
      * 
-     * @param listener é›»æ–‡å‡¦ç†ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param listener “d•¶ˆ—ƒIƒuƒWƒFƒNƒg
      */
     void addTelegramListener(TelegramListener listener);
 }

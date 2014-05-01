@@ -25,9 +25,10 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.javelin.converter.thread.monitor;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.ThreadMXBean;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 import jp.co.acroquest.endosnipe.common.event.EventConstants;
@@ -40,56 +41,47 @@ import jp.co.acroquest.endosnipe.javelin.resource.ResourceCollector;
 import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
 
 /**
- * ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—ã‚’å–å¾—ã™ã‚‹ãŸã‚ã®ã‚¹ãƒ¬ãƒƒãƒ‰ã§ã™ã€‚<br />
+ * ƒXƒŒƒbƒhƒ_ƒ“ƒv‚ğæ“¾‚·‚é‚½‚ß‚ÌƒXƒŒƒbƒh‚Å‚·B<br />
  * 
  * @author fujii
  *
  */
 public class ThreadDumpMonitor implements Runnable
 {
-    /** Singletonã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
+    /** SingletonƒIƒuƒWƒFƒNƒg */
     private static ThreadDumpMonitor instance__ = new ThreadDumpMonitor();
 
-    /** Javelinã®è¨­å®šã€‚ */
+    /** Javelin‚Ìİ’èB */
     private final JavelinConfig config_ = new JavelinConfig();
 
-    /** å‰å›ã®CPUæ™‚é–“ */
-    private long lastCpuTotalTime_ = 0;
+    /** ‘O‰ñ‚ÌCPUŠÔ */
+    private long lastCpuTime_ = 0;
 
-    /** å‰å›ã®CPUæ™‚é–“ */
-    private long lastCpuSystemTime_ = 0;
-
-    /** å‰å›ã®CPUæ™‚é–“ */
-    private long lastCpuIoWaitTime_ = 0;
-
-    /** å‰å›ã®JavaUpæ™‚é–“ */
+    /** ‘O‰ñ‚ÌJavaUpŠÔ */
     private long lastUpTime_ = 0;
 
-    /** å‰å›ã®å€¤ */
-    private Map<String, Double> prevValues_ = new ConcurrentHashMap<String, Double>();
-    
-    /** Javaã‚¢ãƒƒãƒ—ã‚¿ã‚¤ãƒ ã®å·®åˆ† */
+    /** JavaƒAƒbƒvƒ^ƒCƒ€‚Ì·•ª */
     private long upTimeDif_ = 0;
 
-    /** ãƒ—ãƒ­ã‚»ã‚¹æ•° */
+    /** ƒvƒƒZƒX” */
     private int processorCount_;
 
-    /** CPUä½¿ç”¨ç‡ */
-    private CpuUsage cpuUsage_;
+    /** CPUg—p—¦ */
+    private double cpuUsage_;
 
-    /** ã‚¹ãƒ¬ãƒƒãƒ‰æ•° */
+    /** ƒXƒŒƒbƒh” */
     private int threadNum_;
 
-    /** å„ã‚¹ãƒ¬ãƒƒãƒ‰æ¯ã®CPUä½¿ç”¨ç‡ */
+    /** ŠeƒXƒŒƒbƒh–ˆ‚ÌCPUg—p—¦ */
     private Map<Long, Double> threadCpuRateMap_;
 
-    /** å‰å›ã®ã‚¹ãƒ¬ãƒƒãƒ‰æ¯ã®CPUä½¿ç”¨æ™‚é–“ */
+    /** ‘O‰ñ‚ÌƒXƒŒƒbƒh–ˆ‚ÌCPUg—pŠÔ */
     private Map<Long, Long> lastThreadCpuMap_;
 
-    /** ãƒªã‚½ãƒ¼ã‚¹æƒ…å ±å–å¾—ç”¨ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
+    /** ƒŠƒ\[ƒXî•ñæ“¾—pƒIƒuƒWƒFƒNƒg */
     private static ResourceCollector collector__;
 
-    /** CPUä½¿ç”¨ç‡ã«å¤‰æ›ã™ã‚‹ãŸã‚ã®å®šæ•° */
+    /** CPUg—p—¦‚É•ÏŠ·‚·‚é‚½‚ß‚Ì’è” */
     private static final int CONVERT_RATIO = 10000;
 
     static
@@ -98,7 +90,7 @@ public class ThreadDumpMonitor implements Runnable
     }
 
     /**
-     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã‚’é˜»æ­¢ã™ã‚‹ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
+     * ƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğ‘j~‚·‚éƒvƒ‰ƒCƒx[ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^B
      */
     private ThreadDumpMonitor()
     {
@@ -106,9 +98,9 @@ public class ThreadDumpMonitor implements Runnable
     }
 
     /**
-     * {@link ThreadDumpMonitor}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * {@link ThreadDumpMonitor}ƒIƒuƒWƒFƒNƒg‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return {@link ThreadDumpMonitor}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @return {@link ThreadDumpMonitor}ƒIƒuƒWƒFƒNƒg
      */
     public static ThreadDumpMonitor getInstance()
     {
@@ -116,8 +108,8 @@ public class ThreadDumpMonitor implements Runnable
     }
 
     /**
-     * "javelin.thread.dump.interval"ã®é–“éš”ã”ã¨ã«ã€
-     * ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹åˆ¤å®šã—ã¾ã™ã€‚
+     * "javelin.thread.dump.interval"‚ÌŠÔŠu‚²‚Æ‚ÉA
+     * ƒXƒŒƒbƒhƒ_ƒ“ƒv‚ğo—Í‚·‚é‚©‚Ç‚¤‚©”»’è‚µ‚Ü‚·B
      */
     public void run()
     {
@@ -127,17 +119,17 @@ public class ThreadDumpMonitor implements Runnable
         }
         catch (Exception ex)
         {
-            SystemLogger.getInstance().debug(ex);
+            ;
         }
-
+        
         while (true)
         {
             try
             {
                 int sleepTime = this.config_.getThreadDumpInterval();
                 Thread.sleep(sleepTime);
-                // ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ãŒé–¾å€¤ã‚’è¶Šãˆã¦ã„ã‚‹ã¨ãã€CPUä½¿ç”¨ç‡ãŒé–¾å€¤ã‚’è¶Šãˆã¦ã„ã‚‹ã¨ãã«ã€
-                // ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—ã‚’å‡ºåŠ›ã™ã‚‹ã€‚
+                // ƒXƒŒƒbƒh”‚ªè‡’l‚ğ‰z‚¦‚Ä‚¢‚é‚Æ‚«ACPUg—p—¦‚ªè‡’l‚ğ‰z‚¦‚Ä‚¢‚é‚Æ‚«‚ÉA
+                // ƒtƒ‹ƒXƒŒƒbƒhƒ_ƒ“ƒv‚ğo—Í‚·‚éB
                 synchronized (this)
                 {
                     if (isThreadDump())
@@ -155,160 +147,84 @@ public class ThreadDumpMonitor implements Runnable
     }
 
     /**
-     * ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—ã‚’å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¿”ã—ã¾ã™ã€‚<br />
-     * æ¡ä»¶ã¯ä»¥ä¸‹ã®2ã¤
+     * ƒXƒŒƒbƒhƒ_ƒ“ƒv‚ğo—Í‚·‚é‚©‚Ç‚¤‚©‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ğŒ‚ÍˆÈ‰º‚Ì2‚Â
      * <ol>
-     * <li>ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å–å¾—ãƒ•ãƒ©ã‚°ãŒ<code>true</code></li>
-     * <li>ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ãŒé–¾å€¤ã‚’è¶Šãˆã¦ã„ã‚‹ã€åˆã¯CPUä½¿ç”¨ç‡ãŒé–¾å€¤ã‚’è¶Šãˆã¦ã„ã‚‹</li>
+     * <li>ƒXƒŒƒbƒhƒ_ƒ“ƒvæ“¾ƒtƒ‰ƒO‚ª<code>true</code></li>
+     * <li>ƒXƒŒƒbƒh”‚ªè‡’l‚ğ‰z‚¦‚Ä‚¢‚éA–”‚ÍCPUg—p—¦‚ªè‡’l‚ğ‰z‚¦‚Ä‚¢‚é</li>
      * </ol>
      * 
-     * @return ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—ã‚’å‡ºåŠ›ã™ã‚‹å ´åˆã€<code>true</code>
+     * @return ƒXƒŒƒbƒhƒ_ƒ“ƒv‚ğo—Í‚·‚éê‡A<code>true</code>
      */
     private synchronized boolean isThreadDump()
     {
-        // CPUä½¿ç”¨ç‡ã¯ã€å·®åˆ†ã«ã‚ˆã£ã¦è¨ˆç®—ã™ã‚‹ãŸã‚ã€ç•°å¸¸å€¤ãŒå‡ºãªã„ã‚ˆã†ã«æ¯å›è¨ˆç®—ã™ã‚‹ã€‚
+        // CPUg—p—¦‚ÍA·•ª‚É‚æ‚Á‚ÄŒvZ‚·‚é‚½‚ßAˆÙí’l‚ªo‚È‚¢‚æ‚¤‚É–ˆ‰ñŒvZ‚·‚éB
         this.cpuUsage_ = getCpuUssage();
         this.threadCpuRateMap_ = getThreadCpuRateMap(this.upTimeDif_);
 
-        // ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å–å¾—ãƒ•ãƒ©ã‚°ãŒOFFã®ã¨ãã«ã¯ã€ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—ã‚’å–å¾—ã—ãªã„ã€‚
+        // ƒXƒŒƒbƒhƒ_ƒ“ƒvæ“¾ƒtƒ‰ƒO‚ªOFF‚Ì‚Æ‚«‚É‚ÍAƒXƒŒƒbƒhƒ_ƒ“ƒv‚ğæ“¾‚µ‚È‚¢B
         if (config_.isThreadDump() == false)
         {
             return false;
         }
 
-        int threasholdCpuTotal = config_.getThreadDumpCpu();
-        int threasholdCpuSystem = config_.getThreadDumpCpuSys();
-        int threasholdCpuUser = config_.getThreadDumpCpuUser();
-        if (this.cpuUsage_.getCpuTotal() > threasholdCpuTotal
-            || this.cpuUsage_.getCpuSystem() > threasholdCpuSystem
-            || this.cpuUsage_.getCpuTotal() - this.cpuUsage_.getCpuSystem()
-                - this.cpuUsage_.getCpuIoWait() > threasholdCpuUser)
+        int threasholdCpu = config_.getThreadDumpCpu();
+        if (this.cpuUsage_ > threasholdCpu)
         {
             return true;
         }
 
-        // ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ãŒé–¾å€¤ã‚’è¶Šãˆã¦ã„ã‚‹ã¨ãã«ã€ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—ã‚’å‡ºåŠ›ã™ã‚‹ã€‚
+        // ƒXƒŒƒbƒh”‚ªè‡’l‚ğ‰z‚¦‚Ä‚¢‚é‚Æ‚«‚ÉAƒXƒŒƒbƒhƒ_ƒ“ƒv‚ğo—Í‚·‚éB
         int threasholdThread = config_.getThreadDumpThreadNum();
         this.threadNum_ = getThreadNum();
         if (this.threadNum_ > threasholdThread)
         {
             return true;
         }
-        
-        Map<String, Double> thresholdMap = config_.getThreadDumpResourceTreshold();
-
-        for (Map.Entry<String, Double> entry : thresholdMap.entrySet())
-        {
-            String itemName = entry.getKey();
-            double threshold = entry.getValue().doubleValue();
-            boolean result =
-                judgeThreshold(itemName, threshold);
-            if (result)
-            {
-                return true;
-            }
-        }
-
         return false;
     }
 
     /**
-     * æŒ‡å®šã—ãŸç³»åˆ—ãŒé–¾å€¤ã‚’è¶…ãˆã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’åˆ¤å®šã™ã‚‹ã€‚
+     * CPUg—p—¦‚ğæ“¾‚µ‚Ü‚·B<br />
+     * CPUg—p—¦=(CPUŠÔ‚Ì·•ª)/(Java‚ÌUPŠÔ * ƒvƒƒZƒbƒT”)
      * 
-     * @param itemName ç³»åˆ—å
-     * @param threshold é–¾å€¤
-     * @return  æŒ‡å®šã—ãŸç³»åˆ—ãŒé–¾å€¤ã‚’è¶…ãˆã¦ã„ã‚‹ã‹ã©ã†ã‹ã€‚
+     * @return CPUg—p—¦
      */
-    private boolean judgeThreshold(String itemName, double threshold)
+    private synchronized double getCpuUssage()
     {
-        double currentValue = 0;
-        Number resource = collector__.getResource(itemName);
-        if (resource != null)
-        {
-            currentValue = resource.doubleValue();
-        }
-
-        if (itemName.endsWith("(d)"))
-        {
-            Double prevValue = prevValues_.get(itemName);
-            prevValues_.put(itemName, currentValue);
-            if(prevValue != null)
-            {
-                currentValue -= prevValue.doubleValue();
-            }
-            
-        }
-
-        return threshold < currentValue;
-    }
-
-    /**
-     * CPUä½¿ç”¨ç‡ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
-     * CPUä½¿ç”¨ç‡=(CPUæ™‚é–“ã®å·®åˆ†)/(Javaã®UPæ™‚é–“ * ãƒ—ãƒ­ã‚»ãƒƒã‚µæ•°)
-     * 
-     * @return CPUä½¿ç”¨ç‡
-     */
-    private synchronized CpuUsage getCpuUssage()
-    {
-        Number cpuTotal =
-            collector__.getResource(TelegramConstants.ITEMNAME_PROCESS_CPU_TOTAL_TIME);
-        Number cpuSystem =
-            collector__.getResource(TelegramConstants.ITEMNAME_PROCESS_CPU_SYSTEM_TIME);
-        Number cpuIoWait =
-            collector__.getResource(TelegramConstants.ITEMNAME_PROCESS_CPU_IOWAIT_TIME);
-
+        Number cpuResource = collector__.getResource(TelegramConstants.ITEMNAME_PROCESS_CPU_TOTAL_TIME);
         Number uptimeResource = collector__.getResource(TelegramConstants.ITEMNAME_JAVAUPTIME);
         Number processorResource =
-            collector__.getResource(TelegramConstants.ITEMNAME_SYSTEM_CPU_PROCESSOR_COUNT);
+                collector__.getResource(TelegramConstants.ITEMNAME_SYSTEM_CPU_PROCESSOR_COUNT);
 
-        CpuUsage usage = new CpuUsage();
-        if (cpuTotal == null || uptimeResource == null || processorResource == null)
+        if (cpuResource == null || uptimeResource == null || processorResource == null)
         {
-            return usage;
+            return 0;
         }
 
-        if (cpuSystem == null || cpuIoWait == null)
-        {
-            cpuSystem = 0;
-            cpuIoWait = 0;
-        }
-
-        long cpuTotalTime = cpuTotal.longValue();
-        long cpuSystemTime = cpuSystem.longValue();
-        long cpuIoWaitTime = cpuIoWait.longValue();
+        long cpuTime = cpuResource.longValue();
         long upTime = uptimeResource.longValue();
         this.processorCount_ = processorResource.intValue();
 
-        // CPUä½¿ç”¨ç‡ãŒé–¾å€¤ã‚’è¶Šãˆã¦ã„ã‚‹ã¨ãã«ã€ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—ã‚’å‡ºåŠ›ã™ã‚‹ã€‚
+        // CPUg—p—¦‚ªè‡’l‚ğ‰z‚¦‚Ä‚¢‚é‚Æ‚«‚ÉAƒXƒŒƒbƒhƒ_ƒ“ƒv‚ğo—Í‚·‚éB
+        double cpuUsage = 0;
         if (this.lastUpTime_ != 0)
         {
             this.upTimeDif_ = upTime - this.lastUpTime_;
-            double cpuTotalUsage =
-                (double)(cpuTotalTime - this.lastCpuTotalTime_)
-                    / (this.upTimeDif_ * CONVERT_RATIO * this.processorCount_);
-            double cpuSystemUsage =
-                (double)(cpuSystemTime - this.lastCpuSystemTime_)
-                    / (this.upTimeDif_ * CONVERT_RATIO * this.processorCount_);
-            double cpuIoWaitUsage =
-                (double)(cpuIoWaitTime - this.lastCpuIoWaitTime_)
-                    / (this.upTimeDif_ * CONVERT_RATIO * this.processorCount_);
-
-            usage.setCpuSystem(cpuSystemUsage);
-            usage.setCpuUser(cpuTotalUsage - cpuSystemUsage - cpuIoWaitUsage);
-            usage.setCpuSystem(cpuIoWaitUsage);
+            cpuUsage =
+                    (double)(cpuTime - this.lastCpuTime_)
+                            / (this.upTimeDif_ * CONVERT_RATIO * this.processorCount_);
         }
-        this.lastCpuTotalTime_ = cpuTotalTime;
-        this.lastCpuSystemTime_ = cpuSystemTime;
-        this.lastCpuIoWaitTime_ = cpuIoWaitTime;
+        this.lastCpuTime_ = cpuTime;
         this.lastUpTime_ = upTime;
 
-        return usage;
+        return cpuUsage;
     }
 
     /**
-     * ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * ƒXƒŒƒbƒh”‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return ã‚¹ãƒ¬ãƒƒãƒ‰æ•°
+     * @return ƒXƒŒƒbƒh”
      */
     private synchronized int getThreadNum()
     {
@@ -317,20 +233,20 @@ public class ThreadDumpMonitor implements Runnable
     }
 
     /**
-     * ã‚¹ãƒ¬ãƒƒãƒ‰æ¯ã®CPUæ™‚é–“ã‚’ä¿å­˜ã™ã‚‹Mapã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ƒXƒŒƒbƒh–ˆ‚ÌCPUŠÔ‚ğ•Û‘¶‚·‚éMap‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @return ã‚¹ãƒ¬ãƒƒãƒ‰æ¯ã®CPUä½¿ç”¨æ™‚é–“ã‚’ä¿å­˜ã—ãŸMap
+     * @return ƒXƒŒƒbƒh–ˆ‚ÌCPUg—pŠÔ‚ğ•Û‘¶‚µ‚½Map
      */
     private synchronized Map<Long, Long> getThreadCpuMap()
     {
+        ThreadMXBean bean = ManagementFactory.getThreadMXBean();
         long[] threadIds = ThreadUtil.getAllThreadIds();
 
         Map<Long, Long> threadCpuMap = new LinkedHashMap<Long, Long>();
-        long[] threadCpuTimes = ThreadUtil.getThreadCpuTime(threadIds);
         for (int num = 0; num < threadIds.length; num++)
         {
             long threadId = threadIds[num];
-            threadCpuMap.put(threadId, threadCpuTimes[num]);
+            threadCpuMap.put(threadId, bean.getThreadCpuTime(threadId));
         }
 
         return threadCpuMap;
@@ -338,17 +254,17 @@ public class ThreadDumpMonitor implements Runnable
     }
 
     /**
-     * ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å‡ºåŠ›ã‚¤ãƒ™ãƒ³ãƒˆã‚’ä½œæˆã—ã¾ã™ã€‚<br />
-     * [ã‚¤ãƒ™ãƒ³ãƒˆå½¢å¼]<br />
-     * javelin.thread.dump.threadNum=&lt;ã‚¹ãƒ¬ãƒƒãƒ‰æ•°&gt;<br />
-     * javelin.thread.dump.cpu.total=&lt;CPUä½¿ç”¨ç‡ã®åˆè¨ˆå€¤&gt;<br />
-     * javelin.thread.dump.cpu.&lt;ã‚¹ãƒ¬ãƒƒãƒ‰ID1&gt;=&lt;ã‚¹ãƒ¬ãƒƒãƒ‰1ã®CPUä½¿ç”¨ç‡&gt;<br />
-     * javelin.thread.dump.cpu.&lt;ã‚¹ãƒ¬ãƒƒãƒ‰ID2&gt;=&lt;ã‚¹ãƒ¬ãƒƒãƒ‰2ã®CPUä½¿ç”¨ç‡&gt;<br />
-     * javelin.thread.dump.cpu.&lt;ã‚¹ãƒ¬ãƒƒãƒ‰ID3&gt;=&lt;ã‚¹ãƒ¬ãƒƒãƒ‰3ã®CPUä½¿ç”¨ç‡&gt;<br />
-     * ãƒ»ãƒ»ãƒ»<br />
-     * javelin.thread.dump=&lt;ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—&gt;<br />
+     * ƒtƒ‹ƒXƒŒƒbƒhƒ_ƒ“ƒvo—ÍƒCƒxƒ“ƒg‚ğì¬‚µ‚Ü‚·B<br />
+     * [ƒCƒxƒ“ƒgŒ`®]<br />
+     * javelin.thread.dump.threadNum=&lt;ƒXƒŒƒbƒh”&gt;<br />
+     * javelin.thread.dump.cpu.total=&lt;CPUg—p—¦‚Ì‡Œv’l&gt;<br />
+     * javelin.thread.dump.cpu.&lt;ƒXƒŒƒbƒhID1&gt;=&lt;ƒXƒŒƒbƒh1‚ÌCPUg—p—¦&gt;<br />
+     * javelin.thread.dump.cpu.&lt;ƒXƒŒƒbƒhID2&gt;=&lt;ƒXƒŒƒbƒh2‚ÌCPUg—p—¦&gt;<br />
+     * javelin.thread.dump.cpu.&lt;ƒXƒŒƒbƒhID3&gt;=&lt;ƒXƒŒƒbƒh3‚ÌCPUg—p—¦&gt;<br />
+     * EEE<br />
+     * javelin.thread.dump=&lt;ƒtƒ‹ƒXƒŒƒbƒhƒ_ƒ“ƒv&gt;<br />
      * 
-     * @return ãƒ•ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å‡ºåŠ›ã€‚
+     * @return ƒtƒ‹ƒXƒŒƒbƒhƒ_ƒ“ƒvo—ÍB
      */
     private synchronized CommonEvent createThreadDumpEvent()
     {
@@ -360,7 +276,7 @@ public class ThreadDumpMonitor implements Runnable
         event.addParam(EventConstants.PARAM_THREAD_DUMP_THREADNUM, String.valueOf(this.threadNum_));
         event.addParam(EventConstants.PARAM_THREAD_DUMP_CPU_TOTAL, String.valueOf(this.cpuUsage_));
 
-        // ã‚¹ãƒ¬ãƒƒãƒ‰æ¯ã®CPUä½¿ç”¨ç‡ã‚’å‡ºåŠ›ã™ã‚‹ã€‚
+        // ƒXƒŒƒbƒh–ˆ‚ÌCPUg—p—¦‚ğo—Í‚·‚éB
         for (Map.Entry<Long, Double> entry : this.threadCpuRateMap_.entrySet())
         {
             Long threadId = entry.getKey();
@@ -378,9 +294,9 @@ public class ThreadDumpMonitor implements Runnable
     }
 
     /**
-     * ã‚¹ãƒ¬ãƒƒãƒ‰æ¯ã®CPUä½¿ç”¨ç‡ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * ƒXƒŒƒbƒh–ˆ‚ÌCPUg—p—¦‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return ã‚¹ãƒ¬ãƒƒãƒ‰æ¯ã®CPUä½¿ç”¨ç‡
+     * @return ƒXƒŒƒbƒh–ˆ‚ÌCPUg—p—¦
      */
     private synchronized Map<Long, Double> getThreadCpuRateMap(long upTimeDif)
     {
@@ -403,14 +319,14 @@ public class ThreadDumpMonitor implements Runnable
             else if (lastCpuTime != null)
             {
                 double threadCpuRate =
-                    (double)(cpuTime - lastCpuTime)
-                        / (upTimeDif * CONVERT_RATIO * this.processorCount_);
+                        (double)(cpuTime - lastCpuTime)
+                                / (upTimeDif * CONVERT_RATIO * this.processorCount_);
                 threadCpuRateMap.put(threadId, threadCpuRate);
             }
             else
             {
                 double threadCpuRate =
-                    (double)(cpuTime) / (upTimeDif * CONVERT_RATIO * this.processorCount_);
+                        (double)(cpuTime) / (upTimeDif * CONVERT_RATIO * this.processorCount_);
                 threadCpuRateMap.put(threadId, threadCpuRate);
             }
         }
@@ -419,9 +335,9 @@ public class ThreadDumpMonitor implements Runnable
     }
 
     /**
-     * ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å–å¾—ã‚¤ãƒ™ãƒ³ãƒˆã‚’é€ä¿¡ã—ã¾ã™ã€‚<br />
+     * ƒXƒŒƒbƒhƒ_ƒ“ƒvæ“¾ƒCƒxƒ“ƒg‚ğ‘—M‚µ‚Ü‚·B<br />
      *
-     * @param telegramId é›»æ–‡ ID
+     * @param telegramId “d•¶ ID
      */
     public synchronized void sendThreadDumpEvent(final long telegramId)
     {

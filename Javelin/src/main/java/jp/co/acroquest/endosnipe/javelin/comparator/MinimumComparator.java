@@ -31,7 +31,7 @@ import java.util.Comparator;
 import jp.co.acroquest.endosnipe.javelin.bean.InvocationMBean;
 
 /**
- * 譛蟆乗ｯ碑ｼ�逕ｨ繧ｳ繝ｳ繝代Ξ繝ｼ繧ｿ
+ * 最小比較用コンパレータ
  * @author acroquest
  */
 public class MinimumComparator implements Comparator<InvocationMBean>, Serializable

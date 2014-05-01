@@ -33,34 +33,32 @@ import jp.co.acroquest.endosnipe.common.parser.JavelinConstants;
 import jp.co.acroquest.endosnipe.common.parser.JavelinLogColumnNum;
 
 /**
- * å‹•ä½œãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰åˆ‡ã‚Šå‡ºã—ãŸä¸€è¦ç´ åˆ†ã®ãƒ­ã‚°ã€‚ ä¸€è¦ç´ åˆ†ã®ãƒ­ã‚°ã¯ã€ãƒ­ã‚°ã®å‡ºåŠ›æ™‚åˆ»ã€ãƒ¡ã‚½ãƒƒãƒ‰åã€ã‚¯ãƒ©ã‚¹åã€ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆIDãªã©ã‚’è¡¨ã™ã€ŒåŸºæœ¬æƒ…å ±ã€ã¨
- * å¤‰æ•°ã®å€¤ã‚„ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ãªã©ã‚’è¡¨ã™ã€Œè©³ç´°æƒ…å ±ã€ã‹ã‚‰ãªã‚‹ã€‚
+ * “®ìƒƒOƒtƒ@ƒCƒ‹‚©‚çØ‚èo‚µ‚½ˆê—v‘f•ª‚ÌƒƒOB ˆê—v‘f•ª‚ÌƒƒO‚ÍAƒƒO‚Ìo—ÍAƒƒ\ƒbƒh–¼AƒNƒ‰ƒX–¼A ƒIƒuƒWƒFƒNƒgID‚È‚Ç‚ğ•\‚·uŠî–{î•ñv‚Æ
+ * •Ï”‚Ì’l‚âƒXƒ^ƒbƒNƒgƒŒ[ƒX‚È‚Ç‚ğ•\‚·uÚ×î•ñv‚©‚ç‚È‚éB
  * 
  * @author kameda
  */
 public class JavelinLogElement
 {
-    private String measurementItemName_;
-
     private String logFileName_;
 
     private int startLogLine_;
 
     private int endLogLine_;
 
-    /** Javelinã®IPã‚¢ãƒ‰ãƒ¬ã‚¹ã€‚ã“ã®ãƒ‡ãƒ¼ã‚¿ã¯DataCollectorã®ã¿ãŒä½¿ç”¨ã™ã‚‹ã€‚ */
+    /** Javelin‚ÌIPƒAƒhƒŒƒXB‚±‚Ìƒf[ƒ^‚ÍDataCollector‚Ì‚İ‚ªg—p‚·‚éB */
     private String ipAddress_;
 
-    /** Javelinã®ãƒãƒ¼ãƒˆç•ªå·ã€‚ã“ã®ãƒ‡ãƒ¼ã‚¿ã¯DataCollectorã®ã¿ãŒä½¿ç”¨ã™ã‚‹ã€‚ */
+    /** Javelin‚Ìƒ|[ƒg”Ô†B‚±‚Ìƒf[ƒ^‚ÍDataCollector‚Ì‚İ‚ªg—p‚·‚éB */
     private int port_;
 
-    /** Javelinã®ãƒãƒ¼ãƒˆç•ªå·ã€‚ã“ã®ãƒ‡ãƒ¼ã‚¿ã¯DataCollectorã®ã¿ãŒä½¿ç”¨ã™ã‚‹ã€‚ */
+    /** Javelin‚Ìƒ|[ƒg”Ô†B‚±‚Ìƒf[ƒ^‚ÍDataCollector‚Ì‚İ‚ªg—p‚·‚éB */
     private String databaseName_;
 
-    /** ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ */
+    /** ƒAƒ‰[ƒ€è‡’l */
     private long alarmThreshold_;
 
-    /** ã‚¢ãƒ©ãƒ¼ãƒ CPUé–¾å€¤ */
+    /** ƒAƒ‰[ƒ€CPUè‡’l */
     private long cpuAlarmThreshold_;
 
     private List<String> baseInfoList_;
@@ -70,7 +68,7 @@ public class JavelinLogElement
     private String[] args_;
 
     /**
-     * JavalinLogElementã®åˆæœŸåŒ–
+     * JavalinLogElement‚Ì‰Šú‰»
      */
     public JavelinLogElement()
     {
@@ -78,9 +76,9 @@ public class JavelinLogElement
     }
 
     /**
-     * æ ¼ç´ã—ã¦ã„ã‚‹åŸºæœ¬æƒ…å ±ã‚’è¿”ã™ã€‚
+     * Ši”[‚µ‚Ä‚¢‚éŠî–{î•ñ‚ğ•Ô‚·B
      * 
-     * @return åŸºæœ¬æƒ…å ±ã®ãƒªã‚¹ãƒˆ
+     * @return Šî–{î•ñ‚ÌƒŠƒXƒg
      */
     public List<String> getBaseInfo()
     {
@@ -88,9 +86,9 @@ public class JavelinLogElement
     }
 
     /**
-     * æ ¼ç´ã—ã¦ã„ã‚‹è¦ç´ ã®è­˜åˆ¥å­ã‚’è¿”ã™
+     * Ši”[‚µ‚Ä‚¢‚é—v‘f‚Ì¯•Êq‚ğ•Ô‚·
      * 
-     * @return è­˜åˆ¥å­
+     * @return ¯•Êq
      */
     public String getLogIDType()
     {
@@ -103,11 +101,11 @@ public class JavelinLogElement
     }
 
     /**
-     * æ ¼ç´ã—ã¦ã„ã‚‹è©³ç´°æƒ…å ±ã‹ã‚‰ã€ å¼•æ•°ã§æŒ‡å®šã—ãŸã‚¿ã‚°ã®ç¨®é¡ã«å¯¾å¿œã™ã‚‹ãƒ­ã‚°æ–‡å­—åˆ—ã‚’è¿”ã™ã€‚
+     * Ši”[‚µ‚Ä‚¢‚éÚ×î•ñ‚©‚çA ˆø”‚Åw’è‚µ‚½ƒ^ƒO‚Ìí—Ş‚É‘Î‰‚·‚éƒƒO•¶š—ñ‚ğ•Ô‚·B
      * 
      * @param tagType
-     *            è©³ç´°æƒ…å ±ã®ç¨®é¡
-     * @return è©³ç´°æƒ…å ±
+     *            Ú×î•ñ‚Ìí—Ş
+     * @return Ú×î•ñ
      */
     public String getDetailInfo(final String tagType)
     {
@@ -115,10 +113,10 @@ public class JavelinLogElement
     }
 
     /**
-     * CSVã§åˆ†å‰²ã—ãŸåŸºæœ¬æƒ…å ±ã‚’ã‚»ãƒƒãƒˆã™ã‚‹ã€‚
+     * CSV‚Å•ªŠ„‚µ‚½Šî–{î•ñ‚ğƒZƒbƒg‚·‚éB
      * 
      * @param baseInfoList
-     *            åŸºæœ¬æƒ…å ±
+     *            Šî–{î•ñ
      */
     public void setBaseInfo(final List<String> baseInfoList)
     {
@@ -126,12 +124,12 @@ public class JavelinLogElement
     }
 
     /**
-     * è©³ç´°æƒ…å ±ã®ã‚¿ã‚°ã®ç¨®é¡ã¨å¯¾å¿œã™ã‚‹ãƒ­ã‚°æ–‡å­—åˆ—ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+     * Ú×î•ñ‚Ìƒ^ƒO‚Ìí—Ş‚Æ‘Î‰‚·‚éƒƒO•¶š—ñ‚ğƒZƒbƒg‚·‚é
      * 
      * @param tagType
-     *            è©³ç´°æƒ…å ±ã®ã‚¿ã‚°ã®ç¨®é¡
+     *            Ú×î•ñ‚Ìƒ^ƒO‚Ìí—Ş
      * @param data
-     *            è©³ç´°æƒ…å ±ã®å†…å®¹
+     *            Ú×î•ñ‚Ì“à—e
      */
     public void setDetailInfo(final String tagType, final String data)
     {
@@ -139,10 +137,10 @@ public class JavelinLogElement
     }
 
     /**
-     * è©³ç´°æƒ…å ±ã®ãƒãƒƒãƒ—ã‚’ã‚»ãƒƒãƒˆã—ã¾ã™ã€‚<br />
+     * Ú×î•ñ‚Ìƒ}ƒbƒv‚ğƒZƒbƒg‚µ‚Ü‚·B<br />
      * 
      * @param detailMap
-     *            è©³ç´°æƒ…å ±ã®ãƒãƒƒãƒ—
+     *            Ú×î•ñ‚Ìƒ}ƒbƒv
      */
     public void setDetailInfo(final Map<String, String> detailMap)
     {
@@ -150,9 +148,9 @@ public class JavelinLogElement
     }
 
     /**
-     * è©³ç´°æƒ…å ±ã®ãƒãƒƒãƒ—ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * Ú×î•ñ‚Ìƒ}ƒbƒv‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @return è©³ç´°æƒ…å ±ã®ãƒãƒƒãƒ—
+     * @return Ú×î•ñ‚Ìƒ}ƒbƒv
      */
     public Map<String, String> getDetailMap()
     {
@@ -160,9 +158,9 @@ public class JavelinLogElement
     }
 
     /**
-     * ã“ã®ãƒ­ã‚°ã®çµ‚äº†è¡Œã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ‚±‚ÌƒƒO‚ÌI—¹s‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @return çµ‚äº†è¡Œ
+     * @return I—¹s
      */
     public int getEndLogLine()
     {
@@ -170,10 +168,10 @@ public class JavelinLogElement
     }
 
     /**
-     * ã“ã®ãƒ­ã‚°ã®çµ‚äº†è¡Œã‚’ã‚»ãƒƒãƒˆã—ã¾ã™ã€‚<br />
+     * ‚±‚ÌƒƒO‚ÌI—¹s‚ğƒZƒbƒg‚µ‚Ü‚·B<br />
      * 
      * @param endLogLine
-     *            çµ‚äº†è¡Œ
+     *            I—¹s
      */
     public void setEndLogLine(final int endLogLine)
     {
@@ -181,9 +179,9 @@ public class JavelinLogElement
     }
 
     /**
-     * ã“ã®ãƒ­ã‚°ã‚’å‡ºåŠ›ã—ãŸJavelinã®IPã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ‚±‚ÌƒƒO‚ğo—Í‚µ‚½Javelin‚ÌIPƒAƒhƒŒƒX‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @return IPã‚¢ãƒ‰ãƒ¬ã‚¹
+     * @return IPƒAƒhƒŒƒX
      */
     public String getIpAddress()
     {
@@ -191,9 +189,9 @@ public class JavelinLogElement
     }
 
     /**
-     * ã“ã®ãƒ­ã‚°ã‚’å‡ºåŠ›ã—ãŸJavelinã®IPã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’ã‚»ãƒƒãƒˆã—ã¾ã™ã€‚<br />
+     * ‚±‚ÌƒƒO‚ğo—Í‚µ‚½Javelin‚ÌIPƒAƒhƒŒƒX‚ğƒZƒbƒg‚µ‚Ü‚·B<br />
      * 
-     * @param ipAddress IPã‚¢ãƒ‰ãƒ¬ã‚¹
+     * @param ipAddress IPƒAƒhƒŒƒX
      */
     public void setIpAddress(final String ipAddress)
     {
@@ -201,9 +199,9 @@ public class JavelinLogElement
     }
 
     /**
-     * ã“ã®ãƒ­ã‚°ã‚’å‡ºåŠ›ã—ãŸJavelinã®ãƒãƒ¼ãƒˆç•ªå·ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ‚±‚ÌƒƒO‚ğo—Í‚µ‚½Javelin‚Ìƒ|[ƒg”Ô†‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @return port ãƒãƒ¼ãƒˆç•ªå·
+     * @return port ƒ|[ƒg”Ô†
      */
     public int getPort()
     {
@@ -211,9 +209,9 @@ public class JavelinLogElement
     }
 
     /**
-     * ã“ã®ãƒ­ã‚°ã‚’å‡ºåŠ›ã—ãŸJavelinã®ãƒãƒ¼ãƒˆç•ªå·ã‚’ã‚»ãƒƒãƒˆã—ã¾ã™ã€‚<br />
+     * ‚±‚ÌƒƒO‚ğo—Í‚µ‚½Javelin‚Ìƒ|[ƒg”Ô†‚ğƒZƒbƒg‚µ‚Ü‚·B<br />
      * 
-     * @param port ãƒãƒ¼ãƒˆç•ªå·
+     * @param port ƒ|[ƒg”Ô†
      */
     public void setPort(final int port)
     {
@@ -221,9 +219,9 @@ public class JavelinLogElement
     }
 
     /**
-     * ã“ã®ãƒ­ã‚°ãŒä¿å­˜ã•ã‚Œã¦ã„ã‚‹DBã®åå‰ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ‚±‚ÌƒƒO‚ª•Û‘¶‚³‚ê‚Ä‚¢‚éDB‚Ì–¼‘O‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @return databaseName DBå
+     * @return databaseName DB–¼
      */
     public String getDatabaseName()
     {
@@ -231,9 +229,9 @@ public class JavelinLogElement
     }
 
     /**
-     * ã“ã®ãƒ­ã‚°ãŒä¿å­˜ã•ã‚Œã¦ã„ã‚‹DBã®åå‰ã‚’ã‚»ãƒƒãƒˆã—ã¾ã™ã€‚<br />
+     * ‚±‚ÌƒƒO‚ª•Û‘¶‚³‚ê‚Ä‚¢‚éDB‚Ì–¼‘O‚ğƒZƒbƒg‚µ‚Ü‚·B<br />
      * 
-     * @param databaseName DBå
+     * @param databaseName DB–¼
      */
     public void setDatabaseName(final String databaseName)
     {
@@ -241,9 +239,9 @@ public class JavelinLogElement
     }
 
     /**
-     * ã“ã®ãƒ­ã‚°ã®é–‹å§‹è¡Œã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ‚±‚ÌƒƒO‚ÌŠJns‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @return é–‹å§‹è¡Œ
+     * @return ŠJns
      */
     public int getStartLogLine()
     {
@@ -251,10 +249,10 @@ public class JavelinLogElement
     }
 
     /**
-     * ã“ã®ãƒ­ã‚°ã®é–‹å§‹è¡Œã‚’ã‚»ãƒƒãƒˆã—ã¾ã™ã€‚<br />
+     * ‚±‚ÌƒƒO‚ÌŠJns‚ğƒZƒbƒg‚µ‚Ü‚·B<br />
      * 
      * @param startLogLine
-     *            é–‹å§‹è¡Œ
+     *            ŠJns
      */
     public void setStartLogLine(final int startLogLine)
     {
@@ -262,9 +260,9 @@ public class JavelinLogElement
     }
 
     /**
-     * ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«åã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ƒƒOƒtƒ@ƒCƒ‹–¼‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @return ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«å
+     * @return ƒƒOƒtƒ@ƒCƒ‹–¼
      */
     public String getLogFileName()
     {
@@ -272,10 +270,10 @@ public class JavelinLogElement
     }
 
     /**
-     * ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«åã‚’ã‚»ãƒƒãƒˆã—ã¾ã™ã€‚
+     * ƒƒOƒtƒ@ƒCƒ‹–¼‚ğƒZƒbƒg‚µ‚Ü‚·B
      * 
      * @param logFileName
-     *            ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«å
+     *            ƒƒOƒtƒ@ƒCƒ‹–¼
      */
     public void setLogFileName(final String logFileName)
     {
@@ -283,18 +281,18 @@ public class JavelinLogElement
     }
 
     /**
-     * ã‚¹ãƒ¬ãƒƒãƒ‰åç§°ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * ƒXƒŒƒbƒh–¼Ì‚ğæ“¾‚µ‚Ü‚·B
      * 
-     * @return ã‚¹ãƒ¬ãƒƒãƒ‰åç§°
+     * @return ƒXƒŒƒbƒh–¼Ì
      */
     public String getThreadName()
     {
         String ret;
 
-        // ãƒ­ã‚°ã®ç¨®é¡ã‚’å–å¾—ã™ã‚‹ã€‚
+        // ƒƒO‚Ìí—Ş‚ğæ“¾‚·‚éB
         String id = this.baseInfoList_.get(JavelinLogColumnNum.ID);
 
-        // ãƒ­ã‚°ã®ç¨®é¡ã«å¿œã˜ã¦ã€åŸºæœ¬æƒ…å ±éƒ¨ã‹ã‚‰ã‚¹ãƒ¬ãƒƒãƒ‰åç§°ã‚’å–å¾—ã—ã€è¿”ã™ã€‚
+        // ƒƒO‚Ìí—Ş‚É‰‚¶‚ÄAŠî–{î•ñ•”‚©‚çƒXƒŒƒbƒh–¼Ì‚ğæ“¾‚µA•Ô‚·B
         if (JavelinConstants.MSG_CALL.equals(id))
         {
             ret = this.baseInfoList_.get(JavelinLogColumnNum.CALL_THREADID);
@@ -320,8 +318,8 @@ public class JavelinLogElement
     }
 
     /**
-     * å¼•æ•°ã®é…åˆ—ã‚’å–å¾—ã—ã¾ã™ã€‚
-     * @return å¼•æ•°ã®é…åˆ—
+     * ˆø”‚Ì”z—ñ‚ğæ“¾‚µ‚Ü‚·B
+     * @return ˆø”‚Ì”z—ñ
      */
     public String[] getArgs()
     {
@@ -329,8 +327,8 @@ public class JavelinLogElement
     }
 
     /**
-     * å¼•æ•°é…åˆ—ã‚’è¨­å®šã—ã¾ã™ã€‚
-     * @param args å¼•æ•°ã®é…åˆ—
+     * ˆø””z—ñ‚ğİ’è‚µ‚Ü‚·B
+     * @param args ˆø”‚Ì”z—ñ
      */
     public void setArgs(final String[] args)
     {
@@ -338,8 +336,8 @@ public class JavelinLogElement
     }
 
     /**
-     * ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ã‚’å–å¾—ã—ã¾ã™ã€‚
-     * @return ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤
+     * ƒAƒ‰[ƒ€è‡’l‚ğæ“¾‚µ‚Ü‚·B
+     * @return ƒAƒ‰[ƒ€è‡’l
      */
     public long getAlarmThreshold()
     {
@@ -347,8 +345,8 @@ public class JavelinLogElement
     }
 
     /**
-     * ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ã‚’è¨­å®šã—ã¾ã™ã€‚
-     * @param alarmThreshold ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤
+     * ƒAƒ‰[ƒ€è‡’l‚ğİ’è‚µ‚Ü‚·B
+     * @param alarmThreshold ƒAƒ‰[ƒ€è‡’l
      */
     public void setAlarmThreshold(final long alarmThreshold)
     {
@@ -356,8 +354,8 @@ public class JavelinLogElement
     }
 
     /**
-     * ã‚¢ãƒ©ãƒ¼ãƒ CPUé–¾å€¤ã‚’å–å¾—ã—ã¾ã™ã€‚
-     * @return ã‚¢ãƒ©ãƒ¼ãƒ CPUé–¾å€¤
+     * ƒAƒ‰[ƒ€CPUè‡’l‚ğæ“¾‚µ‚Ü‚·B
+     * @return ƒAƒ‰[ƒ€CPUè‡’l
      */
     public long getCpuAlarmThreshold()
     {
@@ -365,32 +363,12 @@ public class JavelinLogElement
     }
 
     /**
-     * ã‚¢ãƒ©ãƒ¼ãƒ CPUé–¾å€¤ã‚’è¨­å®šã—ã¾ã™ã€‚
-     * @param cpuAlarmThreshold ã‚¢ãƒ©ãƒ¼ãƒ CPUé–¾å€¤
+     * ƒAƒ‰[ƒ€CPUè‡’l‚ğİ’è‚µ‚Ü‚·B
+     * @param cpuAlarmThreshold ƒAƒ‰[ƒ€CPUè‡’l
      */
     public void setCpuAlarmThreshold(final long cpuAlarmThreshold)
     {
         cpuAlarmThreshold_ = cpuAlarmThreshold;
-    }
-
-    /**
-     * è¨ˆæ¸¬é …ç›®åã‚’å–å¾—ã—ã¾ã™ã€‚
-     * 
-     * @return è¨ˆæ¸¬é …ç›®å
-     */
-    public String getMeasurementItemName()
-    {
-        return measurementItemName_;
-    }
-
-    /**
-     * è¨ˆæ¸¬é …ç›®åã‚’è¨­å®šã—ã¾ã™ã€‚
-     * 
-     * @param measurementItemName è¨ˆæ¸¬é …ç›®å
-     */
-    public void setMeasurementItemName(final String measurementItemName)
-    {
-        this.measurementItemName_ = measurementItemName;
     }
 
 }

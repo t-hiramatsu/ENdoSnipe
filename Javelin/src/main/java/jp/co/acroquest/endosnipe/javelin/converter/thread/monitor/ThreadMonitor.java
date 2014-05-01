@@ -48,32 +48,32 @@ import jp.co.acroquest.endosnipe.javelin.event.DeadLockDetectedEvent;
 import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
 
 /**
- * ã‚¹ãƒ¬ãƒƒãƒ‰ã®ãƒ­ãƒƒã‚¯çŠ¶æ…‹ã‚’ç›£è¦–ã™ã‚‹ã€‚
+ * ƒXƒŒƒbƒh‚ÌƒƒbƒNó‘Ô‚ğŠÄ‹‚·‚éB
  * 
  * @author eriguchi
  *
  */
 public class ThreadMonitor implements Runnable
 {
-    /** ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’å‰Šé™¤ã™ã‚‹é–¾å€¤ã€‚ */
+    /** ƒXƒŒƒbƒh‚ğíœ‚·‚éè‡’lB */
     private static final int THREAD_CLEAN_THRESHOLD = 50;
 
-    /** ã‚¹ãƒ¬ãƒƒãƒ‰IDã€ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±ã®ãƒãƒƒãƒ—ã€‚ */
+    /** ƒXƒŒƒbƒhIDAƒXƒŒƒbƒhî•ñ‚Ìƒ}ƒbƒvB */
     private final Map<Long, ThreadInfo> prevThreadInfoMap_ = new HashMap<Long, ThreadInfo>();
 
-    /** é€£ç¶šãƒ–ãƒ­ãƒƒã‚¯æ™‚é–“ã®ä¿æŒãƒãƒƒãƒ— */
+    /** ˜A‘±ƒuƒƒbƒNŠÔ‚Ì•Ûƒ}ƒbƒv */
     private final Map<Long, Long> blockContinueInfoMap_ = new HashMap<Long, Long>();
 
-    /** Javelinã®è¨­å®šã€‚ */
+    /** Javelin‚Ìİ’èB */
     private final JavelinConfig config_ = new JavelinConfig();
 
-    /** ã‚¹ãƒ¬ãƒƒãƒ‰ã®ç›£è¦–ã‚’è¡Œã†ã‹ã©ã†ã‹ã®å‰å›è¨­å®šã€‚ */
+    /** ƒXƒŒƒbƒh‚ÌŠÄ‹‚ğs‚¤‚©‚Ç‚¤‚©‚Ì‘O‰ñİ’èB */
     private boolean prevThreadMonitor_ = false;
 
-    /** ThreadMXBeanã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
+    /** ThreadMXBeanƒIƒuƒWƒFƒNƒg */
     private static ThreadMXBean threadMXBeanInstance__ = null;
 
-    /** java.lang.management.ThreadMXBean#findDeadlockedThreadsã€€ã®å®Ÿè£…ãƒ¡ã‚½ãƒƒãƒ‰ */
+    /** java.lang.management.ThreadMXBean#findDeadlockedThreads@‚ÌÀ‘•ƒƒ\ƒbƒh */
     private static Method findDeadlockedThreadsMethod__ = null;
 
     static
@@ -97,12 +97,12 @@ public class ThreadMonitor implements Runnable
     }
 
     /**
-     * thread.monitor.interval(ãƒŸãƒªç§’)ã®é–“éš”ã§ã€ã‚¹ãƒ¬ãƒƒãƒ‰ã®çŠ¶æ³ã‚’ç¢ºèªã—ã€
-     * å‰å›ã‹ã‚‰ãƒ–ãƒ­ãƒƒã‚¯ãŒç¶™ç¶šã—ã¦ã„ã‚‹å ´åˆã«CallTreeã«ãƒ­ãƒƒã‚¯ã®çŠ¶æ³ã‚’è¿½åŠ ã™ã‚‹ã€‚
-     * è¿½åŠ ã™ã‚‹æƒ…å ±ã¯ä»¥ä¸‹ã®é€šã‚Šã€‚
+     * thread.monitor.interval(ƒ~ƒŠ•b)‚ÌŠÔŠu‚ÅAƒXƒŒƒbƒh‚Ìó‹µ‚ğŠm”F‚µA
+     * ‘O‰ñ‚©‚çƒuƒƒbƒN‚ªŒp‘±‚µ‚Ä‚¢‚éê‡‚ÉCallTree‚ÉƒƒbƒN‚Ìó‹µ‚ğ’Ç‰Á‚·‚éB
+     * ’Ç‰Á‚·‚éî•ñ‚ÍˆÈ‰º‚Ì’Ê‚èB
      * <ul>
-     * <li>thread.monitor.owner ãƒ­ãƒƒã‚¯ã‚’ä¿æŒã—ã¦ã„ã‚‹ã‚¹ãƒ¬ãƒƒãƒ‰</li>
-     * <li>thread.monitor.thread ãƒ­ãƒƒã‚¯è§£æ”¾ã‚’å¾…ã£ã¦ã„ã‚‹ã‚¹ãƒ¬ãƒƒãƒ‰</li>
+     * <li>thread.monitor.owner ƒƒbƒN‚ğ•Û‚µ‚Ä‚¢‚éƒXƒŒƒbƒh</li>
+     * <li>thread.monitor.thread ƒƒbƒN‰ğ•ú‚ğ‘Ò‚Á‚Ä‚¢‚éƒXƒŒƒbƒh</li>
      * </ul>
      */
     public void run()
@@ -113,7 +113,7 @@ public class ThreadMonitor implements Runnable
         }
         catch (Exception ex)
         {
-            SystemLogger.getInstance().debug(ex);
+            ;
         }
         
         prevThreadMonitor_ = true;
@@ -190,9 +190,9 @@ public class ThreadMonitor implements Runnable
     }
 
     /**
-     * æŒ‡å®šã—ãŸã‚¹ãƒ¬ãƒƒãƒ‰IDã«å«ã¾ã‚Œãªã„ã‚¹ãƒ¬ãƒƒãƒ‰æƒ…å ±ã‚’å‰Šé™¤ã™ã‚‹ã€‚
+     * w’è‚µ‚½ƒXƒŒƒbƒhID‚ÉŠÜ‚Ü‚ê‚È‚¢ƒXƒŒƒbƒhî•ñ‚ğíœ‚·‚éB
      * 
-     * @param threadIds ã‚¹ãƒ¬ãƒƒãƒ‰IDã®é…åˆ—ã€‚
+     * @param threadIds ƒXƒŒƒbƒhID‚Ì”z—ñB
      */
     private void cleanupThreadInfoMap(final long[] threadIds)
     {
@@ -253,8 +253,8 @@ public class ThreadMonitor implements Runnable
     }
 
     /**
-     * ãƒ‡ãƒƒãƒ‰ãƒ­ãƒƒã‚¯ãŒç™ºç”Ÿã—ã¦ã„ã‚‹ã‹ã‚’åˆ¤å®šã™ã‚‹ã€‚
-     * ç™ºç”Ÿã—ã¦ã„ãŸå ´åˆã€ã‚¤ãƒ™ãƒ³ãƒˆã‚’å‡ºåŠ›ã™ã‚‹ã€‚
+     * ƒfƒbƒhƒƒbƒN‚ª”­¶‚µ‚Ä‚¢‚é‚©‚ğ”»’è‚·‚éB
+     * ”­¶‚µ‚Ä‚¢‚½ê‡AƒCƒxƒ“ƒg‚ğo—Í‚·‚éB
      */
     private void checkDeadLock()
     {
@@ -297,6 +297,7 @@ public class ThreadMonitor implements Runnable
         }
 
         Arrays.sort(deadlockThreads);
+        SystemLogger.getInstance().debug("Deadlocks of thread " + Arrays.toString(deadlockThreads) + " are detected");
 
         DeadLockDetectedEvent event = new DeadLockDetectedEvent();
         int index = 1;
@@ -307,7 +308,7 @@ public class ThreadMonitor implements Runnable
             Long threadIdLong = Long.valueOf(threadId);
             ThreadInfo threadInfo = ThreadUtil.getThreadInfo(threadIdLong, maxDepth);
 
-            // æœ€åˆã®ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã ã‘ã€ã‚¤ãƒ™ãƒ³ãƒˆã®æ¯”è¼ƒã«ä½¿ç”¨ã™ã‚‹ãŸã‚ã€ã‚¤ãƒ™ãƒ³ãƒˆã«è¨­å®šã™ã‚‹
+            // Å‰‚ÌƒXƒ^ƒbƒNƒgƒŒ[ƒX‚¾‚¯AƒCƒxƒ“ƒg‚Ì”äŠr‚Ég—p‚·‚é‚½‚ßAƒCƒxƒ“ƒg‚Éİ’è‚·‚é
             if (index == 1)
             {
                 String stackTraceStr = ThreadUtil.getStackTrace(threadInfo.getStackTrace());

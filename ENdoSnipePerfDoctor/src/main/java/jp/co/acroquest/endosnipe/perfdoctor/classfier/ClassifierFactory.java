@@ -30,25 +30,25 @@ import java.util.List;
 import jp.co.acroquest.endosnipe.perfdoctor.WarningUnit;
 
 /**
- * å—ã‘å–ã£ãŸãƒªã‚¹ãƒˆã®ã‚µã‚¤ã‚ºã‚’åŸºã«ã€å„ãƒ«ãƒ¼ãƒ«ã«åŸºã¥ã„ãŸWarningUnitã®åˆ†é¡å™¨ã‚’ç”Ÿæˆã™ã‚‹ã€‚<br />
- * ãƒªã‚¹ãƒˆã®ã‚µã‚¤ã‚ºãŒ10ä»¥ä¸‹ã®ã¨ãã¯ã€SimpleClassifierã‚’ç”Ÿæˆã—ã€<br />
- * ãƒªã‚¹ãƒˆã®ã‚µã‚¤ã‚ºãŒ10ã‚ˆã‚Šã‚‚å¤§ãã„ã¨ãã¯ã€KmeansClassifierã‚’ç”Ÿæˆã™ã‚‹ã€‚<br />
+ * ó‚¯æ‚Á‚½ƒŠƒXƒg‚ÌƒTƒCƒY‚ğŠî‚ÉAŠeƒ‹[ƒ‹‚ÉŠî‚Ã‚¢‚½WarningUnit‚Ì•ª—ŞŠí‚ğ¶¬‚·‚éB<br />
+ * ƒŠƒXƒg‚ÌƒTƒCƒY‚ª10ˆÈ‰º‚Ì‚Æ‚«‚ÍASimpleClassifier‚ğ¶¬‚µA<br />
+ * ƒŠƒXƒg‚ÌƒTƒCƒY‚ª10‚æ‚è‚à‘å‚«‚¢‚Æ‚«‚ÍAKmeansClassifier‚ğ¶¬‚·‚éB<br />
  * 
  * @author fujii
  * 
  */
 public class ClassifierFactory
 {
-    /** åˆ†é¡å™¨ã®ç”Ÿæˆ */
+    /** •ª—ŞŠí‚Ì¶¬ */
     private static ClassifierFactory factory__        = new ClassifierFactory();
 
-    /** ãƒ•ã‚£ãƒ«ã‚¿ã‚’åˆ‡ã‚Šæ›¿ãˆã‚‹ */
+    /** ƒtƒBƒ‹ƒ^‚ğØ‚è‘Ö‚¦‚é */
     private static final int         FILTER_THRESHOLD = 10;
 
     /**
-     * ClassfierFactoryã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¿”ã™ã€‚
+     * ClassfierFactoryƒIƒuƒWƒFƒNƒg‚ğ•Ô‚·B
      * 
-     * @return ClassfierFactoryã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @return ClassfierFactoryƒIƒuƒWƒFƒNƒg
      */
     public static ClassifierFactory getInstance()
     {
@@ -56,9 +56,9 @@ public class ClassifierFactory
     }
 
     /**
-     * ãƒªã‚¹ãƒˆã®å¤§ãã•ã«ã‚ˆã£ã¦ã€ç•°ãªã‚‹åˆ†é¡å™¨ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @param list WariningUnitã®ãƒªã‚¹ãƒˆ
-     * @return ãƒ•ã‚£ãƒ«ã‚¿ãƒ¼
+     * ƒŠƒXƒg‚Ì‘å‚«‚³‚É‚æ‚Á‚ÄAˆÙ‚È‚é•ª—ŞŠí‚ğæ“¾‚·‚éB
+     * @param list WariningUnit‚ÌƒŠƒXƒg
+     * @return ƒtƒBƒ‹ƒ^[
      */
     public Classifier getClassifier(final List<WarningUnit> list)
     {

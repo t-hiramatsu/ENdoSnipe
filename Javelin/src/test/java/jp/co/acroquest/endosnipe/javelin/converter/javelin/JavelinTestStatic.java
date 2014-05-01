@@ -26,7 +26,7 @@
 package jp.co.acroquest.endosnipe.javelin.converter.javelin;
 
 /**
- * static繝｡繧ｽ繝�繝峨�ｮ縺ｿ謖√▽繧ｯ繝ｩ繧ｹ
+ * staticメソッドのみ持つクラス
  * @author fujii
  *
  */

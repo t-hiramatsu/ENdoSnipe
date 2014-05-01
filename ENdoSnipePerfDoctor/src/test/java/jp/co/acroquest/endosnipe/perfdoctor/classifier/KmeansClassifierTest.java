@@ -9,23 +9,23 @@ import jp.co.acroquest.endosnipe.perfdoctor.classfier.KmeansClassifier;
 import junit.framework.TestCase;
 
 /**
- * KmeansClassifierã®ãƒ†ã‚¹ãƒˆã‚¯ãƒ©ã‚¹
+ * KmeansClassifier‚ÌƒeƒXƒgƒNƒ‰ƒX
  * @author fujii
  *
  */
 public class KmeansClassifierTest extends TestCase
 {
     /**
-     * [é …ç•ª] 1-1-5 classifyã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»5ã¤ã®è¦ç´ ã‹ã‚‰ãªã‚‹WarningUnitã®ãƒªã‚¹ãƒˆã«å¯¾ã—ã¦ã€
-     *  KmeansClassifierã‚’é©ç”¨ã™ã‚‹ã€‚<br />
+     * [€”Ô] 1-1-5 classify‚ÌƒeƒXƒgB <br />
+     * E5‚Â‚Ì—v‘f‚©‚ç‚È‚éWarningUnit‚ÌƒŠƒXƒg‚É‘Î‚µ‚ÄA
+     *  KmeansClassifier‚ğ“K—p‚·‚éB<br />
      * 
-     * â†’ãƒªã‚¹ãƒˆã®ãƒ‡ãƒ¼ã‚¿ãŒãã®ã¾ã¾è¿”ã£ã¦ãã‚‹ã“ã¨ã€‚
+     * ¨ƒŠƒXƒg‚Ìƒf[ƒ^‚ª‚»‚Ì‚Ü‚Ü•Ô‚Á‚Ä‚­‚é‚±‚ÆB
      * 
      */
     public void testClassify_FiveData()
     {
-        // æº–å‚™
+        // €”õ
         Classifier classifier = createClassifier();
         List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
 
@@ -41,10 +41,10 @@ public class KmeansClassifierTest extends TestCase
         warningUnitList.add(unit4);
         warningUnitList.add(unit5);
 
-        // å®Ÿè¡Œ
+        // Às
         List<WarningUnit> resultList = classifier.classify(warningUnitList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(5, resultList.size());
         ClassifierUtil.assertWarningUnitList(unit1, resultList.get(0));
         ClassifierUtil.assertWarningUnitList(unit2, resultList.get(1));
@@ -54,16 +54,16 @@ public class KmeansClassifierTest extends TestCase
     }
 
     /**
-     * [é …ç•ª] 1-1-6 classifyã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»20å€‹ã®è¦ç´ ã‹ã‚‰ãªã‚‹WarningUnitã®ãƒªã‚¹ãƒˆã«å¯¾ã—ã¦ã€
-     *  KmeansClassifierã‚’é©ç”¨ã™ã‚‹ã€‚<br />
+     * [€”Ô] 1-1-6 classify‚ÌƒeƒXƒgB <br />
+     * E20ŒÂ‚Ì—v‘f‚©‚ç‚È‚éWarningUnit‚ÌƒŠƒXƒg‚É‘Î‚µ‚ÄA
+     *  KmeansClassifier‚ğ“K—p‚·‚éB<br />
      * 
-     * â†’ãƒ•ã‚£ãƒ«ã‚¿ãƒ¼ãŒã‹ã‹ã£ã¦ã€ãƒªã‚¹ãƒˆãŒè¿”ã£ã¦ãã‚‹ã“ã¨(ã“ã“ã§ã¯ã€4è¡Œç›®ã€8è¡Œç›®ã€12è¡Œç›®ã€16è¡Œç›®ã€20è¡Œç›®)ã€‚
+     * ¨ƒtƒBƒ‹ƒ^[‚ª‚©‚©‚Á‚ÄAƒŠƒXƒg‚ª•Ô‚Á‚Ä‚­‚é‚±‚Æ(‚±‚±‚Å‚ÍA4s–ÚA8s–ÚA12s–ÚA16s–ÚA20s–Ú)B
      * 
      */
     public void testClassify_TwentyData()
     {
-        // æº–å‚™
+        // €”õ
         Classifier classifier = createClassifier();
         List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
 
@@ -109,10 +109,10 @@ public class KmeansClassifierTest extends TestCase
         warningUnitList.add(unit19);
         warningUnitList.add(unit20);
 
-        // å®Ÿè¡Œ
+        // Às
         List<WarningUnit> resultList = classifier.classify(warningUnitList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(5, resultList.size());
         ClassifierUtil.assertWarningUnitList(unit4, resultList.get(0));
         ClassifierUtil.assertWarningUnitList(unit8, resultList.get(1));
@@ -122,16 +122,16 @@ public class KmeansClassifierTest extends TestCase
     }
 
     /**
-     * [é …ç•ª] 1-1-7 classifyã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»Argsã®å€¤ãŒ0ã‚’å«ã‚“ã WarningUnitã®ãƒªã‚¹ãƒˆã«å¯¾ã—ã¦ã€
-     *  KmeansClassifierã‚’é©ç”¨ã™ã‚‹ã€‚<br />
+     * [€”Ô] 1-1-7 classify‚ÌƒeƒXƒgB <br />
+     * EArgs‚Ì’l‚ª0‚ğŠÜ‚ñ‚¾WarningUnit‚ÌƒŠƒXƒg‚É‘Î‚µ‚ÄA
+     *  KmeansClassifier‚ğ“K—p‚·‚éB<br />
      * 
-     * â†’4,8,12,16,20è¡Œç›®ã®ãƒ‡ãƒ¼ã‚¿ãŒè¿”ã£ã¦ãã‚‹ã“ã¨ã€‚
+     * ¨4,8,12,16,20s–Ú‚Ìƒf[ƒ^‚ª•Ô‚Á‚Ä‚­‚é‚±‚ÆB
      * 
      */
     public void testClassify_ContainsZero()
     {
-        // æº–å‚™
+        // €”õ
         Classifier classifier = createClassifier();
         List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
 
@@ -177,10 +177,10 @@ public class KmeansClassifierTest extends TestCase
         warningUnitList.add(unit19);
         warningUnitList.add(unit20);
 
-        // å®Ÿè¡Œ
+        // Às
         List<WarningUnit> resultList = classifier.classify(warningUnitList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(5, resultList.size());
         ClassifierUtil.assertWarningUnitList(unit3, resultList.get(0));
         ClassifierUtil.assertWarningUnitList(unit7, resultList.get(1));
@@ -190,16 +190,16 @@ public class KmeansClassifierTest extends TestCase
     }
 
     /**
-     * [é …ç•ª] 1-1-8 classifyã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»argsã®å€¤ã«æ–‡å­—åˆ—ã‚’å«ã‚“ã§ã„ã‚‹WarningUnitã®è¦ç´ ã‚’æŒã¤ãƒªã‚¹ãƒˆã«å¯¾ã—ã¦ã€
-     *  KmeansClassifierã‚’é©ç”¨ã™ã‚‹ã€‚<br />
+     * [€”Ô] 1-1-8 classify‚ÌƒeƒXƒgB <br />
+     * Eargs‚Ì’l‚É•¶š—ñ‚ğŠÜ‚ñ‚Å‚¢‚éWarningUnit‚Ì—v‘f‚ğ‚ÂƒŠƒXƒg‚É‘Î‚µ‚ÄA
+     *  KmeansClassifier‚ğ“K—p‚·‚éB<br />
      * 
-     * â†’1è¡Œç›®ã®ãƒ‡ãƒ¼ã‚¿ãŒè¿”ã£ã¦ãã‚‹ã“ã¨ã€‚
+     * ¨1s–Ú‚Ìƒf[ƒ^‚ª•Ô‚Á‚Ä‚­‚é‚±‚ÆB
      * 
      */
     public void testClassify_ContainsString()
     {
-        // æº–å‚™
+        // €”õ
         Classifier classifier = createClassifier();
         List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
 
@@ -245,25 +245,25 @@ public class KmeansClassifierTest extends TestCase
         warningUnitList.add(unit19);
         warningUnitList.add(unit20);
 
-        // å®Ÿè¡Œ
+        // Às
         List<WarningUnit> resultList = classifier.classify(warningUnitList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(1, resultList.size());
         ClassifierUtil.assertWarningUnitList(unit1, resultList.get(0));
     }
     
     /**
-     * [é …ç•ª] 1-1-28 classifyã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»Argsã®å€¤ãŒ-5ã‚’å«ã‚“ã WarningUnitã®ãƒªã‚¹ãƒˆã«å¯¾ã—ã¦ã€
-     *  KmeansClassifierã‚’é©ç”¨ã™ã‚‹ã€‚<br />
+     * [€”Ô] 1-1-28 classify‚ÌƒeƒXƒgB <br />
+     * EArgs‚Ì’l‚ª-5‚ğŠÜ‚ñ‚¾WarningUnit‚ÌƒŠƒXƒg‚É‘Î‚µ‚ÄA
+     *  KmeansClassifier‚ğ“K—p‚·‚éB<br />
      * 
-     * â†’4,8,12,16,20è¡Œç›®ã®ãƒ‡ãƒ¼ã‚¿ãŒè¿”ã£ã¦ãã‚‹ã“ã¨ã€‚
+     * ¨4,8,12,16,20s–Ú‚Ìƒf[ƒ^‚ª•Ô‚Á‚Ä‚­‚é‚±‚ÆB
      * 
      */
     public void testClassify_ContainsMinus()
     {
-        // æº–å‚™
+        // €”õ
         Classifier classifier = createClassifier();
         List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
 
@@ -309,10 +309,10 @@ public class KmeansClassifierTest extends TestCase
         warningUnitList.add(unit19);
         warningUnitList.add(unit20);
 
-        // å®Ÿè¡Œ
+        // Às
         List<WarningUnit> resultList = classifier.classify(warningUnitList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(5, resultList.size());
         ClassifierUtil.assertWarningUnitList(unit3, resultList.get(0));
         ClassifierUtil.assertWarningUnitList(unit7, resultList.get(1));
@@ -322,16 +322,16 @@ public class KmeansClassifierTest extends TestCase
     }
 
     /**
-     * [é …ç•ª] 1-1-29 classifyã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»argsã®é•·ã•ãŒ1ã§ã‚ã‚‹ã‚ˆã†ãªWarningUnitã®è¦ç´ ã‚’æŒã¤ãƒªã‚¹ãƒˆã«å¯¾ã—ã¦ã€
-     *  KmeansClassifierã‚’é©ç”¨ã™ã‚‹ã€‚<br />
+     * [€”Ô] 1-1-29 classify‚ÌƒeƒXƒgB <br />
+     * Eargs‚Ì’·‚³‚ª1‚Å‚ ‚é‚æ‚¤‚ÈWarningUnit‚Ì—v‘f‚ğ‚ÂƒŠƒXƒg‚É‘Î‚µ‚ÄA
+     *  KmeansClassifier‚ğ“K—p‚·‚éB<br />
      * 
-     * â†’1è¡Œç›®ã®ãƒ‡ãƒ¼ã‚¿ãŒè¿”ã£ã¦ãã‚‹ã“ã¨ã€‚
+     * ¨1s–Ú‚Ìƒf[ƒ^‚ª•Ô‚Á‚Ä‚­‚é‚±‚ÆB
      * 
      */
     public void testClassify_ArgsLendthOne()
     {
-        // æº–å‚™
+        // €”õ
         Classifier classifier = createClassifier();
         List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
 
@@ -347,25 +347,25 @@ public class KmeansClassifierTest extends TestCase
         warningUnitList.add(unit4);
         warningUnitList.add(unit5);
 
-        // å®Ÿè¡Œ
+        // Às
         List<WarningUnit> resultList = classifier.classify(warningUnitList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(1, resultList.size());
         ClassifierUtil.assertWarningUnitList(unit1, resultList.get(0));
     }
 
     /**
-     * [é …ç•ª] 1-1-32 classifyã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»Argsã®å€¤ãŒ0ã‚’å«ã‚“ã WarningUnitã®ãƒªã‚¹ãƒˆã«å¯¾ã—ã¦ã€
-     *  KmeansClassifierã‚’é©ç”¨ã™ã‚‹ã€‚<br />
+     * [€”Ô] 1-1-32 classify‚ÌƒeƒXƒgB <br />
+     * EArgs‚Ì’l‚ª0‚ğŠÜ‚ñ‚¾WarningUnit‚ÌƒŠƒXƒg‚É‘Î‚µ‚ÄA
+     *  KmeansClassifier‚ğ“K—p‚·‚éB<br />
      * 
-     * â†’4,8,12,16,20è¡Œç›®ã®ãƒ‡ãƒ¼ã‚¿ãŒè¿”ã£ã¦ãã‚‹ã“ã¨ã€‚
+     * ¨4,8,12,16,20s–Ú‚Ìƒf[ƒ^‚ª•Ô‚Á‚Ä‚­‚é‚±‚ÆB
      * 
      */
     public void testClassify_ContainsZero_AnotherOrder()
     {
-        // æº–å‚™
+        // €”õ
         Classifier classifier = createClassifier();
         List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
 
@@ -411,10 +411,10 @@ public class KmeansClassifierTest extends TestCase
         warningUnitList.add(unit18);
         warningUnitList.add(unit19);
 
-        // å®Ÿè¡Œ
+        // Às
         List<WarningUnit> resultList = classifier.classify(warningUnitList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(5, resultList.size());
         ClassifierUtil.assertWarningUnitList(unit3, resultList.get(0));
         ClassifierUtil.assertWarningUnitList(unit7, resultList.get(1));
@@ -424,16 +424,16 @@ public class KmeansClassifierTest extends TestCase
     }
 
     /**
-     * [é …ç•ª] 1-1-33 classifyã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»argsã®å€¤ã«æ–‡å­—åˆ—ã‚’å«ã‚“ã§ã„ã‚‹WarningUnitã®è¦ç´ ã‚’æŒã¤ãƒªã‚¹ãƒˆã«å¯¾ã—ã¦ã€
-     *  KmeansClassifierã‚’é©ç”¨ã™ã‚‹ã€‚<br />
+     * [€”Ô] 1-1-33 classify‚ÌƒeƒXƒgB <br />
+     * Eargs‚Ì’l‚É•¶š—ñ‚ğŠÜ‚ñ‚Å‚¢‚éWarningUnit‚Ì—v‘f‚ğ‚ÂƒŠƒXƒg‚É‘Î‚µ‚ÄA
+     *  KmeansClassifier‚ğ“K—p‚·‚éB<br />
      * 
-     * â†’1è¡Œç›®ã®ãƒ‡ãƒ¼ã‚¿ãŒè¿”ã£ã¦ãã‚‹ã“ã¨ã€‚
+     * ¨1s–Ú‚Ìƒf[ƒ^‚ª•Ô‚Á‚Ä‚­‚é‚±‚ÆB
      * 
      */
     public void testClassify_ContainsString_AnotherOrder()
     {
-        // æº–å‚™
+        // €”õ
         Classifier classifier = createClassifier();
         List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
 
@@ -479,25 +479,25 @@ public class KmeansClassifierTest extends TestCase
         warningUnitList.add(unit18);
         warningUnitList.add(unit19);
 
-        // å®Ÿè¡Œ
+        // Às
         List<WarningUnit> resultList = classifier.classify(warningUnitList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(1, resultList.size());
         ClassifierUtil.assertWarningUnitList(unit20, resultList.get(0));
     }
     
     /**
-     * [é …ç•ª] 1-1-36 classifyã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»Argsã®å€¤ãŒ-5ã‚’å«ã‚“ã WarningUnitã®ãƒªã‚¹ãƒˆã«å¯¾ã—ã¦ã€
-     *  KmeansClassifierã‚’é©ç”¨ã™ã‚‹ã€‚<br />
+     * [€”Ô] 1-1-36 classify‚ÌƒeƒXƒgB <br />
+     * EArgs‚Ì’l‚ª-5‚ğŠÜ‚ñ‚¾WarningUnit‚ÌƒŠƒXƒg‚É‘Î‚µ‚ÄA
+     *  KmeansClassifier‚ğ“K—p‚·‚éB<br />
      * 
-     * â†’4,8,12,16,20è¡Œç›®ã®ãƒ‡ãƒ¼ã‚¿ãŒè¿”ã£ã¦ãã‚‹ã“ã¨ã€‚
+     * ¨4,8,12,16,20s–Ú‚Ìƒf[ƒ^‚ª•Ô‚Á‚Ä‚­‚é‚±‚ÆB
      * 
      */
     public void testClassify_ContainsMinus_AnotherOrder()
     {
-        // æº–å‚™
+        // €”õ
         Classifier classifier = createClassifier();
         List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
 
@@ -543,10 +543,10 @@ public class KmeansClassifierTest extends TestCase
         warningUnitList.add(unit18);
         warningUnitList.add(unit19);
 
-        // å®Ÿè¡Œ
+        // Às
         List<WarningUnit> resultList = classifier.classify(warningUnitList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(5, resultList.size());
         ClassifierUtil.assertWarningUnitList(unit3, resultList.get(0));
         ClassifierUtil.assertWarningUnitList(unit7, resultList.get(1));
@@ -556,16 +556,16 @@ public class KmeansClassifierTest extends TestCase
     }
 
     /**
-     * [é …ç•ª] 1-1-37 classifyã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»argsã®é•·ã•ãŒ1ã§ã‚ã‚‹ã‚ˆã†ãªWarningUnitã®è¦ç´ ã‚’æŒã¤ãƒªã‚¹ãƒˆã«å¯¾ã—ã¦ã€
-     *  KmeansClassifierã‚’é©ç”¨ã™ã‚‹ã€‚<br />
+     * [€”Ô] 1-1-37 classify‚ÌƒeƒXƒgB <br />
+     * Eargs‚Ì’·‚³‚ª1‚Å‚ ‚é‚æ‚¤‚ÈWarningUnit‚Ì—v‘f‚ğ‚ÂƒŠƒXƒg‚É‘Î‚µ‚ÄA
+     *  KmeansClassifier‚ğ“K—p‚·‚éB<br />
      * 
-     * â†’1è¡Œç›®ã®ãƒ‡ãƒ¼ã‚¿ãŒè¿”ã£ã¦ãã‚‹ã“ã¨ã€‚
+     * ¨1s–Ú‚Ìƒf[ƒ^‚ª•Ô‚Á‚Ä‚­‚é‚±‚ÆB
      * 
      */
     public void testClassify_ArgsLendthOne_AnotherOrder()
     {
-        // æº–å‚™
+        // €”õ
         Classifier classifier = createClassifier();
         List<WarningUnit> warningUnitList = new ArrayList<WarningUnit>();
 
@@ -581,16 +581,16 @@ public class KmeansClassifierTest extends TestCase
         warningUnitList.add(unit3);
         warningUnitList.add(unit4);
 
-        // å®Ÿè¡Œ
+        // Às
         List<WarningUnit> resultList = classifier.classify(warningUnitList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(1, resultList.size());
         ClassifierUtil.assertWarningUnitList(unit5, resultList.get(0));
     }
 
     /**
-     * KmeansClassifierã‚’ä½œæˆã™ã‚‹ã€‚
+     * KmeansClassifier‚ğì¬‚·‚éB
      * @return KmeansClassifier
      */
     public Classifier createClassifier()

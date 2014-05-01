@@ -36,19 +36,19 @@ public class ENdoSnipeLoggerTest extends TestCase
     }
 
     /**
-     * ENdoSnipeLogger#createMessage(Object)ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹ã§ã™ã€‚<br />
-     * å¼•æ•°ã«nullã‚’æŒ‡å®šã—ãŸå ´åˆã€äºˆæœŸã›ã¬ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸã¨ã„ã†ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãŒè¿”ã•ã‚Œã‚‹äº‹ã‚’ç¢ºèªã—ã¾ã™ã€‚<br />
+     * ENdoSnipeLogger#createMessage(Object)ƒƒ\ƒbƒh‚ÌƒeƒXƒgƒP[ƒX‚Å‚·B<br />
+     * ˆø”‚Énull‚ðŽw’è‚µ‚½ê‡A—\Šú‚¹‚ÊƒGƒ‰[‚ª”­¶‚µ‚½‚Æ‚¢‚¤ƒƒbƒZ[ƒW‚ª•Ô‚³‚ê‚éŽ–‚ðŠm”F‚µ‚Ü‚·B<br />
      */
     public void testCreateMessage_MessageIsNull()
     {
-        // æº–å‚™
+        // €”õ
         ENdoSnipeLogger logger = ENdoSnipeLogger.getLogger(ENdoSnipeLoggerTest.class);
 
-        // å®Ÿæ–½ãƒ»æ¤œè¨¼
+        // ŽÀŽ{EŒŸØ
         try
         {
             String result = logger.createMessage(null);
-            assertEquals(result, "[EECM0005]äºˆæœŸã›ã¬ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¾ã—ãŸ.");
+            assertEquals(result, "[EECM0005]—\Šú‚¹‚ÊƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½.");
         }
         catch (Exception ex)
         {
@@ -57,15 +57,15 @@ public class ENdoSnipeLoggerTest extends TestCase
     }
 
     /**
-     * ENdoSnipeLogger#createMessage(Object)ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹ã§ã™ã€‚<br />
-     * å¼•æ•°ã«ç©ºæ–‡å­—ã‚’æŒ‡å®šã—ãŸå ´åˆã€""ãŒè¿”ã•ã‚Œã‚‹äº‹ã‚’ç¢ºèªã—ã¾ã™ã€‚<br />
+     * ENdoSnipeLogger#createMessage(Object)ƒƒ\ƒbƒh‚ÌƒeƒXƒgƒP[ƒX‚Å‚·B<br />
+     * ˆø”‚É‹ó•¶Žš‚ðŽw’è‚µ‚½ê‡A""‚ª•Ô‚³‚ê‚éŽ–‚ðŠm”F‚µ‚Ü‚·B<br />
      */
     public void testCreateMessage_MessageIsBlank()
     {
-        // æº–å‚™
+        // €”õ
         ENdoSnipeLogger logger = ENdoSnipeLogger.getLogger(ENdoSnipeLoggerTest.class);
 
-        // å®Ÿæ–½ãƒ»æ¤œè¨¼
+        // ŽÀŽ{EŒŸØ
         try
         {
             String result = logger.createMessage("");
@@ -78,15 +78,15 @@ public class ENdoSnipeLoggerTest extends TestCase
     }
 
     /**
-     * ENdoSnipeLogger#createMessage(Object)ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹ã§ã™ã€‚<br />
-     * å¼•æ•°ã«Stringåž‹ã‚’æŒ‡å®šã—ãŸå ´åˆã€ãã®æ–‡å­—åˆ—ãŒãã®ã¾ã¾è¿”ã•ã‚Œã‚‹äº‹ã‚’ç¢ºèªã—ã¾ã™ã€‚<br />
+     * ENdoSnipeLogger#createMessage(Object)ƒƒ\ƒbƒh‚ÌƒeƒXƒgƒP[ƒX‚Å‚·B<br />
+     * ˆø”‚ÉStringŒ^‚ðŽw’è‚µ‚½ê‡A‚»‚Ì•¶Žš—ñ‚ª‚»‚Ì‚Ü‚Ü•Ô‚³‚ê‚éŽ–‚ðŠm”F‚µ‚Ü‚·B<br />
      */
     public void testCreateMessage_MessageIsNotNull()
     {
-        // æº–å‚™
+        // €”õ
         ENdoSnipeLogger logger = ENdoSnipeLogger.getLogger(ENdoSnipeLoggerTest.class);
 
-        // å®Ÿæ–½ãƒ»æ¤œè¨¼
+        // ŽÀŽ{EŒŸØ
         try
         {
             String result = logger.createMessage("String");
@@ -99,12 +99,12 @@ public class ENdoSnipeLoggerTest extends TestCase
     }
 
     /**
-     * ENdoSnipeLogger#createMessage(Object)ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹ã§ã™ã€‚<br />
-     * å¼•æ•°ã«Objectåž‹ã‚’æŒ‡å®šã—ãŸå ´åˆã€ãã®toString()ã®çµæžœãŒè¿”ã•ã‚Œã‚‹äº‹ã‚’ç¢ºèªã—ã¾ã™ã€‚<br />
+     * ENdoSnipeLogger#createMessage(Object)ƒƒ\ƒbƒh‚ÌƒeƒXƒgƒP[ƒX‚Å‚·B<br />
+     * ˆø”‚ÉObjectŒ^‚ðŽw’è‚µ‚½ê‡A‚»‚ÌtoString()‚ÌŒ‹‰Ê‚ª•Ô‚³‚ê‚éŽ–‚ðŠm”F‚µ‚Ü‚·B<br />
      */
     public void testCreateMessage_Object()
     {
-        // æº–å‚™
+        // €”õ
         ENdoSnipeLogger logger = ENdoSnipeLogger.getLogger(ENdoSnipeLoggerTest.class);
         Object messageObject = new Object() {
             @Override
@@ -114,7 +114,7 @@ public class ENdoSnipeLoggerTest extends TestCase
             }
         };
 
-        // å®Ÿæ–½ãƒ»æ¤œè¨¼
+        // ŽÀŽ{EŒŸØ
         try
         {
             String result = logger.createMessage(messageObject);

@@ -27,26 +27,26 @@ package jp.co.acroquest.endosnipe.javelin.common;
 
 
 /**
- * ConfigUpdateRequestã‚¯ãƒ©ã‚¹
+ * ConfigUpdateRequestƒNƒ‰ƒX
  * @author acroquest
  *
  */
 public class ConfigUpdateRequest
 {
-    /** ã‚­ãƒ¼ */
+    /** ƒL[ */
     private String key_;
 
-    /** å€¤ */
+    /** ’l */
     private String value_;
 
-    /** æ›´æ–°æ—¥æ™‚ */
+    /** XV“ú */
     private long   updateTime_;
 
     /**
-     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
-     * @param key ã‚­ãƒ¼
-     * @param value å€¤
-     * @param updateTime æ›´æ–°æ—¥æ™‚
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * @param key ƒL[
+     * @param value ’l
+     * @param updateTime XV“ú
      */
     public ConfigUpdateRequest(String key, String value, long updateTime)
     {
@@ -56,8 +56,8 @@ public class ConfigUpdateRequest
     }
 
     /**
-     * ã‚­ãƒ¼ã‚’å–å¾—ã—ã¾ã™ã€‚
-     * @return ã‚­ãƒ¼
+     * ƒL[‚ğæ“¾‚µ‚Ü‚·B
+     * @return ƒL[
      */
     public String getKey()
     {
@@ -65,8 +65,8 @@ public class ConfigUpdateRequest
     }
 
     /**
-     * ã‚­ãƒ¼ã‚’è¨­å®šã—ã¾ã™ã€‚
-     * @param key ã‚­ãƒ¼
+     * ƒL[‚ğİ’è‚µ‚Ü‚·B
+     * @param key ƒL[
      */
     public void setKey(String key)
     {
@@ -74,8 +74,8 @@ public class ConfigUpdateRequest
     }
 
     /**
-     * å€¤ã‚’å–å¾—ã—ã¾ã™ã€‚
-     * @return å€¤
+     * ’l‚ğæ“¾‚µ‚Ü‚·B
+     * @return ’l
      */
     public String getValue()
     {
@@ -83,8 +83,8 @@ public class ConfigUpdateRequest
     }
 
     /**
-     * å€¤ã‚’è¨­å®šã—ã¾ã™ã€‚
-     * @param value å€¤
+     * ’l‚ğİ’è‚µ‚Ü‚·B
+     * @param value ’l
      */
     public void setValue(String value)
     {
@@ -92,8 +92,8 @@ public class ConfigUpdateRequest
     }
 
     /**
-     * æ›´æ–°æ—¥æ™‚ã‚’å–å¾—ã—ã¾ã™ã€‚
-     * @return æ›´æ–°æ—¥æ™‚
+     * XV“ú‚ğæ“¾‚µ‚Ü‚·B
+     * @return XV“ú
      */
     public long getUpdateTime()
     {
@@ -101,8 +101,8 @@ public class ConfigUpdateRequest
     }
 
     /**
-     * æ›´æ–°æ—¥æ™‚ã‚’è¨­å®šã—ã¾ã™ã€‚
-     * @param updateTime æ›´æ–°æ—¥æ™‚
+     * XV“ú‚ğİ’è‚µ‚Ü‚·B
+     * @param updateTime XV“ú
      */
     public void setUpdateTime(long updateTime)
     {

@@ -28,64 +28,34 @@ package jp.co.acroquest.endosnipe.javelin.converter.hadoop;
 import java.util.HashMap;
 import java.util.Map;
 
-import jp.co.acroquest.jsonic.JSON;
-
 /**
- * ã‚¿ã‚¹ã‚¯ã®çŠ¶æ…‹ã‚’ä¿æŒã™ã‚‹ã‚¯ãƒ©ã‚¹
+ * ƒ^ƒXƒN‚Ìó‘Ô‚ğ•Û‚·‚éƒNƒ‰ƒX
  *
  * @author y_asazuma
- * @author ochiai
  *
  */
 public class HadoopTaskStatus
 {
-    /** ã‚¿ã‚¹ã‚¯ãƒ•ã‚§ãƒ¼ã‚ºã®åˆ—æŒ™ä½“ */
+    /** ƒ^ƒXƒNƒtƒF[ƒY‚Ì—ñ‹“‘Ì */
     public static enum Phase{STARTING, MAP, SHUFFLE, SORT, REDUCE, CLEANUP}
 
-    /** ã‚¿ã‚¹ã‚¯ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã®åˆ—æŒ™ä½“ */
+    /** ƒ^ƒXƒNƒXƒe[ƒ^ƒX‚Ì—ñ‹“‘Ì */
     public static enum State {RUNNING, SUCCEEDED, FAILED, UNASSIGNED, KILLED,
                               COMMIT_PENDING, FAILED_UNCLEAN, KILLED_UNCLEAN}
 
-    /** JobID ã® JSONã‚­ãƒ¼  */
-    private static final String JOB_ID = "JobID";
-
-    /** TaskAttemptID ã® JSONã‚­ãƒ¼  */
-    private static final String TASK_ATTEMPT_ID = "TaskAttemptID";
-
-    /** Hostname ã® JSONã‚­ãƒ¼  */
-    private static final String HOSTNAME = "Hostname";
-
-    /** StartTime ã® JSONã‚­ãƒ¼  */
-    private static final String START_TIME = "StartTime";
-
-    /** FinishTime ã® JSONã‚­ãƒ¼  */
-    private static final String FINISH_TIME = "FinishTime";
-
-    /** Status ã® JSONã‚­ãƒ¼  */
-    private static final String STATUS = "Status";
-
-    /** ã‚¸ãƒ§ãƒ–ID */
+    /** ƒWƒ‡ƒuID */
     private String jobID_;
 
-    /** ã‚¿ã‚¹ã‚¯è©¦è¡ŒID */
+    /** ƒ^ƒXƒNsID */
     private String taskID_;
 
-    /** ã‚¿ã‚¹ã‚¯ãƒ•ã‚§ãƒ¼ã‚º */
+    /** ƒ^ƒXƒNƒtƒF[ƒY */
     private Phase phase_;
 
-    /** ã‚¿ã‚¹ã‚¯ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ */
+    /** ƒ^ƒXƒNƒXƒe[ƒ^ƒX */
     private State state_;
 
-    /** ãƒ›ã‚¹ãƒˆå */
-    private String hostname_;
-
-    /** é–‹å§‹æ™‚é–“ */
-    private long startTime_ = System.currentTimeMillis();
-
-    /** çµ‚äº†æ™‚é–“ */
-    private long finishTime_ = System.currentTimeMillis();
-
-    /** ã‚¿ã‚¹ã‚¯ãƒ•ã‚§ãƒ¼ã‚ºãƒãƒƒãƒ— */
+    /** ƒ^ƒXƒNƒtƒF[ƒYƒ}ƒbƒv */
     private static final Map<String, Phase> PHASE_MAP = new HashMap<String, Phase>() {
         {
             put("STARTING", Phase.STARTING);
@@ -97,7 +67,7 @@ public class HadoopTaskStatus
         }
     };
 
-    /** ã‚¿ã‚¹ã‚¯ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ãƒãƒƒãƒ— */
+    /** ƒ^ƒXƒNƒXƒe[ƒ^ƒXƒ}ƒbƒv */
     private static final Map<String, State> STATE_MAP = new HashMap<String, State>() {
         {
             put("RUNNING", State.RUNNING);
@@ -112,20 +82,20 @@ public class HadoopTaskStatus
     };
 
     /**
-     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
      */
     public HadoopTaskStatus()
     {
-        // ä½•ã‚‚ã—ãªã„
+        // ‰½‚à‚µ‚È‚¢
     }
 
     /**
-     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
      *
-     * @param jobID ã‚¸ãƒ§ãƒ–ID
-     * @param taskID ã‚¿ã‚¹ã‚¯ID
-     * @param phase ã‚¿ã‚¹ã‚¯ãƒ•ã‚§ãƒ¼ã‚º
-     * @param state ã‚¿ã‚¹ã‚¯ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
+     * @param jobID ƒWƒ‡ƒuID
+     * @param taskID ƒ^ƒXƒNID
+     * @param phase ƒ^ƒXƒNƒtƒF[ƒY
+     * @param state ƒ^ƒXƒNƒXƒe[ƒ^ƒX
      */
     public HadoopTaskStatus(String jobID,
                             String taskID,
@@ -139,9 +109,9 @@ public class HadoopTaskStatus
     }
 
     /**
-     * ã‚¸ãƒ§ãƒ–IDã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒWƒ‡ƒuID‚ğæ“¾‚·‚éB
      *
-     * @return ã‚¸ãƒ§ãƒ–ID
+     * @return ƒWƒ‡ƒuID
      */
     public String getJobID()
     {
@@ -149,28 +119,9 @@ public class HadoopTaskStatus
     }
 
     /**
-     * TaskStatus ã‚’è¡¨ã™JSONå½¢å¼ã®æ–‡å­—åˆ—ã‚’è¿”ã™ã€‚
-     * @return TaskStatus ã‚’è¡¨ã™ JSON å½¢å¼ã®æ–‡å­—åˆ—
-     */
-    public String getJson()
-    {
-        Map<String,Object> jobStatusMap = new HashMap<String, Object>();
-        jobStatusMap.put(JOB_ID, this.jobID_);
-        jobStatusMap.put(TASK_ATTEMPT_ID, this.taskID_);
-        jobStatusMap.put(HOSTNAME, this.hostname_);
-        jobStatusMap.put(START_TIME, this.startTime_);
-        jobStatusMap.put(FINISH_TIME, this.finishTime_);
-        jobStatusMap.put(STATUS, this.state_.toString());
-        
-        String jsonString = JSON.encode(jobStatusMap);
-        
-        return jsonString;
-    }
-
-    /**
-     * ã‚¿ã‚¹ã‚¯IDã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒ^ƒXƒNID‚ğæ“¾‚·‚éB
      *
-     * @return ã‚¿ã‚¹ã‚¯ID
+     * @return ƒ^ƒXƒNID
      */
     public String getTaskID()
     {
@@ -178,9 +129,9 @@ public class HadoopTaskStatus
     }
 
     /**
-     * ã‚¿ã‚¹ã‚¯ã®ãƒ•ã‚§ãƒ¼ã‚ºã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒ^ƒXƒN‚ÌƒtƒF[ƒY‚ğæ“¾‚·‚éB
      *
-     * @return ã‚¿ã‚¹ã‚¯ãƒ•ã‚§ãƒ¼ã‚º
+     * @return ƒ^ƒXƒNƒtƒF[ƒY
      */
     public Phase getPhase()
     {
@@ -188,9 +139,9 @@ public class HadoopTaskStatus
     }
 
     /**
-     * ã‚¿ã‚¹ã‚¯ã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒ^ƒXƒN‚ÌƒXƒe[ƒ^ƒX‚ğæ“¾‚·‚éB
      *
-     * @return ã‚¿ã‚¹ã‚¯ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
+     * @return ƒ^ƒXƒNƒXƒe[ƒ^ƒX
      */
     public State getState()
     {
@@ -198,39 +149,9 @@ public class HadoopTaskStatus
     }
 
     /**
-     * ãƒ›ã‚¹ãƒˆåã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒWƒ‡ƒusID‚ğİ’è‚·‚éB
      *
-     * @return ãƒ›ã‚¹ãƒˆå
-     */
-    public String getHostname()
-    {
-        return this.hostname_;
-    }
-
-    /**
-     * é–‹å§‹æ™‚é–“ã‚’å–å¾—ã™ã‚‹ã€‚
-     *
-     * @return é–‹å§‹æ™‚é–“
-     */
-    public long getStartTime()
-    {
-        return this.startTime_;
-    }
-
-    /**
-     * çµ‚äº†æ™‚é–“ã‚’å–å¾—ã™ã‚‹ã€‚
-     *
-     * @return çµ‚äº†æ™‚é–“
-     */
-    public long getFinishTime()
-    {
-        return this.finishTime_;
-    }
-
-    /**
-     * ã‚¸ãƒ§ãƒ–è©¦è¡ŒIDã‚’è¨­å®šã™ã‚‹ã€‚
-     *
-     * @param taskID ã‚¸ãƒ§ãƒ–ID
+     * @param taskID ƒWƒ‡ƒuID
      */
     public void setJobID(String jobID)
     {
@@ -238,9 +159,9 @@ public class HadoopTaskStatus
     }
 
     /**
-     * ã‚¿ã‚¹ã‚¯è©¦è¡ŒIDã‚’è¨­å®šã™ã‚‹ã€‚
+     * ƒ^ƒXƒNsID‚ğİ’è‚·‚éB
      *
-     * @param taskID ã‚¿ã‚¹ã‚¯ID
+     * @param taskID ƒ^ƒXƒNID
      */
     public void setTaskID(String taskID)
     {
@@ -248,9 +169,9 @@ public class HadoopTaskStatus
     }
 
     /**
-     * ã‚¿ã‚¹ã‚¯ã®ãƒ•ã‚§ãƒ¼ã‚ºã‚’è¨­å®šã™ã‚‹ã€‚
+     * ƒ^ƒXƒN‚ÌƒtƒF[ƒY‚ğİ’è‚·‚éB
      *
-     * @param phase ã‚¿ã‚¹ã‚¯ãƒ•ã‚§ãƒ¼ã‚º
+     * @param phase ƒ^ƒXƒNƒtƒF[ƒY
      */
     public void setPhase(Phase phase)
     {
@@ -258,9 +179,9 @@ public class HadoopTaskStatus
     }
 
     /**
-     * ã‚¿ã‚¹ã‚¯ã®ãƒ•ã‚§ãƒ¼ã‚ºã‚’è¨­å®šã™ã‚‹ã€‚
+     * ƒ^ƒXƒN‚ÌƒtƒF[ƒY‚ğİ’è‚·‚éB
      *
-     * @param phase ã‚¿ã‚¹ã‚¯ãƒ•ã‚§ãƒ¼ã‚º
+     * @param phase ƒ^ƒXƒNƒtƒF[ƒY
      */
     public void setPhase(String phase)
     {
@@ -268,9 +189,9 @@ public class HadoopTaskStatus
     }
 
     /**
-     * ã‚¿ã‚¹ã‚¯ã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚’è¨­å®šã™ã‚‹ã€‚
+     * ƒ^ƒXƒN‚ÌƒXƒe[ƒ^ƒX‚ğİ’è‚·‚éB
      *
-     * @param state ã‚¿ã‚¹ã‚¯ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
+     * @param state ƒ^ƒXƒNƒXƒe[ƒ^ƒX
      */
     public void setState(State state)
     {
@@ -278,44 +199,12 @@ public class HadoopTaskStatus
     }
 
     /**
-     * ã‚¿ã‚¹ã‚¯ã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚’è¨­å®šã™ã‚‹ã€‚
+     * ƒ^ƒXƒN‚ÌƒXƒe[ƒ^ƒX‚ğİ’è‚·‚éB
      *
-     * @param state ã‚¿ã‚¹ã‚¯ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
+     * @param state ƒ^ƒXƒNƒXƒe[ƒ^ƒX
      */
     public void setState(String state)
     {
         this.state_ = STATE_MAP.get(state);
     }
-    
-    /**
-     * ãƒ›ã‚¹ãƒˆåã‚’è¨­å®šã™ã‚‹ã€‚
-     *
-     * @param hostname ãƒ›ã‚¹ãƒˆå
-     */
-    public void setHostname(String hostname)
-    {
-        this.hostname_ = hostname;
-    }
-    
-    /**
-     * é–‹å§‹æ™‚é–“ã‚’è¨­å®šã™ã‚‹ã€‚
-     *
-     * @param startTime é–‹å§‹æ™‚é–“
-     */
-    public void setStartTime(long startTime)
-    {
-        this.startTime_ = startTime;
-    }
-
-    /**
-     * çµ‚äº†æ™‚é–“ã‚’è¨­å®šã™ã‚‹ã€‚
-     *
-     * @param finishTime çµ‚äº†æ™‚é–“
-     */
-    public void setFinishTime(long finishTime)
-    {
-        this.finishTime_ = finishTime;
-    }
-
-
 }

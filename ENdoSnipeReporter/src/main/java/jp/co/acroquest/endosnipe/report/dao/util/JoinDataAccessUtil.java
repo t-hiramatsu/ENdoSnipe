@@ -25,100 +25,108 @@ import jp.co.acroquest.endosnipe.data.dao.MeasurementValueDao;
 import jp.co.acroquest.endosnipe.data.dto.MeasurementValueDto;
 
 /**
- * è¤‡æ•°ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’çµåˆã—ã¦ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ãŸã‚ã®ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹
+ * •¡”ƒe[ƒuƒ‹‚ğŒ‹‡‚µ‚Äƒf[ƒ^‚ğæ“¾‚·‚é‚½‚ß‚Ìƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒX
  * 
  * @author M.Yoshida
  */
 public class JoinDataAccessUtil
 {
-	/**
-	 * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã‚’é˜²æ­¢ã™ã‚‹ãŸã‚ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
-	 */
-	private JoinDataAccessUtil()
-	{
-	}
+    /**
+     * ƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğ–h~‚·‚é‚½‚ß‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     */
+    private JoinDataAccessUtil()
+    {
+    }
 
-	/**
-	 * ãƒ‡ãƒ¼ã‚¿ã®é …ç›®åã¨è¨ˆæ¸¬æœŸé–“ã‚’æŒ‡å®šã—ã¦ã€è©²å½“ã™ã‚‹å¹³å‡ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚¿ã‚¤ãƒ ã‚’å–å¾—ã™ã‚‹ã€‚ã€‚
-	 * 
-	 * @param database   ã‚¢ã‚¯ã‚»ã‚¹å¯¾è±¡ã®ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-	 * @param start      æ¤œç´¢æ¡ä»¶ï¼ˆé–‹å§‹æ™‚åˆ»ï¼‰
-	 * @param end        æ¤œç´¢æ¡ä»¶ï¼ˆçµ‚äº†æ™‚åˆ»ï¼‰
-	 * @param cntSumList åˆè¨ˆå®Ÿè¡Œå›æ•°ãŒè¨˜éŒ²ã•ã‚Œã¦ã„ã‚‹ãƒ‡ãƒ¼ã‚¿ãƒªã‚¹ãƒˆ
-	 * @return æ¡ä»¶ã«åˆè‡´ã—ãŸãƒ‡ãƒ¼ã‚¿ã®ãƒªã‚¹ãƒˆã€‚æŒ‡å®šã—ãŸé …ç›®åãŒå­˜åœ¨ã—ãªã„å ´åˆã¯nullã€‚æ¡ä»¶ã«åˆè‡´ã™ã‚‹è¨ˆæ¸¬å€¤ãŒå­˜åœ¨ã—ãªã„å ´åˆã¯ç©ºãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚
-	 * @throws SQLException ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚¨ãƒ©ãƒ¼ç™ºç”Ÿæ™‚
-	 */
-	public static List<MeasurementValueDto> getMearsumentValueAverageList(String database,
-		Timestamp start, Timestamp end, List<MeasurementValueDto> cntSumList) throws SQLException
-	{
-		List<MeasurementValueDto> aveList = MeasurementValueDao
-			.selectByTermAndMeasurementTypeWithName(database, start, end,
-				TelegramConstants.ITEMNAME_PROCESS_RESPONSE_TIME_AVERAGE);
-		List<MeasurementValueDto> cntList = MeasurementValueDao
-			.selectByTermAndMeasurementTypeWithName(database, start, end,
-				TelegramConstants.ITEMNAME_PROCESS_RESPONSE_TOTAL_COUNT);
+    /**
+     * ƒf[ƒ^‚Ì€–Ú–¼‚ÆŒv‘ªŠúŠÔ‚ğw’è‚µ‚ÄAŠY“–‚·‚é•½‹ÏƒŒƒXƒ|ƒ“ƒXƒ^ƒCƒ€‚ğæ“¾‚·‚éBB
+     * 
+     * @param database   ƒAƒNƒZƒX‘ÎÛ‚Ìƒf[ƒ^ƒx[ƒX–¼
+     * @param start      ŒŸõğŒiŠJnj
+     * @param end        ŒŸõğŒiI—¹j
+     * @param cntSumList ‡ŒvÀs‰ñ”‚ª‹L˜^‚³‚ê‚Ä‚¢‚éƒf[ƒ^ƒŠƒXƒg
+     * @return ğŒ‚É‡’v‚µ‚½ƒf[ƒ^‚ÌƒŠƒXƒgBw’è‚µ‚½€–Ú–¼‚ª‘¶İ‚µ‚È‚¢ê‡‚ÍnullBğŒ‚É‡’v‚·‚éŒv‘ª’l‚ª‘¶İ‚µ‚È‚¢ê‡‚Í‹óƒŠƒXƒg‚ğ•Ô‚·B
+     * @throws SQLException ƒf[ƒ^ƒx[ƒXƒGƒ‰[”­¶
+     */
+    public static List<MeasurementValueDto> getMearsumentValueAverageList(String database,
+            Timestamp start, Timestamp end, List<MeasurementValueDto> cntSumList)
+        throws SQLException
+    {
+        List<MeasurementValueDto> aveList =
+                                            MeasurementValueDao.selectByTermAndMeasurementTypeWithName(
+                                                                                                       database,
+                                                                                                       start,
+                                                                                                       end,
+                                                                                                       TelegramConstants.ITEMNAME_PROCESS_RESPONSE_TIME_AVERAGE);
+        List<MeasurementValueDto> cntList =
+                                            MeasurementValueDao.selectByTermAndMeasurementTypeWithName(
+                                                                                                       database,
+                                                                                                       start,
+                                                                                                       end,
+                                                                                                       TelegramConstants.ITEMNAME_PROCESS_RESPONSE_TOTAL_COUNT);
 
-		Map<String, Map<Long, MeasurementValueDto>> aveMap = classifiedItemMapFromList(aveList);
+        Map<String, Map<Long, MeasurementValueDto>> aveMap = classifiedItemMapFromList(aveList);
 
-		Map<String, Map<Long, MeasurementValueDto>> cntMap = classifiedItemMapFromList(cntList);
+        Map<String, Map<Long, MeasurementValueDto>> cntMap = classifiedItemMapFromList(cntList);
 
-		List<MeasurementValueDto> resultList = new ArrayList<MeasurementValueDto>();
+        List<MeasurementValueDto> resultList = new ArrayList<MeasurementValueDto>();
 
-		for (MeasurementValueDto elem : cntSumList)
-		{
-			MeasurementValueDto aveElem = new MeasurementValueDto();
-			Map<Long, MeasurementValueDto> aveSamplingMap = aveMap.get(elem.measurementItemName);
-			Map<Long, MeasurementValueDto> cntSamplingMap = cntMap.get(elem.measurementItemName);
+        for (MeasurementValueDto elem : cntSumList)
+        {
+            MeasurementValueDto aveElem = new MeasurementValueDto();
+            Map<Long, MeasurementValueDto> aveSamplingMap = aveMap.get(elem.measurementItemName);
+            Map<Long, MeasurementValueDto> cntSamplingMap = cntMap.get(elem.measurementItemName);
 
-			BigDecimal totalRuntime = new BigDecimal(0);
-			for (Long measureNum : aveSamplingMap.keySet())
-			{
-				BigDecimal averageNum = new BigDecimal(aveSamplingMap.get(measureNum).value);
-				BigDecimal cntNum = new BigDecimal(cntSamplingMap.get(measureNum).value);
+            BigDecimal totalRuntime = new BigDecimal(0);
+            for (Long measureNum : aveSamplingMap.keySet())
+            {
+                BigDecimal averageNum = new BigDecimal(aveSamplingMap.get(measureNum).value);
+                BigDecimal cntNum = new BigDecimal(cntSamplingMap.get(measureNum).value);
 
-				totalRuntime = totalRuntime.add(averageNum.multiply(cntNum));
-			}
+                totalRuntime = totalRuntime.add(averageNum.multiply(cntNum));
+            }
 
-			BigDecimal totalAverage = new BigDecimal(0);
+            BigDecimal totalAverage = new BigDecimal(0);
 
-			if (Integer.parseInt(elem.value) != 0)
-			{
-				totalAverage = totalRuntime.divideToIntegralValue(new BigDecimal(elem.value));
-			}
-			aveElem.measurementItemId = elem.measurementItemId;
-			aveElem.measurementItemName = elem.measurementItemName;
-			aveElem.value = totalAverage + "";
+            if (Integer.parseInt(elem.value) != 0)
+            {
+                totalAverage = totalRuntime.divideToIntegralValue(new BigDecimal(elem.value));
+            }
+            aveElem.measurementItemId = elem.measurementItemId;
+            aveElem.measurementItemName = elem.measurementItemName;
+            aveElem.value = totalAverage + "";
 
-			resultList.add(aveElem);
-		}
+            resultList.add(aveElem);
+        }
 
-		return resultList;
-	}
+        return resultList;
+    }
 
-	/**
-	 * ãƒ‡ãƒ¼ã‚¿ãƒªã‚¹ãƒˆã‹ã‚‰ã€ç³»åˆ—åã€è¨ˆæ¸¬ç•ªå·ã‚’ã‚­ãƒ¼ã¨ã™ã‚‹ãƒãƒƒãƒ—ã«å¤‰æ›ã™ã‚‹ã€‚
-	 * 
-	 * @param dataList ãƒ‡ãƒ¼ã‚¿ãƒªã‚¹ãƒˆ
-	 * @return å¤‰æ›ã•ã‚ŒãŸãƒãƒƒãƒ—
-	 */
-	private static Map<String, Map<Long, MeasurementValueDto>> classifiedItemMapFromList(
-		List<MeasurementValueDto> dataList)
-	{
-		Map<String, Map<Long, MeasurementValueDto>> resultMap = new HashMap<String, Map<Long, MeasurementValueDto>>();
+    /**
+     * ƒf[ƒ^ƒŠƒXƒg‚©‚çAŒn—ñ–¼AŒv‘ª”Ô†‚ğƒL[‚Æ‚·‚éƒ}ƒbƒv‚É•ÏŠ·‚·‚éB
+     * 
+     * @param dataList ƒf[ƒ^ƒŠƒXƒg
+     * @return •ÏŠ·‚³‚ê‚½ƒ}ƒbƒv
+     */
+    private static Map<String, Map<Long, MeasurementValueDto>> classifiedItemMapFromList(
+            List<MeasurementValueDto> dataList)
+    {
+        Map<String, Map<Long, MeasurementValueDto>> resultMap =
+                                                                new HashMap<String, Map<Long, MeasurementValueDto>>();
 
-		for (MeasurementValueDto elem : dataList)
-		{
-			Map<Long, MeasurementValueDto> elemMap = resultMap.get(elem.measurementItemName);
+        for (MeasurementValueDto elem : dataList)
+        {
+            Map<Long, MeasurementValueDto> elemMap = resultMap.get(elem.measurementItemName);
 
-			if (elemMap == null)
-			{
-				elemMap = new HashMap<Long, MeasurementValueDto>();
-				resultMap.put(elem.measurementItemName, elemMap);
-			}
+            if (elemMap == null)
+            {
+                elemMap = new HashMap<Long, MeasurementValueDto>();
+                resultMap.put(elem.measurementItemName, elemMap);
+            }
 
-			elemMap.put(elem.measurementTime.getTime(), elem);
-		}
+            elemMap.put(elem.measurementTime.getTime(), elem);
+        }
 
-		return resultMap;
-	}
+        return resultMap;
+    }
 }

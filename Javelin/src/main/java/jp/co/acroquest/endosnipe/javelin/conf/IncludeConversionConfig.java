@@ -29,25 +29,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ãƒˆãƒ©ãƒ³ã‚¹ãƒ•ã‚©ãƒ¼ãƒ å¯¾è±¡ã‚¯ãƒ©ã‚¹ã‚‚ã—ãã¯ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ç¤ºã™è¨­å®šã€‚
+ * ƒgƒ‰ƒ“ƒXƒtƒH[ƒ€‘ÎÛƒNƒ‰ƒX‚à‚µ‚­‚Íƒƒ\ƒbƒh‚ğ¦‚·İ’èB
  * 
  * @author yamasaki
  */
 public class IncludeConversionConfig extends AbstractConversionConfig
 {
-    /** é©ç”¨ã™ã‚‹ã‚³ãƒ³ãƒãƒ¼ã‚¿ã®ãƒªã‚¹ãƒˆ */
+    /** “K—p‚·‚éƒRƒ“ƒo[ƒ^‚ÌƒŠƒXƒg */
     private final List<String> converterNameList_ = new ArrayList<String>();
 
     /**
-     * è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚€ã€‚
-     * @param configElements ã‚³ãƒ¼ãƒ‰åŸ‹ã‚è¾¼ã¿å¯¾è±¡
+     * İ’èƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚ŞB
+     * @param configElements ƒR[ƒh–„‚ß‚İ‘ÎÛ
      */
     @Override
     protected void parseConfig(final String[] configElements)
     {
         super.parseConfig(configElements);
 
-        // ä»¥é™ã¯ã‚³ãƒ³ãƒãƒ¼ã‚¿ã®åå‰ã®ãƒªã‚¹ãƒˆãŒç¶šãã€‚
+        // ˆÈ~‚ÍƒRƒ“ƒo[ƒ^‚Ì–¼‘O‚ÌƒŠƒXƒg‚ª‘±‚­B
         for (int index = 1; index < configElements.length; index++)
         {
             this.converterNameList_.add(configElements[index]);
@@ -55,8 +55,8 @@ public class IncludeConversionConfig extends AbstractConversionConfig
     }
 
     /**
-     * ã‚³ãƒ³ãƒãƒ¼ã‚¿åã®ãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚
-     * @return ã‚³ãƒ³ãƒãƒ¼ã‚¿å
+     * ƒRƒ“ƒo[ƒ^–¼‚ÌƒŠƒXƒg‚ğ•Ô‚·B
+     * @return ƒRƒ“ƒo[ƒ^–¼
      */
     public List<String> getConverterNameList()
     {

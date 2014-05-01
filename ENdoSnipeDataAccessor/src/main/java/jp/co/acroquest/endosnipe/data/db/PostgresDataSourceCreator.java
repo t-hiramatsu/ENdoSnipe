@@ -45,7 +45,7 @@ import org.apache.commons.dbcp.PoolingDataSource;
 import org.apache.commons.pool.ObjectPool;
 
 /**
- * PostgreSQLç”¨ã®ãƒ‡ãƒ¼ã‚¿ã‚½ãƒ¼ã‚¹ä½œæˆã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+ * PostgreSQL—p‚Ìƒf[ƒ^ƒ\[ƒXì¬ƒNƒ‰ƒX‚Å‚·B<br />
  * 
  * @author fujii
  *
@@ -55,10 +55,10 @@ public class PostgresDataSourceCreator extends AbstractDataSourceCreator impleme
     private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(
                                                       PostgresDataSourceCreator.class);
 
-    /** PostgreSQLãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®ãƒ‰ãƒ©ã‚¤ãƒã‚¯ãƒ©ã‚¹åç§° */
+    /** PostgreSQLƒf[ƒ^ƒx[ƒX‚Ìƒhƒ‰ƒCƒoƒNƒ‰ƒX–¼Ì */
     private static final String           POSTGRES_DRIVER = "org.postgresql.Driver";
 
-    /** PostgreSQLæ¥ç¶šç”¨URIã®ãƒ—ãƒ¬ãƒ•ã‚£ã‚¯ã‚¹ */
+    /** PostgreSQLÚ‘±—pURI‚ÌƒvƒŒƒtƒBƒNƒX */
     private static final String           POSTGRES_URI_PREFIX = "jdbc:postgresql://";
 
     /**
@@ -77,19 +77,19 @@ public class PostgresDataSourceCreator extends AbstractDataSourceCreator impleme
             ConnectionFactory connectionFactory =
                 new DriverManagerConnectionFactory(uri, userName, password);
 
-            // æŒ‡å®šã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åãŒå­˜åœ¨ã›ãšã€connectOnlyExistsãŒfalseã®å ´åˆã€
-            // æŒ‡å®šã•ã‚ŒãŸåå‰ã®ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚’ä½œæˆã™ã‚‹
+            // w’è‚³‚ê‚½ƒf[ƒ^ƒx[ƒX–¼‚ª‘¶İ‚¹‚¸AconnectOnlyExists‚ªfalse‚Ìê‡A
+            // w’è‚³‚ê‚½–¼‘O‚Ìƒf[ƒ^ƒx[ƒX‚ğì¬‚·‚é
             if (!connectOnlyExists)
             {
                 if(!(this.existsDatabase(dbname)))
                 {
-                    // ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ä½œæˆã«å¤±æ•—ã—ã¦ã‚‚ä½•ã‚‚ã—ãªã„
+                    // ƒf[ƒ^ƒx[ƒXì¬‚É¸”s‚µ‚Ä‚à‰½‚à‚µ‚È‚¢
                     DBInitializer.createDatabase(dbname);
                 }
             }
 
-            // ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã«å¯¾å¿œã—ãŸ StackObjectPool ã‚’å–å¾—ã™ã‚‹ã€‚
-            // ã‚‚ã—å­˜åœ¨ã—ãªã‘ã‚Œã°ã€ç”Ÿæˆã™ã‚‹ã€‚
+            // ƒf[ƒ^ƒx[ƒX–¼‚É‘Î‰‚µ‚½ StackObjectPool ‚ğæ“¾‚·‚éB
+            // ‚à‚µ‘¶İ‚µ‚È‚¯‚ê‚ÎA¶¬‚·‚éB
             ConnectionManager manager = ConnectionManager.getInstance();
             ObjectPool connectionPool = manager.getConnectionPool(uri);
             if (connectionPool == null)
@@ -109,13 +109,13 @@ public class PostgresDataSourceCreator extends AbstractDataSourceCreator impleme
     }
 
     /**
-     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹æ¥ç¶šç”¨ URI ã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
+     * ƒf[ƒ^ƒx[ƒXÚ‘±—p URI ‚ğ¶¬‚µ‚Ü‚·B<br />
      *
-     * @param host ãƒ›ã‚¹ãƒˆå
-     * @param port ãƒãƒ¼ãƒˆç•ªå·
-     * @param dbName ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®åç§°
+     * @param host ƒzƒXƒg–¼
+     * @param port ƒ|[ƒg”Ô†
+     * @param dbName ƒf[ƒ^ƒx[ƒX‚Ì–¼Ì
      * 
-     * @return URL æ¥ç¶šæ–‡å­—åˆ—
+     * @return URL Ú‘±•¶š—ñ
      */
     protected String createDatabaseURI(final String host, final String port, final String dbName)
     {
@@ -165,7 +165,7 @@ public class PostgresDataSourceCreator extends AbstractDataSourceCreator impleme
         Statement state = null;
         ResultSet res = null;
 
-        // ç›´æ¥ã‚¢ã‚¯ã‚»ã‚¹ã—ã¦DBä¸€è¦§ã‚’å–å¾—
+        // ’¼ÚƒAƒNƒZƒX‚µ‚ÄDBˆê——‚ğæ“¾
         try
         {
             conn = DriverManager.getConnection( uri,
@@ -176,11 +176,11 @@ public class PostgresDataSourceCreator extends AbstractDataSourceCreator impleme
             res = state.executeQuery(
                          "SELECT datname FROM pg_database WHERE datistemplate = false;");
 
-            // å•ã„åˆã‚ã›çµæœç¢ºèª
+            // –â‚¢‡‚í‚¹Œ‹‰ÊŠm”F
             while (res.next())
             {
                 String datname = res.getString(1);
-                // DBåã¯å¤§æ–‡å­—ãƒ»å°æ–‡å­—ã‚’åŒºåˆ¥ã›ãšã«åˆ¤å®šã™ã‚‹
+                // DB–¼‚Í‘å•¶šE¬•¶š‚ğ‹æ•Ê‚¹‚¸‚É”»’è‚·‚é
                 if (datname.equalsIgnoreCase(dbName))
                 {
                     return true;

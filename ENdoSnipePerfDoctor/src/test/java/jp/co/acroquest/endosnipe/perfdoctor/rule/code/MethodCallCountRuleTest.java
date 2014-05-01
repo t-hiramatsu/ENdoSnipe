@@ -8,15 +8,15 @@ import jp.co.acroquest.endosnipe.perfdoctor.WarningUnit;
 import jp.co.acroquest.endosnipe.perfdoctor.rule.PerformanceRuleFacade;
 
 /**
- * ãƒ¡ã‚½ãƒƒãƒ‰ã®å‘¼ã³å‡ºã—å›æ•°ãƒ«ãƒ¼ãƒ«ã®ãƒ†ã‚¹ãƒˆ<br>
+ * ƒƒ\ƒbƒh‚ÌŒÄ‚Ño‚µ‰ñ”ƒ‹[ƒ‹‚ÌƒeƒXƒg<br>
  * @author tooru
  *
  */
 public class MethodCallCountRuleTest extends PerformanceRuleTestCase
 {
     /**
-     * é–¾å€¤ã‚’æŒ‡å®šã—ã¦CodeMetricsRuleã‚’ç”Ÿæˆã™ã‚‹ã€‚<br>
-     * @param threshold é–¾å€¤
+     * è‡’l‚ğw’è‚µ‚ÄCodeMetricsRule‚ğ¶¬‚·‚éB<br>
+     * @param threshold è‡’l
      * @return CodeMetricsRule
      */
     private MethodCallCountRule createRule(int threshold)
@@ -31,9 +31,9 @@ public class MethodCallCountRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * é–¾å€¤ã‚’æŒ‡å®šã—ã¦CodeMetricsRuleã‚’ç”Ÿæˆã™ã‚‹(è­¦å‘Šãƒ¬ãƒ™ãƒ«æŒ‡å®šä»˜ã)ã€‚<br>
-     * @param threshold é–¾å€¤
-     * @param level è­¦å‘Šãƒ¬ãƒ™ãƒ«
+     * è‡’l‚ğw’è‚µ‚ÄCodeMetricsRule‚ğ¶¬‚·‚é(ŒxƒŒƒxƒ‹w’è•t‚«)B<br>
+     * @param threshold è‡’l
+     * @param level ŒxƒŒƒxƒ‹
      * @return CodeMetricsRule
      */
     private MethodCallCountRule createRule(int threshold, String level)
@@ -48,12 +48,12 @@ public class MethodCallCountRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 2-7-1<br>
+     * [€”Ô] 2-7-1<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»å‘¼ã³å‡ºã—å›æ•°ãŒ9ã€‚<br>
-     * ãƒ»é–¾å€¤ãŒ10ã€‚<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã™ã‚‹ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * EŒÄ‚Ño‚µ‰ñ”‚ª9B<br>
+     * Eè‡’l‚ª10B<br>
+     * ¨Œx‚ª”­¶‚·‚éB<br>
      */
     public void testDoJudge_01()
     {
@@ -67,17 +67,17 @@ public class MethodCallCountRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 2-7-2<br>
+     * [€”Ô] 2-7-2<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»å‘¼ã³å‡ºã—å›æ•°ãŒ10ã€‚<br>
-     * ãƒ»é–¾å€¤ãŒ10ã€‚<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã™ã‚‹ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * EŒÄ‚Ño‚µ‰ñ”‚ª10B<br>
+     * Eè‡’l‚ª10B<br>
+     * ¨Œx‚ª”­¶‚·‚éB<br>
      */
     public void testDoJudge_02()
     {
@@ -92,12 +92,12 @@ public class MethodCallCountRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 2-7-3<br>
+     * [€”Ô] 2-7-3<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»å‘¼ã³å‡ºã—å›æ•°ãŒ11ã€‚<br>
-     * ãƒ»é–¾å€¤ãŒ10ã€‚<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã™ã‚‹ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * EŒÄ‚Ño‚µ‰ñ”‚ª11B<br>
+     * Eè‡’l‚ª10B<br>
+     * ¨Œx‚ª”­¶‚·‚éB<br>
      */
     public void testDoJudge_03()
     {
@@ -112,12 +112,12 @@ public class MethodCallCountRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 2-7-5<br>
+     * [€”Ô] 2-7-5<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»å‘¼ã³å‡ºã—å›æ•°ãŒ3ã€‚<br>
-     * ãƒ»é–¾å€¤ãŒ3ã€‚<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã™ã‚‹ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * EŒÄ‚Ño‚µ‰ñ”‚ª3B<br>
+     * Eè‡’l‚ª3B<br>
+     * ¨Œx‚ª”­¶‚·‚éB<br>
      */
     public void testDoJudge_05()
     {
@@ -132,12 +132,12 @@ public class MethodCallCountRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 2-7-9<br>
+     * [€”Ô] 2-7-9<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»8å›å‘¼ã°ã‚Œã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã¨ã€3å›å‘¼ã°ã‚Œã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ãŒå­˜åœ¨ã€‚<br>
-     * ãƒ»é–¾å€¤ãŒ10ã€‚<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * E8‰ñŒÄ‚Î‚ê‚éƒƒ\ƒbƒh‚ÆA3‰ñŒÄ‚Î‚ê‚éƒƒ\ƒbƒh‚ª‘¶İB<br>
+     * Eè‡’l‚ª10B<br>
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br>
      */
     public void testDoJudge_09()
     {
@@ -151,18 +151,18 @@ public class MethodCallCountRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 2-7-11<br>
+     * [€”Ô] 2-7-11<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»ãƒ¡ã‚½ãƒƒãƒ‰åãŒç©ºç™½ã€‚<br>
-     * ãƒ»ã‚¯ãƒ©ã‚¹åã€ã‚¹ãƒ¬ãƒƒãƒ‰åã¯åŒä¸€ã€‚<br>
-     * ãƒ»åˆè¨ˆå›æ•°ã¯é–¾å€¤ã‚’è¶…ãˆã‚‹ã€‚<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã™ã‚‹ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * Eƒƒ\ƒbƒh–¼‚ª‹ó”’B<br>
+     * EƒNƒ‰ƒX–¼AƒXƒŒƒbƒh–¼‚Í“¯ˆêB<br>
+     * E‡Œv‰ñ”‚Íè‡’l‚ğ’´‚¦‚éB<br>
+     * ¨Œx‚ª”­¶‚·‚éB<br>
      */
     public void testDoJudge_11()
     {
@@ -177,11 +177,11 @@ public class MethodCallCountRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 2-7-15<br>
+     * [€”Ô] 2-7-15<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»CALLãŒãªã„ã€‚<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * ECALL‚ª‚È‚¢B<br>
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br>
      */
     public void testDoJudge_15()
     {
@@ -195,18 +195,18 @@ public class MethodCallCountRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 2-7-23<br>
+     * [€”Ô] 2-7-23<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»åŒä¸€ã®ã‚¯ãƒ©ã‚¹ã€‚<br>
-     * ãƒ»ç•°ãªã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã€‚<br>
-     * ãƒ»åˆè¨ˆå›æ•°ã¯é–¾å€¤ã‚’è¶…ãˆã‚‹ã€‚<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * E“¯ˆê‚ÌƒNƒ‰ƒXB<br>
+     * EˆÙ‚È‚éƒƒ\ƒbƒhB<br>
+     * E‡Œv‰ñ”‚Íè‡’l‚ğ’´‚¦‚éB<br>
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br>
      */
     public void testDoJudge_23()
     {
@@ -220,18 +220,18 @@ public class MethodCallCountRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 2-7-24<br>
+     * [€”Ô] 2-7-24<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»åŒä¸€ã®ãƒ¡ã‚½ãƒƒãƒ‰åã€‚<br>
-     * ãƒ»ç•°ãªã‚‹ã‚¯ãƒ©ã‚¹ã€‚<br>
-     * ãƒ»åˆè¨ˆå›æ•°ã¯é–¾å€¤ã‚’è¶…ãˆã‚‹ã€‚<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * E“¯ˆê‚Ìƒƒ\ƒbƒh–¼B<br>
+     * EˆÙ‚È‚éƒNƒ‰ƒXB<br>
+     * E‡Œv‰ñ”‚Íè‡’l‚ğ’´‚¦‚éB<br>
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br>
      */
     public void testDoJudge_24()
     {
@@ -245,18 +245,18 @@ public class MethodCallCountRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 2-7-25<br>
+     * [€”Ô] 2-7-25<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»åŒä¸€ã®ãƒ¡ã‚½ãƒƒãƒ‰ã€‚<br>
-     * ãƒ»ç•°ãªã‚‹ã‚¹ãƒ¬ãƒƒãƒ‰ã€‚<br>
-     * ãƒ»åˆè¨ˆå›æ•°ã¯é–¾å€¤ã‚’è¶…ãˆã‚‹ã€‚<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * E“¯ˆê‚Ìƒƒ\ƒbƒhB<br>
+     * EˆÙ‚È‚éƒXƒŒƒbƒhB<br>
+     * E‡Œv‰ñ”‚Íè‡’l‚ğ’´‚¦‚éB<br>
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br>
      */
     public void testDoJudge_25()
     {
@@ -270,15 +270,15 @@ public class MethodCallCountRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 2-7-26<br>
+     * [€”Ô] 2-7-26<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»è¤‡æ•°ã®JavelinLogElementã§è­¦å‘ŠãŒå‡ºã‚‹ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * E•¡”‚ÌJavelinLogElement‚ÅŒx‚ªo‚éB<br>
      */
     public void testDoJudge_26()
     {
@@ -294,11 +294,11 @@ public class MethodCallCountRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 2-7-27<br>
+     * [€”Ô] 2-7-27<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»ã‚ã‚‹JavelinLogElementã§å®Ÿè¡Œæ™‚ä¾‹å¤–ãŒç™ºç”Ÿ<br>
-     * â†’ãã®JavelinLogElementã¯ã‚¹ã‚­ãƒƒãƒ—ã—ã¦å‡¦ç†ã™ã‚‹ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * E‚ ‚éJavelinLogElement‚ÅÀs—áŠO‚ª”­¶<br>
+     * ¨‚»‚ÌJavelinLogElement‚ÍƒXƒLƒbƒv‚µ‚Äˆ—‚·‚éB<br>
      */
     public void testDoJudge_RuntimeException()
     {
@@ -315,10 +315,10 @@ public class MethodCallCountRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * SCRå¯¾å¿œ<br>
-     * [é …ç•ª] 1-3-1
-     * ERRORãŒç™ºç”Ÿã€‚
-     * WARNã€INFOãŒç™ºç”Ÿã—ãªã„ã“ã¨ã‚’ç¢ºèªã™ã‚‹ã€‚<br>
+     * SCR‘Î‰<br>
+     * [€”Ô] 1-3-1
+     * ERROR‚ª”­¶B
+     * WARNAINFO‚ª”­¶‚µ‚È‚¢‚±‚Æ‚ğŠm”F‚·‚éB<br>
      */
     public void testJudge_RuleFacade_Error()
     {
@@ -341,10 +341,10 @@ public class MethodCallCountRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * SCRå¯¾å¿œ<br>
-     * [é …ç•ª] 1-3-2
-     * WARNãŒç™ºç”Ÿã€‚
-     * ERRORã€INFOãŒç™ºç”Ÿã—ãªã„ã“ã¨ã‚’ç¢ºèªã™ã‚‹ã€‚<br>
+     * SCR‘Î‰<br>
+     * [€”Ô] 1-3-2
+     * WARN‚ª”­¶B
+     * ERRORAINFO‚ª”­¶‚µ‚È‚¢‚±‚Æ‚ğŠm”F‚·‚éB<br>
      */
     public void testJudge_RuleFacade_Warn()
     {
@@ -367,10 +367,10 @@ public class MethodCallCountRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * SCRå¯¾å¿œ<br>
-     * [é …ç•ª] 1-3-3
-     * INFOãŒç™ºç”Ÿã€‚
-     * ERRORã€WARNãŒç™ºç”Ÿã—ãªã„ã“ã¨ã‚’ç¢ºèªã™ã‚‹ã€‚<br>
+     * SCR‘Î‰<br>
+     * [€”Ô] 1-3-3
+     * INFO‚ª”­¶B
+     * ERRORAWARN‚ª”­¶‚µ‚È‚¢‚±‚Æ‚ğŠm”F‚·‚éB<br>
      */
     public void testJudge_RuleFacade_Info()
     {
@@ -393,10 +393,10 @@ public class MethodCallCountRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * SCRå¯¾å¿œ<br>
-     * [é …ç•ª] 1-5-1
-     * INFOãŒç™ºç”Ÿã€‚
-     * ERRORã€WARNãŒç™ºç”Ÿã—ãªã„ã“ã¨ã‚’ç¢ºèªã™ã‚‹ã€‚<br>
+     * SCR‘Î‰<br>
+     * [€”Ô] 1-5-1
+     * INFO‚ª”­¶B
+     * ERRORAWARN‚ª”­¶‚µ‚È‚¢‚±‚Æ‚ğŠm”F‚·‚éB<br>
      */
     public void testJudge_RuleFacade_IgnoreSQL()
     {

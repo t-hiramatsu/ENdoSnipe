@@ -36,23 +36,23 @@ import jp.co.acroquest.endosnipe.javelin.parser.JavelinParser;
 import jp.co.acroquest.endosnipe.perfdoctor.rule.SingleElementRule;
 
 /**
- * ç·šå½¢æ¤œç´¢ã‚’æ¤œå‡ºã™ã‚‹ãƒ«ãƒ¼ãƒ«ã§ã™ã€‚<br />
+ * üŒ`ŒŸõ‚ğŒŸo‚·‚éƒ‹[ƒ‹‚Å‚·B<br />
  * 
  * @author fujii
  *
  */
 public class LinearSearchRule extends SingleElementRule
 {
-    /** è­¦å‘Šã¨åˆ¤æ–­ã™ã‚‹ãƒªã‚¹ãƒˆã‚µã‚¤ã‚ºã®é–¾å€¤ */
+    /** Œx‚Æ”»’f‚·‚éƒŠƒXƒgƒTƒCƒY‚Ìè‡’l */
     public int threshold;
 
     /**
-     * ç·šå½¢æ¤œå‡ºã‚¤ãƒ™ãƒ³ãƒˆã‚’æ¤œå‡ºã—ã¾ã™ã€‚
-     * [æ¤œå‡ºæ¡ä»¶]
-     * ãƒ»è­˜åˆ¥å­ãŒ"Event"ã§ã‚ã‚‹ã“ã¨ã€‚
-     * ãƒ»ãƒªã‚¹ãƒˆã‚µã‚¤ã‚ºãŒé–¾å€¤ã‚’è¶…ãˆã¦ã„ã‚‹ã“ã¨ã€‚
+     * üŒ`ŒŸoƒCƒxƒ“ƒg‚ğŒŸo‚µ‚Ü‚·B
+     * [ŒŸoğŒ]
+     * E¯•Êq‚ª"Event"‚Å‚ ‚é‚±‚ÆB
+     * EƒŠƒXƒgƒTƒCƒY‚ªè‡’l‚ğ’´‚¦‚Ä‚¢‚é‚±‚ÆB
      * 
-     * @param element {@link JavelinLogElement} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param element {@link JavelinLogElement} ƒIƒuƒWƒFƒNƒg
      */
     @Override
     protected void doJudgeElement(final JavelinLogElement element)

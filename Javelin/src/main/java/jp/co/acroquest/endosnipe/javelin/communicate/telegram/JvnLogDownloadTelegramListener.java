@@ -34,7 +34,7 @@ import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 
 /**
- * JVN繝ｭ繧ｰ繝輔ぃ繧､繝ｫ繝繧ｦ繝ｳ繝ｭ繝ｼ繝峨�
+ * JVNログファイルダウンロード。
  * 
  * @author eriguchi
  */

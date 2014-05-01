@@ -19,49 +19,49 @@ import jp.co.acroquest.endosnipe.report.converter.util.calc.Calculator;
 import org.apache.commons.beanutils.converters.BigIntegerConverter;
 
 /**
- * BigInteger蝙九↓驕ｩ蜷医＠縺溯ｨ育ｮ怜�ｦ逅�繧貞ｮ溯｡後☆繧玖ｨ育ｮ玲ｩ溘け繝ｩ繧ｹ
+ * BigInteger型に適合した計算処理を実行する計算機クラス
  * 
  * @author M.Yoshida
  */
-public class BigIntegerCalculator implements Calculator
+public class BigIntegerCalculator implements Calculator 
 {
 
-	public Object add(Object obj1, Object obj2)
+	public Object add(Object obj1, Object obj2) 
 	{
-		BigInteger integerData1 = (BigInteger) obj1;
-		BigInteger integerData2 = (BigInteger) obj2;
-
-		return (Object) (integerData1.add(integerData2));
+		BigInteger integerData1 = (BigInteger)obj1;
+		BigInteger integerData2 = (BigInteger)obj2;
+		
+		return (Object)(integerData1.add(integerData2));
 	}
 
-	public Object div(Object obj1, Object obj2)
+	public Object div(Object obj1, Object obj2) 
 	{
-		BigInteger integerData1 = (BigInteger) obj1;
-		BigInteger integerData2 = (BigInteger) obj2;
-
-		return (Object) (integerData1.divide(integerData2));
+		BigInteger integerData1 = (BigInteger)obj1;
+		BigInteger integerData2 = (BigInteger)obj2;
+		
+		return (Object)(integerData1.divide(integerData2));
 	}
 
-	public Object immediate(String str)
+	public Object immediate(String str) 
 	{
 		BigIntegerConverter converter = new BigIntegerConverter();
 		return converter.convert(BigInteger.class, str);
 	}
 
-	public Object mul(Object obj1, Object obj2)
+	public Object mul(Object obj1, Object obj2) 
 	{
-		BigInteger integerData1 = (BigInteger) obj1;
-		BigInteger integerData2 = (BigInteger) obj2;
-
-		return (Object) (integerData1.multiply(integerData2));
+		BigInteger integerData1 = (BigInteger)obj1;
+		BigInteger integerData2 = (BigInteger)obj2;
+		
+		return (Object)(integerData1.multiply(integerData2));
 	}
 
-	public Object sub(Object obj1, Object obj2)
+	public Object sub(Object obj1, Object obj2) 
 	{
-		BigInteger integerData1 = (BigInteger) obj1;
-		BigInteger integerData2 = (BigInteger) obj2;
-
-		return (Object) (integerData1.subtract(integerData2));
+		BigInteger integerData1 = (BigInteger)obj1;
+		BigInteger integerData2 = (BigInteger)obj2;
+		
+		return (Object)(integerData1.subtract(integerData2));
 	}
 
 }

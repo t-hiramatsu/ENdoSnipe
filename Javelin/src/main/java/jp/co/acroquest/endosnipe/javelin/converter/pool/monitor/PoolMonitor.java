@@ -38,7 +38,7 @@ import jp.co.acroquest.endosnipe.javelin.util.StatsUtil;
 import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
 
 /**
- * ãƒ—ãƒ¼ãƒ«ã‚’ç›£è¦–ã™ã‚‹ã‚¯ãƒ©ã‚¹
+ * ƒv[ƒ‹‚ğŠÄ‹‚·‚éƒNƒ‰ƒX
  * 
  * @author eriguchi
  *
@@ -53,7 +53,7 @@ public class PoolMonitor
     }
 
     /**
-     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã‚’é˜»æ­¢ã™ã‚‹ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
+     * ƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğ‘j~‚·‚éƒvƒ‰ƒCƒx[ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^B
      */
     private PoolMonitor()
     {
@@ -61,8 +61,8 @@ public class PoolMonitor
     }
 
     /**
-     * ãƒ—ãƒ¼ãƒ«ã‚’è¿½åŠ ã™ã‚‹ã€‚
-     * @param pool ãƒ—ãƒ¼ãƒ«
+     * ƒv[ƒ‹‚ğ’Ç‰Á‚·‚éB
+     * @param pool ƒv[ƒ‹
      */
     public static void addPool(final MonitoredPool pool)
     {
@@ -80,8 +80,8 @@ public class PoolMonitor
     }
 
     /**
-     * ãƒ—ãƒ¼ãƒ«ã®ãƒªã‚¹ãƒˆã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ãƒ—ãƒ¼ãƒ«ã®ãƒªã‚¹ãƒˆ
+     * ƒv[ƒ‹‚ÌƒŠƒXƒg‚ğæ“¾‚·‚éB
+     * @return ƒv[ƒ‹‚ÌƒŠƒXƒg
      */
     public static List<MonitoredPool> getPoolList()
     {
@@ -119,10 +119,10 @@ public class PoolMonitor
     }
 
     /**
-     * CommonsPoolé–‹å§‹ã‚¤ãƒ™ãƒ³ãƒˆã‚’ä½œæˆã—ã¾ã™ã€‚<br />
+     * CommonsPoolŠJnƒCƒxƒ“ƒg‚ğì¬‚µ‚Ü‚·B<br />
      * 
-     * @param objectID ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆID
-     * @return CommonsPoolé–‹å§‹ã‚¤ãƒ™ãƒ³ãƒˆ
+     * @param objectID ƒIƒuƒWƒFƒNƒgID
+     * @return CommonsPoolŠJnƒCƒxƒ“ƒg
      */
     private static CommonEvent createEvent(String objectID)
     {

@@ -39,47 +39,47 @@ import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 
 /**
- * ãƒªã‚½ãƒ¼ã‚¹é€šçŸ¥å¿œç­”é›»æ–‡å—ä¿¡ç”¨ã®ãƒªã‚¹ãƒŠã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
- * å—ä¿¡ã—ãŸãƒªã‚½ãƒ¼ã‚¹æƒ…å ±ã‚’ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹æ ¼ç´ç”¨ã®ã‚­ãƒ¥ãƒ¼ã¸è¿½åŠ ã—ã¾ã™ã€‚<br />
+ * ƒŠƒ\[ƒX’Ê’m‰“š“d•¶óM—p‚ÌƒŠƒXƒiƒNƒ‰ƒX‚Å‚·B<br />
+ * óM‚µ‚½ƒŠƒ\[ƒXî•ñ‚ğƒf[ƒ^ƒx[ƒXŠi”[—p‚ÌƒLƒ…[‚Ö’Ç‰Á‚µ‚Ü‚·B<br />
  * 
  * @author fujii
  * @author nagai
  * @author y-komori
  */
 public class SystemResourceListener extends AbstractTelegramListener implements TelegramListener,
-    LogMessageCodes, CommonLogMessageCodes, AgentNameListener
+        LogMessageCodes, CommonLogMessageCodes
 {
-    /** ãƒ­ã‚¬ãƒ¼ */
+    /** ƒƒK[ */
     private static final ENdoSnipeLogger LOGGER;
     static
     {
         LOGGER = ENdoSnipeLogger.getLogger(SystemResourceListener.class);
     }
 
-    /** ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã€‚<br /> */
+    /** ƒf[ƒ^ƒx[ƒX–¼B<br /> */
     private String databaseName_;
 
-    /** æ¥ç¶šå…ˆãƒ›ã‚¹ãƒˆåã€‚<br /> */
+    /** Ú‘±æƒzƒXƒg–¼B<br /> */
     private String hostName_;
 
-    /** æ¥ç¶šå…ˆãƒ›ã‚¹ãƒˆã® IP ã‚¢ãƒ‰ãƒ¬ã‚¹ã€‚<br /> */
+    /** Ú‘±æƒzƒXƒg‚Ì IP ƒAƒhƒŒƒXB<br /> */
     private String ipAddress_;
 
-    /** æ¥ç¶šå…ˆãƒãƒ¼ãƒˆç•ªå·ã€‚<br /> */
+    /** Ú‘±æƒ|[ƒg”Ô†B<br /> */
     private int port_;
 
-    /** æ¥ç¶šå…ˆã®ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆID */
+    /** Ú‘±æ‚ÌƒNƒ‰ƒCƒAƒ“ƒgID */
     private String clientId_;
 
-    /** å—ä¿¡ãƒ‡ãƒ¼ã‚¿æ ¼ç´ç”¨ã‚­ãƒ¥ãƒ¼ */
+    /** óMƒf[ƒ^Ši”[—pƒLƒ…[ */
     private final JavelinDataQueue queue_;
 
-    /** ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆå */
+    /** ƒG[ƒWƒFƒ“ƒg–¼ */
     private String agentName_;
 
     /**
-     * {@link SystemResourceListener} ã‚’æ§‹ç¯‰ã—ã¾ã™ã€‚<br />
-     * @param queue ã‚­ãƒ¥ãƒ¼
+     * {@link SystemResourceListener} ‚ğ\’z‚µ‚Ü‚·B<br />
+     * @param queue ƒLƒ…[
      */
     public SystemResourceListener(final JavelinDataQueue queue)
     {
@@ -93,7 +93,9 @@ public class SystemResourceListener extends AbstractTelegramListener implements 
     protected Telegram doReceiveTelegram(final Telegram telegram)
     {
         ResourceData resourceData =
-            ResourceNotifyAccessor.createResourceData(telegram, this.databaseName_, agentName_);
+                                    ResourceNotifyAccessor.createResourceData(telegram,
+                                                                              this.databaseName_,
+                                                                              agentName_);
         resourceData.hostName = this.hostName_;
         resourceData.ipAddress = this.ipAddress_;
         resourceData.portNum = this.port_;
@@ -105,7 +107,7 @@ public class SystemResourceListener extends AbstractTelegramListener implements 
                        resourceData.portNum);
         }
 
-        // è¨ˆæ¸¬å€¤ãƒ‡ãƒ¼ã‚¿ã‚’ã‚­ãƒ¥ãƒ¼ã¸æ ¼ç´ã™ã‚‹
+        // Œv‘ª’lƒf[ƒ^‚ğƒLƒ…[‚ÖŠi”[‚·‚é
         JavelinMeasurementData measurementData = new JavelinMeasurementData(resourceData);
         setProperties(measurementData, telegram.getObjHeader().getId());
         queue_.offer(measurementData);
@@ -130,8 +132,9 @@ public class SystemResourceListener extends AbstractTelegramListener implements 
         return TelegramConstants.BYTE_TELEGRAM_KIND_RESOURCENOTIFY;
     }
 
-    /* (non-Javadoc)
-     * @see jp.co.acroquest.endosnipe.collector.listener.AgentNameListener#getAgentName()
+    /**
+     * ƒG[ƒWƒFƒ“ƒg–¼‚ğæ“¾‚µ‚Ü‚·B
+     * @return ƒG[ƒWƒFƒ“ƒg–¼
      */
     public String getAgentName()
     {
@@ -139,9 +142,9 @@ public class SystemResourceListener extends AbstractTelegramListener implements 
     }
 
     /**
-     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã‚’ã‚»ãƒƒãƒˆã—ã¾ã™ã€‚<br />
+     * ƒf[ƒ^ƒx[ƒX–¼‚ğƒZƒbƒg‚µ‚Ü‚·B<br />
      *
-     * @param databaseName ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param databaseName ƒf[ƒ^ƒx[ƒX–¼
      */
     public void setDatabaseName(final String databaseName)
     {
@@ -149,9 +152,9 @@ public class SystemResourceListener extends AbstractTelegramListener implements 
     }
 
     /**
-     * æ¥ç¶šå…ˆãƒ›ã‚¹ãƒˆåã‚’ã‚»ãƒƒãƒˆã—ã¾ã™ã€‚<br />
+     * Ú‘±æƒzƒXƒg–¼‚ğƒZƒbƒg‚µ‚Ü‚·B<br />
      *
-     * @param hostName æ¥ç¶šå…ˆãƒ›ã‚¹ãƒˆå
+     * @param hostName Ú‘±æƒzƒXƒg–¼
      */
     public void setHostName(final String hostName)
     {
@@ -159,9 +162,9 @@ public class SystemResourceListener extends AbstractTelegramListener implements 
     }
 
     /**
-     * æ¥ç¶šå…ˆãƒ›ã‚¹ãƒˆã® IP ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’ã‚»ãƒƒãƒˆã—ã¾ã™ã€‚<br />
+     * Ú‘±æƒzƒXƒg‚Ì IP ƒAƒhƒŒƒX‚ğƒZƒbƒg‚µ‚Ü‚·B<br />
      *
-     * @param ipAddress IP ã‚¢ãƒ‰ãƒ¬ã‚¹
+     * @param ipAddress IP ƒAƒhƒŒƒX
      */
     public void setIpAddress(final String ipAddress)
     {
@@ -169,9 +172,9 @@ public class SystemResourceListener extends AbstractTelegramListener implements 
     }
 
     /**
-     * æ¥ç¶šå…ˆãƒãƒ¼ãƒˆç•ªå·ã‚’ã‚»ãƒƒãƒˆã—ã¾ã™ã€‚<br />
+     * Ú‘±æƒ|[ƒg”Ô†‚ğƒZƒbƒg‚µ‚Ü‚·B<br />
      *
-     * @param port ãƒãƒ¼ãƒˆç•ªå·
+     * @param port ƒ|[ƒg”Ô†
      */
     public void setPort(final int port)
     {
@@ -179,21 +182,15 @@ public class SystemResourceListener extends AbstractTelegramListener implements 
     }
 
     /**
-     * æ¥ç¶šå…ˆã®ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆIDã‚’è¨­å®šã—ã¾ã™ã€‚
-     * @param clientId ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆID
+     * Ú‘±æ‚ÌƒNƒ‰ƒCƒAƒ“ƒgID‚ğİ’è‚µ‚Ü‚·B
+     * @param clientId ƒNƒ‰ƒCƒAƒ“ƒgID
      */
     public void setClientId(final String clientId)
     {
         clientId_ = clientId;
     }
 
-    /**
-     * ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£è¨­å®šã™ã‚‹ã€‚
-     * 
-     * @param javelinData JavelinData
-     * @param telegramId é›»æ–‡ID
-     */
-    protected void setProperties(final JavelinData javelinData, final long telegramId)
+    private void setProperties(final JavelinData javelinData, final long telegramId)
     {
         javelinData.setDatabaseName(this.databaseName_);
         javelinData.setHost(this.hostName_);
@@ -204,66 +201,11 @@ public class SystemResourceListener extends AbstractTelegramListener implements 
     }
 
     /**
-     * ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆåã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param agentName ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆåã€‚
+     * ƒG[ƒWƒFƒ“ƒg–¼‚ğİ’è‚µ‚Ü‚·B
+     * @param agentName ƒG[ƒWƒFƒ“ƒg–¼
      */
     public void setAgentName(final String agentName)
     {
         this.agentName_ = agentName;
     }
-
-    /**
-     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã€‚
-     */
-    public String getDatabaseName()
-    {
-        return databaseName_;
-    }
-
-    /**
-     * ãƒ›ã‚¹ãƒˆåã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ãƒ›ã‚¹ãƒˆåã€‚
-     */
-    public String getHostName()
-    {
-        return hostName_;
-    }
-
-    /**
-     * IPã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return IPã‚¢ãƒ‰ãƒ¬ã‚¹åã€‚
-     */
-    public String getIpAddress()
-    {
-        return ipAddress_;
-    }
-
-    /**
-     * ãƒãƒ¼ãƒˆç•ªå·ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ãƒãƒ¼ãƒˆç•ªå·ã€‚
-     */
-    public int getPort()
-    {
-        return port_;
-    }
-
-    /**
-     * ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆIDã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆIDã€‚
-     */
-    public String getClientId()
-    {
-        return clientId_;
-    }
-
-    /**
-     * ã‚­ãƒ¥ãƒ¼ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ã‚­ãƒ¥ãƒ¼åã€‚
-     */
-    public JavelinDataQueue getQueue()
-    {
-        return queue_;
-    }
-
 }

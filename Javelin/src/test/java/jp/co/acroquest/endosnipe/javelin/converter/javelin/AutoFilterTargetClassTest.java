@@ -32,15 +32,15 @@ import jp.co.acroquest.endosnipe.javelin.StatsJavelinRecorder;
 import jp.co.acroquest.test.util.JavelinTestUtil;
 
 /**
- * è¨ˆæ¸¬å¯¾è±¡è‡ªå‹•çµè¾¼ã¿æ©Ÿèƒ½ã®ãƒ†ã‚¹ãƒˆã‚¯ãƒ©ã‚¹
- * (S2JavelinBridgeConverterã®ä¸€æ©Ÿèƒ½ã¨ãªã‚‹ãŒã€åˆ¥ã®ã‚¯ãƒ©ã‚¹ã«åˆ‡ã‚Šå‡ºã—ã¦è©¦é¨“ã‚’è¡Œã†)
+ * Œv‘ª‘ÎÛ©“®i‚İ‹@”\‚ÌƒeƒXƒgƒNƒ‰ƒX
+ * (S2JavelinBridgeConverter‚Ìˆê‹@”\‚Æ‚È‚é‚ªA•Ê‚ÌƒNƒ‰ƒX‚ÉØ‚èo‚µ‚ÄŒ±‚ğs‚¤)
  * 
  * @author M.Yoshida
  *
  */
 public class AutoFilterTargetClassTest extends DJUnitTestCase
 {
-    /** Javelinè¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹ */
+    /** Javelinİ’èƒtƒ@ƒCƒ‹‚ÌƒpƒX */
     private static final String JAVELIN_CONFIG_PATH = "/ver4_1_test/conf/javelin.properties";
 
     protected void setUp()
@@ -52,12 +52,12 @@ public class AutoFilterTargetClassTest extends DJUnitTestCase
     }
 
     /**
-     * [è©¦é¨“å†…å®¹]
-     * ãƒã‚¤ãƒˆã‚³ãƒ¼ãƒ‰ãŒ200ä»¥ä¸Šã€åˆ¶å¾¡ã‚³ãƒ¼ãƒ‰(goto)ãŒ3ä»¥ä¸Šã®ãƒ¡ã‚½ãƒƒãƒ‰ã®å®Ÿè¡Œ
+     * [Œ±“à—e]
+     * ƒoƒCƒgƒR[ƒh‚ª200ˆÈãA§ŒäƒR[ƒh(goto)‚ª3ˆÈã‚Ìƒƒ\ƒbƒh‚ÌÀs
      * 
-     * [ç¢ºèªå†…å®¹]
-     * ãƒ»preProcessã€postProcessãƒ¡ã‚½ãƒƒãƒ‰ãŒå‘¼ã°ã‚Œã‚‹ã“ã¨ã€‚(DJUnitã«ã‚ˆã‚Šç¢ºèª)
-     * ãƒ»Javelinãƒˆãƒ¬ãƒ¼ã‚¹ãƒ­ã‚°ã§ãƒ¡ã‚½ãƒƒãƒ‰ãŒå¤‰æ›ã•ã‚Œã¦ã„ã‚‹ã“ã¨ã‚’ç¢ºèªã™ã‚‹ã€‚(ãƒ­ã‚°ã‚ˆã‚Šç›®è¦–ã§ç¢ºèª)
+     * [Šm”F“à—e]
+     * EpreProcessApostProcessƒƒ\ƒbƒh‚ªŒÄ‚Î‚ê‚é‚±‚ÆB(DJUnit‚É‚æ‚èŠm”F)
+     * EJavelinƒgƒŒ[ƒXƒƒO‚Åƒƒ\ƒbƒh‚ª•ÏŠ·‚³‚ê‚Ä‚¢‚é‚±‚Æ‚ğŠm”F‚·‚éB(ƒƒO‚æ‚è–Ú‹‚ÅŠm”F)
      */
     public void testConvertFilter1()
     {
@@ -79,12 +79,12 @@ public class AutoFilterTargetClassTest extends DJUnitTestCase
     }
     
     /**
-     * [è©¦é¨“å†…å®¹]
-     * ãƒã‚¤ãƒˆã‚³ãƒ¼ãƒ‰ãŒ200æœªæº€ã€åˆ¶å¾¡ã‚³ãƒ¼ãƒ‰(goto)ãŒ3ä»¥ä¸Šã®ãƒ¡ã‚½ãƒƒãƒ‰ã®å®Ÿè¡Œ
+     * [Œ±“à—e]
+     * ƒoƒCƒgƒR[ƒh‚ª200–¢–A§ŒäƒR[ƒh(goto)‚ª3ˆÈã‚Ìƒƒ\ƒbƒh‚ÌÀs
      * 
-     * [ç¢ºèªå†…å®¹]
-     * ãƒ»preProcessã€postProcessãƒ¡ã‚½ãƒƒãƒ‰ãŒå‘¼ã°ã‚Œã‚‹ã“ã¨ã€‚(DJUnitã«ã‚ˆã‚Šç¢ºèª)
-     * ãƒ»Javelinãƒˆãƒ¬ãƒ¼ã‚¹ãƒ­ã‚°ã§ãƒ¡ã‚½ãƒƒãƒ‰ãŒå¤‰æ›ã•ã‚Œã¦ã„ã‚‹ã“ã¨ã‚’ç¢ºèªã™ã‚‹ã€‚(ãƒ­ã‚°ã‚ˆã‚Šç›®è¦–ã§ç¢ºèª)
+     * [Šm”F“à—e]
+     * EpreProcessApostProcessƒƒ\ƒbƒh‚ªŒÄ‚Î‚ê‚é‚±‚ÆB(DJUnit‚É‚æ‚èŠm”F)
+     * EJavelinƒgƒŒ[ƒXƒƒO‚Åƒƒ\ƒbƒh‚ª•ÏŠ·‚³‚ê‚Ä‚¢‚é‚±‚Æ‚ğŠm”F‚·‚éB(ƒƒO‚æ‚è–Ú‹‚ÅŠm”F)
      */
     public void testConvertFilter2()
     {
@@ -106,12 +106,12 @@ public class AutoFilterTargetClassTest extends DJUnitTestCase
     }
 
     /**
-     * [è©¦é¨“å†…å®¹]
-     * ãƒã‚¤ãƒˆã‚³ãƒ¼ãƒ‰ãŒ200ä»¥ä¸Šã€åˆ¶å¾¡ã‚³ãƒ¼ãƒ‰(goto)ãŒ3æœªæº€ã®ãƒ¡ã‚½ãƒƒãƒ‰ã®å®Ÿè¡Œ
+     * [Œ±“à—e]
+     * ƒoƒCƒgƒR[ƒh‚ª200ˆÈãA§ŒäƒR[ƒh(goto)‚ª3–¢–‚Ìƒƒ\ƒbƒh‚ÌÀs
      * 
-     * [ç¢ºèªå†…å®¹]
-     * ãƒ»preProcessã€postProcessãƒ¡ã‚½ãƒƒãƒ‰ãŒå‘¼ã°ã‚Œã‚‹ã“ã¨ã€‚(DJUnitã«ã‚ˆã‚Šç¢ºèª)
-     * ãƒ»Javelinãƒˆãƒ¬ãƒ¼ã‚¹ãƒ­ã‚°ã§ãƒ¡ã‚½ãƒƒãƒ‰ãŒå¤‰æ›ã•ã‚Œã¦ã„ã‚‹ã“ã¨ã‚’ç¢ºèªã™ã‚‹ã€‚(ãƒ­ã‚°ã‚ˆã‚Šç›®è¦–ã§ç¢ºèª)
+     * [Šm”F“à—e]
+     * EpreProcessApostProcessƒƒ\ƒbƒh‚ªŒÄ‚Î‚ê‚é‚±‚ÆB(DJUnit‚É‚æ‚èŠm”F)
+     * EJavelinƒgƒŒ[ƒXƒƒO‚Åƒƒ\ƒbƒh‚ª•ÏŠ·‚³‚ê‚Ä‚¢‚é‚±‚Æ‚ğŠm”F‚·‚éB(ƒƒO‚æ‚è–Ú‹‚ÅŠm”F)
      */
     public void testConvertFilter3()
     {
@@ -133,12 +133,12 @@ public class AutoFilterTargetClassTest extends DJUnitTestCase
     }
 
     /**
-     * [è©¦é¨“å†…å®¹]
-     * ãƒã‚¤ãƒˆã‚³ãƒ¼ãƒ‰ãŒ200æœªæº€ã€åˆ¶å¾¡ã‚³ãƒ¼ãƒ‰(goto)ãŒ3æœªæº€ã®ãƒ¡ã‚½ãƒƒãƒ‰ã®å®Ÿè¡Œ
+     * [Œ±“à—e]
+     * ƒoƒCƒgƒR[ƒh‚ª200–¢–A§ŒäƒR[ƒh(goto)‚ª3–¢–‚Ìƒƒ\ƒbƒh‚ÌÀs
      * 
-     * [ç¢ºèªå†…å®¹]
-     * ãƒ»preProcessã€postProcessãƒ¡ã‚½ãƒƒãƒ‰ãŒå‘¼ã°ã‚Œãªã„ã“ã¨ã€‚(DJUnitã«ã‚ˆã‚Šç¢ºèª)
-     * ãƒ»Javelinãƒˆãƒ¬ãƒ¼ã‚¹ãƒ­ã‚°ã§ãƒ¡ã‚½ãƒƒãƒ‰ãŒå¤‰æ›ã•ã‚Œã¦ã„ã‚‹ã“ã¨ã‚’ç¢ºèªã™ã‚‹ã€‚(ãƒ­ã‚°ã‚ˆã‚Šç›®è¦–ã§ç¢ºèª)
+     * [Šm”F“à—e]
+     * EpreProcessApostProcessƒƒ\ƒbƒh‚ªŒÄ‚Î‚ê‚È‚¢‚±‚ÆB(DJUnit‚É‚æ‚èŠm”F)
+     * EJavelinƒgƒŒ[ƒXƒƒO‚Åƒƒ\ƒbƒh‚ª•ÏŠ·‚³‚ê‚Ä‚¢‚é‚±‚Æ‚ğŠm”F‚·‚éB(ƒƒO‚æ‚è–Ú‹‚ÅŠm”F)
      */
     public void testConvertFilter4()
     {

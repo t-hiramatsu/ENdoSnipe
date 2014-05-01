@@ -35,7 +35,7 @@ import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 
 /**
- * Javelin ãƒ­ã‚°é€šçŸ¥é›»æ–‡ã®ãŸã‚ã®ã‚¢ã‚¯ã‚»ã‚µã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+ * Javelin ƒƒO’Ê’m“d•¶‚Ì‚½‚ß‚ÌƒAƒNƒZƒTƒNƒ‰ƒX‚Å‚·B<br />
  * 
  * @author y-komori
  */
@@ -47,11 +47,11 @@ public class JvnFileNotifyAccessor implements TelegramConstants
     }
 
     /**
-     * Javelin ãƒ­ã‚°é€šçŸ¥é›»æ–‡ã‹ã‚‰å†…å®¹ã‚’å–ã‚Šå‡ºã—ã¾ã™ã€‚<br />
-     * é›»æ–‡ç¨®åˆ¥ãŒãƒ­ã‚°é€šçŸ¥é›»æ–‡ã§ã¯ãªã„å ´åˆã‚„ã€å†…å®¹ãŒé˜²ã„ã§ã‚ã‚‹å ´åˆã¯ <code>null</code> ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * Javelin ƒƒO’Ê’m“d•¶‚©‚ç“à—e‚ğæ‚èo‚µ‚Ü‚·B<br />
+     * “d•¶í•Ê‚ªƒƒO’Ê’m“d•¶‚Å‚Í‚È‚¢ê‡‚âA“à—e‚ª–h‚¢‚Å‚ ‚éê‡‚Í <code>null</code> ‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @param telegram Javelin ãƒ­ã‚°é€šçŸ¥é›»æ–‡
-     * @return é›»æ–‡å†…å®¹
+     * @param telegram Javelin ƒƒO’Ê’m“d•¶
+     * @return “d•¶“à—e
      */
     public static JvnFileEntry[] getJvnFileEntries(final Telegram telegram)
     {
@@ -81,7 +81,7 @@ public class JvnFileNotifyAccessor implements TelegramConstants
                     continue;
                 }
 
-                // ãƒ•ã‚¡ã‚¤ãƒ«åã®é…åˆ—ã ã£ãŸå ´åˆã€‚
+                // ƒtƒ@ƒCƒ‹–¼‚Ì”z—ñ‚¾‚Á‚½ê‡B
                 if (ITEMNAME_JVN_FILE_NAME.equals(itemName) == true)
                 {
                     jvnFileNames.clear();
@@ -90,7 +90,7 @@ public class JvnFileNotifyAccessor implements TelegramConstants
                         jvnFileNames.add(objItem);
                     }
                 }
-                // ãƒ•ã‚¡ã‚¤ãƒ«å†…å®¹ã®é…åˆ—ã ã£ãŸå ´åˆã€‚
+                // ƒtƒ@ƒCƒ‹“à—e‚Ì”z—ñ‚¾‚Á‚½ê‡B
                 else if (TelegramConstants.ITEMNAME_JVN_FILE_CONTENT.equals(itemName) == true)
                 {
                     jvnFileContents.clear();
@@ -99,7 +99,7 @@ public class JvnFileNotifyAccessor implements TelegramConstants
                         jvnFileContents.add(objItem);
                     }
                 }
-                // ã‚¢ã‚¤ãƒ†ãƒ åã®é…åˆ—ã ã£ãŸå ´åˆ
+                // ƒAƒCƒeƒ€–¼‚Ì”z—ñ‚¾‚Á‚½ê‡
                 else if (TelegramConstants.ITEMNAME_JVN_ITEM_NAME.equals(itemName) == true)
                 {
                 	jvnFileItemNames.clear();
@@ -108,7 +108,7 @@ public class JvnFileNotifyAccessor implements TelegramConstants
                 		jvnFileItemNames.add(objItem);
                 	}
                 }
-                // ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ã®å ´åˆ
+                // ƒAƒ‰[ƒ€è‡’l‚Ìê‡
                 if (TelegramConstants.ITEMNAME_ALARM_THRESHOLD.equals(itemName) == true)
                 {
                     Long alarmThresholdLong = (Long)objItemValueArr[0];
@@ -117,7 +117,7 @@ public class JvnFileNotifyAccessor implements TelegramConstants
                         alarmThreshold = alarmThresholdLong.longValue();
                     }
                 }
-                // CPUã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ã®å ´åˆ
+                // CPUƒAƒ‰[ƒ€è‡’l‚Ìê‡
                 else if (TelegramConstants.ITEMNAME_ALARM_CPU_THRESHOLD.equals(itemName) == true)
                 {
                     Long alarmThresholdLong = (Long)objItemValueArr[0];
@@ -154,25 +154,25 @@ public class JvnFileNotifyAccessor implements TelegramConstants
     }
 
     /**
-     * Javelin ãƒ­ã‚°ã‚’ä¿æŒã™ã‚‹ãŸã‚ã®ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+     * Javelin ƒƒO‚ğ•Û‚·‚é‚½‚ß‚ÌƒNƒ‰ƒX‚Å‚·B<br />
      * 
      * @author y-komori
      */
     public static class JvnFileEntry
     {
-        /** ãƒ•ã‚¡ã‚¤ãƒ«å */
+        /** ƒtƒ@ƒCƒ‹–¼ */
         public String fileName;
 
-        /** ãƒ•ã‚¡ã‚¤ãƒ«å†…å®¹ */
+        /** ƒtƒ@ƒCƒ‹“à—e */
         public String contents;
         
-        /** ã‚¢ã‚¤ãƒ†ãƒ å */
+        /** ƒAƒCƒeƒ€–¼ */
         public String itemName;
 
-        /** ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ */
+        /** ƒAƒ‰[ƒ€è‡’l */
         public long alarmThreshold;
 
-        /** ã‚¢ãƒ©ãƒ¼ãƒ CPUé–¾å€¤ */
+        /** ƒAƒ‰[ƒ€CPUè‡’l */
         public long cpuAlarmThreshold;
     }
 }

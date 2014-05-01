@@ -17,98 +17,99 @@ import jp.co.acroquest.endosnipe.report.output.RecordReporter;
 import jp.co.acroquest.endosnipe.report.util.ReporterConfigAccessor;
 
 /**
- * ResponseTimeã®Summaryã‚’ä½œæˆã™ã‚‹ãƒ—ãƒ­ã‚»ãƒƒã‚µ
+ * ResponseTime‚ÌSummary‚ğì¬‚·‚éƒvƒƒZƒbƒT
  * 
  * @author kimura
  *
  */
 public class ResponseTimeSummaryReportProcessor extends ReportPublishProcessorBase
 {
-	/** ãƒ­ã‚¬ãƒ¼ */
-	private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
-		.getLogger(ResponseTimeSummaryReportProcessor.class);
+    /** ƒƒK[ */
+    private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(
+            ResponseTimeSummaryReportProcessor.class);
 
-	/**
-	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
-	 * @param type ãƒ¬ãƒãƒ¼ãƒˆç¨®åˆ¥
-	 */
-	public ResponseTimeSummaryReportProcessor(ReportType type)
-	{
-		super(type);
-	}
+    /**
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * @param type ƒŒƒ|[ƒgí•Ê
+     */
+    public ResponseTimeSummaryReportProcessor(ReportType type)
+    {
+        super(type);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected Object getReportPlotData(ReportSearchCondition cond,
-		ReportProcessReturnContainer reportContainer)
-	{
-		ResponseTimeSummaryRecordAccessor accessor = new ResponseTimeSummaryRecordAccessor();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected Object getReportPlotData(ReportSearchCondition cond,
+            ReportProcessReturnContainer reportContainer)
+    {
+        ResponseTimeSummaryRecordAccessor accessor = new ResponseTimeSummaryRecordAccessor();
 
-		List<ResponseTimeSummaryRecord> rawData;
-		try
-		{
-			rawData = accessor.findResponseStatisticsByTerm(cond.getDatabases().get(0),
-				cond.getStartDate(), cond.getEndDate());
-		}
-		catch (SQLException ex)
-		{
-			LOGGER.log(LogIdConstants.EXCEPTION_IN_READING, ex,
-				ReporterConfigAccessor.getReportName(getReportType()));
-			return null;
-		}
+        List<ResponseTimeSummaryRecord> rawData;
+        try
+        {
+            rawData = accessor.findResponseStatisticsByTerm(cond.getDatabases().get(0),
+                    cond.getStartDate(), cond.getEndDate());
+        }
+        catch (SQLException ex)
+        {
+            LOGGER.log(LogIdConstants.EXCEPTION_IN_READING, ex,
+                    ReporterConfigAccessor.getReportName(getReportType()));
+            return null;
+        }
 
-		return rawData;
-	}
+        return rawData;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected Object convertPlotData(Object rawData, ReportSearchCondition cond,
-		ReportProcessReturnContainer reportContainer)
-	{
-		List<ResponseTimeSummaryRecord> dataList = (List<ResponseTimeSummaryRecord>) rawData;
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected Object convertPlotData(Object rawData, ReportSearchCondition cond,
+            ReportProcessReturnContainer reportContainer)
+    {
+        List<ResponseTimeSummaryRecord> dataList = (List<ResponseTimeSummaryRecord>) rawData;
 
 		return (ResponseTimeSummaryRecord[]) dataList
-			.toArray(new ResponseTimeSummaryRecord[dataList.size()]);
-	}
+				.toArray(new ResponseTimeSummaryRecord[dataList.size()]);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void outputReport(Object plotData, ReportSearchCondition cond,
-		ReportProcessReturnContainer reportContainer)
-	{
-		if ((plotData instanceof ResponseTimeSummaryRecord[]) == false)
-		{
-			return;
-		}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void outputReport(Object plotData, ReportSearchCondition cond,
+            ReportProcessReturnContainer reportContainer)
+    {
+        if ((plotData instanceof ResponseTimeSummaryRecord[]) == false)
+        {
+            return;
+        }
 
-		// å‡ºåŠ›ã™ã‚‹ãƒ¬ãƒãƒ¼ãƒˆã®ç¨®é¡ã«ã‚ã‚ã›ã¦ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã®ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã‚’å–å¾—ã™ã‚‹
-		String templateFilePath;
-		try
-		{
-			templateFilePath = TemplateFileManager.getInstance().getTemplateFile(getReportType());
-		}
-		catch (IOException exception)
-		{
-			reportContainer.setHappendedError(exception);
-			return;
-		}
+        // o—Í‚·‚éƒŒƒ|[ƒg‚Ìí—Ş‚É‚ ‚í‚¹‚Äƒeƒ“ƒvƒŒ[ƒg‚Ìƒtƒ@ƒCƒ‹ƒpƒX‚ğæ“¾‚·‚é
+        String templateFilePath;
+        try
+        {
+            templateFilePath = TemplateFileManager.getInstance().getTemplateFile(getReportType());
+        }
+        catch (IOException exception)
+        {
+            reportContainer.setHappendedError(exception);
+            return;
+        }
 
-		// ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã®å¼•æ•°æƒ…å ±ã‚’å–å¾—ã™ã‚‹
-		ResponseTimeSummaryRecord[] records = (ResponseTimeSummaryRecord[]) plotData;
-		String outputFilePath = getOutputFileName();
-		Timestamp startTime = cond.getStartDate();
-		Timestamp endTime = cond.getEndDate();
+        // ƒŒƒ|[ƒgo—Í‚Ìˆø”î•ñ‚ğæ“¾‚·‚é
+        ResponseTimeSummaryRecord[] records = (ResponseTimeSummaryRecord[])plotData;
+        String outputFilePath = getOutputFileName();
+        Timestamp startTime = cond.getStartDate();
+        Timestamp endTime = cond.getEndDate();
 
-		// ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã‚’å®Ÿè¡Œã™ã‚‹
-		RecordReporter<ResponseTimeSummaryRecord> reporter = new RecordReporter<ResponseTimeSummaryRecord>(
-			getReportType());
-		reporter.outputReport(templateFilePath, outputFilePath, records, startTime, endTime);
-	}
+        // ƒŒƒ|[ƒgo—Í‚ğÀs‚·‚é
+        RecordReporter<ResponseTimeSummaryRecord> reporter =
+                                                             new RecordReporter<ResponseTimeSummaryRecord>(
+                                                                                                           getReportType());
+        reporter.outputReport(templateFilePath, outputFilePath, records, startTime, endTime);
+    }
 
 }

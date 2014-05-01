@@ -30,61 +30,52 @@ import java.util.HashMap;
 import java.util.Map;
 
 import jp.co.acroquest.endosnipe.collector.processor.AlarmType;
-import jp.co.acroquest.endosnipe.data.dto.SignalDefinitionDto;
 
 /**
- * ã‚·ã‚°ãƒŠãƒ«ã®ã‚¢ãƒ©ãƒ¼ãƒ ã‚’é€šçŸ¥ã«ä½¿ç”¨ã™ã‚‹Entityã‚¯ãƒ©ã‚¹ã€‚
+ * ƒVƒOƒiƒ‹‚ÌƒAƒ‰[ƒ€‚ğ’Ê’m‚Ég—p‚·‚éEntityƒNƒ‰ƒXB
  * 
  * @author fujii
  */
 public class AlarmEntry
 {
-    /** é–¾å€¤åˆ¤å®šå®šç¾©æƒ…å ±ID */
-    private long signalId_;
+    /** ƒAƒ‰[ƒ€–¼ */
+    private String alarmID_;
 
-    /** ã‚·ã‚°ãƒŠãƒ«å */
-    private String signalName_;
+    /** è‡’l */
+    private Double risingThreshold_;
 
-    /** çŠ¶æ…‹å€¤ */
+    /** ó‘Ô’l */
     private Double alarmValue_;
 
-    /** è¨ˆæ¸¬é–“éš”(å˜ä½:ãƒŸãƒªç§’) */
-    private double escalationPeriod_;
+    /** Œv‘ªŠÔŠu(’PˆÊ:ƒ~ƒŠ•b) */
+    private double alarmInterval_;
 
-    /** é–¾å€¤åˆ¤å®šçµæœ */
-    private int signalValue_;
+    /** ƒAƒ‰[ƒ€‚Ìó‘Ô’l */
+    private int alarmState_;
 
-    /** ã‚¢ãƒ©ãƒ¼ãƒ ã‚’å‡ºã™ã‹ã©ã†ã‹ */
+    /** ƒAƒ‰[ƒ€‚ğo‚·‚©‚Ç‚¤‚© */
     private boolean sendAlarm_;
 
-    /** ã‚¢ãƒ©ãƒ¼ãƒ ã®ç¨®é¡ */
+    /** ƒAƒ‰[ƒ€‚Ìí—Ş */
     private AlarmType alarmType_;
 
-    /** å„ãƒ¬ãƒ™ãƒ«ã®é–¾å€¤ */
-    private String patternValue_;
-
-    /** é–¾å€¤åˆ¤å®šãƒ‘ã‚¿ãƒ¼ãƒ³ */
-    private String matchingPattern_;
-
-    /** Javelinã®IPã‚¢ãƒ‰ãƒ¬ã‚¹ */
+    /** Javelin‚ÌIPƒAƒhƒŒƒX */
     private String ipAddress_;
 
-    /** Javelinã®ãƒãƒ¼ãƒˆç•ªå· */
+    /** Javelin‚Ìƒ|[ƒg”Ô† */
     private int port_;
 
-    /** ãƒ­ã‚°ãƒ‡ãƒ¼ã‚¿ã®ä¿å­˜ã•ã‚Œã‚‹DBã®åå‰ */
+    /** ƒƒOƒf[ƒ^‚Ì•Û‘¶‚³‚ê‚éDB‚Ì–¼‘O */
     private String databaseName_;
 
-    /** ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ï¼ˆè¿½åŠ æƒ…å ±ï¼‰ */
+    /** ƒpƒ‰ƒ[ƒ^i’Ç‰Áî•ñj */
     private final Map<String, Object> parameters_;
 
-    /** ã‚·ã‚°ãƒŠãƒ«ã®ãƒ¬ãƒ™ãƒ«(3 or 5) */
+    /** ƒVƒOƒiƒ‹‚ÌƒŒƒxƒ‹(3 or 5) */
     private int signalLevel_;
 
-    private SignalDefinitionDto definition_;
-
     /**
-     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
      */
     public AlarmEntry()
     {
@@ -92,44 +83,44 @@ public class AlarmEntry
     }
 
     /**
-     * é–¾å€¤åˆ¤å®šå®šç¾©IDã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ã‚¢ãƒ©ãƒ¼ãƒ å
+     * ƒAƒ‰[ƒ€–¼‚ğæ“¾‚·‚éB
+     * @return ƒAƒ‰[ƒ€–¼
      */
-    public long getSignalId()
+    public String getAlarmID()
     {
-        return this.signalId_;
+        return this.alarmID_;
     }
 
     /**
-     * é–¾å€¤åˆ¤å®šå®šç¾©IDã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param signalId é–¾å€¤åˆ¤å®šå®šç¾©ID
+     * ƒAƒ‰[ƒ€–¼‚ğİ’è‚·‚éB
+     * @param alarmID ƒAƒ‰[ƒ€–¼
      */
-    public void setSignalId(final long signalId)
+    public void setAlarmID(final String alarmID)
     {
-        this.signalId_ = signalId;
+        this.alarmID_ = alarmID;
     }
 
     /**
-     * ã‚·ã‚°ãƒŠãƒ«åã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ã‚·ã‚°ãƒŠãƒ«å
+     * ”­¶è‡’l‚ğæ“¾‚·‚éB
+     * @return ”­¶è‡’l
      */
-    public String getSignalName()
+    public Double getRisingThreshold()
     {
-        return signalName_;
+        return this.risingThreshold_;
     }
 
     /**
-     * ã‚·ã‚°ãƒŠãƒ«åã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param signalName ã‚·ã‚°ãƒŠãƒ«å
+     * ”­¶è‡’l‚ğİ’è‚·‚éB
+     * @param risingThreshold ”­¶è‡’l
      */
-    public void setSignalName(final String signalName)
+    public void setRisingThreshold(final Double risingThreshold)
     {
-        signalName_ = signalName;
+        this.risingThreshold_ = risingThreshold;
     }
 
     /**
-     * çŠ¶æ…‹å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return çŠ¶æ…‹å€¤
+     * ó‘Ô’l‚ğæ“¾‚·‚éB
+     * @return ó‘Ô’l
      */
     public Double getAlarmValue()
     {
@@ -137,8 +128,8 @@ public class AlarmEntry
     }
 
     /**
-     * çŠ¶æ…‹å€¤ã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param alarmValue çŠ¶æ…‹å€¤
+     * ó‘Ô’l‚ğİ’è‚·‚éB
+     * @param alarmValue ó‘Ô’l
      */
     public void setAlarmValue(final Double alarmValue)
     {
@@ -146,44 +137,44 @@ public class AlarmEntry
     }
 
     /**
-     * è¨ˆæ¸¬é–“éš”(å˜ä½:ãƒŸãƒªç§’)ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return è¨ˆæ¸¬é–“éš”(å˜ä½:ãƒŸãƒªç§’
+     * Œv‘ªŠÔŠu(’PˆÊ:ƒ~ƒŠ•b‚ğæ“¾‚·‚éB
+     * @return Œv‘ªŠÔŠu(’PˆÊ:ƒ~ƒŠ•b
      */
-    public double getEscalationPeriod()
+    public double getAlarmInterval()
     {
-        return this.escalationPeriod_;
+        return this.alarmInterval_;
     }
 
     /**
-     * ã‚¨ã‚¹ã‚«ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³æœŸé–“(å˜ä½:ãƒŸãƒªç§’)ã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param escalationPeriod è¨ˆæ¸¬é–“éš”(å˜ä½:ãƒŸãƒªç§’)
+     * Œv‘ªŠÔŠu(’PˆÊ:ƒ~ƒŠ•b‚ğİ’è‚·‚éB
+     * @param alarmInterval Œv‘ªŠÔŠu(’PˆÊ:ƒ~ƒŠ•b
      */
-    public void setEscalationPeriod(final double escalationPeriod)
+    public void setAlarmInterval(final double alarmInterval)
     {
-        this.escalationPeriod_ = escalationPeriod;
+        this.alarmInterval_ = alarmInterval;
     }
 
     /**
-     * é–¾å€¤åˆ¤å®šçµæœã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return é–¾å€¤åˆ¤å®šçµæœ
+     * ƒAƒ‰[ƒ€‚Ìó‘Ô’l‚ğæ“¾‚·‚éB
+     * @return ƒAƒ‰[ƒ€‚Ìó‘Ô’l
      */
-    public int getSignalValue()
+    public int getAlarmState()
     {
-        return this.signalValue_;
+        return this.alarmState_;
     }
 
     /**
-     * é–¾å€¤åˆ¤å®šçµæœã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param signalValue é–¾å€¤åˆ¤å®šçµæœ
+     * ƒAƒ‰[ƒ€‚Ìó‘Ô’l‚ğİ’è‚·‚éB
+     * @param alarmState ƒAƒ‰[ƒ€‚Ìó‘Ô’l
      */
-    public void setSignalValue(final int signalValue)
+    public void setAlarmState(final int alarmState)
     {
-        this.signalValue_ = signalValue;
+        this.alarmState_ = alarmState;
     }
 
     /**
-     * ã‚¢ãƒ©ãƒ¼ãƒ ã‚’å‡ºã™ã‹ã©ã†ã‹ã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param sendAlarm ã‚»ãƒƒãƒˆã™ã‚‹ sendAlarm
+     * ƒAƒ‰[ƒ€‚ğo‚·‚©‚Ç‚¤‚©‚ğİ’è‚·‚éB
+     * @param sendAlarm ƒZƒbƒg‚·‚é sendAlarm
      */
     public void setSendAlarm(final boolean sendAlarm)
     {
@@ -191,8 +182,8 @@ public class AlarmEntry
     }
 
     /**
-     * ã‚¢ãƒ©ãƒ¼ãƒ ã‚’å‡ºã™ã‹ã©ã†ã‹ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return å¯¾è±¡ã®ç³»åˆ—å
+     * ƒAƒ‰[ƒ€‚ğo‚·‚©‚Ç‚¤‚©‚ğæ“¾‚·‚éB
+     * @return ‘ÎÛ‚ÌŒn—ñ–¼
      */
     public boolean isSendAlarm()
     {
@@ -200,7 +191,7 @@ public class AlarmEntry
     }
 
     /**
-     * @param alarmType ã‚»ãƒƒãƒˆã™ã‚‹ alarmType
+     * @param alarmType ƒZƒbƒg‚·‚é alarmType
      */
     public void setAlarmType(final AlarmType alarmType)
     {
@@ -208,7 +199,7 @@ public class AlarmEntry
     }
 
     /**
-     * @return alarmTypeã€€ã‚¢ãƒ©ãƒ¼ãƒ ç¨®åˆ¥
+     * @return alarmType@ƒAƒ‰[ƒ€í•Ê
      */
     public AlarmType getAlarmType()
     {
@@ -216,9 +207,9 @@ public class AlarmEntry
     }
 
     /**
-     * ã“ã®ã‚¢ãƒ©ãƒ¼ãƒ ã‚’æ¤œçŸ¥ã—ãŸJavelinã®IPã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ‚±‚ÌƒAƒ‰[ƒ€‚ğŒŸ’m‚µ‚½Javelin‚ÌIPƒAƒhƒŒƒX‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @return IPã‚¢ãƒ‰ãƒ¬ã‚¹
+     * @return IPƒAƒhƒŒƒX
      */
     public String getIpAddress()
     {
@@ -226,9 +217,9 @@ public class AlarmEntry
     }
 
     /**
-     * ã“ã®ã‚¢ãƒ©ãƒ¼ãƒ ã‚’æ¤œçŸ¥ã—ãŸJavelinã®IPã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
+     * ‚±‚ÌƒAƒ‰[ƒ€‚ğŒŸ’m‚µ‚½Javelin‚ÌIPƒAƒhƒŒƒX‚ğİ’è‚µ‚Ü‚·B<br />
      * 
-     * @param ipAddress IPã‚¢ãƒ‰ãƒ¬ã‚¹
+     * @param ipAddress IPƒAƒhƒŒƒX
      */
     public void setIpAddress(final String ipAddress)
     {
@@ -236,7 +227,7 @@ public class AlarmEntry
     }
 
     /**
-     * ã“ã®ã‚¢ãƒ©ãƒ¼ãƒ ã‚’æ¤œçŸ¥ã—ãŸJavelinã®ãƒãƒ¼ãƒˆç•ªå·ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ‚±‚ÌƒAƒ‰[ƒ€‚ğŒŸ’m‚µ‚½Javelin‚Ìƒ|[ƒg”Ô†‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
      * @return port
      */
@@ -246,9 +237,9 @@ public class AlarmEntry
     }
 
     /**
-     * ã“ã®ã‚¢ãƒ©ãƒ¼ãƒ ã‚’æ¤œçŸ¥ã—ãŸJavelinã®ãƒãƒ¼ãƒˆç•ªå·ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
+     * ‚±‚ÌƒAƒ‰[ƒ€‚ğŒŸ’m‚µ‚½Javelin‚Ìƒ|[ƒg”Ô†‚ğİ’è‚µ‚Ü‚·B<br />
      * 
-     * @param port ãƒãƒ¼ãƒˆç•ªå·
+     * @param port ƒ|[ƒg”Ô†
      */
     public void setPort(final int port)
     {
@@ -256,9 +247,9 @@ public class AlarmEntry
     }
 
     /**
-     * ã“ã®ã‚¢ãƒ©ãƒ¼ãƒ ã‚’æ¤œçŸ¥ã—ãŸJavelinã‹ã‚‰ã®ãƒ‡ãƒ¼ã‚¿ã‚’ä¿å­˜ã™ã‚‹DBã®åå‰ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ‚±‚ÌƒAƒ‰[ƒ€‚ğŒŸ’m‚µ‚½Javelin‚©‚ç‚Ìƒf[ƒ^‚ğ•Û‘¶‚·‚éDB‚Ì–¼‘O‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @return databaseName DBå
+     * @return databaseName DB–¼
      */
     public String getDatabaseName()
     {
@@ -266,9 +257,9 @@ public class AlarmEntry
     }
 
     /**
-     * ã“ã®ã‚¢ãƒ©ãƒ¼ãƒ ã‚’æ¤œçŸ¥ã—ãŸJavelinã‹ã‚‰ã®ãƒ‡ãƒ¼ã‚¿ã‚’ä¿å­˜ã™ã‚‹DBã®åå‰ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
+     * ‚±‚ÌƒAƒ‰[ƒ€‚ğŒŸ’m‚µ‚½Javelin‚©‚ç‚Ìƒf[ƒ^‚ğ•Û‘¶‚·‚éDB‚Ì–¼‘O‚ğİ’è‚µ‚Ü‚·B<br />
      * 
-     * @param databaseName DBå
+     * @param databaseName DB–¼
      */
     public void setDatabaseName(final String databaseName)
     {
@@ -276,10 +267,10 @@ public class AlarmEntry
     }
 
     /**
-     * ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’è¿½åŠ ã—ã¾ã™ã€‚
+     * ƒpƒ‰ƒ[ƒ^‚ğ’Ç‰Á‚µ‚Ü‚·B
      *
-     * @param key ã‚­ãƒ¼
-     * @param value å€¤
+     * @param key ƒL[
+     * @param value ’l
      */
     public void addParamter(final String key, final Object value)
     {
@@ -287,9 +278,9 @@ public class AlarmEntry
     }
 
     /**
-     * ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * ƒpƒ‰ƒ[ƒ^‚ğæ“¾‚µ‚Ü‚·B
      *
-     * @return ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
+     * @return ƒpƒ‰ƒ[ƒ^
      */
     public Map<String, Object> getParameters()
     {
@@ -297,8 +288,8 @@ public class AlarmEntry
     }
 
     /**
-     * ã‚·ã‚°ãƒŠãƒ«ã®ãƒ¬ãƒ™ãƒ«ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ã‚·ã‚°ãƒŠãƒ«ã®ãƒ¬ãƒ™ãƒ«
+     * ƒVƒOƒiƒ‹‚ÌƒŒƒxƒ‹‚ğæ“¾‚·‚éB
+     * @return ƒVƒOƒiƒ‹‚ÌƒŒƒxƒ‹
      */
     public int getSignalLevel()
     {
@@ -306,58 +297,12 @@ public class AlarmEntry
     }
 
     /**
-     * ã‚·ã‚°ãƒŠãƒ«ã®ãƒ¬ãƒ™ãƒ«ã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param signalLevel ã‚·ã‚°ãƒŠãƒ«ã®ãƒ¬ãƒ™ãƒ«
+     * ƒVƒOƒiƒ‹‚ÌƒŒƒxƒ‹‚ğİ’è‚·‚éB
+     * @param signalLevel ƒVƒOƒiƒ‹‚ÌƒŒƒxƒ‹
      */
     public void setSignalLevel(final int signalLevel)
     {
         signalLevel_ = signalLevel;
-    }
-
-    /**
-     * ã‚·ã‚°ãƒŠãƒ«ã®å®šç¾©æƒ…å ±ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ã‚·ã‚°ãƒŠãƒ«ã®å®šç¾©æƒ…å ±
-     */
-    public SignalDefinitionDto getDefinition()
-    {
-        return definition_;
-    }
-
-    public String getPatternValue()
-    {
-        return patternValue_;
-    }
-
-    public void setPatternValue(final String patternValue)
-    {
-        patternValue_ = patternValue;
-    }
-
-    /**
-     * é–¾å€¤åˆ¤å®šãƒ‘ã‚¿ãƒ¼ãƒ³ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return é–¾å€¤åˆ¤å®šãƒ‘ã‚¿ãƒ¼ãƒ³
-     */
-    public String getMatchingPattern()
-    {
-        return matchingPattern_;
-    }
-
-    /**
-     * é–¾å€¤åˆ¤å®šãƒ‘ã‚¿ãƒ¼ãƒ³ã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param matchingPattern é–¾å€¤åˆ¤å®šãƒ‘ã‚¿ãƒ¼ãƒ³
-     */
-    public void setMatchingPattern(final String matchingPattern)
-    {
-        matchingPattern_ = matchingPattern;
-    }
-
-    /**
-     * ã‚·ã‚°ãƒŠãƒ«ã®å®šç¾©æƒ…å ±ã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param definition ã‚·ã‚°ãƒŠãƒ«ã®å®šç¾©æƒ…å ±
-     */
-    public void setDefinition(final SignalDefinitionDto definition)
-    {
-        definition_ = definition;
     }
 
 }

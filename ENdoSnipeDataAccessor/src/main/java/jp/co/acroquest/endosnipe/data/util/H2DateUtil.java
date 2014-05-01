@@ -28,30 +28,30 @@ package jp.co.acroquest.endosnipe.data.util;
 import java.sql.Timestamp;
 
 /**
- * H2ã‹ã‚‰åˆ©ç”¨ã™ã‚‹ãŸã‚ã®é–¢æ•°
+ * H2‚©‚ç—˜—p‚·‚é‚½‚ß‚ÌŠÖ”
  * 
  * @author eriguchi
  *
  */
 public class H2DateUtil
 {
-    /** ãƒŸãƒªç§’ */
+    /** ƒ~ƒŠ•b */
     private static final int MILLIS = 1000;
 
     /**
-     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã‚’ç¦æ­¢ã™ã‚‹ã€‚
+     * ƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğ‹Ö~‚·‚éB
      */
     private H2DateUtil()
     {
-        // ä½•ã‚‚ã—ãªã„ã€‚
+        // ‰½‚à‚µ‚È‚¢B
     }
     
     /**
-     * date_parté–¢æ•°ç”¨
+     * date_partŠÖ”—p
      * 
-     * @param tmp ä½¿ç”¨ã—ãªã„ã€‚
-     * @param ts æ™‚åˆ»
-     * @return ç§’æ•°
+     * @param tmp g—p‚µ‚È‚¢B
+     * @param ts 
+     * @return •b”
      */
     public static long datePart(String tmp, Timestamp ts)
     {

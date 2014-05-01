@@ -29,14 +29,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * æ–‡å­—åˆ—æ“ä½œç”¨ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£
+ * •¶š—ñ‘€ì—pƒ†[ƒeƒBƒŠƒeƒB
  * 
  * @author eriguchi
  */
 public class StringUtil
 {
     /**
-     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã‚’ç¦æ­¢ã™ã‚‹ãŸã‚ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+     * ƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğ‹Ö~‚·‚é‚½‚ß‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^
      */
     private StringUtil()
     {
@@ -44,11 +44,11 @@ public class StringUtil
     }
 
     /**
-     * æ–‡å­—åˆ—ã®åˆ†å‰²ã‚’è¡Œã†ã€‚
+     * •¶š—ñ‚Ì•ªŠ„‚ğs‚¤B
      * 
-     * @param input åˆ†å‰²å¯¾è±¡ã®æ–‡å­—åˆ—
-     * @param separator ã‚»ãƒ‘ãƒ¬ãƒ¼ã‚¿
-     * @return åˆ†å‰²çµæœã®é…åˆ—
+     * @param input •ªŠ„‘ÎÛ‚Ì•¶š—ñ
+     * @param separator ƒZƒpƒŒ[ƒ^
+     * @return •ªŠ„Œ‹‰Ê‚Ì”z—ñ
      */
     public static List<String> split(final String input, final String separator)
     {

@@ -14,17 +14,17 @@ import jp.co.acroquest.endosnipe.javelin.converter.infinispan.monitor.TaskInfo;
 import jp.co.acroquest.endosnipe.javelin.resource.MultiResourceGetter;
 
 /**
- * Infinispan ã®ã‚¸ãƒ§ãƒ–æƒ…å ±ã‚’å–å¾—ã™ã‚‹
+ * Infinispan ‚ÌƒWƒ‡ƒuî•ñ‚ğæ“¾‚·‚é
  * 
  * @author hiramatsu
  *
  */
 public class InfinispanJobGetter implements MultiResourceGetter
 {
-    /** Jobã®æƒ…å ±ã‚’è¡¨ã™é …ç›®å */
+    /** Job‚Ìî•ñ‚ğ•\‚·€–Ú–¼ */
     private static final String ITEM_NAME_JOB  = "/infinispan/mapreduce/job";
 
-    /** Taskã®æƒ…å ±ã‚’è¡¨ã™é …ç›®å */
+    /** Task‚Ìî•ñ‚ğ•\‚·€–Ú–¼ */
     private static final String ITEM_NAME_TASK = "/infinispan/mapreduce/task";
 
     /**
@@ -46,7 +46,7 @@ public class InfinispanJobGetter implements MultiResourceGetter
                 "InfinispanJobGetter.getValues() : taskInfoList "
                         + taskInfoList.size());
 
-        // Jobã®æƒ…å ±ã‚’å–å¾—ã™ã‚‹
+        // Job‚Ìî•ñ‚ğæ“¾‚·‚é
         StringBuilder jobInfoBuilder = new StringBuilder();
         jobInfoBuilder.append("[");
 
@@ -79,7 +79,7 @@ public class InfinispanJobGetter implements MultiResourceGetter
                 "InfinispanJobGetter.getValues() : jobInfoList "
                         + jobInfoList.size());
 
-        // taskã®æƒ…å ±ã‚’å–å¾—ã™ã‚‹
+        // task‚Ìî•ñ‚ğæ“¾‚·‚é
         StringBuilder taskInfoBuilder = new StringBuilder();
         taskInfoBuilder.append("[");
 

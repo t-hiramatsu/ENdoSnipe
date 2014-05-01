@@ -28,14 +28,14 @@ package jp.co.acroquest.endosnipe.collector;
 import jp.co.acroquest.endosnipe.common.logger.CommonLogMessageCodes;
 
 /**
- * ログメッセージのための定数クラスです。<br />
+ * ���O���b�Z�[�W�̂��߂̒萔�N���X�ł��B<br />
  * 
  * @author y-komori
  */
 public interface LogMessageCodes extends CommonLogMessageCodes
 {
     // -------------------------------------------------------------------------
-    // 基本動作メッセージコード (00xx)
+    // ��{���상�b�Z�[�W�R�[�h (00xx)
     // -------------------------------------------------------------------------
     String ENDOSNIPE_DATA_COLLECTOR_STARTING = "IEDC0001";
 
@@ -79,171 +79,159 @@ public interface LogMessageCodes extends CommonLogMessageCodes
 
     String ERROR_OCCURED_ON_STARTING = "EEDC0021";
 
-    /** システムで予期しないエラーが発生した場合 */
+    /** �V�X�e���ŗ\�����Ȃ��G���[�����������ꍇ */
     String SYSTEM_UNKNOW_ERROR = "EEDC0023";
 
     // -------------------------------------------------------------------------
-    // 電文受信メッセージコード (01xx)
+    // �d����M���b�Z�[�W�R�[�h (01xx)
     // -------------------------------------------------------------------------
-    /** Javelinログ通知電文受信 */
+    /** Javelin���O�ʒm�d����M */
     String JVN_FILE_NOTIFY_RECEIVED = "DEDC0101";
 
-    /** リソース通知応答電文受信 */
+    /** ���\�[�X�ʒm�����d����M */
     String RESOURCE_NOTIFY_RECEIVED = "DEDC0102";
 
-    /** シグナル状態取得要求電文受信 */
+    /** �V�O�i����Ԏ擾�v���d����M */
     String SIGNAL_STATE_NOTIFY_RECEIVED = "DEDC0103";
 
-    /** シグナル定義変更要求電文受信 */
+    /** �V�O�i����`�ύX�v���d����M */
     String SIGNAL_DEFINITION_CHANGE_NOTIFY_RECEIVED = "DEDC0104";
 
-    /** notify error for summary signal */
-    String SUMMARY_SIGNAL_DEFINITION_CHANGE_NOTIFY_RECEIVED = "DEDC0105";
-
     // -------------------------------------------------------------------------
-    // キュー関連メッセージコード (02xx)
+    // �L���[�֘A���b�Z�[�W�R�[�h (02xx)
     // -------------------------------------------------------------------------
-    /** キューにデータを追加した */
+    /** �L���[�Ƀf�[�^��ǉ����� */
     String QUEUE_OFFERED = "DEDC0201";
 
-    /** キューからデータを取り出した */
+    /** �L���[����f�[�^�����o���� */
     String QUEUE_TAKEN = "DEDC0202";
 
-    /** アラーム通知キューが溢れた */
+    /** �A���[���ʒm�L���[����ꂽ */
     String ALARM_QUEUE_FULL = "WEDC0211";
 
     // -------------------------------------------------------------------------
-    // データベース関連メッセージコード (03xx)
+    // �f�[�^�x�[�X�֘A���b�Z�[�W�R�[�h (03xx)
     // -------------------------------------------------------------------------
-    /** データベースアクセス時にエラーが発生した */
+    /** �f�[�^�x�[�X�A�N�Z�X���ɃG���[���������� */
     String DATABASE_ACCESS_ERROR = "EEDC0301";
 
-    /** ホスト情報が見つからない */
+    /** �z�X�g��񂪌�����Ȃ� */
     String CANNOT_FIND_HOST_INFO = "EEDC0302";
 
-    /** Javelinログテーブルローテート実施 */
+    /** Javelin���O�e�[�u�����[�e�[�g���{ */
     String JAVELINLOG_ROTATE = "DEDC0303";
 
-    /** Javelinログテーブルローテート失敗 */
+    /** Javelin���O�e�[�u�����[�e�[�g���s */
     String JAVELINLOG_ROTATE_FAIL = "WEDC0304";
 
-    /** 計測データテーブルローテート実施 */
+    /** �v���f�[�^�e�[�u�����[�e�[�g���{ */
     String MEASURELOG_ROTATE = "DEDC0305";
 
-    /** 計測データテーブルローテート失敗 */
+    /** �v���f�[�^�e�[�u�����[�e�[�g���s */
     String MEASURELOG_ROTATE_FAIL = "WEDC0306";
 
-    /** すでにデータベースが使用されている */
+    /** ���łɃf�[�^�x�[�X���g�p����Ă��� */
     String DATABASE_ALREADY_USED = "EEDC0307";
 
     // -------------------------------------------------------------------------
-    // DataCollector関連メッセージコード (04xx)
+    // DataCollector�֘A���b�Z�[�W�R�[�h (04xx)
     // -------------------------------------------------------------------------
-    /** プロパティファイルが見つからない */
+    /** �v���p�e�B�t�@�C����������Ȃ� */
     String CANNOT_FIND_PROPERTY = "EEDC0401";
 
-    /** ホスト情報が見つからない */
+    /** �z�X�g��񂪌�����Ȃ� */
     String CANNOT_FIND_HOST = "EEDC0402";
 
-    /** パラメータの解析に失敗 */
+    /** �p�����[�^�̉�͂Ɏ��s */
     String FAIL_TO_READ_PARAMETER = "EEDC0403";
 
-    /** 閾値判定設定ファイルの取得に失敗 */
+    /** 臒l����ݒ�t�@�C���̎擾�Ɏ��s */
     String CANNOT_FIND_RESOURCE_MONITORING = "WEDC0404";
 
-    /** 閾値判定設定ファイルのパラメータ数が不足 */
+    /** 臒l����ݒ�t�@�C���̃p�����[�^�����s�� */
     String FAIL_MONITORING_PARAM_NUM = "WEDC0405";
 
-    /** 閾値判定設定ファイルのパラメータが不正 */
+    /** 臒l����ݒ�t�@�C���̃p�����[�^���s�� */
     String FAIL_MONITORING_PARAM_VALUE = "WEDC0406";
 
-    /** パラメータの解析に失敗(デフォルト値を使用) */
+    /** �p�����[�^�̉�͂Ɏ��s(�f�t�H���g�l���g�p) */
     String FAIL_READ_PARAMETER_USE_DEFAULT = "WEDC0407";
 
-    /** エージェントIDの取得に失敗 */
+    /** �G�[�W�F���gID�̎擾�Ɏ��s */
     String FAIL_GET_AGENT_ID = "WEDC0408";
 
-    /** イベント通知クラスの初期化に失敗 */
+    /** �C�x���g�ʒm�N���X�̏������Ɏ��s */
     String FAIL_CREATE_EVENT_SENDER = "WEDC0411";
 
-    /** 閾値判定処理クラスの初期化に失敗 */
+    /** 臒l���菈���N���X�̏������Ɏ��s */
     String FAIL_CREATE_ALARM_PROCESSOR = "WEDC0412";
 
-    /** Javelinログデータの解析に失敗 */
+    /** Javelin���O�f�[�^�̉�͂Ɏ��s */
     String FAIL_PARSE_JVN_DATA = "WEDC0413";
 
-    /** リソース状態管理の設定値出力 */
+    /** ���\�[�X��ԊǗ��̐ݒ�l�o�� */
     String OUTPUT_RESOURCE_MONITORING = "IEDC0414";
 
-    /** イベント通知スレッド開始 */
+    /** �C�x���g�ʒm�X���b�h�J�n */
     String EVENT_NOTIFICATION_THREAD_STARTED = "IEDC0415";
 
-    /** イベント通知スレッド終了 */
+    /** �C�x���g�ʒm�X���b�h�I�� */
     String EVENT_NOTIFICATION_THREAD_STOPPING = "IEDC0416";
 
-    /** メールテンプレートが未指定 */
+    /** ���[���e���v���[�g�����w�� */
     String MAIL_TEMPLATE_NOT_SPECIFYED = "WEDC0417";
 
-    /** メールテンプレート設定の取得に失敗 */
+    /** ���[���e���v���[�g�ݒ�̎擾�Ɏ��s */
     String FAIL_READ_MAIL_TEMPLATE_CONFIG = "WEDC0418";
 
-    /** ElasticSearchとの通信に失敗 */
-    String FAIL_SEND_ELASTIC_SEARCH = "WEDC0419";
-
-    /** Javelin 通信用オブジェクトが取得できない */
+    /** Javelin �ʐM�p�I�u�W�F�N�g���擾�ł��Ȃ� */
     String CANNOT_GET_JAVELIN_COMMUNICATION_CLIENT = "EEDC0431";
 
-    /** 設定：メール送信なし */
+    /** �ݒ�F���[�����M�Ȃ� */
     String NO_SENDMAIL_CONFIG_MESSAGE = "WEDC0451";
 
-    /** 送信するメッセージが空 */
+    /** ���M���郁�b�Z�[�W���� */
     String NO_SEND_INFORMATION_MESSAGE = "WEDC0452";
 
-    /** メール送信中に予期せぬエラーが発生 */
+    /** ���[�����M���ɗ\�����ʃG���[������ */
     String SENDING_MAIL_ERROR_MESSAGE = "WEDC0453";
 
-    /** 設定:SMTPサーバ未設定 */
+    /** �ݒ�:SMTP�T�[�o���ݒ� */
     String SMTP_SERVER_NOT_SPECIFIED = "WEDC0454";
 
-    /** メールテンプレートの読み込みに失敗 */
+    /** ���[���e���v���[�g�̓ǂݍ��݂Ɏ��s */
     String FAIL_READ_MAIL_TEMPLATE = "WEDC0455";
 
-    /** SMTP設定の設定値出力 */
+    /** SMTP�ݒ�̐ݒ�l�o�� */
     String OUTPUT_SMTP_SETTINGS = "IEDC0456";
 
-    /** 設定：SNMPのバージョンが対応外 */
+    /** �ݒ�FSNMP�̃o�[�W�������Ή��O */
     String INVALID_SNMP_VERSION = "WEDC0461";
 
-    /** SNMPトラップ送信中に予期せぬ例外が発生 */
+    /** SNMP�g���b�v���M���ɗ\�����ʗ�O������ */
     String SENDING_SNMP_ERROR_MESSAGE = "WEDC0462";
 
-    /** 設定：SNMPのバージョンが対応外 */
+    /** �ݒ�FSNMP�̃o�[�W�������Ή��O */
     String OUTPUT_SNMP_SETTINGS = "IEDC0463";
 
-    /** 閾値判定定義テーブルが取得できない場合 */
+    /** 臒l�����`�e�[�u�����擾�ł��Ȃ��ꍇ */
     String FAIL_READ_SIGNAL_DEFINITION = "EEDC0471";
 
-    /** ファイル処理において、予期しない例外が発生した場合 */
+    /** �t�@�C�������ɂ����āA�\�����Ȃ���O�����������ꍇ */
     String ERROR_FILE_HANDLER = "EEDC0499";
 
     // -------------------------------------------------------------------------
-    // アラーム発生時情報収集関連メッセージコード (05xx)
+    // �A���[�������������W�֘A���b�Z�[�W�R�[�h (05xx)
     // -------------------------------------------------------------------------
-    /** アラーム発生時の情報収集を開始 */
+    /** �A���[���������̏����W���J�n */
     String ALARM_DATA_COLLECT_STARTED = "IEDC0501";
 
-    /** アラーム発生時の情報取得を完了 */
+    /** �A���[���������̏��擾������ */
     String ALARM_DATA_COLLECT_COMPLETED = "IEDC0502";
 
-    /** アラーム発生時の情報収集をすべて完了 */
+    /** �A���[���������̏����W�����ׂĊ��� */
     String ALARM_DATA_COLLECT_ALL_COMPLETED = "IEDC0503";
 
-    /** アラームIDに対応する情報取得定義が存在しない */
+    /** �A���[��ID�ɑΉ�������擾��`�����݂��Ȃ� */
     String ALARM_DATA_COLLECT_NOT_DEFINED = "DEDC0504";
-
-    /** PerformaceDoctorのルールが見つからない */
-    String CANNOT_FIND_PERFRULE = "WEWD0503";
-
-    /** PerformaceDoctorのルール生成に失敗*/
-    String FAIL_TO_CREATE_PERFRULE = "WEWD0504";
 }

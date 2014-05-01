@@ -29,108 +29,108 @@ import jp.co.acroquest.endosnipe.report.output.ResourceReporter;
 import jp.co.acroquest.endosnipe.report.util.ReporterConfigAccessor;
 
 /**
- * CPU/ãƒ¡ãƒ¢ãƒªã®ä½¿ç”¨ç‡ãƒ¬ãƒãƒ¼ãƒˆã‚’ç”Ÿæˆã™ã‚‹ãƒ¬ãƒãƒ¼ãƒˆãƒ—ãƒ­ã‚»ãƒƒã‚µ
+ * CPU/ƒƒ‚ƒŠ‚Ìg—p—¦ƒŒƒ|[ƒg‚ğ¶¬‚·‚éƒŒƒ|[ƒgƒvƒƒZƒbƒT
  * 
  * @author akiba
  */
 public class CpuMemoryReportProcessor extends ReportPublishProcessorBase
 {
-	/** ãƒ­ã‚¬ãƒ¼ */
-	private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
-		.getLogger(CpuMemoryReportProcessor.class);
+    /** ƒƒK[ */
+    private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(
+            CpuMemoryReportProcessor.class);
 
-	/**
-	 * ãƒ—ãƒ­ã‚»ãƒƒã‚µã‚’ç”Ÿæˆã™ã‚‹ã€‚
-	 * 
-	 * @param type ã“ã®ãƒ—ãƒ­ã‚»ãƒƒã‚µãŒæ‰±ã†ãƒ¬ãƒãƒ¼ãƒˆã®ç¨®é¡ã€‚
-	 */
-	public CpuMemoryReportProcessor(ReportType type)
-	{
-		super(type);
-	}
+    /**
+     * ƒvƒƒZƒbƒT‚ğ¶¬‚·‚éB
+     * 
+     * @param type ‚±‚ÌƒvƒƒZƒbƒT‚ªˆµ‚¤ƒŒƒ|[ƒg‚Ìí—ŞB
+     */
+    public CpuMemoryReportProcessor(ReportType type)
+    {
+        super(type);
+    }
 
-	/**
-	 * ãƒ¬ãƒãƒ¼ãƒˆãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã€‚
-	 * 
-	 * @param cond æ¤œç´¢æ¡ä»¶ã€‚
-	 * @param reportContainer ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ä¸­ã«ç™ºç”Ÿã—ãŸè£œè¶³æƒ…å ±ã‚’æ ¼ç´ã™ã‚‹æ±ç”¨ã‚³ãƒ³ãƒ†ãƒŠã€‚
-	 * @return ãƒ¬ãƒãƒ¼ãƒˆãƒ‡ãƒ¼ã‚¿
-	 */
-	@Override
-	protected Object getReportPlotData(ReportSearchCondition cond,
-		ReportProcessReturnContainer reportContainer)
-	{
-		// æ¤œç´¢æ¡ä»¶ã®å–å¾—
-		String database = cond.getDatabases().get(0);
-		Timestamp startTime = cond.getStartDate();
-		Timestamp endTime = cond.getEndDate();
+    /**
+     * ƒŒƒ|[ƒgƒf[ƒ^‚ğæ“¾‚·‚éB
+     * 
+     * @param cond ŒŸõğŒB
+     * @param reportContainer ƒŒƒ|[ƒgo—Í’†‚É”­¶‚µ‚½•â‘«î•ñ‚ğŠi”[‚·‚é”Ä—pƒRƒ“ƒeƒiB
+     * @return ƒŒƒ|[ƒgƒf[ƒ^
+     */
+    @Override
+    protected Object getReportPlotData(ReportSearchCondition cond,
+            ReportProcessReturnContainer reportContainer)
+    {
+        // ŒŸõğŒ‚Ìæ“¾
+        String database = cond.getDatabases().get(0);
+        Timestamp startTime = cond.getStartDate();
+        Timestamp endTime = cond.getEndDate();
 
-		// DBã‹ã‚‰æ¤œç´¢
-		CpuAndMemoryRecordAccessor accessor = new CpuAndMemoryRecordAccessor();
-		List<ProcessResourceRecord> data;
-		try
-		{
-			data = accessor.findSystemResourceStaticsByTerm(database, startTime, endTime);
-		}
-		catch (SQLException ex)
-		{
-			LOGGER.log(LogIdConstants.EXCEPTION_IN_READING, ex,
-				ReporterConfigAccessor.getReportName(getReportType()));
-			return null;
-		}
+        // DB‚©‚çŒŸõ
+        CpuAndMemoryRecordAccessor accessor = new CpuAndMemoryRecordAccessor();
+        List<ProcessResourceRecord> data;
+        try
+        {
+            data = accessor.findSystemResourceStaticsByTerm(database, startTime, endTime);
+        }
+        catch (SQLException ex)
+        {
+            LOGGER.log(LogIdConstants.EXCEPTION_IN_READING, ex,
+                    ReporterConfigAccessor.getReportName(getReportType()));
+            return null;
+        }
 
-		return data;
-	}
+        return data;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected Object convertPlotData(Object rawData, ReportSearchCondition cond,
-		ReportProcessReturnContainer reportContainer)
-	{
-		List<ProcessResourceRecord> data = (List<ProcessResourceRecord>) rawData;
-		return (ProcessResourceRecord[]) data.toArray(new ProcessResourceRecord[data.size()]);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected Object convertPlotData(Object rawData, ReportSearchCondition cond,
+            ReportProcessReturnContainer reportContainer)
+    {
+        List<ProcessResourceRecord> data = (List<ProcessResourceRecord>)rawData;
+        return (ProcessResourceRecord[])data.toArray(new ProcessResourceRecord[data.size()]);
+    }
 
-	/**
-	 * ãƒ¬ãƒãƒ¼ãƒˆã‚’å‡ºåŠ›ã™ã‚‹ã€‚
-	 * 
-	 * @param plotData ãƒ¬ãƒãƒ¼ãƒˆãƒ‡ãƒ¼ã‚¿ã€‚
-	 * @param cond ãƒ¬ãƒãƒ¼ãƒˆãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã—ãŸéš›ã®æ¤œç´¢æ¡ä»¶ã€‚
-	 * @param reportContainer ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ä¸­ã«ç™ºç”Ÿã—ãŸè£œè¶³æƒ…å ±ã‚’æ ¼ç´ã™ã‚‹æ±ç”¨ã‚³ãƒ³ãƒ†ãƒŠã€‚
-	 */
-	@Override
-	protected void outputReport(Object plotData, ReportSearchCondition cond,
-		ReportProcessReturnContainer reportContainer)
-	{
-		if ((plotData instanceof ProcessResourceRecord[]) == false)
-		{
-			return;
-		}
+    /**
+     * ƒŒƒ|[ƒg‚ğo—Í‚·‚éB
+     * 
+     * @param plotData ƒŒƒ|[ƒgƒf[ƒ^B
+     * @param cond ƒŒƒ|[ƒgƒf[ƒ^‚ğæ“¾‚µ‚½Û‚ÌŒŸõğŒB
+     * @param reportContainer ƒŒƒ|[ƒgo—Í’†‚É”­¶‚µ‚½•â‘«î•ñ‚ğŠi”[‚·‚é”Ä—pƒRƒ“ƒeƒiB
+     */
+    @Override
+    protected void outputReport(Object plotData, ReportSearchCondition cond,
+            ReportProcessReturnContainer reportContainer)
+    {
+        if ((plotData instanceof ProcessResourceRecord[]) == false)
+        {
+            return;
+        }
 
-		// å‡ºåŠ›ã™ã‚‹ãƒ¬ãƒãƒ¼ãƒˆã®ç¨®é¡ã«ã‚ã‚ã›ã¦ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã®ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã‚’å–å¾—ã™ã‚‹
-		String templateFilePath;
-		try
-		{
-			templateFilePath = TemplateFileManager.getInstance().getTemplateFile(getReportType());
-		}
-		catch (IOException exception)
-		{
-			reportContainer.setHappendedError(exception);
-			return;
-		}
+        // o—Í‚·‚éƒŒƒ|[ƒg‚Ìí—Ş‚É‚ ‚í‚¹‚Äƒeƒ“ƒvƒŒ[ƒg‚Ìƒtƒ@ƒCƒ‹ƒpƒX‚ğæ“¾‚·‚é
+        String templateFilePath;
+        try
+        {
+            templateFilePath = TemplateFileManager.getInstance().getTemplateFile(getReportType());
+        }
+        catch (IOException exception)
+        {
+            reportContainer.setHappendedError(exception);
+            return;
+        }
 
-		// ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã®å¼•æ•°æƒ…å ±ã‚’å–å¾—ã™ã‚‹
-		ProcessResourceRecord[] records = (ProcessResourceRecord[]) plotData;
-		String outputFilePath = getOutputFileName();
-		Timestamp startTime = cond.getStartDate();
-		Timestamp endTime = cond.getEndDate();
+        // ƒŒƒ|[ƒgo—Í‚Ìˆø”î•ñ‚ğæ“¾‚·‚é
+        ProcessResourceRecord[] records = (ProcessResourceRecord[])plotData;
+        String outputFilePath = getOutputFileName();
+        Timestamp startTime = cond.getStartDate();
+        Timestamp endTime = cond.getEndDate();
 
-		// ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã‚’å®Ÿè¡Œã™ã‚‹
-		ResourceReporter<ProcessResourceRecord> reporter = new ResourceReporter<ProcessResourceRecord>(
-			this.getReportType());
-		reporter.outputReport(templateFilePath, outputFilePath, records, startTime, endTime);
-	}
+        // ƒŒƒ|[ƒgo—Í‚ğÀs‚·‚é
+        ResourceReporter<ProcessResourceRecord> reporter =
+                new ResourceReporter<ProcessResourceRecord>(this.getReportType());
+        reporter.outputReport(templateFilePath, outputFilePath, records, startTime, endTime);
+    }
 
 }

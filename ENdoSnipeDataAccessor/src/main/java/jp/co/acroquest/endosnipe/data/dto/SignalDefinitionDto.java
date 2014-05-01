@@ -32,40 +32,37 @@ import java.util.regex.Pattern;
 import jp.co.acroquest.endosnipe.data.entity.SignalDefinition;
 
 /**
- * é–¾å€¤åˆ¤å®šæ¡ä»¶å®šç¾©æƒ…å ±Dtoã§ã™ã€‚<br />
+ * è‡’l”»’èğŒ’è‹`î•ñDto‚Å‚·B<br />
  * 
  * @author fujii
  *
  */
 public class SignalDefinitionDto
 {
-    /** ã‚·ã‚°ãƒŠãƒ«å®šç¾©ãƒ†ãƒ¼ãƒ–ãƒ«ã®ID */
+    /** ƒVƒOƒiƒ‹’è‹`ƒe[ƒuƒ‹‚ÌID */
     private long                 signalId_;
 
-    /** ã‚·ã‚°ãƒŠãƒ«å */
+    /** ƒVƒOƒiƒ‹–¼ */
     private String               signalName_;
 
-    /** ãƒãƒƒãƒãƒ³ã‚°ãƒ‘ã‚¿ãƒ¼ãƒ³ */
+    /** ƒ}ƒbƒ`ƒ“ƒOƒpƒ^[ƒ“ */
     private String               matchingPattern_;
 
-    /** è¨­å®šã§ãã‚‹é–¾å€¤ã®ä¸Šé™ãƒ¬ãƒ™ãƒ« */
+    /** İ’è‚Å‚«‚éè‡’l‚ÌãŒÀƒŒƒxƒ‹ */
     private int                  level_;
 
-    /** ãƒ¬ãƒ™ãƒ«ã”ã¨ã®é–¾å€¤ */
+    /** ƒŒƒxƒ‹‚²‚Æ‚Ìè‡’l */
     private Map<Integer, Double> thresholdMaping_;
 
-    /** ã‚¨ã‚¹ã‚«ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³æœŸé–“ */
+    /** ƒGƒXƒJƒŒ[ƒVƒ‡ƒ“ŠúŠÔ */
     private double               escalationPeriod_;
 
-    /** å„ãƒ¬ãƒ™ãƒ«æ¯ã®é–¾å€¤ */
-    private String               patternValue_;
-
-    /** é–¾å€¤ã®ã‚¹ãƒ—ãƒªãƒƒãƒˆãƒ‘ã‚¿ãƒ¼ãƒ³ */
+    /** è‡’l‚ÌƒXƒvƒŠƒbƒgƒpƒ^[ƒ“ */
     private static final Pattern SPLIT_PATERN = Pattern.compile(",");
 
     /**
-     * ã‚·ã‚°ãƒŠãƒ«å®šç¾©ãƒ†ãƒ¼ãƒ–ãƒ«ã®IDã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ã‚·ã‚°ãƒŠãƒ«å®šç¾©ãƒ†ãƒ¼ãƒ–ãƒ«ã®ID
+     * ƒVƒOƒiƒ‹’è‹`ƒe[ƒuƒ‹‚ÌID‚ğæ“¾‚·‚éB
+     * @return ƒVƒOƒiƒ‹’è‹`ƒe[ƒuƒ‹‚ÌID
      */
     public long getSignalId()
     {
@@ -73,8 +70,8 @@ public class SignalDefinitionDto
     }
 
     /**
-     * ã‚·ã‚°ãƒŠãƒ«å®šç¾©ãƒ†ãƒ¼ãƒ–ãƒ«ã®IDã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param signalId ã‚·ã‚°ãƒŠãƒ«å®šç¾©ãƒ†ãƒ¼ãƒ–ãƒ«ã®ID
+     * ƒVƒOƒiƒ‹’è‹`ƒe[ƒuƒ‹‚ÌID‚ğİ’è‚·‚éB
+     * @param signalId ƒVƒOƒiƒ‹’è‹`ƒe[ƒuƒ‹‚ÌID
      */
     public void setSignalId(long signalId)
     {
@@ -82,8 +79,8 @@ public class SignalDefinitionDto
     }
 
     /**
-     * ã‚·ã‚°ãƒŠãƒ«åã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ã‚·ã‚°ãƒŠãƒ«å
+     * ƒVƒOƒiƒ‹–¼‚ğæ“¾‚·‚éB
+     * @return ƒVƒOƒiƒ‹–¼
      */
     public String getSignalName()
     {
@@ -91,8 +88,8 @@ public class SignalDefinitionDto
     }
 
     /**
-     * ã‚·ã‚°ãƒŠãƒ«åã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param signalName ã‚·ã‚°ãƒŠãƒ«å
+     * ƒVƒOƒiƒ‹–¼‚ğİ’è‚·‚éB
+     * @param signalName ƒVƒOƒiƒ‹–¼
      */
     public void setSignalName(String signalName)
     {
@@ -100,8 +97,8 @@ public class SignalDefinitionDto
     }
 
     /**
-     * ãƒãƒƒãƒãƒ³ã‚°ãƒ‘ã‚¿ãƒ¼ãƒ³ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ãƒãƒƒãƒãƒ³ã‚°ãƒ‘ã‚¿ãƒ¼ãƒ³å
+     * ƒ}ƒbƒ`ƒ“ƒOƒpƒ^[ƒ“‚ğæ“¾‚·‚éB
+     * @return ƒ}ƒbƒ`ƒ“ƒOƒpƒ^[ƒ“–¼
      */
     public String getMatchingPattern()
     {
@@ -109,8 +106,8 @@ public class SignalDefinitionDto
     }
 
     /**
-     * ãƒãƒƒãƒãƒ³ã‚°ãƒ‘ã‚¿ãƒ¼ãƒ³ã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param matchingPattern ãƒãƒƒãƒãƒ³ã‚°ãƒ‘ã‚¿ãƒ¼ãƒ³å
+     * ƒ}ƒbƒ`ƒ“ƒOƒpƒ^[ƒ“‚ğİ’è‚·‚éB
+     * @param matchingPattern ƒ}ƒbƒ`ƒ“ƒOƒpƒ^[ƒ“–¼
      */
     public void setMatchingPattern(String matchingPattern)
     {
@@ -118,8 +115,8 @@ public class SignalDefinitionDto
     }
 
     /**
-     * è¨­å®šã§ãã‚‹é–¾å€¤ã®ä¸Šé™ãƒ¬ãƒ™ãƒ«ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return è¨­å®šã§ãã‚‹é–¾å€¤ã®ä¸Šé™ãƒ¬ãƒ™ãƒ«
+     * İ’è‚Å‚«‚éè‡’l‚ÌãŒÀƒŒƒxƒ‹‚ğæ“¾‚·‚éB
+     * @return İ’è‚Å‚«‚éè‡’l‚ÌãŒÀƒŒƒxƒ‹
      */
     public int getLevel()
     {
@@ -127,8 +124,8 @@ public class SignalDefinitionDto
     }
 
     /**
-     * è¨­å®šã§ãã‚‹é–¾å€¤ã®ä¸Šé™ãƒ¬ãƒ™ãƒ«ã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param level è¨­å®šã§ãã‚‹é–¾å€¤ã®ä¸Šé™ãƒ¬ãƒ™ãƒ«
+     * İ’è‚Å‚«‚éè‡’l‚ÌãŒÀƒŒƒxƒ‹‚ğİ’è‚·‚éB
+     * @param level İ’è‚Å‚«‚éè‡’l‚ÌãŒÀƒŒƒxƒ‹
      */
     public void setLevel(int level)
     {
@@ -136,8 +133,8 @@ public class SignalDefinitionDto
     }
 
     /**
-     * ãƒ¬ãƒ™ãƒ«ã”ã¨ã®é–¾å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ãƒ¬ãƒ™ãƒ«ã”ã¨ã®é–¾å€¤
+     * ƒŒƒxƒ‹‚²‚Æ‚Ìè‡’l‚ğæ“¾‚·‚éB
+     * @return ƒŒƒxƒ‹‚²‚Æ‚Ìè‡’l
      */
     public Map<Integer, Double> getThresholdMaping()
     {
@@ -145,8 +142,8 @@ public class SignalDefinitionDto
     }
 
     /**
-     * ãƒ¬ãƒ™ãƒ«ã”ã¨ã®é–¾å€¤ã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param thresholdMaping ãƒ¬ãƒ™ãƒ«ã”ã¨ã®é–¾å€¤
+     * ƒŒƒxƒ‹‚²‚Æ‚Ìè‡’l‚ğİ’è‚·‚éB
+     * @param thresholdMaping ƒŒƒxƒ‹‚²‚Æ‚Ìè‡’l
      */
     public void setThresholdMaping(Map<Integer, Double> thresholdMaping)
     {
@@ -154,8 +151,8 @@ public class SignalDefinitionDto
     }
 
     /**
-     * ã‚¨ã‚¹ã‚«ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³æœŸé–“ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ã‚¨ã‚¹ã‚«ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³æœŸé–“
+     * ƒGƒXƒJƒŒ[ƒVƒ‡ƒ“ŠúŠÔ‚ğæ“¾‚·‚éB
+     * @return ƒGƒXƒJƒŒ[ƒVƒ‡ƒ“ŠúŠÔ
      */
     public double getEscalationPeriod()
     {
@@ -163,36 +160,17 @@ public class SignalDefinitionDto
     }
 
     /**
-     * ã‚¨ã‚¹ã‚«ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³æœŸé–“ã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param escalationPeriod ã‚¨ã‚¹ã‚«ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³æœŸé–“
+     * ƒGƒXƒJƒŒ[ƒVƒ‡ƒ“ŠúŠÔ‚ğİ’è‚·‚éB
+     * @param escalationPeriod ƒGƒXƒJƒŒ[ƒVƒ‡ƒ“ŠúŠÔ
      */
     public void setEscalationPeriod(double escalationPeriod)
     {
         this.escalationPeriod_ = escalationPeriod;
     }
-    
-    
-    /**
-     * å„ãƒ¬ãƒ™ãƒ«æ¯ã®é–¾å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return å„ãƒ¬ãƒ™ãƒ«æ¯ã®é–¾å€¤
-     */
-    public String getPatternValue()
-    {
-        return patternValue_;
-    }
 
     /**
-     * å„ãƒ¬ãƒ™ãƒ«æ¯ã®é–¾å€¤ã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param patternValue å„ãƒ¬ãƒ™ãƒ«æ¯ã®é–¾å€¤
-     */
-    public void setPatternValue(String patternValue)
-    {
-        patternValue_ = patternValue;
-    }
-
-    /**
-     * {@link SignalDefinitionDto} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã—ã¾ã™ã€‚
-     * @param signalDefinition {@link SignalDefinition}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * {@link SignalDefinitionDto} ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‚Ü‚·B
+     * @param signalDefinition {@link SignalDefinition}ƒIƒuƒWƒFƒNƒg
      */
     public SignalDefinitionDto(SignalDefinition signalDefinition)
     {
@@ -202,7 +180,6 @@ public class SignalDefinitionDto
         this.level_ = signalDefinition.level;
         this.escalationPeriod_ = signalDefinition.escalationPeriod;
         this.thresholdMaping_ = new TreeMap<Integer, Double>();
-        this.patternValue_ = signalDefinition.patternValue;
 
         String[] thresholdings = SPLIT_PATERN.split(signalDefinition.patternValue);
         if (thresholdings != null)

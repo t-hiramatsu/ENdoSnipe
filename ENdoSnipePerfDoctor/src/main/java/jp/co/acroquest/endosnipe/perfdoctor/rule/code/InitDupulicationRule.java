@@ -40,41 +40,41 @@ import jp.co.acroquest.endosnipe.javelin.parser.JavelinParser;
 import jp.co.acroquest.endosnipe.perfdoctor.rule.SingleElementRule;
 
 /**
- * åˆæœŸåŒ–ã‚’è¤‡æ•°å›è¡Œã£ã¦ã„ãªã„ã‹ãƒã‚§ãƒƒã‚¯ã™ã‚‹ãƒ«ãƒ¼ãƒ«ã§ã™ã€‚<br />
+ * ‰Šú‰»‚ğ•¡”‰ñs‚Á‚Ä‚¢‚È‚¢‚©ƒ`ƒFƒbƒN‚·‚éƒ‹[ƒ‹‚Å‚·B<br />
  *
- * é€šå¸¸ã€ã‚¯ãƒ©ã‚¹åã¨ãƒ¡ã‚½ãƒƒãƒ‰åã‚’æŒ‡å®šã—ãªã„å ´åˆã¯ã€
- * ä»–ã® {@link InitDupulicationRule} ã«ç™»éŒ²ã•ã‚Œã¦ã„ãªã„ã‚¯ãƒ©ã‚¹ãƒ»ãƒ¡ã‚½ãƒƒãƒ‰ã§é–¾å€¤ã‚’ä¸‹å›ã£ãŸã‚‚ã®ã™ã¹ã¦ã‚’ã€
- * IntervalError ã¨ã—ã¦å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+ * ’ÊíAƒNƒ‰ƒX–¼‚Æƒƒ\ƒbƒh–¼‚ğw’è‚µ‚È‚¢ê‡‚ÍA
+ * ‘¼‚Ì {@link InitDupulicationRule} ‚É“o˜^‚³‚ê‚Ä‚¢‚È‚¢ƒNƒ‰ƒXEƒƒ\ƒbƒh‚Åè‡’l‚ğ‰º‰ñ‚Á‚½‚à‚Ì‚·‚×‚Ä‚ğA
+ * IntervalError ‚Æ‚µ‚Äo—Í‚µ‚Ü‚·B<br />
  *
  * @author fujii
  * @author sakamoto
  */
 public class InitDupulicationRule extends SingleElementRule implements JavelinConstants
 {
-    /** ãƒ­ã‚¬ãƒ¼ */
+    /** ƒƒK[ */
     private static final ENdoSnipeLogger         LOGGER                =
                                                                          ENdoSnipeLogger.getLogger(InitDupulicationRule.class);
 
     private static final String                  ID_LEVEL_SEPARATOR    = ":";
 
-    /** é–¾å€¤ */
+    /** è‡’l */
     public long                                  threshold;
 
-    /** ã‚¯ãƒ©ã‚¹åï¼ˆã‚«ãƒ³ãƒåŒºåˆ‡ã‚Šã§è¤‡æ•°æŒ‡å®šå¯èƒ½ï¼ãƒ¡ã‚½ãƒƒãƒ‰åã¨å¯¾å¿œã™ã‚‹ï¼‰ */
+    /** ƒNƒ‰ƒX–¼iƒJƒ“ƒ}‹æØ‚è‚Å•¡”w’è‰Â”\^ƒƒ\ƒbƒh–¼‚Æ‘Î‰‚·‚éj */
     public String                                classNameList;
 
-    /** ãƒ¡ã‚½ãƒƒãƒ‰åï¼ˆã‚«ãƒ³ãƒåŒºåˆ‡ã‚Šã§è¤‡æ•°æŒ‡å®šå¯èƒ½ï¼ã‚¯ãƒ©ã‚¹åã¨å¯¾å¿œã™ã‚‹ï¼‰ */
+    /** ƒƒ\ƒbƒh–¼iƒJƒ“ƒ}‹æØ‚è‚Å•¡”w’è‰Â”\^ƒNƒ‰ƒX–¼‚Æ‘Î‰‚·‚éj */
     public String                                methodNameList;
 
-    /** ã€ŒID + ":" + ãƒ¬ãƒ™ãƒ«ã€ã‚’ã‚­ãƒ¼ã€ãƒ¡ã‚½ãƒƒãƒ‰ä¸€è¦§ã‚’å€¤ã«æŒã¤ãƒãƒƒãƒ— */
+    /** uID + ":" + ƒŒƒxƒ‹v‚ğƒL[Aƒƒ\ƒbƒhˆê——‚ğ’l‚É‚Âƒ}ƒbƒv */
     private static Map<String, ClassMethodPairs> classMethodPairsMap__ =
                                                                          new ConcurrentHashMap<String, ClassMethodPairs>();
 
     /**
-     * ã“ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«ã‚»ãƒƒãƒˆã•ã‚Œã¦ã„ã‚‹ã‚¯ãƒ©ã‚¹ãƒ»ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ãƒãƒƒãƒ—ã«ç™»éŒ²ã—ã¾ã™ã€‚<br />
+     * ‚±‚ÌƒIƒuƒWƒFƒNƒg‚ÉƒZƒbƒg‚³‚ê‚Ä‚¢‚éƒNƒ‰ƒXEƒƒ\ƒbƒh‚ğƒ}ƒbƒv‚É“o˜^‚µ‚Ü‚·B<br />
      *
-     * ã‚¯ãƒ©ã‚¹ãƒ»ãƒ¡ã‚½ãƒƒãƒ‰ãŒç™»éŒ²ã•ã‚Œã¦ã„ãªã„ {@link InitDupulicationRule} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¯ã€
-     * ãƒãƒƒãƒ—ã«ç™»éŒ²ã•ã‚Œã¦ã„ãªã„ã‚¯ãƒ©ã‚¹ãƒ»ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ IntervalError ã¨ã—ã¦å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+     * ƒNƒ‰ƒXEƒƒ\ƒbƒh‚ª“o˜^‚³‚ê‚Ä‚¢‚È‚¢ {@link InitDupulicationRule} ƒIƒuƒWƒFƒNƒg‚ÍA
+     * ƒ}ƒbƒv‚É“o˜^‚³‚ê‚Ä‚¢‚È‚¢ƒNƒ‰ƒXEƒƒ\ƒbƒh‚ğ IntervalError ‚Æ‚µ‚Äo—Í‚µ‚Ü‚·B<br />
      */
     @Override
     public void init()
@@ -94,7 +94,7 @@ public class InitDupulicationRule extends SingleElementRule implements JavelinCo
     @Override
     protected void doJudgeElement(final JavelinLogElement element)
     {
-        // è­˜åˆ¥å­ãŒ"Event"ã§ãªã„å ´åˆã¯ã€å‡¦ç†ã—ãªã„ã€‚
+        // ¯•Êq‚ª"Event"‚Å‚È‚¢ê‡‚ÍAˆ—‚µ‚È‚¢B
         String type = element.getBaseInfo().get(JavelinLogColumnNum.ID);
         boolean isEvent = MSG_EVENT.equals(type);
 
@@ -105,7 +105,7 @@ public class InitDupulicationRule extends SingleElementRule implements JavelinCo
 
         String eventName = element.getBaseInfo().get(JavelinLogColumnNum.EVENT_NAME);
 
-        // ã‚¤ãƒ™ãƒ³ãƒˆåãŒ "IntervalError" ã®å ´åˆã€æ¤œå‡ºã‚’è¡Œã†ã€‚
+        // ƒCƒxƒ“ƒg–¼‚ª "IntervalError" ‚Ìê‡AŒŸo‚ğs‚¤B
         if (EventConstants.NAME_INTERVALERROR.equals(eventName) == false)
         {
             return;
@@ -116,7 +116,7 @@ public class InitDupulicationRule extends SingleElementRule implements JavelinCo
                                                                           JavelinParser.TAG_TYPE_EVENTINFO);
         String actual = eventInfoMap.get(EventConstants.PARAM_INTERVALERROR_ACTUAL_INTERVAL);
 
-        // å®Ÿéš›ã«ã‹ã‹ã£ãŸæ™‚é–“ãŒé–¾å€¤ä»¥ä¸‹ã®å ´åˆã¯ã€å‡¦ç†ã‚’çµ‚äº†ã™ã‚‹ã€‚
+        // ÀÛ‚É‚©‚©‚Á‚½ŠÔ‚ªè‡’lˆÈ‰º‚Ìê‡‚ÍAˆ—‚ğI—¹‚·‚éB
         long actualTime = Long.MAX_VALUE;
         try
         {
@@ -135,11 +135,11 @@ public class InitDupulicationRule extends SingleElementRule implements JavelinCo
     }
 
     /**
-     * ã‚¯ãƒ©ã‚¹åã¨ãƒ¡ã‚½ãƒƒãƒ‰åã‚’ãƒãƒƒãƒãƒ³ã‚°ã—ã€IntervalError ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+     * ƒNƒ‰ƒX–¼‚Æƒƒ\ƒbƒh–¼‚ğƒ}ƒbƒ`ƒ“ƒO‚µAIntervalError ‚ğo—Í‚µ‚Ü‚·B<br />
      *
-     * @param element {@link JavelinLogElement} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param eventInfoMap ã‚¤ãƒ™ãƒ³ãƒˆæƒ…å ±
-     * @param actualTime å®Ÿéš›ã«ã‹ã‹ã£ãŸæ™‚é–“ï¼ˆãƒŸãƒªç§’ï¼‰
+     * @param element {@link JavelinLogElement} ƒIƒuƒWƒFƒNƒg
+     * @param eventInfoMap ƒCƒxƒ“ƒgî•ñ
+     * @param actualTime ÀÛ‚É‚©‚©‚Á‚½ŠÔiƒ~ƒŠ•bj
      */
     private void classMethodMatching(final JavelinLogElement element,
             final Map<String, String> eventInfoMap, final long actualTime)
@@ -149,18 +149,18 @@ public class InitDupulicationRule extends SingleElementRule implements JavelinCo
 
         if (this.classNameList == null || this.methodNameList == null)
         {
-            // ãƒ«ãƒ¼ãƒ«ã§ã‚¯ãƒ©ã‚¹åã‚‚ãƒ¡ã‚½ãƒƒãƒ‰åã‚‚æŒ‡å®šã•ã‚Œã¦ã„ãªã‘ã‚Œã°ã€
-            // ãƒãƒƒãƒ—ã«ç™»éŒ²ã•ã‚Œã¦ã„ãªã„ã‚¯ãƒ©ã‚¹ãƒ»ãƒ¡ã‚½ãƒƒãƒ‰ã®å ´åˆã¯ IntervalError ã‚’å‡ºåŠ›ã™ã‚‹ã€‚
+            // ƒ‹[ƒ‹‚ÅƒNƒ‰ƒX–¼‚àƒƒ\ƒbƒh–¼‚àw’è‚³‚ê‚Ä‚¢‚È‚¯‚ê‚ÎA
+            // ƒ}ƒbƒv‚É“o˜^‚³‚ê‚Ä‚¢‚È‚¢ƒNƒ‰ƒXEƒƒ\ƒbƒh‚Ìê‡‚Í IntervalError ‚ğo—Í‚·‚éB
             for (Map.Entry<String, ClassMethodPairs> entry : classMethodPairsMap__.entrySet())
             {
                 ClassMethodPairs pairs = entry.getValue();
                 if (pairs.contains(eventClassName, eventMethodName))
                 {
-                    // ãƒãƒƒãƒ—ã«ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹å ´åˆã¯ã€ä½•ã‚‚ã—ãªã„ã€‚
+                    // ƒ}ƒbƒv‚É“o˜^‚³‚ê‚Ä‚¢‚éê‡‚ÍA‰½‚à‚µ‚È‚¢B
                     return;
                 }
             }
-            // ãƒãƒƒãƒ—ã«ç™»éŒ²ã•ã‚Œã¦ã„ãªã‹ã£ãŸã®ã§ã€IntervalError ã‚’å‡ºåŠ›ã™ã‚‹ã€‚
+            // ƒ}ƒbƒv‚É“o˜^‚³‚ê‚Ä‚¢‚È‚©‚Á‚½‚Ì‚ÅAIntervalError ‚ğo—Í‚·‚éB
             String stackTrace = eventInfoMap.get(EventConstants.PARAM_INTERVALERROR_STACKTRACE);
             addError(true, stackTrace, element, false, new Object[]{this.threshold, actualTime,
                     eventClassName, eventMethodName});
@@ -173,7 +173,7 @@ public class InitDupulicationRule extends SingleElementRule implements JavelinCo
 
         for (int num = 0; num < repeatTime; num++)
         {
-            // ã‚¯ãƒ©ã‚¹åã€ãƒ¡ã‚½ãƒƒãƒ‰åãŒãƒªã‚¹ãƒˆã¨ä¸€è‡´ã—ãŸã¨ãã®ã¿å‡ºåŠ›ã™ã‚‹ã€‚
+            // ƒNƒ‰ƒX–¼Aƒƒ\ƒbƒh–¼‚ªƒŠƒXƒg‚Æˆê’v‚µ‚½‚Æ‚«‚Ì‚İo—Í‚·‚éB
             if (classArray[num].equals(eventClassName) && methodArray[num].equals(eventMethodName))
             {
                 String stackTrace = eventInfoMap.get(EventConstants.PARAM_INTERVALERROR_STACKTRACE);
@@ -185,10 +185,10 @@ public class InitDupulicationRule extends SingleElementRule implements JavelinCo
     }
 
     /**
-     * ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒªã‚¹ãƒˆã‚’ä¿æŒã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚<br />
+     * ƒƒ\ƒbƒh‚ÌƒŠƒXƒg‚ğ•Û‚·‚éƒNƒ‰ƒXB<br />
      *
-     * ã„ãšã‚Œã‹ã® {@link InitDupulicationRule} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã«æŒã£ã¦ã„ã‚‹ã‚¯ãƒ©ã‚¹ãƒ»ãƒ¡ã‚½ãƒƒãƒ‰ã¯ã€
-     * ã“ã®ã‚¯ãƒ©ã‚¹ã«ç™»éŒ²ã•ã‚Œã¾ã™ã€‚<br />
+     * ‚¢‚¸‚ê‚©‚Ì {@link InitDupulicationRule} ƒIƒuƒWƒFƒNƒg‚ÌƒtƒB[ƒ‹ƒh‚É‚Á‚Ä‚¢‚éƒNƒ‰ƒXEƒƒ\ƒbƒh‚ÍA
+     * ‚±‚ÌƒNƒ‰ƒX‚É“o˜^‚³‚ê‚Ü‚·B<br />
      *
      * @author Sakamoto
      */
@@ -199,10 +199,10 @@ public class InitDupulicationRule extends SingleElementRule implements JavelinCo
         private static final String SEPARATOR = "###";
 
         /**
-         * ç™»éŒ²ã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã‚’æŒ‡å®šã—ã¦ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’åˆæœŸåŒ–ã—ã¾ã™ã€‚<br />
+         * “o˜^‚·‚éƒƒ\ƒbƒh‚ğw’è‚µ‚ÄƒIƒuƒWƒFƒNƒg‚ğ‰Šú‰»‚µ‚Ü‚·B<br />
          *
-         * @param classNameList ã‚¯ãƒ©ã‚¹åã‚’ã‚«ãƒ³ãƒã§åŒºåˆ‡ã£ãŸæ–‡å­—åˆ—
-         * @param methodNameList ãƒ¡ã‚½ãƒƒãƒ‰åã‚’ã‚«ãƒ³ãƒã§åŒºåˆ‡ã£ãŸæ–‡å­—åˆ—
+         * @param classNameList ƒNƒ‰ƒX–¼‚ğƒJƒ“ƒ}‚Å‹æØ‚Á‚½•¶š—ñ
+         * @param methodNameList ƒƒ\ƒbƒh–¼‚ğƒJƒ“ƒ}‚Å‹æØ‚Á‚½•¶š—ñ
          */
         public ClassMethodPairs(final String classNameList, final String methodNameList)
         {
@@ -219,11 +219,11 @@ public class InitDupulicationRule extends SingleElementRule implements JavelinCo
         }
 
         /**
-         * æŒ‡å®šã•ã‚ŒãŸã‚¯ãƒ©ã‚¹ã®ãƒ¡ã‚½ãƒƒãƒ‰ãŒã€ã“ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’èª¿ã¹ã¾ã™ã€‚<br />
+         * w’è‚³‚ê‚½ƒNƒ‰ƒX‚Ìƒƒ\ƒbƒh‚ªA‚±‚ÌƒIƒuƒWƒFƒNƒg‚É“o˜^‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ’²‚×‚Ü‚·B<br />
          *
-         * @param className æ¤œç´¢ã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã®ã‚¯ãƒ©ã‚¹å
-         * @param methodName æ¤œç´¢ã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰
-         * @return ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹å ´åˆã¯ <code>true</code> ã€ç™»éŒ²ã•ã‚Œã¦ã„ãªã„å ´åˆã¯ <code>false</code>
+         * @param className ŒŸõ‚·‚éƒƒ\ƒbƒh‚ÌƒNƒ‰ƒX–¼
+         * @param methodName ŒŸõ‚·‚éƒƒ\ƒbƒh
+         * @return “o˜^‚³‚ê‚Ä‚¢‚éê‡‚Í <code>true</code> A“o˜^‚³‚ê‚Ä‚¢‚È‚¢ê‡‚Í <code>false</code>
          */
         public boolean contains(final String className, final String methodName)
         {

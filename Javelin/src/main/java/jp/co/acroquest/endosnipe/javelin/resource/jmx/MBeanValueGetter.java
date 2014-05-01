@@ -25,7 +25,7 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.javelin.resource.jmx;
 
-import java.io.IOException;
+import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -33,15 +33,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.concurrent.CopyOnWriteArraySet;
 
 import javax.management.AttributeNotFoundException;
 import javax.management.InstanceNotFoundException;
 import javax.management.IntrospectionException;
-import javax.management.MBeanAttributeInfo;
 import javax.management.MBeanException;
 import javax.management.MBeanServer;
-import javax.management.MBeanServerConnection;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectInstance;
 import javax.management.ObjectName;
@@ -53,86 +50,57 @@ import jp.co.acroquest.endosnipe.common.entity.ResourceItem;
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 
 /**
- * æŒ‡å®šã•ã‚ŒãŸåå‰ã®MBeanã‹ã‚‰è¨ˆæ¸¬å€¤ã‚’å–å¾—ã™ã‚‹ã‚¯ãƒ©ã‚¹ã§ã™ã€‚
+ * w’è‚³‚ê‚½–¼‘O‚ÌMBean‚©‚çŒv‘ª’l‚ğæ“¾‚·‚éƒNƒ‰ƒX‚Å‚·B
  *
  * @author y_asazuma
  */
 public class MBeanValueGetter
 {
-    private MBeanServer           server_;
+    /** MBeanServer */
+    private static MBeanServer server__ = ManagementFactory.getPlatformMBeanServer();
 
-    private MBeanServerConnection connection_;
+    /** JMX‚ÌObjectNameƒIƒuƒWƒFƒNƒg */
+    private final ObjectName   objectName_;
 
-    /** JMXã®ObjectNameã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
-    private final ObjectName      objectName_;
+    /** JMX‚Ìattribute‚Éw’è‚·‚é•¶š—ñ */
+    private final String       attribute_;
 
-    /** JMXã®attributeã«æŒ‡å®šã™ã‚‹æ–‡å­—åˆ— */
-    private final String          attribute_;
+    /** ƒIƒuƒWƒFƒNƒg–¼‚ÌƒŠƒXƒg */
+    private List<ObjectName>   objectNameList_;
 
-    /** ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆåã®ãƒªã‚¹ãƒˆ */
-    private List<ObjectName>      objectNameList_;
-
-    /** å‰å›å®Ÿè¡Œæ™‚ã®MBeanæ•° */
-    private Integer               lastMBeanCount_;
-
-    /** ãƒªãƒ¢ãƒ¼ãƒˆæ¥ç¶šã‚’è¡Œã†ã‹ã©ã†ã‹ã‚’è¡¨ã™ãƒ•ãƒ©ã‚° */
-    private boolean               remoteEnable_;
-
-    /** ID */
-    private String                id_;
-
-    /** æ•°å€¤ã‚’è¡¨ã™å‹ã®ã‚»ãƒƒãƒˆ */
-    private static Set<String>    numberTypeSet__;
-
-    static
-    {
-        numberTypeSet__ = new CopyOnWriteArraySet<String>();
-        numberTypeSet__.add(Short.class.getName());
-        numberTypeSet__.add(Integer.class.getName());
-        numberTypeSet__.add(Long.class.getName());
-        numberTypeSet__.add(Float.class.getName());
-        numberTypeSet__.add(Double.class.getName());
-    }
+    /** ‘O‰ñÀs‚ÌMBean” */
+    private Integer            lastMBeanCount_;
 
     /**
-     * JMXã®è¨ˆæ¸¬å€¤ã‚’å–å¾—ã™ã‚‹ãŸã‚ã®ã‚¯ãƒ©ã‚¹ã‚’åˆæœŸåŒ–ã—ã¾ã™ã€‚
+     * JMX‚ÌŒv‘ª’l‚ğæ“¾‚·‚é‚½‚ß‚ÌƒNƒ‰ƒX‚ğ‰Šú‰»‚µ‚Ü‚·B
      *
-     * @param server {@link MBeanServer}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆï¼ˆãƒ­ãƒ¼ã‚«ãƒ«æ¥ç¶šã®å ´åˆã®ã¿æŒ‡å®šï¼‰
-     * @param connection {@link MBeanServerConnection}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆï¼ˆãƒªãƒ¢ãƒ¼ãƒˆæ¥ç¶šã®å ´åˆã®ã¿æŒ‡å®šï¼‰
-     * @param name JMXã®ObjectNameã«æŒ‡å®šã™ã‚‹æ–‡å­—åˆ—
-     * @param attribute JMXã®attributeã«æŒ‡å®šã™ã‚‹æ–‡å­—åˆ—
-     * @param remoteEnable ãƒªãƒ¢ãƒ¼ãƒˆæ¥ç¶šã‚’è¡Œã†ã‹ã©ã†ã‹ã‚’è¡¨ã™ãƒ•ãƒ©ã‚°
-     * @param id ID
+     * @param name JMX‚ÌObjectName‚Éw’è‚·‚é•¶š—ñ
+     * @param attribute JMX‚Ìattribute‚Éw’è‚·‚é•¶š—ñ
      *
-     * @throws MalformedObjectNameException æ–‡å­—åˆ—ã®å½¢å¼ãŒèª¤ã£ãŸObjectNameã‚’æŒ‡å®šã—ãŸå ´åˆ
+     * @throws MalformedObjectNameException •¶š—ñ‚ÌŒ`®‚ªŒë‚Á‚½ObjectName‚ğw’è‚µ‚½ê‡
      */
-    public MBeanValueGetter(final MBeanServer server, final MBeanServerConnection connection,
-            final String name, final String attribute, final boolean remoteEnable, String id)
+    public MBeanValueGetter(final String name, final String attribute)
         throws MalformedObjectNameException
     {
-        this.server_ = server;
-        this.connection_ = connection;
         this.objectName_ = new ObjectName(name);
         this.attribute_ = attribute;
-        this.remoteEnable_ = remoteEnable;
-        this.id_ = id;
-        // ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆåã®æ­£è¦è¡¨ç¾ã¨æ–‡å­—åˆ—ã®æ­£è¦è¡¨ç¾ã‚’ä¸€è‡´ã•ã›ã‚‹ãŸã‚ã«ã€* â†’ (.*), ( â†’ \(, ) â†’ \) ã«å¤‰æ›ã™ã‚‹ã€‚
-        // String regularObjectName =
-        //   name.replaceAll("\\(", "\\\\(").replaceAll("\\)", "\\\\)").replaceAll("\\*",
-        //   "(\\.\\*)");
+        // ƒIƒuƒWƒFƒNƒg–¼‚Ì³‹K•\Œ»‚Æ•¶š—ñ‚Ì³‹K•\Œ»‚ğˆê’v‚³‚¹‚é‚½‚ß‚ÉA* ¨ (.*), ( ¨ \(, ) ¨ \) ‚É•ÏŠ·‚·‚éB
+        String regularObjectName =
+                                   name.replaceAll("\\(", "\\\\(").replaceAll("\\)", "\\\\)").replaceAll("\\*",
+                                                                                                         "(\\.\\*)");
     }
 
     /**
-     * JMXè¨ˆæ¸¬å€¤ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * JMXŒv‘ª’l‚ğæ“¾‚µ‚Ü‚·B<br />
      *
-     * @return JMXè¨ˆæ¸¬å€¤ã®ãƒªã‚¹ãƒˆ
+     * @return JMXŒv‘ª’l‚ÌƒŠƒXƒg
      */
     public List<ResourceItem> getValue()
     {
         List<ResourceItem> returnList = new ArrayList<ResourceItem>();
         try
         {
-            Integer mBeanCount = getMBeanCount();
+            Integer mBeanCount = server__.getMBeanCount();
             if (this.lastMBeanCount_ == null
                     || mBeanCount.intValue() != this.lastMBeanCount_.intValue())
             {
@@ -140,39 +108,31 @@ public class MBeanValueGetter
                 this.lastMBeanCount_ = mBeanCount;
             }
 
-            // è©²å½“ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆåã”ã¨ã«å±æ€§å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
+            // ŠY“–‚·‚éƒIƒuƒWƒFƒNƒg–¼‚²‚Æ‚É‘®«’l‚ğæ“¾‚·‚éB
             for (ObjectName objectName : this.objectNameList_)
             {
-                List<String> attributeList = new ArrayList<String>();
                 if (this.attribute_.equals("*"))
                 {
                     try
                     {
-                        attributeList = getAttributes(objectName);
+                        server__.getMBeanInfo(objectName).getAttributes();
                     }
                     catch (IntrospectionException ex)
                     {
-                        SystemLogger.getInstance().warn(ex);
+                        // TODO ©“®¶¬‚³‚ê‚½ catch ƒuƒƒbƒN
+                        ex.printStackTrace();
                     }
                 }
-                else
-                {
-                    attributeList.add(this.attribute_);
-                }
-
-                // ç³»åˆ—åã‚’çµ„ã¿ç«‹ã¦ã‚‹ã€‚
-                for (String attribute : attributeList)
-                {
-                    // JMXã®è¨ˆæ¸¬å€¤ã‚’å–å¾—ã™ã‚‹
-                    Object value = getAttribute(objectName, attribute);
-                    String targetObjectName = createItemName(objectName, attribute);
-
-                    ResourceItem retValue =
-                                            createResourceItem(targetObjectName,
-                                                               String.valueOf(value),
-                                                               ItemType.ITEMTYPE_STRING);
-                    returnList.add(retValue);
-                }
+                // JMX‚ÌŒv‘ª’l‚ğæ“¾‚·‚é
+                Object value = server__.getAttribute(objectName, this.attribute_);
+                
+                // Œn—ñ–¼‚ğ‘g‚İ—§‚Ä‚éB
+                String targetObjectName = createItemName(objectName, this.attribute_);
+                
+                ResourceItem retValue =
+                                        createResourceItem(targetObjectName, String.valueOf(value),
+                                                           ItemType.ITEMTYPE_STRING);
+                returnList.add(retValue);
             }
         }
         catch (AttributeNotFoundException ex)
@@ -191,91 +151,15 @@ public class MBeanValueGetter
         {
             SystemLogger.getInstance().warn(ex);
         }
-        catch (IOException ex)
-        {
-            SystemLogger.getInstance().warn(ex);
-            MBeanCollectorInitializer.recconect(this.id_);
-        }
         return returnList;
     }
 
-    private Object getAttribute(ObjectName objectName, String attribute)
-        throws AttributeNotFoundException,
-            MBeanException,
-            InstanceNotFoundException,
-            ReflectionException,
-            IOException
-    {
-        Object value = null;
-        if (server_ != null)
-        {
-            value = server_.getAttribute(objectName, attribute);
-        }
-        else if (connection_ != null && remoteEnable_)
-        {
-            value = connection_.getAttribute(objectName, attribute);
-        }
-        return value;
-    }
-
-    private List<String> getAttributes(ObjectName objectName)
-        throws ReflectionException,
-            IntrospectionException,
-            InstanceNotFoundException,
-            IOException
-    {
-        MBeanAttributeInfo[] attributeInfos = null;
-        if (server_ != null)
-        {
-            attributeInfos = server_.getMBeanInfo(objectName).getAttributes();
-        }
-        else if (connection_ != null && remoteEnable_)
-        {
-            attributeInfos = connection_.getMBeanInfo(objectName).getAttributes();
-        }
-        List<String> attributeList = new ArrayList<String>();
-        if (attributeInfos == null)
-        {
-            return attributeList;
-        }
-        for (MBeanAttributeInfo attributeInfo : attributeInfos)
-        {
-            String attribute = attributeInfo.getName();
-            String attributetype = attributeInfo.getType();
-            if (isNumber(attributetype))
-            {
-                attributeList.add(attribute);
-            }
-        }
-        return attributeList;
-    }
-
-    /**
-     * MBeanæ•°ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return MBeanæ•°
-     * @throws IOException MBeanæ•°å–å¾—æ™‚ã«åˆ‡æ–­ã—ã¦ã„ãŸå ´åˆã€‚
-     */
-    private Integer getMBeanCount()
-        throws IOException
-    {
-        Integer mBeanCount = null;
-        if (server_ != null)
-        {
-            mBeanCount = server_.getMBeanCount();
-        }
-        else if (connection_ != null && remoteEnable_)
-        {
-            mBeanCount = connection_.getMBeanCount();
-        }
-        return mBeanCount;
-    }
-
     /***
-     * ObjectNameã¨å±æ€§åã‹ã‚‰ã€ç³»åˆ—åã‚’ä½œæˆã™ã‚‹ã€‚
+     * ObjectName‚Æ‘®«–¼‚©‚çAŒn—ñ–¼‚ğì¬‚·‚éB
      * 
-     * @param objectName ç³»åˆ—åã‚’å–å¾—ã—ãŸã„ObjectNameã€‚
-     * @param attributeName ç³»åˆ—åã‚’å–å¾—ã—ãŸã„å±æ€§åã€‚
-     * @returnã€€ç³»åˆ—åã€‚
+     * @param objectName Œn—ñ–¼‚ğæ“¾‚µ‚½‚¢ObjectNameB
+     * @param attributeName Œn—ñ–¼‚ğæ“¾‚µ‚½‚¢‘®«–¼B
+     * @return@Œn—ñ–¼B
      */
     private String createItemName(ObjectName objectName, String attributeName)
     {
@@ -283,7 +167,7 @@ public class MBeanValueGetter
         itemNameBuilder.append("/jmx/");
         itemNameBuilder.append(objectName.getDomain());
 
-        // ObjectNameã‚’æ–‡å­—åˆ—åŒ–ã—ãŸéš›ã®é †åºã§ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãŒä¸¦ã¶ã‚ˆã†ã«ã€é †åºã‚’TreeMapã«æ ¼ç´ã™ã‚‹ã€‚
+        // ObjectName‚ğ•¶š—ñ‰»‚µ‚½Û‚Ì‡˜‚ÅƒvƒƒpƒeƒB‚ª•À‚Ô‚æ‚¤‚ÉA‡˜‚ğTreeMap‚ÉŠi”[‚·‚éB
         Hashtable<?, ?> keyPropertyList = objectName.getKeyPropertyList();
         String canonicalName = objectName.toString();
         Map<Integer, String> keyOrderMap = new TreeMap<Integer, String>();
@@ -292,8 +176,8 @@ public class MBeanValueGetter
             String keyStr = key.toString();
             keyOrderMap.put(Integer.valueOf(canonicalName.indexOf(keyStr)), key.toString());
         }
-
-        // ä½œæˆã—ãŸé †åºã«å¾“ã£ã¦ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’è¿½åŠ ã™ã‚‹ã€‚
+        
+        // ì¬‚µ‚½‡˜‚É]‚Á‚ÄƒvƒƒpƒeƒB‚ğ’Ç‰Á‚·‚éB
         for (String key : keyOrderMap.values())
         {
             itemNameBuilder.append("/");
@@ -306,29 +190,15 @@ public class MBeanValueGetter
     }
 
     /**
-     * å¼•æ•°ã§æŒ‡å®šã—ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆåï¼ˆæ­£è¦è¡¨ç¾ï¼‰ã¨ä¸€è‡´ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆåä¸€è¦§ã‚’ä½œæˆã™ã‚‹ã€‚
+     * ˆø”‚Åw’è‚µ‚½ƒIƒuƒWƒFƒNƒg–¼i³‹K•\Œ»j‚Æˆê’v‚·‚éƒIƒuƒWƒFƒNƒg–¼ˆê——‚ğì¬‚·‚éB
      * 
-     * @param objectName å–å¾—ã™ã‚‹å¯¾è±¡ã¨ãªã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆåï¼ˆæ­£è¦è¡¨ç¾ï¼‰
-     * @return ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆåä¸€è¦§
-     * @throws IOException MBeanæ•°å–å¾—æ™‚ã«åˆ‡æ–­ã—ã¦ã„ãŸå ´åˆã€‚
+     * @param objectName æ“¾‚·‚é‘ÎÛ‚Æ‚È‚éƒIƒuƒWƒFƒNƒg–¼i³‹K•\Œ»j
+     * @return ƒIƒuƒWƒFƒNƒg–¼ˆê——
      */
     private List<ObjectName> createObjectNameList(ObjectName objectName)
-        throws IOException
     {
         List<ObjectName> objectNameList = new ArrayList<ObjectName>();
-        Set<?> set = null;
-        if (server_ != null)
-        {
-            set = server_.queryMBeans(objectName, null);
-        }
-        else if (connection_ != null && remoteEnable_)
-        {
-            set = connection_.queryMBeans(objectName, null);
-        }
-        else
-        {
-            return objectNameList;
-        }
+        Set<?> set = server__.queryMBeans(objectName, null);
         Iterator<?> iterator = set.iterator();
         while (iterator.hasNext())
         {
@@ -339,8 +209,8 @@ public class MBeanValueGetter
     }
 
     /**
-     * JMXã®ObjectNameã«æŒ‡å®šã™ã‚‹æ–‡å­—åˆ—ã‚’å–å¾—ã™ã‚‹
-     * @return JMXã®ObjectNameã«æŒ‡å®šã™ã‚‹æ–‡å­—åˆ—
+     * JMX‚ÌObjectName‚Éw’è‚·‚é•¶š—ñ‚ğæ“¾‚·‚é
+     * @return JMX‚ÌObjectName‚Éw’è‚·‚é•¶š—ñ
      */
     public String getName()
     {
@@ -348,8 +218,8 @@ public class MBeanValueGetter
     }
 
     /**
-     * JMXã®attributeã«æŒ‡å®šã™ã‚‹æ–‡å­—åˆ—ã‚’å–å¾—ã™ã‚‹
-     * @return JMXã®attributeã«æŒ‡å®šã™ã‚‹æ–‡å­—åˆ—
+     * JMX‚Ìattribute‚Éw’è‚·‚é•¶š—ñ‚ğæ“¾‚·‚é
+     * @return JMX‚Ìattribute‚Éw’è‚·‚é•¶š—ñ
      */
     public String getAttribute()
     {
@@ -357,9 +227,9 @@ public class MBeanValueGetter
     }
 
     /**
-     * è¨ˆæ¸¬å€¤ã®å‹ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * Œv‘ª’l‚ÌŒ^‚ğæ“¾‚µ‚Ü‚·B
      *
-     * @return è¨ˆæ¸¬å€¤ã®å‹
+     * @return Œv‘ª’l‚ÌŒ^
      */
     public ItemType getItemType()
     {
@@ -367,10 +237,10 @@ public class MBeanValueGetter
     }
 
     /**
-     * ResourceItemã‚’ä½œæˆã™ã‚‹
+     * ResourceItem‚ğì¬‚·‚é
      * 
      * @param name Item Name
-     * @return JMXã®å€¤ã‚’å–å¾—ã—ãŸçµæœã‚’ ResourceItem ã®å½¢å¼ã§è¿”ã™
+     * @return JMX‚Ì’l‚ğæ“¾‚µ‚½Œ‹‰Ê‚ğ ResourceItem ‚ÌŒ`®‚Å•Ô‚·
      */
     private ResourceItem createResourceItem(String name, String value, ItemType itemType)
     {
@@ -385,19 +255,5 @@ public class MBeanValueGetter
         retValue.setDisplayType(DisplayType.DISPLAYTYPE_NORMAL);
 
         return retValue;
-    }
-
-    /**
-     * {@link MBeanServerConnection}ã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param connection MBeanServerConnectionã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     */
-    public void setConnection(MBeanServerConnection connection)
-    {
-        this.connection_ = connection;
-    }
-
-    private boolean isNumber(String type)
-    {
-        return numberTypeSet__.contains(type);
     }
 }

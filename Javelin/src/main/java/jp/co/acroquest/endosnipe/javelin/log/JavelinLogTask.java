@@ -31,7 +31,7 @@ import jp.co.acroquest.endosnipe.javelin.CallTree;
 import jp.co.acroquest.endosnipe.javelin.CallTreeNode;
 
 /**
- * Javelinãƒ­ã‚°ã®ã‚¿ã‚¹ã‚¯ã§ã™ã€‚<br />
+ * JavelinƒƒO‚Ìƒ^ƒXƒN‚Å‚·B<br />
  * 
  * @author eriguchi
  * 
@@ -55,24 +55,24 @@ class JavelinLogTask
     private final String             itemName_;
 
     /**
-     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§ã™ã€‚å¼•æ•°ã§æŒ‡å®šã—ãŸãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Å‚·Bˆø”‚Åw’è‚µ‚½ƒpƒ‰ƒ[ƒ^‚ğİ’è‚µ‚Ü‚·B<br />
      * 
      * @param date
-     *            æ—¥æ™‚
+     *            “ú
      * @param jvnFileName
-     *            Javelinãƒ•ã‚¡ã‚¤ãƒ«å
+     *            Javelinƒtƒ@ƒCƒ‹–¼
      * @param tree
      *            CallTree
      * @param node
      *            CallTreeNode
      * @param jvelinLogCallback
-     *            ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     *            ƒR[ƒ‹ƒoƒbƒNƒIƒuƒWƒFƒNƒg
      * @param telegramId
-     *            é›»æ–‡ ID
+     *            “d•¶ ID
      * @param endNode
-     *            æœ€çµ‚ãƒãƒ¼ãƒ‰
+     *            ÅIƒm[ƒh
      * @param itemName
-     *            ã‚¢ã‚¤ãƒ†ãƒ å
+     *            ƒAƒCƒeƒ€–¼
      */
     public JavelinLogTask(final Date date, final String jvnFileName, final CallTree tree,
             final CallTreeNode node, final JavelinLogCallback jvelinLogCallback,
@@ -89,9 +89,9 @@ class JavelinLogTask
     }
 
     /**
-     * æ—¥æ™‚ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * “ú‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return æ—¥æ™‚
+     * @return “ú
      */
     public Date getDate()
     {
@@ -99,9 +99,9 @@ class JavelinLogTask
     }
 
     /**
-     * Javelinãƒ•ã‚¡ã‚¤ãƒ«åã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * Javelinƒtƒ@ƒCƒ‹–¼‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return Javelinãƒ•ã‚¡ã‚¤ãƒ«å
+     * @return Javelinƒtƒ@ƒCƒ‹–¼
      */
     public String getJvnFileName()
     {
@@ -109,7 +109,7 @@ class JavelinLogTask
     }
 
     /**
-     * CallTreeã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * CallTree‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
      * @return CallTree
      */
@@ -119,7 +119,7 @@ class JavelinLogTask
     }
 
     /**
-     * CallTreeNodeã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * CallTreeNode‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
      * @return CallTreeNode
      */
@@ -129,9 +129,9 @@ class JavelinLogTask
     }
 
     /**
-     * ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * ƒR[ƒ‹ƒoƒbƒNƒIƒuƒWƒFƒNƒg‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @return ƒR[ƒ‹ƒoƒbƒNƒIƒuƒWƒFƒNƒg
      */
     public JavelinLogCallback getJavelinLogCallback()
     {
@@ -139,9 +139,9 @@ class JavelinLogTask
     }
 
     /**
-     * æœ€çµ‚ãƒãƒ¼ãƒ‰ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * ÅIƒm[ƒh‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return æœ€çµ‚ãƒãƒ¼ãƒ‰
+     * @return ÅIƒm[ƒh
      */
     public CallTreeNode getEndNode()
     {
@@ -149,9 +149,9 @@ class JavelinLogTask
     }
 
     /**
-     * é›»æ–‡ ID ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * “d•¶ ID ‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return é›»æ–‡ ID
+     * @return “d•¶ ID
      */
     public long getTelegramId()
     {
@@ -159,9 +159,9 @@ class JavelinLogTask
     }
 
     /**
-     * ã‚¢ã‚¤ãƒ†ãƒ åã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * ƒAƒCƒeƒ€–¼‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return ã‚¢ã‚¤ãƒ†ãƒ å
+     * @return ƒAƒCƒeƒ€–¼
      */
     public String getItemName()
     {

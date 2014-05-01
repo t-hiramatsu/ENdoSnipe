@@ -23,71 +23,75 @@ import jp.co.acroquest.endosnipe.data.dao.MeasurementValueDao;
 import jp.co.acroquest.endosnipe.data.db.DBManager;
 
 /**
- * ä½¿ç”¨ã§ãã‚‹ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã¨ã€ãã‚Œã‚‰ã®ãƒ‡ãƒ¼ã‚¿ä¿å­˜æœŸé–“ã‚’<br />
- * ä¸€è¦§è¡¨ç¤ºã™ã‚‹ãŸã‚ã®ã‚³ãƒãƒ³ãƒ‰ã§ã™ã€‚
+ * g—p‚Å‚«‚éƒf[ƒ^ƒx[ƒX‚ÆA‚»‚ê‚ç‚Ìƒf[ƒ^•Û‘¶ŠúŠÔ‚ğ<br />
+ * ˆê——•\¦‚·‚é‚½‚ß‚ÌƒRƒ}ƒ“ƒh‚Å‚·B
  *
  * @author y_asazuma
  */
 public class ShowDBList
 {
-	/**
-	 * @param args ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³å¼•æ•°ã¯ä½¿ç”¨ã—ãªã„ã€‚
-	 */
-	public static void main(String[] args)
-	{
-		// å¼•æ•°ãŒæŒ‡å®šã•ã‚ŒãŸå ´åˆã¯USAGEã‚’è¡¨ç¤ºã—ã¦çµ‚äº†
-		if (args.length != 0)
-		{
-			usage();
-			System.exit(1);
-		}
+    /**
+     * @param args ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“ˆø”‚Íg—p‚µ‚È‚¢B
+     */
+    public static void main(String[] args)
+    {
+        // ˆø”‚ªw’è‚³‚ê‚½ê‡‚ÍUSAGE‚ğ•\¦‚µ‚ÄI—¹
+        if (args.length != 0)
+        {
+            usage();
+            System.exit(1);
+        }
 
-		// è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿è¾¼ã¿
-		DataCollectorConfig config = null;
-		try
-		{
-			config = ConfigLoader.loadConfig();
-		}
-		catch (Exception e)
-		{
-			System.err.println(e);
-			System.exit(1);
-		}
+        // İ’èƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İ
+        DataCollectorConfig config = null;
+        try
+        {
+            config = ConfigLoader.loadConfig();
+        }
+        catch (Exception e)
+        {
+            System.err.println(e);
+            System.exit(1);
+        }
 
-		// æ¥ç¶šã™ã‚‹DBæƒ…å ±ã®åˆæœŸåŒ–
-		DBManager.updateSettings(false, "", config.getDatabaseHost(), config.getDatabasePort(),
-			config.getDatabaseName(), config.getDatabaseUserName(), config.getDatabasePassword());
+        // Ú‘±‚·‚éDBî•ñ‚Ì‰Šú‰»
+        DBManager.updateSettings(false, "",
+                                 config.getDatabaseHost(),
+                                 config.getDatabasePort(),
+                                 config.getDatabaseName(),
+                                 config.getDatabaseUserName(),
+                                 config.getDatabasePassword());
 
-		// Indexæ¯ã«DBåã¨ãƒ‡ãƒ¼ã‚¿è“„ç©æœŸé–“ã‚’è¡¨ç¤ºã™ã‚‹
-		List<AgentSetting> settingList = config.getAgentSettingList();
-		for (AgentSetting setting : settingList)
-		{
-			// DBã‹ã‚‰ãƒ‡ãƒ¼ã‚¿è“„ç©æœŸé–“ã‚’å–å¾—
-			Timestamp[] term = null;
-			try
-			{
-				term = MeasurementValueDao.getTerm(setting.databaseName);
-			}
-			catch (SQLException e)
-			{
-				System.err.println("ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹æ¥ç¶šã§å•é¡ŒãŒç™ºç”Ÿã—ã¾ã—ãŸã€‚");
-				System.exit(1);
-			}
+        // Index–ˆ‚ÉDB–¼‚Æƒf[ƒ^’~ÏŠúŠÔ‚ğ•\¦‚·‚é
+        List<AgentSetting> settingList = config.getAgentSettingList();
+        for (AgentSetting setting : settingList)
+        {
+            // DB‚©‚çƒf[ƒ^’~ÏŠúŠÔ‚ğæ“¾
+            Timestamp[] term = null;
+            try
+            {
+                term = MeasurementValueDao.getTerm(setting.databaseName);
+            }
+            catch (SQLException e)
+            {
+                System.err.println("ƒf[ƒ^ƒx[ƒXÚ‘±‚Å–â‘è‚ª”­¶‚µ‚Ü‚µ‚½B");
+                System.exit(1);
+            }
 
-			// ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã¨ãƒ‡ãƒ¼ã‚¿åã®è¡¨ç¤º
-			System.out.println("Index : " + String.valueOf(setting.agentId) + "\tDatabaseName : "
-				+ setting.databaseName);
-			// ãƒ‡ãƒ¼ã‚¿è“„ç©æœŸé–“ã®è¡¨ç¤º
-			System.out.println("Accumulation period :\n\t" + term[0].toString() + " - "
-				+ term[1].toString() + "\n");
-		}
-	}
+            // ƒCƒ“ƒfƒbƒNƒX‚Æƒf[ƒ^–¼‚Ì•\¦
+            System.out.println("Index : " + String.valueOf(setting.agentId) +
+                               "\tDatabaseName : " + setting.databaseName);
+            // ƒf[ƒ^’~ÏŠúŠÔ‚Ì•\¦
+            System.out.println("Accumulation period :\n\t" +
+                               term[0].toString() + " - " + term[1].toString() + "\n");
+        }
+    }
 
-	/**
-	 * ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³å¼•æ•°ã®ä½¿ç”¨æ–¹æ³•ã‚’èª¬æ˜ã—ã¾ã™ã€‚
-	 */
-	private static void usage()
-	{
-		System.err.println("USAGE: ShowDBList");
-	}
+    /**
+     * ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“ˆø”‚Ìg—p•û–@‚ğà–¾‚µ‚Ü‚·B
+     */
+    private static void usage()
+    {
+        System.err.println("USAGE: ShowDBList");
+    }
 }

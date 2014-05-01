@@ -36,13 +36,13 @@ import jp.co.acroquest.endosnipe.javelin.bean.TripleState;
 import jp.co.acroquest.endosnipe.javelin.converter.util.CalledMethodCounter;
 
 /**
- * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚<br />
+ * ƒRƒ“ƒ|[ƒlƒ“ƒg‚ğŠÇ—‚·‚éƒNƒ‰ƒXB<br />
  *
  * @author acroquest
  */
 public class MBeanManager
 {
-    /** ComponentMBeanã‚’ç™»éŒ²ã—ãŸãƒãƒƒãƒ—ã€‚ */
+    /** ComponentMBean‚ğ“o˜^‚µ‚½ƒ}ƒbƒvB */
     private static ConcurrentHashMap<String, Component> mBeanMap__;
 
     static
@@ -50,9 +50,9 @@ public class MBeanManager
         Map<String, Component> deserializedMap = MBeanManagerSerializer.deserialize();
         mBeanMap__ = new ConcurrentHashMap<String, Component>(deserializedMap);
 
-        // ãƒ‡ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚ºã—ãŸ Invocation ã®ã†ã¡ã€ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚°ãƒ©ãƒ•ã®å‡ºåŠ›ãŒ ON ã«ãªã£ã¦ã„ã‚‹ã‚‚ã®ã‚’ã‚°ãƒ©ãƒ•ã«å‡ºã™ãŸã‚ã«ã€
-        // RootInvocationManager ã« Invocation ã‚’ç™»éŒ²ã™ã‚‹ã€‚
-        // ã¾ãŸã€è¨ˆæ¸¬å¯¾è±¡ã‹ã‚‰é™¤å¤–ã—ãŸ Invocation ã¯ã€ãƒ‡ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚ºæ™‚ã« ExcludeMonitor ã«ç™»éŒ²ã™ã‚‹ã€‚
+        // ƒfƒVƒŠƒAƒ‰ƒCƒY‚µ‚½ Invocation ‚Ì‚¤‚¿AƒŒƒXƒ|ƒ“ƒXƒOƒ‰ƒt‚Ìo—Í‚ª ON ‚É‚È‚Á‚Ä‚¢‚é‚à‚Ì‚ğƒOƒ‰ƒt‚Éo‚·‚½‚ß‚ÉA
+        // RootInvocationManager ‚É Invocation ‚ğ“o˜^‚·‚éB
+        // ‚Ü‚½AŒv‘ª‘ÎÛ‚©‚çœŠO‚µ‚½ Invocation ‚ÍAƒfƒVƒŠƒAƒ‰ƒCƒY‚É ExcludeMonitor ‚É“o˜^‚·‚éB
         for (Component component : mBeanMap__.values())
         {
             for (Invocation invocation : component.getAllInvocation())
@@ -71,7 +71,7 @@ public class MBeanManager
             }
         }
 
-        // shutdownHookã®è¿½åŠ 
+        // shutdownHook‚Ì’Ç‰Á
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run()
@@ -88,7 +88,7 @@ public class MBeanManager
     }
 
     /**
-     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã‚’éš è”½ã—ã¾ã™ã€‚<br />
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ğ‰B•Á‚µ‚Ü‚·B<br />
      */
     private MBeanManager()
     {
@@ -96,9 +96,9 @@ public class MBeanManager
     }
 
     /**
-     * ã™ã¹ã¦ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ‚·‚×‚Ä‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ğ•Ô‚µ‚Ü‚·B<br />
      *
-     * @return ã™ã¹ã¦ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
+     * @return ‚·‚×‚Ä‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg
      */
     public static Component[] getAllComponents()
     {
@@ -109,10 +109,10 @@ public class MBeanManager
     }
 
     /**
-     * æŒ‡å®šã•ã‚ŒãŸåå‰ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * w’è‚³‚ê‚½–¼‘O‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ğ•Ô‚µ‚Ü‚·B<br />
      *
-     * @param className å–å¾—ã™ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®åå‰
-     * @return æŒ‡å®šã•ã‚ŒãŸã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒå­˜åœ¨ã™ã‚‹å ´åˆã¯ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€å­˜åœ¨ã—ãªã„å ´åˆã¯ <code>null</code>
+     * @param className æ“¾‚·‚éƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì–¼‘O
+     * @return w’è‚³‚ê‚½ƒRƒ“ƒ|[ƒlƒ“ƒg‚ª‘¶İ‚·‚éê‡‚ÍƒRƒ“ƒ|[ƒlƒ“ƒgƒIƒuƒWƒFƒNƒgA‘¶İ‚µ‚È‚¢ê‡‚Í <code>null</code>
      */
     public static Component getComponent(final String className)
     {
@@ -120,12 +120,12 @@ public class MBeanManager
     }
 
     /**
-     * æŒ‡å®šã•ã‚ŒãŸåå‰ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’ç™»éŒ²ã—ã¾ã™ã€‚<br />
+     * w’è‚³‚ê‚½–¼‘O‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ğ“o˜^‚µ‚Ü‚·B<br />
      *
-     * @param className ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®åå‰
-     * @param component ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param className ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì–¼‘O
+     * @param component ƒRƒ“ƒ|[ƒlƒ“ƒgƒIƒuƒWƒFƒNƒg
      * 
-     * @return ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
+     * @return ƒRƒ“ƒ|[ƒlƒ“ƒg
      */
     public static Component setComponent(final String className, final Component component)
     {
@@ -133,9 +133,9 @@ public class MBeanManager
     }
 
     /**
-     * æŒ‡å®šã•ã‚ŒãŸåå‰ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’å‰Šé™¤ã—ã¾ã™ã€‚<br />
+     * w’è‚³‚ê‚½–¼‘O‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ğíœ‚µ‚Ü‚·B<br />
      *
-     * @param className ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®åå‰
+     * @param className ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì–¼‘O
      */
     public static void removeComponent(final String className)
     {
@@ -143,7 +143,7 @@ public class MBeanManager
     }
 
     /**
-     * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆå†…ã® Invocation ã®å€¤ã‚’ãƒªã‚»ãƒƒãƒˆã—ã¾ã™ã€‚<br />
+     * ƒRƒ“ƒ|[ƒlƒ“ƒg“à‚Ì Invocation ‚Ì’l‚ğƒŠƒZƒbƒg‚µ‚Ü‚·B<br />
      */
     public static void reset()
     {

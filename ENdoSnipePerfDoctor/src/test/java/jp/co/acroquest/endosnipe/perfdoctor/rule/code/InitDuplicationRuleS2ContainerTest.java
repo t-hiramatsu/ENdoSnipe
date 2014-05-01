@@ -31,23 +31,23 @@ import jp.co.acroquest.endosnipe.javelin.parser.JavelinLogElement;
 import jp.co.acroquest.endosnipe.perfdoctor.PerformanceRuleTestCase;
 
 /**
- * ENdoSnipeVer.4.0ã®æ–°ãƒ«ãƒ¼ãƒ«
- * S2ã‚³ãƒ³ãƒ†ãƒŠã®è¤‡æ•°å›åˆæœŸåŒ–ãƒã‚§ãƒƒã‚¯ãƒ«ãƒ¼ãƒ«ã®ãƒ†ã‚¹ãƒˆ
+ * ENdoSnipeVer.4.0‚ÌVƒ‹[ƒ‹
+ * S2ƒRƒ“ƒeƒi‚Ì•¡”‰ñ‰Šú‰»ƒ`ƒFƒbƒNƒ‹[ƒ‹‚ÌƒeƒXƒg
  * @author fujii
  *
  */
 public class InitDuplicationRuleS2ContainerTest extends PerformanceRuleTestCase
 {
-    /** S2ã‚³ãƒ³ãƒ†ãƒŠã®åˆæœŸåŒ–ã‚¯ãƒ©ã‚¹ */
+    /** S2ƒRƒ“ƒeƒi‚Ì‰Šú‰»ƒNƒ‰ƒX */
     private static final String S2CONTAINER_INITIAL_CLASS =
             "org.seasar.framework.container.factory.SingletonS2ContainerFactory";
 
-    /** S2ã‚³ãƒ³ãƒ†ãƒŠã®åˆæœŸåŒ–ãƒ¡ã‚½ãƒƒãƒ‰ */
+    /** S2ƒRƒ“ƒeƒi‚Ì‰Šú‰»ƒƒ\ƒbƒh */
     private static final String S2CONTAINER_INITIAL_METHOD = "SingletonS2ContainerFactory";
 
     /**
-     * InitDupulicationRuleã‚’ç”Ÿæˆã™ã‚‹ã€‚<br />
-     * @param threshold é–¾å€¤
+     * InitDupulicationRule‚ğ¶¬‚·‚éB<br />
+     * @param threshold è‡’l
      * @return InitDupulicationRule
      */
     private InitDupulicationRule createRule(long threshold)
@@ -63,15 +63,15 @@ public class InitDuplicationRuleS2ContainerTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 3-17-1<br />
+     * [€”Ô] 3-17-1<br />
      * <br />
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
-     * ãƒ»å¢ƒç•Œå€¤åˆ†æ(é–¾å€¤ã‚ˆã‚Š1å°ã•ã„å ´åˆ)<br />
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã™ã‚‹ã€‚<br />
+     * doJudge‚ÌƒeƒXƒgB<br />
+     * E‹«ŠE’l•ªÍ(è‡’l‚æ‚è1¬‚³‚¢ê‡)<br />
+     * ¨Œx‚ª”­¶‚·‚éB<br />
      */
     public void testDoJudge_1()
     {
-        // æº–å‚™
+        // €”õ
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("InitDuplicateTest_testDoJudge_s2container_999.jvn");
 
@@ -79,10 +79,10 @@ public class InitDuplicationRuleS2ContainerTest extends PerformanceRuleTestCase
 
         InitDupulicationRule rule = createRule(threshold);
 
-        // å®Ÿè¡Œ
+        // Às
         rule.judge(elementList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(1, getErrorJavelinLogElements().size());
         assertErrorOccurred(elementList.get(0), threshold, (long)999, S2CONTAINER_INITIAL_CLASS,
                             S2CONTAINER_INITIAL_METHOD);
@@ -90,15 +90,15 @@ public class InitDuplicationRuleS2ContainerTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 3-17-2<br />
+     * [€”Ô] 3-17-2<br />
      * <br />
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
-     * ãƒ»å¢ƒç•Œå€¤åˆ†æ(é–¾å€¤ã¨ç­‰ã—ã„å ´åˆ)<br />
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã™ã‚‹ã€‚<br />
+     * doJudge‚ÌƒeƒXƒgB<br />
+     * E‹«ŠE’l•ªÍ(è‡’l‚Æ“™‚µ‚¢ê‡)<br />
+     * ¨Œx‚ª”­¶‚·‚éB<br />
      */
     public void testDoJudge_2()
     {
-        // æº–å‚™
+        // €”õ
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("InitDuplicateTest_testDoJudge_s2container_1000.jvn");
 
@@ -106,10 +106,10 @@ public class InitDuplicationRuleS2ContainerTest extends PerformanceRuleTestCase
 
         InitDupulicationRule rule = createRule(threshold);
 
-        // å®Ÿè¡Œ
+        // Às
         rule.judge(elementList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(1, getErrorJavelinLogElements().size());
         assertErrorOccurred(elementList.get(0), threshold, (long)1000, S2CONTAINER_INITIAL_CLASS,
                             S2CONTAINER_INITIAL_METHOD);
@@ -117,15 +117,15 @@ public class InitDuplicationRuleS2ContainerTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 3-17-3<br />
+     * [€”Ô] 3-17-3<br />
      * <br />
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
-     * ãƒ»å¢ƒç•Œå€¤åˆ†æ(é–¾å€¤ã‚ˆã‚Š1å¤§ãã„å ´åˆ)<br />
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br />
+     * doJudge‚ÌƒeƒXƒgB<br />
+     * E‹«ŠE’l•ªÍ(è‡’l‚æ‚è1‘å‚«‚¢ê‡)<br />
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br />
      */
     public void testDoJudge_3()
     {
-        // æº–å‚™
+        // €”õ
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("InitDuplicateTest_testDoJudge_s2container_1001.jvn");
 
@@ -133,23 +133,23 @@ public class InitDuplicationRuleS2ContainerTest extends PerformanceRuleTestCase
 
         InitDupulicationRule rule = createRule(threshold);
 
-        // å®Ÿè¡Œ
+        // Às
         rule.judge(elementList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(0, getErrorJavelinLogElements().size());
     }
 
     /**
-     * [é …ç•ª] 3-17-4<br />
+     * [€”Ô] 3-17-4<br />
      * <br />
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
-     * ãƒ»å¢ƒç•Œå€¤åˆ†æ(é–¾å€¤ã‚’åˆ¥ã®å€¤ã«è¨­å®š/é–¾å€¤ã¨ç­‰ã—ã„å ´åˆ)<br />
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã™ã‚‹ã€‚<br />
+     * doJudge‚ÌƒeƒXƒgB<br />
+     * E‹«ŠE’l•ªÍ(è‡’l‚ğ•Ê‚Ì’l‚Éİ’è/è‡’l‚Æ“™‚µ‚¢ê‡)<br />
+     * ¨Œx‚ª”­¶‚·‚éB<br />
      */
     public void testDoJudge_5()
     {
-        // æº–å‚™
+        // €”õ
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("InitDuplicateTest_testDoJudge_s2container_500.jvn");
 
@@ -157,25 +157,25 @@ public class InitDuplicationRuleS2ContainerTest extends PerformanceRuleTestCase
 
         InitDupulicationRule rule = createRule(threshold);
 
-        // å®Ÿè¡Œ
+        // Às
         rule.judge(elementList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(1, getErrorJavelinLogElements().size());
         assertErrorOccurred(elementList.get(0), threshold, (long)500, S2CONTAINER_INITIAL_CLASS,
                             S2CONTAINER_INITIAL_METHOD);
     }
 
     /**
-     * [é …ç•ª] 3-17-5<br />
+     * [€”Ô] 3-17-5<br />
      * <br />
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
-     * ãƒ»å¢ƒç•Œå€¤åˆ†æ(é–¾å€¤0ã€æ¤œå‡ºå€¤0ã®å ´åˆ)<br />
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã™ã‚‹ã€‚<br />
+     * doJudge‚ÌƒeƒXƒgB<br />
+     * E‹«ŠE’l•ªÍ(è‡’l0AŒŸo’l0‚Ìê‡)<br />
+     * ¨Œx‚ª”­¶‚·‚éB<br />
      */
     public void testDoJudge_7()
     {
-        // æº–å‚™
+        // €”õ
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("InitDuplicateTest_testDoJudge_s2container_0.jvn");
 
@@ -183,25 +183,25 @@ public class InitDuplicationRuleS2ContainerTest extends PerformanceRuleTestCase
 
         InitDupulicationRule rule = createRule(threshold);
 
-        // å®Ÿè¡Œ
+        // Às
         rule.judge(elementList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(1, getErrorJavelinLogElements().size());
         assertErrorOccurred(elementList.get(0), threshold, (long)0, S2CONTAINER_INITIAL_CLASS,
                             S2CONTAINER_INITIAL_METHOD);
     }
 
     /**
-     * [é …ç•ª] 3-17-6<br />
+     * [€”Ô] 3-17-6<br />
      * <br />
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
-     * ãƒ»å¢ƒç•Œå€¤åˆ†æ(é–¾å€¤0ã€æ¤œå‡ºå€¤ãŒæ­£ã®å€¤ã®å ´åˆ)<br />
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br />
+     * doJudge‚ÌƒeƒXƒgB<br />
+     * E‹«ŠE’l•ªÍ(è‡’l0AŒŸo’l‚ª³‚Ì’l‚Ìê‡)<br />
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br />
      */
     public void testDoJudge_8()
     {
-        // æº–å‚™
+        // €”õ
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("InitDuplicateTest_testDoJudge_s2container_threshold0.jvn");
 
@@ -209,23 +209,23 @@ public class InitDuplicationRuleS2ContainerTest extends PerformanceRuleTestCase
 
         InitDupulicationRule rule = createRule(threshold);
 
-        // å®Ÿè¡Œ
+        // Às
         rule.judge(elementList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(0, getErrorJavelinLogElements().size());
     }
 
     /**
-     * [é …ç•ª] 3-17-7<br />
+     * [€”Ô] 3-17-7<br />
      * <br />
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
-     * ãƒ»æŒ‡å®šã•ã‚ŒãŸãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®å€¤ãŒæ–‡å­—åˆ—ã«ãªã£ã¦ã„ã‚‹å ´åˆ<br />
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br />
+     * doJudge‚ÌƒeƒXƒgB<br />
+     * Ew’è‚³‚ê‚½ƒpƒ‰ƒ[ƒ^‚Ì’l‚ª•¶š—ñ‚É‚È‚Á‚Ä‚¢‚éê‡<br />
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br />
      */
     public void testDoJudge_10()
     {
-        // æº–å‚™
+        // €”õ
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("InitDuplicateTest_testDoJudge_s2container_parameterString.jvn");
 
@@ -233,23 +233,23 @@ public class InitDuplicationRuleS2ContainerTest extends PerformanceRuleTestCase
 
         InitDupulicationRule rule = createRule(threshold);
 
-        // å®Ÿè¡Œ
+        // Às
         rule.judge(elementList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(0, getErrorJavelinLogElements().size());
     }
 
     /**
-     * [é …ç•ª] 3-17-8<br />
+     * [€”Ô] 3-17-8<br />
      * <br />
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
-     * ãƒ»æŒ‡å®šã•ã‚ŒãŸãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®å€¤ãŒç©ºã«ãªã£ã¦ã„ã‚‹å ´åˆ<br />
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br />
+     * doJudge‚ÌƒeƒXƒgB<br />
+     * Ew’è‚³‚ê‚½ƒpƒ‰ƒ[ƒ^‚Ì’l‚ª‹ó‚É‚È‚Á‚Ä‚¢‚éê‡<br />
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br />
      */
     public void testDoJudge_11()
     {
-        // æº–å‚™
+        // €”õ
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("InitDuplicateTest_testDoJudge_s2container_parameterEmpty.jvn");
 
@@ -257,23 +257,23 @@ public class InitDuplicationRuleS2ContainerTest extends PerformanceRuleTestCase
 
         InitDupulicationRule rule = createRule(threshold);
 
-        // å®Ÿè¡Œ
+        // Às
         rule.judge(elementList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(0, getErrorJavelinLogElements().size());
     }
 
     /**
-     * [é …ç•ª] 3-17-9<br />
+     * [€”Ô] 3-17-9<br />
      * <br />
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
-     * ãƒ»æŒ‡å®šã•ã‚ŒãŸãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãŒãªã„å ´åˆ<br />
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br />
+     * doJudge‚ÌƒeƒXƒgB<br />
+     * Ew’è‚³‚ê‚½ƒpƒ‰ƒ[ƒ^‚ª‚È‚¢ê‡<br />
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br />
      */
     public void testDoJudge_12()
     {
-        // æº–å‚™
+        // €”õ
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("InitDuplicateTest_testDoJudge_s2container_parameterNone.jvn");
 
@@ -281,23 +281,23 @@ public class InitDuplicationRuleS2ContainerTest extends PerformanceRuleTestCase
 
         InitDupulicationRule rule = createRule(threshold);
 
-        // å®Ÿè¡Œ
+        // Às
         rule.judge(elementList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(0, getErrorJavelinLogElements().size());
     }
 
     /**
-     * [é …ç•ª] 3-17-10<br />
+     * [€”Ô] 3-17-10<br />
      * <br />
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
-     * ãƒ»æŒ‡å®šã•ã‚ŒãŸInfoãŒãªã„å ´åˆ<br />
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br />
+     * doJudge‚ÌƒeƒXƒgB<br />
+     * Ew’è‚³‚ê‚½Info‚ª‚È‚¢ê‡<br />
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br />
      */
     public void testDoJudge_14()
     {
-        // æº–å‚™
+        // €”õ
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("InitDuplicateTest_testDoJudge_s2container_NoInfo.jvn");
 
@@ -305,23 +305,23 @@ public class InitDuplicationRuleS2ContainerTest extends PerformanceRuleTestCase
 
         InitDupulicationRule rule = createRule(threshold);
 
-        // å®Ÿè¡Œ
+        // Às
         rule.judge(elementList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(0, getErrorJavelinLogElements().size());
     }
 
     /**
-     * [é …ç•ª] 3-17-11<br />
+     * [€”Ô] 3-17-11<br />
      * <br />
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
-     * ãƒ»æŒ‡å®šã•ã‚ŒãŸã‚¿ã‚¤ãƒ—ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãŒãªã„å ´åˆ<br />
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br />
+     * doJudge‚ÌƒeƒXƒgB<br />
+     * Ew’è‚³‚ê‚½ƒ^ƒCƒv‚ÌƒƒbƒZ[ƒW‚ª‚È‚¢ê‡<br />
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br />
      */
     public void testDoJudge_15()
     {
-        // æº–å‚™
+        // €”õ
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("InitDuplicateTest_testDoJudge_s2container_NoType.jvn");
 
@@ -329,23 +329,23 @@ public class InitDuplicationRuleS2ContainerTest extends PerformanceRuleTestCase
 
         InitDupulicationRule rule = createRule(threshold);
 
-        // å®Ÿè¡Œ
+        // Às
         rule.judge(elementList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(0, getErrorJavelinLogElements().size());
     }
 
     /**
-     * [é …ç•ª] 3-17-12<br />
+     * [€”Ô] 3-17-12<br />
      * <br />
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
-     * ãƒ»æŒ‡å®šã•ã‚ŒãŸã‚¤ãƒ™ãƒ³ãƒˆåãŒãªã„å ´åˆ<br />
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br />
+     * doJudge‚ÌƒeƒXƒgB<br />
+     * Ew’è‚³‚ê‚½ƒCƒxƒ“ƒg–¼‚ª‚È‚¢ê‡<br />
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br />
      */
     public void testDoJudge_16()
     {
-        // æº–å‚™
+        // €”õ
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("InitDuplicateTest_testDoJudge_s2container_NoEventName.jvn");
 
@@ -353,23 +353,23 @@ public class InitDuplicationRuleS2ContainerTest extends PerformanceRuleTestCase
 
         InitDupulicationRule rule = createRule(threshold);
 
-        // å®Ÿè¡Œ
+        // Às
         rule.judge(elementList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(0, getErrorJavelinLogElements().size());
     }
 
     /**
-     * [é …ç•ª] 3-17-13<br />
+     * [€”Ô] 3-17-13<br />
      * <br />
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
-     * ãƒ»ã‚¯ãƒ©ã‚¹åãŒåŒä¸€ã ãŒã€ãƒ¡ã‚½ãƒƒãƒ‰åãŒç•°ãªã‚‹å ´åˆ<br />
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br />
+     * doJudge‚ÌƒeƒXƒgB<br />
+     * EƒNƒ‰ƒX–¼‚ª“¯ˆê‚¾‚ªAƒƒ\ƒbƒh–¼‚ªˆÙ‚È‚éê‡<br />
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br />
      */
     public void testDoJudge_24()
     {
-        // æº–å‚™
+        // €”õ
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("InitDuplicateTest_testDoJudge_s2container_wrongMethodName.jvn");
 
@@ -377,23 +377,23 @@ public class InitDuplicationRuleS2ContainerTest extends PerformanceRuleTestCase
 
         InitDupulicationRule rule = createRule(threshold);
 
-        // å®Ÿè¡Œ
+        // Às
         rule.judge(elementList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(0, getErrorJavelinLogElements().size());
     }
 
     /**
-     * [é …ç•ª] 3-17-14<br />
+     * [€”Ô] 3-17-14<br />
      * <br />
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
-     * ãƒ»ãƒ¡ã‚½ãƒƒãƒ‰åãŒåŒä¸€ã ãŒã€ã‚¯ãƒ©ã‚¹åãŒç•°ãªã‚‹å ´åˆ<br />
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br />
+     * doJudge‚ÌƒeƒXƒgB<br />
+     * Eƒƒ\ƒbƒh–¼‚ª“¯ˆê‚¾‚ªAƒNƒ‰ƒX–¼‚ªˆÙ‚È‚éê‡<br />
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br />
      */
     public void testDoJudge_25()
     {
-        // æº–å‚™
+        // €”õ
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("InitDuplicateTest_testDoJudge_s2container_wrongClassName.jvn");
 
@@ -401,23 +401,23 @@ public class InitDuplicationRuleS2ContainerTest extends PerformanceRuleTestCase
 
         InitDupulicationRule rule = createRule(threshold);
 
-        // å®Ÿè¡Œ
+        // Às
         rule.judge(elementList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(0, getErrorJavelinLogElements().size());
     }
 
     /**
-     * [é …ç•ª] 3-17-15<br />
+     * [€”Ô] 3-17-15<br />
      * <br />
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br />
-     * ãƒ»è¤‡æ•°ã®JavelinLogElementã§è­¦å‘ŠãŒå‡ºã‚‹å ´åˆ<br />
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br />
+     * doJudge‚ÌƒeƒXƒgB<br />
+     * E•¡”‚ÌJavelinLogElement‚ÅŒx‚ªo‚éê‡<br />
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br />
      */
     public void testDoJudge_27()
     {
-        // æº–å‚™
+        // €”õ
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("InitDuplicateTest_testDoJudge_s2container_multiElement.jvn");
 
@@ -425,15 +425,15 @@ public class InitDuplicationRuleS2ContainerTest extends PerformanceRuleTestCase
 
         InitDupulicationRule rule = createRule(threshold);
 
-        // å®Ÿè¡Œ
+        // Às
         rule.judge(elementList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(2, getErrorJavelinLogElements().size());
 
-        // CALL â†’ EVENT â†’ RETURN â†’ CALL â†’ EVENT â†’ RETURN
-        // ã®é †ã«elementListã®ã‚¤ãƒ™ãƒ³ãƒˆãŒä½œæˆã•ã‚Œã‚‹ã®ã§ã€
-        // 2ç•ªç›®ã¨5ç•ªç›®ã®ã‚¤ãƒ™ãƒ³ãƒˆãŒè­¦å‘Šã«å‡ºåŠ›ã•ã‚Œã‚‹ã“ã¨ã‚’ç¢ºèªã™ã‚‹ã€‚
+        // CALL ¨ EVENT ¨ RETURN ¨ CALL ¨ EVENT ¨ RETURN
+        // ‚Ì‡‚ÉelementList‚ÌƒCƒxƒ“ƒg‚ªì¬‚³‚ê‚é‚Ì‚ÅA
+        // 2”Ô–Ú‚Æ5”Ô–Ú‚ÌƒCƒxƒ“ƒg‚ªŒx‚Éo—Í‚³‚ê‚é‚±‚Æ‚ğŠm”F‚·‚éB
         assertErrorOccurred(elementList.get(1), threshold, (long)1000, S2CONTAINER_INITIAL_CLASS,
                             S2CONTAINER_INITIAL_METHOD);
         assertErrorOccurred(elementList.get(4), threshold, (long)500, S2CONTAINER_INITIAL_CLASS,
@@ -441,15 +441,15 @@ public class InitDuplicationRuleS2ContainerTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 3-17-16<br>
+     * [€”Ô] 3-17-16<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»å®Ÿè¡Œæ™‚ä¾‹å¤–ãŒç™ºç”Ÿã™ã‚‹å ´åˆ<br>
-     * â†’ãã®JavelinLogElementã¯ã‚¹ã‚­ãƒƒãƒ—ã—ã¦å‡¦ç†ã™ã‚‹ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * EÀs—áŠO‚ª”­¶‚·‚éê‡<br>
+     * ¨‚»‚ÌJavelinLogElement‚ÍƒXƒLƒbƒv‚µ‚Äˆ—‚·‚éB<br>
      */
     public void testDoJudge_29_RuntimeException()
     {
-        // æº–å‚™
+        // €”õ
         List<JavelinLogElement> elementList =
                 createJavelinLogElement("InitDuplicateTest_testDoJudge_s2container_1000.jvn");
 
@@ -458,10 +458,10 @@ public class InitDuplicationRuleS2ContainerTest extends PerformanceRuleTestCase
 
         elementList.add(0, null);
 
-        // å®Ÿè¡Œ
+        // Às
         rule.doJudge(elementList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(1, getErrorJavelinLogElements().size());
         assertErrorOccurred(elementList.get(1), threshold, (long)1000, S2CONTAINER_INITIAL_CLASS,
                             S2CONTAINER_INITIAL_METHOD);

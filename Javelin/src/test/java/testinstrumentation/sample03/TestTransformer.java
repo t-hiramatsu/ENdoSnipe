@@ -44,12 +44,12 @@ public class TestTransformer implements ClassFileTransformer
             final byte[] classfileBuffer)
         throws IllegalClassFormatException
     {
-        // ã‚¯ãƒ©ã‚¹ãƒ—ãƒ¼ãƒ«ã‚’å–ã‚‹
+        // ƒNƒ‰ƒXƒv[ƒ‹‚ğæ‚é
         ClassPool objClassPool = ClassPool.getDefault();
-        // Javassistã§ä½¿ãˆã‚‹ã‚ˆã†ã«ã€å¤‰æ›ã™ã‚‹
+        // Javassist‚Åg‚¦‚é‚æ‚¤‚ÉA•ÏŠ·‚·‚é
         String toJavassistClassName = className.replace("/", ".");
 
-        // å¤‰æ›ç”¨ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+        // •ÏŠ·—pƒIƒuƒWƒFƒNƒg
         CtClass objCtClass = null;
         try
         {
@@ -60,42 +60,42 @@ public class TestTransformer implements ClassFileTransformer
             objNotFoundException.printStackTrace();
         }
 
-        // å…¨ã¦ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å–å¾—ã—ã¦ã€å¤‰æ›ã™ã‚‹
+        // ‘S‚Äƒƒ\ƒbƒh‚ğæ“¾‚µ‚ÄA•ÏŠ·‚·‚é
         CtMethod[] objCtMethodArr = objCtClass.getDeclaredMethods();
         for (int index = 0; index < objCtMethodArr.length; index++)
         {
             try
             {
-                // å‰å‡¦ç†ã‚³ãƒ¼ãƒ‰ã‚’ä½œã‚‹
+                // ‘Oˆ—ƒR[ƒh‚ğì‚é
                 StringBuffer beforeCode = new StringBuffer();
                 beforeCode.append("{ System.out.println(");
-                beforeCode.append("\"â–¼â–¼â–¼ãƒ¡ã‚½ãƒƒãƒ‰ã€");
+                beforeCode.append("\"¥¥¥ƒƒ\ƒbƒhw");
                 beforeCode.append(toJavassistClassName);
                 beforeCode.append(".\"");
                 beforeCode.append("+");
                 beforeCode.append("\"");
                 beforeCode.append(objCtMethodArr[index].getName());
-                beforeCode.append("ã€ãŒå‘¼ã³å‡ºã•ã‚ŒãŸã€‚\"");
+                beforeCode.append("x‚ªŒÄ‚Ño‚³‚ê‚½B\"");
                 beforeCode.append("); }");
 
-                // å‰å‡¦ç†ã‚³ãƒ¼ãƒ‰ã‚’åŸ‹ã‚è¾¼ã‚€
+                // ‘Oˆ—ƒR[ƒh‚ğ–„‚ß‚Ş
                 objCtMethodArr[index].insertBefore(beforeCode.toString());
 
-                // å¾Œå‡¦ç†ã‚³ãƒ¼ãƒ‰ã‚’ä½œã‚‹
+                // Œãˆ—ƒR[ƒh‚ğì‚é
                 StringBuffer afterCode = new StringBuffer();
                 afterCode.append("{ System.out.println(");
-                afterCode.append("\"â–²â–²â–²ãƒ¡ã‚½ãƒƒãƒ‰ã€");
+                afterCode.append("\"£££ƒƒ\ƒbƒhw");
                 afterCode.append(toJavassistClassName);
                 afterCode.append(".\"");
                 afterCode.append("+");
                 afterCode.append("\"");
                 afterCode.append(objCtMethodArr[index].getName());
-                afterCode.append("ã€ãŒçµ‚ã‚Šã¾ã—ãŸã€‚\"");
+                afterCode.append("x‚ªI‚è‚Ü‚µ‚½B\"");
                 afterCode.append("); }");
                 afterCode.append("{ System.out.println(");
                 afterCode.append("); }");
 
-                // å¾Œå‡¦ç†ã‚³ãƒ¼ãƒ‰ã‚’åŸ‹ã‚è¾¼ã‚€
+                // Œãˆ—ƒR[ƒh‚ğ–„‚ß‚Ş
                 objCtMethodArr[index].insertAfter(afterCode.toString());
             }
             catch (CannotCompileException objCannotCompileException)
@@ -104,7 +104,7 @@ public class TestTransformer implements ClassFileTransformer
             }
         }
 
-        // å¤‰æ›ã—ãŸã‚¯ãƒ©ã‚¹ã‚’è¿”å´ã™ã‚‹
+        // •ÏŠ·‚µ‚½ƒNƒ‰ƒX‚ğ•Ô‹p‚·‚é
         byte[] byteNewClassArr = null;
         try
         {

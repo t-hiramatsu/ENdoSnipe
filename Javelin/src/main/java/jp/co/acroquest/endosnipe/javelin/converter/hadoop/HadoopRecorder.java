@@ -30,7 +30,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
@@ -38,9 +37,7 @@ import jp.co.acroquest.endosnipe.common.event.EventConstants;
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 import jp.co.acroquest.endosnipe.javelin.CallTree;
 import jp.co.acroquest.endosnipe.javelin.CallTreeNode;
-import jp.co.acroquest.endosnipe.javelin.CallTreeNodeMonitor;
 import jp.co.acroquest.endosnipe.javelin.CallTreeRecorder;
-import jp.co.acroquest.endosnipe.javelin.HadoopJavelinFileGenerator;
 import jp.co.acroquest.endosnipe.javelin.MBeanManager;
 import jp.co.acroquest.endosnipe.javelin.RecordStrategy;
 import jp.co.acroquest.endosnipe.javelin.RootInvocationManager;
@@ -51,6 +48,7 @@ import jp.co.acroquest.endosnipe.javelin.bean.Invocation;
 import jp.co.acroquest.endosnipe.javelin.bean.TripleState;
 import jp.co.acroquest.endosnipe.javelin.communicate.AlarmListener;
 import jp.co.acroquest.endosnipe.javelin.converter.hadoop.HadoopObjectAnalyzer.HadoopJobStatus;
+import jp.co.acroquest.endosnipe.javelin.converter.leak.monitor.CallTreeNodeMonitor;
 import jp.co.acroquest.endosnipe.javelin.converter.util.ConverterUtil;
 import jp.co.acroquest.endosnipe.javelin.event.CommonEvent;
 import jp.co.acroquest.endosnipe.javelin.event.EventRepository;
@@ -64,42 +62,43 @@ import jp.co.acroquest.endosnipe.javelin.record.JvnFileNotifyCallback;
 import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
 
 /**
- * Hadoopç”¨ãƒ­ã‚°ã‚’è¨˜éŒ²ã™ã‚‹
+ * Hadoop—pƒƒO‚ğ‹L˜^‚·‚é
  * @author asazuma
  *
  */
+// TODO JobTrackerƒNƒ‰ƒX‚ÌgetJobStatus()AsubmitJob()Aheartbeat()‚Ì‚İŠÄ‹‚·‚é‚±‚Æ‚ğ‘z’è
 public class HadoopRecorder
 {
-    /** ã‚¢ãƒ©ãƒ¼ãƒ ãƒªã‚¹ãƒŠã®ãƒªã‚¹ãƒˆ */
+    /** ƒAƒ‰[ƒ€ƒŠƒXƒi‚ÌƒŠƒXƒg */
     private static final List<AlarmListener> ALARM_LISTENER_LIST = new ArrayList<AlarmListener>();
 
-    /** åˆæœŸåŒ–åˆ¤å®šãƒ•ãƒ©ã‚° */
+    /** ‰Šú‰»”»’èƒtƒ‰ƒO */
     private static boolean                 initialized__;
 
-    /** Javelinãƒ­ã‚°å‡ºåŠ›ã‚¯ãƒ©ã‚¹ */
-    private static HadoopJavelinFileGenerator    generator__;
+    /** JavelinƒƒOo—ÍƒNƒ‰ƒX */
+    private static JavelinFileGenerator    generator__;
 
-    /** è¨˜éŒ²æ¡ä»¶åˆ¤å®šã‚¯ãƒ©ã‚¹ */
+    /** ‹L˜^ğŒ”»’èƒNƒ‰ƒX */
     private static RecordStrategy          recordStrategy__;
 
-    /** javelinã®è¨­å®šãƒ•ã‚¡ã‚¤ãƒ« */
+    /** javelin‚Ìİ’èƒtƒ@ƒCƒ‹ */
     private static JavelinConfig           config__
                                                = new JavelinConfig();
 
-    /** ã‚¯ãƒ©ã‚¹åã®çœç•¥åŒ–ãƒ•ãƒ©ã‚° */
+    /** ƒNƒ‰ƒX–¼‚ÌÈ—ª‰»ƒtƒ‰ƒO */
     private static boolean                 isSimplification__ = false;
 
-    /** VMçŠ¶æ…‹ã®å–å¾—ã¨è¨˜éŒ²ã‚¯ãƒ©ã‚¹ */
+    /** VMó‘Ô‚Ìæ“¾‚Æ‹L˜^ƒNƒ‰ƒX */
     private static VMStatusHelper          vmStatusHelper__
                                                = new VMStatusHelper();
 
-    /** ã‚¤ãƒ™ãƒ³ãƒˆã®é‡è¤‡ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹ãŸã‚ã®ãƒªãƒã‚¸ãƒˆãƒª */
+    /** ƒCƒxƒ“ƒg‚Ìd•¡‚ğƒ`ƒFƒbƒN‚·‚é‚½‚ß‚ÌƒŠƒ|ƒWƒgƒŠ */
     private static EventRepository         eventRepository__
                                                = new EventRepository();
 
-    /** å®Ÿè¡Œä¸­ã®ã‚¸ãƒ§ãƒ–ã®ãƒªã‚¹ãƒˆ */
-    private static List<String>              runningJobList__    =
-                       Collections.synchronizedList(new ArrayList<String>());
+    /** Às’†‚ÌƒWƒ‡ƒu‚ÌƒŠƒXƒg */
+    private static List<String>            runningJobList__
+                                               = Collections.synchronizedList(new ArrayList<String>());
 
     static
     {
@@ -107,17 +106,17 @@ public class HadoopRecorder
     }
 
     /**
-     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã‚’éš ãºã„ã—ã¦ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã•ã›ãªã„
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ğ‰B‚Ø‚¢‚µ‚ÄƒCƒ“ƒXƒ^ƒ“ƒX‰»‚³‚¹‚È‚¢
      */
     private HadoopRecorder()
     {
-        // ä½•ã‚‚ã—ãªã„
+        // ‰½‚à‚µ‚È‚¢
     }
 
     /**
-     * åˆæœŸåŒ–ã•ã‚Œã¦ã„ã‚‹ã‹ã‚’è¿”ã™ã€‚
+     * ‰Šú‰»‚³‚ê‚Ä‚¢‚é‚©‚ğ•Ô‚·B
      *
-     * @return true:åˆæœŸåŒ–ã•ã‚Œã¦ã„ã‚‹ã€false:åˆæœŸåŒ–ã•ã‚Œã¦ã„ãªã„.
+     * @return true:‰Šú‰»‚³‚ê‚Ä‚¢‚éAfalse:‰Šú‰»‚³‚ê‚Ä‚¢‚È‚¢.
      */
     public static boolean isInitialized()
     {
@@ -125,9 +124,9 @@ public class HadoopRecorder
     }
 
     /**
-     * è¨­å®šã‚¯ãƒ©ã‚¹ã‚’è¨­å®šã™ã‚‹ã€‚
+     * İ’èƒNƒ‰ƒX‚ğİ’è‚·‚éB
      *
-     * @param config ã‚³ãƒ³ãƒ•ã‚£ã‚°
+     * @param config ƒRƒ“ƒtƒBƒO
      */
     public static void setJavelinConfig(final JavelinConfig config)
     {
@@ -135,9 +134,9 @@ public class HadoopRecorder
     }
 
     /**
-     * ã‚¹ãƒ¬ãƒƒãƒ‰ã®IDã‚’è¨­å®šã™ã‚‹
+     * ƒXƒŒƒbƒh‚ÌID‚ğİ’è‚·‚é
      *
-     * @param threadId ã‚¹ãƒ¬ãƒƒãƒ‰ID
+     * @param threadId ƒXƒŒƒbƒhID
      */
     public static void setThreadid(final String threadId)
     {
@@ -146,11 +145,11 @@ public class HadoopRecorder
     }
 
     /**
-     * åˆæœŸåŒ–å‡¦ç†ã€‚ AlarmListenerã®ç™»éŒ²ã‚’è¡Œã†ã€‚ RecordStrategyã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
-     * MBeanServerã¸ã®ContainerMBeanã®ç™»éŒ²ã‚’è¡Œã†ã€‚
-     * å…¬é–‹ç”¨HTTPãƒãƒ¼ãƒˆãŒæŒ‡å®šã•ã‚Œã¦ã„ãŸå ´åˆã¯ã€HttpAdaptorã®ç”Ÿæˆã¨ç™»éŒ²ã‚‚è¡Œã†ã€‚
+     * ‰Šú‰»ˆ—B AlarmListener‚Ì“o˜^‚ğs‚¤B RecordStrategy‚ğ‰Šú‰»‚·‚éB
+     * MBeanServer‚Ö‚ÌContainerMBean‚Ì“o˜^‚ğs‚¤B
+     * ŒöŠJ—pHTTPƒ|[ƒg‚ªw’è‚³‚ê‚Ä‚¢‚½ê‡‚ÍAHttpAdaptor‚Ì¶¬‚Æ“o˜^‚às‚¤B
      *
-     * @param config ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®è¨­å®šå€¤ã‚’ä¿å­˜ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param config ƒpƒ‰ƒ[ƒ^‚Ìİ’è’l‚ğ•Û‘¶‚·‚éƒIƒuƒWƒFƒNƒg
      */
     public static void javelinInit(final JavelinConfig config)
     {
@@ -158,23 +157,23 @@ public class HadoopRecorder
 
         try
         {
-            // ã‚¨ãƒ©ãƒ¼ãƒ­ã‚¬ãƒ¼åˆæœŸåŒ–
+            // ƒGƒ‰[ƒƒK[‰Šú‰»
             SystemLogger.initSystemLog(config);
 
-            // ãƒ­ã‚°å‡ºåŠ›ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ç”Ÿæˆ
-            generator__ = new HadoopJavelinFileGenerator(config);
+            // ƒƒOo—ÍƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX¶¬
+            generator__ = new JavelinFileGenerator(config);
 
-            // AlarmListenerã‚’ç™»éŒ²
+            // AlarmListener‚ğ“o˜^
             registerAlarmListeners(config);
 
-            // è¨˜éŒ²æ¡ä»¶åˆ¤å®šã‚¯ãƒ©ã‚¹åˆæœŸåŒ–
+            // ‹L˜^ğŒ”»’èƒNƒ‰ƒX‰Šú‰»
             String strategyName = config.getRecordStrategy();
             try
             {   recordStrategy__ = (RecordStrategy)loadClass(strategyName).newInstance();
             }
             catch (ClassNotFoundException cfne)
             {
-             // æŒ‡å®šã•ã‚ŒãŸã‚¯ãƒ©ã‚¹ãŒç„¡ã‘ã‚Œã°ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ã‚¯ãƒ©ã‚¹ã‚’ä½¿ç”¨
+             // w’è‚³‚ê‚½ƒNƒ‰ƒX‚ª–³‚¯‚ê‚ÎƒfƒtƒHƒ‹ƒg‚ÌƒNƒ‰ƒX‚ğg—p
                 String defaultRecordstrategy = JavelinConfig.DEFAULT_RECORDSTRATEGY;
                 SystemLogger.getInstance().info("Failed to load " + strategyName
                                                 + ". Use default value "
@@ -185,7 +184,7 @@ public class HadoopRecorder
                     (RecordStrategy)loadClass(defaultRecordstrategy).newInstance();
             }
 
-            // ã‚¹ãƒ¬ãƒƒãƒ‰ã®ç›£è¦–ã‚’é–‹å§‹
+            // ƒXƒŒƒbƒh‚ÌŠÄ‹‚ğŠJn
             vmStatusHelper__.init();
 
             initialized__ = true;
@@ -197,15 +196,15 @@ public class HadoopRecorder
     }
 
     /**
-     * AlarmListenerã®ã‚¯ãƒ©ã‚¹ã‚’Javelinè¨­å®šã‹ã‚‰èª­ã¿è¾¼ã¿ã€ç™»éŒ²ã™ã‚‹ã€‚<br />
-     * ã‚¯ãƒ©ã‚¹ã®ãƒ­ãƒ¼ãƒ‰ã¯ã€ä»¥ä¸‹ã®é †ã§ã‚¯ãƒ©ã‚¹ãƒ­ãƒ¼ãƒ€ã§ã®ãƒ­ãƒ¼ãƒ‰ã‚’è©¦ã¿ã‚‹ã€‚
+     * AlarmListener‚ÌƒNƒ‰ƒX‚ğJavelinİ’è‚©‚ç“Ç‚İ‚İA“o˜^‚·‚éB<br />
+     * ƒNƒ‰ƒX‚Ìƒ[ƒh‚ÍAˆÈ‰º‚Ì‡‚ÅƒNƒ‰ƒXƒ[ƒ_‚Å‚Ìƒ[ƒh‚ğ‚İ‚éB
      *
      * <ol>
-     * <li>HadoopRecorderã‚’ãƒ­ãƒ¼ãƒ‰ã—ãŸã‚¯ãƒ©ã‚¹ãƒ­ãƒ¼ãƒ€</li>
-     * <li>ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆã‚¯ãƒ©ã‚¹ãƒ­ãƒ¼ãƒ€</li>
+     * <li>HadoopRecorder‚ğƒ[ƒh‚µ‚½ƒNƒ‰ƒXƒ[ƒ_</li>
+     * <li>ƒRƒ“ƒeƒLƒXƒgƒNƒ‰ƒXƒ[ƒ_</li>
      * </ol>
      *
-     * @param config ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®è¨­å®šå€¤ã‚’ä¿å­˜ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param config ƒpƒ‰ƒ[ƒ^‚Ìİ’è’l‚ğ•Û‘¶‚·‚éƒIƒuƒWƒFƒNƒg
      */
     private static void registerAlarmListeners(final JavelinConfig config)
     {
@@ -216,12 +215,12 @@ public class HadoopRecorder
             {
                 if ("".equals(alarmListenerName)) continue;
 
-                // alarmListenerNameã‹ã‚‰ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—
+                // alarmListenerName‚©‚çƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾
                 Class<?> alarmListenerClass = loadClass(alarmListenerName);
                 Object listener = alarmListenerClass.newInstance();
                 if (listener instanceof AlarmListener)
                 {
-                    // å–å¾—ã—ãŸã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ãŒAlarmListenerã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹ã‚’å®Ÿè£…ã—ã¦ã„ãŸã‚‰ç™»éŒ²
+                    // æ“¾‚µ‚½ƒCƒ“ƒXƒ^ƒ“ƒX‚ªAlarmListenerƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğÀ‘•‚µ‚Ä‚¢‚½‚ç“o˜^
                     AlarmListener alarmListener = (AlarmListener)listener;
                     alarmListener.init();
                     addListener(alarmListener);
@@ -246,15 +245,15 @@ public class HadoopRecorder
     }
 
     /**
-     * ã‚¯ãƒ©ã‚¹ã‚’ãƒ­ãƒ¼ãƒ‰ã™ã‚‹ã€‚ ä»¥ä¸‹ã®é †ã§ã‚¯ãƒ©ã‚¹ãƒ­ãƒ¼ãƒ€ã§ã®ãƒ­ãƒ¼ãƒ‰ã‚’è©¦ã¿ã‚‹ã€‚
+     * ƒNƒ‰ƒX‚ğƒ[ƒh‚·‚éB ˆÈ‰º‚Ì‡‚ÅƒNƒ‰ƒXƒ[ƒ_‚Å‚Ìƒ[ƒh‚ğ‚İ‚éB
      * <ol>
-     * <li>HadoopRecorderã‚’ãƒ­ãƒ¼ãƒ‰ã—ãŸã‚¯ãƒ©ã‚¹ãƒ­ãƒ¼ãƒ€</li>
-     * <li>ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆã‚¯ãƒ©ã‚¹ãƒ­ãƒ¼ãƒ€</li>
+     * <li>HadoopRecorder‚ğƒ[ƒh‚µ‚½ƒNƒ‰ƒXƒ[ƒ_</li>
+     * <li>ƒRƒ“ƒeƒLƒXƒgƒNƒ‰ƒXƒ[ƒ_</li>
      * </ol>
      *
-     * @param className ãƒ­ãƒ¼ãƒ‰ã™ã‚‹ã‚¯ãƒ©ã‚¹ã®åå‰ã€‚
-     * @return ãƒ­ãƒ¼ãƒ‰ã—ãŸã‚¯ãƒ©ã‚¹ã€‚
-     * @throws ClassNotFoundException å…¨ã¦ã®ã‚¯ãƒ©ã‚¹ãƒ­ãƒ¼ãƒ€ã§ã‚¯ãƒ©ã‚¹ãŒè¦‹ã¤ã‹ã‚‰ãªã„å ´åˆ
+     * @param className ƒ[ƒh‚·‚éƒNƒ‰ƒX‚Ì–¼‘OB
+     * @return ƒ[ƒh‚µ‚½ƒNƒ‰ƒXB
+     * @throws ClassNotFoundException ‘S‚Ä‚ÌƒNƒ‰ƒXƒ[ƒ_‚ÅƒNƒ‰ƒX‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡
      */
     private static Class<?> loadClass(final String className)
         throws ClassNotFoundException
@@ -275,9 +274,9 @@ public class HadoopRecorder
     }
 
     /**
-     * Alarmé€šçŸ¥ã«åˆ©ç”¨ã™ã‚‹AlarmListenerã‚’ç™»éŒ²ã™ã‚‹
+     * Alarm’Ê’m‚É—˜—p‚·‚éAlarmListener‚ğ“o˜^‚·‚é
      *
-     * @param alarmListener Alarmé€šçŸ¥ã«åˆ©ç”¨ã™ã‚‹AlarmListener
+     * @param alarmListener Alarm’Ê’m‚É—˜—p‚·‚éAlarmListener
      */
     private static void addListener(final AlarmListener alarmListener)
     {
@@ -288,12 +287,12 @@ public class HadoopRecorder
     }
 
     /**
-     * å‰å‡¦ç†ã€‚
+     * ‘Oˆ—B
      *
-     * @param className ã‚¯ãƒ©ã‚¹å
-     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
-     * @param args å¼•æ•°
-     * @param thisObject thisã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param className ƒNƒ‰ƒX–¼
+     * @param methodName ƒƒ\ƒbƒh–¼
+     * @param args ˆø”
+     * @param thisObject thisƒIƒuƒWƒFƒNƒg
      */
     public static void preProcess(String className, String methodName, final Object[] args)
     {
@@ -314,17 +313,17 @@ public class HadoopRecorder
     }
 
     /**
-     * JavelinRecorder, JDBCJavelinRecorderã‹ã‚‰å‘¼ã³å‡ºã—ãŸã¨ãã®å‰å‡¦ç†ã€‚
-     * @param className ã‚¯ãƒ©ã‚¹å
-     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
-     * @param args å¼•æ•°
-     * @param doExcludeProcess é™¤å¤–å¯¾è±¡å‡¦ç†ã‚’è¡Œã†ã‹ã©ã†ã‹
-     * @param thisObject thisã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * JavelinRecorder, JDBCJavelinRecorder‚©‚çŒÄ‚Ño‚µ‚½‚Æ‚«‚Ì‘Oˆ—B
+     * @param className ƒNƒ‰ƒX–¼
+     * @param methodName ƒƒ\ƒbƒh–¼
+     * @param args ˆø”
+     * @param doExcludeProcess œŠO‘ÎÛˆ—‚ğs‚¤‚©‚Ç‚¤‚©
+     * @param thisObject thisƒIƒuƒWƒFƒNƒg
      */
     private static void preProcess(final String className, final String methodName,
             final Object[] args, final boolean doExcludeProcess)
     {
-        // ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹
+        // ƒXƒ^ƒbƒNƒgƒŒ[ƒX
         StackTraceElement[] stacktrace = null;
         if (config__.isLogStacktrace())
         {
@@ -335,16 +334,16 @@ public class HadoopRecorder
 
 
     /**
-     * å‰å‡¦ç†ã€‚
-     * @param component ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
-     * @param invocation {@link Invocation}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param className  ã‚¯ãƒ©ã‚¹å
-     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
-     * @param args å¼•æ•°
-     * @param stacktrace ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹
-     * @param doExcludeProcess é™¤å¤–å¯¾è±¡å‡¦ç†ã‚’è¡Œã†ã‹ã©ã†ã‹
-     * @param isResponse ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã§ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚’è¨˜éŒ²ã™ã‚‹ã‹ã©ã†ã‹ã€‚
-     * @param thisObject thisã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * ‘Oˆ—B
+     * @param component ƒRƒ“ƒ|[ƒlƒ“ƒg
+     * @param invocation {@link Invocation}ƒIƒuƒWƒFƒNƒg
+     * @param className  ƒNƒ‰ƒX–¼
+     * @param methodName ƒƒ\ƒbƒh–¼
+     * @param args ˆø”
+     * @param stacktrace ƒXƒ^ƒbƒNƒgƒŒ[ƒX
+     * @param doExcludeProcess œŠO‘ÎÛˆ—‚ğs‚¤‚©‚Ç‚¤‚©
+     * @param isResponse ƒfƒtƒHƒ‹ƒg‚ÅƒŒƒXƒ|ƒ“ƒX‚ğ‹L˜^‚·‚é‚©‚Ç‚¤‚©B
+     * @param thisObject thisƒIƒuƒWƒFƒNƒg
      */
     private static void preProcess(Component component, Invocation invocation,
             final String className, final String methodName, final Object[] args,
@@ -352,22 +351,22 @@ public class HadoopRecorder
     {
         synchronized (HadoopRecorder.class)
         {
-            // åˆæœŸåŒ–å‡¦ç†
+            // ‰Šú‰»ˆ—
             if (initialized__ == false)
             {
                 javelinInit(config__);
             }
         }
 
-        HadoopCallTreeRecorder callTreeRecorder = HadoopCallTreeRecorder.getInstance();
+        CallTreeRecorder callTreeRecorder = CallTreeRecorder.getInstance();
 
-        // Javelinã®ãƒ­ã‚°å‡ºåŠ›å‡¦ç†ãŒå‘¼ã³å‡ºã•ã‚Œã¦ã„ã‚‹å ´åˆã€å‡¦ç†ã‚’è¡Œã‚ãªã„
+        // Javelin‚ÌƒƒOo—Íˆ—‚ªŒÄ‚Ño‚³‚ê‚Ä‚¢‚éê‡Aˆ—‚ğs‚í‚È‚¢
         if (callTreeRecorder.isRecordMethodCalled())
         {
             return;
         }
 
-        // Javelinã®ãƒ­ã‚°å‡ºåŠ›å‡¦ç†å‘¼ã³å‡ºã—ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚’ã‚»ãƒƒãƒˆ
+        // Javelin‚ÌƒƒOo—Íˆ—ŒÄ‚Ño‚µƒXƒe[ƒ^ƒX‚ğƒZƒbƒg
         callTreeRecorder.setRecordMethodCalled(true);
 
         try
@@ -378,40 +377,40 @@ public class HadoopRecorder
 
             if (isRecorded)
             {
-                // æœ‰åŠ¹ã ã£ãŸnodeã®æ·±ã•ã‚’ä¿å­˜ã™ã‚‹ã€‚
+                // —LŒø‚¾‚Á‚½node‚Ì[‚³‚ğ•Û‘¶‚·‚éB
                 callTreeRecorder.getCallTree().addDepth(callTreeRecorder.getDepth());
             }
         }
         finally
         {
-            // Javelinã®ãƒ­ã‚°å‡ºåŠ›å‡¦ç†å‘¼ã³å‡ºã—ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚’è§£é™¤
+            // Javelin‚ÌƒƒOo—Íˆ—ŒÄ‚Ño‚µƒXƒe[ƒ^ƒX‚ğ‰ğœ
             callTreeRecorder.setRecordMethodCalled(false);
             callTreeRecorder.setDepth(callTreeRecorder.getDepth() + 1);
         }
     }
 
     /**
-     * å‰å‡¦ç†ã€‚
-     * @param component ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
-     * @param invocation {@link Invocation}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param className  ã‚¯ãƒ©ã‚¹å
-     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
-     * @param args å¼•æ•°
-     * @param stacktrace ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹
-     * @param doExcludeProcess é™¤å¤–å¯¾è±¡å‡¦ç†ã‚’è¡Œã†ã‹ã©ã†ã‹
-     * @param isResponse ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã§ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚’è¨˜éŒ²ã™ã‚‹ã‹ã©ã†ã‹ã€‚
-     * @param callTreeRecorder ã‚³ãƒ¼ãƒ«ãƒ„ãƒªãƒ¼
-     * @param thisObject thisã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * ‘Oˆ—B
+     * @param component ƒRƒ“ƒ|[ƒlƒ“ƒg
+     * @param invocation {@link Invocation}ƒIƒuƒWƒFƒNƒg
+     * @param className  ƒNƒ‰ƒX–¼
+     * @param methodName ƒƒ\ƒbƒh–¼
+     * @param args ˆø”
+     * @param stacktrace ƒXƒ^ƒbƒNƒgƒŒ[ƒX
+     * @param doExcludeProcess œŠO‘ÎÛˆ—‚ğs‚¤‚©‚Ç‚¤‚©
+     * @param isResponse ƒfƒtƒHƒ‹ƒg‚ÅƒŒƒXƒ|ƒ“ƒX‚ğ‹L˜^‚·‚é‚©‚Ç‚¤‚©B
+     * @param callTreeRecorder ƒR[ƒ‹ƒcƒŠ[
+     * @param thisObject thisƒIƒuƒWƒFƒNƒg
      *
-     * @return è¨˜éŒ²ã—ãŸã‹ã©ã†ã‹
+     * @return ‹L˜^‚µ‚½‚©‚Ç‚¤‚©
      */
     private static boolean recordPreInvocation(Component component, Invocation invocation,
             final String className, final String methodName, final Object[] args,
             final StackTraceElement[] stacktrace, final boolean doExcludeProcess,
-            final boolean isResponse, HadoopCallTreeRecorder callTreeRecorder)
+            final boolean isResponse, CallTreeRecorder callTreeRecorder)
     {
 
-        // å¼•æ•°ã®componentã¨invocationã¯å¿…ãšNULL
+        // ˆø”‚Ìcomponent‚Æinvocation‚Í•K‚¸NULL
         component = MBeanManager.getComponent(className);
         invocation = getInvocation(component, methodName);
 
@@ -421,7 +420,7 @@ public class HadoopRecorder
             return false;
         }
 
-        // ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®è§£æå¾Œã€CallTreeNodeã‚’ç™»éŒ²ã—ã¦çµ‚äº†
+        // ƒpƒ‰ƒ[ƒ^‚Ì‰ğÍŒãACallTreeNode‚ğ“o˜^‚µ‚ÄI—¹
         if (methodName.equals("heartbeat"))
         {
             return recordPreHeartbeat(callTreeRecorder, component,
@@ -434,22 +433,22 @@ public class HadoopRecorder
                                       invocation, className, methodName,
                                       args, stacktrace, isResponse);
         }
-        // ä¸Šè¨˜ã®ãƒ¡ã‚½ãƒƒãƒ‰ä»¥å¤–ã¯ã‚¨ãƒ©ãƒ¼
+        // ã‹L‚Ìƒƒ\ƒbƒhˆÈŠO‚ÍƒGƒ‰[
         return false;
     }
 
     /**
-     * ã‚³ãƒ¼ãƒ«ãƒ„ãƒªãƒ¼ã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
+     * ƒR[ƒ‹ƒcƒŠ[‚ğ‰Šú‰»‚·‚éB
      *
      * @param callTree callTree
-     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
-     * @param callTreeRecorder {@link CallTreeRecorder}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param methodName ƒƒ\ƒbƒh–¼
+     * @param callTreeRecorder {@link CallTreeRecorder}ƒIƒuƒWƒFƒNƒg
      */
     private static void initCallTree(CallTree callTree,
                                      final String methodName,
                                      CallTreeRecorder callTreeRecorder)
     {
-        // åˆå›å‘¼ã³å‡ºã—æ™‚ã¯ã‚³ãƒ¼ãƒ«ãƒ„ãƒªãƒ¼ã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
+        // ‰‰ñŒÄ‚Ño‚µ‚ÍƒR[ƒ‹ƒcƒŠ[‚ğ‰Šú‰»‚·‚éB
         callTree.clearDepth();
 
         callTree.setRootCallerName(config__.getRootCallerName());
@@ -463,11 +462,11 @@ public class HadoopRecorder
     }
 
     /**
-     * ã‚¹ãƒ¬ãƒƒãƒ‰IDã‚’ç”Ÿæˆã™ã‚‹ã€‚
+     * ƒXƒŒƒbƒhID‚ğ¶¬‚·‚éB
      *
-     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰åã€‚
+     * @param methodName ƒƒ\ƒbƒh–¼B
      *
-     * @return ã‚¹ãƒ¬ãƒƒãƒ‰IDã€‚
+     * @return ƒXƒŒƒbƒhIDB
      */
     private static String createThreadId(final String methodName,
                                          final CallTreeRecorder callTreeRecorder)
@@ -491,12 +490,12 @@ public class HadoopRecorder
     }
 
     /**
-     * Invocationã‚’å–å¾—ã™ã‚‹ã€‚
+     * Invocation‚ğæ“¾‚·‚éB
      *
-     * @param component ã‚¯ãƒ©ã‚¹å
-     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
+     * @param component ƒNƒ‰ƒX–¼
+     * @param methodName ƒƒ\ƒbƒh–¼
      *
-     * @return {@link Invocation}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @return {@link Invocation}ƒIƒuƒWƒFƒNƒg
      */
     private static Invocation getInvocation(final Component component,
                                            final String methodName)
@@ -511,14 +510,14 @@ public class HadoopRecorder
     }
 
     /**
-     * Invocationã‚’ç™»éŒ²ã™ã‚‹ã€‚
+     * Invocation‚ğ“o˜^‚·‚éB
      *
-     * @param component ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
-     * @param className ã‚¯ãƒ©ã‚¹å
-     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
-     * @param isResponse ãƒ¬ã‚¹ãƒãƒ³ã‚¹
+     * @param component ƒRƒ“ƒ|[ƒlƒ“ƒg
+     * @param className ƒNƒ‰ƒX–¼
+     * @param methodName ƒƒ\ƒbƒh–¼
+     * @param isResponse ƒŒƒXƒ|ƒ“ƒX
      *
-     * @return ç™»éŒ²ã—ãŸ{@link Invocation}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @return “o˜^‚µ‚½{@link Invocation}ƒIƒuƒWƒFƒNƒg
      */
     private static Invocation registerInvocation(Component component,
                                                 final String className,
@@ -529,7 +528,7 @@ public class HadoopRecorder
         {
             try
             {
-                // ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’ã‚¯ãƒ©ã‚¹åã‹ã‚‰ç”Ÿæˆ
+                // ƒRƒ“ƒ|[ƒlƒ“ƒg‚ğƒNƒ‰ƒX–¼‚©‚ç¶¬
                 component = new Component(className);
 
                 MBeanManager.setComponent(className, component);
@@ -551,13 +550,13 @@ public class HadoopRecorder
 
 
     /**
-     * {@link Invocation}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã«ç™»éŒ²ã—ã¾ã™ã€‚
+     * {@link Invocation}ƒIƒuƒWƒFƒNƒg‚ğƒRƒ“ƒ|[ƒlƒ“ƒg‚É“o˜^‚µ‚Ü‚·B
      *
-     * @param component ç™»éŒ²å¯¾è±¡ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
-     * @param methodName ç™»éŒ²ã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰
-     * @param isResponse ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚°ãƒ©ãƒ•ã«è¡¨ç¤ºã™ã‚‹å ´åˆã¯ <code>true</code>
+     * @param component “o˜^‘ÎÛƒRƒ“ƒ|[ƒlƒ“ƒg
+     * @param methodName “o˜^‚·‚éƒƒ\ƒbƒh
+     * @param isResponse ƒŒƒXƒ|ƒ“ƒXƒOƒ‰ƒt‚É•\¦‚·‚éê‡‚Í <code>true</code>
      *
-     * @return ç™»éŒ²ã—ãŸ Invocation
+     * @return “o˜^‚µ‚½ Invocation
      */
     private static Invocation registerInvocation(final Component component,
                                                 final String methodName,
@@ -572,14 +571,14 @@ public class HadoopRecorder
                      new Invocation(processName, className, methodName,
                                     Invocation.THRESHOLD_NOT_SPECIFIED);
 
-        // Invocationã®æ•°ãŒæœ€å¤§å€¤ã«é”ã—ã¦ãŠã‚Šã€ã‹ã¤InvocationFullEventã‚’é€ä¿¡ã™ã‚‹è¨­å®šã®å ´åˆã€
-        // InvocationFullEventé€ä¿¡ã®å‡¦ç†ã‚’è¡Œã†ã€‚
+        // Invocation‚Ì”‚ªÅ‘å’l‚É’B‚µ‚Ä‚¨‚èA‚©‚ÂInvocationFullEvent‚ğ‘—M‚·‚éİ’è‚Ìê‡A
+        // InvocationFullEvent‘—M‚Ìˆ—‚ğs‚¤B
         if (config__.getSendInvocationFullEvent() == true
                 && recordedInvocationNum >= config__.getRecordInvocationMax())
         {
             Invocation removedInvoction = component.addAndDeleteOldestInvocation(invocation);
-            sendInvocationFullEvent(component, className, recordedInvocationNum, invocation, 
-                    removedInvoction);
+            sendInvocationFullEvent(component, className, recordedInvocationNum, invocation,
+                                    removedInvoction);
         }
         else
         {
@@ -595,11 +594,11 @@ public class HadoopRecorder
     }
 
     /**
-     * VMçŠ¶æ…‹ã‚’å–å¾—ã™ã‚‹ã€‚
+     * VMó‘Ô‚ğæ“¾‚·‚éB
      *
-     * @param parent å‘¼ã³å‡ºã—å…ƒ
-     * @param newNode å‘¼ã³å‡ºã—å…ˆ
-     * @param callTreeRecorder {@link CallTreeRecorder}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param parent ŒÄ‚Ño‚µŒ³
+     * @param newNode ŒÄ‚Ño‚µæ
+     * @param callTreeRecorder {@link CallTreeRecorder}ƒIƒuƒWƒFƒNƒg
      *
      * @return
      */
@@ -626,11 +625,11 @@ public class HadoopRecorder
     }
 
     /**
-     * InvocationFullEventã‚’é€ä¿¡ã™ã‚‹ã€‚
+     * InvocationFullEvent‚ğ‘—M‚·‚éB
      *
-     * @param component ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã€‚
-     * @param className ã‚¯ãƒ©ã‚¹å
-     * @param invocationNum Invocationã®æ•°
+     * @param component ƒRƒ“ƒ|[ƒlƒ“ƒgB
+     * @param className ƒNƒ‰ƒX–¼
+     * @param invocationNum Invocation‚Ì”
      */
     private static void sendInvocationFullEvent(Component component, String className,
             int invocationNum, Invocation addInvocation, Invocation removedInvocation)
@@ -668,7 +667,7 @@ public class HadoopRecorder
     }
 
     /**
-     * ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚’è¨˜éŒ²ã™ã‚‹ã€‚
+     * ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ğ‹L˜^‚·‚éB
      *
      * @param node CallTreeNode
      */
@@ -720,13 +719,13 @@ public class HadoopRecorder
     }
 
     /**
-     * nodeã«ã‚¤ãƒ™ãƒ³ãƒˆã‚’è¿½åŠ ã—ã¾ã™ã€‚<br />
-     * CallTreeãŒç„¡ã„å ´åˆã¯ã€æ–°è¦ä½œæˆã—ã¾ã™ã€‚
-     * å¿…ãšç™ºå ±ã™ã‚‹ã€‚
+     * node‚ÉƒCƒxƒ“ƒg‚ğ’Ç‰Á‚µ‚Ü‚·B<br />
+     * CallTree‚ª–³‚¢ê‡‚ÍAV‹Kì¬‚µ‚Ü‚·B
+     * •K‚¸”­•ñ‚·‚éB
      *
-     * @param event ã‚¤ãƒ™ãƒ³ãƒˆã€‚
+     * @param event ƒCƒxƒ“ƒgB
      *
-     * @return è¿½åŠ ã—ãŸCallTreeNodeã€‚
+     * @return ’Ç‰Á‚µ‚½CallTreeNodeB
      */
     private static CallTreeNode addEvent(CommonEvent event)
     {
@@ -734,16 +733,16 @@ public class HadoopRecorder
     }
 
     /**
-     * nodeã«ã‚¤ãƒ™ãƒ³ãƒˆã‚’è¿½åŠ ã—ã¾ã™ã€‚<br />
-     * CallTreeãŒç„¡ã„å ´åˆã¯ã€æ–°è¦ä½œæˆã—ã¾ã™ã€‚
-     * å¿…ãšç™ºå ±ã™ã‚‹ã€‚
+     * node‚ÉƒCƒxƒ“ƒg‚ğ’Ç‰Á‚µ‚Ü‚·B<br />
+     * CallTree‚ª–³‚¢ê‡‚ÍAV‹Kì¬‚µ‚Ü‚·B
+     * •K‚¸”­•ñ‚·‚éB
      *
-     * @param event ã‚¤ãƒ™ãƒ³ãƒˆã€‚
-     * @param clear æ—¢ã«ã‚¤ãƒ™ãƒ³ãƒˆãŒã‚ã‚‹å ´åˆã‚‚ç™ºå ±ã™ã‚‹ã€‚
-     * @param config è¨­å®šã€‚
-     * @param telegramId é›»æ–‡ ID
+     * @param event ƒCƒxƒ“ƒgB
+     * @param clear Šù‚ÉƒCƒxƒ“ƒg‚ª‚ ‚éê‡‚à”­•ñ‚·‚éB
+     * @param config İ’èB
+     * @param telegramId “d•¶ ID
      *
-     * @return è¿½åŠ ã—ãŸNodeã€‚
+     * @return ’Ç‰Á‚µ‚½NodeB
      */
     private static CallTreeNode addEvent(CommonEvent event, boolean clear, JavelinConfig config,
             long telegramId)
@@ -761,8 +760,8 @@ public class HadoopRecorder
             config = new JavelinConfig();
         }
 
-        // ã‚¤ãƒ™ãƒ³ãƒˆã®å‡ºåŠ›è¨­å®šãƒ¬ãƒ™ãƒ«ãŒã€å¼•æ•°ã§æŒ‡å®šã—ãŸã‚¤ãƒ™ãƒ³ãƒˆã®ãƒ¬ãƒ™ãƒ«ã‚ˆã‚Šã‚‚å¤§ãã„å ´åˆã¯ã€
-        // ã‚¤ãƒ™ãƒ³ãƒˆã‚’å‡ºåŠ›ã—ãªã„ã€‚
+        // ƒCƒxƒ“ƒg‚Ìo—Íİ’èƒŒƒxƒ‹‚ªAˆø”‚Åw’è‚µ‚½ƒCƒxƒ“ƒg‚ÌƒŒƒxƒ‹‚æ‚è‚à‘å‚«‚¢ê‡‚ÍA
+        // ƒCƒxƒ“ƒg‚ğo—Í‚µ‚È‚¢B
         int outputEventLevel = convertEventLevel(config.getEventLevel());
         if (outputEventLevel > event.getLevel())
         {
@@ -775,7 +774,7 @@ public class HadoopRecorder
         CallTreeNode callTreeNode = callTreeRecorder.getCallTreeNode();
         CallTree tree = callTreeRecorder.getCallTree();
 
-        // ã‚¤ãƒ™ãƒ³ãƒˆã®ãƒ¬ãƒ™ãƒ«ãŒã‚¨ãƒ©ãƒ¼ã®å ´åˆã€å³åº§ã«ã‚¢ãƒ©ãƒ¼ãƒ ã‚’ä¸Šã’ã‚‹ã€‚
+        // ƒCƒxƒ“ƒg‚ÌƒŒƒxƒ‹‚ªƒGƒ‰[‚Ìê‡A‘¦À‚ÉƒAƒ‰[ƒ€‚ğã‚°‚éB
         if(event.getLevel() >= CommonEvent.LEVEL_ERROR)
         {
             Invocation invocation = null;
@@ -831,10 +830,10 @@ public class HadoopRecorder
     }
 
     /**
-     * ã‚¤ãƒ™ãƒ³ãƒˆãƒ¬ãƒ™ãƒ«ã‚’æ–‡å­—åˆ—ã‹ã‚‰æ•°å€¤ã«å¤‰æ›ã—ã¾ã™ã€‚<br />
+     * ƒCƒxƒ“ƒgƒŒƒxƒ‹‚ğ•¶š—ñ‚©‚ç”’l‚É•ÏŠ·‚µ‚Ü‚·B<br />
      *
-     * @param eventLevelStr ã‚¤ãƒ™ãƒ³ãƒˆãƒ¬ãƒ™ãƒ«(æ–‡å­—åˆ—)
-     * @return ã‚¤ãƒ™ãƒ³ãƒˆãƒ¬ãƒ™ãƒ«(æ•°å€¤)
+     * @param eventLevelStr ƒCƒxƒ“ƒgƒŒƒxƒ‹(•¶š—ñ)
+     * @return ƒCƒxƒ“ƒgƒŒƒxƒ‹(”’l)
      */
     private static int convertEventLevel(final String eventLevelStr)
     {
@@ -854,12 +853,12 @@ public class HadoopRecorder
     }
 
     /**
-     * å³åº§ã«ã‚¤ãƒ™ãƒ³ãƒˆã‚’é€ä¿¡ã™ã‚‹ã€‚
+     * ‘¦À‚ÉƒCƒxƒ“ƒg‚ğ‘—M‚·‚éB
      *
-     * @param event ã‚¤ãƒ™ãƒ³ãƒˆ
-     * @param invocation {@link Invocation}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param callTreeRecorder {@link CallTreeRecorder}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param telegramId é›»æ–‡ID
+     * @param event ƒCƒxƒ“ƒg
+     * @param invocation {@link Invocation}ƒIƒuƒWƒFƒNƒg
+     * @param callTreeRecorder {@link CallTreeRecorder}ƒIƒuƒWƒFƒNƒg
+     * @param telegramId “d•¶ID
      */
     private static void sendEventImmediately(CommonEvent event,
                                              Invocation invocation,
@@ -874,14 +873,14 @@ public class HadoopRecorder
     }
 
     /**
-     * ã‚¤ãƒ™ãƒ³ãƒˆç”¨ã®ãƒãƒ¼ãƒ‰ã‚’ä½œæˆã™ã‚‹ã€‚
+     * ƒCƒxƒ“ƒg—p‚Ìƒm[ƒh‚ğì¬‚·‚éB
      *
-     * @param event ã‚¤ãƒ™ãƒ³ãƒˆ
-     * @param callTreeRecorder {@link CallTreeRecorder}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param tree ãƒ„ãƒªãƒ¼
-     * @param invocation {@link Invocation}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param event ƒCƒxƒ“ƒg
+     * @param callTreeRecorder {@link CallTreeRecorder}ƒIƒuƒWƒFƒNƒg
+     * @param tree ƒcƒŠ[
+     * @param invocation {@link Invocation}ƒIƒuƒWƒFƒNƒg
      *
-     * @return ã‚¤ãƒ™ãƒ³ãƒˆç”¨ã®ãƒãƒ¼ãƒ‰ã€‚
+     * @return ƒCƒxƒ“ƒg—p‚Ìƒm[ƒhB
      */
     private static CallTreeNode createEventNode(CommonEvent event,
                                                 CallTreeRecorder callTreeRecorder,
@@ -893,7 +892,7 @@ public class HadoopRecorder
             String className = config__.getRootCallerName();
             String methodName = "";
 
-            // CallTreeã«ã‚¹ãƒ¬ãƒƒãƒ‰åã‚’è¨­å®šã™ã‚‹ã€‚
+            // CallTree‚ÉƒXƒŒƒbƒh–¼‚ğİ’è‚·‚éB
             String threadId = createThreadId(methodName, callTreeRecorder);
             if (threadId != null)
             {
@@ -913,26 +912,26 @@ public class HadoopRecorder
     }
 
     /**
-     * ã‚¤ãƒ™ãƒ³ãƒˆãŒç™ºç”Ÿã—ã¦ã„ã‚‹å ´åˆã«ã€ Javelin ãƒ­ã‚°ã¸ã®å‡ºåŠ›ã¨ã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥ã‚’è¡Œã†ã€‚
+     * ƒCƒxƒ“ƒg‚ª”­¶‚µ‚Ä‚¢‚éê‡‚ÉA Javelin ƒƒO‚Ö‚Ìo—Í‚ÆƒAƒ‰[ƒ€’Ê’m‚ğs‚¤B
      *
-     * @param callTree ã‚³ãƒ¼ãƒ«ãƒ„ãƒªãƒ¼
-     * @param callTreeRecorder {@link CallTreeRecorder}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param telegramId é›»æ–‡ID
+     * @param callTree ƒR[ƒ‹ƒcƒŠ[
+     * @param callTreeRecorder {@link CallTreeRecorder}ƒIƒuƒWƒFƒNƒg
+     * @param telegramId “d•¶ID
      */
     private static void recordAndAlarmEvents(CallTree callTree,
                                              CallTreeRecorder callTreeRecorder,
                                              long telegramId)
     {
-        // CallTreeã«å¯¾ã—ã¦EventNodeãŒå­˜åœ¨ã—ãªã„çŠ¶æ³ã§EventãŒç™ºç”Ÿã—ãŸå ´åˆã®ã¿ã€
-        //  getEventNodeListã«è¦ç´ ãŒè¿½åŠ ã•ã‚Œã¦ã„ã‚‹ã€‚
+        // CallTree‚É‘Î‚µ‚ÄEventNode‚ª‘¶İ‚µ‚È‚¢ó‹µ‚ÅEvent‚ª”­¶‚µ‚½ê‡‚Ì‚İA
+        //  getEventNodeList‚É—v‘f‚ª’Ç‰Á‚³‚ê‚Ä‚¢‚éB
         List<CallTreeNode> eventList = callTree.getEventNodeList();
         int size = eventList.size();
         if (size != 0)
         {
-            // ã‚¤ãƒ™ãƒ³ãƒˆå‡¦ç†ãŒå­˜åœ¨ã™ã‚‹å ´åˆã€ãƒ­ã‚°å‡ºåŠ›å‡¦ç†ã¨ ã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥å‡¦ç†ã‚’è¡Œã†ã€‚
+            // ƒCƒxƒ“ƒgˆ—‚ª‘¶İ‚·‚éê‡AƒƒOo—Íˆ—‚Æ ƒAƒ‰[ƒ€’Ê’mˆ—‚ğs‚¤B
             for (int num = 0; num < size; num++)
             {
-                // Javelinã®åˆæœŸåŒ–ãŒæ¸ˆã‚“ã§ã„ãªã„å ´åˆã€ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ä½œæˆã¨ã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥ã®å‡¦ç†ã‚’é£›ã°ã™ã€‚
+                // Javelin‚Ì‰Šú‰»‚ªÏ‚ñ‚Å‚¢‚È‚¢ê‡AƒƒOƒtƒ@ƒCƒ‹ì¬‚ÆƒAƒ‰[ƒ€’Ê’m‚Ìˆ—‚ğ”ò‚Î‚·B
                 if (generator__ != null)
                 {
                     generator__.generateJaveinFile(callTree, eventList.get(num),
@@ -941,7 +940,7 @@ public class HadoopRecorder
                     sendEventAlarm();
                 }
 
-                // CallTreeã«ä¿æŒã•ã‚Œã¦ã„ãŸNodeæ•°ã‚’è¨˜éŒ²ã™ã‚‹
+                // CallTree‚É•Û‚³‚ê‚Ä‚¢‚½Node”‚ğ‹L˜^‚·‚é
                 int totalNodeCount = callTree.getTotalNodeCount();
                 CallTreeNodeMonitor.add(totalNodeCount);
 
@@ -955,7 +954,7 @@ public class HadoopRecorder
     }
 
     /**
-     * Alarmé€šçŸ¥ã™ã‚‹ã€‚
+     * Alarm’Ê’m‚·‚éB
      */
     private static void sendEventAlarm()
     {
@@ -969,9 +968,9 @@ public class HadoopRecorder
     }
 
     /**
-     * Alarmé€šçŸ¥ã™ã‚‹ã€‚
+     * Alarm’Ê’m‚·‚éB
      * @param node CallTreeNode
-     * @param telegramId é›»æ–‡ ID
+     * @param telegramId “d•¶ ID
      */
     private static void sendAlarmImpl(final CallTreeNode node)
     {
@@ -979,8 +978,8 @@ public class HadoopRecorder
         {
             for (AlarmListener alarmListener : ALARM_LISTENER_LIST)
             {
-                // ãƒ«ãƒ¼ãƒˆãƒãƒ¼ãƒ‰ã®ã¿Alarmã‚’é€ä¿¡ã™ã‚‹AlarmListenerã¯ã€
-                // è¦ªã‚’æŒã¤ãƒãƒ¼ãƒ‰ã‚’ç„¡è¦–ã™ã‚‹ã€‚
+                // ƒ‹[ƒgƒm[ƒh‚Ì‚İAlarm‚ğ‘—M‚·‚éAlarmListener‚ÍA
+                // e‚ğ‚Âƒm[ƒh‚ğ–³‹‚·‚éB
                 boolean sendingRootOnly = alarmListener.isSendingRootOnly();
                 if (sendingRootOnly == true && node.getParent() != null)
                 {
@@ -989,8 +988,8 @@ public class HadoopRecorder
 
                 try
                 {
-                    // AlarmListenerã«ã¯CallTreeNodeã‚’ãã®ã¾ã¾æ¸¡ã™
-                    // â†’ã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥ã§ç´¯ç©æ™‚é–“ã‚’ä½¿ç”¨ã™ã‚‹ã‚‚ã®ãŒã‚ã‚‹ç‚º
+                    // AlarmListener‚É‚ÍCallTreeNode‚ğ‚»‚Ì‚Ü‚Ü“n‚·
+                    // ¨ƒAƒ‰[ƒ€’Ê’m‚Å—İÏŠÔ‚ğg—p‚·‚é‚à‚Ì‚ª‚ ‚éˆ×
                     alarmListener.sendExceedThresholdAlarm(node);
                 }
                 catch (Throwable ex)
@@ -1002,11 +1001,11 @@ public class HadoopRecorder
     }
 
     /**
-     * å¾Œå‡¦ç†ï¼ˆæœ¬å‡¦ç†æˆåŠŸæ™‚ï¼‰
+     * Œãˆ—i–{ˆ—¬Œ÷j
      *
-     * @param className ã‚¯ãƒ©ã‚¹å
-     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
-     * @param retValue æˆ»ã‚Šå€¤ã€‚
+     * @param className ƒNƒ‰ƒX–¼
+     * @param methodName ƒƒ\ƒbƒh–¼
+     * @param retValue –ß‚è’lB
      */
     public static void postProcessOK(String className, String methodName, final Object retValue, Object thisObject)
     {
@@ -1026,11 +1025,11 @@ public class HadoopRecorder
     }
 
     /**
-     * å¾Œå‡¦ç†ï¼ˆæœ¬å‡¦ç†å¤±æ•—æ™‚ï¼‰ã€‚
+     * Œãˆ—i–{ˆ—¸”sjB
      *
-     * @param className ã‚¯ãƒ©ã‚¹å
-     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
-     * @param cause ä¾‹å¤–ã®åŸå› 
+     * @param className ƒNƒ‰ƒX–¼
+     * @param methodName ƒƒ\ƒbƒh–¼
+     * @param cause —áŠO‚ÌŒ´ˆö
      */
     public static void postProcessNG(String className,
                                      String methodName,
@@ -1052,15 +1051,15 @@ public class HadoopRecorder
     }
 
     /**
-     * å¾Œå‡¦ç†ã®å…±é€šå‡¦ç†<br />
+     * Œãˆ—‚Ì‹¤’Êˆ—<br />
      * <br />
-     * CallTree ã«æƒ…å ±ã‚’æ ¼ç´ã—ã¾ã™ã€‚
-     * ã¾ãŸã€å¿…è¦ã«å¿œã˜ã¦ Javelin ãƒ­ã‚°å‡ºåŠ›ã¨ã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥ã‚’è¡Œã„ã¾ã™ã€‚<br />
+     * CallTree ‚Éî•ñ‚ğŠi”[‚µ‚Ü‚·B
+     * ‚Ü‚½A•K—v‚É‰‚¶‚Ä Javelin ƒƒOo—Í‚ÆƒAƒ‰[ƒ€’Ê’m‚ğs‚¢‚Ü‚·B<br />
      *
-     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
-     * @param returnValue æˆ»ã‚Šå€¤ï¼ˆ <code>null</code> ã‚‚å¯ï¼‰
-     * @param cause ä¾‹å¤–ç™ºç”Ÿã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆï¼ˆ <code>null</code> ã‚‚å¯ï¼‰
-     * @param telegramId é›»æ–‡ ID
+     * @param methodName ƒƒ\ƒbƒh–¼
+     * @param returnValue –ß‚è’li <code>null</code> ‚à‰Âj
+     * @param cause —áŠO”­¶ƒIƒuƒWƒFƒNƒgi <code>null</code> ‚à‰Âj
+     * @param telegramId “d•¶ ID
      */
     private static void postProcessCommon(final Object thisObject,
                                           final String methodName,
@@ -1068,15 +1067,15 @@ public class HadoopRecorder
                                           final Throwable cause,
                                           final long telegramId)
     {
-        HadoopCallTreeRecorder callTreeRecorder = HadoopCallTreeRecorder.getInstance();
+        CallTreeRecorder callTreeRecorder = CallTreeRecorder.getInstance();
 
-        // Javelinã®ãƒ­ã‚°å‡ºåŠ›å‡¦ç†ãŒå‘¼ã³å‡ºã•ã‚Œã¦ã„ã‚‹å ´åˆã€å‡¦ç†ã‚’è¡Œã‚ãªã„
+        // Javelin‚ÌƒƒOo—Íˆ—‚ªŒÄ‚Ño‚³‚ê‚Ä‚¢‚éê‡Aˆ—‚ğs‚í‚È‚¢
         if (callTreeRecorder.isRecordMethodCalled())
         {
             return;
         }
 
-        // Javelinã®ãƒ­ã‚°å‡ºåŠ›å‡¦ç†å‘¼ã³å‡ºã—ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚’ã‚»ãƒƒãƒˆ
+        // Javelin‚ÌƒƒOo—Íˆ—ŒÄ‚Ño‚µƒXƒe[ƒ^ƒX‚ğƒZƒbƒg
         callTreeRecorder.setRecordMethodCalled(true);
 
         try
@@ -1085,7 +1084,7 @@ public class HadoopRecorder
             callTreeRecorder.setDepth(depth);
             CallTree callTree = callTreeRecorder.getCallTree();
 
-            // è¨ˆæ¸¬å¯¾è±¡å¤–ã®æ·±åº¦ã§ã‚ã‚Œã°ä½•ã‚‚ã—ãªã„
+            // Œv‘ª‘ÎÛŠO‚Ì[“x‚Å‚ ‚ê‚Î‰½‚à‚µ‚È‚¢
             if (callTree.containsDepth(depth) == false) return;
 
             callTree.removeDepth(depth);
@@ -1095,32 +1094,32 @@ public class HadoopRecorder
         }
         finally
         {
-            // Javelinã®ãƒ­ã‚°å‡ºåŠ›å‡¦ç†å‘¼ã³å‡ºã—ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚’è§£é™¤
+            // Javelin‚ÌƒƒOo—Íˆ—ŒÄ‚Ño‚µƒXƒe[ƒ^ƒX‚ğ‰ğœ
             callTreeRecorder.setRecordMethodCalled(false);
         }
     }
 
     /**
-     * å¾Œå‡¦ç†ã®å…±é€šå‡¦ç†<br />
+     * Œãˆ—‚Ì‹¤’Êˆ—<br />
      * <br />
-     * CallTree ã«æƒ…å ±ã‚’æ ¼ç´ã—ã¾ã™ã€‚<br />
-     * ã¾ãŸã€å¿…è¦ã«å¿œã˜ã¦ Javelin ãƒ­ã‚°å‡ºåŠ›ã¨ã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥ã‚’è¡Œã„ã¾ã™ã€‚<br />
+     * CallTree ‚Éî•ñ‚ğŠi”[‚µ‚Ü‚·B<br />
+     * ‚Ü‚½A•K—v‚É‰‚¶‚Ä Javelin ƒƒOo—Í‚ÆƒAƒ‰[ƒ€’Ê’m‚ğs‚¢‚Ü‚·B<br />
      *
-     * @param returnValue æˆ»ã‚Šå€¤ï¼ˆ <code>null</code> ã‚‚å¯ï¼‰
-     * @param cause ä¾‹å¤–ç™ºç”Ÿã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆï¼ˆ <code>null</code> ã‚‚å¯ï¼‰
-     * @param config ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®è¨­å®šå€¤ã‚’ä¿å­˜ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param callTreeRecorder ã‚³ãƒ¼ãƒ«ãƒ„ãƒªãƒ¼ãƒ¬ã‚³ãƒ¼ãƒ€
-     * @param telegramId é›»æ–‡ ID
+     * @param returnValue –ß‚è’li <code>null</code> ‚à‰Âj
+     * @param cause —áŠO”­¶ƒIƒuƒWƒFƒNƒgi <code>null</code> ‚à‰Âj
+     * @param config ƒpƒ‰ƒ[ƒ^‚Ìİ’è’l‚ğ•Û‘¶‚·‚éƒIƒuƒWƒFƒNƒg
+     * @param callTreeRecorder ƒR[ƒ‹ƒcƒŠ[ƒŒƒR[ƒ_
+     * @param telegramId “d•¶ ID
      */
     private static boolean recordPostInvocation(final Object thisObject,
                                                 final Object returnValue,
                                                 final String methodName,
                                                 final Throwable cause,
-                                                HadoopCallTreeRecorder callTreeRecorder,
+                                                CallTreeRecorder callTreeRecorder,
                                                 long telegramId)
     {
         boolean ret = false;
-        // ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®è§£æå¾Œã€CallTreeNodeã‚’ç™»éŒ²ã—ã¦çµ‚äº†
+        // ƒpƒ‰ƒ[ƒ^‚Ì‰ğÍŒãACallTreeNode‚ğ“o˜^‚µ‚ÄI—¹
         if (methodName.equals("heartbeat"))
         {
             ret = recordPostHeartbeat(thisObject, returnValue, methodName,
@@ -1131,20 +1130,20 @@ public class HadoopRecorder
             ret = recordPostSubmitJob(thisObject, returnValue, methodName,
                                        cause, callTreeRecorder, telegramId);
         }
-        // ä¸Šè¨˜ã®ãƒ¡ã‚½ãƒƒãƒ‰ä»¥å¤–ã¯ã‚¨ãƒ©ãƒ¼
+        // ã‹L‚Ìƒƒ\ƒbƒhˆÈŠO‚ÍƒGƒ‰[
 
-        // å‘¼ã³å…ƒãŒæ®‹ã£ã¦ã—ã¾ã†å ´åˆãŒã‚ã‚‹ã®ã§ã‚¯ãƒªã‚¢ã™ã‚‹ã€‚
+        // ŒÄ‚ÑŒ³‚ªc‚Á‚Ä‚µ‚Ü‚¤ê‡‚ª‚ ‚é‚Ì‚ÅƒNƒŠƒA‚·‚éB
         CallTreeRecorder.getInstance().clearCallerNode();
 
         return ret;
     }
 
     /**
-     * ãƒãƒ¼ãƒ‰æƒ…å ±ã«VMçŠ¶æ…‹ã‚’è¨­å®šã™ã‚‹ã€‚
+     * ƒm[ƒhî•ñ‚ÉVMó‘Ô‚ğİ’è‚·‚éB
      *
-     * @param node ãƒãƒ¼ãƒ‰
-     * @param parent å‘¼ã³å‡ºã—å…ƒ
-     * @param callTreeRecorder {@link CallTreeRecorder}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param node ƒm[ƒh
+     * @param parent ŒÄ‚Ño‚µŒ³
+     * @param callTreeRecorder {@link CallTreeRecorder}ƒIƒuƒWƒFƒNƒg
      */
     private static void addEndVMStatus(CallTreeNode node,
                                        CallTreeNode parent,
@@ -1165,31 +1164,31 @@ public class HadoopRecorder
     }
 
     /**
-     * ãƒ«ãƒ¼ãƒˆãƒãƒ¼ãƒ‰ã®å ´åˆã®å¾Œå‡¦ç†ã‚’è¡Œã†ã€‚
+     * ƒ‹[ƒgƒm[ƒh‚Ìê‡‚ÌŒãˆ—‚ğs‚¤B
      *
-     * @param callTree ã‚³ãƒ¼ãƒ«ãƒ„ãƒªãƒ¼
-     * @param node ãƒãƒ¼ãƒ‰
-     * @param callTreeRecorder {@link CallTreeRecorder}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param callTree ƒR[ƒ‹ƒcƒŠ[
+     * @param node ƒm[ƒh
+     * @param callTreeRecorder {@link CallTreeRecorder}ƒIƒuƒWƒFƒNƒg
      */
     private static void postProcessOnRootNode(CallTree callTree, CallTreeNode node,
             CallTreeRecorder callTreeRecorder)
     {
-        // Strategyã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹ã‚’åˆ©ç”¨ã—ãŸåˆ¤å®šå¾Œã®å¾Œå‡¦ç†ã‚’è¡Œã†
+        // StrategyƒCƒ“ƒ^ƒtƒF[ƒX‚ğ—˜—p‚µ‚½”»’èŒã‚ÌŒãˆ—‚ğs‚¤
         postJudge(callTree, node, recordStrategy__);
 
         callTree.executeCallback();
         callTreeRecorder.clearCallerNode();
 
-        // CallTreeã«ä¿æŒã•ã‚Œã¦ã„ãŸNodeæ•°ã‚’è¨˜éŒ²ã™ã‚‹
+        // CallTree‚É•Û‚³‚ê‚Ä‚¢‚½Node”‚ğ‹L˜^‚·‚é
         int totalNodeCount = callTree.getTotalNodeCount();
         CallTreeNodeMonitor.add(totalNodeCount);
         callTreeRecorder.clearCallTree();
     }
 
     /**
-     * ãƒãƒ¼ãƒ‰å®Ÿè¡Œã®CPUæ™‚é–“ã‚’è¨­å®šã™ã‚‹ã€‚
+     * ƒm[ƒhÀs‚ÌCPUŠÔ‚ğİ’è‚·‚éB
      *
-     * @param node ãƒãƒ¼ãƒ‰
+     * @param node ƒm[ƒh
      */
     private static void setCpuTime(CallTreeNode node)
     {
@@ -1204,9 +1203,9 @@ public class HadoopRecorder
     }
 
     /**
-     * ãƒãƒ¼ãƒ‰å®Ÿè¡Œã®ãƒ¦ãƒ¼ã‚¶æ™‚é–“ã‚’è¨­å®šã™ã‚‹ã€‚
+     * ƒm[ƒhÀs‚Ìƒ†[ƒUŠÔ‚ğİ’è‚·‚éB
      *
-     * @param node ãƒãƒ¼ãƒ‰
+     * @param node ƒm[ƒh
      */
     private static void setUserTime(CallTreeNode node)
     {
@@ -1221,12 +1220,12 @@ public class HadoopRecorder
     }
 
     /**
-     * Configã¨CallTreeã«è¨­å®šã•ã‚ŒãŸåˆ¤å®šã‚¯ãƒ©ã‚¹ã«å¯¾ã—ã¦ã€
-     * åˆ¤å®šå¾Œã«å¾Œå‡¦ç†ã‚’è¡Œã†ã€‚
+     * Config‚ÆCallTree‚Éİ’è‚³‚ê‚½”»’èƒNƒ‰ƒX‚É‘Î‚µ‚ÄA
+     * ”»’èŒã‚ÉŒãˆ—‚ğs‚¤B
      *
-     * @param callTree ã‚³ãƒ¼ãƒ«ãƒ„ãƒªãƒ¼
-     * @param node ãƒãƒ¼ãƒ‰
-     * @param strategy Configã«è¨­å®šã•ã‚ŒãŸåˆ¤å®šã‚¯ãƒ©ã‚¹ã€‚
+     * @param callTree ƒR[ƒ‹ƒcƒŠ[
+     * @param node ƒm[ƒh
+     * @param strategy Config‚Éİ’è‚³‚ê‚½”»’èƒNƒ‰ƒXB
      */
     private static void postJudge(final CallTree callTree, final CallTreeNode node,
                                  final RecordStrategy strategy)
@@ -1247,19 +1246,19 @@ public class HadoopRecorder
     }
 
     /**
-     * å¿…è¦ã«å¿œã˜ã¦ã€ Javelin ãƒ­ã‚°ã¸ã®å‡ºåŠ›ã€ã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥å‡¦ç†ã‚’è¡Œã„ã¾ã™ã€‚<br />
+     * •K—v‚É‰‚¶‚ÄA Javelin ƒƒO‚Ö‚Ìo—ÍAƒAƒ‰[ƒ€’Ê’mˆ—‚ğs‚¢‚Ü‚·B<br />
      *
      * @param callTree CallTree
      * @param node CallTreeNode
      * @param callTreeRecorder CallTreeRecorder
-     * @param telegramId é›»æ–‡ ID
+     * @param telegramId “d•¶ ID
      */
     private static void recordAndAlarmProcedure(CallTree callTree,
                                                 CallTreeNode node,
                                                 CallTreeRecorder callTreeRecorder,
                                                 final long telegramId)
     {
-        // çµ‚äº†ã—ãŸã‚¸ãƒ§ãƒ–ã‚’å‡ºåŠ›ã™ã‚‹ã¨ãã ã‘å‘¼ã°ã‚Œã‚‹ã‚‚ã®ã¨ã™ã‚‹ã€‚
+        // I—¹‚µ‚½ƒWƒ‡ƒu‚ğo—Í‚·‚é‚Æ‚«‚¾‚¯ŒÄ‚Î‚ê‚é‚à‚Ì‚Æ‚·‚éB
         generator__.generateJaveinFile(callTree, createCallback(
                 callTree, node), node, telegramId);
         sendAlarm(node, callTreeRecorder);
@@ -1267,18 +1266,18 @@ public class HadoopRecorder
     }
 
     /**
-     * CallTreeNodeã«è¨­å®šã•ã‚ŒãŸåˆ¤å®šã‚¯ãƒ©ã‚¹(åˆ¤å®šå„ªå…ˆåº¦ï¼šé«˜)ã‚’åˆ©ç”¨ã—ã¦ã€<br />
-     * Javelinãƒ­ã‚°ã‚’ãƒ•ã‚¡ã‚¤ãƒ«ã«å‡ºåŠ›ã™ã‚‹ã‹ã©ã†ã‹åˆ¤å®šã™ã‚‹ã€‚
+     * CallTreeNode‚Éİ’è‚³‚ê‚½”»’èƒNƒ‰ƒX(”»’è—Dæ“xF‚)‚ğ—˜—p‚µ‚ÄA<br />
+     * JavelinƒƒO‚ğƒtƒ@ƒCƒ‹‚Éo—Í‚·‚é‚©‚Ç‚¤‚©”»’è‚·‚éB
      *
-     * @param node ãƒãƒ¼ãƒ‰
+     * @param node ƒm[ƒh
      *
-     * @return true:å‡ºåŠ›ã™ã‚‹ã€false:å‡ºåŠ›ã—ãªã„
+     * @return true:o—Í‚·‚éAfalse:o—Í‚µ‚È‚¢
      */
     private static JavelinLogCallback createCallback(final CallTree tree,
                                                      final CallTreeNode node)
     {
-        // CallTreeNodeã«è¨­å®šã•ã‚Œã¦ã„ãŸåˆ¤å®šã‚¯ãƒ©ã‚¹ã§ã®åˆ¤å®šçµæœãŒ
-        // 1ã¤ã§ã‚‚trueã§ã‚ã‚Œã°ã€ãã‚Œã‚’æˆ»ã‚Šå€¤ã¨ã™ã‚‹
+        // CallTreeNode‚Éİ’è‚³‚ê‚Ä‚¢‚½”»’èƒNƒ‰ƒX‚Å‚Ì”»’èŒ‹‰Ê‚ª
+        // 1‚Â‚Å‚àtrue‚Å‚ ‚ê‚ÎA‚»‚ê‚ğ–ß‚è’l‚Æ‚·‚é
         RecordStrategy[] strategyList = tree.getHighPriorityRecordStrategy();
         for (RecordStrategy str : strategyList)
         {
@@ -1288,15 +1287,15 @@ public class HadoopRecorder
                 return callback;
             }
         }
-        // åˆ¤å®šãŒã™ã¹ã¦falseã®å ´åˆ
+        // ”»’è‚ª‚·‚×‚Äfalse‚Ìê‡
         return recordStrategy__.createCallback();
     }
 
     /**
-     * Alarmé€šçŸ¥ã™ã‚‹ã€‚
+     * Alarm’Ê’m‚·‚éB
      *
-     * @param node ãƒãƒ¼ãƒ‰
-     * @param callTreeRecorder {@link allTreeRecorder}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param node ƒm[ƒh
+     * @param callTreeRecorder {@link allTreeRecorder}ƒIƒuƒWƒFƒNƒg
      */
     private static void sendAlarm(final CallTreeNode node,
                                  final CallTreeRecorder callTreeRecorder)
@@ -1305,8 +1304,8 @@ public class HadoopRecorder
         {
             for (AlarmListener alarmListener : ALARM_LISTENER_LIST)
             {
-                // ãƒ«ãƒ¼ãƒˆãƒãƒ¼ãƒ‰ã®ã¿Alarmã‚’é€ä¿¡ã™ã‚‹AlarmListenerã¯ã€
-                // è¦ªã‚’æŒã¤ãƒãƒ¼ãƒ‰ã‚’ç„¡è¦–ã™ã‚‹ã€‚
+                // ƒ‹[ƒgƒm[ƒh‚Ì‚İAlarm‚ğ‘—M‚·‚éAlarmListener‚ÍA
+                // e‚ğ‚Âƒm[ƒh‚ğ–³‹‚·‚éB
                 boolean sendingRootOnly = alarmListener.isSendingRootOnly();
                 if (sendingRootOnly == true && node.getParent() != null)
                 {
@@ -1315,8 +1314,8 @@ public class HadoopRecorder
 
                 try
                 {
-                    // AlarmListenerã«ã¯CallTreeNodeã‚’ãã®ã¾ã¾æ¸¡ã™
-                    // â†’ã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥ã§ç´¯ç©æ™‚é–“ã‚’ä½¿ç”¨ã™ã‚‹ã‚‚ã®ãŒã‚ã‚‹ç‚º
+                    // AlarmListener‚É‚ÍCallTreeNode‚ğ‚»‚Ì‚Ü‚Ü“n‚·
+                    // ¨ƒAƒ‰[ƒ€’Ê’m‚Å—İÏŠÔ‚ğg—p‚·‚é‚à‚Ì‚ª‚ ‚éˆ×
                     alarmListener.sendExceedThresholdAlarm(node);
                 }
                 catch (Throwable ex)
@@ -1334,14 +1333,14 @@ public class HadoopRecorder
     }
 
     /**
-     * Javelinãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å‡ºåŠ›ã™ã‚‹ã€‚
+     * JavelinƒƒOƒtƒ@ƒCƒ‹‚ğo—Í‚·‚éB
      *
-     * @return Javelinãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«
+     * @return JavelinƒƒOƒtƒ@ƒCƒ‹
      */
     public static String dumpJavelinLog()
     {
         String fileName = "";
-        // Javelinãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å‡ºåŠ›ã™ã‚‹ã€‚
+        // JavelinƒƒOƒtƒ@ƒCƒ‹‚ğo—Í‚·‚éB
         JavelinFileGenerator generator = new JavelinFileGenerator(config__);
 
         CallTree callTree = CallTreeRecorder.getInstance().getCallTree();
@@ -1362,7 +1361,7 @@ public class HadoopRecorder
     }
 
     /**
-     * Heartbeat()ã®å‰å‡¦ç†ã‚’è¡Œã†ã€‚
+     * Heartbeat()‚Ì‘Oˆ—‚ğs‚¤B
      * 
      * @param callTreeRecorder
      * @param component
@@ -1373,7 +1372,7 @@ public class HadoopRecorder
      * @param stacktrace
      * @param isResponse
      * 
-     * @return {@code true}ï¼šæˆåŠŸï¼{@code false}ï¼šå¤±æ•—
+     * @return {@code true}F¬Œ÷^{@code false}F¸”s
      */
     private static boolean recordPreHeartbeat(CallTreeRecorder callTreeRecorder,
         Component component, Invocation invocation, final String className,
@@ -1384,7 +1383,7 @@ public class HadoopRecorder
         ArrayList<HadoopTaskStatus> taskStatusList;
         try
         {
-            // TaskTrackerStatusã‹ã‚‰ãƒ›ã‚¹ãƒˆåã¨TaskStatusã‚’å–å¾—
+            // TaskTrackerStatus‚©‚çƒzƒXƒg–¼‚ÆTaskStatus‚ğæ“¾
             hostName = HadoopObjectAnalyzer.hostNamefromTaskTrackerStatus(args[0]);
             taskStatusList = HadoopObjectAnalyzer.transTaskStatus(args[0]);
         }
@@ -1394,72 +1393,7 @@ public class HadoopRecorder
             return false;
         }
 
-        Map<String, ArrayList<HadoopTaskStatus>> arrangedMap = getStatusListMap(taskStatusList);
-
-        // ãƒ«ãƒ¼ãƒˆå‘¼ã³å‡ºã—æ™‚ã«ã€ä¾‹å¤–ç™ºç”Ÿãƒ•ãƒ©ã‚°ã‚’ã‚¯ãƒªã‚¢ã™ã‚‹
-        callTreeRecorder.setExceptionOccured(false);
-        if (invocation == null)
-            invocation = registerInvocation(component, className, methodName, isResponse);
-
-        // ä¸€åº¦ã§ã‚‚ãƒ«ãƒ¼ãƒˆã‹ã‚‰å‘¼ã°ã‚ŒãŸã“ã¨ã®ã‚ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ä¿å­˜ã™ã‚‹ã€‚
-        ExcludeMonitor.addTargetPreferred(invocation);
-        ExcludeMonitor.removeExcludePreferred(invocation);
-
-        // HadoopCallTreeRecorderã«Invocationã¨ãƒ›ã‚¹ãƒˆåã‚’é€€é¿
-        HadoopCallTreeRecorder recorder = HadoopCallTreeRecorder.getInstance();
-        recorder.setInvocation(invocation);
-        recorder.putHostName(hostName);
-        recorder.putStartTime(System.currentTimeMillis());
-
-        // JobIDæ¯ã«callTreeã‚’ä½œæˆã™ã‚‹ã€‚
-        Set<String>jobIDSet = arrangedMap.keySet();
-        for (String jobID : jobIDSet)
-        {
-
-            // æœ€åˆã®å‘¼ã³å‡ºã—ãªã®ã§ã€CallTreeã‚’åˆæœŸåŒ–ã—ã¦ãŠãã€‚
-            CallTree callTree = new CallTree();
-            initCallTree(callTree, methodName, callTreeRecorder);
-            HadoopCallTreeNode newNode = HadoopCallTreeRecorder.createNode(invocation, args, stacktrace, config__);
-            newNode.setDepth(0);
-            newNode.setTree(callTree);
-            callTree.setRootNode(newNode);
-            callTreeRecorder.setDepth(0);
-
-            try
-            {
-                VMStatus vmStatus = createVMStatus(null, newNode, callTreeRecorder);
-                newNode.setStartTime(System.currentTimeMillis());
-                newNode.setStartVmStatus(vmStatus);
-
-                // CallTreeNodeã«TaskStatusã‚’è¨­å®š
-                HadoopInfo hadoopInfo = new HadoopInfo();
-                hadoopInfo.setHost(hostName);
-                hadoopInfo.setTaskStatuses(arrangedMap.get(jobID));
-                newNode.setHadoopInfo(hadoopInfo);
-
-                // HadoopCallTreeRecorerã«CallTreeã‚’è¨˜éŒ²
-                recorder.putCallTree(jobID, callTree);
-                recorder.putCallTreeNode(jobID, newNode);
-            }
-            catch (Exception ex)
-            {
-                SystemLogger.getInstance().warn(ex);
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * TaskStatusã®ãƒªã‚¹ãƒˆã‚’JobIDã”ã¨ã«ã¾ã¨ã‚ã‚‹ã€‚
-     * 
-     * @param taskStatusList TaskStatusã®ãƒªã‚¹ãƒˆ
-     * @returnã€€JobIDã‚’ã‚­ãƒ¼ã€TaskStatusã®ãƒªã‚¹ãƒˆã‚’å€¤ã¨ã—ãŸãƒãƒƒãƒ—ã€‚
-     */
-	private static Map<String, ArrayList<HadoopTaskStatus>> getStatusListMap(
-			ArrayList<HadoopTaskStatus> taskStatusList) {
-		// TaskTrackerStatusã‚’JobIDæ¯ã«ã¾ã¨ã‚ã‚‹
+        // TaskTrackerStatus‚ğJobID–ˆ‚É‚Ü‚Æ‚ß‚é
         HashMap<String, ArrayList<HadoopTaskStatus>> arrangedMap = new HashMap<String, ArrayList<HadoopTaskStatus>>();
         for (HadoopTaskStatus status : taskStatusList)
         {
@@ -1476,11 +1410,65 @@ public class HadoopRecorder
             temp.add(status);
             arrangedMap.put(jobID, temp);
         }
-		return arrangedMap;
-	}
+
+        // ƒ‹[ƒgŒÄ‚Ño‚µ‚ÉA—áŠO”­¶ƒtƒ‰ƒO‚ğƒNƒŠƒA‚·‚é
+        callTreeRecorder.setExceptionOccured(false);
+        if (invocation == null)
+            invocation = registerInvocation(component, className, methodName, isResponse);
+
+        // ˆê“x‚Å‚àƒ‹[ƒg‚©‚çŒÄ‚Î‚ê‚½‚±‚Æ‚Ì‚ ‚éƒƒ\ƒbƒh‚ğ•Û‘¶‚·‚éB
+        ExcludeMonitor.addTargetPreferred(invocation);
+        ExcludeMonitor.removeExcludePreferred(invocation);
+
+        // HadoopCallTreeRecorder‚ÉInvocation‚ÆƒzƒXƒg–¼‚ğ‘Ş”ğ
+        HadoopCallTreeRecorder recorder = HadoopCallTreeRecorder.getInstance();
+        recorder.setInvocation(invocation);
+        recorder.putHostName(hostName);
+        recorder.putStartTime(System.currentTimeMillis());
+
+        // JobID–ˆ‚ÉcallTree‚ğì¬‚·‚éB
+        Set<String>jobIDSet = arrangedMap.keySet();
+        for (String jobID : jobIDSet)
+        {
+
+            // Å‰‚ÌŒÄ‚Ño‚µ‚È‚Ì‚ÅACallTree‚ğ‰Šú‰»‚µ‚Ä‚¨‚­B
+            // TODO CallTree‚ğŸè‚Éì‚Á‚Ä‚à‘åä•vH
+            CallTree callTree = new CallTree();
+            initCallTree(callTree, methodName, callTreeRecorder);
+            CallTreeNode newNode = CallTreeRecorder.createNode(invocation, args, stacktrace, config__);
+            newNode.setDepth(0);
+            newNode.setTree(callTree);
+            callTree.setRootNode(newNode);
+            callTreeRecorder.setDepth(0);
+
+            try
+            {
+                VMStatus vmStatus = createVMStatus(null, newNode, callTreeRecorder);
+                newNode.setStartTime(System.currentTimeMillis());
+                newNode.setStartVmStatus(vmStatus);
+
+                // CallTreeNode‚ÉTaskStatus‚ğİ’è
+                HadoopInfo hadoopInfo = new HadoopInfo();
+                hadoopInfo.setHost(hostName);
+                hadoopInfo.setTaskStatuses(arrangedMap.get(jobID));
+                newNode.setHadoopInfo(hadoopInfo);
+
+                // HadoopCallTreeRecorer‚ÉCallTree‚ğ‹L˜^
+                recorder.putCallTree(jobID, callTree);
+                recorder.putCallTreeNode(jobID, newNode);
+            }
+            catch (Exception ex)
+            {
+                SystemLogger.getInstance().warn(ex);
+                return false;
+            }
+        }
+
+        return true;
+    }
 
     /**
-     * Heartbeat()ã®å¾Œå‡¦ç†ã‚’è¡Œã†ã€‚
+     * Heartbeat()‚ÌŒãˆ—‚ğs‚¤B
      * 
      * @param thisObject
      * @param returnValue
@@ -1489,7 +1477,7 @@ public class HadoopRecorder
      * @param callTreeRecorder
      * @param telegramId
      * 
-     * @return {@code true}ï¼šæˆåŠŸï¼{@code false}ï¼šå¤±æ•—
+     * @return {@code true}F¬Œ÷^{@code false}F¸”s
      */
     private static boolean recordPostHeartbeat(final Object thisObject,
                                                final Object returnValue,
@@ -1498,7 +1486,7 @@ public class HadoopRecorder
                                                CallTreeRecorder callTreeRecorder,
                                                long telegramId)
     {
-        // ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿è§£æ
+        // ƒpƒ‰ƒ[ƒ^‰ğÍ
         ArrayList<HadoopAction> ttActionList;
         try
         {
@@ -1511,7 +1499,7 @@ public class HadoopRecorder
             return false;
         }
         
-        // HadoopActionã‚’JobIDæ¯ã«ã¾ã¨ã‚ã‚‹
+        // HadoopAction‚ğJobID–ˆ‚É‚Ü‚Æ‚ß‚é
         HashMap<String, ArrayList<HadoopAction>> arrangedMap = new HashMap<String, ArrayList<HadoopAction>>();
         for (HadoopAction action : ttActionList)
         {
@@ -1534,48 +1522,43 @@ public class HadoopRecorder
         String hostName = recorder.takeHostname();
         long startTime = recorder.takeStartTime();
 
-        // TaskTrackerStatusã®JobIDæ¯ã«callTreeã‚’ç™»éŒ²ã™ã‚‹ã€‚
+        // TaskTrackerStatus‚ÌJobID–ˆ‚ÉcallTree‚ğ“o˜^‚·‚éB
         HashMap<String, CallTree> callTreeMap = recorder.takeAllCallTree();
-        HashMap<String, HadoopCallTreeNode> callTreeNodeMap = recorder.takeAllCallTreeNode();
+        HashMap<String, CallTreeNode> callTreeNodeMap = recorder.takeAllCallTreeNode();
 
-        // CallTreeã¨CallTreeNodeã®ã©ã¡ã‚‰ã‹ç‰‡æ–¹ã ã‘ã—ã‹å–å¾—ã§ããªã„å ´åˆã¯ã‚¨ãƒ©ãƒ¼
+        // CallTree‚ÆCallTreeNode‚Ì‚Ç‚¿‚ç‚©•Ğ•û‚¾‚¯‚µ‚©æ“¾‚Å‚«‚È‚¢ê‡‚ÍƒGƒ‰[
         if (callTreeMap == null ^ callTreeNodeMap == null)
             return false;
 
-        // åŸºæº–ã¯CallTree
+        // Šî€‚ÍCallTree
         if (callTreeMap != null)
         {
-            // CallTreeæ•°ã¨CallTreeNodeæ•°ãŒç•°ãªã‚‹å ´åˆã¯ã‚¨ãƒ©ãƒ¼
+            // CallTree”‚ÆCallTreeNode”‚ªˆÙ‚È‚éê‡‚ÍƒGƒ‰[
             if (callTreeMap.size() != callTreeNodeMap.size())
                 return false;
 
-            // ä¾‹å¤–ã‚’ä¿å­˜ã—ãŸã‹ã©ã†ã‹ã®ãƒ•ãƒ©ã‚°
+            // —áŠO‚ğ•Û‘¶‚µ‚½‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO
             boolean saveException = false;
-            
+
             Set<String> jobIDSet = callTreeMap.keySet();
             for (String jobID : jobIDSet)
             {
                 CallTree callTree = callTreeMap.get(jobID);
-                HadoopCallTreeNode node = callTreeNodeMap.get(jobID);
-                
-                // CallTreeNodeãŒå–å¾—ã§ããªã„å ´åˆã¯å‡¦ç†ã‚’ä¸­æ–­ã™ã‚‹ã€‚
+                CallTreeNode node = callTreeNodeMap.get(jobID);
+
+                // CallTreeNode‚ªæ“¾‚Å‚«‚È‚¢ê‡‚Íˆ—‚ğ’†’f‚·‚éB
                 if (node == null)
                     return false;
 
-                // çŠ¶æ…‹å€¤ã®æ›´æ–°ã‚’ç¢ºèªã™ã‚‹ã€‚
-				ArrayList<HadoopTaskStatus> taskStatusList = node
-						.getHadoopInfo().getTaskStatuses();
-				HadoopObjectAnalyzer.updateTaskStatuses(thisObject, taskStatusList);
-				
-                // è¨ˆæ¸¬æƒ…å ±ã®ä¿å­˜ã‚’è¡Œã†
-                HadoopMeasurementInfo measurementInfo = HadoopMeasurementInfo.getInstance();
-                measurementInfo.addToTaskTrackerStatusList(node.getHadoopInfo());
-                SystemLogger.getInstance().debug("HadoopRecorder : node.getHadoopInfo() " + node.getHadoopInfo());
-
                 try
                 {
-                    // ã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥å‡¦ç†ã€ã‚¤ãƒ™ãƒ³ãƒˆå‡ºåŠ›å‡¦ç†ã‚’è¡Œã†ã€‚
+                    // ƒAƒ‰[ƒ€’Ê’mˆ—AƒCƒxƒ“ƒgo—Íˆ—‚ğs‚¤B
                     recordAndAlarmEvents(callTree, callTreeRecorder, telegramId);
+
+                    // ŒÄ‚Ño‚µŒ³î•ñ‚ªæ“¾‚Å‚«‚È‚¢ê‡‚Íˆ—‚ğƒLƒƒƒ“ƒZƒ‹‚·‚éB
+                    // (‰ºˆÊƒŒƒCƒ„‚Å—áŠO‚ª”­¶‚µ‚½ê‡‚Ì‚½‚ßB)
+                    if (node == null)
+                        continue;
 
                     node.setEndTime(System.currentTimeMillis());
 
@@ -1595,17 +1578,17 @@ public class HadoopRecorder
 
                         if (config__.isAlarmException())
                         {
-                            // ç™ºç”Ÿã—ãŸä¾‹å¤–ã‚’è¨˜éŒ²ã—ã¦ãŠã
+                            // ”­¶‚µ‚½—áŠO‚ğ‹L˜^‚µ‚Ä‚¨‚­
                             node.setThrowable(cause);
                             node.setThrowTime(System.currentTimeMillis());
                         }
                     }
 
-                    // JobIDã«å¯¾å¿œã™ã‚‹TaskTrackerActionãŒã‚ã‚Œã°CallTreeNodeã«è¨­å®š
+                    // JobID‚É‘Î‰‚·‚éTaskTrackerAction‚ª‚ ‚ê‚ÎCallTreeNode‚Éİ’è
                     if (arrangedMap.containsKey(jobID))
                     {
                         node.getHadoopInfo().setTaskTrackerActions(arrangedMap.get(jobID));
-                        // å¾Œå‡¦ç†ã®ãŸã‚ã«Mapã‹ã‚‰å‰Šé™¤
+                        // Œãˆ—‚Ì‚½‚ß‚ÉMap‚©‚çíœ
                         arrangedMap.remove(jobID);
                     }
 
@@ -1614,12 +1597,12 @@ public class HadoopRecorder
                     if (invocation.getAlarmThreshold()    != Invocation.THRESHOLD_NOT_SPECIFIED ||
                         invocation.getAlarmCpuThreshold() != Invocation.THRESHOLD_NOT_SPECIFIED)
                     {
-                        // ä»¥ä¸‹ã€CallTreeNodeãŒrootã®å ´åˆã€ã¾ãŸã¯é–¾å€¤ãŒå€‹åˆ¥ã«æŒ‡å®šã•ã‚Œã¦ã„ã‚‹å ´åˆã®å‡¦ç†ã€‚
-                        // CallTreeNodeãŒrootã§ã€çµ±è¨ˆå€¤è¨˜éŒ²ã®é–¾å€¤ã‚’è¶…ãˆã¦ã„ãŸå ´åˆã«ã€ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚’è¨˜éŒ²ã™ã‚‹ã€‚
+                        // ˆÈ‰ºACallTreeNode‚ªroot‚Ìê‡A‚Ü‚½‚Íè‡’l‚ªŒÂ•Ê‚Éw’è‚³‚ê‚Ä‚¢‚éê‡‚Ìˆ—B
+                        // CallTreeNode‚ªroot‚ÅA“Œv’l‹L˜^‚Ìè‡’l‚ğ’´‚¦‚Ä‚¢‚½ê‡‚ÉAƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ğ‹L˜^‚·‚éB
                         if (node.getAccumulatedTime() >= config__.getStatisticsThreshold())
                             recordTransaction(node);
 
-                        // ãƒ«ãƒ¼ãƒˆãƒãƒ¼ãƒ‰ã®å ´åˆã®å‡¦ç†
+                        // ƒ‹[ƒgƒm[ƒh‚Ìê‡‚Ìˆ—
                         postProcessOnRootNode(callTree, node, callTreeRecorder);
                     }
                 }
@@ -1631,21 +1614,21 @@ public class HadoopRecorder
             }
         }
 
-        // TaskTrackerStatusã®ã‚¸ãƒ§ãƒ–IDã«å¯¾å¿œã™ã‚‹TaskTrackerActionãŒ
-        // è¦‹ã¤ã‹ã‚‰ãªã‹ã£ãŸå ´åˆã®å¾Œå‡¦ç†
+        // TaskTrackerStatus‚ÌƒWƒ‡ƒuID‚É‘Î‰‚·‚éTaskTrackerAction‚ª
+        // Œ©‚Â‚©‚ç‚È‚©‚Á‚½ê‡‚ÌŒãˆ—
         Set<String> jobIDSet = arrangedMap.keySet();
         for (String jobID : jobIDSet)
         {
-            // æ–°è¦ä½œæˆã—ãŸCallTreeNodeã«TaskTrackerActionã‚’è¨­å®šã—ã¦æ¬¡ã¸
+            // V‹Kì¬‚µ‚½CallTreeNode‚ÉTaskTrackerAction‚ğİ’è‚µ‚ÄŸ‚Ö
             CallTree callTree = new CallTree();
             initCallTree(callTree, methodName, callTreeRecorder);
-            HadoopCallTreeNode newNode = HadoopCallTreeRecorder.createNode(invocation, null, null, config__);
+            CallTreeNode newNode = CallTreeRecorder.createNode(invocation, null, null, config__);
             newNode.setDepth(0);
             newNode.setTree(callTree);
             callTree.setRootNode(newNode);
             callTreeRecorder.setDepth(0);
 
-            // é–‹å§‹æ™‚ã®VMçŠ¶æ…‹ã‚’è¨˜éŒ²
+            // ŠJn‚ÌVMó‘Ô‚ğ‹L˜^
             VMStatus vmStatus = createVMStatus(null, newNode, callTreeRecorder);
             newNode.setStartTime(startTime);
             newNode.setStartVmStatus(vmStatus);
@@ -1655,16 +1638,15 @@ public class HadoopRecorder
             hadoopInfo.setTaskTrackerActions(arrangedMap.get(jobID));
             newNode.setHadoopInfo(hadoopInfo);
 
-            // çµ‚äº†æ™‚ã®VMçŠ¶æ…‹ã‚’è¨˜éŒ²ã—ã¦callTreeNodeã‚’ä¿å­˜
+            // I—¹‚ÌVMó‘Ô‚ğ‹L˜^‚µ‚ÄcallTreeNode‚ğ•Û‘¶
             newNode.setEndTime(System.currentTimeMillis());
             addEndVMStatus(newNode, null, callTreeRecorder);
             recorder.addCallTree(jobID, callTree);
         }
 
-        // çµ‚äº†ã—ãŸã‚¸ãƒ§ãƒ–ã®ç¢ºèª
+        // I—¹‚µ‚½ƒWƒ‡ƒu‚ÌŠm”F
         ArrayList<String> succeededList = new ArrayList<String>(0);
         ArrayList<String> killedList = new ArrayList<String>(0);
-        
         synchronized(runningJobList__)
         {
             Iterator<String> itr = runningJobList__.iterator();
@@ -1674,42 +1656,15 @@ public class HadoopRecorder
                 {
                     String jobID = itr.next();
                     HadoopJobStatus status = HadoopObjectAnalyzer.checkJobStatus(jobID, thisObject);
-                    
                     if (status == HadoopJobStatus.SUCCEEDED)
                     {
                         succeededList.add(jobID);
                         itr.remove();
-                        
-                        // è¨ˆæ¸¬ç”¨ã«æ ¼ç´
-                        HadoopJobStatusInfo info = 
-                                HadoopObjectAnalyzer.getJobStatusInfo(jobID, thisObject);
-                        HadoopMeasurementInfo measurementInfo = HadoopMeasurementInfo.getInstance();
-                        info.setRunState(HadoopJobStatus.getNumber(status));
-                        measurementInfo.addToJobStatusList(info);
-                        SystemLogger.getInstance().debug("HadoopRecorder : JobStatus " + info);
-                     }
+                    }
                     else if (status == HadoopJobStatus.KILLED)
                     {
                         killedList.add(jobID);
                         itr.remove();
-
-                        // è¨ˆæ¸¬ç”¨ã«æ ¼ç´
-                        HadoopJobStatusInfo info = 
-                                HadoopObjectAnalyzer.getJobStatusInfo(jobID, thisObject);
-                        info.setRunState(HadoopJobStatus.getNumber(status));
-                        HadoopMeasurementInfo measurementInfo = HadoopMeasurementInfo.getInstance();
-                        measurementInfo.addToJobStatusList(info);
-                    }
-                    else if (status == HadoopJobStatus.FAILED)
-                    {
-                    	itr.remove();
-                    	
-                        // è¨ˆæ¸¬ç”¨ã«æ ¼ç´
-                        HadoopJobStatusInfo info = 
-                                HadoopObjectAnalyzer.getJobStatusInfo(jobID, thisObject);
-                        info.setRunState(HadoopJobStatus.getNumber(status));
-                        HadoopMeasurementInfo measurementInfo = HadoopMeasurementInfo.getInstance();
-                        measurementInfo.addToJobStatusList(info);
                     }
                 }
                 catch (Exception e)
@@ -1719,14 +1674,14 @@ public class HadoopRecorder
             }
         }
 
-        // çµ‚äº†ã—ãŸã‚¸ãƒ§ãƒ–ã‚’ãƒ­ã‚°ã«æ›¸ãå‡ºã™
+        // I—¹‚µ‚½ƒWƒ‡ƒu‚ğƒƒO‚É‘‚«o‚·
         makeCallHistory(invocation, hostName, telegramId, succeededList, killedList);
 
         return true;
     }
 
     /**
-     * SubmitJob()ã®å‰å‡¦ç†ã‚’è¡Œã†ã€‚
+     * SubmitJob()‚Ì‘Oˆ—‚ğs‚¤B
      * 
      * @param callTreeRecorder
      * @param component
@@ -1737,18 +1692,18 @@ public class HadoopRecorder
      * @param stacktrace
      * @param isResponse
      * 
-     * @return {@code true}ï¼šæˆåŠŸï¼{@code false}ï¼šå¤±æ•—
+     * @return {@code true}F¬Œ÷^{@code false}F¸”s
      */
-    private static boolean recordPreSubmitJob(HadoopCallTreeRecorder callTreeRecorder,
+    private static boolean recordPreSubmitJob(CallTreeRecorder callTreeRecorder,
         Component component, Invocation invocation, final String className,
         final String methodName, final Object[] args, final StackTraceElement[] stacktrace,
         final boolean isResponse)
     {
         CallTree callTree = callTreeRecorder.getCallTree();
-        HadoopCallTreeNode newNode;
-        HadoopCallTreeNode parent = callTreeRecorder.getCallTreeNode();
+        CallTreeNode newNode;
+        CallTreeNode parent = callTreeRecorder.getCallTreeNode();
 
-        // JobIDã‚’å–å¾—
+        // JobID‚ğæ“¾
         String submitJobID;
         try
         {
@@ -1760,18 +1715,18 @@ public class HadoopRecorder
             return false;
         }
         
-        // å‘¼ã³å‡ºã—æ™‚ã«ã€ä¾‹å¤–ç™ºç”Ÿãƒ•ãƒ©ã‚°ã‚’ã‚¯ãƒªã‚¢ã™ã‚‹
+        // ŒÄ‚Ño‚µ‚ÉA—áŠO”­¶ƒtƒ‰ƒO‚ğƒNƒŠƒA‚·‚é
         callTreeRecorder.setExceptionOccured(false);
         if (invocation == null)
             invocation = registerInvocation(component, className, methodName, isResponse);
 
-        // ä¸€åº¦ã§ã‚‚ãƒ«ãƒ¼ãƒˆã‹ã‚‰å‘¼ã°ã‚ŒãŸã“ã¨ã®ã‚ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ä¿å­˜ã™ã‚‹ã€‚
+        // ˆê“x‚Å‚àƒ‹[ƒg‚©‚çŒÄ‚Î‚ê‚½‚±‚Æ‚Ì‚ ‚éƒƒ\ƒbƒh‚ğ•Û‘¶‚·‚éB
         ExcludeMonitor.addTargetPreferred(invocation);
         ExcludeMonitor.removeExcludePreferred(invocation);
 
-        // æœ€åˆã®å‘¼ã³å‡ºã—ãªã®ã§ã€CallTreeã‚’åˆæœŸåŒ–ã—ã¦ãŠãã€‚
+        // Å‰‚ÌŒÄ‚Ño‚µ‚È‚Ì‚ÅACallTree‚ğ‰Šú‰»‚µ‚Ä‚¨‚­B
         initCallTree(callTree, "submitJob", callTreeRecorder);
-        newNode = HadoopCallTreeRecorder.createNode(invocation, args, stacktrace, config__);
+        newNode = CallTreeRecorder.createNode(invocation, args, stacktrace, config__);
         newNode.setDepth(0);
         newNode.setTree(callTree);
         callTree.setRootNode(newNode);
@@ -1779,15 +1734,21 @@ public class HadoopRecorder
 
         try
         {
-            // CallTreeNodeã‚’è¿½åŠ 
+            if (newNode == null)
+            {
+                newNode = CallTreeRecorder.createNode(invocation, args, stacktrace, config__);
+                newNode.setDepth(callTreeRecorder.getDepth());
+            }
+
+            // CallTreeNode‚ğ’Ç‰Á
             CallTreeRecorder.addCallTreeNode(parent, callTree, newNode, config__);
-            // VMçŠ¶æ…‹å–å¾—
+            // VMó‘Ôæ“¾
             VMStatus vmStatus = createVMStatus(parent, newNode, callTreeRecorder);
 
             newNode.setStartTime(System.currentTimeMillis());
             newNode.setStartVmStatus(vmStatus);
 
-            // æŠ•å…¥ã•ã‚ŒãŸJobIDã‚’CallTreeNodeã«ç™»éŒ²
+            // “Š“ü‚³‚ê‚½JobID‚ğCallTreeNode‚É“o˜^
             HadoopInfo hadoopInfo = new HadoopInfo();
             hadoopInfo.setSubmitJobID(submitJobID);
             newNode.setHadoopInfo(hadoopInfo);
@@ -1804,7 +1765,7 @@ public class HadoopRecorder
     }
 
     /**
-     * submitJob()ã®å¾Œå‡¦ç†ã‚’è¡Œã†ã€‚
+     * submitJob()‚ÌŒãˆ—‚ğs‚¤B
      * 
      * @param thisObject
      * @param returnValue
@@ -1813,28 +1774,28 @@ public class HadoopRecorder
      * @param callTreeRecorder
      * @param telegramId
      * 
-     * @return {@code true}ï¼šæˆåŠŸï¼{@code false}ï¼šå¤±æ•—
+     * @return {@code true}F¬Œ÷^{@code false}F¸”s
      */
     private static boolean recordPostSubmitJob(final Object thisObject,
                                                final Object returnValue,
                                                final String methodName,
                                                final Throwable cause,
-                                               HadoopCallTreeRecorder callTreeRecorder,
+                                               CallTreeRecorder callTreeRecorder,
                                                long telegramId)
     {
         CallTree callTree = callTreeRecorder.getCallTree();
 
         try
         {
-            // ã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥å‡¦ç†ã€ã‚¤ãƒ™ãƒ³ãƒˆå‡ºåŠ›å‡¦ç†ã‚’è¡Œã†ã€‚
+            // ƒAƒ‰[ƒ€’Ê’mˆ—AƒCƒxƒ“ƒgo—Íˆ—‚ğs‚¤B
             recordAndAlarmEvents(callTree, callTreeRecorder, telegramId);
 
-            // å‘¼ã³å‡ºã—å…ƒæƒ…å ±å–å¾—ã€‚
-            HadoopCallTreeNode node = callTreeRecorder.getCallTreeNode();
+            // ŒÄ‚Ño‚µŒ³î•ñæ“¾B
+            CallTreeNode node = callTreeRecorder.getCallTreeNode();
             if (node == null)
             {
-                // å‘¼ã³å‡ºã—å…ƒæƒ…å ±ãŒå–å¾—ã§ããªã„å ´åˆã¯å‡¦ç†ã‚’ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã™ã‚‹ã€‚
-                // (ä¸‹ä½ãƒ¬ã‚¤ãƒ¤ã§ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆã®ãŸã‚ã€‚)
+                // ŒÄ‚Ño‚µŒ³î•ñ‚ªæ“¾‚Å‚«‚È‚¢ê‡‚Íˆ—‚ğƒLƒƒƒ“ƒZƒ‹‚·‚éB
+                // (‰ºˆÊƒŒƒCƒ„‚Å—áŠO‚ª”­¶‚µ‚½ê‡‚Ì‚½‚ßB)
                 return false;
             }
 
@@ -1854,13 +1815,13 @@ public class HadoopRecorder
 
                 if (config__.isAlarmException())
                 {
-                    // ç™ºç”Ÿã—ãŸä¾‹å¤–ã‚’è¨˜éŒ²ã—ã¦ãŠã
+                    // ”­¶‚µ‚½—áŠO‚ğ‹L˜^‚µ‚Ä‚¨‚­
                     node.setThrowable(cause);
                     node.setThrowTime(System.currentTimeMillis());
                 }
             }
 
-            // ç™»éŒ²ã•ã‚ŒãŸã‚¸ãƒ§ãƒ–ã‚’å®Ÿè¡Œä¸­ãƒªã‚¹ãƒˆã«ç™»éŒ²
+            // “o˜^‚³‚ê‚½ƒWƒ‡ƒu‚ğÀs’†ƒŠƒXƒg‚É“o˜^
             String jobID = HadoopObjectAnalyzer.getJobIDfromJobStatus(returnValue);
             synchronized(runningJobList__)
             {
@@ -1873,14 +1834,14 @@ public class HadoopRecorder
             if (invocation.getAlarmThreshold()    != Invocation.THRESHOLD_NOT_SPECIFIED ||
                 invocation.getAlarmCpuThreshold() != Invocation.THRESHOLD_NOT_SPECIFIED)
             {
-                // ä»¥ä¸‹ã€CallTreeNodeãŒrootã®å ´åˆã€ã¾ãŸã¯é–¾å€¤ãŒå€‹åˆ¥ã«æŒ‡å®šã•ã‚Œã¦ã„ã‚‹å ´åˆã®å‡¦ç†ã€‚
-                // CallTreeNodeãŒrootã§ã€çµ±è¨ˆå€¤è¨˜éŒ²ã®é–¾å€¤ã‚’è¶…ãˆã¦ã„ãŸå ´åˆã«ã€ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚’è¨˜éŒ²ã™ã‚‹ã€‚
+                // ˆÈ‰ºACallTreeNode‚ªroot‚Ìê‡A‚Ü‚½‚Íè‡’l‚ªŒÂ•Ê‚Éw’è‚³‚ê‚Ä‚¢‚éê‡‚Ìˆ—B
+                // CallTreeNode‚ªroot‚ÅA“Œv’l‹L˜^‚Ìè‡’l‚ğ’´‚¦‚Ä‚¢‚½ê‡‚ÉAƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ğ‹L˜^‚·‚éB
                 if (node.getAccumulatedTime() >= config__.getStatisticsThreshold())
                 {
                     recordTransaction(node);
                 }
 
-                // ãƒ«ãƒ¼ãƒˆãƒãƒ¼ãƒ‰ã®å ´åˆã®å‡¦ç†
+                // ƒ‹[ƒgƒm[ƒh‚Ìê‡‚Ìˆ—
                 postProcessOnRootNode(callTree, node, callTreeRecorder);
             }
 
@@ -1894,13 +1855,13 @@ public class HadoopRecorder
     }
 
     /**
-     * ã‚¸ãƒ§ãƒ–çµ‚äº†ã®CallTreeã‚’ä½œæˆå¾Œã€ãƒ­ã‚°ã‚’æ›¸ãå‡ºã—ã¾ã™ã€‚
+     * ƒWƒ‡ƒuI—¹‚ÌCallTree‚ğì¬ŒãAƒƒO‚ğ‘‚«o‚µ‚Ü‚·B
      * 
      * @param invocation {@link Invocation}
-     * @param hostName ãƒ›ã‚¹ãƒˆå
-     * @param telegramID é›»æ–‡ID
-     * @param succeededList å®Œäº†ã—ãŸã‚¸ãƒ§ãƒ–ã®ãƒªã‚¹ãƒˆ
-     * @param killedList åœæ­¢ã•ã‚ŒãŸã‚¸ãƒ§ãƒ–ã®ãƒªã‚¹ãƒˆ
+     * @param hostName ƒzƒXƒg–¼
+     * @param telegramID “d•¶ID
+     * @param succeededList Š®—¹‚µ‚½ƒWƒ‡ƒu‚ÌƒŠƒXƒg
+     * @param killedList ’â~‚³‚ê‚½ƒWƒ‡ƒu‚ÌƒŠƒXƒg
      */
     private static void makeCallHistory(Invocation invocation,
                                         String hostName,
@@ -1910,7 +1871,7 @@ public class HadoopRecorder
     {
         HadoopCallTreeRecorder recorder = HadoopCallTreeRecorder.getInstance();
 
-        // å®Œäº†ãƒªã‚¹ãƒˆä¸­ã®JobIDã”ã¨ã«ã€çµ‚äº†æ™‚ã®æƒ…å ±ã‚’è¨­å®šã—ã€ãƒ­ã‚°æ›¸ãå‡ºã—
+        // Š®—¹ƒŠƒXƒg’†‚ÌJobID‚²‚Æ‚ÉAI—¹‚Ìî•ñ‚ğİ’è‚µAƒƒO‘‚«o‚µ
         for (String jobID : succeededList)
         {
             CallTree tree = makeSucceededHistory(invocation, hostName, jobID);
@@ -1918,7 +1879,7 @@ public class HadoopRecorder
 
             recordAndAlarmProcedure(recorder.getCallTree(jobID), null, CallTreeRecorder.getInstance(), telegramID);
         }
-        // åœæ­¢ãƒªã‚¹ãƒˆä¸­ã®JobIDã”ã¨ã«ã€çµ‚äº†æ™‚ã®æƒ…å ±ã‚’è¨­å®šã—ã€ãƒ­ã‚°æ›¸ãå‡ºã—
+        // ’â~ƒŠƒXƒg’†‚ÌJobID‚²‚Æ‚ÉAI—¹‚Ìî•ñ‚ğİ’è‚µAƒƒO‘‚«o‚µ
         for (String jobID : killedList)
         {
             CallTree tree = makeKilledHistory(invocation, hostName, jobID);
@@ -1929,11 +1890,11 @@ public class HadoopRecorder
     }
 
     /**
-     * ã‚¸ãƒ§ãƒ–å®Œäº†æƒ…å ±ã‚’ä½œæˆã—ã¾ã™ã€‚
+     * ƒWƒ‡ƒuŠ®—¹î•ñ‚ğì¬‚µ‚Ü‚·B
      * 
      * @param invocation {@link Invocation}
-     * @param hostName ãƒ›ã‚¹ãƒˆå
-     * @param jobID å®Œäº†ã—ãŸã‚¸ãƒ§ãƒ–ID
+     * @param hostName ƒzƒXƒg–¼
+     * @param jobID Š®—¹‚µ‚½ƒWƒ‡ƒuID
      * 
      * @return {@link CallTree}
      */
@@ -1941,33 +1902,33 @@ public class HadoopRecorder
                                                  String hostName,
                                                  String jobID)
     {
-        // CallTreeRecorderã®å–å¾—
+        // CallTreeRecorder‚Ìæ“¾
         CallTreeRecorder recorder = CallTreeRecorder.getInstance();
 
-        // CallTreeã®ä½œæˆ
+        // CallTree‚Ìì¬
         CallTree tree = new CallTree();
-        initCallTree(tree, "getJobStatus", recorder); // ä¾¿å®œä¸Šã€ãƒ¡ã‚½ãƒƒãƒ‰åã‚’è¨­å®š
+        initCallTree(tree, "getJobStatus", recorder); // •Ö‹XãAƒƒ\ƒbƒh–¼‚ğİ’è
 
-        // CallTreeNodeã®ä½œæˆ
-        HadoopCallTreeNode node = HadoopCallTreeRecorder.createNode(invocation, null, null, config__);
+        // CallTreeNode‚Ìì¬
+        CallTreeNode node = CallTreeRecorder.createNode(invocation, null, null, config__);
         node.setDepth(0);
         node.setTree(tree);
 
         tree.setRootNode(node);
         recorder.setDepth(0);
 
-        // é–‹å§‹çŠ¶æ…‹ã®VMçŠ¶æ…‹ã‚’ä½œæˆ
+        // ŠJnó‘Ô‚ÌVMó‘Ô‚ğì¬
         VMStatus vmStatus = createVMStatus(null, node, recorder);
         node.setStartTime(System.currentTimeMillis());
         node.setStartVmStatus(vmStatus);
 
-        // ã‚¸ãƒ§ãƒ–å®Œäº†æƒ…å ±ã‚’è¨­å®š
+        // ƒWƒ‡ƒuŠ®—¹î•ñ‚ğİ’è
         HadoopInfo info = new HadoopInfo();
         info.setHost(hostName);
         info.setCompleteJobID(jobID);
         node.setHadoopInfo(info);
 
-        // çµ‚äº†æ™‚ã®VMçŠ¶æ…‹ã‚’ä½œæˆ
+        // I—¹‚ÌVMó‘Ô‚ğì¬
         node.setEndTime(System.currentTimeMillis());
         addEndVMStatus(node, null, recorder);
 
@@ -1975,11 +1936,11 @@ public class HadoopRecorder
     }
 
     /**
-     * ã‚¸ãƒ§ãƒ–åœæ­¢æƒ…å ±ã‚’ä½œæˆã—ã¾ã™ã€‚
+     * ƒWƒ‡ƒu’â~î•ñ‚ğì¬‚µ‚Ü‚·B
      * 
      * @param invocation {@link Invocation}
-     * @param hostName ãƒ›ã‚¹ãƒˆå
-     * @param jobID åœæ­¢ã•ã‚ŒãŸã‚¸ãƒ§ãƒ–ID
+     * @param hostName ƒzƒXƒg–¼
+     * @param jobID ’â~‚³‚ê‚½ƒWƒ‡ƒuID
      * 
      * @return {@link CallTree}
      */
@@ -1987,37 +1948,36 @@ public class HadoopRecorder
                                                  String hostName,
                                                  String jobID)
     {
-        // CallTreeRecorderã®å–å¾—
+        // CallTreeRecorder‚Ìæ“¾
         CallTreeRecorder recorder = CallTreeRecorder.getInstance();
 
-        // CallTreeã®ä½œæˆ
+        // CallTree‚Ìì¬
         CallTree tree = new CallTree();
-        initCallTree(tree, "killJob", recorder); // ä¾¿å®œä¸Šã€ãƒ¡ã‚½ãƒƒãƒ‰åã‚’è¨­å®š
+        initCallTree(tree, "killJob", recorder); // •Ö‹XãAƒƒ\ƒbƒh–¼‚ğİ’è
 
-        // CallTreeNodeã®ä½œæˆ
-        HadoopCallTreeNode node = HadoopCallTreeRecorder.createNode(invocation, null, null, config__);
+        // CallTreeNode‚Ìì¬
+        CallTreeNode node = CallTreeRecorder.createNode(invocation, null, null, config__);
         node.setDepth(0);
         node.setTree(tree);
 
         tree.setRootNode(node);
         recorder.setDepth(0);
 
-        // é–‹å§‹çŠ¶æ…‹ã®VMçŠ¶æ…‹ã‚’ä½œæˆ
+        // ŠJnó‘Ô‚ÌVMó‘Ô‚ğì¬
         VMStatus vmStatus = createVMStatus(null, node, recorder);
         node.setStartTime(System.currentTimeMillis());
         node.setStartVmStatus(vmStatus);
 
-        // ã‚¸ãƒ§ãƒ–åœæ­¢æƒ…å ±ã‚’è¨­å®š
+        // ƒWƒ‡ƒu’â~î•ñ‚ğİ’è
         HadoopInfo info = new HadoopInfo();
         info.setHost(hostName);
         info.setKilledJobID(jobID);
         node.setHadoopInfo(info);
 
-        // çµ‚äº†æ™‚ã®VMçŠ¶æ…‹ã‚’ä½œæˆ
+        // I—¹‚ÌVMó‘Ô‚ğì¬
         node.setEndTime(System.currentTimeMillis());
         addEndVMStatus(node, null, recorder);
 
         return tree;
     }
-    
 }

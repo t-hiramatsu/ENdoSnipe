@@ -29,14 +29,14 @@ import jp.co.acroquest.endosnipe.common.Constants;
 import jp.co.acroquest.endosnipe.common.entity.DisplayType;
 
 /**
- * ç©ç®—ã§å€¤ã‚’å–å¾—ã—ã€DBã«ä¿å­˜ã™ã‚‹å‰ã«å·®åˆ†ã®å€¤ã«å¤‰æ›ã™ã‚‹å¿…è¦ãŒã‚ã‚‹è¨ˆæ¸¬é …ç›®ã®ä¸€è¦§
+ * ÏZ‚Å’l‚ğæ“¾‚µADB‚É•Û‘¶‚·‚é‘O‚É·•ª‚Ì’l‚É•ÏŠ·‚·‚é•K—v‚ª‚ ‚éŒv‘ª€–Ú‚Ìˆê——
  *
  * @author ochiai
  *
  */
 public class AccumulatedValuesDefinition implements Constants
 {
-    /** ç©ç®—å€¤ã§ã‚ã‚‹ã¨ã„ã†ã“ã¨ã‚’åˆ¤æ–­ã™ã‚‹suffixã€‚ç³»åˆ—åã®æœ«å°¾ãŒã“ã®æ–‡å­—åˆ—ã®å ´åˆã«ã€ç©ç®—å€¤ã¨ã¿ãªã™ã€‚ */
+    /** ÏZ’l‚Å‚ ‚é‚Æ‚¢‚¤‚±‚Æ‚ğ”»’f‚·‚ésuffixBŒn—ñ–¼‚Ì––”ö‚ª‚±‚Ì•¶š—ñ‚Ìê‡‚ÉAÏZ’l‚Æ‚İ‚È‚·B */
     private static final String ACCUMULATED_SUFFIX = "(d)";
 
     private AccumulatedValuesDefinition()
@@ -45,10 +45,10 @@ public class AccumulatedValuesDefinition implements Constants
     }
 
     /**
-     * æŒ‡å®šã—ãŸitemId ãŒç©ç®—ã§å€¤ã‚’å–å¾—ã™ã‚‹è¨ˆæ¸¬é …ç›®ã‹ã©ã†ã‹ã‚’è¿”ã™
-     * @param itemName è¨ˆæ¸¬é …ç›®ã®ID
-     * @param displayType è¨ˆæ¸¬å€¤ã®è¡¨ç¤ºå‹
-     * @return ç©ç®—ã§å€¤ã‚’å–å¾—ã™ã‚‹å ´åˆ true
+     * w’è‚µ‚½itemId ‚ªÏZ‚Å’l‚ğæ“¾‚·‚éŒv‘ª€–Ú‚©‚Ç‚¤‚©‚ğ•Ô‚·
+     * @param itemName Œv‘ª€–Ú‚ÌID
+     * @param displayType Œv‘ª’l‚Ì•\¦Œ^
+     * @return ÏZ‚Å’l‚ğæ“¾‚·‚éê‡ true
      */
     public static synchronized boolean isAccumulatedValue(final String itemName,
         final int displayType)

@@ -12,7 +12,7 @@ infinispan.CacheParentView = wgp.AbstractView
 
 				this.cachePath = argument.cachePath;
 				var clusterName = treeSettings.treeId.split("/")[1];
-				infinispan.cacheParent.treeSettingId = "/" + clusterName + "/.*"
+				infinispan.cacheParent.treeSettingId = "/" + clusterName + "/%"
 						+ this.cachePath;
 
 				// create single slider
@@ -74,14 +74,14 @@ infinispan.CacheParentView = wgp.AbstractView
 				if (pastTime === 0) {
 					if (this.cacheView.isRealTime === false) {
 						appView
-								.syncData([ (infinispan.cacheParent.treeSettingId + ".*") ]);
+								.syncData([ (infinispan.cacheParent.treeSettingId + "%") ]);
 					}
 					this.cacheView.isRealTime = true;
 
 					var end = new Date();
 					var start = new Date(end.getTime() - 60 * 60 * 1000);
 					appView.getTermData(
-							[ (infinispan.cacheParent.treeSettingId + '.*') ],
+							[ (infinispan.cacheParent.treeSettingId + '%') ],
 							start, end);
 				} else {
 					this.cacheView.isRealTime = false;

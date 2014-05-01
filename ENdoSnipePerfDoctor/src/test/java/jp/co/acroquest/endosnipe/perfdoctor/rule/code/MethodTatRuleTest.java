@@ -6,15 +6,15 @@ import jp.co.acroquest.endosnipe.javelin.parser.JavelinLogElement;
 import jp.co.acroquest.endosnipe.perfdoctor.PerformanceRuleTestCase;
 
 /**
- * ãƒ¡ã‚½ãƒƒãƒ‰ã®TATãƒ«ãƒ¼ãƒ«ã®ãƒ†ã‚¹ãƒˆ<br>
+ * ƒƒ\ƒbƒh‚ÌTATƒ‹[ƒ‹‚ÌƒeƒXƒg<br>
  * @author tooru
  *
  */
 public class MethodTatRuleTest extends PerformanceRuleTestCase
 {
     /**
-     * é–¾å€¤ã‚’æŒ‡å®šã—ã¦CodeMetricsRuleã‚’ç”Ÿæˆã™ã‚‹ã€‚<br>
-     * @param threshold é–¾å€¤
+     * è‡’l‚ğw’è‚µ‚ÄCodeMetricsRule‚ğ¶¬‚·‚éB<br>
+     * @param threshold è‡’l
      * @return CodeMetricsRule
      */
     private MethodTatRule createRule(long threshold)
@@ -29,12 +29,12 @@ public class MethodTatRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 2-8-1<br>
+     * [€”Ô] 2-8-1<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»TATãŒ4999ã€‚<br>
-     * ãƒ»é–¾å€¤ãŒ5000ã€‚<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * ETAT‚ª4999B<br>
+     * Eè‡’l‚ª5000B<br>
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br>
      */
     public void testDoJudge_01()
     {
@@ -48,17 +48,17 @@ public class MethodTatRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 2-8-2<br>
+     * [€”Ô] 2-8-2<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»TATãŒ5000ã€‚<br>
-     * ãƒ»é–¾å€¤ãŒ5000ã€‚<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã™ã‚‹ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * ETAT‚ª5000B<br>
+     * Eè‡’l‚ª5000B<br>
+     * ¨Œx‚ª”­¶‚·‚éB<br>
      */
     public void testDoJudge_02()
     {
@@ -73,12 +73,12 @@ public class MethodTatRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 2-8-3<br>
+     * [€”Ô] 2-8-3<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»TATãŒ5001ã€‚<br>
-     * ãƒ»é–¾å€¤ãŒ5000ã€‚<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã™ã‚‹ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * ETAT‚ª5001B<br>
+     * Eè‡’l‚ª5000B<br>
+     * ¨Œx‚ª”­¶‚·‚éB<br>
      */
     public void testDoJudge_03()
     {
@@ -93,12 +93,12 @@ public class MethodTatRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 2-8-5<br>
+     * [€”Ô] 2-8-5<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»TATãŒ10ã€‚<br>
-     * ãƒ»é–¾å€¤ãŒ10ã€‚<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * ETAT‚ª10B<br>
+     * Eè‡’l‚ª10B<br>
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br>
      */
     public void testDoJudge_05()
     {
@@ -113,11 +113,11 @@ public class MethodTatRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 2-8-10<br>
+     * [€”Ô] 2-8-10<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»TATã®å€¤ãŒæ•°å€¤ã§ã¯ãªã„ã€‚<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * ETAT‚Ì’l‚ª”’l‚Å‚Í‚È‚¢B<br>
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br>
      */
     public void testDoJudge_10()
     {
@@ -131,16 +131,16 @@ public class MethodTatRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 2-8-11<br>
+     * [€”Ô] 2-8-11<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»TATã®å€¤ãŒç©ºç™½ã€‚<br>
-     * â†’è­¦å‘ŠãŒç™ºç”Ÿã—ãªã„ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * ETAT‚Ì’l‚ª‹ó”’B<br>
+     * ¨Œx‚ª”­¶‚µ‚È‚¢B<br>
      */
     public void testDoJudge_11()
     {
@@ -154,16 +154,16 @@ public class MethodTatRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 2-8-13<br>
+     * [€”Ô] 2-8-13<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»[TIME]ã¨ã„ã†ã‚¿ã‚°ãŒãªã„ã€‚<br>
-     * â†’è­¦å‘Šã‚’è¡¨ç¤ºã—ãªã„ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * E[TIME]‚Æ‚¢‚¤ƒ^ƒO‚ª‚È‚¢B<br>
+     * ¨Œx‚ğ•\¦‚µ‚È‚¢B<br>
      */
     public void testDoJudge_13()
     {
@@ -177,16 +177,16 @@ public class MethodTatRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 2-8-14<br>
+     * [€”Ô] 2-8-14<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»detailInfoãŒãªã„ã€‚<br>
-     * â†’è­¦å‘Šã‚’è¡¨ç¤ºã—ãªã„ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * EdetailInfo‚ª‚È‚¢B<br>
+     * ¨Œx‚ğ•\¦‚µ‚È‚¢B<br>
      */
     public void testDoJudge_14()
     {
@@ -200,16 +200,16 @@ public class MethodTatRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 2-8-15<br>
+     * [€”Ô] 2-8-15<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»CALLãŒãªã„ã€‚<br>
-     * â†’è­¦å‘Šã‚’è¡¨ç¤ºã—ãªã„ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * ECALL‚ª‚È‚¢B<br>
+     * ¨Œx‚ğ•\¦‚µ‚È‚¢B<br>
      */
     public void testDoJudge_15()
     {
@@ -223,15 +223,15 @@ public class MethodTatRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 2-8-26<br>
+     * [€”Ô] 2-8-26<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»è¤‡æ•°ã®JavelinLogElementã§è­¦å‘ŠãŒå‡ºã‚‹ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * E•¡”‚ÌJavelinLogElement‚ÅŒx‚ªo‚éB<br>
      */
     public void testDoJudge_26()
     {
@@ -247,11 +247,11 @@ public class MethodTatRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 2-8-27<br>
+     * [€”Ô] 2-8-27<br>
      * <br>
-     * doJudgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»ã‚ã‚‹JavelinLogElementã§å®Ÿè¡Œæ™‚ä¾‹å¤–ãŒç™ºç”Ÿ<br>
-     * â†’ãã®JavelinLogElementã¯ã‚¹ã‚­ãƒƒãƒ—ã—ã¦å‡¦ç†ã™ã‚‹ã€‚<br>
+     * doJudge‚ÌƒeƒXƒgB<br>
+     * E‚ ‚éJavelinLogElement‚ÅÀs—áŠO‚ª”­¶<br>
+     * ¨‚»‚ÌJavelinLogElement‚ÍƒXƒLƒbƒv‚µ‚Äˆ—‚·‚éB<br>
      */
     public void testDoJudge_RuntimeException()
     {

@@ -24,167 +24,173 @@ import jp.co.acroquest.endosnipe.common.Constants;
 import jp.co.acroquest.endosnipe.report.dao.ReportDao;
 
 /**
- * ã‚·ã‚¹ãƒ†ãƒ ã®ãƒ‡ãƒ¼ã‚¿å–å¾—ã¨ãƒ¬ãƒãƒ¼ãƒˆæƒ…å ±å¤‰æ›ã‚’è¡Œã†ã‚¢ã‚¯ã‚»ã‚µã€‚
+ * ƒVƒXƒeƒ€‚Ìƒf[ƒ^æ“¾‚ÆƒŒƒ|[ƒgî•ñ•ÏŠ·‚ğs‚¤ƒAƒNƒZƒTB
  * 
  * @author eriguchi
  */
 public class SystemRecordAccessor
 {
-	/**
-	 * æœŸé–“ã‚’æŒ‡å®šã—ã€ãã®æœŸé–“å†…ã§ã®ã‚·ã‚¹ãƒ†ãƒ ãƒªã‚½ãƒ¼ã‚¹(CPUï¼ãƒ¡ãƒ¢ãƒª)ä½¿ç”¨çŠ¶æ³ã®ãƒ¬ãƒãƒ¼ãƒˆãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã€‚
-	 * 
-	 * @param database  ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã€‚
-	 * @param startTime æ¤œç´¢æ¡ä»¶(é–‹å§‹æ™‚åˆ»)ã€‚
-	 * @param endTime   æ¤œç´¢æ¡ä»¶(çµ‚äº†æ™‚åˆ»)ã€‚
-	 * @return ã‚·ã‚¹ãƒ†ãƒ ãƒªã‚½ãƒ¼ã‚¹ä½¿ç”¨çŠ¶æ³ã®ãƒ¬ãƒãƒ¼ãƒˆãƒ‡ãƒ¼ã‚¿ã€‚
-	 * @throws SQLException ãƒ‡ãƒ¼ã‚¿å–å¾—æ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
-	 */
-	public List<SystemResourceRecord> findSystemResourceStaticsByTerm(String database,
-		Timestamp startTime, Timestamp endTime) throws SQLException
-	{
-		List<SystemResourceRecord> result = new ArrayList<SystemResourceRecord>();
+    /**
+     * ŠúŠÔ‚ğw’è‚µA‚»‚ÌŠúŠÔ“à‚Å‚ÌƒVƒXƒeƒ€ƒŠƒ\[ƒX(CPU^ƒƒ‚ƒŠ)g—pó‹µ‚ÌƒŒƒ|[ƒgƒf[ƒ^‚ğæ“¾‚·‚éB
+     * 
+     * @param database  ƒf[ƒ^ƒx[ƒX–¼B
+     * @param startTime ŒŸõğŒ(ŠJn)B
+     * @param endTime   ŒŸõğŒ(I—¹)B
+     * @return ƒVƒXƒeƒ€ƒŠƒ\[ƒXg—pó‹µ‚ÌƒŒƒ|[ƒgƒf[ƒ^B
+     * @throws SQLException ƒf[ƒ^æ“¾‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     */
+    public List<SystemResourceRecord> findSystemResourceStaticsByTerm(String database,
+            Timestamp startTime, Timestamp endTime) throws SQLException
+    {
+        List<SystemResourceRecord> result = new ArrayList<SystemResourceRecord>();
 
-		// ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‹ã‚‰å€¤ã‚’å–å¾—ã™ã‚‹
-		List<ReportItemValue> cpuUsageTotalValues;
-		List<ReportItemValue> cpuUsageSysValues;
-		List<ReportItemValue> physicalMemValues;
-		List<ReportItemValue> swapMemMaxValues;
-		List<ReportItemValue> swapMemNowValues;
-		List<ReportItemValue> pageInValues;
-		List<ReportItemValue> pageOutValues;
-		List<ReportItemValue> fdCountValues;
+        // ƒf[ƒ^ƒx[ƒX‚©‚ç’l‚ğæ“¾‚·‚é
+        List<ReportItemValue> cpuUsageTotalValues;
+        List<ReportItemValue> cpuUsageSysValues;
+        List<ReportItemValue> physicalMemValues;
+        List<ReportItemValue> swapMemMaxValues;
+        List<ReportItemValue> swapMemNowValues;
+        List<ReportItemValue> pageInValues;
+        List<ReportItemValue> pageOutValues;
+        List<ReportItemValue> fdCountValues;
 
-		cpuUsageTotalValues = ReportDao.selectAverage(database, startTime, endTime,
-			Constants.ITEMNAME_SYSTEM_CPU_TOTAL_USAGE);
-		cpuUsageSysValues = ReportDao.selectAverage(database, startTime, endTime,
-			Constants.ITEMNAME_SYSTEM_CPU_SYSTEM_USAGE);
+        cpuUsageTotalValues = ReportDao.selectAverage(database, startTime,
+                endTime, Constants.ITEMNAME_SYSTEM_CPU_TOTAL_USAGE);
+        cpuUsageSysValues = ReportDao.selectAverage(database, startTime,
+                endTime, Constants.ITEMNAME_SYSTEM_CPU_SYSTEM_USAGE);
 
-		// CPUä½¿ç”¨ç‡ã®ãƒ‡ãƒ¼ã‚¿ãŒDBã«ã‚ã‚Šã€å–å¾—ã§ããŸå ´åˆã¯ã€ãã‚Œã‚‰ã«å¤‰æ›å‡¦ç†ã‚’è¡Œã†ã€‚
-		// å–å¾—ã§ããªã‹ã£ãŸå ´åˆã¯ã€ä»–ã®ãƒ‡ãƒ¼ã‚¿ã‹ã‚‰è¨ˆç®—ã™ã‚‹ã“ã¨ã«ã‚ˆã£ã¦å†å–å¾—ã™ã‚‹ã€‚
-		if (cpuUsageTotalValues != null && cpuUsageSysValues != null
-			&& 0 < cpuUsageTotalValues.size() && 0 < cpuUsageSysValues.size())
-		{
-			cpuUsageTotalValues = PercentageDataUtil
-				.reconstitutePercentageData(cpuUsageTotalValues);
-			cpuUsageSysValues = PercentageDataUtil.reconstitutePercentageData(cpuUsageSysValues);
-		}
-		else
-		{
-			cpuUsageTotalValues = selectCpuUsage(database, startTime, endTime,
-				Constants.ITEMNAME_SYSTEM_CPU_USERMODE_TIME);
-			cpuUsageSysValues = selectCpuUsage(database, startTime, endTime,
-				Constants.ITEMNAME_SYSTEM_CPU_SYSTEM_TIME);
-		}
+        // CPUg—p—¦‚Ìƒf[ƒ^‚ªDB‚É‚ ‚èAæ“¾‚Å‚«‚½ê‡‚ÍA‚»‚ê‚ç‚É•ÏŠ·ˆ—‚ğs‚¤B
+        // æ“¾‚Å‚«‚È‚©‚Á‚½ê‡‚ÍA‘¼‚Ìƒf[ƒ^‚©‚çŒvZ‚·‚é‚±‚Æ‚É‚æ‚Á‚ÄÄæ“¾‚·‚éB
+        if (cpuUsageTotalValues != null && cpuUsageSysValues != null
+                && 0 < cpuUsageTotalValues.size()
+                && 0 < cpuUsageSysValues.size())
+        {
+            cpuUsageTotalValues = PercentageDataUtil
+                    .reconstitutePercentageData(cpuUsageTotalValues);
+            cpuUsageSysValues = PercentageDataUtil
+                    .reconstitutePercentageData(cpuUsageSysValues);
+        }
+        else
+        {
+            cpuUsageTotalValues = selectCpuUsage(database, startTime,
+                    endTime, Constants.ITEMNAME_SYSTEM_CPU_USERMODE_TIME);
+            cpuUsageSysValues = selectCpuUsage(database, startTime,
+                    endTime, Constants.ITEMNAME_SYSTEM_CPU_SYSTEM_TIME);
+        }
+        
+        
+        physicalMemValues =
+                selectMemoryUsage(database, startTime, endTime,
+                                  Constants.ITEMNAME_SYSTEM_MEMORY_PHYSICAL_MAX,
+                                  Constants.ITEMNAME_SYSTEM_MEMORY_PHYSICAL_FREE);
+        
+        swapMemMaxValues = ReportDao.selectAverage(database, startTime, endTime,
+                Constants.ITEMNAME_SYSTEM_MEMORY_SWAP_MAX);
+        swapMemNowValues = ReportDao.selectAverage(database, startTime, endTime,
+                Constants.ITEMNAME_SYSTEM_MEMORY_SWAP_FREE);
 
-		physicalMemValues = selectMemoryUsage(database, startTime, endTime,
-			Constants.ITEMNAME_SYSTEM_MEMORY_PHYSICAL_MAX,
-			Constants.ITEMNAME_SYSTEM_MEMORY_PHYSICAL_FREE);
+        pageInValues = ReportDao.selectAverage(database, startTime, endTime,
+                                Constants.ITEMNAME_SYSTEM_MEMORY_PAGEIN_COUNT);
+        pageOutValues = ReportDao.selectAverage(database, startTime, endTime,
+                                               Constants.ITEMNAME_SYSTEM_MEMORY_PAGEOUT_COUNT);
+        fdCountValues = ReportDao.selectAverage(database, startTime,
+                                                endTime, Constants.ITEMNAME_SYSTEM_HANDLE_TOTAL_NUMBER);
 
-		swapMemMaxValues = ReportDao.selectAverage(database, startTime, endTime,
-			Constants.ITEMNAME_SYSTEM_MEMORY_SWAP_MAX);
-		swapMemNowValues = ReportDao.selectAverage(database, startTime, endTime,
-			Constants.ITEMNAME_SYSTEM_MEMORY_SWAP_FREE);
+        for (int index = 0; index < cpuUsageTotalValues.size(); index++)
+        {
+            SystemResourceRecord record = new SystemResourceRecord();
 
-		pageInValues = ReportDao.selectAverage(database, startTime, endTime,
-			Constants.ITEMNAME_SYSTEM_MEMORY_PAGEIN_COUNT);
-		pageOutValues = ReportDao.selectAverage(database, startTime, endTime,
-			Constants.ITEMNAME_SYSTEM_MEMORY_PAGEOUT_COUNT);
-		fdCountValues = ReportDao.selectAverage(database, startTime, endTime,
-			Constants.ITEMNAME_SYSTEM_HANDLE_TOTAL_NUMBER);
+            ReportItemValue cpuUsageTotal = cpuUsageTotalValues.get(index);
+            ReportItemValue cpuUsageSys = cpuUsageSysValues.get(index);
+            ReportItemValue physicalMem = physicalMemValues.get(index);
+            ReportItemValue swapMemMax = swapMemMaxValues.get(index);
+            ReportItemValue swapMemNow = swapMemNowValues.get(index);
+            ReportItemValue pageInValue = pageInValues.get(index);
+            ReportItemValue pageOutValue = pageOutValues.get(index);
+            ReportItemValue fdCount = fdCountValues.get(index);
+            
+            if(cpuUsageTotal != null)
+            {
+	            record.setMeasurementTime(cpuUsageTotal.measurementTime);
+	            record.setCpuUsage(cpuUsageTotal.summaryValue.doubleValue());
+	            record.setCpuUsageMax(cpuUsageTotal.maxValue.doubleValue());
+	            record.setCpuUsageMin(cpuUsageTotal.minValue.doubleValue());
+           }
+            if(cpuUsageSys != null)
+            {
+                record.setMeasurementTime(cpuUsageSys.measurementTime);
+                record.setSysCpuUsage(cpuUsageSys.summaryValue.doubleValue());
+                record.setSysCpuUsageMax(cpuUsageSys.maxValue.doubleValue());
+                record.setSysCpuUsageMin(cpuUsageSys.minValue.doubleValue());
+           }
+            if(physicalMem != null)
+            {
+                record.setMeasurementTime(physicalMem.measurementTime);
+                record.setPhysicalMemoryMax(physicalMem.limitValue.doubleValue());
+                record.setPhysicalMemoryUse(physicalMem.summaryValue.doubleValue());
+                record.setPhysicalMemoryUseMax(physicalMem.maxValue.doubleValue());
+                record.setPhysicalMemoryUseMin(physicalMem.minValue.doubleValue());
+           }
+            if (swapMemMax != null && swapMemNow != null)
+            {
+                record.setMeasurementTime(swapMemMax.measurementTime);
+                record.setSwapMemoryMax(swapMemMax.maxValue.doubleValue());
+                record.setSwapMemoryUse(swapMemNow.summaryValue.doubleValue());
+                record.setSwapMemoryUseMax(swapMemNow.maxValue.doubleValue());
+                record.setSwapMemoryUseMin(swapMemNow.minValue.doubleValue());
+            }
+            if(pageInValue != null)
+            {
+                record.setMeasurementTime(pageInValue.measurementTime);
+                record.setPageIn(pageInValue.summaryValue.doubleValue());
+                record.setPageInMax(pageInValue.maxValue.doubleValue());
+                record.setPageInMin(pageInValue.minValue.doubleValue());
+            }
+            if(pageOutValue != null)
+            {
+                record.setMeasurementTime(pageOutValue.measurementTime);
+                record.setPageOut(pageOutValue.summaryValue.doubleValue());
+                record.setPageOutMax(pageOutValue.maxValue.doubleValue());
+                record.setPageOutMin(pageOutValue.minValue.doubleValue());
+            }
+            if (fdCount != null)
+            {
+                record.setFdCount(fdCount.summaryValue.longValue());
+                record.setFdCountMax(fdCount.maxValue.longValue());
+                record.setFdCountMin(fdCount.minValue.longValue());
+            }
+            result.add(record);
+        }
 
-		for (int index = 0; index < cpuUsageTotalValues.size(); index++)
-		{
-			SystemResourceRecord record = new SystemResourceRecord();
+        return result;
+    }
 
-			ReportItemValue cpuUsageTotal = cpuUsageTotalValues.get(index);
-			ReportItemValue cpuUsageSys = cpuUsageSysValues.get(index);
-			ReportItemValue physicalMem = physicalMemValues.get(index);
-			ReportItemValue swapMemMax = swapMemMaxValues.get(index);
-			ReportItemValue swapMemNow = swapMemNowValues.get(index);
-			ReportItemValue pageInValue = pageInValues.get(index);
-			ReportItemValue pageOutValue = pageOutValues.get(index);
-			ReportItemValue fdCount = fdCountValues.get(index);
+    /**
+     * DB‚©‚ç—İÏCPUŠÔ‚ğæ“¾‚µACPUg—p—¦‚ğŠ„‚èo‚·B
+     * 
+     * @param database  ƒf[ƒ^ƒx[ƒXB
+     * @param startTime ŒŸõğŒ(ŠJn)B
+     * @param endTime   ŒŸõğŒ(I—¹)B
+     * @param cpuItemName TODO
+     * @return CPUg—p—¦‚ÌƒŠƒXƒgB
+     * @throws SQLException ƒf[ƒ^ƒx[ƒX‚©‚ç‚ÌŒŸõ‚ÉƒGƒ‰[‚ª”­¶‚µ‚½ê‡B
+     */
+    private List<ReportItemValue> selectCpuUsage(String database, Timestamp startTime,
+            Timestamp endTime, String cpuItemName)
+        throws SQLException
+    {
+    	List<ReportItemValue> cpuTimeValues =
+                ReportDao.selectAverage(database, startTime, endTime, cpuItemName);
+    	List<ReportItemValue> upTimeValues =
+                ReportDao.selectAverage(database, startTime, endTime, Constants.ITEMNAME_JAVAUPTIME);
+        List<ReportItemValue> procCntValues =
+                ReportDao.selectAverage(database, startTime, endTime,
+                                        Constants.ITEMNAME_SYSTEM_CPU_PROCESSOR_COUNT);
 
-			if (cpuUsageTotal != null)
-			{
-				record.setMeasurementTime(cpuUsageTotal.measurementTime);
-				record.setCpuUsage(cpuUsageTotal.summaryValue.doubleValue());
-				record.setCpuUsageMax(cpuUsageTotal.maxValue.doubleValue());
-				record.setCpuUsageMin(cpuUsageTotal.minValue.doubleValue());
-			}
-			if (cpuUsageSys != null)
-			{
-				record.setMeasurementTime(cpuUsageSys.measurementTime);
-				record.setSysCpuUsage(cpuUsageSys.summaryValue.doubleValue());
-				record.setSysCpuUsageMax(cpuUsageSys.maxValue.doubleValue());
-				record.setSysCpuUsageMin(cpuUsageSys.minValue.doubleValue());
-			}
-			if (physicalMem != null)
-			{
-				record.setMeasurementTime(physicalMem.measurementTime);
-				record.setPhysicalMemoryMax(physicalMem.limitValue.doubleValue());
-				record.setPhysicalMemoryUse(physicalMem.summaryValue.doubleValue());
-				record.setPhysicalMemoryUseMax(physicalMem.maxValue.doubleValue());
-				record.setPhysicalMemoryUseMin(physicalMem.minValue.doubleValue());
-			}
-			if (swapMemMax != null && swapMemNow != null)
-			{
-				record.setMeasurementTime(swapMemMax.measurementTime);
-				record.setSwapMemoryMax(swapMemMax.maxValue.doubleValue());
-				record.setSwapMemoryUse(swapMemNow.summaryValue.doubleValue());
-				record.setSwapMemoryUseMax(swapMemNow.maxValue.doubleValue());
-				record.setSwapMemoryUseMin(swapMemNow.minValue.doubleValue());
-			}
-			if (pageInValue != null)
-			{
-				record.setMeasurementTime(pageInValue.measurementTime);
-				record.setPageIn(pageInValue.summaryValue.doubleValue());
-				record.setPageInMax(pageInValue.maxValue.doubleValue());
-				record.setPageInMin(pageInValue.minValue.doubleValue());
-			}
-			if (pageOutValue != null)
-			{
-				record.setMeasurementTime(pageOutValue.measurementTime);
-				record.setPageOut(pageOutValue.summaryValue.doubleValue());
-				record.setPageOutMax(pageOutValue.maxValue.doubleValue());
-				record.setPageOutMin(pageOutValue.minValue.doubleValue());
-			}
-			if (fdCount != null)
-			{
-				record.setFdCount(fdCount.summaryValue.longValue());
-				record.setFdCountMax(fdCount.maxValue.longValue());
-				record.setFdCountMin(fdCount.minValue.longValue());
-			}
-			result.add(record);
-		}
+        List<ReportItemValue> dtoList = new ArrayList<ReportItemValue>();
 
-		return result;
-	}
-
-	/**
-	 * DBã‹ã‚‰ç´¯ç©CPUæ™‚é–“ã‚’å–å¾—ã—ã€CPUä½¿ç”¨ç‡ã‚’å‰²ã‚Šå‡ºã™ã€‚
-	 * 
-	 * @param database  ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã€‚
-	 * @param startTime æ¤œç´¢æ¡ä»¶(é–‹å§‹æ™‚åˆ»)ã€‚
-	 * @param endTime   æ¤œç´¢æ¡ä»¶(çµ‚äº†æ™‚åˆ»)ã€‚
-	 * @param cpuItemName TODO
-	 * @return CPUä½¿ç”¨ç‡ã®ãƒªã‚¹ãƒˆã€‚
-	 * @throws SQLException ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‹ã‚‰ã®æ¤œç´¢æ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆã€‚
-	 */
-	private List<ReportItemValue> selectCpuUsage(String database, Timestamp startTime,
-		Timestamp endTime, String cpuItemName) throws SQLException
-	{
-		List<ReportItemValue> cpuTimeValues = ReportDao.selectAverage(database, startTime, endTime,
-			cpuItemName);
-		List<ReportItemValue> upTimeValues = ReportDao.selectAverage(database, startTime, endTime,
-			Constants.ITEMNAME_JAVAUPTIME);
-		List<ReportItemValue> procCntValues = ReportDao.selectAverage(database, startTime, endTime,
-			Constants.ITEMNAME_SYSTEM_CPU_PROCESSOR_COUNT);
-
-		List<ReportItemValue> dtoList = new ArrayList<ReportItemValue>();
-
-		for (int index = 0; index < cpuTimeValues.size(); index++)
-		{
+        for(int index = 0; index < cpuTimeValues.size(); index++)
+        {
 			ReportItemValue cpuValue = cpuTimeValues.get(index);
 			ReportItemValue upTimeValue = upTimeValues.get(index);
 			ReportItemValue procCntValue = procCntValues.get(index);
@@ -196,67 +202,80 @@ public class SystemRecordAccessor
 			{
 				ReportItemValue dto = new ReportItemValue();
 				dto.measurementTime = cpuValue.measurementTime;
-				dto.summaryValue = calcCpuUsage(cpuValue.summaryValue.longValue(),
-					upTimeValue.summaryValue.longValue(), procCntValue.summaryValue.longValue());
-				dto.maxValue = calcCpuUsage(cpuValue.maxValue.longValue(),
-					upTimeValue.maxValue.longValue(), procCntValue.maxValue.longValue());
-				dto.minValue = calcCpuUsage(cpuValue.minValue.longValue(),
-					upTimeValue.minValue.longValue(), procCntValue.minValue.longValue());
+				dto.summaryValue = calcCpuUsage(cpuValue.summaryValue
+						.longValue(), upTimeValue.summaryValue.longValue(),
+						procCntValue.summaryValue.longValue());
+				dto.maxValue =
+                        calcCpuUsage(cpuValue.maxValue.longValue(),
+                                     upTimeValue.maxValue.longValue(),
+                                     procCntValue.maxValue.longValue());
+                dto.minValue =
+                        calcCpuUsage(cpuValue.minValue.longValue(),
+                                     upTimeValue.minValue.longValue(),
+                                     procCntValue.minValue.longValue());
 
 				dtoList.add(dto);
 			}
-		}
+        }
 
-		return dtoList;
-	}
 
-	/**
-	 * DBã‹ã‚‰ç´¯ç©CPUæ™‚é–“ã‚’å–å¾—ã—ã€CPUä½¿ç”¨ç‡ã‚’å‰²ã‚Šå‡ºã™ã€‚
-	 * 
-	 * @param database  ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã€‚
-	 * @param startTime æ¤œç´¢æ¡ä»¶(é–‹å§‹æ™‚åˆ»)ã€‚
-	 * @param endTime   æ¤œç´¢æ¡ä»¶(çµ‚äº†æ™‚åˆ»)ã€‚
-	 * @param memoryItemName TODO
-	 * @return CPUä½¿ç”¨ç‡ã®ãƒªã‚¹ãƒˆã€‚
-	 * @throws SQLException ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‹ã‚‰ã®æ¤œç´¢æ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆã€‚
-	 */
-	private List<ReportItemValue> selectMemoryUsage(String database, Timestamp startTime,
-		Timestamp endTime, String memoryItemName, String memoryFreeItemName) throws SQLException
-	{
-		List<ReportItemValue> memoryAllValues = ReportDao.selectAverage(database, startTime,
-			endTime, memoryItemName);
-		List<ReportItemValue> memoryFreeValues = ReportDao.selectAverage(database, startTime,
-			endTime, memoryFreeItemName);
+        return dtoList;
+    }
 
-		List<ReportItemValue> dtoList = new ArrayList<ReportItemValue>();
+    /**
+     * DB‚©‚ç—İÏCPUŠÔ‚ğæ“¾‚µACPUg—p—¦‚ğŠ„‚èo‚·B
+     * 
+     * @param database  ƒf[ƒ^ƒx[ƒXB
+     * @param startTime ŒŸõğŒ(ŠJn)B
+     * @param endTime   ŒŸõğŒ(I—¹)B
+     * @param memoryItemName TODO
+     * @return CPUg—p—¦‚ÌƒŠƒXƒgB
+     * @throws SQLException ƒf[ƒ^ƒx[ƒX‚©‚ç‚ÌŒŸõ‚ÉƒGƒ‰[‚ª”­¶‚µ‚½ê‡B
+     */
+    private List<ReportItemValue> selectMemoryUsage(String database, Timestamp startTime,
+            Timestamp endTime, String memoryItemName, String memoryFreeItemName)
+        throws SQLException
+    {
+        List<ReportItemValue> memoryAllValues =
+                ReportDao.selectAverage(database, startTime, endTime, memoryItemName);
+        List<ReportItemValue> memoryFreeValues =
+                ReportDao.selectAverage(database, startTime, endTime, memoryFreeItemName);
 
-		for (int index = 0; index < memoryAllValues.size(); index++)
-		{
-			ReportItemValue memoryAllValue = memoryAllValues.get(index);
-			ReportItemValue memoryFreeValue = memoryFreeValues.get(index);
-			if (memoryAllValue == null || memoryFreeValue == null)
-			{
-				continue;
-			}
-			else
-			{
-				ReportItemValue dto = new ReportItemValue();
-				dto.measurementTime = memoryAllValue.measurementTime;
-				dto.limitValue = memoryAllValue.summaryValue.longValue();
-				dto.summaryValue = Math.max(memoryAllValue.summaryValue.longValue()
-					- memoryFreeValue.summaryValue.longValue(), 0);
-				dto.maxValue = Math.max(memoryAllValue.maxValue.longValue()
-					- memoryFreeValue.summaryValue.longValue(), 0);
-				dto.minValue = Math.max(memoryAllValue.minValue.longValue()
-					- memoryFreeValue.summaryValue.longValue(), 0);
-				dtoList.add(dto);
-			}
-		}
+        List<ReportItemValue> dtoList = new ArrayList<ReportItemValue>();
 
-		return dtoList;
-	}
+        for(int index = 0; index < memoryAllValues.size(); index++)
+        {
+            ReportItemValue memoryAllValue = memoryAllValues.get(index);
+            ReportItemValue memoryFreeValue = memoryFreeValues.get(index);
+            if (memoryAllValue == null || memoryFreeValue == null)
+            {
+                continue;
+            }
+            else
+            {
+                ReportItemValue dto = new ReportItemValue();
+                dto.measurementTime = memoryAllValue.measurementTime;
+                dto.limitValue = memoryAllValue.summaryValue.longValue();
+                dto.summaryValue =
+                        Math.max(memoryAllValue.summaryValue.longValue()
+                                - memoryFreeValue.summaryValue.longValue(), 0);
+                dto.maxValue =
+                        Math.max(memoryAllValue.maxValue.longValue()
+                                - memoryFreeValue.summaryValue.longValue(), 0);
+                dto.minValue =
+                        Math.max(memoryAllValue.minValue.longValue()
+                                - memoryFreeValue.summaryValue.longValue(), 0);
+                dtoList.add(dto);
+            }
+        }
 
-	private double calcCpuUsage(long cpuValueLong, long upTimeValueLong, long procCntValueLong)
+
+        return dtoList;
+    }
+    
+
+    private double calcCpuUsage(long cpuValueLong,
+			long upTimeValueLong, long procCntValueLong)
 	{
 		if (upTimeValueLong == 0 || procCntValueLong == 0)
 		{

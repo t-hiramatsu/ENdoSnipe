@@ -3,9 +3,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<name>Explorer Project</name>
-	<groupId>Explorer</groupId>
-	<artifactId>Explorer</artifactId>
+	<name>Dashboard Project</name>
+	<groupId>Dashboard</groupId>
+	<artifactId>Dashboard</artifactId>
 	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
@@ -13,7 +13,7 @@
 	<properties>
 		<jdk.version>1.5</jdk.version>
 		<src.encoding>UTF-8</src.encoding>
-		<site.encoding>UTF-8</site.encoding>
+		<site.encoding>windows-31j</site.encoding>
 	</properties>
 
 	<!-- リポジトリ設定 -->
@@ -803,51 +803,11 @@
 				${basedir}/lib/commons-lang-2.4.jar
 			</systemPath>
 		</dependency>
-		<!-- Spring Core -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-core</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-
-		<!-- Spring Jsbc -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-jdbc</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-
-		<!-- Spring XML to/back object -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-oxm</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		
-		<!-- Spring Batch dependencies -->
-		<dependency>
-			<groupId>org.springframework.batch</groupId>
-			<artifactId>spring-batch-core</artifactId>
-			<version>${spring.batch.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.batch</groupId>
-			<artifactId>spring-batch-infrastructure</artifactId>
-			<version>${spring.batch.version}</version>
-		</dependency>
-
-		<!-- MySQL database driver -->
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>${mysql.driver.version}</version>
-		</dependency>
 	</dependencies>
 
 	<!-- ビルド設定 -->
 	<build>
 		<!-- ソースコードのルートパスの指定 -->
-		<finalName>spring-batch</finalName>
 		<sourceDirectory>src/main/java</sourceDirectory>
 		<resources>
 			<resource>

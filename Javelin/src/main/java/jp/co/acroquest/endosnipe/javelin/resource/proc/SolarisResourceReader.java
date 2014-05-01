@@ -30,21 +30,21 @@ import jp.co.acroquest.endosnipe.common.config.JavelinConfigUtil;
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 
 /**
- * Solarisã®ãƒªã‚½ãƒ¼ã‚¹æƒ…å ±ã‚’JNIçµŒç”±ã§å–å¾—ã™ã‚‹ã‚¯ãƒ©ã‚¹.
+ * Solaris‚ÌƒŠƒ\[ƒXî•ñ‚ğJNIŒo—R‚Åæ“¾‚·‚éƒNƒ‰ƒX.
  * 
- * libkstat, /procãƒ•ã‚¡ã‚¤ãƒ«ã‚·ã‚¹ãƒ†ãƒ ã‚’åˆ©ç”¨ã—ã¦ãƒªã‚½ãƒ¼ã‚¹æƒ…å ±ã‚’å–å¾—ã™ã‚‹ã€‚
- * OpenSolaris2009.06(32bit)ã§å‹•ä½œç¢ºèªæ¸ˆã¿ã€‚
+ * libkstat, /procƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚ğ—˜—p‚µ‚ÄƒŠƒ\[ƒXî•ñ‚ğæ“¾‚·‚éB
+ * OpenSolaris2009.06(32bit)‚Å“®ìŠm”FÏ‚İB
  * 
  * @author hashimoto
  */
 public class SolarisResourceReader
 {
-    // dll ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ãƒ­ãƒ¼ãƒ‰ã™ã‚‹
+    // dll ƒtƒ@ƒCƒ‹‚ğƒ[ƒh‚·‚é
     static
     {
         SystemLogger logger = SystemLogger.getInstance();
 
-        // ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã‚’ãƒ­ãƒ¼ãƒ‰ã—ã¾ã™
+        // ƒ‰ƒCƒuƒ‰ƒŠ‚ğƒ[ƒh‚µ‚Ü‚·
         JavelinConfigUtil javelinConfigUtil = JavelinConfigUtil.getInstance();
 
         String libraryPrefix = "./libresource_reader_solaris_";
@@ -53,7 +53,7 @@ public class SolarisResourceReader
         // CPU arch
         String arch = System.getProperty("os.arch");
         
-        // CPU bitæ•°
+        // CPU bit”
         String bit = System.getProperty("sun.arch.data.model");
         if (bit == null || bit.length() == 0)
         {
@@ -84,124 +84,124 @@ public class SolarisResourceReader
     }
     
     /**
-     * æ–°è¦ã‚¯ã‚¨ãƒªãƒ¼ã‚’ä½œæˆ
-     * @return ä½œæˆã«æˆåŠŸã—ãŸã‚‰ true
+     * V‹KƒNƒGƒŠ[‚ğì¬
+     * @return ì¬‚É¬Œ÷‚µ‚½‚ç true
      */
     private native boolean openQuery();
 
     /**
-     * è¨ˆæ¸¬
-     * @return è¨ˆæ¸¬ã«æˆåŠŸã—ãŸã‚‰true
+     * Œv‘ª
+     * @return Œv‘ª‚É¬Œ÷‚µ‚½‚çtrue
      */
     private native boolean collectQueryData();
 
     /**
-     * ã‚·ã‚¹ãƒ†ãƒ ã®CPUæ™‚é–“ï¼ˆSystemï¼‰ã‚’å–å¾—
-     * @return å–å¾—ã—ãŸå€¤(nano second)
+     * ƒVƒXƒeƒ€‚ÌCPUŠÔiSystemj‚ğæ“¾
+     * @return æ“¾‚µ‚½’l(nano second)
      */
     public native long getSystemCPUSys();
 
     /**
-     * ã‚·ã‚¹ãƒ†ãƒ ã®CPUæ™‚é–“ï¼ˆUserï¼‰ã‚’å–å¾—
-     * @return å–å¾—ã—ãŸå€¤(nano second)
+     * ƒVƒXƒeƒ€‚ÌCPUŠÔiUserj‚ğæ“¾
+     * @return æ“¾‚µ‚½’l(nano second)
      */
     public native long getSystemCPUUser();
 
     /**
-     * ã‚·ã‚¹ãƒ†ãƒ ã®CPUæ™‚é–“ï¼ˆTotalï¼‰ã‚’å–å¾—
-     * @return å–å¾—ã—ãŸå€¤(nano second)
+     * ƒVƒXƒeƒ€‚ÌCPUŠÔiTotalj‚ğæ“¾
+     * @return æ“¾‚µ‚½’l(nano second)
      */
     public native long getSystemCPUTotal();
 
     /**
-     * ç‰©ç†ãƒ¡ãƒ¢ãƒªï¼ˆãƒ•ãƒªãƒ¼ï¼‰ã‚’å–å¾—
-     * @return å–å¾—ã—ãŸå€¤(byte)
+     * •¨—ƒƒ‚ƒŠiƒtƒŠ[j‚ğæ“¾
+     * @return æ“¾‚µ‚½’l(byte)
      */
     public native long getSystemMemoryFree();
 
     /**
-     * ç‰©ç†ãƒ¡ãƒ¢ãƒªï¼ˆæœ€å¤§ï¼‰ã‚’å–å¾—
-     * @return å–å¾—ã—ãŸå€¤(byte)
+     * •¨—ƒƒ‚ƒŠiÅ‘åj‚ğæ“¾
+     * @return æ“¾‚µ‚½’l(byte)
      */
     public native long getSystemMemoryTotal();
 
     /**
-     * ã‚¹ãƒ¯ãƒƒãƒ—ï¼ˆä½¿ç”¨ä¸­ï¼‰ã‚’å–å¾—
-     * @return å–å¾—ã—ãŸå€¤(byte)
+     * ƒXƒƒbƒvig—p’†j‚ğæ“¾
+     * @return æ“¾‚µ‚½’l(byte)
      */
     public native long getSystemSwapFree();
 
     /**
-     * ã‚¹ãƒ¯ãƒƒãƒ—ï¼ˆæœ€å¤§ï¼‰ã‚’å–å¾—
-     * @return å–å¾—ã—ãŸå€¤(byte)
+     * ƒXƒƒbƒviÅ‘åj‚ğæ“¾
+     * @return æ“¾‚µ‚½’l(byte)
      */
     public native long getSystemSwapTotal();
 
 
     /**
-     * ãƒšãƒ¼ã‚¸ã‚¤ãƒ³ã‚’å–å¾—
-     * @return å–å¾—ã—ãŸå€¤
+     * ƒy[ƒWƒCƒ“‚ğæ“¾
+     * @return æ“¾‚µ‚½’l
      */
     public native long getSystemPageIn();
 
     /**
-     * ãƒšãƒ¼ã‚¸ã‚¢ã‚¦ãƒˆã‚’å–å¾—
-     * @return å–å¾—ã—ãŸå€¤
+     * ƒy[ƒWƒAƒEƒg‚ğæ“¾
+     * @return æ“¾‚µ‚½’l
      */
     public native long getSystemPageOut();
 
     /**
-     * ãƒ—ãƒ­ã‚»ã‚¹ã®CPUæ™‚é–“(User)ã‚’å–å¾—
-     * @return å–å¾—ã—ãŸå€¤(nano second)
+     * ƒvƒƒZƒX‚ÌCPUŠÔ(User)‚ğæ“¾
+     * @return æ“¾‚µ‚½’l(nano second)
      */
     public native long getProcessCPUUser();
 
     /**
-     * ãƒ—ãƒ­ã‚»ã‚¹ã®CPUæ™‚é–“(System)ã‚’å–å¾—
-     * @return å–å¾—ã—ãŸå€¤(nano second)
+     * ƒvƒƒZƒX‚ÌCPUŠÔ(System)‚ğæ“¾
+     * @return æ“¾‚µ‚½’l(nano second)
      */
     public native long getProcessCPUSys();
 
     /**
-     * ãƒ¡ã‚¸ãƒ£ãƒ¼ãƒ•ã‚©ãƒ¼ãƒ«ãƒˆã‚’å–å¾—
-     * @return å–å¾—ã—ãŸå€¤
+     * ƒƒWƒƒ[ƒtƒH[ƒ‹ƒg‚ğæ“¾
+     * @return æ“¾‚µ‚½’l
      */
     public native long getProcessMajFlt();
 
     /**
-     * ä»®æƒ³ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡ã‚’å–å¾—
-     * @return å–å¾—ã—ãŸå€¤(byte)
+     * ‰¼‘zƒƒ‚ƒŠg—p—Ê‚ğæ“¾
+     * @return æ“¾‚µ‚½’l(byte)
      */
     public native long getProcessMemoryVirtual();
 
     /**
-     * ç‰©ç†ãƒ¡ãƒ¢ãƒªä½¿ç”¨é‡ã‚’å–å¾—
-     * @return å–å¾—ã—ãŸå€¤(byte)
+     * •¨—ƒƒ‚ƒŠg—p—Ê‚ğæ“¾
+     * @return æ“¾‚µ‚½’l(byte)
      */
     public native long getProcessMemoryPhysical();
 
     /**
-     * ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ã‚’å–å¾—
-     * @return å–å¾—ã—ãŸå€¤
+     * ƒXƒŒƒbƒh”‚ğæ“¾
+     * @return æ“¾‚µ‚½’l
      */
     public native int getNumThreads();
 
     /**
-     * ã‚¯ã‚¨ãƒªãƒ¼ã®ä½¿ç”¨ã‚’çµ‚äº†
-     * @return çµ‚äº†ã«æˆåŠŸã—ãŸã‚‰ true
+     * ƒNƒGƒŠ[‚Ìg—p‚ğI—¹
+     * @return I—¹‚É¬Œ÷‚µ‚½‚ç true
      */
     private native boolean closeQuery();
 
     /**
-     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
      */
     public SolarisResourceReader()
     {
     }
     
     /**
-     * ã‚·ã‚¹ãƒ†ãƒ ãƒªã‚½ãƒ¼ã‚¹å–å¾—å‡¦ç†ã®åˆæœŸåŒ–ãƒ¡ã‚½ãƒƒãƒ‰
-     * @return åˆæœŸåŒ–ã«æˆåŠŸã—ãŸã‚‰true
+     * ƒVƒXƒeƒ€ƒŠƒ\[ƒXæ“¾ˆ—‚Ì‰Šú‰»ƒƒ\ƒbƒh
+     * @return ‰Šú‰»‚É¬Œ÷‚µ‚½‚çtrue
      */
     public boolean init()
     {
@@ -210,8 +210,8 @@ public class SolarisResourceReader
     }
     
     /**
-     * ãƒªãƒ•ãƒ¬ãƒƒã‚·ãƒ¥ã—ã¾ã™ã€‚
-     * @return æˆåŠŸæ™‚true/ç•°å¸¸æ™‚false
+     * ƒŠƒtƒŒƒbƒVƒ…‚µ‚Ü‚·B
+     * @return ¬Œ÷true/ˆÙífalse
      */
     public boolean refresh()
     {
@@ -220,8 +220,8 @@ public class SolarisResourceReader
     }
 
     /**
-     * ã‚·ã‚¹ãƒ†ãƒ ãƒªã‚½ãƒ¼ã‚¹å–å¾—å‡¦ç†ã®çµ‚äº†ãƒ¡ã‚½ãƒƒãƒ‰
-     * @return çµ‚äº†ã«æˆåŠŸã—ãŸã‚‰true
+     * ƒVƒXƒeƒ€ƒŠƒ\[ƒXæ“¾ˆ—‚ÌI—¹ƒƒ\ƒbƒh
+     * @return I—¹‚É¬Œ÷‚µ‚½‚çtrue
      */
     public boolean destroy()
     {

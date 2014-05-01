@@ -27,154 +27,168 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 
 /**
- * å¤šæ•°ã®ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°ãƒ‡ãƒ¼ã‚¿ã‚’åœ§ç¸®ã—ã€Excelã«è¡¨ç¤ºå¯èƒ½ãªãƒ‡ãƒ¼ã‚¿ã«å¤‰æ›ã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚
+ * ‘½”‚ÌƒTƒ“ƒvƒŠƒ“ƒOƒf[ƒ^‚ğˆ³k‚µAExcel‚É•\¦‰Â”\‚Èƒf[ƒ^‚É•ÏŠ·‚·‚éƒNƒ‰ƒXB
  * 
  * @author M.Yoshida
  */
 @SuppressWarnings("unchecked")
-public class SamplingCompressor
+public class SamplingCompressor 
 {
 	private static final String MAX_VALUE_PROPERTY_SUFFIX_ = "Max";
-
+	
 	private static final String MIN_VALUE_PROPERTY_SUFFIX_ = "Min";
-
-	private static final String SAMPLING_MAX_NUM_KEY_ = "reporter.report.maxSamples";
-
-	/** ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°ã‚°ãƒ«ãƒ¼ãƒ—ã‚’ç”Ÿæˆã™ã‚‹éš›ã®æœ€å°è¨ˆæ¸¬æ™‚é–“ */
+	
+	private static final String SAMPLING_MAX_NUM_KEY_      = "reporter.report.maxSamples";
+	
+	/** ƒTƒ“ƒvƒŠƒ“ƒOƒOƒ‹[ƒv‚ğ¶¬‚·‚éÛ‚ÌÅ¬Œv‘ªŠÔ */
 	private long minLimitSamplingTerm_ = 5000;
 
-	/** ç”Ÿãƒ‡ãƒ¼ã‚¿ã®ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°å‘¨æœŸ[sec] */
+	/** ¶ƒf[ƒ^‚ÌƒTƒ“ƒvƒŠƒ“ƒOüŠú[sec] */
 	private long rawSamplingTerm_ = 5;
-
-	/** åœ§ç¸®å¾Œã®ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°æ•°ã®æœ€å¤§æ•° */
+	
+	/** ˆ³kŒã‚ÌƒTƒ“ƒvƒŠƒ“ƒO”‚ÌÅ‘å” */
 	private long samplingMax_ = 0;
-
+	
 	private static long SEC_PER_MILLIS = 1000;
-
-	/** ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®åœ§ç¸®å¾Œã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°æ•° */
+	
+	/** ƒfƒtƒHƒ‹ƒg‚Ìˆ³kŒãƒTƒ“ƒvƒŠƒ“ƒO” */
 	private static long DEFAULT_SAMPLING_MAX = 200;
-
+	
 	/**
-	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ï¼ˆãƒ‡ãƒ•ã‚©ãƒ«ãƒˆï¼‰
+	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^iƒfƒtƒHƒ‹ƒgj
 	 */
 	public SamplingCompressor()
 	{
-		this.samplingMax_ = Long.parseLong(ReporterConfigAccessor
-			.getProperty(SAMPLING_MAX_NUM_KEY_));
-
-		if (this.samplingMax_ <= 0)
+		this.samplingMax_ = Long.parseLong(
+				ReporterConfigAccessor.getProperty(SAMPLING_MAX_NUM_KEY_));
+		
+		if(this.samplingMax_ <= 0)
 		{
 			this.samplingMax_ = DEFAULT_SAMPLING_MAX;
 		}
-
+		
 	}
 
 	/**
-	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 	 * 
-	 * @param minTerm ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°ã‚°ãƒ«ãƒ¼ãƒ—ç”Ÿæˆã®éš›ã®æœ€å°è¨ˆæ¸¬æ™‚é–“
+	 * @param minTerm ƒTƒ“ƒvƒŠƒ“ƒOƒOƒ‹[ƒv¶¬‚ÌÛ‚ÌÅ¬Œv‘ªŠÔ
 	 */
 	public SamplingCompressor(long minTerm)
 	{
 		super();
 		this.minLimitSamplingTerm_ = minTerm;
 	}
-
+	
 	/**
-	 * æŒ‡å®šã®ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°ãƒ‡ãƒ¼ã‚¿ã‚’ã€ä¸€å®šæ•°ä»¥ä¸‹ã«ãªã‚‹ã‚ˆã†åœ§ç¸®ã™ã‚‹ã€‚
-	 * æŒ‡å®šã—ãŸãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã«é–¢ã—ã¦ã¯ã€åœ§ç¸®ã—ãŸãƒ‡ãƒ¼ã‚¿ã‚ˆã‚Šã€æœ€å¤§ã€æœ€å°ã€å¹³å‡å€¤ã‚’ç®—å‡ºãƒ»è£œå®Œè¨­å®šã™ã‚‹ã€‚
+	 * w’è‚ÌƒTƒ“ƒvƒŠƒ“ƒOƒf[ƒ^‚ğAˆê’è”ˆÈ‰º‚É‚È‚é‚æ‚¤ˆ³k‚·‚éB
+	 * w’è‚µ‚½ƒtƒB[ƒ‹ƒh‚ÉŠÖ‚µ‚Ä‚ÍAˆ³k‚µ‚½ƒf[ƒ^‚æ‚èAÅ‘åAÅ¬A•½‹Ï’l‚ğZoE•âŠ®İ’è‚·‚éB
 	 * 
-	 * @param samplingList     ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°ãƒ‡ãƒ¼ã‚¿ã€‚measureTimeFieldã§æŒ‡å®šã—ãŸãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã«ã‚ˆã‚Šã‚½ãƒ¼ãƒˆã•ã‚Œã¦ã„ã‚‹ã“ã¨ã‚’å‰æã¨ã™ã‚‹ã€‚
-	 * @param startTime        åœ§ç¸®æ™‚ã®è¨ˆæ¸¬é–‹å§‹æ™‚åˆ»
-	 * @param endTime          åœ§ç¸®æ™‚ã®è¨ˆæ¸¬çµ‚äº†æ™‚åˆ»
-	 * @param measureTimeField è¨ˆæ¸¬æ™‚åˆ»ã‚’æ ¼ç´ã—ã¦ã„ã‚‹ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰
-	 * @param operation        åœ§ç¸®æ™‚ã®æ“ä½œ
-	 * @param clazz            ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°ãƒ‡ãƒ¼ã‚¿ã®Classæƒ…å ±
-	 * @return åœ§ç¸®ã—ãŸã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°ãƒ‡ãƒ¼ã‚¿ã®ãƒªã‚¹ãƒˆ
-	 * @throws IllegalAccessException ã‚¢ã‚¯ã‚»ã‚¹ã§ããªã„ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã«ã‚¢ã‚¯ã‚»ã‚¹ã—ãŸå ´åˆ
-	 * @throws InvocationTargetException äºˆæœŸã—ãªã„ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’æŒ‡å®šã—ãŸå ´åˆ
-	 * @throws NoSuchMethodException æŒ‡å®šã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ãŒå­˜åœ¨ã—ãªã„å ´åˆ
+	 * @param samplingList     ƒTƒ“ƒvƒŠƒ“ƒOƒf[ƒ^BmeasureTimeField‚Åw’è‚µ‚½ƒtƒB[ƒ‹ƒh‚É‚æ‚èƒ\[ƒg‚³‚ê‚Ä‚¢‚é‚±‚Æ‚ğ‘O’ñ‚Æ‚·‚éB
+	 * @param startTime        ˆ³k‚ÌŒv‘ªŠJn
+	 * @param endTime          ˆ³k‚ÌŒv‘ªI—¹
+	 * @param measureTimeField Œv‘ª‚ğŠi”[‚µ‚Ä‚¢‚éƒtƒB[ƒ‹ƒh
+	 * @param operation        ˆ³k‚Ì‘€ì
+	 * @param clazz            ƒTƒ“ƒvƒŠƒ“ƒOƒf[ƒ^‚ÌClassî•ñ
+	 * @return ˆ³k‚µ‚½ƒTƒ“ƒvƒŠƒ“ƒOƒf[ƒ^‚ÌƒŠƒXƒg
+	 * @throws IllegalAccessException ƒAƒNƒZƒX‚Å‚«‚È‚¢ƒtƒB[ƒ‹ƒh‚ÉƒAƒNƒZƒX‚µ‚½ê‡
+	 * @throws InvocationTargetException —\Šú‚µ‚È‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğw’è‚µ‚½ê‡
+	 * @throws NoSuchMethodException w’è‚ÌƒtƒB[ƒ‹ƒh‚ª‘¶İ‚µ‚È‚¢ê‡
 	 * @throws NoSuchFieldException 
 	 * @throws InstantiationException 
 	 * @throws SecurityException 
 	 */
-	public List compressSamplingList(List samplingList, Timestamp startTime, Timestamp endTime,
-		String measureTimeField, List<CompressOperation> operation, Class clazz)
-		throws NoSuchMethodException, IllegalAccessException, InvocationTargetException,
-		SecurityException, InstantiationException, NoSuchFieldException
+	public List compressSamplingList(
+			List samplingList, 
+			Timestamp startTime,
+			Timestamp endTime,
+			String    measureTimeField,
+			List<CompressOperation> operation,
+			Class     clazz)
+		throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, SecurityException, InstantiationException, NoSuchFieldException
 	{
-		// ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°ã‚°ãƒ«ãƒ¼ãƒ—ã‚’ä½œã‚‹éš›ã®1ã‚°ãƒ«ãƒ¼ãƒ—å½“ãŸã‚Šã®ã€Œè¨ˆæ¸¬æœŸé–“ã€ã‚’ç®—å‡ºã™ã‚‹ã€‚
-		// ç®—å‡ºã—ãŸçµæœãŒã€è¨ˆæ¸¬æ™‚é–“ãŒã€Œæœ€å°è¨ˆæ¸¬æ™‚é–“ã€ã‚’ä¸‹å›ã£ãŸå ´åˆã¯ã€ã€Œæœ€å°è¨ˆæ¸¬æ™‚é–“ã€ã«åˆã‚ã›ã‚‹ã€‚
+		// ƒTƒ“ƒvƒŠƒ“ƒOƒOƒ‹[ƒv‚ğì‚éÛ‚Ì1ƒOƒ‹[ƒv“–‚½‚è‚ÌuŒv‘ªŠúŠÔv‚ğZo‚·‚éB
+		// Zo‚µ‚½Œ‹‰Ê‚ªAŒv‘ªŠÔ‚ªuÅ¬Œv‘ªŠÔv‚ğ‰º‰ñ‚Á‚½ê‡‚ÍAuÅ¬Œv‘ªŠÔv‚É‡‚í‚¹‚éB
 		long samplingTerm = (endTime.getTime() - startTime.getTime()) / this.samplingMax_;
-
-		if (samplingTerm < this.minLimitSamplingTerm_)
+		
+		if(samplingTerm < this.minLimitSamplingTerm_)
 		{
 			samplingTerm = this.minLimitSamplingTerm_;
 		}
-
+		
 		long nowStartTime = startTime.getTime();
-		int sampleIndex = 0;
-
+		int  sampleIndex = 0;
+		
 		List compressedList = new ArrayList();
-
-		while (nowStartTime < endTime.getTime())
+		
+		while(nowStartTime < endTime.getTime())
 		{
-			// ç¾è¨ˆæ¸¬æœŸé–“å†…ã«å‡¦ç†ã™ã‚‹ã‚µãƒ³ãƒ—ãƒ«ãƒ‡ãƒ¼ã‚¿ã‚’æŠ½å‡ºã™ã‚‹ã€‚
+			// Œ»Œv‘ªŠúŠÔ“à‚Éˆ—‚·‚éƒTƒ“ƒvƒ‹ƒf[ƒ^‚ğ’Šo‚·‚éB
 			List samplingGroup = new ArrayList();
-			for (int cnt = sampleIndex; cnt < samplingList.size(); cnt++)
+			for(int cnt = sampleIndex ; cnt < samplingList.size(); cnt ++)
 			{
 				Object sampleData = samplingList.get(cnt);
-				Date measureTime = (Date) PropertyUtils.getProperty(sampleData, measureTimeField);
+				Date measureTime = (Date)PropertyUtils.getProperty(sampleData, measureTimeField);
 
-				if (nowStartTime > measureTime.getTime())
+				if(nowStartTime > measureTime.getTime())
 				{
-					sampleIndex++;
+					sampleIndex ++;
 					continue;
 				}
-
-				if (nowStartTime + samplingTerm <= measureTime.getTime())
+				
+				if(nowStartTime + samplingTerm <= measureTime.getTime())
 				{
 					sampleIndex = cnt;
 					break;
 				}
-
+				
 				samplingGroup.add(sampleData);
 			}
-
-			// åœ§ç¸®ãƒ‡ãƒ¼ã‚¿ã‚’ç”Ÿæˆã™ã‚‹ã€‚
-			Object compressedData = createCompressedSample(samplingGroup, nowStartTime,
-				nowStartTime + samplingTerm, measureTimeField, operation, clazz);
-
+			
+			// ˆ³kƒf[ƒ^‚ğ¶¬‚·‚éB
+			Object compressedData 
+				= createCompressedSample(
+						samplingGroup,
+						nowStartTime, 
+						nowStartTime + samplingTerm,
+						measureTimeField, 
+						operation,
+						clazz);
+			
 			compressedList.add(compressedData);
-
+			
 			nowStartTime += samplingTerm;
 		}
-
+		
 		return compressedList;
 	}
-
+	
 	/**
-	 * æŒ‡å®šã®ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°ãƒ‡ãƒ¼ã‚¿ã‚’åœ§ç¸®ã—ã€ã²ã¨ã¤ã®ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°ãƒ‡ãƒ¼ã‚¿ã«å¤‰æ›ã™ã‚‹ã€‚
-	 * æŒ‡å®šã—ãŸãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã«é–¢ã—ã¦ã¯ã€åœ§ç¸®ã—ãŸãƒ‡ãƒ¼ã‚¿ã‚ˆã‚Šã€æœ€å¤§ã€æœ€å°ã€å¹³å‡å€¤ã‚’ç®—å‡ºãƒ»è£œå®Œè¨­å®šã™ã‚‹ã€‚
+	 * w’è‚ÌƒTƒ“ƒvƒŠƒ“ƒOƒf[ƒ^‚ğˆ³k‚µA‚Ğ‚Æ‚Â‚ÌƒTƒ“ƒvƒŠƒ“ƒOƒf[ƒ^‚É•ÏŠ·‚·‚éB
+	 * w’è‚µ‚½ƒtƒB[ƒ‹ƒh‚ÉŠÖ‚µ‚Ä‚ÍAˆ³k‚µ‚½ƒf[ƒ^‚æ‚èAÅ‘åAÅ¬A•½‹Ï’l‚ğZoE•âŠ®İ’è‚·‚éB
 	 * 
-	 * @param rawSamples   ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°ãƒ‡ãƒ¼ã‚¿
-	 * @param targetFields è£œå®Œã‚’è¡Œã†ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰
-	 * @return åœ§ç¸®ã‚’è¡Œã£ãŸã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°ãƒ‡ãƒ¼ã‚¿
-	 * @throws IllegalAccessException ã‚¢ã‚¯ã‚»ã‚¹ã§ããªã„ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã«ã‚¢ã‚¯ã‚»ã‚¹ã—ãŸå ´åˆ
-	 * @throws InvocationTargetException äºˆæœŸã—ãªã„ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’æŒ‡å®šã—ãŸå ´åˆ
-	 * @throws NoSuchMethodException æŒ‡å®šã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ãŒå­˜åœ¨ã—ãªã„å ´åˆ
+	 * @param rawSamples   ƒTƒ“ƒvƒŠƒ“ƒOƒf[ƒ^
+	 * @param targetFields •âŠ®‚ğs‚¤ƒtƒB[ƒ‹ƒh
+	 * @return ˆ³k‚ğs‚Á‚½ƒTƒ“ƒvƒŠƒ“ƒOƒf[ƒ^
+	 * @throws IllegalAccessException ƒAƒNƒZƒX‚Å‚«‚È‚¢ƒtƒB[ƒ‹ƒh‚ÉƒAƒNƒZƒX‚µ‚½ê‡
+	 * @throws InvocationTargetException —\Šú‚µ‚È‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğw’è‚µ‚½ê‡
+	 * @throws NoSuchMethodException w’è‚ÌƒtƒB[ƒ‹ƒh‚ª‘¶İ‚µ‚È‚¢ê‡
 	 * @throws InstantiationException 
 	 * @throws NoSuchFieldException 
 	 * @throws SecurityException 
 	 */
-	private Object createCompressedSample(List rawSamples, long startTime, long endTime,
-		String measureTimeField, List<CompressOperation> operation, Class clazz)
-		throws IllegalAccessException, InvocationTargetException, NoSuchMethodException,
-		InstantiationException, SecurityException, NoSuchFieldException
+	private Object createCompressedSample(
+			List      rawSamples, 
+			long      startTime,
+			long      endTime,
+			String    measureTimeField,
+			List<CompressOperation> operation,
+			Class     clazz) 
+		throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, InstantiationException, SecurityException, NoSuchFieldException
 	{
 		Object returnSample;
-
-		if (rawSamples.size() < 1)
+		
+		if(rawSamples.size() < 1)
 		{
 			returnSample = clazz.newInstance();
 		}
@@ -185,114 +199,119 @@ public class SamplingCompressor
 
 		BeanUtils.setProperty(returnSample, measureTimeField, new Timestamp(startTime));
 
-		for (CompressOperation ope : operation)
+		for(CompressOperation ope : operation)
 		{
 			Object maxObj = getMaxValueFromSampleList(rawSamples, ope.getCompressField(), clazz);
 			Object minObj = getMinValueFromSampleList(rawSamples, ope.getCompressField(), clazz);
-			Object compressedObj = getCompressedValue(rawSamples, ope, clazz, endTime - startTime);
-
-			PropertyUtils.setProperty(returnSample, ope.getCompressField()
-				+ MAX_VALUE_PROPERTY_SUFFIX_, maxObj);
-			PropertyUtils.setProperty(returnSample, ope.getCompressField()
-				+ MIN_VALUE_PROPERTY_SUFFIX_, minObj);
-			PropertyUtils.setProperty(returnSample, ope.getCompressField(), compressedObj);
+			Object compressedObj
+				= getCompressedValue(rawSamples, 
+						             ope,
+						             clazz,
+						             endTime - startTime);
+			
+			PropertyUtils.setProperty(
+				returnSample, ope.getCompressField() + MAX_VALUE_PROPERTY_SUFFIX_, maxObj);
+			PropertyUtils.setProperty(
+				returnSample, ope.getCompressField() + MIN_VALUE_PROPERTY_SUFFIX_, minObj);
+			PropertyUtils.setProperty(
+				returnSample, ope.getCompressField(), compressedObj);
 		}
-
+		
 		return returnSample;
 	}
 
 	/**
-	 * ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°ãƒ‡ãƒ¼ã‚¿ã®ãƒªã‚¹ãƒˆã‹ã‚‰ã€æŒ‡å®šã—ãŸãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®ã€Œæœ€å¤§å€¤ã€ã‚’ç®—å‡ºã™ã‚‹ã€‚
+	 * ƒTƒ“ƒvƒŠƒ“ƒOƒf[ƒ^‚ÌƒŠƒXƒg‚©‚çAw’è‚µ‚½ƒtƒB[ƒ‹ƒh‚ÌuÅ‘å’lv‚ğZo‚·‚éB
 	 * 
-	 * @param rawSamples  ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°ãƒ‡ãƒ¼ã‚¿ã®ãƒªã‚¹ãƒˆ
-	 * @param targetField æœ€å¤§å€¤ã‚’æ±‚ã‚ã‚‹ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰
-	 * @return ç®—å‡ºã—ãŸæœ€å¤§å€¤
-	 * @throws IllegalAccessException ã‚¢ã‚¯ã‚»ã‚¹ã§ããªã„ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã«ã‚¢ã‚¯ã‚»ã‚¹ã—ãŸå ´åˆ
-	 * @throws InvocationTargetException äºˆæœŸã—ãªã„ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’æŒ‡å®šã—ãŸå ´åˆ
-	 * @throws NoSuchMethodException æŒ‡å®šã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ãŒå­˜åœ¨ã—ãªã„å ´åˆ
+	 * @param rawSamples  ƒTƒ“ƒvƒŠƒ“ƒOƒf[ƒ^‚ÌƒŠƒXƒg
+	 * @param targetField Å‘å’l‚ğ‹‚ß‚éƒtƒB[ƒ‹ƒh
+	 * @return Zo‚µ‚½Å‘å’l
+	 * @throws IllegalAccessException ƒAƒNƒZƒX‚Å‚«‚È‚¢ƒtƒB[ƒ‹ƒh‚ÉƒAƒNƒZƒX‚µ‚½ê‡
+	 * @throws InvocationTargetException —\Šú‚µ‚È‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğw’è‚µ‚½ê‡
+	 * @throws NoSuchMethodException w’è‚ÌƒtƒB[ƒ‹ƒh‚ª‘¶İ‚µ‚È‚¢ê‡
 	 * @throws NoSuchFieldException 
 	 * @throws SecurityException 
 	 * @throws InstantiationException 
 	 */
-	private Object getMaxValueFromSampleList(List rawSamples, String targetField, Class clazz)
-		throws IllegalAccessException, InvocationTargetException, NoSuchMethodException,
-		SecurityException, NoSuchFieldException, InstantiationException
+	private Object getMaxValueFromSampleList(
+		List rawSamples, String targetField, Class clazz)
+		throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, SecurityException, NoSuchFieldException, InstantiationException
 	{
-		if (rawSamples.size() < 1)
+		if(rawSamples.size() < 1)
 		{
 			Calculator calculator = getFieldCalculator(clazz, targetField);
 			return calculator.immediate("0");
 		}
-
+		
 		List values = getValuesByFieldName(rawSamples, targetField);
-
-		if (!(values.get(0) instanceof Comparable))
+		
+		if(!(values.get(0) instanceof Comparable))
 		{
 			return values.get(0);
 		}
-
-		Comparable maxValue = (Comparable) values.get(0);
-		for (Object value : values)
+		
+		Comparable maxValue = (Comparable)values.get(0);
+		for(Object value : values)
 		{
-			if (maxValue.compareTo(value) < 0)
+			if(maxValue.compareTo(value) < 0)
 			{
-				maxValue = (Comparable) value;
+				maxValue = (Comparable)value;
 			}
 		}
-
+		
 		return maxValue;
 	}
-
+	
 	/**
-	 * ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°ãƒ‡ãƒ¼ã‚¿ã®ãƒªã‚¹ãƒˆã‹ã‚‰ã€æŒ‡å®šã—ãŸãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®ã€Œæœ€å°å€¤ã€ã‚’ç®—å‡ºã™ã‚‹ã€‚
+	 * ƒTƒ“ƒvƒŠƒ“ƒOƒf[ƒ^‚ÌƒŠƒXƒg‚©‚çAw’è‚µ‚½ƒtƒB[ƒ‹ƒh‚ÌuÅ¬’lv‚ğZo‚·‚éB
 	 * 
-	 * @param rawSamples  ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°ãƒ‡ãƒ¼ã‚¿ã®ãƒªã‚¹ãƒˆ
-	 * @param targetField æœ€å°å€¤ã‚’æ±‚ã‚ã‚‹ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰
-	 * @return ç®—å‡ºã—ãŸæœ€å°å€¤
-	 * @throws IllegalAccessException ã‚¢ã‚¯ã‚»ã‚¹ã§ããªã„ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã«ã‚¢ã‚¯ã‚»ã‚¹ã—ãŸå ´åˆ
-	 * @throws InvocationTargetException äºˆæœŸã—ãªã„ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’æŒ‡å®šã—ãŸå ´åˆ
-	 * @throws NoSuchMethodException æŒ‡å®šã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ãŒå­˜åœ¨ã—ãªã„å ´åˆ
+	 * @param rawSamples  ƒTƒ“ƒvƒŠƒ“ƒOƒf[ƒ^‚ÌƒŠƒXƒg
+	 * @param targetField Å¬’l‚ğ‹‚ß‚éƒtƒB[ƒ‹ƒh
+	 * @return Zo‚µ‚½Å¬’l
+	 * @throws IllegalAccessException ƒAƒNƒZƒX‚Å‚«‚È‚¢ƒtƒB[ƒ‹ƒh‚ÉƒAƒNƒZƒX‚µ‚½ê‡
+	 * @throws InvocationTargetException —\Šú‚µ‚È‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğw’è‚µ‚½ê‡
+	 * @throws NoSuchMethodException w’è‚ÌƒtƒB[ƒ‹ƒh‚ª‘¶İ‚µ‚È‚¢ê‡
 	 * @throws NoSuchFieldException 
 	 * @throws SecurityException 
 	 * @throws InstantiationException 
 	 */
-	private Object getMinValueFromSampleList(List rawSamples, String targetField, Class clazz)
-		throws IllegalAccessException, InvocationTargetException, NoSuchMethodException,
-		SecurityException, NoSuchFieldException, InstantiationException
+	private Object getMinValueFromSampleList(
+		List rawSamples, String targetField, Class clazz) 
+		throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, SecurityException, NoSuchFieldException, InstantiationException
 	{
-		if (rawSamples.size() < 1)
+		if(rawSamples.size() < 1)
 		{
 			Calculator calculator = getFieldCalculator(clazz, targetField);
 			return calculator.immediate("0");
 		}
-
+		
 		List values = getValuesByFieldName(rawSamples, targetField);
-
-		if (!(values.get(0) instanceof Comparable))
+		
+		if(!(values.get(0) instanceof Comparable))
 		{
 			return values.get(0);
 		}
-
-		Comparable minValue = (Comparable) values.get(0);
-		for (Object value : values)
+		
+		Comparable minValue = (Comparable)values.get(0);
+		for(Object value : values)
 		{
-			if (minValue.compareTo(value) > 0)
+			if(minValue.compareTo(value) > 0)
 			{
-				minValue = (Comparable) value;
+				minValue = (Comparable)value;
 			}
 		}
-
+		
 		return minValue;
 	}
-
+	
 	/**
-	 * æŒ‡å®šã—ãŸãƒ‡ãƒ¼ã‚¿ãƒªã‚¹ãƒˆã‹ã‚‰ã€Œåœ§ç¸®å€¤ã€ã‚’æ±‚ã‚ã‚‹
+	 * w’è‚µ‚½ƒf[ƒ^ƒŠƒXƒg‚©‚çuˆ³k’lv‚ğ‹‚ß‚é
 	 * 
-	 * @param rawSamples     ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°ã•ã‚ŒãŸå…ƒãƒ‡ãƒ¼ã‚¿
-	 * @param operation      åœ§ç¸®å€¤ã‚’æ±‚ã‚ã‚‹éš›ã®æ¼”ç®—æƒ…å ±      
-	 * @param clazz          å…ƒãƒ‡ãƒ¼ã‚¿ã®ã‚¯ãƒ©ã‚¹æƒ…å ±
-	 * @param compressedTerm åœ§ç¸®ã™ã‚‹ãƒ‡ãƒ¼ã‚¿ã®è¨ˆæ¸¬æœŸé–“
-	 * @return ç®—å‡ºã•ã‚ŒãŸåœ§ç¸®å€¤
+	 * @param rawSamples     ƒTƒ“ƒvƒŠƒ“ƒO‚³‚ê‚½Œ³ƒf[ƒ^
+	 * @param operation      ˆ³k’l‚ğ‹‚ß‚éÛ‚Ì‰‰Zî•ñ      
+	 * @param clazz          Œ³ƒf[ƒ^‚ÌƒNƒ‰ƒXî•ñ
+	 * @param compressedTerm ˆ³k‚·‚éƒf[ƒ^‚ÌŒv‘ªŠúŠÔ
+	 * @return Zo‚³‚ê‚½ˆ³k’l
 	 * @throws SecurityException
 	 * @throws NoSuchFieldException
 	 * @throws IllegalAccessException
@@ -300,145 +319,141 @@ public class SamplingCompressor
 	 * @throws NoSuchMethodException
 	 * @throws InstantiationException 
 	 */
-	private Object getCompressedValue(List rawSamples, CompressOperation operation, Class clazz,
-		long compressedTerm) throws SecurityException, NoSuchFieldException,
-		IllegalAccessException, InvocationTargetException, NoSuchMethodException,
-		InstantiationException
+	private Object getCompressedValue(
+		List rawSamples, CompressOperation operation, Class clazz, long compressedTerm) throws SecurityException, NoSuchFieldException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, InstantiationException
 	{
 		Calculator calculator = getFieldCalculator(clazz, operation.getCompressField());
 
-		if (rawSamples.size() < 1)
+		if(rawSamples.size() < 1)
 		{
 			return calculator.immediate("0");
 		}
-
+		
 		List values = getValuesByFieldName(rawSamples, operation.getCompressField());
-
-		switch (operation.getOperation())
+		
+		switch(operation.getOperation())
 		{
-		case SIMPLE_AVERAGE:
-			Object totalValue = calcTotal(values, calculator);
-			return calculator.div(totalValue, calculator.immediate(String.valueOf(values.size())));
-		case TOTAL:
-			return calcTotal(values, calculator);
-		case TIME_AVERAGE:
-			Object multipler = calculator.immediate(String.valueOf(this.rawSamplingTerm_));
-			Object productSumValue = calcProductSum(values, multipler, calculator);
-			Object samplingTerm = calculator.immediate(String.valueOf(compressedTerm));
-			samplingTerm = calculator.div(samplingTerm,
-				calculator.immediate(String.valueOf(SEC_PER_MILLIS)));
-			return calculator.div(productSumValue, samplingTerm);
+			case SIMPLE_AVERAGE :
+				Object totalValue = calcTotal(values, calculator);
+				return calculator.div(totalValue, calculator.immediate(String.valueOf(values.size())));
+			case TOTAL :
+				return calcTotal(values, calculator);
+			case TIME_AVERAGE : 
+				Object multipler = calculator.immediate(String.valueOf(this.rawSamplingTerm_));
+				Object productSumValue = calcProductSum(values, multipler, calculator);
+				Object samplingTerm = calculator.immediate(String.valueOf(compressedTerm));
+				samplingTerm = calculator.div(samplingTerm, calculator.immediate(String.valueOf(SEC_PER_MILLIS)));
+				return calculator.div(productSumValue, samplingTerm);
 		}
-
+		
 		return null;
 	}
-
+	
 	/**
-	 * æŒ‡å®šã—ãŸãƒ‡ãƒ¼ã‚¿ã®ãƒªã‚¹ãƒˆã‹ã‚‰ã€Œåˆè¨ˆå€¤ã€ã‚’æ±‚ã‚ã‚‹
+	 * w’è‚µ‚½ƒf[ƒ^‚ÌƒŠƒXƒg‚©‚çu‡Œv’lv‚ğ‹‚ß‚é
 	 * 
-	 * @param values ãƒ‡ãƒ¼ã‚¿ã®ãƒªã‚¹ãƒˆ
-	 * @param calculator è¨ˆç®—æ©Ÿã‚¯ãƒ©ã‚¹
-	 * @return åˆè¨ˆå€¤
+	 * @param values ƒf[ƒ^‚ÌƒŠƒXƒg
+	 * @param calculator ŒvZ‹@ƒNƒ‰ƒX
+	 * @return ‡Œv’l
 	 */
 	private Object calcTotal(List values, Calculator calculator)
 	{
-		if (values.size() < 1)
+		if(values.size() < 1)
 		{
 			return calculator.immediate("0");
 		}
-
-		if (values.size() == 1)
+		
+		if(values.size() == 1)
 		{
 			return values.get(0);
 		}
-
+		
 		Object result = values.get(0);
-
-		for (int cnt = 1; cnt < values.size(); cnt++)
+		
+		for(int cnt = 1; cnt < values.size(); cnt ++)
 		{
 			result = calculator.add(result, values.get(cnt));
 		}
-
+		
 		return result;
 	}
 
 	/**
-	 * æŒ‡å®šã—ãŸãƒ‡ãƒ¼ã‚¿ã®ãƒªã‚¹ãƒˆã‹ã‚‰ã€å›ºå®šã®å€æ•°ã‚’ã‹ã‘ãŸã€Œç©å’Œã€çµæœã‚’æ±‚ã‚ã‚‹
+	 * w’è‚µ‚½ƒf[ƒ^‚ÌƒŠƒXƒg‚©‚çAŒÅ’è‚Ì”{”‚ğ‚©‚¯‚½uÏ˜avŒ‹‰Ê‚ğ‹‚ß‚é
 	 * 
-	 * @param values    ãƒ‡ãƒ¼ã‚¿ã®ãƒªã‚¹ãƒˆ
-	 * @param multipler ç©ã‚’æ±‚ã‚ã‚‹ã¨ãã«ç”¨ã„ã‚‹å€æ•°
-	 * @param calculator è¨ˆç®—æ©Ÿã‚¯ãƒ©ã‚¹
-	 * @return ç©å’Œçµæœ
+	 * @param values    ƒf[ƒ^‚ÌƒŠƒXƒg
+	 * @param multipler Ï‚ğ‹‚ß‚é‚Æ‚«‚É—p‚¢‚é”{”
+	 * @param calculator ŒvZ‹@ƒNƒ‰ƒX
+	 * @return Ï˜aŒ‹‰Ê
 	 */
 	private Object calcProductSum(List values, Object multipler, Calculator calculator)
 	{
-		if (values.size() < 1)
+		if(values.size() < 1)
 		{
 			return calculator.immediate("0");
 		}
-
-		if (values.size() == 1)
+		
+		if(values.size() == 1)
 		{
 			return calculator.mul(values.get(0), multipler);
 		}
-
+		
 		Object result = calculator.mul(values.get(0), multipler);
-
-		for (int cnt = 1; cnt < values.size(); cnt++)
+		
+		for(int cnt = 1; cnt < values.size(); cnt ++)
 		{
 			Object adder = calculator.mul(values.get(cnt), multipler);
 			result = calculator.add(result, adder);
 		}
-
+		
 		return result;
 	}
-
+	
+	
 	/**
-	 * æŒ‡å®šã®JavaBeanã‚’è¦ç´ ã¨ã—ã¦æŒã¤ãƒªã‚¹ãƒˆã‹ã‚‰ã€æŒ‡å®šã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®ãƒ‡ãƒ¼ã‚¿ã®ã¿ã‚’æŠœãå‡ºã—ãŸ
-	 * ãƒªã‚¹ãƒˆã‚’ç”Ÿæˆã™ã‚‹ã€‚
+	 * w’è‚ÌJavaBean‚ğ—v‘f‚Æ‚µ‚Ä‚ÂƒŠƒXƒg‚©‚çAw’è‚ÌƒtƒB[ƒ‹ƒh‚Ìƒf[ƒ^‚Ì‚İ‚ğ”²‚«o‚µ‚½
+	 * ƒŠƒXƒg‚ğ¶¬‚·‚éB
 	 * 
-	 * @param rawSamples  JavaBeanãŒå…¥ã£ãŸãƒªã‚¹ãƒˆ
-	 * @param targetField æŠœãå‡ºã™ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰å
-	 * @return æŠœãå‡ºã—ãŸãƒ‡ãƒ¼ã‚¿ã®ãƒªã‚¹ãƒˆ
-	 * @throws IllegalAccessException ã‚¢ã‚¯ã‚»ã‚¹ã§ããªã„ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã«ã‚¢ã‚¯ã‚»ã‚¹ã—ãŸå ´åˆ
-	 * @throws InvocationTargetException äºˆæœŸã—ãªã„ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’æŒ‡å®šã—ãŸå ´åˆ
-	 * @throws NoSuchMethodException æŒ‡å®šã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ãŒå­˜åœ¨ã—ãªã„å ´åˆ
+	 * @param rawSamples  JavaBean‚ª“ü‚Á‚½ƒŠƒXƒg
+	 * @param targetField ”²‚«o‚·ƒtƒB[ƒ‹ƒh‚ÌƒtƒB[ƒ‹ƒh–¼
+	 * @return ”²‚«o‚µ‚½ƒf[ƒ^‚ÌƒŠƒXƒg
+	 * @throws IllegalAccessException ƒAƒNƒZƒX‚Å‚«‚È‚¢ƒtƒB[ƒ‹ƒh‚ÉƒAƒNƒZƒX‚µ‚½ê‡
+	 * @throws InvocationTargetException —\Šú‚µ‚È‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğw’è‚µ‚½ê‡
+	 * @throws NoSuchMethodException w’è‚ÌƒtƒB[ƒ‹ƒh‚ª‘¶İ‚µ‚È‚¢ê‡
 	 */
-	private List getValuesByFieldName(List rawSamples, String targetField)
-		throws IllegalAccessException, InvocationTargetException, NoSuchMethodException
+	private List getValuesByFieldName(List rawSamples, String targetField) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException
 	{
 		List values = new ArrayList();
-
-		for (Object sample : rawSamples)
+		
+		for(Object sample : rawSamples)
 		{
 			values.add(PropertyUtils.getProperty(sample, targetField));
 		}
-
+		
 		return values;
 	}
-
+	
 	/**
-	 * æŒ‡å®šã‚¯ãƒ©ã‚¹ã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®å€¤ã‚’è¨ˆç®—ã™ã‚‹ãŸã‚ã®è¨ˆç®—æ©Ÿã‚¯ãƒ©ã‚¹ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã™ã‚‹ã€‚
+	 * w’èƒNƒ‰ƒX‚ÌƒtƒB[ƒ‹ƒh‚Ì’l‚ğŒvZ‚·‚é‚½‚ß‚ÌŒvZ‹@ƒNƒ‰ƒXƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚·‚éB
 	 * 
-	 * @param clazz     ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ãŒå±ã™ã‚‹ã‚¯ãƒ©ã‚¹
-	 * @param fieldName ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®åç§°
-	 * @return ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®å€¤ã‚’è¨ˆç®—ã™ã‚‹ãŸã‚ã®è¨ˆç®—æ©Ÿã‚¯ãƒ©ã‚¹
+	 * @param clazz     ƒtƒB[ƒ‹ƒh‚ª‘®‚·‚éƒNƒ‰ƒX
+	 * @param fieldName ƒtƒB[ƒ‹ƒh‚Ì–¼Ì
+	 * @return ƒtƒB[ƒ‹ƒh‚Ì’l‚ğŒvZ‚·‚é‚½‚ß‚ÌŒvZ‹@ƒNƒ‰ƒX
 	 * @throws NoSuchFieldException 
 	 * @throws SecurityException 
 	 * @throws IllegalAccessException 
 	 * @throws InstantiationException 
 	 * @throws NoSuchMethodException 
 	 * @throws InvocationTargetException 
-	 * @throws Exception æŒ‡å®šã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ãŒã‚¯ãƒ©ã‚¹ã«å­˜åœ¨ã—ãªã„ãªã©ã®ã‚¨ãƒ©ãƒ¼
+	 * @throws Exception w’è‚ÌƒtƒB[ƒ‹ƒh‚ªƒNƒ‰ƒX‚É‘¶İ‚µ‚È‚¢‚È‚Ç‚ÌƒGƒ‰[
 	 */
-	private Calculator getFieldCalculator(Class clazz, String fieldName) throws SecurityException,
-		NoSuchFieldException, InstantiationException, IllegalAccessException,
-		InvocationTargetException, NoSuchMethodException
+	private Calculator getFieldCalculator(Class clazz, String fieldName) throws SecurityException, NoSuchFieldException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException 
 	{
 		Object dummy = clazz.newInstance();
 		Object dummyObj = PropertyUtils.getProperty(dummy, fieldName);
-
+		
 		return CalculatorFactory.createCalculator(dummyObj.getClass());
 	}
-
+	
+	
 }

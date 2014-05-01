@@ -35,61 +35,61 @@ import jp.co.acroquest.endosnipe.javelin.parser.JavelinParser;
 import jp.co.acroquest.endosnipe.perfdoctor.rule.SingleElementRule;
 
 /**
- * I/Oеѕ…гЃЎгЃ®й•·гЃ„е‡¦зђ†г‚’ж¤ње‡єгЃ™г‚‹гѓ«гѓјгѓ«гЃ§гЃ™гЂ‚<br />
- * I/Oеѕ…гЃЎж™‚й–“гЃЇз›ґжЋҐж¤ње‡єгЃ§гЃЌгЃЄгЃ„гЃџг‚ЃгЂЃгѓЎг‚Ѕгѓѓгѓ‰гЃ® TAT гЃ‹г‚‰ CPUж™‚й–“гЂЃWAITж™‚й–“гЂЃ
- * гѓ–гѓ­гѓѓг‚Їж™‚й–“г‚’еј•гЃ„гЃ¦I/Oеѕ…гЃЎж™‚й–“г‚’ж¤ње‡єгЃ—гЃѕгЃ™гЂ‚<br />
- * гЃ“гЃ®г‚€гЃ†гЃ«гЃ—гЃ¦ж¤ње‡єгЃ—гЃџ I/O еѕ…гЃЎж™‚й–“гЃЊй–ѕеЂ¤г‚€г‚Љг‚‚й•·гЃ„е ґеђ€гЃ«и­¦е‘ЉгЃ—гЃѕгЃ™гЂ‚<br />
+ * I/O‘Т‚ї‚М’·‚ўЏ€—ќ‚рЊџЏo‚·‚йѓ‹Ѓ[ѓ‹‚Е‚·ЃB<br />
+ * I/O‘Т‚їЋћЉФ‚Н’јђЪЊџЏo‚Е‚«‚И‚ў‚Ѕ‚ЯЃAѓЃѓ\ѓbѓh‚М TAT ‚©‚з CPUЋћЉФЃAWAITЋћЉФЃA
+ * ѓuѓЌѓbѓNЋћЉФ‚р€ш‚ў‚ДI/O‘Т‚їЋћЉФ‚рЊџЏo‚µ‚Ь‚·ЃB<br />
+ * ‚±‚М‚ж‚¤‚Й‚µ‚ДЊџЏo‚µ‚Ѕ I/O ‘Т‚їЋћЉФ‚Єи‡’l‚ж‚и‚а’·‚ўЏкЌ‡‚ЙЊxЌђ‚µ‚Ь‚·ЃB<br />
  * 
  * @author akita
  */
 public class IOWaitTimeRule extends SingleElementRule
 {
-    /** гѓЎг‚Ѕгѓѓгѓ‰гЃ®TATг‚’иЎЁгЃ™ж–‡е­—е€— */
+    /** ѓЃѓ\ѓbѓh‚МTAT‚р•\‚·•¶Ћљ—с */
     private static final String DURATION                                      = "duration";
 
-    /** ExtraInfoг‚’иЎЁгЃ™ж–‡е­—е€— */
+    /** ExtraInfo‚р•\‚·•¶Ћљ—с */
     private static final String EXTRA_INFO                                    = "ExtraInfo";
 
     /**
-     * и©ізґ°жѓ…е ±еЏ–еѕ—г‚­гѓј:ThreadMXBean#getCurrentThreadCpuTimeгѓ‘гѓ©гѓЎгѓјг‚їгЃ®е·®е€†
-     * зЏѕењЁгЃ®г‚№гѓ¬гѓѓгѓ‰гЃ®еђ€иЁ€ CPU ж™‚й–“гЃ®е·®е€†г‚’гѓЉгѓЋз§’еЌдЅЌгЃ§иї”гЃ—гЃѕгЃ™гЂ‚
+     * ЏЪЌЧЏо•сЋж“ѕѓLЃ[:ThreadMXBean#getCurrentThreadCpuTimeѓpѓ‰ѓЃЃ[ѓ^‚МЌ·•Є
+     * Њ»ЌЭ‚МѓXѓЊѓbѓh‚МЌ‡Њv CPU ЋћЉФ‚МЌ·•Є‚рѓiѓm•b’P€К‚Е•Ф‚µ‚Ь‚·ЃB
      */
     private static final String JMXPARAM_THREAD_CURRENT_THREAD_CPU_TIME_DELTA =
                                                                                 "thread.currentThreadCpuTime.delta";
 
     /** 
-     * и©ізґ°жѓ…е ±еЏ–еѕ—г‚­гѓј:ThreadMXBean#getThreadInfo#getWaitedTimeгѓ‘гѓ©гѓЎгѓјг‚ї
-     * г‚№гѓ¬гѓѓгѓ‰г‚ігѓігѓ†гѓіг‚·гѓ§гѓіз›Ји¦–гЃЊжњ‰еЉ№гЃ«гЃЄгЃЈгЃ¦гЃ‹г‚‰гЂЃгЃ“гЃ® ThreadInfo гЃ«й–ўйЂЈгЃ™г‚‹г‚№гѓ¬гѓѓгѓ‰гЃЊйЂљзџҐг‚’еѕ…ж©џгЃ—гЃџ
-     * гЃЉг‚€гЃќгЃ®зґЇз©ЌзµЊйЃЋж™‚й–“ (гѓџгѓЄз§’еЌдЅЌ) гЃ®е·®е€†г‚’иї”гЃ—гЃѕгЃ™гЂ‚
+     * ЏЪЌЧЏо•сЋж“ѕѓLЃ[:ThreadMXBean#getThreadInfo#getWaitedTimeѓpѓ‰ѓЃЃ[ѓ^
+     * ѓXѓЊѓbѓhѓRѓ“ѓeѓ“ѓVѓ‡ѓ“ЉДЋ‹‚Є—LЊш‚Й‚И‚Б‚Д‚©‚зЃA‚±‚М ThreadInfo ‚ЙЉЦA‚·‚йѓXѓЊѓbѓh‚Є’К’m‚р‘Т‹@‚µ‚Ѕ
+     * ‚Ё‚ж‚»‚М—ЭђПЊo‰ЯЋћЉФ (ѓ~ѓЉ•b’P€К) ‚МЌ·•Є‚р•Ф‚µ‚Ь‚·ЃB
      */
     private static final String JMXPARAM_THREAD_THREADINFO_WAITED_TIME_DELTA  =
                                                                                 "thread.threadInfo.waitedTime.delta";
 
     /**  
-     * и©ізґ°жѓ…е ±еЏ–еѕ—г‚­гѓј:ThreadMXBean#getThreadInfo#getBlockedTimeгѓ‘гѓ©гѓЎгѓјг‚їгЃ®е·®е€†
-     * г‚№гѓ¬гѓѓгѓ‰г‚ігѓігѓ†гѓіг‚·гѓ§гѓіз›Ји¦–гЃЊжњ‰еЉ№гЃ«гЃЄгЃЈгЃ¦гЃ‹г‚‰гЂЃгЃ“гЃ® ThreadInfo гЃ«й–ўйЂЈгЃ™г‚‹г‚№гѓ¬гѓѓгѓ‰гЃЊгѓўгѓ‹г‚їгѓјгЃ«е…Ґг‚‹гЃ‹
-     * е†Ќе…ҐгЃ™г‚‹гЃ®г‚’гѓ–гѓ­гѓѓг‚ЇгЃ—гЃџгЃЉг‚€гЃќгЃ®зґЇз©ЌзµЊйЃЋж™‚й–“ (гѓџгѓЄз§’еЌдЅЌ) гЃ®е·®е€†г‚’иї”гЃ—гЃѕгЃ™гЂ‚
+     * ЏЪЌЧЏо•сЋж“ѕѓLЃ[:ThreadMXBean#getThreadInfo#getBlockedTimeѓpѓ‰ѓЃЃ[ѓ^‚МЌ·•Є
+     * ѓXѓЊѓbѓhѓRѓ“ѓeѓ“ѓVѓ‡ѓ“ЉДЋ‹‚Є—LЊш‚Й‚И‚Б‚Д‚©‚зЃA‚±‚М ThreadInfo ‚ЙЉЦA‚·‚йѓXѓЊѓbѓh‚Єѓ‚ѓjѓ^Ѓ[‚Й“ь‚й‚©
+     * ЌД“ь‚·‚й‚М‚рѓuѓЌѓbѓN‚µ‚Ѕ‚Ё‚ж‚»‚М—ЭђПЊo‰ЯЋћЉФ (ѓ~ѓЉ•b’P€К) ‚МЌ·•Є‚р•Ф‚µ‚Ь‚·ЃB
      */
     private static final String JMXPARAM_THREAD_THREADINFO_BLOCKED_TIME_DELTA =
                                                                                 "thread.threadInfo.blockedTime.delta";
 
-    /** и­¦е‘ЉгЃЁе€¤ж–­гЃ™г‚‹ж¤ње‡єеЂ¤гЃ®гѓ‡гѓ•г‚©гѓ«гѓ€еЂ¤гЂ‚ */
+    /** ЊxЌђ‚Ж”»’f‚·‚йЊџЏo’l‚МѓfѓtѓHѓ‹ѓg’lЃB */
     private static final int    DEFAULT_THRESHOLD                             = 5000;
 
-    /** ж¤ње‡єеЂ¤гЃ®й–ѕеЂ¤гЂ‚гЃ“гЃ®еЂ¤г‚’и¶…гЃ€гЃџйљ›гЃ«и­¦е‘Љг‚’з”џж€ђгЃ™г‚‹гЂ‚*/
+    /** ЊџЏo’l‚Ми‡’lЃB‚±‚М’l‚р’ґ‚¦‚ЅЌЫ‚ЙЊxЌђ‚рђ¶ђ¬‚·‚йЃB*/
     public long                 threshold                                     = DEFAULT_THRESHOLD;
 
     /**
-     * CALLгѓ­г‚°дё­гЃ®гѓЎг‚Ѕгѓѓгѓ‰гЃ®TATгЃ®еЂ¤г‚’иЄїжџ»гЃ—гЂЃ й–ѕеЂ¤г‚’и¶…гЃ€гЃ¦гЃ„гЃџйљ›гЃ«гЃЇи­¦е‘ЉгЃ™г‚‹гЂ‚
+     * CALLѓЌѓO’†‚МѓЃѓ\ѓbѓh‚МTAT‚М’l‚р’ІЌё‚µЃA и‡’l‚р’ґ‚¦‚Д‚ў‚ЅЌЫ‚Й‚НЊxЌђ‚·‚йЃB
      * 
      * @param javelinLogElement
-     *            гѓ­г‚°гЃ®и¦Ѓзґ 
+     *            ѓЌѓO‚М—v‘f
      * 
      */
     @Override
     public void doJudgeElement(final JavelinLogElement javelinLogElement)
     {
-        // и­е€Ґе­ђгЃЊ"Call"гЃ§гЃЄгЃ„е ґеђ€гЃЇе€¤е®љгЃ—гЃЄгЃ„гЂ‚
+        // ЋЇ•КЋq‚Є"Call"‚Е‚И‚ўЏкЌ‡‚Н”»’и‚µ‚И‚ўЃB
         String type = javelinLogElement.getBaseInfo().get(JavelinLogColumnNum.ID);
         boolean isCall = JavelinConstants.MSG_CALL.equals(type);
         if (isCall == false)
@@ -99,29 +99,29 @@ public class IOWaitTimeRule extends SingleElementRule
 
         if (JavelinLogUtil.isExistTag(javelinLogElement, JavelinParser.TAG_TYPE_JMXINFO) == false)
         {
-            // иЁ€жё¬ж™‚гЃ«JMXжѓ…е ±г‚’еЏ–еѕ—гЃ—гЃ¦гЃ„гЃЄгЃ„е ґеђ€гЃЇе€¤е®љгЃ—гЃЄгЃ„
+            // Њv‘ЄЋћ‚ЙJMXЏо•с‚рЋж“ѕ‚µ‚Д‚ў‚И‚ўЏкЌ‡‚Н”»’и‚µ‚И‚ў
             return;
         }
 
-        // ExtraInfoгЃ®е†…е®№г‚’иЎЁгЃ™Mapг‚’еЏ–еѕ—гЃ™г‚‹гЂ‚
+        // ExtraInfo‚М“а—e‚р•\‚·Map‚рЋж“ѕ‚·‚йЃB
         Map<String, String> extraInfo =
                                         JavelinLogUtil.parseDetailInfo(javelinLogElement,
                                                                        EXTRA_INFO);
-        //JMXжѓ…е ±г‚’дїќжЊЃгЃ—гЃџmapг‚’еЏ–еѕ—гЃ™г‚‹гЂ‚
+        //JMXЏо•с‚р•ЫЋќ‚µ‚Ѕmap‚рЋж“ѕ‚·‚йЃB
         Map<String, String> jmxInfo =
                                       JavelinLogUtil.parseDetailInfo(javelinLogElement,
                                                                      JavelinParser.TAG_TYPE_JMXINFO);
 
-        // ExtraInfoгЃ®жѓ…е ±г‚’дїќжЊЃгЃ—гЃџmapг‚€г‚ЉгѓЎг‚Ѕгѓѓгѓ‰гЃ®TATгЃ®еЂ¤г‚’еѕ—г‚‹гЂ‚
+        // ExtraInfo‚МЏо•с‚р•ЫЋќ‚µ‚Ѕmap‚ж‚иѓЃѓ\ѓbѓh‚МTAT‚М’l‚р“ѕ‚йЃB
         String durationString = extraInfo.get(DURATION);
-        //JMXжѓ…е ±гЃ®mapг‚€г‚ЉгЂЃWaitж™‚й–“гЃ®еЂ¤г‚’еѕ—г‚‹гЂ‚
+        //JMXЏо•с‚Мmap‚ж‚иЃAWaitЋћЉФ‚М’l‚р“ѕ‚йЃB
         String waitTimeString = jmxInfo.get(JMXPARAM_THREAD_THREADINFO_WAITED_TIME_DELTA);
-        //JMXжѓ…е ±гЃ®mapг‚€г‚ЉгЂЃгѓЎг‚Ѕгѓѓгѓ‰гЃ®CPUж™‚й–“гЃ®еЂ¤г‚’еѕ—г‚‹гЂ‚CPUж™‚й–“г‚’msecгЃ«е¤‰жЏ›гЃ™г‚‹гЂ‚
+        //JMXЏо•с‚Мmap‚ж‚иЃAѓЃѓ\ѓbѓh‚МCPUЋћЉФ‚М’l‚р“ѕ‚йЃBCPUЋћЉФ‚рmsec‚Й•ПЉ·‚·‚йЃB
         String cpuTimeStr = jmxInfo.get(JMXPARAM_THREAD_CURRENT_THREAD_CPU_TIME_DELTA);
-        //JMXжѓ…е ±гЃ®mapг‚€г‚ЉгЂЃгѓ–гѓ­гѓѓг‚Їж™‚й–“гЃ®еЂ¤г‚’еѕ—г‚‹гЂ‚
+        //JMXЏо•с‚Мmap‚ж‚иЃAѓuѓЌѓbѓNЋћЉФ‚М’l‚р“ѕ‚йЃB
         String blockTimeString = jmxInfo.get(JMXPARAM_THREAD_THREADINFO_BLOCKED_TIME_DELTA);
 
-        //TAT,Waitж™‚й–“,CPUж™‚й–“гЂЃгѓ–гѓ­гѓѓг‚Їж™‚й–“г‚’гЃќг‚ЊгЃћг‚Њећ‹е¤‰жЏ›гЃ™г‚‹гЂ‚пј€CPUж™‚й–“гЃЇnsecгЃ‹г‚‰msecгЃ«еЌдЅЌг‚’е¤‰ж›ґгЃ™г‚‹пј‰
+        //TAT,WaitЋћЉФ,CPUЋћЉФЃAѓuѓЌѓbѓNЋћЉФ‚р‚»‚к‚ј‚кЊ^•ПЉ·‚·‚йЃBЃiCPUЋћЉФ‚Нnsec‚©‚зmsec‚Й’P€К‚р•ПЌX‚·‚йЃj
 
         long waitTime = 0;
         double cpuTimeDouble = 0;
@@ -152,11 +152,11 @@ public class IOWaitTimeRule extends SingleElementRule
         {
             return;
         }
-        /*гѓЎг‚Ѕгѓѓгѓ‰гЃ®TATгЃЁCPUж™‚й–“гЂЃWaitж™‚й–“гЂЃгѓ–гѓ­гѓѓг‚Їж™‚й–“гЃ®е’ЊгЃЁгЃ®е·®г‚’ж±‚г‚Ѓг‚‹гЂ‚
-        (гѓЎг‚Ѕгѓѓгѓ‰гЃ®TAT)-((CPUж™‚й–“)+(Waitж™‚й–“)+(гѓ–гѓ­гѓѓг‚Їж™‚й–“))
+        /*ѓЃѓ\ѓbѓh‚МTAT‚ЖCPUЋћЉФЃAWaitЋћЉФЃAѓuѓЌѓbѓNЋћЉФ‚Мa‚Ж‚МЌ·‚р‹Ѓ‚Я‚йЃB
+        (ѓЃѓ\ѓbѓh‚МTAT)-((CPUЋћЉФ)+(WaitЋћЉФ)+(ѓuѓЌѓbѓNЋћЉФ))
         */
         long status = duration - (waitTime + cpuTime + blockTime);
-        // г‚‚гЃ—ж¤ње‡єеЂ¤гЃЊй–ѕеЂ¤гЃ«йЃ”гЃ™г‚‹гЃ®гЃ§гЃ‚г‚ЊгЃ°гЂЃи­¦е‘Љг‚’е‡єгЃ™гЂ‚
+        // ‚а‚µЊџЏo’l‚Єи‡’l‚Й’B‚·‚й‚М‚Е‚ ‚к‚ОЃAЊxЌђ‚рЏo‚·ЃB
         if (status >= this.threshold)
         {
             addError(javelinLogElement, this.threshold, status);

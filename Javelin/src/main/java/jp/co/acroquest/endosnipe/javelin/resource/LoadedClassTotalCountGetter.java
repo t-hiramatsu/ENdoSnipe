@@ -31,7 +31,7 @@ import java.lang.management.ManagementFactory;
 import jp.co.acroquest.endosnipe.common.entity.ItemType;
 
 /**
- * Java 莉ｮ諠ｳ繝槭す繝ｳ縺悟ｮ溯｡後ｒ髢句ｧ九＠縺ｦ縺九ｉ繝ｭ繝ｼ繝峨＆繧後◆繧ｯ繝ｩ繧ｹ縺ｮ蜷郁ｨ域焚繧貞叙蠕励☆繧九け繝ｩ繧ｹ
+ * Java 仮想マシンが実行を開始してからロードされたクラスの合計数を取得するクラス
  * 
  * @author S.Kimura
  */

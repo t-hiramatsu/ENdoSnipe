@@ -28,14 +28,12 @@ package jp.co.acroquest.endosnipe.javelin.resource;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 import jp.co.acroquest.endosnipe.common.entity.ItemType;
-import jp.co.acroquest.endosnipe.common.entity.ResourceItem;
 import jp.co.acroquest.endosnipe.common.jmx.JMXManager;
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
@@ -78,64 +76,57 @@ import jp.co.acroquest.endosnipe.javelin.resource.sun.SwapSpaceFreeGetter;
 import jp.co.acroquest.endosnipe.javelin.resource.sun.VirutalMemorySizeGetter;
 
 /**
- * ãƒªã‚½ãƒ¼ã‚¹æƒ…å ±ã‚’åé›†ã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚
+ * ƒŠƒ\[ƒXî•ñ‚ğûW‚·‚éƒNƒ‰ƒXB
  * 
- * getMultiResourcegetterMapã€getResourceGroupGetterListã¯ã€ ãƒªãƒ•ã‚¡ã‚¯ã‚¿ã—ã€ãã®ã¾ã¾å…¬é–‹ã—ãªã„æ§˜ã«ã™ã‚‹ã¹ãã§ã™ãŒã€æœªå¯¾å¿œã§ã™ã€‚
+ * getMultiResourcegetterMapAgetResourceGroupGetterList‚ÍA ƒŠƒtƒ@ƒNƒ^‚µA‚»‚Ì‚Ü‚ÜŒöŠJ‚µ‚È‚¢—l‚É‚·‚é‚×‚«‚Å‚·‚ªA–¢‘Î‰‚Å‚·B
  * 
  * @author eriguchi
  * @author ochiai
  */
 public class ResourceCollector implements TelegramConstants
 {
-	/** ãƒ™ãƒ³ãƒ€ãƒ¼ãŒIBMã§ã‚ã‚‹ã“ã¨ã‚’è¡¨ã™æ–‡å­—åˆ— */
+	/** ƒxƒ“ƒ_[‚ªIBM‚Å‚ ‚é‚±‚Æ‚ğ•\‚·•¶š—ñ */
 	public static final String VENDER_IBM = "IBM";
 
-	/** ãƒ™ãƒ³ãƒ€ãƒ¼ãŒBEAã§ã‚ã‚‹ã“ã¨ã‚’è¡¨ã™æ–‡å­—åˆ— */
+	/** ƒxƒ“ƒ_[‚ªBEA‚Å‚ ‚é‚±‚Æ‚ğ•\‚·•¶š—ñ */
 	public static final String VENDER_BEA = "BEA";
 
-	/** OSãŒLinuxã§ã‚ã‚‹ã“ã¨ã‚’è¡¨ã™æ–‡å­—åˆ— */
+	/** OS‚ªLinux‚Å‚ ‚é‚±‚Æ‚ğ•\‚·•¶š—ñ */
 	private static final String OS_LINUX = "Linux";
 
-	/** ãƒ™ãƒ³ãƒ€ãƒ¼ãŒOracleã§ã‚ã‚‹ã“ã¨ã‚’è¡¨ã™æ–‡å­—åˆ— */
+	/** ƒxƒ“ƒ_[‚ªOracle‚Å‚ ‚é‚±‚Æ‚ğ•\‚·•¶š—ñ */
 	public static final String VENDER_ORACLE = "Oracle";
 
-	/** OSãŒWindowsã§ã‚ã‚‹ã“ã¨ã‚’è¡¨ã™æ–‡å­—åˆ— */
+	/** OS‚ªWindows‚Å‚ ‚é‚±‚Æ‚ğ•\‚·•¶š—ñ */
 	private static final String OS_WINDOWS = "Windows";
 
-	/** OSãŒSolarisã§ã‚ã‚‹ã“ã¨ã‚’è¡¨ã™æ–‡å­—åˆ— */
+	/** OS‚ªSolaris‚Å‚ ‚é‚±‚Æ‚ğ•\‚·•¶š—ñ */
 	private static final String OS_SOLARIS = "SunOS";
 
-	/** ãƒªã‚½ãƒ¼ã‚¹å–å¾—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒãƒƒãƒ— */
+	/** ƒŠƒ\[ƒXæ“¾ƒIƒuƒWƒFƒNƒg‚Ìƒ}ƒbƒv */
 	private final Map<String, ResourceGetter> resourceGetterMap_;
 
-    /** ãƒªã‚½ãƒ¼ã‚¹å–å¾—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒãƒƒãƒ— */
-    private final Set<ResourceLoader> resoureInfoLoaderSet_;
-
-	/** ãƒªã‚½ãƒ¼ã‚¹å–å¾—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒãƒƒãƒ— */
+	/** ƒŠƒ\[ƒXæ“¾ƒIƒuƒWƒFƒNƒg‚Ìƒ}ƒbƒv */
 	private final Map<String, MultiResourceGetter> multiResourceGetterMap_;
 
-	/** ã‚°ãƒ«ãƒ¼ãƒ—åŒ–ã•ã‚ŒãŸè¤‡æ•°ãƒªã‚½ãƒ¼ã‚¹å–å¾—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒªã‚¹ãƒˆ */
+	/** ƒOƒ‹[ƒv‰»‚³‚ê‚½•¡”ƒŠƒ\[ƒXæ“¾ƒIƒuƒWƒFƒNƒg‚ÌƒŠƒXƒg */
 	private final List<ResourceGroupGetter> resourceGroupGetterList_;
 
 	private static ResourceCollector instance__ = new ResourceCollector();
 
-	/** Windows ã¾ãŸã¯ Linux ã§ãƒªã‚½ãƒ¼ã‚¹æƒ…å ±ã‚’å–å¾—ã™ã‚‹ãŸã‚ã«ç”¨ã„ã‚‹ */
+	/** Windows ‚Ü‚½‚Í Linux ‚ÅƒŠƒ\[ƒXî•ñ‚ğæ“¾‚·‚é‚½‚ß‚É—p‚¢‚é */
 	private ProcParser procParser_ = null;
 
 	private ResourceCollector()
 	{
-        Map<String, ResourceGetter> resourceMap = new HashMap<String, ResourceGetter>();
-        Map<String, MultiResourceGetter> mResourceMap = new HashMap<String, MultiResourceGetter>();
-        Set<ResourceLoader> resoureInfoLoaderSet = new HashSet<ResourceLoader>();
+		Map<String, ResourceGetter> resourceMap = new HashMap<String, ResourceGetter>();
+		Map<String, MultiResourceGetter> mResourceMap = new HashMap<String, MultiResourceGetter>();
 
 		try
 		{
-            this.procParser_ = createProcParser();
-            setResouceGetters(resourceMap, mResourceMap, this.procParser_, resoureInfoLoaderSet);
-            if (this.procParser_ != null)
-            {
-                resoureInfoLoaderSet.add(this.procParser_);
-            }
+			this.procParser_ = createProcParser();
+			SystemLogger.getInstance().info("ProcParser not found. Default parser selected.");
+			setResouceGetters(resourceMap, mResourceMap, this.procParser_);
 		}
 		catch (Throwable th)
 		{
@@ -147,14 +138,13 @@ public class ResourceCollector implements TelegramConstants
 
 		this.resourceGetterMap_ = resourceMap;
 		this.multiResourceGetterMap_ = mResourceMap;
-        this.resoureInfoLoaderSet_ = resoureInfoLoaderSet;
 
 	}
 
 	/**
-	 * {@link ProcParser} ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆã—ã¾ã™ã€‚
+	 * {@link ProcParser} ƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬‚µ‚Ü‚·B
 	 * 
-	 * @return æˆåŠŸã—ãŸå ´åˆã¯ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã€å¯¾å¿œã—ã¦ã„ãªã„OSã®å ´åˆã¯ <code>null</code>
+	 * @return ¬Œ÷‚µ‚½ê‡‚ÍƒCƒ“ƒXƒ^ƒ“ƒXA‘Î‰‚µ‚Ä‚¢‚È‚¢OS‚Ìê‡‚Í <code>null</code>
 	 */
 	public static ProcParser createProcParser()
 	{
@@ -179,20 +169,18 @@ public class ResourceCollector implements TelegramConstants
 		return procParser;
 	}
 
-	    /**
-     * ãƒªã‚½ãƒ¼ã‚¹å–å¾—ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ãƒãƒƒãƒ—ã«ç™»éŒ²ã—ã¾ã™ã€‚
-     * 
-     * @param resourceMap
-     *            ãƒªã‚½ãƒ¼ã‚¹å–å¾—ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç™»éŒ²ã™ã‚‹ãƒãƒƒãƒ—
-     * @param multiResourceMap
-     *            ãƒªã‚½ãƒ¼ã‚¹å–å¾—ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç™»éŒ²ã™ã‚‹ãƒãƒƒãƒ—ï¼ˆå¯å¤‰ç³»åˆ—ç”¨ï¼‰
-     * @param procParser
-     *            ãƒªã‚½ãƒ¼ã‚¹å–å¾—ãƒ™ãƒ¼ã‚¹ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
-     * @param resoureInfoLoaderSet ãƒªã‚½ãƒ¼ã‚¹å–å¾—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚
-     */
-    public static void setResouceGetters(Map<String, ResourceGetter> resourceMap,
-        Map<String, MultiResourceGetter> multiResourceMap, ProcParser procParser,
-        Set<ResourceLoader> resoureInfoLoaderSet)
+	/**
+	 * ƒŠƒ\[ƒXæ“¾ƒCƒ“ƒXƒ^ƒ“ƒX‚ğƒ}ƒbƒv‚É“o˜^‚µ‚Ü‚·B
+	 * 
+	 * @param resourceMap
+	 *            ƒŠƒ\[ƒXæ“¾ƒCƒ“ƒXƒ^ƒ“ƒX‚ğ“o˜^‚·‚éƒ}ƒbƒv
+	 * @param multiResourceMap
+	 *            ƒŠƒ\[ƒXæ“¾ƒCƒ“ƒXƒ^ƒ“ƒX‚ğ“o˜^‚·‚éƒ}ƒbƒvi‰Â•ÏŒn—ñ—pj
+	 * @param procParser
+	 *            ƒŠƒ\[ƒXæ“¾ƒx[ƒXƒCƒ“ƒXƒ^ƒ“ƒX
+	 */
+	public static void setResouceGetters(Map<String, ResourceGetter> resourceMap,
+			Map<String, MultiResourceGetter> multiResourceMap, ProcParser procParser)
 	{
 		ClassHistogramMonitor historgramMonitor = null;
 		String vendor = System.getProperty("java.vendor");
@@ -201,10 +189,10 @@ public class ResourceCollector implements TelegramConstants
 			resourceMap.put(ITEMNAME_PROCESS_CPU_TOTAL_TIME, new CpuTimeGetter());
 			resourceMap.put(ITEMNAME_PROCESS_MEMORY_PHYSICAL_MAX,
 					new PhysicalMemoryCapacityGetter());
-            resourceMap.put(ITEMNAME_PROCESS_MEMORY_PHYSICAL_FREE, new PhysicalMemoryFreeGetter());
-            resourceMap.put(ITEMNAME_SYSTEM_MEMORY_SWAP_MAX, new SwapSpaceCapacityGetter());
-            resourceMap.put(ITEMNAME_SYSTEM_MEMORY_SWAP_FREE, new SwapSpaceFreeGetter());
-            resourceMap.put(ITEMNAME_SYSTEM_MEMORY_VIRTUAL_USED, new VirutalMemorySizeGetter());
+			resourceMap.put(ITEMNAME_PROCESS_MEMORY_PHYSICAL_FREE, new PhysicalMemoryFreeGetter());
+			resourceMap.put(ITEMNAME_SYSTEM_MEMORY_SWAP_MAX, new SwapSpaceCapacityGetter());
+			resourceMap.put(ITEMNAME_SYSTEM_MEMORY_SWAP_FREE, new SwapSpaceFreeGetter());
+			resourceMap.put(ITEMNAME_SYSTEM_MEMORY_VIRTUAL_USED, new VirutalMemorySizeGetter());
 			multiResourceMap.put(ITEMNAME_SERVER_POOL, new TomcatPoolCounter());
 			historgramMonitor = new SunClassHistogramMonitor();
 		}
@@ -215,16 +203,16 @@ public class ResourceCollector implements TelegramConstants
 		resourceMap.put(ITEMNAME_PROCESS_MEMORY_VIRTUALMACHINE_MAX,
 				new VirtualMachineCapacityGetter());
 		VirtualMachineFreeGetter virturalMachineFreeGetter = new VirtualMachineFreeGetter();
-        resourceMap.put(ITEMNAME_PROCESS_MEMORY_VIRTUALMACHINE_FREE, virturalMachineFreeGetter);
+		resourceMap.put(ITEMNAME_PROCESS_MEMORY_VIRTUALMACHINE_FREE, virturalMachineFreeGetter);
 
-        resourceMap.put(ITEMNAME_JAVAPROCESS_MEMORY_HEAP_COMMIT, new HeapMemoryCommittedGetter());
-        resourceMap.put(ITEMNAME_JAVAPROCESS_MEMORY_HEAP_USED, new HeapMemoryUsedGetter());
-        resourceMap.put(ITEMNAME_JAVAPROCESS_MEMORY_HEAP_MAX, new HeapMemoryMaxGetter());
-        resourceMap.put(ITEMNAME_JAVAPROCESS_MEMORY_NONHEAP_MAX, new NonHeapMemoryMaxGetter());
-        NonHeapMemoryCommittedGetter nonHeapMemoryCommitted = new NonHeapMemoryCommittedGetter();
-        resourceMap.put(ITEMNAME_JAVAPROCESS_MEMORY_NONHEAP_COMMIT, nonHeapMemoryCommitted);
-        resourceMap.put(ITEMNAME_JAVAPROCESS_MEMORY_NONHEAP_USED, new NonHeapMemoryUsedGetter());
-        resourceMap.put(ITEMNAME_JAVAPROCESS_GC_FINALIZEQUEUE_COUNT, new FinalizationCountGetter());
+		resourceMap.put(ITEMNAME_JAVAPROCESS_MEMORY_HEAP_COMMIT, new HeapMemoryCommittedGetter());
+		resourceMap.put(ITEMNAME_JAVAPROCESS_MEMORY_HEAP_USED, new HeapMemoryUsedGetter());
+		resourceMap.put(ITEMNAME_JAVAPROCESS_MEMORY_HEAP_MAX, new HeapMemoryMaxGetter());
+		resourceMap.put(ITEMNAME_JAVAPROCESS_MEMORY_NONHEAP_MAX, new NonHeapMemoryMaxGetter());
+		NonHeapMemoryCommittedGetter nonHeapMemoryCommitted = new NonHeapMemoryCommittedGetter();
+		resourceMap.put(ITEMNAME_JAVAPROCESS_MEMORY_NONHEAP_COMMIT, nonHeapMemoryCommitted);
+		resourceMap.put(ITEMNAME_JAVAPROCESS_MEMORY_NONHEAP_USED, new NonHeapMemoryUsedGetter());
+		resourceMap.put(ITEMNAME_JAVAPROCESS_GC_FINALIZEQUEUE_COUNT, new FinalizationCountGetter());
 
 		resourceMap.put(ITEMNAME_JAVAPROCESS_THREAD_TOTAL_COUNT, new ThreadCountGetter());
 		resourceMap.put(ITEMNAME_JAVAPROCESS_GC_TIME_TOTAL, new GCTotalTimeGetter());
@@ -239,25 +227,54 @@ public class ResourceCollector implements TelegramConstants
 		resourceMap.put(ITEMNAME_NETWORKINPUTSIZEOFPROCESS, networkReadMonitor);
 		resourceMap.put(ITEMNAME_NETWORKOUTPUTSIZEOFPROCESS, networkWriteMonitor);
 
-        LoadedClassTotalCountGetter loadedClassTotalCountGetter = new LoadedClassTotalCountGetter();
-        resourceMap.put(ITEMNAME_JAVAPROCESS_CLASSLOADER_CLASS_TOTAL, loadedClassTotalCountGetter);
-        LoadedClassCountGetter loadedClassCountGetter = new LoadedClassCountGetter();
-        resourceMap.put(ITEMNAME_JAVAPROCESS_CLASSLOADER_CLASS_CURRENT, loadedClassCountGetter);
+		LoadedClassTotalCountGetter loadedClassTotalCountGetter = new LoadedClassTotalCountGetter();
+		resourceMap.put(ITEMNAME_JAVAPROCESS_CLASSLOADER_CLASS_TOTAL, loadedClassTotalCountGetter);
+		LoadedClassCountGetter loadedClassCountGetter = new LoadedClassCountGetter();
+		resourceMap.put(ITEMNAME_JAVAPROCESS_CLASSLOADER_CLASS_CURRENT, loadedClassCountGetter);
 		resourceMap.put(ITEMNAME_CALLEDMETHODCOUNT, new CalledMethodCountGetter());
 
-        ThreadDetailInfoLoader threadInfoLoader = new ThreadDetailInfoLoader();
-        resourceMap.put(ITEMNAME_RUNNABLE_THREAD_COUNT,
-                        new RunnableThreadCountGetter(threadInfoLoader));
-        resourceMap.put(ITEMNAME_BLOCKED_THREAD_COUNT,
-                        new BlockedThreadCountGetter(threadInfoLoader));
-        resoureInfoLoaderSet.add(threadInfoLoader);
-		
 		if (procParser != null)
 		{
-			initProcParserGetter(resourceMap, multiResourceMap, procParser);
+			resourceMap.put(ITEMNAME_SYSTEM_MEMORY_PHYSICAL_MAX,
+					new LinuxMemTotalGetter(procParser));
+			resourceMap.put(ITEMNAME_SYSTEM_MEMORY_PHYSICAL_FREE,
+					new LinuxMemFreeGetter(procParser));
+			resourceMap.put(ITEMNAME_SYSTEM_MEMORY_SWAP_MAX, new LinuxSwapTotalGetter(procParser));
+			resourceMap.put(ITEMNAME_SYSTEM_MEMORY_SWAP_FREE, new LinuxSwapFreeGetter(procParser));
+			resourceMap.put(ITEMNAME_SYSTEM_CPU_USERMODE_TIME, new LinuxCpuTotalGetter(procParser));
+			resourceMap.put(ITEMNAME_SYSTEM_CPU_SYSTEM_TIME, new LinuxCpuSystemGetter(procParser));
+			resourceMap.put(ITEMNAME_SYSTEM_CPU_IOWAIT_TIME, new LinuxCpuIoWaitGetter(procParser));
+			resourceMap.put(ITEMNAME_CPU_ARRAY, new LinuxCpuArrayGetter(procParser));
+			resourceMap.put(ITEMNAME_SYSTEM_MEMORY_PAGEIN_COUNT, new LinuxPageInGetter(procParser));
+			resourceMap.put(ITEMNAME_SYSTEM_MEMORY_PAGEOUT_COUNT,
+					new LinuxPageOutGetter(procParser));
+			LinuxCpuTimeSysGetter linuxCpuTimeSysGetter = new LinuxCpuTimeSysGetter(procParser);
+			resourceMap.put(ITEMNAME_PROCESS_CPU_SYSTEM_TIME, linuxCpuTimeSysGetter);
+			resourceMap.put(ITEMNAME_PROCESS_CPU_IOWAIT_TIME, new LinuxCpuTimeIoWaitGetter(
+					procParser));
+			resourceMap.put(ITEMNAME_PROCESS_CPU_TOTAL_TIME,
+					new LinuxCpuTimeTotalGetter(procParser));
+			resourceMap.put(ITEMNAME_PROCESS_MEMORY_VIRTUAL_USED, new LinuxVSizeGetter(procParser));
+			resourceMap.put(ITEMNAME_PROCESS_MEMORY_PHYSICAL_USED, new LinuxRSSGetter(procParser));
+			resourceMap.put(ITEMNAME_PROCESS_THREAD_TOTAL_COUNT, new LinuxNumThreadsGetter(
+					procParser));
+			resourceMap.put(ITEMNAME_PROCESS_MEMORY_MAJORFAULT_COUNT, new LinuxMajfltGetter(
+					procParser));
+			ProcFdCountGetter procFdCountGetter = new ProcFdCountGetter(procParser);
+			resourceMap.put(ITEMNAME_PROCESS_HANDLE_TOTAL_NUMBER, procFdCountGetter);
+			resourceMap.put(ITEMNAME_SYSTEM_HANDLE_TOTAL_NUMBER, new SysFdCountGetter(procParser));
+
+			LinuxProcFileInputGetter pInputGetter = new LinuxProcFileInputGetter(procParser);
+			resourceMap.put(ITEMNAME_FILEINPUTSIZEOFPROCESS, pInputGetter);
+			LinuxProcFileOutputGetter pOutputGetter = new LinuxProcFileOutputGetter(procParser);
+			resourceMap.put(ITEMNAME_FILEOUTPUTSIZEOFPROCESS, pOutputGetter);
+			LinuxSystemFileInputGetter sInputGetter = new LinuxSystemFileInputGetter(procParser);
+			resourceMap.put(ITEMNAME_FILEINPUTSIZEOFSYSTEM, sInputGetter);
+			LinuxSystemFileOutputGetter sOutputGetter = new LinuxSystemFileOutputGetter(procParser);
+			resourceMap.put(ITEMNAME_FILEOUTPUTSIZEOFSYSTEM, sOutputGetter);
 		}
 
-		// JMXã®ãƒªã‚½ãƒ¼ã‚¹ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã‹ã©ã†ã‹
+		// JMX‚ÌƒŠƒ\[ƒXƒf[ƒ^‚ğæ“¾‚·‚é‚©‚Ç‚¤‚©
 		JavelinConfig config = new JavelinConfig();
 		if (config.getCollectJmxResources())
 		{
@@ -272,10 +289,10 @@ public class ResourceCollector implements TelegramConstants
 			JMXManager.getInstance().initCompleted();
 		}
 
-        multiResourceMap.put(ITEMNAME_JAVAPROCESS_COLLECTION_LIST_COUNT, new ListCountGetter());
-        multiResourceMap.put(ITEMNAME_JAVAPROCESS_COLLECTION_QUEUE_COUNT, new QueueCountGetter());
-        multiResourceMap.put(ITEMNAME_JAVAPROCESS_COLLECTION_SET_COUNT, new SetCountGetter());
-        multiResourceMap.put(ITEMNAME_JAVAPROCESS_COLLECTION_MAP_COUNT, new MapCountGetter());
+		multiResourceMap.put(ITEMNAME_JAVAPROCESS_COLLECTION_LIST_COUNT, new ListCountGetter());
+		multiResourceMap.put(ITEMNAME_JAVAPROCESS_COLLECTION_QUEUE_COUNT, new QueueCountGetter());
+		multiResourceMap.put(ITEMNAME_JAVAPROCESS_COLLECTION_SET_COUNT, new SetCountGetter());
+		multiResourceMap.put(ITEMNAME_JAVAPROCESS_COLLECTION_MAP_COUNT, new MapCountGetter());
 
 		if (historgramMonitor != null)
 		{
@@ -291,59 +308,13 @@ public class ResourceCollector implements TelegramConstants
 
 	}
 
-    /**
-     * ProcParserç³»ã®Getterã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
-     * 
-     * @param resourceMap
-     *            ãƒªã‚½ãƒ¼ã‚¹å–å¾—ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç™»éŒ²ã™ã‚‹ãƒãƒƒãƒ—
-     * @param multiResourceMap
-     *            ãƒªã‚½ãƒ¼ã‚¹å–å¾—ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç™»éŒ²ã™ã‚‹ãƒãƒƒãƒ—ï¼ˆå¯å¤‰ç³»åˆ—ç”¨ï¼‰
-     * @param procParser
-     *            ãƒªã‚½ãƒ¼ã‚¹å–å¾—ãƒ™ãƒ¼ã‚¹ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
-     */
-    private static void initProcParserGetter(Map<String, ResourceGetter> resourceMap,
-        Map<String, MultiResourceGetter> multiResourceMap, ProcParser procParser)
-    {
-        resourceMap.put(ITEMNAME_SYSTEM_MEMORY_PHYSICAL_MAX, new LinuxMemTotalGetter(procParser));
-        resourceMap.put(ITEMNAME_SYSTEM_MEMORY_PHYSICAL_FREE, new LinuxMemFreeGetter(procParser));
-        resourceMap.put(ITEMNAME_SYSTEM_MEMORY_SWAP_MAX, new LinuxSwapTotalGetter(procParser));
-        resourceMap.put(ITEMNAME_SYSTEM_MEMORY_SWAP_FREE, new LinuxSwapFreeGetter(procParser));
-        resourceMap.put(ITEMNAME_SYSTEM_CPU_USERMODE_TIME, new LinuxCpuTotalGetter(procParser));
-        resourceMap.put(ITEMNAME_SYSTEM_CPU_SYSTEM_TIME, new LinuxCpuSystemGetter(procParser));
-        resourceMap.put(ITEMNAME_SYSTEM_CPU_IOWAIT_TIME, new LinuxCpuIoWaitGetter(procParser));
-        multiResourceMap.put(ITEMNAME_CPU_ARRAY, new LinuxCpuArrayGetter(procParser));
-        resourceMap.put(ITEMNAME_SYSTEM_MEMORY_PAGEIN_COUNT, new LinuxPageInGetter(procParser));
-        resourceMap.put(ITEMNAME_SYSTEM_MEMORY_PAGEOUT_COUNT, new LinuxPageOutGetter(procParser));
-        LinuxCpuTimeSysGetter linuxCpuTimeSysGetter = new LinuxCpuTimeSysGetter(procParser);
-        resourceMap.put(ITEMNAME_PROCESS_CPU_SYSTEM_TIME, linuxCpuTimeSysGetter);
-        resourceMap.put(ITEMNAME_PROCESS_CPU_IOWAIT_TIME, new LinuxCpuTimeIoWaitGetter(procParser));
-        resourceMap.put(ITEMNAME_PROCESS_CPU_TOTAL_TIME, new LinuxCpuTimeTotalGetter(procParser));
-        resourceMap.put(ITEMNAME_PROCESS_MEMORY_VIRTUAL_USED, new LinuxVSizeGetter(procParser));
-        resourceMap.put(ITEMNAME_PROCESS_MEMORY_PHYSICAL_USED, new LinuxRSSGetter(procParser));
-        resourceMap.put(ITEMNAME_PROCESS_THREAD_TOTAL_COUNT, new LinuxNumThreadsGetter(procParser));
-        resourceMap
-            .put(ITEMNAME_PROCESS_MEMORY_MAJORFAULT_COUNT, new LinuxMajfltGetter(procParser));
-        ProcFdCountGetter procFdCountGetter = new ProcFdCountGetter(procParser);
-        resourceMap.put(ITEMNAME_PROCESS_HANDLE_TOTAL_NUMBER, procFdCountGetter);
-        resourceMap.put(ITEMNAME_SYSTEM_HANDLE_TOTAL_NUMBER, new SysFdCountGetter(procParser));
-
-        LinuxProcFileInputGetter pInputGetter = new LinuxProcFileInputGetter(procParser);
-        resourceMap.put(ITEMNAME_FILEINPUTSIZEOFPROCESS, pInputGetter);
-        LinuxProcFileOutputGetter pOutputGetter = new LinuxProcFileOutputGetter(procParser);
-        resourceMap.put(ITEMNAME_FILEOUTPUTSIZEOFPROCESS, pOutputGetter);
-        LinuxSystemFileInputGetter sInputGetter = new LinuxSystemFileInputGetter(procParser);
-        resourceMap.put(ITEMNAME_FILEINPUTSIZEOFSYSTEM, sInputGetter);
-        LinuxSystemFileOutputGetter sOutputGetter = new LinuxSystemFileOutputGetter(procParser);
-        resourceMap.put(ITEMNAME_FILEOUTPUTSIZEOFSYSTEM, sOutputGetter);
-    }
-
 	/**
-	 * è¤‡æ•°ã®ãƒªã‚½ãƒ¼ã‚¹ã‚’è¿½åŠ ã—ã¾ã™ã€‚
+	 * •¡”‚ÌƒŠƒ\[ƒX‚ğ’Ç‰Á‚µ‚Ü‚·B
 	 * 
 	 * @param itemName
-	 *            é …ç›®å
+	 *            €–Ú–¼
 	 * @param multiResourceGetter
-	 *            ãƒãƒ«ãƒãƒªã‚½ãƒ¼ã‚¹ã‚²ãƒƒã‚¿ãƒ¼
+	 *            ƒ}ƒ‹ƒ`ƒŠƒ\[ƒXƒQƒbƒ^[
 	 */
 	public void addMultiResource(String itemName, MultiResourceGetter multiResourceGetter)
 	{
@@ -354,12 +325,12 @@ public class ResourceCollector implements TelegramConstants
 	}
 
 	/**
-	 * å˜ä½“ã®ãƒªã‚½ãƒ¼ã‚¹ã‚’è¿½åŠ ã—ã¾ã™ã€‚
+	 * ’P‘Ì‚ÌƒŠƒ\[ƒX‚ğ’Ç‰Á‚µ‚Ü‚·B
 	 * 
 	 * @param itemName
-	 *            é …ç›®å
+	 *            €–Ú–¼
 	 * @param resourceGetter
-	 *            ãƒªã‚½ãƒ¼ã‚¹ã‚²ãƒƒã‚¿ãƒ¼
+	 *            ƒŠƒ\[ƒXƒQƒbƒ^[
 	 */
 	public void addSingleResource(String itemName, ResourceGetter resourceGetter)
 	{
@@ -370,46 +341,21 @@ public class ResourceCollector implements TelegramConstants
 	}
 
 	/**
-	 * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã—ã¾ã™ã€‚
+	 * ƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚µ‚Ü‚·B
 	 * 
-	 * @return ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã€‚
+	 * @return ƒCƒ“ƒXƒ^ƒ“ƒXB
 	 */
 	public static ResourceCollector getInstance()
 	{
 		return instance__;
 	}
 
-    /**
-     * æŒ‡å®šã—ãŸãƒªã‚½ãƒ¼ã‚¹æƒ…å ±ã‚’å–å¾—ã—ã¾ã™ã€‚
-     * 
-     * @param itemName
-     *            ãƒªã‚½ãƒ¼ã‚¹ã®åç§°ã€‚
-     * @return ãƒªã‚½ãƒ¼ã‚¹æƒ…å ±ã€‚
-     */
-    public List<ResourceItem> getMultiResources(String itemName)
-    {
-        MultiResourceGetter getter = this.multiResourceGetterMap_.get(itemName);
-        List<ResourceItem> value = null;
-        if (getter != null)
-        {
-            try
-            {
-                value = getter.getValues();
-            }
-            catch (Throwable th)
-            {
-                SystemLogger.getInstance().debug(th);
-            }
-        }
-
-        return value;
-    }	
 	/**
-	 * æŒ‡å®šã—ãŸãƒªã‚½ãƒ¼ã‚¹æƒ…å ±ã‚’å–å¾—ã—ã¾ã™ã€‚
+	 * w’è‚µ‚½ƒŠƒ\[ƒXî•ñ‚ğæ“¾‚µ‚Ü‚·B
 	 * 
 	 * @param itemName
-	 *            ãƒªã‚½ãƒ¼ã‚¹ã®åç§°ã€‚
-	 * @return ãƒªã‚½ãƒ¼ã‚¹æƒ…å ±ã€‚
+	 *            ƒŠƒ\[ƒX‚Ì–¼ÌB
+	 * @return ƒŠƒ\[ƒXî•ñB
 	 */
 	public Number getResource(String itemName)
 	{
@@ -431,9 +377,9 @@ public class ResourceCollector implements TelegramConstants
 	}
 
 	/**
-	 * ãƒªã‚½ãƒ¼ã‚¹å–å¾—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒãƒƒãƒ—ã‚’å–å¾—ã™ã‚‹ã€‚
+	 * ƒŠƒ\[ƒXæ“¾ƒIƒuƒWƒFƒNƒg‚Ìƒ}ƒbƒv‚ğæ“¾‚·‚éB
 	 * 
-	 * @return ãƒªã‚½ãƒ¼ã‚¹å–å¾—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒãƒƒãƒ—
+	 * @return ƒŠƒ\[ƒXæ“¾ƒIƒuƒWƒFƒNƒg‚Ìƒ}ƒbƒv
 	 */
 	public Map<String, ResourceGetter> getResourceGetterMap()
 	{
@@ -441,9 +387,9 @@ public class ResourceCollector implements TelegramConstants
 	}
 
 	/**
-	 * ãƒªã‚½ãƒ¼ã‚¹å–å¾—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒãƒƒãƒ—ã‚’å–å¾—ã—ã¾ã™ã€‚
+	 * ƒŠƒ\[ƒXæ“¾ƒIƒuƒWƒFƒNƒg‚Ìƒ}ƒbƒv‚ğæ“¾‚µ‚Ü‚·B
 	 * 
-	 * @return ãƒªã‚½ãƒ¼ã‚¹å–å¾—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒãƒƒãƒ—ã€‚
+	 * @return ƒŠƒ\[ƒXæ“¾ƒIƒuƒWƒFƒNƒg‚Ìƒ}ƒbƒvB
 	 */
 	public Map<String, MultiResourceGetter> getMultiResourceGetterMap()
 	{
@@ -451,9 +397,9 @@ public class ResourceCollector implements TelegramConstants
 	}
 
 	/**
-	 * ãƒªã‚½ãƒ¼ã‚¹å–å¾—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒªã‚¹ãƒˆã‚’å–å¾—ã—ã¾ã™ã€‚
+	 * ƒŠƒ\[ƒXæ“¾ƒIƒuƒWƒFƒNƒg‚ÌƒŠƒXƒg‚ğæ“¾‚µ‚Ü‚·B
 	 * 
-	 * @return ãƒªã‚½ãƒ¼ã‚¹å–å¾—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒãƒƒãƒ—ã€‚
+	 * @return ƒŠƒ\[ƒXæ“¾ƒIƒuƒWƒFƒNƒg‚Ìƒ}ƒbƒvB
 	 */
 	public List<ResourceGroupGetter> getResourceGroupGetterList()
 	{
@@ -461,11 +407,11 @@ public class ResourceCollector implements TelegramConstants
 	}
 
 	/**
-	 * ç¨®åˆ¥ã‚’å–å¾—ã—ã¾ã™ã€‚
+	 * í•Ê‚ğæ“¾‚µ‚Ü‚·B
 	 * 
 	 * @param itemName
-	 *            ãƒªã‚½ãƒ¼ã‚¹ã®åç§°ã€‚
-	 * @return ç¨®åˆ¥ã€‚
+	 *            ƒŠƒ\[ƒX‚Ì–¼ÌB
+	 * @return í•ÊB
 	 */
 	public ItemType getResourceType(String itemName)
 	{
@@ -478,11 +424,11 @@ public class ResourceCollector implements TelegramConstants
 	}
 
 	/**
-	 * è¤‡æ•°ç³»åˆ—ã®ç¨®åˆ¥ã‚’å–å¾—ã—ã¾ã™ã€‚
+	 * •¡”Œn—ñ‚Ìí•Ê‚ğæ“¾‚µ‚Ü‚·B
 	 * 
 	 * @param itemName
-	 *            ãƒªã‚½ãƒ¼ã‚¹ã®åç§°ã€‚
-	 * @return ç¨®åˆ¥ã€‚
+	 *            ƒŠƒ\[ƒX‚Ì–¼ÌB
+	 * @return í•ÊB
 	 */
 	public ItemType getMultiResourceType(String itemName)
 	{
@@ -495,9 +441,9 @@ public class ResourceCollector implements TelegramConstants
 	}
 
 	/**
-	 * è¤‡æ•°ç³»åˆ—ã®itemIDã‚’å–å¾—ã—ã¾ã™ã€‚
+	 * •¡”Œn—ñ‚ÌitemID‚ğæ“¾‚µ‚Ü‚·B
 	 * 
-	 * @return è¤‡æ•°ç³»åˆ—ã®itemIDã€‚
+	 * @return •¡”Œn—ñ‚ÌitemIDB
 	 */
 	public Set<String> getMultiResourceItemId()
 	{
@@ -505,9 +451,9 @@ public class ResourceCollector implements TelegramConstants
 	}
 
 	/**
-	 * ç³»åˆ—ã®itemIDã‚’å–å¾—ã—ã¾ã™ã€‚
+	 * Œn—ñ‚ÌitemID‚ğæ“¾‚µ‚Ü‚·B
 	 * 
-	 * @return ç³»åˆ—ã®itemIDã€‚
+	 * @return Œn—ñ‚ÌitemIDB
 	 */
 	public Set<String> getResourceItemId()
 	{
@@ -515,20 +461,13 @@ public class ResourceCollector implements TelegramConstants
 	}
 
 	/**
-	 * procParser ã® load() ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã³å‡ºã—ã¦åˆæœŸåŒ–ã™ã‚‹
+	 * procParser ‚Ì load() ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚Ä‰Šú‰»‚·‚é
 	 */
 	public void load()
 	{
-        for (ResourceLoader loader : resoureInfoLoaderSet_)
-        {
-            try
-            {
-                loader.load();
-            }
-            catch (Exception ex)
-            {
-                SystemLogger.getInstance().warn(ex);
-            }
-        }
+		if (this.procParser_ != null)
+		{
+			this.procParser_.load();
+		}
 	}
 }

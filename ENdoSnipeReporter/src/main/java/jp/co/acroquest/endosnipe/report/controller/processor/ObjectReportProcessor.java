@@ -25,7 +25,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
-import jp.co.acroquest.endosnipe.data.dto.GraphTypeDto;
 import jp.co.acroquest.endosnipe.report.LogIdConstants;
 import jp.co.acroquest.endosnipe.report.controller.ReportProcessReturnContainer;
 import jp.co.acroquest.endosnipe.report.controller.ReportSearchCondition;
@@ -39,37 +38,35 @@ import jp.co.acroquest.endosnipe.report.output.RecordReporter;
 import jp.co.acroquest.endosnipe.report.util.ReporterConfigAccessor;
 
 /**
- * ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ•°ã®ãƒ¬ãƒãƒ¼ãƒˆã‚’ç”Ÿæˆã™ã‚‹ãƒ¬ãƒãƒ¼ãƒˆãƒ—ãƒ­ã‚»ãƒƒã‚µã€‚
+ * ƒIƒuƒWƒFƒNƒg”‚ÌƒŒƒ|[ƒg‚ğ¶¬‚·‚éƒŒƒ|[ƒgƒvƒƒZƒbƒTB
  * 
  * @author akiba
  */
-public class ObjectReportProcessor extends ReportPublishProcessorBase
-{
-	/** ãƒ­ã‚¬ãƒ¼ */
+public class ObjectReportProcessor extends ReportPublishProcessorBase {
+	/** ƒƒK[ */
 	private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
-		.getLogger(ObjectReportProcessor.class);
+			.getLogger(ObjectReportProcessor.class);
 
-	/** ç©ç®—ã‚°ãƒ©ãƒ•ã®measurement_item_nameã«å¯¾ã—ã¦å¾Œæ–¹ä¸€è‡´ã™ã‚‹æ–‡å­—åˆ—ã®ãƒªã‚¹ãƒˆã€‚ */
+	/** ÏZƒOƒ‰ƒt‚Ìmeasurement_item_name‚É‘Î‚µ‚ÄŒã•ûˆê’v‚·‚é•¶š—ñ‚ÌƒŠƒXƒgB */
 	private List<String> sumGraphBackwardMatchList = new ArrayList<String>();
 
-	/** ç©ç®—ã‚°ãƒ©ãƒ•ã®measurement_item_nameã«å¯¾ã—ã¦éƒ¨åˆ†ä¸€è‡´ã™ã‚‹æ­£è¦è¡¨ç¾ã®ãƒªã‚¹ãƒˆã€‚ */
+	/** ÏZƒOƒ‰ƒt‚Ìmeasurement_item_name‚É‘Î‚µ‚Ä•”•ªˆê’v‚·‚é³‹K•\Œ»‚ÌƒŠƒXƒgB */
 	private List<String> sumGraphPartialMatchList = new ArrayList<String>();
 
 	/**
-	 * ReportProcessorã‚’ç”Ÿæˆã™ã‚‹ã€‚
+	 * ReportProcessor‚ğ¶¬‚·‚éB
 	 * 
 	 * @param type
-	 *            ãƒ¬ãƒãƒ¼ãƒˆç¨®åˆ¥ã€‚
+	 *            ƒŒƒ|[ƒgí•ÊB
 	 */
-	public ObjectReportProcessor(ReportType type)
-	{
+	public ObjectReportProcessor(ReportType type) {
 		super(type);
 
-		// ç©ç®—ã‚°ãƒ©ãƒ•ã®measurement_item_nameã«å¯¾ã—ã¦å¾Œæ–¹ä¸€è‡´ã™ã‚‹æ–‡å­—åˆ—ã‚’ãƒªã‚¹ãƒˆã«ç™»éŒ²ã™ã‚‹
+		// ÏZƒOƒ‰ƒt‚Ìmeasurement_item_name‚É‘Î‚µ‚ÄŒã•ûˆê’v‚·‚é•¶š—ñ‚ğƒŠƒXƒg‚É“o˜^‚·‚é
 		sumGraphBackwardMatchList.add("count");
 		sumGraphBackwardMatchList.add("(d)");
 
-		// ç©ç®—ã‚°ãƒ©ãƒ•ã®measurement_item_nameã«å¯¾ã—ã¦éƒ¨åˆ†ä¸€è‡´ã™ã‚‹æ–‡å­—åˆ—ã‚’ãƒªã‚¹ãƒˆã«ç™»éŒ²ã™ã‚‹
+		// ÏZƒOƒ‰ƒt‚Ìmeasurement_item_name‚É‘Î‚µ‚Ä•”•ªˆê’v‚·‚é•¶š—ñ‚ğƒŠƒXƒg‚É“o˜^‚·‚é
 		sumGraphPartialMatchList.add(".*/response/.*/error/.*");
 		sumGraphPartialMatchList.add(".*/response/.*/stalled/.*");
 	}
@@ -79,50 +76,42 @@ public class ObjectReportProcessor extends ReportPublishProcessorBase
 	 */
 	@Override
 	protected Object getReportPlotData(ReportSearchCondition cond,
-		ReportProcessReturnContainer reportContainer)
-	{
-		// æ¤œç´¢æ¡ä»¶ã®å–å¾—
+			ReportProcessReturnContainer reportContainer) {
+		// ŒŸõğŒ‚Ìæ“¾
 		String database = cond.getDatabases().get(0);
 		Timestamp startTime = cond.getStartDate();
 		Timestamp endTime = cond.getEndDate();
 		String parentItemName = cond.getTargetItemName();
 		Map<String, List<ItemData>> itemMap = new HashMap<String, List<ItemData>>();
 
-		try
-		{
-			List<GraphTypeDto> measurementItemNameList = GraphItemAccessUtil
-				.findChildMeasurementItems(database, parentItemName);
+		try {
+			List<String> measurementItemNameList = GraphItemAccessUtil
+					.findChildMeasurementItemName(database, parentItemName);
 
 			int itemNameListLength = measurementItemNameList.size();
 
-			for (int index = 0; index < itemNameListLength; index++)
-			{
-				GraphTypeDto graphTypeDto = measurementItemNameList.get(index);
-				String measurementItemName = graphTypeDto.getItemName();
+			for (int index = 0; index < itemNameListLength; index++) {
+				String measurementItemName = measurementItemNameList.get(index);
 
 				CompressOperator compressOperator;
-
-				// ç©ç®—ã‚µãƒãƒªã‹ã€å¹³å‡ã‚µãƒãƒªã‹ã‚’åˆ¤åˆ¥ã—ã€é©åˆ‡ãªã‚µãƒãƒªæ–¹æ³•ã§ã‚µãƒãƒªã‚’å®Ÿè¡Œã™ã‚‹
+				
+				// ÏZƒTƒ}ƒŠ‚©A•½‹ÏƒTƒ}ƒŠ‚©‚ğ”»•Ê‚µA“KØ‚ÈƒTƒ}ƒŠ•û–@‚ÅƒTƒ}ƒŠ‚ğÀs‚·‚é
 				boolean isTotalSummary = this.judgeTotalSummary(measurementItemName);
-				if (isTotalSummary)
-				{
+				if (isTotalSummary) {
 					compressOperator = CompressOperator.TOTAL;
-				}
-				else
-				{
+				} else {
 					compressOperator = CompressOperator.SIMPLE_AVERAGE;
 				}
 
-				List<ItemData> itemDataList = GraphItemAccessUtil.findItemData(database,
-					measurementItemName, compressOperator, startTime, endTime);
+				List<ItemData> itemDataList = GraphItemAccessUtil.findItemData(
+						database, measurementItemName,
+						compressOperator, startTime, endTime);
 
 				itemMap.put(measurementItemName, itemDataList);
 			}
-		}
-		catch (SQLException ex)
-		{
+		} catch (SQLException ex) {
 			LOGGER.log(LogIdConstants.EXCEPTION_IN_READING, ex,
-				ReporterConfigAccessor.getReportName(getReportType()));
+					ReporterConfigAccessor.getReportName(getReportType()));
 			return null;
 		}
 
@@ -133,10 +122,10 @@ public class ObjectReportProcessor extends ReportPublishProcessorBase
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected Object convertPlotData(Object rawData, ReportSearchCondition cond,
-		ReportProcessReturnContainer reportContainer)
-	{
-		// ãƒ‡ãƒ¼ã‚¿å¤‰æ›ã¯ç‰¹ã«è¡Œã„ã¾ã›ã‚“ã€‚
+	protected Object convertPlotData(Object rawData,
+			ReportSearchCondition cond,
+			ReportProcessReturnContainer reportContainer) {
+		// ƒf[ƒ^•ÏŠ·‚Í“Á‚És‚¢‚Ü‚¹‚ñB
 		return rawData;
 	}
 
@@ -144,105 +133,94 @@ public class ObjectReportProcessor extends ReportPublishProcessorBase
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected void outputReport(Object convertedData, ReportSearchCondition cond,
-		ReportProcessReturnContainer reportContainer)
-	{
-		// map ã®ãƒ‡ãƒ¼ã‚¿ã‚’6ã‚°ãƒ©ãƒ•ã®å€‹åˆ¥ã®ãƒ‡ãƒ¼ã‚¿ã«åˆ†ã‘ã‚‹
+	protected void outputReport(Object convertedData,
+			ReportSearchCondition cond,
+			ReportProcessReturnContainer reportContainer) {
+		// map ‚Ìƒf[ƒ^‚ğ6ƒOƒ‰ƒt‚ÌŒÂ•Ê‚Ìƒf[ƒ^‚É•ª‚¯‚é
 		Map<String, List<? extends Object>> data = (Map<String, List<? extends Object>>) convertedData;
 
-		// ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã®å¼•æ•°æƒ…å ±ã‚’å–å¾—ã™ã‚‹
+		// ƒŒƒ|[ƒgo—Í‚Ìˆø”î•ñ‚ğæ“¾‚·‚é
 		String outputFolderPath = getOutputFolderName();
 		Timestamp startTime = cond.getStartDate();
 		Timestamp endTime = cond.getEndDate();
 
-		// Mapã‹ã‚‰å…¨ã¦ã®ã‚­ãƒ¼ã¨å€¤ã®ã‚¨ãƒ³ãƒˆãƒªã‚’Setå‹ã®ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã¨ã—ã¦å–å¾—ã™ã‚‹
-		Set<Map.Entry<String, List<? extends Object>>> entrySet = data.entrySet();
+		// Map‚©‚ç‘S‚Ä‚ÌƒL[‚Æ’l‚ÌƒGƒ“ƒgƒŠ‚ğSetŒ^‚ÌƒRƒŒƒNƒVƒ‡ƒ“‚Æ‚µ‚Äæ“¾‚·‚é
+		Set<Map.Entry<String, List<? extends Object>>> entrySet = data
+				.entrySet();
 
-		// ã‚­ãƒ¼ã¨å€¤ã®ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã®åå¾©å­ã‚’å–å¾—ã™ã‚‹
-		Iterator<Entry<String, List<? extends Object>>> it = entrySet.iterator();
+		// ƒL[‚Æ’l‚ÌƒRƒŒƒNƒVƒ‡ƒ“‚Ì”½•œq‚ğæ“¾‚·‚é
+		Iterator<Entry<String, List<? extends Object>>> it = entrySet
+				.iterator();
 
-		// æ¬¡ã®è¦ç´ ãŒã¾ã å­˜åœ¨ã™ã‚‹å ´åˆã¯trueãŒè¿”ã•ã‚Œã‚‹
-		while (it.hasNext())
-		{
-			// ã‚­ãƒ¼ã¨å€¤ã‚’ã‚»ãƒƒãƒˆã‚’æŒã¤ã€Map.Entryå‹ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾—ã™ã‚‹
+		// Ÿ‚Ì—v‘f‚ª‚Ü‚¾‘¶İ‚·‚éê‡‚Ítrue‚ª•Ô‚³‚ê‚é
+		while (it.hasNext()) {
+			// ƒL[‚Æ’l‚ğƒZƒbƒg‚ğ‚ÂAMap.EntryŒ^‚ÌƒIƒuƒWƒFƒNƒg‚ğæ“¾‚·‚é
 			Entry<String, List<? extends Object>> entry = it.next();
 
-			// Map.Entryå‹ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‹ã‚‰ã‚­ãƒ¼ã‚’å–å¾—ã™ã‚‹
+			// Map.EntryŒ^‚ÌƒIƒuƒWƒFƒNƒg‚©‚çƒL[‚ğæ“¾‚·‚é
 			String key = entry.getKey();
 
-			// ã‚­ãƒ¼ãŒnullã ã£ãŸå ´åˆã¯ã€ãƒ¬ãƒãƒ¼ãƒˆã‚’å‡ºåŠ›ã—ãªã„ã€‚
-			if (key == null)
-			{
+			// ƒL[‚ªnull‚¾‚Á‚½ê‡‚ÍAƒŒƒ|[ƒg‚ğo—Í‚µ‚È‚¢B
+			if (key == null) {
 				continue;
 			}
 
-			// Map.Entryå‹ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‹ã‚‰å€¤ã‚’å–å¾—ã™ã‚‹
+			// Map.EntryŒ^‚ÌƒIƒuƒWƒFƒNƒg‚©‚ç’l‚ğæ“¾‚·‚é
 			List<ItemData> value = (List<ItemData>) entry.getValue();
 
-			// å‡ºåŠ›ã™ã‚‹ãƒ¬ãƒãƒ¼ãƒˆã®ç¨®é¡ã«ã‚ã‚ã›ã¦ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã®ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã‚’å–å¾—ã™ã‚‹
+			// o—Í‚·‚éƒŒƒ|[ƒg‚Ìí—Ş‚É‚ ‚í‚¹‚Äƒeƒ“ƒvƒŒ[ƒg‚Ìƒtƒ@ƒCƒ‹ƒpƒX‚ğæ“¾‚·‚é
 			String templateFilePath;
-			try
-			{
+			try {
 				ReportType reportType;
 
-				// ç©ç®—ã‚µãƒãƒªã‹ã€å¹³å‡ã‚µãƒãƒªã‹ã‚’åˆ¤åˆ¥ã™ã‚‹
+				// ÏZƒTƒ}ƒŠ‚©A•½‹ÏƒTƒ}ƒŠ‚©‚ğ”»•Ê‚·‚é
 				boolean isTotalSummary = this.judgeTotalSummary(key);
-				if (isTotalSummary)
-				{
+				if (isTotalSummary) {
 					reportType = ReportType.OBJECT_TOTAL;
-				}
-				else
-				{
+				} else {
 					reportType = ReportType.OBJECT_AVERAGE;
 				}
 
-				templateFilePath = TemplateFileManager.getInstance().getTemplateFile(reportType);
-			}
-			catch (IOException exception)
-			{
+				templateFilePath = TemplateFileManager.getInstance()
+						.getTemplateFile(reportType);
+			} catch (IOException exception) {
 				reportContainer.setHappendedError(exception);
 				return;
 			}
 
-			// ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã‚’å®Ÿè¡Œã™ã‚‹
+			// ƒŒƒ|[ƒgo—Í‚ğÀs‚·‚é
 			RecordReporter<ObjectRecord> reporter = new RecordReporter<ObjectRecord>(
-				getReportType());
-			reporter.outputReports(templateFilePath, outputFolderPath + File.separator + key,
-				value, startTime, endTime);
+					getReportType());
+			reporter.outputReports(templateFilePath, outputFolderPath
+					+ File.separator + key, value, startTime, endTime);
 		}
 	}
 
 	/**
-	 * ç©ç®—ã‚µãƒãƒªã‚’ã™ã‚‹é …ç›®ã‹åˆ¤æ–­ã™ã‚‹ã€‚<br>
-	 * ç©ç®—ã‚µãƒãƒªã‚’ã™ã‚‹é …ç›®ã§ã‚ã‚‹å ´åˆã«trueã‚’è¿”ã™ã€‚
+	 * ÏZƒTƒ}ƒŠ‚ğ‚·‚é€–Ú‚©”»’f‚·‚éB<br>
+	 * ÏZƒTƒ}ƒŠ‚ğ‚·‚é€–Ú‚Å‚ ‚éê‡‚Étrue‚ğ•Ô‚·B
 	 * 
 	 * @param itemName
-	 *            é …ç›®å
-	 * @return ç©ç®—ã‚µãƒãƒªã‚’ã™ã‚‹é …ç›®ã§ã‚ã‚‹å ´åˆã«true
+	 *            €–Ú–¼
+	 * @return ÏZƒTƒ}ƒŠ‚ğ‚·‚é€–Ú‚Å‚ ‚éê‡‚Étrue
 	 */
-	private boolean judgeTotalSummary(String itemName)
-	{
-		if (itemName == null)
-		{
+	private boolean judgeTotalSummary(String itemName) {
+		if (itemName == null) {
 			return false;
 		}
 
-		// ç©ç®—ã‚°ãƒ©ãƒ•ã®measurement_item_nameã«å¯¾ã—ã¦å¾Œæ–¹ä¸€è‡´ã™ã‚‹æ–‡å­—åˆ—ã‚’ä½¿ã£ã¦ã€
-		// ç©ç®—ã‚°ãƒ©ãƒ•ã‹ã©ã†ã‹ç¢ºèªã™ã‚‹ã€‚
-		for (String backwardMatchStr : sumGraphBackwardMatchList)
-		{
-			if (itemName.endsWith(backwardMatchStr))
-			{
+		// ÏZƒOƒ‰ƒt‚Ìmeasurement_item_name‚É‘Î‚µ‚ÄŒã•ûˆê’v‚·‚é•¶š—ñ‚ğg‚Á‚ÄA
+		// ÏZƒOƒ‰ƒt‚©‚Ç‚¤‚©Šm”F‚·‚éB
+		for (String backwardMatchStr : sumGraphBackwardMatchList) {
+			if (itemName.endsWith(backwardMatchStr)) {
 				return true;
 			}
 		}
 
-		// ç©ç®—ã‚°ãƒ©ãƒ•ã®measurement_item_nameã«å¯¾ã—ã¦éƒ¨åˆ†ä¸€è‡´ã™ã‚‹æ­£è¦è¡¨ç¾ã‚’ä½¿ã£ã¦ã€
-		// ç©ç®—ã‚°ãƒ©ãƒ•ã‹ã©ã†ã‹ç¢ºèªã™ã‚‹ã€‚
-		for (String particalMatchStr : sumGraphPartialMatchList)
-		{
-			if (itemName.matches(particalMatchStr))
-			{
+		// ÏZƒOƒ‰ƒt‚Ìmeasurement_item_name‚É‘Î‚µ‚Ä•”•ªˆê’v‚·‚é³‹K•\Œ»‚ğg‚Á‚ÄA
+		// ÏZƒOƒ‰ƒt‚©‚Ç‚¤‚©Šm”F‚·‚éB
+		for (String particalMatchStr : sumGraphPartialMatchList) {
+			if (itemName.matches(particalMatchStr)) {
 				return true;
 			}
 		}

@@ -54,7 +54,7 @@ import jp.co.dgic.testing.common.virtualmock.MockObjectManager;
 import jp.co.dgic.testing.framework.DJUnitTestCase;
 
 /**
- * {@link JavelinDataLogger} ã®ãŸã‚ã®ãƒ†ã‚¹ãƒˆã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+ * {@link JavelinDataLogger} ‚Ì‚½‚ß‚ÌƒeƒXƒgƒNƒ‰ƒX‚Å‚·B<br />
  * 
  * @author iida
  */
@@ -72,13 +72,13 @@ public class JavelinDataLoggerTest extends DJUnitTestCase
     }
 
     /**
-     * ãƒªã‚½ãƒ¼ã‚¹ãƒ‡ãƒ¼ã‚¿ã®DBã¸ã®æ›¸ãè¾¼ã¿æ™‚ã«ã€BottleneckEyeã¸ã®é€šçŸ¥ã‚‚è¡Œã‚ã‚Œã‚‹äº‹ã‚’ç¢ºèªã™ã‚‹ã€‚
-     * @throws Exception ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * ƒŠƒ\[ƒXƒf[ƒ^‚ÌDB‚Ö‚Ì‘‚«‚İ‚ÉABottleneckEye‚Ö‚Ì’Ê’m‚às‚í‚ê‚é–‚ğŠm”F‚·‚éB
+     * @throws Exception —áŠO‚ª”­¶‚µ‚½ê‡
      */
     public void testLogResourceData_Connect()
         throws Exception
     {
-        // æº–å‚™
+        // €”õ
         addReturnValue(JavelinDataLogger.class, "calculateAndAddCpuUsageData");
         addReturnValue(JavelinDataLogger.class, "calculateAndAddCoverageData");
         addReturnValue(ResourceDataDaoUtil.class, "insert");
@@ -89,7 +89,7 @@ public class JavelinDataLoggerTest extends DJUnitTestCase
         String database = "database";
         JavelinDataLogger javelinDataLogger = createJavelinDataLogger(database);
 
-        // å®Ÿè¡Œ
+        // Às
         Class<?> cls = javelinDataLogger.getClass();
         Method method = cls.getDeclaredMethod("logResourceData", String.class, ResourceData.class);
         method.setAccessible(true);
@@ -99,19 +99,19 @@ public class JavelinDataLoggerTest extends DJUnitTestCase
 
         int afterCount = getCallCount("CommunicationServerImpl", "sendTelegram");
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(beforeCount + 1, afterCount);
 
     }
 
     /**
-     * ãƒªã‚½ãƒ¼ã‚¹ãƒ‡ãƒ¼ã‚¿ã®DBã¸ã®æ›¸ãè¾¼ã¿æ™‚ã«ã€BottleneckEyeã¸ã®é€šçŸ¥ã‚‚è¡Œã‚ã‚Œã‚‹äº‹ã‚’ç¢ºèªã™ã‚‹ã€‚
-     * @throws Exception ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * ƒŠƒ\[ƒXƒf[ƒ^‚ÌDB‚Ö‚Ì‘‚«‚İ‚ÉABottleneckEye‚Ö‚Ì’Ê’m‚às‚í‚ê‚é–‚ğŠm”F‚·‚éB
+     * @throws Exception —áŠO‚ª”­¶‚µ‚½ê‡
      */
     public void testLogResourceData_disconnect()
         throws Exception
     {
-        // æº–å‚™
+        // €”õ
         addReturnValue(JavelinDataLogger.class, "calculateAndAddCpuUsageData");
         addReturnValue(JavelinDataLogger.class, "calculateAndAddCoverageData");
         addReturnValue(ResourceDataDaoUtil.class, "insert");
@@ -122,7 +122,7 @@ public class JavelinDataLoggerTest extends DJUnitTestCase
         String database = "database";
         JavelinDataLogger javelinDataLogger = createJavelinDataLogger(database);
 
-        // å®Ÿè¡Œ
+        // Às
         Class<?> cls = javelinDataLogger.getClass();
         Method method =
                         cls.getDeclaredMethod("logResourceData", String.class, ResourceData.class,
@@ -134,31 +134,31 @@ public class JavelinDataLoggerTest extends DJUnitTestCase
 
         int afterCount = getCallCount("CommunicationServerImpl", "sendTelegram");
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(beforeCount, afterCount);
 
     }
 
     /**
-     * æ¥ç¶šé›»æ–‡(æ¥ç¶šé–‹å§‹ã‚¤ãƒ™ãƒ³ãƒˆ)
-     * JavelinConnectionDataã®æ¥ç¶šé–‹å§‹ãƒ•ãƒ©ã‚°(connectionData_)ã‚’trueã«ã—ã€
-     * JavelinDataLogger#logJavelinDataã‚’å®Ÿè¡Œã™ã‚‹ã€‚
+     * Ú‘±“d•¶(Ú‘±ŠJnƒCƒxƒ“ƒg)
+     * JavelinConnectionData‚ÌÚ‘±ŠJnƒtƒ‰ƒO(connectionData_)‚ğtrue‚É‚µA
+     * JavelinDataLogger#logJavelinData‚ğÀs‚·‚éB
      * 
-     * [çµæœ]
-     * CommunicationServerImpl#sendTelegramãŒä¸€åº¦ã‚‚å‘¼ã°ã‚Œãªã„ã“ã¨ã€‚
+     * [Œ‹‰Ê]
+     * CommunicationServerImpl#sendTelegram‚ªˆê“x‚àŒÄ‚Î‚ê‚È‚¢‚±‚ÆB
      * 
-     * @throws Exception ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @throws Exception —áŠO‚ª”­¶‚µ‚½ê‡
      */
     public void testLogJavelinData_connect()
         throws Exception
     {
-        // æº–å‚™
+        // €”õ
         int beforeCount = getCallCount("CommunicationServerImpl", "sendTelegram");
 
         String database = "database";
         JavelinDataLogger javelinDataLogger = createJavelinDataLogger(database);
 
-        // å®Ÿè¡Œ
+        // Às
         Method method = getLogJavelinData();
 
         boolean connectionData = true;
@@ -166,7 +166,7 @@ public class JavelinDataLoggerTest extends DJUnitTestCase
 
         method.invoke(javelinDataLogger, javelinLogData);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         int afterCount = getCallCount("CommunicationServerImpl", "sendTelegram");
 
         assertEquals(beforeCount, afterCount);
@@ -174,21 +174,21 @@ public class JavelinDataLoggerTest extends DJUnitTestCase
     }
 
     /**
-     * æ¥ç¶šé›»æ–‡(åˆ‡æ–­ã‚¤ãƒ™ãƒ³ãƒˆ/å‰å›ã®ãƒ‡ãƒ¼ã‚¿ã‚ã‚Š)
-     * <li>JavelinConnectionDataã®æ¥ç¶šé–‹å§‹ãƒ•ãƒ©ã‚°(connectionData_)ã‚’falseã«ã™ã‚‹ã€‚</li>
-     * <li>prevConvertedResourceDataMap_ã®è¿”ã‚Šå€¤ã‚’è¨­å®šã™ã‚‹</li>
-     * <li>JavelinDataLogger#logJavelinDataã‚’å®Ÿè¡Œã™ã‚‹ã€‚</li>
+     * Ú‘±“d•¶(Ø’fƒCƒxƒ“ƒg/‘O‰ñ‚Ìƒf[ƒ^‚ ‚è)
+     * <li>JavelinConnectionData‚ÌÚ‘±ŠJnƒtƒ‰ƒO(connectionData_)‚ğfalse‚É‚·‚éB</li>
+     * <li>prevConvertedResourceDataMap_‚Ì•Ô‚è’l‚ğİ’è‚·‚é</li>
+     * <li>JavelinDataLogger#logJavelinData‚ğÀs‚·‚éB</li>
      * 
      * 
-     * [çµæœ]
-     * CommunicationServerImpl#sendTelegramãŒå‘¼ã°ã‚Œã¦ã„ãªã„ã“ã¨ã€‚
+     * [Œ‹‰Ê]
+     * CommunicationServerImpl#sendTelegram‚ªŒÄ‚Î‚ê‚Ä‚¢‚È‚¢‚±‚ÆB
      * 
-     * @throws Exception ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @throws Exception —áŠO‚ª”­¶‚µ‚½ê‡
      */
     public void testLogJavelinData_disConnectPrevData()
         throws Exception
     {
-        // æº–å‚™
+        // €”õ
         addReturnValue(ResourceDataDaoUtil.class, "insert");
         addReturnValue(JavelinDataLogger.class, "alarmThresholdExceedance");
         addReturnValue(JavelinDataLogger.class, "calculateAndAddCpuUsageData");
@@ -201,7 +201,7 @@ public class JavelinDataLoggerTest extends DJUnitTestCase
         String database = "database";
         JavelinDataLogger javelinDataLogger = createJavelinDataLogger(database);
 
-        // prevConvertedResourceDataMap_ã‚’å–å¾—ã™ã‚‹ã€‚
+        // prevConvertedResourceDataMap_‚ğæ“¾‚·‚éB
         Class<?> cls = javelinDataLogger.getClass();
         Field prevConvertedResourceDataMap = cls.getDeclaredField("prevConvertedResourceDataMap_");
         prevConvertedResourceDataMap.setAccessible(true);
@@ -212,7 +212,7 @@ public class JavelinDataLoggerTest extends DJUnitTestCase
         resourceDataMap.put(database, resourceData);
         prevConvertedResourceDataMap.set(javelinDataLogger, resourceDataMap);
 
-        // å®Ÿè¡Œ
+        // Às
         Method method = getLogJavelinData();
 
         boolean connectionData = false;
@@ -221,7 +221,7 @@ public class JavelinDataLoggerTest extends DJUnitTestCase
 
         method.invoke(javelinDataLogger, javelinLogData);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         int afterCount = getCallCount("CommunicationServerImpl", "sendTelegram");
 
         assertEquals(beforeCount, afterCount);
@@ -229,27 +229,27 @@ public class JavelinDataLoggerTest extends DJUnitTestCase
     }
 
     /**
-     * æ¥ç¶šé›»æ–‡(åˆ‡æ–­ã‚¤ãƒ™ãƒ³ãƒˆ/å‰å›ã®ãƒ‡ãƒ¼ã‚¿ãªã—)
-     * <li>JavelinConnectionDataã®æ¥ç¶šé–‹å§‹ãƒ•ãƒ©ã‚°(connectionData_)ã‚’falseã«ã™ã‚‹ã€‚</li>
-     * <li>prevConvertedResourceDataMap_ã®è¿”ã‚Šå€¤ã‚’è¨­å®šã—ãªã„</li>
-     * <li>JavelinDataLogger#logJavelinDataã‚’å®Ÿè¡Œã™ã‚‹ã€‚</li>
+     * Ú‘±“d•¶(Ø’fƒCƒxƒ“ƒg/‘O‰ñ‚Ìƒf[ƒ^‚È‚µ)
+     * <li>JavelinConnectionData‚ÌÚ‘±ŠJnƒtƒ‰ƒO(connectionData_)‚ğfalse‚É‚·‚éB</li>
+     * <li>prevConvertedResourceDataMap_‚Ì•Ô‚è’l‚ğİ’è‚µ‚È‚¢</li>
+     * <li>JavelinDataLogger#logJavelinData‚ğÀs‚·‚éB</li>
      * 
      * 
-     * [çµæœ]
-     * CommunicationServerImpl#sendTelegramãŒå‘¼ã°ã‚Œã¦ã„ãªã„ã“ã¨ã€‚
+     * [Œ‹‰Ê]
+     * CommunicationServerImpl#sendTelegram‚ªŒÄ‚Î‚ê‚Ä‚¢‚È‚¢‚±‚ÆB
      * 
-     * @throws Exception ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @throws Exception —áŠO‚ª”­¶‚µ‚½ê‡
      */
     public void testLogJavelinData_disConnectPrevNoData()
         throws Exception
     {
-        // æº–å‚™
+        // €”õ
         int beforeCount = getCallCount("CommunicationServerImpl", "sendTelegram");
 
         String database = "database";
         JavelinDataLogger javelinDataLogger = createJavelinDataLogger(database);
 
-        // å®Ÿè¡Œ
+        // Às
         Method method = getLogJavelinData();
 
         boolean connectionData = false;
@@ -257,7 +257,7 @@ public class JavelinDataLoggerTest extends DJUnitTestCase
 
         method.invoke(javelinDataLogger, javelinLogData);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         int afterCount = getCallCount("CommunicationServerImpl", "sendTelegram");
 
         assertEquals(beforeCount, afterCount);
@@ -265,22 +265,22 @@ public class JavelinDataLoggerTest extends DJUnitTestCase
     }
 
     /**
-     * ãƒªã‚½ãƒ¼ã‚¹é€šçŸ¥é›»æ–‡(åˆå›æ¥ç¶š)
-     * <li>JavelinConnectionDataã®connectionData_ãƒ•ãƒ©ã‚°ã‚’trueã«ã™ã‚‹ã€‚</li>
-     * <li>JavelinDataLogger#logJavelinDataã«å¯¾ã—ã¦ã€
-     * JavelinMeasurementDataã‚’å¼•æ•°ã«ã—ã¦å‘¼ã³å‡ºã™ã€‚</li>
+     * ƒŠƒ\[ƒX’Ê’m“d•¶(‰‰ñÚ‘±)
+     * <li>JavelinConnectionData‚ÌconnectionData_ƒtƒ‰ƒO‚ğtrue‚É‚·‚éB</li>
+     * <li>JavelinDataLogger#logJavelinData‚É‘Î‚µ‚ÄA
+     * JavelinMeasurementData‚ğˆø”‚É‚µ‚ÄŒÄ‚Ño‚·B</li>
      * 
      * 
-     * [çµæœ]
-     * CommunicationServerImpl#sendTelegramãŒ2å›å‘¼ã°ã‚Œã¦ã„ã‚‹ã“ã¨ã€‚
-     * (åˆæœŸå€¤ç”¨ã®é›»æ–‡ã€å—ä¿¡ã—ãŸé›»æ–‡ã®ã†ã¡ã€å—ä¿¡ã—ãŸé›»æ–‡ã®ã¿é€ä¿¡)
+     * [Œ‹‰Ê]
+     * CommunicationServerImpl#sendTelegram‚ª2‰ñŒÄ‚Î‚ê‚Ä‚¢‚é‚±‚ÆB
+     * (‰Šú’l—p‚Ì“d•¶AóM‚µ‚½“d•¶‚Ì‚¤‚¿AóM‚µ‚½“d•¶‚Ì‚İ‘—M)
      * 
-     * @throws Exception ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @throws Exception —áŠO‚ª”­¶‚µ‚½ê‡
      */
     public void testLogJavelinData_measurementFirstEvent()
         throws Exception
     {
-        // æº–å‚™
+        // €”õ
         addReturnValue(ResourceDataDaoUtil.class, "insert");
         setReturnValueAtAllTimes(JavelinDataLogger.class, "alarmThresholdExceedance");
         setReturnValueAtAllTimes(JavelinDataLogger.class, "calculateAndAddCpuUsageData");
@@ -304,13 +304,13 @@ public class JavelinDataLoggerTest extends DJUnitTestCase
         JavelinConnectionData javelinConnectionData = new JavelinConnectionData(connectionData);
         method.invoke(javelinDataLogger, javelinConnectionData);
 
-        // å®Ÿè¡Œ
+        // Às
         JavelinMeasurementData javelinLogData = new JavelinMeasurementData(resourceData);
         javelinLogData.setDatabaseName(database);
 
         method.invoke(javelinDataLogger, javelinLogData);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         int afterCount = getCallCount("CommunicationServerImpl", "sendTelegram");
 
         assertEquals(beforeCount + 1, afterCount);
@@ -318,21 +318,21 @@ public class JavelinDataLoggerTest extends DJUnitTestCase
     }
 
     /**
-     * ãƒªã‚½ãƒ¼ã‚¹é€šçŸ¥é›»æ–‡(2å›ç›®ä»¥é™)
-     * <li>JavelinDataLogger#logJavelinDataã«å¯¾ã—ã¦ã€JavelinConnectionDataã‚’å¼•æ•°ã«ã—ã¦å‘¼ã³å‡ºã™ã€‚</li>
-     * <li>JavelinDataLogger#logJavelinDataã«å¯¾ã—ã¦ã€JavelinMeasurementDataã‚’å¼•æ•°ã«ã—ã¦å‘¼ã³å‡ºã™ã€‚</li>
+     * ƒŠƒ\[ƒX’Ê’m“d•¶(2‰ñ–ÚˆÈ~)
+     * <li>JavelinDataLogger#logJavelinData‚É‘Î‚µ‚ÄAJavelinConnectionData‚ğˆø”‚É‚µ‚ÄŒÄ‚Ño‚·B</li>
+     * <li>JavelinDataLogger#logJavelinData‚É‘Î‚µ‚ÄAJavelinMeasurementData‚ğˆø”‚É‚µ‚ÄŒÄ‚Ño‚·B</li>
      * 
      * 
-     * [çµæœ]
-     * CommunicationServerImpl#sendTelegramãŒ1å›å‘¼ã°ã‚Œã¦ã„ã‚‹ã“ã¨ã€‚
-     * (å—ä¿¡ã—ãŸé›»æ–‡)
+     * [Œ‹‰Ê]
+     * CommunicationServerImpl#sendTelegram‚ª1‰ñŒÄ‚Î‚ê‚Ä‚¢‚é‚±‚ÆB
+     * (óM‚µ‚½“d•¶)
      * 
-     * @throws Exception ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @throws Exception —áŠO‚ª”­¶‚µ‚½ê‡
      */
     public void testLogJavelinData_testLogResourceData_measurementSecondEvent()
         throws Exception
     {
-        // æº–å‚™
+        // €”õ
         addReturnValue(ResourceDataDaoUtil.class, "insert");
         setReturnValueAtAllTimes(JavelinDataLogger.class, "alarmThresholdExceedance");
         setReturnValueAtAllTimes(JavelinDataLogger.class, "calculateAndAddCpuUsageData");
@@ -345,7 +345,7 @@ public class JavelinDataLoggerTest extends DJUnitTestCase
         String database = "database";
         JavelinDataLogger javelinDataLogger = createJavelinDataLogger(database);
 
-        // prevConvertedResourceDataMap_ã‚’å–å¾—ã™ã‚‹ã€‚
+        // prevConvertedResourceDataMap_‚ğæ“¾‚·‚éB
         Class<?> cls = javelinDataLogger.getClass();
         Field prevConvertedResourceDataMap = cls.getDeclaredField("prevConvertedResourceDataMap_");
         prevConvertedResourceDataMap.setAccessible(true);
@@ -356,7 +356,7 @@ public class JavelinDataLoggerTest extends DJUnitTestCase
         resourceDataMap.put(database, resourceData);
         prevConvertedResourceDataMap.set(javelinDataLogger, resourceDataMap);
 
-        // å®Ÿè¡Œ
+        // Às
         Method method = getLogJavelinData();
 
         JavelinMeasurementData javelinLogData = new JavelinMeasurementData(resourceData);
@@ -364,7 +364,7 @@ public class JavelinDataLoggerTest extends DJUnitTestCase
 
         method.invoke(javelinDataLogger, javelinLogData);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         int afterCount = getCallCount("CommunicationServerImpl", "sendTelegram");
 
         assertEquals(beforeCount + 1, afterCount);
@@ -372,42 +372,42 @@ public class JavelinDataLoggerTest extends DJUnitTestCase
     }
 
     /**
-     * å¯¾è±¡å¤–ã®é›»æ–‡(æ¥ç¶šé›»æ–‡ã€Javelinãƒ­ã‚°é€šçŸ¥é›»æ–‡ã€ãƒªã‚½ãƒ¼ã‚¹é€šçŸ¥é›»æ–‡ä»¥å¤–)
-     * <li>JavelinConnectionDataã‚’ç¶™æ‰¿ã—ãŸã€MockJavelinConnectionDataã‚’ä½œæˆã™ã‚‹ã€‚</li>
-     * <li>JavelinDataLogger#logJavelinDataã‚’å®Ÿè¡Œã™ã‚‹ã€‚</li>
+     * ‘ÎÛŠO‚Ì“d•¶(Ú‘±“d•¶AJavelinƒƒO’Ê’m“d•¶AƒŠƒ\[ƒX’Ê’m“d•¶ˆÈŠO)
+     * <li>JavelinConnectionData‚ğŒp³‚µ‚½AMockJavelinConnectionData‚ğì¬‚·‚éB</li>
+     * <li>JavelinDataLogger#logJavelinData‚ğÀs‚·‚éB</li>
      * 
      * 
-     * [çµæœ]
-     * CommunicationServerImpl#sendTelegramãŒå‘¼ã°ã‚Œã¦ã„ãªã„ã“ã¨ã€‚
+     * [Œ‹‰Ê]
+     * CommunicationServerImpl#sendTelegram‚ªŒÄ‚Î‚ê‚Ä‚¢‚È‚¢‚±‚ÆB
      * 
-     * @throws Exception ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @throws Exception —áŠO‚ª”­¶‚µ‚½ê‡
      */
     public void testLogJavelinData_testLogResourceData_otherData()
         throws Exception
     {
-        // æº–å‚™
+        // €”õ
         int beforeCount = getCallCount("CommunicationServerImpl", "sendTelegram");
 
         String database = "database";
         JavelinDataLogger javelinDataLogger = createJavelinDataLogger(database);
         Method method = getLogJavelinData();
 
-        // å®Ÿè¡Œ
+        // Às
         MockJavelinData javelinData = new MockJavelinData();
         method.invoke(javelinDataLogger, javelinData);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         int afterCount = getCallCount("CommunicationServerImpl", "sendTelegram");
         assertEquals(beforeCount, afterCount);
 
     }
 
     /**
-     * JavelinDataLoggerã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆã—ã¾ã™ã€‚
-     * @param dataBase ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @return {@link JavelinDataLogger}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @throws IOException å…¥å‡ºåŠ›ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
-     * @throws InitializeException åˆæœŸåŒ–æ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * JavelinDataLoggerƒIƒuƒWƒFƒNƒg‚ğì¬‚µ‚Ü‚·B
+     * @param dataBase ƒf[ƒ^ƒx[ƒX–¼
+     * @return {@link JavelinDataLogger}ƒIƒuƒWƒFƒNƒg
+     * @throws IOException “üo—Í—áŠO‚ª”­¶‚µ‚½ê‡
+     * @throws InitializeException ‰Šú‰»‚É—áŠO‚ª”­¶‚µ‚½ê‡
      */
     private JavelinDataLogger createJavelinDataLogger(final String dataBase)
         throws IOException,
@@ -427,10 +427,10 @@ public class JavelinDataLoggerTest extends DJUnitTestCase
     }
 
     /**
-     * JavelinDataLogger#logJavelinDataã‚’å–å¾—ã—ã¾ã™ã€‚
-     * @return JavelinDataLogger#logJavelinDataãƒ¡ã‚½ãƒƒãƒ‰
-     * @throws NoSuchMethodException ãƒ¡ã‚½ãƒƒãƒ‰ãŒè¦‹ã¤ã‹ã‚‰ãªã„å ´åˆ
-     * @throws ClassNotFoundException ã‚¯ãƒ©ã‚¹ãŒè¦‹ã¤ã‹ã‚‰ãªã„å ´åˆ
+     * JavelinDataLogger#logJavelinData‚ğæ“¾‚µ‚Ü‚·B
+     * @return JavelinDataLogger#logJavelinDataƒƒ\ƒbƒh
+     * @throws NoSuchMethodException ƒƒ\ƒbƒh‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡
+     * @throws ClassNotFoundException ƒNƒ‰ƒX‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡
      */
     private Method getLogJavelinData()
         throws NoSuchMethodException,

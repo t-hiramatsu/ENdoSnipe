@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‹ã‚‰ SQL ã‚’æ–‡å˜ä½ã§èª­ã¿è¾¼ã‚€ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+ * ƒXƒgƒŠ[ƒ€‚©‚ç SQL ‚ğ•¶’PˆÊ‚Å“Ç‚İ‚ŞƒNƒ‰ƒX‚Å‚·B<br />
  * 
  * @author y-komori
  */
@@ -41,14 +41,14 @@ public class SQLReader
 
     private final InputStreamReader reader_;
 
-    private int ch_ = -1; // èª­è¾¼å¯¾è±¡æ–‡å­—
+    private int ch_ = -1; // “Ç‘ÎÛ•¶š
 
-    private int nextCh_ = -1; // 1æ–‡å­—å…ˆèª­ã¿ç”¨ãƒãƒƒãƒ•ã‚¡
+    private int nextCh_ = -1; // 1•¶šæ“Ç‚İ—pƒoƒbƒtƒ@
 
     /**
-     * {@link SQLReader} ã‚’æ§‹ç¯‰ã—ã¾ã™ã€‚<br />
+     * {@link SQLReader} ‚ğ\’z‚µ‚Ü‚·B<br />
      * 
-     * @param reader å…¥åŠ›ã‚¹ãƒˆãƒªãƒ¼ãƒ 
+     * @param reader “ü—ÍƒXƒgƒŠ[ƒ€
      */
     public SQLReader(final InputStreamReader reader)
     {
@@ -61,13 +61,13 @@ public class SQLReader
     }
 
     /**
-     * å…¥åŠ›ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‹ã‚‰ SQL æ–‡ã‚’èª­ã¿è¾¼ã¿ã¾ã™ã€‚<br />
+     * “ü—ÍƒXƒgƒŠ[ƒ€‚©‚ç SQL •¶‚ğ“Ç‚İ‚İ‚Ü‚·B<br />
      * 
-     * SQL ã¯ã‚»ãƒŸã‚³ãƒ­ãƒ³ã§åŒºåˆ‡ã‚‰ã‚Œã¾ã™ã€‚SQL ã‚³ãƒ¡ãƒ³ãƒˆã¯ç„¡è¦–ã•ã‚Œã¾ã™ã€‚<br />SQL
-     * ã‚³ãƒ¡ãƒ³ãƒˆã¯1è¡Œã‚³ãƒ¡ãƒ³ãƒˆã¨ã€è¤‡æ•°è¡Œã‚³ãƒ¡ãƒ³ãƒˆã®ä¸¡æ–¹ã‚’ã‚µãƒãƒ¼ãƒˆã—ã¾ã™ã€‚
+     * SQL ‚ÍƒZƒ~ƒRƒƒ“‚Å‹æØ‚ç‚ê‚Ü‚·BSQL ƒRƒƒ“ƒg‚Í–³‹‚³‚ê‚Ü‚·B<br />SQL
+     * ƒRƒƒ“ƒg‚Í1sƒRƒƒ“ƒg‚ÆA•¡”sƒRƒƒ“ƒg‚Ì—¼•û‚ğƒTƒ|[ƒg‚µ‚Ü‚·B
      * 
-     * @return èª­ã¿è¾¼ã‚“ã  SQL ã®ãƒªã‚¹ãƒˆ
-     * @throws IOException å…¥å‡ºåŠ›ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @return “Ç‚İ‚ñ‚¾ SQL ‚ÌƒŠƒXƒg
+     * @throws IOException “üo—ÍƒGƒ‰[‚ª”­¶‚µ‚½ê‡
      */
     public List<String> readSql()
         throws IOException
@@ -81,18 +81,18 @@ public class SQLReader
             read();
             if (ch_ == -1)
             {
-                // ã‚¹ãƒˆãƒªãƒ¼ãƒ ã®çµ‚ç«¯ã«é”ã—ãŸ
+                // ƒXƒgƒŠ[ƒ€‚ÌI’[‚É’B‚µ‚½
                 break;
             }
             if (ch_ == '\n' || ch_ == '\r')
             {
-                // æ”¹è¡Œã®èª­ã¿é£›ã°ã—
+                // ‰üs‚Ì“Ç‚İ”ò‚Î‚µ
                 continue;
             }
 
             if (commentDepth > 0)
             {
-                // ã‚³ãƒ¡ãƒ³ãƒˆä¸­ã®å ´åˆ
+                // ƒRƒƒ“ƒg’†‚Ìê‡
                 if (ch_ == '/' && nextCh_ == '*')
                 {
                     commentDepth++;
@@ -101,7 +101,7 @@ public class SQLReader
                 if (ch_ == '*' && nextCh_ == '/')
                 {
                     commentDepth--;
-                    read(); // '/' ã‚’èª­ã¿é£›ã°ã™
+                    read(); // '/' ‚ğ“Ç‚İ”ò‚Î‚·
                     continue;
                 }
             }

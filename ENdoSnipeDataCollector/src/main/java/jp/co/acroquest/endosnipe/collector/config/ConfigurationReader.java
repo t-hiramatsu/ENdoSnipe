@@ -47,78 +47,78 @@ import jp.co.acroquest.endosnipe.common.util.StreamUtil;
 import jp.co.acroquest.endosnipe.data.db.DatabaseType;
 
 /**
- * ENdoSnipe DataCollector гЃ®иЁ­е®љгѓ•г‚Ўг‚¤гѓ«г‚’иЄ­гЃїиѕјг‚ЂгЃџг‚ЃгЃ®г‚Їгѓ©г‚№гЃ§гЃ™гЂ‚<br />
+ * ENdoSnipe DataCollector ‚МђЭ’иѓtѓ@ѓCѓ‹‚р“З‚ЭЌћ‚Ю‚Ѕ‚Я‚МѓNѓ‰ѓX‚Е‚·ЃB<br />
  * 
  * <p>
- * <b>иЁ­е®љгѓ•г‚Ўг‚¤гѓ«гЃ®ж›ёејЏ</b><br />
- * иЁ­е®љгѓ•г‚Ўг‚¤гѓ«гЃЇ Java жЁ™жє–гЃ®гѓ—гѓ­гѓ‘гѓ†г‚Јгѓ•г‚Ўг‚¤гѓ«еЅўејЏгЃ§гЃ™гЂ‚<br />
- * еђ„г‚­гѓјгЃЇгЂЃгЂЊ<i>г‚­гѓјеђЌ</i>.<i>г‚Ёгѓјг‚ёг‚§гѓігѓ€ID</i>гЂЌгЃ®еЅўејЏгЃ§гЂЃ
- * и¤‡ж•°гЃ®г‚Ёгѓјг‚ёг‚§гѓігѓ€гЃёгЃ®жЋҐз¶љгѓ‘гѓ©гѓЎгѓјг‚їг‚’иЁиї°гЃ§гЃЌгЃѕгЃ™гЂ‚<br />
- * гЃ“гЃ“гЃ§гЂЃг‚Ёгѓјг‚ёг‚§гѓігѓ€IDгЃЇгѓ”гѓЄг‚Єгѓ‰г‚’еђ«гЃѕгЃЄгЃ„д»»ж„ЏгЃ®ж–‡е­—е€—гЃЁгЃ—гЃѕгЃ™гЂ‚<br />
+ * <b>ђЭ’иѓtѓ@ѓCѓ‹‚МЏ‘Ћ®</b><br />
+ * ђЭ’иѓtѓ@ѓCѓ‹‚Н Java •WЏЂ‚МѓvѓЌѓpѓeѓBѓtѓ@ѓCѓ‹Њ`Ћ®‚Е‚·ЃB<br />
+ * ЉeѓLЃ[‚НЃAЃu<i>ѓLЃ[–ј</i>.<i>ѓGЃ[ѓWѓFѓ“ѓgID</i>Ѓv‚МЊ`Ћ®‚ЕЃA
+ * •Ўђ”‚МѓGЃ[ѓWѓFѓ“ѓg‚Ц‚МђЪ‘±ѓpѓ‰ѓЃЃ[ѓ^‚р‹LЏq‚Е‚«‚Ь‚·ЃB<br />
+ * ‚±‚±‚ЕЃAѓGЃ[ѓWѓFѓ“ѓgID‚НѓsѓЉѓIѓh‚рЉЬ‚Ь‚И‚ў”C€У‚М•¶Ћљ—с‚Ж‚µ‚Ь‚·ЃB<br />
  * </p>
  * 
  * <p>
- * <b>г‚­гѓјдёЂи¦§</b><br />
+ * <b>ѓLЃ[€к——</b><br />
  * <dl>
  *   <dt>agent.host</dt>
- *   <dd>г‚Ёгѓјг‚ёг‚§гѓігѓ€гЃ®жЋҐз¶ље…€гѓ›г‚№гѓ€еђЌ</dd>
+ *   <dd>ѓGЃ[ѓWѓFѓ“ѓg‚МђЪ‘±ђжѓzѓXѓg–ј</dd>
  *   <dt>agent.port</dt>
- *   <dd>г‚Ёгѓјг‚ёг‚§гѓігѓ€гЃ®жЋҐз¶ље…€гѓќгѓјгѓ€з•ЄеЏ·
- *   (ж•°еЂ¤д»Ґе¤–гЃ®ж–‡е­—е€—гЃЊжЊ‡е®љгЃ•г‚ЊгЃџе ґеђ€гЂЃ18000 гЃЁгЃ—гЃ¦и§Јй‡€гЃ—гЃѕгЃ™)</dd>
+ *   <dd>ѓGЃ[ѓWѓFѓ“ѓg‚МђЪ‘±ђжѓ|Ѓ[ѓg”ФЌ†
+ *   (ђ”’l€ИЉO‚М•¶Ћљ—с‚ЄЋw’и‚і‚к‚ЅЏкЌ‡ЃA18000 ‚Ж‚µ‚Д‰рЋЯ‚µ‚Ь‚·)</dd>
  *   <dt>database.name</dt>
- *   <dd>г‚Ёгѓјг‚ёг‚§гѓігѓ€гЃ®гѓ‡гѓјг‚їгѓ™гѓјг‚№еђЌ</dd>
+ *   <dd>ѓGЃ[ѓWѓFѓ“ѓg‚МѓfЃ[ѓ^ѓxЃ[ѓX–ј</dd>
  *   <dt>database.dir</dt>
- *   <dd>гѓ¬гѓќгѓјгѓ€г‚’е‡єеЉ›гЃ™г‚‹гѓ‡г‚Јгѓ¬г‚Їгѓ€гѓЄ</dd>
+ *   <dd>ѓЊѓ|Ѓ[ѓg‚рЏo—Н‚·‚йѓfѓBѓЊѓNѓgѓЉ</dd>
  *   <dt>report.output.dir</dt>
- *   <dd>г‚Ёгѓјг‚ёг‚§гѓігѓ€гЃ®гѓ‡гѓјг‚їгѓ™гѓјг‚№гѓ‡г‚Јгѓ¬г‚Їгѓ€гѓЄ</dd>
+ *   <dd>ѓGЃ[ѓWѓFѓ“ѓg‚МѓfЃ[ѓ^ѓxЃ[ѓXѓfѓBѓЊѓNѓgѓЉ</dd>
  *   <dt>resource.get.interval</dt>
- *   <dd>г‚Ёгѓјг‚ёг‚§гѓігѓ€гЃ®гѓЄг‚Ѕгѓјг‚№еЏ–еѕ—й–“йљ”
- *   (ж•°еЂ¤д»Ґе¤–гЃ®ж–‡е­—е€—гЃЊжЊ‡е®љгЃ•г‚ЊгЃџе ґеђ€гЂЃ5000 гЃЁгЃ—гЃ¦и§Јй‡€гЃ—гЃѕгЃ™)</dd>
+ *   <dd>ѓGЃ[ѓWѓFѓ“ѓg‚МѓЉѓ\Ѓ[ѓXЋж“ѕЉФЉu
+ *   (ђ”’l€ИЉO‚М•¶Ћљ—с‚ЄЋw’и‚і‚к‚ЅЏкЌ‡ЃA5000 ‚Ж‚µ‚Д‰рЋЯ‚µ‚Ь‚·)</dd>
  *   <dt>javelin.log.storage.period</dt>
- *   <dd>г‚Ёгѓјг‚ёг‚§гѓігѓ€гЃ®Javelinгѓ­г‚°гЃ®жњЂе¤§и“„з©Ќжњџй–“</dd>
+ *   <dd>ѓGЃ[ѓWѓFѓ“ѓg‚МJavelinѓЌѓO‚МЌЕ‘е’~ђПЉъЉФ</dd>
  *   <dt>measurement.log.storage.period</dt>
- *   <dd>г‚Ёгѓјг‚ёг‚§гѓігѓ€гЃ®иЁ€жё¬гѓ‡гѓјг‚їгЃ®жњЂе¤§и“„з©Ќжњџй–“</dd>
+ *   <dd>ѓGЃ[ѓWѓFѓ“ѓg‚МЊv‘ЄѓfЃ[ѓ^‚МЌЕ‘е’~ђПЉъЉФ</dd>
  *   <dt>javelin.javelin.log.split</dt>
- *   <dd>г‚Ёгѓјг‚ёг‚§гѓігѓ€гЃЊJavelinгѓ­г‚°г‚’е€†е‰Ідїќе­гЃ™г‚‹гЃ‹гЃ©гЃ†гЃ‹</dd>
+ *   <dd>ѓGЃ[ѓWѓFѓ“ѓg‚ЄJavelinѓЌѓO‚р•ЄЉ„•Ы‘¶‚·‚й‚©‚З‚¤‚©</dd>
  *   <dt>javelin.log.split.size</dt>
- *   <dd>г‚Ёгѓјг‚ёг‚§гѓігѓ€гЃ®1гѓ¬г‚ігѓјгѓ‰иѕєг‚ЉгЃ®жњЂе¤§г‚µг‚¤г‚є
- *   (javelin.javelin.log.splitгЃЊtrueгЃ®ж™‚гЃ®гЃїжњ‰еЉ№)<br />
- *   (ж•°еЂ¤д»Ґе¤–гЃ®ж–‡е­—е€—гЃЊжЊ‡е®љгЃ•г‚ЊгЃџе ґеђ€гЂЃ300(KBytes) гЃЁгЃ—гЃ¦и§Јй‡€гЃ—гЃѕгЃ™)<br />
- *   <dd>г‚Ёгѓјг‚ёг‚§гѓігѓ€гЃЊJavelinгѓ­г‚°г‚’е€†е‰Ідїќе­гЃ™г‚‹е ґеђ€гЃ®й–ѕеЂ¤
- *   (javelin.javelin.log.splitгЃЊtrueгЃ®ж™‚гЃ®гЃїжњ‰еЉ№)<br />
- *   (ж•°еЂ¤д»Ґе¤–гЃ®ж–‡е­—е€—гЃЊжЊ‡е®љгЃ•г‚ЊгЃџе ґеђ€гЂЃ1024(KBytes) гЃЁгЃ—гЃ¦и§Јй‡€гЃ—гЃѕгЃ™)<br />
+ *   <dd>ѓGЃ[ѓWѓFѓ“ѓg‚М1ѓЊѓRЃ[ѓh•У‚и‚МЌЕ‘еѓTѓCѓY
+ *   (javelin.javelin.log.split‚Єtrue‚МЋћ‚М‚Э—LЊш)<br />
+ *   (ђ”’l€ИЉO‚М•¶Ћљ—с‚ЄЋw’и‚і‚к‚ЅЏкЌ‡ЃA300(KBytes) ‚Ж‚µ‚Д‰рЋЯ‚µ‚Ь‚·)<br />
+ *   <dd>ѓGЃ[ѓWѓFѓ“ѓg‚ЄJavelinѓЌѓO‚р•ЄЉ„•Ы‘¶‚·‚йЏкЌ‡‚Ми‡’l
+ *   (javelin.javelin.log.split‚Єtrue‚МЋћ‚М‚Э—LЊш)<br />
+ *   (ђ”’l€ИЉO‚М•¶Ћљ—с‚ЄЋw’и‚і‚к‚ЅЏкЌ‡ЃA1024(KBytes) ‚Ж‚µ‚Д‰рЋЯ‚µ‚Ь‚·)<br />
  *   </dd>
  *   <dt>collector.smtp.sendMail</dt>
- *   <dd>гѓЎгѓјгѓ«йЂљзџҐг‚’йЂЃдїЎгЃ™г‚‹гЃ‹гЃ©гЃ†гЃ‹</dd>
+ *   <dd>ѓЃЃ[ѓ‹’К’m‚р‘—ђM‚·‚й‚©‚З‚¤‚©</dd>
  *   <dt>collector.smtp.server</dt>
- *   <dd>гѓЎгѓјгѓ«г‚µгѓјгѓђ</dd>
+ *   <dd>ѓЃЃ[ѓ‹ѓTЃ[ѓo</dd>
  *   <dt>collector.smtp.encoding</dt>
- *   <dd>гѓЎгѓјгѓ«гЃ®г‚Ёгѓіг‚ігѓјгѓ‡г‚Јгѓіг‚°</dd>
+ *   <dd>ѓЃЃ[ѓ‹‚МѓGѓ“ѓRЃ[ѓfѓBѓ“ѓO</dd>
  *   <dt>collector.smtp.from</dt>
- *   <dd>йЂЃдїЎе…ѓгѓЎгѓјгѓ«г‚ўгѓ‰гѓ¬г‚№</dd>
+ *   <dd>‘—ђMЊіѓЃЃ[ѓ‹ѓAѓhѓЊѓX</dd>
  *   <dt>collector.smtp.to</dt>
- *   <dd>йЂЃдїЎе…€гѓЎгѓјгѓ«г‚ўгѓ‰гѓ¬г‚№</dd>
+ *   <dd>‘—ђMђжѓЃЃ[ѓ‹ѓAѓhѓЊѓX</dd>
  *   <dt>collector.smtp.subject</dt>
- *   <dd>гѓЎгѓјгѓ«Subject</dd>
+ *   <dd>ѓЃЃ[ѓ‹Subject</dd>
  *   <dt>collector.smtp.template.jvn</dt>
- *   <dd>гѓЎгѓјгѓ«гѓ†гѓігѓ—гѓ¬гѓјгѓ€(jvnг‚ўгѓ©гѓјгѓ з”Ё)</dd>
+ *   <dd>ѓЃЃ[ѓ‹ѓeѓ“ѓvѓЊЃ[ѓg(jvnѓAѓ‰Ѓ[ѓЂ—p)</dd>
  *   <dt>collector.smtp.template.measurement</dt>
- *   <dd>гѓЎгѓјгѓ«гѓ†гѓігѓ—гѓ¬гѓјгѓ€(иЁ€жё¬еЂ¤г‚ўгѓ©гѓјгѓ з”Ё)</dd>
+ *   <dd>ѓЃЃ[ѓ‹ѓeѓ“ѓvѓЊЃ[ѓg(Њv‘Є’lѓAѓ‰Ѓ[ѓЂ—p)</dd>
  *   <dt>collector.snmp.sendTrap</dt>
- *   <dd>SNMPTrapг‚’йЂЃдїЎгЃ™г‚‹гЃ‹гЃ©гЃ†гЃ‹</dd>
+ *   <dd>SNMPTrap‚р‘—ђM‚·‚й‚©‚З‚¤‚©</dd>
  *   <dt>collector.snmp.managers</dt>
- *   <dd>гѓћгѓЌгѓјг‚ёгѓЈгѓЄг‚№гѓ€</dd>
+ *   <dd>ѓ}ѓlЃ[ѓWѓѓѓЉѓXѓg</dd>
  *   <dt>collector.snmp.trapPort</dt>
- *   <dd>SNMP Trapгѓќгѓјгѓ€з•ЄеЏ·</dd>
+ *   <dd>SNMP Trapѓ|Ѓ[ѓg”ФЌ†</dd>
  *   <dt>collector.snmp.version</dt>
  *   <dd>SNMP Version</dd>
  *   <dt>collector.snmp.trapCommunity</dt>
- *   <dd>Trapг‚ігѓџгѓҐгѓ‹гѓ†г‚ЈеђЌ</dd>
+ *   <dd>TrapѓRѓ~ѓ…ѓjѓeѓB–ј</dd>
  * </dl>
  * </p>
  * 
  * <p>
- * <b>иЁиї°дѕ‹</b><br />
+ * <b>‹LЏq—б</b><br />
  * <code>
  * agent.host.1=localhost<br />
  * agent.port.1=18000<br />
@@ -132,204 +132,183 @@ import jp.co.acroquest.endosnipe.data.db.DatabaseType;
  */
 public class ConfigurationReader
 {
-    private static final ENdoSnipeLogger logger_ = ENdoSnipeLogger
-        .getLogger(ConfigurationReader.class);
+    private static final ENdoSnipeLogger logger_ =
+                                                   ENdoSnipeLogger.getLogger(ConfigurationReader.class);
 
     /** DataCollectorConfig */
     private static DataCollectorConfig config__ = null;
 
-    /** ж”№иЎЊж–‡е­—гЂ‚ */
+    /** ‰ьЌs•¶ЋљЃB */
     private static final String LS = System.getProperty("line.separator");
 
-    /** гѓ›г‚№гѓ€еђЌг‚’иЎЁгЃ™жЋҐй ­иѕћ */
+    /** ѓzѓXѓg–ј‚р•\‚·ђЪ“ЄЋ« */
     private static final String SERVER_HOST = "server.host.";
 
-    /** гѓќгѓјгѓ€з•ЄеЏ·г‚’иЎЁгЃ™жЋҐй ­иѕћ */
+    /** ѓ|Ѓ[ѓg”ФЌ†‚р•\‚·ђЪ“ЄЋ« */
     private static final String SERVER_PORT = "server.port.";
 
-    /** гѓ›г‚№гѓ€еђЌг‚’иЎЁгЃ™жЋҐй ­иѕћ */
+    /** ѓzѓXѓg–ј‚р•\‚·ђЪ“ЄЋ« */
     private static final String AGENT_HOST = "javelin.host.";
 
-    /** гѓќгѓјгѓ€з•ЄеЏ·г‚’иЎЁгЃ™жЋҐй ­иѕћ */
+    /** ѓ|Ѓ[ѓg”ФЌ†‚р•\‚·ђЪ“ЄЋ« */
     private static final String AGENT_PORT = "javelin.port.";
 
-    /** гѓ›г‚№гѓ€г‚’иЎЁгЃ™жЋҐй ­иѕћ */
+    /** ѓzѓXѓg‚р•\‚·ђЪ“ЄЋ« */
     private static final String ACCEPT_HOST = "datacollector.accepthost.";
 
-    /** гѓќгѓјгѓ€з•ЄеЏ·г‚’иЎЁгЃ™жЋҐй ­иѕћ */
+    /** ѓ|Ѓ[ѓg”ФЌ†‚р•\‚·ђЪ“ЄЋ« */
     private static final String ACCEPT_PORT = "datacollector.acceptport.";
 
-    /** гѓ‡гѓјг‚їгѓ™гѓјг‚№еђЌг‚’иЎЁгЃ™жЋҐй ­иѕћ */
+    /** ѓfЃ[ѓ^ѓxЃ[ѓX–ј‚р•\‚·ђЪ“ЄЋ« */
     private static final String DATABASE_NAME = "database.name";
 
-    /** гѓ‡гѓјг‚їгѓ™гѓјг‚№еђЌг‚’иЎЁгЃ™жЋҐй ­иѕћ(г‚Ёгѓјг‚ёг‚§гѓігѓ€жЇЋ) */
+    /** ѓfЃ[ѓ^ѓxЃ[ѓX–ј‚р•\‚·ђЪ“ЄЋ«(ѓGЃ[ѓWѓFѓ“ѓg–€) */
     private static final String DATABASE_NAME_PREFIX = "database.name.";
 
-    /** гѓ‡гѓјг‚їгѓ™гѓјг‚№гЃ®зЁ®йЎћг‚’иЎЁгЃ™жЋҐй ­иѕћ */
+    /** ѓfЃ[ѓ^ѓxЃ[ѓX‚МЋн—Ю‚р•\‚·ђЪ“ЄЋ« */
     private static final String DATABASE_TYPE = "database.type";
 
-    /** гѓ‡гѓјг‚їгѓ™гѓјг‚№гѓ‡г‚Јгѓ¬г‚Їгѓ€гѓЄг‚’иЎЁгЃ™жЋҐй ­иѕћ */
+    /** ѓfЃ[ѓ^ѓxЃ[ѓXѓfѓBѓЊѓNѓgѓЉ‚р•\‚·ђЪ“ЄЋ« */
     private static final String DATABASE_DIR = "database.dir";
 
-    /** гѓ‡гѓјг‚їгѓ™гѓјг‚№гЃ®гѓ›г‚№гѓ€г‚ўгѓ‰гѓ¬г‚№г‚’иЎЁгЃ™жЋҐй ­иѕћ */
+    /** ѓfЃ[ѓ^ѓxЃ[ѓX‚МѓzѓXѓgѓAѓhѓЊѓX‚р•\‚·ђЪ“ЄЋ« */
     private static final String DATABASE_HOST = "database.host";
 
-    /** гѓ‡гѓјг‚їгѓ™гѓјг‚№гЃ®гѓќгѓјгѓ€з•ЄеЏ·г‚’иЎЁгЃ™жЋҐй ­иѕћ */
+    /** ѓfЃ[ѓ^ѓxЃ[ѓX‚Мѓ|Ѓ[ѓg”ФЌ†‚р•\‚·ђЪ“ЄЋ« */
     private static final String DATABASE_PORT = "database.port";
 
-    /** гѓ‡гѓјг‚їгѓ™гѓјг‚№гЃ®гѓ­г‚°г‚¤гѓігѓ¦гѓјг‚¶еђЌг‚’иЎЁгЃ™жЋҐй ­иѕћ */
+    /** ѓfЃ[ѓ^ѓxЃ[ѓX‚МѓЌѓOѓCѓ“ѓ†Ѓ[ѓU–ј‚р•\‚·ђЪ“ЄЋ« */
     private static final String DATABASE_USERNAME = "database.username";
 
-    /** гѓ‡гѓјг‚їгѓ™гѓјг‚№гЃ®гѓ­г‚°г‚¤гѓігѓ‘г‚№гѓЇгѓјгѓ‰г‚’иЎЁгЃ™жЋҐй ­иѕћ */
+    /** ѓfЃ[ѓ^ѓxЃ[ѓX‚МѓЌѓOѓCѓ“ѓpѓXѓЏЃ[ѓh‚р•\‚·ђЪ“ЄЋ« */
     private static final String DATABASE_PASSWORD = "database.password";
 
-    /** гѓЄг‚Ѕгѓјг‚№еЏ–еѕ—й–“йљ”г‚’иЎЁгЃ™жЋҐй ­иѕћ */
+    /** ѓЉѓ\Ѓ[ѓXЋж“ѕЉФЉu‚р•\‚·ђЪ“ЄЋ« */
     private static final String RESOURCE_INTERVAL = "resource.get.interval";
 
-    /** гѓЄг‚Ѕгѓјг‚№гѓўгѓ‹г‚їгѓЄгѓіг‚°гЃ®иЁ­е®љгѓ•г‚Ўг‚¤гѓ«еђЌг‚’иЎЁгЃ™жЋҐй ­иѕћ */
+    /** ѓЉѓ\Ѓ[ѓXѓ‚ѓjѓ^ѓЉѓ“ѓO‚МђЭ’иѓtѓ@ѓCѓ‹–ј‚р•\‚·ђЪ“ЄЋ« */
     private static final String RESOURCE_MONITORING = "resource.config.filename";
 
-    /** гѓ¬гѓќгѓјгѓ€е‡єеЉ›е…€гѓ‡г‚Јгѓ¬г‚Їгѓ€гѓЄ */
+    /** ѓЊѓ|Ѓ[ѓgЏo—НђжѓfѓBѓЊѓNѓgѓЉ */
     private static final String REPORT_OUTPUT_DIR = "report.output.dir";
 
-    /** жЋҐз¶љгѓўгѓјгѓ‰ */
+    /** ђЪ‘±ѓ‚Ѓ[ѓh */
     private static final String CONNECTION_MODE = "connection.mode";
 
-    /** еѕ…гЃЎеЏ—гЃ‘гѓ›г‚№гѓ€ */
+    /** ‘Т‚їЋу‚ЇѓzѓXѓg */
     private static final String SERVER_ACCEPT_HOST = "accept.host";
 
-    /** еѕ…гЃЎеЏ—гЃ‘гѓќгѓјгѓ€ */
+    /** ‘Т‚їЋу‚Їѓ|Ѓ[ѓg */
     private static final String SERVER_ACCEPT_PORT = "accept.port";
 
-    /** Javelinгѓ­г‚°гЃ®жњЂе¤§и“„з©Ќжњџй–“ (е…±йЂљиЁ­е®љ) */
+    /** JavelinѓЌѓO‚МЌЕ‘е’~ђПЉъЉФ (‹¤’КђЭ’и) */
     private static final String COMMON_JVN_LOG_STORAGE_PERIOD = "javelin.log.storage.period";
 
-    /** иЁ€жё¬гѓ‡гѓјг‚їгЃ®жњЂе¤§и“„з©Ќжњџй–“г‚’иЎЁгЃ™жЋҐй ­иѕћ (е…±йЂљиЁ­е®љ) */
+    /** Њv‘ЄѓfЃ[ѓ^‚МЌЕ‘е’~ђПЉъЉФ‚р•\‚·ђЪ“ЄЋ« (‹¤’КђЭ’и) */
     private static final String COMMON_MEASUREMENT_LOG_STORAGE_PERIOD =
-        "measurement.log.storage.period";
+                                                                        "measurement.log.storage.period";
 
-    /** Javelinгѓ­г‚°гЃ®жњЂе¤§и“„з©Ќжњџй–“г‚’иЎЁгЃ™жЋҐй ­иѕћ */
+    /** JavelinѓЌѓO‚МЌЕ‘е’~ђПЉъЉФ‚р•\‚·ђЪ“ЄЋ« */
     private static final String JVN_LOG_STRAGE_PERIOD = "javelin.log.storage.period.";
 
-    /** иЁ€жё¬гѓ‡гѓјг‚їгЃ®жњЂе¤§и“„з©Ќжњџй–“г‚’иЎЁгЃ™жЋҐй ­иѕћ */
+    /** Њv‘ЄѓfЃ[ѓ^‚МЌЕ‘е’~ђПЉъЉФ‚р•\‚·ђЪ“ЄЋ« */
     private static final String MEASUREMENT_LOG_STRAGE_PERIOD = "measurement.log.storage.period.";
 
-    /** Javelinгѓ­г‚°г‚’е€†е‰Ідїќе­гЃ™г‚‹гЃ‹гЃ©гЃ†гЃ‹г‚’иЎЁгЃ™жЋҐй ­иѕћ */
+    /** JavelinѓЌѓO‚р•ЄЉ„•Ы‘¶‚·‚й‚©‚З‚¤‚©‚р•\‚·ђЪ“ЄЋ« */
     private static final String LOG_SPLIT = "javelin.log.split";
 
-    /** Javelinгѓ­г‚°г‚’е€†е‰Ідїќе­гЃ™г‚‹е ґеђ€гЃ®1гѓ¬г‚ігѓјгѓ‰иѕєг‚ЉгЃ®жњЂе¤§г‚µг‚¤г‚єг‚’иЎЁгЃ™жЋҐй ­иѕћ */
+    /** JavelinѓЌѓO‚р•ЄЉ„•Ы‘¶‚·‚йЏкЌ‡‚М1ѓЊѓRЃ[ѓh•У‚и‚МЌЕ‘еѓTѓCѓY‚р•\‚·ђЪ“ЄЋ« */
     private static final String LOG_SPLIT_SIZE = "javelin.log.split.size";
 
-    /** Javelinгѓ­г‚°г‚’е€†е‰Ідїќе­гЃ™г‚‹е ґеђ€гЃ®й–ѕеЂ¤г‚’иЎЁгЃ™жЋҐй ­иѕћ */
+    /** JavelinѓЌѓO‚р•ЄЉ„•Ы‘¶‚·‚йЏкЌ‡‚Ми‡’l‚р•\‚·ђЪ“ЄЋ« */
     private static final String LOG_SPLIT_THRESHOLD = "javelin.log.split.threshold";
 
-    /** гѓ‡гѓјг‚їгѓ™гѓјг‚№еђЌгЃ§дЅїз”ЁгЃ§гЃЌг‚‹ж–‡е­—г‚’гЂЃж­Ји¦ЏиЎЁзЏѕгЃ§иЎЁгЃ—гЃџг‚‚гЃ® */
+    /** ѓfЃ[ѓ^ѓxЃ[ѓX–ј‚ЕЋg—p‚Е‚«‚й•¶Ћљ‚рЃAђі‹K•\Њ»‚Е•\‚µ‚Ѕ‚а‚М */
     private static final String DATABASE_NAME_USABLE_PATTERN = "[A-Za-z0-9#$%@=\\+\\-_~\\.]*";
 
-    /** гѓ‘гѓ©гѓЎгѓјг‚їе®љзѕ©гѓ•г‚Ўг‚¤гѓ«гЃ®гѓ‘г‚№ */
+    /** ѓpѓ‰ѓЃЃ[ѓ^’и‹`ѓtѓ@ѓCѓ‹‚МѓpѓX */
     private static String configFilePath_;
 
-    /** jvnгѓ­г‚°гЃ®гѓ­гѓјгѓ†гѓјгѓ€жњџй–“гЃ®жњЂе¤§еЂ¤пј€жњ€пј‰ */
+    /** jvnѓЌѓO‚МѓЌЃ[ѓeЃ[ѓgЉъЉФ‚МЌЕ‘е’lЃiЊЋЃj */
     private static final int LOG_ROTATE_MAX_PERIOD_MONTH = 24;
 
-    /** jvnгѓ­г‚°гЃ®гѓ­гѓјгѓ†гѓјгѓ€жњџй–“гЃ®жњЂе¤§еЂ¤пј€ж—Ґпј‰ */
+    /** jvnѓЌѓO‚МѓЌЃ[ѓeЃ[ѓgЉъЉФ‚МЌЕ‘е’lЃi“ъЃj */
     private static final int LOG_ROTATE_MAX_PERIOD_DAY = 365;
 
-    /** jvnгѓ­г‚°гЃ®гѓ­гѓјгѓ†гѓјгѓ€жњџй–“гЃ®жњЂе¤§еЂ¤пј€ж™‚й–“пј‰ */
+    /** jvnѓЌѓO‚МѓЌЃ[ѓeЃ[ѓgЉъЉФ‚МЌЕ‘е’lЃiЋћЉФЃj */
     private static final int LOG_ROTATE_MAX_PERIOD_HOUR = LOG_ROTATE_MAX_PERIOD_DAY * 24;
 
     //--------------------
     // SMTP settings
     //--------------------
-    /** SMTPгѓЎгѓјгѓ«йЂљзџҐж©џиѓЅй–ўйЂЈиЁ­е®љй …з›®гЃ®жЋҐй ­иѕћгЂ‚ */
+    /** SMTPѓЃЃ[ѓ‹’К’m‹@”\ЉЦAђЭ’иЌЂ–Ъ‚МђЪ“ЄЋ«ЃB */
     private static final String SMTP_PREFIX = "collector.smtp.";
 
-    /** гѓЎгѓјгѓ«йЂљзџҐг‚’йЂЃдїЎгЃ™г‚‹гЃ‹гЃ©гЃ†гЃ‹г‚’жЊ‡е®љгЃ™г‚‹иЁ­е®љй …з›®еђЌгЂ‚ */
+    /** ѓЃЃ[ѓ‹’К’m‚р‘—ђM‚·‚й‚©‚З‚¤‚©‚рЋw’и‚·‚йђЭ’иЌЂ–Ъ–јЃB */
     private static final String SEND_MAIL = SMTP_PREFIX + "sendMail";
 
-    /** гѓЎгѓјгѓ«г‚µгѓјгѓђг‚’жЊ‡е®љгЃ™г‚‹иЁ­е®љй …з›®еђЌгЂ‚ */
+    /** ѓЃЃ[ѓ‹ѓTЃ[ѓo‚рЋw’и‚·‚йђЭ’иЌЂ–Ъ–јЃB */
     private static final String SMTP_SERVER = SMTP_PREFIX + "server";
 
-    /** гѓЎгѓјгѓ«гЃ®г‚Ёгѓіг‚ігѓјгѓ‡г‚Јгѓіг‚°г‚’жЊ‡е®љгЃ™г‚‹иЁ­е®љй …з›®еђЌгЂ‚ */
+    /** ѓЃЃ[ѓ‹‚МѓGѓ“ѓRЃ[ѓfѓBѓ“ѓO‚рЋw’и‚·‚йђЭ’иЌЂ–Ъ–јЃB */
     private static final String SMTP_ENCODING = SMTP_PREFIX + "encoding";
 
-    /** йЂЃдїЎе…ѓгѓЎгѓјгѓ«г‚ўгѓ‰гѓ¬г‚№г‚’жЊ‡е®љгЃ™г‚‹иЁ­е®љй …з›®еђЌгЂ‚ */
+    /** ‘—ђMЊіѓЃЃ[ѓ‹ѓAѓhѓЊѓX‚рЋw’и‚·‚йђЭ’иЌЂ–Ъ–јЃB */
     private static final String SMTP_FROM = SMTP_PREFIX + "from";
 
-    /** йЂЃдїЎе…€гѓЎгѓјгѓ«г‚ўгѓ‰гѓ¬г‚№г‚’жЊ‡е®љгЃ™г‚‹иЁ­е®љй …з›®еђЌгЂ‚ */
+    /** ‘—ђMђжѓЃЃ[ѓ‹ѓAѓhѓЊѓX‚рЋw’и‚·‚йђЭ’иЌЂ–Ъ–јЃB */
     private static final String SMTP_TO = SMTP_PREFIX + "to";
 
-    /** гѓЎгѓјгѓ«гЃ®Subjectг‚’жЊ‡е®љгЃ™г‚‹иЁ­е®љй …з›®еђЌгЂ‚ */
+    /** ѓЃЃ[ѓ‹‚МSubject‚рЋw’и‚·‚йђЭ’иЌЂ–Ъ–јЃB */
     private static final String SMTP_SUBJECT = SMTP_PREFIX + "subject";
 
-    /** гѓЎгѓјгѓ«гѓ†гѓігѓ—гѓ¬гѓјгѓ€г‚’жЊ‡е®љгЃ™г‚‹иЁ­е®љй …з›®гЃ®жЋҐй ­иѕћгЂ‚ */
+    /** ѓЃЃ[ѓ‹ѓeѓ“ѓvѓЊЃ[ѓg‚рЋw’и‚·‚йђЭ’иЌЂ–Ъ‚МђЪ“ЄЋ«ЃB */
     public static final String SMTP_TEMPLATE_PREFIX = SMTP_PREFIX + "template.";
 
-    /** гѓЎгѓјгѓ«гЃ®д»¶еђЌгѓ†гѓігѓ—гѓ¬гѓјгѓ€г‚’жЊ‡е®љгЃ™г‚‹иЁ­е®љй …з›®гЃ®жЋҐе°ѕиѕћгЂ‚ */
+    /** ѓЃЃ[ѓ‹‚МЊЏ–јѓeѓ“ѓvѓЊЃ[ѓg‚рЋw’и‚·‚йђЭ’иЌЂ–Ъ‚МђЪ”цЋ«ЃB */
     private static final String SMTP_TEMPLATE_SUBJECT_SUFFIX = ".subject";
 
-    /** гѓЎгѓјгѓ«гЃ®жњ¬ж–‡гѓ†гѓігѓ—гѓ¬гѓјгѓ€г‚’жЊ‡е®љгЃ™г‚‹иЁ­е®љй …з›®гЃ®жЋҐе°ѕиѕћгЂ‚ */
+    /** ѓЃЃ[ѓ‹‚М–{•¶ѓeѓ“ѓvѓЊЃ[ѓg‚рЋw’и‚·‚йђЭ’иЌЂ–Ъ‚МђЪ”цЋ«ЃB */
     private static final String SMTP_TEMPLATE_BODY_SUFFIX = ".body";
 
-    /** гѓЎгѓјгѓ«гѓ†гѓігѓ—гѓ¬гѓјгѓ€(jvnг‚ўгѓ©гѓјгѓ з”Ё)г‚’жЊ‡е®љгЃ™г‚‹иЁ­е®љй …з›®еђЌгЂ‚ */
+    /** ѓЃЃ[ѓ‹ѓeѓ“ѓvѓЊЃ[ѓg(jvnѓAѓ‰Ѓ[ѓЂ—p)‚рЋw’и‚·‚йђЭ’иЌЂ–Ъ–јЃB */
     private static final String SMTP_TEMPLATE_JVN = SMTP_TEMPLATE_PREFIX + "jvn";
 
-    /** гѓЎгѓјгѓ«гѓ†гѓігѓ—гѓ¬гѓјгѓ€(иЁ€жё¬еЂ¤г‚ўгѓ©гѓјгѓ з”Ё)г‚’жЊ‡е®љгЃ™г‚‹иЁ­е®љй …з›®еђЌгЂ‚ */
+    /** ѓЃЃ[ѓ‹ѓeѓ“ѓvѓЊЃ[ѓg(Њv‘Є’lѓAѓ‰Ѓ[ѓЂ—p)‚рЋw’и‚·‚йђЭ’иЌЂ–Ъ–јЃB */
     private static final String SMTP_TEMPLATE_MEASUREMENT = SMTP_TEMPLATE_PREFIX + "measurement";
 
     public static final String SMTP_TEMPLATE_COLLECT_COMPLETED = SMTP_TEMPLATE_PREFIX
-        + "collectCompleted";
+            + "collectCompleted";
 
     //--------------------
     // SNMP settings
     //--------------------
-    /** SNMPзі»гѓ‘гѓ©гѓЎгѓјг‚їгЃ®жЋҐй ­иѕћ */
+    /** SNMPЊnѓpѓ‰ѓЃЃ[ѓ^‚МђЪ“ЄЋ« */
     public static final String SNMP_PREFIX = "collector.snmp.";
 
-    /** SNMPTrapг‚’йЂЃдїЎгЃ™г‚‹гЃ‹гЃ©гЃ†гЃ‹гЃ®иЁ­е®љй …з›®еђЌ */
+    /** SNMPTrap‚р‘—ђM‚·‚й‚©‚З‚¤‚©‚МђЭ’иЌЂ–Ъ–ј */
     public static final String SEND_TRAP = SNMP_PREFIX + "sendTrap";
 
-    /** гѓћгѓЌгѓјг‚ёгѓЈгѓЄг‚№гѓ€гЃ®иЁ­е®љй …з›®еђЌ */
+    /** ѓ}ѓlЃ[ѓWѓѓѓЉѓXѓg‚МђЭ’иЌЂ–Ъ–ј */
     public static final String MANAGERS = SNMP_PREFIX + "managers";
 
-    /** SNMP Trapгѓќгѓјгѓ€з•ЄеЏ·гЃ®иЁ­е®љй …з›®еђЌ */
+    /** SNMP Trapѓ|Ѓ[ѓg”ФЌ†‚МђЭ’иЌЂ–Ъ–ј */
     public static final String TRAP_PORT = SNMP_PREFIX + "trapPort";
 
-    /** SNMP VersionгЃ®иЁ­е®љй …з›®еђЌ */
+    /** SNMP Version‚МђЭ’иЌЂ–Ъ–ј */
     public static final String VERSION = SNMP_PREFIX + "version";
 
-    /** Trapг‚ігѓџгѓҐгѓ‹гѓ†г‚ЈеђЌгЃ®иЁ­е®љй …з›®еђЌ */
+    /** TrapѓRѓ~ѓ…ѓjѓeѓB–ј‚МђЭ’иЌЂ–Ъ–ј */
     public static final String TRAP_COMMUNITY = SNMP_PREFIX + "trapCommunity";
 
-    /** дЅїз”ЁиЁЂиЄћгЃ®иЁ­е®љй …з›® */
+    /** Ћg—pЊѕЊк‚МђЭ’иЌЂ–Ъ */
     public static final String LANGUAGE = "language";
 
     public static final String BATCH_SIZE = "insert.batch.size";
 
     public static final String ITEMID_CACHE_SIZE = "itemid.cache.size";
 
-    /** г‚Їгѓ©г‚№г‚їеђЌпј€ElasticSearch)гЃ®иЁ­е®љй …з›®еђЌ */
-    public static final String ES_HOST_NAME = "elasticsearch.host.name";
-
-    /** г‚Їгѓ©г‚№г‚їеђЌпј€ElasticSearch)гЃ®иЁ­е®љй …з›®еђЌ */
-    public static final String ES_HOST_PORT = "elasticsearch.host.port";
-
-    /** г‚Їгѓ©г‚№г‚їеђЌпј€ElasticSearch)гЃ®иЁ­е®љй …з›®еђЌ */
-    public static final String ES_CLUSTER_NAME = "elasticsearch.cluster.name";
-
-    /** г‚¤гѓігѓ‡гѓѓг‚Їг‚№(ElasticSearch:жЋҐй ­иѕћ)гЃ®иЁ­е®љй …з›®еђЌ */
-    public static final String ES_INDEX_PREFIX = "elasticsearch.index.prefix";
-
-    /**г‚¤гѓігѓ‡гѓѓг‚Їг‚№(ElasticSearch:жЋҐе°ѕиѕћ)гЃ®иЁ­е®љй …з›®еђЌ */
-    public static final String ES_INDEX_POSTFIX = "elasticsearch.index.postfix";
-
-    /** зЁ®е€Ґ (ElasticSearch)гЃ®иЁ­е®љй …з›®еђЌ */
-    public static final String ES_TYPE = "elasticsearch.type";
-
-    /** е€©з”ЁеЏЇиѓЅгЃ‹гЃ©гЃ†гЃ‹(ElasticSearch)гЃ®иЁ­е®љй …з›®еђЌ */
-    public static final String ES_AVAILABLE = "elasticsearch.available";
-
-    /** г‚Ёгѓјг‚ёг‚§гѓігѓ€е®љзѕ©гЃ®иЁ­е®љг‚’иЎЁгЃ™prefix */
+    /** ѓGЃ[ѓWѓFѓ“ѓg’и‹`‚МђЭ’и‚р•\‚·prefix */
     private static final Set<String> AGENT_PREFIXES = new CopyOnWriteArraySet<String>();
 
     static
@@ -345,12 +324,12 @@ public class ConfigurationReader
     }
 
     /**
-     * г‚№гѓ€гѓЄгѓјгѓ гЃ‹г‚‰иЁ­е®љгѓ•г‚Ўг‚¤гѓ«г‚’иЄ­гЃїиѕјгЃїгЂЃ{@link DataCollectorConfig} г‚’ж§‹зЇ‰гЃ—гЃѕгЃ™гЂ‚<br />
+     * ѓXѓgѓЉЃ[ѓЂ‚©‚зђЭ’иѓtѓ@ѓCѓ‹‚р“З‚ЭЌћ‚ЭЃA{@link DataCollectorConfig} ‚рЌ\’z‚µ‚Ь‚·ЃB<br />
      * 
-     * @param inputStream е…ҐеЉ›г‚№гѓ€гѓЄгѓјгѓ 
-     * @return {@link DataCollectorConfig} г‚Єгѓ–г‚ёг‚§г‚Їгѓ€
-     * @throws IOException е…Ґе‡єеЉ›г‚Ёгѓ©гѓјгЃЊз™єз”џгЃ—гЃџе ґеђ€
-     * @throws InitializeException е€ќжњџеЊ–дѕ‹е¤–гЃЊз™єз”џгЃ—гЃџе ґеђ€
+     * @param inputStream “ь—НѓXѓgѓЉЃ[ѓЂ
+     * @return {@link DataCollectorConfig} ѓIѓuѓWѓFѓNѓg
+     * @throws IOException “ьЏo—НѓGѓ‰Ѓ[‚Є”­ђ¶‚µ‚ЅЏкЌ‡
+     * @throws InitializeException Џ‰Љъ‰»—бЉO‚Є”­ђ¶‚µ‚ЅЏкЌ‡
      */
     public static DataCollectorConfig load(final InputStream inputStream)
         throws IOException,
@@ -414,12 +393,12 @@ public class ConfigurationReader
     }
 
     /**
-     * жЊ‡е®љгЃ•г‚ЊгЃџгѓ‘г‚№гЃ‹г‚‰иЁ­е®љгѓ•г‚Ўг‚¤гѓ«г‚’иЄ­гЃїиѕјгЃїгЂЃ{@link DataCollectorConfig} г‚’ж§‹зЇ‰гЃ—гЃѕгЃ™гЂ‚<br />
+     * Ћw’и‚і‚к‚ЅѓpѓX‚©‚зђЭ’иѓtѓ@ѓCѓ‹‚р“З‚ЭЌћ‚ЭЃA{@link DataCollectorConfig} ‚рЌ\’z‚µ‚Ь‚·ЃB<br />
      * 
-     * @param path гѓ‘г‚№
-     * @return {@link DataCollectorConfig} г‚Єгѓ–г‚ёг‚§г‚Їгѓ€
-     * @throws IOException е…Ґе‡єеЉ›г‚Ёгѓ©гѓјгЃЊз™єз”џгЃ—гЃџе ґеђ€
-     * @throws InitializeException е€ќжњџеЊ–дѕ‹е¤–гЃЊз™єз”џгЃ—гЃџе ґеђ€
+     * @param path ѓpѓX
+     * @return {@link DataCollectorConfig} ѓIѓuѓWѓFѓNѓg
+     * @throws IOException “ьЏo—НѓGѓ‰Ѓ[‚Є”­ђ¶‚µ‚ЅЏкЌ‡
+     * @throws InitializeException Џ‰Љъ‰»—бЉO‚Є”­ђ¶‚µ‚ЅЏкЌ‡
      */
     public static DataCollectorConfig load(final String path)
         throws IOException,
@@ -445,12 +424,12 @@ public class ConfigurationReader
     }
 
     /**
-     * иЁ­е®љгѓ•г‚Ўг‚¤гѓ«гЃ«иЁиї°гЃ•г‚ЊгЃџеЂ¤г‚’иЁ­е®љгЃ—гЃѕгЃ™гЂ‚
+     * ђЭ’иѓtѓ@ѓCѓ‹‚Й‹LЏq‚і‚к‚Ѕ’l‚рђЭ’и‚µ‚Ь‚·ЃB
      *
-     * @param setting еђ„г‚Ёгѓјг‚ёг‚§гѓігѓ€гЃ®иЁ­е®љ
-     * @param key г‚­гѓј
-     * @param value еЂ¤
-     * @throws InitializeException гѓ‘гѓ©гѓЎгѓјг‚їе€ќжњџеЊ–дѕ‹е¤–гЃЊз™єз”џгЃ—гЃџе ґеђ€
+     * @param setting ЉeѓGЃ[ѓWѓFѓ“ѓg‚МђЭ’и
+     * @param key ѓLЃ[
+     * @param value ’l
+     * @throws InitializeException ѓpѓ‰ѓЃЃ[ѓ^Џ‰Љъ‰»—бЉO‚Є”­ђ¶‚µ‚ЅЏкЌ‡
      */
     private static void setValue(final AgentSetting setting, final String key, final String value)
         throws InitializeException
@@ -505,7 +484,8 @@ public class ConfigurationReader
             catch (InitializeException ex)
             {
                 String defaultValue =
-                    AgentSetting.DEF_PERIOD + AgentSetting.DEF_PERIOD_UNIT.toString();
+                                      AgentSetting.DEF_PERIOD
+                                              + AgentSetting.DEF_PERIOD_UNIT.toString();
                 logger_.log(LogMessageCodes.FAIL_READ_PARAMETER_USE_DEFAULT, configFilePath_, key,
                             defaultValue);
             }
@@ -519,7 +499,8 @@ public class ConfigurationReader
             catch (InitializeException ex)
             {
                 String defaultValue =
-                    AgentSetting.DEF_PERIOD + AgentSetting.DEF_PERIOD_UNIT.toString();
+                                      AgentSetting.DEF_PERIOD
+                                              + AgentSetting.DEF_PERIOD_UNIT.toString();
                 logger_.log(LogMessageCodes.FAIL_READ_PARAMETER_USE_DEFAULT, configFilePath_, key,
                             defaultValue);
             }
@@ -527,12 +508,12 @@ public class ConfigurationReader
     }
 
     /**
-     * и“„з©Ќжњџй–“гЃ«з•°еёёеЂ¤гЃЊгЃЄгЃ„гЃ‹гѓЃг‚§гѓѓг‚Їг‚’иЎЊгЃ„гЃѕгЃ™гЂ‚<br />
-     * еЂ¤гЃЊж­ЈеёёгЃ§гЃ‚г‚ЊгЃ°гЂЃе…ҐеЉ›гЃ•г‚ЊгЃџж–‡е­—е€—г‚’гЃќгЃ®гЃѕгЃѕиї”гЃ—гЃѕгЃ™гЂ‚<br />
+     * ’~ђПЉъЉФ‚Й€ЩЏн’l‚Є‚И‚ў‚©ѓ`ѓFѓbѓN‚рЌs‚ў‚Ь‚·ЃB<br />
+     * ’l‚ЄђіЏн‚Е‚ ‚к‚ОЃA“ь—Н‚і‚к‚Ѕ•¶Ћљ—с‚р‚»‚М‚Ь‚Ь•Ф‚µ‚Ь‚·ЃB<br />
      * 
-     * @param value е…ҐеЉ›еЂ¤
-     * @return е…ҐеЉ›еЂ¤
-     * @throws InitializeException гѓ‘гѓ©гѓЎгѓјг‚їгЃ®е€ќжњџеЊ–гЃ«е¤±ж•—гЃ—гЃџе ґеђ€
+     * @param value “ь—Н’l
+     * @return “ь—Н’l
+     * @throws InitializeException ѓpѓ‰ѓЃЃ[ѓ^‚МЏ‰Љъ‰»‚ЙЋё”s‚µ‚ЅЏкЌ‡
      */
     private static String getStragePeriod(final String value)
         throws InitializeException
@@ -587,15 +568,15 @@ public class ConfigurationReader
     }
 
     /**
-     * е…±йЂљгѓ‘гѓ©гѓЎгѓјг‚їг‚’иЁ­е®љгЃ—гЃѕгЃ™гЂ‚<br />
+     * ‹¤’Кѓpѓ‰ѓЃЃ[ѓ^‚рђЭ’и‚µ‚Ь‚·ЃB<br />
      * 
-     * @param config {@link DataCollectorConfig}г‚Єгѓ–г‚ёг‚§г‚Їгѓ€
-     * @param key г‚­гѓј
-     * @param value еЂ¤
-     * @throws InitializeException гѓ‘гѓ©гѓЎгѓјг‚їгЃ®е€ќжњџеЊ–гЃ«е¤±ж•—гЃ—гЃџе ґеђ€
+     * @param config {@link DataCollectorConfig}ѓIѓuѓWѓFѓNѓg
+     * @param key ѓLЃ[
+     * @param value ’l
+     * @throws InitializeException ѓpѓ‰ѓЃЃ[ѓ^‚МЏ‰Љъ‰»‚ЙЋё”s‚µ‚ЅЏкЌ‡
      */
     private static void setCommonValue(final DataCollectorConfig config, final String key,
-        final String value)
+            final String value)
         throws InitializeException
     {
         if (DATABASE_TYPE.equals(key))
@@ -765,18 +746,18 @@ public class ConfigurationReader
         }
         else if (key.startsWith(SMTP_TEMPLATE_PREFIX))
         {
-            // гѓЎгѓјгѓ«гѓ†гѓігѓ—гѓ¬гѓјгѓ€иЁ­е®љ
+            // ѓЃЃ[ѓ‹ѓeѓ“ѓvѓЊЃ[ѓgђЭ’и
             if (key.endsWith(SMTP_TEMPLATE_SUBJECT_SUFFIX))
             {
-                // д»¶еђЌ
+                // ЊЏ–ј
                 String name =
-                    key.substring(0, key.length() - SMTP_TEMPLATE_SUBJECT_SUFFIX.length());
+                              key.substring(0, key.length() - SMTP_TEMPLATE_SUBJECT_SUFFIX.length());
                 MailTemplateEntity entity = getMailTemplateEntity(config, name);
                 entity.subject = value;
             }
             else if (key.endsWith(SMTP_TEMPLATE_BODY_SUFFIX))
             {
-                // жњ¬ж–‡
+                // –{•¶
                 String name = key.substring(0, key.length() - SMTP_TEMPLATE_BODY_SUFFIX.length());
                 MailTemplateEntity entity = getMailTemplateEntity(config, name);
                 try
@@ -860,55 +841,19 @@ public class ConfigurationReader
             }
 
         }
-        // Elastic Search Settings
-        else if (ES_HOST_NAME.equals(key))
-        {
-            config.setEsHostName(value);
-        }
-        else if (ES_HOST_PORT.equals(key))
-        {
-            try
-            {
-                config.setEsHostPort(Integer.parseInt(value));
-            }
-            catch (NumberFormatException ex)
-            {
-                // еї…й €й …з›®гЃ§гЃЇгЃЄгЃ„гЃџг‚ЃгЂЃгѓ­г‚°е‡єеЉ›гЃЇиЎЊг‚ЏгЃЄгЃ„гЂ‚
-                config.setEsHostPort(0);
-            }
-        }
-        else if (ES_CLUSTER_NAME.equals(key))
-        {
-            config.setEsClusterName(value);
-        }
-        else if (ES_INDEX_PREFIX.equals(key))
-        {
-            config.setEsIndexPrefix(value);
-        }
-        else if (ES_INDEX_POSTFIX.equals(key))
-        {
-            config.setEsIndexPostfix(value);
-        }
-        else if (ES_TYPE.equals(key))
-        {
-            config.setEsType(value);
-        }
-        else if (ES_AVAILABLE.equals(key))
-        {
-            config.setEsAvailable(Boolean.parseBoolean(value));
-        }
+
     }
 
     /**
-     * жЊ‡е®љгЃ•г‚ЊгЃџгѓЎгѓјгѓ«гѓ†гѓігѓ—гѓ¬гѓјгѓ€й …з›®гЃ®иЁ­е®љг‚Єгѓ–г‚ёг‚§г‚Їгѓ€г‚’еЏ–еѕ—гЃ—гЃѕгЃ™гЂ‚<br />
-     * г‚Єгѓ–г‚ёг‚§г‚Їгѓ€гЃЊе­ењЁгЃ—гЃЄгЃ„е ґеђ€гЃЇз”џж€ђгЃ—гЃѕгЃ™гЂ‚
+     * Ћw’и‚і‚к‚ЅѓЃЃ[ѓ‹ѓeѓ“ѓvѓЊЃ[ѓgЌЂ–Ъ‚МђЭ’иѓIѓuѓWѓFѓNѓg‚рЋж“ѕ‚µ‚Ь‚·ЃB<br />
+     * ѓIѓuѓWѓFѓNѓg‚Є‘¶ЌЭ‚µ‚И‚ўЏкЌ‡‚Нђ¶ђ¬‚µ‚Ь‚·ЃB
      *
-     * @param config {@link DataCollectorConfig} г‚Єгѓ–г‚ёг‚§г‚Їгѓ€
-     * @param name гѓЎгѓјгѓ«гѓ†гѓігѓ—гѓ¬гѓјгѓ€й …з›®еђЌпј€ SUFFIX г‚’й™¤гЃ„гЃџйѓЁе€†пј‰
-     * @return иЁ­е®љг‚Єгѓ–г‚ёг‚§г‚Їгѓ€
+     * @param config {@link DataCollectorConfig} ѓIѓuѓWѓFѓNѓg
+     * @param name ѓЃЃ[ѓ‹ѓeѓ“ѓvѓЊЃ[ѓgЌЂ–Ъ–јЃi SUFFIX ‚рЏњ‚ў‚Ѕ•”•ЄЃj
+     * @return ђЭ’иѓIѓuѓWѓFѓNѓg
      */
     private static MailTemplateEntity getMailTemplateEntity(final DataCollectorConfig config,
-        final String name)
+            final String name)
     {
         MailTemplateEntity entity = config.getSmtpTemplate(name);
         if (entity == null)
@@ -920,11 +865,11 @@ public class ConfigurationReader
     }
 
     /**
-     * еђ„г‚Ёгѓјг‚ёг‚§гѓігѓ€гЃ®IDг‚’еЏ–еѕ—гЃ—гЃѕгЃ™гЂ‚<br />
+     * ЉeѓGЃ[ѓWѓFѓ“ѓg‚МID‚рЋж“ѕ‚µ‚Ь‚·ЃB<br />
      * 
-     * @param key г‚­гѓј
-     * @returnгЂЂг‚Ёгѓјг‚ёг‚§гѓігѓ€гЃ®ID
-     * @throws InitializeException гѓ‘гѓ©гѓЎгѓјг‚їгЃ®е€ќжњџеЊ–гЃ«е¤±ж•—гЃ—гЃџе ґеђ€
+     * @param key ѓLЃ[
+     * @returnЃ@ѓGЃ[ѓWѓFѓ“ѓg‚МID
+     * @throws InitializeException ѓpѓ‰ѓЃЃ[ѓ^‚МЏ‰Љъ‰»‚ЙЋё”s‚µ‚ЅЏкЌ‡
      */
     private static int getAgentId(final String key)
         throws InitializeException
@@ -934,7 +879,7 @@ public class ConfigurationReader
         {
             return -1;
         }
-        // г‚Ёгѓјг‚ёг‚§гѓігѓ€гЃ”гЃЁгЃ«иЁ­е®љгЃ™г‚‹г‚­гѓјд»Ґе¤–гЃ®е ґеђ€гЃЇгЂЃ-1г‚’иї”гЃ—гЂЃе‡¦зђ†г‚’зµ‚дє†гЃ™г‚‹гЂ‚
+        // ѓGЃ[ѓWѓFѓ“ѓg‚І‚Ж‚ЙђЭ’и‚·‚йѓLЃ[€ИЉO‚МЏкЌ‡‚НЃA-1‚р•Ф‚µЃAЏ€—ќ‚рЏI—№‚·‚йЃB
         String keyPrefix = key.substring(0, pos + 1);
         if (!AGENT_PREFIXES.contains(keyPrefix))
         {
@@ -955,9 +900,9 @@ public class ConfigurationReader
     }
 
     /**
-     * иЁ­е®љгѓ•г‚Ўг‚¤гѓ«гЃ®зµ¶еЇѕгѓ‘г‚№г‚’иї”гЃ—гЃѕгЃ™гЂ‚<br />
+     * ђЭ’иѓtѓ@ѓCѓ‹‚Мђв‘ОѓpѓX‚р•Ф‚µ‚Ь‚·ЃB<br />
      * 
-     * @return иЁ­е®љгѓ•г‚Ўг‚¤гѓ«гЃ®зµ¶еЇѕгѓ‘г‚№
+     * @return ђЭ’иѓtѓ@ѓCѓ‹‚Мђв‘ОѓpѓX
      */
     public static String getAbsoluteFilePath()
     {
@@ -965,14 +910,14 @@ public class ConfigurationReader
     }
 
     /**
-     * еј•ж•°гЃ§жЊ‡е®љгЃ•г‚ЊгЃџгѓ‡гѓјг‚їгѓ™гѓјг‚№еђЌгЃЊжњ‰еЉ№гЃ§гЃ‚г‚‹гЃ‹гЃ©гЃ†гЃ‹е€¤е®љгЃ—гЃѕгЃ™гЂ‚<br />
-     * жњ‰еЉ№ж–‡е­—дёЂи¦§<br />
-     * <li>еЌЉи§’г‚ўгѓ«гѓ•г‚Ўгѓ™гѓѓгѓ€</li>
-     * <li>еЌЉи§’ж•°е­—</li>
-     * <li>гЂЊ#гЂЌгЂЃгЂЊ$гЂЌгЂЃгЂЊ%гЂЌгЂЃгЂЊ@гЂЌгЂЃгЂЊ=гЂЌгЂЃгЂЊ+гЂЌгЂЃгЂЊ-гЂЌпј€гѓЏг‚¤гѓ•гѓіпј‰гЂЃгЂЊ_гЂЌпј€г‚ўгѓігѓЂгѓјг‚№г‚іг‚ўпј‰гЂЃгЂЊ~гЂЌ</li>
+     * €шђ”‚ЕЋw’и‚і‚к‚ЅѓfЃ[ѓ^ѓxЃ[ѓX–ј‚Є—LЊш‚Е‚ ‚й‚©‚З‚¤‚©”»’и‚µ‚Ь‚·ЃB<br />
+     * —LЊш•¶Ћљ€к——<br />
+     * <li>”јЉpѓAѓ‹ѓtѓ@ѓxѓbѓg</li>
+     * <li>”јЉpђ”Ћљ</li>
+     * <li>Ѓu#ЃvЃAЃu$ЃvЃAЃu%ЃvЃAЃu@ЃvЃAЃu=ЃvЃAЃu+ЃvЃAЃu-ЃvЃiѓnѓCѓtѓ“ЃjЃAЃu_ЃvЃiѓAѓ“ѓ_Ѓ[ѓXѓRѓAЃjЃAЃu~Ѓv</li>
      * 
-     * @param databaseName гѓ‡гѓјг‚їгѓ™гѓјг‚№еђЌ
-     * @return жњ‰еЉ№гЃ§гЃ‚г‚‹е ґеђ€гЂЃ<code>true</code>
+     * @param databaseName ѓfЃ[ѓ^ѓxЃ[ѓX–ј
+     * @return —LЊш‚Е‚ ‚йЏкЌ‡ЃA<code>true</code>
      */
     private static boolean isValidDBName(final String databaseName)
     {
@@ -982,11 +927,11 @@ public class ConfigurationReader
     }
 
     /**
-     * гѓ•г‚Ўг‚¤гѓ«г‚’е…ЁгЃ¦иЄ­гЃїиѕјгЃїгЂЃеЌдёЂгЃ®Stringг‚Єгѓ–г‚ёг‚§г‚Їгѓ€гЃЁгЃ—гЃ¦иї”гЃ™гЂ‚ еђ„ж”№иЎЊгЃЇStringг‚Єгѓ–г‚ёг‚§г‚Їгѓ€дё­гЃ«жЊїе…ҐгЃ•г‚Њг‚‹гЂ‚
+     * ѓtѓ@ѓCѓ‹‚р‘S‚Д“З‚ЭЌћ‚ЭЃA’P€к‚МStringѓIѓuѓWѓFѓNѓg‚Ж‚µ‚Д•Ф‚·ЃB Љe‰ьЌs‚НStringѓIѓuѓWѓFѓNѓg’†‚Й‘}“ь‚і‚к‚йЃB
      * 
-     * @param filePath иЄ­гЃїиѕјг‚Ђгѓ†гѓігѓ—гѓ¬гѓјгѓ€гЃ®гѓ‘г‚№гЂ‚
-     * @return иЄ­гЃїиѕјг‚“гЃ ж–‡е­—е€—гЂ‚
-     * @throws IOException гѓ•г‚Ўг‚¤гѓ«гЃ®иЄ­гЃїиѕјгЃїгЃ«е¤±ж•—гЃ—гЃџе ґеђ€гЂ‚
+     * @param filePath “З‚ЭЌћ‚Юѓeѓ“ѓvѓЊЃ[ѓg‚МѓpѓXЃB
+     * @return “З‚ЭЌћ‚с‚ѕ•¶Ћљ—сЃB
+     * @throws IOException ѓtѓ@ѓCѓ‹‚М“З‚ЭЌћ‚Э‚ЙЋё”s‚µ‚ЅЏкЌ‡ЃB
      */
     private static String readTemplate(final String filePath)
         throws IOException

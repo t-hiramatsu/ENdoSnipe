@@ -31,35 +31,35 @@ import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 import jp.co.acroquest.endosnipe.javelin.StatsJavelinRecorder;
 
 /**
- * Javelinãƒ­ã‚°ã‚’è¨˜éŒ²ã™ã‚‹
+ * JavelinƒƒO‚ğ‹L˜^‚·‚é
  * @author tanimoto
  * 
  */
 public class JrubyRecorder
 {
-    /** JRubyãŒRubyã‚¯ãƒ©ã‚¹ã®å…ˆé ­ã«ã¤ã‘ã‚‹æ–‡å­—åˆ— */
+    /** JRuby‚ªRubyƒNƒ‰ƒX‚Ìæ“ª‚É‚Â‚¯‚é•¶š—ñ */
     private static final String CLASS_NAME_HEADER = "#<";
 
-    /** JRubyãŒä½œæˆã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—ã®å¼•æ•°ã®æœ€å°æ•° */
+    /** JRuby‚ªì¬‚·‚éƒƒ\ƒbƒhŒÄ‚Ño‚µ‚Ìˆø”‚ÌÅ¬” */
     private static final int JRUBY_ARG_NUMS = 3;
 
     /**
-     * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+     * ƒfƒtƒHƒ‹ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^
      */
     private JrubyRecorder()
     {
         // Do Nothing.
     }
 
-    /** Javelinã®è¨­å®šãƒ•ã‚¡ã‚¤ãƒ« */
+    /** Javelin‚Ìİ’èƒtƒ@ƒCƒ‹ */
     private static JavelinConfig config__ = new JavelinConfig();
 
     /**
-     * å‰å‡¦ç†ã€‚
+     * ‘Oˆ—B
      * 
-     * @param className ã‚¯ãƒ©ã‚¹å
-     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
-     * @param args å¼•æ•°
+     * @param className ƒNƒ‰ƒX–¼
+     * @param methodName ƒƒ\ƒbƒh–¼
+     * @param args ˆø”
      */
     public static void preProcess(String className, String methodName, final Object[] args)
     {
@@ -77,12 +77,12 @@ public class JrubyRecorder
     }
 
     /**
-     * å¾Œå‡¦ç†ï¼ˆæœ¬å‡¦ç†æˆåŠŸæ™‚ï¼‰ã€‚
+     * Œãˆ—i–{ˆ—¬Œ÷jB
      * 
-     * @param className ã‚¯ãƒ©ã‚¹å
-     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
-     * @param args å¼•æ•°
-     * @param retValue æˆ»ã‚Šå€¤
+     * @param className ƒNƒ‰ƒX–¼
+     * @param methodName ƒƒ\ƒbƒh–¼
+     * @param args ˆø”
+     * @param retValue –ß‚è’l
      */
     public static void postProcessOK(String className, String methodName, final Object[] args,
             final Object retValue)
@@ -100,12 +100,12 @@ public class JrubyRecorder
     }
 
     /**
-     * å¾Œå‡¦ç†ï¼ˆæœ¬å‡¦ç†å¤±æ•—æ™‚ï¼‰ã€‚
+     * Œãˆ—i–{ˆ—¸”sjB
      * 
-     * @param className ã‚¯ãƒ©ã‚¹å
-     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
-     * @param args å¼•æ•°
-     * @param cause ä¾‹å¤–ã®åŸå› 
+     * @param className ƒNƒ‰ƒX–¼
+     * @param methodName ƒƒ\ƒbƒh–¼
+     * @param args ˆø”
+     * @param cause —áŠO‚ÌŒ´ˆö
      */
     public static void postProcessNG(String className, String methodName, final Object[] args,
             final Throwable cause)
@@ -123,9 +123,9 @@ public class JrubyRecorder
     }
 
     /**
-     * è¨­å®šã‚¯ãƒ©ã‚¹ã‚’èª­ã¿è¾¼ã‚€
+     * İ’èƒNƒ‰ƒX‚ğ“Ç‚İ‚Ş
      * 
-     * @param config Javelinã®è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«
+     * @param config Javelin‚Ìİ’èƒtƒ@ƒCƒ‹
      */
     public static void setJavelinConfig(final JavelinConfig config)
     {
@@ -133,9 +133,9 @@ public class JrubyRecorder
     }
 
     /**
-     * å¼•æ•°ã‹ã‚‰ã€JRubyå†…éƒ¨ç”¨ã®å¼•æ•°ã‚’é™¤å¤–ã—ã¾ã™ã€‚
-     * @param args å¼•æ•°
-     * @return JRubyå†…éƒ¨ç”¨ã®å¼•æ•°ã‚’é™¤å¤–ã—ãŸå¼•æ•°
+     * ˆø”‚©‚çAJRuby“à•”—p‚Ìˆø”‚ğœŠO‚µ‚Ü‚·B
+     * @param args ˆø”
+     * @return JRuby“à•”—p‚Ìˆø”‚ğœŠO‚µ‚½ˆø”
      */
     protected static Object[] omitArgs(Object[] args)
     {
@@ -155,14 +155,14 @@ public class JrubyRecorder
     }
 
     /**
-     * JRubyãŒç”Ÿæˆã—ãŸã‚¯ãƒ©ã‚¹åã‚’ã€å…ƒã®rbãƒ•ã‚¡ã‚¤ãƒ«åã«å¤‰æ›ã—ã¾ã™ã€‚<br>
-     * JRubyãŒç”Ÿæˆã—ãŸã‚¯ãƒ©ã‚¹åã®å½¢å¼ã§ãªã„å ´åˆã¯ã€å¼•æ•°ã®ã‚¯ãƒ©ã‚¹åã‚’ãã®ã¾ã¾è¿”ã—ã¾ã™ã€‚<br>
+     * JRuby‚ª¶¬‚µ‚½ƒNƒ‰ƒX–¼‚ğAŒ³‚Ìrbƒtƒ@ƒCƒ‹–¼‚É•ÏŠ·‚µ‚Ü‚·B<br>
+     * JRuby‚ª¶¬‚µ‚½ƒNƒ‰ƒX–¼‚ÌŒ`®‚Å‚È‚¢ê‡‚ÍAˆø”‚ÌƒNƒ‰ƒX–¼‚ğ‚»‚Ì‚Ü‚Ü•Ô‚µ‚Ü‚·B<br>
      * <br>
-     * ä¾‹ï¼‰<br>
+     * —áj<br>
      * opt.testpj_minus_1_dot_2_dot_0.app.controllers.test_class<br>
-     * â†’ /opt/testpj-1.2.0/app/controllers/test_class.rb<br>
-     * @param className JRubyãŒç”Ÿæˆã—ãŸãƒ¡ã‚½ãƒƒãƒ‰å
-     * @return å…ƒã®rbãƒ•ã‚¡ã‚¤ãƒ«å
+     * ¨ /opt/testpj-1.2.0/app/controllers/test_class.rb<br>
+     * @param className JRuby‚ª¶¬‚µ‚½ƒƒ\ƒbƒh–¼
+     * @return Œ³‚Ìrbƒtƒ@ƒCƒ‹–¼
      */
     protected static String toSimpleFileName(String className)
     {
@@ -183,15 +183,15 @@ public class JrubyRecorder
     }
 
     /**
-     * JRubyãŒç”Ÿæˆã—ãŸãƒ¡ã‚½ãƒƒãƒ‰åã‚’ã€å…ƒã®rbãƒ•ã‚¡ã‚¤ãƒ«ã«è¨˜è¿°ã•ã‚ŒãŸãƒ¡ã‚½ãƒƒãƒ‰åã«å¤‰æ›ã—ã¾ã™ã€‚<br>
-     * JRubyãŒç”Ÿæˆã—ãŸãƒ¡ã‚½ãƒƒãƒ‰åã®å½¢å¼ã§ãªã„å ´åˆã¯ã€å¼•æ•°ã®ãƒ¡ã‚½ãƒƒãƒ‰åã‚’ãã®ã¾ã¾è¿”ã—ã¾ã™ã€‚<br>
+     * JRuby‚ª¶¬‚µ‚½ƒƒ\ƒbƒh–¼‚ğAŒ³‚Ìrbƒtƒ@ƒCƒ‹‚É‹Lq‚³‚ê‚½ƒƒ\ƒbƒh–¼‚É•ÏŠ·‚µ‚Ü‚·B<br>
+     * JRuby‚ª¶¬‚µ‚½ƒƒ\ƒbƒh–¼‚ÌŒ`®‚Å‚È‚¢ê‡‚ÍAˆø”‚Ìƒƒ\ƒbƒh–¼‚ğ‚»‚Ì‚Ü‚Ü•Ô‚µ‚Ü‚·B<br>
      * <br>
-     * ä¾‹ï¼‰<br>
+     * —áj<br>
      * method__19$RUBY$render_flash_messages<br>
-     * â†’ render_flash_messages<br>
-     * @param methodName JRubyãŒç”Ÿæˆã—ãŸãƒ¡ã‚½ãƒƒãƒ‰å
-     * @param args å¼•æ•°
-     * @return å…ƒã®rbãƒ•ã‚¡ã‚¤ãƒ«ã«è¨˜è¿°ã•ã‚ŒãŸãƒ¡ã‚½ãƒƒãƒ‰å
+     * ¨ render_flash_messages<br>
+     * @param methodName JRuby‚ª¶¬‚µ‚½ƒƒ\ƒbƒh–¼
+     * @param args ˆø”
+     * @return Œ³‚Ìrbƒtƒ@ƒCƒ‹‚É‹Lq‚³‚ê‚½ƒƒ\ƒbƒh–¼
      */
     protected static String toSimpleMethodName(String methodName, final Object[] args)
     {
@@ -224,9 +224,9 @@ public class JrubyRecorder
     }
 
     /**
-     * Rubyã§ã®ã‚¯ãƒ©ã‚¹åã‚’å–å¾—ã—ã¾ã™ã€‚
-     * @param obj ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @return Rubyã§ã®ã‚¯ãƒ©ã‚¹å
+     * Ruby‚Å‚ÌƒNƒ‰ƒX–¼‚ğæ“¾‚µ‚Ü‚·B
+     * @param obj ƒIƒuƒWƒFƒNƒg
+     * @return Ruby‚Å‚ÌƒNƒ‰ƒX–¼
      */
     private static String getRubyClassName(Object obj)
     {
@@ -261,16 +261,16 @@ public class JrubyRecorder
     }
 
     /**
-     * JRubyå†…ã§æ‰±ã†ã‚¯ãƒ©ã‚¹åè¡¨è¨˜ã‚’ã€å…ƒã®Rubyã‚¯ãƒ©ã‚¹åã«å¤‰æ›ã—ã¾ã™ã€‚<br>
-     * JRubyå†…ã®ã‚¯ãƒ©ã‚¹åè¡¨è¨˜ã§ãªã„å ´åˆã¯ã€å¼•æ•°ã®è¡¨è¨˜ã‚’ãã®ã¾ã¾è¿”ã—ã¾ã™ã€‚<br>
+     * JRuby“à‚Åˆµ‚¤ƒNƒ‰ƒX–¼•\‹L‚ğAŒ³‚ÌRubyƒNƒ‰ƒX–¼‚É•ÏŠ·‚µ‚Ü‚·B<br>
+     * JRuby“à‚ÌƒNƒ‰ƒX–¼•\‹L‚Å‚È‚¢ê‡‚ÍAˆø”‚Ì•\‹L‚ğ‚»‚Ì‚Ü‚Ü•Ô‚µ‚Ü‚·B<br>
      * <br>
-     * ä¾‹ï¼‰<br>
+     * —áj<br>
      * #<ActionView::Base:0x3f156b><br>
-     * â†’ ActionView::Base<br>
+     * ¨ ActionView::Base<br>
      * #Class<#:<ActionView::Base:0x3f156b>><br>
-     * â†’ ActionView::Base<br>
-     * @param className JRubyå†…ã§æ‰±ã†ã‚¯ãƒ©ã‚¹åè¡¨è¨˜
-     * @return å…ƒã®Rubyã‚¯ãƒ©ã‚¹å
+     * ¨ ActionView::Base<br>
+     * @param className JRuby“à‚Åˆµ‚¤ƒNƒ‰ƒX–¼•\‹L
+     * @return Œ³‚ÌRubyƒNƒ‰ƒX–¼
      */
     protected static String toSimpleClassName(String className)
     {

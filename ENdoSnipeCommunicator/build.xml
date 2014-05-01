@@ -49,7 +49,7 @@
         <copy file="${endosnipe-dataaccessor.jar}" todir="${lib-dependency.dir}" failonerror="yes" />
 
         <!-- ${src}から${classes}に、Javaコードをコンパイルする -->
-        <javac srcdir="${src}" destdir="${classes}" debug="on" encoding="UTF-8">
+        <javac srcdir="${src}" destdir="${classes}" debug="on">
             <classpath refid="classpath" />
         </javac>
 
@@ -62,7 +62,7 @@
     <!-- テストソースのコンパイル -->
     <target name="compile-test" depends="compile" description="テストソースをコンパイルする">
         <!-- ${src.test}から${classes.test}に、Javaコードをコンパイルする -->
-        <javac srcdir="${src.test}" destdir="${classes.test}" debug="on" encoding="UTF-8">
+        <javac srcdir="${src.test}" destdir="${classes.test}" debug="on">
             <classpath>
                 <path refid="classpath-test" />
             </classpath>
@@ -82,6 +82,7 @@
         <!-- jarを作成する -->
 
         <!-- 依存ライブラリを一本化 -->
+        <unjar dest="${classes}" src="${lib.dir}/dependency/jsonic-1.2.5.jar" />
 
         <jar jarfile="${dist}/${distname}-${version}.jar" basedir="${classes}" excludes="**/log4j.properties">
             <manifest>
@@ -127,6 +128,8 @@
         </copy>
 
         <!-- 依存ライブラリを一本化 -->
+        <unjar dest="${plugin-temp}" src="${lib.dir}/dependency/jsonic-1.2.5.jar" />
+
         <copy todir="${plugin-temp}">
             <fileset dir="." includes="plugin*.properties" />
         </copy>
@@ -144,8 +147,5 @@
         <delete dir="${dist}" />
         <delete dir="${r}" />
         <delete dir="${plugin-temp}" />
-        <delete>
-            <fileset dir="${lib-dependency.dir}" includes="endosnipe-*.jar"/>
-        </delete>
     </target>
 </project>

@@ -30,9 +30,9 @@ import jp.co.acroquest.endosnipe.common.util.ResourceUtil;
 /**
  * Javelin Agent.<br />
  *
- * Javelin ã‚’å‹•ä½œã•ã›ã‚‹ãŸã‚ã®ãƒ€ãƒŸãƒ¼ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã€‚<br />
- * bin ã«ã‚ã‚‹ javelinAgentStart.bat / javelinAgentStart.sh ã‚’å®Ÿè¡Œã™ã‚‹ã“ã¨ã§èµ·å‹•ã—ã¾ã™ã€‚<br />
- * Ctrl+C ã§å‹•ä½œçµ‚äº†ã—ã¾ã™ã€‚
+ * Javelin ‚ğ“®ì‚³‚¹‚é‚½‚ß‚Ìƒ_ƒ~[ƒvƒƒOƒ‰ƒ€B<br />
+ * bin ‚É‚ ‚é javelinAgentStart.bat / javelinAgentStart.sh ‚ğÀs‚·‚é‚±‚Æ‚Å‹N“®‚µ‚Ü‚·B<br />
+ * Ctrl+C ‚Å“®ìI—¹‚µ‚Ü‚·B
  *
  * @author sakamoto
  */
@@ -41,9 +41,9 @@ public class AgentMain
     private static final long ONE_TIME_WAIT = 60 * 1000;
 
     /**
-     * ã‚¨ãƒ³ãƒˆãƒªãƒã‚¤ãƒ³ãƒˆã€‚
+     * ƒGƒ“ƒgƒŠƒ|ƒCƒ“ƒgB
      *
-     * @param args ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³å¼•æ•°ï¼ˆä½¿ç”¨ã—ãªã„ï¼‰
+     * @param args ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“ˆø”ig—p‚µ‚È‚¢j
      */
     public static void main(final String[] args)
     {
@@ -52,13 +52,13 @@ public class AgentMain
     }
 
     /**
-     * ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆã‚’é–‹å§‹ã—ã¾ã™ã€‚<br />
+     * ƒG[ƒWƒFƒ“ƒg‚ğŠJn‚µ‚Ü‚·B<br />
      *
-     * å‰²ã‚Šè¾¼ã¿ãŒãªã„é™ã‚Šã€ã‚¹ãƒªãƒ¼ãƒ—ã‚’ç¶™ç¶šã—ã¾ã™ã€‚
+     * Š„‚è‚İ‚ª‚È‚¢ŒÀ‚èAƒXƒŠ[ƒv‚ğŒp‘±‚µ‚Ü‚·B
      */
     public void start()
     {
-        // Javelinã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã‚’å–å¾—ã™ã‚‹
+        // Javelin‚Ìƒo[ƒWƒ‡ƒ“‚ğæ“¾‚·‚é
         String version = ResourceUtil.getJarVersion(getClass());
 
         System.out.println("ENdoSnipe Agent " + version);

@@ -35,51 +35,51 @@ import java.util.concurrent.ConcurrentHashMap;
 import jp.co.acroquest.endosnipe.common.util.StreamUtil;
 
 /**
- * javelin ã®è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã¸ã‚¢ã‚¯ã‚»ã‚¹ã™ã‚‹ãŸã‚ã®ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
- * æœ¬ã‚¯ãƒ©ã‚¹ã¯ã€å€¤ã‚’ã¯ã˜ã‚ã¦å–å¾—ã—ã‚ˆã†ã¨ã—ãŸã¨ãï¼ˆgetterãƒ¡ã‚½ãƒƒãƒ‰ã‚’ã¯ã˜ã‚ã¦å‘¼ã‚“ã ã¨ãï¼‰
- * ã«ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰è¨­å®šã‚’ãƒ­ãƒ¼ãƒ‰ã—ã¾ã™ã€‚<br />
+ * javelin ‚Ìİ’èƒtƒ@ƒCƒ‹‚ÖƒAƒNƒZƒX‚·‚é‚½‚ß‚Ìƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒX‚Å‚·B<br />
+ * –{ƒNƒ‰ƒX‚ÍA’l‚ğ‚Í‚¶‚ß‚Äæ“¾‚µ‚æ‚¤‚Æ‚µ‚½‚Æ‚«igetterƒƒ\ƒbƒh‚ğ‚Í‚¶‚ß‚ÄŒÄ‚ñ‚¾‚Æ‚«j
+ * ‚Éƒtƒ@ƒCƒ‹‚©‚çİ’è‚ğƒ[ƒh‚µ‚Ü‚·B<br />
  *
  * @author sakamoto
  */
 public class JavelinConfigUtil
 {
-    /** Javelinã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚­ãƒ¼1 */
+    /** JavelinƒIƒvƒVƒ‡ƒ“ƒL[1 */
     private static final String JAVELIN_OPTION_KEY_1 = JavelinConfig.JAVELIN_PREFIX + "property";
 
-    /** Javelinã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚­ãƒ¼2 */
+    /** JavelinƒIƒvƒVƒ‡ƒ“ƒL[2 */
     private static final String JAVELIN_OPTION_KEY_2 = JavelinConfig.JAVELIN_PREFIX + "properties";
 
-    /** è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«å1 */
+    /** İ’èƒtƒ@ƒCƒ‹–¼1 */
     private final String fileName1_;
 
-    /** è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«å2 */
+    /** İ’èƒtƒ@ƒCƒ‹–¼2 */
     private final String fileName2_;
 
-    /** Javelin ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ */
+    /** Javelin ƒvƒƒpƒeƒB */
     private Properties properties_;
 
-    /** æœ¬ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ */
+    /** –{ƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX */
     private static JavelinConfigUtil instance__ = new JavelinConfigUtil();
 
-    /** Javelinå®Ÿè¡ŒJarãƒ•ã‚¡ã‚¤ãƒ«ã®å­˜åœ¨ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª */
+    /** JavelinÀsJarƒtƒ@ƒCƒ‹‚Ì‘¶İƒfƒBƒŒƒNƒgƒŠ */
     private static String absoluteJarDirectory__;
 
-    /** PropertyFileã®ãƒ‘ã‚¹ */
+    /** PropertyFile‚ÌƒpƒX */
     private String propertyFilePath_;
 
-    /** PropertyFileã®å­˜åœ¨ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª */
+    /** PropertyFile‚Ì‘¶İƒfƒBƒŒƒNƒgƒŠ */
     private String propertyFileDirectory_;
 
-    /** Booleanã®å€¤ã‚’ä¿æŒã™ã‚‹ã€‚ */
+    /** Boolean‚Ì’l‚ğ•Û‚·‚éB */
     private Map<String, Boolean> booleanMap_ = new ConcurrentHashMap<String, Boolean>();
 
-    /** Longã®å€¤ã‚’ä¿æŒã™ã‚‹ã€‚ */
+    /** Long‚Ì’l‚ğ•Û‚·‚éB */
     private Map<String, Long> longMap_ = new ConcurrentHashMap<String, Long>();
 
-    /** Doubleã®å€¤ã‚’ä¿æŒã™ã‚‹ã€‚ */
+    /** Double‚Ì’l‚ğ•Û‚·‚éB */
     private Map<String, Double> doubleMap_ = new ConcurrentHashMap<String, Double>();
 
-    /** Integerã®å€¤ã‚’ä¿æŒã™ã‚‹ã€‚ */
+    /** Integer‚Ì’l‚ğ•Û‚·‚éB */
     private Map<String, Integer> intMap_ = new ConcurrentHashMap<String, Integer>();
 
     private JavelinConfigUtil()
@@ -89,23 +89,23 @@ public class JavelinConfigUtil
     }
 
     /**
-     * {@link JavelinConfigUtil} ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * {@link JavelinConfigUtil} ‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚µ‚Ü‚·B<br />
      *
-     * @return {@link JavelinConfigUtil} ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+     * @return {@link JavelinConfigUtil} ‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
      */
     public static JavelinConfigUtil getInstance()
     {
         return instance__;
     }
 
-    /** ã‚¤ãƒ™ãƒ³ãƒˆãƒ¬ãƒ™ãƒ«ã¨ã—ã¦å…¥åŠ›å¯èƒ½ãªå€¤ */
+    /** ƒCƒxƒ“ƒgƒŒƒxƒ‹‚Æ‚µ‚Ä“ü—Í‰Â”\‚È’l */
     private static final String[] EVENT_LEVELS = {"ERROR", "WARN", "INFO"};
 
-    /** ãƒ­ã‚°ãƒ¬ãƒ™ãƒ«ã¨ã—ã¦å…¥åŠ›å¯èƒ½ãªå€¤ */
+    /** ƒƒOƒŒƒxƒ‹‚Æ‚µ‚Ä“ü—Í‰Â”\‚È’l */
     private static final String[] LOG_LEVELS = {"FATAL", "ERROR", "WARN", "INFO", "DEBUG"};
 
     /**
-     * è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã¿ã¾ã™ã€‚<br />
+     * İ’èƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚İ‚Ü‚·B<br />
      */
     private void load()
     {
@@ -137,13 +137,13 @@ public class JavelinConfigUtil
                 file = new File(this.propertyFilePath_);
                 if (!file.exists())
                 {
-                    System.err.println("ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãƒ•ã‚¡ã‚¤ãƒ«ãŒå­˜åœ¨ã—ã¾ã›ã‚“ã€‚" + "(" + file.getAbsolutePath() + ")");
+                    System.err.println("ƒvƒƒpƒeƒBƒtƒ@ƒCƒ‹‚ª‘¶İ‚µ‚Ü‚¹‚ñB" + "(" + file.getAbsolutePath() + ")");
                     return;
                 }
                 stream = ConfigPreprocessor.process(file);
                 this.properties_.load(stream);
 
-                // è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ï¼ˆ*.confï¼‰ã®ã‚ã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’å–å¾—ã™ã‚‹
+                // İ’èƒtƒ@ƒCƒ‹i*.confj‚Ì‚ ‚éƒfƒBƒŒƒNƒgƒŠ‚ğæ“¾‚·‚é
                 File optionFile = new File(this.propertyFilePath_);
                 File optionPath = optionFile.getParentFile();
                 if (optionPath != null)
@@ -156,8 +156,8 @@ public class JavelinConfigUtil
             {
                 if (file != null)
                 {
-                    System.err.println("ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿è¾¼ã¿ã«å¤±æ•—ã—ã¾ã—ãŸã€‚" + "(" + file.getAbsolutePath()
-                        + ")");
+                    System.err.println("ƒvƒƒpƒeƒBƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İ‚É¸”s‚µ‚Ü‚µ‚½B" + "(" + file.getAbsolutePath()
+                            + ")");
                 }
             }
             finally
@@ -167,14 +167,14 @@ public class JavelinConfigUtil
         }
         else
         {
-            System.err.println("å¿…è¦ãªãƒ—ãƒ­ãƒ‘ãƒ†ã‚£(-Djavelin.property)ãŒæŒ‡å®šã•ã‚Œã¦ã„ã¾ã›ã‚“ã€‚");
+            System.err.println("•K—v‚ÈƒvƒƒpƒeƒB(-Djavelin.property)‚ªw’è‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB");
         }
     }
 
     /**
-     * è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã¿ã¾ã™ã€‚<br />
-     * @param relPath è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«(jarãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ã®ç›¸å¯¾ãƒ‘ã‚¹)
-     * @return èª­ã¿è¾¼ã‚“ã è¨­å®š
+     * İ’èƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚İ‚Ü‚·B<br />
+     * @param relPath İ’èƒtƒ@ƒCƒ‹(jarƒtƒ@ƒCƒ‹‚©‚ç‚Ì‘Š‘ÎƒpƒX)
+     * @return “Ç‚İ‚ñ‚¾İ’è
      */
     public static Properties loadProperties(final String relPath)
     {
@@ -189,7 +189,7 @@ public class JavelinConfigUtil
             file = new File(fileName);
             if (!file.exists())
             {
-                System.err.println("ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãƒ•ã‚¡ã‚¤ãƒ«ãŒå­˜åœ¨ã—ã¾ã›ã‚“ã€‚" + "(" + file.getAbsolutePath() + ")");
+                System.err.println("ƒvƒƒpƒeƒBƒtƒ@ƒCƒ‹‚ª‘¶İ‚µ‚Ü‚¹‚ñB" + "(" + file.getAbsolutePath() + ")");
             }
             stream = ConfigPreprocessor.process(file);
             properties.load(stream);
@@ -198,7 +198,7 @@ public class JavelinConfigUtil
         {
             if (file != null)
             {
-                System.err.println("ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿è¾¼ã¿ã«å¤±æ•—ã—ã¾ã—ãŸã€‚" + "(" + file.getAbsolutePath() + ")");
+                System.err.println("ƒvƒƒpƒeƒBƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İ‚É¸”s‚µ‚Ü‚µ‚½B" + "(" + file.getAbsolutePath() + ")");
             }
         }
         finally
@@ -209,12 +209,12 @@ public class JavelinConfigUtil
     }
 
     /**
-     * ãƒ­ã‚°ãƒ¬ãƒ™ãƒ«ã®å–å¾—ã«ãŠã„ã¦ã€æŒ‡å®šã•ã‚ŒãŸã‚­ãƒ¼ã«å¯¾å¿œã™ã‚‹å€¤ã‚’è¿”ã—ã¾ã™ã€‚<br />
-     * åˆæœŸè¨­å®šãŒè¡Œã‚ã‚Œã¦ã„ãªã„ã¨ãã€è¨­å®šå€¤ãŒç•°å¸¸ã®å ´åˆã«ã¯ã€ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ƒƒOƒŒƒxƒ‹‚Ìæ“¾‚É‚¨‚¢‚ÄAw’è‚³‚ê‚½ƒL[‚É‘Î‰‚·‚é’l‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ‰Šúİ’è‚ªs‚í‚ê‚Ä‚¢‚È‚¢‚Æ‚«Aİ’è’l‚ªˆÙí‚Ìê‡‚É‚ÍAƒfƒtƒHƒ‹ƒg’l‚ğ•Ô‚µ‚Ü‚·B<br />
      *
-     * @param key ã‚­ãƒ¼
-     * @param defaultValue ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
-     * @return å€¤
+     * @param key ƒL[
+     * @param defaultValue ƒfƒtƒHƒ‹ƒg’l
+     * @return ’l
      */
     public String getLogLevel(final String key, final String defaultValue)
     {
@@ -222,12 +222,12 @@ public class JavelinConfigUtil
     }
 
     /**
-     * ã‚¤ãƒ™ãƒ³ãƒˆã®ãƒ¬ãƒ™ãƒ«ã®å–å¾—ã«ãŠã„ã¦ã€æŒ‡å®šã•ã‚ŒãŸã‚­ãƒ¼ã«å¯¾å¿œã™ã‚‹å€¤ã‚’è¿”ã—ã¾ã™ã€‚<br />
-     * åˆæœŸè¨­å®šãŒè¡Œã‚ã‚Œã¦ã„ãªã„ã¨ãã€è¨­å®šå€¤ãŒç•°å¸¸ã®å ´åˆã«ã¯ã€ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ƒCƒxƒ“ƒg‚ÌƒŒƒxƒ‹‚Ìæ“¾‚É‚¨‚¢‚ÄAw’è‚³‚ê‚½ƒL[‚É‘Î‰‚·‚é’l‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ‰Šúİ’è‚ªs‚í‚ê‚Ä‚¢‚È‚¢‚Æ‚«Aİ’è’l‚ªˆÙí‚Ìê‡‚É‚ÍAƒfƒtƒHƒ‹ƒg’l‚ğ•Ô‚µ‚Ü‚·B<br />
      *
-     * @param key ã‚­ãƒ¼
-     * @param defaultValue ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
-     * @return å€¤
+     * @param key ƒL[
+     * @param defaultValue ƒfƒtƒHƒ‹ƒg’l
+     * @return ’l
      */
     public String getEventLevel(final String key, final String defaultValue)
     {
@@ -235,28 +235,28 @@ public class JavelinConfigUtil
     }
 
     /**
-     * ãƒ¬ãƒ™ãƒ«ã®å–å¾—ã«ãŠã„ã¦ã€æŒ‡å®šã•ã‚ŒãŸã‚­ãƒ¼ã«å¯¾å¿œã™ã‚‹å€¤ã‚’è¿”ã—ã¾ã™ã€‚<br />
-     * åˆæœŸè¨­å®šãŒè¡Œã‚ã‚Œã¦ã„ãªã„ã¨ãã€è¨­å®šå€¤ãŒç•°å¸¸ã®å ´åˆã«ã¯ã€ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ƒŒƒxƒ‹‚Ìæ“¾‚É‚¨‚¢‚ÄAw’è‚³‚ê‚½ƒL[‚É‘Î‰‚·‚é’l‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ‰Šúİ’è‚ªs‚í‚ê‚Ä‚¢‚È‚¢‚Æ‚«Aİ’è’l‚ªˆÙí‚Ìê‡‚É‚ÍAƒfƒtƒHƒ‹ƒg’l‚ğ•Ô‚µ‚Ü‚·B<br />
      *
-     * @param key ã‚­ãƒ¼
-     * @param defaultValue ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
-     * @param levelArray ãƒ¬ãƒ™ãƒ«ã¨ã—ã¦å…¥åŠ›å¯èƒ½ãªå€¤ã®é…åˆ—
+     * @param key ƒL[
+     * @param defaultValue ƒfƒtƒHƒ‹ƒg’l
+     * @param levelArray ƒŒƒxƒ‹‚Æ‚µ‚Ä“ü—Í‰Â”\‚È’l‚Ì”z—ñ
      * 
-     * @return å€¤
+     * @return ’l
      */
     private String getLevel(final String key, final String defaultValue, final String[] levelArray)
     {
 
-        String value = null;
+    	String value = null;
         synchronized (this)
         {
-            value = this.properties_.getProperty(key);
-            if (value == null)
-            {
-                value = defaultValue.toUpperCase();
-                this.properties_.put(key, value);
-                return value;
-            }
+        	value = this.properties_.getProperty(key);
+	        if (value == null)
+	        {
+	            value = defaultValue.toUpperCase();
+	            this.properties_.put(key, value);
+	            return value;
+	        }
         }
         value = value.toUpperCase();
         for (int num = 0; num < levelArray.length; num++)
@@ -266,25 +266,25 @@ public class JavelinConfigUtil
                 return value;
             }
         }
-        System.out.println(key + "ã«ä¸æ­£ãªå€¤ãŒå…¥åŠ›ã•ã‚Œã¾ã—ãŸã€‚ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤(" + defaultValue.toUpperCase() + ")ã‚’ä½¿ç”¨ã—ã¾ã™ã€‚");
+        System.out.println(key + "‚É•s³‚È’l‚ª“ü—Í‚³‚ê‚Ü‚µ‚½BƒfƒtƒHƒ‹ƒg’l(" + defaultValue.toUpperCase() + ")‚ğg—p‚µ‚Ü‚·B");
         synchronized (this)
         {
-            this.properties_.put(key, defaultValue.toUpperCase());
+        	this.properties_.put(key, defaultValue.toUpperCase());
         }
         return defaultValue;
     }
 
     /**
-     * æŒ‡å®šã•ã‚ŒãŸã‚­ãƒ¼ã«å¯¾å¿œã™ã‚‹å€¤ã‚’è¿”ã—ã¾ã™ã€‚<br />
-     * åˆæœŸè¨­å®šãŒè¡Œã‚ã‚Œã¦ã„ãªã„ã¨ãã«ã¯ã€ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * w’è‚³‚ê‚½ƒL[‚É‘Î‰‚·‚é’l‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ‰Šúİ’è‚ªs‚í‚ê‚Ä‚¢‚È‚¢‚Æ‚«‚É‚ÍAƒfƒtƒHƒ‹ƒg’l‚ğ•Ô‚µ‚Ü‚·B<br />
      *
-     * @param key ã‚­ãƒ¼
-     * @param defaultValue ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
-     * @return å€¤
+     * @param key ƒL[
+     * @param defaultValue ƒfƒtƒHƒ‹ƒg’l
+     * @return ’l
      */
     public String getString(final String key, final String defaultValue)
     {
-        String value = null;
+    	String value = null;
         synchronized (this)
         {
             if (this.properties_ == null)
@@ -301,13 +301,13 @@ public class JavelinConfigUtil
     }
 
     /**
-     * æŒ‡å®šã•ã‚ŒãŸã‚­ãƒ¼ã«å¯¾å¿œã™ã‚‹æ•°å€¤ã‚’è¿”ã—ã¾ã™ã€‚<br />
-     * åˆæœŸè¨­å®šãŒè¡Œã‚ã‚Œã¦ã„ãªã„ã¨ãã‚„ã€ä¸æ­£ãªå€¤ãŒå…¥åŠ›ã•ã‚Œã¦ã„ã‚‹ã¨ãã¯ã€
-     * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * w’è‚³‚ê‚½ƒL[‚É‘Î‰‚·‚é”’l‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ‰Šúİ’è‚ªs‚í‚ê‚Ä‚¢‚È‚¢‚Æ‚«‚âA•s³‚È’l‚ª“ü—Í‚³‚ê‚Ä‚¢‚é‚Æ‚«‚ÍA
+     * ƒfƒtƒHƒ‹ƒg’l‚ğ•Ô‚µ‚Ü‚·B<br />
      *
-     * @param key ã‚­ãƒ¼
-     * @param defaultValue ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
-     * @return å€¤
+     * @param key ƒL[
+     * @param defaultValue ƒfƒtƒHƒ‹ƒg’l
+     * @return ’l
      */
     public int getInteger(final String key, final int defaultValue)
     {
@@ -324,7 +324,7 @@ public class JavelinConfigUtil
                 }
                 catch (NumberFormatException nfe)
                 {
-                    System.out.println(key + "ã«ä¸æ­£ãªå€¤ãŒå…¥åŠ›ã•ã‚Œã¾ã—ãŸã€‚ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤(" + intValue + ")ã‚’ä½¿ç”¨ã—ã¾ã™ã€‚");
+                    System.out.println(key + "‚É•s³‚È’l‚ª“ü—Í‚³‚ê‚Ü‚µ‚½BƒfƒtƒHƒ‹ƒg’l(" + intValue + ")‚ğg—p‚µ‚Ü‚·B");
                     setInteger(key, intValue);
                 }
             }
@@ -336,13 +336,13 @@ public class JavelinConfigUtil
     }
 
     /**
-     * æŒ‡å®šã•ã‚ŒãŸã‚­ãƒ¼ã«å¯¾å¿œã™ã‚‹æ•°å€¤ã‚’è¿”ã—ã¾ã™ã€‚<br />
-     * åˆæœŸè¨­å®šãŒè¡Œã‚ã‚Œã¦ã„ãªã„ã¨ãã‚„ä¸æ­£ãªå€¤ãŒå…¥åŠ›ã•ã‚Œã¦ã„ã‚‹ã¨ãã¯ã€
-     * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * w’è‚³‚ê‚½ƒL[‚É‘Î‰‚·‚é”’l‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ‰Šúİ’è‚ªs‚í‚ê‚Ä‚¢‚È‚¢‚Æ‚«‚â•s³‚È’l‚ª“ü—Í‚³‚ê‚Ä‚¢‚é‚Æ‚«‚ÍA
+     * ƒfƒtƒHƒ‹ƒg’l‚ğ•Ô‚µ‚Ü‚·B<br />
      *
-     * @param key ã‚­ãƒ¼
-     * @param defaultValue ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
-     * @return å€¤
+     * @param key ƒL[
+     * @param defaultValue ƒfƒtƒHƒ‹ƒg’l
+     * @return ’l
      */
     public long getLong(final String key, final long defaultValue)
     {
@@ -359,7 +359,7 @@ public class JavelinConfigUtil
                 }
                 catch (NumberFormatException nfe)
                 {
-                    System.out.println(key + "ã«ä¸æ­£ãªå€¤ãŒå…¥åŠ›ã•ã‚Œã¾ã—ãŸã€‚ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤(" + defaultValue + ")ã‚’ä½¿ç”¨ã—ã¾ã™ã€‚");
+                    System.out.println(key + "‚É•s³‚È’l‚ª“ü—Í‚³‚ê‚Ü‚µ‚½BƒfƒtƒHƒ‹ƒg’l(" + defaultValue + ")‚ğg—p‚µ‚Ü‚·B");
                     setLong(key, longValue);
                 }
             }
@@ -371,13 +371,13 @@ public class JavelinConfigUtil
     }
 
     /**
-     * æŒ‡å®šã•ã‚ŒãŸã‚­ãƒ¼ã«å¯¾å¿œã™ã‚‹æ•°å€¤ã‚’è¿”ã—ã¾ã™ã€‚<br />
-     * åˆæœŸè¨­å®šãŒè¡Œã‚ã‚Œã¦ã„ãªã„ã¨ãã‚„ä¸æ­£ãªå€¤ãŒå…¥åŠ›ã•ã‚Œã¦ã„ã‚‹ã¨ãã¯ã€
-     * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * w’è‚³‚ê‚½ƒL[‚É‘Î‰‚·‚é”’l‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ‰Šúİ’è‚ªs‚í‚ê‚Ä‚¢‚È‚¢‚Æ‚«‚â•s³‚È’l‚ª“ü—Í‚³‚ê‚Ä‚¢‚é‚Æ‚«‚ÍA
+     * ƒfƒtƒHƒ‹ƒg’l‚ğ•Ô‚µ‚Ü‚·B<br />
      *
-     * @param key ã‚­ãƒ¼
-     * @param defaultValue ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
-     * @return å€¤
+     * @param key ƒL[
+     * @param defaultValue ƒfƒtƒHƒ‹ƒg’l
+     * @return ’l
      */
     public double getDouble(final String key, final double defaultValue)
     {
@@ -394,7 +394,7 @@ public class JavelinConfigUtil
                 }
                 catch (NumberFormatException nfe)
                 {
-                    System.out.println(key + "ã«ä¸æ­£ãªå€¤ãŒå…¥åŠ›ã•ã‚Œã¾ã—ãŸã€‚ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤(" + defaultValue + ")ã‚’ä½¿ç”¨ã—ã¾ã™ã€‚");
+                    System.out.println(key + "‚É•s³‚È’l‚ª“ü—Í‚³‚ê‚Ü‚µ‚½BƒfƒtƒHƒ‹ƒg’l(" + defaultValue + ")‚ğg—p‚µ‚Ü‚·B");
                     setDouble(key, doubleValue);
                 }
             }
@@ -406,13 +406,13 @@ public class JavelinConfigUtil
     }
 
     /**
-     * æŒ‡å®šã•ã‚ŒãŸã‚­ãƒ¼ã«å¯¾å¿œã™ã‚‹Booleanå€¤ã‚’è¿”ã—ã¾ã™ã€‚<br />
-     * åˆæœŸè¨­å®šãŒè¡Œã‚ã‚Œã¦ã„ãªã„ã‚„ã€ä¸æ­£ãªå€¤ãŒå…¥åŠ›ã•ã‚Œã¦ã„ã‚‹ã¨ãã¯ã€
-     * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’è¿”ã—ã¾ã™ã€‚
+     * w’è‚³‚ê‚½ƒL[‚É‘Î‰‚·‚éBoolean’l‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ‰Šúİ’è‚ªs‚í‚ê‚Ä‚¢‚È‚¢‚âA•s³‚È’l‚ª“ü—Í‚³‚ê‚Ä‚¢‚é‚Æ‚«‚ÍA
+     * ƒfƒtƒHƒ‹ƒg’l‚ğ•Ô‚µ‚Ü‚·B
      *
-     * @param key ã‚­ãƒ¼
-     * @param defaultValue ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
-     * @return å€¤
+     * @param key ƒL[
+     * @param defaultValue ƒfƒtƒHƒ‹ƒg’l
+     * @return ’l
      */
     public boolean getBoolean(final String key, final boolean defaultValue)
     {
@@ -435,7 +435,7 @@ public class JavelinConfigUtil
                 }
                 else
                 {
-                    System.out.println(key + "ã«ä¸æ­£ãªå€¤ãŒå…¥åŠ›ã•ã‚Œã¾ã—ãŸã€‚ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤(" + defaultValue + ")ã‚’ä½¿ç”¨ã—ã¾ã™ã€‚");
+                    System.out.println(key + "‚É•s³‚È’l‚ª“ü—Í‚³‚ê‚Ü‚µ‚½BƒfƒtƒHƒ‹ƒg’l(" + defaultValue + ")‚ğg—p‚µ‚Ü‚·B");
                     setBoolean(key, value);
                 }
             }
@@ -447,10 +447,10 @@ public class JavelinConfigUtil
     }
 
     /**
-     * æŒ‡å®šã•ã‚ŒãŸã‚­ãƒ¼ã«æ–‡å­—åˆ—ã‚’ã‚»ãƒƒãƒˆã—ã¾ã™ã€‚<br />
+     * w’è‚³‚ê‚½ƒL[‚É•¶š—ñ‚ğƒZƒbƒg‚µ‚Ü‚·B<br />
      *
-     * @param key ã‚­ãƒ¼
-     * @param value å€¤
+     * @param key ƒL[
+     * @param value ’l
      */
     public void setString(final String key, final String value)
     {
@@ -465,10 +465,10 @@ public class JavelinConfigUtil
     }
 
     /**
-     * æŒ‡å®šã•ã‚ŒãŸã‚­ãƒ¼ã«æ•°å€¤ã‚’ã‚»ãƒƒãƒˆã—ã¾ã™ã€‚<br />
+     * w’è‚³‚ê‚½ƒL[‚É”’l‚ğƒZƒbƒg‚µ‚Ü‚·B<br />
      *
-     * @param key ã‚­ãƒ¼
-     * @param value å€¤
+     * @param key ƒL[
+     * @param value ’l
      */
     public void setInteger(final String key, final int value)
     {
@@ -477,10 +477,10 @@ public class JavelinConfigUtil
     }
 
     /**
-     * æŒ‡å®šã•ã‚ŒãŸã‚­ãƒ¼ã«æ•°å€¤ã‚’ã‚»ãƒƒãƒˆã—ã¾ã™ã€‚<br />
+     * w’è‚³‚ê‚½ƒL[‚É”’l‚ğƒZƒbƒg‚µ‚Ü‚·B<br />
      *
-     * @param key ã‚­ãƒ¼
-     * @param value å€¤
+     * @param key ƒL[
+     * @param value ’l
      */
     public void setLong(final String key, final long value)
     {
@@ -489,10 +489,10 @@ public class JavelinConfigUtil
     }
 
     /**
-     * æŒ‡å®šã•ã‚ŒãŸã‚­ãƒ¼ã«æ•°å€¤ã‚’ã‚»ãƒƒãƒˆã—ã¾ã™ã€‚<br />
+     * w’è‚³‚ê‚½ƒL[‚É”’l‚ğƒZƒbƒg‚µ‚Ü‚·B<br />
      *
-     * @param key ã‚­ãƒ¼
-     * @param value å€¤
+     * @param key ƒL[
+     * @param value ’l
      */
     public void setDouble(final String key, final double value)
     {
@@ -501,10 +501,10 @@ public class JavelinConfigUtil
     }
 
     /**
-     * æŒ‡å®šã•ã‚ŒãŸã‚­ãƒ¼ã«booleanå€¤ã‚’ã‚»ãƒƒãƒˆã—ã¾ã™ã€‚<br />
+     * w’è‚³‚ê‚½ƒL[‚Éboolean’l‚ğƒZƒbƒg‚µ‚Ü‚·B<br />
      *
-     * @param key ã‚­ãƒ¼
-     * @param value å€¤
+     * @param key ƒL[
+     * @param value ’l
      */
     public void setBoolean(final String key, final boolean value)
     {
@@ -513,14 +513,14 @@ public class JavelinConfigUtil
     }
 
     /**
-     * æŒ‡å®šã•ã‚ŒãŸã‚­ãƒ¼ãŒè¨­å®šã«å­˜åœ¨ã™ã‚‹ã‹ã©ã†ã‹ã‚’èª¿ã¹ã¾ã™ã€‚<br />
+     * w’è‚³‚ê‚½ƒL[‚ªİ’è‚É‘¶İ‚·‚é‚©‚Ç‚¤‚©‚ğ’²‚×‚Ü‚·B<br />
      *
-     * @param key ã‚­ãƒ¼
-     * @return å­˜åœ¨ã™ã‚‹å ´åˆ <code>true</code>ã€å­˜åœ¨ã—ãªã„å ´åˆã€<code>false</code>
+     * @param key ƒL[
+     * @return ‘¶İ‚·‚éê‡ <code>true</code>A‘¶İ‚µ‚È‚¢ê‡A<code>false</code>
      */
     public boolean isKeyExist(final String key)
     {
-        boolean ret = false;
+    	boolean ret = false;
         synchronized (this)
         {
             if (this.properties_ == null)
@@ -533,9 +533,9 @@ public class JavelinConfigUtil
     }
 
     /**
-     * è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«åã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * İ’èƒtƒ@ƒCƒ‹–¼‚ğ•Ô‚µ‚Ü‚·B<br />
      *
-     * @return è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«å
+     * @return İ’èƒtƒ@ƒCƒ‹–¼
      */
     public String getFileName()
     {
@@ -543,9 +543,9 @@ public class JavelinConfigUtil
     }
 
     /**
-     * è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«åã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * İ’èƒtƒ@ƒCƒ‹–¼‚ğ•Ô‚µ‚Ü‚·B<br />
      *
-     * @return è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«å
+     * @return İ’èƒtƒ@ƒCƒ‹–¼
      */
     private String getFileName1()
     {
@@ -553,9 +553,9 @@ public class JavelinConfigUtil
     }
 
     /**
-     * è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«åã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * İ’èƒtƒ@ƒCƒ‹–¼‚ğ•Ô‚µ‚Ü‚·B<br />
      *
-     * @return è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«å
+     * @return İ’èƒtƒ@ƒCƒ‹–¼
      */
     private String getFileName2()
     {
@@ -563,9 +563,9 @@ public class JavelinConfigUtil
     }
 
     /**
-     * Javelinå®Ÿè¡ŒJarãƒ•ã‚¡ã‚¤ãƒ«ã®å­˜åœ¨ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * JavelinÀsJarƒtƒ@ƒCƒ‹‚Ì‘¶İƒfƒBƒŒƒNƒgƒŠ‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @return Javelinå®Ÿè¡ŒJarãƒ•ã‚¡ã‚¤ãƒ«ã®å­˜åœ¨ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
+     * @return JavelinÀsJarƒtƒ@ƒCƒ‹‚Ì‘¶İƒfƒBƒŒƒNƒgƒŠ
      */
     public String getAbsoluteJarDirectory()
     {
@@ -573,9 +573,9 @@ public class JavelinConfigUtil
     }
 
     /**
-     * Javelinå®Ÿè¡ŒJarãƒ•ã‚¡ã‚¤ãƒ«ã®å­˜åœ¨ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’è¨­å®šã—ã¾ã™ã€‚<br />
+     * JavelinÀsJarƒtƒ@ƒCƒ‹‚Ì‘¶İƒfƒBƒŒƒNƒgƒŠ‚ğİ’è‚µ‚Ü‚·B<br />
      * 
-     * @param absoluteJarDirectory Javelinå®Ÿè¡ŒJarãƒ•ã‚¡ã‚¤ãƒ«ã®å­˜åœ¨ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
+     * @param absoluteJarDirectory JavelinÀsJarƒtƒ@ƒCƒ‹‚Ì‘¶İƒfƒBƒŒƒNƒgƒŠ
      */
     public void setAbsoluteJarDirectory(final String absoluteJarDirectory)
     {
@@ -583,9 +583,9 @@ public class JavelinConfigUtil
     }
 
     /**
-     * ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãƒ•ã‚¡ã‚¤ãƒ«ã®å­˜åœ¨ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ƒvƒƒpƒeƒBƒtƒ@ƒCƒ‹‚Ì‘¶İƒfƒBƒŒƒNƒgƒŠ‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @return ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãƒ•ã‚¡ã‚¤ãƒ«ã®å­˜åœ¨ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
+     * @return ƒvƒƒpƒeƒBƒtƒ@ƒCƒ‹‚Ì‘¶İƒfƒBƒŒƒNƒgƒŠ
      */
     public String getPropertyFileDirectory()
     {
@@ -593,9 +593,9 @@ public class JavelinConfigUtil
     }
 
     /**
-     * ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãƒ•ã‚¡ã‚¤ãƒ«ã®å­˜åœ¨ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’è¨­å®šã—ã¾ã™ã€‚<br />
+     * ƒvƒƒpƒeƒBƒtƒ@ƒCƒ‹‚Ì‘¶İƒfƒBƒŒƒNƒgƒŠ‚ğİ’è‚µ‚Ü‚·B<br />
      * 
-     * @param propertyFileDirectory ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãƒ•ã‚¡ã‚¤ãƒ«ã®å­˜åœ¨ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
+     * @param propertyFileDirectory ƒvƒƒpƒeƒBƒtƒ@ƒCƒ‹‚Ì‘¶İƒfƒBƒŒƒNƒgƒŠ
      */
     public void setPropertyFileDirectory(final String propertyFileDirectory)
     {
@@ -603,9 +603,9 @@ public class JavelinConfigUtil
     }
 
     /**
-     * ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
+     * ƒvƒƒpƒeƒBƒtƒ@ƒCƒ‹‚ÌƒpƒX‚ğİ’è‚µ‚Ü‚·B<br />
      * 
-     * @param propertyFilePath ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹
+     * @param propertyFilePath ƒvƒƒpƒeƒBƒtƒ@ƒCƒ‹‚ÌƒpƒX
      */
     public void setPropertyFilePath(final String propertyFilePath)
     {
@@ -613,9 +613,9 @@ public class JavelinConfigUtil
     }
 
     /**
-     * ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ƒvƒƒpƒeƒBƒtƒ@ƒCƒ‹‚ÌƒpƒX‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @return ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹
+     * @return ƒvƒƒpƒeƒBƒtƒ@ƒCƒ‹‚ÌƒpƒX
      */
     public String getPropertyFilePath()
     {
@@ -623,10 +623,10 @@ public class JavelinConfigUtil
     }
 
     /**
-     * Javelinå®Ÿè¡ŒJarãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ã®ç›¸å¯¾ãƒ‘ã‚¹ã‚’çµ¶å¯¾ãƒ‘ã‚¹ã«å¤‰æ›ã—ã¾ã™ã€‚<br />
+     * JavelinÀsJarƒtƒ@ƒCƒ‹‚©‚ç‚Ì‘Š‘ÎƒpƒX‚ğâ‘ÎƒpƒX‚É•ÏŠ·‚µ‚Ü‚·B<br />
      * 
-     * @param relativePath Javelinå®Ÿè¡ŒJarãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ã®ç›¸å¯¾ãƒ‘ã‚¹
-     * @return çµ¶å¯¾ãƒ‘ã‚¹
+     * @param relativePath JavelinÀsJarƒtƒ@ƒCƒ‹‚©‚ç‚Ì‘Š‘ÎƒpƒX
+     * @return â‘ÎƒpƒX
      */
     public static String convertRelPathFromJartoAbsPath(final String relativePath)
     {
@@ -656,10 +656,10 @@ public class JavelinConfigUtil
     }
 
     /**
-     * ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ã®ç›¸å¯¾ãƒ‘ã‚¹ã‚’çµ¶å¯¾ãƒ‘ã‚¹ã«å¤‰æ›ã—ã¾ã™ã€‚<br />
+     * ƒvƒƒpƒeƒBƒtƒ@ƒCƒ‹‚©‚ç‚Ì‘Š‘ÎƒpƒX‚ğâ‘ÎƒpƒX‚É•ÏŠ·‚µ‚Ü‚·B<br />
      * 
-     * @param relativePath ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ã®ç›¸å¯¾ãƒ‘ã‚¹
-     * @return çµ¶å¯¾ãƒ‘ã‚¹
+     * @param relativePath ƒvƒƒpƒeƒBƒtƒ@ƒCƒ‹‚©‚ç‚Ì‘Š‘ÎƒpƒX
+     * @return â‘ÎƒpƒX
      */
     public String convertRelativePathtoAbsolutePath(final String relativePath)
     {
@@ -690,7 +690,7 @@ public class JavelinConfigUtil
     }
 
     /**
-     * ã™ã¹ã¦ã®è¨­å®šã®æ›´æ–°ã‚’åæ˜ ã—ã¾ã™ã€‚<br />
+     * ‚·‚×‚Ä‚Ìİ’è‚ÌXV‚ğ”½‰f‚µ‚Ü‚·B<br />
      */
     public void update()
     {
@@ -701,13 +701,13 @@ public class JavelinConfigUtil
     }
 
     /**
-     * æŒ‡å®šã—ãŸã‚­ãƒ¼ã‚’æŒã¤Booleanã®å€¤ã®æ›´æ–°ã‚’åæ˜ ã—ã¾ã™ã€‚<br />
+     * w’è‚µ‚½ƒL[‚ğ‚ÂBoolean‚Ì’l‚ÌXV‚ğ”½‰f‚µ‚Ü‚·B<br />
      * 
-     * å®Ÿå‹•ä½œã¨ã—ã¦ã€æŒ‡å®šã—ãŸã‚­ãƒ¼ã‚’æŒã¤Booleanã®å€¤ã‚’booleanMap_ã‹ã‚‰å‰Šé™¤ã—ã¾ã™ã€‚
-     * å‰Šé™¤ã™ã‚‹ã“ã¨ã«ã‚ˆã£ã¦ã€æŒ‡å®šã•ã‚ŒãŸã‚­ãƒ¼ã‚’æŒã¤å€¤ãŒæ¬¡ã«ä½¿ç”¨ã•ã‚Œã‚‹éš›ã€
-     * propertiesã‹ã‚‰èª­ã¿å‡ºã•ã‚Œã‚‹ãŸã‚ã€æ›´æ–°ã—ãŸå€¤ãŒåæ˜ ã•ã‚Œã¾ã™ã€‚
+     * À“®ì‚Æ‚µ‚ÄAw’è‚µ‚½ƒL[‚ğ‚ÂBoolean‚Ì’l‚ğbooleanMap_‚©‚çíœ‚µ‚Ü‚·B
+     * íœ‚·‚é‚±‚Æ‚É‚æ‚Á‚ÄAw’è‚³‚ê‚½ƒL[‚ğ‚Â’l‚ªŸ‚Ég—p‚³‚ê‚éÛA
+     * properties‚©‚ç“Ç‚İo‚³‚ê‚é‚½‚ßAXV‚µ‚½’l‚ª”½‰f‚³‚ê‚Ü‚·B
      * 
-     * @param key æ›´æ–°åæ˜ å¯¾è±¡ã®å€¤ã®ã‚­ãƒ¼
+     * @param key XV”½‰f‘ÎÛ‚Ì’l‚ÌƒL[
      */
     public void updateBooleanValue(final String key)
     {
@@ -719,13 +719,13 @@ public class JavelinConfigUtil
     }
 
     /**
-     * æŒ‡å®šã—ãŸã‚­ãƒ¼ã‚’æŒã¤Integerã®å€¤ã®æ›´æ–°ã‚’åæ˜ ã—ã¾ã™ã€‚<br />
+     * w’è‚µ‚½ƒL[‚ğ‚ÂInteger‚Ì’l‚ÌXV‚ğ”½‰f‚µ‚Ü‚·B<br />
      * 
-     * å®Ÿå‹•ä½œã¨ã—ã¦ã€æŒ‡å®šã—ãŸã‚­ãƒ¼ã‚’æŒã¤Integerã®å€¤ã‚’intMap_ã‹ã‚‰å‰Šé™¤ã—ã¾ã™ã€‚
-     * å‰Šé™¤ã™ã‚‹ã“ã¨ã«ã‚ˆã£ã¦ã€æŒ‡å®šã•ã‚ŒãŸã‚­ãƒ¼ã‚’æŒã¤å€¤ãŒæ¬¡ã«ä½¿ç”¨ã•ã‚Œã‚‹éš›ã€
-     * propertiesã‹ã‚‰èª­ã¿å‡ºã•ã‚Œã‚‹ãŸã‚ã€æ›´æ–°ã—ãŸå€¤ãŒåæ˜ ã•ã‚Œã¾ã™ã€‚
+     * À“®ì‚Æ‚µ‚ÄAw’è‚µ‚½ƒL[‚ğ‚ÂInteger‚Ì’l‚ğintMap_‚©‚çíœ‚µ‚Ü‚·B
+     * íœ‚·‚é‚±‚Æ‚É‚æ‚Á‚ÄAw’è‚³‚ê‚½ƒL[‚ğ‚Â’l‚ªŸ‚Ég—p‚³‚ê‚éÛA
+     * properties‚©‚ç“Ç‚İo‚³‚ê‚é‚½‚ßAXV‚µ‚½’l‚ª”½‰f‚³‚ê‚Ü‚·B
      * 
-     * @param key æ›´æ–°åæ˜ å¯¾è±¡ã®å€¤ã®ã‚­ãƒ¼
+     * @param key XV”½‰f‘ÎÛ‚Ì’l‚ÌƒL[
      */
     public void updateIntValue(final String key)
     {
@@ -737,13 +737,13 @@ public class JavelinConfigUtil
     }
 
     /**
-     * æŒ‡å®šã—ãŸã‚­ãƒ¼ã‚’æŒã¤Longã®å€¤ã®æ›´æ–°ã‚’åæ˜ ã—ã¾ã™ã€‚<br />
+     * w’è‚µ‚½ƒL[‚ğ‚ÂLong‚Ì’l‚ÌXV‚ğ”½‰f‚µ‚Ü‚·B<br />
      * 
-     * å®Ÿå‹•ä½œã¨ã—ã¦ã€æŒ‡å®šã—ãŸã‚­ãƒ¼ã‚’æŒã¤Longã®å€¤ã‚’longMap_ã‹ã‚‰å‰Šé™¤ã—ã¾ã™ã€‚
-     * å‰Šé™¤ã™ã‚‹ã“ã¨ã«ã‚ˆã£ã¦ã€æŒ‡å®šã•ã‚ŒãŸã‚­ãƒ¼ã‚’æŒã¤å€¤ãŒæ¬¡ã«ä½¿ç”¨ã•ã‚Œã‚‹éš›ã€
-     * propertiesã‹ã‚‰èª­ã¿å‡ºã•ã‚Œã‚‹ãŸã‚ã€æ›´æ–°ã—ãŸå€¤ãŒåæ˜ ã•ã‚Œã¾ã™ã€‚
+     * À“®ì‚Æ‚µ‚ÄAw’è‚µ‚½ƒL[‚ğ‚ÂLong‚Ì’l‚ğlongMap_‚©‚çíœ‚µ‚Ü‚·B
+     * íœ‚·‚é‚±‚Æ‚É‚æ‚Á‚ÄAw’è‚³‚ê‚½ƒL[‚ğ‚Â’l‚ªŸ‚Ég—p‚³‚ê‚éÛA
+     * properties‚©‚ç“Ç‚İo‚³‚ê‚é‚½‚ßAXV‚µ‚½’l‚ª”½‰f‚³‚ê‚Ü‚·B
      * 
-     * @param key æ›´æ–°åæ˜ å¯¾è±¡ã®å€¤ã®ã‚­ãƒ¼
+     * @param key XV”½‰f‘ÎÛ‚Ì’l‚ÌƒL[
      */
     public void updateLongValue(final String key)
     {
@@ -753,14 +753,4 @@ public class JavelinConfigUtil
         }
         this.longMap_.remove(key);
     }
-
-    /**
-     * ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã€‚
-     */
-    public Properties getProperties()
-    {
-        return properties_;
-    }
-
 }

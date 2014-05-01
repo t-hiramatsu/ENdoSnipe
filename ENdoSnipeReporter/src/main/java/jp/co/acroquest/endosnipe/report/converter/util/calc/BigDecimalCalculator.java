@@ -19,49 +19,49 @@ import jp.co.acroquest.endosnipe.report.converter.util.calc.Calculator;
 import org.apache.commons.beanutils.converters.BigDecimalConverter;
 
 /**
- * BigDecimal蝙九↓驕ｩ蜷医＠縺溯ｨ育ｮ怜�ｦ逅�繧貞ｮ溯｡後☆繧玖ｨ育ｮ玲ｩ溘け繝ｩ繧ｹ
+ * BigDecimal型に適合した計算処理を実行する計算機クラス
  * 
  * @author M.Yoshida
  */
-public class BigDecimalCalculator implements Calculator
+public class BigDecimalCalculator implements Calculator 
 {
 
-	public Object add(Object obj1, Object obj2)
+	public Object add(Object obj1, Object obj2) 
 	{
-		BigDecimal decimalData1 = (BigDecimal) obj1;
-		BigDecimal decimalData2 = (BigDecimal) obj2;
-
-		return (Object) (decimalData1.add(decimalData2));
+		BigDecimal decimalData1 = (BigDecimal)obj1;
+		BigDecimal decimalData2 = (BigDecimal)obj2;
+		
+		return (Object)(decimalData1.add(decimalData2));
 	}
 
-	public Object div(Object obj1, Object obj2)
+	public Object div(Object obj1, Object obj2) 
 	{
-		BigDecimal decimalData1 = (BigDecimal) obj1;
-		BigDecimal decimalData2 = (BigDecimal) obj2;
-
-		return (Object) (decimalData1.divide(decimalData2, BigDecimal.ROUND_DOWN));
+		BigDecimal decimalData1 = (BigDecimal)obj1;
+		BigDecimal decimalData2 = (BigDecimal)obj2;
+		
+		return (Object)(decimalData1.divide(decimalData2, BigDecimal.ROUND_DOWN));
 	}
 
-	public Object immediate(String str)
+	public Object immediate(String str) 
 	{
 		BigDecimalConverter converter = new BigDecimalConverter();
 		return converter.convert(BigDecimal.class, str);
 	}
 
-	public Object mul(Object obj1, Object obj2)
+	public Object mul(Object obj1, Object obj2) 
 	{
-		BigDecimal decimalData1 = (BigDecimal) obj1;
-		BigDecimal decimalData2 = (BigDecimal) obj2;
-
-		return (Object) (decimalData1.multiply(decimalData2));
+		BigDecimal decimalData1 = (BigDecimal)obj1;
+		BigDecimal decimalData2 = (BigDecimal)obj2;
+		
+		return (Object)(decimalData1.multiply(decimalData2));
 	}
 
-	public Object sub(Object obj1, Object obj2)
+	public Object sub(Object obj1, Object obj2) 
 	{
-		BigDecimal decimalData1 = (BigDecimal) obj1;
-		BigDecimal decimalData2 = (BigDecimal) obj2;
-
-		return (Object) (decimalData1.subtract(decimalData2));
+		BigDecimal decimalData1 = (BigDecimal)obj1;
+		BigDecimal decimalData2 = (BigDecimal)obj2;
+		
+		return (Object)(decimalData1.subtract(decimalData2));
 	}
 
 }

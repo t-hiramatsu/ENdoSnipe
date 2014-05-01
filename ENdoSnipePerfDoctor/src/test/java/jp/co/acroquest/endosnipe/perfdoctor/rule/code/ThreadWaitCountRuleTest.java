@@ -9,8 +9,8 @@ public class ThreadWaitCountRuleTest extends PerformanceRuleTestCase
 {
 
     /**
-     * é–¾å€¤ã‚’æŒ‡å®šã—ã¦ThreadWaitCountRuleã‚’ç”Ÿæˆã™ã‚‹ã€‚
-     * @param threshold é–¾å€¤<br>
+     * è‡’l‚ğw’è‚µ‚ÄThreadWaitCountRule‚ğ¶¬‚·‚éB
+     * @param threshold è‡’l<br>
      * @return ThreadWaitCountRule<br>
      */
     private ThreadWaitCountRule createRule(long threshold)
@@ -25,7 +25,7 @@ public class ThreadWaitCountRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 2-1-1<br>
+     * [€”Ô] 2-1-1<br>
      */
     public void testDoJudge_01()
     {
@@ -39,12 +39,12 @@ public class ThreadWaitCountRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 2-1-2<br>
+     * [€”Ô] 2-1-2<br>
      */
     public void testDoJudge_02()
     {
@@ -60,7 +60,7 @@ public class ThreadWaitCountRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 2-1-3<br>
+     * [€”Ô] 2-1-3<br>
      */
     public void testDoJudge_03()
     {
@@ -76,7 +76,7 @@ public class ThreadWaitCountRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 2-1-5<br>
+     * [€”Ô] 2-1-5<br>
      */
     public void testDoJudge_05()
     {
@@ -92,7 +92,7 @@ public class ThreadWaitCountRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 2-1-10<br>
+     * [€”Ô] 2-1-10<br>
      */
     public void testDoJudge_10()
     {
@@ -106,12 +106,12 @@ public class ThreadWaitCountRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 2-1-11<br>
+     * [€”Ô] 2-1-11<br>
      */
     public void testDoJudge_11()
     {
@@ -125,12 +125,12 @@ public class ThreadWaitCountRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 2-1-12<br>
+     * [€”Ô] 2-1-12<br>
      */
     public void testDoJudge_12()
     {
@@ -144,12 +144,12 @@ public class ThreadWaitCountRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 2-1-14<br>
+     * [€”Ô] 2-1-14<br>
      */
     public void testDoJudge_14()
     {
@@ -163,12 +163,12 @@ public class ThreadWaitCountRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 2-1-15<br>
+     * [€”Ô] 2-1-15<br>
      */
     public void testDoJudge_15()
     {
@@ -182,12 +182,12 @@ public class ThreadWaitCountRuleTest extends PerformanceRuleTestCase
         int errorListSize = errorList.size();
         if (errorListSize != 0)
         {
-            fail("ç™ºç”Ÿã—ãªã„ã¯ãšã®ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã€‚");
+            fail("”­¶‚µ‚È‚¢‚Í‚¸‚ÌƒGƒ‰[‚ª”­¶B");
         }
     }
 
     /**
-     * [é …ç•ª] 2-1-26<br>
+     * [€”Ô] 2-1-26<br>
      */
     public void testDoJudge_26()
     {
@@ -205,11 +205,11 @@ public class ThreadWaitCountRuleTest extends PerformanceRuleTestCase
     }
 
     /**
-     * [é …ç•ª] 2-1-27<br>
+     * [€”Ô] 2-1-27<br>
      * <br>
-     * judgeã®ãƒ†ã‚¹ãƒˆã€‚<br>
-     * ãƒ»ã‚ã‚‹JavelinLogElementã§å®Ÿè¡Œæ™‚ä¾‹å¤–ãŒç™ºç”Ÿ<br>
-     * â†’ãã®JavelinLogElementã¯ã‚¹ã‚­ãƒƒãƒ—ã—ã¦å‡¦ç†ã™ã‚‹ã€‚<br>
+     * judge‚ÌƒeƒXƒgB<br>
+     * E‚ ‚éJavelinLogElement‚ÅÀs—áŠO‚ª”­¶<br>
+     * ¨‚»‚ÌJavelinLogElement‚ÍƒXƒLƒbƒv‚µ‚Äˆ—‚·‚éB<br>
      */
     public void testDoJudge_RuntimeException()
     {

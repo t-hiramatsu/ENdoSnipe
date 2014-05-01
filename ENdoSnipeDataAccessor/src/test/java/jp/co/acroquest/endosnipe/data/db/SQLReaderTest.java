@@ -37,7 +37,7 @@ import jp.co.acroquest.endosnipe.common.util.StreamUtil;
 import junit.framework.TestCase;
 
 /**
- * {@link SQLReader} ã®ãŸã‚ã®ãƒ†ã‚¹ãƒˆã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+ * {@link SQLReader} ‚Ì‚½‚ß‚ÌƒeƒXƒgƒNƒ‰ƒX‚Å‚·B<br />
  * 
  * @author y-komori
  */
@@ -50,11 +50,11 @@ public class SQLReaderTest extends TestCase
         BufferedReader br = null;
         try
         {
-            // å®Ÿè¡Œ
+            // Às
             SQLReader reader = new SQLReader(new FileReader(file1));
             List<String> sqls = reader.readSql();
 
-            // æ¤œè¨¼
+            // ŒŸØ
             String fileName2 = getClass().getSimpleName() + ".expected.ddl";
             File file2 = ResourceUtil.getResourceAsFile(getClass(), fileName2);
             br = new BufferedReader(new FileReader(file2));

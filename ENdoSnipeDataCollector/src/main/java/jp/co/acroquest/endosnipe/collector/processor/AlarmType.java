@@ -26,16 +26,16 @@
 package jp.co.acroquest.endosnipe.collector.processor;
 
 /**
- * è­¦å‘Šã®ç¨®åˆ¥ã‚’è¡¨ã™Enumã‚¯ãƒ©ã‚¹
+ * Œx‚Ìí•Ê‚ğ•\‚·EnumƒNƒ‰ƒX
  * @author fujii
  *
  */
 public enum AlarmType
 {
-    /** å¾©æ—§ */
+    /** •œ‹Œ */
     RECOVER,
-    /** éšœå®³ */
+    /** áŠQ */
     FAILURE,
-    /** ãªã—ï¼ˆå–å¾—å¿œç­”ï¼‰ */
+    /** ‚È‚µiæ“¾‰“šj */
     NONE
 }

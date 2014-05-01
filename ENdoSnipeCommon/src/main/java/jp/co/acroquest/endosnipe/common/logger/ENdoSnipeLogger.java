@@ -36,22 +36,22 @@ import org.seasar.framework.message.MessageFormatter;
 import org.seasar.framework.util.AssertionUtil;
 
 /**
- * ãƒ­ã‚°å‡ºåŠ›ã‚’æä¾›ã™ã‚‹ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
- * æœ¬ã‚¯ãƒ©ã‚¹ã§ã¯ã€Eclipse ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ç’°å¢ƒã§ã‚ã‚‹ã‹ã©ã†ã‹ã‚’è‡ªå‹•åˆ¤å®šã—ã¦ã€
- * ãƒ­ã‚°å‡ºåŠ›å…ˆã‚’è‡ªå‹•çš„ã«åˆ‡ã‚Šæ›¿ãˆã¾ã™ã€‚<br />
+ * ƒƒOo—Í‚ğ’ñ‹Ÿ‚·‚éƒNƒ‰ƒX‚Å‚·B<br />
+ * –{ƒNƒ‰ƒX‚Å‚ÍAEclipse ƒvƒ‰ƒOƒCƒ“ŠÂ‹«‚Å‚ ‚é‚©‚Ç‚¤‚©‚ğ©“®”»’è‚µ‚ÄA
+ * ƒƒOo—Íæ‚ğ©“®“I‚ÉØ‚è‘Ö‚¦‚Ü‚·B<br />
  * <ul>
- * <li>Eclipse ç’°å¢ƒã§ãªã„å ´åˆã€log4j ã‚’åˆ©ç”¨ã—ã¦ãƒ­ã‚°å‡ºåŠ›ã—ã¾ã™ã€‚</li>
- * <li>Eclipse ç’°å¢ƒã®å ´åˆã€ã‚¨ãƒ©ãƒ¼ãƒ­ã‚°ãƒ»ãƒ“ãƒ¥ãƒ¼ã¸ãƒ­ã‚°å‡ºåŠ›ã—ã¾ã™ã€‚
- * (ã‚¨ãƒ©ãƒ¼ãƒ­ã‚°ãƒ»ãƒ“ãƒ¥ãƒ¼ã¯ Eclipse for RCP/Plug-in Developers ã§ä½¿ç”¨ã§ãã¾ã™)</li>
+ * <li>Eclipse ŠÂ‹«‚Å‚È‚¢ê‡Alog4j ‚ğ—˜—p‚µ‚ÄƒƒOo—Í‚µ‚Ü‚·B</li>
+ * <li>Eclipse ŠÂ‹«‚Ìê‡AƒGƒ‰[ƒƒOEƒrƒ…[‚ÖƒƒOo—Í‚µ‚Ü‚·B
+ * (ƒGƒ‰[ƒƒOEƒrƒ…[‚Í Eclipse for RCP/Plug-in Developers ‚Åg—p‚Å‚«‚Ü‚·)</li>
  * </ul>
  * 
- * æœ¬ã‚¯ãƒ©ã‚¹ã‚’åˆ©ç”¨ã—ã¦ãƒ­ã‚°å‡ºåŠ›ã‚’è¡Œã†ã«ã¯ã€ä»¥ä¸‹ã®ã‚ˆã†ã«ã—ã¦ãã ã•ã„ã€‚
+ * –{ƒNƒ‰ƒX‚ğ—˜—p‚µ‚ÄƒƒOo—Í‚ğs‚¤‚É‚ÍAˆÈ‰º‚Ì‚æ‚¤‚É‚µ‚Ä‚­‚¾‚³‚¢B
  * 
- * <h2>ENdoSnipeLogger ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®å–å¾—æ–¹æ³•</h2>
+ * <h2>ENdoSnipeLogger ƒCƒ“ƒXƒ^ƒ“ƒX‚Ìæ“¾•û–@</h2>
  * <p>
- * ä»¥ä¸‹ã®ã‚ˆã†ã«å®šæ•°ã¨ã—ã¦ç”¨æ„ã—ã¦ãã ã•ã„ã€‚å¼•æ•°ã® {@link Class} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¯
- * ãƒ­ã‚¬ãƒ¼ã‚’ä½¿ç”¨ã™ã‚‹ã‚¯ãƒ©ã‚¹ã® {@link Class} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã§ã€log4j ã®ã‚«ãƒ†ã‚´ãƒªã¨
- * ã—ã¦ä½¿ç”¨ã—ã¾ã™ã€‚
+ * ˆÈ‰º‚Ì‚æ‚¤‚É’è”‚Æ‚µ‚Ä—pˆÓ‚µ‚Ä‚­‚¾‚³‚¢Bˆø”‚Ì {@link Class} ƒIƒuƒWƒFƒNƒg‚Í
+ * ƒƒK[‚ğg—p‚·‚éƒNƒ‰ƒX‚Ì {@link Class} ƒIƒuƒWƒFƒNƒg‚ÅAlog4j ‚ÌƒJƒeƒSƒŠ‚Æ
+ * ‚µ‚Äg—p‚µ‚Ü‚·B
  * </p>
  * 
  * <pre>
@@ -60,9 +60,9 @@ import org.seasar.framework.util.AssertionUtil;
  * </pre>
  * 
  * <p>
- * ãªãŠã€Eclipse ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ç’°å¢ƒã§ä½¿ç”¨ã•ã‚Œã‚‹å¯èƒ½æ€§ãŒã‚ã‚‹å ´åˆã€
- * ä»¥ä¸‹ã®ã‚ˆã†ã«ç¬¬2å¼•æ•°ã« {@link PluginProvider} ã® static ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’æ¸¡ã—ã¦ãã ã•ã„ã€‚
- * ã“ã‚Œã¯ã€ã‚¨ãƒ©ãƒ¼ãƒ­ã‚°ãƒ»ãƒ“ãƒ¥ãƒ¼ã«ç™ºç”Ÿãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã‚’å‡ºåŠ›ã™ã‚‹éš›ã«ä½¿ç”¨ã—ã¾ã™ã€‚
+ * ‚È‚¨AEclipse ƒvƒ‰ƒOƒCƒ“ŠÂ‹«‚Åg—p‚³‚ê‚é‰Â”\«‚ª‚ ‚éê‡A
+ * ˆÈ‰º‚Ì‚æ‚¤‚É‘æ2ˆø”‚É {@link PluginProvider} ‚Ì static ƒCƒ“ƒXƒ^ƒ“ƒX‚ğ“n‚µ‚Ä‚­‚¾‚³‚¢B
+ * ‚±‚ê‚ÍAƒGƒ‰[ƒƒOEƒrƒ…[‚É”­¶ƒvƒ‰ƒOƒCƒ“‚ğo—Í‚·‚éÛ‚Ég—p‚µ‚Ü‚·B
  * </p>
  * 
  * <pre>
@@ -71,9 +71,9 @@ import org.seasar.framework.util.AssertionUtil;
  * </pre>
  * </li>
  * 
- * <h2>ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚³ãƒ¼ãƒ‰ã‚’ä½¿ç”¨ã—ãŸãƒ­ã‚°å‡ºåŠ›æ–¹æ³•</h2>
+ * <h2>ƒƒbƒZ[ƒWƒR[ƒh‚ğg—p‚µ‚½ƒƒOo—Í•û–@</h2>
  * <p>
- * ä»¥ä¸‹ã®å„ãƒ¡ã‚½ãƒƒãƒ‰ã§ã¯ã€ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚³ãƒ¼ãƒ‰ã‚’ä½¿ç”¨ã—ãŸãƒ­ã‚°å‡ºåŠ›ã‚’è¡Œã†ã“ã¨ãŒã§ãã¾ã™ã€‚
+ * ˆÈ‰º‚ÌŠeƒƒ\ƒbƒh‚Å‚ÍAƒƒbƒZ[ƒWƒR[ƒh‚ğg—p‚µ‚½ƒƒOo—Í‚ğs‚¤‚±‚Æ‚ª‚Å‚«‚Ü‚·B
  * </p>
  * <ul>
  *   <li>{@link #log(String, Object...)}</li>
@@ -81,41 +81,41 @@ import org.seasar.framework.util.AssertionUtil;
  * </ul>
  * <ol>
  * <li>
- *   ã‚µãƒ–ã‚·ã‚¹ãƒ†ãƒ  ID ã‚’æ±ºã‚ã‚‹ã€‚<br />
- *   3 æ–‡å­—ã®å¤§æ–‡å­—ã‚¢ãƒ«ãƒ•ã‚¡ãƒ™ãƒƒãƒˆã§ã‚µãƒ–ã‚·ã‚¹ãƒ†ãƒ  ID ã‚’æ±ºã‚ã¾ã™ã€‚<br />
- *   ã‚µãƒ–ã‚·ã‚¹ãƒ†ãƒ  ID ã®å˜ä½ã§ã€ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒªã‚½ãƒ¼ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä½œæˆã™ã‚‹ã“ã¨ã«ãªã‚Šã¾ã™ã€‚<br />
- *   (ä¾‹) ENdoSnipeDataCollector â†’ <code>EDC</code>
+ *   ƒTƒuƒVƒXƒeƒ€ ID ‚ğŒˆ‚ß‚éB<br />
+ *   3 •¶š‚Ì‘å•¶šƒAƒ‹ƒtƒ@ƒxƒbƒg‚ÅƒTƒuƒVƒXƒeƒ€ ID ‚ğŒˆ‚ß‚Ü‚·B<br />
+ *   ƒTƒuƒVƒXƒeƒ€ ID ‚Ì’PˆÊ‚ÅAƒƒbƒZ[ƒWƒŠƒ\[ƒXƒtƒ@ƒCƒ‹‚ğì¬‚·‚é‚±‚Æ‚É‚È‚è‚Ü‚·B<br />
+ *   (—á) ENdoSnipeDataCollector ¨ <code>EDC</code>
  * </li>
  * <li>
- *   ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒªã‚½ãƒ¼ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä½œæˆã™ã‚‹ã€‚<br />
- *   <code><i>ã‚µãƒ–ã‚·ã‚¹ãƒ†ãƒ  ID</i>Messages</code>ã¨ã„ã†ãƒãƒ³ãƒ‰ãƒ«åç§°ã§
- *   ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒªã‚½ãƒ¼ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä½œæˆã—ã¾ã™ã€‚<br />
- *   ãƒ•ã‚¡ã‚¤ãƒ«ã¯ã‚¯ãƒ©ã‚¹ãƒ‘ã‚¹ã®ãƒ«ãƒ¼ãƒˆ(é€šå¸¸ã¯ src/main/resources ç›´ä¸‹)ã«ä½œæˆã—ã¦ãã ã•ã„ã€‚<br />
- *   (ä¾‹) <code>EDCMessages_ja.properties</code>
+ *   ƒƒbƒZ[ƒWƒŠƒ\[ƒXƒtƒ@ƒCƒ‹‚ğì¬‚·‚éB<br />
+ *   <code><i>ƒTƒuƒVƒXƒeƒ€ ID</i>Messages</code>‚Æ‚¢‚¤ƒoƒ“ƒhƒ‹–¼Ì‚Å
+ *   ƒƒbƒZ[ƒWƒŠƒ\[ƒXƒtƒ@ƒCƒ‹‚ğì¬‚µ‚Ü‚·B<br />
+ *   ƒtƒ@ƒCƒ‹‚ÍƒNƒ‰ƒXƒpƒX‚Ìƒ‹[ƒg(’Êí‚Í src/main/resources ’¼‰º)‚Éì¬‚µ‚Ä‚­‚¾‚³‚¢B<br />
+ *   (—á) <code>EDCMessages_ja.properties</code>
  * </li>
  * <li>
- *   ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’è¨˜è¿°ã™ã‚‹ã€‚<br />
- *   <p>ä»¥ä¸‹ã®å½¢å¼ã§ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒªã‚½ãƒ¼ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å®šç¾©ã‚’è¿½åŠ ã—ã¾ã™ã€‚</p>
+ *   ƒƒbƒZ[ƒW‚ğ‹Lq‚·‚éB<br />
+ *   <p>ˆÈ‰º‚ÌŒ`®‚ÅƒƒbƒZ[ƒWƒŠƒ\[ƒXƒtƒ@ƒCƒ‹‚ÉƒƒbƒZ[ƒW’è‹`‚ğ’Ç‰Á‚µ‚Ü‚·B</p>
  * 
- *   <i>ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚³ãƒ¼ãƒ‰</i>=<i>ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸</i>
+ *   <i>ƒƒbƒZ[ƒWƒR[ƒh</i>=<i>ƒƒbƒZ[ƒW</i>
  * 
- *   <p>ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚³ãƒ¼ãƒ‰ã¯ä»¥ä¸‹ã®è¦å‰‡ã§æ±ºå®šã—ã¾ã™ã€‚</p>
+ *   <p>ƒƒbƒZ[ƒWƒR[ƒh‚ÍˆÈ‰º‚Ì‹K‘¥‚ÅŒˆ’è‚µ‚Ü‚·B</p>
  * 
- *   <i>ãƒ­ã‚°ãƒ¬ãƒ™ãƒ«</i><i>ã‚µãƒ–ã‚·ã‚¹ãƒ†ãƒ  ID</i><i>ã‚¨ãƒ©ãƒ¼ç•ªå·</i>
- * 
- *   <p>
- *   æœ€åˆã® 1 æ–‡å­—ã¯ãƒ­ã‚°ãƒ¬ãƒ™ãƒ«ã§ã€(F,E,W,I,D,T) ã®ã„ãšã‚Œã‹ã§ã™ã€‚<br />
- *   æ¬¡ã®ã® 3 æ–‡å­—ã¯ã‚µãƒ–ã‚·ã‚¹ãƒ†ãƒ  ID ã‚’æŒ‡å®šã—ã¾ã™ã€‚<br />
- *   æœ€å¾Œã® 4 æ¡ã®æ•°å­—ã¯ã‚µãƒ–ã‚·ã‚¹ãƒ†ãƒ å†…ã§ä¸€æ„ãªã‚¨ãƒ©ãƒ¼ç•ªå·ã‚’è¡¨ã—ã¾ã™ã€‚<br />
- *   </p>
- * 
- *   (ä¾‹) <code>IEDC0001=ENdoSnipe DataCollector ã‚’é–‹å§‹ã—ã¾ã™.</code>
+ *   <i>ƒƒOƒŒƒxƒ‹</i><i>ƒTƒuƒVƒXƒeƒ€ ID</i><i>ƒGƒ‰[”Ô†</i>
  * 
  *   <p>
- *   ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã«å¼•æ•°ã‚’æŒ‡å®šã™ã‚‹å ´åˆã€{0}ã€{1}ãƒ»ãƒ»ãƒ»ã®ã‚ˆã†ã«ãƒ—ãƒ¬ãƒ¼ã‚¹ãƒ›ãƒ«ãƒ€ã‚’æŒ‡å®šã§ãã¾ã™ã€‚<br />
+ *   Å‰‚Ì 1 •¶š‚ÍƒƒOƒŒƒxƒ‹‚ÅA(F,E,W,I,D,T) ‚Ì‚¢‚¸‚ê‚©‚Å‚·B<br />
+ *   Ÿ‚Ì‚Ì 3 •¶š‚ÍƒTƒuƒVƒXƒeƒ€ ID ‚ğw’è‚µ‚Ü‚·B<br />
+ *   ÅŒã‚Ì 4 Œ…‚Ì”š‚ÍƒTƒuƒVƒXƒeƒ€“à‚ÅˆêˆÓ‚ÈƒGƒ‰[”Ô†‚ğ•\‚µ‚Ü‚·B<br />
  *   </p>
  * 
- *   (ä¾‹) <code>IEDC0008=Javelin ã«æ¥ç¶šã—ã¾ã—ãŸ.(æ¥ç¶šå…ˆ: {0}:{1})</code>
+ *   (—á) <code>IEDC0001=ENdoSnipe DataCollector ‚ğŠJn‚µ‚Ü‚·.</code>
+ * 
+ *   <p>
+ *   ƒƒbƒZ[ƒW‚Éˆø”‚ğw’è‚·‚éê‡A{0}A{1}EEE‚Ì‚æ‚¤‚ÉƒvƒŒ[ƒXƒzƒ‹ƒ_‚ğw’è‚Å‚«‚Ü‚·B<br />
+ *   </p>
+ * 
+ *   (—á) <code>IEDC0008=Javelin ‚ÉÚ‘±‚µ‚Ü‚µ‚½.(Ú‘±æ: {0}:{1})</code>
  * </li>
  * </ol>
  * 
@@ -134,7 +134,7 @@ public abstract class ENdoSnipeLogger
     private static boolean useSystemLogger__;
 
     /**
-     * {@link ENdoSnipeLogger} ã®æš—é»™ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§ã™ã€‚<br />
+     * {@link ENdoSnipeLogger} ‚ÌˆÃ–Ù‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Å‚·B<br />
      */
     protected ENdoSnipeLogger()
     {
@@ -142,12 +142,12 @@ public abstract class ENdoSnipeLogger
     }
 
     /**
-     * ãƒ­ã‚°å‡ºåŠ›ã« {@link SystemLogger} ã‚’ä½¿ç”¨ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
-     * Javelin å†…éƒ¨ã§ã¯ {@link SystemLogger} ã‚’ä½¿ç”¨ã—ã¦ãƒ­ã‚°å‡ºåŠ›ã‚’è¡Œã†ãŸã‚ã€
-     * æœ€åˆã«æœ¬ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ä½¿ç”¨ã—ã¦ {@link SystemLogger} ã‚’ä½¿ç”¨ã™ã‚‹ã‚ˆã†ã«ã—ã¦ãã ã•ã„ã€‚<br />
-     * {@link SystemLogger} ã‚’ä½¿ç”¨ã™ã‚‹ã‚ˆã†ã«è¨­å®šã—ãŸå ´åˆã€ä»¥é™ã®
-     * {@link ENdoSnipeLogger} ã«ã‚ˆã‚‹å‡ºåŠ›ã¯ã™ã¹ã¦ {@link SystemLogger} ã«ã‚ˆã£ã¦è¡Œã‚ã‚Œã¾ã™ã€‚
-     * @param useSystemLogger {@link SystemLogger} ã‚’ä½¿ç”¨ã™ã‚‹å ´åˆã€<code>true</code>
+     * ƒƒOo—Í‚É {@link SystemLogger} ‚ğg—p‚·‚é‚©‚Ç‚¤‚©‚ğİ’è‚µ‚Ü‚·B<br />
+     * Javelin “à•”‚Å‚Í {@link SystemLogger} ‚ğg—p‚µ‚ÄƒƒOo—Í‚ğs‚¤‚½‚ßA
+     * Å‰‚É–{ƒƒ\ƒbƒh‚ğg—p‚µ‚Ä {@link SystemLogger} ‚ğg—p‚·‚é‚æ‚¤‚É‚µ‚Ä‚­‚¾‚³‚¢B<br />
+     * {@link SystemLogger} ‚ğg—p‚·‚é‚æ‚¤‚Éİ’è‚µ‚½ê‡AˆÈ~‚Ì
+     * {@link ENdoSnipeLogger} ‚É‚æ‚éo—Í‚Í‚·‚×‚Ä {@link SystemLogger} ‚É‚æ‚Á‚Äs‚í‚ê‚Ü‚·B
+     * @param useSystemLogger {@link SystemLogger} ‚ğg—p‚·‚éê‡A<code>true</code>
      */
     public static synchronized void setSystemLoggerMode(final boolean useSystemLogger)
     {
@@ -155,10 +155,10 @@ public abstract class ENdoSnipeLogger
     }
 
     /**
-     * {@link ENdoSnipeLogger} ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * {@link ENdoSnipeLogger} ‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @param clazz {@link Class} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @return {@link ENdoSnipeLogger} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param clazz {@link Class} ƒIƒuƒWƒFƒNƒg
+     * @return {@link ENdoSnipeLogger} ƒIƒuƒWƒFƒNƒg
      */
     public static synchronized ENdoSnipeLogger getLogger(final Class<?> clazz)
     {
@@ -166,11 +166,11 @@ public abstract class ENdoSnipeLogger
     }
 
     /**
-     * {@link ENdoSnipeLogger} ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * {@link ENdoSnipeLogger} ‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @param clazz {@link Class} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param provider {@link PluginProvider} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @return {@link ENdoSnipeLogger} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param clazz {@link Class} ƒIƒuƒWƒFƒNƒg
+     * @param provider {@link PluginProvider} ƒIƒuƒWƒFƒNƒg
+     * @return {@link ENdoSnipeLogger} ƒIƒuƒWƒFƒNƒg
      */
     public static synchronized ENdoSnipeLogger getLogger(final Class<?> clazz,
             final PluginProvider provider)
@@ -190,7 +190,7 @@ public abstract class ENdoSnipeLogger
     }
 
     /**
-     * {@link ENdoSnipeLogger} ã‚’åˆæœŸåŒ–ã—ã¾ã™ã€‚<br />
+     * {@link ENdoSnipeLogger} ‚ğ‰Šú‰»‚µ‚Ü‚·B<br />
      */
     protected static synchronized void initialize()
     {
@@ -198,7 +198,7 @@ public abstract class ENdoSnipeLogger
     }
 
     /**
-     * ãƒªã‚½ãƒ¼ã‚¹ã‚’é–‹æ”¾ã—ã¾ã™ã€‚<br />
+     * ƒŠƒ\[ƒX‚ğŠJ•ú‚µ‚Ü‚·B<br />
      */
     public static synchronized void dispose()
     {
@@ -213,21 +213,21 @@ public abstract class ENdoSnipeLogger
     {
         if (useSystemLogger__ == true)
         {
-            // SystemLogger ã‚’åˆ©ç”¨ã™ã‚‹å ´åˆ
+            // SystemLogger ‚ğ—˜—p‚·‚éê‡
             return new SystemENdoSnipeLogger();
         }
         else
         {
-            // ã©ã¡ã‚‰ã§ã‚‚ãªã„å ´åˆ
+            // ‚Ç‚¿‚ç‚Å‚à‚È‚¢ê‡
             return new Log4jENdoSnipeLogger(clazz);
         }
     }
 
     /**
-     * XML ãƒ•ã‚¡ã‚¤ãƒ«å½¢å¼ã®ã‚³ãƒ³ãƒ•ã‚£ã‚°ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ã‚’è¿½åŠ ã—ã¾ã™ã€‚<br />
-     * ã‚³ãƒ³ãƒ•ã‚£ã‚°ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ãƒ•ã‚¡ã‚¤ãƒ«ã®æ›¸å¼ã¯ log4j ã«æº–ã˜ã¾ã™ã€‚
+     * XML ƒtƒ@ƒCƒ‹Œ`®‚ÌƒRƒ“ƒtƒBƒOƒŒ[ƒVƒ‡ƒ“‚ğ’Ç‰Á‚µ‚Ü‚·B<br />
+     * ƒRƒ“ƒtƒBƒOƒŒ[ƒVƒ‡ƒ“ƒtƒ@ƒCƒ‹‚Ì‘®‚Í log4j ‚É€‚¶‚Ü‚·B
      * 
-     * @param config ã‚³ãƒ³ãƒ•ã‚£ã‚°ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ãƒ•ã‚¡ã‚¤ãƒ«ã® {@link URL}
+     * @param config ƒRƒ“ƒtƒBƒOƒŒ[ƒVƒ‡ƒ“ƒtƒ@ƒCƒ‹‚Ì {@link URL}
      */
     public void addXmlConfig(final URL config)
     {
@@ -236,10 +236,10 @@ public abstract class ENdoSnipeLogger
     }
 
     /**
-     * properties ãƒ•ã‚¡ã‚¤ãƒ«å½¢å¼ã®ã‚³ãƒ³ãƒ•ã‚£ã‚°ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ã‚’è¿½åŠ ã—ã¾ã™ã€‚<br />
-     * ã‚³ãƒ³ãƒ•ã‚£ã‚°ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ãƒ•ã‚¡ã‚¤ãƒ«ã®æ›¸å¼ã¯ log4j ã«æº–ã˜ã¾ã™ã€‚
+     * properties ƒtƒ@ƒCƒ‹Œ`®‚ÌƒRƒ“ƒtƒBƒOƒŒ[ƒVƒ‡ƒ“‚ğ’Ç‰Á‚µ‚Ü‚·B<br />
+     * ƒRƒ“ƒtƒBƒOƒŒ[ƒVƒ‡ƒ“ƒtƒ@ƒCƒ‹‚Ì‘®‚Í log4j ‚É€‚¶‚Ü‚·B
      * 
-     * @param config ã‚³ãƒ³ãƒ•ã‚£ã‚°ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ãƒ•ã‚¡ã‚¤ãƒ«ã® {@link URL}
+     * @param config ƒRƒ“ƒtƒBƒOƒŒ[ƒVƒ‡ƒ“ƒtƒ@ƒCƒ‹‚Ì {@link URL}
      */
     public void addPropertyConfig(final URL config)
     {
@@ -248,99 +248,99 @@ public abstract class ENdoSnipeLogger
     }
 
     /**
-     * TRACEæƒ…å ±ãŒå‡ºåŠ›ã•ã‚Œã‚‹ã‹ã©ã†ã‹ã‚’è¿”ã—ã¾ã™ã€‚<br />
-     * {@link SystemLogger} ãŒåˆ©ç”¨ã•ã‚Œã¦ã„ã‚‹å ´åˆã€DEBUGæƒ…å ±ãŒå‡ºåŠ›ã•ã‚Œã‚‹ã‹ã©ã†ã‹ã‚’è¿”ã—ã¾ã™ã€‚
+     * TRACEî•ñ‚ªo—Í‚³‚ê‚é‚©‚Ç‚¤‚©‚ğ•Ô‚µ‚Ü‚·B<br />
+     * {@link SystemLogger} ‚ª—˜—p‚³‚ê‚Ä‚¢‚éê‡ADEBUGî•ñ‚ªo—Í‚³‚ê‚é‚©‚Ç‚¤‚©‚ğ•Ô‚µ‚Ü‚·B
      * 
-     * @return TRACEæƒ…å ±ãŒå‡ºåŠ›ã•ã‚Œã‚‹ã‹ã©ã†ã‹
+     * @return TRACEî•ñ‚ªo—Í‚³‚ê‚é‚©‚Ç‚¤‚©
      */
     public abstract boolean isTraceEnabled();
 
     /**
-     * TRACEæƒ…å ±ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+     * TRACEî•ñ‚ğo—Í‚µ‚Ü‚·B<br />
      * 
-     * @param message ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
-     * @param throwable {@link Throwable} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @deprecated æœ¬ãƒ¡ã‚½ãƒƒãƒ‰ã¯æ—§ã‚³ãƒ¼ãƒ‰ã®äº’æ›æ€§ã®ãŸã‚ã«ç”¨æ„ã•ã‚Œã¦ã„ã¾ã™ã€‚æ›¿ã‚ã‚Šã«ã« log() ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ä½¿ç”¨ã—ã¦ãã ã•ã„ã€‚
+     * @param message ƒƒbƒZ[ƒW
+     * @param throwable {@link Throwable} ƒIƒuƒWƒFƒNƒg
+     * @deprecated –{ƒƒ\ƒbƒh‚Í‹ŒƒR[ƒh‚ÌŒİŠ·«‚Ì‚½‚ß‚É—pˆÓ‚³‚ê‚Ä‚¢‚Ü‚·B‘Ö‚í‚è‚É‚É log() ƒƒ\ƒbƒh‚ğg—p‚µ‚Ä‚­‚¾‚³‚¢B
      */
     @Deprecated
     public abstract void trace(final Object message, final Throwable throwable);
 
     /**
-     * TRACEæƒ…å ±ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+     * TRACEî•ñ‚ğo—Í‚µ‚Ü‚·B<br />
      * 
-     * @param message ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
-     * @deprecated æœ¬ãƒ¡ã‚½ãƒƒãƒ‰ã¯æ—§ã‚³ãƒ¼ãƒ‰ã®äº’æ›æ€§ã®ãŸã‚ã«ç”¨æ„ã•ã‚Œã¦ã„ã¾ã™ã€‚æ›¿ã‚ã‚Šã«ã« log() ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ä½¿ç”¨ã—ã¦ãã ã•ã„ã€‚
+     * @param message ƒƒbƒZ[ƒW
+     * @deprecated –{ƒƒ\ƒbƒh‚Í‹ŒƒR[ƒh‚ÌŒİŠ·«‚Ì‚½‚ß‚É—pˆÓ‚³‚ê‚Ä‚¢‚Ü‚·B‘Ö‚í‚è‚É‚É log() ƒƒ\ƒbƒh‚ğg—p‚µ‚Ä‚­‚¾‚³‚¢B
      */
     @Deprecated
     public abstract void trace(final Object message);
 
     /**
-     * DEBUGæƒ…å ±ãŒå‡ºåŠ›ã•ã‚Œã‚‹ã‹ã©ã†ã‹ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * DEBUGî•ñ‚ªo—Í‚³‚ê‚é‚©‚Ç‚¤‚©‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @return DEBUGæƒ…å ±ãŒå‡ºåŠ›ã•ã‚Œã‚‹ã‹ã©ã†ã‹
+     * @return DEBUGî•ñ‚ªo—Í‚³‚ê‚é‚©‚Ç‚¤‚©
      */
     public abstract boolean isDebugEnabled();
 
     /**
-     * DEBUGæƒ…å ±ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+     * DEBUGî•ñ‚ğo—Í‚µ‚Ü‚·B<br />
      * 
-     * @param message ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
-     * @param throwable {@link Throwable} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @deprecated æœ¬ãƒ¡ã‚½ãƒƒãƒ‰ã¯æ—§ã‚³ãƒ¼ãƒ‰ã®äº’æ›æ€§ã®ãŸã‚ã«ç”¨æ„ã•ã‚Œã¦ã„ã¾ã™ã€‚æ›¿ã‚ã‚Šã«ã« log() ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ä½¿ç”¨ã—ã¦ãã ã•ã„ã€‚
+     * @param message ƒƒbƒZ[ƒW
+     * @param throwable {@link Throwable} ƒIƒuƒWƒFƒNƒg
+     * @deprecated –{ƒƒ\ƒbƒh‚Í‹ŒƒR[ƒh‚ÌŒİŠ·«‚Ì‚½‚ß‚É—pˆÓ‚³‚ê‚Ä‚¢‚Ü‚·B‘Ö‚í‚è‚É‚É log() ƒƒ\ƒbƒh‚ğg—p‚µ‚Ä‚­‚¾‚³‚¢B
      */
     @Deprecated
     public abstract void debug(final Object message, final Throwable throwable);
 
     /**
-     * DEBUGæƒ…å ±ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+     * DEBUGî•ñ‚ğo—Í‚µ‚Ü‚·B<br />
      * 
-     * @param message ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
-     * @deprecated æœ¬ãƒ¡ã‚½ãƒƒãƒ‰ã¯æ—§ã‚³ãƒ¼ãƒ‰ã®äº’æ›æ€§ã®ãŸã‚ã«ç”¨æ„ã•ã‚Œã¦ã„ã¾ã™ã€‚æ›¿ã‚ã‚Šã«ã« log() ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ä½¿ç”¨ã—ã¦ãã ã•ã„ã€‚
+     * @param message ƒƒbƒZ[ƒW
+     * @deprecated –{ƒƒ\ƒbƒh‚Í‹ŒƒR[ƒh‚ÌŒİŠ·«‚Ì‚½‚ß‚É—pˆÓ‚³‚ê‚Ä‚¢‚Ü‚·B‘Ö‚í‚è‚É‚É log() ƒƒ\ƒbƒh‚ğg—p‚µ‚Ä‚­‚¾‚³‚¢B
      */
     @Deprecated
     public abstract void debug(final Object message);
 
     /**
-     * INFOæƒ…å ±ãŒå‡ºåŠ›ã•ã‚Œã‚‹ã‹ã©ã†ã‹ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * INFOî•ñ‚ªo—Í‚³‚ê‚é‚©‚Ç‚¤‚©‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @return INFOæƒ…å ±ãŒå‡ºåŠ›ã•ã‚Œã‚‹ã‹ã©ã†ã‹
+     * @return INFOî•ñ‚ªo—Í‚³‚ê‚é‚©‚Ç‚¤‚©
      */
     public abstract boolean isInfoEnabled();
 
     /**
-     * INFOæƒ…å ±ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+     * INFOî•ñ‚ğo—Í‚µ‚Ü‚·B<br />
      * 
-     * @param message ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
-     * @param throwable {@link Throwable} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @deprecated æœ¬ãƒ¡ã‚½ãƒƒãƒ‰ã¯æ—§ã‚³ãƒ¼ãƒ‰ã®äº’æ›æ€§ã®ãŸã‚ã«ç”¨æ„ã•ã‚Œã¦ã„ã¾ã™ã€‚æ›¿ã‚ã‚Šã«ã« log() ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ä½¿ç”¨ã—ã¦ãã ã•ã„ã€‚
+     * @param message ƒƒbƒZ[ƒW
+     * @param throwable {@link Throwable} ƒIƒuƒWƒFƒNƒg
+     * @deprecated –{ƒƒ\ƒbƒh‚Í‹ŒƒR[ƒh‚ÌŒİŠ·«‚Ì‚½‚ß‚É—pˆÓ‚³‚ê‚Ä‚¢‚Ü‚·B‘Ö‚í‚è‚É‚É log() ƒƒ\ƒbƒh‚ğg—p‚µ‚Ä‚­‚¾‚³‚¢B
      */
     @Deprecated
     public abstract void info(final Object message, final Throwable throwable);
 
     /**
-     * INFOæƒ…å ±ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+     * INFOî•ñ‚ğo—Í‚µ‚Ü‚·B<br />
      * 
-     * @param message ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
-     * @deprecated æœ¬ãƒ¡ã‚½ãƒƒãƒ‰ã¯æ—§ã‚³ãƒ¼ãƒ‰ã®äº’æ›æ€§ã®ãŸã‚ã«ç”¨æ„ã•ã‚Œã¦ã„ã¾ã™ã€‚æ›¿ã‚ã‚Šã«ã« log() ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ä½¿ç”¨ã—ã¦ãã ã•ã„ã€‚
+     * @param message ƒƒbƒZ[ƒW
+     * @deprecated –{ƒƒ\ƒbƒh‚Í‹ŒƒR[ƒh‚ÌŒİŠ·«‚Ì‚½‚ß‚É—pˆÓ‚³‚ê‚Ä‚¢‚Ü‚·B‘Ö‚í‚è‚É‚É log() ƒƒ\ƒbƒh‚ğg—p‚µ‚Ä‚­‚¾‚³‚¢B
      */
     @Deprecated
     public abstract void info(final Object message);
 
     /**
-     * WARNæƒ…å ±ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+     * WARNî•ñ‚ğo—Í‚µ‚Ü‚·B<br />
      * 
-     * @param message ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
-     * @param throwable {@link Throwable} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @deprecated æœ¬ãƒ¡ã‚½ãƒƒãƒ‰ã¯æ—§ã‚³ãƒ¼ãƒ‰ã®äº’æ›æ€§ã®ãŸã‚ã«ç”¨æ„ã•ã‚Œã¦ã„ã¾ã™ã€‚æ›¿ã‚ã‚Šã«ã« log() ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ä½¿ç”¨ã—ã¦ãã ã•ã„ã€‚
+     * @param message ƒƒbƒZ[ƒW
+     * @param throwable {@link Throwable} ƒIƒuƒWƒFƒNƒg
+     * @deprecated –{ƒƒ\ƒbƒh‚Í‹ŒƒR[ƒh‚ÌŒİŠ·«‚Ì‚½‚ß‚É—pˆÓ‚³‚ê‚Ä‚¢‚Ü‚·B‘Ö‚í‚è‚É‚É log() ƒƒ\ƒbƒh‚ğg—p‚µ‚Ä‚­‚¾‚³‚¢B
      */
     @Deprecated
     public abstract void warn(final Object message, final Throwable throwable);
 
     /**
-     * WARNæƒ…å ±ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+     * WARNî•ñ‚ğo—Í‚µ‚Ü‚·B<br />
      * 
-     * @param throwable ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
-     * @deprecated æœ¬ãƒ¡ã‚½ãƒƒãƒ‰ã¯æ—§ã‚³ãƒ¼ãƒ‰ã®äº’æ›æ€§ã®ãŸã‚ã«ç”¨æ„ã•ã‚Œã¦ã„ã¾ã™ã€‚æ›¿ã‚ã‚Šã«ã« log() ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ä½¿ç”¨ã—ã¦ãã ã•ã„ã€‚
+     * @param throwable ƒƒbƒZ[ƒW
+     * @deprecated –{ƒƒ\ƒbƒh‚Í‹ŒƒR[ƒh‚ÌŒİŠ·«‚Ì‚½‚ß‚É—pˆÓ‚³‚ê‚Ä‚¢‚Ü‚·B‘Ö‚í‚è‚É‚É log() ƒƒ\ƒbƒh‚ğg—p‚µ‚Ä‚­‚¾‚³‚¢B
      */
     @Deprecated
     public void warn(final Throwable throwable)
@@ -349,58 +349,58 @@ public abstract class ENdoSnipeLogger
     }
 
     /**
-     * WARNæƒ…å ±ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+     * WARNî•ñ‚ğo—Í‚µ‚Ü‚·B<br />
      * 
-     * @param message ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
-     * @deprecated æœ¬ãƒ¡ã‚½ãƒƒãƒ‰ã¯æ—§ã‚³ãƒ¼ãƒ‰ã®äº’æ›æ€§ã®ãŸã‚ã«ç”¨æ„ã•ã‚Œã¦ã„ã¾ã™ã€‚æ›¿ã‚ã‚Šã«ã« log() ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ä½¿ç”¨ã—ã¦ãã ã•ã„ã€‚
+     * @param message ƒƒbƒZ[ƒW
+     * @deprecated –{ƒƒ\ƒbƒh‚Í‹ŒƒR[ƒh‚ÌŒİŠ·«‚Ì‚½‚ß‚É—pˆÓ‚³‚ê‚Ä‚¢‚Ü‚·B‘Ö‚í‚è‚É‚É log() ƒƒ\ƒbƒh‚ğg—p‚µ‚Ä‚­‚¾‚³‚¢B
      */
     @Deprecated
     public abstract void warn(final Object message);
 
     /**
-     * ERRORæƒ…å ±ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+     * ERRORî•ñ‚ğo—Í‚µ‚Ü‚·B<br />
      * 
-     * @param message ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
-     * @param throwable {@link Throwable} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @deprecated æœ¬ãƒ¡ã‚½ãƒƒãƒ‰ã¯æ—§ã‚³ãƒ¼ãƒ‰ã®äº’æ›æ€§ã®ãŸã‚ã«ç”¨æ„ã•ã‚Œã¦ã„ã¾ã™ã€‚æ›¿ã‚ã‚Šã«ã« log() ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ä½¿ç”¨ã—ã¦ãã ã•ã„ã€‚
+     * @param message ƒƒbƒZ[ƒW
+     * @param throwable {@link Throwable} ƒIƒuƒWƒFƒNƒg
+     * @deprecated –{ƒƒ\ƒbƒh‚Í‹ŒƒR[ƒh‚ÌŒİŠ·«‚Ì‚½‚ß‚É—pˆÓ‚³‚ê‚Ä‚¢‚Ü‚·B‘Ö‚í‚è‚É‚É log() ƒƒ\ƒbƒh‚ğg—p‚µ‚Ä‚­‚¾‚³‚¢B
      */
     @Deprecated
     public abstract void error(final Object message, final Throwable throwable);
 
     /**
-     * ERRORæƒ…å ±ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+     * ERRORî•ñ‚ğo—Í‚µ‚Ü‚·B<br />
      * 
-     * @param message ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
-     * @deprecated æœ¬ãƒ¡ã‚½ãƒƒãƒ‰ã¯æ—§ã‚³ãƒ¼ãƒ‰ã®äº’æ›æ€§ã®ãŸã‚ã«ç”¨æ„ã•ã‚Œã¦ã„ã¾ã™ã€‚æ›¿ã‚ã‚Šã«ã« log() ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ä½¿ç”¨ã—ã¦ãã ã•ã„ã€‚
+     * @param message ƒƒbƒZ[ƒW
+     * @deprecated –{ƒƒ\ƒbƒh‚Í‹ŒƒR[ƒh‚ÌŒİŠ·«‚Ì‚½‚ß‚É—pˆÓ‚³‚ê‚Ä‚¢‚Ü‚·B‘Ö‚í‚è‚É‚É log() ƒƒ\ƒbƒh‚ğg—p‚µ‚Ä‚­‚¾‚³‚¢B
      */
     @Deprecated
     public abstract void error(final Object message);
 
     /**
-     * FATALæƒ…å ±ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+     * FATALî•ñ‚ğo—Í‚µ‚Ü‚·B<br />
      * 
-     * @param message ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
-     * @param throwable {@link Throwable} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @deprecated æœ¬ãƒ¡ã‚½ãƒƒãƒ‰ã¯æ—§ã‚³ãƒ¼ãƒ‰ã®äº’æ›æ€§ã®ãŸã‚ã«ç”¨æ„ã•ã‚Œã¦ã„ã¾ã™ã€‚æ›¿ã‚ã‚Šã«ã« log() ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ä½¿ç”¨ã—ã¦ãã ã•ã„ã€‚
+     * @param message ƒƒbƒZ[ƒW
+     * @param throwable {@link Throwable} ƒIƒuƒWƒFƒNƒg
+     * @deprecated –{ƒƒ\ƒbƒh‚Í‹ŒƒR[ƒh‚ÌŒİŠ·«‚Ì‚½‚ß‚É—pˆÓ‚³‚ê‚Ä‚¢‚Ü‚·B‘Ö‚í‚è‚É‚É log() ƒƒ\ƒbƒh‚ğg—p‚µ‚Ä‚­‚¾‚³‚¢B
      */
     @Deprecated
     public abstract void fatal(final Object message, final Throwable throwable);
 
     /**
-     * FATALæƒ…å ±ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+     * FATALî•ñ‚ğo—Í‚µ‚Ü‚·B<br />
      * 
-     * @param message ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
-     * @deprecated æœ¬ãƒ¡ã‚½ãƒƒãƒ‰ã¯æ—§ã‚³ãƒ¼ãƒ‰ã®äº’æ›æ€§ã®ãŸã‚ã«ç”¨æ„ã•ã‚Œã¦ã„ã¾ã™ã€‚æ›¿ã‚ã‚Šã«ã« log() ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ä½¿ç”¨ã—ã¦ãã ã•ã„ã€‚
+     * @param message ƒƒbƒZ[ƒW
+     * @deprecated –{ƒƒ\ƒbƒh‚Í‹ŒƒR[ƒh‚ÌŒİŠ·«‚Ì‚½‚ß‚É—pˆÓ‚³‚ê‚Ä‚¢‚Ü‚·B‘Ö‚í‚è‚É‚É log() ƒƒ\ƒbƒh‚ğg—p‚µ‚Ä‚­‚¾‚³‚¢B
      */
     @Deprecated
     public abstract void fatal(final Object message);
 
     /**
-     * ãƒ­ã‚°ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+     * ƒƒO‚ğo—Í‚µ‚Ü‚·B<br />
      * 
-     * @param throwable {@link Throwable} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @deprecated æœ¬ãƒ¡ã‚½ãƒƒãƒ‰ã¯æ—§ã‚³ãƒ¼ãƒ‰ã®äº’æ›æ€§ã®ãŸã‚ã«ç”¨æ„ã•ã‚Œã¦ã„ã¾ã™ã€‚
-     * æ›¿ã‚ã‚Šã« {@link #log(String, Throwable, Object...)} ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ä½¿ç”¨ã—ã¦ãã ã•ã„ã€‚
+     * @param throwable {@link Throwable} ƒIƒuƒWƒFƒNƒg
+     * @deprecated –{ƒƒ\ƒbƒh‚Í‹ŒƒR[ƒh‚ÌŒİŠ·«‚Ì‚½‚ß‚É—pˆÓ‚³‚ê‚Ä‚¢‚Ü‚·B
+     * ‘Ö‚í‚è‚É {@link #log(String, Throwable, Object...)} ƒƒ\ƒbƒh‚ğg—p‚µ‚Ä‚­‚¾‚³‚¢B
      */
     @Deprecated
     public void log(final Throwable throwable)
@@ -409,10 +409,10 @@ public abstract class ENdoSnipeLogger
     }
 
     /**
-     * ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚³ãƒ¼ãƒ‰ã‚’ä½¿ç”¨ã—ã¦ãƒ­ã‚°ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+     * ƒƒbƒZ[ƒWƒR[ƒh‚ğg—p‚µ‚ÄƒƒO‚ğo—Í‚µ‚Ü‚·B<br />
      * 
-     * @param messageCode ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚³ãƒ¼ãƒ‰
-     * @param args å¼•æ•°
+     * @param messageCode ƒƒbƒZ[ƒWƒR[ƒh
+     * @param args ˆø”
      */
     public void log(final String messageCode, final Object... args)
     {
@@ -420,11 +420,11 @@ public abstract class ENdoSnipeLogger
     }
 
     /**
-     * ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚³ãƒ¼ãƒ‰ã‚’ä½¿ç”¨ã—ã¦ãƒ­ã‚°ã‚’å‡ºåŠ›ã—ã¾ã™ã€‚<br />
+     * ƒƒbƒZ[ƒWƒR[ƒh‚ğg—p‚µ‚ÄƒƒO‚ğo—Í‚µ‚Ü‚·B<br />
      * 
-     * @param messageCode ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚³ãƒ¼ãƒ‰
-     * @param throwable {@link Throwable} ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @param args å¼•æ•°
+     * @param messageCode ƒƒbƒZ[ƒWƒR[ƒh
+     * @param throwable {@link Throwable} ƒIƒuƒWƒFƒNƒg
+     * @param args ˆø”
      */
     public void log(final String messageCode, final Throwable throwable, final Object... args)
     {
@@ -460,11 +460,11 @@ public abstract class ENdoSnipeLogger
     }
 
     /**
-     * propertiesãƒ•ã‚¡ã‚¤ãƒ«ã«è¨˜è¿°ã•ã‚ŒãŸãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * propertiesƒtƒ@ƒCƒ‹‚É‹Lq‚³‚ê‚½ƒƒbƒZ[ƒW‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @param messageCode ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®ã‚³ãƒ¼ãƒ‰
-     * @param args ç½®æ›ã™ã‚‹ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
-     * @return ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
+     * @param messageCode ƒƒbƒZ[ƒW‚ÌƒR[ƒh
+     * @param args ’uŠ·‚·‚éƒƒbƒZ[ƒW
+     * @return ƒƒbƒZ[ƒW
      */
     protected String getMessage(final String messageCode, final Object... args)
     {
@@ -472,17 +472,17 @@ public abstract class ENdoSnipeLogger
     }
 
     /**
-     * æŒ‡å®šã•ã‚ŒãŸãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚¿ã‚¤ãƒ—ãŒåˆ©ç”¨å¯èƒ½ã‹ã©ã†ã‹åˆ¤å®šã™ã‚‹
-     * @param messageType ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚¿ã‚¤ãƒ—
-     * @return æŒ‡å®šã•ã‚ŒãŸãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚¿ã‚¤ãƒ—ãŒåˆ©ç”¨å¯èƒ½ãªã¨ãtrue/ãã†ã§ãªã„ã¨ãfalse
+     * w’è‚³‚ê‚½ƒƒbƒZ[ƒWƒ^ƒCƒv‚ª—˜—p‰Â”\‚©‚Ç‚¤‚©”»’è‚·‚é
+     * @param messageType ƒƒbƒZ[ƒWƒ^ƒCƒv
+     * @return w’è‚³‚ê‚½ƒƒbƒZ[ƒWƒ^ƒCƒv‚ª—˜—p‰Â”\‚È‚Æ‚«true/‚»‚¤‚Å‚È‚¢‚Æ‚«false
      */
     protected abstract boolean isEnabledFor(final char messageType);
 
     /**
-     * ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®è©³ç´°æƒ…å ±ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ƒIƒuƒWƒFƒNƒg‚ÌÚ×î•ñ‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @param obj ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @return è©³ç´°æƒ…å ±
+     * @param obj ƒIƒuƒWƒFƒNƒg
+     * @return Ú×î•ñ
      */
     public static String getObjectDescription(final Object obj)
     {
@@ -497,11 +497,11 @@ public abstract class ENdoSnipeLogger
     }
 
     /**
-     * messageã®toStringã‚’å‘¼ã³å‡ºã™ã€‚
-     * nullã®å ´åˆã¯"Unknown Error"ã‚’å‡ºåŠ›ã™ã‚‹ã€‚
+     * message‚ÌtoString‚ğŒÄ‚Ño‚·B
+     * null‚Ìê‡‚Í"Unknown Error"‚ğo—Í‚·‚éB
      * 
-     * @param message ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚
-     * @return messageã®toStringçµæœã€‚nullã®å ´åˆã¯"Unknown Error"
+     * @param message ƒƒbƒZ[ƒWƒIƒuƒWƒFƒNƒgB
+     * @return message‚ÌtoStringŒ‹‰ÊBnull‚Ìê‡‚Í"Unknown Error"
      */
     protected String createMessage(final Object message)
     {

@@ -32,17 +32,17 @@ import jp.co.acroquest.endosnipe.communicator.entity.RequestBody;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 
 /**
- * é›»æ–‡ä½œæˆã«é–¢ã™ã‚‹ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹
+ * “d•¶ì¬‚ÉŠÖ‚·‚éƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒX
  * @author fujii
  *
  */
 public class CreateTelegramUtil
 {
     /**
-     * é›»æ–‡ã‚’ä½œæˆã™ã‚‹ã€‚
-     * @param header ãƒ˜ãƒƒãƒ€
+     * “d•¶‚ğì¬‚·‚éB
+     * @param header ƒwƒbƒ_
      * @param body Body
-     * @return é›»æ–‡
+     * @return “d•¶
      */
     public static Telegram createTelegram(final Header header, final Body[] body)
     {
@@ -54,9 +54,9 @@ public class CreateTelegramUtil
     }
 
     /**
-     * ãƒ˜ãƒƒãƒ€ã‚’ä½œæˆã™ã‚‹ã€‚
-     * @param requestKind é›»æ–‡å¿œç­”ç¨®åˆ¥
-     * @param telegramKind é›»æ–‡ç¨®åˆ¥
+     * ƒwƒbƒ_‚ğì¬‚·‚éB
+     * @param requestKind “d•¶‰“ší•Ê
+     * @param telegramKind “d•¶í•Ê
      * @return
      */
     public static Header createHeader(final byte requestKind, final byte telegramKind)
@@ -69,14 +69,14 @@ public class CreateTelegramUtil
     }
 
     /**
-     * é›»æ–‡ã®Bodyã‚’ä½œæˆã™ã‚‹ã€‚
-     * @param objectName ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå
-     * @param itemName ã‚¢ã‚¤ãƒ†ãƒ å
-     * @param itemType å‹
-     * @param loopCount ã‚¢ã‚¤ãƒ†ãƒ æ•°
-     * @param objArr è¨ˆæ¸¬å€¤
+     * “d•¶‚ÌBody‚ğì¬‚·‚éB
+     * @param objectName ƒIƒuƒWƒFƒNƒg–¼
+     * @param itemName ƒAƒCƒeƒ€–¼
+     * @param itemType Œ^
+     * @param loopCount ƒAƒCƒeƒ€”
+     * @param objArr Œv‘ª’l
      * 
-     * @return Body é›»æ–‡ã®Body
+     * @return Body “d•¶‚ÌBody
      */
     public static RequestBody createBodyValue(final String objectName, final String itemName,
             final ItemType itemType, final int loopCount, final Object[] objArr)

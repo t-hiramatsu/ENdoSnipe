@@ -42,7 +42,7 @@ import jp.co.acroquest.endosnipe.javelin.event.CommonEvent;
 import jp.co.acroquest.test.util.JavelinTestUtil;
 
 /**
- * S2JaelinBridgeã‚³ãƒ³ãƒãƒ¼ã‚¿ã®ãƒ†ã‚¹ãƒˆã‚¯ãƒ©ã‚¹
+ * S2JaelinBridgeƒRƒ“ƒo[ƒ^‚ÌƒeƒXƒgƒNƒ‰ƒX
  *
  * @author fujii
  */
@@ -50,8 +50,8 @@ public class S2JavelinBridgeConverterTest extends DJUnitTestCase
 {
 
     /**
-     * åˆæœŸåŒ–ãƒ¡ã‚½ãƒƒãƒ‰<br />
-     * ã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ã®åˆæœŸåŒ–ã‚’è¡Œã†ã€‚
+     * ‰Šú‰»ƒƒ\ƒbƒh<br />
+     * ƒVƒXƒeƒ€ƒƒO‚Ì‰Šú‰»‚ğs‚¤B
      */
     @Override
     public void setUp() throws Exception
@@ -60,7 +60,7 @@ public class S2JavelinBridgeConverterTest extends DJUnitTestCase
 
         MockObjectManager.initialize();
 
-        // ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ã€ã‚ªãƒ—ã‚·ãƒ§ãƒ³è¨­å®šã‚’èª­ã¿è¾¼ã‚€ã€‚
+        // ƒIƒvƒVƒ‡ƒ“ƒtƒ@ƒCƒ‹‚©‚çAƒIƒvƒVƒ‡ƒ“İ’è‚ğ“Ç‚İ‚ŞB
         JavelinTestUtil.camouflageJavelinConfig(getClass(), "/ver4_1_test/conf/javelin.properties");
         JavelinTestUtil.camouflageJavelinConfig("javelin.bytecode.exclude.policy", 0);
         JavelinTestUtil.camouflageJavelinConfig("javelin.call.tree.enable", true);
@@ -70,28 +70,28 @@ public class S2JavelinBridgeConverterTest extends DJUnitTestCase
     }
 
     /**
-     * [é …ç•ª] 2-1-1 convertã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»publicãƒ¡ã‚½ãƒƒãƒ‰ã‚’å®Ÿè£…ã™ã‚‹JavelinTestPublicã‚¯ãƒ©ã‚¹ã«å¯¾ã—ã¦ã€<br />
-     *  S2JavelinBridgeã‚³ãƒ³ãƒãƒ¼ã‚¿ã‚’é©ç”¨ã™ã‚‹ã€‚<br />
+     * [€”Ô] 2-1-1 convert‚ÌƒeƒXƒgB <br />
+     * Epublicƒƒ\ƒbƒh‚ğÀ‘•‚·‚éJavelinTestPublicƒNƒ‰ƒX‚É‘Î‚µ‚ÄA<br />
+     *  S2JavelinBridgeƒRƒ“ƒo[ƒ^‚ğ“K—p‚·‚éB<br />
      * 
-     * â†’ã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ã«ãƒ¡ã‚½ãƒƒãƒ‰å¤‰æ›æƒ…å ±ãŒå‡ºåŠ›ã•ã‚Œã‚‹ã“ã¨ã‚’ç›®è¦–ã™ã‚‹ã€‚ 
+     * ¨ƒVƒXƒeƒ€ƒƒO‚Éƒƒ\ƒbƒh•ÏŠ·î•ñ‚ªo—Í‚³‚ê‚é‚±‚Æ‚ğ–Ú‹‚·‚éB 
      * 
-     * @throws Exception ä¾‹å¤–
+     * @throws Exception —áŠO
      */
     public void testConvertImpl_convert_Public()
         throws Exception
     {
-        // æº–å‚™
-        // ã‚³ãƒ³ãƒãƒ¼ã‚¿ã®ä½œæˆ
+        // €”õ
+        // ƒRƒ“ƒo[ƒ^‚Ìì¬
         Converter converter = createConverter();
 
-        // ãƒ­ã‚°ã‚³ãƒ¼ãƒ‰åŸ‹ã‚è¾¼ã¿å¯¾è±¡ã‚¯ãƒ©ã‚¹ã®å‘¼ã³å‡ºã—
+        // ƒƒOƒR[ƒh–„‚ß‚İ‘ÎÛƒNƒ‰ƒX‚ÌŒÄ‚Ño‚µ
         ClassPool pool = ClassPool.getDefault();
         CtClass ctClass =
                 pool.get("jp.co.acroquest.endosnipe.javelin.converter.s2javelin.JavelinTestPublic");
         String className = "JavelinTestPublic";
 
-        // å¼•æ•°ã®åˆæœŸè¨­å®š
+        // ˆø”‚Ì‰Šúİ’è
         IncludeConversionConfig includeConfig = new IncludeConversionConfig();
         includeConfig.readConfig("jp.co.acroquest.endosnipe.javelin.converter.s2javelin.JavelinTestPublic,S2Converter");
         java.util.List<ExcludeConversionConfig> excludeConfig =
@@ -100,35 +100,35 @@ public class S2JavelinBridgeConverterTest extends DJUnitTestCase
         exclude.readConfig("test#test");
         excludeConfig.add(exclude);
 
-        // å®Ÿè¡Œ
+        // Às
         converter.convert(className, null, pool, ctClass, includeConfig, excludeConfig);
-        // æ¤œè¨¼
-        // ç›®è¦–
+        // ŒŸØ
+        // –Ú‹
     }
 
     /**
-     * [é …ç•ª] 2-1-2 convertã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»protectedãƒ¡ã‚½ãƒƒãƒ‰ã‚’å®Ÿè£…ã™ã‚‹JavelinTestProtectedã‚¯ãƒ©ã‚¹ã«å¯¾ã—ã¦ã€<br />
-     *  S2JavelinBridgeã‚³ãƒ³ãƒãƒ¼ã‚¿ã‚’é©ç”¨ã™ã‚‹ã€‚<br />
+     * [€”Ô] 2-1-2 convert‚ÌƒeƒXƒgB <br />
+     * Eprotectedƒƒ\ƒbƒh‚ğÀ‘•‚·‚éJavelinTestProtectedƒNƒ‰ƒX‚É‘Î‚µ‚ÄA<br />
+     *  S2JavelinBridgeƒRƒ“ƒo[ƒ^‚ğ“K—p‚·‚éB<br />
      * 
-     * â†’ã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ã«ãƒ¡ã‚½ãƒƒãƒ‰å¤‰æ›æƒ…å ±ãŒå‡ºåŠ›ã•ã‚Œã‚‹ã“ã¨ã‚’ç›®è¦–ã™ã‚‹ã€‚ 
+     * ¨ƒVƒXƒeƒ€ƒƒO‚Éƒƒ\ƒbƒh•ÏŠ·î•ñ‚ªo—Í‚³‚ê‚é‚±‚Æ‚ğ–Ú‹‚·‚éB 
      * 
-     * @throws Exception ä¾‹å¤–
+     * @throws Exception —áŠO
      */
     public void testConvertImpl_convert_Protected()
         throws Exception
     {
-        // æº–å‚™
-        // ã‚³ãƒ³ãƒãƒ¼ã‚¿ã®ä½œæˆ
+        // €”õ
+        // ƒRƒ“ƒo[ƒ^‚Ìì¬
         Converter converter = createConverter();
 
-        // ãƒ­ã‚°ã‚³ãƒ¼ãƒ‰åŸ‹ã‚è¾¼ã¿å¯¾è±¡ã‚¯ãƒ©ã‚¹ã®å‘¼ã³å‡ºã—
+        // ƒƒOƒR[ƒh–„‚ß‚İ‘ÎÛƒNƒ‰ƒX‚ÌŒÄ‚Ño‚µ
         ClassPool pool = ClassPool.getDefault();
         CtClass ctClass =
                 pool.get("jp.co.acroquest.endosnipe.javelin.converter.s2javelin.JavelinTestProtected");
         String className = "JavelinTestProtected";
 
-        // å¼•æ•°ã®åˆæœŸè¨­å®š
+        // ˆø”‚Ì‰Šúİ’è
         IncludeConversionConfig includeConfig = new IncludeConversionConfig();
         includeConfig.readConfig("jp.co.acroquest.endosnipe.javelin.converter.s2javelin.JavelinTestProtected,S2Converter");
         java.util.List<ExcludeConversionConfig> excludeConfig =
@@ -137,35 +137,35 @@ public class S2JavelinBridgeConverterTest extends DJUnitTestCase
         exclude.readConfig("test#test");
         excludeConfig.add(exclude);
 
-        // å®Ÿè¡Œ
+        // Às
         converter.convert(className, null, pool, ctClass, includeConfig, excludeConfig);
-        // æ¤œè¨¼
-        // ç›®è¦–
+        // ŒŸØ
+        // –Ú‹
     }
 
     /**
-     * [é …ç•ª] 2-1-3convertã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»privateãƒ¡ã‚½ãƒƒãƒ‰ã‚’å®Ÿè£…ã™ã‚‹JavelinTestPrivateã‚¯ãƒ©ã‚¹ã«å¯¾ã—ã¦ã€<br />
-     *  S2JavelinBridgeã‚³ãƒ³ãƒãƒ¼ã‚¿ã‚’é©ç”¨ã™ã‚‹ã€‚<br />
+     * [€”Ô] 2-1-3convert‚ÌƒeƒXƒgB <br />
+     * Eprivateƒƒ\ƒbƒh‚ğÀ‘•‚·‚éJavelinTestPrivateƒNƒ‰ƒX‚É‘Î‚µ‚ÄA<br />
+     *  S2JavelinBridgeƒRƒ“ƒo[ƒ^‚ğ“K—p‚·‚éB<br />
      * 
-     * â†’ã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ã«ãƒ¡ã‚½ãƒƒãƒ‰å¤‰æ›æƒ…å ±ãŒå‡ºåŠ›ã•ã‚Œãªã„ã“ã¨ã‚’ç›®è¦–ã™ã‚‹ã€‚ 
+     * ¨ƒVƒXƒeƒ€ƒƒO‚Éƒƒ\ƒbƒh•ÏŠ·î•ñ‚ªo—Í‚³‚ê‚È‚¢‚±‚Æ‚ğ–Ú‹‚·‚éB 
      * 
-     * @throws Exception ä¾‹å¤–
+     * @throws Exception —áŠO
      */
     public void testConvertImpl_convert_Private()
         throws Exception
     {
-        // æº–å‚™
-        // ã‚³ãƒ³ãƒãƒ¼ã‚¿ã®ä½œæˆ
+        // €”õ
+        // ƒRƒ“ƒo[ƒ^‚Ìì¬
         Converter converter = createConverter();
 
-        // ãƒ­ã‚°ã‚³ãƒ¼ãƒ‰åŸ‹ã‚è¾¼ã¿å¯¾è±¡ã‚¯ãƒ©ã‚¹ã®å‘¼ã³å‡ºã—
+        // ƒƒOƒR[ƒh–„‚ß‚İ‘ÎÛƒNƒ‰ƒX‚ÌŒÄ‚Ño‚µ
         ClassPool pool = ClassPool.getDefault();
         CtClass ctClass =
                 pool.get("jp.co.acroquest.endosnipe.javelin.converter.s2javelin.JavelinTestPrivate");
         String className = "JavelinTestPrivate";
 
-        // å¼•æ•°ã®åˆæœŸè¨­å®š
+        // ˆø”‚Ì‰Šúİ’è
         IncludeConversionConfig includeConfig = new IncludeConversionConfig();
         includeConfig.readConfig("jp.co.acroquest.endosnipe.javelin.converter.s2javelin.JavelinTestPrivate,S2Converter");
         java.util.List<ExcludeConversionConfig> excludeConfig =
@@ -174,35 +174,35 @@ public class S2JavelinBridgeConverterTest extends DJUnitTestCase
         exclude.readConfig("test#test");
         excludeConfig.add(exclude);
 
-        // å®Ÿè¡Œ
+        // Às
         converter.convert(className, null, pool, ctClass, includeConfig, excludeConfig);
-        // æ¤œè¨¼
-        // ç›®è¦–
+        // ŒŸØ
+        // –Ú‹
     }
 
     /**
-     * [é …ç•ª] 2-1-4convertã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»staticãƒ¡ã‚½ãƒƒãƒ‰ã®ã¿ã‚’å®Ÿè£…ã™ã‚‹JavelinTestStaticã‚¯ãƒ©ã‚¹ã«å¯¾ã—ã¦ã€<br />
-     *  S2JavelinBridgeã‚³ãƒ³ãƒãƒ¼ã‚¿ã‚’é©ç”¨ã™ã‚‹ã€‚<br />
+     * [€”Ô] 2-1-4convert‚ÌƒeƒXƒgB <br />
+     * Estaticƒƒ\ƒbƒh‚Ì‚İ‚ğÀ‘•‚·‚éJavelinTestStaticƒNƒ‰ƒX‚É‘Î‚µ‚ÄA<br />
+     *  S2JavelinBridgeƒRƒ“ƒo[ƒ^‚ğ“K—p‚·‚éB<br />
      * 
-     * â†’ã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ã«ãƒ¡ã‚½ãƒƒãƒ‰å¤‰æ›æƒ…å ±ãŒå‡ºåŠ›ã•ã‚Œã¦ã„ã‚‹ã“ã¨ã‚’ç›®è¦–ã™ã‚‹ã€‚ 
+     * ¨ƒVƒXƒeƒ€ƒƒO‚Éƒƒ\ƒbƒh•ÏŠ·î•ñ‚ªo—Í‚³‚ê‚Ä‚¢‚é‚±‚Æ‚ğ–Ú‹‚·‚éB 
      * 
-     * @throws Exception ä¾‹å¤–
+     * @throws Exception —áŠO
      */
     public void testConvertImpl_convert_Static()
         throws Exception
     {
-        // æº–å‚™
-        // ã‚³ãƒ³ãƒãƒ¼ã‚¿ã®ä½œæˆ
+        // €”õ
+        // ƒRƒ“ƒo[ƒ^‚Ìì¬
         Converter converter = createConverter();
 
-        // ãƒ­ã‚°ã‚³ãƒ¼ãƒ‰åŸ‹ã‚è¾¼ã¿å¯¾è±¡ã‚¯ãƒ©ã‚¹ã®å‘¼ã³å‡ºã—
+        // ƒƒOƒR[ƒh–„‚ß‚İ‘ÎÛƒNƒ‰ƒX‚ÌŒÄ‚Ño‚µ
         ClassPool pool = ClassPool.getDefault();
         CtClass ctClass =
                 pool.get("jp.co.acroquest.endosnipe.javelin.converter.s2javelin.JavelinTestStatic");
         String className = "JavelinTestStatic";
 
-        // å¼•æ•°ã®åˆæœŸè¨­å®š
+        // ˆø”‚Ì‰Šúİ’è
         IncludeConversionConfig includeConfig = new IncludeConversionConfig();
         includeConfig.readConfig("jp.co.acroquest.endosnipe.javelin.converter.s2javelin.JavelinTestStatic,S2Converter");
         java.util.List<ExcludeConversionConfig> excludeConfig =
@@ -211,35 +211,35 @@ public class S2JavelinBridgeConverterTest extends DJUnitTestCase
         exclude.readConfig("test#test");
         excludeConfig.add(exclude);
 
-        // å®Ÿè¡Œ
+        // Às
         converter.convert(className, null, pool, ctClass, includeConfig, excludeConfig);
-        // æ¤œè¨¼
-        // ç›®è¦–
+        // ŒŸØ
+        // –Ú‹
     }
 
     /**
-     * [é …ç•ª] 2-1-5 convertã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»staticãƒ¡ã‚½ãƒƒãƒ‰ã®ã¿ã‚’å®Ÿè£…ã™ã‚‹JavelinTestStaticã‚¯ãƒ©ã‚¹ã«å¯¾ã—ã¦ã€<br />
-     *  S2JavelinBridgeã‚³ãƒ³ãƒãƒ¼ã‚¿ã‚’é©ç”¨ã™ã‚‹ã€‚<br />
+     * [€”Ô] 2-1-5 convert‚ÌƒeƒXƒgB <br />
+     * Estaticƒƒ\ƒbƒh‚Ì‚İ‚ğÀ‘•‚·‚éJavelinTestStaticƒNƒ‰ƒX‚É‘Î‚µ‚ÄA<br />
+     *  S2JavelinBridgeƒRƒ“ƒo[ƒ^‚ğ“K—p‚·‚éB<br />
      * 
-     * â†’ã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ã«ãƒ¡ã‚½ãƒƒãƒ‰å¤‰æ›æƒ…å ±ãŒå‡ºåŠ›ã•ã‚Œãªã„ã“ã¨ã‚’ç›®è¦–ã™ã‚‹ã€‚ 
+     * ¨ƒVƒXƒeƒ€ƒƒO‚Éƒƒ\ƒbƒh•ÏŠ·î•ñ‚ªo—Í‚³‚ê‚È‚¢‚±‚Æ‚ğ–Ú‹‚·‚éB 
      * 
-     * @throws Exception ä¾‹å¤–
+     * @throws Exception —áŠO
      */
     public void testConvertImpl_convert_Constructor()
         throws Exception
     {
-        // æº–å‚™
-        // ã‚³ãƒ³ãƒãƒ¼ã‚¿ã®ä½œæˆ
+        // €”õ
+        // ƒRƒ“ƒo[ƒ^‚Ìì¬
         Converter converter = createConverter();
 
-        // ãƒ­ã‚°ã‚³ãƒ¼ãƒ‰åŸ‹ã‚è¾¼ã¿å¯¾è±¡ã‚¯ãƒ©ã‚¹ã®å‘¼ã³å‡ºã—
+        // ƒƒOƒR[ƒh–„‚ß‚İ‘ÎÛƒNƒ‰ƒX‚ÌŒÄ‚Ño‚µ
         ClassPool pool = ClassPool.getDefault();
         CtClass ctClass =
                 pool.get("jp.co.acroquest.endosnipe.javelin.converter.s2javelin.JavelinTestConstructor");
         String className = "JavelinTestConstructor";
 
-        // å¼•æ•°ã®åˆæœŸè¨­å®š
+        // ˆø”‚Ì‰Šúİ’è
         IncludeConversionConfig includeConfig = new IncludeConversionConfig();
         includeConfig.readConfig("jp.co.acroquest.endosnipe.javelin.converter.s2javelin.JavelinTestConstructor,S2Converter");
         java.util.List<ExcludeConversionConfig> excludeConfig =
@@ -248,23 +248,23 @@ public class S2JavelinBridgeConverterTest extends DJUnitTestCase
         exclude.readConfig("test#test");
         excludeConfig.add(exclude);
 
-        // å®Ÿè¡Œ
+        // Às
         converter.convert(className, null, pool, ctClass, includeConfig, excludeConfig);
-        // æ¤œè¨¼
-        // ç›®è¦–
+        // ŒŸØ
+        // –Ú‹
     }
 
     /**
-     * CallTreeFullã‚¤ãƒ™ãƒ³ãƒˆãŒç™ºç”Ÿã™ã‚‹ã“ã¨ã‚’ç¢ºèªã™ã‚‹ã€‚
+     * CallTreeFullƒCƒxƒ“ƒg‚ª”­¶‚·‚é‚±‚Æ‚ğŠm”F‚·‚éB
      */
-    public void testCallTreeFull_é–¾å€¤è¶…é()
+    public void testCallTreeFull_è‡’l’´‰ß()
     {
-        // æº–å‚™
+        // €”õ
         CallTreeFullTestSample sample = null; 
         try
         {
-            // ã‚µãƒ³ãƒ—ãƒ«ã‚³ãƒ¼ãƒ‰ã®å¤‰æ›ã‚’è¡Œã†ã€‚
-            // ver4_1_test/conf/include.confã«ã€ã‚µãƒ³ãƒ—ãƒ«ã‚³ãƒ¼ãƒ‰ã®includeè¨­å®šã‚’è¨˜è¿°ã—ã¦ã‚ã‚‹ã€‚
+            // ƒTƒ“ƒvƒ‹ƒR[ƒh‚Ì•ÏŠ·‚ğs‚¤B
+            // ver4_1_test/conf/include.conf‚ÉAƒTƒ“ƒvƒ‹ƒR[ƒh‚Ìincludeİ’è‚ğ‹Lq‚µ‚Ä‚ ‚éB
             sample = (CallTreeFullTestSample)JavelinTestUtil.createMonitoredObject(
                                          "jp.co.acroquest.endosnipe.javelin.converter.s2javelin.S2JavelinBridgeConverter", 
                                          "jp.co.acroquest.endosnipe.javelin.converter.s2javelin.CallTreeFullTestSample");
@@ -277,10 +277,10 @@ public class S2JavelinBridgeConverterTest extends DJUnitTestCase
             fail(ex.getMessage());
         }
 
-        // å®Ÿè¡Œ
+        // Às
         sample.entry(500);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertCalled(StatsJavelinRecorder.class, "postProcess");
         assertCalled(StatsJavelinRecorder.class, "sendCallTreeEvent");
         assertCalled(StatsJavelinRecorder.class, "addEvent");
@@ -289,7 +289,7 @@ public class S2JavelinBridgeConverterTest extends DJUnitTestCase
     }
 
     /**
-     * ã‚³ãƒ³ãƒãƒ¼ã‚¿ã‚’ä½œæˆã™ã‚‹ã€‚
+     * ƒRƒ“ƒo[ƒ^‚ğì¬‚·‚éB
      * 
      * @return S2JavelinBridgeConverter
      */

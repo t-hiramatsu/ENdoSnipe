@@ -64,7 +64,7 @@ import jp.co.acroquest.endosnipe.data.entity.MeasurementValue;
 import junit.framework.Assert;
 
 /**
- * DataAccessorã§åˆ©ç”¨ã§ãã‚‹ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ãƒ¡ã‚½ãƒƒãƒ‰ã®ã‚¯ãƒ©ã‚¹
+ * DataAccessor‚Å—˜—p‚Å‚«‚éƒ†[ƒeƒBƒŠƒeƒBƒƒ\ƒbƒh‚ÌƒNƒ‰ƒX
  * 
  * @author M.Yoshida
  */
@@ -158,13 +158,13 @@ public class DataAccessorTestUtil
     }
 
     // -------------------------------------------------------------------------------
-    // JavelinLogãƒ†ãƒ¼ãƒ–ãƒ«å¯¾è±¡ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£
+    // JavelinLogƒe[ƒuƒ‹‘ÎÛƒ†[ƒeƒBƒŠƒeƒB
     // -------------------------------------------------------------------------------
 
     /**
-     * JavelinLogãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®ãƒ‡ãƒ¼ã‚¿ã«åˆã‚ã›ã¦åˆæœŸåŒ–ã™ã‚‹ã€‚
+     * JavelinLogƒe[ƒuƒ‹‚ğƒpƒ‰ƒ[ƒ^‚Ìƒf[ƒ^‚É‡‚í‚¹‚Ä‰Šú‰»‚·‚éB
      * 
-     * @param datarows   åˆæœŸåŒ–ã«ä½¿ç”¨ã™ã‚‹ãƒ‡ãƒ¼ã‚¿
+     * @param datarows   ‰Šú‰»‚Ég—p‚·‚éƒf[ƒ^
      */
     public static void initializeJavelinLogTable(String[] datarows)
     {
@@ -197,10 +197,10 @@ public class DataAccessorTestUtil
     }
 
     /**
-     * äºŒã¤ã®JavelinLogã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆãŒç­‰ã—ã„äº‹ã‚’ç¢ºèªã™ã‚‹ã€‚
+     * “ñ‚Â‚ÌJavelinLogƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg‚ª“™‚µ‚¢–‚ğŠm”F‚·‚éB
      * 
-     * @param expects äºˆæ¸¬å€¤
-     * @param actuals å®Ÿéš›å€¤
+     * @param expects —\‘ª’l
+     * @param actuals ÀÛ’l
      */
     public static void assertJavelinLog(List<Object> expects, List<Object> actuals)
     {
@@ -247,10 +247,10 @@ public class DataAccessorTestUtil
     }
 
     /**
-     * JavelinLogã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆã‚’ç”Ÿæˆã™ã‚‹ã€‚
+     * JavelinLog‚ÌƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg‚ğ¶¬‚·‚éB
      * 
-     * @param datarows  ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆã«è¨­å®šã™ã‚‹CSV
-     * @returnã€€ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆ
+     * @param datarows  ƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg‚Éİ’è‚·‚éCSV
+     * @return@ƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg
      */
     public static List<Object> createJavelinEntities(String[] datarows)
     {
@@ -276,10 +276,10 @@ public class DataAccessorTestUtil
     }
 
     /**
-     * æŒ‡å®šã—ãŸãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹ã‹ã‚‰ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã¿ã€JavelinLogãƒ‡ãƒ¼ã‚¿ã‚’ç”Ÿæˆã™ã‚‹ã€‚
+     * w’è‚µ‚½ƒtƒ@ƒCƒ‹‚ÌƒpƒX‚©‚çƒf[ƒ^‚ğ“Ç‚İ‚İAJavelinLogƒf[ƒ^‚ğ¶¬‚·‚éB
      * 
-     * @param jvnLogFilePath JavelinLogã®ãƒ‘ã‚¹
-     * @return ãƒ‡ãƒ¼ã‚¿ã«ã‚¢ã‚¯ã‚»ã‚¹ã™ã‚‹ãŸã‚ã®ã‚¹ãƒˆãƒªãƒ¼ãƒ 
+     * @param jvnLogFilePath JavelinLog‚ÌƒpƒX
+     * @return ƒf[ƒ^‚ÉƒAƒNƒZƒX‚·‚é‚½‚ß‚ÌƒXƒgƒŠ[ƒ€
      */
     public static InputStream convertStreamJavelinFile(String jvnLogFilePath)
     {
@@ -368,13 +368,13 @@ public class DataAccessorTestUtil
     }
 
     // -------------------------------------------------------------------------------
-    // MeasurementValue ãƒ†ãƒ¼ãƒ–ãƒ«å¯¾è±¡ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£
+    // MeasurementValue ƒe[ƒuƒ‹‘ÎÛƒ†[ƒeƒBƒŠƒeƒB
     // -------------------------------------------------------------------------------
 
     /**
-     * MeasurementValueãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®ãƒ‡ãƒ¼ã‚¿ã«åˆã‚ã›ã¦åˆæœŸåŒ–ã™ã‚‹ã€‚
+     * MeasurementValueƒe[ƒuƒ‹‚ğƒpƒ‰ƒ[ƒ^‚Ìƒf[ƒ^‚É‡‚í‚¹‚Ä‰Šú‰»‚·‚éB
      * 
-     * @param datarows   åˆæœŸåŒ–ã«ä½¿ç”¨ã™ã‚‹ãƒ‡ãƒ¼ã‚¿
+     * @param datarows   ‰Šú‰»‚Ég—p‚·‚éƒf[ƒ^
      */
     public static void initializeMeasurementValueTable(String[] datarows)
     {
@@ -407,10 +407,10 @@ public class DataAccessorTestUtil
     }
 
     /**
-     * äºŒã¤ã®MeasurementValueã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆãŒç­‰ã—ã„äº‹ã‚’ç¢ºèªã™ã‚‹ã€‚
+     * “ñ‚Â‚ÌMeasurementValueƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg‚ª“™‚µ‚¢–‚ğŠm”F‚·‚éB
      * 
-     * @param expects äºˆæ¸¬å€¤
-     * @param actuals å®Ÿéš›å€¤
+     * @param expects —\‘ª’l
+     * @param actuals ÀÛ’l
      */
     public static void assertMeasurementValue(List<Object> expects, List<Object> actuals)
     {
@@ -425,10 +425,10 @@ public class DataAccessorTestUtil
     }
 
     /**
-     * MeasurementValueã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆã‚’ç”Ÿæˆã™ã‚‹ã€‚
+     * MeasurementValue‚ÌƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg‚ğ¶¬‚·‚éB
      * 
-     * @param datarows  ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆã«è¨­å®šã™ã‚‹CSV
-     * @returnã€€ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆ
+     * @param datarows  ƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg‚Éİ’è‚·‚éCSV
+     * @return@ƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg
      */
     public static List<Object> createMeasurementValueEntities(String[] datarows)
     {
@@ -453,10 +453,10 @@ public class DataAccessorTestUtil
     }
 
     /**
-     * MeasurementValueDtoã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚’CSVå½¢å¼ã®ãƒ‡ãƒ¼ã‚¿ã‹ã‚‰ç”Ÿæˆã™ã‚‹ã€‚
+     * MeasurementValueDto‚ÌƒGƒ“ƒeƒBƒeƒB‚ğCSVŒ`®‚Ìƒf[ƒ^‚©‚ç¶¬‚·‚éB
      * 
-     * @param datarows CSVå½¢å¼ã®ãƒ‡ãƒ¼ã‚¿ãƒªã‚¹ãƒˆ
-     * @return ç”Ÿæˆã—ãŸãƒ‡ãƒ¼ã‚¿ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®ãƒªã‚¹ãƒˆ
+     * @param datarows CSVŒ`®‚Ìƒf[ƒ^ƒŠƒXƒg
+     * @return ¶¬‚µ‚½ƒf[ƒ^ƒCƒ“ƒXƒ^ƒ“ƒX‚ÌƒŠƒXƒg
      */
     public static List<Object> createMeasurementValueDtoEntities(String[] datarows)
     {
@@ -557,13 +557,13 @@ public class DataAccessorTestUtil
     }
 
     // -------------------------------------------------------------------------------
-    // JavelinMeasurementItem ãƒ†ãƒ¼ãƒ–ãƒ«å¯¾è±¡ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£
+    // JavelinMeasurementItem ƒe[ƒuƒ‹‘ÎÛƒ†[ƒeƒBƒŠƒeƒB
     // -------------------------------------------------------------------------------
 
     /**
-     * JavelinMeasurementItemãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®ãƒ‡ãƒ¼ã‚¿ã«åˆã‚ã›ã¦åˆæœŸåŒ–ã™ã‚‹ã€‚
+     * JavelinMeasurementItemƒe[ƒuƒ‹‚ğƒpƒ‰ƒ[ƒ^‚Ìƒf[ƒ^‚É‡‚í‚¹‚Ä‰Šú‰»‚·‚éB
      * 
-     * @param datarows   åˆæœŸåŒ–ã«ä½¿ç”¨ã™ã‚‹ãƒ‡ãƒ¼ã‚¿
+     * @param datarows   ‰Šú‰»‚Ég—p‚·‚éƒf[ƒ^
      */
     public static void initializeJavelinMeasurementItemTable(String[] datarows)
     {
@@ -596,10 +596,10 @@ public class DataAccessorTestUtil
     }
 
     /**
-     * äºŒã¤ã®JavelinMeasurementItemã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆãŒç­‰ã—ã„äº‹ã‚’ç¢ºèªã™ã‚‹ã€‚
+     * “ñ‚Â‚ÌJavelinMeasurementItemƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg‚ª“™‚µ‚¢–‚ğŠm”F‚·‚éB
      * 
-     * @param expects äºˆæ¸¬å€¤
-     * @param actuals å®Ÿéš›å€¤
+     * @param expects —\‘ª’l
+     * @param actuals ÀÛ’l
      */
     public static void assertJavelinMeasurementItem(List<Object> expects, List<Object> actuals)
     {
@@ -646,10 +646,10 @@ public class DataAccessorTestUtil
     }
 
     /**
-     * JavelinMeasurementItemã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆã‚’ç”Ÿæˆã™ã‚‹ã€‚
+     * JavelinMeasurementItem‚ÌƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg‚ğ¶¬‚·‚éB
      * 
-     * @param datarows  ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆã«è¨­å®šã™ã‚‹CSV
-     * @returnã€€ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆ
+     * @param datarows  ƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg‚Éİ’è‚·‚éCSV
+     * @return@ƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg
      */
     public static List<Object> createJavelinMeasurementItemEntities(String[] datarows)
     {
@@ -675,13 +675,13 @@ public class DataAccessorTestUtil
     }
 
     // -------------------------------------------------------------------------------
-    // MeasurementInfo ãƒ†ãƒ¼ãƒ–ãƒ«å¯¾è±¡ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£
+    // MeasurementInfo ƒe[ƒuƒ‹‘ÎÛƒ†[ƒeƒBƒŠƒeƒB
     // -------------------------------------------------------------------------------
 
     /**
-     * MeasurementInfoãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®ãƒ‡ãƒ¼ã‚¿ã«åˆã‚ã›ã¦åˆæœŸåŒ–ã™ã‚‹ã€‚
+     * MeasurementInfoƒe[ƒuƒ‹‚ğƒpƒ‰ƒ[ƒ^‚Ìƒf[ƒ^‚É‡‚í‚¹‚Ä‰Šú‰»‚·‚éB
      * 
-     * @param datarows   åˆæœŸåŒ–ã«ä½¿ç”¨ã™ã‚‹ãƒ‡ãƒ¼ã‚¿
+     * @param datarows   ‰Šú‰»‚Ég—p‚·‚éƒf[ƒ^
      */
     public static void initializeMeasurementInfoTable(String[] datarows)
     {
@@ -714,10 +714,10 @@ public class DataAccessorTestUtil
     }
 
     /**
-     * äºŒã¤ã®MeasurementInfoã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆãŒç­‰ã—ã„äº‹ã‚’ç¢ºèªã™ã‚‹ã€‚
+     * “ñ‚Â‚ÌMeasurementInfoƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg‚ª“™‚µ‚¢–‚ğŠm”F‚·‚éB
      * 
-     * @param expects äºˆæ¸¬å€¤
-     * @param actuals å®Ÿéš›å€¤
+     * @param expects —\‘ª’l
+     * @param actuals ÀÛ’l
      */
     public static void assertMeasurementInfo(List<Object> expects, List<Object> actuals)
     {
@@ -764,10 +764,10 @@ public class DataAccessorTestUtil
     }
 
     /**
-     * MeasurementInfoã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆã‚’ç”Ÿæˆã™ã‚‹ã€‚
+     * MeasurementInfo‚ÌƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg‚ğ¶¬‚·‚éB
      * 
-     * @param datarows  ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆã«è¨­å®šã™ã‚‹CSV
-     * @returnã€€ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãƒªã‚¹ãƒˆ
+     * @param datarows  ƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg‚Éİ’è‚·‚éCSV
+     * @return@ƒGƒ“ƒeƒBƒeƒBƒŠƒXƒg
      */
     public static List<Object> createMeasurementInfoEntities(String[] datarows)
     {
@@ -813,15 +813,15 @@ public class DataAccessorTestUtil
     }
 
     // -------------------------------------------------------------------------------
-    // å…±é€šãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£
+    // ‹¤’Êƒ†[ƒeƒBƒŠƒeƒB
     // -------------------------------------------------------------------------------
 
     /**
-     * å„ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã®ãƒªã‚¹ãƒˆã«æ ¼ç´ã•ã‚ŒãŸå€¤ãŒãã‚Œãã‚Œç­‰ã—ã„ã‹å¦ã‹ã‚’åˆ¤å®šã™ã‚‹ã€‚
+     * ŠeƒGƒ“ƒeƒBƒeƒB‚ÌƒŠƒXƒg‚ÉŠi”[‚³‚ê‚½’l‚ª‚»‚ê‚¼‚ê“™‚µ‚¢‚©”Û‚©‚ğ”»’è‚·‚éB
      * 
-     * @param expects  äºˆæ¸¬å€¤
-     * @param actuals  å®Ÿéš›å€¤
-     * @param exclude  ãƒã‚§ãƒƒã‚¯ã‹ã‚‰é™¤å¤–ã™ã‚‹ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®åå‰
+     * @param expects  —\‘ª’l
+     * @param actuals  ÀÛ’l
+     * @param exclude  ƒ`ƒFƒbƒN‚©‚çœŠO‚·‚éƒtƒB[ƒ‹ƒh‚Ì–¼‘O
      */
     public static void assertEntitiesEquals(List<Object> expects, List<Object> actuals,
             Set<String> exclude)
@@ -840,11 +840,11 @@ public class DataAccessorTestUtil
     }
 
     /**
-     * å„ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£åŒå£«ã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ãŒç­‰ã—ã„ã‹å¦ã‹ã‚’åˆ¤å®šã™ã‚‹ã€‚
+     * ŠeƒGƒ“ƒeƒBƒeƒB“¯m‚ÌƒtƒB[ƒ‹ƒh‚ª“™‚µ‚¢‚©”Û‚©‚ğ”»’è‚·‚éB
      * 
-     * @param expect  äºˆæ¸¬å€¤
-     * @param actual  å®Ÿéš›å€¤
-     * @param exclude ãƒã‚§ãƒƒã‚¯ã‚’è¡Œã‚ãªã„ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®ã‚»ãƒƒãƒˆ
+     * @param expect  —\‘ª’l
+     * @param actual  ÀÛ’l
+     * @param exclude ƒ`ƒFƒbƒN‚ğs‚í‚È‚¢ƒtƒB[ƒ‹ƒh‚ÌƒZƒbƒg
      */
     public static void assertEntityEquals(Object expect, Object actual, Set<String> exclude)
         throws Exception
@@ -912,14 +912,14 @@ public class DataAccessorTestUtil
     }
 
     /**
-     * CSVå½¢å¼ã«å®šç¾©ã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ã‚’ã€æŒ‡å®šã—ãŸã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã«å¤‰æ›ã™ã‚‹ã€‚
-     * ãŸã ã—ã€static finalå®£è¨€ã•ã‚ŒãŸå¤‰æ•°ã‚’æŒ‡å®šã™ã‚‹ã“ã¨ã¯å‡ºæ¥ãªã„ã€‚
+     * CSVŒ`®‚É’è‹`‚³‚ê‚½ƒf[ƒ^‚ğAw’è‚µ‚½ƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚É•ÏŠ·‚·‚éB
+     * ‚½‚¾‚µAstatic finaléŒ¾‚³‚ê‚½•Ï”‚ğw’è‚·‚é‚±‚Æ‚Ío—ˆ‚È‚¢B
      * 
-     * @param clazz     å¯¾è±¡ã¨ãªã‚‹ã‚¯ãƒ©ã‚¹
-     * @param fieldList è¨­å®šå¯¾è±¡ã¨ã™ã‚‹ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰
-     * @param datarows  è¨­å®šã™ã‚‹ãƒ‡ãƒ¼ã‚¿(CSVå½¢å¼)ã®ãƒªã‚¹ãƒˆ
-     * @returnã€€ç”Ÿæˆã—ãŸã‚¯ãƒ©ã‚¹ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®ãƒªã‚¹ãƒˆ
-     * @throws Exception å¤‰æ›ä¸­ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @param clazz     ‘ÎÛ‚Æ‚È‚éƒNƒ‰ƒX
+     * @param fieldList İ’è‘ÎÛ‚Æ‚·‚éƒtƒB[ƒ‹ƒh
+     * @param datarows  İ’è‚·‚éƒf[ƒ^(CSVŒ`®)‚ÌƒŠƒXƒg
+     * @return@¶¬‚µ‚½ƒNƒ‰ƒXƒCƒ“ƒXƒ^ƒ“ƒX‚ÌƒŠƒXƒg
+     * @throws Exception •ÏŠ·’†‚É—áŠO‚ª”­¶‚µ‚½ê‡
      */
     public static List<Object> createEntityList(Class<?> clazz, String[] fieldList,
             String[] datarows)
@@ -943,14 +943,14 @@ public class DataAccessorTestUtil
     }
 
     /**
-     * CSVå½¢å¼ã«å®šç¾©ã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ã‚’ã€æŒ‡å®šã—ãŸã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã«å¤‰æ›ã™ã‚‹ã€‚
-     * ãŸã ã—ã€static finalå®£è¨€ã•ã‚ŒãŸå¤‰æ•°ã‚’æŒ‡å®šã™ã‚‹ã“ã¨ã¯å‡ºæ¥ãªã„ã€‚
+     * CSVŒ`®‚É’è‹`‚³‚ê‚½ƒf[ƒ^‚ğAw’è‚µ‚½ƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚É•ÏŠ·‚·‚éB
+     * ‚½‚¾‚µAstatic finaléŒ¾‚³‚ê‚½•Ï”‚ğw’è‚·‚é‚±‚Æ‚Ío—ˆ‚È‚¢B
      * 
-     * @param clazz     å¯¾è±¡ã¨ãªã‚‹ã‚¯ãƒ©ã‚¹
-     * @param fieldList è¨­å®šå¯¾è±¡ã¨ã™ã‚‹ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰
-     * @param datarow   è¨­å®šã™ã‚‹ãƒ‡ãƒ¼ã‚¿(CSVå½¢å¼)
-     * @returnã€€ç”Ÿæˆã—ãŸã‚¯ãƒ©ã‚¹ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
-     * @throws Exception å¤‰æ›ä¸­ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @param clazz     ‘ÎÛ‚Æ‚È‚éƒNƒ‰ƒX
+     * @param fieldList İ’è‘ÎÛ‚Æ‚·‚éƒtƒB[ƒ‹ƒh
+     * @param datarow   İ’è‚·‚éƒf[ƒ^(CSVŒ`®)
+     * @return@¶¬‚µ‚½ƒNƒ‰ƒXƒCƒ“ƒXƒ^ƒ“ƒX
+     * @throws Exception •ÏŠ·’†‚É—áŠO‚ª”­¶‚µ‚½ê‡
      */
     public static Object createEntity(Class<?> clazz, String[] fieldList, String datarow)
         throws Exception
@@ -985,11 +985,11 @@ public class DataAccessorTestUtil
     }
 
     /**
-     * æ–‡å­—åˆ—è¡¨ç¾ã§è¡¨ã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ã‚’ã€æŒ‡å®šã—ãŸãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã«è¨­å®šå¯èƒ½ãªã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«å¤‰æ›ã™ã‚‹ã€‚
+     * •¶š—ñ•\Œ»‚Å•\‚³‚ê‚½ƒf[ƒ^‚ğAw’è‚µ‚½ƒtƒB[ƒ‹ƒh‚Éİ’è‰Â”\‚ÈƒIƒuƒWƒFƒNƒg‚É•ÏŠ·‚·‚éB
      * 
-     * @param field å€¤ã®è¨­å®šå¯¾è±¡ã¨ãªã‚‹ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰
-     * @param data  å¯¾è±¡ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã«è¨­å®šã™ã‚‹ãƒ‡ãƒ¼ã‚¿ã®æ–‡å­—åˆ—è¡¨ç¾
-     * @return      å‹å¤‰æ›ã•ã‚ŒãŸè¨­å®šå€¤
+     * @param field ’l‚Ìİ’è‘ÎÛ‚Æ‚È‚éƒtƒB[ƒ‹ƒh
+     * @param data  ‘ÎÛƒtƒB[ƒ‹ƒh‚Éİ’è‚·‚éƒf[ƒ^‚Ì•¶š—ñ•\Œ»
+     * @return      Œ^•ÏŠ·‚³‚ê‚½İ’è’l
      */
     public static Object parseString(Field field, String data)
         throws Exception

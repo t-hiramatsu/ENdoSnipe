@@ -33,7 +33,7 @@ import jp.co.acroquest.test.util.JavelinTestUtil;
 
 public class ConvertCounterTest extends DJUnitTestCase
 {
-    /** Javelin險ｭ螳壹ヵ繧｡繧､繝ｫ縺ｮ繝代せ */
+    /** Javelin設定ファイルのパス */
     private static final String JAVELIN_CONFIG_PATH = "/ver4_1_test/conf/javelin.properties";
 
     protected void setUp()

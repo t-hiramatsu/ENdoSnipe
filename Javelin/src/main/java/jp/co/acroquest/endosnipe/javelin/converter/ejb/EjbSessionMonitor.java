@@ -30,29 +30,29 @@ import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 import jp.co.acroquest.endosnipe.javelin.StatsJavelinRecorder;
 
 /**
- * EJBã‚³ãƒ³ãƒãƒ¼ã‚¿ã§ä½¿ç”¨ã™ã‚‹ãƒ¢ãƒ‹ã‚¿ã‚¯ãƒ©ã‚¹
+ * EJBƒRƒ“ƒo[ƒ^‚Åg—p‚·‚éƒ‚ƒjƒ^ƒNƒ‰ƒX
  * 
  * @author S.Kimura
  */
 public class EjbSessionMonitor
 {
     /**
-     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–é˜²æ­¢ã®ãŸã‚ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+     * ƒCƒ“ƒXƒ^ƒ“ƒX‰»–h~‚Ì‚½‚ß‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^
      */
     private EjbSessionMonitor()
     {
         // Do Nothing.
     }
 
-    /** Javelinã®è¨­å®šãƒ•ã‚¡ã‚¤ãƒ« */
+    /** Javelin‚Ìİ’èƒtƒ@ƒCƒ‹ */
     private static JavelinConfig config__ = new JavelinConfig();
 
     /**
-     * å‰å‡¦ç†ã€‚
+     * ‘Oˆ—B
      * 
-     * @param className ã‚¯ãƒ©ã‚¹å
-     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
-     * @param args å¼•æ•°
+     * @param className ƒNƒ‰ƒX–¼
+     * @param methodName ƒƒ\ƒbƒh–¼
+     * @param args ˆø”
      */
     public static void preProcess(String className, String methodName, final Object[] args)
     {
@@ -67,11 +67,11 @@ public class EjbSessionMonitor
     }
 
     /**
-     * å¾Œå‡¦ç†ï¼ˆæœ¬å‡¦ç†æˆåŠŸæ™‚ï¼‰ã€‚
+     * Œãˆ—i–{ˆ—¬Œ÷jB
      * 
-     * @param className ã‚¯ãƒ©ã‚¹å
-     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
-     * @param retValue æˆ»ã‚Šå€¤ã€‚
+     * @param className ƒNƒ‰ƒX–¼
+     * @param methodName ƒƒ\ƒbƒh–¼
+     * @param retValue –ß‚è’lB
      */
     public static void postProcessOK(String className, String methodName, final Object retValue)
     {
@@ -86,11 +86,11 @@ public class EjbSessionMonitor
     }
 
     /**
-     * å¾Œå‡¦ç†ï¼ˆæœ¬å‡¦ç†å¤±æ•—æ™‚ï¼‰ã€‚
+     * Œãˆ—i–{ˆ—¸”sjB
      * 
-     * @param className ã‚¯ãƒ©ã‚¹å
-     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰å
-     * @param cause ä¾‹å¤–ã®åŸå› 
+     * @param className ƒNƒ‰ƒX–¼
+     * @param methodName ƒƒ\ƒbƒh–¼
+     * @param cause —áŠO‚ÌŒ´ˆö
      */
     public static void postProcessNG(String className, String methodName, final Throwable cause)
     {

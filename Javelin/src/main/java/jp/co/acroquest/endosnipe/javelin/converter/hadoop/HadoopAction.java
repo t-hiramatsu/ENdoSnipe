@@ -29,37 +29,37 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Hadoopã®HeartbeatResponseã«å«ã¾ã‚Œã‚‹
- * TaskTrackerActionæƒ…å ±ã‚’ä¿æŒã™ã‚‹ã‚¯ãƒ©ã‚¹
+ * Hadoop‚ÌHeartbeatResponse‚ÉŠÜ‚Ü‚ê‚é
+ * TaskTrackerActionî•ñ‚ğ•Û‚·‚éƒNƒ‰ƒX
  *
  * @author asazuma
  *
  */
 public class HadoopAction
 {
-    /** ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ç¨®åˆ¥ã®åˆ—æŒ™ä½“ */
+    /** ƒAƒNƒVƒ‡ƒ“í•Ê‚Ì—ñ‹“‘Ì */
     public static enum ActionType {LAUNCH_TASK, KILL_TASK, KILL_JOB,
                                    REINIT_TRACKER, COMMIT_TASK};
 
-    /** Mapã‚¿ã‚¹ã‚¯ã‹ï¼Ÿ */
+    /** Mapƒ^ƒXƒN‚©H */
     private boolean isMapTask_;
 
-    /** ã‚¸ãƒ§ãƒ–ID */
+    /** ƒWƒ‡ƒuID */
     private String jobID_;
 
-    /** ã‚¿ã‚¹ã‚¯è©¦è¡ŒID */
+    /** ƒ^ƒXƒNsID */
     private String taskID_;
 
-    /** ã‚¸ãƒ§ãƒ–å */
+    /** ƒWƒ‡ƒu–¼ */
     private String jobName_;
 
-    /** ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ç¨®åˆ¥ */
+    /** ƒAƒNƒVƒ‡ƒ“í•Ê */
     private ActionType actionType_;
 
-    /** å‡¦ç†å¯¾è±¡ãƒ‡ãƒ¼ã‚¿ */
+    /** ˆ—‘ÎÛƒf[ƒ^ */
     private String inputData_;
 
-    /** ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ç¨®åˆ¥ãƒãƒƒãƒ— */
+    /** ƒAƒNƒVƒ‡ƒ“í•Êƒ}ƒbƒv */
     private static final Map<String, ActionType> ACTION_TYPE_MAP =
                                                     new HashMap<String, ActionType>()
     {
@@ -74,17 +74,17 @@ public class HadoopAction
     };
 
     /**
-     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
      */
     public HadoopAction()
     {
-        // ä½•ã‚‚ã—ãªã„
+        // ‰½‚à‚µ‚È‚¢
     }
 
     /**
-     * Mapã‚¿ã‚¹ã‚¯ã‹ï¼Ÿ
+     * Mapƒ^ƒXƒN‚©H
      *
-     * @return {@code true}ï¼šMapã‚¿ã‚¹ã‚¯ï¼{@code false}ï¼šReduceã‚¿ã‚¹ã‚¯
+     * @return {@code true}FMapƒ^ƒXƒN^{@code false}FReduceƒ^ƒXƒN
      */
     public boolean isMapTask()
     {
@@ -92,9 +92,9 @@ public class HadoopAction
     }
 
     /**
-     * Mapã‚¿ã‚¹ã‚¯ã‹Reduceã‚¿ã‚¹ã‚¯ã‹ã‚’è¨­å®šã™ã‚‹ã€‚
+     * Mapƒ^ƒXƒN‚©Reduceƒ^ƒXƒN‚©‚ğİ’è‚·‚éB
      *
-     * @param flag {@code true}ï¼šMapã‚¿ã‚¹ã‚¯ï¼{@code false}ï¼šReduceã‚¿ã‚¹ã‚¯
+     * @param flag {@code true}FMapƒ^ƒXƒN^{@code false}FReduceƒ^ƒXƒN
      */
     public void setMapTask(boolean flag)
     {
@@ -102,9 +102,9 @@ public class HadoopAction
     }
 
     /**
-     * ã‚¸ãƒ§ãƒ–IDã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒWƒ‡ƒuID‚ğæ“¾‚·‚éB
      *
-     * @return ã‚¸ãƒ§ãƒ–ID
+     * @return ƒWƒ‡ƒuID
      */
     public String getJobID()
     {
@@ -112,9 +112,9 @@ public class HadoopAction
     }
 
     /**
-     * ã‚¸ãƒ§ãƒ–IDã‚’è¨­å®šã™ã‚‹ã€‚
+     * ƒWƒ‡ƒuID‚ğİ’è‚·‚éB
      *
-     * @param jobID ã‚¸ãƒ§ãƒ–ID
+     * @param jobID ƒWƒ‡ƒuID
      */
     public void setJobID(String jobID)
     {
@@ -122,9 +122,9 @@ public class HadoopAction
     }
 
     /**
-     * ã‚¿ã‚¹ã‚¯è©¦è¡ŒIDã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒ^ƒXƒNsID‚ğæ“¾‚·‚éB
      *
-     * @return ã‚¿ã‚¹ã‚¯è©¦è¡ŒID
+     * @return ƒ^ƒXƒNsID
      */
     public String getTaskID()
     {
@@ -132,9 +132,9 @@ public class HadoopAction
     }
 
     /**
-     * ã‚¿ã‚¹ã‚¯è©¦è¡ŒIDã‚’è¨­å®šã™ã‚‹ã€‚
+     * ƒ^ƒXƒNsID‚ğİ’è‚·‚éB
      *
-     * @param taskID ã‚¿ã‚¹ã‚¯è©¦è¡ŒID
+     * @param taskID ƒ^ƒXƒNsID
      */
     public void setTaskID(String taskID)
     {
@@ -142,9 +142,9 @@ public class HadoopAction
     }
 
     /**
-     * ã‚¸ãƒ§ãƒ–åã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒWƒ‡ƒu–¼‚ğæ“¾‚·‚éB
      *
-     * @return ã‚¸ãƒ§ãƒ–å
+     * @return ƒWƒ‡ƒu–¼
      */
     public String getJobName()
     {
@@ -152,8 +152,8 @@ public class HadoopAction
     }
 
     /**
-     * ã‚¸ãƒ§ãƒ–åã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param jobName ã‚¸ãƒ§ãƒ–å
+     * ƒWƒ‡ƒu–¼‚ğİ’è‚·‚éB
+     * @param jobName ƒWƒ‡ƒu–¼
      */
     public void setJobName(String jobName)
     {
@@ -161,9 +161,9 @@ public class HadoopAction
     }
 
     /**
-     * ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ç¨®åˆ¥ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒAƒNƒVƒ‡ƒ“í•Ê‚ğæ“¾‚·‚éB
      *
-     * @return ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ç¨®åˆ¥
+     * @return ƒAƒNƒVƒ‡ƒ“í•Ê
      */
     public ActionType getActionType()
     {
@@ -171,9 +171,9 @@ public class HadoopAction
     }
 
     /**
-     * ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ç¨®åˆ¥ã‚’è¨­å®šã™ã‚‹ã€‚
+     * ƒAƒNƒVƒ‡ƒ“í•Ê‚ğİ’è‚·‚éB
      *
-     * @param actionType ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ç¨®åˆ¥
+     * @param actionType ƒAƒNƒVƒ‡ƒ“í•Ê
      */
     public void setActionType(ActionType actionType)
     {
@@ -181,9 +181,9 @@ public class HadoopAction
     }
 
     /**
-     * ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ç¨®åˆ¥ã‚’è¨­å®šã™ã‚‹ã€‚
+     * ƒAƒNƒVƒ‡ƒ“í•Ê‚ğİ’è‚·‚éB
      *
-     * @param actionType ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ç¨®åˆ¥
+     * @param actionType ƒAƒNƒVƒ‡ƒ“í•Ê
      */
     public void setActionType(String actionType)
     {
@@ -191,8 +191,8 @@ public class HadoopAction
     }
 
     /**
-     * å‡¦ç†å¯¾è±¡ãƒ‡ãƒ¼ã‚¿ã‚’è¨­å®šã™ã‚‹
-     * @param inputData å‡¦ç†å¯¾è±¡ãƒ‡ãƒ¼ã‚¿
+     * ˆ—‘ÎÛƒf[ƒ^‚ğİ’è‚·‚é
+     * @param inputData ˆ—‘ÎÛƒf[ƒ^
      */
     public void setInputData(String inputData)
     {
@@ -200,8 +200,8 @@ public class HadoopAction
     }
 
     /**
-     * å‡¦ç†å¯¾è±¡ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹
-     * @return inputData å‡¦ç†å¯¾è±¡ãƒ‡ãƒ¼ã‚¿
+     * ˆ—‘ÎÛƒf[ƒ^‚ğæ“¾‚·‚é
+     * @return inputData ˆ—‘ÎÛƒf[ƒ^
      */
     public String getInputData()
     {

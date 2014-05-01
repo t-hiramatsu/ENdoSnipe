@@ -26,7 +26,7 @@
 package jp.co.acroquest.endosnipe.collector.data;
 
 /**
- * {@link JavelinData} ã®ãŸã‚ã®åŸºåº•ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+ * {@link JavelinData} ‚Ì‚½‚ß‚ÌŠî’êƒNƒ‰ƒX‚Å‚·B<br />
  * 
  * @author y-komori
  */
@@ -141,10 +141,10 @@ public abstract class AbstractJavelinData implements JavelinData
     }
 
     /**
-     * ãƒ­ã‚°å‡ºåŠ›ç”¨ã®è©³ç´°æƒ…å ±ã‚’è¿”ã—ã¾ã™ã€‚<br />
-     * ã‚µãƒ–ã‚¯ãƒ©ã‚¹ã§ä»»æ„ã«å®Ÿè£…ã—ã¦ãã ã•ã„ã€‚
+     * ƒƒOo—Í—p‚ÌÚ×î•ñ‚ğ•Ô‚µ‚Ü‚·B<br />
+     * ƒTƒuƒNƒ‰ƒX‚Å”CˆÓ‚ÉÀ‘•‚µ‚Ä‚­‚¾‚³‚¢B
      * 
-     * @return è©³ç´°æƒ…å ±
+     * @return Ú×î•ñ
      */
     protected String getAdditionalString()
     {

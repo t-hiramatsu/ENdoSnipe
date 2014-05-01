@@ -23,126 +23,128 @@ import jp.co.acroquest.endosnipe.common.Constants;
 import jp.co.acroquest.endosnipe.report.dao.ReportDao;
 
 /**
- * VMçŠ¶æ…‹è¨ˆæ¸¬ãƒ‡ãƒ¼ã‚¿ã®ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›æƒ…å ±ã‚’å–å¾—ã™ã‚‹ã‚¢ã‚¯ã‚»ã‚µã‚¯ãƒ©ã‚¹ã€‚
+ * VMó‘ÔŒv‘ªƒf[ƒ^‚ÌƒŒƒ|[ƒgo—Íî•ñ‚ğæ“¾‚·‚éƒAƒNƒZƒTƒNƒ‰ƒXB
  * 
  * @author akiba
  */
 public class VmStatusRecordAccessor
 {
-	/**
-	 * æœŸé–“ã‚’æŒ‡å®šã—ã€ãã®æœŸé–“å†…ã§ã®VMçŠ¶æ…‹ã®ãƒ¬ãƒãƒ¼ãƒˆãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ã€‚<br/>
-	 * å–å¾—ã™ã‚‹ãƒ‡ãƒ¼ã‚¿ã¯ä»¥ä¸‹ã®é€šã‚Šã€‚<br/>
-	 * <ul>
-	 * 	<li>ã‚¹ãƒ¬ãƒƒãƒ‰æ•°</li>
-	 *  <li>GCåœæ­¢æ™‚é–“</li>
-	 *  <li>VMã‚¹ãƒ«ãƒ¼ãƒ—ãƒƒãƒˆ</li>
-	 *  <li>ãƒ•ã‚¡ã‚¤ãƒŠãƒ©ã‚¤ã‚ºå¾…ã¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ•°</li>
-	 *  <li>ã‚¯ãƒ©ã‚¹ãƒ­ãƒ¼ãƒ‰æ•°</li>
-	 * </ul>
-	 * 
-	 * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã€‚
-	 * @param startTime æ¤œç´¢æ¡ä»¶(é–‹å§‹æ™‚åˆ»)ã€‚
-	 * @param endTime æ¤œç´¢æ¡ä»¶(çµ‚äº†æ™‚åˆ»)ã€‚
-	 * @return VMçŠ¶æ…‹ã®ãƒ¬ãƒãƒ¼ãƒˆãƒ‡ãƒ¼ã‚¿ã€‚
-	 * @throws SQLException ãƒ‡ãƒ¼ã‚¿å–å¾—æ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
-	 */
-	public List<VmStatusRecord> findVmStatusStaticsByTerm(String database, Timestamp startTime,
-		Timestamp endTime) throws SQLException
-	{
-		List<VmStatusRecord> result = new ArrayList<VmStatusRecord>();
+    /**
+     * ŠúŠÔ‚ğw’è‚µA‚»‚ÌŠúŠÔ“à‚Å‚ÌVMó‘Ô‚ÌƒŒƒ|[ƒgƒf[ƒ^‚ğæ“¾‚·‚éB<br/>
+     * æ“¾‚·‚éƒf[ƒ^‚ÍˆÈ‰º‚Ì’Ê‚èB<br/>
+     * <ul>
+     * 	<li>ƒXƒŒƒbƒh”</li>
+     *  <li>GC’â~ŠÔ</li>
+     *  <li>VMƒXƒ‹[ƒvƒbƒg</li>
+     *  <li>ƒtƒ@ƒCƒiƒ‰ƒCƒY‘Ò‚¿ƒIƒuƒWƒFƒNƒg”</li>
+     *  <li>ƒNƒ‰ƒXƒ[ƒh”</li>
+     * </ul>
+     * 
+     * @param database ƒf[ƒ^ƒx[ƒX–¼B
+     * @param startTime ŒŸõğŒ(ŠJn)B
+     * @param endTime ŒŸõğŒ(I—¹)B
+     * @return VMó‘Ô‚ÌƒŒƒ|[ƒgƒf[ƒ^B
+     * @throws SQLException ƒf[ƒ^æ“¾‚É—áŠO‚ª”­¶‚µ‚½ê‡
+     */
+    public List<VmStatusRecord> findVmStatusStaticsByTerm(String database, Timestamp startTime,
+            Timestamp endTime) throws SQLException
+    {
+        List<VmStatusRecord> result = new ArrayList<VmStatusRecord>();
 
-		// ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‹ã‚‰å€¤ã‚’å–å¾—ã™ã‚‹
-		List<ReportItemValue> nativeThreadNumValues;
-		List<ReportItemValue> threadNumValues;
-		List<ReportItemValue> gcStopTimeValues;
-		List<ReportItemValue> vmThroughputValues;
-		List<ReportItemValue> finalizeObjNumValues;
-		List<ReportItemValue> totalLoadedClassNumValues;
-		List<ReportItemValue> loadedClassNumValues;
+        // ƒf[ƒ^ƒx[ƒX‚©‚ç’l‚ğæ“¾‚·‚é
+        List<ReportItemValue> nativeThreadNumValues;
+        List<ReportItemValue> threadNumValues;
+        List<ReportItemValue> gcStopTimeValues;
+        List<ReportItemValue> vmThroughputValues;
+        List<ReportItemValue> finalizeObjNumValues;
+        List<ReportItemValue> totalLoadedClassNumValues;
+        List<ReportItemValue> loadedClassNumValues;
+        
 
-		// ã‚¹ãƒ¬ãƒƒãƒ‰æ•°(Native)
-		nativeThreadNumValues = ReportDao.selectAverage(database, startTime, endTime,
-			Constants.ITEMNAME_PROCESS_THREAD_TOTAL_COUNT);
-		// ã‚¹ãƒ¬ãƒƒãƒ‰æ•°(Java)
-		threadNumValues = ReportDao.selectAverage(database, startTime, endTime,
-			Constants.ITEMNAME_JAVAPROCESS_THREAD_TOTAL_COUNT);
-		gcStopTimeValues = ReportDao.selectAverage(database, startTime, endTime,
-			Constants.ITEMNAME_JAVAPROCESS_GC_TIME_TOTAL);
-		vmThroughputValues = selectVMThroughput(database, startTime, endTime);
-		finalizeObjNumValues = ReportDao.selectAverage(database, startTime, endTime,
-			Constants.ITEMNAME_JAVAPROCESS_GC_FINALIZEQUEUE_COUNT);
-		// ãƒ­ãƒ¼ãƒ‰ã•ã‚ŒãŸã‚¯ãƒ©ã‚¹ã®åˆè¨ˆæ•°
-		totalLoadedClassNumValues = ReportDao.selectAverage(database, startTime, endTime,
-			Constants.ITEMNAME_JAVAPROCESS_CLASSLOADER_CLASS_TOTAL);
-		// ç¾åœ¨ãƒ­ãƒ¼ãƒ‰ã•ã‚Œã¦ã„ã‚‹ã‚¯ãƒ©ã‚¹ã®æ•°
-		loadedClassNumValues = ReportDao.selectAverage(database, startTime, endTime,
-			Constants.ITEMNAME_JAVAPROCESS_CLASSLOADER_CLASS_CURRENT);
+        // ƒXƒŒƒbƒh”(Native)
+        nativeThreadNumValues = ReportDao.selectAverage(database, startTime,
+                endTime, Constants.ITEMNAME_PROCESS_THREAD_TOTAL_COUNT);
+        // ƒXƒŒƒbƒh”(Java)
+    	threadNumValues = ReportDao.selectAverage(database, startTime,
+    			endTime, Constants.ITEMNAME_JAVAPROCESS_THREAD_TOTAL_COUNT);
+    	gcStopTimeValues = ReportDao.selectAverage(database, startTime,
+    			endTime, Constants.ITEMNAME_JAVAPROCESS_GC_TIME_TOTAL);
+    	vmThroughputValues = selectVMThroughput(database, startTime, endTime);
+    	finalizeObjNumValues = ReportDao.selectAverage(database, startTime,
+    			endTime, Constants.ITEMNAME_JAVAPROCESS_GC_FINALIZEQUEUE_COUNT);
+    	// ƒ[ƒh‚³‚ê‚½ƒNƒ‰ƒX‚Ì‡Œv”
+    	totalLoadedClassNumValues = ReportDao.selectAverage(database, startTime,
+                endTime, Constants.ITEMNAME_JAVAPROCESS_CLASSLOADER_CLASS_TOTAL);
+    	// Œ»İƒ[ƒh‚³‚ê‚Ä‚¢‚éƒNƒ‰ƒX‚Ì”
+    	loadedClassNumValues = ReportDao.selectAverage(database, startTime,
+    			endTime, Constants.ITEMNAME_JAVAPROCESS_CLASSLOADER_CLASS_CURRENT);
 
-		for (int index = 0; index < threadNumValues.size(); index++)
-		{
-			VmStatusRecord record = new VmStatusRecord();
+        for (int index = 0; index < threadNumValues.size(); index++)
+        {
+            VmStatusRecord record = new VmStatusRecord();
 
-			ReportItemValue nativeThreadNum = nativeThreadNumValues.get(index);
-			ReportItemValue threadNum = threadNumValues.get(index);
-			ReportItemValue gcStopTime = gcStopTimeValues.get(index);
-			ReportItemValue vmThroughput = vmThroughputValues.get(index);
-			ReportItemValue finalizeObjNum = finalizeObjNumValues.get(index);
-			ReportItemValue totalLoadedClassNum = totalLoadedClassNumValues.get(index);
-			ReportItemValue loadedClassNum = loadedClassNumValues.get(index);
+            ReportItemValue nativeThreadNum = nativeThreadNumValues.get(index);
+            ReportItemValue threadNum = threadNumValues.get(index);
+            ReportItemValue gcStopTime = gcStopTimeValues.get(index);
+            ReportItemValue vmThroughput = vmThroughputValues.get(index);
+            ReportItemValue finalizeObjNum = finalizeObjNumValues.get(index);
+            ReportItemValue totalLoadedClassNum = totalLoadedClassNumValues.get(index);
+            ReportItemValue loadedClassNum = loadedClassNumValues.get(index);
 
-			if (threadNum != null)
-			{
-				record.setMeasurementTime(threadNum.measurementTime);
-				record.setNativeThreadNum(nativeThreadNum.summaryValue.doubleValue());
-				record.setNativeThreadNumMax(nativeThreadNum.maxValue.doubleValue());
-				record.setNativeThreadNumMin(nativeThreadNum.minValue.doubleValue());
-				record.setThreadNum(threadNum.summaryValue.doubleValue());
-				record.setThreadNumMax(threadNum.maxValue.doubleValue());
-				record.setThreadNumMin(threadNum.minValue.doubleValue());
-				record.setGcStopTime(gcStopTime.summaryValue.doubleValue());
-				record.setGcStopTimeMax(gcStopTime.maxValue.doubleValue());
-				record.setGcStopTimeMin(gcStopTime.minValue.doubleValue());
-				record.setVmThroughput(vmThroughput.summaryValue.doubleValue());
-				record.setVmThroughputMax(vmThroughput.maxValue.doubleValue());
-				record.setVmThroughputMin(vmThroughput.minValue.doubleValue());
-				record.setFinalizeObjNum(finalizeObjNum.summaryValue.doubleValue());
-				record.setFinalizeObjNumMax(finalizeObjNum.maxValue.doubleValue());
-				record.setFinalizeObjNumMin(finalizeObjNum.minValue.doubleValue());
-				record.setTotalLoadedClassNum(totalLoadedClassNum.summaryValue.doubleValue());
-				record.setTotalLoadedClassNumMax(totalLoadedClassNum.maxValue.doubleValue());
-				record.setTotalLoadedClassNumMin(totalLoadedClassNum.minValue.doubleValue());
-				record.setLoadedClassNum(loadedClassNum.summaryValue.doubleValue());
-				record.setLoadedClassNumMax(loadedClassNum.maxValue.doubleValue());
-				record.setLoadedClassNumMin(loadedClassNum.minValue.doubleValue());
-			}
+            if (threadNum != null)
+            {
+            	record.setMeasurementTime(threadNum.measurementTime);
+            	record.setNativeThreadNum(nativeThreadNum.summaryValue.doubleValue());
+                record.setNativeThreadNumMax(nativeThreadNum.maxValue.doubleValue());
+                record.setNativeThreadNumMin(nativeThreadNum.minValue.doubleValue());
+            	record.setThreadNum(threadNum.summaryValue.doubleValue());
+            	record.setThreadNumMax(threadNum.maxValue.doubleValue());
+            	record.setThreadNumMin(threadNum.minValue.doubleValue());
+            	record.setGcStopTime(gcStopTime.summaryValue.doubleValue());
+            	record.setGcStopTimeMax(gcStopTime.maxValue.doubleValue());
+            	record.setGcStopTimeMin(gcStopTime.minValue.doubleValue());
+            	record.setVmThroughput(vmThroughput.summaryValue.doubleValue());
+            	record.setVmThroughputMax(vmThroughput.maxValue.doubleValue());
+            	record.setVmThroughputMin(vmThroughput.minValue.doubleValue());
+            	record.setFinalizeObjNum(finalizeObjNum.summaryValue.doubleValue());
+            	record.setFinalizeObjNumMax(finalizeObjNum.maxValue.doubleValue());
+            	record.setFinalizeObjNumMin(finalizeObjNum.minValue.doubleValue());
+            	record.setTotalLoadedClassNum(totalLoadedClassNum.summaryValue.doubleValue());
+                record.setTotalLoadedClassNumMax(totalLoadedClassNum.maxValue.doubleValue());
+                record.setTotalLoadedClassNumMin(totalLoadedClassNum.minValue.doubleValue());
+            	record.setLoadedClassNum(loadedClassNum.summaryValue.doubleValue());
+            	record.setLoadedClassNumMax(loadedClassNum.maxValue.doubleValue());
+            	record.setLoadedClassNumMin(loadedClassNum.minValue.doubleValue());
+            }
+            
+            result.add(record);
+        }
 
-			result.add(record);
-		}
+        return result;
+    }
+    
+    /**
+     * DB‚©‚çGC’â~ŠÔ‚ğæ“¾‚µAVMƒXƒ‹[ƒvƒbƒg‚ğŠ„‚èo‚·B
+     * 
+     * @param database  ƒf[ƒ^ƒx[ƒXB
+     * @param startTime ŒŸõğŒ(ŠJn)B
+     * @param endTime   ŒŸõğŒ(I—¹)B
+     * @return VMƒXƒ‹[ƒvƒbƒg‚ÌƒŠƒXƒgB
+     * @throws SQLException ƒf[ƒ^ƒx[ƒX‚©‚ç‚ÌŒŸõ‚ÉƒGƒ‰[‚ª”­¶‚µ‚½ê‡B
+     */
+    private List<ReportItemValue> selectVMThroughput(String database, Timestamp startTime,
+            Timestamp endTime)
+        throws SQLException
+    {
+    	List<ReportItemValue> gcTotalTimeValues = ReportDao.selectAverage(database,
+    			startTime, endTime, Constants.ITEMNAME_JAVAPROCESS_GC_TIME_TOTAL);
+    	List<ReportItemValue>  upTimeValues =
+            ReportDao.selectAverage(database, startTime, endTime, Constants.ITEMNAME_JAVAUPTIME);
+   	
+        List<ReportItemValue> dtoList = new ArrayList<ReportItemValue>();
 
-		return result;
-	}
-
-	/**
-	 * DBã‹ã‚‰GCåœæ­¢æ™‚é–“ã‚’å–å¾—ã—ã€VMã‚¹ãƒ«ãƒ¼ãƒ—ãƒƒãƒˆã‚’å‰²ã‚Šå‡ºã™ã€‚
-	 * 
-	 * @param database  ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã€‚
-	 * @param startTime æ¤œç´¢æ¡ä»¶(é–‹å§‹æ™‚åˆ»)ã€‚
-	 * @param endTime   æ¤œç´¢æ¡ä»¶(çµ‚äº†æ™‚åˆ»)ã€‚
-	 * @return VMã‚¹ãƒ«ãƒ¼ãƒ—ãƒƒãƒˆã®ãƒªã‚¹ãƒˆã€‚
-	 * @throws SQLException ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‹ã‚‰ã®æ¤œç´¢æ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆã€‚
-	 */
-	private List<ReportItemValue> selectVMThroughput(String database, Timestamp startTime,
-		Timestamp endTime) throws SQLException
-	{
-		List<ReportItemValue> gcTotalTimeValues = ReportDao.selectAverage(database, startTime,
-			endTime, Constants.ITEMNAME_JAVAPROCESS_GC_TIME_TOTAL);
-		List<ReportItemValue> upTimeValues = ReportDao.selectAverage(database, startTime, endTime,
-			Constants.ITEMNAME_JAVAUPTIME);
-
-		List<ReportItemValue> dtoList = new ArrayList<ReportItemValue>();
-
-		for (int index = 0; index < gcTotalTimeValues.size(); index++)
-		{
+        for(int index = 0; index < gcTotalTimeValues.size(); index++)
+        {
 			ReportItemValue gcTotalTimeValue = gcTotalTimeValues.get(index);
 			ReportItemValue upTimeValue = upTimeValues.get(index);
 			if (gcTotalTimeValue == null)
@@ -156,11 +158,11 @@ public class VmStatusRecordAccessor
 				double vmThroughput;
 				if (0 < uptime)
 				{
-					vmThroughput = (1 - gcTotalTime / uptime) * 100;
+				    vmThroughput = (1 - gcTotalTime / uptime) * 100;
 				}
 				else
 				{
-					vmThroughput = 100.0;
+				    vmThroughput = 100.0;
 				}
 
 				ReportItemValue dto = new ReportItemValue();
@@ -171,9 +173,9 @@ public class VmStatusRecordAccessor
 
 				dtoList.add(dto);
 			}
-		}
+        }
 
-		return dtoList;
-	}
+        return dtoList;
+    }
 
 }

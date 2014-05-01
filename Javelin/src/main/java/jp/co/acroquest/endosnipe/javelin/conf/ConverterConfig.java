@@ -26,37 +26,37 @@
 package jp.co.acroquest.endosnipe.javelin.conf;
 
 /**
- * ã‚³ãƒ³ãƒãƒ¼ã‚¿ã®è¨­å®š
+ * ƒRƒ“ƒo[ƒ^‚Ìİ’è
  * @author yamasaki
  *
  */
 public class ConverterConfig
 {
-    /** ã‚³ãƒ³ãƒãƒ¼ã‚¿ã‚’è¡¨ã™æ¥é ­è¾ */
+    /** ƒRƒ“ƒo[ƒ^‚ğ•\‚·Ú“ª« */
     public static final String PREFIX = "[Converter]";
 
-    /** è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã§ã‚³ãƒ³ãƒãƒ¼ã‚¿åã¨ã‚³ãƒ³ãƒãƒ¼ã‚¿ã®ã‚¯ãƒ©ã‚¹ã‚’åŒºåˆ‡ã‚‹ãŸã‚ã®ãƒˆãƒ¼ã‚¯ãƒ³ */
+    /** İ’èƒtƒ@ƒCƒ‹‚ÅƒRƒ“ƒo[ƒ^–¼‚ÆƒRƒ“ƒo[ƒ^‚ÌƒNƒ‰ƒX‚ğ‹æØ‚é‚½‚ß‚Ìƒg[ƒNƒ“ */
     private static final String NAME_TOKEN = "=";
 
-    /** è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã§ã‚³ãƒ¼ãƒ‰åŸ‹ã‚è¾¼ã¿ã‚¯ãƒ©ã‚¹ã¨ã‚³ãƒ³ãƒãƒ¼ã‚¿ã‚’åŒºåˆ‡ã‚‹ãŸã‚ã®ãƒˆãƒ¼ã‚¯ãƒ³ */
+    /** İ’èƒtƒ@ƒCƒ‹‚ÅƒR[ƒh–„‚ß‚İƒNƒ‰ƒX‚ÆƒRƒ“ƒo[ƒ^‚ğ‹æØ‚é‚½‚ß‚Ìƒg[ƒNƒ“ */
     private static final String CONVERTER_TOKEN = ",";
 
-    /** ãƒ¦ãƒ¼ã‚¶ãŒè¨­å®šã™ã‚‹ã‚³ãƒ³ãƒãƒ¼ã‚¿å */
+    /** ƒ†[ƒU‚ªİ’è‚·‚éƒRƒ“ƒo[ƒ^–¼ */
     private String name_;
 
-    /** ã‚³ãƒ³ãƒãƒ¼ã‚¿ã®ã‚¯ãƒ©ã‚¹å */
+    /** ƒRƒ“ƒo[ƒ^‚ÌƒNƒ‰ƒX–¼ */
     private String[] converterNames_;
 
     /**
-     * è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚€ã€‚
-     * @param line è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã®è¡Œ
+     * İ’èƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚ŞB
+     * @param line İ’èƒtƒ@ƒCƒ‹‚Ìs
      */
     public void readConfig(String line)
     {
-        //[Converter]ã‚’é™¤å»ã™ã‚‹ã€‚
+        //[Converter]‚ğœ‹‚·‚éB
         line = line.substring(PREFIX.length());
 
-        // ãƒ¦ãƒ¼ã‚¶ã®è¨­å®šã™ã‚‹ã‚³ãƒ³ãƒãƒ¼ã‚¿åã¨ã‚³ãƒ³ãƒãƒ¼ã‚¿ã®ã‚¯ãƒ©ã‚¹åã‚’åˆ†é›¢ã™ã‚‹ã€‚
+        // ƒ†[ƒU‚Ìİ’è‚·‚éƒRƒ“ƒo[ƒ^–¼‚ÆƒRƒ“ƒo[ƒ^‚ÌƒNƒ‰ƒX–¼‚ğ•ª—£‚·‚éB
         String[] nameAndConfig = line.split(NAME_TOKEN);
         this.name_ = nameAndConfig[0].trim();
 
@@ -69,8 +69,8 @@ public class ConverterConfig
     }
 
     /**
-     * ãƒ¦ãƒ¼ã‚¶ã®è¨­å®šã—ãŸã‚³ãƒ³ãƒãƒ¼ã‚¿åã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ã‚³ãƒ³ãƒãƒ¼ã‚¿å
+     * ƒ†[ƒU‚Ìİ’è‚µ‚½ƒRƒ“ƒo[ƒ^–¼‚ğæ“¾‚·‚éB
+     * @return ƒRƒ“ƒo[ƒ^–¼
      */
     public String getName()
     {
@@ -78,8 +78,8 @@ public class ConverterConfig
     }
 
     /**
-     * ã‚³ãƒ³ãƒãƒ¼ã‚¿åã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param name ã‚³ãƒ³ãƒãƒ¼ã‚¿å
+     * ƒRƒ“ƒo[ƒ^–¼‚ğİ’è‚·‚éB
+     * @param name ƒRƒ“ƒo[ƒ^–¼
      */
     public void setName(final String name)
     {
@@ -87,8 +87,8 @@ public class ConverterConfig
     }
 
     /**
-     * ã‚³ãƒ³ãƒãƒ¼ã‚¿ã®ã‚¯ãƒ©ã‚¹åã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ã‚³ãƒ³ãƒãƒ¼ã‚¿ã®ã‚¯ãƒ©ã‚¹å
+     * ƒRƒ“ƒo[ƒ^‚ÌƒNƒ‰ƒX–¼‚ğæ“¾‚·‚éB
+     * @return ƒRƒ“ƒo[ƒ^‚ÌƒNƒ‰ƒX–¼
      */
     public String[] getConverterNames()
     {
@@ -96,8 +96,8 @@ public class ConverterConfig
     }
 
     /**
-     * ã‚³ãƒ³ãƒãƒ¼ã‚¿ã®ã‚¯ãƒ©ã‚¹åã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param converterNames ã‚³ãƒ³ãƒãƒ¼ã‚¿ã®ã‚¯ãƒ©ã‚¹å
+     * ƒRƒ“ƒo[ƒ^‚ÌƒNƒ‰ƒX–¼‚ğİ’è‚·‚éB
+     * @param converterNames ƒRƒ“ƒo[ƒ^‚ÌƒNƒ‰ƒX–¼
      */
     public void setConverterNames(final String[] converterNames)
     {

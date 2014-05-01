@@ -29,7 +29,7 @@ import jp.co.acroquest.endosnipe.common.entity.ItemType;
 import jp.co.acroquest.endosnipe.javelin.converter.leak.monitor.CallTreeNodeMonitor;
 
 /**
- * CallTreeã®å€‹æ•°ã‚’å–å¾—ã™ã‚‹
+ * CallTree‚ÌŒÂ”‚ğæ“¾‚·‚é
  * 
  * @author S.Kimura
  */

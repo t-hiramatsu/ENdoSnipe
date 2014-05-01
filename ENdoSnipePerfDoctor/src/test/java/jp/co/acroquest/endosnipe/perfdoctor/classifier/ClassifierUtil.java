@@ -5,16 +5,16 @@ import jp.co.acroquest.endosnipe.perfdoctor.WarningUnit;
 import jp.co.acroquest.endosnipe.perfdoctor.WarningUnitGetter;
 
 /**
- * åˆ†é¡å™¨ã®Utilã‚¯ãƒ©ã‚¹
+ * •ª—ŞŠí‚ÌUtilƒNƒ‰ƒX
  * @author fujii
  *
  */
 public class ClassifierUtil
 {
-    /**ã€€è­¦å‘Šã®IDã€€*/
+    /**@Œx‚ÌID@*/
     public static final String UNIT_ID = "testWarningId";
 
-    /** ãƒ«ãƒ¼ãƒ«ã®ID */
+    /** ƒ‹[ƒ‹‚ÌID */
     private static String id = "testRuleId";
 
     /**
@@ -33,41 +33,41 @@ public class ClassifierUtil
 		id = iD;
 	}
 
-	/** è­¦å‘Šã®èª¬æ˜ */
+	/** Œx‚Ìà–¾ */
     public static final String DESCRIPTION = "This is a testWarningUtnit";
 
-    /** ã‚¯ãƒ©ã‚¹å */
+    /** ƒNƒ‰ƒX–¼ */
     public static final String CLASS_NAME = "testRuleId";
 
-    /** ãƒ¡ã‚½ãƒƒãƒ‰å */
+    /** ƒƒ\ƒbƒh–¼ */
     public static final String METHOD_NAME = "testRuleId";
 
-    /** é‡è¦åº¦ */
+    /** d—v“x */
     public static final String LEVEL = "ERROR";
 
-    /** ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«å */
+    /** ƒƒOƒtƒ@ƒCƒ‹–¼ */
     public static final String LOG_FILENAME = "file1";
 
-    /** è¡Œç•ªå· */
+    /** s”Ô† */
     public static final int LOG_FILELINENUMBER = 1;
 
-    /** é–‹å§‹æ™‚åˆ» */
+    /** ŠJn */
     public static final int STARTTIME = 0;
 
-    /** çµ‚äº†æ™‚åˆ» */
+    /** I—¹ */
     public static final int ENDTIME = 0;
 
     /**
-     * @param  ã€‚
-     * @param  ã€‚
-     * @param args é–¾å€¤ã€æ¤œå‡ºå€¤ãªã©ã®å¼•æ•°ã€‚
-     * @returnã€€WarnignUnit WarningUnit
+     * @param  B
+     * @param  B
+     * @param args è‡’lAŒŸo’l‚È‚Ç‚Ìˆø”B
+     * @return@WarnignUnit WarningUnit
      */
 
     /**
-     * 2ã¤ã®WarnigUnitãŒä¸€è‡´ã™ã‚‹ã‹æ¤œè¨¼ã™ã‚‹ã€‚
-     * @param expect æœŸå¾…ã™ã‚‹WarningUnit
-     * @param result çµæœã®WarningUnit
+     * 2‚Â‚ÌWarnigUnit‚ªˆê’v‚·‚é‚©ŒŸØ‚·‚éB
+     * @param expect Šú‘Ò‚·‚éWarningUnit
+     * @param result Œ‹‰Ê‚ÌWarningUnit
      */
     public static void assertWarningUnitList(WarningUnit expect, WarningUnit result)
     {
@@ -92,8 +92,8 @@ public class ClassifierUtil
     }
 
     /**
-     * è©¦é¨“ã§å…±é€šçš„ã«åˆ©ç”¨ã™ã‚‹WarningUnitã‚’ä½œæˆã™ã‚‹ã€‚
-     * @param args WarningUnitã®Args
+     * Œ±‚Å‹¤’Ê“I‚É—˜—p‚·‚éWarningUnit‚ğì¬‚·‚éB
+     * @param args WarningUnit‚ÌArgs
      * @return WarningUnit
      */
     public static WarningUnit createDefaultWarningUnit(Object[] args)
@@ -104,8 +104,8 @@ public class ClassifierUtil
     }
 
     /**
-     * è©¦é¨“ã§å…±é€šçš„ã«åˆ©ç”¨ã™ã‚‹WarningUnitã‚’ä½œæˆã™ã‚‹(ã‚¤ãƒ™ãƒ³ãƒˆç”¨)ã€‚
-     * @param args WarningUnitã®Args
+     * Œ±‚Å‹¤’Ê“I‚É—˜—p‚·‚éWarningUnit‚ğì¬‚·‚é(ƒCƒxƒ“ƒg—p)B
+     * @param args WarningUnit‚ÌArgs
      * @return WarningUnit
      */
     public static WarningUnit createDefaultEventWarningUnit(String stackTrace, Object[] args)
@@ -117,12 +117,12 @@ public class ClassifierUtil
     }
 
     /**
-     * è©¦é¨“ã§å…±é€šçš„ã«åˆ©ç”¨ã™ã‚‹WarningUnitã‚’ä½œæˆã™ã‚‹ã€‚
-     * @param ruleId è­¦å‘Šã®ãƒ«ãƒ¼ãƒ«ID
-     * @param fileName ãƒ•ã‚¡ã‚¤ãƒ«å
-     * @param startTime é–‹å§‹æ™‚åˆ»
-     * @param endTime çµ‚äº†æ™‚åˆ»
-     * @param args WarningUnitã®Args
+     * Œ±‚Å‹¤’Ê“I‚É—˜—p‚·‚éWarningUnit‚ğì¬‚·‚éB
+     * @param ruleId Œx‚Ìƒ‹[ƒ‹ID
+     * @param fileName ƒtƒ@ƒCƒ‹–¼
+     * @param startTime ŠJn
+     * @param endTime I—¹
+     * @param args WarningUnit‚ÌArgs
      * @return WarningUnit
      */
     public static WarningUnit createWarningUnit(String ruleId, String fileName, long startTime,

@@ -30,22 +30,22 @@ import jp.co.acroquest.endosnipe.common.entity.ResourceData;
 import jp.co.acroquest.endosnipe.data.dto.SignalDefinitionDto;
 
 /**
- * é–¾å€¤è¶…éã®ã‚¢ãƒ©ãƒ¼ãƒ ç™ºç”Ÿã‚’åˆ¤å®šã™ã‚‹å‡¦ç†ã®ã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹
+ * è‡’l’´‰ß‚ÌƒAƒ‰[ƒ€”­¶‚ğ”»’è‚·‚éˆ—‚ÌƒCƒ“ƒ^ƒtƒF[ƒX
  * @author ochiai
  *
  */
 public interface AlarmProcessor
 {
-    /** ãƒ‘ãƒ¼ã‚»ãƒ³ãƒˆã‚’è¨ˆç®—ã™ã‚‹ã¨ãã®å®šæ•°ï¼ˆ100ï¼‰ */
+    /** ƒp[ƒZƒ“ƒg‚ğŒvZ‚·‚é‚Æ‚«‚Ì’è”i100j */
     int PERCENT_CONST = 100;
 
     /**
-     * ã‚¢ãƒ©ãƒ¼ãƒ ãƒ¬ãƒ™ãƒ«ã‚’è¨ˆç®—ã™ã‚‹
-     * @param currentResourceData ç¾åœ¨ã®ãƒªã‚½ãƒ¼ã‚¹ãƒ‡ãƒ¼ã‚¿
-     * @param prevResourceData ä¸€ã¤å‰ã®ãƒªã‚½ãƒ¼ã‚¹ãƒ‡ãƒ¼ã‚¿
-     * @param signalDefinition é–¾å€¤åˆ¤å®šå®šç¾©æƒ…å ±
-     * @param alarmData ã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥ã®æœ‰ç„¡ã‚’è¨ˆç®—ã™ã‚‹ãŸã‚ã®ãƒ‡ãƒ¼ã‚¿ã€‚ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã®ä¸­ã§æ›´æ–°ã™ã‚‹
-     * @return ã‚¢ãƒ©ãƒ¼ãƒ é€šçŸ¥ã®æœ‰ç„¡ã¨ã€é€šçŸ¥ã™ã‚‹ã‚¢ãƒ©ãƒ¼ãƒ ã«è¡¨ç¤ºã•ã›ã‚‹æƒ…å ±ã‚’å…¥ã‚ŒãŸAlarmEntry
+     * ƒAƒ‰[ƒ€ƒŒƒxƒ‹‚ğŒvZ‚·‚é
+     * @param currentResourceData Œ»İ‚ÌƒŠƒ\[ƒXƒf[ƒ^
+     * @param prevResourceData ˆê‚Â‘O‚ÌƒŠƒ\[ƒXƒf[ƒ^
+     * @param signalDefinition è‡’l”»’è’è‹`î•ñ
+     * @param alarmData ƒAƒ‰[ƒ€’Ê’m‚Ì—L–³‚ğŒvZ‚·‚é‚½‚ß‚Ìƒf[ƒ^B‚±‚Ìƒƒ\ƒbƒh‚Ì’†‚ÅXV‚·‚é
+     * @return ƒAƒ‰[ƒ€’Ê’m‚Ì—L–³‚ÆA’Ê’m‚·‚éƒAƒ‰[ƒ€‚É•\¦‚³‚¹‚éî•ñ‚ğ“ü‚ê‚½AlarmEntry
      */
     AlarmEntry calculateAlarmLevel(ResourceData currentResourceData, ResourceData prevResourceData,
             SignalDefinitionDto signalDefinition, AlarmData alarmData);

@@ -1,40 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+
 <beans:beans xmlns="http://www.springframework.org/schema/mvc"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xmlns:beans="http://www.springframework.org/schema/beans"
-	xmlns:aop="http://www.springframework.org/schema/aop" 
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:batch="http://www.springframework.org/schema/batch"
-	xmlns:util="http://www.springframework.org/schema/util"
-	xsi:schemaLocation="http://www.springframework.org/schema/mvc 
-		http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
 		http://www.springframework.org/schema/aop
 		http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
-		http://www.springframework.org/schema/beans 
-		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
-		http://www.springframework.org/schema/context 
-		http://www.springframework.org/schema/context/spring-context-3.0.xsd
-		http://www.springframework.org/schema/batch 
-		http://www.springframework.org/schema/batch/spring-batch-2.2.xsd
-		http://www.springframework.org/schema/util 
-		http://www.springframework.org/schema/util/spring-util-3.2.xsd">
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-    <beans:import resource="job-extract-users.xml" />
-    
-	<!-- DispatcherServlet Context: defines this servlet's request-processing 
+	<!-- DispatcherServlet Context: defines this servlet's request-processing
 		infrastructure -->
 
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
 
-	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving
 		up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
 
 	<context:component-scan base-package="jp.co.acroquest.endosnipe" />
 	<context:component-scan base-package="org.wgp" />
 
-	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources
 		in the /WEB-INF/views directory -->
 	<beans:bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -61,7 +50,7 @@
 		<aop:aspect ref="completeUpdateDataInterceptor">
 			<!-- you must change this setting of expression. -->
 			<aop:pointcut id="completePointCut"
-				expression="execution(* jp.co.acroquest.endosnipe.web.explorer.manager.ResourceSender.send(..))" />
+				expression="execution(* jp.co.acroquest.endosnipe.web.dashboard.manager.ResourceSender.send(..))" />
 			<!-- end -->
 			<aop:after pointcut-ref="completePointCut" method="completeInterceptor" />
 		</aop:aspect>
@@ -79,68 +68,29 @@
 	<beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<beans:property name="dataSource" ref="dataSource" />
 		<beans:property name="mapperLocations"
-			value="classpath:jp/co/acroquest/endosnipe/web/explorer/dao/**/*.xml" />
+			value="classpath:jp/co/acroquest/endosnipe/web/dashboard/dao/**/*.xml" />
 	</beans:bean>
 
 	<beans:bean id="signalInfoDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
 		<beans:property name="mapperInterface"
-			value="jp.co.acroquest.endosnipe.web.explorer.dao.SignalInfoDao" />
-		<beans:property name="sqlSessionFactory" ref="sqlSessionFactory" />
-	</beans:bean>
-	
-	<beans:bean id="summarySignalInfoDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
-		<beans:property name="mapperInterface"
-			value="jp.co.acroquest.endosnipe.web.explorer.dao.SummarySignalInfoDao" />
-		<beans:property name="sqlSessionFactory" ref="sqlSessionFactory" />
-	</beans:bean>
-	
-	<beans:bean id="multipleResourceGraphInfoDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
-		<beans:property name="mapperInterface"
-			value="jp.co.acroquest.endosnipe.web.explorer.dao.MultipleResourceGraphInfoDao" />
+			value="jp.co.acroquest.endosnipe.web.dashboard.dao.SignalInfoDao" />
 		<beans:property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</beans:bean>
 
 	<beans:bean id="mapInfoDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
 		<beans:property name="mapperInterface"
-			value="jp.co.acroquest.endosnipe.web.explorer.dao.DashboardInfoDao" />
+			value="jp.co.acroquest.endosnipe.web.dashboard.dao.MapInfoDao" />
 		<beans:property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</beans:bean>
 
 	<beans:bean id="reportDefinitionDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
 		<beans:property name="mapperInterface"
-			value="jp.co.acroquest.endosnipe.web.explorer.dao.ReportDefinitionDao" />
-		<beans:property name="sqlSessionFactory" ref="sqlSessionFactory" />
-	</beans:bean>
-	<beans:bean id="schedulingReportDefinitionDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
-		<beans:property name="mapperInterface"
-			value="jp.co.acroquest.endosnipe.web.explorer.dao.SchedulingReportDefinitionDao" />
+			value="jp.co.acroquest.endosnipe.web.dashboard.dao.ReportDefinitionDao" />
 		<beans:property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</beans:bean>
 
-	<beans:bean id="sqlPlanDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
-		<beans:property name="mapperInterface"
-			value="jp.co.acroquest.endosnipe.web.explorer.dao.SqlPlanDao" />
-		<beans:property name="sqlSessionFactory" ref="sqlSessionFactory" />
-	</beans:bean>
-	
-	<beans:bean id="reportExportResultDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
-		<beans:property name="mapperInterface"
-			value="jp.co.acroquest.endosnipe.web.explorer.dao.ReportExportResultDao" />
-		<beans:property name="sqlSessionFactory" ref="sqlSessionFactory" />
-	</beans:bean>
-	
-	<beans:bean id="PropertySettingDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
-
-    <beans:property name="mapperInterface"
-
-        value="jp.co.acroquest.endosnipe.web.explorer.dao.PropertySettingDao" />
-
-    <beans:property name="sqlSessionFactory" ref="sqlSessionFactory" />
-
-	</beans:bean>
 	<beans:bean id="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<beans:property name="dataSource" ref="dataSource" />
 	</beans:bean>
-	
 </beans:beans>

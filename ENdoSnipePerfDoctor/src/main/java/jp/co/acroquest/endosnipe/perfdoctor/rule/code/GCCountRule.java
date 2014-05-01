@@ -37,9 +37,9 @@ import jp.co.acroquest.endosnipe.javelin.parser.JavelinParser;
 import jp.co.acroquest.endosnipe.perfdoctor.rule.SingleElementRule;
 
 /**
- * ãƒ—ãƒ­ã‚»ã‚¹ã«ãŠã‘ã‚‹GCã®å®Ÿè¡Œå›æ•°ãŒã€é–¾å€¤ã‚’è¶…ãˆãŸã“ã¨ã‚’æ¤œå‡ºã™ã‚‹Ruleã€‚</br>
+ * ƒvƒƒZƒX‚É‚¨‚¯‚éGC‚ÌÀs‰ñ”‚ªAè‡’l‚ğ’´‚¦‚½‚±‚Æ‚ğŒŸo‚·‚éRuleB</br>
  * 
- * Performance Doctorã«å‡ºåŠ›ã™ã‚‹å†…å®¹</br> <li>é–¾å€¤ã«æŒ‡å®šã—ãŸå®Ÿè¡Œå›æ•°ã‚’è¶ŠãˆãŸå ´åˆã€é–¾å€¤ã‚’å‡ºåŠ›ã™ã‚‹ã€‚
+ * Performance Doctor‚Éo—Í‚·‚é“à—e</br> <li>è‡’l‚Éw’è‚µ‚½Às‰ñ”‚ğ‰z‚¦‚½ê‡Aè‡’l‚ğo—Í‚·‚éB
  * 
  * @author S.Kimura
  * @author fujii
@@ -48,7 +48,7 @@ public class GCCountRule extends SingleElementRule
 {
     private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(GCCountRule.class);
 
-    /** è­¦å‘Šã¨åˆ¤æ–­ã™ã‚‹GCå®Ÿè¡Œé »åº¦ã®é–¾å€¤(å˜ä½:å›æ•°/ç§’) */
+    /** Œx‚Æ”»’f‚·‚éGCÀs•p“x‚Ìè‡’l(’PˆÊ:‰ñ”/•b) */
     public int                           threshold;
 
     /**
@@ -57,10 +57,10 @@ public class GCCountRule extends SingleElementRule
     @Override
     public void doJudgeElement(final JavelinLogElement element)
     {
-        // Callãƒ­ã‚°ã‹ã‚‰GCå®Ÿè¡Œå›æ•°å·®åˆ†ã€CPUå‡¦ç†æ™‚é–“å·®åˆ†ã‚’å–å¾—ã—ã€
-        // ã€GCå®Ÿè¡Œå›æ•°å·®åˆ†ï¼CPUå‡¦ç†æ™‚é–“å·®åˆ†ã€ï¼ã€GCå®Ÿè¡Œé »åº¦ã€ã‚’ç®—å‡ºã€é–¾å€¤ã¨ã®æ¯”è¼ƒã‚’è¡Œã†
+        // CallƒƒO‚©‚çGCÀs‰ñ”·•ªACPUˆ—ŠÔ·•ª‚ğæ“¾‚µA
+        // wGCÀs‰ñ”·•ª^CPUˆ—ŠÔ·•ªxwGCÀs•p“xx‚ğZoAè‡’l‚Æ‚Ì”äŠr‚ğs‚¤
 
-        // ç¨®åˆ¥ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã€‚Callä»¥å¤–ã§ã‚ã‚Œã°æ¬¡ã®è¦ç´ ã¸ã€‚
+        // í•Ê‚ğƒ`ƒFƒbƒN‚·‚éBCallˆÈŠO‚Å‚ ‚ê‚ÎŸ‚Ì—v‘f‚ÖB
 
         String type = element.getBaseInfo().get(JavelinLogColumnNum.ID);
         boolean isReturn = JavelinConstants.MSG_CALL.equals(type);
@@ -69,7 +69,7 @@ public class GCCountRule extends SingleElementRule
             return;
         }
 
-        // JMXæƒ…å ±ã‚’å–å¾—ã—ã€ã•ã‚‰ã«ãã®ä¸­ã‹ã‚‰getCheckParamName()ã®åå‰ã«å¯¾å¿œã™ã‚‹å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
+        // JMXî•ñ‚ğæ“¾‚µA‚³‚ç‚É‚»‚Ì’†‚©‚çgetCheckParamName()‚Ì–¼‘O‚É‘Î‰‚·‚é’l‚ğæ“¾‚·‚éB
         Map<String, String> jmxInfoMap =
                                          JavelinLogUtil.parseDetailInfo(element,
                                                                         JavelinParser.TAG_TYPE_JMXINFO);
@@ -88,11 +88,11 @@ public class GCCountRule extends SingleElementRule
     }
 
     /**
-     * Mapã‹ã‚‰keyã«å¯¾å¿œã™ã‚‹å€¤ã‚’intå€¤ã¨ã—ã¦å–å¾—ã—ã¾ã™ã€‚<br />
+     * Map‚©‚çkey‚É‘Î‰‚·‚é’l‚ğint’l‚Æ‚µ‚Äæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @param jmxInfoMap æ¤œç´¢å¯¾è±¡Map
-     * @param key å–å¾—ã‚­ãƒ¼
-     * @return å¯¾å¿œã™ã‚‹å€¤
+     * @param jmxInfoMap ŒŸõ‘ÎÛMap
+     * @param key æ“¾ƒL[
+     * @return ‘Î‰‚·‚é’l
      */
     @SuppressWarnings("deprecation")
     protected int getIntValue(final Map<String, String> jmxInfoMap, final String key)
@@ -116,11 +116,11 @@ public class GCCountRule extends SingleElementRule
     }
 
     /**
-     * Mapã‹ã‚‰keyã«å¯¾å¿œã™ã‚‹å€¤ã‚’Doubleå€¤ã¨ã—ã¦å–å¾—ã—ã¾ã™ã€‚<br />
+     * Map‚©‚çkey‚É‘Î‰‚·‚é’l‚ğDouble’l‚Æ‚µ‚Äæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @param jmxInfoMap æ¤œç´¢å¯¾è±¡Map
-     * @param key å–å¾—ã‚­ãƒ¼
-     * @return å¯¾å¿œã™ã‚‹å€¤
+     * @param jmxInfoMap ŒŸõ‘ÎÛMap
+     * @param key æ“¾ƒL[
+     * @return ‘Î‰‚·‚é’l
      */
     @SuppressWarnings("deprecation")
     protected double getDoubleValue(final Map<String, String> jmxInfoMap, final String key)

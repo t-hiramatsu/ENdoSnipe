@@ -29,20 +29,20 @@ import jp.co.acroquest.endosnipe.communicator.entity.Body;
 import junit.framework.TestCase;
 
 /**
- * æ¤œè¨¼ç”¨ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£
+ * ŒŸØ—pƒ†[ƒeƒBƒŠƒeƒB
  *
  * @author fujii
  */
 public abstract class AssertUtil extends TestCase
 {
     /**
-     * é›»æ–‡ã®Bodyã®æ¤œè¨¼ã‚’è¡Œã†ã€‚(é›»æ–‡ã®ä¸­èº«ã‚‚æ¤œè¨¼ã™ã‚‹)
-     * @param objName ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå
-     * @param itemName é …ç›®å
-     * @param itemMode ãƒ¢ãƒ¼ãƒ‰
-     * @param loop ãƒ«ãƒ¼ãƒ—å›æ•°
-     * @param detail è©³ç´°
-     * @param body å—ã‘å–ã£ãŸé›»æ–‡
+     * “d•¶‚ÌBody‚ÌŒŸØ‚ğs‚¤B(“d•¶‚Ì’†g‚àŒŸØ‚·‚é)
+     * @param objName ƒIƒuƒWƒFƒNƒg–¼
+     * @param itemName €–Ú–¼
+     * @param itemMode ƒ‚[ƒh
+     * @param loop ƒ‹[ƒv‰ñ”
+     * @param detail Ú×
+     * @param body ó‚¯æ‚Á‚½“d•¶
      */
     public static void assertTelegram(final String objName, final String itemName,
             final byte itemMode, final int loop, final Object[] detail, final Body body)
@@ -55,12 +55,12 @@ public abstract class AssertUtil extends TestCase
     }
 
     /**
-     * é›»æ–‡ã®Bodyã®æ¤œè¨¼ã‚’è¡Œã†ã€‚(é›»æ–‡ã®ä¸­èº«ã¯æ¤œè¨¼ã—ãªã„)
-     * @param objName ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå
-     * @param itemName é …ç›®å
-     * @param itemMode ãƒ¢ãƒ¼ãƒ‰
-     * @param loop ãƒ«ãƒ¼ãƒ—å›æ•°
-     * @param body å—ã‘å–ã£ãŸé›»æ–‡
+     * “d•¶‚ÌBody‚ÌŒŸØ‚ğs‚¤B(“d•¶‚Ì’†g‚ÍŒŸØ‚µ‚È‚¢)
+     * @param objName ƒIƒuƒWƒFƒNƒg–¼
+     * @param itemName €–Ú–¼
+     * @param itemMode ƒ‚[ƒh
+     * @param loop ƒ‹[ƒv‰ñ”
+     * @param body ó‚¯æ‚Á‚½“d•¶
      */
     public static void assertResourceTelegram(final String objName, final String itemName,
             final byte itemMode, final int loop, final Body body)
@@ -72,9 +72,9 @@ public abstract class AssertUtil extends TestCase
     }
 
     /**
-     * Bodyã®è©³ç´°ã‚’æ¤œè¨¼ã™ã‚‹ã€‚
-     * @param detail æœŸå¾…ã™ã‚‹è©³ç´°
-     * @param body å—ã‘å–ã£ãŸé›»æ–‡
+     * Body‚ÌÚ×‚ğŒŸØ‚·‚éB
+     * @param detail Šú‘Ò‚·‚éÚ×
+     * @param body ó‚¯æ‚Á‚½“d•¶
      */
     public static void assertDetail(final Object[] detail, final Body body)
     {

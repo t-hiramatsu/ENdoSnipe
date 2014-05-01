@@ -32,7 +32,7 @@ import jp.co.acroquest.endosnipe.javelin.converter.util.StreamMonitorUtil;
 
 
 /**
- * FileInputStreamã®ãƒ‡ãƒ¼ã‚¿é‡ã‚’ç›£è¦–ã™ã‚‹ã‚¯ãƒ©ã‚¹
+ * FileInputStream‚Ìƒf[ƒ^—Ê‚ğŠÄ‹‚·‚éƒNƒ‰ƒX
  * 
  * @author yamasaki
  * 
@@ -40,7 +40,7 @@ import jp.co.acroquest.endosnipe.javelin.converter.util.StreamMonitorUtil;
 public class FileInputStreamMonitor
 {
     /**
-     * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+     * ƒfƒtƒHƒ‹ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^
      */
     private FileInputStreamMonitor()
     {
@@ -48,13 +48,13 @@ public class FileInputStreamMonitor
     }
 
     /**
-     * ã‚³ãƒ¼ãƒ‰åŸ‹ã‚è¾¼ã¿å‡¦ç†ã«ã‚ˆã‚Šã€ãƒ¡ã‚½ãƒƒãƒ‰å®Ÿè¡Œå¾Œã«å‘¼ã°ã‚Œã‚‹ãƒ¡ã‚½ãƒƒãƒ‰
+     * ƒR[ƒh–„‚ß‚İˆ—‚É‚æ‚èAƒƒ\ƒbƒhÀsŒã‚ÉŒÄ‚Î‚ê‚éƒƒ\ƒbƒh
      * 
-     * @param size ãƒ•ã‚¡ã‚¤ãƒ«å…¥åŠ›é‡
+     * @param size ƒtƒ@ƒCƒ‹“ü—Í—Ê
      */
     public static void postProcess(final int size)
     {
-        // ãƒ•ã‚¡ã‚¤ãƒ«å…¥åŠ›é‡ãŒè² ã®å€¤ã®ã¨ãã¯ã€ãã®ã¾ã¾ãƒ¡ã‚½ãƒƒãƒ‰ã‚’çµ‚äº†ã™ã‚‹ã€‚
+        // ƒtƒ@ƒCƒ‹“ü—Í—Ê‚ª•‰‚Ì’l‚Ì‚Æ‚«‚ÍA‚»‚Ì‚Ü‚Üƒƒ\ƒbƒh‚ğI—¹‚·‚éB
         if (size < 0)
         {
             return;

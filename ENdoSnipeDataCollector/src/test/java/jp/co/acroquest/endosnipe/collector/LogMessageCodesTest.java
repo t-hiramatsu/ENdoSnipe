@@ -28,7 +28,7 @@ package jp.co.acroquest.endosnipe.collector;
 import jp.co.acroquest.endosnipe.common.AbstractMessageCodeTest;
 
 /**
- * {@link LogMessageCodes} 縺ｮ縺溘ａ縺ｮ繝�繧ｹ繝医け繝ｩ繧ｹ縺ｧ縺吶�<br />
+ * {@link LogMessageCodes} のためのテストクラスです。<br />
  * 
  * @author y-komori
  */

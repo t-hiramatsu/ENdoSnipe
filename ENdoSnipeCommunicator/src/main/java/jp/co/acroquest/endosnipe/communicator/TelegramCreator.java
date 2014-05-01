@@ -26,8 +26,6 @@
 package jp.co.acroquest.endosnipe.communicator;
 
 import java.io.File;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,651 +39,599 @@ import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 
 /**
- * é›»æ–‡ã‚’ç”Ÿæˆã™ã‚‹ãŸã‚ã®ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+ * “d•¶‚ğ¶¬‚·‚é‚½‚ß‚Ìƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒX‚Å‚·B<br />
  * 
  * @author y-komori
  */
 public final class TelegramCreator implements TelegramConstants
 {
-    private static JavelinConfig javelinConfig__ = new JavelinConfig();
-
-    public TelegramCreator()
-    {
-        // Do nothing.
-    }
-
-    /**
-     * ç©ºã®å¿œç­”é›»æ–‡ã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
-     * 
-     * @param telegramKind
-     *			é›»æ–‡ç¨®åˆ¥
-     * @param requestKind
-     *			è¦æ±‚å¿œç­”ç¨®åˆ¥
-     * @return é›»æ–‡
-     */
-    public static Telegram createEmptyTelegram(final byte telegramKind, final byte requestKind)
-    {
-        Header header = new Header();
-        header.setByteTelegramKind(telegramKind);
-        header.setByteRequestKind(requestKind);
-
-        Telegram telegram = new Telegram();
-        telegram.setObjHeader(header);
-        telegram.setObjBody(new Body[0]);
-        return telegram;
-    }
-
-    /**
-     * Javelinãƒ­ã‚°é€šçŸ¥é›»æ–‡ã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
-     * Javelinãƒ­ã‚°ãã®ã‚‚ã®ã‚’é›»æ–‡ã«æ·»ä»˜ã—ã¾ã™ã€‚
-     * 
-     * @param jvnFileName
-     *			Javelinãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«å
-     * @param javelinLogContent
-     *			Javelinãƒ­ã‚°
-     * @param telegramId
-     *			é›»æ–‡ ID
-     * @param itemName
-     *          é …ç›®å
-     * @return ãƒ­ã‚°é€šçŸ¥é›»æ–‡
-     */
-    public static Telegram createJvnFileNotifyTelegram(final String jvnFileName,
-        final String javelinLogContent, final long telegramId, final String itemName)
-    {
-        Telegram telegram =
-            createJvnLogDownloadTelegram(BYTE_REQUEST_KIND_NOTIFY, new Object[]{jvnFileName},
-                                         new Object[]{javelinLogContent}, telegramId, itemName);
-
-        return telegram;
-    }
-
-    /**
-     * SQLå®Ÿè¡Œè¨ˆç”»é€šçŸ¥é›»æ–‡ã‚’ä½œæˆã™ã‚‹ã€‚
-     * 
-     * @param measurementItemName é …ç›®å
-     * @param sqlStatement SQLæ–‡
-     * @param executionPlan å®Ÿè¡Œè¨ˆç”»
-     * @param gettingPlanTime å®Ÿè¡Œè¨ˆç”»å–å¾—æ™‚é–“
-     * @param stackTrace ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹
-     * 
-     * @return SQLå®Ÿè¡Œè¨ˆç”»é€šçŸ¥é›»æ–‡
-     */
-    public static Telegram createSqlPlanTelegram(final String measurementItemName,
-        final String sqlStatement, final String executionPlan, final Timestamp gettingPlanTime,
-        final String stackTrace)
-    {
-        // é›»æ–‡ãƒ˜ãƒƒãƒ€ã‚’ä½œã‚‹
-        Header objHeader = new Header();
-        objHeader.setByteRequestKind(BYTE_REQUEST_KIND_NOTIFY);
-        objHeader.setByteTelegramKind(BYTE_TELEGRAM_KIND_SQL_PLAN);
-
-        // SQLæ–‡ã®Bodyã‚’ä½œã‚‹
-        String[] sqlStatementArr = {sqlStatement};
-        ResponseBody sqlStatementBody =
-            TelegramUtil.createResponseBody(OBJECTNAME_SQL_STATEMENT, measurementItemName,
-                                            ItemType.ITEMTYPE_STRING, sqlStatementArr);
-
-        // SQLå®Ÿè¡Œè¨ˆç”»ã®Bodyã‚’ä½œã‚‹
-        String[] executionPlanArr = {executionPlan};
-        ResponseBody executionPlanBody =
-            TelegramUtil.createResponseBody(OBJECTNAME_SQL_EXECUTION_PLAN, measurementItemName,
-                                            ItemType.ITEMTYPE_STRING, executionPlanArr);
-
-        // SQLå®Ÿè¡Œè¨ˆç”»å–å¾—æ™‚é–“ã®Bodyã‚’ä½œæˆã™ã‚‹
-        String gettingPlanTimeStr =
-            new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(gettingPlanTime);
-        String[] gettingPlanTimeArr = {gettingPlanTimeStr};
-        ResponseBody gettingPlanTimeBody =
-            TelegramUtil.createResponseBody(OBJECTNAME_GETTING_PLAN_TIME, measurementItemName,
-                                            ItemType.ITEMTYPE_STRING, gettingPlanTimeArr);
-
-        // ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã®Bodyã‚’ä½œæˆã™ã‚‹
-        String[] stackTraceArr = {stackTrace};
-        ResponseBody stackTraceBody =
-            TelegramUtil.createResponseBody(OBJECTNAME_STACK_TRACE, measurementItemName,
-                                            ItemType.ITEMTYPE_STRING, stackTraceArr);
-
-        // é›»æ–‡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¨­å®šã™ã‚‹
-        Telegram objTelegram = new Telegram();
-        objTelegram.setObjHeader(objHeader);
-        objTelegram.setObjBody(new ResponseBody[]{sqlStatementBody, executionPlanBody,
-            gettingPlanTimeBody, stackTraceBody});
-
-        return objTelegram;
-
-    }
-
-    /**
-     * JVNãƒ­ã‚°é›»æ–‡ã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
-     * 
-     * @param requestKind
-     *			è¦æ±‚å¿œç­”ç¨®åˆ¥
-     * @param jvnFileNames
-     *			Javelinãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«å
-     * @return JVNãƒ­ã‚°é›»æ–‡
-     */
-    public static Telegram createJvnLogDownloadTelegram(final byte requestKind,
-        final Object[] jvnFileNames)
-    {
-        return createJvnLogDownloadTelegram(requestKind, jvnFileNames, null, 0, null);
-    }
-
-    /**
-     * JVNãƒ­ã‚°é›»æ–‡ã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
-     * ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã®å†…å®¹ãŒnullã®å ´åˆã¯ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰èª­ã¿è¾¼ã¿ã¾ã™ã€‚
-     * 
-     * @param requestKind
-     *			è¦æ±‚å¿œç­”ç¨®åˆ¥
-     * @param jvnFileNames
-     *			Javelinãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«å
-     * @param jvnFileContents
-     *			Javelinãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã®å†…å®¹
-     * @param telegramId
-     *			é›»æ–‡ ID
-     * @param itemName
-     *          é …ç›®å
-     * @return JVNãƒ­ã‚°é›»æ–‡
-     */
-    public static Telegram createJvnLogDownloadTelegram(final byte requestKind,
-        final Object[] jvnFileNames, Object[] jvnFileContents, final long telegramId,
-        String itemName)
-    {
-        final JavelinConfig JAVELINCONFIG = new JavelinConfig();
-
-        // é›»æ–‡ãƒ˜ãƒƒãƒ€ã‚’ä½œã‚‹
-        Header objHeader = new Header();
-        objHeader.setId(telegramId);
-        objHeader.setByteRequestKind(requestKind);
-        objHeader.setByteTelegramKind(BYTE_TELEGRAM_KIND_JVN_FILE);
-
-        // é›»æ–‡æœ¬ä½“ã‚’ä½œã‚‹
-        ResponseBody jvnFileNameBody =
-            TelegramUtil.createResponseBody(OBJECTNAME_JVN_FILE, ITEMNAME_JVN_FILE_NAME,
-                                            ItemType.ITEMTYPE_STRING, jvnFileNames);
-
-        if (jvnFileContents == null)
-        {
-            jvnFileContents = new String[jvnFileNames.length];
-        }
-
-        if (jvnFileNames.length != jvnFileContents.length)
-        {
-            throw new IllegalArgumentException();
-        }
-
-        for (int index = 0; index < jvnFileNames.length; index++)
-        {
-            if (jvnFileContents[index] == null)
-            {
-                Object objJvnFileName = jvnFileNames[index];
-                if (objJvnFileName instanceof String == false)
-                {
-                    continue;
-                }
-                String jvnFileName = (String)objJvnFileName;
-                String jvnFileContent =
-                    IOUtil.readFileToString(JAVELINCONFIG.getJavelinFileDir() + File.separator
-                        + jvnFileName, JAVELINCONFIG.getJvnDownloadMax());
-                jvnFileContents[index] = jvnFileContent;
-            }
-        }
-        ResponseBody jvnFileContentBody =
-            TelegramUtil.createResponseBody(OBJECTNAME_JVN_FILE, ITEMNAME_JVN_FILE_CONTENT,
-                                            ItemType.ITEMTYPE_STRING, jvnFileContents);
-
-        Object[] itemNames = new Object[jvnFileNames.length];
-        for (int i = 0; i < itemNames.length; i++)
-        {
-            itemNames[i] = itemName;
-        }
-        ResponseBody jvnItemNameBody =
-            TelegramUtil.createResponseBody(OBJECTNAME_JVN_FILE, ITEMNAME_JVN_ITEM_NAME,
-                                            ItemType.ITEMTYPE_STRING, itemNames);
-
-        // é–¾å€¤è¨­å®šã‚’é›»æ–‡ã«è¿½åŠ ã™ã‚‹ã€‚
-        ResponseBody thresholdBody =
-            TelegramUtil.createResponseBody(OBJECTNAME_JVN_FILE, ITEMNAME_ALARM_THRESHOLD,
-                                            ItemType.ITEMTYPE_LONG,
-                                            new Long[]{javelinConfig__.getAlarmThreshold()});
-
-        ResponseBody cpuThresholdBody =
-            TelegramUtil.createResponseBody(OBJECTNAME_JVN_FILE, ITEMNAME_ALARM_CPU_THRESHOLD,
-                                            ItemType.ITEMTYPE_LONG,
-                                            new Long[]{javelinConfig__.getAlarmCpuThreashold()});
-
-        // é›»æ–‡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¨­å®šã™ã‚‹
-        Telegram objTelegram = new Telegram();
-        objTelegram.setObjHeader(objHeader);
-        objTelegram.setObjBody(new ResponseBody[]{jvnFileNameBody, jvnFileContentBody,
-            thresholdBody, cpuThresholdBody, jvnItemNameBody});
-
-        return objTelegram;
-    }
-
-    /**
-     * JVNãƒ­ã‚°å–å¾—å¿œç­”é›»æ–‡ã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
-     * 
-     * @param jvnFileNames
-     *			JVNãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«åã®ãƒªã‚¹ãƒˆ (<code>null</code> ã®å ´åˆã¯
-     *         <code>null</code> ã‚’è¿”ã™)
-     * @return é›»æ–‡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     */
-    public static Telegram createJvnLogListTelegram(final String[] jvnFileNames)
-    {
-        // ãƒ•ã‚¡ã‚¤ãƒ«åã®ãƒªã‚¹ãƒˆãŒnullã®ã¨ãã€nullã‚’è¿”ã™ã€‚
-        if (jvnFileNames == null)
-        {
-            return null;
-        }
-        // é›»æ–‡ãƒ˜ãƒƒãƒ€ã‚’ä½œã‚‹
-        Header objHeader = new Header();
-        objHeader.setByteRequestKind(BYTE_REQUEST_KIND_RESPONSE);
-        objHeader.setByteTelegramKind(BYTE_TELEGRAM_KIND_JVN_FILE_LIST);
-
-        // é›»æ–‡æœ¬ä½“ã‚’ä½œã‚‹
-        ResponseBody body =
-            TelegramUtil.createResponseBody("jvnFile", "jvnFileName", ItemType.ITEMTYPE_STRING,
-                                            jvnFileNames);
-
-        // é›»æ–‡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¨­å®šã™ã‚‹
-        Telegram objTelegram = new Telegram();
-        objTelegram.setObjHeader(objHeader);
-        objTelegram.setObjBody(new ResponseBody[]{body});
-
-        return objTelegram;
-    }
-
-    /**
-     * ã‚¯ãƒ©ã‚¹å‰Šé™¤è¦æ±‚é›»æ–‡ã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
-     * 
-     * @param classNameList
-     *			ã‚¯ãƒ©ã‚¹åã®ãƒªã‚¹ãƒˆ
-     * @return é›»æ–‡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     */
-    public static Telegram createRemoveClassTelegram(final List<String> classNameList)
-    {
-        Header objHeader = new Header();
-        objHeader.setByteTelegramKind(BYTE_TELEGRAM_KIND_REMOVE_CLASS);
-        objHeader.setByteRequestKind(BYTE_REQUEST_KIND_REQUEST);
-
-        Telegram objOutputTelegram = new Telegram();
-        objOutputTelegram.setObjHeader(objHeader);
-
-        List<Body> bodies = new ArrayList<Body>();
-        if (classNameList != null)
-        {
-            for (String className : classNameList)
-            {
-                Body body = new Body();
-                body.setStrObjName(className);
-                body.setByteItemMode(ItemType.ITEMTYPE_STRING);
-                body.setStrItemName(ITEMNAME_CLASSTOREMOVE);
-                body.setIntLoopCount(0);
-                body.setObjItemValueArr(new Object[0]);
-                bodies.add(body);
-            }
-        }
-
-        objOutputTelegram.setObjBody(bodies.toArray(new Body[bodies.size()]));
-        return objOutputTelegram;
-    }
-
-    /**
-     * Invocation ã‚’æ›´æ–°ã™ã‚‹ãŸã‚ã®é›»æ–‡ã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
-     * 
-     * @param invocationParamArray
-     *			Invocation ã‚’æ›´æ–°ã™ã‚‹å†…å®¹
-     * @return é›»æ–‡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     */
-    public static Telegram createUpdateInvocationTelegram(
-        final UpdateInvocationParam[] invocationParamArray)
-    {
-        Header objHeader = new Header();
-        objHeader.setByteTelegramKind(BYTE_TELEGRAM_KIND_UPDATE_TARGET);
-        objHeader.setByteRequestKind(BYTE_REQUEST_KIND_REQUEST);
-
-        Telegram objOutputTelegram = new Telegram();
-        objOutputTelegram.setObjHeader(objHeader);
-
-        List<Body> bodies = new ArrayList<Body>();
-
-        // é›»æ–‡æœ¬ä½“ã‚’è¨­å®šã™ã‚‹
-        if (invocationParamArray != null)
-        {
-            for (UpdateInvocationParam invocation : invocationParamArray)
-            {
-                Body body;
-                Object[] itemValueArr;
-                String objName =
-                    invocation.getClassName() + CLASSMETHOD_SEPARATOR + invocation.getMethodName();
-
-                if (invocation.isTransactionGraphOutput() != null)
-                {
-                    body = new Body();
-                    body.setStrObjName(objName);
-                    body.setByteItemMode(ItemType.ITEMTYPE_STRING);
-                    body.setStrItemName(ITEMNAME_TRANSACTION_GRAPH);
-                    body.setIntLoopCount(1);
-                    itemValueArr = new String[1];
-                    itemValueArr[0] = invocation.isTransactionGraphOutput().toString();
-                    body.setObjItemValueArr(itemValueArr);
-                    bodies.add(body);
-                }
-
-                if (invocation.isTarget() != null)
-                {
-                    body = new Body();
-                    body.setStrObjName(objName);
-                    body.setByteItemMode(ItemType.ITEMTYPE_STRING);
-                    body.setStrItemName(ITEMNAME_TARGET);
-                    body.setIntLoopCount(1);
-                    itemValueArr = new String[1];
-                    itemValueArr[0] = String.valueOf(invocation.isTarget());
-                    body.setObjItemValueArr(itemValueArr);
-                    bodies.add(body);
-                }
-
-                if (invocation.getAlarmThreshold() != null)
-                {
-                    body = new Body();
-                    body.setStrObjName(objName);
-                    body.setByteItemMode(ItemType.ITEMTYPE_LONG);
-                    body.setStrItemName(ITEMNAME_ALARM_THRESHOLD);
-                    body.setIntLoopCount(1);
-                    itemValueArr = new Long[1];
-                    itemValueArr[0] = invocation.getAlarmThreshold();
-                    body.setObjItemValueArr(itemValueArr);
-                    bodies.add(body);
-                }
-
-                if (invocation.getAlarmCpuThreshold() != null)
-                {
-                    body = new Body();
-                    body.setStrObjName(objName);
-                    body.setByteItemMode(ItemType.ITEMTYPE_LONG);
-                    body.setStrItemName(ITEMNAME_ALARM_CPU_THRESHOLD);
-                    body.setIntLoopCount(1);
-                    itemValueArr = new Long[1];
-                    itemValueArr[0] = invocation.getAlarmCpuThreshold();
-                    body.setObjItemValueArr(itemValueArr);
-                    bodies.add(body);
-                }
-            }
-        }
-        objOutputTelegram.setObjBody(bodies.toArray(new Body[bodies.size()]));
-        return objOutputTelegram;
-    }
-
-    /**
-     * Invocation ã‚’æ›´æ–°ã™ã‚‹ãŸã‚ã®ãƒ‘ãƒ©ãƒ¡ã‚¿ã‚¯ãƒ©ã‚¹ã€‚<br />
-     * 
-     * @author sakamoto
-     */
-    public static class UpdateInvocationParam
-    {
-        private final String className_;
-
-        private final String methodName_;
-
-        private final Boolean transactionGraphOutput_;
-
-        private final Boolean target_;
-
-        private final Long alarmThreshold_;
-
-        private final Long alarmCpuThreshold_;
-
-        /**
-         * Invocation ã‚’æ›´æ–°ã™ã‚‹ãŸã‚ã®ãƒ‘ãƒ©ãƒ¡ã‚¿ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
-         * 
-         * @param className
-         *			ã‚¯ãƒ©ã‚¹å
-         * @param methodName
-         *			ãƒ¡ã‚½ãƒƒãƒ‰å
-         * @param transactionGraph
-         *			ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚°ãƒ©ãƒ•ã‚’å‡ºåŠ›ã™ã‚‹ã‹å¦ã‹
-         *            ï¼ˆ <code>null</code> ãªã‚‰è¨­å®šã—ãªã„ï¼‰
-         * @param target
-         *			è¨ˆæ¸¬å¯¾è±¡ã«ã™ã‚‹ã‹å¦ã‹ï¼ˆ <code>null</code> ãªã‚‰è¨­å®šã—ãªã„ï¼‰
-         * @param alarmThreshold
-         *			ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ï¼ˆ <code>null</code> ãªã‚‰è¨­å®šã—ãªã„ï¼‰
-         * @param alarmCpuThreshold
-         *			CPUã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ï¼ˆ <code>null</code> ãªã‚‰è¨­å®šã—ãªã„ï¼‰
-         */
-        public UpdateInvocationParam(String className, String methodName, Boolean transactionGraph,
-            Boolean target, Long alarmThreshold, Long alarmCpuThreshold)
-        {
-            this.className_ = className;
-            this.methodName_ = methodName;
-            this.transactionGraphOutput_ = transactionGraph;
-            this.target_ = target;
-            this.alarmThreshold_ = alarmThreshold;
-            this.alarmCpuThreshold_ = alarmCpuThreshold;
-        }
-
-        /**
-         * ã‚¯ãƒ©ã‚¹åã‚’è¿”ã—ã¾ã™ã€‚<br />
-         * 
-         * @return ã‚¯ãƒ©ã‚¹å
-         */
-        public String getClassName()
-        {
-            return this.className_;
-        }
-
-        /**
-         * ãƒ¡ã‚½ãƒƒãƒ‰åã‚’è¿”ã—ã¾ã™ã€‚<br />
-         * 
-         * @return ãƒ¡ã‚½ãƒƒãƒ‰å
-         */
-        public String getMethodName()
-        {
-            return this.methodName_;
-        }
-
-        /**
-         * ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚°ãƒ©ãƒ•ã‚’è¡¨ç¤ºã™ã‚‹ã‹å¦ã‹ã‚’è¿”ã—ã¾ã™ã€‚<br />
-         * 
-         * è¨­å®šã—ãªã„å ´åˆã¯ <code>null</code> ã‚’è¿”ã—ã¾ã™ã€‚<br />
-         * 
-         * @return ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚°ãƒ©ãƒ•ã‚’è¡¨ç¤ºã™ã‚‹å ´åˆã¯ <code>true</code>
-         */
-        public Boolean isTransactionGraphOutput()
-        {
-            return this.transactionGraphOutput_;
-        }
-
-        /**
-         * è¨ˆæ¸¬å¯¾è±¡ã«ã™ã‚‹ã‹å¦ã‹ã‚’è¿”ã—ã¾ã™ã€‚<br />
-         * 
-         * è¨­å®šã—ãªã„å ´åˆã¯ <code>null</code> ã‚’è¿”ã—ã¾ã™ã€‚<br />
-         * 
-         * @return è¨ˆæ¸¬å¯¾è±¡ã«ã™ã‚‹å ´åˆã¯ <code>true</code>
-         */
-        public Boolean isTarget()
-        {
-            return this.target_;
-        }
-
-        /**
-         * ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ã‚’è¿”ã—ã¾ã™ã€‚<br />
-         * 
-         * è¨­å®šã—ãªã„å ´åˆã¯ <code>null</code> ã‚’è¿”ã—ã¾ã™ã€‚<br />
-         * 
-         * @return ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ï¼ˆãƒŸãƒªç§’ï¼‰
-         */
-        public Long getAlarmThreshold()
-        {
-            return this.alarmThreshold_;
-        }
-
-        /**
-         * CPUã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ã‚’è¿”ã—ã¾ã™ã€‚<br />
-         * 
-         * è¨­å®šã—ãªã„å ´åˆã¯ <code>null</code> ã‚’è¿”ã—ã¾ã™ã€‚<br />
-         * 
-         * @return CPUã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤
-         */
-        public Long getAlarmCpuThreshold()
-        {
-            return this.alarmCpuThreshold_;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public String toString()
-        {
-            StringBuilder builder = new StringBuilder();
-            builder.append("{className=");
-            builder.append(getClassName());
-            builder.append(",methodName=");
-            builder.append(getMethodName());
-            builder.append("}");
-            return builder.toString();
-        }
-    }
-
-    /**
-     * JVNãƒ­ã‚°å–å¾—é›»æ–‡ã‚’ä½œæˆã™ã‚‹ã€‚
-     * 
-     * @param requestKind
-     *			é›»æ–‡è¦æ±‚å¿œç­”ç¨®åˆ¥ã€‚
-     * @param jvnFileNames
-     *			JVNãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«åã€‚
-     * @return JVNãƒ­ã‚°å–å¾—é›»æ–‡ã€‚
-     */
-    public static Telegram createJvnLogTelegram(final byte requestKind,
-        final List<String> jvnFileNames)
-    {
-        Telegram telegram =
-            TelegramUtil.createSingleTelegram(BYTE_TELEGRAM_KIND_JVN_FILE, requestKind,
-                                              OBJECTNAME_JVN_FILE, ITEMNAME_JVN_FILE_NAME,
-                                              ItemType.ITEMTYPE_STRING, jvnFileNames);
-
-        return telegram;
-    }
-
-     /**
-         * ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å–å¾—è¦æ±‚é›»æ–‡ã‚’ä½œæˆã—ã¾ã™ã€‚
-          * 
-         * @return ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å–å¾—è¦æ±‚é›»æ–‡
-         */
-       public static Telegram createThreadDumpRequestTelegram()
-        {
-             return createThreadDumpRequestTelegram(null);
-         }
-
-    /**
-     * ãƒ’ãƒ¼ãƒ—ãƒ€ãƒ³ãƒ—å–å¾—è¦æ±‚é›»æ–‡ã‚’ä½œæˆã—ã¾ã™ã€‚
-     * 
-     * @return ãƒ’ãƒ¼ãƒ—ãƒ€ãƒ³ãƒ—å–å¾—è¦æ±‚é›»æ–‡
-     */
-    public static Telegram createHeapDumpRequestTelegram()
-    {
-        Header objHeader = new Header();
-        objHeader.setId(TelegramUtil.generateTelegramId());
-        objHeader.setByteTelegramKind(BYTE_TELEGRAM_KIND_GET_DUMP);
-        objHeader.setByteRequestKind(BYTE_REQUEST_KIND_REQUEST);
-        Body[] bodies = TelegramUtil.createEmptyRequestBody(OBJECTNAME_DUMP, ITEMNAME_HEAPDUMP);
-
-        Telegram objOutputTelegram = new Telegram();
-        objOutputTelegram.setObjHeader(objHeader);
-        objOutputTelegram.setObjBody(bodies);
-        return objOutputTelegram;
-    }
-
-    /**
-     * ãƒ’ãƒ¼ãƒ—ãƒ€ãƒ³ãƒ—å–å¾—å¿œç­”é›»æ–‡ã‚’ä½œæˆã—ã¾ã™ã€‚
-     * 
-     * @param telegramId
-     *			é›»æ–‡ ID
-     * @return ãƒ’ãƒ¼ãƒ—ãƒ€ãƒ³ãƒ—å–å¾—å¿œç­”é›»æ–‡
-     */
-    public static Telegram createHeapDumpResponseTelegram(final long telegramId)
-    {
-        Header objHeader = new Header();
-        objHeader.setId(telegramId);
-        objHeader.setByteTelegramKind(BYTE_TELEGRAM_KIND_GET_DUMP);
-        objHeader.setByteRequestKind(BYTE_REQUEST_KIND_RESPONSE);
-        Body[] bodies = TelegramUtil.createEmptyRequestBody(OBJECTNAME_DUMP, ITEMNAME_HEAPDUMP);
-
-        Telegram objOutputTelegram = new Telegram();
-        objOutputTelegram.setObjHeader(objHeader);
-        objOutputTelegram.setObjBody(bodies);
-        return objOutputTelegram;
-    }
-
-    /**
-     * ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ å–å¾—è¦æ±‚é›»æ–‡ã‚’ä½œæˆã—ã¾ã™ã€‚
-     * 
-     * @return ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ å–å¾—è¦æ±‚é›»æ–‡
-     */
-    public static Telegram createClassHistogramRequestTelegram()
-    {
-        Header objHeader = new Header();
-        objHeader.setId(TelegramUtil.generateTelegramId());
-        objHeader.setByteTelegramKind(BYTE_TELEGRAM_KIND_GET_DUMP);
-        objHeader.setByteRequestKind(BYTE_REQUEST_KIND_REQUEST);
-        Body[] bodies =
-            TelegramUtil.createEmptyRequestBody(OBJECTNAME_DUMP, ITEMNAME_CLASSHISTOGRAM);
-
-        Telegram objOutputTelegram = new Telegram();
-        objOutputTelegram.setObjHeader(objHeader);
-        objOutputTelegram.setObjBody(bodies);
-        return objOutputTelegram;
-    }
-
-    /**
-     * ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ å–å¾—å¿œç­”é›»æ–‡ã‚’ä½œæˆã—ã¾ã™ã€‚
-     * 
-     * @param telegramId
-     *			é›»æ–‡ ID
-     * @return ã‚¯ãƒ©ã‚¹ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ å–å¾—å¿œç­”é›»æ–‡
-     */
-    public static Telegram createClassHistogramResponseTelegram(final long telegramId)
-    {
-        Header objHeader = new Header();
-        objHeader.setId(TelegramUtil.generateTelegramId());
-        objHeader.setByteTelegramKind(BYTE_TELEGRAM_KIND_GET_DUMP);
-        objHeader.setByteRequestKind(BYTE_REQUEST_KIND_RESPONSE);
-        Body[] bodies =
-            TelegramUtil.createEmptyRequestBody(OBJECTNAME_DUMP, ITEMNAME_CLASSHISTOGRAM);
-
-        Telegram objOutputTelegram = new Telegram();
-        objOutputTelegram.setObjHeader(objHeader);
-        objOutputTelegram.setObjBody(bodies);
-        return objOutputTelegram;
-    }
-
-
-     /**
-      * ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å–å¾—è¦æ±‚é›»æ–‡ã‚’ä½œæˆã—ã¾ã™ã€‚
-      * 
-      * @return ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—å–å¾—è¦æ±‚é›»æ–‡
-      */
-     public static Telegram createThreadDumpRequestTelegram(String agentName)
-     {
-         Header objHeader = new Header();
-         objHeader.setId(TelegramUtil.generateTelegramId());
-         objHeader.setByteTelegramKind(BYTE_TELEGRAM_KIND_GET_DUMP);
-         objHeader.setByteRequestKind(BYTE_REQUEST_KIND_REQUEST);
-         Body[] bodies = null;
-        
-         if(agentName != null)
-         {
-             // bodyã«å…¥ã‚Œã‚‹
-            bodies = TelegramUtil.createEmptyRequestBody(OBJECTNAME_DUMP, ITEMNAME_THREADDUMP,agentName);
-         }
-         else {
-            bodies = TelegramUtil.createEmptyRequestBody(OBJECTNAME_DUMP, ITEMNAME_THREADDUMP);
-        }
-            
-         
-         Telegram requestTelegram = new Telegram();
-         requestTelegram.setObjHeader(objHeader);
-         requestTelegram.setObjBody(bodies);
-         return requestTelegram;
-    }
+	private static JavelinConfig javelinConfig__ = new JavelinConfig();
+
+	private TelegramCreator()
+	{
+		// Do nothing.
+	}
+
+	/**
+	 * ‹ó‚Ì‰“š“d•¶‚ğ¶¬‚µ‚Ü‚·B<br />
+	 * 
+	 * @param telegramKind
+	 *			“d•¶í•Ê
+	 * @param requestKind
+	 *			—v‹‰“ší•Ê
+	 * @return “d•¶
+	 */
+	public static Telegram createEmptyTelegram(final byte telegramKind, final byte requestKind)
+	{
+		Header header = new Header();
+		header.setByteTelegramKind(telegramKind);
+		header.setByteRequestKind(requestKind);
+
+		Telegram telegram = new Telegram();
+		telegram.setObjHeader(header);
+		telegram.setObjBody(new Body[0]);
+		return telegram;
+	}
+
+	/**
+	 * JavelinƒƒO’Ê’m“d•¶‚ğ¶¬‚µ‚Ü‚·B<br />
+	 * JavelinƒƒO‚»‚Ì‚à‚Ì‚ğ“d•¶‚É“Y•t‚µ‚Ü‚·B
+	 * 
+	 * @param jvnFileName
+	 *			JavelinƒƒOƒtƒ@ƒCƒ‹–¼
+	 * @param javelinLogContent
+	 *			JavelinƒƒO
+	 * @param telegramId
+	 *			“d•¶ ID
+	 * @param itemName
+	 *          €–Ú–¼
+	 * @return ƒƒO’Ê’m“d•¶
+	 */
+	public static Telegram createJvnFileNotifyTelegram(final String jvnFileName,
+			final String javelinLogContent, final long telegramId, final String itemName)
+	{
+		Telegram telegram =	createJvnLogDownloadTelegram(
+		                             BYTE_REQUEST_KIND_NOTIFY, 
+		                             new Object[]{jvnFileName},
+		                             new Object[]{javelinLogContent}, 
+									 telegramId, 
+									 itemName);
+
+		return telegram;
+	}
+
+	/**
+	 * JVNƒƒO“d•¶‚ğ¶¬‚µ‚Ü‚·B<br />
+	 * 
+	 * @param requestKind
+	 *			—v‹‰“ší•Ê
+	 * @param jvnFileNames
+	 *			JavelinƒƒOƒtƒ@ƒCƒ‹–¼
+	 * @return JVNƒƒO“d•¶
+	 */
+	public static Telegram createJvnLogDownloadTelegram(final byte requestKind,
+			final Object[] jvnFileNames)
+	{
+		return createJvnLogDownloadTelegram(requestKind, jvnFileNames, null, 0, null);
+	}
+
+	/**
+	 * JVNƒƒO“d•¶‚ğ¶¬‚µ‚Ü‚·B<br />
+	 * ƒƒOƒtƒ@ƒCƒ‹‚Ì“à—e‚ªnull‚Ìê‡‚Íƒtƒ@ƒCƒ‹‚©‚ç“Ç‚İ‚İ‚Ü‚·B
+	 * 
+	 * @param requestKind
+	 *			—v‹‰“ší•Ê
+	 * @param jvnFileNames
+	 *			JavelinƒƒOƒtƒ@ƒCƒ‹–¼
+	 * @param jvnFileContents
+	 *			JavelinƒƒOƒtƒ@ƒCƒ‹‚Ì“à—e
+	 * @param telegramId
+	 *			“d•¶ ID
+	 * @param itemName
+	 *          €–Ú–¼
+	 * @return JVNƒƒO“d•¶
+	 */
+	public static Telegram createJvnLogDownloadTelegram(final byte requestKind,
+			final Object[] jvnFileNames, Object[] jvnFileContents, 
+			final long telegramId, String itemName)
+	{
+		final JavelinConfig JAVELINCONFIG = new JavelinConfig();
+
+		// “d•¶ƒwƒbƒ_‚ğì‚é
+		Header objHeader = new Header();
+		objHeader.setId(telegramId);
+		objHeader.setByteRequestKind(requestKind);
+		objHeader.setByteTelegramKind(BYTE_TELEGRAM_KIND_JVN_FILE);
+
+		// “d•¶–{‘Ì‚ğì‚é
+		ResponseBody jvnFileNameBody =
+				TelegramUtil.createResponseBody(
+	                                OBJECTNAME_JVN_FILE, 
+	                                ITEMNAME_JVN_FILE_NAME,
+									ItemType.ITEMTYPE_STRING, 
+									jvnFileNames);
+
+		if (jvnFileContents == null)
+		{
+			jvnFileContents = new String[jvnFileNames.length];
+		}
+
+		if (jvnFileNames.length != jvnFileContents.length)
+		{
+			throw new IllegalArgumentException();
+		}
+
+		for (int index = 0; index < jvnFileNames.length; index++)
+		{
+			if (jvnFileContents[index] == null)
+			{
+				Object objJvnFileName = jvnFileNames[index];
+				if (objJvnFileName instanceof String == false)
+				{
+					continue;
+				}
+				String jvnFileName = (String)objJvnFileName;
+				String jvnFileContent =
+						IOUtil.readFileToString(
+		                          JAVELINCONFIG.getJavelinFileDir()
+		                        + File.separator + jvnFileName, 
+		                        JAVELINCONFIG.getJvnDownloadMax());
+				jvnFileContents[index] = jvnFileContent;
+			}
+		}
+		ResponseBody jvnFileContentBody =
+				TelegramUtil.createResponseBody(
+                                OBJECTNAME_JVN_FILE, ITEMNAME_JVN_FILE_CONTENT, 
+                                ItemType.ITEMTYPE_STRING, jvnFileContents);
+
+		Object[] itemNames = new Object[jvnFileNames.length];
+		for (int i = 0; i < itemNames.length; i++)
+		{
+			itemNames[i] = itemName;
+		}
+		ResponseBody jvnItemNameBody =
+				TelegramUtil.createResponseBody(
+                                OBJECTNAME_JVN_FILE, ITEMNAME_JVN_ITEM_NAME, 
+                                ItemType.ITEMTYPE_STRING, itemNames);
+
+		// è‡’lİ’è‚ğ“d•¶‚É’Ç‰Á‚·‚éB
+		ResponseBody thresholdBody =
+				TelegramUtil.createResponseBody(
+                                OBJECTNAME_JVN_FILE, 
+                                ITEMNAME_ALARM_THRESHOLD, 
+                                ItemType.ITEMTYPE_LONG, 
+                                new Long[]{javelinConfig__.getAlarmThreshold()});
+		
+		ResponseBody cpuThresholdBody =
+				TelegramUtil.createResponseBody(
+                                OBJECTNAME_JVN_FILE, 
+                                ITEMNAME_ALARM_CPU_THRESHOLD, 
+                                ItemType.ITEMTYPE_LONG, 
+                                new Long[]{javelinConfig__.getAlarmCpuThreashold()});
+
+		// “d•¶ƒIƒuƒWƒFƒNƒg‚ğİ’è‚·‚é
+		Telegram objTelegram = new Telegram();
+		objTelegram.setObjHeader(objHeader);
+		objTelegram.setObjBody(new ResponseBody[]{jvnFileNameBody, jvnFileContentBody,
+				thresholdBody, cpuThresholdBody, jvnItemNameBody});
+
+		return objTelegram;
+	}
+
+	/**
+	 * JVNƒƒOæ“¾‰“š“d•¶‚ğ¶¬‚µ‚Ü‚·B<br />
+	 * 
+	 * @param jvnFileNames
+	 *			JVNƒƒOƒtƒ@ƒCƒ‹–¼‚ÌƒŠƒXƒg (<code>null</code> ‚Ìê‡‚Í <code>null</code> ‚ğ•Ô‚·)
+	 * @return “d•¶ƒIƒuƒWƒFƒNƒg
+	 */
+	public static Telegram createJvnLogListTelegram(final String[] jvnFileNames)
+	{
+		// ƒtƒ@ƒCƒ‹–¼‚ÌƒŠƒXƒg‚ªnull‚Ì‚Æ‚«Anull‚ğ•Ô‚·B
+		if (jvnFileNames == null)
+		{
+			return null;
+		}
+		// “d•¶ƒwƒbƒ_‚ğì‚é
+		Header objHeader = new Header();
+		objHeader.setByteRequestKind(BYTE_REQUEST_KIND_RESPONSE);
+		objHeader.setByteTelegramKind(BYTE_TELEGRAM_KIND_JVN_FILE_LIST);
+
+		// “d•¶–{‘Ì‚ğì‚é
+		ResponseBody body =
+				TelegramUtil.createResponseBody(
+                                        "jvnFile", 
+                                        "jvnFileName", 
+                                        ItemType.ITEMTYPE_STRING,
+                    					jvnFileNames);
+
+		// “d•¶ƒIƒuƒWƒFƒNƒg‚ğİ’è‚·‚é
+		Telegram objTelegram = new Telegram();
+		objTelegram.setObjHeader(objHeader);
+		objTelegram.setObjBody(new ResponseBody[]{body});
+
+		return objTelegram;
+	}
+
+	/**
+	 * ƒNƒ‰ƒXíœ—v‹“d•¶‚ğ¶¬‚µ‚Ü‚·B<br />
+	 * 
+	 * @param classNameList
+	 *			ƒNƒ‰ƒX–¼‚ÌƒŠƒXƒg
+	 * @return “d•¶ƒIƒuƒWƒFƒNƒg
+	 */
+	public static Telegram createRemoveClassTelegram(final List<String> classNameList)
+	{
+		Header objHeader = new Header();
+		objHeader.setByteTelegramKind(BYTE_TELEGRAM_KIND_REMOVE_CLASS);
+		objHeader.setByteRequestKind(BYTE_REQUEST_KIND_REQUEST);
+
+		Telegram objOutputTelegram = new Telegram();
+		objOutputTelegram.setObjHeader(objHeader);
+
+		List<Body> bodies = new ArrayList<Body>();
+		if (classNameList != null)
+		{
+			for (String className : classNameList)
+			{
+				Body body = new Body();
+				body.setStrObjName(className);
+				body.setByteItemMode(ItemType.ITEMTYPE_STRING);
+				body.setStrItemName(ITEMNAME_CLASSTOREMOVE);
+				body.setIntLoopCount(0);
+				body.setObjItemValueArr(new Object[0]);
+				bodies.add(body);
+			}
+		}
+
+		objOutputTelegram.setObjBody(bodies.toArray(new Body[bodies.size()]));
+		return objOutputTelegram;
+	}
+
+	/**
+	 * Invocation ‚ğXV‚·‚é‚½‚ß‚Ì“d•¶‚ğ¶¬‚µ‚Ü‚·B<br />
+	 * 
+	 * @param invocationParamArray
+	 *			Invocation ‚ğXV‚·‚é“à—e
+	 * @return “d•¶ƒIƒuƒWƒFƒNƒg
+	 */
+	public static Telegram createUpdateInvocationTelegram(
+			final UpdateInvocationParam[] invocationParamArray)
+	{
+		Header objHeader = new Header();
+		objHeader.setByteTelegramKind(BYTE_TELEGRAM_KIND_UPDATE_TARGET);
+		objHeader.setByteRequestKind(BYTE_REQUEST_KIND_REQUEST);
+
+		Telegram objOutputTelegram = new Telegram();
+		objOutputTelegram.setObjHeader(objHeader);
+
+		List<Body> bodies = new ArrayList<Body>();
+
+		// “d•¶–{‘Ì‚ğİ’è‚·‚é
+		if (invocationParamArray != null)
+		{
+			for (UpdateInvocationParam invocation : invocationParamArray)
+			{
+				Body body;
+				Object[] itemValueArr;
+				String objName =
+						invocation.getClassName() + CLASSMETHOD_SEPARATOR
+								+ invocation.getMethodName();
+
+				if (invocation.isTransactionGraphOutput() != null)
+				{
+					body = new Body();
+					body.setStrObjName(objName);
+					body.setByteItemMode(ItemType.ITEMTYPE_STRING);
+					body.setStrItemName(ITEMNAME_TRANSACTION_GRAPH);
+					body.setIntLoopCount(1);
+					itemValueArr = new String[1];
+					itemValueArr[0] 
+					        = invocation.isTransactionGraphOutput().toString();
+					body.setObjItemValueArr(itemValueArr);
+					bodies.add(body);
+				}
+
+				if (invocation.isTarget() != null)
+				{
+					body = new Body();
+					body.setStrObjName(objName);
+					body.setByteItemMode(ItemType.ITEMTYPE_STRING);
+					body.setStrItemName(ITEMNAME_TARGET);
+					body.setIntLoopCount(1);
+					itemValueArr = new String[1];
+					itemValueArr[0] = String.valueOf(invocation.isTarget());
+					body.setObjItemValueArr(itemValueArr);
+					bodies.add(body);
+				}
+
+				if (invocation.getAlarmThreshold() != null)
+				{
+					body = new Body();
+					body.setStrObjName(objName);
+					body.setByteItemMode(ItemType.ITEMTYPE_LONG);
+					body.setStrItemName(ITEMNAME_ALARM_THRESHOLD);
+					body.setIntLoopCount(1);
+					itemValueArr = new Long[1];
+					itemValueArr[0] = invocation.getAlarmThreshold();
+					body.setObjItemValueArr(itemValueArr);
+					bodies.add(body);
+				}
+
+				if (invocation.getAlarmCpuThreshold() != null)
+				{
+					body = new Body();
+					body.setStrObjName(objName);
+					body.setByteItemMode(ItemType.ITEMTYPE_LONG);
+					body.setStrItemName(ITEMNAME_ALARM_CPU_THRESHOLD);
+					body.setIntLoopCount(1);
+					itemValueArr = new Long[1];
+					itemValueArr[0] = invocation.getAlarmCpuThreshold();
+					body.setObjItemValueArr(itemValueArr);
+					bodies.add(body);
+				}
+			}
+		}
+		objOutputTelegram.setObjBody(bodies.toArray(new Body[bodies.size()]));
+		return objOutputTelegram;
+	}
+
+	/**
+	 * Invocation ‚ğXV‚·‚é‚½‚ß‚Ìƒpƒ‰ƒƒ^ƒNƒ‰ƒXB<br />
+	 * 
+	 * @author sakamoto
+	 */
+	public static class UpdateInvocationParam
+	{
+		private final String className_;
+
+		private final String methodName_;
+
+		private final Boolean transactionGraphOutput_;
+
+		private final Boolean target_;
+
+		private final Long alarmThreshold_;
+
+		private final Long alarmCpuThreshold_;
+
+		/**
+		 * Invocation ‚ğXV‚·‚é‚½‚ß‚Ìƒpƒ‰ƒƒ^ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‚Ü‚·B<br />
+		 * 
+		 * @param className
+		 *			ƒNƒ‰ƒX–¼
+		 * @param methodName
+		 *			ƒƒ\ƒbƒh–¼
+		 * @param transactionGraph
+		 *			ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒOƒ‰ƒt‚ğo—Í‚·‚é‚©”Û‚©i <code>null</code> ‚È‚çİ’è‚µ‚È‚¢j
+		 * @param target
+		 *			Œv‘ª‘ÎÛ‚É‚·‚é‚©”Û‚©i <code>null</code> ‚È‚çİ’è‚µ‚È‚¢j
+		 * @param alarmThreshold
+		 *			ƒAƒ‰[ƒ€è‡’li <code>null</code> ‚È‚çİ’è‚µ‚È‚¢j
+		 * @param alarmCpuThreshold
+		 *			CPUƒAƒ‰[ƒ€è‡’li <code>null</code> ‚È‚çİ’è‚µ‚È‚¢j
+		 */
+		public UpdateInvocationParam(String className, String methodName, 
+		        Boolean transactionGraph,
+				Boolean target, Long alarmThreshold, Long alarmCpuThreshold)
+		{
+			this.className_ = className;
+			this.methodName_ = methodName;
+			this.transactionGraphOutput_ = transactionGraph;
+			this.target_ = target;
+			this.alarmThreshold_ = alarmThreshold;
+			this.alarmCpuThreshold_ = alarmCpuThreshold;
+		}
+
+		/**
+		 * ƒNƒ‰ƒX–¼‚ğ•Ô‚µ‚Ü‚·B<br />
+		 * 
+		 * @return ƒNƒ‰ƒX–¼
+		 */
+		public String getClassName()
+		{
+			return this.className_;
+		}
+
+		/**
+		 * ƒƒ\ƒbƒh–¼‚ğ•Ô‚µ‚Ü‚·B<br />
+		 * 
+		 * @return ƒƒ\ƒbƒh–¼
+		 */
+		public String getMethodName()
+		{
+			return this.methodName_;
+		}
+
+		/**
+		 * ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒOƒ‰ƒt‚ğ•\¦‚·‚é‚©”Û‚©‚ğ•Ô‚µ‚Ü‚·B<br />
+		 * 
+		 * İ’è‚µ‚È‚¢ê‡‚Í <code>null</code> ‚ğ•Ô‚µ‚Ü‚·B<br />
+		 * 
+		 * @return ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒOƒ‰ƒt‚ğ•\¦‚·‚éê‡‚Í <code>true</code>
+		 */
+		public Boolean isTransactionGraphOutput()
+		{
+			return this.transactionGraphOutput_;
+		}
+
+		/**
+		 * Œv‘ª‘ÎÛ‚É‚·‚é‚©”Û‚©‚ğ•Ô‚µ‚Ü‚·B<br />
+		 * 
+		 * İ’è‚µ‚È‚¢ê‡‚Í <code>null</code> ‚ğ•Ô‚µ‚Ü‚·B<br />
+		 * 
+		 * @return Œv‘ª‘ÎÛ‚É‚·‚éê‡‚Í <code>true</code>
+		 */
+		public Boolean isTarget()
+		{
+			return this.target_;
+		}
+
+		/**
+		 * ƒAƒ‰[ƒ€è‡’l‚ğ•Ô‚µ‚Ü‚·B<br />
+		 * 
+		 * İ’è‚µ‚È‚¢ê‡‚Í <code>null</code> ‚ğ•Ô‚µ‚Ü‚·B<br />
+		 * 
+		 * @return ƒAƒ‰[ƒ€è‡’liƒ~ƒŠ•bj
+		 */
+		public Long getAlarmThreshold()
+		{
+			return this.alarmThreshold_;
+		}
+
+		/**
+		 * CPUƒAƒ‰[ƒ€è‡’l‚ğ•Ô‚µ‚Ü‚·B<br />
+		 * 
+		 * İ’è‚µ‚È‚¢ê‡‚Í <code>null</code> ‚ğ•Ô‚µ‚Ü‚·B<br />
+		 * 
+		 * @return CPUƒAƒ‰[ƒ€è‡’l
+		 */
+		public Long getAlarmCpuThreshold()
+		{
+			return this.alarmCpuThreshold_;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public String toString()
+		{
+			StringBuilder builder = new StringBuilder();
+			builder.append("{className=");
+			builder.append(getClassName());
+			builder.append(",methodName=");
+			builder.append(getMethodName());
+			builder.append("}");
+			return builder.toString();
+		}
+	}
+
+	/**
+	 * JVNƒƒOæ“¾“d•¶‚ğì¬‚·‚éB
+	 * 
+	 * @param requestKind
+	 *			“d•¶—v‹‰“ší•ÊB
+	 * @param jvnFileNames
+	 *			JVNƒƒOƒtƒ@ƒCƒ‹–¼B
+	 * @return JVNƒƒOæ“¾“d•¶B
+	 */
+	public static Telegram createJvnLogTelegram(final byte requestKind,
+			final List<String> jvnFileNames)
+	{
+		Telegram telegram =
+				TelegramUtil.createSingleTelegram(
+	                                  BYTE_TELEGRAM_KIND_JVN_FILE, requestKind,
+	                                  OBJECTNAME_JVN_FILE, ITEMNAME_JVN_FILE_NAME, 
+	                                  ItemType.ITEMTYPE_STRING, jvnFileNames);
+
+		return telegram;
+	}
+
+	/**
+	 * ƒXƒŒƒbƒhƒ_ƒ“ƒvæ“¾—v‹“d•¶‚ğì¬‚µ‚Ü‚·B
+	 * 
+	 * @return ƒXƒŒƒbƒhƒ_ƒ“ƒvæ“¾—v‹“d•¶
+	 */
+	public static Telegram createThreadDumpRequestTelegram()
+	{
+		Header objHeader = new Header();
+		objHeader.setId(TelegramUtil.generateTelegramId());
+		objHeader.setByteTelegramKind(BYTE_TELEGRAM_KIND_GET_DUMP);
+		objHeader.setByteRequestKind(BYTE_REQUEST_KIND_REQUEST);
+		Body[] bodies = 
+		        TelegramUtil.createEmptyRequestBody(OBJECTNAME_DUMP, ITEMNAME_THREADDUMP);
+
+		Telegram requestTelegram = new Telegram();
+		requestTelegram.setObjHeader(objHeader);
+		requestTelegram.setObjBody(bodies);
+
+		return requestTelegram;
+	}
+
+	/**
+	 * ƒq[ƒvƒ_ƒ“ƒvæ“¾—v‹“d•¶‚ğì¬‚µ‚Ü‚·B
+	 * 
+	 * @return ƒq[ƒvƒ_ƒ“ƒvæ“¾—v‹“d•¶
+	 */
+	public static Telegram createHeapDumpRequestTelegram()
+	{
+		Header objHeader = new Header();
+		objHeader.setId(TelegramUtil.generateTelegramId());
+		objHeader.setByteTelegramKind(BYTE_TELEGRAM_KIND_GET_DUMP);
+		objHeader.setByteRequestKind(BYTE_REQUEST_KIND_REQUEST);
+		Body[] bodies = 
+		        TelegramUtil.createEmptyRequestBody(OBJECTNAME_DUMP, ITEMNAME_HEAPDUMP);
+
+		Telegram objOutputTelegram = new Telegram();
+		objOutputTelegram.setObjHeader(objHeader);
+		objOutputTelegram.setObjBody(bodies);
+		return objOutputTelegram;
+	}
+
+	/**
+	 * ƒq[ƒvƒ_ƒ“ƒvæ“¾‰“š“d•¶‚ğì¬‚µ‚Ü‚·B
+	 * 
+	 * @param telegramId
+	 *			“d•¶ ID
+	 * @return ƒq[ƒvƒ_ƒ“ƒvæ“¾‰“š“d•¶
+	 */
+	public static Telegram createHeapDumpResponseTelegram(final long telegramId)
+	{
+		Header objHeader = new Header();
+		objHeader.setId(telegramId);
+		objHeader.setByteTelegramKind(BYTE_TELEGRAM_KIND_GET_DUMP);
+		objHeader.setByteRequestKind(BYTE_REQUEST_KIND_RESPONSE);
+		Body[] bodies = 
+		        TelegramUtil.createEmptyRequestBody(OBJECTNAME_DUMP, ITEMNAME_HEAPDUMP);
+
+		Telegram objOutputTelegram = new Telegram();
+		objOutputTelegram.setObjHeader(objHeader);
+		objOutputTelegram.setObjBody(bodies);
+		return objOutputTelegram;
+	}
+
+	/**
+	 * ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€æ“¾—v‹“d•¶‚ğì¬‚µ‚Ü‚·B
+	 * 
+	 * @return ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€æ“¾—v‹“d•¶
+	 */
+	public static Telegram createClassHistogramRequestTelegram()
+	{
+		Header objHeader = new Header();
+		objHeader.setId(TelegramUtil.generateTelegramId());
+		objHeader.setByteTelegramKind(BYTE_TELEGRAM_KIND_GET_DUMP);
+		objHeader.setByteRequestKind(BYTE_REQUEST_KIND_REQUEST);
+		Body[] bodies = 
+		        TelegramUtil.createEmptyRequestBody(
+                                    OBJECTNAME_DUMP, ITEMNAME_CLASSHISTOGRAM);
+
+		Telegram objOutputTelegram = new Telegram();
+		objOutputTelegram.setObjHeader(objHeader);
+		objOutputTelegram.setObjBody(bodies);
+		return objOutputTelegram;
+	}
+
+	/**
+	 * ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€æ“¾‰“š“d•¶‚ğì¬‚µ‚Ü‚·B
+	 * 
+	 * @param telegramId
+	 *			“d•¶ ID
+	 * @return ƒNƒ‰ƒXƒqƒXƒgƒOƒ‰ƒ€æ“¾‰“š“d•¶
+	 */
+	public static Telegram createClassHistogramResponseTelegram(final long telegramId)
+	{
+		Header objHeader = new Header();
+		objHeader.setId(TelegramUtil.generateTelegramId());
+		objHeader.setByteTelegramKind(BYTE_TELEGRAM_KIND_GET_DUMP);
+		objHeader.setByteRequestKind(BYTE_REQUEST_KIND_RESPONSE);
+		Body[] bodies =
+				TelegramUtil.createEmptyRequestBody(
+                                    OBJECTNAME_DUMP, ITEMNAME_CLASSHISTOGRAM);
+
+		Telegram objOutputTelegram = new Telegram();
+		objOutputTelegram.setObjHeader(objHeader);
+		objOutputTelegram.setObjBody(bodies);
+		return objOutputTelegram;
+	}
 }

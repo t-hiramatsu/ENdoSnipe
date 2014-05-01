@@ -5,7 +5,7 @@
 
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
+		<param-value>/WEB-INF/spring/root-context.xml</param-value>
 	</context-param>
 
 	<context-param>
@@ -36,14 +36,14 @@
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value></param-value>
+			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
 	<servlet>
-		<servlet-name>ExplorerNotifyServlet</servlet-name>
-		<servlet-class>jp.co.acroquest.endosnipe.web.explorer.servlet.ExplorerNotifyServlet</servlet-class>
+		<servlet-name>DashBoardNotifyServlet</servlet-name>
+		<servlet-class>jp.co.acroquest.endosnipe.web.dashboard.servlet.DashBoardNotifyServlet</servlet-class>
 		<init-param>
 			<param-name>collector.property</param-name>
 			<param-value>/opt/ENdoSnipe/DataCollector/conf/collector.properties</param-value>
@@ -52,8 +52,8 @@
 	</servlet>
 
 	<servlet>
-		<servlet-name>ExplorerServlet</servlet-name>
-		<servlet-class>jp.co.acroquest.endosnipe.web.explorer.servlet.ExplorerServlet</servlet-class>
+		<servlet-name>DashBoardServlet</servlet-name>
+		<servlet-class>jp.co.acroquest.endosnipe.web.dashboard.servlet.DashBoardServlet</servlet-class>
 		<load-on-startup>3</load-on-startup>
 	</servlet>
 
@@ -64,7 +64,7 @@
 
 	<servlet>
 		<servlet-name>JvnDownloadServlet</servlet-name>
-		<servlet-class>jp.co.acroquest.endosnipe.web.explorer.servlet.JvnDownloadServlet</servlet-class>
+		<servlet-class>jp.co.acroquest.endosnipe.web.dashboard.servlet.JvnDownloadServlet</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
@@ -73,13 +73,13 @@
 	</servlet-mapping>
 
 	<servlet-mapping>
-		<servlet-name>ExplorerServlet</servlet-name>
-		<url-pattern>/ExplorerServlet</url-pattern>
+		<servlet-name>DashBoardServlet</servlet-name>
+		<url-pattern>/DashBoardServlet</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>
-		<servlet-name>ExplorerNotifyServlet</servlet-name>
-		<url-pattern>/ExplorerNotifyServlet</url-pattern>
+		<servlet-name>DashBoardNotifyServlet</servlet-name>
+		<url-pattern>/DashBoardNotifyServlet</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>

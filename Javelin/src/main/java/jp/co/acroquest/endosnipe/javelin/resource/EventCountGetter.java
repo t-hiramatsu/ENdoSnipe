@@ -36,7 +36,7 @@ import jp.co.acroquest.endosnipe.javelin.bean.FastInteger;
 import jp.co.acroquest.endosnipe.javelin.event.JavelinEventCounter;
 
 /**
- * 繧､繝吶Φ繝育ｨｮ蛻･豈弱�ｮ繧､繝吶Φ繝育匱逕滓焚繧貞叙蠕励＠縺ｾ縺吶�<br />
+ * イベント種別毎のイベント発生数を取得します。<br />
  *
  * @author Sakamoto
  */

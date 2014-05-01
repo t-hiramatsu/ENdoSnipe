@@ -33,28 +33,28 @@ import java.util.concurrent.ConcurrentHashMap;
 import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 
 /**
- * å®Ÿè£…ä¸­ã€‚
+ * À‘•’†B
  * 
  * @author eriguchi
  */
 public class EventRepository
 {
-    /** æœ€å¤§ã‚¤ãƒ™ãƒ³ãƒˆæ•°ã€‚ã“ã®å€¤ã‚’è¶…ãˆã¦ç™»éŒ²ã•ã‚Œã‚‹å ´åˆã¯ã‚¤ãƒ™ãƒ³ãƒˆã‚’ç™»éŒ²ã—ãªã„ã€‚ */
+    /** Å‘åƒCƒxƒ“ƒg”B‚±‚Ì’l‚ğ’´‚¦‚Ä“o˜^‚³‚ê‚éê‡‚ÍƒCƒxƒ“ƒg‚ğ“o˜^‚µ‚È‚¢B */
     private static final int EVENT_MAX = 2000;
 
-    /** ã‚¤ãƒ™ãƒ³ãƒˆã®ç™»éŒ²ã€‚ */
+    /** ƒCƒxƒ“ƒg‚Ì“o˜^B */
     private Map<CommonEvent, Long> eventMap_ = new ConcurrentHashMap<CommonEvent, Long>();
 
-    /** ã‚¤ãƒ™ãƒ³ãƒˆé–“éš” */
+    /** ƒCƒxƒ“ƒgŠÔŠu */
     private long interval_ = new JavelinConfig().getEventInterval();
 
-    /** æœ€å¾Œã«æ›´æ–°ã—ãŸæ™‚åˆ»ã€‚ */
+    /** ÅŒã‚ÉXV‚µ‚½B */
     private long lastCleanupTime_ = 0;
 
     /**
-     * ã‚¤ãƒ™ãƒ³ãƒˆã‚’Mapã«æ ¼ç´ã—ã¾ã™ã€‚<br />
+     * ƒCƒxƒ“ƒg‚ğMap‚ÉŠi”[‚µ‚Ü‚·B<br />
      * 
-     * @param event {@link CommonEvent}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param event {@link CommonEvent}ƒIƒuƒWƒFƒNƒg
      */
     public void putEvent(CommonEvent event)
     {
@@ -95,10 +95,10 @@ public class EventRepository
     }
 
     /**
-     * ã‚¤ãƒ™ãƒ³ãƒˆãŒMapã«æ—¢ã«æ ¼ç´ã•ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ƒCƒxƒ“ƒg‚ªMap‚ÉŠù‚ÉŠi”[‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @param event {@link CommonEvent}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @return æ—¢ã«æ ¼ç´ã•ã‚Œã¦ã„ã‚‹å ´åˆã«ã€<code>true</code>
+     * @param event {@link CommonEvent}ƒIƒuƒWƒFƒNƒg
+     * @return Šù‚ÉŠi”[‚³‚ê‚Ä‚¢‚éê‡‚ÉA<code>true</code>
      */
     public boolean containsEvent(CommonEvent event)
     {

@@ -37,25 +37,24 @@ import java.util.Map;
 
 import jp.co.acroquest.endosnipe.common.util.SQLUtil;
 import jp.co.acroquest.endosnipe.data.TableNames;
-import jp.co.acroquest.endosnipe.data.dto.GraphTypeDto;
 import jp.co.acroquest.endosnipe.data.entity.JavelinMeasurementItem;
 
 /**
- * {@link JavelinMeasurementItem} ã®ãŸã‚ã® DAO ã§ã™ã€‚
+ * {@link JavelinMeasurementItem} ‚Ì‚½‚ß‚Ì DAO ‚Å‚·B
  *
  * @author y-sakamoto
  */
 public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
 {
-    /** æ”¹è¡Œã‚³ãƒ¼ãƒ‰ã®ä»£æ›¿æ–‡å­—ã€‚ */
+    /** ‰üsƒR[ƒh‚Ì‘ã‘Ö•¶šB */
     private static final String ALTERNATE_LINE_FEED_CODE = " ";
 
     /**
-     * é …ç›®ï¼ˆç³»åˆ—ï¼‰åç§°ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚<br />
+     * €–ÚiŒn—ñj–¼Ì‚ÌƒŒƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B<br />
      *
-     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @param item æŒ¿å…¥ã™ã‚‹å€¤
-     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @param database ƒf[ƒ^ƒx[ƒX–¼
+     * @param item ‘}“ü‚·‚é’l
+     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
      */
     public static void insert(final String database, final JavelinMeasurementItem item)
         throws SQLException
@@ -87,12 +86,12 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
     }
 
     /**
-     * æŒ‡å®šã•ã‚ŒãŸè¨ˆæ¸¬é …ç›® ID ã®è¨ˆæ¸¬é …ç›®æƒ…å ±ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * w’è‚³‚ê‚½Œv‘ª€–Ú ID ‚ÌŒv‘ª€–Úî•ñ‚ğæ“¾‚µ‚Ü‚·B<br />
      *
-     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @param measurementItemId è¨ˆæ¸¬é …ç›® ID
-     * @return ãƒ¬ã‚³ãƒ¼ãƒ‰ãŒå­˜åœ¨ã™ã‚‹å ´åˆã¯è¨ˆæ¸¬é …ç›®æƒ…å ±ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€å­˜åœ¨ã—ãªã„å ´åˆã¯ <code>null</code>
-     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @param database ƒf[ƒ^ƒx[ƒX–¼
+     * @param measurementItemId Œv‘ª€–Ú ID
+     * @return ƒŒƒR[ƒh‚ª‘¶İ‚·‚éê‡‚ÍŒv‘ª€–Úî•ñƒIƒuƒWƒFƒNƒgA‘¶İ‚µ‚È‚¢ê‡‚Í <code>null</code>
+     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
      */
     public static JavelinMeasurementItem selectById(final String database,
         final int measurementItemId)
@@ -132,127 +131,14 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
     }
 
     /**
-     * æŒ‡å®šã•ã‚ŒãŸItemNameé…ä¸‹ã®è¨ˆæ¸¬é …ç›®åã®ä¸€è¦§ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * w’è‚³‚ê‚½ItemName”z‰º‚ÌŒv‘ª€–Ú–¼‚Ìˆê——‚ğæ“¾‚µ‚Ü‚·B<br />
      *
-     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @param measurementItemName è¨ˆæ¸¬é …ç›®å
-     * @return è¨ˆæ¸¬é …ç›®åã®ä¸€è¦§
-     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @param database ƒf[ƒ^ƒx[ƒX–¼
+     * @param measurementItemName Œv‘ª€–Ú–¼
+     * @return Œv‘ª€–Ú–¼‚Ìˆê——
+     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
      */
-    public static List<GraphTypeDto> selectItemNameListByParentItemName(final String database,
-        final String measurementItemName)
-        throws SQLException
-    {
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        List<GraphTypeDto> itemNameList = new ArrayList<GraphTypeDto>();
-
-        try
-        {
-            conn = getConnection(database, true);
-            String sql =
-                "select MEASUREMENT_ITEM_NAME from " + JAVELIN_MEASUREMENT_ITEM
-                    + " where replace(replace(replace(MEASUREMENT_ITEM_NAME,chr(13)"
-                    + "||chr(10),' '),chr(13),' '),chr(10),' ') LIKE ? "
-                    + "order by MEASUREMENT_ITEM_NAME";
-
-            pstmt = conn.prepareStatement(sql);
-            PreparedStatement preparedStatement = getDelegatingStatement(pstmt);
-            String tempStr = measurementItemName + "%";
-            preparedStatement.setString(1, tempStr);
-            rs = preparedStatement.executeQuery();
-
-            while (rs.next())
-            {
-                String itemName = rs.getString(1);
-                // æ”¹è¡Œã‚³ãƒ¼ãƒ‰ã‚’å¤‰æ›ã™ã‚‹
-                itemName = itemName.replaceAll("\\r\\n", ALTERNATE_LINE_FEED_CODE);
-                itemName = itemName.replaceAll("\\r", ALTERNATE_LINE_FEED_CODE);
-                itemName = itemName.replaceAll("\\n", ALTERNATE_LINE_FEED_CODE);
-                // CHECKSTYLE:OFF
-                itemNameList.add(new GraphTypeDto(itemName, "graph"));
-                // CHECKSTYLE:ON
-            }
-
-            List<GraphTypeDto> itemNameList2 =
-                selectMulGrapNameListByParentItemName(database, measurementItemName);
-            itemNameList.addAll(itemNameList2);
-
-        }
-        finally
-        {
-            SQLUtil.closeResultSet(rs);
-            SQLUtil.closeStatement(pstmt);
-            SQLUtil.closeConnection(conn);
-        }
-
-        return itemNameList;
-    }
-
-    /**
-     * Get the mulipleGraphNameList by parentItemName.<br />
-     *
-     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @param measurementItemName è¨ˆæ¸¬é …ç›®å
-     * @return GraphTypeDtoã®ä¸€è¦§
-     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
-     */
-    public static List<GraphTypeDto> selectMulGrapNameListByParentItemName(final String database,
-        final String measurementItemName)
-        throws SQLException
-    {
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        List<GraphTypeDto> itemNameList = new ArrayList<GraphTypeDto>();
-
-        try
-        {
-            conn = getConnection(database, true);
-            String sql =
-                "select MULTIPLE_RESOURCE_GRAPH_NAME from " + MULTIPLE_RESOURCE_GRAPH
-                    + " where replace(replace(replace(MULTIPLE_RESOURCE_GRAPH_NAME,chr(13)"
-                    + "||chr(10),' '),chr(13),' '),chr(10),' ') LIKE ? "
-                    + "order by MULTIPLE_RESOURCE_GRAPH_NAME";
-
-            pstmt = conn.prepareStatement(sql);
-            PreparedStatement preparedStatement = getDelegatingStatement(pstmt);
-            String tempStr = measurementItemName + "%";
-            preparedStatement.setString(1, tempStr);
-            rs = preparedStatement.executeQuery();
-
-            while (rs.next())
-            {
-                String itemName = rs.getString(1);
-                // æ”¹è¡Œã‚³ãƒ¼ãƒ‰ã‚’å¤‰æ›ã™ã‚‹
-                itemName = itemName.replaceAll("\\r\\n", ALTERNATE_LINE_FEED_CODE);
-                itemName = itemName.replaceAll("\\r", ALTERNATE_LINE_FEED_CODE);
-                itemName = itemName.replaceAll("\\n", ALTERNATE_LINE_FEED_CODE);
-                // CHECKSTYLE:OFF
-                itemNameList.add(new GraphTypeDto(itemName, "mulResGraph"));
-                // CHECKSTYLE:ON
-            }
-        }
-        finally
-        {
-            SQLUtil.closeResultSet(rs);
-            SQLUtil.closeStatement(pstmt);
-            SQLUtil.closeConnection(conn);
-        }
-
-        return itemNameList;
-    }
-
-    /**
-     * æŒ‡å®šã•ã‚ŒãŸItemNameé…ä¸‹ã®è¨ˆæ¸¬é …ç›®åã®ä¸€è¦§ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
-     *
-     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @param measurementItemName è¨ˆæ¸¬é …ç›®å
-     * @return è¨ˆæ¸¬é …ç›®åã®ä¸€è¦§
-     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
-     */
-    public static List<String> selectDirectChildren(final String database,
+    public static List<String> selectItemNameListByParentItemName(final String database,
         final String measurementItemName)
         throws SQLException
     {
@@ -265,53 +151,20 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
         {
             conn = getConnection(database, true);
             String sql =
-                "select split_part(MEASUREMENT_ITEM_NAME,'/',?) as child, "
-                    + " split_part(MEASUREMENT_ITEM_NAME,'/',?) != '' as grandchild"
-                    + " from JAVELIN_MEASUREMENT_ITEM"
-                    + " where replace(replace(replace(MEASUREMENT_ITEM_NAME,chr(13)||chr(10),' '),"
-                    + " chr(13),' '),chr(10),' ')" + " LIKE ?"
-                    + " and split_part(replace(replace(replace("
-                    + " MEASUREMENT_ITEM_NAME,chr(13)||chr(10),' '),"
-                    + " chr(13),' '),chr(10),' '),'/',?) = ?" + "group by child, grandchild"
-                    + " order by child, grandchild";
+                "select MEASUREMENT_ITEM_NAME from " + JAVELIN_MEASUREMENT_ITEM
+                    + " where replace(replace(replace(MEASUREMENT_ITEM_NAME,chr(13)"
+                    + "||chr(10),' '),chr(13),' '),chr(10),' ') LIKE ? "
+                    + "order by MEASUREMENT_ITEM_NAME";
             pstmt = conn.prepareStatement(sql);
             PreparedStatement preparedStatement = getDelegatingStatement(pstmt);
-
-            String[] measuremtnItemPart = measurementItemName.split("/");
-            int length = measuremtnItemPart.length;
             String tempStr = measurementItemName + "%";
-            int index = 1;
-            preparedStatement.setInt(index++, length + 1);
-            preparedStatement.setInt(index++, length + 2);
-            preparedStatement.setString(index++, tempStr);
-            preparedStatement.setInt(index++, length);
-            String measurementItem;
-            if (measuremtnItemPart.length > 0)
-            {
-                measurementItem = measuremtnItemPart[length - 1];
-            }
-            else
-            {
-                measurementItem = "";
-            }
-            preparedStatement.setString(index++, measurementItem);
+            preparedStatement.setString(1, tempStr);
             rs = preparedStatement.executeQuery();
 
             while (rs.next())
             {
                 String itemName = rs.getString(1);
-
-                if (rs.getBoolean(2) == true)
-                {
-                    itemName += "/";
-                }
-
-                if ("".equals(itemName))
-                {
-                    continue;
-                }
-
-                // æ”¹è¡Œã‚³ãƒ¼ãƒ‰ã‚’å¤‰æ›ã™ã‚‹
+                // ‰üsƒR[ƒh‚ğ•ÏŠ·‚·‚é
                 itemName = itemName.replaceAll("\\r\\n", ALTERNATE_LINE_FEED_CODE);
                 itemName = itemName.replaceAll("\\r", ALTERNATE_LINE_FEED_CODE);
                 itemName = itemName.replaceAll("\\n", ALTERNATE_LINE_FEED_CODE);
@@ -331,12 +184,12 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
     }
 
     /**
-     * æŒ‡å®šã•ã‚ŒãŸè¨ˆæ¸¬å€¤ç¨®åˆ¥ã¨é …ç›®åç§°ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã®ã€€ID ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * w’è‚³‚ê‚½Œv‘ª’lí•Ê‚Æ€–Ú–¼Ì‚ÌƒŒƒR[ƒh‚Ì@ID ‚ğ•Ô‚µ‚Ü‚·B<br />
      *
-     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @param itemName é …ç›®ï¼ˆç³»åˆ—ï¼‰åç§°
-     * @return ãƒ¬ã‚³ãƒ¼ãƒ‰ãŒå­˜åœ¨ã™ã‚‹å ´åˆã¯ãƒ¬ã‚³ãƒ¼ãƒ‰ã® ID ã€å­˜åœ¨ã—ãªã„å ´åˆã¯ <code>-1</code>
-     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @param database ƒf[ƒ^ƒx[ƒX–¼
+     * @param itemName €–ÚiŒn—ñj–¼Ì
+     * @return ƒŒƒR[ƒh‚ª‘¶İ‚·‚éê‡‚ÍƒŒƒR[ƒh‚Ì ID A‘¶İ‚µ‚È‚¢ê‡‚Í <code>-1</code>
+     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
      */
     public static int selectMeasurementItemIdFromItemName(final String database,
         final String itemName)
@@ -372,11 +225,11 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
     }
 
     /**
-     * ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’ã™ã¹ã¦å–å¾—ã—ã¾ã™ã€‚<br />
+     * ƒŒƒR[ƒh‚ğ‚·‚×‚Äæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @return {@link JavelinMeasurementItem} ã®ãƒªã‚¹ãƒˆ
-     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @param database ƒf[ƒ^ƒx[ƒX–¼
+     * @return {@link JavelinMeasurementItem} ‚ÌƒŠƒXƒg
+     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
      */
     public static List<JavelinMeasurementItem> selectAll(final String database)
         throws SQLException
@@ -391,7 +244,6 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
             stmt = conn.createStatement();
             String sql =
                 "select * from " + JAVELIN_MEASUREMENT_ITEM + " order by MEASUREMENT_ITEM_NAME";
-
             rs = stmt.executeQuery(sql);
             while (rs.next() == true)
             {
@@ -414,57 +266,12 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
     }
 
     /**
-     * ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’ã™ã¹ã¦å–å¾—ã—ã¾ã™ã€‚<br />
+     * ƒŒƒR[ƒh‚ğ‚·‚×‚Äæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @param regExp regularexpression
-     * @return {@link JavelinMeasurementItem} ã®ãƒªã‚¹ãƒˆ
-     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
-     */
-    public static List<JavelinMeasurementItem> selectAllByPattern(final String database,
-        final String regExp)
-        throws SQLException
-    {
-        List<JavelinMeasurementItem> result = new ArrayList<JavelinMeasurementItem>();
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        try
-        {
-            conn = getConnection(database, true);
-            String sql =
-                "select * from " + JAVELIN_MEASUREMENT_ITEM
-                    + " where MEASUREMENT_ITEM_NAME ~* ? order by MEASUREMENT_ITEM_NAME";
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, regExp);
-            rs = pstmt.executeQuery();
-            while (rs.next() == true)
-            {
-                JavelinMeasurementItem item = new JavelinMeasurementItem();
-                // CHECKSTYLE:OFF
-                item.measurementItemId = rs.getInt(1);
-                item.itemName = rs.getString(2);
-                item.lastInserted = rs.getTimestamp(3);
-                // CHECKSTYLE:ON
-                result.add(item);
-            }
-        }
-        finally
-        {
-            SQLUtil.closeResultSet(rs);
-            SQLUtil.closeStatement(pstmt);
-            SQLUtil.closeConnection(conn);
-        }
-        return result;
-    }
-
-    /**
-     * ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’ã™ã¹ã¦å–å¾—ã—ã¾ã™ã€‚<br />
-     * 
-     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @param maxCount æœ€å¤§æ•°
-     * @return {@link JavelinMeasurementItem} ã®ãƒªã‚¹ãƒˆ
-     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @param database ƒf[ƒ^ƒx[ƒX–¼
+     * @param maxCount Å‘å”
+     * @return {@link JavelinMeasurementItem} ‚ÌƒŠƒXƒg
+     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
      */
     public static List<JavelinMeasurementItem> selectAll(final String database, int maxCount)
         throws SQLException
@@ -507,11 +314,11 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
     }
 
     /**
-     * é …ç›®åã‚’ã™ã¹ã¦å–å¾—ã—ã¾ã™ã€‚<br />
+     * €–Ú–¼‚ğ‚·‚×‚Äæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @return {@link JavelinMeasurementItem} ã®ãƒªã‚¹ãƒˆ
-     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @param database ƒf[ƒ^ƒx[ƒX–¼
+     * @return {@link JavelinMeasurementItem} ‚ÌƒŠƒXƒg
+     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
      */
     public static List<String> selectAllItemName(final String database)
         throws SQLException
@@ -531,7 +338,7 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
             while (rs.next() == true)
             {
                 String itemName = rs.getString(1);
-                // æ”¹è¡Œã‚³ãƒ¼ãƒ‰ã‚’å¤‰æ›ã™ã‚‹
+                // ‰üsƒR[ƒh‚ğ•ÏŠ·‚·‚é
                 itemName = itemName.replaceAll("\\r\\n", ALTERNATE_LINE_FEED_CODE);
                 itemName = itemName.replaceAll("\\r", ALTERNATE_LINE_FEED_CODE);
                 itemName = itemName.replaceAll("\\n", ALTERNATE_LINE_FEED_CODE);
@@ -550,12 +357,12 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
     }
 
     /**
-     * æŒ‡å®šã—ãŸé …ç›®åã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å…¨ã¦å–å¾—ã—ã¾ã™ã€‚<br />
+     * w’è‚µ‚½€–Ú–¼‚ÌƒŒƒR[ƒh‚ğ‘S‚Äæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @param measurementType é …ç›®å
-     * @return {@link JavelinMeasurementItem} ã®ãƒªã‚¹ãƒˆ
-     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @param database ƒf[ƒ^ƒx[ƒX–¼
+     * @param measurementType €–Ú–¼
+     * @return {@link JavelinMeasurementItem} ‚ÌƒŠƒXƒg
+     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
      */
     public static List<JavelinMeasurementItem> selectByMeasurementType(final String database,
         long measurementType)
@@ -599,11 +406,11 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
     }
 
     /**
-     * æŒ‡å®šã•ã‚ŒãŸ MEASUREMENT_ITEM_ID ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å‰Šé™¤ã—ã¾ã™ã€‚
+     * w’è‚³‚ê‚½ MEASUREMENT_ITEM_ID ‚ÌƒŒƒR[ƒh‚ğíœ‚µ‚Ü‚·B
      *
-     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @param measurementItemName å‰Šé™¤ã™ã‚‹ãƒ¬ã‚³ãƒ¼ãƒ‰ã® MEASUREMENT_ITEM_NAME
-     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @param database ƒf[ƒ^ƒx[ƒX–¼
+     * @param measurementItemName íœ‚·‚éƒŒƒR[ƒh‚Ì MEASUREMENT_ITEM_NAME
+     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
      */
     public static void deleteByMeasurementItemId(final String database,
         final String measurementItemName)
@@ -631,11 +438,11 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
     }
 
     /**
-     * æŒ‡å®šã•ã‚ŒãŸ MEASUREMENT_ITEM_ID ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å‰Šé™¤ã—ã¾ã™ã€‚
+     * w’è‚³‚ê‚½ MEASUREMENT_ITEM_ID ‚ÌƒŒƒR[ƒh‚ğíœ‚µ‚Ü‚·B
      *
-     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @param measurementItemIdList å‰Šé™¤ã™ã‚‹ãƒ¬ã‚³ãƒ¼ãƒ‰ã® MEASUREMENT_ITEM_ID
-     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @param database ƒf[ƒ^ƒx[ƒX–¼
+     * @param measurementItemIdList íœ‚·‚éƒŒƒR[ƒh‚Ì MEASUREMENT_ITEM_ID
+     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
      */
     public static void deleteByMeasurementItemId(final String database,
         final List<Integer> measurementItemIdList)
@@ -678,14 +485,14 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
     }
 
     /**
-     * è¨ˆæ¸¬ãƒ‡ãƒ¼ã‚¿ãŒæŒ¿å…¥ã•ã‚ŒãŸæ™‚åˆ»ã‚’åæ˜ ã—ã¾ã™ã€‚
+     * Œv‘ªƒf[ƒ^‚ª‘}“ü‚³‚ê‚½‚ğ”½‰f‚µ‚Ü‚·B
      *
-     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param database ƒf[ƒ^ƒx[ƒX–¼
      * @param beforeItemName
-     *            æ›´æ–°å‰ã®measurement_item_name
+     *            XV‘O‚Ìmeasurement_item_name
      * @param afterItemName
-     *            æ›´æ–°å‰ã®measurement_item_name
-     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     *            XV‘O‚Ìmeasurement_item_name
+     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
      */
     public static void updateMeasurementItemName(final String database,
         final String beforeItemName, final String afterItemName)
@@ -714,11 +521,11 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
     }
 
     /**
-     * è¨ˆæ¸¬ãƒ‡ãƒ¼ã‚¿ãŒæŒ¿å…¥ã•ã‚ŒãŸæ™‚åˆ»ã‚’åæ˜ ã—ã¾ã™ã€‚
+     * Œv‘ªƒf[ƒ^‚ª‘}“ü‚³‚ê‚½‚ğ”½‰f‚µ‚Ü‚·B
      *
-     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @param map ç³»åˆ—ITEMã¨æœ€çµ‚æŒ¿å…¥æ™‚åˆ»ã®ãƒãƒƒãƒ—
-     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @param database ƒf[ƒ^ƒx[ƒX–¼
+     * @param map Œn—ñITEM‚ÆÅI‘}“ü‚Ìƒ}ƒbƒv
+     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
      */
     public static void updateLastInserted(final String database, final Map<String, Timestamp> map)
         throws SQLException
@@ -750,10 +557,10 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
     }
 
     /**
-     * ã™ã¹ã¦ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å‰Šé™¤ã—ã¾ã™ã€‚<br />
+     * ‚·‚×‚Ä‚ÌƒŒƒR[ƒh‚ğíœ‚µ‚Ü‚·B<br />
      *
-     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @param database ƒf[ƒ^ƒx[ƒX–¼
+     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
      */
     public static void deleteAll(final String database)
         throws SQLException
@@ -762,11 +569,11 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
     }
 
     /**
-     * ãƒ¬ã‚³ãƒ¼ãƒ‰ã®æ•°ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ƒŒƒR[ƒh‚Ì”‚ğ•Ô‚µ‚Ü‚·B<br />
      *
-     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @return ãƒ¬ã‚³ãƒ¼ãƒ‰ã®æ•°
-     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @param database ƒf[ƒ^ƒx[ƒX–¼
+     * @return ƒŒƒR[ƒh‚Ì”
+     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
      */
     public static int count(final String database)
         throws SQLException
@@ -776,11 +583,11 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
     }
 
     /**
-     * measurement_valueãƒ†ãƒ¼ãƒ–ãƒ«ã§ä½¿ç”¨ã•ã‚Œã¦ã„ãªã„ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’ã€<br />
-     * ã“ã®ãƒ†ãƒ¼ãƒ–ãƒ«ã‹ã‚‰å‰Šé™¤ã—ã¾ã™ã€‚<br />
+     * measurement_valueƒe[ƒuƒ‹‚Åg—p‚³‚ê‚Ä‚¢‚È‚¢ƒŒƒR[ƒh‚ğA<br />
+     * ‚±‚Ìƒe[ƒuƒ‹‚©‚çíœ‚µ‚Ü‚·B<br />
      * 
-     * @param database ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @throws SQLException SQLå®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @param database ƒf[ƒ^ƒx[ƒX–¼
+     * @throws SQLException SQLÀs‚É—áŠO‚ª”­¶‚µ‚½ê‡
      */
     public static void deleteNotUsedRecord(final String database)
         throws SQLException
@@ -804,5 +611,4 @@ public class JavelinMeasurementItemDao extends AbstractDao implements TableNames
             SQLUtil.closeConnection(conn);
         }
     }
-
 }

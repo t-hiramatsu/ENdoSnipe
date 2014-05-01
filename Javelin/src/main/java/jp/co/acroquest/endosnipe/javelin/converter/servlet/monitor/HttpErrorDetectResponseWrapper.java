@@ -31,18 +31,18 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
 /**
- * HttpErrorDetectResponseWrapperã‚¯ãƒ©ã‚¹
+ * HttpErrorDetectResponseWrapperƒNƒ‰ƒX
  * @author acroquest
  *
  */
 public class HttpErrorDetectResponseWrapper extends HttpServletResponseWrapper
 {
-    /** Httpãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹å®Ÿè¡Œçµæœ */
+    /** HttpƒŒƒXƒ|ƒ“ƒXƒXƒe[ƒ^ƒXÀsŒ‹‰Ê */
     int resultCode_;
 
     /**
-     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
-     * @param response ãƒ¬ã‚¹ãƒãƒ³ã‚¹
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * @param response ƒŒƒXƒ|ƒ“ƒX
      */
     public HttpErrorDetectResponseWrapper(HttpServletResponse response)
     {
@@ -50,7 +50,7 @@ public class HttpErrorDetectResponseWrapper extends HttpServletResponseWrapper
     }
 
     /**
-     * HttpServletResponseã‚’ã‚¹ãƒ¼ãƒ‘ãƒ¼ã‚¯ãƒ©ã‚¹ã‹ã‚‰å–å¾—
+     * HttpServletResponse‚ğƒX[ƒp[ƒNƒ‰ƒX‚©‚çæ“¾
      * @return HttpServletResponse
      */
     private HttpServletResponse getHttpServletResponse()
@@ -59,10 +59,10 @@ public class HttpErrorDetectResponseWrapper extends HttpServletResponseWrapper
     }
 
     /**
-     * HttpServletResponse#setStatus(int sc)å‘¼ã³å‡ºã—æ™‚ã€
-     * ã‚¨ãƒ©ãƒ¼ç•ªå·ã‚’å–å¾—ã—ã€ä¿æŒã™ã‚‹
+     * HttpServletResponse#setStatus(int sc)ŒÄ‚Ño‚µA
+     * ƒGƒ‰[”Ô†‚ğæ“¾‚µA•Û‚·‚é
      * 
-     * @param sc ã‚¨ãƒ©ãƒ¼ç•ªå·
+     * @param sc ƒGƒ‰[”Ô†
      */
     public void setStatus(int sc)
     {
@@ -71,11 +71,11 @@ public class HttpErrorDetectResponseWrapper extends HttpServletResponseWrapper
     }
 
     /**
-     * HttpServletResponse#setStatus(int sc, String sm)å‘¼ã³å‡ºã—æ™‚ã€
-     * ã‚¨ãƒ©ãƒ¼ç•ªå·ã‚’å–å¾—ã—ã€ä¿æŒã™ã‚‹
+     * HttpServletResponse#setStatus(int sc, String sm)ŒÄ‚Ño‚µA
+     * ƒGƒ‰[”Ô†‚ğæ“¾‚µA•Û‚·‚é
      * 
-     * @param sc ã‚¨ãƒ©ãƒ¼ç•ªå·
-     * @param sm ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
+     * @param sc ƒGƒ‰[”Ô†
+     * @param sm ƒƒbƒZ[ƒW
      */
     @SuppressWarnings("deprecation")
     public void setStatus(int sc, String sm)
@@ -85,12 +85,12 @@ public class HttpErrorDetectResponseWrapper extends HttpServletResponseWrapper
     }
 
     /**
-     * HttpServletResponse#sendError(int sc, String msg)å‘¼ã³å‡ºã—æ™‚ã€
-     * ã‚¨ãƒ©ãƒ¼ç•ªå·ã‚’å–å¾—ã—ã€ä¿æŒã™ã‚‹
+     * HttpServletResponse#sendError(int sc, String msg)ŒÄ‚Ño‚µA
+     * ƒGƒ‰[”Ô†‚ğæ“¾‚µA•Û‚·‚é
      * 
-     * @param sc ã‚¨ãƒ©ãƒ¼ç•ªå·
-     * @param msg ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
-     * @throws IOException å…¥å‡ºåŠ›ä¾‹å¤–
+     * @param sc ƒGƒ‰[”Ô†
+     * @param msg ƒƒbƒZ[ƒW
+     * @throws IOException “üo—Í—áŠO
      */
     public void sendError(int sc, String msg)
         throws IOException
@@ -100,11 +100,11 @@ public class HttpErrorDetectResponseWrapper extends HttpServletResponseWrapper
     }
 
     /**
-     * HttpServletResponse#sendError(int sc)å‘¼ã³å‡ºã—æ™‚ã€
-     * ã‚¨ãƒ©ãƒ¼ç•ªå·ã‚’å–å¾—ã—ã€ä¿æŒã™ã‚‹
+     * HttpServletResponse#sendError(int sc)ŒÄ‚Ño‚µA
+     * ƒGƒ‰[”Ô†‚ğæ“¾‚µA•Û‚·‚é
      * 
-     * @param sc ã‚¨ãƒ©ãƒ¼ç•ªå·
-     * @throws IOException å…¥å‡ºåŠ›ä¾‹å¤–
+     * @param sc ƒGƒ‰[”Ô†
+     * @throws IOException “üo—Í—áŠO
      */
     public void sendError(int sc)
         throws IOException
@@ -114,8 +114,8 @@ public class HttpErrorDetectResponseWrapper extends HttpServletResponseWrapper
     }
 
     /**
-     * Httpãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹å®Ÿè¡Œçµæœã‚’å–å¾—
-     * @return Httpãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹å®Ÿè¡Œçµæœ
+     * HttpƒŒƒXƒ|ƒ“ƒXƒXƒe[ƒ^ƒXÀsŒ‹‰Ê‚ğæ“¾
+     * @return HttpƒŒƒXƒ|ƒ“ƒXƒXƒe[ƒ^ƒXÀsŒ‹‰Ê
      */
     public int getResultCode()
     {

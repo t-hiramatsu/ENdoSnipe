@@ -39,7 +39,7 @@ import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 
 /**
- * Javelin ãƒ­ã‚°é€šçŸ¥é›»æ–‡ã®ãŸã‚ã®ã‚¢ã‚¯ã‚»ã‚µã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+ * Javelin ƒƒO’Ê’m“d•¶‚Ì‚½‚ß‚ÌƒAƒNƒZƒTƒNƒ‰ƒX‚Å‚·B<br />
  * 
  * @author y-komori
  */
@@ -51,12 +51,12 @@ public class ConnectNotifyAccessor
 	}
 
 	/**
-	 * æ¥ç¶šæƒ…å ±é€šçŸ¥é›»æ–‡ã‹ã‚‰å†…å®¹ã‚’å–ã‚Šå‡ºã—ã¾ã™ã€‚<br />
-	 * é›»æ–‡ç¨®åˆ¥ãŒæ¥ç¶šæƒ…å ±é€šçŸ¥é€šçŸ¥é›»æ–‡ã§ã¯ãªã„å ´åˆã‚„ã€å†…å®¹ãŒä¸æ­£ã§ã‚ã‚‹å ´åˆã¯ <code>null</code> ã‚’è¿”ã—ã¾ã™ã€‚<br />
+	 * Ú‘±î•ñ’Ê’m“d•¶‚©‚ç“à—e‚ğæ‚èo‚µ‚Ü‚·B<br />
+	 * “d•¶í•Ê‚ªÚ‘±î•ñ’Ê’m’Ê’m“d•¶‚Å‚Í‚È‚¢ê‡‚âA“à—e‚ª•s³‚Å‚ ‚éê‡‚Í <code>null</code> ‚ğ•Ô‚µ‚Ü‚·B<br />
 	 * 
 	 * @param telegram
-	 *            Javelin æ¥ç¶šæƒ…å ±é€šçŸ¥é›»æ–‡
-	 * @return é›»æ–‡å†…å®¹
+	 *            Javelin Ú‘±î•ñ’Ê’m“d•¶
+	 * @return “d•¶“à—e
 	 */
 	public static ConnectNotifyData getConnectNotifyData(final Telegram telegram)
 	{
@@ -95,12 +95,12 @@ public class ConnectNotifyAccessor
 	}
 
 	/**
-	 * æ¥ç¶šæƒ…å ±é€šçŸ¥é›»æ–‡ã‹ã‚‰å†…å®¹ã‚’å–ã‚Šå‡ºã—ã¾ã™ã€‚<br />
-	 * é›»æ–‡ç¨®åˆ¥ãŒæ¥ç¶šæƒ…å ±é€šçŸ¥é€šçŸ¥é›»æ–‡ã§ã¯ãªã„å ´åˆã‚„ã€å†…å®¹ãŒä¸æ­£ã§ã‚ã‚‹å ´åˆã¯ <code>null</code> ã‚’è¿”ã—ã¾ã™ã€‚<br />
+	 * Ú‘±î•ñ’Ê’m“d•¶‚©‚ç“à—e‚ğæ‚èo‚µ‚Ü‚·B<br />
+	 * “d•¶í•Ê‚ªÚ‘±î•ñ’Ê’m’Ê’m“d•¶‚Å‚Í‚È‚¢ê‡‚âA“à—e‚ª•s³‚Å‚ ‚éê‡‚Í <code>null</code> ‚ğ•Ô‚µ‚Ü‚·B<br />
 	 * 
 	 * @param telegram
-	 *            Javelin æ¥ç¶šæƒ…å ±é€šçŸ¥é›»æ–‡
-	 * @return é›»æ–‡å†…å®¹
+	 *            Javelin Ú‘±î•ñ’Ê’m“d•¶
+	 * @return “d•¶“à—e
 	 */
 	public static Set<String> getDataBaseNameList(final Telegram telegram)
 	{
@@ -134,11 +134,11 @@ public class ConnectNotifyAccessor
 	}
 
 	/**
-	 * æ¥ç¶šæƒ…å ±é€šçŸ¥é›»æ–‡ã‚’ä½œæˆã—ã¾ã™ã€‚
+	 * Ú‘±î•ñ’Ê’m“d•¶‚ğì¬‚µ‚Ü‚·B
 	 * 
 	 * @param data
-	 *            é›»æ–‡ã«è¨­å®šã™ã‚‹å€¤
-	 * @return æ¥ç¶šæƒ…å ±é€šçŸ¥é›»æ–‡ã‚’è¿”ã—ã¾ã™ã€‚
+	 *            “d•¶‚Éİ’è‚·‚é’l
+	 * @return Ú‘±î•ñ’Ê’m“d•¶‚ğ•Ô‚µ‚Ü‚·B
 	 */
 	public static final Telegram createTelegram(ConnectNotifyData data)
 	{
@@ -150,11 +150,11 @@ public class ConnectNotifyAccessor
 	}
 
 	/**
-	 * æ¥ç¶šDBåå¢—åŠ é€šçŸ¥é›»æ–‡ã‚’ä½œæˆã—ã¾ã™ã€‚
+	 * Ú‘±DB–¼‘‰Á’Ê’m“d•¶‚ğì¬‚µ‚Ü‚·B
 	 * 
 	 * @param databaseNameList
-	 *            é›»æ–‡ã«è¨­å®šã™ã‚‹å€¤
-	 * @return æ¥ç¶šDBé€šçŸ¥é›»æ–‡ã‚’è¿”ã—ã¾ã™ã€‚
+	 *            “d•¶‚Éİ’è‚·‚é’l
+	 * @return Ú‘±DB’Ê’m“d•¶‚ğ•Ô‚µ‚Ü‚·B
 	 */
 	public static final Telegram createAddDatabaseNameTelegram(
 			Set<String> databaseNameList)
@@ -167,11 +167,11 @@ public class ConnectNotifyAccessor
 	}
 
 	/**
-	 * æ¥ç¶šDBåæ¸›å°‘é€šçŸ¥é›»æ–‡ã‚’ä½œæˆã—ã¾ã™ã€‚
+	 * Ú‘±DB–¼Œ¸­’Ê’m“d•¶‚ğì¬‚µ‚Ü‚·B
 	 * 
 	 * @param databaseNameList
-	 *            é›»æ–‡ã«è¨­å®šã™ã‚‹å€¤
-	 * @return æ¥ç¶šDBé€šçŸ¥é›»æ–‡ã‚’è¿”ã—ã¾ã™ã€‚
+	 *            “d•¶‚Éİ’è‚·‚é’l
+	 * @return Ú‘±DB’Ê’m“d•¶‚ğ•Ô‚µ‚Ü‚·B
 	 */
 	public static final Telegram createDelDatabaseNameTelegram(
 			Set<String> databaseNameList)
@@ -184,13 +184,13 @@ public class ConnectNotifyAccessor
 	}
 
 	/**
-	 * ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆåãŒ{@link TelegramConstants#OBJECTNAME_CONNECTINFO}ã§ã‚ã‚‹ {@link Body}
-	 * ã‹ã‚‰ã€{@link ConnectNotifyData}ã®å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
+	 * ƒIƒuƒWƒFƒNƒg–¼‚ª{@link TelegramConstants#OBJECTNAME_CONNECTINFO}‚Å‚ ‚é {@link Body}
+	 * ‚©‚çA{@link ConnectNotifyData}‚Ì’l‚ğæ“¾‚·‚éB
 	 * 
 	 * @param body
-	 *            å–å¾—å…ƒ
+	 *            æ“¾Œ³
 	 * @param toData
-	 *            å–å¾—ã—ãŸå€¤ã®è¨­å®šå…ˆ
+	 *            æ“¾‚µ‚½’l‚Ìİ’èæ
 	 */
 	private static void getFromConnectInfoObject(Body body,
 			ConnectNotifyData toData)
@@ -224,12 +224,12 @@ public class ConnectNotifyAccessor
 	}
 
 	/**
-	 * ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆåãŒ{@link TelegramConstants#OBJECTnAME_DATABASE_NAME}ã§ã‚ã‚‹
-	 * {@link Body}ã‹ã‚‰ã€DBåã®ä¸€è¦§ã‚’å–å¾—ã™ã‚‹ã€‚
+	 * ƒIƒuƒWƒFƒNƒg–¼‚ª{@link TelegramConstants#OBJECTnAME_DATABASE_NAME}‚Å‚ ‚é
+	 * {@link Body}‚©‚çADB–¼‚Ìˆê——‚ğæ“¾‚·‚éB
 	 * 
 	 * @param body
-	 *            å–å¾—å…ƒ
-	 * @return DBåã®ä¸€è¦§
+	 *            æ“¾Œ³
+	 * @return DB–¼‚Ìˆê——
 	 */
 	private static String getFromDatabaseNameObject(Body body)
 	{
@@ -265,9 +265,9 @@ public class ConnectNotifyAccessor
 	}
 
 	/**
-	 * æ¥ç¶šæƒ…å ±é€šçŸ¥é›»æ–‡ã®ãƒ˜ãƒƒãƒ€ã‚’ä½œæˆã—ã¾ã™ã€‚
+	 * Ú‘±î•ñ’Ê’m“d•¶‚Ìƒwƒbƒ_‚ğì¬‚µ‚Ü‚·B
 	 * 
-	 * @return æ¥ç¶šæƒ…å ±é€šçŸ¥é›»æ–‡ã®ãƒ˜ãƒƒãƒ€ã‚’è¿”ã—ã¾ã™ã€‚
+	 * @return Ú‘±î•ñ’Ê’m“d•¶‚Ìƒwƒbƒ_‚ğ•Ô‚µ‚Ü‚·B
 	 */
 	private static Header createHeader()
 	{
@@ -280,11 +280,11 @@ public class ConnectNotifyAccessor
 	}
 
 	/**
-	 * æ¥ç¶šæƒ…å ±é€šçŸ¥é›»æ–‡ã®ãƒœãƒ‡ã‚£ã‚’ä½œæˆã—ã¾ã™ã€‚
+	 * Ú‘±î•ñ’Ê’m“d•¶‚Ìƒ{ƒfƒB‚ğì¬‚µ‚Ü‚·B
 	 * 
 	 * @param data
-	 *            ãƒœãƒ‡ã‚£ã«è¨­å®šã™ã‚‹å€¤
-	 * @return æ¥ç¶šæƒ…å ±é€šçŸ¥é›»æ–‡ã®ãƒœãƒ‡ã‚£ã‚’è¿”ã—ã¾ã™ã€‚
+	 *            ƒ{ƒfƒB‚Éİ’è‚·‚é’l
+	 * @return Ú‘±î•ñ’Ê’m“d•¶‚Ìƒ{ƒfƒB‚ğ•Ô‚µ‚Ü‚·B
 	 */
 	private static Body[] createBodys(ConnectNotifyData data)
 	{
@@ -323,9 +323,9 @@ public class ConnectNotifyAccessor
 	}
 
 	/**
-	 * æ¥ç¶šDBåæƒ…å ±å¢—åŠ é€šçŸ¥é›»æ–‡ã®ãƒ˜ãƒƒãƒ€ã‚’ä½œæˆã—ã¾ã™ã€‚
+	 * Ú‘±DB–¼î•ñ‘‰Á’Ê’m“d•¶‚Ìƒwƒbƒ_‚ğì¬‚µ‚Ü‚·B
 	 * 
-	 * @return æ¥ç¶šDBåæƒ…å ±é€šçŸ¥é›»æ–‡ã®ãƒ˜ãƒƒãƒ€ã‚’è¿”ã—ã¾ã™ã€‚
+	 * @return Ú‘±DB–¼î•ñ’Ê’m“d•¶‚Ìƒwƒbƒ_‚ğ•Ô‚µ‚Ü‚·B
 	 */
 	private static Header createAddDatabaseNameHeader()
 	{
@@ -338,9 +338,9 @@ public class ConnectNotifyAccessor
 	}
 
 	/**
-	 * æ¥ç¶šDBåæƒ…å ±é€šçŸ¥æ¸›å°‘é›»æ–‡ã®ãƒ˜ãƒƒãƒ€ã‚’ä½œæˆã—ã¾ã™ã€‚
+	 * Ú‘±DB–¼î•ñ’Ê’mŒ¸­“d•¶‚Ìƒwƒbƒ_‚ğì¬‚µ‚Ü‚·B
 	 * 
-	 * @return æ¥ç¶šDBåæƒ…å ±é€šçŸ¥é›»æ–‡ã®ãƒ˜ãƒƒãƒ€ã‚’è¿”ã—ã¾ã™ã€‚
+	 * @return Ú‘±DB–¼î•ñ’Ê’m“d•¶‚Ìƒwƒbƒ_‚ğ•Ô‚µ‚Ü‚·B
 	 */
 	private static Header createDelDatabaseNameHeader()
 	{
@@ -353,11 +353,11 @@ public class ConnectNotifyAccessor
 	}
 
 	/**
-	 * æ¥ç¶šDBåæƒ…å ±é€šçŸ¥é›»æ–‡ã®ãƒœãƒ‡ã‚£ã‚’ä½œæˆã—ã¾ã™ã€‚
+	 * Ú‘±DB–¼î•ñ’Ê’m“d•¶‚Ìƒ{ƒfƒB‚ğì¬‚µ‚Ü‚·B
 	 * 
 	 * @param data
-	 *            ãƒœãƒ‡ã‚£ã«è¨­å®šã™ã‚‹å€¤
-	 * @return æ¥ç¶šDBåæƒ…å ±é€šçŸ¥é›»æ–‡ã®ãƒœãƒ‡ã‚£ã‚’è¿”ã—ã¾ã™ã€‚
+	 *            ƒ{ƒfƒB‚Éİ’è‚·‚é’l
+	 * @return Ú‘±DB–¼î•ñ’Ê’m“d•¶‚Ìƒ{ƒfƒB‚ğ•Ô‚µ‚Ü‚·B
 	 */
 	private static Body[] createDatabaseNameBodys(Set<String> databaseNameList)
 	{
@@ -383,11 +383,11 @@ public class ConnectNotifyAccessor
 	}
 
 	/**
-	 * é›»æ–‡ãŒæ¥ç¶šæƒ…å ±é€šçŸ¥ã§ã‚ã‚‹ã‹ã‚’ç¢ºèªã—ã¾ã™ã€‚
+	 * “d•¶‚ªÚ‘±î•ñ’Ê’m‚Å‚ ‚é‚©‚ğŠm”F‚µ‚Ü‚·B
 	 * 
 	 * @param telegram
-	 *            ç¢ºèªå¯¾è±¡ã®é›»æ–‡
-	 * @return æŒ‡å®šã•ã‚ŒãŸé›»æ–‡ãŒæ¥ç¶šé€šçŸ¥æƒ…å ±ã§ã‚ã‚Œã°<code>true</code>ã‚’è¿”ã—ã¾ã™ã€‚
+	 *            Šm”F‘ÎÛ‚Ì“d•¶
+	 * @return w’è‚³‚ê‚½“d•¶‚ªÚ‘±’Ê’mî•ñ‚Å‚ ‚ê‚Î<code>true</code>‚ğ•Ô‚µ‚Ü‚·B
 	 */
 	private static boolean isConnectNotifyTelegram(final Telegram telegram)
 	{
@@ -401,11 +401,11 @@ public class ConnectNotifyAccessor
 	}
 
 	/**
-	 * é›»æ–‡ãŒDBåã®å¢—æ¸›æƒ…å ±é€šçŸ¥ã§ã‚ã‚‹ã‹ã‚’ç¢ºèªã—ã¾ã™ã€‚
+	 * “d•¶‚ªDB–¼‚Ì‘Œ¸î•ñ’Ê’m‚Å‚ ‚é‚©‚ğŠm”F‚µ‚Ü‚·B
 	 * 
 	 * @param telegram
-	 *            ç¢ºèªå¯¾è±¡ã®é›»æ–‡
-	 * @return æŒ‡å®šã•ã‚ŒãŸé›»æ–‡ãŒDBåã®å¢—æ¸›é€šçŸ¥æƒ…å ±ã§ã‚ã‚Œã°<code>true</code>ã‚’è¿”ã—ã¾ã™ã€‚
+	 *            Šm”F‘ÎÛ‚Ì“d•¶
+	 * @return w’è‚³‚ê‚½“d•¶‚ªDB–¼‚Ì‘Œ¸’Ê’mî•ñ‚Å‚ ‚ê‚Î<code>true</code>‚ğ•Ô‚µ‚Ü‚·B
 	 */
 	private static boolean isDatabaseNameTelegram(final Telegram telegram)
 	{
@@ -421,14 +421,14 @@ public class ConnectNotifyAccessor
 	}
 
 	/**
-	 * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã¨ã‚·ãƒ¼ã‚±ãƒ³ã‚¹ç•ªå·ã‹ã‚‰ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆåã‚’ç”Ÿæˆã™ã‚‹ã€‚
+	 * ƒf[ƒ^ƒx[ƒX–¼‚ÆƒV[ƒPƒ“ƒX”Ô†‚©‚çƒG[ƒWƒFƒ“ƒg–¼‚ğ¶¬‚·‚éB
 	 * 
 	 * @param databaseName
-	 *            ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+	 *            ƒf[ƒ^ƒx[ƒX–¼
 	 * @param sequenceNo
-	 *            ã‚·ãƒ¼ã‚±ãƒ³ã‚¹ç•ªå·
+	 *            ƒV[ƒPƒ“ƒX”Ô†
 	 * 
-	 * @return ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆåï¼ˆãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å + "_" + ã‚·ãƒ¼ã‚±ãƒ³ã‚¹ç•ªå·)
+	 * @return ƒG[ƒWƒFƒ“ƒg–¼iƒf[ƒ^ƒx[ƒX–¼ + "_" + ƒV[ƒPƒ“ƒX”Ô†)
 	 */
 	public static String createAgentName(String databaseName, int sequenceNo)
 	{
@@ -442,11 +442,11 @@ public class ConnectNotifyAccessor
 	}
 
 	/**
-	 * ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆåã‚’ç”Ÿæˆã™ã‚‹ãŸã‚ã«ã€ã‚·ãƒ¼ã‚±ãƒ³ã‚¹ç•ªå·ã‚’ï¼“æ¡ã®ï¼åŸ‹ã‚ã«å¤‰æ›ã™ã‚‹ã€‚
+	 * ƒG[ƒWƒFƒ“ƒg–¼‚ğ¶¬‚·‚é‚½‚ß‚ÉAƒV[ƒPƒ“ƒX”Ô†‚ğ‚RŒ…‚Ì‚O–„‚ß‚É•ÏŠ·‚·‚éB
 	 * 
 	 * @param number
-	 *            ã‚·ãƒ¼ã‚±ãƒ³ã‚¹ç•ªå·
-	 * @return å¤‰æ›ã—ãŸã‚·ãƒ¼ã‚±ãƒ³ã‚¹ç•ªå·
+	 *            ƒV[ƒPƒ“ƒX”Ô†
+	 * @return •ÏŠ·‚µ‚½ƒV[ƒPƒ“ƒX”Ô†
 	 */
 	private static String createNumberString(int number)
 	{

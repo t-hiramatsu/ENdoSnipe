@@ -39,149 +39,147 @@ import jp.co.acroquest.endosnipe.report.util.ReporterConfigAccessor;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * Commons Poolã®ã‚µã‚¤ã‚ºã®ãƒ¬ãƒãƒ¼ãƒˆã‚’ç”Ÿæˆã™ã‚‹ãƒ¬ãƒãƒ¼ãƒˆãƒ—ãƒ­ã‚»ãƒƒã‚µã€‚
+ * Commons Pool‚ÌƒTƒCƒY‚ÌƒŒƒ|[ƒg‚ğ¶¬‚·‚éƒŒƒ|[ƒgƒvƒƒZƒbƒTB
  * 
  * @author iida
  */
 public class ServerPoolReportProcessor extends ReportPublishProcessorBase
 {
-	/** ãƒ­ã‚¬ãƒ¼ */
-	private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
-		.getLogger(ServerPoolReportProcessor.class);
+    /** ƒƒK[ */
+    private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(
+            ServerPoolReportProcessor.class);
 
-	/**
-	 * ReportProcessorã‚’ç”Ÿæˆã™ã‚‹ã€‚<br>
-	 * 
-	 * @param type
-	 *            ãƒ¬ãƒãƒ¼ãƒˆç¨®åˆ¥
-	 */
-	public ServerPoolReportProcessor(ReportType type)
-	{
-		super(type);
-	}
+    /**
+     * ReportProcessor‚ğ¶¬‚·‚éB<br>
+     * 
+     * @param type
+     *            ƒŒƒ|[ƒgí•Ê
+     */
+    public ServerPoolReportProcessor(ReportType type)
+    {
+        super(type);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @param reportContainer
-	 */
-	@Override
-	protected Object getReportPlotData(ReportSearchCondition cond,
-		ReportProcessReturnContainer reportContainer)
-	{
-		// æ¤œç´¢æ¡ä»¶ã‚’å–å¾—ã™ã‚‹ã€‚
-		String database = cond.getDatabases().get(0);
-		Timestamp startTime = cond.getStartDate();
-		Timestamp endTime = cond.getEndDate();
+    /**
+     * {@inheritDoc}
+     * 
+     * @param reportContainer
+     */
+    @Override
+    protected Object getReportPlotData(ReportSearchCondition cond,
+            ReportProcessReturnContainer reportContainer)
+    {
+        // ŒŸõğŒ‚ğæ“¾‚·‚éB
+        String database = cond.getDatabases().get(0);
+        Timestamp startTime = cond.getStartDate();
+        Timestamp endTime = cond.getEndDate();
 
-		// DBã‹ã‚‰ãƒ‡ãƒ¼ã‚¿ã‚’æ¤œç´¢ã™ã‚‹ã€‚
-		List<ItemData> commonsPoolSizeData = null;
-		try
-		{
-			commonsPoolSizeData = GraphItemAccessUtil.findItemData(database,
-				Constants.ITEMNAME_POOL_SIZE, CompressOperator.SIMPLE_AVERAGE, startTime, endTime);
-		}
-		catch (SQLException ex)
-		{
-			LOGGER.log(LogIdConstants.EXCEPTION_IN_READING, ex,
-				ReporterConfigAccessor.getReportName(getReportType()));
-			return null;
-		}
+        // DB‚©‚çƒf[ƒ^‚ğŒŸõ‚·‚éB
+        List<ItemData> commonsPoolSizeData = null;
+        try
+        {
+            commonsPoolSizeData = GraphItemAccessUtil.findItemData(
+                    database, Constants.ITEMNAME_POOL_SIZE,
+                    CompressOperator.SIMPLE_AVERAGE, startTime, endTime);
+        }
+        catch (SQLException ex)
+        {
+            LOGGER.log(LogIdConstants.EXCEPTION_IN_READING, ex,
+                    ReporterConfigAccessor.getReportName(getReportType()));
+            return null;
+        }
 
-		return commonsPoolSizeData;
-	}
+        return commonsPoolSizeData;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @param reportContainer
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	protected Object convertPlotData(Object rawData, ReportSearchCondition cond,
-		ReportProcessReturnContainer reportContainer)
-	{
-		// ãƒ‡ãƒ¼ã‚¿å¤‰æ›ã¯ç‰¹ã«è¡Œã„ã¾ã›ã‚“ã€‚
-		return rawData;
-	}
+    /**
+     * {@inheritDoc}
+     * 
+     * @param reportContainer
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    protected Object convertPlotData(Object rawData,
+            ReportSearchCondition cond,
+            ReportProcessReturnContainer reportContainer)
+    {
+        // ƒf[ƒ^•ÏŠ·‚Í“Á‚És‚¢‚Ü‚¹‚ñB
+        return rawData;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @param cond
-	 * @param reportContainer
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	protected void outputReport(Object plotData, ReportSearchCondition cond,
-		ReportProcessReturnContainer reportContainer)
-	{
-		List<ItemData> commonsPoolSizeData = (List<ItemData>) plotData;
+    /**
+     * {@inheritDoc}
+     * 
+     * @param cond
+     * @param reportContainer
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    protected void outputReport(Object plotData, ReportSearchCondition cond,
+            ReportProcessReturnContainer reportContainer)
+    {
+        List<ItemData> commonsPoolSizeData = (List<ItemData>) plotData;
+        
+        // €–Ú–¼‚ª"Max:ConnectionPoolImpl@56ff3d","Num:ConnectionPoolImpl@56ff3d"‚Æ‚È‚Á‚Ä‚¢‚é‚Ì‚ÅA
+        // ":"‚ÌŒã‚ª“™‚µ‚¢‚à‚Ì‚ğ‚Ü‚Æ‚ßA“¯ˆê‚ÌƒOƒ‰ƒt‚Éo—Í‚·‚éB
+        Map<String, List<ServerPoolRecord>> serverPoolRecordMap = new HashMap<String, List<ServerPoolRecord>>();
+        for (ItemData itemData : commonsPoolSizeData) {
+            String[] itemName = StringUtils.split(itemData.getItemName(), ":");
+            if (!serverPoolRecordMap.containsKey(itemName[1])) {
+                List<ServerPoolRecord> serverPoolRecords = new ArrayList<ServerPoolRecord>(200);
+                for (ItemRecord itemRecord : itemData.getRecords()) {
+                    ServerPoolRecord serverPoolRecord = new ServerPoolRecord();
+                    serverPoolRecord.setMeasurementTime(itemRecord.getMeasurementTime());
+                    serverPoolRecords.add(serverPoolRecord);
+                }
+                serverPoolRecordMap.put(itemName[1], serverPoolRecords);
+            }
+            for (int index = 0; index < itemData.getRecords().size(); index++) {
+                ItemRecord itemRecord = itemData.getRecords().get(index);
+                ServerPoolRecord serverPoolRecord = serverPoolRecordMap.get(itemName[1]).get(index);
+                if ("Max".equals(itemName[0])) {
+                    serverPoolRecord.setServerPoolMax(itemRecord.getValue());
+                } else if ("Num".equals(itemName[0])) {
+                    serverPoolRecord.setServerPoolNum(itemRecord.getValue());
+                }
+            }
+        }
 
-		// é …ç›®åãŒ"Max:ConnectionPoolImpl@56ff3d","Num:ConnectionPoolImpl@56ff3d"ã¨ãªã£ã¦ã„ã‚‹ã®ã§ã€
-		// ":"ã®å¾ŒãŒç­‰ã—ã„ã‚‚ã®ã‚’ã¾ã¨ã‚ã€åŒä¸€ã®ã‚°ãƒ©ãƒ•ã«å‡ºåŠ›ã™ã‚‹ã€‚
-		Map<String, List<ServerPoolRecord>> serverPoolRecordMap = new HashMap<String, List<ServerPoolRecord>>();
-		for (ItemData itemData : commonsPoolSizeData)
-		{
-			String[] itemName = StringUtils.split(itemData.getItemName(), ":");
-			if (!serverPoolRecordMap.containsKey(itemName[1]))
-			{
-				List<ServerPoolRecord> serverPoolRecords = new ArrayList<ServerPoolRecord>(200);
-				for (ItemRecord itemRecord : itemData.getRecords())
-				{
-					ServerPoolRecord serverPoolRecord = new ServerPoolRecord();
-					serverPoolRecord.setMeasurementTime(itemRecord.getMeasurementTime());
-					serverPoolRecords.add(serverPoolRecord);
-				}
-				serverPoolRecordMap.put(itemName[1], serverPoolRecords);
-			}
-			for (int index = 0; index < itemData.getRecords().size(); index++)
-			{
-				ItemRecord itemRecord = itemData.getRecords().get(index);
-				ServerPoolRecord serverPoolRecord = serverPoolRecordMap.get(itemName[1]).get(index);
-				if ("Max".equals(itemName[0]))
-				{
-					serverPoolRecord.setServerPoolMax((long) itemRecord.getValue());
-				}
-				else if ("Num".equals(itemName[0]))
-				{
-					serverPoolRecord.setServerPoolNum((long) itemRecord.getValue());
-				}
-			}
-		}
+        // o—Í‚·‚éƒŒƒ|[ƒg‚Ìí—Ş‚É‰‚¶‚ÄAƒeƒ“ƒvƒŒ[ƒg‚Ìƒtƒ@ƒCƒ‹ƒpƒX‚ğæ“¾‚·‚éB
+        String templateFilePath;
+        try
+        {
+            templateFilePath = TemplateFileManager.getInstance()
+                    .getTemplateFile(ReportType.SERVER_POOL);
+        }
+        catch (IOException exception)
+        {
+            reportContainer.setHappendedError(exception);
+            return;
+        }
 
-		// å‡ºåŠ›ã™ã‚‹ãƒ¬ãƒãƒ¼ãƒˆã®ç¨®é¡ã«å¿œã˜ã¦ã€ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã®ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã‚’å–å¾—ã™ã‚‹ã€‚
-		String templateFilePath;
-		try
-		{
-			templateFilePath = TemplateFileManager.getInstance().getTemplateFile(
-				ReportType.SERVER_POOL);
-		}
-		catch (IOException exception)
-		{
-			reportContainer.setHappendedError(exception);
-			return;
-		}
+        // ƒŒƒ|[ƒgo—Í‚Ìˆø”î•ñ‚ğæ“¾‚·‚éB
+        String outputFolderPath = getOutputFolderName()
+                + File.separator
+                + ReporterConfigAccessor.getProperty(super.getReportType()
+                        .getId()
+                        + ".outputFile");
+        Timestamp startTime = cond.getStartDate();
+        Timestamp endTime = cond.getEndDate();
 
-		// ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã®å¼•æ•°æƒ…å ±ã‚’å–å¾—ã™ã‚‹ã€‚
-		String outputFolderPath = getOutputFolderName() + File.separator
-			+ ReporterConfigAccessor.getProperty(super.getReportType().getId() + ".outputFile");
-		Timestamp startTime = cond.getStartDate();
-		Timestamp endTime = cond.getEndDate();
-
-		// ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã‚’å®Ÿè¡Œã™ã‚‹ã€‚
-		RecordReporter<ServerPoolRecord> reporter = new RecordReporter<ServerPoolRecord>(
-			getReportType());
-
-		for (Map.Entry<String, List<ServerPoolRecord>> serverPoolRecordEntry : serverPoolRecordMap
-			.entrySet())
-		{
-			ServerPoolRecord[] records = serverPoolRecordEntry.getValue().toArray(
-				new ServerPoolRecord[] {});
-			String itemName = serverPoolRecordEntry.getKey();
-			String[] graphTitles = { "Commons Poolã®ã‚µã‚¤ã‚ºï¼ˆ" + itemName + "ï¼‰" };
-			reporter.outputReport(templateFilePath, outputFolderPath, itemName, graphTitles,
-				records, startTime, endTime);
-		}
-	}
+        // ƒŒƒ|[ƒgo—Í‚ğÀs‚·‚éB
+        RecordReporter<ServerPoolRecord> reporter = new RecordReporter<ServerPoolRecord>(
+                getReportType());
+        
+        for (Map.Entry<String, List<ServerPoolRecord>> serverPoolRecordEntry : serverPoolRecordMap.entrySet())
+        {
+            ServerPoolRecord[] records = serverPoolRecordEntry.getValue().toArray(
+                    new ServerPoolRecord[] {});
+            String itemName = serverPoolRecordEntry.getKey();
+            String[] graphTitles =
+            { "Commons Pool‚ÌƒTƒCƒYi" + itemName + "j" };
+            reporter.outputReport(templateFilePath, outputFolderPath, itemName,
+                    graphTitles, records, startTime, endTime);
+        }
+    }
 }

@@ -37,16 +37,16 @@ import jp.co.acroquest.endosnipe.javelin.util.StatsUtil;
 import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
 
 /**
- * ã‚³ãƒ¼ãƒ«ãƒ„ãƒªãƒ¼ã‚’è¨˜éŒ²ã—ã¾ã™ã€‚
+ * ƒR[ƒ‹ƒcƒŠ[‚ğ‹L˜^‚µ‚Ü‚·B
  *
  * @author eriguchi
  */
 public class CallTreeRecorder
 {
-    /** ã‚¹ãƒ¬ãƒƒãƒ‰IDãŒã‚»ãƒƒãƒˆã•ã‚Œã¦ã„ãªã„ã“ã¨ã‚’è¡¨ã™å€¤ã€‚ */
+    /** ƒXƒŒƒbƒhID‚ªƒZƒbƒg‚³‚ê‚Ä‚¢‚È‚¢‚±‚Æ‚ğ•\‚·’lB */
     private static final long THREAD_ID_NOT_SET = -1;
 
-    /** ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ */
+    /** ƒCƒ“ƒXƒ^ƒ“ƒX */
     private static ThreadLocal<CallTreeRecorder> recorder__ = new ThreadLocal<CallTreeRecorder>() {
         @Override
         protected synchronized CallTreeRecorder initialValue()
@@ -55,51 +55,51 @@ public class CallTreeRecorder
         }
     };
 
-    /** CallTreeNodeã‚’ã‚¹ãƒ¬ãƒƒãƒ‰æ¯ã«æ ¼ç´ã™ã‚‹ãƒãƒƒãƒ—ã€‚ */
+    /** CallTreeNode‚ğƒXƒŒƒbƒh–ˆ‚ÉŠi”[‚·‚éƒ}ƒbƒvB */
     private static Map<Long, WeakReference<CallTreeNode>> currentNodeMap__ =
             new ConcurrentHashMap<Long, WeakReference<CallTreeNode>>();
 
     /**
-     * ãƒ¡ã‚½ãƒƒã‚³ãƒ¼ãƒ«ãƒ„ãƒªãƒ¼ã®è¨˜éŒ²ç”¨ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚<br />
-     * ã“ã“ã§ <code>new {@link CallTree}()</code> ã¨ã—ãªã„ã“ã¨ã€‚
-     * {@link CallTree} ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿å†…ã§ã€ {@link ThreadLocal} ã®åˆæœŸåŒ–å‡¦ç†ãŒè¡Œã‚ã‚Œã¦ãŠã‚Šã€
-     * æ­£ã—ãåˆæœŸåŒ–ã•ã‚Œãªã„ã“ã¨ãŒã‚ã‚‹ãŸã‚ã€‚
+     * ƒƒ\ƒbƒR[ƒ‹ƒcƒŠ[‚Ì‹L˜^—pƒIƒuƒWƒFƒNƒgB<br />
+     * ‚±‚±‚Å <code>new {@link CallTree}()</code> ‚Æ‚µ‚È‚¢‚±‚ÆB
+     * {@link CallTree} ‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^“à‚ÅA {@link ThreadLocal} ‚Ì‰Šú‰»ˆ—‚ªs‚í‚ê‚Ä‚¨‚èA
+     * ³‚µ‚­‰Šú‰»‚³‚ê‚È‚¢‚±‚Æ‚ª‚ ‚é‚½‚ßB
      */
     private CallTree callTree_ = null;
 
     /**
-     * ãƒ¡ã‚½ãƒƒãƒ‰ã®å‘¼ã³å‡ºã—å…ƒã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚
+     * ƒƒ\ƒbƒh‚ÌŒÄ‚Ño‚µŒ³ƒIƒuƒWƒFƒNƒgB
      */
     private CallTreeNode callerNode_ =  null;
 
-    /** ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—ã®æ·±ã• */
+    /** ƒƒ\ƒbƒhŒÄ‚Ño‚µ‚Ì[‚³ */
     private int depth_ = 0;
 
-    /** ãƒ¬ã‚³ãƒ¼ãƒ‰ãƒ¡ã‚½ãƒƒãƒ‰ãŒå‘¼ã³å‡ºã•ã‚ŒãŸã‹ */
+    /** ƒŒƒR[ƒhƒƒ\ƒbƒh‚ªŒÄ‚Ño‚³‚ê‚½‚© */
     boolean isRecordMethodCalled_;
 
-    /** ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸã‹ */
+    /** —áŠO‚ª”­¶‚µ‚½‚© */
     boolean isExceptionOccured_;
 
     /**
-     * ã‚¹ãƒ¬ãƒƒãƒ‰ID ã€‚<br />
-     * ã“ã“ã§ <code>{@link ThreadUtil}.getThreadId()</code> ã¨ã—ãªã„ã“ã¨ã€‚
-     * {@link ThreadUtil}.getThreadId() å†…ã§ã€ {@link ThreadLocal} ã®åˆæœŸåŒ–å‡¦ç†ãŒè¡Œã‚ã‚Œã¦ãŠã‚Šã€
-     * æ­£ã—ãåˆæœŸåŒ–ã•ã‚Œãªã„ã“ã¨ãŒã‚ã‚‹ãŸã‚ã€‚
+     * ƒXƒŒƒbƒhID B<br />
+     * ‚±‚±‚Å <code>{@link ThreadUtil}.getThreadId()</code> ‚Æ‚µ‚È‚¢‚±‚ÆB
+     * {@link ThreadUtil}.getThreadId() “à‚ÅA {@link ThreadLocal} ‚Ì‰Šú‰»ˆ—‚ªs‚í‚ê‚Ä‚¨‚èA
+     * ³‚µ‚­‰Šú‰»‚³‚ê‚È‚¢‚±‚Æ‚ª‚ ‚é‚½‚ßB
      */
     private long threadId_ = THREAD_ID_NOT_SET;
 
     /**
-     * å‹æ‰‹ãªã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã‚’ç¦ã˜ã‚‹ãŸã‚ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§ã™ã€‚
+     * Ÿè‚ÈƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğ‹Ö‚¶‚é‚½‚ß‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Å‚·B
      */
     protected CallTreeRecorder()
     {
-        // ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã‚’ç¦ã˜ã‚‹ã€‚
+        // ƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğ‹Ö‚¶‚éB
     }
 
     /**
-     * ã‚¹ãƒ¬ãƒƒãƒ‰ã”ã¨ã®CallTreeReocrderã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return CallTreeRecorderã€€
+     * ƒXƒŒƒbƒh‚²‚Æ‚ÌCallTreeReocrder‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚·‚éB
+     * @return CallTreeRecorder@
      */
     public static CallTreeRecorder getInstance()
     {
@@ -108,7 +108,7 @@ public class CallTreeRecorder
 
 
     /**
-     * ä¿å­˜ã—ã¦ã„ãŸCallTreeNodeã‚’ã‚¯ãƒªã‚¢ã—ã¾ã™ã€‚<br />
+     * •Û‘¶‚µ‚Ä‚¢‚½CallTreeNode‚ğƒNƒŠƒA‚µ‚Ü‚·B<br />
      */
     public static void clearNode()
     {
@@ -131,10 +131,10 @@ public class CallTreeRecorder
     }
 
     /**
-     * å¼•æ•°ã§æŒ‡å®šã•ã‚ŒãŸã‚¹ãƒ¬ãƒƒãƒ‰IDã«å¯¾å¿œã™ã‚‹CallTreeNode ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * ˆø”‚Åw’è‚³‚ê‚½ƒXƒŒƒbƒhID‚É‘Î‰‚·‚éCallTreeNode ‚ğæ“¾‚µ‚Ü‚·B<br />
      *
-     * @param id ã‚¹ãƒ¬ãƒƒãƒ‰ID
-     * @return {@link CallTreeNode}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param id ƒXƒŒƒbƒhID
+     * @return {@link CallTreeNode}ƒIƒuƒWƒFƒNƒg
      */
     public static CallTreeNode getNode(final Long id)
     {
@@ -149,9 +149,9 @@ public class CallTreeRecorder
     }
 
     /**
-     * CallTreeã‚’å–å¾—ã—ã¾ã™ã€‚
+     * CallTree‚ğæ“¾‚µ‚Ü‚·B
      *
-     * @return CallTreeã€‚
+     * @return CallTreeB
      */
     public CallTree getCallTree()
     {
@@ -163,9 +163,9 @@ public class CallTreeRecorder
     }
 
     /**
-     * CallTreeNodeã‚’å–å¾—ã—ã¾ã™ã€‚
+     * CallTreeNode‚ğæ“¾‚µ‚Ü‚·B
      *
-     * @return CallTreeã€‚
+     * @return CallTreeB
      */
     public CallTreeNode getCallTreeNode()
     {
@@ -173,7 +173,7 @@ public class CallTreeRecorder
     }
 
     /**
-     * CallTreeã‚’ã‚¯ãƒªã‚¢ã—ã€æ–°ã—ã„ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’è¨­å®šã—ã¾ã™ã€‚
+     * CallTree‚ğƒNƒŠƒA‚µAV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğİ’è‚µ‚Ü‚·B
      */
     public void clearCallTree()
     {
@@ -184,7 +184,7 @@ public class CallTreeRecorder
     }
 
     /**
-     * CallTreeNodeã‚’ã‚¯ãƒªã‚¢ã—ã¾ã™ã€‚
+     * CallTreeNode‚ğƒNƒŠƒA‚µ‚Ü‚·B
      */
     public void clearCallerNode()
     {
@@ -194,9 +194,9 @@ public class CallTreeRecorder
     }
 
     /**
-     * CallTreeNodeã‚’è¨­å®šã—ã¾ã™ã€‚
+     * CallTreeNode‚ğİ’è‚µ‚Ü‚·B
      *
-     * @param node CallTreeNodeã€‚
+     * @param node CallTreeNodeB
      */
     public void setCallerNode(final CallTreeNode node)
     {
@@ -209,15 +209,15 @@ public class CallTreeRecorder
         }
         else
         {
-            // Mapã«æ ¼ç´ã™ã‚‹ã€‚
+            // Map‚ÉŠi”[‚·‚éB
             currentNodeMap__.put(threadId, new WeakReference<CallTreeNode>(node));
         }
     }
 
     /**
-     * ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—ãƒ„ãƒªãƒ¼ã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
+     * ƒƒ\ƒbƒhŒÄ‚Ño‚µƒcƒŠ[‚ğ‰Šú‰»‚·‚éB
      *
-     * @param callTree ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—ãƒ„ãƒªãƒ¼ï¼ˆ <code>null</code> ã¯éè¨±å®¹ï¼‰
+     * @param callTree ƒƒ\ƒbƒhŒÄ‚Ño‚µƒcƒŠ[i <code>null</code> ‚Í”ñ‹–—ej
      */
     public void setCallTree(final CallTree callTree)
     {
@@ -225,7 +225,7 @@ public class CallTreeRecorder
     }
 
     /**
-     * ç¾åœ¨ã®å‘¼ã³å‡ºã—å…ƒCallTreeNodeã®å­ãƒãƒ¼ãƒ‰ã‚’å‰Šé™¤ã™ã‚‹ã€‚
+     * Œ»İ‚ÌŒÄ‚Ño‚µŒ³CallTreeNode‚Ìqƒm[ƒh‚ğíœ‚·‚éB
      */
     public void clearChildren()
     {
@@ -237,11 +237,11 @@ public class CallTreeRecorder
     }
 
     /**
-     * CallTreeã®ã‚µã‚¤ã‚ºãŒæœ€å¤§å€¤ã«é”ã—ã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’åˆ¤å®šã—ã¾ã™ã€‚<br />
+     * CallTree‚ÌƒTƒCƒY‚ªÅ‘å’l‚É’B‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ”»’è‚µ‚Ü‚·B<br />
      *
-     * @param callTree ã‚³ãƒ¼ãƒ«ãƒ„ãƒªãƒ¼
-     * @param config Javelin.propetiesã®è¨­å®šå€¤
-     * @return CallTreeã®ã‚µã‚¤ã‚ºãŒJavelin.propertiesã«è¨­å®šã—ã¦ã„ãŸå€¤ã‚’è¶…ãˆã¦ã„ã‚‹ãªã‚‰ã€<code>true</code>
+     * @param callTree ƒR[ƒ‹ƒcƒŠ[
+     * @param config Javelin.propeties‚Ìİ’è’l
+     * @return CallTree‚ÌƒTƒCƒY‚ªJavelin.properties‚Éİ’è‚µ‚Ä‚¢‚½’l‚ğ’´‚¦‚Ä‚¢‚é‚È‚çA<code>true</code>
      */
     public static boolean isCallTreeFull(CallTree callTree, JavelinConfig config)
     {
@@ -249,12 +249,12 @@ public class CallTreeRecorder
     }
 
     /**
-     * CallTreeNodeã‚’è¿½åŠ ã—ã¾ã™ã€‚
+     * CallTreeNode‚ğ’Ç‰Á‚µ‚Ü‚·B
      *
-     * @param parent è¦ªãƒãƒ¼ãƒ‰ã€‚
-     * @param tree ã‚³ãƒ¼ãƒ«ãƒ„ãƒªãƒ¼ã€‚
-     * @param node å­ãƒãƒ¼ãƒ‰ã€‚
-     * @param config è¨­å®šã€‚
+     * @param parent eƒm[ƒhB
+     * @param tree ƒR[ƒ‹ƒcƒŠ[B
+     * @param node qƒm[ƒhB
+     * @param config İ’èB
      */
     public static void addCallTreeNode(CallTreeNode parent, 
             final CallTree tree, final CallTreeNode node, final JavelinConfig config)
@@ -267,13 +267,13 @@ public class CallTreeRecorder
     }
 
     /**
-     * CallTreeNodeã‚’ç”Ÿæˆã—ã¾ã™ã€‚
+     * CallTreeNode‚ğ¶¬‚µ‚Ü‚·B
      *
-     * @param invocation Invocationã€‚
-     * @param args å¼•æ•°ã€‚
-     * @param stacktrace ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã€‚
-     * @param config è¨­å®šã€‚
-     * @return CallTreeNodeã€‚
+     * @param invocation InvocationB
+     * @param args ˆø”B
+     * @param stacktrace ƒXƒ^ƒbƒNƒgƒŒ[ƒXB
+     * @param config İ’èB
+     * @return CallTreeNodeB
      */
     public static CallTreeNode createNode(
             Invocation invocation,
@@ -285,7 +285,7 @@ public class CallTreeRecorder
 
         node.setStacktrace(stacktrace);
 
-        // ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿è¨­å®šãŒè¡Œã‚ã‚Œã¦ã„ã‚‹ã¨ãã€ãƒãƒ¼ãƒ‰ã«ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’è¨­å®šã™ã‚‹
+        // ƒpƒ‰ƒ[ƒ^İ’è‚ªs‚í‚ê‚Ä‚¢‚é‚Æ‚«Aƒm[ƒh‚Éƒpƒ‰ƒ[ƒ^‚ğİ’è‚·‚é
         if (args != null)
         {
             CallTreeRecorder.addLogArgs(node, args, config);
@@ -297,10 +297,10 @@ public class CallTreeRecorder
     }
 
     /**
-     * ãƒ­ã‚°ã«å¼•æ•°ã‚’è¿½åŠ ã—ã¾ã™ã€‚
-     * @param node ãƒãƒ¼ãƒ‰
-     * @param args å¼•æ•°
-     * @param config ã‚³ãƒ³ãƒ•ã‚£ã‚°
+     * ƒƒO‚Éˆø”‚ğ’Ç‰Á‚µ‚Ü‚·B
+     * @param node ƒm[ƒh
+     * @param args ˆø”
+     * @param config ƒRƒ“ƒtƒBƒO
      */
     public static void addLogArgs(
             final CallTreeNode node,
@@ -327,9 +327,9 @@ public class CallTreeRecorder
     }
 
     /**
-     * æ—¢ã«çµ‚äº†ã—ãŸCallTreeNodeã‚’å–å¾—ã™ã‚‹ã€‚
+     * Šù‚ÉI—¹‚µ‚½CallTreeNode‚ğæ“¾‚·‚éB
      *
-     * @return æ—¢ã«çµ‚äº†ã—ãŸCallTreeNodeã®ãƒªã‚¹ãƒˆã€‚
+     * @return Šù‚ÉI—¹‚µ‚½CallTreeNode‚ÌƒŠƒXƒgB
      */
     public List<CallTreeNode> removeFinishedNode()
     {
@@ -343,10 +343,10 @@ public class CallTreeRecorder
     }
 
     /**
-     * æŒ‡å®šã—ãŸCallTreeNodeã®å­ãŒçµ‚äº†ã—ã¦ã„ã‚Œã°å‰Šé™¤ã—ã€å‰Šé™¤ã—ãŸCallTreeNodeã¯ãƒªã‚¹ãƒˆã«æ ¼ç´ã™ã‚‹ã€‚
+     * w’è‚µ‚½CallTreeNode‚Ìq‚ªI—¹‚µ‚Ä‚¢‚ê‚Îíœ‚µAíœ‚µ‚½CallTreeNode‚ÍƒŠƒXƒg‚ÉŠi”[‚·‚éB
      *
-     * @param list å‰Šé™¤ã—ãŸCallTreeNodeã®ãƒªã‚¹ãƒˆã€‚
-     * @param node æ“ä½œå¯¾è±¡ã®CallTreeNodeã€‚
+     * @param list íœ‚µ‚½CallTreeNode‚ÌƒŠƒXƒgB
+     * @param node ‘€ì‘ÎÛ‚ÌCallTreeNodeB
      */
     private static void removeFinishedNodeInternal(List<CallTreeNode> list, CallTreeNode node)
     {
@@ -368,9 +368,9 @@ public class CallTreeRecorder
     }
 
     /**
-     * æ·±ã•ã‚’å–å¾—ã™ã‚‹ã€‚
+     * [‚³‚ğæ“¾‚·‚éB
      *
-     * @return æ·±ã•
+     * @return [‚³
      */
     public int getDepth()
     {
@@ -378,9 +378,9 @@ public class CallTreeRecorder
     }
 
     /**
-     * æ·±ã•ã‚’è¨­å®šã™ã‚‹ã€‚
+     * [‚³‚ğİ’è‚·‚éB
      *
-     * @param depth æ·±ã•
+     * @param depth [‚³
      */
     public void setDepth(int depth)
     {
@@ -388,8 +388,8 @@ public class CallTreeRecorder
     }
 
     /**
-     * ãƒ¬ã‚³ãƒ¼ãƒ‰ãƒ¡ã‚½ãƒƒãƒ‰ãŒå‘¼ã³å‡ºã•ã‚ŒãŸã‹ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ãƒ¬ã‚³ãƒ¼ãƒ‰ãƒ¡ã‚½ãƒƒãƒ‰ãŒå‘¼ã³å‡ºã•ã‚ŒãŸã‹
+     * ƒŒƒR[ƒhƒƒ\ƒbƒh‚ªŒÄ‚Ño‚³‚ê‚½‚©‚ğæ“¾‚·‚éB
+     * @return ƒŒƒR[ƒhƒƒ\ƒbƒh‚ªŒÄ‚Ño‚³‚ê‚½‚©
      */
     public boolean isRecordMethodCalled()
     {
@@ -397,8 +397,8 @@ public class CallTreeRecorder
     }
 
     /**
-     * ãƒ¬ã‚³ãƒ¼ãƒ‰ãƒ¡ã‚½ãƒƒãƒ‰ãŒå‘¼ã³å‡ºã•ã‚ŒãŸã‹ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @param isRecordMethodCalled ãƒ¬ã‚³ãƒ¼ãƒ‰ãƒ¡ã‚½ãƒƒãƒ‰ãŒå‘¼ã³å‡ºã•ã‚ŒãŸã‹
+     * ƒŒƒR[ƒhƒƒ\ƒbƒh‚ªŒÄ‚Ño‚³‚ê‚½‚©‚ğæ“¾‚·‚éB
+     * @param isRecordMethodCalled ƒŒƒR[ƒhƒƒ\ƒbƒh‚ªŒÄ‚Ño‚³‚ê‚½‚©
      */
     public void setRecordMethodCalled(boolean isRecordMethodCalled)
     {
@@ -406,9 +406,9 @@ public class CallTreeRecorder
     }
 
     /**
-     * ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸã‹ã‚’å–å¾—ã™ã‚‹ã€‚
+     * —áŠO‚ª”­¶‚µ‚½‚©‚ğæ“¾‚·‚éB
      *
-     * @return ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸã‹
+     * @return —áŠO‚ª”­¶‚µ‚½‚©
      */
     public boolean isExceptionOccured()
     {
@@ -416,9 +416,9 @@ public class CallTreeRecorder
     }
 
     /**
-     * ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸã‹ã‚’å–å¾—ã™ã‚‹ã€‚
+     * —áŠO‚ª”­¶‚µ‚½‚©‚ğæ“¾‚·‚éB
      *
-     * @param isExceptionOccured ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸã‹
+     * @param isExceptionOccured —áŠO‚ª”­¶‚µ‚½‚©
      */
     public void setExceptionOccured(boolean isExceptionOccured)
     {
@@ -426,9 +426,9 @@ public class CallTreeRecorder
     }
 
     /**
-     * ã‚¹ãƒ¬ãƒƒãƒ‰IDã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒXƒŒƒbƒhID‚ğæ“¾‚·‚éB
      *
-     * @return ã‚¹ãƒ¬ãƒƒãƒ‰ID
+     * @return ƒXƒŒƒbƒhID
      */
     public long getThreadId()
     {
@@ -440,10 +440,10 @@ public class CallTreeRecorder
     }
 
     /**
-     * å­ãƒãƒ¼ãƒ‰ã‚’å‰Šé™¤ã™ã‚‹ã€‚
+     * qƒm[ƒh‚ğíœ‚·‚éB
      *
-     * @param parent è¦ªãƒãƒ¼ãƒ‰
-     * @param node å­ãƒãƒ¼ãƒ‰
+     * @param parent eƒm[ƒh
+     * @param node qƒm[ƒh
      */
     public void removeChildNode(CallTreeNode parent, CallTreeNode node)
     {

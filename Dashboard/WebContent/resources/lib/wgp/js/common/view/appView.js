@@ -107,7 +107,6 @@ wgp.AppView = Backbone.View
 			},
 			_updateCollectionData : function(updateCollection, dataList) {
 				var ins = this;
-				var initFlag = false;
 				_.each(dataList, function(updateData, modelId) {
 					// create Model
 					updateData.id = modelId;
@@ -117,10 +116,6 @@ wgp.AppView = Backbone.View
 					// Add Event
 					if (type == wgp.constants.CHANGE_TYPE.ADD) {
 						ins._add(updateCollection, updateData);
-						if(!initFlag && window.rangeAreaView){
-							window.rangeAreaView.graphRangeController.setDate(new Date());
-							initFlag = true;
-						}
 					} else if (type == wgp.constants.CHANGE_TYPE.UPDATE) {
 						ins._update(updateCollection, updateData);
 					} else if (type == wgp.constants.CHANGE_TYPE.DELETE) {

@@ -26,7 +26,7 @@
 package jp.co.acroquest.endosnipe.common.util;
 
 /**
- * æ–‡å­—åˆ—ã‚’ç½®æ›ã™ã‚‹ãŸã‚ã®ã‚¯ãƒ©ã‚¹ã‚’ç”Ÿæˆã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚</br>
+ * •¶š—ñ‚ğ’uŠ·‚·‚é‚½‚ß‚ÌƒNƒ‰ƒX‚ğ¶¬‚·‚éƒNƒ‰ƒXB</br>
  * 
  * @author tsukano
  */
@@ -38,9 +38,9 @@ public class KeywordConverterFactory
     }
 
     /**
-     * Prefixã€Suffixãªã—ã§ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã‚’ãã®ã¾ã¾ç½®æ›ã™ã‚‹ã‚¯ãƒ©ã‚¹ã‚’ç”Ÿæˆã™ã‚‹ã€‚</br>
+     * PrefixASuffix‚È‚µ‚ÅƒL[ƒ[ƒh‚ğ‚»‚Ì‚Ü‚Ü’uŠ·‚·‚éƒNƒ‰ƒX‚ğ¶¬‚·‚éB</br>
      * 
-     * @return ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ç½®æ›ã‚¯ãƒ©ã‚¹
+     * @return ƒL[ƒ[ƒh’uŠ·ƒNƒ‰ƒX
      */
     public static KeywordConverter createSimpleConverter()
     {
@@ -48,9 +48,9 @@ public class KeywordConverterFactory
     }
 
     /**
-     * {keyword}å½¢å¼ã®ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã‚’ç½®æ›ã™ã‚‹ã‚¯ãƒ©ã‚¹ã‚’ç”Ÿæˆã™ã‚‹ã€‚</br>
+     * {keyword}Œ`®‚ÌƒL[ƒ[ƒh‚ğ’uŠ·‚·‚éƒNƒ‰ƒX‚ğ¶¬‚·‚éB</br>
      * 
-     * @return ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ç½®æ›ã‚¯ãƒ©ã‚¹
+     * @return ƒL[ƒ[ƒh’uŠ·ƒNƒ‰ƒX
      */
     public static KeywordConverter createBraceConverter()
     {
@@ -58,9 +58,9 @@ public class KeywordConverterFactory
     }
 
     /**
-     * ${keyword}å½¢å¼ã®ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã‚’ç½®æ›ã™ã‚‹ã‚¯ãƒ©ã‚¹ã‚’ç”Ÿæˆã™ã‚‹ã€‚</br>
+     * ${keyword}Œ`®‚ÌƒL[ƒ[ƒh‚ğ’uŠ·‚·‚éƒNƒ‰ƒX‚ğ¶¬‚·‚éB</br>
      * 
-     * @return ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ç½®æ›ã‚¯ãƒ©ã‚¹
+     * @return ƒL[ƒ[ƒh’uŠ·ƒNƒ‰ƒX
      */
     public static KeywordConverter createDollarBraceConverter()
     {
@@ -68,9 +68,9 @@ public class KeywordConverterFactory
     }
 
     /**
-     * [keyword]å½¢å¼ã®ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã‚’ç½®æ›ã™ã‚‹ã‚¯ãƒ©ã‚¹ã‚’ç”Ÿæˆã™ã‚‹ã€‚</br>
+     * [keyword]Œ`®‚ÌƒL[ƒ[ƒh‚ğ’uŠ·‚·‚éƒNƒ‰ƒX‚ğ¶¬‚·‚éB</br>
      * 
-     * @return ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ç½®æ›ã‚¯ãƒ©ã‚¹
+     * @return ƒL[ƒ[ƒh’uŠ·ƒNƒ‰ƒX
      */
     public static KeywordConverter createBracketConverter()
     {
@@ -78,9 +78,9 @@ public class KeywordConverterFactory
     }
 
     /**
-     * $[keyword]å½¢å¼ã®ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã‚’ç½®æ›ã™ã‚‹ã‚¯ãƒ©ã‚¹ã‚’ç”Ÿæˆã™ã‚‹ã€‚</br>
+     * $[keyword]Œ`®‚ÌƒL[ƒ[ƒh‚ğ’uŠ·‚·‚éƒNƒ‰ƒX‚ğ¶¬‚·‚éB</br>
      * 
-     * @return ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ç½®æ›ã‚¯ãƒ©ã‚¹
+     * @return ƒL[ƒ[ƒh’uŠ·ƒNƒ‰ƒX
      */
     public static KeywordConverter createDollarBracketConverter()
     {
@@ -88,9 +88,9 @@ public class KeywordConverterFactory
     }
 
     /**
-     * 'keyword'å½¢å¼ã®ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã‚’ç½®æ›ã™ã‚‹ã‚¯ãƒ©ã‚¹ã‚’ç”Ÿæˆã™ã‚‹ã€‚</br>
+     * 'keyword'Œ`®‚ÌƒL[ƒ[ƒh‚ğ’uŠ·‚·‚éƒNƒ‰ƒX‚ğ¶¬‚·‚éB</br>
      * 
-     * @return ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ç½®æ›ã‚¯ãƒ©ã‚¹
+     * @return ƒL[ƒ[ƒh’uŠ·ƒNƒ‰ƒX
      */
     public static KeywordConverter createSingleQouteConverter()
     {
@@ -98,9 +98,9 @@ public class KeywordConverterFactory
     }
 
     /**
-     * "keyword"å½¢å¼ã®ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã‚’ç½®æ›ã™ã‚‹ã‚¯ãƒ©ã‚¹ã‚’ç”Ÿæˆã™ã‚‹ã€‚</br>
+     * "keyword"Œ`®‚ÌƒL[ƒ[ƒh‚ğ’uŠ·‚·‚éƒNƒ‰ƒX‚ğ¶¬‚·‚éB</br>
      * 
-     * @return ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ç½®æ›ã‚¯ãƒ©ã‚¹
+     * @return ƒL[ƒ[ƒh’uŠ·ƒNƒ‰ƒX
      */
     public static KeywordConverter createDoubleQouteConverter()
     {

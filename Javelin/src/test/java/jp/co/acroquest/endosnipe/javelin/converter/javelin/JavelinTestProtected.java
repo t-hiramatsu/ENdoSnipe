@@ -26,7 +26,7 @@
 package jp.co.acroquest.endosnipe.javelin.converter.javelin;
 
 /**
- * protected繝｡繧ｽ繝�繝峨�ｮ縺ｿ謖√▽繧ｯ繝ｩ繧ｹ
+ * protectedメソッドのみ持つクラス
  * @author fujii
  *
  */

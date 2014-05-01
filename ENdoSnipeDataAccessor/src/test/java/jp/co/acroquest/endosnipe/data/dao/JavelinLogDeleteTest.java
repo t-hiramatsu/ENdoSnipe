@@ -55,11 +55,11 @@ public class JavelinLogDeleteTest extends AbstractDaoTest
     
     public void testDeleteOldRecord1()
     {
-        // æ¡ä»¶
-        // --> DBç™»éŒ²æ¸ˆã¿ãƒ‡ãƒ¼ã‚¿
+        // ğŒ
+        // --> DB“o˜^Ï‚İƒf[ƒ^
         DataAccessorTestUtil.initializeJavelinLogTable(JAVELIN_LOG_DATA);
         
-        // å®Ÿæ–½
+        // À{
         try
         {
             SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -75,7 +75,7 @@ public class JavelinLogDeleteTest extends AbstractDaoTest
             fail(ex1.getMessage());
         }
         
-        // æ¤œè¨¼
+        // ŒŸØ
         List<Object> actualList = new ArrayList<Object>();
         try
         {
@@ -98,11 +98,11 @@ public class JavelinLogDeleteTest extends AbstractDaoTest
 
     public void testDeleteOldRecord2()
     {
-        // æ¡ä»¶
-        // --> DBç™»éŒ²æ¸ˆã¿ãƒ‡ãƒ¼ã‚¿
+        // ğŒ
+        // --> DB“o˜^Ï‚İƒf[ƒ^
         DataAccessorTestUtil.initializeJavelinLogTable(JAVELIN_LOG_DATA);
         
-        // å®Ÿæ–½
+        // À{
         try
         {
             SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -118,7 +118,7 @@ public class JavelinLogDeleteTest extends AbstractDaoTest
             fail(ex1.getMessage());
         }
         
-        // æ¤œè¨¼
+        // ŒŸØ
         List<Object> actualList = new ArrayList<Object>();
         try
         {
@@ -137,10 +137,10 @@ public class JavelinLogDeleteTest extends AbstractDaoTest
 
     public void testDeleteOldRecord3()
     {
-        // æ¡ä»¶
-        // --> DBç™»éŒ²æ¸ˆã¿ãƒ‡ãƒ¼ã‚¿
+        // ğŒ
+        // --> DB“o˜^Ï‚İƒf[ƒ^
         
-        // å®Ÿæ–½
+        // À{
         try
         {
             SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -156,7 +156,7 @@ public class JavelinLogDeleteTest extends AbstractDaoTest
             fail(ex1.getMessage());
         }
         
-        // æ¤œè¨¼
+        // ŒŸØ
         List<Object> actualList = new ArrayList<Object>();
         try
         {
@@ -172,11 +172,11 @@ public class JavelinLogDeleteTest extends AbstractDaoTest
 
     public void testDeleteAll1()
     {
-        // æ¡ä»¶
-        // --> DBç™»éŒ²æ¸ˆã¿ãƒ‡ãƒ¼ã‚¿
+        // ğŒ
+        // --> DB“o˜^Ï‚İƒf[ƒ^
         DataAccessorTestUtil.initializeJavelinLogTable(JAVELIN_LOG_DATA);
         
-        // å®Ÿæ–½
+        // À{
         try
         {
             JavelinLogDao.deleteAll(DB_NAME);
@@ -186,7 +186,7 @@ public class JavelinLogDeleteTest extends AbstractDaoTest
             fail(ex1.getMessage());
         }
         
-        // æ¤œè¨¼
+        // ŒŸØ
         List<Object> actualList = new ArrayList<Object>();
         try
         {
@@ -202,9 +202,9 @@ public class JavelinLogDeleteTest extends AbstractDaoTest
 
     public void testDeleteAll2()
     {
-        // æ¡ä»¶
+        // ğŒ
         
-        // å®Ÿæ–½
+        // À{
         try
         {
             JavelinLogDao.deleteAll(DB_NAME);
@@ -214,7 +214,7 @@ public class JavelinLogDeleteTest extends AbstractDaoTest
             fail(ex1.getMessage());
         }
         
-        // æ¤œè¨¼
+        // ŒŸØ
         List<Object> actualList = new ArrayList<Object>();
         try
         {

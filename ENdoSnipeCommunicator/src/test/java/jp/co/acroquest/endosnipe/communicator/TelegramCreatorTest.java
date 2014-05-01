@@ -42,7 +42,7 @@ import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.util.TelegramAssertionUtil;
 
 /**
- * TelegramCreatorã®è©¦é¨“ã‚¯ãƒ©ã‚¹ã§ã™ã€‚
+ * TelegramCreator‚ÌŒ±ƒNƒ‰ƒX‚Å‚·B
  * 
  * @author eriguchi
  */
@@ -83,41 +83,41 @@ public class TelegramCreatorTest extends DJUnitTestCase
     }
 
     /**
-     * @test JVNãƒ­ã‚°é›»æ–‡-è¦æ±‚é›»æ–‡:ãƒ­ã‚°å˜æ•°(é …ç›®:3-1-1)
-     * @condition requestKindãŒ1ã€jvnFileNamesãŒå˜æ•°("test1.jvn")
-     * @result JVNãƒ­ã‚°ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰è¦æ±‚é›»æ–‡ãŒå–å¾—ã§ãã‚‹ã“ã¨ã€‚
-     *         è¨­å®šã•ã‚Œã¦ã„ã‚‹ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«åãŒå˜æ•°ã§ã‚ã‚‹ã“ã¨ã€‚
+     * @test JVNƒƒO“d•¶-—v‹“d•¶:ƒƒO’P”(€–Ú:3-1-1)
+     * @condition requestKind‚ª1AjvnFileNames‚ª’P”("test1.jvn")
+     * @result JVNƒƒOƒ_ƒEƒ“ƒ[ƒh—v‹“d•¶‚ªæ“¾‚Å‚«‚é‚±‚ÆB
+     *         İ’è‚³‚ê‚Ä‚¢‚éƒƒOƒtƒ@ƒCƒ‹–¼‚ª’P”‚Å‚ ‚é‚±‚ÆB
      */
     public void testCreateJvnLogTelegram_Unit()
     {
-        // æº–å‚™
+        // €”õ
         byte requestKind = BYTE_REQUEST_KIND_REQUEST;
         List<String> jvnFileNames = new ArrayList<String>();
         jvnFileNames.add("test1.jvn");
 
-        // æœŸå¾…å€¤
+        // Šú‘Ò’l
         Object[] expectedFileContents = new Object[]{JVN_FILE_CONTENTS_SINGLE};
         Object[] expectedJvnFileNames = jvnFileNames.toArray();
 
-        // å®Ÿæ–½
+        // À{
         Telegram telegram = TelegramCreator.createJvnLogTelegram(requestKind, jvnFileNames);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         TelegramAssertionUtil.assertJvnLogDownloadTelegram(BYTE_REQUEST_KIND_REQUEST,
                                                            expectedFileContents,
                                                            expectedJvnFileNames, telegram);
     }
 
     /**
-     * @test è¦JVNãƒ­ã‚°é›»æ–‡-æ±‚é›»æ–‡:ãƒ­ã‚°è¤‡æ•°(é …ç›®:3-1-2)
-     * @condition requestKindãŒ1
-     *            jvnFileNamesãŒè¤‡æ•°("test1.jvn","test2.jvn","test3.jvn","test4.jvn","test5.jvn")
-     * @result JVNãƒ­ã‚°ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰è¦æ±‚é›»æ–‡ãŒå–å¾—ã§ãã‚‹ã“ã¨ã€‚
-     *         è¨­å®šã•ã‚Œã¦ã„ã‚‹ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«åãŒå˜æ•°ã§ã‚ã‚‹ã“ã¨ã€‚
+     * @test —vJVNƒƒO“d•¶-‹“d•¶:ƒƒO•¡”(€–Ú:3-1-2)
+     * @condition requestKind‚ª1
+     *            jvnFileNames‚ª•¡”("test1.jvn","test2.jvn","test3.jvn","test4.jvn","test5.jvn")
+     * @result JVNƒƒOƒ_ƒEƒ“ƒ[ƒh—v‹“d•¶‚ªæ“¾‚Å‚«‚é‚±‚ÆB
+     *         İ’è‚³‚ê‚Ä‚¢‚éƒƒOƒtƒ@ƒCƒ‹–¼‚ª’P”‚Å‚ ‚é‚±‚ÆB
      */
     public void testCreateJvnLogTelegram_Multi()
     {
-        // æº–å‚™
+        // €”õ
         byte requestKind = BYTE_REQUEST_KIND_REQUEST;
         List<String> jvnFileNames = new ArrayList<String>();
         jvnFileNames.add("test1.jvn");
@@ -126,29 +126,29 @@ public class TelegramCreatorTest extends DJUnitTestCase
         jvnFileNames.add("test4.jvn");
         jvnFileNames.add("test5.jvn");
 
-        // æœŸå¾…å€¤
+        // Šú‘Ò’l
         Object[] expectedFileContents = new Object[]{JVN_FILE_CONTENTS_SINGLE};
         Object[] expectedJvnFileNames = jvnFileNames.toArray();
 
-        // å®Ÿæ–½
+        // À{
         Telegram telegram = TelegramCreator.createJvnLogTelegram(requestKind, jvnFileNames);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         TelegramAssertionUtil.assertJvnLogDownloadTelegram(BYTE_REQUEST_KIND_REQUEST,
                                                            expectedFileContents,
                                                            expectedJvnFileNames, telegram);
     }
 
     /**
-     * @test JVNãƒ­ã‚°é›»æ–‡-å¿œç­”é›»æ–‡:ãƒ­ã‚°å˜æ•°ï¼å®Ÿä½“ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿æŒ‡å®šnull(é …ç›®:3-1-3)
-     * @condition requestKindãŒ2ã€jvnFileNamesãŒå˜æ•°("test1.jvn")
-     * @result JVNãƒ­ã‚°ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰å¿œç­”é›»æ–‡ãŒå–å¾—ã§ãã‚‹ã“ã¨ã€‚
-     *         è¨­å®šã•ã‚Œã¦ã„ã‚‹ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«åãŒå˜æ•°ã§ã‚ã‚‹ã“ã¨ã€‚
-     *         è¨­å®šã•ã‚Œã¦ã„ã‚‹ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«å†…å®¹ãŒãƒ­ãƒ¼ã‚«ãƒ«ã«é…ç½®ã—ã¦ã„ãŸJavelinãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã®å†…å®¹ã¨ç­‰ã—ã„ã“ã¨ã€‚
+     * @test JVNƒƒO“d•¶-‰“š“d•¶:ƒƒO’P”^À‘Ìƒpƒ‰ƒ[ƒ^w’ènull(€–Ú:3-1-3)
+     * @condition requestKind‚ª2AjvnFileNames‚ª’P”("test1.jvn")
+     * @result JVNƒƒOƒ_ƒEƒ“ƒ[ƒh‰“š“d•¶‚ªæ“¾‚Å‚«‚é‚±‚ÆB
+     *         İ’è‚³‚ê‚Ä‚¢‚éƒƒOƒtƒ@ƒCƒ‹–¼‚ª’P”‚Å‚ ‚é‚±‚ÆB
+     *         İ’è‚³‚ê‚Ä‚¢‚éƒƒOƒtƒ@ƒCƒ‹“à—e‚ªƒ[ƒJƒ‹‚É”z’u‚µ‚Ä‚¢‚½JavelinƒƒOƒtƒ@ƒCƒ‹‚Ì“à—e‚Æ“™‚µ‚¢‚±‚ÆB
      */
     public void testCreateJvnLogDownloadTelegram_Unit()
     {
-        // æº–å‚™
+        // €”õ
         String name = "TelegramCreatorTest_Unit.jvn";
         byte requestKind = BYTE_REQUEST_KIND_RESPONSE;
         Object[] jvnFileNames = new Object[]{name};
@@ -157,174 +157,174 @@ public class TelegramCreatorTest extends DJUnitTestCase
         Object[] expectedFileContents = new Object[]{JVN_FILE_CONTENTS_SINGLE};
         Object[] expectedJvnFileNames = jvnFileNames;
 
-        // å®Ÿæ–½
+        // À{
         Telegram telegram =
                 TelegramCreator.createJvnLogDownloadTelegram(requestKind, jvnFileNames,
                                                              jvnFileContents, 0, null);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         TelegramAssertionUtil.assertJvnLogDownloadTelegram(BYTE_REQUEST_KIND_RESPONSE,
                                                            expectedFileContents,
                                                            expectedJvnFileNames, telegram);
     }
 
     /**
-     * @test JVNãƒ­ã‚°é›»æ–‡-å¿œç­”é›»æ–‡:ãƒ­ã‚°å˜æ•°(é …ç›®:3-1-4)
-     * @condition requestKindãŒ2ã€jvnFileNamesãŒè¤‡æ•°(5ä»¶)
-     * @result JVNãƒ­ã‚°ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰å¿œç­”é›»æ–‡ãŒå–å¾—ã§ãã‚‹ã“ã¨ã€‚
-     *         è¨­å®šã•ã‚Œã¦ã„ã‚‹ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«åãŒè¤‡æ•°ã§ã‚ã‚‹ã“ã¨ã€‚
-     *         è¨­å®šã•ã‚Œã¦ã„ã‚‹ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«å†…å®¹ãŒãƒ­ãƒ¼ã‚«ãƒ«ã«é…ç½®ã—ã¦ã„ãŸJavelinãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã®å†…å®¹ã¨ç­‰ã—ã„ã“ã¨ã€‚
+     * @test JVNƒƒO“d•¶-‰“š“d•¶:ƒƒO’P”(€–Ú:3-1-4)
+     * @condition requestKind‚ª2AjvnFileNames‚ª•¡”(5Œ)
+     * @result JVNƒƒOƒ_ƒEƒ“ƒ[ƒh‰“š“d•¶‚ªæ“¾‚Å‚«‚é‚±‚ÆB
+     *         İ’è‚³‚ê‚Ä‚¢‚éƒƒOƒtƒ@ƒCƒ‹–¼‚ª•¡”‚Å‚ ‚é‚±‚ÆB
+     *         İ’è‚³‚ê‚Ä‚¢‚éƒƒOƒtƒ@ƒCƒ‹“à—e‚ªƒ[ƒJƒ‹‚É”z’u‚µ‚Ä‚¢‚½JavelinƒƒOƒtƒ@ƒCƒ‹‚Ì“à—e‚Æ“™‚µ‚¢‚±‚ÆB
      */
     public void testCreateJvnLogDownloadTelegram_Multi_ContentNull()
     {
-        // æº–å‚™
+        // €”õ
         byte requestKind = BYTE_REQUEST_KIND_RESPONSE;
         Object[] jvnFileNames = JVN_FILE_NAMES_MULTI;
         Object[] jvnFileContents = null;
 
-        // æœŸå¾…å€¤
+        // Šú‘Ò’l
         Object[] expectedFileContents = JVN_FILE_CONTENTS_MULTI;
         Object[] expectedJvnFileNames = jvnFileNames;
 
-        // å®Ÿæ–½
+        // À{
         Telegram telegram =
                 TelegramCreator.createJvnLogDownloadTelegram(requestKind, jvnFileNames,
                                                              jvnFileContents, 0, null);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         TelegramAssertionUtil.assertJvnLogDownloadTelegram(BYTE_REQUEST_KIND_RESPONSE,
                                                            expectedFileContents,
                                                            expectedJvnFileNames, telegram);
     }
 
     /**
-     * @test JVNãƒ­ã‚°é›»æ–‡-å¿œç­”é›»æ–‡:ãƒ­ã‚°å˜æ•°(é …ç›®:3-1-5)
-     * @condition requestKindãŒ2ã€jvnFileNamesãŒå˜æ•°(1ä»¶), jvnFileContentsã‚‚å˜æ•°(1ä»¶)
-     * @result JVNãƒ­ã‚°ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰å¿œç­”é›»æ–‡ãŒå–å¾—ã§ãã‚‹ã“ã¨ã€‚
-     *         è¨­å®šã•ã‚Œã¦ã„ã‚‹ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«åãŒå˜æ•°ã§ã‚ã‚‹ã“ã¨ã€‚
-     *         è¨­å®šã•ã‚Œã¦ã„ã‚‹ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«å†…å®¹ãŒã®å†…å®¹ã¨ç­‰ã—ã„ã“ã¨ã€‚
+     * @test JVNƒƒO“d•¶-‰“š“d•¶:ƒƒO’P”(€–Ú:3-1-5)
+     * @condition requestKind‚ª2AjvnFileNames‚ª’P”(1Œ), jvnFileContents‚à’P”(1Œ)
+     * @result JVNƒƒOƒ_ƒEƒ“ƒ[ƒh‰“š“d•¶‚ªæ“¾‚Å‚«‚é‚±‚ÆB
+     *         İ’è‚³‚ê‚Ä‚¢‚éƒƒOƒtƒ@ƒCƒ‹–¼‚ª’P”‚Å‚ ‚é‚±‚ÆB
+     *         İ’è‚³‚ê‚Ä‚¢‚éƒƒOƒtƒ@ƒCƒ‹“à—e‚ª‚Ì“à—e‚Æ“™‚µ‚¢‚±‚ÆB
      */
     public void testCreateJvnLogDownloadTelegram_Single_AllContentNotNull()
     {
-        // æº–å‚™
+        // €”õ
         byte requestKind = BYTE_REQUEST_KIND_RESPONSE;
         Object[] jvnFileNames = new Object[]{JVN_FILE_NAMES_SINGLE};
         Object[] jvnFileContents = new Object[]{JVN_FILE_CONTENTS_SINGLE};
 
-        // æœŸå¾…å€¤
+        // Šú‘Ò’l
         Object[] expectedFileContents = jvnFileContents;
         Object[] expectedJvnFileNames = jvnFileNames;
 
-        // å®Ÿæ–½
+        // À{
         Telegram telegram =
                 TelegramCreator.createJvnLogDownloadTelegram(requestKind, jvnFileNames,
                                                              jvnFileContents, 0, null);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         TelegramAssertionUtil.assertJvnLogDownloadTelegram(BYTE_REQUEST_KIND_RESPONSE,
                                                            expectedFileContents,
                                                            expectedJvnFileNames, telegram);
     }
 
     /**
-     * @test JVNãƒ­ã‚°é›»æ–‡-å¿œç­”é›»æ–‡:ãƒ­ã‚°å˜æ•°(é …ç›®:3-1-6)
-     * @condition requestKindãŒ2ã€jvnFileNamesãŒè¤‡æ•°(5ä»¶), jvnFileContentsã‚‚è¤‡æ•°(5ä»¶)
-     * @result JVNãƒ­ã‚°ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰å¿œç­”é›»æ–‡ãŒå–å¾—ã§ãã‚‹ã“ã¨ã€‚
-     *         è¨­å®šã•ã‚Œã¦ã„ã‚‹ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«åãŒè¤‡æ•°ã§ã‚ã‚‹ã“ã¨ã€‚
-     *         è¨­å®šã•ã‚Œã¦ã„ã‚‹ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«å†…å®¹ãŒã®å†…å®¹ã¨ç­‰ã—ã„ã“ã¨ã€‚
+     * @test JVNƒƒO“d•¶-‰“š“d•¶:ƒƒO’P”(€–Ú:3-1-6)
+     * @condition requestKind‚ª2AjvnFileNames‚ª•¡”(5Œ), jvnFileContents‚à•¡”(5Œ)
+     * @result JVNƒƒOƒ_ƒEƒ“ƒ[ƒh‰“š“d•¶‚ªæ“¾‚Å‚«‚é‚±‚ÆB
+     *         İ’è‚³‚ê‚Ä‚¢‚éƒƒOƒtƒ@ƒCƒ‹–¼‚ª•¡”‚Å‚ ‚é‚±‚ÆB
+     *         İ’è‚³‚ê‚Ä‚¢‚éƒƒOƒtƒ@ƒCƒ‹“à—e‚ª‚Ì“à—e‚Æ“™‚µ‚¢‚±‚ÆB
      */
     public void testCreateJvnLogDownloadTelegram_Multi_AllContentNotNull()
     {
-        // æº–å‚™
+        // €”õ
         byte requestKind = BYTE_REQUEST_KIND_RESPONSE;
         Object[] jvnFileNames = JVN_FILE_NAMES_MULTI;
         Object[] jvnFileContents = JVN_FILE_CONTENTS_MULTI;
 
-        // æœŸå¾…å€¤
+        // Šú‘Ò’l
         Object[] expectedFileContents = jvnFileContents;
         Object[] expectedJvnFileNames = jvnFileNames;
 
-        // å®Ÿæ–½
+        // À{
         Telegram telegram =
                 TelegramCreator.createJvnLogDownloadTelegram(requestKind, jvnFileNames,
                                                              jvnFileContents, 0, null);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         TelegramAssertionUtil.assertJvnLogDownloadTelegram(BYTE_REQUEST_KIND_RESPONSE,
                                                            expectedFileContents,
                                                            expectedJvnFileNames, telegram);
     }
 
     /**
-     * @test JVNãƒ­ã‚°é›»æ–‡-å¿œç­”é›»æ–‡:ãƒ­ã‚°å˜æ•°(é …ç›®:3-1-7)
-     * @condition requestKindãŒ2ã€jvnFileNamesãŒè¤‡æ•°(5ä»¶), jvnFileContentsã‚‚è¤‡æ•°(5ä»¶)
-     * @result JVNãƒ­ã‚°ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰å¿œç­”é›»æ–‡ãŒå–å¾—ã§ãã‚‹ã“ã¨ã€‚
-     *         è¨­å®šã•ã‚Œã¦ã„ã‚‹ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«åãŒè¤‡æ•°ã§ã‚ã‚‹ã“ã¨ã€‚
-     *         è¨­å®šã•ã‚Œã¦ã„ã‚‹ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«å†…å®¹ã®å†…å®¹ã¨ç­‰ã—ã„ã“ã¨ã€‚
+     * @test JVNƒƒO“d•¶-‰“š“d•¶:ƒƒO’P”(€–Ú:3-1-7)
+     * @condition requestKind‚ª2AjvnFileNames‚ª•¡”(5Œ), jvnFileContents‚à•¡”(5Œ)
+     * @result JVNƒƒOƒ_ƒEƒ“ƒ[ƒh‰“š“d•¶‚ªæ“¾‚Å‚«‚é‚±‚ÆB
+     *         İ’è‚³‚ê‚Ä‚¢‚éƒƒOƒtƒ@ƒCƒ‹–¼‚ª•¡”‚Å‚ ‚é‚±‚ÆB
+     *         İ’è‚³‚ê‚Ä‚¢‚éƒƒOƒtƒ@ƒCƒ‹“à—e‚Ì“à—e‚Æ“™‚µ‚¢‚±‚ÆB
      */
     public void testCreateJvnLogDownloadTelegram_Multi_OneContentNotNull()
     {
-        // æº–å‚™
+        // €”õ
         byte requestKind = BYTE_REQUEST_KIND_RESPONSE;
         Object[] jvnFileNames = JVN_FILE_NAMES_MULTI;
         Object[] jvnFileContents = JVN_FILE_CONTENTS_ONE_CONTENT_NOT_NULL;
 
-        // æœŸå¾…å€¤
+        // Šú‘Ò’l
         Object[] expectedJvnFileNames = jvnFileNames;
         Object[] expectedFileContents =
                 new Object[]{"memContents0", "fileContents1", "memContents2", "memContents3",
                         "memContents4"};
 
-        // å®Ÿæ–½
+        // À{
         Telegram telegram =
                 TelegramCreator.createJvnLogDownloadTelegram(requestKind, jvnFileNames,
                                                              jvnFileContents, 0, null);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         TelegramAssertionUtil.assertJvnLogDownloadTelegram(BYTE_REQUEST_KIND_RESPONSE,
                                                            expectedFileContents,
                                                            expectedJvnFileNames, telegram);
     }
 
     /**
-     * @test JVNãƒ­ã‚°é›»æ–‡-å¿œç­”é›»æ–‡:ãƒ­ã‚°å˜æ•°(é …ç›®:3-1-8)
-     * @condition requestKindãŒ2ã€jvnFileNamesãŒå˜æ•°ã‹ã¤å­˜åœ¨ã—ãªã„ãƒ•ã‚¡ã‚¤ãƒ«, jvnFileContentsãŒnull
-     * @result JVNãƒ­ã‚°ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰å¿œç­”é›»æ–‡ãŒå–å¾—ã§ãã‚‹ã“ã¨ã€‚
-     *         è¨­å®šã•ã‚Œã¦ã„ã‚‹ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«åãŒå˜æ•°ã§ã‚ã‚‹ã“ã¨ã€‚
-     *         è¨­å®šã•ã‚Œã¦ã„ã‚‹ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«å†…å®¹ãŒ""ã§ã‚ã‚‹ã“ã¨ã€‚
+     * @test JVNƒƒO“d•¶-‰“š“d•¶:ƒƒO’P”(€–Ú:3-1-8)
+     * @condition requestKind‚ª2AjvnFileNames‚ª’P”‚©‚Â‘¶İ‚µ‚È‚¢ƒtƒ@ƒCƒ‹, jvnFileContents‚ªnull
+     * @result JVNƒƒOƒ_ƒEƒ“ƒ[ƒh‰“š“d•¶‚ªæ“¾‚Å‚«‚é‚±‚ÆB
+     *         İ’è‚³‚ê‚Ä‚¢‚éƒƒOƒtƒ@ƒCƒ‹–¼‚ª’P”‚Å‚ ‚é‚±‚ÆB
+     *         İ’è‚³‚ê‚Ä‚¢‚éƒƒOƒtƒ@ƒCƒ‹“à—e‚ª""‚Å‚ ‚é‚±‚ÆB
      */
     public void testCreateJvnLogDownloadTelegram_Single_ContentNull_FileNotFound()
     {
-        // æº–å‚™
+        // €”õ
         byte requestKind = BYTE_REQUEST_KIND_RESPONSE;
         Object[] jvnFileNames = new Object[]{"TelegramCreatorTest_Single_NotFound.jvn"};
         Object[] jvnFileContents = null;
 
-        // æœŸå¾…å€¤
+        // Šú‘Ò’l
         Object[] expectedJvnFileNames = jvnFileNames;
         Object[] expectedFileContents = new Object[]{""};
 
-        // å®Ÿæ–½
+        // À{
         Telegram telegram =
                 TelegramCreator.createJvnLogDownloadTelegram(requestKind, jvnFileNames,
                                                              jvnFileContents, 0, null);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         TelegramAssertionUtil.assertJvnLogDownloadTelegram(BYTE_REQUEST_KIND_RESPONSE,
                                                            expectedFileContents,
                                                            expectedJvnFileNames, telegram);
     }
 
     /**
-     * @test JVNãƒ­ã‚°é›»æ–‡-å¿œç­”é›»æ–‡:ãƒ­ã‚°è¤‡æ•°(é …ç›®:3-1-9)
-     * @condition requestKindãŒ2ã€jvnFileNamesãŒè¤‡æ•°(5ä»¶)ã‹ã¤å­˜åœ¨ã—ãªã„ãƒ•ã‚¡ã‚¤ãƒ«, jvnFileContentsãŒnull
-     * @result JVNãƒ­ã‚°ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰å¿œç­”é›»æ–‡ãŒå–å¾—ã§ãã‚‹ã“ã¨ã€‚
-     *         è¨­å®šã•ã‚Œã¦ã„ã‚‹ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«åãŒè¤‡æ•°ã§ã‚ã‚‹ã“ã¨ã€‚
-     *         è¨­å®šã•ã‚Œã¦ã„ã‚‹ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«å†…å®¹ãŒ""ã§ã‚ã‚‹ã“ã¨ã€‚
+     * @test JVNƒƒO“d•¶-‰“š“d•¶:ƒƒO•¡”(€–Ú:3-1-9)
+     * @condition requestKind‚ª2AjvnFileNames‚ª•¡”(5Œ)‚©‚Â‘¶İ‚µ‚È‚¢ƒtƒ@ƒCƒ‹, jvnFileContents‚ªnull
+     * @result JVNƒƒOƒ_ƒEƒ“ƒ[ƒh‰“š“d•¶‚ªæ“¾‚Å‚«‚é‚±‚ÆB
+     *         İ’è‚³‚ê‚Ä‚¢‚éƒƒOƒtƒ@ƒCƒ‹–¼‚ª•¡”‚Å‚ ‚é‚±‚ÆB
+     *         İ’è‚³‚ê‚Ä‚¢‚éƒƒOƒtƒ@ƒCƒ‹“à—e‚ª""‚Å‚ ‚é‚±‚ÆB
      */
     public void testCreateJvnLogDownloadTelegram_Multi_ContentNull_FileNotFound()
     {
-        // æº–å‚™
+        // €”õ
         byte requestKind = BYTE_REQUEST_KIND_RESPONSE;
         Object[] jvnFileNames =
                 new Object[]{"TelegramCreatorTest_Multi_NotFound0.jvn",
@@ -334,92 +334,92 @@ public class TelegramCreatorTest extends DJUnitTestCase
                         "TelegramCreatorTest_Multi_NotFound4.jvn"};
         Object[] jvnFileContents = null;
 
-        // æœŸå¾…å€¤
+        // Šú‘Ò’l
         Object[] expectedJvnFileNames = jvnFileNames;
         Object[] expectedFileContents = new Object[]{"", "", "", "", ""};
 
-        // å®Ÿæ–½
+        // À{
         Telegram telegram =
                 TelegramCreator.createJvnLogDownloadTelegram(requestKind, jvnFileNames,
                                                              jvnFileContents, 0, null);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         TelegramAssertionUtil.assertJvnLogDownloadTelegram(BYTE_REQUEST_KIND_RESPONSE,
                                                            expectedFileContents,
                                                            expectedJvnFileNames, telegram);
     }
 
     /**
-     * @test JVNãƒ­ã‚°é›»æ–‡-é€šçŸ¥é›»æ–‡:ãƒ­ã‚°å˜æ•°ï¼å®Ÿä½“ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿æŒ‡å®š(é …ç›®:3-1-10)
-     * @condition requestKindãŒ0ã€jvnFileNamesãŒå˜æ•°, jvnFileContentsãŒnullã§ãªã„ã“ã¨ã€‚
-     * @result JVNãƒ­ã‚°ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰é€šçŸ¥é›»æ–‡ãŒå–å¾—ã§ãã‚‹ã“ã¨ã€‚
-     *         è¨­å®šã•ã‚Œã¦ã„ã‚‹ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«åãŒè¤‡æ•°ã§ã‚ã‚‹ã“ã¨ã€‚
-     *         è¨­å®šã•ã‚Œã¦ã„ã‚‹ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«å†…å®¹ã®å†…å®¹ã¨ç­‰ã—ã„ã“ã¨ã€‚
+     * @test JVNƒƒO“d•¶-’Ê’m“d•¶:ƒƒO’P”^À‘Ìƒpƒ‰ƒ[ƒ^w’è(€–Ú:3-1-10)
+     * @condition requestKind‚ª0AjvnFileNames‚ª’P”, jvnFileContents‚ªnull‚Å‚È‚¢‚±‚ÆB
+     * @result JVNƒƒOƒ_ƒEƒ“ƒ[ƒh’Ê’m“d•¶‚ªæ“¾‚Å‚«‚é‚±‚ÆB
+     *         İ’è‚³‚ê‚Ä‚¢‚éƒƒOƒtƒ@ƒCƒ‹–¼‚ª•¡”‚Å‚ ‚é‚±‚ÆB
+     *         İ’è‚³‚ê‚Ä‚¢‚éƒƒOƒtƒ@ƒCƒ‹“à—e‚Ì“à—e‚Æ“™‚µ‚¢‚±‚ÆB
      */
     public void testCreateJvnLogDownloadTelegram_Notify_Single()
     {
-        // æº–å‚™
+        // €”õ
         byte requestKind = BYTE_REQUEST_KIND_NOTIFY;
         Object[] jvnFileNames = new Object[]{JVN_FILE_NAMES_SINGLE};
         Object[] jvnFileContents = {JVN_FILE_CONTENTS_SINGLE};
 
-        // æœŸå¾…å€¤
+        // Šú‘Ò’l
         Object[] expectedJvnFileNames = jvnFileNames;
         Object[] expectedFileContents = new Object[]{JVN_FILE_CONTENTS_SINGLE};
 
-        // å®Ÿæ–½
+        // À{
         Telegram telegram =
                 TelegramCreator.createJvnLogDownloadTelegram(requestKind, jvnFileNames,
                                                              jvnFileContents, 0, null);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         TelegramAssertionUtil.assertJvnLogDownloadTelegram(BYTE_REQUEST_KIND_NOTIFY,
                                                            expectedFileContents,
                                                            expectedJvnFileNames, telegram);
     }
 
     /**
-     * @test JVNãƒ­ã‚°é›»æ–‡-å¿œç­”é›»æ–‡:ãƒ­ã‚°è¤‡æ•°ï¼å®Ÿä½“ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿æŒ‡å®šnull(é …ç›®:3-1-11)
-     * @condition requestKindãŒ2ã€jvnFileNamesãŒè¤‡æ•°(5ä»¶), jvnFileContentsãŒnull
-     * @result JVNãƒ­ã‚°ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰å¿œç­”é›»æ–‡ãŒå–å¾—ã§ãã‚‹ã“ã¨ã€‚
-     *         è¨­å®šã•ã‚Œã¦ã„ã‚‹ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«åãŒè¤‡æ•°ã§ã‚ã‚‹ã“ã¨ã€‚
-     *         è¨­å®šã•ã‚Œã¦ã„ã‚‹ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«å†…å®¹ã®å†…å®¹ã¨ç­‰ã—ã„ã“ã¨ã€‚
+     * @test JVNƒƒO“d•¶-‰“š“d•¶:ƒƒO•¡”^À‘Ìƒpƒ‰ƒ[ƒ^w’ènull(€–Ú:3-1-11)
+     * @condition requestKind‚ª2AjvnFileNames‚ª•¡”(5Œ), jvnFileContents‚ªnull
+     * @result JVNƒƒOƒ_ƒEƒ“ƒ[ƒh‰“š“d•¶‚ªæ“¾‚Å‚«‚é‚±‚ÆB
+     *         İ’è‚³‚ê‚Ä‚¢‚éƒƒOƒtƒ@ƒCƒ‹–¼‚ª•¡”‚Å‚ ‚é‚±‚ÆB
+     *         İ’è‚³‚ê‚Ä‚¢‚éƒƒOƒtƒ@ƒCƒ‹“à—e‚Ì“à—e‚Æ“™‚µ‚¢‚±‚ÆB
      */
     public void testCreateJvnLogDownloadTelegram_Notify_Multi()
     {
-        // æº–å‚™
+        // €”õ
         byte requestKind = BYTE_REQUEST_KIND_NOTIFY;
         Object[] jvnFileNames = JVN_FILE_NAMES_MULTI;
         Object[] jvnFileContents = null;
 
-        // æœŸå¾…å€¤
+        // Šú‘Ò’l
         Object[] expectedJvnFileNames = jvnFileNames;
         Object[] expectedFileContents = JVN_FILE_CONTENTS_MULTI;
 
-        // å®Ÿæ–½
+        // À{
         Telegram telegram =
                 TelegramCreator.createJvnLogDownloadTelegram(requestKind, jvnFileNames,
                                                              jvnFileContents, 0, null);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         TelegramAssertionUtil.assertJvnLogDownloadTelegram(BYTE_REQUEST_KIND_NOTIFY,
                                                            expectedFileContents,
                                                            expectedJvnFileNames, telegram);
     }
     
     /**
-     * @test JVNãƒ­ã‚°é›»æ–‡-å¿œç­”é›»æ–‡:ãƒ­ã‚°ã¨å®Ÿä½“ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãŒç•°ãªã‚‹
-     * @condition jvnFileNamesãŒ5ä»¶, jvnFileContentsãŒ4ä»¶
-     * @result IllegalArgumentExceptionãŒã‚¹ãƒ­ãƒ¼ã•ã‚Œã‚‹ã“ã¨ã€‚
+     * @test JVNƒƒO“d•¶-‰“š“d•¶:ƒƒO‚ÆÀ‘Ìƒpƒ‰ƒ[ƒ^‚ªˆÙ‚È‚é
+     * @condition jvnFileNames‚ª5Œ, jvnFileContents‚ª4Œ
+     * @result IllegalArgumentException‚ªƒXƒ[‚³‚ê‚é‚±‚ÆB
      */
     public void testCreateJvnLogDownloadTelegram_IllegalArgument()
     {
-        // æº–å‚™
+        // €”õ
         byte requestKind = BYTE_REQUEST_KIND_NOTIFY;
         Object[] jvnFileNames = JVN_FILE_NAMES_MULTI;
         Object[] jvnFileContents = JVN_FILE_CONTENTS_ONE_IS_LACKED;
 
-        // å®Ÿæ–½ãƒ»æ¤œè¨¼
+        // À{EŒŸØ
         try
         {
             TelegramCreator.createJvnLogDownloadTelegram(requestKind, jvnFileNames,
@@ -433,163 +433,163 @@ public class TelegramCreatorTest extends DJUnitTestCase
     }
 
     /**
-     * @test JVNãƒ­ã‚°ä¸€è¦§é›»æ–‡-JVNãƒ­ã‚°null(é …ç›®:5-1-1)
-     * @condition jvnFileNamesãŒnull
-     * @result é›»æ–‡ãŒå–å¾—ã§ããšã€nullãŒè¿”ã‚‹ã“ã¨ã€‚
+     * @test JVNƒƒOˆê——“d•¶-JVNƒƒOnull(€–Ú:5-1-1)
+     * @condition jvnFileNames‚ªnull
+     * @result “d•¶‚ªæ“¾‚Å‚«‚¸Anull‚ª•Ô‚é‚±‚ÆB
      */
     public void testCreateJvnLogListTelegram_Null()
     {
-        // æº–å‚™
+        // €”õ
         String[] jvnFileNames = null;
 
-        // å®Ÿæ–½
+        // À{
         Telegram telegram = TelegramCreator.createJvnLogListTelegram(jvnFileNames);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertNull(telegram);
     }
 
     /**
-     * @test JVNãƒ­ã‚°ä¸€è¦§é›»æ–‡-JVNãƒ­ã‚°ç©ºãƒªã‚¹ãƒˆ(é …ç›®:5-1-2)
-     * @condition jvnFileNamesãŒç©ºãƒªã‚¹ãƒˆ
-     * @result é›»æ–‡ã®Bodyéƒ¨ã®jvnFileã®é …ç›®å€¤ãŒ0ä»¶ã§ã‚ã‚‹ã“ã¨ã€‚
+     * @test JVNƒƒOˆê——“d•¶-JVNƒƒO‹óƒŠƒXƒg(€–Ú:5-1-2)
+     * @condition jvnFileNames‚ª‹óƒŠƒXƒg
+     * @result “d•¶‚ÌBody•”‚ÌjvnFile‚Ì€–Ú’l‚ª0Œ‚Å‚ ‚é‚±‚ÆB
      */
     public void testCreateJvnLogListTelegram_Empty()
     {
-        // æº–å‚™
+        // €”õ
         String[] jvnFileNames = new String[]{};
 
-        // æœŸå¾…å€¤
+        // Šú‘Ò’l
         Object[] expectedJvnFileNames = jvnFileNames;
 
-        // å®Ÿæ–½
+        // À{
         Telegram telegram = TelegramCreator.createJvnLogListTelegram(jvnFileNames);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         TelegramAssertionUtil.assertJvnLogListTelegram(BYTE_REQUEST_KIND_RESPONSE,
                                                        expectedJvnFileNames, telegram);
     }
 
     /**
-     * @test JVNãƒ­ã‚°ä¸€è¦§é›»æ–‡-JVNãƒ­ã‚°å˜æ•°(é …ç›®:5-1-3)
-     * @condition jvnFileNamesãŒå˜æ•°
-     * @result é›»æ–‡ã®Bodyéƒ¨ã®jvnFileã®é …ç›®å€¤ãŒæŒ‡å®šã—ãŸå†…å®¹ã¨åŒä¸€ã§ã‚ã‚‹ã“ã¨ã€‚
+     * @test JVNƒƒOˆê——“d•¶-JVNƒƒO’P”(€–Ú:5-1-3)
+     * @condition jvnFileNames‚ª’P”
+     * @result “d•¶‚ÌBody•”‚ÌjvnFile‚Ì€–Ú’l‚ªw’è‚µ‚½“à—e‚Æ“¯ˆê‚Å‚ ‚é‚±‚ÆB
      */
     public void testCreateJvnLogListTelegram_Single()
     {
-        // æº–å‚™
+        // €”õ
         String[] jvnFileNames = new String[]{JVN_FILE_NAMES_SINGLE};
 
-        // æœŸå¾…å€¤
+        // Šú‘Ò’l
         Object[] expectedJvnFileNames = jvnFileNames;
 
-        // å®Ÿæ–½
+        // À{
         Telegram telegram = TelegramCreator.createJvnLogListTelegram(jvnFileNames);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         TelegramAssertionUtil.assertJvnLogListTelegram(BYTE_REQUEST_KIND_RESPONSE,
                                                        expectedJvnFileNames, telegram);
     }
 
     /**
-     * @test JVNãƒ­ã‚°ä¸€è¦§é›»æ–‡-JVNãƒ­ã‚°è¤‡æ•°(é …ç›®:5-1-4)
-     * @condition jvnFileNamesãŒè¤‡æ•°
-     * @result é›»æ–‡ã®Bodyéƒ¨ã®jvnFileã®é …ç›®å€¤ãŒæŒ‡å®šã—ãŸå†…å®¹ã¨åŒä¸€ã§ã‚ã‚‹ã“ã¨ã€‚
+     * @test JVNƒƒOˆê——“d•¶-JVNƒƒO•¡”(€–Ú:5-1-4)
+     * @condition jvnFileNames‚ª•¡”
+     * @result “d•¶‚ÌBody•”‚ÌjvnFile‚Ì€–Ú’l‚ªw’è‚µ‚½“à—e‚Æ“¯ˆê‚Å‚ ‚é‚±‚ÆB
      */
     public void testCreateJvnLogListTelegram_Multi()
     {
-        // æº–å‚™
+        // €”õ
         String[] jvnFileNames = JVN_FILE_NAMES_MULTI;
 
-        // æœŸå¾…å€¤
+        // Šú‘Ò’l
         Object[] expectedJvnFileNames = jvnFileNames;
 
-        // å®Ÿæ–½
+        // À{
         Telegram telegram = TelegramCreator.createJvnLogListTelegram(jvnFileNames);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         TelegramAssertionUtil.assertJvnLogListTelegram(BYTE_REQUEST_KIND_RESPONSE,
                                                        expectedJvnFileNames, telegram);
     }
 
     /**
-     * @test è¨ˆæ¸¬å¯¾è±¡ãƒ»ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚°ãƒ©ãƒ•å‡ºåŠ›æ›´æ–°è¦æ±‚-å¯¾è±¡Invocation null(é …ç›®:6-1-1)
-     * @condition InvocationãŒnull
-     * @result é›»æ–‡ã®BodyãŒç©ºã§ã‚ã‚‹ã“ã¨ã€‚
+     * @test Œv‘ª‘ÎÛEƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒOƒ‰ƒto—ÍXV—v‹-‘ÎÛInvocation null(€–Ú:6-1-1)
+     * @condition Invocation‚ªnull
+     * @result “d•¶‚ÌBody‚ª‹ó‚Å‚ ‚é‚±‚ÆB
      */
     public void testCreateUpdateInvocationTelegramTelegram_Null()
     {
-        // æº–å‚™
+        // €”õ
         UpdateInvocationParam[] invocationParamArray = null;
 
-        // æœŸå¾…å€¤
+        // Šú‘Ò’l
         UpdateInvocationParam[] expectedInvocationParamArray = invocationParamArray;
 
-        // å®Ÿæ–½
+        // À{
         Telegram telegram = TelegramCreator.createUpdateInvocationTelegram(invocationParamArray);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         TelegramAssertionUtil.assertUpdateInvocationTelegramTelegram(BYTE_REQUEST_KIND_REQUEST,
                                                                      expectedInvocationParamArray,
                                                                      telegram);
     }
 
     /**
-     * @test è¨ˆæ¸¬å¯¾è±¡ãƒ»ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚°ãƒ©ãƒ•å‡ºåŠ›æ›´æ–°è¦æ±‚-å¯¾è±¡Invocationç©ºãƒªã‚¹ãƒˆ(é …ç›®:6-1-2)
-     * @condition å¯¾è±¡InvocationãŒç©ºãƒªã‚¹ãƒˆ
-     * @result é›»æ–‡ã®BodyãŒç©ºã§ã‚ã‚‹ã“ã¨ã€‚
+     * @test Œv‘ª‘ÎÛEƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒOƒ‰ƒto—ÍXV—v‹-‘ÎÛInvocation‹óƒŠƒXƒg(€–Ú:6-1-2)
+     * @condition ‘ÎÛInvocation‚ª‹óƒŠƒXƒg
+     * @result “d•¶‚ÌBody‚ª‹ó‚Å‚ ‚é‚±‚ÆB
      */
     public void testCreateUpdateInvocationTelegramTelegram_Empty()
     {
-        // æº–å‚™
+        // €”õ
         UpdateInvocationParam[] invocationParamArray = new UpdateInvocationParam[]{};
 
-        // æœŸå¾…å€¤
+        // Šú‘Ò’l
         UpdateInvocationParam[] expectedInvocationParamArray = invocationParamArray;
 
-        // å®Ÿæ–½
+        // À{
         Telegram telegram = TelegramCreator.createUpdateInvocationTelegram(invocationParamArray);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         TelegramAssertionUtil.assertUpdateInvocationTelegramTelegram(BYTE_REQUEST_KIND_REQUEST,
                                                                      expectedInvocationParamArray,
                                                                      telegram);
     }
 
     /**
-     * @test è¨ˆæ¸¬å¯¾è±¡ãƒ»ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚°ãƒ©ãƒ•å‡ºåŠ›æ›´æ–°è¦æ±‚å¯¾è±¡Invocationå˜æ•°(é …ç›®:6-1-3)
-     * @condition å¯¾è±¡Invocationå˜æ•°
-     * @result å„invocationã®4ã¤ã®é …ç›®ãŒã€ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®é€šã‚Šã«é›»æ–‡ã«è¨­å®šã•ã‚Œã¦ã„ã‚‹ã“ã¨ã€‚
+     * @test Œv‘ª‘ÎÛEƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒOƒ‰ƒto—ÍXV—v‹‘ÎÛInvocation’P”(€–Ú:6-1-3)
+     * @condition ‘ÎÛInvocation’P”
+     * @result Šeinvocation‚Ì4‚Â‚Ì€–Ú‚ªAƒpƒ‰ƒ[ƒ^‚Ì’Ê‚è‚É“d•¶‚Éİ’è‚³‚ê‚Ä‚¢‚é‚±‚ÆB
      */
     public void testCreateUpdateInvocationTelegramTelegram_Single()
     {
-        // æº–å‚™
+        // €”õ
         UpdateInvocationParam[] invocationParamArray =
                 new UpdateInvocationParam[]{new UpdateInvocationParam("className", "methodName",
                                                                       Boolean.TRUE, Boolean.TRUE,
                                                                       Long.valueOf(5000),
                                                                       Long.valueOf(3000))};
 
-        // æœŸå¾…å€¤
+        // Šú‘Ò’l
         UpdateInvocationParam[] expectedInvocationParamArray = invocationParamArray;
 
-        // å®Ÿæ–½
+        // À{
         Telegram telegram = TelegramCreator.createUpdateInvocationTelegram(invocationParamArray);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         TelegramAssertionUtil.assertUpdateInvocationTelegramTelegram(BYTE_REQUEST_KIND_REQUEST,
                                                                      expectedInvocationParamArray,
                                                                      telegram);
     }
 
     /**
-     * @test è¨ˆæ¸¬å¯¾è±¡ãƒ»ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚°ãƒ©ãƒ•å‡ºåŠ›æ›´æ–°è¦æ±‚å¯¾è±¡Invocationè¤‡æ•°(é …ç›®:6-1-4)
-     * @condition å¯¾è±¡Invocationè¤‡æ•°
-     * @result å„invocationã®4ã¤ã®é …ç›®ãŒã€ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®é€šã‚Šã«é›»æ–‡ã«è¨­å®šã•ã‚Œã¦ã„ã‚‹ã“ã¨ã€‚
+     * @test Œv‘ª‘ÎÛEƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒOƒ‰ƒto—ÍXV—v‹‘ÎÛInvocation•¡”(€–Ú:6-1-4)
+     * @condition ‘ÎÛInvocation•¡”
+     * @result Šeinvocation‚Ì4‚Â‚Ì€–Ú‚ªAƒpƒ‰ƒ[ƒ^‚Ì’Ê‚è‚É“d•¶‚Éİ’è‚³‚ê‚Ä‚¢‚é‚±‚ÆB
      */
     public void testCreateUpdateInvocationTelegramTelegram_Multi()
     {
-        // æº–å‚™
+        // €”õ
         UpdateInvocationParam[] invocationParamArray =
                 new UpdateInvocationParam[]{
                         new UpdateInvocationParam("className", "methodName", Boolean.TRUE,
@@ -610,192 +610,192 @@ public class TelegramCreatorTest extends DJUnitTestCase
 
                 };
 
-        // æœŸå¾…å€¤
+        // Šú‘Ò’l
         UpdateInvocationParam[] expectedInvocationParamArray = invocationParamArray;
 
-        // å®Ÿæ–½
+        // À{
         Telegram telegram = TelegramCreator.createUpdateInvocationTelegram(invocationParamArray);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         TelegramAssertionUtil.assertUpdateInvocationTelegramTelegram(BYTE_REQUEST_KIND_REQUEST,
                                                                      expectedInvocationParamArray,
                                                                      telegram);
     }
 
     /**
-     * @test è¨ˆæ¸¬å¯¾è±¡ãƒ»ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚°ãƒ©ãƒ•å‡ºåŠ›æ›´æ–°è¦æ±‚-transactionGraph null(é …ç›®:6-1-5)
+     * @test Œv‘ª‘ÎÛEƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒOƒ‰ƒto—ÍXV—v‹-transactionGraph null(€–Ú:6-1-5)
      * @condition transactionGraph null
-     * @result é›»æ–‡ã®Bodyéƒ¨ã«é …ç›®targetãŒå­˜åœ¨ã—ãªã„ã“ã¨ã€‚
+     * @result “d•¶‚ÌBody•”‚É€–Útarget‚ª‘¶İ‚µ‚È‚¢‚±‚ÆB
      */
     public void testCreateUpdateInvocationTelegramTelegram_TransactionNull()
     {
-        // æº–å‚™
+        // €”õ
         UpdateInvocationParam[] invocationParamArray =
                 new UpdateInvocationParam[]{new UpdateInvocationParam("className", "methodName",
                                                                       null, Boolean.TRUE,
                                                                       Long.valueOf(5000),
                                                                       Long.valueOf(3000))};
 
-        // æœŸå¾…å€¤
+        // Šú‘Ò’l
         UpdateInvocationParam[] expectedInvocationParamArray = invocationParamArray;
 
-        // å®Ÿæ–½
+        // À{
         Telegram telegram = TelegramCreator.createUpdateInvocationTelegram(invocationParamArray);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         TelegramAssertionUtil.assertUpdateInvocationTelegramTelegram(BYTE_REQUEST_KIND_REQUEST,
                                                                      expectedInvocationParamArray,
                                                                      telegram);
     }
 
     /**
-     * @test è¨ˆæ¸¬å¯¾è±¡ãƒ»ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚°ãƒ©ãƒ•å‡ºåŠ›æ›´æ–°è¦æ±‚-target null(é …ç›®:6-1-6)
+     * @test Œv‘ª‘ÎÛEƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒOƒ‰ƒto—ÍXV—v‹-target null(€–Ú:6-1-6)
      * @condition target null
-     * @result é›»æ–‡ã®Bodyéƒ¨ã«é …ç›®alarmThresholdãŒå­˜åœ¨ã—ãªã„ã“ã¨ã€‚
+     * @result “d•¶‚ÌBody•”‚É€–ÚalarmThreshold‚ª‘¶İ‚µ‚È‚¢‚±‚ÆB
      */
     public void testCreateUpdateInvocationTelegramTelegram_TargetNull()
     {
-        // æº–å‚™
+        // €”õ
         UpdateInvocationParam[] invocationParamArray =
                 new UpdateInvocationParam[]{new UpdateInvocationParam("className", "methodName",
                                                                       Boolean.TRUE, null,
                                                                       Long.valueOf(5000),
                                                                       Long.valueOf(3000))};
 
-        // æœŸå¾…å€¤
+        // Šú‘Ò’l
         UpdateInvocationParam[] expectedInvocationParamArray = invocationParamArray;
 
-        // å®Ÿæ–½
+        // À{
         Telegram telegram = TelegramCreator.createUpdateInvocationTelegram(invocationParamArray);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         TelegramAssertionUtil.assertUpdateInvocationTelegramTelegram(BYTE_REQUEST_KIND_REQUEST,
                                                                      expectedInvocationParamArray,
                                                                      telegram);
     }
 
     /**
-     * @test è¨ˆæ¸¬å¯¾è±¡ãƒ»ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚°ãƒ©ãƒ•å‡ºåŠ›æ›´æ–°è¦æ±‚-alarmThreshold null(é …ç›®:6-1-7)
+     * @test Œv‘ª‘ÎÛEƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒOƒ‰ƒto—ÍXV—v‹-alarmThreshold null(€–Ú:6-1-7)
      * @condition alarmThreshold null
-     * @result é›»æ–‡ã®Bodyéƒ¨ã«é …ç›®alarmThresholdãŒå­˜åœ¨ã—ãªã„ã“ã¨ã€‚
+     * @result “d•¶‚ÌBody•”‚É€–ÚalarmThreshold‚ª‘¶İ‚µ‚È‚¢‚±‚ÆB
      */
     public void testCreateUpdateInvocationTelegramTelegram_AlarmThresholdNull()
     {
-        // æº–å‚™
+        // €”õ
         UpdateInvocationParam[] invocationParamArray =
                 new UpdateInvocationParam[]{new UpdateInvocationParam("className", "methodName",
                                                                       Boolean.TRUE, Boolean.TRUE,
                                                                       null, Long.valueOf(3000))};
 
-        // æœŸå¾…å€¤
+        // Šú‘Ò’l
         UpdateInvocationParam[] expectedInvocationParamArray = invocationParamArray;
 
-        // å®Ÿæ–½
+        // À{
         Telegram telegram = TelegramCreator.createUpdateInvocationTelegram(invocationParamArray);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         TelegramAssertionUtil.assertUpdateInvocationTelegramTelegram(BYTE_REQUEST_KIND_REQUEST,
                                                                      expectedInvocationParamArray,
                                                                      telegram);
     }
 
     /**
-     * @test è¨ˆæ¸¬å¯¾è±¡ãƒ»ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚°ãƒ©ãƒ•å‡ºåŠ›æ›´æ–°è¦æ±‚-alarmCpuThreshold null(é …ç›®:6-1-8)
+     * @test Œv‘ª‘ÎÛEƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒOƒ‰ƒto—ÍXV—v‹-alarmCpuThreshold null(€–Ú:6-1-8)
      * @condition alarmCpuThreshold null
-     * @result é›»æ–‡ã®Bodyéƒ¨ã«é …ç›®alarmCpuThresholdãŒå­˜åœ¨ã—ãªã„ã“ã¨ã€‚
+     * @result “d•¶‚ÌBody•”‚É€–ÚalarmCpuThreshold‚ª‘¶İ‚µ‚È‚¢‚±‚ÆB
      */
     public void testCreateUpdateInvocationTelegramTelegram_AlarmCpuThresholdNull()
     {
-        // æº–å‚™
+        // €”õ
         UpdateInvocationParam[] invocationParamArray =
                 new UpdateInvocationParam[]{new UpdateInvocationParam("className", "methodName",
                                                                       Boolean.TRUE, Boolean.TRUE,
                                                                       Long.valueOf(3000), null)};
 
-        // æœŸå¾…å€¤
+        // Šú‘Ò’l
         UpdateInvocationParam[] expectedInvocationParamArray = invocationParamArray;
 
-        // å®Ÿæ–½
+        // À{
         Telegram telegram = TelegramCreator.createUpdateInvocationTelegram(invocationParamArray);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         TelegramAssertionUtil.assertUpdateInvocationTelegramTelegram(BYTE_REQUEST_KIND_REQUEST,
                                                                      expectedInvocationParamArray,
                                                                      telegram);
     }
 
     /**
-     * @test ã‚¯ãƒ©ã‚¹å‰Šé™¤é›»æ–‡-å¯¾è±¡ã‚¯ãƒ©ã‚¹null(é …ç›®:7-1-1)
-     * @condition å¯¾è±¡ã‚¯ãƒ©ã‚¹ null
-     * @result é›»æ–‡ã®Bodyéƒ¨ãŒç©ºã§ã‚ã‚‹ã“ã¨ã€‚
+     * @test ƒNƒ‰ƒXíœ“d•¶-‘ÎÛƒNƒ‰ƒXnull(€–Ú:7-1-1)
+     * @condition ‘ÎÛƒNƒ‰ƒX null
+     * @result “d•¶‚ÌBody•”‚ª‹ó‚Å‚ ‚é‚±‚ÆB
      */
     public void testCreateRemoveClassTelegram_Null()
     {
-        // æº–å‚™
+        // €”õ
         List<String> classNameList = null;
 
-        // æœŸå¾…å€¤
+        // Šú‘Ò’l
         List<String> expectedClassNameList = classNameList;
 
-        // å®Ÿæ–½
+        // À{
         Telegram telegram = TelegramCreator.createRemoveClassTelegram(classNameList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         TelegramAssertionUtil.assertRemoveClassTelegram(BYTE_REQUEST_KIND_REQUEST,
                                                         expectedClassNameList, telegram);
     }
 
     /**
-     * @test ã‚¯ãƒ©ã‚¹å‰Šé™¤é›»æ–‡-å¯¾è±¡ã‚¯ãƒ©ã‚¹ç©ºãƒªã‚¹ãƒˆ(é …ç›®:7-1-2)
-     * @condition å¯¾è±¡ã‚¯ãƒ©ã‚¹ ç©ºãƒªã‚¹ãƒˆ
-     * @result é›»æ–‡ã®Bodyéƒ¨ãŒç©ºã§ã‚ã‚‹ã“ã¨ã€‚
+     * @test ƒNƒ‰ƒXíœ“d•¶-‘ÎÛƒNƒ‰ƒX‹óƒŠƒXƒg(€–Ú:7-1-2)
+     * @condition ‘ÎÛƒNƒ‰ƒX ‹óƒŠƒXƒg
+     * @result “d•¶‚ÌBody•”‚ª‹ó‚Å‚ ‚é‚±‚ÆB
      */
     public void testCreateRemoveClassTelegram_Empty()
     {
-        // æº–å‚™
+        // €”õ
         List<String> classNameList = new ArrayList<String>();
 
-        // æœŸå¾…å€¤
+        // Šú‘Ò’l
         List<String> expectedClassNameList = classNameList;
 
-        // å®Ÿæ–½
+        // À{
         Telegram telegram = TelegramCreator.createRemoveClassTelegram(classNameList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         TelegramAssertionUtil.assertRemoveClassTelegram(BYTE_REQUEST_KIND_REQUEST,
                                                         expectedClassNameList, telegram);
     }
 
     /**
-     * @test ã‚¯ãƒ©ã‚¹å‰Šé™¤é›»æ–‡-å¯¾è±¡ã‚¯ãƒ©ã‚¹å˜æ•°(é …ç›®:7-1-3)
-     * @condition å¯¾è±¡ã‚¯ãƒ©ã‚¹å˜æ•°
-     * @result é›»æ–‡ã®Bodyéƒ¨ã«ã€ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã§æŒ‡å®šã—ãŸå…¨ã¦ã®ã‚¯ãƒ©ã‚¹åãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹ã“ã¨ã€‚
+     * @test ƒNƒ‰ƒXíœ“d•¶-‘ÎÛƒNƒ‰ƒX’P”(€–Ú:7-1-3)
+     * @condition ‘ÎÛƒNƒ‰ƒX’P”
+     * @result “d•¶‚ÌBody•”‚ÉAƒpƒ‰ƒ[ƒ^‚Åw’è‚µ‚½‘S‚Ä‚ÌƒNƒ‰ƒX–¼‚ªİ’è‚³‚ê‚Ä‚¢‚é‚±‚ÆB
      */
     public void testCreateRemoveClassTelegram_Single()
     {
-        // æº–å‚™
+        // €”õ
         List<String> classNameList = new ArrayList<String>();
         classNameList.add("className1");
 
-        // æœŸå¾…å€¤
+        // Šú‘Ò’l
         List<String> expectedClassNameList = classNameList;
 
-        // å®Ÿæ–½
+        // À{
         Telegram telegram = TelegramCreator.createRemoveClassTelegram(classNameList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         TelegramAssertionUtil.assertRemoveClassTelegram(BYTE_REQUEST_KIND_REQUEST,
                                                         expectedClassNameList, telegram);
     }
 
     /**
-     * @test ã‚¯ãƒ©ã‚¹å‰Šé™¤é›»æ–‡-å¯¾è±¡ã‚¯ãƒ©ã‚¹è¤‡æ•°(é …ç›®:7-1-4)
-     * @condition å¯¾è±¡ã‚¯ãƒ©ã‚¹è¤‡æ•°
-     * @result é›»æ–‡ã®Bodyéƒ¨ã«ã€ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã§æŒ‡å®šã—ãŸå…¨ã¦ã®ã‚¯ãƒ©ã‚¹åãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹ã“ã¨ã€‚
+     * @test ƒNƒ‰ƒXíœ“d•¶-‘ÎÛƒNƒ‰ƒX•¡”(€–Ú:7-1-4)
+     * @condition ‘ÎÛƒNƒ‰ƒX•¡”
+     * @result “d•¶‚ÌBody•”‚ÉAƒpƒ‰ƒ[ƒ^‚Åw’è‚µ‚½‘S‚Ä‚ÌƒNƒ‰ƒX–¼‚ªİ’è‚³‚ê‚Ä‚¢‚é‚±‚ÆB
      */
     public void testCreateRemoveClassTelegram_Multi()
     {
-        // æº–å‚™
+        // €”õ
         List<String> classNameList = new ArrayList<String>();
         classNameList.add("className1");
         classNameList.add("className2");
@@ -803,13 +803,13 @@ public class TelegramCreatorTest extends DJUnitTestCase
         classNameList.add("className4");
         classNameList.add("className5");
 
-        // æœŸå¾…å€¤
+        // Šú‘Ò’l
         List<String> expectedClassNameList = classNameList;
 
-        // å®Ÿæ–½
+        // À{
         Telegram telegram = TelegramCreator.createRemoveClassTelegram(classNameList);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         TelegramAssertionUtil.assertRemoveClassTelegram(BYTE_REQUEST_KIND_REQUEST,
                                                         expectedClassNameList, telegram);
     }

@@ -29,7 +29,7 @@ import java.text.MessageFormat;
 import java.util.ResourceBundle;
 
 /**
- * ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å–å¾—ã‚¯ãƒ©ã‚¹ã€‚
+ * ƒƒbƒZ[ƒWæ“¾ƒNƒ‰ƒXB
  * @author tanimoto
  *
  */
@@ -38,10 +38,10 @@ public class Messages
     private static final String BUNDLE_NAME = "jp.co.acroquest.endosnipe.perfdoctor.messages";
 
     /**
-     * ãƒªã‚½ãƒ¼ã‚¹ãƒãƒ³ãƒ‰ãƒ«ã‚ˆã‚Šãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @param messageId ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ID
-     * @param args ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®å¼•æ•°
-     * @return ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
+     * ƒŠƒ\[ƒXƒoƒ“ƒhƒ‹‚æ‚èƒƒbƒZ[ƒW‚ğæ“¾‚·‚éB
+     * @param messageId ƒƒbƒZ[ƒWID
+     * @param args ƒƒbƒZ[ƒW‚Ìˆø”
+     * @return ƒƒbƒZ[ƒW
      */
     public static String getMessage(final String messageId, final Object... args)
     {

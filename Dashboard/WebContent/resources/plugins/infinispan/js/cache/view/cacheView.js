@@ -23,7 +23,7 @@ infinispan.CacheView = wgp.AbstractView
 				this.graphOrderList = [];
 
 				var clusterName = this.treeSetting.treeId.split("/")[1];
-				infinispan.cache.treeSettingId = "/" + clusterName + "/.*"
+				infinispan.cache.treeSettingId = "/" + clusterName + "/%"
 						+ this.cachePath;
 
 				this.lastTimeCacheNum = {};
@@ -38,11 +38,11 @@ infinispan.CacheView = wgp.AbstractView
 					this.height = realTag.height();
 				}
 				var appView = ENS.AppView();
-				appView.addView(this, infinispan.cache.treeSettingId + '.*');
+				appView.addView(this, infinispan.cache.treeSettingId + '%');
 
 				var end = new Date();
 				var start = new Date(end.getTime() - 15000);
-				appView.getTermData([ (infinispan.cache.treeSettingId + '.*') ],
+				appView.getTermData([ (infinispan.cache.treeSettingId + '%') ],
 						start, end);
 
 				// set paper
@@ -104,7 +104,7 @@ infinispan.CacheView = wgp.AbstractView
 				// this._updateDraw();
 				if (this.isRealTime) {
 					appView
-							.syncData([ (infinispan.cache.treeSettingId + ".*") ]);
+							.syncData([ (infinispan.cache.treeSettingId + "%") ]);
 				}
 				this._removeGraphRect();
 
@@ -425,8 +425,8 @@ infinispan.CacheView = wgp.AbstractView
 				var treeSettingId = infinispan.cache.treeSettingId;
 				var end = new Date(new Date().getTime() - pastTime);
 				var start = new Date(end.getTime() - 60 * 60 * 1000);
-				appView.stopSyncData([ (treeSettingId + '.*') ]);
-				appView.getTermData([ (treeSettingId + '.*') ], start, end);
+				appView.stopSyncData([ (treeSettingId + '%') ]);
+				appView.getTermData([ (treeSettingId + '%') ], start, end);
 			},
 			_drawYDivision : function(maxCacheNum) {
 				var yUnitSize = this.graphMaxValue / maxCacheNum;

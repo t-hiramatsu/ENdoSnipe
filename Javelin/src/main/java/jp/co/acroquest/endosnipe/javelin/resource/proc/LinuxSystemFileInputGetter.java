@@ -29,7 +29,7 @@ import jp.co.acroquest.endosnipe.common.entity.ItemType;
 import jp.co.acroquest.endosnipe.javelin.bean.proc.DiskStats;
 
 /**
- * StatInfoã‹ã‚‰ã‚·ã‚¹ãƒ†ãƒ ãƒ¢ãƒ¼ãƒ‰ã®CPUä½¿ç”¨é‡ã‚’å–å¾—ã™ã‚‹ã€‚
+ * StatInfo‚©‚çƒVƒXƒeƒ€ƒ‚[ƒh‚ÌCPUŽg—p—Ê‚ðŽæ“¾‚·‚éB
  * 
  * @author eriguchi
  */
@@ -38,7 +38,7 @@ public class LinuxSystemFileInputGetter extends ProcResourceGetter
 
     /**
      * 
-     * @param procParser ãƒªã‚½ãƒ¼ã‚¹æƒ…å ±å–å¾—ç”¨
+     * @param procParser ƒŠƒ\[ƒXî•ñŽæ“¾—p
      */
     public LinuxSystemFileInputGetter(ProcParser procParser)
     {

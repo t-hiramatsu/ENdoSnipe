@@ -34,7 +34,7 @@ import jp.co.acroquest.endosnipe.data.entity.MeasurementValue;
 import jp.co.acroquest.endosnipe.test.DataAccessorTestUtil;
 
 /**
- * 計測データ蓄積機能のテストクラス
+ * �v���f�[�^�~�ϋ@�\�̃e�X�g�N���X
  * 
  * @author M.Yoshida
  */
@@ -70,20 +70,20 @@ public class MeasurementValueAccumulationTest extends AbstractDaoTest
     }
 
     /**
-     * 試験項目3-1-2
+     * ��������3-1-2
      */
     public void testValueInsert1()
     {
-        // 条件
-        // --> DB登録済みデータ
+        // ����
+        // --> DB�o�^�ς݃f�[�^
         initDatabase();
         
-        // --> 追加対象データ
+        // --> �ǉ��Ώۃf�[�^
         List<Object> valueInfoList
             = DataAccessorTestUtil.createMeasurementValueEntities(
                 new String[]{MEASUREMENT_VALUE_DATA[1], MEASUREMENT_VALUE_DATA[2]});
 
-        // 実施
+        // ���{
         for(Object entity : valueInfoList)
         {
             try
@@ -96,7 +96,7 @@ public class MeasurementValueAccumulationTest extends AbstractDaoTest
             }
         }
         
-        // 検証
+        // ����
         List<Object> expectedData 
             = DataAccessorTestUtil.createMeasurementValueEntities(
                 new String[]{MEASUREMENT_VALUE_DATA[0], 
@@ -118,20 +118,20 @@ public class MeasurementValueAccumulationTest extends AbstractDaoTest
     }
     
     /**
-     * 試験項目3-1-1
+     * ��������3-1-1
      */
     public void testValueInsert2()
     {
-        // 条件
-        // --> DB登録済みデータ
+        // ����
+        // --> DB�o�^�ς݃f�[�^
         initDatabase();
         
-        // --> 追加対象データ
+        // --> �ǉ��Ώۃf�[�^
         List<Object> valueInfoList
             = DataAccessorTestUtil.createMeasurementValueEntities(
                 new String[]{MEASUREMENT_VALUE_DATA[3], MEASUREMENT_VALUE_DATA[4]});
 
-        // 実施
+        // ���{
         for(Object entity : valueInfoList)
         {
             try
@@ -144,7 +144,7 @@ public class MeasurementValueAccumulationTest extends AbstractDaoTest
             }
         }
         
-        // 検証
+        // ����
         List<Object> expectedData 
             = DataAccessorTestUtil.createMeasurementValueEntities(
                 new String[]{MEASUREMENT_VALUE_DATA[0], 
@@ -166,20 +166,20 @@ public class MeasurementValueAccumulationTest extends AbstractDaoTest
     }
     
     /**
-     * 試験項目3-1-3
+     * ��������3-1-3
      */
     public void testValueInsert3()
     {
-        // 条件
-        // --> DB登録済みデータ
+        // ����
+        // --> DB�o�^�ς݃f�[�^
         initDatabase();
         
-        // --> 追加対象データ
+        // --> �ǉ��Ώۃf�[�^
         List<Object> valueInfoList
             = DataAccessorTestUtil.createMeasurementValueEntities(
                 new String[]{MEASUREMENT_VALUE_DATA[5]});
 
-        // 実施
+        // ���{
         for(Object entity : valueInfoList)
         {
             try
@@ -191,7 +191,7 @@ public class MeasurementValueAccumulationTest extends AbstractDaoTest
             }
         }
         
-        // 検証
+        // ����
         List<Object> expectedData 
             = DataAccessorTestUtil.createMeasurementValueEntities(
                 new String[]{MEASUREMENT_VALUE_DATA[0], MEASUREMENT_VALUE_DATA[5]});
@@ -210,20 +210,20 @@ public class MeasurementValueAccumulationTest extends AbstractDaoTest
     }
 
     /**
-     * 試験項目3-1-4
+     * ��������3-1-4
      */
     public void testValueInsert4()
     {
-        // 条件
-        // --> DB登録済みデータ
+        // ����
+        // --> DB�o�^�ς݃f�[�^
         initDatabase();
         
-        // --> 追加対象データ
+        // --> �ǉ��Ώۃf�[�^
         List<Object> valueInfoList
             = DataAccessorTestUtil.createMeasurementValueEntities(
                 new String[]{MEASUREMENT_VALUE_DATA[6]});
 
-        // 実施
+        // ���{
         for(Object entity : valueInfoList)
         {
             try
@@ -235,7 +235,7 @@ public class MeasurementValueAccumulationTest extends AbstractDaoTest
             }
         }
         
-        // 検証
+        // ����
         List<Object> expectedData 
             = DataAccessorTestUtil.createMeasurementValueEntities(
                 new String[]{MEASUREMENT_VALUE_DATA[0]});
@@ -254,20 +254,20 @@ public class MeasurementValueAccumulationTest extends AbstractDaoTest
     }
 
     /**
-     * 試験項目3-1-5
+     * ��������3-1-5
      */
     public void testItemInsert1()
     {
-        // 条件
-        // --> DB登録済みデータ
+        // ����
+        // --> DB�o�^�ς݃f�[�^
         initDatabase();
         
-        // --> 追加対象データ
+        // --> �ǉ��Ώۃf�[�^
         List<Object> itemInfoList
             = DataAccessorTestUtil.createJavelinMeasurementItemEntities(
                 new String[]{JAVELIN_MEASUREMENT_ITEM_DATA[1]});
 
-        // 実施
+        // ���{
         for(Object entity : itemInfoList)
         {
             try
@@ -279,7 +279,7 @@ public class MeasurementValueAccumulationTest extends AbstractDaoTest
             }
         }
         
-        // 検証
+        // ����
         List<Object> expectedData
             = DataAccessorTestUtil.createJavelinMeasurementItemEntities(
                 new String[]{JAVELIN_MEASUREMENT_ITEM_DATA[0],
@@ -299,20 +299,20 @@ public class MeasurementValueAccumulationTest extends AbstractDaoTest
     }
     
     /**
-     * 試験項目3-1-5
+     * ��������3-1-5
      */
     public void testItemInsert2()
     {
-        // 条件
-        // --> DB登録済みデータ
+        // ����
+        // --> DB�o�^�ς݃f�[�^
         initDatabase();
         
-        // --> 追加対象データ
+        // --> �ǉ��Ώۃf�[�^
         List<Object> itemInfoList
             = DataAccessorTestUtil.createJavelinMeasurementItemEntities(
                 new String[]{JAVELIN_MEASUREMENT_ITEM_DATA[2]});
 
-        // 実施
+        // ���{
         for(Object entity : itemInfoList)
         {
             try
@@ -324,7 +324,7 @@ public class MeasurementValueAccumulationTest extends AbstractDaoTest
             }
         }
         
-        // 検証
+        // ����
         List<Object> expectedData
             = DataAccessorTestUtil.createJavelinMeasurementItemEntities(
                 new String[]{JAVELIN_MEASUREMENT_ITEM_DATA[0], JAVELIN_MEASUREMENT_ITEM_DATA[2]});
@@ -345,7 +345,7 @@ public class MeasurementValueAccumulationTest extends AbstractDaoTest
     
     private void initDatabase()
     {
-        // MeasurementInfoTableはsrc/main/resources/measurementInfo.tsvから取得している
+        // MeasurementInfoTable��src/main/resources/measurementInfo.tsv����擾���Ă���
 //        DataAccessorTestUtil.initializeMeasurementInfoTable(
 //            new String[]{MEASUREMENT_INFO[0]});
         DataAccessorTestUtil.initializeJavelinMeasurementItemTable(

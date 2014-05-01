@@ -30,7 +30,7 @@ import java.sql.Connection;
 import jp.co.acroquest.endosnipe.common.util.SQLUtil;
 
 /**
- * {@link DBInitializer} のためのテストクラスです。<br />
+ * {@link DBInitializer} �̂��߂̃e�X�g�N���X�ł��B<br />
  * 
  * @author y-komori
  */
@@ -48,7 +48,7 @@ public class DBInitializerTest extends AbstractDBTest
     }
 
     /**
-     * {@link DBInitializer#initialize(Connection)} メソッドのテストです。<br />
+     * {@link DBInitializer#initialize(Connection)} ���\�b�h�̃e�X�g�ł��B<br />
      */
     public void testInitialize()
     {
@@ -66,7 +66,7 @@ public class DBInitializerTest extends AbstractDBTest
     }
 
     /**
-     * {@link DBInitializer#isInitialized(Connection)} メソッドのテストです。<br />
+     * {@link DBInitializer#isInitialized(Connection)} ���\�b�h�̃e�X�g�ł��B<br />
      */
     public void testIsInitialized()
     {

@@ -31,7 +31,7 @@ import java.util.Comparator;
 import jp.co.acroquest.endosnipe.perfdoctor.WarningUnit;
 
 /**
- * æ¤œå‡ºå€¤ã‚’æ¯”è¼ƒã™ã‚‹ã€‚
+ * ŒŸo’l‚ğ”äŠr‚·‚éB
  * @author fujii
  *
  */
@@ -43,10 +43,10 @@ public class DetectionValueComparator implements Comparator<WarningUnit>, Serial
 	private static final long serialVersionUID = 7561669197988892669L;
 
 	/**
-     * compareãƒ¡ã‚½ãƒƒãƒ‰ã®å®Ÿè£…ã€‚
-     * @param unit1 æ¯”è¼ƒå¯¾è±¡ã®WarningUnit
-     * @param unit2 æ¯”è¼ƒå¯¾è±¡ã®WarningUnit
-     * @return ã©ã¡ã‚‰ãŒå¤§ãã„ã‹(unit1ã®æ–¹ãŒå¤§ãã„ãªã‚‰1,unit2ã®æ–¹ãŒå¤§ãã„ãªã‚‰-1,ç­‰ã—ã„ãªã‚‰0)
+     * compareƒƒ\ƒbƒh‚ÌÀ‘•B
+     * @param unit1 ”äŠr‘ÎÛ‚ÌWarningUnit
+     * @param unit2 ”äŠr‘ÎÛ‚ÌWarningUnit
+     * @return ‚Ç‚¿‚ç‚ª‘å‚«‚¢‚©(unit1‚Ì•û‚ª‘å‚«‚¢‚È‚ç1,unit2‚Ì•û‚ª‘å‚«‚¢‚È‚ç-1,“™‚µ‚¢‚È‚ç0)
      */
     public int compare(final WarningUnit unit1, final WarningUnit unit2)
     {

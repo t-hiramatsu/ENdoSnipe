@@ -27,58 +27,44 @@ package jp.co.acroquest.endosnipe.javelin.converter.hadoop;
 
 import java.util.ArrayList;
 
-
 /**
- * Hadoopã®TaskTrackerStatusæƒ…å ±ã‚’ä¿æŒã™ã‚‹ã‚¯ãƒ©ã‚¹
+ * Hadoop‚ÌTaskTrackerStatusî•ñ‚ğ•Û‚·‚éƒNƒ‰ƒX
  *
  * @author asazuma
  *
  */
 public class HadoopInfo
 {
-    /** ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®ç”Ÿæˆæ™‚åˆ» */
-    private long timestamp_;
-    
-    /** ãƒ›ã‚¹ãƒˆå */
+    /** ƒzƒXƒg–¼ */
     private String host_ = null;
 
-    /** ã‚¸ãƒ§ãƒ–ç™»éŒ²æ™‚ã®ã‚¸ãƒ§ãƒ–ID */
+    /** ƒWƒ‡ƒu“o˜^‚ÌƒWƒ‡ƒuID */
     private String submitJobID_ = null;
 
-    /** å®Œäº†ã—ãŸã‚¸ãƒ§ãƒ–ID */
+    /** Š®—¹‚µ‚½ƒWƒ‡ƒuID */
     private String completeJobID_ = null;
 
-    /** åœæ­¢ã•ã‚ŒãŸã‚¸ãƒ§ãƒ–ID */
+    /** ’â~‚³‚ê‚½ƒWƒ‡ƒuID */
     private String killedJobID_ = null;
 
-    /** ã‚¿ã‚¹ã‚¯çŠ¶æ…‹ã®ãƒªã‚¹ãƒˆ */
+    /** ƒ^ƒXƒNó‘Ô‚ÌƒŠƒXƒg */
     private ArrayList<HadoopTaskStatus> taskStatuses_ = null;
 
-    /** ã‚¢ã‚¯ã‚·ãƒ§ãƒ³æƒ…å ± ã®ãƒªã‚¹ãƒˆ*/
+    /** ƒAƒNƒVƒ‡ƒ“î•ñ ‚ÌƒŠƒXƒg*/
     private ArrayList<HadoopAction> taskTrackerActions_ = null;
 
     /**
-     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
      */
     public HadoopInfo()
     {
-        this.timestamp_ = System.currentTimeMillis();
+        // ‰½‚à‚µ‚È‚¢
     }
 
     /**
-     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ç”Ÿæˆæ™‚åˆ»ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒzƒXƒg–¼‚ğæ“¾‚·‚éB
      *
-     * @return ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ç”Ÿæˆæ™‚åˆ»
-     */
-    public long getTimestamp()
-    {
-        return this.timestamp_;
-    }
-
-    /**
-     * ãƒ›ã‚¹ãƒˆåã‚’å–å¾—ã™ã‚‹ã€‚
-     *
-     * @return ãƒ›ã‚¹ãƒˆå
+     * @return ƒzƒXƒg–¼
      */
     public String getHost()
     {
@@ -86,9 +72,9 @@ public class HadoopInfo
     }
 
     /**
-     * ãƒ›ã‚¹ãƒˆåã‚’è¨­å®šã™ã‚‹ã€‚
+     * ƒzƒXƒg–¼‚ğİ’è‚·‚éB
      *
-     * @param host ãƒ›ã‚¹ãƒˆå
+     * @param host ƒzƒXƒg–¼
      */
     public void setHost(String host)
     {
@@ -96,9 +82,9 @@ public class HadoopInfo
     }
 
     /**
-     * ã‚¿ã‚¹ã‚¯çŠ¶æ…‹ã®ãƒªã‚¹ãƒˆã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒ^ƒXƒNó‘Ô‚ÌƒŠƒXƒg‚ğæ“¾‚·‚éB
      *
-     * @return ã‚¿ã‚¹ã‚¯çŠ¶æ…‹ã®ãƒªã‚¹ãƒˆ
+     * @return ƒ^ƒXƒNó‘Ô‚ÌƒŠƒXƒg
      */
     public ArrayList<HadoopTaskStatus> getTaskStatuses()
     {
@@ -106,9 +92,9 @@ public class HadoopInfo
     }
 
     /**
-     * ã‚¿ã‚¹ã‚¯çŠ¶æ…‹ã®ãƒªã‚¹ãƒˆã‚’è¨­å®šã™ã‚‹ã€‚
+     * ƒ^ƒXƒNó‘Ô‚ÌƒŠƒXƒg‚ğİ’è‚·‚éB
      *
-     * @param taskStatusList ã‚¿ã‚¹ã‚¯çŠ¶æ…‹ã®ãƒªã‚¹ãƒˆ
+     * @param taskStatusList ƒ^ƒXƒNó‘Ô‚ÌƒŠƒXƒg
      */
     public void setTaskStatuses(ArrayList<HadoopTaskStatus> taskStatusList)
     {
@@ -116,9 +102,9 @@ public class HadoopInfo
     }
 
     /**
-     * ã‚¿ã‚¹ã‚¯çŠ¶æ…‹ã‚’ãƒªã‚¹ãƒˆã«è¿½åŠ ã™ã‚‹ã€‚
+     * ƒ^ƒXƒNó‘Ô‚ğƒŠƒXƒg‚É’Ç‰Á‚·‚éB
      *
-     * @param taskStatus ã‚¿ã‚¹ã‚¯çŠ¶æ…‹
+     * @param taskStatus ƒ^ƒXƒNó‘Ô
      */
     public void addTaskStatus(HadoopTaskStatus taskStatus)
     {
@@ -133,9 +119,9 @@ public class HadoopInfo
     }
 
     /**
-     * ã‚¢ã‚¯ã‚·ãƒ§ãƒ³æƒ…å ±ã®ãƒªã‚¹ãƒˆã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒAƒNƒVƒ‡ƒ“î•ñ‚ÌƒŠƒXƒg‚ğæ“¾‚·‚éB
      *
-     * @return ã‚¢ã‚¯ã‚·ãƒ§ãƒ³æƒ…å ±ã®ãƒªã‚¹ãƒˆ
+     * @return ƒAƒNƒVƒ‡ƒ“î•ñ‚ÌƒŠƒXƒg
      */
     public ArrayList<HadoopAction> getTaskTrackerActions()
     {
@@ -143,9 +129,9 @@ public class HadoopInfo
     }
 
     /**
-     * ã‚¢ã‚¯ã‚·ãƒ§ãƒ³æƒ…å ±ã®ãƒªã‚¹ãƒˆã‚’è¨­å®šã™ã‚‹ã€‚
+     * ƒAƒNƒVƒ‡ƒ“î•ñ‚ÌƒŠƒXƒg‚ğİ’è‚·‚éB
      *
-     * @param hadoopTaskTrackerActions ã‚¢ã‚¯ã‚·ãƒ§ãƒ³æƒ…å ±ã®ãƒªã‚¹ãƒˆ
+     * @param hadoopTaskTrackerActions ƒAƒNƒVƒ‡ƒ“î•ñ‚ÌƒŠƒXƒg
      */
     public void setTaskTrackerActions(ArrayList<HadoopAction> hadoopTaskTrackerActions)
     {
@@ -153,9 +139,9 @@ public class HadoopInfo
     }
 
     /**
-     * ã‚¢ã‚¯ã‚·ãƒ§ãƒ³æƒ…å ±ã‚’è¿½åŠ ã™ã‚‹ã€‚
+     * ƒAƒNƒVƒ‡ƒ“î•ñ‚ğ’Ç‰Á‚·‚éB
      *
-     * @param hadoopTaskTrackerAction Hadoopã®TaskTrackerã®ã‚¢ã‚¯ã‚·ãƒ§ãƒ³æƒ…å ±
+     * @param hadoopTaskTrackerAction Hadoop‚ÌTaskTracker‚ÌƒAƒNƒVƒ‡ƒ“î•ñ
      */
     public void addTaskTrackerAction(HadoopAction hadoopTaskTrackerAction)
     {
@@ -168,9 +154,9 @@ public class HadoopInfo
     }
 
     /**
-     * ã‚¸ãƒ§ãƒ–ç™»éŒ²æƒ…å ±ã‚’æŒã£ã¦ã„ã‚‹ã‹
+     * ƒWƒ‡ƒu“o˜^î•ñ‚ğ‚Á‚Ä‚¢‚é‚©
      *
-     * @return {@code true}ï¼šæŒã£ã¦ã„ã‚‹ï¼{@code false}ï¼šæŒã£ã¦ã„ãªã„
+     * @return {@code true}F‚Á‚Ä‚¢‚é^{@code false}F‚Á‚Ä‚¢‚È‚¢
      */
     public boolean hasSubmitInfo()
     {
@@ -178,9 +164,9 @@ public class HadoopInfo
     }
 
     /**
-     * ã‚¸ãƒ§ãƒ–ç™»éŒ²æ™‚ã®ã‚¸ãƒ§ãƒ–IDã‚’å–å¾—
+     * ƒWƒ‡ƒu“o˜^‚ÌƒWƒ‡ƒuID‚ğæ“¾
      *
-     * @return ã‚¸ãƒ§ãƒ–ID
+     * @return ƒWƒ‡ƒuID
      */
     public String getSubmitJobID()
     {
@@ -188,9 +174,9 @@ public class HadoopInfo
     }
 
     /**
-     * ã‚¸ãƒ§ãƒ–ç™»éŒ²æ™‚ã®ã‚¸ãƒ§ãƒ–IDã‚’è¨­å®š
+     * ƒWƒ‡ƒu“o˜^‚ÌƒWƒ‡ƒuID‚ğİ’è
      *
-     * @param submitJobID ã‚¸ãƒ§ãƒ–ID
+     * @param submitJobID ƒWƒ‡ƒuID
      */
     public void setSubmitJobID(String submitJobID)
     {
@@ -198,9 +184,9 @@ public class HadoopInfo
     }
 
     /**
-     * å®Œäº†ã‚¸ãƒ§ãƒ–æƒ…å ±ã‚’æŒã£ã¦ã„ã‚‹ã‹
+     * Š®—¹ƒWƒ‡ƒuî•ñ‚ğ‚Á‚Ä‚¢‚é‚©
      *
-     * @return {@code true}ï¼šæŒã£ã¦ã„ã‚‹ï¼{@code false}ï¼šæŒã£ã¦ã„ãªã„
+     * @return {@code true}F‚Á‚Ä‚¢‚é^{@code false}F‚Á‚Ä‚¢‚È‚¢
      */
     public boolean hasCompleteInfo()
     {
@@ -208,9 +194,9 @@ public class HadoopInfo
     }
 
     /**
-     * å®Œäº†ã—ãŸã‚¸ãƒ§ãƒ–IDã‚’å–å¾—
+     * Š®—¹‚µ‚½ƒWƒ‡ƒuID‚ğæ“¾
      *
-     * @return ã‚¸ãƒ§ãƒ–ID
+     * @return ƒWƒ‡ƒuID
      */
     public String getCompleteJobID()
     {
@@ -218,9 +204,9 @@ public class HadoopInfo
     }
 
     /**
-     * å®Œäº†ã—ãŸã‚¸ãƒ§ãƒ–IDã‚’è¨­å®š
+     * Š®—¹‚µ‚½ƒWƒ‡ƒuID‚ğİ’è
      *
-     * @param completeJobID ã‚¸ãƒ§ãƒ–ID
+     * @param completeJobID ƒWƒ‡ƒuID
      */
     public void setCompleteJobID(String completeJobID)
     {
@@ -228,9 +214,9 @@ public class HadoopInfo
     }
 
     /**
-     * ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹æƒ…å ±ã‚’æŒã£ã¦ã„ã‚‹ã‹ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒXƒe[ƒ^ƒXî•ñ‚ğ‚Á‚Ä‚¢‚é‚©‚ğæ“¾‚·‚éB
      *
-     * @return {@code true}ï¼šæŒã£ã¦ã„ã‚‹ï¼{@code false}ï¼šæŒã£ã¦ã„ãªã„
+     * @return {@code true}F‚Á‚Ä‚¢‚é^{@code false}F‚Á‚Ä‚¢‚È‚¢
      */
     public boolean hasStatuses()
     {
@@ -241,9 +227,9 @@ public class HadoopInfo
     }
 
     /**
-     * ã‚¢ã‚¯ã‚·ãƒ§ãƒ³æƒ…å ±ã‚’æŒã£ã¦ã„ã‚‹ã‹ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒAƒNƒVƒ‡ƒ“î•ñ‚ğ‚Á‚Ä‚¢‚é‚©‚ğæ“¾‚·‚éB
      *
-     * @return {@code true}ï¼šæŒã£ã¦ã„ã‚‹ï¼{@code false}ï¼šæŒã£ã¦ã„ãªã„
+     * @return {@code true}F‚Á‚Ä‚¢‚é^{@code false}F‚Á‚Ä‚¢‚È‚¢
      */
     public boolean hasActions()
     {
@@ -254,9 +240,9 @@ public class HadoopInfo
     }
 
     /**
-     * åœæ­¢ã•ã‚ŒãŸJobIDã‚’å–å¾—ã™ã‚‹ã€‚
+     * ’â~‚³‚ê‚½JobID‚ğæ“¾‚·‚éB
      * 
-     * @return åœæ­¢ã•ã‚ŒãŸã‚¸ãƒ§ãƒ–ã®ID
+     * @return ’â~‚³‚ê‚½ƒWƒ‡ƒu‚ÌID
      */
     public String getKilledJobID()
     {
@@ -264,9 +250,9 @@ public class HadoopInfo
     }
 
     /**
-     * åœæ­¢ã•ã‚ŒãŸJobIDã‚’è¨­å®šã™ã‚‹ã€‚
+     * ’â~‚³‚ê‚½JobID‚ğİ’è‚·‚éB
      * 
-     * @param killedJobID åœæ­¢ã•ã‚ŒãŸã‚¸ãƒ§ãƒ–ã®ID
+     * @param killedJobID ’â~‚³‚ê‚½ƒWƒ‡ƒu‚ÌID
      */
     public void setKilledJobID(String killedJobID)
     {
@@ -274,9 +260,9 @@ public class HadoopInfo
     }
 
     /**
-     * åœæ­¢ã•ã‚ŒãŸã‚¸ãƒ§ãƒ–æƒ…å ±ã‚’æŒã£ã¦ã„ã‚‹ã‹ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ’â~‚³‚ê‚½ƒWƒ‡ƒuî•ñ‚ğ‚Á‚Ä‚¢‚é‚©‚ğæ“¾‚·‚éB
      *
-     * @return {@code true}ï¼šæŒã£ã¦ã„ã‚‹ï¼{@code false}ï¼šæŒã£ã¦ã„ãªã„
+     * @return {@code true}F‚Á‚Ä‚¢‚é^{@code false}F‚Á‚Ä‚¢‚È‚¢
      */
     public boolean hasKilledInfo()
     {

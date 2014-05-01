@@ -24,22 +24,22 @@ import jp.co.acroquest.endosnipe.report.output.RecordReporter;
 import jp.co.acroquest.endosnipe.report.util.ReporterConfigAccessor;
 
 /**
- * ResponseTimeã®Summaryã‚’ä½œæˆã™ã‚‹ãƒ—ãƒ­ã‚»ãƒƒã‚µ
+ * ResponseTime‚ÌSummary‚ğì¬‚·‚éƒvƒƒZƒbƒT
  * 
  * @author kimura
  * 
  */
 public class ResponseTimeListReportProcessor extends ReportPublishProcessorBase
 {
-	/** ãƒ­ã‚¬ãƒ¼ */
-	private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
-		.getLogger(ResponseTimeListReportProcessor.class);
+    /** ƒƒK[ */
+    private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(
+            ResponseTimeListReportProcessor.class);
 
 	/**
-	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 	 * 
 	 * @param type
-	 *            ãƒ¬ãƒãƒ¼ãƒˆç¨®åˆ¥
+	 *            ƒŒƒ|[ƒgí•Ê
 	 */
 	public ResponseTimeListReportProcessor(ReportType type)
 	{
@@ -51,14 +51,14 @@ public class ResponseTimeListReportProcessor extends ReportPublishProcessorBase
 	 */
 	@Override
 	protected Object getReportPlotData(ReportSearchCondition cond,
-		ReportProcessReturnContainer reportContainer)
+			ReportProcessReturnContainer reportContainer)
 	{
-		// æ¤œç´¢æ¡ä»¶ã®å–å¾—
+		// ŒŸõğŒ‚Ìæ“¾
 		String database = cond.getDatabases().get(0);
 		Timestamp startTime = cond.getStartDate();
 		Timestamp endTime = cond.getEndDate();
 
-		// DBã‹ã‚‰æ¤œç´¢
+		// DB‚©‚çŒŸõ
 		List<ItemData> tatData = null;
 		List<ItemData> tatMinData = null;
 		List<ItemData> tatMaxData = null;
@@ -67,55 +67,65 @@ public class ResponseTimeListReportProcessor extends ReportPublishProcessorBase
 		List<ItemData> stallCountData = null;
 		try
 		{
-			tatData = GraphItemAccessUtil.findItemData(database,
-				Constants.ITEMNAME_PROCESS_RESPONSE_TIME_AVERAGE, CompressOperator.SIMPLE_AVERAGE,
-				startTime, endTime);
+    		tatData = GraphItemAccessUtil.findItemData(database,
+    				Constants.ITEMNAME_PROCESS_RESPONSE_TIME_AVERAGE,
+    				CompressOperator.SIMPLE_AVERAGE,
+    				startTime, endTime);
 
-			tatMinData = GraphItemAccessUtil.findItemData(database,
-				Constants.ITEMNAME_PROCESS_RESPONSE_TIME_MIN, CompressOperator.SIMPLE_AVERAGE,
-				startTime, endTime);
+    		tatMinData = GraphItemAccessUtil.findItemData(database,
+    				Constants.ITEMNAME_PROCESS_RESPONSE_TIME_MIN,
+    				CompressOperator.SIMPLE_AVERAGE,
+    				 startTime, endTime);
 
-			tatMaxData = GraphItemAccessUtil.findItemData(database,
-				Constants.ITEMNAME_PROCESS_RESPONSE_TIME_MAX, CompressOperator.SIMPLE_AVERAGE,
-				startTime, endTime);
+    		tatMaxData = GraphItemAccessUtil.findItemData(database,
+    				Constants.ITEMNAME_PROCESS_RESPONSE_TIME_MAX,
+    				CompressOperator.SIMPLE_AVERAGE,
+    				 startTime, endTime);
 
-			countData = GraphItemAccessUtil.findItemData(database,
-				Constants.ITEMNAME_PROCESS_RESPONSE_TOTAL_COUNT, CompressOperator.TOTAL, startTime,
-				endTime);
+    		countData = GraphItemAccessUtil.findItemData(database,
+    				Constants.ITEMNAME_PROCESS_RESPONSE_TOTAL_COUNT,
+    				CompressOperator.TOTAL,
+    				startTime, endTime);
 
-			exceptionCountData = GraphItemAccessUtil.findExceptionData(database,
-				CompressOperator.TOTAL, startTime, endTime, tatData);
+    		exceptionCountData = GraphItemAccessUtil
+    				.findExceptionData(database, CompressOperator.TOTAL, startTime,
+    						endTime, tatData);
 
-			stallCountData = GraphItemAccessUtil.findStallData(database, CompressOperator.TOTAL,
-				startTime, endTime, tatData);
+    		stallCountData = GraphItemAccessUtil
+                    .findStallData(database, CompressOperator.TOTAL, startTime,
+                            endTime, tatData);
 		}
 		catch (SQLException ex)
 		{
-			LOGGER.log(LogIdConstants.EXCEPTION_IN_READING, ex,
-				ReporterConfigAccessor.getReportName(getReportType()));
-			return null;
+		    LOGGER.log(LogIdConstants.EXCEPTION_IN_READING, ex,
+		            ReporterConfigAccessor.getReportName(getReportType()));
+		    return null;
 		}
+        		
 
-		// å–å¾—ã—ãŸãƒ‡ãƒ¼ã‚¿ã‚’mapã«ã¾ã¨ã‚ã¦ãƒªã‚¿ãƒ¼ãƒ³ã™ã‚‹
+		// æ“¾‚µ‚½ƒf[ƒ^‚ğmap‚É‚Ü‚Æ‚ß‚ÄƒŠƒ^[ƒ“‚·‚é
 		Map<String, List<? extends Object>> data = new HashMap<String, List<? extends Object>>();
 		data.put(Constants.ITEMNAME_PROCESS_RESPONSE_TIME_AVERAGE, tatData);
 		data.put(Constants.ITEMNAME_PROCESS_RESPONSE_TIME_MIN, tatMinData);
 		data.put(Constants.ITEMNAME_PROCESS_RESPONSE_TIME_MAX, tatMaxData);
 		data.put(Constants.ITEMNAME_PROCESS_RESPONSE_TOTAL_COUNT, countData);
-		data.put(Constants.ITEMNAME_JAVAPROCESS_EXCEPTION_OCCURENCE_COUNT, exceptionCountData);
-		data.put(Constants.ITEMNAME_JAVAPROCESS_STALL_OCCURENCE_COUNT, stallCountData);
+        data.put(Constants.ITEMNAME_JAVAPROCESS_EXCEPTION_OCCURENCE_COUNT, exceptionCountData);
+        data.put(Constants.ITEMNAME_JAVAPROCESS_STALL_OCCURENCE_COUNT, stallCountData);
 
 		return data;
 	}
+
+
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected Object convertPlotData(Object rawData, ReportSearchCondition cond,
-		ReportProcessReturnContainer reportContainer)
+	protected Object convertPlotData(Object rawData,
+			ReportSearchCondition cond,
+			ReportProcessReturnContainer reportContainer)
 	{
-		// map ã®ãƒ‡ãƒ¼ã‚¿ã‚’6ã‚°ãƒ©ãƒ•ã®å€‹åˆ¥ã®ãƒ‡ãƒ¼ã‚¿ã«åˆ†ã‘ã‚‹
+		// map ‚Ìƒf[ƒ^‚ğ6ƒOƒ‰ƒt‚ÌŒÂ•Ê‚Ìƒf[ƒ^‚É•ª‚¯‚é
 		return (Map<String, List<? extends Object>>) rawData;
 	}
 
@@ -123,35 +133,39 @@ public class ResponseTimeListReportProcessor extends ReportPublishProcessorBase
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected void outputReport(Object convertedData, ReportSearchCondition cond,
-		ReportProcessReturnContainer reportContainer)
+	protected void outputReport(Object convertedData,
+			ReportSearchCondition cond,
+			ReportProcessReturnContainer reportContainer)
 	{
-		// map ã®ãƒ‡ãƒ¼ã‚¿ã‚’6ã‚°ãƒ©ãƒ•ã®å€‹åˆ¥ã®ãƒ‡ãƒ¼ã‚¿ã«åˆ†ã‘ã‚‹
+		// map ‚Ìƒf[ƒ^‚ğ6ƒOƒ‰ƒt‚ÌŒÂ•Ê‚Ìƒf[ƒ^‚É•ª‚¯‚é
 		Map<String, List<? extends Object>> data = (Map<String, List<? extends Object>>) convertedData;
 
 		List<ItemData> tatDataList = (List<ItemData>) data
-			.get(Constants.ITEMNAME_PROCESS_RESPONSE_TIME_AVERAGE);
+				.get(Constants.ITEMNAME_PROCESS_RESPONSE_TIME_AVERAGE);
 
 		List<ItemData> tatMinDataList = (List<ItemData>) data
-			.get(Constants.ITEMNAME_PROCESS_RESPONSE_TIME_MIN);
+				.get(Constants.ITEMNAME_PROCESS_RESPONSE_TIME_MIN);
 
 		List<ItemData> tatMaxDataList = (List<ItemData>) data
-			.get(Constants.ITEMNAME_PROCESS_RESPONSE_TIME_MAX);
+				.get(Constants.ITEMNAME_PROCESS_RESPONSE_TIME_MAX);
 
 		List<ItemData> countDataList = (List<ItemData>) data
-			.get(Constants.ITEMNAME_PROCESS_RESPONSE_TOTAL_COUNT);
+				.get(Constants.ITEMNAME_PROCESS_RESPONSE_TOTAL_COUNT);
 
-		List<ItemData> exceptionCountDataList = (List<ItemData>) data
-			.get(Constants.ITEMNAME_JAVAPROCESS_EXCEPTION_OCCURENCE_COUNT);
+        List<ItemData> exceptionCountDataList = (List<ItemData>) data
+                .get(Constants.ITEMNAME_JAVAPROCESS_EXCEPTION_OCCURENCE_COUNT);
 
-		List<ItemData> stallCountDataList = (List<ItemData>) data
-			.get(Constants.ITEMNAME_JAVAPROCESS_STALL_OCCURENCE_COUNT);
+        List<ItemData> stallCountDataList = (List<ItemData>)data
+                .get(Constants.ITEMNAME_JAVAPROCESS_STALL_OCCURENCE_COUNT);
+		
+		
 
-		// å‡ºåŠ›ã™ã‚‹ãƒ¬ãƒãƒ¼ãƒˆã®ç¨®é¡ã«ã‚ã‚ã›ã¦ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã®ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã‚’å–å¾—ã™ã‚‹
+		// o—Í‚·‚éƒŒƒ|[ƒg‚Ìí—Ş‚É‚ ‚í‚¹‚Äƒeƒ“ƒvƒŒ[ƒg‚Ìƒtƒ@ƒCƒ‹ƒpƒX‚ğæ“¾‚·‚é
 		String templateFilePath;
 		try
 		{
-			templateFilePath = TemplateFileManager.getInstance().getTemplateFile(ReportType.ITEM);
+			templateFilePath = TemplateFileManager.getInstance()
+					.getTemplateFile(ReportType.ITEM);
 		}
 		catch (IOException exception)
 		{
@@ -159,27 +173,31 @@ public class ResponseTimeListReportProcessor extends ReportPublishProcessorBase
 			return;
 		}
 
-		// ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã®å¼•æ•°æƒ…å ±ã‚’å–å¾—ã™ã‚‹
-		String outputFolderPath = getOutputFolderName() + File.separator
-			+ ReporterConfigAccessor.getProperty(super.getReportType().getId() + ".outputFile");
+		// ƒŒƒ|[ƒgo—Í‚Ìˆø”î•ñ‚ğæ“¾‚·‚é
+		String outputFolderPath = getOutputFolderName()
+				+ File.separator
+				+ ReporterConfigAccessor.getProperty(super.getReportType()
+						.getId()
+						+ ".outputFile");
 		Timestamp startTime = cond.getStartDate();
 		Timestamp endTime = cond.getEndDate();
 
-		// ãƒ¬ãƒãƒ¼ãƒˆå‡ºåŠ›ã‚’å®Ÿè¡Œã™ã‚‹
-		RecordReporter<ObjectRecord> reporter = new RecordReporter<ObjectRecord>(getReportType());
-
-		for (int index = 0; index < tatDataList.size(); index++)
+		// ƒŒƒ|[ƒgo—Í‚ğÀs‚·‚é
+		RecordReporter<ObjectRecord> reporter = new RecordReporter<ObjectRecord>(
+				getReportType());
+		
+		for(int index = 0; index < tatDataList.size(); index++)
 		{
-			List<ItemData> list = new ArrayList<ItemData>();
-			list.add(countDataList.get(index));
-			list.add(tatDataList.get(index));
-			list.add(tatMaxDataList.get(index));
-			list.add(tatMinDataList.get(index));
-			list.add(exceptionCountDataList.get(index));
-			list.add(stallCountDataList.get(index));
+		    List<ItemData> list = new ArrayList<ItemData>();
+            list.add(countDataList.get(index));
+            list.add(tatDataList.get(index));
+            list.add(tatMaxDataList.get(index));
+            list.add(tatMinDataList.get(index));
+            list.add(exceptionCountDataList.get(index));
+            list.add(stallCountDataList.get(index));
 
-			reporter.outputReport(templateFilePath, outputFolderPath, list, startTime, endTime);
-
+            reporter.outputReport(templateFilePath, outputFolderPath, list, startTime, endTime);
+		    
 		}
 	}
 

@@ -28,77 +28,78 @@ import jp.co.acroquest.endosnipe.report.output.ResponseTimeReporter;
 import jp.co.acroquest.endosnipe.report.util.ReporterConfigAccessor;
 
 /**
- * ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚¿ã‚¤ãƒ ãƒ¬ãƒãƒ¼ãƒˆã‚’å‡ºåŠ›ã™ã‚‹ãŸã‚ã®ãƒ—ãƒ­ã‚»ãƒƒã‚µ
+ * ƒŒƒXƒ|ƒ“ƒXƒ^ƒCƒ€ƒŒƒ|[ƒg‚ðo—Í‚·‚é‚½‚ß‚ÌƒvƒƒZƒbƒT
  * 
  * @author M.Yoshida
  *
  */
 public class ResponseTimeReportProcessor extends ReportPublishProcessorBase
 {
-	/** ãƒ­ã‚¬ãƒ¼ */
-	private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
-		.getLogger(ResponseTimeReportProcessor.class);
+    /** ƒƒK[ */
+    private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger.getLogger(
+            ResponseTimeReportProcessor.class);
 
-	/**
-	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
-	 * @param type ãƒ¬ãƒãƒ¼ãƒˆç¨®åˆ¥
-	 */
-	public ResponseTimeReportProcessor(ReportType type)
-	{
-		super(type);
-	}
+    /**
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * @param type ƒŒƒ|[ƒgŽí•Ê
+     */
+    public ResponseTimeReportProcessor(ReportType type)
+    {
+        super(type);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected Object getReportPlotData(ReportSearchCondition cond,
-		ReportProcessReturnContainer reportContainer)
-	{
-		ResponseTimeRecordAccessor recordAccessor = new ResponseTimeRecordAccessor();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected Object getReportPlotData(ReportSearchCondition cond,
+            ReportProcessReturnContainer reportContainer)
+    {
+        ResponseTimeRecordAccessor recordAccessor = new ResponseTimeRecordAccessor();
 
-		List<ResponseTimeRecord> responseTimeRecord;
-		try
-		{
-			responseTimeRecord = recordAccessor.findResponseStatisticsByTerm(cond.getDatabases()
-				.get(0), cond.getStartDate(), cond.getEndDate());
-		}
-		catch (SQLException ex)
-		{
-			LOGGER.log(LogIdConstants.EXCEPTION_IN_READING, ex,
-				ReporterConfigAccessor.getReportName(getReportType()));
-			return null;
-		}
+        List<ResponseTimeRecord> responseTimeRecord;
+        try
+        {
+            responseTimeRecord = recordAccessor.findResponseStatisticsByTerm(
+                    cond.getDatabases().get(0), cond.getStartDate(), cond.getEndDate());
+        }
+        catch (SQLException ex)
+        {
+            LOGGER.log(LogIdConstants.EXCEPTION_IN_READING, ex,
+                    ReporterConfigAccessor.getReportName(getReportType()));
+            return null;
+        }
 
-		ResponseTimeRecord[] records = responseTimeRecord.toArray(new ResponseTimeRecord[0]);
-		return records;
-	}
+        ResponseTimeRecord[] records = responseTimeRecord.toArray(new ResponseTimeRecord[0]);
+        return records;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void outputReport(Object plotData, ReportSearchCondition cond,
-		ReportProcessReturnContainer reportContainer)
-	{
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void outputReport(Object plotData, ReportSearchCondition cond,
+            ReportProcessReturnContainer reportContainer)
+    {
 
-		ResponseTimeReporter reporter = new ResponseTimeReporter();
+        ResponseTimeReporter reporter = new ResponseTimeReporter();
 
-		String templateFilePath;
-		try
-		{
-			templateFilePath = TemplateFileManager.getInstance().getTemplateFile(getReportType());
-		}
-		catch (IOException e)
-		{
-			LOGGER.log(LogIdConstants.EXCEPTION_HAPPENED, e, new Object[0]);
-			reportContainer.setHappendedError(e);
-			return;
-		}
+        String templateFilePath;
+        try
+        {
+            templateFilePath = TemplateFileManager.getInstance().getTemplateFile(getReportType());
+        }
+        catch (IOException e)
+        {
+            LOGGER.log(LogIdConstants.EXCEPTION_HAPPENED, e, new Object[0]);
+            reportContainer.setHappendedError(e);
+            return;
+        }
 
-		reporter.outputReport(templateFilePath, getOutputFileName(),
-			(ResponseTimeRecord[]) plotData, cond.getStartDate(), cond.getEndDate());
+        reporter.outputReport(templateFilePath, getOutputFileName(),
+                              (ResponseTimeRecord[])plotData, cond.getStartDate(),
+                              cond.getEndDate());
 
-		return;
-	}
+        return;
+    }
 }

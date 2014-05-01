@@ -31,18 +31,18 @@ import java.util.List;
 import jp.co.acroquest.endosnipe.perfdoctor.WarningUnit;
 
 /**
- * WarningUnitã®ã‚¯ãƒ©ã‚¹ã‚¿
+ * WarningUnit‚ÌƒNƒ‰ƒXƒ^
  * @author fujii
  *
  */
 public class WarningUnitCluster
 {
-    /** ã‚¯ãƒ©ã‚¹ã‚¿ã«å«ã¾ã‚Œã‚‹WarningUnitã®ãƒªã‚¹ãƒˆã€‚ */
+    /** ƒNƒ‰ƒXƒ^‚ÉŠÜ‚Ü‚ê‚éWarningUnit‚ÌƒŠƒXƒgB */
     private final List<WarningUnit> clusterList_ = new ArrayList<WarningUnit>();
 
     /**
-     * ã‚¯ãƒ©ã‚¹ã‚¿ã«WarningUnitã‚’è¿½åŠ ã™ã‚‹ã€‚
-     * @param warningUnit ã‚¯ãƒ©ã‚¹ã‚¿ã«è¿½åŠ ã™ã‚‹WarningUnitã€‚
+     * ƒNƒ‰ƒXƒ^‚ÉWarningUnit‚ğ’Ç‰Á‚·‚éB
+     * @param warningUnit ƒNƒ‰ƒXƒ^‚É’Ç‰Á‚·‚éWarningUnitB
      */
     public void add(final WarningUnit warningUnit)
     {
@@ -50,8 +50,8 @@ public class WarningUnitCluster
     }
 
     /**
-     * ã‚¯ãƒ©ã‚¹ã‚¿æ•°ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ã‚¯ãƒ©ã‚¹ã‚¿ãƒ¼æ•°
+     * ƒNƒ‰ƒXƒ^”‚ğæ“¾‚·‚éB
+     * @return ƒNƒ‰ƒXƒ^[”
      */
     public int getSize()
     {
@@ -59,8 +59,8 @@ public class WarningUnitCluster
     }
 
     /**
-     * ã‚¯ãƒ©ã‚¹ã‚¿ã®å¹³å‡å€¤ã‚’æ±‚ã‚ã‚‹ã€‚
-     * @return å¹³å‡å€¤
+     * ƒNƒ‰ƒXƒ^‚Ì•½‹Ï’l‚ğ‹‚ß‚éB
+     * @return •½‹Ï’l
      */
     public double average()
     {
@@ -76,9 +76,9 @@ public class WarningUnitCluster
     }
 
     /**
-     * ã‚¯ãƒ©ã‚¹ã‚¿ä¸­ã§å„ªå…ˆåº¦ã®é«˜ã„æ¤œå‡ºå€¤ã‚’æŒã¤ã‚‚ã®ã‚’è¿”ã—ã¾ã™ã€‚<br />
+     * ƒNƒ‰ƒXƒ^’†‚Å—Dæ“x‚Ì‚‚¢ŒŸo’l‚ğ‚Â‚à‚Ì‚ğ•Ô‚µ‚Ü‚·B<br />
      * 
-     * @return æœ€å¾Œå°¾ã®WarningUnit
+     * @return ÅŒã”ö‚ÌWarningUnit
      */
     public WarningUnit getLastWarningUnit()
     {
@@ -88,8 +88,8 @@ public class WarningUnitCluster
             return null;
         }
 
-        // æ¤œå‡ºå€¤ãŒå¤§ãã„ã‚‚ã®ãŒå„ªå…ˆã•ã‚Œã‚‹ãƒ«ãƒ¼ãƒ«ã®å ´åˆã«ã¯ãƒªã‚¹ãƒˆã®æœ€å¾Œå°¾ã‚’è¿”ã—ã€
-        // æ¤œå‡ºå€¤ãŒå°ã•ã„ã‚‚ã®ãŒå„ªå…ˆã•ã‚Œã‚‹ãƒ«ãƒ¼ãƒ«ã®å ´åˆã«ã¯ãƒªã‚¹ãƒˆã®å…ˆé ­ã‚’è¿”ã™ã€‚
+        // ŒŸo’l‚ª‘å‚«‚¢‚à‚Ì‚ª—Dæ‚³‚ê‚éƒ‹[ƒ‹‚Ìê‡‚É‚ÍƒŠƒXƒg‚ÌÅŒã”ö‚ğ•Ô‚µA
+        // ŒŸo’l‚ª¬‚³‚¢‚à‚Ì‚ª—Dæ‚³‚ê‚éƒ‹[ƒ‹‚Ìê‡‚É‚ÍƒŠƒXƒg‚Ìæ“ª‚ğ•Ô‚·B
         boolean isDescend = this.clusterList_.get(0).isDescend();
         if (isDescend)
         {

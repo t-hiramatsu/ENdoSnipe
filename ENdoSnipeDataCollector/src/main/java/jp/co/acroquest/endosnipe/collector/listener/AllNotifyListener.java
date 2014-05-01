@@ -32,7 +32,7 @@ import jp.co.acroquest.endosnipe.communicator.AbstractTelegramListener;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 
 /**
- * ã™ã¹ã¦ã®é›»æ–‡ã‚’é€šçŸ¥ã™ã‚‹ãƒªã‚¹ãƒŠã€‚
+ * ‚·‚×‚Ä‚Ì“d•¶‚ğ’Ê’m‚·‚éƒŠƒXƒiB
  *
  * @author sakamoto
  */
@@ -42,7 +42,7 @@ public class AllNotifyListener extends AbstractTelegramListener
     private List<TelegramNotifyListener> telegramNotifyListenerList_;
 
     /**
-     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
      */
     public AllNotifyListener()
     {
@@ -50,9 +50,9 @@ public class AllNotifyListener extends AbstractTelegramListener
     }
 
     /**
-     * ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã«é€šçŸ¥ã™ã‚‹ãŸã‚ã®ãƒªã‚¹ãƒŠã‚’ç™»éŒ²ã—ã¾ã™ã€‚
+     * ƒNƒ‰ƒCƒAƒ“ƒg‚É’Ê’m‚·‚é‚½‚ß‚ÌƒŠƒXƒi‚ğ“o˜^‚µ‚Ü‚·B
      *
-     * @param notifyListenerList ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã«é€šçŸ¥ã™ã‚‹ãŸã‚ã®ãƒªã‚¹ãƒŠã®ãƒªã‚¹ãƒˆ
+     * @param notifyListenerList ƒNƒ‰ƒCƒAƒ“ƒg‚É’Ê’m‚·‚é‚½‚ß‚ÌƒŠƒXƒi‚ÌƒŠƒXƒg
      */
     public void setTelegramNotifyListener(final List<TelegramNotifyListener> notifyListenerList)
     {

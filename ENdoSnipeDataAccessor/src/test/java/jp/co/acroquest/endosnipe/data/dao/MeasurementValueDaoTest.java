@@ -33,16 +33,16 @@ import jp.co.acroquest.endosnipe.data.entity.JavelinMeasurementItem;
 import jp.co.acroquest.endosnipe.data.entity.MeasurementValue;
 
 /**
- * {@link MeasurementValueDao} ã‚¯ãƒ©ã‚¹ã®ãƒ†ã‚¹ãƒˆã‚±ãƒ¼ã‚¹ã€‚<br />
+ * {@link MeasurementValueDao} ƒNƒ‰ƒX‚ÌƒeƒXƒgƒP[ƒXB<br />
  *
  * @author y-sakamoto
  */
 public class MeasurementValueDaoTest extends AbstractDaoTest
 {
-    /** ã‚¹ãƒªãƒ¼ãƒ—æ™‚é–“ */
+    /** ƒXƒŠ[ƒvŠÔ */
     private static final long SLEEP_TIME = 100;
 
-    /** Javelin è¨ˆæ¸¬é …ç›®ãƒ†ãƒ¼ãƒ–ãƒ«ã«ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹ãƒ¬ã‚³ãƒ¼ãƒ‰ã®ãƒªã‚¹ãƒˆ */
+    /** Javelin Œv‘ª€–Úƒe[ƒuƒ‹‚É“o˜^‚³‚ê‚Ä‚¢‚éƒŒƒR[ƒh‚ÌƒŠƒXƒg */
     private List<JavelinMeasurementItem> javelinMeasurementItemList_;
 
     /**
@@ -58,13 +58,12 @@ public class MeasurementValueDaoTest extends AbstractDaoTest
     }
 
     /**
-     * {@link MeasurementValue} ã®å€¤ã‚’æ¯”è¼ƒã—ã¾ã™ã€‚<br />
+     * {@link MeasurementValue} ‚Ì’l‚ğ”äŠr‚µ‚Ü‚·B<br />
      *
-     * @param expected æœŸå¾…ã™ã‚‹å€¤
-     * @param actual å®Ÿéš›ã®å€¤
+     * @param expected Šú‘Ò‚·‚é’l
+     * @param actual ÀÛ‚Ì’l
      */
-    private static void
-        assertEquals(final MeasurementValue expected, final MeasurementValue actual)
+    private static void assertEquals(final MeasurementValue expected, final MeasurementValue actual)
     {
         assertEquals(expected.measurementTime, actual.measurementTime);
         assertEquals(expected.measurementItemId, actual.measurementItemId);
@@ -72,9 +71,9 @@ public class MeasurementValueDaoTest extends AbstractDaoTest
     }
 
     /**
-     * Javelin è¨ˆæ¸¬é …ç›®ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’åˆæœŸåŒ–ã—ã¾ã™ã€‚<br />
+     * Javelin Œv‘ª€–Úƒe[ƒuƒ‹‚ğ‰Šú‰»‚µ‚Ü‚·B<br />
      *
-     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
      */
     private void initJavelinMeasurementItemTable()
         throws SQLException
@@ -91,10 +90,10 @@ public class MeasurementValueDaoTest extends AbstractDaoTest
     }
 
     /**
-     * Javelin è¨ˆæ¸¬å€¤ãƒ†ãƒ¼ãƒ–ãƒ«ã«ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚<br />
+     * Javelin Œv‘ª’lƒe[ƒuƒ‹‚ÉƒŒƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B<br />
      *
-     * @return è¿½åŠ ã—ãŸãƒ¬ã‚³ãƒ¼ãƒ‰
-     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @return ’Ç‰Á‚µ‚½ƒŒƒR[ƒh
+     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
      */
     private MeasurementValue insertMeasurementValue()
         throws SQLException
@@ -111,55 +110,55 @@ public class MeasurementValueDaoTest extends AbstractDaoTest
 
     /**
      * @target testCount_notExist
-     * @test ãƒ¬ã‚³ãƒ¼ãƒ‰æ•°ã®å–å¾—
-     *   condition:: ãƒ¬ã‚³ãƒ¼ãƒ‰ãŒå­˜åœ¨ã—ãªã„ã€‚
-     *   result:: 0 ãŒè¿”ã‚‹ã“ã¨ã€‚
-     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @test ƒŒƒR[ƒh”‚Ìæ“¾
+     *   condition:: ƒŒƒR[ƒh‚ª‘¶İ‚µ‚È‚¢B
+     *   result:: 0 ‚ª•Ô‚é‚±‚ÆB
+     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
      */
     public void testCount_notExist()
         throws SQLException
     {
-        // å®Ÿè¡Œ
+        // Às
         int actual = MeasurementValueDao.count(DB_NAME);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(0, actual);
     }
 
     /**
      * @target testCount_exist
-     * @test ãƒ¬ã‚³ãƒ¼ãƒ‰æ•°ã®å–å¾—
-     *   condition:: ãƒ¬ã‚³ãƒ¼ãƒ‰ãŒå­˜åœ¨ã™ã‚‹ã€‚
-     *   result:: ãƒ¬ã‚³ãƒ¼ãƒ‰æ•°ãŒè¿”ã‚‹ã“ã¨ã€‚
-     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @test ƒŒƒR[ƒh”‚Ìæ“¾
+     *   condition:: ƒŒƒR[ƒh‚ª‘¶İ‚·‚éB
+     *   result:: ƒŒƒR[ƒh”‚ª•Ô‚é‚±‚ÆB
+     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
      */
     public void testCount_exist()
         throws SQLException
     {
-        // æº–å‚™
+        // €”õ
         initJavelinMeasurementItemTable();
         insertMeasurementValue();
 
-        // å®Ÿè¡Œ
+        // Às
         int actual = MeasurementValueDao.count(DB_NAME);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(1, actual);
     }
 
     /**
      * @target testSelectByTerm_inRange
-     * @test æŒ‡å®šã—ãŸç¯„å›²ã®å–å¾—
-     *   condition:: ç¯„å›²å†…ã®ãƒ‡ãƒ¼ã‚¿ãŒå­˜åœ¨ã™ã‚‹ã€‚
-     *   result:: ãƒ¬ã‚³ãƒ¼ãƒ‰ãŒè¿”ã‚‹ã“ã¨ã€‚
-     * @throws InterruptedException ã‚¹ãƒªãƒ¼ãƒ—ãŒä¸­æ–­ã—ãŸå ´åˆ
-     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @test w’è‚µ‚½”ÍˆÍ‚Ìæ“¾
+     *   condition:: ”ÍˆÍ“à‚Ìƒf[ƒ^‚ª‘¶İ‚·‚éB
+     *   result:: ƒŒƒR[ƒh‚ª•Ô‚é‚±‚ÆB
+     * @throws InterruptedException ƒXƒŠ[ƒv‚ª’†’f‚µ‚½ê‡
+     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
      */
     public void testSelectByTerm_inRange()
         throws InterruptedException,
             SQLException
     {
-        // æº–å‚™
+        // €”õ
         insertMeasurementValue();
         Thread.sleep(SLEEP_TIME);
         Timestamp start = new Timestamp(System.currentTimeMillis());
@@ -170,10 +169,11 @@ public class MeasurementValueDaoTest extends AbstractDaoTest
         Thread.sleep(SLEEP_TIME);
         insertMeasurementValue();
 
-        // å®Ÿè¡Œ
-        List<MeasurementValue> actual = MeasurementValueDao.selectByTerm(DB_NAME, start, end);
+        // Às
+        List<MeasurementValue> actual =
+                MeasurementValueDao.selectByTerm(DB_NAME, start, end);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(2, actual.size());
         assertEquals(measurementValue1, actual.get(0));
         assertEquals(measurementValue2, actual.get(1));
@@ -181,17 +181,17 @@ public class MeasurementValueDaoTest extends AbstractDaoTest
 
     /**
      * @target testSelectByTerm_lowerRange
-     * @test æŒ‡å®šã—ãŸç¯„å›²ã®å–å¾—
-     *   condition:: ç¯„å›²ãŒä¸‹é™ã‚’ä¸‹å›ã£ã¦ã„ã‚‹ã€‚
-     *   result:: ãƒ¬ã‚³ãƒ¼ãƒ‰ãŒè¿”ã‚‰ãªã„ã“ã¨ã€‚
-     * @throws InterruptedException ã‚¹ãƒªãƒ¼ãƒ—ãŒä¸­æ–­ã—ãŸå ´åˆ
-     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @test w’è‚µ‚½”ÍˆÍ‚Ìæ“¾
+     *   condition:: ”ÍˆÍ‚ª‰ºŒÀ‚ğ‰º‰ñ‚Á‚Ä‚¢‚éB
+     *   result:: ƒŒƒR[ƒh‚ª•Ô‚ç‚È‚¢‚±‚ÆB
+     * @throws InterruptedException ƒXƒŠ[ƒv‚ª’†’f‚µ‚½ê‡
+     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
      */
     public void testSelectByTerm_lowerRange()
         throws InterruptedException,
             SQLException
     {
-        // æº–å‚™
+        // €”õ
         Timestamp start = new Timestamp(System.currentTimeMillis());
         Thread.sleep(SLEEP_TIME);
         Timestamp end = new Timestamp(System.currentTimeMillis());
@@ -201,26 +201,27 @@ public class MeasurementValueDaoTest extends AbstractDaoTest
         insertMeasurementValue();
         insertMeasurementValue();
 
-        // å®Ÿè¡Œ
-        List<MeasurementValue> actual = MeasurementValueDao.selectByTerm(DB_NAME, start, end);
+        // Às
+        List<MeasurementValue> actual =
+                MeasurementValueDao.selectByTerm(DB_NAME, start, end);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(0, actual.size());
     }
 
     /**
      * @target testSelectByTerm_upperRange
-     * @test æŒ‡å®šã—ãŸç¯„å›²ã®å–å¾—
-     *   condition:: ç¯„å›²ãŒä¸Šé™ã‚’ä¸Šå›ã£ã¦ã„ã‚‹ã€‚
-     *   result:: ãƒ¬ã‚³ãƒ¼ãƒ‰ãŒè¿”ã‚‰ãªã„ã“ã¨ã€‚
-     * @throws InterruptedException ã‚¹ãƒªãƒ¼ãƒ—ãŒä¸­æ–­ã—ãŸå ´åˆ
-     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @test w’è‚µ‚½”ÍˆÍ‚Ìæ“¾
+     *   condition:: ”ÍˆÍ‚ªãŒÀ‚ğã‰ñ‚Á‚Ä‚¢‚éB
+     *   result:: ƒŒƒR[ƒh‚ª•Ô‚ç‚È‚¢‚±‚ÆB
+     * @throws InterruptedException ƒXƒŠ[ƒv‚ª’†’f‚µ‚½ê‡
+     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
      */
     public void testSelectByTerm_upperRange()
         throws InterruptedException,
             SQLException
     {
-        // æº–å‚™
+        // €”õ
         insertMeasurementValue();
         insertMeasurementValue();
         insertMeasurementValue();
@@ -230,34 +231,35 @@ public class MeasurementValueDaoTest extends AbstractDaoTest
         Thread.sleep(SLEEP_TIME);
         Timestamp end = new Timestamp(System.currentTimeMillis());
 
-        // å®Ÿè¡Œ
-        List<MeasurementValue> actual = MeasurementValueDao.selectByTerm(DB_NAME, start, end);
+        // Às
+        List<MeasurementValue> actual =
+                MeasurementValueDao.selectByTerm(DB_NAME, start, end);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(0, actual.size());
     }
 
     /**
      * @target testSelectAll_exist
-     * @test ã™ã¹ã¦å–å¾—
-     *   condition:: ãƒ¬ã‚³ãƒ¼ãƒ‰ãŒå­˜åœ¨ã™ã‚‹ã€‚
-     *   result:: ãƒ¬ã‚³ãƒ¼ãƒ‰ãŒè¿”ã‚‹ã“ã¨ã€‚
-     * @throws InterruptedException ã‚¹ãƒªãƒ¼ãƒ—ãŒä¸­æ–­ã—ãŸå ´åˆ
-     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @test ‚·‚×‚Äæ“¾
+     *   condition:: ƒŒƒR[ƒh‚ª‘¶İ‚·‚éB
+     *   result:: ƒŒƒR[ƒh‚ª•Ô‚é‚±‚ÆB
+     * @throws InterruptedException ƒXƒŠ[ƒv‚ª’†’f‚µ‚½ê‡
+     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
      */
     public void testSelectAll_exist()
         throws InterruptedException,
             SQLException
     {
-        // æº–å‚™
+        // €”õ
         MeasurementValue measurementValue1 = insertMeasurementValue();
         Thread.sleep(SLEEP_TIME);
         MeasurementValue measurementValue2 = insertMeasurementValue();
 
-        // å®Ÿè¡Œ
+        // Às
         List<MeasurementValue> actual = MeasurementValueDao.selectAll(DB_NAME);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(2, actual.size());
         assertEquals(measurementValue1, actual.get(0));
         assertEquals(measurementValue2, actual.get(1));
@@ -265,38 +267,38 @@ public class MeasurementValueDaoTest extends AbstractDaoTest
 
     /**
      * @target testSelectAll_notExist
-     * @test ã™ã¹ã¦å–å¾—
-     *   condition:: ãƒ¬ã‚³ãƒ¼ãƒ‰ãŒå­˜åœ¨ã—ãªã„ã€‚
-     *   result:: ãƒ¬ã‚³ãƒ¼ãƒ‰ãŒè¿”ã‚‰ãªã„ã“ã¨ã€‚
-     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @test ‚·‚×‚Äæ“¾
+     *   condition:: ƒŒƒR[ƒh‚ª‘¶İ‚µ‚È‚¢B
+     *   result:: ƒŒƒR[ƒh‚ª•Ô‚ç‚È‚¢‚±‚ÆB
+     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
      */
     public void testSelectAll_notExist()
         throws SQLException
     {
-        // å®Ÿè¡Œ
+        // Às
         List<MeasurementValue> actual = MeasurementValueDao.selectAll(DB_NAME);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertEquals(0, actual.size());
     }
 
     /**
      * @target testGetTerm_existOne
-     * @test æ™‚åˆ»ã®ç¯„å›²å–å¾—
-     *   condition:: ãƒ¬ã‚³ãƒ¼ãƒ‰ãŒ 1 ã¤å­˜åœ¨ã™ã‚‹ã€‚
-     *   result:: æ™‚åˆ»ã®ç¯„å›²ãŒè¿”ã‚‹ã“ã¨ã€‚
-     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @test ‚Ì”ÍˆÍæ“¾
+     *   condition:: ƒŒƒR[ƒh‚ª 1 ‚Â‘¶İ‚·‚éB
+     *   result:: ‚Ì”ÍˆÍ‚ª•Ô‚é‚±‚ÆB
+     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
      */
     public void testGetTerm_existOne()
         throws SQLException
     {
-        // æº–å‚™
+        // €”õ
         MeasurementValue measurementValue = insertMeasurementValue();
 
-        // å®Ÿè¡Œ
+        // Às
         Timestamp[] actual = MeasurementValueDao.getTerm(DB_NAME);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertNotNull(actual);
         assertEquals(measurementValue.measurementTime, actual[0]);
         assertEquals(measurementValue.measurementTime, actual[1]);
@@ -304,27 +306,27 @@ public class MeasurementValueDaoTest extends AbstractDaoTest
 
     /**
      * @target testGetTerm_existMany
-     * @test æ™‚åˆ»ã®ç¯„å›²å–å¾—
-     *   condition:: ãƒ¬ã‚³ãƒ¼ãƒ‰ãŒè¤‡æ•°å­˜åœ¨ã™ã‚‹ã€‚
-     *   result:: æ™‚åˆ»ã®ç¯„å›²ãŒè¿”ã‚‹ã“ã¨ã€‚
-     * @throws InterruptedException ã‚¹ãƒªãƒ¼ãƒ—ãŒä¸­æ–­ã—ãŸå ´åˆ
-     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @test ‚Ì”ÍˆÍæ“¾
+     *   condition:: ƒŒƒR[ƒh‚ª•¡”‘¶İ‚·‚éB
+     *   result:: ‚Ì”ÍˆÍ‚ª•Ô‚é‚±‚ÆB
+     * @throws InterruptedException ƒXƒŠ[ƒv‚ª’†’f‚µ‚½ê‡
+     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
      */
     public void testGetTerm_existMany()
         throws InterruptedException,
             SQLException
     {
-        // æº–å‚™
+        // €”õ
         MeasurementValue measurementValue1 = insertMeasurementValue();
         Thread.sleep(SLEEP_TIME);
         insertMeasurementValue();
         Thread.sleep(SLEEP_TIME);
         MeasurementValue measurementValue2 = insertMeasurementValue();
 
-        // å®Ÿè¡Œ
+        // Às
         Timestamp[] actual = MeasurementValueDao.getTerm(DB_NAME);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertNotNull(actual);
         assertEquals(measurementValue1.measurementTime, actual[0]);
         assertEquals(measurementValue2.measurementTime, actual[1]);
@@ -332,18 +334,18 @@ public class MeasurementValueDaoTest extends AbstractDaoTest
 
     /**
      * @target testGetTerm_notExist
-     * @test æ™‚åˆ»ã®ç¯„å›²å–å¾—
-     *   condition:: ãƒ¬ã‚³ãƒ¼ãƒ‰ãŒå­˜åœ¨ã—ãªã„ã€‚
-     *   result:: <code>null</code> ãŒè¿”ã‚‹ã“ã¨ã€‚
-     * @throws SQLException SQL å®Ÿè¡Œæ™‚ã«ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @test ‚Ì”ÍˆÍæ“¾
+     *   condition:: ƒŒƒR[ƒh‚ª‘¶İ‚µ‚È‚¢B
+     *   result:: <code>null</code> ‚ª•Ô‚é‚±‚ÆB
+     * @throws SQLException SQL Às‚É—áŠO‚ª”­¶‚µ‚½ê‡
      */
     public void testGetTerm_notExist()
         throws SQLException
     {
-        // å®Ÿè¡Œ
+        // Às
         Timestamp[] actual = MeasurementValueDao.getTerm(DB_NAME);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertNotNull(actual);
         assertNull(actual[0]);
         assertNull(actual[1]);

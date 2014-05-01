@@ -32,61 +32,61 @@ import java.util.List;
 import jp.co.acroquest.endosnipe.perfdoctor.WarningUnit;
 
 /**
- * è­¦å‘Šãƒªã‚¹ãƒˆã®ä¸­ã‹ã‚‰ã€æ¤œå‡ºå€¤ã‚’ã‚­ãƒ¼ã¨ã—ã¦ã€Kmeansæ³•ã‚’åˆ©ç”¨ã—ã¦è­¦å‘Šãƒªã‚¹ãƒˆã‚’åˆ†é¡ã™ã‚‹ã€‚<br />
- * åˆ†é¡ã™ã‚‹ã‚¯ãƒ©ã‚¹ã‚¿æ•°ã¯5(CLASSTERNUM)ã¨ã™ã‚‹ã€‚
- * æ¤œå‡ºå€¤ãŒæ–‡å­—åˆ—ã®å ´åˆã€è­¦å‘Šãƒªã‚¹ãƒˆã®å…ˆé ­ã‚’è¿”ã™ã€‚<br />
+ * ŒxƒŠƒXƒg‚Ì’†‚©‚çAŒŸo’l‚ğƒL[‚Æ‚µ‚ÄAKmeans–@‚ğ—˜—p‚µ‚ÄŒxƒŠƒXƒg‚ğ•ª—Ş‚·‚éB<br />
+ * •ª—Ş‚·‚éƒNƒ‰ƒXƒ^”‚Í5(CLASSTERNUM)‚Æ‚·‚éB
+ * ŒŸo’l‚ª•¶š—ñ‚Ìê‡AŒxƒŠƒXƒg‚Ìæ“ª‚ğ•Ô‚·B<br />
  * 
  * @author fujii
  *
  */
 public class KmeansClassifier implements Classifier
 {
-    /** åˆ†é¡ã™ã‚‹ã‚¯ãƒ©ã‚¹ã‚¿ã®æœ€å¤§æ•°ã€‚(å¤šãã®å ´åˆã“ã®å€‹æ•°ã«ãªã‚‹ã€‚) */
+    /** •ª—Ş‚·‚éƒNƒ‰ƒXƒ^‚ÌÅ‘å”B(‘½‚­‚Ìê‡‚±‚ÌŒÂ”‚É‚È‚éB) */
     private static final int CLASSTERNUM = 5;
 
     /**
      * {@inheritDoc}
      * 
-     * æ³¨:warningUnitListã«å¯¾ã—å‰¯ä½œç”¨ã‚’èµ·ã“ã™ã®ã§æ³¨æ„ã™ã‚‹ã€‚
+     * ’:warningUnitList‚É‘Î‚µ•›ì—p‚ğ‹N‚±‚·‚Ì‚Å’ˆÓ‚·‚éB
      */
     public List<WarningUnit> classify(final List<WarningUnit> warningUnitList)
     {
 
-        // æ¤œå‡ºå€¤ã®ãƒã‚§ãƒƒã‚¯ã‚’è¡Œã†ã€‚
-        // æ¤œå‡ºå€¤ãŒæ•°å€¤ã§ãªã„å ´åˆã€ãƒªã‚¹ãƒˆã®å…ˆé ­ã‚’æŠ½å‡ºã—ã¦ä½œæˆã—ãŸãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚
+        // ŒŸo’l‚Ìƒ`ƒFƒbƒN‚ğs‚¤B
+        // ŒŸo’l‚ª”’l‚Å‚È‚¢ê‡AƒŠƒXƒg‚Ìæ“ª‚ğ’Šo‚µ‚Äì¬‚µ‚½ƒŠƒXƒg‚ğ•Ô‚·B
         if (isNumber(warningUnitList) == false)
         {
             List<WarningUnit> resultList = new ArrayList<WarningUnit>();
             resultList.add(warningUnitList.get(0));
             return resultList;
         }
-        // æ¤œå‡ºå€¤é †ã‚’ã‚­ãƒ¼ã«ä¸¦ã³ã‹ãˆã‚‹ã€‚
+        // ŒŸo’l‡‚ğƒL[‚É•À‚Ñ‚©‚¦‚éB
         Collections.sort(warningUnitList, new DetectionValueComparator());
 
         WarningUnitCluster[] oldClusters = new WarningUnitCluster[CLASSTERNUM];
-        // ã‚¯ãƒ©ã‚¹ã‚¿ã®åˆæœŸåŒ–ã‚’è¡Œã†ã€‚
+        // ƒNƒ‰ƒXƒ^‚Ì‰Šú‰»‚ğs‚¤B
         initCluster(warningUnitList, oldClusters);
         while (true)
         {
-            // æ–°è¦ã‚¯ãƒ©ã‚¹ã‚¿ã®åˆæœŸåŒ–ã‚’è¡Œã†ã€‚
+            // V‹KƒNƒ‰ƒXƒ^‚Ì‰Šú‰»‚ğs‚¤B
             WarningUnitCluster[] clusters = new WarningUnitCluster[CLASSTERNUM];
             for (int clusterNum = 0; clusterNum < CLASSTERNUM; clusterNum++)
             {
                 clusters[clusterNum] = new WarningUnitCluster();
             }
 
-            // ã‚¯ãƒ©ã‚¹ã‚¿æ¯ã®å¹³å‡å€¤ã‚’æ±‚ã‚ã‚‹ã€‚
+            // ƒNƒ‰ƒXƒ^–ˆ‚Ì•½‹Ï’l‚ğ‹‚ß‚éB
             double[] averages = getAverages(oldClusters);
 
-            // WarningUnitã‚’ã‚¯ãƒ©ã‚¹ã‚¿ã«é…ç½®ã™ã‚‹ã€‚
+            // WarningUnit‚ğƒNƒ‰ƒXƒ^‚É”z’u‚·‚éB
             for (WarningUnit unit : warningUnitList)
             {
                 dispatch(unit, clusters, averages);
             }
 
-            // å‰å›ã®ã‚¯ãƒ©ã‚¹ã‚¿ã¨ä»Šå›ã®ã‚¯ãƒ©ã‚¹ã‚¿ã‚’æ¯”è¼ƒã—ã€
-            // åŒã˜ã‚¯ãƒ©ã‚¹ã‚¿ã®ã¨ããªã‚‰ã€å‡¦ç†ã‚’çµ‚äº†ã™ã‚‹ã€‚
-            // ç•°ãªã‚‹ã‚¯ãƒ©ã‚¹ã‚¿ã®å ´åˆã€ã‚¯ãƒ©ã‚¹ã‚¿ã®å†é…ç½®ã‚’è¡Œã†ã€‚
+            // ‘O‰ñ‚ÌƒNƒ‰ƒXƒ^‚Æ¡‰ñ‚ÌƒNƒ‰ƒXƒ^‚ğ”äŠr‚µA
+            // “¯‚¶ƒNƒ‰ƒXƒ^‚Ì‚Æ‚«‚È‚çAˆ—‚ğI—¹‚·‚éB
+            // ˆÙ‚È‚éƒNƒ‰ƒXƒ^‚Ìê‡AƒNƒ‰ƒXƒ^‚ÌÄ”z’u‚ğs‚¤B
             if (compare(oldClusters, clusters))
             {
                 break;
@@ -94,15 +94,15 @@ public class KmeansClassifier implements Classifier
             oldClusters = clusters;
         }
 
-        // ã‚¯ãƒ©ã‚¹ã‚¿ã‹ã‚‰WarningUnitã‚’æŠ½å‡ºã—ã€ãƒªã‚¹ãƒˆã‚’ä½œæˆã™ã‚‹ã€‚
+        // ƒNƒ‰ƒXƒ^‚©‚çWarningUnit‚ğ’Šo‚µAƒŠƒXƒg‚ğì¬‚·‚éB
         List<WarningUnit> resultList = clusterToList(oldClusters);
         return resultList;
     }
 
     /**
-     * æ¤œå‡ºå€¤ãŒæ•°å­—ã§ã‚ã‚‹ã‹ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã€‚
-     * @param warningUnitList WarningUnitã®ãƒªã‚¹ãƒˆ
-     * @return æ¤œå‡ºå€¤ãŒæ•°å­—ã§ã‚ã‚‹ã‹(æ•°å­—ã§ã‚ã‚‹ãªã‚‰true)
+     * ŒŸo’l‚ª”š‚Å‚ ‚é‚©ƒ`ƒFƒbƒN‚·‚éB
+     * @param warningUnitList WarningUnit‚ÌƒŠƒXƒg
+     * @return ŒŸo’l‚ª”š‚Å‚ ‚é‚©(”š‚Å‚ ‚é‚È‚çtrue)
      */
     private boolean isNumber(final List<WarningUnit> warningUnitList)
     {
@@ -110,8 +110,8 @@ public class KmeansClassifier implements Classifier
         {
             Object[] args = unit.getArgs();
 
-            // æ¤œå‡ºå€¤ãŒæ•°å­—ä»¥å¤–ã®ãƒ‡ãƒ¼ã‚¿ã«ã¤ã„ã¦ã¯ã€falseã‚’è¿”ã™ã€‚
-            // ã¾ãŸé…åˆ—ã®é•·ã•ãŒã€æ¤œå‡ºå€¤ãŒæ ¼ç´ã•ã‚Œã‚‹indexã«åŠã°ãªã„å ´åˆã«ã‚‚falseã‚’è¿”ã™ã€‚
+            // ŒŸo’l‚ª”šˆÈŠO‚Ìƒf[ƒ^‚É‚Â‚¢‚Ä‚ÍAfalse‚ğ•Ô‚·B
+            // ‚Ü‚½”z—ñ‚Ì’·‚³‚ªAŒŸo’l‚ªŠi”[‚³‚ê‚éindex‚É‹y‚Î‚È‚¢ê‡‚É‚àfalse‚ğ•Ô‚·B
             if (args.length < PerformanceDoctorFilter.TARGET_VALUE_INDEX + 1)
             {
                 return false;
@@ -129,9 +129,9 @@ public class KmeansClassifier implements Classifier
     }
 
     /**
-     * ã‚¯ãƒ©ã‚¹ã‚¿ã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
-     * @param warningUnitList WarningUnitã®ãƒªã‚¹ãƒˆ
-     * @param clusters ã‚¯ãƒ©ã‚¹ã‚¿
+     * ƒNƒ‰ƒXƒ^‚ğ‰Šú‰»‚·‚éB
+     * @param warningUnitList WarningUnit‚ÌƒŠƒXƒg
+     * @param clusters ƒNƒ‰ƒXƒ^
      */
     private void initCluster(final List<WarningUnit> warningUnitList,
             final WarningUnitCluster[] clusters)
@@ -141,11 +141,11 @@ public class KmeansClassifier implements Classifier
             clusters[clusterNum] = new WarningUnitCluster();
         }
 
-        // åˆ†å‰²ç‚¹ã‚’ä½œæˆã™ã‚‹ã€‚
+        // •ªŠ„“_‚ğì¬‚·‚éB
         double cutPoint = (double)warningUnitList.size() / CLASSTERNUM;
         int count = 0;
 
-        // åˆ†å‰²ç‚¹ã‚’åŸºã«ã€WarningUnitã‚’ã‚¯ãƒ©ã‚¹ã‚¿ã«åˆ†å‰²ã™ã‚‹ã€‚
+        // •ªŠ„“_‚ğŠî‚ÉAWarningUnit‚ğƒNƒ‰ƒXƒ^‚É•ªŠ„‚·‚éB
         for (WarningUnit unit : warningUnitList)
         {
             clusters[(int)(count / cutPoint)].add(unit);
@@ -154,9 +154,9 @@ public class KmeansClassifier implements Classifier
     }
 
     /**
-     * ã‚¯ãƒ©ã‚¹ã‚¿ã®å¹³å‡å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @param clusters ã‚¯ãƒ©ã‚¹ã‚¿
-     * @returnã€€å¹³å‡å€¤ã®é…åˆ—
+     * ƒNƒ‰ƒXƒ^‚Ì•½‹Ï’l‚ğæ“¾‚·‚éB
+     * @param clusters ƒNƒ‰ƒXƒ^
+     * @return@•½‹Ï’l‚Ì”z—ñ
      */
     private double[] getAverages(final WarningUnitCluster[] clusters)
     {
@@ -169,7 +169,7 @@ public class KmeansClassifier implements Classifier
     }
 
     /**
-     * ã‚¯ãƒ©ã‚¹ã‚¿ã«WarningUnitã‚’é…ç½®ã™ã‚‹ã€‚
+     * ƒNƒ‰ƒXƒ^‚ÉWarningUnit‚ğ”z’u‚·‚éB
      * @param clusters
      * @param average
      */
@@ -179,8 +179,8 @@ public class KmeansClassifier implements Classifier
         int position = 0;
         double minimizeDistant = Double.MAX_VALUE;
 
-        //ã€€WarningUnitã¨ã‚¯ãƒ©ã‚¹ã‚¿ã®é‡å¿ƒã¨ã®è·é›¢ãŒæœ€ã‚‚è¿‘ããªã‚‹ã‚ˆã†ã«ã€
-        // WarningUnitã‚’é…ç½®ã™ã‚‹ã€‚
+        //@WarningUnit‚ÆƒNƒ‰ƒXƒ^‚ÌdS‚Æ‚Ì‹——£‚ªÅ‚à‹ß‚­‚È‚é‚æ‚¤‚ÉA
+        // WarningUnit‚ğ”z’u‚·‚éB
         for (int num = 0; num < clusters.length; num++)
         {
             String argsString =
@@ -197,11 +197,11 @@ public class KmeansClassifier implements Classifier
     }
 
     /**
-     * 2ã¤ã®ã‚¯ãƒ©ã‚¹ã‚¿ã‚’æ¯”è¼ƒã—ã€åŒã˜ã‹ã©ã†ã‹ã‚’èª¿ã¹ã‚‹ã€‚<br />
-     * åŒã˜ã‹ã©ã†ã‹ã¯ã€ã‚¯ãƒ©ã‚¹ã‚¿ã«å«ã¾ã‚Œã‚‹è¦ç´ æ•°ã§æ¯”è¼ƒã™ã‚‹ã€‚
-     * @param beforeClusters å†é…ç½®å‰ã®ã‚¯ãƒ©ã‚¹ã‚¿
-     * @param afterClusters å†é…ç½®å¾Œã®ã‚¯ãƒ©ã‚¹ã‚¿
-     * @return true:2ã¤ã®ã‚¯ãƒ©ã‚¹ã‚¿ãŒåŒã˜ã€‚false:2ã¤ã®ã‚¯ãƒ©ã‚¹ã‚¿ãŒç•°ãªã‚‹ã€‚
+     * 2‚Â‚ÌƒNƒ‰ƒXƒ^‚ğ”äŠr‚µA“¯‚¶‚©‚Ç‚¤‚©‚ğ’²‚×‚éB<br />
+     * “¯‚¶‚©‚Ç‚¤‚©‚ÍAƒNƒ‰ƒXƒ^‚ÉŠÜ‚Ü‚ê‚é—v‘f”‚Å”äŠr‚·‚éB
+     * @param beforeClusters Ä”z’u‘O‚ÌƒNƒ‰ƒXƒ^
+     * @param afterClusters Ä”z’uŒã‚ÌƒNƒ‰ƒXƒ^
+     * @return true:2‚Â‚ÌƒNƒ‰ƒXƒ^‚ª“¯‚¶Bfalse:2‚Â‚ÌƒNƒ‰ƒXƒ^‚ªˆÙ‚È‚éB
      */
     private boolean compare(final WarningUnitCluster[] beforeClusters,
             final WarningUnitCluster[] afterClusters)
@@ -218,15 +218,15 @@ public class KmeansClassifier implements Classifier
     }
 
     /**
-     * ã‚¯ãƒ©ã‚¹ã‚¿ã‹ã‚‰WarningUnitã®ãƒªã‚¹ãƒˆã‚’ä½œæˆã™ã‚‹ã€‚
-     * @param clusters ã‚¯ãƒ©ã‚¹ã‚¿é…åˆ—ã€‚
-     * @return ä½œæˆã—ãŸãƒªã‚¹ãƒˆ
+     * ƒNƒ‰ƒXƒ^‚©‚çWarningUnit‚ÌƒŠƒXƒg‚ğì¬‚·‚éB
+     * @param clusters ƒNƒ‰ƒXƒ^”z—ñB
+     * @return ì¬‚µ‚½ƒŠƒXƒg
      */
     private List<WarningUnit> clusterToList(final WarningUnitCluster[] clusters)
     {
         List<WarningUnit> list = new ArrayList<WarningUnit>();
 
-        // å„ã‚¯ãƒ©ã‚¹ã‚¿ã®æœ€å¾Œå°¾ã‚’å–å¾—ã—ã€ãƒªã‚¹ãƒˆã‚’ä½œæˆã™ã‚‹ã€‚
+        // ŠeƒNƒ‰ƒXƒ^‚ÌÅŒã”ö‚ğæ“¾‚µAƒŠƒXƒg‚ğì¬‚·‚éB
         for (WarningUnitCluster cluster : clusters)
         {
             WarningUnit warningUnit = cluster.getLastWarningUnit();

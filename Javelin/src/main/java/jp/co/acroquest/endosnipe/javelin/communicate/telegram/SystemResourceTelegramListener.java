@@ -49,7 +49,7 @@ import jp.co.acroquest.endosnipe.javelin.resource.ResourceCollector;
 import jp.co.acroquest.endosnipe.javelin.resource.ResourceGroupGetter;
 
 /**
- * ã‚·ã‚¹ãƒ†ãƒ ãƒªã‚½ãƒ¼ã‚¹å–å¾—ã€‚
+ * ƒVƒXƒeƒ€ƒŠƒ\[ƒXæ“¾B
  * 
  * @author Sakamoto
  */
@@ -58,23 +58,23 @@ public class SystemResourceTelegramListener implements TelegramListener, Telegra
 
     private final ResourceCollector resourceCollector_;
     
-    /** Javelinã®è¨­å®šã€‚ */
+    /** Javelin‚Ìİ’èB */
     private final JavelinConfig javelinConfig_ = new JavelinConfig();
     
-    /** ã‚·ã‚¹ãƒ†ãƒ ã®ãƒªã‚½ãƒ¼ã‚¹ãƒ‡ãƒ¼ã‚¿ã®åå‰ã®ãƒªã‚¹ãƒˆã€‚ */
+    /** ƒVƒXƒeƒ€‚ÌƒŠƒ\[ƒXƒf[ƒ^‚Ì–¼‘O‚ÌƒŠƒXƒgB */
     private final Set<String> systemResourceItemNameSet_ = new HashSet<String>();
 
-    /** HadoopAgentã‹ã‚‰å–å¾—ã™ã‚‹ãƒªã‚½ãƒ¼ã‚¹åã®ãƒªã‚¹ãƒˆã€‚ */
+    /** HadoopAgent‚©‚çæ“¾‚·‚éƒŠƒ\[ƒX–¼‚ÌƒŠƒXƒgB */
     private final Set<String> hadoopAgentItemNameSet_ = new HashSet<String>();
 
     /**
-     * ã‚·ã‚¹ãƒ†ãƒ ãƒªã‚½ãƒ¼ã‚¹å–å¾—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
+     * ƒVƒXƒeƒ€ƒŠƒ\[ƒXæ“¾ƒIƒuƒWƒFƒNƒg‚ğ‰Šú‰»‚·‚éB
      */
     public SystemResourceTelegramListener()
     {
         this.resourceCollector_ = ResourceCollector.getInstance();
         
-        // ã‚·ã‚¹ãƒ†ãƒ ã®ãƒªã‚½ãƒ¼ã‚¹ãƒ‡ãƒ¼ã‚¿ã®åå‰ã®ãƒªã‚¹ãƒˆã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
+        // ƒVƒXƒeƒ€‚ÌƒŠƒ\[ƒXƒf[ƒ^‚Ì–¼‘O‚ÌƒŠƒXƒg‚ğ‰Šú‰»‚·‚éB
         systemResourceItemNameSet_.add(ITEMNAME_SYSTEM_MEMORY_PHYSICAL_MAX);
         systemResourceItemNameSet_.add(ITEMNAME_SYSTEM_MEMORY_PHYSICAL_FREE);
         systemResourceItemNameSet_.add(ITEMNAME_SYSTEM_CPU_USERMODE_TIME);
@@ -86,7 +86,7 @@ public class SystemResourceTelegramListener implements TelegramListener, Telegra
         systemResourceItemNameSet_.add(ITEMNAME_SYSTEM_MEMORY_SWAP_MAX);
         systemResourceItemNameSet_.add(ITEMNAME_SYSTEM_MEMORY_SWAP_FREE);
         
-        // HadoopAgentã‹ã‚‰å–å¾—ã™ã‚‹ãƒªã‚½ãƒ¼ã‚¹åã®ãƒªã‚¹ãƒˆã‚’åˆæœŸåŒ–ã™ã‚‹
+        // HadoopAgent‚©‚çæ“¾‚·‚éƒŠƒ\[ƒX–¼‚ÌƒŠƒXƒg‚ğ‰Šú‰»‚·‚é
         hadoopAgentItemNameSet_.add(ITEMNAME_HADOOP_NAMENODE);
         hadoopAgentItemNameSet_.add(ITEMNAME_HADOOP_JOBTRACKER);
         hadoopAgentItemNameSet_.add(ITEMNAME_HADOOP_DATANODE);
@@ -100,7 +100,7 @@ public class SystemResourceTelegramListener implements TelegramListener, Telegra
      */
     public Telegram receiveTelegram(final Telegram telegram)
     {
-        //ã€€ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã®åˆæœŸåŒ–å‡¦ç†ã‹ã©ã†ã‹ã‚’è¡¨ã™ãƒ•ãƒ©ã‚°
+        //@ƒNƒ‰ƒCƒAƒ“ƒg‚Ì‰Šú‰»ˆ—‚©‚Ç‚¤‚©‚ğ•\‚·ƒtƒ‰ƒO
         boolean isInitializing = false;
         Telegram responseTelegram = null;
         Header header = telegram.getObjHeader();
@@ -109,18 +109,18 @@ public class SystemResourceTelegramListener implements TelegramListener, Telegra
         {
             List<Body> responseBodyList = new ArrayList<Body>();
 
-            // æ™‚åˆ»ã‚’è¿½åŠ ã™ã‚‹ã€‚
+            // ‚ğ’Ç‰Á‚·‚éB
             long currentTime = System.currentTimeMillis();
             ResponseBody timeBody = ResourceNotifyAccessor.makeTimeBody(currentTime);
             responseBodyList.add(timeBody);
             
             Map<String, MultiResourceGetter> mrgMap = new HashMap<String, MultiResourceGetter>();
 
-            // ProcParser ã® loadå‡¦ç†
+            // ProcParser ‚Ì loadˆ—
             Body[] objBodies = telegram.getObjBody();
             this.resourceCollector_.load();
             
-         // è¨­å®šæ›´æ–°è¦æ±‚ãŒã‚ã‚Œã°åæ˜ ã™ã‚‹ã€‚
+         // İ’èXV—v‹‚ª‚ ‚ê‚Î”½‰f‚·‚éB
             ConfigUpdater.executeScheduledRequest();
             
             for (Body body : objBodies)
@@ -172,25 +172,25 @@ public class SystemResourceTelegramListener implements TelegramListener, Telegra
                                       multiItemType);
                     }
 
-                    // ResourceGroupGetterã‹ã‚‰æƒ…å ±ã‚’å–å¾—ã™ã‚‹
+                    // ResourceGroupGetter‚©‚çî•ñ‚ğæ“¾‚·‚é
                     List<ResourceGroupGetter> resourceGroupGetterList =
                             this.resourceCollector_.getResourceGroupGetterList();
                     for (ResourceGroupGetter group : resourceGroupGetterList)
                     {
                         Set<String> itemNames = group.getItemNameSet();
-                        // ResourceGroupGetterãŒç³»åˆ—ãƒ‡ãƒ¼ã‚¿ã‚’æŒã£ã¦ã„ã‚‹å ´åˆ
+                        // ResourceGroupGetter‚ªŒn—ñƒf[ƒ^‚ğ‚Á‚Ä‚¢‚éê‡
                         if (itemNames.contains(itemName))
                         {
-                            // ResourceGroupGetterãŒæŒã¤MultiResourceGetterãŒ
-                            // ç³»åˆ—ãƒ‡ãƒ¼ã‚¿å–å¾—ç”¨ã®ãƒ†ãƒ³ãƒãƒ©ãƒªãƒãƒƒãƒ—ã«ç™»éŒ²ã•ã‚Œã¦ã„ãªã„å ´åˆã€
-                            // ãƒ†ãƒ³ãƒãƒ©ãƒªãƒãƒƒãƒ—ã«ç™»éŒ²ã™ã‚‹
+                            // ResourceGroupGetter‚ª‚ÂMultiResourceGetter‚ª
+                            // Œn—ñƒf[ƒ^æ“¾—p‚Ìƒeƒ“ƒ|ƒ‰ƒŠƒ}ƒbƒv‚É“o˜^‚³‚ê‚Ä‚¢‚È‚¢ê‡A
+                            // ƒeƒ“ƒ|ƒ‰ƒŠƒ}ƒbƒv‚É“o˜^‚·‚é
                             if (!mrgMap.containsKey(itemName))
                             {
                                 Map<String, MultiResourceGetter> map = group.getResourceGroup();
                                 mrgMap.putAll(map);
                             }
 
-                            // MultiResourceGetterã‚’å–å¾—ã™ã‚‹
+                            // MultiResourceGetter‚ğæ“¾‚·‚é
                             MultiResourceGetter mg = mrgMap.get(itemName);
                             entries = mg.getValues();
                             ItemType mgItemType = mg.getItemType();
@@ -204,8 +204,8 @@ public class SystemResourceTelegramListener implements TelegramListener, Telegra
                 }
             }
             
-            // ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã®åˆæœŸåŒ–å‡¦ç†æ™‚ã«ã¯ã€ç©ºã®é›»æ–‡ã‚’è¿”ã—ã€
-            // ãã‚Œä»¥å¤–ã®å ´åˆã¯ResourceCollectorã‹ã‚‰å–å¾—ã—ãŸçµæœã‚’è¿”ã™ã€‚
+            // ƒNƒ‰ƒCƒAƒ“ƒg‚Ì‰Šú‰»ˆ—‚É‚ÍA‹ó‚Ì“d•¶‚ğ•Ô‚µA
+            // ‚»‚êˆÈŠO‚Ìê‡‚ÍResourceCollector‚©‚çæ“¾‚µ‚½Œ‹‰Ê‚ğ•Ô‚·B
             if (isInitializing == true)
             {
                 responseBodyList = new ArrayList<Body>();
@@ -225,7 +225,7 @@ public class SystemResourceTelegramListener implements TelegramListener, Telegra
     private void addResourceGroupItem(List<Body> responseBodyList, String objectName)
     {
         List<ResourceItem> entries = null;
-        // ResourceGroupGetterã‹ã‚‰æƒ…å ±ã‚’å–å¾—ã™ã‚‹
+        // ResourceGroupGetter‚©‚çî•ñ‚ğæ“¾‚·‚é
         List<ResourceGroupGetter> rggList = this.resourceCollector_.getResourceGroupGetterList();
         for (ResourceGroupGetter group : rggList)
         {
@@ -249,7 +249,7 @@ public class SystemResourceTelegramListener implements TelegramListener, Telegra
     {
         for (String itemName : this.resourceCollector_.getMultiResourceItemId())
         {
-                // è¤‡æ•°ç³»åˆ—ã‚’æŒã¤é …ç›®å
+                // •¡”Œn—ñ‚ğ‚Â€–Ú–¼
                 ItemType multiItemType = this.resourceCollector_.getMultiResourceType(itemName);
                 MultiResourceGetter multiGetter =
                         this.resourceCollector_.getMultiResourceGetterMap().get(itemName);
@@ -279,8 +279,8 @@ public class SystemResourceTelegramListener implements TelegramListener, Telegra
         for (String itemName : this.resourceCollector_.getResourceItemId())
         {
         
-            // ã‚·ã‚¹ãƒ†ãƒ ãƒªã‚½ãƒ¼ã‚¹ã®å–å¾—é …ç›®ã§ã‚ã‚‹å ´åˆ
-            // â†’ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã§å–å¾—ã™ã‚‹æŒ‡å®šãŒãªã•ã‚Œã¦ã„ã‚‹å ´åˆã®ã¿å®Ÿè¡Œã™ã‚‹
+            // ƒVƒXƒeƒ€ƒŠƒ\[ƒX‚Ìæ“¾€–Ú‚Å‚ ‚éê‡
+            // ¨ƒvƒƒpƒeƒB‚Åæ“¾‚·‚éw’è‚ª‚È‚³‚ê‚Ä‚¢‚éê‡‚Ì‚İÀs‚·‚é
             if (javelinConfig_.getCollectSystemResources()
                     || systemResourceItemNameSet_.contains(itemName) == false)
             {
@@ -299,7 +299,7 @@ public class SystemResourceTelegramListener implements TelegramListener, Telegra
     }
 
     /**
-     * å¼•æ•°ã«æŒ‡å®šã—ãŸãƒªã‚¹ãƒˆã«HadoopGetterã‹ã‚‰ç³»åˆ—ãƒ‡ãƒ¼ã‚¿ã‚’è¨­å®šã™ã‚‹ã€‚
+     * ˆø”‚Éw’è‚µ‚½ƒŠƒXƒg‚ÉHadoopGetter‚©‚çŒn—ñƒf[ƒ^‚ğİ’è‚·‚éB
      * 
      * @param entries
      * @param responseBodyList
@@ -319,7 +319,7 @@ public class SystemResourceTelegramListener implements TelegramListener, Telegra
             values[index] = entries.get(index).getValue();
             names[index] = entries.get(index).getName();
             
-            // å€¤ã‚’è¿½åŠ ã™ã‚‹ã€‚
+            // ’l‚ğ’Ç‰Á‚·‚éB
             ResponseBody valueBody = new ResponseBody();
             valueBody.setStrObjName(objectName);
             valueBody.setStrItemName(names[index]);
@@ -328,7 +328,7 @@ public class SystemResourceTelegramListener implements TelegramListener, Telegra
             valueBody.setObjItemValueArr(new Object[] { values[index] });
             responseBodyList.add(valueBody);
 
-            // ç³»åˆ—åã‚’è¿½åŠ ã™ã‚‹ã€‚
+            // Œn—ñ–¼‚ğ’Ç‰Á‚·‚éB
             ResponseBody nameBody = new ResponseBody();
             nameBody.setStrObjName(objectName);
             nameBody.setStrItemName(names[index] + "-name");

@@ -34,7 +34,7 @@ import jp.co.acroquest.test.util.JavelinTestUtil;
 import junit.framework.TestCase;
 
 /**
- * CPUæ™‚é–“ã€TATæ™‚é–“ã§é–¾å€¤åˆ¤å®šã™ã‚‹ã‚¯ãƒ©ã‚¹ã®ãƒ†ã‚¹ãƒˆã€‚
+ * CPUŠÔATATŠÔ‚Åè‡’l”»’è‚·‚éƒNƒ‰ƒX‚ÌƒeƒXƒgB
  * @author fujii
  *
  */
@@ -42,239 +42,239 @@ public class CpuTimeRecordStrategyTest extends TestCase
 {
     private static final int MILLI_TO_NANO = 1000000;
 
-    /** Javelinè¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹ */
+    /** Javelinİ’èƒtƒ@ƒCƒ‹‚ÌƒpƒX */
     private static final String JAVELIN_CONFIG_PATH = "/strategy/conf/javelin.properties";
 
     /**
-     * åˆæœŸåŒ–ãƒ¡ã‚½ãƒƒãƒ‰<br />
-     * ã‚·ã‚¹ãƒ†ãƒ ãƒ­ã‚°ã®åˆæœŸåŒ–ã‚’è¡Œã†ã€‚
+     * ‰Šú‰»ƒƒ\ƒbƒh<br />
+     * ƒVƒXƒeƒ€ƒƒO‚Ì‰Šú‰»‚ğs‚¤B
      */
     @Override
     public void setUp() throws Exception
     {
         super.setUp();
-        // ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ã€ã‚ªãƒ—ã‚·ãƒ§ãƒ³è¨­å®šã‚’èª­ã¿è¾¼ã‚€ã€‚
+        // ƒIƒvƒVƒ‡ƒ“ƒtƒ@ƒCƒ‹‚©‚çAƒIƒvƒVƒ‡ƒ“İ’è‚ğ“Ç‚İ‚ŞB
         JavelinTestUtil.camouflageJavelinConfig(getClass(), JAVELIN_CONFIG_PATH);
         JavelinConfig config = new JavelinConfig();
         SystemLogger.initSystemLog(config);
     }
 
     /**
-     * [é …ç•ª] 4-2-5 judgeSendExceedThresholdAlarmã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»CPUæ™‚é–“:1000(ãƒŸãƒªç§’) TATæ™‚é–“ï¼š5000(ãƒŸãƒªç§’)ã€
-     *  CPUæ™‚é–“ã®ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤:500(ãƒŸãƒªç§’)ã€TATæ™‚é–“ã®ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ï¼š2000(ãƒŸãƒªç§’)ã§ã€<br />
-     *  judgeSendExceedThresholdAlarmã‚’å‘¼ã¶ã€‚<br />
-     * â†’trueãŒè¿”ã‚‹ã€‚
+     * [€”Ô] 4-2-5 judgeSendExceedThresholdAlarm‚ÌƒeƒXƒgB <br />
+     * ECPUŠÔ:1000(ƒ~ƒŠ•b) TATŠÔF5000(ƒ~ƒŠ•b)A
+     *  CPUŠÔ‚ÌƒAƒ‰[ƒ€è‡’l:500(ƒ~ƒŠ•b)ATATŠÔ‚ÌƒAƒ‰[ƒ€è‡’lF2000(ƒ~ƒŠ•b)‚ÅA<br />
+     *  judgeSendExceedThresholdAlarm‚ğŒÄ‚ÔB<br />
+     * ¨true‚ª•Ô‚éB
      * 
-     * @throws Exception ä¾‹å¤–
+     * @throws Exception —áŠO
      */
     public void testJudgeSendExceedThresholdAlarm_CpuOver_TATOver()
         throws Exception
     {
-        // æº–å‚™
+        // €”õ
         CallTreeNode node = createCallTreeNode();
 
-        // TATã®ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ã‚’è¨­å®šã™ã‚‹ã€‚(CPUã®ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ã¯javelin.propertiesã«ã¦è¨­å®š)
+        // TAT‚ÌƒAƒ‰[ƒ€è‡’l‚ğİ’è‚·‚éB(CPU‚ÌƒAƒ‰[ƒ€è‡’l‚Íjavelin.properties‚É‚Äİ’è)
         node.getInvocation().setAlarmThreshold(2000);
 
-        // CPUæ™‚é–“ã‚’è¨­å®šã™ã‚‹ã€‚
+        // CPUŠÔ‚ğİ’è‚·‚éB
         node.setCpuTime(1000 * MILLI_TO_NANO);
 
-        // TATæ™‚é–“ã‚’è¨­å®šã™ã‚‹ã€‚
+        // TATŠÔ‚ğİ’è‚·‚éB
         node.setStartTime(0);
         node.setEndTime(5000);
 
         CpuTimeRecordStrategy strategy = new CpuTimeRecordStrategy();
 
-        // å®Ÿè¡Œ
+        // Às
         boolean isAlarm = strategy.judgeSendExceedThresholdAlarm(node);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertTrue(isAlarm);
     }
 
     /**
-     * [é …ç•ª] 4-2-6 judgeSendExceedThresholdAlarmã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»CPUæ™‚é–“:100(ãƒŸãƒªç§’) TATæ™‚é–“ï¼š5000(ãƒŸãƒªç§’)ã€
-     *  CPUæ™‚é–“ã®ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤:500(ãƒŸãƒªç§’)ã€TATæ™‚é–“ã®ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ï¼š2000(ãƒŸãƒªç§’)ã§ã€<br />
-     *  judgeSendExceedThresholdAlarmã‚’å‘¼ã¶ã€‚<br />
-     * â†’trueãŒè¿”ã‚‹ã€‚
+     * [€”Ô] 4-2-6 judgeSendExceedThresholdAlarm‚ÌƒeƒXƒgB <br />
+     * ECPUŠÔ:100(ƒ~ƒŠ•b) TATŠÔF5000(ƒ~ƒŠ•b)A
+     *  CPUŠÔ‚ÌƒAƒ‰[ƒ€è‡’l:500(ƒ~ƒŠ•b)ATATŠÔ‚ÌƒAƒ‰[ƒ€è‡’lF2000(ƒ~ƒŠ•b)‚ÅA<br />
+     *  judgeSendExceedThresholdAlarm‚ğŒÄ‚ÔB<br />
+     * ¨true‚ª•Ô‚éB
      * 
-     * @throws Exception ä¾‹å¤–
+     * @throws Exception —áŠO
      */
     public void testJudgeSendExceedThresholdAlarm_CpuUnder_TATOver()
         throws Exception
     {
-        // æº–å‚™
+        // €”õ
         CallTreeNode node = createCallTreeNode();
 
-        // TATã®ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ã‚’è¨­å®šã™ã‚‹ã€‚(CPUã®ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ã¯javelin.propertiesã«ã¦è¨­å®š)
+        // TAT‚ÌƒAƒ‰[ƒ€è‡’l‚ğİ’è‚·‚éB(CPU‚ÌƒAƒ‰[ƒ€è‡’l‚Íjavelin.properties‚É‚Äİ’è)
         node.getInvocation().setAlarmThreshold(2000);
 
-        // CPUæ™‚é–“ã‚’è¨­å®šã™ã‚‹ã€‚
+        // CPUŠÔ‚ğİ’è‚·‚éB
         node.setCpuTime(100 * MILLI_TO_NANO);
 
-        // TATæ™‚é–“ã‚’è¨­å®šã™ã‚‹ã€‚
+        // TATŠÔ‚ğİ’è‚·‚éB
         node.setStartTime(0);
         node.setEndTime(5000);
 
         CpuTimeRecordStrategy strategy = new CpuTimeRecordStrategy();
 
-        // å®Ÿè¡Œ
+        // Às
         boolean isAlarm = strategy.judgeSendExceedThresholdAlarm(node);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertTrue(isAlarm);
     }
 
     /**
-     * [é …ç•ª] 4-2-7 judgeSendExceedThresholdAlarmã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»CPUæ™‚é–“:1000(ãƒŸãƒªç§’) TATæ™‚é–“ï¼š1000(ãƒŸãƒªç§’)ã€
-     *  CPUæ™‚é–“ã®ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤:500(ãƒŸãƒªç§’)ã€TATæ™‚é–“ã®ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ï¼š2000(ãƒŸãƒªç§’)ã§ã€<br />
-     *  judgeSendExceedThresholdAlarmã‚’å‘¼ã¶ã€‚<br />
-     * â†’trueãŒè¿”ã‚‹ã€‚
+     * [€”Ô] 4-2-7 judgeSendExceedThresholdAlarm‚ÌƒeƒXƒgB <br />
+     * ECPUŠÔ:1000(ƒ~ƒŠ•b) TATŠÔF1000(ƒ~ƒŠ•b)A
+     *  CPUŠÔ‚ÌƒAƒ‰[ƒ€è‡’l:500(ƒ~ƒŠ•b)ATATŠÔ‚ÌƒAƒ‰[ƒ€è‡’lF2000(ƒ~ƒŠ•b)‚ÅA<br />
+     *  judgeSendExceedThresholdAlarm‚ğŒÄ‚ÔB<br />
+     * ¨true‚ª•Ô‚éB
      * 
-     * @throws Exception ä¾‹å¤–
+     * @throws Exception —áŠO
      */
     public void testJudgeSendExceedThresholdAlarm_CpuOver_TATUnder()
         throws Exception
     {
-        // æº–å‚™
+        // €”õ
         CallTreeNode node = createCallTreeNode();
 
-        // TATã®ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ã‚’è¨­å®šã™ã‚‹ã€‚(CPUã®ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ã¯javelin.propertiesã«ã¦è¨­å®š)
+        // TAT‚ÌƒAƒ‰[ƒ€è‡’l‚ğİ’è‚·‚éB(CPU‚ÌƒAƒ‰[ƒ€è‡’l‚Íjavelin.properties‚É‚Äİ’è)
         node.getInvocation().setAlarmThreshold(2000);
         //node.getInvocation().setAlarmCpuThreshold(500);
 
-        // CPUæ™‚é–“ã‚’è¨­å®šã™ã‚‹ã€‚
+        // CPUŠÔ‚ğİ’è‚·‚éB
         node.setCpuTime(1000 * MILLI_TO_NANO);
 
-        // TATæ™‚é–“ã‚’è¨­å®šã™ã‚‹ã€‚
+        // TATŠÔ‚ğİ’è‚·‚éB
         node.setStartTime(0);
         node.setEndTime(1000);
 
         CpuTimeRecordStrategy strategy = new CpuTimeRecordStrategy();
 
-        // å®Ÿè¡Œ
+        // Às
         boolean isAlarm = strategy.judgeSendExceedThresholdAlarm(node);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertTrue(isAlarm);
     }
 
     /**
-     * [é …ç•ª] 4-2-8 judgeSendExceedThresholdAlarmã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»CPUæ™‚é–“:100(ãƒŸãƒªç§’) TATæ™‚é–“ï¼š1000(ãƒŸãƒªç§’)ã€
-     *  CPUæ™‚é–“ã®ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤:500(ãƒŸãƒªç§’)ã€TATæ™‚é–“ã®ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ï¼š2000(ãƒŸãƒªç§’)ã§ã€<br />
-     *  judgeSendExceedThresholdAlarmã‚’å‘¼ã¶ã€‚<br />
-     * â†’falseãŒè¿”ã‚‹ã€‚
+     * [€”Ô] 4-2-8 judgeSendExceedThresholdAlarm‚ÌƒeƒXƒgB <br />
+     * ECPUŠÔ:100(ƒ~ƒŠ•b) TATŠÔF1000(ƒ~ƒŠ•b)A
+     *  CPUŠÔ‚ÌƒAƒ‰[ƒ€è‡’l:500(ƒ~ƒŠ•b)ATATŠÔ‚ÌƒAƒ‰[ƒ€è‡’lF2000(ƒ~ƒŠ•b)‚ÅA<br />
+     *  judgeSendExceedThresholdAlarm‚ğŒÄ‚ÔB<br />
+     * ¨false‚ª•Ô‚éB
      * 
-     * @throws Exception ä¾‹å¤–
+     * @throws Exception —áŠO
      */
     public void testJudgeSendExceedThresholdAlarm_CpuUnder_TATUnder()
         throws Exception
     {
-        // æº–å‚™
+        // €”õ
         CallTreeNode node = createCallTreeNode();
 
-        // TATã®ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ã‚’è¨­å®šã«ã™ã‚‹ã€‚(CPUã®ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ã¯javelin.propertiesã«ã¦è¨­å®š)
+        // TAT‚ÌƒAƒ‰[ƒ€è‡’l‚ğİ’è‚É‚·‚éB(CPU‚ÌƒAƒ‰[ƒ€è‡’l‚Íjavelin.properties‚É‚Äİ’è)
         node.getInvocation().setAlarmThreshold(2000);
 
-        // CPUæ™‚é–“ã‚’è¨­å®šã™ã‚‹ã€‚
+        // CPUŠÔ‚ğİ’è‚·‚éB
         node.setCpuTime(100 * MILLI_TO_NANO);
 
-        // TATæ™‚é–“ã‚’1è¨­å®šã™ã‚‹ã€‚
+        // TATŠÔ‚ğ1İ’è‚·‚éB
         node.setStartTime(0);
         node.setEndTime(1000);
 
         CpuTimeRecordStrategy strategy = new CpuTimeRecordStrategy();
 
-        // å®Ÿè¡Œ
+        // Às
         boolean isAlarm = strategy.judgeSendExceedThresholdAlarm(node);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertFalse(isAlarm);
     }
 
     /**
     /**
-     * [é …ç•ª] 4-2-9 judgeGenerateJaveinFileã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»CPUæ™‚é–“:100(ãƒŸãƒªç§’) TATæ™‚é–“ï¼š1000(ãƒŸãƒªç§’)ã€
-     *  CPUæ™‚é–“ã®è¨˜éŒ²é–¾å€¤:500(ãƒŸãƒªç§’)ã€TATæ™‚é–“ã®è¨˜éŒ²é–¾å€¤ï¼š2000(ãƒŸãƒªç§’)ã§ã€<br />
-     *  judgeGenerateJaveinFileã‚’å‘¼ã¶ã€‚<br />
-     * â†’JvnCallBackã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒè¿”ã‚‹ã€‚
+     * [€”Ô] 4-2-9 judgeGenerateJaveinFile‚ÌƒeƒXƒgB <br />
+     * ECPUŠÔ:100(ƒ~ƒŠ•b) TATŠÔF1000(ƒ~ƒŠ•b)A
+     *  CPUŠÔ‚Ì‹L˜^è‡’l:500(ƒ~ƒŠ•b)ATATŠÔ‚Ì‹L˜^è‡’lF2000(ƒ~ƒŠ•b)‚ÅA<br />
+     *  judgeGenerateJaveinFile‚ğŒÄ‚ÔB<br />
+     * ¨JvnCallBackƒIƒuƒWƒFƒNƒg‚ª•Ô‚éB
      * 
-     * @throws Exception ä¾‹å¤–
+     * @throws Exception —áŠO
      */
     public void testCreateCallback_Under()
         throws Exception
     {
-        // æº–å‚™
+        // €”õ
         CallTreeNode node = createCallTreeNode();
 
-        // TATã®ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ã‚’è¨­å®šã™ã‚‹ã€‚(CPUã®ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ã¯javelin.propertiesã«ã¦è¨­å®š)
+        // TAT‚ÌƒAƒ‰[ƒ€è‡’l‚ğİ’è‚·‚éB(CPU‚ÌƒAƒ‰[ƒ€è‡’l‚Íjavelin.properties‚É‚Äİ’è)
         node.getInvocation().setAlarmThreshold(2000);
 
-        // CPUæ™‚é–“ã‚’è¨­å®šã™ã‚‹ã€‚
+        // CPUŠÔ‚ğİ’è‚·‚éB
         node.setCpuTime(100 * MILLI_TO_NANO);
 
-        // TATæ™‚é–“ã‚’è¨­å®šã™ã‚‹ã€‚
+        // TATŠÔ‚ğİ’è‚·‚éB
         node.setStartTime(0);
         node.setEndTime(1000);
 
         CpuTimeRecordStrategy strategy = new CpuTimeRecordStrategy();
 
-        // å®Ÿè¡Œ
+        // Às
         JavelinLogCallback callback = strategy.createCallback(node);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertNull(callback);
     }
 
     /**
     /**
-     * [é …ç•ª] 4-2-10 judgeGenerateJaveinFileã®ãƒ†ã‚¹ãƒˆã€‚ <br />
-     * ãƒ»CPUæ™‚é–“:1000(ãƒŸãƒªç§’) TATæ™‚é–“ï¼š5000(ãƒŸãƒªç§’)ã€
-     *  CPUæ™‚é–“ã®è¨˜éŒ²é–¾å€¤:500(ãƒŸãƒªç§’)ã€TATæ™‚é–“ã®è¨˜éŒ²é–¾å€¤ï¼š2000(ãƒŸãƒªç§’)ã§ã€<br />
-     *  judgeGenerateJaveinFileã‚’å‘¼ã¶ã€‚<br />
-     * â†’JvnCallBackã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒè¿”ã‚‹ã€‚
+     * [€”Ô] 4-2-10 judgeGenerateJaveinFile‚ÌƒeƒXƒgB <br />
+     * ECPUŠÔ:1000(ƒ~ƒŠ•b) TATŠÔF5000(ƒ~ƒŠ•b)A
+     *  CPUŠÔ‚Ì‹L˜^è‡’l:500(ƒ~ƒŠ•b)ATATŠÔ‚Ì‹L˜^è‡’lF2000(ƒ~ƒŠ•b)‚ÅA<br />
+     *  judgeGenerateJaveinFile‚ğŒÄ‚ÔB<br />
+     * ¨JvnCallBackƒIƒuƒWƒFƒNƒg‚ª•Ô‚éB
      * 
-     * @throws Exception ä¾‹å¤–
+     * @throws Exception —áŠO
      */
     public void testCreateCallback_Over()
         throws Exception
     {
-        // æº–å‚™
+        // €”õ
         CallTreeNode node = createCallTreeNode();
 
-        // TATã®ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ã‚’è¨­å®šã™ã‚‹ã€‚(CPUã®ã‚¢ãƒ©ãƒ¼ãƒ é–¾å€¤ã¯javelin.propertiesã«ã¦è¨­å®š)
+        // TAT‚ÌƒAƒ‰[ƒ€è‡’l‚ğİ’è‚·‚éB(CPU‚ÌƒAƒ‰[ƒ€è‡’l‚Íjavelin.properties‚É‚Äİ’è)
         node.getInvocation().setAlarmThreshold(2000);
 
-        // CPUæ™‚é–“ã‚’è¨­å®šã™ã‚‹ã€‚
+        // CPUŠÔ‚ğİ’è‚·‚éB
         node.setCpuTime(100 * MILLI_TO_NANO);
 
-        // TATæ™‚é–“ã‚’è¨­å®šã™ã‚‹ã€‚
+        // TATŠÔ‚ğİ’è‚·‚éB
         node.setStartTime(0);
         node.setEndTime(5000);
 
         CpuTimeRecordStrategy strategy = new CpuTimeRecordStrategy();
 
-        // å®Ÿè¡Œ
+        // Às
         JavelinLogCallback callback = strategy.createCallback(node);
 
-        // æ¤œè¨¼
+        // ŒŸØ
         assertNotNull(callback);
     }
 
     /**
-     * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®CallTreeNodeã‚’ä½œæˆã™ã‚‹ã€‚
+     * ƒfƒtƒHƒ‹ƒg‚ÌCallTreeNode‚ğì¬‚·‚éB
      * @return CallTreeNode
-     * @throws Exceptionã€€ä¾‹å¤–
+     * @throws Exception@—áŠO
      */
     private CallTreeNode createCallTreeNode()
         throws Exception
     {
-        // Invocationè¨­å®š
+        // Invocationİ’è
         Invocation invocation =
                 new Invocation("pid@host", "RootCallerName", "callerMethod", 0);
         CallTreeNode node = new CallTreeNode();

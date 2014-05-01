@@ -28,19 +28,19 @@ package jp.co.acroquest.endosnipe.communicator.impl;
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 
 /**
- * é›»æ–‡é€ä¿¡ç”¨ã‚¹ãƒ¬ãƒƒãƒ‰ã§ã™ã€‚<br />
+ * “d•¶‘—M—pƒXƒŒƒbƒh‚Å‚·B<br />
  * @author eriguchi
  *
  */
 public class JavelinClientSendRunnable implements Runnable
 {
-    /** {@link JavelinClientConnection}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
+    /** {@link JavelinClientConnection}ƒIƒuƒWƒFƒNƒg */
     JavelinClientConnection clientConnection_;
 
     /**
-     * {@link JavelinClientConnection}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç«¶ã£ã¦ã—ã¾ã™ã€‚<br />
+     * {@link JavelinClientConnection}ƒIƒuƒWƒFƒNƒg‚ğ‹£‚Á‚Ä‚µ‚Ü‚·B<br />
      * 
-     * @param clientConnection {@link JavelinClientConnection}ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param clientConnection {@link JavelinClientConnection}ƒIƒuƒWƒFƒNƒg
      */
     public JavelinClientSendRunnable(final JavelinClientConnection clientConnection)
     {
@@ -48,7 +48,7 @@ public class JavelinClientSendRunnable implements Runnable
     }
 
     /**
-     * Queueã‹ã‚‰é›»æ–‡ã‚’å–å¾—ã—ã€é€ä¿¡ã—ã¾ã™ã€‚<br />
+     * Queue‚©‚ç“d•¶‚ğæ“¾‚µA‘—M‚µ‚Ü‚·B<br />
      * 
      */
     public void run()
@@ -73,7 +73,7 @@ public class JavelinClientSendRunnable implements Runnable
 
                 if (telegramArray == null || telegramArray.length == 0)
                 {
-                    // åˆ‡æ–­ã—ã€ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’çµ‚äº†ã™ã‚‹ã€‚
+                    // Ø’f‚µAƒXƒŒƒbƒh‚ğI—¹‚·‚éB
                     this.clientConnection_.close();
                     return;
                 }

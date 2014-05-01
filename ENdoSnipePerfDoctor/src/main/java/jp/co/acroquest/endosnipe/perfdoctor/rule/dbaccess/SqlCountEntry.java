@@ -31,24 +31,24 @@ import java.util.Map;
 import jp.co.acroquest.endosnipe.javelin.parser.JavelinLogElement;
 
 /**
- * SQLã®å›æ•°/æ™‚é–“ã‚’æ•°ãˆãŸçµæœã‚’ä¿å­˜ã™ã‚‹ã€‚
+ * SQL‚Ì‰ñ”/ŠÔ‚ğ”‚¦‚½Œ‹‰Ê‚ğ•Û‘¶‚·‚éB
  * 
  * @author eriguchi
  *
  */
 public class SqlCountEntry
 {
-    /** SQLã®å›æ•° */
+    /** SQL‚Ì‰ñ” */
     private long                       count_;
 
-    /** ãƒã‚¤ãƒ³ãƒ‰å¼•æ•° */
+    /** ƒoƒCƒ“ƒhˆø” */
     private final Map<String, Integer> bindValCountMap_;
 
-    /** ç™ºè¡Œå›æ•°ã‚’æœ€åˆã«è¶…ãˆãŸJavelinLogElement */
+    /** ”­s‰ñ”‚ğÅ‰‚É’´‚¦‚½JavelinLogElement */
     JavelinLogElement                  errorElement_;
 
     /**
-     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^B
      */
     public SqlCountEntry()
     {
@@ -57,9 +57,9 @@ public class SqlCountEntry
     }
 
     /**
-     * ç™ºè¡Œå›æ•°ã‚’æœ€åˆã«è¶…ãˆãŸJavelinLogElementã‚’å–å¾—ã™ã‚‹ã€‚
+     * ”­s‰ñ”‚ğÅ‰‚É’´‚¦‚½JavelinLogElement‚ğæ“¾‚·‚éB
      * 
-     * @return ç™ºè¡Œå›æ•°ã‚’æœ€åˆã«è¶…ãˆãŸJavelinLogElement
+     * @return ”­s‰ñ”‚ğÅ‰‚É’´‚¦‚½JavelinLogElement
      */
     public JavelinLogElement getErrorElement()
     {
@@ -67,8 +67,8 @@ public class SqlCountEntry
     }
 
     /***
-     * ãƒã‚¤ãƒ³ãƒ‰å¼•æ•°ã®ãƒ‘ã‚¿ãƒ¼ãƒ³æ•°ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ãƒã‚¤ãƒ³ãƒ‰å¼•æ•°ã®ãƒ‘ã‚¿ãƒ¼ãƒ³æ•°
+     * ƒoƒCƒ“ƒhˆø”‚Ìƒpƒ^[ƒ“”‚ğæ“¾‚·‚éB
+     * @return ƒoƒCƒ“ƒhˆø”‚Ìƒpƒ^[ƒ“”
      */
     public int getBindValCount()
     {
@@ -76,9 +76,9 @@ public class SqlCountEntry
     }
 
     /**
-     * ç™ºè¡Œå›æ•°ã‚’æœ€åˆã«è¶…ãˆãŸJavelinLogElementã‚’å–å¾—ã™ã‚‹ã€‚
+     * ”­s‰ñ”‚ğÅ‰‚É’´‚¦‚½JavelinLogElement‚ğæ“¾‚·‚éB
      * 
-     * @param errorElement ç™ºè¡Œå›æ•°ã‚’æœ€åˆã«è¶…ãˆãŸJavelinLogElement
+     * @param errorElement ”­s‰ñ”‚ğÅ‰‚É’´‚¦‚½JavelinLogElement
      */
     public void setErrorElement(final JavelinLogElement errorElement)
     {
@@ -86,9 +86,9 @@ public class SqlCountEntry
     }
 
     /**
-     * å®Ÿè¡Œå›æ•°ã‚’å–å¾—ã™ã‚‹ã€‚
+     * Às‰ñ”‚ğæ“¾‚·‚éB
      * 
-     * @return å®Ÿè¡Œå›æ•°
+     * @return Às‰ñ”
      */
     public long getCount()
     {
@@ -96,9 +96,9 @@ public class SqlCountEntry
     }
 
     /**
-     * å®Ÿè¡Œå›æ•°ã‚’å–å¾—ã™ã‚‹ã€‚
+     * Às‰ñ”‚ğæ“¾‚·‚éB
      * 
-     * @param count å®Ÿè¡Œå›æ•°
+     * @param count Às‰ñ”
      */
     public void setCount(final long count)
     {
@@ -106,8 +106,8 @@ public class SqlCountEntry
     }
 
     /***
-     * ãƒã‚¤ãƒ³ãƒ‰å¼•æ•°ã‚’è¿½åŠ ã™ã‚‹ã€‚
-     * @param bindVal ãƒã‚¤ãƒ³ãƒ‰å¼•æ•°
+     * ƒoƒCƒ“ƒhˆø”‚ğ’Ç‰Á‚·‚éB
+     * @param bindVal ƒoƒCƒ“ƒhˆø”
      */
     public void addBindValCount(final String bindVal)
     {

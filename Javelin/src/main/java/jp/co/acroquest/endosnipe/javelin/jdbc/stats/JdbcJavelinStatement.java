@@ -30,38 +30,38 @@ import java.util.List;
 import jp.co.acroquest.endosnipe.javelin.jdbc.instrument.PreparedStatementPair;
 
 /**
- * JdbcJavelinStatementインターフェース
+ * JdbcJavelinStatement�C���^�[�t�F�[�X
  * @author acroquest
  */
 public interface JdbcJavelinStatement
 {
     /**
-     * JdbcJavelinSQLを取得します。
+     * JdbcJavelinSQL���擾���܂��B
      * @return JdbcJavelinSQL
      */
      List<String> getJdbcJavelinSql();
      
      /**
-      * JdbcJavelinのバインド変数を取得します。
-      * @return JdbcJavelinのバインド変数
+      * JdbcJavelin�̃o�C���h�ϐ����擾���܂��B
+      * @return JdbcJavelin�̃o�C���h�ϐ�
       */
      List<?> getJdbcJavelinBindVal();
      
      /**
-      * 実行計画用のStatementを取得します。
-      * @return 実行計画用Statement
+      * ���s�v��p��Statement���擾���܂��B
+      * @return ���s�v��pStatement
       */
      PreparedStatementPair[] getStmtForPlan();
      
      /**
-      * 実行計画用のStatementを設定します。
+      * ���s�v��p��Statement��ݒ肵�܂��B
       * @param stmts Statement
       */
      void setStmtForPlan(PreparedStatementPair[] stmts);
      
      /**
-      * JdbcJavelinのバインドのインデックスを取得します。
-      * @return JdbcJavelinのバインドのインデックス
+      * JdbcJavelin�̃o�C���h�̃C���f�b�N�X���擾���܂��B
+      * @return JdbcJavelin�̃o�C���h�̃C���f�b�N�X
       */
      int getJdbcJavelinBindIndex();
 }

@@ -1,5 +1,5 @@
 /**********************************/
-/* テーブル名: Javelinログ */
+/* �e�[�u����: Javelin���O */
 /**********************************/
 CREATE TABLE JAVELIN_LOG(
   LOG_ID BIGINT DEFAULT NEXTVAL('SEQ_LOG_ID') NOT NULL,
@@ -30,7 +30,7 @@ CREATE TABLE JAVELIN_LOG(
 );
 
 /**********************************/
-/* テーブル名: Javelin計測項目 */
+/* �e�[�u����: Javelin�v������ */
 /**********************************/
 CREATE TABLE JAVELIN_MEASUREMENT_ITEM(
   MEASUREMENT_ITEM_ID INT DEFAULT NEXTVAL('SEQ_MEASUREMENT_ITEM_ID') NOT NULL,
@@ -40,7 +40,7 @@ CREATE TABLE JAVELIN_MEASUREMENT_ITEM(
 );
 
 /**********************************/
-/* テーブル名: Javelin 計測値 */
+/* �e�[�u����: Javelin �v���l */
 /**********************************/
 CREATE TABLE MEASUREMENT_VALUE(
   MEASUREMENT_VALUE_ID BIGINT DEFAULT NEXTVAL('SEQ_VALUE_ID') NOT NULL,
@@ -52,7 +52,7 @@ CREATE TABLE MEASUREMENT_VALUE(
 );
 
 /**********************************/
-/* テーブル名: 計測値情報 */
+/* �e�[�u����: �v���l��� */
 /**********************************/
 CREATE TABLE MEASUREMENT_INFO(
   MEASUREMENT_TYPE INT NOT NULL,
@@ -62,7 +62,7 @@ CREATE TABLE MEASUREMENT_INFO(
 );
 
 /**********************************/
-/* テーブル名: 計測対象ホスト情報 */
+/* �e�[�u����: �v���Ώۃz�X�g��� */
 /**********************************/
 CREATE TABLE HOST_INFO(
   HOST_ID INT DEFAULT NEXTVAL('SEQ_HOST_ID') NOT NULL,
@@ -73,7 +73,7 @@ CREATE TABLE HOST_INFO(
 );
 
 /**********************************/
-/* テーブル名: Javelin 計測値アーカイブ */
+/* �e�[�u����: Javelin �v���l�A�[�J�C�u */
 /**********************************/
 CREATE TABLE ARCHIVED_VALUE(
   MEASUREMENT_VALUE_ID BIGINT DEFAULT NEXTVAL('SEQ_VALUE_ID') NOT NULL,
@@ -85,7 +85,7 @@ CREATE TABLE ARCHIVED_VALUE(
 );
 
 /**********************************/
-/* テーブル名: シグナル定義テーブル */
+/* �e�[�u����: �V�O�i����`�e�[�u�� */
 /**********************************/
 CREATE TABLE SIGNAL_DEFINITION(
   SIGNAL_ID serial NOT NULL,
@@ -97,82 +97,24 @@ CREATE TABLE SIGNAL_DEFINITION(
 );
 
 /**********************************/
-/* テーブル名: ダッシュボードテーブル */
+/* �e�[�u����: �}�b�v�e�[�u�� */
 /**********************************/
-CREATE TABLE DASHBOARD_INFO(
- DASHBOARD_ID SERIAL NOT NULL,
+CREATE TABLE MAP_INFO(
+ MAP_ID SERIAL NOT NULL,
  NAME VARCHAR(64),
  DATA text,
  LAST_UPDATE TIMESTAMP NOT NULL
 );
 
 /**********************************/
-/* テーブル名: レポート出力結果テーブル */
+/* �e�[�u����: ���|�[�g��`�e�[�u�� */
 /**********************************/
-CREATE TABLE REPORT_EXPORT_RESULT(
+CREATE TABLE REPORT_DEFINITION(
   REPORT_ID SERIAL NOT NULL,
   REPORT_NAME VARCHAR NOT NULL,
   TARGET_MEASUREMENT_NAME VARCHAR NOT NULL,
   FM_TIME VARCHAR NOT NULL,
-  TO_TIME VARCHAR NOT NULL,
-  STATUS VARCHAR NOT NULL
-);
-
-/**********************************/
-/* テーブル名: スケジュールレポート定義テーブル */
-/**********************************/
-CREATE TABLE SCHEDULING_REPORT_DEFINITION (
-  REPORT_ID SERIAL PRIMARY KEY,
-  REPORT_NAME  VARCHAR  ,
-  TARGET_MEASUREMENT_NAME VARCHAR  ,
-  SCHEDULE_TERM VARCHAR ,
-  SCHEDULE_TIME VARCHAR  ,
-  SCHEDULE_DAY VARCHAR  ,
-  SCHEDULE_DATE VARCHAR	,
-  PLAN_EXPORT_REPORT_TIME TIMESTAMP	NOT NULL
-);
-
-/**********************************/
-/* テーブル名: 複数系列グラフ定義テーブル */
-/**********************************/
-CREATE TABLE MULTIPLE_RESOURCE_GRAPH(
-  MULTIPLE_RESOURCE_GRAPH_ID SERIAL NOT NULL,
-  MULTIPLE_RESOURCE_GRAPH_NAME VARCHAR NOT NULL,
-  MEASUREMENT_ITEM_ID_LIST VARCHAR NOT NULL,
-  MEASUREMENT_ITEM_PATTERN VARCHAR 
-);
-
-/**********************************/
-/* テーブル名: SQL計画実行定義テーブル */
-/**********************************/
-CREATE TABLE SQL_PLAN(
-  MEASUREMENt_ITEM_NAME VARCHAR NOT NULL,
-  SQL_STATEMENT VARCHAR NOT NULL,
-  EXECUTION_PLAN VARCHAR NOT NULL,
-  GETTING_PLAN_TIME TIMESTAMP NOT NULL,
-  STACK_TRACE TEXT NOT NULL,
-  UNIQUE(MEASUREMENt_ITEM_NAME, EXECUTION_PLAN),
-  UNIQUE(MEASUREMENt_ITEM_NAME, STACK_TRACE)
-);
-
-/**********************************/
-/* テーブル名: SUMMARY　SIGNAL定義テーブル */
-/**********************************/
-CREATE TABLE SUMMARY_SIGNAL_DEFINITION(
-  SUMMARY_SIGNAL_ID SERIAL NOT NULL,
-  SUMMARY_SIGNAL_NAME VARCHAR NOT NULL UNIQUE,
-  TARGET_SIGNAL_ID VARCHAR NOT NULL,
-  SIGNAL_TYPE INT NOT NULL,
-  PRIORITY_NO INT NOT NULL
-);
-
-/**********************************/
-/* テーブル名: PROPERTY　SETTINGテーブル */
-/**********************************/
-CREATE TABLE PROPERTY_SETTING_DEFINITION(
-  PROPERTY_SETTING_ID SERIAL NOT NULL,
-  PROPERTY_SETTING_KEY VARCHAR NOT NULL UNIQUE,
-  PROPERTY_SETTING_VALUE VARCHAR NOT NULL
+  TO_TIME VARCHAR NOT NULL
 );
 
 ALTER TABLE JAVELIN_LOG ADD PRIMARY KEY (LOG_ID);
@@ -198,8 +140,4 @@ ALTER TABLE ARCHIVED_VALUE ADD CONSTRAINT FK_ARCHIVED_VALUE_0 FOREIGN KEY (MEASU
 CREATE INDEX IDX_ARCHIVED_VALUE_MEASUREMENT_NUM ON ARCHIVED_VALUE (MEASUREMENT_NUM);
 CREATE INDEX IDX_ARCHIVED_VALUE_MEASUREMENT_TIME ON ARCHIVED_VALUE (MEASUREMENT_TIME, MEASUREMENT_TYPE);
 
-ALTER TABLE DASHBOARD_INFO ADD PRIMARY KEY (DASHBOARD_ID);
-
-ALTER TABLE SQL_PLAN ADD PRIMARY KEY (MEASUREMENT_ITEM_NAME);
-
-CREATE INDEX IDX_SQL_PLAN_SESSION_ID ON SQL_PLAN (MEASUREMENt_ITEM_NAME);
+ALTER TABLE MAP_INFO ADD  PRIMARY KEY (MAP_ID);

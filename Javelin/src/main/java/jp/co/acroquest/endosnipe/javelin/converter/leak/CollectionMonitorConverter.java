@@ -43,25 +43,25 @@ import jp.co.smg.endosnipe.javassist.CtMethod;
 import jp.co.smg.endosnipe.javassist.NotFoundException;
 
 /**
- * ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã‚µã‚¤ã‚ºè¿½è·¡ç”¨ã®ã‚³ãƒ³ãƒãƒ¼ã‚¿
- * ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã‚¯ãƒ©ã‚¹ã€ãƒãƒƒãƒ—ã‚¯ãƒ©ã‚¹ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã«å¯¾ã—ã€
- * ç›£è¦–ãƒãƒãƒ¼ã‚¸ãƒ£ã«è‡ªã‚‰ã‚’ç™»éŒ²ã™ã‚‹ã‚³ãƒ¼ãƒ‰ã‚’åŸ‹ã‚è¾¼ã‚€ã€‚
+ * ƒRƒŒƒNƒVƒ‡ƒ“ƒTƒCƒY’ÇÕ—p‚ÌƒRƒ“ƒo[ƒ^
+ * ƒRƒŒƒNƒVƒ‡ƒ“ƒNƒ‰ƒXAƒ}ƒbƒvƒNƒ‰ƒX‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^‚É‘Î‚µA
+ * ŠÄ‹ƒ}ƒl[ƒWƒƒ‚É©‚ç‚ğ“o˜^‚·‚éƒR[ƒh‚ğ–„‚ß‚ŞB
  * 
  * @author kimura
  */
 public class CollectionMonitorConverter extends AbstractConverter
 {
-    /** ç›£è¦–ã‚¯ãƒ©ã‚¹ã®åç§° */
+    /** ŠÄ‹ƒNƒ‰ƒX‚Ì–¼Ì */
     public static final String COLLECTIONTRACER_NAME = CollectionMonitor.class.getCanonicalName();
 
     /**
-     * Mapã‚’å®Ÿè£…ã™ã‚‹ã‚¯ãƒ©ã‚¹ã§ã‚ã‚Œã°ã€put,putAllãƒ¡ã‚½ãƒƒãƒ‰ã«æƒ…å ±å–å¾—ã‚³ãƒ¼ãƒ‰ã‚’åŸ‹ã‚è¾¼ã‚€ã€‚
-     * Queueã‚’å®Ÿè£…ã™ã‚‹ã‚¯ãƒ©ã‚¹ã§ã‚ã‚Œã°ã€offerãƒ¡ã‚½ãƒƒãƒ‰ã«æƒ…å ±å–å¾—ã‚³ãƒ¼ãƒ‰ã‚’åŸ‹ã‚è¾¼ã‚€ã€‚
-     * Collectionã‚’å®Ÿè£…ã™ã‚‹ã‚¯ãƒ©ã‚¹ã§ã‚ã‚Œã°ã€add,addAllãƒ¡ã‚½ãƒƒãƒ‰ã«æƒ…å ±å–å¾—ã‚³ãƒ¼ãƒ‰ã‚’åŸ‹ã‚è¾¼ã‚€ã€‚
-     * ãã‚Œä»¥å¤–ã®å ´åˆã¯ä½•ã‚‚ã—ãªã„ã€‚
+     * Map‚ğÀ‘•‚·‚éƒNƒ‰ƒX‚Å‚ ‚ê‚ÎAput,putAllƒƒ\ƒbƒh‚Éî•ñæ“¾ƒR[ƒh‚ğ–„‚ß‚ŞB
+     * Queue‚ğÀ‘•‚·‚éƒNƒ‰ƒX‚Å‚ ‚ê‚ÎAofferƒƒ\ƒbƒh‚Éî•ñæ“¾ƒR[ƒh‚ğ–„‚ß‚ŞB
+     * Collection‚ğÀ‘•‚·‚éƒNƒ‰ƒX‚Å‚ ‚ê‚ÎAadd,addAllƒƒ\ƒbƒh‚Éî•ñæ“¾ƒR[ƒh‚ğ–„‚ß‚ŞB
+     * ‚»‚êˆÈŠO‚Ìê‡‚Í‰½‚à‚µ‚È‚¢B
      * 
-     * @throws CannotCompileException ã‚³ãƒ¼ãƒ‰ã®åŸ‹ã‚è¾¼ã¿ã«å¤±æ•—ã—ãŸå ´åˆã€‚
-     * @throws IOException å¤‰æ›å¾Œã®CtClassã®ãƒã‚¤ãƒˆã‚³ãƒ¼ãƒ‰ã¸ã®å¤‰æ›ã«å¤±æ•—ã—ãŸå ´åˆã€‚ 
+     * @throws CannotCompileException ƒR[ƒh‚Ì–„‚ß‚İ‚É¸”s‚µ‚½ê‡B
+     * @throws IOException •ÏŠ·Œã‚ÌCtClass‚ÌƒoƒCƒgƒR[ƒh‚Ö‚Ì•ÏŠ·‚É¸”s‚µ‚½ê‡B 
      */
     @Override
     public void convertImpl()
@@ -88,7 +88,7 @@ public class CollectionMonitorConverter extends AbstractConverter
 
         if (isInheritedMap)
         {
-            // putãƒ¡ã‚½ãƒƒãƒ‰ã«é–¢ã—ã¦ã¯ã€å¼•æ•°ãŒ2ã§ã‚ã‚‹ã‚‚ã®ã®ã¿ã‚’å–å¾—ã™ã‚‹ã€‚
+            // putƒƒ\ƒbƒh‚ÉŠÖ‚µ‚Ä‚ÍAˆø”‚ª2‚Å‚ ‚é‚à‚Ì‚Ì‚İ‚ğæ“¾‚·‚éB
             List<CtMethod> targetMethods = getDeclaredPutMethods(targetClass);
             for (CtMethod targetMethod : targetMethods)
             {
@@ -102,9 +102,9 @@ public class CollectionMonitorConverter extends AbstractConverter
         }
         else if (isInheritedQueue)
         {
-            // Collectionç¶™æ‰¿åˆ¤å®šã‚ˆã‚Šã‚‚ã€Queueç¶™æ‰¿åˆ¤å®šã®æ–¹ã‚’å…ˆã«å®Ÿè¡Œã™ã‚‹ã€‚
-            // ç†ç”±ã¯ã€ArrayBlockingQueueãªã©ã€Collectionã‚‚Queueã‚‚ä¸¡æ–¹å®Ÿè£…ã—ã¦ã„ã‚‹ã‚¯ãƒ©ã‚¹ã«å¯¾ã—ã¦ã¯ã€
-            // add()ã‚‚addAll()ã‚‚offer()ã‚‚å¤‰æ›ã™ã‚‹å¿…è¦ãŒã‚ã‚‹ãŸã‚ã€‚
+            // CollectionŒp³”»’è‚æ‚è‚àAQueueŒp³”»’è‚Ì•û‚ğæ‚ÉÀs‚·‚éB
+            // ——R‚ÍAArrayBlockingQueue‚È‚ÇACollection‚àQueue‚à—¼•ûÀ‘•‚µ‚Ä‚¢‚éƒNƒ‰ƒX‚É‘Î‚µ‚Ä‚ÍA
+            // add()‚àaddAll()‚àoffer()‚à•ÏŠ·‚·‚é•K—v‚ª‚ ‚é‚½‚ßB
             List<CtMethod> targetMethods = getDeclaredMethods(targetClass,"add|addAll" +
             		"|addFirst|addLast|offer|offerFirst|offerLast|put|putFirst|putLast");
             for (CtMethod targetMethod : targetMethods)
@@ -129,11 +129,11 @@ public class CollectionMonitorConverter extends AbstractConverter
     }
 
     /**
-     * æŒ‡å®šã—ãŸã‚¯ãƒ©ã‚¹ã§å®£è¨€ã•ã‚Œã¦ã„ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒªã‚¹ãƒˆã‚’å–å¾—ã™ã‚‹ã€‚
+     * w’è‚µ‚½ƒNƒ‰ƒX‚ÅéŒ¾‚³‚ê‚Ä‚¢‚éƒƒ\ƒbƒh‚ÌƒŠƒXƒg‚ğæ“¾‚·‚éB
      * 
-     * @param ctClass ã‚¯ãƒ©ã‚¹ã€‚
-     * @param methodName ãƒ¡ã‚½ãƒƒãƒ‰åã€‚
-     * @return æŒ‡å®šã—ãŸã‚¯ãƒ©ã‚¹ã§å®£è¨€ã•ã‚Œã¦ã„ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒªã‚¹ãƒˆã€‚
+     * @param ctClass ƒNƒ‰ƒXB
+     * @param methodName ƒƒ\ƒbƒh–¼B
+     * @return w’è‚µ‚½ƒNƒ‰ƒX‚ÅéŒ¾‚³‚ê‚Ä‚¢‚éƒƒ\ƒbƒh‚ÌƒŠƒXƒgB
      */
     public List<CtMethod> getDeclaredMethods(final CtClass ctClass, final String methodName)
     {
@@ -151,11 +151,11 @@ public class CollectionMonitorConverter extends AbstractConverter
     }
     
     /**
-     * æŒ‡å®šã—ãŸã€Mapã‚’å®Ÿè£…ã—ãŸã‚¯ãƒ©ã‚¹ã§å®£è¨€ã•ã‚Œã¦ã„ã‚‹ã€putãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒªã‚¹ãƒˆã‚’å–å¾—ã™ã‚‹ã€‚<br />
-     * ãŸã ã—ã€å–å¾—ã™ã‚‹putãƒ¡ã‚½ãƒƒãƒ‰ã¯ã€å¼•æ•°ãŒ2ï¼ˆkeyã¨valueï¼‰ã§ã‚ã‚‹ã‚‚ã®ã®ã¿ã‚’å¯¾è±¡ã¨ã™ã‚‹ã€‚<br />
+     * w’è‚µ‚½AMap‚ğÀ‘•‚µ‚½ƒNƒ‰ƒX‚ÅéŒ¾‚³‚ê‚Ä‚¢‚éAputƒƒ\ƒbƒh‚ÌƒŠƒXƒg‚ğæ“¾‚·‚éB<br />
+     * ‚½‚¾‚µAæ“¾‚·‚éputƒƒ\ƒbƒh‚ÍAˆø”‚ª2ikey‚Ævaluej‚Å‚ ‚é‚à‚Ì‚Ì‚İ‚ğ‘ÎÛ‚Æ‚·‚éB<br />
      * 
-     * @param ctClass Mapã‚’å®Ÿè£…ã—ãŸã‚¯ãƒ©ã‚¹ã€‚
-     * @return æŒ‡å®šã—ãŸã‚¯ãƒ©ã‚¹ã§å®£è¨€ã•ã‚Œã¦ã„ã‚‹ã€æŒ‡å®šã•ã‚ŒãŸåå‰ã‚’æŒã¤ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒªã‚¹ãƒˆã€‚
+     * @param ctClass Map‚ğÀ‘•‚µ‚½ƒNƒ‰ƒXB
+     * @return w’è‚µ‚½ƒNƒ‰ƒX‚ÅéŒ¾‚³‚ê‚Ä‚¢‚éAw’è‚³‚ê‚½–¼‘O‚ğ‚Âƒƒ\ƒbƒh‚ÌƒŠƒXƒgB
      */
     public List<CtMethod> getDeclaredPutMethods(final CtClass ctClass)
     {
@@ -195,7 +195,7 @@ public class CollectionMonitorConverter extends AbstractConverter
     }
 
     /**
-     * ç›£è¦–ãƒãƒãƒ¼ã‚¸ãƒ£ã¸ã®ç™»éŒ²ã‚³ãƒ¼ãƒ‰ã‚’åŸ‹ã‚è¾¼ã‚€
+     * ŠÄ‹ƒ}ƒl[ƒWƒƒ‚Ö‚Ì“o˜^ƒR[ƒh‚ğ–„‚ß‚Ş
      * 
      * @param target
      * @throws CannotCompileException 
@@ -203,7 +203,7 @@ public class CollectionMonitorConverter extends AbstractConverter
     private void modifyMapAdd(final CtMethod target)
         throws CannotCompileException
     {
-        // å¯¾è±¡ã®ãƒ¡ã‚½ãƒƒãƒ‰ã®å¼•æ•°ã®æ•°ã‚’èª¿ã¹ã€è¿½åŠ ã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’å–å¾—ã™ã‚‹ã€‚
+        // ‘ÎÛ‚Ìƒƒ\ƒbƒh‚Ìˆø”‚Ì”‚ğ’²‚×A’Ç‰Á‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒfƒbƒNƒX‚ğæ“¾‚·‚éB
         String element = "$";
         int argsLength = 0;
         try
@@ -223,7 +223,7 @@ public class CollectionMonitorConverter extends AbstractConverter
     }
 
     /**
-     * ç›£è¦–ãƒãƒãƒ¼ã‚¸ãƒ£ã¸ã®ç™»éŒ²ã‚³ãƒ¼ãƒ‰ã‚’åŸ‹ã‚è¾¼ã‚€
+     * ŠÄ‹ƒ}ƒl[ƒWƒƒ‚Ö‚Ì“o˜^ƒR[ƒh‚ğ–„‚ß‚Ş
      * 
      * @param target
      * @throws CannotCompileException 
@@ -231,7 +231,7 @@ public class CollectionMonitorConverter extends AbstractConverter
     private void modifyCollectionAdd(final CtMethod target)
         throws CannotCompileException
     {
-        // å¯¾è±¡ã®ãƒ¡ã‚½ãƒƒãƒ‰ã®å¼•æ•°ã®æ•°ã‚’èª¿ã¹ã€è¿½åŠ ã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’å–å¾—ã™ã‚‹ã€‚
+        // ‘ÎÛ‚Ìƒƒ\ƒbƒh‚Ìˆø”‚Ì”‚ğ’²‚×A’Ç‰Á‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒfƒbƒNƒX‚ğæ“¾‚·‚éB
         String element = "$";
         int argsLength = 0;
         try
@@ -251,12 +251,12 @@ public class CollectionMonitorConverter extends AbstractConverter
     }
 
     /**
-     * é™¤å¤–å¯¾è±¡ã¨ãªã‚‹ã‚¯ãƒ©ã‚¹ã§ã‚ã‚‹ã‹ã©ã†ã‹ã‚’åˆ¤å®šã—ã¾ã™ã€‚(WAS7.0 å¯¾å¿œ)<br />
+     * œŠO‘ÎÛ‚Æ‚È‚éƒNƒ‰ƒX‚Å‚ ‚é‚©‚Ç‚¤‚©‚ğ”»’è‚µ‚Ü‚·B(WAS7.0 ‘Î‰)<br />
      * <br />
-     * é™¤å¤–å¯¾è±¡æ¡ä»¶:<br />
-     * <li>ãƒ™ãƒ³ãƒ€ãƒ¼ãŒIBMã§ã‚ã‚‹ã€‚</li>
-     * <li>ä»®æƒ³ãƒã‚·ãƒ³ãŒJava1.6ã«æº–æ‹ ã—ã¦ã„ã‚‹ã€‚</li>
-     * <li>java.util.Hashtable ã‹ java.util.AbstractList ã§ã‚ã‚‹ã€‚</li>
+     * œŠO‘ÎÛğŒ:<br />
+     * <li>ƒxƒ“ƒ_[‚ªIBM‚Å‚ ‚éB</li>
+     * <li>‰¼‘zƒ}ƒVƒ“‚ªJava1.6‚É€‹’‚µ‚Ä‚¢‚éB</li>
+     * <li>java.util.Hashtable ‚© java.util.AbstractList ‚Å‚ ‚éB</li>
      *
      * @return
      */

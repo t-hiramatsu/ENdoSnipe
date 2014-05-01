@@ -31,7 +31,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
- * H2 ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚’æ“ä½œã™ã‚‹ãŸã‚ã®ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+ * H2 ƒf[ƒ^ƒx[ƒX‚ð‘€ì‚·‚é‚½‚ß‚Ìƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒX‚Å‚·B<br />
  * 
  * @author y-komori
  */
@@ -42,12 +42,12 @@ public class H2DBUtil
     }
 
     /**
-     * ã‚¯ãƒ©ã‚¹ãƒ‘ã‚¹ä¸Šã«å­˜åœ¨ã™ã‚‹DDLãƒ•ã‚¡ã‚¤ãƒ«ã‚’å®Ÿè¡Œã—ã¾ã™ã€‚<br />
+     * ƒNƒ‰ƒXƒpƒXã‚É‘¶Ý‚·‚éDDLƒtƒ@ƒCƒ‹‚ðŽÀs‚µ‚Ü‚·B<br />
      * 
-     * @param con ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³
-     * @param path å®Ÿè¡Œã™ã‚‹DDLãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹
-     * @throws IOException å…¥å‡ºåŠ›ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
-     * @throws SQLException SQLã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @param con ƒRƒlƒNƒVƒ‡ƒ“
+     * @param path ŽÀs‚·‚éDDLƒtƒ@ƒCƒ‹‚ÌƒpƒX
+     * @throws IOException “üo—ÍƒGƒ‰[‚ª”­¶‚µ‚½ê‡
+     * @throws SQLException SQLƒGƒ‰[‚ª”­¶‚µ‚½ê‡
      */
     public static void executeDDL(final Connection con, final String path)
         throws IOException,
@@ -57,13 +57,13 @@ public class H2DBUtil
     }
 
     /**
-     * ã‚¯ãƒ©ã‚¹ãƒ‘ã‚¹ä¸Šã«å­˜åœ¨ã™ã‚‹DDLãƒ•ã‚¡ã‚¤ãƒ«ã‚’å®Ÿè¡Œã—ã¾ã™ã€‚<br />
+     * ƒNƒ‰ƒXƒpƒXã‚É‘¶Ý‚·‚éDDLƒtƒ@ƒCƒ‹‚ðŽÀs‚µ‚Ü‚·B<br />
      * 
-     * @param con ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³
-     * @param path å®Ÿè¡Œã™ã‚‹DDLãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹
-     * @param replacer SQL ã‚’ç½®æ›ã™ã‚‹ãŸã‚ã® {@link SQLReplacer}
-     * @throws IOException å…¥å‡ºåŠ›ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
-     * @throws SQLException SQLã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
+     * @param con ƒRƒlƒNƒVƒ‡ƒ“
+     * @param path ŽÀs‚·‚éDDLƒtƒ@ƒCƒ‹‚ÌƒpƒX
+     * @param replacer SQL ‚ð’uŠ·‚·‚é‚½‚ß‚Ì {@link SQLReplacer}
+     * @throws IOException “üo—ÍƒGƒ‰[‚ª”­¶‚µ‚½ê‡
+     * @throws SQLException SQLƒGƒ‰[‚ª”­¶‚µ‚½ê‡
      */
     public static void executeDDL(final Connection con, final String path,
             final SQLReplacer replacer)

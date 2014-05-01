@@ -33,14 +33,14 @@ import jp.co.acroquest.endosnipe.javelin.jdbc.common.JdbcJavelinConfig;
 import jp.co.acroquest.endosnipe.javelin.util.StatsUtil;
 
 /**
- * ãƒã‚¤ãƒ³ãƒ‰å¼•æ•°ã‚’æ“ä½œã™ã‚‹ãŸã‚ã®ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã€‚
+ * ƒoƒCƒ“ƒhˆø”‚ğ‘€ì‚·‚é‚½‚ß‚Ìƒ†[ƒeƒBƒŠƒeƒBB
  * 
  * @author eriguchi
  */
 public class BindValUtil
 {
     /**
-     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã‚’é˜²æ­¢ã™ã‚‹ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚
+     * ƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğ–h~‚·‚éƒRƒ“ƒXƒgƒ‰ƒNƒ^B
      */
     private BindValUtil()
     {
@@ -48,13 +48,13 @@ public class BindValUtil
     }
 
     /**
-     * ãƒã‚¤ãƒ³ãƒ‰å¼•æ•°ã‚’ä¿å­˜ã™ã‚‹ã€‚(Object)
+     * ƒoƒCƒ“ƒhˆø”‚ğ•Û‘¶‚·‚éB(Object)
      * 
-     * @param bindValList ãƒã‚¤ãƒ³ãƒ‰å¼•æ•°ã®ãƒãƒƒãƒ—ã‚’æ ¼ç´ã—ãŸãƒªã‚¹ãƒˆã€‚
-     * @param bindValListIndex bindValListã§ã®ä½ç½®ã€‚
-     * @param index bindValã®ä½ç½®ã€‚
-     * @param bindVal ãƒã‚¤ãƒ³ãƒ‰å¼•æ•°ã€‚
-     * @param isLimitLength ãƒã‚¤ãƒ³ãƒ‰å¼•æ•°ã‚’æ–‡å­—åˆ—ã‹ã™ã‚‹éš›ã«æ–‡å­—åˆ—é•·ã‚’åˆ¶é™ã™ã‚‹ã‹ã©ã†ã‹ã€‚
+     * @param bindValList ƒoƒCƒ“ƒhˆø”‚Ìƒ}ƒbƒv‚ğŠi”[‚µ‚½ƒŠƒXƒgB
+     * @param bindValListIndex bindValList‚Å‚ÌˆÊ’uB
+     * @param index bindVal‚ÌˆÊ’uB
+     * @param bindVal ƒoƒCƒ“ƒhˆø”B
+     * @param isLimitLength ƒoƒCƒ“ƒhˆø”‚ğ•¶š—ñ‚©‚·‚éÛ‚É•¶š—ñ’·‚ğ§ŒÀ‚·‚é‚©‚Ç‚¤‚©B
      */
     public static void recordBindVal(List<Map<Integer, Object>> bindValList, int bindValListIndex,
             int index, Object bindVal, boolean isLimitLength)
@@ -80,12 +80,12 @@ public class BindValUtil
     }
 
     /**
-     * ãƒã‚¤ãƒ³ãƒ‰å¼•æ•°ã‚’ä¿å­˜ã™ã‚‹ã€‚(byte)
+     * ƒoƒCƒ“ƒhˆø”‚ğ•Û‘¶‚·‚éB(byte)
      * 
-     * @param bindValList ãƒã‚¤ãƒ³ãƒ‰å¼•æ•°ã®ãƒãƒƒãƒ—ã‚’æ ¼ç´ã—ãŸãƒªã‚¹ãƒˆã€‚
-     * @param bindValListIndex bindValListã§ã®ä½ç½®ã€‚
-     * @param index bindValã®ä½ç½®ã€‚
-     * @param bindVal ãƒã‚¤ãƒ³ãƒ‰å¼•æ•°ã€‚
+     * @param bindValList ƒoƒCƒ“ƒhˆø”‚Ìƒ}ƒbƒv‚ğŠi”[‚µ‚½ƒŠƒXƒgB
+     * @param bindValListIndex bindValList‚Å‚ÌˆÊ’uB
+     * @param index bindVal‚ÌˆÊ’uB
+     * @param bindVal ƒoƒCƒ“ƒhˆø”B
      */
     public static void recordBindVal(List<Map<Integer, Object>> bindValList, int bindValListIndex,
             int index, byte bindVal)
@@ -101,12 +101,12 @@ public class BindValUtil
     }
 
     /**
-     * ãƒã‚¤ãƒ³ãƒ‰å¼•æ•°ã‚’ä¿å­˜ã™ã‚‹ã€‚(byte[])
+     * ƒoƒCƒ“ƒhˆø”‚ğ•Û‘¶‚·‚éB(byte[])
      * 
-     * @param bindValList ãƒã‚¤ãƒ³ãƒ‰å¼•æ•°ã®ãƒãƒƒãƒ—ã‚’æ ¼ç´ã—ãŸãƒªã‚¹ãƒˆã€‚
-     * @param bindValListIndex bindValListã§ã®ä½ç½®ã€‚
-     * @param index bindValã®ä½ç½®ã€‚
-     * @param bindVal ãƒã‚¤ãƒ³ãƒ‰å¼•æ•°ã€‚
+     * @param bindValList ƒoƒCƒ“ƒhˆø”‚Ìƒ}ƒbƒv‚ğŠi”[‚µ‚½ƒŠƒXƒgB
+     * @param bindValListIndex bindValList‚Å‚ÌˆÊ’uB
+     * @param index bindVal‚ÌˆÊ’uB
+     * @param bindVal ƒoƒCƒ“ƒhˆø”B
      */
     public static void recordBindVal(List<Map<Integer, Object>> bindValList, int bindValListIndex,
             int index, byte[] bindVal)
@@ -122,12 +122,12 @@ public class BindValUtil
     }
 
     /**
-     * ãƒã‚¤ãƒ³ãƒ‰å¼•æ•°ã‚’ä¿å­˜ã™ã‚‹ã€‚
+     * ƒoƒCƒ“ƒhˆø”‚ğ•Û‘¶‚·‚éB
      * 
-     * @param bindValList ãƒã‚¤ãƒ³ãƒ‰å¼•æ•°ã®ãƒãƒƒãƒ—ã‚’æ ¼ç´ã—ãŸãƒªã‚¹ãƒˆã€‚
-     * @param bindValListIndex bindValListã§ã®ä½ç½®ã€‚
-     * @param index bindValã®ä½ç½®ã€‚
-     * @param bindValStr ãƒã‚¤ãƒ³ãƒ‰å¼•æ•°ã€‚
+     * @param bindValList ƒoƒCƒ“ƒhˆø”‚Ìƒ}ƒbƒv‚ğŠi”[‚µ‚½ƒŠƒXƒgB
+     * @param bindValListIndex bindValList‚Å‚ÌˆÊ’uB
+     * @param index bindVal‚ÌˆÊ’uB
+     * @param bindValStr ƒoƒCƒ“ƒhˆø”B
      */
     public static void recordBindVal(List<Map<Integer, Object>> bindValList, int bindValListIndex,
             int index, String bindValStr)
@@ -137,11 +137,11 @@ public class BindValUtil
     }
 
     /**
-     * ãƒã‚¤ãƒ³ãƒ‰å¼•æ•°ã®ãƒãƒƒãƒ—ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒoƒCƒ“ƒhˆø”‚Ìƒ}ƒbƒv‚ğæ“¾‚·‚éB
      * 
-     * @param bindValList ãƒã‚¤ãƒ³ãƒ‰å¼•æ•°ã®ãƒãƒƒãƒ—ã‚’æ ¼ç´ã—ãŸãƒªã‚¹ãƒˆã€‚
-     * @param bindValListIndex bindValListã§ã®ä½ç½®ã€‚
-     * @return ãƒã‚¤ãƒ³ãƒ‰å¼•æ•°ã®ãƒãƒƒãƒ—ã€‚
+     * @param bindValList ƒoƒCƒ“ƒhˆø”‚Ìƒ}ƒbƒv‚ğŠi”[‚µ‚½ƒŠƒXƒgB
+     * @param bindValListIndex bindValList‚Å‚ÌˆÊ’uB
+     * @return ƒoƒCƒ“ƒhˆø”‚Ìƒ}ƒbƒvB
      */
     private static Map<Integer, Object> getBindValMap(List<Map<Integer, Object>> bindValList,
             int bindValListIndex)

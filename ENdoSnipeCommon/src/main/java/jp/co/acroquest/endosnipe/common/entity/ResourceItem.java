@@ -26,36 +26,36 @@
 package jp.co.acroquest.endosnipe.common.entity;
 
 /**
- * ãƒªã‚½ãƒ¼ã‚¹åã¨å€¤ã‚’ä¿å­˜ã™ã‚‹ã‚¯ãƒ©ã‚¹
+ * ƒŠƒ\[ƒX–¼‚Æ’l‚ğ•Û‘¶‚·‚éƒNƒ‰ƒX
  *
  * @author eriguchi
  */
 public class ResourceItem
 {
-    /** ãƒªã‚½ãƒ¼ã‚¹å(JMXè¨ˆæ¸¬å€¤ã®å ´åˆã¯Attributeå) */
+    /** ƒŠƒ\[ƒX–¼(JMXŒv‘ª’l‚Ìê‡‚ÍAttribute–¼) */
     private String      name_              = "";
 
-    /** JMXè¨ˆæ¸¬å€¤ã‚’å–å¾—ã—ãŸå ´åˆã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå */
+    /** JMXŒv‘ª’l‚ğæ“¾‚µ‚½ê‡‚ÌƒIƒuƒWƒFƒNƒg–¼ */
     private String      objectName_        = "";
 
-    /** è¨ˆæ¸¬å€¤ã®å‹ */
+    /** Œv‘ª’l‚ÌŒ^ */
     private ItemType    itemType_;
 
-    /** è¨ˆæ¸¬å€¤ */
+    /** Œv‘ª’l */
     private String      value_             = null;
 
-    /** ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®è¡¨ç¤ºå */
+    /** ƒIƒuƒWƒFƒNƒg‚Ì•\¦–¼ */
     private String      objectDisplayNeme_ = "";
 
-    /** attributeã®è¡¨ç¤ºå */
+    /** attribute‚Ì•\¦–¼ */
     private String      displayName_       = "";
 
-    /** è¨ˆæ¸¬å€¤ã®è¡¨ç¤ºå‹ */
+    /** Œv‘ª’l‚Ì•\¦Œ^ */
     private DisplayType displayType_;
 
     /**
-     * ãƒªã‚½ãƒ¼ã‚¹åã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param name ãƒªã‚½ãƒ¼ã‚¹å
+     * ƒŠƒ\[ƒX–¼‚ğİ’è‚·‚éB
+     * @param name ƒŠƒ\[ƒX–¼
      */
     public void setName(final String name)
     {
@@ -63,8 +63,8 @@ public class ResourceItem
     }
 
     /**
-     * ãƒªã‚½ãƒ¼ã‚¹åã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ãƒªã‚½ãƒ¼ã‚¹å
+     * ƒŠƒ\[ƒX–¼‚ğæ“¾‚·‚éB
+     * @return ƒŠƒ\[ƒX–¼
      */
     public String getName()
     {
@@ -72,9 +72,9 @@ public class ResourceItem
     }
 
     /**
-     * MBeanåã‚’å–å¾—ã—ã¾ã™ã€‚
+     * MBean–¼‚ğæ“¾‚µ‚Ü‚·B
      *
-     * @return MBeanå
+     * @return MBean–¼
      */
     public String getObjectName()
     {
@@ -82,9 +82,9 @@ public class ResourceItem
     }
 
     /**
-     * MBeanåã‚’è¨­å®šã—ã¾ã™ã€‚
+     * MBean–¼‚ğİ’è‚µ‚Ü‚·B
      *
-     * @param objectName MBeanå
+     * @param objectName MBean–¼
      */
     public void setObjectName(final String objectName)
     {
@@ -92,8 +92,8 @@ public class ResourceItem
     }
 
     /**
-     * å€¤ã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param value å€¤
+     * ’l‚ğİ’è‚·‚éB
+     * @param value ’l
      */
     public void setValue(final String value)
     {
@@ -101,8 +101,8 @@ public class ResourceItem
     }
 
     /**
-     * å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return å€¤
+     * ’l‚ğæ“¾‚·‚éB
+     * @return ’l
      */
     public String getValue()
     {
@@ -110,9 +110,9 @@ public class ResourceItem
     }
 
     /**
-     * ãƒªã‚½ãƒ¼ã‚¹å€¤ã®å‹ã‚’è¿”ã™ã€‚
+     * ƒŠƒ\[ƒX’l‚ÌŒ^‚ğ•Ô‚·B
      *
-     * @return å‹
+     * @return Œ^
      */
     public ItemType getItemType()
     {
@@ -120,9 +120,9 @@ public class ResourceItem
     }
 
     /**
-     * ãƒªã‚½ãƒ¼ã‚¹å€¤ã®å‹ã‚’è¨­å®šã™ã‚‹ã€‚
+     * ƒŠƒ\[ƒX’l‚ÌŒ^‚ğİ’è‚·‚éB
      *
-     * @param itemType å‹
+     * @param itemType Œ^
      */
     public void setItemType(final ItemType itemType)
     {
@@ -130,9 +130,9 @@ public class ResourceItem
     }
 
     /**
-     * ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®è¡¨ç¤ºåã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒIƒuƒWƒFƒNƒg‚Ì•\¦–¼‚ğæ“¾‚·‚éB
      *
-     * @return ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®è¡¨ç¤ºå
+     * @return ƒIƒuƒWƒFƒNƒg‚Ì•\¦–¼
      */
     public String getObjectDisplayNeme()
     {
@@ -140,9 +140,9 @@ public class ResourceItem
     }
 
     /**
-     * ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®è¡¨ç¤ºåã‚’è¨­å®šã™ã‚‹ã€‚
+     * ƒIƒuƒWƒFƒNƒg‚Ì•\¦–¼‚ğİ’è‚·‚éB
      *
-     * @param objectDisplayNeme ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®è¡¨ç¤ºå
+     * @param objectDisplayNeme ƒIƒuƒWƒFƒNƒg‚Ì•\¦–¼
      */
     public void setObjectDisplayNeme(final String objectDisplayNeme)
     {
@@ -150,9 +150,9 @@ public class ResourceItem
     }
 
     /**
-     * è¡¨ç¤ºåã‚’å–å¾—ã™ã‚‹ã€‚
+     * •\¦–¼‚ğæ“¾‚·‚éB
      *
-     * @return è¡¨ç¤ºå
+     * @return •\¦–¼
      */
     public String getDisplayName()
     {
@@ -160,9 +160,9 @@ public class ResourceItem
     }
 
     /**
-     * è¡¨ç¤ºåã‚’è¨­å®šã™ã‚‹ã€‚
+     * •\¦–¼‚ğİ’è‚·‚éB
      *
-     * @param displayName è¡¨ç¤ºå
+     * @param displayName •\¦–¼
      */
     public void setDisplayName(final String displayName)
     {
@@ -170,8 +170,8 @@ public class ResourceItem
     }
 
     /**
-     * è¡¨ç¤ºå‹ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return è¡¨ç¤ºå‹
+     * •\¦Œ^‚ğæ“¾‚·‚éB
+     * @return •\¦Œ^
      */
     public DisplayType getDisplayType()
     {
@@ -179,8 +179,8 @@ public class ResourceItem
     }
 
     /**
-     * è¡¨ç¤ºå‹ã‚’å–å¾—ã™ã‚‹ã€‚
-     * @param displayType è¡¨ç¤ºå‹
+     * •\¦Œ^‚ğæ“¾‚·‚éB
+     * @param displayType •\¦Œ^
      */
     public void setDisplayType(final DisplayType displayType)
     {
@@ -188,9 +188,9 @@ public class ResourceItem
     }
 
     /**
-     * æ–‡å­—åˆ—ã‚’è¿”ã™ã€‚
+     * •¶š—ñ‚ğ•Ô‚·B
      *
-     * @return æ–‡å­—åˆ—
+     * @return •¶š—ñ
      */
     @Override
     public String toString()

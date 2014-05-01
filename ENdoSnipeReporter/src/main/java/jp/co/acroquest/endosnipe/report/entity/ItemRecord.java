@@ -15,26 +15,26 @@ package jp.co.acroquest.endosnipe.report.entity;
 import java.sql.Timestamp;
 
 /**
- * ç³»åˆ—ã”ã¨ã«ã‚°ãƒ©ãƒ•ã‚’å‡ºåŠ›ã™ã‚‹å ´åˆã®ãƒ‡ãƒ¼ã‚¿ã‚’
- * 1å€‹ä¿æŒã™ã‚‹ã‚¯ãƒ©ã‚¹ã§ã™ã€‚
+ * Œn—ñ‚²‚Æ‚ÉƒOƒ‰ƒt‚ğo—Í‚·‚éê‡‚Ìƒf[ƒ^‚ğ
+ * 1ŒÂ•Û‚·‚éƒNƒ‰ƒX‚Å‚·B
  * 
  * @author ochiai
  */
 public class ItemRecord
 {
-	/** è¨ˆæ¸¬æ™‚åˆ» */
-	private Timestamp measurementTime_;
-
-	/** è£œé–“æœŸé–“å¹³å‡ã€€*/
-	private double value_;
-
-	/** è£œé–“æœŸé–“æœ€å¤§ */
-	private double valueMax_;
-
-	/** è£œé–“æœŸé–“æœ€å° */
-	private double valueMin_;
-
-	/**
+	/** Œv‘ª */
+    private Timestamp measurementTime_;
+    
+    /** •âŠÔŠúŠÔ•½‹Ï@*/
+    private long      value_;
+    
+    /** •âŠÔŠúŠÔÅ‘å */
+    private long      valueMax_;
+    
+    /** •âŠÔŠúŠÔÅ¬ */
+    private long      valueMin_;
+    
+    /**
 	 * @return the measurementTime_
 	 */
 	public Timestamp getMeasurementTime()
@@ -49,11 +49,11 @@ public class ItemRecord
 	{
 		this.measurementTime_ = measurementTime;
 	}
-
+	
 	/**
 	 * @return the value_
 	 */
-	public double getValue()
+	public long getValue()
 	{
 		return value_;
 	}
@@ -61,7 +61,7 @@ public class ItemRecord
 	/**
 	 * @param value the value_ to set
 	 */
-	public void setValue(double value)
+	public void setValue(long value)
 	{
 		this.value_ = value;
 	}
@@ -69,7 +69,7 @@ public class ItemRecord
 	/**
 	 * @return the valueMax_
 	 */
-	public double getValueMax()
+	public long getValueMax()
 	{
 		return valueMax_;
 	}
@@ -77,7 +77,7 @@ public class ItemRecord
 	/**
 	 * @param valueMax the valueMax_ to set
 	 */
-	public void setValueMax(double valueMax)
+	public void setValueMax(long valueMax)
 	{
 		this.valueMax_ = valueMax;
 	}
@@ -85,7 +85,7 @@ public class ItemRecord
 	/**
 	 * @return the valueMin_
 	 */
-	public double getValueMin()
+	public long getValueMin()
 	{
 		return valueMin_;
 	}
@@ -93,7 +93,7 @@ public class ItemRecord
 	/**
 	 * @param valueMin the valueMin_ to set
 	 */
-	public void setValueMin(double valueMin)
+	public void setValueMin(long valueMin)
 	{
 		this.valueMin_ = valueMin;
 	}

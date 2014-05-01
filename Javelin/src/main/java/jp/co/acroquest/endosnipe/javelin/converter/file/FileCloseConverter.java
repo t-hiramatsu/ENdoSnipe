@@ -35,7 +35,7 @@ import jp.co.smg.endosnipe.javassist.CtClass;
 
 public class FileCloseConverter extends AbstractConverter
 {
-    /** ãƒ•ã‚¡ã‚¤ãƒ«open/closeãƒ¢ãƒ‹ã‚¿ã®ã‚¯ãƒ©ã‚¹åç§° */
+    /** ƒtƒ@ƒCƒ‹open/closeƒ‚ƒjƒ^‚ÌƒNƒ‰ƒX–¼Ì */
     private static final String OPENCLOSE_MONITOR_NAME =
                                                          FileOpenCloseMonitor.class.getCanonicalName();
 
@@ -44,13 +44,13 @@ public class FileCloseConverter extends AbstractConverter
      */
     public void init()
     {
-        // ä½•ã‚‚ã—ãªã„ã€‚
+        // ‰½‚à‚µ‚È‚¢B
     }
 
     /**
      * 
-     * @throws CannotCompileException ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«æ™‚ä¾‹å¤–
-     * @throws IOException ãƒ•ã‚¡ã‚¤ãƒ«å…¥å‡ºåŠ›æ™‚ã®ä¾‹å¤–
+     * @throws CannotCompileException ƒRƒ“ƒpƒCƒ‹—áŠO
+     * @throws IOException ƒtƒ@ƒCƒ‹“üo—Í‚Ì—áŠO
      */
     @Override
     public void convertImpl()

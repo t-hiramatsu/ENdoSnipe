@@ -36,7 +36,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆå®šç¾©ã‚¯ãƒ©ã‚¹ã€‚
+ * ƒ‹[ƒ‹ƒZƒbƒg’è‹`ƒNƒ‰ƒXB
  * @author tanimoto
  *
  */
@@ -44,19 +44,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class RuleSetDef implements Serializable
 {
-    /** ã‚·ãƒªã‚¢ãƒ«ID */
+    /** ƒVƒŠƒAƒ‹ID */
     private static final long serialVersionUID = 1L;
 
-    /** ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆå */
+    /** ƒ‹[ƒ‹ƒZƒbƒg–¼ */
     @XmlAttribute
     private String            name_;
 
-    /** ãƒ«ãƒ¼ãƒ«å®šç¾©ä¸€è¦§ */
+    /** ƒ‹[ƒ‹’è‹`ˆê—— */
     @XmlElement(name = "rule")
     private List<RuleDef>     ruleDefs_;
 
     /**
-     * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚<br />
+     * ƒfƒtƒHƒ‹ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^B<br />
      */
     public RuleSetDef()
     {
@@ -64,9 +64,9 @@ public class RuleSetDef implements Serializable
     }
 
     /**
-     * ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚<br />
+     * ƒRƒs[ƒRƒ“ƒXƒgƒ‰ƒNƒ^B<br />
      *
-     * @param ruleSetDef ã‚³ãƒ”ãƒ¼å…ƒ
+     * @param ruleSetDef ƒRƒs[Œ³
      */
     public RuleSetDef(final RuleSetDef ruleSetDef)
     {
@@ -82,8 +82,8 @@ public class RuleSetDef implements Serializable
     }
 
     /**
-     * ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆåã‚’å–å¾—ã™ã‚‹ã€‚
-     * @return ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆå
+     * ƒ‹[ƒ‹ƒZƒbƒg–¼‚ğæ“¾‚·‚éB
+     * @return ƒ‹[ƒ‹ƒZƒbƒg–¼
      */
     public String getName()
     {
@@ -91,8 +91,8 @@ public class RuleSetDef implements Serializable
     }
 
     /**
-     * ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆåã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param name ãƒ«ãƒ¼ãƒ«ã‚»ãƒƒãƒˆå
+     * ƒ‹[ƒ‹ƒZƒbƒg–¼‚ğİ’è‚·‚éB
+     * @param name ƒ‹[ƒ‹ƒZƒbƒg–¼
      */
     public void setName(final String name)
     {
@@ -100,7 +100,7 @@ public class RuleSetDef implements Serializable
     }
 
     /**
-     * ãƒ«ãƒ¼ãƒ«å®šç¾©ä¸€è¦§ã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒ‹[ƒ‹’è‹`ˆê——‚ğæ“¾‚·‚éB
      * @return ruleDefs
      */
     public List<RuleDef> getRuleDefs()
@@ -109,8 +109,8 @@ public class RuleSetDef implements Serializable
     }
 
     /**
-     * ãƒ«ãƒ¼ãƒ«å®šç¾©ä¸€è¦§ã‚’è¨­å®šã™ã‚‹ã€‚
-     * @param ruleDefs ãƒ«ãƒ¼ãƒ«å®šç¾©ä¸€è¦§
+     * ƒ‹[ƒ‹’è‹`ˆê——‚ğİ’è‚·‚éB
+     * @param ruleDefs ƒ‹[ƒ‹’è‹`ˆê——
      */
     public void setRuleDefs(final List<RuleDef> ruleDefs)
     {

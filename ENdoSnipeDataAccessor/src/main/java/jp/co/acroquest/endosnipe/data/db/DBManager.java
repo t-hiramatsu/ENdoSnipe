@@ -27,41 +27,41 @@ package jp.co.acroquest.endosnipe.data.db;
 
 
 /**
- * DBã®æ¥ç¶šæƒ…å ±ã‚’ä¿å­˜ã™ã‚‹ã‚¯ãƒ©ã‚¹ã§ã™ã€‚<br />
+ * DB‚ÌÚ‘±î•ñ‚ğ•Û‘¶‚·‚éƒNƒ‰ƒX‚Å‚·B<br />
  * 
  * @author fujii
  *
  */
 public class DBManager
 {
-    /** PostgreSQLãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ç”¨ã®ãƒ‰ãƒ©ã‚¤ãƒåç§° */
+    /** PostgreSQLƒf[ƒ^ƒx[ƒX—p‚Ìƒhƒ‰ƒCƒo–¼Ì */
     private static final String POSTGRES_DIVERNAME = "org.postgresql.Driver";
 
-    /** åˆæœŸDBã‚’åˆ©ç”¨ã™ã‚‹ã‹ã©ã†ã‹ã€‚ */
+    /** ‰ŠúDB‚ğ—˜—p‚·‚é‚©‚Ç‚¤‚©B */
     private static boolean      useDefault__       = true;
 
-    /** ãƒ›ã‚¹ãƒˆå */
+    /** ƒzƒXƒg–¼ */
     private static String       hostName__;
 
-    /** ãƒãƒ¼ãƒˆç•ªå· */
+    /** ƒ|[ƒg”Ô† */
     private static String       port__;
 
-    /** ãƒ¦ãƒ¼ã‚¶å */
+    /** ƒ†[ƒU–¼ */
     private static String       userName__;
 
-    /** ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ */
+    /** ƒpƒXƒ[ƒh */
     private static String       password__;
 
-    /** ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å */
+    /** ƒf[ƒ^ƒx[ƒX–¼ */
     private static String       dbName__;
 
-    /** ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åŸºæº–ãƒ•ã‚©ãƒ«ãƒ€ */
+    /** ƒf[ƒ^ƒx[ƒXŠî€ƒtƒHƒ‹ƒ_ */
     private static String       dbDir__;
 
     /**
-     * ãƒ›ã‚¹ãƒˆåã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * ƒzƒXƒg–¼‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return ãƒ›ã‚¹ãƒˆå
+     * @return ƒzƒXƒg–¼
      */
     public static String getHostName()
     {
@@ -69,9 +69,9 @@ public class DBManager
     }
 
     /**
-     * ãƒ›ã‚¹ãƒˆåã‚’è¨­å®šã—ã¾ã™ã€‚<br />
+     * ƒzƒXƒg–¼‚ğİ’è‚µ‚Ü‚·B<br />
      * 
-     * @param hostName ãƒ›ã‚¹ãƒˆå
+     * @param hostName ƒzƒXƒg–¼
      */
     public static void setHostName(String hostName)
     {
@@ -79,9 +79,9 @@ public class DBManager
     }
 
     /**
-     * ãƒãƒ¼ãƒˆç•ªå·ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * ƒ|[ƒg”Ô†‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return ãƒãƒ¼ãƒˆç•ªå·
+     * @return ƒ|[ƒg”Ô†
      */
     public static String getPort()
     {
@@ -89,9 +89,9 @@ public class DBManager
     }
 
     /**
-     * ãƒãƒ¼ãƒˆç•ªå·ã‚’è¨­å®šã—ã¾ã™ã€‚<br />
+     * ƒ|[ƒg”Ô†‚ğİ’è‚µ‚Ü‚·B<br />
      * 
-     * @param port ãƒãƒ¼ãƒˆç•ªå·
+     * @param port ƒ|[ƒg”Ô†
      */
     public static void setPort(String port)
     {
@@ -99,7 +99,7 @@ public class DBManager
     }
 
     /**
-     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã‚’é˜»æ­¢ã™ã‚‹ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+     * ƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğ‘j~‚·‚éƒvƒ‰ƒCƒx[ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^
      */
     private DBManager()
     {
@@ -107,9 +107,9 @@ public class DBManager
     }
 
     /**
-     * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®DBã‚’åˆ©ç”¨ã™ã‚‹ã‹ã©ã†ã‹ã€‚<br />
+     * ƒfƒtƒHƒ‹ƒg‚ÌDB‚ğ—˜—p‚·‚é‚©‚Ç‚¤‚©B<br />
      * 
-     * @return ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®DBã‚’åˆ©ç”¨ã™ã‚‹å ´åˆã€<code>true</code>
+     * @return ƒfƒtƒHƒ‹ƒg‚ÌDB‚ğ—˜—p‚·‚éê‡A<code>true</code>
      */
     public static boolean isDefaultDb()
     {
@@ -117,10 +117,10 @@ public class DBManager
     }
 
     /**
-     * JDBCãƒ‰ãƒ©ã‚¤ãƒã‚¯ãƒ©ã‚¹åã‚’å–å¾—ã—ã¾ã™ã€‚<br />
-     * ç¾çŠ¶ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ä½¿ç”¨ã™ã‚‹ã®ã¯PostgreSQLã®ã¿ã®ãŸã‚ã€è¿”ã‚Šå€¤ã¯å›ºå®šã¨ã™ã‚‹ã€‚
+     * JDBCƒhƒ‰ƒCƒoƒNƒ‰ƒX–¼‚ğæ“¾‚µ‚Ü‚·B<br />
+     * Œ»ó‚±‚Ìƒƒ\ƒbƒh‚ğg—p‚·‚é‚Ì‚ÍPostgreSQL‚Ì‚İ‚Ì‚½‚ßA•Ô‚è’l‚ÍŒÅ’è‚Æ‚·‚éB
      * 
-     * @return JDBCãƒ‰ãƒ©ã‚¤ãƒã®ã‚¯ãƒ©ã‚¹å
+     * @return JDBCƒhƒ‰ƒCƒo‚ÌƒNƒ‰ƒX–¼
      */
     public static String getDriverClass()
     {
@@ -128,9 +128,9 @@ public class DBManager
     }
 
     /**
-     * ãƒ¦ãƒ¼ã‚¶åã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * ƒ†[ƒU–¼‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return ãƒ¦ãƒ¼ã‚¶å
+     * @return ƒ†[ƒU–¼
      */
     public static String getUserName()
     {
@@ -138,9 +138,9 @@ public class DBManager
     }
 
     /**
-     * ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * ƒpƒXƒ[ƒh‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰
+     * @return ƒpƒXƒ[ƒh
      */
     public static String getPassword()
     {
@@ -148,9 +148,9 @@ public class DBManager
     }
 
     /**
-     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã‚’å–å¾—ã—ã¾ã™ã€‚<br />
+     * ƒf[ƒ^ƒx[ƒX–¼‚ğæ“¾‚µ‚Ü‚·B<br />
      * 
-     * @return ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @return ƒf[ƒ^ƒx[ƒX–¼
      */
     public static String getDbName()
     {
@@ -158,9 +158,9 @@ public class DBManager
     }
 
     /**
-     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã‚’è¨­å®šã—ã¾ã™ã€‚<br />
+     * ƒf[ƒ^ƒx[ƒX–¼‚ğİ’è‚µ‚Ü‚·B<br />
      * 
-     * @param dbName ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
+     * @param dbName ƒf[ƒ^ƒx[ƒX–¼
      */
     public static void setDbName(String dbName)
     {
@@ -168,15 +168,15 @@ public class DBManager
     }
 
     /**
-     * è¨­å®šæƒ…å ±ã‚’æ›´æ–°ã—ã¾ã™ã€‚<br />
+     * İ’èî•ñ‚ğXV‚µ‚Ü‚·B<br />
      * 
-     * @param useDefault ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®DBã‚’åˆ©ç”¨ã™ã‚‹ã‹ã©ã†ã‹ã€‚
-     * @param dbDir ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åŸºæº–ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
-     * @param host ãƒ›ã‚¹ãƒˆå
-     * @param port ãƒãƒ¼ãƒˆç•ªå·
-     * @param dbName ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å
-     * @param userName ãƒ¦ãƒ¼ã‚¶å
-     * @param password ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰
+     * @param useDefault ƒfƒtƒHƒ‹ƒg‚ÌDB‚ğ—˜—p‚·‚é‚©‚Ç‚¤‚©B
+     * @param dbDir ƒf[ƒ^ƒx[ƒXŠî€ƒfƒBƒŒƒNƒgƒŠ
+     * @param host ƒzƒXƒg–¼
+     * @param port ƒ|[ƒg”Ô†
+     * @param dbName ƒf[ƒ^ƒx[ƒX–¼
+     * @param userName ƒ†[ƒU–¼
+     * @param password ƒpƒXƒ[ƒh
      */
     public static synchronized void updateSettings(boolean useDefault, String dbDir, String host,
         String port, String dbName, String userName, String password)
@@ -197,7 +197,7 @@ public class DBManager
     }
 
     /**
-     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åŸºæº–ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’å–å¾—ã™ã‚‹ã€‚
+     * ƒf[ƒ^ƒx[ƒXŠî€ƒfƒBƒŒƒNƒgƒŠ‚ğæ“¾‚·‚éB
      * 
      * @return dbDir
      */
@@ -207,9 +207,9 @@ public class DBManager
     }
 
     /**
-     * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åŸºæº–ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’è¨­å®šã™ã‚‹ã€‚
+     * ƒf[ƒ^ƒx[ƒXŠî€ƒfƒBƒŒƒNƒgƒŠ‚ğİ’è‚·‚éB
      * 
-     * @param dbDir ã‚»ãƒƒãƒˆã™ã‚‹ dbDir
+     * @param dbDir ƒZƒbƒg‚·‚é dbDir
      */
     public static void setDbDir(String dbDir)
     {
@@ -217,14 +217,14 @@ public class DBManager
     }
 
     /**
-     * ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã«å¤‰æ›´ãŒã‚ã£ãŸã‹ç¢ºèªã—ã¾ã™ã€‚
-     * @param useDefault åˆæœŸDBã‚’åˆ©ç”¨ã™ã‚‹ã‹ã©ã†ã‹
-     * @param dbDir DBãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªå
-     * @param host ãƒ›ã‚¹ãƒˆå
-     * @param port ãƒãƒ¼ãƒˆç•ªå·
-     * @param userName ãƒ¦ãƒ¼ã‚¶å
-     * @param password ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰
-     * @return å¤‰æ›´ãŒã‚ã£ãŸã¨ãtrue/ãã†ã§ãªã„ã¨ãfalse
+     * ƒtƒB[ƒ‹ƒh‚É•ÏX‚ª‚ ‚Á‚½‚©Šm”F‚µ‚Ü‚·B
+     * @param useDefault ‰ŠúDB‚ğ—˜—p‚·‚é‚©‚Ç‚¤‚©
+     * @param dbDir DBƒfƒBƒŒƒNƒgƒŠ–¼
+     * @param host ƒzƒXƒg–¼
+     * @param port ƒ|[ƒg”Ô†
+     * @param userName ƒ†[ƒU–¼
+     * @param password ƒpƒXƒ[ƒh
+     * @return •ÏX‚ª‚ ‚Á‚½‚Æ‚«true/‚»‚¤‚Å‚È‚¢‚Æ‚«false
      */
     public static boolean isDirty(boolean useDefault, String dbDir, String host,
         String port, String userName, String password)

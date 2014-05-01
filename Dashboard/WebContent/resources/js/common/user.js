@@ -29,17 +29,7 @@ ENS.nodeInfoParentView = {
 		ids : {
 			dualSliderArea : "sliderArea",
 			graphArea : "graphArea"
-		},
-		// %グラフのY軸の最大値
-		percentGraphMaxYValue : 105,
-		// グラフの上限を決める際の、グラフのY値の最大に対する係数
-		yValueMagnification : 1.1,
-		// 最大化グラフの横のマージン
-		maxGraphSideMargin : 30,
-		// 最大化グラフの縦のマージン
-		maxGraphVerticalMargin : 310,
-		// グラフタイトル横のボタン用スペースの大きさ
-		titleButtonSpace : 88
+		}
 	}
 
 };
@@ -57,17 +47,6 @@ ENS.nodePerfDoctorParentElem = {
 		maxLineNum : 20
 	}
 };
-ENS.nodeThreadDumpParentElem = {
-	viewClassName : "ENS.threadDumpView",
-	viewAttribute : {
-		term : 1800,
-		maxLineNum : 20
-	}
-};
-ENS.nodeSqlPlanElem = {
-	viewClassName : "ENS.sqlPlanView",
-	viewAttribute : {}
-};
 
 ENS.nodePerfDoctorParentView = {
 	viewClassName : "wgp.MultiAreaView",
@@ -76,47 +55,10 @@ ENS.nodePerfDoctorParentView = {
 	collection : [ ENS.nodePerfDoctorParentElem ]
 };
 
-ENS.nodeThreadDumpParentView = {
-	viewClassName : "wgp.MultiAreaView",
-	rootView : appView,
-	tabTitle : "Thread Dump",
-	collection : [ ENS.nodeThreadDumpParentElem ]
-};
-
-ENS.schedulingReportParentElem = {
-		viewClassName : "ENS.schedulingReportView",
-		viewAttribute : {
-			term : 1800,
-			maxLineNum : 20
-		}
-	};
-
-ENS.schedulingReportParentView = {
-		viewClassName : "wgp.MultiAreaView",
-		rootView : appView,
-		tabTitle : "Scheduling Report",
-		collection : [ ENS.schedulingReportParentElem ]
-	};
-
-ENS.nodeSqlPlantView = {
-	viewClassName : "wgp.MultiAreaView",
-	rootView : appView,
-	tabTitle : "Plan",
-	collection : [ ENS.nodeSqlPlanElem ]
-};
-
 ENS.nodeTabView = {
 	viewClassName : "wgp.TabView",
 	rootView : appView,
-	collection : [ ENS.nodeInfoField, ENS.nodePerfDoctorParentView,
-			ENS.schedulingReportParentView, ENS.nodeThreadDumpParentView ]
-};
-
-ENS.sqlPlanTabView = {
-	viewClassName : "wgp.TabView",
-	rootView : appView,
-	collection : [ ENS.nodeInfoField, ENS.nodePerfDoctorParentView, ENS.schedulingReportParentView,
-			ENS.nodeSqlPlantView, ENS.nodeThreadDumpParentView, ]
+	collection : [ENS.nodeInfoField, ENS.nodePerfDoctorParentView]
 };
 
 ENS.reportParentElem = {
@@ -133,22 +75,8 @@ ENS.reportParentView = {
 	collection : [ ENS.reportParentElem ]
 };
 
-ENS.schedulingReportNodeParentElem = {
-		viewClassName : "ENS.schedulingReportView",
-		viewAttribute : {
-			term : 1800,
-			maxLineNum : 20
-		}
-	};
-
-ENS.schedulingReportNodeParentView = {
-		viewClassName : "wgp.MultiAreaView",
-		rootView : appView,
-		tabTitle : "Scheduling Report",
-		collection : [ ENS.schedulingReportParentElem ]
-	};
-ENS.ResourceDashboardField = {
-	viewClassName : "ENS.ResourceDashboardView",
+ENS.ResourceMapField = {
+	viewClassName : "ENS.ResourceMapView",
 	rootView : appView,
 	collection : []
 };
@@ -158,9 +86,6 @@ if (!wgp.constants.VIEW_SETTINGS) {
 }
 wgp.constants.VIEW_SETTINGS = $.extend(wgp.constants.VIEW_SETTINGS, {
 	"reportNode-" : ENS.reportParentView,
-	"schedulingReportNode-" : ENS.schedulingReportNodeParentView,
-	"/jdbc/[^/]+/[^/]+/[^/]+" : ENS.nodeTabView,
-	"/jdbc/[^/]+/[^/]+" : ENS.sqlPlanTabView,
 	"default" : ENS.nodeTabView,
-	"ENS.ResourceDashboardView" : ENS.ResourceDashboardField
+	"ENS.ResourceMapView" : ENS.ResourceMapField
 });

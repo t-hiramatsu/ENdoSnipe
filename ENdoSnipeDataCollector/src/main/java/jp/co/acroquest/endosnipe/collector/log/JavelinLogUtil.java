@@ -41,99 +41,99 @@ import jp.co.acroquest.endosnipe.common.util.CSVTokenizer;
 import jp.co.acroquest.endosnipe.data.entity.JavelinLog;
 
 /**
- * Javelinãƒ­ã‚°ã‚’èª­ã¿è¾¼ã¿ã€JavelinLogã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã«ã™ã‚‹ãŸã‚ã®ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã§ã™ã€‚<br />
+ * JavelinƒƒO‚ğ“Ç‚İ‚İAJavelinLogƒCƒ“ƒXƒ^ƒ“ƒX‚É‚·‚é‚½‚ß‚Ìƒ†[ƒeƒBƒŠƒeƒB‚Å‚·B<br />
  * 
  * @author eriguchi
  */
 public class JavelinLogUtil
 {
-    /** "Call  "ã€"Return"ãªã©ã®ç¨®åˆ¥æ–‡å­—åˆ—ã‚’ã‚­ãƒ¼ã«ã€Javelinãƒ­ã‚°ã®1è¡Œç›®ã‹ã‚‰JavelinLogç”¨ã®ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ãŸã‚ã®ãƒªã‚¹ãƒˆã‚’å–å¾—ã—ã¾ã™ã€‚ */
+    /** "Call  "A"Return"‚È‚Ç‚Ìí•Ê•¶š—ñ‚ğƒL[‚ÉAJavelinƒƒO‚Ì1s–Ú‚©‚çJavelinLog—p‚Ìƒf[ƒ^‚ğæ“¾‚·‚é‚½‚ß‚ÌƒŠƒXƒg‚ğæ“¾‚µ‚Ü‚·B */
     private static Map<String, List<Integer>> indexListMap__ = new HashMap<String, List<Integer>>();
 
-    /** "Call  "ã€"Return"ãªã©ã®ç¨®åˆ¥æ–‡å­—åˆ—ã‚’ã‚­ãƒ¼ã«ã€logTypeã®å€¤ã¨ã™ã‚‹ãƒãƒƒãƒ—ã§ã™ã€‚ */
+    /** "Call  "A"Return"‚È‚Ç‚Ìí•Ê•¶š—ñ‚ğƒL[‚ÉAlogType‚Ì’l‚Æ‚·‚éƒ}ƒbƒv‚Å‚·B */
     private static Map<String, Integer> logTypeMap__ = new HashMap<String, Integer>();
 
-    /** START_TIMEã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€‚ */
+    /** START_TIME‚ÌƒCƒ“ƒfƒbƒNƒXB */
     private static final int DB_START_TIME = 0;
 
-    /** END_TIMEã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€‚ */
+    /** END_TIME‚ÌƒCƒ“ƒfƒbƒNƒXB */
     // private static final int DB_END_TIME = 1;
-    /** SESSION_DESCã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€‚ */
+    /** SESSION_DESC‚ÌƒCƒ“ƒfƒbƒNƒXB */
     private static final int DB_SESSION_DESC = 2;
 
-    /** LOG_TYPEã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€‚ */
+    /** LOG_TYPE‚ÌƒCƒ“ƒfƒbƒNƒXB */
     private static final int DB_LOG_TYPE = 3;
 
-    /** CALLEE_NAMEã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€‚ */
+    /** CALLEE_NAME‚ÌƒCƒ“ƒfƒbƒNƒXB */
     private static final int DB_CALLEE_NAME = 4;
 
-    /** CALLEE_SIGNATUREã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€‚ */
+    /** CALLEE_SIGNATURE‚ÌƒCƒ“ƒfƒbƒNƒXB */
     private static final int DB_CALLEE_SIGNATURE = 5;
 
-    /** CALLEE_CLASSã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€‚ */
+    /** CALLEE_CLASS‚ÌƒCƒ“ƒfƒbƒNƒXB */
     private static final int DB_CALLEE_CLASS = 6;
 
-    /** CALLEE_FIELD_TYPEã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€‚ */
+    /** CALLEE_FIELD_TYPE‚ÌƒCƒ“ƒfƒbƒNƒXB */
     private static final int DB_CALLEE_FIELD_TYPE = 7;
 
-    /** CALLEE_OBJECTIDã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€‚ */
+    /** CALLEE_OBJECTID‚ÌƒCƒ“ƒfƒbƒNƒXB */
     private static final int DB_CALLEE_OBJECTID = 8;
 
-    /** CALLER_NAMEã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€‚ */
+    /** CALLER_NAME‚ÌƒCƒ“ƒfƒbƒNƒXB */
     private static final int DB_CALLER_NAME = 9;
 
-    /** CALLER_SIGNATUREã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€‚ */
+    /** CALLER_SIGNATURE‚ÌƒCƒ“ƒfƒbƒNƒXB */
     private static final int DB_CALLER_SIGNATURE = 10;
 
-    /** CALLER_CLASSã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€‚ */
+    /** CALLER_CLASS‚ÌƒCƒ“ƒfƒbƒNƒXB */
     private static final int DB_CALLER_CLASS = 11;
 
-    /** CALLER_OBJECTIDã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€‚ */
+    /** CALLER_OBJECTID‚ÌƒCƒ“ƒfƒbƒNƒXB */
     private static final int DB_CALLER_OBJECTID = 12;
 
-    /** DB_EVENT_LEVELã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€‚ */
+    /** DB_EVENT_LEVEL‚ÌƒCƒ“ƒfƒbƒNƒXB */
     private static final int DB_EVENT_LEVEL = 13;
 
-    /** ELAPSED_TIMEã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€‚ */
+    /** ELAPSED_TIME‚ÌƒCƒ“ƒfƒbƒNƒXB */
     //private static final int                  DB_ELAPSED_TIME      = 14;
-    /** MODIFIERã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€‚ */
+    /** MODIFIER‚ÌƒCƒ“ƒfƒbƒNƒXB */
     private static final int DB_MODIFIER = 15;
 
-    /** THREAD_NAMEã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€‚ */
+    /** THREAD_NAME‚ÌƒCƒ“ƒfƒbƒNƒXB */
     private static final int DB_THREAD_NAME = 16;
 
-    /** THREAD_CLASSã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€‚ */
+    /** THREAD_CLASS‚ÌƒCƒ“ƒfƒbƒNƒXB */
     private static final int DB_THREAD_CLASS = 17;
 
-    /** THREAD_OBJECTIDã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€‚ */
+    /** THREAD_OBJECTID‚ÌƒCƒ“ƒfƒbƒNƒXB */
     private static final int DB_THREAD_OBJECTID = 18;
 
-    /** logTypeãƒãƒƒãƒ—ã®CALLã®å€¤*/
+    /** logTypeƒ}ƒbƒv‚ÌCALL‚Ì’l*/
     private static final int LOG_TYPE_MAP_CALL = 1;
 
-    /** logTypeãƒãƒƒãƒ—ã®CALLã®å€¤*/
+    /** logTypeƒ}ƒbƒv‚ÌCALL‚Ì’l*/
     private static final int LOG_TYPE_MAP_RETURN = 2;
 
-    /** logTypeãƒãƒƒãƒ—ã®FIELD_READã®å€¤*/
+    /** logTypeƒ}ƒbƒv‚ÌFIELD_READ‚Ì’l*/
     private static final int LOG_TYPE_MAP_FIELD_READ = 3;
 
-    /** logTypeãƒãƒƒãƒ—ã®FIELD_WRITEã®å€¤*/
+    /** logTypeƒ}ƒbƒv‚ÌFIELD_WRITE‚Ì’l*/
     private static final int LOG_TYPE_MAP_FIELD_WRITE = 4;
 
-    /** logTypeãƒãƒƒãƒ—ã®THROWã®å€¤*/
+    /** logTypeƒ}ƒbƒv‚ÌTHROW‚Ì’l*/
     private static final int LOG_TYPE_MAP_THROW = 5;
 
-    /** logTypeãƒãƒƒãƒ—ã®CATCHã®å€¤*/
+    /** logTypeƒ}ƒbƒv‚ÌCATCH‚Ì’l*/
     private static final int LOG_TYPE_MAP_CATCH = 6;
 
-    /** logTypeãƒãƒƒãƒ—ã®EVENTã®å€¤*/
+    /** logTypeƒ}ƒbƒv‚ÌEVENT‚Ì’l*/
     private static final int LOG_TYPE_MAP_EVENT = 7;
 
-    /** durationã‚’å–å¾—ã™ã‚‹éš›ã®ã‚­ãƒ¼ã€‚ */
+    /** duration‚ğæ“¾‚·‚éÛ‚ÌƒL[B */
     public static final String DURATION_KEY = "duration = ";
 
     /**
-     * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã‚’é¿ã‘ã‚‹ãŸã‚ã®privateã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§ã™ã€‚<br />
+     * ƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğ”ğ‚¯‚é‚½‚ß‚ÌprivateƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Å‚·B<br />
      */
     private JavelinLogUtil()
     {
@@ -141,7 +141,7 @@ public class JavelinLogUtil
 
     static
     {
-        // Javleinãƒ­ã‚°ã‹ã‚‰JavelinLogã¸ã®ã‚«ãƒ©ãƒ ã®æ·»ãˆå­—ã®ãƒãƒƒãƒ—ã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
+        // JavleinƒƒO‚©‚çJavelinLog‚Ö‚ÌƒJƒ‰ƒ€‚Ì“Y‚¦š‚Ìƒ}ƒbƒv‚ğ‰Šú‰»‚·‚éB
         indexListMap__.put(JavelinConstants.MSG_CALL, Arrays.asList(new Integer[]{ //
                 JavelinLogColumnNum.CALL_TIME, // START_TIME
                 -1, // END_TIME
@@ -255,7 +255,7 @@ public class JavelinLogUtil
                 -1, // THREAD_OBJECTID
         }));
 
-        // ã‚¤ãƒ™ãƒ³ãƒˆã€‚
+        // ƒCƒxƒ“ƒgB
         indexListMap__.put(JavelinConstants.MSG_EVENT, Arrays.asList(new Integer[]{ //
                 JavelinLogColumnNum.THROW_TIME, // START_TIME
                 -1, // END_TIME
@@ -278,7 +278,7 @@ public class JavelinLogUtil
                 -1, // THREAD_OBJECTID
         }));
 
-        // logTypeã®ãƒãƒƒãƒ—ã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
+        // logType‚Ìƒ}ƒbƒv‚ğ‰Šú‰»‚·‚éB
         logTypeMap__.put(JavelinConstants.MSG_CALL, LOG_TYPE_MAP_CALL);
         logTypeMap__.put(JavelinConstants.MSG_RETURN, LOG_TYPE_MAP_RETURN);
         logTypeMap__.put(JavelinConstants.MSG_FIELD_READ, LOG_TYPE_MAP_FIELD_READ);
@@ -289,10 +289,10 @@ public class JavelinLogUtil
     }
 
     /**
-     * Javelinãƒ­ã‚°ã®è¦ç´ ã‚’èª­ã¿è¾¼ã¿ã€JavelinLogã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆã—ã¾ã™ã€‚<br />
+     * JavelinƒƒO‚Ì—v‘f‚ğ“Ç‚İ‚İAJavelinLogƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬‚µ‚Ü‚·B<br />
      *
-     * @param javelinLog Javelinãƒ­ã‚°
-     * @param javelinElemList Javelinãƒ­ã‚°ã®è¦ç´ 
+     * @param javelinLog JavelinƒƒO
+     * @param javelinElemList JavelinƒƒO‚Ì—v‘f
      */
     public static void parse(final JavelinLog javelinLog, final List<String> javelinElemList)
     {
@@ -325,10 +325,10 @@ public class JavelinLogUtil
     }
 
     /**
-     * CSVã«åˆ‡ã‚Šå‡ºã—ã¾ã™ã€‚<br />
+     * CSV‚ÉØ‚èo‚µ‚Ü‚·B<br />
      * 
-     * @param line å¯¾è±¡ã®æ–‡å­—åˆ—
-     * @return CSVã¨ã—ã¦åˆ†å‰²ã—ãŸãƒªã‚¹ãƒˆ
+     * @param line ‘ÎÛ‚Ì•¶š—ñ
+     * @return CSV‚Æ‚µ‚Ä•ªŠ„‚µ‚½ƒŠƒXƒg
      */
     public static List<String> csvTokenizeHeader(final String line)
     {
@@ -343,10 +343,10 @@ public class JavelinLogUtil
     }
 
     /**
-     * durationã‚’ãƒ‘ãƒ¼ã‚¹ã—ã€JavelinLogã«è¨­å®šã—ã¾ã™ã€‚<br />
+     * duration‚ğƒp[ƒX‚µAJavelinLog‚Éİ’è‚µ‚Ü‚·B<br />
      * 
-     * @param javelinLog è¨­å®šå¯¾è±¡ã®JavelinLog
-     * @param durationStr durationæ–‡å­—åˆ—
+     * @param javelinLog İ’è‘ÎÛ‚ÌJavelinLog
+     * @param durationStr duration•¶š—ñ
      */
     public static void setDuration(final JavelinLog javelinLog, final String durationStr)
     {
