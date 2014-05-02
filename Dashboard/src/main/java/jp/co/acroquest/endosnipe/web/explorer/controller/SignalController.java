@@ -29,6 +29,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import jp.co.acroquest.endosnipe.common.util.MessageUtil;
 import jp.co.acroquest.endosnipe.web.explorer.constants.ResponseConstants;
@@ -130,6 +132,15 @@ public class SignalController
         // シグナルを追加する
         SignalDefinitionDto addedDefinitionDto = addSignals(signalDefinitionDto);
 
+        // 結果がnullの場合は失敗のレスポンスを返す。
+        if (addedDefinitionDto == null)
+        {
+            String errorMessage = MessageUtil.getMessage("WEWD0132", signalName);
+            responseDto.setResult(ResponseConstants.RESULT_FAILURE);
+            responseDto.setMessage(errorMessage);
+            return responseDto;
+        }
+
         responseDto.setData(addedDefinitionDto);
         responseDto.setResult(ResponseConstants.RESULT_SUCCESS);
         return responseDto;
@@ -143,6 +154,16 @@ public class SignalController
     {
 
         String matchingPattern = signalDefinitionDto.getMatchingPattern();
+
+        // 正規表現エラーの場合はnullを返す
+        try
+        {
+            Pattern.compile(matchingPattern);
+        }
+        catch (PatternSyntaxException e)
+        {
+            return null;
+        }
 
         // マッチングパターンに ${ClusterName} を含まない場合はそのまま登録する
         if (matchingPattern.indexOf(CLUSTER_NAME) == -1)
@@ -211,6 +232,8 @@ public class SignalController
         long signalId = signalDefinitionDto.getSignalId();
         String signalName = signalDefinitionDto.getSignalName();
         boolean hasSameSignalName = this.signalService.hasSameSignalName(signalId, signalName);
+
+        //　名前が重複する場合は更新に失敗する
         if (hasSameSignalName)
         {
             String errorMessage = MessageUtil.getMessage("WEWD0131", signalName);
@@ -218,6 +241,20 @@ public class SignalController
             responseDto.setMessage(errorMessage);
             return responseDto;
         }
+
+        // 正規表現が不正の場合は更新に失敗する
+        try
+        {
+            Pattern.compile(signalDefinitionDto.getMatchingPattern());
+        }
+        catch (PatternSyntaxException e)
+        {
+            String errorMessage = MessageUtil.getMessage("WEWD0132", signalName);
+            responseDto.setResult(ResponseConstants.RESULT_FAILURE);
+            responseDto.setMessage(errorMessage);
+            return responseDto;
+        }
+
         SignalInfo signalInfo = this.signalService.convertSignalInfo(signalDefinitionDto);
 
         // DBに登録されている定義を更新する

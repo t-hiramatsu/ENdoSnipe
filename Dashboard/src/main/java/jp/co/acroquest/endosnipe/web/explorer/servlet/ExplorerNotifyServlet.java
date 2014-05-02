@@ -67,6 +67,7 @@ import jp.co.acroquest.endosnipe.web.explorer.service.MultipleResourceGraphServi
 import jp.co.acroquest.endosnipe.web.explorer.service.ReportService;
 import jp.co.acroquest.endosnipe.web.explorer.service.SignalService;
 import jp.co.acroquest.endosnipe.web.explorer.service.SummarySignalService;
+import jp.co.acroquest.endosnipe.web.explorer.service.TreeMenuService;
 import jp.co.acroquest.endosnipe.web.explorer.service.processor.AgentInformationProcessor;
 import jp.co.acroquest.endosnipe.web.explorer.service.processor.AgentNotifyProcessor;
 import jp.co.acroquest.endosnipe.web.explorer.service.processor.AlarmNotifyStartProcessor;
@@ -196,10 +197,11 @@ public class ExplorerNotifyServlet extends HttpServlet
         SignalService signalService = (SignalService)webContext.getBean("signalService");
         SummarySignalService summarySignalService =
                 (SummarySignalService)webContext.getBean("summarySignalService");
+        TreeMenuService treeMenuService = (TreeMenuService)webContext.getBean("treeMenuService");
 
         TemplateCreator templateCreator =
                 new TemplateCreator(multipleResourceGraphService, dashboardService, signalService,
-                                    summarySignalService);
+                                    summarySignalService, treeMenuService);
 
         for (Entry<String, Template> templateEntry : templates.entrySet())
         {
