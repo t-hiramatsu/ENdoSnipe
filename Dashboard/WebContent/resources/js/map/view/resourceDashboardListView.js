@@ -299,13 +299,13 @@ ENS.ResourceDashboardListView = wgp.TreeView
 				{
 					if(window.confirm("Save change?"))
 					{
-						var treeModel = instance.collection.where({data : this.selectedId})[0];
+						var treeModel = instance.collection.where({data : instance.selectedId})[0];
 						instance.childView.onSave(treeModel);
-						
-						// 選択状態のDashboardを変更する
-						this.selectedId = $("#dashboard_name option:selected").text();
 					}
 					instance.childView.changedFlag = false;
 				}
+				
+				// 選択状態のDashboardを変更する
+				instance.selectedId = $("#dashboard_name option:selected").text();
 			}
 		});
