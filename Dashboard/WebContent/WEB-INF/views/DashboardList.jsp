@@ -86,6 +86,8 @@
 
 			perspectiveView.dropView("persArea_drop_0_0", "range_area", "DashboardView");
 			perspectiveView.dropView("persArea_drop_1_0", "contents_area", "DashboardView");
+			
+			$("#persArea_drop_0_0").resizable("disable");
 
 			// リソースリスト・ダッシュボードリスト用の領域を別に用意する。
 			var treeArea = $("<div id='tree_area'></div>");
@@ -111,19 +113,20 @@
 			
 			var viewArea2 = {
 					width : 900,
-					height : 62,
+					height : 67,
 					rowspan : 1,
 					colspan : 1,
 					css : {
 						"overflow" : "hidden",
 						"padding-top" : "10px",
+						"padding-left" : "10px",
 						"z-index" : "30"
 					}
 				};
 			
 			var viewArea3 = {
 				width : 900,
-				height : 738,
+				height : 733,
 				rowspan : 1,
 				colspan : 1
 			};
@@ -145,7 +148,9 @@
 			perspectiveView.dropView("persArea_drop_0_0", "tree_area", "GraphTree");
 			perspectiveView.dropView("persArea_drop_0_1", "range_area", "DashboardView");
 			perspectiveView.dropView("persArea_drop_1_0", "contents_area", "DashboardView");
-
+			
+			$("#persArea_drop_0_0").resizable("disable");
+			$("#persArea_drop_0_1").resizable("disable");
 		}
 
 		// リソースツリーの生成
@@ -250,8 +255,8 @@
 		var changeModeMenuModel;
 		if(dashboardMode == ENS.dashboard.mode.OPERATE){
 			changeModeMenuModel = new ENS.dashboardMenuModel({
-				width : 25,
-				height : 25,
+				width : 17,
+				height : 17,
 				styleClass : 'dashboard_menu_icon',
 				src : '<%=request.getContextPath()%>/resources/images/map/operateModeIcon.png',
 				alt : 'This is the current operation mode. Please click if you want to edit the dashboard.',
@@ -270,8 +275,8 @@
 		if(dashboardMode == ENS.dashboard.mode.EDIT){
 
 			var createDashboardMenuModel = new ENS.dashboardMenuModel({
-				width : 25,
-				height : 25,
+				width : 17,
+				height : 17,
 				styleClass : 'dashboard_menu_icon',
 				src : '<%=request.getContextPath()%>/resources/images/map/createIcon.png',
 				alt : 'Please click if you want to create a new dashboard.',
@@ -282,8 +287,8 @@
 			menuModelArray.push(createDashboardMenuModel);
 
 			var saveDashboardMenuModel = new ENS.dashboardMenuModel({
-				width : 25,
-				height : 25,
+				width : 17,
+				height : 17,
 				styleClass : 'dashboard_menu_icon',
 				src : '<%=request.getContextPath()%>/resources/images/map/saveIcon.png',
 				alt : 'Please click if you want to save the dashboard.',
@@ -300,8 +305,8 @@
 			menuModelArray.push(saveDashboardMenuModel);
 
 			var backgroundMenuModel = new ENS.dashboardMenuModel({
-				width : 25,
-				height : 25,
+				width : 17,
+				height : 17,
 				styleClass : "dashboard_menu_icon",
 				src : '<%=request.getContextPath()%>/resources/images/map/backgroundIcon.png',
 				alt : 'Please click if you want to set the background dashboard.',
@@ -318,8 +323,8 @@
 			menuModelArray.push(backgroundMenuModel);
 
 			var linkDashboardMenuModel = new ENS.dashboardMenuModel({
-				width : 25,
-				height : 25,
+				width : 17,
+				height : 17,
 				styleClass : 'dashboard_menu_icon',
 				src : '<%=request.getContextPath()%>/resources/images/map/createLinkIcon.png',
 				alt : 'Please click if you want to add dashboard link.',
@@ -341,8 +346,8 @@
 			menuModelArray.push(linkDashboardMenuModel);
 
 			var rectangleMenuModel = new ENS.dashboardMenuModel({
-				width : 25,
-				height : 25,
+				width : 17,
+				height : 17,
 				styleClass : 'dashboard_menu_icon',
 				src : '<%=request.getContextPath()%>/resources/images/map/rectangleIcon.png',
 				alt : 'Please click if you want to add this object.',
@@ -359,8 +364,8 @@
 			menuModelArray.push(rectangleMenuModel);
 
 			var ellipseMenuModel = new ENS.dashboardMenuModel({
-				width : 25,
-				height : 25,
+				width : 17,
+				height : 17,
 				styleClass : 'dashboard_menu_icon',
 				src : '<%=request.getContextPath()%>/resources/images/map/ellipseIcon.png',
 				alt : 'Please click if you want to add this object.',
@@ -377,8 +382,8 @@
 			menuModelArray.push(ellipseMenuModel);
 
 			var textMenuModel = new ENS.dashboardMenuModel({
-				width : 25,
-				height : 25,
+				width : 17,
+				height : 17,
 				styleClass : 'dashboard_menu_icon',
 				src : '<%=request.getContextPath()%>/resources/images/map/textIcon.png',
 				alt : 'Please click if you want to add this object.',
