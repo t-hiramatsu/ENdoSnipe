@@ -58,7 +58,6 @@ ENS.dashboardMenuView = wgp.AbstractView.extend({
 			}
 
 			coverDivTag.append(imgTag);
-			coverDivTag.height($("#" + this.divId).height());
 			$("#" + this.divId).append(coverDivTag);
 		}
 	},
