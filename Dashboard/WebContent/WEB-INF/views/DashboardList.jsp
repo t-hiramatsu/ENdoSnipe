@@ -294,8 +294,8 @@
 				alt : 'Please click if you want to save the dashboard.',
 				onclick : (function(event){
 					if(resourceDashboardListView.childView){
-						var selectedId = $("#" + resourceDashboardListView.id).find(".jstree-clicked")[0].id;
-						var treeModel = resourceDashboardListView.collection.where({id : selectedId})[0];
+						var selectedId = $("#dashboard_name option:selected").text();
+						var treeModel = resourceDashboardListView.collection.where({data : selectedId})[0];
 						resourceDashboardListView.childView.onSave(treeModel);
 					}else{
 						console.log("please select a dashboard");
@@ -330,7 +330,7 @@
 				alt : 'Please click if you want to add dashboard link.',
 				onclick : (function(event){
 					if(resourceDashboardListView.childView){
-						var selectedId = $("#" + resourceDashboardListView.id).find(".jstree-clicked")[0].id;
+						var selectedId = $("#dashboard_name option:selected").text();
 						var treeModel = resourceDashboardListView.collection.where({id : selectedId})[0];
 						var dashboardView = resourceDashboardListView.childView;
 						dashboardView.setClickAddElementEvent(

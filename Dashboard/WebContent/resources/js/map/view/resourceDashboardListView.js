@@ -60,6 +60,9 @@ ENS.ResourceDashboardListView = wgp.TreeView
 				// 初期状態ではツリーの先頭のDashboardを表示する
 				var initModel = this.collection.models[0];
 				this.showModel(initModel);
+				
+				// 初期表示のDashboardのID
+				this.selectedId = initModel.get("data");
 			},
 			showModel : function(treeModel) {
 				if (this.childView) {
@@ -296,11 +299,13 @@ ENS.ResourceDashboardListView = wgp.TreeView
 				{
 					if(window.confirm("Save change?"))
 					{
-						var selectedId = $("#" + instance.id).find(".jstree-clicked")[0].id;
-						var treeModel = instance.collection.where({id : selectedId})[0];
+						var treeModel = instance.collection.where({data : instance.selectedId})[0];
 						instance.childView.onSave(treeModel);
 					}
 					instance.childView.changedFlag = false;
 				}
+				
+				// 選択状態のDashboardを変更する
+				instance.selectedId = $("#dashboard_name option:selected").text();
 			}
 		});
