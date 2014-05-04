@@ -180,8 +180,9 @@ ENS.graphRangeController.prototype._createClusterSelector = function(){
 	// 非同期通信でデータを送信する
 	var ajaxHandler = new wgp.AjaxHandler();
 	settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] = this;
-	settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = "_callbackGetTopNodes";
-	ajaxHandler.requestServerAsync(settings);
+	var result = ajaxHandler.requestServerSync(settings);
+	var nodes = $.parseJSON(result);
+	this._callbackGetTopNodes($selector, nodes);
 	
 	return $selector;
 };
@@ -203,16 +204,16 @@ ENS.graphRangeController.prototype._callbackGetNames = function(names) {
 	});
 };
 
-ENS.graphRangeController.prototype._callbackGetTopNodes = function(topNodes){
-	var $selector = $("#"+this.ID_CLUSTER_NAME);
-	
+ENS.graphRangeController.prototype._callbackGetTopNodes = function($selector, topNodes){
 	var $option = $("<option/>");
-	$option.html("*");
+	$option.attr("value", ".*");
+	$option.html("ALL");
 	$selector.append($option);
 	
 	for(var i in topNodes){
 		var cluster = topNodes[i];
 		$option = $("<option/>");
+		$option.attr("value", cluster.data);
 		$option.html(cluster.data);
 		$selector.append($option);
 	}
