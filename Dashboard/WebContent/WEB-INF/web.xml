@@ -46,7 +46,7 @@
 		<servlet-class>jp.co.acroquest.endosnipe.web.explorer.servlet.ExplorerNotifyServlet</servlet-class>
 		<init-param>
 			<param-name>collector.property</param-name>
-			<param-value>/opt/ENdoSnipe/DataCollector/conf/collector.properties</param-value>
+			<param-value>C:\AcroWorks\svn\ENdoSnipe\Tools\DataCollector\conf\collector.properties</param-value>
 		</init-param>
 		<load-on-startup>2</load-on-startup>
 	</servlet>
