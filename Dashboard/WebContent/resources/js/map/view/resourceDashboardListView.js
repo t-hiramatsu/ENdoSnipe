@@ -130,15 +130,15 @@ ENS.ResourceDashboardListView = wgp.TreeView
 					modal : true,
 					buttons : {
 						"OK" : function() {
-
-							if (dashboardNameText.val().length == 0) {
+							var newDashboardName = dashboardNameText.val();
+							if (newDashboardName.length == 0) {
 								alert("Dashboard Name is required.");
 								return;
 							}
 
 							var setting = {
 								data : {
-									name : dashboardNameText.val(),
+									name : newDashboardName,
 									data : "{}"
 								},
 								url : wgp.common.getContextPath()
@@ -157,6 +157,10 @@ ENS.ResourceDashboardListView = wgp.TreeView
 
 								// ダッシュボード一覧を再描画する。
 								instance.onLoad();
+								instance._updateDashboadList(returnData.data);
+								
+								// 新しく追加したDashboardに切り替える
+								instance._changeDashboard(newDashboardName);
 							}
 						},
 						"CANCEL" : function() {
@@ -306,6 +310,25 @@ ENS.ResourceDashboardListView = wgp.TreeView
 				}
 				
 				// 選択状態のDashboardを変更する
-				instance.selectedId = $("#dashboard_name option:selected").text();
+				instance.selectedId = $("#" + ENS.graphRange.ID_DASHBOARD_NAME + " option:selected").text();
+			},
+			/**
+			 * Dashboard一覧を更新する。
+			 */
+			_updateDashboadList : function(dashboardNameList) {
+				$("#" + ENS.graphRange.ID_DASHBOARD_NAME + " > option").remove();
+				
+				// Dashboard一覧にDashboard名の選択肢を一つひとつ追加する
+				$.each(dashboardNameList, function(i, val){
+					$("#" + ENS.graphRange.ID_DASHBOARD_NAME).append($("<option>").html(val));
+				});
+			},
+			/**
+			 * 表示中のDashboardを変更する。
+			 */
+			_changeDashboard : function(dashboardName) {
+				// 選択値を変更し、セレクトボックス変更イベントを発生させる
+				$("#" + ENS.graphRange.ID_DASHBOARD_NAME).val(dashboardName);
+				$("#" + ENS.graphRange.ID_DASHBOARD_NAME).change();
 			}
 		});
