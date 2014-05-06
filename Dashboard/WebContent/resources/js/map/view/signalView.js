@@ -74,17 +74,11 @@ ENS.SignalElementView = ENS.ShapeElementView.extend({
 			icon = treeModel.get("icon");
 			text = treeModel.get("data");
 		}
-
-		var elementProperty = {
-			pointX : model.get("pointX"),
-			pointY : model.get("pointY"),
-			width : model.get("width"),
-			height : model.get("height"),
-			URL : wgp.common.getContextPath() + ENS.SignalElementURL[icon]
-		};
+		
+		var url = wgp.common.getContextPath() + ENS.SignalElementURL[icon];
 
 		// シグナル画像を再度設定する。
-		this.getElement(0).setProperty(elementProperty);
+		this.getElement(0).object.attr("src", url);
 
 		// シグナル名を再度設定する。
 		this.getElement(1).object.attr("text", text);
