@@ -2,16 +2,16 @@
  * グラフの時間帯調整UIクラス
  */
 ENS.graphRangeController = function(id) {
-	this.ID_RANGE = "range_controller_range";
-	this.ID_DATEPICKER = "range_controller_datepicker";
-	this.ID_PREV_BUTTON = "range_controller_prev";
-	this.ID_PLAY_BUTTON = "range_controller_play";
-	this.ID_NEXT_BUTTON = "range_controller_next";
-	this.ID_SEARCH_BUTTON = "range_controller_search";
-	this.ID_SPAN = "range_controller_span";
-	this.ID_CLUSTER_NAME = "cluster_name";
-	this.ID_DASHBOARD_NAME = "dashboard_name";
-	this.TIMER_INTERVAL = 1000;
+	ENS.graphRange.ID_RANGE = "range_controller_range";
+	ENS.graphRange.ID_DATEPICKER = "range_controller_datepicker";
+	ENS.graphRange.ID_PREV_BUTTON = "range_controller_prev";
+	ENS.graphRange.ID_PLAY_BUTTON = "range_controller_play";
+	ENS.graphRange.ID_NEXT_BUTTON = "range_controller_next";
+	ENS.graphRange.ID_SEARCH_BUTTON = "range_controller_search";
+	ENS.graphRange.ID_SPAN = "range_controller_span";
+	ENS.graphRange.ID_CLUSTER_NAME = "cluster_name";
+	ENS.graphRange.ID_DASHBOARD_NAME = "dashboard_name";
+	ENS.graphRange.TIMER_INTERVAL = 1000;
 
 	this.searchListener = null;
 	this.isPlaying = true;
@@ -112,7 +112,7 @@ ENS.graphRangeController.prototype._createOption = function(value) {
  */
 ENS.graphRangeController.prototype._createRange = function() {
 	var $range = $("<select/>");
-	$range.attr("id", this.ID_RANGE);
+	$range.attr("id", ENS.graphRange.ID_RANGE);
 	$range.append(this._createOption(0.5));
 	$range.append(this._createOption(1).prop("selected", true));
 	$range.append(this._createOption(2));
@@ -139,7 +139,7 @@ ENS.graphRangeController.prototype._createRange = function() {
  */
 ENS.graphRangeController.prototype._createDatetimePicker = function() {
 	var $datepicker = $("<input/>");
-	$datepicker.attr("id", this.ID_DATEPICKER);
+	$datepicker.attr("id", ENS.graphRange.ID_DATEPICKER);
 	$datepicker.attr("type", "text");
 	$datepicker.attr("title", "To date");
 	
@@ -170,7 +170,7 @@ ENS.graphRangeController.prototype._createDatetimePicker = function() {
 
 ENS.graphRangeController.prototype._createClusterSelector = function(){
 	var $selector = $("<select/>");
-	$selector.attr("id", this.ID_CLUSTER_NAME);
+	$selector.attr("id", ENS.graphRange.ID_CLUSTER_NAME);
 	
 	// Ajax通信用の設定
 	var settings = {
@@ -188,7 +188,7 @@ ENS.graphRangeController.prototype._createClusterSelector = function(){
 };
 
 ENS.graphRangeController.prototype._callbackGetNames = function(names) {
-	var $selector = $("#"+this.ID_DASHBOARD_NAME);
+	var $selector = $("#"+ENS.graphRange.ID_DASHBOARD_NAME);
 	for(var i in names){
 		var $option = $("<option/>");
 		$option.html(names[i]);
@@ -231,7 +231,7 @@ ENS.graphRangeController.prototype._callbackGetTopNodes = function($selector, to
  * 現在選択されているTreeIdを取得する
  */
 ENS.graphRangeController.prototype._getSelectedTreeId = function(){
-	var val = $("#"+this.ID_DASHBOARD_NAME).val();
+	var val = $("#"+ENS.graphRange.ID_DASHBOARD_NAME).val();
 	var view = window.resourceDashboardListView;
 	for(var i=0, len=view.collection.models.length; i<len; i++){
 		var model = view.collection.models[i];
@@ -247,7 +247,7 @@ ENS.graphRangeController.prototype._getSelectedTreeId = function(){
  */
 ENS.graphRangeController.prototype.setDate = function(date) {
 	var dateStr = this._getDateStr(date);
-	var $datepicker = $("#" + this.ID_DATEPICKER);
+	var $datepicker = $("#" + ENS.graphRange.ID_DATEPICKER);
 	$datepicker.val(dateStr);
 };
 
@@ -269,7 +269,7 @@ ENS.graphRangeController.prototype._getDateStr = function(date) {
  */
 ENS.graphRangeController.prototype._createPrevButton = function() {
 	var $prev = $("<button/>");
-	$prev.attr("id", this.ID_PREV_BUTTON);
+	$prev.attr("id", ENS.graphRange.ID_PREV_BUTTON);
 	$prev.addClass("range_config");
 	$prev.html("15 minutes ago");
 	$prev.button({
@@ -293,7 +293,7 @@ ENS.graphRangeController.prototype._createPrevButton = function() {
  */
 ENS.graphRangeController.prototype._createPlayButton = function() {
 	var $play = $("<button/>");
-	$play.attr("id", this.ID_PLAY_BUTTON);
+	$play.attr("id", ENS.graphRange.ID_PLAY_BUTTON);
 	$play.addClass("range_config");
 	$play.html("Current time");
 	var instance = this;
@@ -321,7 +321,7 @@ ENS.graphRangeController.prototype._createPlayButton = function() {
  */
 ENS.graphRangeController.prototype._createNextButton = function() {
 	var $next = $("<button/>");
-	$next.attr("id", this.ID_NEXT_BUTTON);
+	$next.attr("id", ENS.graphRange.ID_NEXT_BUTTON);
 	$next.addClass("range_config");
 	$next.html("15 minutes after");
 	$next.button({
@@ -348,7 +348,7 @@ ENS.graphRangeController.prototype._createLoadDashboardIcon = function() {
 		return null;
 	}
 	var $select = $("<select/>");
-	$select.attr("id", this.ID_DASHBOARD_NAME);
+	$select.attr("id", ENS.graphRange.ID_DASHBOARD_NAME);
 	var settings = {
 			url : wgp.common.getContextPath() + "/dashboard/getNames"
 	}
@@ -416,14 +416,14 @@ ENS.graphRangeController.prototype._updateSpan = function(date) {
 	if (this.isPlaying) {
 		str += "[Realtime]";
 	}
-	$("#" + this.ID_SPAN).html(str);
+	$("#" + ENS.graphRange.ID_SPAN).html(str);
 };
 
 /**
  * リアルタイム表示を開始する
  */
 ENS.graphRangeController.prototype._play = function() {
-	$("#" + this.ID_PLAY_BUTTON).button({
+	$("#" + ENS.graphRange.ID_PLAY_BUTTON).button({
 		icons : {
 			primary : "ui-icon-stop"
 		}
@@ -437,14 +437,14 @@ ENS.graphRangeController.prototype._play = function() {
 	this.timerId = setInterval(function() {
 		var date = new Date();
 		instance._updateSpan(date);
-	}, this.TIMER_INTERVAL);
+	}, ENS.graphRange.TIMER_INTERVAL);
 };
 
 /**
  * リアルタイム表示を終了する
  */
 ENS.graphRangeController.prototype._stop = function() {
-	$("#" + this.ID_PLAY_BUTTON).button({
+	$("#" + ENS.graphRange.ID_PLAY_BUTTON).button({
 		icons : {
 			primary : "ui-icon-play"
 		}
@@ -458,7 +458,7 @@ ENS.graphRangeController.prototype._stop = function() {
  */
 ENS.graphRangeController.prototype._getDate = function() {
 	// Date型に変換可能なフォーマットに変換する
-	var dateStr = $("#" + this.ID_DATEPICKER).val().replace(/-/g, "/");
+	var dateStr = $("#" + ENS.graphRange.ID_DATEPICKER).val().replace(/-/g, "/");
 	var date = new Date(dateStr);
 	// フォーマット異常の場合はアラートを表示する
 	if (isNaN(date.getTime())) {
@@ -479,7 +479,7 @@ ENS.graphRangeController.prototype._getRangeMs = function() {
  * ドロップダウンリストの値を元に範囲時間の時間を取得する
  */
 ENS.graphRangeController.prototype._getRangeHour = function() {
-	var rangeStr = $("#" + this.ID_RANGE).val();
+	var rangeStr = $("#" + ENS.graphRange.ID_RANGE).val();
 	var range = rangeStr.replace(" h", "");
 	return range;
 };
@@ -551,13 +551,13 @@ ENS.graphRangeController.prototype._updateGraph = function(from, to) {
  * ツールチップをアップデートする
  */
 ENS.graphRangeController.prototype._updateTooltip = function() {
-	$("#" + this.ID_PREV_BUTTON).attr("title",
+	$("#" + ENS.graphRange.ID_PREV_BUTTON).attr("title",
 			(this._getRangeHour() / 2) + " hours ago");
-	$("#" + this.ID_NEXT_BUTTON).attr("title",
+	$("#" + ENS.graphRange.ID_NEXT_BUTTON).attr("title",
 			(this._getRangeHour() / 2) + " hours after");
 	if (!this.isPlaying) {
-		$("#" + this.ID_PLAY_BUTTON).attr("title", "Start realtime tracking.");
+		$("#" + ENS.graphRange.ID_PLAY_BUTTON).attr("title", "Start realtime tracking.");
 	} else {
-		$("#" + this.ID_PLAY_BUTTON).attr("title", "Stop realtime tracking.");
+		$("#" + ENS.graphRange.ID_PLAY_BUTTON).attr("title", "Stop realtime tracking.");
 	}
 };

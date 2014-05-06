@@ -242,6 +242,10 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 		return view;
 	},
 	onSave : function(treeModel){
+		if (this.backgroundView === undefined) {
+			alert("Cannot save the Dashboard. Because the Dashboard is not exists.");
+		}
+		
 		var resourceArray = [];
 		_.each(this.collection.models, function(model, index){
 			resourceArray.push(model.toJSON());
@@ -271,7 +275,7 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 		this.changedFlag = false;
 
 		var result = returnData.result;
-		if(result == "fail"){
+		if(result == "failure"){
 			alert(returnData.message);
 		}
 	},
@@ -292,7 +296,7 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 			// サーバからダッシュボード情報を取得し、結果をコレクションに追加する。
 			var telegram = this.getDashboardData(dashboardId);
 			var returnData = $.parseJSON(telegram);
-			if(returnData.result == "fail"){
+			if(returnData.result == "failure"){
 				alert(returnData.message);
 				return;
 			}
