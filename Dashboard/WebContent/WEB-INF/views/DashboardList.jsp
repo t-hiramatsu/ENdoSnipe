@@ -398,6 +398,24 @@
 				})
 			});
 			menuModelArray.push(textMenuModel);
+			
+			var deleteMenuModel =  new ENS.dashboardMenuModel({
+				width : 17,
+				height : 17,
+				styleClass : 'dashboard_menu_icon',
+				src : '<%=request.getContextPath()%>/resources/images/map/deleteIcon.png',
+				alt : 'Please click if you want to delete this dashboard.',
+				onclick : (function(event){
+					if(resourceDashboardListView.childView){
+						var selectedId = $("#dashboard_name option:selected").text();
+						var treeModel = resourceDashboardListView.collection.where({data : selectedId})[0];
+						resourceDashboardListView.onRemove(treeModel);
+					}else{
+						console.log("please select a dashboard");
+					}
+				})
+			});
+			menuModelArray.push(deleteMenuModel);
 		}
 
 		// メニューアイコンを生成する。

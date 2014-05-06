@@ -149,7 +149,7 @@ ENS.ResourceDashboardListView = wgp.TreeView
 							var returnData = $.parseJSON(telegram);
 
 							var result = returnData.result;
-							if(result == "fail"){
+							if(result == "failure"){
 								alert(returnData.message);
 
 							}else{
@@ -176,50 +176,37 @@ ENS.ResourceDashboardListView = wgp.TreeView
 			},
 			onRemove : function(treeModel) {
 				var instance = this;
-				var removeDashboardDialog = $("<div title='Remove this Dashboard'></div>");
-				removeDashboardDialog
-						.append("<p>That you to remove this dashboard Sure?</p>");
-				removeDashboardDialog.dialog({
-					autoOpen : false,
-					height : 300,
-					width : 350,
-					modal : true,
-					buttons : {
-						"OK" : function() {
-							var setting = {
-								data : {
-									dashboardId : treeModel.id
-								},
-								url : wgp.common.getContextPath()
-										+ "/dashboard/removeById"
-							}
-							var telegram = instance.ajaxHandler.requestServerSync(setting);
-							var returnData = $.parseJSON(telegram);
-							if(returnData.result == "fail"){
-								alert(returnData.message);
-								return;
-							}
-							removeDashboardDialog.dialog("close");
-
-							// ダッシュボードの表示内容を全て消去する。
-							$("#" + instance.targetId).children().remove();
-
-							// ビューの関連付けを削除する。
-							instance.childView = null;
-
-							// ダッシュボード一覧を再描画する。
-							instance.onLoad();
+				if(window.confirm("Are you sure you want to delete this dashboard?")) {
+					var setting = {
+						data : {
+							dashboardId : treeModel.id
 						},
-						"Cancel" : function() {
-							removeDashboardDialog.dialog("close");
-						}
-					},
-					close : function(event) {
-						removeDashboardDialog.remove();
+						url : wgp.common.getContextPath()
+								+ "/dashboard/removeById"
+					};
+					var telegram = instance.ajaxHandler.requestServerSync(setting);
+					var returnData = $.parseJSON(telegram);
+					if(returnData.result == "failure"){
+						alert(returnData.message);
+						return;
 					}
-				});
 
-				removeDashboardDialog.dialog("open");
+					// ダッシュボードの表示内容を全て消去する。
+					$("#" + instance.targetId).children().remove();
+
+					// ビューの関連付けを削除する。
+					instance.childView = null;
+
+					// ダッシュボード一覧を再描画する。
+					instance.onLoad();
+					var dashboardList = returnData.data;
+					instance._updateDashboadList(dashboardList);
+							
+					// Dashboardリストの先頭のDashboardに切り替える
+					if (dashboardList.length > 0) {
+						instance._changeDashboard(dashboardList[0]);
+					}
+				}
 			},
 			setEditFunction : function() {
 				this.createContextMenuTag();
