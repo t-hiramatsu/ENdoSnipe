@@ -158,12 +158,11 @@ ENS.treeManager = wgp.AbstractView
 					url : ENS.tree.GET_TOP_NODES
 				};
 
-				// 同期通信でデータを送信する
+				// 非同期通信でデータを送信する
 				var ajaxHandler = new wgp.AjaxHandler();
 				settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] = this;
-				var result = ajaxHandler.requestServerSync(settings);
-				var topNodes = $.parseJSON(result);
-				this.callbackGetTopNodes(topNodes);
+				settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = "callbackGetTopNodes";
+				ajaxHandler.requestServerAsync(settings);
 			},
 			callbackGetTopNodes : function(topNodes) {
 				this.ensTreeView.collection.add(topNodes);
