@@ -1,8 +1,9 @@
-ENS.threadDump.isTrue=false;
+ENS.threadDump.isTrue = false;
 
 ENS.threadDumpView = wgp.AbstractView
 		.extend({
-			tableColNames : [ "Time", "Detail", "Download" ],
+			tableColNames : [ "Time", "Detail", "Download", "logFileName",
+					"threadDumpInfo" ],
 			initialize : function(argument, treeSettings) {
 				var instance = this;
 				this.tableMargin = 20;
@@ -46,8 +47,8 @@ ENS.threadDumpView = wgp.AbstractView
 							startTime, endTime, 100);
 				});
 				$("#button").on("click", function() {
-					$("#button").attr("disabled",true);
-					ENS.threadDump.isTrue=true;
+					$("#button").attr("disabled", true);
+					ENS.threadDump.isTrue = true;
 					ENS.tree.agentName = instance.treeSettings.treeId;
 					var settings = {
 						data : {
@@ -121,22 +122,21 @@ ENS.threadDumpView = wgp.AbstractView
 				return tableData;
 			},
 			onAdd : function(element) {
-				if(ENS.threadDump.isTrue)
-					{
-				var agentName = ENS.tree.agentName;
-				var instance = this;
-				var settings = {
-					data : {
-						threadDump : agentName
-					},
-					url : ENS.tree.THREADDUMP_AGENT_SELECT_ALL_URL
-				};
-				var ajaxHandler = new wgp.AjaxHandler();
-				settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] = this;
-				settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = "callbackThreadDumpList";
-				ajaxHandler.requestServerAsync(settings);
-				ENS.threadDump.isTrue=false;
-					}
+				if (ENS.threadDump.isTrue) {
+					var agentName = ENS.tree.agentName;
+					var instance = this;
+					var settings = {
+						data : {
+							threadDump : agentName
+						},
+						url : ENS.tree.THREADDUMP_AGENT_SELECT_ALL_URL
+					};
+					var ajaxHandler = new wgp.AjaxHandler();
+					settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] = this;
+					settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = "callbackThreadDumpList";
+					ajaxHandler.requestServerAsync(settings);
+					ENS.threadDump.isTrue = false;
+				}
 			},
 			onChange : function(element) {
 				console.log('called changeModel');
@@ -149,7 +149,7 @@ ENS.threadDumpView = wgp.AbstractView
 					appView.syncData();
 				}
 				this.reloadTable();
-				$("#button").attr("disabled",false);
+				$("#button").attr("disabled", false);
 			},
 			reloadTable : function() {
 				var tableViewData = [];
@@ -164,7 +164,7 @@ ENS.threadDumpView = wgp.AbstractView
 			createTableColModel : function() {
 				var tableColModel = [ {
 					name : "date",
-					width : parseInt(0.33  * this.tableWidth)
+					width : parseInt(0.33 * this.tableWidth)
 				}, {
 					name : "detail",
 					width : parseInt(0.33 * this.tableWidth),
@@ -181,6 +181,12 @@ ENS.threadDumpView = wgp.AbstractView
 						"onclick" : "ENS.threadDump.download",
 						"linkName" : "Download"
 					}
+				}, {
+					name : "logFileName",
+					hidden : true
+				}, {
+					name : "threadDumpInfo",
+					hidden : true
 				} ];
 				return tableColModel;
 			},
@@ -218,27 +224,24 @@ ENS.threadDumpView = wgp.AbstractView
 				var rowId = options.rowId;
 				var onclick = selectValueList.onclick;
 				return '<a href="javascript:void(0)" onclick="'
-					+ selectValueList.onclick + ';">' + 'DL' + '</a>';
+						+ selectValueList.onclick + ';">' + 'DL' + '</a>';
 			}
 		});
 
-
 ENS.threadDump.download = function(id) {
-	var threadDumpData = $("#threadDumpTable").getGridParam();
-	var index = id - 1;
-	var fileName = threadDumpData.data[index].logFileName;
+	var threadDumpData = $("#threadDumpTable").getRowData(id);
+	var fileName = threadDumpData.logFileName;
 	$("input#fileName").val(fileName);
 	$('#jvnLogBtn').click();
 };
 
 ENS.threadDump.dialog = function(id) {
-    var threadDumpData = $("#threadDumpTable").getGridParam();
-    var index = id - 1;
-    
+	var threadDumpData = $("#threadDumpTable").getRowData(id);
+
 	$("#threadDumpTime").empty();
-	$("#threadDumpTime").append(threadDumpData.data[index].date);
-	
-	var changed = threadDumpData.data[index].threadDumpInfo;
+	$("#threadDumpTime").append(threadDumpData.date);
+
+	var changed = threadDumpData.threadDumpInfo;
 	$("#threadDump").empty();
 	$("#threadDump").append(changed);
 	$("#threadDumpDialog").dialog({

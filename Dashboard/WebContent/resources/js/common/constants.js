@@ -529,3 +529,15 @@ ENS.tree.agentName = "/default/";
 ENS.mulResGraphView = {};
 ENS.mulResGraphView.series = {};
 ENS.mulResGraphView.series.number = 10;
+
+ENS.graphRange = {};
+ENS.graphRange.ID_RANGE = "range_controller_range";
+ENS.graphRange.ID_DATEPICKER = "range_controller_datepicker";
+ENS.graphRange.ID_PREV_BUTTON = "range_controller_prev";
+ENS.graphRange.ID_PLAY_BUTTON = "range_controller_play";
+ENS.graphRange.ID_NEXT_BUTTON = "range_controller_next";
+ENS.graphRange.ID_SEARCH_BUTTON = "range_controller_search";
+ENS.graphRange.ID_SPAN = "range_controller_span";
+ENS.graphRange.ID_CLUSTER_NAME = "cluster_name";
+ENS.graphRange.ID_DASHBOARD_NAME = "dashboard_name";
+ENS.graphRange.TIMER_INTERVAL = 1000;

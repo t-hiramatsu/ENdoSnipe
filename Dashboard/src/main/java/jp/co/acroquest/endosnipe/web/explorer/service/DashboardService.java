@@ -139,6 +139,9 @@ public class DashboardService
             if (count > 0)
             {
                 responseDto.setResult(ResponseConstants.RESULT_SUCCESS);
+                // Dashboard名の一覧を取得する
+                List<String> dashboardNameList = dashboardInfoDao_.selectName();
+                responseDto.setData(dashboardNameList);
             }
             else
             {
@@ -319,6 +322,11 @@ public class DashboardService
             }
 
             responseDto.setResult(ResponseConstants.RESULT_SUCCESS);
+
+            // Dashboard名の一覧を取得する
+            List<String> dashboardNameList = dashboardInfoDao_.selectName();
+            responseDto.setData(dashboardNameList);
+
             return responseDto;
         }
         catch (PersistenceException pEx)

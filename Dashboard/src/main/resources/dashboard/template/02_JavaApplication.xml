@@ -65,5 +65,29 @@
 				<target>/${ClusterName}/.*/event/.*</target>
 			</property>
 		</resource>
+		<resource>
+			<objectName>ENS.SignalElementView</objectName>
+			<x>0</x>
+			<y>0</y>
+			<w>50</w>
+			<h>50</h>
+			<property>
+				<signal>
+					<resourceId>/ClusterA/127.0.0.1/agent_000/system/cpu/usage/user:%/TestReSignal4</resourceId>
+					<objectType>SINGLE</objectType>
+					<name>SampleSignal</name>
+					<level>3</level>
+					<threshold>1,5</threshold>
+					<target>/ClusterA/127.0.0.1/agent_000/system/cpu/usage/user:%/TestSignal4</target>
+					<period>10</period>
+				</signal>
+				<label>
+					<fontSize>12</fontSize>
+					<textAnchor>middle</textAnchor>
+					<fontFamily>Arial</fontFamily>
+					<fill>#ffffff</fill>
+				</label>
+			</property>
+		</resource>
 	</resources>
 </template>

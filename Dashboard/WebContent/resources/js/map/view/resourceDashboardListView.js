@@ -60,6 +60,9 @@ ENS.ResourceDashboardListView = wgp.TreeView
 				// 初期状態ではツリーの先頭のDashboardを表示する
 				var initModel = this.collection.models[0];
 				this.showModel(initModel);
+				
+				// 初期表示のDashboardのID
+				this.selectedId = initModel.get("data");
 			},
 			showModel : function(treeModel) {
 				if (this.childView) {
@@ -127,15 +130,15 @@ ENS.ResourceDashboardListView = wgp.TreeView
 					modal : true,
 					buttons : {
 						"OK" : function() {
-
-							if (dashboardNameText.val().length == 0) {
+							var newDashboardName = dashboardNameText.val();
+							if (newDashboardName.length == 0) {
 								alert("Dashboard Name is required.");
 								return;
 							}
 
 							var setting = {
 								data : {
-									name : dashboardNameText.val(),
+									name : newDashboardName,
 									data : "{}"
 								},
 								url : wgp.common.getContextPath()
@@ -146,7 +149,7 @@ ENS.ResourceDashboardListView = wgp.TreeView
 							var returnData = $.parseJSON(telegram);
 
 							var result = returnData.result;
-							if(result == "fail"){
+							if(result == "failure"){
 								alert(returnData.message);
 
 							}else{
@@ -154,6 +157,10 @@ ENS.ResourceDashboardListView = wgp.TreeView
 
 								// ダッシュボード一覧を再描画する。
 								instance.onLoad();
+								instance._updateDashboadList(returnData.data);
+								
+								// 新しく追加したDashboardに切り替える
+								instance._changeDashboard(newDashboardName);
 							}
 						},
 						"CANCEL" : function() {
@@ -169,50 +176,37 @@ ENS.ResourceDashboardListView = wgp.TreeView
 			},
 			onRemove : function(treeModel) {
 				var instance = this;
-				var removeDashboardDialog = $("<div title='Remove this Dashboard'></div>");
-				removeDashboardDialog
-						.append("<p>That you to remove this dashboard Sure?</p>");
-				removeDashboardDialog.dialog({
-					autoOpen : false,
-					height : 300,
-					width : 350,
-					modal : true,
-					buttons : {
-						"OK" : function() {
-							var setting = {
-								data : {
-									dashboardId : treeModel.id
-								},
-								url : wgp.common.getContextPath()
-										+ "/dashboard/removeById"
-							}
-							var telegram = instance.ajaxHandler.requestServerSync(setting);
-							var returnData = $.parseJSON(telegram);
-							if(returnData.result == "fail"){
-								alert(returnData.message);
-								return;
-							}
-							removeDashboardDialog.dialog("close");
-
-							// ダッシュボードの表示内容を全て消去する。
-							$("#" + instance.targetId).children().remove();
-
-							// ビューの関連付けを削除する。
-							instance.childView = null;
-
-							// ダッシュボード一覧を再描画する。
-							instance.onLoad();
+				if(window.confirm("Are you sure you want to delete this dashboard?")) {
+					var setting = {
+						data : {
+							dashboardId : treeModel.id
 						},
-						"Cancel" : function() {
-							removeDashboardDialog.dialog("close");
-						}
-					},
-					close : function(event) {
-						removeDashboardDialog.remove();
+						url : wgp.common.getContextPath()
+								+ "/dashboard/removeById"
+					};
+					var telegram = instance.ajaxHandler.requestServerSync(setting);
+					var returnData = $.parseJSON(telegram);
+					if(returnData.result == "failure"){
+						alert(returnData.message);
+						return;
 					}
-				});
 
-				removeDashboardDialog.dialog("open");
+					// ダッシュボードの表示内容を全て消去する。
+					$("#" + instance.targetId).children().remove();
+
+					// ビューの関連付けを削除する。
+					instance.childView = null;
+
+					// ダッシュボード一覧を再描画する。
+					instance.onLoad();
+					var dashboardList = returnData.data;
+					instance._updateDashboadList(dashboardList);
+							
+					// Dashboardリストの先頭のDashboardに切り替える
+					if (dashboardList.length > 0) {
+						instance._changeDashboard(dashboardList[0]);
+					}
+				}
 			},
 			setEditFunction : function() {
 				this.createContextMenuTag();
@@ -296,11 +290,32 @@ ENS.ResourceDashboardListView = wgp.TreeView
 				{
 					if(window.confirm("Save change?"))
 					{
-						var selectedId = $("#" + instance.id).find(".jstree-clicked")[0].id;
-						var treeModel = instance.collection.where({id : selectedId})[0];
+						var treeModel = instance.collection.where({data : instance.selectedId})[0];
 						instance.childView.onSave(treeModel);
 					}
 					instance.childView.changedFlag = false;
 				}
+				
+				// 選択状態のDashboardを変更する
+				instance.selectedId = $("#" + ENS.graphRange.ID_DASHBOARD_NAME + " option:selected").text();
+			},
+			/**
+			 * Dashboard一覧を更新する。
+			 */
+			_updateDashboadList : function(dashboardNameList) {
+				$("#" + ENS.graphRange.ID_DASHBOARD_NAME + " > option").remove();
+				
+				// Dashboard一覧にDashboard名の選択肢を一つひとつ追加する
+				$.each(dashboardNameList, function(i, val){
+					$("#" + ENS.graphRange.ID_DASHBOARD_NAME).append($("<option>").html(val));
+				});
+			},
+			/**
+			 * 表示中のDashboardを変更する。
+			 */
+			_changeDashboard : function(dashboardName) {
+				// 選択値を変更し、セレクトボックス変更イベントを発生させる
+				$("#" + ENS.graphRange.ID_DASHBOARD_NAME).val(dashboardName);
+				$("#" + ENS.graphRange.ID_DASHBOARD_NAME).change();
 			}
 		});

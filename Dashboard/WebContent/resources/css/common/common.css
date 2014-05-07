@@ -12,7 +12,7 @@ body {
 
 /* jQueryを上書き */
 .ui-widget-content {
-	background: none;
+	background: #000000 !important;
 }
 
 /* wgpの設定を上書き。 */
