@@ -8,6 +8,7 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 		this.OBJ_NAME_LINK = "ENS.ResourceLinkElementView";
 		this.OBJ_NAME_TEXT = "ENS.TextBoxElementView";
 		this.OBJ_NAME_SHAPE = "ENS.ShapeElementView";
+		this.CLUSTER_NAME = "${ClusterName}";
 		this.DIV_ID_CONTROLLER = "range_controller";
 		
 		_.bindAll();
@@ -331,8 +332,7 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 					if(clusterName === "*"){
 						clusterName = ".*";
 					}
-					resource.resourceId += "_";
-					resource.resourceId += clusterName;
+					resource.resourceId = resource.resourceId.replace(instance.CLUSTER_NAME, clusterName);
 				}
 				var dashboardElement = new wgp.MapElement(resource);
 				instance.collection.add(dashboardElement);
