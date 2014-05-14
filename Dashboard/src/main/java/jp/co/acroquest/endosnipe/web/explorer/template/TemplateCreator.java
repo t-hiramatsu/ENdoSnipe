@@ -112,7 +112,7 @@ public class TemplateCreator
         for (Resource resource : resources)
         {
             //グラフの作成
-            if (Resource.OBJ_NAME_GRAPH.equals(resource.getObjectName()))
+            if (Resource.OBJ_NAME_MULTIPLE_GRAPH.equals(resource.getObjectName()))
             {
                 createGraph(name, resource.getProperty());
                 continue;
@@ -205,7 +205,7 @@ public class TemplateCreator
         graphInfo.measurementItemIdList_ = BLANK;
         graphInfo.measurementItemPattern_ = property.getTarget();
         graphInfo.multipleResourceGraphName_ =
-                ResourceConvertUtil.getTreeName(name, Resource.OBJ_NAME_GRAPH, property);
+                ResourceConvertUtil.getTreeName(name, Resource.OBJ_NAME_MULTIPLE_GRAPH, property);
 
         MultipleResourceGraphDefinitionDto existDto =
                 graphService_.getmultipleResourceGraphInfo(graphInfo.multipleResourceGraphName_);

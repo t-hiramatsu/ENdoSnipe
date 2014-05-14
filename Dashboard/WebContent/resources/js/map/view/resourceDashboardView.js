@@ -252,8 +252,10 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 			resourceArray.push(model.toJSON());
 		});
 
-		var dashboardWidth = this.paper.width;
-		var dashboardHeight = this.paper.height;
+		var dashboardWidth = Math.floor(this.paper.width);
+		var dashboardHeight = Math.floor(this.paper.height);
+		this.backgroundView.model.set("width", Math.floor(this.backgroundView.model.get("width")));
+		this.backgroundView.model.set("height", Math.floor(this.backgroundView.model.get("height")));
 		var background = this.backgroundView.model.toJSON();
 
 		var resourceDashboard = {
