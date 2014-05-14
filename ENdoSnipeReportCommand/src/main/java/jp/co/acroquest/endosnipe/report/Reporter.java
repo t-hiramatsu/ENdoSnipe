@@ -18,10 +18,13 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import jp.co.acroquest.endosnipe.collector.config.DataCollectorConfig;
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
+import jp.co.acroquest.endosnipe.data.dao.JavelinMeasurementItemDao;
 import jp.co.acroquest.endosnipe.data.db.DBManager;
+import jp.co.acroquest.endosnipe.data.entity.JavelinMeasurementItem;
 import jp.co.acroquest.endosnipe.report.controller.ReportPublishTask;
 import jp.co.acroquest.endosnipe.report.controller.ReportSearchCondition;
 import jp.co.acroquest.endosnipe.report.controller.ReportType;
@@ -58,7 +61,7 @@ public class Reporter
 	public void createReport(DataCollectorConfig config, Calendar fmTime, Calendar toTime,
 		String reportPath, String targetItemName, String reportName)
 	{
-		createReport(config, fmTime, toTime, reportPath, targetItemName, reportName, null);
+		createReport(config, fmTime, toTime, reportPath, targetItemName, reportName, null, null);
 	}
 
 	/**
@@ -78,7 +81,7 @@ public class Reporter
 	 *            レポート名
 	 */
 	public void createReport(DataCollectorConfig config, Calendar fmTime, Calendar toTime,
-		String reportPath, String targetItemName, String reportName, String status)
+		String reportPath, String targetItemName, String reportName, String status, List<String> matchingPatternList)
 	{
 
 		// 開始時刻が終了時刻より未来を指していた場合はエラー
@@ -160,7 +163,17 @@ public class Reporter
 			status = "completed";
 
 			// レポートを出力する
-			reportTask.createReport(targetItemName);
+			if(matchingPatternList == null || matchingPatternList.size() == 0){
+				reportTask.createReport(targetItemName);
+			}else{
+				for(String matchingPattern : matchingPatternList){
+					List<JavelinMeasurementItem> items = JavelinMeasurementItemDao.selectAllByPattern(dbName, matchingPattern);
+					for(JavelinMeasurementItem item : items){
+						reportTask.createReport(item.itemName);
+					}
+				}
+			}
+			
 		}
 		catch (Exception e)
 		{
@@ -270,6 +283,6 @@ public class Reporter
 		String reportName = "test";
 		String status = "failed";
 		reporter.createReport(config, fmTime, toTime, reportPath, targetItemName, reportName,
-			status);
+			status, null);
 	}
 }
