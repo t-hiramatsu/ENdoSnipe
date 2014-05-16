@@ -122,7 +122,7 @@ ENS.treeView = wgp.TreeView
 						// そうでない場合は、親ノードの下にノードを作成する。
 						if (topNodeNum !== 0 && parentTreeId === "") {
 							addPlace = "after";
-							targetTag = $("#tree_area ul li")[topNodeNum - 1];
+							targetTag = $("#tree_area > ul > li").last();
 						} else {
 							addPlace = "last";
 							targetTag = this.getTreeNode(parentTreeId,

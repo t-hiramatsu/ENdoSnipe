@@ -35,8 +35,8 @@ ENS.SignalDefinitionDialogView = ENS.DialogView
 														alert("Please input 'Signal Name'.");
 														return;
 													} else if (signalName
-															.match(/[\\\/]/)) {
-														alert("Don't use '/'or'\\' in 'Signal Name'.");
+															.match(/[\\\/]\{\}\(\)\[\]\^\$\|/)) {
+														alert("Don't use '/', '\\', '{', '}', '(', ')', '[', ']', '^', '$' or '|' in 'Signal Name'.");
 														return;
 													}
 

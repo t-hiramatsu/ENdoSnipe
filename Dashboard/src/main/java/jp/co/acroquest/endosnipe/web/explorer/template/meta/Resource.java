@@ -31,8 +31,11 @@ public class Resource
     /** シグナルのオブジェクト名 */
     public static final String OBJ_NAME_SIGNAL = "ENS.SignalElementView";
 
-    /** グラフのオブジェクト名 */
-    public static final String OBJ_NAME_GRAPH = "ENS.MultipleResourceGraphElementView";
+    /** 複数リソースグラフのオブジェクト名 */
+    public static final String OBJ_NAME_MULTIPLE_GRAPH = "ENS.MultipleResourceGraphElementView";
+
+    /** リソースグラフのオブジェクト名 */
+    public static final String OBJ_NAME_GRAPH = "ENS.ResourceGraphElementView";
 
     /** 背景のオブジェクト名 */
     public static final String OBJ_NAME_BACKGROUND = "ENS.BackgroundElementView";
