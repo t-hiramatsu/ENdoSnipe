@@ -250,7 +250,7 @@ public class ResourceConvertUtil extends TemplateConvertUtil
         Property property = resource.getProperty();
         String objectName = resource.getObjectName();
 
-        if (objectName.equals(Resource.OBJ_NAME_GRAPH))
+        if (objectName.equals(Resource.OBJ_NAME_MULTIPLE_GRAPH))
         {
             return;
         }
@@ -312,7 +312,7 @@ public class ResourceConvertUtil extends TemplateConvertUtil
             map.put(KEY_TEXT, signal.getName());
             return;
         }
-        else if (objectName.equals(Resource.OBJ_NAME_GRAPH))
+        else if (objectName.equals(Resource.OBJ_NAME_MULTIPLE_GRAPH))
         {
             String graphName = getTreeName(name, objectName, property);
             map.put(KEY_ID, graphName);
@@ -333,7 +333,7 @@ public class ResourceConvertUtil extends TemplateConvertUtil
     {
         String resourceId = property.getResourceId();
         String resourceType = null;
-        if (objectName.equals(Resource.OBJ_NAME_GRAPH))
+        if (objectName.equals(Resource.OBJ_NAME_MULTIPLE_GRAPH))
         {
             resourceType = RESOURCE_TYPE_GRAPH;
         }

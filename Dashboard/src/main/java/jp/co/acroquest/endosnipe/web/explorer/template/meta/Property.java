@@ -65,7 +65,7 @@ public class Property
     private Integer period_;
 
     /** タイプ */
-    private String type_;
+    private String objectType_;
 
     /** AND か OR か */
     private Integer method_;
@@ -360,18 +360,18 @@ public class Property
      * タイプを取得する
      * @return タイプ
      */
-    public String getType()
+    public String getObjectType()
     {
-        return type_;
+        return objectType_;
     }
 
     /**
      * タイプを設定する
      * @param type タイプ
      */
-    public void setType(final String type)
+    public void setObjectType(final String type)
     {
-        this.type_ = type;
+        this.objectType_ = type;
     }
 
     /**
@@ -470,7 +470,7 @@ public class Property
         result = PRIME * result + ((text_ == null) ? 0 : text_.hashCode());
         result = PRIME * result + ((textAnchor_ == null) ? 0 : textAnchor_.hashCode());
         result = PRIME * result + ((threshold_ == null) ? 0 : threshold_.hashCode());
-        result = PRIME * result + ((type_ == null) ? 0 : type_.hashCode());
+        result = PRIME * result + ((objectType_ == null) ? 0 : objectType_.hashCode());
         return result;
     }
 
@@ -699,14 +699,14 @@ public class Property
         {
             return false;
         }
-        if (type_ == null)
+        if (objectType_ == null)
         {
-            if (other.type_ != null)
+            if (other.objectType_ != null)
             {
                 return false;
             }
         }
-        else if (!type_.equals(other.type_))
+        else if (!objectType_.equals(other.objectType_))
         {
             return false;
         }
@@ -721,7 +721,7 @@ public class Property
                 + ", fontSize=" + fontSize_ + ", textAnchor=" + textAnchor_ + ", fontFamily="
                 + fontFamily_ + ", text=" + text_ + ", resourceId=" + resourceId_ + ", target="
                 + target_ + ", name=" + name_ + ", level=" + level_ + ", threshold=" + threshold_
-                + ", period=" + period_ + ", type=" + type_ + ", method=" + method_ + ", border="
+                + ", period=" + period_ + ", objectType=" + objectType_ + ", method=" + method_ + ", border="
                 + border_ + ", label=" + label_ + ", signal=" + signal_ + "]";
     }
 

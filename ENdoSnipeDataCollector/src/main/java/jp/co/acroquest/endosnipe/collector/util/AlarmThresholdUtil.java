@@ -25,8 +25,13 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.collector.util;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import jp.co.acroquest.endosnipe.collector.LogMessageCodes;
 import jp.co.acroquest.endosnipe.common.entity.MeasurementData;
@@ -41,8 +46,8 @@ import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
  */
 public class AlarmThresholdUtil implements LogMessageCodes
 {
-    private static final ENdoSnipeLogger LOGGER =
-                                                  ENdoSnipeLogger.getLogger(AlarmThresholdUtil.class);
+    private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
+        .getLogger(AlarmThresholdUtil.class);
 
     private AlarmThresholdUtil()
     {
@@ -57,19 +62,68 @@ public class AlarmThresholdUtil implements LogMessageCodes
      * @return 指定したitemName の値がない場合、nullを返す
      */
     public static Number getNumberFromResourceData(final ResourceData resourceData,
-            final String itemName)
+        final String itemName)
     {
-        MeasurementData measurementData = resourceData.getMeasurementMap().get(itemName);
+        Map<String, MeasurementData> measurementDataMap = resourceData.getMeasurementMap();
+        Set<String> clusterNameSet = getClusterNameSet(resourceData);
+        try
+        {
+            //itemNameを正規表現としてコンパイルする
+            Pattern pattern = Pattern.compile(itemName);
 
-        if (measurementData == null)
+            Number max = 0;
+            boolean matchFlag = false;
+
+            //正規表現で一致するMeasurementDataを検索する
+            for (Entry<String, MeasurementData> entry : measurementDataMap.entrySet())
+            {
+                String key = entry.getKey();
+                Matcher matcher = pattern.matcher(key);
+                if (!matcher.find())
+                {
+                    continue;
+                }
+                matchFlag = true;
+                MeasurementData measurementData = entry.getValue();
+                Number num = getNumberFromDetailMap(key, measurementData.getMeasurementDetailMap());
+                if (max.intValue() < num.intValue())
+                {
+                    max = num;
+                }
+            }
+            if (matchFlag)
+            {
+                //正規表現で一致するMeasurementDataが少なくとも１つあれば、最大値を返す。
+                return max;
+            }
+            else
+            {
+                //正規表現で一致するMeasurementDataが0の場合はnullを返す。
+                return null;
+            }
+        }
+        catch (PatternSyntaxException e)
         {
             return null;
         }
+    }
 
-        Map<String, MeasurementDetail> measurementDetailMap =
-                                                              measurementData.getMeasurementDetailMap();
+    private static Set<String> getClusterNameSet(final ResourceData resourceData)
+    {
+        Map<String, MeasurementData> measurementMap = resourceData.getMeasurementMap();
+        Set<String> clusterNameSet = new HashSet<String>();
+        for (Entry<String, MeasurementData> entry : measurementMap.entrySet())
+        {
+            String key = entry.getKey();
+            String clusterName = key.split("/")[1];
+            clusterNameSet.add(clusterName);
+        }
+        return clusterNameSet;
+    }
 
-        Number number = null;
+    private static Number getNumberFromDetailMap(final String itemName,
+        final Map<String, MeasurementDetail> measurementDetailMap)
+    {
         for (Entry<String, MeasurementDetail> measurementEntry : measurementDetailMap.entrySet())
         {
             String key = measurementEntry.getKey();
@@ -89,14 +143,13 @@ public class AlarmThresholdUtil implements LogMessageCodes
 
             try
             {
-                number = Double.valueOf(value);
+                return Double.valueOf(value);
             }
             catch (NumberFormatException ex)
             {
                 LOGGER.log(SYSTEM_UNKNOW_ERROR, ex.getMessage(), ex);
             }
         }
-
-        return number;
+        return null;
     }
 }
