@@ -28,7 +28,7 @@
 		<div id="signalMatchingPatternArea" class="dialogContentArea">
 			<div id="signalMatchingPatternItem" class="dialogItem">Matching Pattern : </div>
 			<div id="signalMatchingPatternValue" class="dialogValue">
-				<input type="text" id="matchingPattern" class="signalValue" value="" readonly="readonly" disabled="disabled" />
+				<input type="text" id="matchingPattern" class="signalValue" value="" />
 			</div>
 		</div>
 		<div id="signalPatternArea" class="dialogContentArea">

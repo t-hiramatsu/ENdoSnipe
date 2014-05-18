@@ -16,11 +16,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import jp.co.acroquest.endosnipe.data.entity.JavelinMeasurementItem;
 import jp.co.acroquest.endosnipe.web.explorer.dto.MultipleResourceGraphDefinitionDto;
 import jp.co.acroquest.endosnipe.web.explorer.dto.SignalDefinitionDto;
 import jp.co.acroquest.endosnipe.web.explorer.dto.SummarySignalDefinitionDto;
+import jp.co.acroquest.endosnipe.web.explorer.dto.TreeMenuDto;
 import jp.co.acroquest.endosnipe.web.explorer.entity.DashboardInfo;
 import jp.co.acroquest.endosnipe.web.explorer.entity.MultipleResourceGraphInfo;
 import jp.co.acroquest.endosnipe.web.explorer.entity.SignalInfo;
@@ -28,6 +31,7 @@ import jp.co.acroquest.endosnipe.web.explorer.service.DashboardService;
 import jp.co.acroquest.endosnipe.web.explorer.service.MultipleResourceGraphService;
 import jp.co.acroquest.endosnipe.web.explorer.service.SignalService;
 import jp.co.acroquest.endosnipe.web.explorer.service.SummarySignalService;
+import jp.co.acroquest.endosnipe.web.explorer.service.TreeMenuService;
 import jp.co.acroquest.endosnipe.web.explorer.template.converter.ResourceConvertUtil;
 import jp.co.acroquest.endosnipe.web.explorer.template.converter.TemplateConvertUtil;
 import jp.co.acroquest.endosnipe.web.explorer.template.meta.Property;
@@ -42,6 +46,8 @@ import net.arnx.jsonic.JSON;
  */
 public class TemplateCreator
 {
+
+    private static final String CLUSTER_NAME = "${ClusterName}";
 
     /** 空白文字 */
     private static final String BLANK = "";
@@ -67,6 +73,9 @@ public class TemplateCreator
     /** サマリシグナルのサービス */
     private final SummarySignalService summarySignalService_;
 
+    /** ツリーメニューのサービス */
+    private final TreeMenuService treeMenuService_;
+
     /** シグナルの連番 */
     private int signalCount_;
 
@@ -79,12 +88,13 @@ public class TemplateCreator
      */
     public TemplateCreator(final MultipleResourceGraphService graphService,
             final DashboardService dashboardService, final SignalService signalService,
-            final SummarySignalService summarySignalService)
+            final SummarySignalService summarySignalService, final TreeMenuService treeMenuService)
     {
         this.graphService_ = graphService;
         this.dashboardService_ = dashboardService;
         this.signalService_ = signalService;
         this.summarySignalService_ = summarySignalService;
+        this.treeMenuService_ = treeMenuService;
     }
 
     /**
@@ -102,7 +112,7 @@ public class TemplateCreator
         for (Resource resource : resources)
         {
             //グラフの作成
-            if (Resource.OBJ_NAME_GRAPH.equals(resource.getObjectName()))
+            if (Resource.OBJ_NAME_MULTIPLE_GRAPH.equals(resource.getObjectName()))
             {
                 createGraph(name, resource.getProperty());
                 continue;
@@ -111,7 +121,15 @@ public class TemplateCreator
             //シグナルの作成
             if (Resource.OBJ_NAME_SIGNAL.equals(resource.getObjectName()))
             {
-                createSignal(name, resource.getProperty());
+                // シグナルの正規表現が構文エラーの場合はテンプレートの作成を中断する。
+                try
+                {
+                    createSignal(name, resource.getProperty());
+                }
+                catch (PatternSyntaxException e)
+                {
+                    return;
+                }
                 continue;
             }
         }
@@ -187,7 +205,7 @@ public class TemplateCreator
         graphInfo.measurementItemIdList_ = BLANK;
         graphInfo.measurementItemPattern_ = property.getTarget();
         graphInfo.multipleResourceGraphName_ =
-                ResourceConvertUtil.getTreeName(name, Resource.OBJ_NAME_GRAPH, property);
+                ResourceConvertUtil.getTreeName(name, Resource.OBJ_NAME_MULTIPLE_GRAPH, property);
 
         MultipleResourceGraphDefinitionDto existDto =
                 graphService_.getmultipleResourceGraphInfo(graphInfo.multipleResourceGraphName_);
@@ -209,6 +227,7 @@ public class TemplateCreator
      * @param property テンプレートオブジェクト
      */
     private void createSignal(final String name, final Property property)
+        throws PatternSyntaxException
     {
         //リソースIDが空文字でない場合は何もしない
         Property signalProperty = property.getSignal();
@@ -221,14 +240,14 @@ public class TemplateCreator
                 ResourceConvertUtil.getTreeName(name, Resource.OBJ_NAME_SIGNAL, signalProperty);
 
         //単一シグナルを生成
-        if (SIGNAL_TYPE_SINGLE.equals(signalProperty.getType()))
+        if (SIGNAL_TYPE_SINGLE.equals(signalProperty.getObjectType()))
         {
             createSingleSignal(signalProperty, treeName);
             return;
         }
 
         //サマリシグナルを生成
-        if (SIGNAL_TYPE_SUMMARY.equals(signalProperty.getType()))
+        if (SIGNAL_TYPE_SUMMARY.equals(signalProperty.getObjectType()))
         {
             createSummarySignal(signalProperty, treeName);
             return;
@@ -303,6 +322,42 @@ public class TemplateCreator
         signalInfo.matchingPattern = signalProperty.getTarget();
         signalInfo.patternValue = signalProperty.getThreshold();
         signalInfo.signalName = treeName;
+
+        // シグナル名に ${ClusterName} を含まない場合はそのまま登録する
+        if (signalInfo.signalName.indexOf(CLUSTER_NAME) == -1)
+        {
+            addSignal(signalInfo);
+            return;
+        }
+
+        // シグナル名に ${ClusterName} を含む場合、クラスタの数分だけシグナルを作る
+        List<TreeMenuDto> topNodeList = treeMenuService_.getTopNodes();
+        TreeMenuDto wildcard = new TreeMenuDto();
+        wildcard.setData(".*");
+        topNodeList.add(wildcard);
+
+        String matchingPattern = signalInfo.matchingPattern;
+        String signalName = signalInfo.signalName;
+
+        for (TreeMenuDto treeMenuDto : topNodeList)
+        {
+            String clusterName = treeMenuDto.getData();
+            signalInfo.matchingPattern = matchingPattern.replace(CLUSTER_NAME, clusterName);
+            signalInfo.signalName = signalName.replace(CLUSTER_NAME, clusterName);
+
+            addSignal(signalInfo);
+        }
+
+    }
+
+    /**
+     * シグナルを追加または更新する
+     * @param signalInfo 追加または更新するシグナル情報
+     */
+    private void addSignal(final SignalInfo signalInfo)
+    {
+        //正規表現の構文が誤っている場合は例外を投げる
+        Pattern.compile(signalInfo.matchingPattern);
 
         //既に同一名のシグナルがある場合は更新、そうでない場合は新規作成
         SignalDefinitionDto existDto = signalService_.getSignalInfo(signalInfo.signalName);
