@@ -83,8 +83,8 @@ infinispan.HeapCacheTabViewElement = {
 if (!wgp.constants.VIEW_SETTINGS) {
 	wgp.constants.VIEW_SETTINGS = {};
 }
-wgp.constants.VIEW_SETTINGS = $.extend(wgp.constants.VIEW_SETTINGS,{
+wgp.constants.VIEW_SETTINGS = $.extend({
 	"/infinispan/mapreduce/job" : infinispan.GanttChartViewElement,
 	"/infinispan/mapreduce/task" : infinispan.MapReduceTabViewElement,
 	"/infinispan" : infinispan.HeapCacheTabViewElement
-});
+},wgp.constants.VIEW_SETTINGS);
