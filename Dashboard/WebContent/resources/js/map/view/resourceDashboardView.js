@@ -148,10 +148,6 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 			treeId : "",
 			viewMaximumButtonFlag : false
 		};
-		
-		var controller = ENS.graphRangeControllerView;
-		var timeStart = new Date(controller._getDate().getTime() - controller._getRangeMs());
-		var timeEnd = controller._getDate();
 		var viewAttribute = {
 			id : graphId,
 			cid : model.cid,
@@ -159,10 +155,10 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 			graphId : graphId,
 			title : dataId,
 			noTermData : false,
-			term : controller._getRangeHour() * 3600,
+			term : 1800 * 2,
 			width : width,
 			height : height,
-			dateWindow : [ timeStart, timeEnd ],
+			dateWindow : [ new Date() - 60 * 60 * 1000, new Date() ],
 			attributes : {
 				xlabel : "Time",
 				ylabel : "value",

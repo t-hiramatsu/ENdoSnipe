@@ -60,6 +60,30 @@ ENS.NodeInfoParentView = wgp.AbstractView
 				// dual slider area (add div and css, and make slider)
 				$("#" + this.$el.attr("id")).append(
 						'<div id="' + id.dualSliderArea + '"></div>');
+				
+				var graphRangeController = new ENS.graphRangeController(id.dualSliderArea);
+				graphRangeController.setSearchListener(function(from, to){
+					var viewList = ENS.nodeinfo.viewList;
+					for ( var key in viewList) {
+						var fromHour = from / 60 / 60 / 1000;
+						var ins = viewList[key];
+						// 15秒毎にグラフが更新されるので、グラフ内に収まるデータ数は、4 × 60 × 表示期間(h) となる
+						ins.graphMaxNumber = 4 * 60 * fromHour;
+						// グラフの表示期間の幅を更新する
+						ins.updateDisplaySpan(from, to);
+						// グラフの表示データを更新する
+						ins.updateGraphData(key, from, to);
+
+						if ($("#tempDiv").length > 0) {
+							$(".dygraph-title").width(
+									($("#tempDiv").width() * 0.977) - 67);
+						} else {
+							$(".dygraph-title").width(
+									($("#" + ins.$el.attr("id") + "_ensgraph")
+											.width() - 87));
+						}
+					}
+				});
 
 				$("#" + this.$el.attr("id")).append(
 						'<div class="clearFloat"></div>');
